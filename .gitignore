@@ -21,14 +21,15 @@ tmp/
 .tmp/
 .uv-cache/
 .artifacts/
-.codex/
+.codex/*
+!.codex/config.toml
 .runtime/
 .worktrees/
 **/pg-dist/
 **/pg-dist/**
 co05_sandbox/
 # Local Git fixture used by the historical native-v2 experiment.
-planning/mt5-tradingview-backtester/research/webgpt-native-v2/results/runs/20260920T233707Z-9b241f0d/fixtures/p05-repo/
+planning/trader/research/webgpt-native-v2/results/runs/20260920T233707Z-9b241f0d/fixtures/p05-repo/
 f5-change-path-*/
 f5-client-*/
 f5-engine-*/
@@ -52,6 +53,8 @@ education/research/br01-screen/raw/
 # Data and SQLite
 *.sqlite3
 *.sqlite3-journal
+*.sqlite3-shm
+*.sqlite3-wal
 
 # OS generated files
 .DS_Store

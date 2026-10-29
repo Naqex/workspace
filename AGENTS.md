@@ -1,6 +1,9 @@
-# TradingWorkspace
+# Naqex Workspace
 
 Git superproject cho kế hoạch, hướng dẫn học và công cụ dùng chung; bốn repo sản phẩm trong `projects/` có lịch sử Git riêng. `README.md` là cửa vào, không phải bảng tiến độ thứ hai. Không tự `git init` hoặc áp workflow code cho cuộc trò chuyện chỉ cần tư vấn.
+
+Bản đồ code, commands và ownership: `docs/development/README.md`. Các sản phẩm
+thuộc org Naqex, tiếp tục là submodule; fork giữ upstream layout/attribution.
 
 ## Context và reuse liên project
 

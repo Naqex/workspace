@@ -1,6 +1,9 @@
-# Dự thảo chính sách license Naqex
+# Khảo sát và đề xuất license Naqex
 
-**Trạng thái: chờ owner duyệt. Tài liệu này chưa thay LICENSE của repo nào.**
+**Owner đã chấp thuận triển khai ngày 29/10/2026 bằng commit mới, giữ lịch sử
+MIT cũ.** Văn bản cấp phép hiện hành nằm trong [LICENSE](../../LICENSE) của mỗi
+repo; [hướng dẫn license](../licensing.md) giải thích phạm vi. Nội dung bên dưới
+giữ bản đề xuất để đối chiếu quyết định, không phải văn bản cấp phép thứ hai.
 
 Ngày lập: 29/10/2026. Áp dụng dự kiến cho phần do owner sở hữu trong
 Workspace, Trader, VI Dubber và Quant Lab. Fork, dependency, vendor, dataset

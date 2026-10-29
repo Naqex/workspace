@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 230" role="img" aria-labelledby="title">
+  <title id="title">Naqex Workspace — plans, products and shared tooling</title>
+  <rect width="1000" height="230" rx="12" fill="#101214"/>
+  <g transform="translate(50 55) scale(2.3)" fill="none" stroke="#e9b99a" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
+    <path d="M3 27V3l24 24V3m11 24 10-24 10 24m-16-8h12M91 22a12 12 0 1 0-5 4m-6-7 12 9M104 3h21m-21 12h17m-17 12h21m-21-24v24M137 3l20 24m0-24-20 24"/>
+  </g>
+  <text x="460" y="113" fill="#f4f5f6" font-family="Segoe UI,Arial,sans-serif" font-size="46" font-weight="500">Workspace</text>
+  <path d="M50 155H950" stroke="#34383c"/>
+  <text x="50" y="193" fill="#aeb5bd" font-family="Segoe UI,Arial,sans-serif" font-size="19" letter-spacing="1">PLANNING   /   PRODUCTS   /   DESIGN   /   TOOLING</text>
+</svg>
