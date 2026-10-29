@@ -1,0 +1,30 @@
+# Reviewed historical false positives: source/commit SHA hashes, UI token hashes,
+# and deterministic co04 local test-fixture token IDs. Exact fingerprints only.
+# No path-wide or rule-wide exemption.
+1820ac197b23dda2df42db5614fc221958426829:planning/checkpoints/workspace-next-stage/UI-ECOSYSTEM-PRESENTATION-STATE-2026-09-28/receipt.json:generic-api-key:31
+1820ac197b23dda2df42db5614fc221958426829:planning/checkpoints/workspace-next-stage/UI-ECOSYSTEM-PRESENTATION-STATE-2026-09-28/receipt.json:generic-api-key:32
+974d6c0f74dda996e772548d20d8470a47a41e94:planning/mt5-tradingview-backtester/research/foundation-validation/20260921T115933Z-315e8ddd/artifacts/PRODUCT-FOLLOWUP-validation-r1.json:generic-api-key:37
+974d6c0f74dda996e772548d20d8470a47a41e94:planning/mt5-tradingview-backtester/research/foundation-validation/20260921T115933Z-315e8ddd/artifacts/PS-02-LIFECYCLE-AUTHORITY-r1/PS02-lifecycle-authority-validation-r1.json:generic-api-key:95
+974d6c0f74dda996e772548d20d8470a47a41e94:planning/mt5-tradingview-backtester/research/foundation-validation/20260921T115933Z-315e8ddd/artifacts/PS-02-LIFECYCLE-AUTHORITY-r1/PS02-replay-regression-component-r1.json:generic-api-key:33
+974d6c0f74dda996e772548d20d8470a47a41e94:planning/mt5-tradingview-backtester/research/foundation-validation/20260921T115933Z-315e8ddd/artifacts/PS-02-PROP-HINDSIGHT-BRANCH-r1/PS02-prop-hindsight-branch-validation-r1.json:generic-api-key:42
+974d6c0f74dda996e772548d20d8470a47a41e94:planning/mt5-tradingview-backtester/research/foundation-validation/20260921T115933Z-315e8ddd/artifacts/PS-02-PROP-HINDSIGHT-BRANCH-r1/PS02-prop-hindsight-branch-validation-r2.json:generic-api-key:41
+974d6c0f74dda996e772548d20d8470a47a41e94:planning/mt5-tradingview-backtester/research/foundation-validation/20260921T115933Z-315e8ddd/artifacts/PS-02-PROP-HINDSIGHT-BRANCH-r1/PS02C4-postgres-component-r1.json:generic-api-key:33
+974d6c0f74dda996e772548d20d8470a47a41e94:planning/mt5-tradingview-backtester/research/foundation-validation/20260921T115933Z-315e8ddd/artifacts/PS-02-PROP-HINDSIGHT-BRANCH-r1/PS02C4-postgres-component-r2.json:generic-api-key:33
+974d6c0f74dda996e772548d20d8470a47a41e94:planning/mt5-tradingview-backtester/research/foundation-validation/20260921T115933Z-315e8ddd/artifacts/PS-02-PROP-HINDSIGHT-BRANCH-r1/runtime-r3/PS02-replay-connection-r1.json:generic-api-key:33
+974d6c0f74dda996e772548d20d8470a47a41e94:planning/mt5-tradingview-backtester/research/foundation-validation/20260921T115933Z-315e8ddd/artifacts/PS-02-REPLAY-CHECKPOINT-BRANCH-r1/PS02-replay-checkpoint-branch-component-r1.json:generic-api-key:33
+974d6c0f74dda996e772548d20d8470a47a41e94:planning/mt5-tradingview-backtester/research/foundation-validation/20260921T115933Z-315e8ddd/artifacts/PS-02-REPLAY-CONNECTION-r1/PS02-replay-validation-r2.json:generic-api-key:33
+974d6c0f74dda996e772548d20d8470a47a41e94:planning/mt5-tradingview-backtester/research/foundation-validation/20260921T115933Z-315e8ddd/artifacts/PS-02-REPLAY-PHASE-TRANSITIONS-r1/PS02-replay-phase-transitions-component-r1.json:generic-api-key:33
+974d6c0f74dda996e772548d20d8470a47a41e94:planning/mt5-tradingview-backtester/research/foundation-validation/20260921T115933Z-315e8ddd/artifacts/PS-03-REPORT-UI-r1/PS03-report-ui-validation-r1.json:generic-api-key:45
+974d6c0f74dda996e772548d20d8470a47a41e94:planning/mt5-tradingview-backtester/research/foundation-validation/20260921T115933Z-315e8ddd/work/ps02c2-exact-5f6ef7e/replay/PS02-replay-connection-r1.json:generic-api-key:33
+974d6c0f74dda996e772548d20d8470a47a41e94:planning/mt5-tradingview-backtester/research/foundation-validation/20260921T115933Z-315e8ddd/work/ps02c3-exact-95fd6db/replay-c3/PS02-replay-connection-r1.json:generic-api-key:33
+974d6c0f74dda996e772548d20d8470a47a41e94:planning/mt5-tradingview-backtester/research/foundation-validation/20260921T115933Z-315e8ddd/work/ps02c3-exact-95fd6db/replay/PS02-replay-connection-r1.json:generic-api-key:33
+974d6c0f74dda996e772548d20d8470a47a41e94:planning/mt5-tradingview-backtester/research/foundation-validation/20260921T115933Z-315e8ddd/work/ps02c3-wip-precommit-r3/replay/PS02-replay-connection-r1.json:generic-api-key:33
+974d6c0f74dda996e772548d20d8470a47a41e94:planning/mt5-tradingview-backtester/research/foundation-validation/20260921T115933Z-315e8ddd/work/ps02c3-wip-precommit/replay/PS02-replay-connection-r1.json:generic-api-key:33
+dfe71db0b714e42d7715bc2aa79a4ad84cb7ab0d:planning/mt5-tradingview-backtester/research/foundation-validation/20260921T115933Z-315e8ddd/artifacts/CO-04-batch-candidate-r1.json:generic-api-key:65
+dfe71db0b714e42d7715bc2aa79a4ad84cb7ab0d:planning/mt5-tradingview-backtester/research/foundation-validation/20260921T115933Z-315e8ddd/artifacts/CO-04-batch-candidate-r3.json:generic-api-key:48
+dfe71db0b714e42d7715bc2aa79a4ad84cb7ab0d:planning/mt5-tradingview-backtester/research/foundation-validation/20260921T115933Z-315e8ddd/artifacts/CO-04-batch-candidate-r4.json:generic-api-key:46
+dfe71db0b714e42d7715bc2aa79a4ad84cb7ab0d:planning/mt5-tradingview-backtester/research/foundation-validation/20260921T115933Z-315e8ddd/artifacts/co04-batch-r1/integration.json:generic-api-key:1
+dfe71db0b714e42d7715bc2aa79a4ad84cb7ab0d:planning/mt5-tradingview-backtester/research/foundation-validation/20260921T115933Z-315e8ddd/artifacts/co04-batch-r1/lane-c/lane-output.json:generic-api-key:13
+dfe71db0b714e42d7715bc2aa79a4ad84cb7ab0d:planning/mt5-tradingview-backtester/research/foundation-validation/20260921T115933Z-315e8ddd/artifacts/U5-PATH2-ENGINE-packet-r1.json:generic-api-key:41
+dfe71db0b714e42d7715bc2aa79a4ad84cb7ab0d:planning/mt5-tradingview-backtester/research/foundation-validation/20260921T115933Z-315e8ddd/artifacts/U5-PATH2-ENGINE-packet-r1.json:generic-api-key:43
+e42d0bca7690b3fff8f77b40724373c8bf5b79cf:planning/checkpoints/workspace-next-stage/M7-TRACEABILITY-PREP-2026-09-27/e6-local-rehearsal-2026-09-27.json:generic-api-key:843

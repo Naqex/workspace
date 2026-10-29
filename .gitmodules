@@ -4,15 +4,15 @@
 	branch = main
 [submodule "projects/vi-dubber"]
 	path = projects/vi-dubber
-	url = https://github.com/Miikey24s/mk-ai-dubber.git
+	url = https://github.com/Naqex/vi-dubber.git
 	branch = main
 [submodule "projects/quant-trading"]
 	path = projects/quant-trading
-	url = https://github.com/Miikey24s/mk-quant-trading.git
+	url = https://github.com/Naqex/quant-trading.git
 	branch = master
 [submodule "projects/TradingAgents"]
 	path = projects/TradingAgents
-	url = https://github.com/Miikey24s/mk-trading-agents.git
+	url = https://github.com/Naqex/TradingAgents.git
 	branch = main
 [submodule "tooling/reverse-skill"]
 	path = tooling/reverse-skill

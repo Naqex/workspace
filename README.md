@@ -1,72 +1,84 @@
-# TradingWorkspace
+<p align="center"><img src="docs/assets/naqex-workspace.svg" width="800" alt="Naqex Workspace"></p>
 
-Workspace cá nhân cho học trading, nghiên cứu định lượng và phát triển công cụ replay/backtest. Repo gốc giữ tài liệu, kế hoạch và các mốc Git của repo con; mỗi sản phẩm có môi trường và cách chạy riêng.
+<p align="center">
+  <a href="https://github.com/Naqex/workspace/actions/workflows/workspace.yml"><img src="https://github.com/Naqex/workspace/actions/workflows/workspace.yml/badge.svg" alt="Workspace checks"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Naqex_Source_Available-blue" alt="Naqex Source Available License"></a>
+</p>
 
-## Bắt đầu từ đâu?
+Không gian chung để phát triển sản phẩm, nghiên cứu và học trading cùng AI.
+Workspace giữ **plan, kiến thức, design contracts và tooling**. Code sản phẩm nằm
+trong các repo riêng của [Naqex](https://github.com/Naqex).
 
-| Nhu cầu | Đọc tại đây |
-|---|---|
-| Nắm việc đang làm và phần còn mở | [CURRENT-CONTEXT](planning/CURRENT-CONTEXT.md) → [checkpoint tiếp tục](planning/checkpoints/workspace-next-stage/RESUME.md) |
-| Điều phối công việc liên project | [WORKSPACE-NEXT-STAGE-PLAN](planning/WORKSPACE-NEXT-STAGE-PLAN.md) |
-| Phát triển sản phẩm MT5 | [Product Plan](planning/trader/PRODUCT-COMPLETION-PLAN.md) → [execution entrypoint](planning/trader/EXECUTION-ENTRYPOINT.md) |
-| Theo dõi giao diện Trader hiện tại | [Trader UI Plan](planning/trader/TRADER-UI-MASTER-PLAN.md) |
-| Phát triển VI Dubber | [PLAN của VI Dubber](https://github.com/Miikey24s/mk-ai-dubber/blob/main/PLAN.md), local: `projects/vi-dubber/PLAN.md` |
-| Học trading | [Education](education/README.md) |
+```mermaid
+flowchart TD
+  W[Naqex / workspace] --> P[planning · scope và bằng chứng]
+  W --> D[UI-Systems + UI · design contracts]
+  W --> T[tooling + .agents · workflow và kiểm chứng]
+  W --> E[education · course và tiến độ]
+  W --> R[projects · Git submodules]
+  R --> A[trader]
+  R --> B[vi-dubber]
+  R --> C[quant-trading]
+  R --> F[TradingAgents · upstream fork]
+```
 
-PLAN xác định phạm vi; checkpoint và ledger giữ bằng chứng thực hiện. Một mốc UI hoặc test pass không có nghĩa toàn sản phẩm đã hoàn tất. Snapshot có ngày trong tài liệu cần đối chiếu trạng thái hiện tại trước khi tiếp tục.
-
-## Bốn repo sản phẩm
-
-| Repo / đường dẫn | Vai trò hiện tại | Hướng dẫn |
-|---|---|---|
-| [Naqex Trader](https://github.com/Naqex/trader), `projects/trader/` | Replay, backtest và workspace giao dịch. `foundation_v2` là nền phát triển theo PATH-2; Flask/EA cũ là nguồn tham chiếu và chỉ được reuse theo phạm vi. | [README](https://github.com/Naqex/trader/blob/main/README.md) · [Foundation v2](https://github.com/Naqex/trader/blob/main/foundation_v2/README.md) |
-| [VI Dubber](https://github.com/Miikey24s/mk-ai-dubber), `projects/vi-dubber/` | Dịch, phụ đề và lồng tiếng video. Có môi trường xử lý media và provider riêng. | [README](https://github.com/Miikey24s/mk-ai-dubber/blob/main/README.md) |
-| [Quant Lab](https://github.com/Miikey24s/mk-quant-trading), `projects/quant-trading/` | Nghiên cứu crypto spot khung ngày; kiểm tra dữ liệu, backtest, chi phí và ngoài mẫu. | [README](https://github.com/Miikey24s/mk-quant-trading/blob/master/README.md) |
-| [TradingAgents](https://github.com/Miikey24s/mk-trading-agents), `projects/TradingAgents/` | Fork framework phân tích thị trường bằng nhiều agent; giữ riêng dependency và cấu hình provider. | [README](https://github.com/Miikey24s/mk-trading-agents/blob/main/README.md) |
-
-Workspace chưa được nghiệm thu như một sản phẩm thống nhất. MT5 còn các bước nghiệm thu UI/performance; các tích hợp liên project phải đọc đúng checkpoint và phạm vi đã kiểm chứng. Chạy research hoặc hoàn thành UI không tự cấp quyền giao dịch thật.
-
-## Cấu trúc chính
-
-| Thư mục | Nội dung |
-|---|---|
-| `projects/` | Bốn repo sản phẩm ở bảng trên. Các checkout UI và nghiệm thu cũ đã được gỡ; đường phục hồi nằm trong [checkpoint cleanup](planning/checkpoints/workspace-next-stage/CLEANUP-20261001/CHECKPOINT.md). |
-| `planning/` | PLAN, quyết định, checkpoint và bằng chứng; `archive/` giữ lịch sử để tra cứu. |
-| `education/` | Course, bài tập và tiến độ học. |
-| `UI-Systems/` | Nền UI dùng chung, tokens và công cụ export được lưu trực tiếp trong repo; xem [UI Systems](UI-Systems/README.md). |
-| `UI/` | Hợp đồng UI đặc thù trading; xem [UI README](UI/README.md). |
-| `tooling/` | [ChatGPT Web core](tooling/chatgpt-web-core/README.md), [Agent workflow](tooling/agent-workflow/README.md), [UI QA](tooling/ui-qa/README.md), [run registry](tooling/run_registry/README.md). `reverse-skill/` là submodule tham khảo riêng. |
-| `miro/` | Tài liệu sơ đồ kiến trúc. |
-
-Workspace giữ chung kế hoạch, education, UI và tooling. Các sản phẩm có vòng đời,
-dependency và cách phát hành riêng nên tiếp tục là submodule. Chuyển sang GitHub
-organization không thay đổi ranh giới này; Trader giữ frontend/API/worker trong
-cùng một repo. Các fork giữ nguyên upstream và attribution.
-
-Các bản tải website, worktree nghiệm thu, cache, model, database và media không phải toàn bộ đều là source cần commit. File bị Git bỏ qua cũng có thể là dữ liệu duy nhất của người dùng; phải kiểm tra trước khi xoá.
-
-Quy tắc phân loại, nguồn tiến độ và quy trình dọn nằm trong [Vòng đời context và PLAN](planning/CONTEXT-LIFECYCLE.md). Đây là quy trình chung; danh sách file cần xử lý được ghi theo từng nhóm có owner, bằng chứng và đường phục hồi.
-
-## Lấy workspace về máy
-
-Clone repo gốc rồi khởi tạo Trader theo commit đã được workspace ghi nhận:
+## Lấy source
 
 ```powershell
-git clone https://github.com/Miikey24s/mk-trading-workspace.git
-cd mk-trading-workspace
+git clone https://github.com/Naqex/workspace.git
+cd workspace
 git submodule update --init -- projects/trader
 ```
 
-Các sản phẩm khác khởi tạo riêng khi cần, sau khi các commit đã pin được công bố
-ở remote của chúng. Đợt này chỉ chuẩn hóa và phát hành source Trader. Submodule `tooling/reverse-skill` là bộ tham khảo riêng, chỉ khởi tạo khi công việc cần đến. Fixture Git lịch sử đã được bỏ khỏi index và giữ local; nó không còn ảnh hưởng thao tác submodule.
+Chỉ cần sản phẩm nào thì khởi tạo sản phẩm đó. Để lấy cả bốn:
 
-`UI-Systems/` được lấy cùng repo gốc, không cần khởi tạo thêm repo hoặc tải
-thư mục ngoài workspace. Kiểm tra các pins bằng `npm --prefix tooling/ui-qa run registry-check`.
+```powershell
+git submodule update --init -- projects/trader projects/vi-dubber projects/quant-trading projects/TradingAgents
+```
 
-Với một checkout đã có, kiểm tra và lưu thay đổi local trước khi cập nhật. Sau khi pull repo gốc, chạy lại lệnh `git submodule update --init -- ...` ở trên để lấy đúng các mốc đã pin. Không tự chuyển tất cả repo con sang HEAD mới nhất bằng `--remote --merge`.
+Submodule pin **đúng commit**, không tự lấy HEAD mới nhất. Fork tham khảo
+`tooling/reverse-skill` chỉ khởi tạo khi cần; giữ upstream và quy tắc riêng.
 
-## Cài đặt, chạy và kiểm chứng
+## Chọn đúng nơi làm việc
 
-Mở README của đúng repo ở bảng trên để dùng môi trường và lệnh tương ứng. Không có một lệnh cài đặt hoặc khởi chạy chung cho toàn workspace. Với MT5, đọc `foundation_v2/README.md` trước khi chọn runtime; các launcher Flask cũ không phải lối mặc định của nền mới.
+| Sản phẩm | Phạm vi | Bắt đầu |
+|---|---|---|
+| [Naqex Trader](https://github.com/Naqex/trader) | Replay, backtest, journal, analytics và Live MT5 | [README](https://github.com/Naqex/trader#readme) · [Product Plan](planning/trader/PRODUCT-COMPLETION-PLAN.md) |
+| [Naqex VI Dubber](https://github.com/Naqex/vi-dubber) | Dịch, phụ đề và lồng tiếng video | [README](https://github.com/Naqex/vi-dubber#readme) · [PLAN](https://github.com/Naqex/vi-dubber/blob/main/PLAN.md) |
+| [Naqex Quant Lab](https://github.com/Naqex/quant-trading) | Nghiên cứu định lượng và kiểm chứng offline | [README](https://github.com/Naqex/quant-trading#readme) |
+| [TradingAgents](https://github.com/Naqex/TradingAgents) | Fork framework phân tích thị trường bằng agent | [README upstream/fork](https://github.com/Naqex/TradingAgents#readme) |
 
-Khi lưu thay đổi: review và kiểm chứng trong từng repo con, commit/push repo con trước, sau đó mới commit/push tài liệu và các mốc repo con ở repo gốc. Worktree dùng chung lịch sử với repo sở hữu nó và cần được xem xét trên nhánh riêng.
+Mỗi repo giữ dependency, tests, CI và version riêng. Không có launcher chung cho
+toàn bộ hệ sinh thái. Replay, research và kiểm tra UI không tự cấp quyền giao dịch.
+
+## Một vòng làm việc
+
+```mermaid
+flowchart LR
+  S[Đọc AGENTS + owner plan] --> B[Nhánh codex / task]
+  B --> C[Sửa đúng repo]
+  C --> V[Test + review]
+  V --> PR[PR · required CI]
+  PR --> M[Merge sản phẩm]
+  M --> PIN[PR workspace · cập nhật pin]
+```
+
+| Cần tìm | Đường dẫn |
+|---|---|
+| Bản đồ thư mục, commands và cách giao việc cho agent | [Development guide](docs/development/README.md) |
+| Context liên project và nguồn tiến độ | [CURRENT-CONTEXT](planning/CURRENT-CONTEXT.md) |
+| Quy tắc giữ, compact và archive plan/evidence | [Context lifecycle](planning/CONTEXT-LIFECYCLE.md) |
+| Design foundations / trading UI | [UI Systems](UI-Systems/README.md) · [Trading UI](UI/README.md) |
+| Tìm code và tài liệu bằng Xerj local | [Search tooling](tooling/search/README.md) |
+| Học trading | [Education](education/README.md) |
+| CI, version, release và đóng góp | [Contributing](CONTRIBUTING.md) |
+| Quyền sử dụng và thương mại | [License](LICENSE) · [Chính sách](docs/licensing.md) |
+
+README chỉ điều hướng. PLAN giữ scope; ledger/checkpoint do PLAN chỉ định giữ
+trạng thái và bằng chứng. Các báo cáo có ngày là lịch sử, không tự chứng minh
+nghiệm thu hiện tại. Đóng gói và public release ứng dụng được để sang đợt sau.
+
+Mã workspace do Naqex sở hữu theo [Naqex Source Available License](LICENSE):
+dùng cá nhân/nghiên cứu theo điều khoản; thương mại cần giấy phép riêng. Các bản
+đã phát hành theo MIT giữ quyền đã cấp. Sản phẩm, fork, dữ liệu và tài nguyên bên
+thứ ba giữ license/notices riêng; xem [notices](THIRD_PARTY_NOTICES.md).

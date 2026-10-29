@@ -1,10 +1,14 @@
-# Current context — routing sống của TradingWorkspace
+# Current context — Naqex Workspace
 
 ## Naqex migration — 29/10/2026
 
-Owner approved Naqex Trader branding, a new `Naqex/trader` repository with retained
-Git history, cleanup, release tooling and path normalization. Canonical source:
-`projects/trader`; canonical product plan: `trader/PRODUCT-COMPLETION-PLAN.md`.
+Owner approved the Naqex ecosystem migration: `Naqex/workspace` plus independent
+product submodules `trader`, `vi-dubber`, `quant-trading`, and `TradingAgents`.
+Forks preserve upstream layout/attribution. Current work covers cleanup, visual
+READMEs, paths, public CI/PR gates, local search and the requested Live controls.
+Packaging, public application releases and production deployment are deferred.
+First-party licensing changes use a new commit; historical MIT grants remain.
+Canonical Trader source: `projects/trader`; product plan: `trader/PRODUCT-COMPLETION-PLAN.md`.
 See the migration section in `trader/REPO-CLEANUP-PLAN.md`. Current runtime and
 unrelated WIP can remain in the previous checkout until guarded cutover; the
 old path is not the canonical source. Public release and active-runtime rollout

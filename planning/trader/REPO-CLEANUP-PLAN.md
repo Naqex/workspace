@@ -4,24 +4,32 @@ Phiên bản nền **1.2 · 20/09/2026**; migration hiện hành ở mục bên 
 
 ## Migration Naqex được owner duyệt — 29/10/2026
 
-Phạm vi hiện hành: Naqex Trader, repo mới `Naqex/trader`, source
-`projects/trader`, plan `planning/trader`; giữ lịch sử Git, MIT và attribution.
-Workspace tiếp tục giữ chung plan, education, UI và tooling. Sản phẩm vẫn là
-repo độc lập qua submodule; không tách frontend/API/worker của Trader thành repo con.
-Không đổi các fork hoặc repo sản phẩm ngoài phạm vi.
+Phạm vi hiện hành theo quyết định bổ sung của owner: `Naqex/workspace` và các
+repo `Naqex/trader`, `Naqex/vi-dubber`, `Naqex/quant-trading`,
+`Naqex/TradingAgents`. Source Trader ở `projects/trader`, plan ở
+`planning/trader`. Workspace giữ chung plan, education, UI và tooling; sản phẩm
+tiếp tục là repo độc lập qua submodule. Không tách frontend/API/worker của Trader
+thành repo con. Fork giữ upstream layout/attribution và license riêng.
+
+Các repo giữ public để dùng gate CI/PR của GitHub Free. Phần Naqex có đủ quyền
+sở hữu chuyển sang Naqex Source Available License bằng commit mới, không rewrite
+lịch sử hoặc thu hồi quyền MIT đã cấp cho các bản cũ. Xem
+[chính sách license](../../docs/licensing.md).
 
 Đợt này chuẩn hóa tên hiển thị/logo, đường dẫn setup/test, README, version,
-CI/PR, candidate Windows và recovery thư viện được cấp quyền riêng. Script tự
+CI/PR và recovery thư viện được cấp quyền riêng. Script tự
 suy ra repo root; DB/tool/vendor dùng cấu hình rõ. Giữ namespace, storage key,
 ID và receipts lịch sử để tương thích. Không sửa hash hoặc snapshot lịch sử.
 
 Bằng chứng, trạng thái và bước còn lại: [migration receipt](checkpoints/NAQEX-MIGRATION-20261029.md).
-Owner đã hoãn đóng gói Windows để phân phối sang đợt sau; đợt này chốt source,
-plan, GitHub và CI/PR. ZIP thử chỉ là bằng chứng build, chưa là bản cài được hỗ trợ.
+Owner đã loại đóng gói Windows khỏi đợt này; đợt này chốt source, plan, GitHub,
+CI/PR và hai bổ sung UI Live đã chỉ định. ZIP thử trước đó chỉ là bằng chứng
+build, chưa là bản cài được hỗ trợ. Không phát hành ứng dụng hoặc deploy production.
 Checkout cũ và WIP còn được giữ để phục vụ runtime đã có; chỉ retire sau cutover,
 backup/rollback và xác nhận phù hợp. Public application release và runtime
 rollout giữ gate riêng. Các mục dưới đây là baseline lịch sử 20/09, không tự
-cấp quyền cleanup hay mở lại plan sản phẩm.
+cấp quyền cleanup hay mở lại plan sản phẩm. Scope bổ sung hiện hành ở trên
+thay các câu giới hạn riêng MT5 trong baseline lịch sử bên dưới.
 
 
 
