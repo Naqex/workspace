@@ -34,6 +34,23 @@ Việc tạm hoãn này không đánh dấu Y12/Y26 là đạt; chỉ loại ch�
 Một slice chỉ được ghi `scoped accepted` khi receipt nêu đúng source/build,
 phạm vi và giới hạn. Không chuyển slice thành full product acceptance.
 
+## Các phần giữ lại — ví dụ ngay trong Trader
+
+Owner đồng ý tiếp tục các phần dưới đây. Dùng code đang chạy và kiểm chứng
+hành vi tương ứng để quyết định đạt; mỗi ví dụ là một việc người dùng thực sự làm.
+
+| Phần giữ | Tình huống trong Trader | Cần kiểm chứng để khép phần tương ứng |
+|---|---|---|
+| UI và design system | Mở Live > Giao dịch, lọc Buy, sang Lịch rồi quay lại; dùng trên màn hình nhỏ. | Trang không lỗi, bộ lọc đúng, bảng/biểu đồ không chồng chữ; trạng thái lỗi có đường thử lại. |
+| Dữ liệu thị trường | Nhập EURUSD M1 từ QDM/Dukascopy để luyện tập một đoạn lịch sử. | Nến đúng thời gian, OHLC và khoảng dữ liệu; phát hiện thiếu/trùng nến trước khi dùng kết quả. |
+| Luyện tập / replay | Tua EURUSD đến 10:00, đặt Buy rồi chạy tiếp tới SL/TP. | Không lộ nến tương lai; lệnh, giá khớp, phí và số dư khớp với các bước đã chạy. |
+| Research | Thử quy tắc breakout trên một giai đoạn, rồi kiểm trên giai đoạn khác chưa dùng để chỉnh quy tắc. | Chạy lại cho cùng kết quả; tính phí; tách dữ liệu xây quy tắc và dữ liệu kiểm tra. |
+| Phân tích và Prop | Account MT5 có 14 giao dịch đã đóng: bảng, lịch và panel phân tích phải dùng đúng phạm vi. | Không đếm 28 deal vào/ra thành 28 trade; phí, hòa vốn, múi giờ và hạn mức Prop được tính đúng. |
+| Nhãn dùng chung | Tạo nhóm Setup, nhãn Breakout màu xanh trong Settings; gắn cho một lệnh Practice và một lệnh Live. | Cùng tên/màu; đổi tên cập nhật cách hiển thị; lưu trữ không xóa dấu vết trên lệnh cũ. |
+| AI hỗ trợ | Hỏi AI nhận xét nhóm lệnh có nhãn Breakout trong dữ liệu đã chọn. | Biết dữ liệu/phạm vi đang đọc, không tự bịa số liệu hoặc tự gửi lệnh; quyền provider tách riêng. |
+| Kết nối MT5 demo/live | Đồng bộ account demo đã liên kết rồi mở các lệnh trong Live. | Đúng account, số liệu, trạng thái mới/cũ; kiểm chứng demo không tự cấp quyền giao dịch tài khoản thật. |
+| Kiểm tra tích hợp và dọn repo | Khởi động lại app, mở các trang chính, tiếp tục phiên đã lưu. | Chạy đúng entrypoint, giữ dữ liệu và có rollback; receipt chỉ rõ phần nào thực sự đã kiểm. |
+
 ## Nguyên tắc tiếp tục
 
 1. Ưu tiên sửa và kiểm chứng code/evidence hiện hành trong `foundation_v2`.
