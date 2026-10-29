@@ -152,7 +152,7 @@ ID/mục tiêu → spec/commit baseline → file được sửa/cấm → reusab
 
 ### Prompt để người dùng giao R0 sau khi duyệt
 
-> Chỉ thực thi R0 trong planning/trader/NEXT-ITERATION-PLAN.md. Project tại D:/ANNAM/TradingWorkspace/projects/mt5-tradingview-backtester. Xác minh status/HEAD và instruction hiện hành, tìm/reuse trước khi build mới. Ưu tiên Codex Web GPT High. Cách ly tests trước khi import legacy; không dùng DB gốc, không khởi động/kết nối broker, không deploy EA, không gửi demo/live order. Khóa execution bypass và kiểm S01–S06; báo scope/evidence/gaps. Không tự làm R1 hoặc mở live. Nếu cần restart ứng dụng đang dùng, đổi contract lớn hoặc quyền mới thì dừng hỏi.
+> Chỉ thực thi R0 trong planning/trader/NEXT-ITERATION-PLAN.md. Project tại D:/ANNAM/TradingWorkspace/projects/trader. Xác minh status/HEAD và instruction hiện hành, tìm/reuse trước khi build mới. Ưu tiên Codex Web GPT High. Cách ly tests trước khi import legacy; không dùng DB gốc, không khởi động/kết nối broker, không deploy EA, không gửi demo/live order. Khóa execution bypass và kiểm S01–S06; báo scope/evidence/gaps. Không tự làm R1 hoặc mở live. Nếu cần restart ứng dụng đang dùng, đổi contract lớn hoặc quyền mới thì dừng hỏi.
 
 ## 10. Cách nghiệm thu và điều chỉnh khi thực tế khác plan
 

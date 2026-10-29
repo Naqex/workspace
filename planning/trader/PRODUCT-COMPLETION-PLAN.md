@@ -363,7 +363,7 @@ Trước dependency/integration mới: current primary docs/upstream → license
 
 PATH-2 đã được chủ sản phẩm chốt. Prompt sau dành cho **một execution chat mới khi user muốn giao full plan**, không là lệnh đang thực thi ở planning thread. Worker tự quản dependencies, tự duyệt UI theo phụ lục, không đợi user mở chat backend/frontend/test; provider/data/live/deploy gates vẫn phải tôn trọng.
 
-> Đọc EXECUTION-ENTRYPOINT.md và PRODUCT-COMPLETION-PLAN.md tại D:/ANNAM/TradingWorkspace/planning/mt5-tradingview-backtester. Làm coordinator duy nhất thực thi full plan PATH-2: reconcile ledger/evidence/WIP, không làm lại FH/U đã accepted đúng scope. Tự chia/review/tích hợp và lưu checkpoint, trần pool 10 tính cả root. Tự duyệt UI theo UI-AUTONOMY-FIGMA-PROP-PLAN.md, hoàn thiện Prop firm session và vòng Figma Make với kết nối/evidence thật. Không xin owner chọn gu, không bịa connection/acceptance; giữ gates dữ liệu, tiền thật, quyền, chi phí và deploy. Tiếp phần độc lập khi gặp gate; báo ngắn để chat mới resume được.
+> Đọc EXECUTION-ENTRYPOINT.md và PRODUCT-COMPLETION-PLAN.md tại D:/ANNAM/TradingWorkspace/planning/trader. Làm coordinator duy nhất thực thi full plan PATH-2: reconcile ledger/evidence/WIP, không làm lại FH/U đã accepted đúng scope. Tự chia/review/tích hợp và lưu checkpoint, trần pool 10 tính cả root. Tự duyệt UI theo UI-AUTONOMY-FIGMA-PROP-PLAN.md, hoàn thiện Prop firm session và vòng Figma Make với kết nối/evidence thật. Không xin owner chọn gu, không bịa connection/acceptance; giữ gates dữ liệu, tiền thật, quyền, chi phí và deploy. Tiếp phần độc lập khi gặp gate; báo ngắn để chat mới resume được.
 
 Prompt trên là mẫu bàn giao, không phải lệnh đang được thực hiện ở lượt viết tài liệu này.
 
