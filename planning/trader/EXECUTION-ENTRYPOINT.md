@@ -4,9 +4,11 @@ v1.4 · 24/09/2026 · **PATH-2 APPROVED · RESUME ACTUAL LEDGER · PLAYWRIGHT-FI
 
 File này dùng cho cả bắt đầu và resume. Không cần lịch sử chat; đọc state trên đĩa. Prompt user giao file này chỉ cấp scope ở dưới, không bỏ các approval gates.
 
+**Current scope amendment · 29/10/2026:** đọc [CURRENT-SCOPE-20261029.md](CURRENT-SCOPE-20261029.md) trước khi chọn task. Scope hiện tại dùng code/evidence FX-aligned trong `projects/trader/foundation_v2`; Figma Make/Y26 và Miro/Y12 được tạm hoãn, không phải điều kiện bắt buộc của đợt này. Plan/checkpoint cũ chỉ giữ để truy vết.
+
 **Handoff một path 24/09:** Product Plan v2.2 dẫn đủ file; worker tự đọc [trading-ui-qa skill](../../projects/trader/.agents/skills/trading-ui-qa/SKILL.md) và [CLI kit](../../tooling/ui-qa/README.md) khi làm UI. `node tooling/ui-qa/qa.mjs doctor --plan <absolute PRODUCT-COMPLETION-PLAN.md>` read-only; `smoke` chỉ kiểm fixture của tooling. Không dùng staged legacy agent-workflow runner để chạy browser vì policy của runner đó cấm. Bộ kit không giữ acceptance tracker hoặc khởi động model/product/broker.
 
-**Quyền UI 23/09:** worker tự duyệt UI theo [phụ lục](UI-AUTONOMY-FIGMA-PROP-PLAN.md), không chờ owner chọn gu; Figma Make round-trip và Prop sessions thuộc Y25/Y26. Đây không là quyền tiền thật/holdout/provider phí/OAuth/deploy. Astra vẫn chỉ lập kế hoạch. Scope review/viết plan không tự khởi chạy worker hoặc vòng Figma.
+**Quyền UI hiện tại:** worker tự duyệt UI theo rubric và QA của code hiện hành, không chờ owner chọn gu. Prop session vẫn là scope riêng nếu có evidence; Figma Make/Y26 và Miro/Y12 đang deferred. Đây không là quyền tiền thật/holdout/provider phí/OAuth/deploy.
 
 **Operational resume sau execution 22/09:** đọc [run RESUME](research/foundation-validation/20260921T115933Z-315e8ddd/RESUME.md) và controller-generated [STATE](research/foundation-validation/20260921T115933Z-315e8ddd/STATE.json) trước khi chọn task. Planner snapshot bên dưới giữ lịch sử; ledger đã có FH/U2/U3 và U5 reference acceptance đúng scope. Nó không thay quyền/gates của file này hoặc đóng toàn bộ U5/product.
 
@@ -14,7 +16,7 @@ File này dùng cho cả bắt đầu và resume. Không cần lịch sử chat;
 
 | Phần | Trạng thái / nguồn |
 |---|---|
-| Master plan | [PRODUCT-COMPLETION-PLAN.md](PRODUCT-COMPLETION-PLAN.md), v2.2; worker tự đọc UI/Figma/Prop phụ lục và UI-QA kit khi cần |
+| Master plan | [PRODUCT-COMPLETION-PLAN.md](PRODUCT-COMPLETION-PLAN.md) + [current scope](CURRENT-SCOPE-20261029.md); worker đọc UI-QA/Prop references khi thật sự nằm trong slice |
 | Research evidence | Run `research/foundation-validation/20260921T115933Z-315e8ddd`; ledger/STATE revision 144 tại review 22/09; F0/F1/F2/F3/F5 accepted đúng scope |
 | Product foundation | [ADR PATH-2](FOUNDATION-ADR-0001-PATH2.md) user-approved 22/09; F6/F7 r2 local/synthetic prototype đã có, full product chưa complete |
 | Coordinator | Core local ledger/recovery fixture đã kiểm; CO-00…06 ghi accepted theo scope. Native overlap/multi-instance/10 và fresh Web GPT root còn unverified, không biến nhãn accepted thành bảo đảm tất cả |
@@ -28,7 +30,7 @@ File này dùng cho cả bắt đầu và resume. Không cần lịch sử chat;
 
 ## Phạm vi nếu user giao “thực hiện entrypoint này”
 
-**Chốt plan/review không phải lệnh execution.** Khi user giao thực thi file này, worker reconcile phần đã accepted rồi làm phần còn thiếu trong scope tại `D:/ANNAM/TradingWorkspace/projects/trader`, ưu tiên `foundation_v2` và semantic modules; tests/datasets/DB cách ly. Nếu chỉ được giao hardening thì báo trạng thái/phần thiếu của FH; nếu giao **full product plan**, tiếp các U đủ dependencies/quyền gồm Y25/Y26. Agents tự review UI, không chờ owner aesthetics; các gate quyền khác giữ nguyên. Không tạo repo khác hoặc đổi PATH/stack.
+**Chốt plan/review không phải lệnh execution.** Khi user giao thực thi file này, worker reconcile phần đã accepted rồi làm phần còn thiếu trong scope tại `D:/ANNAM/TradingWorkspace/projects/trader`, ưu tiên `foundation_v2` và semantic modules; tests/datasets/DB cách ly. Nếu chỉ được giao hardening thì báo trạng thái/phần thiếu của FH; nếu giao **full current scope**, tiếp các U đủ dependencies/quyền theo `CURRENT-SCOPE-20261029.md`. Agents tự review UI, không chờ owner aesthetics; các gate quyền khác giữ nguyên. Không tạo repo khác hoặc đổi PATH/stack.
 
 Không sửa receipts đã accepted để biến lỗi mới thành PASS; thêm revision/evidence mới. Không MT5/broker/live/holdout, đổi global config/provider, restart dịch vụ người dùng, secret/provider trả phí mới, public deploy hoặc xóa dữ liệu. Không chạy test có `TRUNCATE` trên DB chưa xác nhận là disposable fixture. Services lâu dài, migration dữ liệu thật, Miro/OAuth và remote/public operations còn cần quyền tương ứng; gặp gate thì ghi blocker và tiếp phần độc lập an toàn.
 
@@ -37,7 +39,7 @@ User không phải quản children: coordinator được chủ động delegate 
 ## Startup/resume checklist
 
 1. Đọc AGENTS áp dụng, file này, master header và operating plan; xác minh cwd đúng `D:\ANNAM\TradingWorkspace`.
-   Đọc phụ lục UI/Figma/Prop và quyền UI mới 23/09; reconcile project instruction/UI config bằng workflow ai-environment-maintainer khi task implementation cần sửa chúng, không giả historical preview đã accepted.
+   Đọc current scope, UI-QA/Prop reference liên quan và reconcile project instruction/UI config khi task implementation cần sửa chúng; không giả historical preview đã accepted.
    UI gate trong project AGENTS/skill đã được đồng bộ 24/09; `ui/project-ui.json` vẫn là evidence chưa nghiệm thu, không đổi acceptance flag chỉ vì tooling sẵn. Dùng doctor + readNext để kiểm đường dẫn/dependencies, rồi tiếp ledger tasks đúng scope.
 2. Tìm run/ledger/receipts đang tồn tại trong validation root; không chọn chỉ theo mtime hoặc tự tạo run mới nếu có active owner. Kiểm schema/request/plan version và generation.
 3. Dùng ledger hiện có và verify accepted artifacts; nếu state thiếu/hỏng thì phục hồi theo evidence, không bootstrap run mới để che mất tiến độ. FH-0 bổ sung packet baseline/authorization, không tự sửa lịch sử accepted.
@@ -47,6 +49,6 @@ User không phải quản children: coordinator được chủ động delegate 
 
 ## Prompt giao một coordinator — dùng khi user muốn bắt đầu thực thi full plan
 
-> Đọc EXECUTION-ENTRYPOINT.md và PRODUCT-COMPLETION-PLAN.md tại planning/trader. Làm coordinator duy nhất thực thi full plan PATH-2: reconcile ledger/evidence/WIP, không làm lại FH/U đã accepted đúng scope. Tự chia/review/tích hợp và lưu checkpoint, trần pool 10 tính cả root. Tự duyệt UI theo UI-AUTONOMY-FIGMA-PROP-PLAN.md, hoàn thiện Prop firm session và vòng Figma Make với kết nối/evidence thật. Không xin owner chọn gu, không bịa connection/acceptance; giữ gates dữ liệu, tiền thật, quyền, chi phí và deploy. Tiếp phần độc lập khi gặp gate; báo ngắn để chat mới resume được.
+> Đọc EXECUTION-ENTRYPOINT.md, CURRENT-SCOPE-20261029.md và PRODUCT-COMPLETION-PLAN.md tại planning/trader. Làm coordinator duy nhất thực thi current scope: reconcile ledger/evidence/WIP, review code/evidence FX-aligned, tiếp các UI/data/research/AI/demo slices đủ điều kiện. Không mở Figma/Miro, broker/live, holdout, provider trả phí, deploy hoặc packaging nếu chưa có scope/approval riêng.
 
 Prompt trên là tài liệu bàn giao, không là user message đang được thực thi. User chốt PATH-2 ngày 22/09 đồng thời nhắc Astra **không phải người thực thi plan**; lượt này chỉ cập nhật tài liệu. Nếu user chỉ nói “đọc kết quả/tiếp tục viết plan/chốt hướng”, không launch worker hoặc sửa product source.
