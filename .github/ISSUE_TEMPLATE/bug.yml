@@ -1,0 +1,48 @@
+name: Bug
+description: Lỗi có bằng chứng hoặc nghi vấn cần xác minh.
+labels: [bug]
+body:
+  - type: input
+    id: owner
+    attributes:
+      label: Repo / module
+      description: Repo sở hữu code, page/module và Luyện tập/Trực tiếp nếu liên quan.
+      placeholder: Naqex/trader · notes · Trực tiếp
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Hiện tại và mong muốn
+      description: Nêu triệu chứng, kết quả đúng và tác động đã biết.
+    validations:
+      required: true
+  - type: dropdown
+    id: verification
+    attributes:
+      label: Mức xác minh
+      options:
+        - unverified — chưa tái hiện hoặc chưa đủ bằng chứng
+        - reproduced — đã tái hiện
+        - source-confirmed — có bằng chứng từ source, chưa thử runtime
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Tái hiện / bằng chứng
+      description: Các bước, môi trường, commit/build, expected/actual và ảnh/log đã bỏ secret. Nếu chưa tái hiện, ghi rõ phần còn thiếu.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Phạm vi và điều kiện hoàn tất
+      description: Hành vi cần kiểm tra; link PLAN/ledger nếu đã có. Ghi blocker/priority khi ảnh hưởng cách xử lý.
+    validations:
+      required: true
+  - type: textarea
+    id: agents
+    attributes:
+      label: Agent phát hiện / xác minh
+      description: Khi có AI, ghi role, tool, requested model ID và nguồn danh tính. Không biết thì unknown; chỉ thêm reported model, route, effort khi có bằng chứng. Người báo thủ công có thể để trống.

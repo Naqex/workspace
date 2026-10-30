@@ -11,6 +11,10 @@ push nhánh đã chia sẻ. README/AGENTS của sản phẩm giữ command kiể
 
 ## CI và branch protection
 
+Issue inbox và metadata agent: [workflow GitHub](tooling/github-workflow/README.md).
+Bug cần theo dõi hoặc task qua nhiều phiên dùng issue ở `Naqex/workspace`, ghi rõ
+repo sở hữu code. Task nhỏ có thể đi thẳng commit/PR; không tạo issue mỗi commit.
+
 Workspace kiểm tra docs/topology, secret và registry UI; Trader kiểm tra hygiene,
 Python contracts, web/browser và Rust. Required CI là gate merge, không là bằng
 chứng broker/production acceptance. Các repo khác có workflow theo sản phẩm;

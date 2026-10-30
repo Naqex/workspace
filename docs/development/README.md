@@ -57,6 +57,9 @@ không phải cách cập nhật pin có kiểm chứng.
 
 ## AI tooling
 
+[Workflow GitHub](../../tooling/github-workflow/README.md) quy định khi nào tạo issue,
+metadata model và bàn giao PR. Dùng forms/skill hiện có trước khi thêm tracker mới.
+
 Giữ instruction ngắn trong `AGENTS.md`; workflow nhiều bước nằm trong repo skill,
 context dài nằm trong reference. Chỉ thêm MCP khi có nhu cầu thật và kiểm tra
 quyền/data flow. Không chạy bộ cài tự sửa global config của bên thứ ba.

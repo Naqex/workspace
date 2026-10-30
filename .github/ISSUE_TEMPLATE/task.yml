@@ -1,0 +1,35 @@
+name: Task / Feature
+description: Công việc cần theo dõi qua nhiều phiên, agent hoặc PR.
+labels: [enhancement]
+body:
+  - type: input
+    id: owner
+    attributes:
+      label: Repo / module
+      placeholder: Naqex/trader · notes
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Mục tiêu và ngữ cảnh
+      description: Ai cần thay đổi này, vì sao và hành vi mong muốn.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Phạm vi và điều kiện hoàn tất
+      description: Kết quả có thể kiểm chứng; link PLAN/ledger hiện hành nếu có. Ghi dependency/blocker và phần ngoài phạm vi khi cần.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Tham chiếu / môi trường
+      description: Source, ảnh, phiên bản hoặc constraint có liên quan. Không đăng secret hay dữ liệu broker nhạy cảm.
+  - type: textarea
+    id: agents
+    attributes:
+      label: Agent đề xuất / xác minh
+      description: Khi có AI, ghi role, tool, requested model ID và nguồn danh tính; unknown nếu chưa biết. Reported model, route và effort là tùy chọn có nguồn.

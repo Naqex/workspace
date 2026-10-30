@@ -15,6 +15,10 @@ Khi user giao `planning/WORKSPACE-NEXT-STAGE-PLAN.md`, đọc profile và mọi 
 
 ## Trading Workspace / điều phối agent
 
+Khi triage, triển khai hoặc bàn giao issue, dùng `.agents/skills/github-issue-workflow/SKILL.md`.
+Quy ước issue và metadata commit/PR nằm ở `tooling/github-workflow/README.md`;
+task nhỏ sửa ngay không cần issue riêng.
+
 MT5 nhận scope từ `planning/trader/PRODUCT-COMPLETION-PLAN.md` → `EXECUTION-ENTRYPOINT.md` → nguồn trạng thái/receipt được dẫn tới; `PLAN.md` là index và lịch sử, giữ các phân công còn hiệu lực. UI theo `TRADER-UI-MASTER-PLAN.md`, không khởi động lại exploration từ prompt cũ. Khi được yêu cầu chạy task qua CLI, đọc `tooling/agent-workflow/README.md` và `POLICY.md`; `roles.json` giữ cấu hình model/effort, `VALIDATION.md` giữ khả năng đã kiểm chứng. Ưu tiên runner/model mà profile hiện hành chỉ định; không tự đổi provider/model để né gate. Mở workspace không cho phép tự chạy worker, sửa repo sản phẩm, giao dịch, merge hoặc deploy.
 
 ## Học trading / Trading education
