@@ -250,6 +250,34 @@ có phiên bản (ứng viên → evidence → quyết định → run). Reuse t
 gộp toàn source/database hoặc ép TradingAgents gánh mọi khâu. Phần cần khảo sát
 engine tiếp là research loop tự tạo/thử ứng viên; scope hiện tại vẫn discussion.
 
+### RD-Agent cho vòng nghiên cứu — phần 11
+
+Research primary sources ngày31/10: [upstream](https://github.com/microsoft/RD-Agent),
+[RD-Agent(Q) paper](https://arxiv.org/abs/2505.15155),
+[Finance Quant Agent docs](https://rdagent.readthedocs.io/en/latest/scens/quant_agent_fin.html).
+Chưa cài/chạy/tái lập benchmark; kết quả paper không là profitability của owner.
+
+RD-Agent(Q) có vòng Research (giả thuyết/task) → Development (sinh code/chạy
+thí nghiệm) → feedback để chọn hướng tiếp. Trọng tâm tài chính được mô tả là
+cùng cải thiện factor và model; factor là đại lượng tính từ data làm tín hiệu/
+đầu vào, không mặc định là chiến lược hoàn chỉnh. Ví dụ minh họa riêng của mình:
+thử feature biến động/khối lượng, huấn luyện model rồi so baseline sau chi phí.
+
+Finance scenario có module hypothesis/coder/runner/feedback, gắn Qlib trong docs;
+mẫu mặc định là dữ liệu/danh mục cổ phiếu CSI300. README ghi Linux-only và Docker
+cho phần lớn scenario. Do đó chưa thể coi đây là plugin MT5/crypto chạy ngay trên
+Windows, hoặc dùng factor research để kết luận mọi strategy family được hỗ trợ.
+
+Đề xuất placement: RD-Agent là candidate research worker; nhận data/phạm vi/
+budget được cấp, trả versioned candidate + experiment artifacts; bộ kiểm chứng
+độc lập của workspace vẫn quyết định đủ bằng chứng theo policy. Internal feedback
+giúp tối ưu trên development/validation, không thay final evaluator/holdout.
+Broker, tiền/risk, promotion authority và toàn lifecycle demo nằm ngoài quyền
+mặc định của research worker. Adapter/interface/version/license/runtime cost
+cần audit/benchmark trước adoption; hiện chưa quyết định reuse nguyên engine hay
+chỉ adapt một phần. Bước tiếp: quan hệ RD-Agent/TradingAgents/Paperclip/LangGraph
+theo vai trò, không xếp hạng thành một danh sách “tốt nhất”.
+
 ## 4. Reuse tài liệu hiện có
 
 | Tài liệu | Vai trò và cách dùng |
@@ -307,9 +335,11 @@ và phản hồi về nghiên cứu. Chưa chốt ngưỡng hoặc cấp quyền
 Phần9 tổng hợp vòng đời, phân biệt hai nhịp nghiên cứu/vận hành và vị trí Trader
 như bàn điều hành. Phần10 đối chiếu source hiện có: Trader đã có research/OOS và
 AI lifecycle/pilot bên cạnh UI; Quant có numeric validation; TradingAgents có
-analysis graph. Chưa có proof trọn vòng autonomy. Bước tiếp theo: khảo sát engine
-cho research loop tự tạo/thử ứng viên và boundary reuse, tránh danh sách framework
-dài. Không hỏi lại các lựa chọn đã biết hoặc
+analysis graph. Chưa có proof trọn vòng autonomy. Phần11 nghiên cứu primary docs
+RD-Agent(Q), giải thích R→D→feedback/factor-model và placement research worker;
+chưa adoption hoặc profitability claim. Bước tiếp theo: phân biệt vai trò các
+candidate để quyết định có cần cùng tồn tại/reuse, không liệt kê framework dài.
+Không hỏi lại các lựa chọn đã biết hoặc
 tự chuyển sang implementation.
 
 Các điểm còn mở, hỏi lần lượt khi tới phần liên quan: tiêu chí đạt của chiến lược,
