@@ -351,6 +351,38 @@ so với overlap trước thêm. Chưa chốt mọi candidate phải cùng tồn
 một vòng nghiên cứu cụ thể đi từ đầu vào đến quyết định, rồi xác định contract
 bàn giao tối thiểu; không mở thêm danh sách framework.
 
+### Một job nghiên cứu từ đầu đến cuối — phần 13
+
+Ví dụ hoàn toàn giả định, không chốt thị trường/khung thời gian/chiến lược:
+đã có baseline theo xu hướng; thử giả thuyết “bộ lọc biến động có giúp cải thiện
+kết quả sau chi phí không?”. Nếu chưa có data/baseline đáng tin, job đầu tiên
+là xây và kiểm tra chúng; không mặc định hệ thống đã có chiến lược sinh lời.
+
+| Điểm bàn giao | Hồ sơ tối thiểu đề xuất | Ai chịu trách nhiệm |
+|---|---|---|
+| Giao nghiên cứu | Câu hỏi, baseline version, data/cutoff, phạm vi được chỉnh, giới hạn lượt thử/thời gian/chi phí và tiêu chí đánh giá định trước | Bộ điều phối theo policy/quyền được cấp |
+| Nộp ứng viên | Code/config version, data refs, giả thuyết, dependency/runtime identity, nhật ký mọi lượt thử và kết quả development/validation | Worker nghiên cứu |
+| Trả đánh giá | Candidate identity, evaluator/data version, so sánh baseline cùng điều kiện, costs/stress/correctness và verdict có lý do | Bộ kiểm chứng độc lập |
+| Xét demo | Phiên bản đã đánh giá, evidence refs, quyền/risk/account demo cụ thể và quyết định cho phép; code/data thay đổi phải xét lại bằng chứng liên quan | Policy/admission; bộ vận hành chỉ nhận bản được phép |
+
+Worker được chỉnh trên development/validation theo budget. Bộ kiểm chứng giữ
+final holdout ngoài quyền worker; không liên tục trả kết quả cuối để AI sửa rồi
+thử lại trên cùng holdout. Ghi nhận mọi lần truy cập và xem phần dữ liệu đã lộ
+kết quả là đã dùng trong quá trình chọn ứng viên; cần protocol mới trước khi
+coi lần đánh giá sau là độc lập. Không xóa các thử nghiệm thua để chỉ giữ bản đẹp.
+
+Verdict không đạt → lưu lý do và có thể mở job nghiên cứu khác trong budget;
+chưa đủ bằng chứng → thu thêm bằng chứng theo protocol; lỗi run → sửa vận hành/
+data/code rồi chạy lại phù hợp, không ghi thành chiến lược thua. Đạt đánh giá
+chỉ cho phép xét bước kế tiếp theo policy, không tự cấp quyền tiền thật.
+
+Demo theo dõi execution/reconciliation, costs và hành vi ngoài mẫu; không dùng
+demo ngắn để tự chứng nhận profitability. AI phát triển v2 ở job riêng, trong khi
+demo giữ nguyên v1 cho tới quyết định chuyển bản. Mỗi stage ghi artifact/trạng
+thái bền vững, nối bằng job/candidate/evaluation/run identity, không phụ thuộc
+việc chat còn nhớ. Bước tiếp: đặt tiêu chí đánh giá đủ rõ để evaluator quyết
+định theo bằng chứng; chưa đặt ngưỡng lợi nhuận/drawdown hoặc cấp quyền cụ thể.
+
 ## 4. Reuse tài liệu hiện có
 
 | Tài liệu | Vai trò và cách dùng |
@@ -416,8 +448,12 @@ không auto-update runtime; SaaS model drift không được pin code giải quy
 Phần12 phân biệt RD-Agent (research worker), TradingAgents (phân tích/phản biện),
 LangGraph (workflow runtime) và Paperclip (quản lý/điều phối công việc agents).
 Đây là mapping đề xuất, chưa adoption; giữ một authority cho mỗi concern và tránh
-trùng dispatch/retry/approvals với AI lifecycle hiện có. Bước tiếp theo: minh họa
-một vòng nghiên cứu cụ thể và input/output bàn giao giữa các trách nhiệm.
+trùng dispatch/retry/approvals với AI lifecycle hiện có. Phần13 minh họa job thử
+bộ lọc biến động trên baseline theo xu hướng; bốn điểm bàn giao giữ task spec,
+candidate/artifacts, evaluation và demo admission. Giữ mọi lượt thử, bảo vệ final
+holdout khỏi vòng chỉnh lặp; demo chạy phiên bản cố định. Đây vẫn là thiết kế
+đề xuất, không là job đã chạy. Bước tiếp: tiêu chí đánh giá chiến lược và cách
+phân biệt đạt/không đạt/chưa đủ bằng chứng/lỗi run qua một ví dụ đơn giản.
 Không hỏi lại các lựa chọn đã biết hoặc
 tự chuyển sang implementation.
 
