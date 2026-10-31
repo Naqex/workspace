@@ -383,6 +383,106 @@ thái bền vững, nối bằng job/candidate/evaluation/run identity, không p
 việc chat còn nhớ. Bước tiếp: đặt tiêu chí đánh giá đủ rõ để evaluator quyết
 định theo bằng chứng; chưa đặt ngưỡng lợi nhuận/drawdown hoặc cấp quyền cụ thể.
 
+### Tổng hợp bốn phần còn lại — trao đổi gộp theo yêu cầu owner
+
+Owner yêu cầu giải thích/trao đổi phần còn lại trong một lượt. Phần này tổng hợp
+đề xuất kiến trúc; chưa là owner acceptance của ngưỡng, thị trường, engine hoặc
+quyền thực thi. Không tiếp audit UI hoặc triển khai hệ thống từ trao đổi này.
+
+#### 1. Tiêu chí chiến lược đạt theo từng giai đoạn
+
+Thiết kế evaluator gồm: correctness/data/causal timing; kết quả sau chi phí và
+so baseline cùng mức risk/exposure phù hợp; rủi ro/drawdown/concentration; độ bền
+qua các khoảng thời gian/biến động tham số/chi phí; mức đủ bằng chứng và forward
+behavior. Tiêu chí định trước cho mỗi stage và version, không chỉnh theo bản thắng.
+Không dùng một con số win rate/return hoặc một backtest để tự chứng nhận đạt.
+Backtest drawdown là quan sát lịch sử, không phải trần lỗ tương lai.
+
+Overfit: xem chênh lệch development/validation/OOS, sensitivity, multiple trials
+và test contamination. Underfit: chẩn đoán model/features/data từ learning curves
+và baseline; kết quả trading thấp có thể do không có edge, không tự bắt tăng độ
+phức tạp. Bảo vệ final holdout, ghi mọi lượt thử và thời điểm dữ liệu khả dụng;
+LLM historical knowledge cũng có thể làm sai tính độc lập của phép thử.
+
+Không có universal trade-count/calendar threshold. Cần xét số quan sát hữu hiệu,
+độ phụ thuộc giữa giao dịch, số lần thử và các điều kiện thị trường đã quan sát.
+Thời gian demo chỉ là một phần bằng chứng. Bốn verdict tiếp tục là đạt stage,
+không đạt, chưa đủ bằng chứng, lỗi run. Hệ thống được kết luận chưa tìm thấy edge.
+
+#### 2. Phạm vi nghiên cứu đầu tiên — khuyến nghị, chưa chốt
+
+Đã đọc lại Quant README: crypto spot D1, long/cash không leverage, costs/causal/
+OOS primitives. Đề xuất dùng đúng phạm vi này làm pilot nghiên cứu offline,
+với universe nhỏ định trước có chính sách tránh selection bias; không tự mở key
+hoặc tài khoản. H4 là hướng mở rộng sau, chưa chạy đồng thời nhiều khung/market.
+Đây là lựa chọn giảm việc tích hợp dựa trên tài sản hiện có, không phải kết luận
+crypto dễ có lợi nhuận, ít rủi ro hơn hoặc bắt buộc dùng RD-Agent.
+
+MT5 Forex/vàng tiếp tục là candidate khi ưu tiên broker demo và reuse Trader;
+cần model spread/commission/swap/contract/leverage theo đúng account và data
+nguồn thực thi. Crypto spot pilot cần phí/slippage/liquidity/exchange rules và
+giám sát vận hành phù hợp. Không chuyển nguyên kết quả giữa hai thị trường.
+
+Data contract giữ source/instrument/venue, UTC/event/availability time, revision,
+OHLCV hoặc ticks theo chiến lược, gaps/duplicates, costs và version/cutoff.
+Bar data không đủ mô tả mọi thứ xảy ra trong nến; tăng độ chi tiết khi logic
+fill/stop cần. D1 giảm số thời điểm quyết định trong pilot nhưng tích lũy forward
+evidence chậm; không suy rằng quan sát vài tuần là đủ hoặc ít quyết định là ít lỗ.
+
+#### 3. Quyền tự quyết, ngân sách và vận hành
+
+Đề xuất quyền riêng: research/sandbox trong budget được cấp; evaluator access
+với data tách biệt; demo admission theo policy; tiền thật ban đầu owner duyệt;
+B dài hạn chỉ tự promotion trong phạm vi tiền/quyền được cấp, chuyển được về A.
+Lựa chọn B không cấp quyền nâng vốn, đổi account, vượt budget hoặc mở holdout.
+
+Tách research costs (model/compute/data, limits lượt thử/concurrency/time) khỏi
+trading risk (capital/exposure/concentration/loss/account scope). Dừng worker
+và tính chi phí in-flight; reported token usage không là hard financial lock.
+Research code chạy cô lập không có broker secrets; quyền ghi broker nằm ở
+execution boundary, kiểm bằng code trước lệnh và đối soát sau lệnh.
+
+Data cũ/lỗi quyền/lệch vị thế/chưa rõ lệnh thành công thì ngừng cấp lệnh mới theo
+policy, đối soát trước retry/resume. Quản lý vị thế đang mở vẫn theo contract;
+không mặc định đóng tất cả hoặc bỏ quản lý. Hiệu quả giảm cần quan sát/đánh giá
+theo tiêu chí định trước, không tự thay model sau vài giao dịch thua.
+
+#### 4. Kiến trúc đích và lộ trình đề xuất
+
+Vòng nghiên cứu: mục tiêu/budget → data chuẩn hóa → worker nghiên cứu → ứng viên
+→ evaluator → quyết định xét demo/live. Vòng vận hành: phiên bản được phép →
+signal → permission/risk → execution → reconciliation/monitoring. Monitoring
+gửi vấn đề về hàng đợi nghiên cứu; không tự hot-swap chiến lược đang chạy.
+
+Trader là console; Quant và native research/OOS là tài sản evaluator cần parity;
+AI lifecycle hiện có là baseline điều phối. Hồ sơ bền vững nối data/candidate/
+evaluation/policy/run identity, lưu failures và lineage. Tách trách nhiệm logic
+trước, không tự tách mọi phần thành microservices hoặc gộp các repo/database.
+RD-Agent là candidate research worker cần thích nghi/benchmark; TradingAgents
+phân tích chọn lọc; Paperclip so với current control layer trước adoption.
+LangGraph hiện hữu được reuse khi phù hợp, tránh nhân đôi authority/retry.
+
+Lộ trình theo bằng chứng: (1) một baseline + data + evaluator tái lập offline;
+(2) nối một AI research worker qua một job có budget, nộp candidate và evidence;
+(3) forward simulation/demo cố định version, kiểm phục hồi/đối soát/alerts;
+(4) nếu đủ bằng chứng, owner xét tiền thật quy mô/risk cụ thể; (5) mở B từng
+quyền theo acceptance rồi mới mở rộng strategies/markets/agents. Từng lát giữ
+contract của kiến trúc đích; không cam kết deadline kiếm tiền hoặc phải có
+chiến lược thắng khi đến cuối giai đoạn.
+
+Primary refs đối chiếu cho phần kiểm chứng:
+[learning/validation curves](https://scikit-learn.org/stable/modules/learning_curve.html),
+[lookahead analysis](https://www.freqtrade.io/en/stable/lookahead-analysis/),
+[backtest assumptions/forward testing](https://www.freqtrade.io/en/stable/backtesting/),
+[MT5 bars/history/UTC](https://www.mql5.com/en/docs/python_metatrader5/mt5copyratesrange_py).
+Nguồn xác nhận các constraint kỹ thuật, không chứng nhận stack hoặc profitability.
+
+Trạng thái cuối cuộc trao đổi: đã hình thành proposal tổng thể để owner review.
+Còn mở thị trường/khung đầu tiên, ngưỡng evaluator, capital/risk/research budget,
+engine adoption và contracts implementation. Bước tiếp khi owner giao: viết
+execution PLAN có scope/acceptance/versioned contracts sau khi resolve các lựa
+chọn ảnh hưởng scope; chưa chạy worker, provider, broker, migration hoặc deploy.
+
 ## 4. Reuse tài liệu hiện có
 
 | Tài liệu | Vai trò và cách dùng |
@@ -454,6 +554,12 @@ candidate/artifacts, evaluation và demo admission. Giữ mọi lượt thử, b
 holdout khỏi vòng chỉnh lặp; demo chạy phiên bản cố định. Đây vẫn là thiết kế
 đề xuất, không là job đã chạy. Bước tiếp: tiêu chí đánh giá chiến lược và cách
 phân biệt đạt/không đạt/chưa đủ bằng chứng/lỗi run qua một ví dụ đơn giản.
+Sau đó owner yêu cầu gộp bốn phần còn lại trong một lượt; proposal tổng hợp ở
+cuối §3 bao gồm evaluator, pilot/data, authority/budgets và architecture/roadmap.
+Khuyến nghị pilot crypto spot D1 từ Quant hiện có là đề xuất mới, chưa owner chốt;
+không dùng phần này để ghi acceptance, cấp execution hoặc tự tiếp UI audit.
+Phần giải thích khung đã tổng hợp; tiếp theo review/chỉnh proposal hoặc chuyển
+sang PLAN khi owner giao, không tự kéo dài danh sách bài/framework.
 Không hỏi lại các lựa chọn đã biết hoặc
 tự chuyển sang implementation.
 
