@@ -208,6 +208,23 @@ thái tài khoản/lệnh chưa rõ hoặc vi phạm chính sách thì giữ d�
 Đây là đề xuất kiến trúc, chưa cấp quyền tự resume/close hay giao dịch.
 Reference: [Nautilus live lifecycle/reconciliation](https://nautilustrader.io/docs/latest/concepts/live/).
 
+### Vòng đời chung — tổng hợp phần 9
+
+Khung đề xuất: mục tiêu/phạm vi/ngân sách → data đáng tin → nghiên cứu ứng viên
+→ kiểm chứng độc lập → xét quyền chạy → mô phỏng realtime/demo → giám sát và
+phản hồi. Không đạt thì sửa hoặc loại; chưa đủ evidence thì giữ chờ/bổ sung theo
+policy, không ép ra chiến lược. Sau demo mới xét quyền tiền thật riêng.
+
+Hai nhịp chạy cùng tồn tại: nghiên cứu tạo/kiểm phiên bản mới; vận hành xử lý
+data/tín hiệu/risk/lệnh của phiên bản đã được phép. Chúng trao đổi bằng version
+và evidence, không để nghiên cứu sửa bản đang vận hành trực tiếp. Các trách nhiệm
+này chưa đòi hỏi nhiều service hoặc agent thường trực; topology chốt sau benchmark.
+
+Trader là ứng viên bàn điều hành để xem run, chiến lược, account, lệnh, cảnh báo
+và quyền; hồ sơ bền vững giữ phiên bản, data/config/cutoff, thử nghiệm và quyết
+định. UI/chat không là nguồn trạng thái duy nhất. Chưa chọn engine hoặc giao
+implementation; bước tiếp map tài sản hiện có với phần còn thiếu trước chọn reuse.
+
 ## 4. Reuse tài liệu hiện có
 
 | Tài liệu | Vai trò và cách dùng |
@@ -262,8 +279,9 @@ Phần7 giải thích bộ vận hành nhận phiên bản được phép và ch
 tách tín hiệu AI khỏi kiểm tra quyền/risk và xác nhận lệnh. Phần8 đề xuất giám
 sát sức khỏe/vị thế/hiệu quả, dừng mở mới khác đóng vị thế, đối soát trước resume
 và phản hồi về nghiên cứu. Chưa chốt ngưỡng hoặc cấp quyền thực thi.
-Bước tiếp theo: ghép các phần thành một vòng đời dễ hiểu rồi đối chiếu engine
-phù hợp từng phần, tránh danh sách framework dài. Không hỏi lại các lựa chọn đã biết hoặc
+Phần9 tổng hợp vòng đời, phân biệt hai nhịp nghiên cứu/vận hành và vị trí Trader
+như bàn điều hành. Bước tiếp theo: map phần đã có/còn thiếu trong workspace rồi
+đối chiếu engine cho từng vai trò, tránh danh sách framework dài. Không hỏi lại các lựa chọn đã biết hoặc
 tự chuyển sang implementation.
 
 Các điểm còn mở, hỏi lần lượt khi tới phần liên quan: tiêu chí đạt của chiến lược,
