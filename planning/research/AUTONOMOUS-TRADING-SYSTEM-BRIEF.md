@@ -146,6 +146,29 @@ là ứng viên khảo sát phần research engine. Ba vai trò ở trên là đ
 workspace, không phải tuyên bố mapping nguyên xi các agent của upstream.
 Chưa chọn/cài/tích hợp RD-Agent; chưa tái lập benchmark hoặc xác minh profitability.
 
+### Bộ kiểm chứng — bàn giao ứng viên và kết luận theo giai đoạn
+
+Phần 6 đề xuất bộ kiểm chứng nhận ứng viên có phiên bản, data reference/cutoff,
+phạm vi được phép và cấu hình đánh giá đã chốt trước run (baseline, costs,
+splits, tiêu chí/giới hạn). AI không tự đổi tiêu chí để ứng viên của nó được đạt.
+Code ứng viên và code evaluator có ownership riêng; evaluator chạy công cụ tính
+toán/kiểm tra đáng tin, lưu raw results và nguồn, không chấp nhận lời tự báo PnL
+của agent làm bằng chứng. Chi tiết interface và ngưỡng còn cần đặc tả.
+
+Kết quả gồm số liệu, lỗi/cảnh báo, evidence refs và kết luận cho **đúng giai đoạn**:
+
+| Kết luận | Ý nghĩa / bước tiếp |
+|---|---|
+| Đạt tiêu chí giai đoạn | Đủ điều kiện đề xuất sang bước kế tiếp theo policy; không tự mở demo/live hoặc cấp thêm vốn |
+| Không đạt | Có bằng chứng vi phạm tiêu chí; phản biện/sửa hoặc loại ứng viên |
+| Chưa đủ bằng chứng | Dữ liệu/mẫu/độ chắc chắn chưa đủ để kết luận; bổ sung trong phạm vi cho phép hoặc giữ chờ |
+| Lỗi kiểm chứng | Run lỗi hoặc dữ liệu/artefact không hợp lệ; sửa/reconcile trước khi đánh giá, không coi như kết quả chiến lược |
+
+AI phản biện giải thích và đề xuất, còn kết luận theo tiêu chí do evaluator/policy
+có phiên bản xác định. Đạt backtest không đồng nghĩa đã đạt demo/live; quyết định
+phát hành tiếp tục theo quyền A/B riêng. Khi kết quả không chắc chắn, giữ trạng
+thái chưa đủ bằng chứng thay vì mặc định đạt hoặc ép tối ưu thêm.
+
 ## 4. Reuse tài liệu hiện có
 
 | Tài liệu | Vai trò và cách dùng |
@@ -194,9 +217,11 @@ dùng để chỉnh → mô phỏng/demo. Owner bổ sung yêu cầu xử lý ov
 phổ biến và muốn chốt workflow trước khi đi sâu tối ưu. Phần 4 giới thiệu ba
 trách nhiệm của hệ thống; phần 5 giải thích nhóm nghiên cứu bằng vòng đề xuất
 → triển khai → thử nghiệm/phản biện, với RD-Agent(Q) làm reference. Chưa chốt
-topology, số agent hoặc framework. Bước tiếp theo: bộ kiểm chứng nhận/giao gì
-và ai có quyền kết luận ứng viên đạt, rồi mới đối chiếu engine phù hợp từng phần.
-Không hỏi lại các lựa chọn đã biết hoặc tự chuyển sang implementation.
+topology, số agent hoặc framework. Phần 6 đề xuất input/output của bộ kiểm chứng,
+phân biệt đạt/không đạt/chưa đủ bằng chứng/lỗi run và quyền phát hành riêng.
+Bước tiếp theo: bộ vận hành nhận đúng phiên bản được phép và chạy demo ra sao,
+rồi đối chiếu engine phù hợp từng phần. Không hỏi lại các lựa chọn đã biết hoặc
+tự chuyển sang implementation.
 
 Các điểm còn mở, hỏi lần lượt khi tới phần liên quan: tiêu chí đạt của chiến lược,
 phạm vi quyền tự quyết, ngân sách/vốn/rủi ro, thời gian owner có thể giám sát,
