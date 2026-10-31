@@ -16,7 +16,8 @@ Document của iframe được giữ khi chuyển sang công cụ khác trong c�
 Cần Node.js >=24.11 và Git. Từ workspace root:
 
 Lát tích hợp hiện tại cần source Trader có `foundation_v2/local-services.json`
-(commit `18e9348d` hoặc hậu duệ). Root gitlink Trader chưa nâng từ baseline cũ;
+(commit `18e9348d` hoặc hậu duệ; đồng bộ VI/EN cần `7b4c332d` hoặc hậu duệ).
+Root gitlink Trader chưa nâng từ baseline cũ;
 clone mới cần khôi phục đúng checkout feature trước khi dùng launcher/UI này.
 Không tự reset checkout đang có WIP. Plan
 `planning/trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md` giữ handoff source.
@@ -77,9 +78,18 @@ Paperclip thật, không phải sandbox chặn mọi execution. Chưa nối trad
 broker, dữ liệu Trader hoặc tự ánh xạ company Paperclip với workspace Trader.
 Ẩn iframe không dừng các công việc mà owner có thể cấu hình về sau.
 
-UI gốc giữ ngôn ngữ và lựa chọn theme của Paperclip. Host chỉ gợi ý color scheme;
-chưa có contract đồng bộ preference hai ứng dụng. Không rewrite upstream để
-clone theme/menu của Trader trong lát này.
+VI/EN của Trader được đồng bộ tới Paperclip qua message chỉ dành cho preference;
+kiểm exact origin + parent window, không đổi iframe URL hay tải lại bản nháp.
+Launcher cấp `VITE_NAQEX_WORKSPACE_ORIGIN` từ cổng AI preview trong registry.
+Hiện chỉ origin preview đó được tin cậy; host ở cổng khác cần cấu hình lại và
+kiểm chứng trước khi coi ngôn ngữ đã đồng bộ. Mở riêng dùng ngôn ngữ đã lưu hoặc EN.
+
+Bản dịch hiện gồm menu desktop/mobile, menu tài khoản, tìm kiếm/danh sách rỗng
+và các trường chính của form tạo công việc. Các trang và menu chuyên sâu vẫn
+còn tiếng Anh. Native i18next giữ namespace `translation`; fork dùng namespace
+`workspace` riêng để không làm lệch contract các locale upstream khác. Hướng dẫn
+mở rộng/upgrade: `projects/integrations/paperclip/doc/NAQEX-LOCALIZATION.md`.
+Theme vẫn do Paperclip quản lý; host chỉ gợi ý color scheme.
 
 ## Trader preview và dev
 

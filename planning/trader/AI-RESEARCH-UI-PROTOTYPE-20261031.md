@@ -1,5 +1,23 @@
 # AI workspace — native Paperclip UI và prototype lịch sử
 
+## Lát localization tiếp nối — 31/10
+
+Đã nối VI/EN từ Trader preview tới native Paperclip bằng preference message
+kiểm origin/source; đổi ngôn ngữ giữ document, bản nháp và search. Fork dùng
+i18next namespace `workspace` riêng, giữ locale upstream và tên/nội dung do
+người dùng nhập. Phạm vi hiện tại: navigation desktop/mobile, account actions,
+task breadcrumb/search/empty/create và trường chính của new-task dialog.
+Đây là bản dịch từng phần; filters/composer settings và các trang khác còn EN.
+
+Browser preview5218: 9 cases trên1920/1440/390px; source review độc lập;
+focused unit/component, UI typecheck và build đã kiểm. Token gate toàn fork
+còn106 lỗi upstream, không thêm lỗi so với pin cũ. Receipt chi tiết nối vào
+`planning/checkpoints/ai-integrations-20261031/RECEIPT.md`.
+Chưa cấu hình agents/provider hoặc chạy engine job. UI audit rộng vẫn pause;
+tiếp theo hoàn thiện các luồng UI cần dùng và cấu hình company/roles cho owner
+review trước khi nối job. Root gitlink Trader vẫn giữ baseline để tránh đưa WIP
+audit vào lát integration; host feature checkout được ghi ở receipt.
+
 ## Lát adoption được owner giao — fork, source và AI environment
 
 Issue: [Naqex/workspace#6](https://github.com/Naqex/workspace/issues/6).

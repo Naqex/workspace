@@ -84,6 +84,7 @@ const env = Object.fromEntries(Object.entries(process.env).filter(([key]) => inh
 Object.assign(env, {
   PAPERCLIP_HOME: home, PAPERCLIP_INSTANCE_ID: 'trader-ui', PAPERCLIP_CONFIG: configPath,
   HOST: services.host, PORT: String(services.paperclipPort), PAPERCLIP_UI_DEV_MIDDLEWARE: 'true',
+  VITE_NAQEX_WORKSPACE_ORIGIN: `http://${services.host}:${services.aiPreviewPort}`,
   HEARTBEAT_SCHEDULER_ENABLED: 'false', PAPERCLIP_ANNOUNCEMENTS_ENABLED: 'false',
 })
 const child = spawn(process.execPath, ['--import', './node_modules/tsx/dist/loader.mjs', 'src/index.ts'], {
