@@ -4,14 +4,21 @@ Source upstream nằm ở `projects/paperclip`, dưới dạng Git submodule, gi
 và MIT license của tác giả. Pin đầu tiên: `42fd568cf8f588334cacc6004aa23aff54daa52b`
 (version trong source: `0.3.1`). Không tự cập nhật theo nhánh master mỗi lần chạy.
 
-Trader nhúng toàn bộ UI gốc qua iframe origin `http://127.0.0.1:3100`, mục
+Trader nhúng toàn bộ UI gốc qua iframe origin `http://127.0.0.1:17860`, mục
 **AI → Paperclip**. Paperclip giữ điều hướng và dialog của nó; Trader giữ menu
-cấp sản phẩm. Menu ngoài thu gọn trên desktop, mở bằng nút menu trên mobile.
+cấp sản phẩm. Menu ngoài giữ lựa chọn của người dùng trên desktop, mở bằng nút
+menu trên mobile.
 Document của iframe được giữ khi chuyển sang công cụ khác trong cùng tab.
 
 ## Cài và chạy local
 
 Cần Node.js >=24.11 và Git. Từ workspace root:
+
+Lát tích hợp hiện tại cần source Trader có `foundation_v2/local-services.json`
+(commit `18e9348d` hoặc hậu duệ). Root gitlink Trader chưa nâng từ baseline cũ;
+clone mới cần khôi phục đúng checkout feature trước khi dùng launcher/UI này.
+Không tự reset checkout đang có WIP. Plan
+`planning/trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md` giữ handoff source.
 
 ```powershell
 git submodule update --init -- projects/paperclip
@@ -42,11 +49,20 @@ cổng do process khác giữ sẽ bị từ chối thay vì tự kill/restart.
 
 | Thành phần | Vị trí |
 |---|---|
-| Paperclip UI/API | `127.0.0.1:3100` |
-| PostgreSQL riêng | loopback, port54339 |
+| Paperclip UI/API | `127.0.0.1:17860` |
+| PostgreSQL riêng | loopback, port17861 |
+| Vite HMR | loopback, port27860 (API + 10000) |
 | Config/DB/storage/secrets | `.runtime/paperclip/instances/trader-ui/` |
 | PID/identity | `owner.json` trong thư mục instance |
 | UI Trader preview | `127.0.0.1:5218` |
+
+Cổng được đọc từ `projects/trader/foundation_v2/local-services.json`.
+[Bảng cổng và quy tắc cấp cổng](../../projects/trader/foundation_v2/docs/LOCAL-SERVICES.md)
+giữ contract hiện hành cho cả CLIProxyAPI. Launcher kiểm cả ba cổng Paperclip;
+không tự tăng cổng hoặc dùng listener lạ. Config instance cũ lệch JSON sẽ bị từ chối.
+Khi đổi cổng: backup database/config, dừng đúng owner, sửa `server.port` và
+`database.embeddedPostgresPort` trong config riêng rồi chạy lại launcher; giữ
+nguyên DB/storage/home. Build lại Trader để URL iframe khớp JSON.
 
 Launcher truyền một danh sách biến môi trường tối thiểu, không kế thừa
 `DATABASE_URL` hoặc provider keys của Trader. First run tạo database mới và áp

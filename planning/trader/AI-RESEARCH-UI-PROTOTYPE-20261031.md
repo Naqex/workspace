@@ -5,14 +5,18 @@
 Owner xác nhận nối UI gốc và lưu source trong `projects/`. Đã tích hợp submodule
 upstream `projects/paperclip` tại pin `42fd568cf8f588334cacc6004aa23aff54daa52b`,
 giữ source nguyên bản. Trader mở AI→Paperclip bằng iframe toàn vùng nội dung;
-rail bên ngoài thu gọn theo page, bên trong dùng điều hướng và dialogs gốc. Dữ liệu
+rail bên ngoài giữ lựa chọn của owner, bên trong dùng điều hướng và dialogs gốc. Dữ liệu
 Paperclip có instance riêng; chưa nối engine nghiên cứu/giao dịch.
 
 [Setup/runtime boundaries](../../tooling/paperclip/README.md).
 Evidence/source/runtime và các giới hạn được giữ trong receipt
 `projects/trader/foundation_v2/evidence/paperclip-ui-20261031/RECEIPT.md`.
-Implementation được lưu tại commit Trader `98a0871b`; gitlink Trader của root
+Implementation ban đầu ở Trader `98a0871b`, điều chỉnh port/sidebar ở `18e9348d`; gitlink Trader của root
 chưa nâng vì HEAD hiện tại còn chứa lịch sử ngoài phạm vi tích hợp này.
+Owner yêu cầu tách cổng khỏi app Windows: Paperclip hiện dùng API17860/DB17861/
+HMR27860; CLIProxyAPI managed giữ17852, không chạm instance Windows8317.
+`foundation_v2/local-services.json` trong Trader giữ cấu hình dùng chung;
+`docs/LOCAL-SERVICES.md` và receipt `PORTS-SIDEBAR.md` giữ hướng dẫn/bằng chứng.
 Preview owner tại
 `http://127.0.0.1:5218/?workspace=tenant-a&view=ai&area=ai&section=paperclip&lang=vi`.
 Các đoạn phía dưới giữ lịch sử quyết định/prototype, không thay trạng thái mới.

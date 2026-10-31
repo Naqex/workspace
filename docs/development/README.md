@@ -23,6 +23,9 @@ Không tách API, web và worker của Trader thành submodule nhỏ hơn.
 `projects/paperclip` là submodule upstream riêng cho UI điều hành AI, được Trader
 nhúng qua origin local. Setup, data boundaries và rollback:
 [Paperclip local](../../tooling/paperclip/README.md).
+Cổng integration do [cấu hình Trader](../../projects/trader/foundation_v2/local-services.json)
+và [hướng dẫn local services](../../projects/trader/foundation_v2/docs/LOCAL-SERVICES.md)
+quản lý; dùng các nguồn này khi thêm service, không lấy cổng mặc định upstream.
 
 ## Bắt đầu một task
 
