@@ -278,6 +278,41 @@ cần audit/benchmark trước adoption; hiện chưa quyết định reuse nguy
 chỉ adapt một phần. Bước tiếp: quan hệ RD-Agent/TradingAgents/Paperclip/LangGraph
 theo vai trò, không xếp hạng thành một danh sách “tốt nhất”.
 
+### Upstream cập nhật liên tục — giải đáp sau phần 11
+
+Owner lo dependency/repo ngoài thay đổi hằng ngày. Đề xuất: upstream thay đổi
+không tự đổi bản đang chạy; chọn release/commit cụ thể, khóa dependencies và
+image digest khi có, lưu config/prompt/model/data refs theo run. Git submodule
+ghi commit cụ thể; branch trong .gitmodules không tự làm runtime theo latest.
+Đây là đề xuất quản lý adoption, chưa bật bot/schedule hay nâng dependency.
+
+Reuse library chính thức qua adapter nhỏ trước; chỉ fork khi cần sửa lõi thật.
+Custom domain ở code mình; fork giữ upstream history/attribution/license và patch
+nhỏ có inventory để giảm merge conflict. Không copy nhiều core rồi mất provenance.
+Giữ input/output contract riêng của workspace để giảm phạm vi sửa khi upstream
+đổi; adapter không bảo đảm mọi semantic change đều tương thích.
+
+Upgrade flow: review release/diff/license/security/dependencies → candidate cô lập
+→ contract/correctness/cutoff/financial parity → cùng workload chất lượng/cost/
+latency → demo/shadow khi thích hợp → promote theo gate. Không đổi engine giữa
+run; jobs cũ hoàn tất hoặc chuyển theo migration/checkpoint compatibility được
+kiểm. Engine mới có thể sinh ứng viên mới nhưng ứng viên vẫn đi qua evaluator.
+Giữ artifact/binary/config và backup matching schema để rollback; đổi binary
+không hoàn tác migration hoặc broker side effects.
+
+Nhịp gợi ý: gom review thường theo tuần hoặc nhu cầu; security/bug nghiêm trọng
+triage sớm theo exposure, có thể cách ly/disable khi chưa vá an toàn. Không cần
+merge mỗi ngày và không freeze bỏ mặc vô hạn. Automation có thể mở update PR,
+không tự deploy/merge vào trading runtime. Chưa tạo automation trong trao đổi này.
+
+Pin code không pin SaaS weights/API/data ngoài: dùng model version/snapshot nếu
+provider hỗ trợ, ghi resolved identity, đánh dấu unknown và re-evaluate khi drift.
+Đây là giới hạn reproducibility cần giữ rõ trong research evidence.
+
+Primary refs: [Git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules),
+[PyPA environment pins](https://packaging.python.org/en/latest/discussions/install-requires-vs-requirements/),
+[Dependabot schedule/groups](https://docs.github.com/en/code-security/reference/supply-chain-security/dependabot-options-reference).
+
 ## 4. Reuse tài liệu hiện có
 
 | Tài liệu | Vai trò và cách dùng |
@@ -337,7 +372,10 @@ như bàn điều hành. Phần10 đối chiếu source hiện có: Trader đã 
 AI lifecycle/pilot bên cạnh UI; Quant có numeric validation; TradingAgents có
 analysis graph. Chưa có proof trọn vòng autonomy. Phần11 nghiên cứu primary docs
 RD-Agent(Q), giải thích R→D→feedback/factor-model và placement research worker;
-chưa adoption hoặc profitability claim. Bước tiếp theo: phân biệt vai trò các
+chưa adoption hoặc profitability claim. Sau phần11 giải đáp upstream updates:
+pin bản chạy, adapter/fork nhỏ, candidate review/benchmark/promotion và rollback,
+không auto-update runtime; SaaS model drift không được pin code giải quyết hoàn toàn.
+Bước tiếp theo: phân biệt vai trò các
 candidate để quyết định có cần cùng tồn tại/reuse, không liệt kê framework dài.
 Không hỏi lại các lựa chọn đã biết hoặc
 tự chuyển sang implementation.
