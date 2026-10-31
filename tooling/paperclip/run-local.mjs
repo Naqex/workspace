@@ -14,7 +14,7 @@ if (services.host !== '127.0.0.1' || ports.some(port => !Number.isInteger(port) 
 const origin = `http://${services.host}:${services.paperclipPort}`
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
-const source = path.join(root, 'projects/paperclip')
+const source = path.join(root, 'projects/integrations/paperclip')
 const home = path.join(root, '.runtime/paperclip')
 const instance = path.join(home, 'instances/trader-ui')
 const configPath = path.join(instance, 'config.json')

@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import configparser
+import json
 from pathlib import Path
 import re
 import subprocess
@@ -13,14 +14,16 @@ PRODUCTS = {
     "projects/trader": "https://github.com/Naqex/trader.git",
     "projects/vi-dubber": "https://github.com/Naqex/vi-dubber.git",
     "projects/quant-trading": "https://github.com/Naqex/quant-trading.git",
-    "projects/TradingAgents": "https://github.com/Naqex/TradingAgents.git",
-    "projects/paperclip": "https://github.com/paperclipai/paperclip.git",
     "tooling/reverse-skill": "https://github.com/zhaoxuya520/reverse-skill.git",
 }
+PRODUCTS.update({
+    entry["path"]: entry["repository"]
+    for entry in json.loads((ROOT / "tooling/integrations/catalog.json").read_text(encoding="utf-8"))["sources"]
+})
 GUIDES = (
     "README.md", "CONTRIBUTING.md", "THIRD_PARTY_NOTICES.md",
     "docs/development/README.md", "docs/licensing.md", "tooling/search/README.md",
-    "docs/archive/miro/README.md",
+    "docs/archive/miro/README.md", "tooling/integrations/README.md", "tooling/paperclip/README.md",
 )
 MARKDOWN_LINK = re.compile(r'!?\[[^\]]*\]\(\s*(?:<([^>]+)>|([^\s)]+))(?:\s+["\'][^"\']*["\'])?\s*\)')
 HTML_LINK = re.compile(r'\b(?:href|src)=["\']([^"\']+)["\']', re.IGNORECASE)

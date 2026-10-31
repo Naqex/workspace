@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": "paperclip",
+      "role": "control-plane-ui",
+      "path": "projects/integrations/paperclip",
+      "repository": "https://github.com/Naqex/paperclip.git",
+      "upstream": "https://github.com/paperclipai/paperclip.git",
+      "licenseFile": "LICENSE"
+    },
+    {
+      "id": "rd-agent",
+      "role": "research-worker",
+      "path": "projects/integrations/rd-agent",
+      "repository": "https://github.com/microsoft/RD-Agent.git",
+      "upstream": "https://github.com/microsoft/RD-Agent.git",
+      "licenseFile": "LICENSE"
+    },
+    {
+      "id": "tradingagents",
+      "role": "analysis-worker",
+      "path": "projects/integrations/TradingAgents",
+      "repository": "https://github.com/Naqex/TradingAgents.git",
+      "upstream": "https://github.com/TauricResearch/TradingAgents.git",
+      "licenseFile": "LICENSE"
+    }
+  ]
+}

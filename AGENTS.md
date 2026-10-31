@@ -1,6 +1,6 @@
 # Naqex Workspace
 
-Git superproject cho kế hoạch, hướng dẫn học và công cụ dùng chung; bốn repo sản phẩm trong `projects/` có lịch sử Git riêng. `README.md` là cửa vào, không phải bảng tiến độ thứ hai. Không tự `git init` hoặc áp workflow code cho cuộc trò chuyện chỉ cần tư vấn.
+Git superproject cho kế hoạch, hướng dẫn học và công cụ dùng chung; repo sản phẩm và integration trong `projects/` có lịch sử Git riêng. `README.md` là cửa vào, không phải bảng tiến độ thứ hai. Không tự `git init` hoặc áp workflow code cho cuộc trò chuyện chỉ cần tư vấn.
 
 Bản đồ code, commands và ownership: `docs/development/README.md`. Các sản phẩm
 thuộc org Naqex, tiếp tục là submodule; fork giữ upstream layout/attribution.
@@ -60,15 +60,19 @@ Toàn bộ các dự án/repo được gom gọn trong thư mục `projects/`. M
    - Môi trường: `uv` (`uv sync`, `uv run pytest -q`).
    - Đọc `projects/quant-trading/AGENTS.md` và `projects/quant-trading/README.md`.
 
-3. **TradingAgents** (`projects/TradingAgents/`):
+3. **TradingAgents** (`projects/integrations/TradingAgents/`):
    - Multi-Agent LLM Financial Trading Framework (LangGraph / multi-provider).
    - Môi trường: `.venv` (`demo_run.py`, `pytest`).
-   - Đọc `projects/TradingAgents/README.md`.
+   - Đọc `projects/integrations/TradingAgents/README.md`.
 
 4. **VI Dubber** (`projects/vi-dubber/`):
    - Công cụ dịch thuật, lồng tiếng và tạo phụ đề video AI tự động.
    - Môi trường: `uv` (`uv run vi-dubber doctor`, `.\start-web.ps1`).
    - Đọc `projects/vi-dubber/README.md`.
+
+Paperclip, RD-Agent và TradingAgents thuộc `projects/integrations/`; đọc
+`tooling/integrations/README.md`. Khi fork, đổi đường dẫn hoặc nâng upstream,
+dùng skill repo `upstream-integrations`; pin, cổng và runtime có owner riêng.
 
 ## Reverse Engineering & Security Tooling (`tooling/reverse-skill/`)
 

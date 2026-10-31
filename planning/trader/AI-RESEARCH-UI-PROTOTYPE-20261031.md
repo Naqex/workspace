@@ -1,5 +1,28 @@
 # AI workspace — native Paperclip UI và prototype lịch sử
 
+## Lát adoption được owner giao — fork, source và AI environment
+
+Issue: [Naqex/workspace#6](https://github.com/Naqex/workspace/issues/6).
+Owner chọn fork Paperclip gốc, RD-Agent, TradingAgents và LangGraph; giao thực
+hiện fork/tích hợp và rà skill dài hạn. Thứ tự UI trước engine vẫn áp dụng.
+
+Acceptance lát nền source/runtime:
+
+- Paperclip có fork Naqex và upstream remote riêng; giữ revision đã kiểm chứng,
+  không tự nhảy lên master mới nhất khi tạo fork.
+- Source ngoài dưới `projects/integrations/`, giữ submodule/layout/license; RD-Agent
+  được pin source. LangGraph giữ là dependency TradingAgents, Quant Lab giữ nguyên.
+- Paperclip đang nhúng vẫn hoạt động sau chuyển đường dẫn; giữ nguyên company,
+  dữ liệu, cổng và preference sidebar. Backup và rollback được ghi trước cutover.
+- Hướng dẫn gần source, một skill repo cho workflow upstream đã được thực hiện;
+  không tạo skill nghiên cứu AI từ luồng chưa chạy hoặc thay global config.
+- Kiểm topology/đường dẫn, dependency/import và native browser phù hợp với thay đổi.
+
+Lát này không chứng minh RD-Agent/TradingAgents đã chạy job model hay toàn vòng
+autonomy. Các lát nối engine sau phải có contract job thực tế, authority cho
+dispatch/retry và evidence riêng; không khai agent chạy được chỉ vì đã clone source.
+Checkpoint của lát này: `planning/checkpoints/ai-integrations-20261031/RECEIPT.md`.
+
 ## Lát được giao tiếp theo — native Paperclip
 
 Owner xác nhận nối UI gốc và lưu source trong `projects/`. Đã tích hợp submodule

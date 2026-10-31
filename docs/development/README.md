@@ -9,7 +9,7 @@ workspace/
 ├── docs/                     # hướng dẫn hiện hành, sơ đồ và assets README
 │   └── archive/              # snapshot tài liệu lịch sử
 ├── planning/                 # scope → ledger/checkpoint do PLAN chỉ định
-├── projects/                 # sản phẩm; mỗi thư mục là một Git repo
+├── projects/                 # sản phẩm và integrations/; mỗi repo có Git riêng
 ├── tooling/                  # kiểm tra và công cụ dùng chung
 ├── UI-Systems/               # UI foundations
 ├── UI/                       # quy tắc UI cho trading
@@ -20,8 +20,10 @@ Source có owner theo sản phẩm. Plan không là cấu hình runtime, README 
 ledger, search index không là nguồn sự thật. Fork giữ layout/upstream riêng.
 Không tách API, web và worker của Trader thành submodule nhỏ hơn.
 
-`projects/paperclip` là submodule upstream riêng cho UI điều hành AI, được Trader
-nhúng qua origin local. Setup, data boundaries và rollback:
+`projects/integrations/` giữ source Paperclip, RD-Agent và TradingAgents;
+[catalog, doctor và workflow cập nhật](../../tooling/integrations/README.md).
+Paperclip là fork upstream cho UI điều hành AI, được Trader nhúng qua origin local.
+Setup, data boundaries và rollback:
 [Paperclip local](../../tooling/paperclip/README.md).
 Cổng integration do [cấu hình Trader](../../projects/trader/foundation_v2/local-services.json)
 và [hướng dẫn local services](../../projects/trader/foundation_v2/docs/LOCAL-SERVICES.md)

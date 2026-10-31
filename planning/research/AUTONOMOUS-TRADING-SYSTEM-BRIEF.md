@@ -556,6 +556,10 @@ trên fixture riêng. Owner đã chọn fork Paperclip gốc, mở rộng i18n v
 ở §1; Codex chuẩn bị cấu hình kỹ thuật, owner quyết định mục tiêu/ngân sách/quyền.
 Owner đồng ý hướng gom source integration; chưa di chuyển repo hoặc bật engine/
 agents. Lát thực hiện vẫn cần xử lý paths/runtime và giữ rollback.
+Owner sau đó giao thực hiện: source fork/adoption và runtime relocation được
+ghi ở [checkpoint integration](../checkpoints/ai-integrations-20261031/RECEIPT.md).
+Đọc checkpoint trước khi tiếp implementation; không lấy câu "chưa di chuyển"
+phía trên làm trạng thái hiện hành. UI audit rộng vẫn pause.
 
 Owner muốn giải thích **từng phần nối tiếp như giảng bài**, ngắn, có ví dụ;
 không liệt kê toàn bộ framework/kiến trúc trong một lượt. Có thể hỏi một câu

@@ -11,12 +11,16 @@
 	url = https://github.com/Naqex/quant-trading.git
 	branch = master
 [submodule "projects/TradingAgents"]
-	path = projects/TradingAgents
+	path = projects/integrations/TradingAgents
 	url = https://github.com/Naqex/TradingAgents.git
 	branch = main
 [submodule "tooling/reverse-skill"]
 	path = tooling/reverse-skill
 	url = https://github.com/zhaoxuya520/reverse-skill.git
 [submodule "projects/paperclip"]
-	path = projects/paperclip
-	url = https://github.com/paperclipai/paperclip.git
+	path = projects/integrations/paperclip
+	url = https://github.com/Naqex/paperclip.git
+	branch = codex/naqex-integration
+[submodule "projects/integrations/rd-agent"]
+	path = projects/integrations/rd-agent
+	url = https://github.com/microsoft/RD-Agent.git

@@ -1,7 +1,8 @@
 # Paperclip trong Trader
 
-Source upstream nằm ở `projects/paperclip`, dưới dạng Git submodule, giữ layout
-và MIT license của tác giả. Pin đầu tiên: `42fd568cf8f588334cacc6004aa23aff54daa52b`
+Source nằm ở `projects/integrations/paperclip`, dưới dạng Git submodule từ
+[fork Naqex](https://github.com/Naqex/paperclip), giữ upstream/layout và MIT license.
+Pin đầu tiên: `42fd568cf8f588334cacc6004aa23aff54daa52b`
 (version trong source: `0.3.1`). Không tự cập nhật theo nhánh master mỗi lần chạy.
 
 Trader nhúng toàn bộ UI gốc qua iframe origin `http://127.0.0.1:17860`, mục
@@ -21,10 +22,10 @@ Không tự reset checkout đang có WIP. Plan
 `planning/trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md` giữ handoff source.
 
 ```powershell
-git submodule update --init -- projects/paperclip
+git submodule update --init -- projects/integrations/paperclip
 ```
 
-Từ `projects/paperclip`:
+Từ `projects/integrations/paperclip`:
 
 ```powershell
 npm exec --yes --package=pnpm@9.15.4 -- pnpm install --frozen-lockfile --ignore-scripts

@@ -19,7 +19,8 @@ flowchart TD
   R --> A[trader]
   R --> B[vi-dubber]
   R --> C[quant-trading]
-  R --> F[TradingAgents · upstream fork]
+  R --> I[integrations · source ngoài]
+  I --> F[Paperclip + RD-Agent + TradingAgents]
 ```
 
 ## Lấy source
@@ -30,10 +31,10 @@ cd workspace
 git submodule update --init -- projects/trader
 ```
 
-Chỉ cần sản phẩm nào thì khởi tạo sản phẩm đó. Để lấy cả bốn:
+Chỉ cần sản phẩm nào thì khởi tạo sản phẩm đó. Để lấy bộ sản phẩm và AI integrations:
 
 ```powershell
-git submodule update --init -- projects/trader projects/vi-dubber projects/quant-trading projects/TradingAgents
+git submodule update --init -- projects/trader projects/vi-dubber projects/quant-trading projects/integrations/TradingAgents projects/integrations/paperclip projects/integrations/rd-agent
 ```
 
 Submodule pin **đúng commit**, không tự lấy HEAD mới nhất. Fork tham khảo
@@ -47,6 +48,7 @@ Submodule pin **đúng commit**, không tự lấy HEAD mới nhất. Fork tham 
 | [Naqex VI Dubber](https://github.com/Naqex/vi-dubber) | Dịch, phụ đề và lồng tiếng video | [README](https://github.com/Naqex/vi-dubber#readme) · [PLAN](https://github.com/Naqex/vi-dubber/blob/main/PLAN.md) |
 | [Naqex Quant Lab](https://github.com/Naqex/quant-trading) | Nghiên cứu định lượng và kiểm chứng offline | [README](https://github.com/Naqex/quant-trading#readme) |
 | [TradingAgents](https://github.com/Naqex/TradingAgents) | Fork framework phân tích thị trường bằng agent | [README upstream/fork](https://github.com/Naqex/TradingAgents#readme) |
+| [AI integrations](tooling/integrations/README.md) | Paperclip, RD-Agent và kết nối engine | Catalog, setup, pin và runtime boundaries |
 
 Mỗi repo giữ dependency, tests, CI và version riêng. Không có launcher chung cho
 toàn bộ hệ sinh thái. Replay, research và kiểm tra UI không tự cấp quyền giao dịch.

@@ -4,6 +4,12 @@ Ngày: **31/10/2026**. Research + quyết định chọn bộ nền ban đầu; 
 Scope: tiếp nối [brief kiến trúc](AUTONOMOUS-TRADING-SYSTEM-BRIEF.md), theo yêu cầu
 khảo sát của owner. Không thay trạng thái acceptance của prototype/engine.
 
+Owner sau đó giao thực hiện: fork [Naqex/paperclip](https://github.com/Naqex/paperclip)
+đã tạo, source Paperclip/TradingAgents chuyển vào `projects/integrations/`,
+RD-Agent được thêm dưới dạng source pin. [Checkpoint adoption](../checkpoints/ai-integrations-20261031/RECEIPT.md)
+giữ bằng chứng và bước tiếp. Các câu "chưa thực hiện" trong phần quyết định bên
+dưới là trạng thái tại lúc chốt lựa chọn, không là trạng thái runtime mới nhất.
+
 ## Quyết định owner sau khảo sát
 
 - Chọn fork **Paperclip gốc**, giữ upstream; mở rộng i18n hiện có. Không lấy
