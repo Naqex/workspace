@@ -313,6 +313,44 @@ Primary refs: [Git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodul
 [PyPA environment pins](https://packaging.python.org/en/latest/discussions/install-requires-vs-requirements/),
 [Dependabot schedule/groups](https://docs.github.com/en/code-security/reference/supply-chain-security/dependabot-options-reference).
 
+### Phân biệt các công cụ theo trách nhiệm — phần 12
+
+Primary README/docs đã đối chiếu ngày31/10; đây là mapping đề xuất, chưa chọn
+stack hoặc tích hợp. Các công cụ có phần giao nhau, không là bốn tầng bắt buộc.
+
+| Công cụ | Vai trò đáng xem xét trong workspace |
+|---|---|
+| [RD-Agent](https://rdagent.readthedocs.io/en/latest/scens/quant_agent_fin.html) | Worker nghiên cứu: tạo/thử factor/model và trả ứng viên cùng artifacts |
+| [TradingAgents](https://github.com/TauricResearch/TradingAgents) | Workflow phân tích/phản biện tài chính; chỉ gọi khi phù hợp giả thuyết |
+| [LangGraph](https://docs.langchain.com/oss/python/langgraph/overview) | Runtime chạy workflow có state, persistence/resume và human checkpoints |
+| [Paperclip](https://github.com/paperclipai/paperclip) | Quản lý mục tiêu/tasks/đội agents, điều phối heartbeat, approvals và ngân sách |
+
+TradingAgents đã dùng LangGraph; không mặc định cần thêm một bản điều phối nữa.
+Local fork ghi execution_capability=false, dù upstream mô tả simulated exchange.
+Role Risk Manager của agent không thay code kiểm tra quyền/risk trước execution.
+RD-Agent có loop nội bộ riêng; outer lifecycle có thể coi nó là bounded job,
+không cần bọc lại từng bước khi chưa có nhu cầu phục hồi/quan sát cụ thể.
+
+Paperclip có orchestration thật, gồm task checkout/locks, wakeups và adapters;
+không chỉ là org-chart UI. Tuy nhiên cần so với AI control layer hiện có trước
+khi adoption. Mỗi concern phải có một authority rõ: task/run status, dispatch/
+retry, approvals và budget không được hai hệ thống tự quyết độc lập cho cùng job.
+Spend limits dựa trên usage được báo cáo, có độ trễ/in-flight work; không coi
+đó là broker-risk limit hoặc quyền dùng tiền. Chưa audit đủ license/dependencies/
+runtime để chốt adoption.
+
+Ví dụ luồng đề xuất: mục tiêu nghiên cứu → job có phạm vi/budget → worker thử
+ứng viên → evaluator độc lập trả verdict → bàn điều hành hiển thị/chuyển giai
+đoạn theo policy. TradingAgents được gọi nếu phân tích tin tức/bối cảnh hữu ích;
+không bắt mọi numeric experiment đi qua tranh luận đầy đủ.
+
+Khuyến nghị hiện tại: dùng tài sản Trader/Quant/AI lifecycle làm baseline;
+đánh giá RD-Agent cho research worker, TradingAgents theo nhu cầu phân tích;
+Paperclip là candidate quản lý công việc cấp ngoài, cần chứng minh giá trị reuse
+so với overlap trước thêm. Chưa chốt mọi candidate phải cùng tồn tại. Bước tiếp:
+một vòng nghiên cứu cụ thể đi từ đầu vào đến quyết định, rồi xác định contract
+bàn giao tối thiểu; không mở thêm danh sách framework.
+
 ## 4. Reuse tài liệu hiện có
 
 | Tài liệu | Vai trò và cách dùng |
@@ -375,8 +413,11 @@ RD-Agent(Q), giải thích R→D→feedback/factor-model và placement research 
 chưa adoption hoặc profitability claim. Sau phần11 giải đáp upstream updates:
 pin bản chạy, adapter/fork nhỏ, candidate review/benchmark/promotion và rollback,
 không auto-update runtime; SaaS model drift không được pin code giải quyết hoàn toàn.
-Bước tiếp theo: phân biệt vai trò các
-candidate để quyết định có cần cùng tồn tại/reuse, không liệt kê framework dài.
+Phần12 phân biệt RD-Agent (research worker), TradingAgents (phân tích/phản biện),
+LangGraph (workflow runtime) và Paperclip (quản lý/điều phối công việc agents).
+Đây là mapping đề xuất, chưa adoption; giữ một authority cho mỗi concern và tránh
+trùng dispatch/retry/approvals với AI lifecycle hiện có. Bước tiếp theo: minh họa
+một vòng nghiên cứu cụ thể và input/output bàn giao giữa các trách nhiệm.
 Không hỏi lại các lựa chọn đã biết hoặc
 tự chuyển sang implementation.
 
