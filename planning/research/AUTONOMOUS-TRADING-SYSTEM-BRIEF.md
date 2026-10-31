@@ -84,6 +84,37 @@ Giả thuyết → kiểm chứng → phiên bản được phép chạy → v�
 - AI, ML và bot có thể cùng tham gia. Số agents hoặc độ phức tạp không chứng minh
   lợi thế giao dịch; cần so baseline, chi phí và kết quả ngoài mẫu/forward.
 
+### Workflow kiểm chứng và lỗi phổ biến — yêu cầu bổ sung của owner
+
+Owner yêu cầu hệ thống có phương án cho overfitting, underfitting và các lỗi
+phổ biến; hiện ưu tiên chốt workflow hợp lý, chưa tối ưu chi tiết hoặc triển khai.
+Kiểm chứng độ đúng cần nằm trong workflow từ đầu và lặp theo từng phiên bản;
+tối ưu hiệu quả/hiệu năng chuyên sâu có thể làm sau. Chưa có bước kiểm nào được
+coi là đã triển khai/đạt chỉ từ việc ghi brief.
+
+Luồng đề xuất: **kiểm tra data → tạo/huấn luyện ứng viên → kiểm chứng độc lập
+→ mô phỏng theo thời gian thực/demo → xét quyền tiền thật → giám sát**.
+Kết quả không đạt quay về sửa giả thuyết/data/code hoặc loại ứng viên, không
+bắt buộc tối ưu tới khi có báo cáo lợi nhuận đẹp. Việc giám sát áp dụng cả demo.
+
+| Nhóm lỗi | Yêu cầu cần cụ thể hóa sau khi chốt workflow |
+|---|---|
+| Overfitting | So kết quả train/validation theo thời gian, độ nhạy tham số và ngoài mẫu; ghi mọi lần thử, giới hạn vòng tối ưu và giữ test cuối ngoài quyền chỉnh chiến lược |
+| Underfitting | Chẩn đoán mô hình không học đủ quan hệ bằng kết quả train/validation và baseline; kiểm tra feature/data/mức ràng buộc. Hiệu quả giao dịch kém không tự chứng minh underfitting hoặc buộc tăng độ phức tạp; có thể chưa tìm thấy edge |
+| Data leakage/look-ahead | Tách dữ liệu theo thời gian, thời điểm công bố và thời điểm thực thi; preprocessing chỉ fit trong phần được phép. Validation đã dùng để chọn mô hình không thay thế test cuối độc lập |
+| Mẫu sai/lợi nhuận giả | Kiểm data thiếu/sai, số mẫu hữu hiệu, thiên lệch chọn tài sản, phí/spread/slippage và khác biệt mô phỏng/demo/live |
+| Lỗi vận hành/hiệu quả thay đổi | Theo dõi freshness, lỗi/trùng lệnh, đối soát vị thế và hiệu quả theo thời gian; có xử lý dừng/quay về review theo policy được cấp |
+
+Giữ version, data cutoff, config và kết quả thất bại để điều tra/tái lập.
+Không mở hoặc dùng lại holdout để sửa chiến lược khi chưa có policy tương ứng.
+Ngưỡng, phương pháp thống kê và bộ kiểm chi tiết còn mở; không có phép kiểm
+đơn lẻ nào bảo đảm loại hết sai lệch hoặc bảo đảm lợi nhuận tương lai.
+
+Tham chiếu đối chiếu ngày31/10:
+[scikit-learn: validation/learning curves](https://scikit-learn.org/stable/modules/learning_curve.html),
+[Freqtrade: lookahead analysis](https://www.freqtrade.io/en/stable/lookahead-analysis/).
+Đây là nguồn kỹ thuật cho thiết kế kiểm chứng, không phải quyết định thêm dependency.
+
 ## 4. Reuse tài liệu hiện có
 
 | Tài liệu | Vai trò và cách dùng |
@@ -127,9 +158,11 @@ kiến trúc, không tự cập nhật tiến độ khóa học trong education/
 Đã trao đổi phần 1: B dài hạn, chuyển được về A. Phần 2 đã chốt AI được tìm ý
 tưởng rộng từ đầu, triển khai nghiên cứu theo phạm vi nhỏ; có data và baseline
 trước khi đánh giá cải thiện. Owner xác nhận giai đoạn đầu chỉ mô phỏng/demo,
-có chiến lược tốt mới xét tiền thật. Tiếp phần 3: giải thích ngắn cách nhận biết
-chiến lược "tốt" bằng kiểm chứng, sau đó hỏi từng tiêu chí khi cần. Không hỏi lại
-mục tiêu, thị trường, nhịp giao dịch hoặc lựa chọn đã trả lời như thể chưa biết.
+có chiến lược tốt mới xét tiền thật. Phần 3 đã giới thiệu quá khứ → dữ liệu chưa
+dùng để chỉnh → mô phỏng/demo. Owner bổ sung yêu cầu xử lý overfit/underfit/lỗi
+phổ biến và muốn chốt workflow trước khi đi sâu tối ưu. Tiếp tục bằng workflow
+ngắn đã bổ sung kiểm data, kiểm chứng độc lập và giám sát; chưa chốt ngưỡng hoặc
+tự chuyển sang chọn framework/implementation. Không hỏi lại các lựa chọn đã biết.
 
 Các điểm còn mở, hỏi lần lượt khi tới phần liên quan: tiêu chí đạt của chiến lược,
 phạm vi quyền tự quyết, ngân sách/vốn/rủi ro, thời gian owner có thể giám sát,
