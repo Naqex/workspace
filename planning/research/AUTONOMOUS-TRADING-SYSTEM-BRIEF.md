@@ -483,6 +483,30 @@ engine adoption và contracts implementation. Bước tiếp khi owner giao: vi�
 execution PLAN có scope/acceptance/versioned contracts sau khi resolve các lựa
 chọn ảnh hưởng scope; chưa chạy worker, provider, broker, migration hoặc deploy.
 
+### Cách triển khai để owner review được sớm — AI-first
+
+Owner nhấn mạnh vibe-coding/AI-first và hỏi lại việc để agent làm toàn bộ lõi
+rồi cuối cùng mới thấy UI. Điều chỉnh proposal: thêm UI/workflow review sớm,
+triển khai từng lát xuyên suốt UI→API→engine→stored evidence; roadmap nghiệp vụ
+ở trên không có nghĩa hoàn tất toàn backend trước khi làm giao diện.
+
+Đề xuất vòng làm việc: (1) prototype tương tác của một hành trình nghiên cứu
+giao việc→tiến độ→bằng chứng→quyết định, reuse Trader/design system; (2) owner
+góp ý workflow/ngôn ngữ/thông tin cần thấy, agent đồng thời kiểm khả thi engine
+bằng spike offline nhỏ; (3) nối một hành trình với data/engine thật, gồm lỗi,
+chưa đủ bằng chứng, hủy/dừng và phục hồi phù hợp; (4) review hành vi rồi mở rộng.
+Prototype dùng fixture phải ghi rõ dữ liệu minh họa; chưa nối tính năng thì
+không trình bày như job đã chạy hoặc bằng chứng profitability. Không tự mở
+provider/broker/money quyền chỉ vì thao tác prototype đã có nút tương ứng.
+
+Owner review các quyết định workflow/UI quan trọng trên sản phẩm; agent tự xử
+lý implementation thường lệ trong scope. Các tính toán, causal timing, risk và
+data contracts vẫn kiểm độc lập; review UI không thay acceptance kỹ thuật.
+Chỉ cần skeleton kiến trúc/contract đủ cho lát đầu, điều chỉnh theo feedback;
+không dựng mọi màn hình hoặc chốt toàn engine trước vòng sử dụng đầu tiên.
+Đây là điều chỉnh phương pháp đề xuất, chưa giao xây prototype và không resume
+UI audit đang pause. Bước tiếp khi được giao implementation là lát có UI sớm.
+
 ## 4. Reuse tài liệu hiện có
 
 | Tài liệu | Vai trò và cách dùng |
@@ -560,6 +584,8 @@ Khuyến nghị pilot crypto spot D1 từ Quant hiện có là đề xuất mớ
 không dùng phần này để ghi acceptance, cấp execution hoặc tự tiếp UI audit.
 Phần giải thích khung đã tổng hợp; tiếp theo review/chỉnh proposal hoặc chuyển
 sang PLAN khi owner giao, không tự kéo dài danh sách bài/framework.
+Owner tiếp tục nhấn mạnh AI-first/vibe-coding: đã bổ sung cách làm prototype UI
+sớm và các lát UI→API→engine→evidence; chờ giao scope thực hiện, không tự build.
 Không hỏi lại các lựa chọn đã biết hoặc
 tự chuyển sang implementation.
 
