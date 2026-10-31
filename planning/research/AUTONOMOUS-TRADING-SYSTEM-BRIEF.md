@@ -49,6 +49,28 @@ Lựa chọn B trong brief không tự cấp quyền broker/live, vốn, tài kh
 - Tranh chấp chuyển chế độ/dispatch và xử lý yêu cầu đang thực thi cần được
   đặc tả trước implementation. Không suy rằng thay một công tắc UI là đủ.
 
+### Khởi đầu nghiên cứu và điều kiện dùng tiền — owner đã đồng ý
+
+Phân biệt **phạm vi nghiên cứu** với **quyền phát hành chiến lược dùng tiền thật**;
+không dùng cùng nhãn A/B cho hai chiều này trong các phần giải thích tiếp theo.
+
+- AI được tìm cả ý tưởng mới ngoài các trường phái owner đã biết ngay từ đầu;
+  owner vẫn có thể giao đề tài cụ thể. Mỗi đợt nghiên cứu giới hạn phạm vi và
+  ngân sách, rồi mở rộng theo bằng chứng; chưa chốt con số hoặc thị trường.
+- Khởi đầu: có dữ liệu đáng tin → mốc so sánh đơn giản → AI tìm cách cải thiện.
+  Mốc so sánh là công cụ đánh giá, không mặc định là chiến lược để dùng tiền thật.
+- Giai đoạn đầu chỉ **mô phỏng và tài khoản demo của broker**. Mô phỏng tính kết
+  quả trong môi trường kiểm soát; demo giúp quan sát luồng dữ liệu/lệnh qua broker.
+  Kết quả mô phỏng, demo và tiền thật phải ghi riêng, không coi chất lượng khớp
+  lệnh demo là bằng chứng tương đương live.
+- Owner chỉ muốn dùng tiền thật khi đã có chiến lược tốt. Tiêu chí cụ thể cho
+  chữ "tốt" còn cần thống nhất; kết quả backtest đẹp riêng lẻ chưa đủ để kết luận.
+- Bước tiền thật ban đầu chờ owner duyệt sau khi có bằng chứng. Đích dài hạn vẫn
+  là tự quyết trong phạm vi được cấp và chuyển được về chờ duyệt khi cần.
+- Đây là quyết định về lộ trình/thiết kế. Chưa chạy mô phỏng/demo, kết nối tài
+  khoản, đặt lệnh hoặc cấp quyền live trong cuộc trao đổi này; các thao tác đó
+  cần scope và quyền thực thi tương ứng khi triển khai.
+
 ## 3. Khung kiến trúc để nghiên cứu tiếp
 
 Giả thuyết → kiểm chứng → phiên bản được phép chạy → vận hành → giám sát → cải tiến.
@@ -102,10 +124,12 @@ không liệt kê toàn bộ framework/kiến trúc trong một lượt. Có th�
 khảo sát khi câu trả lời ảnh hưởng thiết kế. Đây là preference cho cuộc trao đổi
 kiến trúc, không tự cập nhật tiến độ khóa học trong education/.
 
-Đã trao đổi phần 1: ai quyết định phát hành chiến lược mới; đã nhận câu trả lời
-B dài hạn, chuyển được về A. Tiếp theo giải thích ngắn việc chuyển A/B, rồi đi
-sang cách một ý tưởng được kiểm chứng trước khi dùng tiền. Không hỏi lại mục tiêu,
-thị trường, nhịp giao dịch hoặc lựa chọn A/B như thể chưa có câu trả lời.
+Đã trao đổi phần 1: B dài hạn, chuyển được về A. Phần 2 đã chốt AI được tìm ý
+tưởng rộng từ đầu, triển khai nghiên cứu theo phạm vi nhỏ; có data và baseline
+trước khi đánh giá cải thiện. Owner xác nhận giai đoạn đầu chỉ mô phỏng/demo,
+có chiến lược tốt mới xét tiền thật. Tiếp phần 3: giải thích ngắn cách nhận biết
+chiến lược "tốt" bằng kiểm chứng, sau đó hỏi từng tiêu chí khi cần. Không hỏi lại
+mục tiêu, thị trường, nhịp giao dịch hoặc lựa chọn đã trả lời như thể chưa biết.
 
 Các điểm còn mở, hỏi lần lượt khi tới phần liên quan: tiêu chí đạt của chiến lược,
 phạm vi quyền tự quyết, ngân sách/vốn/rủi ro, thời gian owner có thể giám sát,

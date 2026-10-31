@@ -8,6 +8,8 @@ Owner giao nghiên cứu kiến trúc/workflow dài hạn, chưa giao tích hợ
 chuyển được sang A (chờ duyệt chiến lược mới). Brief giữ lựa chọn/câu hỏi và map
 research cũ; không thay Product Plan/ledger hoặc mở quyền live. Trader khoảng 80%
 là đánh giá cảm quan của owner, không phải acceptance đã kiểm chứng.
+Đã chốt nghiên cứu mở trong phạm vi nhỏ; khởi đầu chỉ mô phỏng/demo, xét tiền
+thật sau khi chiến lược có bằng chứng đạt tiêu chí và quyền tương ứng.
 
 ## Naqex migration — 29/10/2026
 
