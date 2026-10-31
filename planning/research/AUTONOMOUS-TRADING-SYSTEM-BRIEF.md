@@ -543,6 +543,12 @@ không đọc danh sách này như quyền cài/chạy toàn bộ.
 
 ## 6. Điểm tiếp tục cuộc trao đổi
 
+Khảo sát tiếp theo: [bản dịch Paperclip, cấu hình và vị trí engine (31/10)](PAPERCLIP-LOCALIZATION-INTEGRATION-SURVEY-20261031.md).
+Chưa có bản VI hoàn chỉnh được chấp nhận; plugin DOM có giới hạn đã tái hiện
+trên fixture riêng. Đề xuất mở rộng i18n sẵn có, Codex chuẩn bị cấu hình theo
+scope owner duyệt, nhúng UI Paperclip và nối engine qua adapter. Gom source vào
+`projects/integrations/` mới là đề xuất; chưa di chuyển hoặc bật engine/agents.
+
 Owner muốn giải thích **từng phần nối tiếp như giảng bài**, ngắn, có ví dụ;
 không liệt kê toàn bộ framework/kiến trúc trong một lượt. Có thể hỏi một câu
 khảo sát khi câu trả lời ảnh hưởng thiết kế. Đây là preference cho cuộc trao đổi
