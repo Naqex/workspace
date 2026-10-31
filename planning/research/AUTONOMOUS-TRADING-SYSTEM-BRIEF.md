@@ -550,6 +550,13 @@ không đọc danh sách này như quyền cài/chạy toàn bộ.
 
 ## 6. Điểm tiếp tục cuộc trao đổi
 
+Khảo sát đội agents theo yêu cầu owner: [đội Paperclip cho nghiên cứu giao dịch
+(31/10)](PAPERCLIP-QUANT-TEAM-RESEARCH-20261031.md). Đề xuất khởi đầu 3 vai trò:
+điều phối, nghiên cứu và kiểm chứng độc lập; RD-Agent/TradingAgents là engine
+theo nhiệm vụ bên trong. Đã đối chiếu docs/source và mẫu cộng đồng; chưa chốt
+model, áp cấu hình hoặc bật agent/job. Đây là proposal để review, chưa thay đổi
+quyền demo/live hoặc thứ tự UI trước, backend/services sau.
+
 Khảo sát tiếp theo: [bản dịch Paperclip, cấu hình và vị trí engine (31/10)](PAPERCLIP-LOCALIZATION-INTEGRATION-SURVEY-20261031.md).
 Chưa có bản VI hoàn chỉnh được chấp nhận; plugin DOM có giới hạn đã tái hiện
 trên fixture riêng. Owner đã chọn fork Paperclip gốc, mở rộng i18n và bộ engine
