@@ -169,6 +169,45 @@ có phiên bản xác định. Đạt backtest không đồng nghĩa đã đạt
 phát hành tiếp tục theo quyền A/B riêng. Khi kết quả không chắc chắn, giữ trạng
 thái chưa đủ bằng chứng thay vì mặc định đạt hoặc ép tối ưu thêm.
 
+### Bộ vận hành — đề xuất phần 7
+
+Sau khi owner tạm dừng UI audit ngày31/10, tiếp phần7: bộ vận hành nhận phiên
+bản chiến lược/model/config được phép chạy, dữ liệu mới và phạm vi account/risk.
+Luồng đề xuất: data mới → tín hiệu/đề xuất → kiểm tra quyền/rủi ro bằng code
+→ thực thi mô phỏng hoặc demo → xác nhận/đối soát → giám sát.
+
+AI/model có thể tạo tín hiệu động hoặc hỗ trợ phân tích; không bắt buộc gọi LLM
+cho mỗi tick/nến. Quy tắc quyền, giới hạn, số tiền và vòng đời lệnh do code sở hữu.
+Đang chạy bản1 thì bản2 được nghiên cứu riêng; chỉ thay qua policy/kiểm chứng,
+không tự sửa logic đang chạy rồi tiếp tục dùng danh nghĩa proof bản1. Khi kết quả
+gửi lệnh chưa rõ, đối soát trước, không tự gửi lại. Chưa chốt engine/threshold,
+chưa cấp quyền kết nối hay giao dịch. Đây là thiết kế đang giải thích.
+
+Reference: [Nautilus architecture](https://nautilustrader.io/docs/latest/concepts/architecture/)
+tách DataEngine/RiskEngine/ExecutionEngine và cập nhật trạng thái theo events;
+tham khảo ranh giới trách nhiệm, chưa quyết định adoption.
+
+### Giám sát và phục hồi — đề xuất phần 8
+
+Bộ giám sát theo dõi ba nhóm riêng: sức khỏe data/kết nối/worker; trạng thái
+lệnh/vị thế/quyền/hạn mức; hiệu quả chiến lược so với tiêu chí đã định. Một chuỗi
+thua ngắn không tự chứng minh chiến lược hỏng; ngưỡng/số mẫu và quyền phục hồi
+còn cần chốt. AI có thể điều tra/giải thích, nhưng kiểm freshness, trạng thái lệnh
+và hạn mức phải có cơ chế code độc lập với lời tự báo của strategy/agent.
+
+Phản ứng theo sự cố: cảnh báo; ngừng mở lệnh mới; hoặc xử lý rủi ro khẩn cấp theo
+policy riêng. Ngừng mở lệnh không đồng nghĩa bỏ quản lý vị thế hoặc đóng hết.
+Mất kết nối không được giả định lệnh đã hủy/SL đã có; giữ unknown và đối soát.
+Sau restart: phục hồi phiên bản/config/intent → đọc broker orders/positions/fills
+→ reconcile → kiểm data/quyền/hạn mức → mới xét mở lệnh. Không chạy lại tín hiệu
+cũ hoặc resend submission chưa rõ kết quả. Hiệu quả suy giảm được đưa về research
+như evidence; không tự đổi chiến lược đang chạy hoặc mở holdout để chữa kết quả.
+
+Đề xuất dài hạn: tự phục hồi sự cố tạm thời khi các phép kiểm xác nhận đủ; trạng
+thái tài khoản/lệnh chưa rõ hoặc vi phạm chính sách thì giữ dừng và báo owner.
+Đây là đề xuất kiến trúc, chưa cấp quyền tự resume/close hay giao dịch.
+Reference: [Nautilus live lifecycle/reconciliation](https://nautilustrader.io/docs/latest/concepts/live/).
+
 ## 4. Reuse tài liệu hiện có
 
 | Tài liệu | Vai trò và cách dùng |
@@ -219,8 +258,12 @@ trách nhiệm của hệ thống; phần 5 giải thích nhóm nghiên cứu b�
 → triển khai → thử nghiệm/phản biện, với RD-Agent(Q) làm reference. Chưa chốt
 topology, số agent hoặc framework. Phần 6 đề xuất input/output của bộ kiểm chứng,
 phân biệt đạt/không đạt/chưa đủ bằng chứng/lỗi run và quyền phát hành riêng.
-Bước tiếp theo: bộ vận hành nhận đúng phiên bản được phép và chạy demo ra sao,
-rồi đối chiếu engine phù hợp từng phần. Không hỏi lại các lựa chọn đã biết hoặc
+Phần7 giải thích bộ vận hành nhận phiên bản được phép và chạy demo,
+tách tín hiệu AI khỏi kiểm tra quyền/risk và xác nhận lệnh. Phần8 đề xuất giám
+sát sức khỏe/vị thế/hiệu quả, dừng mở mới khác đóng vị thế, đối soát trước resume
+và phản hồi về nghiên cứu. Chưa chốt ngưỡng hoặc cấp quyền thực thi.
+Bước tiếp theo: ghép các phần thành một vòng đời dễ hiểu rồi đối chiếu engine
+phù hợp từng phần, tránh danh sách framework dài. Không hỏi lại các lựa chọn đã biết hoặc
 tự chuyển sang implementation.
 
 Các điểm còn mở, hỏi lần lượt khi tới phần liên quan: tiêu chí đạt của chiến lược,
