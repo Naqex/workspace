@@ -115,6 +115,37 @@ Tham chiếu đối chiếu ngày31/10:
 [Freqtrade: lookahead analysis](https://www.freqtrade.io/en/stable/lookahead-analysis/).
 Đây là nguồn kỹ thuật cho thiết kế kiểm chứng, không phải quyết định thêm dependency.
 
+### Nhóm AI nghiên cứu — đề xuất vai trò và đầu ra
+
+Phần 4 của trao đổi đã giới thiệu ba trách nhiệm: nhóm AI nghiên cứu, bộ kiểm
+chứng và bộ vận hành; Trader là ứng viên giao diện điều hành. Tách trách nhiệm
+không có nghĩa phải tạo ba service hoặc thêm ba framework.
+
+Phần 5 đi riêng vào nhóm nghiên cứu. Thiết kế đề xuất:
+
+| Vai trò | Việc làm | Đầu ra |
+|---|---|---|
+| Người đề xuất | Đọc dữ liệu/tài liệu được phép, đặt giả thuyết có thể kiểm tra | Giả thuyết, lý do, data cần dùng và kế hoạch thử |
+| Người triển khai | Chuyển giả thuyết thành code/feature/model trong môi trường cô lập | Ứng viên có phiên bản, cấu hình và đầu vào xác định |
+| Người phản biện | Đọc bằng chứng gốc, tìm lỗi và đề xuất giữ/sửa/loại | Nhận xét có nguồn và đề xuất bước tiếp theo |
+
+Bộ kiểm chứng riêng thực hiện phép tính/test và xuất kết quả theo tiêu chí;
+nhận xét của AI phản biện không thay metric hoặc tự chứng nhận gate đã đạt.
+Một vai trò không mặc định cần một model/agent thường trực; chọn topology sau
+khi đánh giá dependency, chất lượng và chi phí. Điều phối có ngân sách/điểm dừng,
+bao gồm kết luận chưa có edge; không tối ưu vô hạn hoặc mở test cuối cho mọi vòng.
+
+Hồ sơ thí nghiệm giữ giả thuyết, phiên bản code/model/config, data cutoff,
+metrics/artefacts gốc và kết quả thất bại để nối các vòng nghiên cứu qua restart.
+Đầu ra bàn giao là ứng viên và hồ sơ kiểm chứng; quyền chạy demo/live nằm ở
+policy/service tương ứng, không nằm trong lời kết luận của agent.
+
+Reference đối chiếu ngày31/10: [RD-Agent(Q) paper](https://arxiv.org/abs/2505.15155)
+mô tả vòng Research → Development → feedback từ thí nghiệm; [upstream](https://github.com/microsoft/RD-Agent)
+là ứng viên khảo sát phần research engine. Ba vai trò ở trên là đề xuất cho
+workspace, không phải tuyên bố mapping nguyên xi các agent của upstream.
+Chưa chọn/cài/tích hợp RD-Agent; chưa tái lập benchmark hoặc xác minh profitability.
+
 ## 4. Reuse tài liệu hiện có
 
 | Tài liệu | Vai trò và cách dùng |
@@ -160,9 +191,12 @@ tưởng rộng từ đầu, triển khai nghiên cứu theo phạm vi nhỏ; c�
 trước khi đánh giá cải thiện. Owner xác nhận giai đoạn đầu chỉ mô phỏng/demo,
 có chiến lược tốt mới xét tiền thật. Phần 3 đã giới thiệu quá khứ → dữ liệu chưa
 dùng để chỉnh → mô phỏng/demo. Owner bổ sung yêu cầu xử lý overfit/underfit/lỗi
-phổ biến và muốn chốt workflow trước khi đi sâu tối ưu. Tiếp tục bằng workflow
-ngắn đã bổ sung kiểm data, kiểm chứng độc lập và giám sát; chưa chốt ngưỡng hoặc
-tự chuyển sang chọn framework/implementation. Không hỏi lại các lựa chọn đã biết.
+phổ biến và muốn chốt workflow trước khi đi sâu tối ưu. Phần 4 giới thiệu ba
+trách nhiệm của hệ thống; phần 5 giải thích nhóm nghiên cứu bằng vòng đề xuất
+→ triển khai → thử nghiệm/phản biện, với RD-Agent(Q) làm reference. Chưa chốt
+topology, số agent hoặc framework. Bước tiếp theo: bộ kiểm chứng nhận/giao gì
+và ai có quyền kết luận ứng viên đạt, rồi mới đối chiếu engine phù hợp từng phần.
+Không hỏi lại các lựa chọn đã biết hoặc tự chuyển sang implementation.
 
 Các điểm còn mở, hỏi lần lượt khi tới phần liên quan: tiêu chí đạt của chiến lược,
 phạm vi quyền tự quyết, ngân sách/vốn/rủi ro, thời gian owner có thể giám sát,
