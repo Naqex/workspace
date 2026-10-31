@@ -6,6 +6,7 @@ Workspace giữ lịch sử và notices của các thành phần được kế t
 |---|---|
 | `projects/*` | Repository độc lập; LICENSE/notices của từng sản phẩm áp dụng |
 | `projects/TradingAgents` | Fork của TauricResearch/TradingAgents; giữ attribution và license upstream |
+| `projects/paperclip` | Paperclip AI, MIT; submodule upstream được pin, giữ source/notices gốc; dùng UI/API local riêng |
 | `tooling/reverse-skill` | Upstream zhaoxuya520/reverse-skill; root MIT, có thành phần con GPLv3 và notices tác giả riêng; submodule tham khảo riêng |
 | Xerj | Apache-2.0; binary tải riêng, checksum cố định, không kèm source workspace |
 | TradingView Advanced Charts | Không nằm trong workspace; quyền truy cập/phân phối riêng theo tài liệu Trader |

@@ -17,3 +17,6 @@
 [submodule "tooling/reverse-skill"]
 	path = tooling/reverse-skill
 	url = https://github.com/zhaoxuya520/reverse-skill.git
+[submodule "projects/paperclip"]
+	path = projects/paperclip
+	url = https://github.com/paperclipai/paperclip.git

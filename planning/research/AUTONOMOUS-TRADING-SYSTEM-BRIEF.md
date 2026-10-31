@@ -599,7 +599,12 @@ Owner review tiếp theo sửa hướng UI: thiết kế từ khung/điều hư�
 trong, ưu tiên nhúng UI gốc Paperclip như CLIProxyAPI. Prototype riêng phía trên
 chỉ còn là khám phá workflow, chưa là giao diện đích được chấp nhận. Phần điều
 chỉnh trong [plan UI](../trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md) giữ scope và
-các điểm cần xác minh trước khi nhúng; chưa cài/chạy Paperclip hoặc nối engine.
+các điểm cần xác minh trước khi nhúng. Sau đó owner đã giao nối UI thật và lưu
+source trong `projects/`: triển khai native UI ở `projects/paperclip` (submodule
+upstream pin `42fd568`), UI/API local3100 và database riêng, nhúng vào Trader
+preview5218 tại `section=paperclip`. Receipt `paperclip-ui-20261031` trong Trader
+giữ bằng chứng/giới hạn; chưa nối engine hoặc chạy agent/model. Đây không là
+acceptance cho autonomy hoặc rollout Trader API. UI audit rộng vẫn pause.
 Không hỏi lại các lựa chọn đã biết hoặc
 tự chuyển sang implementation.
 

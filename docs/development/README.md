@@ -20,6 +20,10 @@ Source có owner theo sản phẩm. Plan không là cấu hình runtime, README 
 ledger, search index không là nguồn sự thật. Fork giữ layout/upstream riêng.
 Không tách API, web và worker của Trader thành submodule nhỏ hơn.
 
+`projects/paperclip` là submodule upstream riêng cho UI điều hành AI, được Trader
+nhúng qua origin local. Setup, data boundaries và rollback:
+[Paperclip local](../../tooling/paperclip/README.md).
+
 ## Bắt đầu một task
 
 1. Đọc `AGENTS.md` gần file cần sửa và README của đúng sản phẩm.

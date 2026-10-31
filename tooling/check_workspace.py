@@ -14,6 +14,7 @@ PRODUCTS = {
     "projects/vi-dubber": "https://github.com/Naqex/vi-dubber.git",
     "projects/quant-trading": "https://github.com/Naqex/quant-trading.git",
     "projects/TradingAgents": "https://github.com/Naqex/TradingAgents.git",
+    "projects/paperclip": "https://github.com/paperclipai/paperclip.git",
     "tooling/reverse-skill": "https://github.com/zhaoxuya520/reverse-skill.git",
 }
 GUIDES = (

@@ -1,4 +1,21 @@
-# AI Research — UI prototype
+# AI workspace — native Paperclip UI và prototype lịch sử
+
+## Lát được giao tiếp theo — native Paperclip
+
+Owner xác nhận nối UI gốc và lưu source trong `projects/`. Đã tích hợp submodule
+upstream `projects/paperclip` tại pin `42fd568cf8f588334cacc6004aa23aff54daa52b`,
+giữ source nguyên bản. Trader mở AI→Paperclip bằng iframe toàn vùng nội dung;
+rail bên ngoài thu gọn theo page, bên trong dùng điều hướng và dialogs gốc. Dữ liệu
+Paperclip có instance riêng; chưa nối engine nghiên cứu/giao dịch.
+
+[Setup/runtime boundaries](../../tooling/paperclip/README.md).
+Evidence/source/runtime và các giới hạn được giữ trong receipt
+`projects/trader/foundation_v2/evidence/paperclip-ui-20261031/RECEIPT.md`.
+Implementation được lưu tại commit Trader `98a0871b`; gitlink Trader của root
+chưa nâng vì HEAD hiện tại còn chứa lịch sử ngoài phạm vi tích hợp này.
+Preview owner tại
+`http://127.0.0.1:5218/?workspace=tenant-a&view=ai&area=ai&section=paperclip&lang=vi`.
+Các đoạn phía dưới giữ lịch sử quyết định/prototype, không thay trạng thái mới.
 
 ## Điều chỉnh hướng sau owner review, 31/10
 
