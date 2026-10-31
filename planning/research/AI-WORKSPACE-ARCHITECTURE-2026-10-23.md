@@ -1,5 +1,9 @@
 # Nền AI chung cho TradingWorkspace
 
+**Định hướng mới 31/10/2026:** [brief hệ thống giao dịch tự chủ](AUTONOMOUS-TRADING-SYSTEM-BRIEF.md)
+giữ mục tiêu dài hạn, lựa chọn A/B và điểm tiếp tục trao đổi. Bản khảo sát dưới đây
+giữ vai trò baseline hạ tầng AI ngày23/10, chưa chốt trading engine cho giai đoạn mới.
+
 Ngày khảo sát: 23/10/2026. Phạm vi: WMREPLAY, TradingAgents và Quant Lab;
 tooling agent phục vụ phát triển được xét để tránh trùng chức năng.
 **Revision 2 — đã review thiết kế trước triển khai.** Findings, source locations,

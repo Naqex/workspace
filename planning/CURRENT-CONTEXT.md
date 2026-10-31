@@ -1,5 +1,14 @@
 # Current context — Naqex Workspace
 
+## Nghiên cứu giai đoạn AI tự chủ — 31/10/2026
+
+Owner giao nghiên cứu kiến trúc/workflow dài hạn, chưa giao tích hợp engine.
+Đọc [brief hiện hành](research/AUTONOMOUS-TRADING-SYSTEM-BRIEF.md) để tiếp tục:
+đích là tự động hóa nghiên cứu lẫn vận hành, ưu tiên B (tự quyết có giới hạn),
+chuyển được sang A (chờ duyệt chiến lược mới). Brief giữ lựa chọn/câu hỏi và map
+research cũ; không thay Product Plan/ledger hoặc mở quyền live. Trader khoảng 80%
+là đánh giá cảm quan của owner, không phải acceptance đã kiểm chứng.
+
 ## Naqex migration — 29/10/2026
 
 Owner approved the Naqex ecosystem migration: `Naqex/workspace` plus independent
