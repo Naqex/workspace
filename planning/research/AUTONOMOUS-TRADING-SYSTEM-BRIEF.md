@@ -21,8 +21,15 @@ execution plan, acceptance ledger hoặc hợp đồng cấp quyền giao dịch
 - Thị trường đầu tiên **chưa chốt**: so sánh Forex/vàng qua MT5 và crypto.
 - Nhịp giao dịch **chưa chốt**: owner muốn đề xuất theo tính khả thi. D1/H4 mới
   là khuyến nghị của assistant, chưa là lựa chọn được owner chốt.
-- Paperclip, TradingAgents và repo ngoài là đối tượng research/reference/reuse;
-  owner chưa yêu cầu cài đặt, tích hợp hoặc chọn một engine cụ thể.
+- Owner đã chốt bộ nền ban đầu: **Paperclip** quản lý công việc/agents,
+  **RD-Agent** nghiên cứu, **TradingAgents** phân tích/phản biện và **LangGraph**
+  làm runtime workflow bên trong engine. Chọn fork Paperclip gốc để mở rộng i18n;
+  fork tiếng Trung chỉ là reference. Đây là quyết định chọn công nghệ để triển
+  khai/thử dùng, chưa là bằng chứng engine phù hợp nhất hoặc acceptance tích hợp.
+  Cho phép thay từng engine sau trải nghiệm thực tế; giữ contract và dữ liệu
+  do workspace quản lý để giảm chi phí thay thế. UI trước, backend/services sau
+  vẫn là thứ tự thực hiện. Chi tiết ở
+  [khảo sát và quyết định adoption](PAPERCLIP-LOCALIZATION-INTEGRATION-SURVEY-20261031.md).
 
 ## 2. Lựa chọn A/B — ý muốn dài hạn đã chốt
 
@@ -545,9 +552,10 @@ không đọc danh sách này như quyền cài/chạy toàn bộ.
 
 Khảo sát tiếp theo: [bản dịch Paperclip, cấu hình và vị trí engine (31/10)](PAPERCLIP-LOCALIZATION-INTEGRATION-SURVEY-20261031.md).
 Chưa có bản VI hoàn chỉnh được chấp nhận; plugin DOM có giới hạn đã tái hiện
-trên fixture riêng. Đề xuất mở rộng i18n sẵn có, Codex chuẩn bị cấu hình theo
-scope owner duyệt, nhúng UI Paperclip và nối engine qua adapter. Gom source vào
-`projects/integrations/` mới là đề xuất; chưa di chuyển hoặc bật engine/agents.
+trên fixture riêng. Owner đã chọn fork Paperclip gốc, mở rộng i18n và bộ engine
+ở §1; Codex chuẩn bị cấu hình kỹ thuật, owner quyết định mục tiêu/ngân sách/quyền.
+Owner đồng ý hướng gom source integration; chưa di chuyển repo hoặc bật engine/
+agents. Lát thực hiện vẫn cần xử lý paths/runtime và giữ rollback.
 
 Owner muốn giải thích **từng phần nối tiếp như giảng bài**, ngắn, có ví dụ;
 không liệt kê toàn bộ framework/kiến trúc trong một lượt. Có thể hỏi một câu
