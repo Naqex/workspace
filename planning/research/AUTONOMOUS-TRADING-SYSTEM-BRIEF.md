@@ -225,6 +225,31 @@ và quyền; hồ sơ bền vững giữ phiên bản, data/config/cutoff, thử
 định. UI/chat không là nguồn trạng thái duy nhất. Chưa chọn engine hoặc giao
 implementation; bước tiếp map tài sản hiện có với phần còn thiếu trước chọn reuse.
 
+### Workspace đã có gì — đối chiếu phần 10
+
+Đọc lại canonical README/source ngày31/10; không chạy engine, provider hoặc
+broker. Bảng này xác nhận tài sản source/tài liệu, không chứng nhận integrated
+autonomy hoặc runtime hiện hành. Receipts audit Trader là bằng chứng có ngày/
+source/scope riêng; không mặc định áp cho HEAD mới.
+
+| Trách nhiệm | Tài sản đã thấy | Phần còn cần nối/kiểm chứng cho mục tiêu autonomy |
+|---|---|---|
+| Bàn điều hành/data/trading | Trader: chart/replay, journal/analytics, MT5, native research/OOS | Góc nhìn toàn vòng đời ứng viên, quyết định chuyển giai đoạn và vận hành tự chủ trọn chuỗi |
+| Tính toán/kiểm chứng | Quant Lab: costs/causal/OOS primitives; Trader research_jobs/oos.rs | Bộ tiêu chí/evaluator contract dùng cho từng loại ứng viên, ownership data/test cuối, cross-project parity |
+| AI phân tích/phản biện | TradingAgents graph/report/provenance, execution_capability=false | Không tự đồng nhất phân tích tài sản với engine tự tạo/huấn luyện chiến lược mới |
+| AI chạy công việc | Trader ai_runs.rs durable lifecycle; ai_workflows.rs fixed LangGraph pilot | Nối research tools/experiment artifacts/evaluator/promotion theo quyền; fixed pilot không là factory hoàn chỉnh |
+| Giám sát/vận hành lâu dài | Demo lifecycle receipts Trader; Quant paper_soak.py offline contract | Chưa có proof được dẫn tới cho trọn hệ thống tự nghiên cứu→đánh giá→demo→phục hồi liên tục |
+
+Read-set: ba repo README, TradingAgents trading_graph.py,
+Quant src/quant_trading/paper_soak.py, Trader api-rust/src/{ai_runs.rs,
+ai_workflows.rs,research_jobs/oos.rs}, owner-system-audit requirements-matrix.
+Paper-soak contract tự ghi PREP_ONLY_OFFLINE; không coi đó là soak đã quan sát.
+
+Khuyến nghị thiết kế: giữ ownership ba repo theo nghiệp vụ, nối bằng input/output
+có phiên bản (ứng viên → evidence → quyết định → run). Reuse theo vai trò, không
+gộp toàn source/database hoặc ép TradingAgents gánh mọi khâu. Phần cần khảo sát
+engine tiếp là research loop tự tạo/thử ứng viên; scope hiện tại vẫn discussion.
+
 ## 4. Reuse tài liệu hiện có
 
 | Tài liệu | Vai trò và cách dùng |
@@ -280,8 +305,11 @@ tách tín hiệu AI khỏi kiểm tra quyền/risk và xác nhận lệnh. Ph�
 sát sức khỏe/vị thế/hiệu quả, dừng mở mới khác đóng vị thế, đối soát trước resume
 và phản hồi về nghiên cứu. Chưa chốt ngưỡng hoặc cấp quyền thực thi.
 Phần9 tổng hợp vòng đời, phân biệt hai nhịp nghiên cứu/vận hành và vị trí Trader
-như bàn điều hành. Bước tiếp theo: map phần đã có/còn thiếu trong workspace rồi
-đối chiếu engine cho từng vai trò, tránh danh sách framework dài. Không hỏi lại các lựa chọn đã biết hoặc
+như bàn điều hành. Phần10 đối chiếu source hiện có: Trader đã có research/OOS và
+AI lifecycle/pilot bên cạnh UI; Quant có numeric validation; TradingAgents có
+analysis graph. Chưa có proof trọn vòng autonomy. Bước tiếp theo: khảo sát engine
+cho research loop tự tạo/thử ứng viên và boundary reuse, tránh danh sách framework
+dài. Không hỏi lại các lựa chọn đã biết hoặc
 tự chuyển sang implementation.
 
 Các điểm còn mở, hỏi lần lượt khi tới phần liên quan: tiêu chí đạt của chiến lược,
