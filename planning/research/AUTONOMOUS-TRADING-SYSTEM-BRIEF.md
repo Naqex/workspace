@@ -2,8 +2,9 @@
 
 Cập nhật: **31/10/2026 (Asia/Saigon)**.
 **WORK: DRAFT · REVIEW: DOCUMENTATION-ONLY · DOC: FULL.**
-Owner đã giao nghiên cứu kiến trúc/workflow và lưu context. Chưa giao triển khai
-hệ thống mới. Brief này giữ mục tiêu, lựa chọn và câu hỏi đang bàn; không là
+Owner đã giao nghiên cứu kiến trúc/workflow và lưu context; sau đó giao prototype
+UI trong Trader để xem trước. Backend/services tiếp sau feedback UI. Brief giữ
+mục tiêu, lựa chọn và câu hỏi đang bàn; không là
 execution plan, acceptance ledger hoặc hợp đồng cấp quyền giao dịch.
 
 ## 1. Mục tiêu và bối cảnh do owner xác nhận
@@ -586,6 +587,14 @@ Phần giải thích khung đã tổng hợp; tiếp theo review/chỉnh proposa
 sang PLAN khi owner giao, không tự kéo dài danh sách bài/framework.
 Owner tiếp tục nhấn mạnh AI-first/vibe-coding: đã bổ sung cách làm prototype UI
 sớm và các lát UI→API→engine→evidence; chờ giao scope thực hiện, không tự build.
+Sau đó owner giao làm UI trước, cho phép thử CLIProxyAPI/Gemini nhưng yêu cầu
+xem workflow trước khi làm backend/services. Lát hiện hành ở
+[AI Research UI prototype](../trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md): mục AI→
+Nghiên cứu, dữ liệu minh họa/local browser state, không inference hay engine thật.
+Receipt được plan dẫn giữ bằng chứng scoped; UI audit cũ vẫn pause. Bước tiếp là
+owner xem prototype và góp ý, không tự chuyển sang backend/services.
+Prototype source checkpoint `5aafd680` trong repo Trader; preview riêng tại
+`http://127.0.0.1:5218/?workspace=tenant-a&view=ai&area=ai&section=research&lang=vi`.
 Không hỏi lại các lựa chọn đã biết hoặc
 tự chuyển sang implementation.
 
