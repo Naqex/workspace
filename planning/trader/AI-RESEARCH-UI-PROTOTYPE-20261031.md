@@ -1,5 +1,39 @@
 # AI Research — UI prototype
 
+## Điều chỉnh hướng sau owner review, 31/10
+
+Owner yêu cầu thiết kế UI từ tổng thể vào chi tiết: khung workspace → điều
+hướng → UI upstream → các hành trình trading riêng. Ưu tiên nhúng UI gốc
+Paperclip như cách Trader nhúng CLIProxyAPI; không tiếp tục dựng các màn quản
+lý công việc/agents riêng để thay thế Paperclip.
+
+Prototype `5aafd680` bên dưới giữ làm bản khám phá workflow, chưa được owner
+chấp nhận làm giao diện đích. Build/browser receipt của prototype không chứng
+minh Paperclip đã tích hợp. UI audit rộng vẫn pause.
+
+Lát tiếp theo đề xuất: Trader giữ điều hướng cấp sản phẩm; khu AI dành vùng
+nội dung cho Paperclip với điều hướng nội bộ của chính nó. Khi ở khu này, thu
+gọn điều hướng Trader để tránh hai sidebar đầy đủ cạnh nhau. Chốt khung và
+chuyển qua lại trước khi làm màn nghiên cứu riêng hoặc nối engine.
+
+Nguồn kiểm tra: [repo upstream](https://github.com/paperclipai/paperclip),
+[server](https://github.com/paperclipai/paperclip/blob/master/server/src/app.ts),
+[API client](https://github.com/paperclipai/paperclip/blob/master/ui/src/api/client.ts)
+và [MIT license](https://github.com/paperclipai/paperclip/blob/master/LICENSE).
+UI gọi `/api` trên origin của Paperclip, nên hướng thử đầu là iframe nguyên
+ứng dụng tại origin local riêng; không copy riêng bundle vào origin Trader.
+Đây là đánh giá từ source, chưa xác nhận iframe/auth bằng runtime. Cần pin
+revision và kiểm framing headers, login/cookies, điều hướng, sự kiện và layout
+trên đúng bản chạy trước khi kết luận tương thích.
+
+UI gốc cần API/storage của Paperclip để hoạt động; chạy instance local phục vụ
+review UI là một lát riêng với dữ liệu riêng và không tự giao việc cho agent.
+Chưa cài/chạy instance hoặc nối trading engine từ lần điều chỉnh này. Không
+đặt tối ưu hiệu năng giả định thành điều kiện chặn; mount khi mở lần đầu và
+giữ state nếu phù hợp, đo bottleneck thật sau. Ẩn UI không có nghĩa dừng agents.
+
+## Scope prototype lịch sử
+
 Owner giao ngày31/10: làm UI trong Trader trước để review workflow; backend và
 services chỉ tiếp sau feedback. Owner cho phép thử CLIProxyAPI/Gemini, nhưng lát
 UI này không cần gọi model. Brief kiến trúc: [autonomy](../research/AUTONOMOUS-TRADING-SYSTEM-BRIEF.md).

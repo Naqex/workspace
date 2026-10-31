@@ -595,6 +595,11 @@ Receipt được plan dẫn giữ bằng chứng scoped; UI audit cũ vẫn paus
 owner xem prototype và góp ý, không tự chuyển sang backend/services.
 Prototype source checkpoint `5aafd680` trong repo Trader; preview riêng tại
 `http://127.0.0.1:5218/?workspace=tenant-a&view=ai&area=ai&section=research&lang=vi`.
+Owner review tiếp theo sửa hướng UI: thiết kế từ khung/điều hướng tổng thể vào
+trong, ưu tiên nhúng UI gốc Paperclip như CLIProxyAPI. Prototype riêng phía trên
+chỉ còn là khám phá workflow, chưa là giao diện đích được chấp nhận. Phần điều
+chỉnh trong [plan UI](../trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md) giữ scope và
+các điểm cần xác minh trước khi nhúng; chưa cài/chạy Paperclip hoặc nối engine.
 Không hỏi lại các lựa chọn đã biết hoặc
 tự chuyển sang implementation.
 
