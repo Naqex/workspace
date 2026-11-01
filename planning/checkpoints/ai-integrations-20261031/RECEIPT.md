@@ -507,3 +507,35 @@ Backup sau cleanup SHA256: 5d0c04d04db1f481222f937050484750743382d6ac46d2c2b096e
 8317 vẫn PID15756. Bộ thử chỉ scope cleanup/locale/render; chưa qualification
 Copilot/Antigravity hoặc MCP. Owner tiếp tục tạo organization theo UI; không
 tự khôi phục dữ liệu mẫu từ backup.
+
+### Pilot đội nghiên cứu Sky AI (01/11)
+
+Owner tự tạo company Naqex AI (6b90f0c1) và kết nối Sky AI qua gateway project
+17852 (af6b795e, model claude-opus-5.5, khóa trong vault Paperclip). Codex tạo
+qua API: agent Trưởng nhóm nghiên cứu (6da897b6, codex_local, timer tắt,
+wakeOnDemand=true, maxConcurrentRuns=1, maxDailyRuns=10, không tạo agent/skill),
+project pilot fa771cdb và task NAQ-3. NAQ-1/NAQ-2 hủy kèm comment giải thích.
+Bài tập offline phí/look-ahead, không broker, demo hay tiền thật.
+
+Kết quả: run c671f8fc succeeded sau 34 giây, exit 0; agent tự ghi ket-qua.md,
+tự comment và đặt NAQ-3 done. Số liệu đúng (lãi gộp 2, phí 0,202, ròng 1,798
+trên vốn 100; khớp t+1). Bản trước từng ghi nhầm 2,000% thành 2%; vẫn cần review
+người với output số. Run record: .runtime/research/paperclip-team-setup/skyai-run-naq3.json.
+
+Lỗi gốc đã sửa:
+
+- Codex sandbox chặn mọi lệnh shell vì managed config.toml làm mất
+  [windows] sandbox: Paperclip e2a9b5e ghim unelevated sandbox, có test.
+- Shell không mở được socket (Winsock) vì allowlist env mất SystemRoot/WINDIR/
+  ComSpec; ae5decb áp lại 42b6107, kèm junction cho skill link (EPERM).
+- Gateway 413: max-request-body-bytes 65536 -> 8388608 trong managed.yaml;
+  backup gateway-managed-before-skyai-20261101-132152.yaml (SHA256 79B59971...FADC).
+  Owner quyết định giữ 8 MB hay phục hồi.
+- Thiếu agent JWT nên run không có PAPERCLIP_API_KEY: thêm
+  .runtime/paperclip/instances/trader-ui/.env (gitignored) với
+  PAPERCLIP_AGENT_JWT_SECRET; banner khởi động báo Agent JWT set.
+
+Backup DB trước thay đổi: backups/paperclip-20261101-125953.sql.gz. Focused
+tests Paperclip 27/27; tsc toàn repo còn lỗi implicit-any có sẵn. Wakeup thủ
+công bị skipped với issue đã có run kết thúc và comment không đánh thức agent;
+dùng issue mới giao cho agent hoặc wakeup assignment kèm payload.issueId.

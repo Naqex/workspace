@@ -168,6 +168,7 @@ và [bản pin](../../projects/integrations/paperclip/doc/public-mcp.md) giữ c
 
 ### Gateway project sau pilot
 
+Pilot Sky AI 01/11 chạy lại gateway 17852 và nâng max-request-body-bytes lên 8388608 vì prompt agent vượt 64 KB (chi tiết, backup trong RECEIPT ai-integrations-20261031). Trước pilot:
 Sau cleanup, gateway standalone17852 được dừng và giới hạn request phục hồi đúng
 backup65536 bytes. Owner có thể yêu cầu khởi động lại bằng config/auth hiện có;
 `.runtime/paperclip/gateway-owner.json` giữ PID/identity/log và trạng thái phiên.
