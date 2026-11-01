@@ -168,10 +168,12 @@ và [bản pin](../../projects/integrations/paperclip/doc/public-mcp.md) giữ c
 
 ### Gateway project sau pilot
 
-Gateway standalone17852 đã dừng, giới hạn request phục hồi đúng backup65536
-bytes. Giữ auth/account project, binary và registry port; không sửa gateway
-Windows8317. Owner receipt ở .runtime/paperclip/gateway-owner.json hiện ghi
-stopped; phải kiểm process/port lại khi dùng, không tự start để setup native.
+Sau cleanup, gateway standalone17852 được dừng và giới hạn request phục hồi đúng
+backup65536 bytes. Owner có thể yêu cầu khởi động lại bằng config/auth hiện có;
+`.runtime/paperclip/gateway-owner.json` giữ PID/identity/log và trạng thái phiên.
+Kiểm process/port lại khi dùng, không tự start để setup native và không giao
+gateway cho API Trader khi standalone owner vẫn chạy. Giữ auth/account project,
+binary và registry port; không sửa gateway Windows8317.
 Không xóa các tích hợp source RD-Agent/TradingAgents hoặc Trader WIP.
 
 Kiểm tra lỗi điều hướng nhúng sau khi Paperclip và Trader preview đã chạy:
@@ -198,8 +200,11 @@ npm run build -- --outDir ../.runtime/ai-workspace-preview
 node serveAiPreview.mjs 5218
 ```
 
-Server preview chỉ phục vụ UI Trader và bridge health. API Trader khác không
-được nối; writes bị từ chối. Iframe vẫn gọi API Paperclip thật trên origin riêng.
+Server preview phục vụ UI Trader và bridge health cố định cho Paperclip và
+CLIProxyAPI. Panel CLIProxyAPI nhận diện phản hồi preview rồi kiểm trang quản trị
+ở cổng registry17852; không cần bật API Trader hoặc đưa khóa vào bridge. Rời panel
+trong preview không gọi refresh API Trader. API Trader khác không được nối;
+writes bị từ chối. Các iframe gọi UI/API integration thật trên origin riêng.
 Không coi preview này là bản Trader/API đầy đủ trên5180.
 
 Rollback UI: chạy lại static preview cũ đã giữ trong
