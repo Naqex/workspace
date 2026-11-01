@@ -8,8 +8,8 @@ Không ghi SHA phiên bản chạy vào nhiều config độc lập.
 | Thành phần | Cách dùng hiện tại |
 |---|---|
 | Paperclip | Fork [Naqex/paperclip](https://github.com/Naqex/paperclip); UI thật nhúng trong Trader; [launcher và data boundaries](../paperclip/README.md) |
-| RD-Agent | Source upstream pin `484776c2` (1.0.0); chưa cài dependency/chạy job. Source README hướng Linux; chọn runtime Linux/Docker/WSL sau khi kiểm nhu cầu, không bật dịch vụ máy từ clone |
-| TradingAgents | Fork Naqex hiện có; đã chuyển source và cài lại editable package local; LangGraph là dependency trong môi trường của repo này |
+| RD-Agent | Source upstream pin `484776c2` (1.0.0); worker Paperclip đã chuẩn bị nhưng paused. Chưa cài Linux/Docker hoặc chạy thí nghiệm |
+| TradingAgents | Đã nối native process adapter của Paperclip; NAQ-4 chạy Gemini và có báo cáo VI. LangGraph là dependency engine; chưa kiểm chứng chiến lược |
 | Quant Lab | Giữ `projects/quant-trading`; kiểm chứng/offline receipts. Engine bên ngoài được reuse khi cần; không thay engine chỉ để đồng bộ tên thư mục |
 
 ```powershell
@@ -56,6 +56,8 @@ SQL backup + stopped-cluster/config/owner snapshot tại
 thực sự hỏng, sau khi đã sao lưu dữ liệu mới và owner duyệt việc mất thay đổi mới.
 
 Plan/acceptance: [AI workspace](../../planning/trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md),
-[issue #6](https://github.com/Naqex/workspace/issues/6). Các worker chưa có contract
-chạy chung với Paperclip; phần dispatch/retry/approval cần một owner rõ ràng.
-Không tự tạo agents chạy command tùy ý từ catalog source.
+[issue #6](https://github.com/Naqex/workspace/issues/6). [Engine jobs](../ai-engines/README.md)
+giữ contract bounded input và hướng dẫn giao việc qua UI gốc. Paperclip sở hữu
+dispatch, concurrency và cancellation; wrapper không tự retry outcome chưa rõ.
+Không tạo agents chạy command tùy ý từ catalog source. Kết quả thực tế và gate
+RD-Agent nằm trong [receipt](../../planning/checkpoints/ai-integrations-20261031/RECEIPT.md).

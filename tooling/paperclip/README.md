@@ -79,12 +79,15 @@ migrations upstream trong database đó; không sửa DB Trader. Config được
 lần, không ghi đè khi chạy lại. Telemetry và kiểm tra cập nhật tắt trong config;
 heartbeat scheduler và announcements tắt trong môi trường process.
 
-Tổ chức và đội pilot do Codex tạo đã được dọn qua API gốc ngày01/11 theo yêu
-cầu owner; instance hiện không còn company. Backup và kết quả thử được giữ trong
+Tổ chức và đội pilot ban đầu đã được dọn qua API gốc ngày01/11 theo yêu
+cầu owner. Sau đó owner tự tạo Naqex AI; theo yêu cầu nối engine mới, đã thêm hai
+worker qua API gốc, giữ nguyên agent Trưởng nhóm nghiên cứu của owner.
+Backup và kết quả thử được giữ trong
 [receipt tích hợp](../../planning/checkpoints/ai-integrations-20261031/RECEIPT.md).
 Owner tự tạo organization, agent, connection và công việc trong UI upstream.
-Tắt scheduler không khóa API chạy agent thủ công. Chưa nối trading engines,
-broker, dữ liệu Trader hoặc ánh xạ company Paperclip với workspace Trader.
+Tắt scheduler không khóa API chạy agent thủ công. TradingAgents đã có lượt
+Gemini → báo cáo NAQ-4 qua [native process adapter](../ai-engines/README.md);
+RD-Agent vẫn paused. Chưa nối broker, dữ liệu Trader hoặc ánh xạ company Paperclip với workspace Trader.
 Ẩn iframe không dừng công việc mà owner có thể cấu hình về sau.
 
 VI/EN của Trader được đồng bộ tới Paperclip qua message chỉ dành cho preference;
@@ -106,7 +109,10 @@ Theme vẫn do Paperclip quản lý; host chỉ gợi ý color scheme.
 
 Bản fork chỉ giữ Việt hóa và các thay đổi cần cho nhúng/điều hướng. Đã bỏ
 ResearchTeamPreview, catalog mẫu và bản vá Windows Codex của lần pilot. Không
-provision lại đội hoặc thêm UI quản trị cạnh tranh với Paperclip.
+provision lại đội từ catalog mẫu hoặc thêm UI quản trị cạnh tranh với Paperclip.
+Hai worker engine mới thuộc scope owner giao sau cleanup; xem hướng dẫn engine
+jobs ở trên. Setup helper tạo worker paused; chỉ bật worker phân tích khi gateway
+và model đã sẵn sàng. Giữ worker RD-Agent paused trước khi runtime đạt.
 
 Thứ tự thao tác:
 
@@ -167,6 +173,15 @@ cho Codex; không gọi việc đọc tài liệu là kết nối thành công.
 và [bản pin](../../projects/integrations/paperclip/doc/public-mcp.md) giữ contract.
 
 ### Gateway project sau pilot
+
+Hiện hành02/11: standalone gateway project đã mở lại bằng config/account sẵn có,
+phục vụ worker TradingAgents qua cổng trong registry. Owner/PID và log hiện hành
+ở `.runtime/paperclip/gateway-owner.json`; không đổi gateway Windows8317.
+Config thực tế giữ giới hạn8MB từ pilot sau, không phải64KB của snapshot cleanup.
+API Trader cũ từng trả `ai_gateway_config_conflict` khi start; chưa sửa mismatch
+đó. Giữ standalone owner và không start gateway thứ hai từ API.
+
+Lịch sử trước lát engine:
 
 Pilot Sky AI 01/11 chạy lại gateway 17852 và nâng max-request-body-bytes lên 8388608 vì prompt agent vượt 64 KB (chi tiết, backup trong RECEIPT ai-integrations-20261031). Trước pilot:
 Sau cleanup, gateway standalone17852 được dừng và giới hạn request phục hồi đúng

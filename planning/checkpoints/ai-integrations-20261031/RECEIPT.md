@@ -539,3 +539,95 @@ Backup DB trước thay đổi: backups/paperclip-20261101-125953.sql.gz. Focuse
 tests Paperclip 27/27; tsc toàn repo còn lỗi implicit-any có sẵn. Wakeup thủ
 công bị skipped với issue đã có run kết thúc và comment không đánh thức agent;
 dùng issue mới giao cho agent hoặc wakeup assignment kèm payload.issueId.
+
+## Native engine jobs — 01–02/11/2026
+
+### Scope và kiến trúc
+
+Owner giao nối TradingAgents trước, RD-Agent sau, và chọn các model Gemini cho
+lượt thực tế. Không gọi lại route Opus5.5 hết hạn. Native Paperclip `process`
+adapter gọi `tooling/ai-engines/engine_worker.py`; không sửa source engine hoặc
+thêm UI/DB điều phối cạnh tranh. Task nhận đúng một khối JSON `naqex-engine`,
+không nhận shell command, endpoint, key hay đường dẫn từ task. Wrapper xác nhận
+run/company/assignee, checkout qua API, rồi dùng `TradingAgentsGraph.propagate`
+và exporter báo cáo upstream.
+
+Paperclip sở hữu assignment, queue, concurrency, timeout/cancellation và history.
+Wrapper không retry provider hoặc outcome chưa rõ. Timer tắt; một run đồng thời
+cho mỗi worker, timeout900giây. Không có daily run/spending cap được enforcement
+trong wrapper; đã bỏ key `maxDailyRuns` không có consumer thực ở native heartbeat
+khỏi hai worker mới. Không thay agent Trưởng nhóm nghiên cứu của owner.
+
+### Kết quả thực tế
+
+| Phần | Bằng chứng |
+|---|---|
+| Worker phân tích | `762a1f5c-4d9f-4959-8ff9-5e9c61233d5c`, Chuyên viên phân tích, native process, idle sau run |
+| Yêu cầu | NAQ-4, BTC-USD, crypto, ngày yêu cầu2026-11-01, analyst market |
+| Model route | quick/deep đều `gemini-3.8-flash-high`, route có trong catalog gateway project17852 |
+| Run | `47bf4a86-48d9-4f15-87fe-460022c2dbe5`, native status succeeded;22:47:06→22:51:49 ngày01/11 giờ Việt Nam |
+| Kết quả | Task done, native Markdown document `engine-47bf4a86-48d9-4f15-87fe-460022c2dbe5`; nội dung VI, heading exporter còn EN |
+| Source engine | TradingAgents `ecaafe585a98478ef7dbcf5678f4a64b5e7d1066`; Paperclip `e2a9b5e5aaf221c30b89fed55a1513e664a96ac5` |
+| Artifacts local | `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/6b90f0c1-8f91-4fe8-bc15-fc8c58b3ac8f/47bf4a86-48d9-4f15-87fe-460022c2dbe5/` giữ request hash, receipt/provenance, report/cache/results |
+
+Ngày02/11 Paperclip đã tắt, nên API read ban đầu bị connection refused. Kiểm PID
+owner cũ đã hết/cổng trống rồi mở lại cùng launcher/instance/data. Startup báo
+migrations already applied, Agent JWT set, heartbeat disabled. API xác nhận lại
+run succeeded/task done/document hiện hữu. Browser UI gốc mở NAQ-4 và thẻ
+Kết quả phân tích: báo cáo VI đã render, tên model có trong header exporter.
+Không giao thêm model job khi resume; không xóa hoặc thay báo cáo pilot.
+
+Snapshot đọc API đã lọc và startup logs:
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-integration-20261102/`.
+Dispatch lần đầu và logs trước đó ở folder cùng prefix ngày20261101.
+
+### Gateway và dữ liệu
+
+Start gateway qua retained API8010 từng403 khi thiếu Origin, rồi503
+`ai_gateway_config_conflict` qua host preview. Mismatch API/config chưa sửa.
+Đã dùng standalone project owner sẵn có, cùng executable/config/auth, cổng17852;
+không đổi gateway Windows8317. Ngày02/11 kiểm owner/PID/cổng rồi mở lại standalone,
+authenticated GET catalog có model Gemini đã chọn. Không gọi inference mới.
+Owner `.runtime/paperclip/gateway-owner.json` được cập nhật PID/log/status sau
+readiness; snapshot owner trước start nằm trong backup ngày02/11.
+Config thực tế giữ request body8MB, không áp lại64KB từ cleanup lịch sử.
+
+Khóa chỉ đọc từ gateway config tại job time; không đưa vào settings, task,
+adapter config hoặc Git. Cấu hình riêng `.runtime/ai-engines/settings.json`
+chỉ giữ paths/model IDs. Worker loại provider/tracing/upstream env kế thừa,
+kiểm exact loopback origin/registry port và import path/source tracked state.
+
+### Kiểm chứng bản wrapper chốt
+
+- 16 focused unittest đạt: input sai, env credential isolation, origin/run/
+assignee boundary, checkout409 không retry, preflight không inference, native
+report/provenance, lỗi delivery, duplicate dispatch, gateway sai cổng/model vắng.
+- Sửa duplicate dispatch để không đổi task/receipt của run đang có. Resolve
+gateway một lần trước engine, lưu `report.md` trước publication; delivery lỗi
+vẫn giữ engine_status completed và delivery_status failed. Receipt thêm hash
+wrapper/report. Không gọi báo cáo đã phân tích là đã gửi khi publication lỗi.
+- Pilot model chạy bằng bản wrapper trước những hardening trên; các sửa sau
+được kiểm offline, chưa chạy model E2E lần nữa. Không suy chúng đã qua live run.
+- `node tooling/integrations/doctor.mjs --runtime`: cả ba source đúng pin/origin,
+license hiện hữu, tracked source sạch; Paperclip healthy. Đây không là kiểm
+dependency/RD-Agent/model hoặc whole-product acceptance.
+
+### RD-Agent và giới hạn bàn giao
+
+Chuyên viên nghiên cứu `a3c59356-275a-4960-88e0-98cb7d8ea60f` vẫn paused. Source
+pin `484776c2` có hướng dẫn Linux; máy chưa có WSL distribution/Docker được
+qualification. Chưa cài dependency hoặc chạy thí nghiệm. Đã hỏi owner quyền
+cài Linux/WSL2/Docker, chưa có câu trả lời; không tự đổi hệ thống hay reboot.
+Sau gate đó mới chọn bounded finance experiment/data contract và kiểm runtime.
+
+Model route ID không xác minh nhà cung cấp thực bên dưới gateway. Báo cáo dùng
+nhiều câu chắc chắn và con số chưa được đối chiếu độc lập; date request không
+bảo đảm daily candle đã đóng hoặc point-in-time data. Rating Sell là output
+engine, không là lệnh giao dịch hay strategy approval. Chưa backtest/OOS/chi phí/
+stress/soak, chưa có vòng nghiên cứu tự chủ end-to-end. Không broker execution,
+không bật lịch, không thay đổi holdout hoặc DB Trader. API8010/UI5218 không
+được khởi động lại trong lát resume02/11; dùng native Paperclip17860 để xem kết quả.
+
+Resume: đọc [engine jobs](../../../tooling/ai-engines/README.md), xác nhận model/
+gateway readiness rồi tạo task mới nếu thực sự cần phân tích khác. Không giao
+lại NAQ-4 để thử resume inference đã hoàn tất; không bật RD worker trước runtime.

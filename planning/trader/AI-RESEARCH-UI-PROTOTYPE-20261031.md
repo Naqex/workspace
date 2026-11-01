@@ -2,6 +2,27 @@
 
 ## Hướng hiện hành — owner tự setup,01/11
 
+### Bổ sung sau owner giao nối engine,01/11
+
+Owner đã giao triển khai TradingAgents trước rồi RD-Agent, và chọn **các model
+Gemini** cho lượt chạy thực tế; key Opus5.5 trước đó đã hết hạn. Scope mới cho
+phép tạo worker engine qua API gốc của Paperclip, không thay agent do owner tạo.
+Native process adapter giữ dispatch/cancellation; wrapper giới hạn input, dùng
+API upstream engine và trả báo cáo về tài liệu công việc trong UI Paperclip.
+
+Acceptance lát tiếp: một yêu cầu phân tích được giao đúng worker → model Gemini
+qua gateway project → báo cáo VI và provenance trong công việc; chặn input sai,
+không chạy lại outcome chưa rõ và không có broker execution. Source/fixture,
+Paperclip dispatch và model success phải có bằng chứng riêng trong receipt owner
+hiện có. Không đồng nhất báo cáo phân tích với backtest/chiến lược đạt.
+
+RD-Agent cần runtime Linux/Docker; source adoption chưa cấp quyền cài môi trường
+hệ thống. Chuẩn bị worker/contract và nêu gate cụ thể trước khi cài; chưa có
+runtime thì giữ worker paused, không chạy code sinh trên host Windows.
+Hướng dẫn adapter: [engine jobs](../../tooling/ai-engines/README.md).
+
+Các đoạn cleanup/tự setup sau đây giữ lịch sử trước phần bổ sung này.
+
 Owner yêu cầu lưu kết quả test, dọn đội/config/custom UI mẫu và giữ Việt hóa.
 Đã dùng API upstream dọn company pilot Naqex AI cùng dữ liệu thử; instance không
 còn company. Đã bỏ ResearchTeamPreview và bản vá adapter Windows phục vụ pilot;
