@@ -418,3 +418,92 @@ Không dùng credentials/global config Codex hoặc gateway Windows8317.
   [hướng dẫn](../../../tooling/paperclip/README.md), không khởi động owner thứ hai.
   Source rollback về548adbc giữ DB hiện có; backup mới trước mọi restore mất dữ
   liệu. Không rollback source bằng cách xoá đội, connection hoặc lịch sử lỗi.
+
+## 2026-11-01 — Dọn pilot, owner tự thiết lập native
+
+### Quyết định và scope
+
+Owner yêu cầu lưu kết quả test, dọn đội/config/custom UI mẫu, giữ tiếng Việt và
+tự thiết lập qua UI upstream. Không tự tạo đội, company hoặc connection thay thế.
+Giữ static embedding, origin/language bridge và fix navigation; không đổi cổng
+hoặc chạm gateway Windows8317, Trader WIP hay source engine khác.
+
+### Kết quả đã lưu và cleanup qua API gốc
+
+- Kết quả pilot vẫn là: Responses inference và native Test Environment hello
+  đạt; full task/tool workflow chưa đạt do policy. Các lỗi413/EPERM/shell và
+  process succeeded nhưng tool blocked vẫn giữ trong receipt lịch sử và local
+  evidence. Không đổi kết luận thành full pass sau cleanup.
+- Backup trước cleanup: paperclip-20261101-093820.sql.gz,356309 bytes; SHA256
+  1af082b517e9e0ed89bdab6f02026820d61553f2ae11349c2093abcc68c3ad0e.
+  Backup sau cleanup trước cutover: paperclip-20261101-094522.sql.gz,88293 bytes.
+  Cùng thư mục instance backups đã ghi phía trên. Data export/comments/IDs và
+  kết quả API ở .runtime/research/paperclip-team-setup/cleanup-20261101/.
+- Xác minh ba agents đều có metadata quant-research-pilot-v1 và đúng IDs mẫu;
+  không có agent MIIKEY đã lưu. Company Naqex AI không có project/goal/task khác
+  sau khi xóa taskNAQ-1; không có live runs.
+- DELETE task và hai agents đạt. Agent đầu có409 do termination bất đồng bộ,
+  chờ terminated rồi xóa đạt. Lead DELETE trả500 vì cost_events tham chiếu
+  heartbeat_runs. Connection DELETE trả403 vì installs còn agent IDs đã xóa.
+  Đây là lỗi cleanup upstream được quan sát thực tế, chưa sửa source/database.
+- Dùng DELETE /api/companies/:id của Paperclip cho company mẫu do Codex tạo;
+  native transaction dọn đúng thứ tự phụ thuộc. Trả200 ok; GET /api/companies
+  trả[] sau đó. Kết quả cuối không còn tổ chức, agent, task hay connection mẫu
+  trong company. Không restore/reset cả DB.
+- Gateway PID23572 được đối chiếu executable/config/port17852 với owner rồi
+  dừng. Restore bodylimit65536 từ8388608, bytes config khớp backup trướcpilot.
+  Lần so sánh đầu bỏ sót indentation nên chưa đổi giá trị; lần sau kiểm diff
+  và xác nhận chỉ một dòng thay đổi, restore chính xác. Auth/account giữ nguyên;
+  owner hiện ghi stopped. Gateway Windows PID15756/port8317 không thao tác.
+
+### Source và nghiên cứu
+
+- Paperclip commit0490d33 bỏ ResearchTeamPreview, test/catalog mẫu; đảo đúng
+  patch42b6107 bằng inverse diff. Ba file adapter implementation khớp upstream
+  pin42fd568. Giữ Việt hóa và bridge/embedding cần thiết.
+- Antigravity: profile qualified=false tại paperclip-runner-permissions.ts;
+  UI AgentBasicsDialog dựa vào cờ này. Plan upstream28/10 vẫn pending, macOS
+  ARM64 là target đầu; không phải thiếu đăng nhập hay lỗi bản dịch.
+- Copilot: profile qualified=true, nhưng assertVerifiedAcpxProviderPlatform
+  trong production ACPX reject win32. openQualifiedAcpxRuntime gọi gate trước
+  spawn; native picker không chứng minh chạy được trên Windows. Chưa chạy
+  Copilot, chưa cài Linux/WSL/Docker hoặc native provider mới.
+- Google official19/05/2026: Gemini CLI ngừng tài khoản cá nhân18/06/2026;
+  Standard/Enterprise và paid API keys có ngoại lệ. Không dùng menu cũ để suy
+  ra entitlement tài khoản. Links và self-setup trong tooling/paperclip/README.md.
+- Public MCP có37 direct operations, scope configure chỉnh existing agent,
+  project và skills; không tạo agent/credentials/commands/policies.
+  Instance local_trusted thiếu public origin nên routes MCP chưa mount, GET
+  /api/mcp/setup và /api/mcp/connections đều404; enablePublicMcp=false nữa.
+  Cần authenticated user/company membership và OAuth; chưa đổi auth, bật MCP
+  hay sửa Codex/global config. MCP chưa được expose/đăng nhập trong phiên này.
+
+### Kiểm chứng và bàn giao
+
+- Focused locale-validation + workspace-preferences:12/12 pass. Không chạy full
+  suite hoặc thêm provider/model run. Static UI build qua launcher đạt6.37s;
+  giữ các warning chunk size/dynamic import/CSS có sẵn, không gọi đó fullproduct
+  acceptance. Runtime/served asset/rendered handoff bổ sung sau cutover bên dưới.
+- Rollback source qua Git nếu cần, giữ DB hiện tại. Backup chứa dữ liệu trước
+  cleanup để tham khảo/khôi phục chỉ khi owner muốn; không tự phục hồi đội mẫu.
+
+### Cutover và UI sau cleanup
+
+Runtime static khởi động source0490d33; owner launcher21000/server15060 là
+snapshot, đọc owner.json lại trước thao tác. Startup báo migrations already
+applied; không migration/restore DB. Health ok, company list[]. Served asset
+/assets/index-BUzcKgPM.js khớp byte với dist; không HMR client.
+
+Read-only Playwright trong process riêng mở Trader5218 → iframe17860/onboarding:
+form tạo organization đã render, html.lang=vi,0 pageerrors/0 request ghi hoặc
+external bị phát hiện. Ban đầu lấy heading quá sớm chỉ ghi trạng thái loading;
+chờ textbox của form rồi kiểm lại đạt. Onboarding gốc vẫn còn nhãn Continue và
+đoạn Your first agent đã sẵn sàng làm việc; không claim100% dịch/copy acceptance.
+Import Playwright trong persistent REPL bị lỗi module default export; dùng script
+Node native với package đã có, không cài dependency hoặc patch module. Evidence:
+browser-report.json,embedded-after.png và build/start logs trong cleanup folder.
+
+Backup sau cleanup SHA256: 5d0c04d04db1f481222f937050484750743382d6ac46d2c2b096e0113cb3a361. Gateway17852 không còn listener; Windows
+8317 vẫn PID15756. Bộ thử chỉ scope cleanup/locale/render; chưa qualification
+Copilot/Antigravity hoặc MCP. Owner tiếp tục tạo organization theo UI; không
+tự khôi phục dữ liệu mẫu từ backup.

@@ -185,7 +185,7 @@ khảo sát. Pin đã đọc: Paperclip `e123c2b`, RD-Agent `484776c2`, TradingA
 Chưa benchmark topology/model, import template, chạy RD-Agent hoặc xác nhận
 profitability; lần nghiên cứu này không thay runtime, permissions hay agents.
 
-Lát tiếp phù hợp: cho owner xem **sơ đồ 3 vai trò + một đề tài mẫu** ngay trong
+Đề xuất ban đầu (đã được thay thế bởi quyết định owner tự setup ngày01/11): cho owner xem **sơ đồ 3 vai trò + một đề tài mẫu** ngay trong
 UI Paperclip, cùng quyền/cách dừng dự kiến; chưa tự bật automation. Sau review,
 thực hiện một job offline có artifact thật để qualification đường giao việc,
 ngắt/resume và kiểm chứng. Chỉ khi quan sát được luồng lặp hữu ích mới đúc kết
@@ -196,3 +196,12 @@ Nguồn bổ sung để triển khai đúng bản pin:
 [execution semantics](../../projects/integrations/paperclip/doc/execution-semantics.md),
 [heartbeat policy parser](../../projects/integrations/paperclip/server/src/services/heartbeat/queue.ts),
 [AI connections](../../projects/integrations/paperclip/doc/connections/AI-CONNECTIONS.md).
+
+## Quyết định tiếp nối01/11 — tự setup qua native UI
+
+Owner đã yêu cầu dọn đội/custom preview và giữ Việt hóa. Không tiếp tục triển
+khai sơ đồ mẫu hoặc provision đội theo đề xuất cũ. Pilot connection inference
+đạt, task/tool workflow chưa đạt; failure và backup vẫn giữ. Native/MCP là hướng
+thao tác được ưu tiên, có giới hạn theo hệ điều hành và quyền tài khoản.
+[Hướng dẫn hiện hành](../../tooling/paperclip/README.md#owner-tự-thiết-lập) và
+[receipt](../checkpoints/ai-integrations-20261031/RECEIPT.md) giữ chi tiết.

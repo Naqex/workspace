@@ -79,13 +79,13 @@ migrations upstream trong database đó; không sửa DB Trader. Config được
 lần, không ghi đè khi chạy lại. Telemetry và kiểm tra cập nhật tắt trong config;
 heartbeat scheduler và announcements tắt trong môi trường process.
 
-Instance ban đầu có organization `Naqex AI`. Lát setup01/11 đã lưu connection
-CLIProxyAPI project và ba agents thật; trạng thái/giới hạn/receipt hiện hành ở
-[checkpoint tích hợp](../../planning/checkpoints/ai-integrations-20261031/RECEIPT.md).
-Tắt scheduler không khóa API chạy agent thủ công; đây là instance
-Paperclip thật, không phải sandbox chặn mọi execution. Chưa nối trading engines,
-broker, dữ liệu Trader hoặc tự ánh xạ company Paperclip với workspace Trader.
-Ẩn iframe không dừng các công việc mà owner có thể cấu hình về sau.
+Tổ chức và đội pilot do Codex tạo đã được dọn qua API gốc ngày01/11 theo yêu
+cầu owner; instance hiện không còn company. Backup và kết quả thử được giữ trong
+[receipt tích hợp](../../planning/checkpoints/ai-integrations-20261031/RECEIPT.md).
+Owner tự tạo organization, agent, connection và công việc trong UI upstream.
+Tắt scheduler không khóa API chạy agent thủ công. Chưa nối trading engines,
+broker, dữ liệu Trader hoặc ánh xạ company Paperclip với workspace Trader.
+Ẩn iframe không dừng công việc mà owner có thể cấu hình về sau.
 
 VI/EN của Trader được đồng bộ tới Paperclip qua message chỉ dành cho preference;
 kiểm exact origin + parent window, không đổi iframe URL hay tải lại bản nháp.
@@ -102,51 +102,73 @@ dịch mới; không tự bảo đảm mọi màn hình động đã được ng
 mở rộng/upgrade: `projects/integrations/paperclip/doc/NAQEX-LOCALIZATION.md`.
 Theme vẫn do Paperclip quản lý; host chỉ gợi ý color scheme.
 
-Trang Agents có nút **Xem đội và nhiệm vụ mẫu**: ba vai trò nghiên cứu và một
-nhiệm vụ để owner xem trước. Đây là UI đề xuất, chưa tạo agents, jobs hoặc lịch
-chạy. Bật kết nối model/engine và thực thi là một lát tích hợp riêng.
+## Owner tự thiết lập
 
-## Connection và đội pilot local
+Bản fork chỉ giữ Việt hóa và các thay đổi cần cho nhúng/điều hướng. Đã bỏ
+ResearchTeamPreview, catalog mẫu và bản vá Windows Codex của lần pilot. Không
+provision lại đội hoặc thêm UI quản trị cạnh tranh với Paperclip.
 
-Setup01/11 dùng chức năng AI Connections có sẵn của Paperclip: connection shared,
-provider `openai` biểu thị giao thức, routing `local/responses` tới gateway project
-`/v1`; model thực tế được chọn trên agent. Không có adapter Gemini tự viết.
-Harness hiện thử là `codex_local`, runner legacy, engine CLI; Codex là bộ chạy
-công cụ, không phải model thay Gemini. Endpoint không tự cung cấp vòng dùng công
-cụ cho agent; qualification connection và qualification task là hai kết quả riêng.
+Thứ tự thao tác:
 
-Ba vai trò đã tạo: Điều phối nghiên cứu, Nghiên cứu chiến lược, Kiểm chứng độc lập.
-Native instructions bundle và skill `paperclip` giữ hướng dẫn thực thi; chỉnh qua
-API/UI Paperclip có revision, không ghi trực tiếp DB hoặc thư mục file-sync tạm.
-`POST /agents/:id/skills/sync` sở hữu lựa chọn skill, `/pause` và `/resume` sở hữu
-lifecycle; không PATCH các trường đó qua update configuration chung.
+1. Tạo organization bằng UI Paperclip; tên do owner chọn.
+2. Tạo một project nghiên cứu; chưa trỏ agent vào toàn bộ workspace.
+3. Tạo một agent Điều phối nghiên cứu bằng wizard gốc. Chọn bộ chạy và kết nối
+   tài khoản trong wizard; không bắt buộc tạo Local endpoint/CLIProxyAPI trước.
+4. Chỉ sau khi Test Environment đạt mới giao một task offline nhỏ. Chưa bật
+   lịch tự động; chưa tạo cả đội trước khi agent đầu chạy được.
 
-Pilot giữ timer tắt, `wakeOnDemand:false`, mỗi agent tối đa1 run đồng thời,
-6 runs/ngày, timeout180s, `dangerouslyBypassApprovalsAndSandbox:false`. Chỉ mở
-wake cho một lượt được điều khiển, sau đó tắt và pause lại. Đây chưa là hard cap
-cho toàn đội hoặc ngân sách token; model gateway chưa có cost đáng tin cậy.
-Standard grants upstream vẫn rộng: `canAssignTasks:false` không chặn đường
-`simple_default`; `canCreateSkills:false` không tự thu hồi direct grants. Phải
-qualification quyền API/tool và sandbox trước khi mở vận hành tự chủ.
+### Native và giới hạn bản pin
 
-Gateway pilot dùng tài khoản project đã có trong runtime Trader cũ, không copy
-hoặc lấy tài khoản Windows. Owner hiện hành: `.runtime/paperclip/gateway-owner.json`;
-đọc PID/executable/config từ đó và đối chiếu process trước khi thao tác. Đây là
-standalone pilot trong khi API Trader đang dừng, không phải Rust-managed gateway.
-Không khởi động Trader sở hữu gateway thứ hai trên cùng cổng/home.
+- GitHub Copilot: profile upstream qualified=true, nhưng production ACPX của
+  bản pin chặn win32 tại assertVerifiedAcpxProviderPlatform. Nút chọn không là
+  bằng chứng Windows chạy được. Cần qualification trong môi trường Linux phù
+  hợp trước khi dùng native này; chưa cài WSL/Docker hoặc đổi runtime trong lát này.
+- Google Antigravity: profile qualified=false; UI hiện Chưa khả dụng đúng với
+  upstream. Plan28/10 nhắm macOS ARM64 trước; Product E2E/Stop/tools còn pending.
+  Không ép bật candidate hoặc cập nhật upstream chỉ để bỏ nhãn này.
+- Gemini CLI: Google thông báo ngừng phục vụ tài khoản cá nhân/free/AI Pro/Ultra
+  từ18/06/2026. Standard/Enterprise và paid API-key có ngoại lệ. Không hướng dẫn
+  owner đăng nhập tài khoản cá nhân vào Gemini CLI chỉ vì picker còn mục đó.
+- Native bỏ một tầng proxy, nhưng vẫn cần runtime, quyền tài khoản/model và
+  kiểm chứng tool/task. Chưa có native Copilot/Antigravity run trong instance này.
 
-`managed.yaml` của pilot có giới hạn request8MiB;64KiB của cấu hình chat cũ đã
-tái hiện lỗi413 ở vòng dùng công cụ. Gateway đã hot-reload thay đổi. Bản gốc,
-owner và evidence được giữ dưới `.runtime/research/paperclip-team-setup/`, không
-commit config có key. Không sửa generator/cấu hình canonical Trader trong lát này.
-Trước handoff về Trader: pause và đối soát không còn run, xác minh/dừng đúng
-gateway owner; so sánh config để tránh ghi đè thay đổi mới rồi phục hồi backup
-được owner ghi nhận. Chỉ sau đó giao lại quyền khởi động cho Trader. Việc chuyển
-account home sang source Trader mới và chốt contract payload chung còn là việc sau.
+Nguồn: [Google chuyển sang Antigravity](https://developers.googleblog.com/an-important-update-transitioning-gemini-cli-to-antigravity-cli/),
+[GitHub Copilot authentication](https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/authenticate-copilot-cli),
+[source profile](../../projects/integrations/paperclip/packages/adapter-utils/src/paperclip-runner-permissions.ts),
+[platform gate](../../projects/integrations/paperclip/packages/paperclip-runner/src/drivers/acpx/installation-integrity.ts),
+[Antigravity plan](../../projects/integrations/paperclip/doc/plans/2026-10-28-antigravity-integration.md).
 
-Lượt pilot `NAQ-1` đang blocked ở quyền dùng công cụ của harness Windows. Giữ
-các lỗi và bằng chứng trong receipt; không gọi process `succeeded` là workflow
-đã đạt. Không bật bypass để xử lý lỗi policy.
+### MCP để trợ lý thao tác Paperclip
+
+Paperclip có public Assistant Connections MCP; dùng làm control interface qua
+API/authorization upstream thay vì thêm màn hình hoặc ghi DB. Direct MCP cho
+phép đọc/giao việc, chỉnh existing agent/instructions/project/skills trong scope
+được duyệt. Tạo agent, credentials, execution commands và policies nằm ngoài
+surface đó; MCP không cấp model hoặc thay bộ chạy.
+
+Instance hiện local_trusted, chưa có PAPERCLIP_PUBLIC_URL/authPublicBaseUrl;
+GET /api/mcp/setup và /api/mcp/connections trả404 vì routes không được mount.
+enablePublicMcp cũng đang false. Vì vậy lỗi Không thể tải trạng thái kết nối
+không phải lỗi bản dịch. Bật toggle riêng chưa đủ.
+
+Muốn dùng: cấu hình authenticated deployment với user/company membership và
+public origin loopback17860; bật Settings → Experimental → Assistant connections
+(MCP), rồi Connections → Assistant Connection → Set up. Dùng lời mời/commands
+hiện trong UI cho đúng phiên bản; owner tự đăng nhập và duyệt OAuth. Trước đổi
+chế độ auth cần một lát setup riêng có backup; lượt cleanup này chưa đổi auth,
+MCP/global config hoặc cài connector. Runtime hiện chưa expose Paperclip MCP
+cho Codex; không gọi việc đọc tài liệu là kết nối thành công.
+
+[Tài liệu MCP upstream](https://github.com/paperclipai/paperclip/blob/master/doc/public-mcp.md)
+và [bản pin](../../projects/integrations/paperclip/doc/public-mcp.md) giữ contract.
+
+### Gateway project sau pilot
+
+Gateway standalone17852 đã dừng, giới hạn request phục hồi đúng backup65536
+bytes. Giữ auth/account project, binary và registry port; không sửa gateway
+Windows8317. Owner receipt ở .runtime/paperclip/gateway-owner.json hiện ghi
+stopped; phải kiểm process/port lại khi dùng, không tự start để setup native.
+Không xóa các tích hợp source RD-Agent/TradingAgents hoặc Trader WIP.
 
 Kiểm tra lỗi điều hướng nhúng sau khi Paperclip và Trader preview đã chạy:
 

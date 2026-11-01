@@ -1,19 +1,22 @@
 # AI workspace — native Paperclip UI và prototype lịch sử
 
-## Lát setup được owner giao — 01/11
+## Hướng hiện hành — owner tự setup,01/11
 
-Owner giao cấu hình Paperclip và mở CLIProxyAPI project bằng các tài khoản đã
-đăng nhập. Đã lưu native connection Responses API và tạo ba agents thật theo
-đề xuất research. Connection/model probe đạt; pilot `NAQ-1` chưa đạt toàn luồng:
-công cụ shell bị policy từ chối. Cả đội đã pause, timer/wake tắt, không có run
-đang chạy. API gateway vẫn mở cho project; không thay bản Windows.
+Owner yêu cầu lưu kết quả test, dọn đội/config/custom UI mẫu và giữ Việt hóa.
+Đã dùng API upstream dọn company pilot Naqex AI cùng dữ liệu thử; instance không
+còn company. Đã bỏ ResearchTeamPreview và bản vá adapter Windows phục vụ pilot;
+giữ localization, bridge ngôn ngữ, static embedding và fix giữ navigation/state.
+Gateway project17852 đã dừng/phục hồi override; tài khoản project giữ nguyên.
 
-Source sửa Windows của Paperclip: `42b6107`; receipt giữ failure trước/sau,
-owner/backup và việc cần tiếp tục. Bước tiếp là qualification harness/sandbox và
-thu hẹp quyền thực tế, rồi mới chạy researcher/reviewer; chưa bật automation,
-RD-Agent, TradingAgents hoặc broker. Không nối runtime chỉ dựa vào flag permission.
-Hướng dẫn vận hành: [Paperclip](../../tooling/paperclip/README.md).
-UI audit rộng tiếp tục pause; các mục dưới đây là lịch sử theo từng lát.
+Owner tự tạo organization → project → một agent qua UI gốc; chỉ giao task sau
+khi runtime Test Environment đạt. Không tự provision lại. Native Copilot trong
+bản pin bị giới hạn production ACPX trên Windows; Antigravity pending upstream.
+MCP có sẵn nhưng cần authenticated deployment/public origin/experimental gate
+và OAuth; instance local hiện chưa cấu hình, không đổi auth trong lượt cleanup.
+
+[Hướng dẫn và nghiên cứu](../../tooling/paperclip/README.md),
+[kết quả pilot và cleanup](../checkpoints/ai-integrations-20261031/RECEIPT.md)
+giữ bằng chứng/giới hạn. UI audit rộng tiếp tục pause. Các mục sau là lịch sử.
 
 ## Lịch sử mở rộng UI — 01/11
 
