@@ -9,6 +9,10 @@ Read [integration guide](../../../tooling/integrations/README.md), its catalog
 and the owner plan linked there. The guide owns paths/commands; do not copy a
 second port or revision registry into this skill.
 
+For Paperclip dispatch failures or pilot/runtime recovery, read
+[Paperclip diagnostics](references/paperclip.md). Ordinary source adoption does
+not need that branch.
+
 1. Classify the actual change: source adoption, dependency installation, UI
    embedding, worker job connection or active-runtime cutover. Report those
    states separately. A clone or import is not a successful engine job.
