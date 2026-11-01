@@ -84,12 +84,18 @@ Launcher cấp `VITE_NAQEX_WORKSPACE_ORIGIN` từ cổng AI preview trong regist
 Hiện chỉ origin preview đó được tin cậy; host ở cổng khác cần cấu hình lại và
 kiểm chứng trước khi coi ngôn ngữ đã đồng bộ. Mở riêng dùng ngôn ngữ đã lưu hoặc EN.
 
-Bản dịch hiện gồm menu desktop/mobile, menu tài khoản, tìm kiếm/danh sách rỗng
-và các trường chính của form tạo công việc. Các trang và menu chuyên sâu vẫn
-còn tiếng Anh. Native i18next giữ namespace `translation`; fork dùng namespace
-`workspace` riêng để không làm lệch contract các locale upstream khác. Hướng dẫn
+Bản dịch đã mở rộng sang cấu hình, agents, công việc, kết nối, kỹ năng, chi phí,
+dự án và các menu/dialog chuyên sâu. Nội dung người dùng, hướng dẫn skill, mã
+cấu hình và chi tiết lỗi gốc từ dịch vụ giữ nguyên. Native i18next giữ namespace
+`translation`; fork dùng `workspace` và `interface` để không làm lệch contract
+các locale upstream khác. Cập nhật upstream vẫn cần đối chiếu call site và bản
+dịch mới; không tự bảo đảm mọi màn hình động đã được nghiệm thu. Hướng dẫn
 mở rộng/upgrade: `projects/integrations/paperclip/doc/NAQEX-LOCALIZATION.md`.
 Theme vẫn do Paperclip quản lý; host chỉ gợi ý color scheme.
+
+Trang Agents có nút **Xem đội và nhiệm vụ mẫu**: ba vai trò nghiên cứu và một
+nhiệm vụ để owner xem trước. Đây là UI đề xuất, chưa tạo agents, jobs hoặc lịch
+chạy. Bật kết nối model/engine và thực thi là một lát tích hợp riêng.
 
 ## Trader preview và dev
 

@@ -194,3 +194,90 @@ CLIProxyAPI managed không khởi động; instance Windows8317 giữ nguyên. C
 agents/jobs/providers, không khai source-ready thành autonomy-ready. Hướng dẫn
 patch/upgrade nằm trong fork `doc/NAQEX-LOCALIZATION.md`; không cần skill mới cho
 mỗi lần thêm bản dịch. Broad UI audit và WIP ngoài scope được giữ nguyên.
+
+## 01/11 — Việt hóa giao diện chuyên sâu và đội nghiên cứu mẫu
+
+Owner giao hoàn thiện phần Việt hóa còn lại và đưa sơ đồ đội cùng một nhiệm vụ
+mẫu lên UI để xem trước. Paperclip commit `11d41b67152cff17afb6c05b325abe28c4ab424b`,
+nhánh `codex/naqex-integration`. Giữ upstream, dependency và schema hiện tại;
+chỉ thay UI/copy và tài liệu liên quan. Trader source/preview không được build
+lại từ WIP audit; root gitlink Trader tiếp tục giữ nguyên.
+
+### Hành vi, dữ liệu và quyết định
+
+- Reuse i18next với namespace `interface` EN/VI gồm10.923 messages, ngoài
+  namespace `workspace` hiện có. Mở rộng copy ở agents, tasks/composer, settings,
+  apps/connections, skills, costs, projects, routines, audit và menu/dialog/
+  tooltip/nhãn truy cập. Key và placeholder giữa hai catalog được kiểm cùng nhau.
+- Component đăng ký đổi locale tại chỗ; form/dialog không bị remount. Registry
+  nhãn dùng getter để không giữ ngôn ngữ lúc import. Mã status, credential policy,
+  route, tên đã lưu và nội dung người dùng không đổi theo bản dịch.
+- Sửa các nhánh từng dựa vào chữ hiển thị: ownership kết nối, icon/tone trace,
+  breadcrumb mobile và attribution avatar. Giữ casing EN của từng loại badge.
+  Loại đuôi số nhiều tiếng Anh trong91 vị trí copy có đếm số khi dùng VI.
+- Agents classic/production có nút **Xem đội và nhiệm vụ mẫu**, chỉ hiện trong
+  embedding được cấu hình. Dialog gốc trình bày owner → điều phối → nghiên cứu
+  và kiểm chứng độc lập; có câu hỏi mẫu và bốn bước data/thử nghiệm/đánh giá/
+  báo cáo. State chỉ là đóng/mở trong React, không có API tạo agent hoặc job.
+- Tên model/provider, code/config, hướng dẫn skill, nội dung người dùng và chi
+  tiết lỗi gốc từ dịch vụ được giữ nguyên. Catalog tách riêng giúp giữ bản dịch,
+  nhưng upstream sửa component vẫn cần merge/review call site. Không dùng DOM
+  translator và không gọi mọi trang dữ liệu động/plugin đã được nghiệm thu.
+
+### Kiểm chứng
+
+- UI typecheck và Vite build pass trên source đã commit. Build vẫn có warnings
+  upstream về CSS/import/chunk-size. Không đổi dependency hoặc framework.
+- Final focused suite: **550/550 tests,21 files**. Gồm settings, costs, skills,
+  tasks, agents, connections, catalog, sidebar, dialog, locale/bridge, breadcrumb,
+  trace icon, status và projects. Tests VI/EN giữ draft/dialog và raw policy;
+  đội mẫu không gọi fetch. Log `.runtime/research/paperclip-full-copy-acceptance-rerun.log`.
+- Review AST so source trước patch với EN đã giải ngược:838 files,827 tương
+  đương sau bỏ subscription/copy boilerplate,0 key thiếu.11 files còn lại được
+  review riêng cho preview, getter, các sửa state/label ở trên và spacing chữ
+  Expires. Evidence `.runtime/research/paperclip-copy-ast-audit.json`.
+- Browser trước cutover:11 routes trên company rỗng và4 checks về language/draft/
+  responsive;1920 darkVI,1440 lightEN,390 darkVI. Không tràn ngang;0 pageerrors,
+  không có request ra ngoài. POST tự refresh subscription từ trang Costs bị QA
+  chặn trước khi gửi; không coi đó là0 lần thử ghi. GET `/api/mcp/connections`
+  trả404 trên runtime hiện tại; đây là phần API chưa có, chưa sửa trong lát copy.
+  Evidence `.runtime/research/paperclip-full-copy-browser/report.json` và ảnh.
+- Token gate vẫn exit1 với106 lỗi có sẵn:75 color,31 bracket; không thêm lỗi hoặc
+  allowlist để lách gate. `git diff --check` pass. Không khai whole-repo gate pass.
+
+Các lần lỗi được giữ lại:5 failures whitespace từ lượt đầu đã sửa và chạy lại;
+duplicate hook/label union type đã sửa; Projects/Status/IssueCases casing đã
+sửa và nằm trong550 final tests. Browser ban đầu dùng route không có/thời điểm
+còn loading và sai tên nút EN; đã sửa harness, chờ nội dung thật rồi chạy lại.
+QA sâu phát hiện POST refresh bị chặn; harness chỉ chấp nhận đúng request bị
+chặn này, vẫn từ chối mọi ghi khác. Không sửa app để né guard.
+
+Lượt full UI suite thăm dò đã dừng khi còn sửa source/catalog, không phải kết
+quả acceptance. CompanyImport/Inbox failed trong lượt rộng nhưng4 case liên
+quan pass khi chạy riêng. IssueProperties monitor còn khác định dạng máy
+`16:08` so với test hard-code `4:08 PM`; formatter đó không bị patch. Có failures
+về hai bản cài CodeMirror và timing AgentDetail chưa đóng bằng full-suite rerun.
+Không chạy full monorepo suite, engine benchmark hay broker test cho lát này.
+Logs thăm dò/triage vẫn giữ ở `.runtime/research/paperclip-full-copy-*.log`.
+
+### Runtime và khôi phục
+
+Guard API trước/sau cập nhật: company `Naqex AI`,0 agents/0 live-runs. Manual
+backup trước restart:
+`.runtime/paperclip/instances/trader-ui/backups/paperclip-20261101-083823.sql.gz`,
+SHA256 `fc718345466973d2e96f14790540aed7e304006f862e7c910557133e29533411`.
+Config/owner/backup receipt giữ trong `.runtime/research/paperclip-full-copy-cutover/`.
+Không áp migration, không đổi cấu hình/provider/account.
+
+Dừng đúng server/launcher owner cũ. Postgres đã tự thoát sau server; lệnh pg_ctl
+đụng race và báo PID không còn, rồi kiểm lại PID và cả3 ports đều không còn
+listener trước restart. Launcher upstream xử lý stale lock, dùng lại DB; startup
+báo migrations already applied. Health mới khớp `11d41b6`; owner snapshot:
+launcher24824/server22036 (đọc lại owner.json, không dùng PID này như authority).
+Runtime/guard/browser smoke sau cutover giữ cùng thư mục evidence.
+
+Rollback source về pin trước `e123c2b` sau khi kiểm đúng owner và backup mới;
+giữ instance DB/storage/config. Không reset DB để rollback bản dịch. CLIProxyAPI
+managed17852 không khởi động; instance Windows8317 chỉ được dùng cho inference
+dịch thuật theo quyền đã có, không thay config/process của nó. Cần xem lại
+UI/đội mẫu trước lát provisioning và contract chạy engine thực tế.

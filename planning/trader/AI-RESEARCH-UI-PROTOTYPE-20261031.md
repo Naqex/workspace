@@ -1,5 +1,18 @@
 # AI workspace — native Paperclip UI và prototype lịch sử
 
+## Tiếp nối được owner giao — 01/11
+
+Đã mở rộng bản dịch VI/EN sang các trang/menu/dialog chuyên sâu của fork bằng
+catalog i18next riêng. Trang Agents có **Xem đội và nhiệm vụ mẫu**: sơ đồ ba
+vai trò và một nhiệm vụ nghiên cứu để owner duyệt, chưa provision agent/job.
+Source Paperclip `11d41b6`; runtime local đã cập nhật cùng revision, giữ DB.
+Phạm vi kiểm chứng và giới hạn nằm trong mục ngày01/11 của
+[receipt tích hợp](../checkpoints/ai-integrations-20261031/RECEIPT.md).
+
+Lát kế tiếp vẫn cần owner review UI trước khi cấu hình agents, provider và
+contract chạy job engine. UI audit rộng tiếp tục pause. Các mục31/10 dưới đây
+giữ lịch sử, không thay coverage và trạng thái mới trong receipt.
+
 ## Lát localization tiếp nối — 31/10
 
 Đã nối VI/EN từ Trader preview tới native Paperclip bằng preference message
