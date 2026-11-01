@@ -281,3 +281,61 @@ giữ instance DB/storage/config. Không reset DB để rollback bản dịch. C
 managed17852 không khởi động; instance Windows8317 chỉ được dùng cho inference
 dịch thuật theo quyền đã có, không thay config/process của nó. Cần xem lại
 UI/đội mẫu trước lát provisioning và contract chạy engine thực tế.
+
+## 2026-11-01 — Sửa Paperclip tự reload và onboarding chen vào điều hướng
+
+### Nguyên nhân và phạm vi
+
+- Tái hiện bằng click sidebar thật: Issues → Projects → Skills → Dashboard.
+  Khi company có 0 agents, Dashboard gọi `openOnboarding`; wizard lazy xuất hiện
+  sau khi trang đã hiển thị và chặn thao tác sidebar. Document ID không đổi:
+  trường hợp trong ảnh là overlay tự mở, không phải iframe remount. Probe lỗi
+  và trace được giữ tại `.runtime/research/paperclip-navigation-probe/report.json`.
+- Runtime dev còn có nguyên nhân reload độc lập: log cutover trước ghi
+  `optimized dependencies changed. reloading` lúc 08:48:16 và 08:48:42.
+  Probe lần này không phát lại optimizer reload sau khi cache đã ấm; không coi
+  mọi chuyển trang trong ảnh đều là document reload.
+- Paperclip commit `548adbc`: dashboard không auto-onboard trong iframe của bản
+  build đã cấu hình workspace origin. Nút tạo agent/route onboarding vẫn dùng
+  wizard native. Mở Paperclip riêng giữ hành vi auto-onboarding upstream.
+- Launcher workspace build static UI trước mỗi cold start, với đúng origin bridge,
+  rồi chạy `PAPERCLIP_UI_DEV_MIDDLEWARE=false`; không dùng HMR/optimizer trong
+  runtime sử dụng hằng ngày. Owner ghi `uiMode=static`; gọi lại không restart.
+  Đánh đổi: sửa source cần khởi động lại đúng owner để build, mất khoảng 6–10 giây
+  cho UI build trong lượt này. Không sửa host Trader hoặc unrelated audit WIP.
+- Nút “Xem đội và nhiệm vụ mẫu” vẫn là phần Naqex thêm để xem trước; chưa tạo
+  agents hoặc nối engine. Đây không phải UI native của upstream.
+
+### Kiểm chứng và runtime
+
+- Focused onboarding route/offer: 34/34 tests pass; UI `tsc -b` pass; build pass.
+  Token gate vẫn fail với 106 lỗi sẵn có (75 color/31 bracket), không thêm lỗi
+  hoặc allowlist. Không chạy full suite hoặc tuyên bố whole-product acceptance.
+- Regression mới `node tooling/paperclip/navigation.browser.mjs`: pass. Click 7
+  native routes, lặp Dashboard với 0 agents, 3 vòng host Connections/Paperclip,
+  VI/EN/VI, giữ draft 35 giây; iframe/document/search/draft giữ nguyên. Chỉ có
+  2 document requests khởi tạo (host + iframe), 0 reload/HMR/pageerrors/ghi/ra ngoài.
+  Nút tạo agent chủ động mở wizard bình thường. Evidence:
+  `.runtime/research/paperclip-navigation/report.json`.
+- Existing host browser regression: 9 checks pass ở 1920/1440/390px, gồm native
+  dialog/Escape, draft/language, sidebar preference và unavailable/retry. Log:
+  `.runtime/research/paperclip-navigation-existing-browser.log`. Script cũ ghi
+  scope “isolated database”; lượt này thực tế dùng instance local `trader-ui`
+  đã có với company rỗng, mọi browser request ghi đều bị chặn.
+- Trước cutover xác nhận company `Naqex AI`, 0 agents/0 live-runs. Backup manual:
+  `.runtime/paperclip/instances/trader-ui/backups/paperclip-20261101-085805.sql.gz`,
+  SHA256 `a704ec3036d17f72a72f7ad7ba683ab4308187b0a5be12ce4d9250a816df6fd1`.
+  Owner/config/backup/hash/deployed receipt trong
+  `.runtime/research/paperclip-navigation-cutover/` (không commit dữ liệu này).
+- Pre-stop guard lần đầu từ chối vì health đọc Git HEAD hiện tại, còn owner giữ
+  SHA lúc khởi động; chưa stop process ở lần đó. Đã đọc health source, đối chiếu
+  PID/parent/command/start time và HEAD mới rồi dừng đúng owner. Ba ports đều rảnh
+  trước start; upstream xử lý stale PostgreSQL lock, không restore/reset DB.
+- Static runtime mới healthy ở17860, Postgres17861, không listener27860;
+  launcher8256/server20188 là snapshot, phải đọc lại owner khi thao tác sau này.
+  Served `/assets/index-BWM1q_52.js` khớp dist; HTML không có `/@vite/client`.
+  Doctor runtime healthy; pin source khớp sau khi stage gitlink trong slice này.
+  Không migration, provider/broker/agent execution hoặc bật automation.
+- Rollback source về `11d41b6` và launcher trước slice này sau khi kiểm đúng owner;
+  giữ instance/config/database hiện tại. Không dùng rollback source để xoá dữ liệu.
+  Đây là kiểm tra luồng lỗi và idle ngắn, chưa là bằng chứng vận hành nhiều giờ.

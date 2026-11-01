@@ -33,6 +33,7 @@ if (owner && (alive(owner.serverPid) || alive(owner.launcherPid))) {
   const response = await fetch(`${origin}/api/health`, { signal: AbortSignal.timeout(4000) }).catch(() => null)
   const health = response?.ok ? await response.json() : null
   if (owner.source !== source || !health || health.status !== 'ok' || health.commit !== commit) throw new Error('An existing Paperclip owner is starting, unavailable or on a different revision. Inspect owner.json before restarting.')
+  if (owner.uiMode !== 'static') throw new Error('The owned Paperclip instance is using an older UI mode. Stop that owner before starting the built UI; see tooling/paperclip/README.md.')
   console.log(`Paperclip is already running: ${origin}`)
   process.exit(0)
 }
@@ -83,16 +84,22 @@ const inherited = ['PATH', 'SystemRoot', 'WINDIR', 'COMSPEC', 'PATHEXT', 'TEMP',
 const env = Object.fromEntries(Object.entries(process.env).filter(([key]) => inherited.some(name => name.toLowerCase() === key.toLowerCase())))
 Object.assign(env, {
   PAPERCLIP_HOME: home, PAPERCLIP_INSTANCE_ID: 'trader-ui', PAPERCLIP_CONFIG: configPath,
-  HOST: services.host, PORT: String(services.paperclipPort), PAPERCLIP_UI_DEV_MIDDLEWARE: 'true',
+  HOST: services.host, PORT: String(services.paperclipPort), PAPERCLIP_UI_DEV_MIDDLEWARE: 'false',
   VITE_NAQEX_WORKSPACE_ORIGIN: `http://${services.host}:${services.aiPreviewPort}`,
   HEARTBEAT_SCHEDULER_ENABLED: 'false', PAPERCLIP_ANNOUNCEMENTS_ENABLED: 'false',
+})
+// Build with the same embedding origin as the runtime. Dev dependency discovery
+// can trigger full-page reloads and discard in-frame navigation or form drafts.
+console.log('Building Paperclip UI for the local workspace…')
+execFileSync(process.execPath, ['node_modules/vite/bin/vite.js', 'build'], {
+  cwd: path.join(source, 'ui'), env, stdio: 'inherit', windowsHide: true,
 })
 const child = spawn(process.execPath, ['--import', './node_modules/tsx/dist/loader.mjs', 'src/index.ts'], {
   cwd: path.join(source, 'server'), env, stdio: 'inherit', windowsHide: true,
 })
 await writeFile(ownerPath, JSON.stringify({
   launcherPid: process.pid, serverPid: child.pid, startedAt: new Date().toISOString(), source, commit,
-  origin, hmrPort: services.paperclipHmrPort, databasePort: services.paperclipDatabasePort, configPath,
+  origin, uiMode: 'static', hmrPort: services.paperclipHmrPort, databasePort: services.paperclipDatabasePort, configPath,
 }, null, 2))
 for (const signal of ['SIGINT', 'SIGTERM']) process.on(signal, () => child.kill(signal))
 child.on('error', error => { console.error(error.message); process.exitCode = 1 })

@@ -44,6 +44,13 @@ Trở lại workspace root:
 node tooling/paperclip/run-local.mjs
 ```
 
+Launcher build UI với origin của Trader trước khi khởi động rồi phục vụ static
+assets. Bản dùng hằng ngày không có Vite HMR hoặc dependency optimizer tự reload
+khi chuyển trang. Build lỗi thì dừng trước khi khởi động server. Khi sửa source,
+cần dừng đúng owner rồi chạy lại launcher để build bản mới; không dùng dist cũ.
+Trong bản nhúng, dashboard không tự bật wizard khi company chưa có agent; nút
+tạo agent và route onboarding chủ động vẫn hoạt động như Paperclip gốc.
+
 Đây là process local chạy trong terminal, không cài Windows service hay tự khởi
 động cùng máy. Launcher kiểm owner/PID, revision và cổng trước khi chạy; gọi lại
 khi instance đã khỏe sẽ dùng instance hiện có. Instance đang khởi động/lỗi hoặc
@@ -53,7 +60,7 @@ cổng do process khác giữ sẽ bị từ chối thay vì tự kill/restart.
 |---|---|
 | Paperclip UI/API | `127.0.0.1:17860` |
 | PostgreSQL riêng | loopback, port17861 |
-| Vite HMR | loopback, port27860 (API + 10000) |
+| Vite HMR | port27860 được dành riêng; bản static không mở listener |
 | Config/DB/storage/secrets | `.runtime/paperclip/instances/trader-ui/` |
 | PID/identity | `owner.json` trong thư mục instance |
 | UI Trader preview | `127.0.0.1:5218` |
@@ -96,6 +103,17 @@ Theme vẫn do Paperclip quản lý; host chỉ gợi ý color scheme.
 Trang Agents có nút **Xem đội và nhiệm vụ mẫu**: ba vai trò nghiên cứu và một
 nhiệm vụ để owner xem trước. Đây là UI đề xuất, chưa tạo agents, jobs hoặc lịch
 chạy. Bật kết nối model/engine và thực thi là một lát tích hợp riêng.
+
+Kiểm tra lỗi điều hướng nhúng sau khi Paperclip và Trader preview đã chạy:
+
+```powershell
+node tooling/paperclip/navigation.browser.mjs
+```
+
+Script dùng Playwright đã cài trong Trader, chặn request ghi/ra ngoài; kiểm tra
+document không reload, wizard không tự mở, giữ bản nháp khi chuyển công cụ/VI-EN
+và chờ 35 giây. Chỉ mở wizard bằng nút tạo agent, không gửi form hoặc tạo agent.
+Evidence local nằm ở `.runtime/research/paperclip-navigation/report.json`.
 
 ## Trader preview và dev
 
