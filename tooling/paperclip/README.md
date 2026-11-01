@@ -79,8 +79,10 @@ migrations upstream trong database đó; không sửa DB Trader. Config được
 lần, không ghi đè khi chạy lại. Telemetry và kiểm tra cập nhật tắt trong config;
 heartbeat scheduler và announcements tắt trong môi trường process.
 
-Instance ban đầu có một organization rỗng `Naqex AI`, chưa có agent/job/provider
-được cấu hình. Tắt scheduler không khóa API chạy agent thủ công; đây là instance
+Instance ban đầu có organization `Naqex AI`. Lát setup01/11 đã lưu connection
+CLIProxyAPI project và ba agents thật; trạng thái/giới hạn/receipt hiện hành ở
+[checkpoint tích hợp](../../planning/checkpoints/ai-integrations-20261031/RECEIPT.md).
+Tắt scheduler không khóa API chạy agent thủ công; đây là instance
 Paperclip thật, không phải sandbox chặn mọi execution. Chưa nối trading engines,
 broker, dữ liệu Trader hoặc tự ánh xạ company Paperclip với workspace Trader.
 Ẩn iframe không dừng các công việc mà owner có thể cấu hình về sau.
@@ -103,6 +105,48 @@ Theme vẫn do Paperclip quản lý; host chỉ gợi ý color scheme.
 Trang Agents có nút **Xem đội và nhiệm vụ mẫu**: ba vai trò nghiên cứu và một
 nhiệm vụ để owner xem trước. Đây là UI đề xuất, chưa tạo agents, jobs hoặc lịch
 chạy. Bật kết nối model/engine và thực thi là một lát tích hợp riêng.
+
+## Connection và đội pilot local
+
+Setup01/11 dùng chức năng AI Connections có sẵn của Paperclip: connection shared,
+provider `openai` biểu thị giao thức, routing `local/responses` tới gateway project
+`/v1`; model thực tế được chọn trên agent. Không có adapter Gemini tự viết.
+Harness hiện thử là `codex_local`, runner legacy, engine CLI; Codex là bộ chạy
+công cụ, không phải model thay Gemini. Endpoint không tự cung cấp vòng dùng công
+cụ cho agent; qualification connection và qualification task là hai kết quả riêng.
+
+Ba vai trò đã tạo: Điều phối nghiên cứu, Nghiên cứu chiến lược, Kiểm chứng độc lập.
+Native instructions bundle và skill `paperclip` giữ hướng dẫn thực thi; chỉnh qua
+API/UI Paperclip có revision, không ghi trực tiếp DB hoặc thư mục file-sync tạm.
+`POST /agents/:id/skills/sync` sở hữu lựa chọn skill, `/pause` và `/resume` sở hữu
+lifecycle; không PATCH các trường đó qua update configuration chung.
+
+Pilot giữ timer tắt, `wakeOnDemand:false`, mỗi agent tối đa1 run đồng thời,
+6 runs/ngày, timeout180s, `dangerouslyBypassApprovalsAndSandbox:false`. Chỉ mở
+wake cho một lượt được điều khiển, sau đó tắt và pause lại. Đây chưa là hard cap
+cho toàn đội hoặc ngân sách token; model gateway chưa có cost đáng tin cậy.
+Standard grants upstream vẫn rộng: `canAssignTasks:false` không chặn đường
+`simple_default`; `canCreateSkills:false` không tự thu hồi direct grants. Phải
+qualification quyền API/tool và sandbox trước khi mở vận hành tự chủ.
+
+Gateway pilot dùng tài khoản project đã có trong runtime Trader cũ, không copy
+hoặc lấy tài khoản Windows. Owner hiện hành: `.runtime/paperclip/gateway-owner.json`;
+đọc PID/executable/config từ đó và đối chiếu process trước khi thao tác. Đây là
+standalone pilot trong khi API Trader đang dừng, không phải Rust-managed gateway.
+Không khởi động Trader sở hữu gateway thứ hai trên cùng cổng/home.
+
+`managed.yaml` của pilot có giới hạn request8MiB;64KiB của cấu hình chat cũ đã
+tái hiện lỗi413 ở vòng dùng công cụ. Gateway đã hot-reload thay đổi. Bản gốc,
+owner và evidence được giữ dưới `.runtime/research/paperclip-team-setup/`, không
+commit config có key. Không sửa generator/cấu hình canonical Trader trong lát này.
+Trước handoff về Trader: pause và đối soát không còn run, xác minh/dừng đúng
+gateway owner; so sánh config để tránh ghi đè thay đổi mới rồi phục hồi backup
+được owner ghi nhận. Chỉ sau đó giao lại quyền khởi động cho Trader. Việc chuyển
+account home sang source Trader mới và chốt contract payload chung còn là việc sau.
+
+Lượt pilot `NAQ-1` đang blocked ở quyền dùng công cụ của harness Windows. Giữ
+các lỗi và bằng chứng trong receipt; không gọi process `succeeded` là workflow
+đã đạt. Không bật bypass để xử lý lỗi policy.
 
 Kiểm tra lỗi điều hướng nhúng sau khi Paperclip và Trader preview đã chạy:
 

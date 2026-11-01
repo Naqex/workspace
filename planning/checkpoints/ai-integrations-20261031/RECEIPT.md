@@ -339,3 +339,82 @@ UI/đội mẫu trước lát provisioning và contract chạy engine thực t�
 - Rollback source về `11d41b6` và launcher trước slice này sau khi kiểm đúng owner;
   giữ instance/config/database hiện tại. Không dùng rollback source để xoá dữ liệu.
   Đây là kiểm tra luồng lỗi và idle ngắn, chưa là bằng chứng vận hành nhiều giờ.
+
+## 2026-11-01 — Connection project và đội Paperclip pilot
+
+### Quyền và cách nối
+
+Owner giao setup Paperclip/đội agents; sau câu hỏi về gateway đã yêu cầu mở API
+project và xác nhận tài khoản đã đăng nhập. Dùng native AI Connections của
+Paperclip, không viết adapter Gemini: company-shared `local/responses`, URL
+`http://127.0.0.1:17852/v1`, key trong vault. Provider `openai` là giao thức;
+model thực tế từ catalog gateway là `gemini-3.8-flash-high` (`antigravity`).
+Harness thử: installed Codex CLI0.164.0, `codex_local`, legacy, engine `cli`.
+Không dùng credentials/global config Codex hoặc gateway Windows8317.
+
+### Đã thực hiện
+
+- Tìm thấy ba account project trong runtime Trader cũ, không copy credentials.
+  Khởi động CLIProxyAPI8.0.40 ở17852, binary SHA256
+  `0fd1f03b80a4acac69515e3737fc9f4445de69221e4750e20a3c70038a3b8443`.
+  API Trader8010 đã dừng trước khi mở gateway standalone. Owner runtime hiện
+  hành ở `.runtime/paperclip/gateway-owner.json`; PID23572 là snapshot.
+- Catalog và inference Responses trả `PROJECT_GATEWAY_OK`; native Paperclip
+  Test Environment qua connection shared đạt hello cho cả lane mặc định và CLI.
+  Đây là qualification kết nối ngắn, không là task/tool qualification.
+- Company `Naqex AI` có ba agents thật: Điều phối nghiên cứu (pm), Nghiên cứu
+  chiến lược (researcher), Kiểm chứng độc lập (qa); hai agent sau reportsTo lead.
+  Instructions bundle qua API có revision; dùng skill vận hành upstream.
+- Timer tắt; kết thúc pilot cả ba paused và `wakeOnDemand:false`. Mỗi agent
+  maxConcurrentRuns1, maxDailyRuns6, timeout180s. Bypass Codex được đặt false.
+  Không cung cấp broker/demo/live hoặc dữ liệu thị trường thật.
+
+### Failure và sửa lỗi có bằng chứng
+
+- Task `NAQ-1` (`670d9c6c-ded3-4e20-ae1e-235c1b976df9`) chỉ là đề bài giả lập
+  phí hai chiều và causal timing. Run đầu
+  `cb8d99cc-c54e-405e-9075-d71530a195f8` failed với HTTP413 sau thao tác đầu;
+  skill injection báo EPERM. Retry do Paperclip tạo đã cancelled khi pause.
+- `managed.yaml` giới hạn request65536 bytes. Probe70000 bytes tái hiện413;
+  tăng riêng pilot lên8388608, gateway hot-reload, cùng probe đi tới validation
+  model (HTTP400 model_not_found). Không tăng retry hoặc sửa generator Trader.
+  Backup config chứa key chỉ ở evidence local bị ignore.
+- Skill directories dùng junction trên Windows; giữ directory symlink ở hệ
+  khác và quyền callback/preserve custom directories. Bổ sung SystemRoot,
+  WINDIR, ComSpec vào shell allowlist, giữ provider-key exclusion. Controlled
+  Windows PowerShell probe thiếu SystemRoot không chạy; thêm biến này chạy được.
+- Source Paperclip `42b6107a6f5d997eb6755bd144b42a974449d82b`:
+  focused skill injection + shell environment11/11 tests pass; typecheck
+  adapter-utils và codex-local pass; diff check pass. Launcher build static UI
+  pass trước restart. Không chạy full suite hoặc toàn bộ product acceptance.
+- Run sau sửa `8ad071e9-4bab-41b6-acca-f36a29374583` process succeeded nhưng tool
+  calls bị `blocked by policy`. Không còn413/EPERM trong lượt này. Model tạo
+  nội dung nháp, platform materialize final response thành comment; chưa chứng
+  minh agent tự gọi API để ghi task/document hoặc chuyển trạng thái. Operator
+  đã đặt `NAQ-1` blocked với action qualification harness/sandbox. Không mở
+  bypass để vượt policy. Chưa chạy researcher/reviewer hoặc engine quant.
+
+### Backup, runtime và resume
+
+- Trước provision: `paperclip-20261101-091528.sql.gz`, SHA256
+  `b1cda01130214518feb1e8c5f7c6934015e958632be95f4c5b138a27382a18bf`.
+  Trước restart: `paperclip-20261101-092547.sql.gz`, SHA256
+  `6c98653bbe0a1db272d7f44ccf642f470684a07a0113290e0ef3f0d4b7cdc1a1`.
+  Cả hai trong `.runtime/paperclip/instances/trader-ui/backups/`.
+- Kiểm PID/parent/command owner rồi dừng server/launcher; ports17860/17861 rảnh
+  trước start. Không migration/reset/restore DB. Runtime static mới healthy ở
+  source42b6107; owner snapshot launcher16352/server2836, phải đọc lại khi thao tác.
+- `.runtime/research/paperclip-team-setup/` giữ probe, backup receipt, IDs,
+  failure events, kết quả sau sửa và `checkpoint.json`. Checkpoint cuối có
+  zero queued/running runs; không bật timer/automation. Gateway vẫn đang mở.
+- Audit AI environment trước/sau: ok,0 errors/0 warnings; active21387/65536 B,
+  reserve44149 B. Không đổi instructions/config toàn máy hoặc tạo skill mới.
+- Standard grants upstream vẫn cho configure/tool management; tắt các flag
+  không tự thu hồi grants và `tasks:assign` còn đường simple_default. Đây là
+  gap chưa giải quyết, không tuyên bố đội có quyền tối thiểu hoặc sandbox đã đạt.
+  Bước tiếp: chọn/qualify harness native theo cùng connection, xác minh quyền
+  từ chối thực tế, rồi chạy từng task bằng tools. Giữ ba agents paused đến lúc đó.
+- Gateway standalone dùng home Trader cũ. Handoff/restore override phải theo
+  [hướng dẫn](../../../tooling/paperclip/README.md), không khởi động owner thứ hai.
+  Source rollback về548adbc giữ DB hiện có; backup mới trước mọi restore mất dữ
+  liệu. Không rollback source bằng cách xoá đội, connection hoặc lịch sử lỗi.

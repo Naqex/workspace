@@ -1,6 +1,21 @@
 # AI workspace — native Paperclip UI và prototype lịch sử
 
-## Tiếp nối được owner giao — 01/11
+## Lát setup được owner giao — 01/11
+
+Owner giao cấu hình Paperclip và mở CLIProxyAPI project bằng các tài khoản đã
+đăng nhập. Đã lưu native connection Responses API và tạo ba agents thật theo
+đề xuất research. Connection/model probe đạt; pilot `NAQ-1` chưa đạt toàn luồng:
+công cụ shell bị policy từ chối. Cả đội đã pause, timer/wake tắt, không có run
+đang chạy. API gateway vẫn mở cho project; không thay bản Windows.
+
+Source sửa Windows của Paperclip: `42b6107`; receipt giữ failure trước/sau,
+owner/backup và việc cần tiếp tục. Bước tiếp là qualification harness/sandbox và
+thu hẹp quyền thực tế, rồi mới chạy researcher/reviewer; chưa bật automation,
+RD-Agent, TradingAgents hoặc broker. Không nối runtime chỉ dựa vào flag permission.
+Hướng dẫn vận hành: [Paperclip](../../tooling/paperclip/README.md).
+UI audit rộng tiếp tục pause; các mục dưới đây là lịch sử theo từng lát.
+
+## Lịch sử mở rộng UI — 01/11
 
 Đã mở rộng bản dịch VI/EN sang các trang/menu/dialog chuyên sâu của fork bằng
 catalog i18next riêng. Trang Agents có **Xem đội và nhiệm vụ mẫu**: sơ đồ ba
@@ -9,8 +24,8 @@ Source Paperclip `11d41b6`; runtime local đã cập nhật cùng revision, gi�
 Phạm vi kiểm chứng và giới hạn nằm trong mục ngày01/11 của
 [receipt tích hợp](../checkpoints/ai-integrations-20261031/RECEIPT.md).
 
-Lát kế tiếp vẫn cần owner review UI trước khi cấu hình agents, provider và
-contract chạy job engine. UI audit rộng tiếp tục pause. Các mục31/10 dưới đây
+Tại thời điểm lát UI này, còn cần review trước khi cấu hình agents, provider và
+contract chạy job engine. Các mục31/10 dưới đây
 giữ lịch sử, không thay coverage và trạng thái mới trong receipt.
 
 ## Lát localization tiếp nối — 31/10

@@ -2,6 +2,12 @@
 
 Khảo sát: **31/10/2026**. **ĐỀ XUẤT, CHƯA ÁP DỤNG CẤU HÌNH**.
 
+Cập nhật01/11: đã tạo đội và native connection theo một pilot có điều khiển;
+chưa qualification toàn luồng hoặc policy vận hành tự chủ. Trạng thái mới do
+[PLAN](../trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md) và
+[receipt](../checkpoints/ai-integrations-20261031/RECEIPT.md) giữ; các cấu hình dưới
+đây tiếp tục là đề xuất nghiên cứu, không là bằng chứng đã enforce.
+
 Owner giao đọc docs và kinh nghiệm cộng đồng để chọn cách tổ chức đội phù hợp.
 Tài liệu này bổ sung [brief kiến trúc](AUTONOMOUS-TRADING-SYSTEM-BRIEF.md), không
 thay acceptance/receipt, không cấp quyền chạy engine hoặc giao dịch. UI trước,
