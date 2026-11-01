@@ -1,5 +1,19 @@
 # Naqex Trader — Product Completion Plan
 
+## Ưu tiên execution — UI/system audit cho một owner, 31/10/2026
+
+Thực thi [phụ lục audit hiện hành](OWNER-SYSTEM-AUDIT-20261031.md): đối chiếu
+PLAN/source/runtime, đồng bộ UI reference và các lớp ẩn, VI–EN, workflow,
+frontend/API/DB và cleanup có bằng chứng. Ưu tiên latency cho một owner thay
+cho scale nhiều user trong đợt này; vẫn giữ isolation/correctness. Phụ lục
+không đóng U/Y/W từ scoped tests, không đổi ledger/STATE và giữ nguyên scope
+Rust-native bên dưới. AI autonomy tiếp sau; current scope 29/10 vẫn defer
+Figma/Miro ([current scope](CURRENT-SCOPE-20261029.md)); các mệnh đề Figma/Miro,
+Y12/Y26 và multi-user bên dưới là lịch sử/mục tiêu dài hạn, không chặn đợt này.
+Audit đã được owner giao tiếp tục ngày01/11, hiện **ACTIVE/PARTIAL**; đọc
+[checkpoint](../../projects/trader/foundation_v2/evidence/owner-system-audit-20261031/CHECKPOINT.md)
+trước khi tiếp.
+
 ## Owner-approved repository migration — 29/10/2026
 
 This task covers Naqex Trader rebranding, `projects/trader` / `planning/trader`,
@@ -31,7 +45,7 @@ Phiên bản **2.3 · 26/09/2026** · **PATH-2 OWNER-APPROVED; PLAYWRIGHT-FIRST 
 
 **Operating model hiện hành:** một Web GPT coordinator tự quản công việc/children, **ưu tiên tốc độ, trần 10 browser turns tổng trên pool**, gồm coordinator/reviewer/nested children, không phải 10 child cộng root. Hai instance hiện có cap 5 mỗi instance; số dùng thật phụ thuộc health, Cockpit routing, host slots, task readiness và resource budget. Chính sách này thay default 1 child / ban đầu tối đa 2 child trước đó. [Operating plan mục 2A–2C](COORDINATOR-OPERATING-PLAN.md#2a-trần-tổng-giới-hạn-từng-instance-và-admission) quy định admission, kiểm chứng ngắn, routing/affinity và snapshot hiện tại; chưa có benchmark 10 hoặc routed pool acceptance. State/evidence vẫn ở ngoài chat; late/duplicate/uncertain results phải reconcile. P01/P06 chỉ là evidence hẹp, P02 chưa chứng minh overlap và full recovery chưa đạt; không đổi kết quả lịch sử để hợp chính sách mới.
 
-**Ưu tiên hiện hành:** giữ mục tiêu dài hạn nhiều user/máy/account/broker/client và AI sessions; tiếp các product slices sau evidence hardening, thêm Y25/Y26 đúng dependencies. [Đề bài trung lập](LONG-TERM-RESEARCH-BRIEF.md), [research](LONG-TERM-FOUNDATION-RESEARCH-2026-09-20.md) và [F0–F7/FH](FOUNDATION-RESEARCH-PLAN.md) giữ traceability; không so lại toàn bộ stack. Lượt cập nhật này chỉ sửa tài liệu, không khởi chạy/dừng worker hay sửa source.
+**Ưu tiên 26/09 (lịch sử; đợt 31/10 ưu tiên latency một owner theo phụ lục audit):** giữ mục tiêu dài hạn nhiều user/máy/account/broker/client và AI sessions; tiếp các product slices sau evidence hardening, thêm Y25/Y26 đúng dependencies. [Đề bài trung lập](LONG-TERM-RESEARCH-BRIEF.md), [research](LONG-TERM-FOUNDATION-RESEARCH-2026-09-20.md) và [F0–F7/FH](FOUNDATION-RESEARCH-PLAN.md) giữ traceability; không so lại toàn bộ stack. Lượt cập nhật này chỉ sửa tài liệu, không khởi chạy/dừng worker hay sửa source.
 
 **Nguyên tắc greenfield được bảo toàn:** PATH-2 thắng vì source-level reuse có boundary sạch, không vì sunk cost. Giữ [knowledge](KNOWLEDGE-PRESERVATION-REGISTER.md), không giữ implementation bằng mọi giá. Những tên module/route cũ trong các U là capability/reference map, không buộc nền mới mang Flask/SQLite authority sang; worker map chúng vào foundation đã duyệt. Revisit PATH chỉ theo evidence/trigger trong ADR.
 
@@ -366,6 +380,7 @@ PATH-2 đã được chủ sản phẩm chốt. Prompt sau dành cho **một exe
 > Đọc EXECUTION-ENTRYPOINT.md và PRODUCT-COMPLETION-PLAN.md tại D:/ANNAM/TradingWorkspace/planning/trader. Làm coordinator duy nhất thực thi full plan PATH-2: reconcile ledger/evidence/WIP, không làm lại FH/U đã accepted đúng scope. Tự chia/review/tích hợp và lưu checkpoint, trần pool 10 tính cả root. Tự duyệt UI theo UI-AUTONOMY-FIGMA-PROP-PLAN.md, hoàn thiện Prop firm session và vòng Figma Make với kết nối/evidence thật. Không xin owner chọn gu, không bịa connection/acceptance; giữ gates dữ liệu, tiền thật, quyền, chi phí và deploy. Tiếp phần độc lập khi gặp gate; báo ngắn để chat mới resume được.
 
 Prompt trên là mẫu bàn giao, không phải lệnh đang được thực hiện ở lượt viết tài liệu này.
+Từ 29/10, phần Figma Make trong prompt bị hoãn theo [current scope](CURRENT-SCOPE-20261029.md); bỏ mệnh đề đó khi giao lại.
 
 ## 17. Những thứ cố ý không hứa trong bản này
 

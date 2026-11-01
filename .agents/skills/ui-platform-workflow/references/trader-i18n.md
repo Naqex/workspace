@@ -12,8 +12,9 @@ Keep each testing-copy entry on one line, CRLF, no duplicate keys. Shared copy
 has one writer during parallel work; give that owner proposed keys/values.
 Preserve interpolation names in both locales and in a templated key. The
 [focused copy test](../../../../projects/trader/foundation_v2/web/tests/testingCopy.test.mjs)
-checks locale coverage, interpolation contracts and displayed PnL spelling;
-it does not detect every formatting or duplicate-key error after JSON parsing.
+checks locale coverage, interpolation contracts, displayed PnL spelling and
+duplicate top-level keys before JSON parsing under the catalog's line layout.
+It does not detect every literal JSX string or guarantee contextual wording.
 
 AI components also use local say(vi, english), selected from the existing
 language state. Update both branches where the component already uses this

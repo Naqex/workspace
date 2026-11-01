@@ -1,5 +1,11 @@
 # Naqex Trader — UI Master Plan
 
+**Execution hiện hành 31/10:** theo [phụ lục audit cho một owner](OWNER-SYSTEM-AUDIT-20261031.md)
+(đã tiếp tục01/11, ACTIVE/PARTIAL) và [checkpoint audit](../../projects/trader/foundation_v2/evidence/owner-system-audit-20261031/CHECKPOINT.md).
+Giữ W0–W8 làm scope chất lượng; các snapshot/hash bên dưới không thay hiện trạng
+source hoặc proof mới; pointer `workspace-next-stage/RESUME.md` trong authority
+note 01/10 là lịch sử. Hướng FX-aligned đã chọn được giữ, không mở exploration lại.
+
 **Ngày:** 30/09/2026\
 **Phạm vi:** chỉ projects/trader (Naqex Trader/MT5). VI Dubber không nằm trong plan này.\
 **Trạng thái:** kế hoạch đã được owner chốt hướng; chưa phải nghiệm thu UI.\

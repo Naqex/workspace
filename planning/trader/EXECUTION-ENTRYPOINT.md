@@ -6,13 +6,15 @@ File này dùng cho cả bắt đầu và resume. Không cần lịch sử chat;
 
 **Current scope amendment · 29/10/2026:** đọc [CURRENT-SCOPE-20261029.md](CURRENT-SCOPE-20261029.md) trước khi chọn task. Scope hiện tại dùng code/evidence FX-aligned trong `projects/trader/foundation_v2`; Figma Make/Y26 và Miro/Y12 được tạm hoãn, không phải điều kiện bắt buộc của đợt này. Plan/checkpoint cũ chỉ giữ để truy vết.
 
+**Audit một owner · tiếp tục 01/11/2026:** [phụ lục audit](OWNER-SYSTEM-AUDIT-20261031.md) đang ACTIVE/PARTIAL; đọc [checkpoint](../../projects/trader/foundation_v2/evidence/owner-system-audit-20261031/CHECKPOINT.md) trước khi tiếp. STATE r389 (37 task accepted đúng scope) là bằng chứng lịch sử, không phải tiến độ audit; các revision r144/r219 bên dưới cũng là snapshot lịch sử.
+
 **Handoff một path 24/09:** Product Plan v2.2 dẫn đủ file; worker tự đọc [trading-ui-qa skill](../../projects/trader/.agents/skills/trading-ui-qa/SKILL.md) và [CLI kit](../../tooling/ui-qa/README.md) khi làm UI. `node tooling/ui-qa/qa.mjs doctor --plan <absolute PRODUCT-COMPLETION-PLAN.md>` read-only; `smoke` chỉ kiểm fixture của tooling. Không dùng staged legacy agent-workflow runner để chạy browser vì policy của runner đó cấm. Bộ kit không giữ acceptance tracker hoặc khởi động model/product/broker.
 
 **Quyền UI hiện tại:** worker tự duyệt UI theo rubric và QA của code hiện hành, không chờ owner chọn gu. Prop session vẫn là scope riêng nếu có evidence; Figma Make/Y26 và Miro/Y12 đang deferred. Đây không là quyền tiền thật/holdout/provider phí/OAuth/deploy.
 
 **Operational resume sau execution 22/09:** đọc [run RESUME](research/foundation-validation/20260921T115933Z-315e8ddd/RESUME.md) và controller-generated [STATE](research/foundation-validation/20260921T115933Z-315e8ddd/STATE.json) trước khi chọn task. Planner snapshot bên dưới giữ lịch sử; ledger đã có FH/U2/U3 và U5 reference acceptance đúng scope. Nó không thay quyền/gates của file này hoặc đóng toàn bộ U5/product.
 
-## Trạng thái kế hoạch hiện tại
+## Planner snapshot 22–23/09/2026 (lịch sử)
 
 | Phần | Trạng thái / nguồn |
 |---|---|

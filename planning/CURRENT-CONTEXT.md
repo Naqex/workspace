@@ -1,9 +1,26 @@
 # Current context — Naqex Workspace
 
+## Ưu tiên hiện hành — audit Trader cho một owner, 31/10/2026
+
+**Trạng thái 01/11:** owner đã giao tiếp tục audit cùng Studio. Dùng
+[checkpoint audit](../projects/trader/foundation_v2/evidence/owner-system-audit-20261031/CHECKPOINT.md)
+và [review tổng hợp](../projects/trader/foundation_v2/evidence/owner-system-audit-20261031/OWNER-REVIEW-20261101.md)
+để chọn lát tiếp; các snapshot tạm dừng bên dưới receipts là lịch sử.
+Chưa có whole-product acceptance hoặc rollout runtime owner của đợt này.
+Key Opus 5.5 đã hết hạn theo owner; pilot trước đó không chứng minh provider
+còn dùng được. Tiếp source/fixture offline, không tự đổi provider để chạy job.
+
+Phạm vi audit: đồng bộ toàn UI reference/frontend/backend/DB, workflow, VI–EN
+và tốc độ phản hồi cho một người dùng, theo
+[phụ lục audit](trader/OWNER-SYSTEM-AUDIT-20261031.md) thuộc Product Plan.
+Không dùng % cảm quan hay task accepted lịch sử làm % hoàn thiện sản phẩm.
+
 ## Nghiên cứu giai đoạn AI tự chủ — 31/10/2026
 
-Owner giao nghiên cứu kiến trúc/workflow dài hạn, chưa giao tích hợp engine.
-Đọc [brief hiện hành](research/AUTONOMOUS-TRADING-SYSTEM-BRIEF.md) để tiếp tục:
+Owner đã giao nghiên cứu, fork/tích hợp Paperclip và thiết kế lại Studio.
+Source/runtime ownership theo [integration guide](../tooling/integrations/README.md);
+pilot đã có receipt nhưng key Opus5.5 hiện hết hạn. Kiến trúc/workflow dài hạn
+đọc [brief hiện hành](research/AUTONOMOUS-TRADING-SYSTEM-BRIEF.md):
 đích là tự động hóa nghiên cứu lẫn vận hành, ưu tiên B (tự quyết có giới hạn),
 chuyển được sang A (chờ duyệt chiến lược mới). Brief giữ lựa chọn/câu hỏi và map
 research cũ; không thay Product Plan/ledger hoặc mở quyền live. Trader khoảng 80%
@@ -26,9 +43,9 @@ old path is not the canonical source. Public release and active-runtime rollout
 retain their approval gates. The snapshot below is historical and does not
 report the new migration or today's process health.
 
-**Historical snapshot:** cập nhật execution liên project 2026-10-02. Đây là file điều hướng, không phải acceptance ledger và không thay runtime state. [Checkpoint đối chiếu PLAN](checkpoints/workspace-next-stage/ALL-PLAN-EXECUTION-20261002/CHECKPOINT.md) giữ requirement/evidence/gate và WIP.
+**Historical snapshot:** các phần từ đây trở xuống được cập nhật lần cuối trong execution liên project 2026-10-02, trừ khi dòng đó ghi ngày khác. Đây là file điều hướng, không phải acceptance ledger và không thay runtime state. [Checkpoint đối chiếu PLAN](checkpoints/workspace-next-stage/ALL-PLAN-EXECUTION-20261002/CHECKPOINT.md) giữ requirement/evidence/gate và WIP.
 
-**Ưu tiên mới nhất của owner:** tập trung MT5; VI Dubber để sau, không mở thêm lane
+**Ưu tiên owner ngày 02–03/10 (lịch sử):** tập trung MT5; VI Dubber để sau, không mở thêm lane
 VI. Root tiếp quản WIP sau interruption; fresh agent inventory chỉ còn root.
 Continuation được chốt sau00:00+07 ngày03/10; folders giữ execution date02/10.
 
@@ -58,7 +75,9 @@ Không đọc toàn archive để bắt đầu task. Archive chỉ mở để ki
 
 `CONTEXT-LIFECYCLE.md` là policy về authority, compact, archive và resume-read test. Không tạo ledger hoặc master PLAN thứ hai.
 
-## Trạng thái hiện tại đã xác minh
+## Trạng thái đã xác minh theo snapshot (02–29/10)
+
+Mỗi dòng giữ ngày/commit của bằng chứng riêng; ưu tiên hiện hành và audit 31/10 nằm ở đầu file.
 
 - **Current Trader scope (29/10/2026):** dùng code/evidence FX-aligned trong `projects/trader/foundation_v2` theo [current scope amendment](trader/CURRENT-SCOPE-20261029.md). Figma Make/Y26 và Miro/Y12 được tạm hoãn, không phải điều kiện chặn hiện tại; các receipt cũ vẫn giữ nguyên để truy vết. U1/U3/U4/U9 và U2/U5/U6/U7/U8 chỉ được ghi nhận theo đúng phạm vi evidence, không tự chuyển thành full-product acceptance.
 - **MT5 recovery/research:** U5b predeclared manual protective parity `b03304e`, U5a native feasibility `55add2e`, synthetic restore15checks `c418a07`, clean tracked-source Windows warm-cache setup `6265dc3`. Ledger/STATE r389 có37 tasks accepted ở scope đã đăng ký; các additions này không tự ledger-accept. U5a durable crash-state restore chưa đạt. Learn bridge đã accepted-scoped; QA404 là `learn_not_configured`, không là mất backend.
@@ -82,7 +101,7 @@ Không đọc toàn archive để bắt đầu task. Archive chỉ mở để ki
 - Provider, broker, wallet, OAuth, holdout, public upload, paid service, deploy và destructive cleanup đều fail-closed.
 - Các plan frontier, SaaS/multiuser, distributed compute, AI factory, SDK expansion và cloud connector là future reference; không thuộc execution hiện tại.
 
-## Resume hiện tại
+## Snapshot resume vận hành 02–03/10/2026 (lịch sử)
 
 1. Đọc `RESUME.md`, sau đó đọc đúng domain PLAN.
 2. MT5 margin đã commit `544e422`; W8 mixedOHLC/all5types/mousegestures đã scopedPASS. Tiếp independent visual review/touch-keyboard/chartlong-session hoặc remainingU5 gaps theo dependencies; giữ fixture/goldens/ledger. Scoped Vite5186PID18572/tool34774 đã teardown sau exactcommandcheck; fresh listeners5180/5186/8020/8030 absent. Không restart/reseed backend.
