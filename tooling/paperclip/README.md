@@ -112,10 +112,14 @@ Thứ tự thao tác:
 
 1. Tạo organization bằng UI Paperclip; tên do owner chọn.
 2. Tạo một project nghiên cứu; chưa trỏ agent vào toàn bộ workspace.
-3. Tạo một agent Điều phối nghiên cứu bằng wizard gốc. Chọn bộ chạy và kết nối
+3. Tạo một agent **Trưởng nhóm nghiên cứu** bằng wizard gốc. Chọn bộ chạy và kết nối
    tài khoản trong wizard; không bắt buộc tạo Local endpoint/CLIProxyAPI trước.
 4. Chỉ sau khi Test Environment đạt mới giao một task offline nhỏ. Chưa bật
    lịch tự động; chưa tạo cả đội trước khi agent đầu chạy được.
+
+Tên agent dùng chức danh doanh nghiệp tiếng Việt; không dùng nickname. Bộ tên
+đề xuất và nguồn khảo sát nằm trong
+[nghiên cứu đội agents](../../planning/research/PAPERCLIP-QUANT-TEAM-RESEARCH-20261031.md#tên-chức-danh-tiếng-việt--khảo-sát01112026).
 
 ### Native và giới hạn bản pin
 

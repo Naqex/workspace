@@ -2,8 +2,9 @@
 
 Khảo sát: **31/10/2026**. **ĐỀ XUẤT, CHƯA ÁP DỤNG CẤU HÌNH**.
 
-Cập nhật01/11: đã tạo đội và native connection theo một pilot có điều khiển;
-chưa qualification toàn luồng hoặc policy vận hành tự chủ. Trạng thái mới do
+Cập nhật01/11: đã thử đội và native connection trong một pilot có điều khiển,
+sau đó dọn dữ liệu mẫu theo yêu cầu owner để owner tự setup qua UI gốc.
+Chưa qualification toàn luồng hoặc policy vận hành tự chủ. Trạng thái mới do
 [PLAN](../trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md) và
 [receipt](../checkpoints/ai-integrations-20261031/RECEIPT.md) giữ; các cấu hình dưới
 đây tiếp tục là đề xuất nghiên cứu, không là bằng chứng đã enforce.
@@ -15,15 +16,15 @@ backend/services sau vẫn là thứ tự hiện hành; UI audit rộng tiếp t
 
 ## 1. Khuyến nghị
 
-Khởi đầu bằng **3 agent: Điều phối → Nghiên cứu + Kiểm chứng độc lập**.
+Khởi đầu bằng **3 agent: Trưởng nhóm nghiên cứu → Phân tích định lượng + Kiểm định mô hình**.
 Paperclip quản lý công việc; RD-Agent và TradingAgents là engine được gọi theo
 nhiệm vụ, không nhân đôi toàn bộ vai trò của chúng thành nhân sự Paperclip.
 
 | Agent / tên kỹ thuật đề xuất | Trách nhiệm | Kết quả bàn giao |
 |---|---|---|
-| Điều phối nghiên cứu / `research-lead` | Chuyển mục tiêu owner thành đề tài có phạm vi, giao việc, theo dõi blocker, tổng hợp kết luận | Đề bài, kế hoạch thử, báo cáo ngắn cho owner |
-| Nghiên cứu chiến lược / `quant-researcher` | Nghiên cứu giả thuyết, viết candidate, chạy thử trên phần dữ liệu được cấp | Code, giả thuyết, nhật ký tất cả lượt thử, artifact có phiên bản |
-| Kiểm chứng độc lập / `validation-reviewer` | Xem timing/data/code và kết quả bộ đánh giá; yêu cầu bổ sung hoặc chặn chuyển bước | Kết luận đạt / không đạt / thiếu bằng chứng / lỗi, kèm lý do |
+| Trưởng nhóm nghiên cứu / `research-lead` | Chuyển mục tiêu owner thành đề tài có phạm vi, giao việc, theo dõi blocker, tổng hợp kết luận | Đề bài, kế hoạch thử, báo cáo ngắn cho owner |
+| Chuyên viên phân tích định lượng / `quant-researcher` | Nghiên cứu giả thuyết, viết candidate, chạy thử trên phần dữ liệu được cấp | Code, giả thuyết, nhật ký tất cả lượt thử, artifact có phiên bản |
+| Chuyên viên kiểm định mô hình / `validation-reviewer` | Xem timing/data/code và kết quả bộ đánh giá; yêu cầu bổ sung hoặc chặn chuyển bước | Kết luận đạt / không đạt / thiếu bằng chứng / lỗi, kèm lý do |
 
 `research-lead` là đầu mối của owner; hai agent còn lại báo cáo hành chính cho
 lead. Quan hệ quản lý không cho lead quyền sửa kết quả kiểm chứng, bỏ qua gate
@@ -38,6 +39,29 @@ task, không trộn vào đội nghiên cứu thị trường thường trực.
 Đây là lựa chọn kiến trúc cho giai đoạn đầu, chưa là kết luận 3 agent luôn tối
 ưu. Chỉ tách thêm vai trò khi job thật cho thấy thiếu chuyên môn, quá tải context
 hoặc cần kiểm chứng song song; đo thời gian, lỗi và chất lượng artifact trước.
+
+### Tên chức danh tiếng Việt — khảo sát01/11/2026
+
+Owner muốn tên theo chức danh doanh nghiệp Việt Nam, nghe tự nhiên và rõ người
+chịu trách nhiệm. Không dùng nickname như Nami; không lấy một hành động như
+Điều phối nghiên cứu làm tên người phụ trách. Tên hiển thị đề xuất theo bảng
+trên; mã kỹ thuật và trách nhiệm giữ nguyên. Agent đầu tiên nhập
+**Trưởng nhóm nghiên cứu**. Đây là đề xuất tên, chưa đổi agent qua API/UI.
+
+Nguồn đối chiếu:
+
+| Nguồn | Cách gọi quan sát được | Cách áp dụng cho đội mình |
+|---|---|---|
+| [JobsGO: Trưởng nhóm nghiên cứu](https://jobsgo.vn/viec-lam-truong-nhom-nghien-cuu.html) | Chức danh gắn với lập kế hoạch, phân công và tổng hợp báo cáo nghiên cứu | Chọn Trưởng nhóm nghiên cứu cho đầu mối quản lý đội nhỏ |
+| [Vietcap: giới thiệu lãnh đạo](https://www.vietcap.com.vn/ve-vietcap) | Giám đốc Nghiên cứu và Phân tích | Đối chiếu cách gọi cấp quản lý ngành tài chính; không suy rằng cần cấp giám đốc cho đội hiện tại |
+| [Tin tuyển dụng Asean Securities trên CareerViet/Tuổi Trẻ](https://vieclam.tuoitre.vn/en/jobseekers/jobs/apply?job_id=35C8A504) | Chuyên viên Phân tích định lượng (Quant) | Dùng cho người nghiên cứu dữ liệu, mô hình và chiến lược bằng code |
+| [ACB: GĐ/CV Kiểm định mô hình](https://acbjobs.talent.vn/job/ho-gdcv-kiem-dinh-mo-hinh-55642) | Kiểm định độc lập mô hình định lượng/AI, đánh giá độ chính xác và ổn định | Dùng Chuyên viên kiểm định mô hình cho vai trò phản biện độc lập |
+
+Đây là lựa chọn diễn đạt theo bối cảnh Naqex, không phải bộ chức danh bắt buộc
+hoặc thống kê tần suất trên toàn thị trường tuyển dụng. Tin tuyển dụng có thể
+hết hạn; chỉ dùng làm bằng chứng cách gọi. Chức danh không tự cấp quyền duyệt
+vốn, sửa kết quả kiểm định hay gửi lệnh. Không nhập nguyên mô tả công việc ngân
+hàng vào hướng dẫn agent; phạm vi trading và gate vẫn do contract hiện hành giữ.
 
 ## 2. Cộng đồng có gì và nên học gì?
 
