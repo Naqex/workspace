@@ -2094,3 +2094,73 @@ acceptance, chưa là whole-product/backend acceptance hoặc production rollout
 cho lỗi chưa rõ outcome, trước khi thiết kế lịch tự chạy có giới hạn. Chi phí SDK/
 gateway unknown chưa được coi bằng0; scheduler vẫn tắt. Strategy tuning, dữ liệu
 mới, qualification và broker execution chưa thực hiện trong lát này.
+
+### Studio: hướng dẫn agents, task policy và MCP/Decision audit, 02/11
+
+Owner hỏi cách chuẩn hóa hướng dẫn vận hành và các trường trong task, Jev1.13,
+sau đó hỏi Paperclip MCP vì Connections hiện lỗi đỏ. Lát này chỉ đọc runtime,
+đối chiếu source/docs và bổ sung hướng dẫn; không chạy model, thay native policy,
+chuyển auth mode hoặc kết nối OAuth.
+
+**Đã xác minh bằng native GET:**
+
+- Workers TradingAgents, RD-Agent, Forex và Hermes dùng native process adapters,
+  timer heartbeat tắt, concurrency1, không được tự tạo agent/skill. Forex worker
+  hiện có status `error`; setup không đồng nghĩa provider/job hiện sẵn sàng.
+- NAQ-29 là graph cancelled có3 children cancelled; wrapper trả `can_start=false`,
+  `can_cancel=false`. Không gán worker hoặc restart để làm sạch ảnh trạng thái.
+  NAQ-25 vẫn in_review giao local-board; NAQ-26/27 done đúng workers numeric/Hermes.
+- `executionPolicy=null` trên các task đã đọc: chưa cấu hình native Reviewer/
+  Approver stages. Hermes phản biện qua child task; human handoff là assignment/
+  summary in_review, chưa là native approval gate. Không dùng nó làm quyền execution.
+- Native Trưởng nhóm nghiên cứu có instructions file nhưng nội dung mới là một
+  câu chung. Nó không điều phối registered graph hiện tại; chưa tự sửa prompt
+  owner-managed hoặc gắn thêm quyền. Hermes prompt được wrapper nạp rõ, còn
+  process workers nhận typed contract; không tự đọc mọi Markdown/skill trong repo.
+- Decision settings disabled, connection/grant/provider/model null, choices rỗng;
+  availability=`not_configured`, history0. Shared pin có model `typesafe/jev-1.13`;
+  server chỉ đăng ký consumer `settings.test` và route test. Studio wrappers chưa
+  gọi Decision service. Presence trong picker không chứng minh tính năng đã dùng.
+
+**MCP root cause:** health200/ok, deploymentMode=`local_trusted`;
+`GET /api/mcp/setup` và `/api/mcp/connections` trả404 `API route not found`.
+Native experimental settings có `enablePublicMcp=false`; instance config chưa có
+auth publicBaseUrl, launcher không truyền PAPERCLIP_PUBLIC_URL. Source chỉ mount
+management routes khi có public MCP config. Card lỗi vì route chưa được mở;
+không phải evidence key/model/quota lỗi. Runtime tools của Codex chưa có Paperclip
+MCP tool; các thao tác vừa qua dùng native HTTP API và source inspection.
+
+Theo pinned `doc/public-mcp.md` và [upstream docs](https://github.com/paperclipai/paperclip/blob/master/doc/public-mcp.md),
+native MCP cần valid origin, real authenticated user/company membership, feature
+flag và human OAuth consent. Local-trusted implicit board không cấp consent.
+Đổi auth mode đơn lẻ sẽ ảnh hưởng `paperclip_setup.api`/Studio controls đang dùng
+implicit local access. Chưa đổi config để chỉ làm biến mất dòng đỏ. Khi triển khai
+cần một cutover thống nhất: backup → owner login/membership → operator auth cho
+controls → native worker/control checks → MCP client consent và scope verification.
+
+**Tài liệu/skill đã bổ sung:**
+
+- `tooling/ai-engines/OPERATIONS.md`: ownership, instruction loaders, task field
+  semantics, draft/start/cancel/recovery, MCP/HTTP/source boundary, Jev consumer gate.
+- Repo skill `.agents/skills/studio-operations/SKILL.md`: workflow vận hành đã có
+  bằng chứng, route sang guide/receipt/helpers; loại trừ strategy và upstream upgrade.
+- Workspace AGENTS và engine README route tới cùng guide. Giữ command/contracts
+  ở README cũ, kết quả ở receipt này; không tạo ledger hoặc script dispatch mới.
+- Skill đã được host expose trong phiên; chưa import nó vào Paperclip Skills hay
+  thay prompt/capability của workers. Không nâng global config hoặc tạo hook mới.
+
+**Research và quyết định Jev:** đã đọc live TypeSafe index/confidence, Context7
+primary documentation và [OpenRouter Jev guide](https://openrouter.ai/docs/guides/community/jev).
+Jev trả typed decision/probability cho semantic routing/classification; không
+thay workflow code, quyền, numeric validation hoặc Gemini/Hermes. OpenRouter guide
+hiện có1.14 và vẫn hỗ trợ1.13; giữ model pin, không auto-upgrade picker. Chưa thêm
+connection vì registered workflow chưa có Decision consumer. Khi có nhu cầu cụ
+thể, kiểm advisory classification trên labeled cases, unknown/escalation, latency
+và cost trước promotion; không dùng confidence như quyền phê duyệt.
+
+**Kiểm chứng:** skill validator đạt; local Markdown links kiểm thành công; positive
+walkthrough dùng skill/guide đọc NAQ-29 qua wrapper, không có mutation/dispatch.
+Negative trigger strategy selection được semantic review, chưa có classifier
+benchmark. AI-environment audit:0 errors/0 warnings, global12279B không đổi,
+project9269/65536B, reserve56267B, combined21548B. `git diff --check` đạt.
+Không build/test lại code runtime vì lượt này chỉ đổi instructions/docs.

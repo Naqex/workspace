@@ -1,5 +1,9 @@
 # Engine jobs in native Paperclip
 
+For task fields, instruction delivery, operating/recovery steps and Decision model
+boundaries, start with the [agent operating guide](OPERATIONS.md). Commands and
+engine-specific contracts remain below; the guide does not replace them.
+
 The optional [Hermes reviewer](hermes.md) uses its official SDK in another native
 process worker. Keep TradingAgents, RD-Agent and Quant Lab in their current roles;
 Hermes reviews evidence and maintains its own research notes.

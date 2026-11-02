@@ -73,6 +73,8 @@ Toàn bộ các dự án/repo được gom gọn trong thư mục `projects/`. M
 Paperclip, RD-Agent và TradingAgents thuộc `projects/integrations/`; đọc
 `tooling/integrations/README.md`. Khi fork, đổi đường dẫn hoặc nâng upstream,
 dùng skill repo `upstream-integrations`; pin, cổng và runtime có owner riêng.
+Khi vận hành hoặc đối soát workflow Studio/task/run/report, dùng skill repo
+`studio-operations`; hướng dẫn chung ở `tooling/ai-engines/OPERATIONS.md`.
 
 ## Reverse Engineering & Security Tooling (`tooling/reverse-skill/`)
 
