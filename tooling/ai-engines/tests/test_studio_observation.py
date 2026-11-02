@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from uuid import uuid4
 
-from studio_observation import observe_step
+from studio_observation import hermes_usage_for, observe_step
 
 
 class ObservationTests(unittest.TestCase):
@@ -99,6 +99,65 @@ class ObservationTests(unittest.TestCase):
             raise ConnectionError('private error')
         self.assertEqual(observe_step(unavailable, self.company, self.child, 'forex-pilot')['state'], 'unavailable')
         self.assertEqual(observe_step(self.api, self.company, self.child, 'forex-pilot', self.tmp.name)['state'], 'unknown')
+
+    def usage_row(self, suffix='1', **changes):
+        return dict(session_id='naqex-' + self.run_id,
+                    api_request_id='naqex-' + self.run_id + ':api:' + suffix,
+                    model='gemini-requested', response_model='gemini-reported',
+                    usage=dict(input_tokens=120, output_tokens=25, cache_read_tokens=30,
+                               cache_write_tokens=0, reasoning_tokens=5), **changes)
+
+    def usage(self, rows):
+        (self.directory / 'usage.jsonl').write_text('\n'.join(json.dumps(r) for r in rows), encoding='utf-8')
+        return hermes_usage_for(self.tmp.name, self.company, self.run_id,
+                                dict(provider_work_started=True, status='completed', api_calls=2))
+
+    def test_hermes_hook_totals_deduplicate_and_preserve_native_unknowns(self):
+        row = self.usage_row()
+        result = self.usage([row, row, self.usage_row('2')])
+        self.assertEqual(result['status'], 'observed')
+        self.assertEqual(result['requests'], 2)
+        self.assertEqual(result['observed_tokens']['input_tokens'], 240)
+        self.assertEqual(result['observed_tokens']['cache_read_tokens'], 60)
+        self.assertEqual(result['reported_models'], ['gemini-reported'])
+        self.assertIsNone(result['cost_usd'])
+        self.receipt.update(engine='hermes', provider_work_started=True, api_calls=2)
+        (self.directory / 'receipt.json').write_text(json.dumps(self.receipt), encoding='utf-8')
+        result = observe_step(self.api, self.company, self.child, 'hermes', self.tmp.name)['run']
+        self.assertEqual(result['provider_usage']['status'], 'observed')
+        self.assertIsNone(result['input_tokens'])
+        self.assertIsNone(result['reported_model'])
+
+    def test_missing_usage_and_incomplete_hook_counts_are_not_zero_billing(self):
+        row = self.usage_row()
+        row['usage'] = None
+        result = self.usage([row])
+        self.assertEqual(result['status'], 'partial')
+        self.assertIsNone(result['observed_tokens'])
+        result = self.usage([self.usage_row()])
+        self.assertEqual(result['status'], 'partial')
+        self.assertEqual(result['observed_tokens']['input_tokens'], 120)
+        self.assertIsNone(result['cost_usd'])
+        result = self.usage([self.usage_row(), self.usage_row('2'), self.usage_row('aux', aux_task='title')])
+        self.assertEqual(result['status'], 'observed')
+        self.assertEqual(result['requests'], 3)
+
+    def test_conflicting_request_foreign_session_and_invalid_tokens_are_rejected(self):
+        row = self.usage_row()
+        for changes in ({'session_id': 'other-run'}, {'api_request_id': 'other-request'},
+                        {'usage': {'input_tokens': -1}}, {'usage': []}):
+            with self.subTest(changes=changes):
+                self.assertEqual(self.usage([{**row, **changes}])['status'], 'invalid')
+        self.assertEqual(self.usage([row, {**row, 'response_model': 'different'}])['status'], 'invalid')
+
+    def test_usage_read_is_bounded_and_missing_or_truncated_file_stays_unknown(self):
+        receipt = dict(provider_work_started=True)
+        read = lambda: hermes_usage_for(self.tmp.name, self.company, self.run_id, receipt)
+        self.assertEqual(read()['status'], 'missing')
+        for wire in ('{"unfinished":', 'x' * 65537):
+            (self.directory / 'usage.jsonl').write_text(wire, encoding='utf-8')
+            self.assertEqual(read()['status'], 'invalid')
+        self.assertEqual(hermes_usage_for(None, self.company, self.run_id, receipt)['status'], 'unavailable')
 
 
 if __name__ == '__main__':

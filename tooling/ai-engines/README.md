@@ -314,6 +314,15 @@ zero SDK usage. This projection does not change native accounting or repair
 publication automatically. Reading/cancelling stays available if model settings
 are invalid; optional local receipt lookup can be unavailable independently.
 
+For Hermes, `provider_usage` separately reads the existing per-run `usage.jsonl`
+hook evidence: observed requested/reported model IDs, request counts and token
+buckets. Reads are bounded and scoped to the validated receipt/run; identical
+request IDs are deduplicated, conflicting or malformed rows are rejected, and
+missing usage/incomplete main-call coverage is explicit. These are observed SDK
+tokens, not independently verified model identity, an invoice or native accounting.
+Cache and reasoning buckets retain upstream semantics; do not add reasoning to
+output tokens again. Price remains unknown. No engine/plugin changes are needed.
+
 ## Verification
 
 ```powershell

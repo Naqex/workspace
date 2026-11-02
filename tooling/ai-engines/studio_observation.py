@@ -67,6 +67,67 @@ def elapsed(run, now):
         return None
 
 
+def hermes_usage_for(root, company, run_id, receipt):
+    """Project hook evidence, separate from native accounting and provider billing."""
+    unavailable = {'source': 'hermes_hook', 'status': 'unavailable'}
+    if root is None or not receipt.get('provider_work_started'):
+        return unavailable
+    base = Path(root).resolve()
+    path = base / company / run_id / 'usage.jsonl'
+    try:
+        if not path.resolve().is_relative_to(base):
+            raise ValueError('usage_path')
+        with path.open('rb') as stream:
+            wire = stream.read(65537)
+        if len(wire) > 65536 or not wire:
+            raise ValueError('usage_size')
+        requests, reported, requested = {}, [], []
+        totals = dict.fromkeys(('input_tokens', 'output_tokens', 'cache_read_tokens',
+                               'cache_write_tokens', 'reasoning_tokens'), 0)
+        measured = main_calls = 0
+        partial = False
+        for line in wire.splitlines():
+            row = json.loads(line)
+            if not isinstance(row, dict) or row.get('session_id') != 'naqex-' + run_id:
+                raise ValueError('usage_session')
+            request_id = row.get('api_request_id')
+            if (not isinstance(request_id, str) or not request_id.startswith('naqex-' + run_id + ':')
+                    or len(request_id) > 250):
+                raise ValueError('usage_request')
+            if request_id in requests:
+                if requests[request_id] != row:
+                    raise ValueError('usage_conflict')
+                continue
+            requests[request_id] = row
+            main_calls += not row.get('aux_task')
+            for field, models in [('model', requested), ('response_model', reported)]:
+                model = text(row.get(field))
+                if model and model not in models:
+                    models.append(model)
+            usage = row.get('usage')
+            if usage is None:
+                partial = True
+                continue
+            if not isinstance(usage, dict) or any(
+                    type(usage.get(key)) is not int or usage[key] < 0 for key in totals):
+                raise ValueError('usage_tokens')
+            measured += 1
+            for key in totals:
+                totals[key] += usage[key]
+            partial |= bool(row.get('error_type'))
+        # Even matching hooks are observed SDK metadata, never an invoice or a money cap.
+        partial |= (receipt.get('status') != 'completed' or type(receipt.get('api_calls')) is not int
+                    or receipt['api_calls'] != main_calls)
+        return {'source': 'hermes_hook', 'status': 'partial' if partial else 'observed',
+                'requests': len(requests), 'requests_with_usage': measured,
+                'requested_models': requested, 'reported_models': reported,
+                'observed_tokens': totals if measured else None, 'cost_usd': None}
+    except FileNotFoundError:
+        return {**unavailable, 'status': 'missing'}
+    except (OSError, ValueError, TypeError):
+        return {**unavailable, 'status': 'invalid'}
+
+
 def observe_step(api, company, child, engine, artifact_root=None, now=None):
     observation = {'state': 'not_started', 'run': None}
     try:
@@ -125,4 +186,6 @@ def observe_step(api, company, child, engine, artifact_root=None, now=None):
         'output_tokens': number(usage.get('outputTokens', usage.get('output_tokens'))),
         'cost_usd': cost, 'accounting_pending': run.get('costAccountingPending') is True,
     })
+    if engine == 'hermes' and receipt_state == 'available':
+        observation['run']['provider_usage'] = hermes_usage_for(artifact_root, company, run_id, receipt)
     return observation

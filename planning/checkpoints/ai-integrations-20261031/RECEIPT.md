@@ -2275,3 +2275,49 @@ demo được owner cho phép dùng khi cần test hệ thống, nhưng lát Stu
 cần broker; không OrderCheck/OrderSend, không tối ưu chiến lược. Timeout/concurrency
 không là money cap. Bước hệ thống tiếp theo là hoàn thiện provider usage receipt
 và kiểm worker dispatch sau đổi auth khi có nhu cầu thực, trước lịch tự chạy.
+
+### Studio: worker sau đổi auth và SDK usage, 02/11
+
+Owner giao tiếp tục hệ thống; giữ fixture EURUSD/H4 và chưa tối ưu chiến lược.
+Đã mở lại gateway project17852 bằng binary đã kiểm SHA256 và config/account
+hiện có; PID21312, log/owner ở `.runtime/paperclip/gateway-owner.json`. PID cũ
+không còn, cổng kiểm trống trước launch; không sửa instance Windows8317. Không
+đổi cấu hình provider, model hoặc gateway, không chuẩn bị lại profile Hermes.
+
+**Thay đổi:** `studio_observation.py` đọc thêm file `usage.jsonl` mà plugin
+Hermes đã ghi sẵn. `provider_usage` là dữ liệu quan sát riêng, không ghi đè
+native accounting. Kiểm receipt/session/request/run, giới hạn64KiB, loại request
+trùng giống nhau, từ chối xung đột/số token sai; thiếu usage hoặc thiếu main-call
+coverage hiện partial. Tách model được yêu cầu với model gateway báo về; không
+coi tên model gateway trả là chứng minh độc lập model gốc. Giữ cost unknown;
+không suy giá từ route hay giá mặc định. Không sửa source engine/plugin, không
+thêm store, UI hoặc lệnh provider retry.
+
+**Luồng thật sau auth migration:** native graph mới `NAQ-69`
+(`307a9c6e-5c5d-42ea-9e34-954fa97913b8`), key `auth-usage-20261102-01`.
+Preflight xác nhận fixture/spec hashes, model catalog, source pins và0 active
+runs trước start. Trader source `b0ba043903fcc25cd385b2a9ae12d9f303e51230`,
+Hermes `bf0203a794a07aac3ff764972ab9087baa4e4f4e`.
+
+| Bước | Kết quả đã đọc từ native API/receipt |
+|---|---|
+| NAQ-70 kiểm định | done/succeeded/recorded, run `785a2db4-4dda-447d-b70a-22dcb8973c18`,110,54s; báo cáo và evidence đã gắn task |
+| NAQ-71 phản biện | done/succeeded/recorded, run `bc607b8e-1a89-418c-b9ec-29971a8635b9`,44,48s;2 main requests có usage |
+| SDK tokens quan sát | input14468, output2822, cache-read/write0; reasoning1572 là bucket theo SDK, không cộng lại vào output |
+| Model | requested `gemini-3.8-flash-high`; gateway reported `gemini-3.8-flash-n`; cost unknown |
+| NAQ-69 bàn giao | in_review, giao đúng human owner, có document **Kết quả và bước tiếp theo** |
+| NAQ-72 paper | blocked/NOT_RUN,0 runs; mọi timer vẫn tắt; active runs sau hoàn tất0 |
+
+**Kiểm chứng:**12 observation tests +9 scoped-control regression tests đạt.
+Native get của graph mới và NAQ-25 lịch sử đọc được usage; không chạy lại lượt
+cũ. `git diff --check` đạt; Trader/Paperclip/Hermes worktree sạch. Không cần build
+UI vì lát này không sửa UI. Evidence riêng tư:
+`E:/BACKUP-TRADINGWORKSPACE/studio-observation-20261102/post-auth-20261102/`
+(`graph.json`, `data-preflight.json`, `observation.json`, `verification.json`);
+worker output ở artifact root đã đăng ký theo company/run.
+
+**Giới hạn:** đã kiểm worker JWT/callback dispatch sau auth cutover qua native
+HTTP API; chat này vẫn chưa expose Paperclip MCP tools. SDK usage là metadata
+quan sát, chưa có giá/invoice, quota còn lại hoặc enforceable money cap. Recovery
+delivery vẫn cần đối soát trước retry; scheduler chưa mở. Không có lượt tuning,
+broker SDK/OrderCheck/OrderSend, dữ liệu mới hoặc giấy phép paper/live.
