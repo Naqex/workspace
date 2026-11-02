@@ -47,6 +47,7 @@ def main():
     parser.add_argument('directory', type=Path)
     parser.add_argument('--candidate', type=Path)
     parser.add_argument('--image')
+    parser.add_argument('--input-csv', type=Path)
     args = parser.parse_args()
     root = args.directory.resolve()
     root.mkdir(parents=True, exist_ok=True)
@@ -92,9 +93,21 @@ def main():
     code = args.candidate.read_text()
     assert 0 < len(code.encode()) <= 16000
     (root / 'candidate.py').write_text(code)
-    data = fixture()
+    if args.input_csv:
+        data = pd.read_csv(args.input_csv, parse_dates=['datetime'])
+        if list(data.columns) != ['datetime', 'instrument', '$close']:
+            raise ValueError('Market input must contain exactly datetime, instrument, $close')
+        # PyTables cannot persist a timezone extension dtype in a MultiIndex.
+        # Strip only after converting to UTC; wire contract restores UTC on read.
+        data['datetime'] = pd.to_datetime(data['datetime'], utc=True).dt.tz_localize(None)
+        data = data.set_index(['datetime', 'instrument'])
+        if not data.index.is_unique or not data.index.is_monotonic_increasing:
+            raise ValueError('Market input must have a unique sorted index')
+    else:
+        data = fixture()
     data.to_hdf(root / 'fixture.h5', key='data')
-    cutoff = pd.Timestamp('2024-04-29')  # day 120, fixed before seeing output
+    dates = data.index.get_level_values('datetime').unique()
+    cutoff = dates[len(dates) * 3 // 4 - 1]
     prefix = data.loc[data.index.get_level_values('datetime') <= cutoff]
     changed = data.copy()
     future = changed.index.get_level_values('datetime') > cutoff
@@ -138,6 +151,7 @@ def main():
     message, score = FactorEqualValueRatioEvaluator().evaluate(view(result.dropna()), view(expected.dropna()))
     assert score == 1
     checks['FactorEqualValueRatioEvaluator'] = {'score': float(score), 'message': message}
+    result.to_csv(root / 'validated-factor.csv')
     dump(root / 'result.json', dict(status='passed', source_commit=source,
          package_paths=[str(Path(p).resolve()) for p in rdagent.__path__], image_id=args.image,
          pilot_sha256=digest(Path(__file__)), candidate_sha256=digest(root / 'candidate.py'),
@@ -145,7 +159,7 @@ def main():
          valid_values=int(result.notna().sum().sum()), checks=checks,
          prefix_invariance=True, future_perturbation_invariance=True,
          leaky_negative_control_rejected=True, execution_failure_detected=True,
-         synthetic=True, strategy_qualified=False, paperclip_dispatch=False))
+         synthetic=args.input_csv is None, strategy_qualified=False, paperclip_dispatch=False))
     print((root / 'result.json').read_text())
 
 

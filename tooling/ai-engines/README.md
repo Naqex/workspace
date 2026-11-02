@@ -71,7 +71,7 @@ projects/integrations/TradingAgents/.venv/Scripts/python.exe tooling/ai-engines/
 The setup helper creates only missing workers, never replaces an owner-created
 agent or chooses another company. New workers start paused in this Paperclip pin;
 resume the analysis worker in native UI after checking the model/gateway. Keep the
-research worker paused. Timer heartbeats are disabled; assignment and
+research worker paused until its registered data/runtime preflight passes. Timer heartbeats are disabled; assignment and
 explicit wake can run the analysis worker. Each job uses isolated cache/memory,
 one debate round and one risk round, bounded tool rounds, no SDK retries and a
 15-minute native process deadline. No shared memory crosses independent jobs.
@@ -80,7 +80,7 @@ are not a budget cap.
 
 ## RD-Agent boundary
 
-The research worker remains **paused**. On 02 November 2026 the owner authorized
+On 02 November 2026 the owner authorized
 runtime installation. WSL2 distro `NaqexResearch` now has Ubuntu 24.04, Docker
 Engine and RD-Agent 1.0.0 built from the existing gitlink. Package/CLI, Docker
 SDK and container smoke passed; Docker autostart, Windows drive automount and
@@ -93,11 +93,74 @@ and five evaluators, independent oracle, causal invariance and failure controls.
 Generated code ran in a bounded offline container. This is not the full finance
 loop, a real-data backtest, strategy qualification or native Paperclip dispatch.
 
-Next gate: real-data adapter with point-in-time provenance, bounded finance-loop
-contract and native dispatch/cancellation qualification. The current adapter
-still refuses RD-Agent jobs. Its source remains pinned under
+The registered `crypto-momentum-3d-v1` workflow subsequently completed as
+[NAQ-6](http://127.0.0.1:17860/NAQ/issues/NAQ-6): fixed historical BTC/ETH daily
+snapshot, one Gemini candidate, RD-Agent factor checks and Quant Lab prefix
+walk-forward/cost stress. Native cancellation was separately verified without
+a provider call. The research worker is now idle with timer heartbeats off.
+This adapter runs a fixed formula verification workflow, not unrestricted
+RD-Agent hypothesis search or the full `fin_factor/fin_model` loop. Its source remains pinned under
 `projects/integrations/rd-agent`; do not install its broad dependencies into the
 TradingAgents venv. Numeric strategy validation remains owned by Quant Lab.
+
+### Registered research task
+
+Assign this description to **Chuyên viên nghiên cứu**:
+
+````text
+```naqex-engine
+{"version":1,"engine":"rd-agent","experiment":"crypto-momentum-3d-v1"}
+```
+````
+
+The task cannot supply a path, command, provider, alternative formula or model.
+The registered [contract](rd-factor-pilot/market-contract.json) fixes assets,
+window, formula and costs before each run. To add a different research question,
+review a new contract before exposing it to the worker; do not tune on the
+published OOS results. Reassigning a new task starts another provider attempt;
+there is no automatic retry, strategy promotion or budget cap in this wrapper.
+
+Operator setup (not task input): prepare a **new** snapshot directory using the
+existing public-data client; no account/key is needed for data:
+
+```powershell
+projects/integrations/TradingAgents/.venv/Scripts/python.exe tooling/ai-engines/rd_research.py prepare --directory <new-absolute-snapshot-directory>
+```
+
+After reviewing quality/source/cutoff, add `rd_agent` to the existing private
+settings, alongside the original five fields:
+
+```json
+{
+  "dataset_manifest": "<absolute snapshot directory>/manifest.json",
+  "manifest_sha256": "<verified manifest SHA256>",
+  "image_id": "sha256:<verified immutable locally built Docker image ID>"
+}
+```
+
+Copy that object under `rd_agent`; no credential belongs in it. Source/imports
+use the existing clean Quant Lab checkout; numerical libraries already exist in
+the TradingAgents venv, with no new package installation. Each dispatch verifies
+snapshot hashes and quality again, then makes one Gemini request. The isolated
+Linux controller runs the bounded candidate; Quant Lab compares its exact
+factor to an independent oracle and replays the equivalent trusted signal on
+chronological prefixes. Public historical snapshots are not guaranteed revision
+vintages and are not a sealed final holdout. The last partial fold is reported
+as unused, not silently included.
+
+The WSL guardian holds an exclusive runtime lease, refuses an already-active
+Docker daemon, and revokes work on EOF/stale heartbeat. Cancellation removes
+only containers with its job label and stops services it started. It never uses
+`wsl --shutdown`; do not terminate the distro while another job owns it. On a
+hard kill, inspect native run status and both Windows/Linux receipts before
+retrying; never infer success from an artifact folder alone.
+
+Successful research jobs publish **Kết quả nghiên cứu** and **Dữ liệu và kiểm
+chứng** as native documents; failure leaves artifacts and blocks the task. The
+numeric evidence contains cash/buy-hold baselines, full metrics, hashes, model
+route and source versions. Successful workflow completion does not mean the
+strategy qualified for demo or live. Historical NAQ-6 is a successful workflow
+with an unqualified candidate; do not rerun it simply to obtain a better result.
 
 ## Verification
 

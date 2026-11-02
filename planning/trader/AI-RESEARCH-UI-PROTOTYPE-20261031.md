@@ -2,6 +2,30 @@
 
 ## Hướng hiện hành — owner tự setup,01/11
 
+### Lát được giao tiếp ngày 02/11 — một workflow nghiên cứu có dữ liệu thật
+
+Owner giao triển khai cả luồng: snapshot lịch sử cố định → một factor RD-Agent
+→ Quant Lab kiểm chứng → native Paperclip hiển thị báo cáo. Dùng contract nhỏ
+`crypto-momentum-3d-v1`, BTC/ETH spot khung ngày, một candidate, không tune theo
+OOS. Đây là lựa chọn fixture kỹ thuật để chứng minh workflow, chưa chốt thị
+trường/vốn cho hệ thống dài hạn. Không mở protected holdout hoặc broker/demo/live.
+
+Acceptance: snapshot có nguồn/hash/cutoff và quality preflight; factor khớp
+oracle/causal checks; Quant Lab so cash/buy-hold cùng timing/cost và chronological
+OOS/stress; Paperclip giao việc, hủy được và giữ native report/provenance qua
+reload. Source/test, real provider run, native dispatch và strategy qualification
+ghi riêng trong [receipt](../checkpoints/ai-integrations-20261031/RECEIPT.md).
+Không cần thêm UI hoặc engine. Worker chỉ mở sau focused checks, không scheduler.
+
+**Kết quả 02/11:** workflow đã hoàn tất qua native task
+[NAQ-6](http://127.0.0.1:17860/NAQ/issues/NAQ-6), gồm 2.922 nến BTC/ETH,
+một candidate Gemini, RD-Agent kiểm factor và Quant Lab đánh giá bốn cửa sổ
+OOS cùng chi phí/stress. Native cancel đã kiểm riêng, báo cáo giữ qua reload
+trong iframe Trader. Candidate chưa đủ điều kiện chuyển sang demo; worker hiện
+idle, timer off. Các dòng paused/chưa nối bên dưới mô tả thời điểm trước đó;
+[receipt](../checkpoints/ai-integrations-20261031/RECEIPT.md#0211--workflow-market-factor-qua-native-paperclip)
+giữ kết quả, giới hạn và bằng chứng hiện hành.
+
 ### Bổ sung sau owner giao nối engine,01/11
 
 Owner đã giao triển khai TradingAgents trước rồi RD-Agent, và chọn **các model
@@ -19,10 +43,10 @@ hiện có. Không đồng nhất báo cáo phân tích với backtest/chiến l
 Owner đã cho phép cài runtime RD-Agent ngày 02/11. Package và container smoke
 đã đạt trên WSL2 Ubuntu 24.04 + Docker Engine riêng; chi tiết trong
 [runtime guide](../../tooling/ai-engines/rd-agent-runtime.md) và receipt hiện có.
-Ngày 02/11, pilot factor giả lập đã đạt: một candidate Gemini chạy qua upstream
+Trước workflow thị trường bên trên, pilot factor giả lập ngày 02/11 đã đạt: một candidate Gemini chạy qua upstream
 workspace/evaluators trong Docker, oracle và kiểm tra nhân quả đạt. Worker tiếp
-tục paused; còn data adapter thị trường, vòng finance và native dispatch trước
-khi mở worker. Không chạy code sinh trên host Windows; pilot chưa là bằng chứng
+tục paused tại thời điểm pilot; lúc đó còn data adapter thị trường, vòng finance
+và native dispatch trước khi mở worker. Không chạy code sinh trên host Windows; pilot chưa là bằng chứng
 chiến lược có lợi nhuận. Recipe và evidence theo runtime guide/receipt bên trên.
 Hướng dẫn adapter: [engine jobs](../../tooling/ai-engines/README.md).
 

@@ -30,7 +30,7 @@ def worker_config(engine: str, settings: Path) -> dict:
                           'cwd': str(ROOT), 'timeoutSec': 900, 'graceSec': 5},
         'capabilities': ('Phân tích cổ phiếu/crypto bằng TradingAgents; báo cáo tiếng Việt; không đặt lệnh.'
                          if engine == 'tradingagents' else
-                         'RD-Agent: chuẩn bị nghiên cứu thí nghiệm; đang chờ môi trường Linux/Docker.'),
+                         'RD-Agent: thí nghiệm factor được đăng ký trên snapshot lịch sử; Quant Lab kiểm chứng; không đặt lệnh.'),
         'runtimeConfig': {'heartbeat': {'enabled': False, 'wakeOnDemand': True,
                                        'maxConcurrentRuns': 1}},
         'permissions': {'canCreateAgents': False, 'canCreateSkills': False},

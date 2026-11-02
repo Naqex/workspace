@@ -49,8 +49,10 @@ def parse_request(description: str) -> dict:
         raise JobError('invalid_request', 'Phiên bản yêu cầu chưa được hỗ trợ.')
     engine = value.get('engine')
     if engine == 'rd-agent':
-        if set(value) != {'version', 'engine'}:
-            raise JobError('invalid_request', 'RD-Agent chưa nhận đề tài trước khi môi trường Linux được cấu hình.')
+        from rd_research import EXPERIMENT
+        if (set(value) not in ({'version', 'engine'}, {'version', 'engine', 'experiment'})
+                or ('experiment' in value and value['experiment'] != EXPERIMENT)):
+            raise JobError('invalid_request', 'Chọn đúng thí nghiệm RD-Agent đã đăng ký; không nhận đường dẫn hoặc command từ task.')
         return value
     if engine != 'tradingagents' or set(value) != {'version', 'engine', 'symbol', 'as_of', 'asset_type', 'analysts'}:
         raise JobError('invalid_request', 'Yêu cầu TradingAgents phải dùng các trường trong mẫu.')
@@ -78,7 +80,9 @@ def parse_request(description: str) -> dict:
 
 def load_settings(path: Path) -> dict:
     value = json.loads(path.read_text(encoding='utf-8-sig'))
-    if set(value) != {'version', 'artifact_root', 'gateway_config', 'quick_model', 'deep_model'} or value['version'] != 1:
+    required = {'version', 'artifact_root', 'gateway_config', 'quick_model', 'deep_model'}
+    if (set(value) not in (required, required | {'rd_agent'})
+            or type(value['version']) is not int or value['version'] != 1):
         raise JobError('settings_invalid', 'Cấu hình worker chưa đúng phiên bản.')
     for key in ('artifact_root', 'gateway_config'):
         if not isinstance(value[key], str) or not Path(value[key]).is_absolute():
@@ -212,14 +216,14 @@ class Paperclip:
                       {'agentId': self.agent, 'expectedStatuses': ['todo', 'in_progress', 'blocked']}, 'POST')
         return issue
 
-    def report(self, issue_id: str, text: str, *, completed: bool):
+    def report(self, issue_id: str, text: str, *, completed: bool, research=False):
         # A unique key preserves every attempt instead of replacing earlier evidence.
         self.call('/issues/' + issue_id + '/documents/engine-' + self.run,
-                  {'title': 'Kết quả phân tích' if completed else 'Điều kiện cần để chạy',
+                  {'title': ('Kết quả nghiên cứu' if research else 'Kết quả phân tích') if completed else 'Điều kiện cần để chạy',
                    'format': 'markdown', 'body': text}, 'PUT')
         self.call('/issues/' + issue_id,
                   {'status': 'done' if completed else 'blocked',
-                   'comment': 'Đã lưu báo cáo phân tích. Đây chưa phải kết quả kiểm chứng chiến lược.'
+                   'comment': 'Đã lưu báo cáo. Kết quả nghiên cứu chưa cấp quyền chạy demo hoặc tiền thật.'
                    if completed else 'Chưa chạy xong engine. Xem tài liệu điều kiện cần để chạy trong công việc này.'}, 'PATCH')
 
 
@@ -236,7 +240,7 @@ def execute_paperclip(engine: str, settings_path: Path) -> int:
         request = parse_request(issue.get('description') or '')
         if request['engine'] != engine:
             raise JobError('engine_mismatch', 'Công việc đang được giao nhầm engine.')
-        if engine == 'rd-agent':
+        if engine == 'rd-agent' and 'experiment' not in request:
             raise JobError('rd_agent_runtime_required', 'RD-Agent chưa được nối với thí nghiệm đã kiểm chứng. Cần kiểm tra runtime Linux/Docker, dữ liệu và phạm vi thử trước khi bật worker; xem tooling/ai-engines/README.md.')
         settings = load_settings(settings_path)
         directory = Path(settings['artifact_root']) / paperclip.company / paperclip.run
@@ -247,23 +251,42 @@ def execute_paperclip(engine: str, settings_path: Path) -> int:
                        request_sha256=hashlib.sha256(json.dumps(request, sort_keys=True).encode()).hexdigest(),
                        models={key: settings[key] for key in ('quick_model', 'deep_model')})
         write_json(directory / 'receipt.json', receipt)
+        prepared = None
+        if engine == 'rd-agent':
+            from rd_research import preflight
+            prepared = preflight(settings, directory)
         connection = gateway(settings)
         receipt.update(status='running', provider_work_started=True)
         write_json(directory / 'receipt.json', receipt)
-        result = run_tradingagents(request, settings, directory, connection)
+        if engine == 'rd-agent':
+            from rd_research import run
+            result = run(settings, directory, connection, prepared, paperclip.run)
+        else:
+            result = run_tradingagents(request, settings, directory, connection)
         receipt.update(status='publishing', engine_status='completed',
                        rating=result['rating'], settings=result['settings'],
                        provenance=result['provenance'], engine_finished_at=datetime.now(timezone.utc).isoformat())
-        report = ('# Phân tích ' + request['symbol'] + '\n\n'
-                  + 'Ngày dữ liệu yêu cầu: ' + request['as_of'] + '. Engine: TradingAgents.\n\n'
-                  + 'Đây là phân tích thị trường, chưa phải backtest hoặc bằng chứng chiến lược có lợi nhuận.\n\n'
-                  + result['report'] + '\n\n<details><summary>Nguồn và cấu hình lượt chạy</summary>\n\n```json\n'
-                  + json.dumps({key: receipt[key] for key in ('run_id', 'source_commit', 'wrapper_sha256', 'request_sha256', 'models', 'provenance')},
-                               ensure_ascii=False, indent=2) + '\n```\n\n</details>\n')
+        heading = ('' if engine == 'rd-agent' else '# Phân tích ' + request['symbol'] + '\n\n'
+                   + 'Ngày dữ liệu yêu cầu: ' + request['as_of'] + '. Engine: TradingAgents.\n\n'
+                   + 'Đây là phân tích thị trường, chưa phải backtest hoặc bằng chứng chiến lược có lợi nhuận.\n\n')
+        evidence = {key: receipt[key] for key in ('run_id', 'source_commit', 'wrapper_sha256', 'request_sha256', 'models', 'provenance')}
+        evidence_text = None
+        if engine == 'rd-agent':
+            evidence['quant_validation'] = result['validation']
+            evidence_text = '# Dữ liệu và kiểm chứng\n\n```json\n' + json.dumps(evidence, ensure_ascii=False, indent=2) + '\n```\n'
+            (directory / 'evidence.md').write_text(evidence_text, encoding='utf-8')
+            receipt['evidence_sha256'] = hashlib.sha256(evidence_text.encode()).hexdigest()
+            report = result['report']
+        else:
+            report = (heading + result['report'] + '\n\n<details><summary>Nguồn và cấu hình lượt chạy</summary>\n\n```json\n'
+                      + json.dumps(evidence, ensure_ascii=False, indent=2) + '\n```\n\n</details>\n')
         (directory / 'report.md').write_text(report, encoding='utf-8')
         receipt['report_sha256'] = hashlib.sha256(report.encode()).hexdigest()
         write_json(directory / 'receipt.json', receipt)
-        paperclip.report(issue['id'], report, completed=True)
+        if evidence_text is not None:
+            paperclip.call('/issues/' + issue['id'] + '/documents/evidence-' + paperclip.run,
+                          {'title': 'Dữ liệu và kiểm chứng', 'format': 'markdown', 'body': evidence_text}, 'PUT')
+        paperclip.report(issue['id'], report, completed=True, research=engine == 'rd-agent')
         receipt.update(status='completed', delivery_status='published',
                        finished_at=datetime.now(timezone.utc).isoformat())
         write_json(directory / 'receipt.json', receipt)

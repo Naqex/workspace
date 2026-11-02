@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "experiment": "crypto-momentum-3d-v1",
+  "symbols": ["BTCUSDT", "ETHUSDT"],
+  "interval": "1d",
+  "start": "2021-01-01",
+  "end_exclusive": "2025-01-01",
+  "factor": "close[t] / close[t-3] - 1 per instrument",
+  "signal": "long when factor > 0; otherwise cash; next-bar position",
+  "lookback": 3,
+  "train_bars": 730,
+  "test_bars": 180,
+  "minimum_folds": 4,
+  "fee_bps": 10,
+  "slippage_bps": 5,
+  "stress_multipliers": [1.0, 2.0],
+  "candidate_attempts": 1,
+  "promotion": "none",
+  "evaluation": "retrospective chronological OOS; not a sealed final holdout"
+}

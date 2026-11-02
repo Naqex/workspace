@@ -765,3 +765,124 @@ Không sửa gateway config, Windows 8317 hoặc bật service nền mới.
 Lát tiếp: chọn data adapter có point-in-time provenance, chốt bounded finance
 contract và kiểm native dispatch/cancel trước mở RD worker. Pilot xác nhận
 đường **sinh code → thực thi → kiểm chứng**, chưa nghiệm thu hệ AI tự chủ đầy đủ.
+
+## 02/11 — workflow market factor qua native Paperclip
+
+Owner duyệt nối trọn luồng dữ liệu thật → một candidate Gemini → RD-Agent →
+Quant Lab → báo cáo native Paperclip. Scope là contract cố định
+`crypto-momentum-3d-v1`, không thêm engine/UI riêng hoặc mở vòng tìm kiếm tự do.
+Không migration, broker/demo/live, protected holdout hay scheduler.
+
+### Hành vi và luồng data/state
+
+1. Dùng public Binance downloader có sẵn của Quant Lab tạo snapshot BTCUSDT và
+   ETHUSDT daily UTC: `2021-01-01 <= open_time < 2025-01-01`. Mỗi mã 1.461
+   nến, tổng 2.922. Kiểm hash, calendar, OHLCV, gap budget 0 và close time trước
+   provider. Downloader có thể trả boundary candle do endTime inclusive;
+   controller lọc đúng window trước factor/evaluation, không dùng nến ngoài kỳ.
+2. Paperclip giao task đúng worker. Một model request, không retry; prompt cố
+   định factor `close[t] / close[t-3] - 1` theo instrument. AST review giới hạn
+   thao tác transform; code chạy trong Docker offline, không chạy trên Windows.
+3. Upstream RD-Agent FactorTask/FactorFBWorkspace và năm evaluators thực thi,
+   so với oracle vòng lặp độc lập. Đạt 2.922 rows, 2.916 giá trị và 6 warmup NaN;
+   cả năm evaluator score 1. Prefix/future-perturbation invariance đạt; negative
+   control nhìn trước và execution failure đều được phát hiện.
+4. Quant Lab xác minh factor rồi replay quy tắc tương đương bằng signal/accounting
+   có sẵn trên từng prefix, không chạy arbitrary candidate trong evaluator tin
+   cậy. Factor dương thì long, còn lại giữ tiền; vị thế từ nến sau. Expanding
+   train 730 bars, bốn cửa sổ OOS rời nhau 180 bars/mã, 11 tail bars unused.
+   So cash/buy-hold cùng input/timing, phí 10 bps + trượt giá 5 bps và stress 2x.
+5. Lưu artifacts trước publication; native documents **Kết quả nghiên cứu** và
+   **Dữ liệu và kiểm chứng** giữ summary và metrics/provenance riêng. Nếu gửi
+   báo cáo lỗi, kết quả đã tính còn nguyên, delivery báo failed và không tự
+   gọi lại provider. Paperclip giữ dispatch/concurrency/cancellation.
+
+### Kết quả thực tế
+
+Native task [NAQ-6](http://127.0.0.1:17860/NAQ/issues/NAQ-6) `done`, run
+`2193750a-cb69-47c9-88b3-9c9e0bceaa0f` `succeeded`, local receipt
+`completed/published`. Company `6b90f0c1-8f91-4fe8-bc15-fc8c58b3ac8f`, worker
+`a3c59356-275a-4960-88e0-98cb7d8ea60f` — Chuyên viên nghiên cứu.
+
+Các số lợi nhuận sau là **median tổng lợi nhuận của bốn cửa sổ 180 ngày**,
+không phải lợi nhuận gộp toàn kỳ hoặc dự báo:
+
+| Mã | Ứng viên, 15 bps | Ứng viên, 30 bps | Mua và giữ, 15 bps | Drawdown xấu nhất ứng viên, 15 bps |
+|---|---:|---:|---:|---:|
+| BTCUSDT | 27,52% | 17,74% | 51,71% | -17,94% |
+| ETHUSDT | 1,50% | -6,17% | 36,90% | -28,73% |
+
+Workflow đạt; **candidate chưa qualified**. Chưa có kiểm định ý nghĩa thống kê,
+parameter stability, mô phỏng order book/partial fills hoặc forward demo.
+Formula đã chốt trước, không fit/tune theo số OOS; đây là kiểm workflow, chưa
+phải full RD-Agent `fin_factor/fin_model` hypothesis search. Snapshot lịch sử
+tải hiện tại không bảo đảm revision-vintage/PIT và không là final holdout kín.
+Không chạy tiếp để chọn số đẹp hơn, không tự promote chiến lược.
+
+### Kiểm chứng và lỗi đã giải quyết
+
+- Model: một call, zero retries; requested `gemini-3.8-flash-high`, reported
+  `gemini-3.8-flash-n`. Usage 175 prompt + 1.073 completion = 1.248 tokens,
+  gồm 963 reasoning tokens. Alias/response không độc lập chứng minh backend.
+- Native cancellation riêng, không gọi model: NAQ-5, run
+  `7802a335-8649-4447-a343-3cd2579f6e2a` chuyển `cancelled`; Linux guardian ghi
+  `cancelled_eof`, child stopped, Docker/socket/containerd inactive. Fixture
+  agent `a3d5973f-8bd5-4510-a8ef-0fdd9a411765` đã terminated, task cancelled.
+- Guardian giữ exclusive flock và lease heartbeat/EOF; không giành daemon đang
+  active. Dọn container đúng job label rồi dừng services do job khởi động.
+  Container network none, RO root, user 1000, RAM 512 MB, CPU 1, pids 64,
+  deadline 50 s, tmpfs 32 MB, cap-drop ALL/no-new-privileges; giới hạn mỗi file
+  8 MiB, chưa có tổng disk quota. Chưa chứng nhận sandbox cho code thù địch.
+- Linux smoke đầu gặp PyTables không lưu timezone-extension MultiIndex:
+  normalize UTC rồi strip timezone chỉ tại biên HDF, evaluator khôi phục UTC.
+  Smoke r2 đạt 2.922 rows/four folds trước provider run; không gọi lại model.
+- Resume fixture agent và sửa tài liệu từng trả 409: đọc lại lifecycle/revision,
+  dùng native resume/optimistic concurrency; không bypass ownership guard.
+- Test baseline ban đầu giả định thứ tự list sai; sửa tìm theo `baseline_id`.
+  Kiểm chứng cuối: **23/23 engine tests**; Quant Lab focused **38 tests** đã
+  đạt trước đó, không chạy lại vì Quant source không đổi. Ruff F, workspace
+  contracts và GitHub workflow structure đạt; ba integration source đúng pin,
+  clean tracked source theo doctor đã chạy trong lượt này.
+- Browser thực tại 1440×1000: Trader5218 iframe Paperclip17860 mở báo cáo,
+  số liệu hiển thị đúng, giữ qua native navigation/reload, zero page errors.
+  Bảng ban đầu quá rộng panel: đổi thành bảng ba cột/mã, metrics đầy đủ ở tài
+  liệu riêng. Summary rev 2, evidence rev 1; không gọi provider lại. Không có
+  kiểm server restart hoặc whole-product acceptance.
+
+### Provenance và bàn giao
+
+| Artifact/source | SHA256 hoặc pin |
+|---|---|
+| Snapshot manifest | `1136529b04f9a5e48ae2a3874889a1e9ac558a604e8e663b100687c64c33d110` |
+| Candidate | `68ecd25a5e9e1c280e5edc24486932e3431b689d9f023b097222b282027b3b90` |
+| RD-Agent | `484776c211e4fbbeef03e0ec00d6bbee7362a4f4` |
+| Quant Lab | `943b779dc96ac16aae6718cec16f4f3f00e07a92` |
+| Docker image | `sha256:766b1a0e71699c07765a47f8c671cdfaa0cb234a3ca493b8c145382e44408ca8` |
+| Actual-run engine_worker.py | `fd6cffcfe3daccc11aff7055db6456d387bb9b9fc2d892f16dfc91a1bb2335d3` |
+| pilot.py | `a71ea41178c9ff213fc71cdf63fe847e9fc1ab056c2d013deae13dda9dffda18` |
+| guardian.py | `6fc8abe59edaf35909b30daefc1a6ee033d1dbe75ba401af0a482fb7b9ca1799` |
+| Report rev 2 | `90e043c64cbe8564e1e67902b27a6f1b000469b735f11a35117460effa8663d0` |
+| Evidence doc | `382444b416b399e583e2c62b7ef1f837b1fa77c1b0fe822dc9d9cd921fcefe23` |
+
+Artifacts ở
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/6b90f0c1-8f91-4fe8-bc15-fc8c58b3ac8f/2193750a-cb69-47c9-88b3-9c9e0bceaa0f/`.
+Dataset `.runtime/ai-engines/datasets/crypto-daily-2021-2024/`; browser
+artifacts/result và final-summary giữ tại `.runtime/ai-engines/`.
+Linux job `/opt/naqex/rd-agent/paperclip-jobs/<run-id>/` giữ guardian/result/logs.
+Raw data/private settings/runtime artifacts không commit.
+
+Actual provider/native run dùng wrapper hash ghi ở trên. Sau đó đã tách tài
+liệu evidence, thu gọn formatter và sửa persist-before-publish; source mới được
+23 tests và native document API kiểm chứng, **chưa chạy lại toàn bộ provider job**.
+Receipt local giữ original hash và presentation-update hash, bản report cũ còn
+`report-presentation-v1.md`. Child RD receipt `paperclip_dispatch:false` chỉ nói
+pilot con không sở hữu API; outer receipt `dispatch.kind=paperclip-native-process`
+và native run là bằng chứng dispatch thực.
+
+Handoff: workers idle, timer off; agent Trưởng nhóm nghiên cứu của owner giữ
+nguyên. Docker services inactive, distro NaqexResearch đã Stopped. Paperclip17860,
+gateway project17852 và preview5218 còn mở để owner xem; gateway owner metadata
+đã khớp PID/path/config/creation time/hash và catalog readiness. Không sửa instance
+Windows8317, không thêm autostart/service hệ thống hoặc AI-environment config.
+Tiếp theo cần một research contract mới có tiêu chí chọn/loại và kế hoạch đánh
+giá trước khi mở vòng tìm kiếm; không giao lại NAQ-6 đã hoàn tất.

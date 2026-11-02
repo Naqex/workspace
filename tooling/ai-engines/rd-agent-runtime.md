@@ -16,7 +16,7 @@ bằng lệnh và phải theo dõi cập nhật bảo mật của cả distro/Do
 | Bản source dùng để build package | `/opt/naqex/rd-agent/source` trong Linux; phải khớp gitlink |
 | Venv độc lập | `/opt/naqex/rd-agent/venv` |
 | Evidence/package freeze | `/opt/naqex/rd-agent/evidence`, bản sao Windows trong `.runtime/linux/evidence` |
-| Worker và công việc | Native Paperclip; worker nghiên cứu vẫn paused |
+| Worker và công việc | Native Paperclip; worker nghiên cứu nhận contract đã đăng ký, timer off |
 
 VHDX là dữ liệu runtime có đăng ký với WSL. Không xóa/di chuyển nó bằng cleanup
 cache hoặc `git clean -fdx`. Dùng WSL export/backup trước thay đổi distro. Bản
@@ -80,9 +80,15 @@ candidate Gemini, chạy upstream workspace/evaluators trong container giới h�
 so oracle độc lập, kiểm tra nhân quả và execution failure. Không fit/chọn model
 hay dùng dữ liệu thị trường thật. Đã gọi provider một lần, không retry.
 
-Worker vẫn paused; adapter từ chối RD dispatch. Còn data adapter có provenance,
-contract vòng finance đầy đủ và native dispatch/cancellation trước khi mở worker.
-Chưa dựng image finance Qlib/CUDA lớn, tải dataset thị trường hay chạy một vòng
+Sau pilot, snapshot BTC/ETH lịch sử và native dispatch/cancellation đã được
+kiểm chứng ở NAQ-6. Worker nhận riêng contract `crypto-momentum-3d-v1`; xem
+[engine jobs](README.md). Guardian giữ exclusive lease, nhận heartbeat/EOF từ
+Windows và dọn đúng container label khi cancel. Docker phải inactive trước job;
+không tự giành daemon đang có owner khác.
+
+Còn revision-vintage/point-in-time data sâu hơn, vòng finance đầy đủ, parameter
+stability/statistical checks và forward demo trước bất kỳ strategy promotion.
+Chưa dựng image finance Qlib/CUDA lớn hay chạy một vòng
 `fin_factor/fin_model/fin_quant`. Quant Lab giữ kiểm chứng chiến lược.
 
 Kết quả và các lỗi cài đặt thực tế nối vào

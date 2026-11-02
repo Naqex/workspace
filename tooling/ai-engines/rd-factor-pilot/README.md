@@ -4,7 +4,9 @@ Pilot operator-triggered dùng Gemini sinh một file Python, rồi chạy bằn
 `FactorFBWorkspace` và evaluators của RD-Agent pin hiện có. Dữ liệu hoàn toàn
 giả lập: 160 ngày × 8 mã, factor `close[t] / close[t-3] - 1` theo từng mã.
 Không phải vòng `fin_factor`/Qlib đầy đủ, backtest hay kiểm chứng lợi nhuận.
-Paperclip worker vẫn paused; adapter hiện chưa dispatch pilot này.
+Các mục dưới giữ recipe synthetic pilot manual. Lượt kế tiếp đã nối riêng
+[registered market workflow](../README.md#registered-research-task) qua Paperclip;
+không đồng nhất hai scope hoặc chạy lại synthetic job đã hoàn tất.
 
 ## Luồng và giới hạn
 
@@ -20,15 +22,15 @@ Paperclip worker vẫn paused; adapter hiện chưa dispatch pilot này.
 5. Lưu `result.json`, `executions.json`, fixture, candidate và task. Không tự
    thử candidate khác, sửa chiến lược, promote hoặc mở broker.
 
-Contract ghi train/validation/test 90/30/40 ngày để cố định ý định; pilot này
+Synthetic contract ghi train/validation/test 90/30/40 ngày để cố định ý định; pilot này
 không fit hoặc chọn model, nên không báo OOS performance hay chống overfitting
 đã hoàn tất. Prefix cutoff ở ngày 120 là kiểm tra nhân quả, không là backtest.
 
-Container: network none, user 1000:1000, CPU 1, RAM 512 MB, pids 64, 50 giây,
+Container hiện dùng network none, user 1000:1000, CPU 1, RAM 512 MB, pids 64, 50 giây,
 cap-drop ALL, no-new-privileges, root filesystem read-only, tmpfs 32 MB. Chỉ
 workspace output được ghi và folder input được mount read-only; không mount
 Docker socket, controller/venv, credentials hoặc ổ Windows. Workspace output
-chưa có disk quota riêng; đây là pilot code đã review, không là sandbox chứng
+chưa có tổng disk quota riêng (giới hạn mỗi file 8 MiB); đây là pilot code đã review, không là sandbox chứng
 nhận cho code thù địch. Linux controller có quyền Docker và phải giữ độc lập.
 
 ## Chạy lại có chủ đích
@@ -68,6 +70,11 @@ Wrapper được gọi bằng `sh`, không phụ thuộc executable bit sau khi 
 từ Windows. Base image tag và package versions chưa khóa toàn bộ dependencies;
 mỗi rebuild phải lưu image ID mới. Đây chưa là launcher/cancellation contract
 của Paperclip.
+
+`--input-csv <file>` dành cho controller market workflow sau quality preflight;
+wire schema `datetime,instrument,$close`. Timestamps chuyển UTC rồi bỏ timezone
+chỉ ở biên HDF vì PyTables MultiIndex không lưu timezone extension dtype;
+evaluator Windows khôi phục UTC. Không dùng timezone của máy để đoán thời gian.
 
 Sau job, đọc nội dung result và exit status, lấy bản sao evidence về Windows
 bằng các regular files được chọn từ archive; không extract symlinks mù.
