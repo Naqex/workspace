@@ -5,6 +5,8 @@ hay thay đổi quyền giao dịch. Tiếp hướng dài hạn trong
 [AI brief](AUTONOMOUS-TRADING-SYSTEM-BRIEF.md); Paperclip hiện sở hữu giao việc,
 timeout/cancellation và lịch sử công việc theo [engine contract](../../tooling/ai-engines/README.md).
 
+Bổ sung theo yêu cầu owner: [Ponytail, Superpowers, GSD Core và RTK](CODING-AGENT-ADDONS-20261102.md).
+
 ## Kết luận áp dụng
 
 **Giữ kiến trúc hiện có, chưa cài Hermes/OpenClaw vào global hoặc Codex.**
