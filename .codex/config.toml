@@ -14,3 +14,12 @@ required = false
 startup_timeout_sec = 20
 tool_timeout_sec = 30
 enabled_tools = ["resolve-library-id", "query-docs"]
+
+[mcp_servers.naqex_paperclip]
+url = "http://127.0.0.1:17860/mcp/paperclip"
+scopes = ["paperclip:read", "paperclip:write", "offline_access"]
+enabled_tools = ["paperclip_connection", "paperclip_list_agents", "paperclip_get_agent", "paperclip_list_projects", "paperclip_get_project", "paperclip_search_tasks", "paperclip_read_task", "paperclip_create_task", "paperclip_update_task", "paperclip_add_comment", "paperclip_list_deliverables", "paperclip_read_document", "paperclip_write_document", "paperclip_pending_approvals"]
+enabled = true
+required = false
+startup_timeout_sec = 20
+tool_timeout_sec = 45

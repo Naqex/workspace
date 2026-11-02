@@ -38,13 +38,23 @@ real user/company membership. `local_trusted` implicit board access cannot grant
 that consent. See [native MCP setup](../paperclip/README.md#mcp-để-trợ-lý-thao-tác-paperclip)
 and the pinned upstream `doc/public-mcp.md` for configuration and approval steps.
 
-Prepare an authenticated-mode cutover as one coherent change: backup the existing
-instance, establish owner login/membership, adapt operator HTTP authentication,
-check Studio controls and worker callbacks, then connect the coding client and
-verify scopes. `paperclip_setup.api` currently uses implicit local authority;
-switching auth mode alone can break that helper and the Studio controls. Owner
-sign-in/OAuth consent remains a human step. Preserve existing data, local ports
-and worker ownership; do not invent an unrestricted MCP proxy to avoid setup.
+The local instance now uses authenticated mode with the existing database and
+ports. The owner claimed the previous local board through Paperclip's native
+flow. `paperclip_setup.api` reads only the exact-origin board credential in
+`.runtime/paperclip/auth.json`, created by the project-isolated native CLI login.
+It does not retry anonymously if a credential is rejected. Studio's browser
+bridge still exposes only the registered workflow operations. Worker callbacks
+retain their separate per-run JWTs; the auth cutover did not change their signing
+secret or dispatch a worker to test it.
+
+Codex's project MCP connection is `naqex_paperclip`, with read/write task access
+and refresh authorization, without `paperclip:configure`. The project allowlist
+exposes task, document and directory tools. Owner sign-in and OAuth consent remain
+human steps. After reconnecting, verify `paperclip_connection` and the company
+before using task tools; OAuth login or CLI discovery does not prove this chat
+has loaded them. See the launcher guide for renewal and rollback. Preserve data,
+ports and worker ownership; do not invent a proxy or write the database to bypass
+authorization.
 
 ## Read the task fields correctly
 

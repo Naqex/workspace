@@ -2164,3 +2164,60 @@ Negative trigger strategy selection được semantic review, chưa có classifi
 benchmark. AI-environment audit:0 errors/0 warnings, global12279B không đổi,
 project9269/65536B, reserve56267B, combined21548B. `git diff --check` đạt.
 Không build/test lại code runtime vì lượt này chỉ đổi instructions/docs.
+
+### Studio: bật MCP chính thức và chuyển auth local, 02/11
+
+Owner yêu cầu setup MCP sau audit trên, đã tự đăng nhập/claim board và duyệt
+hai flow riêng: Codex OAuth và native CLI board access cho Studio.
+
+**Thay đổi:**
+
+- Giữ source Paperclip pin `2e0f8f84`, DB/storage và cổng17860/17861. Không sửa
+  source engine/upstream. Instance chuyển `local_trusted` → `authenticated` /
+  `private`, loopback; `auth.publicBaseUrl=http://127.0.0.1:17860`.
+- Bật `enablePublicMcp` bằng native API trước cutover. Native board claim cấp
+  quyền người dùng thật; không ghi trực tiếp bảng user/membership.
+- `.codex/config.toml` thêm `naqex_paperclip` Streamable HTTP, OAuth scopes
+  `paperclip:read`, `paperclip:write`, `offline_access`; không configure. Allowlist
+  14 tools cho task/document và directory reads. Không đổi global MCP config.
+- Studio giữ native API, helper đọc exact-origin credential từ CLI auth store
+  riêng `.runtime/paperclip/auth.json`. Không dùng token MCP cho REST, không dùng
+  key agent cho operator và không retry anonymous khi token bị từ chối.
+- Hướng dẫn renew/revoke/rollback ở `tooling/paperclip/README.md`, instruction
+  boundary ở `tooling/ai-engines/OPERATIONS.md`. Skill vận hành cũ vẫn route cùng
+  guide; chưa import skill vào Paperclip hoặc thay prompt/policy workers/Jev.
+
+**Backup/runtime:** native `db:backup` tạo SQL gzip825433B cùng config/env/owner
+snapshot ở `.runtime/paperclip/mcp-cutover-20261102/`. Trước restart:5 agents,
+0 queued/running jobs. Dừng đúng PTY owner cũ và restart launcher chuẩn với
+workspace origin5180. UI build đạt với các warning upstream sẵn có về CSS,
+dynamic imports/chunk size; không sửa chúng trong task MCP. Migrations đã áp
+từ trước. Scheduler vẫn tắt, JWT signing secret giữ nguyên. Không restart Trader
+API/MT5, không gọi gateway, model, strategy hoặc broker.
+
+**Kiểm chứng:**
+
+- 4 auth tests đạt: không credential ở local mode, origin khác không được dùng,
+  exact-origin credential được gửi, store sai không fallback và401 không retry.
+  Lần chạy đầu thiếu PYTHONPATH nên import lỗi; chạy lại với tooling/ai-engines
+  trên PYTHONPATH đạt. Không sửa test để bỏ kiểm tra.
+- Native health200/ok/authenticated; OAuth discovery đúng issuer17860. Management
+  MCP không còn404: request không có session bị401, đúng quyền yêu cầu.
+- `codex mcp login naqex_paperclip` hoàn tất; CLI status `o_auth`. Probe riêng
+  qua Codex app-server `mcpServerStatus/list` đã authenticate và nhận catalog37
+  tools, `toolsError=null`; lưu `mcp-inventory.json` local. Probe ban đầu không
+  có thread/project context trả inventory rỗng; probe sau truyền đúng endpoint
+  project bằng process config override, không ghi config global. Không gọi model.
+- Native API xác nhận real-user board_key có quyền công ty;5 agent IDs giữ
+  nguyên, active runs0. CLI wrapper overview và HTTP POST chỉ đọc overview qua
+  Trader5180 đều đạt, trả3 workflow hiện có. Không tạo/start task để test auth.
+- AI environment audit0 errors/0 warnings: global12279B, project9269/65536B,
+  project reserve56267B, combined21548B. `git diff --check` đạt.
+
+**Giới hạn/resume:** tools Paperclip chưa được expose trong chat đang chạy;
+OAuth/discovery không được báo thành task call qua MCP. Sau reconnect/chat mới,
+gọi `paperclip_connection` và đọc NAQ-29 để xác nhận company/scope thực tế. Worker
+JWT path giữ nguyên nhưng chưa dispatch worker sau cutover; API write/workflow
+execution sau đổi auth chưa được thực thi trong lát này. Các task lịch sử vẫn
+giữ assignment/state, gồm local-board cũ; board claim không được hiểu là tự đổi
+mọi assignee. Quota/cost visibility và reconcile vẫn là lát hệ thống tiếp theo.

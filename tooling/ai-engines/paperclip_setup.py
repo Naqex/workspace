@@ -8,11 +8,25 @@ from urllib.request import Request, urlopen
 from engine_worker import ROOT, SERVICES, uuid
 
 
+def operator_headers(origin):
+    """Use the project-isolated credential approved through Paperclip's CLI login."""
+    headers = {'Content-Type': 'application/json', 'Origin': origin}
+    store = ROOT / '.runtime/paperclip/auth.json'
+    if store.is_file():
+        credential = json.loads(store.read_text(encoding='utf-8'))['credentials'].get(origin)
+        if credential is not None:
+            token = credential.get('token')
+            if credential.get('apiBase') != origin or not isinstance(token, str) or not token.strip():
+                raise ValueError('Invalid project Paperclip CLI credential; sign in again')
+            headers['Authorization'] = 'Bearer ' + token.strip()
+    return headers
+
+
 def api(path, body=None, method='GET'):
     origin = f"http://{SERVICES['host']}:{SERVICES['paperclipPort']}"
     request = Request(origin + '/api' + path, method=method,
                       data=None if body is None else json.dumps(body, ensure_ascii=False).encode(),
-                      headers={'Content-Type': 'application/json', 'Origin': origin})
+                      headers=operator_headers(origin))
     with urlopen(request, timeout=20) as response:
         return json.load(response)
 

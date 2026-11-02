@@ -172,18 +172,46 @@ phép đọc/giao việc, chỉnh existing agent/instructions/project/skills tro
 được duyệt. Tạo agent, credentials, execution commands và policies nằm ngoài
 surface đó; MCP không cấp model hoặc thay bộ chạy.
 
-Instance hiện local_trusted, chưa có PAPERCLIP_PUBLIC_URL/authPublicBaseUrl;
-GET /api/mcp/setup và /api/mcp/connections trả404 vì routes không được mount.
-enablePublicMcp cũng đang false. Vì vậy lỗi Không thể tải trạng thái kết nối
-không phải lỗi bản dịch. Bật toggle riêng chưa đủ.
+Ngày02/11 đã chuyển instance sang `authenticated` + `private`, chỉ bind loopback,
+giữ DB/storage và cổng17860/17861. `auth.publicBaseUrl` là origin17860;
+`enablePublicMcp=true` được bật qua API gốc. Owner đã đăng nhập và nhận quyền
+quản trị qua board claim gốc. Lỗi404 cũ do thiếu auth/public origin đã được xử lý;
+request chưa đăng nhập nay bị từ chối401 thay vì route không tồn tại.
 
-Muốn dùng: cấu hình authenticated deployment với user/company membership và
-public origin loopback17860; bật Settings → Experimental → Assistant connections
-(MCP), rồi Connections → Assistant Connection → Set up. Dùng lời mời/commands
-hiện trong UI cho đúng phiên bản; owner tự đăng nhập và duyệt OAuth. Trước đổi
-chế độ auth cần một lát setup riêng có backup; lượt cleanup này chưa đổi auth,
-MCP/global config hoặc cài connector. Runtime hiện chưa expose Paperclip MCP
-cho Codex; không gọi việc đọc tài liệu là kết nối thành công.
+Codex dùng Streamable HTTP trực tiếp tại `http://127.0.0.1:17860/mcp/paperclip`.
+Định nghĩa nằm trong `.codex/config.toml` của workspace, tên `naqex_paperclip`.
+OAuth đã được owner duyệt cho Naqex AI: `paperclip:read`, `paperclip:write`,
+`offline_access`; không xin `paperclip:configure`. Allowlist chỉ bật công cụ
+task/document và đọc agents/projects/approvals. Token OAuth do Codex quản lý;
+không sao chép token vào TOML, repo hoặc worker settings.
+
+Kết nối mới có thể cần nạp lại MCP/mở chat mới trong workspace. Khi công cụ đã
+expose, gọi `paperclip_connection` rồi đọc một task để xác minh đúng company và
+scope. Đã kiểm OAuth và discovery bằng Codex CLI/app-server riêng, không gọi model;
+điều này không tự thêm tools vào chat đang chạy hoặc chứng minh một workflow mới
+đã thực thi.
+
+Studio giữ API riêng. Helper đọc board credential do native CLI lưu tại
+`.runtime/paperclip/auth.json`, chỉ cho exact origin của project; không đọc token
+MCP hoặc auth của instance ngoài. Đăng nhập/renew từ checkout Paperclip:
+
+```powershell
+$env:PAPERCLIP_HOME='D:\ANNAM\TradingWorkspace\.runtime\paperclip'
+$env:PAPERCLIP_INSTANCE_ID='trader-ui'
+node cli/node_modules/tsx/dist/cli.mjs cli/src/index.ts auth login --api-base http://127.0.0.1:17860 --company-id 6b90f0c1-8f91-4fe8-bc15-fc8c58b3ac8f --no-browser
+```
+
+Owner duyệt URL CLI hiện ra. Không xin instance admin cho credential Studio.
+MCP renew từ workspace bằng `codex mcp login naqex_paperclip`; owner duyệt OAuth
+riêng. Thu hồi từng kết nối qua UI native/CLI logout tương ứng. Không tự login,
+auto-consent hoặc dùng key của worker thay cho quyền người dùng.
+
+Backup trước chuyển đổi ở `.runtime/paperclip/mcp-cutover-20261102/`, gồm native
+SQL dump và config/env/owner. Khi phục hồi, dừng đúng instance owner, giữ database
+hiện tại; khôi phục cấu hình đã sao lưu và toggle MCP qua quyền quản trị hợp lệ,
+rồi restart. Không restore DB chỉ để đổi auth mode. Snapshot config cũ dùng
+`local_trusted`, nên rollback làm instance trở lại quyền local không cần login;
+chỉ dùng khi owner chủ động chọn chế độ đó. Không đổi mode khi worker đang chạy.
 
 [Tài liệu MCP upstream](https://github.com/paperclipai/paperclip/blob/master/doc/public-mcp.md)
 và [bản pin](../../projects/integrations/paperclip/doc/public-mcp.md) giữ contract.
