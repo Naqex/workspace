@@ -50,7 +50,7 @@ def worker_config(engine: str, settings: Path) -> dict:
                          if engine == 'forex-pilot' else
                          'RD-Agent: thí nghiệm factor được đăng ký trên snapshot lịch sử; Quant Lab kiểm chứng; không đặt lệnh.'),
         'runtimeConfig': {'heartbeat': {'enabled': False, 'wakeOnDemand': True,
-                                       'maxConcurrentRuns': 1}},
+                                       'maxConcurrentRuns': 1, 'maxDailyRuns': 10}},
         'permissions': {'canCreateAgents': False, 'canCreateSkills': False},
         'metadata': {'naqexEngine': engine, 'contractVersion': 1},
     }

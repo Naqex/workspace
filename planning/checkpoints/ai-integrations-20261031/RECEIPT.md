@@ -2511,3 +2511,56 @@ Evidence private:
 `last-accepted-graph-observation.json`, `audit-findings.json`). Không đổi
 runtime/config/source engine hoặc strategy; kết quả là scoped architecture audit,
 không full-product, fresh inference, multi-job hay live acceptance.
+
+### Studio: giới hạn lượt chạy và xử lý quota/429, 03/11
+
+Owner duyệt ưu tiên quota/token sau audit. Dùng policy native thay vì thêm
+dashboard, quota store hay scheduler. PATCH `runtimeConfig` qua API đã xác thực
+cho đúng 4 process workers, giữ các trường cũ; Trưởng nhóm đã có cap 10 nên
+không sửa. Đọc lại cả đội: **10 started runs/ngày/agent, maxConcurrentRuns 1**,
+timer tắt, 5 agents idle. Kiểm tra hash các trường adapter/permissions/metadata/
+reportsTo không đổi, kể cả runtime/aiConnection của Trưởng nhóm. Setup helpers
+giữ cùng default cho worker mới; không tự migrate worker đã tồn tại.
+
+| Lớp | Kết quả |
+|---|---|
+| Paperclip | Cap per-agent được lưu và đọc lại bằng native API; ngày UTC reset lúc 07:00 Việt Nam. Failed started runs vẫn tính vào cap. Không dispatch để thử chạm trần trên dữ liệu thật. |
+| Gateway project 17852 | Managed config đang có request-retry 0, max-retry-credentials 1, max-retry-interval 0; không có credential override các retry keys trong YAML hiện tại. Giữ nguyên config/key/route; không gọi model hoặc thay instance Windows 8317. |
+| TradingAgents/RD | Giữ retry 0/one call; thêm chẩn đoán model_rate_limited cho HTTP/SDK 429, native báo cáo lỗi và giữ artifacts. |
+| Hermes | Profile đã có api_max_retries 1 (một attempt), auto_recovery_cycles 0, fallback rỗng, auxiliary retries 0. Đọc structured failure_reason của SDK để ghi model_rate_limited cùng hành động chờ/reset/đối soát; không replay report đã có. |
+
+**Luồng:** native admission kiểm giới hạn → process nhận contract → engine gọi
+model theo retry policy có sẵn → wrapper lưu receipt/report hoặc lỗi 429 → owner
+đối soát trước lần thử mới. Cap có thể chặn graph giữa các child; không tự mở
+thêm quyền/run để vượt trần. Đây không là company-wide request pool, tổng token/
+ngày, giá USD chính xác hay quota của Codex chat. Nhiều agent khác nhau vẫn có
+thể chạy đồng thời và một run có nhiều model calls. Chưa tăng tải/bật lịch.
+
+**Kiểm chứng tập trung:** 15 tests đạt trong 1,345s: toàn bộ LifecycleTests của
+engine wrapper, test RD generation 429 one-call, CompletionTests Hermes. Kiểm
+HTTPError/OpenAI RateLimitError 429 không rò diagnostics, không gọi lại; giữ
+success, duplicate-run, lỗi publication và linked human handoff. Không chạy
+full suite hoặc broker. Lần gọi test đầu sai đường dẫn Python do cwd ở tooling;
+đã dùng absolute interpreter, không thay dependency.
+
+Smoke bằng **Hermes SDK thật + HTTP server giả lập local**, profile/home tạm,
+không dùng memory thật: HTTP 429 + Retry-After 120 trả completed false,
+failure_reason rate_limit, **1 inference request**, không auto recovery. Có
+thêm 1 POST `/api/show` cho metadata, không phải inference/retry. Harness ban
+đầu thiếu PyYAML (runtime dùng hermes_yaml); sau đó assertion đếm cả metadata
+nên fail. Chỉ sửa harness dùng loader native và đếm đúng inference endpoint;
+không sửa engine, policy hoặc tăng retry để pass. Không gọi provider trả phí.
+
+Audit môi trường AI sau sửa đạt **0 errors/0 warnings**; global 12279 B,
+project 9269/65536 B, reserve 56267 B, combined 21548 B. Diff check đạt. Wrapper
+source được đọc ở lần dispatch tiếp theo, không cần restart engine đang idle.
+Gateway/provider readiness và lead model hết hạn vẫn là gate trước job thật;
+lát này không xác minh fresh inference, daily-cap saturation hay load/soak.
+
+Evidence private:
+`E:/BACKUP-TRADINGWORKSPACE/studio-observation-20261103/quota-controls/`
+(`native-before.json`, `native-after.json`, `policy-summary.json`,
+`hermes-429-smoke.py`, stdout/stderr smoke). Rollback runtime: đọc config hiện
+tại, chỉ phục hồi sự có mặt/giá trị maxDailyRuns của 4 worker theo before bằng
+native PATCH, giữ mọi field/owner change khác; không ghi đè nguyên snapshot.
+Không xóa run/report. Rollback source bằng revert commit của lát này.

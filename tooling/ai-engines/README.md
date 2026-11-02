@@ -83,8 +83,10 @@ research worker paused until its registered data/runtime preflight passes. Timer
 explicit wake can run the analysis worker. Each job uses isolated cache/memory,
 one debate round and one risk round, bounded tool rounds, no SDK retries and a
 15-minute native process deadline. No shared memory crosses independent jobs.
-No daily spending/run limit is enforced by this wrapper; concurrency and timeout
-are not a budget cap.
+The wrapper does not enforce a daily spending/run limit itself. The native
+Paperclip pilot applies 10 started runs/day and one concurrent run per agent;
+see [run limits and 429 handling](OPERATIONS.md#pilot-run-limits-and-provider-throttling).
+Concurrency and timeout are not token or money caps.
 
 ## RD-Agent boundary
 

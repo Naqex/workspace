@@ -8,7 +8,7 @@ from pathlib import Path
 import sys
 import time
 
-from engine_worker import Paperclip, ROOT, clean_environment, gateway, load_settings, source_pin
+from engine_worker import JobError, Paperclip, RATE_LIMIT_MESSAGE, ROOT, clean_environment, gateway, load_settings, source_pin
 from spot_workflow import review_source, verify_review_source, finish_review, report_workflow_failure
 
 
@@ -73,6 +73,8 @@ def execute(settings_path):
             result = agent.run_conversation(prompt)
             (directory / 'final-response.md').write_text(result.get('final_response') or '', encoding='utf-8')
             receipt.update(api_calls=result.get('api_calls'), session_id=agent.session_id)
+            if not result.get('completed') and result.get('failure_reason') in ('rate_limit', 'upstream_rate_limit'):
+                raise JobError('model_rate_limited', RATE_LIMIT_MESSAGE)
             if not result.get('completed') or not (directory / 'publication.json').is_file():
                 raise RuntimeError('Hermes did not complete publication')
             agent.close()
@@ -88,8 +90,10 @@ def execute(settings_path):
     except Exception as error:
         receipt.update(status='failed', error_type=type(error).__name__,
                        error=getattr(error, 'code', type(error).__name__))
+        if receipt['error'] == 'model_rate_limited':
+            receipt['operator_action'] = RATE_LIMIT_MESSAGE
         # Do not repeat a potentially completed publication or provider attempt.
-        print('Hermes chưa hoàn tất. Xem receipt local; không tự chạy lại.', flush=True)
+        print(receipt.get('operator_action', 'Hermes chưa hoàn tất. Xem receipt local; không tự chạy lại.'), flush=True)
         if issue.get('parentId'):
             try:
                 receipt['failure_delivery'] = 'published' if report_workflow_failure(
@@ -102,7 +106,8 @@ def execute(settings_path):
                         and current.get('assigneeAgentId') == client.agent
                         and current.get('parentId') == issue['parentId']):
                     client.call('/issues/' + issue['id'], {'status': 'blocked',
-                                'unblockDescriptor': {'owner': {'agentId': client.agent}, 'action': 'Xử lý nguyên nhân lỗi trong lượt phản biện và receipt trước khi thử lại.'}}, 'PATCH')
+                                'unblockDescriptor': {'owner': {'agentId': client.agent}, 'action': receipt.get(
+                                    'operator_action', 'Xử lý nguyên nhân lỗi trong lượt phản biện và receipt trước khi thử lại.')}}, 'PATCH')
             except Exception:
                 receipt['issue_failure_delivery'] = 'unavailable'
         return 1

@@ -22,6 +22,18 @@ result.to_hdf('result.h5', key='data', mode='w')
 
 
 class ResearchContractTests(unittest.TestCase):
+    def test_rate_limit_does_not_repeat_generation(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            directory = Path(temporary)
+            error = worker.HTTPError('http://fixture', 429, 'rate limited', {}, None)
+            with patch.object(research, 'urlopen', side_effect=error) as request:
+                with self.assertRaises(worker.HTTPError):
+                    research.generate({'quick_model': 'fixture'}, directory, ('http://fixture/v1', 'fixture'))
+            request.assert_called_once()
+            self.assertFalse((directory / 'candidate.py').exists())
+            attempt = json.loads((directory / 'model-attempt.json').read_text())
+            self.assertEqual((attempt['calls'], attempt['retries']), (1, 0))
+
     def test_only_registered_experiment_is_accepted(self):
         request = dict(version=1, engine='rd-agent', experiment=research.EXPERIMENT)
         text = lambda v: '```naqex-engine\n' + json.dumps(v) + '\n```\n'

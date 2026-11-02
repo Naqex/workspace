@@ -198,6 +198,28 @@ class LifecycleTests(unittest.TestCase):
         self.assertIn('Báo cáo thử', (self.directory / 'report.md').read_text(encoding='utf-8'))
         self.engine.assert_called_once()
 
+    def test_provider_429_blocks_once_without_leaking_diagnostics(self):
+        import httpx
+        from openai import RateLimitError
+        response = httpx.Response(429, request=httpx.Request('POST', 'http://fixture/v1/chat/completions'))
+        errors = [worker.HTTPError('http://fixture', 429, 'private-provider-details', {}, None),
+                  RateLimitError('private-provider-details', response=response, body=None)]
+        for error in errors:
+            with self.subTest(sdk=type(error).__name__), tempfile.TemporaryDirectory() as temporary:
+                self.settings['artifact_root'] = temporary
+                self.engine.reset_mock()
+                self.client.report.reset_mock()
+                self.engine.side_effect = error
+                self.assertEqual(self.run_job(), 2)
+                receipt = json.loads((Path(temporary) / 'company/run/receipt.json').read_text())
+                self.assertEqual(receipt['error'], 'model_rate_limited')
+                self.engine.assert_called_once()
+                self.assertFalse(self.client.report.call_args.kwargs['completed'])
+                report = self.client.report.call_args.args[1]
+                self.assertIn('429', report)
+                self.assertNotIn('private-provider-details', report)
+                self.assertNotIn('private-provider-details', json.dumps(receipt))
+
     def test_duplicate_dispatch_does_not_replay_or_modify_task(self):
         self.directory.mkdir(parents=True)
         original = '{"status":"running"}'

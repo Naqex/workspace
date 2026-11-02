@@ -25,6 +25,8 @@ SERVICES = json.loads((ROOT / 'projects/trader/foundation_v2/local-services.json
 CATALOG = json.loads((ROOT / 'tooling/integrations/catalog.json').read_text())
 SOURCES = {row['id']: ROOT / row['path'] for row in CATALOG['sources']}
 EXPIRED_MODEL = re.compile(r'opus[-_. ]?5[-_. ]?5', re.I)
+RATE_LIMIT_MESSAGE = ('Model đang giới hạn request hoặc quota (429). Đã dừng lượt này, không tự retry. '
+                      'Chờ hết thời gian giới hạn của provider, kiểm tra run/receipt và báo cáo đã có trước khi thử lại.')
 
 
 class JobError(Exception):
@@ -332,9 +334,14 @@ def execute_paperclip(engine: str, settings_path: Path) -> int:
             # Another invocation may still own this run; do not alter its task or evidence.
             print(json.dumps({'status': 'blocked', 'engine': engine, 'error': 'run_already_exists'}))
             return 2
-        known = error if isinstance(error, JobError) else JobError(
-            'engine_failed' if receipt['engine_work_started'] else 'engine_preflight_failed',
-            'Engine chưa hoàn tất. Kết quả đã có được giữ lại; không tự chạy lại yêu cầu chưa rõ kết quả.')
+        if isinstance(error, JobError):
+            known = error
+        elif getattr(error, 'status_code', None) == 429 or isinstance(error, HTTPError) and error.code == 429:
+            known = JobError('model_rate_limited', RATE_LIMIT_MESSAGE)
+        else:
+            known = JobError(
+                'engine_failed' if receipt['engine_work_started'] else 'engine_preflight_failed',
+                'Engine chưa hoàn tất. Kết quả đã có được giữ lại; không tự chạy lại yêu cầu chưa rõ kết quả.')
         receipt.update(status='failed' if receipt['engine_work_started'] else 'blocked',
                        error=known.code, error_type=type(error).__name__,
                        finished_at=datetime.now(timezone.utc).isoformat())

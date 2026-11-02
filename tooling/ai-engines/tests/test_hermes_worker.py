@@ -11,7 +11,7 @@ import hermes_worker as worker
 
 
 class CompletionTests(unittest.TestCase):
-    def run_case(self, completed, attached, *, linked=False):
+    def run_case(self, completed, attached, *, linked=False, failure_reason=None):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             instructions = root / 'tooling/ai-engines/hermes_instructions.md'
@@ -25,7 +25,8 @@ class CompletionTests(unittest.TestCase):
             def converse(prompt):
                 if attached:
                     (directory / 'publication.json').write_text('{"status":"attached"}')
-                return {'completed': completed, 'api_calls': 1, 'final_response': 'report'}
+                return {'completed': completed, 'api_calls': 1, 'final_response': 'report',
+                        'failure_reason': failure_reason}
             agent = Mock(session_id='session', tools=[{'function': {'name': 'research_publish'}}])
             self.last_agent = agent
             agent.run_conversation.side_effect = converse
@@ -47,6 +48,17 @@ class CompletionTests(unittest.TestCase):
         self.assertEqual(code, 1)
         self.assertEqual(receipt['status'], 'failed')
         client.call.assert_not_called()
+
+    def test_rate_limit_keeps_attached_report_and_requires_manual_reconciliation(self):
+        for reason in ('rate_limit', 'upstream_rate_limit'):
+            with self.subTest(reason=reason):
+                code, client, receipt = self.run_case(False, True, failure_reason=reason)
+                self.assertEqual(code, 1)
+                self.assertEqual(receipt['error'], 'model_rate_limited')
+                self.assertIn('429', receipt['operator_action'])
+                self.assertEqual(receipt['api_calls'], 1)
+                self.last_agent.run_conversation.assert_called_once()
+                client.call.assert_not_called()
 
     def test_success_requires_model_completion_and_attached_report(self):
         code, client, receipt = self.run_case(True, True)

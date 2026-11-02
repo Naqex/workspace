@@ -74,6 +74,13 @@ attempts are bounded by upstream configuration (six iterations, 180s agent budge
 240s process deadline); this is not a money budget or guarantee that remote
 provider computation can be undone after cancellation.
 
+The profile's `api_max_retries: 1` is one attempt, with SDK transport retries,
+auto-recovery and provider fallback disabled for this pilot. A rate-limit result
+is recorded as `model_rate_limited` with instructions to reconcile before a manual
+retry. Native Paperclip additionally caps this agent at 10 started runs per UTC
+day and one concurrent run. These controls are separate from tokens or billing;
+see [pilot limits](OPERATIONS.md#pilot-run-limits-and-provider-throttling).
+
 Evidence/benchmark and remaining limits extend the existing
 [integration receipt](../../planning/checkpoints/ai-integrations-20261031/RECEIPT.md).
 Remove/pause this worker through native Paperclip to disable it; retain its

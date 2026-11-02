@@ -139,6 +139,54 @@ iteration limits and concurrency do not establish a money cap. Scheduling stays
 off until attempt/spend bounds, unknown accounting and restart/stop recovery have
 been verified; this read-only reconciliation does not satisfy those gates alone.
 
+## Pilot run limits and provider throttling
+
+The pilot uses native `runtimeConfig.heartbeat.maxDailyRuns: 10` and
+`maxConcurrentRuns: 1` for each of the five agents. Timer heartbeats remain off;
+explicit/on-demand work still passes native admission. New process workers get
+these defaults from the setup helpers. These helpers preserve existing agents;
+they do not migrate an existing runtime implicitly.
+
+Paperclip counts started runs per agent, including failed attempts, in a UTC day.
+The window resets at **07:00 Vietnam time**, not local midnight. A queued run is
+not a started run, and admission checks the cap again before adapter invocation.
+The cap can therefore stop a graph between children; inspect its native state
+before resuming after reset. The native diagnostic is `heartbeat.daily_run_limit`.
+Review the saved `runtimeConfig`, change only its heartbeat limits through the
+native agent API/UI, and preserve other fields such as `aiConnection`.
+
+These are per-agent run limits, not a company-wide request pool or a strict token
+budget. Different agents may run concurrently; a single engine run may make
+multiple model requests. Do not claim a total request ceiling, tokens/day limit,
+or a dollar cap from these settings. Unknown billing remains unknown. Scheduling
+and increased throughput still require the acceptance gates above.
+
+Avoid multiplying retries across layers:
+
+| Layer | Pilot behavior |
+|---|---|
+| Project CLIProxyAPI v8 | `routing.retry`: `request-retry: 0`, `max-retry-credentials: 1`, `max-retry-interval: 0`; no extra credential round/failover for a failed request |
+| TradingAgents | `llm_max_retries: 0`; the wrapper does not replay a failed run |
+| RD-Agent generation | One request, output limit 4096 tokens, no retry |
+| Hermes SDK | Profile `agent.api_max_retries: 1` means one attempt, `auto_recovery_cycles: 0`, empty `fallback_providers`, auxiliary `transient_retries: 0`; OpenAI transport retries are disabled upstream |
+
+At the audited pin these settings stop a 429 rather than sleeping/retrying in
+multiple layers. Recheck per-credential overrides when gateway routes change;
+`max-retry-interval: 0` alone does **not** disable retries. Native metadata/model
+discovery requests are separate from inference. Hermes still allows up to six
+conversation iterations and a 180s agent budget; those are not token budgets.
+
+Provider 429 errors in the analysis/RD wrapper and Hermes's structured
+`rate_limit`/`upstream_rate_limit` results become `model_rate_limited`. Reports,
+receipts and any already attached output remain available. Wait for the provider's
+cooldown/reset, reconcile native run and artifacts, then explicitly retry only
+when needed. Do not rotate accounts/models or rerun completed inference to repair
+publication. This policy controls Studio workers, not the host's Codex quota or
+an owner's separate CLIProxyAPI instance.
+
+Configuration readback and an isolated local 429 smoke are separate from real
+provider readiness. See the current receipt for exactly which checks ran.
+
 ## GitHub repositories and coding work
 
 Reuse the existing Naqex repositories; a Paperclip project is not a new GitHub
