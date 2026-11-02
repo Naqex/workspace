@@ -1183,3 +1183,73 @@ Bước tiếp: kiểm execution/accounting trên ứng viên cố định và c
 rủi ro/lợi ích; sau bằng chứng phù hợp mới lập forward paper contract. Không tự
 thêm engine, mở lịch hoặc sử dụng vốn từ kết quả này. Whole-product audit,
 full autonomy và khả năng sinh lời vẫn chưa được công nhận.
+
+## 02/11 — contract Forex/prop và kiểm mốc lỗ ngày offline
+
+Owner đã chọn Forex major/MT5, FTMO 2-Step Swing làm chuẩn mô phỏng rồi giao
+tiếp tục. [Contract đầu tiên](../../research/FOREX-PROP-PILOT-20261102.md) đăng ký
+EURUSD/H4, 10.000 USD giả lập, risk dự kiến25 USD/lệnh, một candidate Donchian
+20/10 + ATR14 cố định. Đây là defaults offline của agent; owner chưa chọn cỡ
+tài khoản hoặc cấp risk budget tiền thật. Chưa xem outcome Forex, chọn/nhập
+manifest hoặc mở holdout. Các guard25/100/500 USD và candidate là đặc tả cho
+runner tiếp theo, không là tính năng đã nối vào job engine.
+
+### Reuse, vấn đề tái hiện và thay đổi
+
+- Dùng `projects/trader/foundation_v2/trading_workspace_v2/prop_session.py`
+  và native `api-rust/src/prop_core.rs`; không viết rule engine thứ hai hoặc
+  đổi Quant spot thành CFD backtester. Scope vẫn ở AI plan, không mở audit rộng.
+- Nguồn FTMO đọc lại ngày02/11: [objectives, phần2-Step](https://ftmo.com/en/trading-objectives/),
+  [Swing](https://ftmo.com/en/faq/what-is-the-swing-account-type-and-how-does-it-work/).
+  Daily equity loss dùng balance lúc00:00 CE(S)T làm anchor; generic profile cũ
+  lấy anchor theo cùng basis của loss nên chưa biểu diễn được luật này.
+- Tái hiện bằng pure Python lifecycle: initial100.000, midnight balance102.000,
+  floating−1.000 → equity101.000, anchor101.000/floor96.000. Theo reference cần
+  anchor102.000/floor97.000. Đây là thiếu khả năng profile cho luật hãng mới,
+  không khẳng định mọi generic simulation cũ sai.
+- Thêm `daily_anchor_basis=balance|equity|null` ở phase, cập nhật schema và
+  hai implementation. Null/absent giữ hành vi cũ. Money evaluator tiếp tục so
+  equity với floor; reset lấy balance khi profile khai báo. Hai thứ tự phí/reset
+  giữ riêng, không trừ phí hai lần. Không migration hoặc sửa profile đang lưu.
+- Fixture named-provider có hai phase, URL/version quan sát, profile SHA;
+  ngày effective là ngày đóng băng nghiên cứu, không phải ngày hãng đổi terms.
+  Chưa là preset UI đầy đủ. Profile chứa field mới cần runtime/schema mới khi
+  triển khai; chưa ghi nó vào DB runtime, không có dữ liệu cần rollback.
+
+Source Trader: **`ac9d2d20fdc5d0d6a5d0cc4866531b85bb579b85`**, trên branch hiện có
+`codex/note-workspace-completion`, sạch sau commit. Chưa merge/push, đổi gitlink
+root hoặc cập nhật API/UI đang chạy. Root pin được giữ theo quy trình product
+merge trước pin; fresh checkout root chưa bao gồm source candidate này.
+
+### Kiểm chứng đã chạy
+
+Từ `projects/trader/foundation_v2`, Python trong `.venv/Scripts/python.exe`, UTF8:
+
+| Kiểm tra | Kết quả |
+|---|---|
+| `python -X utf8 -m unittest discover -s tests -p test_ftmo_swing_offline.py -v` | 8 tests đạt, gồm các subcases: floating±, phí/reset hai thứ tự, midnight breach, boundary bằng/vượt1cent, cả hai target/min4days/flat, carrying và thiếu intraday coverage |
+| `python -X utf8 -m unittest discover -s tests -p test_ps00_prop_session_contract.py -v` | 15 đạt; có lịch Prague/DST/no-tick và money/contract/terminal state |
+| Từ `tests`: `../.venv/Scripts/python.exe -X utf8 -m unittest test_ps02_prop_lifecycle.Ps02PropLifecycleTests -v` | 16 đạt; focused lifecycle, không chạy persistence/DB |
+| `python -X utf8 scripts/rust_prop_check.py` | 2 Rust tests đạt: ca FTMO độc lập và corpus parity438 fixtures (342+96); compile offline21,36s, test0,18s |
+| `python -X utf8 api-rust/tests/export_prop_schemas.py --check` | Đạt, gồm schema mới |
+| Diff/format review | `git diff --check` đạt; rustfmt trên file Rust test; chỉ các file của lát này được stage |
+
+Lần chạy 8tests đầu có5 assertion failures vì objectives serialize tiền thành
+string, trong khi test mới so với Decimal. Sửa assertion theo JSON contract,
+không sửa số kỳ vọng hoặc production code để pass; lượt sau8/8 đạt. Lifecycle
+suite có warning upstream Starlette/httpx, assertions vẫn đạt. Không lặp broad
+suite hoặc provider inference. Pure Rust harness chỉ compile Prop module;
+không phải full API build/persistence/browser/runtime acceptance.
+
+### Giới hạn và bước tiếp
+
+Rule conformance offline đạt không chứng minh chiến lược có lợi nhuận/pass
+challenge. Bản sửa ở source; màn hình Paperclip, agents/native task state và
+runtime giữ nguyên trong lát này, không kiểm lại chúng để suy health hiện tại.
+Chưa broker connection/demo/live, free trial, phí challenge hoặc scheduler mới.
+
+**Bottleneck tiếp theo:** manifest bid/ask/cost hợp lệ và Forex execution/
+accounting trên cùng virtual clock. H4/M1 close-only không đủ chứng minh không
+breach intraday. Chốt nguồn/cutoff, cost và split trước outcome; nối một replay
+offline cố định và independent accounting checks, rồi mới bàn forward trial.
+Chưa tự promotion, mở holdout hoặc gọi lại workflow crypto cho Forex.

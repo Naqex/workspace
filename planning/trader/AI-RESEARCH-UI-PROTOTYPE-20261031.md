@@ -2,6 +2,17 @@
 
 ## Hướng hiện hành — owner tự setup,01/11
 
+### Lát tiếp nối hiện hành — Forex/prop offline, 02/11
+
+Owner đã chuyển ưu tiên sang Forex major/MT5, FTMO 2-Step Swing làm chuẩn mô
+phỏng. Hoàn thành lát nhỏ: đăng ký [contract nghiên cứu](../research/FOREX-PROP-PILOT-20261102.md)
+trước outcome Forex, reuse Prop domain của Trader và kiểm balance anchor độc
+lập với equity. EURUSD/H4/10.000 USD và risk25 USD là giả định offline của
+agent, chưa là lựa chọn tài khoản/risk budget tiền thật do owner duyệt.
+Receipt hiện có giữ source/test results. Chưa dữ liệu Forex, backtest outcome,
+workflow dispatch, UI preset hoặc rollout; không tự mở trial/challenge/broker.
+Các workflow crypto bên dưới giữ lịch sử và không là adapter Forex.
+
 ### Lát được giao tiếp — workflow crypto spot nối tiếp, 02/11
 
 Owner đã chọn ưu tiên crypto và giao triển khai workflow spot: nghiên cứu →

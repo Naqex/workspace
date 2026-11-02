@@ -24,6 +24,9 @@ execution plan, acceptance ledger hoặc hợp đồng cấp quyền giao dịch
   phù hợp; chưa mua challenge. [Khảo sát và quyết định](PROP-FIRM-FIT-20261102.md).
   Chưa chốt cặp tiền, timeframe, cỡ tài khoản hoặc risk budget cụ thể; lựa chọn
   này không mở quyền kết nối broker, đặt lệnh hoặc chi phí challenge.
+  Agent đã đăng ký [bài thử offline EURUSD/H4](FOREX-PROP-PILOT-20261102.md)
+  với 10.000 USD giả lập/risk25 USD; đây là defaults nghiên cứu, không thay
+  trạng thái chưa chốt ngân sách hoặc sự chấp thuận tiền thật của owner.
 - Owner mới ra trường, hiện có 15 triệu đồng. Chưa rõ khoản này có bao gồm quỹ
   sinh hoạt/dự phòng; không tự cấp ngân sách retry. The5ers là phương án thử phí
   thấp để xét sau, chưa là lệnh mua. HyroTrader giữ làm nhánh crypto tham khảo.

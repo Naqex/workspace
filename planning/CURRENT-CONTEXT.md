@@ -31,8 +31,10 @@ thật sau khi chiến lược có bằng chứng đạt tiêu chí và quyền 
 Bổ sung 02/11 — **owner đã chốt Forex major qua MT5, FTMO 2-Step Swing làm
 chuẩn mô phỏng** theo [khảo sát prop](research/PROP-FIRM-FIT-20261102.md).
 Offline trước, rồi free trial; chưa mua challenge hoặc duyệt phí/risk budget.
-Crypto spot giữ làm baseline nghiên cứu. Bước tiếp là contract nghiên cứu prop,
-không tự tiếp execution crypto hoặc mở quyền tài khoản/giao dịch từ quyết định này.
+Crypto spot giữ làm baseline nghiên cứu. [Contract Forex/prop offline](research/FOREX-PROP-PILOT-20261102.md)
+đã đăng ký với defaults tạm của agent; kết quả rule checks/source và bước tiếp
+nằm trong receipt AI hiện có. Không tự tiếp execution crypto hoặc mở quyền
+tài khoản/giao dịch từ quyết định này.
 
 ## Naqex migration — 29/10/2026
 
