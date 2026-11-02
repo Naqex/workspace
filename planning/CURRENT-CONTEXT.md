@@ -36,6 +36,12 @@ Crypto spot giữ làm baseline nghiên cứu. [Contract Forex/prop offline](res
 nằm trong receipt AI hiện có. Không tự tiếp execution crypto hoặc mở quyền
 tài khoản/giao dịch từ quyết định này.
 
+Tiếp nối02/11: owner cho phép mọi phạm vi dữ liệu; chưa có FTMO demo/free trial,
+hướng dẫn sau. Dùng warmup20–31/12/2021 + development03–14/01/2022 từ cache
+QDM, giữ validation/holdout chưa đọc vì chưa cần. Contract mục9 pin H4 cùng
+declared financing/cost scenarios; receipt AI giữ source/job/results và giới
+hạn broker-spec. Quyền dữ liệu không mở quyền tài khoản hoặc execution.
+
 Khi tiếp tục: [AI plan](trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md) giữ scope,
 [receipt AI](checkpoints/ai-integrations-20261031/RECEIPT.md) giữ kết quả/bước tiếp;
 [QDM guide](../projects/trader/docs/quantdatamanager.md) giữ đường lấy lịch sử

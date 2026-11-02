@@ -4,6 +4,16 @@
 
 ### Lát tiếp nối hiện hành — Forex/prop offline, 02/11
 
+**Tiếp nối02/11:** owner đã cho phép mọi phạm vi dữ liệu; vẫn ưu tiên warmup
+20–31/12/2021 và development03–14/01/2022, chưa đọc validation/holdout vì chưa
+cần. Owner chưa có FTMO demo/free trial, hướng dẫn sau. Contract mục9 đăng ký
+hai declared cost/financing scenarios trước outcome. Python offline có timed
+cash events, phí theo lot, entry sau decision và stop từ actual fill; H4 runner
+đã có source candidate. Receipt được dẫn bên dưới giữ kết quả/job/PID hiện hành.
+Không coi số liệu hai tuần là qualification hoặc thay gate broker-spec.
+Các mô tả capability/phạm vi bên dưới giữ lịch sử của các lát trước;
+không dùng chúng để chạy lại probe hoặc thu hẹp quyền dữ liệu owner vừa duyệt.
+
 Owner đã chuyển ưu tiên sang Forex major/MT5, FTMO 2-Step Swing làm chuẩn mô
 phỏng. Hoàn thành lát nhỏ: đăng ký [contract nghiên cứu](../research/FOREX-PROP-PILOT-20261102.md)
 trước outcome Forex, reuse Prop domain của Trader và kiểm balance anchor độc

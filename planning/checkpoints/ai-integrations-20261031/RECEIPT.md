@@ -1598,3 +1598,95 @@ broker/provider action hoặc phân tích validation/holdout.
 financing/rollover events và broker spec/cost profile cho vị thế qua đêm, rồi
 đăng ký warmup/development manifest trước dựng H4 runner. Không reuse financing0
 của intraday probe cho strategy H4. Chưa có lợi nhuận chiến lược hoặc Prop pass.
+
+## 02/11 — Timed financing và H4 development đã chạy offline
+
+**TECHNICAL INTEGRATION PASSED / STRATEGY UNPROVEN.** Trader financing
+`a1388e73`, causal entry/quantity costs `46b9d20b`, H4 runner `29735345`.
+Owner cho phép mọi phạm vi dữ liệu; chưa có FTMO demo/free trial, hướng dẫn
+sau. Chưa đưa vào API/UI/native/runtime, chưa mở tài khoản/provider/broker.
+
+### Thay đổi và luồng state
+
+- `forex_financing.py`: cash events có schedule UTC, known-at, signed rate
+  theo lot/chiều, multiplier và source/qualification. Cập nhật balance rồi
+  risk guard trên cash clock, giữ quote định giá cũ có nhãn stale. Qua gap
+  vẫn giữ cash; chặn duplicate/backdate/aggregate double charge. Stop do cash
+  chờ quote thực sự sau event. Prague reset và server rollover là hai clock
+  riêng. JSON/rewind giữ cash; không dựng quote mới.
+- Pilot entry có decision time và optional stop distance. Quote cùng timestamp
+  với quyết định chưa được fill; stop cách actual fill đúng distance, round
+  ra xa theo tick. Commission rate theo quantity không đổi nghĩa fixed fee cũ;
+  partial close không scale hai lần. General research từ chối rate mới chưa
+  hỗ trợ. Offline snapshot không import sang Rust vì chưa có native parity.
+- `forex_h4.py` + `scripts/forex_h4_pilot.py`: QDM ticks → validate → hourly
+  execution/risk mỗi tick → H4 đã đóng → Donchian20/10, ATR14 Wilder → size
+  round xuống → queue → quote eligible. Reuse core fills/accounting; chỉ báo
+  midpoint loại chính nến quyết định khỏi channel, không trade warmup.
+- Contract mục9 pin trước outcome: calendar22:00UTC Mon–Fri (Wed×3), debit
+  giả định10/20USD/lot, slippage0/0,00002. Đây là declared scenarios, không phí
+  lịch sử2022/spec FTMO. Ngân sách stop ban đầu gồm commission/slippage, chưa
+  biết tổng financing theo số đêm; cash/risk guard vẫn hoạt động. Fixed research
+  leverage không thay margin/stop-out thực. Không tune/model/holdout action.
+
+### Dữ liệu và kết quả
+
+Export đã hoàn tất từ cache, không tải lại:
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/forex-prop-pilot-20261102/h4-inputs-20261102/`.
+Hash hai CSV ở contract mục9/export receipt. Warmup20–31/12/2021 có546.210ticks,
+58H4 đủ4giờ quote; development03–14/01/2022 có643.775ticks,58H4 đủ4giờ quote.
+Mỗi lát238giờ có quote,3H4 thiếu giờ bị loại, không bù nến. Development có
+2.964phút không quote giữa đầu/cuối, gồm cuối tuần; max gap172.800.637ms.
+Không khẳng định toàn bộ phút thiếu là lỗi nguồn hoặc feed đã đầy đủ.
+
+Job H4: launcherPID20040, actual workerPID22076, đã hoàn tất
+`completed_declared_scenarios` lúc08:09:39UTC02/11; không cần restart/resume.
+Artifacts:
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/forex-prop-pilot-20261102/h4-development-20261102/`.
+Manifest pin source29735345/code/input hashes trước outcome; quality, results,
+decisions và JSON checkpoints riêng cho hai scenarios. Stdout/stderr ở folder
+cha; stderr trống sau hoàn tất. Không ghi đè probe cũ.
+
+| Kết quả trên10.000USD mô phỏng | Reference | Cost-stress |
+|---|---:|---:|
+| Lệnh mở/đã đóng |3/3 |3/3 |
+| Net trade sau commission/slippage, trước cash financing |−17,72 |−18,20 |
+| Debit financing giả định |2,80 |5,60 |
+| Thay đổi balance sau mọi phí |−20,52 |−23,80 |
+| Balance/equity cuối |9.979,48 |9.976,20 |
+| Equity thấp nhất quan sát |9.949,76 |9.948,08 |
+| Internal risk stops/rejections |0/0 |0/0 |
+
+Cả hai có SELL +2BUY, lot0,04 mỗi lệnh;2SL và1causal strategy exit. Cùng4
+decisions, không chọn scenario theo lợi nhuận. Exit cuối decision
+1642176000000ms, quote1642176000107ms;107ms là khoảng cách input quote,
+không measured broker latency. Mỗi scenario643.775ticks +10cash events;
+Decimal oracle độc lập đối soát từng close/cash/balance và JSON restore đạt.
+Kết thúc flat tự nhiên, không terminal fake close. Không chạm internal stop
+chỉ đúng với quotes/cash được cung cấp; `intrabar_equity_coverage=insufficient`,
+`broker_spec_verified=false`, `strategy_pass=false`, `prop_pass=false` giữ nguyên.
+
+### Kiểm chứng và lỗi đã xử lý
+
+- Financing8tests đạt trước entry/cost slice: debit/credit, multiplier,
+  gap/cash breach/restart, Prague DST/server clock, tamper và rewind.
+- Sau entry/cost:35tests pilot/financing/probe/quantity đạt. Lượt đầu1budget
+  fixture fail do entry quote đúng decision boundary; sửa entry thành+1ms,
+  stop quote+2ms để giữ4lỗ/remaining budget, không đổi expected loss/nới guard.
+  Có gap BUY/SELL, strict timestamp, rounding, JSON/tamper/invalid distance.
+  Sau thêm partial quantity/general research rejection, focused quantity +
+  engine oracle12tests đạt.
+- H4 synthetic5tests đạt: channel/ATR seed, partial candles, sizing/min lot,
+  parser corruption/source ordinal, runner roundtrip và declared calendar.
+- Core regression111tests đạt: tick/core/margin/immediate/partial close/Prop.
+  3warnings đã có: Starlette/httpx, anyio và Pydantic Decimal/int serialization.
+- Tổng161test cases khác nhau đạt qua focused commands. Không lặp full suite/
+  native/UI hoặc probe cũ chỉ để tăng pass count. Diff check đạt; root gitlink
+  và WIP khác không stage. Không database/runtime restart hoặc rollout.
+
+**Bước tiếp cần owner:** FTMO demo/free-trial MT5 và bảng EURUSD Specification
+để pin lot/tick/swap/margin/rollover thực, rồi đăng ký development window lớn
+hơn trước qualification. Owner tạo/login tài khoản; agent hướng dẫn/đọc thông
+số được cung cấp, không tự dùng credentials/broker. Chưa có thì không gọi
+declared run là sát tài khoản hoặc mở holdout để cố tìm kết quả đẹp.3lệnh/hai
+tuần chưa đủ edge; chưa đủ bằng chứng dùng tiền/mua challenge.

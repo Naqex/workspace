@@ -232,3 +232,57 @@ Tiêu chí: fill nằm sau quyết định, đúng Bid/Ask, một close duy nh�
 giữ đúng, JSON restore và Decimal oracle/margin/cost delta đạt. Chưa có latency,
 liquidity/depth hoặc bảo đảm broker execution. Gate broker-spec/timed financing
 và H4 strategy vẫn giữ; đây là sửa mô hình timing offline, chưa là strategy pass.
+
+## 9. H4 development — đăng ký trước outcome, 02/11
+
+Owner đã cho phép **mọi phạm vi dữ liệu**, thay giới hạn export ngày03/01 ở
+các mục lịch sử trên. Owner chưa có FTMO demo/free trial, yêu cầu hướng dẫn sau;
+không tự tạo/kết nối tài khoản. Tiếp tục dùng lát nhỏ đã chọn: warmup20–31/12/2021,
+development03–14/01/2022, UTC. Giữ validation2023–24 và holdout≥2025 chưa đọc vì
+chưa cần. Không thay split, tham số hoặc chọn scenario theo kết quả.
+
+Hai CSV đã export tuần tự từ cache QDM, không tải lại; receipt local tại
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/forex-prop-pilot-20261102/h4-inputs-20261102/receipt.json`.
+SHA256 warmup `807a05c1e777350f1151674a4c9a1a2288fd11d3f0b1f9fb939509b49d2d83e8`;
+development `ce49cd3af5f41396b3b831c8e0ea83e2dd9c8e4f5790962052a5b1f4d4fbaf66`.
+Trước tính P/L phải kiểm hash/header/date bounds/millisecond, Bid≤Ask, bước giá,
+thứ tự nguyên bản; ordinal làm sequence. Không sort/dedup/fill khoảng thiếu.
+
+Quy tắc cố định mục2 giữ nguyên. Nến H4 dùng midpoint(Bid+Ask)/2, UTC; chỉ đưa
+nến có đủ4 giờ có quote vào history chỉ báo, ghi riêng nến thiếu giờ. Không
+dựng nến cuối tuần. Missing minute/max gap được báo, không suy chứng nhận
+coverage đầy đủ. ATR seed là trung bình14 TR đầu (TR đầu=high−low), sau đó
+Wilder(13×ATR trước+TR)/14; TR sau dùng close nến hợp lệ trước qua gap.
+20/10 channel loại chính nến quyết định. Warmup không giao dịch.
+
+Core execution chạy cửa sổ1giờ để giảm ledger/validation overhead, vẫn quan sát
+risk trên **mọi tick cung cấp**; quyết định chỉ ở boundary H4. Quote timestamp
+bằng decision chưa đủ, phải lớn hơn. Stop cách actual fill2ATR, làm tròn tick
+ra xa vị thế. Size làm tròn xuống0,01lot với loss dự kiến tới stop≤25USD gồm
+round-trip commission/slippage và thêm1tick đệm rounding; không biết trước phí
+qua đêm vì chưa biết thời gian giữ, nên chưa bảo đảm tổng loss/trade≤25USD.
+Risk guard cash/tick vẫn kiểm25/100/500; financing có thể làm loss vượt dự kiến.
+
+**Hai declared scenarios**, không phải phí lịch sử2022/account FTMO:
+
+| Scenario | Commission USD/lot/chiều | Slippage giá/chiều | Debit qua đêm USD/lot |
+|---|---|---|---|
+| reference |2,50 |0 |10 cả BUY/SELL |
+| cost-stress |2,50 |0,00002 |20 cả BUY/SELL |
+
+Debit là giả định kiểm bảo thủ được chọn trước outcome, không lấy từ search
+swap cache. Calendar cố định Mon–Fri22:00UTC, Wednesday×3, các ngày khác×1;
+không claim đúng server/DST/holiday broker. Mỗi cash event giữ rate/known-at,
+qualification=`declared_scenario`, nguồn mục9, ROUND_HALF_UP2decimal; Prague
+reset riêng, nếu trùng thì `reset_then_financing`. Các mốc cash vẫn chạy qua
+gap, không tạo quote. Không charge lại aggregate financing khi close.
+Instrument100.000EUR/lot, tick0,00001, min/step0,01lot, USD, fixed research
+leverage30 là scenario cũ, chưa account verified. Commission rate optional mới
+chỉ hỗ trợ Python offline replay; không đưa snapshot này sang Rust/native/UI.
+General research phải từ chối rate chưa hỗ trợ thay vì bỏ qua.
+
+Lưu manifest/code hash trước outcome, log tiến độ/PID/checkpoint cho job dài.
+Hết mẫu giữ vị thế mở với valuation quote cuối, không fake close hoặc tự coi
+là net realized return. Đối soát closed fills/cash/balance, causal timing,
+snapshot JSON restart, signal counts/min equity/rejections/coverage cho cả
+hai scenarios. Hai tuần chỉ kiểm tích hợp; không đủ edge/Prop pass/promotion.
