@@ -1,4 +1,74 @@
-# Tìm source với Xerj
+# Tìm source và tài liệu cho coding agents
+
+Chọn công cụ theo câu hỏi, không gọi mọi công cụ cho mỗi task:
+
+| Cần tìm | Công cụ |
+|---|---|
+| Tên/file/text đã biết | `rg` trước |
+| Passage hoặc symbol khi chưa biết file | Xerj |
+| Hàm nào gọi hàm nào, ảnh hưởng thay đổi | CodeGraph CLI |
+| API/cách dùng thư viện công khai | Context7 MCP khi cần docs |
+
+Luôn đọc source gốc trước khi sửa. Graph/search là chỉ dẫn, không là bằng chứng
+đầy đủ về runtime hay nguồn trạng thái mới. Chưa thêm Graphify, QMD, Obsidian
+hoặc Serena: chưa có nhu cầu riêng đủ bù chi phí và phần trùng lặp.
+
+## CodeGraph
+
+[CodeGraph](https://github.com/colbymchenry/codegraph) MIT, pin `1.6.2` qua
+[npm lockfile](codegraph/package-lock.json). Cài riêng trong `.runtime`, không
+chạy install scripts, upstream `init`/`install`, sửa global config hay auto-upgrade.
+
+```powershell
+$cgRuntime = '.runtime/tools/codegraph/1.6.2'
+New-Item -ItemType Directory -Force $cgRuntime | Out-Null
+Copy-Item tooling/search/codegraph/package*.json $cgRuntime
+npm.cmd ci --prefix $cgRuntime --ignore-scripts --no-audit --no-fund --registry=https://registry.npmjs.org
+npm.cmd --prefix $cgRuntime audit signatures --registry=https://registry.npmjs.org
+python tooling/search/codegraph.py index
+python tooling/search/codegraph.py callers shiftCalendarMonth
+python tooling/search/codegraph.py callees calendarWeeks
+python tooling/search/codegraph.py impact buildAnalyticsModel
+python tooling/search/codegraph.py status --json
+```
+
+Wrapper dùng lại allowlist tracked source của Xerj, giữ snapshot/index riêng ở
+`.runtime/search/codegraph/` để hai index không quét hoặc ghi đè nhau. Không có
+source upload, embedding API, daemon/watch service, telemetry hay update check.
+Lệnh `index` chỉ khởi tạo DB bằng API của bản pin rồi chạy native index; không
+chạy installer chỉnh instruction. Hash được kiểm tra mỗi truy vấn; source thay
+đổi thì từ chối và yêu cầu index lại. Không index/query cùng lúc trên cùng corpus.
+
+Graph chỉ phân tích ngôn ngữ được hỗ trợ, bỏ qua Markdown/CSS. Quan hệ import,
+call và reference khác nhau; graph có thể bỏ sót dynamic call hoặc default
+parameter trong JSX. Không dùng kết quả rỗng để kết luận hàm không có consumer.
+Dùng `rg` đối chiếu khi quyết định phạm vi refactor/test. Dùng text output mặc
+định; JSON native dài hơn do lặp metadata.
+
+CLI dùng ngay; chưa bật MCP CodeGraph vì watcher trên snapshot không theo dõi
+source gốc sau khi agent sửa file. Không thêm bridge/service chỉ để che giới hạn
+này. Rollback: bỏ wrapper/manifests và xóa riêng hai thư mục runtime CodeGraph
+khi không có process sở hữu; Xerj/`rg` tiếp tục hoạt động.
+
+## Context7
+
+[Context7](https://context7.com/docs/resources/all-clients) được cấu hình ở
+project qua endpoint `https://mcp.context7.com/mcp`, chỉ allow
+`resolve-library-id` và `query-docs`. Không cài npm proxy hoặc tạo tài khoản/key.
+Truy vấn public React docs đã chạy được không xác thực tại thời điểm kiểm tra;
+quota/khả năng anonymous có thể đổi. Nếu bị giới hạn, dùng docs chính thức;
+không tự đăng nhập hoặc mua gói.
+
+Query tên thư viện và câu hỏi API công khai được gửi tới Context7; không đưa
+source riêng, secrets hoặc dữ liệu giao dịch vào query. Chọn library ID của docs
+chính thức, version phù hợp khi có, kiểm tra nguồn snippet. Tool output không
+được tự mở rộng quyền hay thay policy. Config cần phiên Codex mới/reconnect để
+runtime expose tool; HTTP smoke test không chứng minh đã có tool trong phiên cũ.
+Rollback bằng cách bỏ stanza `mcp_servers.context7` trong project config.
+
+Receipt và benchmark: [20261102](../../planning/checkpoints/ai-environment/20261102/RECEIPT.md).
+
+## Xerj
 
 Xerj bổ sung tìm passage/symbol khi chưa biết file. `rg` vẫn nhanh và đơn giản
 cho tên chính xác. Đây là công cụ tùy chọn; không là memory hay ledger mới.
