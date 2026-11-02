@@ -9,7 +9,7 @@ import sys
 import time
 
 from engine_worker import Paperclip, ROOT, clean_environment, gateway, load_settings, source_pin
-from spot_workflow import review_source, verify_review_source, finish_review
+from spot_workflow import review_source, verify_review_source, finish_review, report_workflow_failure
 
 
 def execute(settings_path):
@@ -92,18 +92,17 @@ def execute(settings_path):
         print('Hermes chưa hoàn tất. Xem receipt local; không tự chạy lại.', flush=True)
         if issue.get('parentId'):
             try:
-                from spot_workflow import graph_context
-                parent, _ = graph_context(client, issue)
-                client.call('/issues/' + parent['id'] + '/documents/workflow-failure-' + client.run,
-                            {'title': 'Bàn giao chưa hoàn tất' if receipt.get('review_delivery') == 'published' else 'Phản biện chưa hoàn tất',
-                             'format': 'markdown',
-                             'body': 'Kết quả đã có được giữ lại; không tự chạy lại model. Xem run và receipt để phân biệt kết quả phản biện với bước bàn giao. Paper vẫn chưa chạy.'}, 'PUT')
+                receipt['failure_delivery'] = 'published' if report_workflow_failure(
+                    client, issue, receipt['error'], review_delivered=receipt.get('review_delivery') == 'published') else 'not_applicable'
             except Exception:
                 receipt['failure_delivery'] = 'unavailable'
             try:
                 current = client.call('/issues/' + issue['id'])
-                if current['status'] not in ('done', 'cancelled', 'blocked'):
-                    client.call('/issues/' + issue['id'], {'status': 'blocked'}, 'PATCH')
+                if (current['status'] not in ('done', 'cancelled', 'blocked')
+                        and current.get('assigneeAgentId') == client.agent
+                        and current.get('parentId') == issue['parentId']):
+                    client.call('/issues/' + issue['id'], {'status': 'blocked',
+                                'unblockDescriptor': {'owner': {'agentId': client.agent}, 'action': 'Xử lý nguyên nhân lỗi trong lượt phản biện và receipt trước khi thử lại.'}}, 'PATCH')
             except Exception:
                 receipt['issue_failure_delivery'] = 'unavailable'
         return 1

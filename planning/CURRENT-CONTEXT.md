@@ -57,9 +57,11 @@ Khi tiếp tục: [AI plan](trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md) giữ s
 [QDM guide](../projects/trader/docs/quantdatamanager.md) giữ đường lấy lịch sử
 Forex đã có. Brief dài ở trên giữ cả thảo luận lịch sử, không thay các nguồn này.
 
-Điểm resume02/11: receipt mục **Workflow Forex native xuyên suốt** có NAQ-25
-và bằng chứng source/native/browser trên5180. Tiếp phần owner tạo mẫu/hủy cả
-workflow bằng UI; giữ nguyên các lượt đã thành công, không tuning chiến lược.
+Điểm resume02/11: receipt mục **Studio: research vận hành và lỗi workflow**
+có quyết định giữ native Paperclip, kết quả sửa adapter và kiểm lỗi thật NAQ-45.
+NAQ-25 cùng bằng chứng luồng thành công trước đó được giữ nguyên. Tiếp phần
+owner tạo mẫu/hủy cả workflow bằng UI; chưa có thao tác trọn graph bằng native
+UI. Chưa hoàn thiện token/cost accounting cho SDK/gateway; chưa tuning chiến lược.
 
 ## Naqex migration — 29/10/2026
 

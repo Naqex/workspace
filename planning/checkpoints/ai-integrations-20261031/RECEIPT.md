@@ -1946,3 +1946,70 @@ broker acceptance, outage recovery dài hạn hoặc system-wide autonomy.
 ưu tiên khả năng native Paperclip trước custom UI. Reuse luồng đã kiểm; không
 chạy lại fixture/model thành công hoặc chuyển sang tuning. Tiếp tục giữ riêng
 qualification/paper/live và gate chi phí broker còn thiếu.
+
+### Studio: research vận hành và lỗi workflow — 02/11/2026
+
+Owner yêu cầu tiếp Studio, đối chiếu docs/internet/cộng đồng và cải tiến phần
+cần thiết; dừng chỉnh cấu hình subagents. Quyết định và nguồn nằm trong
+[khảo sát vận hành](../../research/STUDIO-OPERATIONS-20261102.md).
+
+Giữ native UI/API/process và luồng numeric → một lượt Hermes → human review.
+Routines có manual trigger nhưng tạo một execution issue, không thay thẳng graph
+đã kiểm. Reusable case workflows ở source pin là mẫu prompt, có experimental
+gate; chưa là graph executor. Không bật timer, thêm CEO/coordinator, engine hoặc
+framework. Chưa làm UI tạo/hủy trọn graph và chưa hoàn thiện cost accounting.
+
+#### Sửa adapter
+
+- Gộp phần báo lỗi linked workflow vào `spot_workflow.report_workflow_failure`.
+  Numeric/Hermes chuyển summary sang `blocked`, giao human creator/responsible
+  user, publish **Workflow cần bạn xem** kèm link bước lỗi và diagnostic code.
+  Báo cáo completed và paper NOT_RUN được giữ. Không tự retry hoặc gọi model.
+- Theo native contract, worker tự đứng tên `unblockDescriptor.owner`; agent
+  không được chọn board/user ở field này. Người nhận summary vẫn là human.
+  Bổ sung descriptor cho failed report/linked Hermes; giữ guard reassign/cancel.
+- Sửa module identity khi native adapter chạy `engine_worker.py` dưới `__main__`:
+  alias về cùng module để `JobError` của sibling modules được bắt đúng. Trước đó
+  đường lỗi có thể thoát lên `paperclip_context_missing`, dù context thực tế đủ.
+- Native Paperclip/core engine, quyền subagent và broker không thay đổi. Worker
+  nạp wrapper mới ở lượt dispatch tiếp; không restart dịch vụ hoặc MT5.
+
+#### Kiểm chứng và lỗi đã giữ lại
+
+Focused suites: workflow15, engine worker22, Hermes5 = **42 tests đạt**. Bao gồm
+CLI entrypoint trong subprocess (không provider), preflight thất bại, error delivery,
+giữ completed report, parent đổi/cancel/reassign và native unblock-owner payload.
+Đây là focused verification, không phải toàn bộ suite hoặc whole-product acceptance.
+
+Native fault injection dùng request thiếu engine để dừng trước settings/data/model:
+
+| Lượt | Kết quả |
+|---|---|
+| NAQ-33–36 | Tái hiện module identity error. Run `beba5d57-223d-466b-bb64-e3c209bbd983` failed/exit2; giữ lịch sử và hủy graph |
+| NAQ-37–40 | Module fix cho diagnostic đúng và publish failure doc; parent transition chưa đạt. Sửa riêng delivery bằng native board API; sau đó hủy fixture, không chạy lại model |
+| NAQ-41–44 | Xác nhận `paperclip_http_403` khi agent dùng board làm unblock owner. Giữ doc/run, hủy fixture sau khi sửa theo source contract |
+| NAQ-45–48 | **Đạt**: run `f09a06fd-149e-40b2-9f74-1e900bbe29c6` failed/exit2 đúng kỳ vọng; source và summary blocked, summary giao local-board, failure doc khớp run; review/paper vẫn blocked |
+
+Tất cả các lượt này **không đọc dữ liệu, gọi model, chạy numerical engine hoặc
+broker**. Không dùng trạng thái failed để giả engine thành công. Ba graph thử
+trước được cancelled để bớt việc trong inbox nhưng giữ report/run/history; graph
+NAQ-45 giữ làm ví dụ lỗi có thể mở xem. NAQ-25 vẫn in_review, các workers idle.
+
+Harness lần đầu gọi nhầm `/agents/{id}/runs` trả404; sửa sang native company
+heartbeat-runs, không redispatch cùng graph. Browser harness lần đầu dùng heading
+trùng title/body và strict selector lỗi; sửa locator level1, không sửa UI để pass.
+
+Actual Studio5180: **4 browser cases đạt** — failure document và mã lỗi, link tới
+bước con,390px không horizontal overflow, summary/report thành công NAQ-25 vẫn
+mở được. Không pageerror/blocked request; đã xem screenshot1920/390. Chỉ cho phép
+GET/HEAD cùng native read marks của các task cụ thể; không browser dispatch.
+
+Artifact scripts, native assertion JSON, lỗi trước sửa, screenshots và browser
+report: `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/studio-operations-20261102/`.
+`git diff --check` đạt. Không có acceptance mới cho strategy, paper/demo/live.
+
+**Giới hạn:** delivery vẫn có thể thất bại khi API mất kết nối hoặc lỗi xảy ra
+trước khi worker nhận được assignment; native run/receipt vẫn phải được xem.
+Re-read guard không phải transaction/CAS liên request. Numeric fault path đã kiểm
+native thật; nhánh Hermes delivery được kiểm offline có model mock, không chạy lại
+Gemini. Tạo/hủy trọn graph bằng UI và SDK/gateway token/cost visibility còn pending.

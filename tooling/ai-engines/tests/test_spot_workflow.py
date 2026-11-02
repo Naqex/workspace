@@ -284,6 +284,73 @@ class WorkflowTests(unittest.TestCase):
         self.assertEqual(client.rows[graph['review']]['status'], 'done')
         self.assertEqual(client.rows[graph['parent']]['status'], 'cancelled')
 
+    def test_failed_step_reaches_owner_without_touching_reports_or_paper(self):
+        for step in ('research', 'review'):
+            with self.subTest(step=step):
+                client = NativeFixture(engine='forex-pilot')
+                graph = client.graph()
+                workflow.start_graph(client.call, graph)
+                client.agent = graph['research_agent'] if step == 'research' else client.agent
+                client.rows[graph[step]]['status'] = 'done' if step == 'review' else 'blocked'
+                before_children = {key: copy.deepcopy(client.rows[graph[key]]) for key in ('research', 'review', 'paper')}
+                client.writes.clear()
+                self.assertTrue(workflow.report_workflow_failure(client, client.rows[graph[step]],
+                                'paperclip_unavailable', review_delivered=step == 'review'))
+                parent = client.rows[graph['parent']]
+                self.assertEqual((parent['status'], parent['assigneeUserId']), ('blocked', 'local-board'))
+                self.assertEqual(parent['unblockDescriptor']['owner'], {'agentId': client.agent})
+                for key, before in before_children.items():
+                    self.assertEqual(client.rows[graph[key]], before)
+                doc = client.docs[graph['parent'], 'workflow-failure-' + client.run]['body']
+                self.assertIn('/issues/' + graph[step], doc)
+                self.assertIn('Paper chưa chạy', doc)
+                self.assertEqual('Báo cáo phản biện đã lưu' in doc, step == 'review')
+                self.assertFalse(any('/heartbeat-runs/' in path for path, _, _ in client.writes))
+
+    def test_failure_preserves_owner_changes_cancellation_and_foreign_scope(self):
+        for change in ('cancelled', 'in_review', 'reassigned', 'reparented', 'company', 'manifest'):
+            with self.subTest(change=change):
+                client = NativeFixture()
+                graph = client.graph()
+                workflow.start_graph(client.call, graph)
+                issue = copy.deepcopy(client.rows[graph['review']])
+                parent = client.rows[graph['parent']]
+                if change in ('cancelled', 'in_review'):
+                    parent['status'] = change
+                elif change == 'reassigned':
+                    client.rows[issue['id']]['assigneeAgentId'] = str(uuid4())
+                elif change == 'reparented':
+                    client.rows[issue['id']]['parentId'] = str(uuid4())
+                elif change == 'company':
+                    parent['companyId'] = str(uuid4())
+                else:
+                    parent['description'] = 'ordinary parent'
+                client.writes.clear()
+                try:
+                    self.assertFalse(workflow.report_workflow_failure(client, issue, 'failed'))
+                except JobError:
+                    pass
+                self.assertEqual(client.writes, [])
+
+    def test_failure_rechecks_parent_after_document_and_sanitizes_error(self):
+        client = NativeFixture()
+        graph = client.graph()
+        workflow.start_graph(client.call, graph)
+        original = client.call
+        # Retain the fixture transport while simulating a cancellation during publication.
+        def cancelling_api(path, body=None, method='GET'):
+            result = original(path, body, method)
+            if method == 'PUT':
+                client.rows[graph['parent']]['status'] = 'cancelled'
+            return result
+        client.call = cancelling_api
+        with self.assertRaises(JobError):
+            workflow.report_workflow_failure(client, client.rows[graph['review']], 'secret provider response')
+        self.assertEqual(client.rows[graph['parent']]['status'], 'cancelled')
+        doc = client.docs[graph['parent'], 'workflow-failure-' + client.run]['body']
+        self.assertIn('workflow_failed', doc)
+        self.assertNotIn('secret provider response', doc)
+
 
 if __name__ == '__main__':
     unittest.main()

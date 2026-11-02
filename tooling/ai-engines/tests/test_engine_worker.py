@@ -1,4 +1,5 @@
 import json
+import subprocess
 from pathlib import Path
 import sys
 import tempfile
@@ -175,6 +176,18 @@ class LifecycleTests(unittest.TestCase):
         self.assertFalse(self.receipt()['provider_work_started'])
         self.assertEqual(self.receipt()['status'], 'blocked')
 
+    def test_linked_preflight_failure_notifies_owner_even_if_child_delivery_fails(self):
+        self.client.assigned_issue.return_value['parentId'] = 'parent'
+        self.gateway.side_effect = worker.JobError('model_unavailable', 'Model chưa sẵn sàng')
+        self.client.report.side_effect = worker.JobError('paperclip_unavailable', 'Offline')
+        with patch('spot_workflow.bind_research'), patch('spot_workflow.guard_research'), patch(
+                'spot_workflow.report_workflow_failure', return_value=True) as notify:
+            self.assertEqual(self.run_job(), 2)
+        notify.assert_called_once_with(self.client, self.client.assigned_issue.return_value, 'model_unavailable')
+        self.assertEqual(self.receipt()['failure_delivery'], 'published')
+        self.engine.assert_not_called()
+        self.assertFalse(self.receipt()['provider_work_started'])
+
     def test_delivery_failure_preserves_completed_analysis(self):
         self.client.report.side_effect = worker.JobError('paperclip_unavailable', 'Offline')
         self.assertEqual(self.run_job(), 2)
@@ -230,6 +243,33 @@ class AssignmentTests(unittest.TestCase):
         with self.assertRaises(worker.JobError):
             client.assigned_issue()
         self.assertEqual(client.call.call_count, 3)
+
+    def test_failed_report_supplies_native_unblock_action(self):
+        client = self.client()
+        client.report('issue', 'Preflight failed', completed=False)
+        payload = client.call.call_args.args[1]
+        self.assertEqual(payload['status'], 'blocked')
+        self.assertEqual(payload['unblockDescriptor']['owner'], {'agentId': client.agent})
+        self.assertTrue(payload['unblockDescriptor']['action'])
+
+
+class CliBootstrapTests(unittest.TestCase):
+    def test_cli_and_workflow_share_the_same_error_class_before_any_work(self):
+        script = '''
+import argparse, runpy, sys
+from pathlib import Path
+path = Path(sys.argv[1])
+sys.path.insert(0, str(path.parent))
+def stop_before_work(*args, **kwargs):
+    from spot_workflow import JobError
+    assert sys._getframe(1).f_globals['JobError'] is JobError, 'CLI loaded a second JobError class'
+    raise SystemExit(0)
+argparse.ArgumentParser.parse_args = stop_before_work
+runpy.run_path(str(path), run_name='__main__')
+'''
+        result = subprocess.run([sys.executable, '-c', script, str(SOURCE / 'engine_worker.py')],
+                                capture_output=True, text=True, timeout=15)
+        self.assertEqual(result.returncode, 0, result.stderr)
 
 
 if __name__ == '__main__':

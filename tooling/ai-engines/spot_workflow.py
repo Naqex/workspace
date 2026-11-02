@@ -212,6 +212,41 @@ def finish_review(client, issue, source):
     client.call('/issues/' + parent['id'], {'status': 'in_review', 'assigneeUserId': owner}, 'PATCH')
 
 
+def report_workflow_failure(client, issue, code, *, review_delivered=False):
+    """Bring a failed linked step to the owner without replaying completed work."""
+    if not issue.get('parentId'):
+        return False
+    current = client.call('/issues/' + issue['id'])
+    if (current.get('parentId') != issue['parentId']
+            or current.get('assigneeAgentId') != client.agent
+            or current.get('status') == 'cancelled'):
+        raise JobError('workflow_source_changed', 'Công việc đã đổi hoặc bị dừng; giữ nguyên trạng thái hiện tại.')
+    context = graph_context(client, current)
+    if context is None:
+        return False
+    parent, _ = context
+    owner = parent.get('responsibleUserId') or parent.get('createdByUserId')
+    if not owner:
+        raise JobError('workflow_review_owner', 'Cần người dùng nhận lỗi workflow.')
+    # Never include raw exceptions, provider responses or credentials in the UI.
+    safe_code = code if isinstance(code, str) and re.fullmatch(r'[A-Za-z0-9_]{1,100}', code) else 'workflow_failed'
+    text = ('# Workflow cần bạn xem\n\n'
+            f"- Bước cần kiểm tra: [mở công việc](/issues/{issue['id']}).\n"
+            f'- Mã chẩn đoán: `{safe_code}`.\n'
+            + ('- Báo cáo phản biện đã lưu; chỉ bước bàn giao chưa hoàn tất.\n' if review_delivered else '')
+            + '\nXem lượt chạy và receipt trước khi quyết định thử lại. Giữ kết quả đã có; '
+            'không chạy lại model để sửa việc bàn giao báo cáo. Paper chưa chạy.\n')
+    client.call('/issues/' + parent['id'] + '/documents/workflow-failure-' + client.run,
+                {'title': 'Workflow cần bạn xem', 'format': 'markdown', 'body': text}, 'PUT')
+    # Match the success path: re-read before changing an owner-controlled status.
+    graph_context(client, current)
+    client.call('/issues/' + parent['id'],
+                {'status': 'blocked', 'assigneeUserId': owner,
+                 'unblockDescriptor': {'owner': {'agentId': client.agent}, 'action': 'Xử lý nguyên nhân lỗi theo tài liệu và quyết định của bạn trước khi thử lại.'},
+                 'comment': 'Workflow chưa hoàn tất. Xem tài liệu Workflow cần bạn xem; kết quả đã có được giữ lại.'}, 'PATCH')
+    return True
+
+
 def create_graph(api, company, project, key, *, workflow='spot'):
     profile = PROFILES[workflow]
     if not re.fullmatch(r'[a-z0-9][a-z0-9-]{0,79}', key):

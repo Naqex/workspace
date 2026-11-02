@@ -15,6 +15,11 @@ from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 from uuid import UUID
 
+# The native adapter launches this file as __main__; sibling modules import it
+# by name. Keep one module so their JobError is also caught by this entrypoint.
+if __name__ == '__main__':
+    sys.modules['engine_worker'] = sys.modules[__name__]
+
 ROOT = Path(__file__).resolve().parents[2]
 SERVICES = json.loads((ROOT / 'projects/trader/foundation_v2/local-services.json').read_text())
 CATALOG = json.loads((ROOT / 'tooling/integrations/catalog.json').read_text())
@@ -231,12 +236,13 @@ class Paperclip:
                    'format': 'markdown', 'body': text}, 'PUT')
         self.call('/issues/' + issue_id,
                   {'status': 'done' if completed else 'blocked',
+                   **({} if completed else {'unblockDescriptor': {'owner': {'agentId': self.agent}, 'action': 'Xử lý điều kiện còn thiếu trước khi thử lại.'}}),
                    'comment': 'Đã lưu báo cáo. Kết quả nghiên cứu chưa cấp quyền chạy demo hoặc tiền thật.'
                    if completed else 'Chưa chạy xong engine. Xem tài liệu điều kiện cần để chạy trong công việc này.'}, 'PATCH')
 
 
 def execute_paperclip(engine: str, settings_path: Path) -> int:
-    from spot_workflow import bind_research, guard_research
+    from spot_workflow import bind_research, guard_research, report_workflow_failure
     paperclip = Paperclip()
     issue = paperclip.assigned_issue()
     directory = None
@@ -342,7 +348,16 @@ def execute_paperclip(engine: str, settings_path: Path) -> int:
             paperclip.report(issue['id'], '# Chưa hoàn tất\n\n' + known.message + '\n\nMã chẩn đoán: `' + known.code + '`.', completed=False)
         except JobError:
             pass
-        print(json.dumps({'status': receipt['status'], 'engine': engine, 'error': known.code}))
+        if issue.get('parentId'):
+            try:
+                receipt['failure_delivery'] = 'published' if report_workflow_failure(paperclip, issue, known.code) else 'not_applicable'
+            except Exception as delivery_error:
+                receipt['failure_delivery'] = 'unavailable'
+                receipt['failure_delivery_error'] = getattr(delivery_error, 'code', type(delivery_error).__name__)
+            if directory is not None and directory.is_dir():
+                write_json(directory / 'receipt.json', receipt)
+        print(json.dumps({'status': receipt['status'], 'engine': engine, 'error': known.code,
+                          **{key: receipt[key] for key in ('failure_delivery', 'failure_delivery_error') if key in receipt}}))
         return 2
 
 

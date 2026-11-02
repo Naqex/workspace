@@ -261,6 +261,22 @@ a new key and retains the previous graph/results. Do not automatically rerun a
 model to repair failed report delivery. Replay currently restarts from the fixed
 inputs; JSON checkpoints preserve evidence but are not a CLI resume feature.
 
+### Failed workflows
+
+A linked worker failure now publishes **Workflow cần bạn xem** on the summary,
+marks it blocked and assigns its human creator/responsible user. The document
+links the failed step and includes a diagnostic code; completed child history
+and paper's NOT_RUN state are preserved. The worker remains the native unblock
+owner: agents cannot name a board/user in `unblockDescriptor`. No retry or
+provider call is added. A cancelled, reassigned or already-reviewed parent is
+not taken back by this failure path. API outages can still prevent delivery;
+inspect the failed native run and receipt instead of trusting the summary alone.
+
+Manual routines are useful for a single repeated task, but do not directly
+replace these registered multi-task graphs. Creation/cancellation of the whole
+graph still uses the CLI above. See the [Studio operations decision](../../planning/research/STUDIO-OPERATIONS-20261102.md)
+for the native-feature comparison and remaining UI/cost-accounting gaps.
+
 ## Verification
 
 ```powershell

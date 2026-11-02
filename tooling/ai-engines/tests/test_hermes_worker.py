@@ -11,7 +11,7 @@ import hermes_worker as worker
 
 
 class CompletionTests(unittest.TestCase):
-    def run_case(self, completed, attached):
+    def run_case(self, completed, attached, *, linked=False):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             instructions = root / 'tooling/ai-engines/hermes_instructions.md'
@@ -19,6 +19,8 @@ class CompletionTests(unittest.TestCase):
             instructions.write_text('Research review')
             client = Mock(company='company', run='run')
             client.assigned_issue.return_value = {'id': 'issue', 'description': 'x' * 200}
+            if linked:
+                client.assigned_issue.return_value['parentId'] = 'parent'
             directory = root / 'artifacts/company/run'
             def converse(prompt):
                 if attached:
@@ -74,6 +76,21 @@ class CompletionTests(unittest.TestCase):
         self.assertEqual(receipt['status'], 'failed')
         self.last_agent.run_conversation.assert_called_once_with('verified input')
         self.assertEqual(client.call.call_args.args[1]['status'], 'done')
+
+    def test_linked_delivery_failure_notifies_owner_and_keeps_completed_review(self):
+        source = dict(prompt='verified input', dossier='numbers', binding={'source_run': 'fixture'})
+        with patch.object(worker, 'review_source', return_value=source), patch.object(
+                worker, 'verify_review_source', return_value=source), patch.object(
+                worker, 'finish_review', side_effect=RuntimeError('parent unavailable')), patch.object(
+                worker, 'report_workflow_failure', return_value=True) as notify:
+            code, client, receipt = self.run_case(True, True, linked=True)
+        self.assertEqual(code, 1)
+        notify.assert_called_once_with(client, client.assigned_issue.return_value, 'RuntimeError', review_delivered=True)
+        self.assertEqual(receipt['failure_delivery'], 'published')
+        self.assertEqual(receipt['review_delivery'], 'published')
+        self.last_agent.run_conversation.assert_called_once_with('verified input')
+        self.assertEqual([call.args[1]['status'] for call in client.call.call_args_list
+                          if len(call.args) > 1 and isinstance(call.args[1], dict) and 'status' in call.args[1]], ['done'])
 
 
 class DummyDB:
