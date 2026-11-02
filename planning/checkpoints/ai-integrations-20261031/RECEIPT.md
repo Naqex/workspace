@@ -2321,3 +2321,45 @@ HTTP API; chat này vẫn chưa expose Paperclip MCP tools. SDK usage là metada
 quan sát, chưa có giá/invoice, quota còn lại hoặc enforceable money cap. Recovery
 delivery vẫn cần đối soát trước retry; scheduler chưa mở. Không có lượt tuning,
 broker SDK/OrderCheck/OrderSend, dữ liệu mới hoặc giấy phép paper/live.
+
+### Studio: khảo sát GitHub native, 02/11
+
+**Đề xuất:** dùng repo GitHub đã có. `Naqex/trader` cho project coding
+**Phát triển Trader**; `Naqex/workspace` cho kế hoạch/tooling khi thật sự cần
+agent làm phần đó. Giữ project nghiên cứu hiện có và worker contract bounded;
+không cần tạo repo GitHub riêng hoặc cấp checkout ghi được cho mọi engine.
+Instructions/contracts vẫn có owner ở `tooling/ai-engines/`; không commit DB,
+profile hoặc secrets để làm repo cấu hình. Hướng vận hành đã bổ sung vào
+`tooling/ai-engines/OPERATIONS.md` §GitHub repositories and coding work.
+
+**Đã kiểm thực tế:** company Naqex AI có1 project nghiên cứu, workspaces rỗng,
+project Git authorization chưa gán,0 repository connections/0 repositories.
+Native gallery có GitHub với method `mcp-key` (PAT, tool/MCP remote) và
+`copilot-token` (AI runtime authentication riêng); chưa có managed GitHub App
+method được chào ở instance này. Preflight endpoint GitHub reachable nhưng401
+khi chưa có credential; đây không phải bằng chứng đã kết nối hoặc đọc được repo.
+Paperclip pin `2e0f8f84b810ef3ae89c400d3ee1faf6b281c217` được đối chiếu source
+project validators/routes và `doc/execution-github-identity.md`.
+
+**Nguồn chính thức:** [connector setup](https://docs.paperclip.ing/connectors/github-setup/),
+[access boundaries](https://docs.paperclip.ing/connectors/github/),
+[coding workspace](https://docs.paperclip.ing/how-to/connect-agent-to-github/).
+Gắn repo vào project và cấp quyền connector là2 bước khác nhau. Managed App
+phụ thuộc eligible Cloud enrollment; PAT là đường native phù hợp để bắt đầu
+local, chỉ chọn repo/agents cần thiết, chỉ đọc, có expiry. PAT tool access không
+tự cấp managed shell identity. Coding sau này cần isolated worktree được bật
+và kiểm thực tế, PR workflow/branch protection; Ask-first của tool gateway không
+kiểm soát shell git/gh. Standard-trust local worker chưa có managed identity có
+thể dùng auth host, nên không coi connector chỉ đọc là sandbox của coding agent.
+
+Engineering issue inbox vẫn là `Naqex/workspace`, PR ở repo sở hữu code; task
+Paperclip chỉ liên kết issue/PR liên quan, không mirror toàn bộ backlog hay tạo
+ledger thứ hai. Experimental Code Review Bot chưa cần cho nhu cầu đọc repo.
+Chưa tạo project/workspace/connector hoặc repo mới, chưa cấp token/OAuth/quyền
+GitHub, chưa đọc private repo qua connector. Bước owner nếu chọn triển khai là
+duyệt phạm vi và nhập fine-grained PAT trong native Connectors, sau đó kiểm đọc
+một file đã biết trước khi xét quyền ghi. Không lấy token gh của host.
+
+Evidence: `post-auth-20261102/github-research.json` dưới evidence root của lát
+Studio ở trên. Research này không tuyên bố GitHub connection hoặc coding
+worktree đã được nghiệm thu.

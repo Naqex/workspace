@@ -106,6 +106,59 @@ iteration limits and concurrency do not establish a money cap. Scheduling stays
 off until attempt/spend bounds, unknown accounting and restart/stop recovery have
 been verified; this read-only reconciliation does not satisfy those gates alone.
 
+## GitHub repositories and coding work
+
+Reuse the existing Naqex repositories; a Paperclip project is not a new GitHub
+repository. Keep the research pilot's bounded worker contracts separate from
+coding jobs. A repository connection alone does not give the Hermes reviewer
+code, shell or GitHub tools, and it does not synchronize the two issue trackers.
+
+| Work | Repository / Paperclip project |
+|---|---|
+| Trader implementation | `Naqex/trader` / a coding project such as **Phát triển Trader** |
+| Shared plans and tooling | `Naqex/workspace` / a separate project only when that work needs an agent |
+| Registered offline research | Existing research pilot; no writable product checkout required |
+
+Keep engineering issue intake in `Naqex/workspace`, with PRs in the owning repo
+as specified by [GitHub conventions](../github-workflow/README.md). Link a
+Paperclip execution task to that issue and its PR; do not mirror the entire
+backlog or create another progress ledger.
+Versioned worker contracts/instructions stay in the existing `tooling/ai-engines/`
+owner. A separate configuration repo is only justified by an independent release
+or reuse need; native database, runtime profiles and credentials are not code to
+push alongside those contracts.
+
+There are two separate setup steps: the project workspace supplies `cwd`,
+`repoUrl` and `repoRef`; the native GitHub connector supplies authorized actions.
+For coding, explicitly enable isolated execution with `git_worktree`, using
+`origin/main` as the reviewed base and the `codex/` branch convention. Merely
+entering a repo URL does not enable isolation. Verify the supported project
+policy at the pinned source and test it before dispatching a coding agent;
+do not let it share the owner's active checkout or infer submodule authority.
+
+Start the native connector with selected repositories and agents, read-only
+Contents/Metadata/Issues/Pull requests and an expiring fine-grained PAT. Owner
+consent and credential entry are separate steps; do not copy the host's `gh`
+token into Paperclip. The managed GitHub App path is available only with eligible
+Paperclip Cloud enrollment; do not add Cloud solely for this local pilot.
+PAT-based repository tools and a managed shell identity are different paths.
+The experimental Code Review Bot is also separate and is not needed to read code.
+
+Verify a known file read and its native connector trace before granting writes.
+For a later coding worker, review shell credentials separately: gateway
+Ask-first switches do not constrain shell `git`/`gh`. Unmanaged standard-trust
+local execution may inherit host authentication. Selected repos, GitHub-side
+permissions, branch protection and PR review provide the relevant write limits;
+a read-only connector is not a sandbox for a local coding process.
+
+Primary references: [GitHub connector setup](https://docs.paperclip.ing/connectors/github-setup/),
+[GitHub access boundaries](https://docs.paperclip.ing/connectors/github/),
+[coding workspace setup](https://docs.paperclip.ing/how-to/connect-agent-to-github/).
+At a future setup/upgrade, compare these live docs with the pinned
+`projects/integrations/paperclip/doc/execution-github-identity.md` and project
+validator; do not copy credential examples blindly. Current setup evidence and
+any owner authorization belong in the existing integration receipt.
+
 ## Decision models: when to connect one
 
 At the audited Paperclip pin, the shared provider choices are OpenAI and
