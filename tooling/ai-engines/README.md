@@ -273,9 +273,33 @@ not taken back by this failure path. API outages can still prevent delivery;
 inspect the failed native run and receipt instead of trusting the summary alone.
 
 Manual routines are useful for a single repeated task, but do not directly
-replace these registered multi-task graphs. Creation/cancellation of the whole
-graph still uses the CLI above. See the [Studio operations decision](../../planning/research/STUDIO-OPERATIONS-20261102.md)
-for the native-feature comparison and remaining UI/cost-accounting gaps.
+replace these registered multi-task graphs. See the [Studio operations decision](../../planning/research/STUDIO-OPERATIONS-20261102.md)
+for the native-feature comparison and remaining cost-accounting gates.
+
+### Studio controls
+
+Open **Studio → Đội AI → Quy trình** in Trader. Select company/project, preview
+the registered Forex or spot system fixture, then create a draft. Draft creation
+does not dispatch. Start requires a separate confirmation; Stop cancels the full
+graph using the same native lifecycle as the CLI. Open task returns to Paperclip
+for logs and reports. No strategy parameters, provider or data paths are accepted
+from this dialog; it is not an open-ended research form.
+
+`studio_workflows.py` accepts bounded JSON on stdin for `overview`, `get`,
+`create`, `start` and `cancel`. Trader's local Vite/preview middleware exposes
+only `POST /integrations/paperclip/workflows`, requiring exact loopback Host and
+same Origin. It uses the existing TradingAgents Python environment and fixed
+wrapper path; it is not a production API or general command endpoint. A plain
+static host needs its own supported control boundary before this UI can work.
+
+The browser retains scope, selected task and the pending create key in tab
+session storage. A lost create response retries the same key; an uncertain
+start/cancel requires refreshing native state before another action. Definite
+invalid/deleted scope allows resetting only the local selection; native history
+is retained. One mutation per company is serialized within the local middleware;
+this does not make cross-client Paperclip mutations transactional. Separate
+drafts explicitly bypass native title dedup while retaining idempotency by key.
+Human-assigned research tasks cannot be started by these controls.
 
 ## Verification
 

@@ -2013,3 +2013,84 @@ trước khi worker nhận được assignment; native run/receipt vẫn phải 
 Re-read guard không phải transaction/CAS liên request. Numeric fault path đã kiểm
 native thật; nhánh Hermes delivery được kiểm offline có model mock, không chạy lại
 Gemini. Tạo/hủy trọn graph bằng UI và SDK/gateway token/cost visibility còn pending.
+
+### Studio: điều khiển workflow từ UI, 02/11
+
+Owner giao tiếp tục hệ thống, chưa tối ưu chiến lược. Lát này thêm **Studio →
+Đội AI → Quy trình** trong Trader: chọn company/project, xem mẫu Forex/spot đã
+đăng ký, tạo draft, xác nhận start, dừng cả graph, mở native task/run/report.
+Paperclip giữ task store, dispatch, dependency và cancellation. Không sửa source
+engine/Paperclip core, provider, quyền subagents hoặc global AI environment.
+
+#### Contract và thay đổi
+
+- Trader commit `9c47db194d37db0bd315fdd03926d7ce74950ae0` thêm dialog nhỏ,
+  VI/EN, reuse LegacyModal/AiStatus, dark/light, focus/Escape và responsive.
+  Mở/đóng dialog không remount iframe; chỉ action mở task đổi URL native.
+- `tooling/ai-engines/studio_workflows.py` reuse graph lifecycle cũ. Local
+  Vite/preview middleware chỉ nhận năm action allowlist, JSON giới hạn8KiB,
+  Host loopback và Origin trùng chính xác; executable/script cố định, không shell.
+  Đây là local control boundary, chưa là production/static-host API.
+- Tạo draft lưu token vào sessionStorage trước request. Lost response/reload
+  khôi phục cùng token; start/cancel outcome chưa rõ cần đọc native truth trước
+  thao tác tiếp. Definite scope/invalid error cho chọn lại local selection,
+  không xóa native history. Duplicate writes trong cùng company bị chặn trong
+  một middleware process; không tuyên bố transaction với client Paperclip khác.
+- Independent review bắt lỗi title dedup native: parent cùng tên có thể bị gộp
+  dù token mới, kể cả khác project. Sửa wrapper dùng `allowDuplicate:true` cùng
+  idempotency key cho từng task, kiểm company/project của parent trước children.
+  Hai draft mới vẫn độc lập; retry cùng key vẫn trả đúng graph cũ.
+- Review cũng bổ sung chặn research đã giao human trước start, canonicalize
+  company UUID cho write lock, và reset scope khi pending draft không còn hợp lệ.
+  Mã `workflow_scope` đi xuyên CLI/UI, không biến lỗi scope thành lỗi mạng.
+- Không tạo scheduler/coordinator, tham số strategy tự do, tài khoản hay quyền
+  paper/demo/live. Preview/draft không gọi model hoặc numerical engine.
+
+#### Kiểm chứng
+
+| Phạm vi | Kết quả |
+|---|---|
+| Python Studio wrapper | **7 tests đạt**: scope, idempotency, title dedup/project isolation, dependency change, human assignment, start/cancel guards |
+| Workflow regression | **15 tests đạt** sau thay đổi helper graph; không provider/broker |
+| Node middleware | **3 tests đạt**: origin/host/method/action, concurrency kể cả UUID hoa/thường, unknown outcome không lộ lỗi riêng; health bridge cũ **1 test đạt** ở đầu lát |
+| Actual UI + native Paperclip | **5 cases đạt** trong `browser.json`: preview, draft/start confirmation chưa dispatch, iframe/focus, reload/cancel, injected lost create response sau native creation thật; có VI/EN390px |
+| Independent drafts native | Hai draft cùng title mở đồng thời có ID riêng; replay key đầu trả đúng ID đầu, project đúng, cả hai chưa start và hủy được |
+| Scope recovery UI | Injected definitive scope error cho pending draft → reset → hai selector dùng lại được; không tạo native task |
+| Final layout | **3 cases đạt**, ảnh đã xem: dark390×844, light390×640, light1440×960; footer trong viewport, body scroll riêng, badge styles đúng, không horizontal overflow/pageerror |
+| Build / integration doctor | Vite build cuối đạt; chunk-size warnings còn giữ. Doctor có4 source clean/pin/license đúng và Paperclip healthy; không chứng minh engine/job readiness |
+
+Native draft fixtures NAQ-49/53/57/61 đã cancelled, giữ toàn bộ history. Final
+read-only reconciliation xác minh12 child tasks đều cancelled, `startedAt=null`,
+`executionRunId=null`, agents running0; NAQ-25 vẫn in_review, NAQ-45 vẫn blocked.
+Không chạy lại successful workflow để kiểm nút Start: UI chỉ kiểm confirmation;
+đường dispatch reuse helper đã có offline regression và native pilot trước.
+
+Harness `verify-recovery.mjs` đạt hai assertion native đầu rồi lỗi selector label
+ở kiểm reset scope; không sửa UI để pass selector. Sửa locator và chờ catalog
+load xong, chỉ chạy lại `--scope-only`, đạt. Hai draft không được tạo lại; trạng
+thái cuối đối soát bằng `verify-native-final.mjs`. Giữ `recovery.json` và console
+lỗi làm lịch sử, không coi toàn script lần đầu pass.
+
+Artifact local: `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/studio-controls-20261102/`
+gồm scripts, `browser.json`, `layout.json`, `recovery.json`, `scope-recovery.json`,
+`native-final.json`, screenshots và `build-final.log`. Không commit artifacts,
+private config, DB hoặc secret. `git diff --check` đạt; WIP ngoài scope giữ nguyên.
+
+#### Local runtime và resume
+
+Sau Windows restart, Paperclip owner marker cũ trỏ PID đã được Windows dùng cho
+`StartMenuExperienceHost.exe`; launcher từ chối đúng. Backup owner/lock vào
+`runtime-before/`, đổi tên marker stale rồi dùng launcher project hiện có; không
+kill PID tái sử dụng, không reset DB/config. Một lệnh gộp backup/move/start bị
+automatic approval review chặn trước thực thi; sau đó từng bước kiểm ownership
+và launcher chuẩn đã chạy thành công. Lỗi và backup được giữ, không tắt guard.
+
+Trader chạy canonical Vite source tại5180; Paperclip17860/DB17861 giữ instance
+cũ. API8010/MT5 không được khởi động hoặc restart trong lát này. Không chạm
+CLIProxyAPI17852 hoặc instance Windows8317. Vì vậy đây là Studio/local control
+acceptance, chưa là whole-product/backend acceptance hoặc production rollout.
+
+**Bước tiếp theo:** quota/token/cost visibility và đối soát native run/receipt
+cho lỗi chưa rõ outcome, trước khi thiết kế lịch tự chạy có giới hạn. Chi phí SDK/
+gateway unknown chưa được coi bằng0; scheduler vẫn tắt. Strategy tuning, dữ liệu
+mới, qualification và broker execution chưa thực hiện trong lát này.

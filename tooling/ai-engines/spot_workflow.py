@@ -247,7 +247,7 @@ def report_workflow_failure(client, issue, code, *, review_delivered=False):
     return True
 
 
-def create_graph(api, company, project, key, *, workflow='spot'):
+def create_graph(api, company, project, key, *, workflow='spot', title=None):
     profile = PROFILES[workflow]
     if not re.fullmatch(r'[a-z0-9][a-z0-9-]{0,79}', key):
         raise ValueError('Use a stable lowercase workflow key')
@@ -261,10 +261,13 @@ def create_graph(api, company, project, key, *, workflow='spot'):
 
     def create(suffix, **payload):
         return api('/companies/' + company + '/issues', dict(projectId=project,
-                   idempotencyKey=workflow + '-workflow-v1-' + key + '-' + suffix, **payload), 'POST')
+                   idempotencyKey=workflow + '-workflow-v1-' + key + '-' + suffix,
+                   allowDuplicate=True, **payload), 'POST')
 
-    parent = create('parent', title=profile['title'] + ' — ' + key, status='backlog',
+    parent = create('parent', title=title or profile['title'] + ' — ' + key, status='backlog',
                     description='Nghiên cứu → kiểm chứng → phản biện → bạn xem. Paper chưa chạy.')
+    if parent['companyId'] != company or parent.get('projectId') != project:
+        raise ValueError('workflow_scope')
     research = create('research', title=profile['research_title'], parentId=parent['id'],
                       status='backlog', description=profile['request'])
     review = create('review', title=profile['review_title'], parentId=parent['id'], status='blocked',
@@ -299,7 +302,8 @@ def start_graph(api, graph):
         raise ValueError('Worker no longer matches this workflow')
     if parent['status'] not in ('backlog', 'todo'):
         raise ValueError('Workflow is no longer startable')
-    if source['status'] != 'backlog' or source.get('startedAt') or source.get('assigneeAgentId'):
+    if (source['status'] != 'backlog' or source.get('startedAt') or source.get('assigneeAgentId')
+            or source.get('assigneeUserId')):
         return 'already_started'  # Never reset failed, cancelled or completed work.
     if source.get('description') != profile['request']:
         raise ValueError('Registered source request changed')

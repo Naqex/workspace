@@ -41,6 +41,12 @@ class NativeFixture:
             return copy.deepcopy(self.runs[parts[1]])
         if parts[0] == 'companies' and method == 'POST':
             key = body['idempotencyKey']
+            if key not in self.keys and body.get('allowDuplicate', False) is False:
+                existing = next((row for row in self.rows.values()
+                                 if row['title'] == body['title'] and row.get('parentId') == body.get('parentId')
+                                 and row['status'] not in ('done', 'cancelled')), None)
+                if existing:
+                    self.keys[key] = existing['id']
             if key not in self.keys:
                 issue_id = str(uuid4())
                 self.keys[key] = issue_id

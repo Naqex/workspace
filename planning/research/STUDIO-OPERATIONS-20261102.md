@@ -18,7 +18,7 @@ vòng tự sửa. Hai workflow đang có là fixture hệ thống, chưa là ngh
 | Contract nhỏ, dữ liệu/hash và báo cáo có provenance | Giữ | Phân biệt engine chạy xong với kết quả đáng tin |
 | Một lượt review, owner nhận hồ sơ | Giữ | Có điểm dừng, tránh review qua lại vô hạn |
 | Thất bại chỉ hiện ở bước con | Sửa | Parent cần trạng thái lỗi và đường dẫn tới bước cần xử lý |
-| Tạo/hủy cả graph bằng CLI | Còn thiếu UX | Routines không thay trực tiếp graph đã kiểm; chưa xây UI trong lát này |
+| Tạo/hủy cả graph | Đã nối control nhỏ trong Trader | Xem mẫu, tạo draft, xác nhận start/cancel; native tasks vẫn thuộc Paperclip |
 | Bật lịch tự chạy hoặc thêm CEO agent | Chưa làm | Chưa giải quyết khoảng trống vận hành, có thể tăng lượt model |
 | Budget/token accounting | Cần hoàn thiện trước unattended | Process adapter không tự biết token và giá của SDK/gateway |
 | Tự retry/model lại để sửa publication | Không dùng | Có thể tính phí hai lần, mất phân biệt inference với delivery |
@@ -74,3 +74,16 @@ Người nhận hồ sơ vẫn có thể là human creator; worker chịu trách
 
 Không xóa lịch sử lỗi hoặc fork cần thiết. Việc lược bỏ ở đây là gộp nhánh báo
 lỗi trùng trong adapter và tránh thêm tầng điều phối chưa có nhu cầu thực tế.
+
+## Bổ sung sau triển khai UI
+
+Control **Quy trình** gọi wrapper allowlist qua local Vite/preview middleware;
+không mở shell/proxy chung hoặc sửa Paperclip core. Draft có idempotency token
+lưu trước request; mất phản hồi dùng lại token, không tự tạo attempt mới. Start
+và cancel tách xác nhận; outcome chưa rõ phải đọc lại native truth trước khi tiếp.
+
+Source pin có thêm rule dedup task theo company/parent/title, không theo project.
+Graph vì thế dùng `allowDuplicate:true` cùng idempotency key cho từng task: hai
+lần tạo mới độc lập dù cùng tên; retry cùng key vẫn là cùng task. Parent trả về
+phải đúng company/project trước khi tạo tiếp children. Đây là sửa wrapper theo
+native contract, không sửa cơ chế dedup upstream. Receipt giữ regression thực tế.

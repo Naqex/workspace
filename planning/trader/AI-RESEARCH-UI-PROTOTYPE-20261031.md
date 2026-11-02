@@ -41,6 +41,24 @@ giữ trạng thái và bước tiếp; mục này chỉ giữ scope/acceptance.
 receipt. Hoàn thiện cách owner tạo mẫu/hủy cả graph qua UI bằng khả năng native
 trước; không chạy lại pilot đã thành công hoặc coi task review là duyệt paper.
 
+### Studio — điều khiển quy trình, 02/11
+
+Lát vận hành đã có trong Trader: **Studio → Đội AI → Quy trình**. Owner chọn
+công ty/dự án, xem mẫu cố định, tạo bản nháp, xác nhận bắt đầu hoặc dừng cả graph.
+Task/run/report vẫn thuộc Paperclip; host không tạo task store hay scheduler mới.
+Chi tiết implementation, kiểm chứng và giới hạn ở receipt mục **Studio: điều
+khiển workflow từ UI**. Bằng chứng draft/cancel không thay bằng chứng dispatch
+thành công đã có; không chạy lại model chỉ để kiểm UI.
+
+Thứ tự tiếp theo cho hệ thống:
+
+1. Hoàn thiện visibility về quota/chi phí và kết quả chưa xác định; đối soát
+   native run/receipt trước mọi retry. Chi phí chưa biết phải hiện unknown.
+2. Chỉ thêm lịch chạy khi đã có giới hạn số lượt/chi phí, chống chạy trùng,
+   khôi phục sau restart và đường dừng được kiểm chứng. Lịch hiện vẫn tắt.
+3. Sau đó mới xét nghiên cứu tự chủ trong phạm vi đăng ký. Tối ưu chiến lược,
+   qualification và paper/demo/live là những acceptance riêng, chưa khởi động.
+
 ### Bằng chứng nền — Forex/prop offline, 02/11
 
 Owner đã đăng nhập FTMO demo; thông số EURUSD được đọc/pin. Contract mục10
