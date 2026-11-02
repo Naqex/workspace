@@ -1823,9 +1823,25 @@ chạy dài mới. Không triển khai lại UI/API/terminal hoặc đổi datab
 calendar/commission reference không phải tái dựng account2022; chưa có
 account-specific commission, historical financing/rounding hoặc server stop-out.
 
-**Bước tiếp:** giữ nguyên candidate và kết quả này; đăng ký tiêu chí/cửa sổ
-validation ngoài development trước khi đọc outcome tiếp theo. Dùng dữ liệu
-được owner cho phép, giữ holdout cuối độc lập. Commission cần đối chiếu deals
-của account khi có nguồn/quyền tương ứng; không tự đặt lệnh để đo phí. Chưa
-cần owner tạo/login lại, không còn gate chờ bảng Specification. Chưa mở live,
-mua challenge hoặc quyền broker execution từ kết quả mô phỏng này.
+**Hướng validation từng đề xuất:** đăng ký tiêu chí/cửa sổ ngoài development
+trước outcome tiếp theo, giữ holdout cuối độc lập. Owner đã gác hướng này lại
+theo điều chỉnh ưu tiên bên dưới. Commission vẫn cần đối chiếu deals của account
+khi có nguồn/quyền tương ứng; không tự đặt lệnh để đo phí. Không còn gate chờ
+owner tạo/login FTMO hoặc gửi bảng Specification. Chưa mở live, mua challenge
+hoặc quyền broker execution từ kết quả mô phỏng này.
+
+### Owner đổi ưu tiên sang hệ thống — 02/11/2026
+
+Owner làm rõ chưa muốn dành thời gian tối ưu chiến lược; ưu tiên hoàn thiện
+hệ thống AI và workflow vận hành trước. Gác đề xuất validation2023, giữ nguyên
+candidate và mọi kết quả đã có làm fixture kiểm tích hợp. Kết quả fixture có
+lãi hay không không quyết định workflow đã hoàn thiện hay chưa.
+
+Scope/acceptance mới ở đầu `planning/trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md`.
+**Bước tiếp hiện hành:** đối chiếu native workflow crypto đã kiểm và Forex
+runner offline; chỉ ra/nối mắt xích Forex còn thiếu trong một luồng owner thấy
+được trên UI: task → dữ liệu QDM → mô phỏng → phản biện → báo cáo. Kiểm handoff,
+provenance, trạng thái, lỗi/hủy/retry và tránh worker trùng bằng cơ chế đã có.
+Không khởi động job/worker mới trong lượt điều chỉnh context này. Chưa có
+acceptance end-to-end Forex qua Paperclip; các kết quả offline bên trên giữ
+nguyên giá trị/phạm vi. Không mở quyền broker từ ưu tiên hoàn thiện hệ thống.

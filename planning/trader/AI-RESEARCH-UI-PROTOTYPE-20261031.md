@@ -2,15 +2,49 @@
 
 ## Hướng hiện hành — owner tự setup,01/11
 
-### Lát tiếp nối hiện hành — Forex/prop offline, 02/11
+### Ưu tiên hiện hành — hoàn thiện hệ thống AI, 02/11
 
-**Tiếp nối02/11:** owner đã cho phép mọi phạm vi dữ liệu; vẫn ưu tiên warmup
-20–31/12/2021 và development03–14/01/2022, chưa đọc validation/holdout vì chưa
-cần. Owner chưa có FTMO demo/free trial, hướng dẫn sau. Contract mục9 đăng ký
-hai declared cost/financing scenarios trước outcome. Python offline có timed
-cash events, phí theo lot, entry sau decision và stop từ actual fill; H4 runner
-đã có source candidate. Receipt được dẫn bên dưới giữ kết quả/job/PID hiện hành.
-Không coi số liệu hai tuần là qualification hoặc thay gate broker-spec.
+Owner làm rõ: chưa muốn dành thời gian tối ưu chiến lược; ưu tiên hệ thống AI
+và workflow vận hành. Đề xuất validation2023 trước đó được gác lại. Giữ nguyên
+candidate EURUSD/H4, dữ liệu đã dùng và kết quả đã lưu làm fixture kỹ thuật;
+không tuning, tìm candidate mới hoặc mở thêm dữ liệu để chứng minh lợi nhuận.
+
+Lát tiếp theo: nối workflow Forex offline qua cơ chế native Paperclip đã có,
+reuse QDM CLI, runner và worker phản biện hiện có. Bắt đầu từ luồng owner nhìn
+được trên UI: giao nhiệm vụ → chuẩn bị dữ liệu → mô phỏng → phản biện → báo cáo.
+Đối chiếu implementation/evidence hiện có trước khi sửa; bổ sung đúng mắt xích
+còn thiếu, không chạy lại toàn bộ pilot crypto hoặc tạo engine/UI song song.
+
+Acceptance hệ thống:
+
+- Một nhiệm vụ dẫn được tới đúng input/spec/config/output bằng run ID và hash;
+  kết quả hiển thị trong native task/report của Paperclip nhúng trong Trader.
+- Bước sau chỉ nhận output hợp lệ của dependency đã thành công; nguồn thiếu,
+  lỗi, sửa hash hoặc hủy phải chặn handoff và hiển thị hành động tiếp theo rõ.
+- Owner xem được tiến độ, kết quả/lỗi và hủy; retry có kiểm tra trạng thái để
+  không tạo worker trùng hoặc làm mất lịch sử lượt trước. Dùng cơ chế khôi phục
+  đã có, ghi rõ phần nào chỉ hỗ trợ chạy lại và phần nào tiếp tục từ checkpoint.
+- Một lượt fixture offline xuyên suốt và các failure/cancel checks cần thiết
+  chứng minh luồng; kiểm latency/resource theo bottleneck đo được, không mở
+  benchmark hoặc refactor rộng khi chưa có vấn đề thực tế.
+- Source, runtime, workflow/provider và strategy qualification có bằng chứng
+  riêng trong receipt hiện có. Workflow đạt không đòi fixture phải có lãi và
+  không mở demo orders/live, scheduler hoặc quyền dùng tiền.
+
+Thứ tự: rà luồng hiện có và biểu diễn trên UI → nối điểm thiếu → kiểm một lượt
+xuyên suốt → xử lý lỗi vận hành còn lại. Không cần thêm repo/engine chỉ để đủ
+thành phần. Phát triển/đánh giá chiến lược là giai đoạn tiếp theo, có giao việc
+và tiêu chí riêng. [Receipt](../checkpoints/ai-integrations-20261031/RECEIPT.md)
+giữ trạng thái và bước tiếp; mục này chỉ giữ scope/acceptance.
+
+### Bằng chứng nền — Forex/prop offline, 02/11
+
+Owner đã đăng nhập FTMO demo; thông số EURUSD được đọc/pin. Contract mục10
+đăng ký chạy lại hai tuần và mở development quý I/2022, cả hai đã hoàn tất;
+validation/holdout chưa đọc. Python offline có timed cash events, phí theo lot,
+entry sau decision và stop từ actual fill. Kết quả, code/input/spec hashes và
+giới hạn ở receipt; chưa là strategy/Prop qualification. Các đoạn tiếp sau giữ
+lịch sử những lát trước, không phải trạng thái hay thứ tự thực thi hiện hành.
 Các mô tả capability/phạm vi bên dưới giữ lịch sử của các lát trước;
 không dùng chúng để chạy lại probe hoặc thu hẹp quyền dữ liệu owner vừa duyệt.
 

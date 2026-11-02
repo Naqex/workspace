@@ -17,6 +17,15 @@ Không dùng % cảm quan hay task accepted lịch sử làm % hoàn thiện s�
 
 ## Nghiên cứu giai đoạn AI tự chủ — 31/10/2026
 
+**Owner làm rõ 02/11:** ưu tiên hoàn thiện hệ thống AI và workflow vận hành;
+chưa dành thời gian tối ưu hoặc qualification chiến lược. Gác đề xuất chạy
+validation2023 sang sau. Giữ candidate H4 hiện có làm fixture kiểm tích hợp:
+giao việc → lấy dữ liệu → mô phỏng → phản biện → báo cáo trong UI, với trạng
+thái/lỗi/hủy/retry và provenance rõ. Acceptance là hệ thống chạy đúng, quan sát
+và tiếp tục được; lợi nhuận của fixture không là điều kiện hoàn thành hệ thống.
+[AI plan](trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md) giữ scope/acceptance mới;
+receipt bên dưới giữ kết quả và bước tiếp. Không mở broker execution.
+
 Owner đã giao nghiên cứu, fork/tích hợp Paperclip và thiết kế lại Studio.
 Source/runtime ownership theo [integration guide](../tooling/integrations/README.md);
 pilot đã có receipt nhưng key Opus5.5 hiện hết hạn. Kiến trúc/workflow dài hạn
