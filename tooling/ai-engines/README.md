@@ -282,28 +282,37 @@ for the native-feature comparison and remaining cost-accounting gates.
 
 ### Studio controls
 
-Open **Studio → Đội AI → Quy trình** in Trader. Select company/project, preview
-the registered Forex or spot system fixture, then create a draft. Draft creation
-does not dispatch. Start requires a separate confirmation; Stop cancels the full
-graph using the same native lifecycle as the CLI. Open task returns to Paperclip
-for logs and reports. No strategy parameters, provider or data paths are accepted
-from this dialog; it is not an open-ended research form.
+Use **Studio → Đội AI** and Paperclip's embedded native interface for tasks,
+agents, run details, reports, approvals and costs. The owner retired the outer
+Workflows dialog and its HTTP bridge on02/11: maintaining another operator UI
+for the same records is unnecessary. Trader owns embedding, preferences and
+connection recovery; Paperclip owns operation and history.
 
-`studio_workflows.py` accepts bounded JSON on stdin for `overview`, `get`,
-`create`, `start` and `cancel`. Trader's local Vite/preview middleware exposes
-only `POST /integrations/paperclip/workflows`, requiring exact loopback Host and
-same Origin. It uses the existing TradingAgents Python environment and fixed
-wrapper path; it is not a production API or general command endpoint. A plain
-static host needs its own supported control boundary before this UI can work.
+`studio_workflows.py` remains an operator/agent CLI accepting bounded JSON on
+stdin for `overview`, `get`, `create`, `start` and `cancel`. It assembles the
+registered domain graph and reconciles native runs with local worker receipts;
+it is not a task store or scheduler. For example, from the workspace root:
 
-The browser retains scope, selected task and the pending create key in tab
-session storage. A lost create response retries the same key; an uncertain
-start/cancel requires refreshing native state before another action. Definite
-invalid/deleted scope allows resetting only the local selection; native history
-is retained. One mutation per company is serialized within the local middleware;
-this does not make cross-client Paperclip mutations transactional. Separate
-drafts explicitly bypass native title dedup while retaining idempotency by key.
-Human-assigned research tasks cannot be started by these controls.
+```powershell
+'{"action":"get","company":"<company-id>","parent":"<summary-issue-id>"}' | projects/integrations/TradingAgents/.venv/Scripts/python.exe -X utf8 tooling/ai-engines/studio_workflows.py
+```
+
+Reuse the same `studio-<UUID>` key to recover an uncertain create. An uncertain
+start/cancel requires reading the native task/run before another mutation.
+Human-assigned or previously run research cannot be reset through this helper.
+For full-graph cancellation use the registered `spot_workflow.py cancel` command
+above; cancelling just the parent in the native UI is not proof all children
+stopped. Keep failed delivery separate from another inference attempt.
+
+The read-only `get` projection shows the latest native run, elapsed time, requested
+versus reported model, token/cost fields when available, and receipt reconciliation.
+It scopes run/company/issue/agent, bounds local reads and verifies declared output
+hashes using the worker's logical-text convention (including Windows CRLF).
+Interrupted, failed-delivery and mismatched evidence remain explicit. Missing
+provider accounting is unknown; generic process-adapter zero counters do not prove
+zero SDK usage. This projection does not change native accounting or repair
+publication automatically. Reading/cancelling stays available if model settings
+are invalid; optional local receipt lookup can be unavailable independently.
 
 ## Verification
 

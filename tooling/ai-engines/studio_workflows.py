@@ -3,8 +3,9 @@ import json
 import re
 import sys
 
-from engine_worker import JobError, uuid
+from engine_worker import JobError, ROOT, uuid
 from spot_workflow import PROFILES, create_graph, registered_graph, start_graph, cancel_graph
+from studio_observation import observe_step
 
 
 def available_worker(api, company, engine):
@@ -15,7 +16,18 @@ def available_worker(api, company, engine):
     return rows[0]['id']
 
 
-def read_graph(api, company, parent_id):
+def observation_root():
+    # Reading/stopping native work must not depend on model preflight succeeding.
+    try:
+        from pathlib import Path
+        settings = json.loads((ROOT / '.runtime/ai-engines/settings.json').read_text(encoding='utf-8-sig'))
+        root = settings.get('artifact_root')
+        return root if isinstance(root, str) and Path(root).is_absolute() else None
+    except (OSError, ValueError, AttributeError):
+        return None
+
+
+def read_graph(api, company, parent_id, artifact_root=None):
     parent = api('/issues/' + parent_id)
     profile, manifest = registered_graph(parent)
     if parent['companyId'] != company or manifest is None:
@@ -26,6 +38,10 @@ def read_graph(api, company, parent_id):
                 or child.get('projectId') != parent.get('projectId')):
             raise ValueError('workflow_scope')
     source = children['research']
+    steps = [{'role': key, **{field: child.get(field) for field in ('id', 'title', 'status', 'executionRunId')},
+              'observation': observe_step(api, company, child,
+                  profile['engine'] if key == 'research' else 'hermes', artifact_root)}
+             for key, child in children.items()]
     return {
         'id': parent_id, 'company': company, 'project': parent.get('projectId'),
         'title': parent['title'], 'identifier': parent.get('identifier'), 'status': parent['status'],
@@ -34,15 +50,15 @@ def read_graph(api, company, parent_id):
                       and not parent.get('assigneeUserId') and source['status'] == 'backlog'
                       and not source.get('startedAt') and not source.get('assigneeAgentId')
                       and not source.get('assigneeUserId')
-                      and source.get('description') == profile['request']),
+                      and source.get('description') == profile['request']
+                      and all(s['observation']['state'] == 'not_started' for s in steps)),
         'can_cancel': parent['status'] not in ('done', 'in_review') and (
             parent['status'] != 'cancelled' or any(c['status'] not in ('done', 'cancelled') for c in children.values())),
-        'steps': [{'role': key, **{field: child.get(field) for field in ('id', 'title', 'status', 'executionRunId')}}
-                  for key, child in children.items()],
+        'steps': steps,
     }
 
 
-def operate(api, request):
+def operate(api, request, artifact_root=None):
     if not isinstance(request, dict):
         raise ValueError('invalid_request')
     action = request.get('action')
@@ -100,10 +116,10 @@ def operate(api, request):
             raise ValueError('workflow_scope')
         graph = create_graph(api, company, project['id'], request['key'], workflow=request['profile'],
                              title=PROFILES[request['profile']]['title'])
-        return read_graph(api, company, graph['parent'])
+        return read_graph(api, company, graph['parent'], artifact_root)
     if set(request) != fields[action] | {'action'}:
         raise ValueError('invalid_request')
-    graph = read_graph(api, company, request['parent'])
+    graph = read_graph(api, company, request['parent'], artifact_root)
     if action == 'start':
         if not graph['can_start']:
             return {**graph, 'action': 'not_started'}
@@ -120,7 +136,7 @@ def operate(api, request):
     elif action == 'cancel':
         if graph['can_cancel']:
             cancel_graph(api, graph['id'])
-    return read_graph(api, company, graph['id'])
+    return read_graph(api, company, graph['id'], artifact_root)
 
 
 def main():
@@ -129,7 +145,7 @@ def main():
         wire = sys.stdin.buffer.read(8193)
         if len(wire) > 8192:
             raise ValueError('invalid_request')
-        result = operate(api, json.loads(wire))
+        result = operate(api, json.loads(wire), observation_root())
         print(json.dumps({'ok': True, 'result': result}, ensure_ascii=False))
     except Exception as error:
         code = error.code if isinstance(error, JobError) else str(error) if type(error) is ValueError else 'paperclip_unavailable'

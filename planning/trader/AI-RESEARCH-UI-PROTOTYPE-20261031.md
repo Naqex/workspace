@@ -43,12 +43,13 @@ trước; không chạy lại pilot đã thành công hoặc coi task review là
 
 ### Studio — điều khiển quy trình, 02/11
 
-Lát vận hành đã có trong Trader: **Studio → Đội AI → Quy trình**. Owner chọn
-công ty/dự án, xem mẫu cố định, tạo bản nháp, xác nhận bắt đầu hoặc dừng cả graph.
-Task/run/report vẫn thuộc Paperclip; host không tạo task store hay scheduler mới.
-Chi tiết implementation, kiểm chứng và giới hạn ở receipt mục **Studio: điều
-khiển workflow từ UI**. Bằng chứng draft/cancel không thay bằng chứng dispatch
-thành công đã có; không chạy lại model chỉ để kiểm UI.
+**Owner điều chỉnh02/11:** dùng thẳng UI native Paperclip trong **Studio → Đội AI**;
+bỏ dialog/nút Quy trình và HTTP bridge ngoài để tránh hai UI quản lý cùng task.
+Trader chỉ giữ phần nhúng, preference và kết nối. Helper CLI giữ contract riêng
+của graph, kiểm dữ liệu giữa engine, đối soát receipt và hủy cả nhóm bước.
+Receipt mục **Studio: điều khiển workflow từ UI** giữ lịch sử lát đã thực hiện;
+mục **Studio: vận hành native, đối soát run/receipt** ghi thay đổi thay thế và
+kiểm chứng hiện hành. Không chạy lại model chỉ để kiểm UI.
 
 Thứ tự tiếp theo cho hệ thống:
 

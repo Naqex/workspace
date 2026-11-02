@@ -1,9 +1,11 @@
 import copy
 from uuid import uuid4
 import unittest
+from unittest.mock import patch
+import json
 
 from test_spot_workflow import NativeFixture
-from studio_workflows import operate
+from studio_workflows import operate, observation_root
 
 
 class StudioFixture(NativeFixture):
@@ -12,6 +14,10 @@ class StudioFixture(NativeFixture):
         self.project_row = {'id': self.project, 'companyId': self.company, 'name': 'System checks'}
 
     def call(self, path, body=None, method='GET'):
+        if path.endswith('/runs?view=recent'):
+            issue = path.split('/')[2]
+            return [dict(runId=key, **value) for key, value in self.runs.items()
+                    if value.get('issueId') == issue]
         if path == '/companies':
             return [{'id': self.company, 'name': 'Fixture'}]
         if path == '/companies/' + self.company + '/projects':
@@ -127,6 +133,27 @@ class StudioTests(unittest.TestCase):
         for request in ({'action': 'shell', 'command': 'echo no'}, {'action': 'overview', 'settings': 'private'}):
             with self.assertRaises(ValueError): operate(client.call, request)
         self.assertEqual(client.writes, [])
+
+    def test_run_history_blocks_reset_task_from_being_dispatched_again(self):
+        client = StudioFixture()
+        graph = client.create()
+        source_id = graph['steps'][0]['id']
+        run_id = str(uuid4())
+        client.runs[run_id] = dict(id=run_id, companyId=client.company, issueId=source_id,
+                                  agentId=client.research_agent, status='failed')
+        client.writes.clear()
+        result = operate(client.call, dict(action='start', company=client.company, parent=graph['id']))
+        self.assertFalse(result['can_start'])
+        self.assertEqual(result['action'], 'not_started')
+        self.assertEqual(client.writes, [])
+
+    def test_observation_does_not_require_valid_model_settings(self):
+        with patch('pathlib.Path.read_text', return_value=json.dumps({'artifact_root': 'E:/worker-artifacts',
+                                                                    'quick_model': 'opus-5.5'})):
+            self.assertEqual(observation_root(), 'E:/worker-artifacts')
+        for value in ('bad JSON', '[]', '{"artifact_root":"relative/path"}'):
+            with patch('pathlib.Path.read_text', return_value=value):
+                self.assertIsNone(observation_root())
 
 
 if __name__ == '__main__':

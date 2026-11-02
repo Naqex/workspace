@@ -12,8 +12,10 @@ The existing receipt owns results; native Paperclip owns tasks and runs.
 1. Identify the company/project, graph/attempt, current native state and authority
    for the requested action. A cancelled fixture is history; inspect it without
    assigning or restarting it. Do not dispatch a model to diagnose a settings field.
-2. Use the existing Studio controls or fixed graph CLI/API helpers. Preview and
-   draft are distinct from start. Check the declared system fixture and dependency
+2. Use Paperclip's native UI/MCP/API and fixed graph CLI helpers. The outer
+   Workflows dialog/HTTP bridge was retired by the owner; do not recreate it from
+   old receipts. Verify an unmet native capability before adding management UI.
+   Preview and draft are distinct from start. Check the declared system fixture and dependency
    evidence; do not tune the strategy or select a new dataset incidentally.
 3. Handle an interrupted create with its existing idempotency token. For uncertain
    start/cancel or publication, reconcile native run and local receipt before any

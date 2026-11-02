@@ -2221,3 +2221,57 @@ JWT path giữ nguyên nhưng chưa dispatch worker sau cutover; API write/workf
 execution sau đổi auth chưa được thực thi trong lát này. Các task lịch sử vẫn
 giữ assignment/state, gồm local-board cũ; board claim không được hiểu là tự đổi
 mọi assignee. Quota/cost visibility và reconcile vẫn là lát hệ thống tiếp theo.
+
+### Studio: vận hành native, đối soát run/receipt, 02/11
+
+**Quyết định owner thay thế UI bên ngoài:** owner phản đối dialog Quy trình vì
+trùng khả năng Paperclip, đồng thời yêu cầu lưu sở thích để agent không lặp lại.
+Đã gỡ nút/dialog, CSS, browser HTTP bridge và tests chỉ phục vụ lớp UI đó khỏi
+Trader; **Studio → Đội AI** dùng UI native Paperclip. Không đổi source engine.
+Trader giữ phần nhúng, preference và trạng thái kết nối. Hướng dẫn vận hành,
+AI plan và skill Studio đã cập nhật; memory update note được ghi theo yêu cầu.
+Các ảnh/kiểm chứng dialog trước đó trong evidence là lịch sử, không phải UI cần
+khôi phục. Các chức năng native phải được kiểm tra trước khi thêm UI quản trị.
+Trader source cleanup: commit `b0ba0439`; commit `60307c44` của dialog trước đó
+được giữ trong lịch sử, không phải phiên bản UI hiện hành.
+
+**Phần hệ thống được giữ:** CLI `studio_workflows.py get` đối chiếu native
+task/run với receipt local, giới hạn scope company/issue/agent và dung lượng đọc.
+Phân biệt chưa chạy, đang chạy, gián đoạn, đã lưu nhưng chưa gửi, lỗi, hủy và
+evidence không khớp. Hash dùng logical UTF-8 text đúng contract worker trên Windows.
+Có duration, requested/reported model và token/cost khi được native báo cáo;
+zero counters mặc định của process adapter không được hiểu là zero SDK usage.
+Model settings lỗi không khóa đọc/hủy. Task có run history không thể bị reset
+thành draft rồi dispatch lại qua helper. Đây là projection cho agent/operator,
+không tạo task ledger hay màn quản trị cạnh tranh với Paperclip.
+
+| Phạm vi | Kết quả xác minh |
+|---|---|
+| Python | **17 tests đạt**: scoped controls/observations, run history, interrupted/delivery/mismatch, unknown usage, CRLF, model config lỗi |
+| Native API sau auth cutover | Tạo draft → reload → hủy qua native board API đã đạt trước khi bỏ UI wrapper; parent `051c0285-a056-4f4c-89e8-3c4838ff60a3`, mọi child cancelled, zero runs/model calls |
+| Đối soát task lịch sử | NAQ-25 research/review đều recorded; fault fixture NAQ-45 có failed source. Không redispatch; hai lần GET graph đo khoảng0,83s và0,64s, không phải benchmark tải |
+| UI hiện hành | Native-only production build đạt; **4 embed cases đạt** tại1440/390px: giữ draft/navigation/preferences và recovery; không còn nút/dialog Quy trình, zero writes/page errors |
+| Runtime5180 | Không còn outer workflow UI; POST bridge cũ trả404, zero page errors. Kiểm tra tiếp đã đợi native sign-in form render trong iframe bằng browser biệt lập chưa đăng nhập; không coi đó là owner task journey. API8010/MT5 chưa khởi động trong lát này |
+| Review | Review độc lập source/ảnh trước và sau thay đổi; phát hiện/sửa sai hash CRLF, model-preflight dependency, history start guard và queued polling của bản dialog đã loại bỏ |
+| AI environment | Audit0 errors/0 warnings; global12279B, project9269/65536B, reserve56267B, combined21548B |
+
+Artifact riêng tư: `E:/BACKUP-TRADINGWORKSPACE/studio-observation-20261102/`
+(`native-observation.json`, `browser/report.json` giữ native draft/cancel,
+`browser-final/` giữ dialog lịch sử, `native-only-dist/`, `native-only-5180.json/png`,
+`native-only-hydrated-5180.json/png` xác nhận native form đã render).
+Embed fixture report/ảnh ở `projects/trader/foundation_v2/.runtime/studio-embed-fixture/`.
+Lượt actual-dialog QA đầu thất bại vì selector `dl` khớp hai phần tử; đã giữ
+`actual-studio-attempt1.json`, sửa harness chọn details đang mở rồi đạt. Không
+sửa product để né kiểm tra. Khởi động detached Paperclip bị auto-review chặn
+không có lý do cụ thể; launcher project trong phiên terminal đã chạy thành công.
+
+**Giới hạn:** actual MCP task tools chưa được expose trong chat này; các thao tác
+trên là native HTTP API. Write auth đã kiểm bằng draft/cancel, worker JWT dispatch
+sau auth migration vẫn chưa kiểm lại. Provider receipt/token/price của SDK còn
+thiếu nên không thể suy ra quota còn lại hay tổng tiền. Recovery delivery vẫn cần
+agent đối soát và sửa publication qua native API, không có tự động resume/rerun.
+Native Reviewers/Approvers, scheduler và broker execution không được bật. Exness
+demo được owner cho phép dùng khi cần test hệ thống, nhưng lát Studio này không
+cần broker; không OrderCheck/OrderSend, không tối ưu chiến lược. Timeout/concurrency
+không là money cap. Bước hệ thống tiếp theo là hoàn thiện provider usage receipt
+và kiểm worker dispatch sau đổi auth khi có nhu cầu thực, trước lịch tự chạy.

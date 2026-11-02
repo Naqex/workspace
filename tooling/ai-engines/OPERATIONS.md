@@ -26,7 +26,7 @@ Do not give a bounded reviewer an operator skill just to make every agent match.
 Use an exposed, authenticated Paperclip MCP connection for its supported task
 operations after verifying the company and scopes with `paperclip_connection`.
 An MCP entry in the UI is not proof that the coding agent has those tools.
-Otherwise the existing bounded controls use Paperclip's native HTTP API; source
+Otherwise the registered CLI helpers use Paperclip's native HTTP API; source
 inspection explains behavior, and source edits remain scoped development work.
 Do not write task/config rows directly in the database.
 
@@ -42,8 +42,8 @@ The local instance now uses authenticated mode with the existing database and
 ports. The owner claimed the previous local board through Paperclip's native
 flow. `paperclip_setup.api` reads only the exact-origin board credential in
 `.runtime/paperclip/auth.json`, created by the project-isolated native CLI login.
-It does not retry anonymously if a credential is rejected. Studio's browser
-bridge still exposes only the registered workflow operations. Worker callbacks
+It does not retry anonymously if a credential is rejected. The operator helpers
+accept only registered workflow operations; Trader has no outer workflow HTTP bridge. Worker callbacks
 retain their separate per-run JWTs; the auth cutover did not change their signing
 secret or dispatch a worker to test it.
 
@@ -76,9 +76,9 @@ without revising the graph's ownership/acceptance and testing the native stages.
 1. Read the current plan/receipt and native task/run state. Determine whether
    this is a fresh draft, an existing attempt or an unknown outcome. Historical
    model success and an idle/error worker status do not prove provider readiness.
-2. In Trader, open **Studio → Đội AI → Quy trình**. Select company/project and
-   preview the registered Forex or spot fixture. Follow
-   [Studio controls](README.md#studio-controls) for the UI/CLI contract.
+2. In Trader, open **Studio → Đội AI** and use Paperclip's native interface.
+   For a registered Forex or spot fixture, use the bounded CLI helper, then
+   inspect its graph in Paperclip. Follow [Studio controls](README.md#studio-controls).
 3. Create a draft without dispatch. Start only within current task authorization
    and its quota/cost scope; confirmation is a separate action. Do not change
    strategy parameters, datasets, providers or model routes as an incidental fix.
@@ -97,6 +97,14 @@ without revising the graph's ownership/acceptance and testing the native stages.
    in the existing receipt. System acceptance and strategy qualification remain
    separate. Use the [launcher guide](../paperclip/README.md) for owned-runtime
    recovery; use `upstream-integrations` for source adoption/upgrades.
+
+The outer Workflows dialog/HTTP bridge was retired by the owner on02/11. Keep
+operator UI in Paperclip; add application code only for domain contracts,
+integration or a demonstrated native capability gap. Human `in_review` handoff
+still does not establish a native Reviewer/Approver policy. Process timeouts,
+iteration limits and concurrency do not establish a money cap. Scheduling stays
+off until attempt/spend bounds, unknown accounting and restart/stop recovery have
+been verified; this read-only reconciliation does not satisfy those gates alone.
 
 ## Decision models: when to connect one
 
