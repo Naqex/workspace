@@ -631,3 +631,60 @@ không bật lịch, không thay đổi holdout hoặc DB Trader. API8010/UI5218
 Resume: đọc [engine jobs](../../../tooling/ai-engines/README.md), xác nhận model/
 gateway readiness rồi tạo task mới nếu thực sự cần phân tích khác. Không giao
 lại NAQ-4 để thử resume inference đã hoàn tất; không bật RD worker trước runtime.
+
+## 02/11/2026 — RD-Agent runtime và khảo sát Hermes/OpenClaw
+
+Owner đã cho phép cài Linux/Docker. Chọn WSL2 Ubuntu + Docker Engine trong một
+distro riêng: Linux giữ package/venv, container giữ môi trường thí nghiệm.
+Không cần Docker Desktop cho luồng này; đổi lại phải quản lý distro/Docker
+bằng lệnh. Không đổi source pin, provider config, broker hay runtime Trader.
+
+| Thành phần | Kết quả thực tế |
+|---|---|
+| WSL | Bản có sẵn 2.7.12.0; distro mới `NaqexResearch`, WSL2 |
+| Linux | Ubuntu 24.04.5 LTS, default user `naqex`; Python 3.12.3 |
+| RD-Agent | 1.0.0, build từ `484776c211e4fbbeef03e0ec00d6bbee7362a4f4`, khớp gitlink |
+| Docker Engine | 29.9.2; containerd 2.4.2, Buildx 0.38.1; repo/key chính thức Docker |
+| Persistent disk | `.runtime/linux/NaqexResearch/ext4.vhdx`; không xử lý như cache |
+| Linux source/venv/evidence | `/opt/naqex/rd-agent/{source,venv,evidence}` |
+| Handoff | Distro đã terminate đúng tên, `wsl --list --verbose` xác nhận Stopped; worker vẫn paused |
+
+Kiểm chứng đã thực hiện:
+
+- Cài đặt kết thúc exit 0; `pip check` báo không có dependency hỏng;
+  `rdagent --help` tải CLI thành công.
+- `rdagent health_check --no-check-env --no-check-ports` ghi Docker normal;
+  Docker SDK ping được assert thành công, không chỉ dựa vào exit status upstream.
+- Container `hello-world` chạy thành công với network none, memory 64m, CPU 1,
+  pids 64, cap-drop ALL, no-new-privileges. Digest:
+  `sha256:c567b231f65614688711a75f31518a064258a51d442117a3e771a3a8fdba78ef`.
+- Sau restart riêng distro: user đúng, không mount ổ Windows, Windows interop
+  tắt; Docker service/socket/containerd inactive và disabled autostart.
+  Docker chỉ dùng Unix socket. Docker group có quyền root trong distro;
+  không coi đây là sandbox tuyệt đối cho generated code.
+- Upstream có cảnh báo import `fitz` deprecated, không chặn CLI/runtime smoke;
+  chưa sửa dependency hoặc source để che cảnh báo.
+
+Logs/script bootstrap và bản sao tám evidence files giữ local trong
+`.runtime/linux/`, gồm `provision.log` và `evidence/requirements.freeze.txt`.
+SHA256 freeze:
+`5398B1333DCE26F036AEBD93BAFD0D4C96C04B73DF7EE2611E4E18F85380FDA1`.
+Nguồn Ubuntu qua catalog/downloader chính thức WSL; chưa tự tính lại checksum
+rootfs, không tuyên bố đã làm bước đó. Docker signing key fingerprint:
+`9DC858229FC7DD38854AE2D88D81803C0EBFCD88`.
+
+Chưa dựng finance Qlib/CUDA image, tải dataset, gọi model hoặc chạy finance
+experiment. Cần data adapter, bounded experiment/container policy và provider
+qualification trước khi mở worker. Wrapper vẫn từ chối RD-Agent dispatch;
+chỉ cập nhật thông báo lỗi cũ để phản ánh runtime đã cài. Đây chưa là nghiệm
+thu vòng nghiên cứu hay chiến lược. Hướng dẫn vận hành/rollback:
+[RD-Agent runtime](../../../tooling/ai-engines/rd-agent-runtime.md).
+
+[Khảo sát Hermes/OpenClaw](../../research/HERMES-OPENCLAW-20261102.md) đã đối
+chiếu source/docs chính thức. Chưa cài hoặc benchmark hai công cụ này. Đề xuất
+chưa thêm vào global/Codex: Hermes chỉ thử làm worker khi có task chứng minh
+lợi ích; OpenClaw dành cho nhu cầu kênh chat owner sau này. Paperclip tiếp tục
+sở hữu dispatch/retry/cancellation/history.
+
+Final AI environment audit đạt 0 errors, 0 warnings; global 12,279 B, project
+9,099/65,536 B, reserve 56,437 B, combined 21,378 B. Không sửa global config.

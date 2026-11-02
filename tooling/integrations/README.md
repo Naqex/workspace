@@ -8,7 +8,7 @@ Không ghi SHA phiên bản chạy vào nhiều config độc lập.
 | Thành phần | Cách dùng hiện tại |
 |---|---|
 | Paperclip | Fork [Naqex/paperclip](https://github.com/Naqex/paperclip); UI thật nhúng trong Trader; [launcher và data boundaries](../paperclip/README.md) |
-| RD-Agent | Source upstream pin `484776c2` (1.0.0); worker Paperclip đã chuẩn bị nhưng paused. Chưa cài Linux/Docker hoặc chạy thí nghiệm |
+| RD-Agent | Source upstream pin `484776c2` (1.0.0); đã cài/kiểm tra package trên WSL2 Ubuntu + Docker Engine riêng. Worker paused, chưa chạy thí nghiệm; [runtime guide](../ai-engines/rd-agent-runtime.md) |
 | TradingAgents | Đã nối native process adapter của Paperclip; NAQ-4 chạy Gemini và có báo cáo VI. LangGraph là dependency engine; chưa kiểm chứng chiến lược |
 | Quant Lab | Giữ `projects/quant-trading`; kiểm chứng/offline receipts. Engine bên ngoài được reuse khi cần; không thay engine chỉ để đồng bộ tên thư mục |
 

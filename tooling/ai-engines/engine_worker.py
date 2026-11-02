@@ -237,7 +237,7 @@ def execute_paperclip(engine: str, settings_path: Path) -> int:
         if request['engine'] != engine:
             raise JobError('engine_mismatch', 'Công việc đang được giao nhầm engine.')
         if engine == 'rd-agent':
-            raise JobError('rd_agent_runtime_required', 'RD-Agent cần môi trường Linux và Docker cô lập. Máy hiện chưa có runtime đã được kiểm chứng; chưa chạy thí nghiệm.')
+            raise JobError('rd_agent_runtime_required', 'RD-Agent chưa được nối với thí nghiệm đã kiểm chứng. Cần kiểm tra runtime Linux/Docker, dữ liệu và phạm vi thử trước khi bật worker; xem tooling/ai-engines/README.md.')
         settings = load_settings(settings_path)
         directory = Path(settings['artifact_root']) / paperclip.company / paperclip.run
         directory.parent.mkdir(parents=True, exist_ok=True)

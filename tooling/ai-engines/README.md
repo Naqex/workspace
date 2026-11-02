@@ -80,14 +80,17 @@ are not a budget cap.
 
 ## RD-Agent boundary
 
-The research worker is provisioned **paused**. The pinned upstream requires Linux
-and most finance scenarios require Docker. No supported Linux distribution or
-Docker runtime has been installed for this integration. Its worker reports this
-condition instead of running generated code on the Windows host.
+The research worker remains **paused**. On 02 November 2026 the owner authorized
+runtime installation. WSL2 distro `NaqexResearch` now has Ubuntu 24.04, Docker
+Engine and RD-Agent 1.0.0 built from the existing gitlink. Package/CLI, Docker
+SDK and container smoke passed; Docker autostart, Windows drive automount and
+Windows interop are disabled in this dedicated distro. See the
+[runtime guide](rd-agent-runtime.md) for ownership, commands and evidence.
 
-Next gate: owner-authorized isolated Linux/Docker installation, data adapter and
-bounded finance experiment qualification. The current adapter does **not** claim
-to run RD-Agent experiments. Its source remains pinned under
+Next gate: data adapter, bounded finance experiment/container policy and provider
+connection qualification. No finance image/dataset/model run or RD-Agent
+experiment has been qualified. The current adapter does **not** claim to run
+RD-Agent experiments. Its source remains pinned under
 `projects/integrations/rd-agent`; do not install its broad dependencies into the
 TradingAgents venv. Numeric strategy validation remains owned by Quant Lab.
 

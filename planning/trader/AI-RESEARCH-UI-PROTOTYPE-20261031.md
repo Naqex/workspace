@@ -16,9 +16,11 @@ không chạy lại outcome chưa rõ và không có broker execution. Source/fi
 Paperclip dispatch và model success phải có bằng chứng riêng trong receipt owner
 hiện có. Không đồng nhất báo cáo phân tích với backtest/chiến lược đạt.
 
-RD-Agent cần runtime Linux/Docker; source adoption chưa cấp quyền cài môi trường
-hệ thống. Chuẩn bị worker/contract và nêu gate cụ thể trước khi cài; chưa có
-runtime thì giữ worker paused, không chạy code sinh trên host Windows.
+Owner đã cho phép cài runtime RD-Agent ngày 02/11. Package và container smoke
+đã đạt trên WSL2 Ubuntu 24.04 + Docker Engine riêng; chi tiết trong
+[runtime guide](../../tooling/ai-engines/rd-agent-runtime.md) và receipt hiện có.
+Worker tiếp tục paused, chờ data adapter và một thí nghiệm giới hạn được kiểm
+chứng; không chạy code sinh trên host Windows.
 Hướng dẫn adapter: [engine jobs](../../tooling/ai-engines/README.md).
 
 Các đoạn cleanup/tự setup sau đây giữ lịch sử trước phần bổ sung này.
