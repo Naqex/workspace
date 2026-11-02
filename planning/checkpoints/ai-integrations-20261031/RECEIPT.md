@@ -688,3 +688,80 @@ sở hữu dispatch/retry/cancellation/history.
 
 Final AI environment audit đạt 0 errors, 0 warnings; global 12,279 B, project
 9,099/65,536 B, reserve 56,437 B, combined 21,378 B. Không sửa global config.
+
+## 02/11 — RD-Agent synthetic factor pilot
+
+Owner duyệt một thí nghiệm nhỏ trước khi thêm engine. Đã chạy **một candidate
+do Gemini sinh**, dùng upstream `FactorTask`, `FactorFBWorkspace` và evaluators
+từ RD-Agent 1.0.0/pin `484776c211e4fbbeef03e0ec00d6bbee7362a4f4`.
+Không sửa source upstream, không mở RD worker/Paperclip adapter hoặc scheduler.
+
+### Request và data/state
+
+- Operator tạo prompt/contract trước, gọi gateway project loopback 17852 một
+  lần, không retry; requested `gemini-3.8-flash-high`, response báo
+  `gemini-3.8-flash-n`. Alias/response không độc lập xác minh model backend.
+- Usage: 150 prompt + 1.567 completion = 1.717 tokens; completion gồm 1.457
+  reasoning tokens. Không có phép đo chi phí tiền hoặc lợi nhuận.
+- Candidate đã review: đọc HDF giả lập, group theo instrument, shift 3,
+  tính `close / previous_close - 1`, giữ full index/order rồi ghi result HDF.
+- Fixture seed 20261102, 160 ngày × 8 mã = 1.280 rows. Contract ghi split
+  90/30/40 ngày nhưng pilot không fit/tune/chọn model hoặc báo OOS performance.
+- Controller/venv ở Linux riêng; candidate ở Docker network none, CPU 1,
+  RAM 512 MB, pids 64, 50 giây, user 1000:1000, read-only root filesystem,
+  cap-drop ALL, no-new-privileges, tmpfs 32 MB. Mount workspace RW và input RO;
+  không mount Docker socket, controller, credentials hoặc ổ Windows.
+- Workspace output chưa có disk quota riêng; code này đã review, chưa là
+  sandbox cho code thù địch. Docker group có quyền root trong distro.
+
+### Kết quả
+
+| Kiểm chứng | Kết quả |
+|---|---|
+| Upstream workspace thực thi candidate | Đạt, launcher exit 0 |
+| Oracle vòng lặp độc lập | Đúng đủ 1.280 rows; 1.256 giá trị hợp lệ, 24 warmup NaN |
+| Upstream evaluators | Inf, SingleColumn, Index, RowCount, EqualValueRatio đều score 1 |
+| Prefix invariance và future perturbation | Đạt; output trước cutoff giữ nguyên |
+| Negative causal control | Công thức shift(-1) bị phép kiểm phát hiện nhìn trước |
+| Expected execution failure | Upstream workspace trả failure đúng và giữ marker lỗi |
+| Real-data finance loop / native dispatch | Chưa chạy, worker vẫn paused và adapter từ chối RD job |
+| Strategy qualification / broker | Không; không có backtest lợi nhuận hoặc broker request |
+
+### Failures đã giải quyết
+
+1. Docker start trong một WSL call rời không giữ service cho call kế tiếp:
+   gom start/job/EXIT cleanup vào cùng owned root shell.
+2. Import RD từ cwd `/root` gây template-loader PermissionError: chuyển sang
+   job directory Linux mà `naqex` truy cập được trước `runuser`.
+3. Receipt dùng `rdagent.__file__` gặp namespace package None: ghi `__path__`.
+4. Copy shell wrapper làm mất executable mode: gọi `sh <wrapper>` tường minh.
+5. Oracle có NumPy timedelta deprecation warning không chặn kết quả; không vá
+   dependency/upstream chỉ để che cảnh báo. Không gọi model lại khi sửa harness.
+
+### Provenance, artifacts và handoff
+
+| Artifact | SHA256 |
+|---|---|
+| Docker image ID | `766b1a0e71699c07765a47f8c671cdfaa0cb234a3ca493b8c145382e44408ca8` |
+| pilot.py | `b1d368f0706dccdf94911c6ad81d1cd82b9361a4ad994ceaebb6ecbae04428c5` |
+| candidate.py | `91a00cb4b61f84e0043ebfa52c7434377a472266e4ab5b04ffbc17ed9cfd4ae9` |
+| fixture HDF | `c5943829460bdeeebd2ae080a3ec7f6994ee855bef43e37fa0f9ad9d0eecd4f6` |
+
+Tracked harness/recipe: [rd-factor-pilot](../../../tooling/ai-engines/rd-factor-pilot/README.md).
+Linux job: `/opt/naqex/rd-agent/pilots/20261102-momentum-01/`.
+Windows local evidence: `.runtime/linux/factor-pilot/` gồm `run.log`, model
+attempt, candidate, complete `evidence.tar`, các failure logs; các root regular
+files cần thiết được đọc/chọn an toàn sang `evidence/`, không extract symlinks.
+Raw data/runtime không commit. Image tag/transitive packages chưa khóa toàn
+bộ; receipt image ID là danh tính immutable của chính lượt đã chạy.
+
+Docker cleanup của launcher đã kết thúc; `wsl --list --verbose` xác nhận
+`NaqexResearch` **Stopped**. Gateway trước pilot đang off; PID 14488 được xác
+minh path, SHA256, command/config và creation time rồi dừng, owner file ghi
+`stopped`. Một lần guard từ chối vì JSON date đã parse thành DateTime nhưng
+bị parse lại qua culture; sửa kiểm tra bằng typed DateTime trước khi stop.
+Không sửa gateway config, Windows 8317 hoặc bật service nền mới.
+
+Lát tiếp: chọn data adapter có point-in-time provenance, chốt bounded finance
+contract và kiểm native dispatch/cancel trước mở RD worker. Pilot xác nhận
+đường **sinh code → thực thi → kiểm chứng**, chưa nghiệm thu hệ AI tự chủ đầy đủ.

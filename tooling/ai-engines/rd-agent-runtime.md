@@ -43,10 +43,9 @@ git -C projects/integrations/rd-agent rev-parse HEAD
 
 Khi thực sự cần Docker cho job đã được duyệt:
 
-```powershell
-wsl.exe -d NaqexResearch -u root --cd /root --exec systemctl start docker.service
-wsl.exe -d NaqexResearch -u naqex --cd /opt/naqex/rd-agent --exec docker info
-```
+Giữ start Docker, bounded job và cleanup trong cùng một shell WSL; xem recipe
+[factor pilot](rd-factor-pilot/README.md). Không dựa vào hai lệnh WSL rời nhau
+để giữ distro/service sống giữa các lần gọi.
 
 Sau job, khi không có process/job khác sở hữu distro:
 
@@ -76,10 +75,14 @@ assert Docker SDK/container, không chỉ exit status.
 
 ## Gate còn lại
 
-Package/runtime smoke không chứng minh vòng nghiên cứu chạy được. Worker còn
-paused cho đến khi có data adapter, bounded experiment contract, container với
-resource/network/mount policy, provider connection và kết quả thử đã kiểm chứng.
-Chưa dựng image finance Qlib/CUDA lớn, tải dataset, gọi model hay chạy một vòng
+Một [pilot factor giả lập](rd-factor-pilot/README.md) đã đạt ngày 02/11: một
+candidate Gemini, chạy upstream workspace/evaluators trong container giới hạn,
+so oracle độc lập, kiểm tra nhân quả và execution failure. Không fit/chọn model
+hay dùng dữ liệu thị trường thật. Đã gọi provider một lần, không retry.
+
+Worker vẫn paused; adapter từ chối RD dispatch. Còn data adapter có provenance,
+contract vòng finance đầy đủ và native dispatch/cancellation trước khi mở worker.
+Chưa dựng image finance Qlib/CUDA lớn, tải dataset thị trường hay chạy một vòng
 `fin_factor/fin_model/fin_quant`. Quant Lab giữ kiểm chứng chiến lược.
 
 Kết quả và các lỗi cài đặt thực tế nối vào

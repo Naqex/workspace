@@ -19,8 +19,11 @@ hiện có. Không đồng nhất báo cáo phân tích với backtest/chiến l
 Owner đã cho phép cài runtime RD-Agent ngày 02/11. Package và container smoke
 đã đạt trên WSL2 Ubuntu 24.04 + Docker Engine riêng; chi tiết trong
 [runtime guide](../../tooling/ai-engines/rd-agent-runtime.md) và receipt hiện có.
-Worker tiếp tục paused, chờ data adapter và một thí nghiệm giới hạn được kiểm
-chứng; không chạy code sinh trên host Windows.
+Ngày 02/11, pilot factor giả lập đã đạt: một candidate Gemini chạy qua upstream
+workspace/evaluators trong Docker, oracle và kiểm tra nhân quả đạt. Worker tiếp
+tục paused; còn data adapter thị trường, vòng finance và native dispatch trước
+khi mở worker. Không chạy code sinh trên host Windows; pilot chưa là bằng chứng
+chiến lược có lợi nhuận. Recipe và evidence theo runtime guide/receipt bên trên.
 Hướng dẫn adapter: [engine jobs](../../tooling/ai-engines/README.md).
 
 Các đoạn cleanup/tự setup sau đây giữ lịch sử trước phần bổ sung này.

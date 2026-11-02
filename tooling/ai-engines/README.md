@@ -87,10 +87,15 @@ SDK and container smoke passed; Docker autostart, Windows drive automount and
 Windows interop are disabled in this dedicated distro. See the
 [runtime guide](rd-agent-runtime.md) for ownership, commands and evidence.
 
-Next gate: data adapter, bounded finance experiment/container policy and provider
-connection qualification. No finance image/dataset/model run or RD-Agent
-experiment has been qualified. The current adapter does **not** claim to run
-RD-Agent experiments. Its source remains pinned under
+An operator-triggered [synthetic factor pilot](rd-factor-pilot/README.md) passed
+on 02 November: one Gemini-generated candidate, real upstream FactorFBWorkspace
+and five evaluators, independent oracle, causal invariance and failure controls.
+Generated code ran in a bounded offline container. This is not the full finance
+loop, a real-data backtest, strategy qualification or native Paperclip dispatch.
+
+Next gate: real-data adapter with point-in-time provenance, bounded finance-loop
+contract and native dispatch/cancellation qualification. The current adapter
+still refuses RD-Agent jobs. Its source remains pinned under
 `projects/integrations/rd-agent`; do not install its broad dependencies into the
 TradingAgents venv. Numeric strategy validation remains owned by Quant Lab.
 
