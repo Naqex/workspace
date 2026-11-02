@@ -1,7 +1,8 @@
 # Ưu tiên thị trường cho hệ thống AI
 
-Khảo sát ngày 02/11/2026. **Khuyến nghị để owner xem xét, chưa là quyết định chọn
-thị trường hoặc quyền giao dịch.** Liên quan [brief kiến trúc](AUTONOMOUS-TRADING-SYSTEM-BRIEF.md).
+Khảo sát ngày 02/11/2026. **Owner đã đồng ý ưu tiên crypto sau khảo sát; sản phẩm
+khởi đầu đang được giải thích ở lựa chọn spot/futures, chưa có quyền giao dịch.**
+Liên quan [brief kiến trúc](AUTONOMOUS-TRADING-SYSTEM-BRIEF.md).
 Không cài tool, chạy provider, tải thêm dataset hoặc thay runtime trong khảo sát này.
 
 ## Kết luận
@@ -13,6 +14,14 @@ kiểm tra và vận hành trong workspace hiện tại; chưa chứng minh cryp
 nhuận cao hơn hoặc LLM có edge tốt hơn ở thị trường này.
 
 Spot ở đây là mua tài sản bằng vốn có, không vay, không short, không perpetual.
+Owner hỏi vì sao chọn spot thay futures: đề xuất bắt đầu long/cash để kiểm được
+data, edge và workflow với accounting đơn giản hơn. Spot không vay không có
+margin liquidation nhưng vẫn có rủi ro giảm giá và venue/custody. Futures có
+thể cần khi giả thuyết đòi short/hedge; mức leverage không bắt buộc phải cao.
+Perpetual thêm funding, futures nói chung cần margin/mark price/liquidation;
+phải kiểm riêng các cơ chế đó trước khi mở sản phẩm [10]. Chọn spot trước không
+khẳng định spot có lợi nhuận cao hơn hoặc biến spot thành futures chỉ bằng đổi
+data adapter. Đây là hướng nghiên cứu, chưa cho phép tài khoản/lệnh thật.
 Forex trong so sánh là cặp tiền chính qua retail broker; vàng XAUUSD/CFD là một
 nhánh sản phẩm riêng, có contract/chi phí riêng. Kết luận không đại diện cho
 currency futures, mọi loại crypto hoặc mọi broker/sàn.
@@ -85,3 +94,5 @@ phép cho owner sử dụng; nguồn dữ liệu public không tự là đề xu
    cấu trúc retail dealer và margin; không suy rộng thống kê thua lỗ sang AI hoặc crypto.
 8. [Coinbase Advanced Trade sandbox](https://docs.cdp.coinbase.com/coinbase-app/advanced-trade-apis/sandbox).
 9. [Giải đáp chính sách của Chính phủ](https://chinhsachonline.chinhphu.vn/giao-dich-tai-san-ma-hoa-khong-qua-to-chuc-duoc-cap-phep-co-the-bi-xu-ly-92252.htm).
+10. [Coinbase perpetuals](https://www.coinbase.com/advanced-perpetuals) và
+    [futures margin/liquidation](https://help.coinbase.com/en/coinbase/derivatives/us-derivatives-risk-management-and-liquidations).

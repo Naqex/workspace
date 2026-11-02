@@ -18,11 +18,13 @@ execution plan, acceptance ledger hoặc hợp đồng cấp quyền giao dịch
   sẵn sàng live; các gate hiện hành tiếp tục ở Product Plan/ledger của chúng.
 - Ưu tiên nền dài hạn, có thể duy trì và mở rộng. Các lát thực hiện sau này phải
   đóng góp cho kiến trúc đích; tránh làm bản ngắn hạn chỉ để có tính năng.
-- Thị trường đầu tiên **chưa chốt**: so sánh Forex/vàng qua MT5 và crypto.
+- Thị trường đầu tiên: **owner đồng ý ưu tiên crypto ngày 02/11**. Forex/vàng
+  qua MT5 là nhánh có thể mở rộng sau, không là ưu tiên triển khai đầu tiên.
 - [Khảo sát thị trường 02/11](AI-MARKET-PRIORITY-20261102.md) đề xuất ưu tiên
   BTC/ETH spot khung ngày cho workflow nghiên cứu đầu tiên, theo data/chi phí
-  triển khai và tài sản workspace. Đây là khuyến nghị để owner xem xét, chưa
-  chốt thị trường, chưa chứng minh lợi nhuận hơn Forex và không cấp quyền live.
+  triển khai và tài sản workspace. Owner đang hỏi rõ spot so với futures;
+  khuyến nghị sản phẩm khởi đầu vẫn là spot không vay/không leverage, long/cash.
+  Chưa có quyết định mở futures, bằng chứng lợi nhuận hơn Forex hoặc quyền live.
 - Nhịp giao dịch **chưa chốt**: owner muốn đề xuất theo tính khả thi. D1/H4 mới
   là khuyến nghị của assistant, chưa là lựa chọn được owner chốt.
 - Owner đã chốt bộ nền ban đầu: **Paperclip** quản lý công việc/agents,
