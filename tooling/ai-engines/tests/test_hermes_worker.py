@@ -25,6 +25,7 @@ class CompletionTests(unittest.TestCase):
                     (directory / 'publication.json').write_text('{"status":"attached"}')
                 return {'completed': completed, 'api_calls': 1, 'final_response': 'report'}
             agent = Mock(session_id='session', tools=[{'function': {'name': 'research_publish'}}])
+            self.last_agent = agent
             agent.run_conversation.side_effect = converse
             modules = {'run_agent': SimpleNamespace(AIAgent=Mock(return_value=agent), __file__='pinned/run_agent.py'),
                        'hermes_state': SimpleNamespace(SessionDB=lambda: DummyDB()),
@@ -53,6 +54,26 @@ class CompletionTests(unittest.TestCase):
         code, client, receipt = self.run_case(True, False)
         self.assertEqual(code, 1)
         client.call.assert_not_called()
+
+    def test_rejected_workflow_source_never_reaches_model(self):
+        with patch.object(worker, 'review_source', side_effect=ValueError('invalid source')):
+            code, client, receipt = self.run_case(True, True)
+        self.assertEqual(code, 1)
+        self.assertFalse(receipt['provider_work_started'])
+        self.last_agent.run_conversation.assert_not_called()
+        client.call.assert_not_called()
+
+    def test_parent_delivery_failure_preserves_review_without_repeating_inference(self):
+        source = dict(prompt='verified input', dossier='numbers', binding={'source_run': 'fixture'})
+        with patch.object(worker, 'review_source', return_value=source), patch.object(
+                worker, 'verify_review_source', return_value=source), patch.object(
+                worker, 'finish_review', side_effect=RuntimeError('parent unavailable')):
+            code, client, receipt = self.run_case(True, True)
+        self.assertEqual(code, 1)
+        self.assertEqual(receipt['review_delivery'], 'published')
+        self.assertEqual(receipt['status'], 'failed')
+        self.last_agent.run_conversation.assert_called_once_with('verified input')
+        self.assertEqual(client.call.call_args.args[1]['status'], 'done')
 
 
 class DummyDB:

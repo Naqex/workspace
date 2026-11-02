@@ -166,10 +166,55 @@ route and source versions. Successful workflow completion does not mean the
 strategy qualified for demo or live. Historical NAQ-6 is a successful workflow
 with an unqualified candidate; do not rerun it simply to obtain a better result.
 
+## A linked crypto spot workflow
+
+`spot_workflow.py` creates four native tasks in an existing project: a summary,
+registered RD-Agent/Quant Lab research, a dependent Hermes review, and an unassigned
+blocked paper placeholder. It reuses existing workers and native dependency wakeups;
+no scheduler, coordinator agent or upstream patch is added.
+
+Preview the graph in Paperclip before starting it. Reuse the same key for the same
+graph; `create` is idempotent and `start` never resets work already started:
+
+```powershell
+projects/integrations/TradingAgents/.venv/Scripts/python.exe tooling/ai-engines/spot_workflow.py create --company <company-id> --project <project-id> --key <stable-key>
+projects/integrations/TradingAgents/.venv/Scripts/python.exe tooling/ai-engines/spot_workflow.py start --company <company-id> --project <project-id> --key <same-key>
+```
+
+This runs the existing BTC/ETH D1 contract once, including one Gemini factor call.
+It is integration QA on previously observed data, not a new strategy search or
+fresh holdout. Register a separate research contract before changing the question.
+Creating a different key creates another graph and can spend provider quota.
+
+The summary stays unassigned `todo` while children work. Hermes checks its native
+dependency, successful run, local receipt, document revisions and report/evidence
+SHA256 before inference and publication. A bounded five-second settle wait covers
+the issue-done/process-finalization race; it never retries a provider call. The
+same source binding is stored with the review and its **Nguồn và số liệu phản biện**
+document. Standalone research/review tasks continue to work independently.
+
+After the model turn completes and the review is attached, the summary moves to
+`in_review`, assigned to its human creator/responsible user. Paper remains **NOT_RUN**,
+blocked and unassigned; no forward observation or trading authority is implied.
+A parent cancellation or reassignment blocks subsequent inference/publication.
+To stop an active graph and cancel its native child run, use:
+
+```powershell
+projects/integrations/TradingAgents/.venv/Scripts/python.exe tooling/ai-engines/spot_workflow.py cancel --parent <summary-issue-id>
+```
+
+Cancelling only the summary in the UI is not an immediate process-tree cancellation;
+use the command above or native run cancellation. Completed history is preserved.
+If a review is published but summary delivery fails, retain both its report and
+failed receipt, inspect the native error, and repair only delivery through the
+native API. Do not rerun inference to repair a status update. Native pilot
+[NAQ-20](http://127.0.0.1:17860/NAQ/issues/NAQ-20) exercised this recovery; details
+and the remaining UI verification limit are in the integration receipt.
+
 ## Verification
 
 ```powershell
-projects/integrations/TradingAgents/.venv/Scripts/python.exe -m unittest discover -s tooling/ai-engines/tests -v
+projects/integrations/TradingAgents/.venv/Scripts/python.exe -X utf8 -m unittest discover -s tooling/ai-engines/tests -v
 ```
 
 Acceptance/receipts extend the existing

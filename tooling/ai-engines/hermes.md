@@ -53,6 +53,10 @@ Assign a 100–20,000 character description to **Chuyên viên phản biện**. 
 the evidence, its provenance, question and expected output. The bounded pilot
 [dossier](hermes-pilot.md) demonstrates the format. This worker currently cannot
 fetch arbitrary websites or source files; put the required excerpt in the task.
+For the [linked spot workflow](README.md#a-linked-crypto-spot-workflow), the wrapper
+instead resolves its typed `naqex-review` dependency through the native API,
+verifies its run/receipt/document hashes, and supplies the bounded numeric dossier.
+Task text still cannot provide arbitrary artifact paths or source commands.
 
 Only `research_publish`, `memory` and `session_search` are exposed. Progressive
 tool discovery is off so the inventory is explicit and checked before inference.

@@ -229,6 +229,7 @@ class Paperclip:
 
 
 def execute_paperclip(engine: str, settings_path: Path) -> int:
+    from spot_workflow import guard_research
     paperclip = Paperclip()
     issue = paperclip.assigned_issue()
     directory = None
@@ -253,10 +254,12 @@ def execute_paperclip(engine: str, settings_path: Path) -> int:
                        models={key: settings[key] for key in ('quick_model', 'deep_model')})
         write_json(directory / 'receipt.json', receipt)
         prepared = None
+        guard_research(paperclip, issue)
         if engine == 'rd-agent':
             from rd_research import preflight
             prepared = preflight(settings, directory)
         connection = gateway(settings)
+        guard_research(paperclip, issue)
         receipt.update(status='running', provider_work_started=True)
         write_json(directory / 'receipt.json', receipt)
         if engine == 'rd-agent':
@@ -284,6 +287,7 @@ def execute_paperclip(engine: str, settings_path: Path) -> int:
         (directory / 'report.md').write_text(report, encoding='utf-8')
         receipt['report_sha256'] = hashlib.sha256(report.encode()).hexdigest()
         write_json(directory / 'receipt.json', receipt)
+        guard_research(paperclip, issue)
         if evidence_text is not None:
             paperclip.call('/issues/' + issue['id'] + '/documents/evidence-' + paperclip.run,
                           {'title': 'Dữ liệu và kiểm chứng', 'format': 'markdown', 'body': evidence_text}, 'PUT')
@@ -309,6 +313,8 @@ def execute_paperclip(engine: str, settings_path: Path) -> int:
         if directory is not None and directory.is_dir():
             write_json(directory / 'receipt.json', receipt)
         try:
+            if issue.get('parentId'):
+                guard_research(paperclip, issue)
             paperclip.report(issue['id'], '# Chưa hoàn tất\n\n' + known.message + '\n\nMã chẩn đoán: `' + known.code + '`.', completed=False)
         except JobError:
             pass

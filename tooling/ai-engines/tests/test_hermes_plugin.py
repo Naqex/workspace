@@ -47,6 +47,19 @@ class HermesPluginTests(unittest.TestCase):
         self.assertNotIn('secret-key', result)
         client.assert_called_once()
 
+    def test_changed_source_is_rejected_before_native_publication(self):
+        client = Mock(run='run')
+        client.assigned_issue.return_value = {'id': 'assigned', 'description': 'binding removed'}
+        with tempfile.TemporaryDirectory() as directory:
+            (Path(directory) / 'review-source.json').write_text('{}')
+            with patch.object(plugin, 'Paperclip', return_value=client), patch.object(
+                    plugin, 'run_directory', return_value=Path(directory)), patch.object(
+                    plugin, 'load_settings', return_value={}), patch(
+                    'spot_workflow.verify_review_source', side_effect=ValueError('changed source')):
+                self.assertIn('error', json.loads(plugin.publish({'report': 'x' * 250})))
+            client.call.assert_not_called()
+            self.assertFalse((Path(directory) / 'publication.json').exists())
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -1020,3 +1020,102 @@ Smoke import `ssl`, `sqlite3`, `venv` đạt. Hai file `detect-model.test.ts` v�
 Rollback riêng alias bằng cách xóa đúng `Python312/python3.exe`, giữ `python.exe`.
 AI-environment audit sau thay đổi: 0 lỗi/0 cảnh báo; instruction sizes và reserve
 giữ nguyên các số đã ghi ở lượt trước.
+
+## 02/11 — workflow crypto spot có dependency và bàn giao cho owner
+
+Owner đã chọn crypto spot và duyệt nối workflow. Dùng `spot_workflow.py` để tạo
+graph idempotent bằng native issue idempotency keys, parent/children và dependency
+wakeups. Không thêm UI, coordinator agent, poller/scheduler hoặc patch upstream.
+Giữ đội hiện có; leader do owner tạo không đổi cấu hình. Source/artifact input
+không nhận path hoặc command từ task.
+
+### Kết quả và phạm vi
+
+| Công việc | Trạng thái thực tế |
+|---|---|
+| [NAQ-20](http://127.0.0.1:17860/NAQ/issues/NAQ-20) | Tổng hợp `in_review`, giao `local-board` để owner xem |
+| NAQ-21 | RD-Agent/Quant Lab done; native run `40a670e2-4798-4892-a4b8-ffa05ffa628d` succeeded |
+| NAQ-22 | Hermes nhận tự động từ dependency, model turn hoàn tất, report đã attached và issue done; run có lỗi **bàn giao cuối** được giữ nguyên |
+| NAQ-23 | Paper blocked, unassigned, **NOT_RUN**; không có forward observation |
+| NAQ-24 | Fixture native API sửa/kiểm riêng bàn giao; run `eaa13b37-0663-42c1-8a84-88c8cf69e1c5` succeeded, zero provider calls |
+
+Lượt này rerun đúng contract `crypto-momentum-3d-v1` BTC/ETH D1 trên snapshot cũ
+để kiểm tích hợp; một candidate Gemini, không đổi formula/tune dữ liệu đã xem.
+Requested route `gemini-3.8-flash-high` không chứng minh model nền phía provider.
+Các metric chính bằng NAQ-6: median bốn cửa sổ OOS 180 ngày, BTC 27,52%/17,74%
+ở chi phí 15/30 bps, ETH 1,50%/-6,17%; không phải return gộp toàn kỳ. Candidate
+vẫn research-only, không có holdout kín mới, strategy qualification hoặc broker.
+
+Hermes xác minh dependency UUID, company/agent/parent, source request cố định,
+native run succeeded, receipt completed/published, report/evidence hash và native
+document revision. Hồ sơ số liệu được dựng từ Quant validation, attach thành
+**Nguồn và số liệu phản biện** trước inference, lưu binding ở `review-source.json`.
+Kiểm lại binding trước provider và publication/finalization; thiếu/sửa nguồn,
+failed/cancelled run hoặc parent đã dừng không tự đi tiếp. Settle wait tối đa năm
+giây chỉ đợi native process finalize, không retry provider. Review memory không
+được yêu cầu sửa và không được dùng làm authority.
+
+### Lỗi đã gặp và cách khắc phục
+
+1. Native `in_progress` yêu cầu assignee. Parent tổng hợp không chạy agent;
+   giữ unassigned `todo` trong lúc children làm việc. Ban đầu gán parent cho Board
+   làm run-scoped cross-issue write bị từ chối; đã bỏ lựa chọn đó. Owner chỉ nhận
+   hồ sơ ở bước cuối, qua API quyền native hiện có, không dùng board credentials
+   bên trong worker.
+2. Run Hermes `9e47a800-2c9a-430e-af99-c61dcd2ad2f7` có hai API calls, model
+   hoàn tất và report được giữ, nhưng PATCH parent `in_review` bị 422 vì agent
+   chưa chỉ rõ review path. Sửa bằng `assigneeUserId` của human creator/responsible
+   user trong cùng transition. Giữ receipt failed với `review_delivery=published`;
+   không sửa lịch sử thành succeeded và không gọi lại model. NAQ-24 kiểm chính
+   thao tác đó qua native process/API bằng báo cáo đã có. Board probe từng chuyển
+   parent sang in_review rồi trả todo trước fixture; hiện owner assignment và
+   review state được native agent API xác nhận. Hai tài liệu cũ được ghi rõ là
+   lịch sử/trước recovery; bản sửa đổi gốc còn nguyên.
+3. Lần chạy unittest Hermes đầu dùng console cp1252 gây UnicodeEncodeError khi
+   in tiếng Việt, không phải assertion logic. Dùng `-X utf8`; focused checks đạt.
+
+### Kiểm chứng và giới hạn
+
+- **32 focused tests pass:** shared engine worker 16, workflow 7, Hermes worker
+  4, plugin 5. Gồm schema/path, duplicate start, wrong scope/run/worker, source
+  failed/cancelled/hash/revision change, bỏ binding, cancellation calls, model
+  failure sau attach, partial parent delivery và paper không tự chạy. Không chạy
+  lại broad suite không đổi.
+- Native graph create gọi lại trả cùng bốn IDs. Offline missing-source fixtures
+  NAQ-12–19 đánh thức review nhưng receipts xác nhận `provider_work_started=false`;
+  source completion giả lập không được coi là kết quả nghiên cứu. Các graph thử
+  đã cancelled qua helper, giữ done history. Lỗi self-block status write ban đầu
+  được tránh bằng không PATCH lại issue đã blocked.
+- Cancel helper được kiểm qua fake native API: hủy parent trước, cancel active
+  child run, giữ done history. Hủy graph không có active provider đã kiểm native;
+  native active SDK cancellation dựa trên receipt NAQ-9 trước đó, không lặp lại
+  provider/cancel benchmark. UI chỉ hủy parent không bảo đảm dừng process tức thì;
+  dùng helper hoặc native run cancel. Guard chặn bước tiếp theo/publication.
+- Có một research run thực tế và một Hermes run thực tế; đường tự động dependency
+  đã chạy. Bản sửa bàn giao cuối kiểm riêng offline/native và bằng unit test,
+  **chưa rerun toàn chuỗi provider sau sửa**, vì kết quả model đã có và không cần
+  lặp inference để kiểm status update.
+- Browser đọc được NAQ-20 `in_review`/Board cùng ba children, mở **Kết quả và bước
+  tiếp theo** ở trang native. Iframe Trader hiện dashboard với trạng thái các
+  task. CUA click/focus trong iframe bị “target/root no longer available”; đã
+  chuyển kiểm đọc report sang tab native, không tự coi đây là bằng chứng bug app
+  hoặc toàn bộ interaction trong iframe đạt. Giới hạn này giữ cho lát UI sau.
+- Doctor: bốn source đúng pin/origin/license, tracked source sạch, Paperclip
+  healthy. AI audit cuối: 0 lỗi/0 cảnh báo, global 12.279 B, project 9.099/65.536 B,
+  reserve 56.437 B, combined 21.378 B. Chỉ đồng bộ project Hermes plugin/profile
+  khi worker idle; không đổi global Codex, port, engine pin hoặc provider secret.
+- Handoff: bốn agents idle, timer heartbeats off; paper blocked/unassigned.
+  Không có worker mới/daemon hoặc quyền demo/live. Không phải whole-product
+  audit acceptance hay bằng chứng hệ thống đã tự kiếm tiền.
+
+Evidence local:
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/6b90f0c1-8f91-4fe8-bc15-fc8c58b3ac8f/workflow-handoff-20261102/evidence.json`;
+source/review artifacts giữ theo UUID run. Ảnh native owner report:
+`9e47a800-2c9a-430e-af99-c61dcd2ad2f7/workflow-owner-review.png` dưới cùng artifact
+root/company. Backup DB trước lát này vẫn là native
+`.runtime/paperclip/instances/trader-ui/backups/paperclip-20261102-095653.sql.gz`;
+không restore, migration hoặc restart server trong lượt này.
+
+Bước tiếp: owner đọc hai báo cáo NAQ-21/22, chốt câu hỏi/contract nghiên cứu mới
+trước chạy experiment khác. Đề xuất thêm filter/parameter scan từ báo cáo Hermes
+chỉ là gợi ý chưa được duyệt, không là contract hoặc lệnh tự chạy.

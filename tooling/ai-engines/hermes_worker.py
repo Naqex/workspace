@@ -9,6 +9,7 @@ import sys
 import time
 
 from engine_worker import Paperclip, ROOT, clean_environment, gateway, load_settings, source_pin
+from spot_workflow import review_source, verify_review_source, finish_review
 
 
 def execute(settings_path):
@@ -28,6 +29,15 @@ def execute(settings_path):
     start = time.perf_counter()
     agent = None
     try:
+        source = review_source(client, issue, settings)
+        if source is not None:
+            prompt = source['prompt']
+            receipt['input_sha256'] = hashlib.sha256(prompt.encode()).hexdigest()
+            receipt['source'] = source['binding']
+            (directory / 'review-source.json').write_text(json.dumps(source['binding'], indent=2), encoding='utf-8')
+            (directory / 'dossier.md').write_text(source['dossier'], encoding='utf-8')
+            client.call('/issues/' + issue['id'] + '/documents/source-' + client.run,
+                        {'title': 'Nguồn và số liệu phản biện', 'format': 'markdown', 'body': source['dossier']}, 'PUT')
         receipt['source_commit'] = source_pin('hermes')
         receipt['worker_sha256'] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
         memory = ROOT / '.runtime/hermes/research/memories/MEMORY.md'
@@ -56,6 +66,8 @@ def execute(settings_path):
                 raise ValueError('Unexpected Hermes tool inventory')
             receipt.update(status='running', model=settings['quick_model'], tools=sorted(names),
                            runtime_module=sys.modules['run_agent'].__file__)
+            if source is not None:
+                verify_review_source(client, issue, settings, directory)
             receipt['provider_work_started'] = True
             (directory / 'receipt.json').write_text(json.dumps(receipt, indent=2), encoding='utf-8')
             result = agent.run_conversation(prompt)
@@ -65,14 +77,35 @@ def execute(settings_path):
                 raise RuntimeError('Hermes did not complete publication')
             agent.close()
             agent = None
-        receipt['status'] = 'completed'
+        if source is not None:
+            verify_review_source(client, issue, settings, directory)
         client.call('/issues/' + issue['id'], {'status': 'done',
                     'comment': 'Đã lưu báo cáo phản biện. Kết quả chưa cấp quyền chạy demo hoặc tiền thật.'}, 'PATCH')
+        receipt['review_delivery'] = 'published'
+        finish_review(client, issue, source)
+        receipt['status'] = 'completed'
         return 0
     except Exception as error:
-        receipt.update(status='failed', error_type=type(error).__name__)
+        receipt.update(status='failed', error_type=type(error).__name__,
+                       error=getattr(error, 'code', type(error).__name__))
         # Do not repeat a potentially completed publication or provider attempt.
         print('Hermes chưa hoàn tất. Xem receipt local; không tự chạy lại.', flush=True)
+        if issue.get('parentId'):
+            try:
+                from spot_workflow import graph_context
+                parent, _ = graph_context(client, issue)
+                client.call('/issues/' + parent['id'] + '/documents/workflow-failure-' + client.run,
+                            {'title': 'Bàn giao chưa hoàn tất' if receipt.get('review_delivery') == 'published' else 'Phản biện chưa hoàn tất',
+                             'format': 'markdown',
+                             'body': 'Kết quả đã có được giữ lại; không tự chạy lại model. Xem run và receipt để phân biệt kết quả phản biện với bước bàn giao. Paper vẫn chưa chạy.'}, 'PUT')
+            except Exception:
+                receipt['failure_delivery'] = 'unavailable'
+            try:
+                current = client.call('/issues/' + issue['id'])
+                if current['status'] not in ('done', 'cancelled', 'blocked'):
+                    client.call('/issues/' + issue['id'], {'status': 'blocked'}, 'PATCH')
+            except Exception:
+                receipt['issue_failure_delivery'] = 'unavailable'
         return 1
     finally:
         if agent is not None:

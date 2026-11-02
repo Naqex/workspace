@@ -2,6 +2,28 @@
 
 ## Hướng hiện hành — owner tự setup,01/11
 
+### Lát được giao tiếp — workflow crypto spot nối tiếp, 02/11
+
+Owner đã chọn ưu tiên crypto và giao triển khai workflow spot: nghiên cứu →
+RD-Agent/Quant Lab → Hermes phản biện → owner xem kết quả. Dùng native tasks,
+parent/dependency wakeup của Paperclip; giữ đội và UI gốc. Lượt kiểm tích hợp
+dùng lại contract BTC/ETH D1 cố định đã có, không tune hoặc coi dữ liệu cũ là
+holdout mới. Một lần chạy lại phục vụ kiểm handoff, không tìm số đẹp hơn.
+
+Acceptance: tạo graph idempotent; bước phản biện chỉ đọc đúng output/hash/run
+thành công của dependency; dữ liệu sửa/lỗi/cancel chặn bước sau trước inference;
+báo cáo nguồn và kết quả hiển thị trong Trader. Parent chờ owner review, paper
+giữ NOT_RUN và không mở broker/live/lịch. Kiểm lifecycle/cancel và failure bằng
+fixture offline; một real workflow qua Gemini đủ để xác minh đường tích hợp.
+Source/research qualification/paper acceptance tiếp tục ghi riêng trong receipt
+owner hiện có. Không cần thêm agent, engine hay vá Paperclip core.
+
+**Kết quả:** [NAQ-20](http://127.0.0.1:17860/NAQ/issues/NAQ-20) có research
+NAQ-21 và phản biện NAQ-22 nhận tự động qua native dependency. Đã sửa lỗi bàn giao
+thiếu human review path bằng fixture NAQ-24, không gọi lại model; parent hiện
+`in_review` giao Board, paper NAQ-23 vẫn blocked/NOT_RUN. Receipt giữ run lỗi gốc,
+recovery và giới hạn browser; chưa là chiến lược đạt hoặc toàn bộ AI autonomy.
+
 ### Bổ sung 02/11 — Hermes như worker tùy chọn
 
 Owner duyệt giữ native workers và thử thêm Hermes. Acceptance: profile riêng,

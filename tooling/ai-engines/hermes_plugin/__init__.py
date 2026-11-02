@@ -29,6 +29,10 @@ def publish(args, **kwargs):
         client = Paperclip()
         issue = client.assigned_issue()
         directory = run_directory()
+        if (directory / 'review-source.json').is_file() or '```naqex-review' in (issue.get('description') or ''):
+            from spot_workflow import verify_review_source
+            settings = load_settings(ROOT / '.runtime/ai-engines/settings.json')
+            verify_review_source(client, issue, settings, directory)
         (directory / 'review.md').write_text(report, encoding='utf-8')
         client.call('/issues/' + issue['id'] + '/documents/engine-' + client.run,
                     {'title': 'Kết quả phản biện', 'format': 'markdown', 'body': report}, 'PUT')
