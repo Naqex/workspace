@@ -1007,3 +1007,16 @@ screenshots; không chứa settings/key. Source/plugin final hashes nằm trong
 benchmark và NAQ-11 receipt. `.runtime/hermes/` giữ profile/config/private state
 local, không commit. Paperclip fix hiện là local commit; chưa push/fresh-clone
 acceptance. Không tuyên bố hoàn tất product audit hay toàn bộ AI autonomy.
+
+### Bổ sung — lệnh python3 trên Windows
+
+Owner cho phép bổ sung Python. Máy đã có Python 3.12.10 chính thức; `python3`
+trước đó trỏ Microsoft Store alias. Đã tạo hard link `python3.exe` cạnh
+`C:/Users/MIIKEY/AppData/Local/Programs/Python/Python312/python.exe`, dùng cùng
+binary/hash và standard library, không cài interpreter trùng hoặc sửa PATH.
+Smoke import `ssl`, `sqlite3`, `venv` đạt. Hai file `detect-model.test.ts` và
+`profile-environment.test.ts` hiện **10/10 pass**, thay giới hạn hai test lỗi
+đã ghi ở lượt trước. Không sửa test/source Paperclip hoặc gọi provider lại.
+Rollback riêng alias bằng cách xóa đúng `Python312/python3.exe`, giữ `python.exe`.
+AI-environment audit sau thay đổi: 0 lỗi/0 cảnh báo; instruction sizes và reserve
+giữ nguyên các số đã ghi ở lượt trước.
