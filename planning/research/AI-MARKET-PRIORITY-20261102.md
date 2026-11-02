@@ -5,6 +5,12 @@ khởi đầu đang được giải thích ở lựa chọn spot/futures, chưa 
 Liên quan [brief kiến trúc](AUTONOMOUS-TRADING-SYSTEM-BRIEF.md).
 Không cài tool, chạy provider, tải thêm dataset hoặc thay runtime trong khảo sát này.
 
+**Bổ sung cùng ngày sau khảo sát:** owner cho biết có 15 triệu đồng và ưu tiên
+prop firm. [Khảo sát nguồn vốn/prop](PROP-FIRM-FIT-20261102.md) mở lại lựa chọn
+thị trường triển khai theo nguồn vốn; chưa chốt thay crypto bằng Forex hoặc
+perpetual. Kết luận spot phía dưới giữ giá trị baseline nghiên cứu, không tự
+là lựa chọn nguồn vốn hoặc sản phẩm phù hợp challenge.
+
 ## Kết luận
 
 Ưu tiên **BTC/ETH spot, long/cash, khung ngày** cho workflow nghiên cứu đầu tiên.

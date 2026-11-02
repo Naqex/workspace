@@ -28,6 +28,11 @@ là đánh giá cảm quan của owner, không phải acceptance đã kiểm ch�
 Đã chốt nghiên cứu mở trong phạm vi nhỏ; khởi đầu chỉ mô phỏng/demo, xét tiền
 thật sau khi chiến lược có bằng chứng đạt tiêu chí và quyền tương ứng.
 
+Bổ sung 02/11: owner ưu tiên nguồn vốn prop firm; đang xem
+[khảo sát prop và ảnh hưởng chọn thị trường](research/PROP-FIRM-FIT-20261102.md).
+Chưa chốt công ty/thị trường lại, chưa duyệt phí challenge. Crypto spot giữ làm
+baseline; không tự tiếp execution theo lựa chọn thị trường trước bổ sung này.
+
 ## Naqex migration — 29/10/2026
 
 Owner approved the Naqex ecosystem migration: `Naqex/workspace` plus independent

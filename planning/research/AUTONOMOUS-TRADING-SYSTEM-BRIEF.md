@@ -20,6 +20,13 @@ execution plan, acceptance ledger hoặc hợp đồng cấp quyền giao dịch
   đóng góp cho kiến trúc đích; tránh làm bản ngắn hạn chỉ để có tính năng.
 - Thị trường đầu tiên: **owner đồng ý ưu tiên crypto ngày 02/11**. Forex/vàng
   qua MT5 là nhánh có thể mở rộng sau, không là ưu tiên triển khai đầu tiên.
+- **Bổ sung sau đó, 02/11:** owner mới ra trường, hiện có 15 triệu đồng và muốn
+  ưu tiên prop firm; yêu cầu khảo sát trước khi triển khai tiếp. Quyết định crypto
+  phía trên là baseline lịch sử, chưa mặc định là thị trường dùng cho nguồn vốn
+  prop. [Khảo sát prop firm](PROP-FIRM-FIT-20261102.md) đề xuất mô phỏng FTMO
+  2-Step Swing trước, The5ers là ứng viên thử phí thấp, HyroTrader là nhánh crypto
+  còn điều kiện. Chưa owner chốt công ty/thị trường lại hoặc duyệt phí challenge.
+  Chưa rõ 15 triệu có bao gồm quỹ sinh hoạt/dự phòng; không tự cấp ngân sách retry.
 - [Khảo sát thị trường 02/11](AI-MARKET-PRIORITY-20261102.md) đề xuất ưu tiên
   BTC/ETH spot khung ngày cho workflow nghiên cứu đầu tiên, theo data/chi phí
   triển khai và tài sản workspace. Owner đang hỏi rõ spot so với futures;
