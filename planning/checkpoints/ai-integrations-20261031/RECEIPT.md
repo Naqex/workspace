@@ -1845,3 +1845,104 @@ provenance, trạng thái, lỗi/hủy/retry và tránh worker trùng bằng cơ
 Không khởi động job/worker mới trong lượt điều chỉnh context này. Chưa có
 acceptance end-to-end Forex qua Paperclip; các kết quả offline bên trên giữ
 nguyên giá trị/phạm vi. Không mở quyền broker từ ưu tiên hoàn thiện hệ thống.
+
+### Workflow Forex native xuyên suốt — 02/11/2026
+
+Theo giao việc tiếp theo của owner, đã nối và chạy **một bài mẫu hệ thống**:
+Paperclip → dữ liệu QDM đã pin → runner Forex hiện có → Hermes/Gemini →
+native documents → human review trong Trader5180. Không đổi chiến lược,
+mở validation/holdout, gọi broker hoặc chạy lại Q1.
+
+Source: Trader `c1f9b821` thêm explicit argv/progress callback cho runner;
+workspace `b731d58` thêm adapter Forex, reuse lifecycle `spot_workflow.py`
+với profile `forex`. Worker mới **Chuyên viên kiểm định** chạy Python offline
+trong cùng process; các engine/worker cũ giữ vai trò. Không sửa Paperclip core.
+Independent source review phát hiện binding và pre-start scope cần siết;
+đã sửa và có regression checks trước commit.
+
+Focused source checks: wrapper suite53tests đạt; sau scope regression cuối,
+workflow12tests đạt (54unique cases tổng hợp, không tuyên bố chạy lại cả54).
+Adapter7tests đạt; Trader H4 runner11tests+11subtests đạt. Build/test là bằng
+chứng source; các lượt native/browser bên dưới là bằng chứng runtime riêng.
+
+#### Lượt thật và provenance
+
+| Công việc | Kết quả quan sát |
+|---|---|
+| [NAQ-25](http://127.0.0.1:17860/NAQ/issues/NAQ-25) | `in_review`, giao `local-board`; có tài liệu **Kết quả và bước tiếp theo** |
+| NAQ-26 — dữ liệu/mô phỏng | `done`, native run `cf852f42-d6aa-4bf8-8311-50d90cf93881` succeeded/exit0; không gọi model |
+| NAQ-27 — Hermes | Tự nhận sau dependency; `done`, run `2458ca3d-5847-40ed-babb-17bc9e92e578` succeeded/exit0 |
+| NAQ-28 — paper | `blocked`, không gắn agent, **NOT_RUN** |
+
+Graph key `forex-system-20261102`; không tạo key khác để lặp lượt thành công.
+Hai CSV QDM và spec FTMO giữ hash đã đăng ký. Mô phỏng kiểm đúng oracle cũ:
+643.775ticks,3lệnh đóng, balance delta−19,94/−23,80USD. Đây chỉ là fixture
+kiểm hệ thống, không là chiến lược mới hay bằng chứng qualification.
+Hermes dùng route `gemini-3.8-flash-high`,2API calls trong một lượt review,
+46,27giây. Route không chứng minh tên model nền của provider. Cả workflow
+từ dispatch tới bàn giao khoảng3phút26giây; chưa benchmark năng lực scale.
+
+Đã đối soát hash body và revision của hai native documents NAQ-26 với receipt
+numeric và source binding của Hermes. Báo cáo phản biện/nguồn được publish;
+không chạy lại model để sửa delivery. `strategy_qualified=false`,
+`execution_authorized=false`. Native verification xác nhận không agent running
+sau các lượt này. Artifacts nằm ngoài repo dưới
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/<company>/<run>/`.
+
+#### Hủy, lỗi và chạy lại
+
+Fixture riêng **NAQ-29–32**, key `forex-system-cancel-20261102`, kiểm hủy khi
+numeric process thực sự đã bắt đầu: run `cb5e3ba9-38aa-4e35-921e-acfe15b8fa36`
+chuyển native `cancelled`, cả graph cancelled, process4356 không còn,
+không success document và không model call. Receipt numeric còn `running`
+sau hard kill là evidence interrupted/unknown; native cancellation là trạng
+thái terminal, không sửa receipt để giả là engine hoàn tất.
+
+Source checks bao phủ data/spec/hash lỗi, nguồn/reparent/parent manifest đổi,
+dependency chưa đạt, cancel, duplicate dispatch và publish lỗi. Same key không
+reset started work. Retry phải xem run+receipt và tạo lượt mới rõ ràng;
+checkpoint JSON giữ bằng chứng, chưa có CLI resume numerical replay.
+Hủy parent trong UI chặn bước sau/publication và được numeric nhận ở progress
+boundary; hủy native run dừng process hiện hành. Lệnh wrapper `cancel --parent`
+hủy cả graph/run. **Chưa có một nút native UI tạo/hủy trọn graph**; không coi
+pilot này là hoàn thiện mọi thao tác owner hoặc tự chủ toàn hệ thống.
+
+#### Sửa bridge và kiểm trên Trader5180
+
+Tái hiện GET `/integrations/paperclip/health` trả200HTML thay JSON: runtime
+checkout cũ thiếu plugin/module bridge và local-services registry; source
+canonical đã có. Backup tại
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/forex-system-ui-bridge-20261102/`.
+Đã promote đúng bridge/registry và sửa config runtime tối thiểu; restart
+chỉ UI Vite PID28896 đã xác minh creation/executable → PID976. Không restart
+API8010 hoặc MT5. Owner receipt UI cũ ghi PID4024 đã stale; không dùng PID đó
+để stop. Hash Trader served index giữ nguyên
+`873f7cd66edd414e40f76f3f4b5ad85945271947ffa71107433c6a45a26827c9`.
+Health hiện trả JSON `ok`, pin Paperclip `2e0f8f84`.
+
+Phát hiện thêm preference build chỉ tin host5218 nên native frame ở5180
+không nhận VI/EN. Launcher có `--workspace-origin`, kiểm exact loopback origin
+và khớp owner; mặc định5218 giữ tương thích.4CLI refusal cases và reuse instance
+đúng origin đạt; review độc lập không thấy lỗi cần sửa. Build static UI với
+origin5180, promote index/SW sau copy assets mới và giữ assets cũ/branding.
+Server Paperclip PID23764/database giữ nguyên; không cần restart vì server
+đọc index từ đĩa mỗi request. Rollback index/SW/owner và promotion receipt tại
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/forex-system-paperclip-ui-20261102/`.
+Lần rename đầu lỗi PowerShell chuyển null backup thành empty path; đã hoàn
+tất bằng overwrite rename sau backup, xác minh hash và native rendered UI.
+Build còn warnings upstream về chunk size/config/CSS; chưa là speed audit.
+
+Browser5cases đạt trên actual5180: mở summary, link numeric report và actual
+Hermes report, đổi VI/EN/chuyển tab giữ document+route+report,390px không
+horizontal overflow. Đã xem screenshot1920/390. Không pageerror hoặc request
+ngoài allowlist; chỉ cho phép native read marks của3task đã biết ngoài GET.
+Hai lần test harness lỗi selector normalization/stale Frame handle được lưu
+riêng, sửa harness rồi chạy đạt; không sửa source để né lỗi test.
+Browser report/screenshots và native hash verification ở backup bridge
+`browser/` và `native-verification.json`. Không kiểm toàn bộ UI/Paperclip,
+broker acceptance, outage recovery dài hạn hoặc system-wide autonomy.
+
+**Bước tiếp:** hoàn thiện thao tác owner tạo mẫu/hủy cả workflow ngay trên UI,
+ưu tiên khả năng native Paperclip trước custom UI. Reuse luồng đã kiểm; không
+chạy lại fixture/model thành công hoặc chuyển sang tuning. Tiếp tục giữ riêng
+qualification/paper/live và gate chi phí broker còn thiếu.

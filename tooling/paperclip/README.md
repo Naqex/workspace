@@ -11,6 +11,13 @@ cấp sản phẩm. Menu ngoài giữ lựa chọn của người dùng trên de
 menu trên mobile.
 Document của iframe được giữ khi chuyển sang công cụ khác trong cùng tab.
 
+Host Trader cần cả `web/paperclipBridge.mjs`, plugin `localPaperclip()` trong
+Vite config và `foundation_v2/local-services.json` cùng bản UI. Khi cập nhật
+checkout runtime cũ, chỉ chép `dist` là chưa đủ cho route health. GET
+`http://127.0.0.1:5180/integrations/paperclip/health` phải trả JSON với
+`status: "ok"`; HTTP200 chứa HTML của SPA vẫn là bridge chưa được cài.
+Sửa middleware chỉ cần restart UI Vite đúng owner, không cần restart API/MT5.
+
 ## Cài và chạy local
 
 Cần Node.js >=24.11 và Git. Từ workspace root:
@@ -93,8 +100,17 @@ RD-Agent vẫn paused. Chưa nối broker, dữ liệu Trader hoặc ánh xạ c
 VI/EN của Trader được đồng bộ tới Paperclip qua message chỉ dành cho preference;
 kiểm exact origin + parent window, không đổi iframe URL hay tải lại bản nháp.
 Launcher cấp `VITE_NAQEX_WORKSPACE_ORIGIN` từ cổng AI preview trong registry.
-Hiện chỉ origin preview đó được tin cậy; host ở cổng khác cần cấu hình lại và
-kiểm chứng trước khi coi ngôn ngữ đã đồng bộ. Mở riêng dùng ngôn ngữ đã lưu hoặc EN.
+Mặc định chỉ origin preview đó được tin cậy. Khi dùng Trader chính ở5180, chờ
+native runs kết thúc, dừng đúng instance owner rồi chạy:
+
+```powershell
+node tooling/paperclip/run-local.mjs --workspace-origin http://127.0.0.1:5180
+```
+
+Launcher kiểm exact loopback origin, build lại UI và ghi `workspaceOrigin` vào
+owner receipt. Gọi lại phải dùng cùng origin; không tự restart instance đang
+chạy để đổi cấu hình. Chỉ một origin host được tin cậy mỗi lần build; không dùng
+wildcard hoặc nới kiểm `event.source`. Mở riêng dùng ngôn ngữ đã lưu hoặc EN.
 
 Bản dịch đã mở rộng sang cấu hình, agents, công việc, kết nối, kỹ năng, chi phí,
 dự án và các menu/dialog chuyên sâu. Nội dung người dùng, hướng dẫn skill, mã

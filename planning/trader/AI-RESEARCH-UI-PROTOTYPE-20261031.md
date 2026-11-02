@@ -37,6 +37,10 @@ thành phần. Phát triển/đánh giá chiến lược là giai đoạn tiếp
 và tiêu chí riêng. [Receipt](../checkpoints/ai-integrations-20261031/RECEIPT.md)
 giữ trạng thái và bước tiếp; mục này chỉ giữ scope/acceptance.
 
+Điểm tiếp tục sau pilot02/11: mục **Workflow Forex native xuyên suốt** trong
+receipt. Hoàn thiện cách owner tạo mẫu/hủy cả graph qua UI bằng khả năng native
+trước; không chạy lại pilot đã thành công hoặc coi task review là duyệt paper.
+
 ### Bằng chứng nền — Forex/prop offline, 02/11
 
 Owner đã đăng nhập FTMO demo; thông số EURUSD được đọc/pin. Contract mục10

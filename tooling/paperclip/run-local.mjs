@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url'
 import { execFileSync, spawn } from 'node:child_process'
 import { connect } from 'node:net'
 import { readFileSync, unlinkSync } from 'node:fs'
+import { parseArgs } from 'node:util'
 import services from '../../projects/trader/foundation_v2/local-services.json' with { type: 'json' }
 
 const ports = [services.paperclipPort, services.paperclipHmrPort, services.paperclipDatabasePort]
@@ -12,6 +13,14 @@ if (services.host !== '127.0.0.1' || ports.some(port => !Number.isInteger(port) 
   throw new Error('Invalid loopback Paperclip ports in Trader local-services.json')
 }
 const origin = `http://${services.host}:${services.paperclipPort}`
+const { values } = parseArgs({ options: { 'workspace-origin': { type: 'string' } } })
+const workspaceOrigin = values['workspace-origin'] ?? `http://${services.host}:${services.aiPreviewPort}`
+const workspaceUrl = new URL(workspaceOrigin)
+if (workspaceUrl.protocol !== 'http:' || workspaceUrl.hostname !== services.host
+  || workspaceUrl.origin !== workspaceOrigin || !workspaceUrl.port
+  || Number(workspaceUrl.port) < 1024 || ports.includes(Number(workspaceUrl.port))) {
+  throw new Error('Workspace origin must be an exact dedicated loopback HTTP origin')
+}
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const source = path.join(root, 'projects/integrations/paperclip')
@@ -34,6 +43,7 @@ if (owner && (alive(owner.serverPid) || alive(owner.launcherPid))) {
   const health = response?.ok ? await response.json() : null
   if (owner.source !== source || !health || health.status !== 'ok' || health.commit !== commit) throw new Error('An existing Paperclip owner is starting, unavailable or on a different revision. Inspect owner.json before restarting.')
   if (owner.uiMode !== 'static') throw new Error('The owned Paperclip instance is using an older UI mode. Stop that owner before starting the built UI; see tooling/paperclip/README.md.')
+  if ((owner.workspaceOrigin ?? `http://${services.host}:${services.aiPreviewPort}`) !== workspaceOrigin) throw new Error('Paperclip trusts another embedding origin. Finish active runs, stop the owned instance and restart with the intended --workspace-origin.')
   console.log(`Paperclip is already running: ${origin}`)
   process.exit(0)
 }
@@ -85,7 +95,7 @@ const env = Object.fromEntries(Object.entries(process.env).filter(([key]) => inh
 Object.assign(env, {
   PAPERCLIP_HOME: home, PAPERCLIP_INSTANCE_ID: 'trader-ui', PAPERCLIP_CONFIG: configPath,
   HOST: services.host, PORT: String(services.paperclipPort), PAPERCLIP_UI_DEV_MIDDLEWARE: 'false',
-  VITE_NAQEX_WORKSPACE_ORIGIN: `http://${services.host}:${services.aiPreviewPort}`,
+  VITE_NAQEX_WORKSPACE_ORIGIN: workspaceOrigin,
   HEARTBEAT_SCHEDULER_ENABLED: 'false', PAPERCLIP_ANNOUNCEMENTS_ENABLED: 'false',
 })
 // Build with the same embedding origin as the runtime. Dev dependency discovery
@@ -99,7 +109,7 @@ const child = spawn(process.execPath, ['--import', './node_modules/tsx/dist/load
 })
 await writeFile(ownerPath, JSON.stringify({
   launcherPid: process.pid, serverPid: child.pid, startedAt: new Date().toISOString(), source, commit,
-  origin, uiMode: 'static', hmrPort: services.paperclipHmrPort, databasePort: services.paperclipDatabasePort, configPath,
+  origin, workspaceOrigin, uiMode: 'static', hmrPort: services.paperclipHmrPort, databasePort: services.paperclipDatabasePort, configPath,
 }, null, 2))
 for (const signal of ['SIGINT', 'SIGTERM']) process.on(signal, () => child.kill(signal))
 child.on('error', error => { console.error(error.message); process.exitCode = 1 })
