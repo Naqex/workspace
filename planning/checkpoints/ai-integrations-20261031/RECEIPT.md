@@ -1119,3 +1119,67 @@ không restore, migration hoặc restart server trong lượt này.
 Bước tiếp: owner đọc hai báo cáo NAQ-21/22, chốt câu hỏi/contract nghiên cứu mới
 trước chạy experiment khác. Đề xuất thêm filter/parameter scan từ báo cáo Hermes
 chỉ là gợi ý chưa được duyệt, không là contract hoặc lệnh tự chạy.
+
+## 02/11 — kiểm lại ứng viên cũ và đánh giá khả năng dùng tiền
+
+Owner giao tiếp tục và hỏi hệ thống có thể kiếm tiền chưa. Thực hiện một lượt
+offline với **quy tắc Donchian100/50 + vol30%/lookback30 đã có**, không làm theo
+gợi ý filter/scan, không thêm model/engine hoặc mở dữ liệu chưa xem. Báo cáo dễ
+đọc: [mức sẵn sàng](STRATEGY-READINESS-20261102.md); issue umbrella #6 vẫn mở.
+
+### Thí nghiệm và kết luận
+
+- Snapshot BTC/ETH 2021–2024, 1.461 nến mỗi tài sản; contract ghi trước đánh giá,
+  source Quant `943b779d`. Bốn cửa sổ 180 ngày, 01/01/2023–20/12/2024,
+  cash/buy-hold cùng input/timing/cost. Phí10 + slippage5 bps, stress40bps tổng.
+  Không tune, không portfolio claim, không thống kê ý nghĩa/qualification.
+- Hoàn tất 104,26 giây, provider calls0. Trung vị lợi nhuận cửa sổ: BTC16,87%
+  (stress15,87%), ETH8,23% (7,87%). Mua và giữ lần lượt51,71% và36,90%.
+  Worst drawdown **trong các cửa sổ**: BTC−11,96% (−12,69%), ETH−14,20%
+  (−14,39%), so passive−20,93%/−37,07%. Không gán các số này cho cả giai đoạn.
+  Mỗi tài sản3/4 cửa sổ lãi; cửa sổ đầu vẫn lỗ và giữ trong report/validation.
+- Chưa đủ bằng chứng dùng tiền thật: dữ liệu đã consumed, giá khớp vẫn xấp xỉ
+  close-to-close; chưa forward observation/portfolio xuyên suốt/chi phí vận hành
+  và risk budget. Giảm drawdown nhưng ít return hơn không tự phủ định mục tiêu
+  giảm rủi ro; có lãi lịch sử cũng không xác nhận edge tương lai.
+- Native document `strategy-readiness-20261102` trên NAQ-20 đã PUT rồi GET lại,
+  body SHA `c85e932482dc20fc95ca56821707f5d9fdbe69e931378344a162a25d6f28fe44`
+  khớp report repo. Đây là operator publication, không giả làm native AI run.
+  Parent giữ `in_review`/local-board; paper blocked/unassigned/NOT_RUN,0ngày;
+  bốn agents idle/timers off. Không dispatch, broker/demo/live hoặc lịch mới.
+
+### Lỗi chất lượng dữ liệu đã sửa
+
+- Tái hiện ở pandas2.3.3 (Quant) và worker3.0.6: integer timestamp us từng bị
+  chia cố định1e9, daily86.400giây thành86,4giây; missing-day fixture bị nhận
+  accepted/gap_count0. Trước sửa regression s/ms/us fail, ns pass.
+- Source `quant_trading/data_quality.py` đổi sang
+  `timestamps.diff().dropna().dt.total_seconds()`, không sửa/fill nến.
+  Quant commit `52f6501c4058d46e298678d963908b5ef76d84e8`.
+- 21 quality tests trên từng môi trường đạt, gồm regular/missing-day/rejection
+  và input bất biến cho s/ms/us/ns. 7 RD workflow tests đạt; hai dòng stdout
+  failed/completed trong suite là kết quả fixture mocked delivery, không real run.
+  Ruff hai file sửa đạt, diff review đạt; không chạy broad suite không liên quan.
+  pandas3 của worker nằm ngoài range Quant<3; focused pass chưa là full compatibility.
+- Snapshot cũ có quality metadata sai, sau sửa preflight từ chối đúng như kỳ vọng.
+  Tạo `crypto-daily-2021-2024-quality-r2` từ đúng CSV, raw/canonical data hash
+  giữ nguyên; audit mới86.400giây/gap0,1.461nến mỗi tài sản, preflight đạt.
+  Manifest SHA `9b95da82fc591dccee5f9b8f32025476e226a8da02806959305a92e5048f0c38`.
+  Dataset pin settings riêng chuyển khi workers idle, backup settings trước đổi.
+  Không ghi đè manifest cũ/receipts lịch sử hoặc gọi dữ liệu này là OOS mới.
+- Run số diễn ra trước sửa có exact UTC-index và timedelta cadence check độc
+  lập; post-fix revalidation xác minh cùng nến/hash. Không lặp backtest chỉ để
+  sửa metadata, không gán source mới cho kết quả cũ.
+- Git commit Quant thành công nhưng automatic geometric-repack báo bad object
+  ở ref `refs/codex/turn-diffs/checkpoints/...` của ứng dụng. HEAD/diff/source
+  commit xác nhận được; không xóa ref hoặc sửa Git maintenance ngoài phạm vi.
+
+Evidence dưới artifact root/company phía trên:
+`donchian-frozen-review-20261102/` giữ run.py/contract/validation/report/receipt và
+`owner-readiness-publication.json`; `quality-revalidation-20261102/` giữ script,
+preflight và receipt hash cũ/mới. `STRATEGY-READINESS-20261102.md` dẫn chi tiết.
+
+Bước tiếp: kiểm execution/accounting trên ứng viên cố định và chốt tiêu chí
+rủi ro/lợi ích; sau bằng chứng phù hợp mới lập forward paper contract. Không tự
+thêm engine, mở lịch hoặc sử dụng vốn từ kết quả này. Whole-product audit,
+full autonomy và khả năng sinh lời vẫn chưa được công nhận.

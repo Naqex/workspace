@@ -24,6 +24,21 @@ thiếu human review path bằng fixture NAQ-24, không gọi lại model; paren
 `in_review` giao Board, paper NAQ-23 vẫn blocked/NOT_RUN. Receipt giữ run lỗi gốc,
 recovery và giới hạn browser; chưa là chiến lược đạt hoặc toàn bộ AI autonomy.
 
+### Tiếp tục 02/11 — kiểm ứng viên cũ và mức sẵn sàng dùng tiền
+
+Owner hỏi hệ thống đã kiếm tiền được chưa và giao tiếp tục. Lát này kiểm lại
+Donchian100/50 + vol30% đã có trên snapshot BTC/ETH cũ, không tìm tham số, gọi
+model hoặc mở holdout/broker. Contract ghi trước đánh giá; kết quả là chẩn đoán
+dữ liệu đã xem, không phải qualification. Tái hiện rồi sửa lỗi đơn vị timestamp
+ở quality audit Quant Lab; reissue manifest từ đúng CSV/hash cũ, giữ lịch sử.
+
+Kết quả và giới hạn trong [báo cáo owner](../checkpoints/ai-integrations-20261031/STRATEGY-READINESS-20261102.md)
+và receipt cùng thư mục; bản đọc đã đăng vào tài liệu NAQ-20, parent vẫn chờ
+owner, paper NOT_RUN. Bước sau ưu tiên kiểm giá khớp/accounting thực tế và tiêu
+chí rủi ro trước forward paper; không thêm engine hay coi lợi nhuận backtest là
+quyền dùng tiền thật. Lỗi timestamp đã có focused regression, chưa phải audit
+toàn bộ Quant Lab hoặc toàn sản phẩm.
+
 ### Bổ sung 02/11 — Hermes như worker tùy chọn
 
 Owner duyệt giữ native workers và thử thêm Hermes. Acceptance: profile riêng,
