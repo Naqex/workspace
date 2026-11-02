@@ -1450,3 +1450,77 @@ spec/cost scenario (commission, financing/rollover, lot/tick/margin và rounding
 đăng ký manifest tick cùng provenance/row sequence trước khi nối một probe
 BUY/SELL offline trong giờ12:00–13:00. Không suy phí năm2022 từ công bố2025,
 không mặc định swap=0. Chưa có H4 warmup/strategy runner, edge hoặc Prop pass.
+
+## 02/11 — Probe BUY/SELL trên tick QDM, accounting đạt
+
+**ACCOUNTING PASSED ONLY; BROKER SPEC / STRATEGY / PROP NOT QUALIFIED.**
+Source Trader `62411d0b`: script `foundation_v2/scripts/forex_pilot_probe.py`
+và `foundation_v2/tests/test_forex_pilot_probe.py`. Không thay core accounting,
+risk guard, API/UI, DB hoặc runtime; không kết nối broker hay chạy provider AI.
+
+### Đăng ký và nguồn
+
+Contract Forex mục7 được ghi trước lượt tính P/L. Cùng CSV đã pin hash, chỉ
+12:00–13:00 UTC ngày03/01/2022; giá cuối trước12:00 làm reference SL, không
+dùng giá tương lai để chọn chiều/size/stop. Hai account độc lập10.000 USD,
+BUY/SELL0,01lot; mỗi chiều baseline/slippage stress0,00002 mỗi chiều. Không
+chọn lượt có lãi hoặc tìm tham số. Script chỉ nhận đúng hash registered CSV,
+kiểm authorized day trước price fields, source order/millisecond và đủ60 phút;
+không fill khoảng trống hoặc export thêm data. Manifest pin CSV/window hash,
+source code hashes, reference và assumptions trước tính outcomes.
+
+Đọc lại nguồn chính thức02/11:
+
+- [Commission update25/09/2025](https://ftmo.com/en/blog/trading-updates/trading-update-25-sep-2025/):
+  2,50 USD/lot/chiều từ29/09/2025; cho probe0,01lot là0,025 mỗi chiều,
+  0,05 roundtrip. Đây là scenario giá2022 với published reference, chưa là phí2022.
+- [Swing FAQ](https://ftmo.com/en/faq/what-is-the-swing-account-type-and-how-does-it-work/):
+  base leverage1:30, dùng fixed research margin hiện có, chưa tiered/stop-out.
+- [Symbols](https://ftmo.com/en/symbols/): search index của primary page trả
+  contract100.000 và Swing leverage1:30 cho EURUSD. Page extractor không render
+  dynamic table; urllib gặp SSL EOF. Không coi search cache là actual terminal
+  spec, không lấy swap trong cache làm lịch sử. Lot min/step0,01, price step
+  0,00001, pip0,0001 và rounding2-decimal vẫn được gắn observed/assumed tương ứng.
+- [Update29/10/2026](https://ftmo.com/en/blog/trading-updates/trading-update-29-oct-2026/):
+  swaps có thể đổi; cần contract specification. Probe bắt buộc flat trước13:00
+  UTC, không qua midnight rollover; financing0 vì không có sự kiện rollover
+  trong cửa sổ này, không hàm ý swap rate0 hoặc strategy H4 được phép bỏ swap.
+
+### Luồng và kết quả
+
+CSV hash → parse giữ row ordinal làm sequence → tick windows1 phút → pilot
+risk admission → core Bid/Ask accounting → SL nếu chạm, hoặc tất toán giá trị
+tại quote cuối kỳ → JSON restore/validation → Decimal oracle độc lập.
+Cả4 lượt này dùng terminal valuation; không ghi nhận stop fill trong mẫu thật.
+Helper close dùng quote canonical cuối cùng, **chưa chứng minh một lệnh đóng
+gửi sau đó có thể khớp giá ấy**. Rủi ro causal exit cần xử lý trước strategy.
+
+| Chiều | Slippage/chiều | Gross USD | Commission USD | Slippage USD | Net USD |
+|---|---|---|---|---|---|
+| BUY |0 |0,28 |0,05 |0 |0,23 |
+| BUY |0,00002 |0,28 |0,05 |0,04 |0,19 |
+| SELL |0 |−0,34 |0,05 |0 |−0,39 |
+| SELL |0,00002 |−0,34 |0,05 |0,04 |−0,43 |
+
+Chỉ là phép đối soát tài khoản trên một giờ, không là return chiến lược hoặc
+bằng chứng edge. Oracle độc lập kiểm fill side, gross/fees/net/balance, margin
+notional/leverage; stress delta đúng−0,04 USD. Cả4 snapshot JSON restore đạt,
+flat cuối kỳ; mỗi lượt quan sát3.829 tick. Spread chỉ tính qua Bid/Ask một lần.
+
+`python -m unittest discover -s foundation_v2/tests -p test_forex_pilot_probe.py
+-v`: **3 tests passed**, gồm cả BUY/SELL terminal valuation/cost sensitivity,
+SL gap fill đúng một lần và parser từ chối sai hash/header/day/order/missing
+minute. Synthetic fixture không phải dữ liệu thị trường; giữ riêng với4 lượt
+thật. Không chạy lại65 tests source core/risk không đổi. Diff checks đạt.
+
+Artifacts local (không đưa CSV/checkpoint giá vào Git):
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/forex-prop-pilot-20261102/accounting-probe-20261102/`.
+`manifest.json`, `results.json`, `receipt.json` giữ hashes, command, source SHA,
+snapshots/ledgers và scope. Sau commit kiểm source hashes vẫn trùng manifest.
+Không update gitlink Trader, không push/deploy hoặc mua challenge.
+
+**Resume:** probe accounting nhỏ đã xong, không cần tải QDM hay lặp probe.
+Trước strategy H4: nối causal exit (quote tiếp theo sau quyết định, giữ đúng
+risk latch), timed financing/rollover và broker spec/cost profile có nguồn;
+đăng ký warmup/development manifest trước export thêm. Lot/margin/rounding của
+account cụ thể vẫn chưa verified. Chưa mở validation/holdout, broker/trial/live.

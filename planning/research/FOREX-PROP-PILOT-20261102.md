@@ -107,7 +107,8 @@ QDM giới hạn cả ngày03/01/2022 (CLI nhận ngày), rồi kiểm riêng gi
 Mẫu M1 ban đầu là `provider_default`; sau tải cache đã export65.215 tick
 Bid/Ask Dukascopy ngày03/01/2022, có3.829 tick trong giờ đăng ký. Header,
 millisecond, UTC, thứ tự và giá đã kiểm;15 phút không có quote được giữ nguyên.
-Hash/provenance/coverage ở receipt; chưa chạy BUY/SELL probe hoặc strategy thật.
+Hash/provenance/coverage ở receipt; probe BUY/SELL accounting đã đạt theo
+scenario mục7, chưa chạy strategy thật hoặc xác minh khớp lệnh broker.
 Raw data chỉ lưu local cho nghiên cứu, chưa duyệt quyền redistribution.
 Không tiếp cận giá validation/holdout hoặc biến export thành strategy return.
 
@@ -173,3 +174,40 @@ Kiểm chứng source: 13 ca pilot synthetic, 22 ca tick execution, 20 ca Prop
 connection và 10 ca immediate execution đạt. Ca stress đóng chậm dùng vị thế
 carried cố tình quá lớn để kiểm guard; normal admission sẽ từ chối stop rộng
 đó. Kết quả/commands/source revision ở receipt AI; không suy ra hiệu quả kiếm tiền.
+
+## 7. Probe accounting đăng ký trước outcome — 02/11
+
+Chỉ dùng tick ngày03/01/2022,12:00–13:00 UTC. Hai account mô phỏng độc lập,
+mỗi account10.000 USD, một BUY hoặc SELL0,01lot; không chọn chiều theo outcome.
+Queue trước12:00, khớp quote đầu từ12:00; SL BUY = bid cuối trước12:00 −0,0010,
+SL SELL = ask cuối trước12:00 +0,0010. Không TP; nếu chưa chạm stop thì tất toán
+giá trị tại quote cuối trước13:00 bằng helper close hiện có. Đây là valuation
+cuối kỳ, chưa bảo đảm có thể khớp lệnh đóng thực tế ở quote đã qua. Đây là probe,
+không entry/exit của candidate H4. Nếu thiếu phút, fail thay vì bù quote.
+
+Scenario tham chiếu công bố, không tái dựng account FTMO năm2022:
+
+| Trường | Giá trị và mức xác minh |
+|---|---|
+| Contract/đơn vị |100.000 EUR/lot; reference từ bảng [Symbols](https://ftmo.com/en/symbols/) được search index trả về; chưa xác nhận terminal mục tiêu |
+| Leverage |1:30 theo [Swing FAQ](https://ftmo.com/en/faq/what-is-the-swing-account-type-and-how-does-it-work/); core dùng fixed research margin, chưa tiered/stop-out |
+| Commission |2,50 USD/lot/chiều từ [update25/09/2025](https://ftmo.com/en/blog/trading-updates/trading-update-25-sep-2025/), áp scenario cho giá2022;0,01lot →0,025 USD/chiều |
+| Tick/pip |0,00001 quan sát từ CSV; pip0,0001 là quy ước probe, chưa verified broker tick-value |
+| Lot min/step |0,01/0,01 là giả định khai báo, chưa account-specific verified |
+| Spread |Nhúng trong Bid/Ask, không cộng thêm spread cố định |
+| Slippage |Baseline0; stress0,00002/chiều (giá), cùng quote/entry/exit; đây là sensitivity giả định |
+| Rounding |ROUND_HALF_UP2 số lẻ trên tổng tiền; chưa xác nhận rounding mỗi chiều của broker |
+| Financing |0 cho probe intraday này vì bắt buộc flat trước13:00 UTC, không có rollover; không phải swap rate bằng0 |
+
+[Update29/10/2026](https://ftmo.com/en/blog/trading-updates/trading-update-29-oct-2026/)
+nhắc swap thay đổi và phải kiểm contract; chưa pin swap points/triple-day để
+chạy strategy qua đêm. Public symbols dynamic không trả bảng qua page extractor;
+không dùng giá trị swap trong search cache làm historical schedule. Probe phải
+ghi assumptions và `broker_spec_verified=false`, `strategy_pass=false`.
+
+Tiêu chí kỹ thuật: hash/source order/day bounds đúng, BUY ask→bid và SELL
+bid→ask, entry causal, closed-position/account checkpoint khôi phục được,
+Decimal oracle độc lập khớp gross/commission/slippage/net/balance. Chạy baseline
+và stress cho cả hai chiều, không tìm tham số hoặc chọn lượt có lãi. Manifest
+và raw results lưu local; receipt AI giữ tổng kết. Gate thiếu broker specs,
+timed financing và dữ liệu H4 vẫn giữ sau khi probe đạt.
