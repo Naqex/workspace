@@ -211,3 +211,24 @@ Decimal oracle độc lập khớp gross/commission/slippage/net/balance. Chạy
 và stress cho cả hai chiều, không tìm tham số hoặc chọn lượt có lãi. Manifest
 và raw results lưu local; receipt AI giữ tổng kết. Gate thiếu broker specs,
 timed financing và dữ liệu H4 vẫn giữ sau khi probe đạt.
+
+## 8. Causal exit — đăng ký trước lượt tiếp nối02/11
+
+Giữ nguyên source tick, entry/size/SL và4 scenarios của mục7; thay cách tất toán
+cuối kỳ bằng quyết định thoát cố định lúc **12:59:00 UTC**. Quyết định dùng
+checkpoint nến12:58 đã đóng; khớp tại quote đầu tiên có timestamp **lớn hơn**
+12:59:00, không khớp ngược giá close hoặc timestamp bằng thời điểm quyết định.
+Nếu thiếu quote hợp lệ, giữ yêu cầu thoát chờ; hết mẫu mà chưa flat thì probe
+fail, không tự tất toán bằng quote cũ. SL/TP và risk liquidation có sẵn được
+ưu tiên, không tạo thêm lần đóng. Cùng cửa sổ intraday, không thêm export.
+
+Queue exit lưu position/operation, thời điểm quyết định, cursor và quote đã
+biết; checkpoint JSON phải giữ yêu cầu qua restart. Risk latch không ngăn yêu
+cầu giảm exposure, vẫn ngăn entry. Event đóng giữ proof dẫn về closed-bar
+checkpoint để phát hiện backdate/sai position; source reason phân biệt
+`pilot_strategy_exit`, `pilot_risk_stop` và SL/TP. Không thêm API/native preset.
+
+Tiêu chí: fill nằm sau quyết định, đúng Bid/Ask, một close duy nhất, risk latches
+giữ đúng, JSON restore và Decimal oracle/margin/cost delta đạt. Chưa có latency,
+liquidity/depth hoặc bảo đảm broker execution. Gate broker-spec/timed financing
+và H4 strategy vẫn giữ; đây là sửa mô hình timing offline, chưa là strategy pass.

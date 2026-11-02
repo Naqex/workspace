@@ -1524,3 +1524,77 @@ Trước strategy H4: nối causal exit (quote tiếp theo sau quyết định, 
 risk latch), timed financing/rollover và broker spec/cost profile có nguồn;
 đăng ký warmup/development manifest trước export thêm. Lot/margin/rounding của
 account cụ thể vẫn chưa verified. Chưa mở validation/holdout, broker/trial/live.
+
+## 02/11 — Causal exit đã nối và đối soát trên mẫu development
+
+**SOURCE CANDIDATE / CAUSAL ACCOUNTING PASSED ONLY.** Trader `540288ab`.
+Đã hoàn tất lát queued exit, chưa nối H4 strategy, broker hoặc runtime.
+
+### Hành vi/state và trade-off
+
+- `queue_forex_pilot_exit` tạo request từ closed-bar checkpoint đang có:
+  operation, position, cursor, decision timestamp và observed quote. Chỉ cho
+  exit position đang mở; từ chối request trùng, operation đã dùng hoặc chứng cứ
+  quyết định không khớp ledger. `exit_pending` optional mặc địnhNone, snapshot
+  cũ không có request vẫn đọc được; không DB migration/API contract thay đổi.
+- `advance_forex_pilot` giữ request qua JSON restart/cửa sổ chưa có quote đủ
+  điều kiện. Strategy exit chỉ khớp quote timestamp **lớn hơn** decision time,
+  kể cả quote cùng millisecond có sequence lớn hơn cũng chưa đủ điều kiện.
+  Khác risk liquidation, vốn đóng ở quote kế tiếp của trigger đã quan sát.
+- Thứ tự xử lý: observe equity → pending risk liquidation nếu có → SL/TP →
+  strategy exit nếu còn position → cập nhật risk state. Không đóng hai lần.
+  Nếu đóng do protection/risk trước, clear exit request còn chờ; cờ dừng risk
+  không bị xóa. Daily/overall stop chặn entry nhưng không ngăn yêu cầu exit.
+  Quote lỗi ở cuối cửa sổ không publish exit fill/state nửa chừng.
+- Reuse close accounting/core event `protective_fill`, gắn reason riêng
+  `pilot_strategy_exit`, `command_operation_id`, proof `pilot_exit`; không giả
+  thành SL. Validator kiểm proof dẫn về price_mark và fill sau decision.
+  Native/runtime/UI chưa nhận capability này; không claim lifecycle Prop pass.
+
+### Kiểm chứng và dữ liệu thật
+
+Đã ghi contract mục8 **trước** lượt outcome mới: cùng4 scenarios/CSV và
+entry/size/SL, chỉ đổi exit thành quyết định cố định12:59 UTC. Không xuất thêm
+dữ liệu hoặc chọn thời điểm theo P/L. Script bỏ fallback terminal valuation;
+hết mẫu chưa có quote eligible để flat thì fail, giữ bằng chứng thiếu.
+
+- 19 tests pilot risk đạt (13 cũ +6 mới): BUY/SELL strict timestamp, same-ms
+  quote không khớp, gap/cost, request qua restart, SL/risk ưu tiên, operation
+  reuse/tampered decision và transactional failure.
+- 4 tests probe đạt: accounting BUY/SELL, SL gap một close, parser corruption,
+  thiếu quote sau decision không được fake close.
+- 32 core regression đạt: `pytest test_replay_tick_execution.py
+  test_replay_immediate_execution.py -q`; hai warnings Starlette/httpx và anyio
+  đã có, không đổi dependency. Focused unittest commands như lượt trước, đúng
+  file names. Không chạy lại full suite/Prop/native build không liên quan.
+- Source diff checks đạt. Sau thêm independent first-eligible-quote assertion
+  vào probe, lượt real-data4 scenarios kiểm trực tiếp nhánh đó thành công;
+  không lặp suite chỉ để tăng số lần pass.
+
+Cả4 lượt có3.829 ticks; decision12:59:00 UTC, fill tại quote đầu eligible
+**12:59:00.084 UTC**. Khoảng84ms là khoảng cách giữa decision và input quote,
+không đo latency broker/hạ tầng. BUY đóngbid, SELL đóngask; Decimal oracle và
+margin độc lập khớp, JSON checkpoints restore đạt.
+
+| Chiều | Slippage/chiều | Net USD |
+|---|---|---|
+| BUY |0 |0,19 |
+| BUY |0,00002 |0,15 |
+| SELL |0 |−0,36 |
+| SELL |0,00002 |−0,40 |
+
+Kết quả khác valuation cuối kỳ của lượt trước vì exit time thay đổi; đây là
+đối soát kỹ thuật, không so sánh edge hoặc chọn chiến lược. Slippage stress
+delta vẫn−0,04 USD mỗi lượt; không latency, liquidity/depth hoặc broker guarantee.
+
+Artifacts mới giữ riêng, không ghi đè lượt valuation:
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/forex-prop-pilot-20261102/causal-exit-probe-20261102/`.
+`manifest.json`, `results.json`, `receipt.json` giữ command, code/data hashes,
+source revision và scope. Kiểm source hashes sau commit vẫn trùng manifest;
+receipt pin final commit; root gitlink không stage/update. Không DB/runtime/
+broker/provider action hoặc phân tích validation/holdout.
+
+**Resume:** causal entry/exit accounting nhỏ đã có. Phần tiếp theo là declared
+financing/rollover events và broker spec/cost profile cho vị thế qua đêm, rồi
+đăng ký warmup/development manifest trước dựng H4 runner. Không reuse financing0
+của intraday probe cho strategy H4. Chưa có lợi nhuận chiến lược hoặc Prop pass.

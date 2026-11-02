@@ -18,8 +18,9 @@ Bổ sung02/11: owner cho phép tải toàn bộ tick EURUSD vào cache QDM đ�
 CLI đã tải xong cache và export chỉ03/01/2022 (65.215 ticks), giữ15 phút không
 có quote để review. Risk guard25/100/500 USD đã có source candidate và focused
 tests; chưa nối runner/runtime. Probe BUY/SELL baseline/stress đã đối soát
-accounting trên giờ development đăng ký; terminal close chỉ là valuation.
-Lát này còn PARTIAL ở broker spec/cost, causal exit và H4 runner;
+accounting trên giờ development đăng ký. Lượt đầu dùng terminal valuation;
+lượt tiếp đã có queued causal exit với proof/JSON restart, đối soát lại4 scenarios.
+Lát này còn PARTIAL ở broker spec/cost, timed financing và H4 runner;
 bằng chứng/source revision/cách resume ở receipt AI được dẫn trên.
 Quyền tải cache không mở quyền phân tích validation/holdout.
 Các workflow crypto bên dưới giữ lịch sử và không là adapter Forex.
