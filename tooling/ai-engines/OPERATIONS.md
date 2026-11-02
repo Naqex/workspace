@@ -13,7 +13,7 @@ for acceptance, failures and resume evidence. This file is not another ledger.
 | Paperclip | Native task graph, assignments, dependencies and run state | Dispatch, concurrency, cancellation, task/run/report history |
 | TradingAgents / RD-Agent / Forex process worker | Registered typed request and `engine_worker.py` | Execute the allowed engine contract; generic Markdown is not its runtime program |
 | Hermes reviewer | `hermes_instructions.md` loaded explicitly by `hermes_worker.py`, verified source dossier, allowlisted tools | Review evidence and publish; no operational administration or broker tools |
-| Native research lead | Its configured instructions file, bundled Paperclip skills and assigned `naqex-research-lead` company skill | Owner-managed; not a second coordinator for the registered graph |
+| Native research lead | Its configured instructions file, selected native catalog skills and assigned `naqex-research-lead` company skill | Owner-managed; not a second coordinator for the registered graph |
 
 Repo skills are not automatically installed into Paperclip's Skills catalog.
 Hermes runs with `skip_context_files=True`; copying this guide into a directory
@@ -35,6 +35,24 @@ incidentally. The `codex_local` adapter materializes/mounts assigned versions on
 the next run, so a catalog entry, attachment count or `configured`/`missing`
 snapshot alone does not prove an agent has read it. Inspect the published file
 and runtime package separately; a real task remains its own execution check.
+
+### Selected native catalog skills
+
+The owner approved `task-planning`, `qa-acceptance` and `doc-maintenance` for
+the native research lead. Install from the app catalog with
+`POST /companies/:id/skills/install-catalog`, then assign the returned keys with
+native sync `mode: add`. Keep upstream content and provenance; do not create
+company copies of those procedures or replace the agent's other selections.
+
+Use planning for a scoped task outcome and verification, QA for observable
+system acceptance, and doc maintenance for authorized behavior changes. Link
+the existing PLAN/receipt instead of mirroring their scope or status into a new
+ledger. Apply the user's proportional-verification policy; a generic checklist
+does not require unrelated checks or rerunning unchanged tests. Skills do not
+grant repository write access or authorize dispatch, strategy tuning or trading.
+The Naqex skill keeps project-specific worker contracts and recovery boundaries.
+Process workers do not load this catalog; do not assign it to them as a substitute
+for their registered instructions. No separate maintenance agent is required.
 
 ## Control access: MCP, HTTP API and source
 

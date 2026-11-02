@@ -2411,3 +2411,51 @@ injection trong home cách ly, chưa dispatch actual Trưởng nhóm/task/model 
 thử hành vi.0 active runs, timer giữ nguyên tắt, không model/broker calls hoặc
 GitHub authorization. Lượt nhiệm vụ thực tiếp theo cần kiểm discovery/content
 và hành vi trong runtime riêng của agent; không dùng smoke thay acceptance đó.
+
+### Studio: cài bộ skills từ catalog Paperclip, 03/11
+
+Owner duyệt bộ `task-planning`, `qa-acceptance`, `doc-maintenance` sau khảo sát
+catalog native. Cài bằng `POST /companies/:id/skills/install-catalog`, giữ nội
+dung upstream từ `@paperclipai/skills-catalog` 0.3.1 (MIT), rồi sync `mode: add`
+cho Trưởng nhóm `6da897b6-ce7e-45ba-a8d4-d30de1571dc5`. Đây là consumer duy nhất
+hiện hỗ trợ native skill delivery; không tạo thêm agent bảo trì hoặc gán vào
+4 process workers. Tổng selections của Trưởng nhóm từ 4 thành 7, giữ skill Naqex
+và 3 defaults cũ. Không bật Beta/version pins.
+
+| Skill | Native ID | Current version |
+|---|---|---|
+| task-planning | c2ff66be-9f17-4799-b7e4-e9aaaa743c84 | 81bd4a87-817c-477b-aab8-d10e7f914aad |
+| qa-acceptance | 0d7b1d92-4df5-4268-913c-d61173cbf267 | 5672b126-badc-4270-9721-4ceb09e9b5ba |
+| doc-maintenance | 44c0867d-fcf7-42e4-9460-4ec9526560bd | c3b8af8e-a576-410b-802e-fa6e2e698473 |
+
+**Lỗi và xử lý:** GET catalog files ban đầu trả 422 do CRLF trong checkout
+Windows; SHA256 sau đổi CRLF→LF trùng cả Git blob HEAD và manifest. Đã backup
+byte cũ rồi khôi phục chính xác 3 Git blobs, thêm 3 quy tắc `text eol=lf` trong
+`D:/ANNAM/TradingWorkspace/.git/modules/projects/paperclip/info/attributes`.
+Không sửa nội dung skill/logic engine, manifest hoặc guard kiểm hash. Quy tắc
+chỉ local, không tự lan sang clone khác; hướng dẫn đã bổ sung vào launcher guide.
+Sau tạm dừng, instance không còn chạy; launcher native khởi động lại với origin
+5180, giữ DB/storage/config và scheduler tắt. `Start-Process` bị automatic
+approval review từ chối; launcher chạy qua terminal được công cụ quản lý.
+
+**Kiểm chứng:** cả 3 native contents trùng SHA256 catalog, current versions và
+attachedAgentCount 1; sync không có warnings. Chỉ `paperclipSkillSync` của lead
+thay đổi; permissions/runtime/model config và 4 agent khác giữ nguyên. Smoke
+gọi chính `ensureCodexSkillsInjected` của adapter pin, với packages đọc lại từ
+native API trong skills home cách ly: mount 3/3 đúng hash và loại skill không
+được chọn. Không ghi vào Codex home thật hoặc dispatch model/broker/task.
+Native snapshot vẫn `missing` chờ materialization ở lượt chạy thực; smoke
+không chứng minh agent đã đọc/làm theo hoặc có cải thiện chất lượng/hiệu suất.
+Audit môi trường AI: 0 errors/0 warnings; global 12279 B, project 9269/65536 B,
+reserve 56267 B, combined 21548 B. Native health `ok`, 0 agent đang chạy;
+`git diff --check` đạt, Paperclip checkout không có thay đổi nội dung tracked.
+
+Evidence riêng tư tiếp tục ở
+`E:/BACKUP-TRADINGWORKSPACE/studio-observation-20261102/catalog-skills-20261102/`:
+`apply-before.json`, catalog/install/assignment/after JSON, `verification.json`,
+API packages và `injection-result.json`; 3 file `*-before.bin` và
+`git-info-attributes-before.bin` là backup phục hồi. Rollback bằng native sync
+`mode: remove` với đúng 3 keys đã thêm, giữ các selections cũ và lịch sử. Chỉ
+gỡ 3 dòng attributes do lát này thêm nếu muốn đảo sửa LF; không ghi đè các rule
+local khác. Operations guide định nghĩa cách dùng 3 skills mà không nhân bản
+PLAN/receipt hoặc mở rộng quyền hạn.

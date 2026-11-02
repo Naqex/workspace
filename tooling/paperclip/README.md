@@ -121,6 +121,20 @@ dịch mới; không tự bảo đảm mọi màn hình động đã được ng
 mở rộng/upgrade: `projects/integrations/paperclip/doc/NAQEX-LOCALIZATION.md`.
 Theme vẫn do Paperclip quản lý; host chỉ gợi ý color scheme.
 
+## Catalog skills trên Windows
+
+Nếu native catalog trả 422 `Pinned catalog file hash mismatch`, kiểm tra byte
+của file với SHA256 trong catalog trước khi cài. `core.autocrlf=true` có thể
+chuyển LF của Git blob thành CRLF trong checkout. Chỉ khi bản LF khớp chính xác
+cả Git blob của pin hiện tại và manifest mới khôi phục byte LF; không tái tạo
+manifest hoặc nới kiểm hash để chấp nhận nội dung chưa xác minh.
+
+Lát cài 03/11 đã khôi phục đúng 3 `SKILL.md` của `task-planning`, `qa-acceptance`,
+`doc-maintenance` và thêm `text eol=lf` cho từng đường dẫn đó vào Git
+`info/attributes` riêng của checkout (tìm bằng `git rev-parse --git-path info/attributes`).
+Không đổi Git config global hoặc logic engine. Quy tắc local không đi theo clone;
+checkout mới cần kiểm lại nếu gặp lỗi. Receipt giữ backup, hash và rollback.
+
 ## Owner tự thiết lập
 
 Bản fork chỉ giữ Việt hóa và các thay đổi cần cho nhúng/điều hướng. Đã bỏ
