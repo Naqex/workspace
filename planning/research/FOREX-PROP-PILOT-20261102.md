@@ -107,6 +107,28 @@ Mẫu hiện chỉ có M1 `provider_default`, không phải tick Bid/Ask. Chi ti
 Raw data chỉ lưu local cho nghiên cứu, chưa duyệt quyền redistribution.
 Không tiếp cận giá validation/holdout hoặc biến export thành strategy return.
 
+**Bổ sung trước tải tick, 02/11:** owner cho phép tải toàn bộ lịch sử EURUSD
+vào cache QDM để reuse lâu dài. Quyền này chỉ mở phạm vi thu thập/lưu cache;
+chỉ export và kiểm giá ngày03/01/2022, tập trung giờ12:00–13:00 UTC đã đăng ký.
+Không export/đọc outcome validation2023–2024 hoặc holdout từ2025. Dùng CLI
+hiện có, symbol tick riêng; không sửa symbol M1, không đổi activation hoặc DB.
+Job dài giữ PID/log/checkpoint; không khởi chạy instance QDM thứ hai.
+
+Chi phí tham chiếu được xác minh thêm từ
+[FTMO Trading Update25/09/2025](https://ftmo.com/en/blog/trading-updates/trading-update-25-sep-2025/):
+từ29/09/2025, commission Forex được công bố là2,50 USD/lot/mỗi chiều,
+tức5 USD/lot cho mở và đóng. Với0,01lot:0,025 USD/chiều,0,05 USD/hai chiều,
+trước quy tắc làm tròn của tài khoản. Đây là mức công bố có ngày hiệu lực,
+chưa xác nhận cấu hình tài khoản cụ thể hoặc phí năm2022. `CostModel` hiện nhận
+`commission_per_side_account` là số tiền cho cả lệnh, không phải rate mỗi lot:
+khi nối runner phải nhân2,50 với quantity trước; không truyền2,50 cho lệnh0,01lot.
+Nếu áp vào giá2022
+phải gắn nhãn scenario theo điều kiện phí tham chiếu, không tái dựng phí lịch sử.
+Swap, lot/tick limits, margin và execution vẫn thiếu xác minh đầy đủ.
+[Update29/10/2026](https://ftmo.com/en/blog/trading-updates/trading-update-29-oct-2026/)
+nhắc swap thay đổi và dùng midnight server, còn daily loss theo Prague;
+không thay hai đồng hồ bằng cùng một reset hoặc mặc định swap=0.
+
 Lát này hoàn thành khi contract được lưu, Prop domain hỗ trợ balance anchor
 riêng và focused checks đạt. Receipt ghi kết quả và source revision.
 Tiếp theo: chọn manifest Forex/cost hợp lệ và nối một lượt replay/accounting

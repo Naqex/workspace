@@ -14,6 +14,11 @@ results và lượt export M1 ngày03/01/2022 qua
 [QDM CLI đã có](../../projects/trader/docs/quantdatamanager.md). Chưa đủ tick
 Bid/Ask/cost cho Forex runner, chưa backtest outcome, workflow dispatch, UI preset
 hoặc rollout; không tự mở trial/challenge/broker.
+Bổ sung02/11: owner cho phép tải toàn bộ tick EURUSD vào cache QDM để reuse;
+đã khởi chạy CLI detached, tự export chỉ03/01/2022 sau update. Lượt này đang
+ACTIVE/PARTIAL; PID/stage/live progress và cách resume ở receipt AI được dẫn
+trên. Đã tìm nguồn công bố commission, chưa đủ bộ cost/spec hoặc xác minh
+quote CSV. Quyền tải cache không mở quyền phân tích validation/holdout.
 Các workflow crypto bên dưới giữ lịch sử và không là adapter Forex.
 
 ### Lát được giao tiếp — workflow crypto spot nối tiếp, 02/11

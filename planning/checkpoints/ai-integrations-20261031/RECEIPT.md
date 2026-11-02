@@ -1306,3 +1306,67 @@ cứu. M1 hiện tại mang `provider_default`, không chứng minh Bid/Ask gố
 đường đi equity intraday. Chưa chạy accounting BUY/SELL, H4 strategy, Prop pass
 hoặc kết luận lợi nhuận. Bước kế tiếp là xác minh đường lấy/export tick có giới
 hạn và semantics quote/time; không yêu cầu owner export tay khi QDM còn dùng được.
+
+## 02/11 — Tiếp Forex: full tick cache được duyệt, CLI đang chạy
+
+**ACTIVE/PARTIAL.** Owner sửa hướng thao tác: dùng QDM CLI; không mở GUI để
+khảo sát thêm. Sau khi đã báo rõ update có thể tải toàn bộ, owner trả lời:
+“cứ tải toàn bộ nếu cần, tại sau này còn sài nhiều mà”. Phạm vi thu thập cache
+được mở; phạm vi export/kiểm giá vẫn chỉ03/01/2022 UTC, tập trung12:00–13:00.
+Không phân tích validation2023–2024/holdout từ2025, không broker/DB/runtime rollout.
+
+### Đã làm và job đang chạy
+
+- Đọc `-h` và `-symbol action=list` qua wrapper hiện có. QDM125.2692 vẫn chạy;
+  help không chứng minh update có giới hạn ngày. Cache trước lượt này chỉ có M1.
+- Đã tạo `EURUSD_TICK_TW`: InstrumentEURUSD, TimeframeTICK, SourceDukascopy,
+  cache rỗng trước update. Giữ symbolM1 `EURUSD_TW`.
+- Job dùng Python venv Trader + `QdmCli`, chạy detached từ06:29:32UTC.
+  PID Python thực tế29152; launcher17952 là parent/bootstrap, không là worker
+  canonical. QDM child lúc kiểm4168. Kiểm lại PID và command trước mọi resume.
+- Job folder:
+  `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/forex-prop-pilot-20261102/qdm-tick-full-20261102/`.
+  `run.py`, `receipt.json`, `worker.pid`, `progress.log`, `error.log` giữ local.
+  Receipt ghi source/script hashes, exact commands, version, metadata và stage;
+  progress log loại startup machine/license diagnostics.
+- `-data action=update symbols=EURUSD_TICK_TW` đang ghi cache ở bộ cài QDM
+  checkout cũ. Lúc kiểm đã đi qua download years2003–2026, tới writing2005
+  khoảng9%; đây là tiến độ pha ghi, không là % hoàn thành hệ thống hoặc bằng
+  chứng mọi năm có dữ liệu hợp lệ. D: còn khoảng70GiB ở lượt kiểm gần nhất;
+  trước job74,7GiB. Chưa thể biết kích thước cache cuối hoặc thời gian hoàn tất.
+- Sau update, cùng worker tự list metadata rồi export chỉ03/01/2022UTC,
+  `timeframe=TICK`, `format=[[Generic tick format (comma delimited)]]`.
+  Thành công sẽ ghi path/hash/bytes và stage `exported_pending_quote_validation`;
+  chưa coi generic export là Bid/Ask đã được kiểm. Failure giữ `failed`/error code.
+- Không chạy QDM instance thứ hai hoặc kill giữa lúc ghi. `worker.pid` giữ PID
+  Python thực tế; `receipt.json` là bằng chứng stage mới nhất, snapshot này
+  không chứng minh process còn sống ở lượt sau. Không chạy lại `run.py` trên
+  folder này; export dir được tạo mới để tránh ghi đè bằng chứng.
+
+### Chi phí và giới hạn đã làm rõ
+
+[FTMO25/09/2025](https://ftmo.com/en/blog/trading-updates/trading-update-25-sep-2025/)
+công bố commissionForex2,50USD/lot/mỗi chiều từ29/09/2025:5USD/lot/hai chiều.
+0,01lot tương ứng0,025USD/chiều và0,05USD/hai chiều trước quy tắc rounding
+của tài khoản. Chưa xác nhận phí thực tế2022 hoặc account-specific/current spec.
+Contract Forex giữ nhãn scenario nếu áp fee tham chiếu vào giá lịch sử.
+
+Đọc `semantics/data_costs.py`: `commission_per_side_account` là tiền toàn lệnh,
+runner cần nhân rate với lot trước khi truyền; không nhập rate mỗi lot trực tiếp.
+[FTMO29/10/2026](https://ftmo.com/en/blog/trading-updates/trading-update-29-oct-2026/)
+nhắc swap thay đổi, rollover theo server; daily-loss reset theo Prague riêng.
+Swap rates/schedule và symbol/margin/lot limits đầy đủ còn thiếu; không lấy
+community estimates hoặc SQ Default làm FTMO verified specs.
+
+Syntax script, registration TICK/source, command/scope flags, phép tính commission
+bằng Decimal và diff checks đạt. Không chạy lại financial suites không đổi.
+Docs Trader commit `de3f525c`; root gitlink không cập nhật trong lát này.
+Không có quote validation, BUY/SELL accounting, H4 outcome hoặc Prop pass mới.
+
+**Resume:** đọc job receipt, kiểm exact PID/command/log nếu stage còn chạy;
+đợi cùng worker, không khởi động job trùng. Khi `exported_pending_quote_validation`,
+kiểm header/format, timezone/day bounds, millisecond, Bid/Ask dương/không crossed,
+duplicate timestamps và bảo toàn thứ tự dòng; hash/count/missing coverage riêng.
+Nếu `failed`, xem stage/commands/metadata để chỉ retry phần thiếu sau khi xác
+nhận QDM rảnh. Chỉ nối accounting sau quote/spec/cost qualification; chưa dựng
+strategy backtest hoặc bỏ qua intrabar-equity gap của Prop engine.
