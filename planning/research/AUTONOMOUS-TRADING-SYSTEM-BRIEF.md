@@ -2,10 +2,12 @@
 
 Cập nhật: **02/11/2026 (Asia/Saigon)**.
 **WORK: DRAFT · REVIEW: DOCUMENTATION-ONLY · DOC: FULL.**
-Owner đã giao nghiên cứu kiến trúc/workflow và lưu context; sau đó giao prototype
-UI trong Trader để xem trước. Backend/services tiếp sau feedback UI. Brief giữ
-mục tiêu, lựa chọn và câu hỏi đang bàn; không là
-execution plan, acceptance ledger hoặc hợp đồng cấp quyền giao dịch.
+Brief giữ mục tiêu, quyết định của owner và lịch sử trao đổi kiến trúc. Các đoạn
+đề xuất ngày31/10 bên dưới được giữ để truy vết, không báo trạng thái tích hợp
+hiện tại. Scope triển khai nằm trong [AI plan](../trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md);
+kết quả/lỗi/bước tiếp nằm trong [receipt](../checkpoints/ai-integrations-20261031/RECEIPT.md).
+Setup/capability hiện có đọc [integration guide](../../tooling/integrations/README.md).
+Brief không là execution plan, acceptance ledger hoặc hợp đồng cấp quyền giao dịch.
 
 ## 1. Mục tiêu và bối cảnh do owner xác nhận
 
@@ -33,9 +35,9 @@ execution plan, acceptance ledger hoặc hợp đồng cấp quyền giao dịch
 - Lịch sử cùng ngày: owner từng đồng ý ưu tiên crypto cho pilot ban đầu.
   Crypto spot và các kết quả đã có tiếp tục làm baseline nghiên cứu; ưu tiên
   triển khai prop ở trên thay hướng thị trường trước đó, không xóa nghiên cứu cũ.
-- [Khảo sát thị trường 02/11](AI-MARKET-PRIORITY-20261102.md) đề xuất ưu tiên
+- Lịch sử: [khảo sát thị trường 02/11](AI-MARKET-PRIORITY-20261102.md) đề xuất ưu tiên
   BTC/ETH spot khung ngày cho workflow nghiên cứu đầu tiên, theo data/chi phí
-  triển khai và tài sản workspace. Owner đang hỏi rõ spot so với futures;
+  triển khai và tài sản workspace. Khi đó owner hỏi rõ spot so với futures;
   khuyến nghị sản phẩm khởi đầu vẫn là spot không vay/không leverage, long/cash.
   Chưa có quyết định mở futures, bằng chứng lợi nhuận hơn Forex hoặc quyền live.
 - Nhịp giao dịch **chưa chốt**: owner muốn đề xuất theo tính khả thi. D1/H4 mới
@@ -99,6 +101,10 @@ không dùng cùng nhãn A/B cho hai chiều này trong các phần giải thíc
   cần scope và quyền thực thi tương ứng khi triển khai.
 
 ## 3. Khung kiến trúc để nghiên cứu tiếp
+
+Phần này giữ diễn giải và đề xuất từ cuộc trao đổi31/10. Các câu “chưa chọn”,
+“chưa chạy” mô tả thời điểm trao đổi, không phủ định receipts triển khai sau đó.
+Để tiếp tục một task, dùng PLAN/receipt ở đầu brief thay vì đọc toàn lịch sử này.
 
 Giả thuyết → kiểm chứng → phiên bản được phép chạy → vận hành → giám sát → cải tiến.
 
@@ -171,7 +177,9 @@ Reference đối chiếu ngày31/10: [RD-Agent(Q) paper](https://arxiv.org/abs/2
 mô tả vòng Research → Development → feedback từ thí nghiệm; [upstream](https://github.com/microsoft/RD-Agent)
 là ứng viên khảo sát phần research engine. Ba vai trò ở trên là đề xuất cho
 workspace, không phải tuyên bố mapping nguyên xi các agent của upstream.
-Chưa chọn/cài/tích hợp RD-Agent; chưa tái lập benchmark hoặc xác minh profitability.
+Tại cuộc trao đổi31/10 chưa chọn/cài/tích hợp RD-Agent. Triển khai sau đó đọc
+[runtime guide](../../tooling/ai-engines/rd-agent-runtime.md) và receipt được dẫn
+ở đầu brief; việc đã nối engine không chứng minh profitability.
 
 ### Bộ kiểm chứng — bàn giao ứng viên và kết luận theo giai đoạn
 
@@ -282,7 +290,8 @@ engine tiếp là research loop tự tạo/thử ứng viên; scope hiện tại
 Research primary sources ngày31/10: [upstream](https://github.com/microsoft/RD-Agent),
 [RD-Agent(Q) paper](https://arxiv.org/abs/2505.15155),
 [Finance Quant Agent docs](https://rdagent.readthedocs.io/en/latest/scens/quant_agent_fin.html).
-Chưa cài/chạy/tái lập benchmark; kết quả paper không là profitability của owner.
+Tại lượt research31/10 chưa cài/chạy/tái lập benchmark. Trạng thái tích hợp sau
+đó theo runtime guide/receipt ở trên; kết quả paper không là profitability của owner.
 
 RD-Agent(Q) có vòng Research (giả thuyết/task) → Development (sinh code/chạy
 thí nghiệm) → feedback để chọn hướng tiếp. Trọng tâm tài chính được mô tả là

@@ -90,6 +90,16 @@ File `.run.lock` ngăn hai invocation của runner chạy đồng thời. Nếu 
 python -B -m unittest discover -s tooling/agent-workflow/tests -v
 ```
 
+Task đọc context ở `tasks/context-routing.json` có5 câu hỏi từ lỗi/workflow
+thực tế: QDM, nguồn trạng thái AI, ownership Trader, quyền research và job bị ngắt.
+`python tooling/agent-workflow/run.py prepare tasks/context-routing.json` chỉ
+copy read-set đã khai báo vào staging, cho phép sửa0file và không gọi model.
+Khi được giao đánh giá bằng CLI, dùng reviewer read-only, cùng model/config và
+input giữa baseline/candidate; kiểm câu trả lời với source và ghi số lượt/tool,
+thời gian, lỗi và giới hạn. Không gọi `pipeline` như smoke Python: task này không
+có automatic verifier hay auto-accept. Chỉ chuẩn bị packet không có nghĩa5 câu
+hỏi đã được model trả lời đúng hoặc chứng minh hiệu năng cải thiện.
+
 Smoke model dùng fixture Python nhỏ, không financial account/data. Test controller chỉ thực thi source có AST khớp implementation đã duyệt và test file không bị worker thay, tránh chạy code tùy ý chỉ vì agent bảo an toàn.
 
 ## Nguồn và khả năng đảo ngược

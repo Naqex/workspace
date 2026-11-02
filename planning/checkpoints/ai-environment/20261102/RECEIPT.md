@@ -157,3 +157,70 @@ links resolve, pilot Python AST parses with the recorded source hash unchanged,
 and RTK executable is absent. Diff whitespace check passed. Existing product
 plan/VI Dubber/evidence WIP left outside these commits. No unchanged provider
 call, engine test suite or full product build repeated just for documentation.
+
+## Context discovery sau đối chiếu harness — 02/11
+
+Owner giao thực hiện đề xuất ở [research bổ trợ](../../../research/CODING-AGENT-ADDONS-20261102.md).
+Lát này sửa cách tìm nguồn, không đổi global instructions, hooks, skills,
+MCP/config, model, engines hoặc quyền runtime. Không dựng thêm knowledge manager.
+
+### Thay đổi và data/state flow
+
+- `docs/development/README.md` có bảng dẫn tới QDM, AI plan/receipt, engine
+  contracts, job lifecycle và Trader ownership/runtime. Bảng chỉ route tới owner
+  đã có, không copy trạng thái job thành registry mới.
+- Brief autonomy ghi rõ các đề xuất31/10 là lịch sử; đầu brief dẫn scope tới
+  AI plan, kết quả tới receipt và setup tới integration guide. Hai ghi chú
+  “chưa cài/tích hợp RD-Agent” được đặt lại đúng thời điểm thay vì xóa lịch sử.
+- CURRENT-CONTEXT dẫn trực tiếp tới AI plan/receipt và QDM. AI plan sửa dòng
+  “chưa dữ liệu Forex” thành đã có export M1, vẫn thiếu tick Bid/Ask/cost cho
+  runner. Không ghi backtest/Prop pass hoặc mở quyền từ việc đã export.
+- Tái dùng CLI runner bằng `tasks/context-routing.json`: một task read-only,
+  allowed_files rỗng,11file inputs công khai trong repo. Snapshot giữ policy và
+  hash riêng. README giải thích prepare không gọi model hoặc tự nghiệm thu.
+  Task có acceptance hiển thị; đây là regression smoke có hướng dẫn, không là
+  blind benchmark/holdout hoặc bằng chứng tổng quát hóa của model.
+
+### Kiểm tra trước/sau và giới hạn
+
+Hai packet chính ở `tooling/agent-workflow/runs/` (ignored):
+`20261102-130804-context-routing-02bc44` trước sửa và
+`20261102-131022-context-routing-851db2` sau sửa. Một packet trung gian giữ nguyên
+để truy vết, không dùng so sánh. Cùng task/input paths/policy, khác nội dung đúng
+4tài liệu được sửa. Tất cả vẫn `prepared`,0attempts; không worker/model call.
+
+Diagnostic offline bắt đầu tại developer guide, tìm đường qua Markdown links
+trong cùng11file được stage. Alias Trader AGENTS trong packet được map về source
+path khi tính liên kết. Chỉ đếm file hops; không mô phỏng `rg`, đọc theo section,
+độ hiểu semantic, thời gian LLM hoặc toàn bộ repo ngoài packet.
+
+| Câu hỏi / nguồn đích | Trước: linked hops | Sau: linked hops |
+|---|---:|---:|
+| QDM đã có và độ phân giải dữ liệu | 4 | 1 |
+| Kết quả AI mới nhất trong receipt | 2 | 1 |
+| Ownership/quyền source Trader | Không có đường trong packet | 1 |
+| Contract quyền research | 1 | 1 |
+| Run bị ngắt/receipt còn running | 1 | 1 |
+
+Đã đọc nguồn đích để đối chiếu5câu: QDM/M1 không thành tick Bid/Ask; PLAN và
+receipt có ownership riêng; source không là runtime; research/review không cấp
+broker/holdout/promotion authority; hard-killed `running` là interrupted/unknown.
+Đây là review thủ công của agent đang làm, không phải5cold-context model trials.
+Không diễn giải “không có linked path” thành agent không tìm được bằng search.
+
+Script, input hashes, routes và kết quả diagnostic local:
+`.runtime/context-routing-20261102/{evaluate.py,navigation-results.json}`.
+Hash packet khớp sau kiểm tra, allowed_files rỗng; không source/DB/runtime ghi bởi
+worker. Không rerun engine/financial suites không đổi chỉ để kiểm tài liệu.
+
+Kiểm liên kết4tài liệu context đã sửa đạt; workspace checker đạt9guides/8pins.
+Audit trước sửa:0errors/0warnings, global12.279B, project9.099/65.536B,
+reserve56.437B, combined21.378B,16skills. Đây là instruction audit, không phải
+tổng prompt hoặc phép đo tốc độ agent. AI environment definitions không thay.
+Audit sau sửa cũng0errors/0warnings, các byte/reserve giữ nguyên; diff check đạt.
+
+Bước đo bằng model khi được giao: cùng config/source, fresh sessions/workspaces,
+2–3lượt mỗi nhóm để sàng lọc, kiểm đúng hành vi/boundary và sửa chữa owner cần
+làm; chỉ mở rộng ca còn bất định. Chưa có A/B model efficacy hoặc whole-harness
+acceptance. Lát Forex quay về contract/QDM/receipt hiện có, không dispatch lại
+workflow crypto hoặc thêm downloader trước khi xác minh nguồn tick bounded.

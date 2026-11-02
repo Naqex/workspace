@@ -39,6 +39,20 @@ quản lý; dùng các nguồn này khi thêm service, không lấy cổng mặc
 4. Sửa, kiểm chứng, commit và PR trong repo sở hữu code. Merge sản phẩm trước,
    rồi cập nhật pin bằng PR ở workspace.
 
+### Tìm đúng context để tiếp tục
+
+| Việc đang làm | Đọc đúng nguồn trước |
+|---|---|
+| Lấy lịch sử Forex, tìm downloader/cache đã có | [QDM CLI của Trader](../../projects/trader/docs/quantdatamanager.md); [contract Forex](../../planning/research/FOREX-PROP-PILOT-20261102.md) giữ khoảng dữ liệu được phép |
+| Tiếp tục AI research | [AI plan](../../planning/trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md) giữ scope; [receipt](../../planning/checkpoints/ai-integrations-20261031/RECEIPT.md) giữ kết quả, lỗi và bước tiếp |
+| Chọn engine hoặc kiểm quyền worker | [Integration guide](../../tooling/integrations/README.md) → [engine contracts](../../tooling/ai-engines/README.md); research/review không cấp quyền broker, holdout hoặc promotion |
+| Job bị ngắt, báo cáo còn `running`, chưa rõ nên retry | [Vòng đời engine job](../../tooling/ai-engines/README.md#one-analysis) và native run/receipt của job đó; artifact tồn tại không chứng minh thành công |
+| Sửa Trader hoặc rollout một source candidate | [Hướng dẫn Trader](../../projects/trader/AGENTS.md) và [runtime guide](../../projects/trader/foundation_v2/docs/RUST-NATIVE-RUNTIME.md); source, pin và runtime là ba trạng thái riêng |
+
+Brief/research có thể giữ các quyết định lịch sử. Đọc nhãn ngày/phạm vi và đi tới
+PLAN/receipt được dẫn, không lấy một câu “chưa tích hợp” trong thảo luận cũ làm
+trạng thái mới nhất. Bảng này chỉ dẫn tới owner hiện có, không sao chép tiến độ.
+
 | Thao tác tại workspace root | Lệnh |
 |---|---|
 | Kiểm tra docs/pins/cấu trúc hiện hành | `python tooling/check_workspace.py` |

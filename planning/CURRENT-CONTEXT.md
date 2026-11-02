@@ -36,6 +36,11 @@ Crypto spot giữ làm baseline nghiên cứu. [Contract Forex/prop offline](res
 nằm trong receipt AI hiện có. Không tự tiếp execution crypto hoặc mở quyền
 tài khoản/giao dịch từ quyết định này.
 
+Khi tiếp tục: [AI plan](trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md) giữ scope,
+[receipt AI](checkpoints/ai-integrations-20261031/RECEIPT.md) giữ kết quả/bước tiếp;
+[QDM guide](../projects/trader/docs/quantdatamanager.md) giữ đường lấy lịch sử
+Forex đã có. Brief dài ở trên giữ cả thảo luận lịch sử, không thay các nguồn này.
+
 ## Naqex migration — 29/10/2026
 
 Owner approved the Naqex ecosystem migration: `Naqex/workspace` plus independent

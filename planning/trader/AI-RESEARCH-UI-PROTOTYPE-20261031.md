@@ -9,8 +9,11 @@ phỏng. Hoàn thành lát nhỏ: đăng ký [contract nghiên cứu](../researc
 trước outcome Forex, reuse Prop domain của Trader và kiểm balance anchor độc
 lập với equity. EURUSD/H4/10.000 USD và risk25 USD là giả định offline của
 agent, chưa là lựa chọn tài khoản/risk budget tiền thật do owner duyệt.
-Receipt hiện có giữ source/test results. Chưa dữ liệu Forex, backtest outcome,
-workflow dispatch, UI preset hoặc rollout; không tự mở trial/challenge/broker.
+[Receipt hiện có](../checkpoints/ai-integrations-20261031/RECEIPT.md) giữ source/test
+results và lượt export M1 ngày03/01/2022 qua
+[QDM CLI đã có](../../projects/trader/docs/quantdatamanager.md). Chưa đủ tick
+Bid/Ask/cost cho Forex runner, chưa backtest outcome, workflow dispatch, UI preset
+hoặc rollout; không tự mở trial/challenge/broker.
 Các workflow crypto bên dưới giữ lịch sử và không là adapter Forex.
 
 ### Lát được giao tiếp — workflow crypto spot nối tiếp, 02/11
