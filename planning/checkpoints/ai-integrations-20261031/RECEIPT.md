@@ -1690,3 +1690,142 @@ hơn trước qualification. Owner tạo/login tài khoản; agent hướng dẫ
 số được cung cấp, không tự dùng credentials/broker. Chưa có thì không gọi
 declared run là sát tài khoản hoặc mở holdout để cố tìm kết quả đẹp.3lệnh/hai
 tuần chưa đủ edge; chưa đủ bằng chứng dùng tiền/mua challenge.
+
+## FTMO demo specification và H4 development tiếp nối — 02/11/2026
+
+Owner đã đăng nhập FTMO demo, cho phép tiếp tục đọc EURUSD và mô phỏng offline.
+Contract trước outcome: `planning/research/FOREX-PROP-PILOT-20261102.md` mục10,
+SHA256 `5ca088734127ba492d3fca4912e8a490ec118016ae5b25df460faffbae9b18e3`.
+Gate chờ demo/spec ở receipt trước đã được thay bằng bằng chứng bên dưới;
+không mở OrderCheck/OrderSend hoặc strategy trên broker.
+
+### Quyền bảo trì và nguồn quan sát
+
+- Trader commit `d8ed92c7`: `AGENTS.md` lưu quyền standing của owner cho
+  local UI/API/adapter rollout, restart service/terminal thuộc project và
+  reconnect account hiện có; giữ identity/access mode/data/rollback, kiểm
+  active jobs và unknown submissions trước gián đoạn. Không cấp migration,
+  xóa dữ liệu, tài khoản/provider mới, production hoặc broker execution.
+- Đọc lại file, diff check và audit AI environment trước/sau đạt:
+  global12.279B + project5.519B, reserve60.017B;0errors/0warnings.
+- Tài khoản đích `…7819`, FTMO-Demo, USD10.000, demo, leverage30,
+  SDK name `$10k FTMO Free Trial Swing 2-Step`; giữ mode owner đã chọn.
+  Attach vào terminal project đang chạy, kiểm path/data_path/login/server
+  trước/sau. Không restart cần thiết, không dùng credentials hoặc gửi lệnh.
+- Capture08:58:49.252636UTC02/11/2026:
+  `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/forex-prop-pilot-20261102/ftmo-current-spec-20261102/spec.json`;
+  SHA256 `930e5670b21b09963d21741258706adeff6b10c454dd9fafa0df7346a0a74756`.
+  SDK có trong interpreter runtime cũ; canonical Trader Python chưa có SDK.
+  Lượt đầu ModuleNotFoundError đã được xử lý bằng đúng interpreter có sẵn,
+  không cài thêm SDK hoặc chuyển runtime/data.
+
+EURUSD: contract100.000EUR/lot, tick/point0,00001, tick value1USD/lot,
+min/step0,01lot/max50lot. Margin Forex/EUR; SDK calculator1lot BUY tại1,12210
+=3.740,33USD, SELL tại1,12209=3.740,30USD. Các calculator chỉ tính toán,
+không OrderCheck/OrderSend. Margin call100%/stop-out50% được ghi nhận,
+core vẫn fixed research leverage, chưa mô phỏng server liquidation/tiered rate.
+
+Swap modePoints: long−9,3 → debit9,30USD/lot/ngày; short+0,31 →
+credit0,31USD/lot/ngày; triple Wednesday. Không có deals EURUSD hôm capture,
+nên commission account-specific chưa xác minh. Giữ published reference
+2,50USD/lot/chiều; lịch22UTC/Wed×3, rates hiện tại áp lên2022 và rounding
+cent là declared counterfactual, không tái dựng phí lịch sử.
+
+### Source, dữ liệu và job
+
+Trader `95a40edc` mở rộng runner hiện có bằng account-spec/hash pin và input
+manifest; kiểm units/currency/contract/tick/lot/leverage/swap mode và reject
+spec không hỗ trợ. BUY debit/SELL credit tính Decimal; không suy từ snapshot
+hiện tại thành knowledge2022. Manifest giữ timestamp capture2026 và scenario
+clock riêng; full broker-spec/historical-spec/strategy/Prop qualification
+vẫn false. Candidate/params/risk giữ nguyên, không tuning hoặc model call.
+
+QDM CLI export cache03/01–31/03/2022 đã xong09:03:26UTC; CSV264.754.020B,
+SHA256 `dfe850eff9150032b865f82949f758fe422b9798fb9f55f7077c48cd63f8a2de`.
+Manifest/output trong `h4-q1-export-20261102/` dưới folder job; warmup dùng
+nguyên lát20–31/12/2021 đã pin. Không download/update, không mở GUI hoặc2023+.
+
+Lượt đầu `ftmo-h4-20261102/` hoàn tất reference hai tuần nhưng cost-stress
+dừng vì WinError5 lúc atomic replace receipt khi reader đang mở. Đã tái hiện
+cùng lỗi bằng native Windows handle không FILE_SHARE_DELETE, hết lỗi sau đóng
+reader. Trader fix `387791fd` retry riêng Windows sharing/access-denied trong
+tối đa1giây; lỗi kéo dài vẫn raise, file cũ giữ nguyên. Không đổi accounting.
+Regression kiểm transient recovery/persistent failure đạt; giữ toàn bộ job
+lỗi, không overwrite. Lượt mới chạy tuần tự tại
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/forex-prop-pilot-20261102/ftmo-h4-20261102-retry1/`;
+`job-receipt.json` giữ PID của launcher/worker hiện hành, manifests/code hashes,
+stdout/stderr, kết quả và checkpoints tách theo `two-weeks`/`q1`.
+
+Focused tests sau mở rộng:17tests +17subtests đạt (H4/financing). Sau sửa writer:
+10H4tests +11subtests đạt; không cộng các test chạy lại vào số test khác nhau.
+Không chạy full suite/UI/native hoặc restart runtime cho thay đổi offline này.
+
+### Chạy lại development03–14/01/2022
+
+Lượt `two-weeks` hoàn tất09:13:57UTC. Cùng643.775ticks,3entries/3closes,
+4decisions,10cash events; cuối mẫu flat tự nhiên, không terminal close giả.
+
+| USD trên vốn mô phỏng10.000 | Reference swap hiện tại | Cost-stress |
+|---|---:|---:|
+| Net trade sau commission/slippage, trước financing |−17,72 |−18,20 |
+| Financing debit ròng |2,22 |5,60 |
+| Balance/equity delta sau mọi phí |−19,94 |−23,80 |
+| Equity thấp nhất quan sát |9.950,23 |9.948,08 |
+| Internal risk stops/rejections |0/0 |0/0 |
+
+So với reference cũ−20,52USD, thay swap làm debit giảm0,58USD; phần trade net
+vẫn−17,72USD, không biến candidate thành có lợi thế. Stress result object
+khớp **toàn bộ** kết quả lượt trước, xác nhận đổi input/spec plumbing không
+làm đổi scenario giữ nguyên. Decimal đối soát/JSON restore/equity balance
+identity và CSV hash khớp. `review.json` ngoài repo giữ kiểm chứng compact.
+Các gate qualification/coverage vẫn giữ; không đủ bằng chứng edge hoặc mua
+challenge. Q1 chạy tuần tự sau lượt này, kết quả hoàn tất ở phần dưới.
+
+### Development03/01–31/03/2022 — đã hoàn tất
+
+Job actualPID24856 hoàn tất09:36:31UTC; orchestrator receipt cũng đã chuyển
+`completed_declared_scenarios`, stderr hai lượt mới trống. Không còn bước
+resume của job này. Artifact `ftmo-h4-20261102-retry1/q1/`; code pin387791fd,
+spec/input hashes ở manifests đã ghi trước outcome. Không đổi source khi chạy.
+
+Development có5.837.028ticks,1.537giờ có quote,372H4 đủ4giờ;24H4 thiếu giờ
+bị loại. Có34.878phút không quote giữa đầu/cuối, gồm cuối tuần; max adjacent
+gap172.815.415ms. Không sort/dedup/fill gap hoặc gọi dữ liệu là coverage đầy đủ.
+
+| USD trên vốn mô phỏng10.000 | Reference swap hiện tại | Cost-stress |
+|---|---:|---:|
+| Entry fills / closed trades |13/13 |13/13 |
+| Net trade sau commission/slippage, trước financing |62,17 |47,22 |
+| Financing debit ròng |7,80 |38,00 |
+| Balance/equity delta sau mọi phí |54,37 |9,22 |
+| Balance/equity cuối |10.054,37 |10.009,22 |
+| Equity thấp nhất quan sát |9.950,23 |9.948,08 |
+| Internal risk stops/rejections |0/0 |0/0 |
+
+Cả hai20decisions/64cash events, cuối kỳ flat tự nhiên, không entry chờ hoặc
+fake terminal close. Stress có thể đổi size/fill/SL timing theo cùng quy tắc
+do slippage, không chỉ là trừ thêm một khoản phí vào closed results reference.
+Không tìm tham số, chọn run hoặc dùng model/holdout. Hai tuần là phần đầu của
+Q1, không tính hai mẫu thành hai kiểm chứng độc lập.
+
+Decimal oracle từng close/cash/balance, JSON restore, equity=balance+floating,
+observed tick count và dataset hash khớp. `review.json` kiểm cả hai windows,
+giữ stress hai tuần trùng toàn bộ accepted result cũ. Source tests có18test
+cases khác nhau đã qua focused checks (không cộng lại các lần chạy lặp).
+WinError5 lần đầu đã được tái hiện/sửa và kiểm bằng cả test writer lẫn lượt
+chạy dài mới. Không triển khai lại UI/API/terminal hoặc đổi database.
+
+**Đánh giá:** +0,5437% reference và+0,0922% stress trên cùng vốn10.000USD;
+13lệnh/3tháng development chưa đủ chứng minh edge. Lợi nhuận nhạy với chi phí.
+`broker_spec_verified=false`, `historical_spec_verified=false`,
+`strategy_pass=false`, `prop_pass=false`,
+`intrabar_equity_coverage=insufficient` giữ nguyên. Swap hiện tại/counterfactual
+calendar/commission reference không phải tái dựng account2022; chưa có
+account-specific commission, historical financing/rounding hoặc server stop-out.
+
+**Bước tiếp:** giữ nguyên candidate và kết quả này; đăng ký tiêu chí/cửa sổ
+validation ngoài development trước khi đọc outcome tiếp theo. Dùng dữ liệu
+được owner cho phép, giữ holdout cuối độc lập. Commission cần đối chiếu deals
+của account khi có nguồn/quyền tương ứng; không tự đặt lệnh để đo phí. Chưa
+cần owner tạo/login lại, không còn gate chờ bảng Specification. Chưa mở live,
+mua challenge hoặc quyền broker execution từ kết quả mô phỏng này.

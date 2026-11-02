@@ -286,3 +286,41 @@ Hết mẫu giữ vị thế mở với valuation quote cuối, không fake clos
 là net realized return. Đối soát closed fills/cash/balance, causal timing,
 snapshot JSON restart, signal counts/min equity/rejections/coverage cho cả
 hai scenarios. Hai tuần chỉ kiểm tích hợp; không đủ edge/Prop pass/promotion.
+
+## 10. Thông số FTMO hiện tại và development dài hơn — 02/11
+
+Owner đã tạo/login FTMO demo và cho phép đọc thông số, tiếp tục mô phỏng offline.
+Thay gate chờ owner ở mục9; không mở quyền OrderCheck/OrderSend. Quyền bảo trì
+local/restart terminal đã lưu trong `projects/trader/AGENTS.md`.
+
+Snapshot quan sát08:58:49UTC02/11/2026, SHA256
+`930e5670b21b09963d21741258706adeff6b10c454dd9fafa0df7346a0a74756`, lưu
+local `ftmo-current-spec-20261102/spec.json` dưới folder job hiện có. EURUSD:
+100.000EUR/lot, tick/point0,00001;1USD/tick/lot; min/step0,01lot, max50lot;
+USD account, leverage30, margin currencyEUR, calculation modeForex. SDK tính
+margin1lot BUY tại1,12210 =3.740,33USD; SELL tại1,12209 =3.740,30USD, khớp
+contract×price/leverage trong sai số rounding cent. Margin call100%, stop-out50%
+được quan sát nhưng core chưa mô phỏng chính sách liquidation của server.
+
+Swap modePoints, BUY−9,3points và SELL+0,31points; tương ứng debit9,30USD và
+credit0,31USD/lot/ngày với point/contract/currency trên; Wednesday triple-day3.
+Đây là **điều kiện hiện tại**, không là lịch sử swap2022. Không suy từ spread
+tại một tick thành spread cả kỳ. Tick QDM giữ Bid/Ask gốc.
+
+Không có deals EURUSD trên account để xác minh commission. Giữ2,50USD/lot/
+chiều làm published reference theo [FTMO25/09/2025](https://ftmo.com/en/blog/trading-updates/trading-update-25-sep-2025/),
+không đổi `commission_account_specific_verified=false`. [FTMO29/10/2026](https://ftmo.com/en/blog/trading-updates/trading-update-29-oct-2026/)
+xác nhận rollover server midnight, GMT+2 từ02/11 và swap có thể đổi; daily
+loss vẫn Prague. Khi áp vào giá2022, calendarMon–Fri22UTC/Wed×3 và rounding
+cent vẫn là declared counterfactual, chưa có holiday/fee-ledger verification.
+
+Đăng ký trước các outcomes mới: (1) chạy lại đúng development03–14/01 để đối
+chiếu việc thay rates; (2) mở rộng development03/01–31/03/2022, dùng nguyên
+warmup20–31/12/2021, cùng strategy/risk25–100–500USD, không tune/sweep. Export
+tick tuần tự qua QDM CLI/cache, pin hash và source trước run. Không đọc2023+.
+Reference dùng swap BUY-debit9,30/SELL-debit−0,31; stress giữ debit20 cả hai
+chiều và slippage0,00002 như mục9. Commission giữ nguyên cả hai scenarios.
+Known-at trong replay là thời điểm giả định công bố scenario trước run, không
+đổi timestamp quan sát2026 thành thông số từng biết năm2022. Manifests giữ cả
+hai mốc, qualification=`declared_scenario`, historical-spec/strategy/Prop pass
+vẫn false. Kết quả là development, chưa là đánh giá độc lập hay quyền dùng tiền.
