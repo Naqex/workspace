@@ -20,7 +20,8 @@ kết quả thực thi thuộc [receipt hiện có](../checkpoints/ai-integratio
 | Margin | Mô phỏng theo đặc tả tài khoản/symbol; base leverage Swing 1:30 không là mục tiêu dùng hết |
 
 Ngưỡng nội bộ chặt hơn giới hạn hãng để dành khoảng đệm, chưa được tối ưu bằng
-kết quả. Đây là yêu cầu cho runner Forex kế tiếp, **chưa là risk guard đã triển khai**.
+kết quả. Đã có risk guard Python offline với quote tổng hợp; chưa nối strategy
+runner, API/UI hoặc runtime sản phẩm. Phạm vi và giới hạn ở mục 6.
 Không martingale, bình quân lỗ, tăng size sau thua hoặc ép giao dịch đủ số ngày.
 Nếu lot tối thiểu vượt mức rủi ro, bỏ lệnh. Không lấy 15 triệu của owner làm
 ngân sách challenge/retry; chưa rõ quỹ sinh hoạt/dự phòng.
@@ -53,7 +54,8 @@ Trader giữ FX execution/accounting và Prop domain; Quant chỉ reuse metric k
 
 - **Nguồn giá ưu tiên: Dukascopy qua QDM CLI sẵn có**, theo
   [QDM workflow](../../projects/trader/docs/quantdatamanager.md). Đã export mẫu
-  M1 từ cache; chưa có manifest tick Bid/Ask hoặc đặc tả symbol/cost đủ cho runner.
+  M1 và tick Bid/Ask ngày03/01/2022 từ cache; tick có hash/kiểm format ở receipt
+  local. Chưa có manifest dataset execution hoặc đặc tả symbol/cost đủ cho runner.
   Không chạy backtest khi các trường này thiếu; không giả phí/swap bằng 0.
   Cần nguồn hợp lệ, timestamp/timezone, bid/ask, contract size, lot/tick steps,
   commission, swap/rollover và margin. Không tự kết nối tài khoản MT5 để lấy.
@@ -102,8 +104,10 @@ Lát dữ liệu tiếp nối đăng ký **03/01/2022, 12:00–13:00 UTC**, EURU
 development để kiểm ingest/accounting, chưa đủ warmup H4/candidate. Sau owner
 nhắc QDM, dùng integration hiện có thay đường tải trực tiếp mới. Export cache
 QDM giới hạn cả ngày03/01/2022 (CLI nhận ngày), rồi kiểm riêng giờ đã đăng ký.
-Mẫu hiện chỉ có M1 `provider_default`, không phải tick Bid/Ask. Chi tiết hash,
-15 phút thiếu và giới hạn ở receipt; chưa chạy BUY/SELL probe hoặc strategy.
+Mẫu M1 ban đầu là `provider_default`; sau tải cache đã export65.215 tick
+Bid/Ask Dukascopy ngày03/01/2022, có3.829 tick trong giờ đăng ký. Header,
+millisecond, UTC, thứ tự và giá đã kiểm;15 phút không có quote được giữ nguyên.
+Hash/provenance/coverage ở receipt; chưa chạy BUY/SELL probe hoặc strategy thật.
 Raw data chỉ lưu local cho nghiên cứu, chưa duyệt quyền redistribution.
 Không tiếp cận giá validation/holdout hoặc biến export thành strategy return.
 
@@ -135,3 +139,37 @@ Tiếp theo: chọn manifest Forex/cost hợp lệ và nối một lượt repla
 offline của candidate cố định. Chưa dispatch workflow crypto cũ cho Forex.
 Sau offline có bằng chứng mới xét free trial; mua challenge và mọi quyền
 broker/demo/live vẫn cần phạm vi và quyết định riêng của owner.
+
+## 6. Risk guard offline — source candidate 02/11/2026
+
+Module: `projects/trader/foundation_v2/trading_workspace_v2/forex_pilot_risk.py`.
+Reuse tick execution/accounting hiện có, không thêm engine khớp lệnh riêng.
+Chỉ hỗ trợ EURUSD, tài khoản USD; snapshot pin giới hạn 25/100/500 USD.
+
+- `initialize_forex_pilot` đăng ký thời điểm bắt đầu và daily balance anchor.
+  `queue_forex_pilot_order` yêu cầu stop; tại quote khớp dự kiến, kiểm loss tới
+  stop gồm chi phí khai báo và ngân sách ngày/tổng còn lại trước khi mở lệnh.
+- `advance_forex_pilot`: quote → mark equity trước/sau xử lý → chốt cờ dừng
+  ngày/tổng → đóng ở quote kế tiếp nếu còn vị thế. Quote cùng millisecond nhưng
+  sequence lớn hơn vẫn là quote tiếp theo. SL/TP có thể đóng ngay ở quote chạm
+  ngưỡng; không đóng lần thứ hai. Giá gap có thể khiến loss vượt 25 USD hoặc
+  vượt ngưỡng dừng; 25 USD là rủi ro dự kiến tại stop, không là bảo đảm khớp giá.
+- Daily anchor dùng balance được mang sang trước hành động của quote đầu ngày
+  Prague; không dựng quote nửa đêm. Cờ dừng ngày reset theo `Europe/Prague`
+  (DST); cờ dừng tổng giữ nguyên. Lệnh đóng chờ không mất khi đổi ngày/restart.
+- Snapshot JSON giữ execution, last quote/sequence, giới hạn, stop evidence và
+  risk rejection journal. Một cửa sổ quote lỗi không công bố state nửa chừng.
+  Risk rejection nằm ở journal pilot, không giả thành margin rejection.
+
+Đây là kiểm soát trên **quote được cung cấp**; không chứng minh không breach
+giữa các tick thiếu. Giữ `intrabar_equity_coverage=insufficient` của core khi có
+exposure; chưa cấp Prop pass. Equity là net liquidation value của core, gồm
+round-trip costs và financing tổng đã khai báo; chưa thêm timed swap/cash ledger,
+fee rounding hoặc đặc tả broker đã xác minh. Stop nội bộ dùng equity <= floor;
+luật breach FTMO riêng vẫn dùng equity < floor. Risk snapshot này chưa là API
+contract/preset native, chưa chạy với chiến lược hay đưa vào runtime.
+
+Kiểm chứng source: 13 ca pilot synthetic, 22 ca tick execution, 20 ca Prop
+connection và 10 ca immediate execution đạt. Ca stress đóng chậm dùng vị thế
+carried cố tình quá lớn để kiểm guard; normal admission sẽ từ chối stop rộng
+đó. Kết quả/commands/source revision ở receipt AI; không suy ra hiệu quả kiếm tiền.

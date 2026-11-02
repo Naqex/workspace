@@ -1370,3 +1370,83 @@ duplicate timestamps và bảo toàn thứ tự dòng; hash/count/missing covera
 Nếu `failed`, xem stage/commands/metadata để chỉ retry phần thiếu sau khi xác
 nhận QDM rảnh. Chỉ nối accounting sau quote/spec/cost qualification; chưa dựng
 strategy backtest hoặc bỏ qua intrabar-equity gap của Prop engine.
+
+## 02/11 — Risk guard offline và tick export đã kiểm format
+
+**SOURCE CANDIDATE / DATA FORMAT QUALIFIED; STRATEGY NOT RUN.** Owner duyệt
+làm risk controller trong lúc QDM tải. Không broker/demo/live, DB import,
+migration, API/UI/native rollout hoặc đọc giá validation/holdout.
+
+### Risk controller
+
+Source Trader `3300a4c8`, branch `codex/note-workspace-completion`:
+`foundation_v2/trading_workspace_v2/forex_pilot_risk.py`, tick execution hook
+và `foundation_v2/tests/test_forex_pilot_risk.py`.
+
+- Giới hạn dự kiến25 USD/lệnh gồm chi phí đã khai báo; dừng nội bộ equity
+  ngày100 USD/tổng500 USD. Từ chối entry thiếu SL, entry gap làm SL sai phía,
+  risk vượt giới hạn hoặc chạm/vượt ngân sách còn lại. Margin vẫn do core kiểm.
+- Mỗi quote mark equity trước/sau xử lý; latch dừng và chặn entry. Nếu còn vị
+  thế, đóng ở quote tiếp theo theo Bid/Ask thực tế của input. SL/TP trên quote
+  trigger vẫn có thể đóng trước; không đóng hai lần. Gap có thể vượt budget.
+- Daily reset dùng balance mang sang trước quote đầu ngày Europe/Prague,
+  có DST; tổng không reset. Snapshot JSON giữ pending close qua restart/đổi
+  ngày, last quote/sequence và stop evidence. Cửa sổ lỗi không publish nửa state.
+- Reuse accounting hiện có; không dựng execution engine riêng. Net liquidation
+  gồm full roundtrip costs/aggregate financing của core; chưa có timed swap
+  ledger hoặc broker rounding/spec verified. Tick guard không chứng minh đoạn
+  giá thiếu; giữ `intrabar_equity_coverage=insufficient`, không cấp Prop pass.
+  Stress liquidation dùng carried position cố tình quá lớn; normal admission
+  không cho mở vị thế với stop rộng đó.
+
+Focused verification, từ repo Trader với Python venv sẵn có:
+
+| File | Kết quả |
+|---|---|
+| `test_forex_pilot_risk.py` | 13 passed: BUY/SELL, costs, gap/spread, budget, SL không đóng lặp, restart/Prague mùa đông và mùa hè, checkpoint lỗi |
+| `test_replay_tick_execution.py` | 22 passed: core regression sau hook/extract close |
+| `test_ps02_replay_prop_connection.py` | 20 passed: Prop connection regression |
+| `test_replay_immediate_execution.py` | 10 passed qua pytest: current-quote execution regression |
+
+Ba suite unittest chạy bằng `python -m unittest discover -s foundation_v2/tests
+-p <filename>`; file immediate dùng `python -m pytest
+foundation_v2/tests/test_replay_immediate_execution.py -q`. Hai lần gọi unittest
+cho file immediate trước đó không pass: sai cwd gây import error; khi sửa cwd
+thì0 tests vì file dùng pytest functions. Đã sửa runner, không sửa test để né lỗi.
+Warnings dependency Starlette/httpx, anyio và Pydantic Decimal serialization
+được giữ; không đổi dependency ngoài scope. Không chạy full suite/native build
+cho module offline này. Diff checks đạt; chưa tuyên bố runtime đã cập nhật.
+
+### QDM hoàn tất cache; phục hồi riêng bước export
+
+- Cùng job CLI đã tải/ghi xong trong25 phút8 giây theo log. Metadata:
+  **517.750.341 records**,2003.05.05–2026.11.01,8.582 ngày lịch theo QDM,
+  timezone UTC. Đây là metadata cache, không phải đã đọc toàn bộ giá.
+  Free D: sau update73.915.801.600 bytes; giảm khoảng6,25GB so với trước,
+  chỉ là disk delta quan sát, không là byte mạng hoặc kích thước cache chính xác.
+- Worker kết thúc sau export assertion `one_bounded_export_required` vì không
+  có CSV. Root cause: literal `[[...]]` quanh format không nằm trong tên mà
+  `-h` của bản cài liệt kê. CLI vẫn báo thành công; phải kiểm artifact thực tế.
+  Xác nhận worker/CLI cũ đã thoát, chỉ chạy lại export cùng ngày với một argv
+  `format=Generic tick format (comma delimited)`, thư mục mới
+  `export-format-corrected`. Không update lại hoặc mở QDM GUI.
+- CSV `EURUSD_TICK_TW-TICK-No Session.csv`,2.957.978 bytes; SHA256
+  `d994e395d53b4e8c01e18e10ec65f0b5d394a17a0020d025f96de8cd6f72ba49`.
+  Header `DateTime,Bid,Ask,Volume`; timestamp `yyyyMMdd HH:mm:ss.SSS`.
+  **65.215 ticks** chỉ03/01/2022 UTC,00:00:00.033–23:59:59.732;
+  giờ12:00–13:00 có3.829 ticks. Bid/Ask finite, dương/không crossed, bước giá
+  quan sát0,00001; timestamps tăng, không duplicate timestamp/row liền kề.
+- 15 phút không có quote, trùng danh sách thiếu của mẫu M1; khoảng cách lớn
+  nhất413.792ms. Giữ `review_gaps_not_filled`; không coi là coverage liên tục
+  hoặc lỗi transport đã xác định. Đây là giá Dukascopy, không quote FTMO.
+- Job folder giữ `receipt.json`, `run.py`, `validate_export.py`, progress/error
+  logs và CSV local. Receipt giữ attempt lỗi và recovery args/hash riêng;
+  stage mới **`quote_format_validated_cost_spec_pending`**. Worker đã kết thúc,
+  không còn job download cần chờ. Không commit dữ liệu hãng hoặc nhập DB.
+- Docs export/format/resume Trader `c0b0e134`; root gitlink giữ nguyên.
+
+**Resume:** dùng cache/CSV đã có, không tải lại. Hoàn thiện declared broker
+spec/cost scenario (commission, financing/rollover, lot/tick/margin và rounding),
+đăng ký manifest tick cùng provenance/row sequence trước khi nối một probe
+BUY/SELL offline trong giờ12:00–13:00. Không suy phí năm2022 từ công bố2025,
+không mặc định swap=0. Chưa có H4 warmup/strategy runner, edge hoặc Prop pass.
