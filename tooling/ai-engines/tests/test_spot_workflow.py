@@ -13,7 +13,8 @@ from engine_worker import JobError
 
 
 class NativeFixture:
-    def __init__(self):
+    def __init__(self, engine='rd-agent'):
+        self.engine = engine
         self.company = str(uuid4())
         self.run = str(uuid4())
         self.project = str(uuid4())
@@ -22,7 +23,7 @@ class NativeFixture:
         self.rows, self.keys, self.docs, self.runs = {}, {}, {}, {}
         self.writes = []
         self.agents = [{'id': self.research_agent, 'companyId': self.company, 'status': 'idle',
-                        'metadata': {'naqexEngine': 'rd-agent'}},
+                        'metadata': {'naqexEngine': engine}},
                        {'id': self.agent, 'companyId': self.company, 'status': 'idle',
                         'metadata': {'naqexEngine': 'hermes'}}]
 
@@ -59,7 +60,8 @@ class NativeFixture:
         return result
 
     def graph(self):
-        return workflow.create_graph(self.call, self.company, self.project, 'fixture')
+        return workflow.create_graph(self.call, self.company, self.project, 'fixture',
+                                     workflow='forex' if self.engine == 'forex-pilot' else 'spot')
 
     def complete_source(self, directory):
         graph = self.graph()
@@ -72,8 +74,9 @@ class NativeFixture:
         root = Path(directory) / self.company / source_run
         root.mkdir(parents=True)
         provenance = {'strategy_qualified': False, 'execution_capability': False}
-        evidence = dict(run_id=source_run, provenance=provenance, quant_validation={'fixture': True})
-        receipt = dict(status='completed', delivery_status='published', engine='rd-agent',
+        evidence = dict(run_id=source_run, provenance=provenance)
+        evidence['forex_validation' if self.engine == 'forex-pilot' else 'quant_validation'] = {'fixture': True}
+        receipt = dict(status='completed', delivery_status='published', engine=self.engine,
                        run_id=source_run, issue_id=source_id, company_id=self.company, provenance=provenance)
         for prefix, filename, text in [('engine', 'report.md', 'numeric report'),
                                        ('evidence', 'evidence.md', workflow.block('json', evidence))]:
@@ -86,6 +89,103 @@ class NativeFixture:
 
 
 class WorkflowTests(unittest.TestCase):
+    def test_start_rejects_reparented_cross_company_or_wrong_worker_before_any_mutation(self):
+        for change in ('parent', 'company', 'worker'):
+            with self.subTest(change=change):
+                client = NativeFixture(engine='forex-pilot')
+                graph = client.graph()
+                if change == 'parent':
+                    client.rows[graph['research']]['parentId'] = str(uuid4())
+                elif change == 'company':
+                    client.rows[graph['research']]['companyId'] = str(uuid4())
+                else:
+                    client.agents[0]['metadata']['naqexEngine'] = 'rd-agent'
+                client.writes.clear()
+                with self.assertRaises(ValueError):
+                    workflow.start_graph(client.call, graph)
+                self.assertEqual(client.writes, [])
+
+    def test_bound_research_cannot_escape_guard_by_removing_parent_or_manifest(self):
+        for change in ('parent', 'manifest', 'manifest_child'):
+            with self.subTest(change=change):
+                client = NativeFixture(engine='forex-pilot')
+                graph = client.graph()
+                workflow.start_graph(client.call, graph)
+                client.agent = client.research_agent
+                issue = client.call('/issues/' + graph['research'])
+                binding = workflow.bind_research(client, issue)
+                if change == 'parent':
+                    client.rows[graph['research']]['parentId'] = None
+                elif change == 'manifest':
+                    client.rows[graph['parent']]['description'] = 'ordinary parent'
+                else:
+                    profile, manifest = workflow.registered_graph(client.rows[graph['parent']])
+                    manifest['paper'] = str(uuid4())
+                    client.rows[graph['parent']]['description'] = workflow.block(profile['block'], manifest)
+                with self.assertRaises(JobError):
+                    workflow.guard_research(client, issue, binding=binding)
+
+    def test_forex_profile_reuses_graph_lifecycle_without_changing_spot_contract(self):
+        client = NativeFixture(engine='forex-pilot')
+        graph = client.graph()
+        self.assertEqual(graph, client.graph())
+        self.assertIn('naqex-forex-workflow', client.rows[graph['parent']]['description'])
+        self.assertEqual(client.rows[graph['research']]['description'], workflow.FOREX_REQUEST)
+        self.assertEqual(workflow.start_graph(client.call, graph), 'started')
+        self.assertEqual(workflow.start_graph(client.call, graph), 'already_started')
+        issue = client.call('/issues/' + graph['research'])
+        client.agent = client.research_agent
+        workflow.guard_research(client, issue)
+        client.rows[graph['parent']]['status'] = 'cancelled'
+        with self.assertRaises(JobError):
+            workflow.guard_research(client, issue)
+
+    def test_forex_handoff_rejects_wrong_engine_receipt_tamper_and_cancel(self):
+        for change in ('none', 'wrong_engine', 'receipt', 'cancel', 'tamper'):
+            with self.subTest(change=change), tempfile.TemporaryDirectory() as directory:
+                client = NativeFixture(engine='forex-pilot')
+                graph, root = client.complete_source(directory)
+                if change == 'wrong_engine':
+                    client.agents[0]['metadata']['naqexEngine'] = 'rd-agent'
+                if change == 'receipt':
+                    path = root / 'receipt.json'
+                    receipt = json.loads(path.read_text())
+                    receipt['engine'] = 'rd-agent'
+                    path.write_text(json.dumps(receipt))
+                if change == 'cancel':
+                    client.rows[graph['parent']]['status'] = 'cancelled'
+                if change == 'tamper':
+                    (root / 'evidence.md').write_text('changed')
+                with patch('forex_research.build_report', return_value='numeric fixture report') as builder:
+                    if change == 'none':
+                        result = workflow.review_source(client, client.call('/issues/' + graph['review']),
+                            {'artifact_root': directory}, settle_seconds=0)
+                        self.assertIn('numeric fixture report', result['prompt'])
+                        self.assertIn('không đề xuất tối ưu chiến lược', result['prompt'])
+                        builder.assert_called_once_with({'fixture': True})
+                        workflow.finish_review(client, client.call('/issues/' + graph['review']), result)
+                        self.assertEqual(client.rows[graph['parent']]['status'], 'in_review')
+                        self.assertEqual(client.rows[graph['paper']]['status'], 'blocked')
+                    else:
+                        with self.assertRaises(JobError):
+                            workflow.review_source(client, client.call('/issues/' + graph['review']),
+                                {'artifact_root': directory}, settle_seconds=0)
+                        builder.assert_not_called()
+
+    def test_mixed_workflow_manifests_and_swapped_graph_ids_are_rejected(self):
+        client = NativeFixture()
+        graph = client.graph()
+        parent = client.rows[graph['parent']]
+        parent['description'] += workflow.block('naqex-forex-workflow',
+            {k: v for k, v in graph.items() if k in workflow.MANIFEST_KEYS})
+        with self.assertRaises(JobError):
+            workflow.start_graph(client.call, graph)
+        client = NativeFixture()
+        graph = client.graph()
+        changed = dict(graph, research=graph['review'])
+        with self.assertRaises(ValueError):
+            workflow.start_graph(client.call, changed)
+
     def test_rejects_ambiguous_schema_paths_and_boolean_version(self):
         value = dict(version=1, source_issue_id=str(uuid4()))
         for text in [workflow.block('naqex-review', value) * 2,

@@ -18,6 +18,15 @@ def description(**changes):
 
 
 class ContractTests(unittest.TestCase):
+    def test_forex_request_accepts_only_registered_system_fixture(self):
+        request = dict(version=1, engine='forex-pilot', experiment='forex-h4-system-v1')
+        text = lambda value: '```naqex-engine\n' + json.dumps(value) + '\n```\n'
+        self.assertEqual(worker.parse_request(text(request)), request)
+        for change in ({'experiment': 'tune-h4'}, {'input_dir': '/tmp/data'},
+                       {'model': 'other'}, {'command': 'python'}, {'version': True}):
+            with self.subTest(change=change), self.assertRaises(worker.JobError):
+                worker.parse_request(text(dict(request, **change)))
+
     def test_bounded_crypto_request(self):
         self.assertEqual(worker.parse_request(description())['symbol'], 'BTC-USD')
 
@@ -131,6 +140,33 @@ class LifecycleTests(unittest.TestCase):
         self.assertIn('source-fixture', self.client.report.call_args.args[1])
         self.assertTrue(self.client.report.call_args.kwargs['completed'])
         self.gateway.assert_called_once()
+
+    def test_forex_execution_publishes_numeric_evidence_without_provider(self):
+        request = {'version': 1, 'engine': 'forex-pilot', 'experiment': 'forex-h4-system-v1'}
+        self.client.assigned_issue.return_value = {'id': 'issue', 'description':
+            '```naqex-engine\n' + json.dumps(request) + '\n```\n'}
+        result = dict(report='numeric report', rating='SYSTEM_FIXTURE_PASSED', settings={},
+                      provenance={'strategy_qualified': False}, validation={'fixture': True})
+        with patch('forex_research.preflight', return_value={}), patch('forex_research.run', return_value=result):
+            self.assertEqual(worker.execute_paperclip('forex-pilot', Path('unused')), 0)
+        self.gateway.assert_not_called()
+        self.engine.assert_not_called()
+        self.assertFalse(self.receipt()['provider_work_started'])
+        self.assertTrue(self.receipt()['engine_work_started'])
+        self.assertEqual(self.receipt()['status'], 'completed')
+        evidence = (self.directory / 'evidence.md').read_text(encoding='utf-8')
+        self.assertIn('forex_validation', evidence)
+
+    def test_numeric_failure_is_failed_work_not_provider_or_preflight_success(self):
+        self.client.assigned_issue.return_value = {'id': 'issue', 'description':
+            '```naqex-engine\n{"version":1,"engine":"forex-pilot","experiment":"forex-h4-system-v1"}\n```\n'}
+        with patch('forex_research.preflight', return_value={}), \
+                patch('forex_research.run', side_effect=RuntimeError('interrupted')):
+            self.assertEqual(worker.execute_paperclip('forex-pilot', Path('unused')), 2)
+        self.assertEqual(self.receipt()['status'], 'failed')
+        self.assertEqual(self.receipt()['error'], 'engine_failed')
+        self.assertFalse(self.receipt()['provider_work_started'])
+        self.gateway.assert_not_called()
 
     def test_preflight_failure_never_starts_analysis(self):
         self.gateway.side_effect = worker.JobError('model_unavailable', 'Model chưa sẵn sàng')

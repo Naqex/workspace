@@ -18,10 +18,12 @@ def api(path, body=None, method='GET'):
 
 
 def worker_config(engine: str, settings: Path) -> dict:
-    python = ROOT / 'projects/integrations/TradingAgents/.venv/Scripts/python.exe'
+    python = ROOT / ('projects/trader/foundation_v2/.venv/Scripts/python.exe' if engine == 'forex-pilot'
+                     else 'projects/integrations/TradingAgents/.venv/Scripts/python.exe')
     if not python.is_file() or not settings.is_file():
         raise ValueError('Existing engine Python and private settings are required')
-    name = 'Chuyên viên phân tích' if engine == 'tradingagents' else 'Chuyên viên nghiên cứu'
+    name = {'tradingagents': 'Chuyên viên phân tích', 'rd-agent': 'Chuyên viên nghiên cứu',
+            'forex-pilot': 'Chuyên viên kiểm định'}[engine]
     return {
         'name': name, 'title': name, 'role': 'researcher', 'adapterType': 'process',
         'adapterConfig': {'command': str(python),
@@ -30,6 +32,8 @@ def worker_config(engine: str, settings: Path) -> dict:
                           'cwd': str(ROOT), 'timeoutSec': 900, 'graceSec': 5},
         'capabilities': ('Phân tích cổ phiếu/crypto bằng TradingAgents; báo cáo tiếng Việt; không đặt lệnh.'
                          if engine == 'tradingagents' else
+                         'Kiểm dữ liệu và mô phỏng Forex bằng runner Trader trên bài mẫu cố định; không đặt lệnh.'
+                         if engine == 'forex-pilot' else
                          'RD-Agent: thí nghiệm factor được đăng ký trên snapshot lịch sử; Quant Lab kiểm chứng; không đặt lệnh.'),
         'runtimeConfig': {'heartbeat': {'enabled': False, 'wakeOnDemand': True,
                                        'maxConcurrentRuns': 1}},
@@ -44,10 +48,11 @@ def main():
     parser.add_argument('--settings', required=True, type=Path)
     parser.add_argument('--reports-to', type=uuid)
     parser.add_argument('--apply', action='store_true')
+    parser.add_argument('--engine', choices=['tradingagents', 'rd-agent', 'forex-pilot'], action='append')
     args = parser.parse_args()
     existing = api('/companies/' + args.company + '/agents')
     rows = []
-    for engine in ('tradingagents', 'rd-agent'):
+    for engine in args.engine or ('tradingagents', 'rd-agent'):
         matches = [a for a in existing if (a.get('metadata') or {}).get('naqexEngine') == engine]
         if len(matches) > 1:
             raise ValueError('Duplicate engine workers; inspect instead of replacing them')

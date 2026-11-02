@@ -211,6 +211,56 @@ native API. Do not rerun inference to repair a status update. Native pilot
 [NAQ-20](http://127.0.0.1:17860/NAQ/issues/NAQ-20) exercised this recovery; details
 and the remaining UI verification limit are in the integration receipt.
 
+## A Forex system workflow
+
+Use `spot_workflow.py --workflow forex` for the registered EURUSD/H4 system
+fixture. It reuses the same native parent/dependency/cancel/report lifecycle;
+the default `spot` workflow and its keys remain compatible. This phase checks
+the system using previously observed data, without strategy tuning or new OOS.
+
+The **Chuyên viên kiểm định** process uses Trader's existing offline Python
+and `forex_h4_pilot.py` in the same process. It validates the pinned QDM CSVs
+and FTMO spec, replays the fixed two-week contract and checks its prior numeric
+oracle. It does not call a model, broker SDK or QDM GUI. Hermes then reviews the
+hash-bound evidence through the existing project Gemini route. RD-Agent and
+TradingAgents retain their current workers and are not relabeled as Forex engines.
+
+Add this optional operator-only object to the existing private settings. Keep
+all original settings; task descriptions cannot supply these paths or parameters:
+
+```json
+"forex_pilot": {
+  "input_dir": "<absolute existing h4-inputs-20261102 directory>",
+  "account_spec": "<absolute registered ftmo-current-spec-20261102/spec.json>",
+  "account_spec_sha256": "930e5670b21b09963d21741258706adeff6b10c454dd9fafa0df7346a0a74756"
+}
+```
+
+Provision only the missing worker; this never replaces existing agents. Resume
+that worker through native Paperclip after its fixture preflight passes. Timers
+remain disabled; one native run per worker:
+
+```powershell
+projects/integrations/TradingAgents/.venv/Scripts/python.exe tooling/ai-engines/paperclip_setup.py --company <company-id> --settings <private-settings> --engine forex-pilot --apply
+projects/integrations/TradingAgents/.venv/Scripts/python.exe tooling/ai-engines/spot_workflow.py create --workflow forex --company <company-id> --project <project-id> --key <stable-key>
+projects/integrations/TradingAgents/.venv/Scripts/python.exe tooling/ai-engines/spot_workflow.py start --workflow forex --company <company-id> --project <project-id> --key <same-key>
+```
+
+Native UI shows the simulation task, dependent review and summary awaiting the
+human owner. Paper stays blocked/NOT_RUN. Runner progress appears in the native
+run log and local receipt. A parent cancel or reparenting is detected by the
+numeric worker on its next progress boundary (guard polling at most every two
+seconds between boundaries); the running replay stops and cannot publish success.
+`cancel --parent <id>` additionally cancels active native child runs immediately
+through Paperclip. Use native run cancellation for an already-running model call;
+cancelling the summary alone blocks publication but does not abort a provider call.
+
+Retry is explicit: inspect native run + local receipt first. The same graph key
+never resets started work or runs another attempt. A fresh reviewed attempt uses
+a new key and retains the previous graph/results. Do not automatically rerun a
+model to repair failed report delivery. Replay currently restarts from the fixed
+inputs; JSON checkpoints preserve evidence but are not a CLI resume feature.
+
 ## Verification
 
 ```powershell

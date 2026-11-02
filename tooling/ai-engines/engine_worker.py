@@ -9,6 +9,7 @@ from pathlib import Path
 import re
 import subprocess
 import sys
+import time
 from datetime import date, datetime, timedelta, timezone
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
@@ -48,6 +49,11 @@ def parse_request(description: str) -> dict:
     if not isinstance(value, dict) or type(value.get('version')) is not int or value['version'] != 1:
         raise JobError('invalid_request', 'Phiên bản yêu cầu chưa được hỗ trợ.')
     engine = value.get('engine')
+    if engine == 'forex-pilot':
+        from forex_research import EXPERIMENT
+        if set(value) != {'version', 'engine', 'experiment'} or value['experiment'] != EXPERIMENT:
+            raise JobError('invalid_request', 'Chọn đúng bài kiểm hệ thống Forex; không nhận đường dẫn hoặc tham số từ task.')
+        return value
     if engine == 'rd-agent':
         from rd_research import EXPERIMENT
         if (set(value) not in ({'version', 'engine'}, {'version', 'engine', 'experiment'})
@@ -81,7 +87,7 @@ def parse_request(description: str) -> dict:
 def load_settings(path: Path) -> dict:
     value = json.loads(path.read_text(encoding='utf-8-sig'))
     required = {'version', 'artifact_root', 'gateway_config', 'quick_model', 'deep_model'}
-    if (set(value) not in (required, required | {'rd_agent'})
+    if (not required <= set(value) or set(value) - required - {'rd_agent', 'forex_pilot'}
             or type(value['version']) is not int or value['version'] != 1):
         raise JobError('settings_invalid', 'Cấu hình worker chưa đúng phiên bản.')
     for key in ('artifact_root', 'gateway_config'):
@@ -136,12 +142,13 @@ def clean_environment():
 
 
 def source_pin(engine: str) -> str:
+    source = ROOT / 'projects/trader' if engine == 'forex-pilot' else SOURCES[engine]
     options = dict(text=True, creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0))
-    dirty = subprocess.check_output(['git', '-C', str(SOURCES[engine]), 'status', '--porcelain',
+    dirty = subprocess.check_output(['git', '-C', str(source), 'status', '--porcelain',
                                      '--untracked-files=no'], **options)
     if dirty.strip():
         raise JobError('engine_source_changed', 'Source engine đang có thay đổi chưa lưu; chốt phiên bản trước khi chạy.')
-    return subprocess.check_output(['git', '-C', str(SOURCES[engine]), 'rev-parse', 'HEAD'], **options).strip()
+    return subprocess.check_output(['git', '-C', str(source), 'rev-parse', 'HEAD'], **options).strip()
 
 
 def run_tradingagents(request: dict, settings: dict, directory: Path, connection: tuple[str, str]) -> dict:
@@ -229,13 +236,15 @@ class Paperclip:
 
 
 def execute_paperclip(engine: str, settings_path: Path) -> int:
-    from spot_workflow import guard_research
+    from spot_workflow import bind_research, guard_research
     paperclip = Paperclip()
     issue = paperclip.assigned_issue()
     directory = None
+    research_binding = None
     receipt = {'version': 1, 'engine': engine, 'run_id': paperclip.run,
                'issue_id': issue['id'], 'company_id': paperclip.company, 'status': 'preflight',
                'provider_work_started': False, 'execution_capability': False,
+               'engine_work_started': False,
                'wrapper_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                'started_at': datetime.now(timezone.utc).isoformat()}
     try:
@@ -254,29 +263,44 @@ def execute_paperclip(engine: str, settings_path: Path) -> int:
                        models={key: settings[key] for key in ('quick_model', 'deep_model')})
         write_json(directory / 'receipt.json', receipt)
         prepared = None
-        guard_research(paperclip, issue)
+        research_binding = bind_research(paperclip, issue)
+        guard_research(paperclip, issue, binding=research_binding)
         if engine == 'rd-agent':
             from rd_research import preflight
             prepared = preflight(settings, directory)
-        connection = gateway(settings)
-        guard_research(paperclip, issue)
-        receipt.update(status='running', provider_work_started=True)
+        elif engine == 'forex-pilot':
+            from forex_research import preflight
+            prepared = preflight(settings, directory)
+        connection = None if engine == 'forex-pilot' else gateway(settings)
+        guard_research(paperclip, issue, binding=research_binding)
+        receipt.update(status='running', engine_work_started=True, provider_work_started=engine != 'forex-pilot')
         write_json(directory / 'receipt.json', receipt)
         if engine == 'rd-agent':
             from rd_research import run
             result = run(settings, directory, connection, prepared, paperclip.run)
+        elif engine == 'forex-pilot':
+            from forex_research import run
+            checked_at = 0
+            def guard_progress(stage):
+                nonlocal checked_at
+                now = time.monotonic()
+                if now - checked_at >= 2:
+                    guard_research(paperclip, issue, binding=research_binding)
+                    checked_at = now
+            result = run(settings, directory, connection, prepared, paperclip.run, on_progress=guard_progress)
         else:
             result = run_tradingagents(request, settings, directory, connection)
         receipt.update(status='publishing', engine_status='completed',
                        rating=result['rating'], settings=result['settings'],
                        provenance=result['provenance'], engine_finished_at=datetime.now(timezone.utc).isoformat())
-        heading = ('' if engine == 'rd-agent' else '# Phân tích ' + request['symbol'] + '\n\n'
+        numerical = engine in {'rd-agent', 'forex-pilot'}
+        heading = ('' if numerical else '# Phân tích ' + request['symbol'] + '\n\n'
                    + 'Ngày dữ liệu yêu cầu: ' + request['as_of'] + '. Engine: TradingAgents.\n\n'
                    + 'Đây là phân tích thị trường, chưa phải backtest hoặc bằng chứng chiến lược có lợi nhuận.\n\n')
         evidence = {key: receipt[key] for key in ('run_id', 'source_commit', 'wrapper_sha256', 'request_sha256', 'models', 'provenance')}
         evidence_text = None
-        if engine == 'rd-agent':
-            evidence['quant_validation'] = result['validation']
+        if numerical:
+            evidence['forex_validation' if engine == 'forex-pilot' else 'quant_validation'] = result['validation']
             evidence_text = '# Dữ liệu và kiểm chứng\n\n```json\n' + json.dumps(evidence, ensure_ascii=False, indent=2) + '\n```\n'
             (directory / 'evidence.md').write_text(evidence_text, encoding='utf-8')
             receipt['evidence_sha256'] = hashlib.sha256(evidence_text.encode()).hexdigest()
@@ -287,11 +311,11 @@ def execute_paperclip(engine: str, settings_path: Path) -> int:
         (directory / 'report.md').write_text(report, encoding='utf-8')
         receipt['report_sha256'] = hashlib.sha256(report.encode()).hexdigest()
         write_json(directory / 'receipt.json', receipt)
-        guard_research(paperclip, issue)
+        guard_research(paperclip, issue, binding=research_binding)
         if evidence_text is not None:
             paperclip.call('/issues/' + issue['id'] + '/documents/evidence-' + paperclip.run,
                           {'title': 'Dữ liệu và kiểm chứng', 'format': 'markdown', 'body': evidence_text}, 'PUT')
-        paperclip.report(issue['id'], report, completed=True, research=engine == 'rd-agent')
+        paperclip.report(issue['id'], report, completed=True, research=numerical)
         receipt.update(status='completed', delivery_status='published',
                        finished_at=datetime.now(timezone.utc).isoformat())
         write_json(directory / 'receipt.json', receipt)
@@ -303,9 +327,9 @@ def execute_paperclip(engine: str, settings_path: Path) -> int:
             print(json.dumps({'status': 'blocked', 'engine': engine, 'error': 'run_already_exists'}))
             return 2
         known = error if isinstance(error, JobError) else JobError(
-            'engine_failed' if receipt['provider_work_started'] else 'engine_preflight_failed',
+            'engine_failed' if receipt['engine_work_started'] else 'engine_preflight_failed',
             'Engine chưa hoàn tất. Kết quả đã có được giữ lại; không tự chạy lại yêu cầu chưa rõ kết quả.')
-        receipt.update(status='failed' if receipt['provider_work_started'] else 'blocked',
+        receipt.update(status='failed' if receipt['engine_work_started'] else 'blocked',
                        error=known.code, error_type=type(error).__name__,
                        finished_at=datetime.now(timezone.utc).isoformat())
         if receipt.get('engine_status') == 'completed':
@@ -314,7 +338,7 @@ def execute_paperclip(engine: str, settings_path: Path) -> int:
             write_json(directory / 'receipt.json', receipt)
         try:
             if issue.get('parentId'):
-                guard_research(paperclip, issue)
+                guard_research(paperclip, issue, binding=research_binding)
             paperclip.report(issue['id'], '# Chưa hoàn tất\n\n' + known.message + '\n\nMã chẩn đoán: `' + known.code + '`.', completed=False)
         except JobError:
             pass
@@ -324,7 +348,7 @@ def execute_paperclip(engine: str, settings_path: Path) -> int:
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--engine', required=True, choices=['tradingagents', 'rd-agent'])
+    parser.add_argument('--engine', required=True, choices=['tradingagents', 'rd-agent', 'forex-pilot'])
     parser.add_argument('--settings', required=True, type=Path)
     args = parser.parse_args()
     clean_environment()
