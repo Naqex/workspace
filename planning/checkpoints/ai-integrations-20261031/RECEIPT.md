@@ -1253,3 +1253,56 @@ accounting trên cùng virtual clock. H4/M1 close-only không đủ chứng minh
 breach intraday. Chốt nguồn/cutoff, cost và split trước outcome; nối một replay
 offline cố định và independent accounting checks, rồi mới bàn forward trial.
 Chưa tự promotion, mở holdout hoặc gọi lại workflow crypto cho Forex.
+
+## 02/11 — khôi phục luồng QDM đã có theo nhắc nhở của owner
+
+Owner nhắc project dùng QDM CLI và yêu cầu lưu cách dùng vào docs. Kiểm tra
+trực tiếp xác nhận bộ cài **125.2692** còn ở checkout runtime cũ:
+`D:/ANNAM/TradingWorkspace/projects/mt5-tradingview-backtester/foundation_v2/.runtime/quantdatamanager`.
+Source hiện hành là `projects/trader`; bộ cài không tự chuyển theo rename.
+`qdmcli.exe -h` và `-symbol action=list` qua wrapper `QdmCli` hiện có đều thành
+công. Không đọc license, đổi activation, copy cache, restart API hay truy cập broker.
+
+### Đã làm và kiểm chứng
+
+- Export **cache có sẵn**, `EURUSD_TW`, M1, UTC, ngày03/01/2022, bằng
+  `-data action=export`; không gọi `action=update`, không tạo symbol mới.
+  Cache metadata có8.755.235 records,2003–2026; chỉ đọc giá ngày development
+  đã đăng ký, không mở giá validation/holdout.
+- CSV có1.425 nến,00:00–23:59UTC; timestamp tăng nghiêm ngặt, OHLC dương và
+  đúng quan hệ high/low. Giờ12:00–13:00 có60 nến. So lưới24giờ thiếu15 phút;
+  receipt giữ danh sách, `review_missing_minutes_not_filled`, không bù/suy giá.
+- CSV SHA256: `c823e003012effb0dcf359722c82a12ce38d954046f9b2248e504ad1aff101af`.
+  Artifact local:
+  `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/forex-prop-pilot-20261102/qdm-cache-export-20261102/`.
+  `receipt.json` giữ exact arguments, hash, khoảng ngày, checks và qualification;
+  không đưa dữ liệu hãng vào Git hoặc đăng ký dataset trong DB Workspace.
+- Cập nhật docs QDM hiện có với đường dẫn thực tế, wrapper/commands export,
+  giới hạn M1/tick và update-full-history. README Trader/foundation route tới
+  docs này. Sửa ghi chú FTMO cũ theo source balance-anchor vừa hoàn thành;
+  không khẳng định runtime đã cập nhật hoặc preset đầy đủ.
+- Dọn4 file prototype **chưa commit của chính lượt này**: direct tick capture,
+  Node test, accounting probe và Python test phụ thuộc format capture đó.
+  Không thêm downloader hoặc oracle mới trước khi có format tick QDM xác minh.
+- Kiểm syntax Python của ví dụ docs,3 đường dẫn liên kết và đối chiếu lại
+  hash/count trong receipt với CSV đều đạt; `git diff --check` ở hai repo đạt.
+  Không chạy lại các suite Prop không đổi vì thay đổi giữ lại chỉ là docs.
+
+Source docs Trader: `7e9e2730`, branch `codex/note-workspace-completion`.
+Root gitlink giữ nguyên chờ product merge, chưa push/deploy hoặc thay runtime.
+
+### Sai hướng trước khi sửa và giới hạn còn lại
+
+Trước khi rà QDM đủ, thử direct Dukascopy Jetta nhậnHTTP202, header
+`x-amzn-waf-action: challenge`; đã dừng, không bypass, không tạo capture.
+Đây **không phải** lỗi nguồn QDM. Các7Node/4Python tests tổng hợp của prototype
+đã chạy chỉ là kiểm thử thăm dò, không còn là capability được giữ trong repo.
+Python system thiếu psycopg khi import wrapper; dùng `.venv/Scripts/python.exe`
+có sẵn thành công, không cài package hoặc đổi global environment.
+
+Help QDM có `datatype=TICK`/`timeframe=TICK`, nhưng danh sách symbol chỉ có M1.
+Chưa tải tick mới vì `action=update` có thể kéo full history vượt vùng nghiên
+cứu. M1 hiện tại mang `provider_default`, không chứng minh Bid/Ask gốc hoặc
+đường đi equity intraday. Chưa chạy accounting BUY/SELL, H4 strategy, Prop pass
+hoặc kết luận lợi nhuận. Bước kế tiếp là xác minh đường lấy/export tick có giới
+hạn và semantics quote/time; không yêu cầu owner export tay khi QDM còn dùng được.

@@ -51,7 +51,9 @@ Trader giữ FX execution/accounting và Prop domain; Quant chỉ reuse metric k
 
 ## 3. Dữ liệu và cách tránh kết luận sai
 
-- **Nguồn, manifest, cutoff/hash và đặc tả symbol/cost chưa được chọn hoặc nhập.**
+- **Nguồn giá ưu tiên: Dukascopy qua QDM CLI sẵn có**, theo
+  [QDM workflow](../../projects/trader/docs/quantdatamanager.md). Đã export mẫu
+  M1 từ cache; chưa có manifest tick Bid/Ask hoặc đặc tả symbol/cost đủ cho runner.
   Không chạy backtest khi các trường này thiếu; không giả phí/swap bằng 0.
   Cần nguồn hợp lệ, timestamp/timezone, bid/ask, contract size, lot/tick steps,
   commission, swap/rollover và margin. Không tự kết nối tài khoản MT5 để lấy.
@@ -95,6 +97,15 @@ compliance, inactivity, payout, KYC, thuế, hợp đồng hoặc phí challenge
 Không dùng snapshot/model báo cáo để tự xác nhận pass hay xác suất nhận payout.
 
 ## 5. Điểm dừng và bước tiếp
+
+Lát dữ liệu tiếp nối đăng ký **03/01/2022, 12:00–13:00 UTC**, EURUSD, thuộc
+development để kiểm ingest/accounting, chưa đủ warmup H4/candidate. Sau owner
+nhắc QDM, dùng integration hiện có thay đường tải trực tiếp mới. Export cache
+QDM giới hạn cả ngày03/01/2022 (CLI nhận ngày), rồi kiểm riêng giờ đã đăng ký.
+Mẫu hiện chỉ có M1 `provider_default`, không phải tick Bid/Ask. Chi tiết hash,
+15 phút thiếu và giới hạn ở receipt; chưa chạy BUY/SELL probe hoặc strategy.
+Raw data chỉ lưu local cho nghiên cứu, chưa duyệt quyền redistribution.
+Không tiếp cận giá validation/holdout hoặc biến export thành strategy return.
 
 Lát này hoàn thành khi contract được lưu, Prop domain hỗ trợ balance anchor
 riêng và focused checks đạt. Receipt ghi kết quả và source revision.
