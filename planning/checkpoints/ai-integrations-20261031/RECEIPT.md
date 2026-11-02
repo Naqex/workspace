@@ -2459,3 +2459,55 @@ API packages và `injection-result.json`; 3 file `*-before.bin` và
 gỡ 3 dòng attributes do lát này thêm nếu muốn đảo sửa LF; không ghi đè các rule
 local khác. Operations guide định nghĩa cách dùng 3 skills mà không nhân bản
 PLAN/receipt hoặc mở rộng quyền hạn.
+
+### Studio: rà kiến trúc và mức sẵn sàng mở rộng, 03/11
+
+Owner yêu cầu audit tổng thể, kiểm thử tối thiểu, phân loại theo từng lát từ
+nghiên cứu tới thực thi thật. Kết luận: giữ kiến trúc hiện tại cho nghiên cứu
+có owner theo dõi; chưa nghiệm thu chạy tự động nhiều job hoặc giao dịch.
+Không bật lịch, tăng concurrency, đổi model hay thêm engine trong lượt audit.
+
+| Lát | Bằng chứng và giới hạn hiện tại |
+|---|---|
+| Điều phối | Paperclip native HTTP đọc được; 5 agents idle, mỗi agent maxConcurrentRuns 1, timer tắt. Không có UI/ledger workflow thứ hai. |
+| Trưởng nhóm | Có 7 selections nhưng 4 skills mới vẫn chờ materialization; codex_local/CLI chọn claude-opus-5.5, route owner từng báo hết hạn. Bypass approvals/sandbox false. Chưa gọi model để xác nhận readiness. |
+| Nghiên cứu | TradingAgents/RD-Agent/Hermes source sạch, đúng gitlink; lịch sử engine jobs được giữ. Các process workers chỉ nhận contract đã đăng ký, chưa là nghiên cứu tự do. |
+| Dữ liệu/mô phỏng | NAQ-69 được đọc lại qua observation helper: Forex done/succeeded/recorded 110,54s, receipt/output hash hợp lệ. Không export QDM hoặc chạy lại fixture. |
+| Phản biện | NAQ-69 Hermes done/succeeded/recorded 44,48s; SDK quan sát 2 requests, input 14468/output 2822. Chi phí unknown, không phải invoice. |
+| Owner duyệt | NAQ-69 in_review giao human; executionPolicy null. Bàn giao này không là native Reviewer/Approver policy hay trading authority. |
+| Paper/forward | Placeholder blocked/NOT_RUN; chưa có forward engine/soak acceptance. |
+| Demo/live | Không gọi broker, không mở execution; việc đã kết nối MT5 không nghiệm thu luồng AI→lệnh. |
+
+**Readiness và ưu tiên:** gateway model catalog hiện `gateway_unavailable`;
+WSL NaqexResearch stopped (on-demand, không coi đó là lỗi cài đặt). Native
+budget policies rỗng, company/agent monthly budget 0; lead có maxDailyRuns 10,
+4 process workers chưa có daily run cap. Cost summary có 27 events, 24 chưa
+định giá, 22 unknown billing, 2 pending accounting, pricingComplete false.
+Các nhóm có thể chồng nhau; pending accounting không đồng nghĩa run còn chạy,
+spendCents 0 không chứng minh miễn phí. Ưu tiên chọn model đúng adapter/còn dùng
+được cho lead và khôi phục gateway trước lượt job kế tiếp. Sau đó reuse native
+maxDailyRuns/budget policies thay vì viết scheduler/quota store mới; money cap
+chưa đáng tin khi billing còn unknown. Giữ cap số lượt như lớp giới hạn riêng.
+
+Trước tăng tải: một nhiệm vụ lead nhỏ để kiểm skill discovery và đúng contract;
+kiểm phục hồi/hủy ở runtime thực rồi mới thử tối đa 2 workflow độc lập có owner
+theo dõi. Đây là bước đề xuất, chưa phải mức concurrency đã benchmark. RD-Agent
+tiếp tục một runtime lease, không nhân bản worker để vượt lease. Cân nhắc native
+approval stages khi có hành động đặc quyền cụ thể, không thêm reviewer trùng
+Hermes. Chưa có bottleneck đo được đòi thêm engine/Jev/memory/vector/queue.
+
+**Kiểm chứng tối thiểu:** doctor source/runtime đạt cho 4 integrations, pin,
+origin/license sạch và Paperclip healthy. 8 focused offline behavioral tests
+đạt trong 0,152s: auth bị thu hồi, chống dispatch trùng, source/run/hash handoff,
+hủy child, lỗi delivery không lặp inference, interrupted khác success, unknown
+usage khác zero billing, human handoff không tự chạy paper. Không mở full suite,
+load/soak/restore test hoặc fresh provider workflow. `/mcp/setup` và
+`/mcp/connections` trả 401 với CLI credential hiện tại; không kết luận OAuth
+người dùng hỏng hoặc MCP đang expose trong chat. Dùng native HTTP phù hợp scope.
+
+Evidence private:
+`E:/BACKUP-TRADINGWORKSPACE/studio-observation-20261103/architecture-audit/`
+(`runtime-summary.json`, `summary.json`, `data-quality.json`, `overview.json`,
+`last-accepted-graph-observation.json`, `audit-findings.json`). Không đổi
+runtime/config/source engine hoặc strategy; kết quả là scoped architecture audit,
+không full-product, fresh inference, multi-job hay live acceptance.
