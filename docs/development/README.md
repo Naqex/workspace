@@ -77,6 +77,22 @@ Khi sửa AGENTS/skill/MCP, dùng `ai-environment-maintainer` đang cài và ch�
 Config MCP của repo chỉ có lệnh tương đối và tool allowlist; secret/index không
 được commit. Xerj là tùy chọn, `rg` luôn là đường cơ bản khi chưa có index mới.
 
+### Quản lý bộ công cụ hiện tại
+
+Chưa cần thêm manager hoặc dashboard. Dùng đúng owner hiện có:
+
+| Cần quản lý | Nguồn/cách kiểm tra |
+|---|---|
+| Skills, hooks, MCP và instruction budget | Skill `ai-environment-maintainer` và deterministic audit của skill |
+| Source fork, pin, origin/upstream, license | [Integration catalog/doctor](../../tooling/integrations/README.md); `node tooling/integrations/doctor.mjs` |
+| Tool/index và freshness | [Search tooling](../../tooling/search/README.md); lockfiles và manifest tương ứng |
+| Cổng, process, dữ liệu local | Local-services registry/guide ở trên; launcher/owner receipt của runtime |
+| Giao việc, retry/cancel và lịch sử engine jobs | [Native Paperclip contract](../../tooling/ai-engines/README.md) |
+| Scope và tiến độ được nghiệm thu | PLAN → ledger/checkpoint mà PLAN chỉ định |
+
+Đây là bảng điều hướng, không là registry/tracker mới. Chỉ thêm công cụ quản lý
+khi có lỗi vận hành lặp lại mà các owner/check hiện tại chưa giải quyết được.
+
 ## License và nguồn lịch sử
 
 Phần Naqex sở hữu dùng [license hiện hành](../../LICENSE); quyền cá nhân,

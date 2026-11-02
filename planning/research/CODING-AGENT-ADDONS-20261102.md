@@ -1,8 +1,8 @@
 # Ponytail và công cụ bổ trợ coding agents
 
 Khảo sát ngày 02/11/2026, bổ sung cho
-[Hermes/OpenClaw](HERMES-OPENCLAW-20261102.md). Chỉ đọc docs/source; chưa cài,
-chạy installer, bật hooks hay benchmark các ứng viên dưới đây.
+[Hermes/OpenClaw](HERMES-OPENCLAW-20261102.md). Ponytail/Superpowers/GSD chỉ
+khảo sát. RTK đã thử riêng bằng CLI; kết quả bên dưới, không bật hook tự động.
 
 ## Quyết định theo môi trường hiện có
 
@@ -11,7 +11,7 @@ chạy installer, bật hooks hay benchmark các ứng viên dưới đây.
 | [Ponytail](https://github.com/DietrichGebert/ponytail) | Skills hướng tới thay đổi nhỏ nhưng đủ yêu cầu; có review/audit | Tham khảo review/audit; chưa cài plugin global vì policy minimal-change/reuse đã có |
 | [Superpowers](https://github.com/obra/superpowers) | Bộ workflow thiết kế, plan, TDD, review và thực thi bằng agents | Chưa thêm cả bộ vào workspace; trùng workflow đang có và thêm trigger/quy trình rộng |
 | [GSD Core](https://github.com/open-gsd/gsd-core) | Quản lý công việc theo phase và context mới cho từng agent | Hợp để thử ở project mới; chưa tạo hệ plan/state cạnh tranh ở workspace này |
-| [RTK](https://github.com/rtk-ai/rtk) | CLI rút gọn output và có cơ chế rewrite lệnh theo host | Ứng viên ưu tiên thử riêng khi output thực sự là bottleneck; chưa bật hook toàn cục |
+| [RTK](https://github.com/rtk-ai/rtk) | CLI rút gọn output và có cơ chế rewrite lệnh theo host | Đã thử OSS 1.1.0; chưa thấy lợi ích hơn Git compact native, bỏ executable sau thử nghiệm |
 
 Đây là đánh giá độ phù hợp kiến trúc, không phải bảng xếp hạng chất lượng/tốc độ.
 Không phải công cụ nào trong bảng cũng là engine: Ponytail/Superpowers chủ yếu
@@ -60,6 +60,38 @@ theo output template của review/audit.
 Nếu thử: cùng fixture/model và cùng policy baseline; dùng bản sao source; đo
 đúng hành vi, regression, thời gian, output/context và công sức quản lý. Giữ
 công cụ chỉ khi có giá trị thêm. Không cần cài tất cả để làm phép so sánh.
+
+## RTK: kết quả local, không promote
+
+Đã tải đúng OSS Windows 1.1.0 (Apache-2.0), đối chiếu SHA256 với release,
+review cấu hình rồi gọi CLI tường minh. Bản mặc định có engine BUSL; không
+đánh đồng với OSS edition. Không chạy init/installer hoặc sửa global/PATH/hooks;
+telemetry và recall/tee tắt, tracking DB riêng trong runtime thử.
+
+Ba mẫu mỗi lệnh Git, median trên checkout hiện tại; cột RTK gồm overhead của
+Python wrapper đã review. Đây là chẩn đoán cục bộ, không chứng minh tốc độ
+RTK nói chung hoặc benchmark cả phiên coding agent.
+
+| Lệnh | Raw: bytes / ms | RTK: bytes / ms | Git compact native: bytes / ms |
+|---|---:|---:|---:|
+| status | 723 / 421 | 219 / 1033 | 220 / 388 |
+| log 20 commits | 5909 / 59 | 3546 / 279 | 3563 / 53 |
+
+Native dùng `git status --short --branch` và
+`git log -n 20 --format='%h %s (%ar) <%an>%n%b'` để giữ cả body/trailers.
+Field set tương đương phần output cần dùng, không byte-identical với RTK.
+Query `rg` mẫu giảm 663 → 659 bytes, không đáng thêm tầng xử lý.
+
+16 engine tests đạt ở raw và RTK; output giảm 2577 → 126 bytes. Nhưng một
+failure fixture cố ý cho thấy RTK bỏ traceback và assertion message quan trọng;
+exit 1 vẫn được giữ. Không bật filter tự động cho test/debug output. Chưa đo
+token savings hay tỷ lệ thành công của agent. **Giữ Git native**, executable
+RTK và wrapper thử đã gỡ; archive/results giữ local, không có service/hook mới.
+
+Phần review/audit Ponytail hữu ích đã dùng theo tinh thần caller/data flow,
+failure path và bằng chứng cụ thể trong pilot. Các rule tương đương đã có ở
+AGENTS/evidence-debugging, nên không thêm skill/plugin trùng hoặc claim đã
+benchmark Ponytail. [Receipt và raw evidence map](../checkpoints/ai-environment/20261102/RECEIPT.md).
 
 ## Nguồn chính
 

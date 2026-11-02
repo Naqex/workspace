@@ -105,3 +105,55 @@ Primary sources:
 [CodeGraph](https://github.com/colbymchenry/codegraph),
 [Context7 tool/connection docs](https://context7.com/docs/resources/all-clients),
 [Codex MCP configuration](https://learn.chatgpt.com/docs/extend/mcp).
+
+## RTK explicit trial — không promote
+
+Owner duyệt thử riêng, không bật tự động. Tải official RTK OSS 1.1.0 cho Windows,
+Apache-2.0; release archive digest khớp. Bản OSS được chọn tường minh vì default
+edition có BUSL engine. Không chạy init/install hooks, không sửa global config
+hoặc PATH. Telemetry/recall/tee tắt; tracking DB ở runtime thử riêng.
+
+Archive SHA256:
+`9b076379be9d86011ca3f3a0264d0be4851da5535453a47f67fa46b4e893fbb2`.
+Exe SHA256 lúc thử:
+`431abf30cf72213ad85bcc4526b67c55ca519336efbbf3c1630e388a1f3f4b0f`.
+Source: [official OSS release](https://github.com/rtk-ai/rtk/releases/tag/v1.1.0).
+
+| Command | Raw bytes / median ms | RTK bytes / median ms | Native compact bytes / median ms |
+|---|---:|---:|---:|
+| git status | 723 / 421 | 219 / 1033 | 220 / 388 |
+| git log -n 20 | 5909 / 59 | 3546 / 279 | 3563 / 53 |
+
+3 samples/command, same checkout. RTK includes reviewed Python wrapper startup;
+native compact Git uses the useful field set, not byte-identical output.
+These short diagnostic samples do not establish universal RTK latency or an
+end-to-end coding-agent improvement. No token savings measured.
+
+Focused engine suite: all 16 tests passed raw and RTK, output 2577 → 126 bytes.
+Deliberately failing unittest preserved exit 1 but RTK dropped traceback and
+`EXPECTED_BOUNDARY_FAILURE` assertion marker; raw output retained both.
+Sampled source search compressed only 663 → 659 bytes. Decision: native
+`git status --short --branch` and
+`git log -n 20 --format='%h %s (%ar) <%an>%n%b'` meet this need with fewer layers.
+Do not filter test/debug output automatically.
+
+Executable RTK and tracked trial wrapper/lock candidate removed after review;
+only ignored archive/evidence remain. Local artifacts:
+`.runtime/tools/rtk/benchmark/{results.json,*-raw.txt,*-rtk.txt,reviewed-wrapper.py,reviewed-pin.json}`;
+benchmark scripts in `.runtime/tools/rtk/`. No hook/service/global change.
+Ponytail review/audit principles were applied through caller/data-flow and
+failure controls in RD pilot; no duplicate broad plugin/skill installed and no
+Ponytail performance claim. Research/result details:
+[coding addons](../../../research/CODING-AGENT-ADDONS-20261102.md).
+
+Hermes research was refreshed against official MCP plugin and app-server docs;
+no installation/configuration performed. Existing manager ownership/navigation
+was clarified in the development guide, without another registry/daemon.
+
+Final focused verification: AI environment audit **0 errors, 0 warnings**;
+global 12279 B, project 9099/65536 B, reserve 56437 B, combined 21378 B.
+Workspace contracts passed: 9 guides, 7 pinned submodules. Changed local Markdown
+links resolve, pilot Python AST parses with the recorded source hash unchanged,
+and RTK executable is absent. Diff whitespace check passed. Existing product
+plan/VI Dubber/evidence WIP left outside these commits. No unchanged provider
+call, engine test suite or full product build repeated just for documentation.
