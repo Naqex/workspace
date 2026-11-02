@@ -96,10 +96,11 @@ def load_settings(path: Path) -> dict:
     return value
 
 
-def gateway(settings: dict, *, check_catalog=True) -> tuple[str, str]:
-    import yaml
-
-    document = yaml.safe_load(Path(settings['gateway_config']).read_text(encoding='utf-8'))
+def gateway(settings: dict, *, check_catalog=True, yaml_loader=None) -> tuple[str, str]:
+    if yaml_loader is None:
+        import yaml
+        yaml_loader = yaml.safe_load
+    document = yaml_loader(Path(settings['gateway_config']).read_text(encoding='utf-8'))
     server = document.get('server', {})
     if server.get('host') != SERVICES['host'] or server.get('port') != SERVICES['cliProxyApiPort']:
         raise JobError('gateway_scope', 'Gateway phải dùng đúng cổng riêng của project.')

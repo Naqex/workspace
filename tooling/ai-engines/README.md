@@ -1,5 +1,9 @@
 # Engine jobs in native Paperclip
 
+The optional [Hermes reviewer](hermes.md) uses its official SDK in another native
+process worker. Keep TradingAgents, RD-Agent and Quant Lab in their current roles;
+Hermes reviews evidence and maintains its own research notes.
+
 Paperclip owns task assignment, run concurrency, process timeout/cancellation and
 task history. The native `process` adapter calls `engine_worker.py`. The wrapper
 accepts a bounded request and uses upstream TradingAgentsGraph and its report

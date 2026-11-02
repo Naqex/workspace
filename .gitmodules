@@ -24,3 +24,6 @@
 [submodule "projects/integrations/rd-agent"]
 	path = projects/integrations/rd-agent
 	url = https://github.com/microsoft/RD-Agent.git
+[submodule "projects/integrations/hermes-agent"]
+	path = projects/integrations/hermes-agent
+	url = https://github.com/NousResearch/hermes-agent.git

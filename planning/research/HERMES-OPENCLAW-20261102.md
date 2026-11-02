@@ -9,11 +9,18 @@ Bổ sung theo yêu cầu owner: [Ponytail, Superpowers, GSD Core và RTK](CODIN
 
 ## Kết luận áp dụng
 
-**Giữ kiến trúc hiện có, chưa cài Hermes/OpenClaw vào global hoặc Codex.**
-Pilot RD-Agent trên dữ liệu giả lập đã đạt; chi tiết trong
-[receipt](../checkpoints/ai-integrations-20261031/RECEIPT.md). Còn vòng finance,
-dữ liệu thị trường và native dispatch; chưa có bằng chứng chiến lược đạt.
-Nếu cần thêm, chọn từng công cụ cho nhu cầu cụ thể:
+**Giữ native workers; đã thử Hermes ở project, chưa đưa Hermes/OpenClaw vào global hoặc Codex.**
+Theo lần giao tiếp của owner, Hermes v0.22.5 đã được pin và chạy phản biện hồ sơ
+NAQ-6 qua Gemini trong native Paperclip (NAQ-8). SDK chạy trong process do
+Paperclip sở hữu; không dùng daemon CLI cho worker. Memory qua process mới và
+hủy request SDK offline đã được kiểm chứng. Lượt so sánh nhỏ chưa cho thấy
+chất lượng vượt Gemini trực tiếp, trong khi token cao hơn. Giữ worker như một
+khả năng tùy chọn; không thay toàn bộ harness.
+Hướng dẫn và bằng chứng hiện hành:
+[worker](../../tooling/ai-engines/hermes.md),
+[receipt](../checkpoints/ai-integrations-20261031/RECEIPT.md).
+Các mục khảo sát bên dưới giữ snapshot trước cài, trừ chỗ cập nhật rõ ngày 02/11.
+RD-Agent đã có workflow dữ liệu lịch sử/native dispatch NAQ-6; chưa có chiến lược đạt.
 
 | Công cụ | Vai trò | Chỗ phù hợp nếu có nhu cầu |
 |---|---|---|
@@ -41,9 +48,9 @@ và source/docs, chưa phải benchmark so sánh khả năng làm việc của c
 - Memory lưu dưới Hermes home/profile và có ghi tự động. Nếu thử nhiều worker,
   dùng profile/home riêng; không nhập toàn bộ Codex memory, settings hoặc keys.
   Skills chỉ được đưa về repo sau review theo policy hiện có.
-- Chưa cài/chạy Hermes, chưa đo latency, chi phí, tỷ lệ hoàn thành hay chất lượng
-  so với Codex/native Paperclip workers. Không dùng quảng cáo tiết kiệm context
-  hoặc số GitHub stars làm acceptance.
+- Cập nhật sau pilot: đã đo một task cùng dossier/model với Gemini trực tiếp,
+  chưa benchmark so với Codex hoặc một bộ task đại diện. Không dùng quảng cáo
+  tiết kiệm context hoặc số GitHub stars làm acceptance.
 
 Nguồn: [repository](https://github.com/NousResearch/hermes-agent),
 [memory](https://hermes-agent.nousresearch.com/docs/user-guide/features/memory),
@@ -70,8 +77,8 @@ tin dùng quyền của profile; cài MCP không tự cấp quyền gửi tin ch
 Đường MCP công khai này không tự chuyển memory/self-improvement của Hermes
 sang Codex. Đường app-server là chiều ngược lại, có thể ghi managed global Codex
 config và migrate plugins/MCP; không phải cài thêm một skill trong chat hiện tại.
-Chưa cài Hermes, chưa thêm MCP/config hay benchmark worker. Khuyến nghị project
-scope trước là quyết định kiến trúc, chưa là kết quả đo Hermes tốt hơn Codex.
+Đã cài worker Hermes ở project; chưa thêm MCP/config global hay nối Codex.
+Pilot chưa chứng minh Hermes tốt hơn Codex.
 
 Nguồn: [plugin MCP server](https://hermes-agent.nousresearch.com/docs/plugins/mcp-serve),
 [catalog pin](https://github.com/NousResearch/hermes-official-plugins/tree/6389dd08c1e485db708688c69e42c2b7a7360f4e/mcp-serve),

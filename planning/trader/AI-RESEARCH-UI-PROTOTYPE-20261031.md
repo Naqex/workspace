@@ -2,6 +2,17 @@
 
 ## Hướng hiện hành — owner tự setup,01/11
 
+### Bổ sung 02/11 — Hermes như worker tùy chọn
+
+Owner duyệt giữ native workers và thử thêm Hermes. Acceptance: profile riêng,
+Gemini qua gateway project, một task phản biện hồ sơ NAQ-6 so với cùng model/input
+gọi trực tiếp; kiểm memory qua lượt mới, đăng native document và hủy SDK đang chờ
+bằng fixture offline. Không thay engine số liệu, không mở broker/holdout/lịch.
+Thực thi qua SDK Hermes + native process của Paperclip; CLI của release hiện hành
+tự mở daemon nên không chọn làm đường worker. [Guide](../../tooling/ai-engines/hermes.md)
+giữ setup/boundaries; [receipt](../checkpoints/ai-integrations-20261031/RECEIPT.md)
+giữ benchmark, lỗi đã gặp và giới hạn. Không suy rộng pilot thành toàn bộ autonomy.
+
 ### Lát được giao tiếp ngày 02/11 — một workflow nghiên cứu có dữ liệu thật
 
 Owner giao triển khai cả luồng: snapshot lịch sử cố định → một factor RD-Agent

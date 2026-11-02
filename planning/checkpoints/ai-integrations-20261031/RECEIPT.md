@@ -886,3 +886,124 @@ gateway project17852 và preview5218 còn mở để owner xem; gateway owner me
 Windows8317, không thêm autostart/service hệ thống hoặc AI-environment config.
 Tiếp theo cần một research contract mới có tiêu chí chọn/loại và kế hoạch đánh
 giá trước khi mở vòng tìm kiếm; không giao lại NAQ-6 đã hoàn tất.
+
+## 02/11 — Hermes reviewer trong Paperclip, giữ native workers
+
+Owner duyệt thử Hermes như harness tùy chọn, Gemini qua gateway project 17852;
+không thay các engine nghiên cứu/số liệu hay nối global Codex/MCP. Đây là pilot
+phản biện hồ sơ NAQ-6, không phải chiến lược đủ điều kiện hoặc vòng autonomy mới.
+
+### Source và runtime
+
+- Hermes upstream MIT, release `v0.22.5`, gitlink
+  `bf0203a794a07aac3ff764972ab9087baa4e4f4e` tại
+  `projects/integrations/hermes-agent`; không sửa core. Upstream PM chuẩn bị
+  core Python 3.14.9, extras `[]`, trong `.runtime/hermes/research/installs/`.
+  PM snapshot báo CLI version unknown; provenance lấy gitlink, không suy từ nhãn.
+- Chọn SDK chính thức `run_agent.AIAgent` + native `process` adapter. Release này
+  cho CLI chat tự mở local gateway detached; dừng CLI chưa chứng minh daemon
+  task đã dừng. SDK chạy cùng child process để Paperclip sở hữu lifecycle.
+  Gateway Hermes của lượt probe đã được dừng; không thêm service/listener/MCP.
+- Profile, sessions và memory riêng dưới `.runtime/hermes/research/`; không nhập
+  Codex memory/credentials. Worker đọc internal gateway key từ managed config
+  lúc chạy, không giữ thêm key trong `.env` hay task/Paperclip settings.
+- Inventory thực đã kiểm: `memory`, `research_publish`, `session_search`;
+  progressive tool discovery tắt. Không terminal/files/code/delegation/cron/
+  broker; đây là capability limit, **không phải OS sandbox**. Memory là context
+  tạm, không là bằng chứng mới hoặc quyền promote skill/strategy.
+- Worker **Chuyên viên phản biện** `43144218-ee99-427d-aabb-5abde2f8d804`,
+  reports-to leader hiện có của owner. Timer off, wake-on-demand, concurrency 1.
+  Hướng dẫn setup/disable: [Hermes guide](../../../tooling/ai-engines/hermes.md).
+
+### Native jobs và completion
+
+| Task | Bằng chứng |
+|---|---|
+| NAQ-7 | Thất bại trước inference vì SDK venv không có PyYAML; task cancelled, giữ history. Reuse `hermes_yaml.safe_load`, không pip thêm vào PM venv |
+| [NAQ-8](http://127.0.0.1:17860/NAQ/issues/NAQ-8) | Run `e9e5e6d1-2a88-47cc-a42b-2b5d94d564f4` succeeded, issue done, report native và bài học đã lưu |
+| NAQ-9 | Run `9867a41a-c2ce-40b4-95fc-9e51c24f100c` cancelled; fixture SDK HTTP loopback, zero external provider calls |
+| NAQ-10 | Run `251edf38-3648-4337-87d1-ce5f7a3e9a70` succeeded; process mới trích đúng bài học cũ mà task không cung cấp lại nội dung |
+| [NAQ-11](http://127.0.0.1:17860/NAQ/issues/NAQ-11) | Run `a8868849-d05e-4c4b-befd-b66b79a420a5` succeeded, issue done với completion contract cuối cùng |
+
+Plugin chỉ attach document và ghi publication `attached`; worker chỉ PATCH issue
+done khi model turn completed **và** đã attach. Nếu model lỗi sau attachment,
+không coi task done. NAQ-11 kiểm chứng source cuối, receipt lưu source/worker hash
+và memory hash trước chạy. NAQ-8 là bản benchmark trước bước siết completion và
+thêm provenance này; không gán current worker hash ngược cho lượt NAQ-8.
+
+Native cancel NAQ-9 mất khoảng 0,172s. SDK PID 23376 dừng, listener 59553 đóng,
+không có completion file; fixture dùng real SDK nhưng không gọi model thật.
+AdapterConfig đã được phục hồi. Đây là bằng chứng hủy local child, không bảo đảm
+thu hồi computation/billing của remote provider.
+
+### So sánh tối thiểu: Gemini trực tiếp và Hermes + Gemini
+
+Cùng dossier [hermes-pilot.md](../../../tooling/ai-engines/hermes-pilot.md),
+SHA256 `1ab0d6cff53a6a62d6f94898fafc6e3afa89c3b498f0f8d2322529b02cf52b13`.
+Requested `gemini-3.8-flash-high`, response route `gemini-3.8-flash-n` ở cả hai;
+alias không độc lập xác nhận model thực tế.
+
+| Đo trên một task | Gemini trực tiếp | Hermes + Gemini |
+|---|---:|---:|
+| Wall time | 29,04s | 38,83s SDK; 41,40s native run |
+| API calls | 1 | 2 |
+| Total tokens theo API | 4.185 | 18.309 |
+
+N=1, system prompt/tool loop khác nhau theo harness; chưa đo latency ổn định,
+chi phí USD hay chất lượng trên bộ task đại diện. Hermes dùng khoảng 4,37 lần
+token trong lượt này; **chưa chứng minh chất lượng tốt hơn**.
+
+Hai báo cáo chép đúng 8 metric chính, phân biệt median walk-forward OOS với return
+toàn kỳ và không promote strategy. Đề xuất thí nghiệm tiếp theo của cả hai chưa
+đủ executable contract. Direct gọi dữ liệu từ 2024 là mới dù snapshot đã chứa 2024;
+Hermes gọi 2025 là holdout chưa tiếp xúc mà hồ sơ không chứng minh lịch sử tiếp xúc
+toàn workspace, filter volatility chưa định nghĩa và comparator chưa cùng kỳ.
+Không dùng kết luận tuyệt đối “không leakage” từ vài invariance/oracle checks.
+Đã attach **Đối chiếu và giới hạn** vào NAQ-8, giữ nguyên report gốc để bảo toàn
+provenance; không chạy theo các đề xuất này hoặc gọi lại để chọn kết quả đẹp hơn.
+
+Lợi ích thực chứng của Hermes trong phạm vi này là tool workflow đăng báo cáo và
+memory qua process mới. Giữ native workers, dùng Hermes tùy chọn khi cần hai khả
+năng đó; không đổi toàn bộ harness.
+
+### Kiểm chứng, recovery và bàn giao
+
+- Hermes plugin/worker focused **6/6 pass**; shared engine-worker regression
+  **16/16 pass** sau thay optional YAML loader. Không chạy lại suite không đổi.
+- Paperclip explicit `HERMES_HOME` probe từng tìm host `python3`/`~/.hermes`, bỏ
+  qua configured profile. Sửa cùng đường hello probe đang dùng cho managed
+  routing; giữ connection gate, không bypass. Commit Paperclip
+  `14241e3bab1f3f03444d70189b33352bfb5f119c`; focused tests **3/3 pass** và
+  Hermes package `tsc --noEmit` pass. Legacy `detect-model.test.ts`: 5 pass,
+  **2 fail trên Windows do không có host python3**; nhánh đó không thay. Chưa
+  full monorepo acceptance/PR-ready.
+- Trước restart đã backup qua native API:
+  `.runtime/paperclip/instances/trader-ui/backups/paperclip-20261102-093150.sql.gz`,
+  627.192 bytes. Kiểm owner/PID trước restart; PostgreSQL thoát cùng server,
+  `pg_ctl stop` báo No such process, không reset/restore/migration. Static UI
+  build đạt, health xác nhận đúng commit đang chạy.
+- Browser 1440×1000: Trader 5218 iframe Paperclip 17860 mở được Đối chiếu và giới
+  hạn NAQ-8 và Kết quả phản biện NAQ-11, zero page errors. Lần assertion đầu
+  dùng exact plain text không khớp native issue-link rendering; sửa locator theo
+  heading rồi kiểm lại, không sửa report hay gọi provider.
+- Worker hiện idle, timer off; RD-Agent/TradingAgents/leader của owner được giữ.
+  Không có Hermes worker/daemon còn chạy; project gateway 17852, Paperclip 17860,
+  Trader 5218 còn mở. Không tác động Windows gateway 8317/global Codex.
+- Integration doctor cuối: cả bốn source đúng pin/origin/license, sạch tracked
+  source; Paperclip runtime healthy. AI-environment audit: 0 lỗi / 0 cảnh báo,
+  global 12.279 B, project 9.099/65.536 B, reserve 56.437 B; không sửa global config.
+- Validator metadata phát hiện hai AI trailers bị tách bởi dòng trống. Đã sửa
+  message của commit local, không đổi source tree: Paperclip pin cuối
+  `2e0f8f84b810ef3ae89c400d3ee1faf6b281c217` thay `14241e3b` nêu ở lượt thử.
+  Backup mới `paperclip-20261102-095653.sql.gz` (672.043 bytes), restart đúng
+  owner khi workers idle; health đúng pin cuối, NAQ-11 còn done sau restart.
+  Không chạy model lại; các receipt cũ giữ commit/source evidence lúc thực thi.
+
+Artifacts gốc theo từng run tại
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/6b90f0c1-8f91-4fe8-bc15-fc8c58b3ac8f/`.
+Folder `hermes-benchmark-20261102/` giữ `benchmark.json`, manifest SHA256, dossier,
+hai báo cáo, operator review, usage/receipts, memory/cancel/native status và browser
+screenshots; không chứa settings/key. Source/plugin final hashes nằm trong
+benchmark và NAQ-11 receipt. `.runtime/hermes/` giữ profile/config/private state
+local, không commit. Paperclip fix hiện là local commit; chưa push/fresh-clone
+acceptance. Không tuyên bố hoàn tất product audit hay toàn bộ AI autonomy.

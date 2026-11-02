@@ -10,10 +10,11 @@ Không ghi SHA phiên bản chạy vào nhiều config độc lập.
 | Paperclip | Fork [Naqex/paperclip](https://github.com/Naqex/paperclip); UI thật nhúng trong Trader; [launcher và data boundaries](../paperclip/README.md) |
 | RD-Agent | Pin `484776c2` (1.0.0), WSL2 + Docker riêng. NAQ-6 đã chạy factor BTC/ETH lịch sử qua native Paperclip và Quant Lab; riêng contract đã đăng ký, chưa là vòng finance tự do/chiến lược đạt; [runtime guide](../ai-engines/rd-agent-runtime.md) |
 | TradingAgents | Đã nối native process adapter của Paperclip; NAQ-4 chạy Gemini và có báo cáo VI. LangGraph là dependency engine; chưa kiểm chứng chiến lược |
+| Hermes | Worker phản biện qua SDK chính thức + native process adapter; giữ native workers khác. Profile/memory riêng, Gemini qua gateway project; [hướng dẫn](../ai-engines/hermes.md) |
 | Quant Lab | Giữ `projects/quant-trading`; kiểm chứng/offline receipts. Engine bên ngoài được reuse khi cần; không thay engine chỉ để đồng bộ tên thư mục |
 
 ```powershell
-git submodule update --init -- projects/integrations/paperclip projects/integrations/rd-agent projects/integrations/TradingAgents
+git submodule update --init -- projects/integrations/paperclip projects/integrations/rd-agent projects/integrations/TradingAgents projects/integrations/hermes-agent
 node tooling/integrations/doctor.mjs
 node tooling/integrations/doctor.mjs --runtime
 ```
