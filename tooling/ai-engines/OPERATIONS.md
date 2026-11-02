@@ -13,13 +13,28 @@ for acceptance, failures and resume evidence. This file is not another ledger.
 | Paperclip | Native task graph, assignments, dependencies and run state | Dispatch, concurrency, cancellation, task/run/report history |
 | TradingAgents / RD-Agent / Forex process worker | Registered typed request and `engine_worker.py` | Execute the allowed engine contract; generic Markdown is not its runtime program |
 | Hermes reviewer | `hermes_instructions.md` loaded explicitly by `hermes_worker.py`, verified source dossier, allowlisted tools | Review evidence and publish; no operational administration or broker tools |
-| Native research lead | Its configured instructions file and adapter | Owner-managed; not the coordinator for the registered graph |
+| Native research lead | Its configured instructions file, bundled Paperclip skills and assigned `naqex-research-lead` company skill | Owner-managed; not a second coordinator for the registered graph |
 
 Repo skills are not automatically installed into Paperclip's Skills catalog.
 Hermes runs with `skip_context_files=True`; copying this guide into a directory
 does not make it part of its prompt. Update the owning instruction path/adapter
 only when that consumer needs the change, then verify what it actually receives.
 Do not give a bounded reviewer an operator skill just to make every agent match.
+
+The native lead's Naqex skill source is
+[`paperclip-skills/naqex-research-lead/SKILL.md`](paperclip-skills/naqex-research-lead/SKILL.md).
+This is a Paperclip consumer package, not another Codex discovery skill. Publish
+its reviewed content through the native company skill API, then attach it using
+`POST /agents/:id/skills/sync` with `mode: add`, preserving existing selections.
+The installed native version is a runtime snapshot; maintain the source in this
+repo and compare content/version before updates. Avoid independent UI-only edits.
+
+The current non-Beta assignment follows the skill's current version. Explicit
+version pins require Paperclip's Beta skills setting; do not enable that setting
+incidentally. The `codex_local` adapter materializes/mounts assigned versions on
+the next run, so a catalog entry, attachment count or `configured`/`missing`
+snapshot alone does not prove an agent has read it. Inspect the published file
+and runtime package separately; a real task remains its own execution check.
 
 ## Control access: MCP, HTTP API and source
 

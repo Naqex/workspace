@@ -2363,3 +2363,51 @@ một file đã biết trước khi xét quyền ghi. Không lấy token gh củ
 Evidence: `post-auth-20261102/github-research.json` dưới evidence root của lát
 Studio ở trên. Research này không tuyên bố GitHub connection hoặc coding
 worktree đã được nghiệm thu.
+
+### Studio: skill native cho Trưởng nhóm nghiên cứu, 02/11
+
+Owner duyệt bổ sung skill riêng cho Trưởng nhóm qua catalog Paperclip. Đã tạo
+`tooling/ai-engines/paperclip-skills/naqex-research-lead/SKILL.md`: giao việc đúng
+worker/contract, đọc trạng thái trước mutation, kiểm evidence/provenance,
+reconcile lỗi/delivery trước retry và bàn giao bằng tiếng Việt. Skill dùng
+bundled `paperclip` cho API mechanics; không nhân bản toàn bộ guide vận hành.
+Đây là package cho consumer Paperclip, không thêm skill discovery/global Codex.
+
+**Native publication/assignment:** dùng company skill API `POST /companies/:id/skills`
+với idempotency key `naqex-research-lead-v1`, sau đó `POST /agents/:id/skills/sync`
+`mode: add`. Skill ID `6a920348-0c2c-4b01-9340-557f0ae13621`, current version
+`869451ba-0e79-44e2-974e-e680769dab29`; key
+`company/6b90f0c1-8f91-4fe8-bc15-fc8c58b3ac8f/naqex-research-lead`.
+Gán duy nhất Trưởng nhóm `6da897b6-ce7e-45ba-a8d4-d30de1571dc5`; catalog xác nhận
+attachedAgentCount1. Giữ cả3 bundled defaults và toàn bộ adapter/runtime config
+khác;4 process workers không nhận thêm skills. Native tạo snapshot managed
+markdown-only; source owner trong repo, nội dung native đối chiếu bằng hash.
+
+Lần đầu sync có version pin trả400 vì Beta skills chưa bật. Đã kiểm trạng thái
+publication để giữ đúng skill hiện có, rồi gán không pin qua native API; không
+bật Beta hoặc thử bypass. Assignment hiện theo current version, không tuyên bố
+đã khóa version cho agent. Skill source content SHA256 logical UTF-8:
+`302bc3418167a738867207d542eae6e6f2979fdb6046d93739ba2fd7c6403955`.
+
+**Kiểm chứng:** quick_validate đạt; GET native SKILL.md/version trùng source;
+semantic review với tình huống đọc tiến độ (không dispatch), delivery chưa rõ
+(đối soát, không lặp inference) và yêu cầu ngoài contract (không giao nhầm worker).
+Smoke gọi chính `ensureCodexSkillsInjected` của adapter pin trong skills home
+cách ly: package đọc từ native API được mount đúng hash; skill không chọn không
+được mount. Không sửa source engine hay home Codex thật. AI environment audit
+0 errors/0 warnings; global12279B, project9269/65536B, reserve56267B, combined21548B.
+Git diff check đạt. Không chạy lại các tests hệ thống không đổi.
+
+Evidence/backup private ở
+`E:/BACKUP-TRADINGWORKSPACE/studio-observation-20261102/native-skills-20261102/`
+(`before.json`, `skill.json`, `assignment.json`, `verification.json`,
+`injection-manifest.json`, `injection-result.json`, `api-package/`, `injection-smoke/`).
+Rollback assignment qua native sync `mode: remove` với đúng skill key; giữ
+bundled selections và lịch sử phiên bản. Không cần restore DB hoặc sửa engine.
+
+**Giới hạn:** native snapshot hiện `missing` chờ materialization lúc chạy;
+đó chưa phải bằng chứng agent đã đọc hoặc làm theo skill. Đã kiểm adapter
+injection trong home cách ly, chưa dispatch actual Trưởng nhóm/task/model để
+thử hành vi.0 active runs, timer giữ nguyên tắt, không model/broker calls hoặc
+GitHub authorization. Lượt nhiệm vụ thực tiếp theo cần kiểm discovery/content
+và hành vi trong runtime riêng của agent; không dùng smoke thay acceptance đó.
