@@ -8,7 +8,16 @@ không là quyết định mua challenge. [Brief](AUTONOMOUS-TRADING-SYSTEM-BRIE
 giữ lựa chọn của owner; [kết quả hệ thống hiện tại](../checkpoints/ai-integrations-20261031/STRATEGY-READINESS-20261102.md)
 giữ giới hạn bằng chứng chiến lược.
 
-## Khuyến nghị
+## Quyết định của owner sau khảo sát
+
+Owner chốt ngày 02/11/2026: **Forex major qua MT5; FTMO 2-Step Swing làm chuẩn
+mô phỏng đầu tiên; offline → free trial → chỉ xét challenge trả phí khi có đủ
+bằng chứng và duyệt ngân sách**. The5ers giữ làm ứng viên thử phí thấp sau đó.
+Chưa chốt cặp tiền, timeframe, cỡ tài khoản hoặc risk budget; chưa cấp quyền
+đăng ký/kết nối tài khoản, đặt lệnh, mua challenge hay tự retry. Các nhận định
+bên dưới giải thích lựa chọn, không là kết quả kiểm chứng chiến lược.
+
+## Cơ sở lựa chọn và các phương án đã khảo sát
 
 1. Dùng **FTMO 2-Step Swing** làm mục tiêu mô phỏng đầu tiên; bắt đầu offline,
    rồi free trial khi hệ thống đủ sẵn sàng và owner cho phép đăng ký/kết nối.
@@ -143,8 +152,8 @@ một sản phẩm chưa đạt eligibility.
 - Vốn nhỏ không buộc phải rủi ro cao. Ví dụ minh họa: $2,5K × 1% lợi nhuận × 80%
   share = $20 ≈ 520.000đ trước thuế/phí. Đây là phép tính quy mô, không dự báo tháng
   nào cũng đạt 1%. Gói nhỏ có thể phục vụ chứng minh quy trình, chưa là lương.
-- Chưa chốt lại Forex hay crypto. Đề xuất nghiên cứu Forex major qua MT5 cho
-  nhánh prop đầu tiên vì tài sản reuse và luật Swing; đây là đánh giá engineering,
+- Owner đã chốt nghiên cứu Forex major qua MT5 cho nhánh prop đầu tiên vì
+  tài sản reuse và luật Swing; cơ sở đề xuất là đánh giá engineering,
   không chứng minh Forex có edge cao hơn hoặc vàng/crypto không phù hợp.
 - Giữ crypto spot làm baseline kỹ thuật và lịch sử đã có; không bỏ dữ liệu,
   engine hoặc sửa nghiên cứu cũ thành kết quả Forex/CFD/perpetual.
@@ -157,8 +166,8 @@ một sản phẩm chưa đạt eligibility.
 
 ## Bước tiếp, trước mọi khoản chi
 
-Owner xem shortlist và hướng thị trường. Sau đó đăng ký một contract nghiên
-cứu prop cụ thể: sản phẩm, universe, dữ liệu/cutoff, benchmark, phí, risk budget
+Hướng đã chốt; bước tiếp là đăng ký một contract nghiên cứu prop cụ thể theo
+FTMO 2-Step Swing: sản phẩm, universe, dữ liệu/cutoff, benchmark, phí, risk budget
 và luật đánh giá. Kiểm offline trước, rồi mới đề nghị owner tạo demo/free trial.
 Chưa mua challenge, tạo tài khoản, gửi support, gọi provider/broker hoặc đặt lệnh.
 Chưa audit độc lập tài chính doanh nghiệp, tranh chấp payout hay pháp lý/thuế

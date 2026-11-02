@@ -1,17 +1,17 @@
 # Ưu tiên thị trường cho hệ thống AI
 
-Khảo sát ngày 02/11/2026. **Owner đã đồng ý ưu tiên crypto sau khảo sát; sản phẩm
-khởi đầu đang được giải thích ở lựa chọn spot/futures, chưa có quyền giao dịch.**
+Khảo sát ngày 02/11/2026. **Đây là cơ sở của lựa chọn crypto ban đầu; ưu tiên
+triển khai đã đổi sau khi owner bổ sung nguồn vốn và duyệt hướng prop.**
 Liên quan [brief kiến trúc](AUTONOMOUS-TRADING-SYSTEM-BRIEF.md).
 Không cài tool, chạy provider, tải thêm dataset hoặc thay runtime trong khảo sát này.
 
-**Bổ sung cùng ngày sau khảo sát:** owner cho biết có 15 triệu đồng và ưu tiên
-prop firm. [Khảo sát nguồn vốn/prop](PROP-FIRM-FIT-20261102.md) mở lại lựa chọn
-thị trường triển khai theo nguồn vốn; chưa chốt thay crypto bằng Forex hoặc
-perpetual. Kết luận spot phía dưới giữ giá trị baseline nghiên cứu, không tự
-là lựa chọn nguồn vốn hoặc sản phẩm phù hợp challenge.
+**Quyết định hiện hành cùng ngày:** sau khi bổ sung vốn 15 triệu đồng và xem
+[khảo sát nguồn vốn/prop](PROP-FIRM-FIT-20261102.md), owner chốt **Forex major
+qua MT5**, mô phỏng theo **FTMO 2-Step Swing**, offline rồi free trial; chưa mua
+challenge. Kết luận spot phía dưới giữ giá trị baseline nghiên cứu, không là
+ưu tiên triển khai prop hiện hành hoặc bằng chứng sản phẩm phù hợp challenge.
 
-## Kết luận
+## Kết luận của khảo sát ban đầu
 
 Ưu tiên **BTC/ETH spot, long/cash, khung ngày** cho workflow nghiên cứu đầu tiên.
 Forex là nhánh mở rộng hợp lý, đặc biệt khi mục tiêu chuyển sang broker demo/MT5

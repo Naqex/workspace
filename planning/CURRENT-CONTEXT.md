@@ -28,10 +28,11 @@ là đánh giá cảm quan của owner, không phải acceptance đã kiểm ch�
 Đã chốt nghiên cứu mở trong phạm vi nhỏ; khởi đầu chỉ mô phỏng/demo, xét tiền
 thật sau khi chiến lược có bằng chứng đạt tiêu chí và quyền tương ứng.
 
-Bổ sung 02/11: owner ưu tiên nguồn vốn prop firm; đang xem
-[khảo sát prop và ảnh hưởng chọn thị trường](research/PROP-FIRM-FIT-20261102.md).
-Chưa chốt công ty/thị trường lại, chưa duyệt phí challenge. Crypto spot giữ làm
-baseline; không tự tiếp execution theo lựa chọn thị trường trước bổ sung này.
+Bổ sung 02/11 — **owner đã chốt Forex major qua MT5, FTMO 2-Step Swing làm
+chuẩn mô phỏng** theo [khảo sát prop](research/PROP-FIRM-FIT-20261102.md).
+Offline trước, rồi free trial; chưa mua challenge hoặc duyệt phí/risk budget.
+Crypto spot giữ làm baseline nghiên cứu. Bước tiếp là contract nghiên cứu prop,
+không tự tiếp execution crypto hoặc mở quyền tài khoản/giao dịch từ quyết định này.
 
 ## Naqex migration — 29/10/2026
 

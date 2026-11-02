@@ -18,15 +18,18 @@ execution plan, acceptance ledger hoặc hợp đồng cấp quyền giao dịch
   sẵn sàng live; các gate hiện hành tiếp tục ở Product Plan/ledger của chúng.
 - Ưu tiên nền dài hạn, có thể duy trì và mở rộng. Các lát thực hiện sau này phải
   đóng góp cho kiến trúc đích; tránh làm bản ngắn hạn chỉ để có tính năng.
-- Thị trường đầu tiên: **owner đồng ý ưu tiên crypto ngày 02/11**. Forex/vàng
-  qua MT5 là nhánh có thể mở rộng sau, không là ưu tiên triển khai đầu tiên.
-- **Bổ sung sau đó, 02/11:** owner mới ra trường, hiện có 15 triệu đồng và muốn
-  ưu tiên prop firm; yêu cầu khảo sát trước khi triển khai tiếp. Quyết định crypto
-  phía trên là baseline lịch sử, chưa mặc định là thị trường dùng cho nguồn vốn
-  prop. [Khảo sát prop firm](PROP-FIRM-FIT-20261102.md) đề xuất mô phỏng FTMO
-  2-Step Swing trước, The5ers là ứng viên thử phí thấp, HyroTrader là nhánh crypto
-  còn điều kiện. Chưa owner chốt công ty/thị trường lại hoặc duyệt phí challenge.
-  Chưa rõ 15 triệu có bao gồm quỹ sinh hoạt/dự phòng; không tự cấp ngân sách retry.
+- **Hướng hiện hành — owner chốt sau khảo sát, 02/11:** ưu tiên nghiên cứu
+  **Forex major qua MT5**, lấy **FTMO 2-Step Swing** làm chuẩn mô phỏng cho nguồn
+  vốn prop firm. Bắt đầu offline, sau đó free trial khi có bằng chứng và setup
+  phù hợp; chưa mua challenge. [Khảo sát và quyết định](PROP-FIRM-FIT-20261102.md).
+  Chưa chốt cặp tiền, timeframe, cỡ tài khoản hoặc risk budget cụ thể; lựa chọn
+  này không mở quyền kết nối broker, đặt lệnh hoặc chi phí challenge.
+- Owner mới ra trường, hiện có 15 triệu đồng. Chưa rõ khoản này có bao gồm quỹ
+  sinh hoạt/dự phòng; không tự cấp ngân sách retry. The5ers là phương án thử phí
+  thấp để xét sau, chưa là lệnh mua. HyroTrader giữ làm nhánh crypto tham khảo.
+- Lịch sử cùng ngày: owner từng đồng ý ưu tiên crypto cho pilot ban đầu.
+  Crypto spot và các kết quả đã có tiếp tục làm baseline nghiên cứu; ưu tiên
+  triển khai prop ở trên thay hướng thị trường trước đó, không xóa nghiên cứu cũ.
 - [Khảo sát thị trường 02/11](AI-MARKET-PRIORITY-20261102.md) đề xuất ưu tiên
   BTC/ETH spot khung ngày cho workflow nghiên cứu đầu tiên, theo data/chi phí
   triển khai và tài sản workspace. Owner đang hỏi rõ spot so với futures;
