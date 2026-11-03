@@ -141,25 +141,19 @@ been verified; this read-only reconciliation does not satisfy those gates alone.
 
 ## Pilot run limits and provider throttling
 
-The pilot uses native `runtimeConfig.heartbeat.maxDailyRuns: 10` and
-`maxConcurrentRuns: 1` for each of the five agents. Timer heartbeats remain off;
-explicit/on-demand work still passes native admission. New process workers get
-these defaults from the setup helpers. These helpers preserve existing agents;
-they do not migrate an existing runtime implicitly.
+On 03 November 2026 the owner removed the experimental 10-runs/day cap from all
+five agents to prioritize workflow reliability before cost optimization. Omit
+`maxDailyRuns` and its legacy aliases; do not replace it with a large arbitrary
+number. Setup helpers use the same uncapped daily default for new workers and
+preserve existing agents. Native API changes must retain other runtime fields,
+especially `aiConnection`.
 
-Paperclip counts started runs per agent, including failed attempts, in a UTC day.
-The window resets at **07:00 Vietnam time**, not local midnight. A queued run is
-not a started run, and admission checks the cap again before adapter invocation.
-The cap can therefore stop a graph between children; inspect its native state
-before resuming after reset. The native diagnostic is `heartbeat.daily_run_limit`.
-Review the saved `runtimeConfig`, change only its heartbeat limits through the
-native agent API/UI, and preserve other fields such as `aiConnection`.
-
-These are per-agent run limits, not a company-wide request pool or a strict token
-budget. Different agents may run concurrently; a single engine run may make
-multiple model requests. Do not claim a total request ceiling, tokens/day limit,
-or a dollar cap from these settings. Unknown billing remains unknown. Scheduling
-and increased throughput still require the acceptance gates above.
+Keep `maxConcurrentRuns: 1` per agent, timers off and on-demand work enabled.
+Different agents can run concurrently; a run can make several model requests.
+Retain duplicate protection, process deadlines, bounded retries and permission
+checks. Daily cost tuning is deferred; unknown billing is still unknown, and
+provider quotas still apply. This does not enable unattended scheduling or
+establish a token or money cap.
 
 Avoid multiplying retries across layers:
 
@@ -186,6 +180,31 @@ an owner's separate CLIProxyAPI instance.
 
 Configuration readback and an isolated local 429 smoke are separate from real
 provider readiness. See the current receipt for exactly which checks ran.
+
+## Research to implementation without copying context
+
+Use the current native task as the durable dossier: research in a revisioned
+document, a concise `plan` document when needed, and links to source evidence.
+The lead's [company skill](paperclip-skills/naqex-research-lead/SKILL.md) describes
+the handoff. An already-authorized, cohesive task stays with its existing owner.
+
+When a new owner decision is genuinely required, use native `request_confirmation`
+bound to the exact `plan` revision, with `resolverPolicy: human_only` and the
+actual owner as addressee when known. Read back the effective resolver policy;
+the native default can allow agents to resolve an interaction. Acceptance can
+wake the assigned lead through
+`continuationPolicy: wake_assignee`. The owner reviews the saved proposal rather
+than copying research into another task. A revised plan requires a current
+confirmation; a comment or completed research task is not approval.
+
+For real delegation after plan acceptance, use native
+`/issues/:id/accepted-plan-decompositions`, retaining its revision binding and
+idempotency. Otherwise use ordinary native tasks under existing authorization.
+Verify `blockedByIssueIds`; nesting alone does not impose execution order. Check
+the assignee's actual adapter/model and contract before dispatch. The fixed
+process workers are not general coding agents. These mechanics are provided by
+the pinned Paperclip source; published instructions and API checks do not by
+themselves prove a fresh model-driven end-to-end handoff.
 
 ## GitHub repositories and coding work
 

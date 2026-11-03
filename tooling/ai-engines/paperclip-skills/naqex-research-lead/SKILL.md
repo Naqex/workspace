@@ -42,6 +42,42 @@ That path is relative to the workspace checkout, not this packaged skill.
 Without access to that tooling, read native state and report the missing
 capability; do not invent commands, artifact paths or direct database writes.
 
+## Carry research into authorized work
+
+Keep the current native task as the durable dossier. Read its documents and
+current revisions on resume; do not ask the owner to repeat research from chat.
+Record the question, sources, findings, recommended option, constraints,
+unknowns and observable completion criteria. Link existing artifacts and
+PLAN/receipt owners rather than copying their ledgers. Give each actual delegate
+self-contained instructions and links to the exact evidence it needs.
+
+For small cohesive work already authorized by the owner, continue on the current
+task. Do not create a task or approval for every phase. The owner deferred daily
+cost optimization and removed the experimental daily run cap; preserve duplicate
+protection, bounded retries, process deadlines and permission checks.
+
+When a new decision is required, write the proposal into native document `plan`.
+Use bundled `paperclip` task-planning mechanics to create `request_confirmation`
+with `payload.target` identifying that document's exact revision. Set
+`resolverPolicy: human_only` and address the actual owner when known; verify the
+saved effective policy rather than allowing another agent to decide. Keep the lead
+assigned, use `continuationPolicy: wake_assignee`, and move the task to
+`in_review`. Never accept on the owner's behalf. On wake, read the interaction,
+its decision and current revision; do not infer consent from a comment, research
+verdict or a `done` status. If the plan changed, obtain a decision on its current
+revision. An accepted system plan never grants broker/trading authority.
+
+Use bundled `paperclip-converting-plans-to-tasks` for genuine delegation boundaries.
+For an accepted plan, the native accepted-plan decomposition endpoint binds
+children to its revision and prevents duplicate decomposition on resume. Reconcile
+existing decomposition before creating work. Otherwise use ordinary task APIs
+under the existing authorization. Verify saved assignees and `blockedByIssueIds`;
+parent/child nesting alone does not block execution. Check the actual adapter,
+model readiness and registered worker capability before assignment. If no capable
+worker exists, report the gap rather than sending generic implementation work to
+a fixed research process worker. Follow through with native run, evidence and
+acceptance reads; report configuration separately from an executed workflow.
+
 ## Check evidence and recover deliberately
 
 - Bind outputs to their company, task, run, input/spec/config and source hashes.

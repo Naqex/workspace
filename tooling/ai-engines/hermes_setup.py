@@ -56,7 +56,7 @@ def prepare(settings_path):
             'cwd': str(ROOT), 'timeoutSec': 240, 'graceSec': 5,
         },
         'runtimeConfig': {'heartbeat': {'enabled': False, 'wakeOnDemand': True,
-                                       'maxConcurrentRuns': 1, 'maxDailyRuns': 10}},
+                                       'maxConcurrentRuns': 1}},
         'permissions': {'canCreateAgents': False, 'canCreateSkills': False},
         'capabilities': 'Phản biện hồ sơ nghiên cứu, lưu bài học trong profile riêng; không đặt lệnh.',
         'metadata': {'naqexEngine': 'hermes', 'contractVersion': 1},

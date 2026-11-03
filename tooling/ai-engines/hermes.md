@@ -77,8 +77,8 @@ provider computation can be undone after cancellation.
 The profile's `api_max_retries: 1` is one attempt, with SDK transport retries,
 auto-recovery and provider fallback disabled for this pilot. A rate-limit result
 is recorded as `model_rate_limited` with instructions to reconcile before a manual
-retry. Native Paperclip additionally caps this agent at 10 started runs per UTC
-day and one concurrent run. These controls are separate from tokens or billing;
+retry. Native Paperclip allows one concurrent run for this agent, with no daily
+run cap by owner decision. These controls are separate from tokens or billing;
 see [pilot limits](OPERATIONS.md#pilot-run-limits-and-provider-throttling).
 
 Evidence/benchmark and remaining limits extend the existing

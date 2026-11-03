@@ -2564,3 +2564,62 @@ Evidence private:
 tại, chỉ phục hồi sự có mặt/giá trị maxDailyRuns của 4 worker theo before bằng
 native PATCH, giữ mọi field/owner change khác; không ghi đè nguyên snapshot.
 Không xóa run/report. Rollback source bằng revert commit của lát này.
+
+### Studio: bỏ cap ngày và bàn giao research bằng native documents, 03/11
+
+**Quyết định mới của owner thay thế cap ngày ở mục trước:** ưu tiên vận hành
+trơn tru, tối ưu chi phí sau. Đã gỡ `maxDailyRuns` và các alias `dailyRunLimit`,
+`dailyRunCap`, `maxRunsPerDay` khỏi heartbeat của cả 5 agents bằng native API.
+Đọc lại xác nhận không còn cap ngày; giữ maxConcurrentRuns 1, timer tắt và
+wakeOnDemand true. Snapshot trước/sau xác nhận adapter, quyền, metadata,
+reportsTo và aiConnection không bị thay. Hai setup helpers bỏ default cap ngày,
+vẫn không tự migrate các agent đã tồn tại. Không thay quota của provider,
+retry policy, timeout, quyền broker hoặc bật lịch.
+
+**Luồng bàn giao:** dùng task hiện tại cùng research document và `plan` có
+revision; owner không cần copy lại kết quả. Công việc nhỏ đã được giao tiếp tục
+trên task hiện tại. Khi thực sự cần quyết định mới, native request_confirmation
+trỏ đúng revision, resolverPolicy human_only, wake_assignee và lead giữ assignment.
+Sau khi duyệt, chỉ tách task khi có ranh giới ownership/dependency thật; dùng
+native accepted-plan decomposition để giữ revision/idempotency, đọc lại các
+blockedByIssueIds. Không thêm workflow dialog, queue, database hoặc sửa engine.
+
+Đã cập nhật source skill `naqex-research-lead`, publish qua native company skill
+API và đọc lại content khớp SHA256
+`ededfb366766b4f694878429a115b9c89eba5eae053fb05e8c4af3e83370f38c`.
+Version native cuối được lưu trong private `skill-publication.json`; lead vẫn
+chọn skill và theo current version (không pin Beta, không thay 6 skill khác).
+Runtime adapter sẽ mount phiên bản mới ở lần chạy kế tiếp; chưa tuyên bố model
+đã đọc hoặc thực thi nó.
+
+**Smoke native tối thiểu:** fixture
+[NAQ-73](http://127.0.0.1:17860/NAQ/issues/NAQ-73) không gán agent, đã đóng
+cancelled và giữ làm bằng chứng. Research/plan đọc lại được, confirmation gắn
+đúng revision, cùng idempotency key trả cùng interaction, human_only được lưu
+đúng, sửa plan làm confirmation expired/stale_target; endpoint decomposition trả
+422 cho plan chưa được duyệt và không tạo task con. Không giả lập owner accept,
+không dispatch model. Happy path sau owner acceptance, dependency execution và
+wake của lead chưa được kiểm bằng workflow thật. Native default resolver ở probe
+đầu là anyone; skill/guide cuối bắt buộc human_only cho quyết định của owner.
+
+**Kiểm chứng source/runtime:** đọc lại cap cả 5 agents; gọi cấu hình tạo mới của
+3 process workers xác nhận không có daily aliases và vẫn concurrency 1.
+AI environment audit 0 errors/0 warnings: global 12279 B, project 9269/65536 B,
+reserve 56267 B, combined 21548 B. Diff check đạt; không lặp full suite vì không
+đổi engine behavior/retry. Chi phí unknown vẫn là unknown.
+
+**Điểm chặn trước lượt tự động:** lead còn model Opus5.5 hết hạn và kết nối cũ;
+project gateway chưa sẵn sàng. Probe HTTP Trader API8010 và UI5180 không kết nối
+được ở thời điểm kiểm, nên chưa có fresh Gemini inference. Không đổi provider/
+credential, dùng instance Windows8317 hoặc dựng launcher bỏ qua ownership.
+Lát tiếp theo: khôi phục đúng runtime manifest/launcher và gateway17852 đã sở hữu,
+chọn Gemini đang có cho đúng native adapter rồi chạy một nhiệm vụ hệ thống nhỏ.
+Đây là cấu hình/instruction + native API smoke, chưa là end-to-end model acceptance.
+
+Evidence private:
+`E:/BACKUP-TRADINGWORKSPACE/studio-observation-20261103/research-handoff/`
+(`daily-cap-before.json`, `daily-cap-after.json`, `skill-publication.json`,
+`fixture.json`, `fixture-documents.json`, `confirmation-before.json`,
+`confirmation-after.json`, `native-handoff-smoke.json`). Rollback chỉ phục hồi
+field cap cần thiết từ before sau khi đọc current; skill rollback publish lại
+source phiên bản trước qua native API, không ghi đè DB hoặc các lựa chọn khác.
