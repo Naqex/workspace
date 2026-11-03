@@ -1,5 +1,54 @@
 # AI workspace — native Paperclip UI và prototype lịch sử
 
+## Phạm vi owner giao — hoàn thiện hệ thống, 03/11/2026
+
+Owner giao hoàn thiện các khoảng thiếu từ dữ liệu đến vận hành giao dịch, ưu
+tiên năng lực hệ thống thay vì lặp pilot hoặc tuning chiến lược. Mục này mở rộng
+phạm vi offline/source của pilot bên dưới; Product Plan tiếp tục own sản phẩm,
+receipt AI hiện có own trạng thái và bằng chứng. Không tạo thêm progress ledger.
+Goal tự tiếp tục của Codex chưa được tạo; không cần Goal để thực thi phần đã giao.
+
+### Kết quả cần đạt
+
+| Lát | Acceptance hệ thống |
+|---|---|
+| Dữ liệu/spec/cost | Input giữ provenance, cutoff, chất lượng và điều kiện chi phí; không dùng unknown như zero hoặc phí hiện tại như lịch sử đã xác minh |
+| Research và backtest | Thí nghiệm pin protocol/source/data/spec/cost và giới hạn engine; kết quả phải được kiểm chứng trước khi dùng cho bước sau |
+| Promotion và forward | Handoff có artifact binding, criteria và mode rõ; system fixture không tự thành chiến lược đạt, báo cáo model không cấp quyền |
+| Risk admission | Đường tự động có policy đóng băng, scope tài khoản/version, limits và stale/unknown gates trước send; không tự đổi semantics của giao dịch thủ công |
+| Execution | Reuse native command idempotency, account/generation fencing, unknown reconciliation và kiểm kết quả broker; không thêm đường gọi SDK bỏ qua native API |
+| Paper/forward | Có adapter đúng asset/cost/lot semantics, checkpoint/cursor và state có thể khôi phục; không gọi long-only spot accounting là Forex demo |
+| Vận hành | Readiness phản ánh process đang sống nhưng mất phản hồi, degraded/recovery có bằng chứng; backup/restore và stop/restart không gửi lại lệnh không rõ kết quả |
+| Trải nghiệm | Khép các chuỗi còn thiếu theo owner audit hiện có, ưu tiên tài khoản/dữ liệu/thực thi và giữ management UI native của Paperclip |
+
+Triển khai theo dependency: nối các contract sẵn có và độ tin cậy runtime →
+handoff dữ liệu/kết quả và risk/forward adapter → tích hợp native và kiểm đúng
+đường vận hành → quan sát dài ngày trong phạm vi được cấp. Gộp kiểm chứng vào
+thay đổi thật, focused trước; không redispatch workflow đã hoàn tất chỉ để
+thử báo cáo, không thêm engine/framework/agent khi chưa có capability gap.
+
+### Quyền và giới hạn của lần giao
+
+- Được triển khai source, offline fixtures, tài liệu, phối hợp lane và bảo trì
+  local theo standing grant trong Trader AGENTS; giữ dữ liệu/account/runtime
+  ownership và rollback. Không có quyền ghi đè WIP của task khác.
+- Demo order execution là gate riêng: trước một lượt gửi lệnh cần hợp đồng cụ
+  thể gồm demo account, symbols, thời hạn, số lệnh/position, ngân sách rủi ro
+  và stop/reconcile. Không dùng quyền thử Exness ngày29/10 cho lượt mới.
+- Live/Real, challenge trả phí, provider/OAuth mới, migration dữ liệu owner,
+  public deployment và service tự chạy lâu dài giữ gate tương ứng. Tiếp phần
+  độc lập an toàn khi gặp gate; không tự điền risk budget của owner.
+- Hoàn tất source/offline không đồng nghĩa runtime/broker/soak hoặc whole-product
+  acceptance. Tiền lãi và strategy qualification là mục tiêu sau, không là
+  tiêu chí ép hệ thống phải tạo kết quả có lời.
+
+**Owner duyệt tiếp 03/11:** triển khai tách quyền Owner/runner tự động; được
+migration local sau khi có backup được kiểm chứng. Giữ UI Paperclip native;
+runner chỉ vào đường Demo có grant bất biến, ngân sách và account/generation
+cụ thể. Quyền này cho phép xây và rollout ranh giới bảo mật, không tự cấp grant,
+điền risk budget hoặc gửi lệnh demo/Real. Kiểm auth/grant/risk bằng fixture cách
+ly trước; owner DB chỉ migration sau quiesce, backup DB/artifact và rollback.
+
 ## Hướng hiện hành — owner tự setup,01/11
 
 ### Ưu tiên hiện hành — hoàn thiện hệ thống AI, 02/11

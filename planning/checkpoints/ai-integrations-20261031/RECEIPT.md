@@ -2764,3 +2764,235 @@ Evidence/backup private:
 `4a24d530-345c-432d-9536-0cdf3d10b473` qua version API sau khi đối chiếu current;
 không ghi đè thay đổi mới của owner. Revert cùng lát wrapper/reference trong Git
 nếu bỏ hướng dẫn dùng chung. Scope chỉ là báo cáo, không mở scheduling/trading.
+
+## 03/11 — Hoàn thiện nền vận hành và phiên Forex có thể khôi phục
+
+Scope theo mục **Phạm vi owner giao — hoàn thiện hệ thống** trong AI plan;
+[issue #8](https://github.com/Naqex/workspace/issues/8). Không tạo Goal hoặc
+progress ledger khác. Product source ở `projects/trader`; runtime cũ tại
+`projects/mt5-tradingview-backtester` chưa được cập nhật bởi hai commit sau.
+
+| Lát | Kết quả/source | Bằng chứng và giới hạn |
+|---|---|---|
+| Vận hành | Trader `d1d96b2b`: supervisor probe `/health/ready` mỗi5giây;3lỗi liên tiếp → degraded; healthy → recovery; shutdown ghi stopping/stopped |35 focused launcher tests đạt. HTTP lỗi không restart/kill/retry; chưa theo dõi tiến độ native research worker hoặc rollout/soak |
+| Artifact handoff | Trader `a734b25b`: candidate/revision/purpose + hash data/spec/cost/source bất biến; hash stream1MiB và giữ cursor |9 focused binding tests đạt. Hash chứng minh identity, không chứng nhận chất lượng hoặc phí lịch sử |
+| Phiên Forex | Cùng commit: checkpoint H4/ATR/history, risk/accounting, entry/exit đang chờ, cash calendar và quote cursor |8 focused coordinator tests +11 H4 regression đạt; restart parity xuyên entry/exit/financing. Chỉ historical quote replay, không observed forward |
+| Consumer thật | CLI `foundation_v2/scripts/forex_forward.py` đọc QDM CSV đã export theo registration, chạy batch và resume |5 focused CLI tests đạt; liên tục/resume cùng snapshot, input/sidecar collision và source/hash thay đổi bị chặn. Fixture synthetic, không chạy lại research/dữ liệu thị trường |
+
+### Hành vi, data/state và quyết định
+
+Registration → hash các artifact và source thực thi → seed Forex/risk → buffer
+một giờ quote → chỉ đóng giờ/nến H4 theo quote muộn hơn hoặc source watermark
+hợp lệ → reducer hiện có → checkpoint có lock, generation CAS, checksum,
+fsync/atomic replace. Resume rehash nguồn và giữ cursor; không có send/provider/
+download hay tác dụng ngoài file checkpoint. EOF không tự đóng giờ cuối.
+
+Review độc lập phát hiện và sửa hai lỗi consumer: file sidecar `.lock` có thể
+trùng input và mutate bytes; pin re-export không bao phủ implementation tính
+tiền. Đã chặn cả checkpoint/sidecar và pin file semantic thực cùng CLI. Review
+cũng phát hiện watermark qua phí chưa xử lý có thể công bố cash horizon sai;
+`close_before` hiện từ chối trước mutation khi thiếu giờ quote phù hợp, không
+tạo quote/nến giả để tính swap. Regression giữ nguyên snapshot rồi ghi phí đúng
+một lần khi có quote tiếp theo. Một lỗi import Pydantic trong test harness CLI
+đã sửa bằng đăng ký module importlib; không thay validator hay làm yếu test.
+
+Trade-off: cold resume quét lại prefix CSV; ưu tiên cursor đơn giản và đúng.
+Phiên có hard resource cap:100.000quotes/giờ buffer,10.000giờ committed,
+checkpoint64MiB. Chạm cap phải có rollover rõ; chưa gọi là daemon chạy vô hạn.
+Spec/cost giữ fixed EURUSD và$2.50/lot/side; unknown financing/commission và
+current FTMO spec áp lịch sử vẫn không được chứng nhận. Hướng dẫn product:
+`foundation_v2/docs/FOREX-FORWARD.md`. UI quản lý task/run/report vẫn native.
+
+### Tách quyền tự động — đã duyệt, đang triển khai
+
+Audit source xác nhận API local-trust chưa phân biệt Owner với Automation;
+gắn thêm `automation=true` không chặn caller đi qua manual endpoint. Owner
+đã duyệt **tách quyền; migration local sau khi có backup**. Đang triển khai
+source/offline: owner cookie/CSRF + bearer riêng, grant native bất biến, attempt/
+risk reservations và kiểm fresh SDK ngay trước single send. Chưa tạo grant,
+migration owner DB, bật service/scheduler hoặc gửi OrderCheck/OrderSend.
+
+Giữ native UUID/unknown receipt, terminal/generation lock và reconciliation.
+Không dựng hệ giao dịch song song, không đổi semantics manual managed trading.
+Grant/agent cùng OS user không là sandbox chống coding agent có toàn quyền
+filesystem; deterministic runner không được nhận secret/DB authority của owner.
+Backup/restore hiện có không được nâng thành owner-data acceptance chỉ từ
+synthetic fixture cũ. Bước tiếp là kiểm tích hợp auth/grant trên DB cách ly,
+sau đó mới chuẩn bị cutover/backup phù hợp standing grant và duyệt mới.
+
+## 03/11 — Tách quyền Owner/Automation đã triển khai local
+
+Tiếp mục triển khai phía trên; không thay lịch sử chưa rollout của hai commit
+trước. Product commit `0d0ff7c0` hoàn tất auth/grant/SDK/web/launcher và tài liệu;
+cùng `d1d96b2b`, `a734b25b` đã được lưu trong canonical Trader. Lát rollout này
+đưa supervisor readiness và ranh giới quyền vào API/UI đang dùng; chưa chạy
+consumer Forex hoặc thử gửi lệnh trên broker.
+
+### Hành vi và luồng state
+
+Owner đăng nhập local qua nonce dùng một lần → cookie HttpOnly/SameSite Strict,
+Path `/api/v2`; mutation cần exact Origin và CSRF chỉ giữ trong memory. Bearer
+maintenance riêng, không lưu secret vào task/receipt/URL. Nonce hết hạn10phút,
+cookie12giờ absolute, bearer7ngày; không tự gia hạn hoặc replay mutation401/403.
+Spent marker atomic/fsync giữ hiệu lực qua restart. Fresh nonce hợp lệ thay được
+cookie cũ; mixed/duplicate/malformed credentials bị từ chối.
+
+Owner duyệt policy bất biến → token runner trả một lần, DB chỉ giữ digest →
+runner chỉ có3route native command/receipt/reconcile. Policy pin workspace,
+connection/generation/login/server, Demo/currency, artifact, symbol/action,
+expiry/volume/attempt/risk/floors. Reservation và native unknown receipt commit
+cùng transaction trước adapter; unknown/accepted/partial giữ capacity, không
+retry uncertain send. Revoke giữ cùng terminal lock và không tự đóng position.
+
+Final SDK bắt buộc Demo hedging, SL và fresh quote/spread/lot/position/risk/margin;
+một OrderCheck rồi kiểm lại DB connection/pause/grant sau final prepare, sát một
+OrderSend. Floor/aggregate admission chặn mở mới, không chặn full close có chứng
+minh ownership khi equity giảm. Automated close hiện chỉ hỗ trợ ticket bằng
+stable identifier: broker rollover bị chặn trước check/send vì durable opening
+receipt chưa lưu stable identifier; không suy ownership từ magic number.
+
+Trade-off: đây là phân quyền HTTP, không phải sandbox chống process có toàn
+quyền cùng Windows user/DB. Không cấp Owner secret cho runner. Giữ native
+Paperclip làm UI quản lý task/run/report; không thêm management UI bên ngoài.
+
+### Kiểm chứng source/offline và review
+
+| Phạm vi | Kết quả |
+|---|---|
+| Rust auth/local session/OAuth regression |27pass |
+| Grant pure / disposable PostgreSQL lifecycle |6pass /1pass; cluster đã dừng |
+| Commands registry / Demo regression / identity middleware |4/5/1pass |
+| SDK mocks / worker receipt và fences |33/13pass |
+| Provisioner |5pass,1skip vì Windows symlink privilege; mocked reparse đạt |
+| Launcher/wrapper |4auth cases + startup/collision đạt; PowerShell parse và6isolated cases đạt |
+| Web transport |15pass; final affected Owner7pass |
+| Contracts/build |OpenAPI/frozen contract, web production build,3Rust release binaries và diff check đạt |
+
+Review độc lập đã tìm và sửa timeout cold worker, final generation/pause/grant
+fence, rollover close và close dưới account floor. Test registry ban đầu thiếu
+3auth routes trong expected count; cập nhật expectation đúng contract. Không
+làm yếu test. OpenAPI giữ thứ tự cũ, diff additive; đồng bộ field additive
+`PropPhaseSpec.daily_anchor_basis` còn thiếu trong frozen schema. Giữ chunk/CSS
+warnings có sẵn, không mở refactor ngoài scope. Không chạy lại unchanged suites
+ở lượt chốt chỉ để tăng số lần pass.
+
+### Backup, migration và runtime thực tế
+
+- API/UI đã dừng và DB quiesced trước backup bằng helper hiện có; không active
+  jobs/downloads/client khác hoặc unresolved broker submission.
+- Bundle verified `system-capabilities-20261103`, snapshot
+  `20261103T105459Z-52692e6c3a9b`:4.274.413.773bytes,4.142artifact files;
+  manifest SHA256 `ce5484ac36af65801c491c44dd92be356ec39def318cf058e5d4223e8cf96943`.
+- Migration owner DB chỉ áp `0021_automation_grants.sql`; không pending. Binary
+  schema20 không dùng để rollback trực tiếp: cần schema21-compatible build hoặc
+  restore matching DB/artifacts. Không xóa ledger để ép downgrade.
+- API8010 native/compact dùng local-capability, giữ DB/artifact/QDM/scientific/
+  legacy/AI interpreter và runtime ownership cũ. UI5180 đã promote bằng asset
+  collision check, giữ hashed assets/brand và atomic entry index.
+- Fresh readback lúc11:29:57UTC:13checks đạt về PID/creation identity, executable
+  hashes,7owned file hashes, auth, readiness, served UI, schema, Paperclip/gateway
+  và zero unapproved automation. Anonymous API401, Owner200, ready200/database
+  ready, UI200, Paperclip health200; gateway17852 không key trả401 như dự kiến.
+- Exness-MT5Trial17 và FTMO-Demo đều connected/demo, không đổi access mode. DB:
+  **0grant,0reservation,0unknown broker requests**. Lượt này không gọi
+  OrderCheck/OrderSend, không inference hoặc tự tạo workflow/task mới.
+- Browser Owner login đã thành công. Sau khi existing launcher khởi động lại
+  Paperclip17860 và gateway17852, bấm Thử lại mở được native company Naqex AI,
+  task NAQ-75 in_review/NAQ-76+77 done/NAQ-78 blocked. Đi qua Tài khoản giao dịch
+  đọc được cả hai demo rồi quay Studio, giữ document/task state. Đây là read-only
+  journey, không là unattended/soak hoặc broker execution acceptance.
+
+Lần kiểm đầu dùng nhầm API providers route404 đã đổi sang route source xác nhận;
+final readiness helper ban đầu đọc nhầm field `ready` thay `ok`/`database`, sửa
+assertion theo response thật rồi đạt. CUA gặp stale connection; reset binding
+khôi phục được, không đổi product source để né lỗi công cụ.
+
+Evidence private: `E:/BACKUP-TRADINGWORKSPACE/system-capabilities-20261103/`:
+`backup-verified.json`, `prepared.json`, `migration.log`, `runtime-auth-check.json`,
+`final-readiness.json`, `ui-promotion.json`, `studio-ui.png`, `accounts-ui.png`.
+Backup bundle nằm ở backup root mà `backup-verified.json` dẫn tới; rollback
+files/binaries/UI trong `runtime-before/`. Secret/config private không commit.
+
+**Còn lại:** nguồn quote observed và forward dài ngày, alert/soak, phiên Demo
+có policy được owner duyệt và whole-product audit. Historical replay không là
+observed forward; fixture/system acceptance không chứng nhận lợi nhuận. Không
+tự cấp grant/risk budget từ quyền bảo trì hoặc từ câu “dùng Exness demo”.
+
+### Kiểm đọc sâu phát hiện và sửa default symbol MT5
+
+Sau read-only journey, GET native trading snapshot của Exness mặc định trả
+`demo_invalid_number`, trong khi chỉ rõ `EURUSDm` trả ready. Root cause source:
+worker ưu tiên `EURUSD` chỉ vì có tên trong danh mục broker, dù không có quote
+hợp lệ cho tài khoản này. Trader `d77a74a1` chọn mặc định theo Bid/Ask dương,
+finite, không đảo; subscribe symbol chưa visible qua SDK read path. Giữ nguyên
+symbol được caller chọn rõ, không retry OrderCheck/send hoặc nới stale/risk gate.
+
+Kiểm17worker tests đạt, gồm zero/NaN/missing/inverted quote, suffix broker,
+explicit selection và cold subscription. Runtime thử đầu cho thấy nếu quét
+mọi visible symbol khi quote chưa về thì có thể nhảy sang BTCJPYm; đã sửa trước
+khi chốt: có nhóm EURUSD/XAUUSD ưu tiên thì chờ quote của nhóm đó, không tự đổi
+asset. Bản cuối đã rollout và đọc mặc định được **EURUSDm**, giữ generation11,
+positions/orders rỗng. Lượt đầu sau cold subscription báo quote unavailable,
+lượt đọc kế tiếp ready; quote age5.175ms được đánh dấu stale, không gọi fresh
+hoặc dùng để gửi lệnh. Snapshot ready chỉ là khả năng đọc, không là execution
+admission. Không gửi lệnh trên cả bản tạm hoặc bản cuối.
+
+PowerShell wrapper CheckOnly từ chối vì không xác minh được executable bằng
+CIM trong phiên này; không dừng process. Dùng existing native launcher thay thế,
+đối chiếu Win32 PID/creation/path identity, idle/unknown guards và current secure
+manifest trước stop/start. Không làm yếu wrapper hoặc đổi auth. Chỉ copy owned
+worker file, giữ bytes rollback và các descriptor/interpreter trước đó.
+`worker-promotion.json` giữ source SHA/hash/rollback; metadata promotion trước
+được giữ riêng. Sau restart,13runtime/auth/hash checks đạt lại lúc11:46:26UTC,
+grant/reservation/unknown vẫn0. Không chạy lại Rust/web suites vì chỉ đổi worker
+Python; không thay binary/schema/UI assets.
+
+### Khôi phục bản backup owner vào môi trường riêng
+
+Đã dùng chính bundle đã verify phía trên, `restore_backup_files` hiện có và
+PostgreSQL18.6 để phục hồi4.143files/4.274.413.773bytes, gồm metadata dump cùng
+4.142artifact files, vào thư mục private/cluster loopback mới. Không chạy API,
+adapter, terminal hoặc worker trên dữ liệu phục hồi; owner DB/artifacts không đổi.
+`pg_restore --single-transaction --exit-on-error --no-owner --no-privileges` đạt.
+Migration schema20→21 trên bản phục hồi đạt; hash từng hàng/số hàng của **44bảng
+cũ** giữ nguyên, trừ migration ledger được kiểm riêng. Constraints đều validated,
+schema check21current/no pending, hai bảng automation mới rỗng. Cluster đã dừng.
+
+Lần đầu Windows postmaster giữ output pipe của pg_ctl nên harness chờ EOF dù
+cluster đã ready; chưa chạy restore. Đã xác minh/dừng đúng process harness và
+cluster thử, giữ receipt interrupted; resume đúng copied snapshot sau rehash,
+chuyển output control sang file private. Không chép lại toàn bộ4,27GB, không
+đổi product tool để xử lý lỗi harness. Receipt cuối PASS tại
+`isolated-owner-restore/receipt.json`. Không phục hồi OS roles/ACL hoặc chuyển
+runtime owner sang target thử; đây là isolated owner-backup restore acceptance,
+không là diễn tập disaster recovery toàn máy/UX.
+
+### Phiên Exness demo được owner duyệt — chặn đúng quote stale
+
+Owner đã duyệt rõ phiên15phút: Exness demo464104926/Exness-MT5Trial17,
+EURUSDm,0,01lot, tối đa1position/2submissions (mở→đóng), SL bắt buộc,
+rủi ro tính toán tối đa$2tiền demo; chỉ chạy khi identity/quote/risk hợp lệ,
+unknown chỉ reconcile, không resend. Đây là quyền cho phiên này, không mở
+scheduler, chiến lược hoặc FTMO/Real. Không coi stop loss là bảo đảm tuyệt đối
+trước gap/slippage; SDK giữ cost buffer và không nới guard để có fill.
+
+Controller đọc fresh native snapshot và pin artifact system fixture, generation11,
+tạo grant bất biến `056a0c22-8c0a-4636-8331-15e9eb6ce2f4` hết hạn12:07:00UTC.
+Runner riêng chỉ đọc credential Automation/typed input, không nhận Owner bearer
+hoặc DB environment; không dùng MCP hay sửa rows trực tiếp để gửi lệnh.
+
+| Kiểm phiên thật | Kết quả |
+|---|---|
+| Native command/receipt/reservation |1attempt được ghi; SDK trả rejected/demo_quote_stale trước OrderCheck/send |
+| Gửi lệnh/mở vị thế |0OrderSend; không mở vị thế và không thử lại |
+| Ngân sách sau rejected |Reservation được giải phóng về0; attempt lịch sử vẫn1 |
+| Thu hồi |Grant revoked qua native Owner API; không còn quyền mở mới |
+| Phân quyền |Runner đọc route Owner trả403; token revoked vẫn đọc own receipt200 |
+| Đối soát DB |0unknown broker requests; không tự tạo phiên/grant thay thế để reset attempt |
+
+Receipt `approved-exness-demo/cleanup-receipt.json` là **PASS_FAIL_CLOSED**,
+không là positive open→close acceptance. Handoff/state/guard đã chạy native;
+đường fill và close thành công trên broker vẫn chưa được chứng minh. Bước cần
+ưu tiên là độ tươi quote/observed forward và phiên kiểm tiếp có scope mới phù
+hợp; không tăng max quote age để biến stale thành fresh. Approval/artifact/
+policy/intent/response/cleanup được giữ private cùng thư mục; token không vào Git.
