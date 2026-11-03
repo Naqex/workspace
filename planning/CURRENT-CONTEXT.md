@@ -28,7 +28,9 @@ receipt bên dưới giữ kết quả và bước tiếp. Không mở broker ex
 
 Owner đã giao nghiên cứu, fork/tích hợp Paperclip và thiết kế lại Studio.
 Source/runtime ownership theo [integration guide](../tooling/integrations/README.md);
-pilot đã có receipt nhưng key Opus5.5 hiện hết hạn. Kiến trúc/workflow dài hạn
+pilot đã có receipt; key Opus5.5 hết hạn được thay bằng Gemini theo quyết định
+owner03/11. Kết quả provider/runtime hiện hành ở receipt AI, không suy từ catalog.
+Kiến trúc/workflow dài hạn
 đọc [brief hiện hành](research/AUTONOMOUS-TRADING-SYSTEM-BRIEF.md):
 đích là tự động hóa nghiên cứu lẫn vận hành, ưu tiên B (tự quyết có giới hạn),
 chuyển được sang A (chờ duyệt chiến lược mới). Brief giữ lựa chọn/câu hỏi và map
@@ -57,12 +59,13 @@ Khi tiếp tục: [AI plan](trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md) giữ s
 [QDM guide](../projects/trader/docs/quantdatamanager.md) giữ đường lấy lịch sử
 Forex đã có. Brief dài ở trên giữ cả thảo luận lịch sử, không thay các nguồn này.
 
-Điểm resume02/11: receipt mục **Studio: điều khiển workflow từ UI** giữ kết quả
-tạo/khôi phục bản nháp, xác nhận bắt đầu, dừng cả graph và mở native task/report.
-Trader chỉ thêm control nhỏ; Paperclip vẫn giữ dữ liệu và điều phối. NAQ-25 và
-NAQ-45 giữ bằng chứng thành công/lỗi trước đó; không redispatch để kiểm UI.
-Tiếp phần quota/cost visibility và đối soát run chưa rõ kết quả trước retry;
-scheduler và nghiên cứu tự chủ để sau các gate vận hành, chưa tuning chiến lược.
+Điểm resume03/11: đọc các mục mới nhất trong receipt AI, đặc biệt **Studio:
+khôi phục runtime, Gemini và bàn giao native**. Dùng UI Paperclip trong Studio;
+dialog/nút Quy trình và HTTP bridge ngoài đã được bỏ theo quyết định owner.
+Cap10lượt/ngày đã gỡ; giữ concurrency1/agent, timer tắt, chống trùng và retry
+có giới hạn. Đối soát native task/run/receipt trước retry; không redispatch
+fixture đã hoàn tất để kiểm UI. Scheduler và nghiên cứu tự chủ vẫn cần gate
+vận hành riêng; chưa tuning chiến lược.
 
 ## Naqex migration — 29/10/2026
 

@@ -232,10 +232,16 @@ và [bản pin](../../projects/integrations/paperclip/doc/public-mcp.md) giữ c
 
 ### Gateway project sau pilot
 
-Hiện hành02/11: standalone gateway project đã mở lại bằng config/account sẵn có,
+Hiện hành03/11: standalone gateway project chạy bằng config/account sẵn có,
 phục vụ worker TradingAgents qua cổng trong registry. Owner/PID và log hiện hành
 ở `.runtime/paperclip/gateway-owner.json`; không đổi gateway Windows8317.
 Config thực tế giữ giới hạn8MB từ pilot sau, không phải64KB của snapshot cleanup.
+Binary/release và rollback được ghi ở owner receipt, không chép đè binary cũ.
+Sau cập nhật upstream, model xuất hiện trong `/v1/models` vẫn chưa chứng minh
+account được dùng model đó; phải có inference thành công. Lượt Terra6.1 đã bị
+upstream từ chối cho account được chọn; owner quyết định tiếp tục Gemini.
+Trưởng nhóm dùng kết nối native Gemini qua Responses API của gateway project;
+provider credential vẫn ở gateway, Paperclip chỉ giữ khóa truy cập gateway.
 API Trader cũ từng trả `ai_gateway_config_conflict` khi start; chưa sửa mismatch
 đó. Giữ standalone owner và không start gateway thứ hai từ API.
 

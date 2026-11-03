@@ -99,6 +99,9 @@ acceptance reads; report configuration separately from an executed workflow.
 Keep task/run/report state in native Paperclip. Link existing GitHub issues or
 plan/checkpoints when supplied; do not mirror the backlog or build another
 management UI. Prefer native capabilities before proposing a custom integration.
+Publish one final deliverable under native document key `report` unless the task
+explicitly requires another key. Update that document rather than duplicating its
+content into `result` or other keys; keep input research and plan documents separate.
 
 Tell the owner what finished, where the evidence is, what remains uncertain and
 the next useful action. Keep system completion, strategy qualification and

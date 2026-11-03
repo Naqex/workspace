@@ -2623,3 +2623,92 @@ Evidence private:
 `confirmation-after.json`, `native-handoff-smoke.json`). Rollback chỉ phục hồi
 field cap cần thiết từ before sau khi đọc current; skill rollback publish lại
 source phiên bản trước qua native API, không ghi đè DB hoặc các lựa chọn khác.
+
+### Studio: khôi phục runtime, Gemini và bàn giao native, 03/11
+
+**Quyết định owner:** thử Terra6.1; nếu không dùng được thì giữ Gemini và tiếp
+hệ thống. Không mở lại lane tối ưu chiến lược, engine mới hoặc UI quản lý ngoài.
+
+**Gateway project:** nâng binary standalone từ CLIProxyAPI8.0.40 lên release
+chính thức [v8.0.52](https://github.com/router-for-me/CLIProxyAPI/releases/tag/v8.0.52).
+Đã đối chiếu asset digest/checksums, MIT và đường dẫn archive; archive SHA256
+`395324dd124bd657bccd5fdf06119587cd7c87bddacff191d5f45431e8f08d23`,
+binary SHA256 `4f2e5e7a8477f1bf9ef4059b289d6b904de9e3412c9a0a903ca2495946bda3d1`.
+Giữ binary cũ để rollback, config byte-identical và đủ17 auth JSON; chỉ restart
+đúng process có owner manifest. Không thay gateway Windows8317. Model Terra
+xuất hiện trong catalog mới nhưng một Responses request thực tế bị HTTP400
+`model_not_found`: account/route được chọn không hỗ trợ model đó. Không suy
+rộng ra mọi account và không thử quay vòng account sau quyết định giữ Gemini.
+
+**Trader runtime:** UI5180/Paperclip17860 đã mở; API8010 ban đầu từ chối scientific
+descriptor cũ. Đối chiếu cho thấy engine/adapter hashes và phiên bản dependency
+không đổi, chỉ file count của base Python tăng11564→11565. Chạy bootstrap hiện
+có để tạo lại descriptor, giữ guard stale-install; không sửa source engine.
+Khởi động lại đúng native/compact profile với DB/artifact/QDM/binary hiện có;
+`/health/ready` trả ok, command_worker not_required. Runtime vẫn ở checkout cũ
+theo native-owner manifest; source canonical vẫn là projects/trader. Đây không
+phải migration runtime hoặc whole-product acceptance. Lệnh vận hành dùng
+Python `-B` để không tạo bytecode làm đổi fingerprint.
+
+**Fresh Gemini:** direct Responses smoke trả GEMINI_READY, model
+`gemini-3.8-flash-high`,3,148s/121tokens. Trưởng nhóm giữ adapter codex_local/CLI,
+cwd, timeout, quyền và skill; chỉ đổi model cùng kết nối native sang gateway17852
+bằng credential gateway đã có. Connection chỉ cấp cho trưởng nhóm, không mở
+allAgents. Kết nối Sky cũ được giữ lịch sử; provider OpenAI ở đây là protocol,
+model thực tế là Gemini.
+
+**Nhiệm vụ native thực tế:** [NAQ-74](http://127.0.0.1:17860/NAQ/issues/NAQ-74),
+run `65eb35f4-6e30-4abd-b359-2773ad8113b3`, succeeded/task done trong129,6s.
+Model đọc assigned skills, lưu research và xuất báo cáo tiếng Việt qua native
+API. Đây là bằng chứng Gemini + Codex CLI tools + native publication; không
+chứng minh accepted-plan owner approval/wake đã chạy. Usage native có fresh
+input71081, cached input475529, output9977; rawInputIncludesCached false, không
+cộng cached vào fresh hoặc suy giá USD khi chưa có giá route.
+
+Model ban đầu ghi cùng nội dung vào report và result. Đã backup cả hai rồi xóa
+đúng result trùng của fixture qua native API; giữ research và report. Cập nhật
+skill nguồn để chỉ publish một final report, publish native version
+`4a24d530-345c-432d-9536-0cdf3d10b473` và đọc lại khớp SHA256
+`90f1ba58f7ef3db5cb9bdf1dedfebc284fdadf29f69bc51fd385d79634794880`.
+Không chạy lại inference chỉ để kiểm instruction này; hành vi model ở lượt
+sau chưa được chứng minh. Không thay skill khác hoặc bật Beta.
+
+**Workflow cố định thực tế:** dùng helper `spot_workflow.py start --workflow
+forex` cùng key `system-handoff-20261103-gemini`; không tạo graph/attempt thứ hai.
+Parent [NAQ-75](http://127.0.0.1:17860/NAQ/issues/NAQ-75), research NAQ-76,
+review NAQ-77, paper NAQ-78. Research run
+`d517d5dc-3a7d-4935-947e-ef67c244adf0` succeeded114,3s; Paperclip tự wake Hermes
+qua dependency, reviewer run `bb99990e-6316-484e-9c7c-87948f6c2ea4` succeeded36,4s,
+Gemini2 API calls. Parent tự chuyển in_review và gán người dùng thật; hai child
+done, paper vẫn blocked/unassigned/NOT_RUN. Không cần lead chạy giữa hai bước.
+
+Đối soát15 assertions đạt: native runs/receipts thành công, publication đủ,
+dependency đúng một source, binding đúng issue/run/parent, hai document hashes
+và revision native khớp local receipt, Gemini reviewer, human handoff, paper
+không chạy và không mở holdout/execution. Dùng nguyên fixture EURUSD/H4 hai tuần
+đã pin; không QDM GUI, tải dữ liệu mới, broker call hoặc đổi tham số chiến lược.
+Đây là fresh worker→review→human acceptance; việc owner accept plan rồi model
+tự decomposition/wake vẫn chưa thử và không được suy từ kết quả này. Lead task
+NAQ-74 và graph NAQ-75 là hai phép kiểm riêng, graph được operator khởi động.
+
+**Kiểm chứng cuối:** integration doctor đạt4 source/pin/origin/license checks;
+AI environment audit sau thay skill đạt0errors/0warnings: global12279B,
+project9269/65536B, reserve56267B, combined21548B. Diff check đạt. Không chạy
+full suite hoặc lặp inference đã thành công. Chưa có load/soak, unattended
+scheduler, native Reviewer/Approver policy hoặc whole-product acceptance.
+
+**Điểm tiếp:** xem hồ sơ native NAQ-75 và dùng các task thực tế nhỏ theo contract
+đã có. Không cần thêm engine/UI hoặc tối ưu phí ngay. Khi cần tách task từ một
+plan mới, owner duyệt đúng revision trước; giữ human_only. Hoạt động dài ngày/
+lịch tự động cần acceptance restart/stop và phạm vi vận hành riêng, không tự mở
+từ việc bỏ daily cap. Phát triển chiến lược vẫn ngoài lát này.
+
+Evidence private: `E:/BACKUP-TRADINGWORKSPACE/cliproxyapi-upgrade-20261103/`,
+`E:/BACKUP-TRADINGWORKSPACE/runtime-start-20261103/` và
+`E:/BACKUP-TRADINGWORKSPACE/studio-observation-20261103/research-handoff/`.
+File `fixed-graph-acceptance.json` giữ15checks cùng IDs/timestamps;
+`fixed-*-completed.json` giữ native task/documents sau publication.
+Backup private có credential, không đưa vào Git. Gateway rollback: đối chiếu
+manifest/path/creation time của process hiện tại, dừng đúng owner, dùng binary
+cũ với config giữ nguyên; không kill theo port/name. Agent/skill rollback chỉ
+patch field cần thiết sau khi đọc current, giữ mọi lựa chọn mới khác của owner.
