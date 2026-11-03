@@ -96,6 +96,10 @@ acceptance reads; report configuration separately from an executed workflow.
 
 ## Hand back an actionable result
 
+Before writing an owner-facing result, read
+[the shared reporting guide](references/owner-reporting.md). Use it for the
+human summary; preserve technical evidence and each worker's output contract.
+
 Keep task/run/report state in native Paperclip. Link existing GitHub issues or
 plan/checkpoints when supplied; do not mirror the backlog or build another
 management UI. Prefer native capabilities before proposing a custom integration.
@@ -103,8 +107,7 @@ Publish one final deliverable under native document key `report` unless the task
 explicitly requires another key. Update that document rather than duplicating its
 content into `result` or other keys; keep input research and plan documents separate.
 
-Tell the owner what finished, where the evidence is, what remains uncertain and
-the next useful action. Keep system completion, strategy qualification and
+Keep system completion, strategy qualification and
 trading authorization separate. A report or `in_review` human handoff is not a
 native approval stage or permission to trade. This skill grants no new data,
 account, provider, scheduling, secret, GitHub, broker or spending authority.

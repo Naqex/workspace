@@ -1,3 +1,4 @@
+import hashlib
 import json
 from pathlib import Path
 import sys
@@ -11,12 +12,16 @@ import hermes_worker as worker
 
 
 class CompletionTests(unittest.TestCase):
-    def run_case(self, completed, attached, *, linked=False, failure_reason=None):
+    def run_case(self, completed, attached, *, linked=False, failure_reason=None, reporting=True):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             instructions = root / 'tooling/ai-engines/hermes_instructions.md'
             instructions.parent.mkdir(parents=True)
             instructions.write_text('Research review')
+            reporting_path = instructions.parent / 'paperclip-skills/naqex-research-lead/references/owner-reporting.md'
+            if reporting:
+                reporting_path.parent.mkdir(parents=True)
+                reporting_path.write_text('Owner reporting fixture')
             client = Mock(company='company', run='run')
             client.assigned_issue.return_value = {'id': 'issue', 'description': 'x' * 200}
             if linked:
@@ -33,6 +38,7 @@ class CompletionTests(unittest.TestCase):
             modules = {'run_agent': SimpleNamespace(AIAgent=Mock(return_value=agent), __file__='pinned/run_agent.py'),
                        'hermes_state': SimpleNamespace(SessionDB=lambda: DummyDB()),
                        'hermes_yaml': SimpleNamespace(safe_load=Mock())}
+            self.agent_constructor = modules['run_agent'].AIAgent
             with patch.dict(sys.modules, modules), patch.object(worker, 'ROOT', root), patch.object(
                     worker, 'Paperclip', return_value=client), patch.object(worker, 'load_settings',
                     return_value={'artifact_root': str(root / 'artifacts'), 'quick_model': 'test'}), patch.object(
@@ -65,8 +71,18 @@ class CompletionTests(unittest.TestCase):
         self.assertEqual(code, 0)
         self.assertEqual(receipt['status'], 'completed')
         self.assertEqual(client.call.call_args.args[1]['status'], 'done')
+        prompt = self.agent_constructor.call_args.kwargs['ephemeral_system_prompt']
+        self.assertEqual(prompt, 'Research review\n\nOwner reporting fixture')
+        self.assertEqual(receipt['instructions_sha256'], hashlib.sha256(prompt.encode()).hexdigest())
         code, client, receipt = self.run_case(True, False)
         self.assertEqual(code, 1)
+        client.call.assert_not_called()
+
+    def test_missing_reporting_instructions_stops_before_provider_work(self):
+        code, client, receipt = self.run_case(True, True, reporting=False)
+        self.assertEqual(code, 1)
+        self.assertFalse(receipt['provider_work_started'])
+        self.agent_constructor.assert_not_called()
         client.call.assert_not_called()
 
     def test_rejected_workflow_source_never_reaches_model(self):

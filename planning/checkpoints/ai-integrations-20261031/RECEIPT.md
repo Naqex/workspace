@@ -2712,3 +2712,55 @@ Backup private có credential, không đưa vào Git. Gateway rollback: đối c
 manifest/path/creation time của process hiện tại, dừng đúng owner, dùng binary
 cũ với config giữ nguyên; không kill theo port/name. Agent/skill rollback chỉ
 patch field cần thiết sau khi đọc current, giữ mọi lựa chọn mới khác của owner.
+
+## 03/11/2026 — Quy ước báo cáo cho owner
+
+Owner yêu cầu thống nhất cách báo cáo và đối chiếu docs/cộng đồng trước khi áp
+dụng. Đã đọc catalog của instance đang chạy, source pin và hướng dẫn chính thức:
+
+- [Agent instructions](https://docs.paperclip.ing/guides/org/agents/#recommended-bundle-structure-agents-soul-heartbeat-tools):
+  giữ role entry gọn, tách tone/procedure khi có nhu cầu thật; không cần tạo đủ
+  bộ AGENTS/SOUL/HEARTBEAT/TOOLS cho mỗi agent.
+- [Company skills](https://docs.paperclip.ing/reference/skills/): library, phiên bản
+  và assignment là các bước riêng; cài catalog không tự chứng minh agent đã đọc.
+- Native catalog `summarize-status` chỉ ghi scope summary slot;
+  `status-card-query` quản lý thẻ trạng thái. `simplified-english` dành cho
+  controlled English. Không dùng chúng để ép báo cáo task tiếng Việt vào một
+  quy trình khác hoặc tạo thêm Summarizer/routine.
+- [Trao đổi cộng đồng](https://www.reddit.com/r/PaperClip_AI/comments/1wdztc1/bestadvanced_tips_to_get_the_most_out_of_paperclip/)
+  có ví dụ daily report/Hermes; đây là kinh nghiệm cá nhân, không là benchmark
+  hay bằng chứng cần thêm một agent cho hệ thống này.
+
+**Thay đổi:** mở rộng skill `naqex-research-lead` đang được gán bằng reference
+`references/owner-reporting.md`: tiếng Việt tự nhiên, kết quả trước, mức chi tiết
+theo task, bảng khi có ích, phân biệt bằng chứng/suy luận/chưa kiểm, link evidence
+thay raw log/ID dài. Không ép mọi báo cáo vào một template. Giữ một native final
+document `report` và contract số liệu của engine. Hermes wrapper đọc chính
+reference này cùng reviewer instructions, đưa vào SDK prompt và ghi hash tổng;
+không giả định process worker tự load skills catalog hay AGENTS.
+
+**Native publication:** hai agent lead/reviewer idle ở preflight. Qua native HTTP
+API được xác thực, lưu backup rồi thêm reference trước, cập nhật SKILL.md sau,
+dùng expectedVersionId và idempotency key. Version cuối
+`4cefeaa7-5485-4af3-99db-9eee5289de77`; đọc lại cả hai file cùng version khớp
+source. SHA256 reference
+`633c2be79f828d53d7381ddc4dadaf5006d95167a1962407d1f8a7372f48d636`;
+entrypoint `c531e514ff70d320445907d4633869a21324261485266c0f460c0df4dd11e1d0`.
+Giữ nguyên7 skill selections/version-pin choices và model/adapter/quota. Không
+sửa source upstream, global instructions, UI hoặc các báo cáo đã lưu.
+
+**Kiểm chứng:** skill validator đạt; Hermes focused suite7tests đạt, gồm prompt
+nhận đủ hai nguồn, hash khớp và thiếu reference dừng trước provider. Lượt chạy
+đầu gặp console/default file encoding cp1252 của Python trên Windows; chạy lại
+với `-X utf8` đạt, không đổi test để bỏ lỗi. Native content/assignment readback
+đạt. AI environment audit cuối:0errors/0warnings, global12279B,
+project9269/65536B, project reserve56267B, combined21548B. Không chạy lại full
+suite hoặc inference. Hướng dẫn mới áp dụng ở lượt kế tiếp; chưa khẳng định model
+đã đọc hoặc phong cách báo cáo mới đạt bằng một fresh model run.
+
+Evidence/backup private:
+`.runtime/ai-engines/reporting-20261103T044729Z/verification.json` và các file
+`*-before.json`. Rollback native bằng phiên bản trước
+`4a24d530-345c-432d-9536-0cdf3d10b473` qua version API sau khi đối chiếu current;
+không ghi đè thay đổi mới của owner. Revert cùng lát wrapper/reference trong Git
+nếu bỏ hướng dẫn dùng chung. Scope chỉ là báo cáo, không mở scheduling/trading.

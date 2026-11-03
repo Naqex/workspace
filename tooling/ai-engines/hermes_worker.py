@@ -40,6 +40,10 @@ def execute(settings_path):
                         {'title': 'Nguồn và số liệu phản biện', 'format': 'markdown', 'body': source['dossier']}, 'PUT')
         receipt['source_commit'] = source_pin('hermes')
         receipt['worker_sha256'] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+        instructions_root = ROOT / 'tooling/ai-engines'
+        instructions = ((instructions_root / 'hermes_instructions.md').read_text(encoding='utf-8')
+                        + '\n\n' + (instructions_root / 'paperclip-skills/naqex-research-lead/references/owner-reporting.md').read_text(encoding='utf-8'))
+        receipt['instructions_sha256'] = hashlib.sha256(instructions.encode()).hexdigest()
         memory = ROOT / '.runtime/hermes/research/memories/MEMORY.md'
         receipt['memory_sha256_before'] = hashlib.sha256(memory.read_bytes()).hexdigest() if memory.is_file() else None
         # Scope before importing Hermes: its modules cache profile/config at import.
@@ -56,7 +60,7 @@ def execute(settings_path):
             agent = AIAgent(model=settings['quick_model'], provider='custom', api_mode='chat_completions',
                             base_url=base, api_key=key, max_iterations=6, run_budget_seconds=180,
                             enabled_toolsets=['naqex_research', 'memory', 'session_search'],
-                            ephemeral_system_prompt=(ROOT / 'tooling/ai-engines/hermes_instructions.md').read_text(encoding='utf-8'),
+                            ephemeral_system_prompt=instructions,
                             session_id='naqex-' + client.run, session_db=database,
                             skip_context_files=True, skip_background_review=True, quiet_mode=True,
                             cwd=str(ROOT / '.runtime/hermes/research/workspace'))

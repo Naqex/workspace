@@ -54,6 +54,22 @@ The Naqex skill keeps project-specific worker contracts and recovery boundaries.
 Process workers do not load this catalog; do not assign it to them as a substitute
 for their registered instructions. No separate maintenance agent is required.
 
+### Owner-facing reports
+
+The existing Naqex lead skill routes to
+[`references/owner-reporting.md`](paperclip-skills/naqex-research-lead/references/owner-reporting.md).
+Publish both files in the same native company skill package. Hermes's wrapper
+explicitly appends this same reference to its reviewer prompt and records the
+combined instruction hash; it does not discover catalog skills or repo AGENTS.
+Changes apply on the next run, not to past reports or an in-flight worker.
+Retain engine-native numerical reports and evidence; the shared guidance governs
+the lead/reviewer's human narrative, not scientific output schemas or authority.
+
+Native `summarize-status` writes scope summary slots and `status-card-query`
+manages status cards. They are separate workflows, not universal task-report
+formatters. Keep their upstream procedures intact; the existing Naqex skill
+holds this company's reporting convention without installing another skill.
+
 ## Control access: MCP, HTTP API and source
 
 Use an exposed, authenticated Paperclip MCP connection for its supported task
