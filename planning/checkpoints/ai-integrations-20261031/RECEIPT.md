@@ -2996,3 +2996,72 @@ không là positive open→close acceptance. Handoff/state/guard đã chạy nat
 ưu tiên là độ tươi quote/observed forward và phiên kiểm tiếp có scope mới phù
 hợp; không tăng max quote age để biến stale thành fresh. Approval/artifact/
 policy/intent/response/cleanup được giữ private cùng thư mục; token không vào Git.
+
+## 03/11 — Runner Demo bền vững và final admission theo policy
+
+Tiếp phạm vi hoàn thiện hệ thống, không tuning strategy hoặc gọi model.
+Product `aca83e17` thay harness dùng một lần bằng
+`foundation_v2/scripts/mt5_demo_session.py`; `0fc58e49` tách timestamp tick khỏi
+state kinh tế; `91427ba9` áp đúng biên `deviation_points` đã duyệt vào final quote
+recheck. Các commit đã rollout local qua native owned launcher, giữ auth/schema/
+UI/data roots và rollback của từng lần promote. Không sửa Paperclip core hay
+tạo thêm UI/quy trình quản lý ngoài.
+
+### Hành vi, state và kiểm chứng
+
+Manifest/artifact/credential identity → intent fsync trước single native POST →
+receipt/reconcile cùng UUID → full opening fill đúng volume/account/generation/
+grant mới được tạo intent close. Sau crash/timeout/404 không POST lại intent;
+đổi input/secret identity, checkpoint hỏng hoặc concurrent writer đều chặn.
+Client chỉ3route Automation, chặn proxy/redirect, không tạo/revoke/renew grant
+hoặc tự chọn symbol/SL/ngân sách. STOP/expiry/reconcile-only chặn send mới, không
+tự đóng vị thế; partial/unknown phải báo attention. Native DB vẫn own authority,
+counters và reservation; file chỉ giữ tiến trình client.
+
+| Lát kiểm | Bằng chứng/phạm vi |
+|---|---|
+| Runner restart/lifecycle |10focused tests đạt: crash trước/sau POST, timeout, partial/scope mismatch, expiry/STOP, pin/tamper và lock. Không SDK/network |
+| Native readback thật |Import intent lịch sử vào fixture recovery riêng rồi đọc đúng receipt revoked; `blocked/demo_quote_stale`,0grant/command mới. Không gọi đây là crash broker thật |
+| Quote read path |5snapshot thật: tuổi quote409–2.577ms; không đủ cơ sở kết luận feed mất ổn định dài hạn |
+| Native SSE |30,076giây/2segments chủ động disconnect/reconnect,59ready samples,0stream errors/0stale; age441–4.242ms,p95=3.671ms. Sampled latest state, không full ticks hoặc multi-day forward |
+| SDK/worker hiện hành |59focused tests/84subtests đạt trước chốt tolerance; affected SDK41tests/48subtests đạt sau đổi tolerance theo broker point. Không chạy Rust/web suites unchanged |
+| Runtime |Private `demo-operations-promotion.json` pin3files của `91427ba9`; auth vẫn local-capability, schema21/UI giữ nguyên. Read Exness qua cold unavailable rồi ready; FTMO/Exness có lỗi startup/sync tạm thời, không gọi đó là root cause đã sửa |
+
+Trade-off: crash ngay trước POST cũng không tự gửi lại dù receipt404; ưu tiên
+chống gửi trùng. `resume` chỉ gửi close chưa attempt trong authority gốc. Full
+close đã attempt nhưng unknown chỉ đối soát, không gửi lần hai. Không cài daemon,
+scheduler hoặc cấp secret Owner cho runner.
+
+### Các phiên được duyệt tiếp và lỗi admission thực tế
+
+Owner duyệt lại từng phiên Exness demo464104926/Exness-MT5Trial17,EURUSDm,
+15phút,0,01lot,1position/2submissions,SL bắt buộc,risk tính toán≤$2demo.
+Hai phiên tiếp sau phiên stale lịch sử đều rejected trước send:
+
+| Phiên | Kết quả |
+|---|---|
+| v2,source `aca83e17` |`demo_automation_state_changed`;1attempt,0reservation/unknown/position sau cleanup; grant revoked |
+| v3,source `0fc58e49` |Cùng reason; diagnostic xác nhận request không đổi nhưng entry/estimated risk/total risk đổi. Inventory rỗng, grant revoked, không retry |
+
+v2 thiếu diagnostic nên không khẳng định timestamp là nguyên nhân của phiên
+đó. Source chứng minh timestamp cùng giá có thể gây false rejection; đã có
+regression riêng. v3 xác nhận giá dịch chuyển thật: so toàn bộ preview bằng
+nhau đã phủ nhận độ lệch giá mà policy cho phép.
+
+Final SDK hiện chỉ cho phép Bid/Ask đổi trong `deviation_points` của immutable
+grant khi request market-execution không mang price và không thay đổi. Fresh
+prepare tính lại SL/spread/per-trade/aggregate risk/margin; mở mới vẫn fence
+equity/free-margin/currency/inventory. Price-bearing request đổi vẫn chặn. Full
+owned close cho phép equity/free-margin thả nổi thay đổi để giảm exposure;
+identity/ownership/volume/quote/spread/expiry/generation vẫn kiểm. Sau native
+fence cuối kiểm lại tuổi quote rồi mới single OrderSend. Không thêm check/send
+hoặc retry. Ca quote nằm trong biên chuyển sang acceptance đúng policy; vẫn giữ
+ca ngoài biên, vượt risk/spread/SL/margin và revoke/expiry/no-resend.
+
+Evidence private tiếp tục ở
+`E:/BACKUP-TRADINGWORKSPACE/system-capabilities-20261103/`: `durable-demo-recovery/`,
+`quote-timing-readonly.json`, `observed-market-readonly*.json*`,
+`demo-operations-*.json`, `market-admission-runtime.json`,
+`approved-exness-demo-v2/` và `approved-exness-demo-v3/`. Secret không commit.
+Đang chờ phiên mới được owner duyệt để xác nhận positive open→close trên bản
+`91427ba9`; source/read-only acceptance không thay broker acceptance.

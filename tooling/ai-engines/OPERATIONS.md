@@ -5,6 +5,29 @@ This is the operating guide for the registered Studio system workflows. Use the
 the [existing receipt](../../planning/checkpoints/ai-integrations-20261031/RECEIPT.md)
 for acceptance, failures and resume evidence. This file is not another ledger.
 
+## Bounded Demo execution handoff
+
+Research/review completion does not start broker execution. For a separately
+approved Demo session, use Trader's native immutable Automation grant and
+[`mt5_demo_session.py`](../../projects/trader/foundation_v2/scripts/mt5_demo_session.py)
+with the [capability/session contract](../../projects/trader/foundation_v2/docs/LOCAL-CAPABILITIES.md).
+The Owner controller creates authority; the runner receives only that bounded
+credential and frozen artifact/commands, without Owner/DB/provider credentials.
+Do not use the manual endpoint, MCP order tools or an engine SDK as a fallback.
+
+The session file owns client intents only; native PostgreSQL owns broker
+receipts, attempt counters and risk reservations. `resume` can finish an unsent
+approved close, while `reconcile` never sends. Expiry, revocation, a STOP file,
+partial fill or an unknown result must remain visible; none means the position
+was closed. Never create another session/grant to erase an attempted command.
+Report outcome and remaining exposure through the existing native task/report;
+do not add a Trader workflow dialog or another approval/state store.
+
+The maintained client is a bounded open/close system check, not a strategy
+scheduler. Observed chart SSE is sampled latest state and has no complete-tick
+cursor. Historical QDM replay, a short live feed check, broker fill acceptance
+and long-duration unattended operation remain different evidence scopes.
+
 ## Ownership and instruction delivery
 
 | Consumer | How it receives instructions | Responsibility |
