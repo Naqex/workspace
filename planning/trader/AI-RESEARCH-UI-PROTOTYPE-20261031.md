@@ -153,6 +153,27 @@ volume/attempt/SL/risk/stop/reconcile để owner duyệt ở bước cuối. Ba
 external alerts, nhiều máy, failover, scale account, provider/model mới và tuning
 chiến lược tiếp tục để sau. Không dùng các phần hoãn này để chặn đợt Demo local.
 
+**Owner ủy quyền tiếp 04/11, sau khi khôi phục Paperclip:** yêu cầu hoàn tất toàn
+bộ mục tiêu Demo có giám sát, tự động thực hiện và không xin duyệt lại từng bước.
+Lời giao hiện tại thay gate hỏi lại owner cho phiên Demo của chính đợt này;
+không biến thành quyền Real/challenge/phí/provider mới hoặc bỏ native guards.
+Agent chọn phạm vi bảo thủ kế thừa phép kiểm trước: Exness Demo hiện có,
+EURUSDm, 0.01 lot, một vị thế, tối đa hai submissions, SL bắt buộc, downside
+mô hình tối đa 2 USD, unknown chỉ đối soát. Mỗi grant vẫn phải pin account /
+generation / artifact / expiry; không gia hạn hoặc cấp mới để né kết quả chưa rõ.
+Phiên hữu hạn không ép candidate phát tín hiệu; reuse fill thật đã đạt và kiểm
+entry/exit/failure xuyên suốt offline trên cùng code, rồi quan sát native Demo
+với input thực. Kết quả không có tín hiệu vẫn được ghi đúng là không giao dịch.
+
+Nối execution bằng snapshot chỉ đọc scope theo grant; không trao Owner key cho
+runner. Warmup và decision dùng chung native H1 Bid/UTC, khác midpoint shadow /
+QDM và có pin basis/source/SDK/clock. Bootstrap không gửi lệnh quá khứ; H1 đóng
+qua30giây mới dùng, decision mới không quá60giây; receipt và inventory broker
+là nguồn vị thế. Fixed H4 giữ nguyên, thêm close ở deadline hữu hạn đã đăng ký.
+Contract/CLI: `projects/trader/foundation_v2/docs/LOCAL-CAPABILITIES.md`, phần
+**Decision-driven finite forward session**. Không công nhận phép kiểm này là
+H1 shadow handoff hoặc uptime dài ngày; không nới guard để hoàn tất task.
+
 ### Ưu tiên hiện hành — hoàn thiện hệ thống AI, 02/11
 
 Owner làm rõ: chưa muốn dành thời gian tối ưu chiến lược; ưu tiên hệ thống AI

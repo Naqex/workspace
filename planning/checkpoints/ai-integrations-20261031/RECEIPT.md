@@ -4154,3 +4154,134 @@ chỉ advisory, Demo session chỉ immediate open/close. Phần cần nối ti�
 decision/intent nhận broker receipt và inventory thực qua native runner, giữ
 authority/idempotency/unknown hiện có; không gọi đường mô phỏng là đã đủ live.
 Không chạy lại34tests, thu thêm tick hoặc gửi lệnh cho phần rà source này.
+
+## 04/11 — Hoàn tất đợt Demo hữu hạn có giám sát (NAQ-81 / issue #8)
+
+**Kết luận:** đạt đích đợt đã đăng ký trong AI plan: runner nhận dữ liệu thực,
+warmup cùng basis, tiếp checkpoint trong process mới, quan sát và kết thúc hữu
+hạn, đối soát flat rồi thu hồi grant. Không có tín hiệu H4 mới nên phiên này
+không tạo order; không giả lập broker fill để nhận đạt. Entry/exit/failure dùng
+fixture production cùng native receipts đã có; fill broker thật trước đó được
+reuse riêng, không gọi là fill của phiên mới. Không là autonomous24/7, lợi nhuận,
+whole-product acceptance hoặc live H1 shadow handoff.
+
+Owner đã giao tự hoàn tất, không xin duyệt lại từng bước. AI plan ghi override
+cho chính đợt Demo, kế thừa giới hạn Exness Demo/EURUSDm, 0,01lot, một vị thế,
+hai submissions, SL bắt buộc, downside mô hình tối đa2USD, unknown chỉ reconcile.
+Không sửa AGENTS/config/quyền broker toàn cục hoặc mở Real/challenge/provider.
+
+### Code và data/state
+
+Trader `60d049b18e0b01e9416e469b7f802d25396f7988` thêm snapshot chỉ đọc scope
+theo Automation grant: đúng account/generation/symbol, fixedH1/max300bars,
+source/SDK/clock và foreign-exposure rõ. Sau expiry/revoke vẫn đọc/đối soát được;
+native admission mới quyết định quyền gửi. Không có migration hoặc đường SDK
+gửi lệnh mới; reuse native idempotency/risk/receipt/reservation hiện có.
+
+`mt5_forward_session.py` dùng fixedH4 nguyên trạng, native Bid H1/UTC
+`mt5_native_bid_h1_utc_v1` cho cả warmup và dữ liệu mới. Chỉ nhận nến đã đóng
+qua30giây; bootstrap không vào lệnh quá khứ, decision mới không quá60giây.
+Source/SDK/clock/binding/cursor/revision/stale/foreign/unknown không hợp lệ thì
+chặn. Một chu kỳ entry, deterministic IDs, decision/intent bền vững; receipt
+và inventory broker là truth vị thế. Candidate EXIT hoặc finish hữu hạn đã
+đăng ký mới đóng full vị thế sở hữu; close receipt cần flat inventory sau đó.
+STOP/pause/revoke/expiry không là flat. Runner không nhận Owner/DB/provider
+credential trong environment; Windows OS variables cần cho socket được giữ.
+
+State/checksummed observations/manifest ở private local, native Paperclip giữ
+task/report; không tạo dashboard/dialog hoặc ledger quản lý cạnh tranh. Ranh
+giới basis native Bid khác midpoint QDM/shadow được công khai, không tuyên bố
+tick đầy đủ hoặc strategy qualification từ warmup lịch sử.
+
+### Runtime rollout và lỗi phát hiện từ dữ liệu thật
+
+Paperclip đã được owner chạy lại: healthOK, source
+`2e0f8f84b810ef3ae89c400d3ee1faf6b281c217`; native task/report đọc/ghi hoạt động.
+Không kết luận policy denial của Codex đã sửa dứt điểm. Khởi động API/UI đúng
+owner bằng công cụ hiện hành được cho phép trong lượt này.
+
+API cutover đã kiểm process identity/hash/profile/local-capability, idle jobs /
+downloads/AI runs, không active grant/unknown/exposure. Lưu old manifest/launch,
+worker và OpenAPI trước stop qua owned launcher, rồi chạy binary pin mới.
+Không migration; chỉ copy worker/OpenAPI, giữ nguyên symbol-catalog WIP và các
+descriptor/database/artifact roots. Readiness đạt; Exness và FTMO reconnect,
+flat inventory. UI5180 giữ hoạt động. Runtime-owning checkout cũ chưa bị đổi tên.
+
+Private rollback: `system-capabilities-20261103/forward-promotion-20261104` trênE.
+API run `2c642326eaf84fcdbfa4bc97607e537d`, API SHA256
+`75836bcd135fed2a78605b42d0f65e23a8c9ba6f356869c8bacade1b03de06ed`.
+API/worker source pin60d049b1; runner/candidate source sau sửa là
+`d8f09240ec736aaa805762e487a0b19150153ca2` (Python-only, không cần restart MT5).
+
+Lần native snapshot đầu bị `bar_tick_grid_invalid` do SDK float tail, ví dụ
+`1.1232199999999999`. Dừng trước runner/send, thu hồi grant; giữ failed artifacts
+`forward-native-20261104`, không sửa lịch sử thành pass. Bản sửa d8f09240 reuse
+quy tắc mộtULP từ shadow bằng helper chung `sdk_tick_price`; giá lệch tick thật,
+NaN/infinity/âm/bool hoặc OHLC sai vẫn từ chối. Raw observations/hashes giữ nguyên.
+Saved native snapshot300bars kiểm lại offline nhận299closedbars, không network.
+Một preflight sau đó không đạt quote<=2giây nên dừng trước tạo folder/grant;
+bounded read-only preflight tiếp theo đạt, không retry broker command.
+
+### Kiểm chứng tập trung
+
+| Phạm vi | Kết quả |
+|---|---|
+| Forward runner production candidate → entry/receipt/inventory → finite exit/flat; no-signal; crash/partial/STOP/expiry/revoke/source/cursor/integrity | Ban đầu11tests đạt; sau lỗi float, suite12tests đạt1,395s |
+| Durable Demo helper sau extraction `submit_once` |16tests đạt3,365s |
+| Broker worker snapshot provenance/source-change |22tests đạt0,209s |
+| Shared float helper / shadow compatibility |1focused regression đạt0,755s; không chạy lại toàn bộ34tests không đổi |
+| Rust snapshot account/generation/symbol fencing và auth default-deny |2focused tests đạt |
+| Disposable PostgreSQL native grant/reservation/settlement/revoke; inspect-after-revoke/expiry |1test đạt0,73s; không dùng ownerDB làm test target |
+| Release binary, scoped formatting, Python compilation và diff |Đạt; final release2m27s |
+
+Fixture PostgreSQL helper bỏ phụ thuộc `createdb.exe` không được đóng gói trong
+embeddedPG hiện tại; dùng psycopgCREATE DATABASE trên disposable cluster vừa tự
+tạo với port/user riêng. Không dùng DSN app/owner; đã chạy thành công cùng testPG.
+Một test invocation ban đầu từ product-root sai import path; không tính pass.
+Saved-snapshot diagnostic ban đầu dùng nhầm reader64KiB của manifest; đổi thành
+JSON reader cho evidence file lớn, không tăng/loosen giới hạn runner.
+
+### Phiên native cuối — 21:44:56 → 21:46:20 Việt Nam
+
+Private qualification: `system-capabilities-20261103/forward-native-20261104-r2`
+trênE, `qualification.json`, raw observations và checksummed runner state.
+Finish đăng ký21:46:16, expiry21:47:16; worker/runner kết thúc trước expiry.
+SDK `5.0.6231`, clock `sdk_utc_v1`; account generation19 không đổi.
+
+| Phép kiểm / kết quả | Giá trị |
+|---|---|
+| Native input |300H1 từ19/10 02:00UTC tới04/11 14:00UTC, loại forming bar |
+| Warmup |20closedH4 trong rolling candidate history; không ép tín hiệu |
+| Resume |Process seed kết thúc; process watch mới đọc cùng manifest/credential/checkpoint, không bootstrap từ đầu |
+| Quan sát |35native observations được lưu bất biến, native progress readback đạt |
+| Kết thúc |`completed / session_finished_flat_no_entry`, exit0 |
+| New broker requests / inventory |0requests;0positions;0orders |
+| Unknown / reserved risk |0 /0 |
+| Cleanup authority |Grant revoked; đọc snapshot sau revoke đạt, flat và không mở quyền gửi |
+
+Native task [NAQ-81](http://127.0.0.1:17860/NAQ/issues/NAQ-81), UUID
+`500aa551-57de-4718-8b29-4a7edb001908`, document `demo-readiness-20261104` giữ
+tiến độ/heartbeat/lý do/cursor/exposure và kết quả. Codex thực hiện qua CLI/native
+HTTP; không dispatch agent/model mới. CLI auth không trao cho runner.
+
+**Phần giữ riêng:** NAQ-80/live H1 shadow handoff vẫn chưa đạt, failedr4 không
+được relabel hoặc chạy lại1giờ. Không phải dependency của basis nativeBid này.
+Cloud/G backup, external alerts, nhiều máy/failover, auto-boot/scheduler24/7,
+scale account và tuning/qualification chiến lược vẫn hoãn theo owner. Đợt này
+đủ để vận hành từng phiên Demo hữu hạn có giám sát; không để runner tiếp tục
+giao dịch sau khi kết thúc. Phiên mới phải có artifact/grant scope mới, không
+resume completed để hồi sinh quyền hoặc tự dùng Owner endpoint thay runner.
+
+Native NAQ-81 đã chuyển `done`, document đọc lại đúng; GitHub#8 đã đóng theo
+scope đợt Demo hữu hạn. NAQ-80 vẫn `blocked`. GitHub comment ghi rõ commits
+local chưa được push; không đẩy kèm73commits khác đang chờ trên branch workspace.
+
+Kiểm metadata cuối phát hiện các trailerAI bị tách thành hai paragraph nên
+Git chỉ parse một trailer. Đã chuẩn hóa đúng hai commit Trader vừa tạo, chưa
+push; trees/source bytes không đổi: build pin60d049b1 tương ứng commit
+`1401bce3e90d2f3ac00e4372d4c19fdd50428311`, runner pin d8f09240 tương ứng
+`c97cd79d327131d73a9938640c5b49522ba8c931`. Native/private run giữ original
+SHA tại thời điểm chạy; mapping ở `trailer-normalization.json` cùng private root.
+Không chạy lại test/runtime cho thay đổi metadata. Validator dùng tooling
+interpreter cóPyYAML; product venv không có dependency này, không cài thêm vào
+runtime chỉ để kiểm forms/trailers.
