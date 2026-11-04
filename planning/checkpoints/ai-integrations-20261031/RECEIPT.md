@@ -14,6 +14,7 @@ không đọc toàn bộ lịch sử hoặc lấy snapshot cũ thay trạng thá
 | Việc cần tiếp tục | Đọc đúng nguồn |
 |---|---|
 | NAQ-80, kết quả r3 và phục hồi khi MT5 chưa sẵn sàng | [Kết quả và bản sửa recovery](#0411--naq-80-dừng-do-readiness-và-phục-hồi-cursor-có-giới-hạn); lịch sử float ở [checkpoint trước](#0411--sửa-float-grid-và-đối-soát-báo-cáo-naq-80) |
+| NAQ-80, log đã bật và kiểm đường đọc thật mới nhất | [Log kết nối và kiểm ngắn](#0411--log-kết-nối-mt5-và-kiểm-đọc-thật-ngắn); không nhầm với H1 handoff acceptance |
 | Phục hồi sau ngắt hay sửa reducer | [Reprocess đã có lệnh](#0411--reprocess-capture-đã-lưu-và-phân-loại-checkout-cũ); [runbook](../../../projects/trader/foundation_v2/docs/FOREX-FORWARD.md#choose-resume-or-offline-reprocessing) |
 | Dọn workspace, giữ WIP/runtime | [Inventory ban đầu](#0411--inventory-cleanup-chỉ-đọc) → [delta checkout cũ](#0411--reprocess-capture-đã-lưu-và-phân-loại-checkout-cũ) |
 | Vận hành Studio/native task/run/report | [Operations guide](../../../tooling/ai-engines/OPERATIONS.md), rồi mục receipt được workflow dẫn tới |
@@ -3845,3 +3846,43 @@ chứng bàn giao trên dữ liệu mới và chẩn đoán nguyên nhân gốc 
 diễn; chỉ kiểm đúng transport/lifecycle còn thiếu sau đối soát, không thu lại
 thị trường để kiểm một phép tính offline đã đạt. NAQ-80 tiếp tục blocked vì chưa
 đạt acceptance của task; không dispatch agent hoặc tạo task quản lý thứ hai.
+
+## 04/11 — Log kết nối MT5 và kiểm đọc thật ngắn
+
+Owner giao hai bước: bổ sung chẩn đoán chuyển trạng thái MT5 rồi kiểm đường đọc
+thật1–2phút. Trader commit `b526bcabc697424ecaff3d6fdfaf1a9288ed578b` thêm
+tracing JSON vào collector và account actions; không thêm service, dependency,
+UI/state store hoặc migration. Log ghi timestamp UTC, workspace/connection ID,
+generation, trạng thái/mã lỗi trước và sau; không ghi login/name/password,
+credential hoặc snapshot. Cặp before/after lấy từ cùng locked UPDATE, không
+SELECT rời để đoán transition. Generation/workspace không khớp không ghi log;
+polling giữ nguyên trạng thái không spam; terminal busy không bị gán disconnected.
+Connect/sync/pause/resume/disconnect/remove ghi action sau persistence để phân
+biệt thao tác owner với mất mạng. Runbook: `docs/LIVE-MARKET-STREAM.md` mục
+Connection diagnostics trong Trader.
+
+| Lát kiểm | Kết quả / phạm vi |
+|---|---|
+| Source / PostgreSQL | Unit sanitizer đạt; fixture PostgreSQL riêng chạy native Router/DPAPI/lifecycle đạt1test/1,46s, source fingerprints unchanged, owner_runtime_touched=false. Kiểm log error→connected và mã lỗi trước/sau, không duplicate khi error không đổi, busy/stale write không tạo transition giả, không lộ secret/snapshot. Private `readiness-logging-pg-20261104.json` |
+| Build / rollout | Release API build đạt5m14s. Guard require-idle đối soát jobs/downloads/grants/unknown, cả hai account demo không positions/orders; lưu manifest/launch và binary rollback trước cutover. Không schema migration hoặc copy WIP/source checkout cũ |
+| Vướng preflight | Full scientific verification timeout30s ở lần đầu, chưa stop runtime. Diagnostic không có đủ adapter env bị từ chối; kiểm lại đúng env đạt valid installation trong21,641s. Giữ timeout/validation nguyên, resume đúng checkpoint trước cutover; initial failed check còn giữ, không bypass guard |
+| Runtime | API mới run `4fd4fb8e12bb4b509edfc479aa1680c5`, SHA256 `0009fbf84d379fc3347b480026422b1d31223ecbabd41fc86888510ea752aad4`, native/compact/local-capability, schema21 không pending. Giữ research/admin/scientific/legacy/config/port/auth và adapter root. Lần đọc đầu sau restart chưa đạt readiness assert; không lưu response reason nên không kết luận nguyên nhân. Đối soát lại chính run đó: Exness và FTMO ready/demo,0positions/orders, không restart lần nữa |
+| Log thật | Runtime thừa kế RUST_LOG=warn nên bật info riêng `trading_workspace_api::mt5_connector`. Filter lưu trong `api-launch.json` environment_overrides và private rollout. Sync Exness đúng1lần tạo3events: action sync→queued, queued→syncing, syncing→connected; generation19 giữ nguyên. Không disconnect/reconnect để tạo lỗi giả |
+| Đọc thật | Pinned supervisor mới thu60giây17:18:25–17:19:25VN và settle30giây, complete:6pages/71ticks,0transport retries,0H1/decisions. Không cần chờ thêm H1 để kiểm đường đọc này. Trước/sau cùng API run/generation19,32commands,0active grants/unknown; preflightpositions/orders rỗng. Đây là short real read, không phải proof retry trên outage thật hoặc H1/live uptime acceptance |
+
+Private `readiness-logging-20261104/` giữ before-manifest/launch, initial và resumed
+guard logs, exact environment overrides, candidate binary và `promotion.json`.
+`api-launch.json` đã đối soát với current owner manifest sau first-read failure,
+không chạy lại driver để overwrite checkpoint hoặc restart healthy API. Launcher
+và terminal vẫn chạy ẩn theo cơ chế hiện có. API log thực tế là
+`platform-4fd4fb8e12bb4b509edfc479aa1680c5-api.out.log` dưới runtime manifest folder.
+Không log rotation/service hoặc global environment mới; khi launch lại phải giữ
+scoped filter đã lưu, không chỉ đọc arguments rồi bỏ environment_overrides.
+
+Private `readiness-short-20261104/qualification.json`, registration, lifecycle,
+capture và `connection-events.json` giữ bằng chứng kiểm ngắn; supervisor đã kết
+thúc, không có lượt dài đang chạy. Chưa xác minh nguyên nhân MT5 đổi trạng thái
+lúc15:07 trong r3; log mới không khôi phục lịch sử đó. H1 handoff trên dữ liệu mới
+vẫn pending; NAQ-80 giữ blocked theo acceptance gốc. Không gửi OrderCheck/OrderSend,
+tạo grant/session giao dịch, gọi model hoặc chỉnh chiến lược. Hai bước logging +
+short-read trong lần giao này hoàn tất; không suy rộng thành whole-system uptime.
