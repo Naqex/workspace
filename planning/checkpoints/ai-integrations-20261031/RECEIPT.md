@@ -13,7 +13,7 @@ không đọc toàn bộ lịch sử hoặc lấy snapshot cũ thay trạng thá
 
 | Việc cần tiếp tục | Đọc đúng nguồn |
 |---|---|
-| NAQ-80, lỗi float và lượt quan sát r3 | [Checkpoint lỗi/bàn giao](#0411--sửa-float-grid-và-đối-soát-báo-cáo-naq-80); sau đó đọc state/lifecycle private và native task |
+| NAQ-80, kết quả r3 và phục hồi khi MT5 chưa sẵn sàng | [Kết quả và bản sửa recovery](#0411--naq-80-dừng-do-readiness-và-phục-hồi-cursor-có-giới-hạn); lịch sử float ở [checkpoint trước](#0411--sửa-float-grid-và-đối-soát-báo-cáo-naq-80) |
 | Phục hồi sau ngắt hay sửa reducer | [Reprocess đã có lệnh](#0411--reprocess-capture-đã-lưu-và-phân-loại-checkout-cũ); [runbook](../../../projects/trader/foundation_v2/docs/FOREX-FORWARD.md#choose-resume-or-offline-reprocessing) |
 | Dọn workspace, giữ WIP/runtime | [Inventory ban đầu](#0411--inventory-cleanup-chỉ-đọc) → [delta checkout cũ](#0411--reprocess-capture-đã-lưu-và-phân-loại-checkout-cũ) |
 | Vận hành Studio/native task/run/report | [Operations guide](../../../tooling/ai-engines/OPERATIONS.md), rồi mục receipt được workflow dẫn tới |
@@ -3801,3 +3801,47 @@ chạy code hoặc tạo lại screenshots. Đây là classification, không ch�
 4delta đều phải port. Không xóa source/WIP/cache hoặc retire checkout đang chạy.
 Đã thêm index ở đầu receipt giúp đọc đúng checkpoint; chưa rút/xóa lịch sử chưa
 review hoặc tạo nguồn tiến độ mới. Product Plan và VI WIP giữ nguyên.
+
+## 04/11 — NAQ-80 dừng do readiness và phục hồi cursor có giới hạn
+
+Kiểm lúc16:35VN: r3 đã failed lúc15:07:49VN, phiên1 reason
+`shadow_native_http_423_mt5_connection_not_ready`, giữ38pages/2.443ticks,
+0H1 đầy đủ, chưa khởi động phiên2. Native NAQ-80 đã tự ghi document revision4
+và blocked đúng lúc lỗi; nhánh publish/status mới hoạt động. Không có qualification
+đạt và không còn driver/shadow của r3 đang chạy; các mốc16:03/16:05 phía trên
+là dự kiến lịch sử, không phải tiến trình còn sống.
+
+Preflight16:36 và read-only DB16:39: API run vẫn
+`e62d5f0b38994c53b6acf3055a36c41b`, Exness demo generation19 đã connected lại;
+32commands,0active grants/unknown/positions/orders tại preflight. Hai account
+connected ở lần đọc16:39. Source `managed_record` trả423 khi DB status khác
+connected; bảng hiện hành đã ghi đè error_code sau recovery và terminal log chỉ
+có startup. **Chưa xác minh được nguyên nhân trạng thái đổi lúc15:07**, không
+quy kết broker/network, account switch hoặc worker crash. Cùng generation không
+chứng minh đường truyền chưa từng gián đoạn.
+
+Trader commit `cde626afced1ddff025c939071cf223815ffdb8b` sửa đúng điểm đã chứng minh:
+supervisor Rust trước đây kết thúc ngay khi read-side readiness tạm thời lỗi.
+Chỉ423 `mt5_connection_not_ready` và503 `demo_terminal_busy` được chờ10giây/lần,
+tối đa6retry/60giây trong một episode, không vượt deadline gốc. Lifecycle giữ
+start/count/reason/cumulative retries; resume không reset episode đang chờ.
+Thử lại cùng phiên/cursor và re-audit toàn prefix; không tự reconnect, tạo phiên,
+đổi identity, reset partial H1 hoặc retry send. Source/binding/revision/auth và
+lỗi khác vẫn fail-closed; STOP/expiry vẫn hoạt động. Không sửa Python capture/
+reducer/candidate hoặc runtime API đang phục vụ.
+
+| Kiểm chứng | Kết quả / giới hạn |
+|---|---|
+| Rust supervisor | `cargo test --locked --bin mt5-shadow`:14passed,1ignored helper fixture; có2tests mới kiểm allowlist, budget/reload/deadline. Release build đạt |
+| Supervisor executable + HTTP fixture | 3tests/57,152s đạt: mất readiness rồi tiếp cursor không duplicate (7pages/7ticks), sửa page cũ bị chặn, STOP khi chờ. Loopback port ngẫu nhiên/dummy credential, không SDK/broker. Sau review thêm guard tránh ghi recovered khi worker trả STOP/expiry; rebuild, focused allowlist và STOP test4,457s đạt |
+| Capture r3 offline | `shadow-r3-reprocess-20261104/reprocess.json`:38pages/2.443ticks,0H1,network_reads0,execution false,continuation_eligible false. Đọc nguồn có checksum và kiểm inputs unchanged; lifecycle failed giữ nguyên |
+| Artifact | Bản mới pin ở private `shadow-read-recovery-20261104/bin/mt5-shadow.exe`, SHA256 `125c5888f5470c93907d6a8454e1a834df3bf8c7344fe2fe25ad9d902e1980cf`; source/runtime API và terminal không restart |
+
+Không chạy lại lượt dài, gửi lệnh, gọi model hoặc mở session/grant. Bản sửa
+supervisor đã kiểm bằng failure injection hữu hạn; chưa là live-handoff hoặc
+uptime acceptance. Phiên r3 đã hết deadline/binary pin cũ nên không resume bằng
+binary mới, không sửa registration để hồi sinh phiên. Phần còn thiếu là bằng
+chứng bàn giao trên dữ liệu mới và chẩn đoán nguyên nhân gốc nếu readiness tái
+diễn; chỉ kiểm đúng transport/lifecycle còn thiếu sau đối soát, không thu lại
+thị trường để kiểm một phép tính offline đã đạt. NAQ-80 tiếp tục blocked vì chưa
+đạt acceptance của task; không dispatch agent hoặc tạo task quản lý thứ hai.
