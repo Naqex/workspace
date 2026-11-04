@@ -3599,3 +3599,23 @@ phiên2 giữ đúng builder/candidate state và cumulative count, đọc đư�
 không tạo H4 giả; report1 bất biến và command/grant/unknown/account/run giữ
 nguyên. Một H1 chưa đủ khởi tạo ATR/H4 entry; coverage vẫn
 `broker_history_unverified`, chưa phải uptime nhiều ngày, P&L hay quyền giao dịch.
+
+## 04/11 — Ẩn console và giữ hạ tầng hiện tại
+
+Owner chọn dùng PC chính ở giai đoạn hiện tại, tháo/cất GTX1660 của PC phụ;
+VI Dubber tạm dừng phát triển. Chưa cần vận hành PC phụ, Heroku, Oracle hoặc
+VPS; chỉ xem lại khi có nhu cầu thực tế. Đây là quyết định phạm vi, không phải
+thay đổi phần cứng, cloud hoặc dịch vụ đã được agent thực hiện.
+
+Ẩn cửa sổ Windows Terminal PID25064/HWND3215294 sau khi đối chiếu title/path
+với Python launcher API đang sở hữu. Win32 xác nhận visible từ true thành false;
+API health vẫn `ok=true`, database `ready`. Không kill/restart process hoặc ngắt
+phiên shadow đang chạy. Log stdout/stderr hiện có vẫn giữ nguyên.
+
+Private rollout helper `promote_observed_quotes.py` ở E root bên trên đã bỏ
+`DETACHED_PROCESS`, giữ `CREATE_NO_WINDOW` với stdout/stderr vào file. Theo
+[Microsoft process creation flags](https://learn.microsoft.com/en-us/windows/win32/procthread/process-creation-flags),
+`CREATE_NO_WINDOW` bị bỏ qua khi dùng cùng `DETACHED_PROCESS`. Launcher chuẩn
+`projects/trader/scripts/restart_offline_api.ps1` đã dùng `-WindowStyle Hidden`;
+không thêm launcher, service hoặc config mới. Chỉ review/syntax-check helper,
+chưa thực hiện lại rollout/restart trong lúc quan sát để kiểm lần launch mới.
