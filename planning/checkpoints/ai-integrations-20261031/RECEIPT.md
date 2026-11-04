@@ -3506,3 +3506,41 @@ tuning. Mô phỏng vị thế/chi phí cần contract riêng đúng broker trư
 là full paper trader. Issue Naqex/workspace#8 vẫn OPEN; lát này không kết luận
 whole-product, strategy profitability hoặc mở quyền giao dịch. Backup G/cloud,
 external alert và nhiều máy tiếp tục hoãn theo owner.
+
+## 04/11 — Giữ warmup giữa các phiên shadow hữu hạn
+
+Tiếp source WIP từ phiên trước, Trader commit
+`1685e22cc0cec4483e0e96d808d3eae686c5113e` bổ sung registration/report v2 với
+predecessor đã pin hash. Phiên mới chỉ nhận lifecycle `complete`, registration,
+capture/report counters và source/clock/SDK cùng account/generation khớp. Kiểm
+pages khi init/cold resume; giữ candidate history/ATR và phần H4 chưa đủ, mỗi
+report chỉ ghi giờ/decision của phiên hiện tại cùng tổng tích lũy. Không copy
+raw ticks hoặc phát lại decision cũ. Đường dẫn canonical local phải tách biệt.
+
+Handoff đúng mốc H1 và không gap/overlap. Dừng giữa giờ phải resume cùng phiên;
+phiên hoàn tất giữa giờ không được seed. Tối đa32phiên/chuỗi, mỗi phiên giữ
+bound24giờ. V1 giữ làm evidence, không tự sửa manifest/source pins để upgrade;
+không migration dữ liệu owner, scheduler, auto rollover hoặc dịch vụ nền mới.
+
+| Lát | Bằng chứng / giới hạn |
+|---|---|
+| Python | 15tests +11subtests đạt trong104,71s: hai modules shadow/continuation. Dữ liệu tổng hợp92giờ qua4phiên23giờ tạo23H4, candidate/builder khớp xử lý liên tục; cold resume khớp nguyên report. Kiểm gap/overlap/generation/symbol/policy, mid-hour, lifecycle incomplete, đổi report/page/SDK và causal observation time |
+| Lỗi fixture | Lượt đầu6tests có1FAIL vì Decimal bằng nhau nhưng JSON khác scale (`1.1003`/`1.10030`). So typed Decimal state cho parity số học; kiểm cold-resume nguyên report vẫn giữ exact equality. Không nới guard production để pass |
+| Review độc lập | Reviewer chỉ đọc diff phát hiện Rust start60s không đủ cho settlement60–120s. Sửa continuation allowance bằng settlement+60s, vẫn cần Python init xác minh predecessor trước read; start độc lập giữ60s. Reviewer kiểm bản sửa và docs, không còn finding trong scope |
+| Rust/build | 1targeted regression đạt cho settlement30/120, quá hạn và independent start; scoped rustfmt/diff check đạt. Locked release build đạt3,74s. Không chạy lại owned-process hoặc full suite unchanged, không gọi full CI pass |
+| Native report | PUT/GET document `shadow-continuity-20261104` trên task [NAQ-79](http://127.0.0.1:17860/NAQ/issues/NAQ-79), body khớp; SHA256 `6414ca33011af4f7288c41b48c6b249e24e8a4cdbe21153267f0ef2ca64673af`. Dùng project-authenticated native HTTP helper vì MCP không expose, không dispatch model |
+| Runtime/quyền | Không có shadow worker đang hoạt động khi kiểm ownership; không gọi broker/OrderCheck/OrderSend/provider trong lát này. Không restart API/terminal, source engine, thay UI hoặc tạo native task mới. Chưa chạy continuation trên broker thật hoặc promote API/UI |
+
+Evidence private:
+`E:/BACKUP-TRADINGWORKSPACE/system-capabilities-20261103/shadow-continuity-20261104/`
+giữ qualification/source/binary hash và publication receipt. Binary release ở
+target hiện có; docs `foundation_v2/docs/FOREX-FORWARD.md` giữ cách pin seed,
+start/stop/resume và giới hạn. CI hiện có thêm module continuation, chưa chạy
+remote CI. Product Plan dirty amendment từ task khác không nằm trong commit này.
+
+**Acceptance:** source/offline continuity đã kiểm;92giờ là thời gian dữ liệu
+tổng hợp, không là uptime hoặc forward broker nhiều ngày. Coverage tiếp tục
+`broker_history_unverified`; vị thế/fill/lot/fees/swap/P&L vẫn not modeled.
+Bước tiếp đúng scope là phiên v2 có giám sát trên dữ liệu mới, kiểm bàn giao
+thật tại mốc H1; weekend/gap/unattended lifecycle còn riêng. Không tuning,
+kết luận lợi nhuận hoặc mở quyền giao dịch; issue#8 và whole-product còn mở.

@@ -101,6 +101,13 @@ thiếu warmup thì báo warming_up, không ép tín hiệu. Python giữ reduce
 Rust giữ lifecycle hữu hạn; checkpoint vận hành không thay task/run Paperclip.
 Receipt AI giữ source/offline/runtime và giới hạn acceptance riêng.
 
+Owner giao tiếp04/11: hoàn thiện warmup giữa các phiên shadow hữu hạn. Phiên
+kế tiếp được nhận state chỉ báo từ predecessor hoàn tất, hash đã pin, cùng
+account/generation/source và nối đúng mốc H1; dừng giữa giờ phải resume phiên
+cũ. Kiểm chuỗi nhiều ngày bằng dữ liệu tổng hợp trên reducer production,
+không gọi đó là nhiều ngày uptime hay warmup thị trường thật. Không tự cài
+scheduler, gia hạn quyền giao dịch hoặc chuyển sang tuning chiến lược.
+
 ## Hướng hiện hành — owner tự setup,01/11
 
 ### Ưu tiên hiện hành — hoàn thiện hệ thống AI, 02/11
