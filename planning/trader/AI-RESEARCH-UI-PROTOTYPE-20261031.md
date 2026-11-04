@@ -71,6 +71,8 @@ gian; không coi hai năm mô phỏng là hai năm uptime. Nhiều máy dự ph�
 
 Owner trả lời tiếp04/11: chưa có đích backup ngoài máy/kênh cảnh báo; hoàn tất
 local trước. Hai phần external này để sau, không là quyền chọn provider mới.
+Owner sau đó xác nhận G là ổ rời nhưng giao tiếp phần hệ thống, để việc backup
+ổ rời/cloud lại khi cần; chưa bật copy, retention hoặc lịch backup mới.
 
 ## Hướng hiện hành — owner tự setup,01/11
 

@@ -3241,3 +3241,32 @@ Tích hợp inventory/trình tự/thẩm quyền phục hồi vào
 Không cấu hình cloud, xuất credential hoặc gửi dữ liệu ra ngoài. Nguồn đối chiếu:
 [NCSC backup separation/offline](https://www.ncsc.gov.uk/blog-post/offline-backups-in-an-online-world)
 và [PostgreSQL filesystem backup](https://www.postgresql.org/docs/18/backup-file.html).
+
+## 04/11 — Tiếp độ ổn định: snapshot numeric và cold subscription
+
+Owner xác nhận G là ổ rời, sau đó quyết định để phần backup ổ rời/cloud lại khi
+cần. Lát này không tạo snapshot DB mới, ghi G, upload hoặc bật lịch backup.
+Tiếp đúng lỗi `demo_invalid_number` còn mở, không chạy lại các qualification đã đạt.
+
+| Phần | Thay đổi / bằng chứng |
+|---|---|
+| Cold subscription | Fixture tái hiện symbol spec trước `symbol_select` còn tick size bằng0 dù SDK tuple mới hợp lệ. Adapter đọc lại spec sau subscribe, vẫn chặn nếu dữ liệu mới không hợp lệ. Đây là lỗi source được tái hiện, chưa chứng minh là nguyên nhân mọi lỗi runtime trước đây |
+| Chẩn đoán thật | Sau rollout lần đầu, Exness explicit `EURUSDm` bị `demo_invalid_number`; phản hồi mới xác định `data_quality.invalid_field=quote.bid`. Chỉ lưu tên trường/điều kiện dương-hữu hạn, không ghi raw SDK value hoặc secret |
+| Phân loại trạng thái | Bid/Ask không hợp lệ trả `demo_quote_unavailable`, thống nhất default-symbol path và UI message đã có. Tick size/point/lot limits lỗi vẫn `demo_invalid_number`. Native API giữ diagnostic thay vì bỏ; không thêm UI, retry hoặc thay execution gate |
+| Kiểm nguồn |64Python tests về Demo/worker đạt0,872s;8Rust tests về demo trading đạt; release build, scoped rustfmt và diff check đạt. Fixture kiểm cả feed invalid→ready, không initialize lại, OrderCheck hoặc send. Không chạy lại crash/restore suite không đổi |
+| Runtime | API binary mới qua owned launcher; giữ native/compact/local-capability, paths và launch descriptors. Bản Python phân loại kế tiếp chỉ reconnect2worker đã sở hữu, không restart API thêm. SHA/path/process identity và7checks cuối đạt |
+| Warmup/recovery | Quan sát20,3giây đầu sau reconnect vẫn `mt5_history_warming`; không coi là pass hoặc reconnect lặp. Collector retry sẵn có15giây tiếp tục với journal cũ. Lượt đọc sau khoảng71–73giây có explicit Exness/FTMO ready; Exness auto tạm quote unavailable rồi explicit ready0,3giây sau. Cả hai kết nối cuối connected, không error_code |
+| Quyền/dữ liệu |0grant active,0unknown request,0native request mới,0broker commands/provider inference. Snapshot explicit cuối không có positions/orders. Không migration, thay strategy hoặc gia hạn quyền cũ |
+
+Trader commits `11ae9796` (refresh spec/diagnostic) và `043c4f3e` (quote
+classification/recovery regression). Private evidence/rollback tại root E hiện
+hành: `numeric-snapshot-20261104/{before,after,recovered}.json`,
+`numeric-snapshot-20261104/promotion.json` và
+`numeric-snapshot-classification-20261104/{promotion,receipt,qualification}.json`.
+Receipt20giây chưa ready được giữ nguyên; qualification sau đó ghi recovery thực.
+
+**Còn mở:** FTMO quote `time_msc` đi trước host UTC khoảng7.197–7.199giây;
+snapshot đọc được nhưng `quote_status=future`. Không tự trừ2giờ, đổi clock hoặc
+nới freshness gate để cho send. Cần xác minh semantics timestamp của broker/SDK
+trước khi coi FTMO execution-ready. Exness explicit cuối fresh, age950ms. Chưa
+có unattended nhiều ngày, external alert hoặc whole-product acceptance.
