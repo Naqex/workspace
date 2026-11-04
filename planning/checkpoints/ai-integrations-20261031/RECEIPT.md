@@ -13,6 +13,8 @@ không đọc toàn bộ lịch sử hoặc lấy snapshot cũ thay trạng thá
 
 | Việc cần tiếp tục | Đọc đúng nguồn |
 |---|---|
+| Chốt một đợt để chạy Demo có giám sát | [Task tổng hiện hành](#0411--gom-task-chốt-demo-có-giám-sát); issue#8 và amendment trong AI plan, không lấy NAQ-80 làm toàn bộ mục tiêu |
+| Quote policy và kiểm nhanh mới nhất | [Tách quote khỏi raw flags](#0411--tách-ổn-định-quote-khỏi-raw-flags-kiểm-nhanh-thay-vì-chờ-thêm-h1);34tests/saved-pair replay đã có, không chạy lại nếu input không đổi |
 | NAQ-80, kết quả r3 và phục hồi khi MT5 chưa sẵn sàng | [Kết quả và bản sửa recovery](#0411--naq-80-dừng-do-readiness-và-phục-hồi-cursor-có-giới-hạn); lịch sử float ở [checkpoint trước](#0411--sửa-float-grid-và-đối-soát-báo-cáo-naq-80) |
 | NAQ-80, log đã bật và kiểm đường đọc thật mới nhất | [Log kết nối và kiểm ngắn](#0411--log-kết-nối-mt5-và-kiểm-đọc-thật-ngắn); không nhầm với H1 handoff acceptance |
 | Lượt quan sát dài: còn sống, tiến độ, báo lỗi | [Heartbeat và observer](#0411--củng-cố-quan-sát-tiến-độ-và-báo-lỗi); [cách vận hành](../../../tooling/ai-engines/OPERATIONS.md#visibility-for-finite-shadow-observations) |
@@ -4074,3 +4076,38 @@ khác hoặc ghi trực tiếp DB. Document `live-handoff-20261104` revision10 /
 blocked là trạng thái cuối đã biết từ lần trước, chưa xác minh lại hiện tại.
 Khi Paperclip hoạt động trở lại, đọc revision mới rồi ghi kết quả này vào đúng
 document hiện có; publication không cần chạy lại capture hoặc gọi model.
+
+## 04/11 — Gom task chốt Demo có giám sát
+
+Owner hỏi đã có thể chạy thật trên Demo chưa và yêu cầu gom phần còn thiếu để
+làm một đợt. Đã reuse/cập nhật [issue#8](https://github.com/Naqex/workspace/issues/8)
+**Complete Trader system readiness from research to controlled forward execution**;
+không tạo issue trùng với#6/#7 hoặc native NAQ-80. AI plan thêm mục **Chốt một
+đợt để vận hành Demo có giám sát — owner giao04/11**, giữ scope/acceptance tại
+plan và trạng thái/evidence tại receipt này. GitHub body giữ nguyên nội dung cũ,
+thêm amendment04/11; đọc lại khớp nội dung sau chuẩn hóa newline, issue OPEN.
+Assertion lần đầu so exact newline không khớp CRLF; không sửa/ghi lại issue vì
+khác biệt chỉ newline, semantic readback đạt.
+
+| Lát / mức sẵn sàng | Bằng chứng được reuse / việc còn lại |
+|---|---|
+| Mở→đóng lệnh Demo có giới hạn | Đã đạt trên Exness lúc07:10VN04/11;2attempts filled, cleanup không còn exposure/unknown. Đây là evidence lịch sử; grant đã revoke, không phải quyền gửi mới hoặc snapshot tài khoản hiện tại |
+| Phân quyền, risk, crash/recovery/restore local | Có evidence trong các mục03–04/11; không lặp suite/model/pilot để thêm green |
+| Runtime/source/account đang chạy | Chưa sẵn sàng ở thời điểm kiểm này: không thấy listener8010/5180/17860/17861. Tình trạng owner/process/account phải đối soát trước start; khởi động Paperclip đã bị automatic review chặn ở lượt trước, chưa retry bằng cách khác |
+| Dữ liệu/warmup/decision | Quote-policy fix có34tests và saved-pair replay; live H1 handoff chưa đạt. Nguồn warmup gần đây/cùng basis và causal cutoff cần chốt cho phiên, không chờ80giờ để debug hoặc dùng dữ liệu2022 làm warmup2026 |
+| Decision→vị thế/EXIT→native execution | Source hiện hành `mt5_shadow_step.py` trả execution_capability=false, chỉ candidate state/advisory; `mt5_demo_session.py` là immediate open/full-close, chưa strategy scheduler. Phải nối/review phần thiếu theo consumer thực, reuse Forex coordinator/native grants/receipts; không đổi tên shadow thành trader để nhận hoàn tất |
+| Stop/visibility/gate cuối | Hoàn tất trên cùng đường xuyên suốt mới: exposure/unknown đúng, tiếp cursor/intent không duplicate, native progress/report. Sau offline gate mới chuẩn bị bounded Demo session để owner duyệt; không ép tín hiệu hoặc gửi lệnh khi chưa có grant hợp lệ |
+
+Đích đợt là **Demo hữu hạn có giám sát đi trọn luồng**, không là autonomous24/7
+hoặc lợi nhuận. Đã có nền để vận hành Demo từng phiên; chưa nên bật tự giao
+dịch xuyên suốt từ shadow hiện tại. Cloud/G backup, external alerts, nhiều máy,
+failover/scale account, provider/model mới và tuning chiến lược vẫn hoãn, không
+dùng chúng làm blocker cho local Demo. Ticket rollover/expiry phải báo exposure
+và hành động owner, không bỏ ownership fence hoặc tự dùng manual credentials.
+
+Không thay source/runtime, gửi lệnh, chạy test/model hoặc thu thêm dữ liệu trong
+lát lập task này. Validation là đối chiếu source/receipt hiện hành, diff/link
+review và native GitHub readback; không cần chạy lại34tests cho thay đổi tài liệu.
+Native Paperclip publication vẫn pending do instance không truy cập được; scope
+task không được coi là mới cấp quyền khởi động đã bị tool review từ chối hay
+quyền broker. Tiếp đúng6lát đã đăng ký, không thêm đợt tối ưu mở vô hạn.

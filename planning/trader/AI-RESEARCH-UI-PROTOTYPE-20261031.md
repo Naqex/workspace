@@ -110,6 +110,49 @@ scheduler, gia hạn quyền giao dịch hoặc chuyển sang tuning chiến lư
 
 ## Hướng hiện hành — owner tự setup,01/11
 
+### Chốt một đợt để vận hành Demo có giám sát — owner giao 04/11
+
+Owner yêu cầu gom phần hệ thống còn thiếu thành một task hoàn chỉnh, không
+tiếp tục sửa/test từng mẩu mà không có đích vận hành. Reuse issue
+[`Naqex/workspace#8`](https://github.com/Naqex/workspace/issues/8); trạng thái và
+bằng chứng vẫn ở receipt AI hiện có. NAQ-80 chỉ own phép kiểm shadow/handoff,
+không đại diện cho toàn vòng giao dịch. Không tạo thêm ledger hoặc UI quản lý.
+
+**Đích chốt:** một phiên Demo hữu hạn, có giám sát, đi từ dữ liệu đúng tài khoản
+qua candidate cố định, intent và native risk admission đến receipt/vị thế/exit,
+dừng và đối soát; khôi phục đúng khi gián đoạn, không gửi trùng. Không yêu cầu
+fixture có lãi, không tuning chiến lược, không đặt mục tiêu autonomous24/7 ở đợt này.
+
+| Thứ tự / lát | Điều kiện hoàn tất của đợt |
+|---|---|
+| 1. Runtime và source đang chạy | Khôi phục đúng owner API/UI/Paperclip/account, kiểm identity/generation/profile/hash và pending submissions; dùng bản shadow mới cùng registration/policy rõ. Không bật daemon, đổi auth hoặc bỏ guard để lấy green |
+| 2. Dữ liệu → warmup → decision | Pin nguồn, basis/cutoff và quality policy. Reuse saved replay cho bug; nếu nạp warmup thị trường gần đây thì dùng cùng nguồn/basis, chỉ nến đã đóng trước decision, giữ lineage/known-at. Không lấy warmup2022 áp vào2026 hoặc chờ80giờ wall-clock chỉ để debug |
+| 3. Decision → position/exit → native command | Rà và nối phần còn thiếu bằng coordinator/risk/native runner hiện có. Shadow flat-state không được giả thành paper/execution trader. Một decision có identity bền vững; vị thế, pending intent, SL, quantity và EXIT phải khôi phục/đối soát được, không suy unknown cost thành0 |
+| 4. Stop, lỗi và tiếp tục | Chặn mở mới khi stale/identity/source/generation/risk không hợp lệ; unknown chỉ reconcile. STOP/revoke/expiry không đồng nghĩa flat. Báo exposure và hành động owner cần làm; không hồi sinh quyền hoặc tự dùng Owner/manual endpoint khi runner bị chặn |
+| 5. Tiến độ và bàn giao | Native Paperclip giữ report/run, local checkpoint/log giữ bằng chứng kỹ thuật. Owner thấy phase/heartbeat/cursor/stale/error và lý do dừng. Publication lỗi sửa riêng, không thu lại dữ liệu hoặc chạy lại model |
+| 6. Gate kết thúc | Reuse bằng chứng đã đạt, chỉ kiểm phần sửa và các ranh giới mới; một kiểm xuyên suốt offline/failure/recovery trên cùng code. Sau đó chuẩn bị phiên Demo cụ thể cho owner duyệt, mới kiểm đường broker còn thiếu. Không lặp open→close đã đạt nếu không có hành vi mới cần chứng minh |
+
+Trước khi viết adapter mới, chỉ ra capability thực sự thiếu và consumer chạy nó;
+reuse `forex_forward.py`, coordinator, shadow, `mt5_demo_session.py` và native
+grants/receipts theo đúng vai trò. Vòng open→close tức thì không phải strategy
+scheduler; không kéo dài/bẻ semantics manifest của nó để giả quản lý vị thế.
+Nếu còn cần đổi contract đáng kể để nối execution, đưa proposal cụ thể vào task
+trước khi triển khai theo gate hiện hành; không âm thầm đổi risk/authority.
+Không ép candidate tạo tín hiệu trên broker cho đủ test. Tình huống không có
+tín hiệu vẫn phải báo đúng; dùng fixture/replay để kiểm entry/exit offline,
+phân biệt với receipt fill thật đã có hoặc phép kiểm broker được duyệt sau này.
+
+Không lấy H1 live handoff hoặc80giờ warmup làm vòng debug mặc định. Phép kiểm live
+cuối chỉ nhằm hành vi môi trường còn thiếu được gọi tên; có checkpoint, observer,
+deadline và một attempt rõ, không tự restart từ đầu khi report/logic hỏng. Tái
+hiện/sửa bằng saved data và synthetic clock trước khi cân nhắc attempt tiếp.
+
+**Giữ gate quyền:** các grant Demo cũ đã hết hạn/thu hồi; câu hỏi readiness và
+lệnh lên task không phải quyền gửi lệnh mới. Chuẩn bị đủ account/symbol/time/
+volume/attempt/SL/risk/stop/reconcile để owner duyệt ở bước cuối. Backup G/cloud,
+external alerts, nhiều máy, failover, scale account, provider/model mới và tuning
+chiến lược tiếp tục để sau. Không dùng các phần hoãn này để chặn đợt Demo local.
+
 ### Ưu tiên hiện hành — hoàn thiện hệ thống AI, 02/11
 
 Owner làm rõ: chưa muốn dành thời gian tối ưu chiến lược; ưu tiên hệ thống AI
