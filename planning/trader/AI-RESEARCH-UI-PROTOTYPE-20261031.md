@@ -203,6 +203,16 @@ Research dài hạn04/11: [nền run dài và gói qua đêm được đề xu�
 Tài liệu phân biệt nền đã có, khoảng thiếu và thứ tự nâng cấp; chưa là quyền
 khởi chạy qua đêm, thay runtime đang chạy hoặc mở scope giao dịch mới.
 
+**Owner duyệt tiếp04/11,22:42VN:** bắt đầu toàn bộ gói qua đêm và phần nền đã
+chốt. Được chạy detached hữu hạn tới07:00VN05/11: Exness read-only predecessor /
+successor đúng H1, FTMO read-only song song, offline failure fixtures cách ly,
+resource preflight/monitor, runbook và native morning report. Không cần xin lại
+từng bước trong gói. Không tạo grant, OrderCheck/OrderSend, đổi runtime/terminal
+giữa capture, renew deadline, service tự boot hoặc thay scope hoãn cloud/alerts /
+multi-machine/portfolio execution. Một lane lỗi không restart sibling; partial
+H1 giữ checkpoint cùng phiên. Manager resume đối soát lifecycle/PID trước khi
+gắn lại, không chạy lại từ đầu; mất điện/OS restart không là quyền tự boot.
+
 Owner làm rõ: chưa muốn dành thời gian tối ưu chiến lược; ưu tiên hệ thống AI
 và workflow vận hành. Đề xuất validation2023 trước đó được gác lại. Giữ nguyên
 candidate EURUSD/H4, dữ liệu đã dùng và kết quả đã lưu làm fixture kỹ thuật;

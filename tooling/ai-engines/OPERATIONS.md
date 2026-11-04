@@ -285,7 +285,89 @@ Short observations can prove concurrent operation, isolation and checkpoint
 resume. They cannot prove full-hour handoff, sufficient H4 warmup or strategy
 qualification. A failure in one child does not cancel or restart a sibling.
 
+### Finite overnight run and recovery
+
+`shadow_night.py` composes existing independent shadow sessions: two initial
+read-only broker observations, then one verified H1 successor for the selected
+predecessor. It owns a technical control checkpoint; Rust still owns each capture
+and Paperclip still owns task/report state. No grant, order, model request,
+runtime reconnect, PID kill, deadline renewal or auto-boot service is added.
+
+```powershell
+& <existing-python.exe> tooling/ai-engines/shadow_night.py start --manifest <registered-night.json> --state-dir <new-controller-output>
+& <existing-python.exe> tooling/ai-engines/shadow_night.py status --state-dir <existing-controller-output>
+& <existing-python.exe> tooling/ai-engines/shadow_night.py resume --manifest <same-registered-night.json> --state-dir <same-controller-output>
+& <existing-python.exe> tooling/ai-engines/shadow_night.py stop --state-dir <existing-controller-output>
+& <existing-python.exe> tooling/ai-engines/shadow_night.py publish --manifest <same-registered-night.json> --state-dir <same-controller-output>
+```
+
+The private runbook supplies exact paths and the parent task. `start` refuses an
+existing checkpoint; `resume` reattaches a matching native group instead of
+launching it twice. An intent without sufficient process/lifecycle evidence
+stays blocked for reconciliation. Run/manifest/source/runtime identity and the
+original handoff window/deadline cannot be edited to recover a missed interval.
+Resume does not clear a stopped/failed child. If reviewed evidence supports a
+child resume, use `shadow_sessions.py resume --session <exact-id>` on its existing
+group, preserving registration/deadline. Never run start again on that output.
+
+Status reports manager creation identity/liveness, its last observed state and
+fresh native file-based child status; it does not call the broker. After a PC
+restart there is no installed autostart: inspect status, then resume explicitly
+if the original window remains valid. Missing time remains missing. No operation
+acknowledges that a stopped trading position is flat; these runs are read-only.
+
+The predecessor must have an actual closed H1, completed lifecycle, unchanged
+report/capture prefix and matching SDK/source/binding. The controller freezes
+and verifies the continuation before launch. Publication is excluded from the
+critical handoff window and repaired independently; pending PUT/revision state
+survives a controller crash. `publish` does not need the broker read credential
+or current capture sources. Parent/child task updates are same-company/manual
+assignment fenced. Native reports remain a projection, not an acceptance ledger.
+
+Private `mt5-shadow-night-v1` pins initial group/input/credential/controller files,
+runtime epoch, offline gate, successor paths, end/deadline, volume headroom and
+per-run byte bound. The CLI checks storage before launch and periodically while
+running; exhausted headroom stops only this run's captures, preserving evidence.
+It never prunes or deletes data. Metrics append bytes/free space and owned
+process cumulative CPU seconds/working-set bytes; they are not whole-machine
+capacity. A temporary Windows idle-sleep request lasts only while the controller
+lives, permits screen-off and changes no global power settings. Forced sleep,
+power loss or Windows restart can still interrupt observation.
+
+Do not update registered capture/controller source, the API runtime or owned
+terminals during observation. Prepare a candidate separately; new source belongs
+to a new run. Offline failure fixtures may execute concurrently on isolated data
+without touching live ports, DB, terminal, clock or account generation. Existing
+quiesced backup requires stopped writers and must not run during these captures.
+
 ### Concurrency, tokens and budgets
+
+#### Data basis and release boundary
+
+Shadow derives Bid/Ask midpoint candles from ordered native tick observations;
+H1 timestamps denote the start of the UTC hour, and a fully requested hour is
+consumed only after settlement and stable reread. The native forward runner's
+historical H1 basis is broker Bid, also normalized to UTC. Those are distinct
+registered inputs: compare reducers only on identical observations/basis,
+source/SDK/clock, closed-bar cutoff and known-at time. Gaps do not create candles;
+unverified broker schedules remain unknown, not presumed market closure. Long
+shadow runs are sampled observation evidence, not guaranteed complete tick data.
+
+Before release, pin candidate source/config/interpreter/SDK, review schema and
+backup needs, use focused compatibility fixtures, and retain rollback. Running
+sessions keep their old pin until completion; changing expected hashes to
+continue a different build is not a migration. Runtime updates need an idle /
+reconciled cutover; do not interrupt these overnight observations to refresh a
+build. Stop, expiry and revoked grants never imply broker inventory is flat.
+
+#### Capacity and evidence retention
+
+Initial conservative overnight headroom is a run policy, not measured machine
+capacity: register free-space and maximum output bytes in the private manifest.
+Measure actual growth before adding sessions. Existing bounds/page counts still
+apply. Keep input, current checkpoints, failed raw observations, receipts and the
+last known-good backup. Archive only completed verified outputs after ownership
+review; do not automatically delete old failed captures to satisfy a disk budget.
 
 More observation/backtest processes use local CPU/RAM/IO, not automatically more
 model tokens. The fixed candidate, Rust lifecycle and progress renderer do not

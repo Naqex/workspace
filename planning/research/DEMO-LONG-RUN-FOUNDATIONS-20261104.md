@@ -1,6 +1,10 @@
 # Nền vận hành dài hạn cho Trader — research 04/11/2026
 
 **Trạng thái: đề xuất, chưa khởi chạy job qua đêm hoặc mở quyền thực thi mới.**
+
+Owner đã duyệt gói qua đêm và các phần nền liên quan lúc22:42VN04/11. Đoạn
+trên và các nhận xét "chưa khởi chạy" bên dưới giữ thời điểm research; trạng
+thái triển khai/run hiện hành đọc trong AI plan/receipt/native task được dẫn tới.
 Scope/acceptance nằm trong [AI plan](../trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md);
 kết quả đã đạt nằm trong [receipt](../checkpoints/ai-integrations-20261031/RECEIPT.md).
 Tài liệu này giữ lý do và thứ tự đề xuất, không tạo progress ledger thứ hai.
