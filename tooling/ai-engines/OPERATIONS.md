@@ -248,6 +248,69 @@ been verified; this read-only reconciliation does not satisfy those gates alone.
 
 ## Pilot run limits and provider throttling
 
+### Independent finite observation sessions
+
+`shadow_sessions.py` launches several existing Rust shadow supervisors without
+model inference or broker-send capability. Each child has its own immutable
+registration, output directory, native lifecycle, logs and optional Paperclip
+task. A group launch record is a private control checkpoint, not a task ledger.
+The CLI's short control lock does not serialize the sessions' lifetimes.
+
+```powershell
+& <existing-python.exe> tooling/ai-engines/shadow_sessions.py start --manifest <private-group.json> --state-dir <new-private-output> --owner-secret-file <existing-private-read-input>
+& <existing-python.exe> tooling/ai-engines/shadow_sessions.py status --state-dir <existing-private-output>
+& <existing-python.exe> tooling/ai-engines/shadow_sessions.py stop --state-dir <existing-private-output> --session a
+& <existing-python.exe> tooling/ai-engines/shadow_sessions.py resume --state-dir <existing-private-output> --session a
+& <existing-python.exe> tooling/ai-engines/shadow_sessions.py observe --state-dir <existing-private-output> --session a
+```
+
+Group schema `mt5-shadow-group-v1` has `binary` and `python` objects with exact
+absolute `path`/`sha256`, and `sessions` entries with `id`, `manifest_path`,
+`manifest_sha256`, `company`, `task`. IDs are distinct lowercase names; company
+and task are both null for terminal-only observation, or both native UUIDs with
+one task per session. Inputs stay outside the new output tree. Registrations
+remain `mt5-shadow-session-v2`; hash/source/SDK/binding/deadline checks still apply.
+At most 16 children are accepted in one explicit invocation as a local process
+fanout bound; this is not a daily model quota or unattended scheduler.
+
+Start does not overwrite existing output. Resume explicitly selects a stopped /
+interrupted child, retains the original deadline/cursor and refuses a running
+or complete lifecycle. Wait for its old observer to exit before resume; no PID
+kill is used. `observe` repairs publication only, without restarting capture.
+Stop/status do not need the read credential or a still-valid child registration.
+PID records include kernel creation identity/executable; recycled PIDs confer no
+ownership. All child windows are hidden and logs append across incarnations.
+
+Short observations can prove concurrent operation, isolation and checkpoint
+resume. They cannot prove full-hour handoff, sufficient H4 warmup or strategy
+qualification. A failure in one child does not cancel or restart a sibling.
+
+### Concurrency, tokens and budgets
+
+More observation/backtest processes use local CPU/RAM/IO, not automatically more
+model tokens. The fixed candidate, Rust lifecycle and progress renderer do not
+call an LLM. Three independent model analyses may roughly triple total token
+work relative to one comparable analysis; running the same three sequentially
+does not remove that work. Parallel execution concentrates RPM/TPM pressure.
+
+Use existing native run and `provider_usage` projections (README) for actual
+requests/input/output/cache/reasoning fields. Missing or proxy-omitted usage and
+price stay unknown; process-adapter zero counters do not establish zero SDK use.
+Cache buckets retain upstream semantics, and subscription quota is not inferred
+from direct-API pricing. Do not assume shared cache across proxy accounts/routes.
+
+For this stage, keep daily caps removed and on-demand scheduling unchanged.
+Reuse valid artifacts, avoid duplicate inference and do not call models merely
+to refresh progress. Keep bounded retries/deadlines. A hard financial/token
+budget needs an owner-selected scope and authoritative usage source; this guide
+does not invent one or change existing runtime settings.
+
+Primary documentation checked04/11/2026:
+[OpenAI prompt caching](https://developers.openai.com/api/docs/guides/prompt-caching),
+[Gemini context caching](https://ai.google.dev/gemini-api/docs/caching),
+[Gemini rate limits](https://ai.google.dev/gemini-api/docs/rate-limits).
+These describe their official APIs, not guaranteed subscription/proxy accounting.
+
 On 03 November 2026 the owner removed the experimental 10-runs/day cap from all
 five agents to prioritize workflow reliability before cost optimization. Omit
 `maxDailyRuns` and its legacy aliases; do not replace it with a large arbitrary

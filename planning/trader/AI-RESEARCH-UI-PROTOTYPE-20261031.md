@@ -174,6 +174,29 @@ Contract/CLI: `projects/trader/foundation_v2/docs/LOCAL-CAPABILITIES.md`, phần
 **Decision-driven finite forward session**. Không công nhận phép kiểm này là
 H1 shadow handoff hoặc uptime dài ngày; không nới guard để hoàn tất task.
 
+### Nhiều phiên độc lập — owner giao tiếp 04/11
+
+Owner duyệt tiếp vận hành nhiều phiên cấu hình khác nhau và hỏi chi phí/quota.
+Đợt này reuse Rust shadow lifecycle, checkpoint và observer native Paperclip:
+khởi chạy nhiều phiên chỉ đọc, tách registration/state/log/PID, dừng/resume một
+phiên không restart phiên khác; lỗi publication được sửa riêng. Kiểm hai phiên
+Demo đồng thời trong cửa sổ ngắn, không thu lại1giờ hoặc yêu cầu tín hiệu H4.
+Chưa mở quyền gửi lệnh mới hoặc nhiều chiến lược cùng chia sẻ vị thế tài khoản.
+
+Execution giữ một grant đang hoạt động cho mỗi workspace/account/server Demo,
+kể cả alias connection; dùng PostgreSQL transaction/advisory lock hiện có để
+chống cấp quyền trùng đồng thời. Khác tài khoản vẫn độc lập. Không đổi native
+order/risk/idempotency, không thêm migration hoặc portfolio allocator.
+
+Session/run/checkpoint là trạng thái kỹ thuật của runner; native Paperclip giữ
+management UI/task/report. Không thêm service/scheduler/daemon hoặc bảng budget
+ngoài. Phiên quan sát/candidate cố định không gọi model; research/model workflow
+dùng usage/provider_usage hiện có, thiếu usage/cost/cache vẫn unknown. Giữ quyết
+định bỏ cap10lượt/ngày; chưa tự bật hard money/token budget khi owner chưa chọn.
+Tối ưu gọn: tránh inference/retry trùng, reuse artifact hợp lệ, theo dõi request /
+token/cache khi upstream cung cấp; subscription quota không suy từ bảng giá API.
+Receipt AI hiện có own kết quả; task mới dẫn về đây, không mở lại issue#8 đã đạt.
+
 ### Ưu tiên hiện hành — hoàn thiện hệ thống AI, 02/11
 
 Owner làm rõ: chưa muốn dành thời gian tối ưu chiến lược; ưu tiên hệ thống AI

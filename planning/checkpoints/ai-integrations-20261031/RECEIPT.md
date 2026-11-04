@@ -4285,3 +4285,101 @@ SHA tại thời điểm chạy; mapping ở `trailer-normalization.json` cùng 
 Không chạy lại test/runtime cho thay đổi metadata. Validator dùng tooling
 interpreter cóPyYAML; product venv không có dependency này, không cài thêm vào
 runtime chỉ để kiểm forms/trailers.
+
+## 04/11 — Nhiều phiên quan sát độc lập, không nhân model inference (#9 / NAQ-82)
+
+**Đạt scope đợt:** hai Rust shadow supervisors chạy đồng thời trên Exness Demo,
+cấu hình trang5/10giây, state/log/registration/task riêng. Dừng rồi resumeA giữ
+prefix/cursor/deadline; B giữ cùng process identity và incarnation1. Cả hai
+complete trên50giây dữ liệu thực, không cần chờ H1. Không tạo grant, không
+OrderCheck/OrderSend và không model inference trong các runner/observers này.
+Không gộp kết quả này thành H1 handoff, H4 warmup hay strategy qualification.
+
+### Implementation và quyền sở hữu
+
+Workspace `tooling/ai-engines/shadow_sessions.py` reuse `mt5-shadow` và
+`shadow_watch.py`, không thêm daemon/UI/agent hoặc ledger task. Group manifest
+pin binary/interpreter/registration; đầu ra mỗi child riêng, input ngoài output
+tree, start không overwrite. Private launch checkpoint giữ PID/kernel creation /
+executable; resume chọn child cụ thể, không chạy lại child running/complete,
+không gia hạn deadline hoặc kill PID. Stop/status không đòi read credential hay
+registration còn hợp lệ; `observe` sửa riêng publication. Control lock chỉ bao
+thao tác CLI, không giữ suốt phiên. OS env cần cho Windows được giữ, loại DB /
+provider/token env; read-side private input theo native shadow contract hiện có.
+Child launch/observer lỗi không tự hủy hoặc restart sibling.
+
+Trader `62cd94bde0cb8b039859ee76a9937cfcb8af3215` chặn cấp hai execution grants
+active/unexpired cùng workspace/login/server. PostgreSQL transaction/advisory
+lock theo account ngăn race kể cả connection alias; tài khoản khác vẫn được
+cấp riêng. Revoke/expiry vẫn cho phép thay thế theo reconciliation/gates hiện
+có, không phải tự gia hạn hoặc portfolio risk allocator. Không đổi order/risk /
+receipt/idempotency hay migration. Đây là giới hạn ownership thực thi, không
+phải giới hạn số phiên research/quan sát hoặc quota AI.
+
+### Kiểm và runtime
+
+| Phạm vi | Bằng chứng |
+|---|---|
+| CLI group |7tests đạt0,797s: configs/state/process tách, env không có key/DB, stop/resume riêng giữ cursor, duplicate/running/complete/changed input chặn, stop không cần secret, observer-only repair, sibling failure isolation |
+| Native grant concurrency |Disposable PostgreSQL lifecycle test đạt0,93s, gồm hai credentials cấp đồng thời chỉ1thắng, alias bị chặn, account khác được cấp; các kiểm reservation/revoke/expiry cũ cùng test vẫn đạt |
+| Build / source |Scoped rustfmt/diff/py_compile đạt; release API2m21s |
+| API rollout |Đúng owner identity/hash/native/local-capability, quiescent jobs/downloads/AI runs và0activegrant/unknown/exposure; old manifest/launch và binary rollback giữ trênE; không migration hoặc copy worker/WIP |
+| Runtime sau rollout |Readiness đạt, Exness/FTMO reconnect và flat; API run875ecd4431714691831ae90e18a8b128, SHA256e518d8d9aedb6ae3886f3b221d44ec1d99d26d9deca5a39a92b6569598ac8866 |
+
+Một invocation unit test từ workspace root thiếu import path, chưa chạy test;
+chạy đúngcwd `tooling/ai-engines` bằng interpreter có sẵn đạt7tests. Không cài
+dependency/provider mới hoặc chạy lại những suite không bị thay đổi.
+
+Private rollback: `system-capabilities-20261103/multi-session-promotion-20261104`
+trênE. Private actual qualification:
+`system-capabilities-20261103/multi-session-live-20261104/qualification.json`,
+group launch checkpoint, overlap/stop/resume receipts và child lifecycles/capture.
+
+### Quan sát thực kết thúc22:17:28 Việt Nam
+
+| Phép kiểm | A | B |
+|---|---|---|
+| Page size |5giây |10giây |
+| Pages/ticks |10/52 |5/52 |
+| Supervisor incarnation |2, đã stop/resume |1, process không đổi |
+| Capture prefix |Giữ nguyên trước/sau resume |Tiếp tục độc lập |
+| Kết thúc |complete |complete |
+| Closed H1 |0 |0 |
+| Task/native progress |NAQ-83, done/readback đạt |NAQ-84, done/readback đạt |
+
+Hai phiên có cùng window50giây nên52tick mỗi phiên là cùng quan sát, không cộng
+thành104tick thị trường độc lập. Policy `ordered_quotes_v1` so Bid/Ask/timing /
+lineage; raw flags được lưu nhưng không asserted stable. Không sửa mặc định
+strict hoặc nhận failed NAQ-80 thành pass. Chỉ chứng minh concurrency/isolation
+và resume hữu hạn; chưa kiểm nhiều tài khoản cùng gửi lệnh hay uptime dài ngày.
+
+Before/after không đổi:32native requests lịch sử,0activegrants,0unknown,
+generation19, cùng API run. Các phiên quan sát không có model call; điều này
+không nói cuộc chat Codex triển khai không tiêu quota. Parent
+[NAQ-82](http://127.0.0.1:17860/NAQ/issues/NAQ-82), UUID
+`b4c7e64a-6e04-41cc-9ea4-8bcd577feb45`, document `multi-session-20261104` giữ kết
+quả tổng; hai task child giữ observer documents riêng. Manual owner-assigned
+tasks ghi rõ Codex CLI thực hiện, không dispatch agent/model hoặc thêm việc owner.
+
+### Chi phí/quota — quyết định áp dụng
+
+Giữ usage/provider_usage native hiện có, không thêm cost store/dashboard.
+Missing usage/price/cache vẫn unknown, không lấy process-adapter0 làm0SDKtokens.
+Không khôi phục cap10lượt/ngày; maxConcurrentRuns1/agent, timeroff và bounded
+retry/deadline hiện có giữ nguyên. Chạy nhiều phiên code không tự nhân tokenAI;
+ba model analyses tương đương có thể gần ba lần tokenwork, chạy tuần tự vẫn
+tốn tổng công việc đó. Song song làm request/token dồn theo phút hơn.
+
+Tối ưu ngay ở mức tránh gọi inference/retry trùng, reuse artifact hợp lệ và
+không dùng model để vẽ heartbeat/report tiến độ. Hard money/token budget chưa
+được bật khi owner chưa chọn mức/scope và chưa có usage nguồn đầy đủ; không
+ước lượng quota subscription từ bảng giáAPI hoặc hứa cache qua proxy/accounts.
+Docs chính thức đã mở/đối chiếu04/11: OpenAI prompt-caching, Gemini caching /
+rate-limits và Context7 official Gemini usageMetadata. Các docs nói vềAPI chính
+thức, không chứng minh cách subscription/proxy hiện tại trừ quota. Hướng dẫn
+schema/CLI/trade-offs và các link nguồn nằm trong OPERATIONS mục mới.
+
+Bảy regression group đã nối vào Workspace CI hiện có, không thêm job/service:
+lấy Pydantic version từ Trader uv.lock rồi chạy đúng module tại toolingcwd,
+không chạy broker/provider/model. YAML và đường dẫn/version lookup được kiểm
+local; chưa tuyên bố GitHub Actions pass khi branch/commits chưa được push.
