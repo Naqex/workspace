@@ -4487,3 +4487,67 @@ phần cần evidence qua đêm giữ RUNNING cho sáng reconcile.
 Readback sau page đầu:Exness64ticks/1page,FTMO157ticks/1page; cả haihealth
 responsive/poll_wait, manageralive, errorsempty. Đây là dữ liệu thực đã commit,
 không chỉ heartbeat; vẫn chưa có closedH1 vì chưa qua giờ đầy đủ.
+
+## 05/11 05:08–05:17 — Kiểm sáng sớm, sửa telemetry và resume cùng capture
+
+Owner yêu cầu kiểm có lỗi khi mới05giờ. Read-only status xác nhận controller cũ
+đã blocked lúc**02:38:39VN**, fatal `PreflightError`; FTMO/Exness-successor bị
+controller stop, không mất checkpoints. H1 predecessor Exness đã complete
+110pages/7.313ticks và một closedH1; frozen state được verify/bàn giao lúc
+**01:00:44VN**, successor đã nhận dữ liệu trước lần dừng.
+
+### Root cause / phạm vi sửa
+
+Last state ghi resource disk/size thành công nhưng chưa có process metrics;
+source path `process_metrics` gọi `group.alive` ngoài try và không bắt
+`PreflightError`/RuntimeError khi xác minh PID. Lỗi optional metrics vì vậy đi
+qua fatal handler và stop capture. PID/kernel error cụ thể lúc02:38 không được
+log cũ giữ lại; không khẳng định chắc PID nào đã được Windows tái sử dụng.
+Fault injection đúng exception chứng minh đường lỗi source. Lỗi cấp dữ liệu /
+broker không xuất hiện trong checkpoint tại thời điểm controller dừng.
+
+Workspace `59feddd`: metrics identity/query unavailable trả unknown, không
+zeroCPU/RAM và không stop capture. Runtime/source/authority identity fence thật
+vẫn fail-closed. Fatal controller error lưu detail, cố publish blocked/task
+trước exit thay vì chỉ để stale in_progress. Thêm ghi recovery/downtime trong
+native summary. **14focused tests đạt1,622s**, gồm metrics exception không gây
+fatal và runtime identity error vẫn chặn/publish. Không restart API/MT5 hoặc
+thay native source/schema/risk/permission.
+
+### Controller-only revision / phục hồi
+
+Giữ nguyên runID `ead4eec6-2bf4-43d6-85a1-de4ba3b6f861`, input capture registrations,
+SDK/source/clock/binding/binary, counters/prefix, end06:55 và deadline07:00.
+Old source/night.json/controller state được backup tại private
+`overnight-20261104-r2/repair-20261105`; bản gốc không bị sửa expected hashes.
+Tạo `night-recovery-20261105.json` + `controller-recovery-20261105` cho revision
+chỉ sửa điều phối/telemetry; repair-manifest giữ mapping, old error, prefixhashes
+và gate14tests. Guard nguồn capture và native runtime epoch875ecd... đã verify.
+
+Lúc**05:15:14VN** resume rõ ràng đúng native FTMOnext/Exness-next đang stopped,
+không tạo capture/group mới; oldprefix page hashes so lại vẫn khớp. Controller
+mới attach hai group đã có, không chạy lại predecessor. Report gốc được chốt
+blocked từ bản sao state, recovery report native mới nêu downtime02:38→05:15;
+không gọi đó là uptime liên tục. Read-backfill có observed_at mới, không phát
+lại quyết định giao dịch. Runtime/positions đã preflight,0grant/unknown,32requests
+lịch sử không đổi. Không OrderCheck/OrderSend/model inference trong repair.
+
+Active runbook: private root cũ, **`RUNBOOK-RECOVERY-20261105.md`**; native
+document `overnight-controller-recovery` trênNAQ-85 giữ exact commands. Dùng
+controller-recovery paths, không resume controller cũ hoặc sửa original plan.
+
+### Phát hiện FTMO khi audit lại prefix — giữ fail-closed
+
+FTMOincarnation2 bị `shadow_observed_window_revised` lúc05:15sau resume. Saved
+pair tại `initial/ftmo/audit-observations` giữ cả original/reread. Đoạn
+**00:22:20→00:23:20VN** trả84ticks ban đầu,96khi đọc lại; so rows bỏ riêngflags
+thấy**12row mới,0row cũ bị mất**, cùng source/SDK/clock. Khác biệt không chỉflags;
+ordered_quotes_v1 từ chối đúng. Không ép reducer nhận revised history, đổi
+registration/policy hoặc khởi capture thay thế. NAQ-87 chuyển blocked, rawpair
+hash `de97fd7b...`/`ae2e5089...` giữ để điều tra late-arrival/cache behavior.
+
+Exness-nextincarnation2 tiếp độc lập, đang đọc bù từ oldcursor với source/binding
+cũ; không error trong readback05:15:54, manageralive và resource guardđạt.
+NAQ-85/86 còn in_progress; NAQ-87blocked, NAQ-88done. Đợt qua đêm chưa đạt đầy đủ;
+sáng reconcile coverage cuối và phần gián đoạn, không tự chuyển failed histories
+hoặc NAQ-80 thànhpass. Hạn chót07:00giữ nguyên.
