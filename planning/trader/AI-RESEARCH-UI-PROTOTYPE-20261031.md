@@ -49,6 +49,29 @@ cụ thể. Quyền này cho phép xây và rollout ranh giới bảo mật, kh�
 điền risk budget hoặc gửi lệnh demo/Real. Kiểm auth/grant/risk bằng fixture cách
 ly trước; owner DB chỉ migration sau quiesce, backup DB/artifact và rollback.
 
+### Kiểm độ bền trước vận hành Demo — owner giao 04/11/2026
+
+Ưu tiên kiểm chặt bằng code production cùng fixture trước, rồi vận hành Demo
+có quan sát để tìm lỗi môi trường thực. Không chờ 1–2 năm để kiểm logic thời
+gian; không coi hai năm mô phỏng là hai năm uptime. Nhiều máy dự phòng để sau.
+
+- Reuse runner/native receipts và backup helpers để kiểm: thời hạn theo UTC/
+  offset, crash trước/sau intent và fill, lỗi ghi checkpoint, mất phản hồi,
+  reconcile nhiều lần không gửi trùng; checkpoint/dữ liệu phục hồi không làm
+  sống lại quyền đã thu hồi/hết hạn.
+- PostgreSQL disposable: committed ledger qua crash thật và restore; so row
+  counts/hash và chạy lại native admission trên dữ liệu đã hồi phục. Không dùng
+  DB owner làm chaos target. Chỉ tăng workload để trả lời rủi ro cụ thể.
+- Regression cần thiết vào CI hiện có; dùng receipt AI hiện hành để ghi nguồn,
+  phạm vi, thất bại và kết quả. Không thêm engine, scheduler hoặc ledger mới.
+- Sau gate offline, kiểm runtime Demo theo điều kiện dừng/cảnh báo và authority
+  cụ thể. Đọc/quan sát không mở grant hay OrderSend. Backup ngoài máy, kênh gửi
+  cảnh báo, task tự khởi động lâu dài hoặc giao dịch mới cần cấu hình/quyền đúng
+  phạm vi trước khi bật; chưa có thì báo rõ, không tự chọn cloud/tài khoản mới.
+
+Owner trả lời tiếp04/11: chưa có đích backup ngoài máy/kênh cảnh báo; hoàn tất
+local trước. Hai phần external này để sau, không là quyền chọn provider mới.
+
 ## Hướng hiện hành — owner tự setup,01/11
 
 ### Ưu tiên hiện hành — hoàn thiện hệ thống AI, 02/11

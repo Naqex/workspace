@@ -3168,3 +3168,48 @@ account kết nối với một terminal riêng cho mỗi account. Chưa công n
 unattended nhiều ngày, mọi snapshot luôn sẵn sàng, hoặc lợi nhuận chiến lược.
 Không lặp phiên mở/đóng chỉ để kiểm lại phần đã đạt. Lỗi numeric thoáng qua còn
 là giới hạn cần khoanh vùng nếu tái xuất hiện; không nới validation để che lỗi.
+
+## 04/11 — Kiểm độ bền local trước vận hành Demo dài hơn
+
+Owner giao toàn bộ phần kiểm nhanh theo thời gian/sự cố/replay/restore, giữ nhiều
+máy cho sau; sau đó xác nhận chưa có đích backup ngoài máy hoặc kênh cảnh báo,
+ưu tiên hoàn tất local. Phạm vi được nối vào AI plan hiện hành, issue
+`Naqex/workspace#8`; không thêm source of truth, engine hoặc workflow UI.
+
+Product commit `07270211fb22533559b715449024018768f1bc2f` bổ sung regression,
+CLI rehearsal và hướng dẫn vào runtime doc. Logic runner/forward/native admission
+và backup được reuse; không sửa policy production để tạo kết quả đạt. Không
+deploy lại API vì thay đổi này là test/tool/docs; runtime trước đó vẫn ở
+`85940ede`. Quyền giao dịch v4 không được mở lại, 0 broker commands trong lát này.
+
+| Lát kiểm | Bằng chứng | Giới hạn |
+|---|---|---|
+| Thời gian mô phỏng | Mỗi ngày2027–2028 (731ngày, gồm leap day): runner6579 trường hợp trước/đúng/sau hết hạn ở3offset; native policy kiểm hạn và fingerprint với offset tương đương, không cho hồi sinh sau731ngày | Chỉ logic thời hạn/offset; không giả2năm uptime, market replay, DST scheduler hoặc phí thị trường |
+| Session/crash/storage | Python focused18tests +16subtests đạt trong6,76giây: matrix12tình huống ở mở/đóng; lỗi trước/sau ghi intent/result; atomic replace thất bại giữ checkpoint cũ; mất phản hồi rồi restore sau2năm chỉ đối soát | Fake HTTP/SDK boundaries, không OrderSend thật |
+| Replay liên tục vs restore | Test mới đạt11,69giây:256giờ synthetic/256events,32lần restore checkpoint giữa luồng và duplicate replay; snapshot cuối và từng giờ khớp continuous | Fixture hệ thống, không chọn/tối ưu hay qualification chiến lược |
+| Lỗi lặp/tài nguyên |64lần resume unknown vẫn1POST ban đầu và2read/reconcile mỗi lần, checkpoint không vượt64KiB/không sót temp;64chu kỳ readiness chỉ ghi128transitions và không restart child | Không là benchmark RAM/CPU toàn MT5 hoặc capacity nhiều account |
+| Backup bị gián đoạn | Lỗi disk giữa restore giữ bundle tốt, target dở không được ghi đè; restore sang target mới kiểm hash đạt | Dữ liệu fixture, không sửa DB owner |
+| Native PostgreSQL | Harness mới reuse grant lifecycle fixture, crash bằng immediate stop rồi restart và restore bundle DB/artifact sang DB mới. Hash/count47bảng (29rows synthetic) giữ nguyên; native loader chặn revoked/expired sau cả crash và restore;5checks đạt, cluster đã dừng | Restore fixture1,359giây, toàn harness83,235giây; không là RTO production hoặc restore toàn máy |
+| Kiểm nguồn/CI | Scoped rustfmt và diff check đạt; CLI help hoạt động. Thêm offline session/demo-admission/worker/forward vào job Python CI; native virtual-time nằm trong Rust tests mặc định | Chưa chạy remote CI hoặc toàn bộ suite từ lát này; rehearsal PostgreSQL là command explicit, không tự chạy vào owner DSN |
+
+Lần PostgreSQL đầu bị guard chặn do harness đặt sai tên disposable role/database
+(`demo_recovery_fixture` thay vì contract `rust_runtime_fixture`); cluster đã
+dừng và receipt FAILED được giữ. Sửa harness dùng đúng identity, không nới guard;
+attempt r2 đạt. Không dùng failed attempt làm evidence phục hồi.
+
+Private evidence dưới backup root hiện hành:
+`demo-recovery-qualification-20261104/receipt.json` (failed),
+`demo-recovery-qualification-20261104-r2/receipt.json`, native subprocess logs,
+checked bundle và `qualification.json` giữ source hashes/giới hạn của các checks.
+Hướng dẫn tiếp được tích hợp trong `RUST-NATIVE-RUNTIME.md`, mục Demo reliability
+qualification; command `scripts/demo_recovery_rehearsal.py` tự tạo cluster riêng,
+không nhận DSN owner và gỡ inherited application/PostgreSQL environment.
+
+**Kết luận scope local:** đã có gate lặp lại được trước Demo, không cần chờ1–2năm
+để kiểm thời hạn/phục hồi. Sau gate này, vận hành Demo có giám sát để bổ sung lỗi
+Windows/SDK/quote thật là phù hợp; không chờ hết mọi lỗi lý thuyết, cũng không bỏ
+qua lỗi làm mất quyền/dữ liệu hoặc gửi trùng. Gặp lỗi thì dừng đúng phạm vi,
+giữ evidence, sửa root cause và thêm regression liên quan. Lỗi numeric thoáng
+qua đã ghi ở lát trước còn mở; connected không được thay thế quote/send readiness.
+Chưa bật observer nhiều ngày, auto-start/restart mới, external alert, off-machine
+backup hoặc nhiều máy. Không mở phiên broker mới từ việc offline gate đạt.
