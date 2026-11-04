@@ -3619,3 +3619,46 @@ Private rollout helper `promote_observed_quotes.py` ở E root bên trên đã b
 `projects/trader/scripts/restart_offline_api.ps1` đã dùng `-WindowStyle Hidden`;
 không thêm launcher, service hoặc config mới. Chỉ review/syntax-check helper,
 chưa thực hiện lại rollout/restart trong lúc quan sát để kiểm lần launch mới.
+
+## 04/11 — Inventory cleanup chỉ đọc
+
+Snapshot 12:46VN theo yêu cầu owner: lập danh sách giữ/xóa/archive trong lúc
+chờ NAQ-80, không cleanup runtime hoặc mở lane sản phẩm. Reuse
+[cleanup plan](../../trader/REPO-CLEANUP-PLAN.md) và
+[context lifecycle](../../CONTEXT-LIFECYCLE.md); không thêm manager/ledger/CLI.
+Các ứng viên bên dưới chưa phải file được phép xóa; mặc định giữ khi thiếu
+consumer map, backup hoặc xác nhận owner dữ liệu. Đường dẫn tương đối lấy gốc
+`D:/ANNAM/TradingWorkspace`, E là local storage hiện có, không phải cloud backup.
+
+| Nhóm / đường dẫn | Đã thấy và owner/consumer | Phân loại / điều kiện bước sau |
+|---|---|---|
+| `projects/trader` | Canonical source; Git sạch, HEAD `1685e22c` | **Giữ**; không thay pins/source khi capture đang chạy |
+| `projects/mt5-tradingview-backtester` | Checkout runtime; API launcher/venv và hai terminal đang dùng. Git có 51 modified và 7.813 untracked status entries, không phải toàn bộ đều là file độc lập | **Giữ**; không gộp hoặc xóa vì tên cũ. Sau phiên: phân loại delta source/evidence/runtime, bảo toàn WIP trước cutover và kiểm rollback. Không tự copy toàn bộ sang canonical |
+| `E:/BACKUP-TRADINGWORKSPACE/system-capabilities-20261103/` | API executable nằm ở `observed-quotes-20261104/bin/`; driver và shadow dùng `shadow-live-handoff-20261104-r2/`, log và registration ở cùng root | **Giữ** toàn bộ phần đang dùng; không move/rename binaries, logs, pages, manifests hoặc sửa report hashes |
+| Cùng E root: `shadow-live-handoff-20261104/`, `shadow-session-20261104*`, `execute_demo_v*.py`, `promote_*.py` | Có attempts lỗi, helper gửi lệnh/rollout và before snapshots; không phải API được hỗ trợ | **Ứng viên archive**, chưa move. Giữ failure evidence/rollback; kiểm link trong receipt, imports và consumer trước. Không chạy lại helper để đoán tác dụng hoặc coi tên v4 là bản mặc định |
+| `.pytest_cache`, `.ruff_cache` | Junction tới `E:/BACKUP-TRADINGWORKSPACE/workspace/`; lần lượt 5 files/2.468bytes và 10files/1.630bytes | **Ứng viên xóa nội dung cache** khi không có writer; hiện **giữ** vì chỉ khoảng4KiB, lợi ích không đáng thao tác. Không xóa junction/target theo wildcard |
+| `.tmp` | Junction tới E workspace; 4.046files,310.075.820bytes (~296MiB), gồm source `xerj-source`, patch, scan evidence và logs | **Giữ/chưa rõ**; tên tmp không đủ chứng minh disposable. Kiểm từng subtree/consumer; không xóa nguyên target |
+| `tmp`, `.uv-cache` | Junction tới E workspace; `tmp` scan hữu hạn chưa xong, uv cache chưa đo | **Giữ/chưa đo đủ**; không nhận tổng bytes từ scan dở hoặc coi dependency cache là rác |
+| `.artifacts`, `projects/.artifacts`, `projects/.runtime` | Preview/QA/build artifacts nhiều giai đoạn; scan root artifacts đã thấy ít nhất605.402.121bytes (~577MiB), còn pending và4entries bị skip | **Ứng viên archive theo milestone**; đây là lower bound, không phải tổng hay dung lượng có thể thu hồi. Đối chiếu receipt/negative findings/acceptance trước; giữ raw được dẫn, chỉ bỏ derivative có thể tái tạo và không còn consumer |
+| `.runtime/ai-env-backup-20261101` | 3files/31.703bytes | **Giữ** backup nhỏ; chưa kiểm nội dung nhạy cảm, không publish hoặc chuyển vào tracked docs |
+| `.runtime/paperclip`, `.runtime/hermes`, `.runtime/ai-engines`, `.runtime/linux`, `.runtime/search` và checkout/tool runtime khác | Storage/config/environment của công cụ; chưa đủ inventory để xác nhận dormant | **Giữ**; không gỡ dependency, auth, WSL hoặc engine vì ít dùng. Paperclip native tiếp tục own task/run/report, không tạo UI quản lý thay thế |
+| `.worktrees/vi-dubber-p23-separation-progress` và worktrees Git bên ngoài | Workspace có4registered worktrees; thư mục con không tự là worktree workspace, cần đối chiếu repo owner riêng | **Giữ**; không recursive-delete hoặc prune trước khi kiểm branch/WIP/worker và snapshot |
+| `projects/evidence/ledger-design-system-20261012` | Untracked ở workspace | **Giữ WIP**; chưa có quyền sở hữu/nội dung/consumer đủ để move, stage hoặc xóa |
+| `projects/vi-dubber` | 3untracked checkpoint/resource-monitor paths; sản phẩm đang tạm dừng | **Giữ**; pause không là retire. Không chạy worker, dọn media/model/cache hoặc stage WIP |
+| `projects/app.fxreplay.com.zip` | Ignored archive16.773.098bytes (~16MiB), chưa xác minh provenance/license/consumer | **Giữ/chưa rõ**; không extract/run/publish, chỉ xem xét archive/xóa khi xác minh giá trị reference |
+| AI receipt, Product Plan và docs lịch sử | Receipt hiện dài hơn3.600dòng; Product Plan đang dirty từ task khác. Development README đã phân biệt canonical source/runtime và native ownership | **Ứng viên compact sau review**, không sửa writer khác. Bảo toàn original bytes/hash, anchors, failure/WIP/quyền và resume links theo lifecycle; không tạo bản tiến độ thứ hai |
+
+**Kiểm chứng:** process inventory xác nhận API PID15152, supervisor2812,
+terminal25428/19308 và driver26268/shadow2848 còn đúng executable paths.
+Lifecycle NAQ-80 phiên1 vẫn `running`,26pages/1.412ticks, cursor tăng so với
+20pages/1.042ticks trước đó; driver stderr0bytes, execution capability false.
+Đây không phải broker/live-handoff acceptance. Không đọc giá trị secret,
+không chạy helper giao dịch/provider hoặc audit toàn bộ nội dung mọi repo.
+Đo dung lượng chỉ giới hạn một số cây, không follow reparse points; không có
+tổng workspace/dung lượng có thể xóa đã xác minh.
+
+**Bước dọn đầu tiên sau phiên:** reconcile kết quả/native report → giữ nguyên
+receipt thất bại và rollback → phân loại delta checkout cũ → compact đúng phần
+history đã review. Chưa có danh sách material deletion sẵn thực thi; không
+`git clean`, reset, prune, xóa cache/data hoặc di chuyển file trong lượt này.
+Chỉ cập nhật receipt và liên kết từ cleanup plan; Product Plan/WIP giữ nguyên.
