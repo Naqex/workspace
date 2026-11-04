@@ -15,6 +15,7 @@ không đọc toàn bộ lịch sử hoặc lấy snapshot cũ thay trạng thá
 |---|---|
 | NAQ-80, kết quả r3 và phục hồi khi MT5 chưa sẵn sàng | [Kết quả và bản sửa recovery](#0411--naq-80-dừng-do-readiness-và-phục-hồi-cursor-có-giới-hạn); lịch sử float ở [checkpoint trước](#0411--sửa-float-grid-và-đối-soát-báo-cáo-naq-80) |
 | NAQ-80, log đã bật và kiểm đường đọc thật mới nhất | [Log kết nối và kiểm ngắn](#0411--log-kết-nối-mt5-và-kiểm-đọc-thật-ngắn); không nhầm với H1 handoff acceptance |
+| Lượt quan sát dài: còn sống, tiến độ, báo lỗi | [Heartbeat và observer](#0411--củng-cố-quan-sát-tiến-độ-và-báo-lỗi); [cách vận hành](../../../tooling/ai-engines/OPERATIONS.md#visibility-for-finite-shadow-observations) |
 | Phục hồi sau ngắt hay sửa reducer | [Reprocess đã có lệnh](#0411--reprocess-capture-đã-lưu-và-phân-loại-checkout-cũ); [runbook](../../../projects/trader/foundation_v2/docs/FOREX-FORWARD.md#choose-resume-or-offline-reprocessing) |
 | Dọn workspace, giữ WIP/runtime | [Inventory ban đầu](#0411--inventory-cleanup-chỉ-đọc) → [delta checkout cũ](#0411--reprocess-capture-đã-lưu-và-phân-loại-checkout-cũ) |
 | Vận hành Studio/native task/run/report | [Operations guide](../../../tooling/ai-engines/OPERATIONS.md), rồi mục receipt được workflow dẫn tới |
@@ -3886,3 +3887,45 @@ lúc15:07 trong r3; log mới không khôi phục lịch sử đó. H1 handoff t
 vẫn pending; NAQ-80 giữ blocked theo acceptance gốc. Không gửi OrderCheck/OrderSend,
 tạo grant/session giao dịch, gọi model hoặc chỉnh chiến lược. Hai bước logging +
 short-read trong lần giao này hoàn tất; không suy rộng thành whole-system uptime.
+
+## 04/11 — Củng cố quan sát tiến độ và báo lỗi
+
+Owner chỉ ra thiếu sót vận hành: một lượt dài dừng nhưng trạng thái/tiến độ chưa
+đủ dễ thấy. Không cần chạy lại một giờ để kiểm lớp quan sát. Rà đúng luồng finite
+shadow hiện có; không đổi chiến lược, provider, quyền broker hoặc dựng UI Trader.
+
+| Khoảng thiếu | Thay đổi / kết quả |
+|---|---|
+| Chỉ in stdout khi kết thúc, khó phân biệt chờ và treo | Trader `bb6d3ff2f6a3ec06ce9e6ef2e544e2473969ac18`: lifecycle có heartbeat mỗi5giây trong worker/poll/retry, phase riêng và capture bounds. Thời điểm tiến độ dữ liệu giữ riêng, không giả tick mới khi đang chờ |
+| PID sống không chứng minh còn phản hồi | Status dựa khóa phiên, heartbeat và deadline: responsive, heartbeat_stale sau15giây, overdue hoặc interrupted. Kiểm khóa không tạo file mới; khi lấy được khóa đọc lại lifecycle để tránh nhầm completion vừa commit thành crash. Không sửa lifecycle khi đọc status |
+| Tiến độ không hiện đều trên Paperclip | `tooling/ai-engines/shadow_watch.py` đọc status, in tiếng Việt, tùy chọn đăng document native cùng task. Poll khoảng5giây, thường publish60giây; phase/health/reason đổi gửi lần kiểm kế. Ghi thời gian bản tin, heartbeat, thời gian dữ liệu, tick/page/H1, expected settlement/deadline và lỗi; không phần trăm giả |
+| Kênh báo cáo lỗi dễ bị nhầm thành lỗi tính toán | Publisher đọc trước PUT, dùng baseRevisionId, đối soát body khi response mất, không tạo revision trùng hoặc ghi đè competing writer trong lượt observer. Pending bản tin cũ không được xác nhận thay kết quả failed mới. Retry riêng, stderr rõ, final delivery lỗi trả nonzero; không restart capture |
+| Chạy detached nhưng không ghi cách theo dõi | Operations/runbook yêu cầu giữ PID/log của supervisor và observer cùng attempt, xác minh native document đầu trước khi để lượt dài chạy. Chạy ẩn, mở log/terminal khi cần; không service/scheduler/auto-boot mới |
+
+Kiểm chứng focused: Rust16passed/1ignored helper, release build đạt;4tests
+executable+synthetic loopback đạt62,578s gồm heartbeat khi retry/chờ rồi kill thật,
+phát hiện interrupted không đổi checkpoint, recovery không duplicate, old-page
+revision bị chặn và STOP. Sau thay lock inspection kiểm crash riêng đạt9,523s;
+sau final lock reread, unit status không tạo lock và đọc capture complete cũ đạt.
+4observer tests đạt: uncertain PUT, competing writer, stale/quiet/old heartbeat,
+pending running message không che failed outcome. Không SDK/broker/model trong
+các fixture. Không chạy lại full suites hoặc lượt thị trường dài.
+
+Artifact mới: private `shadow-visibility-20261104/bin/mt5-shadow.exe`, SHA256
+`76c90a589167d6a422d31cc4c96605dc578c40b73e2e63d3983bf4bfbedae151`, build.json pin
+source. Không restart API/terminal hoặc chép code vào checkout runtime cũ. Binary
+mới dùng cho đăng ký mới; không sửa binary/source/deadline của phiên r3 hết hạn.
+
+Smoke kênh thật17:38VN: observer `--once` đọc phiên short-read complete cũ
+(71ticks/6pages/0H1), đăng native NAQ-80 document `shadow-ff1e4f2b423aded4`,
+revision1 và đọc lại đúng nội dung qua MCP. Đây là bản trạng thái lịch sử có
+mốc kết thúc17:19:56VN, không phải lượt quan sát mới. Heartbeat/bounds chưa có
+ở binary cũ được ghi chưa có, không backfill vào evidence. NAQ-80 vẫn blocked
+vì H1 handoff chưa đạt. Lần kiểm process trong lượt này không có mt5-shadow đang chạy.
+
+Giới hạn: observer phải được khởi chạy cùng lượt dài tiếp; không tự chạy nền
+vĩnh viễn. Nếu observer/Paperclip/PC ngừng, bản tin không thể tiếp tục tự báo;
+mốc quá90giây khi đang chạy là dấu hiệu cần kiểm tra, chưa có independent external
+alarm. Heartbeat chỉ chứng minh supervisor responsive, không broker/data quality.
+External backup/alert và nhiều máy tiếp tục để sau theo owner. Không gửi lệnh,
+tạo grant/session giao dịch, gọi model hoặc nâng task acceptance.

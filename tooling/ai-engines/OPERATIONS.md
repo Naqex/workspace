@@ -5,6 +5,50 @@ This is the operating guide for the registered Studio system workflows. Use the
 the [existing receipt](../../planning/checkpoints/ai-integrations-20261031/RECEIPT.md)
 for acceptance, failures and resume evidence. This file is not another ledger.
 
+## Visibility for finite shadow observations
+
+Use Trader's checksummed lifecycle and native `mt5-shadow status`, not a PID or
+an estimated finish time alone. The workspace observer reads that command; it
+does not start/resume/stop capture, reconnect MT5, call a model or grant execution:
+
+```powershell
+& <existing-python.exe> tooling/ai-engines/shadow_watch.py --binary <pinned-mt5-shadow.exe> --state-dir <existing-session> --company <authorized-company-uuid> --task <existing-task-uuid>
+```
+
+Run after lifecycle initialization. Omit company/task for terminal-only output;
+add `--once` for a snapshot or to repair publication after an observer interruption.
+The supplied task must belong to the explicit company. Existing project-isolated
+Paperclip credentials are used only by the observer, never passed to the collector.
+Output is Vietnamese: phase, heartbeat, data update time, interval actually read,
+tick/page/closed-H1 counts, expected settlement, immutable deadline and current
+reason. There is no invented percentage or assumption that `complete` qualifies
+the strategy/task. Old sessions remain inspectable with unavailable heartbeat.
+
+For long invocations, record supervisor **and observer** PID/command/log paths
+with the existing attempt receipt, launch hidden with stdout/stderr redirected,
+and verify the first native progress document readback before leaving it running.
+Use a Codex terminal/log panel when useful; do not open a new visible CMD window.
+The finite observer checks about every five seconds, publishes phase/health/error
+transitions at the next check and routine progress every 60 seconds. Its deadline
+is bounded independently; no daemon, startup registration or schedule is installed.
+
+Native document key `shadow-<first-16-registration-hash>` is a derived snapshot
+on the existing task, not an acceptance ledger. Paperclip's document activity
+invalidates native UI queries. Every snapshot shows its observation time; if it
+stops updating for 90 seconds during a run, do not infer current health from it.
+A responsive supervisor is not proof of worker/broker progress. Lock release,
+stale heartbeat and passed deadline remain distinct warnings. No external alert
+is configured; this is not an independent alarm if the entire PC/app is down.
+
+Publication reads before writing with native revision checks. An uncertain PUT
+is reconciled by reading the pending body before another update; a competing
+writer is not silently overwritten. Failure is printed to stderr and retried
+without restarting capture. Terminal delivery gets up to three consecutive
+attempts; failure exits nonzero. Inspect/restart only the observer to repair
+delivery. A lost/corrupt status read publishes an explicit monitoring error when
+possible, never an invented capture result. Keep raw logs if Paperclip is down.
+The observer never changes native task status, assignments or original acceptance.
+
 ## Bounded Demo execution handoff
 
 Research/review completion does not start broker execution. For a separately
