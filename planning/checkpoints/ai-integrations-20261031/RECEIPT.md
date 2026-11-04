@@ -3100,3 +3100,71 @@ grant→risk admission→broker fill→full close→revoke→đối soát. Kết
 chứng minh vận hành unattended dài ngày, root cause cold-start/reconnect đã hết,
 hoặc chiến lược có lợi nhuận. Không lặp thêm phiên mở/đóng khi chưa có mục tiêu
 kiểm chứng và authority mới; phần vận hành dài ngày vẫn là acceptance riêng.
+
+## 04/11 — Ổn định khởi động và đồng bộ tài khoản MT5
+
+Tiếp mục tiêu vận hành hệ thống trên Demo, không tuning chiến lược hoặc mở
+phiên giao dịch mới. Routine reconnect/local rollout dùng standing maintenance
+grant; quyền phiên v4 tiếp tục revoked. Không thêm UI, engine hoặc scheduler.
+
+### Hai lỗi đã xác định
+
+| Lát | Bằng chứng trước sửa | Thay đổi |
+|---|---|---|
+| Khởi động terminal | Exness reconnect một lần: `queued→syncing→mt5_worker_failed→connected` sau khoảng 29 giây. Probe tiếp xác nhận `mt5_trading_disabled` tại `verify_identity` bị `PermissionError`, WinError 32 ở `clean_terminal`, che mất. Log lúc lỗi có `terminal process already started` | `e73cecb0`: chờ Windows `WaitForInputIdle` tối đa 10 giây trước SDK attach; không dọn file từ worker khi descendants còn giữ khóa |
+| Đọc đồng thời | GET snapshot FTMO trùng lượt collector làm `mt5_terminal_busy`; collector chuyển account sang error và đặt lần thử kế tiếp sau 300 giây, dù terminal không mất kết nối | `85940ede`: riêng lock timeout hoãn collector 2 giây, giữ status/journal/last-sync; lỗi DB thật vẫn là lỗi, không giả lập health thành công |
+
+Luồng khởi động vẫn là terminal riêng với `/config` → startup barrier → SDK
+initialize → identity/access/path/generation verification. Windows idle không
+chứng minh account ready. SDK/send không có retry mới. Native job owner dừng
+descendants; `prepare_terminal` dọn thư mục private trước cold start kế tiếp,
+giữ nguyên các binary đã duyệt. Diagnostic tạm chỉ ghi exception type, WinError
+và tên hàm/dòng, không message/secret; đã gỡ và kiểm hash trước promote candidate.
+
+Collector contention không đổi snapshot hoặc mốc đồng bộ thành công. Queued/
+syncing không được nâng thành connected; lỗi có sẵn không bị xóa. Chỉ SQLSTATE
+`LOCK_NOT_AVAILABLE` dùng nhánh này; các lỗi lock-query khác vẫn báo database
+unavailable. Command/grant/receipt/unknown/final SDK admission giữ nguyên.
+
+### Kiểm chứng đã đạt
+
+| Phạm vi | Kết quả |
+|---|---|
+| Python worker | 20 tests đạt; sau khi làm rõ assertions, chỉ chạy lại 3 tests thay đổi, đều đạt. Chặn timeout/stopped/invalid handle trước SDK, giữ lỗi khởi tạo và không gọi OrderCheck/OrderSend |
+| Rust collector | 10 tests liên quan đạt, gồm retry và guard không xóa lịch sử khi cold sync chưa đủ dữ liệu |
+| PostgreSQL tách biệt | 1 fixture lifecycle đạt; busy giữ status/snapshot/last-sync, không giả readiness, không che lỗi thật, chặn sai workspace/generation. Cluster tạm đã dừng; không login broker hoặc sửa owner DB |
+| Candidate worker trên Exness | Quan sát 180,55 giây/86 samples; không còn `mt5_worker_failed`/trading-disabled trong lượt này. `mt5_history_warming` xuất hiện 7 samples rồi connected từ giây 23,2; journal được giữ, 0 vị thế/lệnh chờ, không gọi đây là zero-error hoặc multiday acceptance |
+
+Kiểm FTMO trước reconnect đã dừng ở preflight vì native account đang locked/
+not-ready do contention cũ; 0 resume/order calls trong attempt đó. Giữ attempt
+này để đối chiếu, không coi nó là FTMO acceptance. Hai account sau đó tự hồi
+trên lịch đọc hiện có.
+
+Private evidence nằm cùng backup root hệ thống: `connection-recovery-20261104/`,
+`connection-recovery-diagnostic-20261104/`, `connection-startup-candidate-20261104/`,
+`connection-startup-ftmo-20261104/`, `connection-contention-postgres.json`.
+API release build với lockfile đã đạt; đã promote local binary từ `85940ede`
+qua launcher đang sở hữu runtime. Giữ native/compact/local-capability, database,
+adapter roots và các interpreter hiện có; không migration. Backup manifest,
+launcher arguments, promotion record và adapter rollback giữ trong
+`connection-stability-rollout-20261104/` cùng private root trên.
+
+| Kiểm runtime mới | Kết quả và giới hạn |
+|---|---|
+| Theo dõi kết nối | 305,05 giây, 98 samples: Exness và FTMO giữ `connected`, không có connection error_code; journal tiếp tục đồng bộ. Đây là trạng thái collector, không khẳng định mọi trading snapshot đều ready |
+| Tranh terminal thật | Giữ advisory lock Exness 6,05 giây bằng transaction chỉ đọc; cả 5 checks đạt: reader chờ, collector hoãn, giữ status/journal và không giả last-sync. Probe đầu chưa chứng minh reader chờ; giữ kết quả inconclusive, chỉ đổi phép đo sang đúng lock tag trong `pg_locks` rồi probe v2 đạt; không sửa sản phẩm giữa hai probe |
+| Đọc snapshot | Cold reads: Exness busy, FTMO invalid number. Cuối observer: FTMO ready, Exness vẫn invalid number. Lượt đối chiếu sau đó: Exness ready với cả chỉ định `EURUSDm` và chọn tự động, không restart; quote được đánh dấu stale khoảng 6,3–6,5 giây. Chưa xác định trường số gây lỗi trước đó; không coi tự hồi là đã sửa root cause hoặc quote đủ điều kiện send |
+| Runtime/ownership | 10 checks đạt: PID/creation identity, binary và adapter hashes, source/run pin, profile, API ready/DB ready, anonymous scoped API bị 401, UI 5180 trả 200, đúng 1 terminal/account và source sạch |
+| Quyền và lệnh | Không có grant active, unknown request hoặc native request mới; 0 broker commands trong rollout/observer/probe. Phiên v4 vẫn revoked |
+
+Artifact chính: `promotion.json`, `receipt.json`, `postflight.json`,
+`contention-probe.json`, `contention-probe-v2.json`, `runtime-verification.json`
+và `symbol-comparison.json` trong thư mục rollout private. Không đưa bearer,
+credential hay raw terminal log vào Git.
+
+**Acceptance của lát này:** startup barrier và nhánh defer khi tranh terminal
+đã có focused regression, PostgreSQL fixture và bằng chứng local runtime; hai
+account kết nối với một terminal riêng cho mỗi account. Chưa công nhận vận hành
+unattended nhiều ngày, mọi snapshot luôn sẵn sàng, hoặc lợi nhuận chiến lược.
+Không lặp phiên mở/đóng chỉ để kiểm lại phần đã đạt. Lỗi numeric thoáng qua còn
+là giới hạn cần khoanh vùng nếu tái xuất hiện; không nới validation để che lỗi.
