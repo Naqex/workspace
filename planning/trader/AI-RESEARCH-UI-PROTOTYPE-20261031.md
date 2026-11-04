@@ -199,6 +199,10 @@ Receipt AI hiện có own kết quả; task mới dẫn về đây, không mở 
 
 ### Ưu tiên hiện hành — hoàn thiện hệ thống AI, 02/11
 
+Research dài hạn04/11: [nền run dài và gói qua đêm được đề xuất](../research/DEMO-LONG-RUN-FOUNDATIONS-20261104.md).
+Tài liệu phân biệt nền đã có, khoảng thiếu và thứ tự nâng cấp; chưa là quyền
+khởi chạy qua đêm, thay runtime đang chạy hoặc mở scope giao dịch mới.
+
 Owner làm rõ: chưa muốn dành thời gian tối ưu chiến lược; ưu tiên hệ thống AI
 và workflow vận hành. Đề xuất validation2023 trước đó được gác lại. Giữ nguyên
 candidate EURUSD/H4, dữ liệu đã dùng và kết quả đã lưu làm fixture kỹ thuật;
