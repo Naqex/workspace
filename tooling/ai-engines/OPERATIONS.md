@@ -326,3 +326,44 @@ Implementation references for the current pin:
 `server/src/routes/decision-models.ts`, `packages/shared/src/decision-models.ts`.
 Current connection state and usage are runtime evidence, not permanent facts in
 this guide; inspect the native GET settings/availability/history before reporting.
+
+## Owner backup and recovery boundaries
+
+Backups of Trader, Paperclip and provider authentication have different owners.
+A verified Trader bundle alone is not a complete Studio recovery package.
+
+| Component | Preserve | Recovery boundary |
+|---|---|---|
+| Trader | Matched PostgreSQL dump and artifact bundle, manifest/checksums and matching runtime/source version | Use `projects/trader/foundation_v2/scripts/backup_api_platform.py`; it requires stopped writers and verifies files. Restore into a new owned target before switching |
+| Paperclip | Native DB dump, storage and private instance config/secrets | The local instance is under `.runtime/paperclip/instances/trader-ui/`; confirm its owner from `tooling/paperclip/README.md`. Do not copy a live PostgreSQL data directory as an ordinary folder backup |
+| Project CLIProxyAPI | Active project config and its configured auth directory | Treat tokens as secrets. Keep the separate Windows instance outside this scope; reauthentication may be necessary after restore |
+| Hermes/custom work | Required profiles, local knowledge/session data and artifacts not already in Git | Follow the installed runtime's actual roots; do not export another user's/global credentials incidentally |
+| Code and tools | Git commits/submodule pins, lockfiles and deployment descriptors | Git does not preserve databases, private configs, untracked work or authenticated sessions. Binaries/venvs/build caches may be rebuilt; preserve an approved rollback when rebuilding is not reliable |
+
+The existing local Trader backup root resolves to E through the runtime's
+`.runtime/api-platform-backups` junction. Confirm that target before creating a
+snapshot; do not duplicate or move the active artifact tree. On 04 November,
+Windows reported the active Trader DB/artifacts on D and backups on a separate
+disk E, both accessible from this machine. E protects
+against loss of D, not loss/compromise of the whole machine. Keep off-machine
+storage separate from this local destination and do not upload private bundles
+until the owner selects the destination and access scope.
+
+For the current single-owner Demo stage, propose one checked snapshot at the end
+of a day with changes and before a risky update. The current helper deliberately
+quiesces API/workers/artifact writers; it is not an online 24/7 backup scheduler.
+Suggested retention is seven daily and four weekly snapshots, adjusted to actual
+bundle sizes/free space, not an installed deletion policy. Never purge the only
+known-good restore point to meet a calendar rule.
+
+For an external copy, transfer only a completed verified bundle, protect private
+contents with encryption and keep the recovery key outside the source machine.
+Ordinary cloud folder sync of active DB files is not a consistent backup. At
+least one independent offline/protected copy should survive local deletion or
+ransomware. No cloud/NAS, remote credentials or backup schedule is configured by
+this guide; the owner chose local-only completion pending a destination.
+
+When restoring, verify hashes and schema/runtime compatibility first. Account
+secrets can be machine-bound and require login again. Disable new execution,
+reconcile current broker inventory/receipts and revalidate authority before any
+new send. Restoring files does not roll the broker back or renew an old grant.

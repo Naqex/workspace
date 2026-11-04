@@ -3213,3 +3213,31 @@ giữ evidence, sửa root cause và thêm regression liên quan. Lỗi numeric 
 qua đã ghi ở lát trước còn mở; connected không được thay thế quote/send readiness.
 Chưa bật observer nhiều ngày, auto-start/restart mới, external alert, off-machine
 backup hoặc nhiều máy. Không mở phiên broker mới từ việc offline gate đạt.
+
+## 04/11 — Hướng dẫn nơi lưu backup cho owner
+
+Theo yêu cầu tiếp tục và hướng dẫn backup: kiểm read-only runtime owner, hiện
+trạng storage và helper sẵn có; không ngắt runtime chỉ để tư vấn nơi lưu.
+Manifest vẫn native/compact/local-capability, PID/creation identity khớp.
+Preflight DB chỉ đọc ghi0research/API/AI/download jobs active,0grant active,
+0unknown requests và0account có saved inventory; đây không là broker inventory
+read mới hoặc quyền mở phiên.
+
+Windows xác nhận C/D/E/G ở các disk số3/0/1/4 tương ứng. D và E là hai disk
+khác nhau; E còn khoảng167,4GB tại lúc đọc. Runtime backup junction tiếp tục
+trỏ vào root E đã cấu hình. DB data_directory và artifacts root hiện tại đều
+resolve ở D; backup E khác disk với dữ liệu đang chạy. Receipt snapshot03/11 ghi PASS,4.274.413.773bytes và
+4.142artifact files; manifest còn tồn tại. Chưa rehash toàn bundle hoặc tạo
+snapshot mới trong lượt tư vấn này, không nâng receipt cũ thành backup hôm nay.
+
+Khuyến nghị: E cho local recovery nhanh, thêm bản đã mã hóa ngoài máy (cloud
+owner chọn hoặc ổ rời được tháo/ngắt kết nối) khi có đích; chưa cần NAS/máy dự
+phòng. Đề xuất retention7daily+4weekly là policy để xem xét theo dung lượng,
+không cài timer hoặc xóa bản cũ. Helper hiện tại yêu cầu quiesce, chưa là online
+backup24/7. Trader bundle không bao gồm toàn bộ Paperclip/provider auth.
+
+Tích hợp inventory/trình tự/thẩm quyền phục hồi vào
+`tooling/ai-engines/OPERATIONS.md`, mục Owner backup and recovery boundaries.
+Không cấu hình cloud, xuất credential hoặc gửi dữ liệu ra ngoài. Nguồn đối chiếu:
+[NCSC backup separation/offline](https://www.ncsc.gov.uk/blog-post/offline-backups-in-an-online-world)
+và [PostgreSQL filesystem backup](https://www.postgresql.org/docs/18/backup-file.html).
