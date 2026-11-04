@@ -3662,3 +3662,76 @@ receipt thất bại và rollback → phân loại delta checkout cũ → compac
 history đã review. Chưa có danh sách material deletion sẵn thực thi; không
 `git clean`, reset, prune, xóa cache/data hoặc di chuyển file trong lượt này.
 Chỉ cập nhật receipt và liên kết từ cleanup plan; Product Plan/WIP giữ nguyên.
+
+## 04/11 — Sửa float grid và đối soát báo cáo NAQ-80
+
+Kiểm lúc14:05VN: lượt r2 đã dừng14:00:33, lifecycle phiên1 `failed`, reason
+`shadow_tick_grid_invalid`,101pages/5.147ticks; chưa tạo phiên2. Không có
+`qualification.json` đạt. Giữ nguyên capture/registration/lifecycle failed;
+không sửa source pins hoặc resume expired/failed để tự công nhận acceptance.
+
+Source trace xác định296giá Bid/Ask có đuôi float lệch grid trong101pages,
+ví dụ `1.1227800000000001`, sai khác nearest tick chỉ `1E-16`. Trader commit
+`c099822c886c4333eb3433ab6a908a4476e4644b` chuẩn hóa tối đa1binary-float ULP
+trước khi tính mid bằng Decimal. Giá lệch bước thật vẫn bị chặn; raw capture,
+hashes, clock, gap/settlement/authority guards giữ nguyên. Không đổi chiến lược,
+API/adapter đang chạy, source integration hoặc quyền giao dịch.
+
+| Kiểm chứng | Kết quả / giới hạn |
+|---|---|
+| Regression mới | 1test/3subcases lệch bước đạt0,802s; raw page bytes không đổi và mid đúng. Lượt đầu fixture thiếu `max_batches=60` nên chưa thu trọn giờ; sửa fixture, không nới production guard. 8tests cũ đã đạt trong lượt module trước đó; không tuyên bố một full-suite invocation mới đạt |
+| Continuity | 7tests đạt83,982s, log private `offline-shadow-grid-20261104/continuation-tests.log`. Lượt trước bị ngắt chat/mất session output; xác minh không còn process rồi mới chạy lại để lấy bằng chứng, không retry test unchanged chỉ để có thêm lần pass |
+| Capture thật offline | Reducer mới đọc101saved pages, không network: có1H1 gồm3.023ticks, max gap16.816ms, builder có warmup,0decisions, execution false. Hash102JSON input files không đổi; đây không phải fresh forward hoặc bằng chứng SDK reread ổn định |
+| Native báo cáo | Driver cũ thiếu `baseRevisionId` khi sửa document; vì catch nuốt lỗi nên không tới PATCH status. PATCH `blocked` riêng còn cần `unblockDescriptor`. Đã đối soát/sửa document bằng native HTTP với revision; MCP connection xác nhận đúng Naqex AI và search/read task/doc, cập nhật blocked có descriptor thành công. Không có agent assignee hoặc model dispatch |
+
+Driver mới private `observe_shadow_handoff_r3.py` dùng same task NAQ-80, source
+commit mới và thư mục `shadow-live-handoff-20261104-r3/`; không overwrite driver
+hoặc evidence r2. Publish đọc revision hiện hành; nhánh lỗi vẫn thử cập nhật
+status riêng với unblock descriptor và lưu delivery/status error types thay vì
+nuốt exception. Startup PUT/GET đã khớp, MCP đọc revision3 xác nhận nội dung.
+Chưa force failure ở lượt broker mới chỉ để kiểm nhánh lỗi.
+
+**Lượt mới đang chạy:** start14:28:44VN, thu trọn H1 từ15:00–16:00, chỉ bàn giao
+sau16:00:30 nếu phiên1 complete, kết thúc dự kiến16:02:30, hard deadline16:05.
+Hai phiên hữu hạn, không scheduler/auto retry/service mới. Driver thật PID16096
+(venv redirector17964), shadow27780 ở startup; stderr rỗng. Preflight vẫn
+32commands,0active grants/unknown/positions/orders; API run và generation19
+không đổi. Không restart API/terminal để triển khai reducer vì child đọc source
+canonical qua registration pin. Chưa có live-handoff acceptance mới.
+
+Resume đọc qualification-state/lifecycle/native NAQ-80 và kiểm process identity
+trước hành động; STOP đặt ở thư mục r3. Không chạy lại driver hoặc chỉnh source
+pinned khi đang capture. Cleanup vẫn theo inventory chỉ đọc ở trên; chưa retire
+checkout cũ, compact receipt đang ghi, move/xóa WIP hoặc dữ liệu runtime.
+
+## 04/11 — Model và đường kết nối cho một owner
+
+Owner hỏi đối chiếu hệ thống thực tế, chưa giao đổi provider hoặc mua API.
+Research primary sources cho thấy GPT, Claude, Gemini, DeepSeek/Qwen đều có
+đường dùng trong framework công khai; không có thống kê đủ để xếp thị phần model
+trong hệ thống trading cá nhân hoặc chứng minh proxy có uptime giao dịch dài hạn.
+[TradingAgents README](https://github.com/TauricResearch/TradingAgents) mô tả
+API nhiều provider, tier quick/deep và cả own ChatGPT plan. Đây là capability
+của framework, không phải chứng nhận profitability hoặc nhà cung cấp bảo trợ proxy.
+
+| Trường hợp | Khuyến nghị hiện tại, chưa đổi cấu hình |
+|---|---|
+| Coding/trao đổi có owner | Subscription qua native Codex/Claude Code/Gemini CLI phù hợp khi provider hỗ trợ; không đồng nhất native OAuth với proxy chuyển token thành generic API |
+| Research cá nhân có thể chờ/retry | Giữ Gemini/CLIProxyAPI đang có, ghi provider/model thực trả và provenance; chưa cần mua API chỉ vì chuẩn bị demo |
+| Job tự động quan trọng, cần thời hạn | Ưu tiên API chính thức khi có nhu cầu thật. Có thể dùng trực tiếp hoặc gateway với API key chính thức; giữ một gateway không có nghĩa bắt buộc dùng subscription OAuth |
+| Risk/send/position reconciliation | Tiếp tục deterministic runtime với quyền hạn rõ; AI/provider unavailable không được bypass guard hoặc mở rộng execution |
+
+[OpenAI auth](https://learn.chatgpt.com/docs/auth) phân biệt subscription và API,
+khuyến nghị API key cho programmatic CLI; [App Server](https://learn.chatgpt.com/docs/app-server)
+có đường local/open-source subscription riêng, không chứng minh token relay bất kỳ
+được hỗ trợ. [Gemini CLI auth](https://geminicli.com/docs/get-started/authentication/)
+phân biệt Google login/API key. [Claude credential policy](https://code.claude.com/docs/en/legal-and-compliance#authentication-and-credential-use)
+phân biệt native subscription và đường xây ứng dụng/API; cần kiểm đúng provider,
+không suy luận một mình dùng thì mọi cách relay đều được bảo đảm.
+
+[CLIProxyAPI upstream](https://github.com/router-for-me/CLIProxyAPI) có ecosystem
+consumer và hỗ trợ OAuth/API-key upstream. Tuy nhiên [issue6655](https://github.com/router-for-me/CLIProxyAPI/issues/6655)
+ghi maintainer xác nhận cooldown cục bộ có thể còn chặn sau khi provider phục hồi
+sớm; báo cáo bug/consumer list không là số liệu uptime. [Anthropic trading guide](https://claude.com/resources/guides/the-ai-investment-firm/front-office-trading-and-execution)
+đặt agent vào phân tích sandbox và điều tra read-only; đây là reference workflow,
+không phải bằng chứng mọi trading desk triển khai như vậy.
