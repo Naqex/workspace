@@ -4658,3 +4658,30 @@ Readback06:33: health đã trả sourceHEAD5501757 nhưng parent vẫncovered/li
 và owner PID chưa đổi. Vì health có thể đọc HEAD hiện tại, revision string
 không chứng minh module trong process đã reload; acceptance phải có native
 attention readback đúng cùng process owner sau restart, không chỉ health SHA.
+
+### Activation hoàn tất sau owner stop,05/11 06:48VN
+
+Owner xác nhận đã dừng. Detached `Start-Process` bị auto-review chặn trước thực
+thi; launcher gốc chạy được trong managed terminal (`exec`session43538), không
+đổi shell để thực thi lại lệnh đã bị từ chối. Lần đầu launcher chặn17861 vẫn
+nhậnTCP nhưng SQLtimeout: postmaster26428 đã mất, còn một orphanPG18
+`io_worker`18800, cùng parent/start time với cluster `trader-ui/db` trong
+`postmaster.pid`/`postmaster.opts`. Native `pg_ctl status` xác nhận main đã dừng;
+TERM tới orphan bằngpg_ctl báokhôngcósignalendpoint. Lệnh riêng có identity
+guard dừng đúng orphan18800 đã được tool cho phép; không dừng PostgreSQL Trader
+hay các cluster khác, không xóa/đổi DBfiles. Launcher sau đó tự xử lý stale lock,
+mở lại **cluster cũ**, UI buildđạt8,56s; các warningVite/CSS/chunks cũ vẫn có.
+
+Owner mới launcher19972/server23880, sourcecommit5501757;
+healthprocessStartedAt`2026-11-04T23:48:13.358Z`, listener ready06:48:24VN.
+Native readback so với private`before.json` xác nhận IDs/status/assignees của
+NAQ-85/86/87 giữ nguyên. Parent chuyển **needs_attention**,0coveredblockers,
+2attentionblockers, **blockingTreeLive=false**; lưu`after.json`. Đây là bằng
+chứng behavior/module mới đã load, không chỉ currentGitSHA tronghealth.
+
+Browser tab4 tại`/NAQ/issues` đã verify AXlabel parent
+`Bị chặn · 2 blockers need attention` và screenshot cảparent/2children đềuđỏ.
+Ảnh private`paperclip-blocker-fix-20261105/blocked-parent-fixed.png`.
+Không chạy lại27tests vì source không đổi sau pass, không inference/modeljob,
+grant hay brokercommand, không resume các failedcapture. Lỗi màu/attention đã
+khép; các gate chất lượng dữ liệu overnight vẫn blocked đúng kết quả.
