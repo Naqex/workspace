@@ -3544,3 +3544,58 @@ tổng hợp, không là uptime hoặc forward broker nhiều ngày. Coverage ti
 Bước tiếp đúng scope là phiên v2 có giám sát trên dữ liệu mới, kiểm bàn giao
 thật tại mốc H1; weekend/gap/unattended lifecycle còn riêng. Không tuning,
 kết luận lợi nhuận hoặc mở quyền giao dịch; issue#8 và whole-product còn mở.
+
+## 04/11 — Đang quan sát bàn giao hai phiên v2 trên dữ liệu mới
+
+Owner giao tiếp sau checkpoint continuity; bắt đầu finite qualification thật,
+chỉ đọc Exness Demo `464104926 / Exness-MT5Trial17`, EURUSDm, generation19.
+Đây là lượt quan sát mới, không lặp open/close hoặc cấp grant. Preflight12:18
+giờ VN xác minh process identity/binary của native owner, HTTP ready và account
+inventory:32native requests,0active grants/unknown,0positions/orders. Native API
+run vẫn `e62d5f0b38994c53b6acf3055a36c41b`, không restart/reconnect/rollout.
+
+Lượt chuẩn bị đầu dừng trước capture bởi native Paperclip HTTP422: `in_progress`
+phải có assignee. Đối chiếu service source xác định guard; dùng owner user đã
+tạo task reference làm assignee, không gán AI worker. Giữ nguyên thư mục lỗi và
+idempotency key khi thực hiện lại, không bypass native API hoặc sửa DB engine.
+
+| Mốc giờ Việt Nam 04/11 | Phạm vi đang chạy |
+|---|---|
+| 12:19:43 | Bắt đầu phiên1; page60giây, settle30giây; phần H1 đầu chưa đủ bị loại |
+| 13:00–14:00 | Thu trọn một H1 mới để có builder warmup thực tế |
+| Sau14:00:30 | Chỉ khi phiên1 complete và preflight/binding giữ nguyên mới tạo registration2 pin report hash, rồi start phiên2 |
+| 14:02:30 dự kiến | Phiên2 kết thúc quan sát; hard deadline cuối14:05. Không chạy phiên3 hoặc tự gia hạn |
+
+Task native [NAQ-80](http://127.0.0.1:17860/NAQ/issues/NAQ-80) đang `in_progress`,
+document `live-handoff-20261104` đã PUT/GET body khớp. Không đổi task NAQ-79 đã
+hoàn tất hoặc dispatch worker/model. Driver hữu hạn chỉ điều khiển đúng hai
+invocations của CLI hiện có; không cài scheduler, startup, service hoặc product
+auto rollover. Kết thúc/failure cập nhật cùng native document/status; HTTP delivery
+lỗi không tự lặp capture. Chưa có acceptance cho live handoff.
+
+Startup đã kiểm lúc12:20:46VN: lifecycle `running`,1page/66ticks thật đã commit,
+cursor tiến đúng60giây; driver stderr rỗng. Đây chỉ là bằng chứng khởi động và
+ghi nguồn, chưa đủ công nhận bàn giao hoặc hoàn tất lượt quan sát.
+
+**Ownership/resume:** thư mục private
+`E:/BACKUP-TRADINGWORKSPACE/system-capabilities-20261103/shadow-live-handoff-20261104-r2/`
+giữ `qualification-state.json`, registration1/2, sessions/lifecycle/pages và
+result `qualification.json` sau khi đủ checks. Driver thật PID26268,
+`mt5-shadow` phiên1 PID2848 tại12:20VN; launcher PID27308 là Python redirector.
+Driver script `observe_shadow_handoff.py` và stdout/stderr `.driver.*.log` ở E
+root hiện có. Bản lỗi đầu ở `shadow-live-handoff-20261104/`. Binary đã copy/pin
+SHA256 `2d99705a665989f90cafca238fa59ea427b6632e081a1a9144c9cb398b85d624`;
+source vẫn Trader `1685e22c`, worktree sạch khi khởi động. Không sửa source pins
+hoặc khởi chạy helper lần hai trong khi job này còn hoạt động.
+
+Để dừng, tạo file `STOP` trong thư mục r2; driver chuyển STOP sang session đang
+chạy và không start phiên tiếp. Source/binding/data revision/quiet-gap vượt guard,
+timeout hoặc deadline sẽ dừng và giữ evidence, không tự retry/reconnect. Khi
+resume công việc, đọc state/log/native task và xác minh PID/creation identity
+trước hành động; không rerun helper hoặc tạo attempt khác để che lỗi chưa hiểu.
+
+**Tiêu chí kết thúc:** hai native lifecycles complete; phiên1 có1H1 thật;
+phiên2 giữ đúng builder/candidate state và cumulative count, đọc được quotes mới,
+không tạo H4 giả; report1 bất biến và command/grant/unknown/account/run giữ
+nguyên. Một H1 chưa đủ khởi tạo ATR/H4 entry; coverage vẫn
+`broker_history_unverified`, chưa phải uptime nhiều ngày, P&L hay quyền giao dịch.
