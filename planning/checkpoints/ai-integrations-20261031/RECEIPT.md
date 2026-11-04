@@ -4021,3 +4021,56 @@ thiếu: xác minh semantics/compatibility của flags và quyết định contr
 trước khi chọn targeted live check; không mở lượt một giờ khác trong lần này.
 Không gửi lệnh, gọi model, tạo grant hoặc restart terminal/API; WIP ngoài scope
 giữ nguyên. Whole-system/live-handoff acceptance tiếp tục pending.
+
+## 04/11 — Tách ổn định quote khỏi raw flags; kiểm nhanh thay vì chờ thêm H1
+
+Owner giao tiếp tục, nhấn mạnh không lặp lại vòng chờ1giờ để debug. Trader
+`0e476c35b43d2aea0ca05be3c19e0be48087d821` thêm policy tường minh cho **phiên
+mới**: mặc định `raw_ticks_v1` vẫn chặn mọi thay đổi raw. Với consumer chỉ đọc
+snapshot Bid/Ask để dựng midpoint/H1/H4, có thể đăng ký
+`stability_policy=ordered_quotes_v1`. Policy này so khớp chính xác số lượng,
+thứ tự, timestamp/source timestamp, Bid/Ask và mọi lineage; flags là metadata
+không được consumer này sử dụng. Không mask bit128 hay tự gán ý nghĩa cho nó.
+
+Cơ sở primary: [MqlTick](https://www.mql5.com/en/docs/constants/structures/mqltick)
+mô tả các giá trị snapshot được điền độc lập với flags; [ví dụ Python của MetaQuotes](https://www.mql5.com/en/docs/python_metatrader5/mt5copyticksfrom_py)
+chứa flags134. Ý nghĩa bit128 vẫn chưa xác minh; thiết kế không suy ra rằng nó
+vô hại cho mọi consumer. Đây là contract quote-only, không dùng cho phân tích
+dựa trên flags, fills, broker completeness hoặc mở quyền execution.
+
+Luồng: registration pin policy → capture pin vào cursor → reread/audit dùng
+cùng comparator → giữ nguyên raw pages + lưu đối chứng → reducer tạo nến từ
+giá. `audit-observations/` giữ original/reread/summary có checksum khi flags
+khác; không ghi được evidence thì dừng. Đổi giá/time/order/count/source vẫn
+chặn. Resume/handoff không được đổi policy; report ghi rõ
+`raw_flags_stability=not_asserted` ở chế độ quote. Đánh đổi là thêm evidence
+cho metadata revision; không khẳng định raw flags bất biến.
+
+| Kiểm chứng | Kết quả / phạm vi |
+|---|---|
+| Capture + shadow reducer + continuation | 34tests đạt89,057s; log private `shadow-quote-policy-tests-20261104.log`. Có crash/cursor, revision guard, quote-policy resume, handoff cùng policy và mô phỏng92giờ qua4phiên;92giờ là synthetic time, không phải uptime thật |
+| Replay bằng dữ liệu đã lưu | `verify_shadow_quote_policy_20261104.py`: kiểm integrity74pages/3.272ticks; đối chiếu3cặp diagnostic đã lưu,100ticks. Cả3cặp vẫn bị raw policy chặn, quote policy so khớp;1,1435s, network_reads0, new_sessions0 |
+| Giữ bằng chứng cũ | Manifest, lifecycle, cursor và74pages của r4 có hash trước/sau giống nhau. Replay result private `shadow-quote-policy-replay-20261104/result.json` có continuation_eligible=false |
+| Diff/commit | Diff check đạt;6file source/test/contract đã commit. Không sửa candidate, Rust/API hoặc runtime; không gửi lệnh, tạo grant hay gọi model |
+
+Lượt test full3module ở turn trước bị ngắt, không có kết quả cuối để tin cậy;
+lượt34tests trên là kết quả được lưu log và xác nhận exit0 sau khi tiếp tục.
+Không khởi chạy lại r4 hoặc tạo phiên quan sát mới. Dữ liệu3cặp là diagnostic
+reread sau sự cố, không chứng minh response19:00:32 hay toàn bộ74pages chỉ đổi
+flags. Không công nhận r4 thành đạt bằng kết quả offline.
+
+Capture source thay đổi làm client pin cũ không còn tương thích; reprocessor
+hiện tại chủ động từ chối capture pin khác, không sửa manifest/cursor để né
+guard. Phiên mới cần source/policy registration mới; phiên failed cũ chỉ đọc để
+điều tra. Handoff H1 trên live còn chưa chứng minh, nhưng không dùng lượt1giờ
+làm vòng sửa lỗi. Chỉ xét một phép kiểm live khi đã nêu đúng hành vi còn thiếu;
+34tests và saved-pair replay là gate cho bản sửa này, không whole-system acceptance.
+
+Native publication chưa thực hiện: GET Paperclip trả connection refused và
+không thấy listener ở17860 khi kiểm. Thử khởi động đúng launcher hiện có ở chế
+độ hidden để cập nhật report bị automatic approval review từ chối trước khi
+thực thi, lý do `blocked by policy`. Không đổi config, chạy launcher bằng đường
+khác hoặc ghi trực tiếp DB. Document `live-handoff-20261104` revision10 / task
+blocked là trạng thái cuối đã biết từ lần trước, chưa xác minh lại hiện tại.
+Khi Paperclip hoạt động trở lại, đọc revision mới rồi ghi kết quả này vào đúng
+document hiện có; publication không cần chạy lại capture hoặc gọi model.

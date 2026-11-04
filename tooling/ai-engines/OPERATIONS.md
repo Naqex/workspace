@@ -63,6 +63,16 @@ the two observations on revision and diagnose flags, quotes, timing and lineage
 separately; never relax a valid comparison merely to avoid waiting. A short real
 read checks connectivity, not hour-aligned continuity or broker completeness.
 
+For a new quote-only shadow registration, `stability_policy=ordered_quotes_v1`
+compares every ordered quote/timestamp and lineage value while retaining flags
+as opaque metadata. The default raw policy stays strict. Persist both competing
+observations; reports must say raw flags stability is not asserted. This is not
+permission to ignore revisions in a flag-dependent consumer or to rewrite an old
+failed attempt. Resume and handoff must preserve the registered policy. See
+[the owning contract](../../projects/trader/foundation_v2/docs/FOREX-FORWARD.md).
+Resolve comparison failures with saved pairs and synthetic-hour handoffs first;
+do not launch another hour of collection just to verify this policy.
+
 ## Bounded Demo execution handoff
 
 Research/review completion does not start broker execution. For a separately
