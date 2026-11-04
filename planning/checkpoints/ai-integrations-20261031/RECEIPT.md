@@ -4111,3 +4111,46 @@ review và native GitHub readback; không cần chạy lại34tests cho thay đ�
 Native Paperclip publication vẫn pending do instance không truy cập được; scope
 task không được coi là mới cấp quyền khởi động đã bị tool review từ chối hay
 quyền broker. Tiếp đúng6lát đã đăng ký, không thêm đợt tối ưu mở vô hạn.
+
+## 04/11 — Policy vẫn chặn; sửa riêng lỗi PID tái sử dụng của Paperclip
+
+Owner yêu cầu xử lý `blocked by policy` và tiếp task. Đọc config local chỉ các
+field cần thiết: sandbox danger-full-access, approval never; không có local
+rule file khớp Start-Process/run-local. Audit môi trường đạt0errors/0warnings,
+global12.279B, project9.269/65.536B, reserve56.267B, combined21.548B.
+Không sửa config/AGENTS/hooks/MCP, thêm allow rule hoặc giảm guard.
+
+[OpenAI approvals/security](https://learn.chatgpt.com/docs/agent-approvals-security)
+và [sandbox](https://learn.chatgpt.com/docs/sandboxing) phân biệt sandbox,
+approval policy và automatic reviewer. Phản hồi CreateProcess chỉ nêu
+`rejected: blocked by policy`, không có rule/reviewer decision để xác định
+nguyên nhân. Các mục trước gọi chắc chắn đây là automatic approval review là
+diễn giải quá mức; hiện chỉ xác minh được denial ở lớp công cụ, trước execution.
+Sau xác nhận mới của owner, thử đúng thao tác Start-Process/hidden launcher
+một lần vẫn bị từ chối trước thực thi. Không đổi shell/tool hoặc nhúng lệnh
+khởi động vào script khác để né denial. Startup/native publication vẫn blocked.
+
+Đồng thời source-confirmed một lỗi launcher độc lập: owner cũ ghi PID7044,
+Windows đã cấp PID này cho BraveCrashHandler.exe tạo ngày04/11; server PID cũ
+không còn. `alive(pid)` cũ vì vậy có thể báo nhầm Paperclip vẫn hoạt động.
+Không kill Brave, sửa/xóa owner file hoặc thử startup trực tiếp để tái hiện.
+
+Sửa `tooling/paperclip/run-local.mjs` và helper Windows: owner/startup lock mới
+ghi PID + creation time + executable + command line; kiểm identity trước khi
+reuse/khóa. PID thuộc app khác được xem stale; Node cũ còn sống nhưng thiếu
+identity hoặc không đọc đủ identity thì dừng để kiểm, không tự nhận ownership.
+Giữ port/revision/origin checks, không kill process hoặc reset DB/config.
+Đây không phải sửa/bypass policy Codex; nhánh startup thật chưa được chạy.
+
+Kiểm3tests đạt109,4209ms: PID legacy bị Brave tái sử dụng, exact identity và
+thay creation/path/command/PID, thiếu quyền/legacy Node fail-closed. Smoke read-only
+trên Windows thật xác minh identity process Node kiểm tra và PID7044 không là
+owner. Node syntax/diff checks đạt. Audit môi trường không phát hiện lỗi, không
+cần tăng budget hoặc bật MCP. Chưa có runtime/API/broker/whole-system acceptance.
+
+Rà offline lát3 của task#8: ForexForwardSession có position-aware ENTRY/EXIT
+nhưng ledger/fill là mô phỏng; không dùng nó làm truth vị thế broker. Shadow
+chỉ advisory, Demo session chỉ immediate open/close. Phần cần nối tiếp là durable
+decision/intent nhận broker receipt và inventory thực qua native runner, giữ
+authority/idempotency/unknown hiện có; không gọi đường mô phỏng là đã đủ live.
+Không chạy lại34tests, thu thêm tick hoặc gửi lệnh cho phần rà source này.

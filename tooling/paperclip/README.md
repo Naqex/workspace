@@ -63,6 +63,13 @@ tạo agent và route onboarding chủ động vẫn hoạt động như Papercl
 khi instance đã khỏe sẽ dùng instance hiện có. Instance đang khởi động/lỗi hoặc
 cổng do process khác giữ sẽ bị từ chối thay vì tự kill/restart.
 
+Trên Windows, owner và startup lock mới pin PID cùng thời điểm tạo process,
+executable và command line. PID cũ bị Windows cấp lại cho app khác không còn
+làm launcher báo nhầm Paperclip đang chạy; không kill app đó. Owner cũ còn
+Node sống nhưng thiếu identity sẽ bị từ chối để kiểm tra riêng. Không xóa
+`owner.json` hoặc startup lock chỉ vì cổng chưa mở. Regression cho trường hợp
+này: `node --test tooling/paperclip/windows-process-owner.test.mjs`.
+
 | Thành phần | Vị trí |
 |---|---|
 | Paperclip UI/API | `127.0.0.1:17860` |

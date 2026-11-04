@@ -5,6 +5,7 @@ import { execFileSync, spawn } from 'node:child_process'
 import { connect } from 'node:net'
 import { readFileSync, unlinkSync } from 'node:fs'
 import { parseArgs } from 'node:util'
+import { readWindowsProcess, windowsOwnerIsActive } from './windows-process-owner.mjs'
 import services from '../../projects/trader/foundation_v2/local-services.json' with { type: 'json' }
 
 const ports = [services.paperclipPort, services.paperclipHmrPort, services.paperclipDatabasePort]
@@ -34,10 +35,12 @@ const alive = pid => {
   if (!Number.isInteger(pid) || pid <= 0) return false
   try { process.kill(pid, 0); return true } catch (error) { return error.code !== 'ESRCH' }
 }
+const identity = pid => process.platform === 'win32' ? readWindowsProcess(pid) : undefined
+const ownedAlive = (pid, saved) => process.platform === 'win32' ? windowsOwnerIsActive(pid, saved) : alive(pid)
 await mkdir(instance, { recursive: true })
 let owner
 try { owner = JSON.parse(await readFile(ownerPath, 'utf8')) } catch (error) { if (error.code !== 'ENOENT') throw error }
-if (owner && (alive(owner.serverPid) || alive(owner.launcherPid))) {
+if (owner && (ownedAlive(owner.serverPid, owner.processes?.server) || ownedAlive(owner.launcherPid, owner.processes?.launcher))) {
   if (owner.origin !== origin) throw new Error('The owned Paperclip instance uses another port. Stop it and update its config before restarting; see tooling/paperclip/README.md.')
   const response = await fetch(`${origin}/api/health`, { signal: AbortSignal.timeout(4000) }).catch(() => null)
   const health = response?.ok ? await response.json() : null
@@ -50,11 +53,12 @@ if (owner && (alive(owner.serverPid) || alive(owner.launcherPid))) {
 // Atomic startup ownership also covers the interval before owner.json is written.
 try {
   const previous = JSON.parse(await readFile(lockPath, 'utf8'))
-  if (alive(previous.pid)) throw new Error('Paperclip launcher is already active')
+  if (ownedAlive(previous.pid, previous.identity)) throw new Error('Paperclip launcher is already active')
   await unlink(lockPath)
 } catch (error) { if (error.code !== 'ENOENT') throw error }
+const launcherIdentity = identity(process.pid)
 const lock = await open(lockPath, 'wx')
-await lock.writeFile(JSON.stringify({ pid: process.pid }))
+await lock.writeFile(JSON.stringify({ pid: process.pid, identity: launcherIdentity }))
 await lock.close()
 process.on('exit', () => {
   try { if (JSON.parse(readFileSync(lockPath, 'utf8')).pid === process.pid) unlinkSync(lockPath) } catch { /* A crash can leave a stale lock, checked on the next start. */ }
@@ -109,6 +113,7 @@ const child = spawn(process.execPath, ['--import', './node_modules/tsx/dist/load
 })
 await writeFile(ownerPath, JSON.stringify({
   launcherPid: process.pid, serverPid: child.pid, startedAt: new Date().toISOString(), source, commit,
+  processes: { launcher: launcherIdentity, server: identity(child.pid) },
   origin, workspaceOrigin, uiMode: 'static', hmrPort: services.paperclipHmrPort, databasePort: services.paperclipDatabasePort, configPath,
 }, null, 2))
 for (const signal of ['SIGINT', 'SIGTERM']) process.on(signal, () => child.kill(signal))
