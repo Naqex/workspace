@@ -73,6 +73,41 @@ failed attempt. Resume and handoff must preserve the registered policy. See
 Resolve comparison failures with saved pairs and synthetic-hour handoffs first;
 do not launch another hour of collection just to verify this policy.
 
+### Recover a late-backfilled history prefix
+
+When saved quotes differ on reread, keep the failed lifecycle and both raw
+observations. Do not weaken comparison or change the original registration.
+For a stopped/failed **initial** session registered in a native group, use:
+
+```powershell
+& <existing-python.exe> tooling/ai-engines/shadow_reconcile.py --manifest <original-session.json> --source-dir <original-session-directory> --output-dir <new-separate-revision-directory> --owner-secret-file <existing-owner-secret.json> --max-seconds 600
+```
+
+This bounded read-only tool checks the pinned native lifecycle, registration
+and full consumed capture prefix, then takes the failed session's writer locks.
+It never starts/resumes a session or changes an active sibling. Two ordered
+quote-equivalent native reads per page are required, with at most three pairs.
+Only insertions preserving **every original quote and its order**, including
+same-millisecond duplicates, are admissible; source/SDK/clock/binding changes,
+removed or price-changed quotes block. Flags remain opaque metadata. Double
+reads show observed stability, not complete broker history.
+
+Original capture/lifecycle stay unchanged. Separate checksummed raw observations,
+selected pages and per-page progress survive interruption. Resume the same
+command/output with `--resume`; saved pages are validated and reread before
+continuing. A further economic change requires investigation/a new revision,
+never replacement of the accepted revision prefix. Do not edit the reconciler
+or its pinned inputs during a run. Continuation sessions require a separate
+review of predecessor lineage and are deliberately unsupported by this tool.
+
+The result `revision.json` recomputes H1/H4 using the existing reducer, with a
+fresh knowledge time and `reconciled_history_not_live_forward` qualification.
+It is not a live-complete session, cannot become a continuation predecessor,
+and cannot replay historical decisions into execution. Compare its hours with
+the original report and publish the exact changed scope on the **same native
+task**. Keep the original failed run visibly failed; a recovered history does
+not retroactively establish uninterrupted forward operation.
+
 ## Bounded Demo execution handoff
 
 Research/review completion does not start broker execution. For a separately

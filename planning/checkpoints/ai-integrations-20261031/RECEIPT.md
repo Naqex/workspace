@@ -4551,3 +4551,63 @@ cũ; không error trong readback05:15:54, manageralive và resource guardđạt.
 NAQ-85/86 còn in_progress; NAQ-87blocked, NAQ-88done. Đợt qua đêm chưa đạt đầy đủ;
 sáng reconcile coverage cuối và phần gián đoạn, không tự chuyển failed histories
 hoặc NAQ-80 thànhpass. Hạn chót07:00giữ nguyên.
+
+## 05/11 05:50–06:04 — Phục hồi lịch sử FTMO sau late backfill
+
+Owner chọn NAQ-87 bị đỏ và yêu cầu sửa. Thêm workspace helper
+`tooling/ai-engines/shadow_reconcile.py`, không sửa source/pins của capture,
+reducer, SDK/clock, native supervisor hay controller đang chạy. Helper kiểm
+registration và lifecycle bằng binary Rust đã pin, khóa riêng failed session,
+giữ dữ liệu gốc; đọc lại mỗi trang hai lần, tối đa ba cặp. Chỉ chấp nhận thêm
+quote theo thứ tự mà bảo toàn mọi quote cũ, kể cả duplicate cùng timestamp.
+Removed/price-changed/reordered quote hoặc đổi binding/source/SDK/clock đều chặn.
+Flags vẫn là metadata, không có bảo đảm history hoàn chỉnh từ hai lần đọc.
+
+Revision riêng có checksummed raw observations, selected pages, checkpoint từng
+trang và receipt; `--resume` kiểm persisted prefix và đọc lại trước khi tiếp tục.
+Ghi dở sau selected-page được tiếp tục mà không rewrite page. Không tạo native
+lifecycle giả; output không là live predecessor hoặc execution authority.
+Hướng dẫn đã thêm vào `tooling/ai-engines/OPERATIONS.md`.
+
+**8 focused tests đạt16,260s**: original unchanged, thêm tick/tính lại H1,
+removed/changed/reordered và lineage rejection, duplicate preservation,
+unstable reads bounded, interrupted resume, further backfill và orphan-page
+adoption. Saved pair thật84→96 tái hiện12ticks thêm,0removed trước native read.
+
+Native read toàn prefix hoàn tất lúc05:59VN: **209pages,20.733→20.745ticks**, đúng
+**1page/12ticks** bổ sung. Original lifecycle report cuối có208pages/20.663ticks;
+capture đã commit thêm một page trước khi reducer audit báo lỗi, nên lấy209page
+capture-state đã checksum làm prefix thực tế, không bỏ trang cuối.
+Tính lại giữ2closedH1,0H4; H1**00:00VN** tăng6.311→6.323ticks, OHLCmid và maxgap
+12.912ms không đổi. Không dựng nến phần giờ chưa đủ. Fresh known_at từ API
+receipt được giữ, không backdate quyết định.
+
+Private revision: `E:/BACKUP-TRADINGWORKSPACE/system-capabilities-20261103/ftmo-history-revision-20261105`.
+`revision.json` digest `eda0f4ee197eae90d6e19b4a6efcac02bea99f93c6a342dfcfae99d87930c184`;
+comparison/test/raw read logs ở old runroot `repair-20261105`. Original capture
+checksum so lại khớp sau reducer. Native NAQ-87 document
+`ftmo-history-reconciliation` đã PUT/readback đúng. **History recovery complete**,
+nhưng NAQ-87 vẫn blocked cho acceptance overnight: failed live session không
+trở thành continuous success bằng historical replay. Không fresh hour-long run,
+model inference, OrderCheck/OrderSend hoặc grant mới.
+
+### Phát hiện độc lập lúc chốt giờ Exness06:00
+
+Trong lúc repair, Exness-next vẫn cập nhật với source cũ; native kết thúc
+**06:00:48VN**, `shadow_hour_gap_requires_review`. Đây là quality guard khác
+FTMO, không phải telemetry crash. H1**05:00–06:00VN** có731ticks và hai gap
+99.415ms,198.234ms; đoạn dài nhất**05:01:41,862→05:05:00,096VN**, vượt policy60s.
+Native reread các minute bao quanh gap cho ordered quotes khớp bản gốc,
+kể cả các trang05:02/03/04 có0tick; chưa có bằng chứng là local capture bỏ tick.
+Giữ raw observations ở `repair-20261105/exness-gap-observations` và diagnosis
+checksummed; không nới ngưỡng, điền nến giả hoặc restart phiên để xóa lỗi.
+
+Exness official [instrument hours](https://get.exness.help/hc/en-us/articles/4405235684498-Instrument-trading-hours)
+nêu rollover mùa đông22:00UTC, có thể tạm ngưng vài phút và Trial có maintenance.
+Gap trùng giờ rollover là **suy luận phù hợp**, chưa chứng minh nguyên nhân
+riêng cho server; giờ maintenance23:20UTC trong tài liệu không khớp gap này.
+Controller tự chốt blocked sau khi mọi child terminal; NAQ-85/86/87blocked,
+NAQ-88done. Không còn capture qua đêm đang chạy sau06:01; không cần đợi07:00
+để biết kết quả. Bước thiết kế tiếp theo là tách raw collection health khỏi
+bar-quality acceptance và xác minh broker/session calendar, không âm thầm
+đổi hợp đồng60s của lượt đã chạy. GitHub#10 còn mở cho acceptance toàn đợt.
