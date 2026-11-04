@@ -4383,3 +4383,107 @@ Bảy regression group đã nối vào Workspace CI hiện có, không thêm job
 lấy Pydantic version từ Trader uv.lock rồi chạy đúng module tại toolingcwd,
 không chạy broker/provider/model. YAML và đường dẫn/version lookup được kiểm
 local; chưa tuyên bố GitHub Actions pass khi branch/commits chưa được push.
+
+## 04/11 — Đã khởi chạy gói qua đêm read-only (#10 / NAQ-85)
+
+**Trạng thái: RUNNING, chưa nhận hoàn tất H1 handoff hoặc đợt qua đêm.**
+Owner đã duyệt toàn gói và phần nền liên quan lúc22:42VN, sau đó hỏi xử lý lỗi /
+ngắt. Scope mới đã ghi trong AI plan; research giữ lý do/giới hạn. Native
+[NAQ-85](http://127.0.0.1:17860/NAQ/issues/NAQ-85) giữ báo cáo tổng; ExnessNAQ-86,
+FTMONAQ-87 và offlineNAQ-88. Manual owner-assigned tasks ghi Codex CLI thực hiện,
+không dispatch model hoặc thêm việc cho owner. GitHub#10 giữ task nhiều phiên.
+
+Workspace `99f3db2` bổ sung `shadow_night.py`: bộ chạy hữu hạn reuse Rust shadow
+supervisors và group/observer, cùng private checksummed state; không thêm engine,
+UI/ledger quản lý, service autostart, trading grant hoặc broker command. Source /
+runtime epoch/config/input/credential/interpreter/binary pins được đóng băng.
+Exness predecessor hoàn tất đúng H1, verify frozen lifecycle/report/capture và
+actual closedH1 rồi successor mới được khởi chạy. Nếu missed launch window mà
+không có successor thì báo thiếu, không backdate/đổi deadline. Manager resume
+nhận lại group/child đã có, kể cả crash sau spawn hoặc sau native completion;
+uncertain launch không đủ evidence thì chặn, không tạo session thay thế.
+
+Lỗi một lane không restart sibling; manager/source/runtime/storage lỗi thì stop
+các read-only sessions của chính run, giữ evidence. Publication pending/revision
+được lưu bền vững và readback trước retry; sửa publication không cần broker
+secret/source còn hợp lệ, không gọi model hoặc thu lại capture. Native task status
+updates kiểm company/manual assignment. CLIstatus đọc liveness theo PID/kernel
+creation/executable và native lifecycle hiện tại, không gọi broker.
+
+### Offline gate và chuẩn bị
+
+-12focused tests đạt1,509s: manager restart attach, uncertain launch, crash sau
+ successor spawn, late manager attach khi successor đã tồn tại, nhận completed
+ sessions sau deadline, sibling isolation, missingH1/missed window, prefix /
+ deadline binding, source/storage guard, atomic-save failure, uncertain
+ publication khi credential đã mất, STOP/expiry không suy flat.
+- Test đầu phát hiện thiếu handoff-verification marker sau crash. Đã ghi marker
+ trước intent/launch và thêm crash/late-resume cases; giữ native guards.
+- Không lặp suite6579virtual-time hoặc restore47bảng đã đạt; offline lane làm
+ xong thì done, không lấp giờ qua đêm bằng unchanged tests. CI hiện có mở pattern
+ `test_shadow*.py`; chưa chạy remoteActions khi commits chưa được push.
+- Read-only preflight trước run:Exness83ticks,FTMO170ticks trên một phút gần đây;
+ flat/no orders,0activegrant/unknown và native request count32không đổi. FTMO dùng
+ profile `ftmo_demo_server_2026_v1` (server wall→UTC), Exness `sdk_utc_v1`.
+- Lần chuẩn bị đầu bị local-path guard chặn vì runtime manifest đi qua junction
+ `.runtime/api-platform` đã có. Chưa tạo controller/native session/grant. Giữ
+ prepared input tại `overnight-20261104`; không nới path guard. Lượt chuẩn bịr2
+ ghi canonical resolved runtime-owner path trênE và pin epoch đã xác minh.
+
+### Run đã khởi chạy
+
+Run ID `ead4eec6-2bf4-43d6-85a1-de4ba3b6f861`; private root:
+`E:/BACKUP-TRADINGWORKSPACE/system-capabilities-20261103/overnight-20261104-r2`.
+`RUNBOOK.md` giữ commands/status/stop/resume/publish với exact paths;
+`night.json` bất biến; `controller/state.json` checksummed;
+`controller-process.json` giữ launch identity/args; stdout/stderr và native group /
+child logs riêng. Có thể đọc PID wrapper khác identity Python thực trong state;
+luôn dùng current process_identity, không kill theo tên/port/PID trần.
+
+| Lane/mốc Việt Nam | Kế hoạch đã đăng ký |
+|---|---|
+| Bắt đầu native |Khoảng23:10ngày04/11; page60giây, settle30giây |
+| ExnessNAQ-86 |Predecessor từ lúc start tới01:00ngày05/11, chứa trọn H1 00:00–01:00; sau complete/settlement mới bàn giao successor tới06:55 |
+| FTMONAQ-87 |Thu độc lập song song từ start tới06:55; broker clock/binding riêng |
+| OfflineNAQ-88 |Đã done,12tests passed; không để worker lặp lại qua đêm |
+| Hạn chót |07:00ngày05/11; native child deadline không quá06:58; không gia hạn |
+| Authority |Read-only;0grant/OrderCheck/OrderSend/model calls trong job |
+
+Parent và hai child progress documents đã readback sau launch. Manager/native
+supervisors/observers đều sống theo creation identity; native healthresponsive,
+không error trong snapshot đầu. Page đầu đang chờ đủ60giây đã đăng ký, chưa lấy
+heartbeat thay bằng bằng chứng dữ liệu. **Đợi kết quả native actual sau này mới
+được nhận handoff/overnight đạt; NAQ-80failed cũ không được tự chuyển pass.**
+
+Resource policy bảo thủ cho run này:chặn dưới8GiBfree trênD hoặcE, tối đa2GiB
+output run; lúc start D66,2GiB/E154,6GiB. Kiểm định kỳ60giây, không xóa/prune
+evidence. `resources.jsonl` ghi free/output bytes và owned process cumulative
+CPUseconds/working-set bytes (không giả whole-PCcapacity). Temporary Windows
+idle-sleep request chỉ tồn tại trong thread controller, cho phép screen-off,
+không sửa power settings global; forcedsleep/restart/mất điện vẫn gây ngắt.
+
+### Sáng tiếp tục / sự cố
+
+1. Đọc NAQ-85 và `shadow_night.py status` từ RUNBOOK:manager_alive, last update,
+   fresh native child statuses, first error, pages/ticks/H1/cursor và resource.
+2. Nếu manager đã chết nhưng child còn sống, resume manager cùngnight.json /
+   controlleroutput để attach, không chạy start mới. Lock ngăn hai manager cùng
+   sở hữu run; không kill/reconnect account để lấy trạng tháigreen.
+3. Sau powerloss/OSrestart không có autostart. Chỉ resume trong original window
+   và sau kiểm identity/source/data prefix; missed interval giữ missing/blocked,
+   không sửa registration hoặc gia hạn. Phiên native failed/source/generation /
+   revision cần review; manager không auto resume nó.
+4. Publication hỏng xử lý `publish` riêng. Khi run complete, manager dự kiến
+   chốt parent/child task statuses/report; lỗi delivery giữ pending, không rerun
+   inference/capture. Local checkpoint/log tồn tại khi Paperclip down, không là
+   external alert nếu toànPCmất điện. Native taskdone không tự đồng nghĩa whole
+   product/24-7/strategyqualification hoặc cấp quyền giao dịch.
+
+Không restart API/terminal/source capture trong run; không backup quiesced,
+cloud/Gcopy, external alert, multi-machine/failover, engine/model mới hoặc tuning.
+Code/runbook/data-basis/release/capacity hướng dẫn cập nhật trong OPERATIONS;
+phần cần evidence qua đêm giữ RUNNING cho sáng reconcile.
+
+Readback sau page đầu:Exness64ticks/1page,FTMO157ticks/1page; cả haihealth
+responsive/poll_wait, manageralive, errorsempty. Đây là dữ liệu thực đã commit,
+không chỉ heartbeat; vẫn chưa có closedH1 vì chưa qua giờ đầy đủ.
