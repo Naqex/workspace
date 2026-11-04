@@ -103,7 +103,12 @@ def keep_awake():
 
 
 def process_metrics(identities):
-    owned=[i for i in identities if i and group.alive(i)]
+    try:
+        owned=[i for i in identities if i and group.alive(i)]
+    except (OSError,ValueError,RuntimeError) as error:
+        # A terminated/recycled/inaccessible PID makes metrics unknown. It is
+        # not an execution-identity decision and must not stop healthy capture.
+        return dict(available=False,reason='process_metrics_identity_unavailable',error_type=type(error).__name__)
     if os.name!='nt' or not owned:return dict(available=False,reason='no_owned_windows_processes')
     ids=','.join(str(int(i['pid'])) for i in owned)
     command=f'@(Get-Process -Id @({ids}) -ErrorAction SilentlyContinue | Select-Object Id,CPU,WorkingSet64) | ConvertTo-Json -Compress'
@@ -115,8 +120,8 @@ def process_metrics(identities):
         valid={i['pid'] for i in owned if group.alive(i)}
         return dict(available=result.returncode==0,rows=[r for r in rows if r['Id'] in valid],
             cpu_unit='cumulative_seconds',memory_unit='working_set_bytes',scope='owned_controller_and_shadow_processes')
-    except (OSError,ValueError,subprocess.TimeoutExpired):
-        return dict(available=False,reason='process_metrics_unavailable')
+    except (OSError,ValueError,RuntimeError,KeyError,TypeError,subprocess.TimeoutExpired) as error:
+        return dict(available=False,reason='process_metrics_unavailable',error_type=type(error).__name__)
 
 
 class Manager:
@@ -231,6 +236,7 @@ class Manager:
         self.save()
 
     def halt(self,reason):
+        self.state['stop_requested_at_msc']=self.clock()
         outputs=set(self.state['groups'].values())|{self.plan.initial_output,self.plan.successor_output}
         for output in outputs:
             if not (Path(output)/'launch.json').exists():continue
@@ -302,6 +308,10 @@ class Manager:
             'Nếu report quá 90 giây không đổi, đọc status/checkpoint trước khi kết luận job còn hoạt động.',
             f'Các lỗi đã ghi: `{json.dumps(self.state["errors"],ensure_ascii=False)}`',
             '',f'Checkpoint local: `{self.path}`; lệnh resume ở runbook trong thư mục run.'])
+        if self.state.get('recovery'):
+            lines.extend(['','## Phục hồi đã ghi nhận',self.state['recovery']['note'],
+                f'Lần dừng: {stamp(self.state["recovery"]["stopped_at_msc"])}; tiếp từ checkpoint: {stamp(self.state["recovery"]["resumed_at_msc"])}.',
+                'Khoảng ngắt không được tính là uptime liên tục. Dữ liệu đọc bù có thời điểm observation mới; không phát lại quyết định giao dịch.'])
         return '\n'.join(lines)+'\n'
 
     def publish(self):
@@ -373,8 +383,15 @@ def run(manager):
                     return 0 if manager.state['status']=='complete' else 2
                 time.sleep(5)
         except (OSError,ValueError,RuntimeError,subprocess.TimeoutExpired) as error:
+            manager.state['failure_detail']=dict(error_type=type(error).__name__,reason=str(error)[:240])
             try:manager.halt(str(error) if isinstance(error,ValueError) else type(error).__name__)
             except (OSError,ValueError,RuntimeError):pass
+            try:
+                manager.publish();manager.finish_tasks()
+            except (OSError,ValueError,RuntimeError):
+                manager.state['task_delivery']='pending'
+                try:manager.save()
+                except (OSError,ValueError,RuntimeError):pass
             raise
 
 

@@ -1,4 +1,5 @@
 import copy
+from contextlib import nullcontext
 import json
 from pathlib import Path
 from types import SimpleNamespace
@@ -154,6 +155,29 @@ class NightTests(unittest.TestCase):
         with patch.object(night.shutil,'disk_usage',return_value=SimpleNamespace(free=0)):
             self.assertFalse(night.resources(self.plan)['ok'])
         self.assertEqual(self.calls,[])
+
+    def test_optional_process_metrics_identity_error_is_unknown_not_fatal(self):
+        from scripts.run_api_platform import PreflightError
+        with patch.object(night.group,'alive',side_effect=PreflightError('fixture inaccessible or recycled PID')):
+            value=night.process_metrics([dict(pid=987)])
+        self.assertIs(value['available'],False)
+        self.assertEqual(value['reason'],'process_metrics_identity_unavailable')
+        self.assertEqual(value['error_type'],'PreflightError')
+        m=self.manager()
+        # The real runtime identity fence remains fail-closed.
+        with patch.object(night,'process_identity',side_effect=PreflightError('fixture runtime identity unavailable')):
+            with self.assertRaises(PreflightError):m.guard()
+
+    def test_fatal_guard_failure_publishes_blocked_state_before_exit(self):
+        from scripts.run_api_platform import PreflightError
+        m=self.manager()
+        with patch.object(night,'keep_awake',return_value=nullcontext()),\
+                patch.object(m,'step',side_effect=PreflightError('fixture real runtime identity failure')),\
+                patch.object(m,'publish') as publish,patch.object(m,'finish_tasks') as finish:
+            with self.assertRaises(PreflightError):night.run(m)
+        self.assertEqual(m.state['status'],'blocked')
+        self.assertEqual(m.state['failure_detail']['error_type'],'PreflightError')
+        publish.assert_called_once();finish.assert_called_once()
 
     def test_atomic_checkpoint_failure_keeps_last_good_bytes(self):
         m=self.manager();before=m.path.read_bytes();m.state['status']='new-uncommitted-state'

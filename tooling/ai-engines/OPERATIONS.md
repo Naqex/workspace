@@ -334,6 +334,19 @@ capacity. A temporary Windows idle-sleep request lasts only while the controller
 lives, permits screen-off and changes no global power settings. Forced sleep,
 power loss or Windows restart can still interrupt observation.
 
+Optional process metrics use an independent failure boundary: an inaccessible /
+recycled / exited PID reports unavailable, never an execution-identity pass and
+never a reason to stop capture. Real runtime/source/authority fences stay strict.
+A fatal controller failure attempts a blocked report/task delivery before exit.
+
+For a reviewed read-only controller-only repair after all its processes stop,
+preserve the original source/plan/state and register a new controller revision
+with a new control checkpoint. Existing child registrations, binary/source/SDK /
+clock, capture prefix, run ID and deadline remain unchanged and must verify before
+explicit resume. Record the revision mapping and downtime; attach the existing
+native groups, never rewrite their pins or recreate capture. This does not permit
+changing a capture experiment, trading authority or deadline under an old hash.
+
 Do not update registered capture/controller source, the API runtime or owned
 terminals during observation. Prepare a candidate separately; new source belongs
 to a new run. Offline failure fixtures may execute concurrently on isolated data
