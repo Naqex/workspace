@@ -16,7 +16,7 @@ không đọc toàn bộ lịch sử hoặc lấy snapshot cũ thay trạng thá
 | NAQ-80, kết quả r3 và phục hồi khi MT5 chưa sẵn sàng | [Kết quả và bản sửa recovery](#0411--naq-80-dừng-do-readiness-và-phục-hồi-cursor-có-giới-hạn); lịch sử float ở [checkpoint trước](#0411--sửa-float-grid-và-đối-soát-báo-cáo-naq-80) |
 | NAQ-80, log đã bật và kiểm đường đọc thật mới nhất | [Log kết nối và kiểm ngắn](#0411--log-kết-nối-mt5-và-kiểm-đọc-thật-ngắn); không nhầm với H1 handoff acceptance |
 | Lượt quan sát dài: còn sống, tiến độ, báo lỗi | [Heartbeat và observer](#0411--củng-cố-quan-sát-tiến-độ-và-báo-lỗi); [cách vận hành](../../../tooling/ai-engines/OPERATIONS.md#visibility-for-finite-shadow-observations) |
-| NAQ-80, lượt r4 đang thu dữ liệu mới | [Khởi chạy r4](#0411--naq-80-khởi-chạy-r4-với-observer); đọc lifecycle/native task hiện tại trước hành động |
+| NAQ-80, kết quả r4 và tránh chờ lại H1 | [R4 dừng và tái hiện nhanh](#0411--r4-dừng-khi-audit-và-tái-hiện-lỗi-không-chờ-h1); [khởi chạy lịch sử](#0411--naq-80-khởi-chạy-r4-với-observer) |
 | Phục hồi sau ngắt hay sửa reducer | [Reprocess đã có lệnh](#0411--reprocess-capture-đã-lưu-và-phân-loại-checkout-cũ); [runbook](../../../projects/trader/foundation_v2/docs/FOREX-FORWARD.md#choose-resume-or-offline-reprocessing) |
 | Dọn workspace, giữ WIP/runtime | [Inventory ban đầu](#0411--inventory-cleanup-chỉ-đọc) → [delta checkout cũ](#0411--reprocess-capture-đã-lưu-và-phân-loại-checkout-cũ) |
 | Vận hành Studio/native task/run/report | [Operations guide](../../../tooling/ai-engines/OPERATIONS.md), rồi mục receipt được workflow dẫn tới |
@@ -3981,3 +3981,43 @@ ordinal2). STOP tại attempt là yêu cầu dừng read-only, không chứng mi
 grant/session giao dịch, OrderCheck/OrderSend, model call hoặc config global.
 Runtime API và terminal vẫn giữ nguyên. Kết quả bàn giao, qualification cuối và
 uptime còn pending; đọc native/checkpoint mới trước khi tiếp tục lượt sau.
+
+## 04/11 — R4 dừng khi audit và tái hiện lỗi không chờ H1
+
+Owner hỏi tiến độ và việc phải chờ1giờ lặp lại. Kiểm lúc19:05VN: r4 đã failed
+lúc19:00:32, reason `shadow_observed_window_revised`,74pages/3.272ticks,
+0H1 được audit chấp nhận, không khởi chạy phiên2. Không mt5-shadow còn chạy.
+Native NAQ-80 blocked từ19:00:34; progress document đã ghi failed revision101
+đúng thời điểm. Không có lỗi publication trong stderr đã đọc; kênh quan sát mới
+đã báo được sự cố, nhưng H1 handoff vẫn chưa đạt.
+
+Read-only diagnostic trên3range đã có (page13,14,73), không tạo capture/session
+mới: cả100ticks đối chiếu giữ nguyên count/order/timestamps/Bid/Ask, metadata
+clock/source/binding/SDK giữ nguyên; chỉ flags đổi6→134, XOR128. Đây là **reread
+chẩn đoán sau lỗi**, không phải response gốc19:00:32 (bản cũ chưa lưu nó).
+Tái hiện được cùng lỗi strict comparison trên cặp page đã lưu; không kết luận
+mọi page/broker history chỉ thay flag hoặc tự đặt nghĩa cho bit128.
+[MetaQuotes MqlTick](https://www.mql5.com/en/docs/constants/structures/mqltick)
+và [AlgoBook](https://www.mql5.com/en/book/applications/timeseries/timeseries_ticks_mqltick)
+mô tả public tick flags; nguồn đã đọc chưa xác minh ý nghĩa bit128. Không mask
+bit hoặc cho capture failed thành pass chỉ vì quotes ở3range giống nhau.
+
+| Lát kiểm nhanh | Kết quả / giới hạn |
+|---|---|
+| Reprocess capture cũ | CLI hiện có xử lý74pages/3.272ticks thành1H1 trong khoảng1,6giây, network_reads0; output mới `shadow-r4-offline-20261104/reprocess.json`, continuation_eligible=false, không sửa failed lifecycle |
+| Replay khác biệt đã lưu | Gọi audit bằng original page13 và diagnostic reread đã lưu, không mạng: tái hiện `shadow_observed_window_revised` trong0,1133giây; private `shadow-r4-revision-diagnostic-20261104/saved-failure-replay/` |
+| Source bổ sung evidence | Trader `ffc7377b75560a295b1e4bb711a01253c5aa5ead`: audit-failures giữ reread thực tế + summary/hash/range/changed fields/flags_only classification khi mismatch xảy ra. Giữ nguyên strict rejection, raw capture và candidate |
+| Focused regression | 3tests đạt9,527s: flags-only revision lưu đối chứng mà vẫn chặn, late backfill/revision không sửa report, settled-hour/candidate không gửi lệnh. Không build API/Rust hoặc chạy full suites cho thay đổi Python này |
+
+Private `diagnose_shadow_r4.py`, `comparison-00013/00014/00073.json`,
+`reread-*.json` và `flag-summary.json` giữ diagnostic; bảng100ticks chỉ thuộc
+3range đã đọc. Source thay step pin, chưa rollout/đăng ký lại phiên live nào;
+không sửa manifest/pins/deadline hoặc chạy --resume cho r4 đã hết hạn.
+
+Operations guide bổ sung thứ tự: synthetic-clock/unit → replay capture/competing
+observations → short live chỉ cho transport → H1 mới chỉ cho hành vi live còn
+thiếu được nêu rõ. Không dùng lượt nền một giờ làm vòng debug mặc định. Bước còn
+thiếu: xác minh semantics/compatibility của flags và quyết định contract phù hợp
+trước khi chọn targeted live check; không mở lượt một giờ khác trong lần này.
+Không gửi lệnh, gọi model, tạo grant hoặc restart terminal/API; WIP ngoài scope
+giữ nguyên. Whole-system/live-handoff acceptance tiếp tục pending.

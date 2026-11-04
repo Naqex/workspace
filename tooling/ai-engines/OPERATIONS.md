@@ -49,6 +49,20 @@ delivery. A lost/corrupt status read publishes an explicit monitoring error when
 possible, never an invented capture result. Keep raw logs if Paperclip is down.
 The observer never changes native task status, assignments or original acceptance.
 
+### Verify quickly before requesting new wall-clock observation
+
+Use focused unit/synthetic-clock checks for time boundaries and recovery, then
+replay saved capture and stored competing observations for reducer/comparison
+bugs. Use `mt5_shadow_reprocess.py` for the saved-data projection; its output is
+offline and cannot qualify a failed lifecycle or become a live predecessor.
+These are the default gates for code fixes. A fresh H1 interval is justified
+only by an explicitly named remaining live-hour/handoff behavior, not because a
+background task or a code change exists. Do not start another hour-long attempt
+after failure until the smallest saved-data reproduction is understood. Preserve
+the two observations on revision and diagnose flags, quotes, timing and lineage
+separately; never relax a valid comparison merely to avoid waiting. A short real
+read checks connectivity, not hour-aligned continuity or broker completeness.
+
 ## Bounded Demo execution handoff
 
 Research/review completion does not start broker execution. For a separately
