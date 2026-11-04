@@ -4611,3 +4611,50 @@ NAQ-88done. Không còn capture qua đêm đang chạy sau06:01; không cần đ
 để biết kết quả. Bước thiết kế tiếp theo là tách raw collection health khỏi
 bar-quality acceptance và xác minh broker/session calendar, không âm thầm
 đổi hợp đồng60s của lượt đã chạy. GitHub#10 còn mở cho acceptance toàn đợt.
+
+## 05/11 — Paperclip blocked-parent attention projection
+
+Owner yêu cầu sửa NAQ-85 hiện xanh trong khi NAQ-86/87 đều đỏ. Native API xác
+nhận cả3task `blocked`, không execution run; parent `blockerAttention` vẫn là
+`covered / active_child`,2coveredblockers và `blockingTreeLive=true`. Source
+`server/src/services/issues.ts` short-circuit mọi human assignment (trừcancelled)
+thành covered, không xét trạng tháiblocked hay downstream. Cùng lỗi xuất hiện
+trong helper kiểm live tree; UI render đúng projection sai từserver, không phải
+cache hay cần gán một AIagent để chữa.
+
+Paperclip source checkpoint **`5501757`**: human assignment không tự cover một
+blockednode; đi tiếp xuống dependencies/children và dùng các active/wait paths
+đã có. Đồng bộ live-tree predicate; giữ nguyên human backlog/review waits,
+active runs và explicit waits. Không thêm query, schema, status hay assignee
+mutation. Cập nhật contract ở `doc/execution-semantics.md`.
+
+Hai regression mới tái hiện đúng lỗi trên real isolated PostgreSQL:
+**trước sửa2failed/25passed**, sau sửa**27passed**,64,07s toàn suite. Kiểm cả
+parent có2human-owned blockedchildren không có livework và human-owned blocked
+dependency phải trỏ tới leaf thực sự đang chạy. Không chạy repo-wide tests/build
+cho thay đổi hai predicate; chưa coi đây là full-repo/release qualification.
+
+### Activation đang bị chặn
+
+Preflight không có running/queued Paperclip runs. Đã snapshot config/owner và
+backup DB bằng **native `runDatabaseBackup` JavaScript engine** vào private
+`E:/BACKUP-TRADINGWORKSPACE/system-capabilities-20261103/paperclip-blocker-fix-20261105`.
+Backup`paperclip-20261105-063107.sql.gz`:1.186.524bytes, SHA256
+`0a579650588a26e3e3996185144926e070dc250b0520c7ade5f93d80f1c81d3a`;
+gzip/content verified, chưa thử restore. Native package không cópg_dump nên
+attempt pg_dump không chạy; không cài thêm package hay bỏ backup.
+
+Lệnh PowerShell dừng đúng owner Node + clean-stop PG để restart local bị tool
+auto-review từ chối **`blocked by policy`**, không có lý do chi tiết khác. Lệnh
+bị từ chối trước khi chạy, không có process bị dừng. Không chuyển shell/tool
+để lách từ chối. Native hot-restart helper chỉ viết intent cho service manager,
+không có restart API phù hợp với launcher local này. Đã yêu cầu owner dừng
+instance đang chạy; sau đó dùng launcher hiện có với workspace origin5180,
+kiểm health revision5501757 và native NAQ-85 `needs_attention`,0covered,
+`blockingTreeLive=false`, giữ nguyên statuses/assignees. Chưa nâng workspace
+gitlink hoặc tuyên bố UI/runtime đã sửa trước activation/readback.
+
+Readback06:33: health đã trả sourceHEAD5501757 nhưng parent vẫncovered/live
+và owner PID chưa đổi. Vì health có thể đọc HEAD hiện tại, revision string
+không chứng minh module trong process đã reload; acceptance phải có native
+attention readback đúng cùng process owner sau restart, không chỉ health SHA.
