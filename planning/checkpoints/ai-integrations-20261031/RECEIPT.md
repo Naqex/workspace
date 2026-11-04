@@ -3423,3 +3423,86 @@ gọi là durable complete-tick market truth, consumer chiến lược observed-
 24/7 daemon hoặc qualification lợi nhuận. Bước tiếp của continuous forward phải
 chốt semantics coverage/bar-finality và lifecycle trước khi nối vào quyết định;
 không dùng cursor này như watermark đủ dữ liệu để đóng giờ hoặc tự mở quyền.
+
+## 04/11 — Phiên forward shadow hữu hạn: stop, crash và resume
+
+Owner duyệt làm tiếp phiên có giám sát sau nguồn capture, hỏi ý nghĩa forward.
+Forward xử lý dữ liệu mới phát sinh theo thời gian thực; shadow ở lát này chỉ
+ghi/đánh giá quan sát, không gửi lệnh. Trader commit
+`350e2bd57752e807b61bf1070ed5bc759a8b7206` nối lifecycle, chất lượng dữ liệu và
+ứng viên cố định. Không tuning chiến lược hoặc mở phiên giao dịch Demo mới.
+
+### Hành vi và luồng state
+
+`mt5-shadow` (Rust CLI) → một Python step có giới hạn → native GET ticks/owned
+SDK worker hiện có → page/hash/cursor durable → shadow projection → ứng viên H4
+chỉ khi giờ đủ điều kiện. Native Paperclip giữ task/report; không có UI, API
+management surface hoặc task ledger mới trong Trader. Không sửa source engine.
+Rust tái sử dụng owned-process Windows Job, không thêm daemon Python, scheduler,
+auto boot, migration hoặc dependency. Giữ `cargo run` mặc định vào API cũ.
+
+Rust giữ OS writer lock, STOP, deadline UTC và monotonic budget của invocation,
+thời hạn step90s/memory384MiB, manifest/binary/interpreter pins và lifecycle
+checksum/fsync/atomic replacement. Chỉ đợi tới page/settlement đến hạn. Status
+phân biệt interrupted qua lock thay vì PID; explicit resume mới gỡ STOP, không
+gia hạn phiên. Drop/crash supervisor kết thúc owned child tree. Lifecycle lưu
+incarnation hiện hành; log mỗi invocation giữ riêng trong evidence, không tự
+tuyên bố đây là incident log append-only. API/terminal đang chạy không restart.
+
+Python pin8 source/lockfile hashes, Python/Pydantic version cùng source/SDK clock
+lineage từ capture. Resume kiểm và đọc lại các page đã ghi; prefix/hash/source
+đổi, HTTP, disk hoặc timeout đều dừng, không tự retry. Shadow là projection từ
+pages; crash giữa capture/shadow/lifecycle commits replay lại prefix mà không
+thêm trùng nến/quyết định. Credentials chỉ qua private file; không vào output/Git.
+
+**Chính sách nến:** giờ đầu chưa đủ loại rõ là partial; giờ cuối chưa đóng không
+vào candidate. Một giờ đủ requested windows phải qua30–120s settlement và đọc
+lại từng overlapping page không đổi. Empty/quiet hour hoặc gap leading/adjacent/
+trailing trên60s chặn thay vì dựng nến, skip giờ hoặc reset candidate. Đây là
+policy bảo thủ có thể từ chối quiet market hợp lệ; không suy calendar hay khẳng
+định broker trả đủ tick. H4 chỉ nhận đủ4giờ; decision giữ cả earliest allowed và
+actual first observation time. Recheck lịch sử cũ khi resume không chứng minh
+broker không sửa dữ liệu sau completion.
+
+### Kiểm chứng và giới hạn
+
+| Lát | Bằng chứng |
+|---|---|
+| Python source | 8 tests mới qua focused runs: 7 reducer/recovery tests với3subtests, thêm1diagnostic HTTP test. Kiểm chưa đủ settlement, H4 causal, partial/same-ms duplicates, gap, revision/backfill, prefix/restart parity, STOP/expiry/network, changed pins/symbol/deadline; mã HTTP an toàn và đúng1call khi thất bại |
+| Rust source | 11 tests đạt, gồm2lifecycle/deadline/lock/checksum và9owned-process tests;1ignored là child fixture được parent crash test gọi. Sau đổi pin/metadata chạy lại đúng2tests mới. Release build đạt3m07s; binary SHA256 `980a2339bb08654c9de8b8cc4884885f8226ef1ea6ed30a8a1c046beeede30f6` |
+| Formatting/lint | Scoped rustfmt3files đạt, diff check đạt. `cargo fmt --check` toàn repo còn FAIL ở file cũ không đổi như commands/live_ledger/note_library/note_types; không sửa ngoài scope hoặc gọi full CI đạt. Clippy command đạt, còn140warnings trong lib hiện có và1warning ở reused owned-process spawn function; không disable lint |
+| Lỗi triển khai ban đầu | Rust include path của shared owned-process module chưa rõ khi dùng từ bin; thêm explicit module/test paths, compile/tests sau đạt. Không thay semantics process ownership |
+| Hai lượt runtime đầu | Dừng trước page commit, không broker command. Helper đã lọc biến môi trường Windows theo chữ hoa/thường, bỏ SystemRoot; r2 diagnostic là URLError. Probe chỉ đổi môi trường xác nhận thiếu SystemRoot gây Winsock10106, đủ biến trả HTTP200. Sửa helper; không sửa API, fallback hoặc nới freshness. Lượt đầu có một diagnostic read/commit13ticks sau failure; không coi lượt này PASS |
+| Phiên r3 thực tế | Exness Demo, cùng generation19:100giây đăng ký,10pages/202ticks; STOP sau page1, resume rồi abrupt terminate sau page2, process mới resume đến complete.3incarnations, deadline và durable prefix giữ nguyên;12/12checks đạt lúc04:43:22UTC |
+| Quyền/inventory | Native command requests32→32,0active grants/unknown;0positions/orders sau phiên,0OrderCheck/OrderSend/model inference. Mode/account/generation giữ nguyên. API vẫn run `e62d5f0b38994c53b6acf3055a36c41b`, native/local-capability; không rollout API/UI hoặc reconnect |
+| H4 runtime |0giờ/H4 hoàn chỉnh trong khoảng ngắn này; `warming_up`, indicator_ready=false. Source fixture kiểm H4 đóng đúng, runtime chỉ chứng minh observed data/lifecycle/recovery tới trạng thái warmup; chưa chứng minh một decision H4 thực tế |
+| Báo cáo native | [NAQ-79](http://127.0.0.1:17860/NAQ/issues/NAQ-79) done trong Naqex AI, document `shadow-system-20261104`, native API PUT/GET body khớp. MCP không được expose trong chat này nên dùng project-authenticated HTTP helper hiện có; không dispatch worker/model hoặc sửa database Paperclip |
+
+CI hiện có đã nhận module Python mới; chưa chạy remote CI/full suite. Không
+chạy lại QDM/strategy pilot/broker open-close tests đã accepted và không đổi.
+
+Private evidence dưới `E:/BACKUP-TRADINGWORKSPACE/system-capabilities-20261103/`:
+`shadow-session-20261104/` và `shadow-session-20261104-r2/` giữ failure logs,
+registration/lifecycle; `shadow-session-20261104-r3/` giữ binary, registration,
+capture/shadow/lifecycle,3invocation logs, `qualification.json` và
+`paperclip-publication.json`. Helper `qualify_shadow_session.py` và
+`publish_shadow_report.py` ở E root. Không đưa account/raw quotes/secrets vào Git.
+Shadow report checksum
+`446d81a7c44a90f411b13e01cad4fdcaa0db903d76bd109a638c021837993a46`;
+native report body checksum
+`5b1aa34e0cd8bf1db508fe23069ce2d3f5f9960a8c05809a2845a4ba60fa3c4c`.
+
+**Acceptance:** finite observed capture + Rust lifecycle/STOP/crash/cold-resume
+đạt trong scope trên; source đã nối fixed candidate và quality guards. Phiên đã
+kết thúc, không còn shadow worker cần chờ. Coverage vẫn
+`broker_history_unverified`, không là complete-tick watermark hay24/7uptime.
+Adapter đánh giá flat-state advisory, chưa có position/EXIT lifecycle, quantity,
+fills, margin, fees/swap hoặc P&L; unknown cost là not_modeled, không là zero.
+
+**Phần tiếp nếu mở forward nhiều ngày:** continuity/warmup giữa các phiên hoặc
+nguồn warmup đúng thời điểm/basis và lineage; một phiên24giờ không đủ20H4 trước
+đó để có entry. Không dùng warmup2022 cho thị trường2026 hoặc kéo scope sang
+tuning. Mô phỏng vị thế/chi phí cần contract riêng đúng broker trước khi gọi đây
+là full paper trader. Issue Naqex/workspace#8 vẫn OPEN; lát này không kết luận
+whole-product, strategy profitability hoặc mở quyền giao dịch. Backup G/cloud,
+external alert và nhiều máy tiếp tục hoãn theo owner.

@@ -86,6 +86,21 @@ là bằng chứng đủ tick, source watermark, forward profitability hoặc 24
 Không cài daemon, lịch, UI quản lý hoặc state quyền giao dịch song song; continuous
 forward/coverage qualification vẫn là acceptance riêng. Receipt AI giữ kết quả.
 
+### Phiên forward shadow có giám sát — owner duyệt tiếp 04/11
+
+Owner giao làm tiếp phiên hữu hạn: nối nguồn observed vào ứng viên H4 cố định,
+quy tắc chất lượng/đóng nến rõ, Rust quản lý start/stop/deadline/recovery, rồi
+kiểm một lượt chỉ đọc có gián đoạn và báo cáo native Paperclip. Không tuning,
+fill/P&L giả, OrderCheck/OrderSend, lịch tự boot hoặc service 24/7 mới.
+
+Reuse capture/provenance và owned-process Job hiện có. Requested cursor không
+thành watermark: chỉ đưa giờ được yêu cầu đầy đủ, qua thời gian chờ và đọc lại
+không đổi vào shadow; gap vượt chính sách chặn thay vì tạo nến. Quality vẫn là
+mẫu quote quan sát, không chứng nhận đủ tick. Giờ đầu/cuối chưa đủ giữ partial;
+thiếu warmup thì báo warming_up, không ép tín hiệu. Python giữ reducer/SDK path,
+Rust giữ lifecycle hữu hạn; checkpoint vận hành không thay task/run Paperclip.
+Receipt AI giữ source/offline/runtime và giới hạn acceptance riêng.
+
 ## Hướng hiện hành — owner tự setup,01/11
 
 ### Ưu tiên hiện hành — hoàn thiện hệ thống AI, 02/11
