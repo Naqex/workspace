@@ -3347,3 +3347,79 @@ test/framework vào phần đã đủ bằng chứng. Bước giao dịch mới 
 phiên/account/time/risk; phần continuous forward dài ngày là acceptance riêng,
 không được suy ra từ snapshot, SSE hoặc vòng mở/đóng đã đạt. Backup G/cloud,
 external alert và nhiều máy vẫn hoãn; không dùng việc hoãn đó để chặn phần local.
+
+## 04/11 — Nguồn quote native có checkpoint, đã kiểm trên hai Demo
+
+Owner giao tiếp sau handoff local; tiếp đúng khoảng thiếu nguồn forward, không
+tuning chiến lược, bật daemon hoặc mở phiên giao dịch mới. Trader commit
+`f5b4065053f63af53ab669d1dca89fbf15995a8a` bổ sung nguồn dữ liệu có thể resume;
+giữ UI/quản lý task/run/report native Paperclip. Scope nối vào AI plan hiện có,
+không tạo ledger, engine hoặc framework khác.
+
+### Luồng và trade-off
+
+`GET /api/v2/live/trading/ticks` → context native của connection → advisory
+terminal lock → worker đang sở hữu account → `copy_ticks_range(COPY_TICKS_ALL)`.
+Generation/account/permissions được kiểm trước và sau read; read-only connections
+cũng được đọc. Không có SDK attachment, terminal hoặc đường send mới. Query UTC
+second-aligned, tối đa 60 giây/page, kết thúc ít nhất 2 giây trước host UTC; trên
+5000 SDK rows bị chặn, không truncate. FTMO dùng verified broker-clock profile
+cho query lẫn normalized timestamps; DST không rõ bị chặn. Chính sách 2 giây chỉ
+tách cửa sổ đang hình thành, không chứng minh broker history đã đủ hoặc bất biến.
+
+`scripts/mt5_observed_capture.py` chỉ GET exact loopback route, không proxy/
+redirect, không import SDK/DB hoặc tạo grant. Trusted operator cấp private Owner
+secret file; token không nằm trong page/checkpoint/arguments/report. Đây không
+là sandbox chống agent có toàn quyền filesystem. Các input phải ngoài output;
+directory private và không symlink/junction. Mỗi page fsync/checksum trước atomic
+cursor commit; writer lock chặn đồng thời. Resume kiểm toàn bộ prefix/client pin,
+đọc lại page cuối và từ chối thay đổi rows/order/binding/clock/SDK/source. Crash
+giữa page và cursor: kiểm/re-read page chưa commit rồi adopt đúng một lần.
+
+Giữ Bid/Ask, flags, raw/UTC timestamps, thứ tự và cả duplicate cùng millisecond;
+đây là quote capture, không market depth/trade-volume feed. API trả account/
+generation, clock profile, SDK version và hash hai module capture/clock. Cursor
+là `requested_through_msc`, **không** verified source watermark. Empty page vẫn
+`broker_history_unverified`. Chỉ recheck page cuối, không bảo đảm broker không
+sửa page cũ hơn. Chưa chuyển dữ liệu này thành bar-finality hoặc quyền gửi lệnh.
+
+Session tối đa 24 giờ/10000 pages; mỗi invocation tối đa 360 pages (default 12),
+trả `waiting` khi cửa sổ chưa đóng hoặc `stopped` khi có file STOP. Không tự ngủ/
+retry, cài lịch/auto boot hoặc auto-extend session. Giới hạn này là bound storage/
+work theo contract, không khôi phục cap quota 10 lượt/ngày đã gỡ trước đây.
+
+### Kiểm chứng và rollout
+
+| Lát | Kết quả và giới hạn |
+|---|---|
+| Python | 34 tests liên quan đạt qua focused runs: 4 SDK-range, 9 recorder và 21 broker-worker. NumPy array thật về cấu trúc nhưng SDK/network fake: half-open/same-ms duplicates, FTMO query UTC, invalid/oversize/order/DST, resume parity, page-before-cursor crash, checksum/source/binding, network/disk/atomic-replace, concurrent writer và STOP |
+| Thất bại fixture | Lượt đầu 3 tests mới lỗi vì `np.array(tuple-of-rows)` bị hiểu là một record; sửa fixture thành list-of-rows, không đổi guard để pass. Lệnh rustfmt đầu sai CWD chưa format được; lệnh đúng sau đó đạt |
+| Rust/CI | 9 Demo/stream/range tests và 4 native-route/command tests đạt; release build đạt 2m55s. CI Python thêm hai modules mới vào job offline hiện có, chưa chạy remote CI hoặc full suite unchanged |
+| Rollout local | Preflight jobs/grants/unknown/inventory trước stop. Owned launcher check-only/require-idle và stop/start đạt; backup old binary descriptor/scripts, giữ native/compact/local-capability, DB/artifacts/interpreters. Không migration hoặc build/promote UI |
+| Capture Exness | 30 giây theo range đăng ký, 3 pages / 38 ticks. Process `start` ghi page đầu 13 ticks; process CLI mới `resume` kiểm page cuối rồi đi tiếp đúng cursor. Raw timestamp bằng UTC |
+| Capture FTMO | Cùng 30 giây, 3 pages / 74 ticks; page đầu 24 ticks. Resume qua process mới đạt; raw trừ 7.200.000 ms thành UTC. Cả hai dùng SDK 5.0.6231 |
+| Đối chiếu thật | 7/7 checks đạt: hai process-resume hoàn tất, quote Bid/Ask/time đã quan sát có trong history cả hai account, clock đúng, anonymous 401, generation sai 423, không thêm command request, connection/inventory giữ nguyên |
+| Sau rollout | 15/15 runtime checks đạt lúc 04:13:23 UTC: identity/hash/profile/auth/readiness, UI index và native Studio, đúng một terminal/account, source sạch, quote/bar UTC, journal giữ các filled deals cũ. Exness generation 19, FTMO generation 5 giữ nguyên |
+| Quyền và chi phí | Broker command requests vẫn 32 trước/sau; 0 unknown, 0 active grants, 0 positions/orders, 0 OrderCheck/OrderSend/provider inference trong lát này. Không phí model, strategy run, external alert hoặc backup G/cloud |
+
+Cold read đầu sau restart: Exness quote unavailable, FTMO ready; observer chỉ đọc
+lại sau 10 giây thì cả hai ready, không reconnect lặp. Không dùng recovery này
+để tuyên bố mọi cold-start đều dưới 10 giây hoặc vận hành nhiều ngày đã đạt.
+API run mới `e62d5f0b38994c53b6acf3055a36c41b`, binary SHA256
+`49c89c6012a454bea68fc3ecb7a43a485a4b141b8bdcd702388c2d86590755df`.
+
+Private evidence/rollback dưới E root hiện hành trong `observed-quotes-20261104/`:
+`promotion.json`, `capture-qualification.json`, `runtime-verification.json`,
+registrations và hai capture directories chứa pages/state; logs riêng cho mỗi
+process start/resume. Không đưa dữ liệu tài khoản/secrets vào Git. Product docs:
+`foundation_v2/docs/LIVE-MARKET-STREAM.md` và `FOREX-FORWARD.md`, mục bounded
+observed quote capture, giữ endpoint/commands/phạm vi và cách dừng/resume.
+Primary contract đã đối chiếu:
+[MetaQuotes copy_ticks_range](https://www.mql5.com/en/docs/python_metatrader5/mt5copyticksrange_py).
+
+**Acceptance đạt:** bounded source capture có provenance và requested cursor,
+disk/process recovery, kiểm cả Exness/FTMO thật qua đường native hiện có. Chưa
+gọi là durable complete-tick market truth, consumer chiến lược observed-forward,
+24/7 daemon hoặc qualification lợi nhuận. Bước tiếp của continuous forward phải
+chốt semantics coverage/bar-finality và lifecycle trước khi nối vào quyết định;
+không dùng cursor này như watermark đủ dữ liệu để đóng giờ hoặc tự mở quyền.

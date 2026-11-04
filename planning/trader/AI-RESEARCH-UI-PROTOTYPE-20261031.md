@@ -74,6 +74,18 @@ local trước. Hai phần external này để sau, không là quyền chọn pr
 Owner sau đó xác nhận G là ổ rời nhưng giao tiếp phần hệ thống, để việc backup
 ổ rời/cloud lại khi cần; chưa bật copy, retention hoặc lịch backup mới.
 
+### Tiếp nguồn dữ liệu forward — owner giao tiếp 04/11
+
+Sau khi khép lỗi snapshot/clock, tiếp nguồn quote có thể khôi phục: reuse native
+API/owned worker và identity/generation/terminal lock để đọc lịch sử tick theo
+đoạn có giới hạn. Consumer ghi đoạn bất biến cùng provenance/hash trước cursor,
+resume kiểm prefix và đọc lại đoạn cuối; lỗi, đổi nguồn hoặc broker sửa đoạn đã
+ghi phải chặn tiến tiếp. Kiểm offline crash/network/disk/concurrency và một lượt
+đọc Demo ngắn, không gửi lệnh hoặc chạy chiến lược. Requested-range cursor không
+là bằng chứng đủ tick, source watermark, forward profitability hoặc 24/7 uptime.
+Không cài daemon, lịch, UI quản lý hoặc state quyền giao dịch song song; continuous
+forward/coverage qualification vẫn là acceptance riêng. Receipt AI giữ kết quả.
+
 ## Hướng hiện hành — owner tự setup,01/11
 
 ### Ưu tiên hiện hành — hoàn thiện hệ thống AI, 02/11
