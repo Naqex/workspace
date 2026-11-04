@@ -3063,5 +3063,40 @@ Evidence private tiếp tục ở
 `quote-timing-readonly.json`, `observed-market-readonly*.json*`,
 `demo-operations-*.json`, `market-admission-runtime.json`,
 `approved-exness-demo-v2/` và `approved-exness-demo-v3/`. Secret không commit.
-Đang chờ phiên mới được owner duyệt để xác nhận positive open→close trên bản
-`91427ba9`; source/read-only acceptance không thay broker acceptance.
+Phiên v4 được owner duyệt tiếp đã xác nhận positive open→close trên bản
+`91427ba9`; kết quả và giới hạn ở mục 04/11 dưới đây.
+
+## 04/11 — Mở và đóng thành công trên Exness demo
+
+Owner duyệt phiên mới cùng phạm vi: demo 464104926 / Exness-MT5Trial17,
+EURUSDm, 15 phút, 0,01 lot, 1 position / 2 submissions, mở→đóng ngay, SL bắt buộc,
+rủi ro tính toán ≤ $2 demo; unknown chỉ reconcile, không resend. Controller v4
+xác minh creation identity/hash của các process native, API/database ready,
+source/deployed 3 files khớp promotion `91427ba9` trước khi tạo grant. Account
+đúng Demo/USD, generation 12, không vị thế/lệnh chờ hoặc unknown/active grant cũ.
+
+Luồng thật: Owner tạo grant bất biến gắn artifact → runner chỉ nhận credential
+Automation → ghi intent → native admission/SDK → receipt opening filled →
+gửi full close đúng vị thế → receipt closing filled → Owner revoke grant →
+đọc native receipt và snapshot, đối soát DB read-only. Không sửa source thêm,
+không chạy lại test suite unchanged, không dùng manual endpoint/MCP/SDK bypass.
+
+| Lát kiểm | Kết quả thực tế |
+|---|---|
+| Mở | 04/11/2026, 07:10:35–37 Việt Nam; BUY 0,01 lot, SL 1,11906; risk ước tính $1,20 gồm cost buffer, dưới $2 được duyệt; broker retcode 10009/filled |
+| Đóng | Full 0,01 lot, retcode 10009/filled; 2 native attempts tổng cộng, không retry |
+| Đối soát | 0 vị thế, 0 lệnh chờ, 0 unknown, reservation 0; hai receipt giữ đúng deal/order và đọc được sau revoke |
+| Kết thúc quyền | Grant `e69be122-4777-4dc6-bd26-14d78e9f2ffe` revoked qua Owner API; không tự gia hạn/tạo phiên tiếp |
+| Tiền demo | Balance $10.001,01 → $10.000,97, chênh lệch −$0,04; đây là kiểm luồng hệ thống, không là đánh giá chiến lược |
+
+Private evidence: `approved-exness-demo-v4/` trong backup root đã dẫn ở trên;
+`controller-receipt.json` là `completed/open_close_proven`,
+`cleanup-receipt.json` là `PASS_BOUNDED_DEMO_OPEN_CLOSE`, toàn bộ 10 checks đạt.
+Artifact/policy/plan/preflight/postflight/checkpoint và native receipt IDs giữ
+trong thư mục private; không đưa credential hoặc Owner bearer vào Git.
+
+**Acceptance đạt:** một phiên execution Demo có giới hạn đi hết đường
+grant→risk admission→broker fill→full close→revoke→đối soát. Kết quả này không
+chứng minh vận hành unattended dài ngày, root cause cold-start/reconnect đã hết,
+hoặc chiến lược có lợi nhuận. Không lặp thêm phiên mở/đóng khi chưa có mục tiêu
+kiểm chứng và authority mới; phần vận hành dài ngày vẫn là acceptance riêng.
