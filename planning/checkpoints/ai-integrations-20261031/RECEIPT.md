@@ -16,6 +16,7 @@ không đọc toàn bộ lịch sử hoặc lấy snapshot cũ thay trạng thá
 | NAQ-80, kết quả r3 và phục hồi khi MT5 chưa sẵn sàng | [Kết quả và bản sửa recovery](#0411--naq-80-dừng-do-readiness-và-phục-hồi-cursor-có-giới-hạn); lịch sử float ở [checkpoint trước](#0411--sửa-float-grid-và-đối-soát-báo-cáo-naq-80) |
 | NAQ-80, log đã bật và kiểm đường đọc thật mới nhất | [Log kết nối và kiểm ngắn](#0411--log-kết-nối-mt5-và-kiểm-đọc-thật-ngắn); không nhầm với H1 handoff acceptance |
 | Lượt quan sát dài: còn sống, tiến độ, báo lỗi | [Heartbeat và observer](#0411--củng-cố-quan-sát-tiến-độ-và-báo-lỗi); [cách vận hành](../../../tooling/ai-engines/OPERATIONS.md#visibility-for-finite-shadow-observations) |
+| NAQ-80, lượt r4 đang thu dữ liệu mới | [Khởi chạy r4](#0411--naq-80-khởi-chạy-r4-với-observer); đọc lifecycle/native task hiện tại trước hành động |
 | Phục hồi sau ngắt hay sửa reducer | [Reprocess đã có lệnh](#0411--reprocess-capture-đã-lưu-và-phân-loại-checkout-cũ); [runbook](../../../projects/trader/foundation_v2/docs/FOREX-FORWARD.md#choose-resume-or-offline-reprocessing) |
 | Dọn workspace, giữ WIP/runtime | [Inventory ban đầu](#0411--inventory-cleanup-chỉ-đọc) → [delta checkout cũ](#0411--reprocess-capture-đã-lưu-và-phân-loại-checkout-cũ) |
 | Vận hành Studio/native task/run/report | [Operations guide](../../../tooling/ai-engines/OPERATIONS.md), rồi mục receipt được workflow dẫn tới |
@@ -3929,3 +3930,54 @@ mốc quá90giây khi đang chạy là dấu hiệu cần kiểm tra, chưa có 
 alarm. Heartbeat chỉ chứng minh supervisor responsive, không broker/data quality.
 External backup/alert và nhiều máy tiếp tục để sau theo owner. Không gửi lệnh,
 tạo grant/session giao dịch, gọi model hoặc nâng task acceptance.
+
+## 04/11 — NAQ-80 khởi chạy r4 với observer
+
+Owner giao tiếp tục task. Đối soát preflight bằng helper read-only đã có:
+process creation identity/executable hashes khớp manifest runtime, API/DB ready,
+Exness demo generation19, requested_mode trading giữ nguyên,32commands,
+0active grants/unknown/positions/orders. API vẫn run
+`4fd4fb8e12bb4b509edfc479aa1680c5`; không shadow cũ đang chạy, không restart.
+Capture r3 chưa có H1 và đã failed/expired; short-read chỉ60giây nên không thể
+đóng vai predecessor có H1 mới. Không sửa deadline/pins hoặc nhãn lịch sử.
+
+Khởi chạy finite driver private `observe_shadow_handoff_r4.py` lúc17:46:38VN,
+attempt `shadow-live-handoff-20261104-r4/`. Reuse preflight/plan/evidence checks
+từ r3; pin source Trader `bb6d3ff2f6a3ec06ce9e6ef2e544e2473969ac18` và binary
+`76c90a589167d6a422d31cc4c96605dc578c40b73e2e63d3983bf4bfbedae151`.
+Driver đơn lẻ có file lock; state có checksum, PID/creation identity của driver,
+supervisor và observer, log riêng. Khởi chạy hidden bằng Start-Process; wrapper
+PID19204, actual driver14788, supervisor23408, observer wrapper15748 ở lần đọc
+đầu. Đây là snapshot; lần sau so identity trong state, không dùng PID cũ để kill.
+
+| Mốc VN ngày04/11 | Phạm vi / trạng thái lúc bắt đầu |
+|---|---|
+|17:46:39|Bắt đầu phiên1, registration-1.json; leading partial H1 chỉ giữ capture, không tiêu thụ như H1 đầy đủ|
+|18:00–19:00|Một H1 mới đầy đủ; đây là phần dữ liệu live còn thiếu, không thu lại để kiểm phép tính offline|
+|Sau19:00:30|Kiểm phiên1 complete, đúng1H1 và builder state thật; tạo phiên2 contiguous, pin report predecessor|
+|19:02:30 / khoảng19:03|Dự kiến chốt phiên2 sau120giây dữ liệu và30giây settle|
+|19:05|Deadline cuối bất biến; không tự kéo dài hoặc mở attempt thay thế|
+
+Lần kiểm17:48: session1 running/responsive,1page/42ticks,0H1,0retry,
+heartbeat tiến triển, stderr driver/supervisor/observer trống. Không là acceptance.
+Native NAQ-80 đã in_progress, assignee user giữ nguyên, không AI dispatch.
+Main document `live-handoff-20261104` revision8 ghi mốc giờ và scope;
+progress `shadow-11f486ad28b6bcb8` đã tự lên revision2 (17:47:43VN), đọc lại
+qua MCP khớp42ticks/1page. Phiên2 sẽ có document theo registration hash riêng.
+
+Driver chỉ đăng ký một attempt mới; không sao chép/mutate capture cũ. Khi cần
+khôi phục, đối soát `qualification-state.json`, hai lifecycle, process identities,
+pins và deadline trước. `observe_shadow_handoff_r4.py --resume` lấy cùng driver
+lock, nối lại supervisor còn sống hoặc explicit resume session interrupted còn
+hạn; không tự hồi sinh failed/expired và không thay registration. `--publish-only`
+sửa pending native report/status riêng, không chạy lại capture. Driver chưa được
+crash-inject ở lượt thật; đây là resume path, không bằng chứng cold-driver recovery.
+
+Logs driver ở private root `shadow-handoff-r4.driver.stdout.log` và
+`shadow-handoff-r4.driver.stderr.log`; trong attempt có `session-1.stdout.log`,
+`session-1.stderr.log`, `observer-1.stdout.log`, `observer-1.stderr.log` (tương tự
+ordinal2). STOP tại attempt là yêu cầu dừng read-only, không chứng minh process
+đã kết thúc; kiểm lifecycle/identity sau đó. Không thêm scheduler/auto-start,
+grant/session giao dịch, OrderCheck/OrderSend, model call hoặc config global.
+Runtime API và terminal vẫn giữ nguyên. Kết quả bàn giao, qualification cuối và
+uptime còn pending; đọc native/checkpoint mới trước khi tiếp tục lượt sau.
