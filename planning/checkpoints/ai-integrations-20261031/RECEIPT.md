@@ -5,6 +5,22 @@
 [issue #6](https://github.com/Naqex/workspace/issues/6).
 Đây là source/runtime foundation; chưa acceptance toàn vòng AI autonomy.
 
+## Đọc tiếp theo việc đang làm
+
+Receipt ghi theo thời gian từ31/10; bảng và câu “hiện tại” trong các mục cũ
+thuộc ngày của chính mục đó. Dùng liên kết dưới đây để tới đúng checkpoint,
+không đọc toàn bộ lịch sử hoặc lấy snapshot cũ thay trạng thái native/local.
+
+| Việc cần tiếp tục | Đọc đúng nguồn |
+|---|---|
+| NAQ-80, lỗi float và lượt quan sát r3 | [Checkpoint lỗi/bàn giao](#0411--sửa-float-grid-và-đối-soát-báo-cáo-naq-80); sau đó đọc state/lifecycle private và native task |
+| Phục hồi sau ngắt hay sửa reducer | [Reprocess đã có lệnh](#0411--reprocess-capture-đã-lưu-và-phân-loại-checkout-cũ); [runbook](../../../projects/trader/foundation_v2/docs/FOREX-FORWARD.md#choose-resume-or-offline-reprocessing) |
+| Dọn workspace, giữ WIP/runtime | [Inventory ban đầu](#0411--inventory-cleanup-chỉ-đọc) → [delta checkout cũ](#0411--reprocess-capture-đã-lưu-và-phân-loại-checkout-cũ) |
+| Vận hành Studio/native task/run/report | [Operations guide](../../../tooling/ai-engines/OPERATIONS.md), rồi mục receipt được workflow dẫn tới |
+
+Đây là index trong receipt owner hiện có, không phải ledger mới hoặc tuyên bố
+full acceptance. Chưa compact lịch sử chưa review hoặc di chuyển evidence.
+
 ## Kết quả
 
 | Thành phần | Source | Bằng chứng hiện tại |
@@ -3735,3 +3751,53 @@ ghi maintainer xác nhận cooldown cục bộ có thể còn chặn sau khi pro
 sớm; báo cáo bug/consumer list không là số liệu uptime. [Anthropic trading guide](https://claude.com/resources/guides/the-ai-investment-firm/front-office-trading-and-execution)
 đặt agent vào phân tích sandbox và điều tra read-only; đây là reference workflow,
 không phải bằng chứng mọi trading desk triển khai như vậy.
+
+## 04/11 — Reprocess capture đã lưu và phân loại checkout cũ
+
+Owner nhắc không chạy lại toàn bộ mỗi khi lỗi: chốt tách recovery khỏi fresh
+forward. Trader commit `6b06b125b17891a96984d7b9ada34d085be55d22` thêm command
+`foundation_v2/scripts/mt5_shadow_reprocess.py`, reuse recorder/reducer/checksums
+và private path/ACL đã có; không thêm dependency, schema DB, service hoặc UI.
+
+| Trường hợp | Cách dùng / giới hạn |
+|---|---|
+| Process ngắt, code/deadline còn khớp | `mt5-shadow resume` cùng phiên, giữ cursor và warmup; không tạo phiên mới để bỏ partial hour |
+| Reducer được sửa, capture còn tốt | Reprocess từ manifest/state cũ sang output mới; tối đa pin `step` được khác. Candidate/capture/dependency contract khác hoặc có predecessor cần compatibility review riêng |
+| Kết quả offline | `reprocess.json` giữ source/capture/manifest hashes, thời điểm tính lại, scope saved capture, execution false, continuation eligibility false. Không tạo lifecycle `complete` hoặc biến nó thành seed live |
+| Phần cần kiểm broker/lifecycle | Chỉ chạy mục kiểm live còn thiếu; không thu lại thị trường để chứng minh một phép tính đã kiểm từ saved capture |
+
+Ba regression tests mới đạt:2tests/2,045s và1test/1,348s. Kiểm code đổi chỉ
+reducer, expired registration đọc offline được, không gọi NativeReader, input
+bytes không đổi, output không ghi đè/nằm trong nguồn, candidate mismatch/capture
+tamper/manifest thay đổi giữa chừng không publish. Không rerun source/reducer/
+continuity tests unchanged vừa đạt; đây không phải full CI mới.
+
+CLI thật chạy trên r2 tạo `shadow-reprocess-cli-20261104/reprocess.json` ở E root
+hiện có:101pages/5.147ticks/1H1. H1 khớp kiểm offline trước; hash toàn bộ102JSON
+input files vẫn khớp bản kiểm trước. R2 lifecycle failed giữ nguyên. Không SDK,
+API, provider hoặc lệnh giao dịch trong reprocess. Lượt r3 đang chạy giữ nguyên
+toàn bộ8source pins; file mới, tests và docs không thay reducer mà nó đang dùng.
+Tại14:41VN kiểm gần nhất: lifecycle running,13pages/791ticks; chưa có acceptance
+bàn giao. Head mới thêm công cụ offline, không phải rollout API/terminal.
+
+**Cleanup delta:** file private `checkout-delta-inventory-20261104.json` giữ hash
+và so sánh từng path. `git status -z --untracked-files=all` có15.605entries
+(51modified,15.554untracked), khác inventory `normal` vì mở rộng các thư mục,
+không suy ra file vừa phát sinh. Bỏ qua nội dung15.545untracked artifact/runtime
+paths; so60paths gồm toàn bộ51modified và9untracked source/config phù hợp:
+18byte-identical với canonical,42khác (38evidence paths và4source/tool/test).
+Không có missing canonical trong60paths đã so; không suy rộng sang mọi dữ liệu.
+
+| Path khác trong `foundation_v2/` | Quyết định giữ và lý do |
+|---|---|
+| `scripts/api_platform_acceptance.py` | Giữ WIP; runtime có thêm quick-trading HTTP fixture, đồng thời còn default đường PostgreSQL cũ. Không copy nguyên file đè resolver canonical |
+| `tests/test_mt5_broker_worker.py` | Giữ để đối chiếu; canonical đã có regression startup/recovery mà runtime copy thiếu. Không làm yếu tests bằng copy từ checkout cũ |
+| `web/src/ReplayWorkspace.jsx` | Giữ; khác session catalog/last-session, action lock và resume behavior. Không tự merge hoặc rollback khi owner khác còn WIP |
+| `web/vite.config.js` | Giữ; khác vendor discovery fallback. Không bỏ vendor lookup hiện hành chỉ để đạt byte parity |
+
+38evidence differences tiếp tục giữ để review theo milestone. Scan diff đầu bị
+PowerShell Python cp1252 chặn Unicode; đọc lại phần còn lại bằng `-X utf8`, không
+chạy code hoặc tạo lại screenshots. Đây là classification, không chứng minh
+4delta đều phải port. Không xóa source/WIP/cache hoặc retire checkout đang chạy.
+Đã thêm index ở đầu receipt giúp đọc đúng checkpoint; chưa rút/xóa lịch sử chưa
+review hoặc tạo nguồn tiến độ mới. Product Plan và VI WIP giữ nguyên.
