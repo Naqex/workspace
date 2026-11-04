@@ -3270,3 +3270,80 @@ snapshot đọc được nhưng `quote_status=future`. Không tự trừ2giờ, 
 nới freshness gate để cho send. Cần xác minh semantics timestamp của broker/SDK
 trước khi coi FTMO execution-ready. Exness explicit cuối fresh, age950ms. Chưa
 có unattended nhiều ngày, external alert hoặc whole-product acceptance.
+
+## 04/11 — Khép lỗi broker clock và bàn giao nền Demo local
+
+Tiếp yêu cầu hoàn thiện hệ thống cho Demo, chưa tối ưu chiến lược. Backup G/cloud
+tiếp tục hoãn theo owner; không tạo lịch, upload hay copy ổ rời. Không tạo Goal,
+engine, management UI hoặc ledger mới. Scope vẫn ở AI plan; issue
+`Naqex/workspace#8` và Product Plan không được đóng bằng acceptance của lát này.
+
+### Thay đổi, luồng dữ liệu và quyết định
+
+Trader `6fc78274` thêm decoder dùng chung cho quote, bar, collector và broker
+reconciliation. Chỉ server chính xác `FTMO-Demo` dùng profile
+`ftmo_demo_server_2026_v1`, sự kiện từ năm 2026: offset New York cộng bảy giờ
+(mùa đông UTC+2, mùa hè UTC+3). Các server khác giữ SDK UTC contract, không đoán
+broker từ prefix hoặc suy offset từ tuổi quote. Giữ timestamp gốc cùng metadata
+clock; chuyển sang UTC trước cutoff/freshness/reconciliation. Grant vẫn hết hạn
+theo UTC, Prop reset timezone không đổi. Fold/gap DST và thời gian FTMO chưa được
+xác minh bị chặn; legacy FTMO export không được gắn nhãn UTC sai.
+
+Nguồn chính thức và giới hạn nằm trong
+`projects/trader/foundation_v2/docs/MT5-BROKER-CLOCK.md`: FTMO account specs và
+hai trading updates tháng 3/tháng 10 năm 2026, Exness server timezone, MetaQuotes
+tick-history contract. MetaQuotes mô tả UTC nhưng dữ liệu FTMO quan sát được dùng
+server wall time; profile này ghi rõ ngoại lệ đã kiểm, không sửa Windows clock
+hoặc nới stale/future guard. Khi broker đổi server/feed/lịch phải kiểm lại profile.
+
+Rollout đầu phát hiện regression: snapshot cả hai account trả
+`mt5_clock_unavailable`. Tái hiện offline bằng `numpy.int64` đúng kiểu timestamp
+trong MT5 rates array; tests trước dùng dict với Python int nên chưa bắt được.
+Trader `b4f4ecd5` chuyển integer scalar hợp lệ thành Python int trước nhân/kiểm;
+giữ chặn bool, số âm, NaN/Infinity và kiểu không hợp lệ. Regression dùng structured
+NumPy array và kiểm overflow trước phép nhân. CI Windows hiện cài extra `mt5`
+từ lockfile sẵn có và chạy cả read-worker tests để không bỏ qua NumPy fixture.
+Không thêm package/version mới hoặc gọi SDK thật trong tests.
+
+### Bằng chứng mới
+
+| Phạm vi | Kết quả |
+|---|---|
+| Source trước rollout đầu | 87 tests clock/Demo/connector/broker-worker đạt; 9 legacy read-worker tests đạt khi chạy đúng runtime venv có NumPy. Giữ bằng chứng lệnh sai CWD và lượt canonical venv thiếu NumPy bị skip, không tính là đủ kiểm chứng |
+| Regression sau lỗi kiểu SDK | 78 focused tests clock/Demo/connector/read-worker đạt, không skip, 1,178 giây. Diff check đạt. Không chạy lại Rust/web/crash/restore unchanged; chưa chạy remote CI |
+| Rollout đầu | Observer khoảng 125 giây, cả hai connected nhưng snapshots bị clock guard chặn; receipt `final_snapshots_ready=false` giữ nguyên, không nâng thành PASS |
+| Rollout đã sửa | Chỉ cập nhật bốn file Python và resume mỗi account một lần; API/UI không restart. Preflight dùng collector mới dưới 120 giây, xác minh Demo, inventory rỗng, mode/identity, không active grant hoặc unknown trước reconnect |
+| Cold recovery | Observer 128,11 giây / 26 samples. Exness ready từ giây 31,328 sau cold quote unavailable; FTMO ready từ giây 43,782 sau not-ready. Không reconnect lặp để ép healthy |
+| Quote/bar UTC | 10 Exness ready samples: raw bằng UTC, age 846–2.681 ms. 9 FTMO ready samples: raw trừ đúng 7.200.000 ms, age 948–2.939 ms; mọi ready sample đều fresh theo read policy hiện hành, bar UTC đi tiếp. Đây không là authorization hoặc final send admission |
+| Collector và journal | Postflight Exness generation 19: 30 deals / 1 cashflow; FTMO generation 5: 0 deals / 1 cashflow. Raw/UTC của events khớp profile, không event sau cutoff; mọi deal ID của native filled receipts trước đây còn trong collector |
+| Runtime/auth | 15/15 checks đạt lúc 03:50:40 UTC: native/UI process identity, binary/adapter/index hashes, profile native/compact/local-capability, API/DB ready, anonymous 401, Paperclip health và gateway yêu cầu key, source sạch, đúng 1 owned terminal/account |
+| Quyền và tác dụng ngoài | 0 native requests mới, 0 unknown, 0 active grants, 0 positions/orders; 0 research/API/AI/download jobs active ở postflight. 0 OrderCheck/OrderSend/provider inference trong lát này. Phiên v4 vẫn revoked |
+
+API run ID giữ `1862f6b810bc4f2c9d4663ceea41c8b6`; API binary vẫn bản numeric
+rollout trước, không gọi nó là binary build từ commit Python mới. Bốn Python
+files đang chạy khớp source `b4f4ecd5654e348661a1e500e58620f4ab8868fb`.
+Private rollback/evidence nằm trong backup root E hiện hành:
+`broker-clock-20261104/{promotion,receipt}.json` giữ failed rollout;
+`broker-clock-scalar-20261104/{promotion,receipt,qualification}.json` và
+`samples.jsonl` giữ kết quả sửa. Không đưa bearer, credentials hoặc raw terminal
+logs vào Git. Script postflight chỉ GET/SQL read-only; không tạo quyền hoặc sends.
+
+### Đối chiếu phạm vi hệ thống hiện hành
+
+| Lát | Acceptance đã có | Phần chưa được kết luận |
+|---|---|---|
+| Research → mô phỏng → review → owner | Native Paperclip handoff, artifact/hash/dependency/cancel/recovery và báo cáo đã có evidence ở các mục trước | Không redispatch model/pilot chỉ để thêm green; chưa strategy qualification |
+| Dữ liệu và Forex replay | Provenance/spec/cost binding, QDM CLI, causal fills/risk, checkpoint/restart parity; broker clock local đã sửa và kiểm thật | Chi phí lịch sử chưa xác minh không thành zero hoặc phí đã chứng nhận; replay không là observed-market forward |
+| Phân quyền/risk/execution | Owner/Automation tách biệt, grant bất biến, idempotency/unknown/reconcile, final SDK guards; v4 trước đã mở và đóng Exness Demo trong giới hạn được duyệt | Không có grant mới; maintenance không cho giao dịch tiếp, FTMO chưa có phiên OrderSend acceptance |
+| Phục hồi local | Virtual-time/fault/replay tests, PostgreSQL crash và restore fixture, isolated owner-bundle restore đã đạt ở các mục trước | Không là hai năm uptime, whole-machine DR hoặc phục hồi broker về quá khứ |
+| Runtime có giám sát | Hai account đọc được, mỗi account một terminal riêng; readiness/degraded/recovery và giữ journal khi warmup/contention; checks mới đạt | Quan sát ngắn không chứng minh chạy bền nhiều ngày hoặc đủ capacity nhiều account |
+| Chạy tự động liên tục | Chưa bật | Durable complete-tick source/cursor cho observed forward, lifecycle dài ngày, alert ngoài máy và boot/failover chưa được qualification; SSE chỉ sampled latest state |
+
+**Kết luận:** đã khép các lỗi source/runtime đang mở của lát Demo local này;
+nền hiện tại phù hợp vận hành Demo có giám sát, trong các phiên có phạm vi rõ.
+Không còn dùng FTMO `future` do server clock như blocker chưa xử lý. Không tự gọi
+đây là toàn sản phẩm hoàn tất, chiến lược có lãi hoặc autonomous 24/7. Dừng thêm
+test/framework vào phần đã đủ bằng chứng. Bước giao dịch mới cần owner xác định
+phiên/account/time/risk; phần continuous forward dài ngày là acceptance riêng,
+không được suy ra từ snapshot, SSE hoặc vòng mở/đóng đã đạt. Backup G/cloud,
+external alert và nhiều máy vẫn hoãn; không dùng việc hoãn đó để chặn phần local.
