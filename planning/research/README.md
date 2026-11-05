@@ -18,6 +18,7 @@ Các mục cũ chưa được re-audit khi tạo chỉ mục ngày 05/11/2026.
 | Chọn ứng viên, protocol, consumed data, OOS, holdout và cost stress | [Đợt chiến lược prop đầu tiên](PROP-STRATEGY-ROUND1-20261105.md); kết quả run thuộc receipt được protocol dẫn tới |
 | Chọn quỹ/chương trình theo vốn và rủi ro | [Prop firm fit, 02/11](PROP-FIRM-FIT-20261102.md); refresh giá/luật trước quyết định mua |
 | Hạn thi prop, minimum days, inactivity, giữ lệnh, payout và thời gian đạt vốn | [Time-fit, kiểm05/11](PROP-FIRM-FIT-20261102.md#thời-gian-challenge-và-độ-phù-hợp-chiến-lược--kiểm-lại-05112026); lifecycle offline đã có, firm-specific/payout/live gaps còn mở |
+| Registration time-fit 3/6/12 tháng | [TIME-FIT-REGISTRATION-20261106](TIME-FIT-REGISTRATION-20261106.md); frozen, chưa chạy, chờ inventory và pin terms |
 | Forex/prop simulation, QDM và chi phí | [Forex pilot](FOREX-PROP-PILOT-20261102.md); [QDM CLI](../../projects/trader/docs/quantdatamanager.md) |
 | Luồng nghiên cứu, review và promotion | [AI research workflow](AI-RESEARCH-WORKFLOW-20261101.md); [AI plan](../trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md) giữ scope hiện hành |
 | Kiến trúc tự chủ dài hạn | [Autonomous trading brief](AUTONOMOUS-TRADING-SYSTEM-BRIEF.md); kiểm ngày/quyết định owner trước dùng |

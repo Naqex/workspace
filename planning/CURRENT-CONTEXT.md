@@ -36,6 +36,10 @@ concurrency hoặc rewrite Rust khi chưa có profile A/B bounded giữ golden p
 Đối với bước chiến lược tiếp theo, Trader đã có lifecycle evaluator offline cho
 phase target/loss/reset/DST/minimum days/carry; activation, inactivity, payout,
 historical fills và live reconciliation vẫn là gap firm-specific.
+Registration time-fit 3/6/12 tháng đã được freeze ở
+[TIME-FIT-REGISTRATION-20261106](research/TIME-FIT-REGISTRATION-20261106.md), chưa
+chạy numerical và chưa mở holdout; bước kế là inventory availability/consumed và
+pin profile terms trước khi mở window mới.
 
 Owner giao triển khai workflow/skills và chủ động quản lý skill. Đọc
 [strategy workflow](../tooling/ai-engines/STRATEGY-WORKFLOW.md) cho research,
