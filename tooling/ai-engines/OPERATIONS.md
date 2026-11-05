@@ -380,6 +380,16 @@ survives a controller crash. `publish` does not need the broker read credential
 or current capture sources. Parent/child task updates are same-company/manual
 assignment fenced. Native reports remain a projection, not an acceptance ledger.
 
+An explicitly registered `handoff_policy=raw_if_held_v1` can preserve a read-only
+collection window if the predecessor finished raw capture but its projection
+is held. Verify the complete native lifecycle, manifest, raw counters/cursor and
+hold evidence, then start a separately registered successor with no continuation
+seed. Its fresh-start window is at most60s after the boundary. A failed or
+incomplete predecessor never qualifies. This raw restart is not an H1 handoff:
+reports retain `verified_before_launch=false`, and task/data acceptance stays
+unqualified. Reattach an already launched successor after a controller restart;
+never create another capture merely because its launch window has passed.
+
 Private `mt5-shadow-night-v1` pins initial group/input/credential/controller files,
 runtime epoch, offline gate, successor paths, end/deadline, volume headroom and
 per-run byte bound. The CLI checks storage before launch and periodically while

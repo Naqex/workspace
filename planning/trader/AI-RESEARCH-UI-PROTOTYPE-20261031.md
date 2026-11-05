@@ -1,5 +1,29 @@
 # AI workspace — native Paperclip UI và prototype lịch sử
 
+## Phiên được giao 05–06/11/2026 — vận hành qua rollover
+
+Owner duyệt tiếp giai đoạn vận hành có giám sát: Exness/FTMO chỉ đọc, một lần
+ngắt/tiếp tục worker từ checkpoint và báo cáo native. Run
+`7a97177c-11f4-4792-820f-0c3e25418a65`, native NAQ-89/90/91/92. Capture tới
+05:15VN06/11, controllerdeadline05:20; không model/grant/OrderCheck/OrderSend,
+không đổi chiến lược hoặc bật auto-boot/service. Native task/report và receipt
+hiện có own trạng thái; mục này chỉ giữ scope của phiên.
+
+Mục tiêu thu raw qua rollover độc lập với bar qualification: quarantine_v1 giữ
+rawcursor khi lịch sử/nến cầnreview. Exness có boundary12:00VN05/11. Chỉ H1
+hợp lệ mới seed warmup; nếu predecessor hoàn tất raw nhưng projectionheld,
+handoff_policy=raw_if_held_v1 được chọn rõ để kế tiếp bằng raw session mới,
+không kế thừa tín hiệu/indicator và không công nhận H1 handoff đạt. Hard
+source/binding/checksum/runtime failure không được dùng nhánh này. Mọi deadline
+và group/input có pin; không sửa expectedhash để resume khác nguồn.
+
+Trong lúc chạy, giữ nguyên các sourcefiles mà registration pin. Controller-only
+revision có snapshot và gate riêng; không thay pin capture hoặc tác động worker
+đang sống. Không tự gọi một phiên hoàn tất có qualityhold là dữ liệu/chiến lược
+đạt. Khi kết thúc, đối soát actual coverage, downtime/recovery, raw/projected
+status và publication; các giới hạn không được chứng minh phải giữ rõ trong
+native resolution.
+
 ## Phạm vi owner giao — hoàn thiện hệ thống, 03/11/2026
 
 Owner giao hoàn thiện các khoảng thiếu từ dữ liệu đến vận hành giao dịch, ưu

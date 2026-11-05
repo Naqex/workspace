@@ -4766,3 +4766,59 @@ côngviệc treoowner. Bảnđiềuchỉnhnày thay quyếtđịnh giữ nativew
 đoạn trước; kếtquả oldobservation và các giới hạn evidence không thay đổi.
 Private before/after: `quote-quality-repair-20261105/native-task-resolution-before.json`
 và `native-task-resolution-after.json`.
+
+## 05/11 — Đã khởi động phiên qua rollover, NAQ-89–92
+
+Owner duyệt vận hành Demo có giám sát, chỉđọc, haiaccount qua rollover và một
+plannedstop/resume. Native manualtasks: parent **NAQ-89**, Exness**NAQ-90**,
+FTMO**NAQ-91**, preflight/recovery**NAQ-92**; gánowneruser,0agentdispatch.
+RunID **`7a97177c-11f4-4792-820f-0c3e25418a65`**; capture từ
+**10:47:32VN05/11**, Exnessboundary**12:00**, finalcapture**05:15VN06/11**,
+childdeadline05:18, controllerharddeadline**05:20**. Quarantine_v1,60spages,
+same existing brokerbindings/runtimeepoch875ecd...;0model/grant/OrderCheck/Send.
+
+Private root: `E:/BACKUP-TRADINGWORKSPACE/system-capabilities-20261103/forward-20261105-rollover`.
+Source/identity/native short-read/saved-replay evidence tái sử dụng vì không đổi;
+gate mới checksum và pin nguồn, không lặp tests/provider chỉ để bắt đầu job.
+Resourceguard>=2GiB free mỗiD/E,<=1GiB root; current headroom~72GB/~166GB.
+Controller giữ idle-sleep request theo thời gian sống, không cài auto-boot,
+service hoặc đổi Windows powerplan. Backup/off-machine vẫn ngoài scope.
+
+### Planned recovery đã đạt
+
+Exness nativeSTOP rồi resume **cùng registration/output/deadline**. Ba trang
+durable/65ticks không đổi, incarnation1→2, FTMO vẫn tăngpage khiExnessstopped.
+`controlled-recovery.json` ghi passed,NAQ-92Done và document đãreadback.
+Không chạy lại exercise. Sourceprefix không rewind, không API/MT5restart.
+
+### Khóa nhánh raw continuation trước khi để qua đêm
+
+Audit setup chỉ ra qualified-only H1 handoff có thể bỏ mất phạm vi raw sau12:00
+nếu H1 bịheld. Thêm **explicit** controllerpolicy`raw_if_held_v1`, default vẫn
+qualified_only_v1: chỉ khi predecessor **nativecomplete**, manifest/counters/
+rawcursor/qualityhold/reporthash khớp thì mới mở rawsuccessor **không seed**.
+Freshstart phải<=60s sau boundary; failed/incomplete/mismatched/late không
+được dùng. Không gọi rawrestart là H1handoff; `verified_before_launch=false`,
+qualification vẫnneedsreview. Existing-successor recovery không bị cổnglaunch
+window ép tạo capture lần2. **20controller tests đạt6,154s**, gồm nhánhheld,
+no-seed, mismatchednative, late rejection và reattachkhôngdoublelaunch.
+
+Chỉ dừng oldcontroller bằng managedterminalCtrl-C sau plannedexercise; detached
+collectors/observers **vẫnrunning**, counts/incarnations giữ nguyên. Snapshot
+originalplan/state/source ở`controller-revision/`. Reviewedcontroller-only
+revision giữ cùngrunID, initialgroups/registrations/cursors, Step/SDK/source và
+runtime, end/deadline; active`night-current.json`/`controller-current/`.
+Current managed terminal**11882**; old10639 đãthoát. Không sửa expectedhash
+trong originalnight.json hoặc state để giảresume. Phầncontroller dùng plan/gate
+mới, còn childregistrations không đổi.
+
+Native parentlive document**`shadow-f75bcfe1fb68b564`** đãPUT/readback;
+`operating-window` giữmốc/cáchresume, oldcontroller doc được ghi rõhistorical.
+Childlive reports cập nhậtđộc lập; tiếnđộ routine60s, stale90s cầnkiểmstatus.
+Readback sau revision: Exness16pages/350ticks vàFTMO16pages/901ticks,
+bothrunning,projectionready; đây chưa là freshH1/handoff/overnight acceptance.
+Runbookprivate có exact status/resume/stop commands; chỉ đổiTaskstatus không
+dừng collectors. Không chỉnh các pinnedsourcefiles trong lúc chạy. Khi PC
+reboot cầnreconcile rồiresume đúngrun/window; không có installedautostart.
+Kết quả cuối vẫn phải đối soát raw/projection/recovery/coverage/publication,
+không côngnhận fullacceptance trước khi đạt mốc và đọc nativeevidence.

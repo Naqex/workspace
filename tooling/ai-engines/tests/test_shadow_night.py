@@ -122,6 +122,63 @@ class NightTests(unittest.TestCase):
             with patch.object(night,'api',return_value=changed),self.assertRaisesRegex(ValueError,'scope_or_assignment'):
                 manager.finish_task(str(self.plan.parent_task),body,'PATCH')
 
+    def test_explicit_raw_restart_retains_scope_without_seeding_held_projection(self):
+        self.plan=self.plan.model_copy(update={'handoff_policy':'raw_if_held_v1'})
+        m=self.manager();m.step();self.now=self.first_to+31000
+        row=self.rows[self.plan.initial_output][0]
+        row.update(status='complete')
+        row['observation'].update(projection_status='held',quality_reason='shadow_hour_gap_requires_review')
+        previous=Path(self.plan.initial_output)/'a';previous.mkdir()
+        night.capture.store(previous/'quality-hold.json',dict(plan_sha256=night.capture.checksum(m.first.model_dump(mode='json')),
+            last_valid_report_sha256=None))
+        captured=dict(pages=['a'],tick_count=4,next_from_msc=self.first_to)
+        native=dict(status='complete',manifest_sha256=m.predecessor['manifest_sha256'],
+            observation=dict(pages=1,ticks=4,requested_through_msc=self.first_to,projection_status='held'))
+        with patch.object(night.group,'native_status',return_value=native),patch.object(night.capture,'load',return_value=(captured,None,None)):
+            m.step()
+        child=night.shadow.Plan.model_validate(night.capture.read_json(Path(self.plan.successor_manifest)))
+        self.assertIsNone(child.continuation)
+        self.assertEqual(child.capture.from_msc,self.first_to)
+        self.assertEqual(child.capture.to_msc,self.final_to)
+        self.assertEqual(m.state['handoff']['mode'],'raw_restart_no_seed')
+        self.assertFalse(m.state['handoff']['verified_before_launch'])
+        self.assertEqual(m.state['status'],'running')
+        # Attach an already launched raw successor after a late controller
+        # recovery; the launch window must not cause a second capture.
+        m.state['groups'].pop('successor');m.save();self.now+=120000
+        with patch.object(night.group,'native_status',return_value=native),patch.object(night.capture,'load',return_value=(captured,None,None)):
+            m.step()
+        self.assertEqual(sum(op=='start' for op,_ in self.calls),2)
+        for rows in self.rows.values():
+            for item in rows:item['status']='complete'
+        m.step();self.assertEqual(m.state['status'],'blocked')
+
+    def test_raw_restart_requires_explicit_policy_and_rejects_late_or_failed_predecessor(self):
+        m=self.manager()
+        row=dict(status='complete',observation=dict(projection_status='held'))
+        self.assertFalse(m.can_followup(row))
+        self.plan=self.plan.model_copy(update={'handoff_policy':'raw_if_held_v1'})
+        m.plan=self.plan
+        self.assertTrue(m.can_followup(row))
+        self.assertFalse(m.can_followup({**row,'status':'failed'}))
+        m.state['lanes']['a']=row
+        self.now=self.first_to+60001
+        with self.assertRaisesRegex(ValueError,'raw_restart_window_missed'):m.followup()
+
+    def test_raw_restart_rejects_mismatched_native_capture_before_registration(self):
+        self.plan=self.plan.model_copy(update={'handoff_policy':'raw_if_held_v1'})
+        m=self.manager();m.step();self.now=self.first_to+31000
+        m.state['lanes']['a']=dict(status='complete',observation=dict(projection_status='held'))
+        previous=Path(self.plan.initial_output)/'a';previous.mkdir()
+        night.capture.store(previous/'quality-hold.json',dict(plan_sha256=night.capture.checksum(m.first.model_dump(mode='json')),
+            last_valid_report_sha256=None))
+        captured=dict(pages=['a'],tick_count=4,next_from_msc=self.first_to)
+        native=dict(status='complete',manifest_sha256=m.predecessor['manifest_sha256'],
+            observation=dict(pages=1,ticks=5,requested_through_msc=self.first_to,projection_status='held'))
+        with patch.object(night.group,'native_status',return_value=native),patch.object(night.capture,'load',return_value=(captured,None,None)):
+            with self.assertRaisesRegex(ValueError,'raw_restart_evidence_changed'):m.followup()
+        self.assertFalse(Path(self.plan.successor_manifest).exists())
+
     def test_uncertain_launch_never_creates_another_group(self):
         m=self.manager();m.state['initial_intent']=True;m.save()
         with self.assertRaisesRegex(ValueError,'uncertain_launch'):m.step()

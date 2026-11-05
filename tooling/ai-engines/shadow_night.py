@@ -63,6 +63,7 @@ class Plan(capture.Frozen):
     parent_task: UUID
     offline_task: UUID
     source_sha256: dict[str,str]
+    handoff_policy: Literal['qualified_only_v1','raw_if_held_v1'] = 'qualified_only_v1'
 
     @model_validator(mode='after')
     def paths(self):
@@ -204,10 +205,32 @@ class Manager:
                 self.error(row['id'],row['observation'].get('quality_reason') or 'shadow_quality_hold')
         return rows
 
+    def can_followup(self,row):
+        return qualified(row) or (self.plan.handoff_policy=='raw_if_held_v1' and
+            row.get('status')=='complete' and (row.get('observation') or {}).get('projection_status')=='held')
+
     def followup(self):
         previous=Path(self.plan.initial_output)/self.plan.predecessor
-        report=capture.checked(previous/'shadow.json')
-        if not report['hours'] or report['cumulative_hours']<1:
+        row=self.state['lanes'].get(self.plan.predecessor,{})
+        raw_restart=not qualified(row) and self.can_followup(row)
+        report=capture.checked(previous/'shadow.json') if (previous/'shadow.json').exists() else None
+        predecessor_capture_sha256=None
+        if raw_restart:
+            if self.clock()>self.first.capture.to_msc+60000 and not (Path(self.plan.successor_output)/'launch.json').exists():
+                raise ValueError('night_raw_restart_window_missed')
+            native=group.native_status(Path(self.initial['binary']['path']),previous)
+            captured,_,_=capture.load(previous/'capture',self.first.capture)
+            hold=capture.checked(previous/'quality-hold.json')
+            expected=dict(pages=len(captured['pages']),ticks=captured['tick_count'],
+                requested_through_msc=self.first.capture.to_msc,projection_status='held')
+            if (native['status']!='complete' or native['manifest_sha256']!=self.predecessor['manifest_sha256']
+                    or captured['next_from_msc']!=self.first.capture.to_msc
+                    or any(native['observation'].get(k)!=v for k,v in expected.items())
+                    or hold.get('plan_sha256')!=capture.checksum(self.first.model_dump(mode='json'))
+                    or hold.get('last_valid_report_sha256')!=(capture.checksum(report) if report else None)):
+                raise ValueError('night_raw_restart_evidence_changed')
+            predecessor_capture_sha256=capture.checksum(captured)
+        elif not report or not report['hours'] or report['cumulative_hours']<1:
             raise ValueError('night_no_real_closed_h1_to_handoff')
         plan=shadow.Plan.model_validate(dict(schema_version='mt5-shadow-session-v2',
             capture={**self.first.capture.model_dump(mode='json'),'from_msc':self.first.capture.to_msc,
@@ -216,9 +239,10 @@ class Manager:
             settle_seconds=self.first.settle_seconds,stability_policy=self.first.stability_policy,
             projection_policy=self.first.projection_policy,
             source_sha256=self.first.source_sha256,
-            continuation=dict(state_dir=str(previous),report_sha256=capture.checksum(report))))
+            continuation=None if raw_restart else dict(state_dir=str(previous),report_sha256=capture.checksum(report))))
         # Verify the real completed lifecycle, report and capture prefix BEFORE launch.
-        shadow.warmup(plan,Path(self.plan.successor_output)/self.plan.successor,verify_pages=True)
+        if not raw_restart:
+            shadow.warmup(plan,Path(self.plan.successor_output)/self.plan.successor,verify_pages=True)
         registration=Path(self.plan.successor_manifest)
         raw=(plan.model_dump_json(indent=2)+'\n').encode()
         if registration.exists():
@@ -236,9 +260,11 @@ class Manager:
         else:
             with manifest.open('xb') as stream:
                 stream.write(encoded);stream.flush();os.fsync(stream.fileno())
-        self.state['handoff']=dict(predecessor_report_sha256=capture.checksum(report),
-            predecessor_hours=len(report['hours']),registered_at_msc=self.clock(),
-            from_msc=plan.capture.from_msc,deadline_msc=plan.deadline_msc,verified_before_launch=True)
+        self.state['handoff']=dict(predecessor_report_sha256=capture.checksum(report) if report else None,
+            predecessor_hours=len(report['hours']) if report else 0,registered_at_msc=self.clock(),
+            from_msc=plan.capture.from_msc,deadline_msc=plan.deadline_msc,verified_before_launch=not raw_restart,
+            mode='raw_restart_no_seed' if raw_restart else 'qualified_h1',
+            predecessor_capture_sha256=predecessor_capture_sha256)
         self.ensure_group('successor',manifest,Path(self.plan.successor_output))
         self.save()
 
@@ -268,7 +294,7 @@ class Manager:
         # the manager's last commit. Attach it even after the launch window;
         # an absent successor must never be launched late.
         existing_successor=(Path(self.plan.successor_output)/'launch.json').exists()
-        if 'successor' not in self.state['groups'] and existing_successor and qualified(predecessor):
+        if 'successor' not in self.state['groups'] and existing_successor and self.can_followup(predecessor):
             self.followup()
         if 'successor' in self.state['groups']:self.poll('successor')
         success=(qualified(self.state['lanes'].get(self.plan.successor,{}))
@@ -277,7 +303,7 @@ class Manager:
             self.state['status']='complete';self.save();return self.state
         if self.clock()>=self.plan.deadline_msc:self.halt('deadline');return self.state
         self.guard()
-        if 'successor' not in self.state['groups'] and qualified(predecessor):
+        if 'successor' not in self.state['groups'] and self.can_followup(predecessor):
             if self.clock()>self.first.capture.to_msc+(self.first.settle_seconds+60)*1000:
                 self.error(self.plan.successor,'night_handoff_window_missed')
             elif self.plan.successor not in self.state['errors']:
@@ -286,7 +312,7 @@ class Manager:
                     self.error(self.plan.successor,str(error) if isinstance(error,ValueError) else type(error).__name__)
         if 'successor' in self.state['groups']:self.poll('successor')
         waiting=any(r['status']=='running' for r in self.state['lanes'].values())
-        if qualified(predecessor) and 'successor' not in self.state['groups'] and self.plan.successor not in self.state['errors']:
+        if self.can_followup(predecessor) and 'successor' not in self.state['groups'] and self.plan.successor not in self.state['errors']:
             waiting=True
         if waiting:self.state['status']='running'
         else:
@@ -309,6 +335,8 @@ class Manager:
             reason=self.state['errors'].get(name,{}).get('reason','Không')
             lines.append(f'| {name} | {row["status"]} / {row.get("phase")} | {obs.get("pages",0)} / {obs.get("ticks",0)} / {obs.get("closed_hours",0)} | {stamp(obs.get("requested_through_msc"))} | `{reason}` |')
         measure=self.state.get('resources',{})
+        if self.state.get('handoff',{}).get('mode')=='raw_restart_no_seed':
+            lines.extend(['','H1 chưa đủ điều kiện bàn giao; phiên sau chỉ thu raw mới, không kế thừa warmup hoặc tín hiệu cũ.'])
         lines.extend(['',f'Dung lượng run: {measure.get("run_bytes","chưa đo")} bytes; free bytes: `{measure.get("free_bytes",{})}`.',
             'Offline gate: passed. Đây là coverage quan sát, không chứng nhận đủ tick, lợi nhuận hoặc 24/7.',
             'Raw flags stability không asserted trong ordered_quotes_v1. Lỗi một lane không tự restart lane khác.',
