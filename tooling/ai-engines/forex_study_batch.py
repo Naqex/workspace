@@ -97,7 +97,8 @@ def verified_result(directory, expected, *, source_root=V2):
             or (manifest.get('study_registration') or {}).get('sha256') != expected.get('study_registration_sha256')
             or manifest.get('runtime') != runtime_binding()
             or not dossier['protocol_content_verified']
-            or dossier['source_drift'] or dossier['unavailable_sources']):
+            or (dossier['source_drift'] and not expected.get('benchmark_only'))
+            or dossier['unavailable_sources']):
         raise ValueError('completed_result_binding_mismatch')
     return dossier
 
@@ -168,6 +169,8 @@ def run_job(name, expected, directory, *, seconds, clock=time.monotonic):
         argv.extend(['--inspection-cache-dir', inspection])
     if ticks:
         argv.extend(['--tick-cache-dir', ticks])
+    if expected.get('benchmark_only'):
+        argv.append('--benchmark-only')
     if expected.get('study_registration'):
         argv.extend(['--study-registration', expected['study_registration'],
                      '--study-registration-sha256', expected['study_registration_sha256']])
@@ -328,7 +331,8 @@ def main(argv=None):
                 from trading_workspace_v2.forex_study_registration import load_registration, validate_registration
                 registration = load_registration(Path(expected['study_registration']), expected['study_registration_sha256'])
                 validate_registration(registration, expected['inputs'], expected['candidate'],
-                    protocol_sha256=expected['protocol_sha256'], account_spec_sha256=expected['account_spec_sha256'])
+                    protocol_sha256=expected['protocol_sha256'], account_spec_sha256=expected['account_spec_sha256'],
+                    allow_source_drift=expected.get('benchmark_only') is True)
             directory = args.output_dir/name
             reused = False
             if directory.exists():

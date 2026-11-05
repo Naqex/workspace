@@ -179,7 +179,8 @@ def inspect(run_dir: Path, *, verify_inputs=False, source_root: Path | None = No
         source_comparison_requested=source_root is not None, source_drift=source_drift,
         unavailable_sources=unavailable_sources, scenarios=summary,
         artifact_invariants='checked', numeric_recalculation_performed=False,
-        evidence_scope='historical_robustness_exposure_unverified' if historical else 'registered_development_not_oos',
+        evidence_scope='historical_robustness_benchmark_only' if manifest.get('benchmark_only') else
+            'historical_robustness_exposure_unverified' if historical else 'registered_development_not_oos',
         study_registration=manifest.get('study_registration'), qualification='not_established',
         runtime=manifest.get('runtime'),
         reported_accounting='passed', promotion_authorized=False, manual_filter_measured=False,

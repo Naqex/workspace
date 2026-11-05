@@ -25,8 +25,10 @@ là gap khác với tốc độ; decoded-tick cache/Rust chưa triển khai.
 
 Shared tick preparation đã triển khai và smoke bằng fixture: `prepared_inputs_dir`
 + `--prepare-inputs --parallel-start` dùng chung quality/H4/lossless development
-ticks, ghi phase wall/CPU. Integrated prefix giảm14,06% với exact parity; full-batch
-chưa đo. Đọc [ranking/integration](research/ENGINEERING-REVIEW-Q1-20261105.md#nút-thắt-tổng-thể-và-lát-tích-hợp--0511)
+ticks, ghi phase wall/CPU. Full batch chính thức Q1/2023 đã chạy 5 candidate × 2
+scenario trên source `0d831471` trong 1.800,48 giây, tất cả `completed_verified`;
+golden event parity đạt ở mức semantic, byte khác chỉ do Decimal scale. Đọc
+[benchmark/parity](research/ENGINEERING-REVIEW-Q1-20261105.md#full-batch-benchmark-chính-thức-và-golden-event-parity--0611)
 trước study mới. Raw source/cache drift vẫn fail-closed; không sửa frozen attempt.
 
 Owner giao triển khai workflow/skills và chủ động quản lý skill. Đọc

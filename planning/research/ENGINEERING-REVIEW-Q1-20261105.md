@@ -389,6 +389,51 @@ phần trăm từ microbenchmark. Giữ fast path vì parity/code scope rõ, đo
 runner batch chính thức ở study mới. Nếu còn nút thắt, Rust kernel chỉ xét sau
 full-batch profile và golden artifact parity.
 
+## Full-batch benchmark chính thức và golden event parity — 06/11
+
+Đã chạy bài benchmark đã đăng ký trên source Trader `0d831471`, với cùng
+registration `eurusd-h4-q12023-historical-robustness-v1`, warmup 11–12/2022 và
+development Q1/2023. Lượt chạy dùng `--prepare-inputs --parallel-start`, cache
+prepared đã kiểm hash/schema/order/grid, 4 worker tối đa trên máy hiện tại và
+không gọi model/broker/holdout.
+
+| Đo | Kết quả | Ý nghĩa |
+|---|---:|---|
+| Ứng viên × scenario | 5 × 2 = 10 | Full batch của registration, không phải 10 thử nghiệm độc lập |
+| Tick mỗi worker | 9.038.771 | Đủ declared development window |
+| Worker | 5/5 `completed_verified` | Accounting, bindings và artifact đều đạt |
+| Wall time | 1.800,48 giây (30,0 phút) | Có 4 worker song song; ứng viên thứ 5 chạy sau khi slot trống |
+| CPU worker mới | 4.021,98 giây | Đo diagnostic, không phải quota/token |
+| Cache preparation | Đã hoàn tất trước dispatch | Không tính nhầm cache hit là simulation speedup |
+
+So với attempt cũ, không dùng wall time để claim speedup trực tiếp vì attempt cũ
+đã reuse Donchian và không ghi phase timing tương đương. Per-worker current
+elapsed khoảng 12,7–14,6 phút; số này là mô tả workload hiện tại, không phải
+capacity forecast cho mọi cửa sổ.
+
+Golden là artifact Q1/2023 đã freeze ở attempt-2 (Donchian lấy locator attempt-1
+do reuse). Comparator mới tại
+`tooling/ai-engines/golden_event_parity.py` tách ba lớp:
+
+| Lớp | Kết quả |
+|---|---|
+| Kết quả/decision/candidate semantic | PASS 5/5 |
+| Event ledger: sequence, kind, cursor, fills, risk, accounting | PASS 10/10 |
+| Byte/hash tuyệt đối | FAIL có chủ ý |
+
+Byte/hash khác chỉ ở scale của Decimal string (`-0.30` và `-0.3`, hoặc
+`9993.00` và `9993.0`); comparator xác nhận numeric semantic equality và không có
+khác biệt key/value nào ngoài representation. Đây là **semantic golden event
+parity đạt**, còn **byte parity chưa đạt**; không sửa golden cũ hoặc làm tròn
+ngầm để che sai lệch. Report đầy đủ nằm tại
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/prop-q12023-robustness-20261105/official-benchmark-20261106/golden-parity-v2.json`.
+
+Benchmark này xác nhận tối ưu hiện tại không đổi đường đi tài chính trên fixture
+đã đăng ký. Nó chưa xác nhận OOS, edge, historical broker cost, intrabar đầy đủ,
+prop pass hay live readiness. Bước tiếp theo hợp lý là giữ parity receipt này,
+đọc time-fit 3/6/12 tháng và chỉ mở một cửa sổ mới đã đăng ký; chưa cần Rust/GPU
+rewrite chỉ vì full batch đã chạy xong.
+
 ### Đối chiếu research cộng đồng/agent — 05/11
 
 Các nguồn được dùng để quyết định lát này:
