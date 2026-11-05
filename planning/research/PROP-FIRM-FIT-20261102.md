@@ -127,11 +127,21 @@ Ví dụ cùng cấu hình nominal risk25USD/trade trên10.000USD: target10%=1.0
 không dự báo số trades/thời gian pass hoặc đề nghị tăng risk. Mục tiêu vẫn là
 lấy vốn quỹ với rủi ro kiểm soát, không ép giao dịch để pass nhanh.
 
-**Chưa triển khai full lifecycle evaluator.** Source
-`projects/trader/foundation_v2/trading_workspace_v2/semantics/prop_profile.py`
-chuẩn hóa/evaluate loss floors, chưa giữ/enforce target/minimum-day/activation/
-inactivity/payout lifecycle. Research, skills và ledger diagnostic không đóng
-gap code này; contract/tests cho phần đó cần có trước kết luận time-to-pass.
+**Đã có evaluator lifecycle offline ở scope mô phỏng.**
+`projects/trader/foundation_v2/trading_workspace_v2/prop_session.py` hiện đã
+kiểm phase target, daily/overall loss, static/trailing HWM, reset/DST, minimum
+qualifying days, max calendar days, carry/position policy và thứ tự fee/reset;
+`evaluate_prop_lifecycle_event` giữ revision/event sequence và fail-closed khi
+thiếu dữ liệu. `tests/test_ftmo_swing_offline.py`, `test_ps02_prop_lifecycle.py`
+và replay-connection tests đã đạt **55 tests, 24 subtests** ở lần kiểm
+06/11/2026.
+
+Evaluator này chưa đóng các gap firm-specific: activation/inactivity policy,
+news/overnight/weekend exceptions theo terms hiện hành, payout/eligibility,
+historical broker fills và live reconciliation. Vì vậy nó đủ để đăng ký và
+đánh giá time-fit offline theo profile đã pin, chưa đủ để kết luận pass quỹ hoặc
+time-to-payout. `semantics/prop_profile.py` vẫn là loss-floor oracle đơn giản;
+không dùng nó thay lifecycle evaluator cho hai-phase study.
 
 ## Cơ sở lựa chọn và các phương án đã khảo sát
 

@@ -197,10 +197,13 @@ không chuyển một quý dương thành winner bền vững hoặc bỏ các q
 
 [Time-fit research](PROP-FIRM-FIT-20261102.md#thời-gian-challenge-và-độ-phù-hợp-chiến-lược--kiểm-lại-05112026)
 đối chiếu FTMO/The5ers và ledger đã có: research unlimited/minimum days đã tồn
-tại, nhưng screen PnL/cost chưa đủ đánh giá thời gian đạt vốn/thưởng. G4 còn
-thiếu lifecycle target→đủ ngày→phase reset→phase2→payout, activation/inactivity
-và đúng day boundary/equity semantics. `semantics/prop_profile.py` hiện chỉ
-evaluate loss floors; không suy fields trong docs đã được runtime hỗ trợ.
+tại, nhưng screen PnL/cost chưa đủ đánh giá thời gian đạt vốn/thưởng. Lifecycle
+offline hiện đã có target→đủ ngày→phase reset→phase2, daily/overall loss,
+trailing HWM, DST/day boundary và position policy trong
+`trading_workspace_v2/prop_session.py`; G4 vẫn thiếu activation/inactivity,
+news/hold exceptions, payout/eligibility, historical fills và live
+reconciliation. `semantics/prop_profile.py` chỉ là loss-floor oracle đơn giản,
+không thay evaluator lifecycle.
 
 Study kế tiếp phải freeze time-fit metrics/horizons cùng risk trước outcome.
 Owner chọn so sánh3/6/12tháng, chưa chốt hạn cá nhân; protocol phải khóa exact
