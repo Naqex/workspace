@@ -171,9 +171,21 @@ def inspect(run_dir: Path, *, verify_inputs=False, source_root: Path | None = No
         artifact_invariants='checked', numeric_recalculation_performed=False,
         evidence_scope='registered_development_not_oos', qualification='not_established',
         reported_accounting='passed', promotion_authorized=False, manual_filter_measured=False,
+        review_checks=dict(artifact_invariants='checked_in_scope',
+            protocol_content='verified' if protocol_verified else 'not_verified',
+            preregistration_timing='not_attested_by_content_hash',
+            input_hashes='verified' if verify_inputs else 'not_requested',
+            current_source='not_requested' if source_root is None else
+                'different_or_missing' if source_drift or unavailable_sources else 'matched',
+            causal_implementation='not_assessed_by_this_tool',
+            execution_realism='not_established',
+            out_of_sample='not_satisfied_development_only',
+            selection_bias_and_uncertainty='not_assessed_by_this_tool',
+            firm_specific_rules='not_established', forward_reconciliation='not_assessed_by_this_tool'),
         limitations=['Historical broker costs/spec and complete intrabar coverage are not established.',
                      'Artifact checks do not attest trusted authorship or establish strategy edge.',
                      'Reference/stress scenarios are not independent experiments.',
+                     'A matching protocol hash does not attest registration before outcomes.',
                      'Current source drift limits reproduction, not validity of pinned historical evidence.'])
 
 

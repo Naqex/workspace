@@ -7,6 +7,9 @@ description: Review Naqex strategy evidence for correctness, out-of-sample robus
 
 Đánh giá đúng scope; có thể loại hoặc chưa đủ bằng chứng, không mặc định phải
 tìm winner. Đọc [risk/prop](references/risk-and-prop.md) khi đánh giá quỹ.
+Khi hỏi khung kiểm chứng hoặc đề xuất đổi stage, đọc
+[validation gates](references/validation-gates.md); báo rõ cửa nào đã kiểm,
+chưa kiểm hoặc thiếu evidence. Artifact integrity không thay validation kinh tế.
 
 ## Đọc bằng chứng
 

@@ -64,6 +64,29 @@ class EvidenceTests(unittest.TestCase):
                 self.write('results.json', [dict(self.result, **change)])
                 evidence.inspect(self.run)
 
+    def test_positive_cash_and_verified_hashes_do_not_attest_a_validated_strategy(self):
+        source=self.root/'source'
+        source.mkdir()
+        (source/'candidate.py').write_text('fixture source')
+        self.manifest['source_files']={'candidate.py':evidence.digest(source/'candidate.py')}
+        self.write('manifest.json',self.manifest)
+        self.write('results.json',[dict(self.result,realized_trade_net_usd='4',
+            balance_delta_usd='3',balance_usd='10003',equity_usd='10006')])
+        checkpoint=json.loads((self.run/'reference-checkpoint.json').read_text())
+        checkpoint['execution'].update(balance='10003',equity='10006')
+        self.write('reference-checkpoint.json',checkpoint)
+        report=evidence.inspect(self.run,verify_inputs=True,source_root=source)
+        checks=report['review_checks']
+        self.assertEqual(checks['input_hashes'],'verified')
+        self.assertEqual(checks['current_source'],'matched')
+        self.assertEqual(checks['protocol_content'],'verified')
+        self.assertEqual(checks['preregistration_timing'],'not_attested_by_content_hash')
+        self.assertEqual(checks['out_of_sample'],'not_satisfied_development_only')
+        self.assertEqual(checks['causal_implementation'],'not_assessed_by_this_tool')
+        self.assertEqual(checks['execution_realism'],'not_established')
+        self.assertFalse(report['promotion_authorized'])
+        self.assertEqual(report['qualification'],'not_established')
+
     def test_checkpoint_disagreement_cannot_hide_behind_reported_pass(self):
         checkpoint = json.loads((self.run/'reference-checkpoint.json').read_text())
         checkpoint['execution']['position'] = None

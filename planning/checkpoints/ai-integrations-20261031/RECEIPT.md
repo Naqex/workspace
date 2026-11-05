@@ -5536,3 +5536,54 @@ bounded benchmark/smoke; Q1gốc vẫn sourcepin814e1135, không đổi thành r
 Chiến lược bước tiếp: kiểm consumed map, đăng ký window validation khác rồi giữ
 nguyên rules khi chấm. Current pilot chỉ cho devwindows đã đăng ký; không tự
 gắn tên OOS cho dữ liệu đã xem hoặc chọn ngày rồi mở giá trước protocol.
+
+## 05/11/2026 — audit khung kiểm chứng trước mở validation
+
+Owner hỏi làm sao biết test đúng và khung có đáng tin không. Dùng strategy-
+research/qualification + evidence continuity; đọc protocol/guards/tests/source
+và primary references. [Framework audit](../../research/STRATEGY-VALIDATION-FRAMEWORK-20261105.md)
+giữ source map, bảng cửa G0–G6, implementation gaps, failure handling và việc
+cần chốt trước window mới. Không tạo một backtest engine hoặc skill manager mới.
+
+Đã đối chiếu PBO paper bản02/2015, DSR07/2014 từ tác giả, QuantConnect live
+reconciliation và Fed revised model-risk guidance/SR26-2 ngày17/04/2026.
+SR26-2 thay SR11-7; chỉ dùng nguyên tắc review/validation/monitoring phù hợp,
+không áp nghĩa vụ banking organizations hoặc tự nhận certification ngân hàng.
+Duke record xác minh publication Arnott/Harvey/Markowitz2019; full published
+PDF timeout, không claim đã đối chiếu toàn paper. Một transient web504 đã được
+retry bounded; không dùng nguồn forum thay primary evidence.
+
+Kết luận scope: project có protocol nội bộ dựa trên phương pháp đã công bố,
+guards/tests/recordkeeping thực, **chưa** end-to-end validated methodology hoặc
+third-party certification. Có causal/accounting test evidence và declared cost
+stress, nhưng full consumed/unseen audit, OOS/holdout, statistical uncertainty/
+selection assessment, historical broker realism và prop/forward gaps chưa đóng.
+66product tests/11controller tests không tự chứng minh economic edge.
+
+Mở rộng strategy-qualification bằng reference `validation-gates.md`, yêu cầu
+báo từng cửa/stage/evidence/unknown; workflow/index route tới đó. Skills chưa
+đồng nghĩa code enforce mọi cửa hoặc native worker đã nạp; không đổi permissions.
+`strategy_evidence.py inspect` thêm `review_checks`: phân biệt content hash với
+prereg timing, input/source checks yêu cầu hay đã match, causality/economic/OOS/
+prop/forward phần chưa được tool đánh giá. Positive PnL và all verified hashes
+không auto promote; scanner vẫn chỉ kiểm local artifact invariants/bindings.
+
+Focused suite `test_strategy_evidence.py`: **8tests đạt**,0,190s. Regression
+positive cash + matched source/input/protocol vẫn prereg unattested, dev-only,
+realism unestablished và promotionfalse. Reuse các negative cases sẵn có:
+tamper, false promotion, checkpoint conflict, bad inputs/window, interrupted
+run/source escape. Không rerun numerical/core tests vì source không đổi.
+
+Read-only audit5historical Q1dossiers có verify-input SHA, không đọc window mới,
+không mô phỏng: tất cả artifact consistency checked,0qualified. Source drift
+đúng là pilot.py và forex_pilot_risk.py so với source814e1135. Không xóa evidence
+cũ hoặc coi source mismatch là proof kết quả cũ sai; nó chưa chứng minh code mới.
+Private output: `prop-q1-comparison-20261105/validation-framework-audit-20261105.json`.
+
+Skill quick_validate valid; scoped links1skill,3guides0errors/0warnings;
+manual walkthrough currentQ1 và negative OOS/prop-claim routing không auto pass,
+chưa independent model forward-test. Maintainer audit: global12.279B,
+project10.133/65.536B,reserve55.403B,combined22.412B,21skills,0errors/0warnings.
+Diff check đạt. Giữ validation price windows chưa mở: bước tiếp là inventory
+consumption và freeze split/metrics/decision trước outcome, không chọn winner
+bằng Q1 hoặc đặt Sharpe/trade-count arbitrary để tự công nhận đạt.

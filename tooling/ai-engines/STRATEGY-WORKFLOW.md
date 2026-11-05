@@ -16,6 +16,13 @@ bằng chứng. Paperclip own task/run/report; không thêm tracker/UI riêng.
 Không cần agent/task riêng mỗi hàng. Fixed process worker không tự nhận câu hỏi
 mới từ Markdown; coding agent chạy study riêng, lead delegate theo capability.
 
+Khung/checklist theo stage ở
+[validation gates](../../.agents/skills/strategy-qualification/references/validation-gates.md),
+căn cứ và current gaps ở [framework audit](../../planning/research/STRATEGY-VALIDATION-FRAMEWORK-20261105.md).
+Protocol/data/source hashes và exit0 không tự chứng minh preregistration timing,
+causality, OOS hoặc prop fit. Dossier `review_checks` tách mechanical checks khỏi
+phần chưa được tool đánh giá; dùng bảng gate/evidence trong mọi đề xuất đổi stage.
+
 ## Preflight cùng runner
 
 Từ `projects/trader/foundation_v2`, Python `.venv` đã có:
