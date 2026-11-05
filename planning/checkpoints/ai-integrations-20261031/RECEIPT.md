@@ -5883,3 +5883,17 @@ normalizer/evaluator chỉ loss floors. Bài tiếp cần contract/tests và đ�
 time-fit cùng edge/risk trước outcome, giữ horizon owner khác deadline hãng,
 không ngoại suy PnL quý hoặc thêm dummytrades/tănglot để đủ ngày. Docs/context/
 framework đã route delta; không thêm tracker, chạy lại backtest hoặc mở execution.
+
+## 05/11/2026 — chẩn đoán tốc độ sau Q1/2023
+
+Owner hỏi tăng tốc mà giữ độ đúng. Đã đối chiếu closure phase durations và đọc
+parse/replay/risk/cost loop; chạy bounded profile200.000tick Q1/2022 đã consumed,
+0model/broker calls.1entry/1closed trade; profiler16,721s.3prefix JSON artifacts
+khớp byte với baseline giữ trước đó, không là full-quarter speedup/qualification.
+Job profiler đã kết thúc. Không sửa product/numerical source hoặc study frozen.
+
+Số đo, private artifacts, giới hạn và thứ tự đề xuất thuộc
+[engineering review — delta performance Q1/2023](../../research/ENGINEERING-REVIEW-Q1-20261105.md#delta-performance-q12023--0511-sau-câu-hỏi-vì-sao-chạy-lâu).
+Ưu tiên shared validated inputs/quality và bounded scheduling, rồi hot-loop
+parity/paired benchmark; Rust kernel chỉ khi measured gain đủ. Đây là đề xuất,
+chưa claim đã triển khai/cache/native speedup hoặc chuyển strategy sang broker.

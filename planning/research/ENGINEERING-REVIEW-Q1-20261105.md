@@ -154,3 +154,51 @@ Private artifacts nằm trong `engineering-profile-20261105/` dưới private Q1
 `forex_pilot_risk.baseline.py`, `benchmark_guard.py`, `guard-benchmark.json`,
 samples, `scenario_reuse_smoke.py` và `scenario-reuse-smoke/recovery-proof.json`.
 Những đề xuất khác trong bảng review vẫn là đề xuất nếu không ghi triển khai ở đây.
+
+## Delta performance Q1/2023 — 05/11, sau câu hỏi vì sao chạy lâu
+
+Owner muốn tăng tốc mà giữ độ đúng. Đây là measurement/recommendation slice,
+chưa sửa numerical source, concurrency hoặc frozen registration. Reuse closure
+Q1/2023 và profile ngắn trên200.000tick đầu Q1/2022 đã consumed; không chạy lại
+cả quý, mở window mới hoặc gọi model/broker. Máy hiện tại i5-9400F,6core/6thread.
+
+| Lát | Số đo / source-confirmed | Kết luận |
+|---|---|---|
+| Toàn candidate | Donchian1.489,718s; bốn bản còn lại1.549,781–1.683,406s | Khoảng25–28phút/candidate; không phải AI suy nghĩ trong khoảng đó |
+| Scheduling | Probe Donchian riêng rồi bốn job song song: tổng phase wall times tương ứng3.173,124s≈52,9phút, chưa overhead/rework | Đây là tổng từ lịch đã quan sát, không phải measured baseline cho scheduler mới. Bài tiếp cân nhắc bounded parity/preflight thay full probe khi workload/environment tương đương; phải đăng ký trước, không sửa bài cũ |
+| Validation | Donchian174,703s; parallel jobs361,641–363,984s, chiếm11,7–23,4% total | Repeated quality/warmup có cơ hội reuse. Concurrent phase chậm hơn không tự quy nguyên nhân cho disk/CPU nếu chưa đo resource |
+| Parse lặp | Mỗi candidate đọc warmup một lượt, development quality một lượt rồi reference/stress hai lượt; năm candidate tổng175.376.920tick-decodes với các lượt đủ, chưa tính recovery | Shared immutable decoded inputs/quality có tiềm năng; không tự bỏ integrity/ordering/grid/coverage validation hoặc chia sẻ mutable strategy state |
+| Profile hiện hành |200.000tick,1entry/1closed,16,721s có profiler; `read_qdm_ticks`5,429s gồm full-file hash2,411s; `_liquidation_pnl`4,148s/148.634calls; `model_copy`2,250s/200.454calls | Nested cumulative times không cộng thành percentages. Prefix có hash overhead không tỷ lệ theo số tick và chỉ1trade, chưa đại diện mọi candidate/fullQ1 |
+| Correctness probe | Checkpoint/decisions/candidate JSON khớp byte với prefix baseline đã giữ | Chỉ bounded artifact equivalence; không gọi đó là new full-study acceptance hoặc controlled speedup từ profile cũ sang mới |
+| Completed reuse | Bài đã xong được kiểm/reuse5jobs trong0,636s,0numeric workers theo receipt | Giữ reuse, không tính lại để đọc số/viết báo cáo; khác source/data/cost/rules thì phải review/invalidate đúng |
+
+Evidence private:
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/prop-q1-comparison-20261105/engineering-speed-review-20261105/`
+giữ copied bounded profiler, `scenario-current.prof/.txt`, `profile-binding.json`,
+`speed-review.json` và3prefix artifacts. Closure source là Q1/2023attempt2 đã dẫn
+trong receipt. Không dùng20,09s profile cũ so16,72s mới làm speedup A/B: thời điểm,
+cache/I/O và source khác. Không mở numeric worker nào còn chạy sau profile này.
+
+### Thứ tự tối ưu đề xuất cho bài kế tiếp
+
+1. **Giảm việc lặp và chờ:** giữ completed/scenario reuse; thử scheduling không
+   full probe riêng khi baseline đủ; quality/H4 warmup/decoded-input reuse theo
+   content+schema+reader/runtime+window bindings. Cache cần kiểm corruption,
+   invalidation, một writer và cùng financial semantics. Chi phí tạo/cache miss
+   phải tính riêng; chưa có speedup đo được cho các đề xuất này.
+2. **Tối ưu hot loop nhỏ trước:** thử reuse floating PnL cho đúng cùng quote và
+   position không đổi trong một transition; giảm state allocation khi tương đương.
+   Giữ kiểm mọi tick, rounding/Decimal, spread, financing, event ordering và risk.
+   Golden outputs gồm fills/quantities/costs/stops/open positions, không chỉ PnL
+   cuối. Benchmark paired cùng workload/cache state rồi mới nhận thay đổi.
+3. **Native kernel nếu vẫn cần:** isolate phần parse/replay/valuation đo được
+   sang Rust, giữ Python điều phối/research; không rewrite cả hệ thống hay chuyển
+   Decimal→float âm thầm. Cần parity về tiền/causal timing/risk/recovery và lợi ích
+   end-to-end đủ bù build/maintenance. Chưa có native-kernel prototype/benchmark.
+
+Không tăng mù lên10workers trên6cores, dùng GPU cho loop tuần tự có state, bỏ
+tick/đổi sangM1 để gọi cùng bài nhanh hơn, hoặc lấy cost-stress bằng cách trừ
+tiền từ reference trades: phí/slippage có thể đổi fills/risk/trade path. Screening
+thô có thể là study khác được đăng ký rõ, không thay final tick-level evidence.
+Mục tiêu thực tế là giảm thời gian workload mới và giữ reuse cho workload cũ;
+chưa có căn cứ hứa một quý đầy đủ chạy trong vài giây hoặc một hệ số tối đa.
