@@ -30,6 +30,9 @@ scenario trên source `0d831471` trong 1.800,48 giây, tất cả `completed_ver
 golden event parity đạt ở mức semantic, byte khác chỉ do Decimal scale. Đọc
 [benchmark/parity](research/ENGINEERING-REVIEW-Q1-20261105.md#full-batch-benchmark-chính-thức-và-golden-event-parity--0611)
 trước study mới. Raw source/cache drift vẫn fail-closed; không sửa frozen attempt.
+Hậu kiểm batch cho thấy simulation loop chiếm khoảng99,4–99,5% wall/worker và
+CPU/wall khoảng96,8–98,5%; validation/cache chỉ còn0,5–0,6%. Chưa đổi mặc định
+concurrency hoặc rewrite Rust khi chưa có profile A/B bounded giữ golden parity.
 
 Owner giao triển khai workflow/skills và chủ động quản lý skill. Đọc
 [strategy workflow](../tooling/ai-engines/STRATEGY-WORKFLOW.md) cho research,

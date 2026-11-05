@@ -434,6 +434,25 @@ prop pass hay live readiness. Bước tiếp theo hợp lý là giữ parity rec
 đọc time-fit 3/6/12 tháng và chỉ mở một cửa sổ mới đã đăng ký; chưa cần Rust/GPU
 rewrite chỉ vì full batch đã chạy xong.
 
+### Hậu kiểm nút thắt sau full batch
+
+Receipt mới cho thấy nút thắt đã chuyển rõ về simulation loop:
+
+| Nhóm | Đo được trên 5 worker | Kết luận |
+|---|---:|---|
+| Reference + cost-stress | 99,41–99,50% wall/worker | Đây là chi phí replay/risk/accounting từng tick |
+| Manifest + warmup + development validation | 0,50–0,59% | Prepared cache đã loại phần lặp; không đáng tối ưu tiếp trước |
+| CPU/wall của worker | 96,76–98,52% | Workload hiện tại CPU-bound, không phải chờ I/O chính |
+| Scenario cost-stress | 352–433 giây | Không thể gộp mù với reference vì cost có thể đổi fill/risk path |
+| Scheduling | 4 worker đầu song song, worker thứ 5 nối đuôi | Tăng lên 5 chỉ là giả thuyết; chưa đủ số đo để đổi mặc định |
+
+Vì vậy không thêm Parquet/cache/UI/collector ở lát này. Nút thắt đáng nghiên cứu
+tiếp là allocation và Decimal/Pydantic/event work trong replay loop; profile cũ đã
+chỉ đúng hướng nhưng chưa đủ để chọn Rust kernel. Lát tiếp theo nên là một profile
+đại diện có golden output, rồi benchmark A/B bounded trước khi đụng numerical
+kernel. Nếu không đạt lợi ích end-to-end đủ lớn, giữ Python path và chuyển sang
+time-fit/qualification 3–6–12 tháng.
+
 ### Đối chiếu research cộng đồng/agent — 05/11
 
 Các nguồn được dùng để quyết định lát này:
