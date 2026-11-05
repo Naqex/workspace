@@ -31,3 +31,7 @@ The existing receipt owns results; native Paperclip owns tasks and runs.
 For engine adoption or upgrades, use `upstream-integrations`. For changing Codex
 instructions/skills/configuration, use `ai-environment-maintainer`. This skill
 does not add scheduler, spending, account, holdout or broker authority.
+
+Strategy selection belongs to `strategy-research`, result review to
+`strategy-qualification`; use [strategy workflow](../../../tooling/ai-engines/STRATEGY-WORKFLOW.md)
+for artifacts/tools. Do not redispatch a fixed fixture for an unregistered study.

@@ -41,6 +41,10 @@ quản lý; dùng các nguồn này khi thêm service, không lấy cổng mặc
 
 ### Tìm đúng context để tiếp tục
 
+Strategy workflow: [nghiên cứu → kiểm định → vận hành](../../tooling/ai-engines/STRATEGY-WORKFLOW.md).
+Skill management: [trigger cập nhật/đánh giá/dọn](SKILL-MAINTENANCE.md), dùng
+maintainer hiện có khi thay instruction; không cài manager/service khác.
+
 | Việc đang làm | Đọc đúng nguồn trước |
 |---|---|
 | Research lại một chủ đề, kế thừa chẩn đoán/test hoặc bàn giao | [Chỉ mục research](../../planning/research/README.md) → nguồn chủ đề; [evidence continuity](../../.agents/skills/evidence-continuity/SKILL.md) giữ workflow kiểm delta và lưu bằng chứng |

@@ -2,6 +2,12 @@
 
 ## Ưu tiên chọn chiến lược — owner làm rõ 05/11/2026
 
+Owner tiếp05/11 giao triển khai đầy đủ workflow/skills đã đề xuất và chủ động
+quản lý skills. [Strategy workflow](../../tooling/ai-engines/STRATEGY-WORKFLOW.md)
+reuse code/risk/Paperclip hiện có, thêm hai skill research/qualification cùng
+preflight/dossier; không tạo risk engine/UI/ledger cạnh tranh. Native publication
+và source validation ghi riêng trong receipt; scope không tự mở broker grant.
+
 Tiếp05/11: owner giao khảo sát tools/MCP của FTMO/The5ers/TradingView và thực
 thi đề xuất research trước. [Tool survey](../research/PROP-AGENT-TOOLS-20261105.md)
 giữ quyết định reuse/defer; owner chưa có TVpaid/The5ers. [Protocol round2](../research/PROP-STRATEGY-ROUND2-20261105.md)

@@ -41,6 +41,9 @@ kiểm thử hoặc quyền thực thi của task.
 
 Nếu chỉ xác nhận lại mà không có delta, cập nhật ngày kiểm tại nguồn phù hợp
 kèm nguồn thực sự đã kiểm; không tạo báo cáo mới. Nêu trong trả lời nơi đã lưu.
+Sau bài học lặp, lỗi hoặc contract đổi, xét skill vừa dùng theo
+[maintenance](../../../docs/development/SKILL-MAINTENANCE.md); chủ động sửa đúng
+owner khi có bằng chứng, không biến một lần chưa rõ nguyên nhân thành rule mới.
 Paperclip, process worker và Hermes có loader khác nhau: cung cấp evidence
 packet bằng đường được consumer hỗ trợ; file/skill trong repo không chứng minh
 catalog đã cài, agent đã đọc hoặc worker đang chạy đã nhận instruction mới.

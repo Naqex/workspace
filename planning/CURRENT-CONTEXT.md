@@ -2,6 +2,12 @@
 
 ## Research kế thừa — 05/11/2026
 
+Owner giao triển khai workflow/skills và chủ động quản lý skill. Đọc
+[strategy workflow](../tooling/ai-engines/STRATEGY-WORKFLOW.md) cho research,
+qualification, preflight/dossier và delivery; [maintenance](../docs/development/SKILL-MAINTENANCE.md)
+giữ trigger tự xét cập nhật/gộp/retire. Không tự sinh skill mỗi task hoặc thêm
+service. Trạng thái source/native delivery và kiểm chứng thuộc receipt AI.
+
 Owner đã mở lại nghiên cứu chiến lược prop theo
 [protocol round1](research/PROP-STRATEGY-ROUND1-20261105.md); các ưu tiên
 chỉ kiểm hệ thống ngày02–03/11 bên dưới là snapshot trước thay đổi này.

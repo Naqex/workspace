@@ -11,6 +11,8 @@ Khi lập kế hoạch liên project/giai đoạn mới, đọc `planning/CURREN
 
 Mỗi lượt research và các chẩn đoán lỗi, quyết định hoặc kiểm chứng đáng kể dùng `.agents/skills/evidence-continuity/SKILL.md`: tra bằng chứng cũ trước, kiểm phần đã đổi, lưu kết quả/delta kể cả chưa kết luận trước khi kết thúc. Tra research qua `planning/research/README.md`; bổ sung nguồn hiện có thay vì để kết quả chỉ trong chat hoặc tạo bản sao.
 
+Strategy research dùng `.agents/skills/strategy-research/SKILL.md`; đánh giá kết quả/chuyển bước dùng `strategy-qualification` cùng thư mục. Sau bài học lặp, lỗi hoặc contract đổi, chủ động xét cập nhật/đánh giá skill liên quan theo `docs/development/SKILL-MAINTENANCE.md` và `ai-environment-maintainer`; không chờ owner nhắc, không tự sinh/xóa skill hàng loạt.
+
 Review worker/evidence trước compact; giữ lỗi, WIP, gate và bước resume. Compact/archive không có nghĩa complete. Không giành quyền ghi của worker đang chạy; archive chỉ đọc khi cần điều tra. Reuse tài sản/knowledge/workflow trước; chỉ shared khi nhiều consumer thật và giảm maintenance. Root/model/concurrency của plan mới không thay worker đang chạy.
 
 Khi user giao `planning/WORKSPACE-NEXT-STAGE-PLAN.md`, đọc profile và mọi execution override hiện hành trong PLAN/`planning/CURRENT-CONTEXT.md`, rồi áp dụng đúng scope của lần giao đó. Không hard-code tên model hoặc child cap trong rule này; nếu user ủy quyền một override rõ trong phiên hiện tại thì giữ override đó cho phiên, không tự sửa global config. Chưa được giao thì không chạy worker.

@@ -5131,3 +5131,102 @@ filter; account/OAuthTV/The5ers và approvalEA phải có trước integration �
 Không tự mua challenge, bật broker execution, thêm service hoặc công nhận quỹ
 đã duyệt. Research/implementation/numericintegration hoàn tất đúng lát trên;
 chứng minh lợi nhuận và survival dài hạn chưa hoàn tất.
+
+## 05/11 — Workflow strategy, qualification và chủ động quản lý skills
+
+Owner duyệt triển khai toàn bộ đề xuất workflow trước, đồng thời yêu cầu agent
+chủ động tạo/cập nhật/đánh giá/dọn skill thay vì chờ owner nhắc. Scope lần này:
+instruction/tooling/offline verification và native skill delivery khi runtime
+khả dụng; không tuning/new numerical strategy study hoặc broker grant.
+
+### Các lớp đã triển khai
+
+- Repo skills `strategy-research` và `strategy-qualification`, reference risk/prop
+  đóng gói cùng qualification. Method được chắt lọc từ round1/round2 đã chạy;
+  chưa exact OOS/prop promotion thì skill không mô tả chúng như capability đã đạt.
+- `tooling/ai-engines/STRATEGY-WORKFLOW.md` nối source/rules/data/risk/runner/
+  review/operate/context. AGENTS, current/development context, Studio và lead
+  source route đúng chặng. Không thêm agent/UI/ledger hoặc skill riêng từng hãng.
+- `docs/development/SKILL-MAINTENANCE.md` dùng maintainer/skill-creator hiện có:
+  trigger theo workflow lặp/lỗi/contract đổi, reuse/update trước create; kiểm
+  callers/assignment trước merge/retire; không xóa hàng loạt, nới gate hoặc bật
+  permission tạo skill của bounded workers. Đây là proactive instruction trong
+  task, không daemon/scheduler hoặc global config/hook mới.
+- Trader **`5ed15dbd`**: runner có `--preflight-only`, cùng input/spec/quality/
+  warmup checks, manifest ghi mode và receipt riêng; chưa simulation/results.
+  Cập nhật guide và runtime skill; legacy default/native fixed worker không đổi.
+- `strategy_evidence.py inspect`: dựng dossier đọc-only từ completed study;
+  kiểm scenario/candidate/cash components/checkpoint/coverage, fingerprint
+  artifacts, tùy chọn input rehash/source comparison. Không tự tính statistical
+  qualification hoặc full accounting ledger; `promotion_authorized:false`.
+  Source drift là khoảng cách tái hiện, không xóa historical pinned evidence.
+- `paperclip_strategy_skills.py`: package hai skills + source lead hiện có,
+  preview/export mặc định, apply native API riêng. Backup files/assignments,
+  content/version/idempotency checks, không xóa/upstream overwrite/permission
+  change/service/model call. Không ghi DB trực tiếp hoặc tự retry unknown write.
+
+### Risk/concurrency audit: reuse, không thêm engine cạnh tranh
+
+Đọc `automation_grants.rs::create_grant`, `admit_in_transaction` và settlement
+consumer: account-scoped creation lock (workspace/server/login), từ chối active
+execution owner trùng, durable attempt/risk reservations và unknown không tự
+release. Runtime skill/reference nhắc lại boundary này. Đây là **source-confirmed**,
+chưa rerun broker/Postgres/runtime acceptance; code guard không sửa nên không
+chạy lại suite không đổi. Không công nhận đã có multi-strategy allocator hoặc
+correlation-aware portfolio engine từ việc guard có tồn tại.
+
+### Kiểm chứng
+
+- Product: `foundation_v2/.venv/Scripts/python.exe -m pytest -q
+  tests/test_forex_preflight.py tests/test_forex_prop_candidates.py
+  tests/test_forex_h4_candidates.py`: **18tests +11subtests đạt**.
+- Workspace: `python -X utf8 -m unittest discover -s tooling/ai-engines/tests
+  -p test_strategy_evidence.py -v`: **6tests đạt**. Mismatch checkpoint/candidate/
+  coverage/cash, NaN, giả promotion, interrupted/preflight và path escape bị chặn;
+  equity mở được giữ riêng, source drift không phá historical evidence.
+- `test_paperclip_strategy_skills.py`: **5tests đạt**, native API fixture kiểm
+  package allowlist, modeadd giữ selection, content update/backup/version,
+  rerun không ghi dư, process/active/upstream collision từ chối và unknown/
+  version conflict dừng trước assignment. Không gọi model hoặc real write API.
+- Tổng **29tests +11subtests**, focused; không fullsuite/numeric replay mới.
+- Quickvalidate hai skill mới valid; scoped skilllink check6skills0errors.
+  Một advisory ở lượt review-trigger heuristic không đọc negative trigger tiếng
+  Việt của lead; semantic review xác nhận boundary có thật, không sửa wording
+  chỉ để lách heuristic.9guides local links0errors; diffcheck đạt.
+- Maintainer audit `-Force`: global12.279B, project10.133/65.536B,
+  reserve55.403B, combined22.412B,20skills,0errors/0warnings. Global không sửa.
+
+### Smoke trên artifact/data thật và walkthrough
+
+Private root:
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/strategy-workflow-20261105/`.
+
+- Preflight candidateUTCrange trên QDMmanifest round1/commonwarmup và FTMOspec
+  đã pin: receipt **`preflight_passed_no_simulation`**, process exit0,
+  stderr0bytes, không results.json. Chỉ kiểm data/contract; không trade/model/
+  holdout. Source đã đổi CLI nên native study lịch sử không là run code mới.
+- `round2-dossier.json` thực sự hashCSV/protocol; `round2-dossier-v2.json` bổ sung
+  contract/risk/input/cost routing, dẫn verification trước không giả vừa rehash.
+  Phát hiện đúng drift `scripts/forex_h4_pilot.py` do preflight mới, invariants
+  historical data vẫn checked và permissionfalse. Không chạy lại2phút/1giờ chỉ
+  để công nhận một thay đổi tooling.
+- Manual walkthrough positive: từ research index đi tới round2candidate/protocol,
+  gọi dossier, đề xuất `inconclusive` cho evidence7trade/dev-only; không chọn
+  winner hoặc tự mở demo. Negative: hỏi trạng thái/dịch câu không tạo study,
+  preflight không thành backtest pass; source-positive risk review không thành
+  live acceptance. Chưa forward-test bằng model độc lập; không spawn thêm agent.
+
+### Native delivery chưa hoàn tất vì runtime unavailable
+
+Authenticated native read qua `paperclip_setup.api('/companies')` bị
+`URLError / WinError10061` tại origin cấu hình; Paperclip không nhận kết nối.
+Không publish/assign hoặc công nhận catalog/runtime đã nhận skill. Bundle đã
+export `paperclip-skills-bundle.json` để resume. Không retry lệnh khởi service
+đã từng bị policy từ chối trong context trước, không đổi shell/tool để lách.
+
+Khi native runtime khỏe: đọc company/lead hiện hành (không dùng ID đoán từ
+history), giữ idle, dùng helper `--company ... --agent ... --receipt <new-private>
+--apply`; verify native content/desired selections và actual mounted package
+ở lần work có ích tiếp theo. Helper không tự dispatch model để tạo bằng chứng.
+Nội dung source/instruction/tools và offlinechecks đã xong; publication/real
+agent use vẫn chưa được xác nhận, cần giữ gap này trong báo cáo tiếp.

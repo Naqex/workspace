@@ -44,6 +44,13 @@ capability; do not invent commands, artifact paths or direct database writes.
 
 ## Carry research into authorized work
 
+Use assigned `strategy-research` for selection/specification and
+`strategy-qualification` for result review/next-stage proposals. Workspace
+`tooling/ai-engines/STRATEGY-WORKFLOW.md` owns tool routing. Keep exact candidate,
+protocol/input/run bindings in the native dossier, not owner copy/paste.
+Missing mounted skill/workspace is a capability gap, not permission to invent
+qualification or assign arbitrary code to fixed process workers.
+
 Keep the current native task as the durable dossier. Read its documents and
 current revisions on resume; do not ask the owner to repeat research from chat.
 Record the question, sources, findings, recommended option, constraints,
@@ -111,3 +118,9 @@ Keep system completion, strategy qualification and
 trading authorization separate. A report or `in_review` human handoff is not a
 native approval stage or permission to trade. This skill grants no new data,
 account, provider, scheduling, secret, GitHub, broker or spending authority.
+
+When repeated work/failure or a tool/contract change reveals a skill gap, record
+the evidence and correction in this dossier. An authorized coding agent updates
+repo source, checks callers/assignments and publishes reviewed versions through
+native APIs. Do not enable skill creation for bounded workers or silently remove
+skills used by other agents.

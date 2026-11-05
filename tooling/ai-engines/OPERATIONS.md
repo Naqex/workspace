@@ -1,5 +1,10 @@
 # Studio operations for agents
 
+Strategy selection and qualification use the
+[strategy workflow](STRATEGY-WORKFLOW.md). Its two skills route evidence and
+preflight/report tools; runtime/grants remain owned by the existing execution
+boundaries. Repo skills are not automatically delivered to process workers.
+
 This is the operating guide for the registered Studio system workflows. Use the
 [AI plan](../../planning/trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md) for scope and
 the [existing receipt](../../planning/checkpoints/ai-integrations-20261031/RECEIPT.md)
@@ -194,7 +199,27 @@ grant a bounded worker filesystem/memory tools merely to align every loader.
 
 The native lead's Naqex skill source is
 [`paperclip-skills/naqex-research-lead/SKILL.md`](paperclip-skills/naqex-research-lead/SKILL.md).
-This is a Paperclip consumer package, not another Codex discovery skill. Publish
+
+For the reviewed strategy skills and lead update, preview/export with:
+
+```powershell
+python -X utf8 tooling/ai-engines/paperclip_strategy_skills.py --bundle <new-private-bundle.json>
+```
+
+Publish when the existing runtime is reachable and the native lead is idle:
+
+```powershell
+python -X utf8 tooling/ai-engines/paperclip_strategy_skills.py --company <company-id> --agent <native-lead-id> --receipt <new-private-receipt.json> --apply
+```
+
+The helper snapshots touched managed files, uses optimistic version checks and
+native idempotency keys, verifies saved contents, and syncs with `mode:add`.
+It rejects process workers, active leads and imported/upstream slug collisions;
+it does not delete skills, alter permissions, start services or call a model.
+On uncertain writes, stop and inspect the native catalog plus receipt before
+resuming; no automatic retry. Exporting a bundle is not native installation.
+
+The Naqex lead skill is a Paperclip consumer package, not a Codex discovery skill. Publish
 its reviewed content through the native company skill API, then attach it using
 `POST /agents/:id/skills/sync` with `mode: add`, preserving existing selections.
 The installed native version is a runtime snapshot; maintain the source in this
