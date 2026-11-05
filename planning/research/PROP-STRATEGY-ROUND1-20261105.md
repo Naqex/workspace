@@ -97,6 +97,16 @@ không gọi là exact replication của tác giả. ATR/indicator phải causal
 warmup đủ; C02 cần ít nhất80 nến và trạng thái chênh lệch trước crossover.
 Không lấy thiếu lịch sử làm giá trị0, không fill nến thiếu tùy tiện.
 
+**Làm rõ trước numerical run 05/11:** time exit của C04 tính sáu lần đóng nến
+H4 hợp lệ khi cùng một position ID còn mở, gồm nến chứa lần fill. Không đổi
+sang sáu nến tổng hợp qua gap hoặc kế thừa tuổi của vị thế trước cùng chiều.
+Warmup mới dùng cache **01–31/12/2021** cho cả C01/C02/C04; phải có ít nhất
+81 nến H4 hợp lệ trước development. Warmup cũ 20–31/12 chỉ có 58 nến, nên không
+đủ cho crossover đã có giá trị trước. Không thay manifest/baseline lịch sử;
+runner mặc định vẫn giữ contract cũ, chế độ study dùng manifest mới có hash.
+Lượt đầu chỉ chạy lại development **03–14/01/2022** để kiểm numerical integration
+và đối chứng; không gọi đây là OOS. Không xếp hạng lợi thế từ hai tuần đó.
+
 Reuse execution/accounting đã có: buy tại ask/sell tại bid ở quote có thể giao dịch sau
 quyết định; SL theo quote/gap, không giả khớp đúng stop; không pyramiding hoặc
 martingale. Tại cùng tick, đối soát thứ tự native risk/SL/pending actions trước
