@@ -7,6 +7,7 @@ Các mục cũ chưa được re-audit khi tạo chỉ mục ngày 05/11/2026.
 
 | Câu hỏi / từ khóa | Nguồn hiện có |
 |---|---|
+| Hậu kiểm chất lượng/kỹ thuật/performance; học từ run; Hermes learning loop | [Engineering review Q1,05/11](ENGINEERING-REVIEW-Q1-20261105.md); [skill hậu kiểm](../../.agents/skills/engineering-retrospective/SKILL.md) |
 | Log/status/debug/recovery; có cần OpenTelemetry/collector? | [Observability guide](../../tooling/ai-engines/OBSERVABILITY.md), source check05/11; dùng native/stdlib hiện có trước backend mới |
 | Workflow strategy, qualification, preflight/report và skill management | [Workflow công cụ/skills](../../tooling/ai-engines/STRATEGY-WORKFLOW.md); [quản lý skills](../../docs/development/SKILL-MAINTENANCE.md) |
 | MCP/tools FTMO, The5ers, TradingView; open-source MT5/Pine; quyền/account | [Khảo sát công cụ cho agent, 05/11](PROP-AGENT-TOOLS-20261105.md) |

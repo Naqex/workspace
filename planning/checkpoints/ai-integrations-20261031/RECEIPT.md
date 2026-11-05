@@ -5420,3 +5420,45 @@ Không restart bằng workaround. Root progress dẫn tới report hiện hành,
 historical stopped/failed attempts. Lát tiếp nên freeze5candidate, audit consumed
 map/coverage và đăng ký validation thật trước mở dữ liệu mới; không tối ưu tham
 số theo riêng quý này hoặc mua challenge từ kết quả này.
+
+## 05/11/2026 — hậu kiểm kỹ thuật đa chiều và skill cải tiến
+
+Owner yêu cầu tổng kết quality/performance/kỹ thuật/vận hành và học như Hermes,
+không chỉ strategy PnL. Đã review retained artifacts + source supervisor/pilot/
+Hermes wrapper + skills hiện có; không chạy lại numerical study hoặc gọi model
+worker. [Engineering review Q1](../../research/ENGINEERING-REVIEW-Q1-20261105.md)
+giữ bảng12lát, primary sources, đã có/giả thuyết/đề xuất và tiêu chí xác nhận.
+Đây không phải audit mọi UI/API/DB/broker hoặc implementation mọi đề xuất.
+
+Tách phase từ rotated logs actual first-event/sequence và terminal: chuẩn bị
+71–83s; reference505–595s, stress531–629s, scenarios92,6–93,8%elapsed.
+`attempt-3/engineering-phase-timings.json` giữ số liệu/phương pháp; scenario
+gồm cả đọc/parse/risk/accounting/write nên chưa quy function hotspot. Cache
+preparation đơn thuần có trần lợi ích nhỏ; ưu tiên profile scenario, controller
+mini-batch transition regression và scenario-level completion reuse. Không
+hứa same0,7s cho workload mới hoặc gọi1,79×reader là whole-engine speedup.
+
+Tạo repo skill `engineering-retrospective`, nối qua evidence-continuity và
+SKILL-MAINTENANCE. Nó own post-run triage, không duplicate performance/debug/
+evidence/maintenance protocols hoặc tạo scheduler. Báo cáo trả lời:
+quality/correctness, failures/recovery, CPU/RAM/timing/reuse, UX/AX, maintainability,
+delivery, việc sửa/giữ/defer và nơi lưu bài học. Không tự upgrade package/model,
+nới permission/risk hoặc biến run pass thành strategy/whole-product acceptance.
+
+Đối chiếu Hermes official skills docs05/11 và local `hermes_worker.py`:
+upstream có skill_manage/background review/write gates; wrapper project chỉ
+naqex_research/memory/session_search và skip_background_review=True. Không
+bật skill_manage/background updater hoặc nâng pinned engine trong lượt này.
+Repo skill chưa được publish native Paperclip/Hermes; không claim đã mounted.
+
+Validation: quick_validate **valid** bằng TradingAgentsvenv sẵn có (Tradervenv
+không cóPyYAML, đã đổi sang existing runtime chứ không cài vào product).
+Scoped skill links2skills và3guide local links: **0errors**, trigger heuristic
+0warnings. Manual positive walkthrough trên chính Q1 tạo bảng có số đo và giữ
+uncertainty; negative walkthrough status hỏi/Q1 là mấy tháng/trivial copy không
+kích hoạt review, discovery strategy route riêng. Chưa independent model
+forward-test, không dispatch model chỉ để công nhận skill mới.
+
+Maintainer audit sau đổi: global12.279B, project10.133/65.536B,
+reserve55.403B, combined22.412B,21skills,**0errors/0warnings**. GlobalAGENTS,
+hooks, provider/account permissions và live runtime giữ nguyên. Diff check đạt.

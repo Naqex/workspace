@@ -11,6 +11,11 @@ Xét sau workflow lặp, lỗi đáng kể, misroute, contract/tool/path/ownersh
 hoặc owner sửa cách vận hành. Chỉ xem skill vừa dùng/phần bị tác động; không
 full-audit hoặc gọi thêm model sau mọi commit.
 
+Hậu kiểm đa chiều sau đợt chạy quan trọng dùng
+[engineering-retrospective](../../.agents/skills/engineering-retrospective/SKILL.md).
+Skill đó chọn lát cải tiến và evidence; tài liệu này own lifecycle của skill,
+không giao thêm quyền cho bounded workers hoặc background updater.
+
 | Bằng chứng | Hành động nhỏ nhất |
 |---|---|
 | Fact/command đổi | Sửa reference/runbook owner và link |
