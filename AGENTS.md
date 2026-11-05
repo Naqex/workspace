@@ -9,6 +9,8 @@ thuộc org Naqex, tiếp tục là submodule; fork giữ upstream layout/attrib
 
 Khi lập kế hoạch liên project/giai đoạn mới, đọc `planning/CURRENT-CONTEXT.md`; quy trình phân loại, cleanup, compact và bàn giao nằm trong `planning/CONTEXT-LIFECYCLE.md`. Mỗi loại thông tin có một owner: PLAN giữ scope/acceptance; ledger hoặc tracker mà PLAN chỉ định giữ trạng thái; checkpoint giữ bằng chứng. Với run MT5, `STATE.json` là export từ ledger, `RESUME.md` hướng dẫn tiếp tục; không sửa snapshot để tự công nhận task đạt. README/context chỉ điều hướng hoặc tóm tắt có nguồn, không tạo ledger cạnh tranh.
 
+Mỗi lượt research và các chẩn đoán lỗi, quyết định hoặc kiểm chứng đáng kể dùng `.agents/skills/evidence-continuity/SKILL.md`: tra bằng chứng cũ trước, kiểm phần đã đổi, lưu kết quả/delta kể cả chưa kết luận trước khi kết thúc. Tra research qua `planning/research/README.md`; bổ sung nguồn hiện có thay vì để kết quả chỉ trong chat hoặc tạo bản sao.
+
 Review worker/evidence trước compact; giữ lỗi, WIP, gate và bước resume. Compact/archive không có nghĩa complete. Không giành quyền ghi của worker đang chạy; archive chỉ đọc khi cần điều tra. Reuse tài sản/knowledge/workflow trước; chỉ shared khi nhiều consumer thật và giảm maintenance. Root/model/concurrency của plan mới không thay worker đang chạy.
 
 Khi user giao `planning/WORKSPACE-NEXT-STAGE-PLAN.md`, đọc profile và mọi execution override hiện hành trong PLAN/`planning/CURRENT-CONTEXT.md`, rồi áp dụng đúng scope của lần giao đó. Không hard-code tên model hoặc child cap trong rule này; nếu user ủy quyền một override rõ trong phiên hiện tại thì giữ override đó cho phiên, không tự sửa global config. Chưa được giao thì không chạy worker.

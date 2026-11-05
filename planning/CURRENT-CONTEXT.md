@@ -1,5 +1,18 @@
 # Current context — Naqex Workspace
 
+## Research kế thừa — 05/11/2026
+
+Owner đã mở lại nghiên cứu chiến lược prop theo
+[protocol round1](research/PROP-STRATEGY-ROUND1-20261105.md); các ưu tiên
+chỉ kiểm hệ thống ngày02–03/11 bên dưới là snapshot trước thay đổi này.
+[Research trade tay/semi-auto/auto](research/PROP-AUTOMATION-AND-STRATEGY-EVIDENCE-20261105.md)
+giữ nguồn, giới hạn và khuyến nghị; chưa là quyết định bật auto của owner.
+Lưu ý delta Terms The5ers §11 trước triển khai; chi tiết ở protocol/research.
+Tra [chỉ mục research](research/README.md) và dùng
+[workflow kế thừa](../.agents/skills/evidence-continuity/SKILL.md) để kiểm delta
+và lưu kết quả ngoài chat. Scope/run/acceptance vẫn theo AI plan và receipt
+được dẫn ở dưới; không suy quyền broker/holdout từ research hoặc context.
+
 ## Ưu tiên hiện hành — audit Trader cho một owner, 31/10/2026
 
 **Trạng thái 01/11:** owner đã giao tiếp tục audit cùng Studio. Dùng

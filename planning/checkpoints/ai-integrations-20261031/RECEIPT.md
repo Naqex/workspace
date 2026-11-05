@@ -4995,3 +4995,42 @@ policy; nếu app vẫn giữnever thì mở task mới đúng mode, tiếp từ
 Chưa retry launch Paperclip, khởi service/terminal, gửi support hoặc tuyên bố
 original operation đã phục hồi. Không đổi shell/encoding hoặc tool để lách cùng
 operation bị chặn; chưa tìm được bản vá upstream nào bảo đảm fix mọi trường hợp.
+
+## 05/11 — Lưu research và kế thừa bằng chứng ngoài chat
+
+Owner yêu cầu mỗi lượt research cập nhật context và áp dụng tương tự cho các
+chẩn đoán/kiểm chứng/quyết định cần kế thừa. Đã reuse context lifecycle và owner
+map hiện có, thêm repo skill
+[evidence-continuity](../../../.agents/skills/evidence-continuity/SKILL.md),
+route từ AGENTS và development/current context. Không thêm ledger, service,
+vector store hoặc hook mới. Quy trình: đọc nguồn cũ → kiểm delta/freshness →
+lưu bằng chứng/giới hạn → cập nhật link bàn giao.
+
+[Chỉ mục research](../../research/README.md) dẫn tới tài liệu hiện có;
+[research prop/automation](../../research/PROP-AUTOMATION-AND-STRATEGY-EVIDENCE-20261105.md)
+lưu hai lượt đối chiếu vừa qua, tách source fact/community/inference/unknown
+và khuyến nghị chưa được owner chốt. Round1 thêm Terms The5ers §11/T7 vì mô tả
+EA cũ chưa nêu yêu cầu approval bằng văn bản; không thay outcome, tham số hoặc
+protocol tín hiệu đã freeze. Các tài liệu cũ trong chỉ mục không được tự gắn
+nhãn đã re-audit hôm nay.
+
+Kiểm chứng documentation-only:
+
+- `python -X utf8 C:/Users/MIIKEY/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/evidence-continuity`: valid.
+  Lượt đầu không có `-X utf8` gặp lỗi decoder cp1252; dùng UTF-8 của process
+  để đọc đúng tiếng Việt, không sửa system encoding/global config hoặc validator.
+- `python -X utf8 tooling/check_skill_links.py --skills-dir .agents/skills/evidence-continuity --review-triggers`: 1 skill, 0 lỗi/0 cảnh báo.
+- Reuse `tooling/check_workspace.py::check_links` cho9file nội dung/điều hướng:
+  0 local-link errors; `git diff --check` đạt.
+- Manual resume-read: từ chỉ mục tìm được mức auto đề xuất, trạng thái chưa
+  được owner chốt, nguồn The5ers mới, phần chưa biết và điều kiện refresh.
+  Negative trigger: dịch/chỉnh câu đơn giản không tạo artifact mới. Đây là
+  review chỉ dẫn/tài liệu, chưa là forward-test bằng một model độc lập.
+- Maintainer audit `-Force`: 0 errors/0 warnings; global12.279B,
+  project9.711/65.536B, combined21.990B, project reserve55.825B;18skills.
+
+Source guide chỉ rõ cách gửi evidence locator/revision qua native dossier hoặc
+typed request. Không sửa/publish catalog Paperclip, gọi model/provider, đổi
+Hermes loader hoặc công nhận worker đang chạy đã nhận skill mới. Agent đọc
+repo có route rõ qua AGENTS; consumer khác vẫn dùng loader/output contract
+hiện có. Không mở quyền giao dịch hoặc tự coi research là strategy acceptance.

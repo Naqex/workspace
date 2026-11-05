@@ -29,7 +29,7 @@ profit giveback và ít giao dịch sẽ quan sát trong demo. Không tự gán 
 
 | Điểm ảnh hưởng chọn chiến lược | FTMO 2-Step Swing | The5ers High Stakes |
 |---|---|---|
-| EA | Được phép với điều kiện; EA bên thứ ba trùng giao dịch có cảnh báo allocation [F3] | Phải có quyền sở hữu source; hạn chế EA trùng giao dịch/copy và các cách thực thi bị cấm [T4,T5] |
+| EA | Được phép với điều kiện; EA bên thứ ba trùng giao dịch có cảnh báo allocation [F3] | FAQ yêu cầu sở hữu source/SL hiển thị [T4,T5]; Terms §11 còn yêu cầu approval bằng văn bản trước dùng automated software và hạn chế phần mềm bên thứ ba [T7] |
 | Loss rules | Daily limit dựa balance tại reset Prague và 5% initial; total floor static 90% initial [F1] | FAQ: daily floor 95% của max(balance,equity) tại 00:00 server; total floor90% initial [T2]. Không đồng nhất với công thức FTMO |
 | Điều kiện ngày | Tối thiểu4 ngày có mở vị thế mỗi phase, không phải4 ngày có lãi [F1] | Trang chương trình nêu3 profitable days; FAQ định nghĩa lợi nhuận ngày theo min(balance,equity) và mức0,5% initial [T1,T3] |
 | Holding/news | Swing cho giữ qua market close và news, vẫn phải tránh forbidden practices [F2,F4] | Có thể giữ qua đêm; High Stakes hạn chế thực thi quanh tin quan trọng, khác việc giữ vị thế [T1,T6] |
@@ -42,6 +42,12 @@ Không đổi code nhằm che giao dịch trùng, né luật hoặc vượt hạ
 
 ### Giới hạn xác minh cần giữ
 
+- **Bổ sung05/11 sau khảo sát auto/semi-auto:** mô tả EA ban đầu chưa nêu đủ
+  [T7, cập nhật28/10/2026]. Cần xác nhận bằng văn bản cho phần mềm/tài khoản
+  cụ thể trước triển khai The5ers; quyền sở hữu source một mình chưa đủ.
+  [Research kế thừa](PROP-AUTOMATION-AND-STRATEGY-EVIDENCE-20261105.md) giữ
+  đối chiếu FAQ/Terms. Đây là delta compliance, không sửa protocol đã freeze
+  hoặc công nhận run cũ đạt điều kiện hãng.
 - [T2] nêu ngưỡng5% / 10%, trong khi card chương trình là nội dung động theo
   lựa chọn. Chưa có checkout/account-specific snapshot: **không** khẳng định
   cùng một bộ số áp dụng mọi size/New/Classic hoặc mọi tier sau scale.
@@ -197,6 +203,7 @@ dedup; không restart graph fixture cũ hay tạo management UI ngoài.
 - **T4** [The5ers EA/source/visible SL, updated22/07/2026](https://the5ers.com/faqs/can-i-use-an-ea-expert-advisor-can-i-set-a-stealth-mode-stop-loss/).
 - **T5** [The5ers prohibited practices, updated03/11/2026](https://the5ers.com/faqs/prohibited-trading-practices/).
 - **T6** [High Stakes general/news rules, updated03/11/2026](https://the5ers.com/faqs/what-are-the-general-rules-for-the-high-stakes-program/).
+- **T7** [The5ers Terms §11, updated28/10/2026, đối chiếu05/11](https://the5ers.com/terms-and-conditions/).
 - **R1** [Moskowitz/Ooi/Pedersen, Time Series Momentum 2012](https://www.aqr.com/Insights/Research/Journal-Article/Time-Series-Momentum).
 - **R2** [Hurst/Ooi/Pedersen, Century of Trend Following 2017](https://www.aqr.com/insights/research/journal-article/a-century-of-evidence-on-trend-following-investing).
 - **R3** [Menkhoff et al., Currency Momentum Strategies, BIS WP366](https://www.bis.org/publications/working-paper-366-currency-momentum-strategies).

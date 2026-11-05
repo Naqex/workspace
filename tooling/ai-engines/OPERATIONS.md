@@ -184,6 +184,14 @@ does not make it part of its prompt. Update the owning instruction path/adapter
 only when that consumer needs the change, then verify what it actually receives.
 Do not give a bounded reviewer an operator skill just to make every agent match.
 
+For reusable research, diagnoses and validation, follow the workspace
+[evidence continuity workflow](../../.agents/skills/evidence-continuity/SKILL.md).
+Read the existing topic/receipt first and send its exact locator/revision and
+remaining questions in the native task dossier or registered input. Persist the
+delta through that consumer's existing output contract, then reconcile it into
+the owning artifact. Do not assume the consumer can discover repo context or
+grant a bounded worker filesystem/memory tools merely to align every loader.
+
 The native lead's Naqex skill source is
 [`paperclip-skills/naqex-research-lead/SKILL.md`](paperclip-skills/naqex-research-lead/SKILL.md).
 This is a Paperclip consumer package, not another Codex discovery skill. Publish

@@ -29,6 +29,52 @@ Read-set tối thiểu: instructions áp dụng → CURRENT-CONTEXT → assigned
 
 Context packet cho một task: mục tiêu, baseline/owner, allowed files, contract/version, reuse candidate, acceptance, quyền cấm, next action và evidence locator. Không cần copy nhiều PLAN vào prompt. State phải có changed files, test đã chạy/thất bại/chưa chạy, artifacts và blocker cụ thể.
 
+## Kế thừa research, chẩn đoán và kiểm chứng
+
+**Bổ sung 05/11/2026 theo yêu cầu owner:** mỗi lượt research phải lưu hoặc cập
+nhật bằng chứng trước khi kết thúc, kể cả chưa kết luận; áp dụng tương tự cho
+chẩn đoán, quyết định và kiểm chứng đáng kể. Không chỉ lưu trong chat hoặc
+memory riêng của một model. Workflow nằm ở
+[evidence-continuity](../.agents/skills/evidence-continuity/SKILL.md);
+[chỉ mục research](research/README.md) chỉ điều hướng, không là ledger mới.
+
+### Đặt đúng nơi
+
+| Nội dung | Owner giữ bản chính |
+|---|---|
+| Research/khảo sát liên project hoặc phục vụ plan workspace | Tài liệu chủ đề trong `planning/research/`; chỉ mục dẫn tới bản đó |
+| Research riêng sản phẩm | Docs/research owner của sản phẩm; chỉ mục workspace có thể link, không copy |
+| Chẩn đoán, test, runtime hoặc job | Receipt/checkpoint/run artifact do PLAN chỉ định; giữ command, baseline và kết quả thực |
+| Quyết định kiến trúc hoặc contract | ADR/spec owner; research dẫn tới quyết định, không thay quyết định |
+| Task/điều phối đang chạy | Native Paperclip và ledger hiện có; tài liệu repo không tự đổi task state |
+| Bài học thao tác lặp lại | Cập nhật skill/runbook đã có; tạo skill khi workflow lặp và đủ bằng chứng |
+
+### Bản ghi đủ để kế thừa
+
+Không bắt buộc một template cho mọi artifact. Bản ghi phải trả lời được:
+
+- Câu hỏi/phạm vi và điều kiện áp dụng; ngày thực sự kiểm chứng, phiên bản hoặc
+  code/input/runtime baseline liên quan. Ngày viết lại tài liệu khác ngày kiểm nguồn.
+- Kết luận nào đã xác minh, là suy luận, tự thuật, chưa biết hoặc bị bác bỏ;
+  khuyến nghị của agent, quyết định của owner và acceptance là các trạng thái riêng.
+- Bằng chứng: URL + mục/ngày nguồn cho web; command/result + locator/hash khi có
+  cho thực thi. Chỉ ghi claim nguồn thực sự hỗ trợ; nguồn dead/unavailable không
+  tự thành false và không được gắn nhãn vừa kiểm lại.
+- Delta so với bản trước và lý do; điều chưa kiểm, bước tiếp và điều kiện refresh.
+  Luật/giá/provider/version kiểm lại trước hành động; kết quả test chỉ reuse khi
+  code, inputs, dependencies và môi trường liên quan vẫn tương đương.
+
+Lượt sau đọc bản hiện hành rồi kiểm delta, không research lại từ đầu. Có mâu thuẫn
+thì lưu cả hai nguồn/ngày/scope, đánh dấu gap và sửa nơi đang hướng dẫn sai.
+Không sửa protocol đã freeze hoặc outcome cũ để hợp kết luận mới. Không có delta
+thì không cần file mới hoặc recap dài; ngày recheck chỉ đổi khi thực sự kiểm.
+
+Khi giao agent khác, gửi đúng locator/section/revision, dữ liệu được phép và việc
+chưa biết. Repo skill không tự được cài vào Paperclip; process worker chỉ nhận
+typed request, Hermes nhận dossier qua adapter. Đồng bộ qua đúng loader nếu
+scope cần; ghi rõ source đã sửa hay runtime đã nhận, không gọi model chỉ để
+chứng minh một thay đổi tài liệu. Việc lưu context không mở thêm quyền thực thi.
+
 ## Review trước; compact được cả phần đã xong và phần làm dở
 
 1. **Review trước khi rút nội dung:** đọc scope/acceptance, HEAD + dirty tree, trạng thái worker, ledger/checkpoint và receipts. Đối chiếu source/hash; chạy kiểm chứng hẹp phù hợp quyền/rủi ro. Worker ghi PASS là input review, không tự là nghiệm thu. Ghi rõ phần chưa kiểm; chat ngắt không chứng minh code hỏng, cũng không chứng minh hoàn thành.

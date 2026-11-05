@@ -43,6 +43,7 @@ quản lý; dùng các nguồn này khi thêm service, không lấy cổng mặc
 
 | Việc đang làm | Đọc đúng nguồn trước |
 |---|---|
+| Research lại một chủ đề, kế thừa chẩn đoán/test hoặc bàn giao | [Chỉ mục research](../../planning/research/README.md) → nguồn chủ đề; [evidence continuity](../../.agents/skills/evidence-continuity/SKILL.md) giữ workflow kiểm delta và lưu bằng chứng |
 | Lấy lịch sử Forex, tìm downloader/cache đã có | [QDM CLI của Trader](../../projects/trader/docs/quantdatamanager.md); [contract Forex](../../planning/research/FOREX-PROP-PILOT-20261102.md) giữ khoảng dữ liệu được phép |
 | Tiếp tục AI research | [AI plan](../../planning/trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md) giữ scope; [receipt](../../planning/checkpoints/ai-integrations-20261031/RECEIPT.md) giữ kết quả, lỗi và bước tiếp |
 | Chọn engine hoặc kiểm quyền worker | [Integration guide](../../tooling/integrations/README.md) → [engine contracts](../../tooling/ai-engines/README.md); research/review không cấp quyền broker, holdout hoặc promotion |
