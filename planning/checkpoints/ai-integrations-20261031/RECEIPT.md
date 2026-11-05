@@ -5897,3 +5897,10 @@ Số đo, private artifacts, giới hạn và thứ tự đề xuất thuộc
 Ưu tiên shared validated inputs/quality và bounded scheduling, rồi hot-loop
 parity/paired benchmark; Rust kernel chỉ khi measured gain đủ. Đây là đề xuất,
 chưa claim đã triển khai/cache/native speedup hoặc chuyển strategy sang broker.
+
+### Owner làm rõ horizon — phản hồi05/11/2026
+
+Owner chưa chốt hạn hoàn thành cá nhân, chọn so sánh3/6/12tháng trước; giữ ưu tiên
+rủi ro thấp, không ép tănglot. Đã cập nhật time-fit research/framework. Protocol
+tiếp phải khóa exact dates/calendar;90/180/365ngày là xấp xỉ đề xuất cũ, không
+đồng nhất tháng lịch. Chưa chạy mô phỏng hoặc xác lập tỷ lệ/thời gian pass.

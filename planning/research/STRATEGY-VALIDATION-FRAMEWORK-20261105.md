@@ -203,7 +203,8 @@ và đúng day boundary/equity semantics. `semantics/prop_profile.py` hiện ch�
 evaluate loss floors; không suy fields trong docs đã được runtime hỗ trợ.
 
 Study kế tiếp phải freeze time-fit metrics/horizons cùng risk trước outcome.
-Mốc90/180/365ngày là đề xuất kinh tế, không là hạn hãng; insufficient coverage
+Owner chọn so sánh3/6/12tháng, chưa chốt hạn cá nhân; protocol phải khóa exact
+dates/calendar, không mặc định tháng=30ngày. Đây không là hạn hãng; thiếu coverage
 báo chưa đủ quan sát, không tự fail hoặc dự báo pass từ quarterly return.
 Ghi first breach, not-reached/censoring và trial/window dependence. Hậu kiểm
 ledger vừa có là diagnostic post-hoc, không thay frozen criteria hoặc cleanOOS.

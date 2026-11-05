@@ -114,10 +114,13 @@ bằng ngoại suy tuyến tính hoặc nhân lot từ lợi nhuận một quý.
 
 Trước study tiếp, đăng ký time-fit cùng edge/risk: phase1→reset→phase2, target
 khi flat/đủ ngày hợp lệ, first breach, activation/inactivity, holding/news/swap,
-rồi funded eligibility→payout request→tiền thực nhận. Đánh giá các mốc90/180/365
-ngày như **horizon kinh tế đề xuất**, chưa là deadline hãng hoặc sở thích owner
-đã chốt. Báo reached/breached/not-reached-within-observation/unknown và coverage;
-không coi mẫu ngắn là đã đánh giá đủ365ngày hoặc các windows chồng nhau độc lập.
+rồi funded eligibility→payout request→tiền thực nhận. **Owner xác nhận05/11:
+chưa chốt hạn cá nhân; so sánh các mốc3/6/12tháng trước**, giữ ưu tiên rủi ro thấp,
+không ép tăng lot. Đây là horizon đánh giá, không phải deadline hãng hoặc cam
+kết pass. Protocol tiếp khóa ngày bắt đầu/kết thúc và cách tính tháng lịch;
+90/180/365ngày ở đề xuất ban đầu chỉ là xấp xỉ, không đồng nhất tháng lịch.
+Báo reached/breached/not-reached-within-observation/unknown và coverage; không
+coi mẫu ngắn là đã đánh giá đủ12tháng hoặc windows chồng nhau độc lập.
 
 Ví dụ cùng cấu hình nominal risk25USD/trade trên10.000USD: target10%=1.000USD
 ≈40R; phase2 5%=500USD≈20R; ngày lãi0,5%=50USD≈2R. Đây là quy đổi đơn vị,
