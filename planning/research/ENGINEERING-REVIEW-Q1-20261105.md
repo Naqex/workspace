@@ -459,6 +459,24 @@ local là máy tương tác của owner (game/media). Thư mục attempt đượ
 Lần profile sau phải chạy low-priority trong cửa sổ idle, output mới và giữ
 golden/parity checks.
 
+Profile bounded đã chạy lại ở Normal priority theo yêu cầu owner, source
+`669c9093`, 200.000 tick Q1/2023, mất **7,63 giây**. Đây là prefix chẩn đoán,
+không phải full-study benchmark; output chỉ có checkpoint/candidate partial và
+không được dùng làm kết quả chiến lược.
+
+| Hotspot trong profile | Cumulative time | Cách hiểu |
+|---|---:|---|
+| `read_qdm_ticks` + raw hash | 3,82 giây | Parser/hash vẫn đáng kể trên prefix |
+| `hourly_quotes` | 4,12 giây | Xây quote/H4 từ tick |
+| `advance_tick_execution` | 3,27 giây | Tick replay/state transition |
+| Pydantic validation | 1,02 giây | Object validation/allocations |
+| `_liquidation_net_account` | 0,30 giây | Fast floating valuation hiện không còn hotspot chính |
+
+Cumulative timers lồng nhau nên không cộng thành phần trăm. Lát tối ưu tiếp có
+thể là giảm parse/quote allocation hoặc typed kernel Rust, nhưng phải benchmark
+A/B cùng input và golden event parity trước khi đổi numerical path. GPU chưa có
+backend trong source; không thêm CUDA chỉ từ profile này.
+
 ### Đối chiếu research cộng đồng/agent — 05/11
 
 Các nguồn được dùng để quyết định lát này:
