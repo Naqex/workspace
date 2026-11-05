@@ -77,7 +77,11 @@ Quality/H4 warmup có thể chuẩn bị một lần bằng
 `inspection_cache_dir`; chuẩn bị xong trước dispatch. Reader vẫn hash raw bytes,
 kiểm source/runtime/window/checksum; missing/corrupt/drift fail rõ, không rebuild
 trong worker. Simulation vẫn đọc đủ ticks của từng scenario, không chia sẻ risk
-hoặc candidate state. [Chi tiết và recovery](../../projects/trader/foundation_v2/docs/FOREX-RESEARCH.md#shared-quality-and-h4-warmup-inspections).
+hoặc candidate state. Với nhiều candidate/cost scenario, thêm `--include-ticks`
+và đặt cùng `prepared_inputs_dir` trong batch jobs; runner chuẩn bị quality/H4 và
+lossless development tick cache một lần trước worker. Mỗi worker vẫn rehash
+raw/cache và kiểm thứ tự/grid/schema; cache không thay source QDM hoặc artifact
+strategy. [Chi tiết và recovery](../../projects/trader/foundation_v2/docs/FOREX-RESEARCH.md#shared-quality-and-h4-warmup-inspections).
 Supervisor dùng lại Windows JobObject của runtime với stdin gate, interpreter
 thật và import paths của venv: child không làm nghiên cứu trước khi thuộc job.
 Cancel/timeout/crash đóng cả cây; `CANCEL` trong batch-dir dừng việc chưa xong.

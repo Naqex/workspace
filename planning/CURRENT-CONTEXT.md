@@ -23,6 +23,12 @@ và workflow trước cấu hình study mới; không lặp fullQ1 để đọc 
 sửa frozen protocol cũ để nhận nguồn/options mới. Full challenge lifecycle vẫn
 là gap khác với tốc độ; decoded-tick cache/Rust chưa triển khai.
 
+Shared tick preparation đã triển khai và smoke bằng fixture: `prepared_inputs_dir`
++ `--prepare-inputs --parallel-start` dùng chung quality/H4/lossless development
+ticks, ghi phase wall/CPU. Integrated prefix giảm14,06% với exact parity; full-batch
+chưa đo. Đọc [ranking/integration](research/ENGINEERING-REVIEW-Q1-20261105.md#nút-thắt-tổng-thể-và-lát-tích-hợp--0511)
+trước study mới. Raw source/cache drift vẫn fail-closed; không sửa frozen attempt.
+
 Owner giao triển khai workflow/skills và chủ động quản lý skill. Đọc
 [strategy workflow](../tooling/ai-engines/STRATEGY-WORKFLOW.md) cho research,
 qualification, preflight/dossier và delivery; [maintenance](../docs/development/SKILL-MAINTENANCE.md)

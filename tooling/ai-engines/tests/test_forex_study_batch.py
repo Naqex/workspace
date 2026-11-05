@@ -223,6 +223,85 @@ class ResultTests(unittest.TestCase):
             self.assertTrue(batch.read(root/'batch/batch-manifest.json')['parallel_start'])
             self.assertEqual(batch.read(root/'batch/good/terminal.json')['status'], 'completed_verified')
 
+    def test_shared_preparation_finishes_before_dispatch_and_is_recorded(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            argv = self.batch_fixture(root, ('one', 'two')) + ['--prepare-inputs', '--parallel-start']
+            config = batch.read(root/'config.json')
+            for job in config['jobs'].values():
+                job['prepared_inputs_dir'] = str(root/'shared')
+            batch.save(root/'config.json', config)
+            seen_ids = []
+            def prepare(inputs, **kwargs):
+                seen_ids.append(id(kwargs['seen']))
+                kwargs['on_progress'](dict(kind='quality', role='warmup', ticks=1, stage='verified'))
+                return []
+            def worker(name, expected, directory, **kwargs):
+                self.assertEqual(batch.read(root/'batch/input-preparation.json')['status'], 'verified')
+                self.assertEqual(batch.input_cache_dirs(expected), (str(root/'shared'), str(root/'shared')))
+                directory.mkdir()
+                terminal = dict(status='completed_verified', worker=name)
+                batch.save(directory/'terminal.json', terminal)
+                return terminal
+            with patch('trading_workspace_v2.forex_input_preparation.prepare_input_set', side_effect=prepare), \
+                 patch.object(batch, 'run_job', side_effect=worker), redirect_stdout(io.StringIO()):
+                self.assertEqual(batch.main(argv), 0)
+            self.assertEqual(len(seen_ids), 2)
+            self.assertEqual(len(set(seen_ids)), 1)
+            self.assertTrue(batch.read(root/'batch/batch-manifest.json')['prepare_inputs'])
+
+    def test_preparation_cancel_dispatches_no_worker(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            argv = self.batch_fixture(root, ('one',)) + ['--prepare-inputs']
+            def prepare(inputs, **kwargs):
+                (root/'batch/CANCEL').write_text('owner cancellation')
+                kwargs['on_progress'](dict(kind='quality', role='warmup', ticks=0, stage='preparing'))
+            with patch('trading_workspace_v2.forex_input_preparation.prepare_input_set', side_effect=prepare), \
+                 patch.object(batch, 'run_job') as worker, redirect_stdout(io.StringIO()):
+                self.assertEqual(batch.main(argv), 1)
+            worker.assert_not_called()
+            self.assertEqual(batch.read(root/'batch/input-preparation.json')['status'], 'cancelled')
+            self.assertFalse((root/'batch/batch-failure.json').exists())
+
+    def test_preparation_observation_write_failure_does_not_invalidate_prepared_data(self):
+        with tempfile.TemporaryDirectory() as folder:
+            output = Path(folder)
+            original = batch.save
+            def save(path, value):
+                if Path(path).name == 'input-preparation.json':
+                    raise PermissionError('locked projection')
+                return original(path, value)
+            def prepare(inputs, **kwargs):
+                kwargs['on_progress'](dict(kind='quality', role='warmup', ticks=0, stage='preparing'))
+                return [dict(kind='quality', role='warmup', ticks=4)]
+            with patch('trading_workspace_v2.forex_input_preparation.prepare_input_set', side_effect=prepare), \
+                 patch.object(batch, 'save', side_effect=save), redirect_stdout(io.StringIO()):
+                summary = batch.prepare_pending_inputs({'one': dict(inputs={})}, ['one'], output,
+                                                       began=time.monotonic(), deadline=30)
+            self.assertEqual(summary['status'], 'verified')
+            self.assertEqual(len(summary['records']), 1)
+            self.assertEqual(summary['projection_errors'][0]['error_type'], 'PermissionError')
+
+    def test_cpu_summary_reports_missing_coverage_and_excludes_reused_work(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            for name, receipt in (('new', dict(process_cpu_seconds=3)), ('legacy', {})):
+                directory = root/name/'replay'
+                directory.mkdir(parents=True)
+                batch.save(directory/'receipt.json', receipt)
+            states = dict(new=dict(status='completed_verified'), legacy=dict(status='completed_verified'),
+                          reused=dict(status='reused_verified', process_cpu_seconds=1000))
+            with redirect_stdout(io.StringIO()):
+                perf = batch.progress(root, states, time.monotonic(), 100, 30)['performance']
+            self.assertEqual(perf['cpu_coverage_jobs'], 1)
+            self.assertIsNone(perf['new_jobs_cpu_seconds'])
+            self.assertEqual(perf['reused_jobs'], 1)
+
+    def test_conflicting_bundle_and_individual_cache_directories_are_rejected(self):
+        with self.assertRaisesRegex(ValueError, 'choose_prepared_bundle'):
+            batch.input_cache_dirs(dict(prepared_inputs_dir='shared', tick_cache_dir='other'))
+
     def test_progress_accepts_real_terminal_worker_identity(self):
         with tempfile.TemporaryDirectory() as folder:
             result = batch.progress(Path(folder), {'candidate': dict(worker='candidate',
@@ -252,6 +331,7 @@ class ResultTests(unittest.TestCase):
                 protocol='registered.md', account_spec='spec.json', account_spec_sha256='a'*64,
                 study_registration='study.json',study_registration_sha256='b'*64,
                 inspection_cache_dir=str(Path(folder)/'prepared'),
+                tick_cache_dir=str(Path(folder)/'ticks'),
                 reuse_scenarios_from=str(Path(folder)/'old/replay'))
             with patch.object(batch, 'OwnedPython', return_value=owner) as spawn, \
                  patch.object(batch, 'verified_result') as verify:
@@ -261,6 +341,7 @@ class ResultTests(unittest.TestCase):
             self.assertEqual(worker_argv[worker_argv.index('--study-registration')+1],expected['study_registration'])
             self.assertEqual(worker_argv[worker_argv.index('--study-registration-sha256')+1],expected['study_registration_sha256'])
             self.assertEqual(worker_argv[worker_argv.index('--inspection-cache-dir')+1],expected['inspection_cache_dir'])
+            self.assertEqual(worker_argv[worker_argv.index('--tick-cache-dir')+1],expected['tick_cache_dir'])
             verify.assert_not_called()
             self.assertEqual(terminal['status'], 'failed')
             self.assertEqual(terminal['exit_code'], 7)

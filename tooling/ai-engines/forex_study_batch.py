@@ -6,6 +6,7 @@ from concurrent.futures import ThreadPoolExecutor, wait, FIRST_COMPLETED
 from datetime import datetime, timezone
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
 import runpy
@@ -101,6 +102,58 @@ def verified_result(directory, expected, *, source_root=V2):
     return dossier
 
 
+def input_cache_dirs(expected):
+    bundle = expected.get('prepared_inputs_dir')
+    if bundle and (expected.get('inspection_cache_dir') or expected.get('tick_cache_dir')):
+        raise ValueError('choose_prepared_bundle_or_individual_cache_directories')
+    return bundle or expected.get('inspection_cache_dir'), bundle or expected.get('tick_cache_dir')
+
+
+class PreparationStopped(RuntimeError):
+    pass
+
+
+def prepare_pending_inputs(jobs, pending, output, *, began, deadline, on_observe=None):
+    from trading_workspace_v2.forex_input_preparation import prepare_input_set
+    seen, records, observation_errors = set(), [], []
+    last_emit = 0
+    def record_error(error):
+        item = dict(file='input-preparation.json', error_type=type(error).__name__)
+        if item not in observation_errors:
+            observation_errors.append(item)
+    def notify(event):
+        nonlocal last_emit
+        if (output/'CANCEL').exists():
+            raise PreparationStopped('cancelled')
+        if time.monotonic()-began > deadline:
+            raise PreparationStopped('deadline')
+        now = time.monotonic()
+        if event['ticks'] == 0 or event['stage'] == 'verified' or now-last_emit >= 5:
+            # Observation failure must not invalidate already prepared input data.
+            try:
+                save(output/'input-preparation.json', dict(status='preparing', records=records,
+                    current=event, pid=os.getpid(), updated_at_utc=datetime.now(timezone.utc).isoformat()))
+            except OSError as error:
+                record_error(error)
+            print(json.dumps(dict(event, phase='input_preparation', projection_errors=observation_errors)), flush=True)
+            if on_observe:
+                on_observe(event)
+            last_emit = now
+    for name in pending:
+        inspection, ticks = input_cache_dirs(jobs[name])
+        records.extend(prepare_input_set(jobs[name]['inputs'], inspection_cache_dir=inspection,
+            tick_cache_dir=ticks, seen=seen, on_progress=notify))
+    summary = dict(status='verified', records=records, projection_errors=observation_errors,
+                   elapsed_seconds=round(time.monotonic()-began, 3))
+    try:
+        save(output/'input-preparation.json', summary)
+    except OSError as error:
+        record_error(error)
+    print(json.dumps(dict(stage='input_preparation_finished', status='verified',
+        prepared_entries=len(records), projection_errors=observation_errors)), flush=True)
+    return summary
+
+
 def run_job(name, expected, directory, *, seconds, clock=time.monotonic):
     directory.mkdir(parents=True, exist_ok=False)
     replay = directory/'replay'
@@ -110,8 +163,11 @@ def run_job(name, expected, directory, *, seconds, clock=time.monotonic):
         '--account-spec', expected['account_spec'], '--account-spec-sha256', expected['account_spec_sha256']]
     if expected.get('reuse_scenarios_from'):
         argv.extend(['--reuse-scenarios-from', expected['reuse_scenarios_from']])
-    if expected.get('inspection_cache_dir'):
-        argv.extend(['--inspection-cache-dir', expected['inspection_cache_dir']])
+    inspection, ticks = input_cache_dirs(expected)
+    if inspection:
+        argv.extend(['--inspection-cache-dir', inspection])
+    if ticks:
+        argv.extend(['--tick-cache-dir', ticks])
     if expected.get('study_registration'):
         argv.extend(['--study-registration', expected['study_registration'],
                      '--study-registration-sha256', expected['study_registration_sha256']])
@@ -164,7 +220,8 @@ def progress(output, states, began, total_ticks, deadline):
         if observation_error:
             row['progress_read_error'] = observation_error
         if receipt is not None:
-            row.update({k: receipt.get(k) for k in ('stage', 'observed_ticks', 'elapsed_seconds', 'pid', 'updated_at_utc')})
+            row.update({k: receipt.get(k) for k in ('stage', 'observed_ticks', 'elapsed_seconds', 'pid', 'updated_at_utc',
+                'phase_wall_seconds', 'phase_cpu_seconds', 'process_cpu_seconds')})
             row['scenario_fraction'] = (receipt.get('observed_ticks', 0)/total_ticks
                                         if receipt.get('stage') in {'reference', 'cost-stress'} else None)
         rows.append(row)
@@ -175,6 +232,13 @@ def progress(output, states, began, total_ticks, deadline):
         elapsed_seconds=round(elapsed, 2), deadline_seconds=deadline, workers=rows,
         completed_jobs=sum(s['status'] in {'completed_verified', 'reused_verified'} for s in states.values()),
         total_jobs=len(states), model_calls=0, broker_calls=0, holdout_read=False)
+    new_rows = [row for row in rows if row['status'] == 'completed_verified']
+    known_cpu = [row['process_cpu_seconds'] for row in new_rows
+                 if type(row.get('process_cpu_seconds')) in (int, float)
+                 and math.isfinite(row['process_cpu_seconds']) and row['process_cpu_seconds'] >= 0]
+    snapshot['performance'] = dict(wall_seconds=round(elapsed, 2), new_completed_jobs=len(new_rows),
+        cpu_coverage_jobs=len(known_cpu), new_jobs_cpu_seconds=sum(known_cpu) if new_rows and len(known_cpu)==len(new_rows) else None,
+        reused_jobs=sum(row['status']=='reused_verified' for row in rows))
     projection_errors = []
     lines = ['# Nghiên cứu Forex H4', '', f'Cập nhật UTC: {snapshot["updated_at_utc"]}',
         f'\nTrạng thái: **{status}** · Xong {snapshot["completed_jobs"]}/{len(states)} ứng viên · Đã chạy {elapsed/60:.1f} phút', '',
@@ -184,6 +248,7 @@ def progress(output, states, began, total_ticks, deadline):
         stage = 'Tạm không đọc được tiến độ' if row.get('progress_read_error') else row.get('stage') or '—'
         lines.append(f'| {row["worker"]} | {row["status"]} | {stage} | {ticks if ticks is not None else "—"} / {total_ticks} |')
     lines += ['', 'Xác minh dữ liệu chưa có % hoặc ETA đáng tin. Tiến độ tick chỉ áp dụng scenario đang chạy.',
+        f'CPU worker mới: {snapshot["performance"]["new_jobs_cpu_seconds"] if snapshot["performance"]["new_jobs_cpu_seconds"] is not None else "chưa đủ số đo"} giây; coverage {len(known_cpu)}/{len(new_rows)}. Không cộng job reused vào thời gian tính mới.',
         'Mỗi ứng viên chạy reference và cost-stress. Chỉ completed_verified mới có dossier đã kiểm.',
         'Giữ kết quả đã xong; không tự retry job lỗi. CANCEL cạnh file này sẽ hủy các job chưa xong.',
         'Dữ liệu development đã dùng; chưa OOS/prop qualification. Không model/broker/holdout.',
@@ -217,6 +282,8 @@ def main(argv=None):
                         help='Read and verify completed jobs from earlier batches; partial jobs are never resumed')
     parser.add_argument('--parallel-start', action='store_true',
                         help='Start up to max-workers immediately when the study protocol permits; full worker validation remains enabled')
+    parser.add_argument('--prepare-inputs', action='store_true',
+                        help='Prepare and verify shared caches once before dispatch, using each job cache directory')
     args = parser.parse_args(argv)
     if min(args.worker_seconds, args.deadline_seconds) <= 0:
         parser.error('deadlines must be positive')
@@ -240,6 +307,8 @@ def main(argv=None):
             reuse_from=[str(path.resolve()) for path in args.reuse_from])
         if args.parallel_start:
             manifest['parallel_start'] = True
+        if args.prepare_inputs:
+            manifest['prepare_inputs'] = True
         stored = args.output_dir/'batch-manifest.json'
         if stored.exists():
             if read(stored) != manifest:
@@ -248,6 +317,7 @@ def main(argv=None):
             save(stored, manifest)
         pending = []
         for name, expected in jobs.items():
+            input_cache_dirs(expected)
             if read(expected['input_manifest']) != dict(schema='forex-h4-inputs-v1', **expected['inputs']):
                 raise ValueError('input_manifest_binding_mismatch')
             if digest(expected['protocol']) != expected['protocol_sha256']:
@@ -279,6 +349,28 @@ def main(argv=None):
                     break
             if not reused:
                 pending.append(name)
+        if args.prepare_inputs and pending:
+            for name in pending:
+                states[name]['stage'] = 'preparing_shared_inputs'
+            progress(args.output_dir, states, began, config['development_ticks'], args.deadline_seconds)
+            def observe_preparation(event):
+                for name in pending:
+                    states[name]['stage'] = 'prepare_'+event['kind']+'_'+event['role']
+                progress(args.output_dir, states, began, config['development_ticks'], args.deadline_seconds)
+            try:
+                preparation = prepare_pending_inputs(jobs, pending, args.output_dir, began=began,
+                    deadline=args.deadline_seconds, on_observe=observe_preparation)
+                if preparation['projection_errors']:
+                    for name in pending:
+                        states[name]['input_preparation_projection_errors'] = preparation['projection_errors']
+            except PreparationStopped as error:
+                reason = 'deadline' if str(error) == 'deadline' else 'cancelled'
+                for name in pending:
+                    states[name] = dict(status='not_started_deadline' if reason=='deadline' else 'not_started_cancelled')
+                pending.clear()
+                save(args.output_dir/'input-preparation.json', dict(status=reason))
+            for name in pending:
+                states[name].pop('stage', None)
         futures = {}
         # Keep the original full-candidate probe unless the new study opts into
         # parallel startup. Every worker still performs its full validation.

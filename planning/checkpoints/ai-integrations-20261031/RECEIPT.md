@@ -5946,3 +5946,25 @@ Reader-source đổi làm cache cũ miss đúng thiết kế; prepare entry mớ
 đăng ký, không nới source/frozen protocol để reuse. Không thêm dependency/service,
 broker/model calls hoặc mở marketwindow mới; cumulativegitlink/ProductPlan/VI/
 evidenceWIP ngoài commit phạm vi. Bước sau vẫn lifecycle/time-fit, không tự promote.
+
+## 05/11/2026 — xếp hạng nút thắt và tích hợp shared tick preparation
+
+Nút thắt hiện xếp: replay/risk/accounting/cost từng tick; decode CSV/Decimal lặp;
+inspection H4; probe/chờ scheduler; rework sau interruption; rồi observability.
+Integrated prefix vẫn cho thấy replay/cost chiếm phần lớn, nên chưa Rust/GPU/cluster.
+
+Trader thêm lossless Parquet tick cache + one-command preparation recipe; batch
+`--prepare-inputs --parallel-start` dedup warmup/development quality/ticks trước
+dispatch, forward `prepared_inputs_dir`, ghi phase/CPU progress. Raw/cache hash,
+schema/count/order/grid và source/runtime binding fail-closed; prepared cache không
+là strategy/risk state. Actual Windows fixture smoke:3 shared entries,2 candidates,
+raw/prepared numeric artifacts giống nhau, reused run0 numeric dispatch.
+
+Integrated prefix old median4,061s→new3,490s, giảm14,06%, CPU4,031→3,484s,3 paired
+samples, exact artifacts. Preparation500k≈4,664s, Parquet≈2,63MB; CSV/Parquet
+reader prototype≈1,245× trên prefix nhưng chưa là full batch speedup. Latest focused
+groups72tests/42subtests đạt; không broker/model/holdout.
+
+Chi tiết và bảng xếp hạng: [engineering review](../../research/ENGINEERING-REVIEW-Q1-20261105.md#nút-thắt-tổng-thể-và-lát-tích-hợp--0511).
+Bài tiếp bật preparation trên study mới, collect wall/CPU thật, rồi chuyển
+lifecycle challenge3/6/12tháng; không tiếp tục micro-optimize vô hạn.

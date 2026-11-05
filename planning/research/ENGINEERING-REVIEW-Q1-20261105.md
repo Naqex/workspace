@@ -325,3 +325,50 @@ Dừng lát tối ưu này sau measured gain/parity. Decoded columnar tick shari
 Rust/GPU/cluster chưa triển khai; chỉ xét khi bài mới có measured bottleneck
 đáng maintenance. Không chạy lại một quý chỉ để tạo ETA hoặc trì hoãn phần
 challenge lifecycle3/6/12tháng vì tiếp tục micro-optimize.
+
+## Nút thắt tổng thể và lát tích hợp — 05/11
+
+### Xếp hạng theo bằng chứng hiện có
+
+| Hạng | Nút thắt | Số đo / tác động | Quyết định |
+|---:|---|---|---|
+| 1 | Replay + risk/accounting từng tick, tạo Pydantic/event/cost objects | Profile integrated: `advance_tick_execution`4,563s/200k; `_liquidation_pnl`1,955s; cost function1,833s | Đã giảm counter state-copy và quote valuation lặp; vẫn giữ kiểm từng tick. Rust/typed kernel chỉ xét sau benchmark đại diện |
+| 2 | Decode/convert/reconstruct quote lặp cho mỗi worker/scenario | Prepared Parquet dictionary cache đọc500k median≈2,962s so CSV≈3,688s (1,245×), exact tick parity | Đã thêm lossless prepared tick cache + source/hash/schema/order/grid guards |
+| 3 | Quality/H4 inspection lặp | Warmup1.404.696tick22,471s fresh→0,200s hit | Đã có inspection cache và shared preparation |
+| 4 | Probe tuần tự/chờ trước khi mở worker | Batch cũ probe→4 worker, khoảng53phút theo phase durations | Đã có `--parallel-start`; bài mới pin option, attempt cũ giữ nguyên |
+| 5 | Rework sau lỗi/projection/partial attempt | Từng có progress read làm cancel; recovery Donchian reuse0,636s | Giữ sealed scenario reuse và preparation fail-closed |
+| 6 | Quan sát không đủ để biết đang chậm ở đâu | Trước chỉ stage/tick; CPU/phase coverage thiếu | Receipt/progress ghi phase wall/CPU, worker CPU coverage và input-preparation progress |
+
+### Lát tích hợp đã làm
+
+Trader thêm `forex_qdm_ticks.py` (Parquet lossless) và
+`forex_input_preparation.py` (một recipe cho quality/H4/ticks), CLI
+`--include-ticks`, pilot `--tick-cache-dir`, batch `--prepare-inputs` và
+`prepared_inputs_dir`. Cache bind raw/window/runtime/decoder; mỗi read rehash
+raw+cache rồi validate schema/count/coverage/order/grid. One preparer lock/publish
+atomic; temp/lock sau crash cần reconcile PID trước dọn.
+
+Controller deduplicates preparation theo `(kind, cache, input, hash, window)`,
+ghi `input-preparation.json`, rate-limited progress và không dispatch numerical
+worker sau preparation CANCEL/deadline. Projection errors được ghi mà không
+invalidate cache hợp lệ. Completed jobs skip preparation; bundle và individual
+cache fields không được trộn.
+
+Smoke Windows trên generated fixture:2 candidates×2 scenarios,3 shared entries,
+prepared/raw numeric artifacts byte-identical, reuse0 numeric dispatch. Smoke
+wall1,41s, CPU coverage2/2,0,75s; không market evidence. Integrated prefix:
+old4,061s→new3,490s, **giảm14,06%**, CPU4,031→3,484s, exact parity3 pairs.
+Preparation500k4,664s, Parquet≈2,63MB. Đây là bounded prefix, không full Q1.
+
+Focused tests mới/liên quan: **72 passed,42 subtests** ở lượt cuối; không broker,
+model, holdout hay market-window mới. PyArrow đã có sẵn, không cài dependency/
+service. Official Arrow docs đã kiểm ParquetWriter/row groups/dictionary/
+iter_batches; dùng `use_threads=False` để giữ thứ tự kiểm rõ ràng.
+
+### Hướng tiếp theo
+
+Integrated profile vẫn cho thấy replay/risk/cost/validation chiếm phần lớn, không
+phải Parquet I/O. Giữ prepared cache như tính năng vận hành; chưa rewrite kernel,
+thêm GPU/cluster hay tăng worker mù. Chạy study mới với `--prepare-inputs
+--parallel-start`, lấy số đo full batch thật, rồi mới cân nhắc Rust. Ưu tiên kế
+tiếp vẫn là challenge lifecycle/time-fit3/6/12tháng.
