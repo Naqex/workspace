@@ -49,6 +49,16 @@ delivery. A lost/corrupt status read publishes an explicit monitoring error when
 possible, never an invented capture result. Keep raw logs if Paperclip is down.
 The observer never changes native task status, assignments or original acceptance.
 
+After an operator finishes diagnosis and verifies the associated repairs, close
+the work item explicitly with a native resolution document. Distinguish work
+completion from the observation outcome: a resolved diagnostic task may be
+`done` while its original lifecycle remains failed and its market-data or
+strategy qualification remains unproven. Record any remaining qualification in
+the existing tracker; never change a lifecycle or data receipt to close a task.
+Re-publication of an old controller report preserves tasks already marked
+`done` or `cancelled`; unresolved failures still become blocked. A terminal
+observation alone does not automatically assert that its repair work is done.
+
 ### Verify quickly before requesting new wall-clock observation
 
 Use focused unit/synthetic-clock checks for time boundaries and recovery, then

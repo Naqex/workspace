@@ -355,6 +355,10 @@ class Manager:
         current=api('/issues/'+task)
         if current['companyId']!=str(self.plan.company) or current.get('assigneeAgentId'):
             raise ValueError('night_task_scope_or_assignment_changed')
+        # A later review/repair may resolve the work item even when this old
+        # observation failed. Re-publication must not reopen that resolution.
+        if current['status'] in ('done','cancelled'):
+            return
         if current['status']!=body['status']:api('/issues/'+task,body,method)
 
 

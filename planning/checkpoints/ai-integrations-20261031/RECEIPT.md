@@ -4733,3 +4733,36 @@ quarantine_v1 rõ ràng theo FOREX-FORWARD/OPERATIONS; projection hold không t�
 đợt qua đêm cũ, công bố repair trên cùng native tasks; không chạy thêm một giờ
 chỉ để đổi màu. Broker-specific calendar và future uninterrupted qualification
 vẫn là scope chưa chứng minh, không được gọi đã đạt từ các kiểm tra này.
+
+## 05/11 — Khép task kiểm/sửa thay vì treo blocked sau resolution
+
+Owner gửi ảnh NAQ-85/86/87 đỏ và yêu cầu sửa toàn luồng. Live API/AX xác nhận
+đó là các task qua đêm cũ, không có run mới hoặc một exception mới trong ảnh.
+Thiếu sót của workflow trước: giữ taskblocked sau khi chẩn đoán/repair đã được
+kiểm chứng, cùng `unblockDescriptor` yêu cầuownerinspect đã lỗi thời; task state
+và kết quả observation bị dùng như một trạng thái duy nhất.
+
+Đối soát description/scope và evidence đã có, đóng công việc kiểm/sửa bằng
+native document `resolution` trên từngtask rồi chuyển **NAQ-86,87,85→done**,
+clear obsoleteunblockdescriptor, giữassignees. Description giữnguyênphầnscopegốc
+và thêm kếtquả xửlý. Resolution phân biệt rõ: workresolved; originalovernight
+notpassed; sourcefix/replay/short-native-read verified; continuous-forward và
+strategy qualification không được khẳng định. Remaining qualification tiếp tục
+theo GitHubissue#10OPEN; không đóng issue đó hoặc gọi oldrun pass để đóng task.
+
+Sửa `shadow_night.Manager.finish_task`: publication cũ không chuyển task đãdone
+hoặccancelled trở lại blocked. Company/assignment fences giữ nguyên; các task
+chưa resolve vẫn bịblocked khi runfailed. **17controller tests đạt2,021s**, gồm
+hai regression mới cho terminalresolution, unresolvedfailure và scopefence.
+Đã gọi chính productionfinalizationmethod với realAPI cho3task vừa resolve:
+cả3vẫndone và `updatedAt` không đổi (không phát sinhPATCH). Native Task documents
+đãreadback; oldcontroller statechecksum so lại giữnguyênblocked/failed.
+
+Browser tab4 `/NAQ/issues` AX xácnhận parent và cả2children đềuDone. Không
+restart runtime hoặc tạojob mới trong bướccloseout; không xóa/đổi rawdata,
+sourcepins, lifecycle, lịch sử lỗi, grant hay OrderCheck/OrderSend. Operations
+guide bổsung quytrình explicitresolution để không lặp việc báo“đãsửa” nhưng để
+côngviệc treoowner. Bảnđiềuchỉnhnày thay quyếtđịnh giữ nativeworkitemsblocked ở
+đoạn trước; kếtquả oldobservation và các giới hạn evidence không thay đổi.
+Private before/after: `quote-quality-repair-20261105/native-task-resolution-before.json`
+và `native-task-resolution-after.json`.

@@ -102,6 +102,26 @@ class NightTests(unittest.TestCase):
         self.assertEqual(writes[0]['status'],'blocked')
         self.assertEqual(writes[-1]['status'],'blocked')
 
+    def test_republishing_failed_attempt_preserves_resolved_or_cancelled_task(self):
+        manager=self.manager()
+        for status in ('done','cancelled'):
+            with self.subTest(status=status),patch.object(night,'api',return_value=dict(
+                    companyId=str(self.plan.company),assigneeAgentId=None,status=status)) as api:
+                manager.finish_task(str(self.plan.parent_task),dict(status='blocked'),'PATCH')
+                api.assert_called_once_with('/issues/'+str(self.plan.parent_task))
+
+    def test_unresolved_task_still_receives_failed_attempt_and_scope_fence(self):
+        manager=self.manager()
+        current=dict(companyId=str(self.plan.company),assigneeAgentId=None,status='in_progress')
+        body=dict(status='blocked')
+        with patch.object(night,'api',return_value=current) as api:
+            manager.finish_task(str(self.plan.parent_task),body,'PATCH')
+            self.assertEqual(api.call_count,2)
+            self.assertEqual(api.call_args.args,('/issues/'+str(self.plan.parent_task),body,'PATCH'))
+        for changed in ({**current,'companyId':str(uuid4())},{**current,'assigneeAgentId':str(uuid4())}):
+            with patch.object(night,'api',return_value=changed),self.assertRaisesRegex(ValueError,'scope_or_assignment'):
+                manager.finish_task(str(self.plan.parent_task),body,'PATCH')
+
     def test_uncertain_launch_never_creates_another_group(self):
         m=self.manager();m.state['initial_intent']=True;m.save()
         with self.assertRaisesRegex(ValueError,'uncertain_launch'):m.step()
