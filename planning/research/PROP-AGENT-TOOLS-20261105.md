@@ -18,6 +18,7 @@ Không đăng ký/mua gói, OAuth, mở service hoặc cấp broker authority tr
 | FTMO portal tools | [Tools overview](https://ftmo.com/en/trading-tools-and-services/) có MetriX, Account Analysis, Trading Journal, calendar/timezone/news tools | Tận dụng UI chính thức và report/export nếu thực tế cung cấp; không tạo UI quản lý cạnh tranh |
 | FTMO App Suite / FXBlue | [App Suite](https://ftmo.com/en/app-suite/) công bố35tools cho MT4/MT5; các phần hỗ trợ thao tác/tính lot/chart/account | Hữu ích cho trade tay/semi-auto. Chưa là MCP hoặc public agent API; không gắn thêm EA có quyền giao dịch lên terminal đang dùng |
 | FTMO MCP / portal public API | Không tìm thấy công bố chính thức qua site search `MCP`, `API` và tools/FAQ đã đọc | Nhãn **chưa tìm thấy**, không khẳng định không tồn tại. Giữ MT5 adapter hiện có, không đăng nhập private DXtrade endpoints từ sample cộng đồng |
+| API nền tảng giao dịch | [MT5 Python integration](https://www.mql5.com/en/docs/python_metatrader5) có account/ticks/history và order APIs; [cTrader Open API](https://help.ctrader.com/open-api/) có account/data/trading qua JSON/Protobuf | Reuse MT5 adapter của project. cTrader chỉ là đường khác khi có đúng account/permission, không là API portal quỹ và chưa cần thêm adapter |
 | TradingView webhooks/Pine | [Webhook docs](https://www.tradingview.com/support/solutions/43000529348-how-to-configure-webhook-alerts/): ports80/443, timeout3s; [Pine](https://www.tradingview.com/pine-script-docs/) | Có thể mang alert sang hệ thống khác theo quyền/terms; chưa cần khi strategy chạy trong core, không mở public endpoint chỉ để làm bridge |
 
 ## Cộng đồng/open source: shortlist có vai trò riêng
@@ -71,3 +72,11 @@ MCP beta có rate limit; không dùng truy vấn AI theo tick để thay event s
   scope thuộc [AI plan](../trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md).
   Refresh khi có account, nhu cầu Pine/tool gap, thay plan/terms/tools hoặc
   trước cài package; không lặp toàn bộ survey khi chỉ một capability đổi.
+
+### Delta thực thi cùng ngày
+
+Hai candidate opt-in đã triển khai/kiểm/run offline, có kết quả integration
+trong receipt. Manual journal đã tạo dưới nhãn ví dụ lịch sử, không giả quyết
+định của owner hoặc công nhận semi-auto có lợi. Chưa thêm connector/provider,
+không thay nguồn dữ liệu thực thi QDM/MT5 bằng TradingView hoặc mở đường broker
+thứ hai. Modelcalls0; authenticated MCP smoke test vẫn chờ account/permission.

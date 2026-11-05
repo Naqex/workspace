@@ -6,7 +6,10 @@ Owner đã mở lại nghiên cứu chiến lược prop theo
 [protocol round1](research/PROP-STRATEGY-ROUND1-20261105.md); các ưu tiên
 chỉ kiểm hệ thống ngày02–03/11 bên dưới là snapshot trước thay đổi này.
 [Research trade tay/semi-auto/auto](research/PROP-AUTOMATION-AND-STRATEGY-EVIDENCE-20261105.md)
-giữ nguồn, giới hạn và khuyến nghị; chưa là quyết định bật auto của owner.
+giữ nguồn, giới hạn và hướng auto có giám sát; owner tiếp đó giao triển khai
+offline theo [round2](research/PROP-STRATEGY-ROUND2-20261105.md), chưa cấp grant
+broker mới. [Tool survey](research/PROP-AGENT-TOOLS-20261105.md) xác minh MCP
+chính thức TV/The5ers; owner chưa có TVpaid/The5ers nên chưa kết nối.
 Lưu ý delta Terms The5ers §11 trước triển khai; chi tiết ở protocol/research.
 Tra [chỉ mục research](research/README.md) và dùng
 [workflow kế thừa](../.agents/skills/evidence-continuity/SKILL.md) để kiểm delta

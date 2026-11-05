@@ -5034,3 +5034,100 @@ typed request. Không sửa/publish catalog Paperclip, gọi model/provider, đ�
 Hermes loader hoặc công nhận worker đang chạy đã nhận skill mới. Agent đọc
 repo có route rõ qua AGENTS; consumer khác vẫn dùng loader/output contract
 hiện có. Không mở quyền giao dịch hoặc tự coi research là strategy acceptance.
+
+## 05/11 — Khảo sát agent tools và thực thi research round2
+
+Owner giao khảo sát FTMO/The5ers/TradingView/cộng đồng, rồi triển khai đề xuất
+research trước. Dùng workflow evidence-continuity, giữ nguồn/giới hạn tại
+[tool survey](../../research/PROP-AGENT-TOOLS-20261105.md), không research lại
+toàn bộ lựa chọn automation. Owner xác nhận chưa có TVpaid/The5ers account.
+
+### Kết quả khảo sát và quyết định
+
+- TradingView có MCP **chính thức public beta**, OAuth2.1, Essential trở lên,
+  trial không gồm quyền. Tools có đọc data/screener/calendar và ghi watchlist/
+  alert. Không mặc định mọi tool read-only: `get_active_watchlist` có side
+  effect trong mô tả dù nhãn read-only. Chưa kết nối vì thiếu gói/tài khoản.
+- The5ers có MCP chính thức chỉ đọc account/program/performance/headroom;
+  không đặt lệnh/đổi account. Chưa kiểm authenticated tool schema hoặc download
+  skill hãng, vì owner chưa có account. Không mua chỉ để thử công cụ.
+- FTMO có MetriX/Analysis/Journal/App Suite35tools; chưa tìm thấy công bố MCP
+  hay API portal public trong phạm vi khảo sát. MT5 API hiện có là đường giao
+  dịch/dữ liệu khác portal; cTrader Open API là lựa chọn platform khi cần,
+  chưa lý do đổi MT5 hoặc thêm adapter.
+- Community shortlist TVDesktopCDP/market-analysisMCP, MT5MCP, EarnForex
+  PositionSizer/AccountProtector được đọc capability/license. Không nhập/cài:
+  thiếu nhu cầu độc lập, trùng adapter/risk và còn data/permission/source audit.
+  TradingView policy hạn chế non-display: không lấy MCP/webhook hoặc MIT của
+  wrapper làm quyền dùng data cho execution. Sources/conditions ở survey.
+
+### Source và hướng triển khai
+
+Workspace preregistration **`33570b0`** chốt
+[round2](../../research/PROP-STRATEGY-ROUND2-20261105.md) trước code/outcome.
+Trader **`7c2ee901`** thêm pullback-trend và UTC00–08range, dùng chung tick
+execution/accounting/financing/sizing/risk, opt-in candidate IDs. Legacy default
+và round1 formulas không đổi. **`631ac1b2`** cập nhật guide của cùng runner.
+Không deploy broker runtime hoặc bắt native fixed fixture chạy chiến lược mới.
+
+- Pullback: SMA20/80 xác định trend, close recrossSMA20 sau pullback; exit khi
+  mất trend;2ATRstop. Đây là adaptation do ta định nghĩa, không exact EA replication.
+- Range: đủ hai H4bar00:00/04:00UTC cùng ngày, close breakout ở12:00/16:00UTC;
+  một entry signal/ngày; scheduledexit20:00UTC hoặc close hợp lệ kế tiếp nếu
+  thiếu data. Không giả London session/DST hoặc flat qua gap.
+- Hướng auto có giám sát được áp dụng cho research: owner chọn chiến lược/risk/
+  triển khai, bot theo rule; AI không cần gọi từng tick/lệnh. Chưa strategy
+  qualification hoặc broker grant mới. Semi-auto cần quyết định người trước
+  outcome; chưa có thì không công nhận lợi ích.
+
+**Focused verification:** `foundation_v2/.venv/Scripts/python.exe -m pytest -q
+tests/test_forex_prop_candidates.py tests/test_forex_h4_candidates.py` đạt
+**16tests,11subtests**. Kiểm hai hướng entry/exit, previous-window timing,
+prefix causality, đủrange/day/gap/DSTUTC, one-signal/day sau snapshot restore,
+position identity, malformed state, roundtrip và shared accounting. Lượt sau
+thêm manualtemplate chỉ chạy lại focused suite vì source liên quan đổi.
+Không rerun fullsuite/core hoặc broker chỉ để tăng số test.
+
+### Lượt numerical thực tế
+
+Private root:
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/prop-strategy-round2-20261105/`.
+Hai worker output riêng, chạy đồng thời trong cùng turn; không subagent/model.
+Từ khoảng**13:35:56–13:37:41VN05/11**, dưới2phút; sessionexit0 cả hai,
+stderr0bytes. Mỗi candidate chạy reference và coststress trên development
+**03–14/01/2022 đã consumed**,643.775ticks/238H1/58H4; commonwarmupDec2021
+giữ1.404.696ticks/133H4. Không tải lại, không holdout/OOS.
+
+| Candidate | Scenario | Balance/equity deltaUSD | Mở/đóng | Còn vị thế |
+|---|---|---:|---|---|
+| Pullback20/80 | Reference |−36,55 |2/2 |Không |
+| Pullback20/80 | Cost-stress |−38,96 |2/2 |Không |
+| UTCrange00–08 | Reference |+15,03 |7/7 |Không |
+| UTCrange00–08 | Cost-stress |+14,56 |7/7 |Không |
+
+Tất cả trên10.000USDgiả lập;9trade/costscenario, không tính các lần reference/
+stress thành18 cơ hội độc lập. Accounting và candidate state roundtrip4/4đạt;
+source10files/worker được hash-check sau run. `strategy_pass=false`,
+`prop_pass=false`, `broker_spec_verified=false`, intrabarcoverageinsufficient
+giữ nguyên. Không chọn UTCrange là winner từ7trade hoặc tuning theo outcome.
+
+`attempt-1/study-manifest.json` pin protocol
+`da01bc6e4673cb55f8d202ea32996ba815704a5b29773cc1232d453920a3c1b7`, inputs và
+source revision trước outcome. Perworker giữ manifest/quality/results/checkpoint/
+decisions/log. `completion-review.json`, `RESULTS.md`, `PROGRESS.md` giữ review
+và kết quả; đã gửi mở progress qua Codexpanel, toolqueued, không khẳng định owner
+đã nhìn thấy. Không còn numeric job round2 này chạy.
+
+Hai `manual-review-template.json` có4/14entries tương ứng reference/stress;
+manifesthash, signalIDunique và null decision/time/reason đã kiểm. Nhãn
+`historical_schema_example_not_prospective_evidence`,
+`manual_filter_measured=false`, `risk_override_allowed=false`; chưa là so sánh
+semi-auto. Bỏ lệnh làm đổi state nên không cộng riêng tradePnL để giả replay.
+CLIresume vẫn unsupported; snapshotroundtrip không là jobresume.
+
+**Tiếp theo theo evidence:** tăng sample development, audit consumed/coverage và
+đóng băng OOS trước kết luận edge; lấy quyết định người thật khi cần so manual
+filter; account/OAuthTV/The5ers và approvalEA phải có trước integration đó.
+Không tự mua challenge, bật broker execution, thêm service hoặc công nhận quỹ
+đã duyệt. Research/implementation/numericintegration hoàn tất đúng lát trên;
+chứng minh lợi nhuận và survival dài hạn chưa hoàn tất.
