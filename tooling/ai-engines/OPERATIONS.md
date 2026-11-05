@@ -75,6 +75,17 @@ do not launch another hour of collection just to verify this policy.
 
 ### Recover a late-backfilled history prefix
 
+For new read-only registrations, explicitly select
+`projection_policy=quarantine_v1` to keep raw collection running when the bar
+consumer detects an old-page revision or a gap. The collector persists
+`quality-hold.json`, freezes the last valid projection and reports raw progress
+separately. It never automatically promotes the held sample. Source/identity,
+raw-prefix and checksum guards remain strict; see the
+[product contract](../../projects/trader/foundation_v2/docs/FOREX-FORWARD.md#keep-raw-collection-independent-of-bar-quality).
+Raw `complete` with `projection_status=held` is not task acceptance; the native
+controller retains blocked status and rejects handoff. Observe an existing job
+with its original pins; do not change a stopped registration to use this mode.
+
 When saved quotes differ on reread, keep the failed lifecycle and both raw
 observations. Do not weaken comparison or change the original registration.
 For a stopped/failed **initial** session registered in a native group, use:

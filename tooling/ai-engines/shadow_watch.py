@@ -36,7 +36,10 @@ def render(state, observed):
                  'poll_wait': 'Đang chờ trang dữ liệu kế tiếp', 'worker': 'Đang đọc/kiểm dữ liệu'}.get(
                      state.get('phase'), 'Đang quan sát')
     obs = state.get('observation') or {}
-    reason = state.get('reason') or (state.get('transport_retry') or {}).get('reason') or 'Không'
+    held = obs.get('projection_status') == 'held'
+    if held and status in ('running', 'complete'):
+        label = 'Đã thu xong; dữ liệu cần kiểm tra' if status == 'complete' else 'Đang thu tick; tạm giữ tính nến/tín hiệu'
+    reason = state.get('reason') or obs.get('quality_reason') or (state.get('transport_retry') or {}).get('reason') or 'Không'
     begin, end, through = (state.get('capture_from_msc'), state.get('capture_to_msc'),
                            obs.get('requested_through_msc'))
     covered = 'Chưa có mốc thời gian từ bản supervisor này'
@@ -53,6 +56,7 @@ def render(state, observed):
         f'| Kết thúc thực tế | {stamp(state.get("ended_at_msc"))} |',
         f'| Phạm vi đã đọc | {covered} |',
         f'| Dữ liệu | {obs.get("ticks", 0)} tick · {obs.get("pages", 0)} trang · {obs.get("closed_hours", 0)} H1 đã chốt |',
+        f'| Tính nến / tín hiệu | {"Tạm giữ; chưa đủ chất lượng dữ liệu" if held else "Không có quality hold"} |',
         f'| Dự kiến chốt / deadline | {stamp(expected)} / {stamp(state.get("deadline_msc"))} |',
         f'| Retry đọc / lần tiếp tục | {state.get("transport_retries_total", 0)} / {max(0, state.get("incarnation", 1)-1)} |',
         f'| Mã lỗi hiện tại | `{reason}` |', '',

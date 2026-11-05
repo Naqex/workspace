@@ -34,7 +34,8 @@ class NightTests(unittest.TestCase):
                 schema_version='mt5-observed-capture-v1',api_origin='http://127.0.0.1:8010',
                 binding=dict(workspace_id='fixture',connection_id=str(uuid4()),generation=1,login='123',server='Fixture',environment='demo'),
                 symbol='EURUSD',from_msc=self.now,to_msc=end,page_seconds=60),deadline_msc=end+180000,
-                source_sha256=night.shadow.source_pins(),stability_policy='ordered_quotes_v1'))
+                source_sha256=night.shadow.source_pins(),stability_policy='ordered_quotes_v1',
+                projection_policy='quarantine_v1'))
             path=self.root/(name+'.json');path.write_text(child.model_dump_json())
             items.append(dict(id=name,manifest_path=str(path),manifest_sha256=night.group.file_hash(path),company=None,task=None))
         initial=self.root/'group.json';initial.write_text(json.dumps(dict(schema_version=night.group.SCHEMA,
@@ -80,6 +81,27 @@ class NightTests(unittest.TestCase):
         self.assertEqual(again.state['status'],'running')
         self.assertEqual(again.state['plan_sha256'],m.state['plan_sha256'])
 
+    def test_held_raw_collection_does_not_stop_sibling_or_qualify_for_handoff(self):
+        m=self.manager();m.step()
+        first=self.rows[self.plan.initial_output][0]
+        first['observation'].update(projection_status='held',quality_reason='shadow_hour_gap_requires_review')
+        m.step()
+        self.assertEqual(m.state['status'],'running')
+        self.assertIn('a',m.state['errors'])
+        first['status']='complete'
+        m.step()
+        self.assertNotIn('successor',m.state['groups'])
+        self.assertEqual(m.state['status'],'running')
+        self.rows[self.plan.initial_output][1]['status']='complete'
+        m.step()
+        self.assertEqual(m.state['status'],'blocked')
+        self.assertFalse(night.qualified(first))
+        writes=[]
+        with patch.object(m,'finish_task',side_effect=lambda task,body,method:writes.append(body)):
+            m.finish_tasks()
+        self.assertEqual(writes[0]['status'],'blocked')
+        self.assertEqual(writes[-1]['status'],'blocked')
+
     def test_uncertain_launch_never_creates_another_group(self):
         m=self.manager();m.state['initial_intent']=True;m.save()
         with self.assertRaisesRegex(ValueError,'uncertain_launch'):m.step()
@@ -109,6 +131,7 @@ class NightTests(unittest.TestCase):
         self.assertEqual(child.capture.from_msc,self.first_to)
         self.assertEqual(child.capture.to_msc,self.final_to)
         self.assertEqual(child.deadline_msc,self.final_to+180000)
+        self.assertEqual(child.projection_policy,'quarantine_v1')
         self.assertTrue(m.state['handoff']['verified_before_launch'])
         self.assertEqual(self.rows[self.plan.initial_output][1]['status'],'running')
 

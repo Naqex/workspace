@@ -4685,3 +4685,51 @@ Browser tab4 tại`/NAQ/issues` đã verify AXlabel parent
 Không chạy lại27tests vì source không đổi sau pass, không inference/modeljob,
 grant hay brokercommand, không resume các failedcapture. Lỗi màu/attention đã
 khép; các gate chất lượng dữ liệu overnight vẫn blocked đúng kết quả.
+
+## 05/11 10:00–10:20 — Tách thu raw tick khỏi bar-quality failure
+
+Owner giao sửa tiếp hai lỗi dữ liệu. Trader source **`d9232b87`** bổ sung
+`projection_policy=quarantine_v1` cho registration mới, default vẫnstrict_v1.
+Historical audit có revised rows hoặc closedH1 gap>60s ghi durable
+`quality-hold.json`; raw collector tiếp tục từ cursor, giữ nguyên
+`shadow.json` hợp lệ cuối và không retry cùngbad hour mỗi poll. Hold pinplan và
+last-valid-report được kiểm trước append khi resume; known-at không backdate.
+Account/source/SDK/clock/checksum và most-recent raw page revision vẫn là hard
+fail. Không sửa producer, không nới60s, không fill nến hay đoán broker calendar.
+
+Workspace controller phân biệt raw `complete` và projectionheld: lane khác vẫn
+chạy, nhưng heldsample không đượcdone hoặc seedhandoff. Successor sao chép đúng
+projectionpolicy; product warmup cũng chặn heldpredecessor. Native progress
+hiển thị “Đang thu tick; tạm giữ tính nến/tín hiệu” cùng raw counters và nguyên
+nhân; khi hết raw scope vẫn nói rõ dữ liệu cần kiểm tra. Không thêm dashboard,
+daemon, model, retryengine hay đường gửi lệnh.
+
+### Kiểm chứng theo phạm vi
+
+- **18step tests**, **8continuity tests** (gồm92giờ synthetic/four-session),
+  **35workspace tests** đều đạt:61testcases liên quan. Sau chỉnhknown-at và
+  successorpolicy đã chạy lại3quality regressions +15night tests, đều đạt.
+- Saved-data replay đúng evidence: FTMOpair84→96 giữ reason revised, rawpages
+  **209→210→211**; Exnessgap**198.234ms** giữ reason gap, rawpages
+  **300→301→302**. Frozen validreport và original capture checksum không đổi.
+  Đây là **offline/synthetic clock + empty continuation pages**,0networkreads;
+  không coi emptytail là tickthật hoặcfreshforward. Private script và results
+  ở `quote-quality-repair-20261105/replay_saved.py`, `saved-replay.json`.
+- Native read-only smoke **hai account thật chạy song song** bằng binary cũ
+  đã pin +source Python mới, cả2complete/terminal vàprojectionready. Mỗi lane
+  10pages/20srange: Exness1tick,FTMO10ticks,0H1. Không inference, grant,
+  OrderCheck/OrderSend hoặc reconnect/APIrestart. Smoke chứng minh collector/
+  protocol hiện tại, không chứng minh fresh H1/handoff/overnight/strategy.
+- Private artifacts: `E:/BACKUP-TRADINGWORKSPACE/system-capabilities-20261103/quote-quality-repair-20261105`:
+  original source snapshots, per-lane offline replay, tests logs,
+  `native-smoke/` lifecycle/capture/logs và `native-smoke-result.json`.
+  Native jobs mới đã kết thúc; không còn finite smoke worker đang chạy.
+
+Luồng source mới đã được dùng bởi native smoke, không cần restart UI/API để
+load Python worker mới. Old registrations/lifecycles/sourcepins không được
+viết lại hoặc resume sau deadline. Current read-only registrations cần chọn
+quarantine_v1 rõ ràng theo FOREX-FORWARD/OPERATIONS; projection hold không tự
+được gỡ hoặc trở thành authority thực thi. Giữ NAQ-85/86/87blocked cho acceptance
+đợt qua đêm cũ, công bố repair trên cùng native tasks; không chạy thêm một giờ
+chỉ để đổi màu. Broker-specific calendar và future uninterrupted qualification
+vẫn là scope chưa chứng minh, không được gọi đã đạt từ các kiểm tra này.

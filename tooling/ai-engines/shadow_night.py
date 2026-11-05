@@ -28,6 +28,10 @@ TERMINAL={'complete','failed','stopped','expired','interrupted','control_error'}
 VN=timezone(timedelta(hours=7))
 
 
+def qualified(row):
+    return row.get('status') == 'complete' and (row.get('observation') or {}).get('projection_status') != 'held'
+
+
 def pins():
     return {str(p):group.file_hash(p) for p in (Path(__file__).resolve(),
         group.ROOT/'tooling/ai-engines/shadow_sessions.py',group.ROOT/'tooling/ai-engines/shadow_watch.py')}
@@ -196,6 +200,8 @@ class Manager:
             self.state['lanes'][row['id']]=row
             if row['status'] in TERMINAL-{'complete'}:
                 self.error(row['id'],row.get('reason') or row['status'])
+            if (row.get('observation') or {}).get('projection_status') == 'held':
+                self.error(row['id'],row['observation'].get('quality_reason') or 'shadow_quality_hold')
         return rows
 
     def followup(self):
@@ -208,6 +214,7 @@ class Manager:
                 'to_msc':self.plan.final_to_msc},
             deadline_msc=min(self.plan.final_to_msc+180000,self.plan.deadline_msc),
             settle_seconds=self.first.settle_seconds,stability_policy=self.first.stability_policy,
+            projection_policy=self.first.projection_policy,
             source_sha256=self.first.source_sha256,
             continuation=dict(state_dir=str(previous),report_sha256=capture.checksum(report))))
         # Verify the real completed lifecycle, report and capture prefix BEFORE launch.
@@ -261,16 +268,16 @@ class Manager:
         # the manager's last commit. Attach it even after the launch window;
         # an absent successor must never be launched late.
         existing_successor=(Path(self.plan.successor_output)/'launch.json').exists()
-        if 'successor' not in self.state['groups'] and existing_successor and predecessor['status']=='complete':
+        if 'successor' not in self.state['groups'] and existing_successor and qualified(predecessor):
             self.followup()
         if 'successor' in self.state['groups']:self.poll('successor')
-        success=(self.state['lanes'].get(self.plan.successor,{}).get('status')=='complete'
-            and all(r['status']=='complete' for r in rows) and bool(self.state.get('handoff',{}).get('verified_before_launch')))
+        success=(qualified(self.state['lanes'].get(self.plan.successor,{}))
+            and all(qualified(r) for r in rows) and bool(self.state.get('handoff',{}).get('verified_before_launch')))
         if success:
             self.state['status']='complete';self.save();return self.state
         if self.clock()>=self.plan.deadline_msc:self.halt('deadline');return self.state
         self.guard()
-        if 'successor' not in self.state['groups'] and predecessor['status']=='complete':
+        if 'successor' not in self.state['groups'] and qualified(predecessor):
             if self.clock()>self.first.capture.to_msc+(self.first.settle_seconds+60)*1000:
                 self.error(self.plan.successor,'night_handoff_window_missed')
             elif self.plan.successor not in self.state['errors']:
@@ -279,7 +286,7 @@ class Manager:
                     self.error(self.plan.successor,str(error) if isinstance(error,ValueError) else type(error).__name__)
         if 'successor' in self.state['groups']:self.poll('successor')
         waiting=any(r['status']=='running' for r in self.state['lanes'].values())
-        if predecessor['status']=='complete' and 'successor' not in self.state['groups'] and self.plan.successor not in self.state['errors']:
+        if qualified(predecessor) and 'successor' not in self.state['groups'] and self.plan.successor not in self.state['errors']:
             waiting=True
         if waiting:self.state['status']='running'
         else:
@@ -337,7 +344,7 @@ class Manager:
     def finish_tasks(self):
         for item in self.initial['sessions']:
             names=[item['id']]+([self.plan.successor] if item['id']==self.plan.predecessor else [])
-            ok=all(self.state['lanes'].get(n,{}).get('status')=='complete' for n in names)
+            ok=all(qualified(self.state['lanes'].get(n,{})) for n in names)
             if item['task']:
                 self.finish_task(item['task'],dict(status='done' if ok else 'blocked',
                     **({} if ok else dict(unblockDescriptor=dict(owner='board',action='Inspect overnight checkpoint and first error; resume only the registered session if still valid.')))),'PATCH')

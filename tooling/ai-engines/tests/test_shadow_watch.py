@@ -12,6 +12,16 @@ import shadow_watch as watch
 
 
 class ProgressTests(unittest.TestCase):
+    def test_quality_hold_distinguishes_raw_progress_from_projection(self):
+        state=dict(manifest_sha256='a'*64,status='running',observation=dict(
+            projection_status='held',quality_reason='shadow_hour_gap_requires_review',pages=61,ticks=120))
+        body=watch.render(state,100000)
+        self.assertIn('Đang thu tick; tạm giữ tính nến/tín hiệu',body)
+        self.assertIn('61 trang',body)
+        self.assertIn('shadow_hour_gap_requires_review',body)
+        state['status']='complete'
+        self.assertIn('Đã thu xong; dữ liệu cần kiểm tra',watch.render(state,100000))
+
     def test_uncertain_put_is_read_back_without_duplicate_revision(self):
         doc, puts = None, []
         def api(path, body=None, method='GET'):
