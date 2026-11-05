@@ -6042,3 +6042,19 @@ giữ promotion false. Missing/duplicate/nonfinite observations bị từ chối
 đang chạy. [Decision branch](../../research/STRATEGY-VALIDATION-FRAMEWORK-20261105.md#bước-quyết-định-sau-annual-batch-2023--owner-đồng-ý-0611)
 giữ bước tiếp theo: review → giữ/loại/inconclusive → freeze/validation có mục
 đích; không mua challenge hoặc nối full simulator cho5bản khi chưa cần.
+
+### Kiểm tiến độ 06:26 ngày 06/11 — chưa có ETA hoàn tất đáng tin
+
+Pipeline/controller và bốn worker vẫn chạy phiên đã launch; controller/pipeline
+stderr 0 byte, không projection errors. Sau khoảng40phút từ launch, bốn worker
+reference xử lý15,6–16,4triệu/27.549.175tick (57–59% scenario đầu), UTC range
+vẫn queued; 0/5job completed. Đây không phải57–59% của toàn batch hai scenario.
+
+Đọc timestamps/counters trong stdout cho thấy cửa sổ5phút gần nhất chỉ còn
+2.565–2.870tick/s, CPU/wall của worker vẫn khoảng98%. Không suy ETA từ throughput
+đầu run hoặc benchmarkQ1: tốc độ đang giảm theo chiều dài replay. Với tốc độ này,
+ceiling7.200s/worker có nguy cơ hết trước cả hai scenario; ceiling4h/batch không
+phải giờ hẹn hoàn thành. Chưa xác minh nguyên nhân slowdown; chưa đổi numerical
+source, timeout đang chạy hoặc khởi động lại. Bước tiếp là khoanh vùng nguyên nhân
+và phương án giữ phần đã sealed, tránh chờ timeout rồi rerun toàn bộ. Log nguồn:
+private `execution-v1/batch-1/<worker>/stdout.log`, `progress.json` và `process.json`.
