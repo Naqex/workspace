@@ -4965,3 +4965,33 @@ vẫn chưa làm do instance chưa có lại; không lách lần launch bị pol
 Bước tiếp: development Q1 trên cùng protocol/common warmup nếu cần tăng mẫu,
 rồi đóng băng thiết kế OOS sau audit consumed/coverage đủ phạm vi. Không chọn
 SMA chỉ vì equity reference dương hai tuần; không tối ưu size để ép pass prop.
+
+## 05/11 — Research và sửa project default cho Codex policy rejection
+
+Owner yêu cầu đối chiếu Reddit/cộng đồng/OpenAI và sửa lỗi. Báo cáo nguồn,
+phân biệt fact/hypothesis và đường activation ở
+`planning/research/CODEX-POLICY-BLOCK-20261105.md`.
+
+Đã xác nhận active thread là disabled/never, global danger-full-access/never;
+project chỉ có MCP config và được trusted. Không tìm thấy rules hoặc managed
+files ở các vị trí đã kiểm; không khẳng định đã loại mọi enforcing layer.
+Desktop26.1029.7803.0, thread CLI0.166.0-alpha.6, CLI trênPATH0.164.0 là ba thông
+tin khác nhau. Không update nhầm CLI trênPATH để công nhận sửa runtime desktop.
+
+Trong điều tra, một source-read command chứa URL/launch search literals cũng
+bị tool từ chối trước execution. Điều này phù hợp giả thuyết static heuristic
+Windows bắt nội dung quá rộng; source/community corroboration chưa là runtime
+rule ID. Cách gọi "automatic reviewer" ở các receipt trước chưa đủ bằng chứng:
+chỉ xác minh được pre-execution policy rejection, không xác minh reviewer ran.
+
+Đã backup và chỉ thêm project `.codex/config.toml` key
+`approval_policy = "on-request"`; parsed before/after chứng minh MCP config giữ
+nguyên. Global config, sandbox, reviewer và guard rules không đổi. Maintainer
+audit trước/sau0errors/0warnings, TOML/diff checks đạt. Đây là default có đường
+review cho lần khởi tạo phù hợp, **chưa thay active never của cuộc chat**.
+
+Owner cần chọn chế độ cho phép duyệt trên app rồi gửi lượt mới để kiểm effective
+policy; nếu app vẫn giữnever thì mở task mới đúng mode, tiếp từ plan/receipt.
+Chưa retry launch Paperclip, khởi service/terminal, gửi support hoặc tuyên bố
+original operation đã phục hồi. Không đổi shell/encoding hoặc tool để lách cùng
+operation bị chặn; chưa tìm được bản vá upstream nào bảo đảm fix mọi trường hợp.

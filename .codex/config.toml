@@ -1,3 +1,6 @@
+# Keep a review path for safety-classified commands; the app permission preset may override it.
+approval_policy = "on-request"
+
 [mcp_servers.naqex_search]
 command = "uv"
 args = ["run", "--no-project", "--python", "3.12", "tooling/search/xerj.py", "mcp"]
