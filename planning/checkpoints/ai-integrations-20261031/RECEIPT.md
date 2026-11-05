@@ -5726,3 +5726,129 @@ The5ers prior-written-approval là gap đã biết được kiểm lại, chưa 
 export đúng warmup/evaluation từ QDM cache vào output mới, pin/validate inputs,
 rồi finite batch theo frozen protocol; không cần research lại đầu hoặc chờ1giờ
 để test adapter. G3/OOS/statistical/prop/strategy-forward gaps vẫn chưa đóng.
+
+## 05/11/2026 — thực thi historical robustness Q1/2023
+
+Owner giao tiếp sau review. Reuse registration frozen và implementation đã kiểm,
+không lặp tests bất biến hoặc chọn lại window/metrics từ outcome. Source Trader
+48663b3e, workspace454e931 khớp implementation hashes đã lưu;9numeric modules
+vẫn khớp baseline. Không broker/model calls, không mở2025/final holdout.
+
+Job private: `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/prop-q12023-robustness-20261105/`.
+QDM CLI export từ cache hiện có, tuần tự hai window,72,61s; không GUI/update/
+download. Warmup11–12/2022:7.959.071tick,363.552.395bytes; evaluationQ1/2023:
+9.038.771tick,412.375.708bytes. CSV giữ nguyên thứ tự/bytes, hash/line count
+trong `prepare-receipt.json` và `inputs.json`; config pin cùng5candidate×2scenarios.
+QDM process đã kết thúc sau export. HaiPythonAPIđang có không thuộc job nghiên cứu.
+
+Finite supervisor đang chạy `attempt-1`, first-job probe Donchian rồi tối đa4
+numeric workers,30phút/job,90phút/batch theo protocol. Đây là snapshot lúc bắt
+đầu; **trạng thái hiện hành phải đọc `attempt-1/progress.json`/`PROGRESS.md` và
+batch-terminal/worker receipts**, không suy còn chạy từ đoạn receipt này.
+File tiến độ đã được yêu cầu mở trong Codex; tool trảqueued, chưa xác nhận owner
+đã xem panel. Không đưa kết luận pass trước khi terminal/dossier/accounting đạt.
+
+Khi interruption: giữ attempt cũ, reconcile rồi reuse completed jobs/sealed
+scenarios còn match. Không restart từ đầu vì một row lỗi, không sửa snapshot
+để công nhận đạt. Q1/2023 từ lượt này là window đã sử dụng; cleanOOS vẫn false,
+prior-exposure trong registration là trạng thái tại lúc freeze và không sửa lại.
+
+### Recovery cùng05/11 — không hủy numerical job vì lỗi projection
+
+Attempt1: Donchian hoàn tất/verified1488,828s. Sau đó4job đang chạy thì supervisor
+gặp PermissionError khi `progress()` mở receipt đang replace, frame read_text/open;
+exception đi vào nhánh hủy toàn batch. Các job còn lại bị cancel ở reference
+~11–20%, chưa có scenario seal; chúng chưa thể mid-scenario resume. Không có
+OrderSend hoặc data/code/core/rule/cost change. Donchian giữ nguyên và reusable.
+
+Đối soát xác nhận5worker PIDs cũ đã dừng, batch-terminal supervisor_failed và
+4terminal cancelled, không suy exitcode0 của JobObject termination là hoàn tất.
+Root **f66b03e** sửa đúng boundary: optional receipt read retry ngắn cho Windows
+sharing errors rồi báo progress_read_error; JSON/Markdown projection write lỗi
+báo projection_errors, không cancel workers. Mandatory config/result/accounting/
+terminal persistence giữ fail-closed. Không nới hash/risk hoặc ẩn lỗi telemetry.
+
+14focused controller tests đạt1,751s, gồm actual CreateFileW exclusive-read lock:
+strict read tái hiện PermissionError, progress vẫn running/không tạoCANCEL;
+release lock thì đọc lại được. Fault-injection cả2projection writes báo lỗi
+không lộ exception payload, không cancel; reuse/invalid-artifact/timeout/process-
+ownership regressions vẫn đạt. Không rerun product/core tests vì code số học
+không đổi. Chưa biết cơ chế OS cụ thể đã giữ handle trong incident đầu; actual
+Windows sharing lock tái hiện cùng failure class/boundary, không tự gán AV/Codex policy.
+
+Đã chủ đích khởi `attempt-2 --reuse-from attempt-1`, cùngconfig/protocol/inputs,
+runtime và numerical source. Donchian reused_verified ngay,4job còn thiếu chạy
+song song; không tính lại25phút của Donchian, không download/export lại. Đây là
+recovery riêng sau sửa, không scheduler auto-retry. Trạng thái hiện hành chuyển
+sang `attempt-2/progress.json`/`PROGRESS.md` và batch-terminal; giữ nguyên attempt1.
+Controller logs mới: `controller-attempt-2.stdout.jsonl`/`.stderr.log` ở job root.
+
+### Hoàn tất Q1/2023 —5candidate×2costs, không promote
+
+Attempt2 **completed_verified**,5/5candidates,10/10scenarios. Donchian tham chiếu
+result_dir attempt1; bốn bản khác từattempt2. Productsource48663b3e giữ nguyên,
+chỉ supervisor/observability sửa tạif66b03e. Không còn worker/supervisor của study
+chạy sau closure check. Không có broker/model calls trong numerical job.
+
+EquityΔUSD trên10.000USD mô phỏng, gồm floating PnL cuối mẫu:
+
+| Ứng viên | Reference | Cost-stress | Closed trades ref/stress | Open cuối mẫu ref/stress | Quyết định theo protocol |
+|---|---:|---:|---:|---|---|
+| Donchian | −138,68 | −166,15 | 11/11 | Có/Có | Không promote theo screen window này |
+| SMA | −95,78 | −110,76 | 6/6 | Không/Không | Không promote theo screen window này |
+| Z-score | +80,08 | +61,08 | 25/25 | Không/Không | Inconclusive, tín hiệu nghiên cứu tiếp |
+| Pullback | −27,57 | −50,49 | 4/4 | Có/Có | Không promote theo screen window này |
+| UTC range | +41,61 | +28,48 | 48/48 | Không/Không | Inconclusive, tín hiệu nghiên cứu tiếp |
+
+CashΔDonchian−131,80/−159,11USD vàPullback−32,88/−55,68USD khác equity vì còn vị
+thế. Không force close. Các bản flat có cashΔbằng equityΔ. Phần dương chưa chứng
+minh edge/prop-fit; phần âm không chứng minh mọi giai đoạn đều vô dụng.
+Min equity không gọi maxDD. Current-spec2026 áp2023 vẫn counterfactual, historical
+broker realism/full intrabar/uncertainty và actual firm/forward gates chưa đóng.
+
+Quality chung5runs: warmup7.959.071ticks/255validH4/17excludedH4; evaluation
+9.038.771ticks/377validH4/26excludedH4. Warmup first2022-11-01T00:00:00.080Z,
+last2022-12-30T21:59:57.894Z; eval first2023-01-01T22:04:01.067Z,
+last2023-03-31T20:59:56.463Z. Maximum adjacent gaps49,002h/48,002h; includes
+market closures, không tự suy mọi gap là outage hoặc full coverage. Không fill/
+sort/dedup. Hai CSV SHA256 khớp export sau run; accounting/state đều passed.
+Closure giữ `clean_oos=false`, qualificationnot_established/promotionfalse.
+
+Artifact private trongjob đã dẫn:
+`attempt-2/COMPARISON.md`, `comparison.json`, `closure-review.json`;
+run-dir từng row ởcomparison để tìm đúng receipt/checkpoint/seal, không giả
+Donchian có output mới trongattempt2. Protocol/registration frozen vẫn nguyên
+hash. Q1/2023 nayconsumed,2023ngoàiQ1/2024 vẫn exposureunverified,2025giữ đóng.
+
+Real completed-job reuse proof: batch mới `reuse-verification`,5/5reused,
+**0numerical worker dispatch**,0,636s;35artifact/process hashes giữ nguyên.
+OwnedPython bị chặn bằng test double trong lượt verification để bắt mọi dispatch
+ngoài ý muốn; chỉ Git identity reads chạy subprocess. Donchian6pinnedartifact
+hashes cũng khớp snapshot lúc bắt đầuattempt2. Không có full numerical rerun
+để tạo report hoặc chứng minh cache. Recovery attempt2 không có observation
+error event mới; strict locks/projection failures đã được test trước đó.
+
+### Hậu kiểm kỹ thuật và bước nghiên cứu tiếp
+
+| Lát | Số đo/bằng chứng | Quyết định |
+|---|---|---|
+| Export/cache |72,61s,776MB hai CSV, không download | Giữ QDMcache và raw hash |
+| Numeric/quality | Donchian~24,8phút;4case còn lại~25,8–28,1phút/case, chạy đồng thời | Đây là wall time trong scope này, không suy4×speedup hoặc LLMquota |
+| Reliability | Attempt1cancel do progress read; real Win32lock regression14tests và attempt2đã hoàn tất | Giữ optional-observation boundary; mandatory result/terminal vẫn fail-closed |
+| Recovery | Donchian reuse,0,636s all-completed proof,35hashes khớp | Giữ sealed reuse; mid-scenario restore vẫn chưa hỗ trợ |
+| Performance | First validation~175s; concurrent cases~362–364s validation/case, không là CPU profile | Trước mở nhiều năm, profile consumed workload và xét shared quality/warmup cache với full bindings; chưa triển khai/claim speedup |
+| UX/AX | PROGRESS5giây, lỗi/cancel khác numeric pass, rawattempt giữ nguyên | Không thêm dashboard/tracker song song |
+
+Phase durations từevents logs giữ ởclosure-review; là elapsed intervals, không
+cộng thành CPUtime hoặc suy cause từ một countersnapshot. Các first-probe/
+concurrency budgets hiện giữ đúng registration. Có thể review chi phí first
+full probe cho bài kế tiếp dựa trên bằng chứng vừa có; chưa đổi protocol hồi tố.
+Không rewrite Rust/vectorization hoặc nới validation chỉ để rút thời gian.
+
+So với Q1/2022 artifact cũ (source814e1135, không claim rerun trên source mới):
+Donchian/SMA đổi từdương reference sangâm; Z-score từâm sangdương; UTCrange dương
+haiquý kể cảstress nhưng mức lãi nhỏ và chỉ haiwindowkhông liên tiếp. Giữ toàn
+bộ trials; chưa statistical confidence hoặc continuous multi-year trackrecord.
+Ưu tiên đăng ký kiểm đa giai đoạn và đường equity/risk thực của UTCrange, giữ
+Z-score làm đối chứng đổi regime; chưa chốt winner/optimize params từquarter
+này hoặc chuyển sang trading quỹ. Window/criteria tiếp phải freeze trướcgiá.

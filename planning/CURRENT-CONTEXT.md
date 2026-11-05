@@ -5,9 +5,10 @@
 Trước mở window mới, đọc [audit consumption và protocol Q1/2023](research/PROP-HISTORICAL-ROBUSTNESS-20261105.md).
 Owner không nhớ đã xem2023–2024; nhãn hiện hành là historical robustness với
 prior exposure unverified, không clean OOS. Registration đã khóa5candidate,
-dates/metrics/cost/risk và source pins; đây chưa là numerical run. Receipt AI
-giữ kết quả audit và implementation opt-in runner đã kiểm bằng synthetic fixtures;
-bước tiếp là export/hash QDM cache trước market run. Chưa có market outcome mới.
+dates/metrics/cost/risk và source pins. Bài Q1/2023 đã chạy đủ5candidate×2cost
+scenarios; window này nay consumed. Receipt AI giữ numbers/quality, recovery
+Windows progress và implementation/source bindings. Không promote hoặc mở broker
+từ kết quả này; đọc receipt trước đăng ký giai đoạn tiếp, không chạy lại bài đã xong.
 
 Owner giao triển khai workflow/skills và chủ động quản lý skill. Đọc
 [strategy workflow](../tooling/ai-engines/STRATEGY-WORKFLOW.md) cho research,

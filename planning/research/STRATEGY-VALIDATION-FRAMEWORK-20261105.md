@@ -182,3 +182,13 @@ Trong luồng đang có, AI hỗ trợ research/spec/code/review và điều ph�
 số học chạy rules/sizing/fills/costs/risk bằng code; không hỏi LLM mỗi tick để
 chọn lệnh. Sau bài lịch sử vẫn cần các cửa strategy/prop/forward/authority trước
 execution. System-demo evidence trước đây không tự đóng strategy-forward gap.
+
+## Sau bài lịch sử Q1/2023, cùng05/11
+
+Đã chạy đủ5candidate×2costs, qua artifact/accounting/state checks, giữ nguyên
+rules. Numbers/quality/recovery và source/runtime pins ở [receipt AI](../checkpoints/ai-integrations-20261031/RECEIPT.md).
+Q1/2023 nay là consumed; prior-exposure trong frozen registration giữ nguyên
+trạng thái lúc đăng ký, không sửa để tự công nhận cleanOOS. Z-score/UTCrange
+dương ở cả2costs; các bản khác không đạt screen của window. Đây chưa đóng G3/
+G4/G5 hoặc quyền execution. Kết quả giữa hai quý đã thử thay đổi theo candidate;
+không chuyển một quý dương thành winner bền vững hoặc bỏ các quý lỗ.
