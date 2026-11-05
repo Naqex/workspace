@@ -1,6 +1,20 @@
 # AI workspace — native Paperclip UI và prototype lịch sử
 
-## Phiên được giao 05–06/11/2026 — vận hành qua rollover
+## Điều chỉnh 05/11/2026 — kiểm nhanh trước, quan sát dài theo nhu cầu
+
+Owner yêu cầu cách kiểm nhanh hơn thay vì chờ cả ngày. Thay phạm vi phiên bên
+dưới bằng kiểm nhanh: dùng lại clock/fault/continuity tests, replay lỗi đã lưu
+và short native read khi source/runtime liên quan không đổi. Không lặp thêm
+một giờ hoặc qua đêm chỉ để xác nhận lại code fix đã có bằng chứng phù hợp.
+
+Phiên rollover được dừng có kiểm soát; giữ registration, deadline, raw capture
+và lifecycle gốc. Native task có thể hoàn tất **công việc theo phạm vi mới**
+bằng resolution, không biến stopped thành overnight pass. Chỉ mở quan sát dài
+mới khi có hành vi môi trường cụ thể chưa chứng minh; rollover thật, downtime
+thật và uptime 24/7 vẫn khác synthetic time, chưa được công nhận từ kiểm nhanh.
+Receipt hiện có giữ kết quả và phần qualification còn lại; không mở thêm ledger.
+
+## Phạm vi lịch sử 05–06/11/2026 — vận hành qua rollover, đã rút gọn
 
 Owner duyệt tiếp giai đoạn vận hành có giám sát: Exness/FTMO chỉ đọc, một lần
 ngắt/tiếp tục worker từ checkpoint và báo cáo native. Run

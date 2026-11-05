@@ -73,6 +73,22 @@ the two observations on revision and diagnose flags, quotes, timing and lineage
 separately; never relax a valid comparison merely to avoid waiting. A short real
 read checks connectivity, not hour-aligned continuity or broker completeness.
 
+For the single-owner Demo stage, a new full-day/overnight observation is not
+the default gate after a fix. Reuse passing evidence while its relevant source,
+dependency, input contract and runtime remain unchanged. Verify the changed
+boundary with saved-data replay and synthetic clock/fault cases; use a short
+real integration read only when the affected boundary needs it. Name the exact
+remaining environmental uncertainty before starting a longer observation.
+Synthetic days establish tested state transitions, not real uptime or future
+broker behavior; a short successful read does not establish rollover coverage.
+
+If the owner shortens an active observation, request native STOP, then verify
+controller, collectors and observers exited and terminal publication arrived.
+Preserve original registrations/deadlines/lifecycles and checksummed capture.
+Resolve the work item against the revised scope, marking omitted live coverage
+explicitly; do not claim the original long observation passed. Keep remaining
+qualification in the existing tracker rather than restarting another long job.
+
 For a new quote-only shadow registration, `stability_policy=ordered_quotes_v1`
 compares every ordered quote/timestamp and lineage value while retaining flags
 as opaque metadata. The default raw policy stays strict. Persist both competing

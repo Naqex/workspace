@@ -4822,3 +4822,42 @@ dừng collectors. Không chỉnh các pinnedsourcefiles trong lúc chạy. Khi 
 reboot cầnreconcile rồiresume đúngrun/window; không có installedautostart.
 Kết quả cuối vẫn phải đối soát raw/projection/recovery/coverage/publication,
 không côngnhận fullacceptance trước khi đạt mốc và đọc nativeevidence.
+
+## 05/11 — Rút gọn phiên dài, chốt kiểm nhanh theo yêu cầu owner
+
+Owner cho rằng chờ cả ngày quá lâu và yêu cầu cách nhanh hơn vẫn kiểm đúng.
+Đổi scope trong AI plan: kiểm code bằng clock/fault/continuity + saved-data
+replay; chỉ dùng short native integration khi boundary liên quan cần đọc thật.
+Không cần phát triển framework mới hoặc chạy lại các test/source không đổi.
+OPERATIONS ghi rõ khi nào mới cần quan sát dài và cách kết thúc phiên rút gọn.
+
+Native STOP được gửi **11:17:16 VN 05/11**, terminal vào **11:17:16–17**.
+Đối soát bằng native status và process creation identity: controller stopped/
+đã thoát; cả Exness/FTMO stopped/terminal; hai supervisor và hai observer đều
+đã thoát, không có successor được khởi chạy. Managed terminal11882 exit1 do
+operator_stop, không phải overnight pass hoặc exception mới trong collector.
+Controller giữ snapshot lanes trước STOP; parent live document được chú thích
+và resolution đối soát terminal riêng, không sửa state để giả kết quả mới.
+
+| Lát kiểm | Kết quả thực tế / evidence scope |
+|---|---|
+| Dữ liệu thật song song | Mỗi account29pages,10:47:32–11:16:32VN,29phút đã đọc; Exness666ticks, FTMO1.746ticks, cả hai0closedH1 |
+| Phục hồi thật | Planned recovery đãpassed: giữ3pages/65ticks, cùng registration/output/deadline, incarnation1→2; FTMO vẫn tiến khiExnessstopped |
+| Tăng tốc đã có | Reuse18step +8continuity +35workspace tests và20controller tests; có92giờ synthetic/four-session, saved revision/gap replay; không coi synthetic tail là tickthật |
+| Short native read đã có | Haiaccount complete/ready,10pages/20srange mỗiaccount; đây là integration smoke, không là H1qualification |
+| Chưa chứng minh | Fresh H1handoff của phiên này, rollover thật, uptime24/7 và strategy qualification |
+
+Private `forward-20261105-rollover/fast-scope-result.json` giữ native readback,
+recovery và SHA256 inventory của controllerstate/lifecycle/shadow/rawcapture.
+Đã đối hash trước/sau native publication: không đổi các file bằng chứng gốc.
+`fast-scope-tasks-before.json`/`fast-scope-tasks-after.json` giữ taskreadback.
+RUNBOOK mở đầu bằng trạng thái stopped/superseded; các lệnh cũ chỉ còn tham chiếu
+lịch sử, không tự resume phiên rút gọn.
+
+Native **NAQ-90/91/89 done** sau resolution và readback, giữ assignee, bỏ
+unblockDescriptor lỗi thời. NAQ-92 giữdone. Done biểu thị công việc kiểm nhanh
+theo scope mới đã hoàn tất; lifecycle gốc vẫnstopped, phạm vi qua đêm chưa đạt.
+Parent `operating-window` và `resolution` của ba task nêu rõ scopechange; các
+child terminalreports đã delivered. GitHub **workspace#10 vẫnOPEN** vì H1/
+continuous-operation acceptance chưa được kiểm đủ; không đóng bằng kiểm nhanh.
+Không gửi lệnh, cấpgrant, gọi model, reconnect hoặc restart terminal/API.
