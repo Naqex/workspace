@@ -108,6 +108,77 @@ Q1/2023, warmup11–12/2022, cả5candidate và tiêu chí trước giá mới. 
 inventory đã thực hiện; clean-unseen status vẫn **không xác lập** vì owner
 không nhớ lịch sử và scanner có phạm vi/format limits. Vì vậy không gọi bài
 này là clean OOS hoặc coi nó đóng G3. AvailabilityQDM đã kiểm riêng bằng CLI
-metadata, không bảo đảm quality. Numerical runner hiện chưa hỗ trợ window này;
-registration file chưa là code enforcement. Giữ các cửa kiểm còn lại nguyên
+metadata, không bảo đảm quality. Tại thời điểm freeze ban đầu, runner chưa hỗ trợ window này;
+registration file riêng chưa là code enforcement. Giữ các cửa kiểm còn lại nguyên
 trạng thái cho tới khi có đúng bằng chứng, không tự đánh dấu đạt từ protocol.
+
+## Đối chiếu tiếp: version/reuse và mức độ quant,05/11
+
+Owner giao tiếp implementation registration, đồng thời hỏi lịch sử/phiên bản,
+đối chiếu docs/cộng đồng/quỹ và cách gọi quant trading. Review này không mở
+giá2023 mới, không thay signal/risk/cost hoặc tiêu chí của protocol đã freeze.
+Delta implementation nằm ở receipt; paragraph “runner chưa hỗ trợ” phía trên
+là snapshot trước implementation, không dùng nó để bắt đầu lại audit.
+
+### Nguồn đối chiếu thêm
+
+| Nguồn đọc05/11 | Nội dung dùng được / giới hạn |
+|---|---|
+| [MLflow Tracking](https://mlflow.org/docs/latest/ml/tracking/), kèm official tracking API qua Context7 | Phân biệt experiment/run, code version/parameters/metrics/artifacts; parent–child runs có hỗ trợ. Không cần cài MLflow chỉ để có versioning, không tự là validation phương pháp |
+| [QuantConnect Research Guide](https://www.quantconnect.com/docs/v2/cloud-platform/backtesting/research-guide) | Hypothesis trước kết quả, ghi quá trình thử/chọn và vùng OOS. Bảng heuristic số backtests/parameters/giờ research trên trang không là statistical theorem; không copy thành quota hay tem pass |
+| [QuantConnect reconciliation](https://www.quantconnect.com/docs/v2/cloud-platform/live-trading/reconciliation) | Cần so hành vi live với backtest; không suy đổi engine là hết simulation–execution gap |
+| [AQR Trading Costs,2018](https://www.aqr.com/Insights/Research/Working-Paper/Trading-Costs) | Nghiên cứu dùng executions thực để hiệu chỉnh chi phí theo size/thời điểm/điều kiện. Bài về institutional equities; không đem số đo của AQR gán thành chi phí Forex/prop của mình. Đã đọc trang tóm tắt, chưa audit lại full paper |
+| [FTMO objectives](https://ftmo.com/en/trading-objectives/) và [strategy/EA FAQ](https://ftmo.com/en/faq/which-instruments-can-i-trade-and-what-strategies-am-i-allowed-to-use/) | 2-Step daily loss theo equity và balance tại midnight CE(S)T; overall static, khác1-Step/Instant. Algorithmic/EA được phép trong điều kiện và prohibited-practices rules; third-party EA có allocation concern. Phải pin đúng program/phase, không thay internal pilot budget bằng nhãn FTMO |
+| [The5ers Terms §11,update28/10/2026](https://the5ers.com/terms-and-conditions/), [EA FAQ](https://the5ers.com/faqs/can-i-use-an-ea-expert-advisor-can-i-set-a-stealth-mode-stop-loss/), [High Stakes](https://the5ers.com/high-stakes/) | Terms yêu cầu prior written approval cho automated software và có hạn chế third-party ownership/development. FAQ không tự thay Terms hoặc cấp duyệt cho bot này; nội dung EA/prohibited styles/visible SL cũng cần xét. Chưa có account/bot-specific approval. Đây là điều kiện đã phát hiện trước đó, nay kiểm lại, không phải phát hiện mới |
+| [Reddit: Forward Testing Validation](https://www.reddit.com/r/algotrading/comments/1wuh1ls/forward_testing_validation/) | Có người chia sẻ freeze trước demo và đối soát signal/size/order/cost; cũng có khuyến nghị50trades/AI đánh giá rất khác nhau. Đây là tự thuật, không audit được profitability, không lấy50 hoặc AI nói ready làm gate |
+
+Hai URL FAQ cũ không truy cập được; đã dùng trang chính thức hiện truy cập được
+ở trên. Thread tracking `1rdcb7o` được mở nhưng post đã removed; không lấy search
+snippet của post đó làm evidence cộng đồng. Không có mẫu thống kê đại diện cho
+“mọi quỹ/cộng đồng đều làm thế”, không xác nhận lợi nhuận từ số upvote.
+
+### Nên version và reuse thế nào?
+
+| Loại thay đổi | Cách lưu phù hợp project | Được reuse gì? |
+|---|---|---|
+| Sửa engine hoặc hạ tầng | Git commit/branch có scope; run pin actual file hashes và numerical runtime | Artifact hoàn tất còn khớp bindings; source/env drift không tự coi tương đương |
+| Thay entry/exit/threshold | Candidate/version mới, giữ quan hệ với baseline và lý do trong native task/protocol | Data cache và core đã kiểm còn đúng; không mượn PnL của rules cũ |
+| Giữ rules, đổi window/cost/risk | Study/run/attempt mới với input/protocol/spec pins; giữ trial history | Dùng lại dữ liệu bất biến và verified completed jobs/scenarios khi mọi binding khớp |
+
+Project đã có candidate IDs,v1,run UUID,Git/source/input/protocol/spec hashes và
+scenario/job reuse. Lượt này bổ sung registration binding và Python/Pydantic/
+Decimal binding; không tạo fork repo cho mỗi variant hoặc dịch vụ tracking mới.
+Parent–child research lineage toàn bộ search vẫn chủ yếu ở protocol/task, chưa
+là queryable trial catalogue hoàn chỉnh; chỉ bổ sung derived index nếu có nhu
+cầu tìm kiếm thật, không tạo tracker cạnh tranh Paperclip. Pin/hash giúp kiểm
+đúng identity; tốc độ đến từ reuse data/artifacts, không phải bản thân Git fork.
+
+### Khoảng trống cần đóng theo thứ tự
+
+| Hạng mục | Hiện trạng / hành động |
+|---|---|
+| Correctness và độc lập | Có unit cases, causal/accounting checks; thêm independent sample oracle khi mở logic mới. Chưa independent audit toàn engine; không cần build engine thứ hai chỉ để có checklist |
+| Data quality/representativeness | QDM không là feed broker lịch sử; phải kiểm gaps/session và chọn thêm regimes theo protocol trước outcome, không tự điền khoảng trống |
+| Equity path/risk metrics | Chưa có peak-to-trough maxDD/underwater/concentration đầy đủ trong report; cần đo có coverage, không thay bằng minimum equity |
+| Edge/uncertainty/selection | Q1/2022 đã consumed,2023 exposure unverified, sample trade nhỏ. Cần historical multi-regime rồi prospective/controlled unseen window, trial count/dependence-aware uncertainty khi đủ assumptions |
+| Execution realism | Commission/slippage/financing đang declared/current-spec counterfactual; cần sensitivity hợp lý và đối soát demo, không hiệu chỉnh từ giả định để làm đẹp PnL |
+| Prop fit | Cần đúng firm/program/phase/reset/DST/news/permission profile và first breach;100/500USD nội bộ chưa chứng minh pass. The5ers approval vẫn chưa có |
+| Forward và nhiều strategy | Cần đối soát strategy frozen với demo đúng thời gian; nhiều chiến lược phải cùng account-wide risk/positions/pending, không nhân budget theo số run |
+
+Đa số gaps này đã được audit trước đó ghi nhận; đối chiếu mới xác nhận chúng
+vẫn cần thiết, không có bằng chứng phải rewrite engine hoặc cài thêm framework.
+Screen “quý này dương ở hai cost scenarios” chỉ là tiêu chí bài đã đăng ký,
+không là quy luật mọi strategy tốt phải xanh mọi quý. Không sửa tiêu chí cũ;
+bài nhiều regimes về sau phải đăng ký riêng, giữ cả quý lỗ và trial thất bại.
+
+### Đã là quant trading chưa?
+
+**Đã là quantitative strategy research và systematic/algo trading pipeline
+ở giai đoạn kiểm định.** Có giả thuyết→rules rõ→dữ liệu→mô phỏng→đối soát→
+quyết định dựa evidence; không đòi ML hoặc công thức phức tạp mới được gọi quant.
+Chưa có evidence cho một chiến lược prop đủ điều kiện đem kiếm tiền/scale.
+
+Trong luồng đang có, AI hỗ trợ research/spec/code/review và điều phối. Runner
+số học chạy rules/sizing/fills/costs/risk bằng code; không hỏi LLM mỗi tick để
+chọn lệnh. Sau bài lịch sử vẫn cần các cửa strategy/prop/forward/authority trước
+execution. System-demo evidence trước đây không tự đóng strategy-forward gap.

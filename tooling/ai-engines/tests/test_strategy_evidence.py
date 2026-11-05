@@ -5,9 +5,11 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import strategy_evidence as evidence
+from trading_workspace_v2 import forex_study_registration as registry
 
 
 class EvidenceTests(unittest.TestCase):
@@ -135,6 +137,62 @@ class EvidenceTests(unittest.TestCase):
         report=evidence.status(self.run,now=now)
         self.assertTrue(report['terminal'])
         self.assertEqual(report['failed_stage'],'validate_development')
+
+    def historical_fixture(self):
+        self.manifest.update(schema=registry.HISTORICAL_SCHEMA,purpose=registry.HISTORICAL_PURPOSE,
+            data_role='historical_robustness',prior_exposure='unverified_owner_cannot_recall',
+            clean_oos=False,risk_usd=[25,100,500],observed_account_spec=dict(sha256='a'*64))
+        windows=dict(warmup=dict(first_day='20221101',last_day='20221231'),
+                     evaluation=dict(first_day='20230101',last_day='20230331'))
+        for role,target in [('warmup','warmup'),('development','evaluation')]:
+            self.manifest['inputs'][role].update(windows[target])
+        start=datetime(2023,1,1,tzinfo=timezone.utc)
+        calendar=[]
+        for day in range(90):
+            stamp=start+timedelta(days=day,hours=22)
+            if stamp.weekday()<5:
+                calendar.append(dict(scheduled_time_msc=int(stamp.timestamp())*1000,
+                    known_at_msc=int(start.timestamp())*1000,multiplier=3 if stamp.weekday()==2 else 1,
+                    debit_buy_usd_per_lot='1',debit_sell_usd_per_lot='1'))
+        self.manifest['scenarios']=[dict(name='reference',commission_usd_per_lot_per_side='2.50',
+                                         slippage='0',financing_calendar=calendar)]
+        registration=dict(schema='forex-historical-study-registration-v1',study_id='fixture',
+            data_role=self.manifest['data_role'],prior_exposure=self.manifest['prior_exposure'],clean_oos=False,
+            authorization=dict(promotion_authorized=False),windows=windows,candidates=['fixture'],
+            protocol=self.manifest['research_protocol'],account_spec=dict(sha256='a'*64),
+            source_files=self.manifest['source_files'],scenarios=[dict(name='reference',
+                commission_usd_per_lot_per_side='2.50',slippage_price_per_side='0',
+                financing_debit_buy_usd_per_lot='1',financing_debit_sell_usd_per_lot='1')])
+        self.write('study-registration.json',registration)
+        digest=evidence.digest(self.run/'study-registration.json')
+        self.manifest['study_registration']=dict(study_id='fixture',sha256=digest)
+        self.write('manifest.json',self.manifest)
+        guard=patch.dict(registry.REGISTERED_STUDIES,{digest:'fixture'})
+        guard.start()
+        self.addCleanup(guard.stop)
+
+    def test_registered_history_is_reviewable_but_never_becomes_clean_oos(self):
+        self.historical_fixture()
+        report=evidence.inspect(self.run,verify_inputs=True)
+        self.assertEqual(report['evidence_scope'],'historical_robustness_exposure_unverified')
+        self.assertEqual(report['review_checks']['out_of_sample'],'not_established_prior_exposure_unverified')
+        self.assertFalse(report['promotion_authorized'])
+        self.manifest['clean_oos']=True
+        self.write('manifest.json',self.manifest)
+        with self.assertRaisesRegex(ValueError,'scope'):
+            evidence.inspect(self.run)
+
+    def test_registered_history_rejects_tampered_core_or_registration(self):
+        self.historical_fixture()
+        original=copy.deepcopy(self.manifest)
+        self.manifest['source_files']['candidate.py']='b'*64
+        self.write('manifest.json',self.manifest)
+        with self.assertRaisesRegex(ValueError,'source'):
+            evidence.inspect(self.run)
+        self.write('manifest.json',original)
+        (self.run/'study-registration.json').write_text('{}')
+        with self.assertRaisesRegex(ValueError,'registration'):
+            evidence.inspect(self.run)
 
 
 if __name__ == '__main__':

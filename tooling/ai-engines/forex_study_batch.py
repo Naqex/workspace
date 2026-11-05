@@ -66,12 +66,15 @@ class OwnedPython:
 
 def verified_result(directory, expected, *, source_root=V2):
     from strategy_evidence import inspect
+    from trading_workspace_v2.forex_study_registration import runtime_binding
     dossier = inspect(directory, source_root=source_root)
     manifest = read(directory/'manifest.json')
     if (dossier['candidate'] != expected['candidate']
             or manifest['inputs'] != expected['inputs']
             or manifest['observed_account_spec']['sha256'] != expected['account_spec_sha256']
             or dossier['protocol_sha256'] != expected['protocol_sha256']
+            or (manifest.get('study_registration') or {}).get('sha256') != expected.get('study_registration_sha256')
+            or manifest.get('runtime') != runtime_binding()
             or not dossier['protocol_content_verified']
             or dossier['source_drift'] or dossier['unavailable_sources']):
         raise ValueError('completed_result_binding_mismatch')
@@ -87,6 +90,9 @@ def run_job(name, expected, directory, *, seconds, clock=time.monotonic):
         '--account-spec', expected['account_spec'], '--account-spec-sha256', expected['account_spec_sha256']]
     if expected.get('reuse_scenarios_from'):
         argv.extend(['--reuse-scenarios-from', expected['reuse_scenarios_from']])
+    if expected.get('study_registration'):
+        argv.extend(['--study-registration', expected['study_registration'],
+                     '--study-registration-sha256', expected['study_registration_sha256']])
     began = clock()
     terminal = dict(worker=name, status='failed', started_at_utc=datetime.now(timezone.utc).isoformat())
     owner = None
@@ -146,7 +152,7 @@ def progress(output, states, began, total_ticks, deadline):
         completed_jobs=sum(s['status'] in {'completed_verified', 'reused_verified'} for s in states.values()),
         total_jobs=len(states), model_calls=0, broker_calls=0, holdout_read=False)
     save(output/'progress.json', snapshot)
-    lines = ['# Nghiên cứu Q1/2022', '', f'Cập nhật UTC: {snapshot["updated_at_utc"]}',
+    lines = ['# Nghiên cứu Forex H4', '', f'Cập nhật UTC: {snapshot["updated_at_utc"]}',
         f'\nTrạng thái: **{status}** · Xong {snapshot["completed_jobs"]}/{len(states)} ứng viên · Đã chạy {elapsed/60:.1f} phút', '',
         '| Ứng viên | Trạng thái | Bước | Tick / scenario |', '|---|---|---|---:|']
     for row in rows:
@@ -190,9 +196,11 @@ def main(argv=None):
     began = time.monotonic()
     states = {name: dict(status='queued') for name in jobs}
     try:
+        from trading_workspace_v2.forex_study_registration import runtime_binding
         manifest = dict(config_sha256=digest(args.config), source_revision=subprocess.check_output(
             ['git', 'rev-parse', 'HEAD'], cwd=V2, text=True).strip(),
             supervisor_sha256=digest(__file__), config=config, max_workers=args.max_workers,
+            runtime=runtime_binding(),
             worker_seconds=args.worker_seconds, deadline_seconds=args.deadline_seconds,
             reuse_from=[str(path.resolve()) for path in args.reuse_from])
         stored = args.output_dir/'batch-manifest.json'
@@ -207,6 +215,13 @@ def main(argv=None):
                 raise ValueError('input_manifest_binding_mismatch')
             if digest(expected['protocol']) != expected['protocol_sha256']:
                 raise ValueError('protocol_binding_mismatch')
+            if bool(expected.get('study_registration')) != bool(expected.get('study_registration_sha256')):
+                raise ValueError('study_registration_requires_path_and_hash')
+            if expected.get('study_registration'):
+                from trading_workspace_v2.forex_study_registration import load_registration, validate_registration
+                registration = load_registration(Path(expected['study_registration']), expected['study_registration_sha256'])
+                validate_registration(registration, expected['inputs'], expected['candidate'],
+                    protocol_sha256=expected['protocol_sha256'], account_spec_sha256=expected['account_spec_sha256'])
             directory = args.output_dir/name
             reused = False
             if directory.exists():

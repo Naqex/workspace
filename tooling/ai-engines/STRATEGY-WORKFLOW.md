@@ -32,8 +32,16 @@ vẫn parse toàn JSON trong size limit. Output ghi coverage gaps và phân bi�
 planned registration với executed-run metadata. Absence không chứng minh unseen,
 record có dates cũng không tự chứng minh đã xem giá. Owner history chưa rõ thì
 ghi unverified. [Protocol hiện hành](../../planning/research/PROP-HISTORICAL-ROBUSTNESS-20261105.md)
-giữ nhãn/cutoff/tiêu chí/pins của bài kế tiếp; chưa có runner support hoặc run mới.
+giữ nhãn/cutoff/tiêu chí/pins của bài kế tiếp. Runner đã có opt-in registration
+support và synthetic integration evidence theo receipt; chưa có market run mới.
 Không đổi dates để vượt guard2022 hoặc tự gọi registration là quyền holdout.
+
+Để chạy registration đã hỗ trợ, thêm `--study-registration <registration.json>
+--study-registration-sha256 <registered-hash>` cùng candidate/input/protocol/spec.
+Batch job config dùng `study_registration` và `study_registration_sha256` để
+forward đúng pair đó; trước dispatch kiểm pin/role/candidate. Dossier nhận schema
+historical riêng, giữ exposure unverified và không auto-promote. File registration
+freeze cũ không sửa để cập nhật trạng thái; receipt/implementation binding giữ delta.
 
 Từ `projects/trader/foundation_v2`, Python `.venv` đã có:
 
@@ -99,6 +107,9 @@ so source hiện tại. Drift không xóa evidence lịch sử, chỉ hạn ch�
 Tool kiểm invariants/bindings, không thay core accounting, statistical review
 hoặc chứng thực nguồn artifact. Không overwrite run hoặc sửa ledger để tự pass.
 Development dossier luôn `promotion_authorized:false`, kể cả PnL dương.
+Historical-robustness dossier cũng giữ false và không tự thành clean OOS.
+Reuse completed job/scenario cần khớp Python/Pydantic/Decimal binding ngoài
+source/input/protocol/cost. Environment cũ chưa ghi thì không tự suy tương đương.
 Không tính maxDD từ minimum equity rời rạc; giữ open PnL và coverage rõ.
 
 ## Risk và concurrency

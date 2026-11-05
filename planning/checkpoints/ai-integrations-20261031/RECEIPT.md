@@ -5653,3 +5653,76 @@ chạy bounded supervisor theo protocol. Không lách bằng xóa guard/sửa ma
 không gọi registration là code enforcement hoặc hoàn tất G3. Framework/index/
 current context/workflow đã route tới nhãn mới. Chưa cập nhật native Paperclip
 trong lượt này; receipt local không giả thành native task/run acceptance.
+
+## 05/11/2026 — nhận registration, version/reuse và đối chiếu khung quant
+
+Owner giao tiếp runner qua annotation, hỏi versioning/reuse và research docs/
+cộng đồng/quỹ, yêu cầu báo ngắn. Scope: triển khai binding, targeted verification
+và cập nhật [review khung](../../research/STRATEGY-VALIDATION-FRAMEWORK-20261105.md#đối-chiếu-tiếp-versionreuse-và-mức-độ-quant0511).
+Chưa mở giá Q1/2023, không sửa frozen protocol/registration hoặc core/rules/costs.
+
+Trader **48663b3e**: thêm `--study-registration`+SHA256 opt-in cho registration
+đã pin, chỉ đúng content được đăng ký. Pair thiếu/sai candidate/window/protocol/
+spec/core/cost/financing bị chặn trước CSV. Omission giữ legacy2022guards.
+Snapshot registration được copy rồi xác minh, protocol bytes hash/copy cùng bản;
+manifest historical schema riêng, clean_oosfalse/prior exposureunverified,
+promotion vẫn false. Registration không cấp broker authority hoặc attest unseen.
+Compatibility giữ input keydevelopment; data_role trong manifest nói đúng scope.
+
+Runner→manifest→shared validator→dossier/controller dùng cùng contract reader.
+Full manifest pin actual runner/reader source;9numerical modules khớp frozen
+baseline. ASTcomparison xác nhận12function ngoài input_contract/main/
+scenario_binding giữ nguyên. Đây là implementation binding riêng, không sửa
+baseline source hash để giả match. Runtime pin thêm Python/Pydantic/Decimal
+precision/rounding vào manifest/seal; batch refuse reuse nếu khác/thiếu runtime.
+Không suy environment cũ, không certify complete dependency/environment audit.
+
+Source/dossier/controller docs và generic ForexH4progress title đã cập nhật.
+Không thêm fork repository pervariant, MLflow/DVC/service/UI/registry cạnh tranh.
+Candidate/run/attempt IDs và existing sealed reuse được giữ; full search lineage
+vẫn chủ yếu trong protocol/native task, chưa claim có queryable trial catalogue.
+
+Kiểm chứng tối thiểu phù hợp contract/data risk:
+
+- Product từ `projects/trader/foundation_v2`: `.venv/Scripts/python.exe -m pytest -q
+  tests/test_forex_study_registration.py tests/test_forex_preflight.py
+  tests/test_forex_scenario_reuse.py tests/test_forex_h4_candidates.py`
+  → **24tests+17subtests đạt**,5,66s trên source đã commit.
+- Workspace `unittest discover -s tooling/ai-engines/tests -p test_strategy_evidence.py -v`
+  → **10tests đạt**,0,287s; `test_forex_study_batch.py` → **12tests đạt**,3,120s.
+  Includes environment mismatch rejection, forwarding both args, clean-OOS/core/
+  registration tamper rejection và giữ cancel/process-ownership regressions.
+- Actual finite supervisor→5candidate×2scenarios→dossier trên **generated fixture**:
+  `registration-fixture-v1/batch-final`,5/5completed_verified,6,62s. Warmup324ticks,
+  evaluation72ticks, không thị trường thật; kết quả không là strategy evidence.
+- Reuse final fixture: **5/5reused_verified**,0numerical workers,0,6171s measured
+  enclosing `batch.main`; controller terminal ghi0,38s.77replay artifacts giữ hash.
+  `reuse-proof-final.json` và `implementation-review-final.json` giữ bằng chứng.
+- 4scoped docs local links0errors; diffcheck đạt. Không chạy full backtest/core
+  suite ngoài scope. Một lệnh test đầu dùng nhầm cwd nên không launch Python;
+  đã sửa cwd và chạy command thành công trên source committed, không tính lỗi
+  launch đó là test pass.
+
+Synthetic attempt đầu fail tại manifest do Windows relative source paths dùng
+backslash khác frozen POSIX keys. Đã normalize separators và reject duplicate
+aliases, regression giữ source mismatch vẫn bị chặn. Không nới hash/source guard.
+Giữ failed `batch`, intermediate `batch-after-path-fix` và final attempt riêng;
+chưa đọc CSV ở failed attempt. Không che lỗi hoặc retry một market study.
+
+Private fixture root:
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/prop-validation-20261105/registration-fixture-v1/`.
+Config/CSV ghi `generated_fixture_not_market_data`; output là integration-only.
+Không có job còn chạy. Product worktree sạch; cumulative workspace gitlink và
+Product Plan/VI/evidence WIP ngoài scope không stage vào commit này.
+
+Research đã đọc trực tiếp MLflow official docs+Context7, QuantConnect research/
+reconciliation, AQR Trading Costs summary, FTMOobjectives/EAFAQ, The5ersTerms§11/
+EAFAQ/HighStakes và Redditforward thread. Một thread trackingremoved không dùng
+snippet làm evidence. Nguồn/giới hạn/gaps/version recommendation lưu cùng framework,
+không gọi forum heuristics/AI-ready verdict là chuẩn ngành hoặc proof edge.
+The5ers prior-written-approval là gap đã biết được kiểm lại, chưa bot-specificapproved.
+
+**Lát implementation+research hoàn tất; market study chưa chạy.** Bước tiếp là
+export đúng warmup/evaluation từ QDM cache vào output mới, pin/validate inputs,
+rồi finite batch theo frozen protocol; không cần research lại đầu hoặc chờ1giờ
+để test adapter. G3/OOS/statistical/prop/strategy-forward gaps vẫn chưa đóng.

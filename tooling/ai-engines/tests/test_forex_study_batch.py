@@ -94,6 +94,19 @@ class OwnedProcessTests(unittest.TestCase):
 
 
 class ResultTests(unittest.TestCase):
+    def test_completed_result_cannot_be_reused_with_changed_runtime(self):
+        from trading_workspace_v2.forex_study_registration import runtime_binding
+        runtime=runtime_binding()
+        expected=dict(candidate='fixture',inputs={},account_spec_sha256='a'*64,protocol_sha256='b'*64)
+        dossier=dict(candidate='fixture',protocol_sha256='b'*64,protocol_content_verified=True,
+                     source_drift=[],unavailable_sources=[])
+        manifest=dict(inputs={},observed_account_spec=dict(sha256='a'*64),runtime=runtime)
+        with patch('strategy_evidence.inspect',return_value=dossier),patch.object(batch,'read',return_value=manifest):
+            self.assertEqual(batch.verified_result(Path('fixture'),expected),dossier)
+            manifest['runtime']=dict(runtime,pydantic='different-version')
+            with self.assertRaisesRegex(ValueError,'binding_mismatch'):
+                batch.verified_result(Path('fixture'),expected)
+
     def batch_fixture(self, root, names):
         protocol = root/'protocol.md'
         protocol.write_text('registered controller fixture')
@@ -177,12 +190,15 @@ class ResultTests(unittest.TestCase):
             owner.process.pid = 123
             expected = dict(input_manifest=str(Path(folder)/'input.json'), candidate='registered',
                 protocol='registered.md', account_spec='spec.json', account_spec_sha256='a'*64,
+                study_registration='study.json',study_registration_sha256='b'*64,
                 reuse_scenarios_from=str(Path(folder)/'old/replay'))
             with patch.object(batch, 'OwnedPython', return_value=owner) as spawn, \
                  patch.object(batch, 'verified_result') as verify:
                 terminal = batch.run_job('candidate', expected, Path(folder)/'attempt', seconds=1)
             worker_argv=spawn.call_args.args[0]
             self.assertEqual(worker_argv[worker_argv.index('--reuse-scenarios-from')+1],expected['reuse_scenarios_from'])
+            self.assertEqual(worker_argv[worker_argv.index('--study-registration')+1],expected['study_registration'])
+            self.assertEqual(worker_argv[worker_argv.index('--study-registration-sha256')+1],expected['study_registration_sha256'])
             verify.assert_not_called()
             self.assertEqual(terminal['status'], 'failed')
             self.assertEqual(terminal['exit_code'], 7)

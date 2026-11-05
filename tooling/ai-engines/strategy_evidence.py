@@ -12,6 +12,12 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]/'projects/trader/foundation_v2'))
+from trading_workspace_v2.forex_study_registration import (
+    HISTORICAL_SCHEMA, HISTORICAL_PURPOSE, inspect_registered_manifest,
+)
 
 
 def digest(path: Path) -> str:
@@ -70,8 +76,10 @@ def inspect(run_dir: Path, *, verify_inputs=False, source_root: Path | None = No
     receipt = read_json(run_dir / 'receipt.json')
     results = read_json(run_dir / 'results.json')
     quality = read_json(run_dir / 'quality.json')
-    if (manifest.get('schema') != 'forex-h4-development-v1'
-            or manifest.get('purpose') != 'registered_development_not_qualification'
+    historical = manifest.get('schema') == HISTORICAL_SCHEMA
+    if ((manifest.get('schema'), manifest.get('purpose')) not in {
+                ('forex-h4-development-v1', 'registered_development_not_qualification'),
+                (HISTORICAL_SCHEMA, HISTORICAL_PURPOSE)}
             or not isinstance(manifest.get('candidate'), str) or not manifest['candidate']
             or manifest.get('validation_holdout_read') is not False
             or manifest.get('broker_connected') is not False
@@ -86,7 +94,9 @@ def inspect(run_dir: Path, *, verify_inputs=False, source_root: Path | None = No
             or {item['scenario'] for item in results} != set(scenarios)):
         raise ValueError('scenario results do not match manifest')
     inputs = manifest['inputs']
-    if (set(inputs) != {'warmup', 'development'}
+    if historical:
+        inspect_registered_manifest(manifest, run_dir)
+    elif (manifest.get('study_registration') is not None or set(inputs) != {'warmup', 'development'}
             or inputs['warmup']['first_day'] != '20211201'
             or inputs['warmup']['last_day'] != '20211231'
             or inputs['development']['first_day'] != '20220103'
@@ -155,7 +165,7 @@ def inspect(run_dir: Path, *, verify_inputs=False, source_root: Path | None = No
         raise ValueError('missing protocol content pin')
     # Prefer the frozen attempt copy; a later protocol clarification is not
     # corruption of the historical experiment that pinned an earlier revision.
-    protocol_candidates = [run_dir.parent / 'protocol.md', Path(protocol.get('path', ''))]
+    protocol_candidates = [run_dir/'protocol.md', run_dir.parent / 'protocol.md', Path(protocol.get('path', ''))]
     protocol_verified = any(path.is_file() and digest(path) == expected_hash for path in protocol_candidates)
     return dict(schema='strategy-evidence-dossier-v1', inspected_at_utc=datetime.now(timezone.utc).isoformat(),
         run_dir=str(run_dir), candidate=manifest['candidate'], source_revision=manifest['source_revision'],
@@ -169,7 +179,9 @@ def inspect(run_dir: Path, *, verify_inputs=False, source_root: Path | None = No
         source_comparison_requested=source_root is not None, source_drift=source_drift,
         unavailable_sources=unavailable_sources, scenarios=summary,
         artifact_invariants='checked', numeric_recalculation_performed=False,
-        evidence_scope='registered_development_not_oos', qualification='not_established',
+        evidence_scope='historical_robustness_exposure_unverified' if historical else 'registered_development_not_oos',
+        study_registration=manifest.get('study_registration'), qualification='not_established',
+        runtime=manifest.get('runtime'),
         reported_accounting='passed', promotion_authorized=False, manual_filter_measured=False,
         review_checks=dict(artifact_invariants='checked_in_scope',
             protocol_content='verified' if protocol_verified else 'not_verified',
@@ -179,7 +191,7 @@ def inspect(run_dir: Path, *, verify_inputs=False, source_root: Path | None = No
                 'different_or_missing' if source_drift or unavailable_sources else 'matched',
             causal_implementation='not_assessed_by_this_tool',
             execution_realism='not_established',
-            out_of_sample='not_satisfied_development_only',
+            out_of_sample='not_established_prior_exposure_unverified' if historical else 'not_satisfied_development_only',
             selection_bias_and_uncertainty='not_assessed_by_this_tool',
             firm_specific_rules='not_established', forward_reconciliation='not_assessed_by_this_tool'),
         limitations=['Historical broker costs/spec and complete intrabar coverage are not established.',

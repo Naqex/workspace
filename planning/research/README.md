@@ -8,7 +8,7 @@ Các mục cũ chưa được re-audit khi tạo chỉ mục ngày 05/11/2026.
 | Câu hỏi / từ khóa | Nguồn hiện có |
 |---|---|
 | Đã dùng dữ liệu nào; không nhớ đã xem2023; khóa bài kiểm tiếp theo | [Audit và protocol độ bền Q1/2023,05/11](PROP-HISTORICAL-ROBUSTNESS-20261105.md); [registration pins](PROP-HISTORICAL-ROBUSTNESS-20261105.json), chưa thực thi |
-| Làm sao biết test chiến lược đúng; khung chuẩn, overfit, OOS và validation gates | [Framework audit05/11](STRATEGY-VALIDATION-FRAMEWORK-20261105.md); [agent gates](../../.agents/skills/strategy-qualification/references/validation-gates.md) |
+| Làm sao biết test chiến lược đúng; version/reuse, quant workflow, overfit, OOS và validation gates | [Framework audit05/11](STRATEGY-VALIDATION-FRAMEWORK-20261105.md); [agent gates](../../.agents/skills/strategy-qualification/references/validation-gates.md) |
 | Hậu kiểm chất lượng/kỹ thuật/performance; học từ run; Hermes learning loop | [Engineering review Q1,05/11](ENGINEERING-REVIEW-Q1-20261105.md); [skill hậu kiểm](../../.agents/skills/engineering-retrospective/SKILL.md) |
 | Log/status/debug/recovery; có cần OpenTelemetry/collector? | [Observability guide](../../tooling/ai-engines/OBSERVABILITY.md), source check05/11; dùng native/stdlib hiện có trước backend mới |
 | Workflow strategy, qualification, preflight/report và skill management | [Workflow công cụ/skills](../../tooling/ai-engines/STRATEGY-WORKFLOW.md); [quản lý skills](../../docs/development/SKILL-MAINTENANCE.md) |

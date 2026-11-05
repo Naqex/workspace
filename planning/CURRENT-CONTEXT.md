@@ -6,7 +6,8 @@ Trước mở window mới, đọc [audit consumption và protocol Q1/2023](rese
 Owner không nhớ đã xem2023–2024; nhãn hiện hành là historical robustness với
 prior exposure unverified, không clean OOS. Registration đã khóa5candidate,
 dates/metrics/cost/risk và source pins; đây chưa là numerical run. Receipt AI
-giữ kết quả audit và bước bổ sung opt-in runner trước export/đọc giá mới.
+giữ kết quả audit và implementation opt-in runner đã kiểm bằng synthetic fixtures;
+bước tiếp là export/hash QDM cache trước market run. Chưa có market outcome mới.
 
 Owner giao triển khai workflow/skills và chủ động quản lý skill. Đọc
 [strategy workflow](../tooling/ai-engines/STRATEGY-WORKFLOW.md) cho research,
