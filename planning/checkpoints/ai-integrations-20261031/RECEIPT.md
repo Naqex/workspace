@@ -5230,3 +5230,86 @@ history), giữ idle, dùng helper `--company ... --agent ... --receipt <new-pri
 ở lần work có ích tiếp theo. Helper không tự dispatch model để tạo bằng chứng.
 Nội dung source/instruction/tools và offlinechecks đã xong; publication/real
 agent use vẫn chưa được xác nhận, cần giữ gap này trong báo cáo tiếp.
+
+## 05/11/2026 — log/status nghiên cứu và dừng batch Q1 vì hiệu năng
+
+Owner giao tiếp vận hành/nghiên cứu và yêu cầu bằng chứng dễ chẩn đoán khi job
+lỗi/ngắt. Dùng lại native status/receipts và Python stdlib logging; không thêm
+collector/service hoặc dashboard quản lý ngoài Paperclip. Guide hiện hành:
+[OBSERVABILITY](../../../tooling/ai-engines/OBSERVABILITY.md). Workflow đã được
+route qua các skills research/Studio/debugging có sẵn; không tạo skill logging
+riêng. Đây là instrumentation consumer nghiên cứu, không phải audit hoàn chỉnh
+mọi API hoặc chứng nhận toàn sản phẩm đã có tracing/redaction.
+
+### Đã thay đổi và kiểm chứng
+
+- Trader `3855b494`: attempt có run UUID/event sequence, UTC/elapsed time,
+  phase/counters và structured `events.jsonl`, rotation1MiB +2backups.
+  `failure.json` giữ exception type/code/stage/source frames; không exception
+  text/locals. Logger riêng, không sửa global logging; giữ hash/accounting/
+  checkpoint và callback cancellation. Input/spec failures cũng được ghi.
+- Workspace `296eb3c`: `strategy_evidence.py status --run-dir <attempt>` đọc
+  snapshot, phân biệt terminal/stale. Stale là process state unknown, không
+  failed/retry. Guides/skills dùng lại owner; có checkpoint không đồng nghĩa
+  CLI resume. `9e0f172` đăng ký common-warmup Q1 trước outcome.
+- Focused checks trước đó trong lượt: product preflight/prop/H4candidate
+  **20tests +11subtests đạt**; workspace strategy-evidence **7tests đạt** và
+  forex-research **7tests đạt**. Skill/local-link audit không lỗi; maintainer
+  audit20skills,0errors/0warnings. Không chạy lại vì source tương ứng không đổi.
+- Trader `814e1135`: profile reader100.000tickQ1 cho thấy `strptime` chiếm
+  2,335/4,671s cumulative khi instrument. Dùng guarded ISO fast path cho format
+  canonical; inputs khác giữ legacy parser. Không bỏ hash/date/order/ms/
+  BidAsk/tick-grid checks. `tests/test_forex_h4.py`: **12tests +23subtests đạt**.
+  Có test malformed/leap/time/UTCms và fallback không canonical. Test hủy cũ
+  được cập nhật theo redaction contract; vẫn assert không đọc ticks, original
+  exception đến callback caller, failed stage và source frames được giữ.
+- Benchmark không profiler, một reader,100.000tick development thật,1warmup
+  pair +3sample pairs, đảo thứ tự baseline/candidate, cùng full-file SHAcheck
+  mỗi lần: median **2,709s →1,517s =1,79×**; toàn bộ timestamp/sequence/Bid/Ask
+  khớp. Đây là reader improvement; **chưa đo whole-scenario speedup**. Không
+  thay candidate/risk hoặc gọi kết quả benchmark là outcome chiến lược.
+
+### Batch Q1 chưa hoàn tất; không còn chạy ngầm
+
+Private root:
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/prop-q1-comparison-20261105/`.
+Đầu vào Q1 đã consumed:5.837.028tick; commonwarmup12/2021. Sourcepin3855b494,
+5candidate ×reference/stress; model/broker/holdoutcalls0. Các worker xong
+validation nhưng còn trong reference, throughput quan sát khoảng4.800–5.500
+tick/s khi chạy song song; không thể xong cả hai scenario trong20phút đăng ký.
+
+Đã dừng sớm lúc **14:41:18VN**, trước deadline14:42:06. Xác minh command,
+creation time, receipt PID/parent của **11process** rồi stop; kiểm lại không còn
+Python worker/controller nào của batch. Đây là external process termination,
+không gọi graceful application shutdown. Kiểm identity ban đầu từ chối vì
+PowerShell tự đổi ISO JSON date sang DateTime rồi parse lại mất offset; chưa
+stop ở lần đó. Lần đúng dùng UTC identity rõ và exact command scope.
+
+`attempt-1/resolution.json` giữ **stopped_early_performance**,5worker snapshot,
+hash artifacts và explicit `study_complete=false`; **0results.json**. Receipt,
+events/checkpoints/manifest lịch sử không sửa. `PROGRESS.md` được cập nhật sau
+khi controller writer dừng; controller-status cũ `running` chỉ là snapshot trước
+dừng, được resolution giải thích. Không ghép kết quả partial hoặc xếp hạng.
+
+Phát hiện private controller terminate venv launcher thay vì Python con và có
+thể gọi trạng thái completed khi child exitnonzero. Đã đối soát/dừng cả cây
+tiến trình lần này; **không relaunch controller đó nguyên trạng**. CLIresume
+chưa hỗ trợ; checkpoint được giữ không là run tiếp từ checkpoint đã kiểm chứng.
+Chưa tự chạy lại fullQ1. Bước tiếp: dùng supervisor hiện có sau khi kiểm đúng
+Windows child ownership/cancel/result semantics, đo trọn một scenario với
+deadline phù hợp trước khi dispatch lại nhiều candidate. Không mở OOS/holdout.
+
+Evidence tái hiện: `parser-baseline.prof`, `forex_h4_baseline.py`,
+`benchmark_parser.py`, `parser-benchmark.json`, `attempt-1/stopped-process-identities.json`,
+`stop-verification.json`, `resolution.json` và `PROGRESS.md` trong private root.
+`data-consumption-inventory.json` chỉ đọc metadata12manifest/input files;
+**unseen_2023_plus_established=false**, không xem giá/outcome laterwindows.
+
+### Native delivery còn pending
+
+Authenticated read lại `/companies` vẫn `ConnectionRefusedError/WinError10061`.
+Paperclip không nhận kết nối; chưa publish/assign bundle vào native catalog.
+Bundle đã export để tiếp tục khi runtime khỏe; không gọi source skill là đã
+mounted. Không chạy lại lệnh start bị policy từ chối trước đó hoặc đổi công cụ
+để né. Hướng dẫn/source/logging đã triển khai; native publication và Q1 outcome
+vẫn là hai việc chưa hoàn tất, không whole-product/strategy acceptance.
