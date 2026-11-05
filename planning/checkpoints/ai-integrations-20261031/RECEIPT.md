@@ -5313,3 +5313,28 @@ Bundle đã export để tiếp tục khi runtime khỏe; không gọi source sk
 mounted. Không chạy lại lệnh start bị policy từ chối trước đó hoặc đổi công cụ
 để né. Hướng dẫn/source/logging đã triển khai; native publication và Q1 outcome
 vẫn là hai việc chưa hoàn tất, không whole-product/strategy acceptance.
+
+## 05/11/2026 — tiếp Q1 bằng supervisor sở hữu cây tiến trình
+
+Owner duyệt bước1–3: sửa runner, đo trọn candidate đầu rồi chạy hết5candidate.
+Workspace commit `b10214e` thêm `forex_study_batch.py`, dùng lại
+`nautilus_worker._WorkerOwnedJob`; actual base interpreter + venv import paths,
+stdin gate trước study, kill-on-job-close cho cả descendants. Không tạo service,
+model/provider hoặc broker call. Exit0 còn phải kiểm dossier/bindings/accounting.
+Completed jobs reuse sau kiểm lại; partial/failed giữ nguyên và không auto retry.
+
+**Đang thực thi, chưa kết luận:** private batch tại
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/prop-q1-comparison-20261105/attempt-2/`;
+config/protocol copies tại `../supervised-inputs/`. Controller actualPID2076,
+creation/command/executable ở `controller-identity.json`; Codex exec session95999.
+Productpin814e1135. ProbeDonchian một mình, sau đó tối đa3jobs, hardcap1800s/job
+và5400s/batch theo protocol bổ sung trước outcome. `progress.json`/`PROGRESS.md`
+cập nhật5giây; `CANCEL` cạnh chúng dừng việc còn lại. Không khởi worker thứ hai
+cho cùng batch. Chưa hỗ trợ resume giữa simulation; đọc terminal/process identity
+trước khi tiếp. Final outcome bổ sung bên dưới khi thực sự xong.
+
+Focused verification: `python -m unittest discover -s tooling/ai-engines/tests
+-p test_forex_study_batch.py -v`: **6tests đạt**. Hai test thật Windows kiểm cả
+worker+grandchild khi owner close và worker khi supervisor crash; còn lại kiểm
+nonzero, exit0/artifact invalid, timeout và completed reuse không dispatch.
+Không chạy lại core/strategy tests vì source/product không đổi trong lượt này.
