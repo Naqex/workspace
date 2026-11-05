@@ -193,6 +193,34 @@ dương ở cả2costs; các bản khác không đạt screen của window. Đâ
 G4/G5 hoặc quyền execution. Kết quả giữa hai quý đã thử thay đổi theo candidate;
 không chuyển một quý dương thành winner bền vững hoặc bỏ các quý lỗ.
 
+### Bước quyết định sau annual batch 2023 — owner đồng ý 06/11
+
+Giữ nguyên batch đã đăng ký, không mở thêm tối ưu CPU/GPU/Rust hoặc candidate/
+tham số mới trong lúc nó chạy. Dùng `horizon-report.json` và bản Markdown cùng
+tên từ pipeline để đọc chung 5 ứng viên × 2 costs × 3 horizons; đó là một view
+derived từ artifact đã seal, không phải ledger/task mới.
+
+| Kết quả sau đối soát | Hành động tiếp |
+|---|---|
+| Lỗi correctness/binding/causal snapshot | Khoanh đúng phần bị ảnh hưởng, sửa và reuse kết quả hợp lệ; chưa đánh giá kinh tế từ evidence lỗi |
+| Cả năm không dương ở ít nhất một cost scenario | Không promote phiên bản này theo cost-screen đã đăng ký; không tăng lot/sửa tham số để cứu kết quả |
+| Cả hai costs dương nhưng sample/coverage/độ bền chưa đủ | Giữ nghiên cứu ở mức inconclusive; annual PnL chưa là lý do gửi demo |
+| Có ứng viên đáng kiểm tiếp sau review đầy đủ | Freeze bản đó và tiêu chí, audit dữ liệu trước khi chạy validation; xử lý prop/time-to-pass ở đúng consumer |
+| Không ứng viên nào còn đáng kiểm | Báo rõ đợt này chưa tìm được chiến lược; quay lại hypothesis research thành trial mới, không ép chọn winner |
+
+Trước khi chốt giữ/loại: đọc cả Q1/2022, Q1/2023 và full-2023, lưu ý Q1/2023
+nằm trong cả năm nên không cộng làm mẫu độc lập. Primary hiện tại là equity
+delta sau phí, cùng trạng thái position/pending/internal stops. Còn thiếu thì
+ghi gap về drawdown/tail/concentration/OOS; không tự coi chúng đã đạt từ ending
+PnL. Khác biệt sample count/holding giữa các họ cần diễn giải, không áp một
+ngưỡng số trade tùy ý để chọn thắng.
+
+Không triển khai thêm full prop simulator cho cả 5 bản trước khi biết còn ứng
+viên đáng nghiên cứu hay không. Native lifecycle đã có; phần nối H4 vào phase
+reset/equity boundary vẫn cần cho kết luận pass quỹ, không phải điều kiện để
+đọc cost-screen hiện tại. Chỉ mở dữ liệu mới sau protocol/scope đã pin; không
+gọi 2024/2025 là clean OOS chỉ vì không tìm thấy metadata cũ.
+
 ## Delta thời gian challenge — 05/11/2026
 
 [Time-fit research](PROP-FIRM-FIT-20261102.md#thời-gian-challenge-và-độ-phù-hợp-chiến-lược--kiểm-lại-05112026)

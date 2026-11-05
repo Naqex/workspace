@@ -14,6 +14,18 @@ from trading_workspace_v2.replay_tick_execution import BrokerReplayTick
 
 
 class TimeFitTests(unittest.TestCase):
+    def test_summary_distinguishes_cost_screen_from_promotion_and_refuses_missing_rows(self):
+        report=dict(rows=[dict(worker='fixture',cutoff_utc=date,scenario=scenario,
+            equity_delta_usd=value,entry_fills=5,observed_ticks=100)
+            for date in ('2023-04-01','2023-07-01','2024-01-01')
+            for scenario,value in (('reference','10'),('cost-stress','5'))])
+        self.assertIn('chưa đủ để chọn',timefit.render_report(report))
+        report['rows'][-1]['equity_delta_usd']='-1'
+        self.assertIn('chưa đạt screen phí',timefit.render_report(report))
+        report['rows'].pop()
+        with self.assertRaisesRegex(ValueError,'incomplete'):
+            timefit.render_report(report)
+
     def test_sealed_horizons_reconcile_and_tampering_never_qualifies(self):
         ticks=[BrokerReplayTick(time_msc=pilot.START+i*3600000+1,sequence=i+1,
             bid='1.10000',ask='1.10020') for i in range(10)]

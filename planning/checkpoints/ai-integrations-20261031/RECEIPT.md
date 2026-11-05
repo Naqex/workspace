@@ -6025,3 +6025,20 @@ ticks **252,985s**; cả3entries quality/warmup/development/ticks đã verified,
 projection errors0. Bốn worker thực sự vào `reference` và xử lý >1triệu tick
 mỗi worker; UTC range queued đúng cap4. Stderr của controller/pipeline/4worker
 chưa có lỗi tại snapshot này. Không gọi snapshot startup là annual completion.
+
+Tiếp06/11 theo owner đồng ý ưu tiên quyết định chiến lược: không mở thêm
+performance lane. Bốn reference horizon Q1 đầu của Donchian/SMA/Z-score/Pullback
+đã được đối chiếu với **pinned** Q1/2023 goldens: semantic account state khớp
+4/4, mỗi snapshot 9.038.771 ticks. Chỉ map các field dataset/tick-snapshot ID/SHA
+đã kiểm đúng annual/quarter identity; giữ các field tiền/risk/sequence/timing.
+Đây là partial observation trước khi scenario seal, không phải annual completion
+hoặc quyền reuse cross-version. Evidence private: `audit_q1_prefix.py` và
+`q1-prefix-audit.json` trong execution-v1.
+
+Report CLI nay xuất `horizon-report.md` cùng JSON sau batch verified: 1 bảng5
+ứng viên ×3 horizons, mỗi ô phí chuẩn/cao; screen âm/không có trade/dương đều
+giữ promotion false. Missing/duplicate/nonfinite observations bị từ chối;
+2focused tests/4subtests đạt. Chỉ sửa report consumer, không sửa source numerical
+đang chạy. [Decision branch](../../research/STRATEGY-VALIDATION-FRAMEWORK-20261105.md#bước-quyết-định-sau-annual-batch-2023--owner-đồng-ý-0611)
+giữ bước tiếp theo: review → giữ/loại/inconclusive → freeze/validation có mục
+đích; không mua challenge hoặc nối full simulator cho5bản khi chưa cần.

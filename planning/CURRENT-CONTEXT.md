@@ -8,10 +8,10 @@ tiếp cận vốn prop với rủi ro kiểm soát. Hệ thống đã đủ ch�
 không đồng nghĩa toàn sản phẩm/live hoàn chỉnh. Đang screening 5 bộ quy tắc
 cố định, chưa có winner hoặc clean-OOS/prop qualification. Annual batch 2023
 chỉ thêm observations 3/6/12 tháng; **chưa mô phỏng đủ phase1→reset→phase2**.
-Khuyến nghị điều phối hiện tại của agent: để batch đã launch hoàn tất; ưu tiên
+Owner đồng ý hướng điều phối 06/11: để batch đã launch hoàn tất; ưu tiên
 quyết định giữ/loại/inconclusive và nối đánh giá prop còn thiếu. Không mở thêm
 nhánh GPU/Rust/benchmark nếu không có lỗi hoặc bottleneck chặn bước đó. Đây là
-khuyến nghị để giữ trọng tâm, không phải quyết định mới được gán cho owner.
+hướng giữ trọng tâm đã được owner xác nhận; các quyền broker/holdout giữ riêng.
 
 Trước mở window mới, đọc [audit consumption và protocol Q1/2023](research/PROP-HISTORICAL-ROBUSTNESS-20261105.md).
 Owner không nhớ đã xem2023–2024; nhãn hiện hành là historical robustness với

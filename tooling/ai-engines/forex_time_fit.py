@@ -71,6 +71,44 @@ def inspect_horizons(directory, manifest, scenario):
     return output
 
 
+def render_report(report):
+    """Readable view of verified observations; no independent task state."""
+    groups={}
+    for row in report['rows']:
+        key=(row['cutoff_utc'],row['scenario'])
+        group=groups.setdefault(row['worker'],{})
+        if key in group: raise ValueError('duplicate horizon observation')
+        group[key]=row
+    lines=['# So sánh chiến lược theo 3/6/12 tháng','',
+        'Equity delta USD, gồm lãi/lỗ đang mở. Mỗi ô: phí chuẩn / phí cao.',
+        'Đây là historical robustness; các horizon lồng nhau, chưa phải clean OOS hoặc pass quỹ.','',
+        '| Ứng viên | 3 tháng | 6 tháng | 12 tháng | Screen phí cả năm |',
+        '|---|---:|---:|---:|---|']
+    for worker,group in groups.items():
+        dates=sorted({date for date,_ in group})
+        if len(dates)!=3 or set(group)!={(date,scenario) for date in dates for scenario in ('reference','cost-stress')}:
+            raise ValueError('incomplete horizon/scenario observations')
+        cells=[]
+        for date in dates:
+            amounts=[Decimal(group[date,scenario]['equity_delta_usd']) for scenario in ('reference','cost-stress')]
+            if not all(value.is_finite() for value in amounts): raise ValueError('nonfinite horizon equity')
+            cells.append(' / '.join(f'{value:+.2f}' for value in amounts))
+        annual=[group[dates[-1],scenario] for scenario in ('reference','cost-stress')]
+        if any(row['observed_ticks']<=0 or row['entry_fills']==0 for row in annual):
+            screen='Chưa đủ mẫu giao dịch'
+        elif any(Decimal(row['equity_delta_usd'])<=0 for row in annual):
+            screen='Không promote: chưa đạt screen phí'
+        else:
+            screen='Dương cả hai mức phí; chưa đủ để chọn'
+        lines.append('| '+' | '.join([worker,*cells,screen])+' |')
+    lines.extend(['',
+        'Screen chỉ áp dụng phiên bản/cost/window đang thử; không kết luận cả họ chiến lược vô dụng.',
+        'Không tăng lot, sửa tham số hoặc gọi các horizon là mẫu độc lập để cải thiện kết quả.',
+        'Còn phải đánh giá độ bền ngoài mẫu, drawdown/tail risk và full phase 1 → reset → phase 2.',
+        'Internal risk UTC, phí lịch sử và coverage còn giới hạn; chưa có quyền tự promote/gửi lệnh.',''])
+    return '\n'.join(lines)
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--batch',type=Path,required=True)
@@ -94,7 +132,9 @@ def main():
         study_role='historical_robustness_prior_exposure_unverified',
         horizons_are_independent_trials=False,prop_qualification='not_established',
         broker_calls=0,model_calls=0,promotion_authorized=False)
+    markdown=render_report(report)
     with args.output.open('x',encoding='utf-8') as f: json.dump(report,f,indent=2)
+    with args.output.with_suffix('.md').open('x',encoding='utf-8') as f: f.write(markdown)
     print(json.dumps(dict(rows=len(rows),report=str(args.output),promotion_authorized=False)))
 
 if __name__=='__main__': main()
