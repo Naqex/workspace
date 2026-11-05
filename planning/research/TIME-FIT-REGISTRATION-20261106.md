@@ -2,7 +2,13 @@
 
 **Registration:** `eurusd-h4-ftmo-time-fit-3-6-12m-v1`
 **Registered:** 2026-11-05 21:49 UTC / 2026-11-06 Asia/Saigon
-**Status:** `frozen_registration_not_executed`
+**Status:** `design_registered`; exact execution binding nằm trong addendum bên dưới.
+
+[Execution 2023](TIME-FIT-EXECUTION-20261106.md) khóa ngày/cost/risk;
+[registration JSON](TIME-FIT-HISTORICAL-20261106.json) khóa source và input hashes.
+Bản thiết kế ban đầu này chưa khóa đầy đủ các phần đó, nên tự nó không đủ để
+được runner chấp nhận. Trạng thái thực thi xem receipt AI, không sửa registration
+đã freeze sau khi nhìn outcome.
 
 ## Mục tiêu
 
@@ -67,3 +73,10 @@ Các cửa sổ xuất hiện trong metadata là 12/2021, 03–14/01/2022, Q1/20
 này chỉ làm trạng thái **availability/consumption unknown**, không chứng minh
 unseen và không cho phép mở numerical run. Cần tìm nguồn QDM/cache tương ứng và
 pin terms trước bước preflight tiếp theo.
+
+Inventory trên chỉ nói về những exports đã có, không phải inventory toàn bộ
+cache QDM. Kiểm tiếp 06/11: cache có đủ dates; export năm 2023 và preflight đã
+đạt 27.549.175 ticks, warmup reuse có 255 H4 hợp lệ. Q1 đã consumed; Q2–Q4 nay
+đã đọc quality trong study historical robustness. Coverage vẫn là observed
+quotes, không phải liên tục. Không còn cần hỏi owner cung cấp dữ liệu hoặc mua
+challenge để chạy declared offline scenario này.

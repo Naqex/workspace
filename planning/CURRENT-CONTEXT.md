@@ -39,13 +39,18 @@ whole-study speedup. GPU vẫn chưa có backend; giữ CPU oracle.
 Đối với bước chiến lược tiếp theo, Trader đã có lifecycle evaluator offline cho
 phase target/loss/reset/DST/minimum days/carry; activation, inactivity, payout,
 historical fills và live reconciliation vẫn là gap firm-specific.
-Registration time-fit 3/6/12 tháng đã được freeze ở
-[TIME-FIT-REGISTRATION-20261106](research/TIME-FIT-REGISTRATION-20261106.md), chưa
-chạy numerical và chưa mở holdout; bước kế là inventory availability/consumed và
-pin profile terms trước khi mở window mới.
-Inventory bounded ngày06/11 đã kiểm 103 JSON metadata/4 private roots; chỉ thấy
-window 12/2021, 03–14/01/2022, Q1/2022, 11–12/2022 và Q1/2023. Chưa có metadata
-đủ cho 3/6/12 tháng, nên availability/consumption vẫn unknown; chưa mở run mới.
+Thiết kế time-fit đã có [exact execution 2023](research/TIME-FIT-EXECUTION-20261106.md)
+và [registration](research/TIME-FIT-HISTORICAL-20261106.json), hash
+`ce7de7f0d60ace46dc72884d6c8b00a3f6c36fb8bd7630a82909409f4b1bb659`.
+Metadata exports cũ không phải inventory toàn cache: QDM có đủ dates. Đã export
+năm 2023 một lần, data preflight 27.549.175 ticks/1.504 H4 đạt; warmup 255 H4
+reuse. Q1 consumed; Q2–Q4 đã đọc quality, prior exposure unverified, không OOS;
+không mở 2024/2025+. Trader `3af69a73` ghi causal snapshots 3/6/12 tháng trong
+một annual replay, giữ pending/positions và seal/reuse. Pipeline hữu hạn đã
+khởi động; xem receipt AI và private `prop-time-fit-20261106/execution-v1/`
+`pipeline.json` → `batch-1/progress.json` trước tác động. Không dispatch job trùng
+hoặc đổi source numerical khi worker đang chạy. Chưa có kết quả cả năm và chưa
+phải full phase1→phase2/time-to-payout.
 Terms snapshot FTMO/The5ers đã ghi ở [PROP-TERMS-SNAPSHOT-20261106](research/PROP-TERMS-SNAPSHOT-20261106.md);
 FTMO đủ cho evaluator sơ bộ, The5ers còn pin account/program và automation approval.
 

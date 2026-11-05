@@ -135,8 +135,13 @@ Trước ưu tiên candidate cho prop, dùng
 phase reset và payout riêng theo program/version. Đăng ký horizons kinh tế và
 time-to-target trước outcome; báo chưa đạt trong observation hoặc unknown khi
 thiếu coverage, không ngoại suy tuyến tính/tăng lot/thêm lệnh cho đủ ngày.
-Đây là yêu cầu thiết kế/review bài kế tiếp, **chưa là full lifecycle code guard**;
-loss-floor evaluator hiện có không chứng minh pass hai phase hoặc time-to-payout.
+Native `prop_session.py` đã có lifecycle simulation riêng. H4 pilot chưa nối
+full lifecycle đó; không lấy PnL hoặc internal UTC loss guard để gọi pass hai
+phase/time-to-payout. [Execution 2023](../../planning/research/TIME-FIT-EXECUTION-20261106.md)
+giữ source/input/cost/risk đã pin của bài 3/6/12 tháng. Một annual replay/scenario
+ghi ba horizon causal vào `<scenario>-horizons.json`; files được seal và kiểm
+trong dossier/reuse. `forex_time_fit.py --batch <complete-batch> --output <new.json>`
+đối soát account state và last-quote age; không force-close hoặc giả phase reset.
 
 Source audit05/11: Trader `api-rust/src/automation_grants.rs::create_grant` khóa
 workspace/server/login, chặn execution owner trùng; transaction giữ attempts/

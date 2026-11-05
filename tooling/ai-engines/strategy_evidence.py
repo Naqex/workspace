@@ -155,6 +155,11 @@ def inspect(run_dir: Path, *, verify_inputs=False, source_root: Path | None = No
                 or (execution.get('pending_market_order') is not None) != row['pending_entry']):
             raise ValueError('result does not match final execution checkpoint')
         fingerprints[row['scenario'] + '-checkpoint.json'] = digest(run_dir / (row['scenario'] + '-checkpoint.json'))
+        if manifest.get('horizon_cutoffs'):
+            from forex_time_fit import inspect_horizons
+            inspect_horizons(run_dir, manifest, row['scenario'])
+            name = row['scenario']+'-horizons.json'
+            fingerprints[name] = digest(run_dir/name)
         summary.append({key: row[key] for key in ('scenario', 'balance_delta_usd', 'balance_usd',
             'equity_usd', 'entry_fills', 'closed_trades', 'observed_ticks', 'pending_entry',
             'intrabar_equity_coverage')})

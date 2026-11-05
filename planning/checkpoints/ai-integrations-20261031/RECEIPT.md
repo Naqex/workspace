@@ -5977,3 +5977,51 @@ rounding parity đạt; core suite **96 tests/52 subtests**. Chưa gán speedup 
 study vì paired harness sau thay đổi chưa tạo được A/B result đáng tin; đo lại
 trên batch chính thức ở study mới. Không đổi risk semantics, cost breakdown,
 ledger, broker/holdout hoặc quyền execution.
+
+## 06/11/2026 — dữ liệu cả năm 2023, causal horizons và annual batch
+
+Owner giao tiếp tục data/time-fit, không dừng chờ. Skills evidence-continuity,
+strategy-research và strategy-qualification được áp dụng. Không gọi broker/model.
+
+Đã kiểm cache QDM rảnh, metadata đủ 2023; export **27.549.175 ticks** trong một
+file 1.256.754.002 bytes. Data-preflight đạt trong **312,438s**, source reader
+kiểm SHA/date/order/BidAsk/grid và H4, quality vẫn `observed_quotes_only_not_complete_coverage`.
+Warmup reuse 7.959.071 ticks/255 H4; development 1.504 H4. Raw CSV SHA:
+`0cc3d1206f83f0bd53fbe5eea512542f58f4172a435bfecc590ecb49906531ce`.
+Không tải/update cache; không đọc 2024 hoặc 2025+.
+
+[Execution protocol](../../research/TIME-FIT-EXECUTION-20261106.md) và
+[registration](../../research/TIME-FIT-HISTORICAL-20261106.json) khóa dates,
+source/input/risk/cost. Registration SHA `ce7de7f0d60ace46dc72884d6c8b00a3f6c36fb8bd7630a82909409f4b1bb659`.
+Đính chính: bản thiết kế time-fit ban đầu chưa có exact dates/source pins;
+inventory exports không chứng minh cache thiếu dữ liệu. Không gọi file đó là
+runner-ready hoặc đòi account checkout để chạy declared offline scenario.
+
+Trader `3af69a73` thêm 3 causal horizon snapshots/scenario (Apr1/Jul1/Jan1 exclusive
+market cutoffs). Capture trước khi xử lý giờ sau cutoff, giữ risk/execution,
+pending decisions, candidate/builder và last quote; không close/reset vị thế.
+Horizon files pin vào scenario seal/reuse, registration kiểm tháng lịch và input
+hashes; dossier kiểm seal/boundary/accounting. Snapshot state khớp independent
+truncated run, annual result/checkpoint bytes giữ nguyên khi bật observer trên
+generated fixture. Latest focused groups: Trader **23 tests/16 subtests**;
+tooling **31 tests/13 subtests**. Runner preflight thật đạt, không simulation.
+
+Annual finite pipeline đã launch 05:45:40 giờ Việt Nam, 06/11. Private root:
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/prop-time-fit-20261106/execution-v1/`.
+`pipeline.json` giữ controller identity, `batch-1/progress.json`/`PROGRESS.md`
+cập nhật từ receipts/terminals; `batch.stdout.log`/`batch.stderr.log` giữ log.
+Chuẩn bị lossless tick cache một lần, sau đó tối đa4 worker/5candidate×2costs,
+ceiling2h/worker và4h/batch, không automatic retry. Pipeline tự chạy
+`forex_time_fit.py` sau batch verified, output `horizon-report.json` (30 rows).
+Đây là job hữu hạn, không scheduler/automation/service lâu dài.
+
+**Chưa kết luận hoàn tất annual batch.** Resume: đọc pipeline/progress/terminal
+và kiểm process ownership trước retry. Bản design cũ/private snapshot giữ lịch
+sử, không sửa để tự pass. H4 pilot vẫn internal risk UTC; không nối native
+full prop lifecycle, không gọi ending equity là pass hai phase/payout hoặc edge.
+
+Startup đã xác minh: shared preparation xong **256,891s**, trong đó lossless
+ticks **252,985s**; cả3entries quality/warmup/development/ticks đã verified,
+projection errors0. Bốn worker thực sự vào `reference` và xử lý >1triệu tick
+mỗi worker; UTC range queued đúng cap4. Stderr của controller/pipeline/4worker
+chưa có lỗi tại snapshot này. Không gọi snapshot startup là annual completion.
