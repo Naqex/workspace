@@ -23,6 +23,26 @@ def read(path):
     return json.loads(Path(path).read_text(encoding='utf-8-sig'))
 
 
+def observe_receipt(path):
+    # Optional telemetry can be briefly inaccessible during Windows replacement.
+    # Keep mandatory config/result/terminal reads strict through read().
+    for attempt in range(4):
+        try:
+            receipt = read(path)
+            if not isinstance(receipt, dict):
+                raise ValueError('receipt is not an object')
+            return receipt, None
+        except FileNotFoundError:
+            return None, None
+        except PermissionError as error:
+            if getattr(error, 'winerror', None) in (5, 32, 33) and attempt < 3:
+                time.sleep(0.05)
+                continue
+            return None, dict(error_type=type(error).__name__, winerror=getattr(error, 'winerror', None))
+        except (OSError, ValueError) as error:
+            return None, dict(error_type=type(error).__name__)
+
+
 def digest(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
@@ -138,11 +158,13 @@ def progress(output, states, began, total_ticks, deadline):
         row = dict(state, worker=name)
         row.setdefault('result_dir', str(output/name/'replay'))
         receipt_path = output/name/'replay/receipt.json'
-        if receipt_path.exists():
-            receipt = read(receipt_path)
+        receipt, observation_error = observe_receipt(receipt_path)
+        if observation_error:
+            row['progress_read_error'] = observation_error
+        if receipt is not None:
             row.update({k: receipt.get(k) for k in ('stage', 'observed_ticks', 'elapsed_seconds', 'pid', 'updated_at_utc')})
             row['scenario_fraction'] = (receipt.get('observed_ticks', 0)/total_ticks
-                                        if receipt['stage'] in {'reference', 'cost-stress'} else None)
+                                        if receipt.get('stage') in {'reference', 'cost-stress'} else None)
         rows.append(row)
     elapsed = time.monotonic()-began
     status = 'running' if any(s['status'] in {'queued', 'running'} for s in states.values()) else \
@@ -151,24 +173,33 @@ def progress(output, states, began, total_ticks, deadline):
         elapsed_seconds=round(elapsed, 2), deadline_seconds=deadline, workers=rows,
         completed_jobs=sum(s['status'] in {'completed_verified', 'reused_verified'} for s in states.values()),
         total_jobs=len(states), model_calls=0, broker_calls=0, holdout_read=False)
-    save(output/'progress.json', snapshot)
+    projection_errors = []
     lines = ['# Nghiên cứu Forex H4', '', f'Cập nhật UTC: {snapshot["updated_at_utc"]}',
         f'\nTrạng thái: **{status}** · Xong {snapshot["completed_jobs"]}/{len(states)} ứng viên · Đã chạy {elapsed/60:.1f} phút', '',
         '| Ứng viên | Trạng thái | Bước | Tick / scenario |', '|---|---|---|---:|']
     for row in rows:
         ticks = row.get('observed_ticks')
-        lines.append(f'| {row["worker"]} | {row["status"]} | {row.get("stage") or "—"} | {ticks if ticks is not None else "—"} / {total_ticks} |')
+        stage = 'Tạm không đọc được tiến độ' if row.get('progress_read_error') else row.get('stage') or '—'
+        lines.append(f'| {row["worker"]} | {row["status"]} | {stage} | {ticks if ticks is not None else "—"} / {total_ticks} |')
     lines += ['', 'Xác minh dữ liệu chưa có % hoặc ETA đáng tin. Tiến độ tick chỉ áp dụng scenario đang chạy.',
         'Mỗi ứng viên chạy reference và cost-stress. Chỉ completed_verified mới có dossier đã kiểm.',
         'Giữ kết quả đã xong; không tự retry job lỗi. CANCEL cạnh file này sẽ hủy các job chưa xong.',
         'Dữ liệu development đã dùng; chưa OOS/prop qualification. Không model/broker/holdout.',
         'progress.json là projection của terminal.json + receipt.json; không thay ledger/task Paperclip.']
     temporary = output/'PROGRESS.tmp'
-    temporary.write_text('\n'.join(lines)+'\n', encoding='utf-8')
-    temporary.replace(output/'PROGRESS.md')
+    try:
+        temporary.write_text('\n'.join(lines)+'\n', encoding='utf-8')
+        temporary.replace(output/'PROGRESS.md')
+    except OSError as error:
+        projection_errors.append(dict(file='PROGRESS.md', error_type=type(error).__name__))
+    snapshot['projection_errors'] = projection_errors
+    try:
+        save(output/'progress.json', snapshot)
+    except OSError as error:
+        projection_errors.append(dict(file='progress.json', error_type=type(error).__name__))
     print(json.dumps(dict(status=status, completed=snapshot['completed_jobs'],
-        elapsed_seconds=snapshot['elapsed_seconds'], workers=[
-            {key: row[key] for key in ('worker', 'status', 'stage', 'observed_ticks') if key in row}
+        elapsed_seconds=snapshot['elapsed_seconds'], projection_errors=projection_errors, workers=[
+            {key: row[key] for key in ('worker', 'status', 'stage', 'observed_ticks', 'progress_read_error') if key in row}
             for row in rows])), flush=True)
     return snapshot
 

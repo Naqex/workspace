@@ -94,6 +94,47 @@ class OwnedProcessTests(unittest.TestCase):
 
 
 class ResultTests(unittest.TestCase):
+    @unittest.skipUnless(os.name == 'nt', 'Windows sharing race')
+    def test_locked_progress_receipt_does_not_stop_a_running_job(self):
+        kernel = ctypes.WinDLL('kernel32', use_last_error=True)
+        kernel.CreateFileW.argtypes = [wintypes.LPCWSTR, wintypes.DWORD, wintypes.DWORD,
+                                      wintypes.LPVOID, wintypes.DWORD, wintypes.DWORD, wintypes.HANDLE]
+        kernel.CreateFileW.restype = wintypes.HANDLE
+        kernel.CloseHandle.argtypes = [wintypes.HANDLE]
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            receipt = root/'candidate/replay/receipt.json'
+            receipt.parent.mkdir(parents=True)
+            receipt.write_text(json.dumps(dict(stage='reference',observed_ticks=20)))
+            handle = kernel.CreateFileW(str(receipt),0x80000000,0,None,3,0x80,None)
+            self.assertNotEqual(handle,wintypes.HANDLE(-1).value)
+            try:
+                with self.assertRaises(PermissionError):
+                    batch.read(receipt)
+                with redirect_stdout(io.StringIO()):
+                    snapshot = batch.progress(root,{'candidate':dict(status='running')},time.monotonic(),100,30)
+                self.assertEqual(snapshot['status'],'running')
+                self.assertEqual(snapshot['workers'][0]['progress_read_error']['error_type'],'PermissionError')
+                self.assertFalse((root/'CANCEL').exists())
+            finally:
+                kernel.CloseHandle(handle)
+            with redirect_stdout(io.StringIO()):
+                recovered = batch.progress(root,{'candidate':dict(status='running')},time.monotonic(),100,30)
+            self.assertEqual(recovered['workers'][0]['observed_ticks'],20)
+            self.assertNotIn('progress_read_error',recovered['workers'][0])
+
+    def test_progress_projection_write_errors_are_reported_without_cancelling_job(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            with patch.object(batch,'save',side_effect=PermissionError('private payload')), \
+                 patch.object(Path,'replace',side_effect=PermissionError('private payload')), \
+                 redirect_stdout(io.StringIO()) as console:
+                snapshot = batch.progress(root,{'candidate':dict(status='running')},time.monotonic(),100,30)
+            self.assertEqual(snapshot['status'],'running')
+            self.assertEqual({e['file'] for e in snapshot['projection_errors']},{'progress.json','PROGRESS.md'})
+            self.assertNotIn('private payload',console.getvalue())
+            self.assertFalse((root/'CANCEL').exists())
+
     def test_completed_result_cannot_be_reused_with_changed_runtime(self):
         from trading_workspace_v2.forex_study_registration import runtime_binding
         runtime=runtime_binding()

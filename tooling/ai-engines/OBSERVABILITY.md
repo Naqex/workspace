@@ -42,6 +42,11 @@ ngắn cho owner sẽ nhìn thấy gì; không tạo UI ngoài để nhân bản
   Python main trực tiếp còn phải áp redaction ở boundary riêng của nó.
 - Phase validation dài có thể chưa có counter mới; đây là last-progress time,
   không giả heartbeat background hoặc %completion. Terminal phase khác health.
+- Forex batch tách lỗi quan sát khỏi điều khiển: receipt đang replace/khóa đọc
+  có retry ngắn với Windows sharing error rồi báo `progress_read_error`; lỗi ghi
+  JSON/Markdown projection báo `projection_errors`. Chúng không hủy numerical
+  workers. Config/result/accounting và terminal persistence vẫn bắt buộc;
+  thiếu/tamper ở đó không được nâng thành completed_verified.
 - CLIresearchresume hiện chưa hỗ trợ. Có checkpoint không là quyền overwrite
   attempt hoặc replay lại broker request; unknown sends chỉ reconcile.
 
