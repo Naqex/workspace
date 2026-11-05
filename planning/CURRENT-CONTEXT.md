@@ -10,6 +10,12 @@ scenarios; window này nay consumed. Receipt AI giữ numbers/quality, recovery
 Windows progress và implementation/source bindings. Không promote hoặc mở broker
 từ kết quả này; đọc receipt trước đăng ký giai đoạn tiếp, không chạy lại bài đã xong.
 
+Trước ưu tiên candidate hoặc mở bài tiếp, đọc
+[time-fit05/11](research/PROP-FIRM-FIT-20261102.md#thời-gian-challenge-và-độ-phù-hợp-chiến-lược--kiểm-lại-05112026).
+Unlimited challenge khác trial/inactivity/minimum days và thời gian ra tiền.
+UTC range mới qua cost-screen, chưa chứng minh prop/time-fit; diagnostic ledger
+chỉ hậu kiểm, full challenge lifecycle chưa được evaluator hiện có hỗ trợ.
+
 Owner giao triển khai workflow/skills và chủ động quản lý skill. Đọc
 [strategy workflow](../tooling/ai-engines/STRATEGY-WORKFLOW.md) cho research,
 qualification, preflight/dossier và delivery; [maintenance](../docs/development/SKILL-MAINTENANCE.md)

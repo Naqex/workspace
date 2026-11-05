@@ -114,6 +114,15 @@ Không tính maxDD từ minimum equity rời rạc; giữ open PnL và coverage 
 
 ## Risk và concurrency
 
+Trước ưu tiên candidate cho prop, dùng
+[time-fit research](../../planning/research/PROP-FIRM-FIT-20261102.md#thời-gian-challenge-và-độ-phù-hợp-chiến-lược--kiểm-lại-05112026)
+để pin deadline/activation/inactivity, minimum trading/profitable days, hold/news,
+phase reset và payout riêng theo program/version. Đăng ký horizons kinh tế và
+time-to-target trước outcome; báo chưa đạt trong observation hoặc unknown khi
+thiếu coverage, không ngoại suy tuyến tính/tăng lot/thêm lệnh cho đủ ngày.
+Đây là yêu cầu thiết kế/review bài kế tiếp, **chưa là full lifecycle code guard**;
+loss-floor evaluator hiện có không chứng minh pass hai phase hoặc time-to-payout.
+
 Source audit05/11: Trader `api-rust/src/automation_grants.rs::create_grant` khóa
 workspace/server/login, chặn execution owner trùng; transaction giữ attempts/
 reservations, unknown không release. Research/observation có thể song song;

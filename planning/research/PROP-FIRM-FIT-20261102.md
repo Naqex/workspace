@@ -24,6 +24,112 @@ Chưa chốt cặp tiền, timeframe, cỡ tài khoản hoặc risk budget; chư
 đăng ký/kết nối tài khoản, đặt lệnh, mua challenge hay tự retry. Các nhận định
 bên dưới giải thích lựa chọn, không là kết quả kiểm chứng chiến lược.
 
+## Thời gian challenge và độ phù hợp chiến lược — kiểm lại 05/11/2026
+
+**Có research trước; còn thiếu bước áp vào đánh giá ứng viên.** Round1 và bản
+02/11 bên dưới đã ghi unlimited/minimum days/inactivity/payout, nhưng screen
+vừa chạy chủ yếu kiểm PnL và cost stress. Chưa mô phỏng đầy đủ thời gian qua hai
+phase hoặc đến payout. Phần này cập nhật interpretation; không đổi tiêu chí,
+rules/risk/cost hoặc protocol của hai bài đã freeze.
+
+### Các đồng hồ khác nhau
+
+| Điều kiện | FTMO 2-Step Swing | The5ers High Stakes | Ảnh hưởng chọn chiến lược |
+|---|---|---|---|
+| Hạn hoàn thành evaluation | Không có tối đa; ≥4 ngày giao dịch mỗi phase, không cần liên tiếp | Unlimited; ≥3 ngày có lãi mỗi phase | Ít lệnh vẫn có thể thi; phải tính thời gian đạt đủ cả target và số ngày |
+| Kích hoạt / không hoạt động | Challenge Terms §5.8.4: mở lệnh đầu trong30 ngày từ khi từng phase được cấp, nếu không bị suspend; có6tháng xin renewal. §13.2.3(a): hãng có quyền chấm dứt Challenge sau30 ngày lịch liên tiếp không mở lệnh mới | FAQ03/11: evaluation30 ngày từ đăng ký, Pro60 ngày. Trang chương trình vẫn ghi30 ngày tổng quát: **còn xung đột phạm vi** | Đo khoảng cách giữa lần mở lệnh; giữ lệnh lâu không tự đáp ứng điều kiện mở lệnh mới của FTMO. Không thêm lệnh giả chỉ để đủ hoạt động |
+| Thế nào là ngày đủ điều kiện? | Có mở vị thế; không bắt buộc ngày lãi | Lãi tính theo `min(balance midnight, equity midnight) − balance ngày trước` ≥0,5% vốn ban đầu | Trên10.000USD, The5ers cần≥50USD/ngày; có nhiều ngày vào lệnh chưa đủ |
+| Giữ lệnh / news | Swing bỏ hạn chế giữ qua đêm/cuối tuần và hạn chế news tương ứng; forbidden practices vẫn áp dụng | Cho giữ qua đêm/cuối tuần; không khớp lệnh ±2phút quanh tin high-impact | Kiểm cả exit/SL khớp quanh tin, swap/rollover/gap; không chỉ giờ tín hiệu |
+| Từ funded/Pro tới thưởng | Yêu cầu từ ngày14 sau lệnh đầu trên FTMO Account; phải đóng vị thế/lệnh chờ, còn review và xử lý thanh toán | Pro có lịch yêu cầu hai tuần; cần đủ ngày lãi và payout minimum/cap của đúng tier | Pass challenge khác tiền thực nhận; evaluation PnL không rút được |
+| Trial/demo | Free Trial14ngày,2-Step target5%, tối thiểu2ngày; kết thúc nếu không trade7ngày đầu | Chưa có tài khoản của owner để kiểm | **Không lấy hạn14ngày của FTMO Free Trial làm hạn challenge trả phí** |
+
+Nguồn chính thức đọc05/11:
+
+- [FTMO thời gian 2-Step](https://ftmo.com/en/faq/how-long-does-it-take-to-become-an-ftmo-trader/)
+  và [objectives](https://ftmo.com/en/trading-objectives/): target10% rồi5%,
+  ngày giao dịch và unlimited. Mốc8ngày cho hai vòng là tối thiểu lý thuyết,
+  không phải thời gian dự kiến hoặc cam kết pass.
+- [FTMO Challenge Terms, cập nhật04/08/2026, §5.8.4, §5.8.6, §13.2.3](https://cdn.ftmo.com/docs%2Fterms-and-conditions%2Ff8d5ca5086964c86a6ee2a77f20bdbd7),
+  PDF22trang, pp.7–8/15–16. Thêm §13.2.3(b): giữ mức lỗ8–10% hơn30ngày là
+  căn cứ chấm dứt khác; giao dịch né điều khoản không khắc phục nó. Đây là
+  **evaluation contract**, chưa suy cùng luật cho funded hoặc agreement checkout
+  cụ thể. Web parser không đọc được URL trong lần kiểm lại; đã tải từ CDN chính
+  thức, kiểm PDF header và trích nội dung bằng bundled pypdf, giữ bản private.
+- [FTMO Swing](https://ftmo.com/en/faq/what-is-the-swing-account-type-and-how-does-it-work/),
+  [Free Trial](https://ftmo.com/en/ftmo-free-trial/),
+  [reward](https://ftmo.com/en/faq/how-do-i-withdraw-my-profits/): Swing thuộc2-Step;
+  reward review thường1–2ngày làm việc, gửi tiền thường1–2ngày làm việc sau invoice
+  được duyệt; còn KYC/hợp đồng/chuyển phase, không cộng thành ETA bảo đảm.
+- [The5ers general rules,03/11](https://the5ers.com/faqs/what-are-the-general-rules-for-the-high-stakes-program/),
+  [program](https://the5ers.com/high-stakes/),
+  [minimum days,30/10](https://the5ers.com/faqs/is-there-a-minimum-trading-day-or-minimum-position-requirement/),
+  [profitable day,05/07](https://the5ers.com/faqs/how-do-you-define-a-profitable-day-in-the-high-stakes-program/),
+  [payout,03/11](https://the5ers.com/faqs/payout-policy-and-hub-credit-in-the-high-stakes-program/).
+  Payout tối thiểu150USD **sau split**, thêm minimum P&L/cap cho50K/100K.
+  Chưa rõ việc reset3ngày lãi từng chu kỳ payout; không tự gán. Không áp câu
+  “Level1 không có minimum days” của ngữ cảnh chương trình khác vào High Stakes.
+  New/Classic/tier vẫn phải pin đúng lựa chọn; không suy mọi gói có cùng targets.
+
+Các nguồn02/11 bên dưới giữ ngày kiểm lịch sử. Mục hiện tại cập nhật riêng các
+điều kiện thời gian; chưa tái xác minh toàn bộ giá, eligibility hoặc tài chính hãng.
+The5ers automation approval theo Terms§11 vẫn là gap đã biết, không được giải
+quyết bởi việc đáp ứng ngày lãi hoặc unlimited time.
+
+### Đối chiếu ledger đã có, không chạy lại backtest
+
+Diagnostic hậu kiểm20snapshot:5candidate×2costs×Q1/2022,Q1/2023; kiểm artifact
+hashes và đối soát cash ngày về balance cuối. Q1/2023, cost-stress:
+
+| Ứng viên | Số ngày mở lệnh, Europe/Prague | Khoảng nghỉ lớn nhất giữa hai lần mở | Giữ lệnh đã đóng lâu nhất |
+|---|---:|---:|---:|
+| Donchian |12|18,67ngày|296giờ|
+| SMA |5|55,50ngày|668giờ|
+| Z-score |24|7,67ngày|76giờ|
+| Pullback |5|30,67ngày|488giờ|
+| UTC range |48|5,00ngày|8,001giờ|
+
+SMA/Pullback có cờ inactivity đáng kiểm; đây chưa là phán quyết tài khoản hết
+hạn vì còn activation, calendar boundary, định nghĩa activity và exceptions.
+Thời gian giữ chỉ gồm lệnh đã đóng; không che vị thế Donchian/Pullback còn mở.
+Không bản nào đạt tăng balance được ghi nhận1.000USD trong đường Q1/2023 đang
+xem. Đây là **chưa đạt trong cửa sổ quan sát**, không là fail vì deadline do ta đặt.
+
+Riêng UTC range, ngày cash tốt nhất ở reference/stress lần lượt21,04/20,96USD
+(Q1/2022),41,64/41,48USD (Q1/2023). Với cả bốn cách chia ngày UTC+0/+1/+2/+3,
+**0 ngày đạt50USD**. Do `min(balance,equity) ≤ balance`, số ngày cash đạt ngưỡng
+chỉ là trần trên của số ngày đủ luật hãng trong cùng cách chia ngày. Chưa có
+midnight-equity/calendar/cost profile The5ers được xác minh, nên đây là cảnh báo
+với cấu hình đang thử, không chứng nhận broker hoặc full-rule failure.
+
+Evidence private: `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/prop-q12023-robustness-20261105/time-fit-review-20261105/`
+giữ `audit_existing_ledgers.py`, `time-fit-review.json` và PDF/text Terms FTMO.
+Post-hoc,0numerical workers/giá mới; không dùng outcome này sửa frozen screen.
+
+### Điều chỉnh cách chọn và bài kiểm tiếp theo
+
+Ưu tiên UTC range trong receipt trước chỉ là **ưu tiên research sau cost-screen**,
+chưa chứng minh phù hợp thời gian/prop. Không chốt winner từ hai quý không liên
+tiếp. Z-score đổi dấu giữa hai quý cũng chưa có edge ổn định. Không kéo dài mẫu
+bằng ngoại suy tuyến tính hoặc nhân lot từ lợi nhuận một quý.
+
+Trước study tiếp, đăng ký time-fit cùng edge/risk: phase1→reset→phase2, target
+khi flat/đủ ngày hợp lệ, first breach, activation/inactivity, holding/news/swap,
+rồi funded eligibility→payout request→tiền thực nhận. Đánh giá các mốc90/180/365
+ngày như **horizon kinh tế đề xuất**, chưa là deadline hãng hoặc sở thích owner
+đã chốt. Báo reached/breached/not-reached-within-observation/unknown và coverage;
+không coi mẫu ngắn là đã đánh giá đủ365ngày hoặc các windows chồng nhau độc lập.
+
+Ví dụ cùng cấu hình nominal risk25USD/trade trên10.000USD: target10%=1.000USD
+≈40R; phase2 5%=500USD≈20R; ngày lãi0,5%=50USD≈2R. Đây là quy đổi đơn vị,
+không dự báo số trades/thời gian pass hoặc đề nghị tăng risk. Mục tiêu vẫn là
+lấy vốn quỹ với rủi ro kiểm soát, không ép giao dịch để pass nhanh.
+
+**Chưa triển khai full lifecycle evaluator.** Source
+`projects/trader/foundation_v2/trading_workspace_v2/semantics/prop_profile.py`
+chuẩn hóa/evaluate loss floors, chưa giữ/enforce target/minimum-day/activation/
+inactivity/payout lifecycle. Research, skills và ledger diagnostic không đóng
+gap code này; contract/tests cho phần đó cần có trước kết luận time-to-pass.
+
 ## Cơ sở lựa chọn và các phương án đã khảo sát
 
 1. Dùng **FTMO 2-Step Swing** làm mục tiêu mô phỏng đầu tiên; bắt đầu offline,

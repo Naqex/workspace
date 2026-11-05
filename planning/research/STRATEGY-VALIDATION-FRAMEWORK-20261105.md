@@ -192,3 +192,20 @@ trạng thái lúc đăng ký, không sửa để tự công nhận cleanOOS. Z-
 dương ở cả2costs; các bản khác không đạt screen của window. Đây chưa đóng G3/
 G4/G5 hoặc quyền execution. Kết quả giữa hai quý đã thử thay đổi theo candidate;
 không chuyển một quý dương thành winner bền vững hoặc bỏ các quý lỗ.
+
+## Delta thời gian challenge — 05/11/2026
+
+[Time-fit research](PROP-FIRM-FIT-20261102.md#thời-gian-challenge-và-độ-phù-hợp-chiến-lược--kiểm-lại-05112026)
+đối chiếu FTMO/The5ers và ledger đã có: research unlimited/minimum days đã tồn
+tại, nhưng screen PnL/cost chưa đủ đánh giá thời gian đạt vốn/thưởng. G4 còn
+thiếu lifecycle target→đủ ngày→phase reset→phase2→payout, activation/inactivity
+và đúng day boundary/equity semantics. `semantics/prop_profile.py` hiện chỉ
+evaluate loss floors; không suy fields trong docs đã được runtime hỗ trợ.
+
+Study kế tiếp phải freeze time-fit metrics/horizons cùng risk trước outcome.
+Mốc90/180/365ngày là đề xuất kinh tế, không là hạn hãng; insufficient coverage
+báo chưa đủ quan sát, không tự fail hoặc dự báo pass từ quarterly return.
+Ghi first breach, not-reached/censoring và trial/window dependence. Hậu kiểm
+ledger vừa có là diagnostic post-hoc, không thay frozen criteria hoặc cleanOOS.
+SMA có entry gap55,5ngày; UTC range chưa có cash day≥0,5% trong các day partitions
+đã kiểm. Vì vậy cost-screen dương chưa chứng minh prop/time-fit hay winner.

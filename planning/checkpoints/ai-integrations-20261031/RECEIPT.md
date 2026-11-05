@@ -5849,6 +5849,37 @@ So với Q1/2022 artifact cũ (source814e1135, không claim rerun trên source m
 Donchian/SMA đổi từdương reference sangâm; Z-score từâm sangdương; UTCrange dương
 haiquý kể cảstress nhưng mức lãi nhỏ và chỉ haiwindowkhông liên tiếp. Giữ toàn
 bộ trials; chưa statistical confidence hoặc continuous multi-year trackrecord.
-Ưu tiên đăng ký kiểm đa giai đoạn và đường equity/risk thực của UTCrange, giữ
-Z-score làm đối chứng đổi regime; chưa chốt winner/optimize params từquarter
-này hoặc chuyển sang trading quỹ. Window/criteria tiếp phải freeze trướcgiá.
+Ưu tiên nghiên cứu sau cost-screen lúc closure là UTCrange, giữ Z-score làm đối
+chứng đổi regime; **time-fit review bên dưới bổ sung điều kiện trước ưu tiên bài
+kế tiếp**. Chưa chốt winner/optimize params từquarter này hoặc chuyển sang trading
+quỹ. Window/criteria tiếp phải freeze trướcgiá.
+
+## 05/11/2026 — thời gian challenge và hậu kiểm ledger
+
+Owner hỏi thời hạn thi có thực sự được dùng chọn strategy. Đã có research
+unlimited/minimum days/inactivity trong tài liệu cũ; gap là screen vừa chạy chưa
+áp đầy đủ time-to-target/qualifying days/payout. Nguồn hiện hành, điều khoản,
+mâu thuẫn và interpretation cập nhật tại
+[time-fit](../../research/PROP-FIRM-FIT-20261102.md#thời-gian-challenge-và-độ-phù-hợp-chiến-lược--kiểm-lại-05112026).
+FTMO Trial14ngày khác unlimited paid challenge; The5ers inactivity FAQ30eval/
+60Pro khác trang program30tổng quát, chưa tự giải quyết theo hướng dễ hơn.
+
+Read-only diagnostic20snapshots từ comparison Q1/2022attempt3/Q1/2023attempt2;
+artifact hashes khớp và daily cash reconcile final balance. Private artifact:
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/prop-q12023-robustness-20261105/time-fit-review-20261105/time-fit-review.json`
+và script cùng thư mục; report pin script/comparison/checkpoint hashes.0numeric
+worker, không đọc giá mới, không thay frozen protocols/source/cost/risk. Tải và
+trích Terms FTMO04/08/2026 từ official CDN để kiểm §5.8.4/13.2.3, không đăng nhập.
+
+Q1/2023stress: entry gap lớn nhất SMA55,50ngày, Pullback30,67ngày là cờ cần kiểm
+inactivity, chưa phán account expiry. Không candidate nào đạt balance gain1.000USD
+trong đường được ghi. UTCrange0cash day≥50USD trong cả hai quý/hai costs và
+fixedUTC+0/+1/+2/+3. Cash count là upper bound của min(midnight balance,equity)
+trong cùng day partition; chưa áp certified The5erscalendar/equity/costs.
+
+Không rút kết luận đã prop-qualified từ quý lãi nhỏ hoặc đủ entry days. Full
+phase/day/activation/inactivity/payout evaluator chưa triển khai; native prop
+normalizer/evaluator chỉ loss floors. Bài tiếp cần contract/tests và đăng ký
+time-fit cùng edge/risk trước outcome, giữ horizon owner khác deadline hãng,
+không ngoại suy PnL quý hoặc thêm dummytrades/tănglot để đủ ngày. Docs/context/
+framework đã route delta; không thêm tracker, chạy lại backtest hoặc mở execution.
