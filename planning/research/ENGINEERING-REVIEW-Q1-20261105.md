@@ -477,6 +477,21 @@ thể là giảm parse/quote allocation hoặc typed kernel Rust, nhưng phải 
 A/B cùng input và golden event parity trước khi đổi numerical path. GPU chưa có
 backend trong source; không thêm CUDA chỉ từ profile này.
 
+### A/B thử giảm allocation trong `hourly_quotes` — 06/11
+
+Đã thử một candidate tính OHLC trong một vòng thay vì tạo thêm list `mids`, giữ
+nguyên tick list, Decimal và thứ tự event. Trên cùng 200.000 tick, 1 warmup + 3
+sample mỗi nhánh:
+
+| Nhánh | Median |
+|---|---:|
+| Baseline | 3,940 giây |
+| Candidate | 4,018 giây |
+
+Checkpoint/JSON artifact parity đạt, nhưng candidate chậm hơn khoảng 1,96% nên
+đã loại và không sửa source. Evidence prototype và report giữ tại
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/prop-q12023-robustness-20261106/ab-hourly-quotes-20261106/`.
+
 ### Đối chiếu research cộng đồng/agent — 05/11
 
 Các nguồn được dùng để quyết định lát này:
