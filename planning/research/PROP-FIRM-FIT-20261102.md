@@ -10,6 +10,13 @@ giữ giới hạn bằng chứng chiến lược.
 
 ## Quyết định của owner sau khảo sát
 
+**Phạm vi nghiên cứu làm rõ 05/11:** tập trung FTMO 2-Step Swing và The5ers High Stakes,
+FTMO làm chuẩn chính để reuse hệ thống hiện có. Dùng chung ý tưởng/logic, kiểm
+riêng rule/cost theo chương trình/size/version; không tối ưu cho propfirm chung.
+[Khảo sát và protocol mới](PROP-STRATEGY-ROUND1-20261105.md) đối chiếu nguồn chính
+thức 05/11, gồm giới hạn xác minh The5ers New/Classic/tier. Phần khảo sát 02/11 bên
+dưới giữ như lịch sử, không thay các nguồn cập nhật hoặc quyết định mua.
+
 Owner chốt ngày 02/11/2026: **Forex major qua MT5; FTMO 2-Step Swing làm chuẩn
 mô phỏng đầu tiên; offline → free trial → chỉ xét challenge trả phí khi có đủ
 bằng chứng và duyệt ngân sách**. The5ers giữ làm ứng viên thử phí thấp sau đó.

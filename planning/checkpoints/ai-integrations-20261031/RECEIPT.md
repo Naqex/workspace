@@ -4861,3 +4861,33 @@ Parent `operating-window` và `resolution` của ba task nêu rõ scopechange; c
 child terminalreports đã delivered. GitHub **workspace#10 vẫnOPEN** vì H1/
 continuous-operation acceptance chưa được kiểm đủ; không đóng bằng kiểm nhanh.
 Không gửi lệnh, cấpgrant, gọi model, reconnect hoặc restart terminal/API.
+
+## 05/11 — Bắt đầu khảo sát chiến lược theo mục tiêu prop
+
+Owner giao tiếp nghiên cứu và hỏi phạm vi hai hãng hay prop nói chung. Đã hoàn
+tất khảo sát/protocol trong `planning/research/PROP-STRATEGY-ROUND1-20261105.md`:
+FTMO 2-Step Swing chuẩn chính, The5ers High Stakes đối chiếu; không tạo engine
+tổng quát. Đã đọc primary sources của hai hãng, AQR/BIS/Fed/NBER và nghiên cứu
+về selection bias; chọn theo edge/risk/compliance, chưa xếp theo outcome mới.
+
+Danh mục 10 ý tưởng đã phân nhóm/loại trùng: C01 Donchian baseline, C02 SMA20/80
+và C04 z-score20 là shortlist H4; C06 session breakout dự phòng cần clock/news/H1.
+Quy tắc C02/C04 là adaptations tự đăng ký, không tự gọi exact paper replication.
+Chưa cài EA/package, nhập source hoặc chạy backtest/agent inference mới.
+
+Đối chiếu metadata QDM manifest: warmup 20–31/12/2021 và Q1 03/01–31/03/2022
+đã consumed; không mở raw price hoặc outcome mới. Protocol giữ gate availability/
+consumed và freeze trước validation/final holdout. Các candidate chưa code chưa
+được coi là runner hỗ trợ. Historical cost/intrabar equity và account-specific
+The5ers rules/news vẫn là qualification gaps, không bị giả thành 0/pass.
+
+Native Paperclip 17860 hiện connection refused. Lệnh Start-Process Hidden để chạy
+launcher hiện có (cùng source 5501757, origin 5180, không sửa config) bị automatic
+review chặn `blocked by policy`, không có lý do chi tiết. Không khởi chạy qua
+đường khác. Native task/document publication **chưa thực hiện**; không tạo
+task ID hoặc công nhận dispatch. Kết quả nghiên cứu local và source links đã lưu
+đầy đủ; receipt này giữ bước tiếp trong khi chưa có native publication.
+
+Bước tiếp: audit availability/consumed manifest; implement candidate contract và
+runner nhỏ reuse Forex core rồi focused checks trước numerical run. Chỉ công bố
+native khi instance có lại và đã dedup đúng task scope; không rerun fixture cũ.

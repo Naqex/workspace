@@ -24,6 +24,12 @@ risk budget. Khả năng bật máy không chứng minh uptime hoặc cấp quy�
 Khảo sát/đăng ký thí nghiệm tiếp theo phải bám các ưu tiên này; chưa mua challenge,
 thêm phí hoặc mở phiên execution từ việc xác nhận mục tiêu.
 
+Owner giao tiếp khảo sát/protocol 05/11; đợt đầu chọn FTMO 2-Step Swing làm
+chuẩn chính và The5ers High Stakes làm đối chiếu. Đề xuất/nguồn, danh mục ý tưởng
+và thí nghiệm đầu ở [protocol nghiên cứu prop](../research/PROP-STRATEGY-ROUND1-20261105.md).
+Đánh giá riêng từng chương trình, không bắt candidate thắng mọi hãng; chưa xây
+engine prop tổng quát hoặc mở execution từ đợt nghiên cứu này.
+
 ## Điều chỉnh 05/11/2026 — kiểm nhanh trước, quan sát dài theo nhu cầu
 
 Owner yêu cầu cách kiểm nhanh hơn thay vì chờ cả ngày. Thay phạm vi phiên bên
