@@ -1,5 +1,7 @@
 import ctypes
+from contextlib import redirect_stdout
 from ctypes import wintypes
+import io
 import json
 import os
 from pathlib import Path
@@ -98,6 +100,17 @@ class ResultTests(unittest.TestCase):
             self.assertEqual(result['status'], 'completed_verified')
             self.assertEqual(result['completed_jobs'], 1)
             self.assertEqual(result['workers'][0]['worker'], 'candidate')
+
+    def test_console_keeps_progress_without_repeating_provenance_hashes(self):
+        with tempfile.TemporaryDirectory() as folder:
+            console = io.StringIO()
+            with redirect_stdout(console):
+                result = batch.progress(Path(folder), {'candidate': dict(worker='candidate',
+                    status='reused_verified', artifact_sha256={'results.json': 'a'*64})},
+                    time.monotonic(), 100, 30)
+            self.assertNotIn('artifact_sha256', console.getvalue())
+            self.assertEqual(json.loads(console.getvalue())['completed'], 1)
+            self.assertEqual(result['workers'][0]['artifact_sha256'], {'results.json': 'a'*64})
 
     def test_nonzero_worker_never_becomes_success_and_skips_result_verification(self):
         with tempfile.TemporaryDirectory() as folder:

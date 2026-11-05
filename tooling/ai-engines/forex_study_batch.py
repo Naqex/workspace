@@ -159,7 +159,9 @@ def progress(output, states, began, total_ticks, deadline):
     temporary.write_text('\n'.join(lines)+'\n', encoding='utf-8')
     temporary.replace(output/'PROGRESS.md')
     print(json.dumps(dict(status=status, completed=snapshot['completed_jobs'],
-                          elapsed_seconds=snapshot['elapsed_seconds'], workers=rows)), flush=True)
+        elapsed_seconds=snapshot['elapsed_seconds'], workers=[
+            {key: row[key] for key in ('worker', 'status', 'stage', 'observed_ticks') if key in row}
+            for row in rows])), flush=True)
     return snapshot
 
 

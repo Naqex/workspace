@@ -5338,3 +5338,85 @@ Focused verification: `python -m unittest discover -s tooling/ai-engines/tests
 worker+grandchild khi owner close và worker khi supervisor crash; còn lại kiểm
 nonzero, exit0/artifact invalid, timeout và completed reuse không dispatch.
 Không chạy lại core/strategy tests vì source/product không đổi trong lượt này.
+
+### Bắt và sửa lỗi bàn giao sau probe; giữ kết quả đã xong
+
+Donchian xong1165,203s, exit0 và dossier/accounting đạt: reference+54,37USD,
+stress+9,22USD,13closed trades/case, flat cuối mẫu. Đây là development,
+strategy/prop_passfalse. Sau đó progress merge `dict(worker=name, **state)`
+gặp TypeError vì real terminal có sẵn worker key. Tái hiện độc lập đúng lỗi;
+controller dừng và hủy3job vừa bắt đầu sau0,203s. Không mất/rewrite Donchian.
+Không còn process của batch2; projection đã đối soát về incomplete1/5,
+`progress-before-resolution.json` giữ snapshot cũ và `batch-failure.json` giữ
+failure lịch sử. Không nhầm exit0 của job bị cancel với completed.
+
+Workspace `8976ba8` sửa merge, thêm supervisor failure source frames/terminal
+và `--reuse-from` để batch mới verify/tham chiếu job completed từ batch trước.
+**8focused tests đạt**, thêm regression real terminal và cross-batch reuse.
+Actual Donchian dossier đã kiểm lại source/input/protocol/spec binding trước
+dispatch mới; dùng lại kết quả cũ, không tốn20phút chạy lại.
+
+Batch đang chạy chuyển sang `.../prop-q1-comparison-20261105/attempt-3/`;
+config tại `../continued-inputs/config.json`; controllerPID18816, identity ở
+`controller-identity.json`, execsession60273. Donchian `reused_verified`,
+4candidate còn lại chạy tối đa4worker theo execution amendment trước outcomes,
+1800s/job và5400s/batch giữ nguyên. Một worker probe dùng xấp xỉ1CPU/68MiB,
+máy6core;4slot tránh hai lượt chờ cho4job. Không đổi chiến lược/cost theo kết quả.
+Product814e1135 không sửa. Tiến độ hiện hành ở batch3/PROGRESS.md và progress.json;
+batch2 là lịch sử. Chưa công nhận toàn5candidate hoàn tất.
+
+### Hoàn tất cả5candidate /10scenario và chứng minh reuse thật
+
+**Đã xong scope bước1–3 owner giao.** Batch3 terminal `completed_verified`,
+exit0 lúc15:50:49VN05/11, elapsed1309,25s (~21phút49giây) cho4candidate chạy
+song song và reuse Donchian đã xong. Mỗi scenario xử lý đủ5.837.028tick; chung
+warmup12/2021, development03/01–31/03/2022, costs/risk không sửa. Productpin
+814e1135, runner actual source đã lưu `attempt-3/forex_study_batch.executed.py`.
+Không còn controller/worker của batch khi đối soát sau completion.
+
+| Candidate | Balance Δ chuẩn USD | Balance Δ stress USD | Equity Δ chuẩn USD | Equity Δ stress USD | Closed trades chuẩn/stress | Còn vị thế chuẩn/stress |
+|---|---:|---:|---:|---:|---:|---|
+| Donchian | +54,37 | +9,22 | +54,37 | +9,22 | 13/13 | Không/Không |
+| SMA | +27,49 | −3,12 | +21,70 | −9,03 | 5/5 | Có/Có |
+| Z-score | −113,61 | −139,30 | −113,61 | −139,30 | 32/32 | Không/Không |
+| Pullback | −26,51 | −64,08 | −26,51 | −64,08 | 7/7 | Không/Không |
+| UTC range | +34,13 | +26,67 | +34,13 | +26,67 | 49/49 | Không/Không |
+
+Vốn10.000USD/case; risk25USD/lệnh theo registered assumptions. Balance đã
+hạch toán trade đóng và financing; equity gồm floating của vị thế mở. SMA có
+6entries/5closed, không ép đóng vị thế cuối. Mọi case accounting/state roundtrip
+đạt, pendingentryfalse và không có internal riskstop; **không** suy tuân thủ hãng
+hoặc maxdrawdown từ đó. Minimum observed equity không phải peak-to-trough DD.
+
+Donchian/UTCrange còn dương trong declared stress; SMA đổi dấu, Zscore/Pullback
+âm cả hai. Đây là kết quả mô tả trên development đã consumed, chưa chọn winner
+hoặc công nhận edge/prop pass. Costscenarios không là independenttrials; sample
+5–49closed trades/candidate và một quý chưa đủ độ bền. Historical broker costs,
+fill coverage, full intrabar equity/rule qualification vẫn thiếu. Tất cả gốc
+`strategy_pass=false`, `prop_pass=false`; qualification **inconclusive**, không
+promotion hoặc brokerauthority. Model/broker/holdoutcalls0.
+
+Numeric/source locators: `attempt-3/comparison.json` + `COMPARISON.md`, mỗi row
+giữ result_dir và artifact hashes. Donchian trỏ `attempt-2/donchian/replay`;
+4candidate còn lại ở `attempt-3/<name>/replay`. `summarize_completed.py` dùng
+verifier hiện có, đọc cash/equity/startingbalance từ actual checkpoints; không
+recalculate chiến lược hoặc chuyển hiện trạng vị thế thành closedtrade.
+
+Actual reuse check: `verify_completed_reuse.py` chạy supervisor vào
+`reuse-verification/`, đọc2batch cũ, **5reused_verified, exit0 trong0,704s**,
+0numerical worker directories, **35artifact/process-identity files hash không
+đổi**. Git identity reads vẫn spawn git, không gọi đó là0process tuyệt đối.
+`reuse-proof.json` giữ chứng cứ; không overwrite original terminal/results.
+
+Phát hiện console lặp immutable hashes theo5giây tạo output thừa; đã rút stdout
+chỉ còn worker/status/stage/tick, giữ provenance đầy đủ trong files. Final
+focused suite **9tests đạt** (1,463s), thêm console-redaction/provenance-retention
+regression. Không rerun mô phỏng cho thay đổi diagnostics này; actual5job reuse
+đã kiểm final supervisor version. Diff check đạt; core/strategy source không đổi.
+
+Authenticated Paperclip read cuối vẫn ConnectionRefusedError/10061: offline
+study complete, native skill/report publication vẫn chưa có runtime acceptance.
+Không restart bằng workaround. Root progress dẫn tới report hiện hành, giữ
+historical stopped/failed attempts. Lát tiếp nên freeze5candidate, audit consumed
+map/coverage và đăng ký validation thật trước mở dữ liệu mới; không tối ưu tham
+số theo riêng quý này hoặc mua challenge từ kết quả này.
