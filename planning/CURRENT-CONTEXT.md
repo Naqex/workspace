@@ -43,6 +43,9 @@ Registration time-fit 3/6/12 tháng đã được freeze ở
 [TIME-FIT-REGISTRATION-20261106](research/TIME-FIT-REGISTRATION-20261106.md), chưa
 chạy numerical và chưa mở holdout; bước kế là inventory availability/consumed và
 pin profile terms trước khi mở window mới.
+Inventory bounded ngày06/11 đã kiểm 103 JSON metadata/4 private roots; chỉ thấy
+window 12/2021, 03–14/01/2022, Q1/2022, 11–12/2022 và Q1/2023. Chưa có metadata
+đủ cho 3/6/12 tháng, nên availability/consumption vẫn unknown; chưa mở run mới.
 
 Owner giao triển khai workflow/skills và chủ động quản lý skill. Đọc
 [strategy workflow](../tooling/ai-engines/STRATEGY-WORKFLOW.md) cho research,

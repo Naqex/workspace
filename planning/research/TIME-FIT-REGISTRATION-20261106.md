@@ -54,3 +54,15 @@ reset/DST, minimum days và position policy. Activation/inactivity, news rules,
 payout, historical fills và live reconciliation vẫn là gaps riêng.
 
 **Model calls:** 0 · **Broker calls:** 0 · **Holdout:** chưa mở · **Promotion:** false.
+
+## Inventory trước khi chạy — 06/11/2026
+
+Metadata audit đã đọc 103 JSON files trong bốn private roots, ghi nhận 69
+metadata records và không đi vào CSV/price series. Hash audit:
+`7583740F7F3A267BA6DFDFECC7173CD0547682F7EFCD97BED826134AA4F67579`.
+
+Các cửa sổ xuất hiện trong metadata là 12/2021, 03–14/01/2022, Q1/2022,
+11–12/2022 và Q1/2023. Chưa thấy metadata đủ cho horizon 3/6/12 tháng; điều
+này chỉ làm trạng thái **availability/consumption unknown**, không chứng minh
+unseen và không cho phép mở numerical run. Cần tìm nguồn QDM/cache tương ứng và
+pin terms trước bước preflight tiếp theo.
