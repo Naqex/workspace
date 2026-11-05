@@ -46,7 +46,7 @@ Nguồn chính thức/chuyên môn đã đối chiếu:
 | G0. Chốt thí nghiệm trước nhìn kết quả? | Protocol round1/round2, frozen copies, Git/run/source/input/cost pins; giữ các attempt âm/lỗi | Có workflow và records; protocol hash riêng không attest timing/prereg độc lập |
 | G1. Dữ liệu và code có sai timing/tính toán? | QDM BidAsk hash/header/order/grid/date checks; closed-H4/next-quote/causal entry tests; fixed known-PnL probe cases; independent ledger accounting | Có guard/tests cho implementation đã kiểm; chưa independent toàn bộ model/data audit |
 | G2. Mô phỏng có đúng assumptions thực thi? | Spread embedded, commission/slippage/financing reference+stress, lot/risk và cash/equity/open positions | Declared scenarios; historical broker cost/fill/spec và full intrabar rule coverage còn thiếu |
-| G3. Có edge trên dữ liệu chưa dùng? | Q1 đã consumed, trial-history policy; planned dev/validation/final holdout split | Chưa kiểm OOS. Availability/consumed toàn2023+ chưa được xác lập; chưa freeze final validation criteria/window |
+| G3. Có edge trên dữ liệu chưa dùng? | Q1 đã consumed; audit metadata và registration độ bền Q1/2023 được dẫn bên dưới | Chưa kiểm OOS. Owner không nhớ exposure2023–2024; bài kế tiếp đã freeze nhưng là historical robustness, chưa chạy |
 | G3. Đã chống chọn may mắn/tự khớp quá khứ? | Protocol giữ trials/negative variants; DSR/PBO/walk-forward chỉ khi phù hợp | Chưa statistical validation.5candidate/2costs không là10independent trials; cùng họ/overlap phụ thuộc |
 | G4. Có phù hợp FTMO/The5ers cụ thể? | Có research rule profile và pilot internal25/100/500USD; per-firm unknowns đã ghi | Internal budgets không là chứng nhận luật hãng; chưa đầy đủ historical broker/rule reconciliation |
 | G5. Chạy shadow/demo có khớp mô phỏng? | Có bằng chứng vận hành riêng, process/recovery checks | Không gộp system-demo test hoặc numeric pass thành proof strategy-forward gap đã đóng |
@@ -100,3 +100,14 @@ mọi cửa. [Validation gates reference](../../.agents/skills/strategy-qualific
 giữ hướng dẫn cho agent; `strategy_evidence.py inspect` giờ trả `review_checks`
 để thể hiện phần đã scan và phần chưa được tool đánh giá. Skills không thay
 code guards, independent review, data audit hoặc future out-of-sample evidence.
+
+## Delta sau audit metadata và câu trả lời owner05/11
+
+[Audit/registration bài kế tiếp](PROP-HISTORICAL-ROBUSTNESS-20261105.md) khóa
+Q1/2023, warmup11–12/2022, cả5candidate và tiêu chí trước giá mới. Metadata
+inventory đã thực hiện; clean-unseen status vẫn **không xác lập** vì owner
+không nhớ lịch sử và scanner có phạm vi/format limits. Vì vậy không gọi bài
+này là clean OOS hoặc coi nó đóng G3. AvailabilityQDM đã kiểm riêng bằng CLI
+metadata, không bảo đảm quality. Numerical runner hiện chưa hỗ trợ window này;
+registration file chưa là code enforcement. Giữ các cửa kiểm còn lại nguyên
+trạng thái cho tới khi có đúng bằng chứng, không tự đánh dấu đạt từ protocol.

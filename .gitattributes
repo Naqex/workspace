@@ -4,3 +4,6 @@ planning/checkpoints/workspace-next-stage/CLEANUP-20261001/recovered-notes/** -t
 planning/checkpoints/workspace-next-stage/CLEANUP-20261001/retired-worktree-evidence/** -text -diff
 planning/trader/research/foundation-validation/20260921T115933Z-315e8ddd/STATE.json -text
 docs/archive/** -text -diff
+# Frozen study registration pins exact protocol bytes across checkouts.
+planning/research/PROP-HISTORICAL-ROBUSTNESS-20261105.md -text
+planning/research/PROP-HISTORICAL-ROBUSTNESS-20261105.json -text

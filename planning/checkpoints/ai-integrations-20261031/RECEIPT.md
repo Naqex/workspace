@@ -5587,3 +5587,69 @@ project10.133/65.536B,reserve55.403B,combined22.412B,21skills,0errors/0warnings.
 Diff check đạt. Giữ validation price windows chưa mở: bước tiếp là inventory
 consumption và freeze split/metrics/decision trước outcome, không chọn winner
 bằng Q1 hoặc đặt Sharpe/trade-count arbitrary để tự công nhận đạt.
+
+## 05/11/2026 — hoàn tất audit exposure và đăng ký bài kiểm lịch sử tiếp theo
+
+Owner duyệt bước audit→freeze→chọn window khác, rồi trả lời **không nhớ rõ** đã
+từng backtest/xem5bộ quy tắc trênEURUSD2023–2024 chưa. Vì vậy chuyển cách gọi
+sang historical robustness/prior exposure unverified; **không** công nhận
+clean/unseen OOS. Không suy cache có dữ liệu hoặc thiếu record là chưa từng xem.
+
+QDM CLI `symbols()` đã đọc metadata qua wrapper hiện có, không GUI/download/
+update/export giá. EURUSD_TICK_TW:2003-05-05→2026-11-01,517.750.341records;
+EURUSD_TW:M1,2003-05-05→2026-10-07,8.755.235records. Runtime vẫn ở checkout
+cũ, source authoritative Trader không đổi. Metadata range chưa là quality.
+
+Thêm stdlib `tooling/ai-engines/research_consumption.py`: bounded JSON metadata,
+explicit roots,2MiB/file, filename allowlist, bỏ price/outcome collections khi
+traverse, chỉ ghi path/schema/date/hash, coverage gaps và false unseen proof.
+JSON vẫn được parse toàn file; không nói đây là audit mọi byte/format/artifact.
+Directory links ngoài root được prune, không đi theo junction lịch sử rồi đếm
+hàng chục nghìn path. Walk/read errors giữ gap hoặc fail rõ, không báo sạch;
+planned registration được phân biệt với executed-run metadata.
+
+Auditv3: **2.397metadata files,43window records,130external-directory-link gaps**.
+Window Forex nhận diện nằm trong12/2021 vàQ1/2022; không có quyền suy2023unseen
+từ đó. Roots/record paths/reasons/hash nằm trong private artifacts, không chép
+raw metadata hoặc credentials vào repo.130gaps không phải130backtest bị thiếu;
+target có thể thuộc root khác đã quét riêng. Không chase toàn legacy archive
+khi câu trả lời exposure vẫn unknown vì lịch sử owner/ngoài filesystem.
+
+[Protocol](../../research/PROP-HISTORICAL-ROBUSTNESS-20261105.md) và
+[registration](../../research/PROP-HISTORICAL-ROBUSTNESS-20261105.json) đã khóa:
+Q1/2023, warmup11–12/2022≥81validH4, **cả5candidate**, rules/risk/cost giữ nguyên,
+flat-cash baseline và equity-change primary metric. Không lọc chỉ winnersQ1.
+Reference/stress được ghi tách; positive cảhai vẫn inconclusive, anynonpositive
+không promote theo screen này. Minimum observed equity không gọi maxDD; thiếu
+uncertainty/coverage/firm/forward thì unknown, không ép metric chứng nhận.
+Spec2026 áp2023 vẫn declared counterfactual, không verified historical cost.
+
+RegistrationSHA256:
+`ddc56313f1656631bb418e0def6c90119e65e342ad87ae8156158ced09e2d8b6`.
+Source pins là baseline trước bổ sung registration support, chưa final execution
+binding. Khi thêm opt-in contract phải giữ baseline/frozen protocol, review
+diff/test và tạo implementation binding trước giá mới; không sửa core/rules/
+chi phí hoặc tiêu chí sau outcome. Local Git/hash chưa là independent timestamp.
+Hai file protocol/registration mới được đặt `-text` có scope trong gitattributes
+để Git autocrlf không làm đổi bytes/hash khi checkout, không đổi policy EOL chung.
+
+Verification: `foundation_v2/.venv/Scripts/python.exe -m unittest discover -s
+tooling/ai-engines/tests -p test_research_consumption.py -v` → **5tests đạt**,
+0,026s: không export giá/PnL/secret; invalid/missing/directory-denied gaps;
+date formats; planned-vs-run distinction. Registration review kiểm **16content
+pins khớp**,4scoped guide links0errors. Gọi `input_contract` bằng temporary
+metadata fixture xác nhận2023vẫn bị legacy guard từ chối trước đọc CSV.
+Không rerun numeric/core suite bất biến; product source không đổi.
+
+Private root: `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/prop-validation-20261105/`:
+`qdm-cache-metadata.json`, `consumption-audit-v3.json`, `study-registration-final.json`,
+`registration-review-final.json` (review gốc: `registration-review.json`). Giữ auditv1/v2 và bản registration trong lúc soạn
+để truy vết; bản repo đã commit/final hash trên là registration hiện hành.
+
+**Đã hoàn tất lát audit+registration, chưa chạy bài mới.**0new price exports,
+0numeric runs,0broker/model calls. Runner chỉ hỗ trợ2022; bước thực thi tiếp là
+opt-in registration binding và negative tests, rồi export QDM cache/hashes và
+chạy bounded supervisor theo protocol. Không lách bằng xóa guard/sửa manifest;
+không gọi registration là code enforcement hoặc hoàn tất G3. Framework/index/
+current context/workflow đã route tới nhãn mới. Chưa cập nhật native Paperclip
+trong lượt này; receipt local không giả thành native task/run acceptance.

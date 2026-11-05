@@ -25,6 +25,16 @@ phần chưa được tool đánh giá; dùng bảng gate/evidence trong mọi �
 
 ## Preflight cùng runner
 
+Trước đổi window, dùng `research_consumption.py --root <explicit-root>` (lặp
+`--root` khi cần) `--output <new-audit.json>` để inventory bounded JSON metadata.
+Không mở CSV, không đi theo directory links ra ngoài root, không xuất PnL/quotes;
+vẫn parse toàn JSON trong size limit. Output ghi coverage gaps và phân biệt
+planned registration với executed-run metadata. Absence không chứng minh unseen,
+record có dates cũng không tự chứng minh đã xem giá. Owner history chưa rõ thì
+ghi unverified. [Protocol hiện hành](../../planning/research/PROP-HISTORICAL-ROBUSTNESS-20261105.md)
+giữ nhãn/cutoff/tiêu chí/pins của bài kế tiếp; chưa có runner support hoặc run mới.
+Không đổi dates để vượt guard2022 hoặc tự gọi registration là quyền holdout.
+
 Từ `projects/trader/foundation_v2`, Python `.venv` đã có:
 
 ```powershell

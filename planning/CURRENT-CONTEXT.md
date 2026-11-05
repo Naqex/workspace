@@ -2,6 +2,12 @@
 
 ## Research kế thừa — 05/11/2026
 
+Trước mở window mới, đọc [audit consumption và protocol Q1/2023](research/PROP-HISTORICAL-ROBUSTNESS-20261105.md).
+Owner không nhớ đã xem2023–2024; nhãn hiện hành là historical robustness với
+prior exposure unverified, không clean OOS. Registration đã khóa5candidate,
+dates/metrics/cost/risk và source pins; đây chưa là numerical run. Receipt AI
+giữ kết quả audit và bước bổ sung opt-in runner trước export/đọc giá mới.
+
 Owner giao triển khai workflow/skills và chủ động quản lý skill. Đọc
 [strategy workflow](../tooling/ai-engines/STRATEGY-WORKFLOW.md) cho research,
 qualification, preflight/dossier và delivery; [maintenance](../docs/development/SKILL-MAINTENANCE.md)
