@@ -453,6 +453,12 @@ chỉ đúng hướng nhưng chưa đủ để chọn Rust kernel. Lát tiếp t
 kernel. Nếu không đạt lợi ích end-to-end đủ lớn, giữ Python path và chuyển sang
 time-fit/qualification 3–6–12 tháng.
 
+Profile bounded tiếp theo đã được chuẩn bị nhưng hủy trước khi có sample vì máy
+local là máy tương tác của owner (game/media). Thư mục attempt được đánh dấu
+`cancelled_by_operator_constraint`; không dùng partial file để claim hotspot mới.
+Lần profile sau phải chạy low-priority trong cửa sổ idle, output mới và giữ
+golden/parity checks.
+
 ### Đối chiếu research cộng đồng/agent — 05/11
 
 Các nguồn được dùng để quyết định lát này:
