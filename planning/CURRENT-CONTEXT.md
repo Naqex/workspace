@@ -46,6 +46,8 @@ pin profile terms trước khi mở window mới.
 Inventory bounded ngày06/11 đã kiểm 103 JSON metadata/4 private roots; chỉ thấy
 window 12/2021, 03–14/01/2022, Q1/2022, 11–12/2022 và Q1/2023. Chưa có metadata
 đủ cho 3/6/12 tháng, nên availability/consumption vẫn unknown; chưa mở run mới.
+Terms snapshot FTMO/The5ers đã ghi ở [PROP-TERMS-SNAPSHOT-20261106](research/PROP-TERMS-SNAPSHOT-20261106.md);
+FTMO đủ cho evaluator sơ bộ, The5ers còn pin account/program và automation approval.
 
 Owner giao triển khai workflow/skills và chủ động quản lý skill. Đọc
 [strategy workflow](../tooling/ai-engines/STRATEGY-WORKFLOW.md) cho research,

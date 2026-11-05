@@ -22,6 +22,7 @@ giá time-fit, không phải tối ưu tham số và không cam kết pass chall
 - Profile: FTMO 2-Step Swing là chuẩn chính; The5ers chỉ là profile đối chiếu
   sau khi có terms/account-specific snapshot riêng. Không gắn FTMO terms cho
   The5ers.
+- Terms snapshot nguồn chính thức: [PROP-TERMS-SNAPSHOT-20261106](PROP-TERMS-SNAPSHOT-20261106.md).
 
 ## Metrics và trạng thái
 
