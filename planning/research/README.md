@@ -7,6 +7,8 @@ Các mục cũ chưa được re-audit khi tạo chỉ mục ngày 05/11/2026.
 
 | Câu hỏi / từ khóa | Nguồn hiện có |
 |---|---|
+| MCP/tools FTMO, The5ers, TradingView; open-source MT5/Pine; quyền/account | [Khảo sát công cụ cho agent, 05/11](PROP-AGENT-TOOLS-20261105.md) |
+| Triển khai pullback-trend, UTC range breakout; hướng auto có giám sát | [Protocol round2, 05/11](PROP-STRATEGY-ROUND2-20261105.md); không thay round1 đã freeze |
 | Trade tay, bán tự động, auto; kinh nghiệm cộng đồng; EA prop; FTMO/The5ers; AQR/GSAM | [Bằng chứng chiến lược và mức tự động hóa, 05/11](PROP-AUTOMATION-AND-STRATEGY-EVIDENCE-20261105.md) |
 | Chọn ứng viên, protocol, consumed data, OOS, holdout và cost stress | [Đợt chiến lược prop đầu tiên](PROP-STRATEGY-ROUND1-20261105.md); kết quả run thuộc receipt được protocol dẫn tới |
 | Chọn quỹ/chương trình theo vốn và rủi ro | [Prop firm fit, 02/11](PROP-FIRM-FIT-20261102.md); refresh giá/luật trước quyết định mua |

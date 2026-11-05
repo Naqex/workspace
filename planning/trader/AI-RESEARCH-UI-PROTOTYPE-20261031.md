@@ -2,6 +2,12 @@
 
 ## Ưu tiên chọn chiến lược — owner làm rõ 05/11/2026
 
+Tiếp05/11: owner giao khảo sát tools/MCP của FTMO/The5ers/TradingView và thực
+thi đề xuất research trước. [Tool survey](../research/PROP-AGENT-TOOLS-20261105.md)
+giữ quyết định reuse/defer; owner chưa có TVpaid/The5ers. [Protocol round2](../research/PROP-STRATEGY-ROUND2-20261105.md)
+đăng ký hai candidate mới và hướng auto có giám sát; chỉ offline, không thay
+round1 đã freeze hoặc tự cấp grant broker/OAuth/chi phí từ đề xuất.
+
 Mục tiêu chính là tiếp cận và duy trì quy mô tài khoản prop firm lớn hơn bằng
 chiến lược có lợi thế đã kiểm chứng, với rủi ro giao dịch và chi phí tham gia/
 thử lại được kiểm soát. Không tối đa hóa return hoặc tốc độ vượt challenge bằng

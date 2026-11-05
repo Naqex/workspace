@@ -29,7 +29,7 @@ luận và bằng chứng tham khảo, không là một ledger hoặc risk grant
 | Price action/order flow/liquidity xuất hiện trong phỏng vấn [S2] | Chưa chứng minh tự động; không suy từ thành tích trade tay sang bot |
 | Chưa tìm thấy so sánh công khai đủ mạnh xếp hạng chiến lược auto hoặc tỷ lệ thành công semi-auto vs auto tại hai quỹ | Giới hạn của khảo sát này, không khẳng định không có nghiên cứu ở đâu khác |
 | Khảo sát có chọn lọc quy tắc sẵn có rồi tự tái hiện/kiểm chứng | Khuyến nghị; chưa chứng minh candidate nào có edge |
-| Ưu tiên auto vào/ra và risk theo quy tắc, có owner giám sát | Khuyến nghị của agent; owner chưa chốt bằng yêu cầu lưu context này |
+| Ưu tiên auto vào/ra và risk theo quy tắc, có owner giám sát | Khuyến nghị ban đầu; owner sau đó giao thực thi đề xuất research05/11: nhận làm hướng triển khai offline, chưa là grant broker/qualification |
 | Dùng semi-auto nếu kỹ năng chọn/bỏ tín hiệu thêm giá trị được đo, hoặc để kiểm triển khai ban đầu | Không mặc định duyệt từng lệnh an toàn hơn; không bắt buộc một giai đoạn kéo dài |
 
 Ba mẫu Donchian/SMA/z-score của round 1 là baseline/comparator kiểm được,
@@ -85,6 +85,10 @@ phí và các lần thất bại. Không ngoại suy futures prop sang Forex CFD
 
 ## Delta, phần chưa biết và cách tiếp tục
 
+- **Delta tiếp05/11:** owner giao khảo sát công cụ rồi thực thi đề xuất; scope
+  [round2](PROP-STRATEGY-ROUND2-20261105.md) giữ hai giả thuyết mới, preparation
+  manual journal và hướng auto có giám sát. Khảo sát [tools/MCP](PROP-AGENT-TOOLS-20261105.md)
+  ghi owner chưa có TVpaid/The5ers, vì vậy kết nối đó chờ account/permission.
 - **Delta05/11:** phát hiện S6 bổ sung yêu cầu mà mô tả EA ở round1 chỉ dựa
   FAQ chưa nêu. Round1 được thêm cross-reference/T7; không sửa protocol tín
   hiệu, hash/outcome hay giả nhận compliance đã đạt.
