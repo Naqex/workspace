@@ -6058,3 +6058,33 @@ phải giờ hẹn hoàn thành. Chưa xác minh nguyên nhân slowdown; chưa �
 source, timeout đang chạy hoặc khởi động lại. Bước tiếp là khoanh vùng nguyên nhân
 và phương án giữ phần đã sealed, tránh chờ timeout rồi rerun toàn bộ. Log nguồn:
 private `execution-v1/batch-1/<worker>/stdout.log`, `progress.json` và `process.json`.
+
+### 06/11 — chẩn đoán bounded khi annual batch vẫn chạy
+
+Owner hỏi nên chờ hay tối ưu, và xử lý nếu job lỗi. Giữ nguyên worker/source pin;
+đã dùng evidence-debugging/fullstack-performance để đo riêng construction của
+`ReplayTickExecutionAdvance` và `ForexPilotSnapshot` trên checkpoint Q1 đã pin và
+checkpoint annual-prefix đang có. Không replay/tải dữ liệu mới, không broker/model.
+Diagnostic private `execution-v1/history-scaling-diagnostic.json` giữ input SHA và
+cProfile counters, một sample/wrapper, state trước/sau không đổi.
+
+Q1 có1.647 ledger events; mỗi wrapper gọi `validate_tick_execution_event`3.294lần.
+Annual prefix có3.677events; mỗi wrapper gọi7.354lần. Source xác nhận inherited
+margin validator và tick validator đều quét lại lịch sử khi bọc execution state;
+`advance_forex_pilot` thực hiện cả hai wrapper. Profiled construction riêng tăng
+0,636→2,080s (advance result),0,653→2,268s (pilot result); đây là diagnostic có
+profiling overhead, không phải speedup/full-run estimate. Revalidating lịch sử và
+financing cũ là nút tăng chi phí đã được xác minh, chưa khẳng định phần trăm toàn run.
+
+Hướng sửa hữu hạn sau khi bảo toàn current run: kiểm invariant lịch sử ở boundary
+nạp/checkpoint; kiểm transition/events mới trong loop với bằng chứng parity và
+tamper/regression tương ứng. Chưa sửa/bỏ validator hoặc triển khai fast path vào
+worker đang chạy. Không mở lại GPU/Rust/framework lane.
+
+Failure contract đã đối chiếu source/runbook: supervisor giữ terminal/log/artifact,
+không auto retry; job hoàn tất dùng lại khi dossier/bindings khớp; scenario có
+completed seal dùng lại sau xác nhận writer đã dừng, với output attempt mới và
+đúng source/input/protocol/cost/risk. **Mid-scenario CLI resume chưa hỗ trợ**;
+checkpoint và partial horizon không thay completed seal. Nếu đổi numerical source,
+reuse cũ bị chặn đúng thiết kế; cross-version equivalence cần review riêng, không
+tự nới hash. Không hứa khôi phục chính xác giữa chừng hoặc không mất phần việc nào.
