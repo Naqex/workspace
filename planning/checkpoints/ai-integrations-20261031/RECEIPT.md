@@ -6088,3 +6088,59 @@ completed seal dùng lại sau xác nhận writer đã dừng, với output atte
 checkpoint và partial horizon không thay completed seal. Nếu đổi numerical source,
 reuse cũ bị chặn đúng thiết kế; cross-version equivalence cần review riêng, không
 tự nới hash. Không hứa khôi phục chính xác giữa chừng hoặc không mất phần việc nào.
+
+### 06/11 — bản sửa isolated và research khung sàng lọc
+
+Owner giao thực hiện bản sửa và research cách tìm ứng viên tiềm năng. Dùng
+evidence-continuity, strategy-research/qualification, fullstack-performance và
+evidence-debugging; giữ scope offline, không mở window/holdout hoặc gửi broker.
+
+Trader commit **`86eade80`** được chuẩn bị tại worktree:
+`C:/Users/MIIKEY/.codex/worktrees/replay-history-validation/trader`.
+Main Trader vẫn `3af69a73`, source worker đang chạy không đổi. Không cherry-pick
+vào main khi batch còn writer; không dispatch numerical job trùng. Worktree này
+kế thừa `core.worktree` của submodule nên Git tự nhận sai top-level nếu không
+override: dùng `git --work-tree=<absolute-worktree-path> ...` từ worktree trên;
+đã xác minh worktree clean sau commit với override, không sửa Git global config.
+
+Bản sửa chọn phạm vi nhỏ hơn fast path bỏ full-history validation: xây chỉ mục
+sequence/first-financing-ID một lần trong mỗi lượt kiểm ledger, truyền qua
+margin/tick validators để xác minh financing; standalone check giữ guard cũ.
+Giữ toàn bộ event/cash/margin/provenance/timing/duplicate checks; index không
+persist/cache/reuse giữa ledger, khác ledger bị từ chối. Không đổi schema,
+strategy/cost/risk/numerical result hoặc recovery authority. Vòng kiểm full ledger
+vẫn tồn tại; không tuyên bố đã giải quyết toàn bộ scaling hoặc mid-scenario resume.
+
+Focused checks **108 passed**: financing10, tick22, pilot-risk22, entry2,
+horizons6, scenario-reuse5 và pytest margin-v2/immediate41. Ban đầu unittest
+không discover pytest-style margin tests và immediate thiếu root import path;
+đã chạy đúng pytest với worktree root/foundation_v2 trên PYTHONPATH,41passed.
+Hai deprecation warnings từ Starlette/httpx/AnyIO có sẵn, ngoài scope.
+Test mới kiểm indexed/standalone valid+tampered fees, duplicate, full restore,
+index không dùng chéo ledger và không scan lại lịch sử cho từng fee.
+
+Private benchmark `execution-v1/validation-scaling/comparison.json` có3paired
+samples, luân phiên baseline/candidate, unmeasured warmup, input snapshots copy
+bất biến; `measure.py`/`compare.py` giữ recipe. Exact output SHA parity đạt cả
+6pairs ×4operations (restore, hai wrappers, một synthetic next-hour transition).
+Quarter synthetic-step median0,693→0,403s, giảm41,78%; annual-prefix
+2,947→1,098s, giảm62,73%. Annual-prefix restore1,447→0,562s, giảm61,19%.
+Đây là bounded history-validation measurement trên máy đang có4worker, không
+full annual benchmark/ETA hoặc quyền reuse cross-version. Chưa tăng timeout,
+restart hoặc thay source của current attempt.
+
+[Khung validation hiện có](../../research/STRATEGY-VALIDATION-FRAMEWORK-20261105.md#sàng-lọc-ứng-viên-tiềm-năng--đối-chiếu-primary-sources-0611)
+đã cập nhật primary-source delta: đọc được published Arnott/Harvey/Markowitz PDF
+(05/11 bị timeout); kiểm lại PBO/DSR/QuantConnect/FTMO, thêm Simonian/CFA2024.
+Khung đúng hướng nhưng chưa strategy-qualified:5prototype không là5edge độc lập,
+chưa clean OOS/risk-path/full prop; economic cost-screen không là chứng nhận.
+Thêm cách chọn bước kiểm theo hypothesis→correctness/cost→risk/robustness→prop→
+forward, benchmark không giao dịch, reject/inconclusive/next-review và giới hạn
+coarse triage. Không đổi tiêu chí frozen của annual run hoặc sinh skill/framework
+mới; skills hiện có đã route đúng và không cần duplication.
+
+Snapshot06:47:49VN:0/5complete, bốn reference18,04–18,77triệu tick, UTC-range
+queued; numerical attempt vẫn chạy. Bước tiếp: reconcile terminal/seals trước
+handoff; nếu timeout giữ attempt, chỉ reuse đúng binding. Khi áp source mới phải
+có source-bound execution registration và parity/review phù hợp; không nới hash
+hoặc giả resume giữa chừng để cứu progress. Kết quả annual vẫn chưa đủ để chốt.

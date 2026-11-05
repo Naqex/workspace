@@ -221,6 +221,81 @@ reset/equity boundary vẫn cần cho kết luận pass quỹ, không phải đi
 đọc cost-screen hiện tại. Chỉ mở dữ liệu mới sau protocol/scope đã pin; không
 gọi 2024/2025 là clean OOS chỉ vì không tìm thấy metadata cũ.
 
+### Sàng lọc ứng viên tiềm năng — đối chiếu primary sources 06/11
+
+Owner giao sửa bottleneck kiểm lịch sử và research lại cách sàng lọc. Hai việc
+khác nhau: bản sửa engine phải giữ kết quả và guards; research này làm rõ cách
+chọn bước tiếp, **không thay tiêu chí hoặc candidate của annual batch đang chạy**.
+
+**Kết luận:** khung G0–G6 đúng hướng cho nghiên cứu tái hiện được, nhưng project
+chưa đủ bằng chứng để gọi một strategy đã qua kiểm định lợi thế/prop. Đợt5bản
+trên EURUSD/H4 là một tập prototype nhỏ: Donchian/SMA/Pullback còn cùng họ trend,
+Z-score là reversal, UTC range là breakout theo giờUTC. Có5tên không có nghĩa
+đã khảo sát5nguồn lợi thế độc lập hoặc đã tìm trong toàn thị trường. Quy tắc
+rõ và có thể tự động hóa là lý do chọn thử; không phải bằng chứng chúng là5bản
+tốt nhất hoặc phù hợp nhất cho prop.
+
+#### Nguồn đã đối chiếu và delta so với05/11
+
+| Primary source kiểm06/11 | Nội dung áp dụng / giới hạn |
+|---|---|
+| [Arnott, Harvey, Markowitz: A Backtesting Protocol, published PDF, pp.68–73](https://people.duke.edu/~charvey/Research/Published_Papers/P138_A_backtesting_protocol.pdf) | Nay đã truy cập được full published copy, thay khoảng trống truy cập05/11. Protocol nhấn mạnh nền tảng trước outcome, giữ trials thất bại, chất lượng dữ liệu, chống sửa theo OOS, costs, đơn giản và văn hóa tìm sự thật. Cũng phải tránh loại nhầm nhiều ý tưởng tốt; không suy một năm lỗ là cả họ strategy vô dụng. Không tự nhận đây là chứng nhận project |
+| [Bailey et al.: PBO](https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf), [DSR](https://www.davidhbailey.com/dhbpapers/deflated-sharpe.pdf) | Kiểm lại selection/multiple trials và phụ thuộc giữa các phép thử. Chọn bản cao nhất từ một tập backtests có selection bias; cùng cost/horizon không thành mẫu độc lập. PBO/DSR chỉ dùng khi trial/return/dependence assumptions đủ; chưa tính một con số giả chính xác cho5prototype hiện tại |
+| [CFA Institute Research Foundation: Investment Model Validation, Joseph Simonian2024, ch.2–4,7–9](https://rpc.cfainstitute.org/sites/default/files/-/media/documents/article/rf-brief/investment-model-validation.pdf) | Backtest chỉ là một phần của validation; cần benchmark, risk, stress và kiểm cơ sở kinh tế/tài liệu. Tên search-result của PDF bị gán sai thành private equity; đã xác minh title/author từ chính PDF. Là chuyên khảo tác giả, không phải certification hoặc nghĩa vụ pháp lý của project |
+| [QuantConnect Research Guide](https://www.quantconnect.com/docs/v2/cloud-platform/backtesting/research-guide) | Xác nhận workflow hypothesis→test, tránh sửa rules để khớp dữ liệu và bảo vệ OOS. Các mốc số backtests/parameters/giờ trên trang là heuristic của platform; không copy thành universal pass/fail hoặc quota |
+| [FTMO Trading Objectives](https://ftmo.com/en/trading-objectives/) | Kiểm lại mục tiêu/loss/day theo2-Step và equity/reset. Xếp hạng lợi nhuận cuối mẫu chưa trả lời khả năng sống qua đường đi/phase. Không đổi terms snapshot hay tuyên bố account-certified từ trang công khai |
+
+Đây là synthesis cho case cá nhân Forex/prop; không có bằng chứng phải mua
+framework, thêm ML/LLM vào từng tín hiệu hoặc cài dịch vụ tracking mới.
+
+#### “Tiềm năng” nghĩa là đáng chi thêm một bước kiểm, chưa phải winner
+
+| Lát sàng lọc, nối vào G0–G6 | Câu hỏi quyết định | Hiện trạng / hành động nhỏ nhất |
+|---|---|---|
+| Ý tưởng và khả năng triển khai — G0 | Vì sao có thể có lợi thế, khi nào giả thuyết sai; code hóa và thực thi trong luật mục tiêu được không? | Có rules/candidate IDs; mức chuyển giao từ research ngoài sang EURUSD/H4 còn yếu. Giữ lý do và counterexample, không gắn nhãn proven từ paper khác thị trường |
+| Correctness và chi phí — G1/G2 | Kết quả có do lookahead, sai tiền, gap, phí thiếu hoặc sizing sai không? | Dùng causal/accounting/seal tests và reference/stress hiện có. Lỗi bằng chứng thì quarantine; negative cost-screen thì không promote bản đang thử. Không loại cả cơ chế từ một window |
+| Lợi nhuận đi kèm rủi ro — G2/G3 | Sau phí có hơn không giao dịch; mức lỗ, thời gian hồi phục, số cơ hội và lợi nhuận tập trung thế nào? | Đọc cash/equity/open-position/count/internal stops đã có; maxDD/underwater/concentration đầy đủ vẫn thiếu. Không gọi minimum equity là maxDD hoặc suy risk tốt từ PnL cuối dương |
+| Độ bền và sự chọn lọc — G3 | Có tái hiện qua các giai đoạn phù hợp, không chỉ nhờ tham số/window may mắn? | Đọc2023 như robustness, không OOS. Bài sau cần freeze windows/regimes, cost/delay/sensitivity và trial history trước outcome. Không bắt xanh mọi quý, không tối ưu hàng nghìn biến thể rồi chỉ giữ bản thắng |
+| Phù hợp mục tiêu vốn quỹ — G4 | Với cùng mức risk, có sống qua daily/overall loss, reset và đạt các phase trong3/6/12tháng không? | H4 chưa nối full lifecycle. Chỉ nối ứng viên còn đáng kiểm sau review; ghi not-reached/censored/unknown thay kéo dài quarterly return. The5ers cần program/account/permission riêng |
+| Tái hiện khi vận hành — G5/G6 | Strategy frozen có khớp signal→order→fill/cost/risk trên shadow/demo và có authority đúng không? | System demo trước đây không là strategy forward test. Chỉ mở bước này theo evidence/scope và gate execution hiện hành |
+
+Không chấm một điểm tổng hợp tùy ý để bù correctness/OOS thiếu bằng PnL cao.
+Được chấp nhận “chưa đủ bằng chứng”; tiền nghiên cứu/công sức tiếp theo dành
+cho phép kiểm có khả năng phân biệt giả thuyết, không dành cho bản có chart đẹp.
+
+#### Gói quyết định sau annual batch hiện tại
+
+Một bảng5ứng viên dùng số đã seal, kèm cho mỗi bản: candidate/version và họ,
+equity/cash/cost sensitivity, count/open exposure/internal risk stops, dữ liệu đã
+dùng và gaps, quyết định cùng lý do và bước nhỏ tiếp theo. So cả các windows đã
+có nhưng không cộng Q1/2023 vào cả năm như mẫu độc lập. Benchmark “không giao
+dịch” trong tài khoản mô phỏng không trả lãi là0PnL; nó chỉ là mốc cơ hội/risk,
+không là chiến lược có thể hoàn thành challenge.
+
+- Không đạt tiêu chí frozen của bài: không promote **version/window đó**; lưu
+  negative result. Giữ việc reject economic screen khác reject evidence do bug.
+- Dương cả hai costs: chỉ qua sàng lọc sơ bộ; kiểm sample/độ bền/risk/gaps trước
+  quyết định bỏ công validation. Không tự nâng sang demo hoặc mua challenge.
+- Mẫu yếu/coverage/metrics thiếu: inconclusive; ghi chính xác evidence cần thêm.
+- Không còn bản đáng kiểm: kết luận chưa tìm được strategy; đăng ký hypothesis
+  mới có lý do, thay vì nới ngưỡng, tăng lot hoặc chọn winner bằng mọi giá.
+
+Các tiêu chí robustness/uncertainty cụ thể của bài tiếp phải freeze **trước**
+outcome mới. Khảo sát neighborhood tham số là trial/sensitivity có đăng ký,
+không dùng holdout để tìm vùng đẹp. Cross-market chỉ thử khi cơ chế có lý do
+chuyển giao và dữ liệu/spec phù hợp, không ép mọi ý tưởng phải thắng mọi tài sản.
+Bootstrap/MonteCarlo phải giữ dependency và replay account/risk tương ứng;
+shuffle trades độc lập hoặc cộng trừ vài lệnh không tự là xác suất pass quỹ.
+
+#### Giảm chi phí sàng lọc mà giữ đúng kết luận
+
+Ưu tiên đọc/reuse artifacts, lọc khả năng thực thi và giả thuyết trước job đắt.
+Một coarse/bar-level screen trong tương lai phải có protocol riêng, nêu sai số
+fill/intrabar và cách xử lý ambiguous; chưa có implementation được chấp nhận.
+Nó chỉ giúp triage, không thay tick/cost/risk validation hoặc tự loại một bản
+vì mô hình xấp xỉ sai. Giữ fast screening và high-fidelity qualification có
+consumer/bằng chứng rõ; chưa rewrite batch hiện tại sang mô hình khác.
+
 ## Delta thời gian challenge — 05/11/2026
 
 [Time-fit research](PROP-FIRM-FIT-20261102.md#thời-gian-challenge-và-độ-phù-hợp-chiến-lược--kiểm-lại-05112026)

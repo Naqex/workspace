@@ -13,6 +13,13 @@ quyết định giữ/loại/inconclusive và nối đánh giá prop còn thiế
 nhánh GPU/Rust/benchmark nếu không có lỗi hoặc bottleneck chặn bước đó. Đây là
 hướng giữ trọng tâm đã được owner xác nhận; các quyền broker/holdout giữ riêng.
 
+Delta06/11 sau annual slowdown: bản sửa validation financing đã được kiểm và
+commit `86eade80` trong worktree tách biệt, **chưa áp vào source của batch đang chạy**.
+Receipt AI giữ benchmark/parity, worktree locator và cách tiếp tục an toàn. Khung
+[sàng lọc cập nhật](research/STRATEGY-VALIDATION-FRAMEWORK-20261105.md#sàng-lọc-ứng-viên-tiềm-năng--đối-chiếu-primary-sources-0611)
+giữ kết luận:5prototype EURUSD/H4 chưa là khảo sát toàn thị trường; screen phí
+chỉ chọn phép kiểm tiếp, chưa đóng OOS/risk/prop. Không sửa frozen tiêu chí batch.
+
 Trước mở window mới, đọc [audit consumption và protocol Q1/2023](research/PROP-HISTORICAL-ROBUSTNESS-20261105.md).
 Owner không nhớ đã xem2023–2024; nhãn hiện hành là historical robustness với
 prior exposure unverified, không clean OOS. Registration đã khóa5candidate,
