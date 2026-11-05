@@ -1,5 +1,29 @@
 # AI workspace — native Paperclip UI và prototype lịch sử
 
+## Ưu tiên chọn chiến lược — owner làm rõ 05/11/2026
+
+Mục tiêu chính là tiếp cận và duy trì quy mô tài khoản prop firm lớn hơn bằng
+chiến lược có lợi thế đã kiểm chứng, với rủi ro giao dịch và chi phí tham gia/
+thử lại được kiểm soát. Không tối đa hóa return hoặc tốc độ vượt challenge bằng
+cách tăng rủi ro. Forex/MT5, FTMO 2-Step Swing tiếp tục là hướng và chuẩn mô phỏng
+đã chọn; điều kiện hãng/loại tài khoản phải xác minh lại trước khi áp dụng.
+
+Sàng lọc theo thứ tự: quy tắc hãng và khả năng dùng bot → edge sau chi phí có
+bằng chứng ngoài mẫu → daily/overall equity drawdown, tail risk và khoảng đệm
+trước breach → khả năng vượt đánh giá và duy trì tài khoản/điều kiện nhận thưởng
+trên nhiều cửa sổ → phí tham gia/thử lại và thời gian → sở thích vận hành.
+Giữ riêng chất lượng edge và kết quả mô phỏng prop; không chọn chiến lược chỉ
+vì một đường giá may mắn vượt challenge. Quy mô danh nghĩa không là ngân sách
+chịu lỗ hoặc vốn owner sở hữu; không suy rằng tài khoản lớn tự làm rủi ro nhỏ.
+
+Owner có thể để máy chạy 24/7 trừ sự cố bất khả kháng; chưa giới hạn thời gian
+giữ lệnh, chọn theo bằng chứng và điều kiện tài khoản. Khả năng chịu chuỗi lỗ/
+profit giveback/ít giao dịch chưa xác định, sẽ quan sát trong demo. Đây là
+thông tin mới ưu tiên hơn các giả định hồ sơ cũ; không tự gán mức chịu lỗ hoặc
+risk budget. Khả năng bật máy không chứng minh uptime hoặc cấp quyền gửi lệnh.
+Khảo sát/đăng ký thí nghiệm tiếp theo phải bám các ưu tiên này; chưa mua challenge,
+thêm phí hoặc mở phiên execution từ việc xác nhận mục tiêu.
+
 ## Điều chỉnh 05/11/2026 — kiểm nhanh trước, quan sát dài theo nhu cầu
 
 Owner yêu cầu cách kiểm nhanh hơn thay vì chờ cả ngày. Thay phạm vi phiên bên
