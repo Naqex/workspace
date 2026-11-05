@@ -5462,3 +5462,77 @@ forward-test, không dispatch model chỉ để công nhận skill mới.
 Maintainer audit sau đổi: global12.279B, project10.133/65.536B,
 reserve55.403B, combined22.412B,21skills,**0errors/0warnings**. GlobalAGENTS,
 hooks, provider/account permissions và live runtime giữ nguyên. Diff check đạt.
+
+## 05/11/2026 — triển khai3cải tiến sau retrospective
+
+Owner giao tiếp sau review, đồng thời hỏi diễn giải đơn giản kết quả Q1.
+Scope thực thi lượt này: controller transition regressions, profile/optimization
+có số đo và reuse completed scenario. Không khởi lại fullQ1, không mở validation/
+holdout mới, không đổi chiến lược/sizing/fees để làm đẹp outcome.
+
+### Chất lượng và recovery
+
+- Mini-batch trên scheduler/ThreadPool hiện có với numerical worker stub kiểm
+  probe→parallel handoff, failure giữ completed job và cancel không dispatch
+  pending. Các Windows real-child/grandchild/crash ownership tests giữ nguyên.
+  Workspace focused suite: **11tests đạt**,1,548s; không gọi fixture này là
+  whole-product/broker hoặc model forward-test.
+- Trader **ac3c0572** thêm completed scenario seal sau final result/accounting.
+  `--reuse-scenarios-from <stopped-attempt>` luôn ghi output mới, pin toàn bộ
+  source bytes/inputs/quality/candidate/protocol/cost/spec/risk, kiểm hashes và
+  final snapshot/accounting rồi reuse. Batch config chuyển tiếp qua trường
+  `reuse_scenarios_from`. Missing seal/source active/tamper hoặc source/data/
+  costs drift bị từ chối, không âm thầm fallback thành full rerun.
+- Source attempt/run/manifest hash giữ trong manifest/certificate mới; raw
+  failed attempt không sửa. Bỏ unique run ID/timestamp/Git metadata khỏi
+  numerical binding nhưng giữ actual source-file hashes; commit docs-only
+  không tự là numerical change. Không suy equivalence khi source bytes khác.
+- Smoke tạoCSV riêng **generated fixture, không market research**: ngắt callback
+  thật lúc cost-stress đang bắt đầu, reference đã được seal. Attempt mới chỉ
+  tính stress;7result/checkpoint/decisions/candidate files khớp fresh run,
+  original failed files hashes giữ nguyên. `cli_resume_supported=false` vẫn
+  đúng cho resume giữa scenario; legacy/no-seal và cross-source-version không
+  tự được nhận. Case retry còn phải validation inputs/warmup, chưa cache phase đó.
+
+### Performance đã đo, scope giới hạn
+
+Private evidence: `.../prop-q1-comparison-20261105/engineering-profile-20261105/`.
+`profile_scenario.py` đọc200.000tick consumed prefix và warmup1.404.696tick,
+1entry/1closed, fixed diagnostic financing6,22/3,14; không claim matching full
+broker study terms. cProfile20,09s:600.162model_copy calls/~6,32s cumulative;
+timers lồng nhau, không cộng phần trăm của các row chồng nhau.
+
+Trader **0ef61d75** chỉ tránh copy frozen risk state khi min/stop history không
+đổi. Giữ mọi per-quote equity/min/daily/overall risk check, không thay Decimal
+money math hoặc ticks. Benchmark dùng original `_observe` AST từ saved source
+và candidate, cùng core/data/inputs/costs; không profiler,1warmup pair và3pairs
+đảo thứ tự, full-file SHAcheck mỗi sample, cùng I/O, progress callback no-op.
+Median **7,8122→6,7352s**, latency giảm **13,786%**, speedup1,1599× trên prefix;
+full result +checkpoint/decisions/candidate hashes khớp mọi pair. Chưa claim
+fullQ1/CLI speedup. Prefix giờ cuối có thể partial, không dùng làm outcome edge.
+
+Artifacts: scenario-baseline.prof/.txt, profile-binding.json,
+forex_pilot_risk.baseline.py, benchmark_guard.py, guard-benchmark.json/samples,
+scenario_reuse_smoke.py và scenario-reuse-smoke/recovery-proof.json.
+Raw baseline source SHA và normalized source SHA được ghi riêng để tránh
+nhầm Windows newline normalization; numeric measurements không bị sửa.
+
+### Verification và bước tiếp
+
+Product focused command từ foundation_v2:
+`.venv/Scripts/python.exe -m pytest -q tests/test_forex_scenario_reuse.py
+tests/test_forex_preflight.py tests/test_forex_h4.py tests/test_forex_pilot_risk.py
+tests/test_forex_financing.py tests/test_forex_pilot_entry.py
+tests/test_forex_prop_candidates.py tests/test_forex_h4_candidates.py`
+→ **66tests +63subtests đạt**,5,14s. Bao gồm resume-vs-fresh byte equality,
+price/source/cost drift, corrupt result/checkpoint, source active và unsealed
+checkpoint rejection trước simulation.3guide local links0errors; diffcheck đạt.
+Không retest core bất biến hoặc chạy thêm giờ/ngày chỉ để công nhận metadata.
+
+[Engineering review](../../research/ENGINEERING-REVIEW-Q1-20261105.md) và runner/
+workflow guide đã cập nhật. Các đề xuất khác vẫn proposed nếu không có receipt
+triển khai. Product source mới chỉ được chứng minh bởi focused regressions và
+bounded benchmark/smoke; Q1gốc vẫn sourcepin814e1135, không đổi thành run mới.
+Chiến lược bước tiếp: kiểm consumed map, đăng ký window validation khác rồi giữ
+nguyên rules khi chấm. Current pilot chỉ cho devwindows đã đăng ký; không tự
+gắn tên OOS cho dữ liệu đã xem hoặc chọn ngày rồi mở giá trước protocol.

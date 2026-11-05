@@ -59,6 +59,14 @@ locator từng hàng ở `progress.json` có thể trỏ về batch cũ; không 
 đè artifacts đó. Supervisor failure có source frames và terminal riêng; projection
 cũ còn `running` phải đối soát, không tự kết luận worker còn sống.
 
+Job config có thể đặt `reuse_scenarios_from` thành đường dẫn `replay` của attempt
+đã dừng để CLI kiểm và dùng lại scenario có completed seal. Output luôn mới;
+không tự retry failed job và không sửa raw attempt cũ. Thiếu seal hoặc mismatch
+là lỗi rõ ràng, không âm thầm tính lại toàn bộ. Đây là scenario-boundary reuse,
+chưa phải restore giữa simulation. Legacy outputs và source-version drift cần
+review riêng, không tự công nhận tương đương. Xem
+[contract runner](../../projects/trader/foundation_v2/docs/FOREX-RESEARCH.md#reuse-a-completed-scenario-after-interruption).
+
 ## Dossier từ artifact
 
 Status/log/failure conventions: [observability](OBSERVABILITY.md).

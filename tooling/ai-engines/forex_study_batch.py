@@ -85,6 +85,8 @@ def run_job(name, expected, directory, *, seconds, clock=time.monotonic):
         '--input-manifest', expected['input_manifest'], '--output-dir', str(replay),
         '--candidate', expected['candidate'], '--research-protocol', expected['protocol'],
         '--account-spec', expected['account_spec'], '--account-spec-sha256', expected['account_spec_sha256']]
+    if expected.get('reuse_scenarios_from'):
+        argv.extend(['--reuse-scenarios-from', expected['reuse_scenarios_from']])
     began = clock()
     terminal = dict(worker=name, status='failed', started_at_utc=datetime.now(timezone.utc).isoformat())
     owner = None

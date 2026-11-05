@@ -8,6 +8,7 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
+import threading
 import time
 import unittest
 from unittest.mock import patch, Mock
@@ -93,6 +94,62 @@ class OwnedProcessTests(unittest.TestCase):
 
 
 class ResultTests(unittest.TestCase):
+    def batch_fixture(self, root, names):
+        protocol = root/'protocol.md'
+        protocol.write_text('registered controller fixture')
+        inputs = dict(warmup={}, development={})
+        batch.save(root/'input.json', dict(schema='forex-h4-inputs-v1', **inputs))
+        expected = dict(input_manifest=str(root/'input.json'), inputs=inputs,
+            protocol=str(protocol), protocol_sha256=batch.digest(protocol))
+        config = root/'config.json'
+        batch.save(config, dict(jobs={name: dict(expected) for name in names}, development_ticks=100))
+        return ['--config', str(config), '--output-dir', str(root/'batch'), '--max-workers', '2']
+
+    def test_actual_queue_handoff_retains_success_when_another_job_fails(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            argv = self.batch_fixture(root, ('probe', 'good', 'bad'))
+            probe_finished = threading.Event()
+            simultaneous = threading.Barrier(2)
+            calls = []
+            def worker(name, expected, directory, **kwargs):
+                calls.append(name)
+                directory.mkdir()
+                if name == 'probe':
+                    probe_finished.set()
+                else:
+                    self.assertTrue(probe_finished.is_set())
+                    simultaneous.wait(timeout=3)
+                result = dict(worker=name, status='failed' if name == 'bad' else 'completed_verified',
+                              exit_code=1 if name == 'bad' else 0, elapsed_seconds=0.01)
+                batch.save(directory/'terminal.json', result)
+                return result
+            with patch.object(batch, 'run_job', side_effect=worker), redirect_stdout(io.StringIO()):
+                code = batch.main(argv)
+            final = batch.read(root/'batch/batch-terminal.json')
+            self.assertEqual(code, 1)
+            self.assertEqual(final['status'], 'incomplete')
+            self.assertEqual(final['completed_jobs'], 2)
+            self.assertCountEqual(calls, ['probe', 'good', 'bad'])
+            self.assertEqual(len(calls), 3)
+            self.assertEqual(batch.read(root/'batch/good/terminal.json')['status'], 'completed_verified')
+
+    def test_actual_queue_does_not_dispatch_pending_jobs_after_cancel(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            argv = self.batch_fixture(root, ('probe', 'pending'))
+            def worker(name, expected, directory, **kwargs):
+                directory.mkdir()
+                (directory.parent/'CANCEL').write_text('fixture owner cancel')
+                result = dict(worker=name, status='completed_verified', exit_code=0)
+                batch.save(directory/'terminal.json', result)
+                return result
+            with patch.object(batch, 'run_job', side_effect=worker) as run, redirect_stdout(io.StringIO()):
+                self.assertEqual(batch.main(argv), 1)
+            self.assertEqual(run.call_count, 1)
+            states = {r['worker']: r['status'] for r in batch.read(root/'batch/batch-terminal.json')['workers']}
+            self.assertEqual(states, dict(probe='completed_verified', pending='not_started_cancelled'))
+
     def test_progress_accepts_real_terminal_worker_identity(self):
         with tempfile.TemporaryDirectory() as folder:
             result = batch.progress(Path(folder), {'candidate': dict(worker='candidate',
@@ -119,10 +176,13 @@ class ResultTests(unittest.TestCase):
             owner.close.return_value = 7
             owner.process.pid = 123
             expected = dict(input_manifest=str(Path(folder)/'input.json'), candidate='registered',
-                protocol='registered.md', account_spec='spec.json', account_spec_sha256='a'*64)
-            with patch.object(batch, 'OwnedPython', return_value=owner), \
+                protocol='registered.md', account_spec='spec.json', account_spec_sha256='a'*64,
+                reuse_scenarios_from=str(Path(folder)/'old/replay'))
+            with patch.object(batch, 'OwnedPython', return_value=owner) as spawn, \
                  patch.object(batch, 'verified_result') as verify:
                 terminal = batch.run_job('candidate', expected, Path(folder)/'attempt', seconds=1)
+            worker_argv=spawn.call_args.args[0]
+            self.assertEqual(worker_argv[worker_argv.index('--reuse-scenarios-from')+1],expected['reuse_scenarios_from'])
             verify.assert_not_called()
             self.assertEqual(terminal['status'], 'failed')
             self.assertEqual(terminal['exit_code'], 7)

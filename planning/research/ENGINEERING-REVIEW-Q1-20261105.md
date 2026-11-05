@@ -109,3 +109,48 @@ Không thu số liệu doanh nghiệp/cộng đồng để xếp hạng tool, kh
 đổi stack, gọi provider/model mới hoặc đọc OOS trong review này. Đây là review
 source + actual retained run metadata; không phải audit toàn API/UI/DB/broker.
 Refresh khi dependency/runtime/worker contracts đổi hoặc có lượt comparable mới.
+
+## Lát triển khai sau review — 05/11
+
+Owner giao làm tiếp. Đã thêm mini-batch trên scheduler/ThreadPool thực với worker
+stub số học: probe→parallel handoff, một job fail giữ job khác đã xong, cancel
+không dispatch pending; process-tree ownership vẫn có tests Windows riêng.
+Không gọi test này là full broker/product acceptance hoặc research task mới.
+
+Profile có giới hạn200.000tick đầu của developmentQ1 đã consumed, commonwarmup
+1.404.696tick. Mẫu có1entry/1closed trade, fixed diagnostic financing6,22/3,14,
+không mặc định đó là full-study broker terms. Profiler20,09s: model_copy600.162
+calls/~6,32s cumulative; replay/cost/risk cũng có chi phí. Cumulative timers
+lồng nhau nên không cộng các dòng thành percentages độc lập. Giữ file.prof và
+source bindings; chưa profile mọi phase hoặc fullQ1 sau sửa.
+
+Sửa nhỏ `_PilotGuard._observe`: vẫn tính equity, min và xét daily/overall loss
+mỗi quote; chỉ copy frozen risk state khi min/stop history thật sự thay đổi.
+Không bỏ một tick/guard hoặc đổi sizing/SL/calendar/risk budget để lấy tốc độ.
+Benchmark không profiler, một warmup pair +3sample pairs đảo thứ tự,200.000tick,
+full-file SHAcheck và cùng checkpoint/report writes, callback progress no-op:
+median **7,812→6,735s**, latency giảm **13,79%**, speedup1,160×. Result và các
+checkpoint/decisions/candidate file hashes khớp từng pair. Đây là consumed-prefix
+benchmark (giờ cuối có thể partial), không là measured fullQ1/CLI speedup hoặc
+qualification của chiến lược. Không chạy lại fullQ1 chỉ để tạo con số nhanh hơn.
+
+Đã thêm `--reuse-scenarios-from` trong pilot và `reuse_scenarios_from` trong
+batch config. Completed seal sau result/accounting pin source/input/cost/spec/
+protocol/quality và artifact bytes. Source attempt phải dừng; kiểm final snapshot
+và accounting, giữ evidence gốc và provenance sang attempt mới. Metadata/code/
+cost/input drift, tamper, source active hoặc thiếu seal bị từ chối trước simulation.
+CLI vẫn không restore giữa scenario; full source hash còn conservative nên
+không auto reuse legacy/no-seal hoặc cross-version source changes.
+
+Smoke riêng bằng CSV **generated fixture**, không market research: ngắt thực
+callback ở cost-stress sau khi reference được seal; attempt mới chỉ tính stress.
+7files numeric/result/state/decisions/candidate khớp fresh uninterrupted run,
+raw failed attempt hashes không đổi. Numeric source khác sourcepin814e1135 của
+Q1 gốc nên chỉ dùng bounded equivalence/regressions làm acceptance cho lát này;
+không nói Q1 cũ vừa chạy trên code mới.
+
+Private artifacts nằm trong `engineering-profile-20261105/` dưới private Q1 root:
+`profile_scenario.py`, `scenario-baseline.prof/.txt`, `profile-binding.json`,
+`forex_pilot_risk.baseline.py`, `benchmark_guard.py`, `guard-benchmark.json`,
+samples, `scenario_reuse_smoke.py` và `scenario-reuse-smoke/recovery-proof.json`.
+Những đề xuất khác trong bảng review vẫn là đề xuất nếu không ghi triển khai ở đây.
