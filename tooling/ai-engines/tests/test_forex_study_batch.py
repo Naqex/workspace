@@ -204,6 +204,25 @@ class ResultTests(unittest.TestCase):
             states = {r['worker']: r['status'] for r in batch.read(root/'batch/batch-terminal.json')['workers']}
             self.assertEqual(states, dict(probe='completed_verified', pending='not_started_cancelled'))
 
+    def test_parallel_start_dispatches_two_before_either_completes_and_preserves_failure(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            argv = self.batch_fixture(root, ('good', 'bad')) + ['--parallel-start']
+            simultaneous = threading.Barrier(2)
+            def worker(name, expected, directory, **kwargs):
+                directory.mkdir()
+                simultaneous.wait(timeout=3)
+                result = dict(worker=name, status='failed' if name == 'bad' else 'completed_verified')
+                batch.save(directory/'terminal.json', result)
+                return result
+            with patch.object(batch, 'run_job', side_effect=worker), redirect_stdout(io.StringIO()):
+                self.assertEqual(batch.main(argv), 1)
+            final = batch.read(root/'batch/batch-terminal.json')
+            self.assertEqual(final['completed_jobs'], 1)
+            self.assertEqual(final['status'], 'incomplete')
+            self.assertTrue(batch.read(root/'batch/batch-manifest.json')['parallel_start'])
+            self.assertEqual(batch.read(root/'batch/good/terminal.json')['status'], 'completed_verified')
+
     def test_progress_accepts_real_terminal_worker_identity(self):
         with tempfile.TemporaryDirectory() as folder:
             result = batch.progress(Path(folder), {'candidate': dict(worker='candidate',
@@ -232,6 +251,7 @@ class ResultTests(unittest.TestCase):
             expected = dict(input_manifest=str(Path(folder)/'input.json'), candidate='registered',
                 protocol='registered.md', account_spec='spec.json', account_spec_sha256='a'*64,
                 study_registration='study.json',study_registration_sha256='b'*64,
+                inspection_cache_dir=str(Path(folder)/'prepared'),
                 reuse_scenarios_from=str(Path(folder)/'old/replay'))
             with patch.object(batch, 'OwnedPython', return_value=owner) as spawn, \
                  patch.object(batch, 'verified_result') as verify:
@@ -240,6 +260,7 @@ class ResultTests(unittest.TestCase):
             self.assertEqual(worker_argv[worker_argv.index('--reuse-scenarios-from')+1],expected['reuse_scenarios_from'])
             self.assertEqual(worker_argv[worker_argv.index('--study-registration')+1],expected['study_registration'])
             self.assertEqual(worker_argv[worker_argv.index('--study-registration-sha256')+1],expected['study_registration_sha256'])
+            self.assertEqual(worker_argv[worker_argv.index('--inspection-cache-dir')+1],expected['inspection_cache_dir'])
             verify.assert_not_called()
             self.assertEqual(terminal['status'], 'failed')
             self.assertEqual(terminal['exit_code'], 7)

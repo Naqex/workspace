@@ -5904,3 +5904,23 @@ Owner chưa chốt hạn hoàn thành cá nhân, chọn so sánh3/6/12tháng tr�
 rủi ro thấp, không ép tănglot. Đã cập nhật time-fit research/framework. Protocol
 tiếp phải khóa exact dates/calendar;90/180/365ngày là xấp xỉ đề xuất cũ, không
 đồng nhất tháng lịch. Chưa chạy mô phỏng hoặc xác lập tỷ lệ/thời gian pass.
+
+## 05/11/2026 — triển khai tăng tốc trước study tiếp
+
+Owner giao tiếp task tăng tốc. Trader60fac3ed memoize quote valuation đúng basis;
+3137f654 thêm prepared QDMquality/H4cache + CLI/runner opt-in. Workspace controller
+thêm parallel-start và cache-directory forwarding, giữ full worker checks và
+default full-candidate probe. Source/productworktree sạch sau hai commit; không
+restart live services hoặc MT5, không broker/model calls hoặc marketwindow mới.
+
+[Engineering review — implementation](../../research/ENGINEERING-REVIEW-Q1-20261105.md#triển-khai-tăng-tốc-có-giới-hạn--0511-owner-giao-tiếp-task)
+giữ benchmark/config/limits/private locators: quality cache hit22,471→0,200s trên
+1,4triệutick;200kfullreaderprefix8,331→8,044s;parsedreplay8,734→6,815s, outputs
+khớp. Không gọi112×inspectionhit hoặc1,282×kernel là fullstudyspeedup.106focused
+tests/46subtests đạt theo các nhóm được dẫn, không chạy lại tests bất biến chỉ
+để gom count. Benchmark processes đã kết thúc, không còn job nghiên cứu nền.
+
+Không sửa frozen study/registration hoặc biến kết quả cũ thành nguồn mới. Bài
+tiếp phải freeze exactsource/time-fit/options và prepare sharedinspections trước
+dispatch. Decodedtickcache/Rustkernel vẫn defer, chưa có measured need/prototype.
+Giữ ProductPlan/VI/evidence WIP và cumulative gitlink ngoài staged scope.

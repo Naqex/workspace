@@ -110,6 +110,8 @@ def run_job(name, expected, directory, *, seconds, clock=time.monotonic):
         '--account-spec', expected['account_spec'], '--account-spec-sha256', expected['account_spec_sha256']]
     if expected.get('reuse_scenarios_from'):
         argv.extend(['--reuse-scenarios-from', expected['reuse_scenarios_from']])
+    if expected.get('inspection_cache_dir'):
+        argv.extend(['--inspection-cache-dir', expected['inspection_cache_dir']])
     if expected.get('study_registration'):
         argv.extend(['--study-registration', expected['study_registration'],
                      '--study-registration-sha256', expected['study_registration_sha256']])
@@ -213,6 +215,8 @@ def main(argv=None):
     parser.add_argument('--deadline-seconds', type=int, default=5400)
     parser.add_argument('--reuse-from', type=Path, action='append', default=[],
                         help='Read and verify completed jobs from earlier batches; partial jobs are never resumed')
+    parser.add_argument('--parallel-start', action='store_true',
+                        help='Start up to max-workers immediately when the study protocol permits; full worker validation remains enabled')
     args = parser.parse_args(argv)
     if min(args.worker_seconds, args.deadline_seconds) <= 0:
         parser.error('deadlines must be positive')
@@ -234,6 +238,8 @@ def main(argv=None):
             runtime=runtime_binding(),
             worker_seconds=args.worker_seconds, deadline_seconds=args.deadline_seconds,
             reuse_from=[str(path.resolve()) for path in args.reuse_from])
+        if args.parallel_start:
+            manifest['parallel_start'] = True
         stored = args.output_dir/'batch-manifest.json'
         if stored.exists():
             if read(stored) != manifest:
@@ -274,9 +280,9 @@ def main(argv=None):
             if not reused:
                 pending.append(name)
         futures = {}
-        # First candidate measures the complete real journey alone; later jobs
-        # use the explicit bounded concurrency, without changing strategy rules.
-        probe_done = not pending or states[next(iter(jobs))]['status'] == 'reused_verified'
+        # Keep the original full-candidate probe unless the new study opts into
+        # parallel startup. Every worker still performs its full validation.
+        probe_done = args.parallel_start or not pending or states[next(iter(jobs))]['status'] == 'reused_verified'
         pool = ThreadPoolExecutor(max_workers=args.max_workers)
         try:
             while pending or futures:

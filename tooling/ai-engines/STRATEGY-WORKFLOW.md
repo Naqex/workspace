@@ -67,6 +67,17 @@ protocol cho phép deadline/concurrency trước chạy; các số trên là tr�
 đợt Q1 hiện tại, không phải ETA hoặc default nghiên cứu chung.
 
 Candidate đầu chạy một mình trước; sau khi kiểm kết quả mới mở đủ số slot.
+Đây là mặc định của các bài đã freeze, không phải yêu cầu phải lặp full probe
+cho mọi study tương lai. Bài mới có baseline phù hợp và protocol cho phép có
+thể dùng `--parallel-start`; option được pin trong batch manifest, từng worker
+vẫn full preflight/accounting. Không sửa option trong attempt đã có.
+Quality/H4 warmup có thể chuẩn bị một lần bằng
+`scripts/forex_prepare_inspections.py --input-manifest <pinned-inputs.json>
+--cache-dir <private-cache>` trong Trader foundation_v2. Job config thêm
+`inspection_cache_dir`; chuẩn bị xong trước dispatch. Reader vẫn hash raw bytes,
+kiểm source/runtime/window/checksum; missing/corrupt/drift fail rõ, không rebuild
+trong worker. Simulation vẫn đọc đủ ticks của từng scenario, không chia sẻ risk
+hoặc candidate state. [Chi tiết và recovery](../../projects/trader/foundation_v2/docs/FOREX-RESEARCH.md#shared-quality-and-h4-warmup-inspections).
 Supervisor dùng lại Windows JobObject của runtime với stdin gate, interpreter
 thật và import paths của venv: child không làm nghiên cứu trước khi thuộc job.
 Cancel/timeout/crash đóng cả cây; `CANCEL` trong batch-dir dừng việc chưa xong.

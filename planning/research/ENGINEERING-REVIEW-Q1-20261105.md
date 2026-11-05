@@ -202,3 +202,61 @@ tiền từ reference trades: phí/slippage có thể đổi fills/risk/trade pa
 thô có thể là study khác được đăng ký rõ, không thay final tick-level evidence.
 Mục tiêu thực tế là giảm thời gian workload mới và giữ reuse cho workload cũ;
 chưa có căn cứ hứa một quý đầy đủ chạy trong vài giây hoặc một hệ số tối đa.
+
+## Triển khai tăng tốc có giới hạn — 05/11, owner giao tiếp task
+
+Trader **60fac3ed** reuse floating valuation theo đúng Bid/Ask/side/quantity/
+original-quantity/entry prices trong một execution window. Costs/instrument cố
+định trong window; không cache risk decision, không bỏ tick hoặc đổi Decimal/
+rounding. Giữ lời/lỗ realized và cost breakdown theo đường cũ. Regression mới
+BUY/SELL có giá lặp, nhiều quote cùngms, breach rồi close đúng sequence.
+
+Trader **3137f654** thêm explicit prepared inspection cache, CLI chuẩn bị và
+opt-in pilot loader. Cache chỉ chứa quality/H4, không strategy state hoặc toàn
+tick đã decode. Key bind rawSHA/window/helper-reader-tick sources/runtime; mỗi
+hit hash lại raw input và kiểm payload checksum. Cache miss/corrupt/drift fail
+rõ, không âm thầm rebuild ở worker. Một preparer có lockPID, publish qua temp
+rename; orphan lock/temp sau crash cần đối soát trước xử lý. Manifest ghi cache
+locator/digest/helper source. Không biến checksum thành proof data authenticity.
+
+Workspace controller thêm `--parallel-start`, pin trong batch manifest và từ
+chối đổi binding trên attempt đã có. Default full-candidate probe giữ nguyên;
+study mới cho phép option có thể dispatch bounded jobs ngay, mỗi worker vẫn
+full preflight/accounting. Barrier test chứng minh hai job bắt đầu trước khi
+job nào xong và vẫn giữ output good khi job khác fail. Config job forward
+`inspection_cache_dir`; chuẩn bị xong trước parallel dispatch. Chưa đo end-to-end
+full-quarter batch với scheduler mới, không hứa53phút sẽ giảm còn một ETA cụ thể.
+
+### Số đo và độ đúng
+
+| Đo trên cùng inputs | Baseline median | Candidate median | Kết luận đúng scope |
+|---|---:|---:|---|
+|200.000tick consumed, gồm CSV parse/hash và scenario writes|8,331s|8,044s|Giảm3,44%;3sample pairs sau1warmup pair, có dao động I/O/load; chưa stable tail/fullQ1 gain|
+|Cùng200.000tick đã parse chung vào memory, replay/guards/writes|8,734s|6,815s|Giảm21,97%,1,282× ở kernel fixture; không gồm parse/quality và không là whole-study speedup|
+|Quality/H4 warmup12/2021,1.404.696tick, hit vẫn hash toàn raw|22,471s|0,200s|112,43× cho **inspection cache hit**; miss ban đầu22,662s, không là simulation speedup|
+
+Ba benchmark đều alternating3measured pairs sau1warmup pair. Hai valuation
+benchmarks khớp result cùng3artifact SHA từng lượt. Quality và DecimalH4bars
+khớp hoàn toàn ở mọi cached/fresh pair. Các benchmark riêng không chạy đồng
+thời với nhau; không suy hệ số kết hợp bằng cách nhân các dòng. Prefix chỉ có
+1entry/1closed trade, financing diagnostic cố định; không chứng minh mọi strategy/
+regime/cost hoặc fullQ1 mới. Cache miss/setup cần tính khi đánh giá bài mới.
+
+Private artifacts:
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/prop-q1-comparison-20261105/engineering-valuation-cache-20261105/`
+giữ baseline source, paired scripts/samples/benchmarkJSON, outputs; `parsed-kernel/`
+giữ replay-only comparison và `inspection/` giữ cache/quality comparison.
+Không đọc window mới, không numerical full-quarter rerun hoặc model/broker calls.
+
+Focused verification:69tests/34subtests cho tick execution/service, pilot risk/
+entry/financing;12tests/12subtests cho scenario reuse/registration;10tests cho
+inspection/cache/preflight/CLI;15controller tests. Tổng106tests/46subtests trong
+scope, không full-product/broker acceptance. Cache tests gồm exact restore, raw
+change, checksum corruption, runtime/window/source drift, writer lock, invalid
+input không publish, CLI hai roles, runner provenance và no simulation preflight.
+Controller giữ cancel/timeout/Windows lock/reuse checks; không nới gates để lấy tốc độ.
+
+Lát này hoàn tất source+focused parity/benchmark. Decoded-tick sharing/nativeRust
+kernel vẫn chưa triển khai; hoãn tới khi bài tiếp thực sự cần và có representative
+profile. Study frozen/source pins cũ không sửa; protocol mới phải bind source/
+options hiện hành và time-fit3/6/12tháng trước mở dữ liệu chưa dùng.
