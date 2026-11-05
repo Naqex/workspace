@@ -5968,3 +5968,12 @@ groups72tests/42subtests đạt; không broker/model/holdout.
 Chi tiết và bảng xếp hạng: [engineering review](../../research/ENGINEERING-REVIEW-Q1-20261105.md#nút-thắt-tổng-thể-và-lát-tích-hợp--0511).
 Bài tiếp bật preparation trên study mới, collect wall/CPU thật, rồi chuyển
 lifecycle challenge3/6/12tháng; không tiếp tục micro-optimize vô hạn.
+
+## 05/11/2026 — fast valuation path trong replay core
+
+Profile cho thấy floating checks tạo full cost breakdown lặp. Trader thêm net
+valuation helper đã validate; close/event vẫn full accounting. BUY/SELL/partial/
+rounding parity đạt; core suite **96 tests/52 subtests**. Chưa gán speedup full
+study vì paired harness sau thay đổi chưa tạo được A/B result đáng tin; đo lại
+trên batch chính thức ở study mới. Không đổi risk semantics, cost breakdown,
+ledger, broker/holdout hoặc quyền execution.

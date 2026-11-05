@@ -372,3 +372,19 @@ phải Parquet I/O. Giữ prepared cache như tính năng vận hành; chưa rew
 thêm GPU/cluster hay tăng worker mù. Chạy study mới với `--prepare-inputs
 --parallel-start`, lấy số đo full batch thật, rồi mới cân nhắc Rust. Ưu tiên kế
 tiếp vẫn là challenge lifecycle/time-fit3/6/12tháng.
+
+## Lõi valuation sau yêu cầu tối ưu thêm — 05/11
+
+Profile cho thấy floating gọi `_liquidation_pnl`/`calculate_round_trip_cost`
+và dựng cost dictionary nhiều lần dù floating risk check chỉ cần net P/L. Trader
+đã thêm `_liquidation_net_account` và dùng nó riêng cho floating path. Hàm nhận
+InstrumentSpec/CostModel đã validate, giữ Decimal/rounding/partial quantity,
+spread Bid/Ask, commission, slippage và financing; protective close vẫn gọi
+`_liquidation_pnl` đầy đủ để không đổi event breakdown/accounting.
+
+Parity tests cover BUY/SELL, partial positions, fee minimum và rounding; core
+suite mới nhất **96 passed,52 subtests**. Chưa gán speedup full study: paired
+scenario harness sau thay đổi chưa tạo được A/B result đáng tin, nên không báo
+phần trăm từ microbenchmark. Giữ fast path vì parity/code scope rõ, đo lại bằng
+runner batch chính thức ở study mới. Nếu còn nút thắt, Rust kernel chỉ xét sau
+full-batch profile và golden artifact parity.
