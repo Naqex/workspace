@@ -73,3 +73,19 @@ artifact và trạng thái thật; CLIresume chưa có nên không giả đã ph
 Ghi counts/openposition/netbalance/equity và qualificationgaps; nhiều scenario
 hoặc window chồng nhau không làm trial count reset. Recipe tiếp theo vẫn là
 freeze/audit trước OOS, và bổ sung coverage/cost evidence trước propqualification.
+
+### Đợt tiếp sau dừng hiệu năng — đăng ký trước outcome
+
+Owner duyệt hoàn thiện runner và chạy hết Q1. Attempt1 giữ nguyên trạng thái
+dừng sớm, không resume từ partial checkpoint. Attempt2 dùng parser đã kiểm
+output-equivalence và supervisor JobObject có stdin gate; candidate đầu chạy
+một mình để đo trọn journey, sau đó tối đa3worker số học song song trên máy
+6core. Không có model calls. Job hoàn tất chỉ được reuse sau kiểm dossier,
+source/input/protocol/account-cost binding; job lỗi không retry tự động.
+
+Thay deadline20phút chung đã chứng minh không đủ bằng hard ceiling30phút/job
+và90phút/batch; đây là trần an toàn, không phải ETA. Bản tin5giây, một writer,
+terminal phân biệt verified-completed/nonzero/invalid-artifact/cancel/timeout.
+Giữ kết quả job đã xong khi job khác lỗi. Không đổi tín hiệu, sizing, chi phí,
+dữ liệu, tiêu chí qualification hoặc đếm thử nghiệm lại; vẫn development đã
+consumed. Không mở OOS/holdout, broker hoặc suy lợi nhuận từ runtime pass.

@@ -32,6 +32,28 @@ nên phải ghi consumption. Output chỉ manifest/quality/receipt, không resul
 Run thật dùng output khác; không lặp preflight bên ngoài khi runner đã thực hiện
 cùng checks và inputs không đổi. Không sửa hash để ép input đạt.
 
+### Batch development hữu hạn trên Windows
+
+`forex_study_batch.py --config <registered-config.json> --output-dir <batch-dir>
+--max-workers 3 --worker-seconds 1800 --deadline-seconds 5400` chạy bằng Python
+venv Trader đã có. Config giữ từng candidate/input manifest/protocol/hash/spec
+và tick count đã đăng ký, không nhận command/provider/broker tùy ý. Đọc lại
+protocol cho phép deadline/concurrency trước chạy; các số trên là trần của
+đợt Q1 hiện tại, không phải ETA hoặc default nghiên cứu chung.
+
+Candidate đầu chạy một mình trước; sau khi kiểm kết quả mới mở đủ số slot.
+Supervisor dùng lại Windows JobObject của runtime với stdin gate, interpreter
+thật và import paths của venv: child không làm nghiên cứu trước khi thuộc job.
+Cancel/timeout/crash đóng cả cây; `CANCEL` trong batch-dir dừng việc chưa xong.
+Không cần terminal MT5, Paperclip service hoặc model cho batch offline này.
+
+`progress.json`/`PROGRESS.md` cập nhật5giây từ worker receipt và terminal riêng.
+Exit0 chỉ được `completed_verified` sau dossier/accounting/bindings check.
+Chạy lại đúng config/output sẽ kiểm và reuse **job đã hoàn tất**, không chạy lại
+chúng. Job chưa xong/lỗi cần attempt mới có chủ đích; giữ thư mục cũ, không tự
+retry/overwrite hoặc gọi đây là resume giữa mô phỏng. Lock còn sau crash phải
+đối soát process và artifacts trước xử lý, không tự xóa để chạy đè.
+
 ## Dossier từ artifact
 
 Status/log/failure conventions: [observability](OBSERVABILITY.md).

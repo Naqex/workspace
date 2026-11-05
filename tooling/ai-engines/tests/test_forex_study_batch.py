@@ -1,0 +1,161 @@
+import ctypes
+from ctypes import wintypes
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+import tempfile
+import time
+import unittest
+from unittest.mock import patch, Mock
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import forex_study_batch as batch
+
+
+def await_file(path):
+    end = time.monotonic()+10
+    while not path.exists():
+        if time.monotonic() > end:
+            raise TimeoutError('test worker did not start')
+        time.sleep(0.05)
+    return batch.read(path)
+
+
+@unittest.skipUnless(os.name == 'nt', 'Windows process ownership contract')
+class OwnedProcessTests(unittest.TestCase):
+    def test_supervisor_crash_also_stops_owned_worker(self):
+        kernel = ctypes.WinDLL('kernel32', use_last_error=True)
+        kernel.OpenProcess.argtypes = [wintypes.DWORD, wintypes.BOOL, wintypes.DWORD]
+        kernel.OpenProcess.restype = wintypes.HANDLE
+        kernel.WaitForSingleObject.argtypes = [wintypes.HANDLE, wintypes.DWORD]
+        kernel.CloseHandle.argtypes = [wintypes.HANDLE]
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            script = root/'child.py'
+            script.write_text('import os,sys,time\nfrom pathlib import Path\n'
+                              'Path(sys.argv[1]).write_text(str(os.getpid()))\ntime.sleep(60)\n')
+            source = ('import sys,time; from pathlib import Path; '
+                      f'sys.path[:]={sys.path!r}; from forex_study_batch import OwnedPython; '
+                      f'owner=OwnedPython({[str(script), str(root/"pid.json")]!r}, '
+                      'stdout=sys.stdout,stderr=sys.stderr); time.sleep(60)')
+            with (root/'out.log').open('w') as out, (root/'err.log').open('w') as err:
+                parent = subprocess.Popen([sys._base_executable, '-c', source], stdout=out, stderr=err,
+                                          creationflags=subprocess.CREATE_NO_WINDOW)
+                handle = None
+                try:
+                    pid = await_file(root/'pid.json')
+                    handle = kernel.OpenProcess(0x100000, False, pid)
+                    self.assertTrue(handle)
+                    parent.terminate()
+                    parent.wait(timeout=5)
+                    self.assertEqual(kernel.WaitForSingleObject(handle, 5000), 0)
+                finally:
+                    if parent.poll() is None:
+                        parent.terminate()
+                    parent.wait(timeout=5)
+                    if handle:
+                        kernel.CloseHandle(handle)
+
+    def test_closing_owner_kills_worker_and_spawned_grandchild(self):
+        kernel = ctypes.WinDLL('kernel32', use_last_error=True)
+        kernel.OpenProcess.argtypes = [wintypes.DWORD, wintypes.BOOL, wintypes.DWORD]
+        kernel.OpenProcess.restype = wintypes.HANDLE
+        kernel.WaitForSingleObject.argtypes = [wintypes.HANDLE, wintypes.DWORD]
+        kernel.CloseHandle.argtypes = [wintypes.HANDLE]
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            script = root/'child.py'
+            script.write_text("import json,subprocess,sys,time,os\nfrom pathlib import Path\nimport pydantic\n"
+                "child=subprocess.Popen([sys.executable,'-c','import time; time.sleep(60)'])\n"
+                "Path(sys.argv[1]).write_text(json.dumps(dict(pid=os.getpid(),child=child.pid)))\n"
+                "time.sleep(60)\n", encoding='utf-8')
+            with (root/'out.log').open('w') as out, (root/'err.log').open('w') as err:
+                owner = batch.OwnedPython([script, root/'ready.json'], stdout=out, stderr=err)
+                handles = []
+                try:
+                    identity = await_file(root/'ready.json')
+                    self.assertEqual(identity['pid'], owner.process.pid)
+                    for pid in (identity['pid'], identity['child']):
+                        handle = kernel.OpenProcess(0x100000, False, pid)
+                        self.assertTrue(handle)
+                        handles.append(handle)
+                    owner.close()
+                    for handle in handles:
+                        self.assertEqual(kernel.WaitForSingleObject(handle, 5000), 0)
+                finally:
+                    owner.close()
+                    for handle in handles:
+                        kernel.CloseHandle(handle)
+
+
+class ResultTests(unittest.TestCase):
+    def test_nonzero_worker_never_becomes_success_and_skips_result_verification(self):
+        with tempfile.TemporaryDirectory() as folder:
+            owner = Mock()
+            owner.process.poll.return_value = 7
+            owner.close.return_value = 7
+            owner.process.pid = 123
+            expected = dict(input_manifest=str(Path(folder)/'input.json'), candidate='registered',
+                protocol='registered.md', account_spec='spec.json', account_spec_sha256='a'*64)
+            with patch.object(batch, 'OwnedPython', return_value=owner), \
+                 patch.object(batch, 'verified_result') as verify:
+                terminal = batch.run_job('candidate', expected, Path(folder)/'attempt', seconds=1)
+            verify.assert_not_called()
+            self.assertEqual(terminal['status'], 'failed')
+            self.assertEqual(terminal['exit_code'], 7)
+
+    def test_timeout_closes_job_and_does_not_report_completion(self):
+        with tempfile.TemporaryDirectory() as folder:
+            owner = Mock()
+            owner.process.poll.return_value = None
+            owner.close.return_value = 1
+            owner.process.pid = 123
+            expected = dict(input_manifest=str(Path(folder)/'input.json'), candidate='registered',
+                protocol='registered.md', account_spec='spec.json', account_spec_sha256='a'*64)
+            clock = iter([0, 2, 2])
+            with patch.object(batch, 'OwnedPython', return_value=owner), \
+                 patch.object(batch, 'verified_result') as verify:
+                terminal = batch.run_job('candidate', expected, Path(folder)/'attempt',
+                                         seconds=1, clock=lambda: next(clock))
+            verify.assert_not_called()
+            self.assertEqual(terminal['status'], 'timed_out')
+            self.assertTrue(owner.close.called)
+
+    def test_exit_zero_with_invalid_artifacts_stays_failed(self):
+        with tempfile.TemporaryDirectory() as folder:
+            owner = Mock()
+            owner.process.poll.return_value = 0
+            owner.close.return_value = 0
+            owner.process.pid = 123
+            expected = dict(input_manifest=str(Path(folder)/'input.json'), candidate='registered',
+                protocol='registered.md', account_spec='spec.json', account_spec_sha256='a'*64)
+            with patch.object(batch, 'OwnedPython', return_value=owner), \
+                 patch.object(batch, 'verified_result', side_effect=ValueError('incomplete evidence')):
+                terminal = batch.run_job('candidate', expected, Path(folder)/'attempt', seconds=1)
+            self.assertEqual(terminal['status'], 'failed')
+
+    def test_completed_job_is_reused_without_dispatching_a_worker(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            protocol = root/'protocol.md'
+            protocol.write_text('registered protocol')
+            inputs = dict(warmup={}, development={})
+            batch.save(root/'input.json', dict(schema='forex-h4-inputs-v1', **inputs))
+            expected = dict(input_manifest=str(root/'input.json'), inputs=inputs,
+                protocol=str(protocol), protocol_sha256=batch.digest(protocol))
+            config = dict(jobs={'candidate': expected}, development_ticks=100)
+            batch.save(root/'config.json', config)
+            directory = root/'batch'
+            (directory/'candidate').mkdir(parents=True)
+            batch.save(directory/'candidate/terminal.json', dict(status='completed_verified'))
+            with patch.object(batch, 'verified_result') as verify, patch.object(batch, 'run_job') as run:
+                self.assertEqual(batch.main(['--config', str(root/'config.json'), '--output-dir', str(directory)]), 0)
+            verify.assert_called_once()
+            run.assert_not_called()
+            self.assertEqual(batch.read(directory/'batch-terminal.json')['status'], 'completed_verified')
+
+
+if __name__ == '__main__':
+    unittest.main()
