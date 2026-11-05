@@ -17,7 +17,8 @@ UTC range mới qua cost-screen, chưa chứng minh prop/time-fit; diagnostic le
 chỉ hậu kiểm, full challenge lifecycle chưa được evaluator hiện có hỗ trợ.
 
 Lát performance kế tiếp đã có valuation reuse, opt-in prepared quality/H4 cache
-và parallel-start. Đọc [số đo/giới hạn](research/ENGINEERING-REVIEW-Q1-20261105.md#triển-khai-tăng-tốc-có-giới-hạn--0511-owner-giao-tiếp-task)
+và parallel-start; delta mới nhất giảm parser/counter copies. Đọc
+[số đo/giới hạn](research/ENGINEERING-REVIEW-Q1-20261105.md#tối-ưu-tiếp-parser-và-risk-counters--0511)
 và workflow trước cấu hình study mới; không lặp fullQ1 để đọc lại report hoặc
 sửa frozen protocol cũ để nhận nguồn/options mới. Full challenge lifecycle vẫn
 là gap khác với tốc độ; decoded-tick cache/Rust chưa triển khai.

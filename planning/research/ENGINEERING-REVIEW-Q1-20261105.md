@@ -260,3 +260,68 @@ Lát này hoàn tất source+focused parity/benchmark. Decoded-tick sharing/nati
 kernel vẫn chưa triển khai; hoãn tới khi bài tiếp thực sự cần và có representative
 profile. Study frozen/source pins cũ không sửa; protocol mới phải bind source/
 options hiện hành và time-fit3/6/12tháng trước mở dữ liệu chưa dùng.
+
+## Tối ưu tiếp parser và risk counters — 05/11
+
+Owner giao tối ưu thêm và cập nhật bảng thời gian. Trader **d8e5199d** đổi hai
+hotspots, không thêm package/native kernel/service hoặc mở dữ liệu mới:
+
+- CSV reader dùng fixed header/index thay dictionary từng row. Cache duy nhất
+  UTC epoch của giây gần nhất, vẫn kiểm grammar/date/milliseconds/order/grid và
+  quote model mỗi record. Giữ blank-line ordinal, BOM/CRLF, quoted fields, legacy
+  accepted timestamp grammar và Decimal text/precision; không sort/dedup/downsample.
+- `_PilotGuard` giữ last-tick/count trong instance riêng của atomic window,
+  check ordering theo quote gần nhất và kiểm risk mỗi tick như cũ. Chỉ ghi hai
+  field đó vào immutable checkpoint sau khi toàn window hợp lệ; risk latch/min/
+  entry/exit quyết định ngay trong loop. Invalid final quote không publish partial
+  counters; snapshot schema/recovery boundary và financing semantics giữ nguyên.
+
+Private evidence:
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/prop-q1-comparison-20261105/engineering-parser-20261105/`.
+Baseline source, `benchmark_parser.py`, `benchmark.json`, `progress.json` giữ
+parser comparison; `combined/` giữ paired scenario với cả old-parser/old-guard
+và new-parser/new-guard; `planning-estimate.json` giữ công thức/assumptions của ETA.
+Các benchmark hữu hạn có PID/status/sample log, chạy lần lượt; đều đã kết thúc.
+
+| Đo thực tế trên cùng consumed inputs | Trước | Sau | Kết luận |
+|---|---:|---:|---|
+| Parser500.000tick, gồm full rawSHA mỗi sample |7,045s|6,365s|Giảm9,65%; kiểm riêng500kquote khớp time/sequence/Decimal text hoàn toàn |
+| Parser riêng trong scenario200k, risk engine cùng bản |10,338s|9,267s|Giảm10,36% trong benchmark riêng, không so absolute time với lượt khác |
+| Cả parser+counters, scenario200k |7,007s|5,617s|Giảm19,84%,1,247×; CPU median6,219→4,953s; output/result và3artifact hashes khớp mọi pair |
+
+Mỗi comparison có1warmup pair và3measured pairs đảo thứ tự, concurrency1;
+scenario giữ CSV/hash/checkpoint writes và common warmup đã kiểm. Prefix có
+1entry/1closed trade, fixed diagnostic financing, không representative toàn
+candidate/regime/quý. Chạy benchmark parser riêng xong mới đổi risk code, rồi
+chạy combined; không trộn source giữa các sample. Baseline/current source hashes
+trong report khớp file đã dùng. Không nhân các hệ số riêng để claim tổng speedup.
+
+Focused verification mới:50tests/58subtests cho parser/runner/risk/entry/financing/
+scenario reuse;31tests/15subtests cho forward/restart/CLI/preflight/registration/
+inspection cache. Tổng81tests/73subtests của hai nhóm không trùng, không cộng
+19parser/cache tests đã chạy trước đó vào count. Không lặp toàn product suite
+hoặc fullQ1. Cache cũ bind reader-source trước thay đổi phải prepare entry mới;
+không sửa checksum/registration/source pins để ép reuse qua source drift.
+
+### Bảng thời gian kế hoạch cập nhật
+
+| Cấu hình5candidate×2costs, workloadQ1 tương đương | Thời gian | Mức bằng chứng |
+|---|---:|---|
+| Cũ: full probe riêng rồi4worker |≈53phút|Tổng phase durations cũ, chưa overhead/sự cố/rework |
+| Đợt tối ưu trước, chưa có inspection cache |30–40phút|Ước tính cũ, nay thay bằng khoảng dưới |
+| Hiện tại: chuẩn bị cache mới rồi parallel-start |25–35phút|Ước tính, chưa chạy full batch |
+| Hiện tại: inspection cache đúng source đã sẵn, parallel-start |20–30phút|Ước tính, chưa chạy full batch |
+
+Cơ sở estimate: khoảng warm-cache25–35phút đã nêu trước ×0,8016 từ bounded
+combined comparison =20,0–28,1phút, làm tròn20–30 với margin; cold-cache thêm
+preparation/host-load margin thành25–35. Đây là **estimate dựa trên estimate**,
+không performance forecast đã hiệu chỉnh hoặc acceptance fullQ1. Cold setup
+phải tính riêng và exact new-study source/options phải được đăng ký. Cùng máy,
+data volume/concurrency tương đương, không sự cố/rework; CPU/disk load, trade
+path và workload dài có thể làm ngoài khoảng. So với mốc53, hai khoảng tương
+ứng giảm khoảng34–53%/43–62%, đều là ước tính.
+
+Dừng lát tối ưu này sau measured gain/parity. Decoded columnar tick sharing và
+Rust/GPU/cluster chưa triển khai; chỉ xét khi bài mới có measured bottleneck
+đáng maintenance. Không chạy lại một quý chỉ để tạo ETA hoặc trì hoãn phần
+challenge lifecycle3/6/12tháng vì tiếp tục micro-optimize.

@@ -5924,3 +5924,25 @@ Không sửa frozen study/registration hoặc biến kết quả cũ thành ngu�
 tiếp phải freeze exactsource/time-fit/options và prepare sharedinspections trước
 dispatch. Decodedtickcache/Rustkernel vẫn defer, chưa có measured need/prototype.
 Giữ ProductPlan/VI/evidence WIP và cumulative gitlink ngoài staged scope.
+
+## 05/11/2026 — tăng tốc parser và risk checkpoint, cập nhật ETA
+
+Owner yêu cầu tối ưu tiếp và báo lại bảng thời gian. Traderd8e5199d giảm CSVdict/
+UTCparse lặp và statecopy của lasttick/count; giữ per-tick validation/risk, atomic
+window, schema/rounding/financing và snapshot recovery semantics.81focusedtests/
+73subtests đạt, gồm invalid-last-quote atomicity, same-ms/order, midnight, forward/
+restart/CLI và cache/registration. Chưa runtime broker hoặc whole-product acceptance.
+
+[Engineering review delta](../../research/ENGINEERING-REVIEW-Q1-20261105.md#tối-ưu-tiếp-parser-và-risk-counters--0511)
+giữ source/commands/private locators. Exact500ktick parity đạt; parsermedian
+7,045→6,365s; pairedcombinedscenario200k7,007→5,617s, giảm19,84%,3artifact hashes
+và result khớp mỗi pair. Có1warmup+3measured pairs; không cộng/multiplyspeedups
+từ benchmark khác hoặc gọi đây là fullQ1. Không còn benchmark/numerical job nền.
+
+Bảng kế hoạch mới: coldinspectioncache25–35phút, validpreparedcache20–30phút,
+so mốc53phút tính từphase cũ; **đều chưa đo fullbatch mới**, derived từ estimate
+trước×bounded ratio+margin. `planning-estimate.json` private giữ assumptions.
+Reader-source đổi làm cache cũ miss đúng thiết kế; prepare entry mới trước study
+đăng ký, không nới source/frozen protocol để reuse. Không thêm dependency/service,
+broker/model calls hoặc mở marketwindow mới; cumulativegitlink/ProductPlan/VI/
+evidenceWIP ngoài commit phạm vi. Bước sau vẫn lifecycle/time-fit, không tự promote.
