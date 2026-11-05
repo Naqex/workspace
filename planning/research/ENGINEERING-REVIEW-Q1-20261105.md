@@ -388,3 +388,28 @@ scenario harness sau thay đổi chưa tạo được A/B result đáng tin, nê
 phần trăm từ microbenchmark. Giữ fast path vì parity/code scope rõ, đo lại bằng
 runner batch chính thức ở study mới. Nếu còn nút thắt, Rust kernel chỉ xét sau
 full-batch profile và golden artifact parity.
+
+### Đối chiếu research cộng đồng/agent — 05/11
+
+Các nguồn được dùng để quyết định lát này:
+
+- [GlowBack](https://github.com/LatencyTDH/GlowBack): Rust engine, Python bindings,
+  event-driven simulation và Arrow/Parquet storage. Đây là kiến trúc tham khảo,
+  không phải lý do tự thay Trader.
+- [Bullet](https://github.com/No-Trade-No-Life/Bullet): deterministic event-driven
+  Rust research/execution với Parquet runner. Củng cố hướng tách data layer/kernel
+  sau khi có parity, không chứng minh mọi workload của mình hợp bar/vector.
+- [Reddit: vectorized vs event-driven](https://www.reddit.com/r/algotrading/comments/1x8tw1t/eventdriven_vs_vectorized_backtesting_which/)
+  và [forward parity](https://www.reddit.com/r/algotrading/comments/1q6vyxr/vectorized_vs_event_driven_backtesting/): cộng đồng thường dùng
+  vectorized cho screening, event-driven làm nguồn sự thật vì path-dependence,
+  stop/fill order và lookahead. Đây là kinh nghiệm cộng đồng, không phải proof
+  hiệu suất hay chuẩn compliance.
+- [OpenAI Codex performance guidance](https://cdn.openai.com/pdf/6a2631dc-783e-479b-b1a4-af0cfbd38630/how-openai-uses-codex.pdf): dùng profile,
+  benchmark và kiểm reliability khi tối ưu; áp dụng như quy trình, không coi
+  Codex/model identity là nguyên nhân tạo speedup.
+
+Quyết định áp dụng: giữ event-driven tick replay làm oracle; chuẩn hóa input bằng
+Parquet có hash; tối ưu hot loop nhỏ với golden parity; chỉ làm Rust kernel khi
+full-batch profile cho thấy lợi ích đủ lớn. Không vectorize path-dependent fill/risk
+để thay oracle, không tin throughput từ repo khác, và không dùng agent tự đánh giá
+“nhanh hơn” khi chưa có cùng fixture/output.
