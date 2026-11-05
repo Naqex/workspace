@@ -54,3 +54,22 @@ Sau correctness/integration, mở rộng development theo protocol đã đăng k
 cần, rồi freeze và audit consumed/coverage trước validation/holdout. Không chọn
 winner hoặc mua challenge từ lượt ngắn này. Rules/account approvalThe5ers phải
 kiểm riêng; không dùng FTMO cost/risk rồi gắn nhãn The5ersverified.
+
+## Mở rộng development Q1 — đăng ký trước outcome mới05/11
+
+Owner giao tiếp vận hành/nghiên cứu song song. Mở rộng cùng candidate/cost/risk
+sang03/01–31/03/2022 với commonwarmup01–31/12/2021; inputmanifestQ1 đã có,
+toàn bộwindow đã consumed bởi baseline trước. Không gọi là OOS hoặc mẫu độc
+lập với hai tuần. Không đổi threshold/giờ/exit để sửa kết quả âm/dương vừa thấy.
+
+Cùng batch so5candidate (Donchian/SMA/zscore/pullback/UTCrange), mỗi candidate
+reference +stress, input/output riêng và sourcepinchung. C01 cần chạy với
+commonwarmup mới để so đồng điều kiện, không coi là bằng chứng độc lập mới.
+Mục tiêu tăng sample development và xem cost/risk/exposure, chưa tối ưu/hứa pass.
+Controller finite có deadline20phút, log/progress5giây, không retry tự động hoặc
+overwrite attempt. Model/broker/validation/holdoutcalls0. Nếu lỗi/timeout, giữ
+artifact và trạng thái thật; CLIresume chưa có nên không giả đã phục hồi.
+
+Ghi counts/openposition/netbalance/equity và qualificationgaps; nhiều scenario
+hoặc window chồng nhau không làm trial count reset. Recipe tiếp theo vẫn là
+freeze/audit trước OOS, và bổ sung coverage/cost evidence trước propqualification.
