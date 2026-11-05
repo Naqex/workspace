@@ -34,6 +34,10 @@ cùng checks và inputs không đổi. Không sửa hash để ép input đạt.
 
 ## Dossier từ artifact
 
+Status/log/failure conventions: [observability](OBSERVABILITY.md).
+`strategy_evidence.py status --run-dir <attempt>` đọc progress và last-update age,
+không xác minh process sống hoặc tự restart job.
+
 ```powershell
 python -X utf8 tooling/ai-engines/strategy_evidence.py inspect --run-dir <completed-study-dir>
 ```

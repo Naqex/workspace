@@ -1,4 +1,5 @@
 import copy
+from datetime import datetime, timedelta, timezone
 import json
 from pathlib import Path
 import sys
@@ -98,6 +99,19 @@ class EvidenceTests(unittest.TestCase):
         self.write('manifest.json', bad)
         with self.assertRaisesRegex(ValueError, 'scope'):
             evidence.inspect(self.run)
+
+    def test_stale_progress_is_unknown_liveness_not_failed(self):
+        now=datetime(2026,11,5,tzinfo=timezone.utc)
+        self.write('receipt.json',dict(stage='reference',updated_at_utc=(now-timedelta(seconds=300)).isoformat(),pid=123))
+        report=evidence.status(self.run,now=now,stale_seconds=120)
+        self.assertEqual(report['health'],'stale_progress_process_state_unknown')
+        self.assertFalse(report['terminal'])
+        self.assertFalse(report['process_liveness_verified'])
+        self.write('receipt.json',dict(stage='failed',failed_stage='validate_development',
+            updated_at_utc=(now-timedelta(days=1)).isoformat()))
+        report=evidence.status(self.run,now=now)
+        self.assertTrue(report['terminal'])
+        self.assertEqual(report['failed_stage'],'validate_development')
 
 
 if __name__ == '__main__':

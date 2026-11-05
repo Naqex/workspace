@@ -35,3 +35,8 @@ does not add scheduler, spending, account, holdout or broker authority.
 Strategy selection belongs to `strategy-research`, result review to
 `strategy-qualification`; use [strategy workflow](../../../tooling/ai-engines/STRATEGY-WORKFLOW.md)
 for artifacts/tools. Do not redispatch a fixed fixture for an unregistered study.
+
+Use [observability](../../../tooling/ai-engines/OBSERVABILITY.md) for job status/logs.
+Native run/receipt is the state owner; event logs explain transitions. Read stale
+or unknown state before retry, and publish projections in the existing native
+task instead of another dashboard.

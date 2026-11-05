@@ -26,6 +26,32 @@ def read_json(path: Path):
     return json.loads(path.read_text(encoding='utf-8'))
 
 
+def status(run_dir: Path, *, stale_seconds=120, now=None):
+    if stale_seconds <= 0:
+        raise ValueError('stale threshold must be positive')
+    receipt = read_json(run_dir / 'receipt.json')
+    updated = datetime.fromisoformat(receipt['updated_at_utc'])
+    if updated.tzinfo is None:
+        raise ValueError('receipt timestamp requires a timezone')
+    now = now or datetime.now(timezone.utc)
+    age = (now-updated).total_seconds()
+    if age < -5:
+        raise ValueError('receipt timestamp is ahead of observer clock')
+    stage = receipt['stage']
+    terminal = stage in {'completed_declared_scenarios', 'preflight_passed_no_simulation', 'failed'}
+    return dict(schema='strategy-run-status-v1', run_dir=str(run_dir.resolve()),
+        run_id=receipt.get('run_id'), pid=receipt.get('pid'), candidate=receipt.get('candidate'),
+        stage=stage, terminal=terminal, last_progress_age_seconds=max(0,round(age,3)),
+        health='terminal_reported' if terminal else 'stale_progress_process_state_unknown' if age > stale_seconds else 'recent_progress',
+        process_liveness_verified=False, execution_capability=False,
+        observed_ticks=receipt.get('observed_ticks'), cursor_index=receipt.get('cursor_index'),
+        boundary_utc=receipt.get('boundary_utc'), elapsed_seconds=receipt.get('elapsed_seconds'),
+        failed_stage=receipt.get('failed_stage'), error_type=receipt.get('error_type'),
+        receipt_path=str(run_dir/'receipt.json'), event_log_path=str(run_dir/'events.jsonl'),
+        failure_path=str(run_dir/'failure.json') if (run_dir/'failure.json').is_file() else None,
+        cli_resume_supported=False)
+
+
 def finite(value):
     if isinstance(value, bool):
         raise ValueError('boolean is not a financial amount')
@@ -158,9 +184,13 @@ def main(argv=None):
     command.add_argument('--run-dir', required=True, type=Path)
     command.add_argument('--source-root', type=Path)
     command.add_argument('--verify-inputs', action='store_true')
+    status_command = subparsers.add_parser('status')
+    status_command.add_argument('--run-dir', required=True, type=Path)
+    status_command.add_argument('--stale-seconds', default=120, type=int)
     args = parser.parse_args(argv)
     try:
-        report = inspect(args.run_dir, verify_inputs=args.verify_inputs, source_root=args.source_root)
+        report = (status(args.run_dir, stale_seconds=args.stale_seconds) if args.command == 'status' else
+                  inspect(args.run_dir, verify_inputs=args.verify_inputs, source_root=args.source_root))
     except (OSError, KeyError, TypeError, ValueError) as error:
         print(json.dumps(dict(status='invalid_evidence', error=str(error), promotion_authorized=False)))
         return 1

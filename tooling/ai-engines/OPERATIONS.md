@@ -1,5 +1,10 @@
 # Studio operations for agents
 
+Status/log/error conventions follow [observability](OBSERVABILITY.md). Reuse
+native lifecycle and task documents; offline study events explain transitions
+without becoming a second task ledger. No collector/service is required by this
+guide; stale last-progress time alone is not a restart decision.
+
 Strategy selection and qualification use the
 [strategy workflow](STRATEGY-WORKFLOW.md). Its two skills route evidence and
 preflight/report tools; runtime/grants remain owned by the existing execution

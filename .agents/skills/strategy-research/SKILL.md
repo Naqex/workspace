@@ -43,6 +43,8 @@ thì dùng dossier được giao; không bịa command hoặc bắt owner kể l
   không là backtest; exit0 không là strategy qualified.
 - Job dài có status/log/checkpoint/deadline/một writer. Reconcile trước retry;
   snapshot roundtrip không chứng minh CLIresume nếu chưa hỗ trợ.
+  Với workspace, đọc `tooling/ai-engines/OBSERVABILITY.md`: ghi event theo phase/
+  counter và failure locations, không log mỗi tick/secret hoặc gọi stale là dead.
 - Chuyển exact run/protocol/candidate/evidence locator cho
   `strategy-qualification` qua native dossier; lưu nguồn/giới hạn/trial history/
   next action ngoài chat trước kết thúc. Không tự đổi protocol sau outcome.

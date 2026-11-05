@@ -87,6 +87,11 @@ acceptance reads; report configuration separately from an executed workflow.
 
 ## Check evidence and recover deliberately
 
+- For long jobs, include task/run/attempt binding, source pins, phase and
+  last-progress time, event/failure/checkpoint locators and deadline. Workspace
+  `tooling/ai-engines/OBSERVABILITY.md` owns conventions. Keep projections in the
+  current native task; do not publish raw prompts, secrets or per-tick logs.
+  Stale progress is unknown process state until reconciled, not proof of failure.
 - Bind outputs to their company, task, run, input/spec/config and source hashes.
   Let the registered code verify numeric results and dependency provenance;
   a model's narrative is not that verification.
