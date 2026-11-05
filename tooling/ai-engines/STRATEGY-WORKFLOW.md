@@ -53,6 +53,11 @@ Chạy lại đúng config/output sẽ kiểm và reuse **job đã hoàn tất**
 chúng. Job chưa xong/lỗi cần attempt mới có chủ đích; giữ thư mục cũ, không tự
 retry/overwrite hoặc gọi đây là resume giữa mô phỏng. Lock còn sau crash phải
 đối soát process và artifacts trước xử lý, không tự xóa để chạy đè.
+`--reuse-from <older-batch-dir>` cho một attempt mới kiểm và tham chiếu các job
+đã hoàn tất của batch cũ; các job cũ failed/partial không được reuse. Result
+locator từng hàng ở `progress.json` có thể trỏ về batch cũ; không copy hoặc ghi
+đè artifacts đó. Supervisor failure có source frames và terminal riêng; projection
+cũ còn `running` phải đối soát, không tự kết luận worker còn sống.
 
 ## Dossier từ artifact
 

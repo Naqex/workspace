@@ -89,3 +89,11 @@ terminal phân biệt verified-completed/nonzero/invalid-artifact/cancel/timeout
 Giữ kết quả job đã xong khi job khác lỗi. Không đổi tín hiệu, sizing, chi phí,
 dữ liệu, tiêu chí qualification hoặc đếm thử nghiệm lại; vẫn development đã
 consumed. Không mở OOS/holdout, broker hoặc suy lợi nhuận từ runtime pass.
+
+Làm rõ execution trước outcome của4candidate còn lại: supervisor sau probe
+phát hiện lỗi merge identity trong progress; giữ Donchian đã verified, batch mới
+reuse bằng dossier/hash thay vì mô phỏng lại. Probe mất1165s, khoảng1CPU và68MiB
+RAM. Cho4candidate còn lại chạy tối đa4worker trên6core để tránh hai lượt chờ;
+hardcap30phút/job và90phút/batch giữ nguyên. Chỉ đổi điều phối/diagnostics,
+không sửa candidate hoặc chi phí theo outcome Donchian. Các partial job bị hủy
+giữ nguyên, không coi thành kết quả hoặc resume giữa mô phỏng.

@@ -91,6 +91,14 @@ class OwnedProcessTests(unittest.TestCase):
 
 
 class ResultTests(unittest.TestCase):
+    def test_progress_accepts_real_terminal_worker_identity(self):
+        with tempfile.TemporaryDirectory() as folder:
+            result = batch.progress(Path(folder), {'candidate': dict(worker='candidate',
+                status='completed_verified', elapsed_seconds=12)}, time.monotonic(), 100, 30)
+            self.assertEqual(result['status'], 'completed_verified')
+            self.assertEqual(result['completed_jobs'], 1)
+            self.assertEqual(result['workers'][0]['worker'], 'candidate')
+
     def test_nonzero_worker_never_becomes_success_and_skips_result_verification(self):
         with tempfile.TemporaryDirectory() as folder:
             owner = Mock()
@@ -155,6 +163,28 @@ class ResultTests(unittest.TestCase):
             verify.assert_called_once()
             run.assert_not_called()
             self.assertEqual(batch.read(directory/'batch-terminal.json')['status'], 'completed_verified')
+
+    def test_previous_completed_job_is_reused_in_a_new_batch_without_dispatch(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            protocol = root/'protocol.md'
+            protocol.write_text('registered protocol')
+            inputs = dict(warmup={}, development={})
+            batch.save(root/'input.json', dict(schema='forex-h4-inputs-v1', **inputs))
+            expected = dict(input_manifest=str(root/'input.json'), inputs=inputs,
+                protocol=str(protocol), protocol_sha256=batch.digest(protocol))
+            batch.save(root/'config.json', dict(jobs={'candidate': expected}, development_ticks=100))
+            old = root/'old/candidate'
+            old.mkdir(parents=True)
+            batch.save(old/'terminal.json', dict(status='completed_verified'))
+            with patch.object(batch, 'verified_result', return_value={'artifact_sha256': {'results.json': 'pinned'}}), \
+                 patch.object(batch, 'run_job') as run:
+                code = batch.main(['--config', str(root/'config.json'), '--output-dir', str(root/'new'),
+                                   '--reuse-from', str(root/'old')])
+            self.assertEqual(code, 0)
+            run.assert_not_called()
+            final = batch.read(root/'new/batch-terminal.json')
+            self.assertEqual(final['workers'][0]['result_dir'], str((old/'replay').resolve()))
 
 
 if __name__ == '__main__':

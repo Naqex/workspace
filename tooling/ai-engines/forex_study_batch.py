@@ -12,6 +12,7 @@ import runpy
 import subprocess
 import sys
 import time
+import traceback
 
 ROOT = Path(__file__).resolve().parents[2]
 V2 = ROOT/'projects/trader/foundation_v2'
@@ -126,7 +127,8 @@ def run_job(name, expected, directory, *, seconds, clock=time.monotonic):
 def progress(output, states, began, total_ticks, deadline):
     rows = []
     for name, state in states.items():
-        row = dict(worker=name, **state)
+        row = dict(state, worker=name)
+        row.setdefault('result_dir', str(output/name/'replay'))
         receipt_path = output/name/'replay/receipt.json'
         if receipt_path.exists():
             receipt = read(receipt_path)
@@ -168,6 +170,8 @@ def main(argv=None):
     parser.add_argument('--max-workers', type=int, choices=(1, 2, 3, 4, 5), default=2)
     parser.add_argument('--worker-seconds', type=int, default=1800)
     parser.add_argument('--deadline-seconds', type=int, default=5400)
+    parser.add_argument('--reuse-from', type=Path, action='append', default=[],
+                        help='Read and verify completed jobs from earlier batches; partial jobs are never resumed')
     args = parser.parse_args(argv)
     if min(args.worker_seconds, args.deadline_seconds) <= 0:
         parser.error('deadlines must be positive')
@@ -185,7 +189,8 @@ def main(argv=None):
         manifest = dict(config_sha256=digest(args.config), source_revision=subprocess.check_output(
             ['git', 'rev-parse', 'HEAD'], cwd=V2, text=True).strip(),
             supervisor_sha256=digest(__file__), config=config, max_workers=args.max_workers,
-            worker_seconds=args.worker_seconds, deadline_seconds=args.deadline_seconds)
+            worker_seconds=args.worker_seconds, deadline_seconds=args.deadline_seconds,
+            reuse_from=[str(path.resolve()) for path in args.reuse_from])
         stored = args.output_dir/'batch-manifest.json'
         if stored.exists():
             if read(stored) != manifest:
@@ -199,12 +204,24 @@ def main(argv=None):
             if digest(expected['protocol']) != expected['protocol_sha256']:
                 raise ValueError('protocol_binding_mismatch')
             directory = args.output_dir/name
+            reused = False
             if directory.exists():
                 if read(directory/'terminal.json')['status'] != 'completed_verified':
                     raise ValueError('incomplete_job_requires_new_attempt_directory')
                 verified_result(directory/'replay', expected)
-                states[name] = dict(status='reused_verified')
-            else:
+                states[name] = dict(status='reused_verified', result_dir=str(directory/'replay'))
+                reused = True
+            if not reused:
+                for previous in args.reuse_from:
+                    old = previous/name
+                    if not (old/'terminal.json').exists() or read(old/'terminal.json')['status'] != 'completed_verified':
+                        continue
+                    dossier = verified_result(old/'replay', expected)
+                    states[name] = dict(status='reused_verified', result_dir=str((old/'replay').resolve()),
+                                        artifact_sha256=dossier['artifact_sha256'])
+                    reused = True
+                    break
+            if not reused:
                 pending.append(name)
         futures = {}
         # First candidate measures the complete real journey alone; later jobs
@@ -246,7 +263,23 @@ def main(argv=None):
     except BaseException as error:
         save(args.output_dir/'batch-failure.json', dict(status='supervisor_failed',
             error_type=type(error).__name__, error_code='study_batch_failed',
+            frames=[dict(file=Path(frame.filename).name, line=frame.lineno, function=frame.name)
+                    for frame in traceback.extract_tb(error.__traceback__)],
             updated_at_utc=datetime.now(timezone.utc).isoformat()))
+        for name, state in states.items():
+            terminal = args.output_dir/name/'terminal.json'
+            if terminal.exists():
+                states[name] = read(terminal)
+            elif state['status'] == 'queued':
+                states[name] = dict(status='not_started_supervisor_failed')
+            elif state['status'] == 'running':
+                states[name] = dict(status='interrupted_unknown')
+        try:
+            final = progress(args.output_dir, states, began, config['development_ticks'], args.deadline_seconds)
+            final['status'] = 'supervisor_failed'
+            save(args.output_dir/'batch-terminal.json', final)
+        except Exception:
+            save(args.output_dir/'batch-terminal.json', dict(status='supervisor_failed', workers=states))
         raise
     finally:
         lock.unlink()
