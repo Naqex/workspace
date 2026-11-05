@@ -4891,3 +4891,77 @@ task ID hoặc công nhận dispatch. Kết quả nghiên cứu local và source
 Bước tiếp: audit availability/consumed manifest; implement candidate contract và
 runner nhỏ reuse Forex core rồi focused checks trước numerical run. Chỉ công bố
 native khi instance có lại và đã dedup đúng task scope; không rerun fixture cũ.
+
+## 05/11 — Hai ứng viên H4 đã triển khai và kiểm development hai tuần
+
+Trader source **`a306c9618bb9aa6bbeff2dcbb4bdd0b982a2204c`** bổ sung hai ứng viên
+đã đăng ký: SMA20/80 và z-score20/2, thoát theo 6 lần đóng H4 của cùng position ID.
+Reuse tick execution/accounting/financing/risk; tách helper Wilder ATR14 để ba
+ứng viên dùng cùng phép tính. CLI mặc định giữ Donchian/manifest cũ; chế độ
+study phải chọn candidate trong danh sách cố định, input manifest có hash và
+research protocol. Không tạo engine/framework, model call hoặc đường broker.
+Hướng dẫn nằm ở `projects/trader/foundation_v2/docs/FOREX-RESEARCH.md`.
+
+### Kiểm dữ liệu và đăng ký trước outcome
+
+- Metadata QDM CLI hiện có: EURUSD_TICK_TW, UTC, cache báo 05/05/2003–01/11/2026,
+  517.750.341 records. Đây chỉ là metadata, không xác nhận coverage/đã đọc giá.
+- Audit 10 entry từ manifests trong private Forex pilot root: các lát đã xem
+  warmup 20–31/12/2021 và development 03/01–31/03/2022. Không khẳng định đã audit
+  mọi project để công nhận 2023+ là unseen; validation/finalholdout chưa mở.
+- Warmup cũ chỉ 58 H4. Protocol clarification được commit **`64ecdad`** trước run:
+  cùng warmup 01–31/12/2021 cho C01/C02/C04, tối thiểu 81 H4; time exit đếm cả nến
+  chứa fill, không tạo bar qua gap và reset theo position ID. Không đổi tham số
+  sau outcome hoặc thay manifest/capture cũ.
+- Export từ cache QDM, không GUI/download/update: 63.734.720 bytes, SHA256
+  `63b63be980254b572bbc3ec2d7e1d68726ffeb510d0202f29c0c975670e1a640`.
+  Validate 1.404.696 ticks/133 H4 hợp lệ; development 643.775 ticks/58 H4 giữ nguyên.
+
+### Kiểm chứng và lượt chạy thực tế
+
+**26 tests liên quan đạt:**8 candidate/runner tests, 11 H4/accounting regressions,
+7 workspace ForexFixture tests. Kiểm prior-window population variance/crossover,
+prefix causality, identity-bound time exit, malformed state, roundtrip và legacy
+contract không mở sang study/holdout. Không chạy lại full suite hoặc broker/UI.
+
+Ba process độc lập, output riêng; mỗi process chạy reference và cost-stress.
+Manifest đầu **12:15:22 VN**, lượt cuối hoàn tất **12:17:24 VN 05/11**, khoảng
+**121,4 giây** cho 6 mô phỏng trên dữ liệu **03–14/01/2022 đã từng xem**. Source,
+protocol/input/account spec đều pin trước outcome; kiểm lại source hash sau run.
+Cả 3 terminal exit 0, stderr 0 bytes; process creation identity xác nhận 3 worker đã
+thoát. Không còn lượt numeric study này chạy nền.
+
+| Ứng viên | Scenario | Balance delta USD | Equity delta USD | Mở/đóng lệnh | Còn vị thế |
+|---|---|---:|---:|---|---|
+| Donchian C01 | Reference |−19,94 |−19,94 |3/3 |Không |
+| Donchian C01 | Cost-stress |−23,80 |−23,80 |3/3 |Không |
+| SMA20/80 C02 | Reference |−24,64 |+9,41 |2/1 |Có1 |
+| SMA20/80 C02 | Cost-stress |−27,60 |−0,52 |2/1 |Có1 |
+| Z-score C04 | Reference |−27,08 |−27,08 |4/4 |Không |
+| Z-score C04 | Cost-stress |−32,84 |−32,84 |4/4 |Không |
+
+Tất cả tính trên 10.000 USD giả lập; equity dùng quote cuối và modeled costs,
+không phải lợi nhuận đã thực hiện hoặc tiền rút được. Không force close cuối
+mẫu. Cả 6 independent accounting và candidate state roundtrip đạt. Sau bỏ 2 field
+evidence mới, **mọi field kết quả C01 khớp toàn bộ baseline hai tuần cũ** dù
+warmup dài hơn. Không cộng hai lượt thành hai mẫu kiểm chứng độc lập.
+
+Kết luận slice: numerical integration đã kiểm, chưa xếp hạng edge; rất ít lệnh,
+SMA còn open position và nhạy chi phí. `strategy_pass=false`, `prop_pass=false`,
+`broker_spec_verified=false`, `intrabar_equity_coverage=insufficient` giữ nguyên.
+Chưa triển khai profile The5ers hoặc lấy FTMO cost gắn nhãn The5ers verified.
+Candidate snapshot giữ indicator/position age; CLI resume **chưa hỗ trợ**, không
+gọi JSON roundtrip là phục hồi job giữa chừng.
+
+Private evidence: `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/prop-strategy-round1-20261105/`.
+`data-audit.json`, `cache-metadata.json`, `export-receipt.json`,
+`two-weeks-inputs.json`; `attempt-1/study-manifest.json`, `protocol.md`,
+`observation.json`, per-candidate manifest/quality/results/checkpoints/logs.
+`PROGRESS.md` là snapshot tiến độ dẫn nguồn receipt, có timestamp; observer
+không phải daemon/capture controller. Đã gửi mở file qua Codex panel, tool trả
+queued; không khẳng định người dùng đã nhìn thấy. Native Paperclip publication
+vẫn chưa làm do instance chưa có lại; không lách lần launch bị policy chặn.
+
+Bước tiếp: development Q1 trên cùng protocol/common warmup nếu cần tăng mẫu,
+rồi đóng băng thiết kế OOS sau audit consumed/coverage đủ phạm vi. Không chọn
+SMA chỉ vì equity reference dương hai tuần; không tối ưu size để ép pass prop.
