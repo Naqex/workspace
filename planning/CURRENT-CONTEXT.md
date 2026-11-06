@@ -21,8 +21,8 @@ phần chuẩn bị hậu batch trước chạy lại: thêm thống kê net clo
 streak/concentration và ledger-mark DD (không full tick DD), cùng proof fixtures.
 **Annual recovery `execution-v2` đã launch08:02VN**, source Trader `bbc7c60e`,
 [registration mới](research/TIME-FIT-RECOVERY-20261106.json), giữ economic rules.
-5worker trên6core, ceiling4h/worker6h/batch không ETA; đang chuẩn bị caches nguồn
-mới trước numerical workers, theo `pipeline.json`→`batch-1/progress.json` private.
+5worker trên6core, ceiling4h/worker6h/batch không ETA; preparation đã verified
+536,547s và cả5reference đã chạy từ08:11VN. Theo `pipeline.json`→`batch-1/progress.json` private.
 Không sửa frozen registration cũ hoặc giả resume partial. Receipt AI giữ evidence,
 benchmark/parity, worktree locator và cách tiếp tục an toàn. Khung
 [sàng lọc cập nhật](research/STRATEGY-VALIDATION-FRAMEWORK-20261105.md#sàng-lọc-ứng-viên-tiềm-năng--đối-chiếu-primary-sources-0611)
@@ -31,6 +31,10 @@ chỉ chọn phép kiểm tiếp, chưa đóng OOS/risk/prop. Không sửa froze
 Đính chính nhãn cũ: candle/quote clockUTC, nhưng phanh ngày nội bộ đã reset
 Europe/Prague trong source từ trước, không phảiUTC; budgets/lifecycle vẫn chưa
 chứng minh full FTMO compliance. Report đã sửa nhãn, không đổi numeric clock.
+Kiểm độc lập lịch phí phát hiện raw snapshot cuối tuần thiếu financing sau quote
+cuối; Q1raw vẫn khớp legacy golden nên parity không tự là correctness. Consumer
+giữ raw+derived quote-free cash-tail riêng, kiểm oracle và từ chối thiếu phí trong
+lịch sử đã chạy; source numerical/v2 registration không đổi. Xem receipt delta.
 
 Trước mở window mới, đọc [audit consumption và protocol Q1/2023](research/PROP-HISTORICAL-ROBUSTNESS-20261105.md).
 Owner không nhớ đã xem2023–2024; nhãn hiện hành là historical robustness với

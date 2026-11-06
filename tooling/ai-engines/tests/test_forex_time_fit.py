@@ -11,10 +11,58 @@ from types import SimpleNamespace
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 import forex_time_fit as timefit
 import forex_h4_pilot as pilot
+sys.path.insert(0,str(timefit.V2/'tests'))
+from test_forex_pilot_risk import execution,initialize_forex_pilot,advance,queue,tick,ms
+from test_forex_financing import terms
 from trading_workspace_v2.replay_tick_execution import BrokerReplayTick
 
 
 class TimeFitTests(unittest.TestCase):
+    def test_quote_free_calendar_tail_posts_cash_without_mutating_quotes_or_orders(self):
+        state=advance(queue(initialize_forex_pilot(execution(),start_time_msc=ms()),
+            quantity='0.01',stop='1.09'),[tick()])
+        term=terms(ms()+120000,event='end-fee',buy='20')
+        manifest=dict(scenarios=[dict(name='reference',financing_calendar=[term.model_dump(mode='json')])])
+        with self.assertRaisesRegex(ValueError,'no quote anchor'):
+            timefit.complete_quote_free_financing_tail(
+                initialize_forex_pilot(execution(),start_time_msc=ms()),manifest,'reference',ms()+180000)
+        before=state.model_dump(mode='json')
+        result,adjustments=timefit.complete_quote_free_financing_tail(state,manifest,'reference',ms()+180000)
+        self.assertEqual(result.execution.balance,state.execution.balance-Decimal('0.20'))
+        self.assertEqual(result.execution.position,state.execution.position)
+        self.assertEqual(result.risk.observed_ticks,state.risk.observed_ticks)
+        self.assertEqual(result.risk.last_tick,state.risk.last_tick)
+        self.assertEqual(result.execution.cursor_index,state.execution.cursor_index)
+        self.assertEqual(adjustments[0]['balance_delta_usd'],'-0.20')
+        self.assertEqual(state.model_dump(mode='json'),before)
+        again,changes=timefit.complete_quote_free_financing_tail(result,manifest,'reference',ms()+180000)
+        self.assertEqual(again,result);self.assertEqual(changes,[])
+        same,changes=timefit.complete_quote_free_financing_tail(state,manifest,'reference',term.scheduled_time_msc)
+        self.assertEqual(same,state);self.assertEqual(changes,[])
+        later=advance(state,[tick(when=ms()+240001)])
+        with self.assertRaisesRegex(ValueError,'inside executed history'):
+            timefit.complete_quote_free_financing_tail(later,manifest,'reference',ms()+300000)
+
+        cutoff=ms()+180000
+        manifest.update(run_id='tail-fixture',horizon_cutoffs=[cutoff])
+        manifest['scenarios'][0]['slippage']='0'
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder)
+            packet=[dict(cutoff_msc=cutoff,checkpoint=before,
+                last_observed_tick=state.risk.last_tick.model_dump(mode='json'),decisions=[],
+                qualification='historical_snapshot_not_full_prop_lifecycle',promotion_authorized=False,
+                accounting=pilot.reconcile(state,Decimal(0)))]
+            for name,value in [('reference-horizons.json',packet),('reference-checkpoint.json',before),
+                               ('reference-decisions.json',[]),('quality.json',{})]:
+                (root/name).write_text(json.dumps(value))
+            pilot.seal_scenario(root,manifest,dict(scenario='reference'))
+            raw_bytes=(root/'reference-horizons.json').read_bytes()
+            row=timefit.inspect_horizons(root,manifest,'reference')[0]
+            self.assertEqual(Decimal(row['equity_delta_usd']),Decimal(row['raw_sealed_equity_delta_usd'])-Decimal('0.20'))
+            self.assertEqual(row['observation_basis'],'sealed_raw_plus_declared_quote_free_cash_tail')
+            self.assertFalse(row['promotion_authorized'])
+            self.assertEqual((root/'reference-horizons.json').read_bytes(),raw_bytes)
+
     def test_trade_diagnostics_match_hand_ledger_with_credit_flat_and_open_fees(self):
         # Statistics fixture only: integration below validates actual sealed engine snapshots.
         rows=[]

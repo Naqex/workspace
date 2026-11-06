@@ -6237,3 +6237,48 @@ stderr0. `pipeline.json`→`batch-1/progress.json`/`PROGRESS.md` giữ actual ti
 pipeline tự verify/export horizon-report sau5jobs completed_verified. Chưa claim
 annual complete hoặc strategy qualified. Sau run: đọc diagnostics/decision của
 5bản trước chọn thí nghiệm risk/exit/OOS/prop; không mở rộng search khi chưa cần.
+
+### 06/11 — startup verified, Q1 prefix parity và completeness của phí cuối kỳ
+
+Owner giao tiếp tục. Preparation mới verified **536,547s**,3entries; cả5worker
+thực sự vào reference khoảng08:11:29VN, không còn candidate thứ5chờ hết slot.
+Snapshot08:22:25VN:5reference11,45–12,24triệutick,0/5completed, stderr và
+projectionerrors0. Không đổi numerical source của worker.
+
+Đã reuse read-only `audit_q1_prefix.py` ở execution-v2. Cả5Q1reference raw
+snapshots khớp semantic checkpoint goldens đã pin, mỗi bản9.038.771ticks,
+chỉ map declared dataset/tick-ID/SHA và Decimal scale. Artifact:
+`q1-prefix-audit.json`. Chưa có stress/full-year parity hoặc completion.
+
+**Phát hiện mới từ lịch sự kiện, không phải từ PnL ranking:** Mar31/2023 quote
+cuối/price mark21:00UTC, calendar có financing22:00UTC nhưng trước Apr1cutoff;
+pilot hiện post_due quanh giờ có quotes, snapshot được capture trước giờ kế
+tiếp, nên rawQ1thiếu1fee event. Legacy Q1 cũng thiếu nên raw parity vẫn pass.
+Full-year có thể có cùng quote-free tail ở cuối mẫu. Đây là gap completeness
+của cash calendar; independent ledger arithmetic chỉ so các event đã có nên
+không đủ phát hiện. Không gọi raw parity/accounting-pass là toàn model đúng.
+
+Để giữ numerical job và artifact đã pin, thêm **derived analysis** tại report
+consumer, không sửa runner/source/registration hoặc ghi lại raw seal: chỉ post
+scheduled terms đã khai báo, trước cutoff và sau last ledger boundary, trên
+copy checkpoint. Không thêm quotes, fills, đổi cursor hoặc replay market path;
+last-known-quote valuation giữ nguyên. Nếu thiếu fee *bên trong* executed history
+thì fail-closed, không giả bổ sung hậu kiểm để sửa trading/risk path. Đã có guard
+no-quote-anchor, cutoff-exclusive, duplicate/idempotency và native financing
+validators. Raw balance/equity và từng delta/eventID vẫn có trong JSON; report
+method và reporter SHA ghi rõ, đây là post-hoc accounting completion, không tự
+attest prereg/OOS hoặc full broker/prop realism. Ngưỡng quyết định không đổi.
+
+**7report tests đạt**, thêm actual pilot snapshot/independent expected−0,20USD,
+giữ position/quote/tick/cursor, không mutate raw; sealed packet integration
+thể hiện cả raw/derived, không promotion; thiếu fee trong executed history bị
+từ chối. `q1-calendar-tail-audit.json` đối chiếu5current và5legacy Q1reference
+sau cùng phương pháp: semantic adjusted states khớp5/5; independent Decimal
+rate×lot×multiplier tính được Donchian−0,37USD, Pullback−0,28USD,3bản khác0.
+Không đổi raw results cũ hoặc các con số lịch sử thành original-run results mới.
+
+Bước sau vẫn để finite pipeline hoàn tất và đọc raw/derived/limits. Fix raw
+runner calendar flush/capture ở future source cần boundary regression và
+registration mới; không hotpatch worker hiện hành. G4 full phase/prop/forward
+vẫn chưa đạt. Phương pháp derived này chỉ phù hợp quote-free terminal tail,
+không là general resume/correction engine hoặc quyền repair event/order bất kỳ.

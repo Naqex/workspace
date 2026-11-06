@@ -16,6 +16,30 @@ from forex_h4_pilot import reconcile, scenario_binding
 from trading_workspace_v2.forex_pilot_risk import ForexPilotSnapshot
 
 
+def complete_quote_free_financing_tail(state, manifest, scenario, cutoff):
+    """Derive unposted cash events after the last ledger mark; never replay prices."""
+    from trading_workspace_v2.forex_financing import FinancingTerms, apply_forex_financing
+    calendar=next(item for item in manifest['scenarios'] if item['name']==scenario).get('financing_calendar',[])
+    applied={event['details']['financing_terms']['event_id'] for event in state.execution.ledger
+             if event['kind']=='financing'}
+    missing=[FinancingTerms.model_validate(item) for item in calendar
+             if item['scheduled_time_msc']<cutoff and item['event_id'] not in applied]
+    if not missing: return state, []
+    if not state.execution.ledger or state.risk.last_tick is None:
+        raise ValueError('no quote anchor for financing tail')
+    boundary=state.execution.ledger[-1]['virtual_time_utc']*1000
+    if any(terms.scheduled_time_msc<boundary for terms in missing):
+        raise ValueError('missing financing inside executed history; tail derivation cannot repair it')
+    derived=state.model_copy(deep=True)
+    adjustments=[]
+    for terms in missing:
+        before=derived.execution.balance
+        derived=apply_forex_financing(derived,terms)
+        adjustments.append(dict(event_id=terms.event_id,scheduled_time_msc=terms.scheduled_time_msc,
+                                balance_delta_usd=str(derived.execution.balance-before)))
+    return derived, adjustments
+
+
 def ledger_diagnostics(state):
     """Describe a validated pilot ledger; event-mark drawdown is not tick drawdown."""
     execution = state.execution
@@ -139,6 +163,10 @@ def inspect_horizons(directory, manifest, scenario):
         accounting=reconcile(state,Decimal(slip))
         if row['accounting']!=accounting:
             raise ValueError('horizon accounting differs from recalculation')
+        raw_state=state
+        state,tail_adjustments=complete_quote_free_financing_tail(state,manifest,scenario,cutoff)
+        if tail_adjustments: reconcile(state,Decimal(slip))
+        e=state.execution
         initial=e.starting_balance
         if initial<=0: raise ValueError('invalid starting balance denominator')
         entry_days={datetime.fromtimestamp(event['details']['time_msc']/1000,timezone.utc)
@@ -159,6 +187,10 @@ def inspect_horizons(directory, manifest, scenario):
             internal_risk_is_firm_rule=False,full_prop_time_to_pass='not_evaluated',
             strategy_edge='not_established',promotion_authorized=False,
             independent_accounting=accounting['independent_accounting'],
+            observation_basis='sealed_raw_plus_declared_quote_free_cash_tail' if tail_adjustments else 'sealed_raw',
+            raw_sealed_equity_delta_usd=str(raw_state.execution.equity-raw_state.execution.starting_balance),
+            raw_sealed_balance_delta_usd=str(raw_state.execution.balance-raw_state.execution.starting_balance),
+            derived_financing_tail=tail_adjustments,
             diagnostics=ledger_diagnostics(state)))
     return output
 
@@ -174,6 +206,8 @@ def render_report(report):
     lines=['# So sánh chiến lược theo 3/6/12 tháng','',
         'Equity delta USD, gồm lãi/lỗ đang mở. Mỗi ô: phí chuẩn / phí cao.',
         'Đây là historical robustness; các horizon lồng nhau, chưa phải clean OOS hoặc pass quỹ.','',
+        'Số đã đối soát gồm phí lịch đã đăng ký trước cutoff nhưng sau quote cuối, nếu còn thiếu.',
+        'JSON giữ số raw đã seal và từng điều chỉnh; không sửa artifact gốc hoặc giả có quote mới.','',
         '| Ứng viên | 3 tháng | 6 tháng | 12 tháng | Screen phí cả năm |',
         '|---|---:|---:|---:|---|']
     for worker,group in groups.items():
@@ -242,6 +276,8 @@ def main():
                 rows.append(dict(worker=worker['worker'],candidate=manifest['candidate'],
                     scenario=scenario['name'],**row))
     report=dict(schema='forex-time-fit-horizon-report-v1',rows=rows,
+        report_method='sealed_observations_with_explicit_quote_free_calendar_tail_v1',
+        reporter_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         study_role='historical_robustness_prior_exposure_unverified',
         horizons_are_independent_trials=False,prop_qualification='not_established',
         broker_calls=0,model_calls=0,promotion_authorized=False)
