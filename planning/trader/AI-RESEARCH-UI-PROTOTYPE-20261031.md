@@ -1,5 +1,33 @@
 # AI workspace — native Paperclip UI và prototype lịch sử
 
+## Thứ tự công việc sau annual batch — owner giao sắp lại 06/11/2026
+
+Mục tiêu giữ nguyên: tìm và vận hành strategy Forex tự động có evidence, tiếp
+cận/duy trì vốn prop với risk kiểm soát, hướng tới reward thực nhận. Không lấy
+batch-complete, engine nhanh hoặc pass challenge làm mục tiêu cuối thay payout/
+survival. [Workflow giải thích ngắn](../../tooling/ai-engines/STRATEGY-WORKFLOW.md#từ-ý-tưởng-đến-payout--cách-hiểu-và-vai-trò) giữ vai trò từng lớp;
+[receipt](../checkpoints/ai-integrations-20261031/RECEIPT.md) giữ actual state.
+
+| Thứ tự | Công việc / kết quả cần có | Phụ thuộc |
+|---|---|---|
+| 0 — ngay trong lúc chạy | Đối soát tốc độ/deadline/process và chốt handoff của current annual attempt; chuẩn bị source/config và recovery cho bản sửa `86eade80`. Không chỉ chờ timeout, không thay source của writer đang chạy | Numerical source vẫn pin; bản sửa đã có ở worktree riêng, chưa áp main |
+| 1 — đóng attempt có kiểm soát | Nếu completed, kiểm terminal/seals/accounting rồi đọc kết quả. Nếu failed/timed-out, giữ attempt/log, xác nhận writer dừng và phân loại phần dùng lại; không gọi partial checkpoint là resume | Reuse chỉ đúng bindings; source mới cần execution binding/registration và parity review phù hợp, không nới hash |
+| 2 — quyết định5ứng viên | Một bảng cash/equity/cost/count/risk/gaps; từng version: không tiếp tục / inconclusive / đáng kiểm bước sau. Không có bản đạt thì trở lại hypothesis mới | Dùng outcome verified; không đổi tiêu chí frozen, ép winner hoặc tăng lot |
+| 3 — kiểm chéo và khóa bài tiếp | Tận dụng independent arithmetic/causal oracles; bổ sung đúng gaps drawdown/underwater/concentration. Chọn phép kiểm robustness/OOS và freeze rules/data/cost/risk/decision trước outcome | Chỉ ứng viên đáng kiểm; audit consumed/availability, không tự mở holdout |
+| 4 — phù hợp quỹ | Nối candidate vào lifecycle đúng firm/program/phase/reset; xem breach, survival và not-reached theo3/6/12tháng, cùng chi phí/thời gian thực tế | Không suy pass từ ending PnL; news/inactivity/payout/spec thiếu giữ unknown |
+| 5 — forward demo | Frozen strategy chạy giá thực trong phạm vi được cấp; đối chiếu signal→risk→order→fill/cost, ngắt/kết nối lại và unknown | G3/G4 review và execution authority; system open→close test cũ không thay strategy-forward |
+| 6 — challenge rồi funded/reward | Xét mua/terms/budget riêng; vận hành đúng version/risk, giữ monitoring và kiểm eligibility/reward thực nhận | Không tự mua hoặc gửi lệnh từ roadmap; payout/KYC/agreement thuộc hãng/owner |
+
+Trong lúc chờ kết quả có thể chuẩn bị checklist/bộ đối chứng, dossier/report và
+protocol template chưa chọn outcome; không cần mở thêm window/strategy, benchmark
+đắt hoặc service. Task không phụ thuộc result thì làm trước; nhiệm vụ lựa chọn
+candidate phải chờ evidence. Research strategy mới có thể tiếp tục trong lane
+tách biệt về sau, nhưng không sửa bot đang được đánh giá/vận hành giữa chừng.
+
+Đây là thứ tự scope/acceptance, không phải ledger thứ hai. Các phần bên dưới
+giữ lịch sử; ưu tiên06/11 này thay cách diễn giải chỉ đợi annual complete rồi
+mới xem xét failure path. Chưa công nhận whole-product, edge hoặc payout readiness.
+
 ## Ưu tiên chọn chiến lược — owner làm rõ 05/11/2026
 
 Owner tiếp05/11 giao triển khai đầy đủ workflow/skills đã đề xuất và chủ động

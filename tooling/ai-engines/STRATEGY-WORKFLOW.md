@@ -16,6 +16,46 @@ bằng chứng. Paperclip own task/run/report; không thêm tracker/UI riêng.
 Không cần agent/task riêng mỗi hàng. Fixed process worker không tự nhận câu hỏi
 mới từ Markdown; coding agent chạy study riêng, lead delegate theo capability.
 
+## Từ ý tưởng đến payout — cách hiểu và vai trò
+
+**Ý tưởng → quy tắc rõ → thử quá khứ → kiểm chéo/ngoài mẫu → demo → challenge
+→ funded account → reward thực nhận.** Đây là đường đi mục tiêu; project hiện
+ở nghiên cứu/sàng lọc, chưa có strategy được công nhận đủ evidence đi hết luồng.
+
+| Thành phần | Công việc |
+|---|---|
+| AI agents | Tìm/đọc research, giúp viết và review code, lập thí nghiệm, giải thích kết quả, điều phối và phân tích sự cố |
+| Bot chiến lược | Đọc dữ liệu mới, tính tín hiệu và đề nghị mở/đóng theo bộ rules đã khóa. Có bot không có nghĩa đã có edge |
+| Risk và execution owner | Kiểm account/quote/quyền/lot/exposure/budget trước khi gửi; quản lý pending/unknown và đối soát phản hồi MT5. Signal không tự là permission |
+| Paperclip và bằng chứng | Native task/run/report; logs/checkpoint/artifacts ghi quá trình. Không biến Markdown/report hoặc LLM thành authority gửi lệnh |
+| Owner | Chọn mục tiêu/ngân sách, theo dõi, xử lý quyết định account/terms/reward; không cần tự bấm mọi tín hiệu trong mode auto được cấp quyền |
+
+Luồng giao dịch dự kiến: **giá MT5 → bot tính tín hiệu → risk/authority kiểm
+→ runner gửi qua MT5 → nhận kết quả và đối soát → ghi trạng thái**. Offline
+backtest hiện tại dùng lịch sử và mô phỏng execution, không gửi broker/model.
+Shadow chỉ quan sát/mô phỏng theo mode; broker demo mới gửi lệnh trong tài khoản
+demo theo grant. Production dùng tài khoản đích và đúng gate/version; không
+đồng nhất khả năng research hoặc system-demo với việc đã sẵn sàng production.
+
+LLM không nằm trong quyết định mỗi tick/lệnh ở numeric strategy hiện tại. AI
+có thể tiếp tục research/monitoring bên cạnh bot; đề xuất thay rules là version
+mới phải qua kiểm định và handoff, không tự sửa bot đang chạy. ML strategy hoặc
+LLM-in-the-loop về sau là thiết kế khác, chưa thuộc đường hiện tại.
+
+Edge là evidence cho lợi thế sau chi phí, vẫn có lệnh lỗ và có thể suy giảm.
+Monitoring tiếp tục sau demo/challenge/funded: kiểm execution, risk, drift và
+điều kiện dừng/giảm rủi ro đã định trước; không tự tuning sau mỗi lệnh thua.
+Lỗi/mất kết nối không bảo đảm vị thế đã flat; chặn mở mới theo gate, đối soát
+pending/unknown trước khi gửi lại. Logs/backup/recovery là phần vận hành,
+không chứng minh strategy có lời hoặc CLI research resume đã hỗ trợ.
+
+Với FTMO CFD, **funded account vẫn dùng simulated capital**; Reward có thể là
+tiền thật khi đáp ứng trading objectives/terms và qua quy trình hãng. Lãi trên
+màn hình, pass evaluation và tiền đã nhận là ba trạng thái khác nhau. Đã đọc
+[FAQ reward chính thức06/11](https://ftmo.com/en/faq/how-do-i-withdraw-my-profits/);
+không suy luật FTMO sang The5ers hoặc tự động hóa yêu cầu/rút reward. Phí challenge,
+retry và chi phí vận hành cần tách khỏi simulated PnL khi đánh giá lợi ích owner.
+
 Khung/checklist theo stage ở
 [validation gates](../../.agents/skills/strategy-qualification/references/validation-gates.md),
 căn cứ và current gaps ở [framework audit](../../planning/research/STRATEGY-VALIDATION-FRAMEWORK-20261105.md).
