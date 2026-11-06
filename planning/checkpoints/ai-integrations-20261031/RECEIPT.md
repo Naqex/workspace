@@ -6448,3 +6448,35 @@ ledgerDD>0 bị từ chối dù hash/seal mới hợp lệ;10report tests đạt
 tại workspace root. Chỉ consumer/test/receipt thay đổi; nguồn numerical đang
 chạy giữ nguyên. Pipeline tiếp tục phí chuẩn→phí cao→verified report; chưa mở
 risk/TP variants, holdout hoặc broker trong lúc chờ.
+
+### 06/11 16:33VN — hai survivors completed, final risk/accounting kiểm đạt
+
+Owner hỏi tiến độ. Đã đọc pipeline/terminal:2/2jobs completed_verified16:09:08VN,
+pipeline+report completed16:09:18VN,4scenarios×3horizons=12rows. Wall pipeline
+2h42m57s (batch9766,53s), không còn process theo owned job/CLI commands. Pipeline,
+batch,report và2worker stderr0byte,projectionerrors0. Initial console read có lỗi
+encodingcp1252khi inUnicode; đọcUTF8/Get-Content đạt, không phải numerical failure.
+
+Final `horizon-report.json` SHA256
+`8f5460fcce03ff8e91be7bf0b8a830cef5682b8dd17e0f03b664521516829292`.
+Annual chuẩn/cao trên10k:Z-score+275,74/+179,77USD,102lệnhđóng;UTC range+223,74/
++186,96USD,199lệnhđóng. Mọi annual position/pending0. TickDD chuẩn/cao tương ứng
+90,80/106,43 và129,71/143,79USD; stress đệm daily tối thiểu459,24/475,00USD,
+overall992,84/898,18USD. Native qualifying entry days94/199. Không first breach
+trong declared profile; cả12cutoffs vẫnphase1/chưa đạt target. Lifecycle`running`
+ở snapshot nghĩa chưa đạt tại cutoff, numerical processes đã hoàn tất.
+
+Rerun read-only `audit_horizon_metrics.py`:12/12snapshot có scenario seals,
+cash/fee/calendar/native state/tick counts/min equity/DD-vs-ledger/entrydays đạt;
+`horizon-metrics-audit.json` giữ scope. `final-financial-parity.json`:12rows
+khớp previousannual survivors về cash/equity/floating/counts/positions/pending,
+và toàn bộ trade traces exact. Xác nhận instrumentation/correct calendar không
+đổi financial outcomes trong cấu hình này; không là economic sample/OOS mới.
+
+Đã hoàn tất lượt đo theo registration và gói kiểm chứng liên quan, không tuyên
+bố strategy edge, full broker/firm contract hay payout readiness. Phí và cash
+booking theo declared model, không phải historical broker statement. Risk/TP
+variants chưa chạy; không auto nâng risk hoặc mở data/authority mới từ kết quả.
+ETA trước16:40–17:15là estimate bảo thủ; thực tế cost-stress74,6–78,5phút,
+không chậm hơn reference78,5–84,0phút ở lượt này. Không suy nguyên nhân/speedup
+vì nguồn CPU/foreground/cache conditions không được A/B đo trong annual.

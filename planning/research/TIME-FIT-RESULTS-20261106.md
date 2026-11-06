@@ -133,9 +133,13 @@ cost-screen cũ; diagnostic không biến thành tiêu chí đã prereg hoặc p
 ## Thứ tự việc tiếp theo
 
 Thực thi tiếp sau review: [study hai survivors](PROP-PATH-SURVIVORS-20261106.md)
-đã bổ sung tick-risk/native lifecycle/exit controls và dispatch13:26VN.
-Các mục dưới giữ lý do/thứ tự đã chọn; actual state theo receipt AI, chưa có
-full-year result của source mới. Risk/TP variants và fresh validation vẫn chưa chạy.
+đã bổ sung tick-risk/native lifecycle/exit controls và completed16:09VN sau
+dispatch13:26VN.12sealed rows đối soát đạt, financial outputs/trade traces khớp
+annual cũ cho hai survivors. Measured annual tickDD chuẩn/cao: Z-score90,80/
+106,43USD;UTC range129,71/143,79USD. Không breach declared loss profile, nhưng
+chưa đạt targetphase1ởmọicutoff. Không gọi lifecycle`running` là worker còn chạy.
+Các mục dưới giữ lý do/thứ tự đã chọn; actual state theo receipt AI.
+Risk/TP variants và fresh validation vẫn chưa chạy; chưa coi đây là OOS/edge proof.
 
 1. **Nối phép đo account/prop trước batch đắt tiếp theo.** Reuse `prop_session.py`;
    nhận risk observations ở từng quote/cash event, đúng resetPrague/DST, equity

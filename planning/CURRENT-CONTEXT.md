@@ -10,20 +10,26 @@ cancel/reuse. Real consumed prefix232.578ticks×4cases giữ exact execution par
 12horizon rows đọc lại đạt. Cache mới verified606,093s, hai registered preflights
 đạt. [Protocol và binding](research/PROP-PATH-SURVIVORS-20261106.md) giữ rules cũ,
 25USD risk, hai costs và declared FTMO2-Step profile; chưa risk/TP variants/OOS.
-**Pipeline mới chạy từ13:26VN**, root
+**Pipeline hai survivors hoàn tất16:09VN** (khởi động13:26VN), root
 `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/prop-survivors-20261106/execution-v1/`:
-`pipeline.json`→`batch-1/progress.json`, report tự sinh sau verified completion.
-Hai worker Z-score/UTC range, ceiling6h/worker8h/batch không ETA, không auto retry.
-Không sửa pinned numerical files trong lúc chạy; receipt AI giữ actual snapshot.
-Full-year risk/declared lifecycle result vẫn pending, không coi source/fixture pass
-là economic edge, full firm certification hoặc authority gửi lệnh.
+`pipeline.json` completed,2/2jobs completed_verified,4scenarios/12rows;
+`horizon-report.json`/`.md` đã sinh, không còn numerical worker của lượt này.
+Final audit12sealed snapshots đạt; money/fill/count/trade traces khớp12rows
+survivors của annual cũ, thêm measured tick DD/prop path. Annual stress net:
+Z-score179,77USD/tickDD106,43USD;UTC range186,96USD/tickDD143,79USD trên10k.
+Không breach declared loss profile, nhưng cả hai vẫnphase1/chưa đạt target tại
+mọi cutoff; `running` trong lifecycle không có nghĩa numerical job còn chạy.
+Đã có full-year measured result trong declared scope, chưa cleanOOS/economic
+edge/full firm certification/broker authority. Risk/TP variants vẫn chưa chạy.
 
 Điểm định hướng 06/11 sau câu hỏi owner về tổng thể: mục tiêu vẫn là tìm chiến
 lược Forex tự động có lợi thế sau chi phí, phù hợp FTMO 2-Step Swing trước,
 tiếp cận vốn prop với rủi ro kiểm soát. Hệ thống đã đủ chạy research offline;
 không đồng nghĩa toàn sản phẩm/live hoàn chỉnh. Đã screening 5 bộ quy tắc
 cố định trong annual2023; hai bản còn đáng kiểm, chưa có winner hoặc clean-OOS/prop qualification. Annual batch 2023
-chỉ thêm observations 3/6/12 tháng; **chưa mô phỏng đủ phase1→reset→phase2**.
+đầu chỉ thêm observations3/6/12tháng, chưa nối lifecycle. Study hai survivors
+mới đã nối declared lifecycle, nhưng sample thực tế chưa đạt để chuyểnphase;
+phase1→reset→phase2 được kiểm bằng fixture, không giả claim cả hai đã pass.
 Owner đồng ý hướng điều phối 06/11: để batch đã launch hoàn tất; ưu tiên
 quyết định giữ/loại/inconclusive và nối đánh giá prop còn thiếu. Không mở thêm
 nhánh GPU/Rust/benchmark nếu không có lỗi hoặc bottleneck chặn bước đó. Đây là

@@ -5,8 +5,9 @@
 Delta thực thi06/11: owner giao làm đủ tick-risk/exit/short-path checks rồi chạy
 hai survivors. Native evaluator adapter và actual account reset đã có source/
 fixture proof,4consumed-data parity cases đạt; [study mới](../research/PROP-PATH-SURVIVORS-20261106.md)
-đã dispatch13:26VN, cùng rules/risk/costs cũ. Receipt AI giữ actual state;
-full-year declared-profile result còn pending. Không mở thêm risk/exit grid,
+đã dispatch13:26VN và completed16:09VN, cùng rules/risk/costs cũ. Receipt AI giữ
+12verified observations: không breach declared profile, cả hai chưa đạtphase1.
+Đây là full-year result trong declared scope, chưa cleanOOS/edge. Không mở risk/exit grid,
 holdout hoặc broker từ dispatch này; các mục tương ứng bên dưới vẫn là lát sau.
 
 Mục tiêu giữ nguyên: tìm và vận hành strategy Forex tự động có evidence, tiếp
