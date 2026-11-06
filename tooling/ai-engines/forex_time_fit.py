@@ -217,7 +217,8 @@ def render_report(report):
         'Screen chỉ áp dụng phiên bản/cost/window đang thử; không kết luận cả họ chiến lược vô dụng.',
         'Không tăng lot, sửa tham số hoặc gọi các horizon là mẫu độc lập để cải thiện kết quả.',
         'Còn phải đánh giá độ bền ngoài mẫu, drawdown/tail risk và full phase 1 → reset → phase 2.',
-        'Internal risk UTC, phí lịch sử và coverage còn giới hạn; chưa có quyền tự promote/gửi lệnh.',''])
+        'Nến/quotes theo UTC; phanh ngày nội bộ reset Europe/Prague. Ngân sách nội bộ chưa là luật quỹ đầy đủ.',
+        'Phí lịch sử và coverage còn giới hạn; chưa có quyền tự promote/gửi lệnh.',''])
     return '\n'.join(lines)
 
 

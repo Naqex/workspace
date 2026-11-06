@@ -16,13 +16,21 @@ hướng giữ trọng tâm đã được owner xác nhận; các quyền broker
 Delta06/11 sau annual slowdown: attempt `execution-v1` đã dừng có kiểm soát
 07:49VN, 0/5job và0scenario hoàn tất; không có annual result được công nhận.
 Đã xác nhận toàn bộ process owner/worker dừng rồi fast-forward main Trader lên
-`86eade80`; bốn file khớp byte với worktree đã kiểm108tests. **Chưa có annual
-attempt mới chạy.** Lượt mới phải có source-bound registration/config/deadline;
-không sửa frozen registration cũ hoặc giả resume partial. Receipt AI giữ evidence,
+`86eade80`; bốn file khớp byte với worktree đã kiểm108tests. Theo owner giao làm
+phần chuẩn bị hậu batch trước chạy lại: thêm thống kê net closed trades/financing,
+streak/concentration và ledger-mark DD (không full tick DD), cùng proof fixtures.
+**Annual recovery `execution-v2` đã launch08:02VN**, source Trader `bbc7c60e`,
+[registration mới](research/TIME-FIT-RECOVERY-20261106.json), giữ economic rules.
+5worker trên6core, ceiling4h/worker6h/batch không ETA; đang chuẩn bị caches nguồn
+mới trước numerical workers, theo `pipeline.json`→`batch-1/progress.json` private.
+Không sửa frozen registration cũ hoặc giả resume partial. Receipt AI giữ evidence,
 benchmark/parity, worktree locator và cách tiếp tục an toàn. Khung
 [sàng lọc cập nhật](research/STRATEGY-VALIDATION-FRAMEWORK-20261105.md#sàng-lọc-ứng-viên-tiềm-năng--đối-chiếu-primary-sources-0611)
 giữ kết luận:5prototype EURUSD/H4 chưa là khảo sát toàn thị trường; screen phí
 chỉ chọn phép kiểm tiếp, chưa đóng OOS/risk/prop. Không sửa frozen tiêu chí batch.
+Đính chính nhãn cũ: candle/quote clockUTC, nhưng phanh ngày nội bộ đã reset
+Europe/Prague trong source từ trước, không phảiUTC; budgets/lifecycle vẫn chưa
+chứng minh full FTMO compliance. Report đã sửa nhãn, không đổi numeric clock.
 
 Trước mở window mới, đọc [audit consumption và protocol Q1/2023](research/PROP-HISTORICAL-ROBUSTNESS-20261105.md).
 Owner không nhớ đã xem2023–2024; nhãn hiện hành là historical robustness với

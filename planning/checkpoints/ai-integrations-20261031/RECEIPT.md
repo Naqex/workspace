@@ -6179,3 +6179,61 @@ thiết kế), giữ window/candidate/economic decision/risk/cost, chọn ceilin
 và kiểm setup/handoff bounded trước dispatch; không sửa hash cũ, tắt guards,
 gọi partial result là complete hoặc mở holdout. Task hậu batch/exit/risk review
 đã lưu trong AI plan; chưa triển khai các biến thể đó.
+
+### 06/11 — hoàn thiện phần chuẩn bị hậu batch và launch annual recovery v2
+
+Owner giao làm phần task hậu batch có thể làm trước, rồi chạy lại. Giữ5rules/
+windows/cost/risk/primary decision, không mở TP/risk grid, OOS, holdout hoặc broker.
+Không có worker cũ; source Trader main `bbc7c60e` gồm86eade80 và mapping cho
+registration mới. Không sửa frozen attempt/protocol/registration cũ.
+
+Report consumer `forex_time_fit.py` thêm `ledger_diagnostics` trên snapshot đã
+seal/validate: net closed PnL gồm debit/credit financing theo positionID; phí của
+vị thế còn mở giữ riêng để reconcile cash. Win denominator gồm closed flat,
+không gồm open; no-sample/undefined profit-factor giữ null/N/A. Có average win/
+loss, mean net, research-budgetR (không actual stop-risk), loss streak, monthly
+entry fills, positive-profit concentration và per-trade fill/stop/cost trace.
+Thống kê không gán mọi trade thành independently valid hoặc coi bỏ top3trade
+là counterfactual portfolio. Unknown/unsupported position/cash ledger bị từ chối.
+
+Đo thêm max drawdown và underwater span tại **ledger event marks**, có scope
+warning có thể bỏ lỡ đáy intratick; không full tick equity-path hoặc firm maxDD.
+Primary horizon screen vẫn cũ, promotion false. JSON chứa diagnostics, MD có
+bảng cuối năm chuẩn/stress; không render unknown winrate thành0%.
+
+Validation: **6tooling report tests** đạt (manual synthetic statistics + fee
+credit/debit/flat/open/cash mismatch, empty/NaN/no-trade, sealed future/tamper,
+report coverage); **7product registration tests** đạt. Bounded execution proof
+reuse `forex_pilot_probe.run_case` với5synthetic cases:BUY/SELL standard−0,25USD,
+stress−0,29USD vàBUY gap SL−1,75USD, independent Decimal oracle và causal exit
+đạt. Không lấy fixture gain/loss làm strategy edge.20historical Q1 checkpoints
+(5candidate×2cost×2quarters) giữ original hash, parse/closed-net/open-financing
+reconcile đạt dưới consumer mới; không cấp numerical reuse cross-version.
+Private evidence: `execution-v2/SCREENING-PROOF.md`, `screening-proof.json`,
+`historical-report-check.json`, `setup-check.json`. Reporter source stamp trong
+proof JSON là bản lúc chạy; sau đó chỉ sửa câu mô tả timezone, không đổi metrics.
+
+Đính chính một nhãn sai trong receipt/report cũ: source `forex_pilot_risk.py`
+`PilotRiskLimits.reset_timezone`, `_day`/`_day_bounds` đã dùngEurope/Prague từ
+trước; candle/quote UTC không có nghĩa risk resetUTC. Đã sửa report text/current
+context, không sửa numeric code/registration vì finding này. Internal100/500USD
+và thiếu full phase lifecycle vẫn không chứng minh FTMO compliance.
+
+Recovery [protocol](../../research/TIME-FIT-RECOVERY-20261106.md) và
+[registration](../../research/TIME-FIT-RECOVERY-20261106.json) SHA
+`c5e5c8b5bdaef5b0cbc753f2c134c562e2e0ca48fe520ccdea3e737dcf427a31`.
+Cheap setup đối chiếu tất cả economic keys/inputs với parent và actual source
+SHA trước launch; cả5jobs hợp lệ.5workers đồng thời trên6physical/logical cores,
+hard ceiling14.400s/worker21.600s/batch, không automatic retry. Đây là ceilings,
+chưa full-run ETA. Reader source đổi nên cache mới được prepare/verify một lần;
+reuse warmup/raw/export chỉ qua native guards, không copy checksum cho cache cũ.
+
+Finite pipeline launch **08:02:29VN**, root private:
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/prop-time-fit-20261106/execution-v2/`.
+Launcher PID4696, pipeline actual PID5764, controller launcher PID1316; kiểm
+creation/command/receipt khi resume, không dựa PID đơn lẻ. Snapshot08:02:57VN:
+preparing warmup quality3.342.336ticks,0/5numerical dispatched, projectionerrors0,
+stderr0. `pipeline.json`→`batch-1/progress.json`/`PROGRESS.md` giữ actual tiến độ;
+pipeline tự verify/export horizon-report sau5jobs completed_verified. Chưa claim
+annual complete hoặc strategy qualified. Sau run: đọc diagnostics/decision của
+5bản trước chọn thí nghiệm risk/exit/OOS/prop; không mở rộng search khi chưa cần.

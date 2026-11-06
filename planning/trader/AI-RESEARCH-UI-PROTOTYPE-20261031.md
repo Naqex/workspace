@@ -65,6 +65,16 @@ protocol template chưa chọn outcome; không cần mở thêm window/strategy,
 candidate phải chờ evidence. Research strategy mới có thể tiếp tục trong lane
 tách biệt về sau, nhưng không sửa bot đang được đánh giá/vận hành giữa chừng.
 
+**Thực thi06/11 trước recovery:** owner giao làm phần hậu batch có thể làm ngay
+rồi chạy lại. Đã thêm report diagnostics từ sealed snapshots: net trade sau
+timed financing, win/loss/flat/open, average win/loss, profit factor, budgetR,
+streak/concentration/monthly fills và ledger-mark drawdown/underwater. Report
+giữ gap risk-path đầy đủ, không gắn DD này thành luật quỹ. Gói proof có5fixture
+với oracle tiền độc lập,6report tests,7registration tests và20case quý cũ được
+đối soát lại. Registration recovery và launcher mới đã khởi động; receipt giữ
+actual state. Chưa chọn winner, chạy risk/TP variants, mở OOS hoặc broker; đó là
+việc phụ thuộc outcome/các gate, không đánh dấu toàn bộ roadmap đã hoàn tất.
+
 Đây là thứ tự scope/acceptance, không phải ledger thứ hai. Các phần bên dưới
 giữ lịch sử; ưu tiên06/11 này thay cách diễn giải chỉ đợi annual complete rồi
 mới xem xét failure path. Chưa công nhận whole-product, edge hoặc payout readiness.
