@@ -40,6 +40,24 @@ Owner xác nhận06/11 lưu bổ sung vào việc sau batch, trước khi chọn
   flat/open counts, net expectancy/uncertainty, losing streak/tail/drawdown và
   time-to-target. Không dùng win-rate minimum chung, không đổi TP để đạt winrate
   đẹp. Chưa coi gói chứng cứ đã xong hoặc strategy có edge từ việc lưu task này.
+- **Củng cố gói chứng cứ end-to-end:** owner yêu cầu tối ưu phần chưa đủ proof
+  về hệ thống sàng lọc, không chỉ tốc độ. Sau batch, rà đúng gap theo G0–G6 và
+  dựng một journey mẫu có trace: raw quote/candle đã biết lúc quyết định →
+  indicator/rule → signal/quantity/protection → modeled fill/cost/risk → ledger/
+  verdict. Đối chiếu các điểm chọn trước với tính tay/oracle phù hợp; demo về
+  sau kiểm thêm actual MT5 order/deal/cost. Phân biệt source tests, runtime đã
+  kiểm, strategy qualification và payout readiness; chưa full acceptance từ hash
+  hoặc một end-to-end fixture. Reuse report/trace native, không tạo UI quản lý mới.
+- **So cách thoát có kiểm soát:** không thay5baseline đang chạy. Với candidate
+  có hypothesis/diagnostic đủ lý do, đăng ký baseline exit hiện tại và một nhóm
+  nhỏ fixed-target variants trên development đã consumed trước fresh validation.
+  Cố định entry/SL/risk/cost để tách effect của exit; ví dụ thêm TP ở2×khoảng
+  initialSL khi fill chỉ là đề xuất, chưa thông số được đăng ký. Protocol phải
+  nói TP thay exit cũ hay thêm TP và đóng theo điều kiện hợp lệ nào đến trước,
+  pin gross price-distance R khác net R sau phí, gap/tick-grid/timing/end-sample.
+  Chạy lại account path vì TP có thể đổi holding/cơ hội vào sau, không cắt riêng
+  trade PnL cũ. Giữ original và mọi trial; chỉ mở OOS sau freeze, không search
+  đồng thời risk×TP×SL×indicator/pair hoặc chọn solely highest winrate/PnL.
 
 Trong lúc chờ kết quả có thể chuẩn bị checklist/bộ đối chứng, dossier/report và
 protocol template chưa chọn outcome; không cần mở thêm window/strategy, benchmark
