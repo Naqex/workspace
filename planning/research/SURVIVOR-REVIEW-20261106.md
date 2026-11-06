@@ -135,3 +135,28 @@ exit đã giao trong backlog; không bỏ chúng và không auto-dispatch test m
   và [QuantConnect Research Guide](https://www.quantconnect.com/docs/v2/cloud-platform/backtesting/research-guide):
   giữ giả thuyết/quy tắc, tính chi phí, giữ failures và bảo vệ OOS; không dùng
   test lặp trên cùng dữ liệu để biến net dương thành chứng minh edge.
+
+## Chuẩn bị song song khi chờ period batch — đề xuất sau câu hỏi owner 06/11
+
+Owner hỏi có nên kiểm lại các bản chưa qua screening hoặc ý tưởng chưa được
+triển khai. Khuyến nghị: tiếp tục hai numerical workers đang chạy; song song
+review artifacts đã consumed và chuẩn bị hypothesis/protocol, chưa dispatch
+thêm batch hoặc sửa source đang được numerical workers dùng.
+
+| Nhóm | Việc chuẩn bị | Điều kiện để cân nhắc numerical test mới |
+|---|---|---|
+| Donchian hiện tại: annual stress −488,47 USD | Giữ fail của version/config này, xem nguồn lỗ từ saved price-PnL/costs/exposure | Cơ chế hoặc gap cụ thể đủ lý do; không tăng lot hoặc sweep để cứu kết quả |
+| SMA: stress −25,49 USD, 15 lệnh đóng/năm | Ưu tiên phân biệt ít mẫu, cost sensitivity và lỗi implementation nếu có | Protocol giải quyết bất định sample/coverage, giữ rules; không tự gọi đã có edge |
+| Pullback: stress −132,51 USD; reference +1,40 gồm vị thế mở | Phân tích net/floating/financing/holding và nguyên nhân price-PnL so với phí | Có hypothesis sửa một yếu tố, thành version/trial mới; không chọn exit sau khi thấy outcome |
+| Ý tưởng chưa triển khai ở danh mục round1 | Đọc cơ chế, yêu cầu history/universe/session/cost và khả năng tái lập | Đủ dữ liệu/contract và một giả thuyết rõ mới đăng ký; chưa test không phải đã fail |
+
+Quy trình cho bài tiếp: phân loại fail/insufficient/correctness → nêu một câu
+hỏi và tiêu chí bác bỏ → reuse diagnostics trên consumed artifacts → freeze
+rules/data/cost/risk/decision trước outcome mới → chạy phần cần thiết → giữ mọi
+trial kể cả âm. Thay risk đơn thuần không chứng minh đã sửa lợi thế sau phí.
+Protocol round1/round2 là hai đợt bổ sung candidate, không phải hai chứng nhận
+qualification. G0–G6 vẫn phân biệt correctness, edge, prop và execution authority.
+
+Đề xuất này chưa là phân công chạy lại ba ứng viên, chọn winner, mở data window
+mới hoặc thay current period registration. Primary source phương pháp vẫn là
+Arnott/Harvey/Markowitz đã dẫn trên; tránh sửa đi sửa lại theo cùng kết quả.
