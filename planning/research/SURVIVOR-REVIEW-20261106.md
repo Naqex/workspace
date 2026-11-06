@@ -1,5 +1,9 @@
 # Hai ứng viên sau annual — review bằng chứng đã có, 06/11/2026
 
+Review này giữ thời điểm trước bài Q2–Q3/2022. Kết quả và quyết định mới hơn ở
+[period-results](PERIOD-RESULTS-20261106.md): Z-score version tạm gác sau screen
+âm, UTC range ưu tiên review validation nhưng vẫn chưa edge/prop-qualified.
+
 ## Kết luận và quyết định bước tiếp
 
 **Cả Z-score và UTC range vẫn `inconclusive`: giữ để nghiên cứu, chưa chọn

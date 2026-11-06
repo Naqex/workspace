@@ -6617,3 +6617,55 @@ vẫn thiếu. Chỉ docs thay đổi, không numerical/source pin của workers
 Batch snapshot18:03:59VN vẫnrunning, cả hai qua reference và đangstress;
 chưa chốt candidate outcome từ partial result. Actual status tiếp tục ở native
 progress/terminal; không sửa registration, cancel hoặc dispatch worker mới.
+
+### 06/11 — period batch completed, audited và tiếp tục UTC range offline handoff
+
+Owner giao kiểm đã xong chưa và tiếp tục task. Pipeline completed18:21:30VN,
+numerical2/2jobs verified18:21:25VN,4scenarios/8rows, wall2684,94s; không còn
+owned numerical processes khi kiểm. Pipeline/batch/report và worker stderr
+trống,projectionerrors0. Không replay batch6tháng. [Kết quả/decision](../../research/PERIOD-RESULTS-20261106.md)
+giữ net chuẩn/cao Z-score−81,21/−117,10USD,UTC range+48,56/+39,81USD trên10k;
+tickDD stress169,52/132,85USD,61/99closed trades, cuối mẫu flat/pending0.
+Không breach declared profile, cả8cutoffs vẫnphase1/notreached. Chỉ giữ UTC
+cho review validation, Z-score version tạm gác; chưa edge/prop qualification.
+
+Private attempt `prop-period-robustness-20261106/execution-v1/` có
+`audit_completed.py`→`completed-evidence-audit.json`:2dossiers actualraw input
+hashes/source bindings/seals và8snapshot/report rows khớp; từng trade costs/net
+rồi cash/floating/equity đối soát. Report SHA256
+`b59aabd4119f82372ad018865b6ada508b740ea35f398bf472b3f0cd7b3423f6`.
+Q2/Q3stress contributions Z+20,03/−137,13;UTC+105,55/−65,74USD. Không coi
+7khối quý đã dùng là7samples độc lập, hoặc nối reset accounts thành curve.
+CPU worker tổng5048,30s; không suy controlled speedup từ workload annual khác.
+
+Theo task bàn giao đã chuẩn bị, source Trader `46324968` bổ sung UTC range vào
+`ForexForwardSession`/offlineCSVCLI, reuse `PropH4Candidate` và typed state.
+Binding/state/purpose phải khớp, CLI pin module candidate thực chạy; missing/
+changed/wrongpath pin fail trước checkpoint. Preserve range/day latch,
+position identity, pending orders/exits và buffered-hour/H4 state qua restart.
+Giữ fixed-candidate compatibility và constant no-execution/no-qualification;
+`scripts/mt5_forward_session.py` không đổi, chưa actual observed-market forward.
+
+Focused commands từ Trader root:
+`foundation_v2/.venv/Scripts/python.exe -m unittest discover -s foundation_v2/tests -p test_forex_forward.py -q`
+→12pass; cùng command pattern`test_forex_forward_cli.py`→6pass. Controls bao gồm
+partial hour, pending entry/exit, day boundaries/missing range bar, source pin,
+stale writer/duplicate/corrupt checkpoint và fixed regressions. Numerical14
+files pin của completed study giữ nguyên byte; không rerun source tests khác.
+
+Bounded parity recipe `post-batch-preparation-v1/audit_utc_stream.py` chỉ đọc
+consumed Jan1–Jan3/2023prefix232.578ticks từ container annual2023đã pin, reuse
+warmup cũ. Cả reference/stress có2restores tại buffered quote và duplicate-noop;
+full pilot checkpoint/candidate/builder/4decisions khớp exact bounded batch.
+Reference/stress balance9987,95/9987,67USD; kiểm tiền không phải lợi nhuận.
+15,49/15,26s case, không full prop-lifecycle/CLI throughput/broker acceptance.
+`utc-stream-parity.json` giữ kết quả; first recipe dùng sai keyword nên dừng
+trước replay, đã sửa tên API và dùng outputv2mới, không đụng batch chính.
+
+Rà lại consumption sau khi batch consume window mới:289JSONmetadata,160records,
+0review-required; không record evaluation2024/2025trong roots, **không chứng minh
+unseen** hoặc history ngoài filesystem. `validation-consumption-audit.json`
+giữ scope. Bước kinh tế tiếp ưu tiên unchangedUTC trên data role/split đã khóa
+trước outcome; chưa có executable registration/new window authority, không mở
+2024/2025+/finalholdout hoặc risk/TP grid. Core stream ready trong offline scope
+không thay G3/G4/G6. AI plan/current context/index đã route theo outcome mới.

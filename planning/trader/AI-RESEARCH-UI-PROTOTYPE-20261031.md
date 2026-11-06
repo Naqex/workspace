@@ -2,6 +2,13 @@
 
 ## Sau period batch: chuẩn bị tiến tới vốn prop và payout — 06/11/2026
 
+**Delta thực thi hậu batch:** [kết quả Q2–Q3/2022](../research/PERIOD-RESULTS-20261106.md)
+đã audit completed2/2jobs/8rows. Tạm gác Z-score version hiện tại, giữ UTC range
+để review validation; chưa đủ edge/prop. Đã nối UTC vào coordinator/CLI offline,
+có typed state/source pin/restart và consumed-data batch parity; actual MT5
+runner vẫn fixed. Lát tiếp là khóa bài validation kinh tế đúng data role/consumed
+map và tiêu chí trước outcome; chưa mở2024/2025+/holdout/broker hoặc risk/TP grid.
+
 Owner yêu cầu làm rõ mục tiêu ngắn/trung/dài hạn và chuẩn bị trong lúc batch
 Q2–Q3/2022 chạy. Đích là tìm, kiểm định và vận hành lợi thế sau chi phí để tiếp
 cận/duy trì vốn prop với risk kiểm soát; không phải thử mọi biến thể hoặc ép có
@@ -15,12 +22,12 @@ các bảng annual bên dưới là lịch sử và không tự dispatch risk/ex
 
 | Lát / ưu tiên | Đã có để dùng lại | Phần thiếu và kết quả cần đạt | Chuẩn bị lúc chờ |
 |---|---|---|---|
-| 1. Chốt batch, quyết định tiếp | Protocol, hashes, seals, accounting, tick-risk/native lifecycle, báo cáo 3/6 tháng | Đọc verified 6-month outcomes và concentration/cost/coverage; mỗi candidate giữ/không tiếp tục/inconclusive kèm lý do. Batch pass không tự là edge | Đã khóa nhánh quyết định bên dưới; không xem kết quả partial để sửa bài |
+| 1. Chốt batch, quyết định tiếp | Protocol, hashes, seals, accounting, tick-risk/native lifecycle, báo cáo 3/6 tháng | Đã đóng/audit: Z-score tạm gác; UTC range còn đáng kiểm nhưng inconclusive | Kết quả và scope ở period-results, không rerun để đọc report |
 | 2. Chuẩn bị ứng viên dự phòng | Version/trial history, annual artifacts của cả 5 candidates, hypothesis list | Chỉ chọn phép kiểm có lý do. SMA ít mẫu/nhạy phí; Pullback lợi nhuận từ giá mỏng; Donchian version hiện tại có price PnL âm | Đã đối soát decomposition 6 annual rows, không replay; diagnostic ở receipt và survivor review |
 | 3. Kiểm định kinh tế ngoài mẫu | Consumption auditor, frozen registration/runner, cost scenarios, G0–G3 | Chưa có clean-OOS evidence hoặc bộ data split cho final validation. Cần exact candidate/version, data role/coverage/exposure, metrics/baseline/stop/decision và freeze trước outcome | Giữ checklist hồ sơ bên dưới; chưa chọn/mở 2024/2025+ hoặc tạo đăng ký giả |
 | 4. Risk / exit phù hợp | Fixed25USD baseline; thiết kế sensitivity12,50/25 và TP2R trong backlog | Chỉ kiểm một trục nếu diagnostic/câu hỏi kinh tế đủ lý do; mọi biến thể là trial mới, validation sau freeze | Chưa chạy risk×TP grid; không bắt đổi TP/risk để được qua stage |
 | 5. Prop-fit và lợi ích owner | Declared FTMO 2-Step profile, tick DD/headroom/reset/target/day observations, time-fit research3/6/12 | Pin đúng program/account/terms/costs, các rule áp dụng/miễn trừ và inactivity/eligibility; xem survival/thời gian/fees/payout economics. Không suy xác suất pass từ vài runs | Lập evidence checklist theo profile; không mua challenge hoặc tự tạo news engine khi không có rule cần nó |
-| 6. Strategy → forward/shadow → demo | Fixed-candidate quote coordinator, candidate state serializers, MT5 execution/grant/risk/reconciliation owners | Hai research candidates chưa được nối vào forward runner; cần typed state/binding và parity trước observed-market shadow/demo. Kiểm model-vs-broker costs/fills và recovery | Đã audit entrypoints và chốt acceptance ở dưới; chưa sửa source đang chạy hoặc gửi broker |
+| 6. Strategy → forward/shadow → demo | Quote coordinator/CLI đã nhận UTC range offline với typed state/source pin/restart; reuse MT5 execution/grant/risk/reconciliation owners | Còn actual observed-market shadow, model-vs-broker costs/fills/recovery và strategy-specific broker handoff sau qualification/gate. MT5 runner vẫn fixed | Offline12core+6CLItests và232.578consumed ticks×2costs/two restores khớp batch; không broker calls |
 | 7. Vận hành / mở rộng | Status/logs, finite supervisors, completed reuse, local recovery evidence có scope | Sau khi strategy đủ evidence: giám sát drift/risk/fills, tổng exposure account; challenge/funded/reward và mở rộng vốn theo quyền/terms | Reuse nền hiện có; cloud backup, máy dự phòng, GPU/Rust và orchestration mới vẫn để sau nếu chưa có bottleneck thực |
 
 ### Quyết định ngay sau batch, không cần chạy lại để đọc báo cáo
@@ -48,10 +55,12 @@ registration có data window và permission được khóa**.
 
 ### Acceptance cho việc nối research candidate vào forward
 
-Audit source06/11: `trading_workspace_v2/forex_forward.py` dùng `FixedH4Candidate`
+Audit trước implementation06/11: `trading_workspace_v2/forex_forward.py` dùng `FixedH4Candidate`
 và `H4CandidateState`; `scripts/forex_forward.py` chỉ nhận `fixed-eurusd-h4`;
 `scripts/mt5_forward_session.py` cũng khởi tạo fixed candidate. Hai research
 classes đã có export/from_state, nhưng điều đó chưa chứng minh forward hỗ trợ.
+Delta sau period batch: UTC range đã được nối vào offline coordinator/CLI và
+kiểm parity/restart; Z-score không được thêm và actual MT5 runner chưa thay đổi.
 
 Khi chọn version đủ điều kiện, mở rộng các entrypoints/state hiện có thay vì
 viết runner/risk/UI khác. Binding phải pin exact candidate/version, spec/cost/

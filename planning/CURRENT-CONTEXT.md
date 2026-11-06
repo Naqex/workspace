@@ -2,13 +2,18 @@
 
 ## Research kế thừa — 05/11/2026
 
-**Chuẩn bị sau batch06/11:** [AI plan: scope/acceptance hiện hành](trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md#sau-period-batch-chuẩn-bị-tiến-tới-vốn-prop-và-payout--06112026)
-đã gom việc thiếu theo research/OOS/prop/forward/operations, có nhánh nếu không
-còn candidate và checklist validation/forward; không coi toàn roadmap đã xong.
-Đã đọc lại6annual rows của ba bản tạm gác, không replay; [review](research/SURVIVOR-REVIEW-20261106.md)
-giữ cost/floating attribution. Source audit: forward entrypoints hiện chỉ fixed
-candidate, chưa nối Z-score/UTC range; chỉ chuẩn bị acceptance, chưa sửa runner.
-Không thêm skill/service hoặc mở holdout/broker; giữ source numerical đang chạy.
+**Period batch06/11 đã đóng:** [kết quả/decision hiện hành](research/PERIOD-RESULTS-20261106.md),
+pipeline completed18:21:30VN,2/2verified jobs/8horizon rows, không còn writer.
+Net6tháng chuẩn/cao: Z-score−81,21/−117,10USD(tạm gác version), UTC range
++48,56/+39,81USD(ưu tiên review validation, vẫn inconclusive). Không breach,
+đều chưa đạtphase1; không cleanOOS/edge/prop qualification. Đã audit hashes,
+seals/cash/cost/snapshot/report và giữ quarterly contributions không double-count.
+UTC range đã nối **offline** stream/checkpoint/CLI;12core+6CLItests và bounded
+232.578consumed ticks×2costs/two restores khớp batch. Broker runner vẫn fixed,
+chưa strategy-forward/live hoặc authority mới. [AI plan](trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md)
+giữ acceptance tiếp: exact validation split/consumption/protocol trước outcome;
+chưa mở2024/2025+, final holdout, risk/TP grid hoặc broker. Các đoạn sau giữ
+lịch sử preparation/dispatch; không resume numerical job đã completed.
 
 **Tiếp tục06/11:** owner giao thực hiện bước kế tiếp sau review. Scope mới ở
 [period robustness Apr–Sep2022](research/PERIOD-ROBUSTNESS-20261106.md): hai rules

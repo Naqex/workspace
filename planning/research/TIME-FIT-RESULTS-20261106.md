@@ -132,6 +132,10 @@ cost-screen cũ; diagnostic không biến thành tiêu chí đã prereg hoặc p
 
 ## Thứ tự việc tiếp theo
 
+Actual delta sau period: [kết quả/hậu kiểm Q2–Q3/2022](PERIOD-RESULTS-20261106.md)
+đã hoàn tất, UTC range giữ cho review validation, Z-score version tạm gác.
+Thứ tự thiết kế bên dưới là lịch sử; receipt/AI plan giữ scope/bước tiếp hiện hành.
+
 **Thứ tự hiện hành sau review06/11:** xem [review survivors](SURVIVOR-REVIEW-20261106.md).
 Period concentration/cost/sizing diagnostics cho thấy cần thêm coverage trước
 risk/TP tuning. Đề xuấtApr–Sep2022giữ rules/risk/exits, chưa mở giá/đăng ký/chạy;
