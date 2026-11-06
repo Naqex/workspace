@@ -2,6 +2,16 @@
 
 ## Research kế thừa — 05/11/2026
 
+**Review06/11 sau survivor completion:** [tổng hợp theo giai đoạn và đề xuất](research/SURVIVOR-REVIEW-20261106.md)
+đã dùng lạiQ1/2022vàannual2023, không numerical replay/mở giá mới. Cả hai vẫn
+inconclusive: UTC stress2023gần như phụ thuộcQ4(189,93trên186,96USD cả năm);
+Z-scoreít tập trung hơn nhưngQ1/2022/Q4/2023âm, nhạy financing. Modeled initial
+stop-risk dùng khoảng88%budget25USD, chưa có lý do quy net thấp cho sizing lỗi.
+**Bước đề xuất hiện hành:** review gate/consumption rồi đăng ký hai rules không
+đổi trênApr–Sep2022(hai costs); chưa executable/approved data window/cleanOOS.
+Ưu tiên kiểm robustness thời kỳ trước risk12,50/25vàTP2R; các task đó giữ backlog.
+Đoạn thứ tự cũ bên dưới là lịch sử, không là lệnh auto-dispatch sensitivity.
+
 Delta06/11 sau owner giao hoàn thiện phép đo rồi chạy hai survivors: source
 Trader`5c6d82ff` thêm transactional tick-risk observer dùng native prop evaluator;
 `0883e9ee` đăng ký study; `7b2c536d` chỉ thêm regression, không đổi numerical bytes.

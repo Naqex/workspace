@@ -132,6 +132,11 @@ cost-screen cũ; diagnostic không biến thành tiêu chí đã prereg hoặc p
 
 ## Thứ tự việc tiếp theo
 
+**Thứ tự hiện hành sau review06/11:** xem [review survivors](SURVIVOR-REVIEW-20261106.md).
+Period concentration/cost/sizing diagnostics cho thấy cần thêm coverage trước
+risk/TP tuning. Đề xuấtApr–Sep2022giữ rules/risk/exits, chưa mở giá/đăng ký/chạy;
+các mục risk/exit dưới đây giữ thiết kế/backlog cũ, không auto-dispatch.
+
 Thực thi tiếp sau review: [study hai survivors](PROP-PATH-SURVIVORS-20261106.md)
 đã bổ sung tick-risk/native lifecycle/exit controls và completed16:09VN sau
 dispatch13:26VN.12sealed rows đối soát đạt, financial outputs/trade traces khớp

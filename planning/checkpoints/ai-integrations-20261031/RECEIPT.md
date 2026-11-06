@@ -6480,3 +6480,43 @@ variants chưa chạy; không auto nâng risk hoặc mở data/authority mới t
 ETA trước16:40–17:15là estimate bảo thủ; thực tế cost-stress74,6–78,5phút,
 không chậm hơn reference78,5–84,0phút ở lượt này. Không suy nguyên nhân/speedup
 vì nguồn CPU/foreground/cache conditions không được A/B đo trong annual.
+
+### 06/11 — review survivors từ saved evidence, chưa dispatch numerical study mới
+
+Owner giao review sau khi hỏi tổng thể đang ở bước nào. Đã áp dụng
+strategy-qualification/strategy-research/evidence-continuity, dùng lại sealed
+Q1/2022vàannual2023; [báo cáo và thiết kế bước tiếp](../../research/SURVIVOR-REVIEW-20261106.md).
+Không mởApr–Sep2022,2024/2025+prices, không numerical replay/parameter search,
+model hoặc broker call từ recipe. Không sửa frozen registration/outcomes.
+
+Private review root:
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/prop-survivors-20261106/review-v1/`.
+`review_saved.py`đã chạy thành công qua Trader venv, output
+`saved-evidence-review.json`SHA256
+`d6ddeca3ae850d98d4d76d00503ec8409b70cdc9d7bd499d914ff4ba51710fbf`.
+Recipe kiểm3synthetic boundary selections, scenario cash reconciliation,
+trade-cost arithmetic và12annual horizon equity marks; tổng monthly/quarterly
+khớp annual. Kiểm lại23input artifact hashes đạt; scope/version/limitations
+giữ trong output. Đây là arithmetic/diagnostic reuse, không thêm mẫu kinh tế.
+
+Stress quarterlyUSD Z/UTC:Q1/2022−139,30/+26,67;Q1/2023+61,08/+28,48;
+Q2+86,68/+12,54;Q3+101,37/−43,99;Q4−69,36/+189,93.
+Không gộp các window chồng lịch hoặc gọi5khối quý là5independent samples;
+Q1/2022source cũ khác annual2023, chưa cross-version numerical equivalence.
+UTC annual186,96USDtrong đóQ4contribution189,93;ba quý còn lại−2,97USD.
+Z annual179,77trừ quý tốt nhấtcòn78,40USDnhưng thuaQ1/2022vàQ4/2023.
+Đây là contribution diagnostic, không là counterfactual replay bỏ quý.
+
+Stress initial modeled stop-risk trung bình22,13/21,97USD,88,54%/87,89%budget;
+không bao gồm financing/gap/latency. Z giữ trung bình29,59giờ, UTC6,15giờ;
+financing stress96,20/0USD. Không suy financing là toàn bộ nguyên nhân hoặc
+market regime gây outcome khi chưa kiểm. Correctness trong scope tách khỏi
+economic edge, full prop fit và execution authority: cả hai vẫninconclusive.
+
+Delta đề xuất sau review: thêm period coverage trước risk12,50/25hayTP2R.
+Design-only:hai frozen candidates×hai costs,Apr–Sep2022,warmupFeb–Mar2022,
+initial10k/risk25/internal100/500/originalSL/exits. Chưa owner-approved data
+window/cleanOOS/executable registration; cần consumption/availability audit,
+scope gate,6month registration/consumer/preflight trước outcome. Không sửa
+annual3/6/12JSONđể dispatch. Giữ các sensitivity/exit task cũ trong backlog;
+current context/AI plan/results route tới review mới để tránh thứ tự mâu thuẫn.

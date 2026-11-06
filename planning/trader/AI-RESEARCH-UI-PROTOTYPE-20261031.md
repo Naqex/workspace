@@ -2,6 +2,13 @@
 
 ## Thứ tự công việc sau annual batch — owner giao sắp lại 06/11/2026
 
+**Delta review06/11:** [review survivors](../research/SURVIVOR-REVIEW-20261106.md)
+đã tổng hợp savedQ1/2022/annual2023và costs/sizing/concentration. Cả hai vẫn
+inconclusive. Đề xuất kiểm thêmApr–Sep2022với rules/risk/exits cũ trước calibration
+risk/TP; chưa owner-approved data window hoặc executable registration. Giữ risk/
+exit tasks bên dưới trong backlog, không mặc định chạy chúng ngay sau prop-path.
+Receipt giữ actual review evidence; frozen protocols/outcomes không đổi.
+
 Delta thực thi06/11: owner giao làm đủ tick-risk/exit/short-path checks rồi chạy
 hai survivors. Native evaluator adapter và actual account reset đã có source/
 fixture proof,4consumed-data parity cases đạt; [study mới](../research/PROP-PATH-SURVIVORS-20261106.md)
