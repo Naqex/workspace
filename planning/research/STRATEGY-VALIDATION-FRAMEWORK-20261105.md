@@ -215,6 +215,26 @@ tại. Đây là diễn giải/đọc artifacts đã consumed, không thay froze
   tạo edge cho rules âm; size calibration ảnh hưởng lot/cost/risk/time-to-target
   nên không mặc định scale PnL tuyến tính. Đổi TP/exit là strategy variant mới.
 
+Làm rõ risk calibration06/11 theo câu hỏi owner:0,25% là **research baseline**,
+chưa phải mức tối ưu cho FTMO/The5ers. Khóa sizing rule trong một experiment;
+không cần khóa một mức tiền/risk% cho mọi giai đoạn dự án. Fixed25USD theo
+initial10.000 khác0,25% current equity có compounding. Đổi mức hoặc rule sizing
+là cấu hình/thí nghiệm mới: reuse data/indicator/code checks còn đúng, nhưng
+phải tính lại quantity/lot rounding/cost/margin/account risk/phase path và
+reconcile; không chỉ nhân ending PnL. Risk stops và min-lot có thể đổi cả tập
+lệnh được phép khớp. Giữ0,25% cho bài đang freeze; chỉ hiệu chỉnh ít mức risk
+trên ứng viên đáng kiểm, trước fresh validation, giữ trial history và tiêu chí
+survival/drawdown/time-fit thay vì chọn mức có PnL cao nhất. Đây là khuyến nghị
+workflow, chưa đăng ký/dispatch risk-grid hoặc cấp execution budget mới.
+
+Đối chiếu nguồn06/11: [FTMO2-Step objectives](https://ftmo.com/en/trading-objectives/)
+giữ daily5% initial với anchor balance00:00CE(S)T và static overall10% initial;
+[The5ers High Stakes FAQ](https://the5ers.com/faqs/what-is-the-drawdown-rule-for-high-stakes/)
+giữ daily5% của max(balance,equity) ngày trước tại00:00server và overall10%
+initial. Các trần account này không xác định risk/trade tối ưu; không đồng nhất
+reset/basis giữa hãng hoặc suy account-specific permission. The5ers vẫn cần
+program/size/terms pin riêng, như snapshot đã lưu.
+
 Tần suất **entry fills**, reference scenario, đọc results và ledger của hai bài
 Q1 đã lưu (3tháng/window; không phải số tín hiệu, số lệnh đã đóng hoặc cả năm):
 
