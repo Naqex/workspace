@@ -185,6 +185,16 @@ def inspect_horizons(directory, manifest, scenario):
             .astimezone(ZoneInfo('Europe/Prague')).date().isoformat()
             for event in e.ledger if event['kind']=='market_fill'}
         prop = inspect_prop_observation(row,manifest,state,cutoff,Decimal(slip),scenario) if manifest.get('prop_profile') else None
+        diagnostics=ledger_diagnostics(state)
+        if prop:
+            path=prop['path']
+            if (Decimal(path['maximum_drawdown'])<Decimal(diagnostics['ledger_event_max_drawdown_usd'])
+                    or Decimal(path['minimum_equity'])!=state.risk.minimum_observed_equity
+                    or prop['qualifying_days']!=len(entry_days)):
+                raise ValueError('tick/ledger risk or entry-day observations disagree')
+            if path['first_breach'] is None and any(Decimal(path[key])<0 for key in
+                    ('minimum_daily_headroom','minimum_overall_headroom')):
+                raise ValueError('negative prop headroom without breach evidence')
         output.append(dict(cutoff_utc=datetime.fromtimestamp(cutoff/1000,timezone.utc).isoformat(),
             starting_balance_usd=str(initial),balance_usd=str(e.balance),equity_usd=str(e.equity),
             balance_delta_usd=str(e.balance-initial),equity_delta_usd=str(e.equity-initial),
@@ -205,7 +215,7 @@ def inspect_horizons(directory, manifest, scenario):
             raw_sealed_equity_delta_usd=str(raw_state.execution.equity-raw_state.execution.starting_balance),
             raw_sealed_balance_delta_usd=str(raw_state.execution.balance-raw_state.execution.starting_balance),
             derived_financing_tail=tail_adjustments,
-            diagnostics=ledger_diagnostics(state),**({'prop_path':prop,
+            diagnostics=diagnostics,**({'prop_path':prop,
                 'balance_scope':'active_phase_account_not_sum_of_challenge_profits'} if prop else {})))
     return output
 

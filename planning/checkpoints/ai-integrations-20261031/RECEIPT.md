@@ -6423,3 +6423,28 @@ chưa annual completeness, cleanOOS, economic edge, full provider contract hoặ
 payout readiness. Giữ all pending states rõ và không sửa pinned numerical files
 trong khi writers hoạt động. Nếu report lỗi, giữ verified numerical jobs và sửa
 consumer/reuse đúng bindings; không tự replay cả năm hoặc auto retry.
+
+### 06/11 14:25VN — kiểm giữa lượt, đưa cross-check risk vào report consumer
+
+Owner giao tiếp tục. Snapshot14:22VN: hai worker vẫn reference, Z-score24.294.363
+tick (88,2%),UTC range23.969.133(87,0%);0/2jobs completed, chưa scenario seal,
+stderr/projectionerrors0. Không restart hoặc đổi15pinned numerical files.
+
+Đã chạy read-only `audit_horizon_metrics.py` trong private survivor root. Bốn
+raw snapshots (hai candidate×Q1/H1) qua independent cash reconciliation,
+profile/calendar/coverage check, đối chiếu min equity với risk core và ngày mở
+lệnh theo Prague. TickDD không nhỏ hơn ledgerDD: Z-score Q1**53,07/43,80**,
+H1**72,63/65,15**;UTC range Q1**97,81/91,65**,H1**126,81/114,13**USD, mỗi cặp
+tick/ledger. `horizon-metrics-audit.json` giữ exact rows/time/source scope; đây
+không là completed scenario/annual acceptance hoặc evidence edge mới.
+
+Chuyển các invariants này vào existing `forex_time_fit.inspect_horizons` để mọi
+report sau đều kiểm: tickDD≥ledgerDD, tick minimum bằng risk-core minimum,
+qualifying days khớp ngày entry từ ledger; headroom âm phải có breach evidence.
+Không thay thresholds, profile hoặc numeric output. Giữ reuse diagnostics đã
+tính, không tạo risk engine khác. Regression re-sign packet có tickDD0 nhưng
+ledgerDD>0 bị từ chối dù hash/seal mới hợp lệ;10report tests đạt với command
+`projects/trader/foundation_v2/.venv/Scripts/python.exe -m unittest discover -s tooling/ai-engines/tests -p test_forex_time_fit.py -q`
+tại workspace root. Chỉ consumer/test/receipt thay đổi; nguồn numerical đang
+chạy giữ nguyên. Pipeline tiếp tục phí chuẩn→phí cao→verified report; chưa mở
+risk/TP variants, holdout hoặc broker trong lúc chờ.

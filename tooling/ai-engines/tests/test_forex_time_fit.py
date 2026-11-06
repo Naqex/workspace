@@ -95,6 +95,20 @@ class TimeFitTests(unittest.TestCase):
             self.assertEqual(rows[-1]['prop_path']['status'],'completed_pass')
             self.assertEqual(rows[-1]['observed_ticks'],18)
             self.assertEqual(rows[-1]['derived_financing_tail'],[])
+            # Even resigned artifacts cannot claim less DD than their own
+            # observed cash/fill ledger; this is separate from seal integrity.
+            self.assertGreater(Decimal(rows[-1]['diagnostics']['ledger_event_max_drawdown_usd']),0)
+            horizon_file=root/'reference-horizons.json'
+            packets=json.loads(horizon_file.read_bytes())
+            packets[-1]['prop_path']['active']['path']['maximum_drawdown']='0'
+            horizon_file.write_text(json.dumps(packets))
+            path_file=root/'reference-prop-path.json'
+            packet=json.loads(path_file.read_bytes())
+            packet['active']['path']['maximum_drawdown']='0'
+            path_file.write_text(json.dumps(packet))
+            pilot.seal_scenario(root,manifest,result)
+            with self.assertRaisesRegex(ValueError,'tick/ledger risk'):
+                timefit.inspect_horizons(root,manifest,'reference')
 
     def test_quote_free_calendar_tail_posts_cash_without_mutating_quotes_or_orders(self):
         state=advance(queue(initialize_forex_pilot(execution(),start_time_msc=ms()),
