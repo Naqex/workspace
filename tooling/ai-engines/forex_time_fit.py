@@ -16,6 +16,97 @@ from forex_h4_pilot import reconcile, scenario_binding
 from trading_workspace_v2.forex_pilot_risk import ForexPilotSnapshot
 
 
+def ledger_diagnostics(state):
+    """Describe a validated pilot ledger; event-mark drawdown is not tick drawdown."""
+    execution = state.execution
+    entries, fees, closed, months, closed_ids = {}, {}, [], {}, set()
+    peak = execution.starting_balance
+    drawdown = Decimal(0)
+    peak_time = state.risk.start_time_msc
+    underwater_span = 0
+    underwater = False
+    for event in execution.ledger:
+        kind, details = event['kind'], event['details']
+        if kind not in {'price_mark', 'market_fill', 'protective_fill', 'financing', 'order_rejected'}:
+            raise ValueError('unsupported pilot diagnostic event')
+        equity = Decimal(str(event['equity']))
+        when = event['virtual_time_utc'] * 1000
+        if equity >= peak:
+            if underwater: underwater_span = max(underwater_span, when-peak_time)
+            peak, peak_time = equity, when
+            underwater = False
+        else:
+            underwater = True
+            drawdown = max(drawdown, peak-equity)
+            underwater_span = max(underwater_span, when-peak_time)
+        if kind == 'market_fill':
+            position = details['position_id']
+            if position in entries:
+                raise ValueError('duplicate diagnostic position entry')
+            entries[position] = event
+            month = datetime.fromtimestamp(details['time_msc']/1000, timezone.utc).strftime('%Y-%m')
+            months[month] = months.get(month, 0)+1
+        elif kind == 'financing':
+            position = (details.get('open_position') or {}).get('position_id')
+            debit = Decimal(str(details['debit_account']))
+            if position is None:
+                if debit != 0: raise ValueError('nonzero financing without a position')
+            else:
+                if position not in entries: raise ValueError('financing without a diagnostic entry')
+                fees[position] = fees.get(position, Decimal(0))+debit
+        elif kind == 'protective_fill':
+            position = details['position_id']
+            if position not in entries or position in closed_ids:
+                raise ValueError('closing fill without a unique diagnostic entry')
+            closed_ids.add(position)
+            entry = entries[position]
+            net = Decimal(str(details['net_pnl']))-fees.get(position, Decimal(0))
+            closed.append(dict(position_id=position,
+                entry_time_msc=entry['details']['time_msc'], exit_time_msc=details['time_msc'],
+                entry_fill_price=entry['details']['fill_price'], exit_fill_price=details['fill_price'],
+                initial_stop_loss=(entry['details'].get('open_position') or {}).get('stop_loss'),
+                side=details['side'], quantity=details['quantity'], exit_reason=details['reason'],
+                modeled_cost_breakdown=details.get('cost_breakdown'),
+                net_before_timed_financing_usd=str(details['net_pnl']),
+                timed_financing_usd=str(fees.get(position, Decimal(0))), net_usd=str(net),
+                research_budget_r=str(net/state.limits.per_trade_loss)))
+    open_id = execution.position.position_id if execution.position is not None else None
+    if set(entries)-closed_ids != ({open_id} if open_id else set()):
+        raise ValueError('diagnostic open/closed positions do not reconcile')
+    open_financing = fees.get(open_id, Decimal(0)) if open_id else Decimal(0)
+    values = [Decimal(row['net_usd']) for row in closed]
+    net_closed = sum(values, Decimal(0))
+    if net_closed-open_financing != execution.balance-execution.starting_balance:
+        raise ValueError('diagnostic closed net and open financing differ from cash balance')
+    wins, losses = [v for v in values if v>0], [v for v in values if v<0]
+    profit, loss = sum(wins, Decimal(0)), -sum(losses, Decimal(0))
+    average_win = profit/len(wins) if wins else None
+    average_loss = loss/len(losses) if losses else None
+    streak = longest = 0
+    for value in values:
+        streak = streak+1 if value<0 else 0
+        longest = max(longest, streak)
+    ratio = lambda a,b: str(a/b) if b else None
+    return dict(closed_trades=len(values), wins=len(wins), losses=len(losses),
+        flat_trades=len(values)-len(wins)-len(losses), win_rate_fraction=ratio(Decimal(len(wins)),len(values)),
+        net_closed_pl_usd=str(net_closed), open_position_financing_usd=str(open_financing),
+        mean_closed_net_usd=ratio(net_closed,len(values)),
+        average_win_usd=str(average_win) if average_win is not None else None,
+        average_loss_usd=str(average_loss) if average_loss is not None else None,
+        realized_average_win_loss_ratio=ratio(average_win,average_loss) if average_win is not None else None,
+        profit_factor=ratio(profit,loss), longest_closed_loss_streak=longest,
+        top1_share_of_positive_net=ratio(max(wins),profit) if wins else None,
+        top3_share_of_positive_net=ratio(sum(sorted(wins,reverse=True)[:3],Decimal(0)),profit),
+        entry_fills_by_utc_month=months, research_budget_usd=str(state.limits.per_trade_loss),
+        ledger_event_max_drawdown_usd=str(drawdown),
+        max_observed_ledger_underwater_span_ms=underwater_span,
+        ledger_underwater_at_end=underwater,
+        risk_path_coverage='ledger_events_not_all_ticks_not_firm_drawdown',
+        profit_concentration_scope='descriptive_not_portfolio_without_top_trades',
+        win_rate_denominator='all_closed_positions_including_flat_excluding_open',
+        trade_validity_classification='not_independently_audited', trades=closed)
+
+
 def inspect_horizons(directory, manifest, scenario):
     """Verify seals and independently reconcile each saved account state."""
     path=Path(directory)/(scenario+'-horizons.json')
@@ -67,7 +158,8 @@ def inspect_horizons(directory, manifest, scenario):
             boundary_quote_age_ms=cutoff-state.risk.last_tick.time_msc,
             internal_risk_is_firm_rule=False,full_prop_time_to_pass='not_evaluated',
             strategy_edge='not_established',promotion_authorized=False,
-            independent_accounting=accounting['independent_accounting']))
+            independent_accounting=accounting['independent_accounting'],
+            diagnostics=ledger_diagnostics(state)))
     return output
 
 
@@ -101,6 +193,26 @@ def render_report(report):
         else:
             screen='Dương cả hai mức phí; chưa đủ để chọn'
         lines.append('| '+' | '.join([worker,*cells,screen])+' |')
+    if report['rows'] and all('diagnostics' in row for row in report['rows']):
+        lines.extend(['', '## Chẩn đoán cuối năm', '',
+            'Mỗi ô: phí chuẩn / phí cao. Thắng/thua đã gán phí qua đêm cho từng vị thế đóng.', '',
+            '| Ứng viên | Lệnh đóng | Win rate | Lời/lỗ trung bình USD | DD tại ledger USD | Chuỗi thua dài nhất |',
+            '|---|---:|---:|---:|---:|---:|'])
+        for worker,group in groups.items():
+            date=max(date for date,_ in group)
+            values=[group[date,scenario]['diagnostics'] for scenario in ('reference','cost-stress')]
+            cells=[]
+            for key in ('closed_trades','win_rate_fraction','mean_closed_net_usd',
+                        'ledger_event_max_drawdown_usd','longest_closed_loss_streak'):
+                def display(value):
+                    if value is None: return 'N/A'
+                    if key=='win_rate_fraction': return f'{Decimal(value)*100:.1f}%'
+                    return f'{Decimal(value):.2f}' if key.endswith('_usd') else str(value)
+                cells.append(' / '.join(display(value[key]) for value in values))
+            lines.append('| '+' | '.join([worker,*cells])+' |')
+        lines.extend(['', 'DD ở đây chỉ đo tại các event trong ledger, có thể bỏ lỡ đáy giữa các tick;',
+            'chưa là max drawdown đầy đủ hoặc chứng nhận luật quỹ. Win rate không là tiêu chí thắng cuộc.',
+            'R trong JSON là PnL chia ngân sách risk, không đồng nhất planned TP/SL hoặc actual stop-risk.'])
     lines.extend(['',
         'Screen chỉ áp dụng phiên bản/cost/window đang thử; không kết luận cả họ chiến lược vô dụng.',
         'Không tăng lot, sửa tham số hoặc gọi các horizon là mẫu độc lập để cải thiện kết quả.',
