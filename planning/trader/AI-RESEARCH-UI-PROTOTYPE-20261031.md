@@ -18,6 +18,29 @@ survival. [Workflow giải thích ngắn](../../tooling/ai-engines/STRATEGY-WORK
 | 5 — forward demo | Frozen strategy chạy giá thực trong phạm vi được cấp; đối chiếu signal→risk→order→fill/cost, ngắt/kết nối lại và unknown | G3/G4 review và execution authority; system open→close test cũ không thay strategy-forward |
 | 6 — challenge rồi funded/reward | Xét mua/terms/budget riêng; vận hành đúng version/risk, giữ monitoring và kiểm eligibility/reward thực nhận | Không tự mua hoặc gửi lệnh từ roadmap; payout/KYC/agreement thuộc hãng/owner |
 
+Owner xác nhận06/11 lưu bổ sung vào việc sau batch, trước khi chọn cấu hình demo:
+
+- **Review tránh bỏ sót:** phân biệt evidence lỗi, chưa đủ sample, cấu hình risk
+  chưa phù hợp và không đạt cost-screen. Kết quả0,25% không loại cả họ strategy;
+  giữ lý do không tiếp tục/tạm gác trong dossier. Không tính được tỷ lệ false
+  negatives thật khi chưa biết ground truth; không tự sửa frozen verdict.
+- **Risk sensitivity có đăng ký:** với bản đáng kiểm hoặc inconclusive có lý
+  do cụ thể, so một nhóm nhỏ mức risk đã freeze trên development/selection data;
+  giữ nguyên entry/exit để tách hiệu ứng sizing. Kiểm cả lot/cost/risk-stop/
+  min-lot làm đổi tập fills, account path và time-fit. Sống qua nhiều mức risk
+  là operating robustness, không thêm các mẫu edge độc lập hoặc tự promote.
+- **Gói chứng cứ sàng lọc cho owner:** dùng lại G0–G6/receipt/tests để giao bảng
+  claim→bằng chứng/source revision→đã kiểm/chưa kiểm→giới hạn. Có manual/independent
+  cash-and-cost oracle, causal/tamper cases, kiểm report trên positive/negative/
+  no-trade/insufficient samples và model mismatch; các controls mới chỉ là task
+  cho tới khi có kết quả thực thi. Tách tests phần mềm khỏi validation kinh tế,
+  OOS, full prop path và strategy forward; không lấy tổng số tests làm chứng nhận.
+- **RR/win-rate trong dossier:** mỗi candidate giữ SL/exit version riêng đã
+  đăng ký; tách planned TP/SL, realized average win/loss và net R. Báo win/loss/
+  flat/open counts, net expectancy/uncertainty, losing streak/tail/drawdown và
+  time-to-target. Không dùng win-rate minimum chung, không đổi TP để đạt winrate
+  đẹp. Chưa coi gói chứng cứ đã xong hoặc strategy có edge từ việc lưu task này.
+
 Trong lúc chờ kết quả có thể chuẩn bị checklist/bộ đối chứng, dossier/report và
 protocol template chưa chọn outcome; không cần mở thêm window/strategy, benchmark
 đắt hoặc service. Task không phụ thuộc result thì làm trước; nhiệm vụ lựa chọn
