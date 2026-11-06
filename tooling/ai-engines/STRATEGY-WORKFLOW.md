@@ -167,6 +167,56 @@ Reuse completed job/scenario cần khớp Python/Pydantic/Decimal binding ngoài
 source/input/protocol/cost. Environment cũ chưa ghi thì không tự suy tương đương.
 Không tính maxDD từ minimum equity rời rạc; giữ open PnL và coverage rõ.
 
+## Tái sử dụng từ ý tưởng đến bằng chứng edge
+
+Owner hỏi06/11 cách làm lần sau nhanh/chính xác hơn và liệu test liên tục hoặc
+rules thắng mọi thị trường có chứng minh edge không. Cách tổ chức dùng lại các
+owner hiện có, không tạo catalogue/score/ledger riêng:
+
+| Tài sản dùng lại | Phần riêng của mỗi giả thuyết / ranh giới |
+|---|---|
+| Protocol và candidate version | Hypothesis, cơ chế/điều kiện kỳ vọng, phạm vi asset/timeframe/session, entry/exit/sizing, điều gì bác bỏ nó, benchmark/cost/risk và quyết định trước outcome. Đổi logic/threshold/filter là version/trial mới, không sửa bản cũ |
+| Engine và bộ đối chứng | Core data/timing/fill/cost/risk/accounting và regressions dùng chung; chỉ thêm rule-specific tests. Đổi asset/order/cost semantics chưa được hỗ trợ phải kiểm lại đúng boundary, không mặc định core dùng được mọi nơi |
+| Dữ liệu/preparation/cache | Reuse raw/quality/warmup/tick cache và completed artifacts khi identity/source/runtime bindings khớp; không dùng cache state cũ cho rules mới hoặc hạ checks để hit cache |
+| Dossier và lịch sử thử | Native task/protocol giữ cả thất bại/abandoned variants và quan hệ version; dossier lưu metrics/gaps/quyết định. Tra bằng chứng cũ trước run; chưa có queryable catalogue đầy đủ, không tuyên bố tự động tránh mọi nghiên cứu trùng |
+| Hậu kiểm kỹ thuật | Root cause và regression ở code/tests; benchmark/giới hạn ở receipt; workflow delta ở runbook. Mỗi run học cách làm đúng/nhanh hơn, không tự tuning candidate theo vài lệnh lỗ |
+
+Thẻ hypothesis là nội dung trong protocol/dossier hiện có, chưa phải schema/tool
+tự động mới. Độ tin cậy đến từ test đúng câu hỏi và đối chứng độc lập; tốc độ đến
+từ reuse dữ liệu/core/kết quả và chỉ chạy phần bị thay đổi, không từ việc bỏ gates.
+
+### Edge không phải “chạy thử đến khi có lời”
+
+Edge là lợi thế kỳ vọng sau chi phí trong một phạm vi và điều kiện cụ thể,
+không phải lệnh nào cũng thắng hoặc lợi nhuận chắc chắn tương lai. Ví dụ giả định:
+1R=25USD;100lệnh có40lệnh lời50USD và60lệnh lỗ25USD, tổng trước phí500USD;
+tổng phí200USD thì còn300USD, trung bình3USD/lệnh trong mẫu. Số này là mô tả
+mẫu giả định, chưa chứng minh expectation tương lai, drawdown hoặc khả năng pass.
+
+Chuỗi evidence cần có: cơ chế hợp lý được nêu trước → implementation/data đúng
+→ net outcome so baseline/risk với uncertainty rõ → giữ rules trên dữ liệu không
+dùng để chọn/sửa → cost/parameter/regime robustness phù hợp → forward/reconciliation.
+Đếm cả trials thất bại; sample/dependence và selection ảnh hưởng độ tin cậy. Không
+có một số trades, Sharpe hoặc test-pass count chung bảo đảm edge. Nếu uncertainty
+còn lớn, verdict là inconclusive; không gắn0lợi thế hoặc confidence giả chính xác.
+
+Lặp lại cùng data/rules hữu ích cho software regression nhưng không thêm một mẫu
+kinh tế độc lập. Sửa theo kết quả validation làm window đó trở thành dữ liệu đã
+dùng trong lựa chọn; giữ lịch sử, không tiếp tục gọi nó unseen. New holdout cần
+protocol/authority trước outcome, không liên tục đốt holdout để chọn bản đẹp.
+
+Không yêu cầu mọi strategy thắng mọi asset/regime. Scope và điều kiện bật/tắt
+phải định nghĩa causal trước outcome; rules cố định có thể phản ứng theo volatility/
+trend đã quan sát, khác tự đổi rules sau khi thấy thua. Không chọn lại riêng các
+năm/thị trường có lãi rồi gọi đó là robustness. Edge và prop fit là hai cửa riêng:
+expectancy dương vẫn có thể breach, quá chậm hoặc không phù hợp reward/fee economics.
+
+Căn cứ kiểm06/11: [Arnott/Harvey/Markowitz](https://people.duke.edu/~charvey/Research/Published_Papers/P138_A_backtesting_protocol.pdf)
+về hypothesis/selection/robustness; [PBO](https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf)
+và [DSR](https://www.davidhbailey.com/dhbpapers/deflated-sharpe.pdf) về trials và
+uncertainty. Đây là synthesis phương pháp, không statistical qualification cho
+5candidate hiện tại; gaps và tiêu chí bài đã freeze giữ ở framework/receipt.
+
 ## Risk và concurrency
 
 Trước ưu tiên candidate cho prop, dùng
