@@ -2,6 +2,14 @@
 
 ## Research kế thừa — 05/11/2026
 
+**Chuẩn bị sau batch06/11:** [AI plan: scope/acceptance hiện hành](trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md#sau-period-batch-chuẩn-bị-tiến-tới-vốn-prop-và-payout--06112026)
+đã gom việc thiếu theo research/OOS/prop/forward/operations, có nhánh nếu không
+còn candidate và checklist validation/forward; không coi toàn roadmap đã xong.
+Đã đọc lại6annual rows của ba bản tạm gác, không replay; [review](research/SURVIVOR-REVIEW-20261106.md)
+giữ cost/floating attribution. Source audit: forward entrypoints hiện chỉ fixed
+candidate, chưa nối Z-score/UTC range; chỉ chuẩn bị acceptance, chưa sửa runner.
+Không thêm skill/service hoặc mở holdout/broker; giữ source numerical đang chạy.
+
 **Tiếp tục06/11:** owner giao thực hiện bước kế tiếp sau review. Scope mới ở
 [period robustness Apr–Sep2022](research/PERIOD-ROBUSTNESS-20261106.md): hai rules
 không đổi, hai costs, initial10k/risk25; metadata audit chưa tìm thấy evaluation

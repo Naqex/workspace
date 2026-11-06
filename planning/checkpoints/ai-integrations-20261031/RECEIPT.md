@@ -6579,3 +6579,41 @@ không tự replay6tháng. Không sửa pinned source khi workers hoạt động
 review primary6monthnet/cost/period concentration/tick-risk/lifecycle rồi quyết
 định bước tiếp; không auto tăng lot, tuning risk/TP hoặc promote broker. Lượt
 offline này không model/broker calls; không đổi runtime API/UI hoặc terminalMT5.
+
+### 06/11 — chuẩn bị hậu period batch, không mở thêm numerical study
+
+Owner yêu cầu warmup và rà những việc còn thiếu để tiến tới mục tiêu vốn prop/
+payout. Đã dùng strategy-research/qualification/evidence-continuity, rà roadmap
+và existing G0–G6, không tạo plan/tracker/skill cạnh tranh. AI plan đầu file nay
+giữ bảng7lát scope/acceptance, nhánh giữ/gác/inconclusive và hồ sơ validation/
+forward; current context route tới đó. Đây là preparation, không implementation
+hoặc qualification completion. Risk/TP vẫn conditional backlog, không bắt mọi
+candidate qua một grid; data split/holdout mới chưa được khóa hoặc mở.
+
+Read-only diagnostic từ annual saved report SHA256
+`2d1ff9d885f79c7a566955e4c509c16784f4d6f7fa0e173fcca188e78d26a118`:
+6rows Donchian/SMA/Pullback×2costs kiểm từng closed-trade cost/net rồi cộng
+cash/equity/open financing đạt. Private output
+`prop-period-robustness-20261106/post-batch-preparation-v1/deferred-candidates-diagnostic.json`.
+Numbers và limits lưu trong survivor review. SMA/Pullback closed price PnL
+89,19/22,78USDở cả hai costs, stress financing closed110/158,20USD; trung bình
+giữ248,35/275,60giờ. SMA chỉ15closed trades, Pullback reference closednet−14,17;
+không tự suy có edge hoặc financing thực tế sẽ thấp hơn declared stress.
+Donchian stress closedprice−328,23USD, nên phí không là toàn bộ nguyên nhân.
+Không đọc raw/new market windows, không replay hoặc gọi broker/model từ recipe.
+
+Source-confirmed gap: `forex_forward.py` coordinator state/candidate và
+`scripts/forex_forward.py` registration nhận fixed candidate; actual
+`scripts/mt5_forward_session.py` cũng dùng `FixedH4Candidate`. Hai research
+classes có serializers nhưng chưa được nối vào các entrypoints đó. Chốt task
+reuse entrypoints/risk/authority cùng candidate-specific state, raw→signal/
+account parity/chunk/restart controls trước observed-market shadow/demo. Chưa
+viết candidate adapter hoặc đưa strategy lên broker trong lúc đang qualification.
+
+Đã sửa hai đoạn docs cũ trong STRATEGY-WORKFLOW/FOREX-RESEARCH còn ghi H4 chưa
+nối lifecycle và dailyUTC: prop-enabled studies đã nối declared subset/native
+account reset, dailyEurope/Prague; inactivity/eligibility/payout/broker realism
+vẫn thiếu. Chỉ docs thay đổi, không numerical/source pin của workers.
+Batch snapshot18:03:59VN vẫnrunning, cả hai qua reference và đangstress;
+chưa chốt candidate outcome từ partial result. Actual status tiếp tục ở native
+progress/terminal; không sửa registration, cancel hoặc dispatch worker mới.

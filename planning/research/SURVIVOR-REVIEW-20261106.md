@@ -160,3 +160,38 @@ qualification. G0–G6 vẫn phân biệt correctness, edge, prop và execution 
 Đề xuất này chưa là phân công chạy lại ba ứng viên, chọn winner, mở data window
 mới hoặc thay current period registration. Primary source phương pháp vẫn là
 Arnott/Harvey/Markowitz đã dẫn trên; tránh sửa đi sửa lại theo cùng kết quả.
+
+### Chuẩn bị đã thực hiện: đọc lại ba bản tạm gác, 06/11
+
+Đã tính lại từ saved annual report của source `bbc7c60e`, không đọc giá hoặc
+chạy numerical simulation mới. Đối soát từng closed trade: price PnL sau spread
+trừ commission/slippage/model-financing/timed-financing bằng net; cộng về cash,
+thêm floating đúng account equity. Sáu candidate/cost rows khớp.
+
+| Phí cao, USD | Lệnh đóng | Closed price PnL sau spread | Commission + slippage đóng | Financing của lệnh đóng | Net equity cuối năm |
+|---|---:|---:|---:|---:|---:|
+| Donchian |43|−328,23|14,04|146,20|−488,47|
+| SMA |15|+89,19|4,68|110,00|−25,49|
+| Pullback |20|+22,78|6,93|158,20|−132,51|
+
+Pullback net closed là−142,35USD; cộng floating20,24 và trừ financing vị thế
+đang mở10,40 mới ra equity−132,51. Không gọi closed-price column là tổng PnL
+account trước mọi phí. SMA/Pullback giữ lệnh đóng trung bình248,35/275,60giờ,
+khoảng10,35/11,48ngày, nên financing model là một bất định vận hành đáng kiểm.
+Đây là attribution số học, không chứng minh cơ chế thị trường hoặc edge; phí
+stress là giả định, không phải phí hãng thực thu. Không giả swap0 để cứu bản.
+
+SMA giữ closed price PnL89,19ở cả hai costs, mẫu chỉ15lệnh; đáng chuẩn bị câu
+hỏi coverage/cost realism trước khi sửa exit. Pullback có price PnL dương mỏng
+và net closed âm ngay reference (−14,17USD); chưa đủ lý do ưu tiên biến thể TP.
+Donchian đã âm ở price PnL sau spread trong cả hai costs, financing không giải
+thích hết lỗ. Không cộng/pool các scenarios thành mẫu độc lập; Donchian có số
+fills khác nhau giữa scenarios, không phải chỉ lấy cùng trades trừ phí khác.
+
+Artifact:
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/prop-period-robustness-20261106/post-batch-preparation-v1/deferred-candidates-diagnostic.json`.
+Input saved report SHA256
+`2d1ff9d885f79c7a566955e4c509c16784f4d6f7fa0e173fcca188e78d26a118`.
+Giữ historical-engine/report scope; đây không là independent full raw replay.
+Scope/acceptance việc sau batch và gap forward nằm ở
+[AI plan hiện hành](../trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md#sau-period-batch-chuẩn-bị-tiến-tới-vốn-prop-và-payout--06112026).

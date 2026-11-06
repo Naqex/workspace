@@ -1,6 +1,77 @@
 # AI workspace — native Paperclip UI và prototype lịch sử
 
-## Thứ tự công việc sau annual batch — owner giao sắp lại 06/11/2026
+## Sau period batch: chuẩn bị tiến tới vốn prop và payout — 06/11/2026
+
+Owner yêu cầu làm rõ mục tiêu ngắn/trung/dài hạn và chuẩn bị trong lúc batch
+Q2–Q3/2022 chạy. Đích là tìm, kiểm định và vận hành lợi thế sau chi phí để tiếp
+cận/duy trì vốn prop với risk kiểm soát; không phải thử mọi biến thể hoặc ép có
+winner. FTMO 2-Step Swing là chuẩn chính, The5ers là nhánh so sánh chưa pin đủ.
+Các horizons là mốc bằng chứng, chưa là cam kết ngày hoàn thành.
+
+Phương pháp/tooling đã có ở [workflow](../../tooling/ai-engines/STRATEGY-WORKFLOW.md)
+và [G0–G6](../../.agents/skills/strategy-qualification/references/validation-gates.md).
+Bảng này giữ thứ tự scope/acceptance tiếp theo, receipt giữ trạng thái thực thi;
+các bảng annual bên dưới là lịch sử và không tự dispatch risk/exit variants.
+
+| Lát / ưu tiên | Đã có để dùng lại | Phần thiếu và kết quả cần đạt | Chuẩn bị lúc chờ |
+|---|---|---|---|
+| 1. Chốt batch, quyết định tiếp | Protocol, hashes, seals, accounting, tick-risk/native lifecycle, báo cáo 3/6 tháng | Đọc verified 6-month outcomes và concentration/cost/coverage; mỗi candidate giữ/không tiếp tục/inconclusive kèm lý do. Batch pass không tự là edge | Đã khóa nhánh quyết định bên dưới; không xem kết quả partial để sửa bài |
+| 2. Chuẩn bị ứng viên dự phòng | Version/trial history, annual artifacts của cả 5 candidates, hypothesis list | Chỉ chọn phép kiểm có lý do. SMA ít mẫu/nhạy phí; Pullback lợi nhuận từ giá mỏng; Donchian version hiện tại có price PnL âm | Đã đối soát decomposition 6 annual rows, không replay; diagnostic ở receipt và survivor review |
+| 3. Kiểm định kinh tế ngoài mẫu | Consumption auditor, frozen registration/runner, cost scenarios, G0–G3 | Chưa có clean-OOS evidence hoặc bộ data split cho final validation. Cần exact candidate/version, data role/coverage/exposure, metrics/baseline/stop/decision và freeze trước outcome | Giữ checklist hồ sơ bên dưới; chưa chọn/mở 2024/2025+ hoặc tạo đăng ký giả |
+| 4. Risk / exit phù hợp | Fixed25USD baseline; thiết kế sensitivity12,50/25 và TP2R trong backlog | Chỉ kiểm một trục nếu diagnostic/câu hỏi kinh tế đủ lý do; mọi biến thể là trial mới, validation sau freeze | Chưa chạy risk×TP grid; không bắt đổi TP/risk để được qua stage |
+| 5. Prop-fit và lợi ích owner | Declared FTMO 2-Step profile, tick DD/headroom/reset/target/day observations, time-fit research3/6/12 | Pin đúng program/account/terms/costs, các rule áp dụng/miễn trừ và inactivity/eligibility; xem survival/thời gian/fees/payout economics. Không suy xác suất pass từ vài runs | Lập evidence checklist theo profile; không mua challenge hoặc tự tạo news engine khi không có rule cần nó |
+| 6. Strategy → forward/shadow → demo | Fixed-candidate quote coordinator, candidate state serializers, MT5 execution/grant/risk/reconciliation owners | Hai research candidates chưa được nối vào forward runner; cần typed state/binding và parity trước observed-market shadow/demo. Kiểm model-vs-broker costs/fills và recovery | Đã audit entrypoints và chốt acceptance ở dưới; chưa sửa source đang chạy hoặc gửi broker |
+| 7. Vận hành / mở rộng | Status/logs, finite supervisors, completed reuse, local recovery evidence có scope | Sau khi strategy đủ evidence: giám sát drift/risk/fills, tổng exposure account; challenge/funded/reward và mở rộng vốn theo quyền/terms | Reuse nền hiện có; cloud backup, máy dự phòng, GPU/Rust và orchestration mới vẫn để sau nếu chưa có bottleneck thực |
+
+### Quyết định ngay sau batch, không cần chạy lại để đọc báo cáo
+
+- Material lỗi evidence: giữ artifacts và quarantine đúng phần; sửa/reuse consumer
+  khi có thể, không biến lỗi báo cáo thành lý do replay toàn bộ.
+- Còn candidate đáng kiểm: tổng hợp Q1/2022, Q2–Q3/2022 và annual2023 đúng
+  version/cost/account scope, tránh double-count horizons/window chồng nhau.
+  Chọn một bài giải quyết bất định lớn nhất trước; không tự promote từ net dương.
+- Cả hai chưa đủ: kết luận đợt này chưa tìm được bản đủ evidence. Dùng review
+  dự phòng hoặc hypothesis có cơ chế rõ; không nới criteria/tăng lot để giữ winner.
+- Sample thiếu: inconclusive; trước khi mở thêm data, nói rõ cần kiểm giả thuyết
+  gì và coverage nào. Không lặp backtest cùng sample để tăng độ tin cậy giả.
+
+### Hồ sơ cần khóa trước validation tiếp theo
+
+Một hồ sơ ngắn trong protocol/dossier hiện có: (1) giả thuyết và version bất
+biến; (2) consumed map và exact split/warmup/cutoff; (3) source/spec/cost/risk/
+clock bindings; (4) primary net/risk/coverage cùng baseline, failure/stop/decision;
+(5) cách đọc uncertainty, trial/serial dependence và prop/time-fit riêng. Nếu
+chưa đủ assumptions cho bootstrap/DSR/PBO thì để unknown, không tạo tem pass.
+Không áp ngưỡng win rate hoặc số trades chung cho mọi candidate; không đốt
+final holdout để chọn tham số. Hồ sơ này đã chuẩn bị cấu trúc, **chưa là một
+registration có data window và permission được khóa**.
+
+### Acceptance cho việc nối research candidate vào forward
+
+Audit source06/11: `trading_workspace_v2/forex_forward.py` dùng `FixedH4Candidate`
+và `H4CandidateState`; `scripts/forex_forward.py` chỉ nhận `fixed-eurusd-h4`;
+`scripts/mt5_forward_session.py` cũng khởi tạo fixed candidate. Hai research
+classes đã có export/from_state, nhưng điều đó chưa chứng minh forward hỗ trợ.
+
+Khi chọn version đủ điều kiện, mở rộng các entrypoints/state hiện có thay vì
+viết runner/risk/UI khác. Binding phải pin exact candidate/version, spec/cost/
+warmup/calendar và input role; dùng đúng candidate state, `position_id`, tuổi
+vị thế/time-exit của Z-score và day/range/entry latch của UTC range. Chốt candle
+watermark/next-quote causality, account reset và restart state rõ ràng.
+
+Trước observed-market shadow: cùng frozen input/config phải khớp batch về
+closed-H4 signals/stop distance/sizing/decisions/accounting trong scope, kể cả
+chunk boundaries, missing bar, midnight, interrupted vs uninterrupted restore
+và position mới cùng side. Đây là kiểm phần mềm trên consumed/synthetic input,
+không tạo economic sample mới. Sau đó mới đối chiếu live source/identity/clock/
+spread/cost; broker demo cần execution gate riêng và evidence signal→order→deal.
+Chưa tự chạy chiến lược trên broker hoặc nâng trạng thái toàn sản phẩm từ plan.
+
+Không cần skill, tracker hoặc service mới: research/qualification/evidence-
+continuity và native Paperclip/runner đã giữ đúng các vai trò. Chỉ bổ sung
+workflow khi gặp gap lặp thực tế; không thêm automation chỉ để có đủ các tầng.
+
+## Thứ tự sau annual batch — lịch sử owner giao sắp lại 06/11/2026
 
 Owner tiếp tục06/11 giao thực hiện [period robustness](../research/PERIOD-ROBUSTNESS-20261106.md)
 trước risk/TP calibration: hai rules hiện tại,Apr–Sep2022,hai costs/risk25.
