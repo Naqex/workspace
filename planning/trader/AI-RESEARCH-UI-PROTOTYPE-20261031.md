@@ -80,6 +80,49 @@ Không cần skill, tracker hoặc service mới: research/qualification/evidenc
 continuity và native Paperclip/runner đã giữ đúng các vai trò. Chỉ bổ sung
 workflow khi gặp gap lặp thực tế; không thêm automation chỉ để có đủ các tầng.
 
+## Đề xuất mở rộng khảo sát — 07/11/2026, chưa dispatch
+
+Owner hỏi5ứng viên đã đủ chưa và nên dùng nền mới thế nào. Đánh giá: đủ cho
+pilot kiểm integration/screening, chưa đủ gọi là khảo sát rộng để chọn strategy
+thực tế. Donchian/SMA/Pullback cùng họ trend; Z-score reversion; UTC range
+session breakout, vẫn giao thoa với trend/breakout. Số tên không là số edge
+độc lập, chưa có minimum candidate count chung bảo đảm tìm được lợi thế.
+
+Khuyến nghị triển khai, **chưa phải target thống kê hoặc scope được duyệt**:
+mở danh mục tổng lên khoảng8–12bộ luật có cơ chế rõ (tính cả5bản cũ), thuộc
+3–4hướng nghiên cứu; triển khai từng nhóm3–4thay vì hàng trăm parameter variants.
+Chọn nhóm theo nguồn/cơ chế, yêu cầu dữ liệu, khả năng tự động hóa, chi phí/
+holding và prop applicability. Timeframe/session mới cần contract/tests đúng;
+không gọi D1momentum là exact paper replication trên EURUSD/H4.
+
+| Lát đề xuất | Cách làm | Tình trạng công cụ |
+|---|---|---|
+| Lọc ý tưởng | Cơ chế/luật tái lập, data/cost/permission/holding khả thi; ghi lý do giữ/gác | Danh mục/protocol/skills đã có, chưa chọn thêm candidate cụ thể |
+| Sàng lọc ít tốn tài nguyên | Reuse consumed artifacts/cached bars để triage, các giai đoạn định trước, giữ chi phí và uncertainty | Đã reuse artifacts; coarse bar-screen engine chưa có implementation/parity được chấp nhận |
+| Kiểm sâu | Chỉ bản có lý do qua tick Bid/Ask/cost/risk/account path; xử lý bar ambiguity ở đây | Native tick core/registration/cache/supervisor đã có |
+| Validation riêng | Freeze trước outcome; giữ trial history và dữ liệu ngoài phần dùng để chọn/sửa | Công cụ đã có; exact fresh split/permission/registration vẫn thiếu |
+| Forward/demo | State/stream parity rồi observed-market/broker reconciliation theo gate | UTC offline đã kiểm; actual broker strategy handoff chưa có |
+
+Nếu triển khai coarse screen, nó chỉ ưu tiên việc cần kiểm: không mặc định dùng
+fill giả/same-bar ordering hoặc thiếu intrabar DD để loại cả họ strategy. Cần
+đối chứng với tick core trên positive/negative/ambiguous cases trước khi dựa vào
+nó; không bỏ chi phí để làm đẹp. Development/selection data dùng chung giữa các
+ứng viên; final holdout giữ riêng, không liên tục mở để chọn bản đẹp. Ghi cả
+failed/abandoned trials; nhiều variants tăng selection risk chứ không tự tăng
+độ tin cậy.
+
+Giữ UTC range validation và discovery mới là hai nhánh có mục đích riêng;
+không chờ UTC fail mới bắt đầu đọc/chọn hypothesis khác, cũng không vì nó còn
+dương mà coi nó là winner. Tài nguyên/concurrency phải đăng ký theo bài mới,
+không sửa completed protocols hoặc tự mở2024/2025+/holdout/broker từ đề xuất này.
+
+Primary source refresh07/11:
+[QuantConnect Research Guide](https://www.quantconnect.com/docs/v2/cloud-platform/backtesting/research-guide)
+ủng hộ hypothesis-driven research, hạn chế tuning/backtest selection và giữ OOS.
+Con số8–12/3–4ở trên là đề xuất quy mô công việc cho project, không do nguồn đó
+chứng nhận. Duke PDF timeout lượt này; giữ ngày kiểm06/11ở research cũ, không
+gán lại ngày xác minh hoặc dùng timeout làm lý do thay đổi kết luận phương pháp.
+
 ## Thứ tự sau annual batch — lịch sử owner giao sắp lại 06/11/2026
 
 Owner tiếp tục06/11 giao thực hiện [period robustness](../research/PERIOD-ROBUSTNESS-20261106.md)
