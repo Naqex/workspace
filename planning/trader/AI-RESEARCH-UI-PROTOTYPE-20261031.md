@@ -65,6 +65,14 @@ protocol template chưa chọn outcome; không cần mở thêm window/strategy,
 candidate phải chờ evidence. Research strategy mới có thể tiếp tục trong lane
 tách biệt về sau, nhưng không sửa bot đang được đánh giá/vận hành giữa chừng.
 
+**Kết thúc06/11:** recovery5/5jobs verified11:31VN, pipeline/report11:32VN;
+[result và hậu kiểm](../research/TIME-FIT-RESULTS-20261106.md) giữ30observations,
+triage5version,4trace raw→signal→cash, proof G0–G6 và thiết kế lát tiếp.
+Đã sửa numerical calendar tail cho source tương lai,127Forex+7report tests đạt;
+legacy source/artifacts giữ nguyên. Sau triage, ưu tiên full risk/prop path trước
+batch sensitivity; risk/exit/OOS/forward chưa thực thi và không tự cấp permission.
+Receipt giữ trạng thái kiểm chứng/commit. Không mở lại cùng annual job để đổi report.
+
 **Thực thi06/11 trước recovery:** owner giao làm phần hậu batch có thể làm ngay
 rồi chạy lại. Đã thêm report diagnostics từ sealed snapshots: net trade sau
 timed financing, win/loss/flat/open, average win/loss, profit factor, budgetR,

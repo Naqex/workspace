@@ -5,8 +5,8 @@
 Điểm định hướng 06/11 sau câu hỏi owner về tổng thể: mục tiêu vẫn là tìm chiến
 lược Forex tự động có lợi thế sau chi phí, phù hợp FTMO 2-Step Swing trước,
 tiếp cận vốn prop với rủi ro kiểm soát. Hệ thống đã đủ chạy research offline;
-không đồng nghĩa toàn sản phẩm/live hoàn chỉnh. Đang screening 5 bộ quy tắc
-cố định, chưa có winner hoặc clean-OOS/prop qualification. Annual batch 2023
+không đồng nghĩa toàn sản phẩm/live hoàn chỉnh. Đã screening 5 bộ quy tắc
+cố định trong annual2023; hai bản còn đáng kiểm, chưa có winner hoặc clean-OOS/prop qualification. Annual batch 2023
 chỉ thêm observations 3/6/12 tháng; **chưa mô phỏng đủ phase1→reset→phase2**.
 Owner đồng ý hướng điều phối 06/11: để batch đã launch hoàn tất; ưu tiên
 quyết định giữ/loại/inconclusive và nối đánh giá prop còn thiếu. Không mở thêm
@@ -19,10 +19,19 @@ Delta06/11 sau annual slowdown: attempt `execution-v1` đã dừng có kiểm so
 `86eade80`; bốn file khớp byte với worktree đã kiểm108tests. Theo owner giao làm
 phần chuẩn bị hậu batch trước chạy lại: thêm thống kê net closed trades/financing,
 streak/concentration và ledger-mark DD (không full tick DD), cùng proof fixtures.
-**Annual recovery `execution-v2` đã launch08:02VN**, source Trader `bbc7c60e`,
+**Annual recovery `execution-v2` hoàn tất11:32VN**, source Trader `bbc7c60e`,
 [registration mới](research/TIME-FIT-RECOVERY-20261106.json), giữ economic rules.
 5worker trên6core, ceiling4h/worker6h/batch không ETA; preparation đã verified
-536,547s và cả5reference đã chạy từ08:11VN. Theo `pipeline.json`→`batch-1/progress.json` private.
+536,547s,5/5jobs completed_verified,10scenario/30horizon rows; không còn job nền
+của batch. [Kết quả/hậu kiểm và lát tiếp](research/TIME-FIT-RESULTS-20261106.md):
+giữ Z-score/UTC range để nghiên cứu tiếp, tạm gác3version còn lại; không winner/
+cleanOOS/prop pass. Audit30rows và4raw→signal→cash traces đạt. Source trước sửa
+đã seal riêng; raw runner mới sửa exclusive calendar tail,127Forex+7report tests
+đạt, cần registration mới trước historical execution. Không replay annual vì report.
+Diagnostic balance-target bổ sung:30/30observations chưa chạm target10% trên đúng
+frozen account path; không là full lifecycle evaluation hoặc lý do tăng lot.
+Ưu tiên nối full risk/prop path, sau đó risk sensitivity rồi exit overlay có kiểm
+soát; không mở holdout/broker hoặc chạy risk×TP grid từ kết quả này.
 Không sửa frozen registration cũ hoặc giả resume partial. Receipt AI giữ evidence,
 benchmark/parity, worktree locator và cách tiếp tục an toàn. Khung
 [sàng lọc cập nhật](research/STRATEGY-VALIDATION-FRAMEWORK-20261105.md#sàng-lọc-ứng-viên-tiềm-năng--đối-chiếu-primary-sources-0611)
@@ -47,7 +56,7 @@ từ kết quả này; đọc receipt trước đăng ký giai đoạn tiếp, k
 Trước ưu tiên candidate hoặc mở bài tiếp, đọc
 [time-fit05/11](research/PROP-FIRM-FIT-20261102.md#thời-gian-challenge-và-độ-phù-hợp-chiến-lược--kiểm-lại-05112026).
 Unlimited challenge khác trial/inactivity/minimum days và thời gian ra tiền.
-UTC range mới qua cost-screen, chưa chứng minh prop/time-fit; diagnostic ledger
+Z-score/UTC range qua annual cost-screen, chưa chứng minh prop/time-fit; diagnostic ledger
 chỉ hậu kiểm, full challenge lifecycle chưa được evaluator hiện có hỗ trợ.
 
 Lát performance kế tiếp đã có valuation reuse, opt-in prepared quality/H4 cache

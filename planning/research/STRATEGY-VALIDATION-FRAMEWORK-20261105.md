@@ -159,7 +159,7 @@ cầu tìm kiếm thật, không tạo tracker cạnh tranh Paperclip. Pin/hash 
 |---|---|
 | Correctness và độc lập | Có unit cases, causal/accounting checks; thêm independent sample oracle khi mở logic mới. Chưa independent audit toàn engine; không cần build engine thứ hai chỉ để có checklist |
 | Data quality/representativeness | QDM không là feed broker lịch sử; phải kiểm gaps/session và chọn thêm regimes theo protocol trước outcome, không tự điền khoảng trống |
-| Equity path/risk metrics | Chưa có peak-to-trough maxDD/underwater/concentration đầy đủ trong report; cần đo có coverage, không thay bằng minimum equity |
+| Equity path/risk metrics | Report06/11 đã có ledger-event DD/underwater/concentration; chưa full tick-path hoặc firm DD. [Annual review](TIME-FIT-RESULTS-20261106.md) giữ scope; không thay bằng minimum equity |
 | Edge/uncertainty/selection | Q1/2022 đã consumed,2023 exposure unverified, sample trade nhỏ. Cần historical multi-regime rồi prospective/controlled unseen window, trial count/dependence-aware uncertainty khi đủ assumptions |
 | Execution realism | Commission/slippage/financing đang declared/current-spec counterfactual; cần sensitivity hợp lý và đối soát demo, không hiệu chỉnh từ giả định để làm đẹp PnL |
 | Prop fit | Cần đúng firm/program/phase/reset/DST/news/permission profile và first breach;100/500USD nội bộ chưa chứng minh pass. The5ers approval vẫn chưa có |

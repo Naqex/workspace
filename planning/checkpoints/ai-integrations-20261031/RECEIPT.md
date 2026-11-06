@@ -6304,3 +6304,54 @@ tick-ID/SHA mapping như trước. `q1-prefix-audit.json` được cập nhật,
 raw snapshots. Parity này vẫn mang giới hạn shared legacy cash-tail gap đã ghi;
 không là annual-complete, cleanOOS hoặc strategy/prop qualification. Lượt còn
 chạy; giữ source worker, chỉ đọc final terminal/report khi thực sự có.
+
+### 06/11 12:29VN — annual completed, hậu kiểm và quyết định bước tiếp
+
+Owner giao kiểm tiến độ và thực thi việc sau batch. `execution-v2` kết thúc
+5/5job completed_verified11:31:45VN, pipeline/report completed11:32:25VN.
+10scenario ×3horizon =30rows;0model/broker calls, holdout_read=false,
+projection errors0, pipeline/batch/report stderr0byte. Không mở numerical job mới.
+Source run `bbc7c60e`, report SHA
+`2d1ff9d885f79c7a566955e4c509c16784f4d6f7fa0e173fcca188e78d26a118`.
+
+[Kết quả và hậu kiểm](../../research/TIME-FIT-RESULTS-20261106.md) giữ bảng
+3/6/12tháng, cash/floating/count/risk, G0–G6 và ordered next slice. Z-score và
+UTC range qua annual cost-screen, vẫn inconclusive;3version khác tạm gác,
+không loại cả strategy family hoặc sửa tiêu chí frozen. Không winner/edge/
+prop-qualified/forward/payout. Annual equity chuẩn/stress: Donchian−306,11/
+−488,47;SMA+64,15/−25,49;Z-score+275,74/+179,77;Pullback+1,40/−132,51;
+UTC range+223,74/+186,96USD. Pullback còn vị thế mở, floating20,40/20,24USD.
+
+`audit_completed.py` chạy41,49s:5dossier/10seals/30rows tính lại khớp; Markdown
+khớp JSON.13run sourcefiles copy+SHA vào `sealed-source-v2/` trước sửa;5legacy
+dossiers tiếp tục inspect được bằng frozen root sau code change.4trace đầu tiên
+theo thời gian (hai survivors×hai costs), từ76.355raw prefixquotes qua H4/rule/
+ATR/lot/SL/next quote/exit quote và independent cash/financing đều đạt; gồm
+hai net lời, hai net lỗ. Giới hạn: warmup dùng prepared bars đã pin; exit-rule
+causality chưa độc lập replay đầy đủ, không phải tất cả trades. Audit từng fail
+do giả slippage thay fill, đã đối chiếu model tách cash cost; sửa oracle, không
+sửa outcome. `post-batch-audit.json` giữ exact traces/limits.
+
+Fix raw calendar tại Trader commit `977d9055`: flush financing trước horizon/
+end cả quote-free gap, exclusive cutoff, không thêm quotes/fills/cursors. Hai
+regressions mới fail trước fix (thiếu Friday fee, event đúng cutoff bị gồm nhầm)
+rồi đạt.127Forex tests +7report tests đạt; risk halt qua fee giữ pending close,
+emptydata không được bịa quoteanchor. Historical runner yêu cầu registration mới
+`calendar_accounting=exclusive_event_clock_v1`, pin cả CLI; legacy artifacts
+vẫn readable, old registration không được execute mới. Giữ raw/seal/registration
+v2 nguyên; chưa annual-verify source mới, không replay cả năm vì reporting bug.
+Commands/log/source SHA ở `calendar-fix-validation.json` trong private runroot.
+
+Làm thêm necessary target-condition trên sealed cash events, không numerical
+replay: `audit_balance_target.py`→`balance-target-diagnostic.json`,5controls,
+30observations; không path nào chạm balance11.000USD từ initial10.000USD
+theo declared10%phase1target. Peak annual survivors: Z-score10.340,31/10.259,73,
+UTC range10.223,74/10.186,96USD. Đây là post-hoc diagnostic của internal-risk
+paths, không first-breach/lifecycle pass hoặc future time extrapolation.
+
+Lát tiếp đã mô tả hữu hạn: nối full risk/prop path qua evaluator hiện có và
+oracles cho reset/fee/gap/intrabar/pass→phase2, rồi đăng ký sensitivity12,50/
+25USD/trade của hai survivors trên consumed data; exitTP2Roverlay thử riêng sau
+risk review. Risk/exit numerical trials, cleanOOS và strategy-forward chưa chạy;
+không tự mở holdout/broker từ việc lưu kế hoạch. Không thêm GPU/Rust/benchmark
+nhánh mới. Không còn yêu cầu chờ batch hoặc launch lại cùng job.
