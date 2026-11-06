@@ -10,7 +10,7 @@ survival. [Workflow giải thích ngắn](../../tooling/ai-engines/STRATEGY-WORK
 
 | Thứ tự | Công việc / kết quả cần có | Phụ thuộc |
 |---|---|---|
-| 0 — ngay trong lúc chạy | Đối soát tốc độ/deadline/process và chốt handoff của current annual attempt; chuẩn bị source/config và recovery cho bản sửa `86eade80`. Không chỉ chờ timeout, không thay source của writer đang chạy | Numerical source vẫn pin; bản sửa đã có ở worktree riêng, chưa áp main |
+| 0 — ngay trong lúc chạy | Đối soát tốc độ/deadline/process và chốt handoff của current annual attempt; chuẩn bị source/config và recovery cho bản sửa `86eade80`. Không chỉ chờ timeout, không thay source của writer đang chạy | Receipt06/11 giữ stop/rollout; sau khi writer dừng đã áp main86eade80; attempt mới cần source-bound registration/config |
 | 1 — đóng attempt có kiểm soát | Nếu completed, kiểm terminal/seals/accounting rồi đọc kết quả. Nếu failed/timed-out, giữ attempt/log, xác nhận writer dừng và phân loại phần dùng lại; không gọi partial checkpoint là resume | Reuse chỉ đúng bindings; source mới cần execution binding/registration và parity review phù hợp, không nới hash |
 | 2 — quyết định5ứng viên | Một bảng cash/equity/cost/count/risk/gaps; từng version: không tiếp tục / inconclusive / đáng kiểm bước sau. Không có bản đạt thì trở lại hypothesis mới | Dùng outcome verified; không đổi tiêu chí frozen, ép winner hoặc tăng lot |
 | 3 — kiểm chéo và khóa bài tiếp | Tận dụng independent arithmetic/causal oracles; bổ sung đúng gaps drawdown/underwater/concentration. Chọn phép kiểm robustness/OOS và freeze rules/data/cost/risk/decision trước outcome | Chỉ ứng viên đáng kiểm; audit consumed/availability, không tự mở holdout |

@@ -6144,3 +6144,38 @@ queued; numerical attempt vẫn chạy. Bước tiếp: reconcile terminal/seals
 handoff; nếu timeout giữ attempt, chỉ reuse đúng binding. Khi áp source mới phải
 có source-bound execution registration và parity/review phù hợp; không nới hash
 hoặc giả resume giữa chừng để cứu progress. Kết quả annual vẫn chưa đủ để chốt.
+
+### 06/11 07:49VN — dừng annual attempt cũ, rollout source đã kiểm
+
+Owner yêu cầu xem tiến độ. Snapshot07:48:19VN:4reference22,19–22,98triệu/
+27,55triệutick (80,5–83,4% của scenario đầu),0/5complete,0completed scenario
+seals, UTC range queued, stderr0/projection errors0. Worker ceiling07:49:58VN
+không đủ, là safety deadline chứ không ETA. Batch đã chạy khoảng2h; đã chậm
+chuyển khỏi lượt cũ sau khi xác định history-scaling issue, không lặp cách chờ
+known-insufficient deadline rồi tự dispatch cùng source.
+
+Đã kiểm PID/creation/command/parent của pipeline/controller và4worker đúng
+attempt, dùng cancellation channel native `batch-1/CANCEL` lúc07:49:15VN;
+`controlled-stop.json` giữ lý do và snapshot trước stop. Giữ nguyên source và
+artifact của attempt đến khi writer kết thúc. Terminal:4worker `cancelled`,
+UTC range `not_started_cancelled`, batch `incomplete`0/5, pipeline `failed`/
+`batch_failed`exit1 theo non-completion contract. Worker exit0 không làm cancelled
+thành numerical complete. Đã xác nhận không còn8PID của cây process này; không
+kill terminal/broker hoặc service khác. Không phải annual pass hoặc crash của
+numeric engine; không có horizon-report hoàn chỉnh.
+
+Sau process reconciliation, main Trader clean được fast-forward3af69a73→
+**86eade80**. SHA256 của3numerical files+financing tests khớp worktree đã kiểm;
+không rerun108tests trên cùng content/runtime chỉ để đếm lại. Giữ existing
+validation-scaling comparison làm historical evidence; harness path `baseline`
+trỏ main nay đã đổi nên không rerun nó rồi gọi là A/B old/new khi chưa dựng lại
+baseline3af69a73. Không có runtime/broker rollout từ thay đổi research source.
+
+**Hiện chưa có annual attempt mới chạy.** Inputs/export/log/cache giữ nguyên;
+cache chỉ reuse khi reader/source/runtime binding còn hợp lệ. Không có completed
+scenario để reuse; partial numerical state chưa resume CLI. Bước tiếp: đăng ký
+attempt/source execution mới (source_files của registration cũ đã mismatch đúng
+thiết kế), giữ window/candidate/economic decision/risk/cost, chọn ceiling phù hợp
+và kiểm setup/handoff bounded trước dispatch; không sửa hash cũ, tắt guards,
+gọi partial result là complete hoặc mở holdout. Task hậu batch/exit/risk review
+đã lưu trong AI plan; chưa triển khai các biến thể đó.

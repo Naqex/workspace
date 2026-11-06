@@ -13,9 +13,13 @@ quyết định giữ/loại/inconclusive và nối đánh giá prop còn thiế
 nhánh GPU/Rust/benchmark nếu không có lỗi hoặc bottleneck chặn bước đó. Đây là
 hướng giữ trọng tâm đã được owner xác nhận; các quyền broker/holdout giữ riêng.
 
-Delta06/11 sau annual slowdown: bản sửa validation financing đã được kiểm và
-commit `86eade80` trong worktree tách biệt, **chưa áp vào source của batch đang chạy**.
-Receipt AI giữ benchmark/parity, worktree locator và cách tiếp tục an toàn. Khung
+Delta06/11 sau annual slowdown: attempt `execution-v1` đã dừng có kiểm soát
+07:49VN, 0/5job và0scenario hoàn tất; không có annual result được công nhận.
+Đã xác nhận toàn bộ process owner/worker dừng rồi fast-forward main Trader lên
+`86eade80`; bốn file khớp byte với worktree đã kiểm108tests. **Chưa có annual
+attempt mới chạy.** Lượt mới phải có source-bound registration/config/deadline;
+không sửa frozen registration cũ hoặc giả resume partial. Receipt AI giữ evidence,
+benchmark/parity, worktree locator và cách tiếp tục an toàn. Khung
 [sàng lọc cập nhật](research/STRATEGY-VALIDATION-FRAMEWORK-20261105.md#sàng-lọc-ứng-viên-tiềm-năng--đối-chiếu-primary-sources-0611)
 giữ kết luận:5prototype EURUSD/H4 chưa là khảo sát toàn thị trường; screen phí
 chỉ chọn phép kiểm tiếp, chưa đóng OOS/risk/prop. Không sửa frozen tiêu chí batch.
