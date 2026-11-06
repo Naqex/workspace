@@ -2,6 +2,22 @@
 
 ## Research kế thừa — 05/11/2026
 
+Delta06/11 sau owner giao hoàn thiện phép đo rồi chạy hai survivors: source
+Trader`5c6d82ff` thêm transactional tick-risk observer dùng native prop evaluator;
+`0883e9ee` đăng ký study; `7b2c536d` chỉ thêm regression, không đổi numerical bytes.
+Đã kiểm intrabar DD/Prague/DST/fee/first-breach/actual phase-reset, exit oracle và
+cancel/reuse. Real consumed prefix232.578ticks×4cases giữ exact execution parity;
+12horizon rows đọc lại đạt. Cache mới verified606,093s, hai registered preflights
+đạt. [Protocol và binding](research/PROP-PATH-SURVIVORS-20261106.md) giữ rules cũ,
+25USD risk, hai costs và declared FTMO2-Step profile; chưa risk/TP variants/OOS.
+**Pipeline mới chạy từ13:26VN**, root
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/prop-survivors-20261106/execution-v1/`:
+`pipeline.json`→`batch-1/progress.json`, report tự sinh sau verified completion.
+Hai worker Z-score/UTC range, ceiling6h/worker8h/batch không ETA, không auto retry.
+Không sửa pinned numerical files trong lúc chạy; receipt AI giữ actual snapshot.
+Full-year risk/declared lifecycle result vẫn pending, không coi source/fixture pass
+là economic edge, full firm certification hoặc authority gửi lệnh.
+
 Điểm định hướng 06/11 sau câu hỏi owner về tổng thể: mục tiêu vẫn là tìm chiến
 lược Forex tự động có lợi thế sau chi phí, phù hợp FTMO 2-Step Swing trước,
 tiếp cận vốn prop với rủi ro kiểm soát. Hệ thống đã đủ chạy research offline;

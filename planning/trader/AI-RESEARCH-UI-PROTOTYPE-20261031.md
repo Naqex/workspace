@@ -2,6 +2,13 @@
 
 ## Thứ tự công việc sau annual batch — owner giao sắp lại 06/11/2026
 
+Delta thực thi06/11: owner giao làm đủ tick-risk/exit/short-path checks rồi chạy
+hai survivors. Native evaluator adapter và actual account reset đã có source/
+fixture proof,4consumed-data parity cases đạt; [study mới](../research/PROP-PATH-SURVIVORS-20261106.md)
+đã dispatch13:26VN, cùng rules/risk/costs cũ. Receipt AI giữ actual state;
+full-year declared-profile result còn pending. Không mở thêm risk/exit grid,
+holdout hoặc broker từ dispatch này; các mục tương ứng bên dưới vẫn là lát sau.
+
 Mục tiêu giữ nguyên: tìm và vận hành strategy Forex tự động có evidence, tiếp
 cận/duy trì vốn prop với risk kiểm soát, hướng tới reward thực nhận. Không lấy
 batch-complete, engine nhanh hoặc pass challenge làm mục tiêu cuối thay payout/

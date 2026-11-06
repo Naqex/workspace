@@ -18,6 +18,84 @@ from trading_workspace_v2.replay_tick_execution import BrokerReplayTick
 
 
 class TimeFitTests(unittest.TestCase):
+    def test_declared_prop_mode_does_not_apply_cost_screen_or_sum_phase_profits(self):
+        report=dict(rows=[dict(worker='fixture',cutoff_utc=date,scenario=scenario,
+            equity_delta_usd='5',entry_fills=5,observed_ticks=100,
+            prop_path=dict(phase_index=2,status='running',qualifying_days=1,
+                path=dict(maximum_drawdown='42',minimum_daily_headroom='430')))
+            for date in ('2023-04-01','2023-07-01','2024-01-01')
+            for scenario in ('reference','cost-stress')])
+        output=timefit.render_report(report)
+        self.assertIn('không cộng lợi nhuận các vòng',output)
+        self.assertIn('chưa đạt tại cutoff',output)
+        self.assertIn('42.00',output)
+        self.assertNotIn('Dương cả hai mức phí',output)
+
+    def test_prop_horizons_validate_counts_profile_terminal_packet_and_seal(self):
+        from test_forex_prop_observer import profile
+        from trading_workspace_v2.prop_session import PropProfileSnapshot
+        declared=PropProfileSnapshot.model_validate(profile()).model_dump(mode='json')
+        ticks=[BrokerReplayTick(time_msc=pilot.START+i*3600000+1,sequence=i+1,
+            bid='1.10000',ask='1.10020') for i in range(10)]
+        cutoffs=[pilot.START+4*3600000,pilot.START+8*3600000,pilot.END]
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder)
+            with patch.object(pilot,'read_qdm_ticks',return_value=iter(ticks)):
+                result=pilot.run_scenario(Path('unused'),[],'reference',Decimal(0),Decimal(0),
+                    root,lambda *args:None,horizon_cutoffs=cutoffs,prop_profile=declared)
+            manifest=dict(run_id='synthetic',prop_profile=declared,horizon_cutoffs=cutoffs,
+                scenarios=[dict(name='reference',slippage='0',financing_calendar=[t.model_dump(mode='json')
+                    for t in pilot.financing_calendar(Decimal(0))])])
+            (root/'quality.json').write_text('{}')
+            pilot.seal_scenario(root,manifest,result)
+            rows=timefit.inspect_horizons(root,manifest,'reference')
+            self.assertEqual([r['observed_ticks'] for r in rows],[4,8,10])
+            self.assertEqual(rows[-1]['prop_path']['path']['maximum_drawdown'],'0')
+            path=root/'reference-prop-path.json'
+            original=path.read_bytes()
+            path.write_bytes(original+b' ')
+            with self.assertRaisesRegex(ValueError,'prop path artifact seal'):
+                timefit.inspect_horizons(root,manifest,'reference')
+            path.write_bytes(original)
+            horizons=root/'reference-horizons.json'
+            packet=json.loads(horizons.read_bytes())
+            packet[0]['prop_path']['active']['observed_ticks']+=1
+            horizons.write_text(json.dumps(packet))
+            pilot.seal_scenario(root,manifest,result)
+            with self.assertRaisesRegex(ValueError,'tick coverage'):
+                timefit.inspect_horizons(root,manifest,'reference')
+
+    def test_phase_two_reader_counts_archived_fees_once_and_reconciles_reset(self):
+        from test_forex_prop_observer import profile
+        from trading_workspace_v2.prop_session import PropProfileSnapshot
+        declared=PropProfileSnapshot.model_validate(profile(targets=('1','1'))).model_dump(mode='json')
+        class FixtureStrategy(pilot.FixedH4Candidate):
+            def observe(self,candle,**kwargs):
+                return ('EXIT' if kwargs.get('side') else 'BUY'),Decimal('.001')
+        ticks=[BrokerReplayTick(time_msc=pilot.START+h*3600000+1,sequence=h+1,
+            bid=str(Decimal('1.102')+Decimal('.002')*(h//5)),
+            ask=str(Decimal('1.1022')+Decimal('.002')*(h//5))) for h in range(18)]
+        end=pilot.START+86400000
+        cutoffs=[pilot.START+4*3600000,pilot.START+12*3600000,end]
+        calendar=[terms(pilot.START+h*3600000,event=f'fee-{h}',buy='10',sell='10') for h in (6,22)]
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder)
+            with patch.object(pilot,'FixedH4Candidate',FixtureStrategy), \
+                 patch.object(pilot,'read_qdm_ticks',return_value=iter(ticks)), \
+                 patch.object(pilot,'financing_calendar',return_value=iter(calendar)):
+                result=pilot.run_scenario(Path('unused'),[],'reference',Decimal(0),Decimal(10),root,lambda *a:None,
+                    development=dict(sha256='a'*64,first_day='20220103',last_day='20220103'),
+                    prop_profile=declared,horizon_cutoffs=cutoffs)
+            manifest=dict(run_id='two-phase-fixture',prop_profile=declared,horizon_cutoffs=cutoffs,
+                scenarios=[dict(name='reference',slippage='0',financing_calendar=[t.model_dump(mode='json') for t in calendar])])
+            (root/'quality.json').write_text('{}')
+            pilot.seal_scenario(root,manifest,result)
+            rows=timefit.inspect_horizons(root,manifest,'reference')
+            self.assertEqual(rows[-1]['prop_path']['phase_index'],2)
+            self.assertEqual(rows[-1]['prop_path']['status'],'completed_pass')
+            self.assertEqual(rows[-1]['observed_ticks'],18)
+            self.assertEqual(rows[-1]['derived_financing_tail'],[])
+
     def test_quote_free_calendar_tail_posts_cash_without_mutating_quotes_or_orders(self):
         state=advance(queue(initialize_forex_pilot(execution(),start_time_msc=ms()),
             quantity='0.01',stop='1.09'),[tick()])

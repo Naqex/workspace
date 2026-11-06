@@ -144,6 +144,13 @@ def inspect_horizons(directory, manifest, scenario):
     expected=manifest['horizon_cutoffs']
     if not isinstance(rows,list) or [r['cutoff_msc'] for r in rows]!=expected:
         raise ValueError('horizon snapshots differ from declared cutoffs')
+    if manifest.get('prop_profile'):
+        prop_path=Path(directory)/(scenario+'-prop-path.json')
+        if seal.get('artifact_sha256',{}).get(prop_path.name)!=hashlib.sha256(prop_path.read_bytes()).hexdigest():
+            raise ValueError('prop path artifact seal mismatch')
+        if json.loads(prop_path.read_bytes()) != dict(**rows[-1].get('prop_path',{}),
+                completed_phase_accounts=rows[-1].get('completed_phase_accounts',[])):
+            raise ValueError('final prop path differs from terminal horizon')
     slip=next(s['slippage'] for s in manifest['scenarios'] if s['name']==scenario)
     output=[]
     for row in rows:
@@ -164,7 +171,12 @@ def inspect_horizons(directory, manifest, scenario):
         if row['accounting']!=accounting:
             raise ValueError('horizon accounting differs from recalculation')
         raw_state=state
-        state,tail_adjustments=complete_quote_free_financing_tail(state,manifest,scenario,cutoff)
+        if manifest.get('prop_profile'):
+            # Completed phases have their own cash ledgers. Validate the whole
+            # calendar across those ledgers; never charge an archived fee again.
+            tail_adjustments=[]
+        else:
+            state,tail_adjustments=complete_quote_free_financing_tail(state,manifest,scenario,cutoff)
         if tail_adjustments: reconcile(state,Decimal(slip))
         e=state.execution
         initial=e.starting_balance
@@ -172,10 +184,11 @@ def inspect_horizons(directory, manifest, scenario):
         entry_days={datetime.fromtimestamp(event['details']['time_msc']/1000,timezone.utc)
             .astimezone(ZoneInfo('Europe/Prague')).date().isoformat()
             for event in e.ledger if event['kind']=='market_fill'}
+        prop = inspect_prop_observation(row,manifest,state,cutoff,Decimal(slip),scenario) if manifest.get('prop_profile') else None
         output.append(dict(cutoff_utc=datetime.fromtimestamp(cutoff/1000,timezone.utc).isoformat(),
             starting_balance_usd=str(initial),balance_usd=str(e.balance),equity_usd=str(e.equity),
             balance_delta_usd=str(e.balance-initial),equity_delta_usd=str(e.equity-initial),
-            floating_pl_usd=str(e.floating_pl),observed_ticks=state.risk.observed_ticks,
+            floating_pl_usd=str(e.floating_pl),observed_ticks=prop['observed_ticks'] if prop else state.risk.observed_ticks,
             entry_fills=sum(event['kind']=='market_fill' for event in e.ledger),
             closed_trades=sum(event['kind']=='protective_fill' for event in e.ledger),
             entry_days_prague=len(entry_days),open_position=e.position is not None,
@@ -184,15 +197,74 @@ def inspect_horizons(directory, manifest, scenario):
             internal_risk_stops=len(state.risk.stops),internal_overall_halted=state.risk.overall_stopped,
             last_quote_time_msc=state.risk.last_tick.time_msc,
             boundary_quote_age_ms=cutoff-state.risk.last_tick.time_msc,
-            internal_risk_is_firm_rule=False,full_prop_time_to_pass='not_evaluated',
+            internal_risk_is_firm_rule=False,
+            full_prop_time_to_pass='declared_subset_only_not_full_firm_rules' if prop else 'not_evaluated',
             strategy_edge='not_established',promotion_authorized=False,
             independent_accounting=accounting['independent_accounting'],
             observation_basis='sealed_raw_plus_declared_quote_free_cash_tail' if tail_adjustments else 'sealed_raw',
             raw_sealed_equity_delta_usd=str(raw_state.execution.equity-raw_state.execution.starting_balance),
             raw_sealed_balance_delta_usd=str(raw_state.execution.balance-raw_state.execution.starting_balance),
             derived_financing_tail=tail_adjustments,
-            diagnostics=ledger_diagnostics(state)))
+            diagnostics=ledger_diagnostics(state),**({'prop_path':prop,
+                'balance_scope':'active_phase_account_not_sum_of_challenge_profits'} if prop else {})))
     return output
+
+
+def inspect_prop_observation(row,manifest,state,cutoff,slippage,scenario):
+    from trading_workspace_v2.prop_session import PhaseStateSnapshot,ChallengeAttemptSnapshot
+    from trading_workspace_v2.forex_financing import FinancingTerms
+    packet=row.get('prop_path',{})
+    if packet.get('profile')!=manifest['prop_profile']:
+        raise ValueError('prop observation profile mismatch')
+    active=packet['active']
+    phase=PhaseStateSnapshot.model_validate(active['phase'])
+    attempt=ChallengeAttemptSnapshot.model_validate(active['attempt'])
+    accounts=row.get('completed_phase_accounts',[])
+    expected=list(range(1,phase.phase_index))
+    if ([p['phase_index'] for p in accounts]!=expected
+            or [p['phase_index'] for p in packet.get('completed_phases',[])]!=expected
+            or phase.profile_hash!=manifest['prop_profile']['profile_hash']
+            or attempt.profile_hash!=phase.profile_hash or active['status']!=attempt.status
+            or phase.phase_index!=active['phase_index']
+            or Decimal(active['account_balance_usd'])!=state.execution.balance
+            or Decimal(active['account_equity_usd'])!=state.execution.equity
+            or phase.initial_balance!=state.execution.starting_balance
+            or int(phase.virtual_time_utc.timestamp()*1000)>=cutoff
+            or active['last_observation_time_msc']>=cutoff):
+        raise ValueError('prop observation phase/account boundary mismatch')
+    count=state.risk.observed_ticks
+    ledgers=[state.execution.ledger]
+    for account in accounts:
+        previous=ForexPilotSnapshot.model_validate(account['checkpoint'])
+        if (previous.execution.position is not None or previous.execution.pending_market_order is not None
+                or previous.risk.last_tick is None or previous.risk.last_tick.time_msc>=cutoff
+                or any(e['virtual_time_utc']*1000>cutoff for e in previous.execution.ledger)):
+            raise ValueError('completed prop phase is not flat')
+        if reconcile(previous,slippage)!=account['accounting']:
+            raise ValueError('completed prop phase accounting mismatch')
+        count+=previous.risk.observed_ticks
+        ledgers.append(previous.execution.ledger)
+    calendar=next(s['financing_calendar'] for s in manifest['scenarios'] if s['name']==scenario)
+    expected={t['event_id']:FinancingTerms.model_validate(t) for t in calendar if t['scheduled_time_msc']<cutoff}
+    seen=set()
+    for ledger in ledgers:
+        for event in ledger:
+            if event['kind']!='financing': continue
+            term=FinancingTerms.model_validate(event['details']['financing_terms'])
+            if term.event_id in seen or expected.get(term.event_id)!=term:
+                raise ValueError('prop financing calendar differs across phase accounts')
+            seen.add(term.event_id)
+    if seen!=set(expected):
+        raise ValueError('prop evaluation omitted calendar cash; post-hoc repair is not allowed')
+    if type(active['observed_ticks']) is not int or active['observed_ticks']!=count:
+        raise ValueError('prop tick coverage mismatch')
+    path=active['path']
+    values=[Decimal(path[k]) for k in ('peak_equity','minimum_equity','maximum_drawdown')]
+    if (not all(v.is_finite() for v in values) or values[2]<0
+            or values[0]<state.execution.equity or values[1]>state.execution.equity
+            or any(event['time_msc']>=cutoff for event in packet.get('milestones',[]))):
+        raise ValueError('invalid prop equity path or future milestone')
+    return active
 
 
 def render_report(report):
@@ -203,6 +275,7 @@ def render_report(report):
         group=groups.setdefault(row['worker'],{})
         if key in group: raise ValueError('duplicate horizon observation')
         group[key]=row
+    prop_mode=bool(report['rows']) and all('prop_path' in row for row in report['rows'])
     lines=['# So sánh chiến lược theo 3/6/12 tháng','',
         'Equity delta USD, gồm lãi/lỗ đang mở. Mỗi ô: phí chuẩn / phí cao.',
         'Đây là historical robustness; các horizon lồng nhau, chưa phải clean OOS hoặc pass quỹ.','',
@@ -210,6 +283,10 @@ def render_report(report):
         'JSON giữ số raw đã seal và từng điều chỉnh; không sửa artifact gốc hoặc giả có quote mới.','',
         '| Ứng viên | 3 tháng | 6 tháng | 12 tháng | Screen phí cả năm |',
         '|---|---:|---:|---:|---|']
+    if prop_mode:
+        lines[2]='Equity delta USD của tài khoản vòng hiện tại, gồm lãi/lỗ mở; không cộng lợi nhuận các vòng đã reset. Mỗi ô: phí chuẩn / phí cao.'
+        lines[5]='Runner đã post phí trước cutoff; prop observation không chấp nhận sửa bù cash hậu kiểm.'
+        lines[8]=lines[8].replace('Screen phí cả năm','Đánh giá')
     for worker,group in groups.items():
         dates=sorted({date for date,_ in group})
         if len(dates)!=3 or set(group)!={(date,scenario) for date in dates for scenario in ('reference','cost-stress')}:
@@ -220,15 +297,32 @@ def render_report(report):
             if not all(value.is_finite() for value in amounts): raise ValueError('nonfinite horizon equity')
             cells.append(' / '.join(f'{value:+.2f}' for value in amounts))
         annual=[group[dates[-1],scenario] for scenario in ('reference','cost-stress')]
-        if any(row['observed_ticks']<=0 or row['entry_fills']==0 for row in annual):
+        if prop_mode:
+            screen='Quan sát lifecycle theo profile khai báo; chưa qualification'
+        elif any(row['observed_ticks']<=0 or row['entry_fills']==0 for row in annual):
             screen='Chưa đủ mẫu giao dịch'
         elif any(Decimal(row['equity_delta_usd'])<=0 for row in annual):
             screen='Không promote: chưa đạt screen phí'
         else:
             screen='Dương cả hai mức phí; chưa đủ để chọn'
         lines.append('| '+' | '.join([worker,*cells,screen])+' |')
+    if prop_mode:
+        lines.extend(['','## Tick risk và lifecycle khai báo','',
+            '| Ứng viên | Cutoff UTC | Phí | Vòng | Trạng thái | Tick maxDD USD | Đệm daily nhỏ nhất USD | Ngày giao dịch |',
+            '|---|---|---|---:|---|---:|---:|---:|'])
+        for row in report['rows']:
+            p=row['prop_path']; path=p['path']
+            status={'running':'chưa đạt tại cutoff','phase_passed':'đạt vòng, chưa chuyển vòng',
+                    'completed_pass':'đạt profile mô phỏng','failed_breach':'vi phạm profile mô phỏng'}.get(p['status'],p['status'])
+            cells=[row['worker'],row['cutoff_utc'],row['scenario'],str(p['phase_index']),status,
+                f"{Decimal(path['maximum_drawdown']):.2f}",
+                f"{Decimal(path['minimum_daily_headroom']):.2f}" if path['minimum_daily_headroom'] is not None else 'N/A',
+                str(p['qualifying_days'])]
+            lines.append('| '+' | '.join(cells)+' |')
+        lines.extend(['','MaxDD đo pre/post-fill mỗi quote và cash event của vòng hiện tại. Profile evaluation dừng ở terminal event; DD account vẫn được ghi.',
+            'Reset/cash dùng quote cuối đã quan sát, không bịa giá nửa đêm. Không có min sample thì không tự coi edge đạt.'])
     if report['rows'] and all('diagnostics' in row for row in report['rows']):
-        lines.extend(['', '## Chẩn đoán cuối năm', '',
+        lines.extend(['', '## Chẩn đoán cuối mẫu của vòng hiện tại' if prop_mode else '## Chẩn đoán cuối năm', '',
             'Mỗi ô: phí chuẩn / phí cao. Thắng/thua đã gán phí qua đêm cho từng vị thế đóng.', '',
             '| Ứng viên | Lệnh đóng | Win rate | Lời/lỗ trung bình USD | DD tại ledger USD | Chuỗi thua dài nhất |',
             '|---|---:|---:|---:|---:|---:|'])
@@ -250,7 +344,8 @@ def render_report(report):
     lines.extend(['',
         'Screen chỉ áp dụng phiên bản/cost/window đang thử; không kết luận cả họ chiến lược vô dụng.',
         'Không tăng lot, sửa tham số hoặc gọi các horizon là mẫu độc lập để cải thiện kết quả.',
-        'Còn phải đánh giá độ bền ngoài mẫu, drawdown/tail risk và full phase 1 → reset → phase 2.',
+        ('Đã nối lifecycle theo declared profile; OOS, historical broker realism, exceptions/inactivity/payout vẫn chưa chứng minh.' if prop_mode else
+         'Còn phải đánh giá độ bền ngoài mẫu, drawdown/tail risk và full phase 1 → reset → phase 2.'),
         'Nến/quotes theo UTC; phanh ngày nội bộ reset Europe/Prague. Ngân sách nội bộ chưa là luật quỹ đầy đủ.',
         'Phí lịch sử và coverage còn giới hạn; chưa có quyền tự promote/gửi lệnh.',''])
     return '\n'.join(lines)
@@ -276,7 +371,8 @@ def main():
                 rows.append(dict(worker=worker['worker'],candidate=manifest['candidate'],
                     scenario=scenario['name'],**row))
     report=dict(schema='forex-time-fit-horizon-report-v1',rows=rows,
-        report_method='sealed_observations_with_explicit_quote_free_calendar_tail_v1',
+        report_method='sealed_prop_path_lifecycle_v1' if any('prop_path' in row for row in rows) else
+            'sealed_observations_with_explicit_quote_free_calendar_tail_v1',
         reporter_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         study_role='historical_robustness_prior_exposure_unverified',
         horizons_are_independent_trials=False,prop_qualification='not_established',

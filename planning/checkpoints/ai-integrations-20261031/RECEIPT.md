@@ -6355,3 +6355,71 @@ oracles cho reset/fee/gap/intrabar/pass→phase2, rồi đăng ký sensitivity12
 risk review. Risk/exit numerical trials, cleanOOS và strategy-forward chưa chạy;
 không tự mở holdout/broker từ việc lưu kế hoạch. Không thêm GPU/Rust/benchmark
 nhánh mới. Không còn yêu cầu chờ batch hoặc launch lại cùng job.
+
+### 06/11 sau13:26VN — hoàn thiện ba cửa kiểm và dispatch hai survivors
+
+Owner giao làm đủ phép đo risk/prop, exit oracle, short end-to-end rồi chạy hai
+ứng viên. Protocol/binding mới:
+[PROP-PATH-SURVIVORS](../../research/PROP-PATH-SURVIVORS-20261106.md),
+[JSON](../../research/PROP-PATH-SURVIVORS-20261106.json), SHA256
+`2f7bfcd2fdfad9e3d2adcb14e8a0dd4f7fdafe85af8f389ee9f72d3e15299eb9`.
+Giữ EURUSD/H4,2023consumed, hai candidate/risk25USD/internal100/500/costs cũ;
+không test risk/TP variants, mở holdout/provider/broker hoặc mua challenge.
+
+Trader implementation`5c6d82ff`, registration`0883e9ee`; test-only checkpoint
+`7b2c536d` sau dispatch không đổi numerical bytes. Opt-in observer stage theo
+window, commit sau execution/risk validation; đo pre/post-fill mỗi quote và cash,
+cả entry+SL ngay một quote. Static USD/Prague profile, native money/calendar/
+lifecycle/transition giữ rule ownership. Cache threshold oracle, native evaluate
+ở milestone; không model call trong tick loop. Unsupported profile/stricter-than-
+internal caps bị từ chối. Pass khi flat/pending0 rồi H1 boundary trước end mới
+archive/accounting cũ và reset execution/risk thực về10k; causal indicators giữ,
+position-age/account-day latches reset. Không replay ticks, cộng phase profits
+hoặc giả đóng ở cuối mẫu. Native evaluation chốt terminal; account DD có thể
+ghi phần đóng sau breach. Mid-scenario CLIresume vẫn unsupported.
+
+Reporter kiểm seal/count/profile/active-phase scope, phase archives và lịch phí
+trên **tất cả phase ledgers**: không charge lại phí của vòng đã archive hoặc
+repair missing cash hậu kiểm. New regression có fee trước phase1pass và sau
+phase2reset, actual account reset + report readback đạt. Legacy reader giữ raw/
+derived tail riêng. UI report dùng “chưa đạt tại cutoff” cho lifecycle running,
+không nhầm thành numerical job còn chạy; không tạo outer management UI.
+
+Checks:141Forex tests (gồm4exit-oracle,10observer tests lúc full run),15native
+contract,27native lifecycle,20controller cancel/owner-crash/reuse,10report tests
+đạt. Sau đó thêm test productionUTCcandidate resetaccountday giữ indicators:
+observer suite11/11đạt; numerical source không đổi. Oracle exit kiểm prior20/
+reversion/six actual closes cảBUY/SELL, UTC20:00/next valid/cross day, SL ưu tiên
+queued exit. Controller tests chỉ scoped synthetic processes, không broker.
+
+Private root:
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/prop-survivors-20261106/execution-v1/`.
+Prepared cache cũ bị guard từ chối đúng vì replay source đổi; `prepare_inputs.py`
+đọc/hash/quality lại một lần:7.959.071warmup và27.549.175evaluation ticks;
+606,093s. Hai registered preflights chỉ7,33/7,25s nhờ cache đã verified; không
+simulation ở preflight. Không nới hash để reuse source cũ.
+
+`bounded_controls.py` dùng consumedJan1–Jan3/2023,232.578ticks:2candidate×2cost,
+observeron/off execution checkpoint/decisions/candidate state exact4/4cases;
+12horizon observations sealed-reader đạt. Mẫu baseline1,59–1,97s, observer3,02–
+3,44s (1,71–1,91×), chi phí phép đo mới; không extrapolate thành annual slowdown/
+ETA vì prefix ít lịch sử/fees. Reread12rows với final reporter đạt, không replay
+numerical. Artifacts:`bounded-parity.json`,`bounded-reader-proof.json`,
+`preflight-proof.json`,`dispatch-proof.json`,scope/limits trong từng file.
+
+Pipeline launched13:26:21VN, launcher13336; actual pipeline8008,controller7840.
+Snapshot13:27VN:2workersreference, Z-score842.899ticks/UTC range919.090ticks;
+0/2completed, pipeline/batch stderr0byte, projectionerrors0. Snapshot13:29VN
+đã4,33/4,65triệuticks, vẫn reference. PIDs cần kiểm creation/command trước
+interruption, không coi ID một mình là ownership. Numerical ceiling6h/worker,
+8h/batch,2workers, noauto retry; không là ETA. Pipeline sau completion tự verify
+dossiers/seals/accounting và xuất horizon-report JSON/MD. Worker source snapshot
+15files và reporter/controller copies giữ ở `source-snapshot/`, chỉ provenance,
+không claim hermetic runtime restore. Progress panel request trảqueued; link
+`batch-1/PROGRESS.md`/`progress.json` là nơi theo dõi, chưa claim tab đã visible.
+
+Nối source và synthetic proof đã đạt trong scope; current annual mới **đang chạy**,
+chưa annual completeness, cleanOOS, economic edge, full provider contract hoặc
+payout readiness. Giữ all pending states rõ và không sửa pinned numerical files
+trong khi writers hoạt động. Nếu report lỗi, giữ verified numerical jobs và sửa
+consumer/reuse đúng bindings; không tự replay cả năm hoặc auto retry.
