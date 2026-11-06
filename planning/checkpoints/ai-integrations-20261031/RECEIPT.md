@@ -6282,3 +6282,25 @@ runner calendar flush/capture ở future source cần boundary regression và
 registration mới; không hotpatch worker hiện hành. G4 full phase/prop/forward
 vẫn chưa đạt. Phương pháp derived này chỉ phù hợp quote-free terminal tail,
 không là general resume/correction engine hoặc quyền repair event/order bất kỳ.
+
+### 06/11 09:51VN — cả5reference sealed, đang cost-stress
+
+Owner hỏi tiến độ. Pipeline/controller vẫn chạy cùng execution-v2, không
+restart. Cả5reference có completed seals;0/5full jobs verified vì cost-stress
+chưa xong. Tick fractions của scenario thứ2:Donchian52%,SMA79%,Z-score56%,
+Pullback64%,UTC-range49%; stderr toàn pipeline/controller/5worker0byte,
+projectionerrors0. Không gọi ticks% là wall-time% hoặc chốt outcome từ phí chuẩn.
+
+Reference wall theo receipts khoảng62,0–85,6phút tùy candidate. Five-minute
+cursor throughput của cost-stress cho lower-order projection24–42phút còn lại,
+nhưng revalidation cost tăng theo history và còn verification/report. ETA giao
+tiếp có margin **10:40–11:15VN**, là estimate theo snapshot, không deadline/
+cam kết; worker ceiling khoảng12:11VN và batch14:02VN vẫn riêng. Không extrapolate
+bounded63% thành full-batch speedup.
+
+Đã chạy lại read-onlyQ1prefix audit khi cả10snapshots có sẵn: **10/10semantic
+states khớp** pinned Q1goldens,9.038.771ticks mỗi snapshot, giữ explicit dataset/
+tick-ID/SHA mapping như trước. `q1-prefix-audit.json` được cập nhật, không đổi
+raw snapshots. Parity này vẫn mang giới hạn shared legacy cash-tail gap đã ghi;
+không là annual-complete, cleanOOS hoặc strategy/prop qualification. Lượt còn
+chạy; giữ source worker, chỉ đọc final terminal/report khi thực sự có.
