@@ -6520,3 +6520,62 @@ window/cleanOOS/executable registration; cần consumption/availability audit,
 scope gate,6month registration/consumer/preflight trước outcome. Không sửa
 annual3/6/12JSONđể dispatch. Giữ các sensitivity/exit task cũ trong backlog;
 current context/AI plan/results route tới review mới để tránh thứ tự mâu thuẫn.
+
+### 06/11 17:37 VN — period robustness Q2–Q3/2022 đã dispatch
+
+Owner giao “oke tiếp tục đi” sau review/proposal. Đã thực hiện
+[protocol mới](../../research/PERIOD-ROBUSTNESS-20261106.md) và
+[frozen registration](../../research/PERIOD-ROBUSTNESS-20261106.json), không sửa
+annual registration/outcomes. Hai candidates, rules/SL/exits/costs/internal
+budgets/declared prop profile giữ nguyên; chỉ evaluation Apr–Sep2022, warmup
+Feb–Mar2022, observations 3/6 tháng. Chưa gọi clean OOS, edge hoặc prop-qualified.
+
+Metadata audit qua `research_consumption.py --root <private-jobs> --root
+planning/research --output <new-attempt>/consumption-audit.json`: 271 metadata
+files,149 records,0 skipped/review-required; không record evaluation overlap
+Apr–Sep2022. Không suy unseen từ absence hoặc kiểm lịch sử ngoài filesystem.
+QDM cache identity/coverage đã đọc lại; không download/update hoặc mở holdout.
+
+Private attempt:
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/prop-period-robustness-20261106/execution-v1/`.
+Protocol SHA256 trước export
+`e1a66c0f25741c2c0b7e8855fe62a90e1fec694d047fd6c870928b3b92f1b412`.
+Warmup 4.440.536 ticks/250 validH4, raw SHA256
+`a6f4612267088cd1758df609ba9e80d2a708960a874c28f21f517ff83dd17278`;
+evaluation18.290.018 ticks/759 validH4, raw SHA256
+`c5ce6775d38afd68e7c1667e5f3b6fd2c9a2f71465f6a8e223dd51d7fd22827a`.
+Quality giữ gaps/excluded H4, observed-quotes-only; không tự bù giá hoặc gọi
+complete coverage. Export+source-bound quality/tick cache473,078s verified;
+`preparation.json` giữ counters/records/runtime-bound caches, stderr0byte.
+
+Source Trader `0b3ab275`: nhận đúng registered [3,6] horizons bên cạnh annual
+[3,6,12], vẫn whitelist digest và kiểm exclusive calendar end/types. Numerical
+14 files khớp byte registration annual trước; không sửa core math hoặc strategy.
+Workspace reporter đọc registered horizon labels, từ chối missing/mixed dates.
+Synthetic registered six-month preflight, two-horizon prop seal/accounting và
+annual12-row report compatibility đạt. Focused checks:10registration+12report+
+20controller tests pass. Một assert fixture ban đầu so string0 với0.00 đã sửa
+sang Decimal equality, không sửa production arithmetic. Không rerun tests/core
+annual không đổi; full-batch outcome của study mới chưa hoàn tất.
+
+Registration SHA256
+`22a08798500af13137cd4203140511065f63ea59caf5668e3985d14264daa0d7`.
+Hai real registered CLI preflights5,04/4,89s pass-no-simulation. Private
+`focused-checks.json`,`dispatch-proof.json`,`source-snapshot/` giữ commands,
+runtime,17source-file hashes và limited provenance; chưa hermetic restore.
+
+Pipeline launched17:36:40VN, launcher12448, actual pipeline16928/controller21928.
+Snapshot17:37:01VN: hai workers đangreference, Z-score256.186ticks/UTC273.662;
+0/2completed, stderr/projection errors0. PIDs phải kiểm creation/command nếu
+resume/interruption; không coi launcherPID là worker. Tiến độ5s tại
+`batch-1/PROGRESS.md`/`progress.json`; panel open request hiệnqueued, chưa claim
+visible. `pipeline.json` giữ stage/report locator. Finite native controller:
+2parallel workers,6h/worker8h/batch ceilings, không auto retry hoặc mid-scenario
+resume. Sau numerical completion tự verify dossiers/seals/accounting và sinh
+report8rows (2candidates×2costs×2horizons). Chưa có outcome8rows lúc snapshot.
+
+Nếu reporting lỗi, giữ completed numerical artifacts, sửa consumer đúng binding;
+không tự replay6tháng. Không sửa pinned source khi workers hoạt động. Sau batch,
+review primary6monthnet/cost/period concentration/tick-risk/lifecycle rồi quyết
+định bước tiếp; không auto tăng lot, tuning risk/TP hoặc promote broker. Lượt
+offline này không model/broker calls; không đổi runtime API/UI hoặc terminalMT5.

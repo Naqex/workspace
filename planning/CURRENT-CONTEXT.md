@@ -2,12 +2,20 @@
 
 ## Research kế thừa — 05/11/2026
 
+**Tiếp tục06/11:** owner giao thực hiện bước kế tiếp sau review. Scope mới ở
+[period robustness Apr–Sep2022](research/PERIOD-ROBUSTNESS-20261106.md): hai rules
+không đổi, hai costs, initial10k/risk25; metadata audit chưa tìm thấy evaluation
+overlap, không chứng minh cleanOOS. Raw export/preparation dùng QDM cache hiện có;
+receipt AI giữ actual registration/preflight/dispatch state. Không mở risk/TP
+grid, final holdout hoặc broker. Proposal trong review bên dưới đã được chọn
+để chuẩn bị/thực thi theo protocol mới, không sửa frozen annual registration.
+
 **Review06/11 sau survivor completion:** [tổng hợp theo giai đoạn và đề xuất](research/SURVIVOR-REVIEW-20261106.md)
 đã dùng lạiQ1/2022vàannual2023, không numerical replay/mở giá mới. Cả hai vẫn
 inconclusive: UTC stress2023gần như phụ thuộcQ4(189,93trên186,96USD cả năm);
 Z-scoreít tập trung hơn nhưngQ1/2022/Q4/2023âm, nhạy financing. Modeled initial
 stop-risk dùng khoảng88%budget25USD, chưa có lý do quy net thấp cho sizing lỗi.
-**Bước đề xuất hiện hành:** review gate/consumption rồi đăng ký hai rules không
+**Đề xuất tại thời điểm review:** review gate/consumption rồi đăng ký hai rules không
 đổi trênApr–Sep2022(hai costs); chưa executable/approved data window/cleanOOS.
 Ưu tiên kiểm robustness thời kỳ trước risk12,50/25vàTP2R; các task đó giữ backlog.
 Đoạn thứ tự cũ bên dưới là lịch sử, không là lệnh auto-dispatch sensitivity.

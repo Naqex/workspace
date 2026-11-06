@@ -2,6 +2,11 @@
 
 ## Thứ tự công việc sau annual batch — owner giao sắp lại 06/11/2026
 
+Owner tiếp tục06/11 giao thực hiện [period robustness](../research/PERIOD-ROBUSTNESS-20261106.md)
+trước risk/TP calibration: hai rules hiện tại,Apr–Sep2022,hai costs/risk25.
+Scope này kế thừa proposal bên dưới; registration/preflight/dispatch phải đúng
+protocol mới, actual state ở receipt AI. Không mở final holdout hoặc broker.
+
 **Delta review06/11:** [review survivors](../research/SURVIVOR-REVIEW-20261106.md)
 đã tổng hợp savedQ1/2022/annual2023và costs/sizing/concentration. Cả hai vẫn
 inconclusive. Đề xuất kiểm thêmApr–Sep2022với rules/risk/exits cũ trước calibration

@@ -18,6 +18,45 @@ from trading_workspace_v2.replay_tick_execution import BrokerReplayTick
 
 
 class TimeFitTests(unittest.TestCase):
+    def test_two_horizon_prop_run_seals_and_reconciles_terminal_snapshot(self):
+        from test_forex_prop_observer import profile
+        from trading_workspace_v2.prop_session import PropProfileSnapshot
+        declared=PropProfileSnapshot.model_validate(profile()).model_dump(mode='json')
+        ticks=[BrokerReplayTick(time_msc=pilot.START+i*3600000+1,sequence=i+1,
+            bid='1.10000',ask='1.10020') for i in range(10)]
+        cutoffs=[pilot.START+4*3600000,pilot.END]
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder)
+            with patch.object(pilot,'read_qdm_ticks',return_value=iter(ticks)):
+                result=pilot.run_scenario(Path('unused'),[],'reference',Decimal(0),Decimal(0),
+                    root,lambda *args:None,horizon_cutoffs=cutoffs,prop_profile=declared)
+            manifest=dict(run_id='two-horizon-fixture',prop_profile=declared,horizon_cutoffs=cutoffs,
+                scenarios=[dict(name='reference',slippage='0',financing_calendar=[t.model_dump(mode='json')
+                    for t in pilot.financing_calendar(Decimal(0))])])
+            (root/'quality.json').write_text('{}')
+            pilot.seal_scenario(root,manifest,result)
+            rows=timefit.inspect_horizons(root,manifest,'reference')
+            self.assertEqual([r['observed_ticks'] for r in rows],[4,10])
+            self.assertEqual(Decimal(rows[-1]['equity_delta_usd']),Decimal(0))
+            self.assertEqual(rows[-1]['derived_financing_tail'],[])
+
+    def test_six_month_report_uses_registered_horizons_and_rejects_mixed_dates(self):
+        report=dict(horizon_months=[3,6],rows=[dict(worker=worker,cutoff_utc=date,scenario=scenario,
+            equity_delta_usd='5',entry_fills=5,observed_ticks=100)
+            for worker in ('a','b') for date in ('2022-07-01','2022-10-01')
+            for scenario in ('reference','cost-stress')])
+        output=timefit.render_report(report)
+        self.assertIn('3/6 tháng',output)
+        self.assertIn('| 3 tháng | 6 tháng |',output)
+        self.assertNotIn('12 tháng',output)
+        self.assertNotIn('cả năm',output)
+        report['rows'][-1]['cutoff_utc']='2022-11-01'
+        with self.assertRaisesRegex(ValueError,'incomplete'):
+            timefit.render_report(report)
+        for months in ([6,3], [3.0,6]):
+            with self.subTest(months=months),self.assertRaisesRegex(ValueError,'horizons'):
+                timefit.render_report(dict(report,horizon_months=months))
+
     def test_declared_prop_mode_does_not_apply_cost_screen_or_sum_phase_profits(self):
         report=dict(rows=[dict(worker='fixture',cutoff_utc=date,scenario=scenario,
             equity_delta_usd='5',entry_fills=5,observed_ticks=100,

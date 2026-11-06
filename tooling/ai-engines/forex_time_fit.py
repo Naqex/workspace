@@ -279,6 +279,9 @@ def inspect_prop_observation(row,manifest,state,cutoff,slippage,scenario):
 
 def render_report(report):
     """Readable view of verified observations; no independent task state."""
+    months=report.get('horizon_months',[3,6,12])
+    if months not in ([3,6],[3,6,12]) or any(type(value) is not int for value in months):
+        raise ValueError('unsupported report horizons')
     groups={}
     for row in report['rows']:
         key=(row['cutoff_utc'],row['scenario'])
@@ -286,20 +289,22 @@ def render_report(report):
         if key in group: raise ValueError('duplicate horizon observation')
         group[key]=row
     prop_mode=bool(report['rows']) and all('prop_path' in row for row in report['rows'])
-    lines=['# So sánh chiến lược theo 3/6/12 tháng','',
+    lines=['# So sánh chiến lược theo '+'/'.join(map(str,months))+' tháng','',
         'Equity delta USD, gồm lãi/lỗ đang mở. Mỗi ô: phí chuẩn / phí cao.',
         'Đây là historical robustness; các horizon lồng nhau, chưa phải clean OOS hoặc pass quỹ.','',
         'Số đã đối soát gồm phí lịch đã đăng ký trước cutoff nhưng sau quote cuối, nếu còn thiếu.',
         'JSON giữ số raw đã seal và từng điều chỉnh; không sửa artifact gốc hoặc giả có quote mới.','',
-        '| Ứng viên | 3 tháng | 6 tháng | 12 tháng | Screen phí cả năm |',
-        '|---|---:|---:|---:|---|']
+        '| Ứng viên | '+' | '.join(f'{count} tháng' for count in months)+' | Screen phí cuối mẫu |',
+        '|---|'+'---:|'*len(months)+'---|']
     if prop_mode:
         lines[2]='Equity delta USD của tài khoản vòng hiện tại, gồm lãi/lỗ mở; không cộng lợi nhuận các vòng đã reset. Mỗi ô: phí chuẩn / phí cao.'
         lines[5]='Runner đã post phí trước cutoff; prop observation không chấp nhận sửa bù cash hậu kiểm.'
-        lines[8]=lines[8].replace('Screen phí cả năm','Đánh giá')
+        lines[8]=lines[8].replace('Screen phí cuối mẫu','Đánh giá')
+    expected_dates=sorted({row['cutoff_utc'] for row in report['rows']})
     for worker,group in groups.items():
         dates=sorted({date for date,_ in group})
-        if len(dates)!=3 or set(group)!={(date,scenario) for date in dates for scenario in ('reference','cost-stress')}:
+        if (len(dates)!=len(months) or dates!=expected_dates
+                or set(group)!={(date,scenario) for date in dates for scenario in ('reference','cost-stress')}):
             raise ValueError('incomplete horizon/scenario observations')
         cells=[]
         for date in dates:
@@ -332,7 +337,7 @@ def render_report(report):
         lines.extend(['','MaxDD đo pre/post-fill mỗi quote và cash event của vòng hiện tại. Profile evaluation dừng ở terminal event; DD account vẫn được ghi.',
             'Reset/cash dùng quote cuối đã quan sát, không bịa giá nửa đêm. Không có min sample thì không tự coi edge đạt.'])
     if report['rows'] and all('diagnostics' in row for row in report['rows']):
-        lines.extend(['', '## Chẩn đoán cuối mẫu của vòng hiện tại' if prop_mode else '## Chẩn đoán cuối năm', '',
+        lines.extend(['', '## Chẩn đoán cuối mẫu của vòng hiện tại' if prop_mode else '## Chẩn đoán cuối mẫu', '',
             'Mỗi ô: phí chuẩn / phí cao. Thắng/thua đã gán phí qua đêm cho từng vị thế đóng.', '',
             '| Ứng viên | Lệnh đóng | Win rate | Lời/lỗ trung bình USD | DD tại ledger USD | Chuỗi thua dài nhất |',
             '|---|---:|---:|---:|---:|---:|'])
@@ -371,16 +376,21 @@ def main():
     # Full dossier validation stays at its existing owner.
     from strategy_evidence import inspect
     rows=[]
+    months=None
     for worker in terminal['workers']:
         folder=Path(worker['result_dir'])
         dossier=inspect(folder,source_root=V2)
         if dossier['source_drift'] or dossier['unavailable_sources']: raise ValueError('run source changed')
         manifest=json.loads((folder/'manifest.json').read_bytes())
+        registered_months=json.loads((folder/'study-registration.json').read_bytes())['horizon_months']
+        if months is not None and months!=registered_months:
+            raise ValueError('workers have different registered horizons')
+        months=registered_months
         for scenario in manifest['scenarios']:
             for row in inspect_horizons(folder,manifest,scenario['name']):
                 rows.append(dict(worker=worker['worker'],candidate=manifest['candidate'],
                     scenario=scenario['name'],**row))
-    report=dict(schema='forex-time-fit-horizon-report-v1',rows=rows,
+    report=dict(schema='forex-time-fit-horizon-report-v1',rows=rows,horizon_months=months,
         report_method='sealed_prop_path_lifecycle_v1' if any('prop_path' in row for row in rows) else
             'sealed_observations_with_explicit_quote_free_calendar_tail_v1',
         reporter_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
