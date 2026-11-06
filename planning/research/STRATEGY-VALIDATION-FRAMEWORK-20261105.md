@@ -183,6 +183,64 @@ số học chạy rules/sizing/fills/costs/risk bằng code; không hỏi LLM m�
 chọn lệnh. Sau bài lịch sử vẫn cần các cửa strategy/prop/forward/authority trước
 execution. System-demo evidence trước đây không tự đóng strategy-forward gap.
 
+### Phạm vi thị trường, lệnh thua, risk/RR và tần suất — 06/11
+
+Owner hỏi về scale từEURUSD, phân loại lệnh thua đúng rules và cấu hình hiện
+tại. Đây là diễn giải/đọc artifacts đã consumed, không thay frozen rules hoặc
+đăng ký risk/exit/market variants mới.
+
+- Hiện tập trung EURUSD/H4. Một family có thể dùng nhiều instrument, với spec/
+  cost/data và validation riêng; không bắt mỗi pair là một thuật toán khác.
+  Giữ rules trước khi thử khả năng chuyển giao; sửa rules/filter/parameters là
+  version/trial mới. Nhiều pair cùngUSD có thể tăng risk tương quan, không tự
+  là diversification hoặc quyền nhân budget. Không ép mọi family thắng mọi asset.
+- Tách **tuân thủ/quy trình** khỏi **outcome tiền**. Lệnh đúng rules nhưng thua
+  là valid losing observation, tính trong win/loss/expectancy của strategy, không
+  xóa hoặc tự sửa rules vì một outcome. Nó không chứng minh nguyên nhân là
+  randomness thuần túy: regime/edge degradation cần xem trên sample và điều kiện
+  giám sát đã định trước. Lệnh lỗi code/size/data/execution cần tag/root cause
+  và quarantine evidence bị ảnh hưởng; mọi loss vẫn thuộc account PnL thực tế.
+  Có thể báo valid-strategy subset riêng với denominator/gaps minh bạch, không
+  giấu operational losses để công bố kết quả. Open/unknown chưa chấm win/loss;
+  vẫn giữ floating PnL/exposure/risk. Đây là quy ước phân tích, chưa là claim
+  đã có một classifier tự động phân biệt mọi bad trade.
+- Current numerical budget:10.000USD initial,25USD risk dự kiến/trade gồm model
+  costs (~0,25% initial; không tự compound theo current equity),1position,
+  daily100/overall500USD **nội bộ**, không phải FTMO loss rules hay broker grant.
+  Lot rounding/gaps/SL fill có thể làm actual loss khác planned1R.
+- Các bản dùng initialSL2×ATR14, exit theo channel/crossover/reversion/time/range
+  rules; không cùng fixed take-profit/RR1:2 hoặc1:3. Planned RR nếu có target,
+  average realized win/loss ratio và net R per trade là ba khái niệm khác.
+  Hiện so5candidate×2costs, không search grid nhiềurisk%/RR. Thay sizing không
+  tạo edge cho rules âm; size calibration ảnh hưởng lot/cost/risk/time-to-target
+  nên không mặc định scale PnL tuyến tính. Đổi TP/exit là strategy variant mới.
+
+Tần suất **entry fills**, reference scenario, đọc results và ledger của hai bài
+Q1 đã lưu (3tháng/window; không phải số tín hiệu, số lệnh đã đóng hoặc cả năm):
+
+| Candidate | Q1/2022 entries | Q1/2023 entries | Bình quân tháng, hai quý này |
+|---|---:|---:|---|
+| Donchian | 13 | 12 | 4,0–4,3 |
+| SMA | 6 | 6 | 2,0 |
+| Z-score | 32 | 25 | 8,3–10,7 |
+| Pullback | 7 | 5 | 1,7–2,3 |
+| UTC range | 49 | 48 | 16,0–16,3 |
+
+Nguồn private: `prop-q1-comparison-20261105/attempt-3/comparison.json` và
+`prop-q12023-robustness-20261105/attempt-2/comparison.json`, theo từng `result_dir`
+đến `results.json`/`reference-checkpoint.json`. Không phải independent samples,
+forecast tần suất tương lai hoặc số liệu annual batch. Q1/2023 SMA có tháng02
+không entry và gap entry55,5ngày; average2/tháng không nghĩa hai lệnh đều mỗi tháng.
+
+Không có quota lệnh/ngày hoặc RR/risk% chuẩn cho mọi strategy. Frequency cần
+xét net expectancy/uncertainty, costs, correlation, drawdown, inactivity rules và
+time-fit3/6/12tháng đã chọn. Ít lệnh làm tích lũy evidence chậm; nhiều lệnh có thể
+chỉ tăng phí/cùng exposure. Không ép tín hiệu, tăng size hoặc gọi một sample
+trade count tùy ý là đủ. [FTMO Academy về backtesting](https://academy.ftmo.com/lesson/how-to-backtest-trading-strategies/)
+phân biệt expected return/win rate/average win-loss/RRR/drawdown; không dùng các
+câu marketing về historical performance hoặc automated precision trên trang
+để tự khẳng định future success hay engine không có bias.
+
 ## Sau bài lịch sử Q1/2023, cùng05/11
 
 Đã chạy đủ5candidate×2costs, qua artifact/accounting/state checks, giữ nguyên
