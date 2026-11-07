@@ -146,9 +146,18 @@ Job config có thể đặt `reuse_scenarios_from` thành đường dẫn `repla
 đã dừng để CLI kiểm và dùng lại scenario có completed seal. Output luôn mới;
 không tự retry failed job và không sửa raw attempt cũ. Thiếu seal hoặc mismatch
 là lỗi rõ ràng, không âm thầm tính lại toàn bộ. Đây là scenario-boundary reuse,
-chưa phải restore giữa simulation. Legacy outputs và source-version drift cần
+khác restore giữa simulation. Legacy outputs và source-version drift cần
 review riêng, không tự công nhận tương đương. Xem
 [contract runner](../../projects/trader/foundation_v2/docs/FOREX-RESEARCH.md#reuse-a-completed-scenario-after-interruption).
+
+Với source9fd6cd00 trở đi, `resume_scenarios_from` trong batch config forward
+CLI `--resume-scenarios-from`: reuse completed seals và restore complete
+`<scenario>-resume.json` của scenario còn dở. Không đặt cùng `reuse_scenarios_from`.
+Packet phải đủ strategy/builder/execution/risk/observer/phase/input cursor và
+source/data/protocol/cost/runtime vẫn khớp; revalidate prefix trước tính tiếp.
+Missing legacy packet fail rõ, không tự restart hoặc nâng cấp checkpoint cũ.
+[Bằng chứng và phạm vi](../../planning/research/NATIVE-RESUME-REVIEW-20261108.md)
+giữ interrupted/uninterrupted parity và phần chưa đo; không là quyền broker.
 
 ## Dossier từ artifact
 

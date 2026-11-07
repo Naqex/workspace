@@ -47,8 +47,11 @@ ngắn cho owner sẽ nhìn thấy gì; không tạo UI ngoài để nhân bản
   JSON/Markdown projection báo `projection_errors`. Chúng không hủy numerical
   workers. Config/result/accounting và terminal persistence vẫn bắt buộc;
   thiếu/tamper ở đó không được nâng thành completed_verified.
-- CLIresearchresume hiện chưa hỗ trợ. Có checkpoint không là quyền overwrite
-  attempt hoặc replay lại broker request; unknown sends chỉ reconcile.
+- CLI nghiên cứu đã hỗ trợ complete packet `*-resume.json` từ source9fd6cd00:
+  [binding, CLI và giới hạn legacy](../../planning/research/NATIVE-RESUME-REVIEW-20261108.md).
+  Account checkpoint/observer summary riêng không đủ restore. Giữ attempt cũ,
+  output mới và source/input/cost/protocol binding; không replay broker request,
+  unknown sends chỉ reconcile. Dataset/year reuse của screening là cơ chế riêng.
 
 Trên Windows, PID của launcher/venv redirector có thể khác PID do worker ghi
 trong receipt. Khi cần stop/recover, kiểm creation identity/process ownership
