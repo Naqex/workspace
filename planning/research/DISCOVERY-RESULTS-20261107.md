@@ -65,3 +65,26 @@ Khi xong, đọc cả 3/6/12 tháng cùng account/phase/cost, phân rã thời k
 hoặc profits sau reset thành payout. Không tự thêm parameter/risk/TP variants
 để cứu outcome. 2023/2024 là historical robustness, không clean OOS; 2025+ đóng.
 Actual trạng thái/outcomes của hai bài được ghi tại receipt AI và report native.
+
+## Mở rộng nguồn nghiên cứu trong lúc chạy — kiểm 07/11
+
+Không tăng số chiến lược chỉ bằng đổi tên hoặc tham số. Hai hướng backlog có
+nguồn sơ cấp nhưng cần nền dữ liệu/contract khác; chưa triển khai hoặc backtest:
+
+| Hướng | Nguồn thực sự nói gì | Áp dụng vào project thế nào |
+|---|---|---|
+| Time-series momentum dài hạn | [AQR original-paper data](https://www.aqr.com/Insights/Datasets/Time-Series-Momentum-Original-Paper-Data) mô tả 58 futures/forwards, tín hiệu excess return 12 tháng và giữ một tháng trên lịch sử nhiều năm | Là cơ chế nghiên cứu, không phải bản EURUSD/H4 đã được chứng minh. Cần dữ liệu daily/long history, cách tính returns/financing và rebalance; snapshot factor returns không thay giá Bid/Ask để kiểm DD/khớp lệnh prop |
+| Cross-sectional currency momentum | [BIS WP366](https://www.bis.org/publications/working-paper-366-currency-momentum-strategies) nghiên cứu chênh lệch winners/losers giữa nhiều đồng tiền, nêu chi phí và giới hạn khai thác | EURUSD đơn lẻ không đủ. Cần universe có point-in-time availability, đồng bộ clock/cost, cách xếp hạng và account-wide exposure/margin; không nhân ngân sách qua từng pair |
+
+Đây là suy luận thiết kế của project từ nguồn, chưa phải paper replication,
+khả năng pass quỹ hoặc chứng minh hai hướng độc lập với portfolio hiện có.
+Nguồn cũ là bằng chứng nghiên cứu lịch sử, không đánh giá lợi nhuận hiện tại.
+Đã đọc trang primary AQR/BIS; chưa tải data/paper code hoặc mở thêm giá. Trang
+publisher của bài *Dissecting currency momentum* (JFE2022) trả403; chỉ tìm được
+abstract qua search, không dùng làm căn cứ triển khai hay nhận đã đọc toàn văn.
+
+Điều kiện mở lại backlog: hai study hiện tại đã đóng/review, inventory metadata
+xác nhận data có sẵn/quyền dùng, causal daily/multi-currency contract và chi phí
+khả thi, protocol freeze trước outcome. Chưa có các điều kiện đó thì thêm engine
+hoặc tám tên mới chỉ tăng complexity và selection bias. Giữ tám rule hiện có
+cho đợt đầu; không coi con số 8–12 là ngưỡng thống kê bảo đảm tìm được edge.
