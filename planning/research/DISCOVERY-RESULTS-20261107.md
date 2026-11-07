@@ -66,6 +66,11 @@ hoặc profits sau reset thành payout. Không tự thêm parameter/risk/TP vari
 để cứu outcome. 2023/2024 là historical robustness, không clean OOS; 2025+ đóng.
 Actual trạng thái/outcomes của hai bài được ghi tại receipt AI và report native.
 
+**Đã đóng hai bài:** [kết quả năm và quyết định](HISTORICAL-RESULTS-20261107.md).
+UTC2024 −98,53/−155,85 USD; Compression2023 −129,36/−224,62 USD. Cả hai không
+promote trong bài; kết quả dương Q1 không đủ độ bền. Không dispatch lại completed
+jobs. Core performance bên dưới đã promote sau khi cả hai writers/report kết thúc.
+
 ### Delta performance lúc historical study chạy
 
 Hai annual workers chậm dần theo chiều dài ledger. Sampling chỉ đọc bằng
@@ -80,6 +85,12 @@ process/checkpoint:1.672events median0,12753→0,07854giây(1,62×),3.358events
 0,29542→0,17523giây(1,69×), serialized output hash khớp. Đây chỉ là snapshot
 validation, không full replay speedup. Hai annual workers vẫn chạy cùng lúc.
 
+Sau khi reference sealed, lặp ABBA trên **full annual snapshots**: UTC6.939events
+0,86366→0,51303giây(1,68×), Compression6.707events0,76052→0,42414giây(1,79×).
+10samples/mode/checkpoint, serialized hashes exact. Giữ
+`validation-annual-summary.json`; đây vẫn chỉ là validate full snapshot,
+không phải replay lại cả năm hoặc đo full-batch latency.
+
 178unittest và45pytest (marginV2/service/immediate-fill) trên authoritative
 fixtures với hai prototype modules injected đạt;
 four consumed real-prefix scenario outputs/sealed horizons khớp byte. Bản sao
@@ -91,10 +102,12 @@ Extract riêng trong private proof root, không install script/venv/global confi
 
 Proofs ở `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/calendar-recovery-20261107/`:
 `live-profile-summary.json`, `validation-benchmark-summary.json`,
-`prototype-tests2.log`, `prototype-parity/bounded-parity.json`. Chưa áp prototype
-vào source chính khi annual writers còn chạy; không hủy partial study để làm
-benchmark. Việc Rust/GPU vẫn deferred, còn numerical full-history validation
-phải giữ nguyên fail-closed contracts khi triển khai tối ưu sau writer completion.
+`prototype-tests2.log`, `prototype-parity/bounded-parity.json`. Giữ prototype tách
+riêng khi writers đang chạy; sau cả hai pipeline/report và final audit completed
+mới promote vào Trader`8f924908`. Hai file implementation khớp byte prototype;
+224producttests+144subtests/14report tests đạt. Không hủy partial study để làm
+benchmark hoặc replay annual để đọc report. Rust/GPU vẫn deferred; mutable public
+ledger vẫn full-validation, không thêm trusted-prefix bypass.
 
 ## Mở rộng nguồn nghiên cứu trong lúc chạy — kiểm 07/11
 

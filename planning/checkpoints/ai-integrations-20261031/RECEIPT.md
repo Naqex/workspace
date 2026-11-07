@@ -6836,3 +6836,54 @@ fees còn lại retained theo contract. `reference-horizon-audit.json` giữ pro
 Hai study hiện stress; snapshot đầu stress UTC5,3%/Compression39,7% không là
 toàn-batch completion. Test-only Trader checkpoint `f267eec8`, source hashes
 numerical vẫn không đổi, không ảnh hưởng pin của writers.
+
+### 07/11 13:31 VN — hai study đóng, không promote; core performance đã áp dụng
+
+[Kết luận canonical và bảng G0–G6](../../research/HISTORICAL-RESULTS-20261107.md)
+thay trạng thái pending ở các snapshot trên. Compression pipeline completed
+13:12:20 VN, batch8.512,56 giây/CPU8.442,96875 giây; UTC completed khoảng13:28 VN,
+batch9.458,86 giây/CPU9.378,21875 giây. Hai jobs completed_verified,12horizonrows,
+không còn numerical writer khi final audit và trước core edit. Không retry/export/
+download hoặc mở2025+. Raw/quality/H4/tickcache đã reuse.
+
+Annual chuẩn/cao trên10kUSD: UTC2024−98,53/−155,85USD,214closed,flat/pending0,
+tickDD272,86/300,53USD. Compression2023−129,36/−224,62USD,111closed,flat/pending0,
+tickDD329,76/387,28USD. Cả hai không firstbreach declaredprofile nhưng mọicutoff
+vẫnphase1/not-reached. Không promote phiên bản trong bài; không tuyên bố cả họ
+vô dụng hoặc tám rules là tám nguồn edge độc lập. Không risk/TP tuning để cứu net.
+
+Final audit ở mỗi execution-v2/root `final-audit.json`: native dossier/source
+khôngdrift tại thời điểm audit trước corechange; đọc lại6sealed horizonrows
+khớp từng fieldreport. Đối soát gross−commission−slip−financing bằng Decimal ở
+cả4annualcasesđạt. Gross đã gồmBidAskspread vẫnâm: UTC−42,73/−56,49USD,
+Compression−86,39/−87,85USD. Native `horizon-metrics-audit.json` đủ6rows/root,
+tickDD/min-equity/qualifyingPraguedays/firstbreach/calendarcoverage đạt.
+UTC có đúng1pristine-flat Jan1exemption/cost, khôngquote/cashdebitgiả.
+Compression `exit-rule-oracle.json` kiểm1.504completeH4×2cost,198exits cùng mọi
+non-exit khớp independentformula theo retainedpositions; chưa independentfullraw/
+fillreplication. Không numerical replay trong postprocessing.
+
+Report hashes: UTC `9e519fe89de8d1de6edd2b1bc130cd9f1a7305002ddb64d493be260710b35583`;
+Compression `ba3536a58ab93bab43a44094e7940fe79ab5c18732cc13754a0333c1175eb337`.
+Numerical source e7b332dd giữ source snapshots; test-onlyf267eec8 không đổi các
+numericalbytes. Sampling/isolatedprototype chứng minh duplicateledgervalidation;
+sau writer completion mới promote Trader`8f924908`, hai implementationfilehashes
+khớp byte prototype. Fullannualsnapshot ABBA10samples/mode/case: UTC6.939events
+0,86366→0,51303s(1,68×), Compression6.707events0,76052→0,42414s(1,79×).
+Cùng partialsnapshots trước1,62–1,69×; chưa đo fullannualreplay speedup source mới.
+Không replay oldcompleted studies chỉ để benchmark hoặc đọc kết quả.
+
+Actual promoted-source command: product Python `-m pytest -q` trên tất cả
+`test_forex*.py` và tick/marginV2/service/immediate-execution files:224passed,
+144subtestspassed,19,03s. Hai test-client deprecationwarnings ngoài phạm vi.
+Workspace horizon reader13/13+discoveryreporter1/1 đạt sau promote. Newregression
+forged margin required/available/leverage phải reject; không bỏ guard hoặc trusted
+mutable-prefix caching. Non-tickV2 vẫn giữ checks cũ; không dependency/runtime/
+API/broker rollout từ performance change này.
+
+Scriptwatch tạm gặpTypeError khi completedworker trả `scenario_fraction=null`;
+đã giữ null/hiệncompleted đúng. Nativepipeline/report khôngfail, khôngrerun.
+Current-context/AI-plan/researchindex route tới finalresults, không còn current
+dispatchpending. Hai longhorizon/multi-currencyresearchdirections vẫn cần data/
+contracts, chưaimplemented. Paperclip connector khôngexpose trong session nên
+không claim native tasks đãsync; localnativejobartifacts là actual evidence ở đây.

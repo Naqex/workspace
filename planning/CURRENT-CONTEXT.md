@@ -10,11 +10,18 @@ failed20/range-fade không được nâng bước. Feasibility probe <1s không 
 Holiday-startup bug đã sửa ở Trader `74fe7c62`, registry `e7b332dd` và workspace
 reader `9469724`: pristine flat trước first quote ghi zero non-applicability,
 không bịa quote/cash. Regression/tamper và bốn bounded old cases khớp byte đạt.
-UTC2024 v1 lỗi/Compression2023 v1 dừng an toàn; **hai recovery v2 chạy song song
-từ 10:50:21 VN**. Reuse raw/cache, không overwrite old attempts. Protocols ở
+UTC2024 v1 lỗi/Compression2023 v1 dừng an toàn; **hai recovery v2 đã hoàn tất**:
+Compression13:12 VN, UTC13:28 VN, 2/2 verified jobs/12 horizon rows. [Kết quả và
+quyết định](research/HISTORICAL-RESULTS-20261107.md): annual chuẩn/cao UTC2024
+−98,53/−155,85 USD; Compression2023 −129,36/−224,62 USD. Cả hai không promote,
+không breach declared profile nhưng chưa đạt phase1. Không còn numerical writer.
+Sau final audit mới áp core performance `8f924908`: gộp duplicate ledger pass,
+giữ margin/money/provenance guards. 224pytest+144subtests và14report tests đạt;
+snapshot validation đo1,62–1,79×, chưa claim full replay speedup. Reuse raw/cache,
+không overwrite old attempts hoặc chạy lại annual để benchmark. Protocols ở
 [UTC v2](research/UTC-VALIDATION-20261107-RECOVERY-V2.md) và
 [Compression v2](research/COMPRESSION-ROBUSTNESS-20261107-RECOVERY-V2.md).
-Receipt/progress giữ actual state; không sửa pinned source hoặc mở worker trùng.
+Receipt/progress giữ history; không dispatch lại completed jobs hoặc sửa old pins.
 Prior exposure unverified, không clean OOS. 2025+ đóng, không broker/model calls.
 State cũ bên dưới giữ lịch sử, không dispatch lại period cũ.
 
