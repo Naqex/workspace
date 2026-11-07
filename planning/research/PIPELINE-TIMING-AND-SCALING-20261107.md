@@ -1,5 +1,10 @@
 # Thời gian toàn luồng và cách mở rộng sàng lọc — 07/11/2026
 
+Hậu kiểm tiếp: [chuẩn bị H1 nhanh hơn trên cùng semantics](ENGINEERING-REVIEW-COARSE-20261107.md),
+source `579ff52f`. A/B prefix median2,8754→2,4152s (giảm16,0%); full warmup+quý
+quan sát mới55,03s so với73,38s cũ, không controlled full-quarter A/B. Toàn bộ
+hour fields và16coarse scenarios khớp; không suy speedup annual/tick engine.
+
 **Cập nhật sau khi owner duyệt bước1–2:** [catalogue36hồ sơ](STRATEGY-CATALOGUE-20261107.md)
 và [pilot H1PnL](COARSE-SCREEN-REVIEW-20261107.md) đã hoàn tất. Coldprep73,38giây;
 cached8rules×2costs1,85giây. Tám comparisons current-source trên5ngày tick khớp;

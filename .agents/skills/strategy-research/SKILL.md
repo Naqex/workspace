@@ -48,6 +48,10 @@ thì dùng dossier được giao; không bịa command hoặc bắt owner kể l
 - Chuyển exact run/protocol/candidate/evidence locator cho
   `strategy-qualification` qua native dossier; lưu nguồn/giới hạn/trial history/
   next action ngoài chat trước kết thúc. Không tự đổi protocol sau outcome.
+- Đóng batch screening/kiểm nghiệm có kết quả mới: dùng
+  [engineering-retrospective](../engineering-retrospective/SKILL.md) để hậu kiểm
+  gọn và sửa phần có evidence; không rerun batch không đổi hoặc tuning rules
+  chỉ vì muốn lần nào cũng có một cải tiến.
 
 Không cấp quyền account/provider/holdout/OrderCheck/OrderSend/mua challenge.
 Skill hỗ trợ repo và package Paperclip; process workers không tự đọc Markdown.

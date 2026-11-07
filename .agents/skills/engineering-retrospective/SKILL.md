@@ -1,6 +1,6 @@
 ---
 name: engineering-retrospective
-description: Review important completed runs or costly failures for quality, reliability, performance and reusable learning. Use for post-run engineering review; not status checks, trivial edits or strategy selection.
+description: Review completed screening or validation batches and costly failures, then verify bounded quality, reliability or performance improvements. Use for post-run engineering learning; not status checks, trivial edits or strategy selection.
 ---
 
 # Hậu kiểm và cải tiến kỹ thuật
@@ -8,6 +8,11 @@ description: Review important completed runs or costly failures for quality, rel
 Biến một đợt chạy có ý nghĩa thành bằng chứng, việc sửa cụ thể và cách làm tốt
 hơn cho lượt sau. Kích hoạt sau job tốn thời gian, sự cố đáng kể/tái diễn hoặc
 owner yêu cầu review tổng thể; không full-audit sau mọi command/commit.
+Sau một đợt screening/kiểm nghiệm có kết quả mới, làm lượt hậu kiểm gọn khi
+đóng batch; chỉ profile/benchmark phần có dấu hiệu hoặc lợi ích cụ thể. Không
+lặp audit cùng artifact không đổi hay buộc phải tìm ra một tối ưu mới mỗi lần.
+Với strategy research, đọc [hậu kiểm lượt nghiên cứu](references/research-runs.md)
+để phân biệt cải tiến kỹ thuật với đổi mô hình mô phỏng hoặc đổi chiến lược.
 
 ## Đọc đúng bằng chứng
 

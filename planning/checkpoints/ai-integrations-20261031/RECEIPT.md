@@ -6938,3 +6938,36 @@ dispatch. Không còn numerical worker; recommended next slice là frozen spec
 nhóm nhỏ khác cơ chế, chưa triển khai8–12rules hoặc annual study mới. Native
 Paperclip sync không được claim trong lượt này. Skills hiện có đủ workflow,
 không tạo managementskill/UI/ledger cạnh tranh từ pilot.
+
+## 07/11 — hậu kiểm H1 và đóng vòng cải tiến theo batch
+
+Owner giao rà/tối ưu sau sàng lọc và duy trì workflow lặp. Đã dùng lại
+engineering-retrospective, thêm reference research-runs và link từ
+strategy-research/STRATEGY-WORKFLOW; không tạo skill trùng. Skill áp dụng khi
+agent đóng batch có evidence mới, không daemon tự chỉnh hoặc auto rerun.
+[Review mới](../../research/ENGINEERING-REVIEW-COARSE-20261107.md) giữ bảng ưu
+tiên, parity, measurements và điều kiện mở lại tối ưu.
+
+Trader `579ff52f` giảm allocation/call overhead trong H1 aggregation, không đổi
+decoder/guards/rules/cost/native risk. ABBAAB trên326.373ticks,3samples/mode:
+median2,87542→2,41522s, giảm16,00% (1,19×). Full warmup+quý quan sát55,02518s
+so với73,37955s cũ; đây không là controlled full-quarter A/B. Cached16scenario
+1,76049s; không claim patch này tối ưu compute hoặc annual/native replay.
+
+550/1.537H1 và133/372H4/excluded khớp mọi field;16coarse scenarios khớp mọi
+field trừ timing,78old sealed artifacts giữ nguyên. Focused9tests/2subtests
+đạt0,39s, thêm regression mid/side extrema ở thời điểm khác nhau và spread/
+sequence/hour gap. Không rerun native tick/annual suite không bị tác động.
+
+Private root:
+`E:\BACKUP-TRADINGWORKSPACE\ai-engine-jobs\coarse-retrospective-20261107\execution-v1`.
+Protocol engineering khóa trước sửa, prefix samples/profile/parity và outputs
+ở đó; `current-hours/` là cache source mới, không relabel old cache. Source
+snapshots/seal giữ provenance; không numerical worker còn chạy.
+
+Hai skill qua quick_validate và link audit2skills0errors/0warnings. Product
+venv thiếu PyYAML cho validator; dùng bundled Python có sẵn, không cài thêm.
+Maintainer audit0errors/0warnings; global12.279B, project10.133/65.536B,
+reserve55.403B, combined22.412B,21skills. Positive case thực thi lượt này và
+negative status-only walkthrough đã ghi; chưa model-independent routing test
+hoặc publish native Paperclip/Hermes package. Không đổi global config/hooks.

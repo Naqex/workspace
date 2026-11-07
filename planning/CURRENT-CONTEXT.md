@@ -2,6 +2,15 @@
 
 ## Research kế thừa — 05/11/2026
 
+**Hậu kiểm sau pilot,07/11:** owner giao đúc kết/tối ưu và duy trì skill.
+[Review mới](research/ENGINEERING-REVIEW-COARSE-20261107.md) ghi Trader `579ff52f`:
+giảm allocation ở H1 preparation, A/B prefix giảm median16%; quan sát fullprep
+mới55,03s. Từng hour field/H4 và16coarse scenarios khớp,9tests/2subtests đạt.
+Native core/rules không đổi; cache mới ở private root của review, cache cũ còn
+binding source cũ. Engineering-retrospective đã thêm nhánh research-runs và
+được nối khi đóng screening/validation batch; audit0errors/0warnings. Không
+writer còn chạy, không annual/holdout/broker mới; chưa publish native packages.
+
 **Follow-up07/11 đã hoàn tất hai lát owner duyệt:**
 [catalogue36hồ sơ](research/STRATEGY-CATALOGUE-20261107.md) gồm8implemented,
 27ideas/variants và1riskcomponent; [review pilotH1](research/COARSE-SCREEN-REVIEW-20261107.md)

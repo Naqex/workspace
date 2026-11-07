@@ -1,5 +1,9 @@
 # Sàng lọc nhanh H1: kết quả pilot — 07/11/2026
 
+Delta sau hậu kiểm: [bản tối ưu preparation và workflow](ENGINEERING-REVIEW-COARSE-20261107.md)
+đã kiểm full-field/16scenario parity; source mới `579ff52f`. Số đo và scope
+pilot gốc bên dưới giữ nguyên lịch sử, không thay protocol sau outcome.
+
 **Chấp nhận dùng thử để xếp ưu tiên kiểm tick cho tám rules hiện tại trên dữ
 liệu đã dùng. Chưa cho phép tự loại, nâng bước hoặc kết luận đủ điều kiện quỹ.**
 Danh mục đã có [36 hồ sơ](STRATEGY-CATALOGUE-20261107.md), gồm8 rules hiện có,

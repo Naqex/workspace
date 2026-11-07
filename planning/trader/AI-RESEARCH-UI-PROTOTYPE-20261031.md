@@ -2,6 +2,12 @@
 
 ## Thực thi đợt nghiên cứu mở rộng — owner giao 07/11/2026
 
+**Hậu kiểm owner giao sau pilot:** [review kỹ thuật](../research/ENGINEERING-REVIEW-COARSE-20261107.md)
+chốt Trader `579ff52f`, H1 preparation A/B prefix giảm16%, fullprep quan sát55s.
+Tất cả hour fields/H4 và16coarse scenarios tương đương. Đã nối skill hậu kiểm
+hiện có vào bước đóng batch, không thêm skill/engine/UI cạnh tranh; không thay
+rules/risk/cost/qualification. Scope lịch sử và giới hạn H1 bên dưới còn nguyên.
+
 **Delta đã thực thi sau timing review:** owner duyệt làm kho ý tưởng và pilot
 PnL rẻ. [Danh mục36hồ sơ](../research/STRATEGY-CATALOGUE-20261107.md) đã lưu
 source/family/parent/readiness:8implemented,27ideas/variants,1risk component;
