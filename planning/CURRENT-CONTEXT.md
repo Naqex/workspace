@@ -2,6 +2,18 @@
 
 ## Research kế thừa — 05/11/2026
 
+**Scope07/11 owner giao triển khai liên tiếp:** [Discovery3](research/DISCOVERY-ROUND3-20261107.md)
+đã có3new candidates+5old=8implemented,2research directions deferred. Trader
+`53708fab` thêm causal rules/flat-feasibility probes, không OHLCprofit simulator.
+Screen8bản<1sđã kiểm raw→cached12H4/232.578consumed ticks và4oldcases exact
+money/decision/state parity.4newstudy preflights đạt, native batch đã chạy
+10:22VN; receipt/private progress giữ actual state, không mở worker trùng.
+[UTC validation2024](research/UTC-VALIDATION-20261107.md) đã khóa hypothesis/risk/
+costs/rules trước export; data đang prepare, prior exposure unverified nên
+historical robustness, không cleanOOS.2025+giữ đóng, không broker/model calls.
+Chỉ thay reader registry sau discovery writers/report hoàn tất; không sửa source
+pinned trong batch. State cũ bên dưới giữ lịch sử, không dispatch lại period cũ.
+
 **Period batch06/11 đã đóng:** [kết quả/decision hiện hành](research/PERIOD-RESULTS-20261106.md),
 pipeline completed18:21:30VN,2/2verified jobs/8horizon rows, không còn writer.
 Net6tháng chuẩn/cao: Z-score−81,21/−117,10USD(tạm gác version), UTC range

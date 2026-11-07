@@ -24,6 +24,8 @@ Các mục cũ chưa được re-audit khi tạo chỉ mục ngày 05/11/2026.
 | Hai ứng viên tốt ở đâu/yếu ở đâu; quý, phí, sizing và chọn phép kiểm tiếp | [Review survivors06/11](SURVIVOR-REVIEW-20261106.md); cả hai inconclusive; review-only, chọn period robustness trước risk/TP |
 | Bước tiếp sau review: hai rules không đổi trên Q2–Q3/2022 | [Period protocol06/11](PERIOD-ROBUSTNESS-20261106.md), [frozen registration](PERIOD-ROBUSTNESS-20261106.json); actual state/hashes/preflight/dispatch ở receipt AI; không clean OOS |
 | Period batch đã xong chưa, giữ ứng viên nào, công việc tiếp theo | [Kết quả/hậu kiểm period06/11](PERIOD-RESULTS-20261106.md);2/2jobs/8rows verified, Z-score tạm gác, UTC range inconclusive; offline stream handoff ở receipt, chưa broker/OOS |
+| Mở rộng danh mục, ba rules mới, screen nhanh không giả portfolio PnL | [Discovery round3,07/11](DISCOVERY-ROUND3-20261107.md);8implemented/2directions deferred; feasibility probes rồi tick review, actual status ở receipt |
+| Kiểm tiếp UTC nguyên bản trên2024, giữ2025+đóng | [Protocol UTC07/11](UTC-VALIDATION-20261107.md); historical validation/prior exposure unverified, chưa clean OOS hoặc authority broker; receipt giữ freeze/dispatch/outcomes |
 | Snapshot terms FTMO/The5ers cho time-fit | [PROP-TERMS-SNAPSHOT-20261106](PROP-TERMS-SNAPSHOT-20261106.md); FTMO sơ bộ đủ, The5ers còn account/program pin |
 | Forex/prop simulation, QDM và chi phí | [Forex pilot](FOREX-PROP-PILOT-20261102.md); [QDM CLI](../../projects/trader/docs/quantdatamanager.md) |
 | Luồng nghiên cứu, review và promotion | [AI research workflow](AI-RESEARCH-WORKFLOW-20261101.md); [AI plan](../trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md) giữ scope hiện hành |

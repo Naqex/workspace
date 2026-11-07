@@ -6669,3 +6669,65 @@ giữ scope. Bước kinh tế tiếp ưu tiên unchangedUTC trên data role/spl
 trước outcome; chưa có executable registration/new window authority, không mở
 2024/2025+/finalholdout hoặc risk/TP grid. Core stream ready trong offline scope
 không thay G3/G4/G6. AI plan/current context/index đã route theo outcome mới.
+
+### 07/11 — triển khai discovery3, fast feasibility và chuẩn bị UTC validation
+
+Owner giao làm liên tiếp toàn bộ tasks nghiên cứu/testing, vá lỗi và tối ưu có
+bằng chứng. Scope ở [Discovery3](../../research/DISCOVERY-ROUND3-20261107.md)
+và [UTC2024](../../research/UTC-VALIDATION-20261107.md). New protocols khóa
+rules/criteria trước outcome; không thay các bài cũ, không broker/model,2025+
+giữ đóng. Prior exposure2024unknown, không gọi cleanOOS. Được triển khai
+historical research theo task07/11, không suy permission từ report.
+
+Trader`53708fab` thêm3fixed hypotheses: failed20rejection, compression6/24
+breakout, UTCrangefade;5old+3new=8implemented,2long-horizon/multi-currency
+directions deferred. Reuse same sizing/tick/cash/risk/nativeCLI; old5definitions
+giữ byte. `study_candidate` dùng chung cho tick và flat feasibility probe;
+newnumericalmodule được pin cả khi chọn oldcandidate vì factory import nó.
+Candidate state giữ causal history/ATR/position identity/age/day latch;
+invalid inputs trước mutation, double-boundary sweeps skip, missingbars không
+bịa/đếm tuổi, newposition reset. Không biến primary mechanism papers thành
+bằng chứng cho các threshold tự định nghĩa hoặc mọi candidate là independent.
+
+Phần nhanh triển khai **feasibility**, không thêm OHLC PnL/execution engine:
+`scripts/forex_signal_screen.py` reuse verifiedH4cache+same rules khi flat, ghi
+opportunities/lot feasibility, không actual fills/trades/equity/DD/qualification.
+Zero probe không loại cả họ; batchđầu kiểm cả3new+UTCbất kể probe verdict.
+Initialscreen.json giữ evidence trước source-pin validation tightening; chỉ
+`screen-v2.json`đúng current source được pipeline dùng.8bản load0,900s,
+probe0,063s; chưa đem so với fulltickPnLnhư cùng công việc. Cả8đều có sizeable
+opportunities nên không tiết kiệm numerical compute bằng loại candidate trong
+đợt này. Đây là feature triage/capability, chưa economic coarse-screen.
+
+Tests: wholeForex154pass24,69s ở revision phát triển, focused finalnewtests8
+pass0,60s; reporter1integration/20controller/12horizon pass. Reporter fixture
+dùng actual synthetic sealed tick outputs, kiểm money/zero-fills/missing/double
+probe/protocol/source mismatch. No live/provider runtime validation implied.
+Bounded `legacy_parity.py`:4oldsurvivor×costcases trên232.578consumed Jan1–3/2023
+ticks có checkpoint/decisions/candidate bytes exact so pre-extension outputs,
+sealed horizon reader12rows đạt. `audit_probe_candles.py` rebuild12completeH4
+bằng aggregator riêng từ rawquotes, cả8probes khớp cachedbars (positive và
+zero-probe cases). Raw→cache proof chỉ bounded/synthetic không mọi regime.
+
+Private discovery attempt:
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/discovery-round3-20261107/execution-v1/`.
+ExactrawQ1inputs reused, không export lại: warmup SHA63b63be9…/1.404.696ticks,
+evaldfe850ef…/5.837.028ticks. Sharedprep142,812s verified;4registered-dev
+preflights2,02–2,22spass. Protocol SHA256
+`f837640795b291afcff80ebb4ac0e5a0340330f80a44b82741854ebb711a540d`.
+Nativepipeline launch10:22:37VN, launcher8008;4workers,2700s/worker7200s/batch
+ceilings, noautoretry. Snapshot10:28VN rangefadeđãstress,3othersreference;
+0completed,errorlogs/projection0. Progress5stại`batch-1/PROGRESS.md`; source
+snapshots14numericalfiles và reporter/controller giữ limitedprovenance. Receipt
+không thay native process state; đối soát command/creation trước can thiệp.
+
+UTC2024preparation tách riêng trong
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/utc-validation-20261107/execution-v1/`.
+Protocol khóa trước export; metadataaudit307files/170records/0reviewgaps,
+cache identity/coverage kiểm lại trước hai cache-only exports, không download.
+WarmNov–Dec2023đã consumed, eval2024mới trong project nhưng owner history
+unverified;20.687.149evalticks đã export, quality/tick preparation đang chạy.
+Chỉ freeze/whitelist newdigest sau discovery numerical+report completed để
+không đổi reader/source của writers. OriginalUTC/risk/cost/profile giữ nguyên;
+registrationJSON/pins/preflight/actual numerical chưa hoàn tất tại snapshot.
+Không mở2025+/holdout/OrderCheck/OrderSend từ scope này.
