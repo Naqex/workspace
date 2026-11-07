@@ -4,6 +4,8 @@
 
 [Campaign](../research/CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md) C1/C2chưa hoàn tất. [Discovery4](../research/DISCOVERY4-RESULTS-20261108.md), [ML5](../research/DISCOVERY5-RESULTS-20261108.md), [Discovery6/7](../research/DISCOVERY6-7-RESULTS-20261108.md) giữ failed trials và C2review. **Running:** [native tick/risk/time-fit study](../research/H1-SURVIVOR-TICK-REVIEW-20261108.md) của London16–20+Asia→London,2023/2024,2batches×2workers; Trader78a8397f. Private root challenge-discovery4-20261108/execution-v1/h1-survivor-tick trênE:. Đọc progress/results đúngsource snapshot, không restart/overwrite hoặc sửa source đang chạy. Catalogue41records/28versions gồm2controls, chưa winner challenge.2025+/broker/mua challenge gates giữ riêng; không claim Paperclip sync.
 
+Gold offlinebranch codex/research-metals được phát triển riêng, chưa mergevàoactiveD:source. [Discovery8](../research/METAL-DISCOVERY8-RESULTS-20261108.md), [Discovery9](../research/METAL-LONG-HISTORY-20261108.md)completed; [Discovery10H1](../research/METAL-INTRADAY-DISCOVERY10-20261108.md)running. Source/db5550d6ở C:/Users/MIIKEY/.codex/worktrees/research-metals/trader; private campaignroot metal-discovery10-screen. Không gọiindicativeM1Bid+modeledAsk thànhnativeMetal/propqualified.
+
 ## Thực thi đợt nghiên cứu mở rộng — owner giao 07/11/2026
 
 **Hậu kiểm owner giao sau pilot:** [review kỹ thuật](../research/ENGINEERING-REVIEW-COARSE-20261107.md)
