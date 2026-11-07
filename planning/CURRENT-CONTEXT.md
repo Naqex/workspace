@@ -2,6 +2,22 @@
 
 ## Research kế thừa — 05/11/2026
 
+**Nhiệm vụ ACTIVE từ08/11:** owner giao tìm ứng viên đủ để đề xuất challenge
+và hậu kiểm toàn quá trình; sửa/rerun phần sai tới khi cả C1/C2 đạt. Criteria
+ở [campaign](research/CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md), recipes frozen
+ở [Discovery4](research/CHALLENGE-DISCOVERY-ROUND4-20261108.md). Trader `791b9a7b`
+thêm8H1recipes trên native execution/risk, giữ8H4 cũ.177Forex tests và62focused
+checks đạt. Bounded correctness đã xong ở private
+`ai-engine-jobs/challenge-discovery4-20261108/execution-v1` trên ổE:8legacy
+native golden cases exact rồi16H1native-vs-coarse cases khớp counts/decisions,
+maxPnLdelta0,42USD. Q1screen8×2costs2,39s: chỉBBreentry dương rõ(+283,74/
++213,84USD), prior-daybreak gần0(+6,79/−6,16USD); không edge/prop/DD proof.
+Đang chuẩn bị tickQ1 choBB/near-zero/daybreak và negative-controlRSI, rồi
+2023historical screen theo registration mới. Chưa có candidate qualified;
+2025+closed/broker/mua challenge
+không được suy quyền từ research. Sau correctness: Q1consumed screen, đăng ký
+2023historical trước outcome, rồi C1/C2 review; không coi batch pass là goal đạt.
+
 **Hậu kiểm sau pilot,07/11:** owner giao đúc kết/tối ưu và duy trì skill.
 [Review mới](research/ENGINEERING-REVIEW-COARSE-20261107.md) ghi Trader `579ff52f`:
 giảm allocation ở H1 preparation, A/B prefix giảm median16%; quan sát fullprep

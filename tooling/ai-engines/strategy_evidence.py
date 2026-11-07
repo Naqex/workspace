@@ -18,6 +18,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]/'projects/trader/foun
 from trading_workspace_v2.forex_study_registration import (
     HISTORICAL_SCHEMA, HISTORICAL_PURPOSE, inspect_registered_manifest,
 )
+from trading_workspace_v2.forex_intraday_candidates import INTRADAY_CANDIDATES
 
 
 def digest(path: Path) -> str:
@@ -102,8 +103,22 @@ def inspect(run_dir: Path, *, verify_inputs=False, source_root: Path | None = No
             or inputs['development']['first_day'] != '20220103'
             or inputs['development']['last_day'] not in {'20220114', '20220331'}):
         raise ValueError('input window is not the registered development contract')
-    if quality['warmup']['complete_h4'] < 81:
-        raise ValueError('study has insufficient reported warmup')
+    if (manifest['candidate'] in INTRADAY_CANDIDATES) != (manifest.get('decision_timeframe_seconds') == 3600):
+        raise ValueError('candidate clock differs from declared decision timeframe')
+    if manifest.get('decision_timeframe_seconds') == 3600:
+        proof = manifest.get('hourly_warmup', {})
+        if (not isinstance(proof,dict) or not isinstance(proof.get('binding'),dict)
+                or not isinstance(proof.get('path'),str) or not Path(proof['path']).is_absolute()
+                or not re.fullmatch('[0-9a-f]{64}',proof.get('sha256',''))):
+            raise ValueError('study has invalid observed H1 warmup locator')
+        if (quality['warmup'].get('quoted_hours', 0) < 100
+                or proof.get('hours') != quality['warmup']['quoted_hours']
+                or any(proof['binding'].get(key) != inputs['warmup'][key]
+                       for key in ('sha256','first_day','last_day'))
+                or digest(Path(proof['path'])) != proof['sha256']):
+            raise ValueError('study has invalid observed H1 warmup evidence')
+    elif manifest.get('decision_timeframe_seconds') not in (None,14400) or quality['warmup']['complete_h4'] < 81:
+        raise ValueError('study has insufficient reported warmup or unsupported clock')
     fingerprints = {name: digest(run_dir / name) for name in
                     ('manifest.json', 'receipt.json', 'quality.json', 'results.json')}
     source_drift, unavailable_sources = [], []

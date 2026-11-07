@@ -7,6 +7,7 @@ Các mục cũ chưa được re-audit khi tạo chỉ mục ngày 05/11/2026.
 
 | Câu hỏi / từ khóa | Nguồn hiện có |
 |---|---|
+| Nhiệm vụ tìm ứng viên challenge và tự kiểm/sửa quá trình tới khi đạt | [Campaign08/11](CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md), [Discovery4H1 frozen recipes](CHALLENGE-DISCOVERY-ROUND4-20261108.md); C1/C2 pending, không mặc định có winner hoặc mở holdout |
 | Sau mỗi screening/validation nên hậu kiểm và tối ưu thế nào; bản sửa mới nhất | [Hậu kiểm H1 07/11](ENGINEERING-REVIEW-COARSE-20261107.md): preparation A/B giảm16%, full-field và16scenario parity; mở rộng engineering-retrospective đã có, không tạo skill trùng |
 | Kho ý tưởng rộng, tránh trùng chiến lược, data/automation/prop readiness | [Catalogue36hồ sơ07/11](STRATEGY-CATALOGUE-20261107.md), [structured records](STRATEGY-CATALOGUE-20261107.json):8rules+27ideas/variants+1riskcomponent, chưa36bots/independentedges |
 | Sàng lọc PnL nhanh có chính xác không, cached/cold timing, tick comparison | [Frozen pilot](COARSE-SCREEN-PILOT-20261107.md), [review07/11](COARSE-SCREEN-REVIEW-20261107.md): cold73,38s/cached8×2costs1,85s; experimentaltriage, không fulltick/propDD hoặc tự reject/promote |

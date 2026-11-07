@@ -169,6 +169,8 @@ def run_job(name, expected, directory, *, seconds, clock=time.monotonic):
         argv.extend(['--inspection-cache-dir', inspection])
     if ticks:
         argv.extend(['--tick-cache-dir', ticks])
+    if expected.get('warmup_hours_cache_dir'):
+        argv.extend(['--warmup-hours-cache-dir', expected['warmup_hours_cache_dir']])
     if expected.get('benchmark_only'):
         argv.append('--benchmark-only')
     if expected.get('study_registration'):

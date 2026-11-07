@@ -1,5 +1,21 @@
 # AI workspace — native Paperclip UI và prototype lịch sử
 
+## Tìm ứng viên challenge + hậu kiểm — owner giao08/11/2026, ACTIVE
+
+[Campaign](../research/CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md) giữ hai tiêu chí
+C1candidate readiness/C2process correctness. Không hứa tìm winner bằng cách
+nới tiêu chí. [Discovery4](../research/CHALLENGE-DISCOVERY-ROUND4-20261108.md)
+freeze8H1hypotheses, risk/cost/core giữ nguyên; H1warmup/clock/metadata/reuse đã
+nối, Trader `791b9a7b`.177Forex tests/145subtests và62focusedchecks/22subtests
+đạt; chưa numerical qualification. Bounded8oldH4goldens exact và16H1crosschecks
+counts/decisions khớp, maxdelta0,42USD. Q1coarse2,39s: BBreentry+283,74/
++213,84USD, prior-daybreak+6,79/−6,16USD, các bản khác âm; chỉ screening.
+Chuẩn bị nativeQ1BB/near-zero/daybreak/RSIcontrol và2023coarse stage. Artifacts ở
+private root `E:\BACKUP-TRADINGWORKSPACE\ai-engine-jobs\challenge-discovery4-20261108\execution-v1`.
+Registration2023historical phải khóa trước numerical outcome.2025+/broker/mua
+challenge vẫn là gate riêng. Receipt giữ actual attempts/outcomes; task chỉ
+đóng khi cả hai tiêu chí có evidence, không vì đã code thêm8recipes.
+
 ## Thực thi đợt nghiên cứu mở rộng — owner giao 07/11/2026
 
 **Hậu kiểm owner giao sau pilot:** [review kỹ thuật](../research/ENGINEERING-REVIEW-COARSE-20261107.md)

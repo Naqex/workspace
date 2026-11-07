@@ -54,6 +54,24 @@ class EvidenceTests(unittest.TestCase):
         self.assertFalse(report['promotion_authorized'])
         self.assertFalse(report['numeric_recalculation_performed'])
 
+    def test_h1_clock_and_observed_warmup_are_bound(self):
+        from trading_workspace_v2.forex_intraday_candidates import RSI_REENTRY
+        packet=self.root/'h1-cache.json';packet.write_text('fixture source-bound hour payload')
+        self.manifest.update(candidate=RSI_REENTRY,decision_timeframe_seconds=3600,
+            hourly_warmup=dict(path=str(packet),sha256=evidence.digest(packet),hours=100,
+                binding={k:self.manifest['inputs']['warmup'][k] for k in ('sha256','first_day','last_day')}))
+        self.write('manifest.json',self.manifest)
+        self.write('quality.json',dict(warmup=dict(complete_h4=25,quoted_hours=100),development=dict(ticks=10)))
+        self.write('results.json',[dict(self.result,candidate=RSI_REENTRY)])
+        self.assertFalse(evidence.inspect(self.run)['promotion_authorized'])
+        for change in ({'decision_timeframe_seconds':14400}, {'hourly_warmup':{}},
+                       {'hourly_warmup':dict(self.manifest['hourly_warmup'],hours=99)}):
+            self.write('manifest.json',self.manifest|change)
+            with self.assertRaises(ValueError):evidence.inspect(self.run)
+        self.write('manifest.json',self.manifest)
+        packet.write_text('tampered')
+        with self.assertRaisesRegex(ValueError,'warmup'):evidence.inspect(self.run)
+
     def test_interrupted_run_or_false_promotion_is_rejected(self):
         self.write('receipt.json', dict(stage='running'))
         with self.assertRaisesRegex(ValueError, 'completed'):
