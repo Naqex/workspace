@@ -4,6 +4,8 @@
 
 **Nhiệm vụ ACTIVE08/11:** C1candidate challenge/C2process vẫn pending theo [campaign](research/CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md). [Discovery4](research/DISCOVERY4-RESULTS-20261108.md), [MLDiscovery5](research/DISCOVERY5-RESULTS-20261108.md), [Discovery6/7](research/DISCOVERY6-7-RESULTS-20261108.md) đã đóng screens, giữ negatives/controls. Catalogue41records/28versions (2controls;24nativeoffline+4MLcoarse), không28edges.32legacycoarse cases exact;16newnativeprefix cases khớpdecisions/counts, maxdelta0,64USD. Đã sửa protocol labels và reject unowned session trước mutation. **Hai annualnativebatches đang chạy**, London16–20+Asia→London mỗi năm2023/2024; [frozenreview](research/H1-SURVIVOR-TICK-REVIEW-20261108.md), Trader78a8397f. Private root E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/execution-v1/h1-survivor-tick: batch-2023-v1 vàbatch-2024-v1, mỗi batch2workers. Chỉ đọc PROGRESS/artifacts, không sửa product source đang pin hoặc dispatch lại completed screens.2025+closed/broker/mua challenge gates riêng.
 
+**Delta08/11 khi nativejobs chạy:** [conditional uncertainty](research/H1-UNCERTAINTY-REVIEW-20261108.md) của cả hai survivors bao gồm0, chưa C1edge. [Metal preparation](research/METAL-DISCOVERY8-PREPARATION-20261108.md) đã export/validate1.773.334XAU M1rows2020–2024 trong49,93s từ localcache, chưa strategyoutcome/quotes hoặc native-metal support. Không sửa pinned product source trước annualjobs hoàn tất; metadata/plans không được đọc như dispatch authorization.
+
 **Hậu kiểm sau pilot,07/11:** owner giao đúc kết/tối ưu và duy trì skill.
 [Review mới](research/ENGINEERING-REVIEW-COARSE-20261107.md) ghi Trader `579ff52f`:
 giảm allocation ở H1 preparation, A/B prefix giảm median16%; quan sát fullprep

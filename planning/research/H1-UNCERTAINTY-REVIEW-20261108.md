@@ -27,3 +27,14 @@ calibratededgeprobability hoặc pass probability; fulltrial history/data covera
 không đủ để ép DSR/PBO/realitycheck. Native tick/prop/forward review giữ owner
 riêng. Không auto promote ngay cả nếu lowerquantile>0; nếu includes0 thì evidence
 kinh tế chưa tách rõ khỏi noise, cần nghiên cứu/fresh evidence theo đúng gate.
+
+## Kết quả actual — source a98597a
+
+| Bản/cost | Closed trades hai annual books | MeanR/trade | Conditional bootstrap95%intervalR |
+|---|---:|---:|---:|
+| London reference |519|0,0480|[−0,0143;0,1075]|
+| London stress |519|0,0270|[−0,0338;0,0857]|
+| Asia reference |454|0,0414|[−0,0798;0,1689]|
+| Asia stress |454|0,0175|[−0,1006;0,1406]|
+
+Cả4intervals bao gồm0. Đây chưa là bằng chứng edge bền vững hoặc lý do mua challenge; cũng không chứng minh expectation chính xác bằng0.10.000draws là syntheticresamples, không10.000bài kiểm độc lập, không95%chancewin. Cả hai nativeannualbatches tiếp tục để kiểm execution/risk/time-fit, không đọc2025+ hoặc promote vì coarse dương. Fourbehavior/inputreject tests đạt trước phân tích, actualrun1,6s process wall. Private artifact h1-uncertainty-v1/config.json/result.json dưới campaign execution-v1 giữ report/config/source hashes.
