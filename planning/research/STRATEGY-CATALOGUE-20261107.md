@@ -56,7 +56,7 @@
 
 ## Cách đọc và việc đang chạy
 
-Discovery4/6/7 historical screens đã completed; MLreal policies thất bại, giữ controls/negatives. Hai survivors đang được native tick/risk/time-fit review: London16–20 và Asia→London. [Protocol hiện hành](H1-SURVIVOR-TICK-REVIEW-20261108.md); [kết quả6/7](DISCOVERY6-7-RESULTS-20261108.md). Không dispatch lại screens hoặc gọi2023/2024cleanOOS.2025+vẫn đóng.
+Discovery4/6/7 historical screens đã completed; MLreal policies thất bại, giữ controls/negatives. Asia2023/2024 native review đã completed; Londonstresscả2years còn incomplete do timeout. Discovery12đang kiểm observedhistory2010–2022; Discovery13mở rộng24fixedversions từ cùngcache. [Protocol hiện hành](H1-SURVIVOR-TICK-REVIEW-20261108.md); [kết quả6/7](DISCOVERY6-7-RESULTS-20261108.md). Không dispatch lại screens hoặc gọi2023/2024cleanOOS.2025+vẫn đóng.
 
 Nguồn chỉ cho cơ chế/định nghĩa/phương pháp; code và datalicenses cần kiểm trước import. Các adaptations H1/SL/holding không phải exact paper replication. Fixed-window variants, ORBs và MLcontrols có quan hệ; số versions không là số bằng chứng độc lập. Public payout/case study tay không xác nhận bot edge.
 

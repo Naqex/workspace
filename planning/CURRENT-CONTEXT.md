@@ -10,25 +10,34 @@ screens đã xong. [Catalogue](research/STRATEGY-CATALOGUE-20261107.md) đã đ�
 [Gold9/10](research/METAL-DISCOVERY9-10-RESULTS-20261108.md) đã completed; chỉ SMA50k
 đáng giữ research, chưa challenge. Hai EURUSDsurvivors conditionalCI vẫn chứa0.
 
-**Jobs đang chạy:** parent annual batches2023/2024 tại private root
-E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/execution-v1/h1-survivor-tick.
-D:Trader source78a8397f giữ nguyên cho3workers còn chạy. Asia2023 parent failed
-reference tại27.223.813ticks do cash checkpoint sau queued decision; giữ attempt cũ.
-[Recoveryv2](research/H1-ASIA-RECOVERY-20261108.md)/JSON đã freeze, cap1,
-config-asia-2023-recovery-v2.json → batch-asia-2023-recovery-v3, launcherPID8900;
-source isolated research-metals/trader e4481140. Đọc PROGRESS/terminal/receipts,
-đối soát process thực trước restart. Không second writer hoặc sửa pins để reuse.
+**Jobs hiện hành:** [Discovery12 observedBid/Ask](research/EURUSD-OBSERVED-HISTORY-20261108.md)
+đang chạy tại private campaignexecution-v1/eurusd-observed-history-v2, launcher8020/
+actualcontroller20584; mỗi dataset cóownedchild riêng.13annualyears2010–2022+
+warmup2009, chỉ cache QDM đã có; không2025+. Đọc PROGRESS/receipts/lock/process
+trước restart; không sửa D:source9fd6cd00 hoặc supervisor3fe3b34 đang pin. V1driver
+lỗi argument path sau export trước aggregation; V2sửa writer, giữfailurev1 và
+adopt verifiedrawexport,không export lại. Singletonguard đã thử,controller2 bịchặn.
 
-**Engineering đã kiểm:** fixes f8879b32/edbd1e5f/043656a2; actual Dec2023 regression
-442.341ticks đạt;77tests/66subtests tập trung đạt. Retained-state latency observed
-8,89–9,02s→1,66–1,84s trên6flatwindows/6.832events, exactfinalSHA; không annualspeedup.
-Workspacef781550 chọn explicit source-root cho worker/reviewer, có positive/negative
-tests. Engineering-retrospective reference đã lưu lessons; audit0errors/0warnings.
-Parentregistration có staleCompressiontext và cap1 khác protocol2: giữ history,
-recovery khai báo đúng. Workspace758613b enforce executioncaps và chuẩn bị H1warmup
-trước dispatch; v2 fail trước simulation vì thiếu cacheH1 source mới, v3 reuse
-quality/tick cache đã verified và chỉ chuẩn bị H1warmup, không làm lại594s prep.
-2025+holdout/broker/mua challenge vẫn gates riêng; không sửa source đang pin.
+**Native annual review đã dừng hết:** [results](research/H1-NATIVE-SURVIVORS-RESULTS-20261108.md)
+giữ Asia2024completed, Asia2023recoveryv3completed3150sworker:reference+150,70/
+stress+18,79USD,DDstress643,96USD,231closedtrades;khôngbreach/chưa phase1target.
+Hai Londonstressparents timeout7200s,reference seals giữ,không fullannualstress.
+[Discovery11](research/EURUSD-DISCOVERY11-RESULTS-20261108.md)52indicative rows75s
+đãcompleted:hai policies không đạt triage với fixedspread,không hardrejectfamily
+vìcostmodelkhácnative. NativeAsia2024 decisions324exact/trades223entryexact,
+122SLquotesgiải thích toàn coarse→native−76,60/−74,05USD,101strategyexitsexact.
+
+**Engineering đã nhận vào D:source9fd6cd00 sau khi nativewriters kết thúc:**
+ledgerindex/singlevalidation,queueddecision qua financing và completeCLIresume.
+[Resume review](research/NATIVE-RESUME-REVIEW-20261108.md):104tests/112subtests;
+actual442.341ticks uninterrupted/restore kết quả/4finalfilesbyteexact,phase/reset/
+open/pending/bindingguards;không tự migrate Londonlegacycheckpoints. Parent18source
+files78a8397fđãverifiedsnapshot trướcfastforward,không đổi oldreceipts/pins.
+[Engineeringreview](research/ENGINEERING-REVIEW-CAMPAIGN-20261108.md) giữ timing:
+6flatwindows6.832events8,89–9,02s→1,66–1,84s,không annualspeedup. Skill hậu kiểm
+đãreuse/update,maintaineraudit0errors/0warnings,skillvalidator/linksđạt. Chưa native
+Paperclippackage republish hoặc broker/strategy acceptance.2025+holdout/broker/
+mua challenge vẫn gates riêng. C1/C2chưa đạt; không mặc định phải cówinner.
 
 **Hậu kiểm sau pilot,07/11:** owner giao đúc kết/tối ưu và duy trì skill.
 [Review mới](research/ENGINEERING-REVIEW-COARSE-20261107.md) ghi Trader `579ff52f`:

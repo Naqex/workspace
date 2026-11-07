@@ -66,3 +66,8 @@ Với lỗi timing qua khoảng trống quote, phân biệt thời điểm quy�
 với checkpoint cash/financing được thêm sau đó. Regression cần cả lệnh hợp lệ
 đi qua cash event và lệnh giả mạo quyết định sớm hơn. Không sửa thời điểm quyết
 định để validator pass. [Recovery thực tế08/11](../../../../planning/research/H1-ASIA-RECOVERY-20261108.md).
+
+[Complete CLI resume](../../../../planning/research/NATIVE-RESUME-REVIEW-20261108.md)
+đã có bounded actual-data parity. Khi kiểm checkpoint, bao gồm phase2/reset và
+nested profile binding, không chỉ flat roundtrip. Legacy account JSON không tự
+thành complete packet; nguồn đổi không được sửa hash để ép tiếp tục.

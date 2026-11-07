@@ -7026,3 +7026,36 @@ workflow walkthrough, không independent model forward-test hoặc native republ
 C1/C2campaign vẫn ACTIVE, chưa có challenge-qualifiedstrategy. D:annualparents
 và isolatedrecovery còn chạy, đọc actualterminals trước resume.2025+closed;
 không broker/LLM calls, không mua challenge hoặc thay risk để ép kết quả.
+
+
+## 08/11 — nativeAsia hoàn tất, completeCLIresume và observedhistory đang chạy
+
+[Nativefinal](../../research/H1-NATIVE-SURVIVORS-RESULTS-20261108.md) giữAsia2023
+recoveryv3completed3150,45sworker/3228,88sbatch,+150,70/+18,79USDreference/stress,
+DDstress643,96USD,231closedtrades,no breach/phase1notreached. Asia2024+201,41/
++64,52USD,223trades;324decisions/entrycounts/prices exact so coarse,122SLfills
+accounttoall−76,60/−74,05USDdelta;101strategyexits exact. Londonstress2023/2024
+7200stimeouts giữreference seals,không fullannual hoặc tựresumelegacy.
+
+[Resume](../../research/NATIVE-RESUME-REVIEW-20261108.md)Trader3ae4f844/b741bee1/
+9fd6cd00:fullatomicpacket,candidate/builder/observer/phaseaccounts/reset/cash,
+source/input/cost/profile/risk/cursorbinding;CLI vàbatchforward3fe3b34.
+104tests/112subtests scoped đạt;actual442.341ticks stop114.227prefix rồirestore:
+fullresult/fourfinalfilesbyteexact,6trades−9,42USD. Finalb741proof9,62scontinuous/
+8,23sresume exclalreadyexecutedprefix,không annualspeedup. Queuedentryboundary,
+phase2,quote-gap/cash vànestedprofile/initialcapital guards córegressions.
+Sau khi mọi nativewriters kếtthúc, verified18parent-sourcefiles78a8397f rồi
+fastforwardD:source9fd6cd00;không APIrollout/brokeracceptance.
+
+[Discovery11](../../research/EURUSD-DISCOVERY11-RESULTS-20261108.md)52indicative
+M1Bid/fixedAskcases75,23s;khôngretention,không hardrejectsamefamily vìspreadmodel.
+[Discovery12](../../research/EURUSD-OBSERVED-HISTORY-20261108.md) observedBid/Ask
+cachehistory13years2010–2022+warmup2009,privateeurusd-observed-history-v2,
+launcher8020/actualcontroller20584;khôngQDMupdate/download/2025+. V1privatewriter
+argumentnamecollision failafterexport/preaggregation;v2smallfix/rawhashreuse,
+smokewriter/guardsđạt. Configedb67d8d…,sameeconomicrules. Singletonguard actual
+controller2reject/lockunchanged;không autoretry. Stage/progressperdataset/checksums
+đãbật. [Catalogue13](../../research/EURUSD-CATALOGUE-LONG-SCREEN-20261108.md)
+privateeurusd-catalogue13-v1,launcher20648;configbb98a0c1…;readcompletedparent
+cacheonly,24fixedrules×13years×2costs624rows,52reuse+572new. KhôngsửaD:numerical
+source/supervisor đangpin. C1/C2ACTIVE,chưa ứngviênchallenge,zero broker/LLMcalls.
