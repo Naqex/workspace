@@ -5,6 +5,7 @@ import io
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -24,6 +25,52 @@ def await_file(path):
             raise TimeoutError('test worker did not start')
         time.sleep(0.05)
     return batch.read(path)
+
+
+class SourceSelectionTests(unittest.TestCase):
+    def test_isolated_checkout_is_used_by_worker_and_evidence_reviewer(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            (root/'scripts').mkdir()
+            (root/'scripts/forex_h4_pilot.py').write_text('')
+            package = root/'trading_workspace_v2'
+            shutil.copytree(batch.V2/'trading_workspace_v2', package,
+                            ignore=shutil.ignore_patterns('__pycache__'))
+            source = (f'import sys; sys.path[:]={sys.path!r}; '
+                      f'import forex_study_batch as batch; batch.configure_source_root({str(root)!r}); '
+                      'from trading_workspace_v2 import forex_study_registration as registry; '
+                      'import strategy_evidence as evidence; '
+                      f'assert registry.__file__.startswith({str(root)!r}); '
+                      'assert evidence.inspect_registered_manifest is registry.inspect_registered_manifest; '
+                      'from unittest.mock import patch; '
+                      'expected=dict(candidate="fixture", inputs={}, account_spec_sha256="a", protocol_sha256="b"); '
+                      'dossier=dict(candidate="fixture",protocol_sha256="b",protocol_content_verified=True, '
+                      'source_drift=[],unavailable_sources=[]); '
+                      'manifest=dict(inputs={},observed_account_spec=dict(sha256="a"),runtime=registry.runtime_binding()); '
+                      'inspect_patch=patch.object(evidence,"inspect",return_value=dossier); '
+                      'inspect_mock=inspect_patch.start(); '
+                      'read_patch=patch.object(batch,"read",return_value=manifest); read_patch.start(); '
+                      'batch.verified_result(batch.V2,expected); '
+                      'assert inspect_mock.call_args.kwargs["source_root"] == batch.V2; '
+                      'print("isolated_source_verified")')
+            result = subprocess.run([sys._base_executable, '-c', source], capture_output=True,
+                                    text=True, timeout=15)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn('isolated_source_verified', result.stdout)
+
+    def test_switching_source_after_product_import_fails_without_mutating_path(self):
+        from trading_workspace_v2 import forex_study_registration
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            (root/'scripts').mkdir()
+            (root/'trading_workspace_v2').mkdir()
+            (root/'scripts/forex_h4_pilot.py').write_text('')
+            (root/'trading_workspace_v2/forex_study_registration.py').write_text('')
+            previous_root, previous_paths = batch.V2, list(sys.path)
+            with self.assertRaisesRegex(ValueError, 'source_modules_already_loaded'):
+                batch.configure_source_root(root)
+            self.assertEqual(batch.V2, previous_root)
+            self.assertEqual(sys.path, previous_paths)
 
 
 @unittest.skipUnless(os.name == 'nt', 'Windows process ownership contract')

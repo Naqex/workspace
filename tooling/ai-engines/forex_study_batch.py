@@ -20,6 +20,22 @@ V2 = ROOT/'projects/trader/foundation_v2'
 sys.path.insert(0, str(V2))
 
 
+def configure_source_root(path):
+    """Select one local product checkout before importing its financial models."""
+    global V2
+    selected = Path(path).resolve()
+    required = ('scripts/forex_h4_pilot.py', 'trading_workspace_v2/forex_study_registration.py')
+    if any(not (selected/name).is_file() for name in required):
+        raise ValueError('invalid_forex_source_root')
+    for name, module in tuple(sys.modules.items()):
+        if name == 'trading_workspace_v2' or name.startswith('trading_workspace_v2.') or name == 'forex_h4_pilot':
+            loaded = getattr(module, '__file__', None)
+            if loaded and not Path(loaded).resolve().is_relative_to(selected):
+                raise ValueError('source_modules_already_loaded_use_new_process')
+    V2 = selected
+    sys.path.insert(0, str(V2))
+
+
 def read(path):
     return json.loads(Path(path).read_text(encoding='utf-8-sig'))
 
@@ -85,7 +101,8 @@ class OwnedPython:
         return self.process.wait(timeout=10)
 
 
-def verified_result(directory, expected, *, source_root=V2):
+def verified_result(directory, expected, *, source_root=None):
+    source_root = V2 if source_root is None else source_root
     from strategy_evidence import inspect
     from trading_workspace_v2.forex_study_registration import runtime_binding
     dossier = inspect(directory, source_root=source_root)
@@ -281,6 +298,8 @@ def main(argv=None):
     parser.add_argument('--config', type=Path, required=True)
     parser.add_argument('--output-dir', type=Path, required=True)
     parser.add_argument('--max-workers', type=int, choices=(1, 2, 3, 4, 5), default=2)
+    parser.add_argument('--source-root', type=Path,
+                        help='Explicit local foundation_v2 checkout; must be selected before product imports')
     parser.add_argument('--worker-seconds', type=int, default=1800)
     parser.add_argument('--deadline-seconds', type=int, default=5400)
     parser.add_argument('--reuse-from', type=Path, action='append', default=[],
@@ -290,6 +309,8 @@ def main(argv=None):
     parser.add_argument('--prepare-inputs', action='store_true',
                         help='Prepare and verify shared caches once before dispatch, using each job cache directory')
     args = parser.parse_args(argv)
+    if args.source_root:
+        configure_source_root(args.source_root)
     if min(args.worker_seconds, args.deadline_seconds) <= 0:
         parser.error('deadlines must be positive')
     config = read(args.config)
@@ -310,6 +331,8 @@ def main(argv=None):
             runtime=runtime_binding(),
             worker_seconds=args.worker_seconds, deadline_seconds=args.deadline_seconds,
             reuse_from=[str(path.resolve()) for path in args.reuse_from])
+        if args.source_root:
+            manifest['source_root'] = str(V2)
         if args.parallel_start:
             manifest['parallel_start'] = True
         if args.prepare_inputs:

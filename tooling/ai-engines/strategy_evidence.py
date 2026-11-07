@@ -14,7 +14,8 @@ from pathlib import Path
 import re
 import sys
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[2]/'projects/trader/foundation_v2'))
+if 'trading_workspace_v2' not in sys.modules:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2]/'projects/trader/foundation_v2'))
 from trading_workspace_v2.forex_study_registration import (
     HISTORICAL_SCHEMA, HISTORICAL_PURPOSE, inspect_registered_manifest,
 )
