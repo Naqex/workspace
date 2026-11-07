@@ -2,6 +2,17 @@
 
 ## Research kế thừa — 05/11/2026
 
+**Follow-up07/11 đã hoàn tất hai lát owner duyệt:**
+[catalogue36hồ sơ](research/STRATEGY-CATALOGUE-20261107.md) gồm8implemented,
+27ideas/variants và1riskcomponent; [review pilotH1](research/COARSE-SCREEN-REVIEW-20261107.md)
+giữ protocol/source/accuracy/timing. Trader `03436225` thêm opt-in H1screen,
+không đổi native execution core. Coldprep73,38s; cached8rules×2costs1,85s.
+8current-source bounded tick cases khớp;8historical-quarter comparisons lệch
++0,04–0,48USD từ modeledstops, counts/decisions/financing khớp. Chỉ triage ưu
+tiên tickreview, chưa reject/promote/edge/propDD. Không numerical writer còn
+chạy, không annual mới hoặc rules mới,2025+/broker vẫn đóng. Bước tiếp theo
+được khuyến nghị là frozen spec nhóm nhỏ khác cơ chế, chưa dispatch.
+
 **Scope07/11 owner giao triển khai liên tiếp:** [Discovery3](research/DISCOVERY-ROUND3-20261107.md)
 đã có 3 new candidates + 5 old = 8 implemented, 2 directions deferred.
 [Discovery đã hoàn tất](research/DISCOVERY-RESULTS-20261107.md): 4/4 verified,
@@ -28,7 +39,8 @@ State cũ bên dưới giữ lịch sử, không dispatch lại period cũ.
 Follow-up07/11: [timing và scale theo tầng](research/PIPELINE-TIMING-AND-SCALING-20261107.md)
 đối soát3giờ17phút từ prep tới docs commit, chưa initialresearch/code; annual
 parallel chiếm~80%khoảng đo. Probe<1s chỉ feasibility, chưa PnL. Mở rộng phễu
-30–50hồ sơ/10–20rules là đề xuất workload, chưa registration hoặc lệnh dispatch.
+30–50hồ sơ đã có catalogue36theo follow-up trên;10–20rules vẫn chỉ là đề xuất
+workload, chưa registration hoặc lệnh dispatch. Tám rules implemented giữ nguyên.
 
 **Period batch06/11 đã đóng:** [kết quả/decision hiện hành](research/PERIOD-RESULTS-20261106.md),
 pipeline completed18:21:30VN,2/2verified jobs/8horizon rows, không còn writer.

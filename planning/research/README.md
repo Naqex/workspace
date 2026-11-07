@@ -7,6 +7,8 @@ Các mục cũ chưa được re-audit khi tạo chỉ mục ngày 05/11/2026.
 
 | Câu hỏi / từ khóa | Nguồn hiện có |
 |---|---|
+| Kho ý tưởng rộng, tránh trùng chiến lược, data/automation/prop readiness | [Catalogue36hồ sơ07/11](STRATEGY-CATALOGUE-20261107.md), [structured records](STRATEGY-CATALOGUE-20261107.json):8rules+27ideas/variants+1riskcomponent, chưa36bots/independentedges |
+| Sàng lọc PnL nhanh có chính xác không, cached/cold timing, tick comparison | [Frozen pilot](COARSE-SCREEN-PILOT-20261107.md), [review07/11](COARSE-SCREEN-REVIEW-20261107.md): cold73,38s/cached8×2costs1,85s; experimentaltriage, không fulltick/propDD hoặc tự reject/promote |
 | Đã dùng dữ liệu nào; không nhớ đã xem2023; khóa/đánh giá bài kiểm Q1/2023 | [Audit và protocol Q1/2023,05/11](PROP-HISTORICAL-ROBUSTNESS-20261105.md); [registration pins](PROP-HISTORICAL-ROBUSTNESS-20261105.json); đã thực thi, numbers/recovery thuộc [receipt AI](../checkpoints/ai-integrations-20261031/RECEIPT.md) |
 | Làm sao biết test chiến lược đúng; version/reuse, quant workflow, overfit, OOS và validation gates | [Framework audit05/11](STRATEGY-VALIDATION-FRAMEWORK-20261105.md); [agent gates](../../.agents/skills/strategy-qualification/references/validation-gates.md) |
 | Hậu kiểm chất lượng/kỹ thuật/performance; học từ run; Hermes learning loop | [Engineering review Q1,05/11](ENGINEERING-REVIEW-Q1-20261105.md); [skill hậu kiểm](../../.agents/skills/engineering-retrospective/SKILL.md) |

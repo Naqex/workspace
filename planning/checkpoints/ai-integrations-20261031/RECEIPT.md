@@ -13,6 +13,7 @@ không đọc toàn bộ lịch sử hoặc lấy snapshot cũ thay trạng thá
 
 | Việc cần tiếp tục | Đọc đúng nguồn |
 |---|---|
+| Kho ý tưởng và sàng lọc PnL nhanh, 07/11 | [Pilot review](../../research/COARSE-SCREEN-REVIEW-20261107.md), [catalogue36hồ sơ](../../research/STRATEGY-CATALOGUE-20261107.md); experimental triage đã kiểm, chưa thêm rules/annual/holdout/broker |
 | Chốt một đợt để chạy Demo có giám sát | [Task tổng hiện hành](#0411--gom-task-chốt-demo-có-giám-sát); issue#8 và amendment trong AI plan, không lấy NAQ-80 làm toàn bộ mục tiêu |
 | Quote policy và kiểm nhanh mới nhất | [Tách quote khỏi raw flags](#0411--tách-ổn-định-quote-khỏi-raw-flags-kiểm-nhanh-thay-vì-chờ-thêm-h1);34tests/saved-pair replay đã có, không chạy lại nếu input không đổi |
 | NAQ-80, kết quả r3 và phục hồi khi MT5 chưa sẵn sàng | [Kết quả và bản sửa recovery](#0411--naq-80-dừng-do-readiness-và-phục-hồi-cursor-có-giới-hạn); lịch sử float ở [checkpoint trước](#0411--sửa-float-grid-và-đối-soát-báo-cáo-naq-80) |
@@ -6887,3 +6888,53 @@ Current-context/AI-plan/researchindex route tới finalresults, không còn curr
 dispatchpending. Hai longhorizon/multi-currencyresearchdirections vẫn cần data/
 contracts, chưaimplemented. Paperclip connector khôngexpose trong session nên
 không claim native tasks đãsync; localnativejobartifacts là actual evidence ở đây.
+
+## 07/11 — hoàn tất catalogue và bounded H1 PnL pilot
+
+Owner duyệt làm bước1–2 sau timing/scale proposal. Source Trader `03436225`
+thêm opt-in H1 input cache và screen, không sửa native numerical core. Scope
+warmup Dec2021 và consumed Q1/2022; giữ frozen protocol
+[COARSE-SCREEN-PILOT](../../research/COARSE-SCREEN-PILOT-20261107.md), SHA256
+`de93568faa76991de2d31daa4cb1eb7443fdf0685c990eacd71895549b7c1069`.
+Không mở2025+, provider/model/broker, không numerical annual mới.
+
+[Catalogue](../../research/STRATEGY-CATALOGUE-20261107.md) và JSON giữ36records:
+8existing rules,13new hypotheses,14variants,1risk component; không36independent
+edges. Mỗi record có parent/family, rule sketch, source relation, data/readiness,
+automation/prop concerns và next action.11hồ sơ có raw giá để viết spec nhưng
+chưa implemented;5cần method/clock,9cần history/multi/PITfundamental,2thiếu PITnews.
+Primary summaries không được nâng thành exact recipe/replication hoặc EA permission.
+
+**Measured acceptance** theo [review](../../research/COARSE-SCREEN-REVIEW-20261107.md):
+
+- Focused product command `-m pytest -q foundation_v2/tests/test_forex_coarse_screen.py`:
+  8passed/2subtests/0,51s. Fixtures độc lập arithmetic, BUY/SELL/financing/gap,
+  partialFriday/pending/causality và cachetamper. Không rerun suite khi chỉ sửa docs.
+- New raw→H1→H4 khớp đầy đủ sealed inspection archive:550warmup/1537eval H1,
+  133/372complete H4,1.404.696/5.837.028ticks. Không nới nativecacheguard đã đổi pin.
+- Native current-source bounded Jan3–7/2022:326.373observed ticks,4rules×2costs;
+  8/8 PnL/decisions/counts/open/pending khớp, không risk stop/rejection.
+- Original Discovery3 được kiểm lại4dossiers/source snapshots/rawhash/seals;
+  8quarter comparisons trong frozen6,25USD budget. Sai số+0,04–0,48USD đều từ
+  modeledSL tốt hơn firstcrossingquote; entries/sizes/prices, decisions, counts,
+  financing/floating khớp. Không là16/16fullquarter parity hoặc calibrated bound.
+- Coldprep73,37955s; cached8rules×2costs1,85265s (gồm load/output; sum compute
+  rows0,97224s). Bounded tick8cases20,71316s; coarsecompute0,048944s, inputread
+  riêng3,27373s. Ratio423× là giảm scope/model, không nativeengine speedup hoặc
+  ETAannual mới. Active research/code/review time vẫn chưa đo đầy đủ.
+
+Private root:
+`E:\BACKUP-TRADINGWORKSPACE\ai-engine-jobs\coarse-screen-pilot-20261107\execution-v1`.
+`coarse/result.json`, `input-parity.json`, `historical-comparison.json`,
+`historical-trade-audit.json`, `original-dossier-audit.json`,
+`bounded-comparison/comparison.json` giữ numbers; source snapshot và
+`evidence-seal.json` bind78files. Harness lỗi đầu ở key schema được ghi riêng,
+sửa trước dispatch bounded cases; không overwrite numerical attempt hoặc mất kết quả.
+
+**Decision:** experimental triage ưu tiên tickreview cho compatible rules;
+không automatic rejection/promotion, fullrisk/DD/prop hoặc edge qualified.
+Margin xấp xỉ initialcapital chưa là accountwide check. Catalogue không tự
+dispatch. Không còn numerical worker; recommended next slice là frozen spec
+nhóm nhỏ khác cơ chế, chưa triển khai8–12rules hoặc annual study mới. Native
+Paperclip sync không được claim trong lượt này. Skills hiện có đủ workflow,
+không tạo managementskill/UI/ledger cạnh tranh từ pilot.

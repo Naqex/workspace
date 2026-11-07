@@ -1,5 +1,13 @@
 # Thời gian toàn luồng và cách mở rộng sàng lọc — 07/11/2026
 
+**Cập nhật sau khi owner duyệt bước1–2:** [catalogue36hồ sơ](STRATEGY-CATALOGUE-20261107.md)
+và [pilot H1PnL](COARSE-SCREEN-REVIEW-20261107.md) đã hoàn tất. Coldprep73,38giây;
+cached8rules×2costs1,85giây. Tám comparisons current-source trên5ngày tick khớp;
+8comparisons quarter lệch+0,04–0,48USD do modeledstops. Đây là approximation để
+ưu tiên tickreview, không thay fulltickrisk/propDD hoặc rút annual xuống1,85s.
+Tình trạng “chưa PnL/đề xuất” ở báo cáo ban đầu dưới đây nói về probe cũ;
+timing lịch sử và unknownresearch/code time vẫn giữ nguyên, không đo lại annual.
+
 Owner hỏi đã lưu time từ đầu đến cuối chưa, và có nên làm rộng tầng nhanh rồi
 chỉ kiểm sâu nhóm nhỏ. Kết luận: đã có wall/CPU/phase của các job số học chính;
 chưa có timer đầy đủ cho research, viết code và review thủ công. Nên mở rộng

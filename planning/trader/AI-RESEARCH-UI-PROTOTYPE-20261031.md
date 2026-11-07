@@ -2,6 +2,17 @@
 
 ## Thực thi đợt nghiên cứu mở rộng — owner giao 07/11/2026
 
+**Delta đã thực thi sau timing review:** owner duyệt làm kho ý tưởng và pilot
+PnL rẻ. [Danh mục36hồ sơ](../research/STRATEGY-CATALOGUE-20261107.md) đã lưu
+source/family/parent/readiness:8implemented,27ideas/variants,1risk component;
+không gọi36independentbots. [Pilot H1](../research/COARSE-SCREEN-REVIEW-20261107.md)
+đã kiểm8fixtures, fullH4input parity,8current-source bounded tick cases và
+8historical-quarter comparisons. Coldprep73,38giây;8rules×2costs cached1,85giây.
+Sai số quarter+0,04–0,48USD do modeledstop, không đổi counts/decisions; chỉ
+experimentaltriage, không automatic rejection/promotion/propDD/edge. Chưa triển
+khai thêm rules/annual study,2025+vẫn đóng, không broker/modelcalls. Phần proposal
+về coarse chưa implemented bên dưới là trạng thái lịch sử đã được delta này thay.
+
 Owner giao triển khai liên tiếp tasks kể cả discovery, vá bugs và cải tiến có
 bằng chứng. [Protocol Discovery3](../research/DISCOVERY-ROUND3-20261107.md) khóa
 3rules mới trước outcome;5old+3new=8implemented,2research directions cần thêm
@@ -9,7 +20,7 @@ data/contracts giữ deferred. Task này không tự coi đủ edge hoặc buộ
 
 | Lát | Scope thực thi hiện tại | Acceptance / giới hạn |
 |---|---|---|
-| Fast triage | Reuse causal H4inspection caches, same rules, flat probes/lot feasibility | Đã đo8bản<1s; không portfolio/PnL/DD/winrate/trade-count simulator. Zero probe không loại cả họ; initial3new+UTC đều deep-check |
+| Fast triage | Giữ flat probes/lot feasibility; thêm opt-in H1PnL approximation trên Q1/2022consumed | Flatprobe<1s vẫn chưa PnL. Pilot H1 cached8×2costs1,85s đã đối chiếu theo delta trên; không fulltickrisk/propDD hoặc tự reject/promote |
 | Correctness / reuse | Candidate fixtures, original Forex suite, legacy4cases, independent raw→cached probes |154suite pass ở revision phát triển;8focused final candidate tests,1report integration/20controller/12horizon pass. Four232.578tick oldcases exact,8ruleprobes raw/cache match; không chứng nhận edge |
 | Discovery numerical | Native finite4worker batch3new+UTC, Q1/2022consumed,2costs, sharedprep | Đã completed10:35:46VN, 4/4 verified/8rows, 13phút6giây; [kết quả/hậu kiểm](../research/DISCOVERY-RESULTS-20261107.md). Compression và UTC còn đáng kiểm, chưa edge |
 | Historical robustness | OriginalUTC2024 và unchangedCompression2023; 3/6/12 tháng/native prop observations | Đã completed13:28/13:12VN, 2/2verified/12rows. Annual chuẩn/cao UTC−98,53/−155,85USD, Compression−129,36/−224,62USD; không promote, chưa phase1. [Kết luận và gates](../research/HISTORICAL-RESULTS-20261107.md). 2025+closed |
@@ -101,7 +112,11 @@ Không cần skill, tracker hoặc service mới: research/qualification/evidenc
 continuity và native Paperclip/runner đã giữ đúng các vai trò. Chỉ bổ sung
 workflow khi gặp gap lặp thực tế; không thêm automation chỉ để có đủ các tầng.
 
-## Đề xuất mở rộng khảo sát — 07/11/2026, chưa dispatch
+## Đề xuất mở rộng khảo sát — lịch sử trước pilot 07/11/2026
+
+Acceptance hiện hành của catalogue/H1screen ở delta đầu plan và
+[pilot review](../research/COARSE-SCREEN-REVIEW-20261107.md). Các câu chưa có
+implementation bên dưới mô tả thời điểm proposal, không là trạng thái hiện tại.
 
 Owner hỏi5ứng viên đã đủ chưa và nên dùng nền mới thế nào. Đánh giá: đủ cho
 pilot kiểm integration/screening, chưa đủ gọi là khảo sát rộng để chọn strategy
