@@ -18,6 +18,60 @@ from trading_workspace_v2.replay_tick_execution import BrokerReplayTick
 
 
 class TimeFitTests(unittest.TestCase):
+    def test_holiday_startup_records_zero_exemption_but_later_position_pays(self):
+        from datetime import datetime, timezone
+        from test_forex_prop_observer import profile
+        from trading_workspace_v2.forex_pilot_risk import ForexPilotSnapshot
+        from trading_workspace_v2.prop_session import PropProfileSnapshot
+        start=int(datetime(2024,1,1,tzinfo=timezone.utc).timestamp()*1000)
+        end=start+48*3600000
+        declared=PropProfileSnapshot.model_validate(profile()).model_dump(mode='json')
+        calendar=[terms(start+h*3600000,event=f'holiday-{h}',buy='10',sell='10') for h in (22,46)]
+        ticks=[BrokerReplayTick(time_msc=start+h*3600000+1,sequence=h-23,
+            bid='1.10000',ask='1.10020') for h in range(24,48)]
+        class FixtureStrategy(pilot.FixedH4Candidate):
+            def observe(self,candle,**kwargs):
+                return (None if kwargs.get('side') else 'BUY'),Decimal('.001')
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder)
+            def run(enabled):
+                with patch.object(pilot,'read_qdm_ticks',return_value=iter(ticks)), \
+                     patch.object(pilot,'financing_calendar',return_value=iter(calendar)), \
+                     patch.object(pilot,'FixedH4Candidate',FixtureStrategy):
+                    return pilot.run_scenario(Path('unused'),[],'reference',Decimal(0),Decimal(10),
+                        root,lambda *a:None,development=dict(sha256='a'*64,
+                        first_day='20240101',last_day='20240102'),horizon_cutoffs=[end],
+                        prop_profile=declared,pre_quote_flat_financing=enabled)
+            with self.assertRaisesRegex(ValueError,'known boundary'):
+                run(False)
+            result=run(True)
+            manifest=dict(run_id='holiday-fixture',prop_profile=declared,horizon_cutoffs=[end],
+                pre_quote_flat_financing='explicit_not_applicable_v1',
+                scenarios=[dict(name='reference',slippage='0',financing_calendar=[t.model_dump(mode='json') for t in calendar])])
+            (root/'quality.json').write_text('{}')
+            pilot.seal_scenario(root,manifest,result)
+            rows=timefit.inspect_horizons(root,manifest,'reference')
+            self.assertEqual(rows[0]['observed_ticks'],24)
+            packet=json.loads((root/'reference-horizons.json').read_bytes())[0]
+            state=ForexPilotSnapshot.model_validate(packet['checkpoint'])
+            self.assertEqual(len(packet['pre_quote_flat_financing']),1)
+            self.assertEqual(packet['pre_quote_flat_financing'][0]['terms']['event_id'],'holiday-22')
+            fees=[e for e in state.execution.ledger if e['kind']=='financing']
+            self.assertEqual(len(fees),1)
+            self.assertEqual(fees[0]['details']['financing_terms']['event_id'],'holiday-46')
+            self.assertLess(state.execution.balance,Decimal(10000))
+            self.assertEqual(state.execution.ledger[0]['kind'],'price_mark')
+            for mutation in ('missing','debit','after_quote','duplicate','wrong_terms','no_contract'):
+                bad=copy.deepcopy(packet); bound=copy.deepcopy(manifest)
+                if mutation=='missing': bad['pre_quote_flat_financing']=[]
+                elif mutation=='debit': bad['pre_quote_flat_financing'][0]['debit_usd']='1'
+                elif mutation=='after_quote': bad['pre_quote_flat_financing'][0]['terms']['scheduled_time_msc']=start+25*3600000
+                elif mutation=='duplicate': bad['pre_quote_flat_financing']*=2
+                elif mutation=='wrong_terms': bad['pre_quote_flat_financing'][0]['terms']['debit_buy_usd_per_lot']='11'
+                else: bound.pop('pre_quote_flat_financing')
+                with self.subTest(mutation=mutation),self.assertRaises(ValueError):
+                    timefit.inspect_prop_observation(bad,bound,state,end,Decimal(0),'reference')
+
     def test_two_horizon_prop_run_seals_and_reconciles_terminal_snapshot(self):
         from test_forex_prop_observer import profile
         from trading_workspace_v2.prop_session import PropProfileSnapshot

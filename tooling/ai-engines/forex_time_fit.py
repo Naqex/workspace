@@ -264,7 +264,25 @@ def inspect_prop_observation(row,manifest,state,cutoff,slippage,scenario):
             if term.event_id in seen or expected.get(term.event_id)!=term:
                 raise ValueError('prop financing calendar differs across phase accounts')
             seen.add(term.event_id)
-    if seen!=set(expected):
+    exemptions=row.get('pre_quote_flat_financing',[])
+    exempt_ids=set()
+    accounts_by_phase={phase.phase_index:state,**{
+        account['phase_index']:ForexPilotSnapshot.model_validate(account['checkpoint']) for account in accounts}}
+    for item in exemptions:
+        account=accounts_by_phase.get(item.get('phase_index'))
+        term=FinancingTerms.model_validate(item.get('terms'))
+        first=account.execution.ledger[0] if account and account.execution.ledger else None
+        if (manifest.get('pre_quote_flat_financing')!='explicit_not_applicable_v1'
+                or account is None or first is None or first['kind']!='price_mark'
+                or item.get('reason')!='pristine_flat_account_before_first_quote'
+                or item.get('debit_usd')!='0' or item.get('account_start_msc')!=account.risk.start_time_msc
+                or first['open_positions']!=0 or first['pending_orders']!=0
+                or Decimal(first['balance'])!=account.execution.starting_balance or Decimal(first['floating_pl'])!=0
+                or not account.risk.start_time_msc<=term.scheduled_time_msc<=first['details']['window_start_msc']
+                or expected.get(term.event_id)!=term or term.event_id in seen or term.event_id in exempt_ids):
+            raise ValueError('invalid pre-quote flat financing exemption')
+        exempt_ids.add(term.event_id)
+    if seen|exempt_ids!=set(expected):
         raise ValueError('prop evaluation omitted calendar cash; post-hoc repair is not allowed')
     if type(active['observed_ticks']) is not int or active['observed_ticks']!=count:
         raise ValueError('prop tick coverage mismatch')
