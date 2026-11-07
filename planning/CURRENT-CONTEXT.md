@@ -2,21 +2,7 @@
 
 ## Research kế thừa — 05/11/2026
 
-**Nhiệm vụ ACTIVE từ08/11:** owner giao tìm ứng viên đủ để đề xuất challenge
-và hậu kiểm toàn quá trình; sửa/rerun phần sai tới khi cả C1/C2 đạt. Criteria
-ở [campaign](research/CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md), recipes frozen
-ở [Discovery4](research/CHALLENGE-DISCOVERY-ROUND4-20261108.md). Trader `791b9a7b`
-thêm8H1recipes trên native execution/risk, giữ8H4 cũ.177Forex tests và62focused
-checks đạt. Bounded correctness đã xong ở private
-`ai-engine-jobs/challenge-discovery4-20261108/execution-v1` trên ổE:8legacy
-native golden cases exact rồi16H1native-vs-coarse cases khớp counts/decisions,
-maxPnLdelta0,42USD. Q1screen8×2costs2,39s: chỉBBreentry dương rõ(+283,74/
-+213,84USD), prior-daybreak gần0(+6,79/−6,16USD); không edge/prop/DD proof.
-Đang chuẩn bị tickQ1 choBB/near-zero/daybreak và negative-controlRSI, rồi
-2023historical screen theo registration mới. Chưa có candidate qualified;
-2025+closed/broker/mua challenge
-không được suy quyền từ research. Sau correctness: Q1consumed screen, đăng ký
-2023historical trước outcome, rồi C1/C2 review; không coi batch pass là goal đạt.
+**Nhiệm vụ ACTIVE08/11:** tìm ứng viên challenge và hậu kiểm C1/C2 theo [campaign](research/CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md). [Discovery4 đã đóng](research/DISCOVERY4-RESULTS-20261108.md):8H1rules, Q1native6scenarios verified,2023/2024 coarse xong; không còn numerical worker. Chỉ London post-fix dương cả hai năm/two costs nhưng weak-year stress+68,22USD/10k, chưa C1qualified. Trader83ffb410 giữ H1/registration guards; source snapshots từng stage nằm ở private challenge-discovery4-20261108/execution-v1 trênE:. [Selection-v2](research/H1-SELECTION-V2-AND-2024-20261108.md) khóa trước2024outcome, không hạ C1. Tiếp [MLDiscovery5](research/ML-DISCOVERY5-20261108.md) bounded với chronological training/shuffled controls; chưa numerical ML outcome.2025+/broker/mua challenge vẫn gate riêng.
 
 **Hậu kiểm sau pilot,07/11:** owner giao đúc kết/tối ưu và duy trì skill.
 [Review mới](research/ENGINEERING-REVIEW-COARSE-20261107.md) ghi Trader `579ff52f`:

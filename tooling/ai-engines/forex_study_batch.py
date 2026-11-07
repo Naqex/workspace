@@ -245,7 +245,7 @@ def progress(output, states, began, total_ticks, deadline):
         cpu_coverage_jobs=len(known_cpu), new_jobs_cpu_seconds=sum(known_cpu) if new_rows and len(known_cpu)==len(new_rows) else None,
         reused_jobs=sum(row['status']=='reused_verified' for row in rows))
     projection_errors = []
-    lines = ['# Nghiên cứu Forex H4', '', f'Cập nhật UTC: {snapshot["updated_at_utc"]}',
+    lines = ['# Nghiên cứu Forex', '', f'Cập nhật UTC: {snapshot["updated_at_utc"]}',
         f'\nTrạng thái: **{status}** · Xong {snapshot["completed_jobs"]}/{len(states)} ứng viên · Đã chạy {elapsed/60:.1f} phút', '',
         '| Ứng viên | Trạng thái | Bước | Tick / scenario |', '|---|---|---|---:|']
     for row in rows:

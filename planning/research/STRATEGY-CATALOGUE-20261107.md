@@ -1,15 +1,16 @@
 # Danh mục nghiên cứu chiến lược — 07/11/2026
 
-36 hồ sơ = 8 rules đã code + 27 ý tưởng/biến thể + 1 thành phần risk. **Không có
+Cập nhật08/11: 36 hồ sơ, trong đó15hồ sơ đã có implementation, tổng16rules
+(8H4+8H1),20ý tưởng/biến thể chưa code và1thành phần risk. **Không có
 nghĩa 36 chiến lược độc lập hoặc đã được kiểm định.** Bản ghi có cấu trúc nằm ở
 [JSON](STRATEGY-CATALOGUE-20261107.json); bảng dưới là bản đọc của cùng dữ liệu,
 không tạo registry/task/approval mới. Quy tắc chính xác nằm trong source và protocol của từng ứng viên.
 
 | Nhóm dữ liệu | Hồ sơ | Ý nghĩa |
 |---|---:|---|
-| Đã code |8|Giữ cả kết quả âm; chưa có winner đủ qualification|
-| Có dữ liệu giá để viết đặc tả |11|Chưa code/rerun; H1/D1 mới vẫn cần adapter và tests|
-| Cần đọc phương pháp và quy ước giờ |5|Fixing/local-hours; không lấy abstract thay recipe|
+| Đã code |15 hồ sơ /16 rules|Giữ cả kết quả âm; chưa có winner đủ qualification|
+| Có dữ liệu giá để viết đặc tả |6|Chưa code/rerun; H1/D1 mới vẫn cần adapter và tests|
+| Cần đọc phương pháp và quy ước giờ |3|Fixing/local-hours; không lấy abstract thay recipe|
 | Cần lịch sử dài, nhiều cặp tiền hoặc dữ liệu cơ bản đúng thời điểm |9|Deferred, không mở thêm dữ liệu trong pilot|
 | Thiếu point-in-time news |2|Deferred, không gọi lịch tin hiện tại là lịch sử chuẩn|
 | Thành phần điều chỉnh rủi ro |1|Không phải lợi thế vào lệnh độc lập|
@@ -34,18 +35,18 @@ xếp hạng khả năng sinh lời từ paper hoặc cộng đồng.
 |R008|UTC range fade|Đảo chiều ở biên; gần R005|Đã có|Đã code (chưa đủ bằng chứng)|LOCAL, NY125|
 |R009|Time-series momentum dài hạn|Xu hướng dài hạn|Ý tưởng mới|Gác: lịch sử, dữ liệu hoặc contract|AQR-TS|
 |R010|TSMOM theo volatility|Xu hướng dài hạn; gần R009|Biến thể|Gác: lịch sử, dữ liệu hoặc contract|AQR-TS|
-|R011|Bollinger re-entry|Hồi về trung bình giá; gần R003|Biến thể|Có giá; còn spec/adapter/tests|TV-BB|
-|R012|RSI contrarian có xác nhận|Hồi về trung bình giá; gần R003|Ý tưởng mới|Có giá; còn spec/adapter/tests|TV-RSI|
-|R013|ATR shock fade|Hồi về trung bình giá; gần R003|Ý tưởng mới|Có giá; còn spec/adapter/tests|NY125|
-|R014|Range midpoint fade|Đảo chiều ở biên; gần R006|Biến thể|Có giá; còn spec/adapter/tests|NY125|
-|R015|Previous-day high/low breakout|Phá biên phiên; gần R001|Biến thể|Có giá; còn spec/adapter/tests|NY125, NY150|
+|R011|Bollinger re-entry|Hồi về trung bình giá; gần R003|Đã có|Đã code (chưa đủ bằng chứng)|TV-BB, LOCAL|
+|R012|RSI contrarian có xác nhận|Hồi về trung bình giá; gần R003|Đã có|Đã code (chưa đủ bằng chứng)|TV-RSI, LOCAL|
+|R013|ATR shock fade|Hồi về trung bình giá; gần R003|Đã có|Đã code (chưa đủ bằng chứng)|NY125, LOCAL|
+|R014|Range midpoint fade|Đảo chiều ở biên; gần R006|Đã có|Đã code (chưa đủ bằng chứng)|NY125, LOCAL|
+|R015|Previous-day high/low breakout|Phá biên phiên; gần R001|Đã có|Đã code (chưa đủ bằng chứng)|NY125, NY150, LOCAL|
 |R016|London opening-range breakout|Phá biên phiên; gần R005|Biến thể|Có giá; còn spec/adapter/tests|NY150|
 |R017|New York opening-range breakout|Phá biên phiên; gần R016|Biến thể|Có giá; còn spec/adapter/tests|NY150|
 |R018|Asia range → London breakout|Phá biên phiên; gần R005|Biến thể|Có giá; còn spec/adapter/tests|NY150|
 |R019|Break → retest prior level|Theo xu hướng / phá biên; gần R015|Biến thể|Có giá; còn spec/adapter/tests|NY125|
 |R020|Fixing reversal có điều kiện|Dòng tiền quanh fixing|Ý tưởng mới|Cần đọc method và clock|BOC48|
-|R021|Pre-fix USD drift|Dòng tiền quanh fixing; gần R020|Biến thể|Cần đọc method và clock|BOC48|
-|R022|Post-fix USD reversal|Dòng tiền quanh fixing; gần R020|Biến thể|Cần đọc method và clock|BOC48|
+|R021|Pre-fix USD drift|Dòng tiền quanh fixing; gần R020|Đã có|Đã code (chưa đủ bằng chứng)|BOC48, LOCAL|
+|R022|Post-fix USD reversal|Dòng tiền quanh fixing; gần R020|Đã có|Đã code (chưa đủ bằng chứng)|BOC48, LOCAL|
 |R023|Local trading-hours currency flow|Dòng tiền theo phiên|Ý tưởng mới|Cần đọc method và clock|SNB04|
 |R024|Post-weekend gap fade|Hồi khoảng trống giá|Ý tưởng mới|Có giá; còn spec/adapter/tests|LOCAL|
 |R025|Weekday/calendar effect|Lịch giao dịch|Ý tưởng mới|Có giá; còn spec/adapter/tests|QC|
@@ -61,19 +62,17 @@ xếp hạng khả năng sinh lời từ paper hoặc cộng đồng.
 |R035|Cointegrated FX spread|So sánh nhiều đồng tiền; gần R034|Ý tưởng mới|Gác: lịch sử, dữ liệu hoặc contract|QC|
 |R036|Volatility targeting / exposure cap|Điều chỉnh rủi ro|Thành phần|Thành phần risk, không edge|AQR-TS, LOCAL|
 
-## Khuyến nghị sau pilot — chưa dispatch
+## Nhánh đã triển khai và bước tiếp
 
-1. Chọn nhóm nhỏ khác cơ chế: R012 (RSI xác nhận), R013 (hồi sau biến động mạnh), R015
-   (prior-day breakout). Trước lượt mô phỏng phải có một recipe/version/frozen
-   protocol và adapter đúng timeframe; đây là workload gợi ý, chưa lệnh test.
-   R012/R013 vẫn cùng họ hồi về trung bình nên không gọi ba hồ sơ là ba edge độc lập.
-2. Đọc phương pháp đầy đủ của R023 (giờ giao dịch địa phương) và R020 (fixing) song song về nội dung,
-   rồi chọn tối đa một câu hỏi có data/clock đủ; không tự mở dữ liệu chi tiết hơn/holdout.
-3. R011 gần Z-score, các ORB gần UTC range: giữ catalogue để tra lại, chưa nhân
-   hàng loạt parameter/biến thể về giờ. R009/10/27–35 deferred đúng data gap.
-4. Tầng nhanh chỉ đặt ưu tiên kiểm sâu bằng tick; không reject cả family bằng PnL H1.
-   Giữ sample kiểm chéo của bản định gác theo protocol riêng trước outcome.
-   Không lấy dữ liệu Q1 đã dùng làm dữ liệu ngoài mẫu chưa từng xem hoặc ngưỡng lời làm bằng chứng edge.
+[Discovery4](CHALLENGE-DISCOVERY-ROUND4-20261108.md) đã code8H1rules từ các hồ
+sơR004/11/12/13/14/15/21/22. Giữ cả H4 và H1 version trong JSON, không xem
+hai timeframe là hai edge độc lập. [Kết quả](DISCOVERY4-RESULTS-20261108.md) và
+[selection-v2](H1-SELECTION-V2-AND-2024-20261108.md) giữ decisions/protocol.
+Không khởi động lại các hồ sơ đã implemented từ phần đề xuất cũ.
+
+R023 vàR020 còn cần method/data phù hợp; các ORB vẫn gần UTC range. Các nhóm
+long-horizon/multi-symbol/PITnews giữ deferred. Catalogue là kho tra cứu, không
+automatic dispatch hoặc quyền mở dữ liệu holdout/broker.
 
 ## Nguồn và giới hạn
 

@@ -6971,3 +6971,7 @@ Maintainer audit0errors/0warnings; global12.279B, project10.133/65.536B,
 reserve55.403B, combined22.412B,21skills. Positive case thực thi lượt này và
 negative status-only walkthrough đã ghi; chưa model-independent routing test
 hoặc publish native Paperclip/Hermes package. Không đổi global config/hooks.
+
+## 08/11 — Discovery4 completed, C1/C2 vẫn ACTIVE
+
+[Report](../../research/DISCOVERY4-RESULTS-20261108.md) giữ Q1native6verified scenarios,2023/2024coarse negatives và thời gian. London only annual survivor nhưng weak stress68,22USD/10k chưa challenge.2024source17files đã verify hashes/copy snapshot trước edits tiếp. [Selection-v2](../../research/H1-SELECTION-V2-AND-2024-20261108.md) froze before2024outcome.177Forex+62focused checks trước run,21registry/coarse tests17subtests sau registrations. Trader83ffb410; không active numerical writer. Isolated ML dependency pinned official wheels/hash-only, SciPy license text BSD3 và cloudpickle BSD3; không product/global deps. [Discovery5](../../research/ML-DISCOVERY5-20261108.md) khóa design trước outcome, chưa train model.2025+closed; zero broker/model calls.

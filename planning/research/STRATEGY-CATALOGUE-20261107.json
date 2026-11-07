@@ -11,16 +11,16 @@
   ],
   "counts": {
     "by_role": {
-      "existing": 8,
-      "new": 13,
-      "variant": 14,
+      "existing": 15,
+      "new": 11,
+      "variant": 9,
       "component": 1
     },
     "by_readiness": {
-      "implemented": 8,
+      "implemented": 15,
       "long_history_or_multi_data": 9,
-      "price_data_spec_possible": 11,
-      "method_clock_review": 5,
+      "price_data_spec_possible": 6,
+      "method_clock_review": 3,
       "point_in_time_news_missing": 2,
       "component_only": 1
     }
@@ -166,7 +166,10 @@
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h4-donchian20-10-atr14-r025-v1",
       "profitability_evidence": "see_prior_results_not_a_current_winner",
-      "dispatch_authorized": false
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h4-donchian20-10-atr14-r025-v1"
+      ]
     },
     {
       "id": "R002",
@@ -189,7 +192,10 @@
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h4-sma20-80-atr14-r025-v1",
       "profitability_evidence": "see_prior_results_not_a_current_winner",
-      "dispatch_authorized": false
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h4-sma20-80-atr14-r025-v1"
+      ]
     },
     {
       "id": "R003",
@@ -212,7 +218,10 @@
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h4-z20-2-atr14-time6-r025-v1",
       "profitability_evidence": "see_prior_results_not_a_current_winner",
-      "dispatch_authorized": false
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h4-z20-2-atr14-time6-r025-v1"
+      ]
     },
     {
       "id": "R004",
@@ -230,11 +239,18 @@
         "LOCAL"
       ],
       "source_relation": "exact_local_rule",
-      "next_action": "Giữ kết quả/version; không coi thêm một edge độc lập.",
+      "next_action": "Use frozen Discovery4 rules and selection-v2; do not reimplement or retune this version.",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h4-pullback20-80-atr14-r025-v1",
-      "profitability_evidence": "see_prior_results_not_a_current_winner",
-      "dispatch_authorized": false
+      "profitability_evidence": "Discovery4_Q1_native_controls_and_2023_coarse_not_qualification",
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h4-pullback20-80-atr14-r025-v1",
+        "eurusd-h1-pullback20-80-atr14x1p5-time24-r025-v1"
+      ],
+      "catalogue_origin_role": "existing",
+      "implementation_updated_on": "2026-11-08",
+      "evidence_locator": "DISCOVERY4-RESULTS-20261108.md"
     },
     {
       "id": "R005",
@@ -257,7 +273,10 @@
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h4-utc-range00-08-atr14-r025-v1",
       "profitability_evidence": "see_prior_results_not_a_current_winner",
-      "dispatch_authorized": false
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h4-utc-range00-08-atr14-r025-v1"
+      ]
     },
     {
       "id": "R006",
@@ -280,7 +299,10 @@
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h4-failed20-atr14-time6-r025-v1",
       "profitability_evidence": "see_prior_results_not_a_current_winner",
-      "dispatch_authorized": false
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h4-failed20-atr14-time6-r025-v1"
+      ]
     },
     {
       "id": "R007",
@@ -303,7 +325,10 @@
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h4-compression6-24-atr14-time6-r025-v1",
       "profitability_evidence": "see_prior_results_not_a_current_winner",
-      "dispatch_authorized": false
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h4-compression6-24-atr14-time6-r025-v1"
+      ]
     },
     {
       "id": "R008",
@@ -326,7 +351,10 @@
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h4-utc-range-fade-atr14-r025-v1",
       "profitability_evidence": "see_prior_results_not_a_current_winner",
-      "dispatch_authorized": false
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h4-utc-range-fade-atr14-r025-v1"
+      ]
     },
     {
       "id": "R009",
@@ -348,7 +376,8 @@
       "implementation_state": "not_implemented",
       "candidate_id": null,
       "profitability_evidence": "none_for_this_exact_rule",
-      "dispatch_authorized": false
+      "dispatch_authorized": false,
+      "implementations": []
     },
     {
       "id": "R010",
@@ -370,103 +399,132 @@
       "implementation_state": "not_implemented",
       "candidate_id": null,
       "profitability_evidence": "none_for_this_exact_rule",
-      "dispatch_authorized": false
+      "dispatch_authorized": false,
+      "implementations": []
     },
     {
       "id": "R011",
       "title": "Bollinger re-entry",
       "family": "price_reversion",
-      "role": "variant",
+      "role": "existing",
       "parent_id": "R003",
-      "readiness": "price_data_spec_possible",
+      "readiness": "implemented",
       "timeframe": "H4",
       "rule_sketch": "Sau excursion, nến đóng trở lại band mới vào; exit/SL chưa freeze.",
       "data_requirements": "H4 từ rawconsumed; definition SMA/std cần pin",
       "automation_feasibility": "deterministic_after_spec_and_tests",
       "prop_operational_concerns": "Gần Z-score; thay entry/exit không là edge độc lập.",
       "source_ids": [
-        "TV-BB"
+        "TV-BB",
+        "LOCAL"
       ],
       "source_relation": "indicator_definition; project_hypothesis",
-      "next_action": "Ưu tiên spec nhóm nhỏ; chưa code hoặc testPnL.",
-      "implementation_state": "not_implemented",
-      "candidate_id": null,
-      "profitability_evidence": "none_for_this_exact_rule",
-      "dispatch_authorized": false
+      "next_action": "Use frozen Discovery4 rules and selection-v2; do not reimplement or retune this version.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h1-bb20-reentry-atr14x1p5-time12-r025-v1",
+      "profitability_evidence": "Discovery4_Q1_native_controls_and_2023_coarse_not_qualification",
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h1-bb20-reentry-atr14x1p5-time12-r025-v1"
+      ],
+      "catalogue_origin_role": "variant",
+      "implementation_updated_on": "2026-11-08",
+      "evidence_locator": "DISCOVERY4-RESULTS-20261108.md"
     },
     {
       "id": "R012",
       "title": "RSI contrarian có xác nhận",
       "family": "price_reversion",
-      "role": "new",
+      "role": "existing",
       "parent_id": "R003",
-      "readiness": "price_data_spec_possible",
+      "readiness": "implemented",
       "timeframe": "H4",
       "rule_sketch": "RSI quay khỏi cực trị mới vào; exit/SL/time chưa freeze.",
       "data_requirements": "H4; Wilder smoothing/prefix tests",
       "automation_feasibility": "deterministic_after_spec_and_tests",
       "prop_operational_concerns": "Trend mạnh có thể tiếp tục lỗ; threshold chưa được nguồn chứng minh.",
       "source_ids": [
-        "TV-RSI"
+        "TV-RSI",
+        "LOCAL"
       ],
       "source_relation": "indicator_definition; project_hypothesis",
-      "next_action": "Cân nhắc nhóm đầu, không grid RSIperiod/threshold.",
-      "implementation_state": "not_implemented",
-      "candidate_id": null,
-      "profitability_evidence": "none_for_this_exact_rule",
-      "dispatch_authorized": false
+      "next_action": "Use frozen Discovery4 rules and selection-v2; do not reimplement or retune this version.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h1-rsi14-reentry-atr14x1p5-time12-r025-v1",
+      "profitability_evidence": "Discovery4_Q1_native_controls_and_2023_coarse_not_qualification",
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h1-rsi14-reentry-atr14x1p5-time12-r025-v1"
+      ],
+      "catalogue_origin_role": "new",
+      "implementation_updated_on": "2026-11-08",
+      "evidence_locator": "DISCOVERY4-RESULTS-20261108.md"
     },
     {
       "id": "R013",
       "title": "ATR shock fade",
       "family": "price_reversion",
-      "role": "new",
+      "role": "existing",
       "parent_id": "R003",
-      "readiness": "price_data_spec_possible",
+      "readiness": "implemented",
       "timeframe": "H4",
       "rule_sketch": "Sau bar shock so ATR trước đó, chờ dấu hồi mới fade.",
       "data_requirements": "H4; causalATR; spread/gap flags",
       "automation_feasibility": "deterministic_after_spec_and_tests",
       "prop_operational_concerns": "Tin mạnh/gap có thể phá meanreversion; không có surprise data.",
       "source_ids": [
-        "NY125"
+        "NY125",
+        "LOCAL"
       ],
       "source_relation": "loose_mechanism_context; project_hypothesis",
-      "next_action": "Ứng viên spec đa dạng; không gọi shock là newsverified.",
-      "implementation_state": "not_implemented",
-      "candidate_id": null,
-      "profitability_evidence": "none_for_this_exact_rule",
-      "dispatch_authorized": false
+      "next_action": "Use frozen Discovery4 rules and selection-v2; do not reimplement or retune this version.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h1-shock2-reclaim-atr14x1p5-time12-r025-v1",
+      "profitability_evidence": "Discovery4_Q1_native_controls_and_2023_coarse_not_qualification",
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h1-shock2-reclaim-atr14x1p5-time12-r025-v1"
+      ],
+      "catalogue_origin_role": "new",
+      "implementation_updated_on": "2026-11-08",
+      "evidence_locator": "DISCOVERY4-RESULTS-20261108.md"
     },
     {
       "id": "R014",
       "title": "Range midpoint fade",
       "family": "level_reversion",
-      "role": "variant",
+      "role": "existing",
       "parent_id": "R006",
-      "readiness": "price_data_spec_possible",
+      "readiness": "implemented",
       "timeframe": "H4",
       "rule_sketch": "Từ biên range đã đóng quay về midpoint; stop/time riêng.",
       "data_requirements": "H4; priorrange không chứa signalbar",
       "automation_feasibility": "deterministic_after_spec_and_tests",
       "prop_operational_concerns": "Overlap Failed20/Z-score; cần tách điều kiện phá giả.",
       "source_ids": [
-        "NY125"
+        "NY125",
+        "LOCAL"
       ],
       "source_relation": "mechanism_only; project_hypothesis",
-      "next_action": "Để sau bản reversion khác cơ chế; không nhân variants.",
-      "implementation_state": "not_implemented",
-      "candidate_id": null,
-      "profitability_evidence": "none_for_this_exact_rule",
-      "dispatch_authorized": false
+      "next_action": "Use frozen Discovery4 rules and selection-v2; do not reimplement or retune this version.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h1-prior-day-fade-atr14x1p5-close20-r025-v1",
+      "profitability_evidence": "Discovery4_Q1_native_controls_and_2023_coarse_not_qualification",
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h1-prior-day-fade-atr14x1p5-close20-r025-v1"
+      ],
+      "catalogue_origin_role": "variant",
+      "implementation_updated_on": "2026-11-08",
+      "evidence_locator": "DISCOVERY4-RESULTS-20261108.md"
     },
     {
       "id": "R015",
       "title": "Previous-day high/low breakout",
       "family": "session_breakout",
-      "role": "variant",
+      "role": "existing",
       "parent_id": "R001",
-      "readiness": "price_data_spec_possible",
+      "readiness": "implemented",
       "timeframe": "H1/D1",
       "rule_sketch": "CloseH1 vượt biên ngàyUTC trước, fill quote sau.",
       "data_requirements": "H1; D1UTC complete/missingday policy",
@@ -474,14 +532,21 @@
       "prop_operational_concerns": "Overnight/rollover và news; không chứng minh chỉ đổi clock là tốt.",
       "source_ids": [
         "NY125",
-        "NY150"
+        "NY150",
+        "LOCAL"
       ],
       "source_relation": "mechanism_only; project_hypothesis",
-      "next_action": "Ưu tiên spec vì reuse input; cần H1candidate contract.",
-      "implementation_state": "not_implemented",
-      "candidate_id": null,
-      "profitability_evidence": "none_for_this_exact_rule",
-      "dispatch_authorized": false
+      "next_action": "Use frozen Discovery4 rules and selection-v2; do not reimplement or retune this version.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h1-prior-day-break-atr14x1p5-close20-r025-v1",
+      "profitability_evidence": "Discovery4_Q1_native_controls_and_2023_coarse_not_qualification",
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h1-prior-day-break-atr14x1p5-close20-r025-v1"
+      ],
+      "catalogue_origin_role": "variant",
+      "implementation_updated_on": "2026-11-08",
+      "evidence_locator": "DISCOVERY4-RESULTS-20261108.md"
     },
     {
       "id": "R016",
@@ -503,7 +568,8 @@
       "implementation_state": "not_implemented",
       "candidate_id": null,
       "profitability_evidence": "none_for_this_exact_rule",
-      "dispatch_authorized": false
+      "dispatch_authorized": false,
+      "implementations": []
     },
     {
       "id": "R017",
@@ -525,7 +591,8 @@
       "implementation_state": "not_implemented",
       "candidate_id": null,
       "profitability_evidence": "none_for_this_exact_rule",
-      "dispatch_authorized": false
+      "dispatch_authorized": false,
+      "implementations": []
     },
     {
       "id": "R018",
@@ -547,7 +614,8 @@
       "implementation_state": "not_implemented",
       "candidate_id": null,
       "profitability_evidence": "none_for_this_exact_rule",
-      "dispatch_authorized": false
+      "dispatch_authorized": false,
+      "implementations": []
     },
     {
       "id": "R019",
@@ -569,7 +637,8 @@
       "implementation_state": "not_implemented",
       "candidate_id": null,
       "profitability_evidence": "none_for_this_exact_rule",
-      "dispatch_authorized": false
+      "dispatch_authorized": false,
+      "implementations": []
     },
     {
       "id": "R020",
@@ -591,51 +660,66 @@
       "implementation_state": "not_implemented",
       "candidate_id": null,
       "profitability_evidence": "none_for_this_exact_rule",
-      "dispatch_authorized": false
+      "dispatch_authorized": false,
+      "implementations": []
     },
     {
       "id": "R021",
       "title": "Pre-fix USD drift",
       "family": "fixing_flow",
-      "role": "variant",
+      "role": "existing",
       "parent_id": "R020",
-      "readiness": "method_clock_review",
+      "readiness": "implemented",
       "timeframe": "Intraday",
       "rule_sketch": "Trade drift trước fixing; giờ/horizon theo methodreview.",
       "data_requirements": "NhưR020; USDbase/quote sign mapping",
       "automation_feasibility": "deterministic_after_spec_and_tests",
       "prop_operational_concerns": "Không dùng kết quảpostfix để chọn hướngprefix; phí có thể ăn edge.",
       "source_ids": [
-        "BOC48"
+        "BOC48",
+        "LOCAL"
       ],
-      "source_relation": "published_mechanism; recipe_not_frozen",
-      "next_action": "Nhánh cùng familyR020, không đếm edge riêng.",
-      "implementation_state": "not_implemented",
-      "candidate_id": null,
-      "profitability_evidence": "none_for_this_exact_rule",
-      "dispatch_authorized": false
+      "source_relation": "published_mechanism; project_H1_clock_hypothesis_not_exact_replication",
+      "next_action": "Use frozen Discovery4 rules and selection-v2; do not reimplement or retune this version.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h1-europe-am-short-atr14x1p5-close13-r025-v1",
+      "profitability_evidence": "Discovery4_Q1_native_controls_and_2023_coarse_not_qualification",
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h1-europe-am-short-atr14x1p5-close13-r025-v1"
+      ],
+      "catalogue_origin_role": "variant",
+      "implementation_updated_on": "2026-11-08",
+      "evidence_locator": "DISCOVERY4-RESULTS-20261108.md"
     },
     {
       "id": "R022",
       "title": "Post-fix USD reversal",
       "family": "fixing_flow",
-      "role": "variant",
+      "role": "existing",
       "parent_id": "R020",
-      "readiness": "method_clock_review",
+      "readiness": "implemented",
       "timeframe": "Intraday",
       "rule_sketch": "Hướng saufix; no peek drift/outcome trong decision.",
       "data_requirements": "NhưR020; timestamppublication",
       "automation_feasibility": "deterministic_after_spec_and_tests",
       "prop_operational_concerns": "Narrowwindow có thể H1không đủ; không nâng resolution tùy ý.",
       "source_ids": [
-        "BOC48"
+        "BOC48",
+        "LOCAL"
       ],
-      "source_relation": "published_mechanism; recipe_not_frozen",
-      "next_action": "Khóa method/clock/data trước chọn một variant.",
-      "implementation_state": "not_implemented",
-      "candidate_id": null,
-      "profitability_evidence": "none_for_this_exact_rule",
-      "dispatch_authorized": false
+      "source_relation": "published_mechanism; project_H1_clock_hypothesis_not_exact_replication",
+      "next_action": "Use frozen Discovery4 rules and selection-v2; do not reimplement or retune this version.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h1-london-postfix16-20-atr14x1p5-r025-v1",
+      "profitability_evidence": "Discovery4_Q1_native_controls_and_2023_coarse_not_qualification",
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h1-london-postfix16-20-atr14x1p5-r025-v1"
+      ],
+      "catalogue_origin_role": "variant",
+      "implementation_updated_on": "2026-11-08",
+      "evidence_locator": "DISCOVERY4-RESULTS-20261108.md"
     },
     {
       "id": "R023",
@@ -657,7 +741,8 @@
       "implementation_state": "not_implemented",
       "candidate_id": null,
       "profitability_evidence": "none_for_this_exact_rule",
-      "dispatch_authorized": false
+      "dispatch_authorized": false,
+      "implementations": []
     },
     {
       "id": "R024",
@@ -679,7 +764,8 @@
       "implementation_state": "not_implemented",
       "candidate_id": null,
       "profitability_evidence": "none_for_this_exact_rule",
-      "dispatch_authorized": false
+      "dispatch_authorized": false,
+      "implementations": []
     },
     {
       "id": "R025",
@@ -701,7 +787,8 @@
       "implementation_state": "not_implemented",
       "candidate_id": null,
       "profitability_evidence": "none_for_this_exact_rule",
-      "dispatch_authorized": false
+      "dispatch_authorized": false,
+      "implementations": []
     },
     {
       "id": "R026",
@@ -723,7 +810,8 @@
       "implementation_state": "not_implemented",
       "candidate_id": null,
       "profitability_evidence": "none_for_this_exact_rule",
-      "dispatch_authorized": false
+      "dispatch_authorized": false,
+      "implementations": []
     },
     {
       "id": "R027",
@@ -745,7 +833,8 @@
       "implementation_state": "not_implemented",
       "candidate_id": null,
       "profitability_evidence": "none_for_this_exact_rule",
-      "dispatch_authorized": false
+      "dispatch_authorized": false,
+      "implementations": []
     },
     {
       "id": "R028",
@@ -767,7 +856,8 @@
       "implementation_state": "not_implemented",
       "candidate_id": null,
       "profitability_evidence": "none_for_this_exact_rule",
-      "dispatch_authorized": false
+      "dispatch_authorized": false,
+      "implementations": []
     },
     {
       "id": "R029",
@@ -789,7 +879,8 @@
       "implementation_state": "not_implemented",
       "candidate_id": null,
       "profitability_evidence": "none_for_this_exact_rule",
-      "dispatch_authorized": false
+      "dispatch_authorized": false,
+      "implementations": []
     },
     {
       "id": "R030",
@@ -812,7 +903,8 @@
       "implementation_state": "not_implemented",
       "candidate_id": null,
       "profitability_evidence": "none_for_this_exact_rule",
-      "dispatch_authorized": false
+      "dispatch_authorized": false,
+      "implementations": []
     },
     {
       "id": "R031",
@@ -834,7 +926,8 @@
       "implementation_state": "not_implemented",
       "candidate_id": null,
       "profitability_evidence": "none_for_this_exact_rule",
-      "dispatch_authorized": false
+      "dispatch_authorized": false,
+      "implementations": []
     },
     {
       "id": "R032",
@@ -856,7 +949,8 @@
       "implementation_state": "not_implemented",
       "candidate_id": null,
       "profitability_evidence": "none_for_this_exact_rule",
-      "dispatch_authorized": false
+      "dispatch_authorized": false,
+      "implementations": []
     },
     {
       "id": "R033",
@@ -878,7 +972,8 @@
       "implementation_state": "not_implemented",
       "candidate_id": null,
       "profitability_evidence": "none_for_this_exact_rule",
-      "dispatch_authorized": false
+      "dispatch_authorized": false,
+      "implementations": []
     },
     {
       "id": "R034",
@@ -900,7 +995,8 @@
       "implementation_state": "not_implemented",
       "candidate_id": null,
       "profitability_evidence": "none_for_this_exact_rule",
-      "dispatch_authorized": false
+      "dispatch_authorized": false,
+      "implementations": []
     },
     {
       "id": "R035",
@@ -922,7 +1018,8 @@
       "implementation_state": "not_implemented",
       "candidate_id": null,
       "profitability_evidence": "none_for_this_exact_rule",
-      "dispatch_authorized": false
+      "dispatch_authorized": false,
+      "implementations": []
     },
     {
       "id": "R036",
@@ -945,10 +1042,14 @@
       "implementation_state": "not_implemented",
       "candidate_id": null,
       "profitability_evidence": "none_for_this_exact_rule",
-      "dispatch_authorized": false
+      "dispatch_authorized": false,
+      "implementations": []
     }
   ],
   "automatic_dispatch": false,
   "automatic_rejection": false,
-  "holdout_opened": false
+  "holdout_opened": false,
+  "updated_on": "2026-11-08",
+  "implemented_record_count": 15,
+  "implemented_rule_count": 16
 }
