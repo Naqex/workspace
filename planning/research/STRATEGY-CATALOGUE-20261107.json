@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-07",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 36,
+  "record_count": 41,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -11,15 +11,15 @@
   ],
   "counts": {
     "by_role": {
-      "existing": 15,
+      "existing": 23,
       "new": 11,
-      "variant": 9,
+      "variant": 6,
       "component": 1
     },
     "by_readiness": {
-      "implemented": 15,
+      "implemented": 23,
       "long_history_or_multi_data": 9,
-      "price_data_spec_possible": 6,
+      "price_data_spec_possible": 3,
       "method_clock_review": 3,
       "point_in_time_news_missing": 2,
       "component_only": 1
@@ -142,6 +142,14 @@
       "review_depth": "local_source_and_protocol",
       "limitations": "Exact implemented rules/history; published literature is mechanism context only.",
       "checked_on": "2026-11-07"
+    },
+    {
+      "id": "SKLEARN",
+      "title": "Scikit-learn preprocessing and time-series validation",
+      "url": "https://scikit-learn.org/stable/common_pitfalls.html",
+      "checked_on": "2026-11-08",
+      "review_depth": "official_documentation",
+      "limitations": "Method only, not forex profitability evidence"
     }
   ],
   "records": [
@@ -419,17 +427,18 @@
         "LOCAL"
       ],
       "source_relation": "indicator_definition; project_hypothesis",
-      "next_action": "Use frozen Discovery4 rules and selection-v2; do not reimplement or retune this version.",
+      "next_action": "Read completed outcomes; only registered native survivor review is active; no auto dispatch.",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h1-bb20-reentry-atr14x1p5-time12-r025-v1",
-      "profitability_evidence": "Discovery4_Q1_native_controls_and_2023_coarse_not_qualification",
+      "profitability_evidence": "exposed_annual_coarse_not_qualification",
       "dispatch_authorized": false,
       "implementations": [
-        "eurusd-h1-bb20-reentry-atr14x1p5-time12-r025-v1"
+        "eurusd-h1-bb20-reentry-atr14x1p5-time12-r025-v1",
+        "eurusd-h1-bb20-reentry-flat80-atr14x1p5-time12-r025-v1"
       ],
       "catalogue_origin_role": "variant",
       "implementation_updated_on": "2026-11-08",
-      "evidence_locator": "DISCOVERY4-RESULTS-20261108.md"
+      "evidence_locator": "DISCOVERY6-7-RESULTS-20261108.md"
     },
     {
       "id": "R012",
@@ -552,9 +561,9 @@
       "id": "R016",
       "title": "London opening-range breakout",
       "family": "session_breakout",
-      "role": "variant",
+      "role": "existing",
       "parent_id": "R005",
-      "readiness": "price_data_spec_possible",
+      "readiness": "implemented",
       "timeframe": "H1/localclock",
       "rule_sketch": "Dựng range mở phiênLondon đã đóng; break sau range.",
       "data_requirements": "H1; Europe/London/DST; ngày nghỉ",
@@ -564,20 +573,25 @@
         "NY150"
       ],
       "source_relation": "breakout_context_only; project_hypothesis",
-      "next_action": "Pin giờ/calendar trước; không test nhiều range lengths.",
-      "implementation_state": "not_implemented",
-      "candidate_id": null,
-      "profitability_evidence": "none_for_this_exact_rule",
+      "next_action": "Read completed outcomes; only registered native survivor review is active; no auto dispatch.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h1-london-orb08-09-atr14x1p5-r025-v1",
+      "profitability_evidence": "exposed_annual_coarse_not_qualification",
       "dispatch_authorized": false,
-      "implementations": []
+      "implementations": [
+        "eurusd-h1-london-orb08-09-atr14x1p5-r025-v1"
+      ],
+      "catalogue_origin_role": "variant",
+      "implementation_updated_on": "2026-11-08",
+      "evidence_locator": "DISCOVERY6-7-RESULTS-20261108.md"
     },
     {
       "id": "R017",
       "title": "New York opening-range breakout",
       "family": "session_breakout",
-      "role": "variant",
+      "role": "existing",
       "parent_id": "R016",
-      "readiness": "price_data_spec_possible",
+      "readiness": "implemented",
       "timeframe": "H1/localclock",
       "rule_sketch": "Range đầuNewYork rồi breakout với rules cố định.",
       "data_requirements": "H1; America/New_York/DST, overlapLondon",
@@ -587,20 +601,25 @@
         "NY150"
       ],
       "source_relation": "breakout_context_only; project_hypothesis",
-      "next_action": "Để sau baselineORB; đăng ký variant riêng nếu chọn.",
-      "implementation_state": "not_implemented",
-      "candidate_id": null,
-      "profitability_evidence": "none_for_this_exact_rule",
+      "next_action": "Read completed outcomes; only registered native survivor review is active; no auto dispatch.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h1-ny-orb08-09-atr14x1p5-r025-v1",
+      "profitability_evidence": "exposed_annual_coarse_not_qualification",
       "dispatch_authorized": false,
-      "implementations": []
+      "implementations": [
+        "eurusd-h1-ny-orb08-09-atr14x1p5-r025-v1"
+      ],
+      "catalogue_origin_role": "variant",
+      "implementation_updated_on": "2026-11-08",
+      "evidence_locator": "DISCOVERY6-7-RESULTS-20261108.md"
     },
     {
       "id": "R018",
       "title": "Asia range → London breakout",
       "family": "session_breakout",
-      "role": "variant",
+      "role": "existing",
       "parent_id": "R005",
-      "readiness": "price_data_spec_possible",
+      "readiness": "implemented",
       "timeframe": "H1/localclock",
       "rule_sketch": "BiênAsia đóng trước London, breakout theo clockDST.",
       "data_requirements": "H1; exactAsia definition/Londonclock",
@@ -610,12 +629,17 @@
         "NY150"
       ],
       "source_relation": "breakout_context_only; project_hypothesis",
-      "next_action": "Chốt một clock; không chạy song song mọi giờ.",
-      "implementation_state": "not_implemented",
-      "candidate_id": null,
-      "profitability_evidence": "none_for_this_exact_rule",
+      "next_action": "Read completed outcomes; only registered native survivor review is active; no auto dispatch.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h1-asia09-15tokyo-london-break-atr14x1p5-r025-v1",
+      "profitability_evidence": "exposed_annual_coarse_not_qualification",
       "dispatch_authorized": false,
-      "implementations": []
+      "implementations": [
+        "eurusd-h1-asia09-15tokyo-london-break-atr14x1p5-r025-v1"
+      ],
+      "catalogue_origin_role": "variant",
+      "implementation_updated_on": "2026-11-08",
+      "evidence_locator": "DISCOVERY6-7-RESULTS-20261108.md"
     },
     {
       "id": "R019",
@@ -680,17 +704,19 @@
         "LOCAL"
       ],
       "source_relation": "published_mechanism; project_H1_clock_hypothesis_not_exact_replication",
-      "next_action": "Use frozen Discovery4 rules and selection-v2; do not reimplement or retune this version.",
+      "next_action": "Read completed outcomes; only registered native survivor review is active; no auto dispatch.",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h1-europe-am-short-atr14x1p5-close13-r025-v1",
-      "profitability_evidence": "Discovery4_Q1_native_controls_and_2023_coarse_not_qualification",
+      "profitability_evidence": "exposed_annual_coarse_not_qualification",
       "dispatch_authorized": false,
       "implementations": [
-        "eurusd-h1-europe-am-short-atr14x1p5-close13-r025-v1"
+        "eurusd-h1-europe-am-short-atr14x1p5-close13-r025-v1",
+        "eurusd-h1-pre-ecb02ny-14berlin-atr14x1p5-r025-v1",
+        "eurusd-h1-pre-tokyo18ny-10tokyo-atr14x1p5-r025-v1"
       ],
       "catalogue_origin_role": "variant",
       "implementation_updated_on": "2026-11-08",
-      "evidence_locator": "DISCOVERY4-RESULTS-20261108.md"
+      "evidence_locator": "DISCOVERY6-7-RESULTS-20261108.md"
     },
     {
       "id": "R022",
@@ -709,17 +735,18 @@
         "LOCAL"
       ],
       "source_relation": "published_mechanism; project_H1_clock_hypothesis_not_exact_replication",
-      "next_action": "Use frozen Discovery4 rules and selection-v2; do not reimplement or retune this version.",
+      "next_action": "Read completed outcomes; only registered native survivor review is active; no auto dispatch.",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h1-london-postfix16-20-atr14x1p5-r025-v1",
-      "profitability_evidence": "Discovery4_Q1_native_controls_and_2023_coarse_not_qualification",
+      "profitability_evidence": "exposed_annual_coarse_not_qualification",
       "dispatch_authorized": false,
       "implementations": [
-        "eurusd-h1-london-postfix16-20-atr14x1p5-r025-v1"
+        "eurusd-h1-london-postfix16-20-atr14x1p5-r025-v1",
+        "eurusd-h1-post-london16-16ny-atr14x1p5-r025-v1"
       ],
       "catalogue_origin_role": "variant",
       "implementation_updated_on": "2026-11-08",
-      "evidence_locator": "DISCOVERY4-RESULTS-20261108.md"
+      "evidence_locator": "DISCOVERY6-7-RESULTS-20261108.md"
     },
     {
       "id": "R023",
@@ -1044,12 +1071,165 @@
       "profitability_evidence": "none_for_this_exact_rule",
       "dispatch_authorized": false,
       "implementations": []
+    },
+    {
+      "id": "R037",
+      "title": "Fixing composite3slots",
+      "family": "fixing_flow",
+      "role": "existing",
+      "catalogue_origin_role": "variant",
+      "parent_id": "R022",
+      "readiness": "implemented",
+      "timeframe": "H1",
+      "rule_sketch": "Exact frozen protocol, no tuning after outcome",
+      "data_requirements": "source-bound observed H1 and consumed2023/2024",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Not challenge-qualified, no broker permission",
+      "source_ids": [
+        "BOC48"
+      ],
+      "source_relation": "mechanism_or_method_only_not_edge",
+      "next_action": "Retain negative/control outcomes; no promotion",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h1-fixing-composite-atr14x1p5-r025-v1",
+      "implementations": [
+        "eurusd-h1-fixing-composite-atr14x1p5-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "exposed_coarse_no_qualification",
+      "dispatch_authorized": false,
+      "control": false,
+      "evidence_locator": "DISCOVERY6-7-RESULTS-20261108.md",
+      "execution_capability": "native_offline"
+    },
+    {
+      "id": "R038",
+      "title": "Ridge4Hreturn policy",
+      "family": "trained_return",
+      "role": "existing",
+      "catalogue_origin_role": "new",
+      "parent_id": null,
+      "readiness": "implemented",
+      "timeframe": "H1",
+      "rule_sketch": "Exact frozen protocol, no tuning after outcome",
+      "data_requirements": "source-bound observed H1 and consumed2023/2024",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Not challenge-qualified, no broker permission",
+      "source_ids": [
+        "SKLEARN"
+      ],
+      "source_relation": "mechanism_or_method_only_not_edge",
+      "next_action": "Retain negative/control outcomes; no promotion",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h1-ml-ridge-tr14x1p5-time4-r025-v1",
+      "implementations": [
+        "eurusd-h1-ml-ridge-tr14x1p5-time4-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "exposed_coarse_no_qualification",
+      "dispatch_authorized": false,
+      "control": false,
+      "evidence_locator": "DISCOVERY5-RESULTS-20261108.md",
+      "execution_capability": "coarse_only_no_native_broker"
+    },
+    {
+      "id": "R039",
+      "title": "Random forest4Hreturn policy",
+      "family": "trained_return",
+      "role": "existing",
+      "catalogue_origin_role": "variant",
+      "parent_id": "R038",
+      "readiness": "implemented",
+      "timeframe": "H1",
+      "rule_sketch": "Exact frozen protocol, no tuning after outcome",
+      "data_requirements": "source-bound observed H1 and consumed2023/2024",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Not challenge-qualified, no broker permission",
+      "source_ids": [
+        "SKLEARN"
+      ],
+      "source_relation": "mechanism_or_method_only_not_edge",
+      "next_action": "Retain negative/control outcomes; no promotion",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h1-ml-forest-tr14x1p5-time4-r025-v1",
+      "implementations": [
+        "eurusd-h1-ml-forest-tr14x1p5-time4-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "exposed_coarse_no_qualification",
+      "dispatch_authorized": false,
+      "control": false,
+      "evidence_locator": "DISCOVERY5-RESULTS-20261108.md",
+      "execution_capability": "coarse_only_no_native_broker"
+    },
+    {
+      "id": "R040",
+      "title": "Ridge shuffled-label control",
+      "family": "falsification",
+      "role": "existing",
+      "catalogue_origin_role": "variant",
+      "parent_id": "R038",
+      "readiness": "implemented",
+      "timeframe": "H1",
+      "rule_sketch": "Exact frozen protocol, no tuning after outcome",
+      "data_requirements": "source-bound observed H1 and consumed2023/2024",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Not challenge-qualified, no broker permission",
+      "source_ids": [
+        "SKLEARN"
+      ],
+      "source_relation": "mechanism_or_method_only_not_edge",
+      "next_action": "Retain negative/control outcomes; no promotion",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h1-ml-ridge-shuffled-tr14x1p5-time4-r025-v1",
+      "implementations": [
+        "eurusd-h1-ml-ridge-shuffled-tr14x1p5-time4-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "exposed_coarse_no_qualification",
+      "dispatch_authorized": false,
+      "control": true,
+      "evidence_locator": "DISCOVERY5-RESULTS-20261108.md",
+      "execution_capability": "coarse_only_no_native_broker"
+    },
+    {
+      "id": "R041",
+      "title": "Forest shuffled-label control",
+      "family": "falsification",
+      "role": "existing",
+      "catalogue_origin_role": "variant",
+      "parent_id": "R039",
+      "readiness": "implemented",
+      "timeframe": "H1",
+      "rule_sketch": "Exact frozen protocol, no tuning after outcome",
+      "data_requirements": "source-bound observed H1 and consumed2023/2024",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Not challenge-qualified, no broker permission",
+      "source_ids": [
+        "SKLEARN"
+      ],
+      "source_relation": "mechanism_or_method_only_not_edge",
+      "next_action": "Retain negative/control outcomes; no promotion",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h1-ml-forest-shuffled-tr14x1p5-time4-r025-v1",
+      "implementations": [
+        "eurusd-h1-ml-forest-shuffled-tr14x1p5-time4-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "exposed_coarse_no_qualification",
+      "dispatch_authorized": false,
+      "control": true,
+      "evidence_locator": "DISCOVERY5-RESULTS-20261108.md",
+      "execution_capability": "coarse_only_no_native_broker"
     }
   ],
   "automatic_dispatch": false,
   "automatic_rejection": false,
   "holdout_opened": false,
   "updated_on": "2026-11-08",
-  "implemented_record_count": 15,
-  "implemented_rule_count": 16
+  "implemented_record_count": 23,
+  "implemented_rule_count": 28,
+  "implemented_control_rule_count": 2,
+  "implemented_noncontrol_rule_count": 26,
+  "native_offline_rule_count": 24
 }
