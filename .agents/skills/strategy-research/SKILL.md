@@ -35,6 +35,10 @@ thì dùng dossier được giao; không bịa command hoặc bắt owner kể l
 
 ## Thực thi và bàn giao
 
+Với policy có huấn luyện/model pack, đọc [ML policies](references/ml-policies.md)
+trước tạo labels/splits/inference. Không cần nhánh này cho rules cố định hoặc
+chỉ hỏi tiến độ.
+
 - Có repo: đọc `tooling/ai-engines/STRATEGY-WORKFLOW.md` và
   `projects/trader/foundation_v2/docs/FOREX-RESEARCH.md`. Reuse QDM CLI/runner
   opt-in; không biến native fixed fixture thành engine search tùy ý.

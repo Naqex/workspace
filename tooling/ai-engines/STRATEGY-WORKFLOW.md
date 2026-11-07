@@ -40,8 +40,10 @@ demo theo grant. Production dùng tài khoản đích và đúng gate/version; k
 
 LLM không nằm trong quyết định mỗi tick/lệnh ở numeric strategy hiện tại. AI
 có thể tiếp tục research/monitoring bên cạnh bot; đề xuất thay rules là version
-mới phải qua kiểm định và handoff, không tự sửa bot đang chạy. ML strategy hoặc
-LLM-in-the-loop về sau là thiết kế khác, chưa thuộc đường hiện tại.
+mới phải qua kiểm định và handoff, không tự sửa bot đang chạy. ML offline có
+[thí nghiệm bounded](../../planning/research/DISCOVERY5-RESULTS-20261108.md), hai
+policies thất bại và chưa nối native broker path. LLM-in-the-loop chưa thuộc
+đường hiện tại; không suy model export thành quyền hoặc edge.
 
 Edge là evidence cho lợi thế sau chi phí, vẫn có lệnh lỗ và có thể suy giảm.
 Monitoring tiếp tục sau demo/challenge/funded: kiểm execution, risk, drift và
