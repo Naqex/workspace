@@ -25,6 +25,11 @@ Receipt/progress giữ history; không dispatch lại completed jobs hoặc sử
 Prior exposure unverified, không clean OOS. 2025+ đóng, không broker/model calls.
 State cũ bên dưới giữ lịch sử, không dispatch lại period cũ.
 
+Follow-up07/11: [timing và scale theo tầng](research/PIPELINE-TIMING-AND-SCALING-20261107.md)
+đối soát3giờ17phút từ prep tới docs commit, chưa initialresearch/code; annual
+parallel chiếm~80%khoảng đo. Probe<1s chỉ feasibility, chưa PnL. Mở rộng phễu
+30–50hồ sơ/10–20rules là đề xuất workload, chưa registration hoặc lệnh dispatch.
+
 **Period batch06/11 đã đóng:** [kết quả/decision hiện hành](research/PERIOD-RESULTS-20261106.md),
 pipeline completed18:21:30VN,2/2verified jobs/8horizon rows, không còn writer.
 Net6tháng chuẩn/cao: Z-score−81,21/−117,10USD(tạm gác version), UTC range

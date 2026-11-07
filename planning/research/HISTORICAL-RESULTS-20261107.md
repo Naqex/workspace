@@ -1,6 +1,8 @@
 # Kết quả năm: UTC2024 và Compression2023 — 07/11/2026
 
 **Hai study đã hoàn tất và đối soát đạt; cả hai phiên bản không được nâng bước.**
+Thời gian từng tầng, phần chưa đo và đề xuất mở rộng nằm trong
+[timing và scale theo phễu](PIPELINE-TIMING-AND-SCALING-20261107.md).
 Mỗi bản âm ở cả hai mức phí trong năm kiểm tiếp. Các kết quả dương trước đó
 chưa cho thấy độ bền qua thời kỳ. Chưa có ứng viên đủ bằng chứng để đưa vào
 challenge/quỹ; không tự tăng risk, sửa TP/SL hoặc chọn lại quý để cứu kết quả.
