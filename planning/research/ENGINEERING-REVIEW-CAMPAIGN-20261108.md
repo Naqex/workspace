@@ -95,3 +95,24 @@ trùngrawpathfield;v2đổi têntham số,smokejsonwriter vàrawhashadoptionđ�
 Singletonguard thử trênjob thật:controller2bịchặn,lockowner khôngđổi,khôngdispatch
 child2. Đó là kiểm singlewriter,không fullfaultinjection/restoretest của private
 pipeline. Deadlines/processownership dùng helper JobObject đã kiểm.
+
+
+## Selection review trong lúc catalogue13 chạy
+
+Refreshprimarydocs08/11: [QuantConnect hypothesis/OOS guide](https://www.quantconnect.com/docs/v2/cloud-platform/backtesting/research-guide)
+đề nghị giữ thesis/trials/OOS; các mốcbacktest/time của platform chỉheuristic,
+không quota hoặc thangchuẩn phải copy. [arch SPA API](https://bashtage.github.io/arch/multiple-comparison/generated/arch.bootstrap.SPA.html)
+nhận benchmarknobs và modelnobs×k loss arrays,blockbootstrap và variance options;
+[multiplecomparison overview](https://bashtage.github.io/arch/multiple-comparison/multiple-comparison-reference.html)
+giải thích so bestmodelvớibenchmark cóxétdependence. Không càiARCH hoặc tự tính
+pvalue chỉ từ24annualtotals rồi gọi correctededge. Panel hiện có annualreset,
+open/floating ởmột sốH4books và coarseSLuncertainty; chưa là validateddailyP&L
+panel cho inferencemới. Chọn actualeligiblecases theo frozenheuristic rồi kiểm
+causal/risk/uncertainty phù hợp; không biến624casecountthành624independenttrials.
+
+Catalogue13 reuse52parentrows và572newrows, chỉraw/cachereadvalidation mộtlần
+mỗi yearload. Ví dụ observed2010/2011/2016wholeyearscreen17,36/19,34/23,05s,
+new44rowscompute15,37/14,99/15,06s. Các sốđo chỉ samecoarseworkload,không so
+speedratio với nativefulltick hoặc annualruntime chưađo. Chưa cầnGPU/Rustrewrite
+đểtốiưu phasecompute~15s/year. Thời gianchờ dataset thuộc parentpreparation,
+không ghi nhầm làCPUcompute. Khi đủ624rows mới chốt bảng/timing cuối.

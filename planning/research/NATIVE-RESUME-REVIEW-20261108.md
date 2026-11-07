@@ -60,3 +60,14 @@ Git metadata của checkout replay-history-validation từng resolve nhầm vào
 submodule gitdir. Đã đối soát clean explicit-worktree status, sửa **per-worktree**
 `core.worktree`, tạo branch mới từe9ac3683; cả D: và research-metals vẫn resolve
 đúng và active source files không đổi. Không sửa global Codex/Gitpolicy.
+
+## Follow-up08/11: nested candidate identity
+
+Ca phápacket thực tế cho thấy innercandidateNYORB có thể được restore dưới
+outercontextASIAORB nếu recomputechecksum; type/statevalidators riêng chưa
+chặn được đổi policy cùngclass. Trader`7ab57907` thêm identitycomparison trước
+restore; regression failedtrướcsửa rồi15resume/reuse tests+13subtests đạt.
+Không đổi signalmath hoặc healthyresumeoutcome. Bản sửa ởcheckout riêng trong
+lúcDiscovery12/13pinD:9fd6cd00; chỉfastforwardD:7ab57907 sau cả2jobs completed,
+artifact/sourceaudit đạt. Oldpins/snapshots giữ,không tự nhận source mới đã
+rerun624outcomes. Đây là scopedfix,không chứng nhận đầy đủ chống mọi tamper.
