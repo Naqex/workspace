@@ -133,7 +133,7 @@ class PreparationStopped(RuntimeError):
 
 def prepare_pending_inputs(jobs, pending, output, *, began, deadline, on_observe=None):
     from trading_workspace_v2.forex_input_preparation import prepare_input_set
-    seen, records, observation_errors = set(), [], []
+    seen, hourly_seen, records, observation_errors = set(), set(), [], []
     last_emit = 0
     def record_error(error):
         item = dict(file='input-preparation.json', error_type=type(error).__name__)
@@ -161,6 +161,21 @@ def prepare_pending_inputs(jobs, pending, output, *, began, deadline, on_observe
         inspection, ticks = input_cache_dirs(jobs[name])
         records.extend(prepare_input_set(jobs[name]['inputs'], inspection_cache_dir=inspection,
             tick_cache_dir=ticks, seen=seen, on_progress=notify))
+        hours_dir = jobs[name].get('warmup_hours_cache_dir')
+        if hours_dir:
+            from trading_workspace_v2.forex_coarse_input import prepare_coarse_hours
+            item = jobs[name]['inputs']['warmup']
+            key = (str(Path(hours_dir).resolve()), item['sha256'], item['first_day'], item['last_day'])
+            if key not in hourly_seen:
+                event = dict(kind='hourly_warmup', role='warmup', stage='preparing', ticks=0)
+                notify(event)
+                _, proof = prepare_coarse_hours(Path(item['path']), cache_dir=hours_dir,
+                    **{field: item[field] for field in ('sha256', 'first_day', 'last_day')},
+                    on_progress=lambda count: notify(dict(event, ticks=count)),
+                    deadline_seconds=max(1, deadline-(time.monotonic()-began)))
+                notify(dict(event, stage='verified', ticks=proof['ticks']))
+                records.append(dict(kind='hourly_warmup', role='warmup', **proof))
+                hourly_seen.add(key)
     summary = dict(status='verified', records=records, projection_errors=observation_errors,
                    elapsed_seconds=round(time.monotonic()-began, 3))
     try:
@@ -358,6 +373,17 @@ def main(argv=None):
                 validate_registration(registration, expected['inputs'], expected['candidate'],
                     protocol_sha256=expected['protocol_sha256'], account_spec_sha256=expected['account_spec_sha256'],
                     allow_source_drift=expected.get('benchmark_only') is True)
+                limits = registration.get('execution', {})
+                if not isinstance(limits, dict):
+                    raise ValueError('invalid_registered_execution_limits')
+                for key, requested in (('max_numeric_workers', args.max_workers),
+                        ('worker_timeout_seconds', args.worker_seconds),
+                        ('batch_deadline_seconds', args.deadline_seconds)):
+                    if key in limits and (type(limits[key]) is not int or limits[key] <= 0
+                                          or requested > limits[key]):
+                        raise ValueError('registered_execution_limit_exceeded:'+key)
+                if args.parallel_start and limits.get('parallel_start') is False:
+                    raise ValueError('registered_parallel_start_not_allowed')
             directory = args.output_dir/name
             reused = False
             if directory.exists():

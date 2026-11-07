@@ -311,6 +311,63 @@ class ResultTests(unittest.TestCase):
             self.assertEqual(batch.read(root/'batch/input-preparation.json')['status'], 'cancelled')
             self.assertFalse((root/'batch/batch-failure.json').exists())
 
+    def test_hourly_warmup_cache_is_prepared_once_before_workers_start(self):
+        from trading_workspace_v2.forex_coarse_input import load_coarse_hours
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            argv = self.batch_fixture(root, ('one', 'two')) + ['--prepare-inputs', '--parallel-start']
+            raw = root/'warmup.csv'
+            raw.write_text('DateTime,Bid,Ask,Volume\n'
+                '20221201 00:00:00.000,1.10000,1.10020,1\n'
+                '20221201 00:01:00.000,1.10010,1.10030,1\n'
+                '20221201 01:00:00.000,1.10020,1.10040,1\n')
+            item = dict(path=str(raw), sha256=batch.digest(raw), first_day='20221201', last_day='20221201')
+            config = batch.read(root/'config.json')
+            for job in config['jobs'].values():
+                job['warmup_hours_cache_dir'] = str(root/'hours')
+                job['inputs']['warmup'] = item
+            batch.save(root/'input.json', dict(schema='forex-h4-inputs-v1', **config['jobs']['one']['inputs']))
+            batch.save(root/'config.json', config)
+            def worker(name, expected, directory, **kwargs):
+                hours, proof = load_coarse_hours(raw, cache_dir=root/'hours',
+                    **{key: item[key] for key in ('sha256', 'first_day', 'last_day')})
+                self.assertEqual((len(hours), proof['ticks']), (2, 3))
+                self.assertEqual(str(hours[0].mid.open), '1.10010')
+                directory.mkdir()
+                terminal = dict(status='completed_verified', worker=name)
+                batch.save(directory/'terminal.json', terminal)
+                return terminal
+            with patch('trading_workspace_v2.forex_input_preparation.prepare_input_set', return_value=[]), \
+                 patch.object(batch, 'run_job', side_effect=worker), redirect_stdout(io.StringIO()):
+                self.assertEqual(batch.main(argv), 0)
+            prepared = batch.read(root/'batch/input-preparation.json')
+            self.assertEqual(len(prepared['records']), 1)
+            self.assertEqual(prepared['records'][0]['kind'], 'hourly_warmup')
+            self.assertEqual(len(list((root/'hours').glob('coarse-hours-*.json'))), 1)
+
+    def test_registered_execution_caps_reject_dispatch_before_input_preparation(self):
+        cases = [dict(max_numeric_workers=1), dict(worker_timeout_seconds=100),
+                 dict(batch_deadline_seconds=100), dict(parallel_start=False),
+                 dict(max_numeric_workers=True)]
+        for limits in cases:
+            with self.subTest(limits=limits), tempfile.TemporaryDirectory() as folder:
+                root = Path(folder)
+                argv = self.batch_fixture(root, ('one',)) + ['--prepare-inputs', '--parallel-start']
+                config = batch.read(root/'config.json')
+                config['jobs']['one'].update(candidate='fixture',account_spec_sha256='a'*64,
+                    study_registration=str(root/'registration.json'),study_registration_sha256='b'*64)
+                batch.save(root/'config.json', config)
+                with patch('trading_workspace_v2.forex_study_registration.load_registration',
+                           return_value=dict(execution=limits)), \
+                     patch('trading_workspace_v2.forex_study_registration.validate_registration'), \
+                     patch.object(batch, 'prepare_pending_inputs') as prepare, \
+                     patch.object(batch, 'run_job') as worker, redirect_stdout(io.StringIO()):
+                    with self.assertRaisesRegex(ValueError, 'registered_'):
+                        batch.main(argv)
+                prepare.assert_not_called()
+                worker.assert_not_called()
+                self.assertEqual(batch.read(root/'batch/batch-failure.json')['error_type'], 'ValueError')
+
     def test_preparation_observation_write_failure_does_not_invalidate_prepared_data(self):
         with tempfile.TemporaryDirectory() as folder:
             output = Path(folder)
