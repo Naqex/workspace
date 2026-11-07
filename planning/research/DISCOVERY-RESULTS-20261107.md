@@ -66,6 +66,36 @@ hoặc profits sau reset thành payout. Không tự thêm parameter/risk/TP vari
 để cứu outcome. 2023/2024 là historical robustness, không clean OOS; 2025+ đóng.
 Actual trạng thái/outcomes của hai bài được ghi tại receipt AI và report native.
 
+### Delta performance lúc historical study chạy
+
+Hai annual workers chậm dần theo chiều dài ledger. Sampling chỉ đọc bằng
+py-spy0.4.3 (20 giây,50Hz,nonblocking,không locals) thu908/903valid samples,
+90/96sampling errors. Mẫu có missing stacks nên không coi tỷ trọng là CPU
+accounting chính xác; source xác nhận tick ledger bị kiểm lặp tại parent
+`margin_ledger_is_consistent` và child `tick_quotes_and_ledger_are_consistent`.
+
+Prototype cô lập chuyển mọi V2 money/margin/tick checks vào một ordered child
+pass; không bỏ validators hoặc đổi non-tick V2. ABBA hai process/mode,5lượt mỗi
+process/checkpoint:1.672events median0,12753→0,07854giây(1,62×),3.358events
+0,29542→0,17523giây(1,69×), serialized output hash khớp. Đây chỉ là snapshot
+validation, không full replay speedup. Hai annual workers vẫn chạy cùng lúc.
+
+178unittest và45pytest (marginV2/service/immediate-fill) trên authoritative
+fixtures với hai prototype modules injected đạt;
+four consumed real-prefix scenario outputs/sealed horizons khớp byte. Bản sao
+test ban đầu thiếu Git/lockfile/SQLfixtures nên không dùng làm acceptance;
+fixtures thật được dùng lại trong isolated process, không sửa working source.
+Primary tool: [py-spy](https://github.com/benfred/py-spy), MIT, wheel PyPI0.4.3
+SHA `b14e00fddd4bfb12628e5c04b7d22c6754ae4c31bdfad0728adbe091ed26445f`.
+Extract riêng trong private proof root, không install script/venv/global config.
+
+Proofs ở `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/calendar-recovery-20261107/`:
+`live-profile-summary.json`, `validation-benchmark-summary.json`,
+`prototype-tests2.log`, `prototype-parity/bounded-parity.json`. Chưa áp prototype
+vào source chính khi annual writers còn chạy; không hủy partial study để làm
+benchmark. Việc Rust/GPU vẫn deferred, còn numerical full-history validation
+phải giữ nguyên fail-closed contracts khi triển khai tối ưu sau writer completion.
+
 ## Mở rộng nguồn nghiên cứu trong lúc chạy — kiểm 07/11
 
 Không tăng số chiến lược chỉ bằng đổi tên hoặc tham số. Hai hướng backlog có
