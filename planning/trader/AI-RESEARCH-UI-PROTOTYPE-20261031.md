@@ -123,6 +123,28 @@ Con số8–12/3–4ở trên là đề xuất quy mô công việc cho project,
 chứng nhận. Duke PDF timeout lượt này; giữ ngày kiểm06/11ở research cũ, không
 gán lại ngày xác minh hoặc dùng timeout làm lý do thay đổi kết luận phương pháp.
 
+### Ưu tiên cải tiến testing — rà 07/11, chưa triển khai screen mới
+
+Owner hỏi có cần tối ưu thêm sàng lọc/testing. Khuyến nghị ưu tiên quy trình
+và sai số lựa chọn trước core rewrite; giữ cache/source-bound reuse, parallel
+workers, logs/seals/accounting và UTC offline parity đã kiểm. Không rerun các
+suite hoặc full batch không đổi chỉ để xác nhận lại tài liệu.
+
+| Ưu tiên | Thay đổi đề xuất | Điều kiện để dùng kết quả |
+|---|---|---|
+| P1 | Hai tầng: triage bằng cached bars/artifacts, tick kiểm sâu cho bản có lý do hoặc bar ambiguity | Screen mới phải được kiểm với tick core trên positive/negative/missing/ambiguous cases; nêu rõ sai khác. Không hứa exact fills/DD từ OHLC hoặc loại cứng bằng mô hình xấp xỉ chưa kiểm |
+| P1 | Reason cho từng verdict: evidence lỗi, không đạt cost/risk, ít mẫu/coverage, thiếu data/permission, hoặc giữ cho review tiếp | Version/window/risk/cost và bằng chứng đi cùng; ít lệnh không đồng nghĩa không có edge, failed version không loại cả họ |
+| P1 | Đăng ký trước các windows/primary metrics/stop/decision và giữ validation/holdout riêng | Không gọi reused/overlapping data là OOS, không sửa ngưỡng sau outcome hoặc thử tới khi thắng |
+| P2 | Kiểm chéo cả một phần bản được giữ và bản bị gác theo cách chọn mẫu xác định trước | Đo coarse-vs-tick mismatch và lý do, không chỉ kiểm winner. Đây không là tỷ lệ bỏ sót true edge ngoài thị trường khi chưa có ground truth |
+| P2 | Đo lợi ích của chính pipeline | Cùng workload: thời gian chuẩn bị/screen/tick/report, cache hit, rerun/rework, số cases phải escalate và sai khác. Chưa có benchmark mới thì không hứa speedup |
+| P2 | Prop-fit kiểm applicability từ lúc chọn ý tưởng rồi đo account path ở vòng sâu | Giữ internal budgets khác luật hãng; đầy đủ equity/DD/reset, not-reached/time-fit/costs; exemptions/permissions chưa pin giữ unknown |
+
+Ngưỡng verdict cụ thể phải theo bài đã freeze, không thêm một winrate/trade-count/
+Sharpe minimum chung. Coarse screen chưa có implementation; ba ưu tiên P1trên
+là proposal cho đợt mở rộng, không báo đã tối ưu xong hoặc tự chạy discovery.
+Không thêm GPU/Rust, dashboards, simulator/risk engine cạnh tranh hoặc replay
+toàn bộ artifacts cũ nếu chưa có bottleneck/regression thực tế cần xử lý.
+
 ## Thứ tự sau annual batch — lịch sử owner giao sắp lại 06/11/2026
 
 Owner tiếp tục06/11 giao thực hiện [period robustness](../research/PERIOD-ROBUSTNESS-20261106.md)
