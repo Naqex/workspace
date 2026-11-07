@@ -1,6 +1,6 @@
 # Danh mục nghiên cứu chiến lược — cập nhật08/11/2026
 
-47 hồ sơ: 29 đã có implementation (34 policy versions), 17 ý tưởng chưa code và 1 risk component. Trong 34 versions có 24 native offline rules, 4 ML coarse-only và 6 gold coarse-only; gồm 2 shuffled controls. **Không phải 34 edges độc lập; chưa bản nào challenge-qualified.** Capital 10k/50k và các cost/year scenarios không được đếm thành strategy độc lập.
+48 hồ sơ: 30 đã có implementation (35 policy versions), 17 ý tưởng chưa code và 1 risk component. Trong 35 versions có 24 native offline rules, 4 ML coarse-only, 6 gold coarse-only và 1 index M1 coarse-only; gồm 2 shuffled controls. **Không phải 35 edges độc lập; chưa bản nào challenge-qualified.** Capital 10k/50k và các cost/year scenarios không được đếm thành strategy độc lập.
 
 [JSON](STRATEGY-CATALOGUE-20261107.json) là cùng dữ liệu có cấu trúc; protocol/source giữ exactrecipes, không automatic dispatch/rejection hoặc broker authority.
 
@@ -53,10 +53,11 @@
 |R045|Gold Asia→London breakout|session_breakout / R018|Giữ negative version|1|[Gold outcomes](METAL-DISCOVERY9-10-RESULTS-20261108.md)|
 |R046|Gold RSI reentry|price_reversion / R012|Giữ negative version|1|[Gold outcomes](METAL-DISCOVERY9-10-RESULTS-20261108.md)|
 |R047|Gold afternoon reversal15–19London|fixing_flow|Giữ negative version|1|[Gold outcomes](METAL-DISCOVERY9-10-RESULTS-20261108.md)|
+|R048|US500 noise14 bands|equity_intraday_momentum|Giữ negative version,2023/24 không đạt|1|[US500 results](US500-NOISE-RESULTS-20261108.md)|
 
 ## Cách đọc và việc đang chạy
 
-Discovery4/6/7 historical screens đã completed; MLreal policies thất bại, giữ controls/negatives. Asia2023/2024 native review đã completed; Londonstresscả2years còn incomplete do timeout. Discovery12đang kiểm observedhistory2010–2022; Discovery13mở rộng24fixedversions từ cùngcache. [Protocol hiện hành](H1-SURVIVOR-TICK-REVIEW-20261108.md); [kết quả6/7](DISCOVERY6-7-RESULTS-20261108.md). Không dispatch lại screens hoặc gọi2023/2024cleanOOS.2025+vẫn đóng.
+Discovery4/6/7 historical screens đã completed; MLreal policies thất bại, giữ controls/negatives. Asia2023/2024 native review đã completed; Londonstresscả2years còn incomplete do timeout. [Catalogue13](EURUSD-CATALOGUE13-RESULTS-20261108.md) đã624/624cases,0/24retained trên observedhistory2010–2022. R048noise14 là cơchế/asset khác: [kết quả](US500-NOISE-RESULTS-20261108.md)2022dương nhưng2023/24âm ởcảcosts,khôngretained. Không writer còn chạy trongcácattempts này. Không dispatch lại screens hoặc gọi2023/2024cleanOOS.2025+vẫn đóng.
 
 Nguồn chỉ cho cơ chế/định nghĩa/phương pháp; code và datalicenses cần kiểm trước import. Các adaptations H1/SL/holding không phải exact paper replication. Fixed-window variants, ORBs và MLcontrols có quan hệ; số versions không là số bằng chứng độc lập. Public payout/case study tay không xác nhận bot edge.
 

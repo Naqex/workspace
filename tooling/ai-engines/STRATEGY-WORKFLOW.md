@@ -255,6 +255,28 @@ nhiều strategy cùng account phải qua cùng owner/budget, không nhân grant
 Đây là source-confirmed boundary, không là portfolio allocator/correlation
 model hoặc runtime acceptance hôm nay. Không thêm engine risk cạnh tranh.
 
+## Opt-in index M1 development lane
+
+`index_noise_study.py` là adapter nghiên cứu của đúng
+[US500noise14 recipe](../../planning/research/US500-NOISE-STUDY-20261108.md),
+không nới EURUSD-only `ForexPilotSnapshot`. Nó reuse `InstrumentSpec`,
+`CostModel`, `size_for_market_stop`, `calculate_round_trip_cost` và
+`protective_exit_for_bar`; không là engine native index hoặc prop certifier.
+
+Explicit inputs: `--source-root <foundation_v2> --data-root <sealed-year-dir>
+--calendar <nyse-year.json> --protocol <frozen.md> --output <new-attempt-dir>`.
+Chỉ frozen2022/23/24, reject năm khác trước đọc data; không tự download hoặc
+gọi broker. `sealed_m1_review.py` kiểm quarter-side seals/schema/calendar/gaps;
+`review_index_noise.py --run <attempt> --data-root <sealed-year-dir>
+--output <new-review.json>` đối soát closed-book arithmetic/quote binding,
+không resimulate hoặc certifyedge. Open/pending cần mark review riêng.
+
+Output có source/protocol/calendar snapshot, results/data review/manifest;
+status `progress.json`/`PROGRESS.md`, `events.jsonl` qua existing bounded event
+logger và source-frame failure diagnostics. Không có auto retry hoặc auto
+promotion; directory đã tồn tại bị từ chối. Xem
+[results/limitations](../../planning/research/US500-NOISE-RESULTS-20261108.md).
+
 ## Skill consumers
 
 `paperclip_strategy_skills.py` preview/bundle source và sync qua native API;

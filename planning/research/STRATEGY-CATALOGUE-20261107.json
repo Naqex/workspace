@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-07",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 47,
+  "record_count": 48,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -11,13 +11,13 @@
   ],
   "counts": {
     "by_role": {
-      "existing": 29,
+      "existing": 30,
       "new": 11,
       "variant": 6,
       "component": 1
     },
     "by_readiness": {
-      "implemented": 29,
+      "implemented": 30,
       "long_history_or_multi_data": 9,
       "price_data_spec_possible": 3,
       "method_clock_review": 3,
@@ -150,6 +150,15 @@
       "checked_on": "2026-11-08",
       "review_depth": "official_documentation",
       "limitations": "Method only, not forex profitability evidence"
+    },
+    {
+      "id": "CONCRETUM-NOISE",
+      "title": "Beat the Market: Intraday Momentum for SPY",
+      "url": "https://concretumgroup.com/wp-content/uploads/2026/02/Beat-the-Market.pdf",
+      "publication": "2025-09-22 version",
+      "review_depth": "author_paper_method",
+      "limitations": "SPY/IQFeed results are not US500 CFD evidence; no exchange VWAP from quote volume.",
+      "checked_on": "2026-11-08"
     }
   ],
   "records": [
@@ -1425,16 +1434,50 @@
       "capital_scenarios": [
         "50000"
       ]
+    },
+    {
+      "id": "R048",
+      "title": "US500 intraday noise14 bands",
+      "family": "equity_intraday_momentum",
+      "role": "existing",
+      "catalogue_origin_role": "new",
+      "parent_id": null,
+      "readiness": "implemented",
+      "timeframe": "M1/30min decisions",
+      "rule_sketch": "Frozen14 prior cash sessions; opposite band signal, fixed hard SL, delayed next-open fills, flat before cash close",
+      "data_requirements": "Observed Dukascopy USA500 M1 Bid/Ask; frozen NYSE calendar; gaps retained",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Declared market/cost geometry; missing paths and modeled intrabar SL; no native prop DD or broker readiness",
+      "source_ids": [
+        "CONCRETUM-NOISE"
+      ],
+      "source_relation": "adaptation_not_replication_or_edge",
+      "next_action": "Preserve failed2023/2024 retention version; select another economic hypothesis before code, no tuning or holdout",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "us500-m1-noise14-opposite-hardstop-r025-v1",
+      "implementations": [
+        "us500-m1-noise14-opposite-hardstop-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "exposed_2022_2024_failed_retention",
+      "dispatch_authorized": false,
+      "control": false,
+      "evidence_locator": "US500-NOISE-RESULTS-20261108.md",
+      "execution_capability": "index_m1_coarse_only_no_native_broker",
+      "capital_scenarios": [
+        "10000"
+      ]
     }
   ],
   "automatic_dispatch": false,
   "automatic_rejection": false,
   "holdout_opened": false,
   "updated_on": "2026-11-08",
-  "implemented_record_count": 29,
-  "implemented_rule_count": 34,
+  "implemented_record_count": 30,
+  "implemented_rule_count": 35,
   "implemented_control_rule_count": 2,
-  "implemented_noncontrol_rule_count": 32,
+  "implemented_noncontrol_rule_count": 33,
   "native_offline_rule_count": 24,
-  "metal_coarse_rule_count": 6
+  "metal_coarse_rule_count": 6,
+  "index_coarse_rule_count": 1
 }

@@ -1,0 +1,13 @@
+{
+  "schema": "cash-session-calendar-v1",
+  "venue": "NYSE",
+  "year": 2022,
+  "timezone": "America/New_York",
+  "open": "09:30",
+  "close": "16:00",
+  "holidays": ["2022-01-17", "2022-02-21", "2022-04-15", "2022-05-30", "2022-06-20", "2022-07-04", "2022-09-05", "2022-11-24", "2022-12-26"],
+  "early_closes": {"2022-11-25": "13:00"},
+  "source": "https://ir.theice.com/press/news-details/2021/NYSE-Group-Announces-2022-2023-and-2024-Holiday-and-Early-Closings-Calendar/default.aspx",
+  "verified_on": "2026-11-08",
+  "scope": "Cash-session reference only; not CFD broker opening hours or execution authority."
+}

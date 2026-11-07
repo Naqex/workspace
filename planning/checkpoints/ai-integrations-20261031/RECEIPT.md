@@ -7059,3 +7059,34 @@ controller2reject/lockunchanged;không autoretry. Stage/progressperdataset/check
 privateeurusd-catalogue13-v1,launcher20648;configbb98a0c1…;readcompletedparent
 cacheonly,24fixedrules×13years×2costs624rows,52reuse+572new. KhôngsửaD:numerical
 source/supervisor đangpin. C1/C2ACTIVE,chưa ứngviênchallenge,zero broker/LLMcalls.
+
+## 08/11 — chốt catalogue13, US500 noise14 và hậu kiểm có lưu nguồn
+
+[Catalogue13 final](../../research/EURUSD-CATALOGUE13-RESULTS-20261108.md):624/624
+cases khớp,0/24retained; sourceD:7ab57907 nhận nestedcandidate-resume guard sau
+khi writers kết thúc.15resume/reuse tests+13subtests trước đó đạt;không rerun
+624outcomes cho source mới. Workspacecheckpoint1221240 giữ sourcepin/evidence.
+
+[US500noise14](../../research/US500-NOISE-RESULTS-20261108.md) là adaptation mới
+theo authorpaperSPY, khôngreplication/qualifiededge. Frozen2022recipe rồi exact
+2023/24robustness,25USDplannedrisk/10k/oneposition,declaredcostgeometry,2025+đóng.
+Reference/stressUSD:2022+181,19/+117,61;2023−135,92/−227,68;2024−150,81/−233,37.
+454trades/scenario/908closedtrades được checkerDecimal/quote/risk/SL/clock/cash
+riêng đốisoát;3nullcontrols flat0. Khôngopen/pending cuối books. Đây là tổng
+annualbooks riêng,không CAGR/continuousaccount/nativeDD hoặcpropcompliance.
+5positions đi qua khoảngthiếudata được giữnguyên/flagged;khônggapfill/loạioutcome.
+
+Download2022:319,70s;2023/24:598,85s cả2năm,16seals. Fullstudy từngnăm9,25/
+8,56/9,27s gồm verify/load/2costs/null;không nativebenchmark/speedup hoặcquotaAI.
+Artifactsprivatecampaignexecution-v1:us500-development<year>-v1 và
+us500-noise<year>-v1;`us500-robustness-data-v1` giữ transportlogs/progress.
+2024 cóevents35phase/counter +progressJSON/MD;source/protocol/calendar snapshots
+khácphiênbản được giữ,không tự nângsourceacceptance của2022/23.
+
+[Hậu kiểm](../../research/ENGINEERING-REVIEW-CAMPAIGN-20261108.md) ghi16focusedtests
+(5data/calendar+7strategy+4reviewer) và1expectedfailureCLI smoke:giữsourceframes,
+redacttext/locals,release lock,khôngsimulation/falsecomplete. Reusefinancialcore/
+logger/skills hiệncó;khôngthêm providerpackage/globalAIconfig hoặcUI quản lýtrùng.
+Catalogue48records/35versions,không35edges. Data/numericcontrollers đãkếtthúc,
+khôngUS500lock còn sống. **C1/C2 vẫnchưađạt**;giữnegativeversion,tiếptục chọn
+cơchế mới códata/costfit trước code. Khôngbroker/LLMcalls hoặc mua challenge.

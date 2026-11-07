@@ -5,18 +5,33 @@
 **Nhiệm vụ hiện hành08/11:** tìm ứng viên challenge (C1) và hậu kiểm quy trình (C2)
 đều **chưa hoàn tất**. Tiếp tục từ [campaign](research/CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md)
 và [hậu kiểm mới](research/ENGINEERING-REVIEW-CAMPAIGN-20261108.md), không dispatch lại
-screens đã xong. [Catalogue](research/STRATEGY-CATALOGUE-20261107.md) đã đồng bộ47records/
-34policy versions:24nativeFX+4MLcoarse+6metalcoarse, gồm2controls; không34edges.
+screens đã xong. [Catalogue](research/STRATEGY-CATALOGUE-20261107.md) đã đồng bộ48records/
+35policy versions:24nativeFX+4MLcoarse+6metalcoarse+1indexM1, gồm2controls; không35edges.
 [Gold9/10](research/METAL-DISCOVERY9-10-RESULTS-20261108.md) đã completed; chỉ SMA50k
 đáng giữ research, chưa challenge. Hai EURUSDsurvivors conditionalCI vẫn chứa0.
 
-**Jobs hiện hành:** [Discovery12 observedBid/Ask](research/EURUSD-OBSERVED-HISTORY-20261108.md)
-đang chạy tại private campaignexecution-v1/eurusd-observed-history-v2, launcher8020/
-actualcontroller20584; mỗi dataset cóownedchild riêng.13annualyears2010–2022+
-warmup2009, chỉ cache QDM đã có; không2025+. Đọc PROGRESS/receipts/lock/process
-trước restart; không sửa D:source9fd6cd00 hoặc supervisor3fe3b34 đang pin. V1driver
-lỗi argument path sau export trước aggregation; V2sửa writer, giữfailurev1 và
-adopt verifiedrawexport,không export lại. Singletonguard đã thử,controller2 bịchặn.
+**Discovery12/13 đã hoàn tất:** [Catalogue13 results](research/EURUSD-CATALOGUE13-RESULTS-20261108.md)
+đối soát624/624cases,0/24versions qua frozenretention; cả24negative totalstress.
+13annualbooks2010–2022,52rowsreuse+572new; không phải continuousaccount/OOS/
+nativepropDD. Catalogue wall13,11phút gồm8,51phút chờ parent; compute+rowwrite
+207,14s,không speedupnative. Private12v2/13v1 giữseals/negatives; khôngrerun.
+**Hướng mới:** [Discovery14](research/INDICES-DISCOVERY14-PREPARATION-20261108.md),
+[US5002022 data](research/US500-DATA-PREPARATION-20261108.md):8/8M1Bid/Askparts
+tải xong319,70s,341.682rows/side; review251cashsessions thấy12missingminutes
+trong4days. CalendarNYSE2022/DST/Juneteenth/halfday verified; khônggapfill hoặc
+loại ngày theo outcome. Chưa indexbrokercontract/qualification.
+DownloadPID12304 đã kết thúc. [Noise14development](research/US500-NOISE-RESULTS-20261108.md)
+2022đã xong9,25s,156trades:+181,19/+117,61USD,1gapaffectedposition/20modeledSL;
+5beststress trades+182,72USD>yearnet. Chưaedge/prop; arithmetic/fillbindings đã
+recompute riêng trong cùngagent,không independentmodel signoff.
+[2023/24robustness](research/US500-ROBUSTNESS-20261108.md) **đã hoàn tất**:
+2023−135,92/−227,68USD,2024−150,81/−233,37USD;noise14failedretention,khôngchallenge.
+454trades/scenario/908closedtrades tổng đã arithmetic/fillbinding review;
+16focusedtests và1expected-failureCLI smoke đạt. Newcalendar/loader/primitive
+reuse/logging giữ; source2022/23/24 cópins riêng,không claim wholeproduct.
+**Không còn job US500/numericalwriters trên các attempts này.** Giữ negatives,
+chọn hypothesis khác từ cơ chế/cost/data trướccode;không tune losers,không rerun
+acceptedbatches vàkhông mở2025+ để kiếmpass. C1/C2 vẫnchưađạt.
 
 **Native annual review đã dừng hết:** [results](research/H1-NATIVE-SURVIVORS-RESULTS-20261108.md)
 giữ Asia2024completed, Asia2023recoveryv3completed3150sworker:reference+150,70/
@@ -27,7 +42,7 @@ Hai Londonstressparents timeout7200s,reference seals giữ,không fullannualstre
 vìcostmodelkhácnative. NativeAsia2024 decisions324exact/trades223entryexact,
 122SLquotesgiải thích toàn coarse→native−76,60/−74,05USD,101strategyexitsexact.
 
-**Engineering đã nhận vào D:source9fd6cd00 sau khi nativewriters kết thúc:**
+**Engineering đã nhận vào D:source7ab57907 sau khi numericalwriters kết thúc:**
 ledgerindex/singlevalidation,queueddecision qua financing và completeCLIresume.
 [Resume review](research/NATIVE-RESUME-REVIEW-20261108.md):104tests/112subtests;
 actual442.341ticks uninterrupted/restore kết quả/4finalfilesbyteexact,phase/reset/

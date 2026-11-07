@@ -71,7 +71,7 @@ yêu cầu thực thi theo điều kiện thị trường và lưu ý same-EA/al
 EA không đồng nghĩa một bot đã được challenge-approved. Đây là refresh phương
 pháp/permission context, không thay terms snapshot của registrations.
 
-Theo dõi đúng ba locator đang hoạt động:
+Ba locator native sau đã kết thúc; chỉ dùng để đọc bằng chứng lịch sử:
 `h1-survivor-tick/batch-2023-v1/PROGRESS.md`, `batch-2024-v1/PROGRESS.md`,
 `batch-asia-2023-recovery-v3/PROGRESS.md`. V2 giữ failure trước simulation; V3
 giữ nguyên economic/source registrationv2, chỉ sửa supervisor preparation. Chỉ nhận completed_verified sau
@@ -89,6 +89,10 @@ workers đãstop,không đồng nghĩa APIruntime/broker/strategy acceptance.
 và[observedhistory12](EURUSD-OBSERVED-HISTORY-20261108.md)đangchạy táchcostmodels;
 không sửa phí sauoutcome để gọi qualified. Fullcatalogue13 dùng source-boundcache,
 52rowsreuse+572newcases,protocol trướcoutcomes;không nhân rawparse cho24strategies.
+
+Delta mới hơn: [624cases final](EURUSD-CATALOGUE13-RESULTS-20261108.md) đã hoàn tất,
+0/24versions qua frozenretention; source đã nhận guard7ab57907 sau khi hếtwriters.
+Trạng thái “đang chạy” trong các đoạn lịch sử bên dưới không là job hiện hành.
 
 CustomDiscovery12v1driver lỗi trướcaggregation sauexport vì helpertham sốpath
 trùngrawpathfield;v2đổi têntham số,smokejsonwriter vàrawhashadoptionđạt,giữv1.
@@ -116,3 +120,28 @@ new44rowscompute15,37/14,99/15,06s. Các sốđo chỉ samecoarseworkload,không
 speedratio với nativefulltick hoặc annualruntime chưađo. Chưa cầnGPU/Rustrewrite
 đểtốiưu phasecompute~15s/year. Thời gianchờ dataset thuộc parentpreparation,
 không ghi nhầm làCPUcompute. Khi đủ624rows mới chốt bảng/timing cuối.
+
+## Hậu kiểm US500 noise14 — cả2022/23/24 đã hoàn tất
+
+[Kết quả và pins](US500-NOISE-RESULTS-20261108.md) giữ negative version: năm2022
+dương nhưng2023/24âm cảcosts, chưa C1. Giữ908closedtrades/3nullcontrols và mọi
+raw gaps; không bỏ trade cómissingpath hoặc chọn lại điều kiện giữ survivors.
+
+| Ưu tiên / lát | Phát hiện | Thay đổi/kiểm chứng và giới hạn |
+|---|---|---|
+| P0: quyết định economics | Noise14failed frozenretention; catalogueFX0/24 | Không promote/tune hoặc mởholdout cứu; chọn economicmechanism khác trước code |
+| P0: dữ liệu/path | Cashgaps12/108/62phút qua3năm;5positions cóexposuregap | Bộseal/schema/calendar/DST/sidecheck; khônggapfill. Nativeindex/firstcrossing/risk/targetbrokerspec vẫnthiếu, không DD/prop certification |
+| P1: timing/causality | Synthetic test bắt xửlýpending sớm hơnfillminute | Sửa trướcPnL2022;7strategy/orchestrationtests gồmfutureprefix,expiry,hardstopgap,halfday,closedholdoutguard |
+| P1: accounting/review | Cần đốisoát ngoài simulator | Reuse financialprimitives;checkerDecimal riêng khớp908trades.4tests bắt net/quote/risk/cash/timing/openbooktamper;không independenthuman/model signoff |
+| P1: observability | Statusoverwrite không đủ lịch sử phase | Source2024reuse eventlogger/failurehelper,35events;negativeCLI missinginput giữframes/no-secret diagnostics/release lock, khôngsimulation hoặcfalsecomplete |
+| P2: performance/reuse | Download~5phút/năm,verify/load~5s;fullstudy8,56–9,27s | Existing pinnedpackage/calendar,source-bound rawreuse/costcore;không GPU/Rustrewrite hoặc framework mới cho~2s/scenario. Không so native tick speedup |
+
+5data/calendar tests+7strategy/orchestration+4reviewer=16focusedtests đạt qua
+các lượt thay đổi;1expectedfailureCLI smoke. Không chạy lạisuite/batch khôngđổi
+hoặc tuyênbố mọi lần firstpass. Nguồnpaper/calendar đãlưu ở recipe/qualitydocs;
+không đổi installedprovider/model/globalconfig. Existingretrospective/evidence/
+research/qualification skills đủroute workflow này; không tạo skill mới trùng.
+
+Data controller20976 và numerical workers đã kết thúc, không lock còn sống
+ở các attemptsUS500. Context/index/receipt/catalogue đồng bộ;2025+ vẫnđóng,
+zero broker/modelcalls. C2 chỉ scoped engineeringevidence, chưa toànkhungđạt.
