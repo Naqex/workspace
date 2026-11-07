@@ -11,8 +11,8 @@ data/contracts giữ deferred. Task này không tự coi đủ edge hoặc buộ
 |---|---|---|
 | Fast triage | Reuse causal H4inspection caches, same rules, flat probes/lot feasibility | Đã đo8bản<1s; không portfolio/PnL/DD/winrate/trade-count simulator. Zero probe không loại cả họ; initial3new+UTC đều deep-check |
 | Correctness / reuse | Candidate fixtures, original Forex suite, legacy4cases, independent raw→cached probes |154suite pass ở revision phát triển;8focused final candidate tests,1report integration/20controller/12horizon pass. Four232.578tick oldcases exact,8ruleprobes raw/cache match; không chứng nhận edge |
-| Discovery numerical | Native finite4worker batch3new+UTC, Q1/2022consumed,2costs, sharedprep | Đã launch10:22VN, actual state ở receipt/progress; sau completed kiểm cash/seals/ledgerDD/floating/negative trials; không claim full tick DD/firm profile trong bài này |
-| UTC historical validation | OriginalUTC only,2024full year,3/6/12monthprop observations, warmNov–Dec2023 | Protocol khóa trước export, preparation đang chạy; chỉ freeze/whitelist/dispatch sau discovery writer/report xong. Prior exposure unknown, không cleanOOS;2025+closed |
+| Discovery numerical | Native finite4worker batch3new+UTC, Q1/2022consumed,2costs, sharedprep | Đã completed10:35:46VN, 4/4 verified/8rows, 13phút6giây; [kết quả/hậu kiểm](../research/DISCOVERY-RESULTS-20261107.md). Compression và UTC còn đáng kiểm, chưa edge |
+| Historical robustness | OriginalUTC2024 và unchangedCompression2023; 3/6/12 tháng/native prop observations | Hai recovery v2 chạy song song từ10:50VN sau sửa holiday-before-first-quote. Raw/cache reuse, oldfailed/canceledattempts giữ riêng. Prior exposure unknown, không cleanOOS;2025+closed |
 | Qualification tiếp | Đọc outcome cả hai bài theo registered criteria, giữ reject/inconclusive | Không tự risk/TP grid/broker/purchase. Live forward và execution authority vẫn riêng; không thêm skill/service/UI cạnh tranh |
 
 Đây là scope/acceptance hiện hành cho owner request07/11, thay trạng thái

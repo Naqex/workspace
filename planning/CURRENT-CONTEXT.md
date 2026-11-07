@@ -3,16 +3,20 @@
 ## Research kế thừa — 05/11/2026
 
 **Scope07/11 owner giao triển khai liên tiếp:** [Discovery3](research/DISCOVERY-ROUND3-20261107.md)
-đã có3new candidates+5old=8implemented,2research directions deferred. Trader
-`53708fab` thêm causal rules/flat-feasibility probes, không OHLCprofit simulator.
-Screen8bản<1sđã kiểm raw→cached12H4/232.578consumed ticks và4oldcases exact
-money/decision/state parity.4newstudy preflights đạt, native batch đã chạy
-10:22VN; receipt/private progress giữ actual state, không mở worker trùng.
-[UTC validation2024](research/UTC-VALIDATION-20261107.md) đã khóa hypothesis/risk/
-costs/rules trước export; data đang prepare, prior exposure unverified nên
-historical robustness, không cleanOOS.2025+giữ đóng, không broker/model calls.
-Chỉ thay reader registry sau discovery writers/report hoàn tất; không sửa source
-pinned trong batch. State cũ bên dưới giữ lịch sử, không dispatch lại period cũ.
+đã có 3 new candidates + 5 old = 8 implemented, 2 directions deferred.
+[Discovery đã hoàn tất](research/DISCOVERY-RESULTS-20261107.md): 4/4 verified,
+13 phút 6 giây; Compression +50,38/+28,47 USD, UTC +34,13/+26,67 USD;
+failed20/range-fade không được nâng bước. Feasibility probe <1s không là PnL.
+Holiday-startup bug đã sửa ở Trader `74fe7c62`, registry `e7b332dd` và workspace
+reader `9469724`: pristine flat trước first quote ghi zero non-applicability,
+không bịa quote/cash. Regression/tamper và bốn bounded old cases khớp byte đạt.
+UTC2024 v1 lỗi/Compression2023 v1 dừng an toàn; **hai recovery v2 chạy song song
+từ 10:50:21 VN**. Reuse raw/cache, không overwrite old attempts. Protocols ở
+[UTC v2](research/UTC-VALIDATION-20261107-RECOVERY-V2.md) và
+[Compression v2](research/COMPRESSION-ROBUSTNESS-20261107-RECOVERY-V2.md).
+Receipt/progress giữ actual state; không sửa pinned source hoặc mở worker trùng.
+Prior exposure unverified, không clean OOS. 2025+ đóng, không broker/model calls.
+State cũ bên dưới giữ lịch sử, không dispatch lại period cũ.
 
 **Period batch06/11 đã đóng:** [kết quả/decision hiện hành](research/PERIOD-RESULTS-20261106.md),
 pipeline completed18:21:30VN,2/2verified jobs/8horizon rows, không còn writer.

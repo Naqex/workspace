@@ -6731,3 +6731,67 @@ Chỉ freeze/whitelist newdigest sau discovery numerical+report completed để
 không đổi reader/source của writers. OriginalUTC/risk/cost/profile giữ nguyên;
 registrationJSON/pins/preflight/actual numerical chưa hoàn tất tại snapshot.
 Không mở2025+/holdout/OrderCheck/OrderSend từ scope này.
+
+### 07/11 10:54 VN — discovery đã đóng; calendar fix và hai recovery đang chạy
+
+[Kết quả/hậu kiểm canonical](../../research/DISCOVERY-RESULTS-20261107.md):
+Discovery completed 10:35:46 VN, 4/4 jobs verified, 8 rows; batch 786,39 giây,
+CPU sum 2.439,14 giây. Reference/stress net equity: failed20 −7,70/−22,46 USD;
+Compression +50,38/+28,47; range-fade −71,78/−76,84; UTC +34,13/+26,67.
+Compression còn vị thế, floating −2,88/−3,00 USD; đã tính trong net. Failed20
+và range-fade không promote trong bài; Compression kiểm dài hơn, UTC giữ bài
+riêng. Không full tick DD/prop evaluation trong discovery, không clean OOS.
+
+`financial-audit.json` kiểm Decimal cash/cost/equity 8/8 row, không replay.
+`first-entry-oracle.json`: independent raw prefix 225.926 tick, 6/6 queued
+entry/formula/ATR/lot đạt; warmup vẫn verified cache. `exit-rule-oracle.json`
+dùng công thức riêng trên hash-verified H4 + retained price-mark positions:
+372 H4 × 6 ca, mọi exit/non-exit khớp, 134 exits (failed20 18×2, compression
+25×2, fade24×2). Đây không là full raw rebuild hoặc independent fill engine.
+
+UTC2024 data preparation hoàn tất 670,828 giây: warmup 4.054.317 tick,
+development 20.687.149 tick. Original registration digest `368aaaf3…`,
+Compression2023 `5d1c1c99…`, source Trader `459187f1`. Cả hai preflight đạt
+5,62/7,47 giây, dispatch 10:39:37 VN. UTC v1 failed trước first quote do
+Jan1 holiday có scheduled financing nhưng pristine account chưa có anchor;
+Compression v1 CANCEL 10:41:48 trước thay shared source, không còn writer.
+Không completed scenario để reuse; old attempts/logs/partial outputs giữ nguyên.
+
+Trader `74fe7c62` sửa owning runner, không đổi `forex_financing.py`: opt-in
+`pre_quote_flat_financing=explicit_not_applicable_v1` chỉ cho pristine flat
+account trước first quote ghi zero non-applicability, không quote/cash/fill
+giả hoặc dịch quote cursor. Sau first quote giữ guard cũ. Progress đặt scenario
+trước numerical call để startup failure không bị gán nhầm validate stage.
+Workspace `9469724` reader đối chiếu mọi calendar event với charged hoặc
+exemption hợp lệ theo first price-mark observed hour/phase account/terms;
+thiếu/duplicate/nonzero/wrong terms/later/no-contract đều reject.
+
+Regression report suite 13/13 pass; product discovery 152 actual tests pass
+nhưng một module import lỗi do cwd workspace. Chạy module đó từ cwd product:
+4/4 pass; focused H4 14/14 pass sau progress change. Không sửa test để né lỗi.
+Real consumed bounded parity với opt-in enabled, không exemption phát sinh:
+4 old survivor×cost ca, 232.578 tick, checkpoint/decision/candidate bytes exact,
+12 sealed horizon rows reader đạt; proof riêng tại
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/calendar-recovery-20261107/`.
+
+New immutable recovery protocols/registrations:
+[UTC v2](../../research/UTC-VALIDATION-20261107-RECOVERY-V2.md) digest
+`cd73f00a794cdb4d833f83722bcbd524511d9d82f281e7e4fd1bedc5ae8464d5`,
+[Compression v2](../../research/COMPRESSION-ROBUSTNESS-20261107-RECOVERY-V2.md)
+digest `4f018bf5bdcc1e22a9bc5d92f9ef41360a71081f33b8a359eeaa8c71f7ffb67c`.
+Trader registry/docs `e7b332dd`; rebind current numerical source, economic
+rules/risk/cost/profile/windows/criteria giữ nguyên. Raw/H4/quality/tick caches
+reuse từ v1 và survivor2023, không export/download lại. Preflight v2 đạt
+5,40/7,18 giây. Source snapshots/dispatch-proof giữ 16 numerical files,
+reader/controller/source/config/protocol/registration bindings.
+
+**Dispatch v2 10:50:21 VN**, hai independent finite controllers chạy song song.
+Roots `utc-validation-20261107/execution-v2` và
+`compression-robustness-20261107/execution-v2` dưới private ai-engine-jobs.
+Pipeline PIDs 1952/21116, batch controllers18468/3508; actual worker receipt
+PIDs22316/6516 (venv redirector có PID riêng). Snapshot10:54: cả hai reference,
+đã vượt Jan1startup; chưa completed scenario. `batch-1/PROGRESS.md` refresh5s,
+`pipeline.json`/native terminal/receipt giữ actual state; không coi snippet này
+là liveness. Không pinned source mutation trong khi writer chạy. UI open tool
+trả queued, chưa khẳng định progress tab đã hiện. Không Paperclip update khi
+connector không expose. Chưa annual outcomes/edge/broker authority;2025+ đóng.
