@@ -2,9 +2,33 @@
 
 ## Research kế thừa — 05/11/2026
 
-**Nhiệm vụ ACTIVE08/11:** C1candidate challenge/C2process vẫn pending theo [campaign](research/CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md). [Discovery4](research/DISCOVERY4-RESULTS-20261108.md), [MLDiscovery5](research/DISCOVERY5-RESULTS-20261108.md), [Discovery6/7](research/DISCOVERY6-7-RESULTS-20261108.md) đã đóng screens, giữ negatives/controls. Catalogue41records/28versions (2controls;24nativeoffline+4MLcoarse), không28edges.32legacycoarse cases exact;16newnativeprefix cases khớpdecisions/counts, maxdelta0,64USD. Đã sửa protocol labels và reject unowned session trước mutation. **Hai annualnativebatches đang chạy**, London16–20+Asia→London mỗi năm2023/2024; [frozenreview](research/H1-SURVIVOR-TICK-REVIEW-20261108.md), Trader78a8397f. Private root E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/execution-v1/h1-survivor-tick: batch-2023-v1 vàbatch-2024-v1, mỗi batch2workers. Chỉ đọc PROGRESS/artifacts, không sửa product source đang pin hoặc dispatch lại completed screens.2025+closed/broker/mua challenge gates riêng.
+**Nhiệm vụ hiện hành08/11:** tìm ứng viên challenge (C1) và hậu kiểm quy trình (C2)
+đều **chưa hoàn tất**. Tiếp tục từ [campaign](research/CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md)
+và [hậu kiểm mới](research/ENGINEERING-REVIEW-CAMPAIGN-20261108.md), không dispatch lại
+screens đã xong. [Catalogue](research/STRATEGY-CATALOGUE-20261107.md) đã đồng bộ47records/
+34policy versions:24nativeFX+4MLcoarse+6metalcoarse, gồm2controls; không34edges.
+[Gold9/10](research/METAL-DISCOVERY9-10-RESULTS-20261108.md) đã completed; chỉ SMA50k
+đáng giữ research, chưa challenge. Hai EURUSDsurvivors conditionalCI vẫn chứa0.
 
-**Delta08/11 trong lúc nativejobs chạy:** [conditional uncertainty](research/H1-UNCERTAINTY-REVIEW-20261108.md) của hai EURUSDsurvivors bao gồm0, chưa C1edge. [GoldH4screen](research/METAL-DISCOVERY8-RESULTS-20261108.md)24rows/26,27s, SMAgiữresearch. [Longhistory+capital](research/METAL-LONG-HISTORY-20261108.md)180rows/117,19s trên2010–2024 đã completed, SMA50k giữ10/15positive stressyears nhưng5yearbandâm, chưa challenge. [GoldH1Discovery10](research/METAL-INTRADAY-DISCOVERY10-20261108.md)90rows đang chạy ở isolated C:/Users/MIIKEY/.codex/worktrees/research-metals/trader, branchcodex/research-metals HEADdb5550d6. Managedworktree core.worktree đã sửa per-worktree đúngcheckout, D:source78a8397fkhông đổi. UnchangedreaderfilesLF/CRLF được alignbytesbaseline đểcachehit sau normalizedsamecheck, không bỏguards. Private campaignroot metal-discovery10-screen/attempt-v1/progress.json. Không sửasource đang pin hoặc mở2025+. Catalogue41records cũ chưa thêm3goldH4+3goldH1 để cập nhật sau batch.
+**Jobs đang chạy:** parent annual batches2023/2024 tại private root
+E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/execution-v1/h1-survivor-tick.
+D:Trader source78a8397f giữ nguyên cho3workers còn chạy. Asia2023 parent failed
+reference tại27.223.813ticks do cash checkpoint sau queued decision; giữ attempt cũ.
+[Recoveryv2](research/H1-ASIA-RECOVERY-20261108.md)/JSON đã freeze, cap1,
+config-asia-2023-recovery-v2.json → batch-asia-2023-recovery-v3, launcherPID8900;
+source isolated research-metals/trader e4481140. Đọc PROGRESS/terminal/receipts,
+đối soát process thực trước restart. Không second writer hoặc sửa pins để reuse.
+
+**Engineering đã kiểm:** fixes f8879b32/edbd1e5f/043656a2; actual Dec2023 regression
+442.341ticks đạt;77tests/66subtests tập trung đạt. Retained-state latency observed
+8,89–9,02s→1,66–1,84s trên6flatwindows/6.832events, exactfinalSHA; không annualspeedup.
+Workspacef781550 chọn explicit source-root cho worker/reviewer, có positive/negative
+tests. Engineering-retrospective reference đã lưu lessons; audit0errors/0warnings.
+Parentregistration có staleCompressiontext và cap1 khác protocol2: giữ history,
+recovery khai báo đúng. Workspace758613b enforce executioncaps và chuẩn bị H1warmup
+trước dispatch; v2 fail trước simulation vì thiếu cacheH1 source mới, v3 reuse
+quality/tick cache đã verified và chỉ chuẩn bị H1warmup, không làm lại594s prep.
+2025+holdout/broker/mua challenge vẫn gates riêng; không sửa source đang pin.
 
 **Hậu kiểm sau pilot,07/11:** owner giao đúc kết/tối ưu và duy trì skill.
 [Review mới](research/ENGINEERING-REVIEW-COARSE-20261107.md) ghi Trader `579ff52f`:

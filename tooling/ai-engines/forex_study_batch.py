@@ -171,7 +171,7 @@ def prepare_pending_inputs(jobs, pending, output, *, began, deadline, on_observe
                 notify(event)
                 _, proof = prepare_coarse_hours(Path(item['path']), cache_dir=hours_dir,
                     **{field: item[field] for field in ('sha256', 'first_day', 'last_day')},
-                    on_progress=lambda count: notify(dict(event, ticks=count)),
+                    on_progress=lambda update: notify(dict(event, ticks=update['ticks'])),
                     deadline_seconds=max(1, deadline-(time.monotonic()-began)))
                 notify(dict(event, stage='verified', ticks=proof['ticks']))
                 records.append(dict(kind='hourly_warmup', role='warmup', **proof))

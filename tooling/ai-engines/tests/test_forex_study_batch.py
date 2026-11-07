@@ -368,6 +368,23 @@ class ResultTests(unittest.TestCase):
                 worker.assert_not_called()
                 self.assertEqual(batch.read(root/'batch/batch-failure.json')['error_type'], 'ValueError')
 
+    def test_hourly_preparation_progress_exposes_a_numeric_tick_counter(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            item = dict(path=str(root/'warmup.csv'),sha256='a'*64,first_day='20221201',last_day='20221201')
+            jobs = {'one': dict(inputs=dict(warmup=item),warmup_hours_cache_dir=str(root/'hours'))}
+            observed = []
+            def prepare(*args, **kwargs):
+                kwargs['on_progress'](dict(stage='coarse_prepare',ticks=65536,elapsed_seconds=6))
+                return [], dict(ticks=65536)
+            with patch('trading_workspace_v2.forex_input_preparation.prepare_input_set',return_value=[]), \
+                 patch('trading_workspace_v2.forex_coarse_input.prepare_coarse_hours',side_effect=prepare), \
+                 redirect_stdout(io.StringIO()):
+                batch.prepare_pending_inputs(jobs,['one'],root,began=time.monotonic(),deadline=30,
+                                             on_observe=observed.append)
+            self.assertEqual(observed[-1]['ticks'],65536)
+            self.assertTrue(all(type(event['ticks']) is int for event in observed))
+
     def test_preparation_observation_write_failure_does_not_invalidate_prepared_data(self):
         with tempfile.TemporaryDirectory() as folder:
             output = Path(folder)

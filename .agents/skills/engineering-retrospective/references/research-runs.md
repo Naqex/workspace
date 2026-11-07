@@ -54,3 +54,15 @@ thuộc strategy-qualification, sửa rules/risk/holdout là scope/protocol riê
 Provenance thực tế: [pilot H1](../../../../planning/research/COARSE-SCREEN-REVIEW-20261107.md)
 ghi preparation73s, stop bias và giới hạn speed ratio; bài học dùng cho lựa chọn
 invariants, không hard-code workload, timing hoặc tolerance vào mọi bài sau.
+
+Recovery có đổi numerical source: chọn explicit checkout cho cả worker lẫn
+artifact reviewer trước khi import model; không sửa source đang pin của job
+khác. Dùng registration/attempt mới và đối chiếu cả metadata kế thừa (candidate,
+parent recovery, worker/deadline và protocol), không chỉ cập nhật hash. Source
+snapshot cũ validate/roundtrip bằng code mới chỉ chứng minh tương thích state,
+không thay replay hoặc chứng nhận code mới có cùng outcomes.
+
+Với lỗi timing qua khoảng trống quote, phân biệt thời điểm quyết định đã khóa
+với checkpoint cash/financing được thêm sau đó. Regression cần cả lệnh hợp lệ
+đi qua cash event và lệnh giả mạo quyết định sớm hơn. Không sửa thời điểm quyết
+định để validator pass. [Recovery thực tế08/11](../../../../planning/research/H1-ASIA-RECOVERY-20261108.md).

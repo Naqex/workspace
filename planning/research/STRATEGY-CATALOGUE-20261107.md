@@ -1,6 +1,6 @@
 # Danh mục nghiên cứu chiến lược — cập nhật08/11/2026
 
-41hồ sơ:23đã có implementation (28policy versions),17ý tưởng chưa code và1risk component. Trong28versions có24nativeoffline rules và4MLcoarse-only, gồm2shuffledcontrols. **Không phải28edges độc lập; chưa bản nào challenge-qualified.**
+47 hồ sơ: 29 đã có implementation (34 policy versions), 17 ý tưởng chưa code và 1 risk component. Trong 34 versions có 24 native offline rules, 4 ML coarse-only và 6 gold coarse-only; gồm 2 shuffled controls. **Không phải 34 edges độc lập; chưa bản nào challenge-qualified.** Capital 10k/50k và các cost/year scenarios không được đếm thành strategy độc lập.
 
 [JSON](STRATEGY-CATALOGUE-20261107.json) là cùng dữ liệu có cấu trúc; protocol/source giữ exactrecipes, không automatic dispatch/rejection hoặc broker authority.
 
@@ -47,6 +47,12 @@
 |R039|Random forest4Hreturn policy|trained_return / R038|Đã code, chưa qualified|1|[Kết quả](DISCOVERY5-RESULTS-20261108.md)|
 |R040|Ridge shuffled-label control|falsification / R038|Đã code, chưa qualified|1|[Kết quả](DISCOVERY5-RESULTS-20261108.md)|
 |R041|Forest shuffled-label control|falsification / R039|Đã code, chưa qualified|1|[Kết quả](DISCOVERY5-RESULTS-20261108.md)|
+|R042|Gold Donchian20/10|trend_breakout / R001|Giữ negative version|1|[Gold outcomes](METAL-DISCOVERY9-10-RESULTS-20261108.md)|
+|R043|Gold SMA20/80|trend_breakout / R002|Giữ nghiên cứu ở size50k; chưa qualified|1|[Gold outcomes](METAL-DISCOVERY9-10-RESULTS-20261108.md)|
+|R044|Gold Z20 ±2|price_reversion / R003|Giữ negative version|1|[Gold outcomes](METAL-DISCOVERY9-10-RESULTS-20261108.md)|
+|R045|Gold Asia→London breakout|session_breakout / R018|Giữ negative version|1|[Gold outcomes](METAL-DISCOVERY9-10-RESULTS-20261108.md)|
+|R046|Gold RSI reentry|price_reversion / R012|Giữ negative version|1|[Gold outcomes](METAL-DISCOVERY9-10-RESULTS-20261108.md)|
+|R047|Gold afternoon reversal15–19London|fixing_flow|Giữ negative version|1|[Gold outcomes](METAL-DISCOVERY9-10-RESULTS-20261108.md)|
 
 ## Cách đọc và việc đang chạy
 

@@ -6991,3 +6991,38 @@ Existingstrategy-research skill gains conditional MLreference, no newskill/daemo
 Data:1.773.334XAU M1rows2020–24/export49,93s;5.399.878rows20091101–20241231/export131,27s. SourceproviderDukascopyexistingQDM125.2692. Sameassetdatafixture206.215ticks20230103viaexactdukascopy-node1.51.1 isolated23deps/SRI/MIT-ISC-Apache/waf off/tokenfalse/noinstall scripts, no2025+.1.380/1.380M1BidOHLC exact, sourcegrid0,001; observedspreadsample0,330median/0,477p99/1,646max. Declaredcostspec changedBEFOREoutcomes andfrozen; no nativeMetal/brokeracceptance. Artifactsunderprivatecampaignexecutionroot metal-discovery8/9/10*,xau-tick-fixture-v1,m1-basis-diagnostic-v1.
 
 NativeAsia2023 failed3405sworker nearholiday gap; other3workersleft untouched. Rootcause reproducedboundedDec22–31 inentry-checkpoint-diagnostic-v1/v2: closed-barintent08:00, laterfee22:00samecursor madevalidatormistakencanonicaldecision. Isolatedfixf8879b32 retainsmatchingdecisioncheckpoint andrequireslatercashcheckpointspreservependingoperation; forgedbackdatingrejected.46tests/47subtests passed, actualshort-dataregressionfixed7,57s inentry-checkpoint-diagnostic-v3-fixed. Noannualrerun/legacyPASSclaimedfornewsourceyet, no sourceD:mutation. C1/C2pending;2025+closed.
+
+
+## 08/11 — retained-ledger optimization, exact recovery và hậu kiểm tái sử dụng
+
+[Review hiện hành](../../research/ENGINEERING-REVIEW-CAMPAIGN-20261108.md) giữ bảng
+bottleneck/timing/G0–G6. Traderedbd1e5f/043656a2 giữ full ledger validation nhưng
+index canonical checkpoint trong một pass và bỏ validate execution local trùng.
+6flatwindows/1.022ticks/6.832events finalSHA exact:8,89–9,02s→1,66–1,84s, chưa
+annualspeedup.77tests/66subtests focused đạt;3sealedreference checkpoints7k events
+đọc bằng code mới roundtrip exact, không numerical replay hoặc source acceptance.
+
+Workspacef781550 isolated source-root worker/reviewer,758613b H1warmup preparation/
+dedup/cancel và enforce registered worker/deadline/parallel caps trước dispatch.
+Recoveryv2prep594s nhưng fail manifest trước simulation vì H1cache source mới
+chưa có; giữ failure. V3 cùng exact economicregistrationbf63fed6… và source
+research-metals/e4481140, launcher8900; reuse quality/tick7,4s, chuẩn bị H1warmup
+rồi reference đã >1millionticks. Không overwrite/rerun successful parent jobs,
+không sửa D:source78a8397f của activeworkers. Progress tại campaignprivateRoot/
+h1-survivor-tick/batch-asia-2023-recovery-v3/PROGRESS.md; V2 vẫn giữ failure.
+Telemetry H1callback dictcounter đã sửa cho next invocation, không restart numeric
+job vì lỗi hiển thị.35batch/evidence tests+9subtests đạt;5capnegative cases sửa
+expectation exception và đạt; thêm telemetrytest1đạt. Tổng36cases/14subtests qua
+các lượt; không claim first-run toàn xanh.
+
+Catalogue47records/34versions,24nativeFX+4MLcoarse+6metalcoarse,2controls;
+17ideas chưa code+1riskcomponent. Gold9/10 đã đóng, SMA50k chỉresearch. Không
+chứng minh có34edges. Skill engineering-retrospective reference cập nhật đúng
+lessons, không tạo skill mới trùng. Audit0errors/0warnings,combined22.412bytes,
+project10.133/65.536,reserve55.403; bundledPython skillvalidator và scopedlinks đạt.
+ResearchPython thiếuPyYAML, không cài dependency vào researchengine. Đây là manual
+workflow walkthrough, không independent model forward-test hoặc native republish.
+
+C1/C2campaign vẫn ACTIVE, chưa có challenge-qualifiedstrategy. D:annualparents
+và isolatedrecovery còn chạy, đọc actualterminals trước resume.2025+closed;
+không broker/LLM calls, không mua challenge hoặc thay risk để ép kết quả.

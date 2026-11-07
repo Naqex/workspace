@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-07",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 41,
+  "record_count": 47,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -11,13 +11,13 @@
   ],
   "counts": {
     "by_role": {
-      "existing": 23,
+      "existing": 29,
       "new": 11,
       "variant": 6,
       "component": 1
     },
     "by_readiness": {
-      "implemented": 23,
+      "implemented": 29,
       "long_history_or_multi_data": 9,
       "price_data_spec_possible": 3,
       "method_clock_review": 3,
@@ -1221,15 +1221,220 @@
       "control": true,
       "evidence_locator": "DISCOVERY5-RESULTS-20261108.md",
       "execution_capability": "coarse_only_no_native_broker"
+    },
+    {
+      "id": "R042",
+      "title": "Gold Donchian20/10",
+      "family": "trend_breakout",
+      "role": "existing",
+      "catalogue_origin_role": "variant",
+      "parent_id": "R001",
+      "readiness": "implemented",
+      "timeframe": "H4",
+      "rule_sketch": "Frozen Discovery9/10; H4 gold reuses exact recipe, H1 uses declared asset policy",
+      "data_requirements": "Observed QDM M1 Bid20091101-20241231 plus declared Ask; exposed2010-2024 annual books",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Native metal tick/risk/prop unavailable; no challenge eligibility",
+      "source_ids": [
+        "AQR-TS",
+        "LOCAL"
+      ],
+      "source_relation": "mechanism_or_method_only_not_edge",
+      "next_action": "Preserve negative version; no promotion",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "xauusd-h4-donchian20-10-atr14-r025-v1",
+      "implementations": [
+        "xauusd-h4-donchian20-10-atr14-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "exposed_indicative_no_qualification",
+      "dispatch_authorized": false,
+      "control": false,
+      "evidence_locator": "METAL-DISCOVERY9-10-RESULTS-20261108.md",
+      "execution_capability": "metal_coarse_only_no_native_broker",
+      "capital_scenarios": [
+        "10000",
+        "50000"
+      ]
+    },
+    {
+      "id": "R043",
+      "title": "Gold SMA20/80",
+      "family": "trend_breakout",
+      "role": "existing",
+      "catalogue_origin_role": "variant",
+      "parent_id": "R002",
+      "readiness": "implemented",
+      "timeframe": "H4",
+      "rule_sketch": "Frozen Discovery9/10; H4 gold reuses exact recipe, H1 uses declared asset policy",
+      "data_requirements": "Observed QDM M1 Bid20091101-20241231 plus declared Ask; exposed2010-2024 annual books",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Native metal tick/risk/prop unavailable; no challenge eligibility",
+      "source_ids": [
+        "AQR-TS",
+        "LOCAL"
+      ],
+      "source_relation": "mechanism_or_method_only_not_edge",
+      "next_action": "Research retention at50k only",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "xauusd-h4-sma20-80-atr14-r025-v1",
+      "implementations": [
+        "xauusd-h4-sma20-80-atr14-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "exposed_indicative_no_qualification",
+      "dispatch_authorized": false,
+      "control": false,
+      "evidence_locator": "METAL-DISCOVERY9-10-RESULTS-20261108.md",
+      "execution_capability": "metal_coarse_only_no_native_broker",
+      "capital_scenarios": [
+        "10000",
+        "50000"
+      ]
+    },
+    {
+      "id": "R044",
+      "title": "Gold Z20 plus/minus2",
+      "family": "price_reversion",
+      "role": "existing",
+      "catalogue_origin_role": "variant",
+      "parent_id": "R003",
+      "readiness": "implemented",
+      "timeframe": "H4",
+      "rule_sketch": "Frozen Discovery9/10; H4 gold reuses exact recipe, H1 uses declared asset policy",
+      "data_requirements": "Observed QDM M1 Bid20091101-20241231 plus declared Ask; exposed2010-2024 annual books",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Native metal tick/risk/prop unavailable; no challenge eligibility",
+      "source_ids": [
+        "AQR-TS",
+        "LOCAL"
+      ],
+      "source_relation": "mechanism_or_method_only_not_edge",
+      "next_action": "Preserve negative version; no promotion",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "xauusd-h4-z20-2-atr14-time6-r025-v1",
+      "implementations": [
+        "xauusd-h4-z20-2-atr14-time6-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "exposed_indicative_no_qualification",
+      "dispatch_authorized": false,
+      "control": false,
+      "evidence_locator": "METAL-DISCOVERY9-10-RESULTS-20261108.md",
+      "execution_capability": "metal_coarse_only_no_native_broker",
+      "capital_scenarios": [
+        "10000",
+        "50000"
+      ]
+    },
+    {
+      "id": "R045",
+      "title": "Gold Asia to London breakout",
+      "family": "session_breakout",
+      "role": "existing",
+      "catalogue_origin_role": "variant",
+      "parent_id": "R018",
+      "readiness": "implemented",
+      "timeframe": "H1",
+      "rule_sketch": "Frozen Discovery9/10; H4 gold reuses exact recipe, H1 uses declared asset policy",
+      "data_requirements": "Observed QDM M1 Bid20091101-20241231 plus declared Ask; exposed2010-2024 annual books",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Native metal tick/risk/prop unavailable; no challenge eligibility",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "mechanism_or_method_only_not_edge",
+      "next_action": "Preserve negative version; no promotion",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "xauusd-h1-asia09-15tokyo-london-break-atr14x1p5-r025-v1",
+      "implementations": [
+        "xauusd-h1-asia09-15tokyo-london-break-atr14x1p5-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "exposed_indicative_no_qualification",
+      "dispatch_authorized": false,
+      "control": false,
+      "evidence_locator": "METAL-DISCOVERY9-10-RESULTS-20261108.md",
+      "execution_capability": "metal_coarse_only_no_native_broker",
+      "capital_scenarios": [
+        "50000"
+      ]
+    },
+    {
+      "id": "R046",
+      "title": "Gold RSI reentry",
+      "family": "price_reversion",
+      "role": "existing",
+      "catalogue_origin_role": "variant",
+      "parent_id": "R012",
+      "readiness": "implemented",
+      "timeframe": "H1",
+      "rule_sketch": "Frozen Discovery9/10; H4 gold reuses exact recipe, H1 uses declared asset policy",
+      "data_requirements": "Observed QDM M1 Bid20091101-20241231 plus declared Ask; exposed2010-2024 annual books",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Native metal tick/risk/prop unavailable; no challenge eligibility",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "mechanism_or_method_only_not_edge",
+      "next_action": "Preserve negative version; no promotion",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "xauusd-h1-rsi14-reentry-atr14x1p5-time12-r025-v1",
+      "implementations": [
+        "xauusd-h1-rsi14-reentry-atr14x1p5-time12-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "exposed_indicative_no_qualification",
+      "dispatch_authorized": false,
+      "control": false,
+      "evidence_locator": "METAL-DISCOVERY9-10-RESULTS-20261108.md",
+      "execution_capability": "metal_coarse_only_no_native_broker",
+      "capital_scenarios": [
+        "50000"
+      ]
+    },
+    {
+      "id": "R047",
+      "title": "Gold afternoon reversal15-19London",
+      "family": "fixing_flow",
+      "role": "existing",
+      "catalogue_origin_role": "new",
+      "parent_id": null,
+      "readiness": "implemented",
+      "timeframe": "H1",
+      "rule_sketch": "Frozen Discovery9/10; H4 gold reuses exact recipe, H1 uses declared asset policy",
+      "data_requirements": "Observed QDM M1 Bid20091101-20241231 plus declared Ask; exposed2010-2024 annual books",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Native metal tick/risk/prop unavailable; no challenge eligibility",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "mechanism_or_method_only_not_edge",
+      "next_action": "Preserve negative version; no promotion",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "xauusd-h1-london-afternoon-reversal15-19-atr14x1p5-r025-v1",
+      "implementations": [
+        "xauusd-h1-london-afternoon-reversal15-19-atr14x1p5-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "exposed_indicative_no_qualification",
+      "dispatch_authorized": false,
+      "control": false,
+      "evidence_locator": "METAL-DISCOVERY9-10-RESULTS-20261108.md",
+      "execution_capability": "metal_coarse_only_no_native_broker",
+      "capital_scenarios": [
+        "50000"
+      ]
     }
   ],
   "automatic_dispatch": false,
   "automatic_rejection": false,
   "holdout_opened": false,
   "updated_on": "2026-11-08",
-  "implemented_record_count": 23,
-  "implemented_rule_count": 28,
+  "implemented_record_count": 29,
+  "implemented_rule_count": 34,
   "implemented_control_rule_count": 2,
-  "implemented_noncontrol_rule_count": 26,
-  "native_offline_rule_count": 24
+  "implemented_noncontrol_rule_count": 32,
+  "native_offline_rule_count": 24,
+  "metal_coarse_rule_count": 6
 }
