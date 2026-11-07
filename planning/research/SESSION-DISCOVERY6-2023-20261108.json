@@ -1,0 +1,120 @@
+{
+  "schema": "forex-historical-study-registration-v1",
+  "study_id": "eurusd-h1-discovery6-2023-fixing-screen-v1",
+  "data_role": "historical_robustness",
+  "prior_exposure": "unverified_owner_cannot_recall",
+  "clean_oos": false,
+  "candidates": [
+    "eurusd-h1-pre-ecb02ny-14berlin-atr14x1p5-r025-v1",
+    "eurusd-h1-post-london16-16ny-atr14x1p5-r025-v1",
+    "eurusd-h1-pre-tokyo18ny-10tokyo-atr14x1p5-r025-v1",
+    "eurusd-h1-fixing-composite-atr14x1p5-r025-v1"
+  ],
+  "account_spec": {
+    "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\forex-prop-pilot-20261102\\ftmo-current-spec-20261102\\spec.json",
+    "sha256": "930e5670b21b09963d21741258706adeff6b10c454dd9fafa0df7346a0a74756",
+    "historical_spec_verified": false,
+    "commission_account_specific_verified": false
+  },
+  "risk": {
+    "starting_balance_usd": "10000",
+    "trade_risk_usd": "25",
+    "daily_internal_loss_usd": "100",
+    "overall_internal_loss_usd": "500",
+    "maximum_positions": 1,
+    "firm_rules_certified": false
+  },
+  "windows": {
+    "warmup": {
+      "first_day": "20221101",
+      "last_day": "20221231",
+      "minimum_valid_h4": 81
+    },
+    "evaluation": {
+      "first_day": "20230101",
+      "last_day": "20231231"
+    }
+  },
+  "input_pins": {
+    "schema": "forex-h4-inputs-v1",
+    "warmup": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\prop-q12023-robustness-20261105\\qdm-export\\warmup\\EURUSD_TICK_TW-TICK-No Session.csv",
+      "sha256": "77fcaa2722b336e729cb5fcce0b6f2aec1be9a652bbfdc7eabeb58a88a6f518a",
+      "first_day": "20221101",
+      "last_day": "20221231"
+    },
+    "development": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\prop-time-fit-20261106\\execution-v1\\export-2023\\EURUSD_TICK_TW-TICK-No Session.csv",
+      "sha256": "0cc3d1206f83f0bd53fbe5eea512542f58f4172a435bfecc590ecb49906531ce",
+      "first_day": "20230101",
+      "last_day": "20231231"
+    }
+  },
+  "source_files": {
+    "scripts/forex_h4_pilot.py": "d13ea94b50abd04f1b0b371aa01e23ab4b006cf83738c038e6b0460fd8878f8f",
+    "trading_workspace_v2/forex_coarse_input.py": "05eb57307380fd149330aefebef650eff83332c54488db1dc428dcff863e2d91",
+    "trading_workspace_v2/forex_h4.py": "2a407dac976acc50c328cbb7cf8d560c798482a01649e10eea39e93dbf1ae09c",
+    "trading_workspace_v2/forex_h4_candidates.py": "ac700a252e0bf8174bf3a22476fe39ddabdc80907a4489734f16a7991f730336",
+    "trading_workspace_v2/forex_prop_candidates.py": "484f7574fdb452de61b4f992c119084786e1be9f750f220e181152037227de61",
+    "trading_workspace_v2/forex_discovery_candidates.py": "3e0772ad72f12d8cf3d3e4e5c4b626774bafb330c3aeb2168c805286cd528a14",
+    "trading_workspace_v2/forex_intraday_candidates.py": "b64fd543bfced217bc902d5f1d76d21b7d784b44dc77a47364f7be6ea69a0c32",
+    "trading_workspace_v2/forex_pilot_risk.py": "73c293a0120eae6a0b2c8482b9f664572e7d59352774fb13e6adf5605d5ce2a0",
+    "trading_workspace_v2/forex_financing.py": "7d38d67fbd09868a68c9c9a776b8e5f03973ebe7dee41417149cfdd912ae440c",
+    "trading_workspace_v2/forex_qdm_inspection.py": "306c02ed8543a2fda9b049d56452dffcc777ef683bc7befc664730e00e97db33",
+    "trading_workspace_v2/semantics/data_costs.py": "1ba3ba60a00939ab3baa20ef47a751a0cf0636c99a1ec372e0616498d2612672",
+    "trading_workspace_v2/semantics/data_contracts.py": "96d385c15fa3b6052fe4a81798694a4d4f168ba01fc8c478b755d5b4ab05ff27",
+    "trading_workspace_v2/replay_execution.py": "7b269692157c6cd114b00c61b786f21f1ae66ddd794fb2889ae59bf183693ad5",
+    "trading_workspace_v2/replay_tick_execution.py": "a9345ee9e3fedd87f794eecc3c7533a2c53214a1e87fbeaf36dade03035a09d2"
+  },
+  "coarse_source_files": {
+    "scripts/forex_coarse_screen.py": "d1a9def638cdff451103b44e07d9094959eb9f3906e8915fabaa2185cdca99d5",
+    "scripts/forex_h4_pilot.py": "d13ea94b50abd04f1b0b371aa01e23ab4b006cf83738c038e6b0460fd8878f8f",
+    "trading_workspace_v2/forex_coarse_input.py": "05eb57307380fd149330aefebef650eff83332c54488db1dc428dcff863e2d91",
+    "trading_workspace_v2/forex_h4.py": "2a407dac976acc50c328cbb7cf8d560c798482a01649e10eea39e93dbf1ae09c",
+    "trading_workspace_v2/forex_h4_candidates.py": "ac700a252e0bf8174bf3a22476fe39ddabdc80907a4489734f16a7991f730336",
+    "trading_workspace_v2/forex_prop_candidates.py": "484f7574fdb452de61b4f992c119084786e1be9f750f220e181152037227de61",
+    "trading_workspace_v2/forex_discovery_candidates.py": "3e0772ad72f12d8cf3d3e4e5c4b626774bafb330c3aeb2168c805286cd528a14",
+    "trading_workspace_v2/forex_intraday_candidates.py": "b64fd543bfced217bc902d5f1d76d21b7d784b44dc77a47364f7be6ea69a0c32",
+    "trading_workspace_v2/forex_ml_candidate.py": "8618f5a6d143261fb7dfe4c8d7395266a398d54199a62dcc3d9a509d7ead7f1e",
+    "trading_workspace_v2/forex_pilot_risk.py": "73c293a0120eae6a0b2c8482b9f664572e7d59352774fb13e6adf5605d5ce2a0",
+    "trading_workspace_v2/forex_financing.py": "7d38d67fbd09868a68c9c9a776b8e5f03973ebe7dee41417149cfdd912ae440c",
+    "trading_workspace_v2/forex_qdm_inspection.py": "306c02ed8543a2fda9b049d56452dffcc777ef683bc7befc664730e00e97db33",
+    "trading_workspace_v2/execution_semantics.py": "9e53bfe3b801e61e687177d46c4c0bb1ec3e92bca175f1db187aa95e85b877af",
+    "trading_workspace_v2/semantics/data_costs.py": "1ba3ba60a00939ab3baa20ef47a751a0cf0636c99a1ec372e0616498d2612672",
+    "trading_workspace_v2/semantics/data_contracts.py": "96d385c15fa3b6052fe4a81798694a4d4f168ba01fc8c478b755d5b4ab05ff27",
+    "trading_workspace_v2/replay_execution.py": "7b269692157c6cd114b00c61b786f21f1ae66ddd794fb2889ae59bf183693ad5",
+    "trading_workspace_v2/replay_tick_execution.py": "a9345ee9e3fedd87f794eecc3c7533a2c53214a1e87fbeaf36dade03035a09d2"
+  },
+  "protocol": {
+    "path": "SESSION-DISCOVERY6-20261108.md",
+    "sha256": "2f97b28d7cb411cac32aba7bae71796af060b6ac3d5b3b6eaf975ea864562454"
+  },
+  "scenarios": [
+    {
+      "name": "reference",
+      "commission_usd_per_lot_per_side": "2.50",
+      "slippage_price_per_side": "0",
+      "financing_debit_buy_usd_per_lot": "9.3000000",
+      "financing_debit_sell_usd_per_lot": "-0.31000000"
+    },
+    {
+      "name": "cost-stress",
+      "commission_usd_per_lot_per_side": "2.50",
+      "slippage_price_per_side": "0.00002",
+      "financing_debit_buy_usd_per_lot": "20",
+      "financing_debit_sell_usd_per_lot": "20"
+    }
+  ],
+  "calendar_accounting": "exclusive_event_clock_v1",
+  "pre_quote_flat_financing": "explicit_not_applicable_v1",
+  "preparation_deadline_seconds": 600,
+  "authorization": {
+    "promotion_authorized": false,
+    "broker_execution_authorized": false,
+    "holdout_read_authorized": false
+  },
+  "registered_at_utc": "2026-11-07T18:41:54.144024+00:00",
+  "parent_protocol_sha256": "874cb378c69a6cae8dfcca11142bc9ef23c7422617a708e2e5b0a8f21c4b5255",
+  "primary_metric": "annual_reference_and_stress_net_with_counts_before_tick_and_prop_review",
+  "selection_rule": "both_annuals_positive_both_costs_rank_weaker_stress_max2_no_promotion"
+}
