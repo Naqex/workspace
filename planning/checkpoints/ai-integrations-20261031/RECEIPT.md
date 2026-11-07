@@ -6795,3 +6795,44 @@ PIDs22316/6516 (venv redirector có PID riêng). Snapshot10:54: cả hai referen
 là liveness. Không pinned source mutation trong khi writer chạy. UI open tool
 trả queued, chưa khẳng định progress tab đã hiện. Không Paperclip update khi
 connector không expose. Chưa annual outcomes/edge/broker authority;2025+ đóng.
+
+### 07/11 12:03 VN — Compression reference sealed; performance prototype vẫn tách riêng
+
+Compression reference đã xong: sealed3/6/12month reader đạt, net equity
+−44,70/−284,20/−129,36USD. Annual111closed, không vị thế cuối mẫu, tickDD329,76USD,
+105qualifyingdays, phase1 not-reached, không firstbreach. Stress đang chạy;
+chưa kết luận toàn study. `reference-horizon-audit.json` giữ proof không replay.
+UTC reference~96%, source16files không drift, stderr0. Partial3/6months ở cả
+hai study đã qua accounting/tickDD/min-equity/Prague entrydays audit, không
+thay final seal hoặc đọc selection outcomes thành criterion mới.
+
+Live20s50Hznonblocking profiler xác nhận nhiều stack trong repeated model/
+ledger validation;908/903valid samples và90/96missing-stackerrors, không coi
+là exactCPUaccounting. Py-spy0.4.3MIT wheel hash/license đã kiểm, privateextract,
+không pip/installscript/venv/global change, không locals. Hai annual workers
+không bị restart hoặc source sửa. [Engineering delta](../../research/DISCOVERY-RESULTS-20261107.md#delta-performance-lúc-historical-study-chạy)
+giữ measurements/scope.
+
+Prototype private gộp tick margin/tick validation vào một orderedpass, mọi
+V2frozenmoney/margin/tick checks vẫn gọi; non-tickV2 không đổi. Snapshot ABBA
+10samples/mode/checkpoint:1.672events1,62×,3.358events1,69×, serialized hashes
+exact; chưa wholebatchspeedup.178unittest+45pytest trên authoritativefixtures
+với2prototype modules injected đạt; four232.578tickoldcases exact output và
+12horizonrows verified. Lỗi initialstandalone fixture thiếuGit/uv.lock/migrations
+được giữ log, không báo nó pass; rerun bằngfixtures thật trong isolatedprocess.
+
+Trader test-only checkpoint thêm regression forged required/available/leverage
+phải reject khi restore tick snapshot;23ticktests đạt cả current và prototype.
+Không thêm bypass hoặc trusted-prefix cache cho mutable public ledger. Bản
+performance chưa áp vào source chính trong khi writers còn chạy. Sau cả hai
+pipeline/report kết thúc mới promote, focused verification và lưu scope cũ/mới;
+không replay annual chỉ vì report hoặc GitHEAD đổi.
+
+12:11 VN: UTC reference đã sealed/reader verified đủ3/6/12month, net
+−169,17/−219,97/−98,53USD; annual214closed, flat cuối mẫu, tickDD272,86USD,
+phase1 not-reached, không firstbreach. Exactly một pristine-flat Jan1/2024
+zero financing exemption được writer ghi và reader xác minh; các calendar
+fees còn lại retained theo contract. `reference-horizon-audit.json` giữ proof.
+Hai study hiện stress; snapshot đầu stress UTC5,3%/Compression39,7% không là
+toàn-batch completion. Test-only Trader checkpoint `f267eec8`, source hashes
+numerical vẫn không đổi, không ảnh hưởng pin của writers.
