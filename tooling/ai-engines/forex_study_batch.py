@@ -196,6 +196,8 @@ def run_job(name, expected, directory, *, seconds, clock=time.monotonic):
         '--account-spec', expected['account_spec'], '--account-spec-sha256', expected['account_spec_sha256']]
     if expected.get('reuse_scenarios_from'):
         argv.extend(['--reuse-scenarios-from', expected['reuse_scenarios_from']])
+    if expected.get('resume_scenarios_from'):
+        argv.extend(['--resume-scenarios-from', expected['resume_scenarios_from']])
     inspection, ticks = input_cache_dirs(expected)
     if inspection:
         argv.extend(['--inspection-cache-dir', inspection])

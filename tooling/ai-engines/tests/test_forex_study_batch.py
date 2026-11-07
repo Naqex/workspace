@@ -467,6 +467,15 @@ class ResultTests(unittest.TestCase):
             self.assertEqual(terminal['status'], 'failed')
             self.assertEqual(terminal['exit_code'], 7)
 
+            expected['resume_scenarios_from']=expected.pop('reuse_scenarios_from')
+            with patch.object(batch,'OwnedPython',return_value=owner) as resume_spawn, \
+                 patch.object(batch,'verified_result') as verify:
+                batch.run_job('candidate',expected,Path(folder)/'resume-attempt',seconds=1)
+            argv=resume_spawn.call_args.args[0]
+            self.assertEqual(argv[argv.index('--resume-scenarios-from')+1],expected['resume_scenarios_from'])
+            self.assertNotIn('--reuse-scenarios-from',argv)
+            verify.assert_not_called()
+
     def test_timeout_closes_job_and_does_not_report_completion(self):
         with tempfile.TemporaryDirectory() as folder:
             owner = Mock()
