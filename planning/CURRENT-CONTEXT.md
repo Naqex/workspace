@@ -1,5 +1,17 @@
 # Current context — Naqex Workspace
 
+## Owner pause và review discovery — 08/11/2026
+
+Goal hiện **paused** theo owner; trạng thái active trong snapshot phía dưới là
+lịch sử. Lượt phân tích mới không chạy numeric/worker. [Review nguyên nhân](research/DISCOVERY-DIAGNOSIS-20261108.md)
+đọc lại13resultseals/624uniquecases/48totals:6/24FXreferencepositive,0stress;
+0margin/minlotskips,khôngzero-fillbook. Chưa chứng minh engine đúng toàn diện
+hoặc false-negative rate của screen; không quy nguyên nhân duy nhất hay hứa
+thêm data/thời gian sẽ ra winner. Recipes đã rà là adaptation của họ phổ biến,
+không exactpaperreplication. Khi owner resume, ưu tiên calibration nhỏ +
+original→adaptation/costdiagnostic trước batch discovery rộng; R019 chưa freeze/
+code/numeric. Review hiện là research request, không resumeGoal hoặc mở gates.
+
 ## Campaign tiếp tục — 08/11/2026, sau R024 price component và raw review
 
 **Goal đang active; C1/C2 chưa hoàn tất.** Tiêu chí và scope ở
