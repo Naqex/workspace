@@ -100,7 +100,9 @@ def verify_source_proof(root,manifest,download,calendar_path, *, frozen_source=F
     def source_digest(source):
         source=Path(source)
         if not frozen_source:
-            return digest(source) if source.is_file() else None
+            if not source.is_file():
+                raise ValueError('source_observation_input_or_code_changed')
+            return digest(source)
         pins=proof.get('source_pins')
         if not isinstance(pins,dict) or str(source.resolve()) not in pins:
             raise ValueError('frozen_source_pin_required')
@@ -136,7 +138,9 @@ def verify_source_proof(root,manifest,download,calendar_path, *, frozen_source=F
         if not isinstance(proof.get(field),dict) or not proof[field]:
             raise ValueError('source_observation_missing_bindings')
         for name,sha in proof[field].items():
-            actual=source_digest(name) if field=='source_pins' else digest(Path(name)) if Path(name).is_file() else None
+            if field=='input_bindings' and not Path(name).is_file():
+                raise ValueError('source_observation_input_or_code_changed')
+            actual=source_digest(name) if field=='source_pins' else digest(Path(name))
             if actual!=sha:
                 raise ValueError('source_observation_input_or_code_changed')
     if [q['quarter'] for q in proof.get('quarters',[])]!=[1,2,3,4]:

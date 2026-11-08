@@ -78,5 +78,15 @@ class FrozenSourceProofTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'input_or_code_changed'):check(out)
             self.assertTrue(check(out,frozen_source=True)['source_presence_verified'])
 
+    def test_missing_input_with_forged_null_hash_is_never_a_matching_binding(self):
+        with tempfile.TemporaryDirectory() as temp:
+            out,_=self.setup_view(Path(temp));proof=json.loads((out/'source-observation-proof.json').read_text())
+            parent_manifest=Path(temp)/'parent/manifest.json'
+            self.assertIn(str(parent_manifest.resolve()),proof['input_bindings'])
+            parent_manifest.unlink();proof['input_bindings'][str(parent_manifest.resolve())]=None
+            write(out/'source-observation-proof.json',proof)
+            result=json.loads((out/'result.json').read_text());result['sourceObservationProofSha256']=digest(out/'source-observation-proof.json');write(out/'result.json',result)
+            with self.assertRaisesRegex(ValueError,'input_or_code_changed'):check(out,frozen_source=True)
+
 
 if __name__=='__main__':unittest.main()
