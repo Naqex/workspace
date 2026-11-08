@@ -47,3 +47,14 @@ protocol/tests/fixtures/input seals trước compute. Lưu runtime/wall/CPU và
 reuse so với simulationcalls0; không bịa speedup toàn pipeline. Sau kết quả
 chỉ quyết định có đủ căn cứ thiết kế stop version mới hay còn data/risk gaps.
 2025+, broker, tài khoản/provider mới, challenge payment/production vẫn đóng.
+
+## Sửa input assumption trước outcomes: attempt2
+
+Attempt1/source65b833f dừng ở commonmask guard sau3,608s, **0 path extrema**,
+failure/status/manifest giữ trong `pre-ecb-path-risk-v1`. Kiểm input cho thấy
+dates/entry/endpoint trùng, nhưng lot khác ở165/259dates2019 và50/260dates2022:
+cost-aware sizing của parent, không lỗi dữ liệu hoặc lý do sửa old books.
+Correction giữ một observed path/date, giữ quantity riêng reference và stress
+để tính cash/R; không giả định lot bằng nhau. Freeze bổ sung này trước numeric
+attempt2, tests thêm case lot khác hợp lệ và date khác phải reject. Output mới
+`pre-ecb-path-risk-v2`, fixture mớiv2, không overwrite hoặc tự retry.

@@ -16,19 +16,21 @@ ATTRIBUTION_SHA = '022207cb47559cb2f7f99f84c166321218e68f7a1f0c343ee01a286d38a7b
 COMPONENT_SHA = '98414710bdf3d73e39033c2b5b12ec8866d7a13d315302d13661022c4243be34'
 
 
-def excursions(entry_bid, minimum_ask, maximum_ask, quantity):
+def excursions(entry_bid, minimum_ask, maximum_ask, quantity, stress_quantity=None):
     bid, low, high, q = map(fraction, (entry_bid, minimum_ask, maximum_ask, quantity))
-    if not 0 < low <= high or bid <= 0 or q <= 0 or (q*100).denominator != 1:
+    sq = fraction(quantity if stress_quantity is None else stress_quantity)
+    if (not 0 < low <= high or bid <= 0 or q <= 0 or (q*100).denominator != 1
+            or sq <= 0 or (sq*100).denominator != 1):
         raise ValueError('invalid_price_or_quantity')
     adverse, favorable = max(0, high-bid), max(0, bid-low)
     return dict(mae_pips=str(adverse*10000), mfe_pips=str(favorable*10000),
         worst_reference_loss_usd=str(adverse*q*100000+5*q),
-        worst_stress_loss_usd=str(adverse*q*100000+9*q),
+        worst_stress_loss_usd=str(adverse*sq*100000+9*sq),
         worst_reference_loss_R=str((adverse*q*100000+5*q)/25),
-        worst_stress_loss_R=str((adverse*q*100000+9*q)/25))
+        worst_stress_loss_R=str((adverse*sq*100000+9*sq)/25))
 
 
-def observed_path(event, hours, quantity):
+def observed_path(event, hours, quantity, stress_quantity=None):
     entry, end = event['quotes']['entry'], event['quotes']['exit_1400']
     start, finish = event['clocks']['entry'], event['clocks']['exit_1400']
     if start % HOUR or finish % HOUR or finish <= start:
@@ -53,7 +55,7 @@ def observed_path(event, hours, quantity):
         entry_time_msc=entry['time_msc'], endpoint_time_msc=end['time_msc'],
         entry_sequence=entry['sequence'], endpoint_sequence=end['sequence'],
         observed_ticks=end['sequence']-entry['sequence']+1, hours=len(selected)-1,
-        **excursions(entry['bid'], low, high, quantity))
+        **excursions(entry['bid'], low, high, quantity, stress_quantity))
 
 
 def distribution(values):
@@ -70,11 +72,11 @@ def common_rows(attribution, year):
         raise ValueError('cost_books_required')
     reference = next(r for r in books if r['scenario'] == 'reference')
     stress = next(r for r in books if r['scenario'] == 'cost-stress')
-    fields = ('day','quantity','entry_time_msc','entry_fill','endpoint_time_msc')
+    fields = ('day','entry_time_msc','entry_fill','endpoint_time_msc')
     a, b = [[tuple(r[k] for k in fields) for r in book['matched']] for book in (reference,stress)]
     if a != b or len({r['day'] for r in reference['matched']}) != len(a):
         raise ValueError('cost_common_mask_mismatch')
-    return reference['matched'], reference['excluded']
+    return [dict(r,stress_quantity=s['quantity']) for r,s in zip(reference['matched'],stress['matched'])], reference['excluded']
 
 
 def main(argv=None):
@@ -170,9 +172,9 @@ def main(argv=None):
                         or fraction(r['entry_fill']) != fraction(e['quotes']['entry']['bid'])
                         or r['endpoint_time_msc'] != e['quotes']['exit_1400']['time_msc']):
                     raise ValueError('matched_event_binding')
-                rows.append(dict(day=r['day'],quantity=r['quantity'],entry_bid=e['quotes']['entry']['bid'],
+                rows.append(dict(day=r['day'],quantity=r['quantity'],stress_quantity=r['stress_quantity'],entry_bid=e['quotes']['entry']['bid'],
                     endpoint_reference_net_unit_usd=e['views']['baseline_1400']['outcomes']['reference']['net_usd_per_standard_lot'],
-                    **observed_path(e,index,r['quantity'])))
+                    **observed_path(e,index,r['quantity'],r['stress_quantity'])))
             resolved = [r for r in rows if r['status'] == 'resolved_observed_extrema']
             metrics = ('mae_pips','mfe_pips','worst_reference_loss_usd','worst_stress_loss_usd',
                        'worst_reference_loss_R','worst_stress_loss_R')

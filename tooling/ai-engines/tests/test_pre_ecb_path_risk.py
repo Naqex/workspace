@@ -77,6 +77,10 @@ class PathRiskTests(unittest.TestCase):
                for s in ('reference','cost-stress')]
         self.assertEqual(len(common_rows(dict(rows=books),2019)[0]),1)
         books[1]['matched'][0]['quantity']='.2'
+        merged=common_rows(dict(rows=books),2019)[0]
+        self.assertEqual(merged[0]['stress_quantity'],'.2')
+        self.assertEqual(excursions('1.1','1.098','1.102','.1','.2')['worst_stress_loss_usd'],'209/5')
+        books[1]['matched'][0]['day']='2019-01-07'
         with self.assertRaises(ValueError):common_rows(dict(rows=books),2019)
 
 
