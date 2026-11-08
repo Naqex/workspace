@@ -14,6 +14,7 @@ Các mục cũ chưa được re-audit khi tạo chỉ mục ngày 05/11/2026.
 
 | Câu hỏi / từ khóa | Nguồn hiện có |
 |---|---|
+| NYFX gap models đã giải quyết được annual unknown chưa? | [Conditional results](NY-FX-GAP-SCENARIOS-RESULTS-20261109.md): 64 books đã review, primary âm cả hai năm; gác exact recipe, strict annual N/A giữ nguyên; 93,415 s producer + 115,232 s review |
 | NASDAQ opening5 đã có edge chưa; sourcegaps đã sửa chưa? | [Datarevisionresults](NASDAQ-OPENING5-ORB-DATA-REVISION-RESULTS-20261109.md):2022knownflat/243trades/+714,71 hoặc+568,12USD,2019unknown giữ nguyên; tickderivedhour480fields reviewed, nguyên191tradeprefix và nullstate. Overallgate vẫn chưađạt; [interim](NASDAQ-OPENING5-ORB-INTERIM-20261108.md)/[tickgapreview](NASDAQ-M1-GAP-TICK-RESULTS-20261108.md) giữv1failures |
 | NASDAQ first→last-half có giữ lợi thế không; tiếp cơ chế nào? | [R064 results](NASDAQ-INTRADAY-MOMENTUM-RESULTS-20261108.md):413/413signalday endpoints/1.652cases reviewed, cả2years âm và kém longcontrol; [opening5 method](NASDAQ-OPENING5-ORB-METHOD-20261108.md) có primary author rule, chưa newpolicy/outcomes |
 | NASDAQ M1 history và cash RSI đã xong chưa? | [Source results](NASDAQ-M1-HISTORY-RESULTS-20261108.md):8books/1.704rawdays/7.980.630checks đạt; [R063 results](NASDAQ-CASH-RSI-COMPONENT-RESULTS-20261108.md): không retained, batch compute46,617→12,364s với8cases exact; [next method](NASDAQ-INTRADAY-MOMENTUM-METHOD-20261108.md) reuse source, chưa outcomes |

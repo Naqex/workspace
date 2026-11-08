@@ -10,37 +10,31 @@ Owner giao tìm ứng viên đủ C1/C2, chuẩn hóa dữ liệu và cải ti�
 Goal đang active; [campaign v2](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)
 giữ scope, quyết định B cũ không kết thúc chiến dịch mới. **Chưa challenge-qualified.**
 
-Lát mới nhất: [R072/R073 pairedM1latency](research/NY-FX-PAIRED-LATENCY-RESULTS-20261109.md)
-đã32books/fullFractionreview nhưng16nonnullannualbooksunknownexposure,annualN/A.
-2019firstgap20May17:54UTC;2022lag15Jan5/lag60Feb15. Khônglấypartialcash làmprofit
-hoặcnegativegate.16nullbooks0trades/PnL. Catalogue73records/54versions/25native/
-7controls;chưa challengecandidate. [ParentH1R070/R071](research/NY-FX-REVERSAL-RESULTS-20261109.md)
-negatives giữ nguyên;M1source revisions đượcđếmriêng,khôngedgesđộc lập.
+Lát mới nhất: [conditional NYFX gap scenarios](research/NY-FX-GAP-SCENARIOS-RESULTS-20261109.md)
+đã hoàn tất 64 books và full Fraction review. Primary reversal lag15 âm cả hai
+stress years: −1.094,70 / −413,86 USD trên vốn 10k. Hai models cho cùng kết quả,
+0 adverse-envelope exits; gác exact recipe theo sensitivity, không tune cứu.
+[Strict M1 study](research/NY-FX-PAIRED-LATENCY-RESULTS-20261109.md) vẫn annual N/A /
+unknown exposure; parent H1 negatives giữ riêng. Catalogue 73 records / 58
+versions / 25 native / 9 controls, chưa challenge candidate.
 
-[Pairedprotocol](research/NY-FX-PAIRED-LATENCY-PROTOCOL-20261109.md)1047a5d và
-implementation56ea354 trướcoutcomes. SourceM1:1.460URLs/1.492.264explicitbars/
-7.461.320fields raw/canonical/Fractionreview;additional exactdayreviewđạt.
-Reviewerempty-sourcebugv1 giữfailure, v2/emptyfixtuređạtkhôngrawrewrite/rerundownload.
-7parent+5M1tests/16syntheticcases đạt trướcnumeric;32books/1.660closedpaths/census/
-signals/cost/cash/unknown reviewed;5actualmutationsreject. NoOOS/prop/brokerproof.
-
-Source-onlypotentialheldcensus:10missingminutes/10days/10hours. [Tickprotocol](research/NY-FX-M1-GAP-TICK-PROTOCOL-20261109.md)
-cd39fe1 trướcfetch:15.379jointticks/76.895fields,1.180commonM1sidebars exact,
-khôngtick trongcả10missingminutes,0patchapproved. Sourcefeedkhôngcóevent không
-chứngminhthịtrường/brokerkhôngquote hoặcgiábấtbiến. Strictunknownkhôngclear.
-
-**Tiếp:** method admission observed-event/uncertaintymodel riêng; nếu phùhợp,
-register trướcnewoutcomes,khôngfakebar/carryfill/mark hoặcđổirisk/MA/SL/cost.
-Nautilusprimarydocsđãđọccủngcốeventstreamconcept,khôngcertifymarketcontinuity.
-Khôngrerun32booksnguyên,nodownloadannualhistorylại,ownholdout2025+đóng/khôngbroker.
+Source M1/tick đã review và được reuse, không download lại. Conditional
+protocol `67933d0`, implementation `209de7e` trước outcomes; 6 tests mới,
+5 regressions, actual strict whole-book parity, 32 synthetic cases, 64 strict
+prefixes và 6 mutations đạt. Review dùng implementation Fraction khác nhưng
+cùng agent/provider; không independent human/model hoặc OOS/prop proof.
 
 Private root `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/`;
-`execution-v1/ny-fx-timing-M1-history-v1`,`ny-fx-paired-latency-v1`,`ny-fx-M1-gap-ticks-v1`
-giữsource/seals/emptyfailure/reviews/pins/snapshots/census/books/progress/events.
-Mọijobterminal0(trừreviewv1failuređãgiữ),khôngjobphảiđợi. Sourcetime569,796s/
-CPU15,999s;fullreview107,776s;numerics22,167s/CPU21,781s;financialreview31,923s;
-ticksource17,015s/review3,996s. Không computebottleneck cầnGPU/Rust/framework.
-Trader83731fc8/skills/runtime/globalconfig giữnguyên;khôngxóa/migration raw.
+output `execution-v1/ny-fx-gap-scenarios-v1/` giữ result/review/pins/snapshots/
+admission/events/progress. Mọi job terminal; producer 93,415 s, review 115,232 s.
+Không compute bottleneck đáng thêm GPU/Rust/framework. Code live có revision
+mới: strict pins cũ bind frozen snapshots, không repin theo code live.
+
+**Tiếp:** admission cơ chế khác có cơ sở, ưu tiên reuse NASDAQ M1/calendar;
+freeze economics/control/gate trước outcomes. Không rerun unchanged books,
+không mở own holdout 2025+ hoặc broker. Trader `83731fc8`, runtime và skills
+chưa đổi; không migration/xóa raw. Xem [data/retrieval review](research/AGENT-DATA-RETRIEVAL-20261108.md)
+cho source ownership, schema/hash/lineage và local search; chưa cần vector DB.
 
 [R068/R069 ML](research/GOLD-ML-SL-LABELS-RESULTS-20261109.md) giữ0signalnegative,
 khôngthresholdrescue;[R067](research/GOLD-SILVER-FORMATION-RESULTS-20261109.md)

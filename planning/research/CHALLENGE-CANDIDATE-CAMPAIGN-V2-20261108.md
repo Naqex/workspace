@@ -8,13 +8,13 @@ có nhu cầu thực. Goal mới đã active. Quyết định dừng B ở
 
 ## Checkpoint hiện hành — 09/11/2026
 
-[R072/R073 pairedNYFXM1](NY-FX-PAIRED-LATENCY-RESULTS-20261109.md)32books đãreview,
-16nonnullannualunknown/N/A;khôngpartialcashprofitclaim. Source1,49triệubars/
-7,46triệufields verified;tick10hours khôngquote ở10missingminutes,0patchapproved.
-ParentH1negativegiữriêng. Catalogue73records/54versions/25native/7controls;
-GoalC1/C2active,chưachallenge. Tiếpobserved-event/uncertaintyadmissionriêng trước
-newoutcomes,nofakebar/norawrewrite/norisk/SL/MA/costrescue. Các đoạn tiếp trong
-lịch sử không làjobsđangchạy. Khôngrepeatunchangedannualdownload hoặc32books.
+[Conditional NYFX review](NY-FX-GAP-SCENARIOS-RESULTS-20261109.md) đã xong
+64 books/Fraction review; primary âm cả hai stress years, gác exact recipe.
+Giữ [strict annual N/A](NY-FX-PAIRED-LATENCY-RESULTS-20261109.md) và parent H1
+negatives riêng; hai gap models không khôi phục dữ liệu thiếu. Catalogue
+73 records / 58 versions / 25 native / 9 controls. Goal C1/C2 active, chưa
+challenge candidate; không còn job phải đợi. Tiếp distinct mechanism admission
+với nguồn đã review, không retune MA/SL/cost/risk/control hoặc rerun books cũ.
 
 ## Đích và cách biết đã đạt
 

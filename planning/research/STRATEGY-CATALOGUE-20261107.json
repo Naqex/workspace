@@ -2428,12 +2428,13 @@
         "LEBARON-NYFX"
       ],
       "source_relation": "session_conditioned_MA_method_adaptation_not_EBS_paper_replication_or_edge",
-      "next_action": "Keep originalH1negative and M1unknown distinct; separate observed-event/uncertainty model admission, no filled bars or silent state clear.",
+      "next_action": "Park exact NYMA4 recipe under registered conditional sensitivity; preserve strict annual N/A and original H1 outcomes; no MA/SL/risk/cost/control rescue.",
       "implementation_state": "implemented_reviewed_not_retained",
       "candidate_id": "eurusd-ny-ma4-reversal-tr14x1p5-r025-h1-v1",
       "implementations": [
         "eurusd-ny-ma4-reversal-tr14x1p5-r025-h1-v1",
-        "eurusd-ny-ma4-reversal-tr14x1p5-r025-m1-lag60-v1"
+        "eurusd-ny-ma4-reversal-tr14x1p5-r025-m1-lag60-v1",
+        "eurusd-ny-ma4-reversal-tr14x1p5-r025-m1-lag60-conditional-gap-v1"
       ],
       "evidence_locator": "NY-FX-REVERSAL-RESULTS-20261109.md",
       "profitability_evidence": "Initial10k/annual:2019 ref-1217.66/stress-1536.55USD,540closed;2022 ref-297.01/stress-463.01,522closed;allknownflat,noqualification.",
@@ -2441,7 +2442,10 @@
       "control": false,
       "implementation_updated_on": "2026-11-09",
       "source_revision_evidence": "NY-FX-PAIRED-LATENCY-RESULTS-20261109.md",
-      "source_revision_state": "M1_lag60_reviewed_annual_unknown_original_H1_negative_preserved"
+      "source_revision_state": "M1_lag60_reviewed_annual_unknown_original_H1_negative_preserved",
+      "conditional_model_evidence": "NY-FX-GAP-SCENARIOS-RESULTS-20261109.md",
+      "conditional_model_state": "reviewed_conditional_flat_not_retained_original_strict_unknown_preserved",
+      "conditional_profitability_evidence": "2019 ref/stress USD: -1025.94/-1297.16;2022 -200.59/-335.47; both gap scenarios coincide with zero adverse exits; not exact annual/OOS/prop proof."
     },
     {
       "id": "R071",
@@ -2459,12 +2463,13 @@
         "LEBARON-NYFX"
       ],
       "source_relation": "session_conditioned_MA_method_adaptation_not_EBS_paper_replication_or_edge",
-      "next_action": "Keep originalH1negative and M1unknown distinct; separate observed-event/uncertainty model admission, no filled bars or silent state clear.",
+      "next_action": "Park exact NYMA4 recipe under registered conditional sensitivity; preserve strict annual N/A and original H1 outcomes; no MA/SL/risk/cost/control rescue.",
       "implementation_state": "implemented_reviewed_not_retained",
       "candidate_id": "eurusd-ny-ma4-momentum-control-tr14x1p5-r025-h1-v1",
       "implementations": [
         "eurusd-ny-ma4-momentum-control-tr14x1p5-r025-h1-v1",
-        "eurusd-ny-ma4-momentum-control-tr14x1p5-r025-m1-lag60-v1"
+        "eurusd-ny-ma4-momentum-control-tr14x1p5-r025-m1-lag60-v1",
+        "eurusd-ny-ma4-momentum-control-tr14x1p5-r025-m1-lag60-conditional-gap-v1"
       ],
       "evidence_locator": "NY-FX-REVERSAL-RESULTS-20261109.md",
       "profitability_evidence": "Initial10k/annual:2019 ref+225.13/stress-67.79USD,498closed;2022 ref-582.25/stress-723.03,501closed;allknownflat,notindependentedge.",
@@ -2472,7 +2477,9 @@
       "control": true,
       "implementation_updated_on": "2026-11-09",
       "source_revision_evidence": "NY-FX-PAIRED-LATENCY-RESULTS-20261109.md",
-      "source_revision_state": "M1_lag60_reviewed_annual_unknown_original_H1_negative_preserved"
+      "source_revision_state": "M1_lag60_reviewed_annual_unknown_original_H1_negative_preserved",
+      "conditional_model_evidence": "NY-FX-GAP-SCENARIOS-RESULTS-20261109.md",
+      "conditional_model_state": "reviewed_conditional_flat_not_retained_original_strict_unknown_preserved"
     },
     {
       "id": "R072",
@@ -2490,17 +2497,21 @@
         "LEBARON-NYFX"
       ],
       "source_relation": "registered_latency_and_source_model_adaptation_not_paper_replication",
-      "next_action": "Tickreview has no quotes for all10missingminutes;no patchapproved. Admit observed-event/uncertainty model separately or park inconclusive, no risk/MA/SL/cost rescue.",
+      "next_action": "Park exact NYMA4 recipe under registered conditional sensitivity; preserve strict annual N/A and original H1 outcomes; no MA/SL/risk/cost/control rescue.",
       "implementation_state": "implemented_reviewed_inconclusive_unknown_exposure",
       "candidate_id": "eurusd-ny-ma4-reversal-tr14x1p5-r025-m1-lag15-v1",
       "implementations": [
-        "eurusd-ny-ma4-reversal-tr14x1p5-r025-m1-lag15-v1"
+        "eurusd-ny-ma4-reversal-tr14x1p5-r025-m1-lag15-v1",
+        "eurusd-ny-ma4-reversal-tr14x1p5-r025-m1-lag15-conditional-gap-v1"
       ],
       "evidence_locator": "NY-FX-PAIRED-LATENCY-RESULTS-20261109.md",
       "profitability_evidence": "2019 207closed/cost thenunknown2019-05-20T17:54Z;2022 3closed/cost thenunknown2022-01-05T18:42Z;annualnetN/A,partialcashnotannualprofit.",
       "control": false,
       "dispatch_authorized": false,
-      "implementation_updated_on": "2026-11-09"
+      "implementation_updated_on": "2026-11-09",
+      "conditional_model_evidence": "NY-FX-GAP-SCENARIOS-RESULTS-20261109.md",
+      "conditional_model_state": "reviewed_conditional_flat_not_retained_original_strict_unknown_preserved",
+      "conditional_profitability_evidence": "2019 ref/stress USD: -823.78/-1094.70;2022 -275.54/-413.86; both gap scenarios coincide with zero adverse exits; not exact annual/OOS/prop proof."
     },
     {
       "id": "R073",
@@ -2518,17 +2529,20 @@
         "LEBARON-NYFX"
       ],
       "source_relation": "registered_latency_and_source_model_adaptation_not_paper_replication",
-      "next_action": "Tickreview has no quotes for all10missingminutes;no patchapproved. Admit observed-event/uncertainty model separately or park inconclusive, no risk/MA/SL/cost rescue.",
+      "next_action": "Park exact NYMA4 recipe under registered conditional sensitivity; preserve strict annual N/A and original H1 outcomes; no MA/SL/risk/cost/control rescue.",
       "implementation_state": "implemented_reviewed_inconclusive_unknown_exposure",
       "candidate_id": "eurusd-ny-ma4-momentum-control-tr14x1p5-r025-m1-lag15-v1",
       "implementations": [
-        "eurusd-ny-ma4-momentum-control-tr14x1p5-r025-m1-lag15-v1"
+        "eurusd-ny-ma4-momentum-control-tr14x1p5-r025-m1-lag15-v1",
+        "eurusd-ny-ma4-momentum-control-tr14x1p5-r025-m1-lag15-conditional-gap-v1"
       ],
       "evidence_locator": "NY-FX-PAIRED-LATENCY-RESULTS-20261109.md",
       "profitability_evidence": "2019 185closed/cost thenunknownMay20;2022 2closed/cost thenunknownJan5;annualN/A,notindependentedge.",
       "control": true,
       "dispatch_authorized": false,
-      "implementation_updated_on": "2026-11-09"
+      "implementation_updated_on": "2026-11-09",
+      "conditional_model_evidence": "NY-FX-GAP-SCENARIOS-RESULTS-20261109.md",
+      "conditional_model_state": "reviewed_conditional_flat_not_retained_original_strict_unknown_preserved"
     }
   ],
   "automatic_dispatch": false,
@@ -2536,9 +2550,9 @@
   "holdout_opened": false,
   "updated_on": "2026-11-09",
   "implemented_record_count": 47,
-  "implemented_rule_count": 54,
-  "implemented_control_rule_count": 7,
-  "implemented_noncontrol_rule_count": 47,
+  "implemented_rule_count": 58,
+  "implemented_control_rule_count": 9,
+  "implemented_noncontrol_rule_count": 49,
   "native_offline_rule_count": 25,
   "metal_coarse_rule_count": 6,
   "index_coarse_rule_count": 7,
@@ -2548,5 +2562,6 @@
   "index_noise14_m1_rule_count": 1,
   "metal_h1_ml_rule_count": 2,
   "fx_ny_ma4_h1_rule_count": 2,
-  "fx_ny_ma4_M1_rule_count": 4
+  "fx_ny_ma4_M1_rule_count": 4,
+  "fx_ny_ma4_M1_conditional_rule_count": 4
 }
