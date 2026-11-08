@@ -1,13 +1,23 @@
 # Current context — Naqex Workspace
 
-## Campaign tiếp tục — 08/11/2026, 09:00 Việt Nam
+## Campaign tiếp tục — 08/11/2026, 09:55 Việt Nam
 
 **C1/C2 chưa hoàn tất.** Owner giao tìm ứng viên challenge và kiểm/sửa quá
 trình. Tiếp tục từ [campaign](research/CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md);
 không coi checkpoint, completed job hoặc test pass là đã có edge/payout.
 Hiện **không còn numerical/data worker của lượt này chạy**; không dispatch
-lại các attempts đã hoàn tất chỉ để xem trạng thái. Goal chưa được tạo;
-câu hỏi bật Goal trước đó chưa có trả lời, không suy quyền từ im lặng.
+lại các attempts đã hoàn tất chỉ để xem trạng thái. **Owner đã bật Goal rõ
+ràng; Goal đang active** cho C1/C2, không đặt token budget. Việc bật Goal không
+mở quyền holdout/broker/provider/account hoặc thay tiêu chí để ép ra winner.
+
+**Lát đang thực hiện:** [FTMO commission review và protocol mới](research/FTMO-INDEX-COMMISSION-REVIEW-20261108.md).
+Nguồn FTMO chính thức công bố index commission0; old index scenarios dùng
+0,5USD/lot/chiều declared. Đăng ký profile commission0 có nguồn trước outcome,
+giữ default/old artifacts, spread/slippage/funding/risk và strategy rules.
+Trước numeric rerun cần typed scenario propagation, independent checker và
+legacy/zero-commission fixtures. Đợt đầu R048/R051 trên2022–24 đã consumed;
+không thay phí bằng phép hoàn lại PnL cũ, không gọi current terms là historical
+broker proof. Source runtime local vẫn chưa thấy API8010/ownedMT5 lúc09:53.
 
 ### Kết quả mới và nguồn tiếp tục
 

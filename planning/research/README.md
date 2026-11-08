@@ -7,6 +7,7 @@ Các mục cũ chưa được re-audit khi tạo chỉ mục ngày 05/11/2026.
 
 | Câu hỏi / từ khóa | Nguồn hiện có |
 |---|---|
+| Goal đang tiếp tục; giả định commission US500 khác công bố FTMO | [Commission review/protocol](FTMO-INDEX-COMMISSION-REVIEW-20261108.md); official index commission0, giữ old declared0,5 và mọi outcome; chưa có kết quả cost scenario mới |
 | Kết quả long RSI đã xong; reviewer entry/ID/count và annual0 do thiếu dữ liệu | [Long review](US500-LONG-REVIEW-20261108.md); 24 books/72 scenarios đối soát lại, không rerun simulation; cả hai không đạt retention |
 | Xu hướng tháng/long benchmark, account liên tục và preflight theo clock | [Protocol](US500-MONTHLY-TREND-PREPARATION-20261108.md), [results và admission repair](US500-MONTHLY-TREND-RESULTS-20261108.md); 83/132 tháng usable, 576 decisions exact, chưa challenge-qualified |
 | Month-end thiếu quote, CFD sessions khác NYSE, UTC/local year bug | [Tick-oracle protocol](INDEX-MONTH-END-QUOTE-ORACLE-20261108.md), [results](INDEX-MONTH-END-QUOTE-RESULTS-20261108.md); ba khoảng rỗng, 2016 có304ticks/Bid exact/Ask thiếu; chưa reconstruct dataset |
