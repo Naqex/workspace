@@ -1,6 +1,6 @@
 # Danh mục nghiên cứu chiến lược — cập nhật09/11/2026
 
-73 hồ sơ: 47 đã có research implementation (58 policy/model versions), 25 chưa có account policy và 1 risk component. Trong 58 versions có 25 native offline rules và 33 tooling/coarse/model versions; gồm 9 controls. Mới thêm 4 conditional gap revisions của NYFX, không đổi strategy và không đếm 2 gap scenarios thành các edge độc lập. **Chưa có bản nào challenge-qualified.**
+74 hồ sơ: 47 đã có research implementation (58 policy/model versions), 26 chưa có account policy và 1 risk component. Trong 58 versions có 25 native offline rules và 33 tooling/coarse/model versions; gồm 9 controls. Mới thêm 4 conditional gap revisions của NYFX, không đổi strategy và không đếm 2 gap scenarios thành các edge độc lập. **Chưa có bản nào challenge-qualified.**
 
 [JSON](STRATEGY-CATALOGUE-20261107.json) là cùng dữ liệu có cấu trúc; protocol/source giữ exactrecipes, không automatic dispatch/rejection hoặc broker authority.
 
@@ -77,12 +77,12 @@
 |R069|Gold stopped-label forest shuffled control|falsification / R068|Control đăng ký cùngR068;0tín hiệu đủ ngưỡng|1|[Results](GOLD-ML-SL-LABELS-RESULTS-20261109.md);khôngindependentedge|
 |R070|NY EURUSD MA4 reversal|session_conditioned_reversion / R003|Gác exact recipe theo conditional sensitivity; giữ H1 negatives/strict annual N/A|3|[Conditional review](NY-FX-GAP-SCENARIOS-RESULTS-20261109.md); strict unknown không bị clear|
 |R071|NY EURUSD MA4 momentum control|falsification / R070|Gác exact recipe theo conditional sensitivity; giữ H1 negatives/strict annual N/A|3|[Conditional review](NY-FX-GAP-SCENARIOS-RESULTS-20261109.md); strict unknown không bị clear|
-
 |R072|NY EURUSD MA4 reversal15min|session_conditioned_reversion / R070|Gác exact recipe theo conditional sensitivity; giữ H1 negatives/strict annual N/A|2|[Conditional review](NY-FX-GAP-SCENARIOS-RESULTS-20261109.md); strict unknown không bị clear|
 |R073|NY EURUSD MA4 momentum15min control|falsification / R072|Gác exact recipe theo conditional sensitivity; giữ H1 negatives/strict annual N/A|2|[Conditional review](NY-FX-GAP-SCENARIOS-RESULTS-20261109.md); strict unknown không bị clear|
+|R074|NASDAQ overnight → first-half reversal|equity_opening_reversion|Gác exact component: stress −1.166,74 / −2.359,71 USD/unit|0|[Review](NASDAQ-OVERNIGHT-REVERSAL-RESULTS-20261109.md); 499 ngày, chưa account/prop/OOS|
 
 
-## Cách đọc và việc đang chạy
+## Cách đọc và lịch sử các batch đầu
 
 Discovery4/6/7 historical screens đã completed; MLreal policies thất bại, giữ controls/negatives. Asia2023/2024 native review đã completed; Londonstresscả2years còn incomplete do timeout. [Catalogue13](EURUSD-CATALOGUE13-RESULTS-20261108.md) đã624/624cases,0/24retained trên observedhistory2010–2022. R048noise14 là cơchế/asset khác: [kết quả](US500-NOISE-RESULTS-20261108.md)2022dương nhưng2023/24âm ởcảcosts,khôngretained. Không writer còn chạy trongcácattempts này. Không dispatch lại screens hoặc gọi2023/2024cleanOOS.2025+vẫn đóng.
 
@@ -111,3 +111,6 @@ Chỉ nâng ngày cho nguồn thực sự đọc lại; top updated_on không c�
 - **SM-COINT** — [statsmodels coint](https://www.statsmodels.org/stable/generated/statsmodels.tsa.stattools.coint.html). 2026-11-08; docs/installed0.15.0source; fixedmethod contract, không profitabilityproof.
 
 - **LEBARON-NYFX** — [Foreign Exchange Reversals in New York Time](https://people.brandeis.edu/~blebaron/wps/fxnyc.pdf). Fullprimarymethod§2–4/Table3/7read09Nov2026;EBS2003–06 không currentCFD/SL/DST/executionproof.
+
+- **LIU-TSE-OVERNIGHT** — [Overnight returns of stock indexes](https://www.sciencedirect.com/science/article/pii/S1059056016301563). 09/11/2026, primary search-served abstract/introduction, direct 403; không full method hoặc CFD profit proof.
+- **IWANAGA-SAKEMOTO-OPENREV** — [Overnight return and first half-hour](https://www.sciencedirect.com/science/article/abs/pii/S1062940826001294). 09/11/2026, primary search-served abstract và author landing; recent decay/stress dependence, chưa full method.

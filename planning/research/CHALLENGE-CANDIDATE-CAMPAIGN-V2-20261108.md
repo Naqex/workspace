@@ -8,13 +8,18 @@ có nhu cầu thực. Goal mới đã active. Quyết định dừng B ở
 
 ## Checkpoint hiện hành — 09/11/2026
 
-[Conditional NYFX review](NY-FX-GAP-SCENARIOS-RESULTS-20261109.md) đã xong
-64 books/Fraction review; primary âm cả hai stress years, gác exact recipe.
-Giữ [strict annual N/A](NY-FX-PAIRED-LATENCY-RESULTS-20261109.md) và parent H1
-negatives riêng; hai gap models không khôi phục dữ liệu thiếu. Catalogue
-73 records / 58 versions / 25 native / 9 controls. Goal C1/C2 active, chưa
-challenge candidate; không còn job phải đợi. Tiếp distinct mechanism admission
-với nguồn đã review, không retune MA/SL/cost/risk/control hoặc rerun books cũ.
+[R074 NASDAQ overnight reversal](NASDAQ-OVERNIGHT-REVERSAL-RESULTS-20261109.md)
+đã terminal/reviewed: 499 planned/resolved days, stress −1.166,74 / −2.359,71
+USD/unit, không retained. 7 tests + full Fraction/cost review; reviewer v1
+rounding bug giữ failure, v2 sửa và reuse outcomes, không resimulate. Catalogue
+74 records / 58 versions / 25 native / 9 controls. Goal C1/C2 active, chưa
+challenge candidate; không job phải chờ. Tiếp source/method admission US500
+transfer cùng overnight-opening mechanism, freeze trước new outcomes.
+
+[Conditional NYFX review](NY-FX-GAP-SCENARIOS-RESULTS-20261109.md) cũng âm cả
+hai stress years; gác exact recipe, giữ [strict annual N/A](NY-FX-PAIRED-LATENCY-RESULTS-20261109.md)
+và parent H1 negatives. Không đổi side/risk/clock/cost/threshold để cứu hoặc
+promote controls. Không rerun unchanged books hoặc mở holdout/broker mới.
 
 ## Đích và cách biết đã đạt
 

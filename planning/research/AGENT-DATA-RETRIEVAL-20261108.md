@@ -1,5 +1,28 @@
 # Dữ liệu và tra cứu cho AI agents — review08/11/2026
 
+## Delta 09/11: dùng trong Goal tìm ứng viên mới
+
+Goal mới đang active; phạm vi task không mở lại Goal ở review gốc bên dưới
+là lịch sử ngày 08/11. [NYFX conditional](NY-FX-GAP-SCENARIOS-RESULTS-20261109.md)
+và [NASDAQ overnight](NASDAQ-OVERNIGHT-REVERSAL-RESULTS-20261109.md) đã dùng lại
+nguồn có seals/review, protocol/code snapshots và các output mới có lineage.
+Raw/source cũ không bị rewrite; exact unknown và conditional outcomes giữ riêng.
+
+Lát NASDAQ mới phân biệt predictor thiếu/crossed với gap bằng 0; prior expected
+cashsession với last available quote; signal time với fill interval; price
+component USD/unit với account USD. Calendar/clock/grid/side/census và false
+authority có guards/tests, reviewer Fraction kiểm outcomes độc lập về số học.
+Lỗi reviewer v1 và bản sửa v2 được giữ, không sửa pin cũ hoặc rerun numeric.
+
+Đây là củng cố contracts trong pipeline đang dùng, không migration sang một
+schema/DB chung cho mọi artifact lịch sử. Catalogue hiện 74 records / 58 policy-
+model versions, không 74 independent edges; số lượng cũ trong inventory08/11
+bên dưới giữ đúng ngày đo. Metadata/hash giúp truy vết, không chứng minh edge.
+Local retrieval vẫn phục vụ tìm tài liệu; numeric đọc artifacts bằng code.
+Không có evidence mới cần vector DB, embeddings provider hoặc RAG service.
+
+## Review gốc 08/11
+
 **Giữ cách lưu theo từng loại dữ liệu; tối ưu cửa tra cứu trước, chưa thêm
 vector DB hoặc RAG service mới.** Project đã có local retrieval nhưng corpus
 cũ bỏ research và index đã stale. Context hiện hành còn trộn nhiều trạng thái

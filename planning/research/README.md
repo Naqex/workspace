@@ -1,11 +1,12 @@
 # Tra cứu research đã có
 
-Checkpoint09Nov: [pairedNYFXM1latencyresults](NY-FX-PAIRED-LATENCY-RESULTS-20261109.md)
-32books reviewed;16nonnullannualN/Adoheldminuteunknown,16nulls0PnL. 1,49triệuM1
-bars/7,46triệufields reviewed;tick10hours khôngquote ở10missingminutes,0patch
-approved. Catalogue73/54/25native/7controls;Goalactive/chưachallenge. Tiếp
-observed-event/uncertaintymodeladmissionriêng,khôngfakeprices/clearstrictunknown.
-[ParentH1negatives](NY-FX-REVERSAL-RESULTS-20261109.md) giữnguyên.
+Checkpoint 09/11: [R074 NASDAQ opening reversal](NASDAQ-OVERNIGHT-REVERSAL-RESULTS-20261109.md)
+và [NYFX conditional scenarios](NY-FX-GAP-SCENARIOS-RESULTS-20261109.md) đều đã
+terminal/reviewed, primary không đạt; gác exact recipes. [Strict FX annual](NY-FX-PAIRED-LATENCY-RESULTS-20261109.md)
+vẫn N/A, không đổi thành known PnL bằng conditional model. Catalogue 74 records /
+58 policy-model versions / 25 native / 9 controls; Goal active, chưa challenge.
+Bước tiếp: source/method admission US500 overnight-opening transfer, freeze
+trước outcomes; không rerun unchanged books hoặc mở own holdout/broker mới.
 
 Đọc tài liệu chủ đề trước, chỉ kiểm lại phần đổi/còn thiếu. Đây là chỉ mục chọn
 lọc, không là danh sách task hoặc chứng nhận tài liệu còn đúng tới hiện tại.
@@ -14,6 +15,7 @@ Các mục cũ chưa được re-audit khi tạo chỉ mục ngày 05/11/2026.
 
 | Câu hỏi / từ khóa | Nguồn hiện có |
 |---|---|
+| Overnight gap của NASDAQ dự báo cú hồi đầu phiên không? | [R074 results](NASDAQ-OVERNIGHT-REVERSAL-RESULTS-20261109.md), [protocol](NASDAQ-OVERNIGHT-REVERSAL-PROTOCOL-20261109.md): 499 planned days, âm cả hai năm; full Fraction/cost review; 7,763 s producer + 5,280 s review, không account/prop/OOS |
 | NYFX gap models đã giải quyết được annual unknown chưa? | [Conditional results](NY-FX-GAP-SCENARIOS-RESULTS-20261109.md): 64 books đã review, primary âm cả hai năm; gác exact recipe, strict annual N/A giữ nguyên; 93,415 s producer + 115,232 s review |
 | NASDAQ opening5 đã có edge chưa; sourcegaps đã sửa chưa? | [Datarevisionresults](NASDAQ-OPENING5-ORB-DATA-REVISION-RESULTS-20261109.md):2022knownflat/243trades/+714,71 hoặc+568,12USD,2019unknown giữ nguyên; tickderivedhour480fields reviewed, nguyên191tradeprefix và nullstate. Overallgate vẫn chưađạt; [interim](NASDAQ-OPENING5-ORB-INTERIM-20261108.md)/[tickgapreview](NASDAQ-M1-GAP-TICK-RESULTS-20261108.md) giữv1failures |
 | NASDAQ first→last-half có giữ lợi thế không; tiếp cơ chế nào? | [R064 results](NASDAQ-INTRADAY-MOMENTUM-RESULTS-20261108.md):413/413signalday endpoints/1.652cases reviewed, cả2years âm và kém longcontrol; [opening5 method](NASDAQ-OPENING5-ORB-METHOD-20261108.md) có primary author rule, chưa newpolicy/outcomes |

@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-07",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 73,
+  "record_count": 74,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -12,13 +12,13 @@
   "counts": {
     "by_role": {
       "existing": 36,
-      "variant": 22,
+      "variant": 23,
       "new": 14,
       "component": 1
     },
     "by_readiness": {
       "implemented": 36,
-      "component_probe_not_retained": 13,
+      "component_probe_not_retained": 14,
       "implemented_not_retained": 5,
       "method_clock_review": 1,
       "component_probe_completed_no_priority": 1,
@@ -299,6 +299,24 @@
       "publication": "September2008",
       "review_depth": "fullprimaryPDFmethod_sections2-4_andTables3_7_read20261109",
       "limitations": "EBS2003-2006, hourlyMA4-12/NY10-15, not currentCFD/SL/lifecycle/DST/execution replication; originalcode/data not imported."
+    },
+    {
+      "id": "LIU-TSE-OVERNIGHT",
+      "title": "Overnight returns of stock indexes: Evidence from ETFs and futures",
+      "url": "https://www.sciencedirect.com/science/article/pii/S1059056016301563",
+      "publication": "2017",
+      "review_depth": "primary_search_served_abstract_and_introduction_direct403_not_full_method",
+      "limitations": "US ETF/futures relation does not establish CFD net edge; no imported code/data.",
+      "checked_on": "2026-11-09"
+    },
+    {
+      "id": "IWANAGA-SAKEMOTO-OPENREV",
+      "title": "Does overnight return predict the first half-hour return for U.S. market indices?",
+      "url": "https://www.sciencedirect.com/science/article/abs/pii/S1062940826001294",
+      "publication": "2026",
+      "review_depth": "primary_search_served_abstract_and_author_landing_not_full_method",
+      "limitations": "Recent decay/stress dependence; not proof of a fixed CFD rule or permission for own holdout.",
+      "checked_on": "2026-11-09"
     }
   ],
   "records": [
@@ -2543,6 +2561,34 @@
       "implementation_updated_on": "2026-11-09",
       "conditional_model_evidence": "NY-FX-GAP-SCENARIOS-RESULTS-20261109.md",
       "conditional_model_state": "reviewed_conditional_flat_not_retained_original_strict_unknown_preserved"
+    },
+    {
+      "id": "R074",
+      "title": "NASDAQ overnight gap to first-half-hour reversal component",
+      "family": "equity_opening_reversion",
+      "role": "variant",
+      "parent_id": null,
+      "readiness": "component_probe_not_retained",
+      "timeframe": "NY09:30Open minus prior cash final Close; decision09:31, fills09:32 to09:59 source M1Open",
+      "rule_sketch": "Contra sign of overnight Bid gap, no thresholds/ATR/SL, one hypothetical unit; opposite/always-long/always-short controls on same planned-day mask.",
+      "data_requirements": "Reviewed separate-side USATECH.IDX/USD source M1/calendar: warmup2018/2021, development2019/2022; no new download.",
+      "automation_feasibility": "offline_price_component_only_not_account_or_execution",
+      "prop_operational_concerns": "Both stress years negative; no account/SL/sizing/prop/OOS/target broker proof;1missing internal holding window retained.",
+      "source_ids": [
+        "LIU-TSE-OVERNIGHT",
+        "IWANAGA-SAKEMOTO-OPENREV"
+      ],
+      "source_relation": "own_CFD_timing_adaptation_of_primary_abstract_mechanism_not_paper_replication_or_independent_edge",
+      "next_action": "Park exact R074; no side/timing/cost/threshold rescue. Source/method admission for S&P500 transfer must freeze separately and preserve selection history.",
+      "implementation_state": "component_implemented_reviewed_not_retained_no_account_policy",
+      "candidate_id": null,
+      "component_id": "nasdaq-overnight-first30-reversal-price-component-v1",
+      "implementations": [],
+      "component_evidence": "NASDAQ-OVERNIGHT-REVERSAL-RESULTS-20261109.md",
+      "profitability_evidence": "USD/unit ref/stress2019 -917.74/-1166.74;2022 -2109.71/-2359.71;499resolved planned days;notaccountPnL.",
+      "control": false,
+      "dispatch_authorized": false,
+      "implementation_updated_on": "2026-11-09"
     }
   ],
   "automatic_dispatch": false,

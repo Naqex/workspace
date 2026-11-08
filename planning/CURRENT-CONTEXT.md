@@ -10,31 +10,36 @@ Owner giao tìm ứng viên đủ C1/C2, chuẩn hóa dữ liệu và cải ti�
 Goal đang active; [campaign v2](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)
 giữ scope, quyết định B cũ không kết thúc chiến dịch mới. **Chưa challenge-qualified.**
 
-Lát mới nhất: [conditional NYFX gap scenarios](research/NY-FX-GAP-SCENARIOS-RESULTS-20261109.md)
-đã hoàn tất 64 books và full Fraction review. Primary reversal lag15 âm cả hai
-stress years: −1.094,70 / −413,86 USD trên vốn 10k. Hai models cho cùng kết quả,
-0 adverse-envelope exits; gác exact recipe theo sensitivity, không tune cứu.
-[Strict M1 study](research/NY-FX-PAIRED-LATENCY-RESULTS-20261109.md) vẫn annual N/A /
-unknown exposure; parent H1 negatives giữ riêng. Catalogue 73 records / 58
-versions / 25 native / 9 controls, chưa challenge candidate.
+Lát mới nhất: [R074 NASDAQ overnight reversal](research/NASDAQ-OVERNIGHT-REVERSAL-RESULTS-20261109.md)
+đã chạy/đối soát 503 cashday rows, 499 planned/resolved days; primary stress
+−1.166,74 / −2.359,71 USD **mỗi hypothetical unit**, không tài khoản10k.
+Gác exact recipe, không promote opposite control/tune threshold/clock/cost.
+7 tests trước outcomes, 12 synthetic review cases, full Fraction review của
+3.992 cost-role cases/59.880 fields và 7 mutations đạt. Reviewer v1 lỗi làm
+tròn gross_quote; giữ failure/code/pins, v2 sửa contract và reuse numeric,
+không resimulate. Regression sub-cent riêng đã đạt. Producer 7,763 s,
+review v2 5,280 s, mọi job terminal; chưa compute bottleneck cần GPU/Rust.
 
-Source M1/tick đã review và được reuse, không download lại. Conditional
-protocol `67933d0`, implementation `209de7e` trước outcomes; 6 tests mới,
-5 regressions, actual strict whole-book parity, 32 synthetic cases, 64 strict
-prefixes và 6 mutations đạt. Review dùng implementation Fraction khác nhưng
-cùng agent/provider; không independent human/model hoặc OOS/prop proof.
+Catalogue **74 records / 58 policy-model versions / 25 native / 9 controls**;
+R074 component không đếm thành account policy. Chưa challenge-qualified.
+**Tiếp:** source/method admission US500 cùng overnight-opening mechanism,
+gần underlying primary evidence hơn NASDAQ; là transfer trial mới có selection
+history, không independent edge. Freeze costs/controls/coverage trước outcomes.
+Reuse existing source-only M1, không download hoặc holdout/broker mới.
+
+[Conditional NYFX review](research/NY-FX-GAP-SCENARIOS-RESULTS-20261109.md)
+đã xong 64 books; primary âm cả hai stress years, gác exact recipe. Hai gap
+models có cùng outcomes và 0 adverse exits, không khôi phục thiếu giá.
+[Strict M1 annual](research/NY-FX-PAIRED-LATENCY-RESULTS-20261109.md) vẫn N/A /
+unknown exposure; parent H1 negatives giữ riêng. Live code đã revision, old
+strict pins thuộc frozen snapshots; không repin lịch sử hoặc rerun books cũ.
 
 Private root `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/`;
-output `execution-v1/ny-fx-gap-scenarios-v1/` giữ result/review/pins/snapshots/
-admission/events/progress. Mọi job terminal; producer 93,415 s, review 115,232 s.
-Không compute bottleneck đáng thêm GPU/Rust/framework. Code live có revision
-mới: strict pins cũ bind frozen snapshots, không repin theo code live.
-
-**Tiếp:** admission cơ chế khác có cơ sở, ưu tiên reuse NASDAQ M1/calendar;
-freeze economics/control/gate trước outcomes. Không rerun unchanged books,
-không mở own holdout 2025+ hoặc broker. Trader `83731fc8`, runtime và skills
-chưa đổi; không migration/xóa raw. Xem [data/retrieval review](research/AGENT-DATA-RETRIEVAL-20261108.md)
-cho source ownership, schema/hash/lineage và local search; chưa cần vector DB.
+`execution-v1/nasdaq-overnight-reversal-component-v1/` và
+`ny-fx-gap-scenarios-v1/` giữ results/reviews/pins/snapshots/status/failures.
+Research contracts/source/code/protocol có lineage; raw không đổi. Trader
+`83731fc8`, runtime và skills chưa đổi. [Data/retrieval review](research/AGENT-DATA-RETRIEVAL-20261108.md)
+giữ storage ownership và local search; chưa cần vector DB, migration/xóa data.
 
 [R068/R069 ML](research/GOLD-ML-SL-LABELS-RESULTS-20261109.md) giữ0signalnegative,
 khôngthresholdrescue;[R067](research/GOLD-SILVER-FORMATION-RESULTS-20261109.md)
