@@ -7,7 +7,7 @@ import unittest
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from sealed_m1_review import cash_sessions
-from relative_equity_component import month_schedule, relative_signal, costed_views, positive
+from relative_equity_component import month_schedule, relative_signal, costed_views, positive, registered_priority
 
 
 class RelativeEquityTests(unittest.TestCase):
@@ -62,6 +62,28 @@ class RelativeEquityTests(unittest.TestCase):
         self.assertEqual([views[v]['side'] for v in views],['SELL','BUY','BUY','SELL'])
         self.assertEqual(len(calls),8)
         with self.assertRaises(KeyError):costed_views(signal,{'stamp':entry['stamp'],'bid':'1.1'},exit_at,self.schedule,costs)
+
+    def test_four_year_protocol_requires_coverage_three_positive_and_aggregate(self):
+        years=(2020,2021,2023,2024)
+        def result(values,counts=(12,12,12,12)):
+            rows=[dict(year=y,view='primary',scenario='stress',net_pips_sum=str(v),resolved=c)
+                  for y,v,c in zip(years,values,counts)]
+            return registered_priority(rows,years=years,minimum_resolved=10,minimum_positive_years=3)
+        self.assertTrue(result((10,10,10,-1)))
+        self.assertFalse(result((10,10,0,-1)))
+        self.assertFalse(result((10,10,10,-31)))
+        self.assertFalse(result((10,10,10,-1),(12,12,9,12)))
+
+    def test_priority_cannot_silently_reuse_two_year_or_missing_duplicate_summary(self):
+        kwargs=dict(years=(2020,2021,2023,2024),minimum_resolved=10,minimum_positive_years=3)
+        rows=[dict(year=y,view='primary',scenario='stress',net_pips_sum='10',resolved=12) for y in kwargs['years']]
+        for changed in [rows[:2], rows[:-1]+[rows[0]]]:
+            with self.subTest(changed=changed),self.assertRaisesRegex(ValueError,'census'):
+                registered_priority(changed,**kwargs)
+        rows[0]['net_pips_sum']='NaN'
+        with self.assertRaisesRegex(ValueError,'numeric'):registered_priority(rows,**kwargs)
+        with self.assertRaisesRegex(ValueError,'configuration'):
+            registered_priority([],years=(2025,),minimum_resolved=10,minimum_positive_years=1)
 
 
 if __name__=='__main__':unittest.main()

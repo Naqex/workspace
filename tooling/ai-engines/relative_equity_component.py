@@ -68,3 +68,27 @@ def costed_views(signal, entry, exit_at, schedule, price_return):
                       always_buy='BUY', always_sell='SELL')
     return {view: dict(side=side, outcomes={scenario:price_return(side, entry, exit_at, scenario) for scenario in
                 ('reference','stress')} if side else {}) for view,side in directions.items()}
+
+
+def registered_priority(summary, *, years, minimum_resolved, minimum_positive_years):
+    """Apply explicit study thresholds; never infer them from observed returns."""
+    if (not years or len(set(years)) != len(years)
+            or any(type(y) is not int or not 2018 <= y <= 2024 for y in years)
+            or type(minimum_resolved) is not int or not 1 <= minimum_resolved <= 12
+            or type(minimum_positive_years) is not int or not 1 <= minimum_positive_years <= len(years)):
+        raise ValueError('registered_priority_configuration')
+    rows = [r for r in summary if r['view']=='primary' and r['scenario']=='stress']
+    if len(rows) != len(years) or {r['year'] for r in rows} != set(years):
+        raise ValueError('primary_stress_year_census')
+    values = []
+    for row in rows:
+        if (type(row['resolved']) is not int or not 0 <= row['resolved'] <= 12
+                or isinstance(row['net_pips_sum'], bool)):
+            raise ValueError('priority_summary_numeric')
+        value = D(str(row['net_pips_sum']))
+        if not value.is_finite():
+            raise ValueError('priority_summary_numeric')
+        values.append(value)
+    return (all(r['resolved'] >= minimum_resolved for r in rows)
+            and sum(v > 0 for v in values) >= minimum_positive_years
+            and sum(values, D(0)) > 0)
