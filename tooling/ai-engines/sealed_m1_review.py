@@ -79,7 +79,70 @@ def paired_spreads(bid: list, ask: list) -> list[float]:
     return spreads
 
 
-def review(root: Path, calendar_path: Path, grid: float) -> dict:
+def verify_source_proof(root,manifest,download,calendar_path):
+    """Reuse a source-validated view only while its code, inputs and seals bind."""
+    policy=manifest.get('sourceObservationPolicy')
+    if policy is None:
+        if download.get('sourceObservationPolicy') is not None:
+            raise ValueError('source_observation_policy_mismatch')
+        return dict(source_observation_policy='native-expanded-unverified',source_presence_verified=False,
+                    source_proof_sha256=None,coverage_basis='decoded_timestamps_only')
+    if policy!='paired-explicit-source-M1-v1' or download.get('sourceObservationPolicy')!=policy:
+        raise ValueError('source_observation_policy_mismatch')
+    path=root/'source-observation-proof.json'
+    if not path.is_file() or digest(path)!=download.get('sourceObservationProofSha256'):
+        raise ValueError('source_observation_proof_binding')
+    proof=json.loads(path.read_text(encoding='utf8'))
+    if (proof.get('schema')!='explicit-source-M1-proof-v1'
+            or proof.get('status')!='source_explicit_prices_and_pairing_verified'
+            or proof.get('policy')!=policy or proof.get('full_retained_price_binding') is not True
+            or proof.get('holdout_read') is not False or proof.get('network_calls')!=0
+            or proof.get('broker_calls')!=0 or proof.get('model_calls')!=0
+            or proof.get('producer_sha256')!=digest(Path(__file__).with_name('explicit_m1_view.py'))
+            or proof.get('validator_sha256')!=digest(Path(__file__).with_name('candle_source_provenance.py'))
+            or proof.get('calendar_sha256')!=digest(calendar_path)
+            or proof.get('year')!=json.loads(calendar_path.read_text(encoding='utf8'))['year']
+            or proof.get('instrument')!='usa500idxusd'
+            or any(request.get('instrument')!=proof.get('instrument') for request in manifest['requests'])
+            or proof.get('protocol_sha256')!=manifest.get('protocolSha256')
+            or proof.get('manifest_sha256')!=digest(root/'manifest.json')
+            or proof.get('output_seals')!=download['requests']):
+        raise ValueError('source_observation_proof_contract')
+    for field in ['source_pins','input_bindings']:
+        if not isinstance(proof.get(field),dict) or not proof[field]:
+            raise ValueError('source_observation_missing_bindings')
+        for name,sha in proof[field].items():
+            if not Path(name).is_file() or digest(Path(name))!=sha:
+                raise ValueError('source_observation_input_or_code_changed')
+    if [q['quarter'] for q in proof.get('quarters',[])]!=[1,2,3,4]:
+        raise ValueError('source_observation_quarter_census')
+    for quarter in proof['quarters']:
+        number=quarter['quarter']
+        if any(download['requests'][2*(number-1)+slot]['rows']!=quarter['paired_rows'] for slot in [0,1]):
+            raise ValueError('source_observation_output_census')
+        journal=root/f'q{number}-unpaired-explicit.json'
+        if quarter['unpaired_path']!=journal.name or not journal.is_file() or digest(journal)!=quarter['unpaired_sha256']:
+            raise ValueError('source_observation_unpaired_binding')
+        unpaired=json.loads(journal.read_text(encoding='utf8'))
+        if [side['side'] for side in quarter['sides']]!=['bid','ask']:
+            raise ValueError('source_observation_side_census')
+        for side in quarter['sides']:
+            if (side['native_rows']!=side['explicit_rows']+side['removed_padding']
+                    or len(unpaired[side['side']])!=quarter['unpaired_rows'][side['side']]
+                    or side['explicit_rows']!=quarter['paired_rows']+len(unpaired[side['side']])
+                    or not side['responses']):
+                raise ValueError('source_observation_row_census')
+            if any(sum(r[field] for r in side['responses'])!=side[target] for field,target in
+                   [('native_rows','native_rows'),('explicit_rows','explicit_rows'),('removed_padding','removed_padding'),
+                    ('unrepresented_explicit_rows','unrepresented_explicit_rows')]):
+                raise ValueError('source_observation_response_census')
+            if any(proof['input_bindings'].get(r['path'])!=r['sha256'] for r in side['responses']):
+                raise ValueError('source_observation_raw_response_binding')
+    return dict(source_observation_policy=policy,source_presence_verified=True,
+                source_proof_sha256=digest(path),coverage_basis='paired_source_listed_M1_timestamps')
+
+
+def review(root: Path, calendar_path: Path, grid: float, *, require_explicit_source=False) -> dict:
     began = timer.perf_counter()
     calendar = json.loads(calendar_path.read_text(encoding='utf-8'))
     sessions = cash_sessions(calendar)
@@ -89,6 +152,9 @@ def review(root: Path, calendar_path: Path, grid: float) -> dict:
             or download['strategySimulated'] is not False or download['holdoutRead'] is not False
             or download['brokerCalls'] != 0 or download['modelCalls'] != 0):
         raise ValueError('unexpected_download_scope_or_state')
+    provenance=verify_source_proof(root,manifest,download,calendar_path)
+    if require_explicit_source and not provenance['source_presence_verified']:
+        raise ValueError('explicit_source_observation_proof_required')
     year = calendar['year']
     seals, stamps, spreads, row_count = [], set(), [], 0
     if len(download['requests']) != 8 or len(manifest['requests']) != 8:
@@ -134,6 +200,7 @@ def review(root: Path, calendar_path: Path, grid: float) -> dict:
     return {
         'schema': 'sealed-m1-review-v1', 'instrument': instrument, 'year': year,
         'status': 'cash_coverage_complete' if not incomplete else 'cash_gaps_require_protocol',
+        **provenance,
         'source_seals': seals, 'manifest_sha256': digest(root/'manifest.json'),
         'download_result_sha256': digest(root/'result.json'),
         'calendar_sha256': digest(calendar_path), 'reviewer_sha256': digest(Path(__file__)),
@@ -147,7 +214,8 @@ def review(root: Path, calendar_path: Path, grid: float) -> dict:
         'elapsed_seconds': timer.perf_counter()-began,
         'limits': ['Independent M1 side extrema do not establish intrabar mid or synchronous spread paths.',
                    'Cash calendar is not the CFD broker trading contract.',
-                   'No prices repaired or missing minutes filled; no strategy PnL or prop certification.'],
+                   'This reviewer does not fill minutes; legacy decoder padding may exist unless source presence is verified.',
+                   'No strategy PnL or prop certification.'],
     }
 
 
@@ -157,10 +225,11 @@ def main() -> None:
     parser.add_argument('--calendar', type=Path, required=True)
     parser.add_argument('--price-grid', type=float, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--require-explicit-source',action='store_true')
     args = parser.parse_args()
     if args.output.exists():
         raise ValueError('output_already_exists')
-    result = review(args.root, args.calendar, args.price_grid)
+    result = review(args.root, args.calendar, args.price_grid,require_explicit_source=args.require_explicit_source)
     with args.output.open('x', encoding='utf-8') as stream:
         json.dump(result, stream, indent=2, ensure_ascii=False, allow_nan=False)
         stream.write('\n')

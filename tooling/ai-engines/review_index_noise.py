@@ -5,7 +5,7 @@ from decimal import Decimal as D, ROUND_HALF_UP
 import json
 from pathlib import Path
 
-from sealed_m1_review import cash_sessions, digest
+from sealed_m1_review import cash_sessions, digest, verify_source_proof
 
 
 def commission_for_result(result, manifest=None):
@@ -189,6 +189,15 @@ def main():
     quality = json.loads((args.run/'data-review.json').read_text(encoding='utf-8'))
     if digest(args.run/'data-review.json') != manifest['data_review_sha256']:
         raise ValueError('quality_binding')
+    source_status='native-expanded-unverified'
+    if quality.get('source_presence_verified') is True:
+        verified=verify_source_proof(args.data_root,
+            json.loads((args.data_root/'manifest.json').read_text(encoding='utf8')),
+            json.loads((args.data_root/'result.json').read_text(encoding='utf8')),snapshots/'calendar.json')
+        if (verified['source_proof_sha256']!=quality.get('source_proof_sha256')
+                or manifest.get('source_observation_policy')!=verified['source_observation_policy']):
+            raise ValueError('run_source_observation_binding')
+        source_status=verified['source_observation_policy']
     pairs = {}
     for q in range(1, 5):
         sides = []
@@ -213,6 +222,7 @@ def main():
         inspector=inspect_funded_scenario if manifest.get('study_metadata',{}).get('cash_bid_daily_signal') else inspect_scenario
         reviews[row['scenario']] = inspector(result, pairs, sessions)
     output = dict(status='artifact_arithmetic_and_fill_bindings_verified', scenarios=reviews,
+        source_observation_policy=source_status,
         reviewer_sha256=digest(Path(__file__)), manifest_sha256=digest(args.run/'manifest.json'),
         limits=['Separately implemented arithmetic checks, not independent model/reviewer sign-off.',
                 'Does not certify intrabar ordering, missing paths, broker costs, edge or prop compliance.'])

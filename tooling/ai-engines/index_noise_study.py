@@ -242,7 +242,7 @@ def main(*, candidate=CANDIDATE, simulator=simulate, include_extended=False,
         print(json.dumps(value), flush=True)
     try:
         status('verifying_sealed_inputs')
-        quality = review(args.data_root, args.calendar, .001)
+        quality = review(args.data_root, args.calendar, .001,require_explicit_source=True)
         if quality['instrument'] != 'usa500idxusd' or quality['year'] != year:
             raise ValueError('unregistered_index_data')
         save(args.output/'data-review.json', quality)
@@ -255,7 +255,9 @@ def main(*, candidate=CANDIDATE, simulator=simulate, include_extended=False,
             pairs.update({b['timestamp']: (b, a) for b, a in zip(bid, ask)
                           if include_extended or b['timestamp'] in needed})
         source_paths = {Path(__file__).resolve(), Path(__file__).with_name('sealed_m1_review.py'),
-                        Path(__file__).with_name('forex_study_batch.py')}
+                        Path(__file__).with_name('forex_study_batch.py'),
+                        Path(__file__).with_name('explicit_m1_view.py'),
+                        Path(__file__).with_name('candle_source_provenance.py')}
         source_paths.update(Path(p).resolve() for p in additional_sources)
         source_paths.update(Path(m.__file__).resolve() for name, m in sys.modules.copy().items()
                             if (name.startswith('trading_workspace_v2.') or name == 'forex_h4_pilot')
@@ -264,6 +266,7 @@ def main(*, candidate=CANDIDATE, simulator=simulate, include_extended=False,
         save(args.output/'manifest.json', dict(candidate=candidate, year=year, source_pins=pins,
             protocol_sha256=digest(args.protocol), calendar_sha256=digest(args.calendar),
             data_review_sha256=digest(args.output/'data-review.json'), source_root=str(args.source_root.resolve()),
+            source_observation_policy=quality['source_observation_policy'],source_presence_verified=quality['source_presence_verified'],
             frozen_at_utc=datetime.now(timezone.utc).isoformat(), python_version=sys.version,
             starting_balance_usd='10000', planned_risk_usd='25', contract_usd_per_point_per_lot='1',
             cost_scenario=args.cost_scenario,

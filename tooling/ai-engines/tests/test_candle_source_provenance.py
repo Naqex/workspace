@@ -66,5 +66,16 @@ class SourceProvenanceTests(unittest.TestCase):
         self.assertEqual(inspect_expansion(raw,[])['explicit_rows'],[])
         with self.assertRaises(ValueError):inspect_expansion(raw,native)
 
+    def test_paired_subset_does_not_invent_missing_side_rows_or_misbind_padding(self):
+        raw,native=fixture()
+        subset=[native[0],native[4],native[6]]
+        with self.assertRaises(ValueError):inspect_expansion(raw,subset)
+        result=inspect_expansion(raw,subset,require_complete=False)
+        self.assertEqual(result['explicit_rows'],[native[6]])
+        self.assertEqual(result['unrepresented_explicit_rows'],2)
+        self.assertEqual(result['padding_stamps'],[0,240000])
+        changed=copy.deepcopy(subset);changed[1]['close']=100
+        with self.assertRaises(ValueError):inspect_expansion(raw,changed,require_complete=False)
+
 
 if __name__=='__main__':unittest.main()

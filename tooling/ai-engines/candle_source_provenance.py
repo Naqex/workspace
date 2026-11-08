@@ -5,6 +5,7 @@ Keep those historical exports intact; only an explicitly bound source bar may
 be treated as a price observation in a new source-only view.
 """
 from decimal import Decimal as D, ROUND_HALF_UP
+from bisect import bisect_right
 
 
 PRICE_KEYS=('open','high','low','close')
@@ -71,30 +72,38 @@ def explicit_candles(payload):
     return result
 
 
-def inspect_expansion(payload,native_rows):
+def inspect_expansion(payload,native_rows, *, require_complete=True):
     """Bind the full unfiltered native view, returning original explicit rows.
 
     Input volumes are in the provider's native millions unit. Unknown/missing
     source or an already filtered export is an error, not permission to guess
     provenance from flat price or zero volume.
     """
+    if type(require_complete) is not bool:
+        raise ValueError('source_complete_mode_must_be_boolean')
     explicit=explicit_candles(payload)
     if not explicit:
         if native_rows:
             raise ValueError('native_rows_without_explicit_source')
-        return dict(explicit_rows=[],padding_stamps=[],native_rows=0)
+        return dict(explicit_rows=[],padding_stamps=[],native_rows=0,unrepresented_explicit_rows=0)
     first,last=integer(payload['timestamp']),max(explicit)
-    if len(native_rows)!=(last-first)//60000+1:
+    if require_complete and len(native_rows)!=(last-first)//60000+1:
         raise ValueError('full_unfiltered_native_expansion_required')
     grid=number(payload['multiplier'])
-    previous=D(base_units(payload['close'],grid))*grid
+    base_close=D(base_units(payload['close'],grid))*grid
+    source_stamps=sorted(explicit)
     kept,padding=[],[]
+    previous_stamp=first-60000
     for index,row in enumerate(native_rows):
-        stamp=first+index*60000
-        if integer(row['timestamp'])!=stamp:
+        stamp=integer(row['timestamp'])
+        if (not first<=stamp<=last or stamp%60000 or stamp<=previous_stamp
+                or (require_complete and stamp!=first+index*60000)):
             raise ValueError('native_expansion_clock')
+        previous_stamp=stamp
         source=explicit.get(stamp)
         if source is None:
+            at=bisect_right(source_stamps,stamp)-1
+            previous=explicit[source_stamps[at]]['close'] if at>=0 else base_close
             if number(row['volume'])!=0 or any(number(row[k])!=previous for k in PRICE_KEYS):
                 raise ValueError('padding_price_or_volume_binding')
             padding.append(stamp)
@@ -102,7 +111,7 @@ def inspect_expansion(payload,native_rows):
             if any(number(row[k])!=source[k] for k in [*PRICE_KEYS,'volume']):
                 raise ValueError('explicit_source_price_or_volume_binding')
             kept.append(row)
-            previous=source['close']
-    if len(kept)!=len(explicit):
+    if require_complete and len(kept)!=len(explicit):
         raise ValueError('explicit_source_count')
-    return dict(explicit_rows=kept,padding_stamps=padding,native_rows=len(native_rows))
+    return dict(explicit_rows=kept,padding_stamps=padding,native_rows=len(native_rows),
+                unrepresented_explicit_rows=len(explicit)-len(kept))
