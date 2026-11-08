@@ -1,5 +1,22 @@
 # Current context — Naqex Workspace
 
+## Owner giao sửa discovery/screen — 08/11/2026, đã kiểm lát hữu hạn
+
+[Repairresults](research/SCREEN-CALIBRATION-REPAIR-RESULTS-20261108.md) supersede
+trạng thái “chưa thực thi calibration” ở diagnosis bên dưới. Workspace592fa82
+thêm cost/comparetool,7tests đạt;product7ab57907 giữ,22existingtests/18subtests.
+624sealedrows/48groups táchcost đãđốisoát4,10s:15grosspositive→7closedpricenet
+positive→6finalnetpositive(reference),stress15→2→0;khôngfrictionlessalpha.
+8newboundedcases46,11s+14,81sCSV/Fractionreview:signals/entries khớp,daybreak/
+SMAcoarse tốt hơn tick0,24/0,04USD do stopovershoot;shocknofill inconclusive.
+Khôngglobalfalse-negativerate/annualbound. Attempt1 cachekeyfail0,625s/0numeric
+được giữ; recovery2raworacle550warmH1+118evalH1khớp,khôngrebindoldcache.
+Private`execution-v1/screen-calibration-repair-v1` giữmanifest/snapshots/results;
+sessions13257/24906terminal0,khôngjobnền. Originmap/workflow yêu cầu phân biệt
+replication/adaptation trướcnumeric; paperBoCfullcost cũng có nhiềuwindowsâm.
+Researchkếtiếp nênmechanism+cost-admissibility cóprotocol,khôngtựdispatchR019.
+AppGoal vẫnpaused;currentrepair được giao riêng,khôngcompleteC1/C2hoặcmởgates.
+
 ## Owner pause và review discovery — 08/11/2026
 
 Goal hiện **paused** theo owner; trạng thái active trong snapshot phía dưới là

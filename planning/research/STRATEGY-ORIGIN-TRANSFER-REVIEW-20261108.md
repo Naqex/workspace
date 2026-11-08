@@ -15,6 +15,12 @@ Phân loại ở đây là review bằng chứng, không attribution tác giả 
 
 ## Quyết định triển khai
 
+FullpaperBoC §V.E/pp33–35(nội dung), đọc tiếp08/11, tự đánh giá spreadcost và
+thấy nhiều windows không còn lời khi dùng fullindicativespread. Không dùng
+spreadgiảm50% trong paper như quyền giảmspreadCDFcủa project. Vì thế bước
+fixing tiếp phải kiểm clock **và cost-admissibility** trước wrapperbot; đây là
+thu hẹp câu hỏi theo bằng chứng nguồn, không khẳng định exactrecipe có edge.
+
 - Không tải/mua thị trường hàng loạt để cố dựng lại AQR67markets, không dùng
   paper1999–2019 làm lời hứa về broker/prop hoặc dữ liệu chưa mở.
 - Lát research kế tiếp nên kiểm **transfer của fixing clock**, vì có cơ chế
