@@ -1,5 +1,21 @@
 # Current context — Naqex Workspace
 
+## PreECB: attributionSL/weights đã xong — 08/11/2026
+
+Owner giao tiếp lát kế sauGoalđợt trước, khôngtựtạoGoalmới.
+[Results](research/PRE-ECB-WRAPPER-ATTRIBUTION-RESULTS-20261108.md),
+[protocol68a9014](research/PRE-ECB-WRAPPER-ATTRIBUTION-20261108.md):4books/
+1038matchedcostrows (519dates),7tests,2076independentpricechecks. Giữclock14:00.
+Weightshelp mọi4cases;parentexit/SL effectâm. Stressmatched2019A570,46→C674,68
+→D−340,52USD (outside−24,36giữriêng);2022A223,74→C364,97→D−134,86USD.
+Đây là equal-total-lot/matchedcounterfactual, không noSLaccountbacktest hoặc
+quyềnbỏSL.8preselectedrawstopdateskhớpfirstcrossing/interval,4overshootquote;
+khôngannualbiasbound. Source68a9014,attribution0,895s/review9,438s,đãterminal0.
+Private`execution-v1/pre-ecb-wrapper-attribution-v1` giữmanifest/snapshots/
+results/reviews/crosscostbinding;khôngjobnền. Oldparent vẫnparked,53/41counts
+khôngđổi. Tiếp khiđượcgiao: đoMAE/MFE/pathriskđến14:00 trước đềxuấtstop mới;
+khônggridATR/nớirisk hoặcđổilotsđểcứu.2025+/broker/paid/production vẫnđóng.
+
 ## Đợt discovery hữu hạn đã xong — 08/11/2026
 
 Owner đã clear Goal C1/C2 cũ rồi giao làm tiếp/tạo Goal mới cho đợt hữu hạn:

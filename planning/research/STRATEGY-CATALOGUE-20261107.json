@@ -845,7 +845,7 @@
         "LOCAL"
       ],
       "source_relation": "published_mechanism; project_H1_clock_hypothesis_not_exact_replication",
-      "next_action": "Preserve parked parent versions. If continuing this mechanism, register stop/weight/coverage attribution at unchanged1400clock before changing rules; no automatic rerun.",
+      "next_action": "Parent remains parked. Measure observed adverse/favorable excursions and path risk at unchanged1400clock before any registered stop/risk sensitivity; no automatic rerun or SL removal.",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h1-europe-am-short-atr14x1p5-close13-r025-v1",
       "profitability_evidence": "exposed_annual_coarse_not_qualification",
@@ -866,7 +866,9 @@
       "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
       "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry.",
       "component_evidence_locator": "FIXING-CLOCK-TRANSFER-RESULTS-20261108.md",
-      "component_decision": "No support for extending pre-ECB exit1400 to1415 on paired2019/2022 events; one2019unresolvedexit; not a new strategy or promotion."
+      "component_decision": "No support for extending pre-ECB exit1400 to1415 on paired2019/2022 events; one2019unresolvedexit; not a new strategy or promotion.",
+      "wrapper_attribution_evidence_locator": "PRE-ECB-WRAPPER-ATTRIBUTION-RESULTS-20261108.md",
+      "wrapper_attribution_decision": "Observed lot weights help and parentexit/SL reduces matched returns in4books2019/2022; counterfactual is not a noSL account strategy or permission."
     },
     {
       "id": "R022",
