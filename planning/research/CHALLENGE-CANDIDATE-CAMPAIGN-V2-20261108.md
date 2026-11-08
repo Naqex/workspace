@@ -96,3 +96,6 @@ tảidata/thêmengine khôngcâuhỏi. GoalC1/C2active,chưachallengecandidate.
 
 
 [NASDAQ M1 source](NASDAQ-M1-HISTORY-RESULTS-20261108.md) đã terminal/reviewed8books/1.704rawdays/7.980.630checks, đủ economic registration. [R063cashRSI](NASDAQ-CASH-RSI-COMPONENT-RESULTS-20261108.md)8cases reviewed, stress2019−2,97/2022−486,42USD/unit, không retained; noSL/account/prop/OOS. Batchvalidate reuse giữ exact8case outputs, compute46,617→12,364s,12tests; không rule/cost/verdict đổi. Catalogue63/44/25native, Goal active. [Next method](NASDAQ-INTRADAY-MOMENTUM-METHOD-20261108.md) reuse source, first→last-half daily momentum khác R063, chưa newoutcomes. Không tải history lại hoặc retune RSI để cứu negative.
+
+
+[R064 first→last-half](NASDAQ-INTRADAY-MOMENTUM-RESULTS-20261108.md) đã terminal/reviewed503rows/413signaldaypairs/1.652costcases; primary stress2019−481,64/2022−1.969,99USD/unit và kém longcontrol, khôngretained/noaccountpolicy. Source reuse không download;9tests+6helperregressions/6mutations đạt, producer9,756s/review9,992s. Catalogue64/44/25native, Goal C1/C2 active. Tiếp [QQQ opening5 method](NASDAQ-OPENING5-ORB-METHOD-20261108.md): authorPDF có exact first5direction/SL/10RTP, adaptation riêng cần freeze risk25USD/clock/halfday/ambiguity/unknownstate trước outcomes; không đảo R064 hoặc copy1%risk/no-slip.

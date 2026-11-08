@@ -10,33 +10,36 @@ Owner giao tìm ứng viên đủ C1/C2, chuẩn hóa dữ liệu và cải ti�
 Goal đang active; [campaign v2](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)
 giữ scope, quyết định B cũ không kết thúc chiến dịch mới. **Chưa challenge-qualified.**
 
-Lát mới nhất: [NASDAQ source M1](research/NASDAQ-M1-HISTORY-RESULTS-20261108.md)
-đã terminal/reviewed:8books/1.704rawdays/1.596.126sidebars,7.980.630checks.
-250/252cashdays2019 và247/251cashdays2022 đủ; missing/gaps giữ rõ. V1
-outputformat lỗi đã sửa bằng preflight+16tests, raw/calendar reuse exacthash.
-[Cash RSI component R063](research/NASDAQ-CASH-RSI-COMPONENT-RESULTS-20261108.md)
-đã8cases/1.728decisions/60trade-costrecords reviewed; stress2019−2,97 và
-2022−486,42USD/hypotheticalunit,9/21closed. Không retained, không accountPnL.
-Catalogue63records/44researchpolicyversions/25native, chưa challengecandidate.
+Lát mới nhất: [R064 NASDAQ first→last-half](research/NASDAQ-INTRADAY-MOMENTUM-RESULTS-20261108.md)
+đã503cashrows/413resolvedsignaldays/1.652financialcases source/Fractionreview,
+0missingendpoints/pathminutes,6mutations reject. Primary stress2019−481,64/
+2022−1.969,99USD/hypotheticalunit và kém alwayslongcontrol cả2years; không
+retained.9tests+6helperregressions đạt, không accountpolicy/prop/OOS mới.
+Catalogue64records/44researchpolicyversions/25native, chưa challengecandidate.
 
-Performance đã kiểm: batch validate1lần/year thay4lần,8caseoutputs exact;
-compute46,617→12,364s trong một diagnostic, không wholeproductspeedup.
-Whole new command23,534s;12focusedtests đạt. Source chuẩn bị719,816s,
-review91,228s; component63,872s/review18,629s. Không replay negatives không đổi.
+**Tiếp:** [QQQ opening5 direction+bracket method](research/NASDAQ-OPENING5-ORB-METHOD-20261108.md),
+primaryauthorPDF Methodpp4–6 đã đọc/capturehash; first2023,version2025,
+underlyingsample2016→Feb2023, khôngown2025+data. Paper là first5candle-direction
+entry với oppositeextremumSL/10RTP, không đợi rangebreak. ChưaR065code/PnL.
+Đăng ký exactNASDAQ adaptation/risk25USD/latency/halfday/ambiguity/gap/account
+freeze và fixtures trước numeric; không copy1%risk/no-slip assumption của paper.
+Reuse sourceM1 và financial/protection primitives, không broker/holdoutcalls.
 
-**Tiếp:** [NASDAQ intraday momentum method](research/NASDAQ-INTRADAY-MOMENTUM-METHOD-20261108.md):
-reuse sealed M1/calendar, pure R051 first→last-half signal adaptation khác
-R063reversion. Author university abstract refreshed, fullpublisher403/Reading
-anti-bot; không freshfullpaperclaim. Đăng ký exact economic component/retention
-và fixtures trước numeric; chưaR064outcomes, không US500financial relabel.
+Source [NASDAQ M1](research/NASDAQ-M1-HISTORY-RESULTS-20261108.md) đãreviewed8books/
+1.704rawdays/1.596.126sidebars/7.980.630checks;250/252cashdays2019 và247/251
+năm2022 complete. [R063](research/NASDAQ-CASH-RSI-COMPONENT-RESULTS-20261108.md)
+negative được giữ, không retune/rerun. Batchvalidation optimization có exact8case
+parity, compute46,617→12,364s,12tests; không wholeproductspeedup.
 
 Private root `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/`;
-`execution-v1/nasdaq-m1-history-v2`, `nasdaq-cash-rsi-component-v1`,
-`nasdaq-cash-rsi-batch-parity-v1` giữ pins/results/reviews/status/events.
-ProducerPIDs27988/24620/24636 và reviewers terminal0, không worker chờ.
-Original componentcode có exactsnapshot; currentcode tối ưu không sửa oldpins.
-Trader pin83731fc8, không product/runtime mutation. R035/R061/R062 negatives
-tra kết quả tại index, không retune/rerun để cứu. Goal C1/C2 vẫn active.
+latest`execution-v1/nasdaq-intraday-momentum-component-v1` giữ rows/summary/
+result/review/config/pins/snapshots/timings/events. ProducerPID23320 vàreviewer
+terminal0, không worker chờ. Producer9,756s/numeric2,112s/reviewer9,992s,
+không totalresearchtime. PrimaryORBPDFcapture0,635s ở`nasdaq-orb-method-source-v1`.
+Source`nasdaq-m1-history-v2`, R063`nasdaq-cash-rsi-component-v1` và parity receipts
+vẫn nguyên. Sharedsourceobserver thêm M1durationexplicit; H1default được test,
+oldFOMCsnapshots/pins không đổi. Trader83731fc8 clean, không product/runtime
+mutation. Goal C1/C2 active; negatives/nguồn trước tra researchindex.
 
 Các kết quả trước và negatives tra [research index](research/README.md) hoặc
 campaignv2; không mở lại raw/numeric batch không đổi. [Data/retrieval review](research/AGENT-DATA-RETRIEVAL-20261108.md)
