@@ -1,5 +1,15 @@
 # Current context — Naqex Workspace
 
+## Owner đang học cách đánh giá bằng chứng — 08/11/2026
+
+Yêu cầu hiện hành là dạy lại hệ thống/quy trình và báo cáo việc đã làm theo
+bằng chứng, không tự mở nghiên cứu mới trong lượt giải thích.
+[Báo cáo owner](research/OWNER-EVIDENCE-REPORT-20261108.md) nối từng việc với
+bằng chứng, giới hạn và lý do giữ/gác. Đã có ví dụ rawquote→cash87,56USD;
+review cùngagent và false-negative rate của screen vẫn ghi rõ chưa đủ.
+Phân biệt scopedsoftwarechecks, economicedge, propfit, strategyforward và
+broker/runtimehealth. Không lấy completedtask/Goal hoặc sốtest thay C1/C2.
+
 ## PreECB: attributionSL/weights đã xong — 08/11/2026
 
 Owner giao tiếp lát kế sauGoalđợt trước, khôngtựtạoGoalmới.
