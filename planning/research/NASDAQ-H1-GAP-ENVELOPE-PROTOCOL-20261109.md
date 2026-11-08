@@ -46,3 +46,12 @@ R065, không sửa annual N/A, không tự promote hoặc tính trial mới.
 `URLError/WinError 10060` trước HTTP response sau 21,608 giây. Không có binary
 payload; chưa kiểm archive coverage. Không retry request không đổi, không
 gọi timeout là file không tồn tại. Giữ nguyên failed attempt.
+
+## Sửa locator trước trích giá
+
+Metadata check sau commit `06e0a5a` phát hiện `nasdaq-m1-history-v1` là
+attempt failed, không có result. M1 thực sự được R065 dùng là
+`nasdaq-m1-history-v2`, result SHA256
+`3058b26de169c11ff0fbb841ec11d74df1c81b1035de4cad4d1aad901a0006e7`.
+Chỉ sửa locator này, giữ nguyên giờ/câu hỏi/tiêu chí; chưa trích target prices
+hoặc chạy fixture khi sửa. Không sửa failed v1 hoặc coi nó đã complete.
