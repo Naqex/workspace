@@ -4,6 +4,12 @@
 filter vào exact recipes cũ. Research ngày 09/11 đưa ra hai hướng có mức độ
 admission khác nhau; chưa có economic outcomes mới ngoài R078/R079.
 
+Đã rà lại existing survivors: [Gold SMA50k](GOLD-SMA50K-REVIEW-20261108.md)
+vẫn research survivor nhưng closed-cash/time-fit chưa đủ; [PreECB risk wrapper](PRE-ECB-SESSION-RISK-RESULTS-20261108.md)
+không đạt frozen block gate. Giữ các kết luận đó, không rerun hoặc tăng risk/
+đổi SL để tạo winner. EU-open được ưu tiên vì cơ chế/holding khác và source
+đã có; không phải do thiếu một phép tối ưu tốc độ nữa.
+
 ## 1. EU-open uncertainty resolution: ưu tiên method/source admission
 
 [Cambridge / Bondarenko–Muravyev](https://www.cambridge.org/core/journals/journal-of-financial-and-quantitative-analysis/article/market-return-around-the-clock-a-puzzle/089E33AC0B4D3B9A02CBA31EDF6505B3)

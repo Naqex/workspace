@@ -1,15 +1,17 @@
 # Tra cứu research đã có
 
-Checkpoint 09/11: [paper-window results](INDEX-PAPER-WINDOW-RESULTS-20261109.md)
-đã terminal/reviewed, cả2không retained; raw reviewer bắt US500quarter omission,
-đã sửa affected scope/reuse phần đúng, không fetch lại. Full16.080.264ticks,
-3.018economicrows/29.850rolecostcases. Tiếp consensus method chưa groupPnL.
+Checkpoint 09/11: [consensus results](INDEX-CONSENSUS-RESULTS-20261109.md)
+đã terminal/reviewed, cả2không retained; 3.018rows/22.440rolecostcases, source
+reuse không fetch/replay. Tiếp [R080EU-open](US500-EU-OPEN-COMPONENT-PROTOCOL-20261109.md)
+đã protocol/sourcepilot8dates/192fields, chưa PnL. [Method/oilmapping](EU-OPEN-AND-OIL-METHOD-20261109.md).
+Parent [paper-window](INDEX-PAPER-WINDOW-RESULTS-20261109.md) giữ negatives và
+quarterfix; full16.080.264ticks đã có, không thu lại.
 [Implementation/recovery](INDEX-PAPER-WINDOW-IMPLEMENTATION-20261109.md)
 giữ scripts/fixtures/failures. [Boundary pilot](INDEX-CASH-CLOSE-BOUNDARY-RESULTS-20261109.md)
 đã source-reviewed; [benchmark](INDEX-TICK-REVIEW-OPTIMIZATION-RESULTS-20261109.md)
 inspect 3,98×, cached pin/decode replay 7,04×; không whole-history speed/edge.
 [R076/R077](INDEX-REST-OF-DAY-RESULTS-20261109.md) vẫn fail, US5002019 giữ 1 unknown.
-Catalogue 77 /58 /25 native /9 controls; Goal active, chưa challenge; own2025+/
+Catalogue 80 /58 /25 native /9 controls; Goal active, chưa challenge; own2025+/
 broker đóng.
 
 Đọc tài liệu chủ đề trước, chỉ kiểm lại phần đổi/còn thiếu. Đây là chỉ mục chọn
@@ -19,6 +21,9 @@ Các mục cũ chưa được re-audit khi tạo chỉ mục ngày 05/11/2026.
 
 | Câu hỏi / từ khóa | Nguồn hiện có |
 |---|---|
+| Đầu/cuối phiên cùng hướng có giữ được sau phí không? | [R078/R079 results](INDEX-CONSENSUS-RESULTS-20261109.md), [protocol](INDEX-CONSENSUS-PROTOCOL-20261109.md): cả hai không đạt, full parent reuse, 5,32s producer+review; không chọn opposite mask rescue |
+| Cơ chế kế tiếp khác close-momentum; dữ liệu đêm có chưa? | [EU-open pilot](EU-OPEN-SOURCE-PILOT-RESULTS-20261109.md), [R080 protocol](US500-EU-OPEN-COMPONENT-PROTOCOL-20261109.md): 8dates/32sidebars/192fields exact, fixed23:30–03:30NY/M1proxies; chưa annual PnL hoặc challenge |
+| Paper dầu/EIA có chuyển thẳng sang WTI CFD được không? | [Method/mapping review](EU-OPEN-AND-OIL-METHOD-20261109.md): full acceptedUSOmethod, ETF/futures intraday mapping và historical releasecalendar gaps; chưa oilPnL/sourcebulk |
 | Source lỗi có phải thu lại từ đầu; lượt dài đã xong chưa? | [Results/recovery](INDEX-PAPER-WINDOW-RESULTS-20261109.md):1.996hours terminal, prefix1.353reuse; source-quarter fix chỉ498hours, phần đúng giữ; không còn job phải chờ |
 | V2 đã có edge/challenge chưa; framework có bắt lỗi không? | [Economic results](INDEX-PAPER-WINDOW-RESULTS-20261109.md), [correction](INDEX-PAPER-WINDOW-SOURCE-CORRECTION-20261109.md):rawreviewer chặn wrongquarter mask, corrected review đạt nhưng netgate cả2fail; không challenge |
 | Kiểm tick/pin có giảm thời gian mà giữ đủ validation không? | [Performance results](INDEX-TICK-REVIEW-OPTIMIZATION-RESULTS-20261109.md), [preregistered protocol](INDEX-TICK-REVIEW-OPTIMIZATION-PROTOCOL-20261109.md): 3 cặp A/B, full fields/OHLC/locators parity, 19 tests; helpers mới, không sửa raw/old collectors |

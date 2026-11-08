@@ -1,6 +1,6 @@
 # Danh mục nghiên cứu chiến lược — cập nhật09/11/2026
 
-77 hồ sơ: 47 có policy/model version được ghi trong danh mục (58 versions), 29 chưa có account policy và 1 risk component. Trong 58 versions có 25 native offline rules và 33 tooling/coarse/model versions; gồm 9 controls. Mới thêm 4 conditional gap revisions của NYFX, không đổi strategy và không đếm 2 gap scenarios thành các edge độc lập. **Chưa có bản nào challenge-qualified.**
+80 hồ sơ: 47 có policy/model version được ghi trong danh mục (58 versions), 32 chưa có account policy và 1 risk component. Trong 58 versions có 25 native offline rules và 33 tooling/coarse/model versions; gồm 9 controls. R078/R079 là price components không retained, R080 mới source pilot/economic registered; không đếm thành account policies hoặc independent edges. **Chưa có bản nào challenge-qualified.**
 
 [JSON](STRATEGY-CATALOGUE-20261107.json) là cùng dữ liệu có cấu trúc; protocol/source giữ exactrecipes, không automatic dispatch/rejection hoặc broker authority.
 
@@ -89,6 +89,9 @@ freeze trước outcomes; old quarter-mask failure và corrected attempt đều 
 |R075|S&P overnight → first-half reversal|equity_opening_reversion / R074|Gác exact transfer: stress −521,82 / −770,05 USD/unit|0|[Review](US500-OVERNIGHT-REVERSAL-RESULTS-20261109.md); 498 ngày, chưa account/prop/OOS|
 |R076|S&P rest-of-day → last-half momentum|equity_close_momentum / R051|Gác exact component;2019 known-partial,2022 âm|0|[Review](INDEX-REST-OF-DAY-RESULTS-20261109.md); chưa account/prop/OOS|
 |R077|NASDAQ rest-of-day → last-half momentum|equity_close_momentum / R064|2019 âm,2022 chuẩn dương/stress âm;gác exact|0|[Review](INDEX-REST-OF-DAY-RESULTS-20261109.md); chưa account/prop/OOS|
+|R078|US500 firsthalf/ROD consensus|equity_close_momentum / R076|Hai năm âm sau phí, gác exact|0|[Results](INDEX-CONSENSUS-RESULTS-20261109.md); parent reuse, chưa account/prop/OOS|
+|R079|NASDAQ firsthalf/ROD consensus|equity_close_momentum / R077|Hai năm âm sau phí, gác exact|0|[Results](INDEX-CONSENSUS-RESULTS-20261109.md); không reverse mask rescue|
+|R080|US500 EU-open uncertainty resolution|equity_overnight_uncertainty_resolution|Source pilot đạt, economic registered/chưa PnL|0|[Pilot](EU-OPEN-SOURCE-PILOT-RESULTS-20261109.md), [protocol](US500-EU-OPEN-COMPONENT-PROTOCOL-20261109.md)|
 
 
 ## Cách đọc và lịch sử các batch đầu
@@ -125,3 +128,4 @@ Chỉ nâng ngày cho nguồn thực sự đọc lại; top updated_on không c�
 - **IWANAGA-SAKEMOTO-OPENREV** — [Overnight return and first half-hour](https://www.sciencedirect.com/science/article/abs/pii/S1062940826001294). 09/11/2026, primary search-served abstract và author landing; recent decay/stress dependence, chưa full method.
 
 - **BALTUSSEN-ROD** — [Hedging demand and market intraday momentum](https://academicweb.nd.edu/~zda/intramom.pdf). Đọc primary method/cost sections09/11; chưa full appendix replication, CFD/latency adaptations và không actual gamma observation.
+- **BOND-MURAVYEV-EUOPEN** — [Cambridge article](https://www.cambridge.org/core/journals/journal-of-financial-and-quantitative-analysis/article/market-return-around-the-clock-a-puzzle/089E33AC0B4D3B9A02CBA31EDF6505B3), official appendix clock/baseline đọc09/11; futures→CFD/calendar/M1 adaptation, không VIX/prop/OOS proof.

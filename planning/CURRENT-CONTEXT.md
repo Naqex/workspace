@@ -10,10 +10,13 @@ Owner giao tìm ứng viên đủ C1/C2, chuẩn hóa dữ liệu và cải ti�
 Goal đang active; [campaign v2](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)
 giữ scope, quyết định B cũ không kết thúc chiến dịch mới. **Chưa challenge-qualified.**
 
-Lát mới nhất: [paper-window tick v2 results](research/INDEX-PAPER-WINDOW-RESULTS-20261109.md)
-đã terminal/reviewed; cả hai không retained. Primary1s stress USD/unit2019/2022:
-US500 −435,57/−277,43, NASDAQ −725,76/+140,46; NASDAQ2022 âm khi delay2s/60s.
-US5002019/60s có3unresolved, giữ known-partial. Chưa challenge, Goal active.
+Lát mới nhất: [R078/R079 consensus](research/INDEX-CONSENSUS-RESULTS-20261109.md)
+đã terminal/reviewed, cả hai không retained. Primary1s stress USD/unit2019/2022:
+US500 −363,40/−370,05; NASDAQ −611,10/−774,42. 3.018 rows /22.440 role-cost
+cases, 4 mutations reject; producer2,563s/review2,757s, không raw/source rerun.
+Selected firsthalf=primary là invariant, không impossible performance gate.
+Parent [paper-windowv2](research/INDEX-PAPER-WINDOW-RESULTS-20261109.md) và
+3unknown US5002019/60s vẫn giữ. Chưa challenge, Goal active.
 
 Full source1.996hours/16.080.264ticks đã thu/review, 80.401.320integer field checks;
 20hours/1.213.185fields qua Fraction riêng. 149.218commonM1sideOHLC exact,
@@ -34,12 +37,15 @@ khớp 577.510 fields / 960 M1 side OHLC / 64 locators và age; 32 actual mutati
 reject, 19 tests đạt. Inspect median 2,891 → 0,726 s (3,98×); Node cached replay
 12,799 → 1,819 s (7,04×), cùng export hashes; không full-history ETA.
 Giữ helpers mới cho future consumers, old collectors/oracle/raw giữ nguyên.
-**Tiếp:** method admission cho published consensus η(rONFH,rROD) (JFE2021Table6),
-đã ở queue trước outcomes. Reuse verified source/price components, chưa group
-PnL hoặc exact new protocol. Phải khóa gate/control phù hợp trước outcomes:
-firsthalf trên consensus mask bằng primary, không bắt vượt chính nó. Không
-retune exactv2 hoặc gọi consumed2019/2022 là unseen. Source2.7GB đã có,
-không fetch/full replay batches cũ. Snapshot old failed attempts giữ nguyên.
+**Tiếp R080:** [EU-open protocol](research/US500-EU-OPEN-COMPONENT-PROTOCOL-20261109.md)
+`2f04156` đã freeze trước outcomes, chưa implementation/numeric. Fixed BUY
+23:30→03:30 NewYork/exitdate, M1Open proxies23:31/03:31; no VIX/ATR/clockgrid.
+[Source pilot](research/EU-OPEN-SOURCE-PILOT-RESULTS-20261109.md) 8dates/
+32sidebars/192raw fields exact +3mutations, 4,042s/calls0, full-quarter loader.
+Chỉ fixture source admission, annual endpoints/census/fees/gap trước PnL.
+[Method/queue](research/EU-OPEN-AND-OIL-METHOD-20261109.md) giữ Cambridge clock
+và oil/EIAETF mapping gap; chưa chuyển USO result sang WTI CFD/bulk fetch.
+Không retune consensus negatives hoặc coi consumed2019/2022 là unseen.
 
 [R076/R077 rest-of-day review](research/INDEX-REST-OF-DAY-RESULTS-20261109.md)
 đã terminal: primary stress USD/unit 2019/2022 US500 −404,96 /−371,12;
@@ -49,10 +55,10 @@ Gác exact components. 8 tests mới +11 regressions, 28 synthetic cases,
 full Fraction review: 1.006 rows /9.950 cost-role cases /18 mutations. Shared code
 `d1503ce` giữ R074/R075: 1.006 old rows/summaries exact; producer 19,237 s /review 14,132 s.
 
-Catalogue **77 records /58 policy-model versions /25 native /9 controls**;
+Catalogue **80 records /58 policy-model versions /25 native /9 controls**;
 R076/R077 có thêm component revisions reviewed_not_retained, chưa account policies hoặc
 challenge-qualified. Goal active; source pilot không thêm policy version.
-Consensus filter mới ở queue, chưa chạy group PnL. Không own2025+ /broker /new provider.
+R078/R079 đã gác; R080 economic registered/source pilot only. Không own2025+ /broker /new provider.
 
 [R075 recovery](research/US500-OVERNIGHT-REVERSAL-RESULTS-20261109.md) giữ v1
 failure/v2 frozen-source admission. Guard `748b9d9` chặn missing input/forged
@@ -62,6 +68,8 @@ negative giữ nguyên; [strict FX annual N/A](research/NY-FX-PAIRED-LATENCY-RES
 không bị clear bằng conditional model.
 
 Private root `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/`;
+`execution-v1/index-consensus-components-v1/` giữ latest result/review;
+`us500-euopen-source-pilot-v1/` giữ pilot R080, chưa economic output.
 `execution-v1/index-paperwindow-tick-source-v1/` giữ full intake;
 `index-paperwindow-tick-review-v2/` là corrected source view;
 `index-paperwindow-components-v2-corrected1/` là economic result/review hiện hành.

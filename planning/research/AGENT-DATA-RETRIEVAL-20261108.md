@@ -15,8 +15,8 @@ authority có guards/tests, reviewer Fraction kiểm outcomes độc lập về 
 Lỗi reviewer v1 và bản sửa v2 được giữ, không sửa pin cũ hoặc rerun numeric.
 
 Đây là củng cố contracts trong pipeline đang dùng, không migration sang một
-schema/DB chung cho mọi artifact lịch sử. Catalogue hiện 77 records / 58 policy-
-model versions, không 77 independent edges; số lượng cũ trong inventory08/11
+schema/DB chung cho mọi artifact lịch sử. Catalogue hiện 80 records / 58 policy-
+model versions, không 80 independent edges; số lượng cũ trong inventory08/11
 bên dưới giữ đúng ngày đo. Metadata/hash giúp truy vết, không chứng minh edge.
 Local retrieval vẫn phục vụ tìm tài liệu; numeric đọc artifacts bằng code.
 Không có evidence mới cần vector DB, embeddings provider hoặc RAG service.
@@ -36,6 +36,12 @@ trong catalogue thay vì ghi đè negatives. Numerical projections đọc bằng
 không embedding tick hoặc thêm RAG service. [Results/correction](INDEX-PAPER-WINDOW-RESULTS-20261109.md)
 đã review source/economics; full-year quarter omission bị phát hiện/sửa, có
 code guard trước PnL, không chỉ metadata/hash. Hai components không đạt netgate.
+
+[Consensus reuse](INDEX-CONSENSUS-RESULTS-20261109.md) kiểm experiment mới trên
+parent records đã sealed trong5,32s producer+review, không đọc lại raw16million
+ticks. [EU-open pilot](EU-OPEN-SOURCE-PILOT-RESULTS-20261109.md) rebind original
+rawUTCday/side cho32nightbars vàfullquarterproofs; source role/clock/basis đổi
+thì có admission scope riêng, không suy hashmatch là mọi holdingwindow đã tickproof.
 
 [R075 recovery](US500-OVERNIGHT-REVERSAL-RESULTS-20261109.md) bổ sung reuse
 proof lịch sử khi code live đã revision: explicit frozen code/protocol snapshots,

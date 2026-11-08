@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-07",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 77,
+  "record_count": 80,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -12,13 +12,13 @@
   "counts": {
     "by_role": {
       "existing": 36,
-      "variant": 26,
-      "new": 14,
+      "variant": 28,
+      "new": 15,
       "component": 1
     },
     "by_readiness": {
       "implemented": 36,
-      "component_probe_not_retained": 17,
+      "component_probe_not_retained": 19,
       "implemented_not_retained": 5,
       "method_clock_review": 1,
       "component_probe_completed_no_priority": 1,
@@ -30,7 +30,8 @@
       "implemented_parked_conditional_2019_negative": 1,
       "implemented_parked_conditional_negative": 1,
       "implemented_not_retained_no_qualified_signals": 2,
-      "implemented_inconclusive_source_gap": 2
+      "implemented_inconclusive_source_gap": 2,
+      "source_pilot_admitted_economic_registered": 1
     }
   },
   "sources": [
@@ -326,6 +327,15 @@
       "checked_on": "2026-11-09",
       "review_depth": "Primary author PDF definitions/data,selected method/cost sections,Tables6/12 and AppendixA1;not full appendix replication",
       "limitations": "Futures/index evidence before many costs;CFD/latency/common-quality-mask adaptation;no observed gamma proxy or imported code/data."
+    },
+    {
+      "id": "BOND-MURAVYEV-EUOPEN",
+      "title": "Market Return Around the Clock: A Puzzle",
+      "url": "https://www.cambridge.org/core/journals/journal-of-financial-and-quantitative-analysis/article/market-return-around-the-clock-a-puzzle/089E33AC0B4D3B9A02CBA31EDF6505B3",
+      "method_url": "https://static.cambridge.org/content/id/urn%3Acambridge.org%3Aid%3Aarticle%3AS0022109022000783/resource/name/S0022109022000783sup001.pdf",
+      "limitations": "Official appendix fullEUopen23:30-03:30ET,baseline long futures;own CFD/calendar/M1 adaptation,not replication;conditional VIX inputs unavailable.",
+      "checked_on": "2026-11-09",
+      "source_type": "primary_publisher_and_official_appendix"
     }
   ],
   "records": [
@@ -2714,6 +2724,87 @@
           "profitability_evidence": "Primary1s stress USD/unit2019/2022 -725.76/+140.46;2022delay2s/60sstressnegative,notaccountPnL."
         }
       ]
+    },
+    {
+      "id": "R078",
+      "title": "US500 first-half/rest-of-day sign consensus component",
+      "family": "equity_close_momentum",
+      "role": "variant",
+      "parent_id": "R076",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "NY15:30decision/16:00exit;1sprimary,2s/60sscenarios;parentverifiedjointticks",
+      "rule_sketch": "Trade parentROD direction only when nonzero and equal firsthalf sign;firsthalf equals primary on selected mask,not a strict benchmark.5roles,2costs,noSL/account.",
+      "data_requirements": "Accepted corrected parentv2 rows/quotes/costs/source review;503cashdays/asset,2019/2022consumed;immutable reuse,no source fetch.",
+      "automation_feasibility": "offline_price_component_only_not_account_or_execution",
+      "prop_operational_concerns": "Both years/scenarios net negative;unknownUS5002019/60s preserved;no account/prop/OOS/forward or verified broker cost/fill.",
+      "source_ids": [
+        "BALTUSSEN-ROD"
+      ],
+      "source_relation": "Published Table6 conjunction admitted before group outcomes after known parent negatives;relatedfamily,not independent discovery or paper replication.",
+      "next_action": "Park exact consensus;no reversed-mask/clock/fee grid rescue. Admit distinct EU-open uncertainty-resolution baseline under registered protocol.",
+      "implementation_state": "component_implemented_reviewed_not_retained_no_account_policy",
+      "candidate_id": null,
+      "component_id": "us500-rod-firsthalf-consensus-tick-component-v1",
+      "implementations": [],
+      "component_evidence": "INDEX-CONSENSUS-RESULTS-20261109.md",
+      "profitability_evidence": "2019/2022stress1s -363.40/-370.05USD/unit;allstressyears/delaysnegative;notaccountPnL.",
+      "control": false,
+      "dispatch_authorized": false,
+      "implementation_updated_on": "2026-11-09"
+    },
+    {
+      "id": "R079",
+      "title": "NASDAQ first-half/rest-of-day sign consensus component",
+      "family": "equity_close_momentum",
+      "role": "variant",
+      "parent_id": "R077",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "NY15:30decision/16:00exit;1sprimary,2s/60sscenarios;parentverifiedjointticks",
+      "rule_sketch": "Trade parentROD direction only when nonzero and equal firsthalf sign;firsthalf equals primary on selected mask,not a strict benchmark.5roles,2costs,noSL/account.",
+      "data_requirements": "Accepted corrected parentv2 rows/quotes/costs/source review;503cashdays/asset,2019/2022consumed;immutable reuse,no source fetch.",
+      "automation_feasibility": "offline_price_component_only_not_account_or_execution",
+      "prop_operational_concerns": "Both years/scenarios net negative;unknownUS5002019/60s preserved;no account/prop/OOS/forward or verified broker cost/fill.",
+      "source_ids": [
+        "BALTUSSEN-ROD"
+      ],
+      "source_relation": "Published Table6 conjunction admitted before group outcomes after known parent negatives;relatedfamily,not independent discovery or paper replication.",
+      "next_action": "Park exact consensus;no reversed-mask/clock/fee grid rescue. Admit distinct EU-open uncertainty-resolution baseline under registered protocol.",
+      "implementation_state": "component_implemented_reviewed_not_retained_no_account_policy",
+      "candidate_id": null,
+      "component_id": "nasdaq-rod-firsthalf-consensus-tick-component-v1",
+      "implementations": [],
+      "component_evidence": "INDEX-CONSENSUS-RESULTS-20261109.md",
+      "profitability_evidence": "2019/2022stress1s -611.10/-774.42USD/unit;allstressyears/delaysnegative;notaccountPnL.",
+      "control": false,
+      "dispatch_authorized": false,
+      "implementation_updated_on": "2026-11-09"
+    },
+    {
+      "id": "R080",
+      "title": "US500 EU-open uncertainty-resolution baseline component",
+      "family": "equity_overnight_uncertainty_resolution",
+      "role": "new",
+      "parent_id": null,
+      "readiness": "source_pilot_admitted_economic_registered",
+      "timeframe": "NYprevious23:30to03:30exitdate;M1Open23:31/03:31proxy",
+      "rule_sketch": "Unconditional BUY on regular declared cashdays;no VIX/ATR/threshold,calendar eligibility only;single window,opposite/nullcontrols.",
+      "data_requirements": "Fullfourquarter US5002019/2022 accepted source proof;8datepilot32sidebars/192rawM1fields exact;annual endpoint/census checks still required.",
+      "automation_feasibility": "offline_price_component_registration_only_not_account_or_execution",
+      "prop_operational_concerns": "No PnL yet;declared funding17NY and commission/slip not targetbroker proof;M1intervals not ticks/SL/equity/prop/OOS/forward.",
+      "source_ids": [
+        "BOND-MURAVYEV-EUOPEN"
+      ],
+      "source_relation": "Primary-clock uncertainty-resolution mechanism,own CFD/calendar transfer after close-momentum negatives;not a clock rescue or independent futures replication.",
+      "next_action": "Implement US500-EU-OPEN-COMPONENT-PROTOCOL-20261109.md commit2f04156;preflight fullcalendar/fourquarters before annualcosts;no new fetch/own2025+/broker.",
+      "implementation_state": "economic_registered_not_implemented",
+      "candidate_id": null,
+      "component_id": "us500-euopen-2330-0330-price-component-v1",
+      "implementations": [],
+      "component_evidence": "EU-OPEN-SOURCE-PILOT-RESULTS-20261109.md",
+      "profitability_evidence": "No economic outcomes,source admission only.",
+      "control": false,
+      "dispatch_authorized": false,
+      "implementation_updated_on": "2026-11-09"
     }
   ],
   "automatic_dispatch": false,

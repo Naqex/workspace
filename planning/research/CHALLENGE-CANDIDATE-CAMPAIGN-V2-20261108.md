@@ -8,14 +8,19 @@ có nhu cầu thực. Goal mới đã active. Quyết định dừng B ở
 
 ## Checkpoint hiện hành — 09/11/2026
 
-[Paper-window results](INDEX-PAPER-WINDOW-RESULTS-20261109.md) đã terminal/reviewed:
-US500 primary1s stress2019/2022 −435,57/−277,43USD/unit; NASDAQ −725,76/+140,46,
-nhưng2022delay2s/60s âm. Cả hai không retained; US5002019/60s giữ3unknown.
+[Consensus results](INDEX-CONSENSUS-RESULTS-20261109.md) đã terminal/reviewed:
+US500 primary1s stress2019/2022 −363,40/−370,05USD/unit; NASDAQ −611,10/−774,42.
+Cả hai không retained; 3.018rows/22.440rolecostcases kiểm, 5,32s producer+review
+nhờ parent reuse. Parent [paper-window](INDEX-PAPER-WINDOW-RESULTS-20261109.md)
+negative/3unknown vẫn giữ, không retune để cứu.
 Full source1.996hours/16.080.264ticks, canonical149.218sideOHLC exact sau sửa
 pilot-quarter omission; affected498hours,1.498reports/NASDAQeconomics exact reuse.
 3.018rows/29.850rolecostcases qua raw/Fractionreview. Không còn job phải đợi.
-Tiếp consensus method đã queued (Table6), chưa groupPnL/exact registration mới;
-không fetch source lại hoặc retune exactv2 để cứu. Source/raw/failed attempts giữ.
+Tiếp R080 [EU-open protocol](US500-EU-OPEN-COMPONENT-PROTOCOL-20261109.md)
+`2f04156`: source pilot8dates/32bars/192fields exact, chưa economic outcomes.
+Native-only source không fetch; clock/method và oilETF mapping gaps giữ tại
+[method](EU-OPEN-AND-OIL-METHOD-20261109.md). Catalogue80/58/25native/9controls,
+chưa challenge; source/raw/failed attempts giữ, không own2025+ hoặc broker.
 [Boundary pilot](INDEX-CASH-CLOSE-BOUNDARY-RESULTS-20261109.md) 14.847ticks/
 74.235fields/240sidebars exact,0conflict; không actual latency hoặc edge.
 [Performance](INDEX-TICK-REVIEW-OPTIMIZATION-RESULTS-20261109.md) inspect3,98×,
@@ -24,7 +29,7 @@ package, sửa raw/old collectors hoặc tạo thêm UI/DB/skill framework.
 
 [R076/R077 results](INDEX-REST-OF-DAY-RESULTS-20261109.md) giữ fail hai-year gate:
 995 resolved asset-days; US5002019 còn 1 unknown entry, NASDAQ2022 chỉ phí chuẩn
-positive. Chưa challenge, Goal active; catalogue 77 /58 /25 native /9 controls.
+positive. Chưa challenge, Goal active; catalogue 80 /58 /25 native /9 controls.
 Không rerun unchanged books/source fetch, repin manifests, own2025+ hoặc broker.
 
 ## Đích và cách biết đã đạt
