@@ -1,6 +1,6 @@
 # Danh mục nghiên cứu chiến lược — cập nhật09/11/2026
 
-65 hồ sơ:40đã có research implementation(45policyversions),24hồ sơ chưa có accountpolicy và1riskcomponent. Nhóm24 gồm các pricecomponents đã tính nhưng chưa là bottàikhoản. Trong45versions có25native offline rules,4MLcoarse-only,6goldcoarse-only,7indexM1coarse-only,1NASDAQH4/H1proxy,1NASDAQopening5/M1 và1FXsessioncoarseprototype trongtooling; gồm2shuffledcontrols và1long-onlybenchmark. **Không phải45edgesđộc lập;chưa bản nào challenge-qualified.** Capital10k/50k vàcost/yearscenarios không đếm thànhstrategyđộc lập.
+66 hồ sơ:41đã có research implementation(46policyversions),24hồ sơ chưa có accountpolicy và1riskcomponent. Nhóm24 gồm các pricecomponents đã tính nhưng chưa là bottàikhoản. Trong46versions có25native offline rules,4MLcoarse-only,6goldcoarse-only,7indexM1coarse-only,1NASDAQH4/H1proxy,1NASDAQopening5/M1,1NASDAQnoise14/M1 và1FXsessioncoarseprototype trongtooling; gồm2shuffledcontrols và1long-onlybenchmark. **Không phải46edgesđộc lập;chưa bản nào challenge-qualified.** Capital10k/50k vàcost/yearscenarios không đếm thànhstrategyđộc lập.
 
 [JSON](STRATEGY-CATALOGUE-20261107.json) là cùng dữ liệu có cấu trúc; protocol/source giữ exactrecipes, không automatic dispatch/rejection hoặc broker authority.
 
@@ -71,6 +71,7 @@
 |R063|NASDAQ cash RSI3+IBS05|equity_daily_reversion /R050|Không giữ: stress2019−2,97/2022−486,42USD/unit,9/21trades|0|[Component results](NASDAQ-CASH-RSI-COMPONENT-RESULTS-20261108.md); chưaSL/account/prop/OOS|
 |R064|NASDAQ cash first→last30|equity_close_momentum /R051|Không giữ: stress−481,64/−1.969,99USD/unit, kém longcontrol cả2years|0|[Results](NASDAQ-INTRADAY-MOMENTUM-RESULTS-20261108.md);413resolveddays/1.652cases, chưaaccount/prop|
 |R065|NASDAQ opening5 direction/10R|cash_opening_direction|Gác exact recipe: conditional2019 stress −925,72→−914,80USD; original2019 vẫn unknown, chưa qualified|1|[Bounds review](NASDAQ-OPENING5-BOUNDS-RESULTS-20261109.md); giữ [exact datarevision](NASDAQ-OPENING5-ORB-DATA-REVISION-RESULTS-20261109.md)|
+|R066|NASDAQ noise14 first daily break|equity_intraday_momentum / R048|Gác: conditional2019 −214,67/−250,47USD;2022 +217,58/+198,44USD; chưa qualified|1|[Results](NASDAQ-NOISE14-RESULTS-20261109.md)|
 
 ## Cách đọc và việc đang chạy
 

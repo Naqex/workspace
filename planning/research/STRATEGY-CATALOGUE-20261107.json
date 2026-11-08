@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-07",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 65,
+  "record_count": 66,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -12,7 +12,7 @@
   "counts": {
     "by_role": {
       "existing": 36,
-      "variant": 14,
+      "variant": 15,
       "new": 14,
       "component": 1
     },
@@ -27,7 +27,8 @@
       "long_history_or_multi_data": 5,
       "formation_probe_not_retained": 1,
       "component_only": 1,
-      "implemented_parked_conditional_2019_negative": 1
+      "implemented_parked_conditional_2019_negative": 1,
+      "implemented_parked_conditional_negative": 1
     }
   },
   "sources": [
@@ -2284,20 +2285,49 @@
       "data_revision_evidence": "NASDAQ-OPENING5-ORB-DATA-REVISION-RESULTS-20261109.md",
       "implementation_updated_on": "2026-11-09",
       "conditional_bounds_evidence": "NASDAQ-OPENING5-BOUNDS-RESULTS-20261109.md"
+    },
+    {
+      "id": "R066",
+      "title": "NASDAQ noise14 first daily break",
+      "family": "equity_intraday_momentum",
+      "role": "variant",
+      "parent_id": "R048",
+      "readiness": "implemented_parked_conditional_negative",
+      "timeframe": "M1/30min decisions; one attempt per cash session",
+      "rule_sketch": "Causal Bid bands from exact prior14 sessions, opening-gap adjustment, first break only, next-minute delayed fill, opposite fixed SL, first opposite decision exit or preclose, fixed25USD risk.",
+      "data_requirements": "Sealed NASDAQ source-only M1/warmups/cash calendar; source H1 only for separate conditional sensitivity.",
+      "automation_feasibility": "offline_modeled_M1_policy_not_native_execution",
+      "prop_operational_concerns": "2019 exact unknown; conditional stress2019 negative,2022 small positive; no targetbroker/prop/OOS/forward proof.",
+      "source_ids": [
+        "CONCRETUM-NOISE"
+      ],
+      "source_relation": "asset_and_policy_adaptation_not_replication_or_independent_edge",
+      "next_action": "Park exact recipe; preserve all16books and conditional assumptions. No band/hour/stop/risk grid rescue; pursue separately admitted relative-value mechanism.",
+      "implementation_state": "implemented_not_retained_conditional_2019_negative",
+      "candidate_id": "nasdaq-noise14-first-break-opposite-stop-r025-m1-v1",
+      "implementations": [
+        "nasdaq-noise14-first-break-opposite-stop-r025-m1-v1"
+      ],
+      "evidence_locator": "NASDAQ-NOISE14-RESULTS-20261109.md",
+      "profitability_evidence": "Initial10k:2019 conditional reference-214.67/stress-250.47USD,135trades; exact annualN/A after104closed.2022 exact/conditional reference+217.58/stress+198.44USD,165trades. Not qualified.",
+      "dispatch_authorized": false,
+      "control": false,
+      "implementation_updated_on": "2026-11-09"
     }
   ],
   "automatic_dispatch": false,
   "automatic_rejection": false,
   "holdout_opened": false,
   "updated_on": "2026-11-09",
-  "implemented_record_count": 40,
-  "implemented_rule_count": 45,
+  "implemented_record_count": 41,
+  "implemented_rule_count": 46,
   "implemented_control_rule_count": 3,
-  "implemented_noncontrol_rule_count": 42,
+  "implemented_noncontrol_rule_count": 43,
   "native_offline_rule_count": 25,
   "metal_coarse_rule_count": 6,
   "index_coarse_rule_count": 7,
   "fx_session_coarse_rule_count": 1,
   "index_h4_h1proxy_rule_count": 1,
-  "index_opening5_m1_rule_count": 1
+  "index_opening5_m1_rule_count": 1,
+  "index_noise14_m1_rule_count": 1
 }
