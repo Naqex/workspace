@@ -16,10 +16,16 @@ Lỗi reviewer v1 và bản sửa v2 được giữ, không sửa pin cũ hoặc
 
 Đây là củng cố contracts trong pipeline đang dùng, không migration sang một
 schema/DB chung cho mọi artifact lịch sử. Catalogue hiện 77 records / 58 policy-
-model versions, không 74 independent edges; số lượng cũ trong inventory08/11
+model versions, không 77 independent edges; số lượng cũ trong inventory08/11
 bên dưới giữ đúng ngày đo. Metadata/hash giúp truy vết, không chứng minh edge.
 Local retrieval vẫn phục vụ tìm tài liệu; numeric đọc artifacts bằng code.
 Không có evidence mới cần vector DB, embeddings provider hoặc RAG service.
+
+[Tick normalization/performance](INDEX-TICK-REVIEW-OPTIMIZATION-RESULTS-20261109.md)
+thêm explicit integer-grid/UTC-ms/native-volume/ordering/window contracts cho
+derived columns, không thay raw. Full fields/M1/locators khớp frozen oracle;
+source pins có before-use/final binding và active loop checks. Đây là áp dụng
+chuẩn hóa ở consumer thực, không migration lịch sử hoặc format DB mới.
 
 [R075 recovery](US500-OVERNIGHT-REVERSAL-RESULTS-20261109.md) bổ sung reuse
 proof lịch sử khi code live đã revision: explicit frozen code/protocol snapshots,

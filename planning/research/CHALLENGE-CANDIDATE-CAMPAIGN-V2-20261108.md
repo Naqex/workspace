@@ -12,8 +12,11 @@ có nhu cầu thực. Goal mới đã active. Quyết định dừng B ở
 8 giờ /115.502 ticks, 577.510 raw field checks và 960 common M1 side bars exact;
 0 conflict, 64 target timestamps có quote. Không PnL, measured broker latency
 hoặc full history proof. Producer 19,158 s /review 8,820 s, không job phải chờ.
-Tiếp profile/benchmark bounded trên pilot trước full source, giữ Fraction
-oracle/all-field parity; full intake/latency economics cần registration riêng.
+[Performance results](INDEX-TICK-REVIEW-OPTIMIZATION-RESULTS-20261109.md): full
+pilot parity đạt, inspect nhanh 3,98×, scoped-pin cached replay nhanh 7,04×;
+không full-history ETA. Hai helpers được giữ cho future consumers, không sửa
+old frozen outputs. Tiếp source pilot 16:00–17:00 cùng dates/assets trước
+đăng ký paper-window economics; chưa outcomes mới.
 
 [R076/R077 results](INDEX-REST-OF-DAY-RESULTS-20261109.md) giữ fail hai-year gate:
 995 resolved asset-days; US5002019 còn 1 unknown entry, NASDAQ2022 chỉ phí chuẩn

@@ -2,8 +2,9 @@
 
 Checkpoint 09/11: [closing tick pilot](INDEX-CLOSING-TICK-CALIBRATION-RESULTS-20261109.md)
 đã source-reviewed: 8 giờ /115.502 ticks /960 M1 side bars exact, 0 conflict.
-Chưa PnL, actual broker latency hoặc full history proof. Tiếp bounded profile/
-benchmark trên pilot trước full intake/economic registration, không refetch.
+Chưa PnL, actual broker latency hoặc full history proof. [Benchmark](INDEX-TICK-REVIEW-OPTIMIZATION-RESULTS-20261109.md)
+đã parity toàn pilot: inspect 3,98×, cached pin/decode replay 7,04×; không là
+whole-history speed. Tiếp source 16:00–17:00 trước paper-window economics.
 [R076/R077](INDEX-REST-OF-DAY-RESULTS-20261109.md) vẫn fail, US5002019 giữ 1 unknown.
 Catalogue 77 /58 /25 native /9 controls; Goal active, chưa challenge; own2025+/
 broker đóng.
@@ -15,6 +16,7 @@ Các mục cũ chưa được re-audit khi tạo chỉ mục ngày 05/11/2026.
 
 | Câu hỏi / từ khóa | Nguồn hiện có |
 |---|---|
+| Kiểm tick/pin có giảm thời gian mà giữ đủ validation không? | [Performance results](INDEX-TICK-REVIEW-OPTIMIZATION-RESULTS-20261109.md), [preregistered protocol](INDEX-TICK-REVIEW-OPTIMIZATION-PROTOCOL-20261109.md): 3 cặp A/B, full fields/OHLC/locators parity, 19 tests; helpers mới, không sửa raw/old collectors |
 | Tick quanh cuối phiên có khớp nguồn M1 và cho biết latency thật không? | [Pilot results](INDEX-CLOSING-TICK-CALIBRATION-RESULTS-20261109.md): 115.502 joint ticks /577.510 raw checks, 960 side bars exact, 64 target timestamps; chỉ archived availability, chưa broker latency/PnL |
 | Tín hiệu tới15:30 có tốt hơn đầu phiên và qua phí không? | [R076/R077 results](INDEX-REST-OF-DAY-RESULTS-20261109.md), [protocol](INDEX-REST-OF-DAY-PROTOCOL-20261109.md): 995 resolved asset-days, primary gate fail; US5002019 known-partial, không account/prop/OOS |
 | Next-M1Open có phải delay thực không; nên kiểm nguồn gì trước? | [Closing-tick results](INDEX-CLOSING-TICK-CALIBRATION-RESULTS-20261109.md), [protocol](INDEX-CLOSING-TICK-CALIBRATION-PROTOCOL-20261109.md): 8 giờ đã thu/review; chỉ archived quote availability, chưa broker latency hoặc PnL |

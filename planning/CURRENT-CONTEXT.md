@@ -18,12 +18,15 @@ signal closes khớp tick aggregate. 64 timestamp targets có quote; không PnL.
 Package/bundle/lock/helper pins giữ nguyên bản 1.51.1 đã audit, không upgrade.
 Producer 19,158 s /reviewer 8,820 s; mọi job terminal, raw/seals đã giữ để reuse.
 
-**Tiếp:** profile bounded trên pilot đã consumed trước full tick history. Nếu
-hotspot xác nhận, thử integer-grid/batched checks, so toàn fields/M1 OHLC và
-quote locators với frozen Fraction oracle; không sampled-only acceptance hoặc
-bỏ validation. Sau đó freeze full-history intake + economic latency protocol
-riêng, không fetch lại 8 giờ hoặc rerun books cũ. Source quote availability
-khác asset, không chọn latency bằng PnL hoặc tự nới live freshness/risk.
+**Performance đã đo:** [integer tick/scoped pin checks](research/INDEX-TICK-REVIEW-OPTIMIZATION-RESULTS-20261109.md)
+khớp 577.510 fields / 960 M1 side OHLC / 64 locators và age; 32 actual mutations
+reject, 19 tests đạt. Inspect median 2,891 → 0,726 s (3,98×); Node cached replay
+12,799 → 1,819 s (7,04×), cùng export hashes; không full-history ETA.
+Giữ helpers mới cho future consumers, old collectors/oracle/raw giữ nguyên.
+**Tiếp:** source admission bổ sung 16:00–17:00 trên cùng 4 dates × 2 assets;
+sau đó freeze full-history intake + economic recipe riêng. Không fetch lại
+8 giờ cũ hoặc rerun books không đổi. Source quote availability khác asset,
+không chọn latency bằng PnL hoặc tự nới live freshness/risk.
 Cần chốt method window trước economics: parent exit Open15:59 khác paper
 cash close16:00; đổi exit là recipe/model revision. Pilot chỉ tới16:00,
 chưa source admission cho quote sau cash close; không chỉ giảm delay rồi
