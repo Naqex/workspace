@@ -40,7 +40,8 @@ Không xóa evidence, không thêm dashboard/ledger cạnh tranh Paperclip.
 
 ## Lát đang triển khai
 
-[Data admission và R026](RESEARCH-DATA-ADMISSION-20261108.md) khóa phạm vi
-fixture/currency/quality trước thực thi. Tình trạng kết quả ở chính tài liệu
-đó và các artifacts nó dẫn tới. Dùng repo skills hiện có; mở rộng reference
+[Data admission](RESEARCH-DATA-ADMISSION-RESULTS-20261108.md) đã kiểm fixture
+thật và pilot. [R026 results](R026-RELATIVE-EQUITY-RESULTS-20261108.md) qua
+component triage2019/2022, chưa policy/prop. [Continuation](R026-RELATIVE-EQUITY-CONTINUATION-20261108.md)
+giữ recipe, thêm bốn năm trước risk-wrapper; chưa dispatch. Dùng repo skills hiện có; mở rộng reference
 khi workflow đã kiểm, không tạo một skill quản lý toàn bộ khác.

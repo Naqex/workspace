@@ -11,9 +11,13 @@ Goal mới đang active. [Campaign v2](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-
 giữ scope hiện hành; quyết định B của đợt cũ không kết thúc Goal mới.
 [Data admission results](research/RESEARCH-DATA-ADMISSION-RESULTS-20261108.md):
 fixture thật/8tests và pilot28requests đã kiểm, không outcome/PnL.
-[R026 component](research/R026-RELATIVE-EQUITY-COMPONENT-20261108.md) khóa
-bilateral price-proxy recipe2019/2022 trước numeric; bước tiếp là mở rộng
-source admission rồi đo/review. Giữ raw/frozen artifacts.
+[R026 results](research/R026-RELATIVE-EQUITY-RESULTS-20261108.md): source336parts
+đã kiểm, stress+16,8/+140,1pip2019/2022;22resolved/24months,2source-missing.
+Separate raw/Fraction review352endpointprices/176financialchecks/6mutations
+đạt trong scope component. Chưa policy/SL/sizing/prop/OOS hoặc C1/C2.
+[Continuation](research/R026-RELATIVE-EQUITY-CONTINUATION-20261108.md) khóa
+same recipe trên2020/2021/2023/2024; chưa dispatch, không rerun2019/2022.
+Các workers của đợt336parts đã terminal; giữ raw/frozen artifacts.
 
 Phần tối ưu context/retrieval trước đó đã xong trong scope:
 [Đánh giá dữ liệu/tra cứu](research/AGENT-DATA-RETRIEVAL-20261108.md) giữ số đo,

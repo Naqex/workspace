@@ -7,7 +7,7 @@ Các mục cũ chưa được re-audit khi tạo chỉ mục ngày 05/11/2026.
 
 | Câu hỏi / từ khóa | Nguồn hiện có |
 |---|---|
-| Goal mới mở rộng tìm ứng viên challenge; dữ liệu chuẩn hóa thế nào? | [Campaign v2](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md), [data admission results](RESEARCH-DATA-ADMISSION-RESULTS-20261108.md), [R026 component](R026-RELATIVE-EQUITY-COMPONENT-20261108.md): active, giữ C1/C2; quyết định B cũ là lịch sử; fixture/pilot đã admitted, không raw migration |
+| Goal mới mở rộng tìm ứng viên challenge; dữ liệu chuẩn hóa thế nào? | [Campaign v2](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md), [data admission results](RESEARCH-DATA-ADMISSION-RESULTS-20261108.md), [R026 results](R026-RELATIVE-EQUITY-RESULTS-20261108.md), [continuation](R026-RELATIVE-EQUITY-CONTINUATION-20261108.md): active, C1/C2pending; source/admission thật và component dương2019/22, chưa policy/edge |
 | Dữ liệu đang lưu ở đâu, context dài, có cần RAG/vector DB không? | [Data/retrieval review](AGENT-DATA-RETRIEVAL-20261108.md):storage inventory,contextcompaction,Xerjresearchscope,structureddata vàđiềukiệnnângsemanticRAG |
 | Vì sao đợt Goal trước kết thúc; bằng chứng baseline là gì? | [Owner report §8](OWNER-EVIDENCE-REPORT-20261108.md):coverage53records/41versions,actualartifactaudit,đầu raB lịch sử; Goal mới ở campaign v2, chưa challenge candidate |
 | Goal mới chọn hai hướng nào; phiên Mỹ có còn lợi thế không? | [Admission](LOCAL-SESSION-ADMISSION-20261108.md), [results](LOCAL-SESSION-RESULTS-20261108.md):R019defer/R023BUY08–16NY stress2019âm,khôngưu tiênwrapper;8tests/24rawlinks,khôngbot/account/prop |

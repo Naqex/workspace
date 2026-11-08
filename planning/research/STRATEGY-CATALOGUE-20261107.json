@@ -20,9 +20,10 @@
       "implemented": 36,
       "long_history_or_multi_data": 8,
       "price_data_spec_possible": 2,
-      "method_clock_review": 2,
+      "method_clock_review": 1,
       "component_probe_completed_no_priority": 1,
       "component_probe_not_retained": 1,
+      "component_retained_needs_long_validation": 1,
       "point_in_time_news_missing": 2,
       "component_only": 1
     }
@@ -1018,14 +1019,14 @@
     },
     {
       "id": "R026",
-      "title": "Month-end fixing flow",
+      "title": "Month-end relative-equity flow",
       "family": "fixing_flow",
       "role": "variant",
       "parent_id": "R020",
-      "readiness": "method_clock_review",
+      "readiness": "component_retained_needs_long_validation",
       "timeframe": "Intraday/monthend",
-      "rule_sketch": "Thêm calendar tháng vào fixing; riêng projecthypothesis.",
-      "data_requirements": "Fixmethod + monthend/businesscalendar",
+      "rule_sketch": "Bilateral EUR/US price proxy: EUR-local equity factor versus SPY, sign-only EURUSD15:01–16:03London on last NYSE session proxy.",
+      "data_requirements": "Source-listed synchronous EZU/SPY/EURUSD endpoints; pinned cash calendar, units/FX conversion, adjustment/benchmark gaps explicit.",
       "automation_feasibility": "deterministic_after_spec_and_tests",
       "prop_operational_concerns": "Không gán evidenceBOC chung thành bằng chứng monthend; ít events.",
       "source_ids": [
@@ -1033,10 +1034,10 @@
         "MELPRINS2013"
       ],
       "source_relation": "source_backed_equity_hedging_channel_requires_relative_market_inputs",
-      "next_action": "Canonical source-only correction first; then currency/corporate-action/benchmark-clock feasibility before PnL. No unconditional calendar direction.",
+      "next_action": "Preserve2019/2022 component:stress+16.8/+140.1pip,22/24resolved; execute unchanged2020/2021/2023/2024 continuation before risk-wrapper/native/prop/unseen review.",
       "implementation_state": "not_implemented",
       "candidate_id": null,
-      "profitability_evidence": "none_for_this_exact_rule",
+      "profitability_evidence": "costed_price_component_only_two_exposed_years_not_strategy_or_prop",
       "dispatch_authorized": false,
       "implementations": [],
       "data_preflight": {
@@ -1044,6 +1045,25 @@
         "results": "INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md",
         "status": "bounded_source_fixture_verified_not_strategy_ready",
         "strategy_implemented": false
+      },
+      "component_implementation": {
+        "version": "relative-equity-price-proxy-v1",
+        "source": "tooling/ai-engines/relative_equity_component.py",
+        "protocol": "R026-RELATIVE-EQUITY-COMPONENT-20261108.md",
+        "results": "R026-RELATIVE-EQUITY-RESULTS-20261108.md",
+        "continuation": "R026-RELATIVE-EQUITY-CONTINUATION-20261108.md",
+        "challenge_qualified": false,
+        "strategy_implemented": false
+      },
+      "data_admission": {
+        "results": "RESEARCH-DATA-ADMISSION-RESULTS-20261108.md",
+        "status": "336_source_parts_verified22of24component_events_resolved",
+        "unknowns": [
+          "ETF_adjustments",
+          "historical_WMR_calendar_not_used_as_exact_benchmark",
+          "two_missing_source_endpoints",
+          "exposed_not_clean_OOS"
+        ]
       }
     },
     {

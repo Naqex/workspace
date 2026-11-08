@@ -68,6 +68,12 @@ phần chưa được tool đánh giá; dùng bảng gate/evidence trong mọi �
 
 ## Preflight cùng runner
 
+Fixture M1 nhiều instruments dùng `research_input_admission.py --root <sealed-fixture>
+--metadata <registered-semantics.json> --output <new-report.json>` để reuse
+raw/seal/producer/clock/units/exposure checks. [Protocol/results](../../planning/research/RESEARCH-DATA-ADMISSION-RESULTS-20261108.md)
+giữ schema thực thi/fixture thật. Output chỉ source admission, không thay
+DatasetManifest của sản phẩm, study registration, cleanOOS hoặc execution gate.
+
 Trước đổi window, dùng `research_consumption.py --root <explicit-root>` (lặp
 `--root` khi cần) `--output <new-audit.json>` để inventory bounded JSON metadata.
 Không mở CSV, không đi theo directory links ra ngoài root, không xuất PnL/quotes;
