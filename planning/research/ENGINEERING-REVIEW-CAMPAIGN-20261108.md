@@ -246,3 +246,23 @@ support và nhấn mạnh protocol vẫn own data authority. Không cần skill 
 GPU/framework; existing source/cost/evidence/retrospective workflows đủ route.
 Research tiếp [calendar hypotheses](EQUITY-CALENDAR-HYPOTHESES-REVIEW-20261108.md),
 đọc method và inputclock trước code/PnL; không grid stop/phí để cứu losers.
+
+## R025 component: kiểm trước khi xây bot
+
+[Protocol](US500-TURN-OF-MONTH-COMPONENT-PROTOCOL-20261108.md) và
+[results](US500-TURN-OF-MONTH-COMPONENT-RESULTS-20261108.md) giữ fullcounts/means
+và nguồn.1510sessions/2.728.293M1rows mỗi side, nativecalendar/loaderreuse.
+TOM không đạt registeredpriority; không bot/SL/risk/accountPnL hoặc policy mới.
+
+| Lát | Phát hiện | Xử lý và bằng chứng |
+|---|---|---|
+| Gridinput, P0 | PrivateV1 dùng0,01 trong khi sourceUS500/loader dùng0,001 | Validator dừng0,703s trước outcomes;V2 dùng đúng existinggrid, giữfailure/snapshot;không sửa giá/tolerance |
+| Missing/clock | CTC cần exactprevioussession, metricmasks khác nhau;halfday/DST |6tests0,035s trước outcomes,fullcalendarlabels trước prices;missingunknown và inputadmission theo năm |
+| Arithmetic/lineage | Component phải bind actualraw, không chỉhash cachedsummary | Reviewer codepath riêng bind4709pairs/1510rows/50rawfiles trong11,906s;3tampercasesreject; không independentmodel review |
+| Fillrealism | 3days có both-side-volume0 tạientry/exit | Giữflag/source,không gọifillabletick;no numericalrerun hoặc điềnvolume |
+| Economics |2/4prioritychecksđạt;2019–21fail | Giữnegative/inconclusive research,không chọnblock đẹp/overnight hoặc rerun thêm ngàygiờ |
+| Performance | Validate+component+artifact27,906s | Chỉ giữexactendpoints sau fullrawvalidation, không đọc lại raw chomỗi metric;không cần GPU/Rustrewrite |
+
+Reuse source-transformation/evidence/qualification/retrospective skills đủ;
+lỗi drivergrid local không là lý do thêm skill/framework mới. Numeric source
+không đổi sauoutcomes. Không rerun completedstudy; khôngjobnền/protocolgate mở.

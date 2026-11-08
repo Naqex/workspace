@@ -1,6 +1,6 @@
 # Current context — Naqex Workspace
 
-## Campaign tiếp tục — 08/11/2026, 10:12 Việt Nam
+## Campaign tiếp tục — 08/11/2026, 10:47 Việt Nam
 
 **C1/C2 chưa hoàn tất.** Owner giao tìm ứng viên challenge và kiểm/sửa quá
 trình. Tiếp tục từ [campaign](research/CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md);
@@ -26,12 +26,26 @@ old/source/snapshots/reviews giữ, không tự nâng sourceacceptance. Controll
 Không dispatch lại completedjobs. Current feesource chỉ xác minh public
 commission, chưa target geometry/slippage/swap/dividends hoặc nativeprop.
 
-**Lát kế tiếp:** [equity calendar hypotheses](research/EQUITY-CALENDAR-HYPOTHESES-REVIEW-20261108.md).
-Đọc exactmethod/preflight R025 turn-of-month theo McConnell/Xu2008 trước code/
-PnL, benchmark cùngclock/risk/cost nếu adaptationintraday. Không ưu tiên bot
-overnightdrift chỉ từ paper cũ: NYFedauthorupdate2026 báo hiệuứng yếu đi.
-Public literature cópost2024exposure đượcghi rõ; không local2025+barsaccess.
-Source runtime local vẫn chưa thấy API8010/ownedMT5 lúc09:53.
+**R025 component đã kiểm:** [protocol](research/US500-TURN-OF-MONTH-COMPONENT-PROTOCOL-20261108.md),
+[results/hậu kiểm](research/US500-TURN-OF-MONTH-COMPONENT-RESULTS-20261108.md).
+Source6e5795f/6tests trước outcome. V2validate+components27,906s/2.728.293M1rows
+mỗi side; independent arithmetic/calendar/rawbinding11,906s/1510days/4709pairs,
+3tampercasesreject. IntradayTOM2019–21reference/stress+1,1293/−1,8692bps so
+REST+1,4950/−1,4797;2022–24TOM+6,9646/+4,7489 soREST−2,5293/−4,7431.
+Không đạt registeredpriority vì blockđầu fail; không bot,SL/risk/accountPnL,
+không tăng policycount hoặc chọn riêngblock đẹp. V1dừng0,703s trước outcomes
+vì private drivergrid nhầm0,01;V2 dùngexisting0,001, giữfailedattempt/source.
+Ba ngàyvolume0đượcflag,khôngactualtickfillproof;missingunknown/masksriêng.
+Controller22628/launcher22164 đãterminal; khôngjobnền mới.
+
+**Lát kế tiếp:** [R026 method review](research/FX-MONTH-END-FIXING-METHOD-20261108.md)
+đã đọc primary2013/2015 vàcost/clocknotes2021. Cần relative-equityinputs tới
+ngàyápchót, không chỉUS500/calendar hoặcunconditionalEURUSDdirection. Tiếp
+metadata/calendar/clockfeasibility trước protocol/PnL; không tải10markets hoặc
+đổi calendarhoursgrid. LSEGv31intro đọcđược, calculationsection bịtimeout nên
+giữgap; không giả đầy đủcurrentmethod. [Equitycalendarreview](research/EQUITY-CALENDAR-HYPOTHESES-REVIEW-20261108.md)
+giữ authorupdateovernight2026/publicknowledgeexposure; không local2025+bars.
+Source runtime local vẫn chưa thấy API8010/ownedMT5 trong lần kiểm09:53.
 
 ### Kết quả mới và nguồn tiếp tục
 

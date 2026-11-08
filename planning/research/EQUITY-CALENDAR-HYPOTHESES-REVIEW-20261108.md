@@ -23,7 +23,15 @@ tới chọn hypothesis, không là kết quả local holdout. Không đọc/t�
 bars, không được gọi lựa chọn có dùng nguồn này là hoàn toàn mù với literature
 giai đoạn sau2024. Mọi holdout tiếp theo vẫn cần frozen protocol/gate riêng.
 
-## Lát tiếp theo trước numerical outcomes
+## Method đã đọc và component đã kiểm
+
+[Frozen component protocol](US500-TURN-OF-MONTH-COMPONENT-PROTOCOL-20261108.md)
+đăng ký trước outcome, code6e5795f; [kết quả/hậu kiểm](US500-TURN-OF-MONTH-COMPONENT-RESULTS-20261108.md)
+kiểm1510sessions2019–2024. Intradaypriority không đạt cả hai block/costs; chưa
+triển khai R025bot, không tăng policycount hoặc promote. Dòng method/preflight
+trong bảng trên là decisiontrước run, đã được thay bằng kết quả ở đây.
+
+### Lát đã thực hiện trước numerical outcomes
 
 Đọc đúng method/calendar endpoints trong paper2008; xác định signal component
 được kiểm, holding/SL/benchmark và tính chi phí theo profile mới. Reuse raw/

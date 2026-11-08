@@ -177,6 +177,24 @@
       "review_depth": "primaryabstract_intro_and_market_timing_section",
       "limitations": "SPYTAQ1993-2013 paper; CFDhardSL/latency/costs are project adaptations, not paper performance evidence.",
       "checked_on": "2026-11-08"
+    },
+    {
+      "id": "MCX2008",
+      "title": "Equity Returns at the Turn of the Month",
+      "url": "https://business.purdue.edu/faculty/mcconnell/publications/Equity-Returns-at-the-Turn-of-the-Month.pdf",
+      "publication": "2008",
+      "review_depth": "intro_and_aggregate_market_returns_method",
+      "limitations": "Daily index returns; not our intraday CFD adaptation or broker-risk proof.",
+      "checked_on": "2026-11-08"
+    },
+    {
+      "id": "MELPRINS2013",
+      "title": "Equity hedging and exchange rates at the London 4pm Fix",
+      "url": "https://www.ecb.europa.eu/events/pdf/conferences/131216/Third_FX_Workshop_MELVIN_PRINS_Equity%20hedging%20and%20exchange%20rates%20Nov%202013.pdf",
+      "publication": "2013 draft; journal version 2015",
+      "review_depth": "intro_and_sections2_3_5p1",
+      "limitations": "Cross-market relative equity inputs and causal month-end clock; no ready bot or unconditional direction.",
+      "checked_on": "2026-11-08"
     }
   ],
   "records": [
@@ -844,15 +862,27 @@
       "automation_feasibility": "deterministic_after_spec_and_tests",
       "prop_operational_concerns": "Nhiều tổ hợp dễ chọn may; một quý không đủ.",
       "source_ids": [
-        "QC"
+        "QC",
+        "MCX2008"
       ],
-      "source_relation": "methodology_only_no_primary_edge_evidence",
-      "next_action": "Ưu tiên thấp; không search mọi weekday/hour.",
+      "source_relation": "source_backed_calendar_definition_component_not_paper_replication",
+      "next_action": "Component criterion not met; no intraday bot priority, no calendar/hour grid or overnight rescue.",
       "implementation_state": "not_implemented",
       "candidate_id": null,
-      "profitability_evidence": "none_for_this_exact_rule",
+      "profitability_evidence": "US500-TURN-OF-MONTH-COMPONENT-RESULTS-20261108.md; price bps only, no account PnL",
       "dispatch_authorized": false,
-      "implementations": []
+      "implementations": [],
+      "component_experiments": [
+        {
+          "id": "us500-turn-month-component-v2",
+          "protocol": "US500-TURN-OF-MONTH-COMPONENT-PROTOCOL-20261108.md",
+          "results": "US500-TURN-OF-MONTH-COMPONENT-RESULTS-20261108.md",
+          "status": "registered_priority_not_met",
+          "strategy_implemented": false,
+          "raw_rows_per_side": 2728293,
+          "evaluation_days": 1510
+        }
+      ]
     },
     {
       "id": "R026",
@@ -867,10 +897,11 @@
       "automation_feasibility": "deterministic_after_spec_and_tests",
       "prop_operational_concerns": "Không gán evidenceBOC chung thành bằng chứng monthend; ít events.",
       "source_ids": [
-        "BOC48"
+        "BOC48",
+        "MELPRINS2013"
       ],
-      "source_relation": "context_only_monthend_effect_not_verified",
-      "next_action": "Để sau baselinefixing; cần nguồn đúng monthend.",
+      "source_relation": "source_backed_equity_hedging_channel_requires_relative_market_inputs",
+      "next_action": "FX-MONTH-END-FIXING-METHOD-20261108.md; metadata/clock feasibility before protocol or PnL; no unconditional calendar direction.",
       "implementation_state": "not_implemented",
       "candidate_id": null,
       "profitability_evidence": "none_for_this_exact_rule",
