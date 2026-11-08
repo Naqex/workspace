@@ -127,6 +127,38 @@ Nguồn: [clock](FIXING-CLOCK-TRANSFER-RESULTS-20261108.md),
 với stop/risk đang có và chất lượng dữ liệu, rồi mới quyết định có đáng thiết
 kế một phiên bản stop mới. Chưa mở phép thử đó trong lượt báo cáo này.
 
+### Toán và thống kê được ghép vào lộ trình thế nào?
+
+Owner hỏi tiếp08/11: nên tiến tới mục tiêu hay thêm xác suất/thống kê/toán.
+Khuyến nghị là dùng chúng ngay trong các cửa ra quyết định, không tạo thêm
+một chiến dịch xây framework hoặc grid search. Lượt này chỉ khảo sát/tư vấn.
+
+| Bước | Phép phân tích có ích | Giới hạn cần giữ |
+|---|---|---|
+| Trước thay stop | Đo adverse/favorable excursion, phân phối đường giá và các đuôi lỗ; liên hệ với lot/risk đã đăng ký | Lời cuối phiên không chứng minh chịu được lỗ giữa phiên; observed extrema không là bảo đảm broker fill |
+| Đánh giá tín hiệu | Net expectancy và khoảng bất định, contribution theo giai đoạn và ít lệnh lớn | Chưa đủ mẫu/assumptions thì inconclusive; không dùng một con số winrate/Sharpe để chứng nhận |
+| Kiểm độ nhạy | Một số thay đổi nhỏ có cơ chế, khóa trước kết quả, tính lại sizing khi đổi stop | Không tối ưu hàng trăm tham số trên cùng data rồi chọn đẹp nhất |
+| Kiểm selection | Giữ toàn trial/variants/exposure ngay; xem xét DSR/PBO khi return panels và assumptions phù hợp | Chưa có một DSR/PBO đáng tin của toàn catalogue; không tính từ vài annualtotals hoặc ép số variants thành independenttrials |
+| Trước challenge | Dữ liệu chưa dùng để thiết kế, native path/prop, prospective demo và reconciliation; resampling/scenarios nếu thích hợp | Monte Carlo không tạo dữ liệu độc lập mới, không sửa data/fill sai và chưa là xác suất pass đã hiệu chỉnh |
+
+Project đã có `tooling/ai-engines/forex_uncertainty.py`: circular block bootstrap
+theo các nhóm tuần, lấy chung indices cho pairedcandidate/cost, xuất khoảng95%
+có điều kiện cho meanclosedR. CLI hiện chỉ nhận verified flat annualcoarsebooks
+2023/2024, dùng planned25USD; output ghi `selection_adjusted=false`, không
+futureedge/passprobability, không sửa longregime/tails/simulationerror. Không
+đem nguyên công cụ này áp vào pip/constantlot component2019/2022 hoặc gọi là
+toàn hệ thống đã có thống kê chuẩn. Code arithmetic/source checks đã có cũng
+không thay kiểm định kinh tế.
+
+Nguồn phương pháp đọc/đối chiếu08/11:
+[QuantConnect research guide](https://www.quantconnect.com/docs/v2/cloud-platform/backtesting/research-guide)
+về hypothesis/OOS;
+[Bailey et al.,PBO2015](https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf)
+về selection khi thử nhiều cấu hình;
+[Bailey/López de Prado,DSR2014](https://www.davidhbailey.com/dhbpapers/deflated-sharpe.pdf)
+về selection/non-normality. Đây là căn cứ chọn phương pháp, không chứng minh
+code hoặc ứng viên của project đã đạt các phương pháp đó.
+
 Các worker nghiên cứu gần đây đã terminal theo receipts; kiểm process của
 các job vừa nêu không thấy còn chạy ở lượt này. Không phải kiểm sức khỏe toàn
 bộ app, MT5 hoặc broker. Chưa có ứng viên challenge; không mở holdout/gửi lệnh.
