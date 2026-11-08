@@ -1,5 +1,6 @@
 // Pinned native provider components; no browser/auth/WAF or global configuration.
 const path = require('path');
+const crypto = require('crypto');
 const native = require(path.resolve(__dirname, '../../.runtime/research-data/node_modules/dukascopy-node'));
 const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -29,6 +30,9 @@ async function requestWithRecovery(fetcher, url, {budget, deadline, cancelled = 
 }
 
 async function getCachedM1(request, options) {
+  if (options.sourceCandlesOnly !== undefined && typeof options.sourceCandlesOnly !== 'boolean') {
+    throw Error('source_candles_only_must_be_boolean');
+  }
   if (request.timeframe !== 'm1' || request.ignoreFlats !== false ||
       request.wafMode !== 'off' || request.wafTokenCache !== false ||
       request.retryCount !== 0 || request.rateLimitRetryCount !== 0 || !request.useCache) {
@@ -69,8 +73,43 @@ async function getCachedM1(request, options) {
   const processed = native.processData({instrument: input.instrument, requestedTimeframe: 'm1',
     bufferObjects: buffers, priceType: input.priceType, volumes: input.volumes,
     volumeUnits: input.volumeUnits, ignoreFlats: false});
-  return native.formatOutput({processedData: processed.filter(([time]) => time >= +startDate && time < +endDate),
+  let selected = processed.filter(([time]) => time >= +startDate && time < +endDate);
+  if (options.sourceCandlesOnly === true) {
+    const explicit = new Set();
+    const sources = buffers.map(({url, buffer}) => {
+      for (const stamp of explicitTimestamps(JSON.parse(buffer.toString('utf8')))) {
+        if (explicit.has(stamp)) throw Error('overlapping_explicit_source_candles');
+        explicit.add(stamp);
+      }
+      return {pathname: new URL(url).pathname, sha256: crypto.createHash('sha256').update(buffer).digest('hex')};
+    });
+    const nativeRows = selected.length;
+    selected = selected.filter(([stamp]) => explicit.has(stamp));
+    const expected = [...explicit].filter(stamp => stamp >= +startDate && stamp < +endDate).length;
+    if (selected.length !== expected) throw Error('explicit_source_count_mismatch');
+    options.onSourceProvenance?.({policy: 'explicit-source-M1-v1', nativeRows,
+      explicitRows: selected.length, removedPaddingRows: nativeRows-selected.length, sources});
+  }
+  return native.formatOutput({processedData: selected,
     format: input.format, timeframe: 'm1'});
+}
+
+function explicitTimestamps(data) {
+  const columns = ['times','opens','highs','lows','closes','volumes'].map(name => data[name]);
+  if (!Number.isSafeInteger(data.timestamp) || data.timestamp < 0 || data.timestamp % 60000 ||
+      data.shift !== 60000 || columns.some(column => !Array.isArray(column)) ||
+      columns.some(column => column.length !== columns[0].length)) {
+    throw Error('explicit_source_M1_schema');
+  }
+  let stamp = data.timestamp;
+  return data.times.map((step,index) => {
+    if (!Number.isSafeInteger(step) || step < 0 || (index > 0 && step === 0)) {
+      throw Error('explicit_source_timestamp_order');
+    }
+    stamp += step * data.shift;
+    if (!Number.isSafeInteger(stamp)) throw Error('explicit_source_timestamp_range');
+    return stamp;
+  });
 }
 
 function resolveBatch(urls,outcomes,options) {
@@ -91,4 +130,4 @@ function resolveBatch(urls,outcomes,options) {
   return buffers;
 }
 
-module.exports = {getCachedM1, requestWithRecovery,resolveBatch};
+module.exports = {getCachedM1, requestWithRecovery,resolveBatch,explicitTimestamps};

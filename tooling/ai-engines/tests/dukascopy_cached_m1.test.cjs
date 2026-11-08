@@ -1,6 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const {requestWithRecovery, getCachedM1,resolveBatch} = require('../dukascopy_cached_m1.cjs');
+const {requestWithRecovery, getCachedM1,resolveBatch,explicitTimestamps} = require('../dukascopy_cached_m1.cjs');
 const url = 'https://datafeed.dukascopy.com/v1/candles/minute/fixture';
 
 async function fixture(errors, initial = 6, cancel = false) {
@@ -74,4 +74,22 @@ test('strict mode and incomplete partial configuration still fail closed',()=>{
   for(const options of [{},{allowTransientGaps:true}]){
     assert.throws(()=>resolveBatch([url],[{status:'rejected',reason:error}],options));
   }
+});
+
+test('explicit source timestamps exclude initial and internal native padding',()=>{
+  const raw={timestamp:0,shift:60000,times:[2,1,3],opens:[0,0,0],highs:[0,0,0],
+    lows:[0,0,0],closes:[0,0,0],volumes:[1,0,2]};
+  assert.deepEqual(explicitTimestamps(raw),[120000,180000,360000]);
+  assert.equal(explicitTimestamps(raw).length,3); // Explicit zero-volume bars survive.
+});
+
+test('explicit source mask rejects duplicate, fractional and malformed columns',()=>{
+  const raw={timestamp:0,shift:60000,times:[0,1],opens:[0,0],highs:[0,0],lows:[0,0],closes:[0,0],volumes:[1,1]};
+  for(const changes of [{times:[0,0]},{times:[0,.5]},{shift:3600000},{volumes:[1]},{timestamp:-60000}]) {
+    assert.throws(()=>explicitTimestamps({...raw,...changes}));
+  }
+});
+
+test('invalid source mask mode fails before source configuration or access',async()=>{
+  await assert.rejects(getCachedM1({}, {sourceCandlesOnly:'true'}),/must_be_boolean/);
 });
