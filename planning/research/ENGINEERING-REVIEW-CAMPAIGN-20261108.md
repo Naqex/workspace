@@ -172,3 +172,54 @@ textfetch không exposeUS500row/swap, nên không nângdeclaredfees/contractthà
 brokerverified. FTMOxOANDA/UStermskhácglobal,khôngcopyUSunit/dividendtermsvào
 globalSwingprofile. Gatebrokercontract/financing/dividends vẫnunknown;không
 đổicostsauoutcomeđểcứu. Source/paper/currentreadlocatorsgiữ ở study/receipt.
+
+## Delta sau source OR-exit và actual fill availability
+
+IndependentFractionoracle bắt missingEXIT khi một trong RSI/IBS unavailable;
+source`82f5ed9` sửa biểu thức OR,10strategychecks+4oraclecases và1SELLhandcase
+đạt qua các thay đổi. Failed-regression trước fix được giữ. LongV1cancel lúc
+chờinput,old5books giữ;V2rerunaffectedyears rồi soPnL/trades vẫn exact,decision
+eventsđượcbổsung. V3hash/source/data/reviewverified6completedbooks rồicontinue,
+khôngrerunvì transport đổiattempt. CurrentloopC1/C2 không tự đóng ở checkpoint.
+
+Parent2016 có13BUYsignals nhưng0fills: dữ liệu không có quote saucashclose ở
+exactfillminute. Đây là operationalcoverage/inconclusive,chưa lànegativeedge.
+[Preclosevariant](US500-PRECLOSE-REVERSION-20261108.md) được đăng ký mới trước
+outcome,không dùngfull-dayfuturebars;[results](US500-PRECLOSE-REVERSION-RESULTS-20261108.md)
+giữnearzerostress2022,khôngrescuebằngfees/threshold.3prefix/halfday/futuretests
+vàrealfinancialreviews đạt. [First→last30](US500-CLOSE-MOMENTUM-RESULTS-20261108.md)
+độc lậpmechanismtrial cũngâmcả3years,khôngpromote. PrivateentrypointV1 bịguard
+chặntrướcPnL;V2sửaargv giữfailure,khôngclaimallfirstpassgreen.
+
+V6sourceavailabilitykhôngcònrestartquarterkhi1ngàyunavailable:giữrawsidefiles,
+unpairedrows vàjournalcóexactpublicURLpath;view chỉtimestampintersection,
+originalorder,khônginventquote.11helpertests gồmnegativeauth/rate/schema và
+actual2016rawhash/intersection/unpairedlineagereviewđạt. Sourcecompletefalse
+đượcgiữ;đủđọcmôphỏngcógap không đủcertifyintrabar/prop. Retrycap không tăng:
+qua24cumulativefailthìkhôngretry,URLchưađọcvẫncófirstGET;403/WAF/429/schema
+vẫndừng. V5failurevàpartialcacheđượckếthừa,V6khônggửilạiexhaustedASK10/04/2016.
+
+## Lượt tiếp tục 08/11: đóng long studies, sửa reviewer và admission
+
+| Lát | Bằng chứng / thay đổi | Kiểm chứng và giới hạn |
+|---|---|---|
+| Economic selection | [RSI long](US500-LONG-REVIEW-20261108.md) stress tổng −165,69/−351,21 USD, cả hai không đạt heuristic | 24 annual books, không CAGR; giữ operationally inconclusive years và negatives |
+| Reviewer correctness | Entry fill tamper, duplicate ID và closed counter sai từng được chấp nhận | Ba negative regressions fail trước vá; 9 tests đạt sau vá, gồm open Bid/Ask binding; actual24books/72scenarios recheck24,68s, 0 simulations |
+| Research scope | [Monthly study](US500-MONTHLY-TREND-RESULTS-20261108.md) là account liên tục, không annual reset | Hai policies×2costs+2null, all arithmetic/annual marks reconcile; fees/gaps/native DD chưa đủ C1 |
+| Input admission | 83/132 tháng usable; 2015–16 không có tháng đủ history | `prepare`/`input_coverage` trước book; guard không dispatch unusable year; 7 tests và actual576decision parity26,60s, không rerun numerical |
+| Clock/source oracle | [4 intervals](INDEX-MONTH-END-QUOTE-RESULTS-20261108.md): ba rỗng, 2016 có304ticks, Bid exact/Ask thiếu | No quote invention hoặc dataset mutation; UTC-year fix cho private comparisonV2, V1/source giữ; không chứng minh market closed |
+| Time/resources | DownloadV6 2.200,38s, new monthly total370,32s/load25,36s/CPU368,42s; RAM quan sát~5GB | Reuse dữ liệu, không model/broker calls. Chưa peak RAM hoặc native speed comparison; chưa cần GPU/rewrite để chạy tiếp cùng negative study |
+
+**Điều chỉnh quy trình:** ngoài raw hash/schema/calendar, phải kiểm dữ liệu có
+đủ cho chính lookback/clock/decision/fill mà strategy yêu cầu. Timestamp cash
+đủ không tự là quote mới; không dùng hindsight fill-availability làm tín hiệu.
+Admission là kiểm năng lực input, không thêm điều kiện kiếm lời sau outcome.
+Current monthly source mới chặn bộ input thiếu; source/runs trước guard giữ
+nguyên và không được relabel thành pre-admitted. Không rerun để hợp thức hóa.
+
+Đã dùng lại skills evidence/research/qualification/retrospective; những rule
+source transformation và timing hiện có vẫn phù hợp, không cần skill mới trùng
+hoặc sửa global AI config cho ba guard cục bộ. Context/catalogue/index tiếp tục
+route về evidence owners. C1/C2 chưa hoàn tất; bước ưu tiên data/clock/target-cost
+fit, không tăng risk, nới costs hoặc mở2025+ để tìm winner. Broker runtime chưa
+cung cấp US500 spec trong lần đọc; snapshot EURUSD02/11 không thay thế được.

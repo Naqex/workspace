@@ -7133,3 +7133,26 @@ maintaineraudit0errors/0warnings/global12279B/project10133/65536B/reserve55403B,
 combined22412B;skillvalidatordùngbundledPython-Xutf8đạt/linksđạt. Lầnđầukhông
 -Xutf8validatorlỗicp1252,khôngcàiPyYAMLvàoproductđểné. Catalogue50records/
 37versions,không37edges. C1/C2active,2025+closed,khôngbroker/modelcalls.
+
+## 08/11, 08:59 — hoàn tất lượt dở, C1/C2 vẫn mở
+
+[RSI long review](../../research/US500-LONG-REVIEW-20261108.md) giữ 24 annual
+books/72 scenarios đã recheck, không rerun simulation; cả hai phiên bản không
+đạt retention. Reviewer entry/ID/count sửa `d63dc86`, 9 tests và actual24book
+recheck24,68s. V6 nguồn đã xong74/74parts,11unavailable requests còn ghi rõ;
+failures/cancel/recovery cũ giữ nguyên, không đổi partial thành complete feed.
+
+[Monthly trend và benchmark](../../research/US500-MONTHLY-TREND-RESULTS-20261108.md)
+đã xong370,32s; cả hai âm theo declaredcosts và chỉ83/132tháng usable. Đã bổ
+sung input-clock admission, 7 tests; actual576decision time/side/distance parity
+26,60s,0simulation. Old attempt giữ source trước guard, không relabel thành
+pre-admitted. [Tick oracle](../../research/INDEX-MONTH-END-QUOTE-RESULTS-20261108.md)
+bốn requests11,92s:ba rỗng,một có304ticks/Bid exact/Ask thiếu. ComparisonV2
+sửa UTC-year lookup, giữV1/source, không dataset mutation hoặc backtest mới.
+
+Catalogue53records/41versions gồm3controls/benchmarks; không41edges. Current
+context/index route tới finalartifacts, không có numerical/dataworker của lượt
+này còn chạy. Ưu tiên tiếp data/clock/targetcostfit; chưa xác minh US500 spec/
+funding từ runtime hoặc Symbols, snapshot EURUSD02/11 không được thay thế.
+Không2025+,broker/modelcalls,mua challenge,newprovider hoặc production.
+**C1/C2 chưa hoàn tất**, không đóng campaign hoặc tuyên bố đã tìm được winner.

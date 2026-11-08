@@ -1,45 +1,65 @@
 # Current context — Naqex Workspace
 
-## Research kế thừa — 05/11/2026
+## Campaign tiếp tục — 08/11/2026, 09:00 Việt Nam
 
-**Continuation07:35VN08/11 — không dừng ở checkpoint:** owner nhắc nhiệm vụ
-vẫn làđạtC1/C2,khôngchỉ hoàn tất từngbatch. [Dailyreversion](research/US500-DAILY-REVERSION-RESULTS-20261108.md)
-6books/12rows đãxong74,39s;IBS/RSI chưa đủchallenge. SharedM1book/funding/open
-mark/checker đãtests+actual2024recovery riêng; khôngforceliquidate/mởholdout.
-**Jobđangchạy:** [US500longM1](research/US500-VERIFIED-LONG-HISTORY-PREPARATION-20261108.md),
-private`execution-v1/us500-long-m1-v5/PROGRESS.md`,NodePID21616,
-rawcache9partsreused/remainingQ4/2012–2021;reuse2022–24,deadline3600s. V1–V4failuregiữ:
-V1unknown,V2timeout,V3/4transient500;V5nativeBufferFetcher/CacheManager perday
-retrycap2/cumulative24,start6,không403/WAF/429retry.8tests+108780actualrows
-cachedbyteexact/network0đạt. Khôngspawnwriter2hoặc tăngbudget khi đụngcap.
-**Dataqualitygate mới:** [oracle](research/INDEX-DAILY-RANGE-ORACLE-20261108.md)
-134ticks khớpM1nhưngnằmngoàirangeH1/D1ngày18/10/2022; upstreamdaily/hourly
-range chưađượcnhậnchoPnL. Nextnumericalstudy dùngM1-derivedbars,không shortcut
-nguồnD1rangehoặctựsửagiá. Chưa C1/C2complete; vẫn2025+closed/zeroorders.
+**C1/C2 chưa hoàn tất.** Owner giao tìm ứng viên challenge và kiểm/sửa quá
+trình. Tiếp tục từ [campaign](research/CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md);
+không coi checkpoint, completed job hoặc test pass là đã có edge/payout.
+Hiện **không còn numerical/data worker của lượt này chạy**; không dispatch
+lại các attempts đã hoàn tất chỉ để xem trạng thái. Goal chưa được tạo;
+câu hỏi bật Goal trước đó chưa có trả lời, không suy quyền từ im lặng.
 
-**Materialinputfix:** [ignoreFlatsdefault](research/INDEX-UNFILTERED-SOURCE-CORRECTION-20261108.md)
-đãbỏvolume0providerbars,kểcảmovingprice. Offlinecanonicaldecode2022–24xong9,69s,
-network0;cashcoverage2022/24đủ,2023còn46phútgap. Rerun3policies×3years×2costs
-xong122,39s,9books/arithmeticreviewđạt;RSI+IBS làưu tiênresearchmới vìstress
-2022/23/24+21,09/+6,43/+77,77USD,vẫn mẫu25/17/17entriesnhỏ+2024openmark.
-Noise vàIBS khôngretained. Oldnumericreports được đánh dấu affectedinput,
-không chỉnhprotocol hoặcclaim qualified. LongM1V5ignoreFlatsfalseexplicit.
+### Kết quả mới và nguồn tiếp tục
 
-**Numeric lane đang chạy:** [frozenlongRSI](research/US500-CASH-RSI-LONG-VALIDATION-20261108.md),
-private`us500-rsi-long-v1/PROGRESS.md`,actualPythonPID15848(launcher5392).
-Reuse3correctedannualbooks2022–24;2013đãcompletedreviewed+47,71/+33,73USD/4entries,
-nhưngcashcoverage92.673/97.740phútthấpvàsamplesmall. Chờyearseals2014→2021 rồi
-tựquality/simulate/review từngnăm,khôngchờfulldownload. CalendarXNYS4.13.2đã
-isolatedwheel/hash/licenseaudit,khôngđổiproduct/globalvenv;2022–24exactofficial
-calendars,2013–21generatedsourcebound. Khôngsửanumerical/helper source đangpin.
+- [RSI long review](research/US500-LONG-REVIEW-20261108.md): 24 annual books /
+  72 scenario files đã kiểm lại bằng reviewer vá; không chạy lại mô phỏng.
+  Tổng annual net reference/stress: RSI +23,77/−165,69 USD; preclose
+  −72,09/−351,21 USD. Cả hai không đạt frozen retention. Năm không có fill
+  hoặc thiếu lịch sử là operationally inconclusive, không là economic0.
+- V6 data hoàn tất 74/74 quarter-side parts; 11 unavailable requests, raw/
+  unpaired journals giữ nguyên. Partial source không được gọi complete feed.
+  [Availability policy](research/INDEX-HISTORY-PARTIAL-AVAILABILITY-20261108.md).
+- [Monthly trend review](research/US500-MONTHLY-TREND-RESULTS-20261108.md):
+  account liên tục 2014–24 (2013 warmup), momentum net −675,49/−1.408,24 USD;
+  long benchmark −421,62/−1.111,62 USD. 83/132 tháng usable; 2015–16 không
+  có tháng đủ history. Không xem đây là 11 năm execution đầy đủ hoặc clean OOS.
+- Bổ sung input-clock admission trước numerical book; 7 policy tests đạt.
+  Actual 576 decisions/time/side/distance khớp source preparation mới trong
+  26,60 giây, 0 simulation calls. Old source/results giữ; mới chặn chính input
+  thiếu hai năm này. Reviewer entry/ID/count fixes có 9 tests đạt và actual
+  recheck24books24,68s; không independent human/model sign-off.
+- [Month-end tick oracle](research/INDEX-MONTH-END-QUOTE-RESULTS-20261108.md):
+  bốn khoảng đã kiểm, 11,92s tải; 2013-09 / 2014-12 / 2015-12 raw ticks rỗng,
+  không tự chứng minh market closed. 2016-10 có304ticks, hai Bid M1 exact,
+  Ask M1 source thiếu. V1 reviewer chọn nhầm năm local ở31/12; v2 dùng UTC,
+  giữ v1/source. Chưa reconstruct dataset hoặc rerun chiến lược.
 
-**Nhiệm vụ hiện hành08/11:** tìm ứng viên challenge (C1) và hậu kiểm quy trình (C2)
-đều **chưa hoàn tất**. Tiếp tục từ [campaign](research/CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md)
-và [hậu kiểm mới](research/ENGINEERING-REVIEW-CAMPAIGN-20261108.md), không dispatch lại
-screens đã xong. [Catalogue](research/STRATEGY-CATALOGUE-20261107.md) đã đồng bộ50records/
-37policy versions:24nativeFX+4MLcoarse+6metalcoarse+3indexM1, gồm2controls; không37edges.
-[Gold9/10](research/METAL-DISCOVERY9-10-RESULTS-20261108.md) đã completed; chỉ SMA50k
-đáng giữ research, chưa challenge. Hai EURUSDsurvivors conditionalCI vẫn chứa0.
+### Private artifacts và phạm vi còn thiếu
+
+Root `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/execution-v1`:
+`us500-long-m1-v6`, `us500-rsi-long-v3`, `us500-preclose-long-v1`,
+`us500-long-selection-review-v1`, `us500-monthly-trend-v1`,
+`us500-monthly-input-review-v1`, `us500-month-end-tick-oracle-v1/M1-comparison-v2.json`.
+Reuse completed seals/results, giữ failures V1–V5/cancel/recovery và source pins.
+
+**Bước tiếp ưu tiên data/clock và target-cost fit**, chưa mở grid clock/SL/risk
+hoặc tải market mới hàng loạt để tìm winner. Raw-tick oracle không có quote ở
+ba endpoint nên không thể tự điền close; calendar NYSE không là CFD contract.
+FTMO Symbols web chưa exposeUS500, browser ERR_CONNECTION_CLOSED; local không
+thấy listener8010/ownedMT5 trong lần kiểm. Snapshot FTMO02/11 chỉ là EURUSD.
+Không gắn declared index funding/geometry thành target-broker verified.
+Nếu sau này có reconstruction/cost observations: freeze transformation/cost
+version mới trước rerun, chỉ chạy phần affected, giữ old negative evidence.
+
+[Catalogue](research/STRATEGY-CATALOGUE-20261107.md):53 records /41 policy versions,
+gồm24 nativeFX +4ML +6metal +7index; 3 controls/benchmarks, không41 independent
+edges. Chưa bản nào challenge-qualified. [Engineering review](research/ENGINEERING-REVIEW-CAMPAIGN-20261108.md)
+giữ timings/bugs/limitations; tiếp tục chọn lát có thể giải quyết bất định.
+Monthly policy/admission/census checkpoint `22d7a24`; reviewer fix `d63dc86`.
+2025+ holdout, broker OrderCheck/OrderSend, mua account/provider và production
+vẫn đóng. Source D:Trader7ab57907, không sửa unrelated WIP của C:research-metals.
+
+## Bối cảnh đã được kế thừa
 
 **Discovery12/13 đã hoàn tất:** [Catalogue13 results](research/EURUSD-CATALOGUE13-RESULTS-20261108.md)
 đối soát624/624cases,0/24versions qua frozenretention; cả24negative totalstress.
