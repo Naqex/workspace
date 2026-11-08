@@ -79,8 +79,10 @@ def paired_spreads(bid: list, ask: list) -> list[float]:
     return spreads
 
 
-def verify_source_proof(root,manifest,download,calendar_path):
+def verify_source_proof(root,manifest,download,calendar_path, *, frozen_source=False):
     """Reuse a source-validated view only while its code, inputs and seals bind."""
+    if type(frozen_source) is not bool:
+        raise ValueError('frozen_source_requires_explicit_boolean')
     policy=manifest.get('sourceObservationPolicy')
     if policy is None:
         if download.get('sourceObservationPolicy') is not None:
@@ -93,13 +95,35 @@ def verify_source_proof(root,manifest,download,calendar_path):
     if not path.is_file() or digest(path)!=download.get('sourceObservationProofSha256'):
         raise ValueError('source_observation_proof_binding')
     proof=json.loads(path.read_text(encoding='utf8'))
+    snapshots={}
+
+    def source_digest(source):
+        source=Path(source)
+        if not frozen_source:
+            return digest(source) if source.is_file() else None
+        pins=proof.get('source_pins')
+        if not isinstance(pins,dict) or str(source.resolve()) not in pins:
+            raise ValueError('frozen_source_pin_required')
+        expected=pins[str(source.resolve())]
+        if source.is_file() and digest(source)==expected:
+            return expected
+        # Only historical code/protocol bytes can resolve through this view's
+        # snapshots. Raw inputs, calendar and numerical outputs remain direct.
+        if source.suffix not in ('.py','.md') or str(source.resolve()) in proof.get('input_bindings',{}):
+            raise ValueError('frozen_source_cannot_redirect_data')
+        matches=[p for p in (root/'source-snapshot').glob('*-'+source.name)
+                 if p.is_file() and digest(p)==expected]
+        if len(matches)!=1:
+            raise ValueError('frozen_source_snapshot_missing_or_ambiguous')
+        snapshots[str(source.resolve())]=str(matches[0])
+        return expected
     if (proof.get('schema')!='explicit-source-M1-proof-v1'
             or proof.get('status')!='source_explicit_prices_and_pairing_verified'
             or proof.get('policy')!=policy or proof.get('full_retained_price_binding') is not True
             or proof.get('holdout_read') is not False or proof.get('network_calls')!=0
             or proof.get('broker_calls')!=0 or proof.get('model_calls')!=0
-            or proof.get('producer_sha256')!=digest(Path(__file__).with_name('explicit_m1_view.py'))
-            or proof.get('validator_sha256')!=digest(Path(__file__).with_name('candle_source_provenance.py'))
+            or proof.get('producer_sha256')!=source_digest(Path(__file__).with_name('explicit_m1_view.py'))
+            or proof.get('validator_sha256')!=source_digest(Path(__file__).with_name('candle_source_provenance.py'))
             or proof.get('calendar_sha256')!=digest(calendar_path)
             or proof.get('year')!=json.loads(calendar_path.read_text(encoding='utf8'))['year']
             or proof.get('instrument')!='usa500idxusd'
@@ -112,7 +136,8 @@ def verify_source_proof(root,manifest,download,calendar_path):
         if not isinstance(proof.get(field),dict) or not proof[field]:
             raise ValueError('source_observation_missing_bindings')
         for name,sha in proof[field].items():
-            if not Path(name).is_file() or digest(Path(name))!=sha:
+            actual=source_digest(name) if field=='source_pins' else digest(Path(name)) if Path(name).is_file() else None
+            if actual!=sha:
                 raise ValueError('source_observation_input_or_code_changed')
     if [q['quarter'] for q in proof.get('quarters',[])]!=[1,2,3,4]:
         raise ValueError('source_observation_quarter_census')
@@ -138,8 +163,12 @@ def verify_source_proof(root,manifest,download,calendar_path):
                 raise ValueError('source_observation_response_census')
             if any(proof['input_bindings'].get(r['path'])!=r['sha256'] for r in side['responses']):
                 raise ValueError('source_observation_raw_response_binding')
-    return dict(source_observation_policy=policy,source_presence_verified=True,
+    result=dict(source_observation_policy=policy,source_presence_verified=True,
                 source_proof_sha256=digest(path),coverage_basis='paired_source_listed_M1_timestamps')
+    if frozen_source:
+        result.update(source_validation_scope='frozen_producer_proof_reuse_not_current_producer_validation',
+                      historical_source_snapshots=snapshots)
+    return result
 
 
 def review(root: Path, calendar_path: Path, grid: float, *, require_explicit_source=False) -> dict:
