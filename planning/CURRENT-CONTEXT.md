@@ -24,12 +24,20 @@ Private campaign root `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-disco
 `execution-v1/relative-equity-continuation-{data,component}-v1` giữ R026;
 `execution-v1/multiasset-trend-admission-v1` giữ diagnosis/asofsource.
 Các workers của hai lát này terminal; không rerun hoặc sửa oldartifacts.
-**Lát tiếp:** chuẩn bị common monthlyobservations/units/cutoffs/availability
-cho EURUSD+Gold+US500 rồi freeze R010return-basedvol/portfolio recipe trước PnL.
-Rawlocators: `metal-discovery9-screen/attempt-v1/manifest.json` (`input_path`),
-`eurusd-observed-history-v2/config.json`, `us500-long-explicit-source-v1/result.json`;
-inventory metadata chưa rereadrawFX/Gold. Financing/observedAskGold/targetspec
-giữ unknown/declaredscenarios, không giảm oldcosts hoặc nhân budget theo symbols.
+[Monthly input results](research/MULTI-ASSET-MONTHLY-INPUT-RESULTS-20261108.md):
+`execution-v1/multiasset-monthly-input-v1` có864records/859observed/5missing,
+2018–2024 đủ504/504; source-review1430prices/4mutations đạt. Inputphase0a9861a
+đã terminal; không parse14GBraw lại cho arithmetic. GoldAsk vẫnnull/unknown.
+[Frozen component](research/MULTI-ASSET-TREND-COMPONENT-20261108.md) đăng ký
+primarymixedsign1/3/12 +12monthlyreturnSD/inversevol,benchmarklong,2018–24,
+continuousnormalizedNAV10k/gross≤1,2declaredcosts,fullmonthlyroll và finalopenmark.
+[Component results](research/MULTI-ASSET-TREND-RESULTS-20261108.md):4books đã
+terminal/reviewed; primary reference−1.138,18/stress−3.519,01USD trên10kproxy,
+stress0/7years dương, khôngretained.1.008weights/allocations kiểm bằng code
+khác,5mutations; numeric1,416s/review1,488s, không đọc lại14GBraw.
+Không actualaccount/lotstep/SL/prop; financing vẫn declaredscenarios.
+**Lát tiếp:** khảo sát cơ chế holding ngắn có dữ liệu hợp lệ, khác exactrecipes
+đã gác; freeze trước outcome, không hạfunding/increaseleverage cứu R010.
 
 Phần tối ưu context/retrieval trước đó đã xong trong scope:
 [Đánh giá dữ liệu/tra cứu](research/AGENT-DATA-RETRIEVAL-20261108.md) giữ số đo,

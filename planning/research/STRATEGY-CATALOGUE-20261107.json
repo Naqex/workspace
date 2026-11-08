@@ -18,11 +18,11 @@
     },
     "by_readiness": {
       "implemented": 36,
-      "long_history_or_multi_data": 8,
+      "long_history_or_multi_data": 7,
       "price_data_spec_possible": 2,
       "method_clock_review": 1,
       "component_probe_completed_no_priority": 1,
-      "component_probe_not_retained": 2,
+      "component_probe_not_retained": 3,
       "point_in_time_news_missing": 2,
       "component_only": 1
     }
@@ -494,7 +494,7 @@
       "family": "long_horizon_trend",
       "role": "variant",
       "parent_id": "R009",
-      "readiness": "long_history_or_multi_data",
+      "readiness": "component_probe_not_retained",
       "timeframe": "D1/monthly",
       "rule_sketch": "Điều chỉnh exposure theo volatility quá khứ.",
       "data_requirements": "NhưR009 + volatility causal",
@@ -504,10 +504,12 @@
         "AQR-TS"
       ],
       "source_relation": "research_variant_not_verified_replication",
-      "next_action": "Use registered multiasset source-admission results:2018-2024monthlyhistory84/84ready, old full-sessionATR only32; cappedasof120s has no gain. Normalize common EURUSD/Gold/US500monthly observations and freeze return-basedvol/weights/cost/funding before any newPnL; no oldgate weakening.",
-      "implementation_state": "not_implemented",
+      "next_action": "Park exact mixed1/3/12 inverse-vol monthly component: reference net -1138.18,stress -3519.01 USD on continuous normalized10k,0/7positive stressyears;4books/1008allocations reviewed. No fee reduction,leverage rescue or claim all trend fails. Research a separately registered shorter-holding mechanism.",
+      "implementation_state": "component_implemented_not_retained_no_account_policy",
       "candidate_id": null,
-      "profitability_evidence": "none_for_this_exact_rule",
+      "profitability_evidence": "monthly_proxy_negative_both_declared_costs_not_account_or_prop",
+      "component_evidence": "MULTI-ASSET-TREND-RESULTS-20261108.md",
+      "component_versions": ["mixed_1_3_12_inverse_vol_primary", "always_long_inverse_vol_benchmark"],
       "dispatch_authorized": false,
       "implementations": [],
       "data_admission": {

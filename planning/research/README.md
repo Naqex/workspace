@@ -7,6 +7,7 @@ Các mục cũ chưa được re-audit khi tạo chỉ mục ngày 05/11/2026.
 
 | Câu hỏi / từ khóa | Nguồn hiện có |
 |---|---|
+| R010 dữ liệu tháng và portfolio có kết quả chưa? | [Input results](MULTI-ASSET-MONTHLY-INPUT-RESULTS-20261108.md), [protocol](MULTI-ASSET-TREND-COMPONENT-20261108.md), [results](MULTI-ASSET-TREND-RESULTS-20261108.md):4books/reviewed, primary−1.138,18/−3.519,01USD, khôngretained; normalizedproxy chưaSL/prop |
 | Goal mới mở rộng tìm ứng viên challenge; dữ liệu chuẩn hóa thế nào? | [Campaign v2](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md), [data admission results](RESEARCH-DATA-ADMISSION-RESULTS-20261108.md), [R026 long results](R026-RELATIVE-EQUITY-CONTINUATION-RESULTS-20261108.md), [R010 source results](MULTI-ASSET-TREND-DATA-RESULTS-20261108.md): active, C1/C2pending; R026gác sau6years, chuyển multiasset/causalrisk data, chưa PnLportfolio |
 | Dữ liệu đang lưu ở đâu, context dài, có cần RAG/vector DB không? | [Data/retrieval review](AGENT-DATA-RETRIEVAL-20261108.md):storage inventory,contextcompaction,Xerjresearchscope,structureddata vàđiềukiệnnângsemanticRAG |
 | Vì sao đợt Goal trước kết thúc; bằng chứng baseline là gì? | [Owner report §8](OWNER-EVIDENCE-REPORT-20261108.md):coverage53records/41versions,actualartifactaudit,đầu raB lịch sử; Goal mới ở campaign v2, chưa challenge candidate |

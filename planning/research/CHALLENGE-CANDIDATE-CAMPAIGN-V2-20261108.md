@@ -44,7 +44,9 @@ Không xóa evidence, không thêm dashboard/ledger cạnh tranh Paperclip.
 đã terminal/reviewed:3/4năm mới âm, không đạt; gác exactpriceproxy, không
 rescue bằngSL/clock/side. [R010 source results](MULTI-ASSET-TREND-DATA-RESULTS-20261108.md)
 đã phân rã data blockers:monthlyhistory84/84 từ2018, ATRfullsessions chỉ32;
-asofcap120s không tăng140/144endpoints. Bước tiếp là normalize common monthly
-observations/return-basedrisk và freeze multiassetrecipe trước PnL; không
-adopt asofhelper hoặc nới oldgates chỉ để có winner. Dùng repo skills hiện có;
-không tạo một skill quản lý toàn bộ khác.
+asofcap120s không tăng140/144endpoints. [Monthly results](MULTI-ASSET-TREND-RESULTS-20261108.md)
+đã hoàn tất4books/review:primaryreference−1.138,18/stress−3.519,01USD trên10kproxy,
+khôngretained. Dataset864records cósource/clockreview và tái sử dụng cho numeric
+1,416s; không hạ phí hoặc tăngleverage cứu outcome. Bước tiếp: cơ chế holding
+ngắn có data/method rõ và khác các exactversions đã gác, freeze trước số mới.
+Dùng repo skills hiện có; không tạo một skill quản lý toàn bộ khác.

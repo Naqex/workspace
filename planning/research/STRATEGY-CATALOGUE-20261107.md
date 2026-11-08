@@ -15,7 +15,7 @@
 |R007|Compression6/24 breakout|trend_breakout / R001|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
 |R008|UTC range fade|level_reversion / R005|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
 |R009|Time-series momentum dài hạn|long_horizon_trend|Source-only32/132months eligible;guardchặn,khôngPnLmới|1|[Monthly admission](INDEX-LONG-EXPLICIT-RESULTS-20261108.md)|
-|R010|TSMOM theo volatility|long_horizon_trend / R009|Sourcefeasibility:monthlyhistory84/84 từ2018; ATRcũ là nút chặn|0|[Data results](MULTI-ASSET-TREND-DATA-RESULTS-20261108.md); chưa recipe/PnLportfolio|
+|R010|TSMOM theo volatility|long_horizon_trend / R009|Gác mixedmonthlyproxy:−1.138,18/−3.519,01USD;chưa accountpolicy|0|[Component results](MULTI-ASSET-TREND-RESULTS-20261108.md);4books/1.008allocations reviewed|
 |R011|Bollinger re-entry|price_reversion / R003|Các exact FX versions đã gác sau cost screen|2|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
 |R012|RSI contrarian có xác nhận|price_reversion / R003|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
 |R013|ATR shock fade|price_reversion / R003|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|

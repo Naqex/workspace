@@ -37,7 +37,7 @@ actualtimestamp khớp tick. GoldAsk cần economicprotocol riêng nếu dùng v
 
 | Phase | Wallseconds |
 |---|---:|
-|FX10compatiblecacheyears,bao gồm rawhash|102,009|
+|FX10compatiblecacheyears,bao gồm rawhash|92,009|
 |FX2023/24sparse raw extraction|39,528|
 |Gold5.399.878M1rows/sparse selectedprices|5,794|
 |US500pairedM1join/seals|16,890|
