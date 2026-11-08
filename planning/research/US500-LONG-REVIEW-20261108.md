@@ -1,9 +1,10 @@
 # US500 RSI: lịch sử dài không xác nhận kết quả tốt của 2022–2024
 
-**Giới hạn mới về input:** [source correction](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)
-xác nhận native decoder có padding. Các số dưới là historical expanded-view
-scenario; source-padding impact của RSI/preclose chưa được kiểm đủ. Hash và
-số học đã đối soát không chứng minh mỗi endpoint/range là quan sát nguồn.
+**Đã có kết quả source-only thay thế:** [long correction/results hiện hành](INDEX-LONG-EXPLICIT-RESULTS-20261108.md)
+đã kiểm nguồn2013–2024 và24books/72scenarios. Cả hai vẫn không đạt longheuristic;
+nhiều năm nofill là operationally inconclusive. Các bảng dưới giữ historical
+expanded-view scenario, không ghi đè hoặc suy từ chúng rằng source-only/tick
+paths đã đủ. Signalrules/risk/legacycost giữ nguyên; currentnumbers theo link.
 
 **Hai phiên bản không đạt tiêu chí giữ lại đã đăng ký.** Không giảm phí, tăng
 risk, loại năm thua hoặc đổi cutoff để cứu kết quả. Bản gốc có hai năm không

@@ -425,7 +425,7 @@
         "AQR-TS"
       ],
       "source_relation": "adaptation_not_replication_or_independent_edge",
-      "next_action": "Resolve input clock/coverage and targetcost before another full study; preserve negative book and unavailable years",
+      "next_action": "Review source/clock feasibility before another frozen experiment; do not remove years or relax the history requirement to rescue outcomes.",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "us500-cash-mom12-monthly-atr14x1p5-r025-v1",
       "profitability_evidence": "continuous2014_2024_negative_declared_costs_and_incomplete_input",
@@ -441,7 +441,8 @@
       "capital_scenarios": [
         "10000"
       ],
-      "input_source_limitation": "Native M1 view may contain decoder padding; source-only impact review pending. Existing arithmetic evidence remains scoped to expanded-view scenario."
+      "input_source_limitation": "2013warmup/2014-2024evaluation explicit-source admission fails: only32/132months eligible; 2014-2017 have no eligible month. No new portfolio simulation; old expanded-view numbers remain historical/unadmitted.",
+      "source_correction_results": "INDEX-LONG-EXPLICIT-RESULTS-20261108.md"
     },
     {
       "id": "R010",
@@ -1612,7 +1613,9 @@
       "capital_scenarios": [
         "10000"
       ],
-      "input_source_limitation": "Native M1 view may contain decoder padding; source-only impact review pending. Existing arithmetic evidence remains scoped to expanded-view scenario."
+      "input_source_limitation": "2013-2024 paired explicit source correction and 24books/72scenarios reviewed; signal functions unchanged, legacy cost compatibility checked on 2024. M1 gap/tick/targetprop realism remains incomplete.",
+      "source_correction_results": "INDEX-LONG-EXPLICIT-RESULTS-20261108.md",
+      "source_correction_verdict": "registered_long_heuristic_not_met; nofill_years_operationally_inconclusive"
     },
     {
       "id": "R051",
@@ -1682,7 +1685,9 @@
       "capital_scenarios": [
         "10000"
       ],
-      "input_source_limitation": "Native M1 view may contain decoder padding; source-only impact review pending. Existing arithmetic evidence remains scoped to expanded-view scenario."
+      "input_source_limitation": "2013-2024 paired explicit source correction and 24books/72scenarios reviewed; signal functions unchanged, legacy cost compatibility checked on 2024. M1 gap/tick/targetprop realism remains incomplete.",
+      "source_correction_results": "INDEX-LONG-EXPLICIT-RESULTS-20261108.md",
+      "source_correction_verdict": "registered_long_heuristic_not_met; nofill_years_operationally_inconclusive"
     },
     {
       "id": "R053",
@@ -1700,7 +1705,7 @@
         "AQR-TS"
       ],
       "source_relation": "adaptation_not_replication_or_independent_edge",
-      "next_action": "Resolve input clock/coverage and targetcost before another full study; preserve negative book and unavailable years",
+      "next_action": "Review source/clock feasibility before another frozen experiment; do not remove years or relax the history requirement to rescue outcomes.",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "us500-cash-monthly-long-benchmark-atr14x1p5-r025-v1",
       "profitability_evidence": "continuous2014_2024_negative_declared_costs_and_incomplete_input",
@@ -1716,7 +1721,8 @@
       "capital_scenarios": [
         "10000"
       ],
-      "input_source_limitation": "Native M1 view may contain decoder padding; source-only impact review pending. Existing arithmetic evidence remains scoped to expanded-view scenario."
+      "input_source_limitation": "2013warmup/2014-2024evaluation explicit-source admission fails: only32/132months eligible; 2014-2017 have no eligible month. No new portfolio simulation; old expanded-view numbers remain historical/unadmitted.",
+      "source_correction_results": "INDEX-LONG-EXPLICIT-RESULTS-20261108.md"
     }
   ],
   "automatic_dispatch": false,

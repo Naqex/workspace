@@ -1,55 +1,62 @@
 # Current context — Naqex Workspace
 
-## Campaign tiếp tục — 08/11/2026, 11:42 Việt Nam
+## Campaign tiếp tục — 08/11/2026, 12:02 Việt Nam
 
-**C1/C2 chưa hoàn tất.** Owner giao tìm ứng viên challenge và kiểm/sửa quá
-trình. Tiếp tục từ [campaign](research/CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md);
-không coi checkpoint, completed job hoặc test pass là đã có edge/payout.
-Hiện **không còn numerical/data worker của lượt này chạy**; không dispatch
-lại các attempts đã hoàn tất chỉ để xem trạng thái. **Owner đã bật Goal rõ
-ràng; Goal đang active** cho C1/C2, không đặt token budget. Việc bật Goal không
-mở quyền holdout/broker/provider/account hoặc thay tiêu chí để ép ra winner.
+**Goal đang active; C1/C2 chưa hoàn tất.** Tiêu chí và scope ở
+[campaign](research/CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md). Chưa có ứng viên
+đủ bằng chứng để đề xuất challenge; không coi PnL dương hoặc test pass là edge.
+Các data/numerical/reviewer processes của lượt này đã terminal, không dispatch
+lại completed jobs chỉ để đọc trạng thái.
 
-**P0 đã tiến thêm, còn phần long books:** [source correction/results](research/INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md),
-[quarterly protocol](research/INDEX-EXPLICIT-QUARTERLY-PREFLIGHT-20261108.md).
-Sourcea2a3358 có canonical explicit paired view từ localraw và readerproofgate;
-currentstudyCLI chặn legacy trước simulation. Defaultlegacyreview vẫn là
-source_presence_verified:false,khôngsourcecoverage.14Node +8rawprovenance+
-9component+6viewintegration+5reader+25strategy/cost/checker tests đãđạt qua
-cácslices;khôngwholeproduct/tick/prop acceptance.
+## Kết quả hiện hành và bằng chứng
 
-Data3years2022–24 đãcompleted187,218s: pairedrows341682/332236/335016 mỗi side;
-cashsource97698/97710,97032/97140,97678/97740. Nếnpaddinggộphai side loại
-187828/204902/208636; khôngunpaired trong3years này. Fullnative/source oracle
-exact,0networkattempts;readerraw/hash/sourceproof bind. Dataworker26276 đãterminal.
-Private `execution-v1/us500-explicit-source-v1` giữsource/proof/reader/oracle/journals.
+| Lát | Trạng thái đã kiểm | Nguồn tiếp tục |
+|---|---|---|
+| US500 source-only/gate | Sourcea2a3358 phân biệt nến nguồn và padding; CLI chặn legacy trước simulation. Views2013–2024 và native raw-price/pairing oracle đã kiểm, không network | [Correction](research/INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md), [long recipe](research/INDEX-LONG-EXPLICIT-CORRECTION-20261108.md), [long results](research/INDEX-LONG-EXPLICIT-RESULTS-20261108.md) |
+| Noise14/firstlast30 |6books/18scenarios/6reviews126,390s, cả hai vẫn không đạt triage; gaps chưa tick-certified. Source/input/cost/rule deltas giữ | [Before/after](research/INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md) |
+| Long RSI/preclose |24annualbooks/72scenarios/24reviews503,328s. Stress sum+11,09/+29,24USD nhưng chỉ3/12 và4/12years dương, blockcriteriafail;6/4nofillyears operationally inconclusive | [Kết quả hiện hành](research/INDEX-LONG-EXPLICIT-RESULTS-20261108.md) |
+| Monthly momentum/benchmark |Source-only32/132months eligible thay83;2014–17 không đủ input.2actualguardrejections,0portfolio simulations;144monthlyplans/policy khớp daily-fact oracle | [Admission hiện hành](research/INDEX-LONG-EXPLICIT-RESULTS-20261108.md) |
+| R025 calendar |3days source-corrected,1507reused;priority vẫnfalse; chưa bot/accountPnL | [Correction](research/INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md) |
+| Decision history/skills |Owner yêu cầu giữ lý do/baseline/log/exposure/oldnew/failures/verdict.3existing skills cập nhật4c348d5;structures/links/audit0errors0warnings,localbundlepreview,chưa publish native runtime | [Workflow](../tooling/ai-engines/STRATEGY-WORKFLOW.md#nhật-ký-quyết-định-để-kiểm-lại-việc-tối-ưu-và-chọn-chiến-lược), [skill maintenance](../docs/development/SKILL-MAINTENANCE.md#0811-nhật-ký-tối-ưu-và-quyết-định-chiến-lược) |
 
-**Sáu correctedbooks xong:** `execution-v1/us500-source-corrected-books-v1`,
-126,390s/18scenarios/6reviews. Noise2022standard/stress+251,67/+181,19;
-2023−40,36/−135,92;2024−66,19/−150,81USD. Firstlast2022−280,50/−477,21;
-2023−81,84/−278,70;2024−202,95/−429,77. Cảhai vẫnkhôngđạt frozenretention;
-null0,closed/noopenpending,khôngpromote. Noisegapunresolved vàfirstlast2023gap
-vẫnghiđúng,khôngtickriskcertification. Worker22600/launcher11404 đãterminal.
-Delta review2,125s: rules/risk/cost metadata/numericalfunctions khôngđổi;
-old/newdecisions/trades/cash/gaps/sourcehashes giữ `source-input-delta-review-v1`.
-Old86,05s→new126,39s khôngspeedup: sourceproofgates thêmchi phí,khôngbỏchecks.
+Long source batch322,391s gồm9newyears và3reuse/revalidatedyears. Source/raw/
+proof/reader/code pins giữ; parent V6 có side thiếu không được reconstruct.
+Không invalidate QDM Forex/Gold khác decoder. Các source-onlyM1 kết quả mới
+vẫn không chứng minh executable ticks, native index risk/DD hoặc broker hours.
+Giữ source/rules/risk/legacycost: signal AST exact,4legacy2024financial cases
+cùngoldinput kiểm namedcost plumbing20,593s; longdelta review6,875s. Monthly
+input/oracle/guard55,453s. Timings overlap, không cộng thành end-to-end hoặc
+claim speedup. Không source/test mới giữa numerical jobs.
 
-**Owner nhắc08/11:** mọi tốiưu/chọn/đổichiếnlược phải giữlýdo,baseline,
-trialversion/inputexposure/log/failures,timing,so trước/sau/checks vàverdict để
-review lạiđúng/sai. Đã bổsung vào [workflow](../tooling/ai-engines/STRATEGY-WORKFLOW.md#nhật-ký-quyết-định-để-kiểm-lại-việc-tối-ưu-và-chọn-chiến-lược)
-và actualcorrectiondecisiontable; khôngtạo tracker/UI/sourceoftruth mới.
+Private campaign `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/execution-v1`:
+`us500-long-explicit-source-v1` (data22904/launcher26812),
+`us500-long-source-corrected-books-v1` (21768/26972),
+`us500-monthly-explicit-input-review-v1` (26000/19636),
+`long-legacy-cost-compatibility-v1`. Tất cả đã terminal, scripts/logs/source
+snapshots/reviews/deltas ở các attempts; không sửa hash lịch sử để reuse.
 
-**Lát kế tiếp:** RSI/preclose/monthly longbooks còn expanded-view input,
-chưa dùng chúng đểqualify. Tạoexplicit view theo từngyearđượcprotocolđăngký,
-reviewaffectedinput/signal/fill trước rerun phầncần; khôngrewriteallstudies hoặc
-đọcholdout. R026giữdeferrednumeric vìcurrency/corporateaction/calendar gaps.
-C1/C2chưađạt. Nativeindextick/risk/targetbrokerspec/cleanOOS/forward cònthiếu.
+## Bước tiếp
 
-R025đãcorrected3days/reuse1507,priorityfalse (source9408sides/10padding,
-3140rawresponses66,422s+review33,390s). Source4ee6fbb/bc74072 vàolderattempts
-đượcgiữ,khôngsửahash đểreuse dướicurrentproducer/reader. Khônginvalidate QDM
-Forex/Gold khácpipeline. Cácsectionsbêndưới là lịch sửtrướcsourcecorrection,
-đọcresultsownerởtrên cho trạngtháihiệnhành; khôngreruncompletedjobs.
+Ưu tiên kiểm source/clock/time-fit của research survivor **Gold SMA20/80 ở
+nominal50k**, từ [Gold outcomes](research/METAL-DISCOVERY9-10-RESULTS-20261108.md),
+trước một batch đắt mới. Positive normalizedsum15annualbooks không là annual
+return hoặc challenge-ready. Rà khả năng dữ liệu Bid/Ask/tick, broker geometry/
+cost và3/6/12month feasibility; không tune rules/risk để ép target. R026 giữ
+numericdeferred vì relative-equity/currency/corporate-action/calendar gaps.
+Không dùng longUS500 thiếu input/path để qualify hoặc loại cảfamily.
+
+C1/C2 vẫn còn target-broker contract/cost/clock, native tick/prop path, economic
+uncertainty/selection, cleanOOS và forward/reconciliation. Holdout2025+,
+OrderCheck/OrderSend, mua challenge/account/provider và production vẫn đóng.
+Source D:Trader7ab57907, không sửa unrelated WIP C:research-metals hoặc Product
+Plan/vi-dubber. Owner yêu cầu nhật ký đã ở workflow và3skills, không tạo native
+UI/ledger cạnh tranh. Skills repo không là daemon hoặc instruction mới của
+process worker/Paperclip đang chạy.
+
+## Lịch sử trước long correction — không dispatch lại
+
+Các snapshots phía dưới giữ để truy vết. Đọc results owners ở trên cho số liệu
+hiện hành; old expanded-view numbers không được relabel source-only.
 
 **Commission slice đã xong:** [Protocol](research/FTMO-INDEX-COMMISSION-REVIEW-20261108.md),
 [results](research/FTMO-INDEX-COMMISSION-RESULTS-20261108.md). Source75f7ecf truyền

@@ -308,3 +308,29 @@ Owner nhắc08/11 mọi tốiưu/chọn/đổi phải lưuwhy/baseline/delta/old
 failedattempts/test/remaininggaps; đã bổsung đúngworkflowowner và actualcase,
 không tạo ledgerUI mới hoặc chỉ giữ thành công. LongRSI/monthly/sourceyears
 còn correction; C1/C2 giữACTIVE,khôngcandidatequalified/holdout/broker mở.
+
+## Long source correction và monthly input: hoàn tất lát đã đăng ký
+
+[Protocol](INDEX-LONG-EXPLICIT-CORRECTION-20261108.md),
+[before/after và remaininggaps](INDEX-LONG-EXPLICIT-RESULTS-20261108.md) giữ
+actualnumbers/sourcepins/selection.9newsourceyears và3reuse đãverified,
+322,391swall/2dataworkers. NativeNode trên pinnedraw giữgiá/order/source mask
+exact với Python; khôngnetwork,không khôi phục side thiếu trong parent V6.
+24annualbooks/72scenarios+24reviews503,328s,1numericalworker,streamreadyyears;
+không cộngwall vớidata vìoverlap. Longdelta reviewer6,875s,signalfunctions AST
+exact/risk/legacycostmetadata giữ; namedcostplumbingkhác historicalsource được
+kiểm riêng4actual2024books trênoldinput20,593s,financialstates exact.
+
+| Lát | Kết luận có evidence | Hành động |
+|---|---|---|
+|RSI/preclose economics|Stresssum annualbooks+11,09/+29,24USD;RSI3/12 vàpreclose4/12years dương,không8/12;blockcriteriafail|Khôngpromote dùPnL chuyển dương;6/4nofillyears operationallyinconclusive|
+|Data/clock|Explicitcashgaps lớn hơn native-expanded; nhiềuheldpaths unresolved|Khôngcoi source-onlyM1 là executabletick hoặc nativeprop/risk proof|
+|Monthly admission|32/132months eligible thay83;2014–17 khôngusableyear|2actualguardrejections,0simulationcalls;giữoldunadmittednumbers,khôngbỏyears hoặcrelaxinput|
+|Oracle/causality|144monthlyplans/policy khớp alternate dailyfactscode;historytrướcdecision|Inputreview55,453s/CPU35,016s;khôngedge hoặcindependentmodel review|
+|Skills theo owner|3existing skills thêmwhy/baseline/oldnew/failures/verdict routing|3structures/links vàmaintaineraudit0errors/0warnings;localbundlepreview,chưa nativepublish|
+
+Khôngsửa repo numericalsource tronglượt này;raw/views/books/protocols cũ giữ.
+Skills thayđổi khôngđượcprocessworkers đọc tựđộng. Báo cáo tíchhợp scope/scenario
+và knownunknowns, khônglabel C2 toànhệthốngđạt. Bước tiếp review source/clock/
+timefit của ứngviêncònnghiêncứu GoldSMA50k trướcchọnthêm expensivebatch;
+không tune losers hoặc chạy cùngjobs chỉ để đo lại timing.

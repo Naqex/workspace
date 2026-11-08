@@ -1,5 +1,10 @@
 # C2: đã bắt nến chèn và sửa phép đo R025; chưa sửa hết các sách US500
 
+**Continuation đã hoàn tất:** [long source correction/results](INDEX-LONG-EXPLICIT-RESULTS-20261108.md)
+đã kiểm views2013–2024,24RSI/preclosebooks và monthly admission. Các dòng
+"long books còn chờ" bên dưới là checkpoint trước continuation, không là
+trạng thái hiện hành. C1/C2 tổng thể vẫn còn native/tick/targetprop/OOS gaps.
+
 **Lỗi nguồn đã xác nhận, có đường đọc mới và hồi quy.** Thư viện tự thêm nến
 flat/volume0 vào phút raw response bỏ qua. Vì vậy, một export có hash và đủ
 timestamp vẫn chưa chứng minh có quan sát nguồn ở mọi phút. Correction này

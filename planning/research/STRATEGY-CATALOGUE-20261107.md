@@ -14,7 +14,7 @@
 |R006|Failed20 breakout|level_reversion / R001|Đã code, chưa qualified|1|Chưa outcome riêng|
 |R007|Compression6/24 breakout|trend_breakout / R001|Đã code, chưa qualified|1|Chưa outcome riêng|
 |R008|UTC range fade|level_reversion / R005|Đã code, chưa qualified|1|Chưa outcome riêng|
-|R009|Time-series momentum dài hạn|long_horizon_trend|Đã chạy US500 monthly, phí stress âm; input chưa đủ toàn kỳ|1|[Monthly review](US500-MONTHLY-TREND-RESULTS-20261108.md)|
+|R009|Time-series momentum dài hạn|long_horizon_trend|Source-only32/132months eligible;guardchặn,khôngPnLmới|1|[Monthly admission](INDEX-LONG-EXPLICIT-RESULTS-20261108.md)|
 |R010|TSMOM theo volatility|long_horizon_trend / R009|long_history_or_multi_data|0|Chưa outcome riêng|
 |R011|Bollinger re-entry|price_reversion / R003|Đã code, chưa qualified|2|[Kết quả](DISCOVERY6-7-RESULTS-20261108.md)|
 |R012|RSI contrarian có xác nhận|price_reversion / R003|Đã code, chưa qualified|1|[Kết quả](DISCOVERY4-RESULTS-20261108.md)|
@@ -55,10 +55,10 @@
 |R047|Gold afternoon reversal15–19London|fixing_flow|Giữ negative version|1|[Gold outcomes](METAL-DISCOVERY9-10-RESULTS-20261108.md)|
 |R048|US500 noise14 bands|equity_intraday_momentum|Source-only correction vẫn không đạt triage|1|[Corrected outcomes](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)|
 |R049|US500 daily cash IBS02 hold|equity_daily_reversion|Chưa qualified, giữ đủ2022–24|1|[Daily results](US500-DAILY-REVERSION-RESULTS-20261108.md)|
-|R050|US500 CutlerRSI3 +IBS05|equity_daily_reversion /R049|Long study không đạt; có năm không khớp được lệnh|1|[Long review](US500-LONG-REVIEW-20261108.md)|
+|R050|US500 CutlerRSI3 +IBS05|equity_daily_reversion /R049|Source-only long không đạt;6nofillyears inconclusive|1|[Corrected long](INDEX-LONG-EXPLICIT-RESULTS-20261108.md)|
 |R051|US500 first→last30min|equity_close_momentum|Source-only correction vẫn âm cả2022–24/costs|1|[Corrected outcomes](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)|
-|R052|US500 RSI3+IBS preclose2|equity_daily_reversion /R050|Long study stress âm, không đạt retention|1|[Long review](US500-LONG-REVIEW-20261108.md)|
-|R053|US500 monthly long benchmark|falsification /R009|Đối chứng cùng lịch/SL/risk, stress âm; chưa đủ input|1|[Monthly review](US500-MONTHLY-TREND-RESULTS-20261108.md)|
+|R052|US500 RSI3+IBS preclose2|equity_daily_reversion /R050|Source-only long vẫn không đạt;4nofillyears inconclusive|1|[Corrected long](INDEX-LONG-EXPLICIT-RESULTS-20261108.md)|
+|R053|US500 monthly long benchmark|falsification /R009|Source-only admissionfail;khôngportfolio rerun|1|[Monthly admission](INDEX-LONG-EXPLICIT-RESULTS-20261108.md)|
 
 ## Cách đọc và việc đang chạy
 

@@ -1,9 +1,10 @@
 # Xu hướng tháng US500: âm theo phí đã khai báo, dữ liệu chưa đủ cho toàn kỳ
 
-**Input cần kiểm tiếp:** [source correction](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)
-phát hiện padding ở native decoder. Các số dưới giữ historical expanded-view
-semantics; monthly signal/fill/range chưa được revalidate trên explicit-only
-source. Không diễn giải coverage timestamp cũ là có quote nguồn đầy đủ.
+**Admission đã kiểm lại trên source-only:** [long correction/results](INDEX-LONG-EXPLICIT-RESULTS-20261108.md)
+ghi32/132tháng eligible,2014–17 không có tháng đủ input. Cảhai policy bị guard
+chặn trước portfolio simulation,0simulationcalls; không rerun PnL hoặc bỏ năm
+thiếu. Các bảng dưới giữ historical expanded-view/unadmitted semantics, không
+là economic verdict của một chiến lược monthly chạy trên dữ liệu đầy đủ.
 
 **Chưa đủ cơ sở giữ làm ứng viên challenge.** Lượt đã chạy theo
 [protocol trước kết quả](US500-MONTHLY-TREND-PREPARATION-20261108.md), không
