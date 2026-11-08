@@ -7,7 +7,7 @@ Các mục cũ chưa được re-audit khi tạo chỉ mục ngày 05/11/2026.
 
 | Câu hỏi / từ khóa | Nguồn hiện có |
 |---|---|
-| NASDAQ M1 history lỗi timestamp và tiếp tục thế nào? | [Protocol](NASDAQ-M1-HISTORY-PROTOCOL-20261108.md), [recovery](NASDAQ-M1-HISTORY-RECOVERY-20261108.md): native tuple/JSON contract defect, 61cachedrawdays giữ nguyên; v2 có source/quality review trước economics |
+| NASDAQ M1 history và cash RSI đã xong chưa? | [Source results](NASDAQ-M1-HISTORY-RESULTS-20261108.md):8books/1.704rawdays/7.980.630checks đạt; [R063 results](NASDAQ-CASH-RSI-COMPONENT-RESULTS-20261108.md): không retained, batch compute46,617→12,364s với8cases exact; [next method](NASDAQ-INTRADAY-MOMENTUM-METHOD-20261108.md) reuse source, chưa outcomes |
 | R010 dữ liệu tháng và portfolio có kết quả chưa? | [Input results](MULTI-ASSET-MONTHLY-INPUT-RESULTS-20261108.md), [protocol](MULTI-ASSET-TREND-COMPONENT-20261108.md), [results](MULTI-ASSET-TREND-RESULTS-20261108.md):4books/reviewed, primary−1.138,18/−3.519,01USD, khôngretained; normalizedproxy chưaSL/prop |
 | Phiên vàng có đủ lợi nhuận giá sau phí không? | [Protocol](GOLD-SESSION-COMPONENT-PROTOCOL-20261108.md), [results](GOLD-SESSION-COMPONENT-RESULTS-20261108.md):R054/R055 khôngretained,0/15stressyears dương;15.377sourceOpen/30.504costchecks;chưaSL/account/edge |
 | PreECB giá dương chỉ hai năm hay có độ bền dài hơn? | [13yearresults](PRE-ECB-LONG-PRICE-RESULTS-20261108.md), [recentprotocol](PRE-ECB-RECENT-PRICE-PROTOCOL-20261108.md), [recentresults](PRE-ECB-RECENT-PRICE-RESULTS-20261108.md):2010–24stress14/15years dương,cả4blocks dương;retained cho đăng kýriskwrapper,chưaSL/account/OOS/prop |

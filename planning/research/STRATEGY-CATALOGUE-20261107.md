@@ -1,6 +1,6 @@
 # Danh mục nghiên cứu chiến lược — cập nhật08/11/2026
 
-62 hồ sơ:39đã có research implementation(44policyversions),22hồ sơ chưa có accountpolicy và1riskcomponent. Nhóm22 gồm các pricecomponents đã tính nhưng chưa là bottàikhoản. Trong44versions có25native offline rules,4MLcoarse-only,6goldcoarse-only,7indexM1coarse-only,1NASDAQH4/H1proxy và1FXsessioncoarseprototype trongtooling; gồm2shuffledcontrols và1long-onlybenchmark. **Không phải44edgesđộc lập;chưa bản nào challenge-qualified.** Capital10k/50k vàcost/yearscenarios không đếm thànhstrategyđộc lập.
+63 hồ sơ:39đã có research implementation(44policyversions),23hồ sơ chưa có accountpolicy và1riskcomponent. Nhóm23 gồm các pricecomponents đã tính nhưng chưa là bottàikhoản. Trong44versions có25native offline rules,4MLcoarse-only,6goldcoarse-only,7indexM1coarse-only,1NASDAQH4/H1proxy và1FXsessioncoarseprototype trongtooling; gồm2shuffledcontrols và1long-onlybenchmark. **Không phải44edgesđộc lập;chưa bản nào challenge-qualified.** Capital10k/50k vàcost/yearscenarios không đếm thànhstrategyđộc lập.
 
 [JSON](STRATEGY-CATALOGUE-20261107.json) là cùng dữ liệu có cấu trúc; protocol/source giữ exactrecipes, không automatic dispatch/rejection hoặc broker authority.
 
@@ -68,6 +68,7 @@
 |R060|AUDUSD SELL10–16Sydney|session_flow /R023|Phí cao −13.405,8pip; 1/15 năm dương, không giữ|0|[Local-flow results](LOCAL-FLOW-TWO-FX-RESULTS-20261108.md)|
 |R061|NASDAQ100 H4SMA20/80|trend_breakout /R002|Không giữ exactrecipe: stress2019+240,59/2022−77,36USD,7/14trades|1|[Pilot results](NASDAQ100-H4-SMA-RESULTS-20261108.md); coarse/gap limits, chưa prop|
 |R062|NASDAQ pre-FOMC23h|scheduled_macro_premium|Không đạt2019;2022dương, chưaaccountpolicy|0|[Component results](FOMC-NASDAQ-COMPONENT-RESULTS-20261108.md);64costcases/128quotes reviewed|
+|R063|NASDAQ cash RSI3+IBS05|equity_daily_reversion /R050|Không giữ: stress2019−2,97/2022−486,42USD/unit,9/21trades|0|[Component results](NASDAQ-CASH-RSI-COMPONENT-RESULTS-20261108.md); chưaSL/account/prop/OOS|
 
 ## Cách đọc và việc đang chạy
 

@@ -23,11 +23,7 @@ def prepare(sessions, pairs):
     return plans
 
 
-def simulate(pairs, plans, *, start, end, scenario, null_control=False,
-             progress=None, deadline=None):
-    began, cpu = time.perf_counter(), time.process_time()
-    if scenario not in SCENARIOS:
-        raise ValueError('unregistered_component_cost')
+def validate_inputs(pairs, plans, *, start, end):
     stamps = list(pairs)
     if (type(start) is not int or type(end) is not int or start % DAY or end % DAY or end <= start
             or not stamps or stamps != sorted(set(stamps)) or stamps[-1] >= end):
@@ -50,6 +46,39 @@ def simulate(pairs, plans, *, start, end, scenario, null_control=False,
     times = [t for t in stamps if t >= start]
     if not times:
         raise ValueError('empty_component_evaluation')
+    return times, events
+
+
+def simulate(pairs, plans, *, start, end, scenario, null_control=False,
+             progress=None, deadline=None):
+    began, cpu = time.perf_counter(), time.process_time()
+    if scenario not in SCENARIOS:
+        raise ValueError('unregistered_component_cost')
+    times, events = validate_inputs(pairs, plans, start=start, end=end)
+    return _replay(pairs, plans, times, events, start=start, end=end, scenario=scenario,
+                   null_control=null_control, progress=progress, deadline=deadline, began=began, cpu=cpu)
+
+
+def simulate_batch(pairs, plans, *, start, end, progress=None, deadline=None):
+    """Validate one read-only input view once for the four registered cost/control cases."""
+    began, cpu = time.perf_counter(), time.process_time()
+    times, events = validate_inputs(pairs, plans, start=start, end=end)
+    validation_wall = time.perf_counter()-began
+    validation_cpu = time.process_time()-cpu
+    results = []
+    for scenario in ('reference', 'stress'):
+        for null_control in (False, True):
+            callback = (lambda i, n: progress(scenario, null_control, i, n)) if progress else None
+            results.append(_replay(pairs, plans, times, events, start=start, end=end,
+                scenario=scenario, null_control=null_control, progress=callback, deadline=deadline,
+                began=time.perf_counter(), cpu=time.process_time()))
+    return dict(results=results, validation_wall_seconds=validation_wall,
+                validation_cpu_seconds=validation_cpu, wall_seconds=time.perf_counter()-began,
+                cpu_seconds=time.process_time()-cpu)
+
+
+def _replay(pairs, plans, times, events, *, start, end, scenario, null_control,
+            progress, deadline, began, cpu):
     slip, annual = SCENARIOS[scenario]
     position = pending = None
     cursor = entries = 0

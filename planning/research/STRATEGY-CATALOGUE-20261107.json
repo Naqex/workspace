@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-07",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 62,
+  "record_count": 63,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -12,13 +12,13 @@
   "counts": {
     "by_role": {
       "existing": 36,
-      "variant": 12,
+      "variant": 13,
       "new": 13,
       "component": 1
     },
     "by_readiness": {
       "implemented": 36,
-      "component_probe_not_retained": 11,
+      "component_probe_not_retained": 12,
       "implemented_not_retained": 3,
       "method_clock_review": 1,
       "component_probe_completed_no_priority": 1,
@@ -2192,6 +2192,31 @@
       "implementations": [],
       "component_evidence": "FOMC-NASDAQ-COMPONENT-RESULTS-20261108.md",
       "profitability_evidence": "perresearchunit stress2019-0.12/2022+1113.44USD;matchedweekdelta-103.00/+697.57;notaccountPnL",
+      "dispatch_authorized": false
+    },
+    {
+      "id": "R063",
+      "title": "NASDAQ cash CutlerRSI3 + IBS05 component",
+      "family": "equity_daily_reversion",
+      "role": "variant",
+      "parent_id": "R050",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "Cash daily Bid signals / delayed explicit M1 Open endpoints",
+      "rule_sketch": "BUY CutlerRSI3<10 and IBS<=.5 with 14TR readiness; exit RSI>40 or IBS>.5/incomplete cash; one hypothetical unit; no SL or account sizing.",
+      "data_requirements": "Sealed source-only USATECH.IDX/USD Bid/Ask M1 with registered cash calendar, warmup2018/2021 and development2019/2022.",
+      "automation_feasibility": "price_component_only_not_account_or_execution",
+      "prop_operational_concerns": "Frozen screen failed; modeled endpoint/holding gaps, declared costs/funding, no SL/sizing/targetspec/prop/OOS.",
+      "source_ids": [
+        "PAGONIDIS-IBS"
+      ],
+      "source_relation": "asset_and_execution_adaptation_not_paper_replication_or_independent_edge",
+      "next_action": "Park exact component; no clock/fee/threshold rescue. Reuse sealed sources and batch validation optimization for distinct registered question.",
+      "implementation_state": "component_implemented_not_retained_no_account_policy",
+      "candidate_id": null,
+      "implementations": [],
+      "component_id": "nasdaq-cash-cutler3-10-40-ibs05-component-v1",
+      "component_evidence": "NASDAQ-CASH-RSI-COMPONENT-RESULTS-20261108.md",
+      "profitability_evidence": "USD per one hypothetical unit reference/stress 2019 +37.40/-2.97 (9closed),2022 -295.50/-486.42 (21closed); not account PnL.",
       "dispatch_authorized": false
     }
   ],

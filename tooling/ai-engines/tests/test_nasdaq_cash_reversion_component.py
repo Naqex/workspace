@@ -137,5 +137,29 @@ class CashReversionTests(unittest.TestCase):
                 self.assertFalse(study.retained([base,dict(other,**change)]))
         self.assertFalse(study.retained([dict(base)]))
 
+    def test_batch_validates_once_and_has_exact_financial_state_parity(self):
+        from unittest.mock import patch
+        pairs, plans = case()
+        original = deepcopy((pairs,plans))
+        with patch.object(study,'validate_inputs',wraps=study.validate_inputs) as validation:
+            batch = study.simulate_batch(pairs,plans,start=START,end=START+2*DAY)
+            self.assertEqual(validation.call_count,1)
+        for result in batch['results']:
+            expected = study.simulate(pairs,plans,start=START,end=START+2*DAY,
+                scenario=result['scenario'],null_control=result['null_control'])
+            omit={'wall_seconds','cpu_seconds'}
+            self.assertEqual({k:v for k,v in result.items() if k not in omit},
+                             {k:v for k,v in expected.items() if k not in omit})
+        self.assertEqual((pairs,plans),original)
+
+    def test_invalid_batch_cannot_enter_any_cost_or_control_replay(self):
+        from unittest.mock import patch
+        pairs, plans = case()
+        pairs[next(iter(pairs))] = pair(next(iter(pairs)),100,'-.2')
+        with patch.object(study,'_replay',side_effect=AssertionError('must_not_run')) as replay:
+            with self.assertRaisesRegex(ValueError,'crossed'):
+                study.simulate_batch(pairs,plans,start=START,end=START+2*DAY)
+            replay.assert_not_called()
+
 
 if __name__ == '__main__':unittest.main()

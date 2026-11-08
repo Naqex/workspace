@@ -10,33 +10,33 @@ Owner giao tìm ứng viên đủ C1/C2, chuẩn hóa dữ liệu và cải ti�
 Goal đang active; [campaign v2](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)
 giữ scope, quyết định B cũ không kết thúc chiến dịch mới. **Chưa challenge-qualified.**
 
-Lát hiện tại: [NASDAQ M1 history](research/NASDAQ-M1-HISTORY-PROTOCOL-20261108.md)
-đã đăng ký calendar và 8books/1.704rawdays trước tải. V1 dừng vì producer
-thiếu `format:json`, không phải timestamp nguồn sai; cache-only diagnostic
-đã kiểm54.977bars/61rawdays. [Recovery v2](research/NASDAQ-M1-HISTORY-RECOVERY-20261108.md)
-reuse raw/calendar exacthash, thêm output-shape preflight và16tests đạt.
-Đầu ra tại `execution-v1/nasdaq-m1-history-v2` dưới private root; đọc status/
-failure/result/review để biết tiến độ, chưa economics hoặc challenge.
+Lát mới nhất: [NASDAQ source M1](research/NASDAQ-M1-HISTORY-RESULTS-20261108.md)
+đã terminal/reviewed:8books/1.704rawdays/1.596.126sidebars,7.980.630checks.
+250/252cashdays2019 và247/251cashdays2022 đủ; missing/gaps giữ rõ. V1
+outputformat lỗi đã sửa bằng preflight+16tests, raw/calendar reuse exacthash.
+[Cash RSI component R063](research/NASDAQ-CASH-RSI-COMPONENT-RESULTS-20261108.md)
+đã8cases/1.728decisions/60trade-costrecords reviewed; stress2019−2,97 và
+2022−486,42USD/hypotheticalunit,9/21closed. Không retained, không accountPnL.
+Catalogue63records/44researchpolicyversions/25native, chưa challengecandidate.
 
-Lát trước: [R062FOMCcomponent](research/FOMC-NASDAQ-COMPONENT-RESULTS-20261108.md)
-20officialcalendarpages/16events/32windows đãterminal/reviewed64costcases/
-128quotes/6mutations.2019stress−0,12USD/unit,pairedcontrol−103;2022positive
-nhưngjointfilterfail. ChưaSL/sizing/account/prop/OOS. Không clock/fee/controlrescue.
-Catalogue62records/44researchversions/25native; chưa challengecandidate.
-**Tiếp:** [NASDAQdailyreversion method/source](research/NASDAQ-DAILY-REVERSION-METHOD-20261108.md):
-2cashM1fixtureswinter/summer đủ390min/side/day+16:01quotes;780presencechecks/
-4mutations. Đăngký cashcalendar/holiday/earlyclose và source-onlyM1history
-cho exactquestion trước economicrecipe. Không dựng09:30cashbar từH1 hoặc
-claim CFD/quotevolume là ETF/exchangevolume. Chưa thêmNASDAQR050policy.
+Performance đã kiểm: batch validate1lần/year thay4lần,8caseoutputs exact;
+compute46,617→12,364s trong một diagnostic, không wholeproductspeedup.
+Whole new command23,534s;12focusedtests đạt. Source chuẩn bị719,816s,
+review91,228s; component63,872s/review18,629s. Không replay negatives không đổi.
+
+**Tiếp:** [NASDAQ intraday momentum method](research/NASDAQ-INTRADAY-MOMENTUM-METHOD-20261108.md):
+reuse sealed M1/calendar, pure R051 first→last-half signal adaptation khác
+R063reversion. Author university abstract refreshed, fullpublisher403/Reading
+anti-bot; không freshfullpaperclaim. Đăng ký exact economic component/retention
+và fixtures trước numeric; chưaR064outcomes, không US500financial relabel.
 
 Private root `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/`;
-`execution-v1/fomc-nasdaq-component-v1` và `nasdaq-cash-session-fixture-v1`
-giữ pins/results/reviews/status/events. PIDs21920/22636/29228 vàreviewers
-terminal0, khôngworker chờ. FOMCcalendar11,081s/numeric0,536s/review0,261s,
-không totalresearchtimer. [R035](research/FX-PAIR-FORMATION-RESULTS-20261108.md)
-GBP/AUDformation chưađạt,khôngpairgrid;[R061](research/NASDAQ100-H4-SMA-RESULTS-20261108.md)
-và[R019](research/PRIOR-DAY-RETEST-RESULTS-20261108.md) khôngretained,khôngrerun.
-Trader pin83731fc8. Isolatedstatvenv/hashlock đãcó, khôngproductmutation.
+`execution-v1/nasdaq-m1-history-v2`, `nasdaq-cash-rsi-component-v1`,
+`nasdaq-cash-rsi-batch-parity-v1` giữ pins/results/reviews/status/events.
+ProducerPIDs27988/24620/24636 và reviewers terminal0, không worker chờ.
+Original componentcode có exactsnapshot; currentcode tối ưu không sửa oldpins.
+Trader pin83731fc8, không product/runtime mutation. R035/R061/R062 negatives
+tra kết quả tại index, không retune/rerun để cứu. Goal C1/C2 vẫn active.
 
 Các kết quả trước và negatives tra [research index](research/README.md) hoặc
 campaignv2; không mở lại raw/numeric batch không đổi. [Data/retrieval review](research/AGENT-DATA-RETRIEVAL-20261108.md)
