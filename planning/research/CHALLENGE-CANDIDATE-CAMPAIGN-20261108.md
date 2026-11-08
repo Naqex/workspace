@@ -5,6 +5,57 @@ rồi kiểm lại cho đến khi cả hai tiêu chí đạt. Đây là nhiệm 
 không phải lời bảo đảm thị trường sẽ cung cấp một chiến lược có lợi thế.
 AI plan/receipt hiện có giữ trạng thái và bằng chứng; file này giữ tiêu chí.
 
+## Goal mới và quyền kết thúc hợp lý — 08/11/2026, hiện hành
+
+Sau review tính khả thi và path risk, owner yêu cầu tạo Goal để tiến tới mục
+tiêu, cho phép dừng khi hợp lý. App Goal mới đã active; mục này supersede
+yêu cầu tiếp tục vô hạn ở các đoạn lịch sử bên dưới. Không khôi phục Goal cũ
+đã clear, không coi xong một batch là đạt C1/C2.
+
+**Đích dài hạn:** có bot phù hợp mục tiêu prop rủi ro thấp, đi từ challenge
+tới giữ tài khoản và payout có lợi sau tổng phí. **Đầu ra Goal hiện tại:**
+một quyết định có căn cứ về ứng viên và khả năng đi tiếp, không hứa sẽ tìm
+được chiến lược hoặc chắc chắn nhận payout.
+
+Goal chỉ complete khi một trong hai đầu ra đã thực sự hoàn tất:
+
+- **A — đủ ứng viên:** C1/C2 đủ cho đúng bước đề xuất; evidence/unknowns và
+  owner handover được bàn giao, không tự chứng nhận owner đã hiểu. Quyền mua
+  challenge, dữ liệu holdout và thực thi broker vẫn riêng.
+- **B — kết thúc nghiên cứu có lý do:** hoàn tất đợt hữu hạn đã đăng ký và
+  hậu kiểm; không có ứng viên, đồng thời không còn phép thử kế tiếp có giá
+  trị đủ rõ trong phạm vi hiện tại. Lưu vì sao dừng/chuyển hướng, negatives,
+  giới hạn và evidence/nguồn lực cần để mở lại. Báo rõ **chưa đạt mục tiêu
+  challenge**, không đổi nhãn thất bại thành thành công chiến lược.
+
+Không tự dùng `paused` chỉ vì chưa có winner. Gate thiếu quyền là dependency
+cần báo đúng, không kết luận chiến lược không tồn tại hay tự mở gate. Không
+mark complete chỉ vì hết lượt/context hoặc vì đã đầu tư nhiều công sức.
+
+### Đợt kế tiếp: chọn câu hỏi trước khi mở mô phỏng
+
+Baseline kế thừa: PreECB cũ vẫn parked; clock14:15 không giúp; weighting không
+là nguyên nhân chính trong attribution; noSL/giữlotcũ có pathloss hơn5R.
+Đọc đúng [path results](PRE-ECB-PATH-RISK-RESULTS-20261108.md) và
+[tính khả thi](OWNER-EVIDENCE-REPORT-20261108.md), không rerun các study này.
+
+1. So khả năng áp dụng của tối đa **hai giả thuyết tiếp theo** bằng nguồn,
+   cơ chế, khác biệt với variants đã thử, data/cost/risk và cách bác bỏ. Không
+   mặc định chọn một ATR khác để cứu PreECB hoặc R019 chỉ vì dễ reuse.
+2. Chỉ nhận hypothesis có câu hỏi kiểm được và chi phí nghiên cứu tương xứng.
+   Recipe mới phải freeze riêng trước outcome: số variants, data roles,
+   cost/risk, tiêu chí giữ/gác, numeric/review deadlines và input/code pins.
+   Chưa có recipe hợp lý thì kết thúc lát admission bằng lý do, không mở
+   batch chỉ để giữ Goal bận. Tối đa hai không là hai independent edges.
+3. Sau đợt đó, chốt giữ/gác/thiếu bằng chứng và review C2; chỉ đăng ký đợt mới
+   khi nêu được điều mới sẽ học và evidence có thể làm đổi quyết định. Không
+   tự lặp grid tham số, thêm compute hoặc optimize framework thiếu bottleneck.
+
+Logs/status/timing/attempts và quyết định tiếp tục vẫn ở owner hiện có. Repo
+skills đã hỗ trợ research/qualification/hậu kiểm/handover; không thêm skill
+hoặc UI chỉ để quản lý Goal. Lượt bật Goal chỉ đọc baseline và đăng ký đợt;
+chưa tạo policy mới, chưa chạy numeric hoặc mở dữ liệu chưa được duyệt.
+
 Owner nhắc lại08/11: checkpoint/báo cáo từng batch không làdừngcampaign.
 Nếu chưa đạt C1/C2, thực thi lát kế tiếp có căn cứ trong scope đãduyệt;
 không tự chuyển “chưa tìmra” thành “complete”, cũngkhông épmarketphảicówinner.

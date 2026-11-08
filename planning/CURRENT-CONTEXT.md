@@ -1,5 +1,21 @@
 # Current context — Naqex Workspace
 
+## Goal mới đã active — 08/11/2026, sau câu hỏi khả thi
+
+Owner giao tạo Goal và được dừng khi hợp lý. App Goal active, không đặt token
+budget vì owner không yêu cầu. [Campaign hiện hành](research/CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md)
+thêm đầu ra A (ứng viên đủ evidence cho đúng bước) hoặc B (đợt nghiên cứu đã
+đăng ký/hậu kiểm xong, chưa ứng viên và không còn phép thử giá trị đủ rõ trong
+scope; bàn giao lý do dừng/chuyển hướng). B không là đạt challenge. Các lệnh
+tiếp vô hạn/Goal paused/cleared hoặc “không Goal mới” bên dưới là lịch sử.
+
+Đợt kế tiếp: admission tối đa hai hypothesis có nguồn/cơ chế/cách bác bỏ,
+khác variants đã gác, data/cost/risk khả dụng; rồi mới freeze numeric protocol.
+Không mặc định nới ATR/cứu PreECB hoặc R019 vì dễ reuse. Không rerun completed
+studies. Lượt bật Goal chưa numeric/newpolicy. Giữ risk thấp, trial history,
+status/log/timing/review/owner explanation; không tự mở2025+/broker/account/
+paid/challenge purchase/production. Chưa candidate, chưa C1/C2 hoàn tất.
+
 ## Cơ sở khả thi của mục tiêu — 08/11/2026
 
 Owner hỏi có đang tìm thứ không tồn tại. [Owner report §7](research/OWNER-EVIDENCE-REPORT-20261108.md)
