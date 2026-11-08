@@ -322,6 +322,17 @@ Tạo view mới bằng `explicit_m1_view.py --parent <sealed-old-year> --calend
 Tool chỉ dùng local raw cache đã pin, giữ giá nến nguồn và journal unpaired,
 không network fallback/fill/gaprepair. Source-proof/reader đổi thì revalidate
 attempt mới, không sửa hashes của old books. [Recipe và phạm vi](../../planning/research/INDEX-EXPLICIT-QUARTERLY-PREFLIGHT-20261108.md).
+
+Historical source admission có thể gọi
+`verify_source_proof(..., frozen_source=True)` khi live code đã revision: chỉ
+code/protocol trong `source_pins` được resolve tới một snapshot đúng hash tại
+chính source view. Raw/input bindings, calendar và canonical output seals vẫn
+kiểm trực tiếp; không redirect data, sửa proof hoặc thực thi code snapshot.
+Receipt ghi `frozen_producer_proof_reuse_not_current_producer_validation` và
+locator snapshot. Default reader/CLI vẫn strict/current, không tự fallback.
+[Actual recovery và giới hạn](../../planning/research/US500-OVERNIGHT-REVERSAL-RESULTS-20261109.md)
+giữ failure cũ và bốn source years đã rebind, không certify producer mới.
+
 `review_index_noise.py --run <attempt> --data-root <sealed-year-dir>
 --output <new-review.json>` đối soát closed-book arithmetic/quote binding,
 không resimulate hoặc certifyedge. Unfunded noise reviewer chặn open/pending

@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-07",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 74,
+  "record_count": 75,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -12,13 +12,13 @@
   "counts": {
     "by_role": {
       "existing": 36,
-      "variant": 23,
+      "variant": 24,
       "new": 14,
       "component": 1
     },
     "by_readiness": {
       "implemented": 36,
-      "component_probe_not_retained": 14,
+      "component_probe_not_retained": 15,
       "implemented_not_retained": 5,
       "method_clock_review": 1,
       "component_probe_completed_no_priority": 1,
@@ -2586,6 +2586,34 @@
       "implementations": [],
       "component_evidence": "NASDAQ-OVERNIGHT-REVERSAL-RESULTS-20261109.md",
       "profitability_evidence": "USD/unit ref/stress2019 -917.74/-1166.74;2022 -2109.71/-2359.71;499resolved planned days;notaccountPnL.",
+      "control": false,
+      "dispatch_authorized": false,
+      "implementation_updated_on": "2026-11-09"
+    },
+    {
+      "id": "R075",
+      "title": "US500 overnight gap to first-half-hour reversal component",
+      "family": "equity_opening_reversion",
+      "role": "variant",
+      "parent_id": "R074",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "NY09:30Open minus previous cash last Close;09:31decision,09:32entry,09:59exit M1Open",
+      "rule_sketch": "Transfer frozen contra-gap rule to USA500 source, same regular-day mask and opposite/long/short controls; no threshold/SL/sizing.",
+      "data_requirements": "Four frozen source-only US500 years2018/2019/2021/2022 rebind original raw/code/proof/seals; prior years only previous cash endpoint.",
+      "automation_feasibility": "offline_price_component_only_not_account_or_execution",
+      "prop_operational_concerns": "Stress negative2019/2022,declared costs not historical broker proof;3missing internal windows;noSL/account/prop/OOS/forward.",
+      "source_ids": [
+        "LIU-TSE-OVERNIGHT",
+        "IWANAGA-SAKEMOTO-OPENREV"
+      ],
+      "source_relation": "Related asset transfer after known NASDAQ negative,not independent discovery or paper replication",
+      "next_action": "Park exact R075;no side/clock/threshold/cost rescue. Admit distinct rest-of-day predictor before outcomes; preserve selection history.",
+      "implementation_state": "component_implemented_reviewed_not_retained_no_account_policy",
+      "candidate_id": null,
+      "component_id": "us500-overnight-first30-reversal-price-component-v1",
+      "implementations": [],
+      "component_evidence": "US500-OVERNIGHT-REVERSAL-RESULTS-20261109.md",
+      "profitability_evidence": "USD/unit reference/stress2019 -273.82/-521.82;2022 -520.05/-770.05;498planned/resolved;notaccountPnL.",
       "control": false,
       "dispatch_authorized": false,
       "implementation_updated_on": "2026-11-09"

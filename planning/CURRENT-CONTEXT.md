@@ -10,36 +10,43 @@ Owner giao tìm ứng viên đủ C1/C2, chuẩn hóa dữ liệu và cải ti�
 Goal đang active; [campaign v2](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)
 giữ scope, quyết định B cũ không kết thúc chiến dịch mới. **Chưa challenge-qualified.**
 
-Lát mới nhất: [R074 NASDAQ overnight reversal](research/NASDAQ-OVERNIGHT-REVERSAL-RESULTS-20261109.md)
-đã chạy/đối soát 503 cashday rows, 499 planned/resolved days; primary stress
-−1.166,74 / −2.359,71 USD **mỗi hypothetical unit**, không tài khoản10k.
-Gác exact recipe, không promote opposite control/tune threshold/clock/cost.
-7 tests trước outcomes, 12 synthetic review cases, full Fraction review của
-3.992 cost-role cases/59.880 fields và 7 mutations đạt. Reviewer v1 lỗi làm
-tròn gross_quote; giữ failure/code/pins, v2 sửa contract và reuse numeric,
-không resimulate. Regression sub-cent riêng đã đạt. Producer 7,763 s,
-review v2 5,280 s, mọi job terminal; chưa compute bottleneck cần GPU/Rust.
+Lát mới nhất: [R075 US500 overnight opening reversal](research/US500-OVERNIGHT-REVERSAL-RESULTS-20261109.md)
+đã terminal/reviewed: 503 cashday rows, 498 planned/resolved; primary stress
+−521,82 / −770,05 USD mỗi hypothetical unit, không tài khoản10k. Gác exact
+transfer như [R074 NASDAQ](research/NASDAQ-OVERNIGHT-REVERSAL-RESULTS-20261109.md),
+không side/clock/threshold/cost rescue hoặc promote controls.
 
-Catalogue **74 records / 58 policy-model versions / 25 native / 9 controls**;
-R074 component không đếm thành account policy. Chưa challenge-qualified.
-**Tiếp:** source/method admission US500 cùng overnight-opening mechanism,
-gần underlying primary evidence hơn NASDAQ; là transfer trial mới có selection
-history, không independent edge. Freeze costs/controls/coverage trước outcomes.
-Reuse existing source-only M1, không download hoặc holdout/broker mới.
+Reader `226b3a8` thêm explicit frozen-source reuse, default vẫn strict/current.
+V1 admission fail trước PnL do validator live đã revision; giữ failure, không
+đổi old proof/pins. V2 rebind bốn source years bằng authentic code snapshots,
+raw/calendar/canonical seals kiểm trực tiếp; 33,480 s. Shared component `206bd06`
+phục vụ US500/NASDAQ, actual 503-row/summary parity với frozen R074 exact.
+6 source tests + 6 regressions, 3 profile tests, 7 NASDAQ + 1 sub-cent + 6 FOMC tests đạt.
+12 synthetic Fraction cases trước outcomes; 3.984 actual cost-role cases/
+59.760 fields và 7 mutations reviewed. Cùng agent/provider, không independent
+human/model signoff hoặc OOS/prop/forward proof. Guard hậu kiểm chặn missing
+input có forged null hash; 4 source admissions vẫn exact, không numeric rerun. Producer 12,299 s / review 7,818 s.
+
+Catalogue **75 records / 58 policy-model versions / 25 native / 9 controls**;
+components không đếm thành account policies. Chưa challenge-qualified, Goal active.
+**Tiếp:** [rest-of-day method admission](research/INDEX-REST-OF-DAY-METHOD-20261109.md)
+có primary full-method sections: predictor previous close→15:30 khác firsthalf
+hoặc opening gap. Freeze economic protocol/controls/gate trước outcomes mới,
+reuse reviewed M1; không own 2025+/broker/paid provider. Oil/EIA chỉ abstract
+admission pending, chưa chọn CFD mapping hoặc mở bulk source.
 
 [Conditional NYFX review](research/NY-FX-GAP-SCENARIOS-RESULTS-20261109.md)
-đã xong 64 books; primary âm cả hai stress years, gác exact recipe. Hai gap
-models có cùng outcomes và 0 adverse exits, không khôi phục thiếu giá.
-[Strict M1 annual](research/NY-FX-PAIRED-LATENCY-RESULTS-20261109.md) vẫn N/A /
-unknown exposure; parent H1 negatives giữ riêng. Live code đã revision, old
-strict pins thuộc frozen snapshots; không repin lịch sử hoặc rerun books cũ.
+đã xong 64 books, primary âm cả hai stress years. Giữ [strict annual N/A](research/NY-FX-PAIRED-LATENCY-RESULTS-20261109.md)
+và H1 negatives riêng; conditional models không khôi phục missing quotes.
+Không rerun unchanged books hoặc repin old manifests theo live code mới.
 
 Private root `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/`;
-`execution-v1/nasdaq-overnight-reversal-component-v1/` và
-`ny-fx-gap-scenarios-v1/` giữ results/reviews/pins/snapshots/status/failures.
-Research contracts/source/code/protocol có lineage; raw không đổi. Trader
-`83731fc8`, runtime và skills chưa đổi. [Data/retrieval review](research/AGENT-DATA-RETRIEVAL-20261108.md)
-giữ storage ownership và local search; chưa cần vector DB, migration/xóa data.
+`execution-v1/us500-overnight-source-admission-v1/` giữ failure,
+`us500-overnight-source-admission-v2/` giữ admission; `us500-overnight-reversal-component-v1/` giữ source pins,
+snapshots/config/rows/summary/result/review/status/events. Mọi job terminal,
+không việc phải chờ. Trader `83731fc8` / runtime / skills / global config không đổi;
+không download/rewrite/migration/xóa raw hoặc thêm GPU/Rust/vectorDB.
+[Data/retrieval review](research/AGENT-DATA-RETRIEVAL-20261108.md) giữ ownership.
 
 [R068/R069 ML](research/GOLD-ML-SL-LABELS-RESULTS-20261109.md) giữ0signalnegative,
 khôngthresholdrescue;[R067](research/GOLD-SILVER-FORMATION-RESULTS-20261109.md)

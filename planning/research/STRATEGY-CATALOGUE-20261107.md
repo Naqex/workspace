@@ -1,6 +1,6 @@
 # Danh mục nghiên cứu chiến lược — cập nhật09/11/2026
 
-74 hồ sơ: 47 đã có research implementation (58 policy/model versions), 26 chưa có account policy và 1 risk component. Trong 58 versions có 25 native offline rules và 33 tooling/coarse/model versions; gồm 9 controls. Mới thêm 4 conditional gap revisions của NYFX, không đổi strategy và không đếm 2 gap scenarios thành các edge độc lập. **Chưa có bản nào challenge-qualified.**
+75 hồ sơ: 47 có policy/model version được ghi trong danh mục (58 versions), 27 chưa có account policy và 1 risk component. Trong 58 versions có 25 native offline rules và 33 tooling/coarse/model versions; gồm 9 controls. Mới thêm 4 conditional gap revisions của NYFX, không đổi strategy và không đếm 2 gap scenarios thành các edge độc lập. **Chưa có bản nào challenge-qualified.**
 
 [JSON](STRATEGY-CATALOGUE-20261107.json) là cùng dữ liệu có cấu trúc; protocol/source giữ exactrecipes, không automatic dispatch/rejection hoặc broker authority.
 
@@ -80,6 +80,7 @@
 |R072|NY EURUSD MA4 reversal15min|session_conditioned_reversion / R070|Gác exact recipe theo conditional sensitivity; giữ H1 negatives/strict annual N/A|2|[Conditional review](NY-FX-GAP-SCENARIOS-RESULTS-20261109.md); strict unknown không bị clear|
 |R073|NY EURUSD MA4 momentum15min control|falsification / R072|Gác exact recipe theo conditional sensitivity; giữ H1 negatives/strict annual N/A|2|[Conditional review](NY-FX-GAP-SCENARIOS-RESULTS-20261109.md); strict unknown không bị clear|
 |R074|NASDAQ overnight → first-half reversal|equity_opening_reversion|Gác exact component: stress −1.166,74 / −2.359,71 USD/unit|0|[Review](NASDAQ-OVERNIGHT-REVERSAL-RESULTS-20261109.md); 499 ngày, chưa account/prop/OOS|
+|R075|S&P overnight → first-half reversal|equity_opening_reversion / R074|Gác exact transfer: stress −521,82 / −770,05 USD/unit|0|[Review](US500-OVERNIGHT-REVERSAL-RESULTS-20261109.md); 498 ngày, chưa account/prop/OOS|
 
 
 ## Cách đọc và lịch sử các batch đầu

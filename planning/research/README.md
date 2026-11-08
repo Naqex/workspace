@@ -1,12 +1,13 @@
 # Tra cứu research đã có
 
-Checkpoint 09/11: [R074 NASDAQ opening reversal](NASDAQ-OVERNIGHT-REVERSAL-RESULTS-20261109.md)
-và [NYFX conditional scenarios](NY-FX-GAP-SCENARIOS-RESULTS-20261109.md) đều đã
-terminal/reviewed, primary không đạt; gác exact recipes. [Strict FX annual](NY-FX-PAIRED-LATENCY-RESULTS-20261109.md)
-vẫn N/A, không đổi thành known PnL bằng conditional model. Catalogue 74 records /
-58 policy-model versions / 25 native / 9 controls; Goal active, chưa challenge.
-Bước tiếp: source/method admission US500 overnight-opening transfer, freeze
-trước outcomes; không rerun unchanged books hoặc mở own holdout/broker mới.
+Checkpoint 09/11: [R075 US500 opening reversal](US500-OVERNIGHT-REVERSAL-RESULTS-20261109.md)
+đã reviewed: 498 planned/resolved, primary âm cả hai năm, gác exact transfer.
+Frozen-source reuse đã kiểm thật, không download/rebuild hoặc sửa old pins.
+Catalogue 75 / 58 / 25 native / 9 controls; Goal active, chưa challenge. Tiếp
+[rest-of-day method admission](INDEX-REST-OF-DAY-METHOD-20261109.md), predictor
+khác opening gap/first-half, economics/control phải freeze trước new outcomes.
+[Strict FX annual](NY-FX-PAIRED-LATENCY-RESULTS-20261109.md) vẫn N/A, không clear
+bằng conditional model. Không rerun unchanged books hoặc own 2025+/broker.
 
 Đọc tài liệu chủ đề trước, chỉ kiểm lại phần đổi/còn thiếu. Đây là chỉ mục chọn
 lọc, không là danh sách task hoặc chứng nhận tài liệu còn đúng tới hiện tại.
@@ -15,6 +16,8 @@ Các mục cũ chưa được re-audit khi tạo chỉ mục ngày 05/11/2026.
 
 | Câu hỏi / từ khóa | Nguồn hiện có |
 |---|---|
+| S&P opening reversal đã có edge chưa; source proof cũ bị code drift thì sao? | [R075 results](US500-OVERNIGHT-REVERSAL-RESULTS-20261109.md): stress âm cả hai năm; 4 source years tái dùng bằng frozen code/protocol, raw/seals trực tiếp; full Fraction/cost review, chưa account/prop/OOS |
+| Cơ chế khác opening gap/firsthalf có thể thử bằng data đã kiểm? | [Rest-of-day method](INDEX-REST-OF-DAY-METHOD-20261109.md): primary author PDF, predictor tới 15:30, costs và gamma-proxy limits; chưa economic registration/outcomes mới |
 | Overnight gap của NASDAQ dự báo cú hồi đầu phiên không? | [R074 results](NASDAQ-OVERNIGHT-REVERSAL-RESULTS-20261109.md), [protocol](NASDAQ-OVERNIGHT-REVERSAL-PROTOCOL-20261109.md): 499 planned days, âm cả hai năm; full Fraction/cost review; 7,763 s producer + 5,280 s review, không account/prop/OOS |
 | NYFX gap models đã giải quyết được annual unknown chưa? | [Conditional results](NY-FX-GAP-SCENARIOS-RESULTS-20261109.md): 64 books đã review, primary âm cả hai năm; gác exact recipe, strict annual N/A giữ nguyên; 93,415 s producer + 115,232 s review |
 | NASDAQ opening5 đã có edge chưa; sourcegaps đã sửa chưa? | [Datarevisionresults](NASDAQ-OPENING5-ORB-DATA-REVISION-RESULTS-20261109.md):2022knownflat/243trades/+714,71 hoặc+568,12USD,2019unknown giữ nguyên; tickderivedhour480fields reviewed, nguyên191tradeprefix và nullstate. Overallgate vẫn chưađạt; [interim](NASDAQ-OPENING5-ORB-INTERIM-20261108.md)/[tickgapreview](NASDAQ-M1-GAP-TICK-RESULTS-20261108.md) giữv1failures |

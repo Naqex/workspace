@@ -8,18 +8,20 @@ có nhu cầu thực. Goal mới đã active. Quyết định dừng B ở
 
 ## Checkpoint hiện hành — 09/11/2026
 
-[R074 NASDAQ overnight reversal](NASDAQ-OVERNIGHT-REVERSAL-RESULTS-20261109.md)
-đã terminal/reviewed: 499 planned/resolved days, stress −1.166,74 / −2.359,71
-USD/unit, không retained. 7 tests + full Fraction/cost review; reviewer v1
-rounding bug giữ failure, v2 sửa và reuse outcomes, không resimulate. Catalogue
-74 records / 58 versions / 25 native / 9 controls. Goal C1/C2 active, chưa
-challenge candidate; không job phải chờ. Tiếp source/method admission US500
-transfer cùng overnight-opening mechanism, freeze trước new outcomes.
+[R075 US500 overnight reversal](US500-OVERNIGHT-REVERSAL-RESULTS-20261109.md)
+đã terminal/reviewed, 498 planned/resolved, stress −521,82 / −770,05 USD/unit,
+không retained như [R074](NASDAQ-OVERNIGHT-REVERSAL-RESULTS-20261109.md).
+Source v1 fail vì code revision được giữ; `226b3a8` cho frozen code/protocol
+reuse explicit, raw/calendar/seals trực tiếp; 4 years admitted, 0 download.
+Guard hậu kiểm chặn missing input/forged null hash, actual source admissions
+không đổi. Shared component `206bd06` có actual NASDAQ 503-row parity và full
+Fraction/cost review. Catalogue 75 / 58 / 25 native / 9 controls; Goal active,
+chưa challenge, không job phải đợi. Tiếp [rest-of-day method](INDEX-REST-OF-DAY-METHOD-20261109.md)
+đăng ký economics/control trước outcomes; không rescue opening recipes.
 
 [Conditional NYFX review](NY-FX-GAP-SCENARIOS-RESULTS-20261109.md) cũng âm cả
-hai stress years; gác exact recipe, giữ [strict annual N/A](NY-FX-PAIRED-LATENCY-RESULTS-20261109.md)
-và parent H1 negatives. Không đổi side/risk/clock/cost/threshold để cứu hoặc
-promote controls. Không rerun unchanged books hoặc mở holdout/broker mới.
+hai stress years; giữ [strict annual N/A](NY-FX-PAIRED-LATENCY-RESULTS-20261109.md)
+và parent H1 negatives riêng. Không rerun unchanged books hoặc mở holdout/broker.
 
 ## Đích và cách biết đã đạt
 
