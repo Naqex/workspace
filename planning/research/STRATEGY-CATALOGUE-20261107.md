@@ -24,11 +24,11 @@
 |R016|London opening-range breakout|session_breakout / R005|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
 |R017|New York opening-range breakout|session_breakout / R016|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
 |R018|Asia range → London breakout|session_breakout / R005|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
-|R019|Break → retest prior level|trend_breakout / R015|price_data_spec_possible|0|Chưa outcome riêng|
+|R019|Break → retest prior level|trend_breakout / R015|Defer exactspec trong đợt mới|0|[Admission](LOCAL-SESSION-ADMISSION-20261108.md); chưa numeric riêng|
 |R020|Fixing reversal có điều kiện|fixing_flow|method_clock_review|0|Chưa outcome riêng|
 |R021|Pre-fix USD drift|fixing_flow / R020|Các exact FX versions đã gác sau cost screen|3|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
 |R022|Post-fix USD reversal|fixing_flow / R020|Các exact FX versions đã gác sau cost screen|2|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
-|R023|Local trading-hours currency flow|session_flow|method_clock_review|0|Chưa outcome riêng|
+|R023|Local trading-hours currency flow|session_flow|PrimaryUScomponent không đạt retention|0|[Componentresults](LOCAL-SESSION-RESULTS-20261108.md); chưa policy/prop|
 |R024|Post-weekend gap fade|gap_reversion|Component12h không đạt priority; chưa strategy|0|[Componentresults](WEEKEND-GAP-COMPONENT-RESULTS-20261108.md), [datareview](WEEKEND-GAP-DATA-RESULTS-20261108.md)|
 |R025|Weekday/calendar effect|calendar|Source-corrected TOM chưa đạt; chưa bot|0|[Correction3days/reuse1507](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)|
 |R026|Month-end fixing flow|fixing_flow / R020|Bounded fixture đạt; chưa signal/calendar spec|0|[Method](FX-MONTH-END-FIXING-METHOD-20261108.md), [source review](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md), chưa PnL|
@@ -70,10 +70,10 @@ Nguồn chỉ cho cơ chế/định nghĩa/phương pháp; code và datalicenses
 
 Chỉ nâng ngày cho nguồn thực sự đọc lại; top updated_on không có nghĩa mọi paper đã refresh hoặc full-method audit.
 
-- **NY125** — [Currency Orders and Exchange-Rate Dynamics](https://www.newyorkfed.org/research/staff_reports/sr125.html). 2026-11-07; Order/level mechanism; not our rolling thresholds.
+- **NY125** — [Currency Orders and Exchange-Rate Dynamics](https://www.newyorkfed.org/research/staff_reports/sr125.html). 2026-11-08; official summary refreshed, không xác nhận exact prior-day/retest recipe.
 - **NY150** — [Stop-Loss Orders and Price Cascades in Currency Markets](https://www.newyorkfed.org/research/staff_reports/sr150.html). 2026-11-07; Stop cascade mechanism; not a compression recipe.
 - **BOC48** — [Foreign Exchange Fixings and Returns Around the Clock](https://www.bankofcanada.ca/2021/10/staff-working-paper-2021-48/). 2026-11-07; Fix-related drift/reversal; full method/clock must be read before replication.
-- **SNB04** — [Intraday patterns in FX returns and order flow](https://www.snb.ch/en/publications/research/working-papers/2011/working_paper_2011_04). 2026-11-07; Historical local-hours effects; not a current EURUSD bot guarantee.
+- **SNB04** — [Intraday patterns in FX returns and order flow](https://www.snb.ch/en/publications/research/working-papers/2011/working_paper_2011_04). 2026-11-08; fullPDFTable1/2/§2.2 đã đọc, [session probe](LOCAL-SESSION-RESULTS-20261108.md) khác EBSsample/chi phí, không bảo đảm bot hiện tại có lợi thế.
 - **AQR-TS** — [Time Series Momentum: Original Paper Data](https://www.aqr.com/Insights/Datasets/Time-Series-Momentum-Original-Paper-Data). 2026-11-08; 12-month lookback/monthly holding; futures/forwards, not H4 CFD.
 - **AQR-VM** — [Value and Momentum Everywhere: Factors, Monthly](https://www.aqr.com/Insights/Datasets/Value-and-Momentum-Everywhere-Factors-Monthly). 2026-11-07; Long/short multi-market factors; not EURUSD-only replication.
 - **BIS366** — [Currency Momentum Strategies](https://www.bis.org/publications/working-paper-366-currency-momentum-strategies). 2026-11-07; Cross-sectional currency momentum with costs/limits to arbitrage.

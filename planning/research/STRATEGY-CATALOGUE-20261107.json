@@ -19,8 +19,10 @@
     "by_readiness": {
       "implemented": 36,
       "long_history_or_multi_data": 8,
-      "price_data_spec_possible": 3,
-      "method_clock_review": 3,
+      "price_data_spec_possible": 2,
+      "method_clock_review": 2,
+      "component_probe_completed_no_priority": 1,
+      "component_probe_not_retained": 1,
       "point_in_time_news_missing": 2,
       "component_only": 1
     }
@@ -33,7 +35,7 @@
       "publication": "2001",
       "review_depth": "official_research_summary",
       "limitations": "Order/level mechanism; not our rolling thresholds.",
-      "checked_on": "2026-11-07"
+      "checked_on": "2026-11-08"
     },
     {
       "id": "NY150",
@@ -58,9 +60,10 @@
       "title": "Intraday patterns in FX returns and order flow",
       "url": "https://www.snb.ch/en/publications/research/working-papers/2011/working_paper_2011_04",
       "publication": "2011",
-      "review_depth": "official_research_summary",
+      "review_depth": "official_full_pdf_Table1_Table2_section2_2",
       "limitations": "Historical local-hours effects; not a current EURUSD bot guarantee.",
-      "checked_on": "2026-11-07"
+      "checked_on": "2026-11-08",
+      "method_review_locator": "LOCAL-SESSION-ADMISSION-20261108.md"
     },
     {
       "id": "AQR-TS",
@@ -796,12 +799,13 @@
         "NY125"
       ],
       "source_relation": "mechanism_only; project_hypothesis",
-      "next_action": "Cân nhắc spec so baseline; không suy từ hìnhchart đẹp.",
+      "next_action": "Deferred in two-hypothesis admission: NYFed order/round-level mechanism does not validate exact prior-day/retest recipe; no automatic numerical dispatch.",
       "implementation_state": "not_implemented",
       "candidate_id": null,
       "profitability_evidence": "none_for_this_exact_rule",
       "dispatch_authorized": false,
-      "implementations": []
+      "implementations": [],
+      "admission_evidence_locator": "LOCAL-SESSION-ADMISSION-20261108.md"
     },
     {
       "id": "R020",
@@ -845,7 +849,7 @@
         "LOCAL"
       ],
       "source_relation": "published_mechanism; project_H1_clock_hypothesis_not_exact_replication",
-      "next_action": "Parent remains parked. Measure observed adverse/favorable excursions and path risk at unchanged1400clock before any registered stop/risk sensitivity; no automatic rerun or SL removal.",
+      "next_action": "Observed path risk study completed: retain parent parked, no SL removal/widening or quantity change without a new registered hypothesis; common-mask counterfactual is not a noSL account strategy.",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h1-europe-am-short-atr14x1p5-close13-r025-v1",
       "profitability_evidence": "exposed_annual_coarse_not_qualification",
@@ -868,7 +872,8 @@
       "component_evidence_locator": "FIXING-CLOCK-TRANSFER-RESULTS-20261108.md",
       "component_decision": "No support for extending pre-ECB exit1400 to1415 on paired2019/2022 events; one2019unresolvedexit; not a new strategy or promotion.",
       "wrapper_attribution_evidence_locator": "PRE-ECB-WRAPPER-ATTRIBUTION-RESULTS-20261108.md",
-      "wrapper_attribution_decision": "Observed lot weights help and parentexit/SL reduces matched returns in4books2019/2022; counterfactual is not a noSL account strategy or permission."
+      "wrapper_attribution_decision": "Observed lot weights help and parentexit/SL reduces matched returns in4books2019/2022; counterfactual is not a noSL account strategy or permission.",
+      "path_risk_evidence_locator": "PRE-ECB-PATH-RISK-RESULTS-20261108.md"
     },
     {
       "id": "R022",
@@ -912,22 +917,33 @@
       "family": "session_flow",
       "role": "new",
       "parent_id": null,
-      "readiness": "method_clock_review",
+      "readiness": "component_probe_completed_no_priority",
       "timeframe": "H1/localclock",
-      "rule_sketch": "Hướng theo localhours được nguồn mô tả; method chưa reproduce.",
-      "data_requirements": "Đọc paperSNB, DST/marketcalendar",
+      "rule_sketch": "Registered BUY08-16NewYork unit price/cost component; SELL07Dublin-to08NY context, no SL/sizing/account policy.",
+      "data_requirements": "Consumed EURUSD2019/2022 raw-bound observed H1 first quotes; own Dublin/NY DST clocks; sparse raw endpoint oracle.",
       "automation_feasibility": "deterministic_after_spec_and_tests",
       "prop_operational_concerns": "Historical effect không bảo đảm còn tồn tại hoặc pass quỹ.",
       "source_ids": [
         "SNB04"
       ],
-      "source_relation": "published_mechanism; not_current_bot_evidence",
-      "next_action": "Ưu tiên đọc phương pháp để có hướng khác breakout/reversion.",
+      "source_relation": "source_matched_session_price_probe_not_EBS_replication_or_risk_safe_policy",
+      "next_action": "Preserve registered US08-16NY primary negative2019/stress evidence; do not substitute positive EU context, reverse side or grid hours to rescue. Opportunity review before new trial.",
       "implementation_state": "not_implemented",
       "candidate_id": null,
-      "profitability_evidence": "none_for_this_exact_rule",
+      "profitability_evidence": "primary_unit_component2019_negative2022_positive_no_account_backtest",
       "dispatch_authorized": false,
-      "implementations": []
+      "implementations": [],
+      "evidence_locator": "LOCAL-SESSION-RESULTS-20261108.md",
+      "method_probe": {
+        "protocol": "LOCAL-SESSION-ADMISSION-20261108.md",
+        "results": "LOCAL-SESSION-RESULTS-20261108.md",
+        "status": "completed_no_priority_under_registered_heuristic",
+        "source_commit": "a84a2fa",
+        "result_sha256": "2c68fdc174b022c14f33e0eff181ac7c4c9046d0795f9a5d857776b17722538b",
+        "new_policy_count": 0,
+        "clean_oos": false,
+        "promotion_authorized": false
+      }
     },
     {
       "id": "R024",

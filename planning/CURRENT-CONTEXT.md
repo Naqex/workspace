@@ -1,5 +1,24 @@
 # Current context — Naqex Workspace
 
+## Goal: R023 component đã kiểm, chưa có ứng viên — 08/11/2026
+
+Lượt trước tạo Goal/c86c1c6 là progress; lượt này admission hai hypotheses và
+numeric/review mới. [Admission](research/LOCAL-SESSION-ADMISSION-20261108.md),
+[results](research/LOCAL-SESSION-RESULTS-20261108.md), sourcea84a2fa/8tests.
+R019retest defer exactspec, không reject cảfamily. R023 primaryBUY08–16NY:
+stress2019−345,8/2022+41,1pip, không ưu tiênwrapper. EU07Dublin→08NYcontext
+dương nhưng gầnPreECB, không thayprimary hoặc gọi independentedge.
+521weekdays/519resolved mỗiview,2019Jan1/Dec25unavailable giữ;0newpolicies.
+Numeric7,372s CPU7,328s/review32,763s,3.114Fractioncases/12summaries,
+24rawendpointlinks/8dates/4tamperreject; cùngagent/codekhác,khôngfullannual
+filloracle/prop. Privateexecution-v1/local-session-component-v1 vàfixtures-v1,
+terminal0,khôngjobnền. Lượtfixtuređầu2formatassert sửaDecimal trướcnumeric.
+
+Goalvẫnactive, C1/C2chưađạt; chưa đủ auditđểchốtđầuraB. Tiếp review cơ hội
+còn lại trên catalogue/data/cost/novelty/giátrịquyếtđịnh trước đợt mới hoặc
+quyếtđịnhdừng. Không rerun completedstudy, cứucontext, nớiSL/risk hoặc mở
+2025+/broker/account/provider/payment. R021pathrisk đãxong,khôngđo lại.
+
 ## Goal mới đã active — 08/11/2026, sau câu hỏi khả thi
 
 Owner giao tạo Goal và được dừng khi hợp lý. App Goal active, không đặt token
