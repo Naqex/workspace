@@ -41,6 +41,14 @@ gaps khác nguồn. Không bắt mỗi status check tải lại data hoặc ki�
 và [kết quả](../../../../planning/research/INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)
 ghi decoder padding, cache-only parity và phạm vi affected; không sửa upstream
 hoặc ghi đè old raw/results để hợp thức hóa correction.
+
+Với fixture nhiều instruments, reuse `research_input_admission.py` ở cùng
+tooling thay script kiểm mới: bind parent seals, frozen raw hashes và producer
+snapshots; pin UTC/ms/bar-known-at, instrument/price units, adjustment basis,
+data role/exposure. Output `source_fixture_verified_only` không là clean OOS,
+long coverage hoặc execution proof. Giữ adjustment unknown khi chưa kiểm;
+“Total Market” không tự nghĩa “total return”. Phạm vi đã kiểm và fixture thật:
+[data admission](../../../../planning/research/RESEARCH-DATA-ADMISSION-20261108.md).
 Local tools: `sealed_m1_review.py`, `quote_bar_oracle.py` và pinned-native
 `dukascopy_cached_m1.cjs`, reviewer `candle_source_provenance.py` tại `tooling/ai-engines/`; exact runtime/source pins
 ở attempt. Đây là workflow đã có evidence, không policy cho mọi provider.
