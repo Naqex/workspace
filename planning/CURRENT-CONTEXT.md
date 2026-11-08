@@ -1,5 +1,20 @@
 # Current context — Naqex Workspace
 
+## Goal mới: một đợt discovery có câu hỏi rõ — 08/11/2026
+
+Owner đã clear Goal C1/C2 cũ rồi giao làm tiếp và cho phép tạo Goal mới.
+Goal hiện **active cho đợt hữu hạn**: gác/giữ exactversions cũ, chọn câu hỏi
+khác cụ thể, freeze/kiểm/chạy/review và chốt nextaction; không hứa tìmwinner.
+Đã ghi24FXversions gác sau frozen13yearcostscreen trong catalogueJSON/MD;
+53records/41versions giữ, không hardrejectfamilies hoặc thay oldoutcomes.
+[Protocol mới](research/FIXING-CLOCK-TRANSFER-PROBE-20261108.md), source58d2ae9/
+8tests:pairedentry02NY→exit14:00/14:15Berlin, component không SL/sizing/account.
+2019/2022raw đãconsumed;primarySELL/controlBUY/cost giữ. Numeric đang chạy
+session75010 tại`execution-v1/fixing-clock-transfer-v1`; kiểm handle/progress
+trước khi dispatch/retry. Chưa outcomes/verdict hoặc rulecount mới.
+Các trạng thái paused/activeGoal cũ bên dưới là lịch sử; không mở2025+,
+OrderCheck/OrderSend/account/provider/payment/production theo Goal mới.
+
 ## Owner giao sửa discovery/screen — 08/11/2026, đã kiểm lát hữu hạn
 
 [Repairresults](research/SCREEN-CALIBRATION-REPAIR-RESULTS-20261108.md) supersede

@@ -6,28 +6,28 @@
 
 | ID | Ý tưởng | Họ/parent | Tình trạng | Policy versions | Evidence |
 |---|---|---|---|---:|---|
-|R001|Donchian20/10|trend_breakout|Đã code, chưa qualified|Exact FX versions đã gác sau frozen cost screen|Chưa outcome riêng|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family
-|R002|SMA20/80|trend_breakout / R001|Đã code, chưa qualified|Exact FX versions đã gác sau frozen cost screen|Chưa outcome riêng|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family
-|R003|Z-score20 ±2|price_reversion|Đã code, chưa qualified|Exact FX versions đã gác sau frozen cost screen|Chưa outcome riêng|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family
-|R004|Pullback20/80|trend_breakout / R002|Đã code, chưa qualified|Exact FX versions đã gác sau frozen cost screen|[Kết quả](DISCOVERY4-RESULTS-20261108.md)|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family
-|R005|UTC range00–08 breakout|session_breakout|Đã code, chưa qualified|Exact FX versions đã gác sau frozen cost screen|Chưa outcome riêng|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family
-|R006|Failed20 breakout|level_reversion / R001|Đã code, chưa qualified|Exact FX versions đã gác sau frozen cost screen|Chưa outcome riêng|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family
-|R007|Compression6/24 breakout|trend_breakout / R001|Đã code, chưa qualified|Exact FX versions đã gác sau frozen cost screen|Chưa outcome riêng|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family
-|R008|UTC range fade|level_reversion / R005|Đã code, chưa qualified|Exact FX versions đã gác sau frozen cost screen|Chưa outcome riêng|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family
+|R001|Donchian20/10|trend_breakout|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
+|R002|SMA20/80|trend_breakout / R001|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
+|R003|Z-score20 ±2|price_reversion|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
+|R004|Pullback20/80|trend_breakout / R002|Các exact FX versions đã gác sau cost screen|2|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
+|R005|UTC range00–08 breakout|session_breakout|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
+|R006|Failed20 breakout|level_reversion / R001|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
+|R007|Compression6/24 breakout|trend_breakout / R001|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
+|R008|UTC range fade|level_reversion / R005|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
 |R009|Time-series momentum dài hạn|long_horizon_trend|Source-only32/132months eligible;guardchặn,khôngPnLmới|1|[Monthly admission](INDEX-LONG-EXPLICIT-RESULTS-20261108.md)|
 |R010|TSMOM theo volatility|long_horizon_trend / R009|long_history_or_multi_data|0|Chưa outcome riêng|
-|R011|Bollinger re-entry|price_reversion / R003|Đã code, chưa qualified|Exact FX versions đã gác sau frozen cost screen|[Kết quả](DISCOVERY6-7-RESULTS-20261108.md)|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family
-|R012|RSI contrarian có xác nhận|price_reversion / R003|Đã code, chưa qualified|Exact FX versions đã gác sau frozen cost screen|[Kết quả](DISCOVERY4-RESULTS-20261108.md)|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family
-|R013|ATR shock fade|price_reversion / R003|Đã code, chưa qualified|Exact FX versions đã gác sau frozen cost screen|[Kết quả](DISCOVERY4-RESULTS-20261108.md)|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family
-|R014|Range midpoint fade|level_reversion / R006|Đã code, chưa qualified|Exact FX versions đã gác sau frozen cost screen|[Kết quả](DISCOVERY4-RESULTS-20261108.md)|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family
-|R015|Previous-day high/low breakout|session_breakout / R001|Đã code, chưa qualified|Exact FX versions đã gác sau frozen cost screen|[Kết quả](DISCOVERY4-RESULTS-20261108.md)|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family
-|R016|London opening-range breakout|session_breakout / R005|Đã code, chưa qualified|Exact FX versions đã gác sau frozen cost screen|[Kết quả](DISCOVERY6-7-RESULTS-20261108.md)|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family
-|R017|New York opening-range breakout|session_breakout / R016|Đã code, chưa qualified|Exact FX versions đã gác sau frozen cost screen|[Kết quả](DISCOVERY6-7-RESULTS-20261108.md)|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family
-|R018|Asia range → London breakout|session_breakout / R005|Đã code, chưa qualified|Exact FX versions đã gác sau frozen cost screen|[Kết quả](DISCOVERY6-7-RESULTS-20261108.md)|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family
+|R011|Bollinger re-entry|price_reversion / R003|Các exact FX versions đã gác sau cost screen|2|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
+|R012|RSI contrarian có xác nhận|price_reversion / R003|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
+|R013|ATR shock fade|price_reversion / R003|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
+|R014|Range midpoint fade|level_reversion / R006|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
+|R015|Previous-day high/low breakout|session_breakout / R001|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
+|R016|London opening-range breakout|session_breakout / R005|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
+|R017|New York opening-range breakout|session_breakout / R016|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
+|R018|Asia range → London breakout|session_breakout / R005|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
 |R019|Break → retest prior level|trend_breakout / R015|price_data_spec_possible|0|Chưa outcome riêng|
 |R020|Fixing reversal có điều kiện|fixing_flow|method_clock_review|0|Chưa outcome riêng|
-|R021|Pre-fix USD drift|fixing_flow / R020|Đã code, chưa qualified|Exact FX versions đã gác sau frozen cost screen|[Kết quả](DISCOVERY6-7-RESULTS-20261108.md)|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family
-|R022|Post-fix USD reversal|fixing_flow / R020|Đã code, chưa qualified|Exact FX versions đã gác sau frozen cost screen|[Kết quả](DISCOVERY6-7-RESULTS-20261108.md)|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family
+|R021|Pre-fix USD drift|fixing_flow / R020|Các exact FX versions đã gác sau cost screen|3|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
+|R022|Post-fix USD reversal|fixing_flow / R020|Các exact FX versions đã gác sau cost screen|2|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
 |R023|Local trading-hours currency flow|session_flow|method_clock_review|0|Chưa outcome riêng|
 |R024|Post-weekend gap fade|gap_reversion|Component12h không đạt priority; chưa strategy|0|[Componentresults](WEEKEND-GAP-COMPONENT-RESULTS-20261108.md), [datareview](WEEKEND-GAP-DATA-RESULTS-20261108.md)|
 |R025|Weekday/calendar effect|calendar|Source-corrected TOM chưa đạt; chưa bot|0|[Correction3days/reuse1507](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)|
@@ -42,7 +42,7 @@
 |R034|FX factor-residual reversion|cross_section / R033|long_history_or_multi_data|0|Chưa outcome riêng|
 |R035|Cointegrated FX spread|cross_section / R034|long_history_or_multi_data|0|Chưa outcome riêng|
 |R036|Volatility targeting / exposure cap|risk_modifier|component_only|0|Chưa outcome riêng|
-|R037|Fixing composite3slots|fixing_flow / R022|Đã code, chưa qualified|Exact FX versions đã gác sau frozen cost screen|[Kết quả](DISCOVERY6-7-RESULTS-20261108.md)|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family
+|R037|Fixing composite3slots|fixing_flow / R022|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
 |R038|Ridge4Hreturn policy|trained_return|Đã code, chưa qualified|1|[Kết quả](DISCOVERY5-RESULTS-20261108.md)|
 |R039|Random forest4Hreturn policy|trained_return / R038|Đã code, chưa qualified|1|[Kết quả](DISCOVERY5-RESULTS-20261108.md)|
 |R040|Ridge shuffled-label control|falsification / R038|Đã code, chưa qualified|1|[Kết quả](DISCOVERY5-RESULTS-20261108.md)|
