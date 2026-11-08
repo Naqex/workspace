@@ -4,6 +4,12 @@
 
 [JSON](STRATEGY-CATALOGUE-20261107.json) là cùng dữ liệu có cấu trúc; protocol/source giữ exactrecipes, không automatic dispatch/rejection hoặc broker authority.
 
+R076/R077 thêm [paper-window component v2](INDEX-PAPER-WINDOW-IMPLEMENTATION-20261109.md)
+đã [reviewed và không retained](INDEX-PAPER-WINDOW-RESULTS-20261109.md). Revision lineage nằm ngay trong
+hai JSON records; v1 negatives giữ nguyên, không tăng account-policy count
+hoặc đếm delays thành independent edges. [Protocol](INDEX-PAPER-WINDOW-ECONOMIC-PROTOCOL-20261109.md)
+freeze trước outcomes; old quarter-mask failure và corrected attempt đều giữ.
+
 | ID | Ý tưởng | Họ/parent | Tình trạng | Policy versions | Evidence |
 |---|---|---|---|---:|---|
 |R001|Donchian20/10|trend_breakout|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|

@@ -8,15 +8,19 @@ có nhu cầu thực. Goal mới đã active. Quyết định dừng B ở
 
 ## Checkpoint hiện hành — 09/11/2026
 
-[Closing tick pilot](INDEX-CLOSING-TICK-CALIBRATION-RESULTS-20261109.md) đã xong:
-8 giờ /115.502 ticks, 577.510 raw field checks và 960 common M1 side bars exact;
-0 conflict, 64 target timestamps có quote. Không PnL, measured broker latency
-hoặc full history proof. Producer 19,158 s /review 8,820 s, không job phải chờ.
-[Performance results](INDEX-TICK-REVIEW-OPTIMIZATION-RESULTS-20261109.md): full
-pilot parity đạt, inspect nhanh 3,98×, scoped-pin cached replay nhanh 7,04×;
-không full-history ETA. Hai helpers được giữ cho future consumers, không sửa
-old frozen outputs. Tiếp source pilot 16:00–17:00 cùng dates/assets trước
-đăng ký paper-window economics; chưa outcomes mới.
+[Paper-window results](INDEX-PAPER-WINDOW-RESULTS-20261109.md) đã terminal/reviewed:
+US500 primary1s stress2019/2022 −435,57/−277,43USD/unit; NASDAQ −725,76/+140,46,
+nhưng2022delay2s/60s âm. Cả hai không retained; US5002019/60s giữ3unknown.
+Full source1.996hours/16.080.264ticks, canonical149.218sideOHLC exact sau sửa
+pilot-quarter omission; affected498hours,1.498reports/NASDAQeconomics exact reuse.
+3.018rows/29.850rolecostcases qua raw/Fractionreview. Không còn job phải đợi.
+Tiếp consensus method đã queued (Table6), chưa groupPnL/exact registration mới;
+không fetch source lại hoặc retune exactv2 để cứu. Source/raw/failed attempts giữ.
+[Boundary pilot](INDEX-CASH-CLOSE-BOUNDARY-RESULTS-20261109.md) 14.847ticks/
+74.235fields/240sidebars exact,0conflict; không actual latency hoặc edge.
+[Performance](INDEX-TICK-REVIEW-OPTIMIZATION-RESULTS-20261109.md) inspect3,98×,
+scoped cached replay7,04×, fullpilotparity; không whole-history ETA. Không upgrade
+package, sửa raw/old collectors hoặc tạo thêm UI/DB/skill framework.
 
 [R076/R077 results](INDEX-REST-OF-DAY-RESULTS-20261109.md) giữ fail hai-year gate:
 995 resolved asset-days; US5002019 còn 1 unknown entry, NASDAQ2022 chỉ phí chuẩn

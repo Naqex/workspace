@@ -7,6 +7,14 @@ daemon/scheduler hay hứa background tự chỉnh khi không có agent làm vi�
 
 ## Trigger và hành động
 
+09/11: source-transformations reference thêm pilot→history partition/role
+census trước PnL, không skill mới. [Case thật](../../planning/research/INDEX-PAPER-WINDOW-RESULTS-20261109.md)
+raw reviewer bắt omitted US500Q2/Q4; helper full-year buộc4quarters/8side seals,
+4regressions và affected repair đạt, unaffected reports/quotes giữ nguyên.
+Negative walkthrough: pilot1/3 không là full-year proof; status-only không
+kích hoạt fetch/fullrerun. Structure/scoped links và maintainer audit đạt
+0errors/warnings, bytes/reserve không đổi. Repo reference, chưa native publish.
+
 09/11: thêm nhánh conditional missing-price sensitivity vào
 `strategy-qualification/references/validation-gates.md`, reuse G1/G2 owner,
 không skill/config mới. R065 interval và R066 collapsed interval là positive

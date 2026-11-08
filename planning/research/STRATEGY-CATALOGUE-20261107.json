@@ -2643,7 +2643,7 @@
         "BALTUSSEN-ROD"
       ],
       "source_relation": "related predictor and quality/readiness adaptation,not futures-paper replication or independent discovery",
-      "next_action": "Park exact component;preserve partialunknown and cost diagnostics. Source-only closing-tick timing calibration before more filters;no fee/clock/threshold rescue.",
+      "next_action": "Keep v1/v2 not retained and source-quarter failed attempt. Admit separately queued published consensus method before outcomes; no retuning or clean-OOS claim from consumed2019/2022.",
       "implementation_state": "component_implemented_reviewed_not_retained_no_account_policy",
       "candidate_id": null,
       "component_id": "us500-restofday-last30-price-component-v1",
@@ -2652,7 +2652,24 @@
       "profitability_evidence": "USD/unit 2019/2022 reference -158.96/-121.12;stress -404.96/-371.12;2019 one unresolved entry,partial known sum;2022 allknown;notaccountPnL.",
       "control": false,
       "dispatch_authorized": false,
-      "implementation_updated_on": "2026-11-09"
+      "implementation_updated_on": "2026-11-09",
+      "component_revisions": [
+        {
+          "component_id": "us500-restofday-cashclose-tick-component-v2",
+          "parent_component_id": "us500-restofday-last30-price-component-v1",
+          "readiness": "component_reviewed_not_retained",
+          "protocol": "INDEX-PAPER-WINDOW-ECONOMIC-PROTOCOL-20261109.md",
+          "implementation": "INDEX-PAPER-WINDOW-IMPLEMENTATION-20261109.md",
+          "implementation_commit": "885cdd7",
+          "account_policy": false,
+          "clean_oos": false,
+          "execution_authorized": false,
+          "result": "INDEX-PAPER-WINDOW-RESULTS-20261109.md",
+          "source_correction": "INDEX-PAPER-WINDOW-SOURCE-CORRECTION-20261109.md",
+          "source_correction_commit": "004840d",
+          "profitability_evidence": "Primary1s stress USD/unit2019/2022 -435.57/-277.43;60s2019knownpartial244of247,notaccountPnL."
+        }
+      ]
     },
     {
       "id": "R077",
@@ -2670,7 +2687,7 @@
         "BALTUSSEN-ROD"
       ],
       "source_relation": "related predictor and quality/readiness adaptation,not futures-paper replication or independent discovery",
-      "next_action": "Park exact component;preserve partialunknown and cost diagnostics. Source-only closing-tick timing calibration before more filters;no fee/clock/threshold rescue.",
+      "next_action": "Keep v1/v2 not retained and source-quarter failed attempt. Admit separately queued published consensus method before outcomes; no retuning or clean-OOS claim from consumed2019/2022.",
       "implementation_state": "component_implemented_reviewed_not_retained_no_account_policy",
       "candidate_id": null,
       "component_id": "nasdaq-restofday-last30-price-component-v1",
@@ -2679,7 +2696,24 @@
       "profitability_evidence": "USD/unit 2019/2022 reference -287.99/+232.20;stress -536.99/-17.80;both years known endpoints;2022 fee sensitive;notaccountPnL.",
       "control": false,
       "dispatch_authorized": false,
-      "implementation_updated_on": "2026-11-09"
+      "implementation_updated_on": "2026-11-09",
+      "component_revisions": [
+        {
+          "component_id": "nasdaq-restofday-cashclose-tick-component-v2",
+          "parent_component_id": "nasdaq-restofday-last30-price-component-v1",
+          "readiness": "component_reviewed_not_retained",
+          "protocol": "INDEX-PAPER-WINDOW-ECONOMIC-PROTOCOL-20261109.md",
+          "implementation": "INDEX-PAPER-WINDOW-IMPLEMENTATION-20261109.md",
+          "implementation_commit": "885cdd7",
+          "account_policy": false,
+          "clean_oos": false,
+          "execution_authorized": false,
+          "result": "INDEX-PAPER-WINDOW-RESULTS-20261109.md",
+          "source_correction": "INDEX-PAPER-WINDOW-SOURCE-CORRECTION-20261109.md",
+          "source_correction_commit": "004840d",
+          "profitability_evidence": "Primary1s stress USD/unit2019/2022 -725.76/+140.46;2022delay2s/60sstressnegative,notaccountPnL."
+        }
+      ]
     }
   ],
   "automatic_dispatch": false,

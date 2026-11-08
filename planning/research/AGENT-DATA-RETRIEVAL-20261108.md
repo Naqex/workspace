@@ -27,6 +27,16 @@ derived columns, không thay raw. Full fields/M1/locators khớp frozen oracle;
 source pins có before-use/final binding và active loop checks. Đây là áp dụng
 chuẩn hóa ở consumer thực, không migration lịch sử hoặc format DB mới.
 
+[Full tick view](INDEX-PAPER-WINDOW-TICK-HISTORY-PROTOCOL-20261109.md) áp metadata
+theo hour: source identity/UTCms/price-grid/quote-volume units/consumed exposure,
+raw/output/proof seals, common-M1 conflicts/missing/extension và archived quote
+locators. Source và review có journals riêng; resume kiểm binding trước skip,
+không coi directory/file tồn tại là đã verified. R076/R077 revision lineage giữ
+trong catalogue thay vì ghi đè negatives. Numerical projections đọc bằng code,
+không embedding tick hoặc thêm RAG service. [Results/correction](INDEX-PAPER-WINDOW-RESULTS-20261109.md)
+đã review source/economics; full-year quarter omission bị phát hiện/sửa, có
+code guard trước PnL, không chỉ metadata/hash. Hai components không đạt netgate.
+
 [R075 recovery](US500-OVERNIGHT-REVERSAL-RESULTS-20261109.md) bổ sung reuse
 proof lịch sử khi code live đã revision: explicit frozen code/protocol snapshots,
 raw/calendar/canonical seals trực tiếp; không sửa old proof hoặc chạy lại data

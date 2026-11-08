@@ -35,6 +35,15 @@ gaps khác nguồn. Không bắt mỗi status check tải lại data hoặc ki�
    Không retry auth/WAF/403/rate-limit/invalid schema để ép outcome. Drain
    inflight trước failure/handoff; checkpoint không đủ state thì chưa resume.
 
+Khi mở pilot thành full history, chốt và kiểm manifest các partitions/roles
+thực sự cần (quý/năm/side/session), không copy subset của fixture rồi gọi là
+coverage thị trường. So census/availability của predictors theo từng cohort
+trước PnL; lệch lớn phải phân biệt loader omission với source missing. Với
+US500 quarterly views dùng `us500_year_source.load_year_side` để buộc đủ bốn
+quý và bind output vào accepted frozen proof. Chỉ rerun consumer bị ảnh hưởng,
+giữ raw và phần tick/locator đã kiểm; không fetch hoặc replay toàn batch không đổi.
+Case thật/giới hạn: [paper-window quarter correction](../../../../planning/research/INDEX-PAPER-WINDOW-SOURCE-CORRECTION-20261109.md).
+
 Đã kiểm ở [US500 correction](../../../../planning/research/INDEX-UNFILTERED-SOURCE-CORRECTION-20261108.md),
 [range oracle](../../../../planning/research/INDEX-DAILY-RANGE-ORACLE-20261108.md).
 [Explicit-source correction](../../../../planning/research/INDEX-EXPLICIT-SOURCE-CORRECTION-20261108.md)

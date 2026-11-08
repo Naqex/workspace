@@ -1,5 +1,10 @@
 # Paper-window v2: implementation và preflight, chưa market outcome
 
+Checkpoint trước numeric. Hiện hành: [corrected results](INDEX-PAPER-WINDOW-RESULTS-20261109.md)
+đã terminal/reviewed, cả2không retained; source-quarter bug và old failed attempt
+được giữ, sửa bằng full-year loader `004840d`. Không dùng pending/running dưới
+đây làm trạng thái hiện tại hoặc source-reviewv1 làm full-year admission.
+
 [Economic protocol](INDEX-PAPER-WINDOW-ECONOMIC-PROTOCOL-20261109.md) `170e9bd`
 đã freeze trước code/outcomes. `index_cash_close_tick_component.py` là opt-in
 tooling, không đổi bot/native broker path, parent consumers hoặc source đang chạy.

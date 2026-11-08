@@ -1,10 +1,13 @@
 # Tra cứu research đã có
 
-Checkpoint 09/11: [closing tick pilot](INDEX-CLOSING-TICK-CALIBRATION-RESULTS-20261109.md)
-đã source-reviewed: 8 giờ /115.502 ticks /960 M1 side bars exact, 0 conflict.
-Chưa PnL, actual broker latency hoặc full history proof. [Benchmark](INDEX-TICK-REVIEW-OPTIMIZATION-RESULTS-20261109.md)
-đã parity toàn pilot: inspect 3,98×, cached pin/decode replay 7,04×; không là
-whole-history speed. Tiếp source 16:00–17:00 trước paper-window economics.
+Checkpoint 09/11: [paper-window results](INDEX-PAPER-WINDOW-RESULTS-20261109.md)
+đã terminal/reviewed, cả2không retained; raw reviewer bắt US500quarter omission,
+đã sửa affected scope/reuse phần đúng, không fetch lại. Full16.080.264ticks,
+3.018economicrows/29.850rolecostcases. Tiếp consensus method chưa groupPnL.
+[Implementation/recovery](INDEX-PAPER-WINDOW-IMPLEMENTATION-20261109.md)
+giữ scripts/fixtures/failures. [Boundary pilot](INDEX-CASH-CLOSE-BOUNDARY-RESULTS-20261109.md)
+đã source-reviewed; [benchmark](INDEX-TICK-REVIEW-OPTIMIZATION-RESULTS-20261109.md)
+inspect 3,98×, cached pin/decode replay 7,04×; không whole-history speed/edge.
 [R076/R077](INDEX-REST-OF-DAY-RESULTS-20261109.md) vẫn fail, US5002019 giữ 1 unknown.
 Catalogue 77 /58 /25 native /9 controls; Goal active, chưa challenge; own2025+/
 broker đóng.
@@ -16,6 +19,8 @@ Các mục cũ chưa được re-audit khi tạo chỉ mục ngày 05/11/2026.
 
 | Câu hỏi / từ khóa | Nguồn hiện có |
 |---|---|
+| Source lỗi có phải thu lại từ đầu; lượt dài đã xong chưa? | [Results/recovery](INDEX-PAPER-WINDOW-RESULTS-20261109.md):1.996hours terminal, prefix1.353reuse; source-quarter fix chỉ498hours, phần đúng giữ; không còn job phải chờ |
+| V2 đã có edge/challenge chưa; framework có bắt lỗi không? | [Economic results](INDEX-PAPER-WINDOW-RESULTS-20261109.md), [correction](INDEX-PAPER-WINDOW-SOURCE-CORRECTION-20261109.md):rawreviewer chặn wrongquarter mask, corrected review đạt nhưng netgate cả2fail; không challenge |
 | Kiểm tick/pin có giảm thời gian mà giữ đủ validation không? | [Performance results](INDEX-TICK-REVIEW-OPTIMIZATION-RESULTS-20261109.md), [preregistered protocol](INDEX-TICK-REVIEW-OPTIMIZATION-PROTOCOL-20261109.md): 3 cặp A/B, full fields/OHLC/locators parity, 19 tests; helpers mới, không sửa raw/old collectors |
 | Tick quanh cuối phiên có khớp nguồn M1 và cho biết latency thật không? | [Pilot results](INDEX-CLOSING-TICK-CALIBRATION-RESULTS-20261109.md): 115.502 joint ticks /577.510 raw checks, 960 side bars exact, 64 target timestamps; chỉ archived availability, chưa broker latency/PnL |
 | Tín hiệu tới15:30 có tốt hơn đầu phiên và qua phí không? | [R076/R077 results](INDEX-REST-OF-DAY-RESULTS-20261109.md), [protocol](INDEX-REST-OF-DAY-PROTOCOL-20261109.md): 995 resolved asset-days, primary gate fail; US5002019 known-partial, không account/prop/OOS |

@@ -10,27 +10,36 @@ Owner giao tìm ứng viên đủ C1/C2, chuẩn hóa dữ liệu và cải ti�
 Goal đang active; [campaign v2](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)
 giữ scope, quyết định B cũ không kết thúc chiến dịch mới. **Chưa challenge-qualified.**
 
-Lát mới nhất: [closing-tick source/timing pilot](research/INDEX-CLOSING-TICK-CALIBRATION-RESULTS-20261109.md)
-đã thu/review đủ 8 giờ theo protocol `08501da`: 115.502 joint ticks,
-577.510 field checks, 960 common M1 side bars exact, 0 conflict; cả 8 late
-signal closes khớp tick aggregate. 64 timestamp targets có quote; không PnL.
-Đây không phải actual delivery/broker latency, full history hoặc edge proof.
-Package/bundle/lock/helper pins giữ nguyên bản 1.51.1 đã audit, không upgrade.
-Producer 19,158 s /reviewer 8,820 s; mọi job terminal, raw/seals đã giữ để reuse.
+Lát mới nhất: [paper-window tick v2 results](research/INDEX-PAPER-WINDOW-RESULTS-20261109.md)
+đã terminal/reviewed; cả hai không retained. Primary1s stress USD/unit2019/2022:
+US500 −435,57/−277,43, NASDAQ −725,76/+140,46; NASDAQ2022 âm khi delay2s/60s.
+US5002019/60s có3unresolved, giữ known-partial. Chưa challenge, Goal active.
+
+Full source1.996hours/16.080.264ticks đã thu/review, 80.401.320integer field checks;
+20hours/1.213.185fields qua Fraction riêng. 149.218commonM1sideOHLC exact,
+0conflict sau [quarter correction](research/INDEX-PAPER-WINDOW-SOURCE-CORRECTION-20261109.md).
+V1 reviewer copy pilot1/3 bỏ Q2/Q4 US500; raw economic review chặn wrong mask.
+Source viewv2 sửa498hours,1.498reports bytes exact; NASDAQ1.509economicrows reuse
+exact. Corrected economic review:3.018rows/29.850rolecostcases,6mutations reject.
+Không new fetch/raw rewrite; source network failure đã resume từ1.353prefix.
+
+[Boundary pilot](research/INDEX-CASH-CLOSE-BOUNDARY-RESULTS-20261109.md) đã terminal:
+8 giờ16:00–17:00 mới /14.847 ticks /74.235 fields /240 M1 side bars exact,
+32 targets có quote, 0 conflict. Reuse 8 giờ cũ15:00–16:00 đã review115.502ticks,
+không fetch lại. Chỉ archived quote availability, chưa broker latency/edge.
+Native package1.51.1/pins không upgrade, raw/frozen sources giữ nguyên.
 
 **Performance đã đo:** [integer tick/scoped pin checks](research/INDEX-TICK-REVIEW-OPTIMIZATION-RESULTS-20261109.md)
 khớp 577.510 fields / 960 M1 side OHLC / 64 locators và age; 32 actual mutations
 reject, 19 tests đạt. Inspect median 2,891 → 0,726 s (3,98×); Node cached replay
 12,799 → 1,819 s (7,04×), cùng export hashes; không full-history ETA.
 Giữ helpers mới cho future consumers, old collectors/oracle/raw giữ nguyên.
-**Tiếp:** source admission bổ sung 16:00–17:00 trên cùng 4 dates × 2 assets;
-sau đó freeze full-history intake + economic recipe riêng. Không fetch lại
-8 giờ cũ hoặc rerun books không đổi. Source quote availability khác asset,
-không chọn latency bằng PnL hoặc tự nới live freshness/risk.
-Cần chốt method window trước economics: parent exit Open15:59 khác paper
-cash close16:00; đổi exit là recipe/model revision. Pilot chỉ tới16:00,
-chưa source admission cho quote sau cash close; không chỉ giảm delay rồi
-gọi là paper replication.
+**Tiếp:** method admission cho published consensus η(rONFH,rROD) (JFE2021Table6),
+đã ở queue trước outcomes. Reuse verified source/price components, chưa group
+PnL hoặc exact new protocol. Phải khóa gate/control phù hợp trước outcomes:
+firsthalf trên consensus mask bằng primary, không bắt vượt chính nó. Không
+retune exactv2 hoặc gọi consumed2019/2022 là unseen. Source2.7GB đã có,
+không fetch/full replay batches cũ. Snapshot old failed attempts giữ nguyên.
 
 [R076/R077 rest-of-day review](research/INDEX-REST-OF-DAY-RESULTS-20261109.md)
 đã terminal: primary stress USD/unit 2019/2022 US500 −404,96 /−371,12;
@@ -41,7 +50,8 @@ full Fraction review: 1.006 rows /9.950 cost-role cases /18 mutations. Shared co
 `d1503ce` giữ R074/R075: 1.006 old rows/summaries exact; producer 19,237 s /review 14,132 s.
 
 Catalogue **77 records /58 policy-model versions /25 native /9 controls**;
-chưa challenge-qualified, Goal active. Source pilot không thêm strategy version.
+R076/R077 có thêm component revisions reviewed_not_retained, chưa account policies hoặc
+challenge-qualified. Goal active; source pilot không thêm policy version.
 Consensus filter mới ở queue, chưa chạy group PnL. Không own2025+ /broker /new provider.
 
 [R075 recovery](research/US500-OVERNIGHT-REVERSAL-RESULTS-20261109.md) giữ v1
@@ -52,11 +62,16 @@ negative giữ nguyên; [strict FX annual N/A](research/NY-FX-PAIRED-LATENCY-RES
 không bị clear bằng conditional model.
 
 Private root `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/`;
-`execution-v1/index-closing-tick-calibration-v1/` giữ source/review/status;
+`execution-v1/index-paperwindow-tick-source-v1/` giữ full intake;
+`index-paperwindow-tick-review-v2/` là corrected source view;
+`index-paperwindow-components-v2-corrected1/` là economic result/review hiện hành.
+Old source-reviewv1/economicv2 giữ lỗi US500Q2/Q4, không dùng verdict đó.
+Mọi jobs terminal, không cần poll/resume lại. `index-closing-tick-calibration-v1/` giữ pilot;
 `index-restofday-components-v1/` giữ economic books/rows/diagnostic/status;
 raw ở existing `source-hour-cache-v1/`. Preflight stdin SyntaxError trước import
-đã giữ failure/script v2. Trader `83731fc8`, runtime, skills/global config không
-đổi; không migration/xóa raw. [Data/retrieval review](research/AGENT-DATA-RETRIEVAL-20261108.md)
+đã giữ failure/script v2. Trader `83731fc8`, runtime/global config không đổi;
+repo source-transformations reference đã cập nhật/audit theo quarter correction.
+Không migration/xóa raw. [Data/retrieval review](research/AGENT-DATA-RETRIEVAL-20261108.md)
 giữ ownership, không cần vector DB mới.
 
 [R068/R069 ML](research/GOLD-ML-SL-LABELS-RESULTS-20261109.md) giữ0signalnegative,
