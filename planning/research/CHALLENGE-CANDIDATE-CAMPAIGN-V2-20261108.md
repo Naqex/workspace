@@ -12,9 +12,10 @@ có nhu cầu thực. Goal mới đã active. Quyết định dừng B ở
 16books đều0trades/0PnL; toàn bộ decisions được score nhưng không vượt frozen0,10R.
 Gác exactrecipe, không threshold/refit rescue. Catalogue69records/48versions/
 25native/4controls. R067 formation negatives và R065/R066 unknowns/conditional
-negatives giữ nguyên. Goal C1/C2 active, chưa challenge candidate. Tiếp admission
-stock-specific information/abnormalactivity; relative traded-share volume chưa
-có mapping từ quoteCFD volume, chưa strategy/numeric hoặc permission mới.
+negatives giữ nguyên. [Stock fixture](STOCK-INFORMATION-SOURCE-RESULTS-20261109.md)
+đãreview; sourceprices đủ mộtngày, cònvolume/adjustment/PIT/targetfit gaps nên
+gác bulkstockhistory/PnL, khôngthêmstrategycount. Goal C1/C2 active,chưa candidate;
+tiếp NY-session-conditioned FX reversal methodadmission trước recipe/numeric.
 Các đoạn tiếp trong lịch sử dưới đây không là numerical jobs đang chạy.
 
 ## Đích và cách biết đã đạt

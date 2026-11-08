@@ -30,12 +30,18 @@ không phải chờ. Source22,841s/CPU0,859s;producer7,894s/CPU7,563s;review3,98
 Không bottleneck cầnGPU/Rust/framework mới. Trader83731fc8/skills/runtime/global
 config giữ nguyên; không rawoverwrite/data deletion/paidprovider/account/broker.
 
-**Tiếp:** method admission cho stock-specific information/abnormal activity,
-khác unconditional price-only signals. Paper Stocks in Play cần relative
-traded-share volume; quote-CFD volume chưa được chứng minh tương đương. Chưa
-đăng ký/fetch/train/PnL một stock strategy; cần source/clock/adjustment/universe
-và exactprotocol trước numerical. Không chọn beststock/event hồi tố làm edge.
-Ownholdout2025+ vẫn đóng. Không retune R068 để ép winner.
+[Stock source fixture](research/STOCK-INFORMATION-SOURCE-RESULTS-20261109.md) đã xong:
+4URLs/1.560explicitM1rows, mỗiasset390/390cashminutes;3.480paddingrows không
+được coi là quote. Validatorstock semantics mở rộng ởdb9c30f,9tests/5actual
+mutations đạt;source1,825s/fullreview0,336s. Chưa exchangevolume/adjustment/
+PITuniverse/targetfit nên gác bulkstockhistory/PnL, không thêmstrategycount.
+The5ersstocks chỉBootcamp/ProGrowth theoFAQđãđọc09Nov;không tựđổiHighStakes.
+
+**Tiếp:** NY-session-conditioned FX moving-average reversal method admission,
+khác unconditional local-flow/Z20±2 đãgác. AuthorpaperLeBaron/Zhao2008 fullfetch
+timeout/mirror403; chỉ indexedmethodexcerpts, chưa fullaudit/recipe/protocol.
+Reconcile parameter/priceorientation/clock/cost/source trước economic run;
+khônglấysnippet làmedge hoặc retuneoldrule. Khôngjobđangchờ; ownholdout2025+đóng.
 
 R065/R066 cũng đã gác theo conditional2019negative; exactunknowns vẫn giữ.
 Tra [R065](research/NASDAQ-OPENING5-BOUNDS-RESULTS-20261109.md) hoặc
