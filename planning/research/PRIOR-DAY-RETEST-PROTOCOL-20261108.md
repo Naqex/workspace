@@ -62,7 +62,8 @@ không dispatch tự động hoặc broker authority.
 ## Stage1: paired development2019/2022
 
 - Hai năm đã consumed, không cleanOOS. Native bound H1 caches của
-  `eurusd-observed-history-v2`; warmup100H1 từ Nov–Dec năm trước theo parent
+  `eurusd-observed-history-v2`; warmup≥100H1, dùng toàn bộ observed Nov–Dec
+  năm trước như parent (không chỉ lấy100nến cuối),
   scope. Rehash raw/cache, kiểm schema/runtime/order trước load. Không download,
   export lại, đọc source đang ghi hoặc sửa binding để ép cache pass.
 - R019 và parent R015 ×2costs ×2years =8books. Rerun bounded parent để kiểm
