@@ -1,9 +1,10 @@
 # Tra cứu research đã có
 
-Checkpoint mới: [R065 conditional bounds](NASDAQ-OPENING5-BOUNDS-RESULTS-20261109.md)
-09/11: gác exact opening5 recipe vì conditional2019 vẫn âm; original2019 vẫn
-unknown. Tiếp [NASDAQ noise14 method admission](NASDAQ-NOISE14-METHOD-20261109.md),
-chưa backtest mới hoặc challenge candidate; [campaign hiện hành](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).
+Checkpoint mới09/11: [R066 noise14](NASDAQ-NOISE14-RESULTS-20261109.md) đã gác
+sau full16-book review; giữ conditional2019 âm và exact unknown riêng.
+[R067 vàng/bạc source](GOLD-SILVER-SOURCE-RESULTS-20261109.md) đạt fixture,
+chưa statistics/PnL; tiếp fullformation source registration theo
+[campaign hiện hành](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md). Chưa ứng viên challenge.
 
 Đọc tài liệu chủ đề trước, chỉ kiểm lại phần đổi/còn thiếu. Đây là chỉ mục chọn
 lọc, không là danh sách task hoặc chứng nhận tài liệu còn đúng tới hiện tại.

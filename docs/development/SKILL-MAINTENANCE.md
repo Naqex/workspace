@@ -7,6 +7,19 @@ daemon/scheduler hay hứa background tự chỉnh khi không có agent làm vi�
 
 ## Trigger và hành động
 
+09/11: thêm nhánh conditional missing-price sensitivity vào
+`strategy-qualification/references/validation-gates.md`, reuse G1/G2 owner,
+không skill/config mới. R065 interval và R066 collapsed interval là positive
+manual walkthroughs: giữ exact unknown, chỉ đổi ưu tiên nghiên cứu theo
+registered criterion. Negative case: BI5 transport timeout không có source
+envelope không cho tự bịa bounds/fill hoặc clear unknown. Không forward-test
+bằng model độc lập; numerical workers không tự đọc reference mới.
+Structure validator (bundled Python), scoped links và maintainer audit đạt:
+0errors/0warnings; global12.279B,project10.133/65.536B,reserve55.403B,
+combined22.412B. Product venv thiếuPyYAML cho validator; reuse bundled runtime,
+không cài dependency hoặc đổi môi trường product/global. Chưa publish/assign
+native Paperclip package.
+
 Xét sau workflow lặp, lỗi đáng kể, misroute, contract/tool/path/ownership đổi
 hoặc owner sửa cách vận hành. Chỉ xem skill vừa dùng/phần bị tác động; không
 full-audit hoặc gọi thêm model sau mọi commit.

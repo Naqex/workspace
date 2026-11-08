@@ -10,39 +10,39 @@ Owner giao tìm ứng viên đủ C1/C2, chuẩn hóa dữ liệu và cải ti�
 Goal đang active; [campaign v2](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)
 giữ scope, quyết định B cũ không kết thúc chiến dịch mới. **Chưa challenge-qualified.**
 
-Lát mới nhất: [R065 conditional bounds](research/NASDAQ-OPENING5-BOUNDS-RESULTS-20261109.md)
-đã hoàn tất và kiểm lại bằng Fraction: **gác exact opening5 recipe**. Trên vốn
-10.000 USD/năm, conditional 2019 net chuẩn −351,20→−339,70 USD; stress
-−925,72→−914,80 USD. Ngay đầu biên có lợi vẫn âm. Năm 2022 có 243 lệnh,
-+714,71/+568,12 USD, từng lệnh khớp parent. Không thay risk25USD/SL/TP/cost.
+Lát mới nhất: [R066 NASDAQ noise14](research/NASDAQ-NOISE14-RESULTS-20261109.md)
+đã hoàn tất16books và full Fraction review; **gác exact recipe** theo frozen
+criteria. Vốn10k/fixed25USD: conditional2019 −214,67/−250,47USD,135trades;
+exact2019 vẫn annualN/A sau104closed vì held minute thiếu02Oct.2022 exact/
+conditional +217,58/+198,44USD,165trades. Không retune bands/clock/risk.
+16tests/12synthetic Fractioncases và6mutations đạt; producer25,324s/review19,927s.
 
-Đây là outer bounds **có điều kiện** theo H1 cùng side và parent execution,
-không phải khôi phục giá hay actual PnL. [Exact parent](research/NASDAQ-OPENING5-ORB-DATA-REVISION-RESULTS-20261109.md)
-vẫn giữ annual2019 N/A, unknown từ 25/01 14:49 UTC và two-year gate inconclusive.
-Không biến sensitivity verdict thành original pass/fail hoặc challenge candidate.
-Catalogue vẫn 65 records / 45 research policy versions / 25 native rules.
+[R065 bounds](research/NASDAQ-OPENING5-BOUNDS-RESULTS-20261109.md) trước đó
+cũng bị gác vì conditional2019stress upper vẫn âm; exact2019 giữ unknown.
+Không biến conditional point/interval thành actual quotes/edge/prop verdict.
+Các archive GET failures/source snapshots/history vẫn giữ; không retry study
+không đổi hoặc mở own2025+ để cứu negative. Catalogue67records/46research
+policy versions/25native, chưa challenge-qualified.
 
-Archive BI5 probe có một GET timeout trước HTTP response sau 21,608s, không
-binary payload; đã terminal, không retry không đổi. [H1 fixture protocol](research/NASDAQ-H1-GAP-ENVELOPE-PROTOCOL-20261109.md)
-và kết quả trong bounds report xác nhận envelope chứa 16.624 ticks/59M1,
-nhưng không phục hồi được quote phút thiếu. Không tiếp tục archive chase cho
-recipe đã bị gác theo conditional economics.
-
-**Tiếp:** [NASDAQ noise14 method admission](research/NASDAQ-NOISE14-METHOD-20261109.md).
-Reuse band helper R048 và source-only NASDAQ M1/warmup/calendar. Khóa recipe,
-known-at/halfday/required14 sessions/cost/risk/gap semantics, rồi kiểm fixtures
-trước outcomes. Đây là trial chuyển thị trường, chưa code/backtest; giữ
-negatives US500 của R048, không grid hoặc gọi dev2019/2022 là clean OOS.
-Không đọc own2025+ holdout hoặc bật broker.
+**Tiếp:** [vàng/bạc source results](research/GOLD-SILVER-SOURCE-RESULTS-20261109.md)
+và [protocol](research/GOLD-SILVER-SOURCE-PROTOCOL-20261109.md). Source pilot
+XAU/XAG ×Bid/Ask01Nov2018 có92bars/460fields khớp raw/Fraction;23paired-side
+H1hours/asset không là actual jointticks. Chưa statistical outcomes/PnL hoặc
+accountpolicy R067. Register full formation sources2018/2021 trước fetch;
+fixed ylogXAU/xlogXAG,16UTC H1Close/known17UTC, frozenUS cash dates như sample
+design, không metalsmarket calendar. Full source review/census trước fixed
+Engle–Granger/R035 Decimal review, giữ missing/crossed/inconclusive; không
+pair/orientation/lag/window grid hoặc mở holdout. Pilot chỉ cấp source
+admission, không tự cho phép fullhistory/statistics dưới protocol cũ.
 
 Private root `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/`;
-`execution-v1/nasdaq-opening5-bounds-v2` giữ đủ8 books/pins/progress/review.
-V1 failed do Decimal event serialization, giữ failure/scripts; v2 sửa logger
-và reuse book đầu nguyên bytes, không chạy lại. 8 unit tests mới +12 parent
-regressions và12 synthetic Fraction cases đạt; full8-book Fraction review/
-6 mutations đạt. V2 24,335s/review7,652s; không whole-engine speedup claim.
-H1 audit và numerical/reviewer PIDs đã terminal; không worker để chờ.
-Trader83731fc8 không đổi; không runtime/skills/global config/data deletion.
+`execution-v1/nasdaq-noise14-v1` và `gold-silver-source-v1` giữ config/pins/
+source snapshots/plans/books/progress/reviews. R066 worker20532 và source
+worker26236/reviewers terminal0; không numerical job để chờ. Source pilot
+1,126s/review0,071s; cache-hit/network breakdown chưa đo, không speedup claim.
+Trader83731fc8 không đổi; không runtime/globalconfig/data deletion. Skill
+qualification reference thêm conditional-gap guidance; không publish/assign
+Paperclip hoặc claim workers đã nhận nội dung mới.
 
 Các kết quả trước và negatives tra [research index](research/README.md) hoặc
 campaignv2; không mở lại raw/numeric batch không đổi. [Data/retrieval review](research/AGENT-DATA-RETRIEVAL-20261108.md)

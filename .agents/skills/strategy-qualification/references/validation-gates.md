@@ -40,3 +40,30 @@ OOS, independent review hoặc broker realism. Không biến user labels thành 
 resampling cần trial/dependence/distribution assumptions phù hợp; chúng không
 sửa được lookahead, dữ liệu sai hoặc chi phí hư cấu. Walk-forward không là bắt
 buộc cho mọi fixed strategy; purge/embargo chỉ áp khi cấu trúc samples/labels cần.
+
+## Khi exact run dừng vì thiếu giá
+
+Không mặc định phải khôi phục cả archive trước khi chọn việc tiếp theo. Có thể
+đăng ký một sensitivity model riêng để hỏi uncertainty có làm đổi ưu tiên
+nghiên cứu không; giữ exact unknown và protocol cũ. Đây không là permission
+bỏ gap, tự đóng vị thế hoặc chấp nhận dữ liệu không đạt G1/G2.
+
+- Nêu giả định có thể bác bỏ: ví dụ hidden prices nằm trong same-side H1
+  envelope và protective execution theo model không rejection. Kiểm envelope
+  chứa observations đã có; điều đó chưa chứng minh không có quote/outlier mất.
+- Bao gồm mọi nhánh SL/TP/survival/gap có thể theo giả định, account costs và
+  eligibility trên toàn cash interval. Thiếu terminal/source hoặc các nhánh
+  làm đổi entry eligibility mà chưa mô hình hóa thì giữ inconclusive.
+- H1 có thời gian trước entry không xác định được thời điểm chạm barrier;
+  dùng retrospective bound không được đưa tương lai vào entry/size. Outer
+  bounds có điều kiện không là confidence interval/xác suất pass đã hiệu chỉnh.
+- Khóa tiêu chí trước outcome mới, so unaffected trades với exact baseline
+  và kiểm bằng arithmetic/path khác. Kể cả hai đầu bound bằng nhau vẫn ghi
+  conditional; không sửa actual-state/unknown/edge/prop verdict thành pass.
+  Upper bound âm có thể giảm ưu tiên đúng recipe theo protocol, không bác bỏ
+  cả family hoặc chứng minh mất giá đã được khôi phục.
+
+Provenance: [R065 bounds](../../../../planning/research/NASDAQ-OPENING5-BOUNDS-RESULTS-20261109.md)
+và [R066](../../../../planning/research/NASDAQ-NOISE14-RESULTS-20261109.md) đã có
+registered models, full Fraction reviews và retained exact unknowns. Đây là
+hai cases cùng agent/provider, không universal fidelity certificate.

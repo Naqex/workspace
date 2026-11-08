@@ -8,12 +8,14 @@ có nhu cầu thực. Goal mới đã active. Quyết định dừng B ở
 
 ## Checkpoint hiện hành — 09/11/2026
 
-[R065 bounds review](NASDAQ-OPENING5-BOUNDS-RESULTS-20261109.md) đã hoàn tất:
-conditional stress2019 vẫn âm ở cả đầu biên có lợi, nên gác exact recipe.
-Original2019 vẫn unknown; không sửa gate hoặc tăng risk. Goal C1/C2 active,
-chưa challenge-qualified. [NASDAQ noise14 method admission](NASDAQ-NOISE14-METHOD-20261109.md)
-là lát tiếp; chưa numeric outcomes, giữ parent R048 negatives. Các đoạn
-"tiếp" trong lịch sử bên dưới là checkpoint cũ, không là job đang chạy.
+[R066 noise14](NASDAQ-NOISE14-RESULTS-20261109.md) đã full Fraction review:
+conditional stress2019 âm,2022 dương; gác exact recipe, không band/clock/risk
+rescue. [R065](NASDAQ-OPENING5-BOUNDS-RESULTS-20261109.md) cũng đã gác; giữ
+exact unknowns và conditional assumptions riêng. Catalogue67/46/25native.
+[R067 source pilot](GOLD-SILVER-SOURCE-RESULTS-20261109.md) đạt trong scope
+một ngày; tiếp đăng ký full formation source/metals relation trước statistics/
+PnL. Goal C1/C2 active, chưa challenge candidate. Các đoạn "tiếp" trong lịch
+sử bên dưới là checkpoint cũ, không là job đang chạy.
 
 ## Đích và cách biết đã đạt
 

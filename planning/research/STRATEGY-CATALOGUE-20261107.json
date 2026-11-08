@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-07",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 66,
+  "record_count": 67,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -12,7 +12,7 @@
   "counts": {
     "by_role": {
       "existing": 36,
-      "variant": 15,
+      "variant": 16,
       "new": 14,
       "component": 1
     },
@@ -28,7 +28,8 @@
       "formation_probe_not_retained": 1,
       "component_only": 1,
       "implemented_parked_conditional_2019_negative": 1,
-      "implemented_parked_conditional_negative": 1
+      "implemented_parked_conditional_negative": 1,
+      "source_fixture_admitted_not_formation": 1
     }
   },
   "sources": [
@@ -281,6 +282,14 @@
       "review_depth": "PrimaryauthorPDF methodpp4-6 and table; sourcecaptured SHA in opening5methodreport.",
       "limitations": "QQQ/TQQQ2016-Feb2023; first5direction/10R/no-slip/1%risk differ from our CFD/latency/cost/risk25. No importedcode/data or own2025+holdout.",
       "checked_on": "2026-11-08"
+    },
+    {
+      "id": "CESIFO-GS-2026",
+      "title": "Long-Run Linkages and Parameter Instability in the Gold-Silver Relationship,2010-2025",
+      "url": "https://www.ifo.de/en/cesifo/publications/2026/working-paper/long-run-linkages-and-parameter-instability-gold-silver",
+      "publication": "2026",
+      "review_depth": "primary_abstract_only",
+      "limitations": "Futures aggregates through2025; parameter instability, not spotCFD pair profitability or replication."
     }
   ],
   "records": [
@@ -2313,6 +2322,30 @@
       "dispatch_authorized": false,
       "control": false,
       "implementation_updated_on": "2026-11-09"
+    },
+    {
+      "id": "R067",
+      "title": "Gold-silver relative-value formation",
+      "family": "precious_metals_relative_value",
+      "role": "variant",
+      "parent_id": "R035",
+      "readiness": "source_fixture_admitted_not_formation",
+      "timeframe": "H1 source sampling; economic horizon not selected",
+      "rule_sketch": "Proposed fixed ylogXAU/xlogXAG formations2018/2021; no executable entry/exit/hedge policy yet.",
+      "data_requirements": "Dukascopy XAU-USD/XAG-USD source-only Bid/Ask H1; fullformation coverage not yet collected/reviewed.",
+      "automation_feasibility": "source_only_no_account_policy",
+      "prop_operational_concerns": "Joint source risk, two-leg costs/funding/margin/hedge/unknown handling and target terms unresolved; no statistical/economic outcomes yet.",
+      "source_ids": [
+        "CESIFO-GS-2026"
+      ],
+      "source_relation": "mechanism_and_asset_transfer_not_paper_replication",
+      "next_action": "Register full formation source windows and fixed calendar/method before fetch/statistics; retain missing census, no pair/lag/window grid.",
+      "implementation_state": "source_pilot_verified_no_statistical_or_account_policy",
+      "candidate_id": null,
+      "implementations": [],
+      "evidence_locator": "GOLD-SILVER-SOURCE-RESULTS-20261109.md",
+      "profitability_evidence": "none_for_this_hypothesis; sourcefixture23H1hours/side/instrument only",
+      "dispatch_authorized": false
     }
   ],
   "automatic_dispatch": false,
