@@ -1,6 +1,6 @@
 # Danh mục nghiên cứu chiến lược — cập nhật08/11/2026
 
-53 hồ sơ: 36 đã có implementation (41 policy versions), 16 ý tưởng chưa code và 1 risk component. Trong 41 versions có 24 native offline rules, 4 ML coarse-only, 6 gold coarse-only và 7 index M1 coarse-only; gồm 2 shuffled controls và 1 long-only benchmark. **Không phải 41 edges độc lập; chưa bản nào challenge-qualified.** Capital 10k/50k và các cost/year scenarios không được đếm thành strategy độc lập.
+55 hồ sơ: 36 đã có implementation tài khoản (41 policy versions), 18 hồ sơ chưa có account policy và 1 risk component. Nhóm18 gồm các price components đã tính nhưng chưa là bot tài khoản. Trong41 versions có24 native offline rules,4ML coarse-only,6gold coarse-only và7index M1 coarse-only; gồm2shuffled controls và1long-only benchmark. **Không phải41 edges độc lập; chưa bản nào challenge-qualified.** Capital10k/50k và cost/year scenarios không đếm thành strategy độc lập.
 
 [JSON](STRATEGY-CATALOGUE-20261107.json) là cùng dữ liệu có cấu trúc; protocol/source giữ exactrecipes, không automatic dispatch/rejection hoặc broker authority.
 
@@ -59,6 +59,8 @@
 |R051|US500 first→last30min|equity_close_momentum|Source-only correction vẫn âm cả2022–24/costs|1|[Corrected outcomes](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)|
 |R052|US500 RSI3+IBS preclose2|equity_daily_reversion /R050|Source-only long vẫn không đạt;4nofillyears inconclusive|1|[Corrected long](INDEX-LONG-EXPLICIT-RESULTS-20261108.md)|
 |R053|US500 monthly long benchmark|falsification /R009|Source-only admissionfail;khôngportfolio rerun|1|[Monthly admission](INDEX-LONG-EXPLICIT-RESULTS-20261108.md)|
+|R054|Gold BUY00–08UTC|gold_session_flow|Gác exactpriceprobe;0/15stressyears dương|0|[Session results](GOLD-SESSION-COMPONENT-RESULTS-20261108.md);chưaSL/account|
+|R055|Gold SELL10:30–15London|gold_session_flow|Gác exactpriceprobe;0/15stressyears dương|0|[Session results](GOLD-SESSION-COMPONENT-RESULTS-20261108.md);khôngLBMAprice/SL/account|
 
 ## Cách đọc và việc đang chạy
 

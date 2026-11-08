@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-07",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 53,
+  "record_count": 55,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -13,17 +13,17 @@
     "by_role": {
       "existing": 36,
       "variant": 6,
-      "new": 10,
+      "new": 12,
       "component": 1
     },
     "by_readiness": {
       "implemented": 36,
-      "long_history_or_multi_data": 7,
+      "component_probe_not_retained": 5,
       "price_data_spec_possible": 2,
       "method_clock_review": 1,
       "component_probe_completed_no_priority": 1,
-      "component_probe_not_retained": 3,
       "point_in_time_news_missing": 2,
+      "long_history_or_multi_data": 7,
       "component_only": 1
     }
   },
@@ -198,6 +198,30 @@
       "review_depth": "intro_and_sections2_3_5p1",
       "limitations": "Cross-market relative equity inputs and causal month-end clock; no ready bot or unconditional direction.",
       "checked_on": "2026-11-08"
+    },
+    {
+      "id": "GOLD-SESSION-WEI",
+      "title": "Who Moves the Price? Trading-Session Return Decomposition and Cross-Session Momentum in Gold and Silver Markets",
+      "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7257240",
+      "checked_on": "2026-11-08",
+      "review_depth": "author_indexed_abstract_direct403",
+      "limitations": "No full methods/code/data reused;sample2024-26 not our2010-24;CCBYNCnotimported."
+    },
+    {
+      "id": "GOLD-DAY-NIGHT",
+      "title": "Overnight versus day returns in gold and gold related assets",
+      "url": "https://link.springer.com/article/10.1007/s12197-017-9403-0",
+      "checked_on": "2026-11-08",
+      "review_depth": "publisher_abstract_and_notes",
+      "limitations": "Fullpaper paywall;GVSU2011grantabstract has opposite sign,unresolved;not recipe replication."
+    },
+    {
+      "id": "ICE-GOLD-CLOCK",
+      "title": "LBMA Gold and Silver Price",
+      "url": "https://www.ice.com/iba/lbma-precious-metals",
+      "checked_on": "2026-11-08",
+      "review_depth": "official_clock_and_auction_publication",
+      "limitations": "Auctionstart is not final benchmark publication;no licensed prices imported."
     }
   ],
   "records": [
@@ -509,7 +533,10 @@
       "candidate_id": null,
       "profitability_evidence": "monthly_proxy_negative_both_declared_costs_not_account_or_prop",
       "component_evidence": "MULTI-ASSET-TREND-RESULTS-20261108.md",
-      "component_versions": ["mixed_1_3_12_inverse_vol_primary", "always_long_inverse_vol_benchmark"],
+      "component_versions": [
+        "mixed_1_3_12_inverse_vol_primary",
+        "always_long_inverse_vol_benchmark"
+      ],
       "dispatch_authorized": false,
       "implementations": [],
       "data_admission": {
@@ -1878,6 +1905,55 @@
       ],
       "input_source_limitation": "2013warmup/2014-2024evaluation explicit-source admission fails: only32/132months eligible; 2014-2017 have no eligible month. No new portfolio simulation; old expanded-view numbers remain historical/unadmitted.",
       "source_correction_results": "INDEX-LONG-EXPLICIT-RESULTS-20261108.md"
+    },
+    {
+      "id": "R054",
+      "title": "Gold Asia session buy",
+      "family": "gold_session_flow",
+      "role": "new",
+      "parent_id": null,
+      "readiness": "component_probe_not_retained",
+      "timeframe": "intraday_fixed_session",
+      "rule_sketch": "BUY00-08UTC weekdays;exactM1Open;1ozpriceprobe",
+      "data_requirements": "ExistingQDMUTCM1Bid;Askdeclared;2010-24exposed",
+      "automation_feasibility": "price_component_only",
+      "prop_operational_concerns": "NoSL/sizing/account/prop;targethistoricalcostunverified",
+      "source_ids": [
+        "GOLD-SESSION-WEI"
+      ],
+      "source_relation": "new_adaptation_not_paper_replication_or_independent_edge",
+      "next_action": "Park exactversion after negative bothcosts/0of15stresspositiveyears;nohour/side/feerescue.",
+      "implementation_state": "component_implemented_not_retained_no_account_policy",
+      "candidate_id": null,
+      "profitability_evidence": "negative_two_declared_costs_on_resolved_mask",
+      "dispatch_authorized": false,
+      "implementations": [],
+      "component_evidence": "GOLD-SESSION-COMPONENT-RESULTS-20261108.md"
+    },
+    {
+      "id": "R055",
+      "title": "Gold London AM-PM sell",
+      "family": "gold_session_flow",
+      "role": "new",
+      "parent_id": null,
+      "readiness": "component_probe_not_retained",
+      "timeframe": "intraday_fixed_session",
+      "rule_sketch": "SELL10:30-15:00Europe/London weekdays;exactM1Open;notauctionprices",
+      "data_requirements": "ExistingQDMUTCM1Bid;Askdeclared;2010-24exposed",
+      "automation_feasibility": "price_component_only",
+      "prop_operational_concerns": "NoSL/sizing/account/prop;targethistoricalcostunverified",
+      "source_ids": [
+        "GOLD-DAY-NIGHT",
+        "ICE-GOLD-CLOCK"
+      ],
+      "source_relation": "new_adaptation_not_paper_replication_or_independent_edge",
+      "next_action": "Park exactversion after negative bothcosts/0of15stresspositiveyears;nohour/side/feerescue.",
+      "implementation_state": "component_implemented_not_retained_no_account_policy",
+      "candidate_id": null,
+      "profitability_evidence": "negative_two_declared_costs_on_resolved_mask",
+      "dispatch_authorized": false,
+      "implementations": [],
+      "component_evidence": "GOLD-SESSION-COMPONENT-RESULTS-20261108.md"
     }
   ],
   "automatic_dispatch": false,

@@ -36,8 +36,13 @@ terminal/reviewed; primary reference−1.138,18/stress−3.519,01USD trên10kpro
 stress0/7years dương, khôngretained.1.008weights/allocations kiểm bằng code
 khác,5mutations; numeric1,416s/review1,488s, không đọc lại14GBraw.
 Không actualaccount/lotstep/SL/prop; financing vẫn declaredscenarios.
-**Lát tiếp:** khảo sát cơ chế holding ngắn có dữ liệu hợp lệ, khác exactrecipes
-đã gác; freeze trước outcome, không hạfunding/increaseleverage cứu R010.
+[Gold session results](research/GOLD-SESSION-COMPONENT-RESULTS-20261108.md):
+R054BUY00–08UTC vàR055SELL10:30–15London đã terminal/reviewed, cả2stress0/15
+years dương; khôngretained.7.826planned/7.626resolved,15.377sourceOpen và
+30.504Fraction cost checks/5mutations. Catalogue55records,41accountpolicies;
+components không tăngpolicycount. Numeric7,408s/review16,062s.
+**Lát tiếp:** freeze PreECB long-price robustness với clock/side/cost giữ
+nguyên trước riskwrapper mới; không hạfees/increaseleverage cứu negatives.
 
 Phần tối ưu context/retrieval trước đó đã xong trong scope:
 [Đánh giá dữ liệu/tra cứu](research/AGENT-DATA-RETRIEVAL-20261108.md) giữ số đo,

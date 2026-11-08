@@ -50,3 +50,7 @@ khôngretained. Dataset864records cósource/clockreview và tái sử dụng cho
 1,416s; không hạ phí hoặc tăngleverage cứu outcome. Bước tiếp: cơ chế holding
 ngắn có data/method rõ và khác các exactversions đã gác, freeze trước số mới.
 Dùng repo skills hiện có; không tạo một skill quản lý toàn bộ khác.
+[Gold session results](GOLD-SESSION-COMPONENT-RESULTS-20261108.md) thêmR054/R055:
+cả2negative saufees/0of15stressyears dương, khôngretained. Catalogue hiện55hồ
+sơ nhưng vẫn41accountpolicies; không tăngcount bằngpricecomponents. Lát tiếp
+ưu tiên full-historyPreECBprice robustness trước thiết kế riskwrapper khác.
