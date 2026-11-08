@@ -16,18 +16,19 @@ def save(path, value):
     path.write_text(json.dumps(value), encoding='utf8')
 
 
-def fixture(root, *, etf=False):
+def fixture(root, *, etf=False, stock=False):
     cache = root/'cache'; cache.mkdir()
     protocol = root/'protocol.md'; protocol.write_text('registered fixture', encoding='utf8')
     producer = root/'producer.txt'; producer.write_text('frozen producer', encoding='utf8')
     manifest = dict(requests=[], metadata={}, sourcePins={str(producer): digest(producer)},
                     holdoutRead=False, strategySimulated=False, brokerCalls=0, modelCalls=0)
     result = dict(requests=[], holdoutRead=False, strategySimulated=False, brokerCalls=0, modelCalls=0)
-    instrument, symbol = ('ezuususd', 'EZU.US-USD') if etf else ('eurusd', 'EUR-USD')
+    instrument, symbol = (('aaplususd', 'AAPL.US-USD') if stock else
+                          ('ezuususd', 'EZU.US-USD') if etf else ('eurusd', 'EUR-USD'))
     asset = dict(instrument=instrument, provider='Dukascopy', provider_symbol=symbol, kind='fx',
                  base_currency='EUR', quote_currency='USD', price_unit='quote_per_base',
                  price_grid='0.01', adjustment_basis='not_applicable_fx', source_use='fixture_only')
-    if etf:
+    if etf or stock:
         asset.update(kind='etf_cfd_proxy', base_currency=None,
                      price_unit='quote_per_share_proxy', adjustment_basis='unknown')
     manifest['metadata'][instrument] = dict(code=symbol)
@@ -151,6 +152,39 @@ class InputAdmissionTests(unittest.TestCase):
             metadata['assets'][0]['adjustment_basis'] = 'total_return'
             save(root/'admission.json', metadata)
             with self.assertRaisesRegex(ValueError,'adjustment_unverified'):
+                review_fixture(root, root/'admission.json')
+
+    def test_stock_fixture_preserves_unverified_volume_and_universe_semantics(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp); metadata = fixture(root, stock=True)
+            asset = metadata['assets'][0]
+            asset.update(kind='stock_cfd_proxy',
+                         volume_semantics='provider_candle_volume_unverified_exchange_shares',
+                         volume_units='provider_native_millions', point_in_time_universe='not_certified')
+            manifest = json.loads((root/'manifest.json').read_text())
+            for request in manifest['requests']:
+                request.update(volumes=True, volumeUnits='millions')
+            save(root/'manifest.json', manifest)
+            metadata['parent_manifest_sha256'] = digest(root/'manifest.json')
+            save(root/'admission.json', metadata)
+            report = review_fixture(root, root/'admission.json')
+            self.assertEqual(report['status'], 'source_fixture_verified_only')
+            self.assertFalse(report['assets'][0]['adjustment_verified'])
+            original = deepcopy(asset)
+            for key, value in [('volume_semantics', 'exchange_traded_shares'),
+                               ('volume_units', 'shares'), ('point_in_time_universe', 'verified'),
+                               ('adjustment_basis', 'unadjusted')]:
+                metadata['assets'][0] = {**original, key:value}
+                save(root/'admission.json', metadata)
+                with self.subTest(field=key), self.assertRaises(ValueError):
+                    review_fixture(root, root/'admission.json')
+            metadata['assets'][0] = original
+            save(root/'admission.json', metadata)
+            manifest['requests'][0]['volumeUnits'] = 'units'
+            save(root/'manifest.json', manifest)
+            metadata['parent_manifest_sha256'] = digest(root/'manifest.json')
+            save(root/'admission.json', metadata)
+            with self.assertRaisesRegex(ValueError, 'volume_scale_required'):
                 review_fixture(root, root/'admission.json')
 
 

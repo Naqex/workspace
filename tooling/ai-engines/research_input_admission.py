@@ -99,12 +99,18 @@ def review_fixture(root, metadata_path, *, progress=None):
                     or not re.fullmatch('[A-Z]{3}', asset['base_currency'])
                     or asset['provider_symbol'] != asset['base_currency']+'-'+asset['quote_currency']):
                 raise ValueError('FX_units_or_adjustment')
-        elif asset['kind'] == 'etf_cfd_proxy':
+        elif asset['kind'] in ('etf_cfd_proxy', 'stock_cfd_proxy'):
             if (asset['price_unit'] != 'quote_per_share_proxy'
                     or asset['adjustment_basis'] != 'unknown'
                     or asset['base_currency'] is not None
                     or not re.fullmatch(r'[A-Z0-9]+\.US-'+asset['quote_currency'], asset['provider_symbol'])):
-                raise ValueError('ETF_adjustment_unverified_in_fixture')
+                raise ValueError('equity_proxy_adjustment_unverified_in_fixture')
+            if asset['kind'] == 'stock_cfd_proxy' and (
+                    asset.get('volume_semantics') != 'provider_candle_volume_unverified_exchange_shares'
+                    or asset.get('volume_units') != 'provider_native_millions'
+                    or asset.get('point_in_time_universe') != 'not_certified'):
+                # A source-price certificate cannot admit exchange-volume filters or PIT selection.
+                raise ValueError('stock_volume_and_universe_unverified_in_fixture')
         else:
             raise ValueError('unregistered_asset_kind')
         grid = Decimal(asset['price_grid'])
@@ -113,6 +119,9 @@ def review_fixture(root, metadata_path, *, progress=None):
         sides, side_reports, bounds = [], [], []
         for side in ('bid', 'ask'):
             request = requests[(instrument, side)]
+            if asset['kind'] == 'stock_cfd_proxy' and (
+                    request.get('volumes') is not True or request.get('volumeUnits') != 'millions'):
+                raise ValueError('stock_source_volume_scale_required')
             if (request['timeframe'] != 'm1' or request['ignoreFlats'] is not False
                     or request.get('utcOffset', 0) != 0):
                 raise ValueError('unfiltered_UTC_M1_required')
@@ -172,7 +181,7 @@ def review_fixture(root, metadata_path, *, progress=None):
                             sides=side_reports, paired_source_rows=len(common),
                             unpaired_source_rows=dict(bid=len(left)-len(common), ask=len(right)-len(common)),
                             quality_basis='full_raw_price_volume_timestamp_binding_no_fill',
-                            adjustment_verified=False if asset['kind']=='etf_cfd_proxy' else None))
+                            adjustment_verified=False if asset['kind'] in ('etf_cfd_proxy', 'stock_cfd_proxy') else None))
     if used_raw != set(raw_bindings):
         raise ValueError('registered_raw_census')
     if any(digest(Path(name)) != sha for name, sha in bindings.items()):
