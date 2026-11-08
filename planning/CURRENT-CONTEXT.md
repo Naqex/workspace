@@ -4,22 +4,28 @@ Review ngày 08/11/2026 · `REVIEWED-PARTIAL / COMPACTED-RESUMABLE`.
 File này giữ trạng thái hiện hành và đường đọc tiếp; không là task ledger,
 chứng nhận runtime, hoặc lịch sử từng job. Đọc đúng PLAN/receipt của việc được giao.
 
-## Việc hiện tại: dữ liệu và context cho AI agents
+## Việc hiện tại: Goal mới tìm ứng viên challenge
 
-Owner yêu cầu tối ưu cách lưu/tra dữ liệu và đánh giá RAG. Phạm vi là cửa vào
-context và local retrieval đã có; giữ nguyên raw data, frozen artifacts và DB.
+Owner giao mở rộng nghiên cứu để tìm ứng viên đủ C1/C2 và chuẩn hóa dữ liệu;
+Goal mới đang active. [Campaign v2](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)
+giữ scope hiện hành; quyết định B của đợt cũ không kết thúc Goal mới.
+[Data admission/R026](research/RESEARCH-DATA-ADMISSION-20261108.md) là lát kế
+tiếp: reuse validators, kiểm fixture/source/units/exposure trước numeric,
+rồi khảo sát tín hiệu tương đối cổ phiếu cuối tháng. Giữ raw/frozen artifacts.
+
+Phần tối ưu context/retrieval trước đó đã xong trong scope:
 [Đánh giá dữ liệu/tra cứu](research/AGENT-DATA-RETRIEVAL-20261108.md) giữ số đo,
 phương án và giới hạn; [search CLI](../tooling/search/README.md) là công cụ tra cứu.
-Không tạo lại Goal nghiên cứu chiến lược hoặc batch giao dịch từ task này.
+Không cần vector DB hoặc service mới để tiếp tục. Không broker batch từ task này.
 
-## Chiến lược prop: đợt Goal đã kết thúc theo B
+## Baseline: đợt Goal trước đã kết thúc theo B
 
 [Báo cáo owner, mục8](research/OWNER-EVIDENCE-REPORT-20261108.md) là quyết định
 kết thúc đợt: chưa có ứng viên đủ bằng chứng để đề xuất challenge. Đã rà53hồ sơ/
 41versions và đối soát các artifacts chính. Đây không là đạt C1/C2 hoặc chứng
 minh không có chiến lược phù hợp. [Campaign](research/CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md)
-giữ tiêu chí; chỉ mở lại khi được giao và có method/input mới đủ rõ hoặc lỗi
-material được chứng minh. Không chạy lại study không đổi hay ép ra winner.
+giữ tiêu chí và pins lịch sử. Owner đã mở Goal mới; tiếp campaign v2, không
+chạy lại study không đổi hay ép ra winner.
 
 - [R023local session](research/LOCAL-SESSION-RESULTS-20261108.md): primary phiên
   Mỹ không đạt retention; context châu Âu không được thay primary sau outcome.

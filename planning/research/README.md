@@ -7,8 +7,9 @@ Các mục cũ chưa được re-audit khi tạo chỉ mục ngày 05/11/2026.
 
 | Câu hỏi / từ khóa | Nguồn hiện có |
 |---|---|
+| Goal mới mở rộng tìm ứng viên challenge; dữ liệu chuẩn hóa thế nào? | [Campaign v2](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md), [data admission/R026](RESEARCH-DATA-ADMISSION-20261108.md): active, giữ C1/C2; quyết định B cũ là lịch sử; reuse contracts/validators, không raw migration |
 | Dữ liệu đang lưu ở đâu, context dài, có cần RAG/vector DB không? | [Data/retrieval review](AGENT-DATA-RETRIEVAL-20261108.md):storage inventory,contextcompaction,Xerjresearchscope,structureddata vàđiềukiệnnângsemanticRAG |
-| Vì sao kết thúc Goal hiện tại; điều kiện mở lại là gì? | [Owner report §8](OWNER-EVIDENCE-REPORT-20261108.md):coverage53records/41versions,actualartifactaudit,đầu raB;chưachallengecandidate,khôngbácbỏmọistrategy;giữgaps vàđiềukiệnmởlại |
+| Vì sao đợt Goal trước kết thúc; bằng chứng baseline là gì? | [Owner report §8](OWNER-EVIDENCE-REPORT-20261108.md):coverage53records/41versions,actualartifactaudit,đầu raB lịch sử; Goal mới ở campaign v2, chưa challenge candidate |
 | Goal mới chọn hai hướng nào; phiên Mỹ có còn lợi thế không? | [Admission](LOCAL-SESSION-ADMISSION-20261108.md), [results](LOCAL-SESSION-RESULTS-20261108.md):R019defer/R023BUY08–16NY stress2019âm,khôngưu tiênwrapper;8tests/24rawlinks,khôngbot/account/prop |
 | Có tồn tại chiến lược đạt mục tiêu prop, hay đang tìm thứ không tồn tại? | [Owner report §7](OWNER-EVIDENCE-REPORT-20261108.md): tách systematic/live fund evidence, payout tự công bố, bot test thất bại và bằng chứng còn thiếu của chính project; không hứa tìm ra winner |
 | Giá đi ngược trước14:00 có chịu được không; owner chưa biết trade tay thì sao? | [Pathriskresults](PRE-ECB-PATH-RISK-RESULTS-20261108.md):519dates,8rawpaths,khôngaccountDD; [ownerreport§6](OWNER-EVIDENCE-REPORT-20261108.md) và qualificationhandover, prepared_not_demonstrated |
