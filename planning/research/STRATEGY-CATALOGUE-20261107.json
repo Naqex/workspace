@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-07",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 61,
+  "record_count": 62,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -13,12 +13,12 @@
     "by_role": {
       "existing": 36,
       "variant": 12,
-      "new": 12,
+      "new": 13,
       "component": 1
     },
     "by_readiness": {
       "implemented": 36,
-      "component_probe_not_retained": 10,
+      "component_probe_not_retained": 11,
       "implemented_not_retained": 3,
       "method_clock_review": 1,
       "component_probe_completed_no_priority": 1,
@@ -171,8 +171,8 @@
       "title": "The IBS Effect: Mean Reversion in Equity ETFs",
       "url": "https://www.naaim.org/wp-content/uploads/2014/04/00V_Alexander_Pagonidis_The-IBS-Effect-Mean-Reversion-in-Equity-ETFs-1.pdf",
       "publication": "Author paper hosted2014; precise publication date not asserted",
-      "review_depth": "author_method_and_filter_pages2_6",
-      "limitations": "Equity ETF daily CSI data, not indexCFD; quotevolume is not verified exchange volume; our SL/funding/nextminute fills are adaptations.",
+      "review_depth": "primary PDF Data/Methodology/IBSasFilter pp2-7 refreshed; QQQ illustrated, no full paper replication",
+      "limitations": "CSI daily equity ETFs/QQQ, cash-close timing and exchangevolume differ from CFD; costs/causal postclose fill/SL/funding must be registered separately.",
       "checked_on": "2026-11-08"
     },
     {
@@ -243,6 +243,33 @@
       "review_depth": "official docs and installed source",
       "limitations": "I(1)/no-gaps assumptions; MacKinnon curves do not establish trading profitability.",
       "checked_on": "2026-11-08"
+    },
+    {
+      "id": "NY-FOMC",
+      "title": "The Pre-FOMC Announcement Drift: More Recent Evidence",
+      "url": "https://libertystreeteconomics.newyorkfed.org/2018/11/the-pre-fomc-announcement-drift-more-recent-evidence/",
+      "publication": "2018-11-26",
+      "checked_on": "2026-11-08",
+      "review_depth": "official article method/clock and conference distinction",
+      "limitations": "S&P equity futures evidence, historical windows, not our23h NASDAQ CFD adaptation/net edge."
+    },
+    {
+      "id": "FED-CAL19",
+      "title": "FOMC tentative meeting schedule2019",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20180525a.htm",
+      "publication": "2018-05-25 12EDT",
+      "checked_on": "2026-11-08",
+      "review_depth": "official original publication plus actual16statement metadata/calendar hash audit",
+      "limitations": "Current public HTML capture and dated original schedule, not independent historical web snapshot; no statement-content signal."
+    },
+    {
+      "id": "FED-CAL22",
+      "title": "FOMC tentative meeting schedule2022",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20210604a.htm",
+      "publication": "2021-06-04 11EDT",
+      "checked_on": "2026-11-08",
+      "review_depth": "official original publication/calendar/statement metadata",
+      "limitations": "Calendar facts, not price prediction, actual fills or prop approval."
     }
   ],
   "records": [
@@ -2139,6 +2166,32 @@
       ],
       "component_evidence": "NASDAQ100-H4-SMA-RESULTS-20261108.md",
       "profitability_evidence": "2019stress+240.59USD/7closed;2022stress-77.36USD/14closed_on10k;notretained",
+      "dispatch_authorized": false
+    },
+    {
+      "id": "R062",
+      "title": "NASDAQ scheduled pre-FOMC23h price component",
+      "family": "scheduled_macro_premium",
+      "role": "new",
+      "parent_id": null,
+      "readiness": "component_probe_not_retained",
+      "timeframe": "14NY previousday to13NY scheduledFOMC,23h",
+      "rule_sketch": "BUY fixed dated calendar; matchedweekcontrol same localclock;1researchunit; noSL/sizing/accountpolicy.",
+      "data_requirements": "Priorpubliccalendar/14ETclock; raw-bound sourceH1BidAskOpen endpoints2019/2022, missingpaths explicit.",
+      "automation_feasibility": "price_component_only_not_account_or_execution",
+      "prop_operational_concerns": "Frozenfilterfail2019,8events/year, H1Open intervalproxy/holdinggaps, noSL/lot/targetswaps/dividend/prop/OOS.",
+      "source_ids": [
+        "NY-FOMC",
+        "FED-CAL19",
+        "FED-CAL22"
+      ],
+      "source_relation": "scheduled_calendar_equity_premium_adaptation_not_SandP_futures_paper_replication",
+      "next_action": "Park exact23hcomponent; no clock/side/fee rescue or relabelcontrolwinner. Next Nasdaq dailyreversion method/data admission, not R062 retune.",
+      "implementation_state": "component_implemented_not_retained_no_account_policy",
+      "candidate_id": null,
+      "implementations": [],
+      "component_evidence": "FOMC-NASDAQ-COMPONENT-RESULTS-20261108.md",
+      "profitability_evidence": "perresearchunit stress2019-0.12/2022+1113.44USD;matchedweekdelta-103.00/+697.57;notaccountPnL",
       "dispatch_authorized": false
     }
   ],

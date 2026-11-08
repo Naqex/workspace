@@ -10,24 +10,25 @@ Owner giao tìm ứng viên đủ C1/C2, chuẩn hóa dữ liệu và cải ti�
 Goal đang active; [campaign v2](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)
 giữ scope, quyết định B cũ không kết thúc chiến dịch mới. **Chưa challenge-qualified.**
 
-Lát mới nhất: [R035formation](research/FX-PAIR-FORMATION-RESULTS-20261108.md)
-GBPUSD/AUDUSD,2018/21source đủ519/519dates, cointegrationp0,2358/0,2696,
-không đạtprefilter. Chưa bot/PnL/accountpolicy; không loại cả family. 5fixtures
-trước numeric,1.038sourcepricechecks/8DecimalOLS/ADFchecks/5mutations reviewed.
-Catalogue61records/44researchversions/25native, R035diagnostic-only.
-**Tiếp:** [scheduledmacro-event methodadmission](research/RELATIVE-VALUE-METHOD-ADMISSION-20261108.md#hướng-kế-scheduled-macro-event-không-nhầm-surprise-news):
-reconcile primaryliterature/windows/sample và published-beforecalendar trước
-freeze instrument/entry/exit/cost/risk. Không pair/lag/window/SMA/ATRgrid,
-không unconditional overnightdrift dựa oldpaper hoặc épwinner.
+Lát mới nhất: [R062FOMCcomponent](research/FOMC-NASDAQ-COMPONENT-RESULTS-20261108.md)
+20officialcalendarpages/16events/32windows đãterminal/reviewed64costcases/
+128quotes/6mutations.2019stress−0,12USD/unit,pairedcontrol−103;2022positive
+nhưngjointfilterfail. ChưaSL/sizing/account/prop/OOS. Không clock/fee/controlrescue.
+Catalogue62records/44researchversions/25native; chưa challengecandidate.
+**Tiếp:** [NASDAQdailyreversion method/source](research/NASDAQ-DAILY-REVERSION-METHOD-20261108.md):
+2cashM1fixtureswinter/summer đủ390min/side/day+16:01quotes;780presencechecks/
+4mutations. Đăngký cashcalendar/holiday/earlyclose và source-onlyM1history
+cho exactquestion trước economicrecipe. Không dựng09:30cashbar từH1 hoặc
+claim CFD/quotevolume là ETF/exchangevolume. Chưa thêmNASDAQR050policy.
 
 Private root `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/`;
-`execution-v1/fx-pair-formation-v1` giữ samples/diagnostics/seals/pins/review.
-Driver2,243s/review1,901s,PID20132/reviewerterminal0; không job chờ.
-Isolated `.runtime/research-statistics` có auditedwheelhashlock,5tests đạt;
-không product/global/MCPmutation. StdlibproductPython khácstatPython, dùng
-runtime đúngscope. [NASDAQ SMA](research/NASDAQ100-H4-SMA-RESULTS-20261108.md)
-không đạtpilot;[R019](research/PRIOR-DAY-RETEST-RESULTS-20261108.md) failstage1,
-không rerun/retune. Trader pin83731fc8. Numerical PnL không lấy từ searchtext.
+`execution-v1/fomc-nasdaq-component-v1` và `nasdaq-cash-session-fixture-v1`
+giữ pins/results/reviews/status/events. PIDs21920/22636/29228 vàreviewers
+terminal0, khôngworker chờ. FOMCcalendar11,081s/numeric0,536s/review0,261s,
+không totalresearchtimer. [R035](research/FX-PAIR-FORMATION-RESULTS-20261108.md)
+GBP/AUDformation chưađạt,khôngpairgrid;[R061](research/NASDAQ100-H4-SMA-RESULTS-20261108.md)
+và[R019](research/PRIOR-DAY-RETEST-RESULTS-20261108.md) khôngretained,khôngrerun.
+Trader pin83731fc8. Isolatedstatvenv/hashlock đãcó, khôngproductmutation.
 
 Các kết quả trước và negatives tra [research index](research/README.md) hoặc
 campaignv2; không mở lại raw/numeric batch không đổi. [Data/retrieval review](research/AGENT-DATA-RETRIEVAL-20261108.md)

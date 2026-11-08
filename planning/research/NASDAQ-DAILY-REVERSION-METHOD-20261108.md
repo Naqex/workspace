@@ -57,3 +57,25 @@ history cho exacteconomicquestion; không tải toànhistory vì muốn “códa
 Không épregular390minutes vàohalfday, không impute sourcegaps hoặcvolume0drop.
 Nếu thiếu16:01/cashminutes thì ghi gap, không tự đổi clock/asof/filter khi đã
 thấy data. Existing research/source/qualification/continuity skills đủ.
+
+
+## Source fixture results — sau đăng kýbf2af55
+
+Đãterminal/reviewed:02Jan2019 và01Jul2022 mỗi ngày390/390Bid và390/390Ask
+sourceM1minutes,crossedOpenClose0,16:01quote cócả2sides.780minute-presence/
+clockchecks và4mutations clock/missingminute/presence/falseauthority reject.
+Canonical fullsourcepricefidelity của parentpilot được reuse, không claim
+fresh independentdecode mọigiá; không tính dailybarindicator/returns hoặcPnL.
+
+Private`execution-v1/nasdaq-cash-session-fixture-v1` tại campaignroot giữ
+result/review/manifest/source-snapshot/status. ResultSHA
+`fb847d6a2b6b87466ab5dec65a88bff83c6e52b2a5c43cc7e2d204c60ea4bdeb`;
+reviewerSHA`d6b0dc20745c4129ebb7b81ad926f4ceab567cb37ec8a88fe4ffcb3bc2126af2`.
+PID29228 và reviewerterminal0,0network/broker/holdoutcalls. Source admission
+2days không wholehistory hoặc targetfills. Producer/reviewer timings trong
+artifacts;0,072sreview, không wholeworkflow/benchmarkclaim.
+
+**Next:** đăngký source-onlyM1history theo cashcalendar/earlyclose trước data
+fetch và economicrecipe. Không cần tải/giải mã lại pilot khi bindings cònđúng.
+Không thêmR063/implementationcount chỉ vìmethod/source2daysđạt. Giữ negatives
+R049/R050US500 và declaredfunding/geometry; Nasdaq không renameUS500đểvượtguard.
