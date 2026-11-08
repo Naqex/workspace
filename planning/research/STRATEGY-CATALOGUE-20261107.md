@@ -29,7 +29,7 @@
 |R021|Pre-fix USD drift|fixing_flow / R020|Đã code, chưa qualified|3|[Kết quả](DISCOVERY6-7-RESULTS-20261108.md)|
 |R022|Post-fix USD reversal|fixing_flow / R020|Đã code, chưa qualified|2|[Kết quả](DISCOVERY6-7-RESULTS-20261108.md)|
 |R023|Local trading-hours currency flow|session_flow|method_clock_review|0|Chưa outcome riêng|
-|R024|Post-weekend gap fade|gap_reversion|Endpointmetadata đã kiểm; chưa return/PnL/specstrategy|0|[Datareview](WEEKEND-GAP-DATA-RESULTS-20261108.md), [componentprotocol](WEEKEND-GAP-COMPONENT-PROBE-20261108.md)|
+|R024|Post-weekend gap fade|gap_reversion|Component12h không đạt priority; chưa strategy|0|[Componentresults](WEEKEND-GAP-COMPONENT-RESULTS-20261108.md), [datareview](WEEKEND-GAP-DATA-RESULTS-20261108.md)|
 |R025|Weekday/calendar effect|calendar|Source-corrected TOM chưa đạt; chưa bot|0|[Correction3days/reuse1507](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)|
 |R026|Month-end fixing flow|fixing_flow / R020|Bounded fixture đạt; chưa signal/calendar spec|0|[Method](FX-MONTH-END-FIXING-METHOD-20261108.md), [source review](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md), chưa PnL|
 |R027|News-surprise continuation|event|point_in_time_news_missing|0|Chưa outcome riêng|

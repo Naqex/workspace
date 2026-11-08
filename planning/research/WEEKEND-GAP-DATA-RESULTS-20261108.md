@@ -1,5 +1,10 @@
 # R024: endpoints có thật trong export; một lần mở cửa muộn chưa đủ bằng chứng
 
+**Follow-up:** [componentoutcomes/review](WEEKEND-GAP-COMPONENT-RESULTS-20261108.md)
+đã completed sau metadatareview này; không đạt registeredpriority, chưa bot.
+Các câu “chưa return/PnL” bên dưới là scope của lượt metadata, không trạng thái
+hiện hành của probe. Source/endpointfacts vẫn giữ nguyên.
+
 **Metadata đủ để thiết kế một thí nghiệm component tiếp theo, chưa có strategy
 hoặc PnL R024.** [Protocol](WEEKEND-GAP-DATA-ADMISSION-20261108.md), commit
 `767b585`, giữ scope trước endpointdiagnostics: EURUSD2019/2022 đã consumed,

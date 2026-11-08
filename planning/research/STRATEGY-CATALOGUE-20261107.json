@@ -834,7 +834,7 @@
       "family": "gap_reversion",
       "role": "new",
       "parent_id": null,
-      "readiness": "endpoint_metadata_reviewed",
+      "readiness": "component_probe_not_retained",
       "timeframe": "H1/weeklyopen",
       "rule_sketch": "Gap giữa quoteFri/Sun; chờ xác nhận rồi fade.",
       "data_requirements": "Observed first/last quotes, calendar, spread; không fakeweekendbars",
@@ -844,15 +844,16 @@
         "LOCAL"
       ],
       "source_relation": "project_hypothesis_no_primary_edge_evidence",
-      "next_action": "Implement frozen2019/2022 component probe after fixtures; preserve lateopen unknowns; no PnL/strategy qualification yet",
+      "next_action": "Preserve frozen12h probe and negative2022 outcome; no retrospective filter/time/risk tuning; next R019 requires recipe/source/cache review",
       "implementation_state": "not_implemented",
       "candidate_id": null,
-      "profitability_evidence": "none_for_this_exact_rule",
+      "profitability_evidence": "exposed_component_negative_no_account_or_policy_qualification",
       "dispatch_authorized": false,
       "implementations": [],
-      "evidence_locator": "WEEKEND-GAP-DATA-RESULTS-20261108.md",
+      "evidence_locator": "WEEKEND-GAP-COMPONENT-RESULTS-20261108.md",
       "component_protocol": "WEEKEND-GAP-COMPONENT-PROBE-20261108.md",
-      "data_admission_scope": "103weekends/206rawendpoints verified2019/2022;2019-05-26firstquote late~3hours; not targetbrokertradability"
+      "data_admission_scope": "103weekends/206rawendpoints verified2019/2022;2019-05-26firstquote late~3hours; not targetbrokertradability",
+      "component_code": "../../tooling/ai-engines/weekend_gap_component.py"
     },
     {
       "id": "R025",

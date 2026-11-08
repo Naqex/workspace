@@ -1,6 +1,6 @@
 # Current context — Naqex Workspace
 
-## Campaign tiếp tục — 08/11/2026, sau public FTMO facts và R024 input admission
+## Campaign tiếp tục — 08/11/2026, sau R024 price component và raw review
 
 **Goal đang active; C1/C2 chưa hoàn tất.** Tiêu chí và scope ở
 [campaign](research/CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md). Chưa có ứng viên
@@ -12,8 +12,9 @@ lại completed jobs chỉ để đọc trạng thái.
 
 | Lát | Trạng thái đã kiểm | Nguồn tiếp tục |
 |---|---|---|
+| R024component12h |Numeric e1ae85a/7tests;103weekends→21primaryevents. Stress2019+25,2/2022−65,8pip,khôngpriority.412rawquoteevents/384Fractionfinancialchecks/3tamperreject;numeric39,861s/review34,760s. TelemetryCANCELfix8277f92/8tests,oldsource preserved/financialASTexact,khôngnumericrerun. Chưa strategy/account/risk/prop | [Results/decision](research/WEEKEND-GAP-COMPONENT-RESULTS-20261108.md), [protocol](research/WEEKEND-GAP-COMPONENT-PROBE-20261108.md) |
 | PublicFTMO facts/clock |BrowserGlobal đọc đúngXAU/US500/EURUSDrows; swappoints≠USD, brokerclockUS-DST khác Prague00reset. Sourcefacts đãpin, chưa targetaccountverification; không sửa oldcost hoặc numerical | [Review](research/FTMO-SYMBOL-AND-CLOCK-ADMISSION-20261108.md), [JSON](research/FTMO-PUBLIC-SYMBOLS-20261108.json) |
-| R024 dataadmission |2019/2022:103weekends/206rawendpoints/103source-rowadjacencies khớp;metadata39,159s,oracle15,917s.26/05/2019firstquote muộn~3h,unknowncause. Chưagap/return/PnL hoặcstrategy | [Protocol](research/WEEKEND-GAP-DATA-ADMISSION-20261108.md), [results](research/WEEKEND-GAP-DATA-RESULTS-20261108.md), [nextprobe](research/WEEKEND-GAP-COMPONENT-PROBE-20261108.md) |
+| R024 dataadmission |2019/2022:103weekends/206rawendpoints/103source-rowadjacencies khớp;metadata39,159s,oracle15,917s.26/05/2019firstquote muộn~3h,unknowncause. Componentđãtiếp ởrowtrên,khôngstrategy | [Protocol](research/WEEKEND-GAP-DATA-ADMISSION-20261108.md), [metadataresults](research/WEEKEND-GAP-DATA-RESULTS-20261108.md), [component](research/WEEKEND-GAP-COMPONENT-RESULTS-20261108.md) |
 | R049IBS02 |3source-correctedbooks/9scenarios/3reviews xong;stresssum+27,46→−8,90USD,oldpriorityfail;73closedpaths/cost còn unresolvedgaps. V1ASTguardfail,V2CLIreviewerror;recoveryreuse2022,khôngnumericalrerun nămđó | [Protocol](research/IBS02-EXPLICIT-SOURCE-CORRECTION-20261108.md), [ASTnote](research/IBS02-SOURCE-PREFLIGHT-NOTE-20261108.md), [results/recovery](research/IBS02-EXPLICIT-SOURCE-RESULTS-20261108.md) |
 | Gold SMA50k/time-fit |30books/90Jan-startprefixes đối soát,5mutationsreject,raw5,4millionrows đọc lại;69,292s,0simulationcalls. Originalretention giữ, hạ ưu tiên challenge:highestafterclosecash2.363,73/2.168,91USD trên50k;chưa target/path/spec/OOSproof | [Preflight](research/GOLD-SMA50K-PREFLIGHT-20261108.md), [review/decision](research/GOLD-SMA50K-REVIEW-20261108.md) |
 | US500 source-only/gate | Sourcea2a3358 phân biệt nến nguồn và padding; CLI chặn legacy trước simulation. Views2013–2024 và native raw-price/pairing oracle đã kiểm, không network | [Correction](research/INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md), [long recipe](research/INDEX-LONG-EXPLICIT-CORRECTION-20261108.md), [long results](research/INDEX-LONG-EXPLICIT-RESULTS-20261108.md) |
@@ -58,16 +59,28 @@ gaps vẫn giữ. Không dùngpublicspec/historicalannouncement thay verifiedacc
 không tạoFreeTrial/OAuth/account hoặc chặn mọideclaredscenarioresearch vì thiếu
 account. Nativepropengine/Pragueclock đã có; không tạo ownerthứhai.
 
-**Lát tiếp đã đăng ký: R024component probe** ở
-[protocol](research/WEEKEND-GAP-COMPONENT-PROBE-20261108.md), chưa được chạy.
-Same2019/2022consumedraws,103weekends; sourcequotequalitydeadline, Sun17:10NY→
-Mon05:10NY, fadegap và exantecostgate/costs/controls đã khóa trước gap/returns.
-Kiểmfixture/causality/arithmetic rồi chạy pricecomponent hữu hạn; không gọi
-account/risk/proppath, không sửa factor/time theo outcomes. Reuse admission
-pins/quoteindices và outputmới, không re-export/QDMdownload. R024chưa cóstrategy
-implementation hoặc rulecount mới; R019giữalternative, R026vẫndeferreddata.
-Admission28700/session68752 vàraworaclesession44982 đều terminal0; khôngjobnền.
-Private`execution-v1/weekend-gap-data-admission-v1` giữ scripts/results/pins.
+R024probe [đãcompleted](research/WEEKEND-GAP-COMPONENT-RESULTS-20261108.md),
+same2019/2022consumedraws,7qualityfailures giữdenominator103,21eligible và96
+secondarynonzerogapevents resolved. Không đạt oldpriority; không sửa factor3/
+clocks/cost/risk để cứu. R024không cóstrategyimplementation hoặc rulecountmới.
+Private`execution-v1/weekend-gap-component-v1` giữ fullquotes/events/outcomes,
+manifest/pins/source e1ae85a vàprivateFraction/rawreview;fixtures ởsibling
+`weekend-gap-component-fixtures-v1`. Numericalsession78026/review5971 terminal0.
+Currentcomponent8277f92 chỉ sửa terminalfailureprogress qua CANCEL/deadline;
+8testsđạt,10functions+maintrừprogressASTexact,originalsource/testsnapshots giữ
+ởattempt. Không sửaoldmanifest để ép currentcodepass; historicalreview dùng
+originalversion. Không cần rerun financialstudy vì sửa telemetry.
+Admission28700/session68752 vàraworaclesession44982 cũng terminal0;khôngjobnền.
+
+**Lát tiếp: R019break→retest specification và source/cachecontinuity.** Reuse
+R015prior-daylevel/ATR/clock/financialcore, retest ởbar sau breakout, causal
+setup/expiry/prefix/checkpoint state phải rõ; exactrecipe chưa freeze và chưa
+numeric. Trước code/numeric, kiểm currentD:reader/code với originalH1cache:
+cacheproducer pins có replaydependency cũ, không sửaoldhashes để force load
+hoặc rebuildmọidataset theo phản xạ. Nếu các codepaths thực sự tạo quotes
+không đổi thì đăng ký revalidation/adoption thành artifactmới; nếu đổi phải
+kiểm ảnh hưởng theo source. Giữ53records/41policyversions, R019/R024chưapolicy.
+R026vẫndeferreddata/calendar; không dùngcalendarbuy/sell thayrelativeequity.
 Không rerun completedGold/IBS/RSI/preclose hoặc longUS500 thiếuinput để tìmwinner.
 
 C1/C2 vẫn còn target-broker contract/cost/clock, native tick/prop path, economic
