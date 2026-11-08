@@ -60,7 +60,8 @@ def plans_for(sessions,pairs,candidate):
 
 
 def simulator(candidate):
-    def run(sessions,pairs,*,slippage,null_control=False,progress=None,deadline=None):
+    def run(sessions,pairs,*,slippage,null_control=False,progress=None,deadline=None,
+            cost_scenario=core.LEGACY_COST_SCENARIO):
         plans = plans_for(sessions,pairs,candidate)
         if candidate==RSI:
             expected=signal_oracle.oracle_plans(sessions,pairs)
@@ -69,6 +70,7 @@ def simulator(candidate):
                 for t in plans):
                 raise ValueError('cash_RSI_independent_signal_oracle_mismatch')
         return book.simulate(pairs,plans,candidate=candidate,slippage=slippage,
+            cost_scenario=cost_scenario,
             funding_per_lot=D(1) if slippage==D('.25') else D(2),null_control=null_control,
             progress=progress,deadline=deadline,
             end_time_msc=int(datetime(int(next(iter(sessions))[:4])+1,1,1,tzinfo=timezone.utc).timestamp()*1000))

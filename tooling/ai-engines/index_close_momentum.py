@@ -35,9 +35,11 @@ def plans_for(sessions,pairs):
     return plans
 
 
-def simulate(sessions,pairs,*,slippage,null_control=False,progress=None,deadline=None):
+def simulate(sessions,pairs,*,slippage,null_control=False,progress=None,deadline=None,
+             cost_scenario=core.LEGACY_COST_SCENARIO):
     year=int(next(iter(sessions))[:4])
     return book.simulate(pairs,plans_for(sessions,pairs),candidate=CANDIDATE,slippage=slippage,
+        cost_scenario=cost_scenario,
         funding_per_lot=D(1)if slippage==D('.25')else D(2),null_control=null_control,
         progress=progress,deadline=deadline,
         end_time_msc=int(datetime(year+1,1,1,tzinfo=timezone.utc).timestamp()*1000))

@@ -9,9 +9,9 @@ MINUTE = 60000
 
 
 def simulate(pairs, plans, *, candidate, slippage, funding_per_lot, null_control=False,
-             progress=None, deadline=None, end_time_msc=None):
+             progress=None, deadline=None, end_time_msc=None, cost_scenario=core.LEGACY_COST_SCENARIO):
     began, cpu = time.perf_counter(), time.process_time()
-    instrument, model = core.market(slippage)
+    instrument, model = core.market(slippage, cost_scenario=cost_scenario)
     balance = D(10000)
     position = pending = None
     trades, decisions, funding, gaps, rejected = [], [], [], [], []
@@ -134,6 +134,7 @@ def simulate(pairs, plans, *, candidate, slippage, funding_per_lot, null_control
         floating = D(str(core.calculate_round_trip_cost(model,position['side'],position['quantity'],instrument.contract_size,
             position['bid'],position['ask'],D(str(last[0]['close'])),D(str(last[1]['close'])))['net_account']))
     return dict(candidate=candidate,slippage_per_side=str(slippage),funding_per_lot_per_day=str(funding_per_lot),
+        cost_scenario=cost_scenario,commission_per_lot_per_side_usd=str(core.commission_for_scenario(cost_scenario)),
         null_control=null_control,balance_usd=str(balance),floating_usd=str(floating),
         net_equity_usd=str(balance+floating-10000),entries=entries,closed_trades=len(trades),
         open_position=position,pending_action=pending,trades=trades,decisions=decisions,

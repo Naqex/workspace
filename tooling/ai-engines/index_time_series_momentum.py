@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 from decimal import Decimal as D
 
 import index_m1_book as book
+import index_noise_study as core
 
 
 CANDIDATE = 'us500-cash-mom12-monthly-atr14x1p5-r025-v1'
@@ -76,13 +77,14 @@ def input_coverage(observations):
 
 
 def simulate(sessions, pairs, *, slippage, always_long=False, null_control=False,
-             progress=None, deadline=None):
+             progress=None, deadline=None, cost_scenario=core.LEGACY_COST_SCENARIO):
     final_year = int(next(reversed(sessions))[:4])
     plans, observations = prepare(sessions, pairs, always_long=always_long)
     coverage = input_coverage(observations)
     if not coverage['admitted']:
         raise ValueError('monthly_input_has_unusable_evaluation_year')
     result = book.simulate(pairs, plans,
+        cost_scenario=cost_scenario,
         candidate=BENCHMARK if always_long else CANDIDATE, slippage=slippage,
         funding_per_lot=D(1) if slippage == D('.25') else D(2),
         null_control=null_control, progress=progress, deadline=deadline,

@@ -8,8 +8,25 @@ from pathlib import Path
 from sealed_m1_review import cash_sessions, digest
 
 
+def commission_for_result(result, manifest=None):
+    # Configuration is checked here without calling the simulator's cost helper.
+    declared = {'us500-declared-commission05-v1': D('.5'),
+                'ftmo-index-zero-commission-public-20261108': D(0)}
+    scenario = result.get('cost_scenario', 'us500-declared-commission05-v1')
+    commission = D(str(result.get('commission_per_lot_per_side_usd', '.5')))
+    if not commission.is_finite() or scenario not in declared or commission != declared[scenario]:
+        raise ValueError('result_commission_scenario_binding')
+    if manifest is not None:
+        registered = manifest.get('cost_scenario', 'us500-declared-commission05-v1')
+        amount = D(str(manifest.get('commission_per_lot_per_side_usd', '.5')))
+        if registered != scenario or not amount.is_finite() or amount != commission:
+            raise ValueError('manifest_result_commission_binding')
+    return commission
+
+
 def inspect_funded_scenario(result,pairs,sessions):
     slip,rate=D(result['slippage_per_side']),D(result['funding_per_lot_per_day'])
+    commission=commission_for_result(result)
     decisions={d['time_msc']:d for d in result['decisions']}
     positions={}
     for trade in result['trades']:
@@ -48,7 +65,7 @@ def inspect_funded_scenario(result,pairs,sessions):
             raise ValueError('funded_entry_or_quantity')
         distance=D(decision['stop_distance']);stop=D(pos['stop'])
         actual=entry-stop if side=='BUY' else stop-entry
-        if not 0<=actual-distance<D('.001') or (actual+2*slip+1)*quantity>25:
+        if not 0<=actual-distance<D('.001') or (actual+2*slip+2*commission)*quantity>25:
             raise ValueError('funded_stop_or_risk')
         claimed=D(pos['funding_usd'] if 'funding_usd' in pos else pos['funding'])
         funding_end=(pos['exit_interval_msc'][0]+1 if 'exit_interval_msc' in pos
@@ -65,7 +82,7 @@ def inspect_funded_scenario(result,pairs,sessions):
         elif pos['reason']=='stop_loss_gap' and not (price<=stop if side=='BUY' else price>=stop):
             raise ValueError('funded_gap_stop_direction')
         gross=(price-entry if side=='BUY' else entry-price)*quantity
-        price_net=(gross-(2*slip+1)*quantity).quantize(D('.01'),rounding=ROUND_HALF_UP)
+        price_net=(gross-(2*slip+2*commission)*quantity).quantize(D('.01'),rounding=ROUND_HALF_UP)
         if price_net!=D(pos['price_net_usd']) or price_net-claimed!=D(pos['net_usd']):raise ValueError('funded_trade_arithmetic')
         net_price_total+=price_net
     total_funding=sum(funding_by_id.values(),D(0))
@@ -77,7 +94,7 @@ def inspect_funded_scenario(result,pairs,sessions):
         entry=D(opened['ask'] if side=='BUY' else opened['bid'])
         price=D(str(last[0 if side=='BUY' else 1]['close']))
         gross=(price-entry if side=='BUY' else entry-price)*q
-        floating=(gross-(2*slip+1)*q).quantize(D('.01'),rounding=ROUND_HALF_UP)
+        floating=(gross-(2*slip+2*commission)*q).quantize(D('.01'),rounding=ROUND_HALF_UP)
     if floating!=D(result['floating_usd']) or D(result['balance_usd'])+floating-10000!=D(result['net_equity_usd']):
         raise ValueError('funded_mark_or_equity')
     if (result['closed_trades']!=len(result['trades']) or
@@ -91,6 +108,7 @@ def inspect_scenario(result, pairs, sessions):
     if result['open_position'] is not None or result.get('pending_action') is not None:
         raise ValueError('open_or_pending_book_requires_separate_mark_review')
     slip = D(result['slippage_per_side'])
+    commission = commission_for_result(result)
     decisions = {d['time_msc']: d for d in result['decisions']}
     flat_times = {stamps[-1] for stamps in sessions.values()}
     net_total = D(0)
@@ -112,7 +130,7 @@ def inspect_scenario(result, pairs, sessions):
         if abs(stop-boundary) >= D('.001') or (side == 'BUY' and stop > boundary) or (side == 'SELL' and stop < boundary):
             raise ValueError('stop_band_binding')
         distance = entry-stop if side == 'BUY' else stop-entry
-        if distance <= 0 or (distance+D('.001')+2*slip+1)*q > 25:
+        if distance <= 0 or (distance+D('.001')+2*slip+2*commission)*q > 25:
             raise ValueError('planned_risk_exceeded')
         exit_stamp = trade['exit_interval_msc'][0]
         exit_row = pairs[exit_stamp][0 if side == 'BUY' else 1]
@@ -128,7 +146,7 @@ def inspect_scenario(result, pairs, sessions):
             if reason == 'stop_loss_gap' and not (price <= stop if side == 'BUY' else price >= stop):
                 raise ValueError('gap_stop_direction')
         gross = (price-entry if side == 'BUY' else entry-price)*q
-        net = (gross-(2*slip+1)*q).quantize(D('.01'), rounding=ROUND_HALF_UP)
+        net = (gross-(2*slip+2*commission)*q).quantize(D('.01'), rounding=ROUND_HALF_UP)
         if net != D(trade['net_usd']) or net != D(str(trade['costs']['net_account'])):
             raise ValueError('trade_arithmetic')
         net_total += net
@@ -189,6 +207,7 @@ def main():
         result = json.loads(path.read_text(encoding='utf-8'))
         if result['candidate'] != manifest['candidate']:
             raise ValueError('candidate_binding')
+        commission_for_result(result, manifest)
         inspector=inspect_funded_scenario if manifest.get('study_metadata',{}).get('cash_bid_daily_signal') else inspect_scenario
         reviews[row['scenario']] = inspector(result, pairs, sessions)
     output = dict(status='artifact_arithmetic_and_fill_bindings_verified', scenarios=reviews,

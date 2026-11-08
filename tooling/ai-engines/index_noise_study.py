@@ -17,6 +17,15 @@ from sealed_m1_review import cash_sessions, digest, review
 D = Decimal
 CANDIDATE = 'us500-m1-noise14-opposite-hardstop-r025-v1'
 MINUTE = 60000
+LEGACY_COST_SCENARIO = 'us500-declared-commission05-v1'
+FTMO_ZERO_COMMISSION = 'ftmo-index-zero-commission-public-20261108'
+COMMISSION_SCENARIOS = {LEGACY_COST_SCENARIO: D('.5'), FTMO_ZERO_COMMISSION: D(0)}
+
+
+def commission_for_scenario(cost_scenario):
+    if not isinstance(cost_scenario, str) or cost_scenario not in COMMISSION_SCENARIOS:
+        raise ValueError('unknown_index_cost_scenario')
+    return COMMISSION_SCENARIOS[cost_scenario]
 
 
 def bind_core(source_root: Path):
@@ -30,12 +39,14 @@ def bind_core(source_root: Path):
     from trading_workspace_v2.retained import CostModel, InstrumentSpec, calculate_round_trip_cost
 
 
-def market(slippage):
+def market(slippage, *, cost_scenario=LEGACY_COST_SCENARIO):
+    commission = commission_for_scenario(cost_scenario)
     instrument = InstrumentSpec.from_mapping(dict(instrument_id='US500', asset_class='index_cfd',
         base_ccy='US500', quote_ccy='USD', account_ccy='USD', tick_size='.001', pip_size='1',
         contract_size='1', quantity_min='.01', quantity_step='.01', effective_from_utc='2022-01-01T00:00:00Z'))
-    model = CostModel.from_mapping(dict(version='us500-declared-'+str(slippage), spread_basis='bid_ask_embedded',
-        commission_per_side_account='0', commission_per_side_per_quantity_account='.5',
+    version = 'us500-declared-'+str(slippage) if cost_scenario == LEGACY_COST_SCENARIO else cost_scenario+'-slip-'+str(slippage)
+    model = CostModel.from_mapping(dict(version=version, spread_basis='bid_ask_embedded',
+        commission_per_side_account='0', commission_per_side_per_quantity_account=str(commission),
         minimum_fee_account='0', slippage_price_per_side=str(slippage), financing_account='0',
         quote_to_account_rate='1', account_ccy='USD', rounding_decimals=2))
     return instrument, model
@@ -54,9 +65,10 @@ def bands(history, current_open, previous_close, slot):
     return min(current_open, previous_close)*(1-sigma), max(current_open, previous_close)*(1+sigma)
 
 
-def simulate(sessions, pairs, *, slippage, null_control=False, progress=None, deadline=None):
+def simulate(sessions, pairs, *, slippage, null_control=False, progress=None, deadline=None,
+             cost_scenario=LEGACY_COST_SCENARIO):
     began, cpu = time.perf_counter(), time.process_time()
-    instrument, model = market(slippage)
+    instrument, model = market(slippage, cost_scenario=cost_scenario)
     history = deque(maxlen=14)
     previous_close = None
     balance = D('10000')
@@ -172,6 +184,7 @@ def simulate(sessions, pairs, *, slippage, null_control=False, progress=None, de
         floating = D(str(calculate_round_trip_cost(model, position['side'], position['quantity'], instrument.contract_size,
             position['bid'], position['ask'], D(str(last[0]['close'])), D(str(last[1]['close'])))['net_account']))
     return dict(candidate=CANDIDATE, slippage_per_side=str(slippage), null_control=null_control,
+        cost_scenario=cost_scenario, commission_per_lot_per_side_usd=str(commission_for_scenario(cost_scenario)),
         net_equity_usd=str(balance+floating-10000), balance_usd=str(balance), floating_usd=str(floating),
         entries=count, closed_trades=len(trades), open_position=position, pending_action=pending,
         trades=trades, decisions=decisions, gap_events=gaps, rejected=rejected,
@@ -195,6 +208,7 @@ def main(*, candidate=CANDIDATE, simulator=simulate, include_extended=False,
     parser.add_argument('--calendar', type=Path, required=True)
     parser.add_argument('--protocol', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--cost-scenario', choices=tuple(COMMISSION_SCENARIOS), default=LEGACY_COST_SCENARIO)
     args = parser.parse_args()
     calendar = json.loads(args.calendar.read_text(encoding='utf-8'))
     year = calendar['year']
@@ -252,7 +266,11 @@ def main(*, candidate=CANDIDATE, simulator=simulate, include_extended=False,
             data_review_sha256=digest(args.output/'data-review.json'), source_root=str(args.source_root.resolve()),
             frozen_at_utc=datetime.now(timezone.utc).isoformat(), python_version=sys.version,
             starting_balance_usd='10000', planned_risk_usd='25', contract_usd_per_point_per_lot='1',
-            commission_per_lot_per_side_usd='.5', leverage='10', scenarios=['.25', '.75'],
+            cost_scenario=args.cost_scenario,
+            commission_per_lot_per_side_usd=str(commission_for_scenario(args.cost_scenario)),
+            commission_evidence_scope=('public_current_commission_only_not_historical_broker_spec'
+                if args.cost_scenario == FTMO_ZERO_COMMISSION else 'declared_scenario_only'),
+            leverage='10', scenarios=['.25', '.75'],
             study_metadata=study_metadata or {}, holdout_read=False, broker_calls=0, model_calls=0))
         snapshots = args.output/'source-snapshot'
         snapshots.mkdir()
@@ -264,10 +282,13 @@ def main(*, candidate=CANDIDATE, simulator=simulate, include_extended=False,
         for scenario, slip, control in [('reference', D('.25'), False), ('stress', D('.75'), False),
                                         ('null-control', D('.25'), True)]:
             status('simulating', scenario=scenario)
-            result = simulator(sessions, pairs, slippage=slip, null_control=control,
+            result = simulator(sessions, pairs, slippage=slip, null_control=control, cost_scenario=args.cost_scenario,
                 progress=lambda n, total: status('simulating', scenario=scenario,
                     **{(study_metadata or {}).get('progress_unit','sessions'):n},total=total),
                 deadline=began+300)
+            if (result.get('cost_scenario') != args.cost_scenario or
+                    D(result.get('commission_per_lot_per_side_usd', '-1')) != commission_for_scenario(args.cost_scenario)):
+                raise ValueError('simulator_ignored_registered_cost_scenario')
             save(args.output/f'{scenario}.json', result)
             results.append(dict(scenario=scenario, net_equity_usd=result['net_equity_usd'],
                 entries=result['entries'], closed_trades=result['closed_trades'],
