@@ -73,7 +73,7 @@ features/fills/cohort và financialsummaries đã có review bên dưới.
 |---|---:|
 |Toànnumeric/source/ghi13yearcheckpoints|41,053s wall /40,406sCPU|
 |Feature/tradepath/Fraction/cashreview sauimportfix|3,946s|
-|Compute trên mỗi cachedyear,2costs|khoảng0,27–0,39s; exacttimers trongresult|
+|Compute trên mỗi cachedyear,2costs|0,277–0,303s; exacttimers trongresult|
 
 Sourcehash/load/validate chiếm phần lớn; numericbook không có bottleneck cần
 GPU/Rust. Không bỏvalidation để nhanh, không benchmarklại batchkhôngđổi.

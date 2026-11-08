@@ -63,10 +63,15 @@ net+1.535,95/+1.078,12USD nhưngstress2/4blocksâm nên **khôngretained**.
 6fundingevents/cost,flatend,noreset. Chưa nativefirstcrossing/prop/OOS;
 H1equitybound/DDdiagnostics chưaindependentreview. Catalogue56records/
 42researchpolicyversions,gồmR056toolingcoarseprototype;khôngnativeintegration.
-**Lát tiếp:** sourceadmissionGBPUSD/AUDUSDH1monthsource trước đăngký chuyển
-giaocơchế/portfolio vớiaccountwidebudgetchung; không SL/clock/costrescue.
-QDMread-onlymetadata không có hai symbols cached; libraryDukascopy đã cóH1
-monthlytransport, source-only/clock/side cần kiểm thật. Khôngholdout/broker.
+[H1 source pilot](research/FX-H1-SOURCE-RESULTS-20261108.md):6requests/144bars
+GBPUSD/AUDUSD/EURUSD×BidAsk,720Fractionpricevolumechecks/4mutations;EURUSD
+07UTC02Jan2019bridge8OHLC khớp7.971rawticks. Library1.51.1existing/H1month
+source/source-onlyfilter;M1defaultunchanged(8regressions),2H1Python+2Node.
+0strategy/broker,khôngholdout;prototype0,987s/review3,429s. Reviewer cachekey
+v1prefixfix chỉrerunreview,giữfailure;workerđãterminal.1day/1hour chưahistory.
+**Lát tiếp:** đăngkýsource-onlyhistory2010–24GBPUSD/AUDUSD,sealquality/source/
+exposure trước freeze chuyểngiaocơchế/portfolio vớiaccountwidebudgetchung;
+không SL/clock/costrescue R056. Khôngprovider/accountmới,holdout/broker.
 
 Phần tối ưu context/retrieval trước đó đã xong trong scope:
 [Đánh giá dữ liệu/tra cứu](research/AGENT-DATA-RETRIEVAL-20261108.md) giữ số đo,

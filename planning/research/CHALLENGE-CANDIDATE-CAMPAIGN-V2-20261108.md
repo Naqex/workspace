@@ -66,3 +66,6 @@ theoholding-sessionRMS20x2/risk25:3.171trades/cost,+1.535,95/+1.078,12USD
 nhưng2/4stressblocksâm,khôngretained. Khônghạgate/SLgrid;catalogue56records/
 42researchpolicyversions. Lát tiếp sourceadmissionGBPUSD/AUDUSDH1 với
 USDquote/existingDukascopy trước cơchế/portfoliobudgetchung,khôngbroker/holdout.
+[H1sourcepilot](FX-H1-SOURCE-RESULTS-20261108.md) đãđạt144bars/720Fraction
+checks/bridgeEURUSD7.971ticks;chưahistory/PnL. Bướctiếp đăngkýsourcehistory
+2010–24GBPUSD/AUDUSD trước numeric,không sourcepadding/nativefillclaim.
