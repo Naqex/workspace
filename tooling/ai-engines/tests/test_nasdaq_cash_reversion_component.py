@@ -123,5 +123,16 @@ class CashReversionTests(unittest.TestCase):
             else:pairs[at][1]['high'] += D('.0001')
             with self.subTest(kind=kind), self.assertRaises(ValueError):run(pairs,plans)
 
+    def test_retention_needs_both_stress_years_closed_and_no_rejections(self):
+        base=dict(scenario='stress',null_control=False,net_component_usd=D(10),
+                  closed_trades=10,rejected=[],open_position=None,pending_action=None)
+        self.assertTrue(study.retained([dict(base),dict(base)]))
+        for change in [dict(net_component_usd=D(0)),dict(closed_trades=9),
+                       dict(rejected=[{'reason':'missing_exact_fill_minute'}]),
+                       dict(open_position={'id':'open'}),dict(pending_action={'side':'EXIT'})]:
+            with self.subTest(change=change):
+                self.assertFalse(study.retained([dict(base),dict(base,**change)]))
+        self.assertFalse(study.retained([dict(base)]))
+
 
 if __name__ == '__main__':unittest.main()
