@@ -18,12 +18,12 @@
     },
     "by_readiness": {
       "implemented": 36,
-      "component_probe_not_retained": 9,
+      "component_probe_not_retained": 10,
       "price_data_spec_possible": 2,
       "method_clock_review": 1,
       "component_probe_completed_no_priority": 1,
       "point_in_time_news_missing": 2,
-      "long_history_or_multi_data": 7,
+      "long_history_or_multi_data": 6,
       "component_only": 1,
       "implemented_not_retained": 1
     }
@@ -89,9 +89,10 @@
       "title": "Currency Momentum Strategies",
       "url": "https://www.bis.org/publications/working-paper-366-currency-momentum-strategies",
       "publication": "2011",
-      "review_depth": "official_research_abstract",
-      "limitations": "Cross-sectional currency momentum with costs/limits to arbitrage.",
-      "checked_on": "2026-11-07"
+      "review_depth": "Full PDF method sections 2-4.1 and 4.2 read; not full 89-page appendix audit",
+      "limitations": "Paper uses broad universe/spot and forward returns; three-currency spot-CFD adaptation differs, declared funding and H1 intervals, no replication or present edge guarantee.",
+      "checked_on": "2026-11-08",
+      "method_review_locator": "FX-CROSS-SECTION-PILOT-PROTOCOL-20261108.md"
     },
     {
       "id": "CARRY",
@@ -1252,22 +1253,23 @@
       "family": "cross_section",
       "role": "new",
       "parent_id": null,
-      "readiness": "long_history_or_multi_data",
-      "timeframe": "D1/monthly",
-      "rule_sketch": "Rank winner/loser currencies từ pastreturns.",
-      "data_requirements": "Nhiều currency, commoncutoffs, universe/history/funding",
-      "automation_feasibility": "deterministic_after_spec_and_tests",
-      "prop_operational_concerns": "ConcentrationUSD, correlatedDD; EURUSDalone không thể rankcrosssection.",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "monthly fixed three-currency pilot",
+      "rule_sketch": "R033-MOM1-3FX-v1: rank EUR/GBP/AUD prior completed-month mid return; BUY winner/SELL loser, monthly full roll, fixed 5000USD per leg",
+      "data_requirements": "Existing sealed EUR monthly quotes plus GBP/AUD H1 source; role/known-at panel 2013-24, evaluate 2014-24, declared funding",
+      "automation_feasibility": "allocation_component_only_not_account_or_tick_execution",
+      "prop_operational_concerns": "Three currencies not broad FX; gross and net negative; no SL/lot/account/prop/OOS or target funding proof",
       "source_ids": [
         "BIS366"
       ],
       "source_relation": "published_mechanism; exact_recipe_not_replicated",
-      "next_action": "Deferred; không mở symbols/contracts trong pilot.",
-      "implementation_state": "not_implemented",
+      "next_action": "Park exact three-currency MOM1 adaptation; do not promote control or tune universe/lookback/funding to rescue. Whole family not disproved.",
+      "implementation_state": "component_implemented_not_retained_no_account_policy",
       "candidate_id": null,
-      "profitability_evidence": "none_for_this_exact_rule",
+      "profitability_evidence": "Gross -1331.62USD; net reference -5548.94 / stress -9752.64USD; 0/11 positive cohort years; fixed-notional component not account returns",
       "dispatch_authorized": false,
-      "implementations": []
+      "implementations": [],
+      "component_evidence": "FX-CROSS-SECTION-PILOT-RESULTS-20261108.md"
     },
     {
       "id": "R034",

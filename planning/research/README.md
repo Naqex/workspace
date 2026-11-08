@@ -91,3 +91,7 @@ Quy trình lưu/kế thừa ở [context lifecycle](../CONTEXT-LIFECYCLE.md#kế
 ## Local-flow GBPUSD/AUDUSD — 08/11/2026
 
 [Protocol](LOCAL-FLOW-TWO-FX-PROTOCOL-20261108.md) và [kết quả](LOCAL-FLOW-TWO-FX-RESULTS-20261108.md): R059/R060 không đạt retention, giữ negatives và clocks/DST/UTC-year/source-role review. Catalogue60/42, Goal C1/C2 active; chưa challenge candidate.
+
+## Cross-section ba đồng tiền — 08/11/2026
+
+[Protocol](FX-CROSS-SECTION-PILOT-PROTOCOL-20261108.md) và [kết quả](FX-CROSS-SECTION-PILOT-RESULTS-20261108.md): R033 pilot MOM1 không giữ; source panel864rows/132rankings, 1.056trade-cost checks/9 mutations. Không mở rộng universe hoặc đổi funding để cứu exact adaptation; next admission R019. Goal active, catalogue60/42, chưa challenge candidate.

@@ -38,7 +38,7 @@
 |R030|Carry + trend|carry / R029|long_history_or_multi_data|0|Chưa outcome riêng|
 |R031|Long-horizon value / PPP|value|long_history_or_multi_data|0|Chưa outcome riêng|
 |R032|Value + momentum|value / R031|long_history_or_multi_data|0|Chưa outcome riêng|
-|R033|Cross-sectional FX momentum|cross_section|long_history_or_multi_data|0|Chưa outcome riêng|
+|R033|Cross-sectional FX momentum|cross_section|Pilot3FX MOM1: gross/net âm, không giữ exact adaptation|0|[Pilot results](FX-CROSS-SECTION-PILOT-RESULTS-20261108.md); chưa account/prop/OOS|
 |R034|FX factor-residual reversion|cross_section / R033|long_history_or_multi_data|0|Chưa outcome riêng|
 |R035|Cointegrated FX spread|cross_section / R034|long_history_or_multi_data|0|Chưa outcome riêng|
 |R036|Volatility targeting / exposure cap|risk_modifier|component_only|0|Chưa outcome riêng|
@@ -84,7 +84,7 @@ Chỉ nâng ngày cho nguồn thực sự đọc lại; top updated_on không c�
 - **SNB04** — [Intraday patterns in FX returns and order flow](https://www.snb.ch/en/publications/research/working-papers/2011/working_paper_2011_04). 2026-11-08; fullPDFTable1/2/§2.2 đã đọc, [session probe](LOCAL-SESSION-RESULTS-20261108.md) khác EBSsample/chi phí, không bảo đảm bot hiện tại có lợi thế.
 - **AQR-TS** — [Time Series Momentum: Original Paper Data](https://www.aqr.com/Insights/Datasets/Time-Series-Momentum-Original-Paper-Data). 2026-11-08; 12-month lookback/monthly holding; futures/forwards, not H4 CFD.
 - **AQR-VM** — [Value and Momentum Everywhere: Factors, Monthly](https://www.aqr.com/Insights/Datasets/Value-and-Momentum-Everywhere-Factors-Monthly). 2026-11-07; Long/short multi-market factors; not EURUSD-only replication.
-- **BIS366** — [Currency Momentum Strategies](https://www.bis.org/publications/working-paper-366-currency-momentum-strategies). 2026-11-07; Cross-sectional currency momentum with costs/limits to arbitrage.
+- **BIS366** — [Currency Momentum Strategies](https://www.bis.org/publications/working-paper-366-currency-momentum-strategies). 2026-11-08; full PDF method §2–4.1/4.2 read, không full appendix audit; [pilot3FX](FX-CROSS-SECTION-PILOT-RESULTS-20261108.md) khác broad universe/forwards của paper.
 - **CARRY** — [Carry Trades and Currency Crashes](https://economics.princeton.edu/working-papers/carry-trades-and-currency-crashes/). 2026-11-07; Carry mechanism and negatively skewed crash risk; CFD swaps not policy rates.
 - **NEWS** — [How Economic News Moves Markets](https://www.newyorkfed.org/newsevents/news/research/2008/rp080908). 2026-11-07; Announcement surprise responses; does not validate continuation/reversal rules.
 - **TV-RSI** — [Relative Strength Index](https://www.tradingview.com/support/solutions/43000502338-relative-strength-index-rsi/). 2026-11-07; Indicator definition only; no profit evidence.

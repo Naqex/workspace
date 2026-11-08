@@ -81,3 +81,5 @@ Lát tiếp methodadmissionkhácprefixUSDshort;khôngcontrolsrescue/SLgrid hoặ
 tảidata/thêmengine khôngcâuhỏi. GoalC1/C2active,chưachallengecandidate.
 
 [Local-flow hai FX](LOCAL-FLOW-TWO-FX-RESULTS-20261108.md): R059/R060 đã terminal và review, cả hai không đạt frozen retention. Catalogue60/42; Goal vẫn active, chưa challenge candidate. Không thêm wrapper cho hai exact recipes. Lát tiếp admission relative/cross-market signal khác fixed-hour unconditional flow, reuse nguồn hiện có và giữ costs/funding trước PnL.
+
+[R033 pilot](FX-CROSS-SECTION-PILOT-RESULTS-20261108.md) đã terminal/review:132monthlycontributions×4books, gross/net negative, không retained. 864rows chuẩn hóa role/known-at/source/units, giữ2missing panel rows ngoài window đã đăng ký; chưa account/prop/OOS. Catalogue60/42. Bước tiếp admission R019 stateful break→retest có expiry/invalidation so parent R015; không tune universe/funding/control để cứu R033. Goal vẫn active.
