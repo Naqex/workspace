@@ -37,13 +37,15 @@ def base_units(value,grid):
     return int(nearest)
 
 
-def explicit_candles(payload):
-    """Decode only source-listed timestamps; never add a missing minute."""
+def explicit_candles(payload, *, duration_ms=60000):
+    """Decode source-listed candles; H1 is explicit opt-in, M1 remains default."""
+    if type(duration_ms) is not int or duration_ms not in (60000,3600000):
+        raise ValueError('source_registered_duration_required')
     if not isinstance(payload,dict):
         raise ValueError('source_object_required')
     stamp,shift=integer(payload['timestamp']),integer(payload['shift'])
     grid=number(payload['multiplier'])
-    if stamp<0 or stamp%60000 or shift!=60000 or grid<=0:
+    if stamp<0 or stamp%duration_ms or shift!=duration_ms or grid<=0:
         raise ValueError('source_M1_clock_or_grid')
     columns=[payload[name] for name in ['times','opens','highs','lows','closes','volumes']]
     if any(not isinstance(column,list) for column in columns) or len({len(c) for c in columns})!=1:
