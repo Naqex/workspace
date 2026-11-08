@@ -1,6 +1,6 @@
 # Danh mục nghiên cứu chiến lược — cập nhật08/11/2026
 
-50 hồ sơ: 32 đã có implementation (37 policy versions), 17 ý tưởng chưa code và 1 risk component. Trong 37 versions có 24 native offline rules, 4 ML coarse-only, 6 gold coarse-only và 3 index M1 coarse-only; gồm 2 shuffled controls. **Không phải 37 edges độc lập; chưa bản nào challenge-qualified.** Capital 10k/50k và các cost/year scenarios không được đếm thành strategy độc lập.
+52 hồ sơ: 34 đã có implementation (39 policy versions), 17 ý tưởng chưa code và 1 risk component. Trong 39 versions có 24 native offline rules, 4 ML coarse-only, 6 gold coarse-only và 5 index M1 coarse-only; gồm 2 shuffled controls. **Không phải 39 edges độc lập; chưa bản nào challenge-qualified.** Capital 10k/50k và các cost/year scenarios không được đếm thành strategy độc lập.
 
 [JSON](STRATEGY-CATALOGUE-20261107.json) là cùng dữ liệu có cấu trúc; protocol/source giữ exactrecipes, không automatic dispatch/rejection hoặc broker authority.
 
@@ -56,6 +56,8 @@
 |R048|US500 noise14 bands|equity_intraday_momentum|Giữ negative version,2023/24 không đạt|1|[US500 results](US500-NOISE-RESULTS-20261108.md)|
 |R049|US500 daily cash IBS02 hold|equity_daily_reversion|Chưa qualified, giữ đủ2022–24|1|[Daily results](US500-DAILY-REVERSION-RESULTS-20261108.md)|
 |R050|US500 CutlerRSI3 +IBS05|equity_daily_reversion /R049|Correctedstress2022–24dương,mẫunhỏ;longstudyđangchạy|1|[Correctedresults](US500-CORRECTED-REPLAY-20261108.md)|
+|R051|US500 first→last30min|equity_close_momentum|Âm cả2022–24/costs,khôngretained|1|[Close outcomes](US500-CLOSE-MOMENTUM-RESULTS-20261108.md)|
+|R052|US500 RSI3+IBS preclose2|equity_daily_reversion /R050|Clockvariant,2022stressgần0âm,chưađủedge|1|[Preclose outcomes](US500-PRECLOSE-REVERSION-RESULTS-20261108.md)|
 
 ## Cách đọc và việc đang chạy
 

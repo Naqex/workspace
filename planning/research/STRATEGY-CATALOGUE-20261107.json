@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-07",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 50,
+  "record_count": 52,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -11,13 +11,13 @@
   ],
   "counts": {
     "by_role": {
-      "existing": 32,
+      "existing": 34,
       "new": 11,
       "variant": 6,
       "component": 1
     },
     "by_readiness": {
-      "implemented": 32,
+      "implemented": 34,
       "long_history_or_multi_data": 9,
       "price_data_spec_possible": 3,
       "method_clock_review": 3,
@@ -167,6 +167,15 @@
       "publication": "Author paper hosted2014; precise publication date not asserted",
       "review_depth": "author_method_and_filter_pages2_6",
       "limitations": "Equity ETF daily CSI data, not indexCFD; quotevolume is not verified exchange volume; our SL/funding/nextminute fills are adaptations.",
+      "checked_on": "2026-11-08"
+    },
+    {
+      "id": "GAO-FIRSTLAST2018",
+      "title": "Market intraday momentum",
+      "url": "https://www.sciencedirect.com/science/article/pii/S0304405X18301351",
+      "publication": "2018JFE129(2),394-414",
+      "review_depth": "primaryabstract_intro_and_market_timing_section",
+      "limitations": "SPYTAQ1993-2013 paper; CFDhardSL/latency/costs are project adaptations, not paper performance evidence.",
       "checked_on": "2026-11-08"
     }
   ],
@@ -1542,17 +1551,83 @@
       "capital_scenarios": [
         "10000"
       ]
+    },
+    {
+      "id": "R051",
+      "title": "US500 first-half-hour to last-half-hour momentum",
+      "family": "equity_close_momentum",
+      "role": "existing",
+      "catalogue_origin_role": "new",
+      "parent_id": null,
+      "readiness": "implemented",
+      "timeframe": "Cashsession first/last30min, M1modeled fills",
+      "rule_sketch": "Overnight-included firsthalf sign predicts last halfhour; previous14cashTR x0.25hardSL, flat15:59, one-minute delay",
+      "data_requirements": "Canonical unfilteredM1BidAsk2022-24 and frozenNYSEcalendar",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "ModeledSLs, costs declared, no nativepropDD; all2022-24 yearsnegative",
+      "source_ids": [
+        "GAO-FIRSTLAST2018"
+      ],
+      "source_relation": "adaptation_not_replication_or_independent_edge",
+      "next_action": "Preserve negative version; no tuning, no promotion",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "us500-cash-firstlast30-atr14quarter-r025-v1",
+      "implementations": [
+        "us500-cash-firstlast30-atr14quarter-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "canonical2022_2024_failed_retention",
+      "dispatch_authorized": false,
+      "control": false,
+      "evidence_locator": "US500-CLOSE-MOMENTUM-RESULTS-20261108.md",
+      "execution_capability": "index_M1_coarse_no_broker",
+      "capital_scenarios": [
+        "10000"
+      ]
+    },
+    {
+      "id": "R052",
+      "title": "US500 RSI3+IBS two-minute preclose",
+      "family": "equity_daily_reversion",
+      "role": "existing",
+      "catalogue_origin_role": "variant",
+      "parent_id": "R050",
+      "readiness": "implemented",
+      "timeframe": "Cash daily signals / M1 execution model",
+      "rule_sketch": "Decision2min before close using only completedprefix; fill1min later, sameRSI/IBS/SL/risk/fees",
+      "data_requirements": "Observed sealed M1 Bid/Ask2022-2024 and frozenNYSEcalendar; extendedsessions retained",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Declaredfunding/geometry, overnight gaps, modeled stops, no nativeindex DD or prop certification",
+      "source_ids": [
+        "PAGONIDIS-IBS"
+      ],
+      "source_relation": "adaptation_not_replication_or_independent_edge",
+      "next_action": "Preserve clockfit and negative evidence; no cutoffgrid/fees changes to rescue outcome",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "us500-cash-preclose2-cutler3-10-40-ibs05-atr14x1p5-r025-v1",
+      "implementations": [
+        "us500-cash-preclose2-cutler3-10-40-ibs05-atr14x1p5-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "canonical2022_2024_stress2022_nearzero_negative_not_retained",
+      "dispatch_authorized": false,
+      "control": false,
+      "evidence_locator": "US500-PRECLOSE-REVERSION-RESULTS-20261108.md",
+      "execution_capability": "index_M1_coarse_with_calendar_funding_no_broker",
+      "capital_scenarios": [
+        "10000"
+      ]
     }
   ],
   "automatic_dispatch": false,
   "automatic_rejection": false,
   "holdout_opened": false,
   "updated_on": "2026-11-08",
-  "implemented_record_count": 32,
-  "implemented_rule_count": 37,
+  "implemented_record_count": 34,
+  "implemented_rule_count": 39,
   "implemented_control_rule_count": 2,
-  "implemented_noncontrol_rule_count": 35,
+  "implemented_noncontrol_rule_count": 37,
   "native_offline_rule_count": 24,
   "metal_coarse_rule_count": 6,
-  "index_coarse_rule_count": 3
+  "index_coarse_rule_count": 5
 }

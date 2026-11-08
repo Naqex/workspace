@@ -88,6 +88,16 @@ class DailyBookTests(unittest.TestCase):
         self.assertEqual(result['trades'][0]['reason'],'stop_loss_gap')
         self.assertLess(D(result['trades'][0]['net_usd']),-D(25))
 
+    def test_short_book_closes_on_ask_and_reconciles_hand_calculated_profit(self):
+        start=1640995200000
+        pairs={t:quote(t,D(100)if t<start+180000 else D(95))
+               for t in [start,start+60000,start+120000,start+180000]}
+        plans={start:dict(side='SELL',distance=D(5)),start+120000:dict(side='EXIT')}
+        result=book.simulate(pairs,plans,candidate='fixture',slippage=D('.25'),funding_per_lot=D(1))
+        self.assertEqual(result['trades'][0]['entry_fill'],'100.0')
+        self.assertEqual(result['trades'][0]['exit_fill'],'95.2')
+        self.assertEqual(result['trades'][0]['net_usd'],'12.67')
+
     def test_open_end_keeps_mark_and_accrues_weekend_funding_until_exclusive_horizon(self):
         start=int(datetime(2022,1,7,23,57,tzinfo=timezone.utc).timestamp()*1000)
         end=int(datetime(2022,1,10,0,0,tzinfo=timezone.utc).timestamp()*1000)
