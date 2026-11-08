@@ -1,6 +1,6 @@
 # Current context — Naqex Workspace
 
-## Campaign tiếp tục — 08/11/2026, sau Gold SMA50k review
+## Campaign tiếp tục — 08/11/2026, sau Gold review và IBS source correction
 
 **Goal đang active; C1/C2 chưa hoàn tất.** Tiêu chí và scope ở
 [campaign](research/CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md). Chưa có ứng viên
@@ -12,6 +12,7 @@ lại completed jobs chỉ để đọc trạng thái.
 
 | Lát | Trạng thái đã kiểm | Nguồn tiếp tục |
 |---|---|---|
+| R049IBS02 |3source-correctedbooks/9scenarios/3reviews xong;stresssum+27,46→−8,90USD,oldpriorityfail;73closedpaths/cost còn unresolvedgaps. V1ASTguardfail,V2CLIreviewerror;recoveryreuse2022,khôngnumericalrerun nămđó | [Protocol](research/IBS02-EXPLICIT-SOURCE-CORRECTION-20261108.md), [ASTnote](research/IBS02-SOURCE-PREFLIGHT-NOTE-20261108.md), [results/recovery](research/IBS02-EXPLICIT-SOURCE-RESULTS-20261108.md) |
 | Gold SMA50k/time-fit |30books/90Jan-startprefixes đối soát,5mutationsreject,raw5,4millionrows đọc lại;69,292s,0simulationcalls. Originalretention giữ, hạ ưu tiên challenge:highestafterclosecash2.363,73/2.168,91USD trên50k;chưa target/path/spec/OOSproof | [Preflight](research/GOLD-SMA50K-PREFLIGHT-20261108.md), [review/decision](research/GOLD-SMA50K-REVIEW-20261108.md) |
 | US500 source-only/gate | Sourcea2a3358 phân biệt nến nguồn và padding; CLI chặn legacy trước simulation. Views2013–2024 và native raw-price/pairing oracle đã kiểm, không network | [Correction](research/INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md), [long recipe](research/INDEX-LONG-EXPLICIT-CORRECTION-20261108.md), [long results](research/INDEX-LONG-EXPLICIT-RESULTS-20261108.md) |
 | Noise14/firstlast30 |6books/18scenarios/6reviews126,390s, cả hai vẫn không đạt triage; gaps chưa tick-certified. Source/input/cost/rule deltas giữ | [Before/after](research/INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md) |
@@ -45,12 +46,19 @@ khác declaredfixedcommission, chưa nativeprop/targetaccountverification. Khôn
 tăngrisk hoặc rerun Gold chỉ để cứu target. CurrentD:source khácoriginal,
 review không tự chứng minh numericalparity của currentcode.
 
-**Lát tiếp C2: R049IBS02hold2022–2024 còn kết quả expanded/filtered.** Đăng ký
-source-onlycorrection rồi reuse3canonicalviews/proof hiện có; giữ exactrules/
-legacycost/risk và oldcriteria, chỉ rerun affectedannualbooks. R050/R052 đã
-corrected, không rerun. Sau đó tiếp hypothesis có datasupport/targetcostfit;
-R026 vẫn numericdeferred vì relative-equity/currency/corporate-action/calendar
-gaps. Không dùng longUS500 thiếu input/path để qualify hoặc loại cảfamily.
+R049correction đã xong tại`execution-v1/us500-ibs02-source-corrected-v2`;
+recovery29688/session64993 terminalexit0. V1ASTdelta chỉnhánhRSI đã đượcreview
+trước outcomes;V2reviewerCLIflag nhầm giữfailure/log và2022book, recoverychỉ
+compute2023/24. Không dispatch lại Gold/IBS/RSI/preclose để đọc kết quả.
+
+**Lát tiếp: target-contract admission trước discovery/numericbatch mới.** Đọc
+đúng publicFTMO symbolrow qua renderedwebsite nếu textfetch thiếu XAU/US500:
+geometry/commission/swap/sessionclock/delay, pinngày/nguồn/scope, không đổi
+declaredcost cũ hoặc coi publicrow là targetaccount đã xácminh. Genericpage và
+historicalfeeannouncement không đủ; đọc publickhông cần account/OAuth mới.
+Sau đó chọn boundedmechanism có inputs khả dụng từ catalogue;R026 vẫn
+numericdeferred vì relative-equity/currency/corporate-action/calendar gaps.
+Không dùng longUS500 thiếu input/path để qualify hoặc loại cảfamily.
 
 C1/C2 vẫn còn target-broker contract/cost/clock, native tick/prop path, economic
 uncertainty/selection, cleanOOS và forward/reconciliation. Holdout2025+,

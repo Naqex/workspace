@@ -1,6 +1,12 @@
-# US500 sau sửa loader — kết quả hiện hành
+# US500 sau sửa volume filter — historical expanded-view results
 
-**RSI3+IBS được ưu tiên nghiên cứu sâu hơn; chưa đủ đề xuất challenge.**
+**Các kết luận dưới đây đã được thay bằng source-only review:**
+[Noise14](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md),
+[IBS02](IBS02-EXPLICIT-SOURCE-RESULTS-20261108.md) và
+[RSI3long](INDEX-LONG-EXPLICIT-RESULTS-20261108.md). Cả ba chưa đạt ưu tiên
+theo criteria đã khóa; không dùng oldexpandedtable để promote/reject hiện hành.
+
+**Quyết định lịch sử trước source correction: RSI3+IBS được ưu tiên nghiên cứu sâu hơn; chưa đủ đề xuất challenge.**
 [Correction](INDEX-UNFILTERED-SOURCE-CORRECTION-20261108.md) giữ nguyên
 [noise14 rules](US500-NOISE-STUDY-20261108.md), [daily rules](US500-DAILY-REVERSION-20261108.md),
 risk và costs; chỉ sửa materialinputfilter. Bảngfilteredcũ giữhistory.

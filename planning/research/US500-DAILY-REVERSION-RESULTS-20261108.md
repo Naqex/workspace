@@ -1,5 +1,11 @@
 # Daily cash reversion — tiếp campaign, chưa có ứng viên challenge
 
+**Nguồn hiện hành:** [IBS02source-only/results](IBS02-EXPLICIT-SOURCE-RESULTS-20261108.md)
+đã kiểm3books/9scenarios, giữ originalrule/cost/risk; không đạt oldpriority.
+RSI3 thuộc [longsource-onlyreview](INDEX-LONG-EXPLICIT-RESULTS-20261108.md).
+Bảng filtered bên dưới giữ lịch sử; số IBS02 trùng source-only trong14fields
+đã so, không có nghĩa filteredinput được chứng nhận tương đương.
+
 **Input correction08/11:** kết quả bảng này làfilteredsource lần đầu. Loader
 default bỏvolume0 được phát hiện và [đăng ký sửa](INDEX-UNFILTERED-SOURCE-CORRECTION-20261108.md);
 canonicalrerun giữrules/cost/risk đã xong. Không dùngoldtable đểreject/promote

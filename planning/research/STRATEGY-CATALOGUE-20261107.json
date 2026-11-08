@@ -1564,22 +1564,22 @@
         "PAGONIDIS-IBS"
       ],
       "source_relation": "adaptation_not_replication_or_independent_edge",
-      "next_action": "Preserve2022-2024 evidence; broaden historical/mechanism study with frozen newprotocol, no retrospective threshold tuning",
+      "next_action": "Preserve corrected source-only2022-2024 negative version; do not promote or rerun unchanged books; target-contract/data admission before a new hypothesis",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "us500-d1-ibs02-hold-atr14x1p5-r025-v1",
       "implementations": [
         "us500-d1-ibs02-hold-atr14x1p5-r025-v1"
       ],
       "implementation_updated_on": "2026-11-08",
-      "profitability_evidence": "corrected_unfiltered2022_2024_not_retained",
+      "profitability_evidence": "source_only2022_2024_not_retained",
       "dispatch_authorized": false,
       "control": false,
-      "evidence_locator": "US500-CORRECTED-REPLAY-20261108.md",
+      "evidence_locator": "IBS02-EXPLICIT-SOURCE-RESULTS-20261108.md",
       "execution_capability": "index_M1_coarse_with_calendar_funding_no_broker",
       "capital_scenarios": [
         "10000"
       ],
-      "input_source_limitation": "Native M1 view may contain decoder padding; source-only impact review pending. Existing arithmetic evidence remains scoped to expanded-view scenario."
+      "input_source_limitation": "Source-listed pairedM1 verified;73closedpaths per cost still have unresolved gaps; not executable ticks, nativeprop or targetbroker proof"
     },
     {
       "id": "R050",

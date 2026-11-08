@@ -54,7 +54,7 @@
 |R046|Gold RSI reentry|price_reversion / R012|Giữ negative version|1|[Gold outcomes](METAL-DISCOVERY9-10-RESULTS-20261108.md)|
 |R047|Gold afternoon reversal15–19London|fixing_flow|Giữ negative version|1|[Gold outcomes](METAL-DISCOVERY9-10-RESULTS-20261108.md)|
 |R048|US500 noise14 bands|equity_intraday_momentum|Source-only correction vẫn không đạt triage|1|[Corrected outcomes](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)|
-|R049|US500 daily cash IBS02 hold|equity_daily_reversion|Chưa qualified, giữ đủ2022–24|1|[Daily results](US500-DAILY-REVERSION-RESULTS-20261108.md)|
+|R049|US500 daily cash IBS02 hold|equity_daily_reversion|Source-only3years không đạt oldpriority;path unresolved|1|[Corrected results](IBS02-EXPLICIT-SOURCE-RESULTS-20261108.md)|
 |R050|US500 CutlerRSI3 +IBS05|equity_daily_reversion /R049|Source-only long không đạt;6nofillyears inconclusive|1|[Corrected long](INDEX-LONG-EXPLICIT-RESULTS-20261108.md)|
 |R051|US500 first→last30min|equity_close_momentum|Source-only correction vẫn âm cả2022–24/costs|1|[Corrected outcomes](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)|
 |R052|US500 RSI3+IBS preclose2|equity_daily_reversion /R050|Source-only long vẫn không đạt;4nofillyears inconclusive|1|[Corrected long](INDEX-LONG-EXPLICIT-RESULTS-20261108.md)|
