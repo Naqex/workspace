@@ -28,20 +28,25 @@ def aggregate_hours(pairs):
     return parent.paired(*sides)
 
 
-def run(pairs,hourly,year,scenario,*,lag_minutes,opposite=False,null=False,day_list=None,progress=None):
+def run(pairs,hourly,year,scenario,*,lag_minutes,opposite=False,null=False,day_list=None,progress=None,gap_model=None):
     if type(lag_minutes) is not int or lag_minutes not in (15,60):raise ValueError('unregistered_latency')
     days=parent.dates(year) if day_list is None else day_list
     if not days or days!=sorted(set(days)) or any(d not in parent.dates(year) for d in days):raise ValueError('registered_day_subset')
+    if gap_model is not None:
+        from ny_fx_gap_scenarios import GapScenario
+        if not isinstance(gap_model,GapScenario):raise ValueError('typed_gap_scenario_required')
     instrument,model=parent.market(scenario);cash=D(10000);position=None;unknown=None
     decisions=[];census=[];events=[];trades=[]
 
-    def close(at,price,reason,at_open):
+    def close(at,price,reason,at_open,*,conditional_exit=False):
         nonlocal position,cash
         costs=parent.calculate_round_trip_cost(model,position['side'],position['quantity'],D(100000),
             position['entry_bid'],position['entry_ask'],price,price)
         cash+=D(str(costs['net_account']))
         trades.append(dict(**position,exit_bar_msc=at,exit_interval_msc=[at,at+MINUTE],exit_quote=price,
             exit_at_open=at_open,reason=reason,costs=costs,cash_after=cash));position=None
+        if conditional_exit:
+            trades[-1].update(exit_price_basis='conditional_same_side_H1_extreme',observed_exit=False)
 
     for day in days:
         if unknown:break
@@ -55,6 +60,14 @@ def run(pairs,hourly,year,scenario,*,lag_minutes,opposite=False,null=False,day_l
             row=dict(day=day,at_msc=at,intent_status=intent['status'] if intent else 'scheduled_exit' if scheduled else 'none',
                 action='no_action',position_before=position['side'] if position else None)
             if position and not parent.available(pair,('open','close')):
+                gap_action=gap_model.action(at,pair,position,intent=intent,scheduled=scheduled) if gap_model else None
+                if gap_action is not None:
+                    if gap_action['price'] is not None:
+                        close(at,gap_action['price'],gap_action['action'],False,conditional_exit=True)
+                    row.update(action=gap_action['action'],position_after=position['side'] if position else None,
+                        cash_usd=cash,valuation_status='unobserved_no_mark',conditional_gap=True)
+                    census.append(row)
+                    continue
                 unknown=dict(at_msc=at,reason='missing_or_crossed_held_minute',position=position);census.append(row);break
             if position:
                 p=D(str(pair[0 if position['side']=='BUY' else 1]['open']));bar={k:p for k in ('open','high','low','close')}
@@ -83,9 +96,16 @@ def run(pairs,hourly,year,scenario,*,lag_minutes,opposite=False,null=False,day_l
             if intent or scheduled or row['action']!='no_action' or row['position_before']!=(position['side'] if position else None):
                 row.update(position_after=position['side'] if position else None,cash_usd=cash);census.append(row)
         if progress:progress(day=day,closed=len(trades),cash=str(cash),unknown=bool(unknown))
-    return dict(candidate=parent.CANDIDATES[int(opposite)].replace('-h1-v1',f'-m1-lag{lag_minutes}-v1'),
+    result=dict(candidate=parent.CANDIDATES[int(opposite)].replace('-h1-v1',f'-m1-lag{lag_minutes}-v1'),
         year=year,scenario=scenario,lag_minutes=lag_minutes,null_control=null,expected_days=len(days),
         expected_decisions=4*len(days),decisions=decisions,census=census,events=events,trades=trades,
         closed_trades=len(trades),cash_usd=cash,net_equity_usd=cash-10000 if position is None and unknown is None else None,
         position=position,unknown=unknown,account_state='unknown_exposure' if unknown else 'modeled_flat',
         clean_oos=False,prop_evaluated=False,execution_authorized=False,holdout_read=False,broker_calls=0)
+    if gap_model is not None:
+        result.update(candidate=result['candidate'].removesuffix('-v1')+'-conditional-gap-v1',
+            gap_scenario=gap_model.mode,conditional_model=True,original_unknown_preserved=True,
+            account_state='unknown_exposure' if unknown else 'conditional_flat',
+            model_assumptions='observed_feed_events_only' if gap_model.mode=='observed_events' else
+                'hidden_gap_path_within_same_side_H1_envelope_adverse_stop_scenario_not_global_bound')
+    return result
