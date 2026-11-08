@@ -223,3 +223,26 @@ hoặc sửa global AI config cho ba guard cục bộ. Context/catalogue/index t
 route về evidence owners. C1/C2 chưa hoàn tất; bước ưu tiên data/clock/target-cost
 fit, không tăng risk, nới costs hoặc mở2025+ để tìm winner. Broker runtime chưa
 cung cấp US500 spec trong lần đọc; snapshot EURUSD02/11 không thay thế được.
+
+## Goal turn: commission scenario và false acceptance khi carry
+
+[Source-backed commission results](FTMO-INDEX-COMMISSION-RESULTS-20261108.md)
+giữ six-book experiment86,05s và tất cả outcomes âm/dương. Official FTMO index
+commission0 khác legacy declared0,5; chỉ component commission có nguồn hiện
+hành, chưa historical/wholebroker proof. Code75f7ecf giữ legacy default và
+named profile qua sizing/book/manifest/reviewer, không sửa nguồn tài chính
+Trader/production hoặc giá/risk/strategy rules.48 focused tests đạt,6actual
+books/18scenarios có independent arithmetic implementation review, không
+independent human/model sign-off. Bothpolicies vẫn fail frozen triage.
+
+Actualequal-total-costcomparison:1.143trades/10.279decisions và cash/state
+exact trong0,21s;reference rẻ hơn có1.041quantitychanges, chứng minh không chỉ
+hoàn phí vàoPnL. Legacyactualnoise2022 vẫn qua checker mới, không resimulate.
+Guard879344a chặn unfundedcrossdaycarry sau case tái hiện fail;10reviewtests
+đạt sau fix. Actual6books khôngcarry nên không numericrerun/acceptance rewrite.
+
+Documentation đã sửa stale2022–24-only CLI claim thành actualcalendar2013–24
+support và nhấn mạnh protocol vẫn own data authority. Không cần skill mới hoặc
+GPU/framework; existing source/cost/evidence/retrospective workflows đủ route.
+Research tiếp [calendar hypotheses](EQUITY-CALENDAR-HYPOTHESES-REVIEW-20261108.md),
+đọc method và inputclock trước code/PnL; không grid stop/phí để cứu losers.

@@ -7156,3 +7156,15 @@ này còn chạy. Ưu tiên tiếp data/clock/targetcostfit; chưa xác minh US5
 funding từ runtime hoặc Symbols, snapshot EURUSD02/11 không được thay thế.
 Không2025+,broker/modelcalls,mua challenge,newprovider hoặc production.
 **C1/C2 chưa hoàn tất**, không đóng campaign hoặc tuyên bố đã tìm được winner.
+
+## 08/11 — Goal active, commission slice đã hoàn tất
+
+Owner đã bật Goal; protocolfee checkpoint `ee53bc5`. [Cost results và review](../../research/FTMO-INDEX-COMMISSION-RESULTS-20261108.md)
+giữ code75f7ecf/48focusedtests,6books86,05s,18scenariofiles/6reviews và
+equal-total-costparity1.143trades/10.279decisions. Commission0 có nguồn FTMO
+hiện hành; hai policies vẫn không đạt, không tự nâng broker/historical/edge
+acceptance. Carryguard879344a tái hiện fail→fix→10reviewtests đạt; actualbatch
+khôngcarry, không rerun numeric để nâng source acceptance. Giữ legacy/outcomes.
+Catalogue vẫn53records/41versions. Không worker còn chạy trong costattempt;
+Goal tiếp sang method/input-preflight cho [calendar hypotheses](../../research/EQUITY-CALENDAR-HYPOTHESES-REVIEW-20261108.md).
+C1/C2 vẫn chưa đạt; không2025+localbars,broker/newprovider/account hoặc mua challenge.

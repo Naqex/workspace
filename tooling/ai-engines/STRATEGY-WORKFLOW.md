@@ -257,19 +257,33 @@ model hoặc runtime acceptance hôm nay. Không thêm engine risk cạnh tranh.
 
 ## Opt-in index M1 development lane
 
-`index_noise_study.py` là adapter nghiên cứu của đúng
-[US500noise14 recipe](../../planning/research/US500-NOISE-STUDY-20261108.md),
+`index_noise_study.py` là entry point nghiên cứu cho
+[US500noise14 recipe](../../planning/research/US500-NOISE-STUDY-20261108.md)
+và orchestration dùng chung của các index policy wrappers,
 không nới EURUSD-only `ForexPilotSnapshot`. Nó reuse `InstrumentSpec`,
 `CostModel`, `size_for_market_stop`, `calculate_round_trip_cost` và
 `protective_exit_for_bar`; không là engine native index hoặc prop certifier.
 
 Explicit inputs: `--source-root <foundation_v2> --data-root <sealed-year-dir>
 --calendar <nyse-year.json> --protocol <frozen.md> --output <new-attempt-dir>`.
-Chỉ frozen2022/23/24, reject năm khác trước đọc data; không tự download hoặc
-gọi broker. `sealed_m1_review.py` kiểm quarter-side seals/schema/calendar/gaps;
+CLI hỗ trợ frozen calendars2013–2024, chặn2025+ trước đọc input. Protocol và
+consumption/gates vẫn giới hạn exact years được dùng; CLI support không tự là
+quyền đọc mọi năm. Không tự download hoặc gọi broker.
+`sealed_m1_review.py` kiểm quarter-side seals/schema/calendar/gaps;
 `review_index_noise.py --run <attempt> --data-root <sealed-year-dir>
 --output <new-review.json>` đối soát closed-book arithmetic/quote binding,
-không resimulate hoặc certifyedge. Open/pending cần mark review riêng.
+không resimulate hoặc certifyedge. Unfunded noise reviewer chặn open/pending
+và cross-day carry; funded policy metadata chọn riêng nhánh funding/open-mark
+review. Không nhận carry thiếu phí chỉ vì closed-trade cash đã cộng khớp.
+
+Cost scenario phải hiện rõ trong protocol/manifest/result:
+- Default `us500-declared-commission05-v1` giữ legacy0,5USD/lot/chiều.
+- Opt-in `--cost-scenario ftmo-index-zero-commission-public-20261108` chỉ đổi
+  commission0 theo nguồn công bố hiện hành. Không đặt spread/slippage/swap0,
+  không xác nhận historical broker geometry/fees hoặc thay current-account spec.
+- Sizing và reviewer nhận cùng profile; amount/profile/manifest lệch bị chặn.
+  Đổi cost có thể đổi lot nên không hoàn phí trực tiếp vào old PnL. Output mới,
+  giữ old trials/seals; [registered review/results](../../planning/research/FTMO-INDEX-COMMISSION-RESULTS-20261108.md).
 
 Output có source/protocol/calendar snapshot, results/data review/manifest;
 status `progress.json`/`PROGRESS.md`, `events.jsonl` qua existing bounded event

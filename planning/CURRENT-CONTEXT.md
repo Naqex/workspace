@@ -1,6 +1,6 @@
 # Current context — Naqex Workspace
 
-## Campaign tiếp tục — 08/11/2026, 09:55 Việt Nam
+## Campaign tiếp tục — 08/11/2026, 10:12 Việt Nam
 
 **C1/C2 chưa hoàn tất.** Owner giao tìm ứng viên challenge và kiểm/sửa quá
 trình. Tiếp tục từ [campaign](research/CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md);
@@ -10,14 +10,28 @@ lại các attempts đã hoàn tất chỉ để xem trạng thái. **Owner đã
 ràng; Goal đang active** cho C1/C2, không đặt token budget. Việc bật Goal không
 mở quyền holdout/broker/provider/account hoặc thay tiêu chí để ép ra winner.
 
-**Lát đang thực hiện:** [FTMO commission review và protocol mới](research/FTMO-INDEX-COMMISSION-REVIEW-20261108.md).
-Nguồn FTMO chính thức công bố index commission0; old index scenarios dùng
-0,5USD/lot/chiều declared. Đăng ký profile commission0 có nguồn trước outcome,
-giữ default/old artifacts, spread/slippage/funding/risk và strategy rules.
-Trước numeric rerun cần typed scenario propagation, independent checker và
-legacy/zero-commission fixtures. Đợt đầu R048/R051 trên2022–24 đã consumed;
-không thay phí bằng phép hoàn lại PnL cũ, không gọi current terms là historical
-broker proof. Source runtime local vẫn chưa thấy API8010/ownedMT5 lúc09:53.
+**Commission slice đã xong:** [Protocol](research/FTMO-INDEX-COMMISSION-REVIEW-20261108.md),
+[results](research/FTMO-INDEX-COMMISSION-RESULTS-20261108.md). Source75f7ecf truyền
+named cost scenario xuyên sizing/book/manifest/reviewer, defaultlegacy0,5 giữ;
+48focusedtests.6books/18scenarios/6reviews xong86,05s: Noise14reference/stress
+2022+251,67/+181,19;2023−61,74/−158,16;2024−72,35/−156,91USD. Firstlast30
+âm cả3years/costs. Cảhai vẫn không đạt initialtriage; giữ negatives, không tune.
+Actualequal-total-costparity1.143trades/10.279decisions exact;1.041quantity
+changes ởreference rẻ hơn. No download/broker/modelcalls hoặcholdout mới.
+
+Reviewer879344a chặn unfunded cross-day carry sau negative regression;10review
+tests đạt. Actual6books đều khôngcarry/open nên numbers không bịảnhhưởng;
+old/source/snapshots/reviews giữ, không tự nâng sourceacceptance. Controller
+23752/launcher8012 đã terminal; root `execution-v1/ftmo-index-commission0-v1`.
+Không dispatch lại completedjobs. Current feesource chỉ xác minh public
+commission, chưa target geometry/slippage/swap/dividends hoặc nativeprop.
+
+**Lát kế tiếp:** [equity calendar hypotheses](research/EQUITY-CALENDAR-HYPOTHESES-REVIEW-20261108.md).
+Đọc exactmethod/preflight R025 turn-of-month theo McConnell/Xu2008 trước code/
+PnL, benchmark cùngclock/risk/cost nếu adaptationintraday. Không ưu tiên bot
+overnightdrift chỉ từ paper cũ: NYFedauthorupdate2026 báo hiệuứng yếu đi.
+Public literature cópost2024exposure đượcghi rõ; không local2025+barsaccess.
+Source runtime local vẫn chưa thấy API8010/ownedMT5 lúc09:53.
 
 ### Kết quả mới và nguồn tiếp tục
 

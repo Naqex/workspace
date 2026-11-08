@@ -1480,17 +1480,17 @@
         "CONCRETUM-NOISE"
       ],
       "source_relation": "adaptation_not_replication_or_edge",
-      "next_action": "Preserve failed2023/2024 retention version; select another economic hypothesis before code, no tuning or holdout",
+      "next_action": "Preserve both cost scenarios; no fee/SL grid; research a distinct mechanism after method and input review",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "us500-m1-noise14-opposite-hardstop-r025-v1",
       "implementations": [
         "us500-m1-noise14-opposite-hardstop-r025-v1"
       ],
       "implementation_updated_on": "2026-11-08",
-      "profitability_evidence": "corrected_unfiltered2022_2024_not_retained",
+      "profitability_evidence": "unfiltered2022_2024_legacy_and_published_commission0_failed_triage",
       "dispatch_authorized": false,
       "control": false,
-      "evidence_locator": "US500-CORRECTED-REPLAY-20261108.md",
+      "evidence_locator": "FTMO-INDEX-COMMISSION-RESULTS-20261108.md",
       "execution_capability": "index_m1_coarse_only_no_native_broker",
       "capital_scenarios": [
         "10000"
@@ -1579,17 +1579,17 @@
         "GAO-FIRSTLAST2018"
       ],
       "source_relation": "adaptation_not_replication_or_independent_edge",
-      "next_action": "Preserve negative version; no tuning, no promotion",
+      "next_action": "Preserve both cost scenarios; no fee/SL grid; research a distinct mechanism after method and input review",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "us500-cash-firstlast30-atr14quarter-r025-v1",
       "implementations": [
         "us500-cash-firstlast30-atr14quarter-r025-v1"
       ],
       "implementation_updated_on": "2026-11-08",
-      "profitability_evidence": "canonical2022_2024_failed_retention",
+      "profitability_evidence": "unfiltered2022_2024_legacy_and_published_commission0_failed_triage",
       "dispatch_authorized": false,
       "control": false,
-      "evidence_locator": "US500-CLOSE-MOMENTUM-RESULTS-20261108.md",
+      "evidence_locator": "FTMO-INDEX-COMMISSION-RESULTS-20261108.md",
       "execution_capability": "index_M1_coarse_no_broker",
       "capital_scenarios": [
         "10000"

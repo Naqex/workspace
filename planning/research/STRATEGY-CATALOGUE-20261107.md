@@ -53,10 +53,10 @@
 |R045|Gold Asia→London breakout|session_breakout / R018|Giữ negative version|1|[Gold outcomes](METAL-DISCOVERY9-10-RESULTS-20261108.md)|
 |R046|Gold RSI reentry|price_reversion / R012|Giữ negative version|1|[Gold outcomes](METAL-DISCOVERY9-10-RESULTS-20261108.md)|
 |R047|Gold afternoon reversal15–19London|fixing_flow|Giữ negative version|1|[Gold outcomes](METAL-DISCOVERY9-10-RESULTS-20261108.md)|
-|R048|US500 noise14 bands|equity_intraday_momentum|Giữ negative version,2023/24 không đạt|1|[US500 results](US500-NOISE-RESULTS-20261108.md)|
+|R048|US500 noise14 bands|equity_intraday_momentum|Legacy và publiccommission0 đều không đạt triage|1|[Cost outcomes](FTMO-INDEX-COMMISSION-RESULTS-20261108.md)|
 |R049|US500 daily cash IBS02 hold|equity_daily_reversion|Chưa qualified, giữ đủ2022–24|1|[Daily results](US500-DAILY-REVERSION-RESULTS-20261108.md)|
 |R050|US500 CutlerRSI3 +IBS05|equity_daily_reversion /R049|Long study không đạt; có năm không khớp được lệnh|1|[Long review](US500-LONG-REVIEW-20261108.md)|
-|R051|US500 first→last30min|equity_close_momentum|Âm cả2022–24/costs,khôngretained|1|[Close outcomes](US500-CLOSE-MOMENTUM-RESULTS-20261108.md)|
+|R051|US500 first→last30min|equity_close_momentum|Âm cả2022–24/costs, gồm commission0 có nguồn|1|[Cost outcomes](FTMO-INDEX-COMMISSION-RESULTS-20261108.md)|
 |R052|US500 RSI3+IBS preclose2|equity_daily_reversion /R050|Long study stress âm, không đạt retention|1|[Long review](US500-LONG-REVIEW-20261108.md)|
 |R053|US500 monthly long benchmark|falsification /R009|Đối chứng cùng lịch/SL/risk, stress âm; chưa đủ input|1|[Monthly review](US500-MONTHLY-TREND-RESULTS-20261108.md)|
 
