@@ -55,10 +55,18 @@ PnL/SL/prop/OOS;retainedriskwrapperreview, khôngchallenge.2.076Fractioncases/
 1.044endpointslots/5mutations;28,835s+reviewv2 0,334s. Raw2023/24fullhash/order/
 count, frozenH1 chỉread-onlyoracle, khôngrebindoldproducer. Reviewv1mutation
 mấtrow chưa gọi actualguard đã sửa ởv2; giữv1+snapshot, khôngrerunnumeric.
-**Lát tiếp:** đăng ký1wrapper volatility theo cảholding-session, không grid
-SL hoặc giữlotcũ; exacthistory/gaps/sizing/continuity/prop cần freeze trước
-outcome.2023/24H1features cần sourceadmission mới nếu dùng,không époldcache.
-Không hạfees/increaseleverage cứu negatives. Các lượt trên đãterminal.
+[R056 session-risk results](research/PRE-ECB-SESSION-RISK-RESULTS-20261108.md):
+đãterminal/reviewed2010–22continuous10k/budget25,3.171trades/cost,
+net+1.535,95/+1.078,12USD nhưngstress2/4blocksâm nên **khôngretained**.
+13sourceyears/3.391plans/6.342Fractiontradechecks/5mutations;41,053s+
+3,946sreview;reviewtimedeltaimportfix khôngrerunnumeric.8lateexits/7pathgaps/
+6fundingevents/cost,flatend,noreset. Chưa nativefirstcrossing/prop/OOS;
+H1equitybound/DDdiagnostics chưaindependentreview. Catalogue56records/
+42researchpolicyversions,gồmR056toolingcoarseprototype;khôngnativeintegration.
+**Lát tiếp:** sourceadmissionGBPUSD/AUDUSDH1monthsource trước đăngký chuyển
+giaocơchế/portfolio vớiaccountwidebudgetchung; không SL/clock/costrescue.
+QDMread-onlymetadata không có hai symbols cached; libraryDukascopy đã cóH1
+monthlytransport, source-only/clock/side cần kiểm thật. Khôngholdout/broker.
 
 Phần tối ưu context/retrieval trước đó đã xong trong scope:
 [Đánh giá dữ liệu/tra cứu](research/AGENT-DATA-RETRIEVAL-20261108.md) giữ số đo,

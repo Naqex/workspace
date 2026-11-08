@@ -61,3 +61,8 @@ khi nớiSL; xem kết quả này để tiếp, không khởi động lại mont
 [Recent continuation](PRE-ECB-RECENT-PRICE-RESULTS-20261108.md) đã thêm2023/24
 same-clock/cost explicitrawmode:+187,1/+184,9stresspip. Combined14/15positive
 years/cả4blocks dương; đủ ưu tiên1riskwrapper, chưaaccount/SL/prop/OOS.
+[R056riskresults](PRE-ECB-SESSION-RISK-RESULTS-20261108.md) đã chạy1wrapper
+theoholding-sessionRMS20x2/risk25:3.171trades/cost,+1.535,95/+1.078,12USD
+nhưng2/4stressblocksâm,khôngretained. Khônghạgate/SLgrid;catalogue56records/
+42researchpolicyversions. Lát tiếp sourceadmissionGBPUSD/AUDUSDH1 với
+USDquote/existingDukascopy trước cơchế/portfoliobudgetchung,khôngbroker/holdout.

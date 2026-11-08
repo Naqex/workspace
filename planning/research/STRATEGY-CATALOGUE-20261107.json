@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-07",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 55,
+  "record_count": 56,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -12,7 +12,7 @@
   "counts": {
     "by_role": {
       "existing": 36,
-      "variant": 6,
+      "variant": 7,
       "new": 12,
       "component": 1
     },
@@ -24,7 +24,8 @@
       "component_probe_completed_no_priority": 1,
       "point_in_time_news_missing": 2,
       "long_history_or_multi_data": 7,
-      "component_only": 1
+      "component_only": 1,
+      "implemented_not_retained": 1
     }
   },
   "sources": [
@@ -884,7 +885,7 @@
         "LOCAL"
       ],
       "source_relation": "published_mechanism; project_H1_clock_hypothesis_not_exact_replication",
-      "next_action": "Register bounded holding-session volatility wrapper after long price robustness; preserve oldH1ATRparentparked and all costs/risk/authority gates. Strict original linkage pins at preflight, not expected=currentfallback.",
+      "next_action": "R056 sessionvolatility wrapper tested separately and failed two frozenstressblocks;do notretune SL orpromote parent. See R056/results;next sourceadmission for multi-market mechanism.",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h1-europe-am-short-atr14x1p5-close13-r025-v1",
       "profitability_evidence": "exposed_annual_coarse_not_qualification",
@@ -1958,17 +1959,49 @@
       "dispatch_authorized": false,
       "implementations": [],
       "component_evidence": "GOLD-SESSION-COMPONENT-RESULTS-20261108.md"
+    },
+    {
+      "id": "R056",
+      "title": "PreECB session RMS20x2 stop",
+      "family": "fixing_flow",
+      "role": "variant",
+      "parent_id": "R021",
+      "readiness": "implemented_not_retained",
+      "timeframe": "H1 observed coarse / fixed session",
+      "rule_sketch": "SELL02NY-14Berlin,2xRMS20prior sessions,planned25USD,fixedcontinuous10k;lotfloor0.01",
+      "data_requirements": "13raw-bound observedH1years2010-22;history endpoints nofuture,missing explicit",
+      "automation_feasibility": "research_coarse_prototype_only_not_native_execution",
+      "prop_operational_concerns": "Two negative stressblocks;H1levelSLnotfirstcrossing;targetcost/prop/OOS/forwardmissing",
+      "source_ids": [
+        "BOC48",
+        "LOCAL"
+      ],
+      "source_relation": "new_risk_adaptation_not_paper_replication_or_independent_edge",
+      "next_action": "Park exactversion after frozen retention failed two stressblocks despite positive total;noSLgrid/feerescue. Source admission for separately registered multi-market research.",
+      "implementation_state": "research_coarse_implemented_not_retained",
+      "candidate_id": "eurusd-pre-ecb-session-rms20x2-r025-r056-v1",
+      "implementations": [
+        "eurusd-pre-ecb-session-rms20x2-r025-r056-v1"
+      ],
+      "profitability_evidence": "reference+1535.95/stress+1078.12USD2010-22continuous10k;notretained2of4stressblocksnegative",
+      "dispatch_authorized": false,
+      "evidence_locator": "PRE-ECB-SESSION-RISK-RESULTS-20261108.md",
+      "execution_capability": "tooling_coarse_research_book_not_product_integration",
+      "capital_scenarios": [
+        "10000"
+      ]
     }
   ],
   "automatic_dispatch": false,
   "automatic_rejection": false,
   "holdout_opened": false,
   "updated_on": "2026-11-08",
-  "implemented_record_count": 36,
-  "implemented_rule_count": 41,
+  "implemented_record_count": 37,
+  "implemented_rule_count": 42,
   "implemented_control_rule_count": 3,
-  "implemented_noncontrol_rule_count": 38,
+  "implemented_noncontrol_rule_count": 39,
   "native_offline_rule_count": 24,
   "metal_coarse_rule_count": 6,
-  "index_coarse_rule_count": 7
+  "index_coarse_rule_count": 7,
+  "fx_session_coarse_rule_count": 1
 }
