@@ -8,20 +8,20 @@ có nhu cầu thực. Goal mới đã active. Quyết định dừng B ở
 
 ## Checkpoint hiện hành — 09/11/2026
 
-[R075 US500 overnight reversal](US500-OVERNIGHT-REVERSAL-RESULTS-20261109.md)
-đã terminal/reviewed, 498 planned/resolved, stress −521,82 / −770,05 USD/unit,
-không retained như [R074](NASDAQ-OVERNIGHT-REVERSAL-RESULTS-20261109.md).
-Source v1 fail vì code revision được giữ; `226b3a8` cho frozen code/protocol
-reuse explicit, raw/calendar/seals trực tiếp; 4 years admitted, 0 download.
-Guard hậu kiểm chặn missing input/forged null hash, actual source admissions
-không đổi. Shared component `206bd06` có actual NASDAQ 503-row parity và full
-Fraction/cost review. Catalogue 75 / 58 / 25 native / 9 controls; Goal active,
-chưa challenge, không job phải đợi. Tiếp [rest-of-day method](INDEX-REST-OF-DAY-METHOD-20261109.md)
-đăng ký economics/control trước outcomes; không rescue opening recipes.
+[R076/R077 rest-of-day review](INDEX-REST-OF-DAY-RESULTS-20261109.md) đã xong:
+1.006 cashday rows /995 resolved asset-days, primary stress không dương cả
+hai năm. US5002019 giữ missing-entry unknown, không gọi known sum là full net.
+NASDAQ2022 chỉ phí chuẩn dương. Gác exact components; catalogue 77 /58 /
+25 native /9 controls, chưa challenge. Goal vẫn active.
 
-[Conditional NYFX review](NY-FX-GAP-SCENARIOS-RESULTS-20261109.md) cũng âm cả
-hai stress years; giữ [strict annual N/A](NY-FX-PAIRED-LATENCY-RESULTS-20261109.md)
-và parent H1 negatives riêng. Không rerun unchanged books hoặc mở holdout/broker.
+8 tests mới +11 regressions, 28 synthetic cases và full Fraction/cost/census
+review; 18 mutations bị reject. Shared primitives giữ 1.006 old rows/summaries
+exact. Producer 19,237 s /review 14,132 s, chưa compute bottleneck đáng thêm
+GPU/Rust. Tiếp [registered closing-tick calibration](INDEX-CLOSING-TICK-CALIBRATION-PROTOCOL-20261109.md):
+8 source hours, chưa PnL. Không mass-filter/tune trên delay proxy chưa đo hoặc
+promote controls. [R075/frozen source](US500-OVERNIGHT-REVERSAL-RESULTS-20261109.md)
+và [strict FX N/A](NY-FX-PAIRED-LATENCY-RESULTS-20261109.md) giữ scope riêng.
+Không repeat unchanged books, repin old manifests, own2025+ hoặc broker.
 
 ## Đích và cách biết đã đạt
 

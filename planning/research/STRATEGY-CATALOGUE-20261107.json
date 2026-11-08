@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-07",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 75,
+  "record_count": 77,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -12,13 +12,13 @@
   "counts": {
     "by_role": {
       "existing": 36,
-      "variant": 24,
+      "variant": 26,
       "new": 14,
       "component": 1
     },
     "by_readiness": {
       "implemented": 36,
-      "component_probe_not_retained": 15,
+      "component_probe_not_retained": 17,
       "implemented_not_retained": 5,
       "method_clock_review": 1,
       "component_probe_completed_no_priority": 1,
@@ -317,6 +317,15 @@
       "review_depth": "primary_search_served_abstract_and_author_landing_not_full_method",
       "limitations": "Recent decay/stress dependence; not proof of a fixed CFD rule or permission for own holdout.",
       "checked_on": "2026-11-09"
+    },
+    {
+      "id": "BALTUSSEN-ROD",
+      "title": "Hedging demand and market intraday momentum",
+      "url": "https://academicweb.nd.edu/~zda/intramom.pdf",
+      "publication": "2021",
+      "checked_on": "2026-11-09",
+      "review_depth": "Primary author PDF definitions/data,selected method/cost sections,Tables6/12 and AppendixA1;not full appendix replication",
+      "limitations": "Futures/index evidence before many costs;CFD/latency/common-quality-mask adaptation;no observed gamma proxy or imported code/data."
     }
   ],
   "records": [
@@ -2614,6 +2623,60 @@
       "implementations": [],
       "component_evidence": "US500-OVERNIGHT-REVERSAL-RESULTS-20261109.md",
       "profitability_evidence": "USD/unit reference/stress2019 -273.82/-521.82;2022 -520.05/-770.05;498planned/resolved;notaccountPnL.",
+      "control": false,
+      "dispatch_authorized": false,
+      "implementation_updated_on": "2026-11-09"
+    },
+    {
+      "id": "R076",
+      "title": "US500 rest-of-day to last-half-hour momentum component",
+      "family": "equity_close_momentum",
+      "role": "variant",
+      "parent_id": "R051",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "previous cash BidClose to15:29BidClose;15:30decision,15:31to15:59 source M1Open",
+      "rule_sketch": "Same-sign late return;known previous/09:59/15:29 commonmask;oneunit primary/opposite/long/short/firsthalf controls,noATR/SL/sizing.",
+      "data_requirements": "Sealed source-only Bid/Ask M1 and cash calendar2019/2022 with past session,allconsumed development;source proof/pins frozen as needed.",
+      "automation_feasibility": "offline_price_component_only_not_account_or_execution",
+      "prop_operational_concerns": "Failed frozen net/control gate;2019 one unresolved entry,partial known sum;2022 allknown;noSL/equity/account/prop/OOS/forward or target-broker costs/fills.",
+      "source_ids": [
+        "BALTUSSEN-ROD"
+      ],
+      "source_relation": "related predictor and quality/readiness adaptation,not futures-paper replication or independent discovery",
+      "next_action": "Park exact component;preserve partialunknown and cost diagnostics. Source-only closing-tick timing calibration before more filters;no fee/clock/threshold rescue.",
+      "implementation_state": "component_implemented_reviewed_not_retained_no_account_policy",
+      "candidate_id": null,
+      "component_id": "us500-restofday-last30-price-component-v1",
+      "implementations": [],
+      "component_evidence": "INDEX-REST-OF-DAY-RESULTS-20261109.md",
+      "profitability_evidence": "USD/unit 2019/2022 reference -158.96/-121.12;stress -404.96/-371.12;2019 one unresolved entry,partial known sum;2022 allknown;notaccountPnL.",
+      "control": false,
+      "dispatch_authorized": false,
+      "implementation_updated_on": "2026-11-09"
+    },
+    {
+      "id": "R077",
+      "title": "NASDAQ rest-of-day to last-half-hour momentum component",
+      "family": "equity_close_momentum",
+      "role": "variant",
+      "parent_id": "R064",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "previous cash BidClose to15:29BidClose;15:30decision,15:31to15:59 source M1Open",
+      "rule_sketch": "Same-sign late return;known previous/09:59/15:29 commonmask;oneunit primary/opposite/long/short/firsthalf controls,noATR/SL/sizing.",
+      "data_requirements": "Sealed source-only Bid/Ask M1 and cash calendar2019/2022 with past session,allconsumed development;source proof/pins frozen as needed.",
+      "automation_feasibility": "offline_price_component_only_not_account_or_execution",
+      "prop_operational_concerns": "Failed frozen net/control gate;both years known endpoints;2022 fee sensitive;noSL/equity/account/prop/OOS/forward or target-broker costs/fills.",
+      "source_ids": [
+        "BALTUSSEN-ROD"
+      ],
+      "source_relation": "related predictor and quality/readiness adaptation,not futures-paper replication or independent discovery",
+      "next_action": "Park exact component;preserve partialunknown and cost diagnostics. Source-only closing-tick timing calibration before more filters;no fee/clock/threshold rescue.",
+      "implementation_state": "component_implemented_reviewed_not_retained_no_account_policy",
+      "candidate_id": null,
+      "component_id": "nasdaq-restofday-last30-price-component-v1",
+      "implementations": [],
+      "component_evidence": "INDEX-REST-OF-DAY-RESULTS-20261109.md",
+      "profitability_evidence": "USD/unit 2019/2022 reference -287.99/+232.20;stress -536.99/-17.80;both years known endpoints;2022 fee sensitive;notaccountPnL.",
       "control": false,
       "dispatch_authorized": false,
       "implementation_updated_on": "2026-11-09"

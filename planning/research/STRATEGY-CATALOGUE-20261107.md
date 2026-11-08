@@ -1,6 +1,6 @@
 # Danh mục nghiên cứu chiến lược — cập nhật09/11/2026
 
-75 hồ sơ: 47 có policy/model version được ghi trong danh mục (58 versions), 27 chưa có account policy và 1 risk component. Trong 58 versions có 25 native offline rules và 33 tooling/coarse/model versions; gồm 9 controls. Mới thêm 4 conditional gap revisions của NYFX, không đổi strategy và không đếm 2 gap scenarios thành các edge độc lập. **Chưa có bản nào challenge-qualified.**
+77 hồ sơ: 47 có policy/model version được ghi trong danh mục (58 versions), 29 chưa có account policy và 1 risk component. Trong 58 versions có 25 native offline rules và 33 tooling/coarse/model versions; gồm 9 controls. Mới thêm 4 conditional gap revisions của NYFX, không đổi strategy và không đếm 2 gap scenarios thành các edge độc lập. **Chưa có bản nào challenge-qualified.**
 
 [JSON](STRATEGY-CATALOGUE-20261107.json) là cùng dữ liệu có cấu trúc; protocol/source giữ exactrecipes, không automatic dispatch/rejection hoặc broker authority.
 
@@ -81,6 +81,8 @@
 |R073|NY EURUSD MA4 momentum15min control|falsification / R072|Gác exact recipe theo conditional sensitivity; giữ H1 negatives/strict annual N/A|2|[Conditional review](NY-FX-GAP-SCENARIOS-RESULTS-20261109.md); strict unknown không bị clear|
 |R074|NASDAQ overnight → first-half reversal|equity_opening_reversion|Gác exact component: stress −1.166,74 / −2.359,71 USD/unit|0|[Review](NASDAQ-OVERNIGHT-REVERSAL-RESULTS-20261109.md); 499 ngày, chưa account/prop/OOS|
 |R075|S&P overnight → first-half reversal|equity_opening_reversion / R074|Gác exact transfer: stress −521,82 / −770,05 USD/unit|0|[Review](US500-OVERNIGHT-REVERSAL-RESULTS-20261109.md); 498 ngày, chưa account/prop/OOS|
+|R076|S&P rest-of-day → last-half momentum|equity_close_momentum / R051|Gác exact component;2019 known-partial,2022 âm|0|[Review](INDEX-REST-OF-DAY-RESULTS-20261109.md); chưa account/prop/OOS|
+|R077|NASDAQ rest-of-day → last-half momentum|equity_close_momentum / R064|2019 âm,2022 chuẩn dương/stress âm;gác exact|0|[Review](INDEX-REST-OF-DAY-RESULTS-20261109.md); chưa account/prop/OOS|
 
 
 ## Cách đọc và lịch sử các batch đầu
@@ -115,3 +117,5 @@ Chỉ nâng ngày cho nguồn thực sự đọc lại; top updated_on không c�
 
 - **LIU-TSE-OVERNIGHT** — [Overnight returns of stock indexes](https://www.sciencedirect.com/science/article/pii/S1059056016301563). 09/11/2026, primary search-served abstract/introduction, direct 403; không full method hoặc CFD profit proof.
 - **IWANAGA-SAKEMOTO-OPENREV** — [Overnight return and first half-hour](https://www.sciencedirect.com/science/article/abs/pii/S1062940826001294). 09/11/2026, primary search-served abstract và author landing; recent decay/stress dependence, chưa full method.
+
+- **BALTUSSEN-ROD** — [Hedging demand and market intraday momentum](https://academicweb.nd.edu/~zda/intramom.pdf). Đọc primary method/cost sections09/11; chưa full appendix replication, CFD/latency adaptations và không actual gamma observation.

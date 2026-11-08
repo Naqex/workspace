@@ -15,7 +15,7 @@ authority có guards/tests, reviewer Fraction kiểm outcomes độc lập về 
 Lỗi reviewer v1 và bản sửa v2 được giữ, không sửa pin cũ hoặc rerun numeric.
 
 Đây là củng cố contracts trong pipeline đang dùng, không migration sang một
-schema/DB chung cho mọi artifact lịch sử. Catalogue hiện 75 records / 58 policy-
+schema/DB chung cho mọi artifact lịch sử. Catalogue hiện 77 records / 58 policy-
 model versions, không 74 independent edges; số lượng cũ trong inventory08/11
 bên dưới giữ đúng ngày đo. Metadata/hash giúp truy vết, không chứng minh edge.
 Local retrieval vẫn phục vụ tìm tài liệu; numeric đọc artifacts bằng code.
