@@ -1,5 +1,9 @@
 # Opening5: phần đã đóng dương, kết quả cả năm vẫn chưa xác định
 
+Follow-up09/11: [datarevisionresults](NASDAQ-OPENING5-ORB-DATA-REVISION-RESULTS-20261109.md)
+đã hoàn tất2022 bằng reviewedtickderivedhour,2019 vẫnunknown. Bảng dưới giữ
+v1historicalpartialstate, không thay source/pins/results cũ.
+
 [Protocol](NASDAQ-OPENING5-ORB-PROTOCOL-20261108.md)173928e, implementation
 d5aad5b.8modeledbooks đã terminal và separate Fraction first-hit/sizing/cash
 review khớp; chưa retained/challengequalified. Không gọi annualnet khi đangunknown.

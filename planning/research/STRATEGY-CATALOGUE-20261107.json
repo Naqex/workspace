@@ -27,7 +27,7 @@
       "long_history_or_multi_data": 5,
       "formation_probe_not_retained": 1,
       "component_only": 1,
-      "implemented_inconclusive_source_gaps": 1
+      "implemented_inconclusive_2019_source": 1
     }
   },
   "sources": [
@@ -2260,27 +2260,29 @@
       "family": "cash_opening_direction",
       "role": "new",
       "parent_id": null,
-      "readiness": "implemented_inconclusive_source_gaps",
+      "readiness": "implemented_inconclusive_2019_source",
       "timeframe": "Cashfirst5 Bid chart; delayed M1 fill/protective path",
       "rule_sketch": "First5up BUY/down SELL/doji none; exact09:36Open; opposite first5extremumSL;TP10distance or close-1minute;fixed25USDrisk;unknownexposurefreezesannualaccount.",
       "data_requirements": "Sealed source-only USATECH.IDX/USD M1/calendar2019/2022; exactsourceordering and completeness before clearingunknown.",
       "automation_feasibility": "workspace_modeled_M1_policy_not_native_execution",
-      "prop_operational_concerns": "Bothannualaccountsunknown frommissingheldquotes; partialclosedprofits not annualequity; targetspec/prop/OOS/forward unverified.",
+      "prop_operational_concerns": "2022knownflat positive afterdatarevision,2019stillunknown; oneexposedyear not OOS/prop/forward/targetspec proof.",
       "source_ids": [
         "CONCRETUM-QQQ-ORB"
       ],
       "source_relation": "ETF_rule_adaptation_with_different_CFDsource_latency_costs_risk_not_replication",
-      "next_action": "Preservev1unknownbooks; targeted8tickhour review gate failed for missing-onlypatch. Register wholeOct2022hour derivedview with its own semantics;2019stillunknown,no qualificationgate relaxation.",
-      "implementation_state": "modeled_M1_policy_inconclusive_unknown_exposure",
+      "next_action": "Register alternateofficialarchive source fixture for2019firstgap; keepstrictunknownpolicy/twoyeargate and preservedv1books. No risk/TP/cost tuning toforce target.",
+      "implementation_state": "modeled_M1_2022_known_positive_2019_unknown",
       "candidate_id": "nasdaq-cash-opening5-direction-10R-r025-m1-v1",
       "implementations": [
         "nasdaq-cash-opening5-direction-10R-r025-m1-v1"
       ],
       "component_evidence": "NASDAQ-OPENING5-ORB-INTERIM-20261108.md",
       "source_recovery_evidence": "NASDAQ-M1-GAP-TICK-RESULTS-20261108.md",
-      "profitability_evidence": "Partialclosed reference/stress2019+186.21/+136.98after16trades;2022+769.11/+649.63after191;annualequityunknown forboth;notretainedforpromotion.",
+      "profitability_evidence": "2022fullbook243trades reference+714.71/stress+568.12USD on10k;2019partial16trades+186.21/+136.98USD withannualequityunknown.Overallgate inconclusive2019;2022stresspeak981.44USD notactualproppass.",
       "dispatch_authorized": false,
-      "control": false
+      "control": false,
+      "data_revision_evidence": "NASDAQ-OPENING5-ORB-DATA-REVISION-RESULTS-20261109.md",
+      "implementation_updated_on": "2026-11-09"
     }
   ],
   "automatic_dispatch": false,
