@@ -5,6 +5,7 @@ from pathlib import Path
 import json
 import sys
 import unittest
+from unittest.mock import patch
 
 ROOT=Path(__file__).resolve().parents[3]
 sys.path.insert(0,str(ROOT/'tooling/ai-engines'))
@@ -102,6 +103,30 @@ class DailyBookTests(unittest.TestCase):
 
 
 class DailySignalTests(unittest.TestCase):
+    def test_oracle_disagreement_blocks_before_numerical_execution(self):
+        with patch.object(policy.signal_oracle,'oracle_plans',return_value={1:dict(side='BUY',distance=1)}),\
+                patch.object(book,'simulate')as execution:
+            with self.assertRaisesRegex(ValueError,'independent_signal_oracle_mismatch'):
+                policy.simulator(policy.RSI)({}, {}, slippage=D('.25'))
+            execution.assert_not_called()
+
+    def test_ibs_safety_exit_survives_unavailable_rsi_after_missing_history(self):
+        start=1641218400000
+        sessions={'2022-01-03':[start,start+60000],'2022-01-04':[start+86400000,start+86460000]}
+        pairs={}
+        for at in sessions['2022-01-04']:
+            b,a=quote(at,D(109));b.update(high=110,low=100,close=109);pairs[at]=(b,a)
+        plans=policy.plans_for(sessions,pairs,policy.RSI)
+        self.assertEqual(plans[sessions['2022-01-04'][-1]+60000]['side'],'EXIT')
+
+    def test_rsi_exit_survives_undefined_ibs_flat_range(self):
+        sessions={};pairs={};start=1641218400000
+        for day in range(4):
+            at=start+day*86400000;sessions[f'2022-01-{day+3:02}']=[at]
+            pairs[at]=quote(at,D(100+day))
+        plans=policy.plans_for(sessions,pairs,policy.RSI)
+        self.assertEqual(plans[start+3*86400000+60000]['side'],'EXIT')
+
     def test_cutler_rsi_has_known_values(self):
         self.assertEqual(policy.rsi3(list(map(D,[100,99,98,97]))),D(0))
         self.assertEqual(policy.rsi3(list(map(D,[1,2,3,4]))),D(100))

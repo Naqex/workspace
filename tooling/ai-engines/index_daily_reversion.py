@@ -7,6 +7,7 @@ import sys
 
 import index_noise_study as core
 import index_m1_book as book
+import cash_rsi_signal_oracle as signal_oracle
 
 IBS = 'us500-d1-ibs02-hold-atr14x1p5-r025-v1'
 RSI = 'us500-d1-cutler3-10-40-ibs05-atr14x1p5-r025-v1'
@@ -48,7 +49,7 @@ def plans_for(sessions,pairs,candidate):
             plans[decision_time] = dict(side='EXIT',basis='incomplete_daily_data_safety_exit')
         elif candidate==IBS and ibs is not None and ibs>D('.2'):
             plans[decision_time] = dict(side='EXIT',basis='ibs_above_entry_bucket')
-        elif candidate==RSI and ibs is not None and indicator is not None and (indicator>40 or ibs>D('.5')):
+        elif candidate==RSI and ((ibs is not None and ibs>D('.5')) or (indicator is not None and indicator>40)):
             plans[decision_time] = dict(side='EXIT',basis='cutler3_or_ibs_exit')
         elif ibs is not None and atr and atr>0:
             enter = ibs<=D('.2') if candidate==IBS else indicator is not None and indicator<10 and ibs<=D('.5')
@@ -61,6 +62,12 @@ def plans_for(sessions,pairs,candidate):
 def simulator(candidate):
     def run(sessions,pairs,*,slippage,null_control=False,progress=None,deadline=None):
         plans = plans_for(sessions,pairs,candidate)
+        if candidate==RSI:
+            expected=signal_oracle.oracle_plans(sessions,pairs)
+            if set(plans)!=set(expected) or any(plans[t]['side']!=expected[t]['side'] or
+                (plans[t]['side']=='BUY' and abs(float(plans[t]['distance'])-float(expected[t]['distance']))>1e-10)
+                for t in plans):
+                raise ValueError('cash_RSI_independent_signal_oracle_mismatch')
         return book.simulate(pairs,plans,candidate=candidate,slippage=slippage,
             funding_per_lot=D(1) if slippage==D('.25') else D(2),null_control=null_control,
             progress=progress,deadline=deadline,
@@ -74,7 +81,7 @@ if __name__=='__main__':
         raise ValueError('unregistered_policy')
     del sys.argv[1]
     core.main(candidate=candidate,simulator=simulator(candidate),include_extended=True,
-        additional_sources=[Path(__file__),Path(book.__file__)],
+        additional_sources=[Path(__file__),Path(book.__file__),Path(signal_oracle.__file__)],
         study_metadata=dict(funding_reference_usd_per_lot_per_calendar_day='1',
                             funding_stress_usd_per_lot_per_calendar_day='2',cash_bid_daily_signal=True,
                             progress_unit='M1_bars'))
