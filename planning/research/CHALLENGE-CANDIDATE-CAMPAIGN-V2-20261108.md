@@ -54,3 +54,7 @@ Dùng repo skills hiện có; không tạo một skill quản lý toàn bộ kh�
 cả2negative saufees/0of15stressyears dương, khôngretained. Catalogue hiện55hồ
 sơ nhưng vẫn41accountpolicies; không tăngcount bằngpricecomponents. Lát tiếp
 ưu tiên full-historyPreECBprice robustness trước thiết kế riskwrapper khác.
+[PreECB long results](PRE-ECB-LONG-PRICE-RESULTS-20261108.md):đã terminal/reviewed,
+stress12/13years dương/cả4blocks dương; đủ ưu tiên đăng ký1wrapper theo scale
+holding-session nhưng chưaSL/account/prop/OOS. Giữ risk25USD,không grid/giữlot
+khi nớiSL; xem kết quả này để tiếp, không khởi động lại monthly/gold negatives.

@@ -41,8 +41,16 @@ R054BUY00–08UTC vàR055SELL10:30–15London đã terminal/reviewed, cả2stres
 years dương; khôngretained.7.826planned/7.626resolved,15.377sourceOpen và
 30.504Fraction cost checks/5mutations. Catalogue55records,41accountpolicies;
 components không tăngpolicycount. Numeric7,408s/review16,062s.
-**Lát tiếp:** freeze PreECB long-price robustness với clock/side/cost giữ
-nguyên trước riskwrapper mới; không hạfees/increaseleverage cứu negatives.
+[PreECB long results](research/PRE-ECB-LONG-PRICE-RESULTS-20261108.md):
+2010–22same02NY→14Berlin SELL/cost,12/13stressyears dương,+5.009,8pip per1lot
+trên3.375/3.391resolveddates,cả4blocks dương; retained cho riskwrapperreview,
+**chưaSL/account/prop/OOS/challenge**.13.500Fraction cases/6.782endpointslots/
+22rawprefixquotes/5mutations;50,583s+5,237sreview.2019/22exactoutcomes reused;
+private runner reuseassertion yếu đã được reviewer bổ sung strictoriginal
+linkage/result/manifest/quoteidentity checks; nextpreflight phải strict ngay.
+**Lát tiếp:** đăng ký1wrapper volatility theo cảholding-session, không grid
+SL hoặc giữlotcũ; exacthistory/gaps/sizing/continuity/prop cần freeze trước
+outcome. Không hạfees/increaseleverage cứu negatives. Các lượt trên terminal.
 
 Phần tối ưu context/retrieval trước đó đã xong trong scope:
 [Đánh giá dữ liệu/tra cứu](research/AGENT-DATA-RETRIEVAL-20261108.md) giữ số đo,
