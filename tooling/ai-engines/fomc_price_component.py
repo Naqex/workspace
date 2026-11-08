@@ -33,11 +33,13 @@ def schedules(years):
     return result
 
 
-def observation(pair,target,*,duration_ms=HOUR):
+def observation(pair,target,*,duration_ms=HOUR,source_instrument='USATECH.IDX/USD'):
     if type(duration_ms) is not int or duration_ms not in (60000,HOUR):
         raise ValueError('unregistered_endpoint_duration')
+    if source_instrument not in ('USATECH.IDX/USD','USA500.IDX/USD'):
+        raise ValueError('unregistered_endpoint_source_instrument')
     label='M1' if duration_ms==60000 else 'H1'
-    result=dict(source_instrument='USATECH.IDX/USD',source_bar_open_ms=target,
+    result=dict(source_instrument=source_instrument,source_bar_open_ms=target,
         quote_timestamp_interval_ms=[target,target+duration_ms],known_at_upper_bound_ms=target+duration_ms,
         basis=f'source_separate_side_{label}_Open_proxy',bid=None,ask=None,
         status='missing_exact_minute' if duration_ms==60000 else 'missing_exact_hour',
