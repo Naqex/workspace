@@ -1,6 +1,6 @@
 # Danh mục nghiên cứu chiến lược — cập nhật08/11/2026
 
-60 hồ sơ:38đã có research implementation(43policyversions),21hồ sơ chưa có accountpolicy và1riskcomponent. Nhóm21 gồm các pricecomponents đã tính nhưng chưa là bottàikhoản. Trong43versions có25native offline rules,4MLcoarse-only,6goldcoarse-only,7indexM1coarse-only và1FXsessioncoarseprototype trongtooling; gồm2shuffledcontrols và1long-onlybenchmark. **Không phải43edgesđộc lập;chưa bản nào challenge-qualified.** Capital10k/50k vàcost/yearscenarios không đếm thànhstrategyđộc lập.
+61 hồ sơ:38đã có research implementation(43policyversions),22hồ sơ chưa có accountpolicy và1riskcomponent. Nhóm22 gồm các pricecomponents đã tính nhưng chưa là bottàikhoản. Trong43versions có25native offline rules,4MLcoarse-only,6goldcoarse-only,7indexM1coarse-only và1FXsessioncoarseprototype trongtooling; gồm2shuffledcontrols và1long-onlybenchmark. **Không phải43edgesđộc lập;chưa bản nào challenge-qualified.** Capital10k/50k vàcost/yearscenarios không đếm thànhstrategyđộc lập.
 
 [JSON](STRATEGY-CATALOGUE-20261107.json) là cùng dữ liệu có cấu trúc; protocol/source giữ exactrecipes, không automatic dispatch/rejection hoặc broker authority.
 
@@ -67,6 +67,8 @@
 
 |R059|GBPUSD BUY08–16NY|session_flow /R023|Phí cao −1.738,6pip; 7/15 năm dương, không giữ|0|[Local-flow results](LOCAL-FLOW-TWO-FX-RESULTS-20261108.md)|
 |R060|AUDUSD SELL10–16Sydney|session_flow /R023|Phí cao −13.405,8pip; 1/15 năm dương, không giữ|0|[Local-flow results](LOCAL-FLOW-TWO-FX-RESULTS-20261108.md)|
+
+|R061|NASDAQ100 H4SMA20/80|trend_breakout /R002|Source pilot/history admitted, recipe pending|0|[Source/history results](NASDAQ100-HISTORY-RESULTS-20261108.md); chưa PnL/prop|
 
 ## Cách đọc và việc đang chạy
 

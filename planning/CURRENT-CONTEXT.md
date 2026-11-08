@@ -6,90 +6,29 @@ chứng nhận runtime, hoặc lịch sử từng job. Đọc đúng PLAN/receip
 
 ## Việc hiện tại: Goal mới tìm ứng viên challenge
 
-Owner giao mở rộng nghiên cứu để tìm ứng viên đủ C1/C2 và chuẩn hóa dữ liệu;
-Goal mới đang active. [Campaign v2](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)
-giữ scope hiện hành; quyết định B của đợt cũ không kết thúc Goal mới.
-[Data admission results](research/RESEARCH-DATA-ADMISSION-RESULTS-20261108.md):
-fixture thật/8tests và pilot28requests đã kiểm, không outcome/PnL.
-[R026 long results](research/R026-RELATIVE-EQUITY-CONTINUATION-RESULTS-20261108.md):
-gác exactpriceproxy sau6years, stress−227,6pip/66of72resolved;3/4năm mới âm.
-Source672parts và numeric48months đã terminal,768presence/704price/352financial
-checks,8mutations đạt trong scope; chưa policy/prop/edge. Không rescue bằng
-clock/side/SL hoặc rerun baseline2019/2022.
-[R010 source results](research/MULTI-ASSET-TREND-DATA-RESULTS-20261108.md):
-2018–2024monthlyhistory84/84, oldATRfullsessions chỉ32eligiblemonths.
-As-of120s không tăng140/144monthlyendpoints; không adopt/nới cap/gates.
-Sourceprobe12years/96sideseals terminal0, không newPnL hoặc broker/holdout.
-Private campaign root `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/`:
-`execution-v1/relative-equity-continuation-{data,component}-v1` giữ R026;
-`execution-v1/multiasset-trend-admission-v1` giữ diagnosis/asofsource.
-Các workers của hai lát này terminal; không rerun hoặc sửa oldartifacts.
-[Monthly input results](research/MULTI-ASSET-MONTHLY-INPUT-RESULTS-20261108.md):
-`execution-v1/multiasset-monthly-input-v1` có864records/859observed/5missing,
-2018–2024 đủ504/504; source-review1430prices/4mutations đạt. Inputphase0a9861a
-đã terminal; không parse14GBraw lại cho arithmetic. GoldAsk vẫnnull/unknown.
-[Frozen component](research/MULTI-ASSET-TREND-COMPONENT-20261108.md) đăng ký
-primarymixedsign1/3/12 +12monthlyreturnSD/inversevol,benchmarklong,2018–24,
-continuousnormalizedNAV10k/gross≤1,2declaredcosts,fullmonthlyroll và finalopenmark.
-[Component results](research/MULTI-ASSET-TREND-RESULTS-20261108.md):4books đã
-terminal/reviewed; primary reference−1.138,18/stress−3.519,01USD trên10kproxy,
-stress0/7years dương, khôngretained.1.008weights/allocations kiểm bằng code
-khác,5mutations; numeric1,416s/review1,488s, không đọc lại14GBraw.
-Không actualaccount/lotstep/SL/prop; financing vẫn declaredscenarios.
-[Gold session results](research/GOLD-SESSION-COMPONENT-RESULTS-20261108.md):
-R054BUY00–08UTC vàR055SELL10:30–15London đã terminal/reviewed, cả2stress0/15
-years dương; khôngretained.7.826planned/7.626resolved,15.377sourceOpen và
-30.504Fraction cost checks/5mutations. Catalogue55records,41accountpolicies;
-components không tăngpolicycount. Numeric7,408s/review16,062s.
-[PreECB long results](research/PRE-ECB-LONG-PRICE-RESULTS-20261108.md):
-2010–22same02NY→14Berlin SELL/cost,12/13stressyears dương,+5.009,8pip per1lot
-trên3.375/3.391resolveddates,cả4blocks dương; retained cho riskwrapperreview,
-**chưaSL/account/prop/OOS/challenge**.13.500Fraction cases/6.782endpointslots/
-22rawprefixquotes/5mutations;50,583s+5,237sreview.2019/22exactoutcomes reused;
-private runner reuseassertion yếu đã được reviewer bổ sung strictoriginal
-linkage/result/manifest/quoteidentity checks; nextpreflight phải strict ngay.
-[Recent continuation](research/PRE-ECB-RECENT-PRICE-RESULTS-20261108.md):
-same-rule2023/24explicitrawmode thêm+187,1/+184,9stresspip; combined2010–24
-14/15stressyears dương,+5.381,8pip trên3.894/3.913resolveddates. Khôngaccount
-PnL/SL/prop/OOS;retainedriskwrapperreview, khôngchallenge.2.076Fractioncases/
-1.044endpointslots/5mutations;28,835s+reviewv2 0,334s. Raw2023/24fullhash/order/
-count, frozenH1 chỉread-onlyoracle, khôngrebindoldproducer. Reviewv1mutation
-mấtrow chưa gọi actualguard đã sửa ởv2; giữv1+snapshot, khôngrerunnumeric.
-[R056 session-risk results](research/PRE-ECB-SESSION-RISK-RESULTS-20261108.md):
-đãterminal/reviewed2010–22continuous10k/budget25,3.171trades/cost,
-net+1.535,95/+1.078,12USD nhưngstress2/4blocksâm nên **khôngretained**.
-13sourceyears/3.391plans/6.342Fractiontradechecks/5mutations;41,053s+
-3,946sreview;reviewtimedeltaimportfix khôngrerunnumeric.8lateexits/7pathgaps/
-6fundingevents/cost,flatend,noreset. Chưa nativefirstcrossing/prop/OOS;
-H1equitybound/DDdiagnostics chưaindependentreview. Catalogue56records/
-42researchpolicyversions,gồmR056toolingcoarseprototype;khôngnativeintegration.
-[H1 source pilot](research/FX-H1-SOURCE-RESULTS-20261108.md):6requests/144bars
-GBPUSD/AUDUSD/EURUSD×BidAsk,720Fractionpricevolumechecks/4mutations;EURUSD
-07UTC02Jan2019bridge8OHLC khớp7.971rawticks. Library1.51.1existing/H1month
-source/source-onlyfilter;M1defaultunchanged(8regressions),2H1Python+2Node.
-0strategy/broker,khôngholdout;prototype0,987s/review3,429s. Reviewer cachekey
-v1prefixfix chỉrerunreview,giữfailure;workerđãterminal.1day/1hour chưahistory.
-[H1 history results](research/FX-H1-HISTORY-RESULTS-20261108.md):v3sourcevalues
-đãreview373.652bars/1.868.260checks,60books/719of720months;fulljointinput
-admissionfalse vìmissingAUDAskJan2013 và30crossedpairhoursAUD2010(1exitOpen).
-148.096paddingrowsremoved/40explicitvol0kept;2.052volumesroundednative4dp
-đãkiểmđúngtransform,rawunroundedgiữ. Khôngsignal/PnLhoặcbroker/holdout ởsourcepass.
-v1date-mutationfix0seals,v2timeout15seals,v3reuse15books214,894s/review27,117s;
-allworkers/reviews terminal. Khôngsửaraw/oldpins hoặcchạyrequestknownfailed.
-[TwoFXprice results](research/TWO-FX-PRE-ECB-COMPONENT-RESULTS-20261108.md):
-R057GBPUSDstress+880,2pip nhưng9/15positiveyears/2negativeblocks;R058AUDUSD
-stress−7.330pip/1positiveyear. Cả2khôngretained;7.826plannedrows/sourceOpen
-roles,31.060Fractioncases/120summaries/5mutations;numeric5,722s/review2,706s.
-Khôngactualjointtick/SL/account/prop/OOS;allworkers củađợtđãterminal.
-Catalogue58records/42researchpolicyversions;components khôngtăngpolicycount.
-**Lát tiếp:** methodadmissionkhácuniversalprefixUSDshort,cóthểđọc official
-local-hourflow;so cơchế/cost/exposure trước1–2newrecipes,khônggridgiờ/side,
-khôngrescuecontrols hoặcR056,khôngnewdata/engine khi chưa cócâuhỏicụthể.
+Owner giao tìm ứng viên đủ C1/C2, chuẩn hóa dữ liệu và cải tiến có bằng chứng.
+Goal đang active; [campaign v2](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)
+giữ scope, quyết định B cũ không kết thúc chiến dịch mới. **Chưa challenge-qualified.**
 
-Phần tối ưu context/retrieval trước đó đã xong trong scope:
-[Đánh giá dữ liệu/tra cứu](research/AGENT-DATA-RETRIEVAL-20261108.md) giữ số đo,
-phương án và giới hạn; [search CLI](../tooling/search/README.md) là công cụ tra cứu.
-Không cần vector DB hoặc service mới để tiếp tục. Không broker batch từ task này.
+Lát hiện tại: [NASDAQ100 source/history](research/NASDAQ100-HISTORY-RESULTS-20261108.md)
+đã terminal/reviewed:56rawsources/8books,27.512source-sidebars,
+137.560price/volumechecks. Pilot tick/M1/H1 khớp trong2fixtures; chưa PnL.
+R061 chỉ hypothesis H4SMA20/80, catalogue61records/43versions/25native.
+**Tiếp:** exact recipe/market/cost/funding/gap contract và fixtures trước numeric
+development2019/2022. Target lots/swaps/session/dividends chưa verified;
+không dùng sourcegrid làm brokerpoint hoặc mean side extrema làm observedmid.
+
+Private root `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/`;
+`execution-v1/nasdaq-{source-pilot,history}-v1` giữ rawbindings/seals/reviews/status.
+History producer26,884s/review2,002s, không sourceworker đang chạy; không rerun.
+Trader pin83731fc8. [R019 results](research/PRIOR-DAY-RETEST-RESULTS-20261108.md)
+đã code nhưng stage1fail, parent4economicbooks exact, không retune/fullbatch.
+
+Các kết quả trước và negatives tra [research index](research/README.md) hoặc
+campaignv2; không mở lại raw/numeric batch không đổi. [Data/retrieval review](research/AGENT-DATA-RETRIEVAL-20261108.md)
+đã xong trong scope, [search CLI](../tooling/search/README.md) dùng localindex
+để tìm tài liệu rồi đọc source; không cần vectorDB/service mới. Numerical
+artifacts có hash là nguồn cho số liệu, không lấy đoạn search làm kết quả.
 
 ## Baseline: đợt Goal trước đã kết thúc theo B
 
@@ -121,8 +60,6 @@ chạy lại study không đổi hay ép ra winner.
 | AI integrations cũ hoặc điều tra lỗi | [AI plan](trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md) → [receipt lịch sử](checkpoints/ai-integrations-20261031/RECEIPT.md), chỉ đọc section cần |
 | Liên project | [Workspace plan](WORKSPACE-NEXT-STAGE-PLAN.md) → [handoff](checkpoints/workspace-next-stage/RESUME.md), rồi project owner |
 | VI Dubber/Quant/TradingAgents | README/AGENTS/PLAN của đúng repo; task hiện tại không khởi động các lane này |
-
-[Local-flow](research/LOCAL-FLOW-TWO-FX-RESULTS-20261108.md) và [R033 pilot](research/FX-CROSS-SECTION-PILOT-RESULTS-20261108.md) đã terminal/not retained. [R019 retest results](research/PRIOR-DAY-RETEST-RESULTS-20261108.md) hiện mới nhất: Trader83731fc8, stage1 paired8books2019/2022; retest stress−5,16/−452,64USD,50/52trades, không stage2. Preflight/legacy22.800checks và economic parent4books exact, separate1.268decisions/876trades/5mutations đạt trong H1scope. Catalogue60/43/25native; chưa challenge candidate, Goal active. Run15,477s/review3,263s terminal, không worker lượt này. Bước tiếp NASDAQ100 method/source/cost admission, fixture nhỏ trước history/numeric; không hạ phí/retune rescue hoặc mở provider/account/holdout.
 
 ## Ownership và giới hạn còn hiệu lực
 

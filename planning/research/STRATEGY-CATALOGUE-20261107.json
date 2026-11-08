@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-07",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 60,
+  "record_count": 61,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -12,7 +12,7 @@
   "counts": {
     "by_role": {
       "existing": 36,
-      "variant": 11,
+      "variant": 12,
       "new": 12,
       "component": 1
     },
@@ -25,7 +25,8 @@
       "price_data_spec_possible": 1,
       "point_in_time_news_missing": 2,
       "long_history_or_multi_data": 6,
-      "component_only": 1
+      "component_only": 1,
+      "source_admitted_recipe_pending": 1
     }
   },
   "sources": [
@@ -2091,6 +2092,31 @@
       "implementations": [],
       "component_evidence": "LOCAL-FLOW-TWO-FX-RESULTS-20261108.md",
       "profitability_evidence": "reference -11854.2 / stress -13405.8 pip; 1/15 stress-positive years",
+      "dispatch_authorized": false
+    },
+    {
+      "id": "R061",
+      "title": "NASDAQ100 H4 SMA20/80",
+      "family": "trend_breakout",
+      "role": "variant",
+      "parent_id": "R002",
+      "readiness": "source_admitted_recipe_pending",
+      "timeframe": "H4 from complete source Bid H1 groups",
+      "rule_sketch": "Tentative SMA20/80 adaptation; economic/market/cost/gap contract must freeze before PnL.",
+      "data_requirements": "Sealed USATECH.IDX/USD Bid/Ask H1 warmup and development 2019/2022; actual joint ticks for later qualification.",
+      "automation_feasibility": "hypothesis_not_account_policy",
+      "prop_operational_concerns": "Target point/lot/margin/funding/session/dividend unverified; source pilot/history is not edge or prop evidence.",
+      "source_ids": [
+        "LOCAL",
+        "AQR-TS"
+      ],
+      "source_relation": "asset_and_price_basis_adaptation_not_paper_replication_or_independent_edge",
+      "next_action": "Freeze exact economic recipe/cost/funding/gap contract, test fixtures before numeric outcomes.",
+      "implementation_state": "source_admitted_no_policy",
+      "candidate_id": null,
+      "implementations": [],
+      "component_evidence": "NASDAQ100-HISTORY-RESULTS-20261108.md",
+      "profitability_evidence": "not_run",
       "dispatch_authorized": false
     }
   ],

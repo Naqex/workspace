@@ -13,7 +13,7 @@ source/fidelity checks**, không full-history hoặc target broker admission.
 | SourceM1 → H1 | 88side-hour comparisons khớp OHLC |
 | Tick → M1/H1 | 244side-interval comparisons khớp OHLC;0differences |
 | Negative mutations | 5lỗi giá, row thiếu, future clock, false authority, false joint-bar claim bị reject |
-| Source collection | 3,065s wall; không retry/failure |
+| Source collection | 3,063s wall; không retry/failure |
 | Separate review | 3,674s wall |
 
 Ngày02/01/2019 có23H1/1.335M1 mỗi side;01/07/2022 có21H1/1.215M1 mỗi side.
