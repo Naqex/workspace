@@ -187,7 +187,8 @@ def save(path, value):
         stream.write('\n')
 
 
-def main():
+def main(*, candidate=CANDIDATE, simulator=simulate, include_extended=False,
+         additional_sources=(), study_metadata=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--source-root', type=Path, required=True)
     parser.add_argument('--data-root', type=Path, required=True)
@@ -197,7 +198,7 @@ def main():
     args = parser.parse_args()
     calendar = json.loads(args.calendar.read_text(encoding='utf-8'))
     year = calendar['year']
-    if year not in (2022, 2023, 2024):
+    if year not in range(2013,2025):
         raise ValueError('unregistered_year_holdout_closed')
     frozen_calendar = Path(__file__).with_name('fixtures')/f'nyse-{year}.json'
     if digest(args.calendar) != digest(frozen_calendar):
@@ -220,7 +221,7 @@ def main():
         logger.info(json.dumps(value))
         (args.output/'progress.json').write_text(json.dumps(value), encoding='utf-8')
         (args.output/'PROGRESS.md').write_text(
-            '# US500 noise14 — nghiên cứu offline\n\n'
+            f'# {candidate} — nghiên cứu offline\n\n'
             f"Bước: {stage}; năm: {year}; đã chạy: {value['elapsed_seconds']:.1f}s.\n\n"
             +json.dumps(extra, ensure_ascii=False, indent=2)
             +'\n\nM1 modeled fills; không broker/prop qualification.\n', encoding='utf-8')
@@ -237,20 +238,22 @@ def main():
         for q in range(1, 5):
             bid = json.loads((args.data_root/f'q{q}-bid.json').read_text())
             ask = json.loads((args.data_root/f'q{q}-ask.json').read_text())
-            pairs.update({b['timestamp']: (b, a) for b, a in zip(bid, ask) if b['timestamp'] in needed})
+            pairs.update({b['timestamp']: (b, a) for b, a in zip(bid, ask)
+                          if include_extended or b['timestamp'] in needed})
         source_paths = {Path(__file__).resolve(), Path(__file__).with_name('sealed_m1_review.py'),
                         Path(__file__).with_name('forex_study_batch.py')}
+        source_paths.update(Path(p).resolve() for p in additional_sources)
         source_paths.update(Path(m.__file__).resolve() for name, m in sys.modules.copy().items()
                             if (name.startswith('trading_workspace_v2.') or name == 'forex_h4_pilot')
                             and getattr(m, '__file__', None))
         pins = {str(p): digest(p) for p in sorted(source_paths)}
-        save(args.output/'manifest.json', dict(candidate=CANDIDATE, year=year, source_pins=pins,
+        save(args.output/'manifest.json', dict(candidate=candidate, year=year, source_pins=pins,
             protocol_sha256=digest(args.protocol), calendar_sha256=digest(args.calendar),
             data_review_sha256=digest(args.output/'data-review.json'), source_root=str(args.source_root.resolve()),
             frozen_at_utc=datetime.now(timezone.utc).isoformat(), python_version=sys.version,
             starting_balance_usd='10000', planned_risk_usd='25', contract_usd_per_point_per_lot='1',
             commission_per_lot_per_side_usd='.5', leverage='10', scenarios=['.25', '.75'],
-            holdout_read=False, broker_calls=0, model_calls=0))
+            study_metadata=study_metadata or {}, holdout_read=False, broker_calls=0, model_calls=0))
         snapshots = args.output/'source-snapshot'
         snapshots.mkdir()
         (snapshots/'protocol.md').write_bytes(args.protocol.read_bytes())
@@ -261,8 +264,9 @@ def main():
         for scenario, slip, control in [('reference', D('.25'), False), ('stress', D('.75'), False),
                                         ('null-control', D('.25'), True)]:
             status('simulating', scenario=scenario)
-            result = simulate(sessions, pairs, slippage=slip, null_control=control,
-                progress=lambda n, total: status('simulating', scenario=scenario, sessions=n, total=total),
+            result = simulator(sessions, pairs, slippage=slip, null_control=control,
+                progress=lambda n, total: status('simulating', scenario=scenario,
+                    **{(study_metadata or {}).get('progress_unit','sessions'):n},total=total),
                 deadline=began+300)
             save(args.output/f'{scenario}.json', result)
             results.append(dict(scenario=scenario, net_equity_usd=result['net_equity_usd'],

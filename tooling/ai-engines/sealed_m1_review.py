@@ -106,6 +106,8 @@ def review(root: Path, calendar_path: Path, grid: float) -> dict:
             if seal != download['requests'][index] or seal['request'] != stem or digest(path) != seal['sha256']:
                 raise ValueError('seal_binding')
             request = manifest['requests'][index]
+            if request.get('ignoreFlats') is not False:
+                raise ValueError('explicit_unfiltered_provider_bars_required')
             dates = request['dates']
             if (request['timeframe'] != 'm1' or request['priceType'] != side
                     or datetime.fromisoformat(dates['from'].replace('Z', '+00:00')) != lower_dt

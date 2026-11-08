@@ -8,6 +8,74 @@ from pathlib import Path
 from sealed_m1_review import cash_sessions, digest
 
 
+def inspect_funded_scenario(result,pairs,sessions):
+    slip,rate=D(result['slippage_per_side']),D(result['funding_per_lot_per_day'])
+    decisions={d['time_msc']:d for d in result['decisions']}
+    positions={t['position_id']:t for t in result['trades']}
+    opened=result['open_position']
+    if opened is not None:
+        if opened['id'] in positions:raise ValueError('position_open_and_closed')
+        positions[opened['id']]=opened
+    funding_by_id=defaultdict(lambda:D(0))
+    seen=set()
+    for event in result['funding_events']:
+        identity,at=event['position_id'],event['time_msc']
+        pos=positions[identity];quantity=D(pos['quantity'])
+        entry=pos.get('entry_time_msc',pos.get('time'))
+        exit_at=pos['exit_interval_msc'][0] if 'exit_interval_msc' in pos else result.get('evaluation_end_msc') or max(pairs)+60000
+        if at%86400000 or not entry<at<=exit_at or (identity,at) in seen:
+            raise ValueError('funding_clock_or_position_binding')
+        seen.add((identity,at))
+        debit=(quantity*rate).quantize(D('.01'),rounding=ROUND_HALF_UP)
+        if debit!=D(event['debit_usd']):raise ValueError('funding_arithmetic')
+        funding_by_id[identity]+=debit
+    net_price_total=D(0)
+    for identity,pos in positions.items():
+        entry_at=pos.get('entry_time_msc',pos.get('time'))
+        decision=decisions[entry_at-60000]
+        quantity=D(pos['quantity']);side=pos['side']
+        entry=D(str(pairs[entry_at][1 if side=='BUY' else 0]['open']))
+        if decision['side']!=side or not D('.01')<=quantity<=50 or quantity%D('.01'):
+            raise ValueError('funded_entry_or_quantity')
+        distance=D(decision['stop_distance']);stop=D(pos['stop'])
+        actual=entry-stop if side=='BUY' else stop-entry
+        if not 0<=actual-distance<D('.001') or (actual+2*slip+1)*quantity>25:
+            raise ValueError('funded_stop_or_risk')
+        claimed=D(pos['funding_usd'] if 'funding_usd' in pos else pos['funding'])
+        funding_end=(pos['exit_interval_msc'][0]+1 if 'exit_interval_msc' in pos
+                     else result.get('evaluation_end_msc') or max(pairs)+60000)
+        expected_times=set(range((entry_at//86400000+1)*86400000,funding_end,86400000))
+        actual_times={at for pid,at in seen if pid==identity}
+        if expected_times!=actual_times:raise ValueError('missing_or_extra_calendar_funding')
+        if claimed!=funding_by_id[identity]:raise ValueError('position_funding_sum')
+        if 'exit_interval_msc' not in pos:continue
+        at=pos['exit_interval_msc'][0];price=D(pos['exit_fill']);row=pairs[at][0 if side=='BUY' else 1]
+        if pos['reason']=='stop_loss':
+            if price!=stop or not D(str(row['low']))<=stop<=D(str(row['high'])):raise ValueError('funded_stop_fill')
+        elif price!=D(str(row['open'])):raise ValueError('funded_exit_quote')
+        elif pos['reason']=='stop_loss_gap' and not (price<=stop if side=='BUY' else price>=stop):
+            raise ValueError('funded_gap_stop_direction')
+        gross=(price-entry if side=='BUY' else entry-price)*quantity
+        price_net=(gross-(2*slip+1)*quantity).quantize(D('.01'),rounding=ROUND_HALF_UP)
+        if price_net!=D(pos['price_net_usd']) or price_net-claimed!=D(pos['net_usd']):raise ValueError('funded_trade_arithmetic')
+        net_price_total+=price_net
+    total_funding=sum(funding_by_id.values(),D(0))
+    if total_funding!=D(result['funding_total_usd']) or D(10000)+net_price_total-total_funding!=D(result['balance_usd']):
+        raise ValueError('funded_cash_reconcile')
+    floating=D(0)
+    if opened is not None:
+        last=pairs[max(pairs)];side=opened['side'];q=D(opened['quantity'])
+        entry=D(opened['ask'] if side=='BUY' else opened['bid'])
+        price=D(str(last[0 if side=='BUY' else 1]['close']))
+        gross=(price-entry if side=='BUY' else entry-price)*q
+        floating=(gross-(2*slip+1)*q).quantize(D('.01'),rounding=ROUND_HALF_UP)
+    if floating!=D(result['floating_usd']) or D(result['balance_usd'])+floating-10000!=D(result['net_equity_usd']):
+        raise ValueError('funded_mark_or_equity')
+    if result['entries']!=len(result['trades'])+(opened is not None):raise ValueError('funded_position_count')
+    return dict(net_usd=result['net_equity_usd'],closed_trades=len(result['trades']),open_position=opened is not None,
+        funding_usd=str(total_funding),unresolved_positions=[p.get('position_id',p.get('id')) for p in positions.values() if p['path_unresolved']])
+
+
 def inspect_scenario(result, pairs, sessions):
     if result['open_position'] is not None or result.get('pending_action') is not None:
         raise ValueError('open_or_pending_book_requires_separate_mark_review')
@@ -110,7 +178,8 @@ def main():
         result = json.loads(path.read_text(encoding='utf-8'))
         if result['candidate'] != manifest['candidate']:
             raise ValueError('candidate_binding')
-        reviews[row['scenario']] = inspect_scenario(result, pairs, sessions)
+        inspector=inspect_funded_scenario if manifest.get('study_metadata',{}).get('cash_bid_daily_signal') else inspect_scenario
+        reviews[row['scenario']] = inspector(result, pairs, sessions)
     output = dict(status='artifact_arithmetic_and_fill_bindings_verified', scenarios=reviews,
         reviewer_sha256=digest(Path(__file__)), manifest_sha256=digest(args.run/'manifest.json'),
         limits=['Separately implemented arithmetic checks, not independent model/reviewer sign-off.',

@@ -1,0 +1,26 @@
+{
+  "schema": "cash-session-calendar-v1",
+  "venue": "NYSE",
+  "year": 2013,
+  "timezone": "America/New_York",
+  "open": "09:30",
+  "close": "16:00",
+  "holidays": [
+    "2013-01-01",
+    "2013-01-21",
+    "2013-02-18",
+    "2013-03-29",
+    "2013-05-27",
+    "2013-07-04",
+    "2013-09-02",
+    "2013-11-28",
+    "2013-12-25"
+  ],
+  "early_closes": {
+    "2013-07-03": "13:00",
+    "2013-11-29": "13:00",
+    "2013-12-24": "13:00"
+  },
+  "source": "exchange_calendars4.13.2/XNYS;2022-24 exact officialfrozen calendars",
+  "scope": "cash reference not CFD broker hours"
+}

@@ -75,7 +75,7 @@ class M1ReviewTests(unittest.TestCase):
                     seal = dict(request=stem, rows=1, first=stamp, last=stamp, sha256=digest(path))
                     (root/f'{stem}-seal.json').write_text(json.dumps(seal))
                     result['requests'].append(seal)
-                    manifest['requests'].append(dict(instrument='usa500idxusd', timeframe='m1',
+                    manifest['requests'].append(dict(instrument='usa500idxusd', timeframe='m1',ignoreFlats=False,
                         priceType=side, dates={'from': start.isoformat(), 'to': stop.isoformat()}))
             (root/'manifest.json').write_text(json.dumps(manifest))
             (root/'result.json').write_text(json.dumps(result))
@@ -84,6 +84,12 @@ class M1ReviewTests(unittest.TestCase):
             self.assertEqual(report['expected_cash_minutes'], 97710)
             self.assertEqual(report['observed_cash_minutes'], 0)
             self.assertEqual(len(report['incomplete_sessions']), 251)
+            old_request=manifest['requests'][0].pop('ignoreFlats')
+            (root/'manifest.json').write_text(json.dumps(manifest))
+            with self.assertRaisesRegex(ValueError,'unfiltered_provider_bars_required'):
+                review(root,CALENDAR,.001)
+            manifest['requests'][0]['ignoreFlats']=old_request
+            (root/'manifest.json').write_text(json.dumps(manifest))
             original = (root/'q1-bid.json').read_bytes()
             (root/'q1-bid.json').write_bytes(original+b' ')
             with self.assertRaisesRegex(ValueError, 'seal_binding'):

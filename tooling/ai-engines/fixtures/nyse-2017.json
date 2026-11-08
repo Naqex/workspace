@@ -1,0 +1,25 @@
+{
+  "schema": "cash-session-calendar-v1",
+  "venue": "NYSE",
+  "year": 2017,
+  "timezone": "America/New_York",
+  "open": "09:30",
+  "close": "16:00",
+  "holidays": [
+    "2017-01-02",
+    "2017-01-16",
+    "2017-02-20",
+    "2017-04-14",
+    "2017-05-29",
+    "2017-07-04",
+    "2017-09-04",
+    "2017-11-23",
+    "2017-12-25"
+  ],
+  "early_closes": {
+    "2017-07-03": "13:00",
+    "2017-11-24": "13:00"
+  },
+  "source": "exchange_calendars4.13.2/XNYS;2022-24 exact officialfrozen calendars",
+  "scope": "cash reference not CFD broker hours"
+}
