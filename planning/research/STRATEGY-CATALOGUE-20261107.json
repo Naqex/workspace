@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-07",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 64,
+  "record_count": 65,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -13,7 +13,7 @@
     "by_role": {
       "existing": 36,
       "variant": 14,
-      "new": 13,
+      "new": 14,
       "component": 1
     },
     "by_readiness": {
@@ -26,7 +26,8 @@
       "point_in_time_news_missing": 2,
       "long_history_or_multi_data": 5,
       "formation_probe_not_retained": 1,
-      "component_only": 1
+      "component_only": 1,
+      "implemented_inconclusive_source_gaps": 1
     }
   },
   "sources": [
@@ -270,6 +271,15 @@
       "checked_on": "2026-11-08",
       "review_depth": "official original publication/calendar/statement metadata",
       "limitations": "Calendar facts, not price prediction, actual fills or prop approval."
+    },
+    {
+      "id": "CONCRETUM-QQQ-ORB",
+      "title": "Can Day Trading Really Be Profitable?",
+      "url": "https://concretumgroup.com/wp-content/uploads/2026/02/Can-Day-Trading-Really-Be-Profitable.pdf",
+      "publication": "First2023-04-24; PDFversion2025-09-22",
+      "review_depth": "PrimaryauthorPDF methodpp4-6 and table; sourcecaptured SHA in opening5methodreport.",
+      "limitations": "QQQ/TQQQ2016-Feb2023; first5direction/10R/no-slip/1%risk differ from our CFD/latency/cost/risk25. No importedcode/data or own2025+holdout.",
+      "checked_on": "2026-11-08"
     }
   ],
   "records": [
@@ -2243,19 +2253,48 @@
       "component_evidence": "NASDAQ-INTRADAY-MOMENTUM-RESULTS-20261108.md",
       "profitability_evidence": "USD/unit primary reference/stress 2019 -260.64/-481.64;2022 -1777.99/-1969.99;413/413 planned endpoints resolved;stress deltas -70.44/-1116.10 vs long control.",
       "dispatch_authorized": false
+    },
+    {
+      "id": "R065",
+      "title": "NASDAQ first5 candle direction with10R bracket",
+      "family": "cash_opening_direction",
+      "role": "new",
+      "parent_id": null,
+      "readiness": "implemented_inconclusive_source_gaps",
+      "timeframe": "Cashfirst5 Bid chart; delayed M1 fill/protective path",
+      "rule_sketch": "First5up BUY/down SELL/doji none; exact09:36Open; opposite first5extremumSL;TP10distance or close-1minute;fixed25USDrisk;unknownexposurefreezesannualaccount.",
+      "data_requirements": "Sealed source-only USATECH.IDX/USD M1/calendar2019/2022; exactsourceordering and completeness before clearingunknown.",
+      "automation_feasibility": "workspace_modeled_M1_policy_not_native_execution",
+      "prop_operational_concerns": "Bothannualaccountsunknown frommissingheldquotes; partialclosedprofits not annualequity; targetspec/prop/OOS/forward unverified.",
+      "source_ids": [
+        "CONCRETUM-QQQ-ORB"
+      ],
+      "source_relation": "ETF_rule_adaptation_with_different_CFDsource_latency_costs_risk_not_replication",
+      "next_action": "Preservev1unknownbooks; targeted8tickhour review gate failed for missing-onlypatch. Register wholeOct2022hour derivedview with its own semantics;2019stillunknown,no qualificationgate relaxation.",
+      "implementation_state": "modeled_M1_policy_inconclusive_unknown_exposure",
+      "candidate_id": "nasdaq-cash-opening5-direction-10R-r025-m1-v1",
+      "implementations": [
+        "nasdaq-cash-opening5-direction-10R-r025-m1-v1"
+      ],
+      "component_evidence": "NASDAQ-OPENING5-ORB-INTERIM-20261108.md",
+      "source_recovery_evidence": "NASDAQ-M1-GAP-TICK-RESULTS-20261108.md",
+      "profitability_evidence": "Partialclosed reference/stress2019+186.21/+136.98after16trades;2022+769.11/+649.63after191;annualequityunknown forboth;notretainedforpromotion.",
+      "dispatch_authorized": false,
+      "control": false
     }
   ],
   "automatic_dispatch": false,
   "automatic_rejection": false,
   "holdout_opened": false,
-  "updated_on": "2026-11-08",
-  "implemented_record_count": 39,
-  "implemented_rule_count": 44,
+  "updated_on": "2026-11-09",
+  "implemented_record_count": 40,
+  "implemented_rule_count": 45,
   "implemented_control_rule_count": 3,
-  "implemented_noncontrol_rule_count": 41,
+  "implemented_noncontrol_rule_count": 42,
   "native_offline_rule_count": 25,
   "metal_coarse_rule_count": 6,
   "index_coarse_rule_count": 7,
   "fx_session_coarse_rule_count": 1,
-  "index_h4_h1proxy_rule_count": 1
+  "index_h4_h1proxy_rule_count": 1,
+  "index_opening5_m1_rule_count": 1
 }
