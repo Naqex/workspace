@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-07",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 67,
+  "record_count": 68,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -12,7 +12,7 @@
   "counts": {
     "by_role": {
       "existing": 36,
-      "variant": 16,
+      "variant": 17,
       "new": 14,
       "component": 1
     },
@@ -25,11 +25,11 @@
       "price_data_spec_possible": 1,
       "point_in_time_news_missing": 2,
       "long_history_or_multi_data": 5,
-      "formation_probe_not_retained": 1,
+      "formation_probe_not_retained": 2,
       "component_only": 1,
       "implemented_parked_conditional_2019_negative": 1,
       "implemented_parked_conditional_negative": 1,
-      "source_fixture_admitted_not_formation": 1
+      "method_admission_before_source_and_recipe": 1
     }
   },
   "sources": [
@@ -2329,22 +2329,46 @@
       "family": "precious_metals_relative_value",
       "role": "variant",
       "parent_id": "R035",
-      "readiness": "source_fixture_admitted_not_formation",
+      "readiness": "formation_probe_not_retained",
       "timeframe": "H1 source sampling; economic horizon not selected",
       "rule_sketch": "Proposed fixed ylogXAU/xlogXAG formations2018/2021; no executable entry/exit/hedge policy yet.",
-      "data_requirements": "Dukascopy XAU-USD/XAG-USD source-only Bid/Ask H1; fullformation coverage not yet collected/reviewed.",
+      "data_requirements": "Reviewed XAU/XAG Bid/Ask H1 full2018/2021:47252bars/236260fields;503/503 registered sample dates.",
       "automation_feasibility": "source_only_no_account_policy",
-      "prop_operational_concerns": "Joint source risk, two-leg costs/funding/margin/hedge/unknown handling and target terms unresolved; no statistical/economic outcomes yet.",
+      "prop_operational_concerns": "Fixed formations fail registered statistical prefilter in both years; no hedge costs/risk/account/prop/OOS/forward outcomes.",
       "source_ids": [
         "CESIFO-GS-2026"
       ],
       "source_relation": "mechanism_and_asset_transfer_not_paper_replication",
-      "next_action": "Register full formation source windows and fixed calendar/method before fetch/statistics; retain missing census, no pair/lag/window grid.",
-      "implementation_state": "source_pilot_verified_no_statistical_or_account_policy",
+      "next_action": "Park exact fixed pair/formations; no orientation/lag/window grid. Preserve source views for separate registered questions.",
+      "implementation_state": "formation_probe_reviewed_not_retained_no_account_policy",
       "candidate_id": null,
       "implementations": [],
-      "evidence_locator": "GOLD-SILVER-SOURCE-RESULTS-20261109.md",
-      "profitability_evidence": "none_for_this_hypothesis; sourcefixture23H1hours/side/instrument only",
+      "evidence_locator": "GOLD-SILVER-FORMATION-RESULTS-20261109.md",
+      "profitability_evidence": "No account PnL. Fixed EngleGranger cointp2018=.7439093504/2021=.0933243296;source samples251/251 and252/252;not retained for economic design.",
+      "dispatch_authorized": false
+    },
+    {
+      "id": "R068",
+      "title": "Gold forest with stop-and-cost-aligned labels",
+      "family": "trained_return",
+      "role": "variant",
+      "parent_id": "R039",
+      "readiness": "method_admission_before_source_and_recipe",
+      "timeframe": "H1 price/SL interval proxy; cadence pending registration",
+      "rule_sketch": "Proposed conditional BUY/SELL expectancy learned from same stopped/holding/cost outcomes as replay; forest real versus paired-label shuffled control. No training/executable recipe yet.",
+      "data_requirements": "Observed-side XAU H1 sources; registered train/dev dates, actual label endpoints and unknown-label census. No undeclared QDM indicative-Ask substitution.",
+      "automation_feasibility": "method_only_existing_ML_capability_available",
+      "prop_operational_concerns": "Old EURUSD ML negatives retained; aligned surrogate does not prove edge or broker/prop/forward realism.",
+      "source_ids": [
+        "SKLEARN"
+      ],
+      "source_relation": "ML_method_and_asset_transfer_not_prior_failure_cause_or_edge_proof",
+      "next_action": "Source and label/clock/split/control admission, then freeze one real/control recipe before outcomes; no model/feature/threshold search.",
+      "implementation_state": "not_implemented_not_trained",
+      "candidate_id": null,
+      "implementations": [],
+      "evidence_locator": "GOLD-ML-LABEL-ALIGNMENT-METHOD-20261109.md",
+      "profitability_evidence": "none_for_this_hypothesis",
       "dispatch_authorized": false
     }
   ],

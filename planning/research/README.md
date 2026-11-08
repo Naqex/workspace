@@ -1,10 +1,10 @@
 # Tra cứu research đã có
 
-Checkpoint mới09/11: [R066 noise14](NASDAQ-NOISE14-RESULTS-20261109.md) đã gác
-sau full16-book review; giữ conditional2019 âm và exact unknown riêng.
-[R067 vàng/bạc source](GOLD-SILVER-SOURCE-RESULTS-20261109.md) đạt fixture,
-chưa statistics/PnL; tiếp fullformation source registration theo
-[campaign hiện hành](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md). Chưa ứng viên challenge.
+Checkpoint mới09/11: [R067 XAU/XAG formation](GOLD-SILVER-FORMATION-RESULTS-20261109.md)
+đã kiểm đủ source/sample, nhưng cả2fixedformations không qua prefilter;
+chưa PnL/ứng viên challenge. Tiếp [R068 stop/cost-aligned ML method](GOLD-ML-LABEL-ALIGNMENT-METHOD-20261109.md),
+chưa train/outcome; [campaign hiện hành](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)
+giữ C1/C2 và trial history, không ép winner hoặc grid rescue.
 
 Đọc tài liệu chủ đề trước, chỉ kiểm lại phần đổi/còn thiếu. Đây là chỉ mục chọn
 lọc, không là danh sách task hoặc chứng nhận tài liệu còn đúng tới hiện tại.

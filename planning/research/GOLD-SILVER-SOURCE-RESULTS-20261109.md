@@ -1,5 +1,10 @@
 # Vàng/bạc: source fixture đạt, chưa kiểm quan hệ hoặc lợi nhuận
 
+Continuation09/11: [full formation results](GOLD-SILVER-FORMATION-RESULTS-20261109.md)
+đã hoàn tất source2018/2021 và fixed diagnostics; nguồn đủ, cả hai formations
+không qua prefilter. Bên dưới giữ scope của source pilot trước continuation,
+không là yêu cầu fetch lại pilot hoặc status formation còn đang chờ.
+
 Theo [protocol](GOLD-SILVER-SOURCE-PROTOCOL-20261109.md) `9db5c3d`, bốn H1
 exports01/11/2018 của XAU/XAG × Bid/Ask đã thu và kiểm xong. Chỉ đủ đăng ký
 formation history tiếp theo, chưa statistical pass/account policy/edge.

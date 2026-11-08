@@ -10,39 +10,45 @@ Owner giao tìm ứng viên đủ C1/C2, chuẩn hóa dữ liệu và cải ti�
 Goal đang active; [campaign v2](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)
 giữ scope, quyết định B cũ không kết thúc chiến dịch mới. **Chưa challenge-qualified.**
 
-Lát mới nhất: [R066 NASDAQ noise14](research/NASDAQ-NOISE14-RESULTS-20261109.md)
-đã hoàn tất16books và full Fraction review; **gác exact recipe** theo frozen
-criteria. Vốn10k/fixed25USD: conditional2019 −214,67/−250,47USD,135trades;
-exact2019 vẫn annualN/A sau104closed vì held minute thiếu02Oct.2022 exact/
-conditional +217,58/+198,44USD,165trades. Không retune bands/clock/risk.
-16tests/12synthetic Fractioncases và6mutations đạt; producer25,324s/review19,927s.
+Lát mới nhất: [R067 formation results](research/GOLD-SILVER-FORMATION-RESULTS-20261109.md)
+đã hoàn tất/review: XAU/XAG fixed2018/2021 không qua statistical prefilter,
+cointp0,743909/0,093324.251/251 và252/252sampledates đầy đủ, không data blocker.
+Gác exactfixedformations, không đổi orientation/window/lag/threshold. Không
+accountpolicy/PnL mới hoặc C1/C2pass. Catalogue68records/46policyversions/
+25native; R068 mới method admission, không strategy đã train.
 
-[R065 bounds](research/NASDAQ-OPENING5-BOUNDS-RESULTS-20261109.md) trước đó
-cũng bị gác vì conditional2019stress upper vẫn âm; exact2019 giữ unknown.
-Không biến conditional point/interval thành actual quotes/edge/prop verdict.
-Các archive GET failures/source snapshots/history vẫn giữ; không retry study
-không đổi hoặc mở own2025+ để cứu negative. Catalogue67records/46research
-policy versions/25native, chưa challenge-qualified.
+Fullsource [protocol](research/GOLD-SILVER-FORMATION-PROTOCOL-20261109.md)
+470442c và sampler a9a2b48 được khóa trước outcomes:96rawmonths/8exports,
+47.252H1bars/236.260fields Fraction/canonical khớp.4Nov2018cachehits từpilot,
+92cachemisses, không retries/unknowncache-state. Bid/Ask hour presence và
+Open/Close không crossed; không actual joint ticks hoặc targetbroker proof.
+Sample16UTC Close/known17UTC theo UScash-business-date sample design,
+không metals-hours claim.3focused tests vàsynthetic4Decimalchecks đạt trước
+outcomes; fullreview1.006sourceBidClose/8Decimal80coeff-SD-tstatchecks cùng
+6mutations đạt. Inferencecurves/legADF dùng cùng pinned statsmodels, không
+independent human/model signoff. Không đọc pairPnL2019/2022/own2025+.
 
-**Tiếp:** [vàng/bạc source results](research/GOLD-SILVER-SOURCE-RESULTS-20261109.md)
-và [protocol](research/GOLD-SILVER-SOURCE-PROTOCOL-20261109.md). Source pilot
-XAU/XAG ×Bid/Ask01Nov2018 có92bars/460fields khớp raw/Fraction;23paired-side
-H1hours/asset không là actual jointticks. Chưa statistical outcomes/PnL hoặc
-accountpolicy R067. Register full formation sources2018/2021 trước fetch;
-fixed ylogXAU/xlogXAG,16UTC H1Close/known17UTC, frozenUS cash dates như sample
-design, không metalsmarket calendar. Full source review/census trước fixed
-Engle–Granger/R035 Decimal review, giữ missing/crossed/inconclusive; không
-pair/orientation/lag/window grid hoặc mở holdout. Pilot chỉ cấp source
-admission, không tự cho phép fullhistory/statistics dưới protocol cũ.
+**Tiếp:** [R068 ML label-alignment method](research/GOLD-ML-LABEL-ALIGNMENT-METHOD-20261109.md).
+Giữ negativesR038/R039; labels khôngSL của oldmodel là disclosed surrogate,
+không bug đã chứng minh. Hỏi forest học same stopped/costed outcomes có conditional
+edge trênXAU không. Reuse21features/nativehelpers/safeJSON/isolatedMLruntime;
+register source/label/clock/split/control rồi exactrecipe trước training/PnL.
+Observed-side XAUH1train2018/2021 đã có từR067; dev2019/2022 cần scope/protocol
+trước sourcefetch nếu dùng. Không trộn indicativeQDM/declaredAsk như observedAsk,
+không model/feature/threshold grid hoặc mở ownholdout2025+.
 
 Private root `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/`;
-`execution-v1/nasdaq-noise14-v1` và `gold-silver-source-v1` giữ config/pins/
-source snapshots/plans/books/progress/reviews. R066 worker20532 và source
-worker26236/reviewers terminal0; không numerical job để chờ. Source pilot
-1,126s/review0,071s; cache-hit/network breakdown chưa đo, không speedup claim.
-Trader83731fc8 không đổi; không runtime/globalconfig/data deletion. Skill
-qualification reference thêm conditional-gap guidance; không publish/assign
-Paperclip hoặc claim workers đã nhận nội dung mới.
+`execution-v1/gold-silver-history-v1` và `gold-silver-formation-v1` giữ fullsource/
+rawproofs/pins/snapshots/sample/census/diagnostics/results/reviews/events/timing.
+Source26976/stat24868/reviewers terminal0. Source45,071s/CPU1,438s,
+review3,180s; stats2,205s/review1,762s, không end-to-end/speedup claim. Không
+bottleneck cầnGPU/Rust/framework mới. Trader83731fc8/skills/runtime/global
+config giữ nguyên; không rawoverwrite/data deletion/paidprovider/account/broker.
+
+R065/R066 cũng đã gác theo conditional2019negative; exactunknowns vẫn giữ.
+Tra [R065](research/NASDAQ-OPENING5-BOUNDS-RESULTS-20261109.md) hoặc
+[R066](research/NASDAQ-NOISE14-RESULTS-20261109.md) khi cần, không replay hoặc
+archive chase không đổi chỉ vì source chưa complete. Chưa ứng viên challenge.
 
 Các kết quả trước và negatives tra [research index](research/README.md) hoặc
 campaignv2; không mở lại raw/numeric batch không đổi. [Data/retrieval review](research/AGENT-DATA-RETRIEVAL-20261108.md)
