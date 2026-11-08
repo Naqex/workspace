@@ -48,7 +48,7 @@
 |R040|Ridge shuffled-label control|falsification / R038|Đã code, chưa qualified|1|[Kết quả](DISCOVERY5-RESULTS-20261108.md)|
 |R041|Forest shuffled-label control|falsification / R039|Đã code, chưa qualified|1|[Kết quả](DISCOVERY5-RESULTS-20261108.md)|
 |R042|Gold Donchian20/10|trend_breakout / R001|Giữ negative version|1|[Gold outcomes](METAL-DISCOVERY9-10-RESULTS-20261108.md)|
-|R043|Gold SMA20/80|trend_breakout / R002|Giữ nghiên cứu ở size50k; chưa qualified|1|[Gold outcomes](METAL-DISCOVERY9-10-RESULTS-20261108.md)|
+|R043|Gold SMA20/80|trend_breakout / R002|Giữ research50k, hạ ưu tiên challenge do time-fit/gaps|1|[Time-fit review](GOLD-SMA50K-REVIEW-20261108.md), [original outcomes](METAL-DISCOVERY9-10-RESULTS-20261108.md)|
 |R044|Gold Z20 ±2|price_reversion / R003|Giữ negative version|1|[Gold outcomes](METAL-DISCOVERY9-10-RESULTS-20261108.md)|
 |R045|Gold Asia→London breakout|session_breakout / R018|Giữ negative version|1|[Gold outcomes](METAL-DISCOVERY9-10-RESULTS-20261108.md)|
 |R046|Gold RSI reentry|price_reversion / R012|Giữ negative version|1|[Gold outcomes](METAL-DISCOVERY9-10-RESULTS-20261108.md)|

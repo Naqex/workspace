@@ -1,5 +1,11 @@
 # Gold 15 năm và intraday — outcomes và quyết định
 
+**Review tiếp theo08/11:** [Gold SMA50k/time-fit](GOLD-SMA50K-REVIEW-20261108.md)
+đã đối soát30books,90prefixes3/6/12tháng và dữ liệu gốc, không rerun simulation.
+Giữ original10/15retentionpass; hạ ưu tiên challengequalification vì cash sau
+đóng cao nhất2.363,73/2.168,91USD trên50k, concentration và targetcost/pathgaps.
+Không tăngrisk hoặc đổi rules; bảng Discovery9 dưới đây giữ đúng historicalscope.
+
 **Chưa đủ để đề xuất challenge.** 15annualbooks riêng2010–2024, không continuous
 portfolio hoặc cleanOOS; bắt đầu mỗi năm từ10k/50k. [Frozen9](METAL-LONG-HISTORY-20261108.md),
 [Frozen10](METAL-INTRADAY-DISCOVERY10-20261108.md). Tất cả indicativeBidM1+
