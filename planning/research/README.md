@@ -7,6 +7,8 @@ Các mục cũ chưa được re-audit khi tạo chỉ mục ngày 05/11/2026.
 
 | Câu hỏi / từ khóa | Nguồn hiện có |
 |---|---|
+| FTMO XAU/US500/EURUSD publicspec, points và giờ server/reset có khớp model không? | [Renderedrows/clockreview](FTMO-SYMBOL-AND-CLOCK-ADMISSION-20261108.md), [observations](FTMO-PUBLIC-SYMBOLS-20261108.json);publicfacts≠accountcontract, không đổi phí lịch sử hoặc points→USD khi thiếu point/mode |
+| R024weekendgap có dữ liệu để bắt đầu chưa? | [Admission](WEEKEND-GAP-DATA-ADMISSION-20261108.md), [results/raworacle](WEEKEND-GAP-DATA-RESULTS-20261108.md), [componentprotocol](WEEKEND-GAP-COMPONENT-PROBE-20261108.md);103weekends/206rawendpoints khớp, cólateopen, chưa return/PnL hoặc implementation |
 | IBS02hold R049 đã sửa nến padding chưa; sau sửa còn đạt không? | [Protocol](IBS02-EXPLICIT-SOURCE-CORRECTION-20261108.md), [AST scope](IBS02-SOURCE-PREFLIGHT-NOTE-20261108.md), [results](IBS02-EXPLICIT-SOURCE-RESULTS-20261108.md):3books/9scenarios reviewed;stresssum+27,46→−8,90USD;khôngoldpriority;2022reuse sau lỗiCLIreviewer |
 | Gold SMA50k có phù hợp3/6/12tháng hoặc challenge chưa? | [Preflight](GOLD-SMA50K-PREFLIGHT-20261108.md), [review30books/90prefixes](GOLD-SMA50K-REVIEW-20261108.md):ledger/sourcequotes khớp declaredmodel;closedcash chưa target,retainedresearch nhưng hạ ưu tiên qualification;không rerun simulator |
 | Long RSI/preclose đã sửa source padding chưa; monthly có nên chạy tiếp? | [Protocol](INDEX-LONG-EXPLICIT-CORRECTION-20261108.md), [results/review](INDEX-LONG-EXPLICIT-RESULTS-20261108.md):source2013–24 đãkiểm,24books/72scenarios chưa đạt triage;monthly32/132eligible,guard chặn0simulationcalls |

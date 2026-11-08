@@ -1,5 +1,10 @@
 # Gold SMA50k: sổ tiền khớp, chưa ưu tiên challenge theo time-fit
 
+**Publicspec follow-up:** [renderedFTMOrows/clock review](FTMO-SYMBOL-AND-CLOCK-ADMISSION-20261108.md)
+đã đọc được XAUrow trong browser sau lần textfetch/TLSfailure dưới đây.
+Publiccontract100/Swing15/percentagefee và swappoints được ghi riêng; chưa đủ
+point/mode/currentaccount/historicalcost để sửa oldoutcomes hoặc nâng verdict.
+
 **Giữ làm research survivor, hạ ưu tiên qualification cho challenge hiện tại.**
 Không đổi rules/risk/cost, không rerun simulator. Diagnostic của15Jan-start
 annualbooks không cho thấy đã đạt closed-profit target trong≤12tháng; đây

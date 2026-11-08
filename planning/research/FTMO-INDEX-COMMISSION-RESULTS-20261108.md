@@ -1,5 +1,9 @@
 # Commission0: hai bản intraday vẫn chưa đủ điều kiện đi tiếp
 
+**Publicspec follow-up08/11:** [renderedrows/clock](FTMO-SYMBOL-AND-CLOCK-ADMISSION-20261108.md)
+xác nhận publicUS500.cashcontract1/Swing15/commission0 và swappoints;
+chưa xác minh targetaccount/point/lotgrid/historicalclock, không đổi oldstudies.
+
 **Đã có kết quả thay thế cho phần source:** decoder tự chèn carried-close
 bars vào phút thiếu. [Correction/results hiện hành](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)
 đã tạo explicit views2022–24 và chạy/kiểm lại đúng sáu sách, giữ rules/risk/cost;

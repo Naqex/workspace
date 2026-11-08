@@ -834,7 +834,7 @@
       "family": "gap_reversion",
       "role": "new",
       "parent_id": null,
-      "readiness": "price_data_spec_possible",
+      "readiness": "endpoint_metadata_reviewed",
       "timeframe": "H1/weeklyopen",
       "rule_sketch": "Gap giữa quoteFri/Sun; chờ xác nhận rồi fade.",
       "data_requirements": "Observed first/last quotes, calendar, spread; không fakeweekendbars",
@@ -844,12 +844,15 @@
         "LOCAL"
       ],
       "source_relation": "project_hypothesis_no_primary_edge_evidence",
-      "next_action": "Chỉ spec sau guard gap; không suy stopprice=fillprice.",
+      "next_action": "Implement frozen2019/2022 component probe after fixtures; preserve lateopen unknowns; no PnL/strategy qualification yet",
       "implementation_state": "not_implemented",
       "candidate_id": null,
       "profitability_evidence": "none_for_this_exact_rule",
       "dispatch_authorized": false,
-      "implementations": []
+      "implementations": [],
+      "evidence_locator": "WEEKEND-GAP-DATA-RESULTS-20261108.md",
+      "component_protocol": "WEEKEND-GAP-COMPONENT-PROBE-20261108.md",
+      "data_admission_scope": "103weekends/206rawendpoints verified2019/2022;2019-05-26firstquote late~3hours; not targetbrokertradability"
     },
     {
       "id": "R025",
