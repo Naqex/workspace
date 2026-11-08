@@ -1,6 +1,6 @@
 # Danh mục nghiên cứu chiến lược — cập nhật09/11/2026
 
-68 hồ sơ:41đã có research implementation(46policyversions),26hồ sơ chưa có accountpolicy và1riskcomponent. Nhóm26 gồm các pricecomponents đã tính nhưng chưa là bottàikhoản. Trong46versions có25native offline rules,4MLcoarse-only,6goldcoarse-only,7indexM1coarse-only,1NASDAQH4/H1proxy,1NASDAQopening5/M1,1NASDAQnoise14/M1 và1FXsessioncoarseprototype trongtooling; gồm2shuffledcontrols và1long-onlybenchmark. **Không phải46edgesđộc lập;chưa bản nào challenge-qualified.** Capital10k/50k vàcost/yearscenarios không đếm thànhstrategyđộc lập.
+69 hồ sơ:43đã có research implementation(48policyversions),25hồ sơ chưa có accountpolicy và1riskcomponent. Nhóm25 gồm các pricecomponents đã tính nhưng chưa là bottàikhoản. Trong48versions có25native offline rules,4MLcoarse-only,2goldH1ML,6goldcoarse-only,7indexM1coarse-only,1NASDAQH4/H1proxy,1NASDAQopening5/M1,1NASDAQnoise14/M1 và1FXsessioncoarseprototype trongtooling; gồm3shuffledcontrols và1long-onlybenchmark. **Không phải48edgesđộc lập;chưa bản nào challenge-qualified.** Capital10k/50k vàcost/yearscenarios không đếm thànhstrategyđộc lập.
 
 [JSON](STRATEGY-CATALOGUE-20261107.json) là cùng dữ liệu có cấu trúc; protocol/source giữ exactrecipes, không automatic dispatch/rejection hoặc broker authority.
 
@@ -73,7 +73,8 @@
 |R065|NASDAQ opening5 direction/10R|cash_opening_direction|Gác exact recipe: conditional2019 stress −925,72→−914,80USD; original2019 vẫn unknown, chưa qualified|1|[Bounds review](NASDAQ-OPENING5-BOUNDS-RESULTS-20261109.md); giữ [exact datarevision](NASDAQ-OPENING5-ORB-DATA-REVISION-RESULTS-20261109.md)|
 |R066|NASDAQ noise14 first daily break|equity_intraday_momentum / R048|Gác: conditional2019 −214,67/−250,47USD;2022 +217,58/+198,44USD; chưa qualified|1|[Results](NASDAQ-NOISE14-RESULTS-20261109.md)|
 |R067|Gold/silver relative-value formation|precious_metals_relative_value / R035|Gác fixed formations: nguồn đủ503dates, cointp2018=0,7439/2021=0,0933; chưa PnL|0|[Formation results](GOLD-SILVER-FORMATION-RESULTS-20261109.md)|
-|R068|Gold forest stop/cost-aligned labels|trained_return / R039|Method admission, chưa train/PnL; giữ oldML negatives|0|[Method](GOLD-ML-LABEL-ALIGNMENT-METHOD-20261109.md)|
+|R068|Gold forest stopped/costed labels|trained_return / R039|Đã train/review,0tín hiệu đủ ngưỡng;gác exactrecipe|1|[Results](GOLD-ML-SL-LABELS-RESULTS-20261109.md);2019/2022zero trades,khôngedge|
+|R069|Gold stopped-label forest shuffled control|falsification / R068|Control đăng ký cùngR068;0tín hiệu đủ ngưỡng|1|[Results](GOLD-ML-SL-LABELS-RESULTS-20261109.md);khôngindependentedge|
 
 ## Cách đọc và việc đang chạy
 

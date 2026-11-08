@@ -1,10 +1,10 @@
 # Tra cứu research đã có
 
-Checkpoint mới09/11: [R067 XAU/XAG formation](GOLD-SILVER-FORMATION-RESULTS-20261109.md)
-đã kiểm đủ source/sample, nhưng cả2fixedformations không qua prefilter;
-chưa PnL/ứng viên challenge. Tiếp [R068 stop/cost-aligned ML method](GOLD-ML-LABEL-ALIGNMENT-METHOD-20261109.md),
-chưa train/outcome; [campaign hiện hành](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)
-giữ C1/C2 và trial history, không ép winner hoặc grid rescue.
+Checkpoint mới09/11: [R068/R069 stopped-label ML results](GOLD-ML-SL-LABELS-RESULTS-20261109.md)
+đã train/review16books;0trades/0PnL vì không vượt frozen0,10R. Gác exactrecipe,
+khôngthresholdrescue; catalogue69records/48versions/25native. Goal active/chưa
+challenge-qualified. Tiếp method admission stock-specific information; không
+coi quoteCFDvolume là tradedshares hoặc sourcefixture là strategyproof.
 
 Đọc tài liệu chủ đề trước, chỉ kiểm lại phần đổi/còn thiếu. Đây là chỉ mục chọn
 lọc, không là danh sách task hoặc chứng nhận tài liệu còn đúng tới hiện tại.

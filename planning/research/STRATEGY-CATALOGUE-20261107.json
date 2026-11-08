@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-07",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 68,
+  "record_count": 69,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -12,7 +12,7 @@
   "counts": {
     "by_role": {
       "existing": 36,
-      "variant": 17,
+      "variant": 18,
       "new": 14,
       "component": 1
     },
@@ -29,7 +29,7 @@
       "component_only": 1,
       "implemented_parked_conditional_2019_negative": 1,
       "implemented_parked_conditional_negative": 1,
-      "method_admission_before_source_and_recipe": 1
+      "implemented_not_retained_no_qualified_signals": 2
     }
   },
   "sources": [
@@ -2353,38 +2353,71 @@
       "family": "trained_return",
       "role": "variant",
       "parent_id": "R039",
-      "readiness": "method_admission_before_source_and_recipe",
-      "timeframe": "H1 price/SL interval proxy; cadence pending registration",
-      "rule_sketch": "Proposed conditional BUY/SELL expectancy learned from same stopped/holding/cost outcomes as replay; forest real versus paired-label shuffled control. No training/executable recipe yet.",
-      "data_requirements": "Observed-side XAU H1 sources; registered train/dev dates, actual label endpoints and unknown-label census. No undeclared QDM indicative-Ask substitution.",
-      "automation_feasibility": "method_only_existing_ML_capability_available",
-      "prop_operational_concerns": "Old EURUSD ML negatives retained; aligned surrogate does not prove edge or broker/prop/forward realism.",
+      "readiness": "implemented_not_retained_no_qualified_signals",
+      "timeframe": "H1 interval proxy;08/12/16UTC decisions,3hour holding after1hour delayed entry",
+      "rule_sketch": "RF80/depth4/minleaf100/21causalfeatures predicts stopped/costed BUY/SELLnetR;maxside>0.10R only;SL1.5TR14,fixed25USDrisk;train2018/2021 to dev2019/2022.",
+      "data_requirements": "Reviewed observed-side XAUH1train2018/2021+dev2019/2022; endpoint-purged label census, safeJSON packs; no QDM indicative-Ask substitution.",
+      "automation_feasibility": "workspace_modeled_H1_ML_policy_not_native_execution",
+      "prop_operational_concerns": "All16books zero trades; no qualified signals at frozen threshold. Exposed development/H1fillproxy/declaredcosts, no targetbroker/prop/OOS/forward proof.",
       "source_ids": [
         "SKLEARN"
       ],
       "source_relation": "ML_method_and_asset_transfer_not_prior_failure_cause_or_edge_proof",
-      "next_action": "Source and label/clock/split/control admission, then freeze one real/control recipe before outcomes; no model/feature/threshold search.",
-      "implementation_state": "not_implemented_not_trained",
-      "candidate_id": null,
-      "implementations": [],
-      "evidence_locator": "GOLD-ML-LABEL-ALIGNMENT-METHOD-20261109.md",
-      "profitability_evidence": "none_for_this_hypothesis",
-      "dispatch_authorized": false
+      "next_action": "Park exact recipe; no threshold/hyperparameter rescue. Preserve scores/census/negatives; distinct-mechanism admission before further outcomes.",
+      "implementation_state": "implemented_reviewed_not_retained_no_qualified_signals",
+      "candidate_id": "xauusd-h1-forest-sl-time3-r025-v1",
+      "implementations": [
+        "xauusd-h1-forest-sl-time3-r025-v1"
+      ],
+      "evidence_locator": "GOLD-ML-SL-LABELS-RESULTS-20261109.md",
+      "profitability_evidence": "Real2019/2022 reference/stress:0trades,net0USD,modeledflat;real scoremax0.0394084/0.0834018R below frozen0.10R. Not profitable or qualified.",
+      "dispatch_authorized": false,
+      "control": false,
+      "implementation_updated_on": "2026-11-09"
+    },
+    {
+      "id": "R069",
+      "title": "Gold stopped-label forest shuffled control",
+      "family": "falsification",
+      "role": "variant",
+      "parent_id": "R068",
+      "readiness": "implemented_not_retained_no_qualified_signals",
+      "timeframe": "H1 interval proxy;08/12/16UTC decisions,3hour holding after1hour delayed entry",
+      "rule_sketch": "Preregistered paired-row BUY/SELLlabel permutation(seed42+foldindex);same features/forest/threshold/path/costs asR068.",
+      "data_requirements": "Reviewed observed-side XAUH1train2018/2021+dev2019/2022; endpoint-purged label census, safeJSON packs; no QDM indicative-Ask substitution.",
+      "automation_feasibility": "workspace_modeled_H1_ML_policy_not_native_execution",
+      "prop_operational_concerns": "All16books zero trades; no qualified signals at frozen threshold. Exposed development/H1fillproxy/declaredcosts, no targetbroker/prop/OOS/forward proof.",
+      "source_ids": [
+        "SKLEARN"
+      ],
+      "source_relation": "preregistered_falsification_control_not_independent_edge",
+      "next_action": "Park exact recipe; no threshold/hyperparameter rescue. Preserve scores/census/negatives; distinct-mechanism admission before further outcomes.",
+      "implementation_state": "implemented_reviewed_not_retained_no_qualified_signals",
+      "candidate_id": "xauusd-h1-forest-sl-time3-shuffled-r025-v1",
+      "implementations": [
+        "xauusd-h1-forest-sl-time3-shuffled-r025-v1"
+      ],
+      "evidence_locator": "GOLD-ML-SL-LABELS-RESULTS-20261109.md",
+      "profitability_evidence": "Shuffled2019/2022 reference/stress:0trades,net0USD,modeledflat;scoremax0.0989124/0.0970541R;no permutation pvalue or candidate promotion.",
+      "dispatch_authorized": false,
+      "control": true,
+      "implementation_updated_on": "2026-11-09"
     }
   ],
   "automatic_dispatch": false,
   "automatic_rejection": false,
   "holdout_opened": false,
   "updated_on": "2026-11-09",
-  "implemented_record_count": 41,
-  "implemented_rule_count": 46,
-  "implemented_control_rule_count": 3,
-  "implemented_noncontrol_rule_count": 43,
+  "implemented_record_count": 43,
+  "implemented_rule_count": 48,
+  "implemented_control_rule_count": 4,
+  "implemented_noncontrol_rule_count": 44,
   "native_offline_rule_count": 25,
   "metal_coarse_rule_count": 6,
   "index_coarse_rule_count": 7,
   "fx_session_coarse_rule_count": 1,
   "index_h4_h1proxy_rule_count": 1,
   "index_opening5_m1_rule_count": 1,
-  "index_noise14_m1_rule_count": 1
+  "index_noise14_m1_rule_count": 1,
+  "metal_h1_ml_rule_count": 2
 }

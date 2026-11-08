@@ -8,14 +8,14 @@ có nhu cầu thực. Goal mới đã active. Quyết định dừng B ở
 
 ## Checkpoint hiện hành — 09/11/2026
 
-[R067 XAU/XAG formation](GOLD-SILVER-FORMATION-RESULTS-20261109.md) đã fullsource/
-sample/Decimal review: nguồn đủ nhưng cả2fixedformations không qua prefilter,
-không accountpolicy/PnL. Gác exact formations; R065/R066 negatives/unknowns
-vẫn giữ. Catalogue68records/46policyversions/25native; [R068 method admission](GOLD-ML-LABEL-ALIGNMENT-METHOD-20261109.md)
-ML labels khớp SL/cost là lát tiếp, chưa code/train/outcome. Giữ oldML negatives,
-không grid hoặc coi surrogate alignment đã tạo edge. Goal C1/C2 active,
-chưa challenge candidate. Các đoạn "tiếp" trong lịch sử dưới đây là checkpoint
-cũ, không là numerical jobs đang chạy.
+[R068/R069 stopped-label ML](GOLD-ML-SL-LABELS-RESULTS-20261109.md) đã train/review:
+16books đều0trades/0PnL; toàn bộ decisions được score nhưng không vượt frozen0,10R.
+Gác exactrecipe, không threshold/refit rescue. Catalogue69records/48versions/
+25native/4controls. R067 formation negatives và R065/R066 unknowns/conditional
+negatives giữ nguyên. Goal C1/C2 active, chưa challenge candidate. Tiếp admission
+stock-specific information/abnormalactivity; relative traded-share volume chưa
+có mapping từ quoteCFD volume, chưa strategy/numeric hoặc permission mới.
+Các đoạn tiếp trong lịch sử dưới đây không là numerical jobs đang chạy.
 
 ## Đích và cách biết đã đạt
 
