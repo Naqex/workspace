@@ -1,19 +1,22 @@
 # Current context — Naqex Workspace
 
-## Goal mới: một đợt discovery có câu hỏi rõ — 08/11/2026
+## Đợt discovery hữu hạn đã xong — 08/11/2026
 
-Owner đã clear Goal C1/C2 cũ rồi giao làm tiếp và cho phép tạo Goal mới.
-Goal hiện **active cho đợt hữu hạn**: gác/giữ exactversions cũ, chọn câu hỏi
-khác cụ thể, freeze/kiểm/chạy/review và chốt nextaction; không hứa tìmwinner.
-Đã ghi24FXversions gác sau frozen13yearcostscreen trong catalogueJSON/MD;
-53records/41versions giữ, không hardrejectfamilies hoặc thay oldoutcomes.
-[Protocol mới](research/FIXING-CLOCK-TRANSFER-PROBE-20261108.md), source58d2ae9/
-8tests:pairedentry02NY→exit14:00/14:15Berlin, component không SL/sizing/account.
-2019/2022raw đãconsumed;primarySELL/controlBUY/cost giữ. Numeric đang chạy
-session75010 tại`execution-v1/fixing-clock-transfer-v1`; kiểm handle/progress
-trước khi dispatch/retry. Chưa outcomes/verdict hoặc rulecount mới.
-Các trạng thái paused/activeGoal cũ bên dưới là lịch sử; không mở2025+,
-OrderCheck/OrderSend/account/provider/payment/production theo Goal mới.
+Owner đã clear Goal C1/C2 cũ rồi giao làm tiếp/tạo Goal mới cho đợt hữu hạn:
+gác/giữ versions cũ, chọn câu hỏi khác, freeze/test/run/review và nextaction;
+không hứa tìmwinner. [Kết quả/receipt](research/FIXING-CLOCK-TRANSFER-RESULTS-20261108.md)
+giữ đủ đầu ra:24FXversions trên19records đãgác;53records/41versions giữ.
+Source58d2ae9/8tests,pairedentry02NY→exit14:00/14:15Berlin khôngSL/sizing/account:
+521weekdays,519pairedresolved,delta−119,0/−161,2pip2019/2022;khôngủnghộthêm15phút.
+2019Jan1entrymissing vàDec25giữ1unresolvedexit,khôngfill0. Numeric47,438s/
+CPU42,938s;review37,301s,3119rawrows/3114Fractionchecks/1563links/8mutationsreject.
+Private`execution-v1/fixing-clock-transfer-v1`;sessions75010/74953terminal0,
+khôngjobnền. Không rerun624cases,khôngpolicyimplementation/challengequalified.
+Tiếp nếu được giao: đăng ký attributionSL/weights/coverage của parentpreECB
+giữclock14:00 trêncommonmask;khôngmặcđịnhdispatchR019 hoặcgridgiờ. Component
+positive khônglàrisk25USD/accountedge. Goal đợt có đủacceptance;C1/C2dài hạn
+chưađạt. Các trạng thái paused/activeGoal cũ dưới đây là lịch sử;2025+,
+OrderCheck/OrderSend/account/provider/payment/production vẫnđóng.
 
 ## Owner giao sửa discovery/screen — 08/11/2026, đã kiểm lát hữu hạn
 

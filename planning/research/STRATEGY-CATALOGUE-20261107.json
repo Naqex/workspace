@@ -819,12 +819,14 @@
         "BOC48"
       ],
       "source_relation": "published_mechanism; not_exact_method",
-      "next_action": "Đọc phương pháp đầy đủ và clock trước bất kỳ numericrun.",
+      "next_action": "Preserve parked parent versions. If continuing this mechanism, register stop/weight/coverage attribution at unchanged1400clock before changing rules; no automatic rerun.",
       "implementation_state": "not_implemented",
       "candidate_id": null,
       "profitability_evidence": "none_for_this_exact_rule",
       "dispatch_authorized": false,
-      "implementations": []
+      "implementations": [],
+      "component_evidence_locator": "FIXING-CLOCK-TRANSFER-RESULTS-20261108.md",
+      "component_decision": "No support for extending pre-ECB exit1400 to1415 on paired2019/2022 events; one2019unresolvedexit; not a new strategy or promotion."
     },
     {
       "id": "R021",
@@ -843,7 +845,7 @@
         "LOCAL"
       ],
       "source_relation": "published_mechanism; project_H1_clock_hypothesis_not_exact_replication",
-      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
+      "next_action": "Preserve parked parent versions. If continuing this mechanism, register stop/weight/coverage attribution at unchanged1400clock before changing rules; no automatic rerun.",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h1-europe-am-short-atr14x1p5-close13-r025-v1",
       "profitability_evidence": "exposed_annual_coarse_not_qualification",
@@ -862,7 +864,9 @@
         "eurusd-h1-pre-tokyo18ny-10tokyo-atr14x1p5-r025-v1": "parked_after_registered_cost_screen"
       },
       "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
-      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry.",
+      "component_evidence_locator": "FIXING-CLOCK-TRANSFER-RESULTS-20261108.md",
+      "component_decision": "No support for extending pre-ECB exit1400 to1415 on paired2019/2022 events; one2019unresolvedexit; not a new strategy or promotion."
     },
     {
       "id": "R022",

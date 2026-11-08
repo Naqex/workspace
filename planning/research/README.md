@@ -7,6 +7,7 @@ Các mục cũ chưa được re-audit khi tạo chỉ mục ngày 05/11/2026.
 
 | Câu hỏi / từ khóa | Nguồn hiện có |
 |---|---|
+| Fixing14:00→14:15 có cứu được recipe cũ không? | [Results/decision](FIXING-CLOCK-TRANSFER-RESULTS-20261108.md):521weekdays,519pairedresolved;delta−119,0/−161,2pip2019/22;khôngủnghộthêm15phút.2019giữ1unresolvedexit;3119rawrows/3114financialchecks/8mutationsreview;khôngnewstrategy/challenge |
 | Câu hỏi mới khác các fixingbatch cũ là gì? | [Pairedclockprotocol](FIXING-CLOCK-TRANSFER-PROBE-20261108.md):cùngentry02NY,soexit14:00/14:15Berlin trên2019/2022consumedraw;component khôngSL/sizing.24FXversionscũđãgác trongcatalogue,khôngrerun624cases;chưanewwinner/qualification |
 | Đã sửa discovery/screen sau diagnosis chưa? | [Repairresults](SCREEN-CALIBRATION-REPAIR-RESULTS-20261108.md), [protocol](SCREEN-CALIBRATION-REPAIR-20261108.md), [originmap](STRATEGY-ORIGIN-TRANSFER-REVIEW-20261108.md):8boundedcases46,11s;signals/entrieskhớp,SLbias0,04–0,24USD;shocknofill.624rowcostdecomposition4,10s;7newtests+22existing/18subtests,khôngnewedge/annualerrorbound |
 | Chưa có challengecandidate do engine, screen hay hypothesis? Chiến lược tự sinh hay có nguồn? | [Discovery diagnosis08/11](DISCOVERY-DIAGNOSIS-20261108.md):624rows/seals/48totals đọc lại;6/24referencepositive,0stress;khôngmargin/minlotskip. Reviewedrecipes là adaptations, chưa exactpaperreplication;ưu tiên calibration/transfer/costdiagnostic,khôngnewbatch khi Goalpaused |
