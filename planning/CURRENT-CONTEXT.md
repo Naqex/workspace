@@ -122,6 +122,8 @@ chạy lại study không đổi hay ép ra winner.
 | Liên project | [Workspace plan](WORKSPACE-NEXT-STAGE-PLAN.md) → [handoff](checkpoints/workspace-next-stage/RESUME.md), rồi project owner |
 | VI Dubber/Quant/TradingAgents | README/AGENTS/PLAN của đúng repo; task hiện tại không khởi động các lane này |
 
+[Local-flow results](research/LOCAL-FLOW-TWO-FX-RESULTS-20261108.md): R059 BUY GBPUSD phiên Mỹ và R060 SELL AUDUSD phiên Sydney đã hoàn tất/review, cả hai không đạt retention. Catalogue hiện 60 hồ sơ/42 policy versions; chưa challenge candidate. Numeric5,431s/review2,919s, 7.826 events/31.092 Fraction checks/7 mutations. Không còn job lượt này. Lát tiếp method admission khác fixed-hour unconditional flow; không đảo controls hoặc đổi giờ cứu kết quả.
+
 ## Ownership và giới hạn còn hiệu lực
 
 - Paperclip quản lý native tasks/agents/runs/reports/approvals/costs; Trader

@@ -87,3 +87,7 @@ Các mục cũ chưa được re-audit khi tạo chỉ mục ngày 05/11/2026.
 Chưa thấy chủ đề thì dùng `rg` trong thư mục/project liên quan; chỉ mục chưa
 liệt kê toàn bộ research. Cập nhật bản chủ đề đang có trước khi thêm file mới.
 Quy trình lưu/kế thừa ở [context lifecycle](../CONTEXT-LIFECYCLE.md#kế-thừa-research-chẩn-đoán-và-kiểm-chứng).
+
+## Local-flow GBPUSD/AUDUSD — 08/11/2026
+
+[Protocol](LOCAL-FLOW-TWO-FX-PROTOCOL-20261108.md) và [kết quả](LOCAL-FLOW-TWO-FX-RESULTS-20261108.md): R059/R060 không đạt retention, giữ negatives và clocks/DST/UTC-year/source-role review. Catalogue60/42, Goal C1/C2 active; chưa challenge candidate.

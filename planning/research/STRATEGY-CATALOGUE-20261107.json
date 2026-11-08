@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-07",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 58,
+  "record_count": 60,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -12,13 +12,13 @@
   "counts": {
     "by_role": {
       "existing": 36,
-      "variant": 9,
+      "variant": 11,
       "new": 12,
       "component": 1
     },
     "by_readiness": {
       "implemented": 36,
-      "component_probe_not_retained": 7,
+      "component_probe_not_retained": 9,
       "price_data_spec_possible": 2,
       "method_clock_review": 1,
       "component_probe_completed_no_priority": 1,
@@ -61,8 +61,8 @@
       "title": "Intraday patterns in FX returns and order flow",
       "url": "https://www.snb.ch/en/publications/research/working-papers/2011/working_paper_2011_04",
       "publication": "2011",
-      "review_depth": "official_full_pdf_Table1_Table2_section2_2",
-      "limitations": "Historical local-hours effects; not a current EURUSD bot guarantee.",
+      "review_depth": "full PDF method sections 2.1-2.3 and Tables 1/2 refreshed",
+      "limitations": "Old EBS data; GBP/AUD paper trading returns were not profitable after spread. Adaptations use another feed/era and declared costs, not replication.",
       "checked_on": "2026-11-08",
       "method_review_locator": "LOCAL-SESSION-ADMISSION-20261108.md"
     },
@@ -2037,6 +2037,54 @@
       "implementations": [],
       "component_evidence": "TWO-FX-PRE-ECB-COMPONENT-RESULTS-20261108.md",
       "profitability_evidence": "stress-7330.0pip/1of15positiveyears_notretained",
+      "dispatch_authorized": false
+    },
+    {
+      "id": "R059",
+      "title": "GBPUSD US-session local flow",
+      "family": "session_flow",
+      "role": "variant",
+      "parent_id": "R023",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "source H1 Open fixed local session",
+      "rule_sketch": "BUY GBPUSD 08:00-16:00 America/New_York; opposite side control; price component per standard lot",
+      "data_requirements": "Sealed source-only Bid/Ask H1 2010-2024; UTC lookup across years; missing/crossed Open explicit",
+      "automation_feasibility": "price_component_only_not_account_or_execution",
+      "prop_operational_concerns": "Failed frozen year/block retention; Open interval proxy not executable tick; no SL/sizing/prop/OOS",
+      "source_ids": [
+        "SNB04"
+      ],
+      "source_relation": "cross_market_local_flow_adaptation_not_paper_replication_or_independent_edge",
+      "next_action": "Park exact recipe; no side/clock/fee rescue. Method admission for a distinct mechanism before outcomes.",
+      "implementation_state": "component_implemented_not_retained_no_account_policy",
+      "candidate_id": null,
+      "implementations": [],
+      "component_evidence": "LOCAL-FLOW-TWO-FX-RESULTS-20261108.md",
+      "profitability_evidence": "reference -181.0 / stress -1738.6 pip; 7/15 stress-positive years",
+      "dispatch_authorized": false
+    },
+    {
+      "id": "R060",
+      "title": "AUDUSD Sydney-session local flow",
+      "family": "session_flow",
+      "role": "variant",
+      "parent_id": "R023",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "source H1 Open fixed local session",
+      "rule_sketch": "SELL AUDUSD 10:00-16:00 Australia/Sydney; opposite side control; price component per standard lot",
+      "data_requirements": "Sealed source-only Bid/Ask H1 2010-2024; UTC lookup across years; missing/crossed Open explicit",
+      "automation_feasibility": "price_component_only_not_account_or_execution",
+      "prop_operational_concerns": "Failed frozen year/block retention; Open interval proxy not executable tick; no SL/sizing/prop/OOS",
+      "source_ids": [
+        "SNB04"
+      ],
+      "source_relation": "cross_market_local_flow_adaptation_not_paper_replication_or_independent_edge",
+      "next_action": "Park exact recipe; no side/clock/fee rescue. Method admission for a distinct mechanism before outcomes.",
+      "implementation_state": "component_implemented_not_retained_no_account_policy",
+      "candidate_id": null,
+      "implementations": [],
+      "component_evidence": "LOCAL-FLOW-TWO-FX-RESULTS-20261108.md",
+      "profitability_evidence": "reference -11854.2 / stress -13405.8 pip; 1/15 stress-positive years",
       "dispatch_authorized": false
     }
   ],

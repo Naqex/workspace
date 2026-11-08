@@ -79,3 +79,5 @@ R057GBPUSDkhôngđạtblock/yearretention dùstresssumdương,R058AUDUSDâmrõ.
 Catalogue58records/42researchpolicyversions,khôngtăngpolicycount vìcomponents.
 Lát tiếp methodadmissionkhácprefixUSDshort;khôngcontrolsrescue/SLgrid hoặc
 tảidata/thêmengine khôngcâuhỏi. GoalC1/C2active,chưachallengecandidate.
+
+[Local-flow hai FX](LOCAL-FLOW-TWO-FX-RESULTS-20261108.md): R059/R060 đã terminal và review, cả hai không đạt frozen retention. Catalogue60/42; Goal vẫn active, chưa challenge candidate. Không thêm wrapper cho hai exact recipes. Lát tiếp admission relative/cross-market signal khác fixed-hour unconditional flow, reuse nguồn hiện có và giữ costs/funding trước PnL.
