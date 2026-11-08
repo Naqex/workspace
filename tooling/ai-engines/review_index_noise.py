@@ -133,6 +133,8 @@ def inspect_scenario(result, pairs, sessions):
         if distance <= 0 or (distance+D('.001')+2*slip+2*commission)*q > 25:
             raise ValueError('planned_risk_exceeded')
         exit_stamp = trade['exit_interval_msc'][0]
+        if exit_stamp//86400000 != stamp//86400000:
+            raise ValueError('carry_requires_funded_review')
         exit_row = pairs[exit_stamp][0 if side == 'BUY' else 1]
         reason = trade['reason']
         if reason == 'stop_loss':

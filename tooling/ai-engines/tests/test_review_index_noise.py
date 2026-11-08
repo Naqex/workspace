@@ -69,6 +69,16 @@ class IndependentArithmeticTests(unittest.TestCase):
             with self.subTest(changes=changes), self.assertRaisesRegex(ValueError, 'separate_mark_review'):
                 inspect_scenario(result, pairs, sessions)
 
+    def test_unfunded_cross_day_carry_requires_separate_funding_review(self):
+        result, pairs, sessions = known_trade()
+        trade = result['trades'][0]
+        previous = trade['exit_interval_msc'][0]
+        exit_at = previous+86400000
+        pairs[exit_at] = pairs.pop(previous)
+        trade.update(exit_interval_msc=[exit_at, exit_at], reason='delayed_cash_flat')
+        with self.assertRaisesRegex(ValueError, 'carry_requires_funded_review'):
+            inspect_scenario(result, pairs, sessions)
+
 
 class FundedBindingTests(unittest.TestCase):
     def test_hand_calculated_funded_trade_reconciles(self):
