@@ -74,3 +74,8 @@ checks/bridgeEURUSD7.971ticks;chưahistory/PnL. Bướctiếp đăngkýsourcehis
 inconclusive. Recoveryreuse15books vàvolume-roundingmetadata giữrõ. Tiếp
 registeredendpointcomponents trênOpenroleshợplệ,giữmissing/crossedrows;
 chưaeconomicoutcomes,khôngtrade/newprovider/holdout hoặcR056retuning.
+[TwoFXresults](TWO-FX-PRE-ECB-COMPONENT-RESULTS-20261108.md) đãterminal/reviewed:
+R057GBPUSDkhôngđạtblock/yearretention dùstresssumdương,R058AUDUSDâmrõ.
+Catalogue58records/42researchpolicyversions,khôngtăngpolicycount vìcomponents.
+Lát tiếp methodadmissionkhácprefixUSDshort;khôngcontrolsrescue/SLgrid hoặc
+tảidata/thêmengine khôngcâuhỏi. GoalC1/C2active,chưachallengecandidate.

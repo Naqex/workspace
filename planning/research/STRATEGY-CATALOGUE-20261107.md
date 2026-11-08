@@ -1,6 +1,6 @@
 # Danh mục nghiên cứu chiến lược — cập nhật08/11/2026
 
-56 hồ sơ:37đã có research implementation(42policyversions),18hồ sơ chưa có accountpolicy và1riskcomponent. Nhóm18 gồm các pricecomponents đã tính nhưng chưa là bottàikhoản. Trong42versions có24native offline rules,4MLcoarse-only,6goldcoarse-only,7indexM1coarse-only và1FXsessioncoarseprototype trongtooling; gồm2shuffledcontrols và1long-onlybenchmark. **Không phải42edgesđộc lập;chưa bản nào challenge-qualified.** Capital10k/50k vàcost/yearscenarios không đếm thànhstrategyđộc lập.
+58 hồ sơ:37đã có research implementation(42policyversions),20hồ sơ chưa có accountpolicy và1riskcomponent. Nhóm20 gồm các pricecomponents đã tính nhưng chưa là bottàikhoản. Trong42versions có24native offline rules,4MLcoarse-only,6goldcoarse-only,7indexM1coarse-only và1FXsessioncoarseprototype trongtooling; gồm2shuffledcontrols và1long-onlybenchmark. **Không phải42edgesđộc lập;chưa bản nào challenge-qualified.** Capital10k/50k vàcost/yearscenarios không đếm thànhstrategyđộc lập.
 
 [JSON](STRATEGY-CATALOGUE-20261107.json) là cùng dữ liệu có cấu trúc; protocol/source giữ exactrecipes, không automatic dispatch/rejection hoặc broker authority.
 
@@ -62,6 +62,8 @@
 |R054|Gold BUY00–08UTC|gold_session_flow|Gác exactpriceprobe;0/15stressyears dương|0|[Session results](GOLD-SESSION-COMPONENT-RESULTS-20261108.md);chưaSL/account|
 |R055|Gold SELL10:30–15London|gold_session_flow|Gác exactpriceprobe;0/15stressyears dương|0|[Session results](GOLD-SESSION-COMPONENT-RESULTS-20261108.md);khôngLBMAprice/SL/account|
 |R056|PreECB sessionRMS20x2 stop|fixing_flow /R021|Totaldương nhưng2/4stressblocksâm;khôngretained|1|[Results](PRE-ECB-SESSION-RISK-RESULTS-20261108.md);toolingcoarseprototype,chưanative/prop/OOS|
+|R057|GBPUSDPreECB02NY→14Berlin|fixing_flow /R021|Stress+880,2pip nhưng9/15positiveyears/2negativeblocks;khôngretained|0|[TwoFXresults](TWO-FX-PRE-ECB-COMPONENT-RESULTS-20261108.md);sourceH1Openproxy,chưabot|
+|R058|AUDUSDPreECB02NY→14Berlin|fixing_flow /R021|Stress−7.330pip/1positiveyear;khôngretained|0|[TwoFXresults](TWO-FX-PRE-ECB-COMPONENT-RESULTS-20261108.md);missing/crossedsourcegiữrõ|
 
 ## Cách đọc và việc đang chạy
 

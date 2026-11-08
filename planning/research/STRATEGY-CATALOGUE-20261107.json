@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-07",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 56,
+  "record_count": 58,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -12,13 +12,13 @@
   "counts": {
     "by_role": {
       "existing": 36,
-      "variant": 7,
+      "variant": 9,
       "new": 12,
       "component": 1
     },
     "by_readiness": {
       "implemented": 36,
-      "component_probe_not_retained": 5,
+      "component_probe_not_retained": 7,
       "price_data_spec_possible": 2,
       "method_clock_review": 1,
       "component_probe_completed_no_priority": 1,
@@ -1990,6 +1990,54 @@
       "capital_scenarios": [
         "10000"
       ]
+    },
+    {
+      "id": "R057",
+      "title": "GBPUSD preECB sourceH1Open price probe",
+      "family": "fixing_flow",
+      "role": "variant",
+      "parent_id": "R021",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "sourceH1Open 02NY-14Berlin",
+      "rule_sketch": "SELLGBPUSD02NY-14Berlin;oppositeBUYcontrol;pricecomponent1lot",
+      "data_requirements": "Source-onlyH1bothsides2010-24 with missing/crossedOpen roles explicit",
+      "automation_feasibility": "price_component_only_not_account_or_execution",
+      "prop_operational_concerns": "Unmet frozenyear/blockretention;H1Openproxy notactualjointticks;noSL/lot/prop/OOS",
+      "source_ids": [
+        "BOC48"
+      ],
+      "source_relation": "cross_market_adaptation_not_paper_replication_or_independent_edge",
+      "next_action": "Park exactpricecomponent;nohours/sidegrid orcontrolrescue. Methodadmission for a distinct mechanism before new outcomes.",
+      "implementation_state": "component_implemented_not_retained_no_account_policy",
+      "candidate_id": null,
+      "implementations": [],
+      "component_evidence": "TWO-FX-PRE-ECB-COMPONENT-RESULTS-20261108.md",
+      "profitability_evidence": "stress880.2pip/9of15positiveyears_notretained",
+      "dispatch_authorized": false
+    },
+    {
+      "id": "R058",
+      "title": "AUDUSD preECB sourceH1Open price probe",
+      "family": "fixing_flow",
+      "role": "variant",
+      "parent_id": "R021",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "sourceH1Open 02NY-14Berlin",
+      "rule_sketch": "SELLAUDUSD02NY-14Berlin;oppositeBUYcontrol;pricecomponent1lot",
+      "data_requirements": "Source-onlyH1bothsides2010-24 with missing/crossedOpen roles explicit",
+      "automation_feasibility": "price_component_only_not_account_or_execution",
+      "prop_operational_concerns": "Unmet frozenyear/blockretention;H1Openproxy notactualjointticks;noSL/lot/prop/OOS",
+      "source_ids": [
+        "BOC48"
+      ],
+      "source_relation": "cross_market_adaptation_not_paper_replication_or_independent_edge",
+      "next_action": "Park exactpricecomponent;nohours/sidegrid orcontrolrescue. Methodadmission for a distinct mechanism before new outcomes.",
+      "implementation_state": "component_implemented_not_retained_no_account_policy",
+      "candidate_id": null,
+      "implementations": [],
+      "component_evidence": "TWO-FX-PRE-ECB-COMPONENT-RESULTS-20261108.md",
+      "profitability_evidence": "stress-7330.0pip/1of15positiveyears_notretained",
+      "dispatch_authorized": false
     }
   ],
   "automatic_dispatch": false,

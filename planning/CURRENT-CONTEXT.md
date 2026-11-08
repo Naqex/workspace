@@ -73,12 +73,18 @@ v1prefixfix chỉrerunreview,giữfailure;workerđãterminal.1day/1hour chưahis
 đãreview373.652bars/1.868.260checks,60books/719of720months;fulljointinput
 admissionfalse vìmissingAUDAskJan2013 và30crossedpairhoursAUD2010(1exitOpen).
 148.096paddingrowsremoved/40explicitvol0kept;2.052volumesroundednative4dp
-đãkiểmđúngtransform,rawunroundedgiữ. Không giá/signal/PnLhoặcbroker/holdout.
+đãkiểmđúngtransform,rawunroundedgiữ. Khôngsignal/PnLhoặcbroker/holdout ởsourcepass.
 v1date-mutationfix0seals,v2timeout15seals,v3reuse15books214,894s/review27,117s;
 allworkers/reviews terminal. Khôngsửaraw/oldpins hoặcchạyrequestknownfailed.
-**Lát tiếp:** freezeGBPUSD/AUDUSDpricecomponents vớiOpenfieldguards và
-allweekdayunknown/crossedstates;khôngjointtick/account/propclaim,không SLgrid/
-costrescue R056. Nếuretainedmớiaccountwidebudgetchung/native/unseen/forward.
+[TwoFXprice results](research/TWO-FX-PRE-ECB-COMPONENT-RESULTS-20261108.md):
+R057GBPUSDstress+880,2pip nhưng9/15positiveyears/2negativeblocks;R058AUDUSD
+stress−7.330pip/1positiveyear. Cả2khôngretained;7.826plannedrows/sourceOpen
+roles,31.060Fractioncases/120summaries/5mutations;numeric5,722s/review2,706s.
+Khôngactualjointtick/SL/account/prop/OOS;allworkers củađợtđãterminal.
+Catalogue58records/42researchpolicyversions;components khôngtăngpolicycount.
+**Lát tiếp:** methodadmissionkhácuniversalprefixUSDshort,cóthểđọc official
+local-hourflow;so cơchế/cost/exposure trước1–2newrecipes,khônggridgiờ/side,
+khôngrescuecontrols hoặcR056,khôngnewdata/engine khi chưa cócâuhỏicụthể.
 
 Phần tối ưu context/retrieval trước đó đã xong trong scope:
 [Đánh giá dữ liệu/tra cứu](research/AGENT-DATA-RETRIEVAL-20261108.md) giữ số đo,
