@@ -1,0 +1,114 @@
+{
+  "schema": "public-symbol-research-observation-v1",
+  "observed_on": "2026-11-08",
+  "source_url": "https://ftmo.com/en/symbols/",
+  "source_kind": "official_public_rendered_page",
+  "method": "IAB DOM; Global region selected; Metals CFD, Cash CFD, Forex filters; no login or account creation",
+  "observation_is_account_contract": false,
+  "historical_spec_verified": false,
+  "broker_spec_verified": false,
+  "promotion_authorized": false,
+  "execution_authorized": false,
+  "rows": [
+    {
+      "symbol": "XAU/USD",
+      "row_name": "Gold vs US Dollar, Spot CFD",
+      "category": "Metals CFD",
+      "contract_size_display": "100",
+      "margin_percent_display": "2",
+      "leverage_display": "1:50",
+      "leverage_swing_display": "1:15",
+      "swap_long_display": "-59.58",
+      "swap_short_display": "-4.2",
+      "swap_type_display": "points",
+      "commission_display": "0.0014",
+      "commission_type_display": "PERCENT/VOLUME",
+      "commission_side_basis_explicit_in_row": false,
+      "hours_timezone_display": "GMT+2",
+      "monday_to_friday_hours_display": "01:05 - 23:50",
+      "saturday_display": "trading is closed",
+      "sunday_display": "trading is closed"
+    },
+    {
+      "symbol": "US500.cash",
+      "row_name": "S&P 500 Index, Spot CFD",
+      "category": "Cash CFD",
+      "contract_size_display": "1",
+      "margin_percent_display": "2",
+      "leverage_display": "1:50",
+      "leverage_swing_display": "1:15",
+      "swap_long_display": "-180.08",
+      "swap_short_display": "4.46",
+      "swap_type_display": "points",
+      "commission_display": "0",
+      "commission_type_display": null,
+      "commission_side_basis_explicit_in_row": false,
+      "hours_timezone_display": "GMT+2",
+      "monday_to_friday_hours_display": "01:05 - 23:50",
+      "saturday_display": "trading is closed",
+      "sunday_display": "trading is closed"
+    },
+    {
+      "symbol": "EUR/USD",
+      "row_name": "Euro vs United States Dollar",
+      "category": "Forex",
+      "contract_size_display": "100,000",
+      "margin_percent_display": "1",
+      "leverage_display": "1:100",
+      "leverage_swing_display": "1:30",
+      "swap_long_display": "-9.5",
+      "swap_short_display": "0.36",
+      "swap_type_display": "points",
+      "commission_display": "5",
+      "commission_type_display": "USD/LOT*",
+      "commission_side_basis_explicit_in_row": false,
+      "hours_timezone_display": "GMT+2",
+      "monday_to_friday_hours_display": "00:05 - 23:55",
+      "saturday_display": "trading is closed",
+      "sunday_display": "trading is closed"
+    }
+  ],
+  "clock_evidence": {
+    "public_daily_loss_reset_timezone": "Europe/Prague",
+    "public_daily_loss_reset_local_time": "00:00:00",
+    "reset_source_url": "https://ftmo.com/en/blog/trading-updates/trading-update-5-mar-2026/",
+    "metatrader_offset_observed_hours": 2,
+    "metatrader_summer_offset_announced_hours": 3,
+    "offset_change_sources": [
+      "https://ftmo.com/en/blog/trading-updates/trading-update-5-mar-2026/",
+      "https://ftmo.com/en/blog/trading-updates/trading-update-29-oct-2026/"
+    ],
+    "metatrader_swap_posting_local_time_announced": "00:00:00",
+    "historical_full_transition_schedule_verified": false,
+    "all_sessions_or_holiday_exceptions_verified": false
+  },
+  "public_fee_crossreferences": [
+    {
+      "source_url": "https://ftmo.com/en/blog/trading-updates/trading-update-25-sep-2025/",
+      "scope": "announcement effective2025-09-29; not historical2010-2024 or a verified current account contract",
+      "metals_percent_volume_per_side_announced": "0.0007",
+      "forex_usd_per_lot_per_side_announced": "2.50"
+    },
+    {
+      "source_url": "https://ftmo.com/en/faq/how-does-the-ftmo-technical-infrastructure-work/",
+      "announced_execution_delay_up_to_ms": 200,
+      "scope": "public provider description; not measured end-to-end latency or fill guarantee"
+    }
+  ],
+  "unknown_fields_for_account_qualification": [
+    "target_account_server_platform_identity_and_effective_contract",
+    "symbol_digits_and_point_price",
+    "trade_tick_size_and_tick_value_profit_loss",
+    "profit_and_margin_currency_and_conversion",
+    "volume_min_step_max_and_limits",
+    "trade_calc_and_swap_mode",
+    "swap_daily_multipliers_rollover3days_and_holiday_schedule",
+    "account_specific_current_and_historical_commission_rounding",
+    "historical_spread_quotes_slippage_and_liquidity",
+    "broker_specific_holiday_sessions_and_inactive_hours",
+    "swap_dividend_and_corporate_action_adjustment_history"
+  ],
+  "derived_cash_swaps_usd": null,
+  "derived_utc_sessions_for_all_history": null,
+  "allowed_use": "research provenance and explicit counterfactual scenario design; not auto-dispatch, historical reconstruction, economic qualification or broker execution"
+}
