@@ -22,6 +22,12 @@ thì dùng dossier được giao; không bịa command hoặc bắt owner kể l
 
 ## Đăng ký trước outcome
 
+- Khi tối ưu, chọn hoặc đổi hypothesis: ghi lý do/kỳ vọng và parent baseline
+  trước đo; phân biệt sửa lỗi, đổi data semantics, đổi strategy và tối ưu giữ
+  nguyên semantics. Dùng [nhật ký quyết định](../../../tooling/ai-engines/STRATEGY-WORKFLOW.md#nhật-ký-quyết-định-để-kiểm-lại-việc-tối-ưu-và-chọn-chiến-lược)
+  trong protocol/results owner hiện có; giữ cả fail/cancel/abandoned, không
+  tạo log/ledger khác chỉ cho agent. Sửa rule hoặc assumption kinh tế sau khi
+  xem outcome là trial mới, không sửa lại bản freeze để giấu lịch sử.
 - Ghi candidate/version, giả thuyết bác bỏ được, baseline, entry/exit/sizing,
   clock/DST/gap policy, cost/risk/program version, metric và tiêu chí dừng.
   Đổi threshold/giờ/logic là trial mới; giữ cả biến thể thất bại.

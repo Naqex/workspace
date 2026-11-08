@@ -46,3 +46,22 @@ skill có caller để làm audit xanh. Không đổi global hooks từ nội du
 Không tự xóa hàng loạt. Kiểm exact callers, desired assignments và active runs
 trước gộp/retire; giữ compatibility link khi cần. Không sửa catalog-only skill
 upstream từ repo file không sở hữu nó.
+
+## 08/11: nhật ký tối ưu và quyết định chiến lược
+
+Theo yêu cầu owner, cập nhật `strategy-research`, `strategy-qualification` và
+`engineering-retrospective` để đọc/ghi nhật ký tại protocol/results/review owner
+hiện có. [Workflow](../../tooling/ai-engines/STRATEGY-WORKFLOW.md#nhật-ký-quyết-định-để-kiểm-lại-việc-tối-ưu-và-chọn-chiến-lược)
+giữ nội dung chi tiết; không tạo skill, ledger hoặc UI mới. Phân vai: đăng ký
+lý do/baseline trước outcome → lưu vì sao giữ/loại/chuyển bước → kiểm so sánh
+trước/sau/parity và retained failures. Không đổi global instructions hoặc quyền.
+
+Manual walkthrough dùng [source correction](../../planning/research/INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md):
+sửa data semantics không gọi là speedup, giữ negatives và không promote chỉ vì
+PnL bớt âm. Negative case: chỉ hỏi tiến độ hoặc sửa copy không kích hoạt full
+experiment/audit hoặc rerun batch. Đây là review nội dung, chưa forward-test
+routing bằng model độc lập. Ba skill structures/links và maintainer audit đạt
+0errors/0warnings; global12279B,project10133B,reserve55403B,combined22412B.
+Local native-package bundle đã xuất để kiểm nội dung; chưa publish/assign
+runtime Paperclip trong lượt này, không suy repo edit thành agent đang chạy
+đã nhận instruction. Numerical/source workers không đọc Markdown vừa sửa.

@@ -54,6 +54,11 @@ Với strategy research, đọc [hậu kiểm lượt nghiên cứu](references/
 - Lưu bảng review, số đo/baseline, quyết định, nguồn, giới hạn và bước tiếp vào
   receipt/artifact owner; index chỉ trỏ tới đó. Ghi rõ manual walkthrough,
   source-confirmed, measured hoặc actual runtime verification.
+- Khi chốt một tối ưu hoặc thay cách làm, đối chiếu [nhật ký quyết định](../../../tooling/ai-engines/STRATEGY-WORKFLOW.md#nhật-ký-quyết-định-để-kiểm-lại-việc-tối-ưu-và-chọn-chiến-lược):
+  lý do trước đo → baseline/delta → kết quả trước/sau → kiểm parity/giới hạn →
+  giữ/bỏ và rollback locator. Giữ cả tối ưu thất bại; source/data semantics
+  hoặc phạm vi đổi thì không gọi là speedup cùng độ đúng. Ghi thiếu evidence
+  thay vì bịa số đo hoặc bắt chạy lại batch không đổi chỉ để điền bảng.
 - Skill thực thi khi agent có lượt làm việc; không là daemon hay quyền tự nâng
   package/model/engine, đổi risk, sửa holdout hoặc cấp broker authority. Repo
   skill không chứng minh native Paperclip/Hermes loader đã nhận hoặc dùng nó.

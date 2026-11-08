@@ -51,6 +51,13 @@ bằng chứng/unknown. Một trục đạt không làm trục khác đạt.
 - `eligible_for_next_stage_review`: đủ cho đúng bước đề xuất, chưa là permission,
   auto promotion hoặc bảo đảm lợi nhuận.
 
+Khi chọn/loại/chuyển bước hoặc thay verdict, lưu vì sao và bằng chứng làm đổi
+quyết định, old→new candidate/run/input/cost/risk versions, tiêu chí đã khóa,
+remaining gaps và bước kiểm tiếp. Dùng [nhật ký quyết định hiện có](../../../tooling/ai-engines/STRATEGY-WORKFLOW.md#nhật-ký-quyết-định-để-kiểm-lại-việc-tối-ưu-và-chọn-chiến-lược),
+link verdict cũ thay vì xóa negatives. Thiếu baseline/trial history thì ghi
+inconclusive trong phạm vi ảnh hưởng; không dựng lý do hồi tố như đã biết
+trước hoặc promote chỉ vì kết quả mới đẹp hơn.
+
 Paperclip own task/report/decision; artifacts giữ numbers/provenance; promotion
 reducer/grant hiện có giữ quyền thực thi. Reuse quyền đã có nhưng kiểm còn hiệu
 lực đúng account/scope; không tự cấp mới hoặc sửa ledger để tự pass. Báo cáo
