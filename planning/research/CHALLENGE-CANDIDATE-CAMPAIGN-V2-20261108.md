@@ -8,20 +8,17 @@ có nhu cầu thực. Goal mới đã active. Quyết định dừng B ở
 
 ## Checkpoint hiện hành — 09/11/2026
 
-[R076/R077 rest-of-day review](INDEX-REST-OF-DAY-RESULTS-20261109.md) đã xong:
-1.006 cashday rows /995 resolved asset-days, primary stress không dương cả
-hai năm. US5002019 giữ missing-entry unknown, không gọi known sum là full net.
-NASDAQ2022 chỉ phí chuẩn dương. Gác exact components; catalogue 77 /58 /
-25 native /9 controls, chưa challenge. Goal vẫn active.
+[Closing tick pilot](INDEX-CLOSING-TICK-CALIBRATION-RESULTS-20261109.md) đã xong:
+8 giờ /115.502 ticks, 577.510 raw field checks và 960 common M1 side bars exact;
+0 conflict, 64 target timestamps có quote. Không PnL, measured broker latency
+hoặc full history proof. Producer 19,158 s /review 8,820 s, không job phải chờ.
+Tiếp profile/benchmark bounded trên pilot trước full source, giữ Fraction
+oracle/all-field parity; full intake/latency economics cần registration riêng.
 
-8 tests mới +11 regressions, 28 synthetic cases và full Fraction/cost/census
-review; 18 mutations bị reject. Shared primitives giữ 1.006 old rows/summaries
-exact. Producer 19,237 s /review 14,132 s, chưa compute bottleneck đáng thêm
-GPU/Rust. Tiếp [registered closing-tick calibration](INDEX-CLOSING-TICK-CALIBRATION-PROTOCOL-20261109.md):
-8 source hours, chưa PnL. Không mass-filter/tune trên delay proxy chưa đo hoặc
-promote controls. [R075/frozen source](US500-OVERNIGHT-REVERSAL-RESULTS-20261109.md)
-và [strict FX N/A](NY-FX-PAIRED-LATENCY-RESULTS-20261109.md) giữ scope riêng.
-Không repeat unchanged books, repin old manifests, own2025+ hoặc broker.
+[R076/R077 results](INDEX-REST-OF-DAY-RESULTS-20261109.md) giữ fail hai-year gate:
+995 resolved asset-days; US5002019 còn 1 unknown entry, NASDAQ2022 chỉ phí chuẩn
+positive. Chưa challenge, Goal active; catalogue 77 /58 /25 native /9 controls.
+Không rerun unchanged books/source fetch, repin manifests, own2025+ hoặc broker.
 
 ## Đích và cách biết đã đạt
 

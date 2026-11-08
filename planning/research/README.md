@@ -1,12 +1,12 @@
 # Tra cứu research đã có
 
-Checkpoint 09/11: [rest-of-day results](INDEX-REST-OF-DAY-RESULTS-20261109.md)
-đã full review, primary không đạt two-year net gate. US5002019 giữ 1 unknown
-entry, NASDAQ2022 chỉ phí chuẩn dương. Catalogue 77 /58 /25 native /9 controls;
-Goal active, chưa challenge. Tiếp [tick timing/source pilot](INDEX-CLOSING-TICK-CALIBRATION-PROTOCOL-20261109.md):
-8 source hours, chưa PnL, trước thêm filters. Không rerun unchanged books,
-source-hash repin, own2025+ hoặc broker. [Strict FX N/A](NY-FX-PAIRED-LATENCY-RESULTS-20261109.md)
-vẫn nguyên dù conditional model có kết quả.
+Checkpoint 09/11: [closing tick pilot](INDEX-CLOSING-TICK-CALIBRATION-RESULTS-20261109.md)
+đã source-reviewed: 8 giờ /115.502 ticks /960 M1 side bars exact, 0 conflict.
+Chưa PnL, actual broker latency hoặc full history proof. Tiếp bounded profile/
+benchmark trên pilot trước full intake/economic registration, không refetch.
+[R076/R077](INDEX-REST-OF-DAY-RESULTS-20261109.md) vẫn fail, US5002019 giữ 1 unknown.
+Catalogue 77 /58 /25 native /9 controls; Goal active, chưa challenge; own2025+/
+broker đóng.
 
 Đọc tài liệu chủ đề trước, chỉ kiểm lại phần đổi/còn thiếu. Đây là chỉ mục chọn
 lọc, không là danh sách task hoặc chứng nhận tài liệu còn đúng tới hiện tại.
@@ -15,10 +15,11 @@ Các mục cũ chưa được re-audit khi tạo chỉ mục ngày 05/11/2026.
 
 | Câu hỏi / từ khóa | Nguồn hiện có |
 |---|---|
+| Tick quanh cuối phiên có khớp nguồn M1 và cho biết latency thật không? | [Pilot results](INDEX-CLOSING-TICK-CALIBRATION-RESULTS-20261109.md): 115.502 joint ticks /577.510 raw checks, 960 side bars exact, 64 target timestamps; chỉ archived availability, chưa broker latency/PnL |
 | Tín hiệu tới15:30 có tốt hơn đầu phiên và qua phí không? | [R076/R077 results](INDEX-REST-OF-DAY-RESULTS-20261109.md), [protocol](INDEX-REST-OF-DAY-PROTOCOL-20261109.md): 995 resolved asset-days, primary gate fail; US5002019 known-partial, không account/prop/OOS |
-| Next-M1Open có phải delay thực không; nên kiểm nguồn gì trước? | [Closing-tick pilot](INDEX-CLOSING-TICK-CALIBRATION-PROTOCOL-20261109.md): 8 registered hours, raw/Fraction/M1bridge và availability, chưa returns/PnL/source execution |
+| Next-M1Open có phải delay thực không; nên kiểm nguồn gì trước? | [Closing-tick results](INDEX-CLOSING-TICK-CALIBRATION-RESULTS-20261109.md), [protocol](INDEX-CLOSING-TICK-CALIBRATION-PROTOCOL-20261109.md): 8 giờ đã thu/review; chỉ archived quote availability, chưa broker latency hoặc PnL |
 | S&P opening reversal đã có edge chưa; source proof cũ bị code drift thì sao? | [R075 results](US500-OVERNIGHT-REVERSAL-RESULTS-20261109.md): stress âm cả hai năm; 4 source years tái dùng bằng frozen code/protocol, raw/seals trực tiếp; full Fraction/cost review, chưa account/prop/OOS |
-| Cơ chế khác opening gap/firsthalf có thể thử bằng data đã kiểm? | [Rest-of-day method](INDEX-REST-OF-DAY-METHOD-20261109.md): primary author PDF, predictor tới 15:30, costs và gamma-proxy limits; chưa economic registration/outcomes mới |
+| Cơ chế khác opening gap/first-half trên data đã kiểm có kết quả chưa? | [Rest-of-day results](INDEX-REST-OF-DAY-RESULTS-20261109.md), [method](INDEX-REST-OF-DAY-METHOD-20261109.md): đã register/run/review R076/R077, không đạt frozen net gate; không gamma hoặc challenge proof |
 | Overnight gap của NASDAQ dự báo cú hồi đầu phiên không? | [R074 results](NASDAQ-OVERNIGHT-REVERSAL-RESULTS-20261109.md), [protocol](NASDAQ-OVERNIGHT-REVERSAL-PROTOCOL-20261109.md): 499 planned days, âm cả hai năm; full Fraction/cost review; 7,763 s producer + 5,280 s review, không account/prop/OOS |
 | NYFX gap models đã giải quyết được annual unknown chưa? | [Conditional results](NY-FX-GAP-SCENARIOS-RESULTS-20261109.md): 64 books đã review, primary âm cả hai năm; gác exact recipe, strict annual N/A giữ nguyên; 93,415 s producer + 115,232 s review |
 | NASDAQ opening5 đã có edge chưa; sourcegaps đã sửa chưa? | [Datarevisionresults](NASDAQ-OPENING5-ORB-DATA-REVISION-RESULTS-20261109.md):2022knownflat/243trades/+714,71 hoặc+568,12USD,2019unknown giữ nguyên; tickderivedhour480fields reviewed, nguyên191tradeprefix và nullstate. Overallgate vẫn chưađạt; [interim](NASDAQ-OPENING5-ORB-INTERIM-20261108.md)/[tickgapreview](NASDAQ-M1-GAP-TICK-RESULTS-20261108.md) giữv1failures |
