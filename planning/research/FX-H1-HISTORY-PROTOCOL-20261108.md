@@ -46,3 +46,14 @@ historicalFTMO/The5erscontract,wholemarketcoverage,OOS/edge/prop bởiSHA.
 Sauadmission mớifreeze pricecomponent→portfolio hypothesis,entry/exit/cost/
 risk/sharedbudget vàretention trước số mới. Hậu kiểmtiming rồi tốiưu nếu
 có bottleneck thật; khôngframework/RAG/skill/dashboard mới chođợt này.
+
+## Correction trước outcomes: attempt2
+
+Attempt1`fx-h1-history-v1` dừng4,306s tại metadata `.slice` vì native
+`validateConfigNode` normalize requestdates in-place thànhDate.0booksseals,
+0numeric/signal/outcomes. Raw12months củafirstrequest đãcache;khôngxoá/đổi
+rawbytes. Fix H1helpercopyrequest/dates trướcnativevalidation, thêmregression
+callerconfigkhôngđổi sauholdout-reject. M1helper/oldfixtures giữ nguyên.
+Attempt2root`fx-h1-history-v2` với sourcepins mới, cùng60requests/date/side/
+schema/quality;reuse rawcache đãtảibằngnativecache/hash,khôngtảilạitoàn bộ.
+Không gọi attempt1completed hoặc sửaoldmanifest theohelpermới.

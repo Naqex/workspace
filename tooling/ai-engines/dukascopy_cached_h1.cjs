@@ -20,7 +20,8 @@ function explicitHours(data) {
 async function getCachedH1(request,options) {
   if(request.timeframe!=='h1'||request.ignoreFlats!==false||request.wafMode!=='off'||request.wafTokenCache!==false||
       request.retryCount!==0||request.rateLimitRetryCount!==0||request.useCache!==true)throw Error('explicit_H1_no_hidden_auth_or_retry');
-  const checked=native.validateConfigNode(request);
+  // Native validation normalizes dates in place; keep caller config and receipts unchanged.
+  const checked=native.validateConfigNode({...request,dates:{...request.dates}});
   if(!checked.isValid)throw Error('invalid_provider_configuration');
   const input=checked.input;
   const [startDate,endDate]=native.normaliseDates({instrument:input.instrument,startDate:input.dates.from,endDate:input.dates.to,timeframe:'h1',utcOffset:0});

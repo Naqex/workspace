@@ -11,5 +11,7 @@ test('H1 requires explicit guard flags before any network',async()=>{
   await assert.rejects(getCachedH1({timeframe:'h1'},{}),/no_hidden_auth_or_retry/);
   const cfg={instrument:'gbpusd',timeframe:'h1',dates:{from:'2025-01-01',to:'2025-02-01'},ignoreFlats:false,
     wafMode:'off',wafTokenCache:false,retryCount:0,rateLimitRetryCount:0,useCache:true};
+  const original=JSON.stringify(cfg);
   await assert.rejects(getCachedH1(cfg,{}),/holdout_closed/);
+  assert.equal(JSON.stringify(cfg),original);
 });
