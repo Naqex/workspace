@@ -23,7 +23,7 @@ def profile_identity(profile):
     return PROFILES[profile]
 
 
-def _predictor(pair, at, field):
+def predictor_bid(pair, at, field):
     if pair is None:
         return None
     if len(pair) != 2 or any(type(r['timestamp']) is not int or r['timestamp'] != at for r in pair):
@@ -34,8 +34,7 @@ def _predictor(pair, at, field):
     return bid if bid <= ask else None
 
 
-def prepare(sessions, pairs, *, start, end, profile='nasdaq'):
-    candidate, _, _ = profile_identity(profile)
+def validate_calendar_window(sessions, *, start, end):
     if (type(start) is not int or type(end) is not int or start % DAY or end % DAY
             or end <= start):
         raise ValueError('component_window')
@@ -48,10 +47,16 @@ def prepare(sessions, pairs, *, start, end, profile='nasdaq'):
     selected = {d: s for d, s in expected.items() if next(iter(sessions)) <= d <= next(reversed(sessions))}
     if list(sessions.items()) != list(selected.items()):
         raise ValueError('cash_calendar_day_clock_or_missing_session')
+    return year
+
+
+def prepare(sessions, pairs, *, start, end, profile='nasdaq'):
+    candidate, _, _ = profile_identity(profile)
+    year = validate_calendar_window(sessions, start=start, end=end)
     specs, previous, previous_at = [], None, None
     for day, stamps in sessions.items():
         regular = len(stamps) == 390
-        current = _predictor(pairs.get(stamps[0]), stamps[0], 'open') if regular else None
+        current = predictor_bid(pairs.get(stamps[0]), stamps[0], 'open') if regular else None
         valid = regular and previous is not None and current is not None
         gap = current - previous if valid else None
         side = 'SELL' if valid and gap > 0 else 'BUY' if valid and gap < 0 else None
@@ -67,7 +72,7 @@ def prepare(sessions, pairs, *, start, end, profile='nasdaq'):
                 status='planned_price_component' if side else 'calendar_halfday_skipped' if not regular
                 else 'valid_flat_gap' if valid else 'signal_unavailable'))
         previous_at = stamps[-1]
-        previous = _predictor(pairs.get(previous_at), previous_at, 'close')
+        previous = predictor_bid(pairs.get(previous_at), previous_at, 'close')
     return specs
 
 
@@ -95,24 +100,45 @@ def evaluate(sessions, pairs, *, start, end, market_function, cost_function, pro
                 path_observed_minutes=sum(t in pairs for t in path), status='unresolved_endpoint')
             if entry['bid'] is not None and exit_at['bid'] is not None:
                 row['status'] = 'resolved_price_component_not_account'
-                for scenario in SCENARIOS:
-                    instrument, model, _ = market_function(scenario)
-                    if instrument.instrument_id != instrument_id or instrument.contract_size != 1:
-                        raise ValueError('opening_reversal_geometry_identity')
-                    opposite = 'SELL' if spec['signal_side'] == 'BUY' else 'BUY'
-                    sides = (spec['signal_side'], opposite, 'BUY', 'SELL')
-                    row['outcomes'][scenario] = {}
-                    for role, side in zip(ROLES, sides):
-                        costs = cost_function(model, side, D(1), instrument.contract_size,
-                            D(entry['bid']), D(entry['ask']), D(exit_at['bid']), D(exit_at['ask']))
-                        row['outcomes'][scenario][role] = dict(side=side, costs=costs,
-                            net_usd_per_research_unit=str(costs['net_account']), planned_funding_usd='0')
+                opposite = 'SELL' if spec['signal_side'] == 'BUY' else 'BUY'
+                sides = dict(zip(ROLES, (spec['signal_side'], opposite, 'BUY', 'SELL')))
+                row['outcomes'] = cost_outcomes(entry, exit_at, sides, instrument_id=instrument_id,
+                    market_function=market_function, cost_function=cost_function)
         rows.append(row)
     return dict(rows=rows, wall_seconds=time.perf_counter() - began, cpu_seconds=time.process_time() - cpu)
 
 
+def cost_outcomes(entry, exit_at, sides, *, instrument_id, market_function, cost_function):
+    outcomes = {}
+    for scenario in SCENARIOS:
+        instrument, model, _ = market_function(scenario)
+        if instrument.instrument_id != instrument_id or instrument.contract_size != 1:
+            raise ValueError('opening_reversal_geometry_identity')
+        outcomes[scenario] = {}
+        for role, side in sides.items():
+            if side is None:
+                outcomes[scenario][role] = dict(side=None, costs=None, net_usd_per_research_unit='0',
+                    planned_funding_usd='0', no_exposure=True)
+                continue
+            if side not in ('BUY', 'SELL'):
+                raise ValueError('component_cost_side')
+            costs = cost_function(model, side, D(1), instrument.contract_size,
+                D(entry['bid']), D(entry['ask']), D(exit_at['bid']), D(exit_at['ask']))
+            outcomes[scenario][role] = dict(side=side, costs=costs,
+                net_usd_per_research_unit=str(costs['net_account']), planned_funding_usd='0')
+    return outcomes
+
+
 def summarize(rows, expected_sessions, *, profile='nasdaq'):
     candidate, _, _ = profile_identity(profile)
+    return summarize_rows(rows, expected_sessions, candidate=candidate, roles=ROLES)
+
+
+def summarize_rows(rows, expected_sessions, *, candidate, roles,
+                   benchmark_roles=('always_long_control', 'always_short_control')):
+    if (not isinstance(candidate, str) or not candidate or not roles or len(set(roles)) != len(roles)
+            or 'primary' not in roles or not benchmark_roles or not set(benchmark_roles) <= set(roles)):
+        raise ValueError('component_summary_identity_roles')
     if set(expected_sessions) != {2019, 2022} or any(not v or list(v) != sorted(set(v)) for v in expected_sessions.values()):
         raise ValueError('registered_two_year_census')
     expected = [(year, day) for year in (2019, 2022) for day in expected_sessions[year]]
@@ -123,7 +149,7 @@ def summarize(rows, expected_sessions, *, profile='nasdaq'):
                 or any(type(r[k]) is not int or r[k] != 0 for k in ('broker_calls', 'model_calls'))):
             raise ValueError('component_identity_or_authority')
         if r['outcomes'] and (not r['planned_trade'] or set(r['outcomes']) != set(SCENARIOS)
-                or any(set(v) != set(ROLES) for v in r['outcomes'].values())):
+                or any(set(v) != set(roles) for v in r['outcomes'].values())):
             raise ValueError('unregistered_outcomes')
     summary, gates = [], []
     for year in (2019, 2022):
@@ -134,7 +160,7 @@ def summarize(rows, expected_sessions, *, profile='nasdaq'):
         resolved = [r for r in planned if r['outcomes']]
         for scenario in SCENARIOS:
             nets = {}
-            for role in ROLES:
+            for role in roles:
                 values = [D(r['outcomes'][scenario][role]['net_usd_per_research_unit']) for r in resolved]
                 if any(not v.is_finite() for v in values):
                     raise ValueError('nonfinite_component_net')
@@ -150,7 +176,7 @@ def summarize(rows, expected_sessions, *, profile='nasdaq'):
             if scenario == 'stress':
                 gates.append(dict(year=year, retained=len(planned) >= 100 and valid*100 >= len(regular)*98
                     and len(resolved)*100 >= len(planned)*98 and nets['primary'] > 0
-                    and nets['primary'] > max(nets['always_long_control'], nets['always_short_control'])))
+                    and nets['primary'] > max(nets[role] for role in benchmark_roles)))
         summary.append(dict(year=year, role='null_no_exposure', entries=0, known_net_usd_per_research_unit='0'))
     return dict(candidate=candidate, summary=summary, year_gates=gates,
         retained_for_further_research=all(g['retained'] for g in gates), scope='price_component_not_account_policy',
