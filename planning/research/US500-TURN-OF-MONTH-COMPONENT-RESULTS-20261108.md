@@ -1,5 +1,11 @@
 # R025: chưa ưu tiên bot đầu/cuối tháng
 
+**Cập nhật source correction:** bảng trong file này giữ historical native-expanded
+view. [Kết quả hiện hành](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md) xác định
+ba ngày dùng padding, sửa đúng ba ngày và reuse1507 ngày; kết luận không đổi.
+Kiểm raw-file binding trước đây chưa chứng minh từng nến được raw response
+liệt kê; không dùng các bảng cũ như source-only hoặc execution proof.
+
 **Không đạt tiêu chí đã đăng ký để ưu tiên xây bot.** Hiệu ứng đầu/cuối tháng
 không hơn ngày thường ở cả hai giai đoạn và hai mức chi phí. Giữ kết quả này;
 không chọn riêng giai đoạn đẹp, đổi ngày/giờ hoặc chuyển sang giữ qua đêm.

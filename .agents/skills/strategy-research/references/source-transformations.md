@@ -16,6 +16,14 @@ gaps khác nguồn. Không bắt mỗi status check tải lại data hoặc ki�
    bars nếu scope dùng quote prices; không đổi quote volume thành exchange
    volume hay bằng chứng có thể fill. Nếu loại bars, phải có semantics và
    protocol rõ trước outcome, không gọi phần bị lọc là feed outage đã xác minh.
+   Kiểm cả decoder: nó có thể tự chèn carried-close/volume0 vào phút không
+   được raw response liệt kê. `ignoreFlats:false` không chứng minh source-only,
+   còn lọc mọi volume0 có thể mất nến nguồn thật. Bind timestamp từng side vào
+   raw source, phân biệt explicit/padding/unknown; giữ nến explicit có volume0.
+   Với cached Dukascopy M1, opt-in `sourceCandlesOnly:true` và lưu callback
+   provenance/hash/count trong manifest. Default native view giữ để tái hiện
+   lịch sử, chưa là quan sát nguồn hoặc giá có thể khớp. Không tự suy M1 thành
+   execution tick; kiểm availability cho đúng Bid/Ask của từng metric/fill.
 4. Khi phát hiện material input defect: giữ old attempt, đánh dấu phạm vi bị
    ảnh hưởng; canonicaldecode output mới từ hashed cachedraw nếu có. Test
    network-denied để chắc reuse không lén tải nguồn khác. Rerun đúng affected
@@ -29,6 +37,10 @@ gaps khác nguồn. Không bắt mỗi status check tải lại data hoặc ki�
 
 Đã kiểm ở [US500 correction](../../../../planning/research/INDEX-UNFILTERED-SOURCE-CORRECTION-20261108.md),
 [range oracle](../../../../planning/research/INDEX-DAILY-RANGE-ORACLE-20261108.md).
+[Explicit-source correction](../../../../planning/research/INDEX-EXPLICIT-SOURCE-CORRECTION-20261108.md)
+và [kết quả](../../../../planning/research/INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)
+ghi decoder padding, cache-only parity và phạm vi affected; không sửa upstream
+hoặc ghi đè old raw/results để hợp thức hóa correction.
 Local tools: `sealed_m1_review.py`, `quote_bar_oracle.py` và pinned-native
-`dukascopy_cached_m1.cjs` tại `tooling/ai-engines/`; exact runtime/source pins
+`dukascopy_cached_m1.cjs`, reviewer `candle_source_provenance.py` tại `tooling/ai-engines/`; exact runtime/source pins
 ở attempt. Đây là workflow đã có evidence, không policy cho mọi provider.

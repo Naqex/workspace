@@ -30,8 +30,8 @@
 |R022|Post-fix USD reversal|fixing_flow / R020|Đã code, chưa qualified|2|[Kết quả](DISCOVERY6-7-RESULTS-20261108.md)|
 |R023|Local trading-hours currency flow|session_flow|method_clock_review|0|Chưa outcome riêng|
 |R024|Post-weekend gap fade|gap_reversion|price_data_spec_possible|0|Chưa outcome riêng|
-|R025|Weekday/calendar effect|calendar|Component TOM chưa đạt; chưa bot|0|[1510sessionreview](US500-TURN-OF-MONTH-COMPONENT-RESULTS-20261108.md)|
-|R026|Month-end fixing flow|fixing_flow / R020|Method đọc; chưa relative-equity/calendar pins|0|[Preflight](FX-MONTH-END-FIXING-METHOD-20261108.md), chưa PnL|
+|R025|Weekday/calendar effect|calendar|Source-corrected TOM chưa đạt; chưa bot|0|[Correction3days/reuse1507](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)|
+|R026|Month-end fixing flow|fixing_flow / R020|Bounded fixture đạt; chưa signal/calendar spec|0|[Method](FX-MONTH-END-FIXING-METHOD-20261108.md), [source review](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md), chưa PnL|
 |R027|News-surprise continuation|event|point_in_time_news_missing|0|Chưa outcome riêng|
 |R028|News overreaction reversal|event / R027|point_in_time_news_missing|0|Chưa outcome riêng|
 |R029|Currency carry|carry|long_history_or_multi_data|0|Chưa outcome riêng|

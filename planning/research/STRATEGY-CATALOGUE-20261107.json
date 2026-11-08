@@ -440,7 +440,8 @@
       "execution_capability": "continuous_index_M1_coarse_no_native_broker",
       "capital_scenarios": [
         "10000"
-      ]
+      ],
+      "input_source_limitation": "Native M1 view may contain decoder padding; source-only impact review pending. Existing arithmetic evidence remains scoped to expanded-view scenario."
     },
     {
       "id": "R010",
@@ -869,7 +870,7 @@
       "next_action": "Component criterion not met; no intraday bot priority, no calendar/hour grid or overnight rescue.",
       "implementation_state": "not_implemented",
       "candidate_id": null,
-      "profitability_evidence": "US500-TURN-OF-MONTH-COMPONENT-RESULTS-20261108.md; price bps only, no account PnL",
+      "profitability_evidence": "INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md; corrected source-side components, price bps only",
       "dispatch_authorized": false,
       "implementations": [],
       "component_experiments": [
@@ -881,6 +882,15 @@
           "strategy_implemented": false,
           "raw_rows_per_side": 2728293,
           "evaluation_days": 1510
+        },
+        {
+          "id": "us500-turn-month-source-correction-v1",
+          "protocol": "INDEX-EXPLICIT-SOURCE-CORRECTION-20261108.md",
+          "results": "INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md",
+          "status": "source_corrected_priority_not_met",
+          "strategy_implemented": false,
+          "affected_days": 3,
+          "reused_days": 1507
         }
       ]
     },
@@ -901,12 +911,18 @@
         "MELPRINS2013"
       ],
       "source_relation": "source_backed_equity_hedging_channel_requires_relative_market_inputs",
-      "next_action": "FX-MONTH-END-FIXING-METHOD-20261108.md; metadata/clock feasibility before protocol or PnL; no unconditional calendar direction.",
+      "next_action": "Canonical source-only correction first; then currency/corporate-action/benchmark-clock feasibility before PnL. No unconditional calendar direction.",
       "implementation_state": "not_implemented",
       "candidate_id": null,
       "profitability_evidence": "none_for_this_exact_rule",
       "dispatch_authorized": false,
-      "implementations": []
+      "implementations": [],
+      "data_preflight": {
+        "protocol": "FX-FIXING-PROXY-DATA-PREFLIGHT-20261108.md",
+        "results": "INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md",
+        "status": "bounded_source_fixture_verified_not_strategy_ready",
+        "strategy_implemented": false
+      }
     },
     {
       "id": "R027",
@@ -1525,7 +1541,8 @@
       "execution_capability": "index_m1_coarse_only_no_native_broker",
       "capital_scenarios": [
         "10000"
-      ]
+      ],
+      "input_source_limitation": "Native M1 view may contain decoder padding; source-only impact review pending. Existing arithmetic evidence remains scoped to expanded-view scenario."
     },
     {
       "id": "R049",
@@ -1558,7 +1575,8 @@
       "execution_capability": "index_M1_coarse_with_calendar_funding_no_broker",
       "capital_scenarios": [
         "10000"
-      ]
+      ],
+      "input_source_limitation": "Native M1 view may contain decoder padding; source-only impact review pending. Existing arithmetic evidence remains scoped to expanded-view scenario."
     },
     {
       "id": "R050",
@@ -1591,7 +1609,8 @@
       "execution_capability": "index_M1_coarse_with_calendar_funding_no_broker",
       "capital_scenarios": [
         "10000"
-      ]
+      ],
+      "input_source_limitation": "Native M1 view may contain decoder padding; source-only impact review pending. Existing arithmetic evidence remains scoped to expanded-view scenario."
     },
     {
       "id": "R051",
@@ -1624,7 +1643,8 @@
       "execution_capability": "index_M1_coarse_no_broker",
       "capital_scenarios": [
         "10000"
-      ]
+      ],
+      "input_source_limitation": "Native M1 view may contain decoder padding; source-only impact review pending. Existing arithmetic evidence remains scoped to expanded-view scenario."
     },
     {
       "id": "R052",
@@ -1657,7 +1677,8 @@
       "execution_capability": "index_M1_coarse_with_calendar_funding_no_broker",
       "capital_scenarios": [
         "10000"
-      ]
+      ],
+      "input_source_limitation": "Native M1 view may contain decoder padding; source-only impact review pending. Existing arithmetic evidence remains scoped to expanded-view scenario."
     },
     {
       "id": "R053",
@@ -1690,7 +1711,8 @@
       "execution_capability": "continuous_index_M1_coarse_no_native_broker",
       "capital_scenarios": [
         "10000"
-      ]
+      ],
+      "input_source_limitation": "Native M1 view may contain decoder padding; source-only impact review pending. Existing arithmetic evidence remains scoped to expanded-view scenario."
     }
   ],
   "automatic_dispatch": false,

@@ -1,5 +1,10 @@
 # Xu hướng tháng US500: âm theo phí đã khai báo, dữ liệu chưa đủ cho toàn kỳ
 
+**Input cần kiểm tiếp:** [source correction](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)
+phát hiện padding ở native decoder. Các số dưới giữ historical expanded-view
+semantics; monthly signal/fill/range chưa được revalidate trên explicit-only
+source. Không diễn giải coverage timestamp cũ là có quote nguồn đầy đủ.
+
 **Chưa đủ cơ sở giữ làm ứng viên challenge.** Lượt đã chạy theo
 [protocol trước kết quả](US500-MONTHLY-TREND-PREPARATION-20261108.md), không
 tune horizon/stop/risk/phí sau outcome. Một tài khoản 10.000 USD liên tục,

@@ -1,6 +1,6 @@
 # Current context — Naqex Workspace
 
-## Campaign tiếp tục — 08/11/2026, 10:47 Việt Nam
+## Campaign tiếp tục — 08/11/2026, 11:16 Việt Nam
 
 **C1/C2 chưa hoàn tất.** Owner giao tìm ứng viên challenge và kiểm/sửa quá
 trình. Tiếp tục từ [campaign](research/CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md);
@@ -9,6 +9,33 @@ Hiện **không còn numerical/data worker của lượt này chạy**; không d
 lại các attempts đã hoàn tất chỉ để xem trạng thái. **Owner đã bật Goal rõ
 ràng; Goal đang active** cho C1/C2, không đặt token budget. Việc bật Goal không
 mở quyền holdout/broker/provider/account hoặc thay tiêu chí để ép ra winner.
+
+**P0 hiện hành: source-padding correction.** [Protocol](research/INDEX-EXPLICIT-SOURCE-CORRECTION-20261108.md),
+[results/hậu kiểm](research/INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md). Native
+Dukascopy decoder chèn flat/volume0 vào phút raw bỏ qua. `ignoreFlats:false`
+không là source-only proof; old US500 books chỉ là expanded-view scenarios,
+không được dùng coverage timestamp đó làm chứng nhận source/fill. Không
+invalidate QDM Forex/Gold khác pipeline hoặc ghi đè old attempts.
+
+Source4ee6fbb thêm opt-in sourceCandlesOnly và raw-price/provenance reviewer;
+bc74072 bind đúng Bid/Ask của từng metric.14Node+7provenance+9componenttests đạt.
+Actual6fixture exports: legacy values exact; source-only cache-only0,619s,
+networkdenied0attempts; Pythonraw/coverage review0,235s. EZU có11cashminutes
+padding; SPYpadding chỉ ngoài cash; actual sourcezero-volume vẫn giữ.
+
+R025corrected đãreview:3140rawresponses/9408explicit endpoint-sides/10padding;
+3daysaffected (09/03/2020,16/03/2020,05/08/2024),1507days reuse exact.
+Bind/correct66,422s/CPU41,891s; alternatecodepathreview33,390s/1510days,
+paddedentrytamperreject. SourceTOM2019–21+1,1293/−1,8692bps vsREST+1,8661/−1,1057;
+2022–24TOM+6,2720/+4,0545 vsREST−2,5293/−4,7431. Frozenpriority vẫnfalse.
+Worker24828/launcher16320 và reviewer đã terminal; không jobnền mới.
+
+**Lát kế tiếp ưu tiên:** tạo canonical paired explicit source views từ cached
+raw và parentquarterseals, giữ unpaired/unknown; thêm reader contract/gate để
+coverage native expanded không bị nhận nhầm source coverage; review ảnhhưởng
+signal/fill/range ở Noise14/firstlast trước rerun đúng affectedbooks. Chưa
+thực hiện toàn bộ bước này, không gọi C2fullfix. R026 deferred numeric: fixture
+EZU/SPY/EURUSD dùngđược nhưng còn currency/corporateaction/calendar gaps.
 
 **Commission slice đã xong:** [Protocol](research/FTMO-INDEX-COMMISSION-REVIEW-20261108.md),
 [results](research/FTMO-INDEX-COMMISSION-RESULTS-20261108.md). Source75f7ecf truyền
@@ -38,14 +65,12 @@ vì private drivergrid nhầm0,01;V2 dùngexisting0,001, giữfailedattempt/sour
 Ba ngàyvolume0đượcflag,khôngactualtickfillproof;missingunknown/masksriêng.
 Controller22628/launcher22164 đãterminal; khôngjobnền mới.
 
-**Lát kế tiếp:** [R026 method review](research/FX-MONTH-END-FIXING-METHOD-20261108.md)
-đã đọc primary2013/2015 vàcost/clocknotes2021. Cần relative-equityinputs tới
-ngàyápchót, không chỉUS500/calendar hoặcunconditionalEURUSDdirection. Tiếp
-metadata/calendar/clockfeasibility trước protocol/PnL; không tải10markets hoặc
-đổi calendarhoursgrid. LSEGv31intro đọcđược, calculationsection bịtimeout nên
-giữgap; không giả đầy đủcurrentmethod. [Equitycalendarreview](research/EQUITY-CALENDAR-HYPOTHESES-REVIEW-20261108.md)
-giữ authorupdateovernight2026/publicknowledgeexposure; không local2025+bars.
-Source runtime local vẫn chưa thấy API8010/ownedMT5 trong lần kiểm09:53.
+[R026 method review](research/FX-MONTH-END-FIXING-METHOD-20261108.md) và
+[bounded data preflight](research/FX-FIXING-PROXY-DATA-PREFLIGHT-20261108.md)
+giữ decision trước fixture. LSEGoverview xác nhận16:00 London; fullcalculation
+PDF vẫn timeout. Chưa numericR026, không tải10markets hoặc mở2025+; P0source
+correction ở trên đi trước. Local API8010/ownedMT5 chỉ được kiểm lần09:53,
+không tự nâng ngày/giờ xác minh runtime.
 
 ### Kết quả mới và nguồn tiếp tục
 

@@ -1,5 +1,11 @@
 # R026: cần tín hiệu cổ phiếu tương đối trước khi viết bot
 
+Delta sau preflight: [fixture/provenance results](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)
+đã lấy và kiểm EZU/SPY/EURUSD03/01/2023. Transport dùng được nhưng metadata
+M1 không chứng minh long history, và decoder padding cần source-only view.
+LSEG overview đã xác minh16:00 London; calculation PDF vẫn timeout. Chưa có
+numeric strategy protocol hoặc PnL R026; các gap bên dưới còn áp dụng.
+
 **Không biến ý tưởng này thành “cuối tháng cứ mua/bán EURUSD”.** Sau khi
 [R025 component](US500-TURN-OF-MONTH-COMPONENT-RESULTS-20261108.md) không đạt,
 đọc phương pháp của một cơ chế khác trong catalogue. Chưa đăng ký hoặc chạy

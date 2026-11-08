@@ -266,3 +266,25 @@ TOM không đạt registeredpriority; không bot/SL/risk/accountPnL hoặc polic
 Reuse source-transformation/evidence/qualification/retrospective skills đủ;
 lỗi drivergrid local không là lý do thêm skill/framework mới. Numeric source
 không đổi sauoutcomes. Không rerun completedstudy; khôngjobnền/protocolgate mở.
+
+## C2 continuation: raw source khác native decoder expansion
+
+[Correction protocol](INDEX-EXPLICIT-SOURCE-CORRECTION-20261108.md) và
+[results](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md) giữ counts/source/failures
+và phần chưa sửa hết. Decoder tự thêm carried-close/volume0; previous checksum/
+arithmetic/cash timestamp checks chưa chứng minh source observations.
+
+| Lát | Thay đổi/bằng chứng | Giới hạn và quyết định |
+|---|---|---|
+|Loader|4ee6fbb thêm opt-in explicit timestamps/hash/count, giữ giá native;14 Node tests|Default expanded giữ để tái hiện, không gọi source-only; không sửa upstream|
+|Raw oracle|7 Python tests, integer source-price/volume binding; actual fixture review0,235s|Base float noise có regression; không bỏ volume0 thật hoặc chấp nhận off-grid đáng kể|
+|Compatibility|Sáu old native exports exact; cache-only integration0,619s,0 network attempts|Không là full-history/execution/prop proof|
+|Metric availability|bc74072 +9tests bind Bid cho cash/close, Ask cho entry; missing proof unknown|Không mất CTC chỉ vì thiếu Ask không dùng; padded predecessor không tạo dailyreturn|
+|Actual R025 repair|3140 raw responses,9408 explicit endpoint-sides/10padding;3days sửa,1507reuse;66,422swall/41,891CPU|Alternate code-path review33,390s bắt paddedentrytamper;priority vẫnfalse; không portfolio rerun|
+|Broad C2 gap|Noise/firstlast/RSI/monthly còn expanded-view semantics; reader coveragefield chưa source-aware|Quarantine interpretation, tạo canonical paired explicit view và reader gate trước numerical study tiếp; chưa gọi fullfix|
+|Workflow learning|Source-transformations reference cập nhật; reuse skills hiện có|Maintainer/structure/links audit trước đóng; chưa republish native Paperclip packages|
+
+Giữ dữ liệu, snapshots và negatives cũ; không invalidate QDM Forex/Gold không
+qua decoder này. Không market/provider/key mới hoặc2025+/OrderCheck/OrderSend.
+Fixture có4public URL fetch mới; correction/review dùng cache-only, không network.
+Không tạo skill/framework hoặc nâng tài nguyên chỉ để có một cải tiến mỗi lượt.
