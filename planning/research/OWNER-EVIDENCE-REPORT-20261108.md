@@ -244,3 +244,96 @@ chọn; chấp nhận gác hypothesis hoặc kết luận chưa tìm được tr
 thử. Không nghiên cứu vô hạn chỉ vì đã đầu tư công sức, không nới risk để
 buộc ra winner và không biến mục tiêu thành lời hứa sẽ tìm ra. Lượt này chỉ
 đọc hồ sơ và nghiên cứu nguồn, không mở numeric/holdout/broker hoặc Goal mới.
+
+## 8. Quyết định kết thúc đợt Goal theo đầu ra B — 08/11/2026
+
+**Chưa tìm được ứng viên đủ bằng chứng để đề xuất challenge. Kết thúc đợt tự
+động hiện tại và chuyển hướng chuẩn bị đầu vào nghiên cứu tốt hơn.** Đây là
+đầu ra B đã được owner cho phép trong Goal/campaign; không phải C1/C2 đã đạt,
+không phải chứng minh chiến lược phù hợp không tồn tại.
+
+Lượt Goal trước là progress thực: admission hai hypotheses, triển khai và
+kiểm R023, commit a84a2fa/c0fe917. [Kết quả](LOCAL-SESSION-RESULTS-20261108.md)
+giữ đầy đủ primary/context/control, dữ liệu thiếu, source và review. Lượt
+hiện tại đối soát toàn bộ danh mục và các artifacts làm căn cứ, không mở thêm
+giá hoặc chạy lại backtest.
+
+### Đã xem xét đủ những gì trong danh mục hiện tại?
+
+Mỗi hồ sơ chỉ nằm trong một dòng dưới; tổng **53 hồ sơ / 41 policy versions**.
+Các versions cùng họ, controls và cost scenarios không là lợi thế độc lập.
+
+| Nhóm | Hồ sơ | Kết luận trong phạm vi hiện tại | Điều gì có thể làm đổi quyết định? |
+|---|---:|---|---|
+| FX rules đã code |19, gồm24versions|0/24 tổng stress dương trên13annual books theo assumptions đã đăng ký; giữ gác, không bác bỏ cả họ | Cơ chế khác rõ hoặc lỗi material được chứng minh, không chỉ đổi ngưỡng để cứu |
+| ML và shuffled controls |4|Hai model thật không đạt; control dương không là candidate | Giả thuyết/labels/execution phù hợp hơn và kiểm selection; không train lại để tìm số đẹp |
+| Gold đã code |6|SMA50k còn là research survivor; chưa challenge-ready, các bản khác giữ negative | Signal/fill oracle, target costs và equity path đủ tin cậy; xét lại time-fit bằng protocol phù hợp |
+| Index đã code |7|Source correction vẫn cho kết quả yếu hoặc thiếu input; monthly chỉ32/132months đủ điều kiện | Dữ liệu source/clock/contract phù hợp recipe, không padding hoặc bỏ năm thiếu |
+| Price components R023/24/25 |3|Các primary không đạt tiêu chí giữ của từng phép thử; chưa là bot có risk/SL | Hypothesis mới có cơ sở; không chọn lại side/giờ/calendar sau outcome |
+| R019 retest |1|Có thể code/test về kỹ thuật nhưng chưa chọn exact recipe đủ cơ sở để ưu tiên chi tiếp | Mức giá, entry, invalidation/expiry có lý do và cách so baseline; không yêu cầu paper phải chứng minh sẵn mọi rule |
+| R020 fixing có điều kiện |1|Clock, lot/SL attribution và path risk đã trả lời; chưa có điều kiện/invalidation mới được chốt | Điều kiện causal có input hợp lệ và lý do kinh tế; không nới stop bằng hindsight |
+| R010 volatility variant |1|Phụ thuộc baseline monthly còn vấn đề source/clock; không tự tạo edge | Baseline input được nhận trước, sizing tách rõ tác động và trial mới |
+| R026 hedge cuối tháng |1|Fixture một ngày của proxy không đủ long-history, adjusted return, relative-equity mapping và benchmark calendar | Pin những inputs này và khác biệt với paper trước PnL; không đổi thành trade lịch vô điều kiện |
+| News |2|Chưa có consensus/actual/revisions/timestamps point-in-time được kiểm | Bộ dữ liệu hợp lệ và recipe causal cụ thể; không dùng dữ liệu đã sửa sau tin |
+| Carry/value/cross-section |7|Thiếu funding/vintages hoặc panel nhiều thị trường đồng bộ và method admission | Đầu vào phù hợp và costs/contract; chỉ có series giá hay factor index chưa đủ |
+| Risk modifier R036 |1|Quản lý rủi ro không là nguồn edge độc lập | Có baseline đáng giữ rồi mới đo sizing sensitivity |
+
+**Vì sao chọn dừng tại đây?** Trong các lựa chọn đã rà, chưa thấy phép thử
+kế tiếp đủ rõ về cơ chế, dữ liệu và khả năng làm đổi quyết định để tiếp tục
+tự động chi công sức. Thử R019 vẫn khả thi về kỹ thuật; tải/chuẩn hóa dữ liệu
+cho R026 hay multi-market cũng có thể làm thành một chiến dịch khác. Chọn
+chưa làm lúc này là đánh giá giá trị nghiên cứu, không giả chúng bị cấm hoặc
+đã được chứng minh không hiệu quả. Không lấy việc đã tốn nhiều công sức làm
+lý do chạy tiếp và không dừng vì một giới hạn token giả định.
+
+Gold cần giữ cách hiểu riêng: mẫu bắt đầu tháng1 chưa có checkpoint closed
+profit đạt target trong12tháng; điều đó không loại mọi rolling start hoặc
+horizon dài hơn. Owner chưa chốt deadline cá nhân;12tháng không được biến
+thành hạn cứng mới. [Review Gold](GOLD-SMA50K-REVIEW-20261108.md) giữ bản dương
+làm nghiên cứu, nhưng không đủ để mua challenge. Không nhân quy mô vốn hoặc
+tăng risk để làm nó có vẻ đã đạt target.
+
+### Completion audit của đúng đầu ra B
+
+| Yêu cầu Goal | Bằng chứng đã kiểm | Trạng thái |
+|---|---|---|
+| Đợt hữu hạn đã đăng ký trước outcomes | Admission hai hypotheses/source a84a2fa; R019 defer và R023 price probe, không thêm policy | Đã hoàn tất đúng đợt |
+| Tính toán, kiểm và sửa lỗi trong scope |8fixtures,3.114Fraction event-cost checks,12summary rows,24raw links; lỗi assert format sửa trước numeric; catalogue readiness counts đã đối soát | Đạt trong scope đó, không whole-system certification |
+| Kế thừa và giữ negatives/log/timing |13actual result seals/624unique FX cases đọc lại; local/source/result/event/fixture bindings, Gold30books/prefix binding, index/monthly review artifacts được kiểm | Có evidence; không rerun simulator |
+| Xét lựa chọn còn lại trước khi dừng | Coverage12nhóm phía trên,53IDs không trùng/thiếu và41distinct versions | Đã rà danh mục hiện có; không exhaustive search mọi chiến lược có thể tồn tại |
+| Bàn giao quyết định, giới hạn, mở lại | Mục này, báo cáo kết quả và current-context/index | Đủ cho quyết định dừng đợt, không đủ cho challenge |
+| Giữ authority/data gates | Lượt review không simulation/network price/broker calls, không đọc2025+, không process nghiên cứu còn chạy khi kiểm | Không mở quyền mới |
+| Tách B khỏi A | C1 chưa đạt; cleanOOS, nativeprop/targetcost, strategyforward và owner thao tác vẫn chưa đủ bằng chứng | Không đề xuất mua hoặc chạy challenge |
+
+Private audit `execution-v1/goal-opportunity-review-v1/review.py`,manifest,
+result/progress giữ cách phân nhóm và các kiểm tra. ResultSHA:
+`d2c92b453dabdf17d378e6ca037d25f65337153d004907fe00e543d368420600`.
+Review2,147s,0simulation/newprice/network/broker calls; cùng agent, không
+independent audit. Nó kiểm coverage/bindings và đọc lại các tổng đã có,
+không chứng nhận mọi kết quả cũ là đúng hoặc screen không bỏ sót chiến lược.
+
+Giới hạn còn lại không bị xóa: declared costs chưa thành target-broker
+history, coarse không full tick/prop path, nhiều mẫu đã exposed, selection
+và global false-negative rate chưa được định lượng, các gaps/unknowns đã nêu
+vẫn còn. Những phần này ngăn promotion, không phải thành tích đã hoàn tất.
+
+Không dừng vì FTMO cấm bot: [FAQ hiện hành](https://ftmo.com/en/faq/which-instruments-can-i-trade-and-what-strategies-am-i-allowed-to-use/)
+cho phép algorithmic/EAs trong điều kiện của hãng. [2-Step](https://ftmo.com/en/2-step-challenge/)
+vẫn ghi10%/5%,daily5%/overall10% và unlimited khi kiểm08/11; một candidate
+có lời vẫn phải đáp ứng profile/terms cụ thể. Không dùng rule của FTMO thay
+The5ers hoặc tự mua tài khoản để bỏ qua thiếu evidence.
+
+### Mở lại theo điều kiện nào?
+
+Ưu tiên **một** hướng có thay đổi đầu vào rõ: method có quy tắc tái hiện được,
+đủ gần instrument/horizon/cost thực tế và có dữ liệu hợp lệ; hoặc hoàn tất
+input admission đang thiếu cho một cơ chế như R026. Trước chi thêm compute,
+ghi khác biệt với các bản đã thử, dữ liệu nào sẽ được dùng, cách bác bỏ,
+chi phí/thời hạn đợt và điều kiện giữ/gác. Không cần học trade tay có lãi
+trước; không tạo skill/framework/model mới như điều kiện thay thế edge.
+
+Nếu review khác tìm thấy lỗi material trong source/fill/cost, sửa và kiểm lại
+đúng phần bị ảnh hưởng theo quy trình sẵn có. Chỉ xem holdout khi có survivor
+và protocol/quyền riêng; không mở dữ liệu mới chỉ để tiếp tục tìm kết quả đẹp.
+Mọi mở lại giữ mục tiêu vốn quỹ/risk thấp và quyền broker/account/payment
+riêng. Hiện không đăng ký job hoặc automation chạy tiếp sau khi Goal kết thúc.
