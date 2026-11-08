@@ -69,3 +69,8 @@ USDquote/existingDukascopy trước cơchế/portfoliobudgetchung,khôngbroker/h
 [H1sourcepilot](FX-H1-SOURCE-RESULTS-20261108.md) đãđạt144bars/720Fraction
 checks/bridgeEURUSD7.971ticks;chưahistory/PnL. Bướctiếp đăngkýsourcehistory
 2010–24GBPUSD/AUDUSD trước numeric,không sourcepadding/nativefillclaim.
+[H1historyresults](FX-H1-HISTORY-RESULTS-20261108.md) đãreview60books/
+373.652bars/1.868.260checks;719/720months/30crossedhours,fulljointadmission
+inconclusive. Recoveryreuse15books vàvolume-roundingmetadata giữrõ. Tiếp
+registeredendpointcomponents trênOpenroleshợplệ,giữmissing/crossedrows;
+chưaeconomicoutcomes,khôngtrade/newprovider/holdout hoặcR056retuning.

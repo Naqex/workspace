@@ -69,9 +69,16 @@ GBPUSD/AUDUSD/EURUSD×BidAsk,720Fractionpricevolumechecks/4mutations;EURUSD
 source/source-onlyfilter;M1defaultunchanged(8regressions),2H1Python+2Node.
 0strategy/broker,khôngholdout;prototype0,987s/review3,429s. Reviewer cachekey
 v1prefixfix chỉrerunreview,giữfailure;workerđãterminal.1day/1hour chưahistory.
-**Lát tiếp:** đăngkýsource-onlyhistory2010–24GBPUSD/AUDUSD,sealquality/source/
-exposure trước freeze chuyểngiaocơchế/portfolio vớiaccountwidebudgetchung;
-không SL/clock/costrescue R056. Khôngprovider/accountmới,holdout/broker.
+[H1 history results](research/FX-H1-HISTORY-RESULTS-20261108.md):v3sourcevalues
+đãreview373.652bars/1.868.260checks,60books/719of720months;fulljointinput
+admissionfalse vìmissingAUDAskJan2013 và30crossedpairhoursAUD2010(1exitOpen).
+148.096paddingrowsremoved/40explicitvol0kept;2.052volumesroundednative4dp
+đãkiểmđúngtransform,rawunroundedgiữ. Không giá/signal/PnLhoặcbroker/holdout.
+v1date-mutationfix0seals,v2timeout15seals,v3reuse15books214,894s/review27,117s;
+allworkers/reviews terminal. Khôngsửaraw/oldpins hoặcchạyrequestknownfailed.
+**Lát tiếp:** freezeGBPUSD/AUDUSDpricecomponents vớiOpenfieldguards và
+allweekdayunknown/crossedstates;khôngjointtick/account/propclaim,không SLgrid/
+costrescue R056. Nếuretainedmớiaccountwidebudgetchung/native/unseen/forward.
 
 Phần tối ưu context/retrieval trước đó đã xong trong scope:
 [Đánh giá dữ liệu/tra cứu](research/AGENT-DATA-RETRIEVAL-20261108.md) giữ số đo,
