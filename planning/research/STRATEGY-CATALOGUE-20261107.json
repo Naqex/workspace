@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-07",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 52,
+  "record_count": 53,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -11,14 +11,14 @@
   ],
   "counts": {
     "by_role": {
-      "existing": 34,
-      "new": 11,
+      "existing": 36,
       "variant": 6,
+      "new": 10,
       "component": 1
     },
     "by_readiness": {
-      "implemented": 34,
-      "long_history_or_multi_data": 9,
+      "implemented": 36,
+      "long_history_or_multi_data": 8,
       "price_data_spec_possible": 3,
       "method_clock_review": 3,
       "point_in_time_news_missing": 2,
@@ -69,7 +69,7 @@
       "publication": "2012 paper / 2018 page",
       "review_depth": "author_dataset_description",
       "limitations": "12-month lookback/monthly holding; futures/forwards, not H4 CFD.",
-      "checked_on": "2026-11-07"
+      "checked_on": "2026-11-08"
     },
     {
       "id": "AQR-VM",
@@ -395,24 +395,34 @@
       "id": "R009",
       "title": "Time-series momentum dài hạn",
       "family": "long_horizon_trend",
-      "role": "new",
+      "role": "existing",
       "parent_id": null,
-      "readiness": "long_history_or_multi_data",
-      "timeframe": "D1/monthly",
-      "rule_sketch": "Hướng từ past excess return; horizon/rule cần freeze sau method review.",
-      "data_requirements": "Tối thiểu history lookback dài, forward/futures hoặc CFD funding mapping",
-      "automation_feasibility": "deterministic_after_spec_and_tests",
-      "prop_operational_concerns": "Holding lâu; Q1+1tháng warmup không đủ; time-fit chưa biết.",
+      "readiness": "implemented",
+      "timeframe": "Cash monthly signals / continuous M1 research book",
+      "rule_sketch": "Past12-month cash Bid return sign; monthly delayed fills; previous14cashTRx1.5 SL, one position, no resizing",
+      "data_requirements": "Canonical unfiltered US500 M1 BidAsk2013-2024, pinnedNYSEcalendar; 13 monthly closes and past14cashTR",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Declared costs/funding, missing month endpoints, modeledSL, no nativepropDD/targetcontract verification",
       "source_ids": [
         "AQR-TS"
       ],
-      "source_relation": "published_mechanism_not_exact_replication",
-      "next_action": "Đọc method/data/license trước; không co12tháng thành12H4.",
-      "implementation_state": "not_implemented",
-      "candidate_id": null,
-      "profitability_evidence": "none_for_this_exact_rule",
+      "source_relation": "adaptation_not_replication_or_independent_edge",
+      "next_action": "Resolve input clock/coverage and targetcost before another full study; preserve negative book and unavailable years",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "us500-cash-mom12-monthly-atr14x1p5-r025-v1",
+      "profitability_evidence": "continuous2014_2024_negative_declared_costs_and_incomplete_input",
       "dispatch_authorized": false,
-      "implementations": []
+      "implementations": [
+        "us500-cash-mom12-monthly-atr14x1p5-r025-v1"
+      ],
+      "catalogue_origin_role": "new",
+      "implementation_updated_on": "2026-11-08",
+      "control": false,
+      "evidence_locator": "US500-MONTHLY-TREND-RESULTS-20261108.md",
+      "execution_capability": "continuous_index_M1_coarse_no_native_broker",
+      "capital_scenarios": [
+        "10000"
+      ]
     },
     {
       "id": "R010",
@@ -1536,17 +1546,17 @@
         "PAGONIDIS-IBS"
       ],
       "source_relation": "adaptation_not_replication_or_independent_edge",
-      "next_action": "Frozenretrospective2013_2024_extension; samecashrules/cost/risk; reuse2022_2024; retain gap and selectionlimits",
+      "next_action": "Preserve failed long-retention evidence and operationally inconclusive years; no cutoff/fee tuning",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "us500-d1-cutler3-10-40-ibs05-atr14x1p5-r025-v1",
       "implementations": [
         "us500-d1-cutler3-10-40-ibs05-atr14x1p5-r025-v1"
       ],
       "implementation_updated_on": "2026-11-08",
-      "profitability_evidence": "corrected_unfiltered2022_2024_positive_stress_small_sample_not_qualified",
+      "profitability_evidence": "retrospective2013_2024_negative_stress_and_incomplete_clock_coverage",
       "dispatch_authorized": false,
       "control": false,
-      "evidence_locator": "US500-CORRECTED-REPLAY-20261108.md",
+      "evidence_locator": "US500-LONG-REVIEW-20261108.md",
       "execution_capability": "index_M1_coarse_with_calendar_funding_no_broker",
       "capital_scenarios": [
         "10000"
@@ -1602,18 +1612,51 @@
         "PAGONIDIS-IBS"
       ],
       "source_relation": "adaptation_not_replication_or_independent_edge",
-      "next_action": "Preserve clockfit and negative evidence; no cutoffgrid/fees changes to rescue outcome",
+      "next_action": "Preserve failed long-retention evidence and operationally inconclusive years; no cutoff/fee tuning",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "us500-cash-preclose2-cutler3-10-40-ibs05-atr14x1p5-r025-v1",
       "implementations": [
         "us500-cash-preclose2-cutler3-10-40-ibs05-atr14x1p5-r025-v1"
       ],
       "implementation_updated_on": "2026-11-08",
-      "profitability_evidence": "canonical2022_2024_stress2022_nearzero_negative_not_retained",
+      "profitability_evidence": "retrospective2013_2024_negative_stress_and_incomplete_clock_coverage",
       "dispatch_authorized": false,
       "control": false,
-      "evidence_locator": "US500-PRECLOSE-REVERSION-RESULTS-20261108.md",
+      "evidence_locator": "US500-LONG-REVIEW-20261108.md",
       "execution_capability": "index_M1_coarse_with_calendar_funding_no_broker",
+      "capital_scenarios": [
+        "10000"
+      ]
+    },
+    {
+      "id": "R053",
+      "title": "US500 monthly long benchmark",
+      "family": "falsification",
+      "role": "existing",
+      "parent_id": "R009",
+      "readiness": "implemented",
+      "timeframe": "Cash monthly signals / continuous M1 research book",
+      "rule_sketch": "Always long under same monthly history/ATR/SL/risk/clock; benchmark is not an independent edge",
+      "data_requirements": "Canonical unfiltered US500 M1 BidAsk2013-2024, pinnedNYSEcalendar; 13 monthly closes and past14cashTR",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Declared costs/funding, missing month endpoints, modeledSL, no nativepropDD/targetcontract verification",
+      "source_ids": [
+        "AQR-TS"
+      ],
+      "source_relation": "adaptation_not_replication_or_independent_edge",
+      "next_action": "Resolve input clock/coverage and targetcost before another full study; preserve negative book and unavailable years",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "us500-cash-monthly-long-benchmark-atr14x1p5-r025-v1",
+      "profitability_evidence": "continuous2014_2024_negative_declared_costs_and_incomplete_input",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-cash-monthly-long-benchmark-atr14x1p5-r025-v1"
+      ],
+      "catalogue_origin_role": "variant",
+      "implementation_updated_on": "2026-11-08",
+      "control": true,
+      "evidence_locator": "US500-MONTHLY-TREND-RESULTS-20261108.md",
+      "execution_capability": "continuous_index_M1_coarse_no_native_broker",
       "capital_scenarios": [
         "10000"
       ]
@@ -1623,11 +1666,11 @@
   "automatic_rejection": false,
   "holdout_opened": false,
   "updated_on": "2026-11-08",
-  "implemented_record_count": 34,
-  "implemented_rule_count": 39,
-  "implemented_control_rule_count": 2,
-  "implemented_noncontrol_rule_count": 37,
+  "implemented_record_count": 36,
+  "implemented_rule_count": 41,
+  "implemented_control_rule_count": 3,
+  "implemented_noncontrol_rule_count": 38,
   "native_offline_rule_count": 24,
   "metal_coarse_rule_count": 6,
-  "index_coarse_rule_count": 5
+  "index_coarse_rule_count": 7
 }

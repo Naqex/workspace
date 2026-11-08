@@ -1,6 +1,6 @@
 # Danh mục nghiên cứu chiến lược — cập nhật08/11/2026
 
-52 hồ sơ: 34 đã có implementation (39 policy versions), 17 ý tưởng chưa code và 1 risk component. Trong 39 versions có 24 native offline rules, 4 ML coarse-only, 6 gold coarse-only và 5 index M1 coarse-only; gồm 2 shuffled controls. **Không phải 39 edges độc lập; chưa bản nào challenge-qualified.** Capital 10k/50k và các cost/year scenarios không được đếm thành strategy độc lập.
+53 hồ sơ: 36 đã có implementation (41 policy versions), 16 ý tưởng chưa code và 1 risk component. Trong 41 versions có 24 native offline rules, 4 ML coarse-only, 6 gold coarse-only và 7 index M1 coarse-only; gồm 2 shuffled controls và 1 long-only benchmark. **Không phải 41 edges độc lập; chưa bản nào challenge-qualified.** Capital 10k/50k và các cost/year scenarios không được đếm thành strategy độc lập.
 
 [JSON](STRATEGY-CATALOGUE-20261107.json) là cùng dữ liệu có cấu trúc; protocol/source giữ exactrecipes, không automatic dispatch/rejection hoặc broker authority.
 
@@ -14,7 +14,7 @@
 |R006|Failed20 breakout|level_reversion / R001|Đã code, chưa qualified|1|Chưa outcome riêng|
 |R007|Compression6/24 breakout|trend_breakout / R001|Đã code, chưa qualified|1|Chưa outcome riêng|
 |R008|UTC range fade|level_reversion / R005|Đã code, chưa qualified|1|Chưa outcome riêng|
-|R009|Time-series momentum dài hạn|long_horizon_trend|long_history_or_multi_data|0|Chưa outcome riêng|
+|R009|Time-series momentum dài hạn|long_horizon_trend|Đã chạy US500 monthly, phí stress âm; input chưa đủ toàn kỳ|1|[Monthly review](US500-MONTHLY-TREND-RESULTS-20261108.md)|
 |R010|TSMOM theo volatility|long_horizon_trend / R009|long_history_or_multi_data|0|Chưa outcome riêng|
 |R011|Bollinger re-entry|price_reversion / R003|Đã code, chưa qualified|2|[Kết quả](DISCOVERY6-7-RESULTS-20261108.md)|
 |R012|RSI contrarian có xác nhận|price_reversion / R003|Đã code, chưa qualified|1|[Kết quả](DISCOVERY4-RESULTS-20261108.md)|
@@ -55,9 +55,10 @@
 |R047|Gold afternoon reversal15–19London|fixing_flow|Giữ negative version|1|[Gold outcomes](METAL-DISCOVERY9-10-RESULTS-20261108.md)|
 |R048|US500 noise14 bands|equity_intraday_momentum|Giữ negative version,2023/24 không đạt|1|[US500 results](US500-NOISE-RESULTS-20261108.md)|
 |R049|US500 daily cash IBS02 hold|equity_daily_reversion|Chưa qualified, giữ đủ2022–24|1|[Daily results](US500-DAILY-REVERSION-RESULTS-20261108.md)|
-|R050|US500 CutlerRSI3 +IBS05|equity_daily_reversion /R049|Correctedstress2022–24dương,mẫunhỏ;longstudyđangchạy|1|[Correctedresults](US500-CORRECTED-REPLAY-20261108.md)|
+|R050|US500 CutlerRSI3 +IBS05|equity_daily_reversion /R049|Long study không đạt; có năm không khớp được lệnh|1|[Long review](US500-LONG-REVIEW-20261108.md)|
 |R051|US500 first→last30min|equity_close_momentum|Âm cả2022–24/costs,khôngretained|1|[Close outcomes](US500-CLOSE-MOMENTUM-RESULTS-20261108.md)|
-|R052|US500 RSI3+IBS preclose2|equity_daily_reversion /R050|Clockvariant,2022stressgần0âm,chưađủedge|1|[Preclose outcomes](US500-PRECLOSE-REVERSION-RESULTS-20261108.md)|
+|R052|US500 RSI3+IBS preclose2|equity_daily_reversion /R050|Long study stress âm, không đạt retention|1|[Long review](US500-LONG-REVIEW-20261108.md)|
+|R053|US500 monthly long benchmark|falsification /R009|Đối chứng cùng lịch/SL/risk, stress âm; chưa đủ input|1|[Monthly review](US500-MONTHLY-TREND-RESULTS-20261108.md)|
 
 ## Cách đọc và việc đang chạy
 
@@ -73,7 +74,7 @@ Chỉ nâng ngày cho nguồn thực sự đọc lại; top updated_on không c�
 - **NY150** — [Stop-Loss Orders and Price Cascades in Currency Markets](https://www.newyorkfed.org/research/staff_reports/sr150.html). 2026-11-07; Stop cascade mechanism; not a compression recipe.
 - **BOC48** — [Foreign Exchange Fixings and Returns Around the Clock](https://www.bankofcanada.ca/2021/10/staff-working-paper-2021-48/). 2026-11-07; Fix-related drift/reversal; full method/clock must be read before replication.
 - **SNB04** — [Intraday patterns in FX returns and order flow](https://www.snb.ch/en/publications/research/working-papers/2011/working_paper_2011_04). 2026-11-07; Historical local-hours effects; not a current EURUSD bot guarantee.
-- **AQR-TS** — [Time Series Momentum: Original Paper Data](https://www.aqr.com/Insights/Datasets/Time-Series-Momentum-Original-Paper-Data). 2026-11-07; 12-month lookback/monthly holding; futures/forwards, not H4 CFD.
+- **AQR-TS** — [Time Series Momentum: Original Paper Data](https://www.aqr.com/Insights/Datasets/Time-Series-Momentum-Original-Paper-Data). 2026-11-08; 12-month lookback/monthly holding; futures/forwards, not H4 CFD.
 - **AQR-VM** — [Value and Momentum Everywhere: Factors, Monthly](https://www.aqr.com/Insights/Datasets/Value-and-Momentum-Everywhere-Factors-Monthly). 2026-11-07; Long/short multi-market factors; not EURUSD-only replication.
 - **BIS366** — [Currency Momentum Strategies](https://www.bis.org/publications/working-paper-366-currency-momentum-strategies). 2026-11-07; Cross-sectional currency momentum with costs/limits to arbitrage.
 - **CARRY** — [Carry Trades and Currency Crashes](https://economics.princeton.edu/working-papers/carry-trades-and-currency-crashes/). 2026-11-07; Carry mechanism and negatively skewed crash risk; CFD swaps not policy rates.
