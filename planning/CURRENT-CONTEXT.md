@@ -16,7 +16,15 @@ fixture thật/8tests và pilot28requests đã kiểm, không outcome/PnL.
 Separate raw/Fraction review352endpointprices/176financialchecks/6mutations
 đạt trong scope component. Chưa policy/SL/sizing/prop/OOS hoặc C1/C2.
 [Continuation](research/R026-RELATIVE-EQUITY-CONTINUATION-20261108.md) khóa
-same recipe trên2020/2021/2023/2024; chưa dispatch, không rerun2019/2022.
+same recipe trên2020/2021/2023/2024; đã dispatch data-only, không rerun2019/2022.
+Private campaign root `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/`:
+`execution-v1/relative-equity-continuation-data-v1/{plan,progress,result,failure}.json`
+và `events.jsonl` giữ trạng thái thật; result/failure chỉ xuất hiện khi terminal.
+Worker khởi động08/11 10:29UTC, PID2096, execsession57554; reconcile identity/
+controllerlock trước retry. Logical672parts/144days/48months,6rawcache reuse,
+deadline1800s/CANCEL; không numerical outcomes mới trước source admission.
+Sau data: adapt runner/reviewer private cũ sang explicit4-year/48month scope,
+kiểm protocol triage3/4years+aggregate, không reuse22trade review làm acceptance.
 Các workers của đợt336parts đã terminal; giữ raw/frozen artifacts.
 
 Phần tối ưu context/retrieval trước đó đã xong trong scope:

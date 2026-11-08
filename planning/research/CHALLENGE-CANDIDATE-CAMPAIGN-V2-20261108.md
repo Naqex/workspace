@@ -43,5 +43,6 @@ Không xóa evidence, không thêm dashboard/ledger cạnh tranh Paperclip.
 [Data admission](RESEARCH-DATA-ADMISSION-RESULTS-20261108.md) đã kiểm fixture
 thật và pilot. [R026 results](R026-RELATIVE-EQUITY-RESULTS-20261108.md) qua
 component triage2019/2022, chưa policy/prop. [Continuation](R026-RELATIVE-EQUITY-CONTINUATION-20261108.md)
-giữ recipe, thêm bốn năm trước risk-wrapper; chưa dispatch. Dùng repo skills hiện có; mở rộng reference
+giữ recipe, thêm bốn năm trước risk-wrapper; data đã dispatch, trạng thái thật
+ở private plan/progress được CURRENT-CONTEXT dẫn tới. Dùng repo skills hiện có; mở rộng reference
 khi workflow đã kiểm, không tạo một skill quản lý toàn bộ khác.
