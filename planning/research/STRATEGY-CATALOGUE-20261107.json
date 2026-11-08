@@ -910,7 +910,9 @@
       "wrapper_attribution_decision": "Observed lot weights help and parentexit/SL reduces matched returns in4books2019/2022; counterfactual is not a noSL account strategy or permission.",
       "path_risk_evidence_locator": "PRE-ECB-PATH-RISK-RESULTS-20261108.md",
       "long_price_evidence": "PRE-ECB-LONG-PRICE-RESULTS-20261108.md",
-      "long_price_decision": "Unchanged02NY-14Berlin SELL2010-22priceproxy retained:12/13positive stressyears,4blockspositive,3375/3391resolved;notSL/account/prop/OOS. Register1holding-sessionvolatilitywrapper with risk25USD before outcomes;noSLgrid orunchangedlot widening."
+      "long_price_decision": "Unchanged02NY-14Berlin SELL2010-22priceproxy retained:12/13positive stressyears,4blockspositive,3375/3391resolved;notSL/account/prop/OOS. Register1holding-sessionvolatilitywrapper with risk25USD before outcomes;noSLgrid orunchangedlot widening.",
+      "recent_price_evidence": "PRE-ECB-RECENT-PRICE-RESULTS-20261108.md",
+      "recent_price_decision": "2023/24sameclock/cost+187.1/+184.9stresspip;combined2010-24 14/15positiveyears and4positiveblocks,3894/3913resolved. Retained for1holding-sessionvolatilitywrapper,notSL/account/prop/OOS/challenge;review-v2iscurrent."
     },
     {
       "id": "R022",

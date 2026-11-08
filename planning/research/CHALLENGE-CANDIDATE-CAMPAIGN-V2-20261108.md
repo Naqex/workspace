@@ -58,3 +58,6 @@ sơ nhưng vẫn41accountpolicies; không tăngcount bằngpricecomponents. Lát
 stress12/13years dương/cả4blocks dương; đủ ưu tiên đăng ký1wrapper theo scale
 holding-session nhưng chưaSL/account/prop/OOS. Giữ risk25USD,không grid/giữlot
 khi nớiSL; xem kết quả này để tiếp, không khởi động lại monthly/gold negatives.
+[Recent continuation](PRE-ECB-RECENT-PRICE-RESULTS-20261108.md) đã thêm2023/24
+same-clock/cost explicitrawmode:+187,1/+184,9stresspip. Combined14/15positive
+years/cả4blocks dương; đủ ưu tiên1riskwrapper, chưaaccount/SL/prop/OOS.

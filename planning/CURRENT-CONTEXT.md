@@ -48,9 +48,17 @@ trên3.375/3.391resolveddates,cả4blocks dương; retained cho riskwrapperrevie
 22rawprefixquotes/5mutations;50,583s+5,237sreview.2019/22exactoutcomes reused;
 private runner reuseassertion yếu đã được reviewer bổ sung strictoriginal
 linkage/result/manifest/quoteidentity checks; nextpreflight phải strict ngay.
+[Recent continuation](research/PRE-ECB-RECENT-PRICE-RESULTS-20261108.md):
+same-rule2023/24explicitrawmode thêm+187,1/+184,9stresspip; combined2010–24
+14/15stressyears dương,+5.381,8pip trên3.894/3.913resolveddates. Khôngaccount
+PnL/SL/prop/OOS;retainedriskwrapperreview, khôngchallenge.2.076Fractioncases/
+1.044endpointslots/5mutations;28,835s+reviewv2 0,334s. Raw2023/24fullhash/order/
+count, frozenH1 chỉread-onlyoracle, khôngrebindoldproducer. Reviewv1mutation
+mấtrow chưa gọi actualguard đã sửa ởv2; giữv1+snapshot, khôngrerunnumeric.
 **Lát tiếp:** đăng ký1wrapper volatility theo cảholding-session, không grid
 SL hoặc giữlotcũ; exacthistory/gaps/sizing/continuity/prop cần freeze trước
-outcome. Không hạfees/increaseleverage cứu negatives. Các lượt trên terminal.
+outcome.2023/24H1features cần sourceadmission mới nếu dùng,không époldcache.
+Không hạfees/increaseleverage cứu negatives. Các lượt trên đãterminal.
 
 Phần tối ưu context/retrieval trước đó đã xong trong scope:
 [Đánh giá dữ liệu/tra cứu](research/AGENT-DATA-RETRIEVAL-20261108.md) giữ số đo,
