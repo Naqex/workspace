@@ -209,3 +209,38 @@ diễn giải hoặc thao tác; không tự ghi bạn đã hiểu. Walkthrough c
 kiểm nội dung/routing: bàn giao thì đọc reference và ghi phần còn thiếu;
 hỏi tiến độ thì không bắt học trade tay hoặc chạy lại toàn bộ audit. Chưa
 kiểm bằng model hay owner độc lập. Không tạo UI, ledger hoặc quyền mới.
+
+## 7. Có đang tìm một thứ không tồn tại không?
+
+Đối chiếu nguồn ngày 08/11/2026. **Có bằng chứng cho việc nghiên cứu giao dịch
+hệ thống và khả năng nhận payout; chưa có bằng chứng rằng project sẽ tìm ra
+bot đáp ứng toàn bộ mục tiêu của owner.** Không đổi “chưa chứng minh” thành
+“không tồn tại”, cũng không suy “có người làm được” thành “mình chắc chắn làm được”.
+
+| Mệnh đề | Bằng chứng | Giới hạn |
+|---|---|---|
+| Giao dịch có quy tắc có thể có lợi nhuận | [AQR nghiên cứu trend following, 2017](https://www.aqr.com/Insights/Research/Journal-Article/A-Century-of-Evidence-on-Trend-Following-Investing) và [quỹ AQMIX đang vận hành](https://funds.aqr.com/funds/aqr-managed-futures-strategy-fund): lịch sử mô phỏng và lịch sử quỹ thực là hai loại bằng chứng khác nhau. Trang AQMIX ngày kiểm ghi annualized10yr5,43% tại30/10/2026, inception05/01/2010 | Đa tài sản/futures, tín hiệu độc quyền và điều kiện tổ chức; không chứng minh recipe EURUSD/CFD của project có edge, phù hợp prop hoặc lặp lại được trong tương lai |
+| Payout prop không chỉ là khái niệm | [FTMO công bố payout](https://ftmo.com/en/blog/we-pay-millions-in-payouts-to-our-ftmo-traders/), bài viết có số liệu tới2023/đầu2024 và mô tả người nhận nhiều kỳ | Dữ liệu do hãng công bố, không phải kiểm toán độc lập trong lượt này; không có phân tách manual/auto, tổng phí/thất bại và mã chiến lược để xác minh khả năng tái lập |
+| Làm nhiều bot và kiểm nhiều bước vẫn có thể thất bại | [FTMO Big Algo Test](https://ftmo.com/en/blog/a-big-test-of-algo-trading-does-it-work/): hãng mô tả triển khai91systems từ01/04/2018, sau một năm lỗ12.530USD trên100.000USD, drawdown17,6% | Một thử nghiệm cũ do hãng báo cáo; không phải tỷ lệ thất bại toàn ngành hay bằng chứng mọi bot đều thua. Các nhận định chắc chắn về robust/diversify/reverse trong bài không phải chuẩn project tự động chấp nhận |
+| Có bot phù hợp đúng mục tiêu owner? | Hồ sơ project hiện chưa có ứng viên đủ bằng chứng | Chưa định lượng được xác suất tìm ra hoặc xác suất pass/payout của owner. Thêm test, code hoặc thời gian không tự tạo edge |
+
+**Cách hiểu mục tiêu:** có lợi thế sau chi phí → đường lỗ chịu được trong
+đúng luật quỹ → tiến độ đạt target có ích → vận hành/tuân thủ → payout sau
+tổng phí. Một chiến lược có lời dài hạn vẫn có thể không hợp drawdown/clock/
+holding rules hoặc quá chậm. Một lần pass/payout chưa chứng minh lợi thế bền
+vững: còn may mắn, lựa chọn chỉ khoe người thắng và tổng chi phí đã mất.
+Không dùng số dư danh nghĩa funded làm tiền owner thực nhận.
+
+Với một ứng viên cụ thể, bằng chứng cần nối đủ: giả thuyết/công thức và code
+khớp; dữ liệu/fill/cost/accounting đúng trong scope; kiểm trên dữ liệu chưa
+dùng để chọn/sửa rule và ghi toàn trial history; kết quả/rủi ro không chỉ nhờ
+ít lệnh hoặc một giai đoạn; account-wide equity/prop path; prospective demo
+và đối soát; cuối cùng payout thực sau tổng phí. Không bước nào chứng minh
+chắc chắn tương lai. Không tính pass probability bằng cách đếm các biến thể
+đã thử hoặc từ payout aggregate không rõ denominator.
+
+**Quyết định:** tiếp tục từng câu hỏi hữu hạn khi kết quả có thể làm đổi lựa
+chọn; chấp nhận gác hypothesis hoặc kết luận chưa tìm được trong phạm vi đã
+thử. Không nghiên cứu vô hạn chỉ vì đã đầu tư công sức, không nới risk để
+buộc ra winner và không biến mục tiêu thành lời hứa sẽ tìm ra. Lượt này chỉ
+đọc hồ sơ và nghiên cứu nguồn, không mở numeric/holdout/broker hoặc Goal mới.

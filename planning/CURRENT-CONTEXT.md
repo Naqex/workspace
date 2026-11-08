@@ -1,5 +1,17 @@
 # Current context — Naqex Workspace
 
+## Cơ sở khả thi của mục tiêu — 08/11/2026
+
+Owner hỏi có đang tìm thứ không tồn tại. [Owner report §7](research/OWNER-EVIDENCE-REPORT-20261108.md)
+lưu đối chiếu nguồn: historical systematic evidence và actual fund history
+khác prop payout evidence; không nguồn nào chứng minh bot của project sẽ đạt
+toàn mục tiêu owner. FTMO tự công bố Big Algo Test91systems/1year lỗ12,53%,
+không lấy nhiều bot/robustness steps làm chứng nhận edge. Payout reports không
+có manual/auto denominator/totalfees hoặc reproducible code. Chưa candidate,
+chưa xác suất pass/payout có căn cứ; hữu hạn negatives không chứng minh mọi
+strategy không tồn tại. Không hứa cứ thêm thời gian sẽ ra winner. Lượt tư vấn
+chỉ research/đọc, không numeric hoặc mở gate/Goal. Các kết quả đo dưới giữ.
+
 ## PreECB path risk và owner handover — 08/11/2026, mới nhất
 
 Owner giao thực thi MAE/MFE và skill nếu cần. [Results](research/PRE-ECB-PATH-RISK-RESULTS-20261108.md):
