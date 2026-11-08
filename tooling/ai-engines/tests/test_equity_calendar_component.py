@@ -78,5 +78,39 @@ class CalendarComponentTests(unittest.TestCase):
         for day,utc_hour in [('2024-03-08',14),('2024-03-11',13)]:
             self.assertEqual(datetime.fromtimestamp(sessions[day][0]/1000,timezone.utc).hour,utc_hour)
 
+    def test_source_side_masks_use_bid_for_cash_but_ask_for_entry(self):
+        stamps=[60000,120000,180000,240000]
+        pairs={at:quote(at,D(100)) for at in stamps}
+        sides={at:dict(bid=True,ask=False) for at in stamps}
+        row=inspect_day('fixture',stamps,pairs,previous_close=D(100),source_sides=sides)
+        self.assertIsNotNone(row['ctc_log_bps'])
+        self.assertIsNone(row['tradable_net_bps'])
+        self.assertEqual(row['missing'],['entry'])
+        sides[180000]=dict(bid=False,ask=True)
+        row=inspect_day('fixture',stamps,pairs,previous_close=D(100),source_sides=sides)
+        self.assertIsNotNone(row['tradable_net_bps'])
+        sides[60000]['bid']=False
+        row=inspect_day('fixture',stamps,pairs,previous_close=D(100),source_sides=sides)
+        self.assertIsNone(row['ctc_log_bps'])
+        self.assertIsNotNone(row['tradable_net_bps'])
+
+    def test_missing_source_evidence_cannot_be_truthy_or_assumed_observed(self):
+        stamps=[60000,120000,180000,240000]
+        pairs={at:quote(at,D(100)) for at in stamps}
+        for sides in [{},{at:dict(bid='true',ask=1) for at in stamps}]:
+            row=inspect_day('fixture',stamps,pairs,source_sides=sides)
+            self.assertIsNone(row['tradable_net_bps'])
+            self.assertEqual(len(row['missing']),4)
+
+    def test_padded_predecessor_bid_cannot_create_a_daily_return(self):
+        sessions={'2024-01-02':[60000,120000,180000,240000],
+                  '2024-01-03':[300000,360000,420000,480000]}
+        pairs={at:quote(at,D(100)) for stamps in sessions.values() for at in stamps}
+        sides={at:dict(bid=True,ask=True) for at in pairs}
+        sides[240000]['bid']=False
+        rows=inspect_sessions(sessions,pairs,source_sides=sides)
+        self.assertIsNone(rows[-1]['ctc_log_bps'])
+        self.assertIsNone(rows[-1]['previous_close_stamp'])
+
 
 if __name__=='__main__':unittest.main()

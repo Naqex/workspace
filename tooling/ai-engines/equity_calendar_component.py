@@ -12,14 +12,19 @@ def turn_days(sessions):
     return {day for days in months.values() for day in [*days[:3], days[-1]]}
 
 
-def inspect_day(day, stamps, pairs, *, previous_close=None, previous_close_stamp=None):
+def source_observed(pairs,source_sides,stamp,side):
+    return stamp in pairs and (source_sides is None or source_sides.get(stamp,{}).get(side) is True)
+
+
+def inspect_day(day, stamps, pairs, *, previous_close=None, previous_close_stamp=None, source_sides=None):
     required = dict(cash_open=stamps[0], cash_close=stamps[-1],
                     entry=stamps[0]+120000, exit=stamps[-1])
-    missing = [name for name, at in required.items() if at not in pairs]
+    missing = [name for name,at in required.items()
+               if not source_observed(pairs,source_sides,at,'ask' if name=='entry' else 'bid')]
     result = dict(day=day, required_timestamps=required, missing=missing,
                   previous_close_stamp=previous_close_stamp)
-    opening = D(str(pairs[stamps[0]][0]['open'])) if stamps[0] in pairs else None
-    closing = D(str(pairs[stamps[-1]][0]['close'])) if stamps[-1] in pairs else None
+    opening = D(str(pairs[stamps[0]][0]['open'])) if 'cash_open' not in missing else None
+    closing = D(str(pairs[stamps[-1]][0]['close'])) if 'cash_close' not in missing else None
     if previous_close is not None and opening is not None and closing is not None:
         with localcontext() as context:
             context.prec = 40
@@ -31,7 +36,7 @@ def inspect_day(day, stamps, pairs, *, previous_close=None, previous_close_stamp
         result.update(ctc_log_bps=ctc, overnight_log_bps=overnight, cash_log_bps=cash)
     else:
         result.update(ctc_log_bps=None, overnight_log_bps=None, cash_log_bps=None)
-    if required['entry'] in pairs and required['exit'] in pairs:
+    if 'entry' not in missing and 'exit' not in missing:
         entry = pairs[required['entry']]
         exit_pair = pairs[required['exit']]
         ask, bid = D(str(entry[1]['open'])), D(str(exit_pair[0]['open']))
@@ -45,14 +50,15 @@ def inspect_day(day, stamps, pairs, *, previous_close=None, previous_close_stamp
     return result
 
 
-def inspect_sessions(sessions, pairs):
+def inspect_sessions(sessions, pairs, *, source_sides=None):
     selected, result = turn_days(sessions), []
     previous, previous_stamp = None, None
     for day, stamps in sorted(sessions.items()):
-        row = inspect_day(day, stamps, pairs, previous_close=previous, previous_close_stamp=previous_stamp)
+        row = inspect_day(day, stamps, pairs, previous_close=previous, previous_close_stamp=previous_stamp,
+                          source_sides=source_sides)
         row['group'] = 'TOM' if day in selected else 'REST'
         result.append(row)
-        final = pairs.get(stamps[-1])
+        final = pairs[stamps[-1]] if source_observed(pairs,source_sides,stamps[-1],'bid') else None
         # Never jump over a missing predecessor and call the longer gap a daily return.
         previous = D(str(final[0]['close'])) if final is not None else None
         previous_stamp = stamps[-1] if final is not None else None
