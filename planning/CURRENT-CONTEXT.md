@@ -9,9 +9,11 @@ chứng nhận runtime, hoặc lịch sử từng job. Đọc đúng PLAN/receip
 Owner giao mở rộng nghiên cứu để tìm ứng viên đủ C1/C2 và chuẩn hóa dữ liệu;
 Goal mới đang active. [Campaign v2](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)
 giữ scope hiện hành; quyết định B của đợt cũ không kết thúc Goal mới.
-[Data admission/R026](research/RESEARCH-DATA-ADMISSION-20261108.md) là lát kế
-tiếp: reuse validators, kiểm fixture/source/units/exposure trước numeric,
-rồi khảo sát tín hiệu tương đối cổ phiếu cuối tháng. Giữ raw/frozen artifacts.
+[Data admission results](research/RESEARCH-DATA-ADMISSION-RESULTS-20261108.md):
+fixture thật/8tests và pilot28requests đã kiểm, không outcome/PnL.
+[R026 component](research/R026-RELATIVE-EQUITY-COMPONENT-20261108.md) khóa
+bilateral price-proxy recipe2019/2022 trước numeric; bước tiếp là mở rộng
+source admission rồi đo/review. Giữ raw/frozen artifacts.
 
 Phần tối ưu context/retrieval trước đó đã xong trong scope:
 [Đánh giá dữ liệu/tra cứu](research/AGENT-DATA-RETRIEVAL-20261108.md) giữ số đo,
