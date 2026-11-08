@@ -10,38 +10,36 @@ Owner giao tìm ứng viên đủ C1/C2, chuẩn hóa dữ liệu và cải ti�
 Goal đang active; [campaign v2](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)
 giữ scope, quyết định B cũ không kết thúc chiến dịch mới. **Chưa challenge-qualified.**
 
-Lát mới nhất: [R068/R069 stopped-label ML](research/GOLD-ML-SL-LABELS-RESULTS-20261109.md)
-đã train/review16books:0lệnh/0PnL, mọi747/750decisions được score nhưng không
-vượt frozen0,10R. Gác exactrecipe, không hạthreshold/refit; no-signal không là
-bug hoặc proof mọiML vô dụng. Catalogue69records/48policyversions/25native,
-4controls. [R067](research/GOLD-SILVER-FORMATION-RESULTS-20261109.md) giữ negative.
+Lát mới nhất: [R070/R071 NYFX MA4](research/NY-FX-REVERSAL-RESULTS-20261109.md)
+đã16books/review; primary stress2019−1.536,55USD/540closed,2022−463,01/522;
+controlstress cũngâm. Allknownflat,khôngunknown;gác exactH1versions. Catalogue
+71records/50policyversions/25native/5controls. Chưa challengecandidate.
 
-Protocol06c6972/implementation3232d0c trước actual outcomes. Reviewed newsource
-XAU2019/2022:23.650bars/118.250fields; train2018/2021 reuse sealedR067. Fullreview
-2.994opportunities/1.497training-label census, float32trees và16books;8focusedtests
-đạt. H1intervalproxy/declaredcosts/exposeddevelopment không là broker/prop/OOS.
-Resulta986deb11477637e188d4707b01b2ed2506f8fc2ff77caa1f5ae85c902c9ea23;
-review22afd3be4b958a9a1f0a25fbae69a7174e45321814f2cf1d83d7673e5b6930a3.
+Protocol31d8084/implementation391efba trước outcomes. SourceEURUSD2019/2022:
+24.932explicitH1bars/124.660fields canonical/Fractionreview,khôngpairedgaps/
+crossedOpenClose.7focusedtests đạt; fullFractionreview16books/signals/census/
+4.122closedpaths gồm lặpqua costs,5actualmutationsreject. Source18,011s,
+review1,759s;producer4,132s/CPU4,094s;fullreview9,409s/CPU9,375s. Không compute
+bottleneck cầnGPU/Rust. H1intervalproxy/declaredcosts/exposeddevelopment không
+là broker/prop/OOS. Result721164170a936ec06a9cd285d833a33033490e544447e6ae7bbd1c347c37efe8;
+reviewf3419ec481f1fab18a6777d614d80da434090b9dd7662d6784ce5f27946a55a8.
+
+**Tiếp:** timing-fidelity admission trên cùngfrozenMA4: near15min so onehour
+execution có đổi kết luận không? Paper fullprimary đãđọc, original15mincheck
+không tựproofedge. Khóa fixture/sourceM1 và pairedprotocol trước newPNL; không
+sửaoldpins/outcomes hoặc retuneMA/SL/fees/risk. Reuse nguồn trước download;
+ownholdout2025+đóng,khôngbroker. Khôngjobphảiđợi.
 
 Private root `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/`;
-`execution-v1/gold-ml-source-v1` và `gold-ml-sl-labels-v1` giữ source/packs/census/
-books/pins/progress/events/timing/review/no-signal-diagnostic. Jobs terminal0,
-không phải chờ. Source22,841s/CPU0,859s;producer7,894s/CPU7,563s;review3,988s.
-Không bottleneck cầnGPU/Rust/framework mới. Trader83731fc8/skills/runtime/global
-config giữ nguyên; không rawoverwrite/data deletion/paidprovider/account/broker.
+`execution-v1/ny-fx-reversal-source-v1` và `ny-fx-reversal-v1` giữ rawproofs,
+source snapshots,books/config/pins/progress/events/timing/reviews. Jobs terminal0.
+Trader83731fc8/skills/runtime/globalconfig giữ nguyên. Không xóa/migration raw.
 
-[Stock source fixture](research/STOCK-INFORMATION-SOURCE-RESULTS-20261109.md) đã xong:
-4URLs/1.560explicitM1rows, mỗiasset390/390cashminutes;3.480paddingrows không
-được coi là quote. Validatorstock semantics mở rộng ởdb9c30f,9tests/5actual
-mutations đạt;source1,825s/fullreview0,336s. Chưa exchangevolume/adjustment/
-PITuniverse/targetfit nên gác bulkstockhistory/PnL, không thêmstrategycount.
-The5ersstocks chỉBootcamp/ProGrowth theoFAQđãđọc09Nov;không tựđổiHighStakes.
-
-**Tiếp:** NY-session-conditioned FX moving-average reversal method admission,
-khác unconditional local-flow/Z20±2 đãgác. AuthorpaperLeBaron/Zhao2008 fullfetch
-timeout/mirror403; chỉ indexedmethodexcerpts, chưa fullaudit/recipe/protocol.
-Reconcile parameter/priceorientation/clock/cost/source trước economic run;
-khônglấysnippet làmedge hoặc retuneoldrule. Khôngjobđangchờ; ownholdout2025+đóng.
+[R068/R069 ML](research/GOLD-ML-SL-LABELS-RESULTS-20261109.md) giữ0signalnegative,
+khôngthresholdrescue;[R067](research/GOLD-SILVER-FORMATION-RESULTS-20261109.md)
+giữformationnegatives. [Stock fixture](research/STOCK-INFORMATION-SOURCE-RESULTS-20261109.md)
+đãreviewnhưngvolume/adjustment/PIT/targetfit gaps;gácbulkstockhistory/PnL.
+The5ersstocks chỉBootcamp/ProGrowththeoFAQđọc09Nov;khôngtựđổiHighStakes.
 
 R065/R066 cũng đã gác theo conditional2019negative; exactunknowns vẫn giữ.
 Tra [R065](research/NASDAQ-OPENING5-BOUNDS-RESULTS-20261109.md) hoặc

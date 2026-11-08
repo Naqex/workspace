@@ -1,6 +1,6 @@
 # Danh mục nghiên cứu chiến lược — cập nhật09/11/2026
 
-69 hồ sơ:43đã có research implementation(48policyversions),25hồ sơ chưa có accountpolicy và1riskcomponent. Nhóm25 gồm các pricecomponents đã tính nhưng chưa là bottàikhoản. Trong48versions có25native offline rules,4MLcoarse-only,2goldH1ML,6goldcoarse-only,7indexM1coarse-only,1NASDAQH4/H1proxy,1NASDAQopening5/M1,1NASDAQnoise14/M1 và1FXsessioncoarseprototype trongtooling; gồm3shuffledcontrols và1long-onlybenchmark. **Không phải48edgesđộc lập;chưa bản nào challenge-qualified.** Capital10k/50k vàcost/yearscenarios không đếm thànhstrategyđộc lập.
+71 hồ sơ:45đã có research implementation(50policyversions),25hồ sơ chưa có accountpolicy và1riskcomponent. Nhóm25 gồm các pricecomponents đã tính nhưng chưa là bottàikhoản. Trong50versions có25native offline rules,4MLcoarse-only,2goldH1ML,6goldcoarse-only,7indexM1coarse-only,1NASDAQH4/H1proxy,1NASDAQopening5/M1,1NASDAQnoise14/M1 và2NYFXH1policies và1FXsessioncoarseprototype trongtooling; gồm3shuffledcontrols,1momentumcontrol và1long-onlybenchmark. **Không phải50edgesđộc lập;chưa bản nào challenge-qualified.** Capital10k/50k vàcost/yearscenarios không đếm thànhstrategyđộc lập.
 
 [JSON](STRATEGY-CATALOGUE-20261107.json) là cùng dữ liệu có cấu trúc; protocol/source giữ exactrecipes, không automatic dispatch/rejection hoặc broker authority.
 
@@ -75,6 +75,9 @@
 |R067|Gold/silver relative-value formation|precious_metals_relative_value / R035|Gác fixed formations: nguồn đủ503dates, cointp2018=0,7439/2021=0,0933; chưa PnL|0|[Formation results](GOLD-SILVER-FORMATION-RESULTS-20261109.md)|
 |R068|Gold forest stopped/costed labels|trained_return / R039|Đã train/review,0tín hiệu đủ ngưỡng;gác exactrecipe|1|[Results](GOLD-ML-SL-LABELS-RESULTS-20261109.md);2019/2022zero trades,khôngedge|
 |R069|Gold stopped-label forest shuffled control|falsification / R068|Control đăng ký cùngR068;0tín hiệu đủ ngưỡng|1|[Results](GOLD-ML-SL-LABELS-RESULTS-20261109.md);khôngindependentedge|
+|R070|NY EURUSD MA4 reversal|session_conditioned_reversion / R003|Không đạt:stress2019−1.536,55/2022−463,01USD;H1proxy|1|[Results](NY-FX-REVERSAL-RESULTS-20261109.md);khôngOOS/prop/edge|
+|R071|NY EURUSD MA4 momentum control|falsification / R070|Registeredoppositecontrol;stress2019−67,79/2022−723,03USD|1|[Results](NY-FX-REVERSAL-RESULTS-20261109.md);khôngpromotecontrol|
+
 
 ## Cách đọc và việc đang chạy
 
@@ -103,3 +106,5 @@ Chỉ nâng ngày cho nguồn thực sự đọc lại; top updated_on không c�
 
 - **GGR** — [NBER pairs trading](https://www.nber.org/papers/w7032). 2026-11-08; official stock-distance summary only, PDF403; không FXcointegrationedge.
 - **SM-COINT** — [statsmodels coint](https://www.statsmodels.org/stable/generated/statsmodels.tsa.stattools.coint.html). 2026-11-08; docs/installed0.15.0source; fixedmethod contract, không profitabilityproof.
+
+- **LEBARON-NYFX** — [Foreign Exchange Reversals in New York Time](https://people.brandeis.edu/~blebaron/wps/fxnyc.pdf). Fullprimarymethod§2–4/Table3/7read09Nov2026;EBS2003–06 không currentCFD/SL/DST/executionproof.

@@ -8,15 +8,12 @@ có nhu cầu thực. Goal mới đã active. Quyết định dừng B ở
 
 ## Checkpoint hiện hành — 09/11/2026
 
-[R068/R069 stopped-label ML](GOLD-ML-SL-LABELS-RESULTS-20261109.md) đã train/review:
-16books đều0trades/0PnL; toàn bộ decisions được score nhưng không vượt frozen0,10R.
-Gác exactrecipe, không threshold/refit rescue. Catalogue69records/48versions/
-25native/4controls. R067 formation negatives và R065/R066 unknowns/conditional
-negatives giữ nguyên. [Stock fixture](STOCK-INFORMATION-SOURCE-RESULTS-20261109.md)
-đãreview; sourceprices đủ mộtngày, cònvolume/adjustment/PIT/targetfit gaps nên
-gác bulkstockhistory/PnL, khôngthêmstrategycount. Goal C1/C2 active,chưa candidate;
-tiếp NY-session-conditioned FX reversal methodadmission trước recipe/numeric.
-Các đoạn tiếp trong lịch sử dưới đây không là numerical jobs đang chạy.
+[R070/R071 NYFX MA4](NY-FX-REVERSAL-RESULTS-20261109.md) đã16books/fullFraction
+review;primary stress2019−1536,55/2022−463,01USD,controlcũngâm;allknownflat.
+Gác exactH1versions. Catalogue71records/50versions/25native/5controls,Goalactive,
+chưachallenge. Tiếp timing-fidelity/sourceM1 admission trước pairednear15minstudy;
+khôngretuneMA/SL/cost/risk. R068/R069/R067negatives vàstockvolume/adjustment/PIT/
+targetfitgapsgiữ nguyên. Các đoạn tiếp trong lịch sử không làjobsđangchạy.
 
 ## Đích và cách biết đã đạt
 

@@ -1,12 +1,11 @@
 # Tra cứu research đã có
 
-Checkpoint mới09/11: [R068/R069 stopped-label ML results](GOLD-ML-SL-LABELS-RESULTS-20261109.md)
-đã train/review16books;0trades/0PnL vì không vượt frozen0,10R. Gác exactrecipe,
-khôngthresholdrescue; catalogue69records/48versions/25native. Goal active/chưa
-challenge-qualified. [Stock source fixture](STOCK-INFORMATION-SOURCE-RESULTS-20261109.md)
-đãreview4URLs/1.560explicitrows/390cashminutes mỗiasset;9tests/5mutations đạt.
-Gác bulkstockhistory vì exchangevolume/adjustment/PIT/targetfit gaps. Tiếp NYFX
-session-reversal method admission, chưa recipe hoặc economic job.
+Checkpoint09Nov: [R070/R071 NYFX MA4 results](NY-FX-REVERSAL-RESULTS-20261109.md)
+đã16books/fullFractionreview;primary stress2019−1.536,55/2022−463,01USD,control
+cũngâm;allknownflat. Catalogue71records/50versions/25native/5controls;Goalactive/
+chưachallenge. Tiếp timing-fidelity/sourceM1admission trước pairednear15minstudy;
+khôngretuneMA/SL/cost/riskhoặcownholdout. [MLnegatives](GOLD-ML-SL-LABELS-RESULTS-20261109.md)
+và [stocksourcegaps](STOCK-INFORMATION-SOURCE-RESULTS-20261109.md) giữ nguyên.
 
 Đọc tài liệu chủ đề trước, chỉ kiểm lại phần đổi/còn thiếu. Đây là chỉ mục chọn
 lọc, không là danh sách task hoặc chứng nhận tài liệu còn đúng tới hiện tại.
