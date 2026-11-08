@@ -79,3 +79,29 @@ deadline120s/CANCEL; manifest pin protocol/source/code/runtime/packages.
 Giữ failures; không retry tự động khi observer timeout. Nếu cần sửa material,
 attempt mới và chỉ affectedwork. Hậu kiểm timing/nextaction và route index/
 catalogueR035/currentcontext; chưa policyimplementation nên không tăng44versions.
+
+## Hướng kế: scheduled macro-event, không nhầm surprise news
+
+Sau [formation results](FX-PAIR-FORMATION-RESULTS-20261108.md), chưa mở botpair.
+Method mới có điều kiện biết trước qua calendar, không phải đoán nội dung tin:
+
+- [NYFed512](https://www.newyorkfed.org/research/staff_reports/sr512.html)
+  summary củaLucca/Moench mô tả pre-FOMC equity drift trong sample cũ.
+- [Author-hosted Kurov/Wolfe/Gilbert2020](https://www.skidmore.edu/economics/documents/KurovWolfeGilbert-TheDisappearingPre-FOMC-Announce-Drift-200914.pdf)
+  abstract/SSRN mô tả yếu đi sau2015 trong sample tới2019. Không fullmethodaudit.
+- [FederalReserve2026-023](https://www.federalreserve.gov/econres/feds/files/2026023pap.pdf),
+  §5.2–5.5/figure3, đọc08/11: thảo luận evidence theo các sample/windows khác
+  và chưa có đồng thuận về cơ chế; không thể lấy title “disappearing” làm
+  verdict chung hoặc coi premium trong paper là CFDnetprofit của mình.
+- [Official calendar](https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm)
+  là lịch quyết định, không PITcalendararchive chứng minh ngày đó đã biết
+  trước entry. Phải kiểm original announcements/schedulechange/pressrelease
+  clocks, không dùng actualpolicydecision nội dung sau này làm entryfilter.
+
+Đây mới **methodadmission pending**, chưa chọn instrument/entry/exit/SL hoặc
+retention. Scheduledrisk và ít events/năm có thể kém time-fit; sourceindexCFD
+khácfutures/totalreturn; news/swap/dividend/cost/prop vẫn cần rõ. Đọc narrative
+primarymethod/clock trước PnL, không mở 2025+, không announcement-timeorders,
+không mua data/account hoặc lấy forexfee gắn sangindex. Không tăngcatalogue
+chỉ vì thêm một hướng đọc. Nextslice là reconcile exactwindows/sample và
+calendaravailability, có thể rejectmethod trước economicrun nếu không áp dụng.

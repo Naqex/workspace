@@ -24,7 +24,8 @@
       "component_probe_completed_no_priority": 1,
       "price_data_spec_possible": 1,
       "point_in_time_news_missing": 2,
-      "long_history_or_multi_data": 6,
+      "long_history_or_multi_data": 5,
+      "formation_probe_not_retained": 1,
       "component_only": 1
     }
   },
@@ -224,6 +225,24 @@
       "checked_on": "2026-11-08",
       "review_depth": "official_clock_and_auction_publication",
       "limitations": "Auctionstart is not final benchmark publication;no licensed prices imported."
+    },
+    {
+      "id": "GGR",
+      "title": "Pairs Trading: Performance of a Relative Value Arbitrage Rule",
+      "url": "https://www.nber.org/papers/w7032",
+      "publication": "1999 working paper /2006 publication",
+      "review_depth": "official NBER summary; PDF403 not read",
+      "limitations": "Equity distance pairs, not our FX cointegration or proof of an implementable challenge edge.",
+      "checked_on": "2026-11-08"
+    },
+    {
+      "id": "SM-COINT",
+      "title": "statsmodels coint Engle-Granger contract",
+      "url": "https://www.statsmodels.org/stable/generated/statsmodels.tsa.stattools.coint.html",
+      "publication": "installed0.15.0",
+      "review_depth": "official docs and installed source",
+      "limitations": "I(1)/no-gaps assumptions; MacKinnon curves do not establish trading profitability.",
+      "checked_on": "2026-11-08"
     }
   ],
   "records": [
@@ -1304,22 +1323,24 @@
       "family": "cross_section",
       "role": "new",
       "parent_id": "R034",
-      "readiness": "long_history_or_multi_data",
+      "readiness": "formation_probe_not_retained",
       "timeframe": "H4/D1",
-      "rule_sketch": "Fitcointegration trong train; entry/exitspread causal.",
-      "data_requirements": "MultiFX; exactstatmethod/stability; legsBidAsk/margin",
-      "automation_feasibility": "deterministic_after_spec_and_tests",
-      "prop_operational_concerns": "Spread có thể break; hai legs không đồng thời, exposedcurrency.",
+      "rule_sketch": "Fixed logGBPUSD/logAUDUSD formation2018/2021, EngleGranger constant lag1; no economic recipe admitted.",
+      "data_requirements": "Sealed sourceH1BidClose16UTC known17UTC, both-side quality/census; registered weekdays no imputation.",
+      "automation_feasibility": "method_diagnostic_only_no_account_policy",
+      "prop_operational_concerns": "Exactpairformation failed coint prefilter; not proof all pairs fail. Joint leg fills/margin/risk/prop/OOS remain untested.",
       "source_ids": [
-        "QC"
+        "GGR",
+        "SM-COINT"
       ],
-      "source_relation": "methodology_only_no_primary_FX_edge_evidence",
-      "next_action": "Deferred; chưa có auditedcointegrationmethod hoặc data.",
-      "implementation_state": "not_implemented",
+      "source_relation": "official_equity_pairs_method_and_statistical_contract_not_FX_edge_evidence",
+      "next_action": "Do not open this pair economicpilot or search pair/lag/window grids to rescue. Next scheduled-macro-event method/calendar admission before PnL.",
+      "implementation_state": "formation_diagnostic_implemented_no_account_policy",
       "candidate_id": null,
-      "profitability_evidence": "none_for_this_exact_rule",
+      "profitability_evidence": "noPnL;2018p0.23584/2021p0.26957_notretained_for_economicdesign",
       "dispatch_authorized": false,
-      "implementations": []
+      "implementations": [],
+      "component_evidence": "FX-PAIR-FORMATION-RESULTS-20261108.md"
     },
     {
       "id": "R036",

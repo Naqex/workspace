@@ -107,3 +107,7 @@ Quy trình lưu/kế thừa ở [context lifecycle](../CONTEXT-LIFECYCLE.md#kế
 ## NASDAQ100 SMA pilot — 08/11/2026
 
 [Protocol](NASDAQ100-H4-SMA-PROTOCOL-20261108.md) → [results](NASDAQ100-H4-SMA-RESULTS-20261108.md):4books terminal/separateFractionreview,2019stress+240,59USD/7trades,2022−77,36/14; không giữ exactrecipe. Source/gap/targetcost/OOS/prop limits rõ, catalogue61/44/25native. Bước tiếp distinct-mechanism methodadmission, không retune/grid hoặc rerun annualticks cho version chưa đạt. Goal C1/C2 active.
+
+## Relative-value method admission — 08/11/2026
+
+[Method/source review](RELATIVE-VALUE-METHOD-ADMISSION-20261108.md) và [R035formation results](FX-PAIR-FORMATION-RESULTS-20261108.md):8books/519dates admitted, fixedGBP/AUDcointegrationp2018/2021=0,2358/0,2696, không đạtprefilter; chưaPnL/accountpolicy. SeparateDecimalreview/5mutations đạt; catalogue61/44 giữ. Tiếp scheduledmacro-event method/calendaravailability, không pair/lag/windowgrid hoặc unconditional overnightdrift dựa papercũ. Goal active/chưa challengecandidate.

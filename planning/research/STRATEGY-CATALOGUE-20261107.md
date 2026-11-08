@@ -40,7 +40,7 @@
 |R032|Value + momentum|value / R031|long_history_or_multi_data|0|Chưa outcome riêng|
 |R033|Cross-sectional FX momentum|cross_section|Pilot3FX MOM1: gross/net âm, không giữ exact adaptation|0|[Pilot results](FX-CROSS-SECTION-PILOT-RESULTS-20261108.md); chưa account/prop/OOS|
 |R034|FX factor-residual reversion|cross_section / R033|long_history_or_multi_data|0|Chưa outcome riêng|
-|R035|Cointegrated FX spread|cross_section / R034|long_history_or_multi_data|0|Chưa outcome riêng|
+|R035|Cointegrated FX spread|cross_section / R034|GBP/AUDformation2018/21 chưa đạtprefilter, chưa bot|0|[Formation results](FX-PAIR-FORMATION-RESULTS-20261108.md); khôngPnL/prop|
 |R036|Volatility targeting / exposure cap|risk_modifier|component_only|0|Chưa outcome riêng|
 |R037|Fixing composite3slots|fixing_flow / R022|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
 |R038|Ridge4Hreturn policy|trained_return|Đã code, chưa qualified|1|[Kết quả](DISCOVERY5-RESULTS-20261108.md)|
@@ -92,3 +92,6 @@ Chỉ nâng ngày cho nguồn thực sự đọc lại; top updated_on không c�
 - **QC** — [Backtesting Research Guide](https://www.quantconnect.com/docs/v2/cloud-platform/backtesting/research-guide). 2026-11-07; Workflow reference in AI plan; not strategy profitability evidence.
 - **LOCAL** — [Naqex exact eight candidate rules](../../projects/trader/foundation_v2/docs/FOREX-RESEARCH.md). 2026-11-07; Exact implemented rules/history; published literature is mechanism context only.
 - **SKLEARN** — [Scikit-learn preprocessing and time-series validation](https://scikit-learn.org/stable/common_pitfalls.html). 2026-11-08; Method only, not forex profitability evidence
+
+- **GGR** — [NBER pairs trading](https://www.nber.org/papers/w7032). 2026-11-08; official stock-distance summary only, PDF403; không FXcointegrationedge.
+- **SM-COINT** — [statsmodels coint](https://www.statsmodels.org/stable/generated/statsmodels.tsa.stattools.coint.html). 2026-11-08; docs/installed0.15.0source; fixedmethod contract, không profitabilityproof.
