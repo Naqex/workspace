@@ -202,8 +202,9 @@ def main():
     args.output.mkdir(exist_ok=False)
     began = time.perf_counter()
     def progress(phase, **more):
-        if (args.output/'CANCEL').exists(): raise RuntimeError('cancelled')
-        if time.perf_counter()-began > 300: raise TimeoutError('component deadline300s')
+        if phase != 'failed':
+            if (args.output/'CANCEL').exists(): raise RuntimeError('cancelled')
+            if time.perf_counter()-began > 300: raise TimeoutError('component deadline300s')
         packet = dict(phase=phase, wall_seconds=time.perf_counter()-began, **more)
         save(args.output/'progress.json', packet)
         with (args.output/'events.jsonl').open('a', encoding='utf-8') as stream:

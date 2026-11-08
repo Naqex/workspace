@@ -2,10 +2,12 @@ from copy import deepcopy
 from datetime import datetime, timezone
 from decimal import Decimal as D
 import hashlib
+import json
 from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT/'tooling/ai-engines'))
@@ -114,6 +116,22 @@ class WeekendComponentTests(unittest.TestCase):
         for summary in component.summarize([event], 2019):
             self.assertEqual(summary['eligible_events'], 0)
             self.assertIsNone(summary['net_pips_sum'])
+
+    def test_failure_receipt_is_visible_even_when_cancellation_is_pending(self):
+        with tempfile.TemporaryDirectory() as temp:
+            output = Path(temp)/'run'
+            argv = ['weekend_gap_component.py', '--source-root', str(ROOT/'projects/trader/foundation_v2')]
+            for name in ('admission-root', 'parent-root', 'protocol', 'fixtures'):
+                argv.extend(['--'+name, str(Path(temp)/name)])
+            argv.extend(['--output', str(output)])
+            def invalid_fixture(path):
+                (output/'CANCEL').touch()
+                return dict(status='failed')
+            with patch.object(sys, 'argv', argv), patch.object(component, 'read', side_effect=invalid_fixture):
+                with self.assertRaisesRegex(ValueError, 'fixtures_not_bound'):
+                    component.main()
+            self.assertEqual(json.loads((output/'progress.json').read_text())['phase'], 'failed')
+            self.assertEqual(json.loads((output/'failure.json').read_text())['type'], 'ValueError')
 
 
 if __name__ == '__main__':
