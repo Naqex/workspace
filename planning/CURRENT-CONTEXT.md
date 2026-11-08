@@ -11,21 +11,25 @@ Goal mới đang active. [Campaign v2](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-
 giữ scope hiện hành; quyết định B của đợt cũ không kết thúc Goal mới.
 [Data admission results](research/RESEARCH-DATA-ADMISSION-RESULTS-20261108.md):
 fixture thật/8tests và pilot28requests đã kiểm, không outcome/PnL.
-[R026 results](research/R026-RELATIVE-EQUITY-RESULTS-20261108.md): source336parts
-đã kiểm, stress+16,8/+140,1pip2019/2022;22resolved/24months,2source-missing.
-Separate raw/Fraction review352endpointprices/176financialchecks/6mutations
-đạt trong scope component. Chưa policy/SL/sizing/prop/OOS hoặc C1/C2.
-[Continuation](research/R026-RELATIVE-EQUITY-CONTINUATION-20261108.md) khóa
-same recipe trên2020/2021/2023/2024; đã dispatch data-only, không rerun2019/2022.
+[R026 long results](research/R026-RELATIVE-EQUITY-CONTINUATION-RESULTS-20261108.md):
+gác exactpriceproxy sau6years, stress−227,6pip/66of72resolved;3/4năm mới âm.
+Source672parts và numeric48months đã terminal,768presence/704price/352financial
+checks,8mutations đạt trong scope; chưa policy/prop/edge. Không rescue bằng
+clock/side/SL hoặc rerun baseline2019/2022.
+[R010 source results](research/MULTI-ASSET-TREND-DATA-RESULTS-20261108.md):
+2018–2024monthlyhistory84/84, oldATRfullsessions chỉ32eligiblemonths.
+As-of120s không tăng140/144monthlyendpoints; không adopt/nới cap/gates.
+Sourceprobe12years/96sideseals terminal0, không newPnL hoặc broker/holdout.
 Private campaign root `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/`:
-`execution-v1/relative-equity-continuation-data-v1/{plan,progress,result,failure}.json`
-và `events.jsonl` giữ trạng thái thật; result/failure chỉ xuất hiện khi terminal.
-Worker khởi động08/11 10:29UTC, PID2096, execsession57554; reconcile identity/
-controllerlock trước retry. Logical672parts/144days/48months,6rawcache reuse,
-deadline1800s/CANCEL; không numerical outcomes mới trước source admission.
-Sau data: adapt runner/reviewer private cũ sang explicit4-year/48month scope,
-kiểm protocol triage3/4years+aggregate, không reuse22trade review làm acceptance.
-Các workers của đợt336parts đã terminal; giữ raw/frozen artifacts.
+`execution-v1/relative-equity-continuation-{data,component}-v1` giữ R026;
+`execution-v1/multiasset-trend-admission-v1` giữ diagnosis/asofsource.
+Các workers của hai lát này terminal; không rerun hoặc sửa oldartifacts.
+**Lát tiếp:** chuẩn bị common monthlyobservations/units/cutoffs/availability
+cho EURUSD+Gold+US500 rồi freeze R010return-basedvol/portfolio recipe trước PnL.
+Rawlocators: `metal-discovery9-screen/attempt-v1/manifest.json` (`input_path`),
+`eurusd-observed-history-v2/config.json`, `us500-long-explicit-source-v1/result.json`;
+inventory metadata chưa rereadrawFX/Gold. Financing/observedAskGold/targetspec
+giữ unknown/declaredscenarios, không giảm oldcosts hoặc nhân budget theo symbols.
 
 Phần tối ưu context/retrieval trước đó đã xong trong scope:
 [Đánh giá dữ liệu/tra cứu](research/AGENT-DATA-RETRIEVAL-20261108.md) giữ số đo,

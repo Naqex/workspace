@@ -40,9 +40,11 @@ Không xóa evidence, không thêm dashboard/ledger cạnh tranh Paperclip.
 
 ## Lát đang triển khai
 
-[Data admission](RESEARCH-DATA-ADMISSION-RESULTS-20261108.md) đã kiểm fixture
-thật và pilot. [R026 results](R026-RELATIVE-EQUITY-RESULTS-20261108.md) qua
-component triage2019/2022, chưa policy/prop. [Continuation](R026-RELATIVE-EQUITY-CONTINUATION-20261108.md)
-giữ recipe, thêm bốn năm trước risk-wrapper; data đã dispatch, trạng thái thật
-ở private plan/progress được CURRENT-CONTEXT dẫn tới. Dùng repo skills hiện có; mở rộng reference
-khi workflow đã kiểm, không tạo một skill quản lý toàn bộ khác.
+[R026 continuation](R026-RELATIVE-EQUITY-CONTINUATION-RESULTS-20261108.md)
+đã terminal/reviewed:3/4năm mới âm, không đạt; gác exactpriceproxy, không
+rescue bằngSL/clock/side. [R010 source results](MULTI-ASSET-TREND-DATA-RESULTS-20261108.md)
+đã phân rã data blockers:monthlyhistory84/84 từ2018, ATRfullsessions chỉ32;
+asofcap120s không tăng140/144endpoints. Bước tiếp là normalize common monthly
+observations/return-basedrisk và freeze multiassetrecipe trước PnL; không
+adopt asofhelper hoặc nới oldgates chỉ để có winner. Dùng repo skills hiện có;
+không tạo một skill quản lý toàn bộ khác.

@@ -1,5 +1,9 @@
 # R026: giữ để kiểm tiếp, chưa là chiến lược challenge
 
+**Delta sau continuation:** [bốn năm bổ sung](R026-RELATIVE-EQUITY-CONTINUATION-RESULTS-20261108.md)
+không đạt tiêu chí; exactadaptation đã gác. Các bảng dưới giữ baseline
+2019/2022 đã freeze, không còn là quyết định ưu tiên hiện hành.
+
 Thực hiện [recipe đã khóa](R026-RELATIVE-EQUITY-COMPONENT-20261108.md),
 commit53fe30b trước numeric; source signal/test ở b421fe3. Câu hỏi mới dùng
 chênh lệch cổ phiếu EUR/US để chọn BUY/SELL EURUSD trước giờ cuối tháng;

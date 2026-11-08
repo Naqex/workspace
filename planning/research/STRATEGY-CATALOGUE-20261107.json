@@ -22,8 +22,7 @@
       "price_data_spec_possible": 2,
       "method_clock_review": 1,
       "component_probe_completed_no_priority": 1,
-      "component_probe_not_retained": 1,
-      "component_retained_needs_long_validation": 1,
+      "component_probe_not_retained": 2,
       "point_in_time_news_missing": 2,
       "component_only": 1
     }
@@ -505,12 +504,18 @@
         "AQR-TS"
       ],
       "source_relation": "research_variant_not_verified_replication",
-      "next_action": "Chỉ nghiên cứu sau baselineR009; trial mới.",
+      "next_action": "Use registered multiasset source-admission results:2018-2024monthlyhistory84/84ready, old full-sessionATR only32; cappedasof120s has no gain. Normalize common EURUSD/Gold/US500monthly observations and freeze return-basedvol/weights/cost/funding before any newPnL; no oldgate weakening.",
       "implementation_state": "not_implemented",
       "candidate_id": null,
       "profitability_evidence": "none_for_this_exact_rule",
       "dispatch_authorized": false,
-      "implementations": []
+      "implementations": [],
+      "data_admission": {
+        "protocol": "MULTI-ASSET-TREND-DATA-ADMISSION-20261108.md",
+        "results": "MULTI-ASSET-TREND-DATA-RESULTS-20261108.md",
+        "status": "metadata_and_US500_source_feasibility_measured_no_strategy_admission",
+        "strategy_implemented": false
+      }
     },
     {
       "id": "R011",
@@ -1023,7 +1028,7 @@
       "family": "fixing_flow",
       "role": "variant",
       "parent_id": "R020",
-      "readiness": "component_retained_needs_long_validation",
+      "readiness": "component_probe_not_retained",
       "timeframe": "Intraday/monthend",
       "rule_sketch": "Bilateral EUR/US price proxy: EUR-local equity factor versus SPY, sign-only EURUSD15:01–16:03London on last NYSE session proxy.",
       "data_requirements": "Source-listed synchronous EZU/SPY/EURUSD endpoints; pinned cash calendar, units/FX conversion, adjustment/benchmark gaps explicit.",
@@ -1034,10 +1039,10 @@
         "MELPRINS2013"
       ],
       "source_relation": "source_backed_equity_hedging_channel_requires_relative_market_inputs",
-      "next_action": "Preserve2019/2022 component:stress+16.8/+140.1pip,22/24resolved; execute unchanged2020/2021/2023/2024 continuation before risk-wrapper/native/prop/unseen review.",
+      "next_action": "Park exact relative-equity price-proxy v1 after unchanged four-year continuation failed:2020+51.1,2021-310.9,2023-58.5,2024-66.2stresspip; keep2019/22baseline, sixyears-227.6/66resolved. No SL/side/clock rescue or qualification.",
       "implementation_state": "not_implemented",
       "candidate_id": null,
-      "profitability_evidence": "costed_price_component_only_two_exposed_years_not_strategy_or_prop",
+      "profitability_evidence": "six_exposed_years_costed_price_component_not_retained_not_family_rejection",
       "dispatch_authorized": false,
       "implementations": [],
       "data_preflight": {
@@ -1053,11 +1058,13 @@
         "results": "R026-RELATIVE-EQUITY-RESULTS-20261108.md",
         "continuation": "R026-RELATIVE-EQUITY-CONTINUATION-20261108.md",
         "challenge_qualified": false,
-        "strategy_implemented": false
+        "strategy_implemented": false,
+        "continuation_results": "R026-RELATIVE-EQUITY-CONTINUATION-RESULTS-20261108.md",
+        "retained": false
       },
       "data_admission": {
         "results": "RESEARCH-DATA-ADMISSION-RESULTS-20261108.md",
-        "status": "336_source_parts_verified22of24component_events_resolved",
+        "status": "1008_source_parts_total_66of72component_events_resolved_not_retained",
         "unknowns": [
           "ETF_adjustments",
           "historical_WMR_calendar_not_used_as_exact_benchmark",

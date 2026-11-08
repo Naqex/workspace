@@ -15,7 +15,7 @@
 |R007|Compression6/24 breakout|trend_breakout / R001|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
 |R008|UTC range fade|level_reversion / R005|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
 |R009|Time-series momentum dài hạn|long_horizon_trend|Source-only32/132months eligible;guardchặn,khôngPnLmới|1|[Monthly admission](INDEX-LONG-EXPLICIT-RESULTS-20261108.md)|
-|R010|TSMOM theo volatility|long_horizon_trend / R009|long_history_or_multi_data|0|Chưa outcome riêng|
+|R010|TSMOM theo volatility|long_horizon_trend / R009|Sourcefeasibility:monthlyhistory84/84 từ2018; ATRcũ là nút chặn|0|[Data results](MULTI-ASSET-TREND-DATA-RESULTS-20261108.md); chưa recipe/PnLportfolio|
 |R011|Bollinger re-entry|price_reversion / R003|Các exact FX versions đã gác sau cost screen|2|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
 |R012|RSI contrarian có xác nhận|price_reversion / R003|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
 |R013|ATR shock fade|price_reversion / R003|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
@@ -31,7 +31,7 @@
 |R023|Local trading-hours currency flow|session_flow|PrimaryUScomponent không đạt retention|0|[Componentresults](LOCAL-SESSION-RESULTS-20261108.md); chưa policy/prop|
 |R024|Post-weekend gap fade|gap_reversion|Component12h không đạt priority; chưa strategy|0|[Componentresults](WEEKEND-GAP-COMPONENT-RESULTS-20261108.md), [datareview](WEEKEND-GAP-DATA-RESULTS-20261108.md)|
 |R025|Weekday/calendar effect|calendar|Source-corrected TOM chưa đạt; chưa bot|0|[Correction3days/reuse1507](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)|
-|R026|Month-end relative-equity flow|fixing_flow / R020|Price component2019/2022 qua triage; chưa policy/prop|0|[Results](R026-RELATIVE-EQUITY-RESULTS-20261108.md), [continuation](R026-RELATIVE-EQUITY-CONTINUATION-20261108.md); không tăng policy/edgecount|
+|R026|Month-end relative-equity flow|fixing_flow / R020|Gác exactadaptation sau6years;stress−227,6pip/66resolved|0|[Continuationresults](R026-RELATIVE-EQUITY-CONTINUATION-RESULTS-20261108.md); giữ baseline2019/22, không bot/edge|
 |R027|News-surprise continuation|event|point_in_time_news_missing|0|Chưa outcome riêng|
 |R028|News overreaction reversal|event / R027|point_in_time_news_missing|0|Chưa outcome riêng|
 |R029|Currency carry|carry|long_history_or_multi_data|0|Chưa outcome riêng|
