@@ -10,40 +10,39 @@ Owner giao tìm ứng viên đủ C1/C2, chuẩn hóa dữ liệu và cải ti�
 Goal đang active; [campaign v2](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)
 giữ scope, quyết định B cũ không kết thúc chiến dịch mới. **Chưa challenge-qualified.**
 
-Lát mới nhất: [R065 opening5 datarevision](research/NASDAQ-OPENING5-ORB-DATA-REVISION-RESULTS-20261109.md)
-đã fullFractionreviewed2022:243closedtrades,reference+714,71USD/stress+568,12
-trên10k, knownflat.2019giữunknown từ25Jan14:49UTC,16closed/partialprofits;
-khôngcopy0/khôngdropyear. Twoyeargate chưađạt, chưachallengecandidate.
-Catalogue65records/45researchpolicyversions/25native, chưa newversion vìdatarev.
+Lát mới nhất: [R065 conditional bounds](research/NASDAQ-OPENING5-BOUNDS-RESULTS-20261109.md)
+đã hoàn tất và kiểm lại bằng Fraction: **gác exact opening5 recipe**. Trên vốn
+10.000 USD/năm, conditional 2019 net chuẩn −351,20→−339,70 USD; stress
+−925,72→−914,80 USD. Ngay đầu biên có lợi vẫn âm. Năm 2022 có 243 lệnh,
++714,71/+568,12 USD, từng lệnh khớp parent. Không thay risk25USD/SL/TP/cost.
 
-Datarepair có [protocol](research/NASDAQ-TICK-DERIVED-HOUR-PROTOCOL-20261108.md)
-trướcbuild/replay. [8tickhours review](research/NASDAQ-M1-GAP-TICK-RESULTS-20261108.md)
-cho22missingcashminutes:15noquotes,7Oct2022cóquotes nhưng2commonOpenkhác
-firsttick nênmissing-onlygatefalse. Whole15UTC18Oct2022derivedfromticks có
-120sidebars/480pricefields reviewed,2mixed2022books thêm7minutes/bên;mọifield
-ngoàihour exact, volumeconversionerror0. Oldsource/pins/falsegate giữnguyên.
+Đây là outer bounds **có điều kiện** theo H1 cùng side và parent execution,
+không phải khôi phục giá hay actual PnL. [Exact parent](research/NASDAQ-OPENING5-ORB-DATA-REVISION-RESULTS-20261109.md)
+vẫn giữ annual2019 N/A, unknown từ 25/01 14:49 UTC và two-year gate inconclusive.
+Không biến sensitivity verdict thành original pass/fail hoặc challenge candidate.
+Catalogue vẫn 65 records / 45 research policy versions / 25 native rules.
 
-R065v2reuse4books2019 exactbyte/review;replay4books2022 với exactcoded5aad5b/
-risk25/TP10R/costs/latency.191closedtradeprefix vànullstate exactold;8bookcensus
-giữ đủ. Closedcash3/6/12months stress+83,15/+395,47/+568,12USD;maxclosednet
-981,44USD/closedbalanceDD595,93,khôngintrabarDD/proppass. Khôngraise risk để
-target. Prefix/reviewdiagnostics không là cleanOOS hoặc newblindtrial.
+Archive BI5 probe có một GET timeout trước HTTP response sau 21,608s, không
+binary payload; đã terminal, không retry không đổi. [H1 fixture protocol](research/NASDAQ-H1-GAP-ENVELOPE-PROTOCOL-20261109.md)
+và kết quả trong bounds report xác nhận envelope chứa 16.624 ticks/59M1,
+nhưng không phục hồi được quote phút thiếu. Không tiếp tục archive chase cho
+recipe đã bị gác theo conditional economics.
 
-**Tiếp:** alternateofficialarchive transport/sourceadmission cho đúng2019first
-missinghour. Cần kiểmprimaryURL/format vàregisterboundedfixture trướcfetch,
-không tựđoánbi5schema hoặc kéo cảhistory. Nếu rawarchive cũngthiếu,giữunknown,
-khônginterpolate quote/relaxfrozencriteria hoặc bật broker/own2025+holdout.
-Giải data/method uncertainty có evidence, không retune R065 khi thấy2022dương.
+**Tiếp:** [NASDAQ noise14 method admission](research/NASDAQ-NOISE14-METHOD-20261109.md).
+Reuse band helper R048 và source-only NASDAQ M1/warmup/calendar. Khóa recipe,
+known-at/halfday/required14 sessions/cost/risk/gap semantics, rồi kiểm fixtures
+trước outcomes. Đây là trial chuyển thị trường, chưa code/backtest; giữ
+negatives US500 của R048, không grid hoặc gọi dev2019/2022 là clean OOS.
+Không đọc own2025+ holdout hoặc bật broker.
 
 Private root `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/`;
-`execution-v1/nasdaq-opening5-orb-v1` original8books/review;`nasdaq-M1-gap-ticks-v1`
-rawfidelity/failedbridgegate;`nasdaq-tick-derived-hour-v1` approvednewmixedview;
-`nasdaq-opening5-orb-v2` fournew/fourreusedbooks+full2022review/prefixparity;
-`nasdaq-opening5-2022-cash-diagnostics-v1` cashprefix/peak/concentration.
-PIDs21080/12496/25656/7808 vàreviewers terminal0, khôngworker chờ. Sourcebuild
-11,265s/review4,221s;affectedreplay7,777s/review5,544s,khôngwholeperformanceclaim.
-Trader83731fc8 untouched;no runtime/skills/globalconfig mutation. Source/native
-primitives vàcurrentplans được reuse;C1/C2/cleanOOS/prop/forward/handover cònmở.
+`execution-v1/nasdaq-opening5-bounds-v2` giữ đủ8 books/pins/progress/review.
+V1 failed do Decimal event serialization, giữ failure/scripts; v2 sửa logger
+và reuse book đầu nguyên bytes, không chạy lại. 8 unit tests mới +12 parent
+regressions và12 synthetic Fraction cases đạt; full8-book Fraction review/
+6 mutations đạt. V2 24,335s/review7,652s; không whole-engine speedup claim.
+H1 audit và numerical/reviewer PIDs đã terminal; không worker để chờ.
+Trader83731fc8 không đổi; không runtime/skills/global config/data deletion.
 
 Các kết quả trước và negatives tra [research index](research/README.md) hoặc
 campaignv2; không mở lại raw/numeric batch không đổi. [Data/retrieval review](research/AGENT-DATA-RETRIEVAL-20261108.md)

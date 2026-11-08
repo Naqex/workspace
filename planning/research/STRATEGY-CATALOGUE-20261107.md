@@ -70,7 +70,7 @@
 |R062|NASDAQ pre-FOMC23h|scheduled_macro_premium|Không đạt2019;2022dương, chưaaccountpolicy|0|[Component results](FOMC-NASDAQ-COMPONENT-RESULTS-20261108.md);64costcases/128quotes reviewed|
 |R063|NASDAQ cash RSI3+IBS05|equity_daily_reversion /R050|Không giữ: stress2019−2,97/2022−486,42USD/unit,9/21trades|0|[Component results](NASDAQ-CASH-RSI-COMPONENT-RESULTS-20261108.md); chưaSL/account/prop/OOS|
 |R064|NASDAQ cash first→last30|equity_close_momentum /R051|Không giữ: stress−481,64/−1.969,99USD/unit, kém longcontrol cả2years|0|[Results](NASDAQ-INTRADAY-MOMENTUM-RESULTS-20261108.md);413resolveddays/1.652cases, chưaaccount/prop|
-|R065|NASDAQ opening5 direction/10R|cash_opening_direction|2022knownflat+714,71/+568,12USD;2019unknown, chưaqualified|1|[Datarevisionresults](NASDAQ-OPENING5-ORB-DATA-REVISION-RESULTS-20261109.md); preserved2019gate vàoldinterim|
+|R065|NASDAQ opening5 direction/10R|cash_opening_direction|Gác exact recipe: conditional2019 stress −925,72→−914,80USD; original2019 vẫn unknown, chưa qualified|1|[Bounds review](NASDAQ-OPENING5-BOUNDS-RESULTS-20261109.md); giữ [exact datarevision](NASDAQ-OPENING5-ORB-DATA-REVISION-RESULTS-20261109.md)|
 
 ## Cách đọc và việc đang chạy
 

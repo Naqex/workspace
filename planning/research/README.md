@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+Checkpoint mới: [R065 conditional bounds](NASDAQ-OPENING5-BOUNDS-RESULTS-20261109.md)
+09/11: gác exact opening5 recipe vì conditional2019 vẫn âm; original2019 vẫn
+unknown. Tiếp [NASDAQ noise14 method admission](NASDAQ-NOISE14-METHOD-20261109.md),
+chưa backtest mới hoặc challenge candidate; [campaign hiện hành](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).
+
 Đọc tài liệu chủ đề trước, chỉ kiểm lại phần đổi/còn thiếu. Đây là chỉ mục chọn
 lọc, không là danh sách task hoặc chứng nhận tài liệu còn đúng tới hiện tại.
 Mỗi tài liệu giữ ngày kiểm, nguồn, giới hạn và điều kiện refresh của chính nó.

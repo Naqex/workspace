@@ -6,6 +6,15 @@ có nhu cầu thực. Goal mới đã active. Quyết định dừng B ở
 [campaign trước](CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md) là lịch sử, không là
 điều kiện tự hoàn tất Goal này. Giữ nguyên tài liệu/pins của các đợt đã freeze.
 
+## Checkpoint hiện hành — 09/11/2026
+
+[R065 bounds review](NASDAQ-OPENING5-BOUNDS-RESULTS-20261109.md) đã hoàn tất:
+conditional stress2019 vẫn âm ở cả đầu biên có lợi, nên gác exact recipe.
+Original2019 vẫn unknown; không sửa gate hoặc tăng risk. Goal C1/C2 active,
+chưa challenge-qualified. [NASDAQ noise14 method admission](NASDAQ-NOISE14-METHOD-20261109.md)
+là lát tiếp; chưa numeric outcomes, giữ parent R048 negatives. Các đoạn
+"tiếp" trong lịch sử bên dưới là checkpoint cũ, không là job đang chạy.
+
 ## Đích và cách biết đã đạt
 
 Kế thừa **C1/C2** của campaign trước: ứng viên có lợi thế sau phí và đủ bằng
