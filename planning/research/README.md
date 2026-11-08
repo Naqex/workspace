@@ -1,11 +1,11 @@
 # Tra cứu research đã có
 
-Checkpoint09Nov: [R070/R071 NYFX MA4 results](NY-FX-REVERSAL-RESULTS-20261109.md)
-đã16books/fullFractionreview;primary stress2019−1.536,55/2022−463,01USD,control
-cũngâm;allknownflat. Catalogue71records/50versions/25native/5controls;Goalactive/
-chưachallenge. Tiếp timing-fidelity/sourceM1admission trước pairednear15minstudy;
-khôngretuneMA/SL/cost/riskhoặcownholdout. [MLnegatives](GOLD-ML-SL-LABELS-RESULTS-20261109.md)
-và [stocksourcegaps](STOCK-INFORMATION-SOURCE-RESULTS-20261109.md) giữ nguyên.
+Checkpoint09Nov: [pairedNYFXM1latencyresults](NY-FX-PAIRED-LATENCY-RESULTS-20261109.md)
+32books reviewed;16nonnullannualN/Adoheldminuteunknown,16nulls0PnL. 1,49triệuM1
+bars/7,46triệufields reviewed;tick10hours khôngquote ở10missingminutes,0patch
+approved. Catalogue73/54/25native/7controls;Goalactive/chưachallenge. Tiếp
+observed-event/uncertaintymodeladmissionriêng,khôngfakeprices/clearstrictunknown.
+[ParentH1negatives](NY-FX-REVERSAL-RESULTS-20261109.md) giữnguyên.
 
 Đọc tài liệu chủ đề trước, chỉ kiểm lại phần đổi/còn thiếu. Đây là chỉ mục chọn
 lọc, không là danh sách task hoặc chứng nhận tài liệu còn đúng tới hiện tại.

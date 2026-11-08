@@ -8,12 +8,13 @@ có nhu cầu thực. Goal mới đã active. Quyết định dừng B ở
 
 ## Checkpoint hiện hành — 09/11/2026
 
-[R070/R071 NYFX MA4](NY-FX-REVERSAL-RESULTS-20261109.md) đã16books/fullFraction
-review;primary stress2019−1536,55/2022−463,01USD,controlcũngâm;allknownflat.
-Gác exactH1versions. Catalogue71records/50versions/25native/5controls,Goalactive,
-chưachallenge. Tiếp timing-fidelity/sourceM1 admission trước pairednear15minstudy;
-khôngretuneMA/SL/cost/risk. R068/R069/R067negatives vàstockvolume/adjustment/PIT/
-targetfitgapsgiữ nguyên. Các đoạn tiếp trong lịch sử không làjobsđangchạy.
+[R072/R073 pairedNYFXM1](NY-FX-PAIRED-LATENCY-RESULTS-20261109.md)32books đãreview,
+16nonnullannualunknown/N/A;khôngpartialcashprofitclaim. Source1,49triệubars/
+7,46triệufields verified;tick10hours khôngquote ở10missingminutes,0patchapproved.
+ParentH1negativegiữriêng. Catalogue73records/54versions/25native/7controls;
+GoalC1/C2active,chưachallenge. Tiếpobserved-event/uncertaintyadmissionriêng trước
+newoutcomes,nofakebar/norawrewrite/norisk/SL/MA/costrescue. Các đoạn tiếp trong
+lịch sử không làjobsđangchạy. Khôngrepeatunchangedannualdownload hoặc32books.
 
 ## Đích và cách biết đã đạt
 

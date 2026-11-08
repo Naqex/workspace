@@ -10,30 +10,37 @@ Owner giao tìm ứng viên đủ C1/C2, chuẩn hóa dữ liệu và cải ti�
 Goal đang active; [campaign v2](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)
 giữ scope, quyết định B cũ không kết thúc chiến dịch mới. **Chưa challenge-qualified.**
 
-Lát mới nhất: [R070/R071 NYFX MA4](research/NY-FX-REVERSAL-RESULTS-20261109.md)
-đã16books/review; primary stress2019−1.536,55USD/540closed,2022−463,01/522;
-controlstress cũngâm. Allknownflat,khôngunknown;gác exactH1versions. Catalogue
-71records/50policyversions/25native/5controls. Chưa challengecandidate.
+Lát mới nhất: [R072/R073 pairedM1latency](research/NY-FX-PAIRED-LATENCY-RESULTS-20261109.md)
+đã32books/fullFractionreview nhưng16nonnullannualbooksunknownexposure,annualN/A.
+2019firstgap20May17:54UTC;2022lag15Jan5/lag60Feb15. Khônglấypartialcash làmprofit
+hoặcnegativegate.16nullbooks0trades/PnL. Catalogue73records/54versions/25native/
+7controls;chưa challengecandidate. [ParentH1R070/R071](research/NY-FX-REVERSAL-RESULTS-20261109.md)
+negatives giữ nguyên;M1source revisions đượcđếmriêng,khôngedgesđộc lập.
 
-Protocol31d8084/implementation391efba trước outcomes. SourceEURUSD2019/2022:
-24.932explicitH1bars/124.660fields canonical/Fractionreview,khôngpairedgaps/
-crossedOpenClose.7focusedtests đạt; fullFractionreview16books/signals/census/
-4.122closedpaths gồm lặpqua costs,5actualmutationsreject. Source18,011s,
-review1,759s;producer4,132s/CPU4,094s;fullreview9,409s/CPU9,375s. Không compute
-bottleneck cầnGPU/Rust. H1intervalproxy/declaredcosts/exposeddevelopment không
-là broker/prop/OOS. Result721164170a936ec06a9cd285d833a33033490e544447e6ae7bbd1c347c37efe8;
-reviewf3419ec481f1fab18a6777d614d80da434090b9dd7662d6784ce5f27946a55a8.
+[Pairedprotocol](research/NY-FX-PAIRED-LATENCY-PROTOCOL-20261109.md)1047a5d và
+implementation56ea354 trướcoutcomes. SourceM1:1.460URLs/1.492.264explicitbars/
+7.461.320fields raw/canonical/Fractionreview;additional exactdayreviewđạt.
+Reviewerempty-sourcebugv1 giữfailure, v2/emptyfixtuređạtkhôngrawrewrite/rerundownload.
+7parent+5M1tests/16syntheticcases đạt trướcnumeric;32books/1.660closedpaths/census/
+signals/cost/cash/unknown reviewed;5actualmutationsreject. NoOOS/prop/brokerproof.
 
-**Tiếp:** timing-fidelity admission trên cùngfrozenMA4: near15min so onehour
-execution có đổi kết luận không? Paper fullprimary đãđọc, original15mincheck
-không tựproofedge. Khóa fixture/sourceM1 và pairedprotocol trước newPNL; không
-sửaoldpins/outcomes hoặc retuneMA/SL/fees/risk. Reuse nguồn trước download;
-ownholdout2025+đóng,khôngbroker. Khôngjobphảiđợi.
+Source-onlypotentialheldcensus:10missingminutes/10days/10hours. [Tickprotocol](research/NY-FX-M1-GAP-TICK-PROTOCOL-20261109.md)
+cd39fe1 trướcfetch:15.379jointticks/76.895fields,1.180commonM1sidebars exact,
+khôngtick trongcả10missingminutes,0patchapproved. Sourcefeedkhôngcóevent không
+chứngminhthịtrường/brokerkhôngquote hoặcgiábấtbiến. Strictunknownkhôngclear.
+
+**Tiếp:** method admission observed-event/uncertaintymodel riêng; nếu phùhợp,
+register trướcnewoutcomes,khôngfakebar/carryfill/mark hoặcđổirisk/MA/SL/cost.
+Nautilusprimarydocsđãđọccủngcốeventstreamconcept,khôngcertifymarketcontinuity.
+Khôngrerun32booksnguyên,nodownloadannualhistorylại,ownholdout2025+đóng/khôngbroker.
 
 Private root `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/`;
-`execution-v1/ny-fx-reversal-source-v1` và `ny-fx-reversal-v1` giữ rawproofs,
-source snapshots,books/config/pins/progress/events/timing/reviews. Jobs terminal0.
-Trader83731fc8/skills/runtime/globalconfig giữ nguyên. Không xóa/migration raw.
+`execution-v1/ny-fx-timing-M1-history-v1`,`ny-fx-paired-latency-v1`,`ny-fx-M1-gap-ticks-v1`
+giữsource/seals/emptyfailure/reviews/pins/snapshots/census/books/progress/events.
+Mọijobterminal0(trừreviewv1failuređãgiữ),khôngjobphảiđợi. Sourcetime569,796s/
+CPU15,999s;fullreview107,776s;numerics22,167s/CPU21,781s;financialreview31,923s;
+ticksource17,015s/review3,996s. Không computebottleneck cầnGPU/Rust/framework.
+Trader83731fc8/skills/runtime/globalconfig giữnguyên;khôngxóa/migration raw.
 
 [R068/R069 ML](research/GOLD-ML-SL-LABELS-RESULTS-20261109.md) giữ0signalnegative,
 khôngthresholdrescue;[R067](research/GOLD-SILVER-FORMATION-RESULTS-20261109.md)

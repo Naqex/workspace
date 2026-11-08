@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-07",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 71,
+  "record_count": 73,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -12,7 +12,7 @@
   "counts": {
     "by_role": {
       "existing": 36,
-      "variant": 20,
+      "variant": 22,
       "new": 14,
       "component": 1
     },
@@ -29,7 +29,8 @@
       "component_only": 1,
       "implemented_parked_conditional_2019_negative": 1,
       "implemented_parked_conditional_negative": 1,
-      "implemented_not_retained_no_qualified_signals": 2
+      "implemented_not_retained_no_qualified_signals": 2,
+      "implemented_inconclusive_source_gap": 2
     }
   },
   "sources": [
@@ -2427,17 +2428,20 @@
         "LEBARON-NYFX"
       ],
       "source_relation": "session_conditioned_MA_method_adaptation_not_EBS_paper_replication_or_edge",
-      "next_action": "Park exactH1recipe; separately register paired timing-fidelity/sourceM1 admission before new outcomes, no MA/SL/cost/risk rescue.",
+      "next_action": "Keep originalH1negative and M1unknown distinct; separate observed-event/uncertainty model admission, no filled bars or silent state clear.",
       "implementation_state": "implemented_reviewed_not_retained",
       "candidate_id": "eurusd-ny-ma4-reversal-tr14x1p5-r025-h1-v1",
       "implementations": [
-        "eurusd-ny-ma4-reversal-tr14x1p5-r025-h1-v1"
+        "eurusd-ny-ma4-reversal-tr14x1p5-r025-h1-v1",
+        "eurusd-ny-ma4-reversal-tr14x1p5-r025-m1-lag60-v1"
       ],
       "evidence_locator": "NY-FX-REVERSAL-RESULTS-20261109.md",
       "profitability_evidence": "Initial10k/annual:2019 ref-1217.66/stress-1536.55USD,540closed;2022 ref-297.01/stress-463.01,522closed;allknownflat,noqualification.",
       "dispatch_authorized": false,
       "control": false,
-      "implementation_updated_on": "2026-11-09"
+      "implementation_updated_on": "2026-11-09",
+      "source_revision_evidence": "NY-FX-PAIRED-LATENCY-RESULTS-20261109.md",
+      "source_revision_state": "M1_lag60_reviewed_annual_unknown_original_H1_negative_preserved"
     },
     {
       "id": "R071",
@@ -2455,16 +2459,75 @@
         "LEBARON-NYFX"
       ],
       "source_relation": "session_conditioned_MA_method_adaptation_not_EBS_paper_replication_or_edge",
-      "next_action": "Park exactH1recipe; separately register paired timing-fidelity/sourceM1 admission before new outcomes, no MA/SL/cost/risk rescue.",
+      "next_action": "Keep originalH1negative and M1unknown distinct; separate observed-event/uncertainty model admission, no filled bars or silent state clear.",
       "implementation_state": "implemented_reviewed_not_retained",
       "candidate_id": "eurusd-ny-ma4-momentum-control-tr14x1p5-r025-h1-v1",
       "implementations": [
-        "eurusd-ny-ma4-momentum-control-tr14x1p5-r025-h1-v1"
+        "eurusd-ny-ma4-momentum-control-tr14x1p5-r025-h1-v1",
+        "eurusd-ny-ma4-momentum-control-tr14x1p5-r025-m1-lag60-v1"
       ],
       "evidence_locator": "NY-FX-REVERSAL-RESULTS-20261109.md",
       "profitability_evidence": "Initial10k/annual:2019 ref+225.13/stress-67.79USD,498closed;2022 ref-582.25/stress-723.03,501closed;allknownflat,notindependentedge.",
       "dispatch_authorized": false,
       "control": true,
+      "implementation_updated_on": "2026-11-09",
+      "source_revision_evidence": "NY-FX-PAIRED-LATENCY-RESULTS-20261109.md",
+      "source_revision_state": "M1_lag60_reviewed_annual_unknown_original_H1_negative_preserved"
+    },
+    {
+      "id": "R072",
+      "title": "NY-session EURUSD MA4 reversal15min",
+      "family": "session_conditioned_reversion",
+      "role": "variant",
+      "parent_id": "R070",
+      "readiness": "implemented_inconclusive_source_gap",
+      "timeframe": "HourlyNY10-13decisions,15minute delayed M1Open actions,15NYflat",
+      "rule_sketch": "SameMA4/SL1.5meanTR14/risk25/costs asparent;complete60sourceM1featurehours;strictheldminuteunknownfreeze.",
+      "data_requirements": "Reviewed source-only EURUSDM1full2019/2022,1460rawdays/1492264bars/7461320fields;10missingpotentialheldminutes retained.",
+      "automation_feasibility": "offline_modeled_M1_policy_not_native_broker",
+      "prop_operational_concerns": "AnnualnetN/A:missingheldminute2019May20/2022Jan5;notcleanOOS/propDD/forward/targetbrokerproof.",
+      "source_ids": [
+        "LEBARON-NYFX"
+      ],
+      "source_relation": "registered_latency_and_source_model_adaptation_not_paper_replication",
+      "next_action": "Tickreview has no quotes for all10missingminutes;no patchapproved. Admit observed-event/uncertainty model separately or park inconclusive, no risk/MA/SL/cost rescue.",
+      "implementation_state": "implemented_reviewed_inconclusive_unknown_exposure",
+      "candidate_id": "eurusd-ny-ma4-reversal-tr14x1p5-r025-m1-lag15-v1",
+      "implementations": [
+        "eurusd-ny-ma4-reversal-tr14x1p5-r025-m1-lag15-v1"
+      ],
+      "evidence_locator": "NY-FX-PAIRED-LATENCY-RESULTS-20261109.md",
+      "profitability_evidence": "2019 207closed/cost thenunknown2019-05-20T17:54Z;2022 3closed/cost thenunknown2022-01-05T18:42Z;annualnetN/A,partialcashnotannualprofit.",
+      "control": false,
+      "dispatch_authorized": false,
+      "implementation_updated_on": "2026-11-09"
+    },
+    {
+      "id": "R073",
+      "title": "NY-session EURUSD MA4 momentum15min control",
+      "family": "falsification",
+      "role": "variant",
+      "parent_id": "R072",
+      "readiness": "implemented_inconclusive_source_gap",
+      "timeframe": "HourlyNY10-13decisions,15minute delayed M1Open actions,15NYflat",
+      "rule_sketch": "Preregistered opposite-side15min control under sameM1source/SL/risk/costs;no post-hoc promotion.",
+      "data_requirements": "Reviewed source-only EURUSDM1full2019/2022,1460rawdays/1492264bars/7461320fields;10missingpotentialheldminutes retained.",
+      "automation_feasibility": "offline_modeled_M1_policy_not_native_broker",
+      "prop_operational_concerns": "AnnualnetN/A:missingheldminute2019May20/2022Jan5;notcleanOOS/propDD/forward/targetbrokerproof.",
+      "source_ids": [
+        "LEBARON-NYFX"
+      ],
+      "source_relation": "registered_latency_and_source_model_adaptation_not_paper_replication",
+      "next_action": "Tickreview has no quotes for all10missingminutes;no patchapproved. Admit observed-event/uncertainty model separately or park inconclusive, no risk/MA/SL/cost rescue.",
+      "implementation_state": "implemented_reviewed_inconclusive_unknown_exposure",
+      "candidate_id": "eurusd-ny-ma4-momentum-control-tr14x1p5-r025-m1-lag15-v1",
+      "implementations": [
+        "eurusd-ny-ma4-momentum-control-tr14x1p5-r025-m1-lag15-v1"
+      ],
+      "evidence_locator": "NY-FX-PAIRED-LATENCY-RESULTS-20261109.md",
+      "profitability_evidence": "2019 185closed/cost thenunknownMay20;2022 2closed/cost thenunknownJan5;annualN/A,notindependentedge.",
+      "control": true,
+      "dispatch_authorized": false,
       "implementation_updated_on": "2026-11-09"
     }
   ],
@@ -2472,10 +2535,10 @@
   "automatic_rejection": false,
   "holdout_opened": false,
   "updated_on": "2026-11-09",
-  "implemented_record_count": 45,
-  "implemented_rule_count": 50,
-  "implemented_control_rule_count": 5,
-  "implemented_noncontrol_rule_count": 45,
+  "implemented_record_count": 47,
+  "implemented_rule_count": 54,
+  "implemented_control_rule_count": 7,
+  "implemented_noncontrol_rule_count": 47,
   "native_offline_rule_count": 25,
   "metal_coarse_rule_count": 6,
   "index_coarse_rule_count": 7,
@@ -2484,5 +2547,6 @@
   "index_opening5_m1_rule_count": 1,
   "index_noise14_m1_rule_count": 1,
   "metal_h1_ml_rule_count": 2,
-  "fx_ny_ma4_h1_rule_count": 2
+  "fx_ny_ma4_h1_rule_count": 2,
+  "fx_ny_ma4_M1_rule_count": 4
 }
