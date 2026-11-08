@@ -57,3 +57,24 @@ callerconfigkhôngđổi sauholdout-reject. M1helper/oldfixtures giữ nguyên.
 Attempt2root`fx-h1-history-v2` với sourcepins mới, cùng60requests/date/side/
 schema/quality;reuse rawcache đãtảibằngnativecache/hash,khôngtảilạitoàn bộ.
 Không gọi attempt1completed hoặc sửaoldmanifest theohelpermới.
+
+## Source recovery trước PnL: attempt3, explicit unavailable không là full admission
+
+Attempt2PID9220/session59587 đãterminalexit1 sau185,411s:15completebooks giữ
+seals;AUDUSDAskJan2013requesttimeout3lần. Nguồn chưa lấyđược,không chứng minh
+marketclosed/missingdata. KhôngretrycùngURLnữa trongattempt3;khôngresetall60.
+
+Reuse15sealedbooks kiểmoldmanifest/sealedbook/proof/snapshot hashes,bytecopy
+outputs vào`fx-h1-history-v3` kèmoriginreceipt;không giảhelpermớiđãproduce.
+Reuse12GBPbid2010rawmonths từattempt1 vàmọirawcache hiện có. Newhelper dùng
+existingM1`resolveBatch` opt-in partialmode:chỉ exhaustedtransient/knownURL
+vớicallback ghiunavailableSources/quoteRowsInvented0;403/429/auth/schema vẫn
+failclosed. Strictmode mặcđịnh khôngđổi. H1fixtures thêmknownmiss-no-fetch/
+strictfail/authreject,khôngtestbỏquaerrorđểpass.
+
+60bookviews gồm observedmonths vàexplicitunknown-sourcecount. Acceptance
+**không** chuyển720requested thành720observed:sourceprice/census cóthểđạt
+trênobservedbars nhưng fullhistoryinconclusive khi cóunavailablemonth. Paired
+coverage phải giữmissingmonth/side,khôngfillcarriedprices/drop khỏidenominator.
+KhôngPnL khi sourcechưareview. Attempt3deadline420s,ngoạitrừ knownJan2013URL
+giữmọirequest/day/side/schema/price semantics,log/proof/gate;không hạretention.

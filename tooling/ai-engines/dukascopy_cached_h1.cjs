@@ -2,7 +2,23 @@
 const path=require('path');
 const crypto=require('crypto');
 const native=require(path.resolve(__dirname,'../../.runtime/research-data/node_modules/dukascopy-node'));
-const {requestWithRecovery}=require('./dukascopy_cached_m1.cjs');
+const {requestWithRecovery,resolveBatch}=require('./dukascopy_cached_m1.cjs');
+
+async function collectH1Buffers(fetcher,urls,options) {
+  const buffers=[];
+  for(let i=0;i<urls.length;i++){
+    const url=urls[i];let outcome;
+    try {
+      if(options.knownUnavailable?.has(new URL(url).pathname)){
+        const error=new Error('Previously exhausted request; no new source call');error.name='KnownUnavailableRequest';throw error;
+      }
+      outcome={status:'fulfilled',value:await requestWithRecovery(fetcher,url,options)};
+    }catch(error){outcome={status:'rejected',reason:error};}
+    buffers.push(...resolveBatch([url],[outcome],options));
+    options.onEvent?.({stage:'source_month_cached',completed:i+1,total:urls.length});
+  }
+  return buffers;
+}
 
 function explicitHours(data) {
   const columns=['times','opens','highs','lows','closes','volumes'].map(k=>data[k]);
@@ -30,11 +46,10 @@ async function getCachedH1(request,options) {
   const fetcher=new native.BufferFetcher({batchSize:1,pauseBetweenBatchesMs:0,requestIntervalMs:300,
     cacheManager:new native.CacheManager({cacheFolderPath:input.cacheFolderPath}),retryCount:0,rateLimitRetryCount:0,
     retryOnEmpty:false,failAfterRetryCount:true,wafMode:'off',wafTokenCache:false,wafTokenCachePath:input.wafTokenCachePath});
-  const buffers=[];
-  for(const url of urls){
-    buffers.push(...await requestWithRecovery(fetcher,url,options));
-    options.onEvent?.({stage:'source_month_cached',completed:buffers.length,total:urls.length});
-  }
+  const unavailable=[];
+  const buffers=await collectH1Buffers(fetcher,urls,{...options,onUnavailable:options.onUnavailable ? record=>{
+    unavailable.push(record);options.onUnavailable(record);
+  }:undefined});
   const explicit=new Set();
   const sources=buffers.map(({url,buffer})=>{
     for(const at of explicitHours(JSON.parse(buffer.toString('utf8')))){
@@ -46,8 +61,8 @@ async function getCachedH1(request,options) {
     priceType:input.priceType,volumes:true,volumeUnits:'millions',ignoreFlats:false});
   const nativeRows=decoded.filter(([at])=>at>=+startDate&&at<+endDate);
   const selected=nativeRows.filter(([at])=>explicit.has(at));
-  options.onSource?.({sources,nativeRows:nativeRows.length,selectedRows:selected.length,paddingExcluded:nativeRows.length-selected.length,
+  options.onSource?.({sources,unavailableSources:unavailable,expectedMonthCount:urls.length,nativeRows:nativeRows.length,selectedRows:selected.length,paddingExcluded:nativeRows.length-selected.length,
     sourcePolicy:'explicit_source_H1_only',observedTickTimestamps:false,periodExposure:'whole_month_raw_response'});
   return selected.map(([timestamp,open,high,low,close,volume])=>({timestamp,open,high,low,close,volume}));
 }
-module.exports={getCachedH1,explicitHours};
+module.exports={getCachedH1,explicitHours,collectH1Buffers};
