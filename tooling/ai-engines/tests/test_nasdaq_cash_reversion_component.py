@@ -125,13 +125,16 @@ class CashReversionTests(unittest.TestCase):
 
     def test_retention_needs_both_stress_years_closed_and_no_rejections(self):
         base=dict(scenario='stress',null_control=False,net_component_usd=D(10),
-                  closed_trades=10,rejected=[],open_position=None,pending_action=None)
-        self.assertTrue(study.retained([dict(base),dict(base)]))
+                  closed_trades=10,rejected=[],open_position=None,pending_action=None,
+                  start_time_msc=START,end_time_msc=START+DAY)
+        other=dict(base,start_time_msc=START+DAY,end_time_msc=START+2*DAY)
+        self.assertTrue(study.retained([base,other]))
+        self.assertFalse(study.retained([base,base]))
         for change in [dict(net_component_usd=D(0)),dict(closed_trades=9),
                        dict(rejected=[{'reason':'missing_exact_fill_minute'}]),
                        dict(open_position={'id':'open'}),dict(pending_action={'side':'EXIT'})]:
             with self.subTest(change=change):
-                self.assertFalse(study.retained([dict(base),dict(base,**change)]))
+                self.assertFalse(study.retained([base,dict(other,**change)]))
         self.assertFalse(study.retained([dict(base)]))
 
 

@@ -134,5 +134,6 @@ def simulate(pairs, plans, *, start, end, scenario, null_control=False,
 
 def retained(results):
     stress = [r for r in results if r['scenario'] == 'stress' and not r['null_control']]
-    return len(stress) == 2 and all(r['net_component_usd'] > 0 and r['closed_trades'] >= 10
+    windows = {(r['start_time_msc'], r['end_time_msc']) for r in stress}
+    return len(stress) == len(windows) == 2 and all(r['net_component_usd'] > 0 and r['closed_trades'] >= 10
         and not r['rejected'] and r['open_position'] is None and r['pending_action'] is None for r in stress)
