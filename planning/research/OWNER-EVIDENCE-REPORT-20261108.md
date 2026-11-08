@@ -127,6 +127,12 @@ Nguồn: [clock](FIXING-CLOCK-TRANSFER-RESULTS-20261108.md),
 với stop/risk đang có và chất lượng dữ liệu, rồi mới quyết định có đáng thiết
 kế một phiên bản stop mới. Chưa mở phép thử đó trong lượt báo cáo này.
 
+**Cập nhật sau khi owner giao thực thi:** phép đo đã xong tại
+[báo cáo đường giá](PRE-ECB-PATH-RISK-RESULTS-20261108.md). Đã kiểm 519 ngày,
+đối chiếu raw cho 8 đường giá mẫu và tính lại số học toàn bộ. Nếu giả định
+chưa cắt lỗ và giữ lot cũ, có đường giá lỗ giữa phiên hơn 5R dù cuối phiên
+có thể lời. Giữ bản cũ ở trạng thái gác; không bỏ hoặc nới SL từ kết quả này.
+
 ### Toán và thống kê được ghép vào lộ trình thế nào?
 
 Owner hỏi tiếp08/11: nên tiến tới mục tiêu hay thêm xác suất/thống kê/toán.
@@ -162,3 +168,44 @@ code hoặc ứng viên của project đã đạt các phương pháp đó.
 Các worker nghiên cứu gần đây đã terminal theo receipts; kiểm process của
 các job vừa nêu không thấy còn chạy ở lượt này. Không phải kiểm sức khỏe toàn
 bộ app, MT5 hoặc broker. Chưa có ứng viên challenge; không mở holdout/gửi lệnh.
+
+## 6. Chưa biết trade tay có vận hành bot được không?
+
+**Có thể. Nhưng nếu không hiểu bot, bạn khó giám sát và dễ sửa sai thứ.**
+Đây là khuyến nghị vận hành; không yêu cầu bạn phải trade tay có lãi hay đọc
+hết code. FTMO nêu trader vẫn chịu trách nhiệm về objectives/risk dù thuật
+toán thực thi; QuantConnect tách riêng rủi ro chiến lược, vận hành và lỗi code.
+Nguồn đã đọc ngày 08/11/2026:
+[FTMO](https://ftmo.com/en/blog/what-is-algorithmic-trading-and-how-to-use-it-for-the-ftmo-challenge/),
+[QuantConnect](https://www.quantconnect.com/docs/v2/cloud-platform/live-trading/risks).
+
+| Chỗ chưa hiểu | Rủi ro thực tế | Cách bàn giao trong project |
+|---|---|---|
+| Bot vào/thoát vì sao | Tin nhầm code chạy đúng nghĩa là có lợi thế | Thẻ chiến lược và ví dụ quyết định → giá → lệnh/khớp → tiền, có cả lỗi và kết quả xấu |
+| Lỗ đúng luật khác lỗi ở đâu | Tắt bot sau vài SL, nới stop hoặc tăng lot để gỡ | Ví dụ lời/lỗ/sự cố; đối chiếu phân phối và tiêu chí review đã đăng ký |
+| Mỗi lệnh/tài khoản chịu bao nhiêu | Nhầm số dư danh nghĩa là vốn mình có thể mất | USD/R, phần đệm lỗ còn lại của cả tài khoản, gap/slippage và tổng phí owner chịu |
+| Mất mạng/AI/PC thì sao | Gửi lặp, hoặc tưởng tắt app là đã đóng lệnh | Diễn tập demo: ngừng vào lệnh, kiểm vị thế/SL tại broker, đối soát kết quả chưa rõ trước khi tiếp tục |
+| Điều kiện quỹ/phiên bản nào | Bot vi phạm rule dù có lời | Xác định đúng program, rules/config version và kiểm điều kiện hiện hành trước challenge |
+
+**Thẻ minh họa từ bản đang gác, không khuyến nghị trade:**
+`eurusd-h1-pre-ecb02ny-14berlin-atr14x1p5-r025-v1` bán EURUSD theo lịch
+02:00 New York vào weekday khi đủ dữ liệu/khởi tạo. Thoát theo SL 1,5 ATR14
+hoặc lịch 14:00 Berlin nếu chưa thoát; chia lot theo ngân sách rủi ro cũ.
+Tên preECB **không có nghĩa chỉ trade ngày ECB họp**: source `fixing_entry`
+là lịch weekday. Cơ chế kỳ vọng theo giờ vẫn là giả thuyết; kiểm tra phí
+hiện tại chưa chứng minh lợi thế. Chưa có bot đạt chuẩn challenge để bàn giao;
+bạn không cần học thuộc ví dụ này như một chiến lược đã được chọn.
+
+**Ví dụ giả định:** tài khoản 10.000 USD × 0,25% = 25 USD = 1R dự kiến.
+Ba lệnh SL đúng luật có thể là −75 USD trong mô hình đó; chưa đủ kết luận
+lỗi hoặc mất lợi thế. Ngược lại, vào nhầm tài khoản hoặc thiếu SL bảo vệ
+theo policy là sự cố dù lệnh đang lời. SL không bảo đảm lỗ thực tế dừng đúng
+25 USD; phải tính cả phí, gap và trượt giá theo từng trường hợp.
+
+Qualification skill đã có nhánh bàn giao: thẻ chiến lược + ba ví dụ (lời,
+lỗ, sự cố) + diễn tập khôi phục trên demo + owner giải thích lại. Trạng thái
+hiện tại là **prepared_not_demonstrated**: đã chuẩn bị, chưa quan sát bạn
+diễn giải hoặc thao tác; không tự ghi bạn đã hiểu. Walkthrough của agent chỉ
+kiểm nội dung/routing: bàn giao thì đọc reference và ghi phần còn thiếu;
+hỏi tiến độ thì không bắt học trade tay hoặc chạy lại toàn bộ audit. Chưa
+kiểm bằng model hay owner độc lập. Không tạo UI, ledger hoặc quyền mới.

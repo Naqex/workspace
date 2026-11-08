@@ -65,3 +65,21 @@ routing bằng model độc lập. Ba skill structures/links và maintainer audi
 Local native-package bundle đã xuất để kiểm nội dung; chưa publish/assign
 runtime Paperclip trong lượt này, không suy repo edit thành agent đang chạy
 đã nhận instruction. Numerical/source workers không đọc Markdown vừa sửa.
+
+## 08/11: bàn giao để owner hiểu và vận hành bot
+
+Mở rộng `strategy-qualification` bằng `references/owner-handover.md`; không
+tạo skill mới vì kiểm định đã sở hữu quyết định chuyển bước/bàn giao. Nhánh
+này dùng khi chuẩn bị prospective demo/challenge hoặc owner chưa giải thích
+được bot do AI/code tạo. Đầu ra: thẻ chiến lược gắn version, ví dụ lời/lỗ/lỗi,
+USD/R, stop/reconcile/recover và điều kiện quỹ; lưu trong dossier/report cũ.
+Không yêu cầu trade tay có lãi, không tự ghi owner hiểu hoặc cấp quyền broker.
+
+Manual walkthrough dùng parent PreECB đang gác: bàn giao → đọc reference,
+giải thích rules và giữ `prepared_not_demonstrated`; hỏi tiến độ → không bắt
+học hoặc chạy batch/audit mới. Đây là kiểm nội dung bằng cùng agent, chưa là
+đánh giá routing bằng model độc lập hay diễn tập thực tế của owner. Structure
+validator, scoped skill links và maintainer audit đều đạt: 0 errors/warnings;
+global 12.279 B, project 10.133/65.536 B, reserve 55.403 B, combined 22.412 B.
+Repo skill đã sửa; chưa publish/assign package Paperclip, không suy worker
+đang chạy đã nhận nội dung này. Không thay global config hoặc service nền.

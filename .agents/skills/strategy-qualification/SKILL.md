@@ -46,6 +46,12 @@ chưa kiểm hoặc thiếu evidence. Artifact integrity không thay validation 
 Tách correctness, edge, prop fit, operations và authority, mỗi trục có scope/
 bằng chứng/unknown. Một trục đạt không làm trục khác đạt.
 
+Khi bàn giao ứng viên cho owner vận hành, nhất là strategy do AI/code tạo mà
+owner chưa giải thích được, đọc [owner handover](references/owner-handover.md).
+Kiểm mức hiểu bằng ví dụ và thao tác demo; không coi biết trade tay, đọc code,
+hoặc câu “đã hiểu” là chứng nhận. Thiếu handover không chặn nghiên cứu offline,
+nhưng phải ghi gap trước đề xuất challenge.
+
 - `reject`: lỗi/vi phạm được xác minh hoặc không đạt tiêu chí đăng ký.
 - `inconclusive`: thiếu mẫu/nguồn/coverage/OOS; chỉ bước nhỏ giải quyết bất định.
 - `eligible_for_next_stage_review`: đủ cho đúng bước đề xuất, chưa là permission,

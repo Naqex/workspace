@@ -1,5 +1,26 @@
 # Current context — Naqex Workspace
 
+## PreECB path risk và owner handover — 08/11/2026, mới nhất
+
+Owner giao thực thi MAE/MFE và skill nếu cần. [Results](research/PRE-ECB-PATH-RISK-RESULTS-20261108.md):
+519matched dates (259/260), reuse sealed observedH1/rawbound endpoints,
+8tests,8rawpaths/295.728ticks khớp,519rowarithmetic/distributions khớp,
+4tamperreject; cùngagent/separateimplementation, khôngfullannualoracle.
+MAEp95=35,9/82,2pip; counterfactual worstreference lossmax137,04/132,55USD
+trên planned25USD, khôngactualparentloss/accountDD. Giữparentparked/SL/risk;
+chưastopversion mới, khôngbỏSL/gridđểcứu. Dec25missing vẫnexcluded.
+Source65b833f attempt1fail3,608s/0paths vìcostquantities khác, correction
+3be44f8 giữseparatequantities/deduplicatepath. V2numeric7,447s CPU7,375;
+review39,720s terminal0,0sim/broker/modelcalls. Private execution-v1/
+pre-ecb-path-risk-v2 +fixtures-v2, v1failuregiữ;khôngjobnền.
+
+Qualification thêmownerhandover; [ownerreport§6](research/OWNER-EVIDENCE-REPORT-20261108.md)
+giải thích khôngcầntrade taygiỏi nhưng cầnhiểurules/USD/R/normalvsbug/
+stop-reconcile-recover/propterms. Prepared_not_demonstrated, khôngbịaowner
+đãhiểu hoặc skillrepo đãpublishPaperclip. Khôngskill/UI/authority trùng.
+Các mục “chưa mở MAE” dưới đây là lịch sử, supersede bởi results này.
+2025+/broker/account/payment/production vẫnđóng; C1/C2chưađạt,khôngGoalmới.
+
 ## Owner đang học cách đánh giá bằng chứng — 08/11/2026
 
 Yêu cầu hiện hành là dạy lại hệ thống/quy trình và báo cáo việc đã làm theo

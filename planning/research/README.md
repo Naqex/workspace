@@ -7,6 +7,7 @@ Các mục cũ chưa được re-audit khi tạo chỉ mục ngày 05/11/2026.
 
 | Câu hỏi / từ khóa | Nguồn hiện có |
 |---|---|
+| Giá đi ngược trước14:00 có chịu được không; owner chưa biết trade tay thì sao? | [Pathriskresults](PRE-ECB-PATH-RISK-RESULTS-20261108.md):519dates,8rawpaths,khôngaccountDD; [ownerreport§6](OWNER-EVIDENCE-REPORT-20261108.md) và qualificationhandover, prepared_not_demonstrated |
 | Owner kiểm lại toàn bộ việc đã làm bằng cách nào? | [Báo cáo bằng chứng dễ đọc](OWNER-EVIDENCE-REPORT-20261108.md):việc đã làm → bằng chứng → kết luận được/không được → quyết định giữ/gác; có ví dụ tính tiền, giới hạn review/screen/validation và trạng thái các nhóm |
 | PreECB yếu doSLhaychia lot? | [Attributionresults](PRE-ECB-WRAPPER-ATTRIBUTION-RESULTS-20261108.md), [protocol](PRE-ECB-WRAPPER-ATTRIBUTION-20261108.md):1038matchedrows/4books;weightshelp,exit/SLhurts;khôngnoSLaccountproof.0,895scompute+9,438sreview/8rawstopdates;tiếpMAE/pathrisktrướcthaysizing/stop |
 | Fixing14:00→14:15 có cứu được recipe cũ không? | [Results/decision](FIXING-CLOCK-TRANSFER-RESULTS-20261108.md):521weekdays,519pairedresolved;delta−119,0/−161,2pip2019/22;khôngủnghộthêm15phút.2019giữ1unresolvedexit;3119rawrows/3114financialchecks/8mutationsreview;khôngnewstrategy/challenge |
