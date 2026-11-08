@@ -81,3 +81,15 @@ path nghĩa evidence limited; âm đáng tin theo declaredmodel gác exactrecipe
 không reject cả family. Dù retained vẫn phải tick/gap/targetcost/selection-aware
 OOS/prop3–6–12month/forward/handover trước challenge. Không tune side/SL/cost
 để cứu kết quả. Ghi negative và timing; optimize chỉ khi evidence bottleneck.
+
+## Pre-PnL binding correction
+
+Preflight v1 PID16044 đã chặn trước bookload/numeric: hash `c110b26d…` ở trên
+là **reviewer source**, không `review.json`. Receipt thật SHA
+`9d2b0dabe64cc9220d56f85270a6d557921d825c362943d3b7d5f71191493f0e`;
+đối chiếu file/source/result và supplemental hash mutation, không data đổi.
+Giữ v1failure, không ghi đè attempt; driver/reviewer `*-v2.py`, output mới
+`execution-v1/nasdaq-h4-sma-v2`, bind cả receipt/source hashes đúng loại.
+Đây là correction trước economic outcomes, không strategy/cost/retention đổi.
+Fixture13tests đã đạt trước numeric; negative crossed-pair fixture ban đầu
+vi phạm OHLC trước crossedguard đã sửa để chỉ test đúng một invariant.
