@@ -10,7 +10,15 @@ Owner giao tìm ứng viên đủ C1/C2, chuẩn hóa dữ liệu và cải ti�
 Goal đang active; [campaign v2](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)
 giữ scope, quyết định B cũ không kết thúc chiến dịch mới. **Chưa challenge-qualified.**
 
-Lát mới nhất: [R062FOMCcomponent](research/FOMC-NASDAQ-COMPONENT-RESULTS-20261108.md)
+Lát hiện tại: [NASDAQ M1 history](research/NASDAQ-M1-HISTORY-PROTOCOL-20261108.md)
+đã đăng ký calendar và 8books/1.704rawdays trước tải. V1 dừng vì producer
+thiếu `format:json`, không phải timestamp nguồn sai; cache-only diagnostic
+đã kiểm54.977bars/61rawdays. [Recovery v2](research/NASDAQ-M1-HISTORY-RECOVERY-20261108.md)
+reuse raw/calendar exacthash, thêm output-shape preflight và16tests đạt.
+Đầu ra tại `execution-v1/nasdaq-m1-history-v2` dưới private root; đọc status/
+failure/result/review để biết tiến độ, chưa economics hoặc challenge.
+
+Lát trước: [R062FOMCcomponent](research/FOMC-NASDAQ-COMPONENT-RESULTS-20261108.md)
 20officialcalendarpages/16events/32windows đãterminal/reviewed64costcases/
 128quotes/6mutations.2019stress−0,12USD/unit,pairedcontrol−103;2022positive
 nhưngjointfilterfail. ChưaSL/sizing/account/prop/OOS. Không clock/fee/controlrescue.

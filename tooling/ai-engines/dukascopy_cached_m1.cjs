@@ -33,6 +33,10 @@ async function getCachedM1(request, options) {
   if (options.sourceCandlesOnly !== undefined && typeof options.sourceCandlesOnly !== 'boolean') {
     throw Error('source_candles_only_must_be_boolean');
   }
+  if (options.sourceCandlesOnly === true && !['json', 'array', 'csv'].includes(request.format)) {
+    // Native defaults to tuples; object consumers must choose their shape before fetching.
+    throw Error('explicit_source_output_format_required');
+  }
   if (request.timeframe !== 'm1' || request.ignoreFlats !== false ||
       request.wafMode !== 'off' || request.wafTokenCache !== false ||
       request.retryCount !== 0 || request.rateLimitRetryCount !== 0 || !request.useCache) {

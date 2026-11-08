@@ -93,3 +93,25 @@ test('explicit source mask rejects duplicate, fractional and malformed columns',
 test('invalid source mask mode fails before source configuration or access',async()=>{
   await assert.rejects(getCachedM1({}, {sourceCandlesOnly:'true'}),/must_be_boolean/);
 });
+
+test('source-only requests cannot silently inherit native tuple output',async()=>{
+  for (const format of [undefined, null, 'JSON', 'objects']) {
+    await assert.rejects(getCachedM1({format}, {sourceCandlesOnly:true}),
+      /explicit_source_output_format_required/);
+  }
+  for (const format of ['json', 'array', 'csv']) {
+    // Accepted format proceeds to the existing request guard, without network access.
+    await assert.rejects(getCachedM1({format}, {sourceCandlesOnly:true}), /explicit_unfiltered/);
+  }
+});
+
+test('native tuple and JSON candle formats preserve all six values',()=>{
+  const native=require('../../../.runtime/research-data/node_modules/dukascopy-node');
+  const processedData=[[1541030400000,6968.87,6970.469,6968.26,6968.559,.161716],
+    [1541030460000,6968.559,6970,6968,6969,0]];
+  const tuples=native.formatOutput({processedData,format:'array',timeframe:'m1'});
+  const objects=native.formatOutput({processedData,format:'json',timeframe:'m1'});
+  assert.equal(tuples[0].timestamp,undefined);
+  assert.deepEqual(objects.map(r=>['timestamp','open','high','low','close','volume'].map(k=>r[k])),tuples);
+  assert.equal(objects[1].volume,0);
+});
