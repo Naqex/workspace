@@ -39,6 +39,12 @@ kiểm thử hoặc quyền thực thi của task.
    append một recap vào mọi file mỗi lượt. Bàn giao bằng link/section/revision,
    việc chưa biết và bước tiếp. Kiểm local links và đọc thử từ entrypoint.
 
+Giữ `CURRENT-CONTEXT.md` ở trạng thái hiện hành và đường đọc tiếp; lịch sử
+dài theo [archive policy](../../../planning/CONTEXT-LIFECYCLE.md#archive-policy),
+không nối các status active/paused/complete cũ vào cùng cửa vào. Khi chưa biết
+file, dùng [local search](../../../tooling/search/README.md) đã có; kiểm index
+còn mới và đọc nguồn gốc, không dùng passage thay ledger hoặc numerical JSON.
+
 Nếu chỉ xác nhận lại mà không có delta, cập nhật ngày kiểm tại nguồn phù hợp
 kèm nguồn thực sự đã kiểm; không tạo báo cáo mới. Nêu trong trả lời nơi đã lưu.
 Sau bài học lặp, lỗi hoặc contract đổi, xét skill vừa dùng theo

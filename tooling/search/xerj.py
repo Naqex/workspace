@@ -29,22 +29,32 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def allowed(path, product=False):
-    if path.suffix not in SOURCE_SUFFIXES:
+def allowed(path, product=False, *, research=False):
+    if path.is_absolute() or '..' in path.parts or path.suffix not in SOURCE_SUFFIXES:
         return False
     if product:
+        if research and path.as_posix() == 'foundation_v2/docs/FOREX-RESEARCH.md':
+            return True
         return path.as_posix() in {"README.md", "AGENTS.md", "CONTRIBUTING.md"} or path.as_posix().startswith(("foundation_v2/web/src/", "foundation_v2/api-rust/src/", "ui/", "docs/"))
+    if research and path.suffix == '.md':
+        if path.as_posix() in {'planning/CURRENT-CONTEXT.md', 'planning/CONTEXT-LIFECYCLE.md',
+                              'tooling/ai-engines/STRATEGY-WORKFLOW.md',
+                              'tooling/ai-engines/OBSERVABILITY.md', 'tooling/ai-engines/OPERATIONS.md'}:
+            return True
+        if (path.as_posix().startswith('planning/research/') and 'archive' not in {p.lower() for p in path.parts}
+                and 'holdout' not in path.name.lower()):
+            return True
     return path.as_posix() in {"README.md", "AGENTS.md", "CONTRIBUTING.md"} or path.as_posix().startswith(("docs/development/", "tooling/search/"))
 
 
-def source_files():
+def source_files(*, research=False):
     for repo, prefix, product in [(ROOT, Path(), False), (ROOT / "projects/trader", Path("projects/trader"), True)]:
         if not (repo / ".git").exists():
             continue
         names = subprocess.check_output(["git", "-C", str(repo), "ls-files", "-z"]).decode("utf8").split("\0")
         for name in filter(None, names):
             relative, source = Path(name), repo / name
-            if allowed(relative, product) and source.is_file() and not source.is_symlink() and source.resolve().is_relative_to(repo.resolve()) and source.stat().st_size <= 1_000_000:
+            if allowed(relative, product, research=research) and source.is_file() and not source.is_symlink() and source.resolve().is_relative_to(repo.resolve()) and source.stat().st_size <= 1_000_000:
                 yield prefix / relative, source
 
 
@@ -79,7 +89,7 @@ def freshness():
     if not MANIFEST.exists():
         raise RuntimeError("No search index. Run tooling/search/xerj.py index first.")
     expected = json.loads(MANIFEST.read_text(encoding="utf8"))["files"]
-    current = {path.as_posix(): digest(source) for path, source in source_files()}
+    current = {path.as_posix(): digest(source) for path, source in source_files(research=True)}
     if current != expected:
         raise RuntimeError("Search index is stale. Re-run tooling/search/xerj.py index; use rg meanwhile.")
 
@@ -150,7 +160,7 @@ default_endpoint = ""
 
 
 def index():
-    files = dict(source_files())
+    files = dict(source_files(research=True))
     snapshot = {path.as_posix(): digest(source) for path, source in files.items()}
     corpus = STATE / "corpus"
     corpus.mkdir(parents=True, exist_ok=True)

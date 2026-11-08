@@ -80,6 +80,26 @@ python tooling/search/xerj.py query "calendar border priority"
 python tooling/search/xerj.py def liveAccountCapital
 ```
 
+Tra nghiên cứu bằng câu hỏi, rồi đọc bản gốc và trạng thái/ngày của kết luận:
+
+```powershell
+python tooling/search/xerj.py query "local session primary stress 2019 2022"
+python tooling/search/xerj.py query "owner handover strategy challenge"
+```
+
+Xerj nhận thêm `planning/CURRENT-CONTEXT.md`, `planning/CONTEXT-LIFECYCLE.md`
+và Markdown được Git track trong `planning/research/`, cùng ba tài liệu
+`tooling/ai-engines/{STRATEGY-WORKFLOW,OBSERVABILITY,OPERATIONS}.md`; không nhận archive,
+file tên chứa `holdout`, receipt/checkpoint, raw CSV/Parquet hoặc result JSON.
+Đây là local lexical retrieval để agent lấy đúng tài liệu, chưa dùng semantic
+embeddings hoặc vector DB. Search chỉ tìm passage; state/quyền/số liệu phải
+xác nhận ở nguồn được dẫn. CodeGraph giữ phạm vi corpus cũ, không index research thêm
+chỉ vì dùng chung helper. Sửa tài liệu phải index lại; stale guard vẫn chặn.
+Riêng product corpus có thêm `foundation_v2/docs/FOREX-RESEARCH.md` ở chế độ
+research, để đi tới contract cache/input thật; CodeGraph vẫn không đổi scope.
+Index CodeGraph có thể stale khi tracked source/docs đổi; task này không
+reindex graph vì không dùng graph query để kiểm việc tra cứu tài liệu.
+
 Cần Python 3.12+; dùng `uv run --no-project --python 3.12` thay cho `python` nếu
 chưa có trên PATH. Bản pin hiện tại hỗ trợ Windows x64. Index lại khi source
 đổi; wrapper từ chối trả kết quả khi hash của corpus đã cũ.
@@ -96,7 +116,7 @@ flowchart LR
 
 - [Lock](xerj.lock.json) cố định release, source commit và SHA-256 archive.
   Install xác minh trước khi giải nén; không chạy installer upstream.
-- Corpus chỉ lấy allowlist file text được Git track: workspace guides
+- Corpus chỉ lấy allowlist file text được Git track: workspace guides/research
   và source web/Rust, UI/docs của Trader. Không quét cả ổ đĩa, fork,
   `.env`, runtime, DB, ledger, holdout, media, vendor hoặc logs.
 - Corpus/index/binary/key chỉ ở `.runtime/`, không commit. Index nằm ngoài
