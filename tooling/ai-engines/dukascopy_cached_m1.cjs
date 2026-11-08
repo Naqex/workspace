@@ -50,12 +50,17 @@ async function getCachedM1(request, options) {
     wafMode: 'off', wafTokenCache: false, wafTokenCachePath: input.wafTokenCachePath});
   const buffers = [];
   for (let index = 0; index < urls.length; index += 2) {
-    const outcomes = await Promise.allSettled(urls.slice(index, index + 2)
-      .map(url => requestWithRecovery(fetcher, url, options)));
+    const batchUrls=urls.slice(index,index+2);
+    const outcomes = await Promise.allSettled(batchUrls.map(url => {
+      if(options.knownUnavailable?.has(new URL(url).pathname)) {
+        const error=new Error('Previously exhausted transient request; no new source call');
+        error.name='KnownUnavailableRequest';
+        return Promise.reject(error);
+      }
+      return requestWithRecovery(fetcher, url, options);
+    }));
     // Drain the whole batch before reporting failure; no orphaned request writer.
-    const failed = outcomes.find(result => result.status === 'rejected');
-    if (failed) throw failed.reason;
-    const batch = outcomes.flatMap(result => result.value);
+    const batch = resolveBatch(batchUrls,outcomes,options);
     buffers.push(...batch);
     options.onEvent?.({stage: 'source_days_cached', completed: Math.min(index + 2, urls.length),
       total: urls.length, cacheHits: batch.filter(item => item.isCacheHit).length});
@@ -68,4 +73,22 @@ async function getCachedM1(request, options) {
     format: input.format, timeframe: 'm1'});
 }
 
-module.exports = {getCachedM1, requestWithRecovery};
+function resolveBatch(urls,outcomes,options) {
+  const buffers=[];
+  for(let index=0;index<outcomes.length;index++) {
+    const result=outcomes[index];
+    if(result.status==='fulfilled') {buffers.push(...result.value);continue;}
+    const error=result.reason;
+    if(options.allowTransientGaps===true &&
+       (transient(error)||error.name==='KnownUnavailableRequest') &&
+       typeof options.onUnavailable==='function') {
+      options.onUnavailable({pathname:new URL(urls[index]).pathname,errorType:error.name,
+        reason:error.message.includes('500')?'http500':'transport_unavailable',quoteRowsInvented:0});
+      continue;
+    }
+    throw error;
+  }
+  return buffers;
+}
+
+module.exports = {getCachedM1, requestWithRecovery,resolveBatch};
