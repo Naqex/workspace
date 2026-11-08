@@ -215,14 +215,19 @@
         "NY125"
       ],
       "source_relation": "exact_local_rule; literature_mechanism_only",
-      "next_action": "Giữ lịch sử/version; không cứu bằng grid.",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h4-donchian20-10-atr14-r025-v1",
       "profitability_evidence": "see_prior_results_not_a_current_winner",
       "dispatch_authorized": false,
       "implementations": [
         "eurusd-h4-donchian20-10-atr14-r025-v1"
-      ]
+      ],
+      "version_decisions": {
+        "eurusd-h4-donchian20-10-atr14-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
     },
     {
       "id": "R002",
@@ -241,14 +246,19 @@
         "AQR-TS"
       ],
       "source_relation": "exact_local_rule; not_TSMOM_replication",
-      "next_action": "Giữ kết quả âm và kiểm error nếu có evidence mới.",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h4-sma20-80-atr14-r025-v1",
       "profitability_evidence": "see_prior_results_not_a_current_winner",
       "dispatch_authorized": false,
       "implementations": [
         "eurusd-h4-sma20-80-atr14-r025-v1"
-      ]
+      ],
+      "version_decisions": {
+        "eurusd-h4-sma20-80-atr14-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
     },
     {
       "id": "R003",
@@ -267,14 +277,19 @@
         "TV-BB"
       ],
       "source_relation": "exact_local_rule; indicator_context_only",
-      "next_action": "Tạm gác version đã fail period screen.",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h4-z20-2-atr14-time6-r025-v1",
       "profitability_evidence": "see_prior_results_not_a_current_winner",
       "dispatch_authorized": false,
       "implementations": [
         "eurusd-h4-z20-2-atr14-time6-r025-v1"
-      ]
+      ],
+      "version_decisions": {
+        "eurusd-h4-z20-2-atr14-time6-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
     },
     {
       "id": "R004",
@@ -292,7 +307,7 @@
         "LOCAL"
       ],
       "source_relation": "exact_local_rule",
-      "next_action": "Use frozen Discovery4 rules and selection-v2; do not reimplement or retune this version.",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h4-pullback20-80-atr14-r025-v1",
       "profitability_evidence": "Discovery4_Q1_native_controls_and_2023_coarse_not_qualification",
@@ -303,7 +318,13 @@
       ],
       "catalogue_origin_role": "existing",
       "implementation_updated_on": "2026-11-08",
-      "evidence_locator": "DISCOVERY4-RESULTS-20261108.md"
+      "evidence_locator": "DISCOVERY4-RESULTS-20261108.md",
+      "version_decisions": {
+        "eurusd-h4-pullback20-80-atr14-r025-v1": "parked_after_registered_cost_screen",
+        "eurusd-h1-pullback20-80-atr14x1p5-time24-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
     },
     {
       "id": "R005",
@@ -322,14 +343,19 @@
         "NY150"
       ],
       "source_relation": "exact_local_rule; mechanism_only",
-      "next_action": "Không promote; giữ annual evidence.",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h4-utc-range00-08-atr14-r025-v1",
       "profitability_evidence": "see_prior_results_not_a_current_winner",
       "dispatch_authorized": false,
       "implementations": [
         "eurusd-h4-utc-range00-08-atr14-r025-v1"
-      ]
+      ],
+      "version_decisions": {
+        "eurusd-h4-utc-range00-08-atr14-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
     },
     {
       "id": "R006",
@@ -348,14 +374,19 @@
         "NY125"
       ],
       "source_relation": "exact_local_rule; mechanism_only",
-      "next_action": "Không promote; giữ discovery âm.",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h4-failed20-atr14-time6-r025-v1",
       "profitability_evidence": "see_prior_results_not_a_current_winner",
       "dispatch_authorized": false,
       "implementations": [
         "eurusd-h4-failed20-atr14-time6-r025-v1"
-      ]
+      ],
+      "version_decisions": {
+        "eurusd-h4-failed20-atr14-time6-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
     },
     {
       "id": "R007",
@@ -374,14 +405,19 @@
         "NY150"
       ],
       "source_relation": "exact_local_rule; compression_threshold_is_local",
-      "next_action": "Không promote; không sửa threshold theo annual.",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h4-compression6-24-atr14-time6-r025-v1",
       "profitability_evidence": "see_prior_results_not_a_current_winner",
       "dispatch_authorized": false,
       "implementations": [
         "eurusd-h4-compression6-24-atr14-time6-r025-v1"
-      ]
+      ],
+      "version_decisions": {
+        "eurusd-h4-compression6-24-atr14-time6-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
     },
     {
       "id": "R008",
@@ -400,14 +436,19 @@
         "NY125"
       ],
       "source_relation": "exact_local_rule; mechanism_only",
-      "next_action": "Giữ discovery âm.",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h4-utc-range-fade-atr14-r025-v1",
       "profitability_evidence": "see_prior_results_not_a_current_winner",
       "dispatch_authorized": false,
       "implementations": [
         "eurusd-h4-utc-range-fade-atr14-r025-v1"
-      ]
+      ],
+      "version_decisions": {
+        "eurusd-h4-utc-range-fade-atr14-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
     },
     {
       "id": "R009",
@@ -484,7 +525,7 @@
         "LOCAL"
       ],
       "source_relation": "indicator_definition; project_hypothesis",
-      "next_action": "Read completed outcomes; only registered native survivor review is active; no auto dispatch.",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h1-bb20-reentry-atr14x1p5-time12-r025-v1",
       "profitability_evidence": "exposed_annual_coarse_not_qualification",
@@ -495,7 +536,13 @@
       ],
       "catalogue_origin_role": "variant",
       "implementation_updated_on": "2026-11-08",
-      "evidence_locator": "DISCOVERY6-7-RESULTS-20261108.md"
+      "evidence_locator": "DISCOVERY6-7-RESULTS-20261108.md",
+      "version_decisions": {
+        "eurusd-h1-bb20-reentry-atr14x1p5-time12-r025-v1": "parked_after_registered_cost_screen",
+        "eurusd-h1-bb20-reentry-flat80-atr14x1p5-time12-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
     },
     {
       "id": "R012",
@@ -514,7 +561,7 @@
         "LOCAL"
       ],
       "source_relation": "indicator_definition; project_hypothesis",
-      "next_action": "Use frozen Discovery4 rules and selection-v2; do not reimplement or retune this version.",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h1-rsi14-reentry-atr14x1p5-time12-r025-v1",
       "profitability_evidence": "Discovery4_Q1_native_controls_and_2023_coarse_not_qualification",
@@ -524,7 +571,12 @@
       ],
       "catalogue_origin_role": "new",
       "implementation_updated_on": "2026-11-08",
-      "evidence_locator": "DISCOVERY4-RESULTS-20261108.md"
+      "evidence_locator": "DISCOVERY4-RESULTS-20261108.md",
+      "version_decisions": {
+        "eurusd-h1-rsi14-reentry-atr14x1p5-time12-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
     },
     {
       "id": "R013",
@@ -543,7 +595,7 @@
         "LOCAL"
       ],
       "source_relation": "loose_mechanism_context; project_hypothesis",
-      "next_action": "Use frozen Discovery4 rules and selection-v2; do not reimplement or retune this version.",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h1-shock2-reclaim-atr14x1p5-time12-r025-v1",
       "profitability_evidence": "Discovery4_Q1_native_controls_and_2023_coarse_not_qualification",
@@ -553,7 +605,12 @@
       ],
       "catalogue_origin_role": "new",
       "implementation_updated_on": "2026-11-08",
-      "evidence_locator": "DISCOVERY4-RESULTS-20261108.md"
+      "evidence_locator": "DISCOVERY4-RESULTS-20261108.md",
+      "version_decisions": {
+        "eurusd-h1-shock2-reclaim-atr14x1p5-time12-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
     },
     {
       "id": "R014",
@@ -572,7 +629,7 @@
         "LOCAL"
       ],
       "source_relation": "mechanism_only; project_hypothesis",
-      "next_action": "Use frozen Discovery4 rules and selection-v2; do not reimplement or retune this version.",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h1-prior-day-fade-atr14x1p5-close20-r025-v1",
       "profitability_evidence": "Discovery4_Q1_native_controls_and_2023_coarse_not_qualification",
@@ -582,7 +639,12 @@
       ],
       "catalogue_origin_role": "variant",
       "implementation_updated_on": "2026-11-08",
-      "evidence_locator": "DISCOVERY4-RESULTS-20261108.md"
+      "evidence_locator": "DISCOVERY4-RESULTS-20261108.md",
+      "version_decisions": {
+        "eurusd-h1-prior-day-fade-atr14x1p5-close20-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
     },
     {
       "id": "R015",
@@ -602,7 +664,7 @@
         "LOCAL"
       ],
       "source_relation": "mechanism_only; project_hypothesis",
-      "next_action": "Use frozen Discovery4 rules and selection-v2; do not reimplement or retune this version.",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h1-prior-day-break-atr14x1p5-close20-r025-v1",
       "profitability_evidence": "Discovery4_Q1_native_controls_and_2023_coarse_not_qualification",
@@ -612,7 +674,12 @@
       ],
       "catalogue_origin_role": "variant",
       "implementation_updated_on": "2026-11-08",
-      "evidence_locator": "DISCOVERY4-RESULTS-20261108.md"
+      "evidence_locator": "DISCOVERY4-RESULTS-20261108.md",
+      "version_decisions": {
+        "eurusd-h1-prior-day-break-atr14x1p5-close20-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
     },
     {
       "id": "R016",
@@ -630,7 +697,7 @@
         "NY150"
       ],
       "source_relation": "breakout_context_only; project_hypothesis",
-      "next_action": "Read completed outcomes; only registered native survivor review is active; no auto dispatch.",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h1-london-orb08-09-atr14x1p5-r025-v1",
       "profitability_evidence": "exposed_annual_coarse_not_qualification",
@@ -640,7 +707,12 @@
       ],
       "catalogue_origin_role": "variant",
       "implementation_updated_on": "2026-11-08",
-      "evidence_locator": "DISCOVERY6-7-RESULTS-20261108.md"
+      "evidence_locator": "DISCOVERY6-7-RESULTS-20261108.md",
+      "version_decisions": {
+        "eurusd-h1-london-orb08-09-atr14x1p5-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
     },
     {
       "id": "R017",
@@ -658,7 +730,7 @@
         "NY150"
       ],
       "source_relation": "breakout_context_only; project_hypothesis",
-      "next_action": "Read completed outcomes; only registered native survivor review is active; no auto dispatch.",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h1-ny-orb08-09-atr14x1p5-r025-v1",
       "profitability_evidence": "exposed_annual_coarse_not_qualification",
@@ -668,7 +740,12 @@
       ],
       "catalogue_origin_role": "variant",
       "implementation_updated_on": "2026-11-08",
-      "evidence_locator": "DISCOVERY6-7-RESULTS-20261108.md"
+      "evidence_locator": "DISCOVERY6-7-RESULTS-20261108.md",
+      "version_decisions": {
+        "eurusd-h1-ny-orb08-09-atr14x1p5-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
     },
     {
       "id": "R018",
@@ -686,7 +763,7 @@
         "NY150"
       ],
       "source_relation": "breakout_context_only; project_hypothesis",
-      "next_action": "Read completed outcomes; only registered native survivor review is active; no auto dispatch.",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h1-asia09-15tokyo-london-break-atr14x1p5-r025-v1",
       "profitability_evidence": "exposed_annual_coarse_not_qualification",
@@ -696,7 +773,12 @@
       ],
       "catalogue_origin_role": "variant",
       "implementation_updated_on": "2026-11-08",
-      "evidence_locator": "DISCOVERY6-7-RESULTS-20261108.md"
+      "evidence_locator": "DISCOVERY6-7-RESULTS-20261108.md",
+      "version_decisions": {
+        "eurusd-h1-asia09-15tokyo-london-break-atr14x1p5-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
     },
     {
       "id": "R019",
@@ -761,7 +843,7 @@
         "LOCAL"
       ],
       "source_relation": "published_mechanism; project_H1_clock_hypothesis_not_exact_replication",
-      "next_action": "Read completed outcomes; only registered native survivor review is active; no auto dispatch.",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h1-europe-am-short-atr14x1p5-close13-r025-v1",
       "profitability_evidence": "exposed_annual_coarse_not_qualification",
@@ -773,7 +855,14 @@
       ],
       "catalogue_origin_role": "variant",
       "implementation_updated_on": "2026-11-08",
-      "evidence_locator": "DISCOVERY6-7-RESULTS-20261108.md"
+      "evidence_locator": "DISCOVERY6-7-RESULTS-20261108.md",
+      "version_decisions": {
+        "eurusd-h1-europe-am-short-atr14x1p5-close13-r025-v1": "parked_after_registered_cost_screen",
+        "eurusd-h1-pre-ecb02ny-14berlin-atr14x1p5-r025-v1": "parked_after_registered_cost_screen",
+        "eurusd-h1-pre-tokyo18ny-10tokyo-atr14x1p5-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
     },
     {
       "id": "R022",
@@ -792,7 +881,7 @@
         "LOCAL"
       ],
       "source_relation": "published_mechanism; project_H1_clock_hypothesis_not_exact_replication",
-      "next_action": "Read completed outcomes; only registered native survivor review is active; no auto dispatch.",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h1-london-postfix16-20-atr14x1p5-r025-v1",
       "profitability_evidence": "exposed_annual_coarse_not_qualification",
@@ -803,7 +892,13 @@
       ],
       "catalogue_origin_role": "variant",
       "implementation_updated_on": "2026-11-08",
-      "evidence_locator": "DISCOVERY6-7-RESULTS-20261108.md"
+      "evidence_locator": "DISCOVERY6-7-RESULTS-20261108.md",
+      "version_decisions": {
+        "eurusd-h1-london-postfix16-20-atr14x1p5-r025-v1": "parked_after_registered_cost_screen",
+        "eurusd-h1-post-london16-16ny-atr14x1p5-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
     },
     {
       "id": "R023",
@@ -1178,7 +1273,7 @@
         "BOC48"
       ],
       "source_relation": "mechanism_or_method_only_not_edge",
-      "next_action": "Retain negative/control outcomes; no promotion",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "eurusd-h1-fixing-composite-atr14x1p5-r025-v1",
       "implementations": [
@@ -1189,7 +1284,12 @@
       "dispatch_authorized": false,
       "control": false,
       "evidence_locator": "DISCOVERY6-7-RESULTS-20261108.md",
-      "execution_capability": "native_offline"
+      "execution_capability": "native_offline",
+      "version_decisions": {
+        "eurusd-h1-fixing-composite-atr14x1p5-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
     },
     {
       "id": "R038",
