@@ -19,14 +19,13 @@
     "by_readiness": {
       "implemented": 36,
       "component_probe_not_retained": 10,
-      "implemented_not_retained": 2,
+      "implemented_not_retained": 3,
       "method_clock_review": 1,
       "component_probe_completed_no_priority": 1,
       "price_data_spec_possible": 1,
       "point_in_time_news_missing": 2,
       "long_history_or_multi_data": 6,
-      "component_only": 1,
-      "source_admitted_recipe_pending": 1
+      "component_only": 1
     }
   },
   "sources": [
@@ -2100,23 +2099,25 @@
       "family": "trend_breakout",
       "role": "variant",
       "parent_id": "R002",
-      "readiness": "source_admitted_recipe_pending",
+      "readiness": "implemented_not_retained",
       "timeframe": "H4 from complete source Bid H1 groups",
-      "rule_sketch": "Tentative SMA20/80 adaptation; economic/market/cost/gap contract must freeze before PnL.",
+      "rule_sketch": "Completed UTC Bid H4 SMA20/80 cross; fixed 2ATR14 SL; exact decision+1H1 Open proxy; no same-decision reversal.",
       "data_requirements": "Sealed USATECH.IDX/USD Bid/Ask H1 warmup and development 2019/2022; actual joint ticks for later qualification.",
-      "automation_feasibility": "hypothesis_not_account_policy",
-      "prop_operational_concerns": "Target point/lot/margin/funding/session/dividend unverified; source pilot/history is not edge or prop evidence.",
+      "automation_feasibility": "workspace_tooling_H1_research_prototype_not_native_broker",
+      "prop_operational_concerns": "2019/2022 retention failed; 7/14 closedtrades and many holding gaps. Target specs/funding/dividends, actual ticks, prop/OOS/forward unverified.",
       "source_ids": [
         "LOCAL",
         "AQR-TS"
       ],
       "source_relation": "asset_and_price_basis_adaptation_not_paper_replication_or_independent_edge",
-      "next_action": "Freeze exact economic recipe/cost/funding/gap contract, test fixtures before numeric outcomes.",
-      "implementation_state": "source_admitted_no_policy",
-      "candidate_id": null,
-      "implementations": [],
-      "component_evidence": "NASDAQ100-HISTORY-RESULTS-20261108.md",
-      "profitability_evidence": "not_run",
+      "next_action": "Park exact recipe in this campaign; distinct mechanism method admission before outcomes; no parameter/cost/risk rescue.",
+      "implementation_state": "tooling_coarse_policy_implemented_not_retained",
+      "candidate_id": "nasdaq100-h4-bid-sma20-80-atr14x2-r025-h1proxy-v1",
+      "implementations": [
+        "nasdaq100-h4-bid-sma20-80-atr14x2-r025-h1proxy-v1"
+      ],
+      "component_evidence": "NASDAQ100-H4-SMA-RESULTS-20261108.md",
+      "profitability_evidence": "2019stress+240.59USD/7closed;2022stress-77.36USD/14closed_on10k;notretained",
       "dispatch_authorized": false
     }
   ],
@@ -2124,12 +2125,13 @@
   "automatic_rejection": false,
   "holdout_opened": false,
   "updated_on": "2026-11-08",
-  "implemented_record_count": 38,
-  "implemented_rule_count": 43,
+  "implemented_record_count": 39,
+  "implemented_rule_count": 44,
   "implemented_control_rule_count": 3,
-  "implemented_noncontrol_rule_count": 40,
+  "implemented_noncontrol_rule_count": 41,
   "native_offline_rule_count": 25,
   "metal_coarse_rule_count": 6,
   "index_coarse_rule_count": 7,
-  "fx_session_coarse_rule_count": 1
+  "fx_session_coarse_rule_count": 1,
+  "index_h4_h1proxy_rule_count": 1
 }

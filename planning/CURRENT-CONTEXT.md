@@ -10,19 +10,22 @@ Owner giao tìm ứng viên đủ C1/C2, chuẩn hóa dữ liệu và cải ti�
 Goal đang active; [campaign v2](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)
 giữ scope, quyết định B cũ không kết thúc chiến dịch mới. **Chưa challenge-qualified.**
 
-Lát hiện tại: [NASDAQ100 source/history](research/NASDAQ100-HISTORY-RESULTS-20261108.md)
-đã terminal/reviewed:56rawsources/8books,27.512source-sidebars,
-137.560price/volumechecks. Pilot tick/M1/H1 khớp trong2fixtures; chưa PnL.
-R061 chỉ hypothesis H4SMA20/80, catalogue61records/43versions/25native.
-**Tiếp:** exact recipe/market/cost/funding/gap contract và fixtures trước numeric
-development2019/2022. Target lots/swaps/session/dividends chưa verified;
-không dùng sourcegrid làm brokerpoint hoặc mean side extrema làm observedmid.
+Lát mới nhất: [NASDAQ100 H4SMA](research/NASDAQ100-H4-SMA-RESULTS-20261108.md)
+đã terminal/reviewed4books;2019stress+240,59USD/7closedtrades,2022−77,36/14.
+Không đạt frozenretention, chưa challenge candidate. 13fixtures trước numeric,
+5.124decisions/42trades/5mutations kiểm bằng Fraction/eventreplay khác.
+171/119holdinggaps/costyear; actualticks/targetcost/dividend/OOS/prop chưa kiểm.
+Catalogue61records/44researchversions/25native, R061tooling-only, không productchange.
+**Tiếp:** methodadmission cơ chế khác crossover dài ngày, so catalogue/data/cost/
+clock trước freeze tối đa1–2recipes; không gridSMA/ATR/risk hoặc épwinner.
 
 Private root `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/`;
-`execution-v1/nasdaq-{source-pilot,history}-v1` giữ rawbindings/seals/reviews/status.
-History producer26,884s/review2,002s, không sourceworker đang chạy; không rerun.
-Trader pin83731fc8. [R019 results](research/PRIOR-DAY-RETEST-RESULTS-20261108.md)
-đã code nhưng stage1fail, parent4economicbooks exact, không retune/fullbatch.
+`execution-v1/nasdaq-h4-sma-v2` giữ pins/4books/review/progress/events.
+Numeric1,728s/review1,934s; PID20328 và reviewer terminal0, không job chờ.
+V1wrong reviewer-source/receipt hash bị chặn preflight,0numeric;giữfailure.
+[Source history](research/NASDAQ100-HISTORY-RESULTS-20261108.md)56rawsources/
+8books chuẩn hóa/cósource-review, reuse không tải lại. Trader pin83731fc8.
+[R019](research/PRIOR-DAY-RETEST-RESULTS-20261108.md) đã failstage1, không retune.
 
 Các kết quả trước và negatives tra [research index](research/README.md) hoặc
 campaignv2; không mở lại raw/numeric batch không đổi. [Data/retrieval review](research/AGENT-DATA-RETRIEVAL-20261108.md)

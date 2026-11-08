@@ -1,6 +1,6 @@
 # Danh mục nghiên cứu chiến lược — cập nhật08/11/2026
 
-61 hồ sơ:38đã có research implementation(43policyversions),22hồ sơ chưa có accountpolicy và1riskcomponent. Nhóm22 gồm các pricecomponents đã tính nhưng chưa là bottàikhoản. Trong43versions có25native offline rules,4MLcoarse-only,6goldcoarse-only,7indexM1coarse-only và1FXsessioncoarseprototype trongtooling; gồm2shuffledcontrols và1long-onlybenchmark. **Không phải43edgesđộc lập;chưa bản nào challenge-qualified.** Capital10k/50k vàcost/yearscenarios không đếm thànhstrategyđộc lập.
+61 hồ sơ:39đã có research implementation(44policyversions),21hồ sơ chưa có accountpolicy và1riskcomponent. Nhóm21 gồm các pricecomponents đã tính nhưng chưa là bottàikhoản. Trong44versions có25native offline rules,4MLcoarse-only,6goldcoarse-only,7indexM1coarse-only,1NASDAQH4/H1proxy và1FXsessioncoarseprototype trongtooling; gồm2shuffledcontrols và1long-onlybenchmark. **Không phải44edgesđộc lập;chưa bản nào challenge-qualified.** Capital10k/50k vàcost/yearscenarios không đếm thànhstrategyđộc lập.
 
 [JSON](STRATEGY-CATALOGUE-20261107.json) là cùng dữ liệu có cấu trúc; protocol/source giữ exactrecipes, không automatic dispatch/rejection hoặc broker authority.
 
@@ -64,11 +64,9 @@
 |R056|PreECB sessionRMS20x2 stop|fixing_flow /R021|Totaldương nhưng2/4stressblocksâm;khôngretained|1|[Results](PRE-ECB-SESSION-RISK-RESULTS-20261108.md);toolingcoarseprototype,chưanative/prop/OOS|
 |R057|GBPUSDPreECB02NY→14Berlin|fixing_flow /R021|Stress+880,2pip nhưng9/15positiveyears/2negativeblocks;khôngretained|0|[TwoFXresults](TWO-FX-PRE-ECB-COMPONENT-RESULTS-20261108.md);sourceH1Openproxy,chưabot|
 |R058|AUDUSDPreECB02NY→14Berlin|fixing_flow /R021|Stress−7.330pip/1positiveyear;khôngretained|0|[TwoFXresults](TWO-FX-PRE-ECB-COMPONENT-RESULTS-20261108.md);missing/crossedsourcegiữrõ|
-
 |R059|GBPUSD BUY08–16NY|session_flow /R023|Phí cao −1.738,6pip; 7/15 năm dương, không giữ|0|[Local-flow results](LOCAL-FLOW-TWO-FX-RESULTS-20261108.md)|
 |R060|AUDUSD SELL10–16Sydney|session_flow /R023|Phí cao −13.405,8pip; 1/15 năm dương, không giữ|0|[Local-flow results](LOCAL-FLOW-TWO-FX-RESULTS-20261108.md)|
-
-|R061|NASDAQ100 H4SMA20/80|trend_breakout /R002|Source pilot/history admitted, recipe pending|0|[Source/history results](NASDAQ100-HISTORY-RESULTS-20261108.md); chưa PnL/prop|
+|R061|NASDAQ100 H4SMA20/80|trend_breakout /R002|Không giữ exactrecipe: stress2019+240,59/2022−77,36USD,7/14trades|1|[Pilot results](NASDAQ100-H4-SMA-RESULTS-20261108.md); coarse/gap limits, chưa prop|
 
 ## Cách đọc và việc đang chạy
 
