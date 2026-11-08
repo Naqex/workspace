@@ -11,7 +11,11 @@ from sealed_m1_review import cash_sessions, digest
 def inspect_funded_scenario(result,pairs,sessions):
     slip,rate=D(result['slippage_per_side']),D(result['funding_per_lot_per_day'])
     decisions={d['time_msc']:d for d in result['decisions']}
-    positions={t['position_id']:t for t in result['trades']}
+    positions={}
+    for trade in result['trades']:
+        identity=trade['position_id']
+        if identity in positions:raise ValueError('duplicate_position_id')
+        positions[identity]=trade
     opened=result['open_position']
     if opened is not None:
         if opened['id'] in positions:raise ValueError('position_open_and_closed')
@@ -35,6 +39,11 @@ def inspect_funded_scenario(result,pairs,sessions):
         decision=decisions[entry_at-60000]
         quantity=D(pos['quantity']);side=pos['side']
         entry=D(str(pairs[entry_at][1 if side=='BUY' else 0]['open']))
+        if 'entry_fill' in pos:
+            if D(pos['entry_fill'])!=entry:raise ValueError('funded_entry_quote_binding')
+        elif any(D(pos[side_name])!=D(str(pairs[entry_at][number]['open']))
+                 for number,side_name in enumerate(('bid','ask'))):
+            raise ValueError('funded_entry_quote_binding')
         if decision['side']!=side or not D('.01')<=quantity<=50 or quantity%D('.01'):
             raise ValueError('funded_entry_or_quantity')
         distance=D(decision['stop_distance']);stop=D(pos['stop'])
@@ -71,7 +80,9 @@ def inspect_funded_scenario(result,pairs,sessions):
         floating=(gross-(2*slip+1)*q).quantize(D('.01'),rounding=ROUND_HALF_UP)
     if floating!=D(result['floating_usd']) or D(result['balance_usd'])+floating-10000!=D(result['net_equity_usd']):
         raise ValueError('funded_mark_or_equity')
-    if result['entries']!=len(result['trades'])+(opened is not None):raise ValueError('funded_position_count')
+    if (result['closed_trades']!=len(result['trades']) or
+            result['entries']!=len(result['trades'])+(opened is not None)):
+        raise ValueError('funded_position_count')
     return dict(net_usd=result['net_equity_usd'],closed_trades=len(result['trades']),open_position=opened is not None,
         funding_usd=str(total_funding),unresolved_positions=[p.get('position_id',p.get('id')) for p in positions.values() if p['path_unresolved']])
 
