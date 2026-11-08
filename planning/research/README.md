@@ -95,3 +95,7 @@ Quy trình lưu/kế thừa ở [context lifecycle](../CONTEXT-LIFECYCLE.md#kế
 ## Cross-section ba đồng tiền — 08/11/2026
 
 [Protocol](FX-CROSS-SECTION-PILOT-PROTOCOL-20261108.md) và [kết quả](FX-CROSS-SECTION-PILOT-RESULTS-20261108.md): R033 pilot MOM1 không giữ; source panel864rows/132rankings, 1.056trade-cost checks/9 mutations. Không mở rộng universe hoặc đổi funding để cứu exact adaptation; next admission R019. Goal active, catalogue60/42, chưa challenge candidate.
+
+## Prior-day retest — 08/11/2026
+
+[Protocol](PRIOR-DAY-RETEST-PROTOCOL-20261108.md) và [paired results](PRIOR-DAY-RETEST-RESULTS-20261108.md): R019 đã code nhưng không đạt stage1; native preflight/legacy parity trước PnL, independent H1/Fraction review và4parent economic books khớp. Không full batch/tune cứu; catalogue60/43, Goal C1/C2 active. Tiếp NASDAQ100 method/source admission, chưa broker/holdout.

@@ -19,13 +19,13 @@
     "by_readiness": {
       "implemented": 36,
       "component_probe_not_retained": 10,
-      "price_data_spec_possible": 2,
+      "implemented_not_retained": 2,
       "method_clock_review": 1,
       "component_probe_completed_no_priority": 1,
+      "price_data_spec_possible": 1,
       "point_in_time_news_missing": 2,
       "long_history_or_multi_data": 6,
-      "component_only": 1,
-      "implemented_not_retained": 1
+      "component_only": 1
     }
   },
   "sources": [
@@ -45,7 +45,7 @@
       "publication": "2002",
       "review_depth": "official_research_summary",
       "limitations": "Stop cascade mechanism; not a compression recipe.",
-      "checked_on": "2026-11-07"
+      "checked_on": "2026-11-08"
     },
     {
       "id": "BOC48",
@@ -826,23 +826,27 @@
       "family": "trend_breakout",
       "role": "variant",
       "parent_id": "R015",
-      "readiness": "price_data_spec_possible",
-      "timeframe": "H1/H4",
-      "rule_sketch": "Closebreak đã xảy ra; retest ở bar sau rồi xác nhận.",
-      "data_requirements": "H1/H4; statefullevel/expiry; no samebar ordering",
-      "automation_feasibility": "deterministic_after_spec_and_tests",
-      "prop_operational_concerns": "Bỏ lỡ breakout thẳng; gap/SL phải tickreview.",
+      "readiness": "implemented_not_retained",
+      "timeframe": "H1 closed observed mid / next-quote coarse execution",
+      "rule_sketch": "Arm prior-day break08-15UTC; later contiguous retest/close beyond level within3hours/by16UTC; one attempt/day; SL1.5ATR14/close20",
+      "data_requirements": "Existing sealed actual quote H1 2019/2022 with full prior Nov-Dec warmup; raw/cache/native bindings",
+      "automation_feasibility": "native_offline_candidate_implemented_not_broker_qualified",
+      "prop_operational_concerns": "Failed stage1; H1 level stops/first-hour quotes differ from tick delivery; prop equity/target costs/OOS/forward missing",
       "source_ids": [
-        "NY125"
+        "NY125",
+        "NY150"
       ],
       "source_relation": "mechanism_only; project_hypothesis",
-      "next_action": "Deferred in two-hypothesis admission: NYFed order/round-level mechanism does not validate exact prior-day/retest recipe; no automatic numerical dispatch.",
-      "implementation_state": "not_implemented",
-      "candidate_id": null,
-      "profitability_evidence": "none_for_this_exact_rule",
+      "next_action": "Park exact retest3 recipe after paired stage1. No expiry/SL/clock rescue; entire retest family not disproved.",
+      "implementation_state": "native_offline_implemented_not_retained",
+      "candidate_id": "eurusd-h1-prior-day-retest3-atr14x1p5-close20-r025-v1",
+      "profitability_evidence": "2019 reference +27.26/stress -5.16; 2022 -450.56/-452.64USD annual10k; 50/52 trades, no retained stage1",
       "dispatch_authorized": false,
-      "implementations": [],
-      "admission_evidence_locator": "LOCAL-SESSION-ADMISSION-20261108.md"
+      "implementations": [
+        "eurusd-h1-prior-day-retest3-atr14x1p5-close20-r025-v1"
+      ],
+      "admission_evidence_locator": "PRIOR-DAY-RETEST-PROTOCOL-20261108.md",
+      "evidence_locator": "PRIOR-DAY-RETEST-RESULTS-20261108.md"
     },
     {
       "id": "R020",
@@ -2094,11 +2098,11 @@
   "automatic_rejection": false,
   "holdout_opened": false,
   "updated_on": "2026-11-08",
-  "implemented_record_count": 37,
-  "implemented_rule_count": 42,
+  "implemented_record_count": 38,
+  "implemented_rule_count": 43,
   "implemented_control_rule_count": 3,
-  "implemented_noncontrol_rule_count": 39,
-  "native_offline_rule_count": 24,
+  "implemented_noncontrol_rule_count": 40,
+  "native_offline_rule_count": 25,
   "metal_coarse_rule_count": 6,
   "index_coarse_rule_count": 7,
   "fx_session_coarse_rule_count": 1

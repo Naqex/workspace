@@ -1,6 +1,6 @@
 # Danh mục nghiên cứu chiến lược — cập nhật08/11/2026
 
-60 hồ sơ:37đã có research implementation(42policyversions),22hồ sơ chưa có accountpolicy và1riskcomponent. Nhóm22 gồm các pricecomponents đã tính nhưng chưa là bottàikhoản. Trong42versions có24native offline rules,4MLcoarse-only,6goldcoarse-only,7indexM1coarse-only và1FXsessioncoarseprototype trongtooling; gồm2shuffledcontrols và1long-onlybenchmark. **Không phải42edgesđộc lập;chưa bản nào challenge-qualified.** Capital10k/50k vàcost/yearscenarios không đếm thànhstrategyđộc lập.
+60 hồ sơ:38đã có research implementation(43policyversions),21hồ sơ chưa có accountpolicy và1riskcomponent. Nhóm21 gồm các pricecomponents đã tính nhưng chưa là bottàikhoản. Trong43versions có25native offline rules,4MLcoarse-only,6goldcoarse-only,7indexM1coarse-only và1FXsessioncoarseprototype trongtooling; gồm2shuffledcontrols và1long-onlybenchmark. **Không phải43edgesđộc lập;chưa bản nào challenge-qualified.** Capital10k/50k vàcost/yearscenarios không đếm thànhstrategyđộc lập.
 
 [JSON](STRATEGY-CATALOGUE-20261107.json) là cùng dữ liệu có cấu trúc; protocol/source giữ exactrecipes, không automatic dispatch/rejection hoặc broker authority.
 
@@ -24,7 +24,7 @@
 |R016|London opening-range breakout|session_breakout / R005|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
 |R017|New York opening-range breakout|session_breakout / R016|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
 |R018|Asia range → London breakout|session_breakout / R005|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
-|R019|Break → retest prior level|trend_breakout / R015|Defer exactspec trong đợt mới|0|[Admission](LOCAL-SESSION-ADMISSION-20261108.md); chưa numeric riêng|
+|R019|Break → retest prior level|trend_breakout / R015|Retest3 đã code; stage1 không đạt, giữ exact negative|1|[Paired results](PRIOR-DAY-RETEST-RESULTS-20261108.md);50/52trades, chưa tick/prop/OOS|
 |R020|Fixing reversal có điều kiện|fixing_flow|method_clock_review|0|Chưa outcome riêng|
 |R021|Pre-fix USD drift|fixing_flow / R020|Các exact FX versions đã gác sau cost screen|3|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
 |R022|Post-fix USD reversal|fixing_flow / R020|Các exact FX versions đã gác sau cost screen|2|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|

@@ -122,7 +122,7 @@ chạy lại study không đổi hay ép ra winner.
 | Liên project | [Workspace plan](WORKSPACE-NEXT-STAGE-PLAN.md) → [handoff](checkpoints/workspace-next-stage/RESUME.md), rồi project owner |
 | VI Dubber/Quant/TradingAgents | README/AGENTS/PLAN của đúng repo; task hiện tại không khởi động các lane này |
 
-[Local-flow results](research/LOCAL-FLOW-TWO-FX-RESULTS-20261108.md): R059/R060 terminal và không giữ. [R033 cross-section pilot](research/FX-CROSS-SECTION-PILOT-RESULTS-20261108.md) cũng terminal/reviewed: 864panelrows/132decisions/4books, primary gross−1.331,62USD, reference−5.548,94/stress−9.752,64USD fixed-notional contributions, không account returns. 1.056 Fraction trade checks/9 mutations; compute2,288s/review1,560s. Catalogue60/42; chưa challenge candidate, không job lượt này còn chạy. Bước tiếp admission một R019 stateful break→retest recipe có expiry/invalidation, so parent R015 trước outcomes; không rescue các controls/clock/universe đã gác.
+[Local-flow](research/LOCAL-FLOW-TWO-FX-RESULTS-20261108.md) và [R033 pilot](research/FX-CROSS-SECTION-PILOT-RESULTS-20261108.md) đã terminal/not retained. [R019 retest results](research/PRIOR-DAY-RETEST-RESULTS-20261108.md) hiện mới nhất: Trader83731fc8, stage1 paired8books2019/2022; retest stress−5,16/−452,64USD,50/52trades, không stage2. Preflight/legacy22.800checks và economic parent4books exact, separate1.268decisions/876trades/5mutations đạt trong H1scope. Catalogue60/43/25native; chưa challenge candidate, Goal active. Run15,477s/review3,263s terminal, không worker lượt này. Bước tiếp NASDAQ100 method/source/cost admission, fixture nhỏ trước history/numeric; không hạ phí/retune rescue hoặc mở provider/account/holdout.
 
 ## Ownership và giới hạn còn hiệu lực
 
