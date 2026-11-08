@@ -199,6 +199,24 @@ từ reuse dữ liệu/core/kết quả và chỉ chạy phần bị thay đổi
 
 ### Nhật ký quyết định để kiểm lại việc tối ưu và chọn chiến lược
 
+Trước discovery numeric mới, ghi original→project trong protocol owner:
+nguồn hỗ trợ định nghĩa/cơ chế hay exactstrategy; phân loại projecthypothesis,
+adaptation hoặc replicationattempt; đối chiếu instrument/universe, timeframe,
+entry/exit/SL, clocks, costs/sizing và dữ liệu còn thiếu. “Có paper” không tự
+chứng minh exactrecipe. [Transferreview](../../planning/research/STRATEGY-ORIGIN-TRANSFER-REVIEW-20261108.md)
+giữ ví dụ thực. Không thêm variants chỉ vì dễ code/reuse khi chưa có câu hỏi
+bác bỏ được; đổi wrapper sau outcomes vẫn là trial mới.
+
+Screen chỉ ưu tiên workload. Với recipe/source/scope mới hoặc dấu hiệu sai lệch,
+đối chiếu một nhóm nhỏ gồm bản định giữ và định gác với tick, giữ gap/no-fill/
+risk effects. Không áp piloterrorbudget hoặc heuristicpositiveyears thành
+annualbound/false-negativerate. Netnear0/chưa giải thích bias thì inconclusive,
+không tự bác bỏ cảfamily. Dùng `forex_screen_diagnostics.py` cho sealedEURUSD
+costdecomposition và boundedcasecomparison; tool không chạy simulator hoặc
+thay qualification/risk owner. Gross từ Bid/Ask đã chứa spread; chi phí và
+floating phải tách trước diễn giải, không lấy costscenario delta làm cost-only
+effect khi quantities/path khác. Profit/time-fit/prop/authority vẫn tách cửa.
+
 Owner nhắc08/11: log phải cho phép người/agent sau đánh giá **đổi có đúng
 không**, không chỉ biết process đã chạy. Ghi trong protocol/results/engineering
 review của chính study và link từ catalogue/index; không tạo ledger/UI khác.
