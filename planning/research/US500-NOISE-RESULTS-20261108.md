@@ -1,5 +1,10 @@
 # US500 noise14 — development2022 và exposed robustness
 
+**Input correction08/11:** manifest cũ bỏ `ignoreFlats`; librarydefault đã lọc
+volume0. Các số dưới giữ lịch sử, không làcurrentunfilteredresults. [Correction](INDEX-UNFILTERED-SOURCE-CORRECTION-20261108.md)
+đã rerun nguyênrules trên canonicalcachedecode; xem currentcontext/receipt cho
+delta và currentacceptance,không nângoldseals thànhunfiltered.
+
 **Bản noise14 không qua tiêu chí giữ lại: 2023 và 2024 âm ở cả hai mức phí.**
 [Bản đăng ký](US500-NOISE-STUDY-20261108.md) đã viết trước PnL; không đổi
 rules/risk/costs để tiếp [2023/24](US500-ROBUSTNESS-20261108.md).

@@ -2,11 +2,42 @@
 
 ## Research kế thừa — 05/11/2026
 
+**Continuation07:35VN08/11 — không dừng ở checkpoint:** owner nhắc nhiệm vụ
+vẫn làđạtC1/C2,khôngchỉ hoàn tất từngbatch. [Dailyreversion](research/US500-DAILY-REVERSION-RESULTS-20261108.md)
+6books/12rows đãxong74,39s;IBS/RSI chưa đủchallenge. SharedM1book/funding/open
+mark/checker đãtests+actual2024recovery riêng; khôngforceliquidate/mởholdout.
+**Jobđangchạy:** [US500longM1](research/US500-VERIFIED-LONG-HISTORY-PREPARATION-20261108.md),
+private`execution-v1/us500-long-m1-v5/PROGRESS.md`,NodePID21616,
+rawcache9partsreused/remainingQ4/2012–2021;reuse2022–24,deadline3600s. V1–V4failuregiữ:
+V1unknown,V2timeout,V3/4transient500;V5nativeBufferFetcher/CacheManager perday
+retrycap2/cumulative24,start6,không403/WAF/429retry.8tests+108780actualrows
+cachedbyteexact/network0đạt. Khôngspawnwriter2hoặc tăngbudget khi đụngcap.
+**Dataqualitygate mới:** [oracle](research/INDEX-DAILY-RANGE-ORACLE-20261108.md)
+134ticks khớpM1nhưngnằmngoàirangeH1/D1ngày18/10/2022; upstreamdaily/hourly
+range chưađượcnhậnchoPnL. Nextnumericalstudy dùngM1-derivedbars,không shortcut
+nguồnD1rangehoặctựsửagiá. Chưa C1/C2complete; vẫn2025+closed/zeroorders.
+
+**Materialinputfix:** [ignoreFlatsdefault](research/INDEX-UNFILTERED-SOURCE-CORRECTION-20261108.md)
+đãbỏvolume0providerbars,kểcảmovingprice. Offlinecanonicaldecode2022–24xong9,69s,
+network0;cashcoverage2022/24đủ,2023còn46phútgap. Rerun3policies×3years×2costs
+xong122,39s,9books/arithmeticreviewđạt;RSI+IBS làưu tiênresearchmới vìstress
+2022/23/24+21,09/+6,43/+77,77USD,vẫn mẫu25/17/17entriesnhỏ+2024openmark.
+Noise vàIBS khôngretained. Oldnumericreports được đánh dấu affectedinput,
+không chỉnhprotocol hoặcclaim qualified. LongM1V5ignoreFlatsfalseexplicit.
+
+**Numeric lane đang chạy:** [frozenlongRSI](research/US500-CASH-RSI-LONG-VALIDATION-20261108.md),
+private`us500-rsi-long-v1/PROGRESS.md`,actualPythonPID15848(launcher5392).
+Reuse3correctedannualbooks2022–24;2013đãcompletedreviewed+47,71/+33,73USD/4entries,
+nhưngcashcoverage92.673/97.740phútthấpvàsamplesmall. Chờyearseals2014→2021 rồi
+tựquality/simulate/review từngnăm,khôngchờfulldownload. CalendarXNYS4.13.2đã
+isolatedwheel/hash/licenseaudit,khôngđổiproduct/globalvenv;2022–24exactofficial
+calendars,2013–21generatedsourcebound. Khôngsửanumerical/helper source đangpin.
+
 **Nhiệm vụ hiện hành08/11:** tìm ứng viên challenge (C1) và hậu kiểm quy trình (C2)
 đều **chưa hoàn tất**. Tiếp tục từ [campaign](research/CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md)
 và [hậu kiểm mới](research/ENGINEERING-REVIEW-CAMPAIGN-20261108.md), không dispatch lại
-screens đã xong. [Catalogue](research/STRATEGY-CATALOGUE-20261107.md) đã đồng bộ48records/
-35policy versions:24nativeFX+4MLcoarse+6metalcoarse+1indexM1, gồm2controls; không35edges.
+screens đã xong. [Catalogue](research/STRATEGY-CATALOGUE-20261107.md) đã đồng bộ50records/
+37policy versions:24nativeFX+4MLcoarse+6metalcoarse+3indexM1, gồm2controls; không37edges.
 [Gold9/10](research/METAL-DISCOVERY9-10-RESULTS-20261108.md) đã completed; chỉ SMA50k
 đáng giữ research, chưa challenge. Hai EURUSDsurvivors conditionalCI vẫn chứa0.
 
@@ -29,7 +60,7 @@ recompute riêng trong cùngagent,không independentmodel signoff.
 454trades/scenario/908closedtrades tổng đã arithmetic/fillbinding review;
 16focusedtests và1expected-failureCLI smoke đạt. Newcalendar/loader/primitive
 reuse/logging giữ; source2022/23/24 cópins riêng,không claim wholeproduct.
-**Không còn job US500/numericalwriters trên các attempts này.** Giữ negatives,
+**Các attempts noise14 đã đóng; job tiếp theo xem continuation ở trên.** Giữ negatives,
 chọn hypothesis khác từ cơ chế/cost/data trướccode;không tune losers,không rerun
 acceptedbatches vàkhông mở2025+ để kiếmpass. C1/C2 vẫnchưađạt.
 

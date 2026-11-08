@@ -145,3 +145,30 @@ research/qualification skills đủroute workflow này; không tạo skill mới
 Data controller20976 và numerical workers đã kết thúc, không lock còn sống
 ở các attemptsUS500. Context/index/receipt/catalogue đồng bộ;2025+ vẫnđóng,
 zero broker/modelcalls. C2 chỉ scoped engineeringevidence, chưa toànkhungđạt.
+
+## Continuation: lỗi lọc nguồn, range oracle và phục hồi tải theo request
+
+**Các bảng US500 trước correction chỉ còn giá trị truy vết.**
+[Kết quả hiện hành](US500-CORRECTED-REPLAY-20261108.md) đã kiểm lại đúng3policies
+trên inputcanonical,không đổi rules/risk/costs. Lessonworkflow đã nối vào
+`strategy-research/references/source-transformations.md`;khôngtạoskill mới trùng.
+
+| Lát | Phát hiện có bằng chứng | Cách xử lý / bằng chứng |
+|---|---|---|
+| Loader, P0 | `ignoreFlats:true` loại volume0, không chỉflatprice;1975movingbarsQ4/2012 bịbỏ | Explicitfalse +missing/trueflagnegativeguard;offlinecachedecode9,687s/network0;rerun9affectedbooks122,391s,allchecked |
+| Marketdata, P0 | ProviderH1/D1low khôngchứa134tickquotes trong phút18/10/2022 | M1OHLCexact,quarantinerangeupstream;3quotebaroracletests,gapskhônggiải thíchlowcaohơnactualtick |
+| Fill/data semantics | Providerzero-volume bars cóthểstale/placeholder;khôngtựfillable | Giữbarnguyên,0stressentry/exitcảhai sidevolume0cả9correctedbooks;khôngclaimtickfills hoặcexchangevolume |
+| Funding/state, P0 | Openbook cầnphí calendar giữa lastquote và exclusivehorizon | Thêmendboundaries/lastmarkage;syntheticweekendfee7,68USD,actual2024numericalparity;no forcedclose |
+| Recovery, P1 | Quarterly retrycap bịăn bởi lỗi khácngày; từngresponsecache đãsẵn | DùngnativeBufferFetcher/CacheManager perURL,twoURLbatch/drain/explicitfalse;8tests+actual108780rowparity/network0;cap2/URL và24cumulative/start6,không403/WAF/429retry |
+| Source reuse | Yearready cóthểcompute khiparenttảinămtiếp | LongRSIrunner reuse3books2022–24,verify+simulate+reviewreadyyears;khôngsource mutation củaactivejobs |
+| Calendar capability | Cashsessionhistoryphải cóspecialclosures/DST | Isolated4reviewedpurePythonwheels,khôngglobal/productvenvchange;exportXNYS2013–21,official2022–24everyminuteexact,special2018/2012checked |
+
+Sourcefix/checker/primitives/protocols checkpoint`552f530`;C1/C2campaigntiếp tục.
+LỗiV1downloadunknownkhôngclaimfixed;V2timeout/V3/4HTTP500retained. Native
+helper khôngrewriteupstream/library hoặc thêmnewprovider/account/keyservice.
+
+FTMOtargetcontractread08/11:public[Symbols](https://ftmo.com/en/symbols/)
+textfetch không exposeUS500row/swap, nên không nângdeclaredfees/contractthành
+brokerverified. FTMOxOANDA/UStermskhácglobal,khôngcopyUSunit/dividendtermsvào
+globalSwingprofile. Gatebrokercontract/financing/dividends vẫnunknown;không
+đổicostsauoutcomeđểcứu. Source/paper/currentreadlocatorsgiữ ở study/receipt.

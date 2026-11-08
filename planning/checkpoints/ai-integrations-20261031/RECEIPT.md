@@ -7090,3 +7090,46 @@ logger/skills hiệncó;khôngthêm providerpackage/globalAIconfig hoặcUI qu�
 Catalogue48records/35versions,không35edges. Data/numericcontrollers đãkếtthúc,
 khôngUS500lock còn sống. **C1/C2 vẫnchưađạt**;giữnegativeversion,tiếptục chọn
 cơchế mới códata/costfit trước code. Khôngbroker/LLMcalls hoặc mua challenge.
+
+## 08/11 continuation — checkpoint không là dừng; loader materialfix và longstudy
+
+Owner nhắc tiếp tục đếnC1/C2,khôngkếttúc chỉvìhết1batch. Hai [dailycashadaptations](../../research/US500-DAILY-REVERSION-20261108.md)
+đãthử6books,scopefunding/openmark thêm7tests vàactual2024openbookparity;old
+filteredoutcomesgiữ. Sauđó phát hiệnlibrarydefaultignoreFlatslọcvolume0,kểcả
+movingprices. [Correction](../../research/INDEX-UNFILTERED-SOURCE-CORRECTION-20261108.md)
+Q4/2012Bid22968→82498bars,1975movingvolume0;networkdeniedofflineproof.
+Canonicaldecode2022–24samecachedbytes9,687s/network0;reviewexplicitflagfalse
+giờbắtoldmanifest. Cashpresence2022/24đủ;2023còn46missingphút. Khônggapfill.
+
+[Correctedresults](../../research/US500-CORRECTED-REPLAY-20261108.md)9books18rows
++9nullcontrols122,391s,allreviewed;RSI3IBSstress+21,09/+6,43/+77,77USD năm
+2022/23/24,59entries58closed/1openperscenario,mẫunhỏ/chưaedge. Noise/IBSkhông
+retained. Mọiactualstressentry/exitcả9bookskhôngcócảhai sidevolume0; không
+suyM1làtickfillable. [134tickoracle](../../research/INDEX-DAILY-RANGE-ORACLE-20261108.md)
+khớpM1minute nhưngH1/D1lowkhôngchứaticks;quarantinesourceownrangechoPnL.
+Không invalidatengầmQDM/otherinputsđộclậpkhôngdùngfiltercủalibrarynày.
+
+Sharedbook/candidate/main adapter/controlvàfundedcheckerreusefinancialprimitives;
+7dailytests+7mainregressions+4reviewer+5schema+3oraclechecks đạt theoaffected
+changes,khôngclaimfirstpassallgreen. Native-sourcecomponentshelper8tests và
+actual108780cachedquarterrowexact/network0;per-requestretryfinite2/URL,
+timeout/500/502/503/504chỉ,cumulativecap24/start6,không403/WAF/429/schema bypass.
+V1unknown/V2timeout/V3–V4transientfailures giữ,partialcacheadopted;khôngfetch lại
+nguyênquarter vì1ngàylỗi. Exactsource/package/configprotocols ởprivateattempts.
+
+**Đang chạy:** Node21616 `us500-long-m1-v5` (74quarter-sidepartsQ4/2012–2021,
+reuse2022–24);Python15848 `us500-rsi-long-v1` [frozenvalidation](../../research/US500-CASH-RSI-LONG-VALIDATION-20261108.md)
+reuses3books,2013reviewed+47,71/+33,73USD/4entries,cashcoverage92.673/97.740phút.
+Tiếp từngreadyyear2014→2021,cóactualsource/queue/status/events/diagnostics,
+khôngrerunsealed2022–24. HaiPROGRESS.md tạicampaignprivateexecution-v1đãroute
+currentcontext. Parentfail thìpreservecompletedyears/stopdependentlane,
+khôngautođổifailurethànhcompletehoặctăngbudgetđểvôhạnretry.
+
+Isolatedcalendarhelper4purePythonwheels/hash/source/licenseaudit(Apache/MIT/BSD),
+không product/globalvenv/systemconfig/service. XNYS4.13.2calendar2022–24every
+UTCminute exactofficialsnapshots;2018Bush/Sandyprimarychecks,2013–21exports.
+Strategyresearchskillreuse/referencecậpnhậtsourcefilter/oraclerecoverylessons,
+maintaineraudit0errors/0warnings/global12279B/project10133/65536B/reserve55403B,
+combined22412B;skillvalidatordùngbundledPython-Xutf8đạt/linksđạt. Lầnđầukhông
+-Xutf8validatorlỗicp1252,khôngcàiPyYAMLvàoproductđểné. Catalogue50records/
+37versions,không37edges. C1/C2active,2025+closed,khôngbroker/modelcalls.

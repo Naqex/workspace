@@ -5,6 +5,10 @@ rồi kiểm lại cho đến khi cả hai tiêu chí đạt. Đây là nhiệm 
 không phải lời bảo đảm thị trường sẽ cung cấp một chiến lược có lợi thế.
 AI plan/receipt hiện có giữ trạng thái và bằng chứng; file này giữ tiêu chí.
 
+Owner nhắc lại08/11: checkpoint/báo cáo từng batch không làdừngcampaign.
+Nếu chưa đạt C1/C2, thực thi lát kế tiếp có căn cứ trong scope đãduyệt;
+không tự chuyển “chưa tìmra” thành “complete”, cũngkhông épmarketphảicówinner.
+
 ## Hai tiêu chí tách biệt
 
 | Tiêu chí | Bằng chứng cần trước khi kết luận đạt |

@@ -7,6 +7,8 @@ Các mục cũ chưa được re-audit khi tạo chỉ mục ngày 05/11/2026.
 
 | Câu hỏi / từ khóa | Nguồn hiện có |
 |---|---|
+| Material loaderfix, corrected US500 results và long RSI đang chạy | [Correction](INDEX-UNFILTERED-SOURCE-CORRECTION-20261108.md), [currentresults](US500-CORRECTED-REPLAY-20261108.md), [longfrozenstudy](US500-CASH-RSI-LONG-VALIDATION-20261108.md), [native per-requestrecovery](INDEX-HISTORY-PER-REQUEST-RECOVERY-20261108.md);oldfilteredresultsretained,RSI research-only |
+| Campaign sau noise14: daily reversion, nguồn D1 sai range, tải dài và resume | [Dailyrecipe](US500-DAILY-REVERSION-20261108.md), [results/review](US500-DAILY-REVERSION-RESULTS-20261108.md), [rangeoracle](INDEX-DAILY-RANGE-ORACLE-20261108.md), [longM1](US500-VERIFIED-LONG-HISTORY-PREPARATION-20261108.md), [recovery](INDEX-HISTORY-DOWNLOAD-RECOVERY-20261108.md);campaignactive/longM1v2,preserve failures/negatives |
 | Nhiệm vụ tìm ứng viên challenge và tự kiểm/sửa quá trình tới khi đạt | [Campaign08/11](CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md), [Discovery4H1 frozen recipes](CHALLENGE-DISCOVERY-ROUND4-20261108.md); C1/C2 pending, không mặc định có winner hoặc mở holdout |
 | ML, fixing và ORB đã thử; hai survivors đang native review | [ML5results](DISCOVERY5-RESULTS-20261108.md), [6/7results](DISCOVERY6-7-RESULTS-20261108.md), [frozen native study](H1-SURVIVOR-TICK-REVIEW-20261108.md); C1/C2pending |
 | Native survivors, timeout và sai số coarse SL | [Native results](H1-NATIVE-SURVIVORS-RESULTS-20261108.md): Asia2024completed; Londonstressincomplete; quyết định vàentries khớp nhưngSLquote giảm net |

@@ -30,6 +30,9 @@ thì dùng dossier được giao; không bịa command hoặc bắt owner kể l
   lập. Warmup chỉ lấy từ quá khứ, không tính lợi nhuận warmup.
 - Nến đóng mới quyết định, tick fill sau quyết định, Bid/Ask/cost đúng semantics.
   Không bịa nến thiếu, force close cuối mẫu hoặc đặt cost0 để làm đẹp kết quả.
+- Khi thêm loader/timeframe hoặc gặp lệch coverage/extrema, dùng
+  [source transformations](references/source-transformations.md) trước PnL;
+  checksum/schema không chứng minh raw quotes được bảo toàn.
 - Logic tín hiệu tách khỏi config luật/risk. Skill không hard-code luật hãng/
   giá hoặc risk owner; thiếu terms/spec/cost ghi unknown/declared scenario.
 

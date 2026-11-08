@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-07",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 48,
+  "record_count": 50,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -11,13 +11,13 @@
   ],
   "counts": {
     "by_role": {
-      "existing": 30,
+      "existing": 32,
       "new": 11,
       "variant": 6,
       "component": 1
     },
     "by_readiness": {
-      "implemented": 30,
+      "implemented": 32,
       "long_history_or_multi_data": 9,
       "price_data_spec_possible": 3,
       "method_clock_review": 3,
@@ -158,6 +158,15 @@
       "publication": "2025-09-22 version",
       "review_depth": "author_paper_method",
       "limitations": "SPY/IQFeed results are not US500 CFD evidence; no exchange VWAP from quote volume.",
+      "checked_on": "2026-11-08"
+    },
+    {
+      "id": "PAGONIDIS-IBS",
+      "title": "The IBS Effect: Mean Reversion in Equity ETFs",
+      "url": "https://www.naaim.org/wp-content/uploads/2014/04/00V_Alexander_Pagonidis_The-IBS-Effect-Mean-Reversion-in-Equity-ETFs-1.pdf",
+      "publication": "Author paper hosted2014; precise publication date not asserted",
+      "review_depth": "author_method_and_filter_pages2_6",
+      "limitations": "Equity ETF daily CSI data, not indexCFD; quotevolume is not verified exchange volume; our SL/funding/nextminute fills are adaptations.",
       "checked_on": "2026-11-08"
     }
   ],
@@ -1459,11 +1468,77 @@
         "us500-m1-noise14-opposite-hardstop-r025-v1"
       ],
       "implementation_updated_on": "2026-11-08",
-      "profitability_evidence": "exposed_2022_2024_failed_retention",
+      "profitability_evidence": "corrected_unfiltered2022_2024_not_retained",
       "dispatch_authorized": false,
       "control": false,
-      "evidence_locator": "US500-NOISE-RESULTS-20261108.md",
+      "evidence_locator": "US500-CORRECTED-REPLAY-20261108.md",
       "execution_capability": "index_m1_coarse_only_no_native_broker",
+      "capital_scenarios": [
+        "10000"
+      ]
+    },
+    {
+      "id": "R049",
+      "title": "US500 daily cash IBS02 hold",
+      "family": "equity_daily_reversion",
+      "role": "existing",
+      "catalogue_origin_role": "new",
+      "parent_id": null,
+      "readiness": "implemented",
+      "timeframe": "Cash daily signals / M1 execution model",
+      "rule_sketch": "Frozen daily reversion; ATR14x1.5 hardSL, delayed minute fills, calendarfunding, no pyramiding",
+      "data_requirements": "Observed sealed M1 Bid/Ask2022-2024 and frozenNYSEcalendar; extendedsessions retained",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Declaredfunding/geometry, overnight gaps, modeled stops, no nativeindex DD or prop certification",
+      "source_ids": [
+        "PAGONIDIS-IBS"
+      ],
+      "source_relation": "adaptation_not_replication_or_independent_edge",
+      "next_action": "Preserve2022-2024 evidence; broaden historical/mechanism study with frozen newprotocol, no retrospective threshold tuning",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "us500-d1-ibs02-hold-atr14x1p5-r025-v1",
+      "implementations": [
+        "us500-d1-ibs02-hold-atr14x1p5-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "corrected_unfiltered2022_2024_not_retained",
+      "dispatch_authorized": false,
+      "control": false,
+      "evidence_locator": "US500-CORRECTED-REPLAY-20261108.md",
+      "execution_capability": "index_M1_coarse_with_calendar_funding_no_broker",
+      "capital_scenarios": [
+        "10000"
+      ]
+    },
+    {
+      "id": "R050",
+      "title": "US500 CutlerRSI3 + IBS05",
+      "family": "equity_daily_reversion",
+      "role": "existing",
+      "catalogue_origin_role": "new",
+      "parent_id": "R049",
+      "readiness": "implemented",
+      "timeframe": "Cash daily signals / M1 execution model",
+      "rule_sketch": "Frozen daily reversion; ATR14x1.5 hardSL, delayed minute fills, calendarfunding, no pyramiding",
+      "data_requirements": "Observed sealed M1 Bid/Ask2022-2024 and frozenNYSEcalendar; extendedsessions retained",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Declaredfunding/geometry, overnight gaps, modeled stops, no nativeindex DD or prop certification",
+      "source_ids": [
+        "PAGONIDIS-IBS"
+      ],
+      "source_relation": "adaptation_not_replication_or_independent_edge",
+      "next_action": "Frozenretrospective2013_2024_extension; samecashrules/cost/risk; reuse2022_2024; retain gap and selectionlimits",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "us500-d1-cutler3-10-40-ibs05-atr14x1p5-r025-v1",
+      "implementations": [
+        "us500-d1-cutler3-10-40-ibs05-atr14x1p5-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "corrected_unfiltered2022_2024_positive_stress_small_sample_not_qualified",
+      "dispatch_authorized": false,
+      "control": false,
+      "evidence_locator": "US500-CORRECTED-REPLAY-20261108.md",
+      "execution_capability": "index_M1_coarse_with_calendar_funding_no_broker",
       "capital_scenarios": [
         "10000"
       ]
@@ -1473,11 +1548,11 @@
   "automatic_rejection": false,
   "holdout_opened": false,
   "updated_on": "2026-11-08",
-  "implemented_record_count": 30,
-  "implemented_rule_count": 35,
+  "implemented_record_count": 32,
+  "implemented_rule_count": 37,
   "implemented_control_rule_count": 2,
-  "implemented_noncontrol_rule_count": 33,
+  "implemented_noncontrol_rule_count": 35,
   "native_offline_rule_count": 24,
   "metal_coarse_rule_count": 6,
-  "index_coarse_rule_count": 1
+  "index_coarse_rule_count": 3
 }
