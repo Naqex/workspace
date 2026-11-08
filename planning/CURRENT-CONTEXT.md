@@ -1,6 +1,6 @@
 # Current context — Naqex Workspace
 
-## Campaign tiếp tục — 08/11/2026, 11:16 Việt Nam
+## Campaign tiếp tục — 08/11/2026, 11:42 Việt Nam
 
 **C1/C2 chưa hoàn tất.** Owner giao tìm ứng viên challenge và kiểm/sửa quá
 trình. Tiếp tục từ [campaign](research/CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md);
@@ -10,32 +10,46 @@ lại các attempts đã hoàn tất chỉ để xem trạng thái. **Owner đã
 ràng; Goal đang active** cho C1/C2, không đặt token budget. Việc bật Goal không
 mở quyền holdout/broker/provider/account hoặc thay tiêu chí để ép ra winner.
 
-**P0 hiện hành: source-padding correction.** [Protocol](research/INDEX-EXPLICIT-SOURCE-CORRECTION-20261108.md),
-[results/hậu kiểm](research/INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md). Native
-Dukascopy decoder chèn flat/volume0 vào phút raw bỏ qua. `ignoreFlats:false`
-không là source-only proof; old US500 books chỉ là expanded-view scenarios,
-không được dùng coverage timestamp đó làm chứng nhận source/fill. Không
-invalidate QDM Forex/Gold khác pipeline hoặc ghi đè old attempts.
+**P0 đã tiến thêm, còn phần long books:** [source correction/results](research/INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md),
+[quarterly protocol](research/INDEX-EXPLICIT-QUARTERLY-PREFLIGHT-20261108.md).
+Sourcea2a3358 có canonical explicit paired view từ localraw và readerproofgate;
+currentstudyCLI chặn legacy trước simulation. Defaultlegacyreview vẫn là
+source_presence_verified:false,khôngsourcecoverage.14Node +8rawprovenance+
+9component+6viewintegration+5reader+25strategy/cost/checker tests đãđạt qua
+cácslices;khôngwholeproduct/tick/prop acceptance.
 
-Source4ee6fbb thêm opt-in sourceCandlesOnly và raw-price/provenance reviewer;
-bc74072 bind đúng Bid/Ask của từng metric.14Node+7provenance+9componenttests đạt.
-Actual6fixture exports: legacy values exact; source-only cache-only0,619s,
-networkdenied0attempts; Pythonraw/coverage review0,235s. EZU có11cashminutes
-padding; SPYpadding chỉ ngoài cash; actual sourcezero-volume vẫn giữ.
+Data3years2022–24 đãcompleted187,218s: pairedrows341682/332236/335016 mỗi side;
+cashsource97698/97710,97032/97140,97678/97740. Nếnpaddinggộphai side loại
+187828/204902/208636; khôngunpaired trong3years này. Fullnative/source oracle
+exact,0networkattempts;readerraw/hash/sourceproof bind. Dataworker26276 đãterminal.
+Private `execution-v1/us500-explicit-source-v1` giữsource/proof/reader/oracle/journals.
 
-R025corrected đãreview:3140rawresponses/9408explicit endpoint-sides/10padding;
-3daysaffected (09/03/2020,16/03/2020,05/08/2024),1507days reuse exact.
-Bind/correct66,422s/CPU41,891s; alternatecodepathreview33,390s/1510days,
-paddedentrytamperreject. SourceTOM2019–21+1,1293/−1,8692bps vsREST+1,8661/−1,1057;
-2022–24TOM+6,2720/+4,0545 vsREST−2,5293/−4,7431. Frozenpriority vẫnfalse.
-Worker24828/launcher16320 và reviewer đã terminal; không jobnền mới.
+**Sáu correctedbooks xong:** `execution-v1/us500-source-corrected-books-v1`,
+126,390s/18scenarios/6reviews. Noise2022standard/stress+251,67/+181,19;
+2023−40,36/−135,92;2024−66,19/−150,81USD. Firstlast2022−280,50/−477,21;
+2023−81,84/−278,70;2024−202,95/−429,77. Cảhai vẫnkhôngđạt frozenretention;
+null0,closed/noopenpending,khôngpromote. Noisegapunresolved vàfirstlast2023gap
+vẫnghiđúng,khôngtickriskcertification. Worker22600/launcher11404 đãterminal.
+Delta review2,125s: rules/risk/cost metadata/numericalfunctions khôngđổi;
+old/newdecisions/trades/cash/gaps/sourcehashes giữ `source-input-delta-review-v1`.
+Old86,05s→new126,39s khôngspeedup: sourceproofgates thêmchi phí,khôngbỏchecks.
 
-**Lát kế tiếp ưu tiên:** tạo canonical paired explicit source views từ cached
-raw và parentquarterseals, giữ unpaired/unknown; thêm reader contract/gate để
-coverage native expanded không bị nhận nhầm source coverage; review ảnhhưởng
-signal/fill/range ở Noise14/firstlast trước rerun đúng affectedbooks. Chưa
-thực hiện toàn bộ bước này, không gọi C2fullfix. R026 deferred numeric: fixture
-EZU/SPY/EURUSD dùngđược nhưng còn currency/corporateaction/calendar gaps.
+**Owner nhắc08/11:** mọi tốiưu/chọn/đổichiếnlược phải giữlýdo,baseline,
+trialversion/inputexposure/log/failures,timing,so trước/sau/checks vàverdict để
+review lạiđúng/sai. Đã bổsung vào [workflow](../tooling/ai-engines/STRATEGY-WORKFLOW.md#nhật-ký-quyết-định-để-kiểm-lại-việc-tối-ưu-và-chọn-chiến-lược)
+và actualcorrectiondecisiontable; khôngtạo tracker/UI/sourceoftruth mới.
+
+**Lát kế tiếp:** RSI/preclose/monthly longbooks còn expanded-view input,
+chưa dùng chúng đểqualify. Tạoexplicit view theo từngyearđượcprotocolđăngký,
+reviewaffectedinput/signal/fill trước rerun phầncần; khôngrewriteallstudies hoặc
+đọcholdout. R026giữdeferrednumeric vìcurrency/corporateaction/calendar gaps.
+C1/C2chưađạt. Nativeindextick/risk/targetbrokerspec/cleanOOS/forward cònthiếu.
+
+R025đãcorrected3days/reuse1507,priorityfalse (source9408sides/10padding,
+3140rawresponses66,422s+review33,390s). Source4ee6fbb/bc74072 vàolderattempts
+đượcgiữ,khôngsửahash đểreuse dướicurrentproducer/reader. Khônginvalidate QDM
+Forex/Gold khácpipeline. Cácsectionsbêndưới là lịch sửtrướcsourcecorrection,
+đọcresultsownerởtrên cho trạngtháihiệnhành; khôngreruncompletedjobs.
 
 **Commission slice đã xong:** [Protocol](research/FTMO-INDEX-COMMISSION-REVIEW-20261108.md),
 [results](research/FTMO-INDEX-COMMISSION-RESULTS-20261108.md). Source75f7ecf truyền

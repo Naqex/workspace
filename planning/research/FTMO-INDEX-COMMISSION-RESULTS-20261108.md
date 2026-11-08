@@ -1,10 +1,10 @@
 # Commission0: hai bản intraday vẫn chưa đủ điều kiện đi tiếp
 
-**Source limitation được xác nhận sau run:** decoder tự chèn carried-close
-bars vào phút thiếu. [Correction](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)
-chưa rà hết signal/fill của sáu sách này. Các số dưới giữ giá trị của expanded
-view và cost-parity; chưa chứng minh quan sát nguồn hoặc fills hợp lệ. Không
-chạy study tiếp từ coverage timestamp cũ trước khi sửa input contract.
+**Đã có kết quả thay thế cho phần source:** decoder tự chèn carried-close
+bars vào phút thiếu. [Correction/results hiện hành](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)
+đã tạo explicit views2022–24 và chạy/kiểm lại đúng sáu sách, giữ rules/risk/cost;
+cả hai vẫn không đạt triage. Bảng dưới giữ historical expanded-view và
+cost-parity, không ghi đè. Source-only M1 mới vẫn chưa chứng minh tickfills.
 
 Theo [protocol đăng ký trước outcome](FTMO-INDEX-COMMISSION-REVIEW-20261108.md),
 đã chạy R048 noise14 và R051 first→last30min trên canonical unfiltered2022–24.

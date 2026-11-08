@@ -197,6 +197,26 @@ Thẻ hypothesis là nội dung trong protocol/dossier hiện có, chưa phải 
 tự động mới. Độ tin cậy đến từ test đúng câu hỏi và đối chứng độc lập; tốc độ đến
 từ reuse dữ liệu/core/kết quả và chỉ chạy phần bị thay đổi, không từ việc bỏ gates.
 
+### Nhật ký quyết định để kiểm lại việc tối ưu và chọn chiến lược
+
+Owner nhắc08/11: log phải cho phép người/agent sau đánh giá **đổi có đúng
+không**, không chỉ biết process đã chạy. Ghi trong protocol/results/engineering
+review của chính study và link từ catalogue/index; không tạo ledger/UI khác.
+
+| Phần phải truy ngược được | Nội dung tối thiểu |
+|---|---|
+|Quyết định và lý do|ID/version, ngày, lỗi/câu hỏi kích hoạt, giả thuyết và kỳ vọng trước khi đo; vì sao chọn/đổi/gác, điều gì sẽ bác bỏ quyết định|
+|Baseline → thay đổi|Parent candidate/code/data/cost/risk/clock và source pins; phân biệt sửa lỗi/đổi data semantics/đổi strategy/tối ưu cùng semantics. Đổi rules hoặc assumptions kinh tế cần protocol/version mới trước outcome|
+|Thực thi thật|Run/attempt/command, environment/concurrency/cache state, input exposure, logs/source snapshots; giữ cả fail/cancel/abandoned và lý do retry/reuse|
+|Kết quả và kiểm lại|Trước/sau cùng scope, timings đo thật hoặc unknown, metric/check/parity và remaining gaps; giảm thời gian nhờ bớt phạm vi không gọi là speedup giữ nguyên độ đúng|
+|Quyết định sau bằng chứng|Giữ/reject/inconclusive/superseded và lý do; impacted books cần kiểm lại, rollback/source locator và bước tiếp. Không xóa kết quả âm hoặc sửa bản freeze để phù hợp kết quả|
+
+Hash/commit giúp truy vết, không tự chứng minh quyết định đúng. Nếu chỉ sửa
+report thì không rerun numerical job; nếu input/rules đổi làm thay state, không
+chỉ xóa vài trade rồi sửa tổng PnL. Một reviewer cùng agent phải được ghi đúng
+phạm vi; không tự gắn independent sign-off. Khi thiếu bằng chứng về parity,
+correctness hoặc economic edge, giữ gap và ghi cách giải quyết cụ thể.
+
 ### Edge không phải “chạy thử đến khi có lời”
 
 Edge là lợi thế kỳ vọng sau chi phí trong một phạm vi và điều kiện cụ thể,
@@ -270,6 +290,14 @@ CLI hỗ trợ frozen calendars2013–2024, chặn2025+ trước đọc input. P
 consumption/gates vẫn giới hạn exact years được dùng; CLI support không tự là
 quyền đọc mọi năm. Không tự download hoặc gọi broker.
 `sealed_m1_review.py` kiểm quarter-side seals/schema/calendar/gaps;
+native legacy view được ghi `source_presence_verified:false`, chỉ có coverage
+timestamp sau decode. Study CLI hiện yêu cầu source-only proof; không nhận
+label riêng trên manifest hoặc dùng native decoder padding làm quote nguồn.
+Tạo view mới bằng `explicit_m1_view.py --parent <sealed-old-year> --calendar
+<frozen-calendar> --protocol <registered-correction> --output <new-view>`.
+Tool chỉ dùng local raw cache đã pin, giữ giá nến nguồn và journal unpaired,
+không network fallback/fill/gaprepair. Source-proof/reader đổi thì revalidate
+attempt mới, không sửa hashes của old books. [Recipe và phạm vi](../../planning/research/INDEX-EXPLICIT-QUARTERLY-PREFLIGHT-20261108.md).
 `review_index_noise.py --run <attempt> --data-root <sealed-year-dir>
 --output <new-review.json>` đối soát closed-book arithmetic/quote binding,
 không resimulate hoặc certifyedge. Unfunded noise reviewer chặn open/pending

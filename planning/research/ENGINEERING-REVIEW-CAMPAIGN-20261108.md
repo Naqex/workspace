@@ -281,10 +281,30 @@ arithmetic/cash timestamp checks chưa chứng minh source observations.
 |Compatibility|Sáu old native exports exact; cache-only integration0,619s,0 network attempts|Không là full-history/execution/prop proof|
 |Metric availability|bc74072 +9tests bind Bid cho cash/close, Ask cho entry; missing proof unknown|Không mất CTC chỉ vì thiếu Ask không dùng; padded predecessor không tạo dailyreturn|
 |Actual R025 repair|3140 raw responses,9408 explicit endpoint-sides/10padding;3days sửa,1507reuse;66,422swall/41,891CPU|Alternate code-path review33,390s bắt paddedentrytamper;priority vẫnfalse; không portfolio rerun|
-|Broad C2 gap|Noise/firstlast/RSI/monthly còn expanded-view semantics; reader coveragefield chưa source-aware|Quarantine interpretation, tạo canonical paired explicit view và reader gate trước numerical study tiếp; chưa gọi fullfix|
+|Broad C2 gap tại checkpoint trước|Noise/firstlast/RSI/monthly còn expanded-view semantics; reader coveragefield chưa source-aware|Đã bổ sung gate và sửa6noise/firstlastbooks theo continuation dưới; RSI/monthly vẫn chưa fullfix|
 |Workflow learning|Source-transformations reference cập nhật; reuse skills hiện có|Maintainer/structure/links audit trước đóng; chưa republish native Paperclip packages|
 
 Giữ dữ liệu, snapshots và negatives cũ; không invalidate QDM Forex/Gold không
 qua decoder này. Không market/provider/key mới hoặc2025+/OrderCheck/OrderSend.
 Fixture có4public URL fetch mới; correction/review dùng cache-only, không network.
 Không tạo skill/framework hoặc nâng tài nguyên chỉ để có một cải tiến mỗi lượt.
+
+## Quarterly source gate và actual book correction
+
+[Frozen quarterly recipe](INDEX-EXPLICIT-QUARTERLY-PREFLIGHT-20261108.md),
+[before/after và nhật ký quyết định](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)
+giữ counts/timers/hash/source parity. Sourcea2a3358 có pairedsourceview và
+reader proof cache, actual legacyCLI rejected trước simulation.6integration+
+8provenance+5reader+25strategy/cost/reviewchecksđạt; khôngnớigate vìfixturebadspread.
+Data3years187,218s; independentnativeparity0networkattempts,exact3views/journals.
+Sáucorrectedbooks126,390s/18scenarios+6reviews;delta review2,125s. Noise annual
+net chuẩn/stress+145,12/−105,54USD, firstlast−565,29/−1185,68;khôngretained.
+AST numericalfunctions/source financialdeps vàcost/risk/rulesmetadatakhôngđổi.
+
+Đây là sửa semantics/correctness, khôngperfoptimization: oldbatch86,05s→126,39s;
+sourceproof/hashgates cóchi phí. Cần profile nếu tối ưu sharedproofvalidation,
+không bỏ checks hoặc áp rawdata readonce khi bindings chưa được bảo đảm.
+Owner nhắc08/11 mọi tốiưu/chọn/đổi phải lưuwhy/baseline/delta/oldnewnumbers/
+failedattempts/test/remaininggaps; đã bổsung đúngworkflowowner và actualcase,
+không tạo ledgerUI mới hoặc chỉ giữ thành công. LongRSI/monthly/sourceyears
+còn correction; C1/C2 giữACTIVE,khôngcandidatequalified/holdout/broker mở.

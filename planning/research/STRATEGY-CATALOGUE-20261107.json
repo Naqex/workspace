@@ -1542,7 +1542,9 @@
       "capital_scenarios": [
         "10000"
       ],
-      "input_source_limitation": "Native M1 view may contain decoder padding; source-only impact review pending. Existing arithmetic evidence remains scoped to expanded-view scenario."
+      "input_source_limitation": "2022-2024 corrected to paired-explicit-source-M1-v1 and reviewed; source-only M1 still does not certify intrabar tick or target-broker/prop paths.",
+      "source_correction_results": "INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md",
+      "source_correction_verdict": "registered_all_years_positive_triage_not_met"
     },
     {
       "id": "R049",
@@ -1644,7 +1646,9 @@
       "capital_scenarios": [
         "10000"
       ],
-      "input_source_limitation": "Native M1 view may contain decoder padding; source-only impact review pending. Existing arithmetic evidence remains scoped to expanded-view scenario."
+      "input_source_limitation": "2022-2024 corrected to paired-explicit-source-M1-v1 and reviewed; source-only M1 still does not certify intrabar tick or target-broker/prop paths.",
+      "source_correction_results": "INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md",
+      "source_correction_verdict": "registered_all_years_positive_triage_not_met"
     },
     {
       "id": "R052",

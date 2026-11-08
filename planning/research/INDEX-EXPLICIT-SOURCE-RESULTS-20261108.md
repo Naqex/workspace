@@ -80,14 +80,14 @@ tick engine hoặc hiệu năng một annual study. Lần sau nên reuse source 
 đã kiểm theo hash; chưa có canonical quarterly source-only export cho các
 sách US500 khác nên không tuyên bố đã loại bỏ toàn bộ công việc lặp.
 
-## C2 còn mở gì và bước kế tiếp
+## C2 tại checkpoint trước quarterly gate (đã được cập nhật ở phần tiếp)
 
 | Lát | Trạng thái hiện tại | Việc tiếp theo |
 |---|---|---|
 |Source-only loader|14 Node tests;7 Python raw-provenance tests đạt|Opt-in cho output mới; default expanded chỉ là historical scenario|
 |R025 endpoints|9 component tests;actual corrected review đạt|Không chạy lại để benchmark hoặc thay tiêu chí|
 |Noise14/first→last30, RSI/preclose, monthly US500|Đã kiểm số học trên expanded views; source-padding impact chưa đánh giá toàn bộ|Ưu tiên tạo canonical paired explicit view từ cache, kiểm signal/fill/range và rerun đúng affected books|
-|Gates của reader|`sealed_m1_review` cũ đo coverage timestamp sau decode|Chưa được gọi field đó là coverage quan sát nguồn; cần contract/guard tương ứng khi nhận canonical source-only view|
+|Gates của reader|Checkpoint ban đầu mới đo timestamp sau decode|Đã được thay bằng proof gate ở mục quarterly bên dưới; legacy vẫn chỉ là expanded-view scenario|
 |R026 fixing|Transport proxy dùng được nhưng còn clock/calendar/currency/corporate-action gaps|Đợi source correction trước numeric protocol; không tải10markets|
 |QDM Forex/Gold|Không đi qua decoder này|Không invalidate hoặc rerun vì lỗi của pipeline khác|
 
@@ -115,3 +115,111 @@ Private root `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-202
 Các workers của correction đã terminal; giữ raw, logs, source snapshots và
 attempts. Lỗi base float ở probe đầu được tái hiện bằng regression: chỉ chuẩn
 hóa nhiễu biểu diễn cực nhỏ về integer units, vẫn chặn off-grid có ý nghĩa.
+
+## Lượt tiếp: canonical quarterly views và reader gate
+
+[Protocol riêng trước thực thi](INDEX-EXPLICIT-QUARTERLY-PREFLIGHT-20261108.md)
+và code `a2a3358` bổ sung tool `explicit_m1_view.py`, proof/reader gate, và
+study CLI yêu cầu source proof. Kết quả đã kiểm của lượt chuẩn bị:
+
+| Năm | Nến cũ/nến explicit paired mỗi side | Phút cash có giá nguồn/dự kiến | Phiên thiếu phút nguồn | Prepare/review/Node oracle,s |
+|---|---:|---:|---:|---:|
+|2022|435596/341682|97698/97710|4|53,703/16,774/12,402|
+|2023|434687/332236|97032/97140|9|57,265/20,914/15,877|
+|2024|439334/335016|97678/97740|9|57,110/21,205/15,755|
+
+Counts removed padding gộp hai side:187828/204902/208636. Trong đúng ba năm
+này không có unpaired explicit rows; journal rỗng vẫn được seal. Không suy
+hai side luôn đồng bộ: synthetic test có side thiếu giữ journal và không
+invent counterpart. Native-expanded coverage trước sửa là2022:97710,
+2023:97094,2024:97740; tất cả chưa là coverage nguồn.
+
+Batch data có ownership/deadline/CANCEL/status,2022 chạy trước và qua reader+
+native oracle rồi mới mở hai workers2023/24. Wall toàn batch187,218s; timers
+year có overlap nên không cộng thành thời gian thực. Node chặn fetchBuffer,
+không ghi cache; so toàn giá trị/order/source mask và journals với Python,
+khớp exact,0 network attempts. Native library cùng provider vẫn không là feed
+độc lập. Missing raw/code/input/proof change không được fallback hoặc gọi0.
+
+**Reader/CLI gate đã chạy thật:** legacy input bị chặn trước simulation,
+không tạo `reference.json` hoặc terminal numerical result. Source proof được
+bind producer/validator/protocol/calendar/raw/parent/seals/journals/counts;
+giả nhãn source-only hoặc sửa raw/proof/output bị reject.6 integrationtests,
+8 provenance tests,5 reader tests và25 strategy/cost/reviewer tests đạt.
+Một asymmetric fixture đầu tiên có Bid>Ask nên bị validator chặn; sửa đúng
+giá fixture để vẫn kiểm side-missing, không nới negative-spread guard.
+
+Private `execution-v1/us500-explicit-source-v1/`: source snapshots, mỗi năm
+manifest/result/proof/quarters/unpaired/reader/native-oracle và logs. Parent
+data/books giữ nguyên. Source producer/reader mới làm old proof chưa chứng
+minh current source; không sửa proofhash lịch sử để reuse. `legacy-gate-review`
+giữ expected failure. Data controller26276/launcher26484 đã terminal.
+
+### Nhật ký quyết định của lát sửa này
+
+| Quyết định | Vì sao / kỳ vọng trước đo | Baseline → bản mới | Bằng chứng và phạm vi |
+|---|---|---|---|
+|Phân loại là sửa data semantics|Native decoder tự chèn phút; đủ timestamp chưa là quote nguồn|Expanded unfiltered view → explicit paired source view, giữ mọi giá nguồn|Counts/raw/price parity phía trên; không gọi đây là tối ưu tốc độ hoặc đổi strategy|
+|Chặn CLI trước numerical|Tránh lặp false source-coverage acceptance|Old reader chỉ seals/schema → proof bắt buộc cho run mới|Actual legacy expected rejection trước simulation; old source snapshots dùng để tái hiện|
+|Chạy lại affected book trọn|Missing quote có thể đổi warmup/range/entry/fill và state sau đó|Sáu commission0 books cũ → attempts mới cùng rules/risk/cost|Không chỉ xóa vài trade/sửa PnL; numerical results chỉ ghi sau reviewer đạt|
+|Giữ lịch sử để owner kiểm lại|Owner yêu cầu08/11 có log đủ kiểm chọn/đổi/tối ưu đúng không|Protocol/results/engineering review và catalogue hiện có|Workflow đã thêm baseline→delta→before/after→verdict/rollback; không tạo tracker/UI khác|
+
+### Sáu sách đã tính lại và kiểm delta
+
+`execution-v1/us500-source-corrected-books-v1` hoàn tất6books/18scenarios và
+6arithmetic/source reviews,126,390s; delta review chỉ đọc2,125s. Controller22600/
+launcher11404 đã terminal. Original books/source snapshots vẫn được giữ.
+
+| Policy/năm | Chuẩn cũ → mới,USD | Stress cũ → mới,USD | Entries cũ → mới mỗi scenario |
+|---|---:|---:|---:|
+|Noise14/2022|+251,67 → +251,67|+181,19 → +181,19|156 →156|
+|Noise14/2023|−61,74 → −40,36|−158,16 → −135,92|153 →151|
+|Noise14/2024|−72,35 → −66,19|−156,91 → −150,81|147 →147|
+|Firstlast30/2022|−301,27 → −280,50|−562,28 → −477,21|235 →180|
+|Firstlast30/2023|−380,64 → −81,84|−751,67 → −278,70|218 →120|
+|Firstlast30/2024|−239,11 → −202,95|−619,79 → −429,77|234 →141|
+
+Đây là annual accounts riêng10k, không CAGR hoặc tài khoản liên tục. Noise
+tổng annual net chuẩn/stress+145,12/−105,54USD; firstlast−565,29/−1185,68USD.
+Cả hai **vẫn không đạt triage đã khóa**. Không giữ vì kết quả bớt âm; không
+đổi ngày/rules/risk/cost hoặc chọn một năm đẹp để promote.
+
+Delta reviewer so source snapshots và AST từng numerical function của noise:
+không đổi logic; common financial dependencies và firstlast/book vẫn exact.
+Metadata candidate/cost/risk/leverage/scenarios giữ nguyên. Chỉ orchestration/
+reader/source proof đổi. So toàn decisions/trades/cash/open/pending/gaps, không
+chỉ net; manifests/scenarios/reviews đều rehash. Đây là same-agent code review,
+chưa human/model độc lập.
+
+Reviewer mới cũng đọc lại một legacyactual bookNoise2022 không resimulate;
+số học vẫn đạt nhưng ghi `native-expanded-unverified`, không tự nâng historical
+acceptance hoặc xóa gaps bị decoder che. Receipt
+`legacy-expanded-compatibility-review-v1.json` ở correctedbatch giữ kiểm này.
+
+- Noise bỏ30/30/29 decision times theo từng năm; các decision còn chung
+  timestamp có nội dung exact. Gaps trước bị padding che nay ghi4/45/2 events
+  mỗi scenario. Những gap này vẫn chưa có intrabar path, không dùng positive
+  net2022 để chứng nhận native tick/risk.
+- Firstlast bỏ55/98/93 decision times; decision chung exact. Rule vốn yêu cầu
+  đủ cash range cho ATR, nên thiếu nến nguồn làm không đủ inputs và giảm entry.
+  Không thêm filter kiếm lời sau outcome hoặc tự bịa daily range.
+- Null controls vẫn0 entries/0PnL; tất cả books cuối mẫu không open/pending.
+  Full arithmetic/source checks không chứng minh target broker/prop/OOS.
+
+Thời gian numerical batch cũ86,05s → mới126,39s **không là speedup**. Input
+semantics và source gates đã đổi; việc rehash raw proof trong mỗi reader/review
+có chi phí. Data prep187,218s tách riêng; không cộng year timings overlap hoặc
+gọi cache-only correction là download. Cần profile mới trước tối ưu proof reuse;
+không bỏ source/cost/risk validation để nhanh hơn.
+
+Nhật ký delta có cấu trúc ở `source-input-delta-review-v1.json`: old/new run
+locators, hashes, financial state, counts, changed/removed decisions, reasons,
+verdict và source-code parity. `source-snapshot/delta-review-v1.py` giữ exact
+reviewer. Workflow đã ghi quy tắc tối ưu/chọn/đổi phải giữ baseline→delta→test→
+before/after→decision, gồm cả failures. Chưa có phần mềm tự suy mọi quyết định
+đúng chỉ từ log; traceability giúp owner/agent sau kiểm lại bằng chứng.
+
+**Phần còn lại:** RSI/preclose/monthly long books chưa được correction toàn bộ;
+trước khi dùng chúng tiếp phải tạo nguồn explicit tương ứng và kiểm đúng phần
+bị ảnh hưởng. Native index tick/risk/target cost, cleanOOS và prospective
+evidence vẫn còn thiếu. C1/C2 còn mở; không broker/2025+ hoặc strategy mới.
