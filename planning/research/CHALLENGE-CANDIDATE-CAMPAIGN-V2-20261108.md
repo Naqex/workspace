@@ -5,11 +5,13 @@ Goal mới tạo thành công, tool xác nhận `active`. Kế thừa C1/C2, to�
 negatives/exposure; chưa có ứng viên challenge. Các trạng thái active/paused
 trong checkpoint cũ bên dưới là lịch sử, không là trạng thái Goal hiện hành.
 
-Đã rà workflow/skills hữu hạn: chưa cần cắt thêm gate/skill; compact current
-context với snapshot nguyên bytes, không sửa frozen data/results. Tiếp
-[quote-cost source fixture](FX-QUOTE-COST-ADMISSION-PROTOCOL-20261109.md) để
-áp dụng bài học NHP/Fury vào thiết kế own-code, không clone hoặc mua EA.
-EIA giữ calendar/endpoint unknown; không mặc định10:30 cho 2019/2022.
+Đã rà workflow/skills hữu hạn và compact context với snapshot nguyên bytes.
+[Quote-cost fixture](FX-QUOTE-COST-ADMISSION-RESULTS-20261109.md) và
+[R082 WTI diagnostic](WTI-WEDNESDAY-COMPONENT-RESULTS-20261109.md) đã xong;
+R082 không đạt, 82records/58policy-modelversions, chưa challenge candidate.
+Lát tiếp là underlying-settlement method admission trước một related trial;
+không clone/mua EA hoặc tuning giờ/phí để cứu exact negatives. EIA actual/PIT
+và oldUSOgate giữ unknown/notadmitted, không giả toàn bộ clock đã được chứng minh.
 
 ### Resume checkpoint — workflow và quote-cost fixture
 
@@ -19,6 +21,17 @@ Chưa hypothesis/accountpolicy/PnL mới,81/58 giữ nguyên; không C1/C2/prop/
 Tiếp method admission own-code từ primary rule/economic mechanism; không
 clone bot, tune fixture cutoff hoặc rescue exact NYMA4. EIA clock/endpoint
 vẫn unknown. Workflow đủ gọn, chưa cần thêm skill/framework hoặc profile.
+
+### Current checkpoint — R082 conditional WTI,09/11
+
+[R082results](WTI-WEDNESDAY-COMPONENT-RESULTS-20261109.md) đã20books/88dates/
+1.162.180rawfields/630financialcases, khôngretained:2022net âm ngay sau spread;
+2019strictN/A/25missingholdingdays. [Clockdelta](EIA-HISTORICAL-CLOCK-RESULTS-20261109.md)
+normalhistoricalschedule/preannouncementdoc mới, khôngactual/PITallproof.
+[Role-source](OIL-EIA-ROLE-SOURCE-RESULTS-20261109.md) USO vẫnnotadmitted;
+LFCRLFfailure giữ vàrebindsnapshots;2negativeregressions đạt.82records/58versions,
+C1/C2 chưa đạt. Source+review102,663s, khôngjobnền. Tiếp underlying-settlement
+method admission từ primaryCME; relatedvariant phảifreeze riêng, khônghourgrid.
 
 ## Goal cập nhật — 09/11/2026
 

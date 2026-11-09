@@ -7,6 +7,14 @@ daemon/scheduler hay hứa background tự chỉnh khi không có agent làm vi�
 
 ## Trigger và hành động
 
+09/11 — source-transformations reference bổ sung xử lý LF/CRLF hash drift:
+raw/pins gốc giữ nguyên, bind exact frozen snapshot và ghi current code hash
+riêng; không normalize raw hoặc chấp nhận content drift. Actual role-source
+v1 fail trước geometry; v2 chỉ reuse8raw/35.280fields,0network. Hai integration
+negative cases semantic-change/missing-snapshot đều reject trước geometry;
+[receipt](../../planning/research/OIL-EIA-ROLE-SOURCE-RESULTS-20261109.md).
+Không thêm skill/helper/framework; lineage rule có case lặp và giữ scope.
+
 09/11 — rà lại workflow/workspace trước resume: audit workspace/Trader đều
 0 errors/warnings; 16 repo skill entrypoints đã xét trigger/boundary, 76 links
 skill/reference hợp lệ. Research/qualification/evidence/retrospective có input
