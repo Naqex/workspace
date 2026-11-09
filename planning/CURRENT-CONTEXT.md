@@ -16,9 +16,10 @@ không runtimepromotion hoặc resumeGoal. Việc mới đi từmain trênbranch
 ## Việc hiện tại: mechanism-first research
 
 Yêu cầu riêng trong lúc Goal paused: đã [khảo sát bot trả phí](research/PAID-EA-MARKET-REVIEW-20261109.md)
-ngày 09/11: 6 sản phẩm/giá vendor, luật FTMO/The5ers và cộng đồng. Chưa có bot
-được xác nhận challenge-ready; tracker bị chặn, performance chưa audit. Không
-mua/cài/chạy bot hoặc thêm trial; campaign không được resume bởi survey này.
+ngày 09/11: 6 sản phẩm; khảo sát sâu NHP/Fury đã đọc record MQL5 và preset
+public NHP, xác nhận Fury CORE có grid tùy chọn. Myfxbook còn 403; chưa audit
+raw ledger/binary hoặc xác nhận challenge-ready. Chưa mua/cài/chạy bot hoặc
+thêm numerical trial; campaign không được resume bởi survey này.
 
 Đã quay lại task lớn theo [Goal cập nhật](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md#goal-cập-nhật--09112026).
 Đã [kiểm phí công khai Gold](research/GOLD-TARGET-COST-ADMISSION-20261109.md):
