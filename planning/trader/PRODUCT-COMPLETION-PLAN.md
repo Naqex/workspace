@@ -24,6 +24,33 @@ This explicit instruction supersedes old no-new-repository constraints only for
 this migration. It does not restart product exploration, accept open product
 gates, authorize broker execution or publish/deploy the application.
 
+## Execution extension — Rust-native và hiệu năng toàn project, 17/10/2026
+
+Owner giao thực thi toàn phạm vi tối ưu `trader`, chấp nhận
+thay đổi kiến trúc lớn và cho phép subagents. Goal hiện hành phải bao phủ backend,
+lõi replay/financial/Prop, analytics, dữ liệu, frontend và runtime; không chỉ Quick
+Buy/Sell. Quyết định API-only ngày09/10 được mở rộng: interactive domain chạy Rust
+trực tiếp với transaction/revision/idempotency; hàng đợi dành cho tác vụ dài.
+React/Advanced Charts và PostgreSQL/Parquet không phải đổi ngôn ngữ để đạt nhãn
+Rust. Python chỉ giữ cho adapter/research có lý do kỹ thuật được kiểm chứng,
+ngoài đường tương tác; Python cũ là oracle trong quá trình port.
+
+Acceptance của extension: route/module inventory với native/adapter/pending rõ;
+contract và financial differential tests (rounding, spread/fee, cutoff, replay
+v1/v2/tick/multiasset/branch, Prop phase/DST/drawdown); workspace/revision/retry
+và crash recovery; đo cùng workload trước/sau theo từng phase và các hành trình
+UI/data/research, ghi raw samples và resource budgets; scoped real runtime QA;
+review độc lập, rollback và setup lặp lại được. Native-only readiness không được
+đạt nhờ worker Python còn phục vụ ngầm route đã claim. Không dùng microbenchmark
+để claim toàn app tối ưu hoặc fixture để claim production capacity.
+
+Checkpoint/evidence của extension nằm tại
+`projects/trader/foundation_v2/evidence/rust-native-20261017/`;
+đây là bằng chứng của scope mới, không sửa acceptance ledger lịch sử để tự công nhận.
+Broker/live, holdout, OAuth/provider trả phí và deploy giữ gates riêng. Các tính
+năng đã hoãn Auto-BE/multi-position vẫn hoãn; tối ưu không tự mở feature scope.
+Không đánh dấu goal complete khi còn module/routes/hành trình trong extension
+chưa kiểm chứng; phần được giữ Python phải có inventory và lý do rõ.
 
 Phiên bản **2.3 · 26/09/2026** · **PATH-2 OWNER-APPROVED; PLAYWRIGHT-FIRST WORKER KIT; FULL PRODUCT CHƯA COMPLETE**.
 
