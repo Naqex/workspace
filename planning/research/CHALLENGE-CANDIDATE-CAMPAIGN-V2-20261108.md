@@ -6,6 +6,15 @@ negatives/exposure; chưa có ứng viên challenge. Các trạng thái active/p
 trong checkpoint cũ bên dưới là lịch sử, không là trạng thái Goal hiện hành.
 
 Workflow đã rà, giữ đường gọn hiện hành; không thêm skill/framework.
+Checkpoint hiện tại: [R091 round-level](FX-ROUND-LEVEL-RESULTS-20261109.md)
+đãreviewed/notretained:stress2019−1.466USD/153opportunities,2022−2.779/227;
+midpositive nhưng spread đãlớnhơn. 6.252cases/24books/7mutations,9tests;
+source43.764slots/43.583valid,3.801reuse/source112,389s/economic5,992s,
+0marketGET/broker/model/khôngjob. Catalogue91/58,C1C2chưađạt/Goalactive.
+Tiếp source-supported mechanism chưa trùng hoặc material survivor evidence;
+khôngoffset/hour/lag/holding/feegrid/controlwinner rescue. Các checkpoint
+dưới là lịch sử, không rerun unchanged source hoặc Goldsignal review.
+
 Checkpoint C2 mới: [Gold signal review](GOLD-SMA-SIGNAL-REVIEW-RESULTS-20261109.md)
 30 old books/40.662 H4 evaluations/616 decisions khớp oracle riêng;450 entries/
 166 strategy exits,5tests/6actualmutations,41,207s. Conditional recorded-path
@@ -14,7 +23,7 @@ audit, không tick/prop/edge; Gold vẫn low challenge priority, không PnL mớ
 không dùng ex-post break để cứu R067. Catalogue90/58/C1C2 chưa đạt/Goal active,
 không job. Không lặp signal review không đổi hoặc mở regime/fee grid.
 
-Checkpoint hiện tại: [R090 hourly continuation](FX-INTRADAY-SHOCK-RESULTS-20261109.md)
+Checkpoint trước: [R090 hourly continuation](FX-INTRADAY-SHOCK-RESULTS-20261109.md)
 khôngretained:stress2019+592USD/18cơhội,2022−1.583USD/26cơhội trên100kEURnotional,
 2022midâmtrướcphí. Source11.021slots/10.985valid,36unavailablegiữ;3.126cases/
 12books reviewed/10actualmutations. Fullsource112,748s/economic3,357s,0GET/

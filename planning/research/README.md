@@ -1,5 +1,13 @@
 # Tra cứu research đã có
 
+[R091 round-level results](FX-ROUND-LEVEL-RESULTS-20261109.md): owncausalM5
+00/50cross→60mincontinuation,153/227opportunities,stress2019−1.466/2022−2.779USD
+per100kEURnotional;midpositive nhưng embeddedspread đãăn hết. 1.042rows/
+6.252cases/24books reviewed/7mutations,9tests; source43.764slots/43.583valid,
+3.801reuse/0marketGET/source112,389s/economic5,992s. Khôngretained/khôngjob,
+catalogue91/58/C1C2chưađạt. [Method](FX-ROUND-LEVEL-METHOD-20261109.md) đối chiếu
+primarymethods và tránh15minfuturelabel. Khôngoffset/clock/feegrid cứu.
+
 [SMA vàng signal review](GOLD-SMA-SIGNAL-REVIEW-RESULTS-20261109.md): 30 sổ
 cũ, 40.662 H4 evaluations/616 decisions, 450 entries/166 strategy exits khớp
 integer SMA/Decimal80 ATR oracle riêng; 5 tests/6 actual mutations đạt,
