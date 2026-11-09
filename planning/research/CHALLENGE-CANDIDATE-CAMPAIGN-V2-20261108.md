@@ -6,7 +6,15 @@ negatives/exposure; chưa có ứng viên challenge. Các trạng thái active/p
 trong checkpoint cũ bên dưới là lịch sử, không là trạng thái Goal hiện hành.
 
 Workflow đã rà, giữ đường gọn hiện hành; không thêm skill/framework.
-Checkpoint hiện tại: [R089 temporalresults](FX-ABNORMAL-DAY-TEMPORAL-RESULTS-20261109.md)
+Checkpoint hiện tại: [R090 hourly continuation](FX-INTRADAY-SHOCK-RESULTS-20261109.md)
+khôngretained:stress2019+592USD/18cơhội,2022−1.583USD/26cơhội trên100kEURnotional,
+2022midâmtrướcphí. Source11.021slots/10.985valid,36unavailablegiữ;3.126cases/
+12books reviewed/10actualmutations. Fullsource112,748s/economic3,357s,0GET/
+broker/model;khôngjob. Catalogue90/58,Goalactive/C1C2chưađạt. Tiếp admit cơchế
+khác có nguồn/inputs hoặc materialblocker củasurvivor đượcgỡbằngsource mới;
+chưanewrecipefreeze. Khônglag/hour/k/side/feegridcứu,khôngown2025+.
+
+Checkpoint trước: [R089 temporalresults](FX-ABNORMAL-DAY-TEMPORAL-RESULTS-20261109.md)
 not_retained:164extensionopportunities/+549stressUSDper100kEUR,8/13nămdương,
 2blocksâm;source/samplegatesđạt. [Vol-scalediagnosis](FX-ABNORMAL-DAY-VOL-SCALE-DIAGNOSTIC-20261109.md)
 vẫn2blocksâm/7nămdương, khôngsupportedriskwrapper. Source14.126/14.034valid,

@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-09",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 89,
+  "record_count": 90,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -12,13 +12,13 @@
   "counts": {
     "by_role": {
       "existing": 36,
-      "variant": 36,
+      "variant": 37,
       "new": 16,
       "component": 1
     },
     "by_readiness": {
       "implemented": 36,
-      "component_probe_not_retained": 27,
+      "component_probe_not_retained": 28,
       "implemented_not_retained": 5,
       "method_clock_review": 1,
       "component_probe_completed_no_priority": 3,
@@ -3150,6 +3150,33 @@
       "discovery_evidence": "FX-ABNORMAL-DAY-RESULTS-20261109.md",
       "diagnostic_evidence": "FX-ABNORMAL-DAY-VOL-SCALE-DIAGNOSTIC-20261109.md",
       "profitability_evidence": "Discovery2019stress+493/2022+962reused;13extensionyears164opportunities stress+549USDper100kEUR,8positiveyears,blocks-4389/+1873/-305/+1538/+1832. All15years191opportunities/+2004USD;23478cases/90books includes3126baselinecases. NoaccountPnL or challengequalification.",
+      "control": false,
+      "dispatch_authorized": false,
+      "implementation_updated_on": "2026-11-09"
+    },
+    {
+      "id": "R090",
+      "title": "EURUSD first hourly abnormal-return continuation",
+      "family": "daily_shock_continuation",
+      "role": "variant",
+      "parent_id": "R089",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "Currentday00UTC baseline, first observed crossing at01-18UTC, decisionh:01/entryh+1/exit20UTC",
+      "rule_sketch": "Same-sign currentreturn beyond mean+/-2std of20priorweekday00-20UTC returns; earliest valid hourly crossing only. Prefixmissing skips known-at, selectedmissingentry/exit stays unknown; no instantfill, repeatentry or futureclose conditioning.",
+      "data_requirements": "Sourcepilot122/122, full11021slots/10985within60s;1990reused/new9031, originalruntime/raw/code seals.521weekdayrows/44selectedallresolved, sourceunknown preserved.",
+      "automation_feasibility": "offline_causal_hourly_price_component_not_account_or_tickfirstcrossing",
+      "prop_operational_concerns": "2019reference/stresspositive but2022pricebenchmarknegative beforefees; same-direction rule not retained. NoSL/account/equity/targetfees/prop/timefit/OOS/forward.",
+      "source_ids": [
+        "CAPORALE-PLASTUN-FX2020"
+      ],
+      "source_relation": "Own causal Strategy1-motivated same-day continuation, different from R089nextdayreversal and related to R007momentum. Hourly next-hour lag/UTC20h calibration differ from paper; not replication or independentedge.",
+      "next_action": "Park exactR090, no temporal/riskwrapper or lag/hour/k/side/fee-grid rescue. Admit distinct supported mechanism or resolve material survivor blocker with new source evidence; reuse source packets only when semantics and seals match.",
+      "implementation_state": "reviewed_not_retained_price_component",
+      "candidate_id": null,
+      "component_id": "eurusd-first-hourly-shock-continuation-utc-v1",
+      "implementations": [],
+      "component_evidence": "FX-INTRADAY-SHOCK-RESULTS-20261109.md",
+      "profitability_evidence": "Primaryreference/stress2019+664/+592USDper100kEURnotional on18opportunities;2022-1479/-1583on26. Mid2022-1258.5 beforecosts, null0;opposite2019negative/2022positive not promoted.3126cases/12books not3126trades or accountPnL.",
       "control": false,
       "dispatch_authorized": false,
       "implementation_updated_on": "2026-11-09"
