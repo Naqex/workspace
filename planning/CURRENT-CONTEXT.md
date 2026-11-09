@@ -19,22 +19,24 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
   chứng minh exact executable/preset hoặc source ownership. Không mua/cài EA.
   Bài học áp dụng: kiểm chi phí từ joint quotes, SL/risk/account-wide exposure
   và timing thực thi; không suy ra logic vào lệnh đóng mã từ quảng cáo.
-- [R082 WTI diagnostic](research/WTI-WEDNESDAY-COMPONENT-RESULTS-20261109.md)
-  đã terminal/review20books/88dates/1.162.180rawfields;2022net âm sau spread,
-  2019strictN/A vì25holding-role gaps. Gác exactrecipe, không fee/hour rescue.
-  Source+review102,663s;khôngjobnền. [Primaryclock](research/EIA-HISTORICAL-CLOCK-RESULTS-20261109.md)
-  và [role-source/LFCRLF recovery](research/OIL-EIA-ROLE-SOURCE-RESULTS-20261109.md)
-  bổ sung normalclock/datedpreannouncement, giữ actual/PITunknown/oldUSOgate.
-- Bước Goal tiếp: method admission về underlying WTI settlement clock (CME
-  normal14:28–14:30 khácETF16h), chốt ownCFDbasis/newrules/coverage trước một
-  related trial nếu đáng làm. Không gọi đây là đã chứng minh nguyên nhân lỗ,
-  không grid mọi giờ hoặc promote R082/control; ưu tiên reuse sealed source.
+- [R083WTIsettlement](research/WTI-SETTLEMENT-COMPONENT-RESULTS-20261109.md)
+  đã40books/88datesfullroles,strict/endpointviewsidentical;2019stress−6,298,
+  2022stress−1,297USD/researchbarrel. Gác exactrecipe, khônghour/feegrid.
+  Cache-onlyconsumer6,330s,0requests;khôngjobnền. R082giữnegative/unknown.
+- Chuyểnsang [TokyoUSDJPYmethod](research/TOKYO-FIX-METHOD-ADMISSION-20261109.md):
+  importerflow/paydates,9:55reference/10hbankannouncement; liênquanR020/R021,
+  khôngindependentedge hoặcretailalpha từdealerprofit. OfficialholidayCSVđãcó,
+  chưaallbank/PITcalendar. [Sourcepilot](research/USDJPY-TOKYO-SOURCE-RESULTS-20261109.md)
+  đủ61roleminutes×2dates/26.980fields,1,226s;0returns/strategy,khôngjobnền.
+- BướcGoaltiếp: đăngkýUSDJPYowncomponent mộtwindow vớicalendar/shiftpolicy,
+  JPYpip/currencyfee/cost/known-at/coverage/controls trướcoutcomes; sourceđãđủ
+  pilot, khôngthu lại. Chưaaccountpolicy/SL/prop/OOS/forward hoặcchallenge.
 
 ## Bằng chứng nghiên cứu cần kế thừa
 
 | Lát | Kết luận / bước tiếp |
 |---|---|
-| Catalogue | 82 hồ sơ / 58 policy-model versions / 25 native / 9 controls; [mechanism plan](research/MECHANISM-FIRST-EXECUTION-20261109.md). Component/biến thể không tự là edge độc lập |
+| Catalogue | 83 hồ sơ / 58 policy-model versions / 25 native / 9 controls; [mechanism plan](research/MECHANISM-FIRST-EXECUTION-20261109.md). Component/biến thể không tự là edge độc lập |
 | FX NYMA4 | [Conditional results](research/NY-FX-GAP-SCENARIOS-RESULTS-20261109.md) âm ở hai năm; strict annual vẫn unknown. Không đổi clock/SL/risk để cứu exact recipe |
 | Gold R043 | [Cost admission](research/GOLD-TARGET-COST-ADMISSION-20261109.md) và [loss diagnosis](research/SELECTIVE-LOSS-DIAGNOSIS-RESULTS-20261109.md): funding/spec đích chưa verified; không zero-swap hoặc rerun để cứu outcome |
 | R080/R081 | [EU-open](research/US500-EU-OPEN-COMPONENT-RESULTS-20261109.md), [conditional](research/US500-INVENTORY-CONDITION-RESULTS-20261109.md): known net âm, giữ unknowns, gác exact recipes |

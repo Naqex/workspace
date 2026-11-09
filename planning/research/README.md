@@ -1,5 +1,11 @@
 # Tra cứu research đã có
 
+[R083WTIsettlement](WTI-SETTLEMENT-COMPONENT-RESULTS-20261109.md):40books/88dates
+đủnewroles,strict/endpointidentical,stressâmcả2years;gác,83records/58versions.
+[TokyoJPYmethod](TOKYO-FIX-METHOD-ADMISSION-20261109.md) primaryflow/clock/cost
+và [sourcepilot](USDJPY-TOKYO-SOURCE-RESULTS-20261109.md)26.980fields/2datesđạt;
+chưaedge/strategy. Tiếpđăngkýone-windowowncomponent/calendar/cost.
+
 [R082 WTI Wednesday results,09/11](WTI-WEDNESDAY-COMPONENT-RESULTS-20261109.md):
 20books/88dates/1.162.180rawfields reviewed;2019strictN/A,2022primary net âm
 ngay sau spread;gác exactrecipe. [Clock](EIA-HISTORICAL-CLOCK-RESULTS-20261109.md)
