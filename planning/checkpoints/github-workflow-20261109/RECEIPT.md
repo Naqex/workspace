@@ -13,6 +13,71 @@ không rename ref đang được PR/worktree/consumer sử dụng. Không thêm 
 dọn branch hoặc background service. Các kết quả cleanup trước đây bên dưới
 giữ nguyên là lịch sử.
 
+### Closeout thực tế của lượt owner duyệt
+
+| Repo / phần việc | Kết quả đã đối soát |
+|---|---|
+| Workspace workflow PR11 | Merge `6b4d0b7` vào `codex/naqex-workspace-pin`, merge SHA `9436fbd`; cả 3 checks đạt trên head mới. Quy ước tiếng Anh và skill đã có ở base đang dùng |
+| VI Dubber PR1 | Merge vào main: `eeebe1ba9bc9f0615743e4c3067cf2cefb5a54b3`; CI Python contracts đạt; checkout main fast-forward |
+| Quant Trading PR1 | Merge vào master: `203552238965c61b3e5788276ffc36922bd72dae`; CI offline research đạt; checkout master fast-forward |
+| Khảo sát EA PR12 | Merge `d32a553` vào workspace branch đang dùng, merge SHA `e0a11f7`; cả 3 checks đạt. Chỉ tài liệu, không mua/chạy bot |
+| Trader PR17 | Merge data-worker patch vào main: `3a4c4d65e4570f8e04e5674b7becc4cc59952537`; 5 checks đạt trên head đã review |
+| Trader PR18/19/21/23 | Các exact heads đã vào main qua PR22; GitHub xác nhận cả bốn PR MERGED. Kiểm toàn bộ dependency graph cùng nhau |
+| Trader PR22 | Head `b0b9b47350aeb62dbe70ed2e86cfc0b3eaa97825`; cả 5 required checks đạt, merge vào main tại `2cbb9d5baa97830822c66fe66e8841b6c5616849` |
+| Trader PR20 | Đóng không merge: plugin-react6 yêu cầu Vite8, CI npm peer conflict. Giữ quyết định Vite7/plugin5 từ PR5/16, không bypass peer hoặc đổi Dependabot ignore settings |
+
+PR22 giữ Pydantic2.13.5 và bound `<2.14`: bản nâng gây mất pattern của
+Decimal trong schema, không sửa frozen contracts để lấy green. 105 command
+contracts/native OpenAPI và prop schema exports giữ nguyên; 155 focused tests,
+1 skip và 21 subtests đạt trên dependency graph cuối. Bổ sung đúng hai phiên
+bản jsonschema helper0.60.2 vào notice mapping; license từ root crate đã kiểm
+khớp byte/hash với upstream commit `0b657fa991c9333908e8c51e8a582d602aac5391`.
+Inventory thật:346components/0unresolved;13release-workflow tests đạt. Không
+runtime rollout, database migration, broker call hoặc release.
+
+Issue6 đóng theo source/runtime-adoption receipt; issue7 đóng theo
+`projects/trader/foundation_v2/evidence/owner-system-audit-20261031/ACCOUNT-LIFECYCLE-20261103.md`.
+Commit0b980948 của issue7 có trên published product/research branch nhưng
+chưa là ancestor của Trader main: close issue ghi rõ scoped source/local
+runtime acceptance, không giả thành hội nhập toàn lịch sử. Issue10 giữ OPEN
+và có comment giải thích remaining overnight qualification; không khởi chạy
+capture mới từ task Git, Goal nghiên cứu vẫn paused.
+
+Pins VI/Quant cập nhật tới hai merge SHA nêu trên trong workspace commit
+`d2923b3`. Giữ Trader pin83731fc8: không thay checkout nghiên cứu hiện tại bằng
+main dependency head hoặc tự gộp lịch sử lớn chưa được review.
+
+Đã xóa local `codex/quy-trinh-github`, `codex/khao-sat-bot-tra-phi` và
+VI`codex/resource-monitor-ignore`; remote xóa ba ref đó cùng Quant
+`codex/datetime-gap-resolution` sau exact-tip/ancestry/worktree/PR checks.
+Không xóa branch integration, research worktree hoặc worktree VI còn dùng.
+Branch hiện hành của closeout dùng tiếng Anh `codex/merge-closeout`.
+
+Managed dependency worktree ban đầu kế thừa `core.worktree` tương đối của
+submodule, làm status nhìn nhầm metadata và báo xóa giả. Chưa stage gì ở
+trạng thái sai; sửa duy nhất worktree config của checkout mới, xác nhận
+`--show-toplevel` đúng và status sạch. Source checkout khác giữ nguyên.
+Bổ sung bẫy này vào branch guide; không đổi shared/global Git config.
+
+Skillcreator validation, scoped links và5workflow tests đạt; maintainer audit
+0errors/0warnings,21skills;global12.279B,project10.160/65.536B,reserve55.376B,
+combined22.439B. Positive walkthrough: tên mới English; negative: ref đang
+được consumer dùng không rename, issue chưa acceptance không tự đóng.
+Đây là same-agent review/automated checks, không independent model review.
+
+Kết quả cuối Trader: không còn PR mở; PR17/18/19/21/22/23 MERGED, PR20
+CLOSED không merge. Sáu remote Dependabot heads đã tự biến mất sau merge;
+script closeout đối soát ancestry/exact tips/open PR/worktree rồi ghi
+`Already absent`, không giả nhận đã phát lệnh xóa những ref đó. Local main
+fast-forward `2cbb9d5b`; local head PR22 đã dọn bằng `branch -d`.
+
+Worktree kiểm phụ sạch, không job local còn chạy. Codex archive API từ chối
+với `This worktree is owned by another task.` dù attachment/creation đã trả
+về trong lượt này; giữ checkout, không xóa bằng shell để vượt ownership.
+Notice inventory ngoài checkout vẫn còn tại private
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/dependency-pr-closeout-20261109/notices-v1/`.
+Các research worktree cũ và runtime/Trader pin83731fc8 được giữ nguyên.
+
 ## Thay đổi hướng dẫn
 
 [README GitHub](../../../tooling/github-workflow/README.md) là cửa vào;
