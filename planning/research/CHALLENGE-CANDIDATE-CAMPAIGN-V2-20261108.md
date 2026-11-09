@@ -8,6 +8,11 @@ có nhu cầu thực. Goal từngactive, hiệnUIpaused; owner đã giao task ti
 
 ## Checkpoint hiện hành — 09/11/2026
 
+[Phân rã lời/lỗ nhiều tầng](HIERARCHICAL-PNL-ATTRIBUTION-20261109.md) đã xong
+theo yêu cầu owner: 861 node, 40.418 tỷ lệ đối soát, giữ từng cost scenario,
+vốn sổ và open/closed bridge. Không thử chiến lược mới hoặc đổi quyết định
+Gold; mục tiêu challenge C1/C2 vẫn chưa đạt.
+
 Lượt owner giao thêm đã xong: [selective lossdiagnosis](SELECTIVE-LOSS-DIAGNOSIS-RESULTS-20261109.md)
 trên Goldretained,30books/439cases/Fractionreview, khôngtuning; skill D0→D1→D2
 đã kiểm. [EIAdatecensus](EIA-RELEASE-DATE-CENSUS-RESULTS-20261109.md)103events

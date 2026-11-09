@@ -1,6 +1,8 @@
 # Tra cứu research đã có
 
-Mới nhất09/11: [chẩn đoán lỗ có chọn lọc](SELECTIVE-LOSS-DIAGNOSIS-RESULTS-20261109.md)
+Mới nhất 09/11: [phân rã lời/lỗ nhiều tầng](HIERARCHICAL-PNL-ATTRIBUTION-20261109.md)
+đã áp dụng trên Gold: 861 node, 40.418 tỷ lệ đối soát, 9 mutation; không chạy
+lại simulation hoặc đổi verdict. [Chẩn đoán lỗ có chọn lọc](SELECTIVE-LOSS-DIAGNOSIS-RESULTS-20261109.md)
 đã thêm workflow D0→D1→D2;SMA vàng30books/439trade-costcases reviewed, chưa
 tuning. [EIA datecensus](EIA-RELEASE-DATE-CENSUS-RESULTS-20261109.md)52/51dates
 đã kiểm, actualreleasehours cònunknown; khôngbulkmarketdata/PnL mới.

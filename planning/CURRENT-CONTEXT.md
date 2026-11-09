@@ -7,7 +7,12 @@ vẫn paused, không tự khai tool đã resume hoặc complete campaign.
 
 ## Việc hiện tại: mechanism-first research
 
-Lượt mới theo owner: [selective lossdiagnosis](research/SELECTIVE-LOSS-DIAGNOSIS-RESULTS-20261109.md)
+Lượt mới theo owner: [phân rã lời/lỗ nhiều tầng](research/HIERARCHICAL-PNL-ATTRIBUTION-20261109.md)
+đã tạo 861 node / 30 sổ / 439 trường hợp lệnh–chi phí từ sealed Gold.
+40.418 tỷ lệ có mẫu số/scope đã đối soát bằng Fraction; 9 mutation và 19 test
+đạt. Không simulation mới, không đổi strategy/verdict; chưa challenge candidate.
+
+[Selective lossdiagnosis](research/SELECTIVE-LOSS-DIAGNOSIS-RESULTS-20261109.md)
 đã xong trên một retainedcandidateGold:30books/439trade-costcases,Fractionreview/
 6mutations. Stressfunding77,75%costdrag, nhưnglongholding cũngtạo phầnlớnlợi
 nhuận; ưu tiênxácminh swap/spec thật trước sửa rules. D0→D1→D2 đã vào skill

@@ -40,6 +40,27 @@ chạy broker. Ghi cả lý do không đầu tư thêm; tránh phân tích sâu 
 - Closed net − open financing + terminal floating phải reconcile equity
   theo contract sổ. Không force close để làm đẹp profit target.
 
+## Phân tầng và mẫu số
+
+Khi owner cần xem từ tổng thể xuống lệnh, dùng cây không đếm trùng và
+`hierarchical_attribution.py:build_hierarchy` trên sealed trades/books đã có.
+Contract và ví dụ đã kiểm ở [hierarchical PnL](../../../../planning/research/HIERARCHICAL-PNL-ATTRIBUTION-20261109.md):
+
+- Strategy/version → cost scenario → annual book → side → exit reason →
+  holding bucket → composite trade ID. Scenarios là phương án thay thế, không
+  cộng thành tổng financial tại strategy root. Các facets khác nhau không
+  cộng chéo; chỉ cộng con của cùng cha, kiểm đầy đủ membership/count/components.
+- Mỗi % giữ tử số, mẫu số, unit và scope. Tách % trong pool của nhóm, cùng
+  khoản so với cha/kịch bản, net winning/losing pools và win/loss/hòa rate.
+  Chỉ cộng tiền/count rồi tính tỷ lệ cha; không lấy mean tỷ lệ con.
+- Net nhóm/vốn là contribution vào sổ nguồn, không ROI riêng. Vốn invalid
+  làm tỷ lệ N/A; mean annual return N/A nếu bất kỳ sổ nào thiếu vốn. Annual
+  reset khác tài khoản liên tục/CAGR. Mẫu số pool0→N/A, làm tròn ở cuối.
+- Open financing/floating chỉ vào book/scenario equity bridge, không ép
+  phân bổ vào closed cohorts. Giữ locator/hash và ID ghép scenario/year/position.
+  Review độc lập số học + mutations trước diễn giải; đây không là new trial,
+  causal proof, actual broker fee hoặc lý do đổi strategy từ subgroup đẹp.
+
 ## Từ phát hiện đến thay đổi
 
 Xếp vấn đề theo tiền ảnh hưởng, độ chắc của bằng chứng, khả năng tác động

@@ -228,6 +228,12 @@ Chẩn đoán sâu để tìm nút thắt cải tiến dùng nhánh
 trong skill kiểm định: D0 đọc sổ có sẵn, D1 chọn ứng viên có cơ sở, D2 đăng ký
 thay đổi mới. Không phân tích/tuning mọi loser hoặc gọi %debits là %causal lỗi.
 
+Khi phân rã nhiều tầng, dùng `hierarchical_attribution.py:build_hierarchy`
+và [hợp đồng/bằng chứng](../../planning/research/HIERARCHICAL-PNL-ATTRIBUTION-20261109.md).
+Cây scenario/year/side/reason/holding/trade giữ mọi tử số/mẫu số, vốn sổ và
+source pin. Không cộng hai cost scenarios; open items chỉ vào equity bridge.
+Hiện đã áp dụng trên selected Gold sealed diagnosis, chưa tự wired mọi runner.
+
 Owner nhắc08/11: log phải cho phép người/agent sau đánh giá **đổi có đúng
 không**, không chỉ biết process đã chạy. Ghi trong protocol/results/engineering
 review của chính study và link từ catalogue/index; không tạo ledger/UI khác.
