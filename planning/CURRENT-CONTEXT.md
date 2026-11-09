@@ -8,6 +8,21 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 ## Việc hiện tại
 
+- [R087 Nhật–Mỹ](research/JAPAN-US-CASH-REACTION-RESULTS-20261109.md) đã
+  terminal/reviewed:485phiên/20books/4.850plannedcases,4.322resolved.
+  Known stressnet2019−1.432,202/2022−3.705,824JPY/unit;2019mid dương nhưng
+  spreadăn hết,2022midđãâm.66phiên thiếu giữunknown, khôngannualPnL;
+  gác exactrecipe.5.437.930sourcefieldchecks,962GET+8reuse,successfulphases
+  7phút13s, khôngjob. Catalogue87/58, chưa challenge. Tiếp distinctobservable
+  mechanism admission, khôngclock/side/feegridcứu hoặc lặp source đã kiểm.
+- [Cost headroom](research/COST-HEADROOM-DIAGNOSTIC-20261109.md) đã8books/
+  64cases/Fractionreview, khôngmarketreplay. R086funding~94–95%stresscostpool;
+  fixedpathbreak-even11,62%/15,26%annual theo model, khôngbrokerfee hoặc safe
+  live rate. Ưu tiênphí thật khi cósource mới; khônggiảmspreadđểcứu fundingloss.
+  [Nhật–Mỹpilot](research/JAPAN-US-SOURCE-RESULTS-20261109.md)3,193s đãreview;
+  [R086guardfix](research/US500-FOMC-PRICE-MOMENTUM-RESULTS-20261109.md#guardprogress-đã-sửa-không-chạy-lại-market-history)
+  10transitiontests đạt, giữoldfailure, khôngrerunmarket. Runtimeownershipmanifest
+  không ở standardpath checkout này; khôngguessport/account hoặc gọibroker.
 - [R086 FOMC price momentum](research/US500-FOMC-PRICE-MOMENTUM-RESULTS-20261109.md)
   đã terminal/reviewed:32books/256cases;net cơ sở2019+60,55/2022+151,62USD/unit,
   stress−63,33/−14,66 nên không qua gate.126mốc/252rawsideinputs đủ;250raws
@@ -60,7 +75,7 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 | Lát | Kết luận / bước tiếp |
 |---|---|
-| Catalogue | 86 hồ sơ / 58 policy-model versions / 25 native / 9 controls; [mechanism plan](research/MECHANISM-FIRST-EXECUTION-20261109.md). Component/biến thể không tự là edge độc lập |
+| Catalogue | 87 hồ sơ / 58 policy-model versions / 25 native / 9 controls; [mechanism plan](research/MECHANISM-FIRST-EXECUTION-20261109.md). Component/biến thể không tự là edge độc lập |
 | FX NYMA4 | [Conditional results](research/NY-FX-GAP-SCENARIOS-RESULTS-20261109.md) âm ở hai năm; strict annual vẫn unknown. Không đổi clock/SL/risk để cứu exact recipe |
 | Gold R043 | [Cost admission](research/GOLD-TARGET-COST-ADMISSION-20261109.md) và [loss diagnosis](research/SELECTIVE-LOSS-DIAGNOSIS-RESULTS-20261109.md): funding/spec đích chưa verified; không zero-swap hoặc rerun để cứu outcome |
 | R080/R081 | [EU-open](research/US500-EU-OPEN-COMPONENT-RESULTS-20261109.md), [conditional](research/US500-INVENTORY-CONDITION-RESULTS-20261109.md): known net âm, giữ unknowns, gác exact recipes |

@@ -36,7 +36,7 @@ def schedules(years):
 def observation(pair,target,*,duration_ms=HOUR,source_instrument='USATECH.IDX/USD'):
     if type(duration_ms) is not int or duration_ms not in (60000,HOUR):
         raise ValueError('unregistered_endpoint_duration')
-    if source_instrument not in ('USATECH.IDX/USD','USA500.IDX/USD'):
+    if source_instrument not in ('USATECH.IDX/USD','USA500.IDX/USD','JPN.IDX/JPY'):
         raise ValueError('unregistered_endpoint_source_instrument')
     label='M1' if duration_ms==60000 else 'H1'
     result=dict(source_instrument=source_instrument,source_bar_open_ms=target,

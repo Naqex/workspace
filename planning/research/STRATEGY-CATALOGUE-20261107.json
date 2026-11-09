@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-07",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 86,
+  "record_count": 87,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -13,12 +13,12 @@
     "by_role": {
       "existing": 36,
       "variant": 34,
-      "new": 15,
+      "new": 16,
       "component": 1
     },
     "by_readiness": {
       "implemented": 36,
-      "component_probe_not_retained": 25,
+      "component_probe_not_retained": 26,
       "implemented_not_retained": 5,
       "method_clock_review": 1,
       "component_probe_completed_no_priority": 2,
@@ -385,6 +385,15 @@
       "publication": "2024-05",
       "review_depth": "full_method_sectionIV_table5_and_past_return_predictability",
       "limitations": "Future-surprise classification before event is not executable; R086 is own past-price adaptation, no paper return/Sharpe imported.",
+      "checked_on": "2026-11-09"
+    },
+    {
+      "id": "IWANAGA-JAPAN-US2026",
+      "title": "How the prior day's S&P500 returns influence intraday returns of Nikkei225 futures",
+      "url": "https://doi.org/10.1016/j.finr.2026.100108",
+      "publication": "2026-06",
+      "review_depth": "primary_search_served_abstract_and_method_excerpts_plus_author_index",
+      "limitations": "Directpublisher403/redirect; fullmethod unavailable, no claimed future/cash/CFD equivalence or paper performance replication. Underlyingmechanisms not directly tested.",
       "checked_on": "2026-11-09"
     }
   ],
@@ -3027,6 +3036,33 @@
       "implementations": [],
       "component_evidence": "US500-FOMC-PRICE-MOMENTUM-RESULTS-20261109.md",
       "profitability_evidence": "Reference2019+60.55/2022+151.62;stress-63.33/-14.66 USD/researchunit;primary-minus-matchedstress+396.16/+388.77 but frozen primary-positive gate fails; not account PnL.",
+      "control": false,
+      "dispatch_authorized": false,
+      "implementation_updated_on": "2026-11-09"
+    },
+    {
+      "id": "R087",
+      "title": "Japan cash-open reaction to prior US close component",
+      "family": "crossmarket_flow",
+      "role": "new",
+      "parent_id": null,
+      "readiness": "component_probe_not_retained",
+      "timeframe": "Japan09:01-09:29JST M1Open; previous US close-to-close",
+      "rule_sketch": "Own CFD adaptation; sign prior completed US500 mid-close change reversed for JPN cash open, USsignalage<=72h; strict29sourceM1roles; no paper futures replication.",
+      "data_requirements": "485JPcashproxy sessions2019/22,472eligible;970JPNday-sideexports(962new+8reuse),5432930JPN+USrawfieldchecks;66eligible dates with role gaps retained unknown.",
+      "automation_feasibility": "offline_fixed_JPY_price_component_not_account_policy",
+      "prop_operational_concerns": "2019coverage174/236<95percent;2022coverage232/236 butknownnetnegative;JPYunit not USD/account; noSL/equity/targetfees/prop/OOS/forward.",
+      "source_ids": [
+        "IWANAGA-JAPAN-US2026"
+      ],
+      "source_relation": "Primary abstract/method excerpts motivate own cash-CFD crossmarket reaction; fullmethod inaccessible, related opening/reversal family, not independent edge or paper replication.",
+      "next_action": "Park exact R087 known-negative/coverage-limited recipe; preserve source and v1empty-reviewerfailure/v2correction; distinct observable mechanism admission, no clock/side/fee/filter-grid rescue.",
+      "implementation_state": "reviewed_price_component_negative_known_subset_coverage_gap",
+      "candidate_id": null,
+      "component_id": "jpn-cash-open-US-close-contrarian-component-v1",
+      "implementations": [],
+      "component_evidence": "JAPAN-US-CASH-REACTION-RESULTS-20261109.md",
+      "profitability_evidence": "Knownstress2019-1432.202/2022-3705.824JPYperunit;2019mid+781.824 spread1170.026,2022mid-676.615;fullannualunknown bothyears;notaccountPnL.",
       "control": false,
       "dispatch_authorized": false,
       "implementation_updated_on": "2026-11-09"
