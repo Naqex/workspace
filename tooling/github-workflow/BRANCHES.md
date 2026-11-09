@@ -76,6 +76,8 @@ flowchart LR
    Attach PR vào chat khi có công cụ hỗ trợ. Không gộp unrelated WIP.
 4. Phân biệt CI chưa chạy/đang chạy/fail/pass. Fail thì đọc đúng log, sửa
    root cause hoặc ghi blocker; không bỏ test hợp lệ để pass.
+   Secret scanner phải redact log. False positive cần kiểm đúng source và
+   exact fingerprint; không ignore cả file/rule hoặc whitelist credential thật.
 5. Merge theo quyền của task và checks bắt buộc. “Push” không tự là yêu cầu
    merge, nghiệm thu hay deploy; không bypass CI. Sau merge, fetch và cập
    nhật checkout bằng fast-forward khi sạch/đúng owner; dọn theo điều kiện dưới.

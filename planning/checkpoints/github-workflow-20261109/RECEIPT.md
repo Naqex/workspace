@@ -85,3 +85,27 @@ AI environment audit: 0 errors/warnings, 21 skills; global 12.279 B,
 project 10.160/65.536 B, reserve 55.376 B, combined 22.439 B.
 Chỉ router project đổi, không global config/permissions hoặc native agent assignment.
 Không cần rerun backtest/product tests cho thay đổi hướng dẫn này.
+
+## CI: phân loại hai cảnh báo secret lịch sử
+
+Contracts/UI registry đạt, nhưng Gitleaks v8.30.1 phát hiện hai generic-api-key
+matches trong prose: từ ghép về cache key tại historical CURRENT-CONTEXT
+`c92297ab:12`, và câu về idempotency keys tại receipt `e69729bc:1027`.
+Đã đối chiếu preimage và matched spans: không phải secret, credential hoặc
+assignment. Không gọi lỗi scanner là lộ key thật; không bỏ gate để pass.
+
+Thêm đúng hai fingerprints vào `.gitleaksignore` hiện có, không path/rule-wide
+allowlist, không xóa/viết lại lịch sử. CI giữ `--redact` và thêm `--verbose`
+để lần sau hiện file/rule/commit thay vì chỉ số lượng. Cơ chế fingerprint theo
+[Gitleaks v8.30.1](https://github.com/gitleaks/gitleaks/blob/v8.30.1/README.md#gitleaksignore).
+
+Để tái hiện, tải asset Windows cùng version từ official GitHub release,
+kiểm SHA256 bằng checksums công bố, kiểm zip paths và MIT license; chỉ giải
+nén trong `.runtime/tools/gitleaks-8.30.1/` bị ignore, không global install.
+Windows archive SHA256:
+`d29144deff3a68aa93ced33dddf84b7fdc26070add4aa0f4513094c8332afc4e`.
+Giữ redacted findings, scan log và kết quả kiểm trong thư mục runtime đó.
+Sau hai ngoại lệ exact, full history scan đạt exit0/0 findings. Positive
+control tạo chuỗi giả lập ngẫu nhiên offline trong thư mục tạm vẫn bị
+generic-api-key bắt (exit1/1 finding); chuỗi không cấp quyền dịch vụ nào,
+không được commit hoặc in ra. Không thay rule, exit code hoặc mức redact.
