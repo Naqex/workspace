@@ -289,8 +289,11 @@
       "title": "Long-Run Linkages and Parameter Instability in the Gold-Silver Relationship,2010-2025",
       "url": "https://www.ifo.de/en/cesifo/publications/2026/working-paper/long-run-linkages-and-parameter-instability-gold-silver",
       "publication": "2026",
-      "review_depth": "primary_abstract_only",
-      "limitations": "Futures aggregates through2025; parameter instability, not spotCFD pair profitability or replication."
+      "review_depth": "full_primary_pdf_sections3-6_tables2-6_and_page17_render_reviewed",
+      "limitations": "Futures2010-2025 fullsample-selected late2017 break is ex-post, not causal regime knowledge in2018. Slow persistent adjustment; no CFD two-leg costs/prop profitability replication. R067 fixed formations unchanged.",
+      "checked_on": "2026-11-09",
+      "method_review_locator": "GOLD-SILVER-METHOD-DELTA-20261109.md",
+      "pdf_sha256": "1953334364269ec923ef35e544fa86a881ce2f58c5d0f51f8bc366f40d9d31c1"
     },
     {
       "id": "LEBARON-NYFX",
@@ -1780,7 +1783,8 @@
         "10000",
         "50000"
       ],
-      "diagnostic_evidence": "SELECTIVE-LOSS-DIAGNOSIS-RESULTS-20261109.md"
+      "diagnostic_evidence": "SELECTIVE-LOSS-DIAGNOSIS-RESULTS-20261109.md",
+      "signal_correctness_review": "GOLD-SMA-SIGNAL-REVIEW-RESULTS-20261109.md;30books/40662H4/616decisions/450entries/166strategyexits verified conditional on recorded position path; no first-crossing tick or target-spec qualification."
     },
     {
       "id": "R044",
@@ -2483,13 +2487,14 @@
         "CESIFO-GS-2026"
       ],
       "source_relation": "mechanism_and_asset_transfer_not_paper_replication",
-      "next_action": "Park exact fixed pair/formations; no orientation/lag/window grid. Preserve source views for separate registered questions.",
+      "next_action": "Park exact fixed pair/formations; full CESifo methods reviewed, no ex-post fullsample break gate or orientation/lag/window grid. New causal regime/hedge/cost/horizon evidence required before separate economic design. Preserve source views; no rerun.",
       "implementation_state": "formation_probe_reviewed_not_retained_no_account_policy",
       "candidate_id": null,
       "implementations": [],
       "evidence_locator": "GOLD-SILVER-FORMATION-RESULTS-20261109.md",
       "profitability_evidence": "No account PnL. Fixed EngleGranger cointp2018=.7439093504/2021=.0933243296;source samples251/251 and252/252;not retained for economic design.",
-      "dispatch_authorized": false
+      "dispatch_authorized": false,
+      "method_review_locator": "GOLD-SILVER-METHOD-DELTA-20261109.md"
     },
     {
       "id": "R068",

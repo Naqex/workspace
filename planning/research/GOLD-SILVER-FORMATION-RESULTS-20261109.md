@@ -1,5 +1,10 @@
 # R067: nguồn đủ, quan hệ cố định chưa đạt bộ lọc
 
+**Method follow-up 09/11:** đã đọc full methods/results/conclusion của CESifo
+12559 tại [method delta](GOLD-SILVER-METHOD-DELTA-20261109.md). Không dùng điểm
+gãy chọn sau toàn mẫu tới 2025 để bật bot ngược từ 2018; không rerun R067
+hoặc thêm record. Fixed formation verdict và p-values bên dưới giữ nguyên.
+
 Theo [protocol](GOLD-SILVER-FORMATION-PROTOCOL-20261109.md) `470442c` và
 implementation `a9a2b48`, history/source/sample/statistics đã hoàn tất và được
 review riêng. **Gác exact XAU/XAG fixed formations này trước economic design.**

@@ -6,6 +6,14 @@ negatives/exposure; chưa có ứng viên challenge. Các trạng thái active/p
 trong checkpoint cũ bên dưới là lịch sử, không là trạng thái Goal hiện hành.
 
 Workflow đã rà, giữ đường gọn hiện hành; không thêm skill/framework.
+Checkpoint C2 mới: [Gold signal review](GOLD-SMA-SIGNAL-REVIEW-RESULTS-20261109.md)
+30 old books/40.662 H4 evaluations/616 decisions khớp oracle riêng;450 entries/
+166 strategy exits,5tests/6actualmutations,41,207s. Conditional recorded-path
+audit, không tick/prop/edge; Gold vẫn low challenge priority, không PnL mới.
+[Vàng–bạc method delta](GOLD-SILVER-METHOD-DELTA-20261109.md) đã đọc fullpaper,
+không dùng ex-post break để cứu R067. Catalogue90/58/C1C2 chưa đạt/Goal active,
+không job. Không lặp signal review không đổi hoặc mở regime/fee grid.
+
 Checkpoint hiện tại: [R090 hourly continuation](FX-INTRADAY-SHOCK-RESULTS-20261109.md)
 khôngretained:stress2019+592USD/18cơhội,2022−1.583USD/26cơhội trên100kEURnotional,
 2022midâmtrướcphí. Source11.021slots/10.985valid,36unavailablegiữ;3.126cases/

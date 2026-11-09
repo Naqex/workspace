@@ -1,5 +1,13 @@
 # Tra cứu research đã có
 
+[SMA vàng signal review](GOLD-SMA-SIGNAL-REVIEW-RESULTS-20261109.md): 30 sổ
+cũ, 40.662 H4 evaluations/616 decisions, 450 entries/166 strategy exits khớp
+integer SMA/Decimal80 ATR oracle riêng; 5 tests/6 actual mutations đạt,
+41,207s, không PnL mới. Conditional recorded-position-path audit, chưa tick/
+prop/edge; Gold vẫn research survivor low challenge priority. [Vàng–bạc](GOLD-SILVER-METHOD-DELTA-20261109.md)
+đã đọc full CESifo12559, không dùng ex-post break làm causal trading gate;
+R067 giữ gác, không rerun. Catalogue90/58 giữ, C1/C2 chưa đạt, không job nền.
+
 [R090 intraday shock continuation](FX-INTRADAY-SHOCK-RESULTS-20261109.md):
 521weekdayrows/44opportunities/3.126financialcases/12books reviewed;stress
 2019+592/2022−1.583USDper100kEURnotional,2022âmtrướcphí,khôngretained.

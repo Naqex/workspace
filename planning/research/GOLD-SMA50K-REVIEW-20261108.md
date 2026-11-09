@@ -1,5 +1,12 @@
 # Gold SMA50k: sổ tiền khớp, chưa ưu tiên challenge theo time-fit
 
+**C2 follow-up 09/11:** [signal review](GOLD-SMA-SIGNAL-REVIEW-RESULTS-20261109.md)
+đã đối chiếu 40.662 H4 evaluations/616 decisions/450 entry fills của 30 sổ
+bằng integer SMA/Decimal80 ATR oracle riêng. Chưa phát hiện mismatch; đóng
+khoảng trống signal trong phạm vi conditional recorded position path. Không
+first-crossing stop/tick/target-spec/edge proof; các limitation khác bên dưới
+giữ nguyên. Không rerun PnL hoặc nâng verdict challenge.
+
 **Publicspec follow-up:** [renderedFTMOrows/clock review](FTMO-SYMBOL-AND-CLOCK-ADMISSION-20261108.md)
 đã đọc được XAUrow trong browser sau lần textfetch/TLSfailure dưới đây.
 Publiccontract100/Swing15/percentagefee và swappoints được ghi riêng; chưa đủ

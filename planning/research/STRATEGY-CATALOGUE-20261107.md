@@ -58,7 +58,7 @@ freeze trước outcomes; old quarter-mask failure và corrected attempt đều 
 |R040|Ridge shuffled-label control|falsification / R038|Đã code, chưa qualified|1|[Kết quả](DISCOVERY5-RESULTS-20261108.md)|
 |R041|Forest shuffled-label control|falsification / R039|Đã code, chưa qualified|1|[Kết quả](DISCOVERY5-RESULTS-20261108.md)|
 |R042|Gold Donchian20/10|trend_breakout / R001|Giữ negative version|1|[Gold outcomes](METAL-DISCOVERY9-10-RESULTS-20261108.md)|
-|R043|Gold SMA20/80|trend_breakout / R002|Giữ research50k, hạ ưu tiên challenge do time-fit/gaps|1|[Time-fit review](GOLD-SMA50K-REVIEW-20261108.md), [original outcomes](METAL-DISCOVERY9-10-RESULTS-20261108.md)|
+|R043|Gold SMA20/80|trend_breakout / R002|Giữ research50k, hạ ưu tiên challenge do time-fit/gaps|1|[Time-fit review](GOLD-SMA50K-REVIEW-20261108.md), [conditional signal review](GOLD-SMA-SIGNAL-REVIEW-RESULTS-20261109.md); không tick/prop/edge proof|
 |R044|Gold Z20 ±2|price_reversion / R003|Giữ negative version|1|[Gold outcomes](METAL-DISCOVERY9-10-RESULTS-20261108.md)|
 |R045|Gold Asia→London breakout|session_breakout / R018|Giữ negative version|1|[Gold outcomes](METAL-DISCOVERY9-10-RESULTS-20261108.md)|
 |R046|Gold RSI reentry|price_reversion / R012|Giữ negative version|1|[Gold outcomes](METAL-DISCOVERY9-10-RESULTS-20261108.md)|
@@ -82,7 +82,7 @@ freeze trước outcomes; old quarter-mask failure và corrected attempt đều 
 |R064|NASDAQ cash first→last30|equity_close_momentum /R051|Không giữ: stress−481,64/−1.969,99USD/unit, kém longcontrol cả2years|0|[Results](NASDAQ-INTRADAY-MOMENTUM-RESULTS-20261108.md);413resolveddays/1.652cases, chưaaccount/prop|
 |R065|NASDAQ opening5 direction/10R|cash_opening_direction|Gác exact recipe: conditional2019 stress −925,72→−914,80USD; original2019 vẫn unknown, chưa qualified|1|[Bounds review](NASDAQ-OPENING5-BOUNDS-RESULTS-20261109.md); giữ [exact datarevision](NASDAQ-OPENING5-ORB-DATA-REVISION-RESULTS-20261109.md)|
 |R066|NASDAQ noise14 first daily break|equity_intraday_momentum / R048|Gác: conditional2019 −214,67/−250,47USD;2022 +217,58/+198,44USD; chưa qualified|1|[Results](NASDAQ-NOISE14-RESULTS-20261109.md)|
-|R067|Gold/silver relative-value formation|precious_metals_relative_value / R035|Gác fixed formations: nguồn đủ503dates, cointp2018=0,7439/2021=0,0933; chưa PnL|0|[Formation results](GOLD-SILVER-FORMATION-RESULTS-20261109.md)|
+|R067|Gold/silver relative-value formation|precious_metals_relative_value / R035|Gác fixed formations: nguồn đủ503dates, cointp2018=0,7439/2021=0,0933; chưa PnL|0|[Formation results](GOLD-SILVER-FORMATION-RESULTS-20261109.md); [full-method delta](GOLD-SILVER-METHOD-DELTA-20261109.md), không ex-post regime rescue|
 |R068|Gold forest stopped/costed labels|trained_return / R039|Đã train/review,0tín hiệu đủ ngưỡng;gác exactrecipe|1|[Results](GOLD-ML-SL-LABELS-RESULTS-20261109.md);2019/2022zero trades,khôngedge|
 |R069|Gold stopped-label forest shuffled control|falsification / R068|Control đăng ký cùngR068;0tín hiệu đủ ngưỡng|1|[Results](GOLD-ML-SL-LABELS-RESULTS-20261109.md);khôngindependentedge|
 |R070|NY EURUSD MA4 reversal|session_conditioned_reversion / R003|Gác exact recipe theo conditional sensitivity; giữ H1 negatives/strict annual N/A|3|[Conditional review](NY-FX-GAP-SCENARIOS-RESULTS-20261109.md); strict unknown không bị clear|

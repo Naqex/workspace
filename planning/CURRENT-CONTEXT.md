@@ -8,6 +8,17 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 ## Việc hiện tại
 
+- [Gold SMA signal review](research/GOLD-SMA-SIGNAL-REVIEW-RESULTS-20261109.md)
+  đã terminal exit0:30 old books/40.662 H4 evaluations/616 decisions,
+  450 entries/166 strategy exits khớp oracle riêng;5 tests/6 actual mutations,
+  41,207s, không PnL/fee/rule change. Chỉ conditional recorded-position-path
+  audit; Gold vẫn low challenge priority vì time-fit/target costs gaps.
+  [Vàng–bạc method delta](research/GOLD-SILVER-METHOD-DELTA-20261109.md) đã đọc
+  full CESifo12559, không ex-post regime gate hoặc rerun R067. Catalogue90/58
+  giữ/C1C2 chưa đạt/Goal active/không job nền. **Tiếp source-supported cơ chế
+  chưa trùng catalogue hoặc material survivor blocker khi có evidence mới**;
+  không lặp old signal review, full-sample regime/timing/fee grid để cứu outcome.
+
 - [R090 hourly shock continuation](research/FX-INTRADAY-SHOCK-RESULTS-20261109.md)
   đã terminal/reviewed, không retained:2019stress+592USD/18cơ hội,
   2022−1.583USD/26cơ hội trên100.000EURnotional;2022mid đãâmtrướcphí.
@@ -125,7 +136,7 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 | Lát | Kết luận / bước tiếp |
 |---|---|
-| Catalogue | 87 hồ sơ / 58 policy-model versions / 25 native / 9 controls; [mechanism plan](research/MECHANISM-FIRST-EXECUTION-20261109.md). Component/biến thể không tự là edge độc lập |
+| Catalogue | 90 hồ sơ / 58 policy-model versions / 25 native / 9 controls; [catalogue](research/STRATEGY-CATALOGUE-20261107.md). Component/biến thể không tự là edge độc lập |
 | FX NYMA4 | [Conditional results](research/NY-FX-GAP-SCENARIOS-RESULTS-20261109.md) âm ở hai năm; strict annual vẫn unknown. Không đổi clock/SL/risk để cứu exact recipe |
 | Gold R043 | [Cost admission](research/GOLD-TARGET-COST-ADMISSION-20261109.md) và [loss diagnosis](research/SELECTIVE-LOSS-DIAGNOSIS-RESULTS-20261109.md): funding/spec đích chưa verified; không zero-swap hoặc rerun để cứu outcome |
 | R080/R081 | [EU-open](research/US500-EU-OPEN-COMPONENT-RESULTS-20261109.md), [conditional](research/US500-INVENTORY-CONDITION-RESULTS-20261109.md): known net âm, giữ unknowns, gác exact recipes |
