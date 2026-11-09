@@ -75,7 +75,12 @@ independent model test hoặc hook tự động chặn mọi branch sai tên.
 ## Kiểm chứng hướng dẫn
 
 `quick_validate.py` cho skill đạt; scoped skill links 0 errors/warnings;
-`tooling/github-workflow/check.py` đạt; diff whitespace check đạt.
+`tooling/github-workflow/check.py` cho forms đạt; diff whitespace check đạt.
+Kiểm `--commit` đã bắt lỗi metadata ở `b4db388`: hai dòng AI bị tách thành
+hai đoạn do dùng hai `-m`. Giữ nguyên commit đã publish, sửa hướng dẫn dùng
+hai `--trailer` và thêm regression chạy native Git trong disposable repo.
+Commit sửa kế tiếp phải qua `check.py --commit HEAD`; không nới validator
+để chấp nhận block sai hoặc ghi metadata lịch sử là đã pass.
 AI environment audit: 0 errors/warnings, 21 skills; global 12.279 B,
 project 10.160/65.536 B, reserve 55.376 B, combined 22.439 B.
 Chỉ router project đổi, không global config/permissions hoặc native agent assignment.

@@ -41,6 +41,18 @@ AI-Tool: Codex
 AI-Model-Requested: unknown
 ```
 
+Hai dòng phải cùng một trailer block, không có dòng trắng ở giữa. Với Git CLI:
+
+```powershell
+git commit -m "docs: lam ro quy trinh branch" --trailer "AI-Tool: Codex" --trailer "AI-Model-Requested: unknown"
+python tooling/github-workflow/check.py --commit HEAD
+```
+
+Dùng hai flag `--trailer`, hoặc body file giữ đúng block; không dùng hai `-m`
+riêng cho hai dòng metadata vì Git sẽ tách thành hai đoạn. Không sửa lịch sử
+đã chia sẻ chỉ để chữa metadata cũ; ghi giới hạn lịch sử và dùng định dạng
+đúng từ commit tiếp. Validator phải từ chối block thiếu cặp.
+
 Ghi ID gốc được runtime/config cung cấp; không đoán model. `unknown` hợp lệ.
 Human-only và thao tác formatter thuần túy không cần trailers. Nhiều model tham
 gia thì lặp cặp trailers theo từng đóng góp, không gán toàn bộ cho model cuối.
