@@ -15,6 +15,10 @@ PR, không issue mới; negative case chỉ hỏi/đọc → không Git artifact
 request không nhận quyền từ Git. Đây là self-review, chưa independent test.
 Skill validator, 5 workflow tests, 33 active local links và đối chiếu 8 snapshot
 với Git đạt. Audit workspace/Trader: 0 errors/warnings; không đổi global config.
+Global 12.279 B; workspace instructions 10.298/65.536 B, reserve 55.238 B,
+combined 22.577 B. Audit standalone Trader: 5.755/65.536 B, reserve 59.781 B,
+combined 18.034 B; các chỉ số này theo chain file audit đọc, không cộng lại
+parent workspace được chỉ định bằng prose trong checkout standalone.
 
 09/11: `strategy-qualification` thêm nhánh
 [chẩn đoán lỗ có chọn lọc](../../.agents/skills/strategy-qualification/references/selective-loss-diagnosis.md).
