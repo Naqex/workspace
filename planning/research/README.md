@@ -1,5 +1,12 @@
 # Tra cứu research đã có
 
+[WTI session-source results](WTI-SESSION-SOURCE-RESULTS-20261109.md), thực thi10/11:
+20GET/106.510fields/4actualmutations,1.614/1.656roles;2019coveragekhôngđạt98%,
+2022đủ,fulladmissionfalse. Source10,338s/review1,725s,khôngPnL/bulk/R092/job.
+Catalogue91/58/C1C2chưađạt. Khôngpadding hoặcchỉchọn2022đểcứu.
+[Cost headroom](COST-HEADROOM-DIAGNOSTIC-20261109.md) thêmcáchđọcgross→phí→net
+choowner vàcáchưu tiênđúngkhoảnphí; khôngnewtrial/feefilterhindsight.
+
 [R091 round-level results](FX-ROUND-LEVEL-RESULTS-20261109.md): owncausalM5
 00/50cross→60mincontinuation,153/227opportunities,stress2019−1.466/2022−2.779USD
 per100kEURnotional;midpositive nhưng embeddedspread đãăn hết. 1.042rows/

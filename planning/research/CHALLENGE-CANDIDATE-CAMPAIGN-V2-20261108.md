@@ -6,7 +6,16 @@ negatives/exposure; chưa có ứng viên challenge. Các trạng thái active/p
 trong checkpoint cũ bên dưới là lịch sử, không là trạng thái Goal hiện hành.
 
 Workflow đã rà, giữ đường gọn hiện hành; không thêm skill/framework.
-Checkpoint hiện tại: [R091 round-level](FX-ROUND-LEVEL-RESULTS-20261109.md)
+Checkpoint10/11: [WTI sourcefixture](WTI-SESSION-SOURCE-RESULTS-20261109.md)
+terminal/reviewed:20GET/106.510fields/4actualmutations,1.614/1.656roles;
+2019cả3phiên dưới98%,2022cả3đủ,fullsourceadmissionfalse. Source10,338s và
+review1,725s,khôngPnL/bulk/R092/job. Catalogue91/58/C1C2chưađạt/Goalactive.
+Khôngretryunchangedquotes/padding/đổigate hoặcchọnriêng2022đểcứu; tiếp
+source-supported cơchếkhác hoặcsourcegiảiquyếtmaterialgap trướcoutcome.
+[Costdiagnosis](COST-HEADROOM-DIAGNOSTIC-20261109.md) thêmcáchđọcchoowner,
+khôngnewtrial/hạphí/thayverdict. CheckpointR091bêndưới giữlịchsử.
+
+Checkpoint trước: [R091 round-level](FX-ROUND-LEVEL-RESULTS-20261109.md)
 đãreviewed/notretained:stress2019−1.466USD/153opportunities,2022−2.779/227;
 midpositive nhưng spread đãlớnhơn. 6.252cases/24books/7mutations,9tests;
 source43.764slots/43.583valid,3.801reuse/source112,389s/economic5,992s,
