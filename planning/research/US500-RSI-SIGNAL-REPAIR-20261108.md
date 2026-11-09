@@ -1,0 +1,26 @@
+# Sửa IBS exit khi RSI chưa có — giữ nguyên quy tắc tài chính
+
+Independent `cash_rsi_signal_oracle.py` dùngsốhọcphânsố,ràexactcashbar/signal/
+ATRkhácimplementationDecimal. Reproducedsourcebug: codeđòi RSIavailabletrước
+cảbiểuthức`RSI>40 or IBS>0,5`;nhưngprotocol choIBSexitđộclậpRSI. Thiếuhistory
+hoặcdatagapkhôngđượclàmlệnhthoátIBSbiếnmất. Đây làcorrectnessfix,khôngtuning
+threshold hoặcđổihypothesis sauoutcome. Regression thiếuIBSexitfailedtrướcsửa.
+
+Rationaloracle3testsđạttrướcnumericfix. Actualplancomparison2013có23missingEXIT,
+2014khôngkhác,2022/23/24mỗinăm1missingEXITđầuwarmup. BUYstopdistanceskhớp.
+Chưa suy mọiEXITảnhhưởngPnL;phảireviewpositionstate/rerunaffectedwindow.
+GiữactualreviewJSON vàoldsource/pins;không sửaoldartifacts.
+
+LongsupervisorV1bịcancelcókiểmsoát lúcchờinput,khôngnumericchildđangchạy:
+5completedyears(3reuse+2013/14)giữ;CANCELmarker/sourceoracle rõ,làsuperseded
+reviewattempt,khôngdata/providerfailure. ParentM1downloadNode21616vẫngiữ.
+
+V2exactrecipe/cost/risk/calendar/protocol-economics giữnguyên;sourceORcondition
+đãsửa,snapshot/runtimemới. CảRSIexitcũngphảiđộclậpIBSavailable:flat-range
+IBSundefinednhưngRSI>40 vẫnexit. Secondregressionvàoracleđãkiểm;2014có1
+additionalEXITởnhánhflat-range,nênkhôngcònreuse2014plan nhưdựkiếnbanđầu.
+Rerun5affectedbooks2013/2014/2022/2023/2024,khôngbỏnhánhđóđểgiữoldcount.
+Sauđócontinue2015→2021khiyearsealsready. Thêmindependentplanoraclecheck trước
+numericadmissiontừngnăm mới;distancescomparetolerance1e-10pointvìDecimal vs
+rationaldivisionrepresentation,khôngfill/PNLtolerance hoặcgiárounding.
+Outputmới,status/events/boundeddeadline/cancel/review giữ;không2025+/orders.

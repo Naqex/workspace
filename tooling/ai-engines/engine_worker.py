@@ -1,0 +1,386 @@
+"""Bounded engine jobs launched by Paperclip's native process adapter."""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import os
+from pathlib import Path
+import re
+import subprocess
+import sys
+import time
+from datetime import date, datetime, timedelta, timezone
+from urllib.error import HTTPError, URLError
+from urllib.request import Request, urlopen
+from uuid import UUID
+
+# The native adapter launches this file as __main__; sibling modules import it
+# by name. Keep one module so their JobError is also caught by this entrypoint.
+if __name__ == '__main__':
+    sys.modules['engine_worker'] = sys.modules[__name__]
+
+ROOT = Path(__file__).resolve().parents[2]
+SERVICES = json.loads((ROOT / 'projects/trader/foundation_v2/local-services.json').read_text())
+CATALOG = json.loads((ROOT / 'tooling/integrations/catalog.json').read_text())
+SOURCES = {row['id']: ROOT / row['path'] for row in CATALOG['sources']}
+EXPIRED_MODEL = re.compile(r'opus[-_. ]?5[-_. ]?5', re.I)
+RATE_LIMIT_MESSAGE = ('Model đang giới hạn request hoặc quota (429). Đã dừng lượt này, không tự retry. '
+                      'Chờ hết thời gian giới hạn của provider, kiểm tra run/receipt và báo cáo đã có trước khi thử lại.')
+
+
+class JobError(Exception):
+    def __init__(self, code: str, message: str):
+        super().__init__(code)
+        self.code, self.message = code, message
+
+
+def write_json(path: Path, value: dict):
+    temporary = path.with_suffix('.next')
+    temporary.write_text(json.dumps(value, ensure_ascii=False, indent=2), encoding='utf-8')
+    temporary.replace(path)
+
+
+def uuid(value: str) -> str:
+    return str(UUID(value))
+
+
+def parse_request(description: str) -> dict:
+    blocks = re.findall(r'^```naqex-engine\s*\n(.*?)^```\s*$', description, re.M | re.S)
+    if len(blocks) != 1 or len(blocks[0]) > 8192:
+        raise JobError('invalid_request', 'Cần đúng một khối naqex-engine theo mẫu của công việc.')
+    try:
+        value = json.loads(blocks[0])
+    except ValueError:
+        raise JobError('invalid_request', 'Thông tin engine chưa đúng định dạng JSON.') from None
+    if not isinstance(value, dict) or type(value.get('version')) is not int or value['version'] != 1:
+        raise JobError('invalid_request', 'Phiên bản yêu cầu chưa được hỗ trợ.')
+    engine = value.get('engine')
+    if engine == 'forex-pilot':
+        from forex_research import EXPERIMENT
+        if set(value) != {'version', 'engine', 'experiment'} or value['experiment'] != EXPERIMENT:
+            raise JobError('invalid_request', 'Chọn đúng bài kiểm hệ thống Forex; không nhận đường dẫn hoặc tham số từ task.')
+        return value
+    if engine == 'rd-agent':
+        from rd_research import EXPERIMENT
+        if (set(value) not in ({'version', 'engine'}, {'version', 'engine', 'experiment'})
+                or ('experiment' in value and value['experiment'] != EXPERIMENT)):
+            raise JobError('invalid_request', 'Chọn đúng thí nghiệm RD-Agent đã đăng ký; không nhận đường dẫn hoặc command từ task.')
+        return value
+    if engine != 'tradingagents' or set(value) != {'version', 'engine', 'symbol', 'as_of', 'asset_type', 'analysts'}:
+        raise JobError('invalid_request', 'Yêu cầu TradingAgents phải dùng các trường trong mẫu.')
+    symbol = value['symbol']
+    if not isinstance(symbol, str) or not re.fullmatch(r'[A-Z0-9^][A-Z0-9.^=\-]{0,24}', symbol):
+        raise JobError('invalid_symbol', 'Mã tài sản không hợp lệ; ví dụ BTC-USD hoặc AAPL.')
+    try:
+        as_of = date.fromisoformat(value['as_of'])
+        valid_date = as_of.isoformat() == value['as_of']
+    except (TypeError, ValueError):
+        valid_date = False
+    today = datetime.now(timezone(timedelta(hours=7))).date()
+    if not valid_date or as_of > today:
+        raise JobError('invalid_date', 'Ngày phân tích phải theo YYYY-MM-DD và không nằm trong tương lai.')
+    analysts = value['analysts']
+    if value['asset_type'] not in ('stock', 'crypto'):
+        raise JobError('unsupported_asset', 'Lát đầu hỗ trợ cổ phiếu và crypto; chưa nối dữ liệu Forex/MT5.')
+    allowed = {'market', 'news', 'social'} | ({'fundamentals'} if value['asset_type'] == 'stock' else set())
+    if (not isinstance(analysts, list) or not analysts or len(analysts) > 4
+            or any(not isinstance(a, str) or a not in allowed for a in analysts)
+            or len(set(analysts)) != len(analysts)):
+        raise JobError('invalid_analysts', 'Nhóm phân tích không hợp lệ cho loại tài sản đã chọn.')
+    return value
+
+
+def load_settings(path: Path) -> dict:
+    value = json.loads(path.read_text(encoding='utf-8-sig'))
+    required = {'version', 'artifact_root', 'gateway_config', 'quick_model', 'deep_model'}
+    if (not required <= set(value) or set(value) - required - {'rd_agent', 'forex_pilot'}
+            or type(value['version']) is not int or value['version'] != 1):
+        raise JobError('settings_invalid', 'Cấu hình worker chưa đúng phiên bản.')
+    for key in ('artifact_root', 'gateway_config'):
+        if not isinstance(value[key], str) or not Path(value[key]).is_absolute():
+            raise JobError('settings_invalid', 'Đường dẫn runtime phải là đường dẫn tuyệt đối của project.')
+    for key in ('quick_model', 'deep_model'):
+        model = value[key]
+        if not isinstance(model, str) or not model.strip() or len(model) > 200:
+            raise JobError('model_required', 'Chọn model Gemini còn hoạt động cho worker trước khi chạy.')
+        if EXPIRED_MODEL.search(model):
+            raise JobError('model_expired', 'Model Opus 5.5 đã hết hạn theo owner; chọn model khác.')
+    return value
+
+
+def gateway(settings: dict, *, check_catalog=True, yaml_loader=None) -> tuple[str, str]:
+    if yaml_loader is None:
+        import yaml
+        yaml_loader = yaml.safe_load
+    document = yaml_loader(Path(settings['gateway_config']).read_text(encoding='utf-8'))
+    server = document.get('server', {})
+    if server.get('host') != SERVICES['host'] or server.get('port') != SERVICES['cliProxyApiPort']:
+        raise JobError('gateway_scope', 'Gateway phải dùng đúng cổng riêng của project.')
+    keys = document.get('access', {}).get('api-keys', [])
+    if not keys or not isinstance(keys[0], str) or not keys[0].strip():
+        raise JobError('gateway_key_missing', 'Gateway chưa có khóa truy cập nội bộ.')
+    base = f"http://{SERVICES['host']}:{SERVICES['cliProxyApiPort']}/v1"
+    if check_catalog:
+        req = Request(base + '/models', headers={'Authorization': 'Bearer ' + keys[0]})
+        try:
+            with urlopen(req, timeout=10) as response:
+                wire = response.read(2_000_001)
+            if len(wire) > 2_000_000:
+                raise ValueError('catalog_limit')
+            ids = {v['id'] for v in json.loads(wire)['data']}
+        except (OSError, ValueError, KeyError, TypeError):
+            raise JobError('gateway_unavailable', 'Chưa đọc được model. Mở gateway project và kiểm tra kết nối.') from None
+        if any(settings[key] not in ids for key in ('quick_model', 'deep_model')):
+            raise JobError('model_unavailable', 'Model đã chọn không còn trong danh sách của gateway.')
+    return base, keys[0]
+
+
+def clean_environment():
+    # Provider SDKs must not inherit unrelated host credentials or tracing sinks.
+    prefixes = ('PAPERCLIP_', 'NAQEX_')
+    keep = {'SYSTEMROOT', 'WINDIR', 'COMSPEC', 'PATH', 'PATHEXT', 'TEMP', 'TMP',
+            'USERPROFILE', 'APPDATA', 'LOCALAPPDATA', 'PROGRAMFILES', 'PROGRAMFILES(X86)',
+            'NUMBER_OF_PROCESSORS', 'SYSTEMDRIVE', 'HOMEDRIVE', 'HOMEPATH'}
+    for key in list(os.environ):
+        if key.upper() not in keep and not key.startswith(prefixes):
+            del os.environ[key]
+    os.environ.update(LANGSMITH_TRACING='false', LANGCHAIN_TRACING_V2='false', PYTHONUTF8='1')
+
+
+def source_pin(engine: str) -> str:
+    source = ROOT / 'projects/trader' if engine == 'forex-pilot' else SOURCES[engine]
+    options = dict(text=True, creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0))
+    dirty = subprocess.check_output(['git', '-C', str(source), 'status', '--porcelain',
+                                     '--untracked-files=no'], **options)
+    if dirty.strip():
+        raise JobError('engine_source_changed', 'Source engine đang có thay đổi chưa lưu; chốt phiên bản trước khi chạy.')
+    return subprocess.check_output(['git', '-C', str(source), 'rev-parse', 'HEAD'], **options).strip()
+
+
+def run_tradingagents(request: dict, settings: dict, directory: Path, connection: tuple[str, str]) -> dict:
+    base, key = connection
+    os.environ['OPENAI_COMPATIBLE_API_KEY'] = key
+    # Import only after removing inherited provider configuration.
+    from tradingagents.default_config import build_default_config
+    from tradingagents.graph.trading_graph import TradingAgentsGraph
+    import tradingagents
+
+    if Path(tradingagents.__file__).resolve().parent != (SOURCES['tradingagents'] / 'tradingagents').resolve():
+        raise JobError('engine_import_mismatch', 'Môi trường Python đang trỏ tới source engine khác.')
+
+    config = build_default_config()
+    config.update(llm_provider='openai_compatible', backend_url=base,
+                  quick_think_llm=settings['quick_model'], deep_think_llm=settings['deep_model'],
+                  output_language='Vietnamese', llm_max_retries=0, max_tokens=2048,
+                  max_tool_rounds=3, max_debate_rounds=1, max_risk_discuss_rounds=1,
+                  max_recur_limit=80, checkpoint_enabled=False,
+                  results_dir=str(directory / 'results'), data_cache_dir=str(directory / 'cache'),
+                  memory_log_path=str(directory / 'memory.md'))
+    graph = TradingAgentsGraph(selected_analysts=request['analysts'], config=config)
+    final, rating = graph.propagate(request['symbol'], request['as_of'], asset_type=request['asset_type'])
+    # This is the engine's own report exporter, not a replacement analysis pipeline.
+    graph.save_reports(final, request['symbol'], save_path=directory / 'report', html=False)
+    text = (directory / 'report/complete_report.md').read_text(encoding='utf-8')
+    if len(text) > 400_000:
+        raise JobError('report_too_large', 'Báo cáo vượt giới hạn hiển thị; bản đầy đủ đã được giữ trong artifacts.')
+    return {'report': text, 'rating': str(rating), 'settings': graph.run_settings(),
+            'provenance': final.get('run_provenance')}
+
+
+class Paperclip:
+    def __init__(self):
+        self.agent = uuid(os.environ['PAPERCLIP_AGENT_ID'])
+        self.company = uuid(os.environ['PAPERCLIP_COMPANY_ID'])
+        self.run = uuid(os.environ['PAPERCLIP_RUN_ID'])
+        self.token = os.environ['PAPERCLIP_API_KEY']
+        self.base = os.environ['PAPERCLIP_API_URL'].rstrip('/')
+        expected = f"http://{SERVICES['host']}:{SERVICES['paperclipPort']}"
+        if self.base != expected:
+            raise JobError('paperclip_scope', 'Worker chỉ kết nối instance Paperclip riêng của project.')
+
+    def call(self, path: str, body=None, method='GET'):
+        req = Request(self.base + '/api' + path, method=method,
+                      data=None if body is None else json.dumps(body, ensure_ascii=False).encode(),
+                      headers={'Authorization': 'Bearer ' + self.token,
+                               'X-Paperclip-Run-Id': self.run, 'Content-Type': 'application/json'})
+        try:
+            with urlopen(req, timeout=20) as response:
+                wire = response.read(2_000_001)
+                if len(wire) > 2_000_000:
+                    raise JobError('paperclip_response_limit', 'Phản hồi Paperclip vượt giới hạn worker.')
+                return json.loads(wire) if wire else None
+        except HTTPError as error:
+            # Never put tokens, request bodies or response diagnostics in process logs.
+            raise JobError('paperclip_http_' + str(error.code), 'Paperclip chưa chấp nhận thao tác; xem quyền và trạng thái công việc.') from None
+        except (URLError, TimeoutError):
+            raise JobError('paperclip_unavailable', 'Mất kết nối Paperclip; kết quả local vẫn được giữ.') from None
+
+    def assigned_issue(self) -> dict:
+        run = self.call('/heartbeat-runs/' + self.run)
+        if run['agentId'] != self.agent or run['companyId'] != self.company:
+            raise JobError('run_scope', 'Lượt chạy không thuộc worker này.')
+        issue_id = uuid((run.get('contextSnapshot') or {}).get('issueId', ''))
+        issue = self.call('/issues/' + issue_id)
+        if issue['companyId'] != self.company or issue.get('assigneeAgentId') != self.agent:
+            raise JobError('issue_scope', 'Công việc chưa được giao cho worker này.')
+        if issue.get('status') in ('done', 'cancelled'):
+            raise JobError('issue_terminal', 'Công việc đã kết thúc; tạo công việc mới nếu muốn phân tích lại.')
+        if issue.get('checkoutRunId') != self.run:
+            self.call('/issues/' + issue_id + '/checkout',
+                      {'agentId': self.agent, 'expectedStatuses': ['todo', 'in_progress', 'blocked']}, 'POST')
+        return issue
+
+    def report(self, issue_id: str, text: str, *, completed: bool, research=False):
+        # A unique key preserves every attempt instead of replacing earlier evidence.
+        self.call('/issues/' + issue_id + '/documents/engine-' + self.run,
+                  {'title': ('Kết quả nghiên cứu' if research else 'Kết quả phân tích') if completed else 'Điều kiện cần để chạy',
+                   'format': 'markdown', 'body': text}, 'PUT')
+        self.call('/issues/' + issue_id,
+                  {'status': 'done' if completed else 'blocked',
+                   **({} if completed else {'unblockDescriptor': {'owner': {'agentId': self.agent}, 'action': 'Xử lý điều kiện còn thiếu trước khi thử lại.'}}),
+                   'comment': 'Đã lưu báo cáo. Kết quả nghiên cứu chưa cấp quyền chạy demo hoặc tiền thật.'
+                   if completed else 'Chưa chạy xong engine. Xem tài liệu điều kiện cần để chạy trong công việc này.'}, 'PATCH')
+
+
+def execute_paperclip(engine: str, settings_path: Path) -> int:
+    from spot_workflow import bind_research, guard_research, report_workflow_failure
+    paperclip = Paperclip()
+    issue = paperclip.assigned_issue()
+    directory = None
+    research_binding = None
+    receipt = {'version': 1, 'engine': engine, 'run_id': paperclip.run,
+               'issue_id': issue['id'], 'company_id': paperclip.company, 'status': 'preflight',
+               'provider_work_started': False, 'execution_capability': False,
+               'engine_work_started': False,
+               'wrapper_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+               'started_at': datetime.now(timezone.utc).isoformat()}
+    try:
+        request = parse_request(issue.get('description') or '')
+        if request['engine'] != engine:
+            raise JobError('engine_mismatch', 'Công việc đang được giao nhầm engine.')
+        if engine == 'rd-agent' and 'experiment' not in request:
+            raise JobError('rd_agent_runtime_required', 'RD-Agent chưa được nối với thí nghiệm đã kiểm chứng. Cần kiểm tra runtime Linux/Docker, dữ liệu và phạm vi thử trước khi bật worker; xem tooling/ai-engines/README.md.')
+        settings = load_settings(settings_path)
+        directory = Path(settings['artifact_root']) / paperclip.company / paperclip.run
+        directory.parent.mkdir(parents=True, exist_ok=True)
+        # A repeated dispatch must not replay uncertain provider work.
+        directory.mkdir(exist_ok=False)
+        receipt.update(source_commit=source_pin(engine), request=request,
+                       request_sha256=hashlib.sha256(json.dumps(request, sort_keys=True).encode()).hexdigest(),
+                       models={key: settings[key] for key in ('quick_model', 'deep_model')})
+        write_json(directory / 'receipt.json', receipt)
+        prepared = None
+        research_binding = bind_research(paperclip, issue)
+        guard_research(paperclip, issue, binding=research_binding)
+        if engine == 'rd-agent':
+            from rd_research import preflight
+            prepared = preflight(settings, directory)
+        elif engine == 'forex-pilot':
+            from forex_research import preflight
+            prepared = preflight(settings, directory)
+        connection = None if engine == 'forex-pilot' else gateway(settings)
+        guard_research(paperclip, issue, binding=research_binding)
+        receipt.update(status='running', engine_work_started=True, provider_work_started=engine != 'forex-pilot')
+        write_json(directory / 'receipt.json', receipt)
+        if engine == 'rd-agent':
+            from rd_research import run
+            result = run(settings, directory, connection, prepared, paperclip.run)
+        elif engine == 'forex-pilot':
+            from forex_research import run
+            checked_at = 0
+            def guard_progress(stage):
+                nonlocal checked_at
+                now = time.monotonic()
+                if now - checked_at >= 2:
+                    guard_research(paperclip, issue, binding=research_binding)
+                    checked_at = now
+            result = run(settings, directory, connection, prepared, paperclip.run, on_progress=guard_progress)
+        else:
+            result = run_tradingagents(request, settings, directory, connection)
+        receipt.update(status='publishing', engine_status='completed',
+                       rating=result['rating'], settings=result['settings'],
+                       provenance=result['provenance'], engine_finished_at=datetime.now(timezone.utc).isoformat())
+        numerical = engine in {'rd-agent', 'forex-pilot'}
+        heading = ('' if numerical else '# Phân tích ' + request['symbol'] + '\n\n'
+                   + 'Ngày dữ liệu yêu cầu: ' + request['as_of'] + '. Engine: TradingAgents.\n\n'
+                   + 'Đây là phân tích thị trường, chưa phải backtest hoặc bằng chứng chiến lược có lợi nhuận.\n\n')
+        evidence = {key: receipt[key] for key in ('run_id', 'source_commit', 'wrapper_sha256', 'request_sha256', 'models', 'provenance')}
+        evidence_text = None
+        if numerical:
+            evidence['forex_validation' if engine == 'forex-pilot' else 'quant_validation'] = result['validation']
+            evidence_text = '# Dữ liệu và kiểm chứng\n\n```json\n' + json.dumps(evidence, ensure_ascii=False, indent=2) + '\n```\n'
+            (directory / 'evidence.md').write_text(evidence_text, encoding='utf-8')
+            receipt['evidence_sha256'] = hashlib.sha256(evidence_text.encode()).hexdigest()
+            report = result['report']
+        else:
+            report = (heading + result['report'] + '\n\n<details><summary>Nguồn và cấu hình lượt chạy</summary>\n\n```json\n'
+                      + json.dumps(evidence, ensure_ascii=False, indent=2) + '\n```\n\n</details>\n')
+        (directory / 'report.md').write_text(report, encoding='utf-8')
+        receipt['report_sha256'] = hashlib.sha256(report.encode()).hexdigest()
+        write_json(directory / 'receipt.json', receipt)
+        guard_research(paperclip, issue, binding=research_binding)
+        if evidence_text is not None:
+            paperclip.call('/issues/' + issue['id'] + '/documents/evidence-' + paperclip.run,
+                          {'title': 'Dữ liệu và kiểm chứng', 'format': 'markdown', 'body': evidence_text}, 'PUT')
+        paperclip.report(issue['id'], report, completed=True, research=numerical)
+        receipt.update(status='completed', delivery_status='published',
+                       finished_at=datetime.now(timezone.utc).isoformat())
+        write_json(directory / 'receipt.json', receipt)
+        print(json.dumps({'status': 'completed', 'engine': engine, 'run_id': paperclip.run}))
+        return 0
+    except Exception as error:
+        if isinstance(error, FileExistsError):
+            # Another invocation may still own this run; do not alter its task or evidence.
+            print(json.dumps({'status': 'blocked', 'engine': engine, 'error': 'run_already_exists'}))
+            return 2
+        if isinstance(error, JobError):
+            known = error
+        elif getattr(error, 'status_code', None) == 429 or isinstance(error, HTTPError) and error.code == 429:
+            known = JobError('model_rate_limited', RATE_LIMIT_MESSAGE)
+        else:
+            known = JobError(
+                'engine_failed' if receipt['engine_work_started'] else 'engine_preflight_failed',
+                'Engine chưa hoàn tất. Kết quả đã có được giữ lại; không tự chạy lại yêu cầu chưa rõ kết quả.')
+        receipt.update(status='failed' if receipt['engine_work_started'] else 'blocked',
+                       error=known.code, error_type=type(error).__name__,
+                       finished_at=datetime.now(timezone.utc).isoformat())
+        if receipt.get('engine_status') == 'completed':
+            receipt['delivery_status'] = 'failed'
+        if directory is not None and directory.is_dir():
+            write_json(directory / 'receipt.json', receipt)
+        try:
+            if issue.get('parentId'):
+                guard_research(paperclip, issue, binding=research_binding)
+            paperclip.report(issue['id'], '# Chưa hoàn tất\n\n' + known.message + '\n\nMã chẩn đoán: `' + known.code + '`.', completed=False)
+        except JobError:
+            pass
+        if issue.get('parentId'):
+            try:
+                receipt['failure_delivery'] = 'published' if report_workflow_failure(paperclip, issue, known.code) else 'not_applicable'
+            except Exception as delivery_error:
+                receipt['failure_delivery'] = 'unavailable'
+                receipt['failure_delivery_error'] = getattr(delivery_error, 'code', type(delivery_error).__name__)
+            if directory is not None and directory.is_dir():
+                write_json(directory / 'receipt.json', receipt)
+        print(json.dumps({'status': receipt['status'], 'engine': engine, 'error': known.code,
+                          **{key: receipt[key] for key in ('failure_delivery', 'failure_delivery_error') if key in receipt}}))
+        return 2
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--engine', required=True, choices=['tradingagents', 'rd-agent', 'forex-pilot'])
+    parser.add_argument('--settings', required=True, type=Path)
+    args = parser.parse_args()
+    clean_environment()
+    return execute_paperclip(args.engine, args.settings)
+
+
+if __name__ == '__main__':
+    sys.stdout.reconfigure(encoding='utf-8')
+    try:
+        raise SystemExit(main())
+    except Exception as error:
+        print(json.dumps({'status': 'blocked', 'error': error.code if isinstance(error, JobError) else 'paperclip_context_missing'}))
+        raise SystemExit(2)

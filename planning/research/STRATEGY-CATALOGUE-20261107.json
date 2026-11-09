@@ -1,0 +1,2864 @@
+{
+  "schema": "naqex-strategy-research-catalogue-v1",
+  "checked_on": "2026-11-07",
+  "scope": "research_records_not_executable_specs_or_independent_edges",
+  "record_count": 81,
+  "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
+  "source_limitations": [
+    "Primary summaries/descriptions read; no claim full paper replication.",
+    "StLouis2011-021 PDF refresh failed502; excluded as a newly verified source.",
+    "Firm terms not refreshed; operational fit is project assessment, not official trading permission."
+  ],
+  "counts": {
+    "by_role": {
+      "existing": 36,
+      "variant": 29,
+      "new": 15,
+      "component": 1
+    },
+    "by_readiness": {
+      "implemented": 36,
+      "component_probe_not_retained": 21,
+      "implemented_not_retained": 5,
+      "method_clock_review": 1,
+      "component_probe_completed_no_priority": 1,
+      "price_data_spec_possible": 1,
+      "point_in_time_news_missing": 2,
+      "long_history_or_multi_data": 5,
+      "formation_probe_not_retained": 2,
+      "component_only": 1,
+      "implemented_parked_conditional_2019_negative": 1,
+      "implemented_parked_conditional_negative": 1,
+      "implemented_not_retained_no_qualified_signals": 2,
+      "implemented_inconclusive_source_gap": 2
+    }
+  },
+  "sources": [
+    {
+      "id": "NY125",
+      "title": "Currency Orders and Exchange-Rate Dynamics",
+      "url": "https://www.newyorkfed.org/research/staff_reports/sr125.html",
+      "publication": "2001",
+      "review_depth": "official_research_summary",
+      "limitations": "Order/level mechanism; not our rolling thresholds.",
+      "checked_on": "2026-11-08"
+    },
+    {
+      "id": "NY150",
+      "title": "Stop-Loss Orders and Price Cascades in Currency Markets",
+      "url": "https://www.newyorkfed.org/research/staff_reports/sr150.html",
+      "publication": "2002",
+      "review_depth": "official_research_summary",
+      "limitations": "Stop cascade mechanism; not a compression recipe.",
+      "checked_on": "2026-11-08"
+    },
+    {
+      "id": "BOC48",
+      "title": "Foreign Exchange Fixings and Returns Around the Clock",
+      "url": "https://www.bankofcanada.ca/2021/10/staff-working-paper-2021-48/",
+      "publication": "2021",
+      "review_depth": "official_research_summary",
+      "limitations": "Fix-related drift/reversal; full method/clock must be read before replication.",
+      "checked_on": "2026-11-07"
+    },
+    {
+      "id": "SNB04",
+      "title": "Intraday patterns in FX returns and order flow",
+      "url": "https://www.snb.ch/en/publications/research/working-papers/2011/working_paper_2011_04",
+      "publication": "2011",
+      "review_depth": "full PDF method sections 2.1-2.3 and Tables 1/2 refreshed",
+      "limitations": "Old EBS data; GBP/AUD paper trading returns were not profitable after spread. Adaptations use another feed/era and declared costs, not replication.",
+      "checked_on": "2026-11-08",
+      "method_review_locator": "LOCAL-SESSION-ADMISSION-20261108.md"
+    },
+    {
+      "id": "AQR-TS",
+      "title": "Time Series Momentum: Original Paper Data",
+      "url": "https://www.aqr.com/Insights/Datasets/Time-Series-Momentum-Original-Paper-Data",
+      "publication": "2012 paper / 2018 page",
+      "review_depth": "author_dataset_description",
+      "limitations": "12-month lookback/monthly holding; futures/forwards, not H4 CFD.",
+      "checked_on": "2026-11-08"
+    },
+    {
+      "id": "AQR-VM",
+      "title": "Value and Momentum Everywhere: Factors, Monthly",
+      "url": "https://www.aqr.com/Insights/Datasets/Value-and-Momentum-Everywhere-Factors-Monthly",
+      "publication": "2012 paper / 2026 page",
+      "review_depth": "author_dataset_description",
+      "limitations": "Long/short multi-market factors; not EURUSD-only replication.",
+      "checked_on": "2026-11-07"
+    },
+    {
+      "id": "BIS366",
+      "title": "Currency Momentum Strategies",
+      "url": "https://www.bis.org/publications/working-paper-366-currency-momentum-strategies",
+      "publication": "2011",
+      "review_depth": "Full PDF method sections 2-4.1 and 4.2 read; not full 89-page appendix audit",
+      "limitations": "Paper uses broad universe/spot and forward returns; three-currency spot-CFD adaptation differs, declared funding and H1 intervals, no replication or present edge guarantee.",
+      "checked_on": "2026-11-08",
+      "method_review_locator": "FX-CROSS-SECTION-PILOT-PROTOCOL-20261108.md"
+    },
+    {
+      "id": "CARRY",
+      "title": "Carry Trades and Currency Crashes",
+      "url": "https://economics.princeton.edu/working-papers/carry-trades-and-currency-crashes/",
+      "publication": "2008",
+      "review_depth": "author_university_summary",
+      "limitations": "Carry mechanism and negatively skewed crash risk; CFD swaps not policy rates.",
+      "checked_on": "2026-11-07"
+    },
+    {
+      "id": "NEWS",
+      "title": "How Economic News Moves Markets",
+      "url": "https://www.newyorkfed.org/newsevents/news/research/2008/rp080908",
+      "publication": "2008",
+      "review_depth": "official_research_summary",
+      "limitations": "Announcement surprise responses; does not validate continuation/reversal rules.",
+      "checked_on": "2026-11-07"
+    },
+    {
+      "id": "TV-RSI",
+      "title": "Relative Strength Index",
+      "url": "https://www.tradingview.com/support/solutions/43000502338-relative-strength-index-rsi/",
+      "publication": "page checked 2026",
+      "review_depth": "official_indicator_definition",
+      "limitations": "Indicator definition only; no profit evidence.",
+      "checked_on": "2026-11-07"
+    },
+    {
+      "id": "TV-BB",
+      "title": "Bollinger Bands",
+      "url": "https://www.tradingview.com/support/solutions/43000501840-bollinger-bands-bb/",
+      "publication": "page checked 2026",
+      "review_depth": "official_indicator_definition",
+      "limitations": "Indicator definition only; no profit evidence.",
+      "checked_on": "2026-11-07"
+    },
+    {
+      "id": "QC",
+      "title": "Backtesting Research Guide",
+      "url": "https://www.quantconnect.com/docs/v2/cloud-platform/backtesting/research-guide",
+      "publication": "prior verified 2026-11-07",
+      "review_depth": "official_methodology_prior_evidence",
+      "limitations": "Workflow reference in AI plan; not strategy profitability evidence.",
+      "checked_on": "2026-11-07"
+    },
+    {
+      "id": "LOCAL",
+      "title": "Naqex exact eight candidate rules",
+      "url": "../../projects/trader/foundation_v2/docs/FOREX-RESEARCH.md",
+      "publication": "source 03436225",
+      "review_depth": "local_source_and_protocol",
+      "limitations": "Exact implemented rules/history; published literature is mechanism context only.",
+      "checked_on": "2026-11-07"
+    },
+    {
+      "id": "SKLEARN",
+      "title": "Scikit-learn preprocessing and time-series validation",
+      "url": "https://scikit-learn.org/stable/common_pitfalls.html",
+      "checked_on": "2026-11-08",
+      "review_depth": "official_documentation",
+      "limitations": "Method only, not forex profitability evidence"
+    },
+    {
+      "id": "CONCRETUM-NOISE",
+      "title": "Beat the Market: Intraday Momentum for SPY",
+      "url": "https://concretumgroup.com/wp-content/uploads/2026/02/Beat-the-Market.pdf",
+      "publication": "2025-09-22 version",
+      "review_depth": "author_paper_method",
+      "limitations": "SPY/IQFeed results are not US500 CFD evidence; no exchange VWAP from quote volume.",
+      "checked_on": "2026-11-08"
+    },
+    {
+      "id": "PAGONIDIS-IBS",
+      "title": "The IBS Effect: Mean Reversion in Equity ETFs",
+      "url": "https://www.naaim.org/wp-content/uploads/2014/04/00V_Alexander_Pagonidis_The-IBS-Effect-Mean-Reversion-in-Equity-ETFs-1.pdf",
+      "publication": "Author paper hosted2014; precise publication date not asserted",
+      "review_depth": "primary PDF Data/Methodology/IBSasFilter pp2-7 refreshed; QQQ illustrated, no full paper replication",
+      "limitations": "CSI daily equity ETFs/QQQ, cash-close timing and exchangevolume differ from CFD; costs/causal postclose fill/SL/funding must be registered separately.",
+      "checked_on": "2026-11-08"
+    },
+    {
+      "id": "GAO-FIRSTLAST2018",
+      "title": "Market intraday momentum",
+      "url": "https://www.sciencedirect.com/science/article/pii/S0304405X18301351",
+      "publication": "2018JFE129(2),394-414",
+      "review_depth": "primaryabstract_intro_and_market_timing_section",
+      "limitations": "SPYTAQ1993-2013 paper; CFDhardSL/latency/costs are project adaptations, not paper performance evidence.",
+      "checked_on": "2026-11-08"
+    },
+    {
+      "id": "MCX2008",
+      "title": "Equity Returns at the Turn of the Month",
+      "url": "https://business.purdue.edu/faculty/mcconnell/publications/Equity-Returns-at-the-Turn-of-the-Month.pdf",
+      "publication": "2008",
+      "review_depth": "intro_and_aggregate_market_returns_method",
+      "limitations": "Daily index returns; not our intraday CFD adaptation or broker-risk proof.",
+      "checked_on": "2026-11-08"
+    },
+    {
+      "id": "MELPRINS2013",
+      "title": "Equity hedging and exchange rates at the London 4pm Fix",
+      "url": "https://www.ecb.europa.eu/events/pdf/conferences/131216/Third_FX_Workshop_MELVIN_PRINS_Equity%20hedging%20and%20exchange%20rates%20Nov%202013.pdf",
+      "publication": "2013 draft; journal version 2015",
+      "review_depth": "intro_and_sections2_3_5p1",
+      "limitations": "Cross-market relative equity inputs and causal month-end clock; no ready bot or unconditional direction.",
+      "checked_on": "2026-11-08"
+    },
+    {
+      "id": "GOLD-SESSION-WEI",
+      "title": "Who Moves the Price? Trading-Session Return Decomposition and Cross-Session Momentum in Gold and Silver Markets",
+      "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7257240",
+      "checked_on": "2026-11-08",
+      "review_depth": "author_indexed_abstract_direct403",
+      "limitations": "No full methods/code/data reused;sample2024-26 not our2010-24;CCBYNCnotimported."
+    },
+    {
+      "id": "GOLD-DAY-NIGHT",
+      "title": "Overnight versus day returns in gold and gold related assets",
+      "url": "https://link.springer.com/article/10.1007/s12197-017-9403-0",
+      "checked_on": "2026-11-08",
+      "review_depth": "publisher_abstract_and_notes",
+      "limitations": "Fullpaper paywall;GVSU2011grantabstract has opposite sign,unresolved;not recipe replication."
+    },
+    {
+      "id": "ICE-GOLD-CLOCK",
+      "title": "LBMA Gold and Silver Price",
+      "url": "https://www.ice.com/iba/lbma-precious-metals",
+      "checked_on": "2026-11-08",
+      "review_depth": "official_clock_and_auction_publication",
+      "limitations": "Auctionstart is not final benchmark publication;no licensed prices imported."
+    },
+    {
+      "id": "GGR",
+      "title": "Pairs Trading: Performance of a Relative Value Arbitrage Rule",
+      "url": "https://www.nber.org/papers/w7032",
+      "publication": "1999 working paper /2006 publication",
+      "review_depth": "official NBER summary; PDF403 not read",
+      "limitations": "Equity distance pairs, not our FX cointegration or proof of an implementable challenge edge.",
+      "checked_on": "2026-11-08"
+    },
+    {
+      "id": "SM-COINT",
+      "title": "statsmodels coint Engle-Granger contract",
+      "url": "https://www.statsmodels.org/stable/generated/statsmodels.tsa.stattools.coint.html",
+      "publication": "installed0.15.0",
+      "review_depth": "official docs and installed source",
+      "limitations": "I(1)/no-gaps assumptions; MacKinnon curves do not establish trading profitability.",
+      "checked_on": "2026-11-08"
+    },
+    {
+      "id": "NY-FOMC",
+      "title": "The Pre-FOMC Announcement Drift: More Recent Evidence",
+      "url": "https://libertystreeteconomics.newyorkfed.org/2018/11/the-pre-fomc-announcement-drift-more-recent-evidence/",
+      "publication": "2018-11-26",
+      "checked_on": "2026-11-08",
+      "review_depth": "official article method/clock and conference distinction",
+      "limitations": "S&P equity futures evidence, historical windows, not our23h NASDAQ CFD adaptation/net edge."
+    },
+    {
+      "id": "FED-CAL19",
+      "title": "FOMC tentative meeting schedule2019",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20180525a.htm",
+      "publication": "2018-05-25 12EDT",
+      "checked_on": "2026-11-08",
+      "review_depth": "official original publication plus actual16statement metadata/calendar hash audit",
+      "limitations": "Current public HTML capture and dated original schedule, not independent historical web snapshot; no statement-content signal."
+    },
+    {
+      "id": "FED-CAL22",
+      "title": "FOMC tentative meeting schedule2022",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20210604a.htm",
+      "publication": "2021-06-04 11EDT",
+      "checked_on": "2026-11-08",
+      "review_depth": "official original publication/calendar/statement metadata",
+      "limitations": "Calendar facts, not price prediction, actual fills or prop approval."
+    },
+    {
+      "id": "CONCRETUM-QQQ-ORB",
+      "title": "Can Day Trading Really Be Profitable?",
+      "url": "https://concretumgroup.com/wp-content/uploads/2026/02/Can-Day-Trading-Really-Be-Profitable.pdf",
+      "publication": "First2023-04-24; PDFversion2025-09-22",
+      "review_depth": "PrimaryauthorPDF methodpp4-6 and table; sourcecaptured SHA in opening5methodreport.",
+      "limitations": "QQQ/TQQQ2016-Feb2023; first5direction/10R/no-slip/1%risk differ from our CFD/latency/cost/risk25. No importedcode/data or own2025+holdout.",
+      "checked_on": "2026-11-08"
+    },
+    {
+      "id": "CESIFO-GS-2026",
+      "title": "Long-Run Linkages and Parameter Instability in the Gold-Silver Relationship,2010-2025",
+      "url": "https://www.ifo.de/en/cesifo/publications/2026/working-paper/long-run-linkages-and-parameter-instability-gold-silver",
+      "publication": "2026",
+      "review_depth": "primary_abstract_only",
+      "limitations": "Futures aggregates through2025; parameter instability, not spotCFD pair profitability or replication."
+    },
+    {
+      "id": "LEBARON-NYFX",
+      "title": "Foreign Exchange Reversals in New York Time, LeBaron and Zhao",
+      "url": "https://people.brandeis.edu/~blebaron/wps/fxnyc.pdf",
+      "publication": "September2008",
+      "review_depth": "fullprimaryPDFmethod_sections2-4_andTables3_7_read20261109",
+      "limitations": "EBS2003-2006, hourlyMA4-12/NY10-15, not currentCFD/SL/lifecycle/DST/execution replication; originalcode/data not imported."
+    },
+    {
+      "id": "LIU-TSE-OVERNIGHT",
+      "title": "Overnight returns of stock indexes: Evidence from ETFs and futures",
+      "url": "https://www.sciencedirect.com/science/article/pii/S1059056016301563",
+      "publication": "2017",
+      "review_depth": "primary_search_served_abstract_and_introduction_direct403_not_full_method",
+      "limitations": "US ETF/futures relation does not establish CFD net edge; no imported code/data.",
+      "checked_on": "2026-11-09"
+    },
+    {
+      "id": "IWANAGA-SAKEMOTO-OPENREV",
+      "title": "Does overnight return predict the first half-hour return for U.S. market indices?",
+      "url": "https://www.sciencedirect.com/science/article/abs/pii/S1062940826001294",
+      "publication": "2026",
+      "review_depth": "primary_search_served_abstract_and_author_landing_not_full_method",
+      "limitations": "Recent decay/stress dependence; not proof of a fixed CFD rule or permission for own holdout.",
+      "checked_on": "2026-11-09"
+    },
+    {
+      "id": "BALTUSSEN-ROD",
+      "title": "Hedging demand and market intraday momentum",
+      "url": "https://academicweb.nd.edu/~zda/intramom.pdf",
+      "publication": "2021",
+      "checked_on": "2026-11-09",
+      "review_depth": "Primary author PDF definitions/data,selected method/cost sections,Tables6/12 and AppendixA1;not full appendix replication",
+      "limitations": "Futures/index evidence before many costs;CFD/latency/common-quality-mask adaptation;no observed gamma proxy or imported code/data."
+    },
+    {
+      "id": "BOND-MURAVYEV-EUOPEN",
+      "title": "Market Return Around the Clock: A Puzzle",
+      "url": "https://www.cambridge.org/core/journals/journal-of-financial-and-quantitative-analysis/article/market-return-around-the-clock-a-puzzle/089E33AC0B4D3B9A02CBA31EDF6505B3",
+      "method_url": "https://static.cambridge.org/content/id/urn%3Acambridge.org%3Aid%3Aarticle%3AS0022109022000783/resource/name/S0022109022000783sup001.pdf",
+      "limitations": "Official appendix fullEUopen23:30-03:30ET,baseline long futures;own CFD/calendar/M1 adaptation,not replication;conditional VIX inputs unavailable.",
+      "checked_on": "2026-11-09",
+      "source_type": "primary_publisher_and_official_appendix"
+    },
+    {
+      "id": "NYFED917-INVENTORY",
+      "title": "The Overnight Drift",
+      "url": "https://www.newyorkfed.org/medialibrary/media/research/staff_reports/sr917.pdf",
+      "checked_on": "2026-11-09",
+      "scope": "Inventory mechanism and price versus signedflow distinction;not CFD profitability proof."
+    }
+  ],
+  "records": [
+    {
+      "id": "R001",
+      "title": "Donchian20/10",
+      "family": "trend_breakout",
+      "role": "existing",
+      "parent_id": null,
+      "readiness": "implemented",
+      "timeframe": "H4",
+      "rule_sketch": "Close phá kênh20 nến trước; thoát kênh10 hoặc SL.",
+      "data_requirements": "EURUSD observed Bid/Ask, warmupH4",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "Whipsaw và gap/overnight; chưa có bản đủ evidence.",
+      "source_ids": [
+        "LOCAL",
+        "NY125"
+      ],
+      "source_relation": "exact_local_rule; literature_mechanism_only",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h4-donchian20-10-atr14-r025-v1",
+      "profitability_evidence": "see_prior_results_not_a_current_winner",
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h4-donchian20-10-atr14-r025-v1"
+      ],
+      "version_decisions": {
+        "eurusd-h4-donchian20-10-atr14-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
+    },
+    {
+      "id": "R002",
+      "title": "SMA20/80",
+      "family": "trend_breakout",
+      "role": "existing",
+      "parent_id": "R001",
+      "readiness": "implemented",
+      "timeframe": "H4",
+      "rule_sketch": "Theo quan hệ SMA20/80 đã freeze; thoát theo rule hiện có.",
+      "data_requirements": "Cùng causalH4/QDM",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "Ít lệnh và financing; không suy tần suất từ một quý.",
+      "source_ids": [
+        "LOCAL",
+        "AQR-TS"
+      ],
+      "source_relation": "exact_local_rule; not_TSMOM_replication",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h4-sma20-80-atr14-r025-v1",
+      "profitability_evidence": "see_prior_results_not_a_current_winner",
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h4-sma20-80-atr14-r025-v1"
+      ],
+      "version_decisions": {
+        "eurusd-h4-sma20-80-atr14-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
+    },
+    {
+      "id": "R003",
+      "title": "Z-score20 ±2",
+      "family": "price_reversion",
+      "role": "existing",
+      "parent_id": null,
+      "readiness": "implemented",
+      "timeframe": "H4",
+      "rule_sketch": "Lệch chuẩn so trung bình20; SL/giới hạn6bar theo version.",
+      "data_requirements": "Cùng causalH4/QDM",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "Dễ bắt dao rơi; mẫu/chi phí ngoài quý quan trọng.",
+      "source_ids": [
+        "LOCAL",
+        "TV-BB"
+      ],
+      "source_relation": "exact_local_rule; indicator_context_only",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h4-z20-2-atr14-time6-r025-v1",
+      "profitability_evidence": "see_prior_results_not_a_current_winner",
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h4-z20-2-atr14-time6-r025-v1"
+      ],
+      "version_decisions": {
+        "eurusd-h4-z20-2-atr14-time6-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
+    },
+    {
+      "id": "R004",
+      "title": "Pullback20/80",
+      "family": "trend_breakout",
+      "role": "existing",
+      "parent_id": "R002",
+      "readiness": "implemented",
+      "timeframe": "H4",
+      "rule_sketch": "Hồi về vùng xu hướng theo exact current factory.",
+      "data_requirements": "Cùng causalH4/QDM",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "Overlap SMA; holding và financing nhạy.",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "exact_local_rule",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h4-pullback20-80-atr14-r025-v1",
+      "profitability_evidence": "Discovery4_Q1_native_controls_and_2023_coarse_not_qualification",
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h4-pullback20-80-atr14-r025-v1",
+        "eurusd-h1-pullback20-80-atr14x1p5-time24-r025-v1"
+      ],
+      "catalogue_origin_role": "existing",
+      "implementation_updated_on": "2026-11-08",
+      "evidence_locator": "DISCOVERY4-RESULTS-20261108.md",
+      "version_decisions": {
+        "eurusd-h4-pullback20-80-atr14-r025-v1": "parked_after_registered_cost_screen",
+        "eurusd-h1-pullback20-80-atr14x1p5-time24-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
+    },
+    {
+      "id": "R005",
+      "title": "UTC range00–08 breakout",
+      "family": "session_breakout",
+      "role": "existing",
+      "parent_id": null,
+      "readiness": "implemented",
+      "timeframe": "H4/UTC",
+      "rule_sketch": "Biên00–08UTC; đóng nến breakout/thoát theo frozen rule.",
+      "data_requirements": "Cùng H1→H4, UTC cố định",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "Không đồng nhất UTC với phiên London; annual2024 âm.",
+      "source_ids": [
+        "LOCAL",
+        "NY150"
+      ],
+      "source_relation": "exact_local_rule; mechanism_only",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h4-utc-range00-08-atr14-r025-v1",
+      "profitability_evidence": "see_prior_results_not_a_current_winner",
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h4-utc-range00-08-atr14-r025-v1"
+      ],
+      "version_decisions": {
+        "eurusd-h4-utc-range00-08-atr14-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
+    },
+    {
+      "id": "R006",
+      "title": "Failed20 breakout",
+      "family": "level_reversion",
+      "role": "existing",
+      "parent_id": "R001",
+      "readiness": "implemented",
+      "timeframe": "H4",
+      "rule_sketch": "Sweep biên20 rồi đóng trở lại; midpoint/time6/SL.",
+      "data_requirements": "Cùng causalH4/QDM",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "False-break rule là giả thuyết, không biết stop orders thật.",
+      "source_ids": [
+        "LOCAL",
+        "NY125"
+      ],
+      "source_relation": "exact_local_rule; mechanism_only",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h4-failed20-atr14-time6-r025-v1",
+      "profitability_evidence": "see_prior_results_not_a_current_winner",
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h4-failed20-atr14-time6-r025-v1"
+      ],
+      "version_decisions": {
+        "eurusd-h4-failed20-atr14-time6-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
+    },
+    {
+      "id": "R007",
+      "title": "Compression6/24 breakout",
+      "family": "trend_breakout",
+      "role": "existing",
+      "parent_id": "R001",
+      "readiness": "implemented",
+      "timeframe": "H4",
+      "rule_sketch": "Range6 hẹp so24 rồi break; midpoint/time6/SL.",
+      "data_requirements": "Cùng causalH4/QDM",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "Whipsaw; annual2023 âm dù Q1dương.",
+      "source_ids": [
+        "LOCAL",
+        "NY150"
+      ],
+      "source_relation": "exact_local_rule; compression_threshold_is_local",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h4-compression6-24-atr14-time6-r025-v1",
+      "profitability_evidence": "see_prior_results_not_a_current_winner",
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h4-compression6-24-atr14-time6-r025-v1"
+      ],
+      "version_decisions": {
+        "eurusd-h4-compression6-24-atr14-time6-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
+    },
+    {
+      "id": "R008",
+      "title": "UTC range fade",
+      "family": "level_reversion",
+      "role": "existing",
+      "parent_id": "R005",
+      "readiness": "implemented",
+      "timeframe": "H4/UTC",
+      "rule_sketch": "Sweep biên00–08 rồi quay lại; hạn giờ/SL.",
+      "data_requirements": "Cùng causalH4/QDM",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "Chung clock/range với R005, không độc lập.",
+      "source_ids": [
+        "LOCAL",
+        "NY125"
+      ],
+      "source_relation": "exact_local_rule; mechanism_only",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h4-utc-range-fade-atr14-r025-v1",
+      "profitability_evidence": "see_prior_results_not_a_current_winner",
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h4-utc-range-fade-atr14-r025-v1"
+      ],
+      "version_decisions": {
+        "eurusd-h4-utc-range-fade-atr14-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
+    },
+    {
+      "id": "R009",
+      "title": "Time-series momentum dài hạn",
+      "family": "long_horizon_trend",
+      "role": "existing",
+      "parent_id": null,
+      "readiness": "implemented",
+      "timeframe": "Cash monthly signals / continuous M1 research book",
+      "rule_sketch": "Past12-month cash Bid return sign; monthly delayed fills; previous14cashTRx1.5 SL, one position, no resizing",
+      "data_requirements": "Canonical unfiltered US500 M1 BidAsk2013-2024, pinnedNYSEcalendar; 13 monthly closes and past14cashTR",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Declared costs/funding, missing month endpoints, modeledSL, no nativepropDD/targetcontract verification",
+      "source_ids": [
+        "AQR-TS"
+      ],
+      "source_relation": "adaptation_not_replication_or_independent_edge",
+      "next_action": "Review source/clock feasibility before another frozen experiment; do not remove years or relax the history requirement to rescue outcomes.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "us500-cash-mom12-monthly-atr14x1p5-r025-v1",
+      "profitability_evidence": "continuous2014_2024_negative_declared_costs_and_incomplete_input",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-cash-mom12-monthly-atr14x1p5-r025-v1"
+      ],
+      "catalogue_origin_role": "new",
+      "implementation_updated_on": "2026-11-08",
+      "control": false,
+      "evidence_locator": "US500-MONTHLY-TREND-RESULTS-20261108.md",
+      "execution_capability": "continuous_index_M1_coarse_no_native_broker",
+      "capital_scenarios": [
+        "10000"
+      ],
+      "input_source_limitation": "2013warmup/2014-2024evaluation explicit-source admission fails: only32/132months eligible; 2014-2017 have no eligible month. No new portfolio simulation; old expanded-view numbers remain historical/unadmitted.",
+      "source_correction_results": "INDEX-LONG-EXPLICIT-RESULTS-20261108.md"
+    },
+    {
+      "id": "R010",
+      "title": "TSMOM theo volatility",
+      "family": "long_horizon_trend",
+      "role": "variant",
+      "parent_id": "R009",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "D1/monthly",
+      "rule_sketch": "Điều chỉnh exposure theo volatility quá khứ.",
+      "data_requirements": "NhưR009 + volatility causal",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "Sizing modifier không tự tạo edge; tương tác daily DD.",
+      "source_ids": [
+        "AQR-TS"
+      ],
+      "source_relation": "research_variant_not_verified_replication",
+      "next_action": "Park exact mixed1/3/12 inverse-vol monthly component: reference net -1138.18,stress -3519.01 USD on continuous normalized10k,0/7positive stressyears;4books/1008allocations reviewed. No fee reduction,leverage rescue or claim all trend fails. Research a separately registered shorter-holding mechanism.",
+      "implementation_state": "component_implemented_not_retained_no_account_policy",
+      "candidate_id": null,
+      "profitability_evidence": "monthly_proxy_negative_both_declared_costs_not_account_or_prop",
+      "component_evidence": "MULTI-ASSET-TREND-RESULTS-20261108.md",
+      "component_versions": [
+        "mixed_1_3_12_inverse_vol_primary",
+        "always_long_inverse_vol_benchmark"
+      ],
+      "dispatch_authorized": false,
+      "implementations": [],
+      "data_admission": {
+        "protocol": "MULTI-ASSET-TREND-DATA-ADMISSION-20261108.md",
+        "results": "MULTI-ASSET-TREND-DATA-RESULTS-20261108.md",
+        "status": "metadata_and_US500_source_feasibility_measured_no_strategy_admission",
+        "strategy_implemented": false
+      }
+    },
+    {
+      "id": "R011",
+      "title": "Bollinger re-entry",
+      "family": "price_reversion",
+      "role": "existing",
+      "parent_id": "R003",
+      "readiness": "implemented",
+      "timeframe": "H4",
+      "rule_sketch": "Sau excursion, nến đóng trở lại band mới vào; exit/SL chưa freeze.",
+      "data_requirements": "H4 từ rawconsumed; definition SMA/std cần pin",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "Gần Z-score; thay entry/exit không là edge độc lập.",
+      "source_ids": [
+        "TV-BB",
+        "LOCAL"
+      ],
+      "source_relation": "indicator_definition; project_hypothesis",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h1-bb20-reentry-atr14x1p5-time12-r025-v1",
+      "profitability_evidence": "exposed_annual_coarse_not_qualification",
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h1-bb20-reentry-atr14x1p5-time12-r025-v1",
+        "eurusd-h1-bb20-reentry-flat80-atr14x1p5-time12-r025-v1"
+      ],
+      "catalogue_origin_role": "variant",
+      "implementation_updated_on": "2026-11-08",
+      "evidence_locator": "DISCOVERY6-7-RESULTS-20261108.md",
+      "version_decisions": {
+        "eurusd-h1-bb20-reentry-atr14x1p5-time12-r025-v1": "parked_after_registered_cost_screen",
+        "eurusd-h1-bb20-reentry-flat80-atr14x1p5-time12-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
+    },
+    {
+      "id": "R012",
+      "title": "RSI contrarian có xác nhận",
+      "family": "price_reversion",
+      "role": "existing",
+      "parent_id": "R003",
+      "readiness": "implemented",
+      "timeframe": "H4",
+      "rule_sketch": "RSI quay khỏi cực trị mới vào; exit/SL/time chưa freeze.",
+      "data_requirements": "H4; Wilder smoothing/prefix tests",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "Trend mạnh có thể tiếp tục lỗ; threshold chưa được nguồn chứng minh.",
+      "source_ids": [
+        "TV-RSI",
+        "LOCAL"
+      ],
+      "source_relation": "indicator_definition; project_hypothesis",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h1-rsi14-reentry-atr14x1p5-time12-r025-v1",
+      "profitability_evidence": "Discovery4_Q1_native_controls_and_2023_coarse_not_qualification",
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h1-rsi14-reentry-atr14x1p5-time12-r025-v1"
+      ],
+      "catalogue_origin_role": "new",
+      "implementation_updated_on": "2026-11-08",
+      "evidence_locator": "DISCOVERY4-RESULTS-20261108.md",
+      "version_decisions": {
+        "eurusd-h1-rsi14-reentry-atr14x1p5-time12-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
+    },
+    {
+      "id": "R013",
+      "title": "ATR shock fade",
+      "family": "price_reversion",
+      "role": "existing",
+      "parent_id": "R003",
+      "readiness": "implemented",
+      "timeframe": "H4",
+      "rule_sketch": "Sau bar shock so ATR trước đó, chờ dấu hồi mới fade.",
+      "data_requirements": "H4; causalATR; spread/gap flags",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "Tin mạnh/gap có thể phá meanreversion; không có surprise data.",
+      "source_ids": [
+        "NY125",
+        "LOCAL"
+      ],
+      "source_relation": "loose_mechanism_context; project_hypothesis",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h1-shock2-reclaim-atr14x1p5-time12-r025-v1",
+      "profitability_evidence": "Discovery4_Q1_native_controls_and_2023_coarse_not_qualification",
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h1-shock2-reclaim-atr14x1p5-time12-r025-v1"
+      ],
+      "catalogue_origin_role": "new",
+      "implementation_updated_on": "2026-11-08",
+      "evidence_locator": "DISCOVERY4-RESULTS-20261108.md",
+      "version_decisions": {
+        "eurusd-h1-shock2-reclaim-atr14x1p5-time12-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
+    },
+    {
+      "id": "R014",
+      "title": "Range midpoint fade",
+      "family": "level_reversion",
+      "role": "existing",
+      "parent_id": "R006",
+      "readiness": "implemented",
+      "timeframe": "H4",
+      "rule_sketch": "Từ biên range đã đóng quay về midpoint; stop/time riêng.",
+      "data_requirements": "H4; priorrange không chứa signalbar",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "Overlap Failed20/Z-score; cần tách điều kiện phá giả.",
+      "source_ids": [
+        "NY125",
+        "LOCAL"
+      ],
+      "source_relation": "mechanism_only; project_hypothesis",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h1-prior-day-fade-atr14x1p5-close20-r025-v1",
+      "profitability_evidence": "Discovery4_Q1_native_controls_and_2023_coarse_not_qualification",
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h1-prior-day-fade-atr14x1p5-close20-r025-v1"
+      ],
+      "catalogue_origin_role": "variant",
+      "implementation_updated_on": "2026-11-08",
+      "evidence_locator": "DISCOVERY4-RESULTS-20261108.md",
+      "version_decisions": {
+        "eurusd-h1-prior-day-fade-atr14x1p5-close20-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
+    },
+    {
+      "id": "R015",
+      "title": "Previous-day high/low breakout",
+      "family": "session_breakout",
+      "role": "existing",
+      "parent_id": "R001",
+      "readiness": "implemented",
+      "timeframe": "H1/D1",
+      "rule_sketch": "CloseH1 vượt biên ngàyUTC trước, fill quote sau.",
+      "data_requirements": "H1; D1UTC complete/missingday policy",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "Overnight/rollover và news; không chứng minh chỉ đổi clock là tốt.",
+      "source_ids": [
+        "NY125",
+        "NY150",
+        "LOCAL"
+      ],
+      "source_relation": "mechanism_only; project_hypothesis",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h1-prior-day-break-atr14x1p5-close20-r025-v1",
+      "profitability_evidence": "Discovery4_Q1_native_controls_and_2023_coarse_not_qualification",
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h1-prior-day-break-atr14x1p5-close20-r025-v1"
+      ],
+      "catalogue_origin_role": "variant",
+      "implementation_updated_on": "2026-11-08",
+      "evidence_locator": "DISCOVERY4-RESULTS-20261108.md",
+      "version_decisions": {
+        "eurusd-h1-prior-day-break-atr14x1p5-close20-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
+    },
+    {
+      "id": "R016",
+      "title": "London opening-range breakout",
+      "family": "session_breakout",
+      "role": "existing",
+      "parent_id": "R005",
+      "readiness": "implemented",
+      "timeframe": "H1/localclock",
+      "rule_sketch": "Dựng range mở phiênLondon đã đóng; break sau range.",
+      "data_requirements": "H1; Europe/London/DST; ngày nghỉ",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "Khác UTCrange; sessions/cost ở mở cửa chưa mô hình chính xác.",
+      "source_ids": [
+        "NY150"
+      ],
+      "source_relation": "breakout_context_only; project_hypothesis",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h1-london-orb08-09-atr14x1p5-r025-v1",
+      "profitability_evidence": "exposed_annual_coarse_not_qualification",
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h1-london-orb08-09-atr14x1p5-r025-v1"
+      ],
+      "catalogue_origin_role": "variant",
+      "implementation_updated_on": "2026-11-08",
+      "evidence_locator": "DISCOVERY6-7-RESULTS-20261108.md",
+      "version_decisions": {
+        "eurusd-h1-london-orb08-09-atr14x1p5-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
+    },
+    {
+      "id": "R017",
+      "title": "New York opening-range breakout",
+      "family": "session_breakout",
+      "role": "existing",
+      "parent_id": "R016",
+      "readiness": "implemented",
+      "timeframe": "H1/localclock",
+      "rule_sketch": "Range đầuNewYork rồi breakout với rules cố định.",
+      "data_requirements": "H1; America/New_York/DST, overlapLondon",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "News/sessions khác; cùng họORB, không thêm cơ chế độc lập.",
+      "source_ids": [
+        "NY150"
+      ],
+      "source_relation": "breakout_context_only; project_hypothesis",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h1-ny-orb08-09-atr14x1p5-r025-v1",
+      "profitability_evidence": "exposed_annual_coarse_not_qualification",
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h1-ny-orb08-09-atr14x1p5-r025-v1"
+      ],
+      "catalogue_origin_role": "variant",
+      "implementation_updated_on": "2026-11-08",
+      "evidence_locator": "DISCOVERY6-7-RESULTS-20261108.md",
+      "version_decisions": {
+        "eurusd-h1-ny-orb08-09-atr14x1p5-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
+    },
+    {
+      "id": "R018",
+      "title": "Asia range → London breakout",
+      "family": "session_breakout",
+      "role": "existing",
+      "parent_id": "R005",
+      "readiness": "implemented",
+      "timeframe": "H1/localclock",
+      "rule_sketch": "BiênAsia đóng trước London, breakout theo clockDST.",
+      "data_requirements": "H1; exactAsia definition/Londonclock",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "Không tự gọi UTC00–08 là Asian/London chuẩn.",
+      "source_ids": [
+        "NY150"
+      ],
+      "source_relation": "breakout_context_only; project_hypothesis",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h1-asia09-15tokyo-london-break-atr14x1p5-r025-v1",
+      "profitability_evidence": "exposed_annual_coarse_not_qualification",
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h1-asia09-15tokyo-london-break-atr14x1p5-r025-v1"
+      ],
+      "catalogue_origin_role": "variant",
+      "implementation_updated_on": "2026-11-08",
+      "evidence_locator": "DISCOVERY6-7-RESULTS-20261108.md",
+      "version_decisions": {
+        "eurusd-h1-asia09-15tokyo-london-break-atr14x1p5-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
+    },
+    {
+      "id": "R019",
+      "title": "Break → retest prior level",
+      "family": "trend_breakout",
+      "role": "variant",
+      "parent_id": "R015",
+      "readiness": "implemented_not_retained",
+      "timeframe": "H1 closed observed mid / next-quote coarse execution",
+      "rule_sketch": "Arm prior-day break08-15UTC; later contiguous retest/close beyond level within3hours/by16UTC; one attempt/day; SL1.5ATR14/close20",
+      "data_requirements": "Existing sealed actual quote H1 2019/2022 with full prior Nov-Dec warmup; raw/cache/native bindings",
+      "automation_feasibility": "native_offline_candidate_implemented_not_broker_qualified",
+      "prop_operational_concerns": "Failed stage1; H1 level stops/first-hour quotes differ from tick delivery; prop equity/target costs/OOS/forward missing",
+      "source_ids": [
+        "NY125",
+        "NY150"
+      ],
+      "source_relation": "mechanism_only; project_hypothesis",
+      "next_action": "Park exact retest3 recipe after paired stage1. No expiry/SL/clock rescue; entire retest family not disproved.",
+      "implementation_state": "native_offline_implemented_not_retained",
+      "candidate_id": "eurusd-h1-prior-day-retest3-atr14x1p5-close20-r025-v1",
+      "profitability_evidence": "2019 reference +27.26/stress -5.16; 2022 -450.56/-452.64USD annual10k; 50/52 trades, no retained stage1",
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h1-prior-day-retest3-atr14x1p5-close20-r025-v1"
+      ],
+      "admission_evidence_locator": "PRIOR-DAY-RETEST-PROTOCOL-20261108.md",
+      "evidence_locator": "PRIOR-DAY-RETEST-RESULTS-20261108.md"
+    },
+    {
+      "id": "R020",
+      "title": "Fixing reversal có điều kiện",
+      "family": "fixing_flow",
+      "role": "new",
+      "parent_id": null,
+      "readiness": "method_clock_review",
+      "timeframe": "H1 hoặc finer sau method",
+      "rule_sketch": "Sau fixing theo hướng nghiên cứu; exact hours/side/exit chưa chọn.",
+      "data_requirements": "Method fullpaper, fixcalendar/DST, BidAsk độ phân giải phù hợp",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "Slippage/benchmark crowding; no news/firm permission assumption.",
+      "source_ids": [
+        "BOC48"
+      ],
+      "source_relation": "published_mechanism; not_exact_method",
+      "next_action": "Preserve parked parent versions. If continuing this mechanism, register stop/weight/coverage attribution at unchanged1400clock before changing rules; no automatic rerun.",
+      "implementation_state": "not_implemented",
+      "candidate_id": null,
+      "profitability_evidence": "none_for_this_exact_rule",
+      "dispatch_authorized": false,
+      "implementations": [],
+      "component_evidence_locator": "FIXING-CLOCK-TRANSFER-RESULTS-20261108.md",
+      "component_decision": "No support for extending pre-ECB exit1400 to1415 on paired2019/2022 events; one2019unresolvedexit; not a new strategy or promotion."
+    },
+    {
+      "id": "R021",
+      "title": "Pre-fix USD drift",
+      "family": "fixing_flow",
+      "role": "existing",
+      "parent_id": "R020",
+      "readiness": "implemented",
+      "timeframe": "Intraday",
+      "rule_sketch": "Trade drift trước fixing; giờ/horizon theo methodreview.",
+      "data_requirements": "NhưR020; USDbase/quote sign mapping",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "Không dùng kết quảpostfix để chọn hướngprefix; phí có thể ăn edge.",
+      "source_ids": [
+        "BOC48",
+        "LOCAL"
+      ],
+      "source_relation": "published_mechanism; project_H1_clock_hypothesis_not_exact_replication",
+      "next_action": "R056 sessionvolatility wrapper tested separately and failed two frozenstressblocks;do notretune SL orpromote parent. See R056/results;next sourceadmission for multi-market mechanism.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h1-europe-am-short-atr14x1p5-close13-r025-v1",
+      "profitability_evidence": "exposed_annual_coarse_not_qualification",
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h1-europe-am-short-atr14x1p5-close13-r025-v1",
+        "eurusd-h1-pre-ecb02ny-14berlin-atr14x1p5-r025-v1",
+        "eurusd-h1-pre-tokyo18ny-10tokyo-atr14x1p5-r025-v1"
+      ],
+      "catalogue_origin_role": "variant",
+      "implementation_updated_on": "2026-11-08",
+      "evidence_locator": "DISCOVERY6-7-RESULTS-20261108.md",
+      "version_decisions": {
+        "eurusd-h1-europe-am-short-atr14x1p5-close13-r025-v1": "parked_after_registered_cost_screen",
+        "eurusd-h1-pre-ecb02ny-14berlin-atr14x1p5-r025-v1": "parked_after_registered_cost_screen",
+        "eurusd-h1-pre-tokyo18ny-10tokyo-atr14x1p5-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry.",
+      "component_evidence_locator": "FIXING-CLOCK-TRANSFER-RESULTS-20261108.md",
+      "component_decision": "No support for extending pre-ECB exit1400 to1415 on paired2019/2022 events; one2019unresolvedexit; not a new strategy or promotion.",
+      "wrapper_attribution_evidence_locator": "PRE-ECB-WRAPPER-ATTRIBUTION-RESULTS-20261108.md",
+      "wrapper_attribution_decision": "Observed lot weights help and parentexit/SL reduces matched returns in4books2019/2022; counterfactual is not a noSL account strategy or permission.",
+      "path_risk_evidence_locator": "PRE-ECB-PATH-RISK-RESULTS-20261108.md",
+      "long_price_evidence": "PRE-ECB-LONG-PRICE-RESULTS-20261108.md",
+      "long_price_decision": "Unchanged02NY-14Berlin SELL2010-22priceproxy retained:12/13positive stressyears,4blockspositive,3375/3391resolved;notSL/account/prop/OOS. Register1holding-sessionvolatilitywrapper with risk25USD before outcomes;noSLgrid orunchangedlot widening.",
+      "recent_price_evidence": "PRE-ECB-RECENT-PRICE-RESULTS-20261108.md",
+      "recent_price_decision": "2023/24sameclock/cost+187.1/+184.9stresspip;combined2010-24 14/15positiveyears and4positiveblocks,3894/3913resolved. Retained for1holding-sessionvolatilitywrapper,notSL/account/prop/OOS/challenge;review-v2iscurrent."
+    },
+    {
+      "id": "R022",
+      "title": "Post-fix USD reversal",
+      "family": "fixing_flow",
+      "role": "existing",
+      "parent_id": "R020",
+      "readiness": "implemented",
+      "timeframe": "Intraday",
+      "rule_sketch": "Hướng saufix; no peek drift/outcome trong decision.",
+      "data_requirements": "NhưR020; timestamppublication",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "Narrowwindow có thể H1không đủ; không nâng resolution tùy ý.",
+      "source_ids": [
+        "BOC48",
+        "LOCAL"
+      ],
+      "source_relation": "published_mechanism; project_H1_clock_hypothesis_not_exact_replication",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h1-london-postfix16-20-atr14x1p5-r025-v1",
+      "profitability_evidence": "exposed_annual_coarse_not_qualification",
+      "dispatch_authorized": false,
+      "implementations": [
+        "eurusd-h1-london-postfix16-20-atr14x1p5-r025-v1",
+        "eurusd-h1-post-london16-16ny-atr14x1p5-r025-v1"
+      ],
+      "catalogue_origin_role": "variant",
+      "implementation_updated_on": "2026-11-08",
+      "evidence_locator": "DISCOVERY6-7-RESULTS-20261108.md",
+      "version_decisions": {
+        "eurusd-h1-london-postfix16-20-atr14x1p5-r025-v1": "parked_after_registered_cost_screen",
+        "eurusd-h1-post-london16-16ny-atr14x1p5-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
+    },
+    {
+      "id": "R023",
+      "title": "Local trading-hours currency flow",
+      "family": "session_flow",
+      "role": "new",
+      "parent_id": null,
+      "readiness": "component_probe_completed_no_priority",
+      "timeframe": "H1/localclock",
+      "rule_sketch": "Registered BUY08-16NewYork unit price/cost component; SELL07Dublin-to08NY context, no SL/sizing/account policy.",
+      "data_requirements": "Consumed EURUSD2019/2022 raw-bound observed H1 first quotes; own Dublin/NY DST clocks; sparse raw endpoint oracle.",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "Historical effect không bảo đảm còn tồn tại hoặc pass quỹ.",
+      "source_ids": [
+        "SNB04"
+      ],
+      "source_relation": "source_matched_session_price_probe_not_EBS_replication_or_risk_safe_policy",
+      "next_action": "Preserve registered US08-16NY primary negative2019/stress evidence; do not substitute positive EU context, reverse side or grid hours to rescue. Opportunity review before new trial.",
+      "implementation_state": "not_implemented",
+      "candidate_id": null,
+      "profitability_evidence": "primary_unit_component2019_negative2022_positive_no_account_backtest",
+      "dispatch_authorized": false,
+      "implementations": [],
+      "evidence_locator": "LOCAL-SESSION-RESULTS-20261108.md",
+      "method_probe": {
+        "protocol": "LOCAL-SESSION-ADMISSION-20261108.md",
+        "results": "LOCAL-SESSION-RESULTS-20261108.md",
+        "status": "completed_no_priority_under_registered_heuristic",
+        "source_commit": "a84a2fa",
+        "result_sha256": "2c68fdc174b022c14f33e0eff181ac7c4c9046d0795f9a5d857776b17722538b",
+        "new_policy_count": 0,
+        "clean_oos": false,
+        "promotion_authorized": false
+      }
+    },
+    {
+      "id": "R024",
+      "title": "Post-weekend gap fade",
+      "family": "gap_reversion",
+      "role": "new",
+      "parent_id": null,
+      "readiness": "component_probe_not_retained",
+      "timeframe": "H1/weeklyopen",
+      "rule_sketch": "Gap giữa quoteFri/Sun; chờ xác nhận rồi fade.",
+      "data_requirements": "Observed first/last quotes, calendar, spread; không fakeweekendbars",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "Spread/gap/tailrisk cao; Q1mẫu ít.",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "project_hypothesis_no_primary_edge_evidence",
+      "next_action": "Preserve frozen12h probe and negative2022 outcome; no retrospective filter/time/risk tuning; next R019 requires recipe/source/cache review",
+      "implementation_state": "not_implemented",
+      "candidate_id": null,
+      "profitability_evidence": "exposed_component_negative_no_account_or_policy_qualification",
+      "dispatch_authorized": false,
+      "implementations": [],
+      "evidence_locator": "WEEKEND-GAP-COMPONENT-RESULTS-20261108.md",
+      "component_protocol": "WEEKEND-GAP-COMPONENT-PROBE-20261108.md",
+      "data_admission_scope": "103weekends/206rawendpoints verified2019/2022;2019-05-26firstquote late~3hours; not targetbrokertradability",
+      "component_code": "../../tooling/ai-engines/weekend_gap_component.py"
+    },
+    {
+      "id": "R025",
+      "title": "Weekday/calendar effect",
+      "family": "calendar",
+      "role": "new",
+      "parent_id": null,
+      "readiness": "price_data_spec_possible",
+      "timeframe": "H1/D1",
+      "rule_sketch": "Ngày/giờ chỉ chọn từ dev và khóa trước validation.",
+      "data_requirements": "Timestamp/calendar, longenoughsessions",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "Nhiều tổ hợp dễ chọn may; một quý không đủ.",
+      "source_ids": [
+        "QC",
+        "MCX2008"
+      ],
+      "source_relation": "source_backed_calendar_definition_component_not_paper_replication",
+      "next_action": "Component criterion not met; no intraday bot priority, no calendar/hour grid or overnight rescue.",
+      "implementation_state": "not_implemented",
+      "candidate_id": null,
+      "profitability_evidence": "INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md; corrected source-side components, price bps only",
+      "dispatch_authorized": false,
+      "implementations": [],
+      "component_experiments": [
+        {
+          "id": "us500-turn-month-component-v2",
+          "protocol": "US500-TURN-OF-MONTH-COMPONENT-PROTOCOL-20261108.md",
+          "results": "US500-TURN-OF-MONTH-COMPONENT-RESULTS-20261108.md",
+          "status": "registered_priority_not_met",
+          "strategy_implemented": false,
+          "raw_rows_per_side": 2728293,
+          "evaluation_days": 1510
+        },
+        {
+          "id": "us500-turn-month-source-correction-v1",
+          "protocol": "INDEX-EXPLICIT-SOURCE-CORRECTION-20261108.md",
+          "results": "INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md",
+          "status": "source_corrected_priority_not_met",
+          "strategy_implemented": false,
+          "affected_days": 3,
+          "reused_days": 1507
+        }
+      ]
+    },
+    {
+      "id": "R026",
+      "title": "Month-end relative-equity flow",
+      "family": "fixing_flow",
+      "role": "variant",
+      "parent_id": "R020",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "Intraday/monthend",
+      "rule_sketch": "Bilateral EUR/US price proxy: EUR-local equity factor versus SPY, sign-only EURUSD15:01–16:03London on last NYSE session proxy.",
+      "data_requirements": "Source-listed synchronous EZU/SPY/EURUSD endpoints; pinned cash calendar, units/FX conversion, adjustment/benchmark gaps explicit.",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "Không gán evidenceBOC chung thành bằng chứng monthend; ít events.",
+      "source_ids": [
+        "BOC48",
+        "MELPRINS2013"
+      ],
+      "source_relation": "source_backed_equity_hedging_channel_requires_relative_market_inputs",
+      "next_action": "Park exact relative-equity price-proxy v1 after unchanged four-year continuation failed:2020+51.1,2021-310.9,2023-58.5,2024-66.2stresspip; keep2019/22baseline, sixyears-227.6/66resolved. No SL/side/clock rescue or qualification.",
+      "implementation_state": "not_implemented",
+      "candidate_id": null,
+      "profitability_evidence": "six_exposed_years_costed_price_component_not_retained_not_family_rejection",
+      "dispatch_authorized": false,
+      "implementations": [],
+      "data_preflight": {
+        "protocol": "FX-FIXING-PROXY-DATA-PREFLIGHT-20261108.md",
+        "results": "INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md",
+        "status": "bounded_source_fixture_verified_not_strategy_ready",
+        "strategy_implemented": false
+      },
+      "component_implementation": {
+        "version": "relative-equity-price-proxy-v1",
+        "source": "tooling/ai-engines/relative_equity_component.py",
+        "protocol": "R026-RELATIVE-EQUITY-COMPONENT-20261108.md",
+        "results": "R026-RELATIVE-EQUITY-RESULTS-20261108.md",
+        "continuation": "R026-RELATIVE-EQUITY-CONTINUATION-20261108.md",
+        "challenge_qualified": false,
+        "strategy_implemented": false,
+        "continuation_results": "R026-RELATIVE-EQUITY-CONTINUATION-RESULTS-20261108.md",
+        "retained": false
+      },
+      "data_admission": {
+        "results": "RESEARCH-DATA-ADMISSION-RESULTS-20261108.md",
+        "status": "1008_source_parts_total_66of72component_events_resolved_not_retained",
+        "unknowns": [
+          "ETF_adjustments",
+          "historical_WMR_calendar_not_used_as_exact_benchmark",
+          "two_missing_source_endpoints",
+          "exposed_not_clean_OOS"
+        ]
+      }
+    },
+    {
+      "id": "R027",
+      "title": "News-surprise continuation",
+      "family": "event",
+      "role": "new",
+      "parent_id": null,
+      "readiness": "point_in_time_news_missing",
+      "timeframe": "Event/tick",
+      "rule_sketch": "Trade sau surprise đã công bố, theo response rule định trước.",
+      "data_requirements": "Consensus/actual/revisions/timestamps point-in-time + historicalBidAsk",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "Rule từngprogram, news-execution/slippage, latency chưa đủ.",
+      "source_ids": [
+        "NEWS"
+      ],
+      "source_relation": "reaction_mechanism_not_trade_recipe",
+      "next_action": "Deferred: chưa có news dataset/contract, không mua provider.",
+      "implementation_state": "not_implemented",
+      "candidate_id": null,
+      "profitability_evidence": "none_for_this_exact_rule",
+      "dispatch_authorized": false,
+      "implementations": []
+    },
+    {
+      "id": "R028",
+      "title": "News overreaction reversal",
+      "family": "event",
+      "role": "variant",
+      "parent_id": "R027",
+      "readiness": "point_in_time_news_missing",
+      "timeframe": "Event/tick",
+      "rule_sketch": "Sau response chờ đảo chiều theo rule, không dùng futuremax.",
+      "data_requirements": "NhưR027, causalreactionwindow",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "Tailrisk và newspermissions; không gọi reversal chắc chắn.",
+      "source_ids": [
+        "NEWS"
+      ],
+      "source_relation": "context_only; project_hypothesis",
+      "next_action": "Deferred vớiR027; cần PITdata trước.",
+      "implementation_state": "not_implemented",
+      "candidate_id": null,
+      "profitability_evidence": "none_for_this_exact_rule",
+      "dispatch_authorized": false,
+      "implementations": []
+    },
+    {
+      "id": "R029",
+      "title": "Currency carry",
+      "family": "carry",
+      "role": "new",
+      "parent_id": null,
+      "readiness": "long_history_or_multi_data",
+      "timeframe": "D1/monthly",
+      "rule_sketch": "Exposure theo forward/yieldcarry đã biết trước, không chỉ price.",
+      "data_requirements": "PITforward/rates; CFDswapseries/contract; multiFXnếu ranking",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "Swapretail khác policyrate; crashrisk/holding và DD.",
+      "source_ids": [
+        "CARRY"
+      ],
+      "source_relation": "published_mechanism; CFD_mapping_unverified",
+      "next_action": "Deferred; không thay funding bằng lãi suất hiện tại.",
+      "implementation_state": "not_implemented",
+      "candidate_id": null,
+      "profitability_evidence": "none_for_this_exact_rule",
+      "dispatch_authorized": false,
+      "implementations": []
+    },
+    {
+      "id": "R030",
+      "title": "Carry + trend",
+      "family": "carry",
+      "role": "variant",
+      "parent_id": "R029",
+      "readiness": "long_history_or_multi_data",
+      "timeframe": "D1/monthly",
+      "rule_sketch": "Carry có trendfiltercausal; hai exposures được tách.",
+      "data_requirements": "NhưR029+longhistory",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "Filter không tự xóa crashrisk; trialcount phải giữ.",
+      "source_ids": [
+        "CARRY",
+        "AQR-TS"
+      ],
+      "source_relation": "project_combination_not_paper_replication",
+      "next_action": "Deferred; chỉ sau baselines độc lập.",
+      "implementation_state": "not_implemented",
+      "candidate_id": null,
+      "profitability_evidence": "none_for_this_exact_rule",
+      "dispatch_authorized": false,
+      "implementations": []
+    },
+    {
+      "id": "R031",
+      "title": "Long-horizon value / PPP",
+      "family": "value",
+      "role": "new",
+      "parent_id": null,
+      "readiness": "long_history_or_multi_data",
+      "timeframe": "Monthly",
+      "rule_sketch": "Misvaluation dài hạn bằng proxyPPP; chưa exactrecipe.",
+      "data_requirements": "PITvaluation vintages/releasedates, FXhistory, funding",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "Meanreversion có thể mất nhiều năm; không hợp shortchallenge mặc định.",
+      "source_ids": [
+        "AQR-VM"
+      ],
+      "source_relation": "broad_value_mechanism; PPP_recipe_not_replicated",
+      "next_action": "Deferred tới fullmethod/PITdata/horizonfit.",
+      "implementation_state": "not_implemented",
+      "candidate_id": null,
+      "profitability_evidence": "none_for_this_exact_rule",
+      "dispatch_authorized": false,
+      "implementations": []
+    },
+    {
+      "id": "R032",
+      "title": "Value + momentum",
+      "family": "value",
+      "role": "variant",
+      "parent_id": "R031",
+      "readiness": "long_history_or_multi_data",
+      "timeframe": "Monthly",
+      "rule_sketch": "Kết hợp causalvalue và momentum weights khóa trước.",
+      "data_requirements": "NhưR031+R009; portfolio/accountbudget",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "Diversification empirical không là bảo đảm EURUSD/prop.",
+      "source_ids": [
+        "AQR-VM"
+      ],
+      "source_relation": "published_factor_context; recipe_not_replicated",
+      "next_action": "Deferred; không dùng factorindex làm tradableCFDPnL.",
+      "implementation_state": "not_implemented",
+      "candidate_id": null,
+      "profitability_evidence": "none_for_this_exact_rule",
+      "dispatch_authorized": false,
+      "implementations": []
+    },
+    {
+      "id": "R033",
+      "title": "Cross-sectional FX momentum",
+      "family": "cross_section",
+      "role": "new",
+      "parent_id": null,
+      "readiness": "component_probe_not_retained",
+      "timeframe": "monthly fixed three-currency pilot",
+      "rule_sketch": "R033-MOM1-3FX-v1: rank EUR/GBP/AUD prior completed-month mid return; BUY winner/SELL loser, monthly full roll, fixed 5000USD per leg",
+      "data_requirements": "Existing sealed EUR monthly quotes plus GBP/AUD H1 source; role/known-at panel 2013-24, evaluate 2014-24, declared funding",
+      "automation_feasibility": "allocation_component_only_not_account_or_tick_execution",
+      "prop_operational_concerns": "Three currencies not broad FX; gross and net negative; no SL/lot/account/prop/OOS or target funding proof",
+      "source_ids": [
+        "BIS366"
+      ],
+      "source_relation": "published_mechanism; exact_recipe_not_replicated",
+      "next_action": "Park exact three-currency MOM1 adaptation; do not promote control or tune universe/lookback/funding to rescue. Whole family not disproved.",
+      "implementation_state": "component_implemented_not_retained_no_account_policy",
+      "candidate_id": null,
+      "profitability_evidence": "Gross -1331.62USD; net reference -5548.94 / stress -9752.64USD; 0/11 positive cohort years; fixed-notional component not account returns",
+      "dispatch_authorized": false,
+      "implementations": [],
+      "component_evidence": "FX-CROSS-SECTION-PILOT-RESULTS-20261108.md"
+    },
+    {
+      "id": "R034",
+      "title": "FX factor-residual reversion",
+      "family": "cross_section",
+      "role": "new",
+      "parent_id": "R033",
+      "readiness": "long_history_or_multi_data",
+      "timeframe": "D1",
+      "rule_sketch": "Ước factor từ quá khứ, residualmeanreversion sau fit.",
+      "data_requirements": "MultiFX/PITuniverse; train-onlybeta; jointcost/risk",
+      "automation_feasibility": "deterministic_after_spec_and_tests",
+      "prop_operational_concerns": "Factorfit dùng toànmẫu sẽ leak; cointegration không được giả định.",
+      "source_ids": [
+        "AQR-VM"
+      ],
+      "source_relation": "factor_context_only; residual_rule_is_project_hypothesis",
+      "next_action": "Deferred; cần independentmethod/data trước.",
+      "implementation_state": "not_implemented",
+      "candidate_id": null,
+      "profitability_evidence": "none_for_this_exact_rule",
+      "dispatch_authorized": false,
+      "implementations": []
+    },
+    {
+      "id": "R035",
+      "title": "Cointegrated FX spread",
+      "family": "cross_section",
+      "role": "new",
+      "parent_id": "R034",
+      "readiness": "formation_probe_not_retained",
+      "timeframe": "H4/D1",
+      "rule_sketch": "Fixed logGBPUSD/logAUDUSD formation2018/2021, EngleGranger constant lag1; no economic recipe admitted.",
+      "data_requirements": "Sealed sourceH1BidClose16UTC known17UTC, both-side quality/census; registered weekdays no imputation.",
+      "automation_feasibility": "method_diagnostic_only_no_account_policy",
+      "prop_operational_concerns": "Exactpairformation failed coint prefilter; not proof all pairs fail. Joint leg fills/margin/risk/prop/OOS remain untested.",
+      "source_ids": [
+        "GGR",
+        "SM-COINT"
+      ],
+      "source_relation": "official_equity_pairs_method_and_statistical_contract_not_FX_edge_evidence",
+      "next_action": "Do not open this pair economicpilot or search pair/lag/window grids to rescue. Next scheduled-macro-event method/calendar admission before PnL.",
+      "implementation_state": "formation_diagnostic_implemented_no_account_policy",
+      "candidate_id": null,
+      "profitability_evidence": "noPnL;2018p0.23584/2021p0.26957_notretained_for_economicdesign",
+      "dispatch_authorized": false,
+      "implementations": [],
+      "component_evidence": "FX-PAIR-FORMATION-RESULTS-20261108.md"
+    },
+    {
+      "id": "R036",
+      "title": "Volatility targeting / exposure cap",
+      "family": "risk_modifier",
+      "role": "component",
+      "parent_id": null,
+      "readiness": "component_only",
+      "timeframe": "Theo baseline",
+      "rule_sketch": "Chỉnh size theo vol/risk đã biết; không đổi luật entry.",
+      "data_requirements": "Returns/volcausal; account-widebudget; sizingfixtures",
+      "automation_feasibility": "risk_component_after_separate_validation",
+      "prop_operational_concerns": "Đổi risk phải rerun equity/prop; không tạo entryedge.",
+      "source_ids": [
+        "AQR-TS",
+        "LOCAL"
+      ],
+      "source_relation": "risk_component_not_standalone_edge",
+      "next_action": "Để sau baseline; không gridrisk trong pilot này.",
+      "implementation_state": "not_implemented",
+      "candidate_id": null,
+      "profitability_evidence": "none_for_this_exact_rule",
+      "dispatch_authorized": false,
+      "implementations": []
+    },
+    {
+      "id": "R037",
+      "title": "Fixing composite3slots",
+      "family": "fixing_flow",
+      "role": "existing",
+      "catalogue_origin_role": "variant",
+      "parent_id": "R022",
+      "readiness": "implemented",
+      "timeframe": "H1",
+      "rule_sketch": "Exact frozen protocol, no tuning after outcome",
+      "data_requirements": "source-bound observed H1 and consumed2023/2024",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Not challenge-qualified, no broker permission",
+      "source_ids": [
+        "BOC48"
+      ],
+      "source_relation": "mechanism_or_method_only_not_edge",
+      "next_action": "Park these exact FX versions, preserve negative evidence; mechanism/clock component is separate, not a promoted or retuned parent.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h1-fixing-composite-atr14x1p5-r025-v1",
+      "implementations": [
+        "eurusd-h1-fixing-composite-atr14x1p5-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "exposed_coarse_no_qualification",
+      "dispatch_authorized": false,
+      "control": false,
+      "evidence_locator": "DISCOVERY6-7-RESULTS-20261108.md",
+      "execution_capability": "native_offline",
+      "version_decisions": {
+        "eurusd-h1-fixing-composite-atr14x1p5-r025-v1": "parked_after_registered_cost_screen"
+      },
+      "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
+    },
+    {
+      "id": "R038",
+      "title": "Ridge4Hreturn policy",
+      "family": "trained_return",
+      "role": "existing",
+      "catalogue_origin_role": "new",
+      "parent_id": null,
+      "readiness": "implemented",
+      "timeframe": "H1",
+      "rule_sketch": "Exact frozen protocol, no tuning after outcome",
+      "data_requirements": "source-bound observed H1 and consumed2023/2024",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Not challenge-qualified, no broker permission",
+      "source_ids": [
+        "SKLEARN"
+      ],
+      "source_relation": "mechanism_or_method_only_not_edge",
+      "next_action": "Retain negative/control outcomes; no promotion",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h1-ml-ridge-tr14x1p5-time4-r025-v1",
+      "implementations": [
+        "eurusd-h1-ml-ridge-tr14x1p5-time4-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "exposed_coarse_no_qualification",
+      "dispatch_authorized": false,
+      "control": false,
+      "evidence_locator": "DISCOVERY5-RESULTS-20261108.md",
+      "execution_capability": "coarse_only_no_native_broker"
+    },
+    {
+      "id": "R039",
+      "title": "Random forest4Hreturn policy",
+      "family": "trained_return",
+      "role": "existing",
+      "catalogue_origin_role": "variant",
+      "parent_id": "R038",
+      "readiness": "implemented",
+      "timeframe": "H1",
+      "rule_sketch": "Exact frozen protocol, no tuning after outcome",
+      "data_requirements": "source-bound observed H1 and consumed2023/2024",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Not challenge-qualified, no broker permission",
+      "source_ids": [
+        "SKLEARN"
+      ],
+      "source_relation": "mechanism_or_method_only_not_edge",
+      "next_action": "Retain negative/control outcomes; no promotion",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h1-ml-forest-tr14x1p5-time4-r025-v1",
+      "implementations": [
+        "eurusd-h1-ml-forest-tr14x1p5-time4-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "exposed_coarse_no_qualification",
+      "dispatch_authorized": false,
+      "control": false,
+      "evidence_locator": "DISCOVERY5-RESULTS-20261108.md",
+      "execution_capability": "coarse_only_no_native_broker"
+    },
+    {
+      "id": "R040",
+      "title": "Ridge shuffled-label control",
+      "family": "falsification",
+      "role": "existing",
+      "catalogue_origin_role": "variant",
+      "parent_id": "R038",
+      "readiness": "implemented",
+      "timeframe": "H1",
+      "rule_sketch": "Exact frozen protocol, no tuning after outcome",
+      "data_requirements": "source-bound observed H1 and consumed2023/2024",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Not challenge-qualified, no broker permission",
+      "source_ids": [
+        "SKLEARN"
+      ],
+      "source_relation": "mechanism_or_method_only_not_edge",
+      "next_action": "Retain negative/control outcomes; no promotion",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h1-ml-ridge-shuffled-tr14x1p5-time4-r025-v1",
+      "implementations": [
+        "eurusd-h1-ml-ridge-shuffled-tr14x1p5-time4-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "exposed_coarse_no_qualification",
+      "dispatch_authorized": false,
+      "control": true,
+      "evidence_locator": "DISCOVERY5-RESULTS-20261108.md",
+      "execution_capability": "coarse_only_no_native_broker"
+    },
+    {
+      "id": "R041",
+      "title": "Forest shuffled-label control",
+      "family": "falsification",
+      "role": "existing",
+      "catalogue_origin_role": "variant",
+      "parent_id": "R039",
+      "readiness": "implemented",
+      "timeframe": "H1",
+      "rule_sketch": "Exact frozen protocol, no tuning after outcome",
+      "data_requirements": "source-bound observed H1 and consumed2023/2024",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Not challenge-qualified, no broker permission",
+      "source_ids": [
+        "SKLEARN"
+      ],
+      "source_relation": "mechanism_or_method_only_not_edge",
+      "next_action": "Retain negative/control outcomes; no promotion",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "eurusd-h1-ml-forest-shuffled-tr14x1p5-time4-r025-v1",
+      "implementations": [
+        "eurusd-h1-ml-forest-shuffled-tr14x1p5-time4-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "exposed_coarse_no_qualification",
+      "dispatch_authorized": false,
+      "control": true,
+      "evidence_locator": "DISCOVERY5-RESULTS-20261108.md",
+      "execution_capability": "coarse_only_no_native_broker"
+    },
+    {
+      "id": "R042",
+      "title": "Gold Donchian20/10",
+      "family": "trend_breakout",
+      "role": "existing",
+      "catalogue_origin_role": "variant",
+      "parent_id": "R001",
+      "readiness": "implemented",
+      "timeframe": "H4",
+      "rule_sketch": "Frozen Discovery9/10; H4 gold reuses exact recipe, H1 uses declared asset policy",
+      "data_requirements": "Observed QDM M1 Bid20091101-20241231 plus declared Ask; exposed2010-2024 annual books",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Native metal tick/risk/prop unavailable; no challenge eligibility",
+      "source_ids": [
+        "AQR-TS",
+        "LOCAL"
+      ],
+      "source_relation": "mechanism_or_method_only_not_edge",
+      "next_action": "Preserve negative version; no promotion",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "xauusd-h4-donchian20-10-atr14-r025-v1",
+      "implementations": [
+        "xauusd-h4-donchian20-10-atr14-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "exposed_indicative_no_qualification",
+      "dispatch_authorized": false,
+      "control": false,
+      "evidence_locator": "METAL-DISCOVERY9-10-RESULTS-20261108.md",
+      "execution_capability": "metal_coarse_only_no_native_broker",
+      "capital_scenarios": [
+        "10000",
+        "50000"
+      ]
+    },
+    {
+      "id": "R043",
+      "title": "Gold SMA20/80",
+      "family": "trend_breakout",
+      "role": "existing",
+      "catalogue_origin_role": "variant",
+      "parent_id": "R002",
+      "readiness": "implemented",
+      "timeframe": "H4",
+      "rule_sketch": "Frozen Discovery9/10; H4 gold reuses exact recipe, H1 uses declared asset policy",
+      "data_requirements": "Observed QDM M1 Bid20091101-20241231 plus declared Ask; exposed2010-2024 annual books",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Native metal tick/risk/prop unavailable; no challenge eligibility",
+      "source_ids": [
+        "AQR-TS",
+        "LOCAL"
+      ],
+      "source_relation": "mechanism_or_method_only_not_edge",
+      "next_action": "Public-cost admission 2026-11-09 reviewed: The5ers swap-free funded-only does not justify zero-swap evaluation; exact account point/mode/rates remain unknown. Retain research survivor at low challenge priority; no cost-reduction rerun until admissible target evidence. Do not infer long-only or holding cutoff from retrospective cohorts.",
+      "cost_admission_evidence": "GOLD-TARGET-COST-ADMISSION-20261109.md",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "xauusd-h4-sma20-80-atr14-r025-v1",
+      "implementations": [
+        "xauusd-h4-sma20-80-atr14-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "exposed_indicative_no_qualification",
+      "dispatch_authorized": false,
+      "control": false,
+      "evidence_locator": "GOLD-SMA50K-REVIEW-20261108.md",
+      "execution_capability": "metal_coarse_only_no_native_broker",
+      "capital_scenarios": [
+        "10000",
+        "50000"
+      ],
+      "diagnostic_evidence": "SELECTIVE-LOSS-DIAGNOSIS-RESULTS-20261109.md"
+    },
+    {
+      "id": "R044",
+      "title": "Gold Z20 plus/minus2",
+      "family": "price_reversion",
+      "role": "existing",
+      "catalogue_origin_role": "variant",
+      "parent_id": "R003",
+      "readiness": "implemented",
+      "timeframe": "H4",
+      "rule_sketch": "Frozen Discovery9/10; H4 gold reuses exact recipe, H1 uses declared asset policy",
+      "data_requirements": "Observed QDM M1 Bid20091101-20241231 plus declared Ask; exposed2010-2024 annual books",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Native metal tick/risk/prop unavailable; no challenge eligibility",
+      "source_ids": [
+        "AQR-TS",
+        "LOCAL"
+      ],
+      "source_relation": "mechanism_or_method_only_not_edge",
+      "next_action": "Preserve negative version; no promotion",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "xauusd-h4-z20-2-atr14-time6-r025-v1",
+      "implementations": [
+        "xauusd-h4-z20-2-atr14-time6-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "exposed_indicative_no_qualification",
+      "dispatch_authorized": false,
+      "control": false,
+      "evidence_locator": "METAL-DISCOVERY9-10-RESULTS-20261108.md",
+      "execution_capability": "metal_coarse_only_no_native_broker",
+      "capital_scenarios": [
+        "10000",
+        "50000"
+      ]
+    },
+    {
+      "id": "R045",
+      "title": "Gold Asia to London breakout",
+      "family": "session_breakout",
+      "role": "existing",
+      "catalogue_origin_role": "variant",
+      "parent_id": "R018",
+      "readiness": "implemented",
+      "timeframe": "H1",
+      "rule_sketch": "Frozen Discovery9/10; H4 gold reuses exact recipe, H1 uses declared asset policy",
+      "data_requirements": "Observed QDM M1 Bid20091101-20241231 plus declared Ask; exposed2010-2024 annual books",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Native metal tick/risk/prop unavailable; no challenge eligibility",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "mechanism_or_method_only_not_edge",
+      "next_action": "Preserve negative version; no promotion",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "xauusd-h1-asia09-15tokyo-london-break-atr14x1p5-r025-v1",
+      "implementations": [
+        "xauusd-h1-asia09-15tokyo-london-break-atr14x1p5-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "exposed_indicative_no_qualification",
+      "dispatch_authorized": false,
+      "control": false,
+      "evidence_locator": "METAL-DISCOVERY9-10-RESULTS-20261108.md",
+      "execution_capability": "metal_coarse_only_no_native_broker",
+      "capital_scenarios": [
+        "50000"
+      ]
+    },
+    {
+      "id": "R046",
+      "title": "Gold RSI reentry",
+      "family": "price_reversion",
+      "role": "existing",
+      "catalogue_origin_role": "variant",
+      "parent_id": "R012",
+      "readiness": "implemented",
+      "timeframe": "H1",
+      "rule_sketch": "Frozen Discovery9/10; H4 gold reuses exact recipe, H1 uses declared asset policy",
+      "data_requirements": "Observed QDM M1 Bid20091101-20241231 plus declared Ask; exposed2010-2024 annual books",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Native metal tick/risk/prop unavailable; no challenge eligibility",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "mechanism_or_method_only_not_edge",
+      "next_action": "Preserve negative version; no promotion",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "xauusd-h1-rsi14-reentry-atr14x1p5-time12-r025-v1",
+      "implementations": [
+        "xauusd-h1-rsi14-reentry-atr14x1p5-time12-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "exposed_indicative_no_qualification",
+      "dispatch_authorized": false,
+      "control": false,
+      "evidence_locator": "METAL-DISCOVERY9-10-RESULTS-20261108.md",
+      "execution_capability": "metal_coarse_only_no_native_broker",
+      "capital_scenarios": [
+        "50000"
+      ]
+    },
+    {
+      "id": "R047",
+      "title": "Gold afternoon reversal15-19London",
+      "family": "fixing_flow",
+      "role": "existing",
+      "catalogue_origin_role": "new",
+      "parent_id": null,
+      "readiness": "implemented",
+      "timeframe": "H1",
+      "rule_sketch": "Frozen Discovery9/10; H4 gold reuses exact recipe, H1 uses declared asset policy",
+      "data_requirements": "Observed QDM M1 Bid20091101-20241231 plus declared Ask; exposed2010-2024 annual books",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Native metal tick/risk/prop unavailable; no challenge eligibility",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "mechanism_or_method_only_not_edge",
+      "next_action": "Preserve negative version; no promotion",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "xauusd-h1-london-afternoon-reversal15-19-atr14x1p5-r025-v1",
+      "implementations": [
+        "xauusd-h1-london-afternoon-reversal15-19-atr14x1p5-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "exposed_indicative_no_qualification",
+      "dispatch_authorized": false,
+      "control": false,
+      "evidence_locator": "METAL-DISCOVERY9-10-RESULTS-20261108.md",
+      "execution_capability": "metal_coarse_only_no_native_broker",
+      "capital_scenarios": [
+        "50000"
+      ]
+    },
+    {
+      "id": "R048",
+      "title": "US500 intraday noise14 bands",
+      "family": "equity_intraday_momentum",
+      "role": "existing",
+      "catalogue_origin_role": "new",
+      "parent_id": null,
+      "readiness": "implemented",
+      "timeframe": "M1/30min decisions",
+      "rule_sketch": "Frozen14 prior cash sessions; opposite band signal, fixed hard SL, delayed next-open fills, flat before cash close",
+      "data_requirements": "Observed Dukascopy USA500 M1 Bid/Ask; frozen NYSE calendar; gaps retained",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Declared market/cost geometry; missing paths and modeled intrabar SL; no native prop DD or broker readiness",
+      "source_ids": [
+        "CONCRETUM-NOISE"
+      ],
+      "source_relation": "adaptation_not_replication_or_edge",
+      "next_action": "Preserve both cost scenarios; no fee/SL grid; research a distinct mechanism after method and input review",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "us500-m1-noise14-opposite-hardstop-r025-v1",
+      "implementations": [
+        "us500-m1-noise14-opposite-hardstop-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "unfiltered2022_2024_legacy_and_published_commission0_failed_triage",
+      "dispatch_authorized": false,
+      "control": false,
+      "evidence_locator": "FTMO-INDEX-COMMISSION-RESULTS-20261108.md",
+      "execution_capability": "index_m1_coarse_only_no_native_broker",
+      "capital_scenarios": [
+        "10000"
+      ],
+      "input_source_limitation": "2022-2024 corrected to paired-explicit-source-M1-v1 and reviewed; source-only M1 still does not certify intrabar tick or target-broker/prop paths.",
+      "source_correction_results": "INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md",
+      "source_correction_verdict": "registered_all_years_positive_triage_not_met"
+    },
+    {
+      "id": "R049",
+      "title": "US500 daily cash IBS02 hold",
+      "family": "equity_daily_reversion",
+      "role": "existing",
+      "catalogue_origin_role": "new",
+      "parent_id": null,
+      "readiness": "implemented",
+      "timeframe": "Cash daily signals / M1 execution model",
+      "rule_sketch": "Frozen daily reversion; ATR14x1.5 hardSL, delayed minute fills, calendarfunding, no pyramiding",
+      "data_requirements": "Observed sealed M1 Bid/Ask2022-2024 and frozenNYSEcalendar; extendedsessions retained",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Declaredfunding/geometry, overnight gaps, modeled stops, no nativeindex DD or prop certification",
+      "source_ids": [
+        "PAGONIDIS-IBS"
+      ],
+      "source_relation": "adaptation_not_replication_or_independent_edge",
+      "next_action": "Preserve corrected source-only2022-2024 negative version; do not promote or rerun unchanged books; target-contract/data admission before a new hypothesis",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "us500-d1-ibs02-hold-atr14x1p5-r025-v1",
+      "implementations": [
+        "us500-d1-ibs02-hold-atr14x1p5-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "source_only2022_2024_not_retained",
+      "dispatch_authorized": false,
+      "control": false,
+      "evidence_locator": "IBS02-EXPLICIT-SOURCE-RESULTS-20261108.md",
+      "execution_capability": "index_M1_coarse_with_calendar_funding_no_broker",
+      "capital_scenarios": [
+        "10000"
+      ],
+      "input_source_limitation": "Source-listed pairedM1 verified;73closedpaths per cost still have unresolved gaps; not executable ticks, nativeprop or targetbroker proof"
+    },
+    {
+      "id": "R050",
+      "title": "US500 CutlerRSI3 + IBS05",
+      "family": "equity_daily_reversion",
+      "role": "existing",
+      "catalogue_origin_role": "new",
+      "parent_id": "R049",
+      "readiness": "implemented",
+      "timeframe": "Cash daily signals / M1 execution model",
+      "rule_sketch": "Frozen daily reversion; ATR14x1.5 hardSL, delayed minute fills, calendarfunding, no pyramiding",
+      "data_requirements": "Observed sealed M1 Bid/Ask2022-2024 and frozenNYSEcalendar; extendedsessions retained",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Declaredfunding/geometry, overnight gaps, modeled stops, no nativeindex DD or prop certification",
+      "source_ids": [
+        "PAGONIDIS-IBS"
+      ],
+      "source_relation": "adaptation_not_replication_or_independent_edge",
+      "next_action": "Preserve failed long-retention evidence and operationally inconclusive years; no cutoff/fee tuning",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "us500-d1-cutler3-10-40-ibs05-atr14x1p5-r025-v1",
+      "implementations": [
+        "us500-d1-cutler3-10-40-ibs05-atr14x1p5-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "retrospective2013_2024_negative_stress_and_incomplete_clock_coverage",
+      "dispatch_authorized": false,
+      "control": false,
+      "evidence_locator": "US500-LONG-REVIEW-20261108.md",
+      "execution_capability": "index_M1_coarse_with_calendar_funding_no_broker",
+      "capital_scenarios": [
+        "10000"
+      ],
+      "input_source_limitation": "2013-2024 paired explicit source correction and 24books/72scenarios reviewed; signal functions unchanged, legacy cost compatibility checked on 2024. M1 gap/tick/targetprop realism remains incomplete.",
+      "source_correction_results": "INDEX-LONG-EXPLICIT-RESULTS-20261108.md",
+      "source_correction_verdict": "registered_long_heuristic_not_met; nofill_years_operationally_inconclusive"
+    },
+    {
+      "id": "R051",
+      "title": "US500 first-half-hour to last-half-hour momentum",
+      "family": "equity_close_momentum",
+      "role": "existing",
+      "catalogue_origin_role": "new",
+      "parent_id": null,
+      "readiness": "implemented",
+      "timeframe": "Cashsession first/last30min, M1modeled fills",
+      "rule_sketch": "Overnight-included firsthalf sign predicts last halfhour; previous14cashTR x0.25hardSL, flat15:59, one-minute delay",
+      "data_requirements": "Canonical unfilteredM1BidAsk2022-24 and frozenNYSEcalendar",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "ModeledSLs, costs declared, no nativepropDD; all2022-24 yearsnegative",
+      "source_ids": [
+        "GAO-FIRSTLAST2018"
+      ],
+      "source_relation": "adaptation_not_replication_or_independent_edge",
+      "next_action": "Preserve both cost scenarios; no fee/SL grid; research a distinct mechanism after method and input review",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "us500-cash-firstlast30-atr14quarter-r025-v1",
+      "implementations": [
+        "us500-cash-firstlast30-atr14quarter-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "unfiltered2022_2024_legacy_and_published_commission0_failed_triage",
+      "dispatch_authorized": false,
+      "control": false,
+      "evidence_locator": "FTMO-INDEX-COMMISSION-RESULTS-20261108.md",
+      "execution_capability": "index_M1_coarse_no_broker",
+      "capital_scenarios": [
+        "10000"
+      ],
+      "input_source_limitation": "2022-2024 corrected to paired-explicit-source-M1-v1 and reviewed; source-only M1 still does not certify intrabar tick or target-broker/prop paths.",
+      "source_correction_results": "INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md",
+      "source_correction_verdict": "registered_all_years_positive_triage_not_met"
+    },
+    {
+      "id": "R052",
+      "title": "US500 RSI3+IBS two-minute preclose",
+      "family": "equity_daily_reversion",
+      "role": "existing",
+      "catalogue_origin_role": "variant",
+      "parent_id": "R050",
+      "readiness": "implemented",
+      "timeframe": "Cash daily signals / M1 execution model",
+      "rule_sketch": "Decision2min before close using only completedprefix; fill1min later, sameRSI/IBS/SL/risk/fees",
+      "data_requirements": "Observed sealed M1 Bid/Ask2022-2024 and frozenNYSEcalendar; extendedsessions retained",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Declaredfunding/geometry, overnight gaps, modeled stops, no nativeindex DD or prop certification",
+      "source_ids": [
+        "PAGONIDIS-IBS"
+      ],
+      "source_relation": "adaptation_not_replication_or_independent_edge",
+      "next_action": "Preserve failed long-retention evidence and operationally inconclusive years; no cutoff/fee tuning",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "us500-cash-preclose2-cutler3-10-40-ibs05-atr14x1p5-r025-v1",
+      "implementations": [
+        "us500-cash-preclose2-cutler3-10-40-ibs05-atr14x1p5-r025-v1"
+      ],
+      "implementation_updated_on": "2026-11-08",
+      "profitability_evidence": "retrospective2013_2024_negative_stress_and_incomplete_clock_coverage",
+      "dispatch_authorized": false,
+      "control": false,
+      "evidence_locator": "US500-LONG-REVIEW-20261108.md",
+      "execution_capability": "index_M1_coarse_with_calendar_funding_no_broker",
+      "capital_scenarios": [
+        "10000"
+      ],
+      "input_source_limitation": "2013-2024 paired explicit source correction and 24books/72scenarios reviewed; signal functions unchanged, legacy cost compatibility checked on 2024. M1 gap/tick/targetprop realism remains incomplete.",
+      "source_correction_results": "INDEX-LONG-EXPLICIT-RESULTS-20261108.md",
+      "source_correction_verdict": "registered_long_heuristic_not_met; nofill_years_operationally_inconclusive"
+    },
+    {
+      "id": "R053",
+      "title": "US500 monthly long benchmark",
+      "family": "falsification",
+      "role": "existing",
+      "parent_id": "R009",
+      "readiness": "implemented",
+      "timeframe": "Cash monthly signals / continuous M1 research book",
+      "rule_sketch": "Always long under same monthly history/ATR/SL/risk/clock; benchmark is not an independent edge",
+      "data_requirements": "Canonical unfiltered US500 M1 BidAsk2013-2024, pinnedNYSEcalendar; 13 monthly closes and past14cashTR",
+      "automation_feasibility": "offline_research_implemented",
+      "prop_operational_concerns": "Declared costs/funding, missing month endpoints, modeledSL, no nativepropDD/targetcontract verification",
+      "source_ids": [
+        "AQR-TS"
+      ],
+      "source_relation": "adaptation_not_replication_or_independent_edge",
+      "next_action": "Review source/clock feasibility before another frozen experiment; do not remove years or relax the history requirement to rescue outcomes.",
+      "implementation_state": "implemented_not_qualified",
+      "candidate_id": "us500-cash-monthly-long-benchmark-atr14x1p5-r025-v1",
+      "profitability_evidence": "continuous2014_2024_negative_declared_costs_and_incomplete_input",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-cash-monthly-long-benchmark-atr14x1p5-r025-v1"
+      ],
+      "catalogue_origin_role": "variant",
+      "implementation_updated_on": "2026-11-08",
+      "control": true,
+      "evidence_locator": "US500-MONTHLY-TREND-RESULTS-20261108.md",
+      "execution_capability": "continuous_index_M1_coarse_no_native_broker",
+      "capital_scenarios": [
+        "10000"
+      ],
+      "input_source_limitation": "2013warmup/2014-2024evaluation explicit-source admission fails: only32/132months eligible; 2014-2017 have no eligible month. No new portfolio simulation; old expanded-view numbers remain historical/unadmitted.",
+      "source_correction_results": "INDEX-LONG-EXPLICIT-RESULTS-20261108.md"
+    },
+    {
+      "id": "R054",
+      "title": "Gold Asia session buy",
+      "family": "gold_session_flow",
+      "role": "new",
+      "parent_id": null,
+      "readiness": "component_probe_not_retained",
+      "timeframe": "intraday_fixed_session",
+      "rule_sketch": "BUY00-08UTC weekdays;exactM1Open;1ozpriceprobe",
+      "data_requirements": "ExistingQDMUTCM1Bid;Askdeclared;2010-24exposed",
+      "automation_feasibility": "price_component_only",
+      "prop_operational_concerns": "NoSL/sizing/account/prop;targethistoricalcostunverified",
+      "source_ids": [
+        "GOLD-SESSION-WEI"
+      ],
+      "source_relation": "new_adaptation_not_paper_replication_or_independent_edge",
+      "next_action": "Park exactversion after negative bothcosts/0of15stresspositiveyears;nohour/side/feerescue.",
+      "implementation_state": "component_implemented_not_retained_no_account_policy",
+      "candidate_id": null,
+      "profitability_evidence": "negative_two_declared_costs_on_resolved_mask",
+      "dispatch_authorized": false,
+      "implementations": [],
+      "component_evidence": "GOLD-SESSION-COMPONENT-RESULTS-20261108.md"
+    },
+    {
+      "id": "R055",
+      "title": "Gold London AM-PM sell",
+      "family": "gold_session_flow",
+      "role": "new",
+      "parent_id": null,
+      "readiness": "component_probe_not_retained",
+      "timeframe": "intraday_fixed_session",
+      "rule_sketch": "SELL10:30-15:00Europe/London weekdays;exactM1Open;notauctionprices",
+      "data_requirements": "ExistingQDMUTCM1Bid;Askdeclared;2010-24exposed",
+      "automation_feasibility": "price_component_only",
+      "prop_operational_concerns": "NoSL/sizing/account/prop;targethistoricalcostunverified",
+      "source_ids": [
+        "GOLD-DAY-NIGHT",
+        "ICE-GOLD-CLOCK"
+      ],
+      "source_relation": "new_adaptation_not_paper_replication_or_independent_edge",
+      "next_action": "Park exactversion after negative bothcosts/0of15stresspositiveyears;nohour/side/feerescue.",
+      "implementation_state": "component_implemented_not_retained_no_account_policy",
+      "candidate_id": null,
+      "profitability_evidence": "negative_two_declared_costs_on_resolved_mask",
+      "dispatch_authorized": false,
+      "implementations": [],
+      "component_evidence": "GOLD-SESSION-COMPONENT-RESULTS-20261108.md"
+    },
+    {
+      "id": "R056",
+      "title": "PreECB session RMS20x2 stop",
+      "family": "fixing_flow",
+      "role": "variant",
+      "parent_id": "R021",
+      "readiness": "implemented_not_retained",
+      "timeframe": "H1 observed coarse / fixed session",
+      "rule_sketch": "SELL02NY-14Berlin,2xRMS20prior sessions,planned25USD,fixedcontinuous10k;lotfloor0.01",
+      "data_requirements": "13raw-bound observedH1years2010-22;history endpoints nofuture,missing explicit",
+      "automation_feasibility": "research_coarse_prototype_only_not_native_execution",
+      "prop_operational_concerns": "Two negative stressblocks;H1levelSLnotfirstcrossing;targetcost/prop/OOS/forwardmissing",
+      "source_ids": [
+        "BOC48",
+        "LOCAL"
+      ],
+      "source_relation": "new_risk_adaptation_not_paper_replication_or_independent_edge",
+      "next_action": "Park exactversion after frozen retention failed two stressblocks despite positive total;noSLgrid/feerescue. Source admission for separately registered multi-market research.",
+      "implementation_state": "research_coarse_implemented_not_retained",
+      "candidate_id": "eurusd-pre-ecb-session-rms20x2-r025-r056-v1",
+      "implementations": [
+        "eurusd-pre-ecb-session-rms20x2-r025-r056-v1"
+      ],
+      "profitability_evidence": "reference+1535.95/stress+1078.12USD2010-22continuous10k;notretained2of4stressblocksnegative",
+      "dispatch_authorized": false,
+      "evidence_locator": "PRE-ECB-SESSION-RISK-RESULTS-20261108.md",
+      "execution_capability": "tooling_coarse_research_book_not_product_integration",
+      "capital_scenarios": [
+        "10000"
+      ]
+    },
+    {
+      "id": "R057",
+      "title": "GBPUSD preECB sourceH1Open price probe",
+      "family": "fixing_flow",
+      "role": "variant",
+      "parent_id": "R021",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "sourceH1Open 02NY-14Berlin",
+      "rule_sketch": "SELLGBPUSD02NY-14Berlin;oppositeBUYcontrol;pricecomponent1lot",
+      "data_requirements": "Source-onlyH1bothsides2010-24 with missing/crossedOpen roles explicit",
+      "automation_feasibility": "price_component_only_not_account_or_execution",
+      "prop_operational_concerns": "Unmet frozenyear/blockretention;H1Openproxy notactualjointticks;noSL/lot/prop/OOS",
+      "source_ids": [
+        "BOC48"
+      ],
+      "source_relation": "cross_market_adaptation_not_paper_replication_or_independent_edge",
+      "next_action": "Park exactpricecomponent;nohours/sidegrid orcontrolrescue. Methodadmission for a distinct mechanism before new outcomes.",
+      "implementation_state": "component_implemented_not_retained_no_account_policy",
+      "candidate_id": null,
+      "implementations": [],
+      "component_evidence": "TWO-FX-PRE-ECB-COMPONENT-RESULTS-20261108.md",
+      "profitability_evidence": "stress880.2pip/9of15positiveyears_notretained",
+      "dispatch_authorized": false
+    },
+    {
+      "id": "R058",
+      "title": "AUDUSD preECB sourceH1Open price probe",
+      "family": "fixing_flow",
+      "role": "variant",
+      "parent_id": "R021",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "sourceH1Open 02NY-14Berlin",
+      "rule_sketch": "SELLAUDUSD02NY-14Berlin;oppositeBUYcontrol;pricecomponent1lot",
+      "data_requirements": "Source-onlyH1bothsides2010-24 with missing/crossedOpen roles explicit",
+      "automation_feasibility": "price_component_only_not_account_or_execution",
+      "prop_operational_concerns": "Unmet frozenyear/blockretention;H1Openproxy notactualjointticks;noSL/lot/prop/OOS",
+      "source_ids": [
+        "BOC48"
+      ],
+      "source_relation": "cross_market_adaptation_not_paper_replication_or_independent_edge",
+      "next_action": "Park exactpricecomponent;nohours/sidegrid orcontrolrescue. Methodadmission for a distinct mechanism before new outcomes.",
+      "implementation_state": "component_implemented_not_retained_no_account_policy",
+      "candidate_id": null,
+      "implementations": [],
+      "component_evidence": "TWO-FX-PRE-ECB-COMPONENT-RESULTS-20261108.md",
+      "profitability_evidence": "stress-7330.0pip/1of15positiveyears_notretained",
+      "dispatch_authorized": false
+    },
+    {
+      "id": "R059",
+      "title": "GBPUSD US-session local flow",
+      "family": "session_flow",
+      "role": "variant",
+      "parent_id": "R023",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "source H1 Open fixed local session",
+      "rule_sketch": "BUY GBPUSD 08:00-16:00 America/New_York; opposite side control; price component per standard lot",
+      "data_requirements": "Sealed source-only Bid/Ask H1 2010-2024; UTC lookup across years; missing/crossed Open explicit",
+      "automation_feasibility": "price_component_only_not_account_or_execution",
+      "prop_operational_concerns": "Failed frozen year/block retention; Open interval proxy not executable tick; no SL/sizing/prop/OOS",
+      "source_ids": [
+        "SNB04"
+      ],
+      "source_relation": "cross_market_local_flow_adaptation_not_paper_replication_or_independent_edge",
+      "next_action": "Park exact recipe; no side/clock/fee rescue. Method admission for a distinct mechanism before outcomes.",
+      "implementation_state": "component_implemented_not_retained_no_account_policy",
+      "candidate_id": null,
+      "implementations": [],
+      "component_evidence": "LOCAL-FLOW-TWO-FX-RESULTS-20261108.md",
+      "profitability_evidence": "reference -181.0 / stress -1738.6 pip; 7/15 stress-positive years",
+      "dispatch_authorized": false
+    },
+    {
+      "id": "R060",
+      "title": "AUDUSD Sydney-session local flow",
+      "family": "session_flow",
+      "role": "variant",
+      "parent_id": "R023",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "source H1 Open fixed local session",
+      "rule_sketch": "SELL AUDUSD 10:00-16:00 Australia/Sydney; opposite side control; price component per standard lot",
+      "data_requirements": "Sealed source-only Bid/Ask H1 2010-2024; UTC lookup across years; missing/crossed Open explicit",
+      "automation_feasibility": "price_component_only_not_account_or_execution",
+      "prop_operational_concerns": "Failed frozen year/block retention; Open interval proxy not executable tick; no SL/sizing/prop/OOS",
+      "source_ids": [
+        "SNB04"
+      ],
+      "source_relation": "cross_market_local_flow_adaptation_not_paper_replication_or_independent_edge",
+      "next_action": "Park exact recipe; no side/clock/fee rescue. Method admission for a distinct mechanism before outcomes.",
+      "implementation_state": "component_implemented_not_retained_no_account_policy",
+      "candidate_id": null,
+      "implementations": [],
+      "component_evidence": "LOCAL-FLOW-TWO-FX-RESULTS-20261108.md",
+      "profitability_evidence": "reference -11854.2 / stress -13405.8 pip; 1/15 stress-positive years",
+      "dispatch_authorized": false
+    },
+    {
+      "id": "R061",
+      "title": "NASDAQ100 H4 SMA20/80",
+      "family": "trend_breakout",
+      "role": "variant",
+      "parent_id": "R002",
+      "readiness": "implemented_not_retained",
+      "timeframe": "H4 from complete source Bid H1 groups",
+      "rule_sketch": "Completed UTC Bid H4 SMA20/80 cross; fixed 2ATR14 SL; exact decision+1H1 Open proxy; no same-decision reversal.",
+      "data_requirements": "Sealed USATECH.IDX/USD Bid/Ask H1 warmup and development 2019/2022; actual joint ticks for later qualification.",
+      "automation_feasibility": "workspace_tooling_H1_research_prototype_not_native_broker",
+      "prop_operational_concerns": "2019/2022 retention failed; 7/14 closedtrades and many holding gaps. Target specs/funding/dividends, actual ticks, prop/OOS/forward unverified.",
+      "source_ids": [
+        "LOCAL",
+        "AQR-TS"
+      ],
+      "source_relation": "asset_and_price_basis_adaptation_not_paper_replication_or_independent_edge",
+      "next_action": "Park exact recipe in this campaign; distinct mechanism method admission before outcomes; no parameter/cost/risk rescue.",
+      "implementation_state": "tooling_coarse_policy_implemented_not_retained",
+      "candidate_id": "nasdaq100-h4-bid-sma20-80-atr14x2-r025-h1proxy-v1",
+      "implementations": [
+        "nasdaq100-h4-bid-sma20-80-atr14x2-r025-h1proxy-v1"
+      ],
+      "component_evidence": "NASDAQ100-H4-SMA-RESULTS-20261108.md",
+      "profitability_evidence": "2019stress+240.59USD/7closed;2022stress-77.36USD/14closed_on10k;notretained",
+      "dispatch_authorized": false
+    },
+    {
+      "id": "R062",
+      "title": "NASDAQ scheduled pre-FOMC23h price component",
+      "family": "scheduled_macro_premium",
+      "role": "new",
+      "parent_id": null,
+      "readiness": "component_probe_not_retained",
+      "timeframe": "14NY previousday to13NY scheduledFOMC,23h",
+      "rule_sketch": "BUY fixed dated calendar; matchedweekcontrol same localclock;1researchunit; noSL/sizing/accountpolicy.",
+      "data_requirements": "Priorpubliccalendar/14ETclock; raw-bound sourceH1BidAskOpen endpoints2019/2022, missingpaths explicit.",
+      "automation_feasibility": "price_component_only_not_account_or_execution",
+      "prop_operational_concerns": "Frozenfilterfail2019,8events/year, H1Open intervalproxy/holdinggaps, noSL/lot/targetswaps/dividend/prop/OOS.",
+      "source_ids": [
+        "NY-FOMC",
+        "FED-CAL19",
+        "FED-CAL22"
+      ],
+      "source_relation": "scheduled_calendar_equity_premium_adaptation_not_SandP_futures_paper_replication",
+      "next_action": "Park exact23hcomponent; no clock/side/fee rescue or relabelcontrolwinner. Next Nasdaq dailyreversion method/data admission, not R062 retune.",
+      "implementation_state": "component_implemented_not_retained_no_account_policy",
+      "candidate_id": null,
+      "implementations": [],
+      "component_evidence": "FOMC-NASDAQ-COMPONENT-RESULTS-20261108.md",
+      "profitability_evidence": "perresearchunit stress2019-0.12/2022+1113.44USD;matchedweekdelta-103.00/+697.57;notaccountPnL",
+      "dispatch_authorized": false
+    },
+    {
+      "id": "R063",
+      "title": "NASDAQ cash CutlerRSI3 + IBS05 component",
+      "family": "equity_daily_reversion",
+      "role": "variant",
+      "parent_id": "R050",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "Cash daily Bid signals / delayed explicit M1 Open endpoints",
+      "rule_sketch": "BUY CutlerRSI3<10 and IBS<=.5 with 14TR readiness; exit RSI>40 or IBS>.5/incomplete cash; one hypothetical unit; no SL or account sizing.",
+      "data_requirements": "Sealed source-only USATECH.IDX/USD Bid/Ask M1 with registered cash calendar, warmup2018/2021 and development2019/2022.",
+      "automation_feasibility": "price_component_only_not_account_or_execution",
+      "prop_operational_concerns": "Frozen screen failed; modeled endpoint/holding gaps, declared costs/funding, no SL/sizing/targetspec/prop/OOS.",
+      "source_ids": [
+        "PAGONIDIS-IBS"
+      ],
+      "source_relation": "asset_and_execution_adaptation_not_paper_replication_or_independent_edge",
+      "next_action": "Park exact component; no clock/fee/threshold rescue. Reuse sealed sources and batch validation optimization for distinct registered question.",
+      "implementation_state": "component_implemented_not_retained_no_account_policy",
+      "candidate_id": null,
+      "implementations": [],
+      "component_id": "nasdaq-cash-cutler3-10-40-ibs05-component-v1",
+      "component_evidence": "NASDAQ-CASH-RSI-COMPONENT-RESULTS-20261108.md",
+      "profitability_evidence": "USD per one hypothetical unit reference/stress 2019 +37.40/-2.97 (9closed),2022 -295.50/-486.42 (21closed); not account PnL.",
+      "dispatch_authorized": false
+    },
+    {
+      "id": "R064",
+      "title": "NASDAQ cash first-half to last-half momentum component",
+      "family": "equity_close_momentum",
+      "role": "variant",
+      "parent_id": "R051",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "Cash first30 signal to15:31-15:59 source M1 Open endpoints",
+      "rule_sketch": "PriorcashBidClose to09:59BidClose sign, past14TR readiness, regular390minutes; one-unit primary versus always-long on identical signal days.",
+      "data_requirements": "Sealed source-only USATECH.IDX/USD Bid/Ask M1 with cash calendar, warmup2018/2021 and development2019/2022.",
+      "automation_feasibility": "price_component_only_not_account_or_execution",
+      "prop_operational_concerns": "Negative both costs/years and worse than long control; no SL/sizing/account/prop/targetticks/OOS.",
+      "source_ids": [
+        "GAO-FIRSTLAST2018"
+      ],
+      "source_relation": "asset_and_execution_adaptation_not_paper_replication_or_independent_edge",
+      "next_action": "Park exact component, no side/clock/cost/control rescue; pursue source-supported opening5 bracket hypothesis after its own frozen protocol.",
+      "implementation_state": "component_implemented_not_retained_no_account_policy",
+      "candidate_id": null,
+      "implementations": [],
+      "component_id": "nasdaq-cash-firstlast30-price-component-v1",
+      "component_evidence": "NASDAQ-INTRADAY-MOMENTUM-RESULTS-20261108.md",
+      "profitability_evidence": "USD/unit primary reference/stress 2019 -260.64/-481.64;2022 -1777.99/-1969.99;413/413 planned endpoints resolved;stress deltas -70.44/-1116.10 vs long control.",
+      "dispatch_authorized": false
+    },
+    {
+      "id": "R065",
+      "title": "NASDAQ first5 candle direction with10R bracket",
+      "family": "cash_opening_direction",
+      "role": "new",
+      "parent_id": null,
+      "readiness": "implemented_parked_conditional_2019_negative",
+      "timeframe": "Cashfirst5 Bid chart; delayed M1 fill/protective path",
+      "rule_sketch": "First5up BUY/down SELL/doji none; exact09:36Open; opposite first5extremumSL;TP10distance or close-1minute;fixed25USDrisk;unknownexposurefreezesannualaccount.",
+      "data_requirements": "Sealed source-only USATECH.IDX/USD M1/calendar2019/2022; exactsourceordering and completeness before clearingunknown.",
+      "automation_feasibility": "workspace_modeled_M1_policy_not_native_execution",
+      "prop_operational_concerns": "2022 positive; conditional H1-envelope 2019 remains negative even at favorable bound. Exact2019 still unknown; no targetbroker/prop/OOS/forward qualification.",
+      "source_ids": [
+        "CONCRETUM-QQQ-ORB"
+      ],
+      "source_relation": "ETF_rule_adaptation_with_different_CFDsource_latency_costs_risk_not_replication",
+      "next_action": "Park this exact recipe; retain original unknown and conditional-model assumptions. Admit a separately registered NASDAQ noise14 asset-transfer hypothesis, preserving R048 negatives. No R065 risk/TP/cost rescue.",
+      "implementation_state": "modeled_M1_parked_after_conditional_sensitivity_original2019_unknown",
+      "candidate_id": "nasdaq-cash-opening5-direction-10R-r025-m1-v1",
+      "implementations": [
+        "nasdaq-cash-opening5-direction-10R-r025-m1-v1"
+      ],
+      "component_evidence": "NASDAQ-OPENING5-ORB-INTERIM-20261108.md",
+      "source_recovery_evidence": "NASDAQ-M1-GAP-TICK-RESULTS-20261108.md",
+      "profitability_evidence": "Exact parent:2022 243trades reference+714.71/stress+568.12USD;2019 annual N/A. Separate conditional H1 sensitivity:2019 reference[-351.20,-339.70],stress[-925.72,-914.80]USD. Not original unknown resolved or prop pass.",
+      "dispatch_authorized": false,
+      "control": false,
+      "data_revision_evidence": "NASDAQ-OPENING5-ORB-DATA-REVISION-RESULTS-20261109.md",
+      "implementation_updated_on": "2026-11-09",
+      "conditional_bounds_evidence": "NASDAQ-OPENING5-BOUNDS-RESULTS-20261109.md"
+    },
+    {
+      "id": "R066",
+      "title": "NASDAQ noise14 first daily break",
+      "family": "equity_intraday_momentum",
+      "role": "variant",
+      "parent_id": "R048",
+      "readiness": "implemented_parked_conditional_negative",
+      "timeframe": "M1/30min decisions; one attempt per cash session",
+      "rule_sketch": "Causal Bid bands from exact prior14 sessions, opening-gap adjustment, first break only, next-minute delayed fill, opposite fixed SL, first opposite decision exit or preclose, fixed25USD risk.",
+      "data_requirements": "Sealed NASDAQ source-only M1/warmups/cash calendar; source H1 only for separate conditional sensitivity.",
+      "automation_feasibility": "offline_modeled_M1_policy_not_native_execution",
+      "prop_operational_concerns": "2019 exact unknown; conditional stress2019 negative,2022 small positive; no targetbroker/prop/OOS/forward proof.",
+      "source_ids": [
+        "CONCRETUM-NOISE"
+      ],
+      "source_relation": "asset_and_policy_adaptation_not_replication_or_independent_edge",
+      "next_action": "Park exact recipe; preserve all16books and conditional assumptions. No band/hour/stop/risk grid rescue; pursue separately admitted relative-value mechanism.",
+      "implementation_state": "implemented_not_retained_conditional_2019_negative",
+      "candidate_id": "nasdaq-noise14-first-break-opposite-stop-r025-m1-v1",
+      "implementations": [
+        "nasdaq-noise14-first-break-opposite-stop-r025-m1-v1"
+      ],
+      "evidence_locator": "NASDAQ-NOISE14-RESULTS-20261109.md",
+      "profitability_evidence": "Initial10k:2019 conditional reference-214.67/stress-250.47USD,135trades; exact annualN/A after104closed.2022 exact/conditional reference+217.58/stress+198.44USD,165trades. Not qualified.",
+      "dispatch_authorized": false,
+      "control": false,
+      "implementation_updated_on": "2026-11-09"
+    },
+    {
+      "id": "R067",
+      "title": "Gold-silver relative-value formation",
+      "family": "precious_metals_relative_value",
+      "role": "variant",
+      "parent_id": "R035",
+      "readiness": "formation_probe_not_retained",
+      "timeframe": "H1 source sampling; economic horizon not selected",
+      "rule_sketch": "Proposed fixed ylogXAU/xlogXAG formations2018/2021; no executable entry/exit/hedge policy yet.",
+      "data_requirements": "Reviewed XAU/XAG Bid/Ask H1 full2018/2021:47252bars/236260fields;503/503 registered sample dates.",
+      "automation_feasibility": "source_only_no_account_policy",
+      "prop_operational_concerns": "Fixed formations fail registered statistical prefilter in both years; no hedge costs/risk/account/prop/OOS/forward outcomes.",
+      "source_ids": [
+        "CESIFO-GS-2026"
+      ],
+      "source_relation": "mechanism_and_asset_transfer_not_paper_replication",
+      "next_action": "Park exact fixed pair/formations; no orientation/lag/window grid. Preserve source views for separate registered questions.",
+      "implementation_state": "formation_probe_reviewed_not_retained_no_account_policy",
+      "candidate_id": null,
+      "implementations": [],
+      "evidence_locator": "GOLD-SILVER-FORMATION-RESULTS-20261109.md",
+      "profitability_evidence": "No account PnL. Fixed EngleGranger cointp2018=.7439093504/2021=.0933243296;source samples251/251 and252/252;not retained for economic design.",
+      "dispatch_authorized": false
+    },
+    {
+      "id": "R068",
+      "title": "Gold forest with stop-and-cost-aligned labels",
+      "family": "trained_return",
+      "role": "variant",
+      "parent_id": "R039",
+      "readiness": "implemented_not_retained_no_qualified_signals",
+      "timeframe": "H1 interval proxy;08/12/16UTC decisions,3hour holding after1hour delayed entry",
+      "rule_sketch": "RF80/depth4/minleaf100/21causalfeatures predicts stopped/costed BUY/SELLnetR;maxside>0.10R only;SL1.5TR14,fixed25USDrisk;train2018/2021 to dev2019/2022.",
+      "data_requirements": "Reviewed observed-side XAUH1train2018/2021+dev2019/2022; endpoint-purged label census, safeJSON packs; no QDM indicative-Ask substitution.",
+      "automation_feasibility": "workspace_modeled_H1_ML_policy_not_native_execution",
+      "prop_operational_concerns": "All16books zero trades; no qualified signals at frozen threshold. Exposed development/H1fillproxy/declaredcosts, no targetbroker/prop/OOS/forward proof.",
+      "source_ids": [
+        "SKLEARN"
+      ],
+      "source_relation": "ML_method_and_asset_transfer_not_prior_failure_cause_or_edge_proof",
+      "next_action": "Park exact recipe; no threshold/hyperparameter rescue. Preserve scores/census/negatives; distinct-mechanism admission before further outcomes.",
+      "implementation_state": "implemented_reviewed_not_retained_no_qualified_signals",
+      "candidate_id": "xauusd-h1-forest-sl-time3-r025-v1",
+      "implementations": [
+        "xauusd-h1-forest-sl-time3-r025-v1"
+      ],
+      "evidence_locator": "GOLD-ML-SL-LABELS-RESULTS-20261109.md",
+      "profitability_evidence": "Real2019/2022 reference/stress:0trades,net0USD,modeledflat;real scoremax0.0394084/0.0834018R below frozen0.10R. Not profitable or qualified.",
+      "dispatch_authorized": false,
+      "control": false,
+      "implementation_updated_on": "2026-11-09"
+    },
+    {
+      "id": "R069",
+      "title": "Gold stopped-label forest shuffled control",
+      "family": "falsification",
+      "role": "variant",
+      "parent_id": "R068",
+      "readiness": "implemented_not_retained_no_qualified_signals",
+      "timeframe": "H1 interval proxy;08/12/16UTC decisions,3hour holding after1hour delayed entry",
+      "rule_sketch": "Preregistered paired-row BUY/SELLlabel permutation(seed42+foldindex);same features/forest/threshold/path/costs asR068.",
+      "data_requirements": "Reviewed observed-side XAUH1train2018/2021+dev2019/2022; endpoint-purged label census, safeJSON packs; no QDM indicative-Ask substitution.",
+      "automation_feasibility": "workspace_modeled_H1_ML_policy_not_native_execution",
+      "prop_operational_concerns": "All16books zero trades; no qualified signals at frozen threshold. Exposed development/H1fillproxy/declaredcosts, no targetbroker/prop/OOS/forward proof.",
+      "source_ids": [
+        "SKLEARN"
+      ],
+      "source_relation": "preregistered_falsification_control_not_independent_edge",
+      "next_action": "Park exact recipe; no threshold/hyperparameter rescue. Preserve scores/census/negatives; distinct-mechanism admission before further outcomes.",
+      "implementation_state": "implemented_reviewed_not_retained_no_qualified_signals",
+      "candidate_id": "xauusd-h1-forest-sl-time3-shuffled-r025-v1",
+      "implementations": [
+        "xauusd-h1-forest-sl-time3-shuffled-r025-v1"
+      ],
+      "evidence_locator": "GOLD-ML-SL-LABELS-RESULTS-20261109.md",
+      "profitability_evidence": "Shuffled2019/2022 reference/stress:0trades,net0USD,modeledflat;scoremax0.0989124/0.0970541R;no permutation pvalue or candidate promotion.",
+      "dispatch_authorized": false,
+      "control": true,
+      "implementation_updated_on": "2026-11-09"
+    },
+    {
+      "id": "R070",
+      "title": "NY-session EURUSD MA4 reversal",
+      "family": "session_conditioned_reversion",
+      "role": "variant",
+      "parent_id": "R003",
+      "readiness": "implemented_not_retained",
+      "timeframe": "Hourly NY10-13decisions/onehour delayed H1Open actions/15NYflat",
+      "rule_sketch": "Contrarian currentmidpoint versus4closeMA,SL1.5meanTR14,fixed25USDrisk;holdsame/flipopposite;strictcausalH1roles.",
+      "data_requirements": "Reviewed explicit-side EURUSDH1full2019/2022,24932bars/124660fields;15exactpastBidbars+4pairedcloses.",
+      "automation_feasibility": "offline_modeled_H1_policy_not_native_broker",
+      "prop_operational_concerns": "Stressnegativebothyears;onehourlatency differs paper15min;H1proxy/declaredcosts/exposeddevelopment,noPropDD/OOS/forward.",
+      "source_ids": [
+        "LEBARON-NYFX"
+      ],
+      "source_relation": "session_conditioned_MA_method_adaptation_not_EBS_paper_replication_or_edge",
+      "next_action": "Park exact NYMA4 recipe under registered conditional sensitivity; preserve strict annual N/A and original H1 outcomes; no MA/SL/risk/cost/control rescue.",
+      "implementation_state": "implemented_reviewed_not_retained",
+      "candidate_id": "eurusd-ny-ma4-reversal-tr14x1p5-r025-h1-v1",
+      "implementations": [
+        "eurusd-ny-ma4-reversal-tr14x1p5-r025-h1-v1",
+        "eurusd-ny-ma4-reversal-tr14x1p5-r025-m1-lag60-v1",
+        "eurusd-ny-ma4-reversal-tr14x1p5-r025-m1-lag60-conditional-gap-v1"
+      ],
+      "evidence_locator": "NY-FX-REVERSAL-RESULTS-20261109.md",
+      "profitability_evidence": "Initial10k/annual:2019 ref-1217.66/stress-1536.55USD,540closed;2022 ref-297.01/stress-463.01,522closed;allknownflat,noqualification.",
+      "dispatch_authorized": false,
+      "control": false,
+      "implementation_updated_on": "2026-11-09",
+      "source_revision_evidence": "NY-FX-PAIRED-LATENCY-RESULTS-20261109.md",
+      "source_revision_state": "M1_lag60_reviewed_annual_unknown_original_H1_negative_preserved",
+      "conditional_model_evidence": "NY-FX-GAP-SCENARIOS-RESULTS-20261109.md",
+      "conditional_model_state": "reviewed_conditional_flat_not_retained_original_strict_unknown_preserved",
+      "conditional_profitability_evidence": "2019 ref/stress USD: -1025.94/-1297.16;2022 -200.59/-335.47; both gap scenarios coincide with zero adverse exits; not exact annual/OOS/prop proof."
+    },
+    {
+      "id": "R071",
+      "title": "NY-session EURUSD MA4 momentum control",
+      "family": "falsification",
+      "role": "variant",
+      "parent_id": "R070",
+      "readiness": "implemented_not_retained",
+      "timeframe": "Hourly NY10-13decisions/onehour delayed H1Open actions/15NYflat",
+      "rule_sketch": "Preregistered opposite side ofR070 under identical clock/stop/risk/costs;not promotable as post-hoc winner.",
+      "data_requirements": "Reviewed explicit-side EURUSDH1full2019/2022,24932bars/124660fields;15exactpastBidbars+4pairedcloses.",
+      "automation_feasibility": "offline_modeled_H1_policy_not_native_broker",
+      "prop_operational_concerns": "Stressnegativebothyears;onehourlatency differs paper15min;H1proxy/declaredcosts/exposeddevelopment,noPropDD/OOS/forward.",
+      "source_ids": [
+        "LEBARON-NYFX"
+      ],
+      "source_relation": "session_conditioned_MA_method_adaptation_not_EBS_paper_replication_or_edge",
+      "next_action": "Park exact NYMA4 recipe under registered conditional sensitivity; preserve strict annual N/A and original H1 outcomes; no MA/SL/risk/cost/control rescue.",
+      "implementation_state": "implemented_reviewed_not_retained",
+      "candidate_id": "eurusd-ny-ma4-momentum-control-tr14x1p5-r025-h1-v1",
+      "implementations": [
+        "eurusd-ny-ma4-momentum-control-tr14x1p5-r025-h1-v1",
+        "eurusd-ny-ma4-momentum-control-tr14x1p5-r025-m1-lag60-v1",
+        "eurusd-ny-ma4-momentum-control-tr14x1p5-r025-m1-lag60-conditional-gap-v1"
+      ],
+      "evidence_locator": "NY-FX-REVERSAL-RESULTS-20261109.md",
+      "profitability_evidence": "Initial10k/annual:2019 ref+225.13/stress-67.79USD,498closed;2022 ref-582.25/stress-723.03,501closed;allknownflat,notindependentedge.",
+      "dispatch_authorized": false,
+      "control": true,
+      "implementation_updated_on": "2026-11-09",
+      "source_revision_evidence": "NY-FX-PAIRED-LATENCY-RESULTS-20261109.md",
+      "source_revision_state": "M1_lag60_reviewed_annual_unknown_original_H1_negative_preserved",
+      "conditional_model_evidence": "NY-FX-GAP-SCENARIOS-RESULTS-20261109.md",
+      "conditional_model_state": "reviewed_conditional_flat_not_retained_original_strict_unknown_preserved"
+    },
+    {
+      "id": "R072",
+      "title": "NY-session EURUSD MA4 reversal15min",
+      "family": "session_conditioned_reversion",
+      "role": "variant",
+      "parent_id": "R070",
+      "readiness": "implemented_inconclusive_source_gap",
+      "timeframe": "HourlyNY10-13decisions,15minute delayed M1Open actions,15NYflat",
+      "rule_sketch": "SameMA4/SL1.5meanTR14/risk25/costs asparent;complete60sourceM1featurehours;strictheldminuteunknownfreeze.",
+      "data_requirements": "Reviewed source-only EURUSDM1full2019/2022,1460rawdays/1492264bars/7461320fields;10missingpotentialheldminutes retained.",
+      "automation_feasibility": "offline_modeled_M1_policy_not_native_broker",
+      "prop_operational_concerns": "AnnualnetN/A:missingheldminute2019May20/2022Jan5;notcleanOOS/propDD/forward/targetbrokerproof.",
+      "source_ids": [
+        "LEBARON-NYFX"
+      ],
+      "source_relation": "registered_latency_and_source_model_adaptation_not_paper_replication",
+      "next_action": "Park exact NYMA4 recipe under registered conditional sensitivity; preserve strict annual N/A and original H1 outcomes; no MA/SL/risk/cost/control rescue.",
+      "implementation_state": "implemented_reviewed_inconclusive_unknown_exposure",
+      "candidate_id": "eurusd-ny-ma4-reversal-tr14x1p5-r025-m1-lag15-v1",
+      "implementations": [
+        "eurusd-ny-ma4-reversal-tr14x1p5-r025-m1-lag15-v1",
+        "eurusd-ny-ma4-reversal-tr14x1p5-r025-m1-lag15-conditional-gap-v1"
+      ],
+      "evidence_locator": "NY-FX-PAIRED-LATENCY-RESULTS-20261109.md",
+      "profitability_evidence": "2019 207closed/cost thenunknown2019-05-20T17:54Z;2022 3closed/cost thenunknown2022-01-05T18:42Z;annualnetN/A,partialcashnotannualprofit.",
+      "control": false,
+      "dispatch_authorized": false,
+      "implementation_updated_on": "2026-11-09",
+      "conditional_model_evidence": "NY-FX-GAP-SCENARIOS-RESULTS-20261109.md",
+      "conditional_model_state": "reviewed_conditional_flat_not_retained_original_strict_unknown_preserved",
+      "conditional_profitability_evidence": "2019 ref/stress USD: -823.78/-1094.70;2022 -275.54/-413.86; both gap scenarios coincide with zero adverse exits; not exact annual/OOS/prop proof."
+    },
+    {
+      "id": "R073",
+      "title": "NY-session EURUSD MA4 momentum15min control",
+      "family": "falsification",
+      "role": "variant",
+      "parent_id": "R072",
+      "readiness": "implemented_inconclusive_source_gap",
+      "timeframe": "HourlyNY10-13decisions,15minute delayed M1Open actions,15NYflat",
+      "rule_sketch": "Preregistered opposite-side15min control under sameM1source/SL/risk/costs;no post-hoc promotion.",
+      "data_requirements": "Reviewed source-only EURUSDM1full2019/2022,1460rawdays/1492264bars/7461320fields;10missingpotentialheldminutes retained.",
+      "automation_feasibility": "offline_modeled_M1_policy_not_native_broker",
+      "prop_operational_concerns": "AnnualnetN/A:missingheldminute2019May20/2022Jan5;notcleanOOS/propDD/forward/targetbrokerproof.",
+      "source_ids": [
+        "LEBARON-NYFX"
+      ],
+      "source_relation": "registered_latency_and_source_model_adaptation_not_paper_replication",
+      "next_action": "Park exact NYMA4 recipe under registered conditional sensitivity; preserve strict annual N/A and original H1 outcomes; no MA/SL/risk/cost/control rescue.",
+      "implementation_state": "implemented_reviewed_inconclusive_unknown_exposure",
+      "candidate_id": "eurusd-ny-ma4-momentum-control-tr14x1p5-r025-m1-lag15-v1",
+      "implementations": [
+        "eurusd-ny-ma4-momentum-control-tr14x1p5-r025-m1-lag15-v1",
+        "eurusd-ny-ma4-momentum-control-tr14x1p5-r025-m1-lag15-conditional-gap-v1"
+      ],
+      "evidence_locator": "NY-FX-PAIRED-LATENCY-RESULTS-20261109.md",
+      "profitability_evidence": "2019 185closed/cost thenunknownMay20;2022 2closed/cost thenunknownJan5;annualN/A,notindependentedge.",
+      "control": true,
+      "dispatch_authorized": false,
+      "implementation_updated_on": "2026-11-09",
+      "conditional_model_evidence": "NY-FX-GAP-SCENARIOS-RESULTS-20261109.md",
+      "conditional_model_state": "reviewed_conditional_flat_not_retained_original_strict_unknown_preserved"
+    },
+    {
+      "id": "R074",
+      "title": "NASDAQ overnight gap to first-half-hour reversal component",
+      "family": "equity_opening_reversion",
+      "role": "variant",
+      "parent_id": null,
+      "readiness": "component_probe_not_retained",
+      "timeframe": "NY09:30Open minus prior cash final Close; decision09:31, fills09:32 to09:59 source M1Open",
+      "rule_sketch": "Contra sign of overnight Bid gap, no thresholds/ATR/SL, one hypothetical unit; opposite/always-long/always-short controls on same planned-day mask.",
+      "data_requirements": "Reviewed separate-side USATECH.IDX/USD source M1/calendar: warmup2018/2021, development2019/2022; no new download.",
+      "automation_feasibility": "offline_price_component_only_not_account_or_execution",
+      "prop_operational_concerns": "Both stress years negative; no account/SL/sizing/prop/OOS/target broker proof;1missing internal holding window retained.",
+      "source_ids": [
+        "LIU-TSE-OVERNIGHT",
+        "IWANAGA-SAKEMOTO-OPENREV"
+      ],
+      "source_relation": "own_CFD_timing_adaptation_of_primary_abstract_mechanism_not_paper_replication_or_independent_edge",
+      "next_action": "Park exact R074; no side/timing/cost/threshold rescue. Source/method admission for S&P500 transfer must freeze separately and preserve selection history.",
+      "implementation_state": "component_implemented_reviewed_not_retained_no_account_policy",
+      "candidate_id": null,
+      "component_id": "nasdaq-overnight-first30-reversal-price-component-v1",
+      "implementations": [],
+      "component_evidence": "NASDAQ-OVERNIGHT-REVERSAL-RESULTS-20261109.md",
+      "profitability_evidence": "USD/unit ref/stress2019 -917.74/-1166.74;2022 -2109.71/-2359.71;499resolved planned days;notaccountPnL.",
+      "control": false,
+      "dispatch_authorized": false,
+      "implementation_updated_on": "2026-11-09"
+    },
+    {
+      "id": "R075",
+      "title": "US500 overnight gap to first-half-hour reversal component",
+      "family": "equity_opening_reversion",
+      "role": "variant",
+      "parent_id": "R074",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "NY09:30Open minus previous cash last Close;09:31decision,09:32entry,09:59exit M1Open",
+      "rule_sketch": "Transfer frozen contra-gap rule to USA500 source, same regular-day mask and opposite/long/short controls; no threshold/SL/sizing.",
+      "data_requirements": "Four frozen source-only US500 years2018/2019/2021/2022 rebind original raw/code/proof/seals; prior years only previous cash endpoint.",
+      "automation_feasibility": "offline_price_component_only_not_account_or_execution",
+      "prop_operational_concerns": "Stress negative2019/2022,declared costs not historical broker proof;3missing internal windows;noSL/account/prop/OOS/forward.",
+      "source_ids": [
+        "LIU-TSE-OVERNIGHT",
+        "IWANAGA-SAKEMOTO-OPENREV"
+      ],
+      "source_relation": "Related asset transfer after known NASDAQ negative,not independent discovery or paper replication",
+      "next_action": "Park exact R075;no side/clock/threshold/cost rescue. Admit distinct rest-of-day predictor before outcomes; preserve selection history.",
+      "implementation_state": "component_implemented_reviewed_not_retained_no_account_policy",
+      "candidate_id": null,
+      "component_id": "us500-overnight-first30-reversal-price-component-v1",
+      "implementations": [],
+      "component_evidence": "US500-OVERNIGHT-REVERSAL-RESULTS-20261109.md",
+      "profitability_evidence": "USD/unit reference/stress2019 -273.82/-521.82;2022 -520.05/-770.05;498planned/resolved;notaccountPnL.",
+      "control": false,
+      "dispatch_authorized": false,
+      "implementation_updated_on": "2026-11-09"
+    },
+    {
+      "id": "R076",
+      "title": "US500 rest-of-day to last-half-hour momentum component",
+      "family": "equity_close_momentum",
+      "role": "variant",
+      "parent_id": "R051",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "previous cash BidClose to15:29BidClose;15:30decision,15:31to15:59 source M1Open",
+      "rule_sketch": "Same-sign late return;known previous/09:59/15:29 commonmask;oneunit primary/opposite/long/short/firsthalf controls,noATR/SL/sizing.",
+      "data_requirements": "Sealed source-only Bid/Ask M1 and cash calendar2019/2022 with past session,allconsumed development;source proof/pins frozen as needed.",
+      "automation_feasibility": "offline_price_component_only_not_account_or_execution",
+      "prop_operational_concerns": "Failed frozen net/control gate;2019 one unresolved entry,partial known sum;2022 allknown;noSL/equity/account/prop/OOS/forward or target-broker costs/fills.",
+      "source_ids": [
+        "BALTUSSEN-ROD"
+      ],
+      "source_relation": "related predictor and quality/readiness adaptation,not futures-paper replication or independent discovery",
+      "next_action": "Keep v1/v2 not retained and source-quarter failed attempt. Admit separately queued published consensus method before outcomes; no retuning or clean-OOS claim from consumed2019/2022.",
+      "implementation_state": "component_implemented_reviewed_not_retained_no_account_policy",
+      "candidate_id": null,
+      "component_id": "us500-restofday-last30-price-component-v1",
+      "implementations": [],
+      "component_evidence": "INDEX-REST-OF-DAY-RESULTS-20261109.md",
+      "profitability_evidence": "USD/unit 2019/2022 reference -158.96/-121.12;stress -404.96/-371.12;2019 one unresolved entry,partial known sum;2022 allknown;notaccountPnL.",
+      "control": false,
+      "dispatch_authorized": false,
+      "implementation_updated_on": "2026-11-09",
+      "component_revisions": [
+        {
+          "component_id": "us500-restofday-cashclose-tick-component-v2",
+          "parent_component_id": "us500-restofday-last30-price-component-v1",
+          "readiness": "component_reviewed_not_retained",
+          "protocol": "INDEX-PAPER-WINDOW-ECONOMIC-PROTOCOL-20261109.md",
+          "implementation": "INDEX-PAPER-WINDOW-IMPLEMENTATION-20261109.md",
+          "implementation_commit": "885cdd7",
+          "account_policy": false,
+          "clean_oos": false,
+          "execution_authorized": false,
+          "result": "INDEX-PAPER-WINDOW-RESULTS-20261109.md",
+          "source_correction": "INDEX-PAPER-WINDOW-SOURCE-CORRECTION-20261109.md",
+          "source_correction_commit": "004840d",
+          "profitability_evidence": "Primary1s stress USD/unit2019/2022 -435.57/-277.43;60s2019knownpartial244of247,notaccountPnL."
+        }
+      ]
+    },
+    {
+      "id": "R077",
+      "title": "NASDAQ rest-of-day to last-half-hour momentum component",
+      "family": "equity_close_momentum",
+      "role": "variant",
+      "parent_id": "R064",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "previous cash BidClose to15:29BidClose;15:30decision,15:31to15:59 source M1Open",
+      "rule_sketch": "Same-sign late return;known previous/09:59/15:29 commonmask;oneunit primary/opposite/long/short/firsthalf controls,noATR/SL/sizing.",
+      "data_requirements": "Sealed source-only Bid/Ask M1 and cash calendar2019/2022 with past session,allconsumed development;source proof/pins frozen as needed.",
+      "automation_feasibility": "offline_price_component_only_not_account_or_execution",
+      "prop_operational_concerns": "Failed frozen net/control gate;both years known endpoints;2022 fee sensitive;noSL/equity/account/prop/OOS/forward or target-broker costs/fills.",
+      "source_ids": [
+        "BALTUSSEN-ROD"
+      ],
+      "source_relation": "related predictor and quality/readiness adaptation,not futures-paper replication or independent discovery",
+      "next_action": "Keep v1/v2 not retained and source-quarter failed attempt. Admit separately queued published consensus method before outcomes; no retuning or clean-OOS claim from consumed2019/2022.",
+      "implementation_state": "component_implemented_reviewed_not_retained_no_account_policy",
+      "candidate_id": null,
+      "component_id": "nasdaq-restofday-last30-price-component-v1",
+      "implementations": [],
+      "component_evidence": "INDEX-REST-OF-DAY-RESULTS-20261109.md",
+      "profitability_evidence": "USD/unit 2019/2022 reference -287.99/+232.20;stress -536.99/-17.80;both years known endpoints;2022 fee sensitive;notaccountPnL.",
+      "control": false,
+      "dispatch_authorized": false,
+      "implementation_updated_on": "2026-11-09",
+      "component_revisions": [
+        {
+          "component_id": "nasdaq-restofday-cashclose-tick-component-v2",
+          "parent_component_id": "nasdaq-restofday-last30-price-component-v1",
+          "readiness": "component_reviewed_not_retained",
+          "protocol": "INDEX-PAPER-WINDOW-ECONOMIC-PROTOCOL-20261109.md",
+          "implementation": "INDEX-PAPER-WINDOW-IMPLEMENTATION-20261109.md",
+          "implementation_commit": "885cdd7",
+          "account_policy": false,
+          "clean_oos": false,
+          "execution_authorized": false,
+          "result": "INDEX-PAPER-WINDOW-RESULTS-20261109.md",
+          "source_correction": "INDEX-PAPER-WINDOW-SOURCE-CORRECTION-20261109.md",
+          "source_correction_commit": "004840d",
+          "profitability_evidence": "Primary1s stress USD/unit2019/2022 -725.76/+140.46;2022delay2s/60sstressnegative,notaccountPnL."
+        }
+      ]
+    },
+    {
+      "id": "R078",
+      "title": "US500 first-half/rest-of-day sign consensus component",
+      "family": "equity_close_momentum",
+      "role": "variant",
+      "parent_id": "R076",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "NY15:30decision/16:00exit;1sprimary,2s/60sscenarios;parentverifiedjointticks",
+      "rule_sketch": "Trade parentROD direction only when nonzero and equal firsthalf sign;firsthalf equals primary on selected mask,not a strict benchmark.5roles,2costs,noSL/account.",
+      "data_requirements": "Accepted corrected parentv2 rows/quotes/costs/source review;503cashdays/asset,2019/2022consumed;immutable reuse,no source fetch.",
+      "automation_feasibility": "offline_price_component_only_not_account_or_execution",
+      "prop_operational_concerns": "Both years/scenarios net negative;unknownUS5002019/60s preserved;no account/prop/OOS/forward or verified broker cost/fill.",
+      "source_ids": [
+        "BALTUSSEN-ROD"
+      ],
+      "source_relation": "Published Table6 conjunction admitted before group outcomes after known parent negatives;relatedfamily,not independent discovery or paper replication.",
+      "next_action": "Park exact consensus;no reversed-mask/clock/fee grid rescue. Admit distinct EU-open uncertainty-resolution baseline under registered protocol.",
+      "implementation_state": "component_implemented_reviewed_not_retained_no_account_policy",
+      "candidate_id": null,
+      "component_id": "us500-rod-firsthalf-consensus-tick-component-v1",
+      "implementations": [],
+      "component_evidence": "INDEX-CONSENSUS-RESULTS-20261109.md",
+      "profitability_evidence": "2019/2022stress1s -363.40/-370.05USD/unit;allstressyears/delaysnegative;notaccountPnL.",
+      "control": false,
+      "dispatch_authorized": false,
+      "implementation_updated_on": "2026-11-09"
+    },
+    {
+      "id": "R079",
+      "title": "NASDAQ first-half/rest-of-day sign consensus component",
+      "family": "equity_close_momentum",
+      "role": "variant",
+      "parent_id": "R077",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "NY15:30decision/16:00exit;1sprimary,2s/60sscenarios;parentverifiedjointticks",
+      "rule_sketch": "Trade parentROD direction only when nonzero and equal firsthalf sign;firsthalf equals primary on selected mask,not a strict benchmark.5roles,2costs,noSL/account.",
+      "data_requirements": "Accepted corrected parentv2 rows/quotes/costs/source review;503cashdays/asset,2019/2022consumed;immutable reuse,no source fetch.",
+      "automation_feasibility": "offline_price_component_only_not_account_or_execution",
+      "prop_operational_concerns": "Both years/scenarios net negative;unknownUS5002019/60s preserved;no account/prop/OOS/forward or verified broker cost/fill.",
+      "source_ids": [
+        "BALTUSSEN-ROD"
+      ],
+      "source_relation": "Published Table6 conjunction admitted before group outcomes after known parent negatives;relatedfamily,not independent discovery or paper replication.",
+      "next_action": "Park exact consensus;no reversed-mask/clock/fee grid rescue. Admit distinct EU-open uncertainty-resolution baseline under registered protocol.",
+      "implementation_state": "component_implemented_reviewed_not_retained_no_account_policy",
+      "candidate_id": null,
+      "component_id": "nasdaq-rod-firsthalf-consensus-tick-component-v1",
+      "implementations": [],
+      "component_evidence": "INDEX-CONSENSUS-RESULTS-20261109.md",
+      "profitability_evidence": "2019/2022stress1s -611.10/-774.42USD/unit;allstressyears/delaysnegative;notaccountPnL.",
+      "control": false,
+      "dispatch_authorized": false,
+      "implementation_updated_on": "2026-11-09"
+    },
+    {
+      "id": "R080",
+      "title": "US500 EU-open uncertainty-resolution baseline component",
+      "family": "equity_overnight_uncertainty_resolution",
+      "role": "new",
+      "parent_id": null,
+      "readiness": "component_probe_not_retained",
+      "timeframe": "NYprevious23:30to03:30exitdate;M1Open23:31/03:31proxy",
+      "rule_sketch": "Unconditional BUY on regular declared cashdays;no VIX/ATR/threshold,calendar eligibility only;single window,opposite/nullcontrols.",
+      "data_requirements": "Full2019/2022fourquarters source reviewed;499planned/439resolved/60unknown nightwindows;M1proxy not tick/equity.",
+      "automation_feasibility": "implemented_offline_price_component_not_account_or_execution",
+      "prop_operational_concerns": "2019endpointcoverage76.71%;knownnetnegative bothyears;declaredcosts not targetbroker proof;no SL/equity/OOS/prop.",
+      "source_ids": [
+        "BOND-MURAVYEV-EUOPEN"
+      ],
+      "source_relation": "Primary-clock uncertainty-resolution mechanism,own CFD/calendar transfer after close-momentum negatives;not a clock rescue or independent futures replication.",
+      "next_action": "Park exact R080;R081 registered conditional derivative separately,not independent edge.",
+      "implementation_state": "reviewed_not_retained",
+      "candidate_id": null,
+      "component_id": "us500-euopen-2330-0330-price-component-v1",
+      "implementations": [],
+      "component_evidence": "US500-EU-OPEN-COMPONENT-RESULTS-20261109.md",
+      "profitability_evidence": "Knownsubsetreference2019/2022 -218.64/-393.38;stress -409.64/-641.38 USD per researchunit;not fullannual PnL.",
+      "control": false,
+      "dispatch_authorized": false,
+      "implementation_updated_on": "2026-11-09"
+    },
+    {
+      "id": "R081",
+      "title": "US500 prior closing-pressure conditional EU-open",
+      "family": "equity_inventory_reversal_price_proxy",
+      "role": "variant",
+      "parent_id": "R080",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "Priorregularcash15:30open_to15:59close;parent23:31to03:31NYM1Open",
+      "rule_sketch": "BUY only after negative previous expected regular cash closing30 midpoint change;zero/positive/halfday abstain;unknown preserved.",
+      "data_requirements": "Accepted fullquarter2019/2022 canonical and rawproof;493eligiblepredictors allvalid;242selected/218resolved/24unknown.",
+      "automation_feasibility": "offline_price_component_implemented_not_account_or_execution",
+      "prop_operational_concerns": "Priceproxy not signedinventory;2019coverageunknown;knownnetnegative;no cleanOOS/SL/equity/targetprop.",
+      "source_ids": [
+        "NYFED917-INVENTORY"
+      ],
+      "source_relation": "Own causal proxy condition on R080;NYFed inventory mechanism,not signedvolume replication or independent edge.",
+      "next_action": "Park exact R081;distinct event source admission before new numeric;no side/clock/filter rescue.",
+      "implementation_state": "reviewed_not_retained",
+      "candidate_id": null,
+      "component_id": "us500-prior-close-negative-euopen-price-component-v1",
+      "implementations": [],
+      "component_evidence": "US500-INVENTORY-CONDITION-RESULTS-20261109.md",
+      "profitability_evidence": "Knownreference2019/2022 -97.61/-279.44;stress -187.61/-407.44 USD per researchunit;2019not fullannual.",
+      "control": false,
+      "dispatch_authorized": false,
+      "implementation_updated_on": "2026-11-09"
+    }
+  ],
+  "automatic_dispatch": false,
+  "automatic_rejection": false,
+  "holdout_opened": false,
+  "updated_on": "2026-11-09",
+  "implemented_record_count": 47,
+  "implemented_rule_count": 58,
+  "implemented_control_rule_count": 9,
+  "implemented_noncontrol_rule_count": 49,
+  "native_offline_rule_count": 25,
+  "metal_coarse_rule_count": 6,
+  "index_coarse_rule_count": 7,
+  "fx_session_coarse_rule_count": 1,
+  "index_h4_h1proxy_rule_count": 1,
+  "index_opening5_m1_rule_count": 1,
+  "index_noise14_m1_rule_count": 1,
+  "metal_h1_ml_rule_count": 2,
+  "fx_ny_ma4_h1_rule_count": 2,
+  "fx_ny_ma4_M1_rule_count": 4,
+  "fx_ny_ma4_M1_conditional_rule_count": 4
+}

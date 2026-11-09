@@ -31,6 +31,10 @@ rollout giữ gate riêng. Các mục dưới đây là baseline lịch sử 20/
 cấp quyền cleanup hay mở lại plan sản phẩm. Scope bổ sung hiện hành ở trên
 thay các câu giới hạn riêng MT5 trong baseline lịch sử bên dưới.
 
+Rà chỉ đọc ngày 04/11 trong lúc shadow đang chạy: xem
+[inventory giữ/xóa/archive](../checkpoints/ai-integrations-20261031/RECEIPT.md#0411--inventory-cleanup-chỉ-đọc).
+Đây là snapshot C0, chưa phải phê duyệt xóa hoặc retire checkout runtime.
+
 
 
 **Đối chiếu 01/10/2026:** quy trình dọn toàn workspace và nguồn tài liệu chính thức nằm tại [CONTEXT-LIFECYCLE](../CONTEXT-LIFECYCLE.md). Các mô tả entrypoint trong inventory bên dưới là baseline ngày 20/09, không thay hướng PATH-2 hiện tại trong [README sản phẩm](../../projects/trader/README.md). Phụ lục này giữ scope MT5; không tự huỷ hạng mục hoặc mở quyền xoá repo/dữ liệu khác.

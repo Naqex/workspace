@@ -1,0 +1,715 @@
+# Studio operations for agents
+
+Status/log/error conventions follow [observability](OBSERVABILITY.md). Reuse
+native lifecycle and task documents; offline study events explain transitions
+without becoming a second task ledger. No collector/service is required by this
+guide; stale last-progress time alone is not a restart decision.
+
+Strategy selection and qualification use the
+[strategy workflow](STRATEGY-WORKFLOW.md). Its two skills route evidence and
+preflight/report tools; runtime/grants remain owned by the existing execution
+boundaries. Repo skills are not automatically delivered to process workers.
+
+This is the operating guide for the registered Studio system workflows. Use the
+[AI plan](../../planning/trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md) for scope and
+the [existing receipt](../../planning/checkpoints/ai-integrations-20261031/RECEIPT.md)
+for acceptance, failures and resume evidence. This file is not another ledger.
+
+## Visibility for finite shadow observations
+
+Use Trader's checksummed lifecycle and native `mt5-shadow status`, not a PID or
+an estimated finish time alone. The workspace observer reads that command; it
+does not start/resume/stop capture, reconnect MT5, call a model or grant execution:
+
+```powershell
+& <existing-python.exe> tooling/ai-engines/shadow_watch.py --binary <pinned-mt5-shadow.exe> --state-dir <existing-session> --company <authorized-company-uuid> --task <existing-task-uuid>
+```
+
+Run after lifecycle initialization. Omit company/task for terminal-only output;
+add `--once` for a snapshot or to repair publication after an observer interruption.
+The supplied task must belong to the explicit company. Existing project-isolated
+Paperclip credentials are used only by the observer, never passed to the collector.
+Output is Vietnamese: phase, heartbeat, data update time, interval actually read,
+tick/page/closed-H1 counts, expected settlement, immutable deadline and current
+reason. There is no invented percentage or assumption that `complete` qualifies
+the strategy/task. Old sessions remain inspectable with unavailable heartbeat.
+
+For long invocations, record supervisor **and observer** PID/command/log paths
+with the existing attempt receipt, launch hidden with stdout/stderr redirected,
+and verify the first native progress document readback before leaving it running.
+Use a Codex terminal/log panel when useful; do not open a new visible CMD window.
+The finite observer checks about every five seconds, publishes phase/health/error
+transitions at the next check and routine progress every 60 seconds. Its deadline
+is bounded independently; no daemon, startup registration or schedule is installed.
+
+Native document key `shadow-<first-16-registration-hash>` is a derived snapshot
+on the existing task, not an acceptance ledger. Paperclip's document activity
+invalidates native UI queries. Every snapshot shows its observation time; if it
+stops updating for 90 seconds during a run, do not infer current health from it.
+A responsive supervisor is not proof of worker/broker progress. Lock release,
+stale heartbeat and passed deadline remain distinct warnings. No external alert
+is configured; this is not an independent alarm if the entire PC/app is down.
+
+Publication reads before writing with native revision checks. An uncertain PUT
+is reconciled by reading the pending body before another update; a competing
+writer is not silently overwritten. Failure is printed to stderr and retried
+without restarting capture. Terminal delivery gets up to three consecutive
+attempts; failure exits nonzero. Inspect/restart only the observer to repair
+delivery. A lost/corrupt status read publishes an explicit monitoring error when
+possible, never an invented capture result. Keep raw logs if Paperclip is down.
+The observer never changes native task status, assignments or original acceptance.
+
+After an operator finishes diagnosis and verifies the associated repairs, close
+the work item explicitly with a native resolution document. Distinguish work
+completion from the observation outcome: a resolved diagnostic task may be
+`done` while its original lifecycle remains failed and its market-data or
+strategy qualification remains unproven. Record any remaining qualification in
+the existing tracker; never change a lifecycle or data receipt to close a task.
+Re-publication of an old controller report preserves tasks already marked
+`done` or `cancelled`; unresolved failures still become blocked. A terminal
+observation alone does not automatically assert that its repair work is done.
+
+### Verify quickly before requesting new wall-clock observation
+
+Use focused unit/synthetic-clock checks for time boundaries and recovery, then
+replay saved capture and stored competing observations for reducer/comparison
+bugs. Use `mt5_shadow_reprocess.py` for the saved-data projection; its output is
+offline and cannot qualify a failed lifecycle or become a live predecessor.
+These are the default gates for code fixes. A fresh H1 interval is justified
+only by an explicitly named remaining live-hour/handoff behavior, not because a
+background task or a code change exists. Do not start another hour-long attempt
+after failure until the smallest saved-data reproduction is understood. Preserve
+the two observations on revision and diagnose flags, quotes, timing and lineage
+separately; never relax a valid comparison merely to avoid waiting. A short real
+read checks connectivity, not hour-aligned continuity or broker completeness.
+
+For the single-owner Demo stage, a new full-day/overnight observation is not
+the default gate after a fix. Reuse passing evidence while its relevant source,
+dependency, input contract and runtime remain unchanged. Verify the changed
+boundary with saved-data replay and synthetic clock/fault cases; use a short
+real integration read only when the affected boundary needs it. Name the exact
+remaining environmental uncertainty before starting a longer observation.
+Synthetic days establish tested state transitions, not real uptime or future
+broker behavior; a short successful read does not establish rollover coverage.
+
+If the owner shortens an active observation, request native STOP, then verify
+controller, collectors and observers exited and terminal publication arrived.
+Preserve original registrations/deadlines/lifecycles and checksummed capture.
+Resolve the work item against the revised scope, marking omitted live coverage
+explicitly; do not claim the original long observation passed. Keep remaining
+qualification in the existing tracker rather than restarting another long job.
+
+For a new quote-only shadow registration, `stability_policy=ordered_quotes_v1`
+compares every ordered quote/timestamp and lineage value while retaining flags
+as opaque metadata. The default raw policy stays strict. Persist both competing
+observations; reports must say raw flags stability is not asserted. This is not
+permission to ignore revisions in a flag-dependent consumer or to rewrite an old
+failed attempt. Resume and handoff must preserve the registered policy. See
+[the owning contract](../../projects/trader/foundation_v2/docs/FOREX-FORWARD.md).
+Resolve comparison failures with saved pairs and synthetic-hour handoffs first;
+do not launch another hour of collection just to verify this policy.
+
+### Recover a late-backfilled history prefix
+
+For new read-only registrations, explicitly select
+`projection_policy=quarantine_v1` to keep raw collection running when the bar
+consumer detects an old-page revision or a gap. The collector persists
+`quality-hold.json`, freezes the last valid projection and reports raw progress
+separately. It never automatically promotes the held sample. Source/identity,
+raw-prefix and checksum guards remain strict; see the
+[product contract](../../projects/trader/foundation_v2/docs/FOREX-FORWARD.md#keep-raw-collection-independent-of-bar-quality).
+Raw `complete` with `projection_status=held` is not task acceptance; the native
+controller retains blocked status and rejects handoff. Observe an existing job
+with its original pins; do not change a stopped registration to use this mode.
+
+When saved quotes differ on reread, keep the failed lifecycle and both raw
+observations. Do not weaken comparison or change the original registration.
+For a stopped/failed **initial** session registered in a native group, use:
+
+```powershell
+& <existing-python.exe> tooling/ai-engines/shadow_reconcile.py --manifest <original-session.json> --source-dir <original-session-directory> --output-dir <new-separate-revision-directory> --owner-secret-file <existing-owner-secret.json> --max-seconds 600
+```
+
+This bounded read-only tool checks the pinned native lifecycle, registration
+and full consumed capture prefix, then takes the failed session's writer locks.
+It never starts/resumes a session or changes an active sibling. Two ordered
+quote-equivalent native reads per page are required, with at most three pairs.
+Only insertions preserving **every original quote and its order**, including
+same-millisecond duplicates, are admissible; source/SDK/clock/binding changes,
+removed or price-changed quotes block. Flags remain opaque metadata. Double
+reads show observed stability, not complete broker history.
+
+Original capture/lifecycle stay unchanged. Separate checksummed raw observations,
+selected pages and per-page progress survive interruption. Resume the same
+command/output with `--resume`; saved pages are validated and reread before
+continuing. A further economic change requires investigation/a new revision,
+never replacement of the accepted revision prefix. Do not edit the reconciler
+or its pinned inputs during a run. Continuation sessions require a separate
+review of predecessor lineage and are deliberately unsupported by this tool.
+
+The result `revision.json` recomputes H1/H4 using the existing reducer, with a
+fresh knowledge time and `reconciled_history_not_live_forward` qualification.
+It is not a live-complete session, cannot become a continuation predecessor,
+and cannot replay historical decisions into execution. Compare its hours with
+the original report and publish the exact changed scope on the **same native
+task**. Keep the original failed run visibly failed; a recovered history does
+not retroactively establish uninterrupted forward operation.
+
+## Bounded Demo execution handoff
+
+Research/review completion does not start broker execution. For a separately
+approved Demo session, use Trader's native immutable Automation grant and
+[`mt5_demo_session.py`](../../projects/trader/foundation_v2/scripts/mt5_demo_session.py)
+with the [capability/session contract](../../projects/trader/foundation_v2/docs/LOCAL-CAPABILITIES.md).
+The Owner controller creates authority; the runner receives only that bounded
+credential and frozen artifact/commands, without Owner/DB/provider credentials.
+Do not use the manual endpoint, MCP order tools or an engine SDK as a fallback.
+
+The session file owns client intents only; native PostgreSQL owns broker
+receipts, attempt counters and risk reservations. `resume` can finish an unsent
+approved close, while `reconcile` never sends. Expiry, revocation, a STOP file,
+partial fill or an unknown result must remain visible; none means the position
+was closed. Never create another session/grant to erase an attempted command.
+Report outcome and remaining exposure through the existing native task/report;
+do not add a Trader workflow dialog or another approval/state store.
+
+The maintained client is a bounded open/close system check, not a strategy
+scheduler. Observed chart SSE is sampled latest state and has no complete-tick
+cursor. Historical QDM replay, a short live feed check, broker fill acceptance
+and long-duration unattended operation remain different evidence scopes.
+
+## Ownership and instruction delivery
+
+| Consumer | How it receives instructions | Responsibility |
+|---|---|---|
+| Coding/maintenance agent | Workspace/project AGENTS and repo `studio-operations` skill | Inspect, maintain and operate within the assigned scope |
+| Paperclip | Native task graph, assignments, dependencies and run state | Dispatch, concurrency, cancellation, task/run/report history |
+| TradingAgents / RD-Agent / Forex process worker | Registered typed request and `engine_worker.py` | Execute the allowed engine contract; generic Markdown is not its runtime program |
+| Hermes reviewer | `hermes_instructions.md` loaded explicitly by `hermes_worker.py`, verified source dossier, allowlisted tools | Review evidence and publish; no operational administration or broker tools |
+| Native research lead | Its configured instructions file, selected native catalog skills and assigned `naqex-research-lead` company skill | Owner-managed; not a second coordinator for the registered graph |
+
+Repo skills are not automatically installed into Paperclip's Skills catalog.
+Hermes runs with `skip_context_files=True`; copying this guide into a directory
+does not make it part of its prompt. Update the owning instruction path/adapter
+only when that consumer needs the change, then verify what it actually receives.
+Do not give a bounded reviewer an operator skill just to make every agent match.
+
+For reusable research, diagnoses and validation, follow the workspace
+[evidence continuity workflow](../../.agents/skills/evidence-continuity/SKILL.md).
+Read the existing topic/receipt first and send its exact locator/revision and
+remaining questions in the native task dossier or registered input. Persist the
+delta through that consumer's existing output contract, then reconcile it into
+the owning artifact. Do not assume the consumer can discover repo context or
+grant a bounded worker filesystem/memory tools merely to align every loader.
+
+The native lead's Naqex skill source is
+[`paperclip-skills/naqex-research-lead/SKILL.md`](paperclip-skills/naqex-research-lead/SKILL.md).
+
+For the reviewed strategy skills and lead update, preview/export with:
+
+```powershell
+python -X utf8 tooling/ai-engines/paperclip_strategy_skills.py --bundle <new-private-bundle.json>
+```
+
+Publish when the existing runtime is reachable and the native lead is idle:
+
+```powershell
+python -X utf8 tooling/ai-engines/paperclip_strategy_skills.py --company <company-id> --agent <native-lead-id> --receipt <new-private-receipt.json> --apply
+```
+
+The helper snapshots touched managed files, uses optimistic version checks and
+native idempotency keys, verifies saved contents, and syncs with `mode:add`.
+It rejects process workers, active leads and imported/upstream slug collisions;
+it does not delete skills, alter permissions, start services or call a model.
+On uncertain writes, stop and inspect the native catalog plus receipt before
+resuming; no automatic retry. Exporting a bundle is not native installation.
+
+The Naqex lead skill is a Paperclip consumer package, not a Codex discovery skill. Publish
+its reviewed content through the native company skill API, then attach it using
+`POST /agents/:id/skills/sync` with `mode: add`, preserving existing selections.
+The installed native version is a runtime snapshot; maintain the source in this
+repo and compare content/version before updates. Avoid independent UI-only edits.
+
+The current non-Beta assignment follows the skill's current version. Explicit
+version pins require Paperclip's Beta skills setting; do not enable that setting
+incidentally. The `codex_local` adapter materializes/mounts assigned versions on
+the next run, so a catalog entry, attachment count or `configured`/`missing`
+snapshot alone does not prove an agent has read it. Inspect the published file
+and runtime package separately; a real task remains its own execution check.
+
+### Selected native catalog skills
+
+The owner approved `task-planning`, `qa-acceptance` and `doc-maintenance` for
+the native research lead. Install from the app catalog with
+`POST /companies/:id/skills/install-catalog`, then assign the returned keys with
+native sync `mode: add`. Keep upstream content and provenance; do not create
+company copies of those procedures or replace the agent's other selections.
+
+Use planning for a scoped task outcome and verification, QA for observable
+system acceptance, and doc maintenance for authorized behavior changes. Link
+the existing PLAN/receipt instead of mirroring their scope or status into a new
+ledger. Apply the user's proportional-verification policy; a generic checklist
+does not require unrelated checks or rerunning unchanged tests. Skills do not
+grant repository write access or authorize dispatch, strategy tuning or trading.
+The Naqex skill keeps project-specific worker contracts and recovery boundaries.
+Process workers do not load this catalog; do not assign it to them as a substitute
+for their registered instructions. No separate maintenance agent is required.
+
+### Owner-facing reports
+
+The existing Naqex lead skill routes to
+[`references/owner-reporting.md`](paperclip-skills/naqex-research-lead/references/owner-reporting.md).
+Publish both files in the same native company skill package. Hermes's wrapper
+explicitly appends this same reference to its reviewer prompt and records the
+combined instruction hash; it does not discover catalog skills or repo AGENTS.
+Changes apply on the next run, not to past reports or an in-flight worker.
+Retain engine-native numerical reports and evidence; the shared guidance governs
+the lead/reviewer's human narrative, not scientific output schemas or authority.
+
+Native `summarize-status` writes scope summary slots and `status-card-query`
+manages status cards. They are separate workflows, not universal task-report
+formatters. Keep their upstream procedures intact; the existing Naqex skill
+holds this company's reporting convention without installing another skill.
+
+## Control access: MCP, HTTP API and source
+
+Use an exposed, authenticated Paperclip MCP connection for its supported task
+operations after verifying the company and scopes with `paperclip_connection`.
+An MCP entry in the UI is not proof that the coding agent has those tools.
+Otherwise the registered CLI helpers use Paperclip's native HTTP API; source
+inspection explains behavior, and source edits remain scoped development work.
+Do not write task/config rows directly in the database.
+
+For a red Assistant Connection card, inspect health, GET `/api/mcp/setup` and
+GET `/api/mcp/connections` before debugging credentials. An API-route-not-found
+404 means the management surface is not mounted. The public MCP routes depend
+on a valid public/auth origin; OAuth management additionally requires a signed-in
+real user/company membership. `local_trusted` implicit board access cannot grant
+that consent. See [native MCP setup](../paperclip/README.md#mcp-để-trợ-lý-thao-tác-paperclip)
+and the pinned upstream `doc/public-mcp.md` for configuration and approval steps.
+
+The local instance now uses authenticated mode with the existing database and
+ports. The owner claimed the previous local board through Paperclip's native
+flow. `paperclip_setup.api` reads only the exact-origin board credential in
+`.runtime/paperclip/auth.json`, created by the project-isolated native CLI login.
+It does not retry anonymously if a credential is rejected. The operator helpers
+accept only registered workflow operations; Trader has no outer workflow HTTP bridge. Worker callbacks
+retain their separate per-run JWTs; the auth cutover did not change their signing
+secret or dispatch a worker to test it.
+
+Codex's project MCP connection is `naqex_paperclip`, with read/write task access
+and refresh authorization, without `paperclip:configure`. The project allowlist
+exposes task, document and directory tools. Owner sign-in and OAuth consent remain
+human steps. After reconnecting, verify `paperclip_connection` and the company
+before using task tools; OAuth login or CLI discovery does not prove this chat
+has loaded them. See the launcher guide for renewal and rollback. Preserve data,
+ports and worker ownership; do not invent a proxy or write the database to bypass
+authorization.
+
+## Read the task fields correctly
+
+| UI field | Meaning in the registered graph |
+|---|---|
+| Project / parent / child / blocked by | Native graph relationships; verify IDs and company/project scope |
+| Assignee | Actual worker for a child task; the summary starts unassigned and is handed to the human after review |
+| Reviewers / Approvers | Separate native `executionPolicy` stages; a Hermes child task does not populate these fields |
+| Monitor / Watchdog | Separate native monitoring controls; configured process deadlines and whole-graph Stop are not these features |
+| Cancelled | Preserved history, not a missing setup to repair by assigning/restarting it |
+
+The existing human handoff is `in_review` plus a human assignee and summary
+document. It is not a configured native approval policy. It cannot authorize
+paper/demo/live trading. Do not add a second Hermes review through executionPolicy
+without revising the graph's ownership/acceptance and testing the native stages.
+
+## Operate a registered workflow
+
+1. Read the current plan/receipt and native task/run state. Determine whether
+   this is a fresh draft, an existing attempt or an unknown outcome. Historical
+   model success and an idle/error worker status do not prove provider readiness.
+2. In Trader, open **Studio → Đội AI** and use Paperclip's native interface.
+   For a registered Forex or spot fixture, use the bounded CLI helper, then
+   inspect its graph in Paperclip. Follow [Studio controls](README.md#studio-controls).
+3. Create a draft without dispatch. Start only within current task authorization
+   and its quota/cost scope; confirmation is a separate action. Do not change
+   strategy parameters, datasets, providers or model routes as an incidental fix.
+4. Follow the native child task and its run/documents. Numeric evidence must
+   pass dependency/run/hash checks before Hermes; human review follows publication.
+   Keep the paper placeholder blocked and NOT_RUN.
+5. Stop through the whole-graph control or documented CLI when the graph needs
+   cancellation. Cancelling only the parent in native UI does not prove all child
+   processes/provider computation have stopped. Preserve completed outputs.
+6. Reconcile unknown outcomes before retry: native task/run, local receipt,
+   attempt ID and document hashes. Reuse a pending create token. A fresh attempt
+   gets a new key only after the previous outcome is understood. Repair failed
+   report delivery without repeating inference. See [failed workflows](README.md#failed-workflows)
+   and [Hermes limits](hermes.md).
+7. Record changed behavior, affected source/runtime, verification and next step
+   in the existing receipt. System acceptance and strategy qualification remain
+   separate. Use the [launcher guide](../paperclip/README.md) for owned-runtime
+   recovery; use `upstream-integrations` for source adoption/upgrades.
+
+The outer Workflows dialog/HTTP bridge was retired by the owner on02/11. Keep
+operator UI in Paperclip; add application code only for domain contracts,
+integration or a demonstrated native capability gap. Human `in_review` handoff
+still does not establish a native Reviewer/Approver policy. Process timeouts,
+iteration limits and concurrency do not establish a money cap. Scheduling stays
+off until attempt/spend bounds, unknown accounting and restart/stop recovery have
+been verified; this read-only reconciliation does not satisfy those gates alone.
+
+## Pilot run limits and provider throttling
+
+### Independent finite observation sessions
+
+`shadow_sessions.py` launches several existing Rust shadow supervisors without
+model inference or broker-send capability. Each child has its own immutable
+registration, output directory, native lifecycle, logs and optional Paperclip
+task. A group launch record is a private control checkpoint, not a task ledger.
+The CLI's short control lock does not serialize the sessions' lifetimes.
+
+```powershell
+& <existing-python.exe> tooling/ai-engines/shadow_sessions.py start --manifest <private-group.json> --state-dir <new-private-output> --owner-secret-file <existing-private-read-input>
+& <existing-python.exe> tooling/ai-engines/shadow_sessions.py status --state-dir <existing-private-output>
+& <existing-python.exe> tooling/ai-engines/shadow_sessions.py stop --state-dir <existing-private-output> --session a
+& <existing-python.exe> tooling/ai-engines/shadow_sessions.py resume --state-dir <existing-private-output> --session a
+& <existing-python.exe> tooling/ai-engines/shadow_sessions.py observe --state-dir <existing-private-output> --session a
+```
+
+Group schema `mt5-shadow-group-v1` has `binary` and `python` objects with exact
+absolute `path`/`sha256`, and `sessions` entries with `id`, `manifest_path`,
+`manifest_sha256`, `company`, `task`. IDs are distinct lowercase names; company
+and task are both null for terminal-only observation, or both native UUIDs with
+one task per session. Inputs stay outside the new output tree. Registrations
+remain `mt5-shadow-session-v2`; hash/source/SDK/binding/deadline checks still apply.
+At most 16 children are accepted in one explicit invocation as a local process
+fanout bound; this is not a daily model quota or unattended scheduler.
+
+Start does not overwrite existing output. Resume explicitly selects a stopped /
+interrupted child, retains the original deadline/cursor and refuses a running
+or complete lifecycle. Wait for its old observer to exit before resume; no PID
+kill is used. `observe` repairs publication only, without restarting capture.
+Stop/status do not need the read credential or a still-valid child registration.
+PID records include kernel creation identity/executable; recycled PIDs confer no
+ownership. All child windows are hidden and logs append across incarnations.
+
+Short observations can prove concurrent operation, isolation and checkpoint
+resume. They cannot prove full-hour handoff, sufficient H4 warmup or strategy
+qualification. A failure in one child does not cancel or restart a sibling.
+
+### Finite overnight run and recovery
+
+`shadow_night.py` composes existing independent shadow sessions: two initial
+read-only broker observations, then one verified H1 successor for the selected
+predecessor. It owns a technical control checkpoint; Rust still owns each capture
+and Paperclip still owns task/report state. No grant, order, model request,
+runtime reconnect, PID kill, deadline renewal or auto-boot service is added.
+
+```powershell
+& <existing-python.exe> tooling/ai-engines/shadow_night.py start --manifest <registered-night.json> --state-dir <new-controller-output>
+& <existing-python.exe> tooling/ai-engines/shadow_night.py status --state-dir <existing-controller-output>
+& <existing-python.exe> tooling/ai-engines/shadow_night.py resume --manifest <same-registered-night.json> --state-dir <same-controller-output>
+& <existing-python.exe> tooling/ai-engines/shadow_night.py stop --state-dir <existing-controller-output>
+& <existing-python.exe> tooling/ai-engines/shadow_night.py publish --manifest <same-registered-night.json> --state-dir <same-controller-output>
+```
+
+The private runbook supplies exact paths and the parent task. `start` refuses an
+existing checkpoint; `resume` reattaches a matching native group instead of
+launching it twice. An intent without sufficient process/lifecycle evidence
+stays blocked for reconciliation. Run/manifest/source/runtime identity and the
+original handoff window/deadline cannot be edited to recover a missed interval.
+Resume does not clear a stopped/failed child. If reviewed evidence supports a
+child resume, use `shadow_sessions.py resume --session <exact-id>` on its existing
+group, preserving registration/deadline. Never run start again on that output.
+
+Status reports manager creation identity/liveness, its last observed state and
+fresh native file-based child status; it does not call the broker. After a PC
+restart there is no installed autostart: inspect status, then resume explicitly
+if the original window remains valid. Missing time remains missing. No operation
+acknowledges that a stopped trading position is flat; these runs are read-only.
+
+The predecessor must have an actual closed H1, completed lifecycle, unchanged
+report/capture prefix and matching SDK/source/binding. The controller freezes
+and verifies the continuation before launch. Publication is excluded from the
+critical handoff window and repaired independently; pending PUT/revision state
+survives a controller crash. `publish` does not need the broker read credential
+or current capture sources. Parent/child task updates are same-company/manual
+assignment fenced. Native reports remain a projection, not an acceptance ledger.
+
+An explicitly registered `handoff_policy=raw_if_held_v1` can preserve a read-only
+collection window if the predecessor finished raw capture but its projection
+is held. Verify the complete native lifecycle, manifest, raw counters/cursor and
+hold evidence, then start a separately registered successor with no continuation
+seed. Its fresh-start window is at most60s after the boundary. A failed or
+incomplete predecessor never qualifies. This raw restart is not an H1 handoff:
+reports retain `verified_before_launch=false`, and task/data acceptance stays
+unqualified. Reattach an already launched successor after a controller restart;
+never create another capture merely because its launch window has passed.
+
+Private `mt5-shadow-night-v1` pins initial group/input/credential/controller files,
+runtime epoch, offline gate, successor paths, end/deadline, volume headroom and
+per-run byte bound. The CLI checks storage before launch and periodically while
+running; exhausted headroom stops only this run's captures, preserving evidence.
+It never prunes or deletes data. Metrics append bytes/free space and owned
+process cumulative CPU seconds/working-set bytes; they are not whole-machine
+capacity. A temporary Windows idle-sleep request lasts only while the controller
+lives, permits screen-off and changes no global power settings. Forced sleep,
+power loss or Windows restart can still interrupt observation.
+
+Optional process metrics use an independent failure boundary: an inaccessible /
+recycled / exited PID reports unavailable, never an execution-identity pass and
+never a reason to stop capture. Real runtime/source/authority fences stay strict.
+A fatal controller failure attempts a blocked report/task delivery before exit.
+
+For a reviewed read-only controller-only repair after all its processes stop,
+preserve the original source/plan/state and register a new controller revision
+with a new control checkpoint. Existing child registrations, binary/source/SDK /
+clock, capture prefix, run ID and deadline remain unchanged and must verify before
+explicit resume. Record the revision mapping and downtime; attach the existing
+native groups, never rewrite their pins or recreate capture. This does not permit
+changing a capture experiment, trading authority or deadline under an old hash.
+
+Do not update registered capture/controller source, the API runtime or owned
+terminals during observation. Prepare a candidate separately; new source belongs
+to a new run. Offline failure fixtures may execute concurrently on isolated data
+without touching live ports, DB, terminal, clock or account generation. Existing
+quiesced backup requires stopped writers and must not run during these captures.
+
+### Concurrency, tokens and budgets
+
+#### Data basis and release boundary
+
+Shadow derives Bid/Ask midpoint candles from ordered native tick observations;
+H1 timestamps denote the start of the UTC hour, and a fully requested hour is
+consumed only after settlement and stable reread. The native forward runner's
+historical H1 basis is broker Bid, also normalized to UTC. Those are distinct
+registered inputs: compare reducers only on identical observations/basis,
+source/SDK/clock, closed-bar cutoff and known-at time. Gaps do not create candles;
+unverified broker schedules remain unknown, not presumed market closure. Long
+shadow runs are sampled observation evidence, not guaranteed complete tick data.
+
+Before release, pin candidate source/config/interpreter/SDK, review schema and
+backup needs, use focused compatibility fixtures, and retain rollback. Running
+sessions keep their old pin until completion; changing expected hashes to
+continue a different build is not a migration. Runtime updates need an idle /
+reconciled cutover; do not interrupt these overnight observations to refresh a
+build. Stop, expiry and revoked grants never imply broker inventory is flat.
+
+#### Capacity and evidence retention
+
+Initial conservative overnight headroom is a run policy, not measured machine
+capacity: register free-space and maximum output bytes in the private manifest.
+Measure actual growth before adding sessions. Existing bounds/page counts still
+apply. Keep input, current checkpoints, failed raw observations, receipts and the
+last known-good backup. Archive only completed verified outputs after ownership
+review; do not automatically delete old failed captures to satisfy a disk budget.
+
+More observation/backtest processes use local CPU/RAM/IO, not automatically more
+model tokens. The fixed candidate, Rust lifecycle and progress renderer do not
+call an LLM. Three independent model analyses may roughly triple total token
+work relative to one comparable analysis; running the same three sequentially
+does not remove that work. Parallel execution concentrates RPM/TPM pressure.
+
+Use existing native run and `provider_usage` projections (README) for actual
+requests/input/output/cache/reasoning fields. Missing or proxy-omitted usage and
+price stay unknown; process-adapter zero counters do not establish zero SDK use.
+Cache buckets retain upstream semantics, and subscription quota is not inferred
+from direct-API pricing. Do not assume shared cache across proxy accounts/routes.
+
+For this stage, keep daily caps removed and on-demand scheduling unchanged.
+Reuse valid artifacts, avoid duplicate inference and do not call models merely
+to refresh progress. Keep bounded retries/deadlines. A hard financial/token
+budget needs an owner-selected scope and authoritative usage source; this guide
+does not invent one or change existing runtime settings.
+
+Primary documentation checked04/11/2026:
+[OpenAI prompt caching](https://developers.openai.com/api/docs/guides/prompt-caching),
+[Gemini context caching](https://ai.google.dev/gemini-api/docs/caching),
+[Gemini rate limits](https://ai.google.dev/gemini-api/docs/rate-limits).
+These describe their official APIs, not guaranteed subscription/proxy accounting.
+
+On 03 November 2026 the owner removed the experimental 10-runs/day cap from all
+five agents to prioritize workflow reliability before cost optimization. Omit
+`maxDailyRuns` and its legacy aliases; do not replace it with a large arbitrary
+number. Setup helpers use the same uncapped daily default for new workers and
+preserve existing agents. Native API changes must retain other runtime fields,
+especially `aiConnection`.
+
+Keep `maxConcurrentRuns: 1` per agent, timers off and on-demand work enabled.
+Different agents can run concurrently; a run can make several model requests.
+Retain duplicate protection, process deadlines, bounded retries and permission
+checks. Daily cost tuning is deferred; unknown billing is still unknown, and
+provider quotas still apply. This does not enable unattended scheduling or
+establish a token or money cap.
+
+Avoid multiplying retries across layers:
+
+| Layer | Pilot behavior |
+|---|---|
+| Project CLIProxyAPI v8 | `routing.retry`: `request-retry: 0`, `max-retry-credentials: 1`, `max-retry-interval: 0`; no extra credential round/failover for a failed request |
+| TradingAgents | `llm_max_retries: 0`; the wrapper does not replay a failed run |
+| RD-Agent generation | One request, output limit 4096 tokens, no retry |
+| Hermes SDK | Profile `agent.api_max_retries: 1` means one attempt, `auto_recovery_cycles: 0`, empty `fallback_providers`, auxiliary `transient_retries: 0`; OpenAI transport retries are disabled upstream |
+
+At the audited pin these settings stop a 429 rather than sleeping/retrying in
+multiple layers. Recheck per-credential overrides when gateway routes change;
+`max-retry-interval: 0` alone does **not** disable retries. Native metadata/model
+discovery requests are separate from inference. Hermes still allows up to six
+conversation iterations and a 180s agent budget; those are not token budgets.
+
+Provider 429 errors in the analysis/RD wrapper and Hermes's structured
+`rate_limit`/`upstream_rate_limit` results become `model_rate_limited`. Reports,
+receipts and any already attached output remain available. Wait for the provider's
+cooldown/reset, reconcile native run and artifacts, then explicitly retry only
+when needed. Do not rotate accounts/models or rerun completed inference to repair
+publication. This policy controls Studio workers, not the host's Codex quota or
+an owner's separate CLIProxyAPI instance.
+
+Configuration readback and an isolated local 429 smoke are separate from real
+provider readiness. See the current receipt for exactly which checks ran.
+
+## Research to implementation without copying context
+
+Use the current native task as the durable dossier: research in a revisioned
+document, a concise `plan` document when needed, and links to source evidence.
+The lead's [company skill](paperclip-skills/naqex-research-lead/SKILL.md) describes
+the handoff. An already-authorized, cohesive task stays with its existing owner.
+
+When a new owner decision is genuinely required, use native `request_confirmation`
+bound to the exact `plan` revision, with `resolverPolicy: human_only` and the
+actual owner as addressee when known. Read back the effective resolver policy;
+the native default can allow agents to resolve an interaction. Acceptance can
+wake the assigned lead through
+`continuationPolicy: wake_assignee`. The owner reviews the saved proposal rather
+than copying research into another task. A revised plan requires a current
+confirmation; a comment or completed research task is not approval.
+
+For real delegation after plan acceptance, use native
+`/issues/:id/accepted-plan-decompositions`, retaining its revision binding and
+idempotency. Otherwise use ordinary native tasks under existing authorization.
+Verify `blockedByIssueIds`; nesting alone does not impose execution order. Check
+the assignee's actual adapter/model and contract before dispatch. The fixed
+process workers are not general coding agents. These mechanics are provided by
+the pinned Paperclip source; published instructions and API checks do not by
+themselves prove a fresh model-driven end-to-end handoff.
+
+## GitHub repositories and coding work
+
+Reuse the existing Naqex repositories; a Paperclip project is not a new GitHub
+repository. Keep the research pilot's bounded worker contracts separate from
+coding jobs. A repository connection alone does not give the Hermes reviewer
+code, shell or GitHub tools, and it does not synchronize the two issue trackers.
+
+| Work | Repository / Paperclip project |
+|---|---|
+| Trader implementation | `Naqex/trader` / a coding project such as **Phát triển Trader** |
+| Shared plans and tooling | `Naqex/workspace` / a separate project only when that work needs an agent |
+| Registered offline research | Existing research pilot; no writable product checkout required |
+
+Keep engineering issue intake in `Naqex/workspace`, with PRs in the owning repo
+as specified by [GitHub conventions](../github-workflow/README.md). Link a
+Paperclip execution task to that issue and its PR; do not mirror the entire
+backlog or create another progress ledger.
+Versioned worker contracts/instructions stay in the existing `tooling/ai-engines/`
+owner. A separate configuration repo is only justified by an independent release
+or reuse need; native database, runtime profiles and credentials are not code to
+push alongside those contracts.
+
+There are two separate setup steps: the project workspace supplies `cwd`,
+`repoUrl` and `repoRef`; the native GitHub connector supplies authorized actions.
+For coding, explicitly enable isolated execution with `git_worktree`, using
+`origin/main` as the reviewed base and the `codex/` branch convention. Merely
+entering a repo URL does not enable isolation. Verify the supported project
+policy at the pinned source and test it before dispatching a coding agent;
+do not let it share the owner's active checkout or infer submodule authority.
+
+Start the native connector with selected repositories and agents, read-only
+Contents/Metadata/Issues/Pull requests and an expiring fine-grained PAT. Owner
+consent and credential entry are separate steps; do not copy the host's `gh`
+token into Paperclip. The managed GitHub App path is available only with eligible
+Paperclip Cloud enrollment; do not add Cloud solely for this local pilot.
+PAT-based repository tools and a managed shell identity are different paths.
+The experimental Code Review Bot is also separate and is not needed to read code.
+
+Verify a known file read and its native connector trace before granting writes.
+For a later coding worker, review shell credentials separately: gateway
+Ask-first switches do not constrain shell `git`/`gh`. Unmanaged standard-trust
+local execution may inherit host authentication. Selected repos, GitHub-side
+permissions, branch protection and PR review provide the relevant write limits;
+a read-only connector is not a sandbox for a local coding process.
+
+Primary references: [GitHub connector setup](https://docs.paperclip.ing/connectors/github-setup/),
+[GitHub access boundaries](https://docs.paperclip.ing/connectors/github/),
+[coding workspace setup](https://docs.paperclip.ing/how-to/connect-agent-to-github/).
+At a future setup/upgrade, compare these live docs with the pinned
+`projects/integrations/paperclip/doc/execution-github-identity.md` and project
+validator; do not copy credential examples blindly. Current setup evidence and
+any owner authorization belong in the existing integration receipt.
+
+## Decision models: when to connect one
+
+At the audited Paperclip pin, the shared provider choices are OpenAI and
+OpenRouter/Jev 1.13. Eligible connections require a supported native API-key route;
+an OpenAI-compatible chat gateway is not automatically a Decision API connection.
+The server currently registers `settings.test`; the Studio wrappers do not call
+this service. Enabling its settings does not route workers or enforce their review.
+
+Keep known permissions, hashes, numeric limits and state transitions in code.
+Consider a decision model when a concrete consumer needs semantic classification,
+such as categorizing a free-text failure for operator triage. Evaluate labeled
+normal/ambiguous/failure cases, latency and actual usage/cost before promotion.
+Start with advisory output; preserve unknown/escalation and deterministic authority.
+Confidence and typed output do not establish correctness or permission.
+
+Use a supported native Decision connection when such a consumer exists. A new
+key/account or paid probe keeps its own authorization gate. Pin the tested model;
+do not silently follow a latest alias or edit upstream merely to replace the picker.
+Model/API details must be rechecked before implementation:
+[TypeSafe concepts](https://docs.typesafe.ai/concepts/system-one),
+[confidence](https://docs.typesafe.ai/confidence),
+[OpenRouter Jev guide](https://openrouter.ai/docs/guides/community/jev).
+
+Implementation references for the current pin:
+`projects/integrations/paperclip/server/src/services/decision-models.ts`,
+`server/src/routes/decision-models.ts`, `packages/shared/src/decision-models.ts`.
+Current connection state and usage are runtime evidence, not permanent facts in
+this guide; inspect the native GET settings/availability/history before reporting.
+
+## Owner backup and recovery boundaries
+
+Backups of Trader, Paperclip and provider authentication have different owners.
+A verified Trader bundle alone is not a complete Studio recovery package.
+
+| Component | Preserve | Recovery boundary |
+|---|---|---|
+| Trader | Matched PostgreSQL dump and artifact bundle, manifest/checksums and matching runtime/source version | Use `projects/trader/foundation_v2/scripts/backup_api_platform.py`; it requires stopped writers and verifies files. Restore into a new owned target before switching |
+| Paperclip | Native DB dump, storage and private instance config/secrets | The local instance is under `.runtime/paperclip/instances/trader-ui/`; confirm its owner from `tooling/paperclip/README.md`. Do not copy a live PostgreSQL data directory as an ordinary folder backup |
+| Project CLIProxyAPI | Active project config and its configured auth directory | Treat tokens as secrets. Keep the separate Windows instance outside this scope; reauthentication may be necessary after restore |
+| Hermes/custom work | Required profiles, local knowledge/session data and artifacts not already in Git | Follow the installed runtime's actual roots; do not export another user's/global credentials incidentally |
+| Code and tools | Git commits/submodule pins, lockfiles and deployment descriptors | Git does not preserve databases, private configs, untracked work or authenticated sessions. Binaries/venvs/build caches may be rebuilt; preserve an approved rollback when rebuilding is not reliable |
+
+The existing local Trader backup root resolves to E through the runtime's
+`.runtime/api-platform-backups` junction. Confirm that target before creating a
+snapshot; do not duplicate or move the active artifact tree. On 04 November,
+Windows reported the active Trader DB/artifacts on D and backups on a separate
+disk E, both accessible from this machine. E protects
+against loss of D, not loss/compromise of the whole machine. Keep off-machine
+storage separate from this local destination and do not upload private bundles
+until the owner selects the destination and access scope.
+
+For the current single-owner Demo stage, propose one checked snapshot at the end
+of a day with changes and before a risky update. The current helper deliberately
+quiesces API/workers/artifact writers; it is not an online 24/7 backup scheduler.
+Suggested retention is seven daily and four weekly snapshots, adjusted to actual
+bundle sizes/free space, not an installed deletion policy. Never purge the only
+known-good restore point to meet a calendar rule.
+
+For an external copy, transfer only a completed verified bundle, protect private
+contents with encryption and keep the recovery key outside the source machine.
+Ordinary cloud folder sync of active DB files is not a consistent backup. At
+least one independent offline/protected copy should survive local deletion or
+ransomware. No cloud/NAS, remote credentials or backup schedule is configured by
+this guide; the owner chose local-only completion pending a destination.
+
+When restoring, verify hashes and schema/runtime compatibility first. Account
+secrets can be machine-bound and require login again. Disable new execution,
+reconcile current broker inventory/receipts and revalidate authority before any
+new send. Restoring files does not roll the broker back or renew an old grant.

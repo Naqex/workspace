@@ -1,0 +1,7 @@
+{
+  "name": "naqex-codegraph-tool",
+  "private": true,
+  "dependencies": {
+    "@colbymchenry/codegraph": "1.6.2"
+  }
+}

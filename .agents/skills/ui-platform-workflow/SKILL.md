@@ -38,6 +38,7 @@ fixes stay in their owner.
 ## Naqex Trader
 
 Use `foundation_v2` in the main product repository and its `ui/` contracts.
+For VI/EN copy changes, read [Trader localization](references/trader-i18n.md).
 For plan execution, follow Product Plan -> EXECUTION-ENTRYPOINT -> current evidence;
 Naqex Trader owns UI quality. A small directly assigned fix only needs the relevant
 component/contract and focused verification, not every historical plan.

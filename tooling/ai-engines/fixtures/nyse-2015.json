@@ -1,0 +1,25 @@
+{
+  "schema": "cash-session-calendar-v1",
+  "venue": "NYSE",
+  "year": 2015,
+  "timezone": "America/New_York",
+  "open": "09:30",
+  "close": "16:00",
+  "holidays": [
+    "2015-01-01",
+    "2015-01-19",
+    "2015-02-16",
+    "2015-04-03",
+    "2015-05-25",
+    "2015-07-03",
+    "2015-09-07",
+    "2015-11-26",
+    "2015-12-25"
+  ],
+  "early_closes": {
+    "2015-11-27": "13:00",
+    "2015-12-24": "13:00"
+  },
+  "source": "exchange_calendars4.13.2/XNYS;2022-24 exact officialfrozen calendars",
+  "scope": "cash reference not CFD broker hours"
+}

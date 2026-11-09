@@ -1,82 +1,128 @@
 # Current context — Naqex Workspace
 
-## Naqex migration — 29/10/2026
+Review 09/11/2026 · `REVIEWED-PARTIAL / RESUMABLE`.
+File chỉ điều hướng; PLAN/protocol/results giữ scope và evidence. Không là
+ledger hoặc permission broker. Theo yêu cầu cập nhật của owner ngày 09/11,
+Goal cũ đã được xóa và Goal mới đã tạo thành công với status `active`.
+Owner sau đó đã tạm dừng Goal ngày 09/11; tool xác nhận status `paused`.
+Campaign và lịch sử thử nghiệm được kế thừa; C1/C2 chưa hoàn tất. Không tiếp
+nghiên cứu hoặc mở batch mới cho đến khi owner yêu cầu tiếp tục.
 
-Owner approved the Naqex ecosystem migration: `Naqex/workspace` plus independent
-product submodules `trader`, `vi-dubber`, `quant-trading`, and `TradingAgents`.
-Forks preserve upstream layout/attribution. Current work covers cleanup, visual
-READMEs, paths, public CI/PR gates, local search and the requested Live controls.
-Packaging, public application releases and production deployment are deferred.
-First-party licensing changes use a new commit; historical MIT grants remain.
-Canonical Trader source: `projects/trader`; product plan: `trader/PRODUCT-COMPLETION-PLAN.md`.
-See the migration section in `trader/REPO-CLEANUP-PLAN.md`. Current runtime and
-unrelated WIP can remain in the previous checkout until guarded cutover; the
-old path is not the canonical source. Public release and active-runtime rollout
-retain their approval gates. The snapshot below is historical and does not
-report the new migration or today's process health.
+## Việc hiện tại: mechanism-first research
 
-**Historical snapshot:** cập nhật execution liên project 2026-10-02. Đây là file điều hướng, không phải acceptance ledger và không thay runtime state. [Checkpoint đối chiếu PLAN](checkpoints/workspace-next-stage/ALL-PLAN-EXECUTION-20261002/CHECKPOINT.md) giữ requirement/evidence/gate và WIP.
+Yêu cầu riêng trong lúc Goal paused: đã [khảo sát bot trả phí](research/PAID-EA-MARKET-REVIEW-20261109.md)
+ngày 09/11: 6 sản phẩm/giá vendor, luật FTMO/The5ers và cộng đồng. Chưa có bot
+được xác nhận challenge-ready; tracker bị chặn, performance chưa audit. Không
+mua/cài/chạy bot hoặc thêm trial; campaign không được resume bởi survey này.
 
-**Ưu tiên mới nhất của owner:** tập trung MT5; VI Dubber để sau, không mở thêm lane
-VI. Root tiếp quản WIP sau interruption; fresh agent inventory chỉ còn root.
-Continuation được chốt sau00:00+07 ngày03/10; folders giữ execution date02/10.
+Đã quay lại task lớn theo [Goal cập nhật](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md#goal-cập-nhật--09112026).
+Đã [kiểm phí công khai Gold](research/GOLD-TARGET-COST-ADMISSION-20261109.md):
+The5ers swap-free chỉ được công bố cho funded; exact point/mode/account rates
+còn unknown, giữ Gold ít ưu tiên và không rerun với phí thấp hơn. Khi resume:
+hoàn tất EIA release hours/PIT exceptions và endpoint admission trước batch
+kinh tế mới. Tối ưu kỹ thuật chỉ khi giải quyết lỗi hoặc nút thắt phục vụ
+nghiên cứu. Chưa có numerical job mới được khởi động tại checkpoint này.
 
-## Chuỗi đọc bắt buộc
+Lượt mới theo owner: [phân rã lời/lỗ nhiều tầng](research/HIERARCHICAL-PNL-ATTRIBUTION-20261109.md)
+đã tạo 861 node / 30 sổ / 439 trường hợp lệnh–chi phí từ sealed Gold.
+40.418 tỷ lệ có mẫu số/scope đã đối soát bằng Fraction; 9 mutation và 19 test
+đạt. Không simulation mới, không đổi strategy/verdict; chưa challenge candidate.
 
-1. `AGENTS.md` áp dụng.
-2. File này.
-3. `WORKSPACE-NEXT-STAGE-PLAN.md` cho điều phối liên project.
-4. `checkpoints/workspace-next-stage/RESUME.md` cho trạng thái execution mới nhất.
-5. PLAN/ledger/checkpoint đúng project và đúng task.
+[Selective lossdiagnosis](research/SELECTIVE-LOSS-DIAGNOSIS-RESULTS-20261109.md)
+đã xong trên một retainedcandidateGold:30books/439trade-costcases,Fractionreview/
+6mutations. Stressfunding77,75%costdrag, nhưnglongholding cũngtạo phầnlớnlợi
+nhuận; ưu tiênxácminh swap/spec thật trước sửa rules. D0→D1→D2 đã vào skill
+kiểmđịnh; khôngđào thêmR080/R081 hoặc auto-promoteGold.
+[EIAdatecensus](research/EIA-RELEASE-DATE-CENSUS-RESULTS-20261109.md) đã kiểm
+52/51ngày2019/2022; giữactualpublicationtimeunknown. Fixed delayed-data URL
+exception córegression, khôngmặcđịnhmọiWednesday10:30. Khôngjobnền.
 
-Không đọc toàn archive để bắt đầu task. Archive chỉ mở để kiểm tra nguyên nhân, hash, regression hoặc quyết định lịch sử.
+Đọc [task plan](research/MECHANISM-FIRST-EXECUTION-20261109.md) trước tiếp tục.
+Mục 1–4 và 7 đã thực thi trong phạm vi lượt trước; mục 5–6 chưa áp dụng
+cho các bản mới vì chưa bản nào đủ điều kiện chuyển tiếp. Chưa có
+ứng viên challenge. Không numerical/source job nền, không cần đợi/poll.
 
-## Authority map
+| Lát gần nhất | Trạng thái / bằng chứng |
+|---|---|
+| Gom cơ chế | Đủ 80 ID cũ trong 8 nhóm, không thiếu hoặc trùng. Danh mục hiện có 81 hồ sơ / 58 phiên bản policy-model / 25 native / 9 controls. R081 là biến thể liên quan R080, chưa phải edge độc lập |
+| R080 | [Kết quả EU-open](research/US500-EU-OPEN-COMPONENT-RESULTS-20261109.md): phần tính được âm; 439/499 cửa sổ có đủ giá, 60 chưa xác định; không giữ để phát triển bot |
+| R081 | [Kết quả có điều kiện](research/US500-INVENTORY-CONDITION-RESULTS-20261109.md): chỉ mua sau phiên trước đóng cửa giảm. Đủ 493 tín hiệu hợp lệ, chọn 242 giao dịch; 218 có đủ giá, 24 chưa xác định. Phí cao: 2019 −187,61 / 2022 −407,44 USD/đơn vị nghiên cứu trên phần đã biết. Gác bản này |
+| Dầu/EIA | [Pilot nguồn](research/OIL-EIA-SOURCE-PILOT-RESULTS-20261109.md): 8 raw URL, 35.280 trường được kiểm; 3 dữ liệu sửa giả bị chặn. USO thiếu giá mở nến 16:00 ở cả hai ngày, năm 2019 chỉ đủ 97,95% phút phiên tiền mặt. WTI đủ trong fixture; chưa chứng minh chuyển ETF→CFD |
+| Kỹ thuật | 5 test mới; kiểm raw/Fraction cho 503 dòng và 5 dữ liệu sửa giả. R081 chạy + review 8,599 giây; pilot dầu 2,567 giây. Chưa có bottleneck cần GPU/Rust/DB/RAG hoặc sửa raw |
+| Việc kế | Xác minh lịch và giờ phát hành EIA trong quá khứ; đăng ký cách lấy giá đầu/cuối và chi phí đích trước lịch sử/PnL mới. Không thêm bộ lọc cứu R081 hoặc ngầm thay giá mở nến 16:00 |
 
-| Phạm vi | Authority | Vai trò |
-|---|---|---|
-| Workspace routing | `CURRENT-CONTEXT.md` | Baseline, priority, permission boundary và link đọc tiếp |
-| Cross-project handoff | `WORKSPACE-NEXT-STAGE-PLAN.md` | Milestone, dependency, acceptance scope và worker workflow |
-| Current execution | `checkpoints/workspace-next-stage/RESUME.md` | WIP, owner, last verified gate, blocker và next action |
-| MT5 product | `trader/PRODUCT-COMPLETION-PLAN.md` | Product scope, U/Y gates, PATH-2 và acceptance nghiệp vụ |
-| MT5 UI | `trader/TRADER-UI-MASTER-PLAN.md` | W0–W8 UI scope, visual/a11y/performance gates |
-| MT5 runtime | Operational ledger/`STATE.json`/receipts được `EXECUTION-ENTRYPOINT.md` dẫn | Attempt state; không copy vào PLAN |
-| VI Dubber | `../projects/vi-dubber/PLAN.md` + source/tests/checkpoints | Product phase, contracts và acceptance |
-| Quant/TradingAgents | Project README/AGENTS/ledger riêng | Offline research/regression; không mở provider/broker |
-| Shared UI | `UI-Systems/docs/` tại workspace root + accepted-scoped release receipt | Foundation/contracts; không suy release từ snapshot |
+[Đúc kết owner](research/OWNER-EVIDENCE-REPORT-20261108.md),mục9–11,giữ nguyên
+nhân economics/transfer/quality/selection và giải thíchedge/conditionalentry.
+Dữliệugiá lớn không bằng sampletrades độc lập. Không dùng heuristicblockgate
+làm luậtquỹ hoặc tổngPnLdương làm certificate/passprobability.
 
-`CONTEXT-LIFECYCLE.md` là policy về authority, compact, archive và resume-read test. Không tạo ledger hoặc master PLAN thứ hai.
+## Reuse đã được kiểm
 
-## Trạng thái hiện tại đã xác minh
+[Consensus](research/INDEX-CONSENSUS-RESULTS-20261109.md) R078/R079 và
+[rest-of-day](research/INDEX-REST-OF-DAY-RESULTS-20261109.md) R076/R077 đều gác.
+[Corrected cash-close](research/INDEX-PAPER-WINDOW-RESULTS-20261109.md) giữ
+3unknownUS5002019/60s,quartermaskfailure/correction và NASDAQexactreuse.
+Fullsource1.996hours/16.080.264ticks;149.218commonM1sideOHLCexact. Khôngthu/review
+lại16millionticks cho conditionalrule dùngcanonicalM1 ởwindowkhác.
+[Performance](research/INDEX-TICK-REVIEW-OPTIMIZATION-RESULTS-20261109.md) inspect
+3,98×/scopedcachedreplay7,04×,chỉworkloadđãđo. Metadata/hash không chứngminhedge.
 
-- **MT5 WMREPLAY:** `f11ddab` hoàn tất Journal/Data/Learn repair và promote đúng24 approved chart image hashes. Final UI source8205c89b… qua76web tests/build,144actual route/axe/reflow cases,32/32four-route và8/8chart comparisons. Comparator dùng maxDiffPixels0 với default perceptual threshold; exactbytes là guarantee của promotion copy. [Final UI receipt](../projects/trader/foundation_v2/evidence/wm-all-plan-20261002/ui-repair/CHECKPOINT.md) giữ failed attempts và exclusions. Real-course Learn10API/6readyUI/6loaded-chart journeys pass, course/progress hashes unchanged. Chưa whole-product acceptance.
-- **MT5 recovery/research:** U5b predeclared manual protective parity `b03304e`, U5a native feasibility `55add2e`, synthetic restore15checks `c418a07`, clean tracked-source Windows warm-cache setup `6265dc3`. Ledger/STATE r389 có37 tasks accepted ở scope đã đăng ký; các additions này không tự ledger-accept. U5a durable crash-state restore chưa đạt. Learn bridge đã accepted-scoped; QA404 là `learn_not_configured`, không là mất backend.
-- **MT5 heap:** `c26d425` giữ final receipt của Analytics fixture5.000rows, measured3.601.275ms/2.620iterations/61precise samples. Post-GC12,62→13,69MiB, delta1,0653MiB, DOMdelta0, zeroerrors/overflow: scoped one-hour PASS. Framep95=33,2ms không có verdict60Hz. Historicalcoarse-heapFAIL vẫn giữ; đây chưa là whole-chart performance. Manual UI/Learn remediation và whole U/Y/W gates xem checkpoint hiện tại.
-- **Job12/VI provider:** artifact-level completion không đồng nghĩa media QA. Current audit giữ `qa.passed=false`, `full_track_skipped=true`, `final_failed=122`; không `--fresh`, không xóa cache/receipt/lock, không đổi provider/model và không claim whole-pipeline.
-- **VI Dubber — để sau:** `317ced9` chốt preview403/500 intent/retry, explicit Final/QA verdict và keyboard/contrast;22browser tests,30state captures/18axe scans không có violations. Không có independent final-r6 sign-off hoặc fullWCAG verdict. `af07c92` diagnostic143windows đã xong, canonical122QAfailures giữ nguyên; không inference resume hoặc mở M0-VI-ready/M5.
-- **MT5 U5b margin:** `544e422` opt-in replay-execution-v2, fixed original starting-balance admission tại next-open; v1 bytes/behavior giữ nguyên.166offline tests/23subtests, root35core/service pass với hashes không drift. [Margin receipt](../projects/trader/foundation_v2/evidence/U5B-replay-margin-v2-CHECKPOINT.md) giữ rollback-v2 limits; PostgreSQL integration/horizon/manual-no-signal/floating-path và fullU5 còn mở.
-- **MT5 chart states:** `d0267d5`, [bounded W8 receipt](../projects/trader/foundation_v2/evidence/wm-all-plan-20261002/chart-states/CHECKPOINT.md) giữ8/8cases ×5types, mixedOHLC/crosshair/wheel/pan/type-switch/Volume/SMA/history-reload trên2themes/4widths. UI source8205c89b… unchanged; root viewed7images, finalrawhashes equal. Independent approval/touch/pinch/manualWCAG/performance/fullW8 còn mở; canonical fixture/goldens không đổi.
-- **Quant:** imported paper-soak safety-field validation `c498399`,35focused/257full tests; actual30–60day soak/recovery/alerts còn mở. Không live/execution.
-- **TradingAgents:** HEAD `94e11a4`,133focused offline regression tests/socket denial; không mở provider/API key/network.
-- **BR-01:** `65b5eb6` đính chính H2 filter count từ stored events và cập nhật research pointers; reject/P&L giữ nguyên,2021 đã consumed as development. Không đổi learner progress hoặc mở2022/2025.
-- **Shared UI:** `annam-productivity` và Figma Make là accepted-scoped evidence; không coi đó là global theme/product-runtime acceptance.
+Private base `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/`:
+`execution-v1/us500-inventory-condition-v1/` và`oil-eia-source-pilot-v1/`
+giữlatestsavedproducer/reviewer/raw/seals/progress/events/result/review.
+`mechanism-census-v1/` giữmanualbucketcoverage/cataloguebefore/changedIDs.
+Oldattempts/frozenpins/raws giữnguyên, khôngrepin hoặc xóa negativeevidence.
 
-## Quyết định sống
+## Baseline: đợt Goal trước đã kết thúc theo B
 
-- **Execution override đã ghi nhận 27/09/2026:** trong phiên được giao chạy `WORKSPACE-NEXT-STAGE-PLAN.md`, owner cho phép làm song song vượt cap 3 children; runtime khi đó resolve `ch/linxaq` thành GPT-6 Astra `ultra`, dùng host pool trong trần cấu hình. Giữ override khi tiếp nối đúng execution đó; kiểm tra runtime thực tế, không tự sửa global config. Đây không phải model/cap mặc định cho task cleanup hoặc một lần giao plan mới.
-- Reuse → adapt → shared khi có nhiều consumer thật và rollback rõ; không thêm framework chỉ vì có thư mục foundation.
-- PATH-2 MT5 vẫn là foundation authority; không quay lại legacy Flask làm nguồn chính.
-- UI global ở `UI-Systems/` trong repo; trading UI ở `UI/` và MT5; media UI ở VI Dubber. [Checkpoint chuyển thư mục](checkpoints/ui-systems-relocation-20261005/CHECKPOINT.md) giữ bằng chứng; đường dẫn D: cũ trong receipts/archive là lịch sử.
-- TypeSafe/Jev chỉ là typed advisory judgment; không sở hữu arithmetic, fills, risk, ledger hoặc execution.
-- Provider, broker, wallet, OAuth, holdout, public upload, paid service, deploy và destructive cleanup đều fail-closed.
-- Các plan frontier, SaaS/multiuser, distributed compute, AI factory, SDK expansion và cloud connector là future reference; không thuộc execution hiện tại.
+[Báo cáo owner, mục8](research/OWNER-EVIDENCE-REPORT-20261108.md) là quyết định
+kết thúc đợt: chưa có ứng viên đủ bằng chứng để đề xuất challenge. Đã rà53hồ sơ/
+41versions và đối soát các artifacts chính. Đây không là đạt C1/C2 hoặc chứng
+minh không có chiến lược phù hợp. [Campaign](research/CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md)
+giữ tiêu chí và pins lịch sử. Owner đã mở Goal mới; tiếp campaign v2, không
+chạy lại study không đổi hay ép ra winner.
 
-## Resume hiện tại
+- [R023local session](research/LOCAL-SESSION-RESULTS-20261108.md): primary phiên
+  Mỹ không đạt retention; context châu Âu không được thay primary sau outcome.
+- [PreECBpath risk](research/PRE-ECB-PATH-RISK-RESULTS-20261108.md): đã đo xong;
+  giữ parent parked, không bỏ/nới SL hoặc đổi lot từ counterfactual.
+- [GoldSMA50k](research/GOLD-SMA50K-REVIEW-20261108.md): còn research survivor,
+  chưa challenge-ready;12tháng không là deadline cá nhân mới của owner.
+- Các numerical jobs của đợt Goal đã terminal khi review; đây không là kiểm
+  sức khỏe app/MT5 hiện tại. Ownerhandover mới prepared_not_demonstrated.
 
-1. Đọc `RESUME.md`, sau đó đọc đúng domain PLAN.
-2. MT5 margin đã commit `544e422`; W8 mixedOHLC/all5types/mousegestures đã scopedPASS. Tiếp independent visual review/touch-keyboard/chartlong-session hoặc remainingU5 gaps theo dependencies; giữ fixture/goldens/ledger. Scoped Vite5186PID18572/tool34774 đã teardown sau exactcommandcheck; fresh listeners5180/5186/8020/8030 absent. Không restart/reseed backend.
-3. VI UI-state audit đã commit `317ced9`, diagnostic143/143 đã xong. Owner ưu tiên MT5; để VI lại sau và giữ provider/TTS/rerender/human gates.
-4. Quant/TradingAgents giữ offline regression và evidence; không mở external authority.
-5. Mỗi worker ghi receipt tại project/checkpoint owner, không append raw log vào file này.
+## Đọc theo đúng phạm vi
 
-Bản đầy đủ trước cleanup được giữ tại `archive/2026-10-01-cleanup/planning__CURRENT-CONTEXT.md`; SHA-256 nằm trong `ORIGINAL-BYTES-MANIFEST.json`.
+| Việc | Nguồn chính |
+|---|---|
+| Research/kết quả/đã kiểm gì | [Research index](research/README.md) → tài liệu chủ đề và private artifacts được dẫn |
+| Nghiên cứu → kiểm định → vận hành | [Strategy workflow](../tooling/ai-engines/STRATEGY-WORKFLOW.md), repo skills tương ứng |
+| Trader source và scope | `projects/trader/`, [Product Plan](trader/PRODUCT-COMPLETION-PLAN.md) → [entrypoint](trader/EXECUTION-ENTRYPOINT.md) → ledger/receipts |
+| Trader UI | [UI master plan](trader/TRADER-UI-MASTER-PLAN.md); không thay ownership bằng snapshot |
+| Local runtime/MT5 | [Operations](../tooling/ai-engines/OPERATIONS.md) và runtime skill của Trader; đối soát writer/jobs trước restart |
+| AI integrations cũ hoặc điều tra lỗi | [AI plan](trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md) → [receipt lịch sử](checkpoints/ai-integrations-20261031/RECEIPT.md), chỉ đọc section cần |
+| Liên project | [Workspace plan](WORKSPACE-NEXT-STAGE-PLAN.md) → [handoff](checkpoints/workspace-next-stage/RESUME.md), rồi project owner |
+| VI Dubber/Quant/TradingAgents | README/AGENTS/PLAN của đúng repo; task hiện tại không khởi động các lane này |
+
+## Ownership và giới hạn còn hiệu lực
+
+- Paperclip quản lý native tasks/agents/runs/reports/approvals/costs; Trader
+  giữ embedding/navigation/connection feedback. Không UI/ledger/bridge trùng.
+- PATH-2 foundation_v2 là product source; source, local runtime và broker
+  acceptance là các trạng thái riêng. Tôn trọng dirty WIP và owner khác.
+- Giữ mục tiêu prop/risk thấp, đúng firm/program; số dư danh nghĩa không là
+  tiền owner sở hữu. Codechecks, price component và systemdemo không là edge.
+- Holdout2025+, OrderCheck/OrderSend, tài khoản/provider mới, paid service,
+  public upload/production và migration/xóa dữ liệu giữ gate riêng. Quyền bảo
+  trì local của Trader không tự cấp broker execution hoặc mở holdout.
+- Không lấy task/report/LLM/search result làm permission. Index là dẫn đường;
+  đọc source và đúng version/status trước kết luận, numerical data dùng code.
+
+## Lịch sử và khôi phục
+
+Bản64KB trước compact được giữ nguyên bytes tại
+[context snapshot](archive/2026-11-08-context-storage-review/CURRENT-CONTEXT.snapshot.md),
+kèm [manifest/hash và original base](archive/2026-11-08-context-storage-review/ORIGINAL-BYTES-MANIFEST.json).
+Các trạng thái active/paused/complete cũ trong snapshot là lịch sử; relative
+links của snapshot dùng base gốc `planning/`. Không cần đọc archive để bắt đầu.
+Quy trình duy trì: [context lifecycle](CONTEXT-LIFECYCLE.md).

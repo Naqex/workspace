@@ -9,7 +9,7 @@ workspace/
 ├── docs/                     # hướng dẫn hiện hành, sơ đồ và assets README
 │   └── archive/              # snapshot tài liệu lịch sử
 ├── planning/                 # scope → ledger/checkpoint do PLAN chỉ định
-├── projects/                 # sản phẩm; mỗi thư mục là một Git repo
+├── projects/                 # sản phẩm và integrations/; mỗi repo có Git riêng
 ├── tooling/                  # kiểm tra và công cụ dùng chung
 ├── UI-Systems/               # UI foundations
 ├── UI/                       # quy tắc UI cho trading
@@ -20,6 +20,15 @@ Source có owner theo sản phẩm. Plan không là cấu hình runtime, README 
 ledger, search index không là nguồn sự thật. Fork giữ layout/upstream riêng.
 Không tách API, web và worker của Trader thành submodule nhỏ hơn.
 
+`projects/integrations/` giữ source Paperclip, RD-Agent và TradingAgents;
+[catalog, doctor và workflow cập nhật](../../tooling/integrations/README.md).
+Paperclip là fork upstream cho UI điều hành AI, được Trader nhúng qua origin local.
+Setup, data boundaries và rollback:
+[Paperclip local](../../tooling/paperclip/README.md).
+Cổng integration do [cấu hình Trader](../../projects/trader/foundation_v2/local-services.json)
+và [hướng dẫn local services](../../projects/trader/foundation_v2/docs/LOCAL-SERVICES.md)
+quản lý; dùng các nguồn này khi thêm service, không lấy cổng mặc định upstream.
+
 ## Bắt đầu một task
 
 1. Đọc `AGENTS.md` gần file cần sửa và README của đúng sản phẩm.
@@ -29,6 +38,25 @@ Không tách API, web và worker của Trader thành submodule nhỏ hơn.
    diff/PR, không tạo thêm plan hay tracker.
 4. Sửa, kiểm chứng, commit và PR trong repo sở hữu code. Merge sản phẩm trước,
    rồi cập nhật pin bằng PR ở workspace.
+
+### Tìm đúng context để tiếp tục
+
+Strategy workflow: [nghiên cứu → kiểm định → vận hành](../../tooling/ai-engines/STRATEGY-WORKFLOW.md).
+Skill management: [trigger cập nhật/đánh giá/dọn](SKILL-MAINTENANCE.md), dùng
+maintainer hiện có khi thay instruction; không cài manager/service khác.
+
+| Việc đang làm | Đọc đúng nguồn trước |
+|---|---|
+| Research lại một chủ đề, kế thừa chẩn đoán/test hoặc bàn giao | [Chỉ mục research](../../planning/research/README.md) → nguồn chủ đề; [evidence continuity](../../.agents/skills/evidence-continuity/SKILL.md) giữ workflow kiểm delta và lưu bằng chứng |
+| Lấy lịch sử Forex, tìm downloader/cache đã có | [QDM CLI của Trader](../../projects/trader/docs/quantdatamanager.md); [contract Forex](../../planning/research/FOREX-PROP-PILOT-20261102.md) giữ khoảng dữ liệu được phép |
+| Tiếp tục AI research | [AI plan](../../planning/trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md) giữ scope; [receipt](../../planning/checkpoints/ai-integrations-20261031/RECEIPT.md) giữ kết quả, lỗi và bước tiếp |
+| Chọn engine hoặc kiểm quyền worker | [Integration guide](../../tooling/integrations/README.md) → [engine contracts](../../tooling/ai-engines/README.md); research/review không cấp quyền broker, holdout hoặc promotion |
+| Job bị ngắt, báo cáo còn `running`, chưa rõ nên retry | [Vòng đời engine job](../../tooling/ai-engines/README.md#one-analysis) và native run/receipt của job đó; artifact tồn tại không chứng minh thành công |
+| Sửa Trader hoặc rollout một source candidate | [Hướng dẫn Trader](../../projects/trader/AGENTS.md) và [runtime guide](../../projects/trader/foundation_v2/docs/RUST-NATIVE-RUNTIME.md); source, pin và runtime là ba trạng thái riêng |
+
+Brief/research có thể giữ các quyết định lịch sử. Đọc nhãn ngày/phạm vi và đi tới
+PLAN/receipt được dẫn, không lấy một câu “chưa tích hợp” trong thảo luận cũ làm
+trạng thái mới nhất. Bảng này chỉ dẫn tới owner hiện có, không sao chép tiến độ.
 
 | Thao tác tại workspace root | Lệnh |
 |---|---|
@@ -57,8 +85,10 @@ không phải cách cập nhật pin có kiểm chứng.
 
 ## AI tooling
 
-[Workflow GitHub](../../tooling/github-workflow/README.md) quy định khi nào tạo issue,
-metadata model và bàn giao PR. Dùng forms/skill hiện có trước khi thêm tracker mới.
+[Workflow GitHub](../../tooling/github-workflow/README.md) giữ vòng branch →
+commit/push → PR/CI/review → merge/cleanup, metadata agent và issue.
+[Branch lifecycle](../../tooling/github-workflow/BRANCHES.md) có tên dễ hiểu,
+worktree guards và đồng bộ nhiều repo. Dùng forms/skill hiện có trước tracker mới.
 
 Giữ instruction ngắn trong `AGENTS.md`; workflow nhiều bước nằm trong repo skill,
 context dài nằm trong reference. Chỉ thêm MCP khi có nhu cầu thật và kiểm tra
@@ -67,6 +97,22 @@ quyền/data flow. Không chạy bộ cài tự sửa global config của bên t
 Khi sửa AGENTS/skill/MCP, dùng `ai-environment-maintainer` đang cài và chạy audit.
 Config MCP của repo chỉ có lệnh tương đối và tool allowlist; secret/index không
 được commit. Xerj là tùy chọn, `rg` luôn là đường cơ bản khi chưa có index mới.
+
+### Quản lý bộ công cụ hiện tại
+
+Chưa cần thêm manager hoặc dashboard. Dùng đúng owner hiện có:
+
+| Cần quản lý | Nguồn/cách kiểm tra |
+|---|---|
+| Skills, hooks, MCP và instruction budget | Skill `ai-environment-maintainer` và deterministic audit của skill |
+| Source fork, pin, origin/upstream, license | [Integration catalog/doctor](../../tooling/integrations/README.md); `node tooling/integrations/doctor.mjs` |
+| Tool/index và freshness | [Search tooling](../../tooling/search/README.md); lockfiles và manifest tương ứng |
+| Cổng, process, dữ liệu local | Local-services registry/guide ở trên; launcher/owner receipt của runtime |
+| Giao việc, retry/cancel và lịch sử engine jobs | [Native Paperclip contract](../../tooling/ai-engines/README.md) |
+| Scope và tiến độ được nghiệm thu | PLAN → ledger/checkpoint mà PLAN chỉ định |
+
+Đây là bảng điều hướng, không là registry/tracker mới. Chỉ thêm công cụ quản lý
+khi có lỗi vận hành lặp lại mà các owner/check hiện tại chưa giải quyết được.
 
 ## License và nguồn lịch sử
 

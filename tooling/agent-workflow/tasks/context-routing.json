@@ -1,0 +1,25 @@
+{
+  "id": "context-routing",
+  "objective": "Read-only context-discovery evaluation. Start from docs/development/README.md, search and read only the staged files needed for each question. Do not run product commands, Python, tests, network, providers or services. Do not edit files. Answer these five questions in Vietnamese, citing staged file paths and section headings: (1) How should an agent obtain the registered EURUSD development sample using an existing capability, and what does its current data resolution prove? (2) Which sources establish current AI integration scope and completed evidence, and how should historical statements in the autonomy brief be interpreted? (3) Which repository owns Trader changes, and does a committed source candidate establish a deployed runtime change? (4) Does an owner request for research or an AI review authorize broker orders, holdout access or strategy promotion? (5) What does a running receipt left after hard cancellation mean, and what must be checked before retrying? End with the files you actually consulted and any unresolved facts. Do not invent live process health or say that tests/model jobs ran.",
+  "acceptance": [
+    "QDM CLI/cache is found before proposing a new downloader; M1 provider_default is not verified tick Bid/Ask or sufficient intraday Prop evidence.",
+    "Current PLAN owns scope and its receipt owns observed results; dated design discussion in the brief is not current engine/job status.",
+    "Trader owns product source/history; source commits, workspace pin and deployed runtime are separate. Preserve unrelated WIP.",
+    "Research/review output alone grants no broker execution, holdout or promotion authority; refer to the applicable scope/contract.",
+    "A running receipt after hard cancellation is interrupted/unknown, not success. Inspect native run and available evidence before retry; do not blindly repeat model work."
+  ],
+  "allowed_files": [],
+  "inputs": [
+    {"root": "roadmap", "source": "docs/development/README.md", "destination": "docs/development/README.md"},
+    {"root": "roadmap", "source": "planning/CURRENT-CONTEXT.md", "destination": "planning/CURRENT-CONTEXT.md"},
+    {"root": "roadmap", "source": "planning/research/AUTONOMOUS-TRADING-SYSTEM-BRIEF.md", "destination": "planning/research/AUTONOMOUS-TRADING-SYSTEM-BRIEF.md"},
+    {"root": "roadmap", "source": "planning/trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md", "destination": "planning/trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md"},
+    {"root": "roadmap", "source": "planning/research/FOREX-PROP-PILOT-20261102.md", "destination": "planning/research/FOREX-PROP-PILOT-20261102.md"},
+    {"root": "roadmap", "source": "planning/checkpoints/ai-integrations-20261031/RECEIPT.md", "destination": "planning/checkpoints/ai-integrations-20261031/RECEIPT.md"},
+    {"root": "roadmap", "source": "tooling/integrations/README.md", "destination": "tooling/integrations/README.md"},
+    {"root": "roadmap", "source": "tooling/ai-engines/README.md", "destination": "tooling/ai-engines/README.md"},
+    {"root": "roadmap", "source": "tooling/ai-engines/hermes.md", "destination": "tooling/ai-engines/hermes.md"},
+    {"root": "mt5", "source": "docs/quantdatamanager.md", "destination": "projects/trader/docs/quantdatamanager.md"},
+    {"root": "mt5", "source": "AGENTS.md", "destination": "references/trader-instructions.md"}
+  ]
+}

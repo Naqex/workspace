@@ -1,0 +1,9 @@
+name: naqex-research
+version: 1.0.0
+description: Publish a bounded research review to the current native Paperclip task.
+provides_tools:
+  - research_publish
+provides_hooks:
+  - pre_tool_call
+  - post_api_request
+  - post_auxiliary_call

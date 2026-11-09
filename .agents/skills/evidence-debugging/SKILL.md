@@ -25,6 +25,12 @@ the implicated boundaries, with timestamps or identities when races matter; omit
 secrets and unnecessary account data. A green build or matching selector is not
 evidence that the reported behavior works.
 
+For long-running jobs, reuse [observability guidance](../../../tooling/ai-engines/OBSERVABILITY.md):
+correlate task/run/attempt and source pins, last-progress time, phase/event logs,
+failure code locations and checkpoint. Stale progress is not confirmed process
+death. Preserve a failed attempt before retry; do not broaden logging to full
+credentials/prompts/ticks merely to collect more evidence.
+
 ## Change one supported cause
 
 Write a falsifiable hypothesis and choose the smallest experiment that separates

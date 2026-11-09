@@ -1,8 +1,13 @@
-"""Check maintained entrypoints and submodule ownership without fetching or running products."""
+"""Check maintained entrypoints and submodule ownership without fetching or running products.
+
+For skill/reference links, run the companion check_skill_links.py with explicit
+--skills-dir scopes; it reuses this checker without product-identity restrictions.
+"""
 from __future__ import annotations
 
 import argparse
 import configparser
+import json
 from pathlib import Path
 import re
 import subprocess
@@ -13,26 +18,44 @@ PRODUCTS = {
     "projects/trader": "https://github.com/Naqex/trader.git",
     "projects/vi-dubber": "https://github.com/Naqex/vi-dubber.git",
     "projects/quant-trading": "https://github.com/Naqex/quant-trading.git",
-    "projects/TradingAgents": "https://github.com/Naqex/TradingAgents.git",
     "tooling/reverse-skill": "https://github.com/zhaoxuya520/reverse-skill.git",
 }
+PRODUCTS.update({
+    entry["path"]: entry["repository"]
+    for entry in json.loads((ROOT / "tooling/integrations/catalog.json").read_text(encoding="utf-8"))["sources"]
+})
 GUIDES = (
     "README.md", "CONTRIBUTING.md", "THIRD_PARTY_NOTICES.md",
     "docs/development/README.md", "docs/licensing.md", "tooling/search/README.md",
-    "docs/archive/miro/README.md",
+    "docs/archive/miro/README.md", "tooling/integrations/README.md", "tooling/paperclip/README.md",
 )
 MARKDOWN_LINK = re.compile(r'!?\[[^\]]*\]\(\s*(?:<([^>]+)>|([^\s)]+))(?:\s+["\'][^"\']*["\'])?\s*\)')
 HTML_LINK = re.compile(r'\b(?:href|src)=["\']([^"\']+)["\']', re.IGNORECASE)
+REFERENCE_LINK = re.compile(r'^ {0,3}\[[^\]]+\]:\s*(?:<([^>]+)>|(\S+))', re.MULTILINE)
 
 
-def check_links(root: Path, guide: Path) -> list[str]:
+def check_links(root: Path, guide: Path, *, check_product_identity: bool = True) -> list[str]:
     errors = []
     if not guide.is_file():
         return [f"Missing guide: {guide.relative_to(root)}"]
     content = guide.read_text(encoding="utf-8")
     # Examples in fenced code blocks are not navigation targets.
-    prose = re.sub(r"```.*?```", "", content, flags=re.DOTALL)
+    prose_lines = []
+    fence = None
+    for line in content.splitlines():
+        marker = re.match(r'^ {0,3}(`{3,}|~{3,})(.*)$', line)
+        if fence:
+            if marker and marker[1][0] == fence[0] and len(marker[1]) >= len(fence) and not marker[2].strip():
+                fence = None
+            continue
+        if marker:
+            fence = marker[1]
+            continue
+        # Literal inline examples are not navigation targets.
+        prose_lines.append(re.sub(r'(`+).*?\1', '', line))
+    prose = '\n'.join(prose_lines)
     targets = [a or b for a, b in MARKDOWN_LINK.findall(prose)] + HTML_LINK.findall(prose)
+    targets += [a or b for a, b in REFERENCE_LINK.findall(prose)]
     for target in targets:
         if re.match(r"^[A-Za-z]:[/\\]", target) or target.startswith(("/", "\\")):
             errors.append(f"{guide.relative_to(root)}: local absolute link: {target}")
@@ -45,7 +68,7 @@ def check_links(root: Path, guide: Path) -> list[str]:
             errors.append(f"{guide.relative_to(root)}: link escapes workspace: {target}")
         elif not destination.exists():
             errors.append(f"{guide.relative_to(root)}: broken link: {target}")
-    if re.search(r"\b(?:mt5-tradingview-backtester|mk-trading-workspace|WMREPLAY)\b", prose):
+    if check_product_identity and re.search(r"\b(?:mt5-tradingview-backtester|mk-trading-workspace|WMREPLAY)\b", prose):
         errors.append(f"{guide.relative_to(root)}: old product identity in maintained guide")
     return errors
 

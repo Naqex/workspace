@@ -1,0 +1,170 @@
+{
+  "schema": "forex-historical-study-registration-v1",
+  "study_id": "eurusd-h4-q12023-historical-robustness-v1",
+  "registered_at_utc": "2026-11-05T10:40:28.805473+00:00",
+  "status": "frozen_registration_not_executed",
+  "protocol": {
+    "path": "PROP-HISTORICAL-ROBUSTNESS-20261105.md",
+    "sha256": "35182a06b7c57c2b226d396b10b976112ec9fbebf9bd39249a610bbb35df49d6"
+  },
+  "data_role": "historical_robustness",
+  "prior_exposure": "unverified_owner_cannot_recall",
+  "clean_oos": false,
+  "prior_exposure_statement": "Owner cannot recall prior EURUSD 2023-2024 backtests; filesystem inventory does not prove unseen data.",
+  "audit": {
+    "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\prop-validation-20261105\\consumption-audit-v3.json",
+    "sha256": "d63c71a5aac7a3947a418d1f47cf08143b46f30d600650fd2bd61f7eb26d19ec",
+    "metadata_files_inspected": 2397,
+    "window_records": 43,
+    "review_required_by_reason": {
+      "external_directory_link_not_followed": 130
+    },
+    "absence_of_records_proves_unseen": false
+  },
+  "cache_metadata": {
+    "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\prop-validation-20261105\\qdm-cache-metadata.json",
+    "sha256": "86a9d5061fe6b1069e3763c308bf0cbede44c47c49574785cd409da61865eac9",
+    "qualification": "availability_metadata_not_price_quality_or_exposure_proof"
+  },
+  "windows": {
+    "warmup": {
+      "first_day": "20221101",
+      "last_day": "20221231",
+      "minimum_valid_h4": 81
+    },
+    "evaluation": {
+      "first_day": "20230101",
+      "last_day": "20230331"
+    }
+  },
+  "date_selection": "first_calendar_quarter_of_previously_proposed_2023_validation_range_before_new_prices",
+  "candidates": [
+    "eurusd-h4-donchian20-10-atr14-r025-v1",
+    "eurusd-h4-sma20-80-atr14-r025-v1",
+    "eurusd-h4-z20-2-atr14-time6-r025-v1",
+    "eurusd-h4-pullback20-80-atr14-r025-v1",
+    "eurusd-h4-utc-range00-08-atr14-r025-v1"
+  ],
+  "candidate_selection": "all_five_frozen_candidates_no_Q1_winner_filter",
+  "definitions": [
+    {
+      "path": "PROP-STRATEGY-ROUND1-20261105.md",
+      "sha256": "6b7842bc1396f858e61287ec32e745101999140d380ef0e8862b5efab064f117"
+    },
+    {
+      "path": "PROP-STRATEGY-ROUND2-20261105.md",
+      "sha256": "635867f48131d05b4d9031d6b4dc9c36e82a24e7706463377c12e457f896531a"
+    }
+  ],
+  "source_root": "projects/trader/foundation_v2",
+  "source_files": {
+    "scripts/forex_h4_pilot.py": "f4491ad537f7f1c0a0027b798bfca6a99c51c0d81731a068415b07450fd42f58",
+    "trading_workspace_v2/forex_h4.py": "030dfebefd5b8654cc2ffe133b3e853c5f2911c9b2448a9133fe36ab347fb3ca",
+    "trading_workspace_v2/forex_pilot_risk.py": "a2e2c112ad058666cccfc0acefcaad92a6ab842c44bb56b02af51402a90073e1",
+    "trading_workspace_v2/forex_financing.py": "44d738030a64ad91b905ca7db3c459e5768e02b091aa877c5f23acf574ebea82",
+    "trading_workspace_v2/replay_execution.py": "3b4769d9ea8eb72df83feeb12f36fa91349d2e3445dbec81cf5829b9d902c8ba",
+    "trading_workspace_v2/replay_tick_execution.py": "067175a883d79cd3fb54db79f408798807a9fb1a66f0d76f4eea9f40cc0c0499",
+    "trading_workspace_v2/semantics/data_contracts.py": "96d385c15fa3b6052fe4a81798694a4d4f168ba01fc8c478b755d5b4ab05ff27",
+    "trading_workspace_v2/semantics/data_costs.py": "1ba3ba60a00939ab3baa20ef47a751a0cf0636c99a1ec372e0616498d2612672",
+    "trading_workspace_v2/forex_h4_candidates.py": "ac700a252e0bf8174bf3a22476fe39ddabdc80907a4489734f16a7991f730336",
+    "trading_workspace_v2/forex_prop_candidates.py": "484f7574fdb452de61b4f992c119084786e1be9f750f220e181152037227de61"
+  },
+  "account_spec": {
+    "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\forex-prop-pilot-20261102\\ftmo-current-spec-20261102\\spec.json",
+    "sha256": "930e5670b21b09963d21741258706adeff6b10c454dd9fafa0df7346a0a74756",
+    "historical_spec_verified": false,
+    "commission_account_specific_verified": false
+  },
+  "risk": {
+    "starting_balance_usd": "10000",
+    "trade_risk_usd": "25",
+    "daily_internal_loss_usd": "100",
+    "overall_internal_loss_usd": "500",
+    "maximum_positions": 1,
+    "firm_rules_certified": false
+  },
+  "scenarios": [
+    {
+      "name": "reference",
+      "commission_usd_per_lot_per_side": "2.50",
+      "slippage_price_per_side": "0",
+      "financing_debit_buy_usd_per_lot": "9.3000000",
+      "financing_debit_sell_usd_per_lot": "-0.31000000"
+    },
+    {
+      "name": "cost-stress",
+      "commission_usd_per_lot_per_side": "2.50",
+      "slippage_price_per_side": "0.00002",
+      "financing_debit_buy_usd_per_lot": "20",
+      "financing_debit_sell_usd_per_lot": "20"
+    }
+  ],
+  "financing": {
+    "hour_utc": 22,
+    "weekdays_only": true,
+    "wednesday_multiplier": 3,
+    "qualification": "declared_counterfactual_not_historical_broker_costs"
+  },
+  "semantics": {
+    "clock": "UTC",
+    "signals": "complete_closed_H4",
+    "fills": "next_tradable_quote_bid_ask",
+    "warmup_pnl_included": false,
+    "gap_policy": "preserve_do_not_sort_deduplicate_or_fill",
+    "force_close_at_end": false
+  },
+  "baseline": {
+    "name": "flat_cash",
+    "equity_change_usd": "0",
+    "starting_balance_usd": "10000"
+  },
+  "primary_metric": "ending_equity_usd_minus_10000_separately_per_scenario",
+  "secondary_metrics": [
+    "cash_delta_usd",
+    "floating_pnl_usd",
+    "open_and_pending_state",
+    "entry_fills",
+    "closed_trades",
+    "financing_debit_usd",
+    "minimum_observed_equity_usd_not_max_drawdown",
+    "risk_stops_and_rejections",
+    "tick_and_valid_H4_coverage"
+  ],
+  "not_assessed": [
+    "clean_oos",
+    "statistical_significance",
+    "calibrated_prop_pass_probability",
+    "complete_intrabar_equity_drawdown",
+    "historical_broker_realism",
+    "human_filter_edge"
+  ],
+  "decision_rules": {
+    "material_correctness_failure": "invalidate_affected_results_and_stop",
+    "any_scenario_equity_change_nonpositive": "do_not_promote_cost_robustness_screen_not_met",
+    "both_scenarios_positive": "inconclusive_further_research_only",
+    "zero_trades_or_insufficient_coverage": "inconclusive",
+    "rule_or_criteria_change_after_outcome": "new_trial_window_consumed"
+  },
+  "execution": {
+    "stage": "registration_only_no_new_prices_exported",
+    "current_cli_supports_window": false,
+    "required_next_step": "implement_opt_in_registration_binding_and_targeted_negative_tests_preserving_legacy_guards",
+    "input_csv_hashes": "pending_cache_export_before_simulation",
+    "status_interval_seconds": 5,
+    "max_numeric_workers_after_probe": 4,
+    "worker_timeout_seconds": 1800,
+    "batch_deadline_seconds": 5400,
+    "automatic_retry": false,
+    "reuse": "verified_completed_jobs_or_sealed_completed_scenarios_only",
+    "mid_scenario_resume_supported": false
+  },
+  "authorization": {
+    "broker_calls": false,
+    "model_calls": false,
+    "paid_services": false,
+    "validation_holdout_opened": false,
+    "promotion_authorized": false
+  },
+  "timing_attestation": "local_artifacts_and_git_only_not_independent_timestamp_attestation",
+  "source_binding_role": "baseline_before_registration_support_not_final_execution_source_binding"
+}

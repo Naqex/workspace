@@ -1,0 +1,281 @@
+{
+  "schema": "forex-historical-study-registration-v1",
+  "data_role": "historical_robustness",
+  "prior_exposure": "unverified_owner_cannot_recall",
+  "clean_oos": false,
+  "prior_exposure_statement": "2023 was already consumed for other candidates. Compression rules frozen in Discovery3; no clean OOS or final holdout claim.",
+  "candidates": [
+    "eurusd-h4-compression6-24-atr14-time6-r025-v1"
+  ],
+  "account_spec": {
+    "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\forex-prop-pilot-20261102\\ftmo-current-spec-20261102\\spec.json",
+    "sha256": "930e5670b21b09963d21741258706adeff6b10c454dd9fafa0df7346a0a74756",
+    "historical_spec_verified": false,
+    "commission_account_specific_verified": false
+  },
+  "risk": {
+    "starting_balance_usd": "10000",
+    "trade_risk_usd": "25",
+    "daily_internal_loss_usd": "100",
+    "overall_internal_loss_usd": "500",
+    "maximum_positions": 1,
+    "firm_rules_certified": false
+  },
+  "scenarios": [
+    {
+      "name": "reference",
+      "commission_usd_per_lot_per_side": "2.50",
+      "slippage_price_per_side": "0",
+      "financing_debit_buy_usd_per_lot": "9.3000000",
+      "financing_debit_sell_usd_per_lot": "-0.31000000"
+    },
+    {
+      "name": "cost-stress",
+      "commission_usd_per_lot_per_side": "2.50",
+      "slippage_price_per_side": "0.00002",
+      "financing_debit_buy_usd_per_lot": "20",
+      "financing_debit_sell_usd_per_lot": "20"
+    }
+  ],
+  "financing": {
+    "hour_utc": 22,
+    "weekdays_only": true,
+    "wednesday_multiplier": 3,
+    "qualification": "declared_counterfactual_not_historical_broker_costs"
+  },
+  "semantics": {
+    "clock": "UTC",
+    "signals": "complete_closed_H4",
+    "fills": "next_tradable_quote_bid_ask",
+    "warmup_pnl_included": false,
+    "gap_policy": "preserve_do_not_sort_deduplicate_or_fill",
+    "force_close_at_end": false
+  },
+  "baseline": {
+    "name": "flat_cash",
+    "equity_change_usd": "0",
+    "starting_balance_usd": "10000"
+  },
+  "not_assessed": [
+    "clean_oos",
+    "statistical_significance",
+    "calibrated_prop_pass_probability",
+    "historical_broker_realism",
+    "unobserved_market_prices",
+    "full_firm_exceptions_inactivity_payout"
+  ],
+  "decision_rules": {
+    "material_correctness_failure": "invalidate_affected_evidence_and_stop",
+    "observed_breach": "not_eligible_preserve_first_breach_no_parameter_repair",
+    "not_reached": "inconclusive_at_this_configuration_do_not_raise_risk_to_force_target",
+    "completed_declared_profile": "further_review_only_not_edge_firm_certification_or_authority",
+    "insufficient_coverage_or_zero_trades": "inconclusive",
+    "change_after_outcome": "new_trial_consumed_data_preserve_original",
+    "nonpositive_net_in_either_cost": "no_promotion_of_version_in_test",
+    "positive_both_costs": "further_review_only_not_clean_oos_or_edge"
+  },
+  "authorization": {
+    "broker_calls": false,
+    "model_calls": false,
+    "paid_services": false,
+    "validation_holdout_opened": false,
+    "promotion_authorized": false
+  },
+  "study_id": "eurusd-h4-compression-2023-robustness-calendar-recovery-v2",
+  "registered_at_utc": "2026-11-07T03:48:51.423582+00:00",
+  "status": "frozen_registration_not_executed",
+  "protocol": {
+    "path": "COMPRESSION-ROBUSTNESS-20261107-RECOVERY-V2.md",
+    "sha256": "324d73c60bd27fcb4ac2441b2ecd2459329b780b6646745080914bc17fe14e15"
+  },
+  "windows": {
+    "warmup": {
+      "first_day": "20221101",
+      "last_day": "20221231",
+      "minimum_valid_h4": 81
+    },
+    "evaluation": {
+      "first_day": "20230101",
+      "last_day": "20231231"
+    }
+  },
+  "horizon_months": [
+    3,
+    6,
+    12
+  ],
+  "horizon_cutoffs": [
+    1680307200000,
+    1688169600000,
+    1704067200000
+  ],
+  "source_files": {
+    "scripts/forex_h4_pilot.py": "307052108064934536a662a55b84d034582a6c95c7030da79b5eb9c81e4effd5",
+    "trading_workspace_v2/forex_h4.py": "2a407dac976acc50c328cbb7cf8d560c798482a01649e10eea39e93dbf1ae09c",
+    "trading_workspace_v2/forex_pilot_risk.py": "73c293a0120eae6a0b2c8482b9f664572e7d59352774fb13e6adf5605d5ce2a0",
+    "trading_workspace_v2/forex_financing.py": "7d38d67fbd09868a68c9c9a776b8e5f03973ebe7dee41417149cfdd912ae440c",
+    "trading_workspace_v2/replay_execution.py": "f2f6450c47ec041291978c3cafec9acffe33bcc15dfd3a00b49077cabbcf7320",
+    "trading_workspace_v2/replay_tick_execution.py": "afaa19125c3d9b1fd4b7597fd17abffc0c56016ec553e6265e584c84bec777b7",
+    "trading_workspace_v2/semantics/data_contracts.py": "96d385c15fa3b6052fe4a81798694a4d4f168ba01fc8c478b755d5b4ab05ff27",
+    "trading_workspace_v2/semantics/data_costs.py": "1ba3ba60a00939ab3baa20ef47a751a0cf0636c99a1ec372e0616498d2612672",
+    "trading_workspace_v2/forex_h4_candidates.py": "ac700a252e0bf8174bf3a22476fe39ddabdc80907a4489734f16a7991f730336",
+    "trading_workspace_v2/forex_prop_candidates.py": "484f7574fdb452de61b4f992c119084786e1be9f750f220e181152037227de61",
+    "trading_workspace_v2/forex_discovery_candidates.py": "3e0772ad72f12d8cf3d3e4e5c4b626774bafb330c3aeb2168c805286cd528a14",
+    "trading_workspace_v2/forex_qdm_inspection.py": "306c02ed8543a2fda9b049d56452dffcc777ef683bc7befc664730e00e97db33",
+    "trading_workspace_v2/forex_qdm_ticks.py": "6cf7d89378b6e5a85ec1f946fef55181c392f0381f152cd62d500cf8db80a7f4",
+    "trading_workspace_v2/forex_prop_observer.py": "b743c96819700c461aa01e73e28eb07dce8560cfc66f2d866cd402ee2944bc0d",
+    "trading_workspace_v2/prop_session.py": "79f602738e2929ed1fbde36d7c14475fc32847a7599c2326ca86cbdb8632b3a9"
+  },
+  "input_pins": {
+    "schema": "forex-h4-inputs-v1",
+    "warmup": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\prop-q12023-robustness-20261105\\qdm-export\\warmup\\EURUSD_TICK_TW-TICK-No Session.csv",
+      "sha256": "77fcaa2722b336e729cb5fcce0b6f2aec1be9a652bbfdc7eabeb58a88a6f518a",
+      "first_day": "20221101",
+      "last_day": "20221231"
+    },
+    "development": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\prop-time-fit-20261106\\execution-v1\\export-2023\\EURUSD_TICK_TW-TICK-No Session.csv",
+      "sha256": "0cc3d1206f83f0bd53fbe5eea512542f58f4172a435bfecc590ecb49906531ce",
+      "first_day": "20230101",
+      "last_day": "20231231"
+    }
+  },
+  "primary_metric": "twelve_month_net_equity_reference_stress_with_declared_profile_status_and_tick_risk",
+  "secondary_metrics": [
+    "three_six_month_snapshots",
+    "quarter_contributions_same_account",
+    "costs_holding_sizing",
+    "coverage_and_first_breach"
+  ],
+  "full_prop_lifecycle_evaluated": false,
+  "execution": {
+    "parallel_start": true,
+    "max_numeric_workers": 1,
+    "worker_timeout_seconds": 21600,
+    "batch_deadline_seconds": 28800,
+    "preparation_timeout_seconds": 1800,
+    "automatic_retry": false,
+    "mid_scenario_resume_supported": false,
+    "phase_transition": "next_H1_boundary_before_study_end_actual_account_reset",
+    "strategy_state_transition": "causal_indicators_carry_position_age_and_account_day_latches_reset"
+  },
+  "consumption": {
+    "year_2023": "consumed_by_other_candidates_selection_not_oos",
+    "warmup_2022_nov_dec": "consumed_annual_2023_warmup",
+    "year_2025_and_later": "closed_not_opened"
+  },
+  "parent_registration_sha256": "5d1c1c99a164ca45e39715d42b9b433f187d05a990efecfd07c4c7539fe27c64",
+  "calendar_accounting": "exclusive_event_clock_v1",
+  "prop_profile": {
+    "contract_version": "prop-session-v1",
+    "profile_id": "ftmo-2step-swing-usd10k-declared",
+    "terms_version": "source-checked-20261106-counterfactual-2023",
+    "profile_hash": "153d47662acbb7140cc4111daec5010ea93ca89dc4d39603bf13814f8fd17ba4",
+    "effective_from": "2026-11-06",
+    "source_kind": "named_provider",
+    "source_url": "https://ftmo.com/en/trading-objectives/",
+    "supported_rule_flags": [],
+    "phases": [
+      {
+        "phase_index": 1,
+        "initial_capital": "10000",
+        "currency": "USD",
+        "profit_target": {
+          "threshold": {
+            "amount": "1000",
+            "percent": null,
+            "percent_base": "initial_capital"
+          },
+          "basis": "balance",
+          "comparator": "gte"
+        },
+        "daily_loss": {
+          "threshold": {
+            "amount": "500",
+            "percent": null,
+            "percent_base": "initial_capital"
+          },
+          "basis": "equity",
+          "comparator": "lt"
+        },
+        "daily_anchor_basis": "balance",
+        "overall_drawdown": {
+          "threshold": {
+            "amount": "1000",
+            "percent": null,
+            "percent_base": "initial_capital"
+          },
+          "basis": "equity",
+          "comparator": "lt",
+          "kind": "static",
+          "trailing_granularity": null,
+          "lock_floor_at_initial": false
+        },
+        "reset_timezone": "Europe/Prague",
+        "reset_local_time": "00:00:00",
+        "reset_order": "reset_then_fees",
+        "min_qualifying_days": 4,
+        "max_calendar_days": null,
+        "carry_policy": "reset",
+        "position_policy": "must_be_flat"
+      },
+      {
+        "phase_index": 2,
+        "initial_capital": "10000",
+        "currency": "USD",
+        "profit_target": {
+          "threshold": {
+            "amount": "500",
+            "percent": null,
+            "percent_base": "initial_capital"
+          },
+          "basis": "balance",
+          "comparator": "gte"
+        },
+        "daily_loss": {
+          "threshold": {
+            "amount": "500",
+            "percent": null,
+            "percent_base": "initial_capital"
+          },
+          "basis": "equity",
+          "comparator": "lt"
+        },
+        "daily_anchor_basis": "balance",
+        "overall_drawdown": {
+          "threshold": {
+            "amount": "1000",
+            "percent": null,
+            "percent_base": "initial_capital"
+          },
+          "basis": "equity",
+          "comparator": "lt",
+          "kind": "static",
+          "trailing_granularity": null,
+          "lock_floor_at_initial": false
+        },
+        "reset_timezone": "Europe/Prague",
+        "reset_local_time": "00:00:00",
+        "reset_order": "reset_then_fees",
+        "min_qualifying_days": 4,
+        "max_calendar_days": null,
+        "carry_policy": "reset",
+        "position_policy": "must_be_flat"
+      }
+    ]
+  },
+  "declared_prop_lifecycle_enabled": true,
+  "consumption_audit": {
+    "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\compression-robustness-20261107\\execution-v1\\consumption-audit.json",
+    "sha256": "d08a843ba915df0c15dd8ad119e4297b9a7f78ddedb18c444b7dc1e4f517af09"
+  },
+  "pre_quote_flat_financing": "explicit_not_applicable_v1",
+  "recovery": {
+    "parent_attempt": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\compression-robustness-20261107\\execution-v1",
+    "reason": "startup_calendar_before_first_quote",
+    "completed_scenarios_reused": 0,
+    "input_cache_reused": true,
+    "economic_rules_changed": false
+  }
+}

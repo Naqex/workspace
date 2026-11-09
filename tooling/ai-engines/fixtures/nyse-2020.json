@@ -1,0 +1,25 @@
+{
+  "schema": "cash-session-calendar-v1",
+  "venue": "NYSE",
+  "year": 2020,
+  "timezone": "America/New_York",
+  "open": "09:30",
+  "close": "16:00",
+  "holidays": [
+    "2020-01-01",
+    "2020-01-20",
+    "2020-02-17",
+    "2020-04-10",
+    "2020-05-25",
+    "2020-07-03",
+    "2020-09-07",
+    "2020-11-26",
+    "2020-12-25"
+  ],
+  "early_closes": {
+    "2020-11-27": "13:00",
+    "2020-12-24": "13:00"
+  },
+  "source": "exchange_calendars4.13.2/XNYS;2022-24 exact officialfrozen calendars",
+  "scope": "cash reference not CFD broker hours"
+}

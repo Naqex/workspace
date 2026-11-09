@@ -1,3 +1,6 @@
+# Keep a review path for safety-classified commands; the app permission preset may override it.
+approval_policy = "on-request"
+
 [mcp_servers.naqex_search]
 command = "uv"
 args = ["run", "--no-project", "--python", "3.12", "tooling/search/xerj.py", "mcp"]
@@ -6,3 +9,20 @@ required = false
 startup_timeout_sec = 20
 tool_timeout_sec = 30
 enabled_tools = ["xerj_search", "xerj_def", "xerj_map"]
+
+[mcp_servers.context7]
+url = "https://mcp.context7.com/mcp"
+enabled = true
+required = false
+startup_timeout_sec = 20
+tool_timeout_sec = 30
+enabled_tools = ["resolve-library-id", "query-docs"]
+
+[mcp_servers.naqex_paperclip]
+url = "http://127.0.0.1:17860/mcp/paperclip"
+scopes = ["paperclip:read", "paperclip:write", "offline_access"]
+enabled_tools = ["paperclip_connection", "paperclip_list_agents", "paperclip_get_agent", "paperclip_list_projects", "paperclip_get_project", "paperclip_search_tasks", "paperclip_read_task", "paperclip_create_task", "paperclip_update_task", "paperclip_add_comment", "paperclip_list_deliverables", "paperclip_read_document", "paperclip_write_document", "paperclip_pending_approvals"]
+enabled = true
+required = false
+startup_timeout_sec = 20
+tool_timeout_sec = 45

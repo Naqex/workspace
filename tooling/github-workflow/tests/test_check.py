@@ -1,6 +1,8 @@
 import copy
 import importlib.util
 from pathlib import Path
+import subprocess
+import tempfile
 import unittest
 
 import yaml
@@ -37,6 +39,27 @@ class WorkflowContracts(unittest.TestCase):
         for trailers in ("AI-Tool: Codex", "AI-Model-Requested: unknown", "AI-Tool: Codex\nAI-Model-Requested: "):
             with self.subTest(trailers=trailers), self.assertRaises(ValueError):
                 check.check_trailers(f"fix: example\n\n{trailers}\n")
+
+    def test_native_commit_trailers_stay_in_one_block(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            repo = Path(temporary)
+            hooks = repo / 'empty-hooks'
+            hooks.mkdir()
+            subprocess.run(['git', 'init', '-q', str(repo)], check=True, capture_output=True)
+            subprocess.run([
+                'git', '-C', str(repo), '-c', f'core.hooksPath={hooks}',
+                '-c', 'user.name=Workflow fixture', '-c', 'user.email=fixture@example.invalid',
+                'commit', '--allow-empty', '-m', 'docs: fixture',
+                '--trailer', 'AI-Tool: Codex', '--trailer', 'AI-Model-Requested: unknown',
+            ], check=True, capture_output=True)
+            message = subprocess.run([
+                'git', '-C', str(repo), 'show', '-s', '--format=%B', 'HEAD',
+            ], check=True, capture_output=True, text=True).stdout
+            self.assertIn('AI-Tool: Codex\nAI-Model-Requested: unknown', message)
+            check.check_trailers(message)
+        # Separate -m paragraphs caused the real failure, despite both labels existing.
+        with self.assertRaises(ValueError):
+            check.check_trailers('docs: fixture\n\nAI-Tool: Codex\n\nAI-Model-Requested: unknown\n')
 
 
 if __name__ == "__main__":

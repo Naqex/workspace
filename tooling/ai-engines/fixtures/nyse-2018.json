@@ -1,0 +1,27 @@
+{
+  "schema": "cash-session-calendar-v1",
+  "venue": "NYSE",
+  "year": 2018,
+  "timezone": "America/New_York",
+  "open": "09:30",
+  "close": "16:00",
+  "holidays": [
+    "2018-01-01",
+    "2018-01-15",
+    "2018-02-19",
+    "2018-03-30",
+    "2018-05-28",
+    "2018-07-04",
+    "2018-09-03",
+    "2018-11-22",
+    "2018-12-05",
+    "2018-12-25"
+  ],
+  "early_closes": {
+    "2018-07-03": "13:00",
+    "2018-11-23": "13:00",
+    "2018-12-24": "13:00"
+  },
+  "source": "exchange_calendars4.13.2/XNYS;2022-24 exact officialfrozen calendars",
+  "scope": "cash reference not CFD broker hours"
+}

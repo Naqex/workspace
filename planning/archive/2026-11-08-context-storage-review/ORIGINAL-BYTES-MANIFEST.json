@@ -1,0 +1,12 @@
+{
+  "schema": "original-bytes-snapshot-v1",
+  "created_at_utc": "2026-11-08T09:40:26.540097+00:00",
+  "source_kind": "working_tree_disk_bytes",
+  "original_path": "planning/CURRENT-CONTEXT.md",
+  "original_relative_link_base": "planning/",
+  "snapshot_path": "planning/archive/2026-11-08-context-storage-review/CURRENT-CONTEXT.snapshot.md",
+  "sha256": "52829108a4509146e61cd39e6ab3b53d0d1d26b143cbd3ceef42d0122adad20b",
+  "bytes": 64486,
+  "lines": 759,
+  "note": "Snapshot links resolve relative to original planning/ base, not archive location. No data or evidence artifacts moved."
+}
