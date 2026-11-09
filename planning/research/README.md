@@ -1,11 +1,21 @@
 # Tra cứu research đã có
 
+[R086 FOMC price momentum](US500-FOMC-PRICE-MOMENTUM-RESULTS-20261109.md):
+32books/256cases reviewed, không qua stressgate;2019−63,33/2022−14,66USD/unit.
+Source126minutes đủ/250raws reuse/2tailGETs;deadlinefailure giữ và sealedrecovery
+đã review trước economics.86records/58versions, chưa challenge/nojob. Tiếp
+method/source admission cơ hội khác; publictargetfunding đãrà nhưng thiếu
+exactaccountpackage, chưa repricing, không clock/lookback/fee0 rescuegrid.
+[Historicalsurprise source](FOMC-SURPRISE-SOURCE-RESULTS-20261109.md) cấu trúc
+đãreview nhưng intradayavailability/access chưaadmitted. Stockresidual dưới
+đây đã đọc fullmethod và deferred data/program/cost; không newstockPnL.
+
 [R085 Tokyo postfix extension](USDJPY-POSTFIX-EXTENSION-RESULTS-20261109.md):
 240books/15years gồm13extensionyears;chỉ6/13năm stressdương,2/4primaryblocks
 âm,khôngđạt;calendar sensitivity cũng khôngđạt.12.402.580newfieldchecks,
 source+consumer22phút07s,0broker/modelcalls/khôngcònjob.85records/58versions;
 tiếp [residual-reversion admission](RESIDUAL-REVERSION-METHOD-ADMISSION-20261109.md):
-primary abstract audit đã có, fullmethod/source feasibility còn mở; chưa newPnL.
+fullmethod/data/program audit đã có, deferred stock implementation; chưastockPnL.
 
 [R084 USDJPY Tokyo](USDJPY-TOKYO-COMPONENT-RESULTS-20261109.md):32books/
 139dates/1.899.620fields reviewed,145,106s source+consumer. Mua chính không

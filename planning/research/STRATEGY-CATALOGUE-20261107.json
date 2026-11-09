@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-07",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 85,
+  "record_count": 86,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -12,13 +12,13 @@
   "counts": {
     "by_role": {
       "existing": 36,
-      "variant": 33,
+      "variant": 34,
       "new": 15,
       "component": 1
     },
     "by_readiness": {
       "implemented": 36,
-      "component_probe_not_retained": 24,
+      "component_probe_not_retained": 25,
       "implemented_not_retained": 5,
       "method_clock_review": 1,
       "component_probe_completed_no_priority": 2,
@@ -368,6 +368,24 @@
       "limitations": "Bank customer/dealer evidence, not retail CFD profitability, universal prior-business-day payment convention or PIT calendar certificate.",
       "checked_on": "2026-11-09",
       "method_review_locator": "TOKYO-FIX-METHOD-ADMISSION-20261109.md"
+    },
+    {
+      "id": "JK-FED202401",
+      "title": "Jarocinski/Karadi historical FOMC surprises January2024 repository",
+      "url": "https://github.com/marekjarocinski/jkshocks_update_fed_202401/tree/f04846678ad4ec981dc24de615c0af16dd3573e8",
+      "publication": "2024-04-20",
+      "review_depth": "frozen_raw_source_structure_clock_numeric_known_at_review",
+      "limitations": "Per-field observation end/access not established; no intraday admission or licensed tradingfeed; extra2024row quarantined, no2025+.",
+      "checked_on": "2026-11-09"
+    },
+    {
+      "id": "MONETARY-MOMENTUM2024",
+      "title": "Monetary Momentum, Neuhierl/Weber, May2024",
+      "url": "https://faculty.chicagobooth.edu/-/media/faculty/michael-weber/momentum.pdf",
+      "publication": "2024-05",
+      "review_depth": "full_method_sectionIV_table5_and_past_return_predictability",
+      "limitations": "Future-surprise classification before event is not executable; R086 is own past-price adaptation, no paper return/Sharpe imported.",
+      "checked_on": "2026-11-09"
     }
   ],
   "records": [
@@ -1269,15 +1287,18 @@
       "automation_feasibility": "deterministic_after_spec_and_tests",
       "prop_operational_concerns": "Rule từngprogram, news-execution/slippage, latency chưa đủ.",
       "source_ids": [
-        "NEWS"
+        "NEWS",
+        "JK-FED202401"
       ],
       "source_relation": "reaction_mechanism_not_trade_recipe",
-      "next_action": "Deferred: chưa có news dataset/contract, không mua provider.",
+      "next_action": "Historical FOMC source exists at frozen2024commit; need per-field observation-end/publication/access/units before intraday recipe. No paid feed, fullsample factor or future surprise input.",
       "implementation_state": "not_implemented",
       "candidate_id": null,
       "profitability_evidence": "none_for_this_exact_rule",
       "dispatch_authorized": false,
-      "implementations": []
+      "implementations": [],
+      "source_admission_evidence": "FOMC-SURPRISE-SOURCE-RESULTS-20261109.md",
+      "source_admission_state": "historical_structure_reviewed_intraday_known_at_and_access_not_admitted"
     },
     {
       "id": "R028",
@@ -1292,15 +1313,18 @@
       "automation_feasibility": "deterministic_after_spec_and_tests",
       "prop_operational_concerns": "Tailrisk và newspermissions; không gọi reversal chắc chắn.",
       "source_ids": [
-        "NEWS"
+        "NEWS",
+        "JK-FED202401"
       ],
       "source_relation": "context_only; project_hypothesis",
-      "next_action": "Deferred vớiR027; cần PITdata trước.",
+      "next_action": "Historical FOMC source exists at frozen2024commit; need per-field observation-end/publication/access/units before intraday recipe. No paid feed, fullsample factor or future surprise input.",
       "implementation_state": "not_implemented",
       "candidate_id": null,
       "profitability_evidence": "none_for_this_exact_rule",
       "dispatch_authorized": false,
-      "implementations": []
+      "implementations": [],
+      "source_admission_evidence": "FOMC-SURPRISE-SOURCE-RESULTS-20261109.md",
+      "source_admission_state": "historical_structure_reviewed_intraday_known_at_and_access_not_admitted"
     },
     {
       "id": "R029",
@@ -1435,12 +1459,13 @@
         "AQR-VM"
       ],
       "source_relation": "factor_context_only; residual_rule_is_project_hypothesis",
-      "next_action": "Deferred; cần independentmethod/data trước.",
+      "next_action": "Stock residual primary methods read; deferred PIT universe/actions/hedge/program/cost. Not evidence FX/index substitutes replicate stock methods; no stock PnL or R034 implementation.",
       "implementation_state": "not_implemented",
       "candidate_id": null,
       "profitability_evidence": "none_for_this_exact_rule",
       "dispatch_authorized": false,
-      "implementations": []
+      "implementations": [],
+      "method_admission_evidence": "RESIDUAL-REVERSION-METHOD-ADMISSION-20261109.md"
     },
     {
       "id": "R035",
@@ -2975,6 +3000,33 @@
       "implementations": [],
       "component_evidence": "USDJPY-POSTFIX-EXTENSION-RESULTS-20261109.md",
       "profitability_evidence": "Primary625extensiontrades/stress+204.25299USDper100knotional but6of13positiveyears,2of4negativeblocks;previousbusiness906trades+160.89794USD alsofails;noaccountPnL.",
+      "control": false,
+      "dispatch_authorized": false,
+      "implementation_updated_on": "2026-11-09"
+    },
+    {
+      "id": "R086",
+      "title": "US500 pre-FOMC past-price momentum component",
+      "family": "event",
+      "role": "variant",
+      "parent_id": "R062",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "Past25cashsession midpoint signal; prior14:01NY to anchor+15session12:01NY M1Open",
+      "rule_sketch": "At anchor i: sign(midOpen at i-2 minus i-27); entry i-1, exit i+15; event and priorweek anchors separately; opposite/BUY/null diagnostic, declared funding8/16percent.",
+      "data_requirements": "16scheduled events2019/2022;126unique endpoints/252rawday-sides,250reused plus2tailGETs; no future surprise feature.",
+      "automation_feasibility": "offline_temporal_price_component_not_account_policy",
+      "prop_operational_concerns": "Stress primary negative both years; target funding/spec unverified; no SL/equity/prop/OOS/forward.",
+      "source_ids": [
+        "MONETARY-MOMENTUM2024"
+      ],
+      "source_relation": "Own causal price-only adaptation, related event/trend family and R062calendar; not paper replication or independent edge.",
+      "next_action": "Park exact frozen recipe; public index cost review completed, exact account funding/spec package still missing. Revisit only on new evidence; proceed distinct mechanism method/source admission, no repeated pages or fee0/horizon/lookback-grid rescue.",
+      "implementation_state": "reviewed_not_retained_price_component",
+      "candidate_id": null,
+      "component_id": "us500-fomc-past25-price-momentum-component-v1",
+      "implementations": [],
+      "component_evidence": "US500-FOMC-PRICE-MOMENTUM-RESULTS-20261109.md",
+      "profitability_evidence": "Reference2019+60.55/2022+151.62;stress-63.33/-14.66 USD/researchunit;primary-minus-matchedstress+396.16/+388.77 but frozen primary-positive gate fails; not account PnL.",
       "control": false,
       "dispatch_authorized": false,
       "implementation_updated_on": "2026-11-09"

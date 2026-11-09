@@ -6,6 +6,17 @@ negatives/exposure; chưa có ứng viên challenge. Các trạng thái active/p
 trong checkpoint cũ bên dưới là lịch sử, không là trạng thái Goal hiện hành.
 
 Workflow đã rà, giữ đường gọn hiện hành; không thêm skill/framework.
+Mới nhất: [R086 FOMC results](US500-FOMC-PRICE-MOMENTUM-RESULTS-20261109.md)
+đã32books/256cases reviewed;stress2019−63,33/2022−14,66USD/unit, không qua
+gate dù cơ sở dương. Source126mốc đủ;250raws reuse+2tailGETs;deadlinefailure/
+sealedrecovery giữ nguyên, khôngrerun, chưaSL/account/prop/OOS/forward.
+86records/58versions, khôngjob. [Surprise source](FOMC-SURPRISE-SOURCE-RESULTS-20261109.md)
+historicalreviewed nhưng intradayavailability/access chưaadmit; stockresidual
+fullmethods đãrà, deferred data/program/cost. Publicindexcost đãrà nhưng thiếu
+exactaccountpackage; tiếp distinctmethod/source admission, không lặpwebpages
+hoặc fee0/horizon/lookbackgrid để cứu R086. Goalactive,
+C1/C2 chưađạt. Các checkpoint dưới là lịch sử; cửa resume hiện tại là đoạn này.
+
 [R084 USDJPY](USDJPY-TOKYO-COMPONENT-RESULTS-20261109.md) đã terminal/reviewed:
 32books/139dates, mua chính âm stress2019/2022; sensitivity và diagnostic
 bán sau fix dương nhưng chưa promote.84records/58versions, chưa challenge.
@@ -13,7 +24,7 @@ Mới nhất: [R085 extension results](USDJPY-POSTFIX-EXTENSION-RESULTS-20261109
 đã terminal/reviewed, không còn job.6/13extensionyears dương/2of4primaryblocks
 âm nên không đạt;calendar sensitivity cũng không đạt.240books gồm32discovery
 reuse,12.402.580newsourcechecks;không accountpolicy/SL/prop/OOS/forward.
-85records/58versions, Goalactive/chưa challengecandidate. Tiếp
+85records/58versions ở checkpointR085, Goalactive/chưa challengecandidate. Tiếp lúc đó:
 [residual-reversion admission](RESIDUAL-REVERSION-METHOD-ADMISSION-20261109.md):
 fullmethod/data/cost trước recipe, không stock→FX/index ngầm hoặc Tokyo rescuegrid.
 Các checkpoint dưới đây là lịch sử; cửa resume hiện hành là đoạn này và

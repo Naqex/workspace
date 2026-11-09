@@ -1,6 +1,6 @@
 # Danh mục nghiên cứu chiến lược — cập nhật09/11/2026
 
-85 hồ sơ: 47 có policy/model version được ghi trong danh mục (58 versions), 37 chưa có account policy và 1 risk component. Trong 58 versions có 25 native offline rules và 33 tooling/coarse/model versions; gồm 9 controls. R080–R083 không retained; R084 mua chính không đạt, follow-up bán sau fix R085 cũng không đạt khi mở rộng lịch sử. Price components không đếm thành account policies hoặc independent edges. **Chưa có bản nào challenge-qualified.**
+86 hồ sơ: 47 có policy/model version được ghi trong danh mục (58 versions), 38 chưa có account policy và 1 risk component. Trong 58 versions có 25 native offline rules và 33 tooling/coarse/model versions; gồm 9 controls. R080–R083 không retained; R084 mua chính không đạt, follow-up bán sau fix R085 cũng không đạt khi mở rộng lịch sử. R086 FOMC price momentum cũng không qua stressgate. Price components không đếm thành account policies hoặc independent edges. **Chưa có bản nào challenge-qualified.**
 
 [Bản đồ cơ chế và task](MECHANISM-FIRST-EXECUTION-20261109.md) gom đủ80historicalIDs
 khôngtrùng/thiếu;R081 làconditionalderivative liênquanR080.8buckets cócontrols/
@@ -42,14 +42,14 @@ freeze trước outcomes; old quarter-mask failure và corrected attempt đều 
 |R024|Post-weekend gap fade|gap_reversion|Component12h không đạt priority; chưa strategy|0|[Componentresults](WEEKEND-GAP-COMPONENT-RESULTS-20261108.md), [datareview](WEEKEND-GAP-DATA-RESULTS-20261108.md)|
 |R025|Weekday/calendar effect|calendar|Source-corrected TOM chưa đạt; chưa bot|0|[Correction3days/reuse1507](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)|
 |R026|Month-end relative-equity flow|fixing_flow / R020|Gác exactadaptation sau6years;stress−227,6pip/66resolved|0|[Continuationresults](R026-RELATIVE-EQUITY-CONTINUATION-RESULTS-20261108.md); giữ baseline2019/22, không bot/edge|
-|R027|News-surprise continuation|event|point_in_time_news_missing|0|Chưa outcome riêng|
-|R028|News overreaction reversal|event / R027|point_in_time_news_missing|0|Chưa outcome riêng|
+|R027|News-surprise continuation|event|Historical source reviewed; intraday known-at/access chưa admitted|0|[Source review](FOMC-SURPRISE-SOURCE-RESULTS-20261109.md); chưa ownoutcome|
+|R028|News overreaction reversal|event / R027|Historical source reviewed; intraday known-at/access chưa admitted|0|[Source review](FOMC-SURPRISE-SOURCE-RESULTS-20261109.md); chưa ownoutcome|
 |R029|Currency carry|carry|long_history_or_multi_data|0|Chưa outcome riêng|
 |R030|Carry + trend|carry / R029|long_history_or_multi_data|0|Chưa outcome riêng|
 |R031|Long-horizon value / PPP|value|long_history_or_multi_data|0|Chưa outcome riêng|
 |R032|Value + momentum|value / R031|long_history_or_multi_data|0|Chưa outcome riêng|
 |R033|Cross-sectional FX momentum|cross_section|Pilot3FX MOM1: gross/net âm, không giữ exact adaptation|0|[Pilot results](FX-CROSS-SECTION-PILOT-RESULTS-20261108.md); chưa account/prop/OOS|
-|R034|FX factor-residual reversion|cross_section / R033|long_history_or_multi_data|0|Chưa outcome riêng|
+|R034|FX factor-residual reversion|cross_section / R033|Stockmethod đã đọc; chưa chuyển được method/data sang FX|0|[Method admission](RESIDUAL-REVERSION-METHOD-ADMISSION-20261109.md); deferred, chưa ownoutcome|
 |R035|Cointegrated FX spread|cross_section / R034|GBP/AUDformation2018/21 chưa đạtprefilter, chưa bot|0|[Formation results](FX-PAIR-FORMATION-RESULTS-20261108.md); khôngPnL/prop|
 |R036|Volatility targeting / exposure cap|risk_modifier|component_only|0|Chưa outcome riêng|
 |R037|Fixing composite3slots|fixing_flow / R022|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
@@ -101,6 +101,7 @@ freeze trước outcomes; old quarter-mask failure và corrected attempt đều 
 |R083|WTI Wednesday reaction→settlement conditional component|event-price momentum / R082|Không retained;đủ88days,stressâm2years|0|[Results](WTI-SETTLEMENT-COMPONENT-RESULTS-20261109.md);strict/endpointidentical,noaccountpolicy|
 |R084|USDJPY Tokyo calendar component|fixing_flow / R021|Mua chính không đạt;follow-up bán R085 cũng không đạt|0|[Results](USDJPY-TOKYO-COMPONENT-RESULTS-20261109.md);32books/139dates,noaccountpolicy|
 |R085|USDJPY postfix temporal extension|fixing_flow / R084|Không đạt;6/13newyears dương,2/4blocks âm|0|[Results](USDJPY-POSTFIX-EXTENSION-RESULTS-20261109.md);240books gồm discoveryreuse, chưaSL/account/prop|
+|R086|US500 pre-FOMC past-price momentum|event / R062|Không qua stressgate cả2năm;funding đích unknown|0|[Results](US500-FOMC-PRICE-MOMENTUM-RESULTS-20261109.md);32books/256cases, noaccountpolicy|
 
 
 ## Cách đọc và lịch sử các batch đầu
