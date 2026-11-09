@@ -29,6 +29,31 @@ def digest(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def adverse_budget(debits, credits, *, net):
+    """Explain an additive ledger; shares describe adverse flows, not causality.
+
+    Callers own the cohort and valuation basis. In particular, an embedded
+    spread must be removed from price PnL before it is listed separately here.
+    """
+    if (not isinstance(debits, dict) or not isinstance(credits, dict)
+            or not debits or not credits or set(debits) & set(credits)
+            or any(not isinstance(k, str) or not k.strip() for k in (*debits, *credits))):
+        raise ValueError('explicit_disjoint_debit_credit_labels_required')
+    adverse = {k: decimal(v) for k, v in debits.items()}
+    favorable = {k: decimal(v) for k, v in credits.items()}
+    if any(v < 0 for v in (*adverse.values(), *favorable.values())):
+        raise ValueError('debits_and_credits_must_be_nonnegative')
+    total, gains = sum(adverse.values(), Decimal(0)), sum(favorable.values(), Decimal(0))
+    if gains-total != decimal(net):
+        raise ValueError('adverse_budget_does_not_reconcile')
+    return dict(debits={k: str(v) for k, v in adverse.items()},
+                credits={k: str(v) for k, v in favorable.items()},
+                total_adverse_usd=str(total), total_favorable_usd=str(gains), net_usd=str(decimal(net)),
+                percentage_denominator='sum_nonnegative_adverse_components_not_net_loss',
+                percent_of_adverse_pool={k: str(money(v/total*100)) if total else None for k, v in adverse.items()},
+                causal_attribution_proven=False, promotion_authorized=False)
+
+
 def cost_diagnostic(row, *, slippage, commission_per_side):
     """Independent USD/100k EURUSD arithmetic under explicit declared costs."""
     slip, commission = decimal(slippage), decimal(commission_per_side)
