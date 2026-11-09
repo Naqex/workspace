@@ -83,3 +83,26 @@ sourcecoverage/unknown và mọi rule khác. Đây là heuristic giới hạn c�
 hoặc bằng chứng một gate thấp hơn sẽ đạt. Không đổi mean/std20days, k=2,
 clock/side/cost hoặc đánh dấu dữ liệu mới thành OOS. Ghi giữ ngưỡng20 ban đầu
 và lý do sửa trước outcome; không lựa minimum theo counts/PnL của ownstudy.
+
+## V2 trước real features/PnL — sửa dayproxy không khả dụng vào Friday
+
+Source-only attempt2 xác minh đủ hai codepaths nhưng chỉ80/88slot trong lag;
+**8slot thiếu đều là Friday23UTC**, quote đầu sau đó thuộc Sunday. Không thể
+lấy Sunday làm Fridayclose. Mỗi20weekday calibration đều có Friday nên v1
+dayproxy23h làm không thể có feature đầy đủ trong contract này; đây là thiếu
+sót thiết kế clock, không chứng minh strategy có lời/lỗ hoặc provider mất dữ liệu.
+
+Own component version mới:
+`eurusd-prior-abnormal-20h-day-reversal-utc-v2`. Thay **end dayproxy của mọi
+weekday từ23UTC sang20UTC**, giữ start00UTC; không chỉ vá riêngFriday, không
+ffill, đổi weekdaycensus hoặc xóa Friday. Feature version ghi trong từngrow.
+20UTC là mốc wholehour trước cả giờ đóng cửa tuần thường lệ mùa hè/mùa đông;
+[OANDA official hours](https://www.oanda.com/us-en/trading/hours-of-operation/)
+hiện ghi Friday16:59NY. Nguồn đó chỉ xác nhận session convention, không chứng
+minh giờ lịch sử của feed đang dùng; quote fixture vẫn phải kiểm trực tiếp.
+
+Đây là **20hproxy**, không full daily return hoặc exactpaper replication.
+Chưa real-data features, counts hoặc PnL nào được tính để chọn20h. Cả oldv1
+registration/sourcefailure và newv2 giữ lineage; không sửa kết quảcũ. Mean/
+samplevariance20weekdays/k2/decision-entry-exit/fees/≥8priority và mọi gate
+khác nguyên vẹn. Source fixture attempt3 phải freeze trước đọc slots20UTC.

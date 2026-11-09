@@ -15,7 +15,7 @@ def observation(day, change):
     def point(hour, mid):
         return dict(time_msc=study.utc_ms(day, hour), known_at_upper_bound_ms=study.utc_ms(day, hour)+60000,
             bid=str(mid - Decimal('.00001')), ask=str(mid + Decimal('.00001')))
-    return dict(day=day.isoformat(), start=point(0, Decimal(1)), end=point(23, Decimal(1)+change))
+    return dict(day=day.isoformat(), start=point(0, Decimal(1)), end=point(20, Decimal(1)+change))
 
 
 def fixture(shock='.01000', shift='0'):
@@ -77,6 +77,16 @@ class AbnormalDayFeatureTests(unittest.TestCase):
         self.assertEqual(study.feature(date(2022, 2, 7), {})['status'], 'calendar_skip')
         with self.assertRaises(ValueError): study.schedule(date(2025, 2, 4))
         with self.assertRaises(ValueError): study.schedule(date(2022, 2, 5))
+
+    def test_friday_calibration_ends_before_weekly_close(self):
+        obs = fixture()
+        friday = date(2022, 1, 28)
+        self.assertEqual(study.feature(ENTRY, obs)['status'], 'shock')
+        obs[friday.isoformat()]['end']['time_msc'] = study.utc_ms(friday, 23)
+        obs[friday.isoformat()]['end']['known_at_upper_bound_ms'] = study.utc_ms(friday, 23)+60000
+        row = study.feature(ENTRY, obs)
+        self.assertEqual(row['status'], 'unavailable_history')
+        self.assertEqual(row['missing_days'], [friday.isoformat()])
 
 
 if __name__ == '__main__':

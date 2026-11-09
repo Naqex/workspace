@@ -11,6 +11,8 @@ LOOKBACK = 20
 K_SQUARED = 4
 MINUTE = 60_000
 GRID = Decimal('0.00001')
+DAY_PROXY_END_HOUR = 20
+FEATURE_VERSION = 'R089-prior-UTC20h-abnormal-day-v2'
 
 
 def utc_ms(day, hour, minute=0):
@@ -58,7 +60,7 @@ def _return(observation, day, decision):
     if observation['day'] != day.isoformat():
         raise ValueError('R089_wrong_observation_day')
     a = _mid(observation['start'], utc_ms(day, 0), decision)
-    b = _mid(observation['end'], utc_ms(day, 23), decision)
+    b = _mid(observation['end'], utc_ms(day, DAY_PROXY_END_HOUR), decision)
     return b / a - 1 if a is not None and b is not None else None
 
 
@@ -69,7 +71,8 @@ def rational(value):
 def feature(entry_day, observations):
     """Read only prior registered weekdays; current/future outcome prices are irrelevant."""
     row = dict(**schedule(entry_day), status='calendar_skip', primary_side=None,
-        shock_tail=None, scope='feature_only_not_account', execution_authorized=False)
+        shock_tail=None, feature_version=FEATURE_VERSION,
+        scope='feature_only_not_account', execution_authorized=False)
     if not row['calendar_eligible']:
         return row
     shock_day = date.fromisoformat(row['shock_day'])

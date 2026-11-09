@@ -66,3 +66,18 @@ trong receipt; không runtime-binding override, monkeypatch, sửa strictloader,
 rebuild/overwritecache hoặc gọi fallback tự động. Raw/parent/hash drift phải
 fail. Expected dates,88targets,lag≤60s,mutation/census/deadline và mọi gate khác
 giữ nguyên. V1failure/scripts/manifest/snapshot giữ tại locator cũ.
+
+## Amendment trước attempt3 — Friday close là thiết kế clock, không outage
+
+Attempt2 đã reviewed25,595s:80/88slots tronglag, 4mutations bịreject, không
+realfeature/financialcase. Cả8unavailable làFriday23UTC, rawfirstafter làSunday;
+native vàFractiondecoder/reference đồng ý. Không còn runtime transportblocker
+trong registeredsourceview, nhưng gate fixture v1 vẫnfalse.
+
+Theo v2 của economicprotocol, attempt3 `fx-abnormal-day-source-fixture-v3`
+thay endslot23→20UTC **cho toàn21days/date**, khôngchỉ8missing;88targets giữ
+census cùngentrydates/start00/entry01/exit08. Giữ đúng schema/side/lag và mọi
+sourcehash, native+Fractionprefixproof/4mutations. Không reuse old23hquotes
+như20hquotes hoặc đổi lời giải thích thành observedprofit. Runtime/sourceview
+guard như amendment2, không thay original cache/runtime. 5featuretests phải
+đạt, có hồi quy Friday23 không được dùng thay Friday20, trước attempt3.
