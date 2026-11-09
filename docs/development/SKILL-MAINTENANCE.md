@@ -7,6 +7,15 @@ daemon/scheduler hay hứa background tự chỉnh khi không có agent làm vi�
 
 ## Trigger và hành động
 
+09/11 — rà lại workflow/workspace trước resume: audit workspace/Trader đều
+0 errors/warnings; 16 repo skill entrypoints đã xét trigger/boundary, 76 links
+skill/reference hợp lệ. Research/qualification/evidence/retrospective có input
+và quyền riêng; giữ nguyên, không gộp hoặc tạo skill manager/framework. Git
+vừa tinh gọn được kế thừa, không audit full source/runtime hoặc chạy lại tests
+không đổi. Tồn tại context status Goal cũ lẫn routing: lưu snapshot nguyên byte
+và compact CURRENT-CONTEXT, sửa index/campaign state theo tool active.
+Global/project/reserve giữ các số đo ở mục dưới; chỉ context/docs đổi.
+
 09/11 — tinh gọn GitHub theo yêu cầu owner: giữ tên `github-issue-workflow`,
 rút skill 56→31 dòng và ba tài liệu/skill GitHub chính giảm 55,7% byte UTF-8
 (chuẩn hóa LF). [Archive](../../tooling/github-workflow/archive/20261109/README.md)

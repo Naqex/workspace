@@ -1,0 +1,10 @@
+{
+  "schema": "context-original-bytes-v1",
+  "source_kind": "working-tree-file",
+  "original_path": "planning/CURRENT-CONTEXT.md",
+  "original_relative_link_base": "planning/",
+  "source_head": "aec89c51f867a0bce851e976ddc45e39e09ac37a",
+  "sha256": "15d2203d0dfffe713ec6c528f60cdd28bd3df029f7f9b719180e7066312c8ecc",
+  "bytes": 11221,
+  "reason": "Owner requested bounded workflow review and restarted challenge research Goal; preserve cleared/paused history outside active routing."
+}
