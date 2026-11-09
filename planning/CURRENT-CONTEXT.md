@@ -8,6 +8,15 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 ## Việc hiện tại
 
+- [FX abnormal-day sourcefixture](research/FX-ABNORMAL-DAY-SOURCE-FIXTURE-RESULTS-20261109.md)
+  đã88/88slotsreviewed/4mutations,14,723s;5causalfeaturetests đạt. Dự kiếnR089,
+  chưarealfeatures/PnL hoặcnewaccountpolicy, catalogue88/58giữ. Runtime đổi
+  Python3.12.14/Pydantic2.14.2 nên nativecachev1fail; registeredsourceview riêng
+  giữoriginalpins. V2Friday23UTC thiếu8slots, v320UTCchoallweekdays đủ; lineage
+  và failures giữ, khôngđổi theoPnL. [Protocol](research/FX-ABNORMAL-DAY-PROTOCOL-20261109.md)
+  active20hproxyv2/mean-variance20days/k2/reversal01–08UTC; minimum8 chỉtriage.
+  **Tiếp fullsourcecensus2019/2022 +warmup2018/2021 trướccostpreflight/economics**;
+  khôngrefetch/rebuild, khôngpilot→fullclaim, khôngjobnền/C1C2chưađạt.
 - [R088 EURUSD sau FOMC](research/EURUSD-POST-FOMC-RESULTS-20261109.md) đã
   terminal/reviewed:32windows/24books/192financialcases,459.780sourcefields;
   stress2019+1.013/2022+545USD trên100.000EURnotional, khôngaccountreturn.

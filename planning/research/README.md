@@ -1,5 +1,14 @@
 # Tra cứu research đã có
 
+[FX abnormal-day admission/fixture](FX-ABNORMAL-DAY-SOURCE-FIXTURE-RESULTS-20261109.md):
+5causalfeaturetests,88/88slots/4mutations reviewed14,723s. DựkiếnR089, chưa
+realfeatures/PnL,88/58giữ. [Method](FX-ABNORMAL-DAY-METHOD-ADMISSION-20261109.md)
+đãràprimaryFX vàcounterevidencecalendar;[protocol](FX-ABNORMAL-DAY-PROTOCOL-20261109.md)
+active20hproxyv2 sửaFriday23UTCkhôngkhảdụng trướcoutcome, khôngsourceffill.
+Runtimecachefailure giữnguyên; registeredreadonlyview/currentrawdecoder khác
+nativecacheacceptance. Tiếp fullsource2019/2022 +warmup2018/2021 trướcfinance;
+khôngjob/broker/holdoutmới/C1C2chưađạt.
+
 [R088 EURUSD sau FOMC](EURUSD-POST-FOMC-RESULTS-20261109.md) đãreviewed:
 32windows/192financialcases,459.780sourcefields;stress+1.013/+545USD trên
 100.000EURnotional2019/2022, nhưng matchedweek+718/+2.441;eventgate2022fail.
