@@ -8,7 +8,7 @@ momentum và R065 NASDAQ first5-direction giữ negatives, không retune.
 
 [Umeå Economic Studies845, Holmberg/Lönnbark/Lundström2012](https://www.usbe.umu.se/digitalAssets/102/102002_ues845.pdf),
 [institutional record](https://swopec.hhs.se/umnees/abs/umnees0845.htm),
-[journal2013](https://doi.org/10.1016/j.frl.2012.11.001). Đã đọc toàn11trang,
+[journal2013](https://doi.org/10.1016/j.frl.2012.09.001). Đã đọc toàn11trang,
 render page5: ngưỡng quanh dailyOpen, không phải nến5phút đầu. Paper dùng
 dailyOHLC crudeoil futures1983–2011, ngưỡng ước lượng ex-post, perfectfill,
 spread/commission0, khôngSL. Kết quả tập trung giai đoạn biến động cao;
@@ -22,6 +22,10 @@ validation thành công,237.045bytes/11pages/SHA
 `3bbf81e2f9bfb11f1e2622077b3c064ffc541e697fa57729ba55767b375cbeee`.
 Private `execution-v1/wti-orb-method-source-v1/` giữ PDF/text/render/failure;
 personal reference, không redistribute paper/code/data trong Git.
+
+Metadata correction10/11: publisher PII S1544612312000438 xác nhận DOI
+`10.1016/j.frl.2012.09.001`; link `.11.001` ghi trước đó sai. Chỉ sửa citation,
+không đổi method, frozen source protocol hoặc admission thresholds.
 
 ## Quyết định của project trước economics
 

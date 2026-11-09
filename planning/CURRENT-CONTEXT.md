@@ -1,12 +1,21 @@
 # Current context — Naqex Workspace
 
-09/11/2026 · `WORK: ACTIVE / REVIEW: REVIEWED-PARTIAL / DOC: RESUMABLE`.
+10/11/2026 · `WORK: ACTIVE / REVIEW: REVIEWED-PARTIAL / DOC: RESUMABLE`.
 Owner đã yêu cầu tiếp tục và cho tạo Goal mới; tool xác nhận `active`.
 Đích: ứng viên đủ bằng chứng để đề xuất challenge FTMO/The5ers và quy trình
 được kiểm/sửa theo C1/C2 của [campaign v2](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).
 Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 ## Việc hiện tại
+
+- [WTI sourcefixture](research/WTI-SESSION-SOURCE-RESULTS-20261109.md) terminal/
+  reviewed10/11:20GET,1.614/1.656pairedroles,2019cả3phiên dưới98%,2022cả3đủ.
+  Exact endpoints đủ nhưng fullsessionadmissionfalse; khôngPnL/bulk/R092.
+  106.510rawfields/4mutations,source10,338s/review1,725s,khôngjobnền.
+  Catalogue91/58/C1C2chưađạt/Goalactive. Khôngpadding/clock/coveragegateđểcứu;
+  tiếp source mới cócơsở hoặc cơchếkhác, khôngretryunchanged20requests.
+  [Costdiagnosis](research/COST-HEADROOM-DIAGNOSTIC-20261109.md) thêmcáchđọc
+  owner:priceâm/costăn hết/netdương/unknown; khôngfeegrid hoặcđổiverdict.
 
 - [R091 round-level](research/FX-ROUND-LEVEL-RESULTS-20261109.md) đã terminal/
   reviewed, không retained:153/227primary opportunities, stress2019−1.466USD/

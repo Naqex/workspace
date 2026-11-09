@@ -1,5 +1,47 @@
 # Phân biệt tín hiệu và chi phí: chẩn đoán biên an toàn
 
+## Cách đọc nhanh cho owner — đối chiếu10/11/2026
+
+**Đã tách được, nhưng chưa bao phủ đồng đều toàn catalogue.** Gold có cây
+tới từng lệnh, R086 có biên phí hòa vốn, các components mới có gross→cost→net.
+Nguồn quote nghiên cứu, phí giả định và phí tài khoản đích chưa biết được
+phân biệt; không gọi mô hình phí là hóa đơn FTMO/The5ers đã xác minh.
+
+| Câu hỏi | Cách hiểu | Hành động |
+|---|---|---|
+|Trước phí đã lỗ?|Giá đi không đủ thuận lợi trên mẫu này|Gác exactrecipe; tiết kiệm phí chưa tạo priceprofit|
+|Trước phí lời, sau spread đã âm?|Cơ hội giá nhỏ hơn chênh lệch mua/bán|Đừng tốn công giảm commission khi spread đã ăn hết; cần cơ chế hoặc điều kiện giao dịch thực tế mới|
+|Sau spread còn lời, phí giữ đêm ăn hết?|Có biên giá nhưng mô hình giữ lệnh tốn funding|Ưu tiên xác minh đúng funding/spec; đổi thời gian giữ là version mới vì cũng có thể mất winners|
+|Sau mọi phí vẫn lời?|Đã vượt một cửa kinh tế trên mẫu đã thử|Tiếp độ bền/risk/luật quỹ, chưa tự chứng minh edge|
+|Thiếu phí hoặc data?|Chưa đủ để phân loại|Giữunknown, không điền0|
+
+Ví dụ **đã kiểm**, không chạy lại market: R091 năm2019 midbenchmark+331USD,
+spread420USD →−89USD trước explicitfees; commission765/slippage612 →
+stress−1.466USD. Năm2022 mid+102,5−spread838,5=−736USD trước explicitfees,
+stress−2.779USD. Đơn vị trên100.000EURnotional, không vốn tài khoản100.000USD.
+Spread nằm trong Bid/Askfill: bảng chỉ tách kế toán, không trừ lần hai.
+R086 khác: stressfunding chiếm93,98%/95,33%costpool ở2019/2022, là
+**declaredscenario**, chưa measuredfunding của exacttargetaccount.
+
+Cách tận dụng tiếp tục dùng D0→D1→D2 đã có: đọc sổ nhanh → chỉ chẩn đoán sâu
+near-miss/survivor có câu hỏi → nếu có cơ sở thì freeze một version mới và
+kiểm ngoài dữ liệu dùng chọn thay đổi. Ưu tiên costheadroom/trade, turnover,
+holding và chi phí stress; không chỉ nhìn tổng lợi nhuận hoặc winrate.
+Không tự đặt costfilter threshold từ các lệnh biết trước sẽ thắng.
+
+Ví dụ minh họa riêng: giá lời100USD, tổng phí30USD thì net70USD; thêm20USD
+chi phí còn50USD trên cùng path. Muốn thay holding để giảm30USD phí không
+được mặc định giữ100USD priceprofit. Cần replay vì entry/fill/SL/sizing và
+những cơ hội được nhận có thể đổi. Ngưỡng hòa vốn lịch sử chưa là margin
+an toàn tương lai, không chỉ cần “net lớn hơn0” là challenge-ready.
+
+Đối chiếu primary[AQR](https://www.aqr.com/Insights/Research/White-Papers/Transactions-Costs-Practical-Application)
+ngày10/11 xác nhận cần phân tích chi phí triển khai theo bối cảnh; không
+refresh brokerterms hoặc claim hiệu suất từ trang này. Commission mỗi chiều/
+khứ hồi, spread, slippage, funding debit/credit phải giữ đơn vị đúng. Phí thi,
+reset/payout và quota/token/điện giữ ở tầng kinh tế chương trình/vận hành,
+không trộn vào một tổng phí mỗi trade. Khôngnewtrial hoặc thay verdict.
+
 09/11/2026, sau owner hỏi cách tận dụng phân rã phí. Kế thừa
 [chẩn đoán có chọn lọc](SELECTIVE-LOSS-DIAGNOSIS-RESULTS-20261109.md) và
 [cây phân tầng](HIERARCHICAL-PNL-ATTRIBUTION-20261109.md), không chạy lại catalogue.
