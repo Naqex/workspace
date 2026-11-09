@@ -9,7 +9,9 @@ Campaign và lịch sử thử nghiệm được kế thừa; C1/C2 chưa hoàn 
 ## Việc hiện tại: mechanism-first research
 
 Đã quay lại task lớn theo [Goal cập nhật](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md#goal-cập-nhật--09112026).
-Ưu tiên kiểm swap/spec của Gold R043 để quyết định có đáng kiểm tiếp; kế đó
+Đã [kiểm phí công khai Gold](research/GOLD-TARGET-COST-ADMISSION-20261109.md):
+The5ers swap-free chỉ được công bố cho funded; exact point/mode/account rates
+còn unknown, giữ Gold ít ưu tiên và không rerun với phí thấp hơn. Việc kế:
 hoàn tất EIA release hours/PIT exceptions và endpoint admission trước batch
 kinh tế mới. Tối ưu kỹ thuật chỉ khi giải quyết lỗi hoặc nút thắt phục vụ
 nghiên cứu. Chưa có numerical job mới được khởi động tại checkpoint này.

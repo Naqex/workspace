@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+[Gold target-cost admission, 09/11](GOLD-TARGET-COST-ADMISSION-20261109.md):
+đã đối chiếu public FTMO/The5ers fees; swap-free funded không là quyền bỏ
+swap trong challenge. Giữ Gold ít ưu tiên, tiếp EIA source admission.
+
 Mới nhất 09/11: [phân rã lời/lỗ nhiều tầng](HIERARCHICAL-PNL-ATTRIBUTION-20261109.md)
 đã áp dụng trên Gold: 861 node, 40.418 tỷ lệ đối soát, 9 mutation; không chạy
 lại simulation hoặc đổi verdict. [Chẩn đoán lỗ có chọn lọc](SELECTIVE-LOSS-DIAGNOSIS-RESULTS-20261109.md)

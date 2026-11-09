@@ -28,6 +28,12 @@ khởi động batch mới chỉ từ việc tạo Goal. Goal chỉ hoàn tất 
 
 ## Checkpoint hiện hành — 09/11/2026
 
+[Gold target-cost admission](GOLD-TARGET-COST-ADMISSION-20261109.md) đã hoàn
+tất scope public research: metals commission khác Forex; The5ers swap-free
+chỉ được công bố cho funded. Chưa exact account/historical swaps, không mở
+zero-swap evaluation hoặc rerun để cứu Gold. Catalogue vẫn 81/58, C1/C2 chưa
+đạt; chuyển ưu tiên sang EIA clock/endpoint admission.
+
 [Phân rã lời/lỗ nhiều tầng](HIERARCHICAL-PNL-ATTRIBUTION-20261109.md) đã xong
 theo yêu cầu owner: 861 node, 40.418 tỷ lệ đối soát, giữ từng cost scenario,
 vốn sổ và open/closed bridge. Không thử chiến lược mới hoặc đổi quyết định
