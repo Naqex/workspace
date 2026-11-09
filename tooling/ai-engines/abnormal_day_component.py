@@ -12,9 +12,9 @@ RULES = ('primary', 'opposite_control', 'null')
 SCENARIOS = ('reference', 'stress')
 
 
-def days():
+def days(*, years=(2019, 2022)):
     result = []
-    for year in (2019, 2022):
+    for year in signal.registered_years(years):
         cursor = date(year, 1, 1)
         while cursor.year == year:
             if cursor.weekday() < 5:
@@ -34,8 +34,8 @@ def endpoint(q, target):
     return q if 0 <= q['time_msc']-target <= 60000 else None
 
 
-def evaluate_one(day, observations, quotes):
-    feature = signal.feature(day, observations)
+def evaluate_one(day, observations, quotes, *, years=(2019, 2022)):
+    feature = signal.feature(day, observations, years=years)
     row = dict(**feature, candidate=CANDIDATE, year=day.year, outcomes={},
         account_simulated=False, clean_oos=False, broker_calls=0)
     ny = ZoneInfo('America/New_York')
@@ -69,16 +69,18 @@ def evaluate_one(day, observations, quotes):
     return row
 
 
-def evaluate(observations, quotes):
-    return [evaluate_one(day, observations, quotes) for day in days()]
+def evaluate(observations, quotes, *, years=(2019, 2022)):
+    years = signal.registered_years(years)
+    return [evaluate_one(day, observations, quotes, years=years) for day in days(years=years)]
 
 
-def summarize(rows):
-    expected = days()
+def summarize(rows, *, years=(2019, 2022)):
+    years = signal.registered_years(years)
+    expected = days(years=years)
     if len(rows) != len(expected) or any(r['day'] != d.isoformat() for r, d in zip(rows, expected)):
         raise ValueError('R089_weekday_census')
     books, gates = [], []
-    for year in (2019, 2022):
+    for year in years:
         cohort = [r for r in rows if r['year'] == year]
         statuses = dict(Counter(r['status'] for r in cohort))
         selected = sum(r['selected'] for r in cohort)
@@ -101,3 +103,37 @@ def summarize(rows):
         retained_for_risk_review=all(g['retained'] for g in gates),
         unit='USD_per_100000EUR_research_notional', financial_cases=len(rows)*6,
         account_simulated=False, clean_oos=False, execution_authorized=False, broker_calls=0)
+
+
+def temporal_gate(books):
+    years = tuple(range(2010, 2025))
+    expected = {(year, rule, scenario) for year in years for rule in RULES for scenario in SCENARIOS}
+    indexed = {(b['year'], b['rule'], b['scenario']): b for b in books}
+    if len(books) != 90 or set(indexed) != expected:
+        raise ValueError('R089_temporal_book_census')
+    extension = [indexed[(year, 'primary', 'stress')] for year in years if year not in (2019, 2022)]
+    coverage = []
+    for book in extension:
+        counts = book['feature_status_counts']
+        eligible = book['planned_weekdays'] - counts.get('calendar_skip', 0)
+        available = counts.get('normal', 0) + counts.get('shock', 0)
+        if eligible <= 0 or not 0 <= available <= eligible:
+            raise ValueError('R089_temporal_feature_counts')
+        coverage.append(dict(year=book['year'], available=available, eligible=eligible,
+            meets_80_percent=available * 100 >= eligible * 80))
+    complete = all(b['strict_net'] is not None and b['unresolved_exposed'] == 0 for b in extension)
+    resolved = sum(b['resolved_exposed'] for b in extension)
+    block_years = ((2010, 2011, 2012), (2013, 2014, 2015), (2016, 2017, 2018), (2020, 2021), (2023, 2024))
+    blocks = []
+    for group in block_years:
+        selected = [b for b in extension if b['year'] in group]
+        values = [D(b['strict_net']) for b in selected if b['strict_net'] is not None]
+        blocks.append(dict(years=list(group), strict_net=str(sum(values, D(0))) if len(values) == len(group) else None))
+    total = str(sum((D(b['strict_net']) for b in extension), D(0))) if complete else None
+    positive = sum(b['strict_net'] is not None and D(b['strict_net']) > 0 for b in extension)
+    adequate = complete and all(c['meets_80_percent'] for c in coverage) and resolved >= 100
+    retained = adequate and D(total) > 0 and positive >= 9 and all(b['strict_net'] is not None and D(b['strict_net']) > 0 for b in blocks)
+    return dict(scope='13_extension_years_excluding_2019_2022', coverage=coverage, resolved_selected=resolved,
+        complete_selected_endpoints=complete, extension_strict_net=total, positive_extension_years=positive,
+        extension_blocks=blocks, status='inconclusive' if not adequate else 'retained' if retained else 'not_retained',
+        retained_for_risk_review=bool(retained), account_simulated=False, execution_authorized=False)
