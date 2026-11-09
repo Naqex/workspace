@@ -85,8 +85,10 @@ không phải cách cập nhật pin có kiểm chứng.
 
 ## AI tooling
 
-[Workflow GitHub](../../tooling/github-workflow/README.md) quy định khi nào tạo issue,
-metadata model và bàn giao PR. Dùng forms/skill hiện có trước khi thêm tracker mới.
+[Workflow GitHub](../../tooling/github-workflow/README.md) giữ vòng branch →
+commit/push → PR/CI/review → merge/cleanup, metadata agent và issue.
+[Branch lifecycle](../../tooling/github-workflow/BRANCHES.md) có tên dễ hiểu,
+worktree guards và đồng bộ nhiều repo. Dùng forms/skill hiện có trước tracker mới.
 
 Giữ instruction ngắn trong `AGENTS.md`; workflow nhiều bước nằm trong repo skill,
 context dài nằm trong reference. Chỉ thêm MCP khi có nhu cầu thật và kiểm tra

@@ -1,4 +1,10 @@
-# Issues và thông tin agent
+# GitHub workflow của Naqex
+
+**Branch đúng việc → commit → push → PR → CI/review → merge → dọn branch.**
+[Hướng dẫn branch/PR](BRANCHES.md) giữ tên nhánh, base/worktree, bảo vệ nhánh,
+đồng bộ nhiều repo và điều kiện dọn. Issue và metadata agent ở dưới;
+[skill hiện có](../../.agents/skills/github-issue-workflow/SKILL.md) áp dụng
+cả vòng Git này, không chỉ lúc tạo issue.
 
 Issue inbox: [Naqex/workspace](https://github.com/Naqex/workspace/issues).
 Ghi rõ repo sở hữu code trong từng issue; PR nằm ở repo đó. PLAN/ledger hiện hành

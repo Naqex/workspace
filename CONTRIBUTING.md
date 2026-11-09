@@ -24,6 +24,10 @@ PR mô tả thay đổi chính, lý do, kiểm chứng và migration/rủi ro kh
 thể tự merge sau các check bắt buộc; khi có nhiều maintainer thì tăng yêu cầu
 review. Không tự bypass gate hoặc tăng timeout để che lỗi.
 
+Tên branch dễ hiểu, base/worktree, vòng đời PR và dọn sau merge theo
+[branch lifecycle](tooling/github-workflow/BRANCHES.md). Không tạo branch mỗi
+lượt chat hoặc dùng tiếp feature branch đã merge cho việc mới.
+
 ## Version và release
 
 | Thành phần | Version |
