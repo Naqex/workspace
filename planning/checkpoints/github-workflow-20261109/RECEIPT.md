@@ -3,6 +3,57 @@
 Owner yêu cầu hoàn thiện hướng dẫn/skill sau khi khó hiểu danh sách branch.
 Đây là task Git đang được giao riêng; Goal nghiên cứu prop vẫn paused.
 
+## Trader branch và submodule audit — 09/11
+
+Owner yêu cầu kiểm branch Trader và quan hệ workspace→submodule. Kết quả:
+`.gitmodules` đúng `projects/trader`, URL`https://github.com/Naqex/trader.git`,
+branch hint`main`. Gitlink trong workspace main và actual checkout đều là
+`83731fc8b4d7f531225086422266f10396525631`; remote branch
+`codex/note-workspace-completion` cũng đúng SHA, không WIP. Pin hợp lệ và
+published; branch hint không tự thay exact pin khi clone/update thông thường.
+
+Trader origin/main tại`2cbb9d5baa97830822c66fe66e8841b6c5616849` và pin đang
+phân kỳ:32main-only/171pin-only. Vì vậy chưa là thống nhất Trader về main;
+không thay pin bằng main hoặc merge726files chỉ để giảm branch trong task
+kiểm tra này. Có0PRmở không chứng minh171commits đã hội nhập. Bước hội nhập
+Trader riêng cần giữ cả hai nguồn, xử lý dependency/source/contract/UI changes,
+kiểm appropriate gates rồi mới cập nhật gitlink workspace bằng PR riêng.
+
+| Local branch sau audit | Trạng thái và hành động |
+|---|---|
+| main | Bản chuẩn GitHub, worktree dependency-pr-review đang giữ; không đổi |
+| codex/note-workspace-completion | Pin workspace hiện hành,171commits chưa vào main; giữ |
+| codex/research-metals |166commits chưa vào main, ancestor của pin; worktree đang giữ; giữ |
+| codex/research-resume |170commits chưa vào main, ancestor của pin; worktree đang giữ; giữ |
+| codex/archive-trader-legacy |26commits chưa vào main, ancestor của pin; giữ, không xóa dựa riêng vào nhánh nghiên cứu |
+
+Đã xóa local `Nam`(`c58270d6`), `codex/github-resolution`(`e92d8d99`) và
+`codex/replay-issue-verification`(`8394ec43`) sau explicit ancestry vào
+origin/main, noopenPR/noWIP/process-consumer checks. Hai review checkout cũ
+E:/ghtr,E:/ghreplay được detach đúng original SHA, file/commit giữ nguyên.
+Git branch-d cảnh báo hai tip chưa vào currentHEAD83731fc8; guard main-ancestry
+đã xác minh riêng, không dùng currentresearchHEAD làm đích nghiệm thu.
+
+Hai review checkout cũ cũng kế thừa relative core.worktree, làm Git tự nhìn
+nhầm metadata và báo xóa giả. Không stage/revert từ status sai; dùng explicit
+`--work-tree=<actual checkout>` để kiểm sạch và detach. Không sửa shared/global
+config hoặc xóa worktree. Runtime/SDK/DB/product code không đổi.
+
+Fetch-prune đúng origin bỏ19remote-tracking refs đã vắng trên server:
+27→8refs gồm origin/HEAD, tương ứng7branch thật trên GitHub. Ba remote
+Dependabot PR2/4/9 đã CLOSED nhưng tip không ancestor main (lát thay thế dùng
+commit khác), giữ để review provenance/patch nếu sau này dọn, không tự coi
+CLOSED là MERGED. Chỉ còn3researchbranches/main và3Dependabotheads trên remote;
+không có remote branch mới hoặc force deletion trong audit này.
+
+Kiểm trực tiếp Git/GitHub: default/main, remoteURLs, exactSHA, worktree/status,
+ancestry và counts. Source/pin không đổi nên không chạy lại product/backtest.
+Private before/after ở
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/dependency-pr-closeout-20261109/trader-branches-before.json`
+và`trader-branches-after.json`. Workspace contracts/diff và requiredCI áp dụng
+cho receiptPR; không gọi source audit là runtime/broker acceptance. Goal vẫn
+paused; issue10 vẫnOPEN. Không mở task nghiên cứu hoặc broker job mới.
+
 ## Hội nhập workspace về main theo owner — 09/11
 
 Owner đã giao rõ việc rà và gộp phần tồn về main sau khi xác nhận các merge
