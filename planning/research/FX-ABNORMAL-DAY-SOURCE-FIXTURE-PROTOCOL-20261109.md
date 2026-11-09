@@ -44,3 +44,25 @@ Tiếp nếu source-only đạt: full predictor/endpoint census của yearscope 
 đăng ký, calibrationwarmup2018/2021 hiện có; native/fullsource pins và synthetic
 finance preflight trước outcomes. Data còn thiếu vẫn giữ unknown. Không
 đưa0risk/SL vào component rồi tuyên bố đã kiểm account/prop.
+
+## Amendment trước source attempt2 — runtime khác, không sửa binding cũ
+
+Attempt1 đã dừng11,953s trước source quote extraction: current runtime
+Python3.12.14/Pydantic2.14.2 khác cacheproducer3.12.10/2.13.5. Native source
+hashes vẫn đúng; native loader tính cachekey mới và không thấy file tương ứng.
+Đó không chứng minh cache sai hoặc raw mất; không ghi runtime mới vào pin cũ.
+Các previous-runtime folders đã kiểm không còn Python executable để reuse.
+
+Attempt2 `fx-abnormal-day-source-fixture-v2` là **source-admission view riêng**:
+đọc cache đã niêm phong làm reference, kiểm originalSHA/payloadchecksum/binding/
+rawSHA và native source hashes; model validation với consumer hiện tại được
+ghi riêng, không gọi `load_coarse_hours` hiện hành đã nhận cache cũ. Quote
+primary được kiểm lại từ raw first-after bằng native quote decoder hiện tại,
+thêm Fraction/raw-prefix oracle khác và so đủ88slots với frozenreference.
+Đầu ra vẫn chỉ source fixture, không feature/PnL, không account replay.
+
+Giữ original producer runtime trong reference và current consumer runtime
+trong receipt; không runtime-binding override, monkeypatch, sửa strictloader,
+rebuild/overwritecache hoặc gọi fallback tự động. Raw/parent/hash drift phải
+fail. Expected dates,88targets,lag≤60s,mutation/census/deadline và mọi gate khác
+giữ nguyên. V1failure/scripts/manifest/snapshot giữ tại locator cũ.

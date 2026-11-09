@@ -68,3 +68,18 @@ cùngversion. Không dựa vào outcome controls để chọn lại primary.
 Không own2025+, broker/runtime/account/providertrảphí mới, muaEA/challenge.
 Source gaps hoặc phí khác đòi amendment/version trước outcomes bị ảnh hưởng,
 không tự đổi expectedhash hoặc trừ phí hậu kiểm để tựpass.
+
+## Amendment về sample triage trước real features/PnL
+
+Chưa tính bất kỳ real-data feature hoặc financial outcome của R089. Đọc tiếp
+Tables4–5 của primarypaper cho EURUSD có67positive/79negative shock trades
+trong2008–2018, không hàng chục events mỗi năm cho từng hướng. Ngưỡng≥20
+selected/năm ở bản đăng ký ban đầu quá cao nếu dùng như mốc tối thiểu ưu tiên
+cho cơ chế hiếm mà chưa hiệu chỉnh kỳ vọng; không phải ngưỡng statistical power.
+
+**Thay riêng số lượng minimum bằng≥8selected/năm**, giữ cảhai năm netstress>0,
+sourcecoverage/unknown và mọi rule khác. Đây là heuristic giới hạn công việc
+để xem tiếp full-history nếu component dương, không chứng minh sample8 đủ edge
+hoặc bằng chứng một gate thấp hơn sẽ đạt. Không đổi mean/std20days, k=2,
+clock/side/cost hoặc đánh dấu dữ liệu mới thành OOS. Ghi giữ ngưỡng20 ban đầu
+và lý do sửa trước outcome; không lựa minimum theo counts/PnL của ownstudy.
