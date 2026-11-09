@@ -396,3 +396,77 @@ thêm biến thể chỉ vì dễ làm. Đây là khuyến nghị, **chưa dispa
 đã đọc lại09/11: hypothesis trước tuning, lưu ý overfitting khi dùng lặp cùng
 data và giữ OOS. Không áp các heuristic counts trên trang làm chứng nhận
 hoặc ngưỡng loại universal cho catalogue của project.
+
+## 10. Edge và cơ hội khác nhau: giải thích cho owner09/11
+
+Lượt tư vấn tiếp theo, Goal vẫn paused. Đây là cách phân loại để định hướng,
+không protocol mới, statistical independence certificate hoặc quyền chạy tiếp.
+
+**Edge** là lợi thế có căn cứ khiến kỳ vọng lợi nhuận sau chi phí dương trong
+những điều kiện xác định. Net dương trong một backtest chỉ là ước lượng có
+thể do may mắn, selection hoặc mô hình sai; chưa đủ xác nhận edge. Không cần
+thắng từng lệnh hoặc mọi thị trường. Phần bù cho rủi ro khó chịu cũng có thể
+tạo expected return nhưng không tự là alpha hoặc hợp giới hạn lỗ của quỹ.
+
+Ví dụ giả định: win45%, trung bình thắng50USD/thua25USD trước phí, tổng chi
+phí chưa trừ2USD/lệnh: expectancy=0,45×50−0,55×25−2=6,75USD/lệnh. Chưa dự báo
+100lệnh sẽ lời675USD hoặc chứng minh những tham số đó tồn tại trong project.
+Nếu lấy average win/loss đã net thì không trừ cùng chi phí lần nữa.
+
+Không có số loại edge cố định. Bảng dưới chia theo cơ chế kiếm tiền, có thể
+giao nhau; không phân loại theo tên indicator/model hoặc coi mỗi hàng có edge.
+
+| Cơ chế giả thuyết | Ví dụ / trạng thái project | Độ phù hợp ban đầu với mục tiêu |
+|---|---|---|
+| Trend/momentum | SMA/Donchian/breakout: tiếp diễn chuyển động; đã thử nhiều adaptations | Có thể tự động hóa, nhưng ít winner lớn/whipsaw cần kiểm; chưa qualified |
+| Mean reversion | RSI/IBS/Z-score: mất cân đối tạm thời rồi hồi lại | Có thể tự động hóa; chi phí và lỗ đuôi khi thị trường chạy một chiều quan trọng |
+| Dòng tiền/sự kiện có cấu trúc | Fixing, tái cân bằng, phản ứng tin; đã thử một số clock proxies, news inputs còn thiếu | Đáng xét khi có causal mechanism/calendar/input; clock-only không chứng minh flow |
+| Relative value | Tài sản liên quan lệch nhau rồi hội tụ; fixed FX/metal formation chưa đạt | Có thể giảm một phần directional exposure, nhưng thêm basis/breakdown/two-leg costs và data requirements |
+| Carry/risk premia | Nhận lợi tức/phần bù giữ rủi ro | Cần đúng sản phẩm; CFDswap có thể khác underlyingcarry; holding/tail risk có thể không hợp prop |
+| Execution/liquidity | Lợi thế giá khớp hoặc cung cấp thanh khoản | Không ưu tiên với bot MT5 retail hiện tại; chưa có hạ tầng/venue access hoặc measured advantage tương ứng |
+
+Đây là taxonomy của bản tư vấn, không sáu nhóm học thuật duy nhất. Ví dụ
+[AQR2015](https://www.aqr.com/insights/research/journal-article/understanding-style-premia)
+chia style premia thành value/momentum/carry/defensive: axis khác, không proof
+cho CFD recipes của project. AI/ML là phương pháp khai thác thông tin;
+backtest nhanh/log chuẩn là năng lực nghiên cứu; cả hai chưa tự tạo edge.
+
+### Cơ chế khác không tự là lợi nhuận độc lập
+
+SMA20/80 và Donchian20 có thể cùng long EURUSD khi USD yếu; thêm GBPUSD cũng
+có thể tăng cùng USD exposure. Trend và reversion là hai giả thuyết khác, nhưng
+phải đo synchronized net returns, positions/factor exposure, losing periods
+và joint drawdown trước nói diversifying. Correlation thấp ở một mẫu không
+chứng minh independence hoặc giữ được trong stress. Không cộng riêng những
+trade được chọn để thay chronological portfolio/account-wide risk replay.
+
+Ưu tiên breadth theo cơ chế trước, depth bằng một số variants có lý do sau.
+Biến thể dùng kiểm sensitivity/robustness hoặc sửa assumption có căn cứ;
+không bị cấm, nhưng phải có lineage/trial count và freeze trước outcomes mới.
+Mỗi hypothesis cần trả lời: lợi nhuận dự kiến đến từ đâu, input nào biết lúc
+quyết định, khi nào cơ chế mất tác dụng, và còn gì sau tổng phí. Không gọi
+proposed family là proven edge hoặc gán probability pass từ expectancy riêng.
+
+Loại nghiên cứu hiện tại (rules, price/time/flow proxies, khung không cần tốc
+độ cực cao) phù hợp năng lực bot/data của project ở mức định hướng. Những exact
+versions đang có chưa chứng minh đủ edge/prop fit. Next recommendation vẫn là
+ít cơ chế tái hiện tốt, bám đúng instrument/horizon trước thêm biến thể, không
+all-family search, tăng risk hoặc bỏ results/gates cũ. Chưa thực thi khi paused.
+
+### Challenge có chi phí giao dịch
+
+Nguồn chính thức đọc09/11:
+
+- [FTMO infrastructure FAQ](https://ftmo.com/en/faq/how-does-the-ftmo-technical-infrastructure-work/):
+  mô phỏng evaluation có commissions theo symbol và execution delay; slippage
+  có thể hai chiều. Exact phí/spec phải kiểm theo account/platform/symbol.
+- [The5ers spreads/commissions FAQ](https://the5ers.com/faqs/what-are-the-spreads-and-commissions/),
+  trang cập nhật22/07/2026: Forex4USD/lot roundtrip, indices commission0,
+  metals/oil/crypto theo tỷ lệ; spread và swap vẫn có. Không extrapolate một
+  spread công bố lúc bình thường thành spread cố định mọi thời điểm.
+- [FTMO25/09/2025 announcement](https://ftmo.com/en/blog/trading-updates/trading-update-25-sep-2025/)
+  là lịch sử rate change, không tự nâng thành current-account fee verification.
+
+Phí giao dịch mô phỏng tác động PnL tài khoản; phí mua challenge là khoản tiền
+owner trả riêng. Commission0 không bằng totalcost0. Khi đã dùng Bid/Ask cho
+fill thì không trừ spread lần hai; fee/funding/slippage phải đúng semantics.
