@@ -1,7 +1,8 @@
 # Tra cứu research đã có
 
 [Khảo sát bot trả phí, 09/11](PAID-EA-MARKET-REVIEW-20261109.md):
-6 sản phẩm, giá vendor/giới hạn tracker và phản hồi cộng đồng. Chưa đề xuất mua;
+6 sản phẩm; đã khảo sát sâu Night Hunter/Fury: record MQL5 và preset public
+NHP, Fury CORE có grid tùy chọn, tracker Fury vẫn 403. Chưa đề xuất mua;
 The5ers có gate sở hữu source code. Desk research riêng, Goal vẫn paused.
 
 [Gold target-cost admission, 09/11](GOLD-TARGET-COST-ADMISSION-20261109.md):
