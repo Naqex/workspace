@@ -36,8 +36,9 @@ quản lý; dùng các nguồn này khi thêm service, không lấy cổng mặc
    khi cần tìm theo khái niệm trên corpus lớn. Xác nhận kết quả ở source gốc.
 3. Chốt scope và bằng chứng cần có trong owner plan đang dùng; task nhỏ chỉ cần
    diff/PR, không tạo thêm plan hay tracker.
-4. Sửa, kiểm chứng, commit và PR trong repo sở hữu code. Merge sản phẩm trước,
-   rồi cập nhật pin bằng PR ở workspace.
+4. Sửa, kiểm chứng và commit/push trong repo sở hữu code; PR theo
+   [workflow gọn](../../tooling/github-workflow/README.md). Publish/merge sản
+   phẩm trước, rồi cập nhật pin workspace theo policy của repo đó.
 
 ### Tìm đúng context để tiếp tục
 
@@ -85,10 +86,10 @@ không phải cách cập nhật pin có kiểm chứng.
 
 ## AI tooling
 
-[Workflow GitHub](../../tooling/github-workflow/README.md) giữ vòng branch →
-commit/push → PR/CI/review → merge/cleanup, metadata agent và issue.
-[Branch lifecycle](../../tooling/github-workflow/BRANCHES.md) có tên dễ hiểu,
-worktree guards và đồng bộ nhiều repo. Dùng forms/skill hiện có trước tracker mới.
+[Workflow GitHub gọn](../../tooling/github-workflow/README.md): commit/push,
+PR theo policy/rủi ro và issue chỉ khi cần. Một đợt liên quan dùng chung PR;
+không tạo artifact theo từng lượt chat. [Chi tiết Git](../../tooling/github-workflow/BRANCHES.md)
+chỉ đọc khi dùng worktree/submodule/cleanup; quy trình cũ đã archive.
 
 Giữ instruction ngắn trong `AGENTS.md`; workflow nhiều bước nằm trong repo skill,
 context dài nằm trong reference. Chỉ thêm MCP khi có nhu cầu thật và kiểm tra

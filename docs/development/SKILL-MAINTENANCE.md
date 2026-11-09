@@ -7,6 +7,15 @@ daemon/scheduler hay hứa background tự chỉnh khi không có agent làm vi�
 
 ## Trigger và hành động
 
+09/11 — tinh gọn GitHub theo yêu cầu owner: giữ tên `github-issue-workflow`,
+rút skill 56→31 dòng và ba tài liệu/skill GitHub chính giảm 55,7% byte UTF-8
+(chuẩn hóa LF). [Archive](../../tooling/github-workflow/archive/20261109/README.md)
+giữ bản trước, ngoài skill discovery. Walkthrough task này: protected repo →
+PR, không issue mới; negative case chỉ hỏi/đọc → không Git artifact, broker
+request không nhận quyền từ Git. Đây là self-review, chưa independent test.
+Skill validator, 5 workflow tests, 33 active local links và đối chiếu 8 snapshot
+với Git đạt. Audit workspace/Trader: 0 errors/warnings; không đổi global config.
+
 09/11: `strategy-qualification` thêm nhánh
 [chẩn đoán lỗ có chọn lọc](../../.agents/skills/strategy-qualification/references/selective-loss-diagnosis.md).
 Reuse entrypoint hiện có; D0 đọc sổ cũ, D1 chỉ giữ/near-miss có câu hỏi rõ,

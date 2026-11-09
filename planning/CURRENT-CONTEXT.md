@@ -13,6 +13,11 @@ tại`ec364087`; workspace pin cập nhật theo [receipt](checkpoints/github-wo
 Đã giữ cả researchsource vàmaintenance từmain; đây là sourceintegration,
 không runtimepromotion hoặc resumeGoal. Việc mới đi từmain trênbranchngắn.
 
+Owner yêu cầu tinh gọn GitHub cho một người/nhóm nhỏ AI coding: dùng
+[workflow gọn](../tooling/github-workflow/README.md), issue theo nhu cầu,
+gom một đợt liên quan vào một PR khi repo yêu cầu. Bản trước đã archive;
+không đổi protection, quyền broker hoặc resume campaign.
+
 ## Việc hiện tại: mechanism-first research
 
 Yêu cầu riêng trong lúc Goal paused: đã [khảo sát bot trả phí](research/PAID-EA-MARKET-REVIEW-20261109.md)
