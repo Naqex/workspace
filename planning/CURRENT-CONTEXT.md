@@ -8,6 +8,11 @@ Owner sau đó đã tạm dừng Goal ngày 09/11; tool xác nhận status `paus
 Campaign và lịch sử thử nghiệm được kế thừa; C1/C2 chưa hoàn tất. Không tiếp
 nghiên cứu hoặc mở batch mới cho đến khi owner yêu cầu tiếp tục.
 
+Git09/11: Trader đã [hội nhập về main](https://github.com/Naqex/trader/pull/24)
+tại`ec364087`; workspace pin cập nhật theo [receipt](checkpoints/github-workflow-20261109/RECEIPT.md#trader-hội-nhập-main-và-ghim-workspace--0911).
+Đã giữ cả researchsource vàmaintenance từmain; đây là sourceintegration,
+không runtimepromotion hoặc resumeGoal. Việc mới đi từmain trênbranchngắn.
+
 ## Việc hiện tại: mechanism-first research
 
 Yêu cầu riêng trong lúc Goal paused: đã [khảo sát bot trả phí](research/PAID-EA-MARKET-REVIEW-20261109.md)

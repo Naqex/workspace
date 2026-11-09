@@ -3,6 +3,73 @@
 Owner yêu cầu hoàn thiện hướng dẫn/skill sau khi khó hiểu danh sách branch.
 Đây là task Git đang được giao riêng; Goal nghiên cứu prop vẫn paused.
 
+## Trader hội nhập main và ghim workspace — 09/11
+
+Owner giao tiếp tục hội nhập sau audit bên dưới. Đã hòa giải source đang dùng
+`83731fc8b4d7f531225086422266f10396525631` với Trader main
+`2cbb9d5baa97830822c66fe66e8841b6c5616849`, giữ cả hai lịch sử bằng merge.
+[Trader PR24](https://github.com/Naqex/trader/pull/24) MERGED vào main tại
+`ec364087aca15e280f70b4fb591181a6d6f048e0`, cả5requiredchecks PASS trên
+reviewedhead`0961869f1aa1bdd762a465a421ce1f356357ce71`. Ancestry của cả
+hai parent sources và reviewedhead vào origin/main đã kiểm sau fetch.
+Kết luận32/171commits riêng trong audit trước đã được giải quyết bởi PR này.
+
+Workspace gitlink đổi riêng từ83731fc8→ec364087, đúng actual primary checkout
+và remoteTrader main tại lúc publish. Primary submodule dùng detachedHEAD ở
+exactpin (trạng thái chuẩn của submodule), không cập nhật theo branch mỗi lần
+clone. Hint`branch=main`, URL/path giữ nguyên. Mainbranch local ở worktree
+khác không bị chiếm quyền; giữ các research/checkouts đang có consumer.
+
+### Hòa giải và sửa nguyên nhân lỗi
+
+- Hai conflicts chỉ ở frontend package/lock: giữ BlockNote/Ariakit/icon/
+  deep-equal của source đang dùng, đồng thời nhận React19.3.1,Query5.105.1,
+  Playwright1.64.1,Vite7.3.7 từ main. Không nâng Vite8 hoặc thêm framework.
+- Giữ main-side Windows USN/cache hardening, replay regression, Python/Rust/
+  worker dependencies và exactSHA GitHub actions. Reviewer độc lập kiểm
+  preservation của11main-onlyfiles và720source-onlypaths trên merge đầu;
+  generator exception dưới đây có chủ đích, không làm mất UI/research source.
+- Native OpenAPI generator thiếu snapshot endpoint đã implement trong Rust
+  và có trong frozenJSON. Tái hiện cả old/newinterpreter, thêm exactmetadata
+  vào generator; toàn bộ frozenJSON vàfinancialschemas không đổi.
+- CI đầu lộ các thiếu sót đã tồn trên retainedsource: WindowsJSONtest đọc
+  cp1252, pytestroot import sai namespace scripts, test logo/settingsgear
+  lỗi thời,4Rustfiles chưa format và3historicalscanner falsepositives.
+  Sửa UTF8, pytestconfigrelativepath, mock đúng readonlysession/groupcontracts
+  vàsettingslink; format bằng rustfmt. Không nới guard hoặc biến fail thành pass.
+- Scanner3matches là2deployedbinarySHA256 và1runID; đọc context original
+  commits, thêm exactcommit/file/rule/linefingerprints. Không ignore path/rule;
+  fullhistoryscanredacted PASS và generatedsyntheticsecret vẫn bị từ chối.
+
+### Kiểm chứng cuối
+
+| Lát | Bằng chứng |
+|---|---|
+| API/schema |105frozencommands/nativeOpenAPI/Propschemaexports PASS;166focusedPythontests,1skip,34subtests |
+| Phục hồi Demo |169offlinefixturetests,228subtests PASS; không SDKlogin/broker/provider calls |
+| Web/worker |78webcontracts,16dataworkertests,13releaseworkflowtests vàwebbuild PASS |
+| Browser |Brand4cases;Liveanalytics4cases ở1920/390,dark/light,VI/EN PASS,0pageerrors/domainmutations; fixture group hợp lệ, không healthy screenshot có warning giả |
+| Replay |Real authorized localAdvancedCharts +syntheticAPI:7steps,2created/1removed/0blankframes; tiến/lùi/autoplay/pause PASS |
+| Rust/CI |Fulltests/lint PASS trên127ec341; cả5requiredCIchecks PASS trên final0961869f trước merge |
+| License |409dependencycomponents,0unresolvednotices; không tải/mua/publicvendorassets |
+| Review |Read-only independentCodexreview trên exact0961869f: no blockers; review không thay CI/browserexecution |
+
+Các attempt lỗi giữ riêng: firstCI92ba0c73 và127ec341; browserReplay lần đầu
+block authdiscovery, lần sau preview trỏ oldvendorpath. Dùng đúng existing
+authorized vendor `.runtime/vendors/advanced-charts/23.040` thì finalPASS;
+không gọi lỗi fixture/path là lỗi broker hoặc đổi vendor/hashgate.
+Localpreview5394 đã dừng sau QA. Không nghiên cứu/PnL/holdout/grant/orderjob,
+runtime rollout, DBmigration hoặc thay account/terminal. Pin source không
+đồng nghĩa runtime đang chạy đã được promote; environment cài sẵn giữ nguyên.
+
+Privateevidence:
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/trader-main-integration-20261109/`
+giữredactedscannerreports,syntheticpositivecontrolnote,source/branchreceipts,
+noticeinventory vàreplayfailure/finalbrowserartifacts. ProductPR giữ reviewed/
+mergeSHAs,CI,independentreview; workspacePR chỉ pin+receipt/context. Dọnbranch
+sau workspace merge theo exacttip/ancestry/PR/worktree gates; không force-delete
+branch đang dùng hoặc xóa worktree để ép sạch. Goal vẫnpaused,issue10OPEN.
+
 ## Trader branch và submodule audit — 09/11
 
 Owner yêu cầu kiểm branch Trader và quan hệ workspace→submodule. Kết quả:
