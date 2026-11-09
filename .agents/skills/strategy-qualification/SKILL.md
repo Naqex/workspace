@@ -21,6 +21,10 @@ chưa kiểm hoặc thiếu evidence. Artifact integrity không thay validation 
    accounting, risk/position/pending/end-of-sample. Lỗi material chưa giải
    quyết thì không promote. Source mới khác pin không xóa kết quả lịch sử;
    nó làm kết quả cũ chưa chứng minh source mới.
+   Khi cần tìm nguyên nhân lỗ hoặc ưu tiên cải tiến sau screening, dùng
+   [chẩn đoán có chọn lọc](references/selective-loss-diagnosis.md): đọc nhanh
+   sổ đã có trước, chỉ phân tích sâu ứng viên có cơ sở; lỗi material vẫn sửa
+   bất kể ứng viên có lời hay không.
 3. Xem net return cùng drawdown, tail losses, losing streak, recovery, trade
    count, exposure/turnover và contribution của ít trade. Unrealized equity
    không là tiền rút. Không lấy một ngưỡng Sharpe/số trade làm chứng nhận.

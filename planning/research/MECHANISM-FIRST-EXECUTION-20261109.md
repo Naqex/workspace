@@ -7,8 +7,19 @@ mới cho phép công việc này tiếp tục, không giả tool đã đổi Go
 
 ## Công việc và acceptance
 
+**Task thêm theo owner, đã thực thi:**
+[chẩn đoán có chọn lọc](SELECTIVE-LOSS-DIAGNOSIS-RESULTS-20261109.md) thêm
+D0→D1→D2 vào skill hiện có; phân tích một bản retained là SMA vàng, không
+đào thêm mọi loser. Funding chiếm77,75%costdrag của220closedtradesstress,
+chưa phải actualbrokerfee; giữwinnerholding/side/SL vàưu tiênspecverification.
+[EIA datecensus](EIA-RELEASE-DATE-CENSUS-RESULTS-20261109.md) đã kiểm52/51ngày
+phát hành2019/2022, gộpdouble-report29/06; actualreleasehours vẫnunknown.
+Khôngjobnền, khôngnewstrategyvariant hoặc sửa verdict cũ tronglượt này.
+
 **Cập nhật sau thực thi:** mục1–4 và7 đã hoàn tất trongscope lượt;5–6 chưa
-ápdụng vì chưa có economicsurvivor, không là taskfailed hoặcđược skip đểpromote.
+ápdụng cho các bản mới vì chưa có bản đủ điều kiện chuyển tiếp; không là
+taskfailed hoặc được skip đểpromote. Gold cũ còn researchsurvivor và đã được
+chọn cho chẩn đoán có giới hạn ở trên, chưa qualified cho challenge.
 [R081results](US500-INVENTORY-CONDITION-RESULTS-20261109.md) và
 [oilsourcepilot](OIL-EIA-SOURCE-PILOT-RESULTS-20261109.md) giữ sốliệu/giới hạn;
 chưachallengecandidate. Khôngcònjob nền. Existing skills đãbao phủcausalrule,

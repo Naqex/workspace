@@ -7,6 +7,18 @@ daemon/scheduler hay hứa background tự chỉnh khi không có agent làm vi�
 
 ## Trigger và hành động
 
+09/11: `strategy-qualification` thêm nhánh
+[chẩn đoán lỗ có chọn lọc](../../.agents/skills/strategy-qualification/references/selective-loss-diagnosis.md).
+Reuse entrypoint hiện có; D0 đọc sổ cũ, D1 chỉ giữ/near-miss có câu hỏi rõ,
+D2 đăng ký thay đổi sau khi xác minh nguyên nhân. Không hardcode ngưỡng hoặc
+cho phép sửa strategy để cứu outcome. Positive manual walkthrough: Goldretained;
+negative: R081gross/net yếu không phân tích filter tiếp; materialbug vẫn xử lý.
+Actual30books/439tradecases/Fractionreview/6mutations ở
+[receipt](../../planning/research/SELECTIVE-LOSS-DIAGNOSIS-RESULTS-20261109.md).
+Skillcreator validator/scopedlinks/maintaineraudit đạt0errors/0warnings;
+global12.279B,project10.133/65.536B,reserve55.403B,combined22.412B không đổi.
+Repo skill, chưa publish/assign Paperclip hoặc independentmodelroutingtest.
+
 09/11: source-transformations reference thêm pilot→history partition/role
 census trước PnL, không skill mới. [Case thật](../../planning/research/INDEX-PAPER-WINDOW-RESULTS-20261109.md)
 raw reviewer bắt omitted US500Q2/Q4; helper full-year buộc4quarters/8side seals,

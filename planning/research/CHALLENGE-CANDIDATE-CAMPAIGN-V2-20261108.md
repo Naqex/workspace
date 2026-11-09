@@ -8,6 +8,11 @@ có nhu cầu thực. Goal từngactive, hiệnUIpaused; owner đã giao task ti
 
 ## Checkpoint hiện hành — 09/11/2026
 
+Lượt owner giao thêm đã xong: [selective lossdiagnosis](SELECTIVE-LOSS-DIAGNOSIS-RESULTS-20261109.md)
+trên Goldretained,30books/439cases/Fractionreview, khôngtuning; skill D0→D1→D2
+đã kiểm. [EIAdatecensus](EIA-RELEASE-DATE-CENSUS-RESULTS-20261109.md)103events
+đã kiểm/dedup;actualreleasehours chưaverified. Catalogue vẫn81/58, khôngnewpolicy.
+
 Owner giao thực thi[mechanism-first plan](MECHANISM-FIRST-EXECUTION-20261109.md)
 sauđúc kết. GoalUIvẫnpaused, khôngclaimđãresume;tasklượt đãthực thi,mụctiêu
 C1/C2chưađạt. Catalogue81records/58policy-modelversions/25native/9controls;

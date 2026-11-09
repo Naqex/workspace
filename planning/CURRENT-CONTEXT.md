@@ -7,9 +7,18 @@ vẫn paused, không tự khai tool đã resume hoặc complete campaign.
 
 ## Việc hiện tại: mechanism-first research
 
+Lượt mới theo owner: [selective lossdiagnosis](research/SELECTIVE-LOSS-DIAGNOSIS-RESULTS-20261109.md)
+đã xong trên một retainedcandidateGold:30books/439trade-costcases,Fractionreview/
+6mutations. Stressfunding77,75%costdrag, nhưnglongholding cũngtạo phầnlớnlợi
+nhuận; ưu tiênxácminh swap/spec thật trước sửa rules. D0→D1→D2 đã vào skill
+kiểmđịnh; khôngđào thêmR080/R081 hoặc auto-promoteGold.
+[EIAdatecensus](research/EIA-RELEASE-DATE-CENSUS-RESULTS-20261109.md) đã kiểm
+52/51ngày2019/2022; giữactualpublicationtimeunknown. Fixed delayed-data URL
+exception córegression, khôngmặcđịnhmọiWednesday10:30. Khôngjobnền.
+
 Đọc [task plan](research/MECHANISM-FIRST-EXECUTION-20261109.md) trước tiếp tục.
-Mục 1–4 và 7 đã thực thi trong phạm vi lượt này; mục 5–6 cần ứng viên qua
-sàng lọc nên chưa áp dụng. Chưa có
+Mục 1–4 và 7 đã thực thi trong phạm vi lượt trước; mục 5–6 chưa áp dụng
+cho các bản mới vì chưa bản nào đủ điều kiện chuyển tiếp. Chưa có
 ứng viên challenge. Không numerical/source job nền, không cần đợi/poll.
 
 | Lát gần nhất | Trạng thái / bằng chứng |

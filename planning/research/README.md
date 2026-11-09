@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+Mới nhất09/11: [chẩn đoán lỗ có chọn lọc](SELECTIVE-LOSS-DIAGNOSIS-RESULTS-20261109.md)
+đã thêm workflow D0→D1→D2;SMA vàng30books/439trade-costcases reviewed, chưa
+tuning. [EIA datecensus](EIA-RELEASE-DATE-CENSUS-RESULTS-20261109.md)52/51dates
+đã kiểm, actualreleasehours cònunknown; khôngbulkmarketdata/PnL mới.
+
 Owner đã giao thực thi sau đúc kết09/11: đọc [mechanism-first plan](MECHANISM-FIRST-EXECUTION-20261109.md).
 Đã gom80historicalrecords,thêmR081relatedvariant;catalogue81/58/25native/9controls.
 [R081conditional](US500-INVENTORY-CONDITION-RESULTS-20261109.md) reviewednegative,

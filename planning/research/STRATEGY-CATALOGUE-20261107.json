@@ -1673,7 +1673,7 @@
         "LOCAL"
       ],
       "source_relation": "mechanism_or_method_only_not_edge",
-      "next_action": "Retain50k research; deprioritize challenge qualification after Jan-start3/6/12month cash diagnostics; no risk/rule tuning",
+      "next_action": "Verify target funding/spec before any new economic model or rule trial; retained research survivor, not challenge-qualified. Do not infer long-only or holding cutoff from retrospective cohorts.",
       "implementation_state": "implemented_not_qualified",
       "candidate_id": "xauusd-h4-sma20-80-atr14-r025-v1",
       "implementations": [
@@ -1688,7 +1688,8 @@
       "capital_scenarios": [
         "10000",
         "50000"
-      ]
+      ],
+      "diagnostic_evidence": "SELECTIVE-LOSS-DIAGNOSIS-RESULTS-20261109.md"
     },
     {
       "id": "R044",
