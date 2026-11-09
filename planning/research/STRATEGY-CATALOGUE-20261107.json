@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-07",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 84,
+  "record_count": 85,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -12,13 +12,13 @@
   "counts": {
     "by_role": {
       "existing": 36,
-      "variant": 32,
+      "variant": 33,
       "new": 15,
       "component": 1
     },
     "by_readiness": {
       "implemented": 36,
-      "component_probe_not_retained": 23,
+      "component_probe_not_retained": 24,
       "implemented_not_retained": 5,
       "method_clock_review": 1,
       "component_probe_completed_no_priority": 2,
@@ -2939,13 +2939,42 @@
         "ITO-YAMADA-TOKYO"
       ],
       "source_relation": "Owncalendar/window transfer within fixingfamily;not paper replication or independentedge.",
-      "next_action": "ParkexactprimaryBUY;registerpostfixnominaltemporalextension before newyearoutcomes;preserve sensitivity separately and count selection, no retuning or automatic promotion.",
+      "next_action": "Postfix followup R085 completed and failed its frozen temporal-extension gate;preserveR084primaryfailure and sensitivity flag;no automatic promotion or Tokyo clock/fee/calendar rescue.",
       "implementation_state": "reviewed_primary_not_retained_followup_flags_only",
       "candidate_id": null,
       "component_id": "usdjpy-tokyo-calendar-price-component-v1",
       "implementations": [],
       "component_evidence": "USDJPY-TOKYO-COMPONENT-RESULTS-20261109.md",
       "profitability_evidence": "Primary stress2019-125.1848/2022-142.9284USD per100knotional;calendar sensitivity+378.3428/+623.6069;postfixnominal+87.3329/+1289.9454. NotaccountPnL orindependentOOS.",
+      "control": false,
+      "dispatch_authorized": false,
+      "implementation_updated_on": "2026-11-09",
+      "followup_evidence": "USDJPY-POSTFIX-EXTENSION-RESULTS-20261109.md"
+    },
+    {
+      "id": "R085",
+      "title": "USDJPY Tokyo postfix temporal extension",
+      "family": "fixing_flow",
+      "role": "variant",
+      "parent_id": "R084",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "Tokyo09:56entry/10:24exit M1Open,29minute strictroles",
+      "rule_sketch": "SELLsameR084postfixslot/fees;nominalbusiness primary and previousbusiness sensitivity;actualexecutionyear globaldedup;all2010-2024 with2019/2022discoveryseparate.",
+      "data_requirements": "1812newrawday-sides/906newdates,12402580newfieldchecks;139olddays reused/1899620acceptedchecks;primarypostfixrolesallcomplete.",
+      "automation_feasibility": "offline_temporal_price_component_not_account_policy",
+      "prop_operational_concerns": "Only6of13newyearsstresspositive;2of4primaryblocksnegative;thinaggregatepositive,noSL/equity/targetbrokerfees/prop/OOS/forward.",
+      "source_ids": [
+        "BOC48",
+        "ITO-YAMADA-TOKYO"
+      ],
+      "source_relation": "SelectedafterR084diagnosticcontroloutcomes;relatedfixingfamily and temporalextension,notindependentdiscovery orcleanOOS.",
+      "next_action": "Parkexactpostfixrecipe;admitdistinctmechanism ormaterialblockerofexisting survivor;no Tokyo clock/calendar/fee/risk-grid rescue.",
+      "implementation_state": "reviewed_not_retained_price_component",
+      "candidate_id": null,
+      "component_id": "usdjpy-tokyo-postfix-temporal-component-v1",
+      "implementations": [],
+      "component_evidence": "USDJPY-POSTFIX-EXTENSION-RESULTS-20261109.md",
+      "profitability_evidence": "Primary625extensiontrades/stress+204.25299USDper100knotional but6of13positiveyears,2of4negativeblocks;previousbusiness906trades+160.89794USD alsofails;noaccountPnL.",
       "control": false,
       "dispatch_authorized": false,
       "implementation_updated_on": "2026-11-09"

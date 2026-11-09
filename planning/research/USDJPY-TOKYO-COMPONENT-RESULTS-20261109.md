@@ -93,3 +93,7 @@ chính, thêm lịch phụ riêng; rộng giai đoạn trước thiết kế SL/
 là discovery/exposed, không gọi lại là OOS. Không loại cả fixing family, không
 retune prefix BUY, không mua/cài EA. Catalogue84records/58policy-modelversions/
 25native/9controls; thêm component liên quan R021, không account policy mới.
+
+Đã thực hiện follow-up [R085](USDJPY-POSTFIX-EXTENSION-RESULTS-20261109.md):
+6/13newyears dương, không qua frozen gate; không tiếp tục exact postfixrecipe.
+Giữ kết quả/selection R084 nguyên vẹn, không đổi bản chính sau outcome.

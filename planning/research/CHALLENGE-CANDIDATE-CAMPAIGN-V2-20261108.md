@@ -9,10 +9,15 @@ Workflow đã rà, giữ đường gọn hiện hành; không thêm skill/framew
 [R084 USDJPY](USDJPY-TOKYO-COMPONENT-RESULTS-20261109.md) đã terminal/reviewed:
 32books/139dates, mua chính âm stress2019/2022; sensitivity và diagnostic
 bán sau fix dương nhưng chưa promote.84records/58versions, chưa challenge.
-Bước tiếp: đăng ký temporal extension bán sau fix, giữ discovery exposure
-và primary failure; chưa SL/account/prop/OOS/forward. OldWTI/FXnegative giữ.
+Mới nhất: [R085 extension results](USDJPY-POSTFIX-EXTENSION-RESULTS-20261109.md)
+đã terminal/reviewed, không còn job.6/13extensionyears dương/2of4primaryblocks
+âm nên không đạt;calendar sensitivity cũng không đạt.240books gồm32discovery
+reuse,12.402.580newsourcechecks;không accountpolicy/SL/prop/OOS/forward.
+85records/58versions, Goalactive/chưa challengecandidate. Tiếp
+[residual-reversion admission](RESIDUAL-REVERSION-METHOD-ADMISSION-20261109.md):
+fullmethod/data/cost trước recipe, không stock→FX/index ngầm hoặc Tokyo rescuegrid.
 Các checkpoint dưới đây là lịch sử; cửa resume hiện hành là đoạn này và
-kết quả R084, không thực hiện lại các mục “tiếp” cũ.
+kết quả R085, không thực hiện lại các mục “tiếp” cũ.
 
 ### Resume checkpoint — workflow và quote-cost fixture
 

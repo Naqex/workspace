@@ -32,15 +32,22 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
   đã terminal/reviewed:32books/139dates,1.899.620rawfield checks, không gap.
   Mua chính stress2019−125,18/2022−142,93USD trên100knotional; không đạt.
   Lịch phụ dương và diagnostic bán sau fix dương, chỉ là follow-up flags.
-  Source+consumer145,106s, không còn job R084. Bước tiếp: đăng ký temporal
-  extension bán sau fix trước outcomes khác năm, giữ selection/exposure;
-  chưa accountpolicy/SL/prop/OOS/forward hoặcchallenge.
+  Source+consumer145,106s, không còn job R084; chưa account/prop/edge.
+- [R085 extension protocol](research/USDJPY-POSTFIX-EXTENSION-PROTOCOL-20261109.md)
+  đã freeze `55fe25d`; [kết quả](research/USDJPY-POSTFIX-EXTENSION-RESULTS-20261109.md)
+  terminal/reviewed:240books/15years gồm13năm mở rộng, chỉ6/13năm stressdương,
+  2/4blockprimaryâm;gác exactrecipe. Primary625lượt mới chỉ+204,25USD/100k
+  notional, chưa SL/account/prop/OOS/forward.12.402.580newfields và139old days
+  reuse;calendarcrossyear sửa trước quotes, failure giữ. Source+consumer22phút07s,
+  không còn job. Lát tiếp: [residual-reversion admission](research/RESIDUAL-REVERSION-METHOD-ADMISSION-20261109.md),
+  fullmethod/data/cost feasibility trước recipe, không mặc định USstock→FX/index
+  hoặc tiếp Tokyo grid. Không khôi phục R065 đã gác chỉ để cứu outcome.
 
 ## Bằng chứng nghiên cứu cần kế thừa
 
 | Lát | Kết luận / bước tiếp |
 |---|---|
-| Catalogue | 84 hồ sơ / 58 policy-model versions / 25 native / 9 controls; [mechanism plan](research/MECHANISM-FIRST-EXECUTION-20261109.md). Component/biến thể không tự là edge độc lập |
+| Catalogue | 85 hồ sơ / 58 policy-model versions / 25 native / 9 controls; [mechanism plan](research/MECHANISM-FIRST-EXECUTION-20261109.md). Component/biến thể không tự là edge độc lập |
 | FX NYMA4 | [Conditional results](research/NY-FX-GAP-SCENARIOS-RESULTS-20261109.md) âm ở hai năm; strict annual vẫn unknown. Không đổi clock/SL/risk để cứu exact recipe |
 | Gold R043 | [Cost admission](research/GOLD-TARGET-COST-ADMISSION-20261109.md) và [loss diagnosis](research/SELECTIVE-LOSS-DIAGNOSIS-RESULTS-20261109.md): funding/spec đích chưa verified; không zero-swap hoặc rerun để cứu outcome |
 | R080/R081 | [EU-open](research/US500-EU-OPEN-COMPONENT-RESULTS-20261109.md), [conditional](research/US500-INVENTORY-CONDITION-RESULTS-20261109.md): known net âm, giữ unknowns, gác exact recipes |
