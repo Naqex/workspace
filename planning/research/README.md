@@ -1,5 +1,11 @@
 # Tra cứu research đã có
 
+[ECB archived source results](ECB-ARCHIVED-SURPRISE-SOURCE-RESULTS-20261110.md):
+3 sheets × 308 dates tới 12/2024, 1.709 numeric cells parser parity/8 focus
+cells đủ nhưng cả 4 ngày chưa admit known-at/access; tick pilot vẫn false.
+Source 2,593s/3GET, offline review 87,052s/0GET; không financial trial/job nền.
+Catalogue92/58 giữ, không retry package/relax gate hoặc dùng archive lấp quotes.
+
 [R092S&P–Nasdaqformation](INDEX-PAIR-FORMATION-RESULTS-20261110.md):503datesđủ,
 p2018=0,55272/2021=0,41111;khôngretained fixedlinearformations,khôngbot/PnL.
 [Source](INDEX-PAIR-SOURCE-RESULTS-20261110.md)96months/223.450fields/88GET+8reuse,

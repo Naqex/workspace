@@ -8,6 +8,15 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 ## Việc hiện tại
 
+- [ECB archived source](research/ECB-ARCHIVED-SURPRISE-SOURCE-RESULTS-20261110.md)
+  đã terminal/reviewed: 3 sheets × 308 dates tới 12/2024, 1.709 numeric cells
+  parser parity, 8 focus cells đủ; cả 4 ngày chưa admit intraday-known-at/access.
+  Source 2,593s/3GET; offline review 87,052s/0GET. Giữ v1 citation-link failure,
+  v2 chỉ cho đúng inert citation, chặn mạng/external data. Tick pilot vẫn false
+  (3/4 ngày đủ), không financial trial hoặc job nền. Catalogue **92/58**, Goal
+  active/C1C2 chưa đạt. Không retry package hoặc relax source/fee/holding gates;
+  tiếp primary-supported cơ chế khác hoặc material survivor gap có evidence mới.
+
 - [R092 indexpairformation](research/INDEX-PAIR-FORMATION-RESULTS-20261110.md)
   terminal/reviewed10/11:503dates đủ,2018p0,55272/2021p0,41111;khôngretained
   fixedlinearformation,khôngPnL/bot. 1.006pricechecks/8Decimalstats/6mutations;
@@ -166,7 +175,7 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 | Lát | Kết luận / bước tiếp |
 |---|---|
-| Catalogue | 91 hồ sơ / 58 policy-model versions / 25 native / 9 controls; [catalogue](research/STRATEGY-CATALOGUE-20261107.md). Component/biến thể không tự là edge độc lập |
+| Catalogue | 92 hồ sơ / 58 policy-model versions / 25 native / 9 controls; [catalogue](research/STRATEGY-CATALOGUE-20261107.md). Component/biến thể không tự là edge độc lập |
 | FX NYMA4 | [Conditional results](research/NY-FX-GAP-SCENARIOS-RESULTS-20261109.md) âm ở hai năm; strict annual vẫn unknown. Không đổi clock/SL/risk để cứu exact recipe |
 | Gold R043 | [Cost admission](research/GOLD-TARGET-COST-ADMISSION-20261109.md) và [loss diagnosis](research/SELECTIVE-LOSS-DIAGNOSIS-RESULTS-20261109.md): funding/spec đích chưa verified; không zero-swap hoặc rerun để cứu outcome |
 | R080/R081 | [EU-open](research/US500-EU-OPEN-COMPONENT-RESULTS-20261109.md), [conditional](research/US500-INVENTORY-CONDITION-RESULTS-20261109.md): known net âm, giữ unknowns, gác exact recipes |

@@ -29,6 +29,15 @@ kiểm ngoài dữ liệu dùng chọn thay đổi. Ưu tiên costheadroom/trade
 holding và chi phí stress; không chỉ nhìn tổng lợi nhuận hoặc winrate.
 Không tự đặt costfilter threshold từ các lệnh biết trước sẽ thắng.
 
+Đọc theo mỗi cơ hội giúp tránh nhầm “tổng gross dương” với biên đủ lớn:
+R091 năm2019 có153cơ hội, gross331/153≈2,16USD và spread420/153≈2,75USD mỗi
+cơ hội trên100.000EURnotional. Chỉ riêng spread đã lớn hơn gross, trước
+commission/trượtgiá. Đây là phép chia sổ đã có, không expected profit/trade
+tương lai hoặc tài khoản100.000USD. Phân rã fixedpath không chứng minh số
+lệnh/fills/sizing giữ nguyên nếu thêm spreadfilter hoặc đổi cách đặt lệnh.
+Limit order cũng không được giả khớp đủ hoặc tự xóa spread/slippage; một thử
+nghiệm execution khác phải tính cả missed fills và selection ở lúc khớp.
+
 Ví dụ minh họa riêng: giá lời100USD, tổng phí30USD thì net70USD; thêm20USD
 chi phí còn50USD trên cùng path. Muốn thay holding để giảm30USD phí không
 được mặc định giữ100USD priceprofit. Cần replay vì entry/fill/SL/sizing và
