@@ -1,6 +1,6 @@
 # Danh mục nghiên cứu chiến lược — cập nhật09/11/2026
 
-83 hồ sơ: 47 có policy/model version được ghi trong danh mục (58 versions), 35 chưa có account policy và 1 risk component. Trong 58 versions có 25 native offline rules và 33 tooling/coarse/model versions; gồm 9 controls. R080/R081/R082/R083 đã reviewed và không retained; price components không đếm thành account policies hoặc independent edges. **Chưa có bản nào challenge-qualified.**
+84 hồ sơ: 47 có policy/model version được ghi trong danh mục (58 versions), 36 chưa có account policy và 1 risk component. Trong 58 versions có 25 native offline rules và 33 tooling/coarse/model versions; gồm 9 controls. R080/R081/R082/R083 không retained; R084 mua chính không đạt, lịch phụ và bán sau fix chỉ là follow-up flags. Price components không đếm thành account policies hoặc independent edges. **Chưa có bản nào challenge-qualified.**
 
 [Bản đồ cơ chế và task](MECHANISM-FIRST-EXECUTION-20261109.md) gom đủ80historicalIDs
 khôngtrùng/thiếu;R081 làconditionalderivative liênquanR080.8buckets cócontrols/
@@ -99,6 +99,7 @@ freeze trước outcomes; old quarter-mask failure và corrected attempt đều 
 |R081|US500 prior closing-pressure conditional EU-open|equity_inventory_reversal_price_proxy /R080|Knownnetâm,selected2019coverage thiếu;gác exact|0|[Results](US500-INVENTORY-CONDITION-RESULTS-20261109.md);relatedvariant,chưaaccount/prop/OOS|
 |R082|WTI Wednesday reaction→late conditional component|event-price momentum / R027|Không retained;2019unknown/2022net âm|0|[Results](WTI-WEDNESDAY-COMPONENT-RESULTS-20261109.md);retrospectivecalendar,không accountpolicy|
 |R083|WTI Wednesday reaction→settlement conditional component|event-price momentum / R082|Không retained;đủ88days,stressâm2years|0|[Results](WTI-SETTLEMENT-COMPONENT-RESULTS-20261109.md);strict/endpointidentical,noaccountpolicy|
+|R084|USDJPY Tokyo calendar component|fixing_flow / R021|Mua chính âm stress cả2years; lịch phụ/bán sau fix cần kiểm tiếp|0|[Results](USDJPY-TOKYO-COMPONENT-RESULTS-20261109.md);32books/139dates, noaccountpolicy|
 
 
 ## Cách đọc và lịch sử các batch đầu

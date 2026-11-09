@@ -1,10 +1,16 @@
 # Tra cứu research đã có
 
+[R084 USDJPY Tokyo](USDJPY-TOKYO-COMPONENT-RESULTS-20261109.md):32books/
+139dates/1.899.620fields reviewed,145,106s source+consumer. Mua chính không
+đạt stress2019/2022; lịch phụ và bán sau fix dương chỉ là follow-up flags.
+84records/58versions, chưa challenge. Tiếp đăng ký temporal extension bán
+sau fix; không promote control hoặc gọi discoveryyears là OOS.
+
 [R083WTIsettlement](WTI-SETTLEMENT-COMPONENT-RESULTS-20261109.md):40books/88dates
 đủnewroles,strict/endpointidentical,stressâmcả2years;gác,83records/58versions.
 [TokyoJPYmethod](TOKYO-FIX-METHOD-ADMISSION-20261109.md) primaryflow/clock/cost
 và [sourcepilot](USDJPY-TOKYO-SOURCE-RESULTS-20261109.md)26.980fields/2datesđạt;
-chưaedge/strategy. Tiếpđăngkýone-windowowncomponent/calendar/cost.
+chưaedge/strategy tại pilot; component đã có kết quả R084 ở trên.
 
 [R082 WTI Wednesday results,09/11](WTI-WEDNESDAY-COMPONENT-RESULTS-20261109.md):
 20books/88dates/1.162.180rawfields reviewed;2019strictN/A,2022primary net âm

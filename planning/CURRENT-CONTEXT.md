@@ -28,15 +28,19 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
   khôngindependentedge hoặcretailalpha từdealerprofit. OfficialholidayCSVđãcó,
   chưaallbank/PITcalendar. [Sourcepilot](research/USDJPY-TOKYO-SOURCE-RESULTS-20261109.md)
   đủ61roleminutes×2dates/26.980fields,1,226s;0returns/strategy,khôngjobnền.
-- BướcGoaltiếp: đăngkýUSDJPYowncomponent mộtwindow vớicalendar/shiftpolicy,
-  JPYpip/currencyfee/cost/known-at/coverage/controls trướcoutcomes; sourceđãđủ
-  pilot, khôngthu lại. Chưaaccountpolicy/SL/prop/OOS/forward hoặcchallenge.
+- [R084 USDJPY component](research/USDJPY-TOKYO-COMPONENT-RESULTS-20261109.md)
+  đã terminal/reviewed:32books/139dates,1.899.620rawfield checks, không gap.
+  Mua chính stress2019−125,18/2022−142,93USD trên100knotional; không đạt.
+  Lịch phụ dương và diagnostic bán sau fix dương, chỉ là follow-up flags.
+  Source+consumer145,106s, không còn job R084. Bước tiếp: đăng ký temporal
+  extension bán sau fix trước outcomes khác năm, giữ selection/exposure;
+  chưa accountpolicy/SL/prop/OOS/forward hoặcchallenge.
 
 ## Bằng chứng nghiên cứu cần kế thừa
 
 | Lát | Kết luận / bước tiếp |
 |---|---|
-| Catalogue | 83 hồ sơ / 58 policy-model versions / 25 native / 9 controls; [mechanism plan](research/MECHANISM-FIRST-EXECUTION-20261109.md). Component/biến thể không tự là edge độc lập |
+| Catalogue | 84 hồ sơ / 58 policy-model versions / 25 native / 9 controls; [mechanism plan](research/MECHANISM-FIRST-EXECUTION-20261109.md). Component/biến thể không tự là edge độc lập |
 | FX NYMA4 | [Conditional results](research/NY-FX-GAP-SCENARIOS-RESULTS-20261109.md) âm ở hai năm; strict annual vẫn unknown. Không đổi clock/SL/risk để cứu exact recipe |
 | Gold R043 | [Cost admission](research/GOLD-TARGET-COST-ADMISSION-20261109.md) và [loss diagnosis](research/SELECTIVE-LOSS-DIAGNOSIS-RESULTS-20261109.md): funding/spec đích chưa verified; không zero-swap hoặc rerun để cứu outcome |
 | R080/R081 | [EU-open](research/US500-EU-OPEN-COMPONENT-RESULTS-20261109.md), [conditional](research/US500-INVENTORY-CONDITION-RESULTS-20261109.md): known net âm, giữ unknowns, gác exact recipes |

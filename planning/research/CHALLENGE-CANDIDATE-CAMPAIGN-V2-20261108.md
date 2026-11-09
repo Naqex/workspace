@@ -5,12 +5,14 @@ Goal mới tạo thành công, tool xác nhận `active`. Kế thừa C1/C2, to�
 negatives/exposure; chưa có ứng viên challenge. Các trạng thái active/paused
 trong checkpoint cũ bên dưới là lịch sử, không là trạng thái Goal hiện hành.
 
-Workflowđãràvàcontextcompact. [R083WTIsettlement](WTI-SETTLEMENT-COMPONENT-RESULTS-20261109.md)
-đãgácsau40books/88dates;83records/58versions,chưachallengecandidate.
-Láttiếp [TokyoUSDJPYmethod](TOKYO-FIX-METHOD-ADMISSION-20261109.md) và
-[sourcepilot](USDJPY-TOKYO-SOURCE-RESULTS-20261109.md)đãđạt, đăngkýone-window
-owncomponent/calendar/currencycost trướcoutcomes. RelatedfixingfamilyR020,
-khôngnewindependentedge/retailalpha từdealerprofit. OldWTI/FXnegative giữ.
+Workflow đã rà, giữ đường gọn hiện hành; không thêm skill/framework.
+[R084 USDJPY](USDJPY-TOKYO-COMPONENT-RESULTS-20261109.md) đã terminal/reviewed:
+32books/139dates, mua chính âm stress2019/2022; sensitivity và diagnostic
+bán sau fix dương nhưng chưa promote.84records/58versions, chưa challenge.
+Bước tiếp: đăng ký temporal extension bán sau fix, giữ discovery exposure
+và primary failure; chưa SL/account/prop/OOS/forward. OldWTI/FXnegative giữ.
+Các checkpoint dưới đây là lịch sử; cửa resume hiện hành là đoạn này và
+kết quả R084, không thực hiện lại các mục “tiếp” cũ.
 
 ### Resume checkpoint — workflow và quote-cost fixture
 
