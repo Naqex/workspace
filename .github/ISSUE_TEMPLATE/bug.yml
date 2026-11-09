@@ -44,5 +44,5 @@ body:
   - type: textarea
     id: agents
     attributes:
-      label: Agent phát hiện / xác minh
-      description: Khi có AI, ghi role, tool, requested model ID và nguồn danh tính. Không biết thì unknown; chỉ thêm reported model, route, effort khi có bằng chứng. Người báo thủ công có thể để trống.
+      label: Ghi chú bổ sung (tùy chọn)
+      description: Chỉ ghi phân công hoặc nguồn review khi cần; không bắt khai model hay điền bảng danh tính.

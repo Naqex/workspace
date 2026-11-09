@@ -2,16 +2,20 @@
 
 Review 09/11/2026 · `REVIEWED-PARTIAL / RESUMABLE`.
 File chỉ điều hướng; PLAN/protocol/results giữ scope và evidence. Không là
-ledger hoặc permission broker. Theo yêu cầu cập nhật của owner ngày 09/11,
-Goal cũ đã được xóa và Goal mới đã tạo thành công với status `active`.
-Owner sau đó đã tạm dừng Goal ngày 09/11; tool xác nhận status `paused`.
-Campaign và lịch sử thử nghiệm được kế thừa; C1/C2 chưa hoàn tất. Không tiếp
-nghiên cứu hoặc mở batch mới cho đến khi owner yêu cầu tiếp tục.
+ledger hoặc permission broker. Owner đã xóa Goal ngày 09/11; kiểm lại tool
+trong lượt tinh gọn workflow trả `goal: null`, hiện không có Goal được bật.
+Campaign và lịch sử thử nghiệm vẫn được giữ; C1/C2 chưa hoàn tất. Không tự
+resume campaign hoặc mở batch mới cho đến khi owner yêu cầu tiếp tục.
 
 Git09/11: Trader đã [hội nhập về main](https://github.com/Naqex/trader/pull/24)
 tại`ec364087`; workspace pin cập nhật theo [receipt](checkpoints/github-workflow-20261109/RECEIPT.md#trader-hội-nhập-main-và-ghim-workspace--0911).
 Đã giữ cả researchsource vàmaintenance từmain; đây là sourceintegration,
 không runtimepromotion hoặc resumeGoal. Việc mới đi từmain trênbranchngắn.
+
+Owner yêu cầu tinh gọn GitHub cho một người/nhóm nhỏ AI coding: dùng
+[workflow gọn](../tooling/github-workflow/README.md), issue theo nhu cầu,
+gom một đợt liên quan vào một PR khi repo yêu cầu. Bản trước đã archive;
+không đổi protection, quyền broker hoặc resume campaign.
 
 ## Việc hiện tại: mechanism-first research
 
