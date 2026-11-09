@@ -1,5 +1,11 @@
 # Tra cứu research đã có
 
+**Cập nhật sau checkpoint bên dưới:** Goal đã được owner tạm dừng09/11.
+[Đúc kết owner,mục9](OWNER-EVIDENCE-REPORT-20261108.md#9-đúc-kết0911-vì-sao-chưa-có-ứng-viên-dữ-liệu-đã-đủ-lớn-chưa)
+phân biệt economics/transfer/gaps/selection và quy môraw với mẫu kiểm định.
+[R080results](US500-EU-OPEN-COMPONENT-RESULTS-20261109.md) đã terminal/reviewed,
+không retained:439/499resolved,60unknown; chưa challenge. Không job mới được giao.
+
 Checkpoint 09/11: [consensus results](INDEX-CONSENSUS-RESULTS-20261109.md)
 đã terminal/reviewed, cả2không retained; 3.018rows/22.440rolecostcases, source
 reuse không fetch/replay. Tiếp [R080EU-open](US500-EU-OPEN-COMPONENT-PROTOCOL-20261109.md)

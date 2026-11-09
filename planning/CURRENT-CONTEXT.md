@@ -4,6 +4,13 @@ Review ngày 09/11/2026 · `REVIEWED-PARTIAL / COMPACTED-RESUMABLE`.
 File này giữ trạng thái hiện hành và đường đọc tiếp; không là task ledger,
 chứng nhận runtime, hoặc lịch sử từng job. Đọc đúng PLAN/receipt của việc được giao.
 
+**Cập nhật sau checkpoint bên dưới, 09/11:** Goal đã **paused theo owner**,
+không tự tiếp tục discovery. [R080 results](research/US500-EU-OPEN-COMPONENT-RESULTS-20261109.md)
+đã terminal/reviewed; không retained, 439/499 windows resolved, 60 unknown.
+[Đúc kết owner, mục9](research/OWNER-EVIDENCE-REPORT-20261108.md#9-đúc-kết0911-vì-sao-chưa-có-ứng-viên-dữ-liệu-đã-đủ-lớn-chưa)
+giữ đánh giá nguyên nhân và quy mô dữ liệu. Các dòng active/chưa PnL bên dưới
+là checkpoint trước cập nhật này, không là quyền dispatch hoặc trạng thái Goal mới.
+
 ## Việc hiện tại: Goal mới tìm ứng viên challenge
 
 Owner giao tìm ứng viên đủ C1/C2, chuẩn hóa dữ liệu và cải tiến có bằng chứng.

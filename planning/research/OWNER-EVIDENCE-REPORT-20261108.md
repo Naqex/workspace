@@ -1,5 +1,8 @@
 # Báo cáo cho owner: đã làm gì, bằng chứng đến đâu?
 
+**Đúc kết mới ngày09/11:** xem mục9 bên dưới. Goal mới đang **paused theo owner**;
+các quyết định kết thúc đợt08/11 và trạng thái active trong receipts cũ là lịch sử.
+
 Đối chiếu hồ sơ ngày **08/11/2026** theo yêu cầu học và kiểm soát dự án của
 owner. Lượt này không chạy backtest mới. Đây là bản tổng hợp có nguồn; các
 protocol, kết quả và receipt được dẫn giữ bằng chứng gốc. Báo cáo không là
@@ -337,3 +340,59 @@ Nếu review khác tìm thấy lỗi material trong source/fill/cost, sửa và 
 và protocol/quyền riêng; không mở dữ liệu mới chỉ để tiếp tục tìm kết quả đẹp.
 Mọi mở lại giữ mục tiêu vốn quỹ/risk thấp và quyền broker/account/payment
 riêng. Hiện không đăng ký job hoặc automation chạy tiếp sau khi Goal kết thúc.
+
+## 9. Đúc kết09/11: vì sao chưa có ứng viên, dữ liệu đã đủ lớn chưa?
+
+Owner yêu cầu phân tích sau khi tạm dừng Goal. Chỉ đọc lại kết quả, không
+backtest/fetch giá hoặc tiếp tục discovery. Chưa đủ bằng chứng challenge khác
+với đã chứng minh không chiến lược nào có thể đạt challenge.
+
+| Phát hiện | Bằng chứng cụ thể | Giới hạn / bài học |
+|---|---|---|
+| Economics sau phí là trở ngại rõ | Catalogue13:24FXversions×13years×2costs=624cases,6versions tổng chuẩn dương nhưng0stress tổng dương | Không chỉ do year/block gates khắt khe; chỉ loại exact recipes/assumptions, không cảForex |
+| Có lời vẫn có thể mỏng/chậm | R056continuous10k/25USDplannedrisk:3.171closedtrades/2010–22,stressnet+1.078,12USD toàn13năm,2/4blocks âm | Không dùng tổng dương làm khả năng đạt target hoặc ngoại suy thời gian pass |
+| Survivor còn concentration/time-fit | Gold50k:15annualbooks/220stressclosedtrades,10/15years equity dương;0/15books có checkpoint closedcash+5k trong năm | Không exhaustive rollingstarts, chưa fullprop; năm nhiều nhưng số trade không lớn, vài winner đóng góp nhiều |
+| Chuyển ý tưởng sang CFD có thay đổi quan trọng | Origin/transfer review:indicator,clock,horizon,SL/sizing,ETF/futures→CFD/funding/universe khác nguồn | Có paper không xác nhận projectrecipe; cần giảm khoảng cách method trước chi compute |
+| Engineering đã có lỗi thật | Sourcepadding; reviewer bỏQ2/Q4; gap/stopmodel khácnative | Sửa affectedscope và giữ failures; chưa whole-system independent audit; không thể quy toàn bộ negatives cho bugs |
+| Bộ lọc có unknowns | Một số recipes có gates đòi cácblocks/years dương; chưa đo globalfalse-negative rate | Các ngưỡng là researchpriority heuristics, không luật quỹ hoặc chuẩn thống kê chung; không hạ hồi tố để cứu losers |
+| Dữ liệu nhiều chưa thành validation mạnh | 80records/58policy-modelversions gồm controls/variants; nhiều window consumed; mới nhất chỉ2019/2022 | Không80independentstrategies hoặc nhiều proof độc lập; cần alignedreturns/selection/untouchedvalidation đúng stage |
+
+Nguồn: [FX624](EURUSD-CATALOGUE13-RESULTS-20261108.md),
+[R056](PRE-ECB-SESSION-RISK-RESULTS-20261108.md),
+[Gold](GOLD-SMA50K-REVIEW-20261108.md),
+[transfer](STRATEGY-ORIGIN-TRANSFER-REVIEW-20261108.md),
+[source correction](INDEX-PAPER-WINDOW-SOURCE-CORRECTION-20261109.md),
+[catalogue](STRATEGY-CATALOGUE-20261107.json),
+[R080](US500-EU-OPEN-COMPONENT-RESULTS-20261109.md).
+
+### Quy mô: tách raw observations khỏi bằng chứng độc lập
+
+| Nguồn / phạm vi theo receipts đã có | Quy mô | Đánh giá đúng |
+|---|---|---|
+| EURUSD evaluation2010–2022 |325.614.557ticks,13năm | Đáng kể cho research cá nhân và loại exactFXversions; không325triệu trade hoặc marketregimes độc lập |
+| Gold2010–2024 |5.399.878M1rows,15năm;SMAstress220closedtrades | Dài về lịch sử, sampletrades của exactstrategy vẫn tương đối hạn chế và phụ thuộc |
+| US500/NASDAQclosing scope |16.080.264jointticks/1.996instrument-hours/998asset-days | Dày tại cửa sổ cuối phiên2019/2022, khôngfull15yearintraday hoặc998ngày độc lập giữa hai chỉ số |
+| NewEU-openR080 |499plannedwindows,439resolved,60unknown |2019coverage76,71%,2022=99,20%; không đủfullannualpath chỉ vì có fullcalendarfiles |
+| Freshvalidation/targetexecution | Chưa candidate đủcleanOOS+prop+strategyforward | Đây mới là phần thiếu để promote, không phải thiếu thêm millions ticks trùng cùngwindow |
+
+Các phạm vi trên khác asset/window/format và có overlap; không cộng thành
+unique globaldataset hoặc cập nhật inventory toàn máy. Rawvolume không chứng
+minh effective sample size; chưa tính một con số effectiveN đáng tin cho cảcampaign.
+
+**Đánh giá của mình:** dự án đã có nền nghiên cứu đáng kể, nhưng chất lượng
+giả thuyết/transfer và bằng chứng sau phí đang hạn chế kết quả hơn compute.
+Đã dành nhiều công cho reliability/performance; tiếp tục đổi tên indicator/
+giờ hoặc tăng số batch trên cùngdata không tự tạo nhiều cơ hội kinh tế mới.
+Đây là chẩn đoán có căn cứ, chưa attributionthống kê mọi failure thành tỷ lệ%.
+
+Nếu owner tiếp tục: chọn ít cơ chế khác nhau có method/input gần đúng sảnphẩm,
+kiểm gross→spread→fees→funding/slip trước wrapper đắt; phân biệt economicfail,
+dataunknown và prioritygatefail. Với borderlinecases, review thiết kế bộlọc
+trước outcomes mới thay vì relabel parent; chỉ survivor mới qua validation
+chưa dùng/nativeprop/prospective. Không ưu tiên tải bulk, đổiGPU/RAG hoặc chạy
+thêm biến thể chỉ vì dễ làm. Đây là khuyến nghị, **chưa dispatch khi Goalpaused**.
+
+[QuantConnect research guide](https://www.quantconnect.com/docs/v2/cloud-platform/backtesting/research-guide)
+đã đọc lại09/11: hypothesis trước tuning, lưu ý overfitting khi dùng lặp cùng
+data và giữ OOS. Không áp các heuristic counts trên trang làm chứng nhận
+hoặc ngưỡng loại universal cho catalogue của project.
