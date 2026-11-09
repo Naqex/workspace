@@ -1,10 +1,23 @@
 # Tra cứu research đã có
 
+[R085 Tokyo postfix extension](USDJPY-POSTFIX-EXTENSION-RESULTS-20261109.md):
+240books/15years gồm13extensionyears;chỉ6/13năm stressdương,2/4primaryblocks
+âm,khôngđạt;calendar sensitivity cũng khôngđạt.12.402.580newfieldchecks,
+source+consumer22phút07s,0broker/modelcalls/khôngcònjob.85records/58versions;
+tiếp [residual-reversion admission](RESIDUAL-REVERSION-METHOD-ADMISSION-20261109.md):
+primary abstract audit đã có, fullmethod/source feasibility còn mở; chưa newPnL.
+
+[R084 USDJPY Tokyo](USDJPY-TOKYO-COMPONENT-RESULTS-20261109.md):32books/
+139dates/1.899.620fields reviewed,145,106s source+consumer. Mua chính không
+đạt stress2019/2022; lịch phụ và bán sau fix dương chỉ là follow-up flags.
+84records/58versions, chưa challenge. [R085 temporal extension](USDJPY-POSTFIX-EXTENSION-PROTOCOL-20261109.md)
+đã terminal ở trên; không promote control hoặc gọi discoveryyears là OOS.
+
 [R083WTIsettlement](WTI-SETTLEMENT-COMPONENT-RESULTS-20261109.md):40books/88dates
 đủnewroles,strict/endpointidentical,stressâmcả2years;gác,83records/58versions.
 [TokyoJPYmethod](TOKYO-FIX-METHOD-ADMISSION-20261109.md) primaryflow/clock/cost
 và [sourcepilot](USDJPY-TOKYO-SOURCE-RESULTS-20261109.md)26.980fields/2datesđạt;
-chưaedge/strategy. Tiếpđăngkýone-windowowncomponent/calendar/cost.
+chưaedge/strategy tại pilot; component đã có kết quả R084 ở trên.
 
 [R082 WTI Wednesday results,09/11](WTI-WEDNESDAY-COMPONENT-RESULTS-20261109.md):
 20books/88dates/1.162.180rawfields reviewed;2019strictN/A,2022primary net âm
