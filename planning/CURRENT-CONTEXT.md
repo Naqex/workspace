@@ -10,6 +10,11 @@ nghiên cứu hoặc mở batch mới cho đến khi owner yêu cầu tiếp t�
 
 ## Việc hiện tại: mechanism-first research
 
+Yêu cầu riêng trong lúc Goal paused: đã [khảo sát bot trả phí](research/PAID-EA-MARKET-REVIEW-20261109.md)
+ngày 09/11: 6 sản phẩm/giá vendor, luật FTMO/The5ers và cộng đồng. Chưa có bot
+được xác nhận challenge-ready; tracker bị chặn, performance chưa audit. Không
+mua/cài/chạy bot hoặc thêm trial; campaign không được resume bởi survey này.
+
 Đã quay lại task lớn theo [Goal cập nhật](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md#goal-cập-nhật--09112026).
 Đã [kiểm phí công khai Gold](research/GOLD-TARGET-COST-ADMISSION-20261109.md):
 The5ers swap-free chỉ được công bố cho funded; exact point/mode/account rates
