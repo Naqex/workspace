@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-07",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 82,
+  "record_count": 83,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -12,13 +12,13 @@
   "counts": {
     "by_role": {
       "existing": 36,
-      "variant": 30,
+      "variant": 31,
       "new": 15,
       "component": 1
     },
     "by_readiness": {
       "implemented": 36,
-      "component_probe_not_retained": 22,
+      "component_probe_not_retained": 23,
       "implemented_not_retained": 5,
       "method_clock_review": 1,
       "component_probe_completed_no_priority": 1,
@@ -350,6 +350,14 @@
       "checked_on": "2026-11-09",
       "review_depth": "Primary accepted manuscript section2.2/footnote6 and trading-window method read; personal reference only",
       "limitations": "USO2006-2019 not WTI CFD; no imported/redistributed paper code/data; existing primary date labels are retrospective, not certified PIT."
+    },
+    {
+      "id": "CME-WTI-SETTLEMENT",
+      "title": "NYMEX energy daily settlement and SER4867",
+      "url": "https://www.cmegroup.com/tools-information/lookups/advisories/market-regulation/SER-4867.html",
+      "checked_on": "2026-11-09",
+      "review_depth": "Official2009effectiveadvisory,2017filing17-384 and dailyprocedure normal14:28-14:30ET reviewed",
+      "limitations": "Settlementnotendoftrading;expiry/last2days/holidayexceptions and specificCFDbasisunverified;notedge."
     }
   ],
   "records": [
@@ -2872,6 +2880,34 @@
       "implementations": [],
       "component_evidence": "WTI-WEDNESDAY-COMPONENT-RESULTS-20261109.md",
       "profitability_evidence": "1research barrel knownnetref/stress2019 -2.932/-3.882 on19of44 dates;2022 -2.868/-5.068 on44of44,not accountPnL;calendar retrospective.",
+      "control": false,
+      "dispatch_authorized": false,
+      "implementation_updated_on": "2026-11-09"
+    },
+    {
+      "id": "R083",
+      "title": "WTI Wednesday reaction to pre-settlement conditional component",
+      "family": "event_price_momentum_transfer",
+      "role": "variant",
+      "parent_id": "R082",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "NY10:30/11:00featureOpens,14:01entry/14:29exit",
+      "rule_sketch": "SameR082signal/cohort/cost;oneCMEclock-relatedslot;strict31+29roles andendpoint-only sensitivity;noSL/accountpolicy.",
+      "data_requirements": "Reuse176raw/accepted1162180fields;all88datesnewrolescomplete,704endpointOpenfields.",
+      "automation_feasibility": "offline_conditional_price_component_not_causal_execution",
+      "prop_operational_concerns": "2019spreadexceedsgross;2022positiveatdeclaredreferencebutnegativeatstress;calendarretrospective,noSL/equity/OOS/prop.",
+      "source_ids": [
+        "WEN-EIA-USO",
+        "CME-WTI-SETTLEMENT"
+      ],
+      "source_relation": "RelatedslottransferchosenafterR082outcome;CMEbenchmarkclockmotivation,notindependentedgeorfuturesreplication.",
+      "next_action": "ParkexactR083;norelatedclock/fee/sidegrid;distinctmarketflowmethodadmissionbeforefurtheroutcomes.",
+      "implementation_state": "reviewed_not_retained_conditional_component",
+      "candidate_id": null,
+      "component_id": "wti-wednesday-reaction-settlement-price-component-v1",
+      "implementations": [],
+      "component_evidence": "WTI-SETTLEMENT-COMPONENT-RESULTS-20261109.md",
+      "profitability_evidence": "1researchbarrelnetref/stress2019-4.098/-6.298,2022+0.903/-1.297;44trades/year;strictandendpointmodelsidentical;notaccountPnL.",
       "control": false,
       "dispatch_authorized": false,
       "implementation_updated_on": "2026-11-09"

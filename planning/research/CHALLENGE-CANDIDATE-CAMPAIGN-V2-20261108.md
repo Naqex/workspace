@@ -5,13 +5,12 @@ Goal mới tạo thành công, tool xác nhận `active`. Kế thừa C1/C2, to�
 negatives/exposure; chưa có ứng viên challenge. Các trạng thái active/paused
 trong checkpoint cũ bên dưới là lịch sử, không là trạng thái Goal hiện hành.
 
-Đã rà workflow/skills hữu hạn và compact context với snapshot nguyên bytes.
-[Quote-cost fixture](FX-QUOTE-COST-ADMISSION-RESULTS-20261109.md) và
-[R082 WTI diagnostic](WTI-WEDNESDAY-COMPONENT-RESULTS-20261109.md) đã xong;
-R082 không đạt, 82records/58policy-modelversions, chưa challenge candidate.
-Lát tiếp là underlying-settlement method admission trước một related trial;
-không clone/mua EA hoặc tuning giờ/phí để cứu exact negatives. EIA actual/PIT
-và oldUSOgate giữ unknown/notadmitted, không giả toàn bộ clock đã được chứng minh.
+Workflowđãràvàcontextcompact. [R083WTIsettlement](WTI-SETTLEMENT-COMPONENT-RESULTS-20261109.md)
+đãgácsau40books/88dates;83records/58versions,chưachallengecandidate.
+Láttiếp [TokyoUSDJPYmethod](TOKYO-FIX-METHOD-ADMISSION-20261109.md) và
+[sourcepilot](USDJPY-TOKYO-SOURCE-RESULTS-20261109.md)đãđạt, đăngkýone-window
+owncomponent/calendar/currencycost trướcoutcomes. RelatedfixingfamilyR020,
+khôngnewindependentedge/retailalpha từdealerprofit. OldWTI/FXnegative giữ.
 
 ### Resume checkpoint — workflow và quote-cost fixture
 
@@ -32,6 +31,16 @@ normalhistoricalschedule/preannouncementdoc mới, khôngactual/PITallproof.
 LFCRLFfailure giữ vàrebindsnapshots;2negativeregressions đạt.82records/58versions,
 C1/C2 chưa đạt. Source+review102,663s, khôngjobnền. Tiếp underlying-settlement
 method admission từ primaryCME; relatedvariant phảifreeze riêng, khônghourgrid.
+
+### Current checkpoint — R083vàJPYsource,09/11
+
+[R083results](WTI-SETTLEMENT-COMPONENT-RESULTS-20261109.md):0network,
+6,330s;strictvàendpoint40bookssameoutcome,44trades/year,stressnet2019−6,298/
+2022−1,297USD/unit. Frozenpriorityfalse;khônghourgrid/rescue. Source176raw
+reused,704newendpointOpenchecks/17synthetic/7mutations.83records/58versions.
+[JPYpilot](USDJPY-TOKYO-SOURCE-RESULTS-20261109.md)4rawURLs/26.980fields/6mutations,
+1,226s,đủ61roleminutes×2dates. Chưanewstrategy/outcome/prop;methodnext nhưheader.
+Goalactive/C1C2unproven,khôngjobnền. Source/cost/recordversions giữởresults.
 
 ## Goal cập nhật — 09/11/2026
 
