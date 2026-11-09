@@ -8,6 +8,16 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 ## Việc hiện tại
 
+- [R092 indexpairformation](research/INDEX-PAIR-FORMATION-RESULTS-20261110.md)
+  terminal/reviewed10/11:503dates đủ,2018p0,55272/2021p0,41111;khôngretained
+  fixedlinearformation,khôngPnL/bot. 1.006pricechecks/8Decimalstats/6mutations;
+  source47,373s(stateless88GET/8reuse),statistics3,740s,khôngjobnền.
+  [WTItickgapreview](research/WTI-GAP-TICK-RESULTS-20261110.md):6sampledholes
+  khôngtick/6controlsđủ,548commonM1sidebarskhớp,9.980fields;khôngpatch/bulk.
+  Catalogue**92/58**,Goalactive/C1C2chưađạt. KhôngretryunchangedWTI/indexpair
+  hoặcpair/window/lag/model/feegrid đểcứu; tiếp primarysupportedmechanism hoặc
+  materialsurvivorblocker cóevidence mới. Source/formationpasskhônglàedge.
+
 - [WTI sourcefixture](research/WTI-SESSION-SOURCE-RESULTS-20261109.md) terminal/
   reviewed10/11:20GET,1.614/1.656pairedroles,2019cả3phiên dưới98%,2022cả3đủ.
   Exact endpoints đủ nhưng fullsessionadmissionfalse; khôngPnL/bulk/R092.

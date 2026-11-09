@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-09",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 91,
+  "record_count": 92,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -12,7 +12,7 @@
   "counts": {
     "by_role": {
       "existing": 36,
-      "variant": 38,
+      "variant": 39,
       "new": 16,
       "component": 1
     },
@@ -25,7 +25,7 @@
       "price_data_spec_possible": 1,
       "point_in_time_news_missing": 2,
       "long_history_or_multi_data": 5,
-      "formation_probe_not_retained": 2,
+      "formation_probe_not_retained": 3,
       "component_only": 1,
       "implemented_parked_conditional_2019_negative": 1,
       "implemented_parked_conditional_negative": 1,
@@ -430,6 +430,16 @@
       "limitations": "Paper CC BY4.0, not imported data/code. Paper ignores transaction costs; calibration n/server timezone insufficiently specified for exact replication. Own causal UTC20h/20weekday adaptation has explicit costs and preserves source-only revisions before outcomes.",
       "checked_on": "2026-11-09",
       "method_review_locator": "FX-ABNORMAL-DAY-METHOD-ADMISSION-20261109.md"
+    },
+    {
+      "id": "BAEK-PAIRS2020",
+      "title": "Machine Learning and Algorithmic Pair Trading in Futures Markets",
+      "url": "https://mdpi-res.com/d_attachment/sustainability/sustainability-12-06791/article_deploy/sustainability-12-06791.pdf",
+      "publication": "2020-08-21 / Sustainability12:6791",
+      "review_depth": "Primary sections2.3-2.5,3.4,4 and renderedpage7; not full replication",
+      "limitations": "Daily futures2015-2020/theoretical targetfills; lower-bound wording conflict. Own CFD fixed linear formation differs from paper SVM/contract/fees; no imported data/code.",
+      "checked_on": "2026-11-10",
+      "method_review_locator": "INDEX-PAIR-METHOD-ADMISSION-20261110.md"
     }
   ],
   "records": [
@@ -3212,12 +3222,38 @@
       "evidence_locator": "FX-ROUND-LEVEL-RESULTS-20261109.md",
       "profitability_evidence": "1042geometry-dayrows/6252financialcases/24books reviewed; primary2019stress-1466USD/153opportunities,2022-2779/227;beforeexplicitcostsafterspread-89/-736USDper100kEURnotional.",
       "dispatch_authorized": false
+    },
+    {
+      "id": "R092",
+      "title": "S&P500-Nasdaq100 fixed linear formation",
+      "family": "equity_index_relative_value",
+      "role": "variant",
+      "parent_id": "R035",
+      "readiness": "formation_probe_not_retained",
+      "timeframe": "daily16UTC_sourceH1Close_known17UTC",
+      "rule_sketch": "Fixed log USA500~USATECH OLS/EngleGranger constant lag1 formations2018/2021; source-admitted503dates. No trade rule or PnL.",
+      "data_requirements": "96reviewedH1monthsideinputs/223450fields;503fixedbusinessdates/fourroles;no2025+",
+      "automation_feasibility": "formation_only_no_account_policy",
+      "prop_operational_concerns": "Linear formation prefilter notmet; statistical gate not economicloss. No twolegfills/SL/risk/funding/targetcontract/prop/OOS/forward.",
+      "source_ids": [
+        "BAEK-PAIRS2020",
+        "GGR",
+        "SM-COINT"
+      ],
+      "source_relation": "own_CFD_fixed_linear_formation_not_futures_SVM_paper_replication_or_independent_edge",
+      "next_action": "Park exactfixedformations; no pair/orientation/window/lag/model grid rescue or unchanged503sample/96source replay. Distinct primary-supported mechanism/material survivor evidence before newtrial.",
+      "implementation_state": "formation_reviewed_not_retained_no_account_policy",
+      "candidate_id": null,
+      "implementations": [],
+      "evidence_locator": "INDEX-PAIR-FORMATION-RESULTS-20261110.md",
+      "profitability_evidence": "No trades/PnL. 2018cointp0.5527195024/2021p0.411113633;1006sourcepricechecks/8Decimalstats/6actualmutations reviewed.",
+      "dispatch_authorized": false
     }
   ],
   "automatic_dispatch": false,
   "automatic_rejection": false,
   "holdout_opened": false,
-  "updated_on": "2026-11-09",
+  "updated_on": "2026-11-10",
   "implemented_record_count": 47,
   "implemented_rule_count": 58,
   "implemented_control_rule_count": 9,
