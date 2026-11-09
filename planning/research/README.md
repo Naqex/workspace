@@ -1,5 +1,23 @@
 # Tra cứu research đã có
 
+[R089 FX abnormal-day results](FX-ABNORMAL-DAY-RESULTS-20261109.md):27selected
+opportunities/521weekdayrows,stress2019+493/2022+962USDper100kEURnotional,
+giữđểkiểmtemporalrobustness;chưaSL/account/edge/prop/cleanOOS/challenge.
+1.954source slots/1.947valid,7unavailablegiữ;3.126financialcases/12booksfull
+reviewed,60syntheticpreflight/8mutations,4newcomponenttests. Source/economic/
+preflightsuccessfulphases178,088s,0GET/broker/model;89records/58accountversions.
+Tiếp freeze temporalextension consumedhistory/reuse2019/2022 trướcwrapper;
+khôngn/k/clock/costgrid hoặc tănglot,khôngjobnền/C1C2chưađạt.
+
+[FX abnormal-day admission/fixture](FX-ABNORMAL-DAY-SOURCE-FIXTURE-RESULTS-20261109.md):
+5causalfeaturetests,88/88slots/4mutations reviewed14,723s. DựkiếnR089, chưa
+realfeatures/PnL,88/58giữ. [Method](FX-ABNORMAL-DAY-METHOD-ADMISSION-20261109.md)
+đãràprimaryFX vàcounterevidencecalendar;[protocol](FX-ABNORMAL-DAY-PROTOCOL-20261109.md)
+active20hproxyv2 sửaFriday23UTCkhôngkhảdụng trướcoutcome, khôngsourceffill.
+Runtimecachefailure giữnguyên; registeredreadonlyview/currentrawdecoder khác
+nativecacheacceptance. Fullsource/finance đãthựcthiởR089trên;đây làcheckpoint
+nguồntrướcđó,khôngjob/broker/holdoutmới/C1C2chưađạt.
+
 [R088 EURUSD sau FOMC](EURUSD-POST-FOMC-RESULTS-20261109.md) đãreviewed:
 32windows/192financialcases,459.780sourcefields;stress+1.013/+545USD trên
 100.000EURnotional2019/2022, nhưng matchedweek+718/+2.441;eventgate2022fail.

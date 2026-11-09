@@ -1,6 +1,6 @@
 # Danh mục nghiên cứu chiến lược — cập nhật09/11/2026
 
-88 hồ sơ: 47 có policy/model version được ghi trong danh mục (58 versions), 40 chưa có account policy và 1 risk component. Trong 58 versions có 25 native offline rules và 33 tooling/coarse/model versions; gồm 9 controls. R080–R083 không retained; R084 mua chính không đạt, follow-up bán sau fix R085 cũng không đạt khi mở rộng lịch sử. R086 FOMC price momentum không qua stressgate; R087 Nhật–Mỹ knownnet âm và có coveragegap, chưaannualPnL. R088 sauFOMC net dương nhưng eventincrement2022 khôngđạt. Price components không đếm thành account policies hoặc independent edges. **Chưa có bản nào challenge-qualified.**
+89 hồ sơ: 47 có policy/model version được ghi trong danh mục (58 versions), 41 chưa có account policy và 1 risk component. Trong 58 versions có 25 native offline rules và 33 tooling/coarse/model versions; gồm 9 controls. R080–R083 không retained; R084 mua chính không đạt, follow-up bán sau fix R085 cũng không đạt khi mở rộng lịch sử. R086 FOMC price momentum không qua stressgate; R087 Nhật–Mỹ knownnet âm và có coveragegap, chưaannualPnL. R088 sauFOMC net dương nhưng eventincrement2022 khôngđạt. R089 dailyshockreversal dươngsauphí trong2năm, giữđểkiểmtemporalrobustness;27opportunities chưaedge/account/prop. Price components không đếm thành account policies hoặc independent edges. **Chưa có bản nào challenge-qualified.**
 
 [Bản đồ cơ chế và task](MECHANISM-FIRST-EXECUTION-20261109.md) gom đủ80historicalIDs
 khôngtrùng/thiếu;R081 làconditionalderivative liênquanR080.8buckets cócontrols/
@@ -104,6 +104,7 @@ freeze trước outcomes; old quarter-mask failure và corrected attempt đều 
 |R086|US500 pre-FOMC past-price momentum|event / R062|Không qua stressgate cả2năm;funding đích unknown|0|[Results](US500-FOMC-PRICE-MOMENTUM-RESULTS-20261109.md);32books/256cases, noaccountpolicy|
 |R087|Japan cash reaction sau phiên Mỹ|crossmarket_flow / opening-reversal related|Known net âm;2019coverage73,73%,202298,31%;fullannualunknown|0|[Results](JAPAN-US-CASH-REACTION-RESULTS-20261109.md);485rows/20books,JPYunit/noaccountpolicy|
 |R088|EURUSD sau FOMC12–24h|event_session_flow / R021|Stressnet dương cả2năm;eventincrement2022 khôngđạt|0|[Results](EURUSD-POST-FOMC-RESULTS-20261109.md);32windows/192cases,noSL/account/prop/OOS|
+|R089|EURUSD hồi sau ngày bất thường|daily_shock_reversion / R013|Giữđểkiểmđộbền:stress2019+493/2022+962USDper100kEURnotional|0|[Results](FX-ABNORMAL-DAY-RESULTS-20261109.md);27opportunities,khôngaccount/edge/prop/OOS|
 
 
 ## Cách đọc và lịch sử các batch đầu
@@ -148,3 +149,4 @@ Chỉ nâng ngày cho nguồn thực sự đọc lại; top updated_on không c�
 
 - **WANG-FX-FOMC2018** — [Wang thesis, chapter1](https://www.olsendata.com/data_products/client_papers/papers/201808-MinhoWang-EssaysOnCurrencyMarkets.pdf), primaryPDFpages13–50 đọc09/11;midpoint/excessreturn/multi-currency, khôngEURUSDCFDnetreplication.
 - **XU-FX-FOMC-DISCUSSION2022** — [Xu discussion11/03/2022](https://www.nancyxu.net/_files/ugd/efd0b7_99257144559d4b61b592862dc067edfe.pdf),17pagesđọc09/11;12–24h vàjump/trendcritique, khôngcurrentfullpaper hoặccombinedpredictor.
+- **CAPORALE-PLASTUN-FX2020** — [Author PDF](https://bura.brunel.ac.uk/bitstream/2438/20567/5/FullText.pdf),§§3–4/Tables1–5 đọc09/11;paperbỏphí/clock-nchưađủ,owncausal20hproxy khácreplication;CCBY4paperkhônglàimportdata/code.

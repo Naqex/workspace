@@ -8,6 +8,24 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 ## Việc hiện tại
 
+- [R089 FX abnormal-day results](research/FX-ABNORMAL-DAY-RESULTS-20261109.md)
+  đãterminal/reviewed:521weekdayrows/3.126financialcases/12books;27selected
+  opportunities,stress2019+493/2022+962USDper100kEURnotional,0selectedunknown.
+  Qua frozenpriority≥8/netstresspositive đểkiểmrobustness, chưaSL/account/prop/
+  cleanOOS/challenge. Source1.954slots/1.947within60s,7unavailable giữ;2019
+  unavailablehistory21days giữskipbiếttrướcentry, khôngdrop. Fullworkerphases
+  178,088s≈2phút58s,khôngjob. Catalogue89/58. **Tiếp đăngký temporalrobustness
+  trên consumedhistory, giữn/k/clock/cost vàreuse2019/2022**, rồi riskwrapper
+  cócơsở;khôngtănglot,grid hoặcown2025+. Goalactive/C1C2chưađạt.
+- [FX abnormal-day sourcefixture](research/FX-ABNORMAL-DAY-SOURCE-FIXTURE-RESULTS-20261109.md)
+  đã88/88slotsreviewed/4mutations,14,723s;5causalfeaturetests đạt. Dự kiếnR089,
+  chưarealfeatures/PnL hoặcnewaccountpolicy, catalogue88/58giữ. Runtime đổi
+  Python3.12.14/Pydantic2.14.2 nên nativecachev1fail; registeredsourceview riêng
+  giữoriginalpins. V2Friday23UTC thiếu8slots, v320UTCchoallweekdays đủ; lineage
+  và failures giữ, khôngđổi theoPnL. [Protocol](research/FX-ABNORMAL-DAY-PROTOCOL-20261109.md)
+  active20hproxyv2/mean-variance20days/k2/reversal01–08UTC; minimum8 chỉtriage.
+  Fullsource/economics đãđượcthựcthiởR089trên; đây làcheckpointnguồn trướcđó.
+  Khôngrefetch/rebuild hoặcpilot→fullclaim.
 - [R088 EURUSD sau FOMC](research/EURUSD-POST-FOMC-RESULTS-20261109.md) đã
   terminal/reviewed:32windows/24books/192financialcases,459.780sourcefields;
   stress2019+1.013/2022+545USD trên100.000EURnotional, khôngaccountreturn.

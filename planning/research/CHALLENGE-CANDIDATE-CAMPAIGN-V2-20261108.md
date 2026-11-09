@@ -6,7 +6,24 @@ negatives/exposure; chưa có ứng viên challenge. Các trạng thái active/p
 trong checkpoint cũ bên dưới là lịch sử, không là trạng thái Goal hiện hành.
 
 Workflow đã rà, giữ đường gọn hiện hành; không thêm skill/framework.
-Checkpoint hiện tại: [R088 EURUSD sau FOMC](EURUSD-POST-FOMC-RESULTS-20261109.md)
+Checkpoint hiện tại: [R089 FX abnormal-day results](FX-ABNORMAL-DAY-RESULTS-20261109.md)
+27selected/521weekdayrows,stress2019+493/2022+962USDper100kEURnotional;
+0selectedunknown.3.126financialcases/12books reviewed; frozenpriority đạt cho
+nexttemporalrobustness, chưaaccount/SL/prop/cleanOOS/challenge. Source1.954slots/
+1.947within60s,7unavailablevà21unavailablehistorydays2019giữ. Successfulphases
+178,088s,0GET/broker/model/khôngjob. Catalogue89/58,Goalactive/C1C2chưađạt.
+Tiếp đăngký consumedhistory temporalextension, giữn/k/clock/cost vàreuseexact
+2019/2022 trước supportedriskwrapper; khônglot/grid hoặc own2025+.
+
+Checkpoint trước: [FX abnormal-day sourcefixture](FX-ABNORMAL-DAY-SOURCE-FIXTURE-RESULTS-20261109.md)
+88/88slotsreviewed/4mutations14,723s,5featuretests đạt, chưarealfeatures/PnL;
+R089dựkiến/catalogue88/58giữ. V1runtimefail doPython/Pydanticđổi;sourceview
+riêngkhôngsửapins. V2Friday23UTCkhôngkhảdụng;registeredv3dùng20UTCallweekdays
+đủfixture, khôngrescue theoPnL. [Protocol](FX-ABNORMAL-DAY-PROTOCOL-20261109.md)
+active20hproxyv2 trướcfinancialoutcomes;tiếpfullsource2019/2022+w2018/2021
+census/admission trướccostpreflight/economics. Goalactive/C1C2chưađạt/khôngjob.
+
+Checkpoint trước: [R088 EURUSD sau FOMC](EURUSD-POST-FOMC-RESULTS-20261109.md)
 32windows/24books/192financialcases reviewed, stress2019+1.013/2022+545USD
 trên100.000EURnotional, matchedweek+718/+2.441; khôngđạt eventgate2022.
 Khôngnetnegative nhưngchưaeventedge/risk/prop/OOS.459.780sourcefields,
