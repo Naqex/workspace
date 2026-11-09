@@ -84,6 +84,27 @@ chỉ để có timing đẹp. Đây là private bounded runner, chưa sửa run
 Skill hiện có đủ: không tạo manager/skill/framework mới hoặc gọi self-review
 là independentreview. Không job còn chạy.
 
+### Guard/progress đã sửa, không chạy lại market history
+
+Lượt tiếp09/11 giữ nguyênv1/hash/terminal; private `run-fomc-momentum-v2.py`
+và reviewer đúngv2output bổ sung guard mỗi sourceitem/pin/snapshot, counters
+đầu/cuối/từng16mốc hoặc5s tại giữa workitems. Guard kiểm **trước** resultseal;
+observerprogress/events lỗiOSError chỉ diagnostic, không tự thu hồi sealedresult.
+Durablemanifest/result/output vẫn bắt buộc; không advisory hóa pin/accounting.
+
+`check-fomc-runner-guards-v2.py` tái hiện đúng v1transition và10cases đạt:
+producer/reviewer cùngattempt; finalprojection muộn giữresult; hếtdeadline
+trướccommit chặnresult; cancel mỗiitem; deadline/cancel trước đọcpin; counters/
+UTC; injectedWindowsPermissionError giữdiagnostic trongresult; nooverwrite.
+Wall0,090s,0network/marketreplay/brokercalls. First9case receipt giữ riêng;
+attempt2 thêm wiringreviewerv2 rồi kiểm lại, không xóa learninghistory.
+
+Evidence `execution-v1/fomc-runner-guard-review-v2-attempt2/review.json`;
+v2sourceSHA`c0175cccba3d622aaf6f0e6f74ecf570f6bd58b32f6e3b2b0683ba1166eca965`.
+Đây là transitiontests với fakeclock/tinyfiles, **chưa fullmarketv2rerun** hoặc
+watchdog toànruntime. Cooperativeguard không ngắt ngay blockingsyscall.
+Không thay economics/nguồn hoặc mở lạiR086 để benchmark đẹp hơn.
+
 ## Artifacts và quyết định
 
 Privatebase `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/`:
