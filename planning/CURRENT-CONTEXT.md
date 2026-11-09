@@ -8,15 +8,28 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 ## Việc hiện tại
 
+- [R089 temporalresults](research/FX-ABNORMAL-DAY-TEMPORAL-RESULTS-20261109.md)
+  đãterminal/reviewed, **not_retained**:13extensionyears164opportunities,
+  stress+549USDper100kEURnotional,8/13nămdương/2blocksâm. Data/sample gatesđạt,
+  khôngphải enginefail. Annualbootstrapmean95%range−810,92→+769,77USD/unit,
+  khôngselectionadjusted/probabilitypass. [Vol-scale diagnosis](research/FX-ABNORMAL-DAY-VOL-SCALE-DIAGNOSTIC-20261109.md)
+  vẫn2blocksâm/7nămdương, khôngbasisrủirowrapper;gác exactreversal.
+  Source14.126slots/14.034valid,42warmup2009unknown+50late giữ;1954sourcebridge/
+  521financialrowsdiscoveryreuseexact. 13testsđạt,23.478cases/90booksreviewed.
+  Controlledcheckpoint2010/resume vàOSlockchặnsecondwriter đãkiểm, source701s/
+  economic12,357s/diagnostic0,385s. Mọi handle4968/26808vàsessions80717/91023
+  đãterminal;**khôngjobnền**. Catalogue89/58,C1C2chưađạt,Goalactive.
+  **Tiếp method/sourceadmission same-daycausal shockcontinuation** từpaperđãđọc,
+  không nhận diện shockbằngfutureClose hoặcgridcứuR089. RelatedR007/R089,
+  chưaindependentedge;reuse sourcepacket/metadata trướcnewrawscan.
 - [R089 FX abnormal-day results](research/FX-ABNORMAL-DAY-RESULTS-20261109.md)
   đãterminal/reviewed:521weekdayrows/3.126financialcases/12books;27selected
   opportunities,stress2019+493/2022+962USDper100kEURnotional,0selectedunknown.
   Qua frozenpriority≥8/netstresspositive đểkiểmrobustness, chưaSL/account/prop/
   cleanOOS/challenge. Source1.954slots/1.947within60s,7unavailable giữ;2019
   unavailablehistory21days giữskipbiếttrướcentry, khôngdrop. Fullworkerphases
-  178,088s≈2phút58s,khôngjob. Catalogue89/58. **Tiếp đăngký temporalrobustness
-  trên consumedhistory, giữn/k/clock/cost vàreuse2019/2022**, rồi riskwrapper
-  cócơsở;khôngtănglot,grid hoặcown2025+. Goalactive/C1C2chưađạt.
+  178,088s≈2phút58s. Đây làdiscoverycheckpointtrước temporalresultsởtrên;
+  không rerun hoặc giữrecommendationriskwrapper sau gatefail. Catalogue89/58.
 - [FX abnormal-day sourcefixture](research/FX-ABNORMAL-DAY-SOURCE-FIXTURE-RESULTS-20261109.md)
   đã88/88slotsreviewed/4mutations,14,723s;5causalfeaturetests đạt. Dự kiếnR089,
   chưarealfeatures/PnL hoặcnewaccountpolicy, catalogue88/58giữ. Runtime đổi

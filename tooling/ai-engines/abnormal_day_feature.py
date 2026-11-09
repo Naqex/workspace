@@ -29,8 +29,16 @@ def calibration_days(shock_day):
     return list(reversed(days))
 
 
-def schedule(entry_day):
-    if entry_day.year not in (2019, 2022) or entry_day.weekday() >= 5:
+def registered_years(years):
+    years = tuple(years)
+    if (not years or any(type(y) is not int or not 2010 <= y <= 2024 for y in years)
+            or len(set(years)) != len(years) or tuple(sorted(years)) != years):
+        raise ValueError('R089_invalid_registered_year_scope')
+    return years
+
+
+def schedule(entry_day, *, years=(2019, 2022)):
+    if entry_day.year not in registered_years(years) or entry_day.weekday() >= 5:
         raise ValueError('R089_registered_entry_day_required')
     previous = entry_day - timedelta(days=1)
     return dict(day=entry_day.isoformat(), shock_day=previous.isoformat(),
@@ -68,9 +76,9 @@ def rational(value):
     return dict(numerator=value.numerator, denominator=value.denominator)
 
 
-def feature(entry_day, observations):
+def feature(entry_day, observations, *, years=(2019, 2022)):
     """Read only prior registered weekdays; current/future outcome prices are irrelevant."""
-    row = dict(**schedule(entry_day), status='calendar_skip', primary_side=None,
+    row = dict(**schedule(entry_day, years=years), status='calendar_skip', primary_side=None,
         shock_tail=None, feature_version=FEATURE_VERSION,
         scope='feature_only_not_account', execution_authorized=False)
     if not row['calendar_eligible']:

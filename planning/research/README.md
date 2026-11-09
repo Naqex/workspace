@@ -1,13 +1,22 @@
 # Tra cứu research đã có
 
+[R089 temporalresults](FX-ABNORMAL-DAY-TEMPORAL-RESULTS-20261109.md) đãreviewed:
+13extensionyears164opportunities/stress+549USDper100kEUR nhưng8/13nămdương/
+2blocksâm, khôngretained. [Vol-scalediagnostic](FX-ABNORMAL-DAY-VOL-SCALE-DIAGNOSTIC-20261109.md)
+vẫn2blocksâm/7nămdương, khôngriskwrapperrescue. Data/samplegatesđạt;
+14.126slots/14.034valid,23.478cases/90booksreviewed, reuse521discoveryrows.
+Source701s cócontrolledcheckpoint/resume2010;economic12,357s,0GET/broker/model.
+89/58giữ,khôngjob. Tiếp causalwithin-daycontinuation method/sourceadmission,
+khôngfutureCloseclassification/n/k/side/feegrid hoặcown2025+.
+
 [R089 FX abnormal-day results](FX-ABNORMAL-DAY-RESULTS-20261109.md):27selected
 opportunities/521weekdayrows,stress2019+493/2022+962USDper100kEURnotional,
 giữđểkiểmtemporalrobustness;chưaSL/account/edge/prop/cleanOOS/challenge.
 1.954source slots/1.947valid,7unavailablegiữ;3.126financialcases/12booksfull
 reviewed,60syntheticpreflight/8mutations,4newcomponenttests. Source/economic/
 preflightsuccessfulphases178,088s,0GET/broker/model;89records/58accountversions.
-Tiếp freeze temporalextension consumedhistory/reuse2019/2022 trướcwrapper;
-khôngn/k/clock/costgrid hoặc tănglot,khôngjobnền/C1C2chưađạt.
+Temporalextension đãthựcthiởtrên; giữdiscoverypositives nhưngkhông promote
+hoặcresume recommendationcũ. Khôngn/k/clock/costgrid hoặctănglot.
 
 [FX abnormal-day admission/fixture](FX-ABNORMAL-DAY-SOURCE-FIXTURE-RESULTS-20261109.md):
 5causalfeaturetests,88/88slots/4mutations reviewed14,723s. DựkiếnR089, chưa

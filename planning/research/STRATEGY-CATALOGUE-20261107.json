@@ -18,7 +18,7 @@
     },
     "by_readiness": {
       "implemented": 36,
-      "component_probe_not_retained": 26,
+      "component_probe_not_retained": 27,
       "implemented_not_retained": 5,
       "method_clock_review": 1,
       "component_probe_completed_no_priority": 3,
@@ -30,8 +30,7 @@
       "implemented_parked_conditional_2019_negative": 1,
       "implemented_parked_conditional_negative": 1,
       "implemented_not_retained_no_qualified_signals": 2,
-      "implemented_inconclusive_source_gap": 2,
-      "component_probe_retained_for_robustness_review": 1
+      "implemented_inconclusive_source_gap": 2
     }
   },
   "sources": [
@@ -3132,23 +3131,25 @@
       "family": "daily_shock_reversion",
       "role": "variant",
       "parent_id": "R013",
-      "readiness": "component_probe_retained_for_robustness_review",
+      "readiness": "component_probe_not_retained",
       "timeframe": "Priorweekday00-20UTC dayproxy versus20priorweekdays; Tue-Fri01-08UTC reversal",
       "rule_sketch": "Mean/samplevariance20weekdays,k2 stricttails and matchingactualreturn sign; opposite nextday, no Friday-to-Monday transfer. Own20hproxyv2 after source-only Friday23h failure, fees5USD/4USDextraRTstressslip per100kEURnotional.",
-      "data_requirements": "2018/2019/2021/2022source partitions,1954deduplicatedtargets/1947within60s;521weekdayrows/27selected/0selectedunresolved. FullrawSHA and native/Fraction/reference target proof, originalruntime retained.",
+      "data_requirements": "Temporal2010-2024plus42unregistered2009warmupslots;14126targets/14034within60s,3913weekdayrows/191selectedallresolved. Reuse1954sourcetargets/521discoveryfinancialrows;2023/24explicitrawonly. FullrawSHA/native/Fraction/reference proof, oldruntime and unavailable preserved.",
       "automation_feasibility": "offline_causal_fixed_notional_price_component_not_account_policy",
-      "prop_operational_concerns": "Positive2exposedyears with27opportunities only; noSL/pathrisk/sizing/account/equity/targetfees/prop/timefit/cleanOOS/forward/ownerhandover. Rarefrequency may be too slow for challenge.",
+      "prop_operational_concerns": "Temporalextension13years/164opportunities stress+549USDper100kEUR but8of13positiveyears and2negativeblocks; bootstrapmean interval includesloss. Volnormalizeddiagnostic still2negativeblocks/7positiveyears. NoSL/account/targetfees/prop/timefit/cleanOOS/forward.",
       "source_ids": [
         "CAPORALE-PLASTUN-FX2020"
       ],
       "source_relation": "Own causal daily-shock nextday transfer; related to price-reversion R003/R013, not independentedge or paper replication. Runtime/sourceclock and sample-triage amendments frozen before ownfeaturecounts or PnL.",
-      "next_action": "Register temporal robustness on consumed history with unchanged n/k/clock/side/cost, reuse exact2019/2022results and verifiedquotes. Only after robustness design supportedriskwrapper/nativeprop/timefit; no lot/n/k/time-grid rescue or own2025+.",
-      "implementation_state": "reviewed_positive_price_component_eligible_for_temporal_robustness",
+      "next_action": "Park exactnextdayreversal; temporal and boundedvolscale diagnosis failed priority. Preserve discoverypositives, allsource/negative evidence and quotecheckpoints. Admit causal same-day abnormalreturn continuation method before a separate recipe, relatedR007/R089 not independentedge; no date/side/fee/risk-grid rescue.",
+      "implementation_state": "reviewed_temporal_not_retained_vol_scale_diagnosis_not_supportive",
       "candidate_id": null,
       "component_id": "eurusd-prior-abnormal-20h-day-reversal-utc-v2",
       "implementations": [],
-      "component_evidence": "FX-ABNORMAL-DAY-RESULTS-20261109.md",
-      "profitability_evidence": "Primaryreference/stress2019+537/+493USDper100kEURnotional on11opportunities;2022+1026/+962on16. Oppositecostcontrolsnegative,null0;3126financialcases/12books not3126trades. NotaccountPnL or challengequalification.",
+      "component_evidence": "FX-ABNORMAL-DAY-TEMPORAL-RESULTS-20261109.md",
+      "discovery_evidence": "FX-ABNORMAL-DAY-RESULTS-20261109.md",
+      "diagnostic_evidence": "FX-ABNORMAL-DAY-VOL-SCALE-DIAGNOSTIC-20261109.md",
+      "profitability_evidence": "Discovery2019stress+493/2022+962reused;13extensionyears164opportunities stress+549USDper100kEUR,8positiveyears,blocks-4389/+1873/-305/+1538/+1832. All15years191opportunities/+2004USD;23478cases/90books includes3126baselinecases. NoaccountPnL or challengequalification.",
       "control": false,
       "dispatch_authorized": false,
       "implementation_updated_on": "2026-11-09"
