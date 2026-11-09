@@ -1,6 +1,6 @@
 # Danh mục nghiên cứu chiến lược — cập nhật09/11/2026
 
-86 hồ sơ: 47 có policy/model version được ghi trong danh mục (58 versions), 38 chưa có account policy và 1 risk component. Trong 58 versions có 25 native offline rules và 33 tooling/coarse/model versions; gồm 9 controls. R080–R083 không retained; R084 mua chính không đạt, follow-up bán sau fix R085 cũng không đạt khi mở rộng lịch sử. R086 FOMC price momentum cũng không qua stressgate. Price components không đếm thành account policies hoặc independent edges. **Chưa có bản nào challenge-qualified.**
+87 hồ sơ: 47 có policy/model version được ghi trong danh mục (58 versions), 39 chưa có account policy và 1 risk component. Trong 58 versions có 25 native offline rules và 33 tooling/coarse/model versions; gồm 9 controls. R080–R083 không retained; R084 mua chính không đạt, follow-up bán sau fix R085 cũng không đạt khi mở rộng lịch sử. R086 FOMC price momentum không qua stressgate; R087 Nhật–Mỹ knownnet âm và có coveragegap, chưaannualPnL. Price components không đếm thành account policies hoặc independent edges. **Chưa có bản nào challenge-qualified.**
 
 [Bản đồ cơ chế và task](MECHANISM-FIRST-EXECUTION-20261109.md) gom đủ80historicalIDs
 khôngtrùng/thiếu;R081 làconditionalderivative liênquanR080.8buckets cócontrols/
@@ -102,6 +102,7 @@ freeze trước outcomes; old quarter-mask failure và corrected attempt đều 
 |R084|USDJPY Tokyo calendar component|fixing_flow / R021|Mua chính không đạt;follow-up bán R085 cũng không đạt|0|[Results](USDJPY-TOKYO-COMPONENT-RESULTS-20261109.md);32books/139dates,noaccountpolicy|
 |R085|USDJPY postfix temporal extension|fixing_flow / R084|Không đạt;6/13newyears dương,2/4blocks âm|0|[Results](USDJPY-POSTFIX-EXTENSION-RESULTS-20261109.md);240books gồm discoveryreuse, chưaSL/account/prop|
 |R086|US500 pre-FOMC past-price momentum|event / R062|Không qua stressgate cả2năm;funding đích unknown|0|[Results](US500-FOMC-PRICE-MOMENTUM-RESULTS-20261109.md);32books/256cases, noaccountpolicy|
+|R087|Japan cash reaction sau phiên Mỹ|crossmarket_flow / opening-reversal related|Known net âm;2019coverage73,73%,202298,31%;fullannualunknown|0|[Results](JAPAN-US-CASH-REACTION-RESULTS-20261109.md);485rows/20books,JPYunit/noaccountpolicy|
 
 
 ## Cách đọc và lịch sử các batch đầu

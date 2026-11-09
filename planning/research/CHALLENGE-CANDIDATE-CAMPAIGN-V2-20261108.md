@@ -6,6 +6,16 @@ negatives/exposure; chưa có ứng viên challenge. Các trạng thái active/p
 trong checkpoint cũ bên dưới là lịch sử, không là trạng thái Goal hiện hành.
 
 Workflow đã rà, giữ đường gọn hiện hành; không thêm skill/framework.
+Checkpoint hiện tại: [R087 Nhật–Mỹ results](JAPAN-US-CASH-REACTION-RESULTS-20261109.md)
+485phiên/20books,4.322of4.850casesreviewedresolved,66phiênunknown;knownstress
+âmcảhai năm, gác exactrecipe. Gross2019+781,824nhưngspread1.170,026;
+gross2022−676,615JPY/unit, khôngUSDaccount/fullyearPnL. 5.437.930sourcefields,
+962GET+8reuse,successfulworkers7phút13s. Revieweremptyrawbug đãsửa bằngv2,
+giữv1failure, khôngrefetch. [Costheadroom](COST-HEADROOM-DIAGNOSTIC-20261109.md)
+R086fixedpath đãreview, khôngnewstrategytrial.87records/58versions,Goalactive/
+C1C2chưađạt,khôngjob. Tiếp distinctobservablemechanism admission, không
+clock/side/feegridcứu hoặc lặp nguồn unchanged. Các checkpoint dưới là lịch sử.
+
 Mới nhất: [R086 FOMC results](US500-FOMC-PRICE-MOMENTUM-RESULTS-20261109.md)
 đã32books/256cases reviewed;stress2019−63,33/2022−14,66USD/unit, không qua
 gate dù cơ sở dương. Source126mốc đủ;250raws reuse+2tailGETs;deadlinefailure/
