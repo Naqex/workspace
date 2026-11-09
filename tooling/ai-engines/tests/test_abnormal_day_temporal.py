@@ -40,10 +40,13 @@ class TemporalTests(unittest.TestCase):
         for kind in ('unknown', 'coverage', 'sample'):
             data = books()
             for b in data:
+                if kind == 'sample':
+                    b.update(selected_shocks=6, exposed=6 if b['rule'] != 'null' else 0,
+                        resolved_exposed=6 if b['rule'] != 'null' else 0,
+                        feature_status_counts=dict(calendar_skip=52, normal=203, shock=6))
                 if b['rule'] != 'primary' or b['scenario'] != 'stress': continue
                 if kind == 'unknown' and b['year'] == 2010: b.update(strict_net=None, unresolved_exposed=1, resolved_exposed=9)
                 if kind == 'coverage' and b['year'] == 2010: b['feature_status_counts'] = dict(calendar_skip=52, normal=99, shock=10, unavailable_history=100)
-                if kind == 'sample': b['resolved_exposed'] = 6
             self.assertEqual(study.temporal_gate(data)['status'], 'inconclusive')
 
     def test_duplicate_or_missing_books_fail(self):

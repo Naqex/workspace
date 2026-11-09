@@ -42,3 +42,30 @@ project, retailCFD hoặc lợi thế quỹ. Đây là own accounting/statistica
 Saved riêngdiagnostic và review, bind oldresult/review/rows/observationshashes;
 không overwriteoriginalfinancials. Đây là post-outcome diagnostic, khôngOOS
 hoặc bằng chứng independentedge. Chỉ một câu hỏi hữu hạn, không mở riskgrid.
+
+## Kết quả đã kiểm
+
+191selectedrows gồm27discovery/164extension, không financialtrial mới.
+Chuẩn hóa giữ **cảhai block2010–12 và2016–18 âm**; chỉ7/13extensionyears có
+score dương, không đạt điều kiện xem riêngrisk-scalinghypothesis. Oldgate vẫn
+not_retained; chưa có cơ sở dùng riêngvolatilityscaling để tiếp parent.
+
+| Extensionblock | Rawnet USD/unit | Standardized score, làm tròn | Exactbound sign |
+|---|---:|---:|---|
+|2010–12|−4.389|−4,461168|Âm|
+|2013–15|+1.873|+2,492396|Dương|
+|2016–18|−305|−1,391876|Âm|
+|2020–21|+1.538|+2,779522|Dương|
+|2023–24|+1.832|+5,347198|Dương|
+
+Score không đơn vị, không1R hoặc tiền account. Decimal80 nằm trong exact
+rationalisqrtbounds cho191trades,15years/5blocks/extensiontotal.3signedsynthetic
+cases/zero-scale rejection và4mutations score/scale/known-at/authority đạt.
+Sameagent/differentmath, không independentfeed/human hoặc risk backtest.
+0rawreads/network/broker/newtrials,0,385s gồm review; oldfinancialfiles giữ nguyên.
+
+Privatebase campaign, `execution-v1/fx-abnormal-day-vol-scale-v1/`, saved
+`diagnose-fx-abnormal-vol-scale-v1.py`. ResultSHA
+`0b0b3922a5d49507b966c9739a6a2a3509687e6a8cbf4469e2090b6d0ec7d8dd`;
+reviewSHA`6994c04f751ac3e64d83aa12cc68f9fad1e466c675a0bf6714704082cdee6a28`.
+Kết luận chính và bước tiếp tại [temporalresults](FX-ABNORMAL-DAY-TEMPORAL-RESULTS-20261109.md).

@@ -1,5 +1,10 @@
 # R089 giữ để kiểm độ bền, chưa ứng viên challenge
 
+**Cập nhật sau bước tiếp:** [temporalresults](FX-ABNORMAL-DAY-TEMPORAL-RESULTS-20261109.md)
+khôngretained;[vol-scale diagnosis](FX-ABNORMAL-DAY-VOL-SCALE-DIAGNOSTIC-20261109.md)
+cũng không hỗ trợ viết riskwrapper. Các số discovery dưới đây giữ nguyên;
+khuyến nghị kiểm độ bền ở checkpoint này đã được thực hiện, không resume lại.
+
 Thực hiện [protocol và amendments](FX-ABNORMAL-DAY-PROTOCOL-20261109.md),
 [fullsource registration](FX-ABNORMAL-DAY-FULL-SOURCE-PROTOCOL-20261109.md)
 freeze `c2696f9` trước fullsource/realfeatures/PnL. Component
