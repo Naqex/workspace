@@ -22,8 +22,8 @@ giữ nguyên là lịch sử.
 | Quant Trading PR1 | Merge vào master: `203552238965c61b3e5788276ffc36922bd72dae`; CI offline research đạt; checkout master fast-forward |
 | Khảo sát EA PR12 | Merge `d32a553` vào workspace branch đang dùng, merge SHA `e0a11f7`; cả 3 checks đạt. Chỉ tài liệu, không mua/chạy bot |
 | Trader PR17 | Merge data-worker patch vào main: `3a4c4d65e4570f8e04e5674b7becc4cc59952537`; 5 checks đạt trên head đã review |
-| Trader PR18/19/21/23 | Heads đã được tích hợp vào PR22 để kiểm toàn bộ dependency graph cùng nhau; chờ kết quả cuối của PR22 |
-| Trader PR22 | Head `b0b9b47350aeb62dbe70ed2e86cfc0b3eaa97825`; local schema/tests/notices đạt, required Rust CI đang chạy; chưa merge tại checkpoint này |
+| Trader PR18/19/21/23 | Các exact heads đã vào main qua PR22; GitHub xác nhận cả bốn PR MERGED. Kiểm toàn bộ dependency graph cùng nhau |
+| Trader PR22 | Head `b0b9b47350aeb62dbe70ed2e86cfc0b3eaa97825`; cả 5 required checks đạt, merge vào main tại `2cbb9d5baa97830822c66fe66e8841b6c5616849` |
 | Trader PR20 | Đóng không merge: plugin-react6 yêu cầu Vite8, CI npm peer conflict. Giữ quyết định Vite7/plugin5 từ PR5/16, không bypass peer hoặc đổi Dependabot ignore settings |
 
 PR22 giữ Pydantic2.13.5 và bound `<2.14`: bản nâng gây mất pattern của
@@ -64,6 +64,19 @@ Skillcreator validation, scoped links và5workflow tests đạt; maintainer audi
 combined22.439B. Positive walkthrough: tên mới English; negative: ref đang
 được consumer dùng không rename, issue chưa acceptance không tự đóng.
 Đây là same-agent review/automated checks, không independent model review.
+
+Kết quả cuối Trader: không còn PR mở; PR17/18/19/21/22/23 MERGED, PR20
+CLOSED không merge. Sáu remote Dependabot heads đã tự biến mất sau merge;
+script closeout đối soát ancestry/exact tips/open PR/worktree rồi ghi
+`Already absent`, không giả nhận đã phát lệnh xóa những ref đó. Local main
+fast-forward `2cbb9d5b`; local head PR22 đã dọn bằng `branch -d`.
+
+Worktree kiểm phụ sạch, không job local còn chạy. Codex archive API từ chối
+với `This worktree is owned by another task.` dù attachment/creation đã trả
+về trong lượt này; giữ checkout, không xóa bằng shell để vượt ownership.
+Notice inventory ngoài checkout vẫn còn tại private
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/dependency-pr-closeout-20261109/notices-v1/`.
+Các research worktree cũ và runtime/Trader pin83731fc8 được giữ nguyên.
 
 ## Thay đổi hướng dẫn
 
