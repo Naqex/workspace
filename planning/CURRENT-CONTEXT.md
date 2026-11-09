@@ -4,14 +4,16 @@ Review 09/11/2026 · `REVIEWED-PARTIAL / RESUMABLE`.
 File chỉ điều hướng; PLAN/protocol/results giữ scope và evidence. Không là
 ledger hoặc permission broker. Theo yêu cầu cập nhật của owner ngày 09/11,
 Goal cũ đã được xóa và Goal mới đã tạo thành công với status `active`.
-Campaign và lịch sử thử nghiệm được kế thừa; C1/C2 chưa hoàn tất.
+Owner sau đó đã tạm dừng Goal ngày 09/11; tool xác nhận status `paused`.
+Campaign và lịch sử thử nghiệm được kế thừa; C1/C2 chưa hoàn tất. Không tiếp
+nghiên cứu hoặc mở batch mới cho đến khi owner yêu cầu tiếp tục.
 
 ## Việc hiện tại: mechanism-first research
 
 Đã quay lại task lớn theo [Goal cập nhật](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md#goal-cập-nhật--09112026).
 Đã [kiểm phí công khai Gold](research/GOLD-TARGET-COST-ADMISSION-20261109.md):
 The5ers swap-free chỉ được công bố cho funded; exact point/mode/account rates
-còn unknown, giữ Gold ít ưu tiên và không rerun với phí thấp hơn. Việc kế:
+còn unknown, giữ Gold ít ưu tiên và không rerun với phí thấp hơn. Khi resume:
 hoàn tất EIA release hours/PIT exceptions và endpoint admission trước batch
 kinh tế mới. Tối ưu kỹ thuật chỉ khi giải quyết lỗi hoặc nút thắt phục vụ
 nghiên cứu. Chưa có numerical job mới được khởi động tại checkpoint này.

@@ -3,7 +3,8 @@
 **Đang thực hiện.** Owner giao mở rộng phương pháp, tìm ứng viên đủ bằng chứng
 cho challenge, đồng thời sửa correctness, cải tiến performance và dữ liệu khi
 có nhu cầu thực. Goal cũ đã được owner xóa; Goal cập nhật ngày 09/11 đã tạo
-thành công, tool trả status `active`. Quyết định dừng B ở
+thành công, tool trả status `active`. Sau đó owner tạm dừng Goal; trạng thái
+hiện hành đã được tool xác nhận `paused`, chưa mở batch EIA mới. Quyết định dừng B ở
 [campaign trước](CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md) là lịch sử, không là
 điều kiện tự hoàn tất Goal này. Giữ nguyên tài liệu/pins của các đợt đã freeze.
 
@@ -45,8 +46,8 @@ trên Goldretained,30books/439cases/Fractionreview, khôngtuning; skill D0→D1�
 đã kiểm/dedup;actualreleasehours chưaverified. Catalogue vẫn81/58, khôngnewpolicy.
 
 Owner giao thực thi[mechanism-first plan](MECHANISM-FIRST-EXECUTION-20261109.md)
-sauđúc kết. Lượt đó hoàn tất khi Goal cũ đang paused; hiện Goal mới đã active
-như ghi ở trên, mục tiêu C1/C2 chưa đạt. Catalogue81records/58policy-modelversions/25native/9controls;
+sauđúc kết. Lượt đó hoàn tất khi Goal cũ đang paused; Goal mới từng active,
+hiện owner đã tạm dừng như ghi ở trên, C1/C2 chưa đạt. Catalogue81records/58policy-modelversions/25native/9controls;
 manualcensus80historicalIDs đủ, R081condition liênquanR080khôngindependentedge.
 [R081results](US500-INVENTORY-CONDITION-RESULTS-20261109.md):5focusedtests,
 503rowraw/Fractionreview/5mutations;knownstress2019−187,61/2022−407,44USD/unit,
