@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-07",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 81,
+  "record_count": 82,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -12,13 +12,13 @@
   "counts": {
     "by_role": {
       "existing": 36,
-      "variant": 29,
+      "variant": 30,
       "new": 15,
       "component": 1
     },
     "by_readiness": {
       "implemented": 36,
-      "component_probe_not_retained": 21,
+      "component_probe_not_retained": 22,
       "implemented_not_retained": 5,
       "method_clock_review": 1,
       "component_probe_completed_no_priority": 1,
@@ -342,6 +342,14 @@
       "url": "https://www.newyorkfed.org/medialibrary/media/research/staff_reports/sr917.pdf",
       "checked_on": "2026-11-09",
       "scope": "Inventory mechanism and price versus signedflow distinction;not CFD profitability proof."
+    },
+    {
+      "id": "WEN-EIA-USO",
+      "title": "Intraday Return Predictability in the Crude Oil Market: The Role of EIA Inventory Announcements",
+      "url": "https://digital.library.adelaide.edu.au/server/api/core/bitstreams/aee73b81-111e-4bef-9e0e-7b1164f368a1/content",
+      "checked_on": "2026-11-09",
+      "review_depth": "Primary accepted manuscript section2.2/footnote6 and trading-window method read; personal reference only",
+      "limitations": "USO2006-2019 not WTI CFD; no imported/redistributed paper code/data; existing primary date labels are retrospective, not certified PIT."
     }
   ],
   "records": [
@@ -2837,6 +2845,33 @@
       "implementations": [],
       "component_evidence": "US500-INVENTORY-CONDITION-RESULTS-20261109.md",
       "profitability_evidence": "Knownreference2019/2022 -97.61/-279.44;stress -187.61/-407.44 USD per researchunit;2019not fullannual.",
+      "control": false,
+      "dispatch_authorized": false,
+      "implementation_updated_on": "2026-11-09"
+    },
+    {
+      "id": "R082",
+      "title": "WTI Wednesday reaction to late-session conditional component",
+      "family": "event_price_momentum_transfer",
+      "role": "variant",
+      "parent_id": "R027",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "NY10:30/11:00 feature Opens,15:31entry/15:59exit M1Open proxies",
+      "rule_sketch": "Sign of early midpoint change on retrospectively labelled Wednesday EIA dates; BUYAsk/Bid or SELLBid/Ask; fixed1research barrel;extraRTcost0.05/0.10USD.",
+      "data_requirements": "176rawday-sides/88dates2019+2022 reviewed;2019role gaps25days,2022all44resolved;PIT/actualtime unverified.",
+      "automation_feasibility": "offline_conditional_price_component_not_causal_account_policy",
+      "prop_operational_concerns": "2022negative after spread before extra fees;2019annualN/A;no SL/equity/actualcosts/OOS/prop.",
+      "source_ids": [
+        "WEN-EIA-USO"
+      ],
+      "source_relation": "Related R027 event-information mechanism but price predictor rather than surprise;ownCFD/clock transfer,retrospective labels,not paper replication or independent edge.",
+      "next_action": "Park exact R082;preserve unknown2019 and negative2022;admit separately registered venue-settlement mechanism before any related timing trial, no hour/fee grid.",
+      "implementation_state": "reviewed_not_retained_conditional_component",
+      "candidate_id": null,
+      "component_id": "wti-wednesday-reaction-late-price-component-v1",
+      "implementations": [],
+      "component_evidence": "WTI-WEDNESDAY-COMPONENT-RESULTS-20261109.md",
+      "profitability_evidence": "1research barrel knownnetref/stress2019 -2.932/-3.882 on19of44 dates;2022 -2.868/-5.068 on44of44,not accountPnL;calendar retrospective.",
       "control": false,
       "dispatch_authorized": false,
       "implementation_updated_on": "2026-11-09"

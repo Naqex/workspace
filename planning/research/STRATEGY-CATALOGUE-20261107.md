@@ -1,6 +1,6 @@
 # Danh mục nghiên cứu chiến lược — cập nhật09/11/2026
 
-81 hồ sơ: 47 có policy/model version được ghi trong danh mục (58 versions), 33 chưa có account policy và 1 risk component. Trong 58 versions có 25 native offline rules và 33 tooling/coarse/model versions; gồm 9 controls. R080/R081 đã reviewed và không retained; price components không đếm thành account policies hoặc independent edges. **Chưa có bản nào challenge-qualified.**
+82 hồ sơ: 47 có policy/model version được ghi trong danh mục (58 versions), 34 chưa có account policy và 1 risk component. Trong 58 versions có 25 native offline rules và 33 tooling/coarse/model versions; gồm 9 controls. R080/R081/R082 đã reviewed và không retained; price components không đếm thành account policies hoặc independent edges. **Chưa có bản nào challenge-qualified.**
 
 [Bản đồ cơ chế và task](MECHANISM-FIRST-EXECUTION-20261109.md) gom đủ80historicalIDs
 khôngtrùng/thiếu;R081 làconditionalderivative liênquanR080.8buckets cócontrols/
@@ -97,6 +97,7 @@ freeze trước outcomes; old quarter-mask failure và corrected attempt đều 
 |R079|NASDAQ firsthalf/ROD consensus|equity_close_momentum / R077|Hai năm âm sau phí, gác exact|0|[Results](INDEX-CONSENSUS-RESULTS-20261109.md); không reverse mask rescue|
 |R080|US500 EU-open uncertainty resolution|equity_overnight_uncertainty_resolution|Knownnetâm,2019coverage thiếu;khôngretained|0|[Results](US500-EU-OPEN-COMPONENT-RESULTS-20261109.md)|
 |R081|US500 prior closing-pressure conditional EU-open|equity_inventory_reversal_price_proxy /R080|Knownnetâm,selected2019coverage thiếu;gác exact|0|[Results](US500-INVENTORY-CONDITION-RESULTS-20261109.md);relatedvariant,chưaaccount/prop/OOS|
+|R082|WTI Wednesday reaction→late conditional component|event-price momentum / R027|Không retained;2019unknown/2022net âm|0|[Results](WTI-WEDNESDAY-COMPONENT-RESULTS-20261109.md);retrospectivecalendar,không accountpolicy|
 
 
 ## Cách đọc và lịch sử các batch đầu
@@ -134,3 +135,5 @@ Chỉ nâng ngày cho nguồn thực sự đọc lại; top updated_on không c�
 
 - **BALTUSSEN-ROD** — [Hedging demand and market intraday momentum](https://academicweb.nd.edu/~zda/intramom.pdf). Đọc primary method/cost sections09/11; chưa full appendix replication, CFD/latency adaptations và không actual gamma observation.
 - **BOND-MURAVYEV-EUOPEN** — [Cambridge article](https://www.cambridge.org/core/journals/journal-of-financial-and-quantitative-analysis/article/market-return-around-the-clock-a-puzzle/089E33AC0B4D3B9A02CBA31EDF6505B3), official appendix clock/baseline đọc09/11; futures→CFD/calendar/M1 adaptation, không VIX/prop/OOS proof.
+
+- **WEN-EIA-USO** — [Primary accepted manuscript](https://digital.library.adelaide.edu.au/server/api/core/bitstreams/aee73b81-111e-4bef-9e0e-7b1164f368a1/content), §2.2/footnote6 đã đọc09/11; ownWTItransfer khôngpaperreplication hoặcPITcalendarproof.

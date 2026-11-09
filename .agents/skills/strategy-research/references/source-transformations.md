@@ -29,6 +29,10 @@ gaps khác nguồn. Không bắt mỗi status check tải lại data hoặc ki�
    network-denied để chắc reuse không lén tải nguồn khác. Rerun đúng affected
    policies/windows, giữ rules/risk/costs, rồi đối soát delta/count/fills/cash.
    Không rerun nguồn độc lập không bị ảnh hưởng hoặc im lặng đổi lịch sử.
+   Nếu checkout chỉ đổi LF/CRLF: tìm snapshot đúng hash frozen, đối chiếu
+   nội dung và ghi hash code đang dùng riêng; không normalize raw hoặc sửa
+   original pins để ép reuse. Content drift khác newline vẫn cần review mới.
+   [Case kiểm thật và negative regressions](../../../../planning/research/OIL-EIA-ROLE-SOURCE-RESULTS-20261109.md).
 5. Tách lỗi transport/schema/economics. Nativecache/sourcecomponents trước
    downloader mới. GET timeout/5xx có thể retry hữu hạn theo request/day khi
    scope cho phép, có backoff/cumulativecap/deadline/cancel; giữ phần sealed.

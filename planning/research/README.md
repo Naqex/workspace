@@ -1,5 +1,12 @@
 # Tra cứu research đã có
 
+[R082 WTI Wednesday results,09/11](WTI-WEDNESDAY-COMPONENT-RESULTS-20261109.md):
+20books/88dates/1.162.180rawfields reviewed;2019strictN/A,2022primary net âm
+ngay sau spread;gác exactrecipe. [Clock](EIA-HISTORICAL-CLOCK-RESULTS-20261109.md)
+và [role-source](OIL-EIA-ROLE-SOURCE-RESULTS-20261109.md) giữ evidence/limits
+và LF/CRLF recovery;82records/58versions, chưa challenge. Tiếp method về
+underlying settlement clock trước một related trial, không grid giờ.
+
 [FX quote-cost admission, 09/11](FX-QUOTE-COST-ADMISSION-RESULTS-20261109.md):
 4giờ EURUSD/8.747jointquotes/43.735fields reviewed, source+review3,229s;
 chi phí tăng quanh rollover trong fixture, chưa chiến lược/edge/prop proof.

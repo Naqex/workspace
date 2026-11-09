@@ -19,21 +19,26 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
   chứng minh exact executable/preset hoặc source ownership. Không mua/cài EA.
   Bài học áp dụng: kiểm chi phí từ joint quotes, SL/risk/account-wide exposure
   và timing thực thi; không suy ra logic vào lệnh đóng mã từ quảng cáo.
-- [FX quote-cost fixture](research/FX-QUOTE-COST-ADMISSION-RESULTS-20261109.md)
-  đã thu/review4giờ,8.747quotes/43.735fields,8synthetic/5mutations;3,229s
-  source+review. Progress completed_reviewed, khôngjob nền. Chưa economics
-  hoặc strategy mới; bước tiếp method admission cho own-code có cơ chế rõ,
-  không clone EA hoặc tune cutoff từ fixture.
+- [R082 WTI diagnostic](research/WTI-WEDNESDAY-COMPONENT-RESULTS-20261109.md)
+  đã terminal/review20books/88dates/1.162.180rawfields;2022net âm sau spread,
+  2019strictN/A vì25holding-role gaps. Gác exactrecipe, không fee/hour rescue.
+  Source+review102,663s;khôngjobnền. [Primaryclock](research/EIA-HISTORICAL-CLOCK-RESULTS-20261109.md)
+  và [role-source/LFCRLF recovery](research/OIL-EIA-ROLE-SOURCE-RESULTS-20261109.md)
+  bổ sung normalclock/datedpreannouncement, giữ actual/PITunknown/oldUSOgate.
+- Bước Goal tiếp: method admission về underlying WTI settlement clock (CME
+  normal14:28–14:30 khácETF16h), chốt ownCFDbasis/newrules/coverage trước một
+  related trial nếu đáng làm. Không gọi đây là đã chứng minh nguyên nhân lỗ,
+  không grid mọi giờ hoặc promote R082/control; ưu tiên reuse sealed source.
 
 ## Bằng chứng nghiên cứu cần kế thừa
 
 | Lát | Kết luận / bước tiếp |
 |---|---|
-| Catalogue | 81 hồ sơ / 58 policy-model versions / 25 native / 9 controls; [mechanism plan](research/MECHANISM-FIRST-EXECUTION-20261109.md). Component/biến thể không tự là edge độc lập |
+| Catalogue | 82 hồ sơ / 58 policy-model versions / 25 native / 9 controls; [mechanism plan](research/MECHANISM-FIRST-EXECUTION-20261109.md). Component/biến thể không tự là edge độc lập |
 | FX NYMA4 | [Conditional results](research/NY-FX-GAP-SCENARIOS-RESULTS-20261109.md) âm ở hai năm; strict annual vẫn unknown. Không đổi clock/SL/risk để cứu exact recipe |
 | Gold R043 | [Cost admission](research/GOLD-TARGET-COST-ADMISSION-20261109.md) và [loss diagnosis](research/SELECTIVE-LOSS-DIAGNOSIS-RESULTS-20261109.md): funding/spec đích chưa verified; không zero-swap hoặc rerun để cứu outcome |
 | R080/R081 | [EU-open](research/US500-EU-OPEN-COMPONENT-RESULTS-20261109.md), [conditional](research/US500-INVENTORY-CONDITION-RESULTS-20261109.md): known net âm, giữ unknowns, gác exact recipes |
-| EIA | [Date census](research/EIA-RELEASE-DATE-CENSUS-RESULTS-20261109.md): 103 ngày, giờ/PIT exceptions chưa verified. Current schedule không chứng minh 2019/2022. [Oil pilot](research/OIL-EIA-SOURCE-PILOT-RESULTS-20261109.md) thiếu USO16:00 Open; chưa bulk/economic admission |
+| EIA | [Date census](research/EIA-RELEASE-DATE-CENSUS-RESULTS-20261109.md): 103 ngày, actual/PIT exceptions chưa verified; normalclock có thêm archivedPDF proof. [Oil pilot](research/OIL-EIA-SOURCE-PILOT-RESULTS-20261109.md) thiếu USO16:00 Open; chưa bulk/economic admission |
 | Phân rã PnL | [Hierarchical attribution](research/HIERARCHICAL-PNL-ATTRIBUTION-20261109.md) đã review; chỉ phân tích sâu survivor/near-miss có câu hỏi |
 
 Private evidence root: `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/`.
