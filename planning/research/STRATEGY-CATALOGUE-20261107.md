@@ -1,6 +1,6 @@
 # Danh mục nghiên cứu chiến lược — cập nhật09/11/2026
 
-87 hồ sơ: 47 có policy/model version được ghi trong danh mục (58 versions), 39 chưa có account policy và 1 risk component. Trong 58 versions có 25 native offline rules và 33 tooling/coarse/model versions; gồm 9 controls. R080–R083 không retained; R084 mua chính không đạt, follow-up bán sau fix R085 cũng không đạt khi mở rộng lịch sử. R086 FOMC price momentum không qua stressgate; R087 Nhật–Mỹ knownnet âm và có coveragegap, chưaannualPnL. Price components không đếm thành account policies hoặc independent edges. **Chưa có bản nào challenge-qualified.**
+88 hồ sơ: 47 có policy/model version được ghi trong danh mục (58 versions), 40 chưa có account policy và 1 risk component. Trong 58 versions có 25 native offline rules và 33 tooling/coarse/model versions; gồm 9 controls. R080–R083 không retained; R084 mua chính không đạt, follow-up bán sau fix R085 cũng không đạt khi mở rộng lịch sử. R086 FOMC price momentum không qua stressgate; R087 Nhật–Mỹ knownnet âm và có coveragegap, chưaannualPnL. R088 sauFOMC net dương nhưng eventincrement2022 khôngđạt. Price components không đếm thành account policies hoặc independent edges. **Chưa có bản nào challenge-qualified.**
 
 [Bản đồ cơ chế và task](MECHANISM-FIRST-EXECUTION-20261109.md) gom đủ80historicalIDs
 khôngtrùng/thiếu;R081 làconditionalderivative liênquanR080.8buckets cócontrols/
@@ -103,6 +103,7 @@ freeze trước outcomes; old quarter-mask failure và corrected attempt đều 
 |R085|USDJPY postfix temporal extension|fixing_flow / R084|Không đạt;6/13newyears dương,2/4blocks âm|0|[Results](USDJPY-POSTFIX-EXTENSION-RESULTS-20261109.md);240books gồm discoveryreuse, chưaSL/account/prop|
 |R086|US500 pre-FOMC past-price momentum|event / R062|Không qua stressgate cả2năm;funding đích unknown|0|[Results](US500-FOMC-PRICE-MOMENTUM-RESULTS-20261109.md);32books/256cases, noaccountpolicy|
 |R087|Japan cash reaction sau phiên Mỹ|crossmarket_flow / opening-reversal related|Known net âm;2019coverage73,73%,202298,31%;fullannualunknown|0|[Results](JAPAN-US-CASH-REACTION-RESULTS-20261109.md);485rows/20books,JPYunit/noaccountpolicy|
+|R088|EURUSD sau FOMC12–24h|event_session_flow / R021|Stressnet dương cả2năm;eventincrement2022 khôngđạt|0|[Results](EURUSD-POST-FOMC-RESULTS-20261109.md);32windows/192cases,noSL/account/prop/OOS|
 
 
 ## Cách đọc và lịch sử các batch đầu
@@ -144,3 +145,6 @@ Chỉ nâng ngày cho nguồn thực sự đọc lại; top updated_on không c�
 - **WEN-EIA-USO** — [Primary accepted manuscript](https://digital.library.adelaide.edu.au/server/api/core/bitstreams/aee73b81-111e-4bef-9e0e-7b1164f368a1/content), §2.2/footnote6 đã đọc09/11; ownWTItransfer khôngpaperreplication hoặcPITcalendarproof.
 
 - **CME-WTI-SETTLEMENT** — [SER4867](https://www.cmegroup.com/tools-information/lookups/advisories/market-regulation/SER-4867.html), 2009effective/2017filing/normalprocedure đãđốichiếu09/11; khôngCFDsettlementmapping hoặcalpha.
+
+- **WANG-FX-FOMC2018** — [Wang thesis, chapter1](https://www.olsendata.com/data_products/client_papers/papers/201808-MinhoWang-EssaysOnCurrencyMarkets.pdf), primaryPDFpages13–50 đọc09/11;midpoint/excessreturn/multi-currency, khôngEURUSDCFDnetreplication.
+- **XU-FX-FOMC-DISCUSSION2022** — [Xu discussion11/03/2022](https://www.nancyxu.net/_files/ugd/efd0b7_99257144559d4b61b592862dc067edfe.pdf),17pagesđọc09/11;12–24h vàjump/trendcritique, khôngcurrentfullpaper hoặccombinedpredictor.

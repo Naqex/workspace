@@ -8,13 +8,23 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 ## Việc hiện tại
 
+- [R088 EURUSD sau FOMC](research/EURUSD-POST-FOMC-RESULTS-20261109.md) đã
+  terminal/reviewed:32windows/24books/192financialcases,459.780sourcefields;
+  stress2019+1.013/2022+545USD trên100.000EURnotional, khôngaccountreturn.
+  So matchedweek+718/+2.441, eventgate2022 khôngđạt; khôngpromote FOMCmask.
+  Successfulfullworkerphases18,662s;khôngjob. Catalogue88/58, C1/C2chưađạt.
+  Đã đối chiếu existingR021wrapper/pathrisk/R056: weightshelp/parentexithurts
+  không cho bỏSL; R0562/4stressblocksâm. Clocks khác, khônggộpPnL hoặc
+  mởstop/lotgrid. [Costdiagnosis](research/COST-HEADROOM-DIAGNOSTIC-20261109.md)
+  tách signalâm/costăn hết/netdươngnhưngchưaedge/unknown; chỉrevisit khi có
+  source hoặc giảthuyết triển khai cócơsở mới, khônglặp nguồn unchanged.
 - [R087 Nhật–Mỹ](research/JAPAN-US-CASH-REACTION-RESULTS-20261109.md) đã
   terminal/reviewed:485phiên/20books/4.850plannedcases,4.322resolved.
   Known stressnet2019−1.432,202/2022−3.705,824JPY/unit;2019mid dương nhưng
   spreadăn hết,2022midđãâm.66phiên thiếu giữunknown, khôngannualPnL;
   gác exactrecipe.5.437.930sourcefieldchecks,962GET+8reuse,successfulphases
-  7phút13s, khôngjob. Catalogue87/58, chưa challenge. Tiếp distinctobservable
-  mechanism admission, khôngclock/side/feegridcứu hoặc lặp source đã kiểm.
+  7phút13s, khôngjob. Catalogue87/58 tại checkpointR087, chưa challenge;
+  khôngclock/side/feegridcứu hoặc lặp source đã kiểm.
 - [Cost headroom](research/COST-HEADROOM-DIAGNOSTIC-20261109.md) đã8books/
   64cases/Fractionreview, khôngmarketreplay. R086funding~94–95%stresscostpool;
   fixedpathbreak-even11,62%/15,26%annual theo model, khôngbrokerfee hoặc safe

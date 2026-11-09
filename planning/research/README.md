@@ -1,12 +1,21 @@
 # Tra cứu research đã có
 
+[R088 EURUSD sau FOMC](EURUSD-POST-FOMC-RESULTS-20261109.md) đãreviewed:
+32windows/192financialcases,459.780sourcefields;stress+1.013/+545USD trên
+100.000EURnotional2019/2022, nhưng matchedweek+718/+2.441;eventgate2022fail.
+Không loại vì phí, không chứng minh FOMCedge hoặc challengefit.88records/
+58accountversions,khôngjob;successfulfullworkerphases18,662s. Đã đối chiếu
+R021wrapper/pathrisk/R056, khôngSL/lotgrid hoặc gộp clocks khác. [Phân loại
+signal/cost](COST-HEADROOM-DIAGNOSTIC-20261109.md#cách-dùng-kết-quả-để-chọn-đúng-việc-cần-tối-ưu)
+chỉ rõ việc đáng tối ưu và unknown; không lặp simulation để trừ phí lần nữa.
+
 [R087 Nhật–Mỹ](JAPAN-US-CASH-REACTION-RESULTS-20261109.md) đãreviewed:
 485phiên/20books/4.322of4.850casesresolved,66unknownphiên giữnguyên. Known
 stress−1.432,202/−3.705,824JPY/unit,2019spreadlớnhơngross/2022grossâm;
 gác exactrecipe.87records/58versions;khôngjob. [Sourcepilot](JAPAN-US-SOURCE-RESULTS-20261109.md)
 và [costheadroom](COST-HEADROOM-DIAGNOSTIC-20261109.md) giữnguồn/diễn giải;
-R086fundingbreak-even11,62%/15,26% làfixedpathmodel, khôngtargetrate. Tiếp
-distinctobservablemechanism admission, khônggiảmfee/chọnclockđểcứu.
+R086fundingbreak-even11,62%/15,26% làfixedpathmodel, khôngtargetrate.
+Đây là checkpoint trướcR088; khônggiảmfee/chọnclockđểcứu.
 
 [R086 FOMC price momentum](US500-FOMC-PRICE-MOMENTUM-RESULTS-20261109.md):
 32books/256cases reviewed, không qua stressgate;2019−63,33/2022−14,66USD/unit.
