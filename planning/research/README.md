@@ -3,7 +3,7 @@
 [Khảo sát bot trả phí, 09/11](PAID-EA-MARKET-REVIEW-20261109.md):
 6 sản phẩm; đã khảo sát sâu Night Hunter/Fury: record MQL5 và preset public
 NHP, Fury CORE có grid tùy chọn, tracker Fury vẫn 403. Chưa đề xuất mua;
-The5ers có gate sở hữu source code. Desk research riêng, Goal vẫn paused.
+The5ers có gate sở hữu source code. Desk research đã hoàn tất; owner đã mở lại campaign với Goal mới active.
 
 [Gold target-cost admission, 09/11](GOLD-TARGET-COST-ADMISSION-20261109.md):
 đã đối chiếu public FTMO/The5ers fees; swap-free funded không là quyền bỏ
@@ -23,8 +23,8 @@ Owner đã giao thực thi sau đúc kết09/11: đọc [mechanism-first plan](M
 giữnegatives. [Oil/EIA sourcepilot](OIL-EIA-SOURCE-PILOT-RESULTS-20261109.md)
 reviewed8URLs nhưngUSO16:00Openmissing, chưaadmitETF→CFDeconomics.
 Chưa challenge candidate/không job nền; [Goal cập nhật](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md#goal-cập-nhật--09112026)
-đã tạo thành công rồi được owner tạm dừng: status hiện hành `paused`, kế thừa
-lịch sử và các gate C1/C2; chưa mở batch EIA mới.
+owner đã tạo lại Goal, tool xác nhận `active`; kế thừa C1/C2 và lịch sử.
+Tiếp [FX quote-cost fixture](FX-QUOTE-COST-ADMISSION-PROTOCOL-20261109.md), chưa mở batch EIA economics.
 [Ownerreport,mục9–11](OWNER-EVIDENCE-REPORT-20261108.md) giải thíchedge/cost/data.
 
 Đọc tài liệu chủ đề trước, chỉ kiểm lại phần đổi/còn thiếu. Đây là chỉ mục chọn

@@ -1,12 +1,15 @@
 # Chiến dịch tìm ứng viên challenge — Goal mới, 08/11/2026
 
-**Đang thực hiện.** Owner giao mở rộng phương pháp, tìm ứng viên đủ bằng chứng
-cho challenge, đồng thời sửa correctness, cải tiến performance và dữ liệu khi
-có nhu cầu thực. Goal cũ đã được owner xóa; Goal cập nhật ngày 09/11 đã tạo
-thành công, tool trả status `active`. Sau đó owner tạm dừng Goal; trạng thái
-hiện hành đã được tool xác nhận `paused`, chưa mở batch EIA mới. Quyết định dừng B ở
-[campaign trước](CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md) là lịch sử, không là
-điều kiện tự hoàn tất Goal này. Giữ nguyên tài liệu/pins của các đợt đã freeze.
+**Đang thực hiện.** Owner ngày09/11 đã yêu cầu tiếp sau khi xóa Goal cũ;
+Goal mới tạo thành công, tool xác nhận `active`. Kế thừa C1/C2, toàn bộ trials/
+negatives/exposure; chưa có ứng viên challenge. Các trạng thái active/paused
+trong checkpoint cũ bên dưới là lịch sử, không là trạng thái Goal hiện hành.
+
+Đã rà workflow/skills hữu hạn: chưa cần cắt thêm gate/skill; compact current
+context với snapshot nguyên bytes, không sửa frozen data/results. Tiếp
+[quote-cost source fixture](FX-QUOTE-COST-ADMISSION-PROTOCOL-20261109.md) để
+áp dụng bài học NHP/Fury vào thiết kế own-code, không clone hoặc mua EA.
+EIA giữ calendar/endpoint unknown; không mặc định10:30 cho 2019/2022.
 
 ## Goal cập nhật — 09/11/2026
 
