@@ -1,4 +1,13 @@
-# Issues và thông tin agent
+# GitHub workflow của Naqex
+
+**Branch đúng việc → commit → push → PR → CI/review → merge → dọn branch.**
+[Hướng dẫn branch/PR](BRANCHES.md) giữ tên nhánh, base/worktree, bảo vệ nhánh,
+đồng bộ nhiều repo và điều kiện dọn. Issue và metadata agent ở dưới;
+[skill hiện có](../../.agents/skills/github-issue-workflow/SKILL.md) áp dụng
+cả vòng Git này, không chỉ lúc tạo issue.
+
+Agent chọn sửa tại chỗ/branch/worktree bằng decision table của hướng dẫn;
+sau merge đã được giao quyền, tự thực hiện closeout và dọn branch đủ điều kiện.
 
 Issue inbox: [Naqex/workspace](https://github.com/Naqex/workspace/issues).
 Ghi rõ repo sở hữu code trong từng issue; PR nằm ở repo đó. PLAN/ledger hiện hành
@@ -34,6 +43,18 @@ fix(notes): retain edits while closing
 AI-Tool: Codex
 AI-Model-Requested: unknown
 ```
+
+Hai dòng phải cùng một trailer block, không có dòng trắng ở giữa. Với Git CLI:
+
+```powershell
+git commit -m "docs: lam ro quy trinh branch" --trailer "AI-Tool: Codex" --trailer "AI-Model-Requested: unknown"
+python tooling/github-workflow/check.py --commit HEAD
+```
+
+Dùng hai flag `--trailer`, hoặc body file giữ đúng block; không dùng hai `-m`
+riêng cho hai dòng metadata vì Git sẽ tách thành hai đoạn. Không sửa lịch sử
+đã chia sẻ chỉ để chữa metadata cũ; ghi giới hạn lịch sử và dùng định dạng
+đúng từ commit tiếp. Validator phải từ chối block thiếu cặp.
 
 Ghi ID gốc được runtime/config cung cấp; không đoán model. `unknown` hợp lệ.
 Human-only và thao tác formatter thuần túy không cần trailers. Nhiều model tham

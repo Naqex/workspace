@@ -19,7 +19,7 @@ Khi user giao `planning/WORKSPACE-NEXT-STAGE-PLAN.md`, đọc profile và mọi 
 
 ## Trading Workspace / điều phối agent
 
-Khi triage, triển khai hoặc bàn giao issue, dùng `.agents/skills/github-issue-workflow/SKILL.md`.
+Khi quản lý branch/commit/push/PR/cleanup hoặc triage/bàn giao issue, dùng `.agents/skills/github-issue-workflow/SKILL.md`.
 Quy ước issue và metadata commit/PR nằm ở `tooling/github-workflow/README.md`;
 task nhỏ sửa ngay không cần issue riêng.
 

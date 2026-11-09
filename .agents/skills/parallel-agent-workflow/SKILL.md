@@ -15,6 +15,11 @@ owned files, exclusions, acceptance, output receipt and runtime/port allocation.
 Shared registries/copy files need one writer; other agents send that owner their
 required changes. Separate files still share a Git index in one checkout.
 
+Choose isolation using [Git branch/worktree decisions](../../../tooling/github-workflow/BRANCHES.md#agent-chọn-sửa-tại-chỗ-branch-hay-worktree):
+actual concurrent writers or a preserved checkout need separate worktrees;
+read-only lanes or one serialized integrator do not need one branch per agent.
+Worktrees still share external runtime/data resources unless explicitly isolated.
+
 Put long specifications in a durable brief file and pass its path. Include the
 entrypoint and required references in that brief; do not assume the whole spawn
 message survived. Ask the agent to report missing inputs before editing.

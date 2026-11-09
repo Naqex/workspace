@@ -1,6 +1,10 @@
 # Reviewed historical false positives: source/commit SHA hashes, UI token hashes,
 # and deterministic co04 local test-fixture token IDs. Exact fingerprints only.
 # No path-wide or rule-wide exemption.
+# Reviewed 2026-11-09: prose about a failed cache key and idempotency keys.
+# These exact historical lines contain no credential or assignment; see Git workflow receipt.
+c92297abedccbb67ed8637dc1df5f0d997299139:planning/CURRENT-CONTEXT.md:generic-api-key:12
+e69729bc5388d55404dfeaced36a7e57fcf6ff51:planning/checkpoints/ai-integrations-20261031/RECEIPT.md:generic-api-key:1027
 1820ac197b23dda2df42db5614fc221958426829:planning/checkpoints/workspace-next-stage/UI-ECOSYSTEM-PRESENTATION-STATE-2026-09-28/receipt.json:generic-api-key:31
 1820ac197b23dda2df42db5614fc221958426829:planning/checkpoints/workspace-next-stage/UI-ECOSYSTEM-PRESENTATION-STATE-2026-09-28/receipt.json:generic-api-key:32
 974d6c0f74dda996e772548d20d8470a47a41e94:planning/mt5-tradingview-backtester/research/foundation-validation/20260921T115933Z-315e8ddd/artifacts/PRODUCT-FOLLOWUP-validation-r1.json:generic-api-key:37

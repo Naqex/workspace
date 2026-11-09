@@ -74,6 +74,7 @@ flowchart LR
 | Tìm code và tài liệu bằng Xerj local | [Search tooling](tooling/search/README.md) |
 | Học trading | [Education](education/README.md) |
 | CI, version, release và đóng góp | [Contributing](CONTRIBUTING.md) |
+| Đặt tên branch, commit/push, PR và dọn branch | [GitHub workflow](tooling/github-workflow/README.md) |
 | Quyền sử dụng và thương mại | [License](LICENSE) · [Chính sách](docs/licensing.md) |
 
 README chỉ điều hướng. PLAN giữ scope; ledger/checkpoint do PLAN chỉ định giữ

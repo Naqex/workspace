@@ -1,12 +1,33 @@
 ---
 name: github-issue-workflow
-description: Triage, implement and hand off tracked GitHub issues in Naqex Workspace. Use for recurring, deferred or multi-session work; skip chat advice and small immediate edits that only need a commit or PR.
+description: Manage Naqex Git and GitHub work across issues, scoped branches, commits, pushes, PRs and safe branch cleanup. Use for implementation handoffs or repository synchronization; not trading execution, deployment or general chat advice.
 ---
 
-# GitHub issue workflow
+# GitHub workflow
 
 Read [the repository conventions](../../../tooling/github-workflow/README.md).
 Resolve the owning repository and its AGENTS before acting.
+
+For branch creation, commit/push, cross-repo synchronization or cleanup, read
+[branch lifecycle](../../../tooling/github-workflow/BRANCHES.md). Reuse the
+branch/PR for the same task, name new branches `codex/<short-english-task>`, check worktree
+ownership, publish child commits before workspace pins, and distinguish push,
+CI and merge. Cleanup requires evidence for the actual target branch; a past
+merged PR does not cover later commits on the same branch. Preserve protected
+branches and integration consumers. Keep this existing skill name for callers.
+Keep owner-facing explanations in Vietnamese; do not rename shared branches
+solely to translate them while PRs, worktrees or other consumers still use them.
+
+For AI coding, use the guide's decision table: continue the same task branch,
+isolate independent work, and add worktrees only for actual concurrent writers
+or preserved checkouts. After an authorized merge, perform the post-merge
+closeout automatically within scope: reconcile exact SHAs, sync the base,
+check consumers/dependent PRs, clean eligible refs and update intended pins.
+Keep blocked cleanup explicit; do not turn a merge recommendation into authority
+or create a background cleanup service.
+
+Small edits may skip issue creation and use the Git lifecycle directly.
+When the task needs issue tracking, continue below:
 
 1. Decide whether the request needs tracking. Search open and closed issues in
    `Naqex/workspace` before creating one. Link an existing PLAN/ledger; preserve
