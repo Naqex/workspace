@@ -6,6 +6,13 @@ negatives/exposure; chưa có ứng viên challenge. Các trạng thái active/p
 trong checkpoint cũ bên dưới là lịch sử, không là trạng thái Goal hiện hành.
 
 Workflow đã rà, giữ đường gọn hiện hành; không thêm skill/framework.
+Checkpoint mới nhất10/11: [ECB archived source](ECB-ARCHIVED-SURPRISE-SOURCE-RESULTS-20261110.md)
+terminal/reviewed, 3×308dates/1.709numericcells/8focus đủ. Structure đạt nhưng
+intraday availability/access/causal cleaning chưa admit cả4dates; tickpilot
+false giữ, khôngfinancialtrial/job nền. Source2,593s/3GET/review87,052s/0GET.
+Catalogue92/58/C1C2chưađạt/Goalactive; khôngretryunchangedpackage, relaxsource
+hoặccostgrid. Tiếp primary-supported mechanism khác hoặc materialgap cósource mới.
+
 Checkpoint10/11mới: [R092pairformation](INDEX-PAIR-FORMATION-RESULTS-20261110.md)
 source503datesđủ nhưng fixedlineargatekhôngđạt:2018p0,55272/2021p0,41111.
 1.006pricechecks/8Decimalstats/6mutations,khôngbot/PnL. Source96months/
