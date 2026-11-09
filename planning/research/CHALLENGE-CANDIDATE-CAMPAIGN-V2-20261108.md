@@ -2,9 +2,29 @@
 
 **Đang thực hiện.** Owner giao mở rộng phương pháp, tìm ứng viên đủ bằng chứng
 cho challenge, đồng thời sửa correctness, cải tiến performance và dữ liệu khi
-có nhu cầu thực. Goal từngactive, hiệnUIpaused; owner đã giao task tiếp09/11. Quyết định dừng B ở
+có nhu cầu thực. Goal cũ đã được owner xóa; Goal cập nhật ngày 09/11 đã tạo
+thành công, tool trả status `active`. Quyết định dừng B ở
 [campaign trước](CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md) là lịch sử, không là
 điều kiện tự hoàn tất Goal này. Giữ nguyên tài liệu/pins của các đợt đã freeze.
+
+## Goal cập nhật — 09/11/2026
+
+Đích giữ nguyên: ít nhất một ứng viên đủ bằng chứng để đề xuất challenge,
+ưu tiên rủi ro thấp và từng program FTMO/The5ers; đồng thời quy trình phải
+được kiểm/sửa và bàn giao owner rõ ràng (C1/C2 ở dưới). Goal mới kế thừa
+checkpoint 685e222, không reset trials/negatives/exposure hoặc dữ liệu đã xem.
+
+| Ưu tiên tiếp | Câu hỏi cần giải quyết | Đầu ra trước khi đi tiếp |
+|---|---|---|
+| 1. Gold R043 | Funding/spec đã mô hình hóa có phù hợp công cụ và program đích không? | Nguồn, units, điều đã biết/chưa biết; quyết định tiếp/gác/cần dữ liệu. Chưa mặc định giảm phí hoặc sửa holding để cứu kết quả |
+| 2. Cơ hội EIA | Giờ công bố, exceptions biết trước và giá vào/ra có đủ căn cứ không? | Admission/protocol trước economics; chưa đủ thì giữ unknown, không default giờ hoặc chuyển ETF→CFD ngầm |
+| 3. Ứng viên qua sàng lọc | Có lợi thế bền sau phí và hợp giới hạn quỹ/thời gian không? | Kiểm định/OOS/selection/prop/prospective theo đúng cửa; chỉ phân tích sâu survivor/near-miss có lý do |
+| 4. Hậu kiểm mỗi đợt | Có lỗi hoặc nút thắt thực tế cần sửa không? | Logs/timing/decision, đối soát và cải tiến có evidence; reuse hệ thống đã có |
+
+Giữ phân rã nhiều tầng/mẫu số rõ theo báo cáo bên dưới; không thêm framework
+hoặc tuning mọi loser. Holdout, broker, tài khoản/provider mới, phí trả tiền,
+migration/xóa dữ liệu và production giữ gate riêng. Chưa mua challenge hoặc
+khởi động batch mới chỉ từ việc tạo Goal. Goal chỉ hoàn tất khi thật đạt C1/C2.
 
 ## Checkpoint hiện hành — 09/11/2026
 
@@ -19,8 +39,8 @@ trên Goldretained,30books/439cases/Fractionreview, khôngtuning; skill D0→D1�
 đã kiểm/dedup;actualreleasehours chưaverified. Catalogue vẫn81/58, khôngnewpolicy.
 
 Owner giao thực thi[mechanism-first plan](MECHANISM-FIRST-EXECUTION-20261109.md)
-sauđúc kết. GoalUIvẫnpaused, khôngclaimđãresume;tasklượt đãthực thi,mụctiêu
-C1/C2chưađạt. Catalogue81records/58policy-modelversions/25native/9controls;
+sauđúc kết. Lượt đó hoàn tất khi Goal cũ đang paused; hiện Goal mới đã active
+như ghi ở trên, mục tiêu C1/C2 chưa đạt. Catalogue81records/58policy-modelversions/25native/9controls;
 manualcensus80historicalIDs đủ, R081condition liênquanR080khôngindependentedge.
 [R081results](US500-INVENTORY-CONDITION-RESULTS-20261109.md):5focusedtests,
 503rowraw/Fractionreview/5mutations;knownstress2019−187,61/2022−407,44USD/unit,

@@ -13,7 +13,8 @@ Owner đã giao thực thi sau đúc kết09/11: đọc [mechanism-first plan](M
 218/242selectedresolved/24unknown;[R080](US500-EU-OPEN-COMPONENT-RESULTS-20261109.md)
 giữnegatives. [Oil/EIA sourcepilot](OIL-EIA-SOURCE-PILOT-RESULTS-20261109.md)
 reviewed8URLs nhưngUSO16:00Openmissing, chưaadmitETF→CFDeconomics.
-Chưachallengecandidate/khôngjobnền;GoalUIvẫnpaused,latestownertaskscopeđãthực thi.
+Chưa challenge candidate/không job nền; [Goal cập nhật](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md#goal-cập-nhật--09112026)
+đã tạo thành công, status `active`, kế thừa lịch sử và các gate C1/C2.
 [Ownerreport,mục9–11](OWNER-EVIDENCE-REPORT-20261108.md) giải thíchedge/cost/data.
 
 Đọc tài liệu chủ đề trước, chỉ kiểm lại phần đổi/còn thiếu. Đây là chỉ mục chọn

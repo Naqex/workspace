@@ -2,10 +2,17 @@
 
 Review 09/11/2026 · `REVIEWED-PARTIAL / RESUMABLE`.
 File chỉ điều hướng; PLAN/protocol/results giữ scope và evidence. Không là
-ledger hoặc permission broker. User đã giao tiếp việc sau đúc kết; Goal UI
-vẫn paused, không tự khai tool đã resume hoặc complete campaign.
+ledger hoặc permission broker. Theo yêu cầu cập nhật của owner ngày 09/11,
+Goal cũ đã được xóa và Goal mới đã tạo thành công với status `active`.
+Campaign và lịch sử thử nghiệm được kế thừa; C1/C2 chưa hoàn tất.
 
 ## Việc hiện tại: mechanism-first research
+
+Đã quay lại task lớn theo [Goal cập nhật](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md#goal-cập-nhật--09112026).
+Ưu tiên kiểm swap/spec của Gold R043 để quyết định có đáng kiểm tiếp; kế đó
+hoàn tất EIA release hours/PIT exceptions và endpoint admission trước batch
+kinh tế mới. Tối ưu kỹ thuật chỉ khi giải quyết lỗi hoặc nút thắt phục vụ
+nghiên cứu. Chưa có numerical job mới được khởi động tại checkpoint này.
 
 Lượt mới theo owner: [phân rã lời/lỗ nhiều tầng](research/HIERARCHICAL-PNL-ATTRIBUTION-20261109.md)
 đã tạo 861 node / 30 sổ / 439 trường hợp lệnh–chi phí từ sealed Gold.

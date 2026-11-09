@@ -2,8 +2,9 @@
 
 Owner giao tổng hợp và thực thi09/11, sau [giải thích mục9–11](OWNER-EVIDENCE-REPORT-20261108.md).
 Đây là scope thực thi lượt mới thuộc [campaignv2](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md),
-không reset lịch sử hay tạo task authority mới. Goal UI hiện paused; lời giao
-mới cho phép công việc này tiếp tục, không giả tool đã đổi Goal thành active.
+không reset lịch sử hay tạo task authority mới. Khi lượt này bắt đầu Goal cũ
+đang paused. Sau yêu cầu cập nhật của owner ngày 09/11, Goal mới đã tạo với
+status `active`; ưu tiên hiện hành ở campaign v2, kế thừa bằng chứng bên dưới.
 
 ## Công việc và acceptance
 
@@ -52,7 +53,7 @@ cataloguebeforebytes vàaffectedIDs; khôngcoiplanđãchỉnhnarrativelàfrozenr
 |Nextboundedtask|Đăng ký EIAcalendar/PITexceptions và endpointsemantic revision trước history; kiểmtargetcosts. Không tựthay16:00Open trongpilotcũ|
 
 Haiđợttrảlờicâuhỏiriêng, khôngchứngminhmọicơchếinventory/eventđềuvôdụng.
-Mục tiêucampaignchưađạt, không đánh dấucomplete hoặc tựresumeGoalUI.
+Mục tiêu campaign chưa đạt; trạng thái Goal mới active không phải chứng nhận C1/C2.
 
 Không đổi verdict cũ hoặc hạ gate để cówinner; dataunknown khác economicnegative
 và khác prioritygatefail. Thresholds của triage là heuristic đã đăng ký, không
