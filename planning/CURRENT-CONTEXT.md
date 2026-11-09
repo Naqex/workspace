@@ -8,6 +8,19 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 ## Việc hiện tại
 
+- [R086 FOMC price momentum](research/US500-FOMC-PRICE-MOMENTUM-RESULTS-20261109.md)
+  đã terminal/reviewed:32books/256cases;net cơ sở2019+60,55/2022+151,62USD/unit,
+  stress−63,33/−14,66 nên không qua gate.126mốc/252rawsideinputs đủ;250raws
+  reuse+2tailGETs. Sourcefinalprogress vượt180s được giữfailure/recoveryreceipt,
+  khôngrerun;economics0,665s/review0,314s.86records/58versions, chưa challenge.
+  Publictarget-index funding/spec đãrà, thiếu exactaccountpackage nên chưa
+  repricing; chỉ mở lại khi có source mới. Tiếp method/source admission cơ hội
+  khác; không fee0/horizon/lookbackgrid cứu outcome hoặc lặp publicpages.
+- [FOMC source review](research/FOMC-SURPRISE-SOURCE-RESULTS-20261109.md):
+  historicalsource pin2024/359rows có1extra2024row đãquarantine/exposure;
+  16focus/240cells reviewed nhưng không intraday-known-at/accessproof.
+  [Stock residual](research/RESIDUAL-REVERSION-METHOD-ADMISSION-20261109.md)
+  đã đọc fullmethods; deferred universe/PIT/actions/hedge/program/cost, chưaPnL.
 - Rà workflow hữu hạn đã xong: audit workspace/Trader 0 errors/warnings;
   16 repo skill entrypoints có vai trò riêng, 76 local links hợp lệ. Chưa có
   lý do gộp/xóa thêm skill hoặc thêm framework. Chi tiết tại
@@ -39,15 +52,15 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
   2/4blockprimaryâm;gác exactrecipe. Primary625lượt mới chỉ+204,25USD/100k
   notional, chưa SL/account/prop/OOS/forward.12.402.580newfields và139old days
   reuse;calendarcrossyear sửa trước quotes, failure giữ. Source+consumer22phút07s,
-  không còn job. Lát tiếp: [residual-reversion admission](research/RESIDUAL-REVERSION-METHOD-ADMISSION-20261109.md),
-  fullmethod/data/cost feasibility trước recipe, không mặc định USstock→FX/index
+  không còn job. [Residual-reversion admission](research/RESIDUAL-REVERSION-METHOD-ADMISSION-20261109.md)
+  đã rà và deferred như trên, không mặc định USstock→FX/index
   hoặc tiếp Tokyo grid. Không khôi phục R065 đã gác chỉ để cứu outcome.
 
 ## Bằng chứng nghiên cứu cần kế thừa
 
 | Lát | Kết luận / bước tiếp |
 |---|---|
-| Catalogue | 85 hồ sơ / 58 policy-model versions / 25 native / 9 controls; [mechanism plan](research/MECHANISM-FIRST-EXECUTION-20261109.md). Component/biến thể không tự là edge độc lập |
+| Catalogue | 86 hồ sơ / 58 policy-model versions / 25 native / 9 controls; [mechanism plan](research/MECHANISM-FIRST-EXECUTION-20261109.md). Component/biến thể không tự là edge độc lập |
 | FX NYMA4 | [Conditional results](research/NY-FX-GAP-SCENARIOS-RESULTS-20261109.md) âm ở hai năm; strict annual vẫn unknown. Không đổi clock/SL/risk để cứu exact recipe |
 | Gold R043 | [Cost admission](research/GOLD-TARGET-COST-ADMISSION-20261109.md) và [loss diagnosis](research/SELECTIVE-LOSS-DIAGNOSIS-RESULTS-20261109.md): funding/spec đích chưa verified; không zero-swap hoặc rerun để cứu outcome |
 | R080/R081 | [EU-open](research/US500-EU-OPEN-COMPONENT-RESULTS-20261109.md), [conditional](research/US500-INVENTORY-CONDITION-RESULTS-20261109.md): known net âm, giữ unknowns, gác exact recipes |
