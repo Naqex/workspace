@@ -8,6 +8,17 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 ## Việc hiện tại
 
+- [R091 round-level](research/FX-ROUND-LEVEL-RESULTS-20261109.md) đã terminal/
+  reviewed, không retained:153/227primary opportunities, stress2019−1.466USD/
+  2022−2.779USDper100kEURnotional; mid+331/+102,5 nhưng spread420/838,5 đã
+  lớn hơn. 1.042geometry-dayrows/6.252cases/24books,7actualmutations;9tests và
+  positive/emptycalendar preflight đạt. Source43.764slots/43.583valid,
+  3.801reuse+39.963newfromoldraw/0GET,source112,389s/economic5,992s.
+  Catalogue**91/58**/C1C2chưađạt/Goalactive/khôngjobnền. Khôngoffset/hour/lag/
+  holding/feegrid cứu hoặc promote placebo2019. Tiếp supportedmechanism chưa
+  trùng catalogue hoặc materialsurvivorblocker được gỡ bằngsource mới;
+  reuse sealed M5packet, không reread oldraw để đọc lại kết quả.
+
 - [Gold SMA signal review](research/GOLD-SMA-SIGNAL-REVIEW-RESULTS-20261109.md)
   đã terminal exit0:30 old books/40.662 H4 evaluations/616 decisions,
   450 entries/166 strategy exits khớp oracle riêng;5 tests/6 actual mutations,
@@ -136,7 +147,7 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 | Lát | Kết luận / bước tiếp |
 |---|---|
-| Catalogue | 90 hồ sơ / 58 policy-model versions / 25 native / 9 controls; [catalogue](research/STRATEGY-CATALOGUE-20261107.md). Component/biến thể không tự là edge độc lập |
+| Catalogue | 91 hồ sơ / 58 policy-model versions / 25 native / 9 controls; [catalogue](research/STRATEGY-CATALOGUE-20261107.md). Component/biến thể không tự là edge độc lập |
 | FX NYMA4 | [Conditional results](research/NY-FX-GAP-SCENARIOS-RESULTS-20261109.md) âm ở hai năm; strict annual vẫn unknown. Không đổi clock/SL/risk để cứu exact recipe |
 | Gold R043 | [Cost admission](research/GOLD-TARGET-COST-ADMISSION-20261109.md) và [loss diagnosis](research/SELECTIVE-LOSS-DIAGNOSIS-RESULTS-20261109.md): funding/spec đích chưa verified; không zero-swap hoặc rerun để cứu outcome |
 | R080/R081 | [EU-open](research/US500-EU-OPEN-COMPONENT-RESULTS-20261109.md), [conditional](research/US500-INVENTORY-CONDITION-RESULTS-20261109.md): known net âm, giữ unknowns, gác exact recipes |

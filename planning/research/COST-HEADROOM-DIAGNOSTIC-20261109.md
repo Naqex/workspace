@@ -165,6 +165,14 @@ Phí challenge/reset và tỷ lệ chia payout thuộc bài toán kinh tế toà
 trình, không cộng vào commission từng lệnh nếu không có quy tắc phân bổ rõ.
 Quota/token AI, CPU, điện là chi phí vận hành riêng; không trộn vào trade PnL.
 
+**Bổ sung actual R091 cùng ngày:** [round-level results](FX-ROUND-LEVEL-RESULTS-20261109.md)
+có midprice+331/+102,5USD nhưng embeddedspread420/838,5USD trên153/227cơhội
+2019/2022. Sau riêng spread đã−89/−736USDper100kEURnotional, trước commission/
+slippage. Đây là near-zero gross opportunity không đủ bù quoted spread trong
+exact recipe; chưa đáng D1/feegrid hoặc giảmcommission để cứu. Không coi gross
+dương rất nhỏ là chứng minh expectededge, không đặt phí0 hoặc promote placebo.
+Catalogue91/58 sau R091, không đổi old verdicts hoặc raw/simulation.
+
 ### Đối chiếu và quyết định của lượt này
 
 Đọc lại [R088](EURUSD-POST-FOMC-RESULTS-20261109.md), [wrapper attribution](PRE-ECB-WRAPPER-ATTRIBUTION-RESULTS-20261108.md),

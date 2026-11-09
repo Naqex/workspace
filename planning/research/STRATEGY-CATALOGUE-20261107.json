@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-09",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 90,
+  "record_count": 91,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -12,13 +12,13 @@
   "counts": {
     "by_role": {
       "existing": 36,
-      "variant": 37,
+      "variant": 38,
       "new": 16,
       "component": 1
     },
     "by_readiness": {
       "implemented": 36,
-      "component_probe_not_retained": 28,
+      "component_probe_not_retained": 29,
       "implemented_not_retained": 5,
       "method_clock_review": 1,
       "component_probe_completed_no_priority": 3,
@@ -39,18 +39,20 @@
       "title": "Currency Orders and Exchange-Rate Dynamics",
       "url": "https://www.newyorkfed.org/research/staff_reports/sr125.html",
       "publication": "2001",
-      "review_depth": "official_research_summary",
-      "limitations": "Order/level mechanism; not our rolling thresholds.",
-      "checked_on": "2026-11-08"
+      "review_depth": "primary_pdf_introduction_and_clustering_quotation_method_excerpts_read",
+      "limitations": "Old singlebank conditionalorder data includingEURUSD; not current orderbook or causal retailCFD strategy profitability. R019 prior-day extrema were not this exact mechanism.",
+      "checked_on": "2026-11-09",
+      "method_review_locator": "FX-ROUND-LEVEL-METHOD-20261109.md"
     },
     {
       "id": "NY150",
       "title": "Stop-Loss Orders and Price Cascades in Currency Markets",
       "url": "https://www.newyorkfed.org/research/staff_reports/sr150.html",
       "publication": "2002",
-      "review_depth": "official_research_summary",
-      "limitations": "Stop cascade mechanism; not a compression recipe.",
-      "checked_on": "2026-11-08"
+      "review_depth": "primary_pdf_sectionsI-IV_relevant_method_excerpts_tablesV-VIII_and_page10_render_read",
+      "limitations": "Old DEM/JPY/GBP quote study; crossing classification uses15minfuture, not tradable exante entry at touch. R091 uses own causal M5 crossing and delayed fills, not replication.",
+      "checked_on": "2026-11-09",
+      "method_review_locator": "FX-ROUND-LEVEL-METHOD-20261109.md"
     },
     {
       "id": "BOC48",
@@ -3185,6 +3187,31 @@
       "control": false,
       "dispatch_authorized": false,
       "implementation_updated_on": "2026-11-09"
+    },
+    {
+      "id": "R091",
+      "title": "EURUSD first M5 round00/50 continuation",
+      "family": "round_level_order_clustering",
+      "role": "variant",
+      "parent_id": "R015",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "M5 jointquote sampling /60minholding",
+      "rule_sketch": "First observed Ask-up/Bid-down crossing of fixed50pipgrid NY09:05-14:50, decision+60s/entrynextM5/exit60min;25pipoffset placebo registered before outcomes.",
+      "data_requirements": "Reviewed old observed EURUSD raw2019/2022;43764M5slots/43583within60s/181late-missing retained;no2025+",
+      "automation_feasibility": "offline_component_only_no_account_policy",
+      "prop_operational_concerns": "Round primary midpositive but embeddedspread alreadywipes it; noSL/account/targetspec/prop/OOS/forward qualification.",
+      "source_ids": [
+        "NY125",
+        "NY150"
+      ],
+      "source_relation": "own_causal_EURUSD_era_feed_horizon_adaptation_not_paper_replication_or_independent_edge",
+      "next_action": "Park exactR091 after stressnegative bothyears; nooffset/hour/lag/holding/feegrid or controlwinner rescue. Reuse M5 source packet only on exactbindings; distinct supported mechanism or material survivor evidence before newtrial.",
+      "implementation_state": "component_reviewed_not_retained_no_account_policy",
+      "candidate_id": null,
+      "implementations": [],
+      "evidence_locator": "FX-ROUND-LEVEL-RESULTS-20261109.md",
+      "profitability_evidence": "1042geometry-dayrows/6252financialcases/24books reviewed; primary2019stress-1466USD/153opportunities,2022-2779/227;beforeexplicitcostsafterspread-89/-736USDper100kEURnotional.",
+      "dispatch_authorized": false
     }
   ],
   "automatic_dispatch": false,
