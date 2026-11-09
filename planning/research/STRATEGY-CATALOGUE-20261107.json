@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-09",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 88,
+  "record_count": 89,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -12,7 +12,7 @@
   "counts": {
     "by_role": {
       "existing": 36,
-      "variant": 35,
+      "variant": 36,
       "new": 16,
       "component": 1
     },
@@ -30,7 +30,8 @@
       "implemented_parked_conditional_2019_negative": 1,
       "implemented_parked_conditional_negative": 1,
       "implemented_not_retained_no_qualified_signals": 2,
-      "implemented_inconclusive_source_gap": 2
+      "implemented_inconclusive_source_gap": 2,
+      "component_probe_retained_for_robustness_review": 1
     }
   },
   "sources": [
@@ -415,6 +416,16 @@
       "limitations": "Discussion not current full paper; negative-jump interpretation differs from2018thesis. No combined predictor, execution proof or independent EURUSD edge.",
       "checked_on": "2026-11-09",
       "method_review_locator": "FX-POST-FOMC-METHOD-ADMISSION-20261109.md"
+    },
+    {
+      "id": "CAPORALE-PLASTUN-FX2020",
+      "title": "Daily abnormal price changes and trading strategies in the FOREX",
+      "url": "https://bura.brunel.ac.uk/bitstream/2438/20567/5/FullText.pdf",
+      "publication": "2020 online / 2021 journal volume",
+      "review_depth": "Primary full PDF sections3-4/equations1-8/Tables1-5; selected methodology page visually checked",
+      "limitations": "Paper CC BY4.0, not imported data/code. Paper ignores transaction costs; calibration n/server timezone insufficiently specified for exact replication. Own causal UTC20h/20weekday adaptation has explicit costs and preserves source-only revisions before outcomes.",
+      "checked_on": "2026-11-09",
+      "method_review_locator": "FX-ABNORMAL-DAY-METHOD-ADMISSION-20261109.md"
     }
   ],
   "records": [
@@ -3111,6 +3122,33 @@
       "implementations": [],
       "component_evidence": "EURUSD-POST-FOMC-RESULTS-20261109.md",
       "profitability_evidence": "Primary stress2019+1013/2022+545USDper100kEURnotional;matchedweek+718/+2441;primary-minus-matched+295/-1896.32resolvedwindows/192financialcases, not192independenttrades or accountPnL.",
+      "control": false,
+      "dispatch_authorized": false,
+      "implementation_updated_on": "2026-11-09"
+    },
+    {
+      "id": "R089",
+      "title": "EURUSD prior abnormal-day reversal component",
+      "family": "daily_shock_reversion",
+      "role": "variant",
+      "parent_id": "R013",
+      "readiness": "component_probe_retained_for_robustness_review",
+      "timeframe": "Priorweekday00-20UTC dayproxy versus20priorweekdays; Tue-Fri01-08UTC reversal",
+      "rule_sketch": "Mean/samplevariance20weekdays,k2 stricttails and matchingactualreturn sign; opposite nextday, no Friday-to-Monday transfer. Own20hproxyv2 after source-only Friday23h failure, fees5USD/4USDextraRTstressslip per100kEURnotional.",
+      "data_requirements": "2018/2019/2021/2022source partitions,1954deduplicatedtargets/1947within60s;521weekdayrows/27selected/0selectedunresolved. FullrawSHA and native/Fraction/reference target proof, originalruntime retained.",
+      "automation_feasibility": "offline_causal_fixed_notional_price_component_not_account_policy",
+      "prop_operational_concerns": "Positive2exposedyears with27opportunities only; noSL/pathrisk/sizing/account/equity/targetfees/prop/timefit/cleanOOS/forward/ownerhandover. Rarefrequency may be too slow for challenge.",
+      "source_ids": [
+        "CAPORALE-PLASTUN-FX2020"
+      ],
+      "source_relation": "Own causal daily-shock nextday transfer; related to price-reversion R003/R013, not independentedge or paper replication. Runtime/sourceclock and sample-triage amendments frozen before ownfeaturecounts or PnL.",
+      "next_action": "Register temporal robustness on consumed history with unchanged n/k/clock/side/cost, reuse exact2019/2022results and verifiedquotes. Only after robustness design supportedriskwrapper/nativeprop/timefit; no lot/n/k/time-grid rescue or own2025+.",
+      "implementation_state": "reviewed_positive_price_component_eligible_for_temporal_robustness",
+      "candidate_id": null,
+      "component_id": "eurusd-prior-abnormal-20h-day-reversal-utc-v2",
+      "implementations": [],
+      "component_evidence": "FX-ABNORMAL-DAY-RESULTS-20261109.md",
+      "profitability_evidence": "Primaryreference/stress2019+537/+493USDper100kEURnotional on11opportunities;2022+1026/+962on16. Oppositecostcontrolsnegative,null0;3126financialcases/12books not3126trades. NotaccountPnL or challengequalification.",
       "control": false,
       "dispatch_authorized": false,
       "implementation_updated_on": "2026-11-09"
