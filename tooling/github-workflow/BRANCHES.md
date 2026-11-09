@@ -5,6 +5,19 @@ Một công việc dùng một branch ngắn hạn. Commit, push và merge là b
 khác nhau. Quy trình source/docs này không cấp quyền deploy, release, migration
 hoặc broker. Issue và AI metadata theo [README](README.md).
 
+Mặc định lấy nhánh chính mới nhất làm base và đích PR. Giữa các công việc,
+checkout chính của agent trở về nhánh chính khi sạch và không còn consumer;
+bắt đầu việc đáng kể bằng branch ngắn, merge sớm sau một lát coherent đã kiểm.
+Không giữ một branch cá nhân để gom nhiều việc qua nhiều đợt hoặc chờ cả Goal
+nghiên cứu xong mới gộp. Sửa rất nhỏ trực tiếp trên main chỉ theo ngoại lệ ở bảng
+bên dưới, không thành mặc định cho AI coding.
+
+PR phụ thuộc có thể dùng base trung gian để review diff nhỏ. Đó là trạng thái
+trung gian: phải theo dõi đường gộp tiếp về nhánh chính và báo rõ nếu còn thiếu.
+"Không còn PR mở" hoặc merge vào branch trung gian không chứng minh mọi source
+đã có trên main. Trong task được giao trọn vòng hội nhập, khép việc tại nhánh
+chính; chỉ giữ đích khác khi owner đã chọn rõ phạm vi đó.
+
 ## Agent chọn sửa tại chỗ, branch hay worktree?
 
 “Sửa trực tiếp” mặc định là sửa trên **branch công việc hiện tại**, không phải

@@ -25,6 +25,10 @@ closeout automatically within scope: reconcile exact SHAs, sync the base,
 check consumers/dependent PRs, clean eligible refs and update intended pins.
 Keep blocked cleanup explicit; do not turn a merge recommendation into authority
 or create a background cleanup service.
+Default new task PRs to the repository's default branch and return the clean,
+owned checkout there after closeout. An intermediate-base merge is not final
+default-branch integration; track its remaining integration before claiming the
+authorized end-to-end merge task complete, or report the explicit owner scope.
 
 Small edits may skip issue creation and use the Git lifecycle directly.
 When the task needs issue tracking, continue below:

@@ -3,6 +3,73 @@
 Owner yêu cầu hoàn thiện hướng dẫn/skill sau khi khó hiểu danh sách branch.
 Đây là task Git đang được giao riêng; Goal nghiên cứu prop vẫn paused.
 
+## Hội nhập workspace về main theo owner — 09/11
+
+Owner đã giao rõ việc rà và gộp phần tồn về main sau khi xác nhận các merge
+trước mới dừng tại nhánh trung gian. Không coi số PR mở bằng0 là all-source
+integrated. Base remote main trước hội nhập:
+`d9e8389f0492ac9d03be85d5e55ad268f8ad1404`; source workspace đang dùng:
+`92fc58018a1ac65c09397ab2fb63e119b3a9c623`.
+
+Trước hòa giải có5commit riêng trên main và430commit riêng trên branch;
+diff từ merge-base gồm563files,66.117insertions/118deletions. Đây là lịch sử
+nghiên cứu và tooling đã có, không phải563file mới được viết trong lượt này.
+Nhánh ngắn `codex/integrate-workspace-main` giữ source đang dùng và merge
+main vào để bảo toàn cả hai parent, không rebase/squash/force-push lịch sử.
+
+### Review và giải quyết xung đột
+
+- Nhóm chính: planning/research279files; tooling/ai-engines189files; các
+  skill/context/CI/integration/config còn lại được rà theo owner. Không chạy
+  lại backtest, mở holdout hoặc sửa kết luận chiến lược khi làm Git.
+- Sáu text conflicts là phiên bản cũ của GitHub skill, workflowCI, AGENTS,
+  development guide, GitHub README và tests. So sánh hai stage cho thấy main
+  chưa có các cải tiến đã kiểm ở branch hiện hành; giữ các bản đầy đủ hiện có,
+  gồm paths integration mới, paired-trailer regression và CI shadow gates.
+- Conflict thứ7 là Trader gitlink. Giữ pin workspace đang dùng
+  `83731fc8b4d7f531225086422266f10396525631`, không tự thay bằng main-side
+  `e92d8d99b0936781f7acf67706c92726ab6830f2` hoặc Trader main mới. Hòa giải
+  source của repo Trader là task khác; không restart runtime/terminal.
+- Git báo thiếu object7ab579... khi thử tự merge submodule; không dùng thông
+  báo đó để xóa ref/worktree. Pin được chọn đã có trên remote Naqex/trader,
+  checkout sạch và khớp index. Giải quyết ở superproject bằng exact gitlink.
+- Kiểm bảo toàn tree với92fc580: mọi file source/research/config và cả8pin
+  giữ nguyên; trước ghi receipt chỉ có2delta mới là GitHub skill và branch
+  guide. Các commit riêng của main được giữ bằng merge parent, không bỏ history.
+- `.codex/config.toml` giữ cấu hình đã có: review policy, tool allowlist,
+  Context7 và local Paperclip MCP; không đổi secret/global permission hay
+  tuyên bố runtime tool mới được expose. Forks/pins/license giữ nguyên.
+
+### Quy trình sau hội nhập
+
+Nhánh chính là base/đích mặc định. Checkout agent trở về main giữa các việc
+khi sạch; việc đáng kể dùng branch ngắn, review/check rồi merge sớm. Sửa nhỏ
+trực tiếp main vẫn theo gate riêng, không mặc định direct-push. PR phụ thuộc
+được giữ base trung gian khi cần diff nhỏ nhưng phải ghi đường hội nhập còn
+lại; task trọn vòng không tự kết thúc ở nhánh trung gian. Giữ điều kiện không
+xóa branch/worktree có consumer và không thêm daemon dọn branch.
+
+### Kiểm chứng trước PR về main
+
+- `tooling/check_workspace.py`:9guides/8pins đạt;13tooling tests và5GitHub
+  workflow tests đạt. Check diff/metadata chạy trước publish.
+- Offline shadow suites:40tests đạt14,921s, dùng fixtures/mocks, không broker/
+  provider. Node owner/registered-products:5tests đạt; UI registry0errors.
+- Integration doctor:Paperclip/RD-Agent/TradingAgents/Hermes đều source-ready,
+  khớp origin/pin/license, không dirty. Không coi source-ready là runtime-ready.
+- Skill validator đạt; scoped13skills links0errors/0warnings; maintainer audit
+  0errors/0warnings,21skills;global12.279B,project10.073/65.536B,
+  reserve55.463B,combined22.352B. Khác byte count cũ do normalization LF khi
+  khôi phục exact Git blob, không đổi semantics AGENTS.
+- Required GitHub CI trên exact final head phải đạt trước merge; quyền repo
+  giữ strict status checks, enforce_admins và PR gate, không bypass.
+
+Receipt giữ scope/evidence; GitHub PR giữ head/merge SHA và trạng thái cuối.
+Sau merge kiểm ancestry của cả hai nguồn vào origin/main, fast-forward checkout
+chính, rồi chỉ dọn branch đã vào main và không còn PR/worktree/consumer.
+Giữ các worktree không thuộc lane này; không thêm commit sau merge chỉ để tự
+ghi merge SHA vào cùng PR. Goal nghiên cứu vẫn paused và issue10 vẫn OPEN.
+
 ## Owner duyệt merge và đổi quy ước tên branch — 09/11
 
 Owner giao merge các PR và xử lý issue đủ acceptance; không tự công nhận
