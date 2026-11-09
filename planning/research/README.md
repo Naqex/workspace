@@ -1,12 +1,20 @@
 # Tra cứu research đã có
 
+[R090 intraday shock continuation](FX-INTRADAY-SHOCK-RESULTS-20261109.md):
+521weekdayrows/44opportunities/3.126financialcases/12books reviewed;stress
+2019+592/2022−1.583USDper100kEURnotional,2022âmtrướcphí,khôngretained.
+5tests/84syntheticcases/9mutations và10actualmutations;sourcepilot122/122,
+full11.021slots/10.985valid,1.990reuse+9.031new. Fullsource112,748s/economic
+3,357s,0GET/broker/model,khôngjob. Catalogue90/58,C1C2chưađạt;tiếp distinct
+method/sourceadmission hoặc materialsurvivorblocker mới, khônglag/feegrid.
+
 [R089 temporalresults](FX-ABNORMAL-DAY-TEMPORAL-RESULTS-20261109.md) đãreviewed:
 13extensionyears164opportunities/stress+549USDper100kEUR nhưng8/13nămdương/
 2blocksâm, khôngretained. [Vol-scalediagnostic](FX-ABNORMAL-DAY-VOL-SCALE-DIAGNOSTIC-20261109.md)
 vẫn2blocksâm/7nămdương, khôngriskwrapperrescue. Data/samplegatesđạt;
 14.126slots/14.034valid,23.478cases/90booksreviewed, reuse521discoveryrows.
 Source701s cócontrolledcheckpoint/resume2010;economic12,357s,0GET/broker/model.
-89/58giữ,khôngjob. Tiếp causalwithin-daycontinuation method/sourceadmission,
+89/58 tạicheckpointđó;causalwithin-daycontinuation đãthựcthiởR090trên,
 khôngfutureCloseclassification/n/k/side/feegrid hoặcown2025+.
 
 [R089 FX abnormal-day results](FX-ABNORMAL-DAY-RESULTS-20261109.md):27selected

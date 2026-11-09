@@ -167,3 +167,7 @@ Tiếp admission **same-day causal abnormal-return continuation** từ primarypa
 Close tương lai rồi giả đã vào trước. Khác nextdayreversal và related với
 R007/R089, không independentedge đã chứng minh. Method/sourcefixture trước
 recipe/outcome, reuse dataset đãadmitted, khôngn/k/side/feegrid cứuR089.
+
+**Bước tiếp đã thực hiện:** [R090results](FX-INTRADAY-SHOCK-RESULTS-20261109.md)
+không retained trên2019/2022. Không resume lại gợi ý same-day ở checkpoint này;
+giữ exact R089 negative và chuyển theo entrypoint hiện hành của campaign.

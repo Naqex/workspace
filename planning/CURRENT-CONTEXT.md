@@ -8,6 +8,16 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 ## Việc hiện tại
 
+- [R090 hourly shock continuation](research/FX-INTRADAY-SHOCK-RESULTS-20261109.md)
+  đã terminal/reviewed, không retained:2019stress+592USD/18cơ hội,
+  2022−1.583USD/26cơ hội trên100.000EURnotional;2022mid đãâmtrướcphí.
+  521weekdayrows/3.126financialcases/12books reviewed,10actualmutations;
+  5focusedtests và84syntheticcases/9mutations đạt. Pilot122/122,fullsource
+  11.021slots/10.985within60s,36unavailablegiữ,1.990reuse+9.031mới/0GET.
+  Fullsource112,748s/economic3,357s/preflight0,275s,khôngjobnền. Catalogue90/58,
+  Goalactive/C1C2chưađạt. **Tiếp admission cơ chếkhác hoặc blocker material
+  của survivor khi cósource mới**, khônglag/hour/k/side/feegridcứuR090;
+  reuse targetpackets trướcthêmrawscan, chưa có recipe tiếp đượcfreeze.
 - [R089 temporalresults](research/FX-ABNORMAL-DAY-TEMPORAL-RESULTS-20261109.md)
   đãterminal/reviewed, **not_retained**:13extensionyears164opportunities,
   stress+549USDper100kEURnotional,8/13nămdương/2blocksâm. Data/sample gatesđạt,
@@ -19,9 +29,8 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
   Controlledcheckpoint2010/resume vàOSlockchặnsecondwriter đãkiểm, source701s/
   economic12,357s/diagnostic0,385s. Mọi handle4968/26808vàsessions80717/91023
   đãterminal;**khôngjobnền**. Catalogue89/58,C1C2chưađạt,Goalactive.
-  **Tiếp method/sourceadmission same-daycausal shockcontinuation** từpaperđãđọc,
-  không nhận diện shockbằngfutureClose hoặcgridcứuR089. RelatedR007/R089,
-  chưaindependentedge;reuse sourcepacket/metadata trướcnewrawscan.
+  Same-daycausal shockcontinuation đãthựcthi ởR090trên; đây làcheckpoint
+  trướcđó. Không nhận diện shockbằngfutureClose hoặcgridcứuR089.
 - [R089 FX abnormal-day results](research/FX-ABNORMAL-DAY-RESULTS-20261109.md)
   đãterminal/reviewed:521weekdayrows/3.126financialcases/12books;27selected
   opportunities,stress2019+493/2022+962USDper100kEURnotional,0selectedunknown.
