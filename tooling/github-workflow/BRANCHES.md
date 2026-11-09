@@ -81,6 +81,13 @@ tự merge hàng trăm commit để dọn tên. Rename branch đã chia sẻ c�
 worktrees, tracking và consumers; rename local không rename remote. Không
 đổi tên default branch hàng loạt hoặc để tên cũ/mới trùng trên GitHub.
 
+Với worktree tạo từ submodule, kiểm `git rev-parse --show-toplevel` khớp đường
+dẫn checkout trước khi stage/cleanup. `core.worktree` tương đối được kế thừa có
+thể khiến Git nhìn nhầm thư mục metadata và báo hàng loạt file bị xóa. Xác minh
+config origin; sửa `core.worktree` bằng `git config --worktree` chỉ cho checkout
+mới khi đã bật `extensions.worktreeConfig`, rồi kiểm lại source/worktree. Không
+stage danh sách xóa giả hoặc đổi shared/global config để chữa checkout khác.
+
 ## Một vòng công việc
 
 ```mermaid
