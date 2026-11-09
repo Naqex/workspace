@@ -11,6 +11,15 @@ context với snapshot nguyên bytes, không sửa frozen data/results. Tiếp
 áp dụng bài học NHP/Fury vào thiết kế own-code, không clone hoặc mua EA.
 EIA giữ calendar/endpoint unknown; không mặc định10:30 cho 2019/2022.
 
+### Resume checkpoint — workflow và quote-cost fixture
+
+[Quote-cost result](FX-QUOTE-COST-ADMISSION-RESULTS-20261109.md) đã terminal/review:
+4hours/8.747quotes, full43.735rawfields,8synthetic/5mutations,3,229s source+review.
+Chưa hypothesis/accountpolicy/PnL mới,81/58 giữ nguyên; không C1/C2/prop/edge.
+Tiếp method admission own-code từ primary rule/economic mechanism; không
+clone bot, tune fixture cutoff hoặc rescue exact NYMA4. EIA clock/endpoint
+vẫn unknown. Workflow đủ gọn, chưa cần thêm skill/framework hoặc profile.
+
 ## Goal cập nhật — 09/11/2026
 
 Đích giữ nguyên: ít nhất một ứng viên đủ bằng chứng để đề xuất challenge,

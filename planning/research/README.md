@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+[FX quote-cost admission, 09/11](FX-QUOTE-COST-ADMISSION-RESULTS-20261109.md):
+4giờ EURUSD/8.747jointquotes/43.735fields reviewed, source+review3,229s;
+chi phí tăng quanh rollover trong fixture, chưa chiến lược/edge/prop proof.
+Goal mới active; method admission own-code là bước tiếp.
+
 [Khảo sát bot trả phí, 09/11](PAID-EA-MARKET-REVIEW-20261109.md):
 6 sản phẩm; đã khảo sát sâu Night Hunter/Fury: record MQL5 và preset public
 NHP, Fury CORE có grid tùy chọn, tracker Fury vẫn 403. Chưa đề xuất mua;
@@ -24,7 +29,7 @@ giữnegatives. [Oil/EIA sourcepilot](OIL-EIA-SOURCE-PILOT-RESULTS-20261109.md)
 reviewed8URLs nhưngUSO16:00Openmissing, chưaadmitETF→CFDeconomics.
 Chưa challenge candidate/không job nền; [Goal cập nhật](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md#goal-cập-nhật--09112026)
 owner đã tạo lại Goal, tool xác nhận `active`; kế thừa C1/C2 và lịch sử.
-Tiếp [FX quote-cost fixture](FX-QUOTE-COST-ADMISSION-PROTOCOL-20261109.md), chưa mở batch EIA economics.
+[FX quote-cost fixture](FX-QUOTE-COST-ADMISSION-RESULTS-20261109.md) đã review; chưa mở batch EIA economics.
 [Ownerreport,mục9–11](OWNER-EVIDENCE-REPORT-20261108.md) giải thíchedge/cost/data.
 
 Đọc tài liệu chủ đề trước, chỉ kiểm lại phần đổi/còn thiếu. Đây là chỉ mục chọn

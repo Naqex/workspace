@@ -19,10 +19,11 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
   chứng minh exact executable/preset hoặc source ownership. Không mua/cài EA.
   Bài học áp dụng: kiểm chi phí từ joint quotes, SL/risk/account-wide exposure
   và timing thực thi; không suy ra logic vào lệnh đóng mã từ quảng cáo.
-- Lát tiếp đã đăng ký: [FX quote-cost fixture](research/FX-QUOTE-COST-ADMISSION-PROTOCOL-20261109.md).
-  Chỉ bốn giờ EURUSD quanh rollover của hai ngày winter/summer đã chọn;
-  kiểm nguồn/chi phí, không strategy/PnL/OOS/prop claim hoặc broker calls.
-  Sau khi có kết quả, đọc report cùng tên được research index dẫn tới.
+- [FX quote-cost fixture](research/FX-QUOTE-COST-ADMISSION-RESULTS-20261109.md)
+  đã thu/review4giờ,8.747quotes/43.735fields,8synthetic/5mutations;3,229s
+  source+review. Progress completed_reviewed, khôngjob nền. Chưa economics
+  hoặc strategy mới; bước tiếp method admission cho own-code có cơ chế rõ,
+  không clone EA hoặc tune cutoff từ fixture.
 
 ## Bằng chứng nghiên cứu cần kế thừa
 
