@@ -2,35 +2,25 @@
 
 **Đang thực hiện.** Owner giao mở rộng phương pháp, tìm ứng viên đủ bằng chứng
 cho challenge, đồng thời sửa correctness, cải tiến performance và dữ liệu khi
-có nhu cầu thực. Goal mới đã active. Quyết định dừng B ở
+có nhu cầu thực. Goal từngactive, hiệnUIpaused; owner đã giao task tiếp09/11. Quyết định dừng B ở
 [campaign trước](CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md) là lịch sử, không là
 điều kiện tự hoàn tất Goal này. Giữ nguyên tài liệu/pins của các đợt đã freeze.
 
 ## Checkpoint hiện hành — 09/11/2026
 
-[Consensus results](INDEX-CONSENSUS-RESULTS-20261109.md) đã terminal/reviewed:
-US500 primary1s stress2019/2022 −363,40/−370,05USD/unit; NASDAQ −611,10/−774,42.
-Cả hai không retained; 3.018rows/22.440rolecostcases kiểm, 5,32s producer+review
-nhờ parent reuse. Parent [paper-window](INDEX-PAPER-WINDOW-RESULTS-20261109.md)
-negative/3unknown vẫn giữ, không retune để cứu.
-Full source1.996hours/16.080.264ticks, canonical149.218sideOHLC exact sau sửa
-pilot-quarter omission; affected498hours,1.498reports/NASDAQeconomics exact reuse.
-3.018rows/29.850rolecostcases qua raw/Fractionreview. Không còn job phải đợi.
-Tiếp R080 [EU-open protocol](US500-EU-OPEN-COMPONENT-PROTOCOL-20261109.md)
-`2f04156`: source pilot8dates/32bars/192fields exact, chưa economic outcomes.
-Native-only source không fetch; clock/method và oilETF mapping gaps giữ tại
-[method](EU-OPEN-AND-OIL-METHOD-20261109.md). Catalogue80/58/25native/9controls,
-chưa challenge; source/raw/failed attempts giữ, không own2025+ hoặc broker.
-[Boundary pilot](INDEX-CASH-CLOSE-BOUNDARY-RESULTS-20261109.md) 14.847ticks/
-74.235fields/240sidebars exact,0conflict; không actual latency hoặc edge.
-[Performance](INDEX-TICK-REVIEW-OPTIMIZATION-RESULTS-20261109.md) inspect3,98×,
-scoped cached replay7,04×, fullpilotparity; không whole-history ETA. Không upgrade
-package, sửa raw/old collectors hoặc tạo thêm UI/DB/skill framework.
-
-[R076/R077 results](INDEX-REST-OF-DAY-RESULTS-20261109.md) giữ fail hai-year gate:
-995 resolved asset-days; US5002019 còn 1 unknown entry, NASDAQ2022 chỉ phí chuẩn
-positive. Chưa challenge, Goal active; catalogue 80 /58 /25 native /9 controls.
-Không rerun unchanged books/source fetch, repin manifests, own2025+ hoặc broker.
+Owner giao thực thi[mechanism-first plan](MECHANISM-FIRST-EXECUTION-20261109.md)
+sauđúc kết. GoalUIvẫnpaused, khôngclaimđãresume;tasklượt đãthực thi,mụctiêu
+C1/C2chưađạt. Catalogue81records/58policy-modelversions/25native/9controls;
+manualcensus80historicalIDs đủ, R081condition liênquanR080khôngindependentedge.
+[R081results](US500-INVENTORY-CONDITION-RESULTS-20261109.md):5focusedtests,
+503rowraw/Fractionreview/5mutations;knownstress2019−187,61/2022−407,44USD/unit,
+218/242selectedresolved/24unknown,khôngretained. GiữparentR080negative/unknown.
+[Oilpilot](OIL-EIA-SOURCE-PILOT-RESULTS-20261109.md)8URLs/35.280fields kiểm,
+USO16:00Openmissingbothdates, chưaadmitETF→CFDhistory/economics.
+Khôngjobnền. Next:EIAcalendar/PITexceptions/endpointsemanticregistration và
+costfit trướcnewhistory;khôngthêmfilters/cost/clockgridcứuR081.
+[Olderclosingresults](INDEX-PAPER-WINDOW-RESULTS-20261109.md) giữquarterfix/
+3unknown,16millionticks đãcó khôngthu lại. Broker/own2025+/paidprovider giữgate.
 
 ## Đích và cách biết đã đạt
 

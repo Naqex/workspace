@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-07",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 80,
+  "record_count": 81,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -12,13 +12,13 @@
   "counts": {
     "by_role": {
       "existing": 36,
-      "variant": 28,
+      "variant": 29,
       "new": 15,
       "component": 1
     },
     "by_readiness": {
       "implemented": 36,
-      "component_probe_not_retained": 19,
+      "component_probe_not_retained": 21,
       "implemented_not_retained": 5,
       "method_clock_review": 1,
       "component_probe_completed_no_priority": 1,
@@ -30,8 +30,7 @@
       "implemented_parked_conditional_2019_negative": 1,
       "implemented_parked_conditional_negative": 1,
       "implemented_not_retained_no_qualified_signals": 2,
-      "implemented_inconclusive_source_gap": 2,
-      "source_pilot_admitted_economic_registered": 1
+      "implemented_inconclusive_source_gap": 2
     }
   },
   "sources": [
@@ -336,6 +335,13 @@
       "limitations": "Official appendix fullEUopen23:30-03:30ET,baseline long futures;own CFD/calendar/M1 adaptation,not replication;conditional VIX inputs unavailable.",
       "checked_on": "2026-11-09",
       "source_type": "primary_publisher_and_official_appendix"
+    },
+    {
+      "id": "NYFED917-INVENTORY",
+      "title": "The Overnight Drift",
+      "url": "https://www.newyorkfed.org/medialibrary/media/research/staff_reports/sr917.pdf",
+      "checked_on": "2026-11-09",
+      "scope": "Inventory mechanism and price versus signedflow distinction;not CFD profitability proof."
     }
   ],
   "records": [
@@ -2785,23 +2791,50 @@
       "family": "equity_overnight_uncertainty_resolution",
       "role": "new",
       "parent_id": null,
-      "readiness": "source_pilot_admitted_economic_registered",
+      "readiness": "component_probe_not_retained",
       "timeframe": "NYprevious23:30to03:30exitdate;M1Open23:31/03:31proxy",
       "rule_sketch": "Unconditional BUY on regular declared cashdays;no VIX/ATR/threshold,calendar eligibility only;single window,opposite/nullcontrols.",
-      "data_requirements": "Fullfourquarter US5002019/2022 accepted source proof;8datepilot32sidebars/192rawM1fields exact;annual endpoint/census checks still required.",
-      "automation_feasibility": "offline_price_component_registration_only_not_account_or_execution",
-      "prop_operational_concerns": "No PnL yet;declared funding17NY and commission/slip not targetbroker proof;M1intervals not ticks/SL/equity/prop/OOS/forward.",
+      "data_requirements": "Full2019/2022fourquarters source reviewed;499planned/439resolved/60unknown nightwindows;M1proxy not tick/equity.",
+      "automation_feasibility": "implemented_offline_price_component_not_account_or_execution",
+      "prop_operational_concerns": "2019endpointcoverage76.71%;knownnetnegative bothyears;declaredcosts not targetbroker proof;no SL/equity/OOS/prop.",
       "source_ids": [
         "BOND-MURAVYEV-EUOPEN"
       ],
       "source_relation": "Primary-clock uncertainty-resolution mechanism,own CFD/calendar transfer after close-momentum negatives;not a clock rescue or independent futures replication.",
-      "next_action": "Implement US500-EU-OPEN-COMPONENT-PROTOCOL-20261109.md commit2f04156;preflight fullcalendar/fourquarters before annualcosts;no new fetch/own2025+/broker.",
-      "implementation_state": "economic_registered_not_implemented",
+      "next_action": "Park exact R080;R081 registered conditional derivative separately,not independent edge.",
+      "implementation_state": "reviewed_not_retained",
       "candidate_id": null,
       "component_id": "us500-euopen-2330-0330-price-component-v1",
       "implementations": [],
-      "component_evidence": "EU-OPEN-SOURCE-PILOT-RESULTS-20261109.md",
-      "profitability_evidence": "No economic outcomes,source admission only.",
+      "component_evidence": "US500-EU-OPEN-COMPONENT-RESULTS-20261109.md",
+      "profitability_evidence": "Knownsubsetreference2019/2022 -218.64/-393.38;stress -409.64/-641.38 USD per researchunit;not fullannual PnL.",
+      "control": false,
+      "dispatch_authorized": false,
+      "implementation_updated_on": "2026-11-09"
+    },
+    {
+      "id": "R081",
+      "title": "US500 prior closing-pressure conditional EU-open",
+      "family": "equity_inventory_reversal_price_proxy",
+      "role": "variant",
+      "parent_id": "R080",
+      "readiness": "component_probe_not_retained",
+      "timeframe": "Priorregularcash15:30open_to15:59close;parent23:31to03:31NYM1Open",
+      "rule_sketch": "BUY only after negative previous expected regular cash closing30 midpoint change;zero/positive/halfday abstain;unknown preserved.",
+      "data_requirements": "Accepted fullquarter2019/2022 canonical and rawproof;493eligiblepredictors allvalid;242selected/218resolved/24unknown.",
+      "automation_feasibility": "offline_price_component_implemented_not_account_or_execution",
+      "prop_operational_concerns": "Priceproxy not signedinventory;2019coverageunknown;knownnetnegative;no cleanOOS/SL/equity/targetprop.",
+      "source_ids": [
+        "NYFED917-INVENTORY"
+      ],
+      "source_relation": "Own causal proxy condition on R080;NYFed inventory mechanism,not signedvolume replication or independent edge.",
+      "next_action": "Park exact R081;distinct event source admission before new numeric;no side/clock/filter rescue.",
+      "implementation_state": "reviewed_not_retained",
+      "candidate_id": null,
+      "component_id": "us500-prior-close-negative-euopen-price-component-v1",
+      "implementations": [],
+      "component_evidence": "US500-INVENTORY-CONDITION-RESULTS-20261109.md",
+      "profitability_evidence": "Knownreference2019/2022 -97.61/-279.44;stress -187.61/-407.44 USD per researchunit;2019not fullannual.",
       "control": false,
       "dispatch_authorized": false,
       "implementation_updated_on": "2026-11-09"

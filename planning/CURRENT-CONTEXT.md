@@ -1,110 +1,47 @@
 # Current context — Naqex Workspace
 
-Review ngày 09/11/2026 · `REVIEWED-PARTIAL / COMPACTED-RESUMABLE`.
-File này giữ trạng thái hiện hành và đường đọc tiếp; không là task ledger,
-chứng nhận runtime, hoặc lịch sử từng job. Đọc đúng PLAN/receipt của việc được giao.
+Review 09/11/2026 · `REVIEWED-PARTIAL / RESUMABLE`.
+File chỉ điều hướng; PLAN/protocol/results giữ scope và evidence. Không là
+ledger hoặc permission broker. User đã giao tiếp việc sau đúc kết; Goal UI
+vẫn paused, không tự khai tool đã resume hoặc complete campaign.
 
-**Cập nhật sau checkpoint bên dưới, 09/11:** Goal đã **paused theo owner**,
-không tự tiếp tục discovery. [R080 results](research/US500-EU-OPEN-COMPONENT-RESULTS-20261109.md)
-đã terminal/reviewed; không retained, 439/499 windows resolved, 60 unknown.
-[Đúc kết owner, mục9](research/OWNER-EVIDENCE-REPORT-20261108.md#9-đúc-kết0911-vì-sao-chưa-có-ứng-viên-dữ-liệu-đã-đủ-lớn-chưa)
-giữ đánh giá nguyên nhân và quy mô dữ liệu. Các dòng active/chưa PnL bên dưới
-là checkpoint trước cập nhật này, không là quyền dispatch hoặc trạng thái Goal mới.
+## Việc hiện tại: mechanism-first research
 
-## Việc hiện tại: Goal mới tìm ứng viên challenge
+Đọc [task plan](research/MECHANISM-FIRST-EXECUTION-20261109.md) trước tiếp tục.
+Mục 1–4 và 7 đã thực thi trong phạm vi lượt này; mục 5–6 cần ứng viên qua
+sàng lọc nên chưa áp dụng. Chưa có
+ứng viên challenge. Không numerical/source job nền, không cần đợi/poll.
 
-Owner giao tìm ứng viên đủ C1/C2, chuẩn hóa dữ liệu và cải tiến có bằng chứng.
-Goal đang active; [campaign v2](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)
-giữ scope, quyết định B cũ không kết thúc chiến dịch mới. **Chưa challenge-qualified.**
+| Lát gần nhất | Trạng thái / bằng chứng |
+|---|---|
+| Gom cơ chế | Đủ 80 ID cũ trong 8 nhóm, không thiếu hoặc trùng. Danh mục hiện có 81 hồ sơ / 58 phiên bản policy-model / 25 native / 9 controls. R081 là biến thể liên quan R080, chưa phải edge độc lập |
+| R080 | [Kết quả EU-open](research/US500-EU-OPEN-COMPONENT-RESULTS-20261109.md): phần tính được âm; 439/499 cửa sổ có đủ giá, 60 chưa xác định; không giữ để phát triển bot |
+| R081 | [Kết quả có điều kiện](research/US500-INVENTORY-CONDITION-RESULTS-20261109.md): chỉ mua sau phiên trước đóng cửa giảm. Đủ 493 tín hiệu hợp lệ, chọn 242 giao dịch; 218 có đủ giá, 24 chưa xác định. Phí cao: 2019 −187,61 / 2022 −407,44 USD/đơn vị nghiên cứu trên phần đã biết. Gác bản này |
+| Dầu/EIA | [Pilot nguồn](research/OIL-EIA-SOURCE-PILOT-RESULTS-20261109.md): 8 raw URL, 35.280 trường được kiểm; 3 dữ liệu sửa giả bị chặn. USO thiếu giá mở nến 16:00 ở cả hai ngày, năm 2019 chỉ đủ 97,95% phút phiên tiền mặt. WTI đủ trong fixture; chưa chứng minh chuyển ETF→CFD |
+| Kỹ thuật | 5 test mới; kiểm raw/Fraction cho 503 dòng và 5 dữ liệu sửa giả. R081 chạy + review 8,599 giây; pilot dầu 2,567 giây. Chưa có bottleneck cần GPU/Rust/DB/RAG hoặc sửa raw |
+| Việc kế | Xác minh lịch và giờ phát hành EIA trong quá khứ; đăng ký cách lấy giá đầu/cuối và chi phí đích trước lịch sử/PnL mới. Không thêm bộ lọc cứu R081 hoặc ngầm thay giá mở nến 16:00 |
 
-Lát mới nhất: [R078/R079 consensus](research/INDEX-CONSENSUS-RESULTS-20261109.md)
-đã terminal/reviewed, cả hai không retained. Primary1s stress USD/unit2019/2022:
-US500 −363,40/−370,05; NASDAQ −611,10/−774,42. 3.018 rows /22.440 role-cost
-cases, 4 mutations reject; producer2,563s/review2,757s, không raw/source rerun.
-Selected firsthalf=primary là invariant, không impossible performance gate.
-Parent [paper-windowv2](research/INDEX-PAPER-WINDOW-RESULTS-20261109.md) và
-3unknown US5002019/60s vẫn giữ. Chưa challenge, Goal active.
+[Đúc kết owner](research/OWNER-EVIDENCE-REPORT-20261108.md),mục9–11,giữ nguyên
+nhân economics/transfer/quality/selection và giải thíchedge/conditionalentry.
+Dữliệugiá lớn không bằng sampletrades độc lập. Không dùng heuristicblockgate
+làm luậtquỹ hoặc tổngPnLdương làm certificate/passprobability.
 
-Full source1.996hours/16.080.264ticks đã thu/review, 80.401.320integer field checks;
-20hours/1.213.185fields qua Fraction riêng. 149.218commonM1sideOHLC exact,
-0conflict sau [quarter correction](research/INDEX-PAPER-WINDOW-SOURCE-CORRECTION-20261109.md).
-V1 reviewer copy pilot1/3 bỏ Q2/Q4 US500; raw economic review chặn wrong mask.
-Source viewv2 sửa498hours,1.498reports bytes exact; NASDAQ1.509economicrows reuse
-exact. Corrected economic review:3.018rows/29.850rolecostcases,6mutations reject.
-Không new fetch/raw rewrite; source network failure đã resume từ1.353prefix.
+## Reuse đã được kiểm
 
-[Boundary pilot](research/INDEX-CASH-CLOSE-BOUNDARY-RESULTS-20261109.md) đã terminal:
-8 giờ16:00–17:00 mới /14.847 ticks /74.235 fields /240 M1 side bars exact,
-32 targets có quote, 0 conflict. Reuse 8 giờ cũ15:00–16:00 đã review115.502ticks,
-không fetch lại. Chỉ archived quote availability, chưa broker latency/edge.
-Native package1.51.1/pins không upgrade, raw/frozen sources giữ nguyên.
+[Consensus](research/INDEX-CONSENSUS-RESULTS-20261109.md) R078/R079 và
+[rest-of-day](research/INDEX-REST-OF-DAY-RESULTS-20261109.md) R076/R077 đều gác.
+[Corrected cash-close](research/INDEX-PAPER-WINDOW-RESULTS-20261109.md) giữ
+3unknownUS5002019/60s,quartermaskfailure/correction và NASDAQexactreuse.
+Fullsource1.996hours/16.080.264ticks;149.218commonM1sideOHLCexact. Khôngthu/review
+lại16millionticks cho conditionalrule dùngcanonicalM1 ởwindowkhác.
+[Performance](research/INDEX-TICK-REVIEW-OPTIMIZATION-RESULTS-20261109.md) inspect
+3,98×/scopedcachedreplay7,04×,chỉworkloadđãđo. Metadata/hash không chứngminhedge.
 
-**Performance đã đo:** [integer tick/scoped pin checks](research/INDEX-TICK-REVIEW-OPTIMIZATION-RESULTS-20261109.md)
-khớp 577.510 fields / 960 M1 side OHLC / 64 locators và age; 32 actual mutations
-reject, 19 tests đạt. Inspect median 2,891 → 0,726 s (3,98×); Node cached replay
-12,799 → 1,819 s (7,04×), cùng export hashes; không full-history ETA.
-Giữ helpers mới cho future consumers, old collectors/oracle/raw giữ nguyên.
-**Tiếp R080:** [EU-open protocol](research/US500-EU-OPEN-COMPONENT-PROTOCOL-20261109.md)
-`2f04156` đã freeze trước outcomes, chưa implementation/numeric. Fixed BUY
-23:30→03:30 NewYork/exitdate, M1Open proxies23:31/03:31; no VIX/ATR/clockgrid.
-[Source pilot](research/EU-OPEN-SOURCE-PILOT-RESULTS-20261109.md) 8dates/
-32sidebars/192raw fields exact +3mutations, 4,042s/calls0, full-quarter loader.
-Chỉ fixture source admission, annual endpoints/census/fees/gap trước PnL.
-[Method/queue](research/EU-OPEN-AND-OIL-METHOD-20261109.md) giữ Cambridge clock
-và oil/EIAETF mapping gap; chưa chuyển USO result sang WTI CFD/bulk fetch.
-Không retune consensus negatives hoặc coi consumed2019/2022 là unseen.
-
-[R076/R077 rest-of-day review](research/INDEX-REST-OF-DAY-RESULTS-20261109.md)
-đã terminal: primary stress USD/unit 2019/2022 US500 −404,96 /−371,12;
-NASDAQ −536,99 /−17,80. US5002019 còn missing entry15:31 ngày23/12, tổng là
-known-partial; giữ unknown. NASDAQ2022 reference+232,20 nhưng stress âm.
-Gác exact components. 8 tests mới +11 regressions, 28 synthetic cases,
-full Fraction review: 1.006 rows /9.950 cost-role cases /18 mutations. Shared code
-`d1503ce` giữ R074/R075: 1.006 old rows/summaries exact; producer 19,237 s /review 14,132 s.
-
-Catalogue **80 records /58 policy-model versions /25 native /9 controls**;
-R076/R077 có thêm component revisions reviewed_not_retained, chưa account policies hoặc
-challenge-qualified. Goal active; source pilot không thêm policy version.
-R078/R079 đã gác; R080 economic registered/source pilot only. Không own2025+ /broker /new provider.
-
-[R075 recovery](research/US500-OVERNIGHT-REVERSAL-RESULTS-20261109.md) giữ v1
-failure/v2 frozen-source admission. Guard `748b9d9` chặn missing input/forged
-null hash; 4 actual source admissions không đổi, không repin old snapshots.
-R074/R075 negatives và [NYFX conditional](research/NY-FX-GAP-SCENARIOS-RESULTS-20261109.md)
-negative giữ nguyên; [strict FX annual N/A](research/NY-FX-PAIRED-LATENCY-RESULTS-20261109.md)
-không bị clear bằng conditional model.
-
-Private root `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/`;
-`execution-v1/index-consensus-components-v1/` giữ latest result/review;
-`us500-euopen-source-pilot-v1/` giữ pilot R080, chưa economic output.
-`execution-v1/index-paperwindow-tick-source-v1/` giữ full intake;
-`index-paperwindow-tick-review-v2/` là corrected source view;
-`index-paperwindow-components-v2-corrected1/` là economic result/review hiện hành.
-Old source-reviewv1/economicv2 giữ lỗi US500Q2/Q4, không dùng verdict đó.
-Mọi jobs terminal, không cần poll/resume lại. `index-closing-tick-calibration-v1/` giữ pilot;
-`index-restofday-components-v1/` giữ economic books/rows/diagnostic/status;
-raw ở existing `source-hour-cache-v1/`. Preflight stdin SyntaxError trước import
-đã giữ failure/script v2. Trader `83731fc8`, runtime/global config không đổi;
-repo source-transformations reference đã cập nhật/audit theo quarter correction.
-Không migration/xóa raw. [Data/retrieval review](research/AGENT-DATA-RETRIEVAL-20261108.md)
-giữ ownership, không cần vector DB mới.
-
-[R068/R069 ML](research/GOLD-ML-SL-LABELS-RESULTS-20261109.md) giữ0signalnegative,
-khôngthresholdrescue;[R067](research/GOLD-SILVER-FORMATION-RESULTS-20261109.md)
-giữformationnegatives. [Stock fixture](research/STOCK-INFORMATION-SOURCE-RESULTS-20261109.md)
-đãreviewnhưngvolume/adjustment/PIT/targetfit gaps;gácbulkstockhistory/PnL.
-The5ersstocks chỉBootcamp/ProGrowththeoFAQđọc09Nov;khôngtựđổiHighStakes.
-
-R065/R066 cũng đã gác theo conditional2019negative; exactunknowns vẫn giữ.
-Tra [R065](research/NASDAQ-OPENING5-BOUNDS-RESULTS-20261109.md) hoặc
-[R066](research/NASDAQ-NOISE14-RESULTS-20261109.md) khi cần, không replay hoặc
-archive chase không đổi chỉ vì source chưa complete. Chưa ứng viên challenge.
-
-Các kết quả trước và negatives tra [research index](research/README.md) hoặc
-campaignv2; không mở lại raw/numeric batch không đổi. [Data/retrieval review](research/AGENT-DATA-RETRIEVAL-20261108.md)
-đã xong trong scope, [search CLI](../tooling/search/README.md) dùng localindex
-để tìm tài liệu rồi đọc source; không cần vectorDB/service mới. Numerical
-artifacts có hash là nguồn cho số liệu, không lấy đoạn search làm kết quả.
+Private base `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/`:
+`execution-v1/us500-inventory-condition-v1/` và`oil-eia-source-pilot-v1/`
+giữlatestsavedproducer/reviewer/raw/seals/progress/events/result/review.
+`mechanism-census-v1/` giữmanualbucketcoverage/cataloguebefore/changedIDs.
+Oldattempts/frozenpins/raws giữnguyên, khôngrepin hoặc xóa negativeevidence.
 
 ## Baseline: đợt Goal trước đã kết thúc theo B
 

@@ -1,6 +1,10 @@
 # Danh mục nghiên cứu chiến lược — cập nhật09/11/2026
 
-80 hồ sơ: 47 có policy/model version được ghi trong danh mục (58 versions), 32 chưa có account policy và 1 risk component. Trong 58 versions có 25 native offline rules và 33 tooling/coarse/model versions; gồm 9 controls. R078/R079 là price components không retained, R080 mới source pilot/economic registered; không đếm thành account policies hoặc independent edges. **Chưa có bản nào challenge-qualified.**
+81 hồ sơ: 47 có policy/model version được ghi trong danh mục (58 versions), 33 chưa có account policy và 1 risk component. Trong 58 versions có 25 native offline rules và 33 tooling/coarse/model versions; gồm 9 controls. R080/R081 đã reviewed và không retained; price components không đếm thành account policies hoặc independent edges. **Chưa có bản nào challenge-qualified.**
+
+[Bản đồ cơ chế và task](MECHANISM-FIRST-EXECUTION-20261109.md) gom đủ80historicalIDs
+khôngtrùng/thiếu;R081 làconditionalderivative liênquanR080.8buckets cócontrols/
+ML/riskroles, không8provenedges. Historicalnegative/pins giữ nguyên.
 
 [JSON](STRATEGY-CATALOGUE-20261107.json) là cùng dữ liệu có cấu trúc; protocol/source giữ exactrecipes, không automatic dispatch/rejection hoặc broker authority.
 
@@ -91,7 +95,8 @@ freeze trước outcomes; old quarter-mask failure và corrected attempt đều 
 |R077|NASDAQ rest-of-day → last-half momentum|equity_close_momentum / R064|2019 âm,2022 chuẩn dương/stress âm;gác exact|0|[Review](INDEX-REST-OF-DAY-RESULTS-20261109.md); chưa account/prop/OOS|
 |R078|US500 firsthalf/ROD consensus|equity_close_momentum / R076|Hai năm âm sau phí, gác exact|0|[Results](INDEX-CONSENSUS-RESULTS-20261109.md); parent reuse, chưa account/prop/OOS|
 |R079|NASDAQ firsthalf/ROD consensus|equity_close_momentum / R077|Hai năm âm sau phí, gác exact|0|[Results](INDEX-CONSENSUS-RESULTS-20261109.md); không reverse mask rescue|
-|R080|US500 EU-open uncertainty resolution|equity_overnight_uncertainty_resolution|Source pilot đạt, economic registered/chưa PnL|0|[Pilot](EU-OPEN-SOURCE-PILOT-RESULTS-20261109.md), [protocol](US500-EU-OPEN-COMPONENT-PROTOCOL-20261109.md)|
+|R080|US500 EU-open uncertainty resolution|equity_overnight_uncertainty_resolution|Knownnetâm,2019coverage thiếu;khôngretained|0|[Results](US500-EU-OPEN-COMPONENT-RESULTS-20261109.md)|
+|R081|US500 prior closing-pressure conditional EU-open|equity_inventory_reversal_price_proxy /R080|Knownnetâm,selected2019coverage thiếu;gác exact|0|[Results](US500-INVENTORY-CONDITION-RESULTS-20261109.md);relatedvariant,chưaaccount/prop/OOS|
 
 
 ## Cách đọc và lịch sử các batch đầu

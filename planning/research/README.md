@@ -1,24 +1,13 @@
 # Tra cứu research đã có
 
-**Cập nhật sau checkpoint bên dưới:** Goal đã được owner tạm dừng09/11.
-[Đúc kết owner,mục9](OWNER-EVIDENCE-REPORT-20261108.md#9-đúc-kết0911-vì-sao-chưa-có-ứng-viên-dữ-liệu-đã-đủ-lớn-chưa)
-phân biệt economics/transfer/gaps/selection và quy môraw với mẫu kiểm định.
-[R080results](US500-EU-OPEN-COMPONENT-RESULTS-20261109.md) đã terminal/reviewed,
-không retained:439/499resolved,60unknown; chưa challenge. Không job mới được giao.
-
-Checkpoint 09/11: [consensus results](INDEX-CONSENSUS-RESULTS-20261109.md)
-đã terminal/reviewed, cả2không retained; 3.018rows/22.440rolecostcases, source
-reuse không fetch/replay. Tiếp [R080EU-open](US500-EU-OPEN-COMPONENT-PROTOCOL-20261109.md)
-đã protocol/sourcepilot8dates/192fields, chưa PnL. [Method/oilmapping](EU-OPEN-AND-OIL-METHOD-20261109.md).
-Parent [paper-window](INDEX-PAPER-WINDOW-RESULTS-20261109.md) giữ negatives và
-quarterfix; full16.080.264ticks đã có, không thu lại.
-[Implementation/recovery](INDEX-PAPER-WINDOW-IMPLEMENTATION-20261109.md)
-giữ scripts/fixtures/failures. [Boundary pilot](INDEX-CASH-CLOSE-BOUNDARY-RESULTS-20261109.md)
-đã source-reviewed; [benchmark](INDEX-TICK-REVIEW-OPTIMIZATION-RESULTS-20261109.md)
-inspect 3,98×, cached pin/decode replay 7,04×; không whole-history speed/edge.
-[R076/R077](INDEX-REST-OF-DAY-RESULTS-20261109.md) vẫn fail, US5002019 giữ 1 unknown.
-Catalogue 80 /58 /25 native /9 controls; Goal active, chưa challenge; own2025+/
-broker đóng.
+Owner đã giao thực thi sau đúc kết09/11: đọc [mechanism-first plan](MECHANISM-FIRST-EXECUTION-20261109.md).
+Đã gom80historicalrecords,thêmR081relatedvariant;catalogue81/58/25native/9controls.
+[R081conditional](US500-INVENTORY-CONDITION-RESULTS-20261109.md) reviewednegative,
+218/242selectedresolved/24unknown;[R080](US500-EU-OPEN-COMPONENT-RESULTS-20261109.md)
+giữnegatives. [Oil/EIA sourcepilot](OIL-EIA-SOURCE-PILOT-RESULTS-20261109.md)
+reviewed8URLs nhưngUSO16:00Openmissing, chưaadmitETF→CFDeconomics.
+Chưachallengecandidate/khôngjobnền;GoalUIvẫnpaused,latestownertaskscopeđãthực thi.
+[Ownerreport,mục9–11](OWNER-EVIDENCE-REPORT-20261108.md) giải thíchedge/cost/data.
 
 Đọc tài liệu chủ đề trước, chỉ kiểm lại phần đổi/còn thiếu. Đây là chỉ mục chọn
 lọc, không là danh sách task hoặc chứng nhận tài liệu còn đúng tới hiện tại.
@@ -28,8 +17,8 @@ Các mục cũ chưa được re-audit khi tạo chỉ mục ngày 05/11/2026.
 | Câu hỏi / từ khóa | Nguồn hiện có |
 |---|---|
 | Đầu/cuối phiên cùng hướng có giữ được sau phí không? | [R078/R079 results](INDEX-CONSENSUS-RESULTS-20261109.md), [protocol](INDEX-CONSENSUS-PROTOCOL-20261109.md): cả hai không đạt, full parent reuse, 5,32s producer+review; không chọn opposite mask rescue |
-| Cơ chế kế tiếp khác close-momentum; dữ liệu đêm có chưa? | [EU-open pilot](EU-OPEN-SOURCE-PILOT-RESULTS-20261109.md), [R080 protocol](US500-EU-OPEN-COMPONENT-PROTOCOL-20261109.md): 8dates/32sidebars/192fields exact, fixed23:30–03:30NY/M1proxies; chưa annual PnL hoặc challenge |
-| Paper dầu/EIA có chuyển thẳng sang WTI CFD được không? | [Method/mapping review](EU-OPEN-AND-OIL-METHOD-20261109.md): full acceptedUSOmethod, ETF/futures intraday mapping và historical releasecalendar gaps; chưa oilPnL/sourcebulk |
+| Chỉ trade sau closingpressure có cải thiện economics? | [R081results](US500-INVENTORY-CONDITION-RESULTS-20261109.md):knownnetâm,24selectedunknown,khôngretained;parent[R080](US500-EU-OPEN-COMPONENT-RESULTS-20261109.md)giữnguyên |
+| Paper dầu/EIA có chuyển thẳng sang WTI CFD được không? | [Pilotresults](OIL-EIA-SOURCE-PILOT-RESULTS-20261109.md),[protocol](OIL-EIA-SOURCE-PILOT-PROTOCOL-20261109.md):rawsourceđãkiểm,USO16:00Opengap/calendar/targetcostschưaadmitted;khôngbulk/PnL |
 | Source lỗi có phải thu lại từ đầu; lượt dài đã xong chưa? | [Results/recovery](INDEX-PAPER-WINDOW-RESULTS-20261109.md):1.996hours terminal, prefix1.353reuse; source-quarter fix chỉ498hours, phần đúng giữ; không còn job phải chờ |
 | V2 đã có edge/challenge chưa; framework có bắt lỗi không? | [Economic results](INDEX-PAPER-WINDOW-RESULTS-20261109.md), [correction](INDEX-PAPER-WINDOW-SOURCE-CORRECTION-20261109.md):rawreviewer chặn wrongquarter mask, corrected review đạt nhưng netgate cả2fail; không challenge |
 | Kiểm tick/pin có giảm thời gian mà giữ đủ validation không? | [Performance results](INDEX-TICK-REVIEW-OPTIMIZATION-RESULTS-20261109.md), [preregistered protocol](INDEX-TICK-REVIEW-OPTIMIZATION-PROTOCOL-20261109.md): 3 cặp A/B, full fields/OHLC/locators parity, 19 tests; helpers mới, không sửa raw/old collectors |

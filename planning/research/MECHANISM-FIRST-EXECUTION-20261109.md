@@ -7,6 +7,13 @@ mới cho phép công việc này tiếp tục, không giả tool đã đổi Go
 
 ## Công việc và acceptance
 
+**Cập nhật sau thực thi:** mục1–4 và7 đã hoàn tất trongscope lượt;5–6 chưa
+ápdụng vì chưa có economicsurvivor, không là taskfailed hoặcđược skip đểpromote.
+[R081results](US500-INVENTORY-CONDITION-RESULTS-20261109.md) và
+[oilsourcepilot](OIL-EIA-SOURCE-PILOT-RESULTS-20261109.md) giữ sốliệu/giới hạn;
+chưachallengecandidate. Khôngcònjob nền. Existing skills đãbao phủcausalrule,
+sourceadmission/qualification/retrospective, chưacầnthêm skill/framework.
+
 | Thứ tự | Công việc | Điều kiện hoàn thành / trạng thái khởi tạo |
 |---|---|---|
 |1|Gom toàn catalogue theo nguồn lợi nhuận, giữ parent/controls/variants|Đủ80IDs, không thiếu/trùng; bảng cơ chế không tự chứng minh độc lập thống kê|
@@ -16,6 +23,25 @@ mới cho phép công việc này tiếp tục, không giả tool đã đổi Go
 |5|Review survivor và dependency nếu có|Trước ghépportfolio cần alignednetreturns/jointloss/exposure; chưa cósurvivor không tính correlation để tìm cặp đẹp|
 |6|Prop qualification|Chỉ economicsurvivor mới đăng ký đúngprogram/risk/equity/timefit3/6/12m, costs/ticks/OOS/prospective/ownerhandover; chưa tựmua hoặc gửi lệnh|
 |7|Hậu kiểm và lưu|Phase/status/pins/failures/negative/decision; chỉ sửa bottleneck cóevidence; existing skills đủ, chưa cần framework/RAG/UI mới|
+
+Task2data/fees: numericalraw/canonical/proofs/seals giữnguyên, conditional
+reuseparentoutcomes; sourceunknown khôngthành0. Costwaterfall đượcđo/kiểm ở
+R081, khôngdoublecountspread. Officialfees đãrefresh09/11 ởownerreportmục10;
+exactaccount/historicalfunding vẫnunknown. Không giảslip0 hoặcghi declaredfee
+thànhverifiedbrokerfee. Task1censusprivate giữoriginalplanhash trướcstatusdelta,
+cataloguebeforebytes vàaffectedIDs; khôngcoiplanđãchỉnhnarrativelàfrozenreceipt.
+
+| Hậu kiểm | Kết luận / bước tiếp |
+|---|---|
+|Conditionalmask|493eligiblepredictors đủ,242selected;218resolved/24unknown;knownnetâm cảhai năm. Khôngthêm filter hoặcđảo side|
+|Data correctness|Oil8rawURLs/35.280fields+3mutationsreviewed;USO16:00Opengap giữ. Chưabulkfetch/PnL|
+|Performance|R081producer+review8,599s;oilpilot+review2,567s. KhôngcomparableA/Bspeedup,khôngtínhgiờresearch/code vào |
+|Dependency|Chưa đủsurvivors đểđoportfoliodiversification; correlationthấp nếu cóchưalàindependence |
+|Prop|Chưa đếnnativeSL/sizing/equity/timefit/cleanOOS/forward/ownerhandover. Khôngmualệphí hoặcgửilệnh |
+|Nextboundedtask|Đăng ký EIAcalendar/PITexceptions và endpointsemantic revision trước history; kiểmtargetcosts. Không tựthay16:00Open trongpilotcũ|
+
+Haiđợttrảlờicâuhỏiriêng, khôngchứngminhmọicơchếinventory/eventđềuvôdụng.
+Mục tiêucampaignchưađạt, không đánh dấucomplete hoặc tựresumeGoalUI.
 
 Không đổi verdict cũ hoặc hạ gate để cówinner; dataunknown khác economicnegative
 và khác prioritygatefail. Thresholds của triage là heuristic đã đăng ký, không
