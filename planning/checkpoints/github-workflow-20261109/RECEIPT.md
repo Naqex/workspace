@@ -109,3 +109,27 @@ Sau hai ngoại lệ exact, full history scan đạt exit0/0 findings. Positive
 control tạo chuỗi giả lập ngẫu nhiên offline trong thư mục tạm vẫn bị
 generic-api-key bắt (exit1/1 finding); chuỗi không cấp quyền dịch vụ nào,
 không được commit hoặc in ra. Không thay rule, exit code hoặc mức redact.
+
+## Bổ sung quyết định cho AI coding và closeout
+
+Owner hỏi tiếp về sửa trực tiếp/tách branch/gộp và tự dọn sau merge.
+Thêm decision table vào branch lifecycle, phân biệt branch với worktree và
+file isolation với runtime/data ownership. Skill GitHub tự gọi post-merge
+closeout khi merge/cleanup đã được giao quyền; parallel-agent skill dẫn về
+cùng bảng, không có rule/daemon cạnh tranh hoặc một branch mới mỗi agent.
+
+Đã kiểm GitHub trước chỉnh sửa: workspace #11, VI Dubber #1 và Quant Trading
+#1 đều open, mergeable/CLEAN và CI đạt tại head tương ứng `e17d058`, `d6f280b`,
+`52f6501`. Đề xuất gộp ba lát nhỏ; chưa tự merge từ câu hỏi tư vấn “có nên”.
+Workspace #11 vào base `codex/naqex-workspace-pin`, không vào main. Toàn bộ
+lịch sử chưa vào main của workspace/Trader vẫn cần review hội nhập riêng.
+Nếu #11 có commit mới từ bổ sung này thì phải chờ/check CI của HEAD mới,
+không dùng bộ check cũ để merge. Không resume Goal nghiên cứu đang paused.
+
+Positive walkthrough: sửa tiếp guide/CI cùng PR #11 giữ nguyên branch;
+merge đã có quyền → tự closeout. Negative walkthrough: nhiều agent chỉ đọc
+không sinh thêm worktree; checkout của lane khác đang ghi giữ nguyên; query
+“có nên merge” không mở authority hoặc tự xóa branch gắn worktree.
+Hai skill được validate/scoped-link-check đạt; GitHub workflow checker và
+diff check đạt. Maintainer audit vẫn 0 errors/warnings, 21 skills;
+project 10.160/65.536 B, reserve 55.376 B, combined 22.439 B.

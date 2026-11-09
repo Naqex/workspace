@@ -16,6 +16,14 @@ CI and merge. Cleanup requires evidence for the actual target branch; a past
 merged PR does not cover later commits on the same branch. Preserve protected
 branches and integration consumers. Keep this existing skill name for callers.
 
+For AI coding, use the guide's decision table: continue the same task branch,
+isolate independent work, and add worktrees only for actual concurrent writers
+or preserved checkouts. After an authorized merge, perform the post-merge
+closeout automatically within scope: reconcile exact SHAs, sync the base,
+check consumers/dependent PRs, clean eligible refs and update intended pins.
+Keep blocked cleanup explicit; do not turn a merge recommendation into authority
+or create a background cleanup service.
+
 Small edits may skip issue creation and use the Git lifecycle directly.
 When the task needs issue tracking, continue below:
 

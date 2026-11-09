@@ -6,6 +6,9 @@
 [skill hiện có](../../.agents/skills/github-issue-workflow/SKILL.md) áp dụng
 cả vòng Git này, không chỉ lúc tạo issue.
 
+Agent chọn sửa tại chỗ/branch/worktree bằng decision table của hướng dẫn;
+sau merge đã được giao quyền, tự thực hiện closeout và dọn branch đủ điều kiện.
+
 Issue inbox: [Naqex/workspace](https://github.com/Naqex/workspace/issues).
 Ghi rõ repo sở hữu code trong từng issue; PR nằm ở repo đó. PLAN/ledger hiện hành
 giữ scope và acceptance, issue dẫn về nguồn đó.

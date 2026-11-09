@@ -5,6 +5,30 @@ Một công việc dùng một branch ngắn hạn. Commit, push và merge là b
 khác nhau. Quy trình source/docs này không cấp quyền deploy, release, migration
 hoặc broker. Issue và AI metadata theo [README](README.md).
 
+## Agent chọn sửa tại chỗ, branch hay worktree?
+
+“Sửa trực tiếp” mặc định là sửa trên **branch công việc hiện tại**, không phải
+push thẳng vào nhánh chính. Chọn theo mục tiêu, mức cô lập và người đang ghi:
+
+| Tình huống | Cách làm |
+|---|---|
+| Sửa tiếp cùng task/PR: bug vừa phát hiện, CI, test, copy hoặc review feedback | Dùng tiếp branch/PR; không tạo branch vì sang lượt chat hoặc đổi agent |
+| Chỉ đọc code, review, research chưa sửa file | Đọc source hiện có; chưa cần branch/worktree |
+| Công việc độc lập, cần review/revert riêng hoặc thử hướng có thể bỏ | Branch mới từ đúng base; không trộn vào PR đang làm |
+| Một agent làm tuần tự, checkout sạch và không có worker phụ thuộc source hiện tại | Branch mới có thể dùng cùng checkout; chưa cần thêm worktree |
+| Nhiều agent thực sự ghi đồng thời hoặc cần giữ nguyên checkout có WIP/job đang dùng | Worktree riêng cho từng lane ghi độc lập, với ownership/path/output rõ |
+| Các agent chỉ đọc hoặc một integrator lần lượt áp diff | Có thể dùng chung checkout; một người sở hữu index/commit, không branch mỗi agent |
+| Sửa rất nhỏ khi đang ở main | Ưu tiên branch/PR ngắn; direct-main chỉ khi owner đã giao rõ, repo cho phép và checks vẫn đủ. Không dùng admin bypass |
+
+Worktree cô lập file/index, không tự cô lập database, port, runtime, cache,
+broker account hoặc output artifacts. Lane phải có path/state owner phù hợp;
+không tạo nhiều worktree cùng ghi vào một job. Khi hội nhập các lane, review
+diff và test chỗ giao nhau, không chỉ cộng các kết quả test riêng.
+
+Nếu đọc/sửa file ở repo con, thực hiện Git ở repo con. Không lấy branch của
+workspace để thay sự cô lập của project. Scope chưa đổi thì tiếp tục branch
+đang dùng, kể cả công việc kéo dài; tách theo đợt có thể review khi scope lớn.
+
 ## Tên branch dễ hiểu
 
 Codex tạo `codex/<viec-can-lam>`: chữ thường, không dấu, ngăn bằng dấu `-`.
@@ -82,6 +106,23 @@ flowchart LR
    merge, nghiệm thu hay deploy; không bypass CI. Sau merge, fetch và cập
    nhật checkout bằng fast-forward khi sạch/đúng owner; dọn theo điều kiện dưới.
 
+## Khi nào nên gộp?
+
+Gộp khi một lát thay đổi coherent đã xong: diff đúng scope, source/các interface
+đã review, checks bắt buộc đạt trên **đúng HEAD**, không conflict/material bug
+chưa giải quyết, dependency đã vào đúng base và task có quyền merge. Pin lại
+head SHA trước thao tác; HEAD/CI đổi thì kiểm lại phần bị ảnh hưởng.
+
+Không đợi toàn bộ Goal nghiên cứu hay cả sản phẩm hoàn tất mới gộp từng lát.
+Ngược lại, CI xanh không thay evidence của hành vi, scope, migration hoặc
+quyền merge. Những việc còn dang dở không bị gọi là hoàn thành để giảm branch.
+PR phụ thuộc gộp vào base đã chỉ định; gộp vào branch trung gian chưa là vào main.
+
+Nếu chưa có quyền merge từ lần giao trước, owner chỉ hỏi “có nên gộp?” thì
+đưa đề xuất cụ thể với PR/SHA/gates, không tự biến câu hỏi thành quyền merge.
+Khi đã được giao trọn vòng triển khai–merge,
+agent tự làm khi đủ điều kiện, không hỏi lại cho từng commit/PR cùng phạm vi.
+
 ## Nhiều repo trong workspace
 
 Commit/push repo con trước, rồi gitlink của workspace. Xác minh SHA con đã
@@ -119,6 +160,28 @@ của đúng branch sắp xóa về nhánh đích đó rồi dùng lại `-d`. K
 PR cũ merged không đủ nếu branch đã được dùng tiếp. `fetch --prune` chỉ bỏ
 remote-tracking refs đã mất trên server, không tự xóa branch GitHub. Auto-delete
 head branches là setting riêng cần được giao, không tự bật trên mọi integration.
+
+## Agent tự khép việc sau merge
+
+Trong phạm vi merge/cleanup owner đã giao, bước này là phần mặc định của
+skill GitHub, agent tự thực hiện khi khép task, không chờ owner nhắc:
+
+1. Đọc lại kết quả merge từ GitHub: head SHA đã merge, base và merge SHA.
+   Fetch base, kiểm source đã vào đúng đích; đừng chỉ dùng exit0 của lệnh merge.
+2. Kiểm mọi worktree/worker/WIP và PR head/base phụ thuộc như cửa cleanup ở
+   trên. Với checkout sạch của chính lane, chỉ chuyển về base sau khi xác minh
+   không còn consumer cần source cũ. Lane khác đang dùng thì giữ branch và ghi lý do.
+3. Dọn ref local/remote đúng tip khi đủ điều kiện; ghi tên/SHA và kết quả.
+   Không force-delete, xóa worktree đang dùng hoặc sửa dữ liệu/runtime để ép dọn.
+4. Khi repo con thay đổi, đối chiếu pin workspace theo đích đã giao; commit/PR
+   pin riêng nếu cần. Không tự nâng dependency khác hoặc reset pin theo main mới.
+5. Báo task đã merge vào đâu, checkout/PR/branch nào được giữ, việc còn lại.
+   Branch được giữ vì consumer không làm task mất kết quả đã nghiệm thu.
+
+Đây là tự động trong lượt agent có quyền làm Git, không job định kỳ tự quét
+repo khi không có agent. Reuse skill hiện có; chưa cần skill/daemon chuyên
+“xóa branch cũ”. Không tự bật auto-delete của GitHub trên toàn bộ repo: setting
+đó không kiểm các worktree và consumers local như quy trình này.
 
 ## Windows và báo cáo
 
