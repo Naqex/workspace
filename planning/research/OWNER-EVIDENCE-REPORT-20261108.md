@@ -470,3 +470,69 @@ Nguồn chính thức đọc09/11:
 Phí giao dịch mô phỏng tác động PnL tài khoản; phí mua challenge là khoản tiền
 owner trả riêng. Commission0 không bằng totalcost0. Khi đã dùng Bid/Ask cho
 fill thì không trừ spread lần hai; fee/funding/slippage phải đúng semantics.
+
+## 11. Chỉ tham gia lúc có lợi và nghiên cứu market mechanics09/11
+
+Owner dùng ví dụ1→10 để hỏi vì sao không chỉ giao dịch đoạn có edge. Diễn
+giải có hai khả năng, chưa mặc định owner muốn chọn winners hồi tố: chọn
+điều kiện trước entry, hoặc dừng khi đạt mốc lời. Không backtest mới/không
+resume Goal trong lượt tư vấn này.
+
+- Edge là expected net advantage có điều kiện, không bảo đảm sau đúng10lệnh
+  phải dương. Một sample dương/âm ngắn chưa chứng minh kỳ vọng tương ứng.
+- Rule conditional có thể hợp lý ngay cả khi unconditional rule âm. Ví dụ
+  giả định20%opportunities thuộcA có expectednet+3USD,80%thuộcB−2USD: giao
+  dịch tất cả có expectednet−1USD/opportunity; chỉ chọnA có thể+3USD/selected
+  trade nếu nhận diệnA bằng thông tin có sẵn trước entry và ước lượng đúng.
+  Không phải actualproject numbers hoặc đảm bảo nhận diện đượcA.
+- Biết lúc nào nên đứng ngoài là một phần policy. Regime/session/spread/news
+  eligibility là hypotheses cần cơ chế, data known-at và đăng ký trước new
+  outcomes; không quét filters trên cùngdata rồi gọi subgroup đẹp là newOOS.
+- Stoptrading ở target/profit/dailybudget là rule có thể kiểm để phù hợp prop.
+  Nó có thể thay pass/survival paths; không tự biến mọi âm-expectancy process
+  thành positiveedge. Phải giữ cả paths không chạm target, lỗ/vi phạm trước
+  target, costs và actualnextopportunities; không chọn điểm dừng sau khi xem.
+- Đính chính: không phải mọi bản đều totalnegative. R056 và GoldSMA có tổng
+  dương dưới assumptions riêng, nhưng chưa qualification; giữ lý do khác nhau.
+
+### Đang thử gì, khung nào?
+
+| Phạm vi theo protocols/results đã đọc | Khung tín hiệu/nguồn | Giai đoạn |
+|---|---|---|
+| EURUSD catalogue24versions | H1/H4 rules, observedBidAsk/ticksource; một số native survivors kiểm tick | Longscreen2010–2022; có các follow-up2023/24 đã consumed, không mặc định mọi version fulltick |
+| XAUUSD/Gold | H4trend/reversion/session rules; M1→H1/H4/coarse và nguồn khác tùy study | Longscreen/review2010–2024; SMA50k evidence cóannualresets, không continuous account |
+| US500/NASDAQ100 adaptations | Chủ yếuM1cashsession signals, một H4SMA probe; closingwindow tick checks riêng | Nhiều cơ chế mới chỉ2019/2022development; khôngfullhistorymọirecipe |
+| GBPUSD/AUDUSD; silver | FXH1pricecomponents; metalsrelativeformation | FXsource2010–24 cógaps; formation/source không equivalent fullbot/propqualification |
+| R080 mới nhất | FixedUS500EU-open, M1Open23:31→03:31NewYork, khôngVIXcondition |2019/2022consumed,439/499resolved; giữ60unknown |
+
+M1/H1/H4 là độ dài nến1phút/1giờ/4giờ, không mặc định thời gian giữ lệnh.
+Tick là từngquote update; test granularfills khác timeframe quyết định. Nhiều
+study cùng asset/year/source overlap, không cộng thành independent evidence.
+Own2025+ vẫn đóng; không bó hẹp mọi nghiên cứu vàoEURUSD hoặc mộtkhung duy nhất.
+
+### Cơ chế vận hành thị trường: có căn cứ để đổi trọng tâm nghiên cứu
+
+Nên đặt cause/effect và đúng data/product trước indicator recipes; điều này
+bổ sung phương pháp chứ không thay netcost/OOS/prop checks. Project đã thử
+một số fixing/open-close hypotheses, nhưng nhiều rule còn là price/time proxy,
+chưa quan sát actualsignedflow hoặc institutionalinventory.
+
+Primary summaries đọc lại09/11:
+
+- [BankofCanada2021-48](https://www.bankofcanada.ca/2021/10/staff-working-paper-2021-48/):
+  FXfixing drifts/reversals trong sample gắn orderimbalances, clientdemands
+  theo timezone và dealerinventory. Cung cấp cơ chế để đặt hypotheses, không
+  xác nhận netCFDrecipe hoặc hiện tại vẫn giữ effect sau costs.
+- [NYFed150](https://www.newyorkfed.org/research/staff_reports/sr150.html):
+  stoploss clusters liên quan positivefeedback/pricecascades; historical
+  evidence, không chứng minh bot thấy được stopmap từ nến hoặc mọi breakout lời.
+- [BISMarketsCommittee13/2020](https://www.bis.org/publications/fx-execution-algorithms-and-market-functioning):
+  executionalgos giúp matching/liquidity efficiency nhưng có executionrisks.
+  Bot của tổ chức có thể chỉ tối ưu khớp một order đã quyết định, không phải
+  model dự đoán direction hoặc mộtalpha riêng. AI là công cụ, chưa lợi nhuận.
+
+Khuyến nghị kế khi owner thực sự giao thực thi: map ai mua/bán→vìsao/phải
+giao dịch khi nào→dấu hiệu quan sát trước entry→chi phí/rủi ro ai chịu→điều
+kiện effectmất→một registered causalrule/abstentionrule. So unconditional
+baseline và negativecontrols trên cùng lịch/cost rồi mới validation chưa dùng.
+Không tìm thêm bulkdata/AI mới hoặc bỏ oldnegative evidence chỉ từ ý tưởng.
