@@ -3,6 +3,16 @@
 Owner yêu cầu hoàn thiện hướng dẫn/skill sau khi khó hiểu danh sách branch.
 Đây là task Git đang được giao riêng; Goal nghiên cứu prop vẫn paused.
 
+## Owner duyệt merge và đổi quy ước tên branch — 09/11
+
+Owner giao merge các PR và xử lý issue đủ acceptance; không tự công nhận
+issue chưa xong là complete. Quy ước mới dùng tên branch tiếng Anh
+`codex/<short-task-name>`; mô tả/hướng dẫn cho owner vẫn tiếng Việt. Thay
+convention tiếng Việt không dấu ở hướng dẫn và skill GitHub hiện có;
+không rename ref đang được PR/worktree/consumer sử dụng. Không thêm skill
+dọn branch hoặc background service. Các kết quả cleanup trước đây bên dưới
+giữ nguyên là lịch sử.
+
 ## Thay đổi hướng dẫn
 
 [README GitHub](../../../tooling/github-workflow/README.md) là cửa vào;

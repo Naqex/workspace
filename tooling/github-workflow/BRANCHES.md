@@ -31,17 +31,18 @@ workspace để thay sự cô lập của project. Scope chưa đổi thì tiế
 
 ## Tên branch dễ hiểu
 
-Codex tạo `codex/<viec-can-lam>`: chữ thường, không dấu, ngăn bằng dấu `-`.
-Ưu tiên tiếng Việt không dấu trong repo cá nhân này; giữ thuật ngữ domain quen
-thuộc như `mt5`, `api`, `prop` khi cần.
+Codex tạo `codex/<short-task-name>` bằng tiếng Anh: chữ thường, ngăn bằng dấu
+`-`, mô tả việc cụ thể. Dùng tên domain quen thuộc như `mt5`, `api`, `prop` khi
+cần. Tên kỹ thuật thống nhất với code/GitHub; hướng dẫn và mô tả cho owner vẫn
+ưu tiên tiếng Việt. Đây là convention của Naqex, không phải yêu cầu của Git.
 
 | Việc | Tên ví dụ |
 |---|---|
-| Sửa tính commission | `codex/sua-tinh-phi` |
-| Kiểm dữ liệu EIA | `codex/kiem-du-lieu-eia` |
-| Sửa tiếp tục lượt nghiên cứu | `codex/sua-khoi-phuc-nghien-cuu` |
-| Cập nhật Git workflow | `codex/quy-trinh-github` |
-| Cập nhật pin project | `codex/cap-nhat-phien-ban-project` |
+| Sửa tính commission | `codex/fix-commission` |
+| Kiểm dữ liệu EIA | `codex/validate-eia-data` |
+| Sửa tiếp tục lượt nghiên cứu | `codex/fix-research-resume` |
+| Cập nhật Git workflow | `codex/github-workflow` |
+| Cập nhật pin project | `codex/update-project-pins` |
 
 Không dùng tên chung như `Nam`, `fix`, `task-2`, `completion` cho việc mới.
 Không tạo branch theo từng tin nhắn, agent, lượt test hoặc commit. Tiếp tục
@@ -52,6 +53,9 @@ Cho phép tên dài hạn khi có consumer thật: ví dụ `codex/naqex-integra
 của Paperclip theo [integration guide](../integrations/README.md). Không đổi
 tên upstream, Dependabot hoặc branch được runtime/tool tham chiếu chỉ để
 đồng bộ hình thức. Branch cũ chưa xong có thể giữ tên kèm mục đích rõ trong PR.
+Quy ước tiếng Anh áp dụng cho tên mới; không rename branch đã chia sẻ chỉ để
+đổi ngôn ngữ khi còn PR, worktree hoặc consumer. Khép PR/dọn ref cũ theo gate
+bên dưới, rồi đặt tên tiếng Anh cho công việc mới.
 
 ## Trước khi sửa
 
@@ -198,4 +202,4 @@ trạng thái; receipt có ngày chỉ là evidence, không tạo tracker/daemon
 [protected branches](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches),
 [git-branch](https://git-scm.com/docs/git-branch),
 [git-worktree](https://git-scm.com/docs/git-worktree).
-Tên tiếng Việt và thứ tự ghim submodule là convention của Naqex.
+Tên branch tiếng Anh và thứ tự ghim submodule là convention của Naqex.
