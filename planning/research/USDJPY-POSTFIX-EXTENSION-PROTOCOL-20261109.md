@@ -20,6 +20,14 @@ pins/rows từR084 và báo riêng; không đưa vào gate extension. Toàn bộ
 Source có thể đã xuất hiện trong research khác; không chứng nhận unseen data.
 Không mở2025+/holdout hoặc gắn nhãn OOS sạch khi chưa audit exposure đủ.
 
+**Calendar amendment trước source:** generatorv1 dừng ở crossyear mapping,
+0newquotes/0outcomes; giữ failure private. V2 đếm book theo **năm của actual
+executiondate**, không nominal year. Dedup toàn lịch, giữ tất cả nominal→actual
+mappings:05/01/2014→30/12/2013 và05/01/2020→30/12/2019 trùng nominal30/12 thì
+chỉ một lượt. Actual2019/2022 thuộc discovery kể cả targetnominal khác năm;
+mapping ngoài2010–2024 vẫn reject. Không mở nominal2025. Đây là làm rõ unit/
+cohort trước giá mới, không điều chỉnh theo lợi nhuận hoặc sửa R084 đã freeze.
+
 CSV Cabinet officialSHA
 `cec37a743c96995cdb9cb52b685c9003634682a9b0e1a640a6b9b96881fe964a`, đọc tất cả
 holidays2010–2024. Monday–Friday trừ CSVholidays,Jan1–3,Dec31. Calendar-only
@@ -68,7 +76,8 @@ mới; vẫn cần cost/execution realism, prop-specific equity/time-fit, OOS đ
 quyền, forward và owner handover. Nếu không qua, lưu negatives và chọn
 mechanism mới có lý do. Không mua challenge/cài EA/broker calls.
 
-Private `execution-v1/jpy-postfix-calendar-v1/`, `jpy-postfix-preflight-v1/`,
+Private `execution-v1/jpy-postfix-calendar-v1/` giữ failure; calendar v2 ở
+`jpy-postfix-calendar-v2/`, tiếp `jpy-postfix-preflight-v1/`,
 `jpy-postfix-source-v1/`, `jpy-postfix-component-v1/`. Ghi source/review/compute/
 CPU/wall tách riêng, pins/snapshot và trạng thái cuối. Chuẩn bị/code/Git nếu
 không có timer thì ghi unknown, không bịa time saved. Goal C1/C2 vẫn active.
