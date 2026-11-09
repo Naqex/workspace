@@ -1,8 +1,8 @@
 {
   "schema": "naqex-strategy-research-catalogue-v1",
-  "checked_on": "2026-11-07",
+  "checked_on": "2026-11-09",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 87,
+  "record_count": 88,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -12,7 +12,7 @@
   "counts": {
     "by_role": {
       "existing": 36,
-      "variant": 34,
+      "variant": 35,
       "new": 16,
       "component": 1
     },
@@ -21,7 +21,7 @@
       "component_probe_not_retained": 26,
       "implemented_not_retained": 5,
       "method_clock_review": 1,
-      "component_probe_completed_no_priority": 2,
+      "component_probe_completed_no_priority": 3,
       "price_data_spec_possible": 1,
       "point_in_time_news_missing": 2,
       "long_history_or_multi_data": 5,
@@ -395,6 +395,26 @@
       "review_depth": "primary_search_served_abstract_and_method_excerpts_plus_author_index",
       "limitations": "Directpublisher403/redirect; fullmethod unavailable, no claimed future/cash/CFD equivalence or paper performance replication. Underlyingmechanisms not directly tested.",
       "checked_on": "2026-11-09"
+    },
+    {
+      "id": "WANG-FX-FOMC2018",
+      "title": "Minho Wang, Essays on Currency Markets, chapter1",
+      "url": "https://www.olsendata.com/data_products/client_papers/papers/201808-MinhoWang-EssaysOnCurrencyMarkets.pdf",
+      "publication": "2018-08",
+      "review_depth": "Primary thesis PDF pages13-50, data/method pages20-22/25/31; selected pages visually checked",
+      "limitations": "15min midpoint multi-currency excessreturns include interest differential; historical14:15clock and jump method not transferred as current EURUSD CFD rules. No paper replication or imported performance.",
+      "checked_on": "2026-11-09",
+      "method_review_locator": "FX-POST-FOMC-METHOD-ADMISSION-20261109.md"
+    },
+    {
+      "id": "XU-FX-FOMC-DISCUSSION2022",
+      "title": "Nancy Xu discussion of FOMC-related currency returns",
+      "url": "https://www.nancyxu.net/_files/ugd/efd0b7_99257144559d4b61b592862dc067edfe.pdf",
+      "publication": "2022-03-11",
+      "review_depth": "Primary17page discussion PDF, 12-24h window and jump-versus-trend critique; selected page visually checked",
+      "limitations": "Discussion not current full paper; negative-jump interpretation differs from2018thesis. No combined predictor, execution proof or independent EURUSD edge.",
+      "checked_on": "2026-11-09",
+      "method_review_locator": "FX-POST-FOMC-METHOD-ADMISSION-20261109.md"
     }
   ],
   "records": [
@@ -3063,6 +3083,34 @@
       "implementations": [],
       "component_evidence": "JAPAN-US-CASH-REACTION-RESULTS-20261109.md",
       "profitability_evidence": "Knownstress2019-1432.202/2022-3705.824JPYperunit;2019mid+781.824 spread1170.026,2022mid-676.615;fullannualunknown bothyears;notaccountPnL.",
+      "control": false,
+      "dispatch_authorized": false,
+      "implementation_updated_on": "2026-11-09"
+    },
+    {
+      "id": "R088",
+      "title": "EURUSD post-FOMC12-24h calendar component",
+      "family": "event_session_flow",
+      "role": "variant",
+      "parent_id": "R021",
+      "readiness": "component_probe_completed_no_priority",
+      "timeframe": "Nextday02:01-13:59NY M1Open after scheduled14NY FOMC; priorweek matched anchors",
+      "rule_sketch": "Own calendar-only SELL12-24h sleeve, opposite/null controls;100kEURnotional,5USDroundtripcommission,0/0.4pipRTslip; no declared17NYrollover, no jump predictor or account risk policy.",
+      "data_requirements": "16events2019/2022,32windows/64rawday-sides;459780OHLCVfields reviewed, all719pairedsourceM1minutes/window present; not joint executable ticks.",
+      "automation_feasibility": "offline_fixed_notional_price_component_not_account_policy",
+      "prop_operational_concerns": "Both primary cohorts stresspositive but2022matchedweek better, eventincrement gate fails. NoSL/equity/targetbrokerfees/prop/timefit/cleanOOS/forward.",
+      "source_ids": [
+        "WANG-FX-FOMC2018",
+        "XU-FX-FOMC-DISCUSSION2022"
+      ],
+      "source_relation": "Own calendar/window adaptation motivated by common12-24h horizon; related to R021sessionflow and priorFOMCstudies, not paper replication or independent discovery.",
+      "next_action": "Do not promote FOMCmask or label positive cohorts economicnegative. ExistingR021wrapper/pathrisk/R056 reviewed; clocks differ, do not combinePnL or rescue via stop/lot/feegrid. Revisit only with supported new mechanism/implementation evidence.",
+      "implementation_state": "reviewed_positive_component_failed_event_increment_gate",
+      "candidate_id": null,
+      "component_id": "eurusd-post-fomc-12to24h-SELL-component-v1",
+      "implementations": [],
+      "component_evidence": "EURUSD-POST-FOMC-RESULTS-20261109.md",
+      "profitability_evidence": "Primary stress2019+1013/2022+545USDper100kEURnotional;matchedweek+718/+2441;primary-minus-matched+295/-1896.32resolvedwindows/192financialcases, not192independenttrades or accountPnL.",
       "control": false,
       "dispatch_authorized": false,
       "implementation_updated_on": "2026-11-09"

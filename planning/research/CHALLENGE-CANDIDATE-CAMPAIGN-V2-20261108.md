@@ -6,15 +6,25 @@ negatives/exposure; chưa có ứng viên challenge. Các trạng thái active/p
 trong checkpoint cũ bên dưới là lịch sử, không là trạng thái Goal hiện hành.
 
 Workflow đã rà, giữ đường gọn hiện hành; không thêm skill/framework.
-Checkpoint hiện tại: [R087 Nhật–Mỹ results](JAPAN-US-CASH-REACTION-RESULTS-20261109.md)
+Checkpoint hiện tại: [R088 EURUSD sau FOMC](EURUSD-POST-FOMC-RESULTS-20261109.md)
+32windows/24books/192financialcases reviewed, stress2019+1.013/2022+545USD
+trên100.000EURnotional, matchedweek+718/+2.441; khôngđạt eventgate2022.
+Khôngnetnegative nhưngchưaeventedge/risk/prop/OOS.459.780sourcefields,
+successfulfullworkerphases18,662s;88records/58versions,Goalactive/C1C2chưađạt,
+khôngjob. Đã đối chiếu existingR021wrapper/pathrisk/R056, clocks khác nên
+khônggộpPnL. Không bỏSL/tănglot/stopgrid; phí thấp khônggiải quyết riskfit.
+[Costdiagnosis](COST-HEADROOM-DIAGNOSTIC-20261109.md) phân loại đúngsignal/
+cost/selection/unknown và giữ điều kiện mởlại, khôngrescuegrid.
+
+Checkpoint trước: [R087 Nhật–Mỹ results](JAPAN-US-CASH-REACTION-RESULTS-20261109.md)
 485phiên/20books,4.322of4.850casesreviewedresolved,66phiênunknown;knownstress
 âmcảhai năm, gác exactrecipe. Gross2019+781,824nhưngspread1.170,026;
 gross2022−676,615JPY/unit, khôngUSDaccount/fullyearPnL. 5.437.930sourcefields,
 962GET+8reuse,successfulworkers7phút13s. Revieweremptyrawbug đãsửa bằngv2,
 giữv1failure, khôngrefetch. [Costheadroom](COST-HEADROOM-DIAGNOSTIC-20261109.md)
 R086fixedpath đãreview, khôngnewstrategytrial.87records/58versions,Goalactive/
-C1C2chưađạt,khôngjob. Tiếp distinctobservablemechanism admission, không
-clock/side/feegridcứu hoặc lặp nguồn unchanged. Các checkpoint dưới là lịch sử.
+C1C2chưađạt,khôngjob. Khôngclock/side/feegridcứu hoặc lặp nguồn unchanged.
+Các checkpoint dưới là lịch sử; cửa resume hiện hành là R088 ở trên.
 
 Mới nhất: [R086 FOMC results](US500-FOMC-PRICE-MOMENTUM-RESULTS-20261109.md)
 đã32books/256cases reviewed;stress2019−63,33/2022−14,66USD/unit, không qua

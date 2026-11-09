@@ -108,3 +108,76 @@ Lượt tiếp có ví dụ khác tại [R087results](JAPAN-US-CASH-REACTION-RES
 cần phân loại signal/cost theo từngcohort, không mặc định mọi chiến lược lỗ
 đều do phí hoặc mọi bản grossdương đáng được tối ưu. R087khôngretained;
 khôngmởdiagnosisgrid sauoutcome. Catalogue hiện87/58, chưachallengecandidate.
+
+## Cách dùng kết quả để chọn đúng việc cần tối ưu
+
+Đối chiếu bổ sung09/11 sau R088, trên kết quả đã xem; **không backtest hoặc
+thử ngưỡng phí mới**. Không sửa các verdict/protocol đã khóa. Catalogue hiện
+88 hồ sơ/58 account-policy versions; không có ứng viên challenge-qualified.
+
+Đã có công cụ phân rã, nhưng mức bao phủ khác nhau: Gold có cây tới từng
+lệnh, R086 có diagnostic biên chi phí, R087/R088 có phân rã component/cohort.
+Chưa tuyên bố cả88 hồ sơ đều có cây attribution chuẩn hóa hoặc phí broker
+đích đã xác minh. Giá từ nguồn nghiên cứu và phí khai báo vẫn được ghi rõ.
+
+| Trường hợp | Bằng chứng hiện có | Việc có ích tiếp theo |
+|---|---|---|
+| Giá đã bất lợi trước phí | R087 năm2022: midpoint−676,615JPY/unit trên phần biết được | Gác exact recipe; giảm phí đơn thuần không làm phần price PnL dương. Không suy cả họ chiến lược vô dụng hoặc tự đảo BUY/SELL |
+| Giá có lời nhưng chi phí ăn hết | R087 năm2019: midpoint+781,824 nhưng spread1.170,026JPY/unit; R086 stress âm vì funding chiếm93,98%/95,33% cost pool | Xác minh đúng khoản phí/spec còn thiếu trước; chỉ tiếp nếu có cơ chế và điều kiện thực tế mới, không đặt phí0 hoặc tối ưu mọi loser |
+| Sau phí có lời nhưng chưa chứng minh chọn đúng cơ hội | R088: stress+1.013/+545USD mỗi cohort8events; matchedweek+718/+2.441. Event increment2022 âm | Ưu tiên kiểm giả thuyết/chọn cơ hội, độ bền và risk fit; không gọi cost optimization là phần còn thiếu duy nhất |
+| Price component dương nhưng wrapper yếu | R021 price sleeve dương nhiều năm; parentexit làm giảm kết quả, weights giúp trên commonmask; R056 net13năm dương nhưng2/4stressblocks âm | Đọc stop/sizing/path risk cùng nhau; không bỏSL hoặc nớiSL giữ lot cũ để lấy lại phần lời giả định |
+| Thiếu nguồn/spec/coverage | R087 có66eligible sessions unknown; cached FTMO spec chỉ EURUSD, không đủ XAU/US500 | Giữ unknown/N/A; admission dữ liệu/contract trước tính lại, không quy mọi thiếu sót thành signal hay phí |
+
+Các đơn vị USD/researchunit, JPY/unit và USD/account khác nhau, không cộng hoặc
+xếp hạng bằng số tiền tuyệt đối. Gross dương chưa chứng minh expected edge.
+Với Bid/Ask gross, spread đã nằm trong giá; diagnostic chuyển về midpoint
+benchmark rồi tách spread để đối soát, **không trừ lần hai**. Midpoint riêng
+hai side M1 không là giá chắc chắn khớp được. Phân rã là kế toán, chưa đo
+implementation shortfall/market impact thực khi thiếu order/fill evidence.
+
+### Những tối ưu có thể tận dụng, đúng thứ tự
+
+1. **Đúng dữ liệu và phí:** giữ observed/declared/unknown, đơn vị, commission
+   mỗi chiều hay khứ hồi, rollover/multiplier và funding debit/credit. Nếu
+   phát hiện lỗi material, sửa và chỉ kiểm lại phạm vi bị ảnh hưởng; giữ bản
+   cũ. Có contract mới khác giả định cũ thì đó là model revision có lineage,
+   không ghi đè lịch sử hoặc chọn contract vì cho PnL đẹp nhất.
+2. **Nhắm khoản lớn:** R086 chưa đáng tối ưu commission (đã0 trong model)
+   hoặc spread vài USD khi funding hàng trăm USD. Gold funding lớn nhưng
+   nhóm giữ lâu cũng có winners; chưa có căn cứ cắt mọi lệnh sau5ngày.
+3. **Lọc phí hoặc giảm turnover khi có cơ chế:** spread-at-entry gate, giao
+   dịch ít hơn hoặc đổi giờ/holding có thể giảm chi phí, cũng có thể bỏ mất
+   cơ hội lời. Phải khóa version mới trước outcome, dùng thông tin có lúc
+   quyết định, mô phỏng lại eligibility/sizing/SL/account path và kiểm trên
+   dữ liệu phù hợp; không chỉ cộng khoản phí tiết kiệm vào net cũ.
+4. **Đo thực thi khi đủ điều kiện:** đối chiếu quote dự kiến với giá fill,
+   commission và swap thực tế theo đúng tài khoản/program. Đây là việc sau
+   admission/authorization riêng, không tự gọi broker để bổ sung bảng này.
+   Không tự đổi quỹ/provider hoặc lấy điều kiện evaluation rẻ hơn áp cho
+   funded phase; contract các phase phải được kiểm riêng.
+
+Biên phí hòa vốn lịch sử chỉ trả lời “trên path này còn chịu được bao nhiêu”,
+không là mức an toàn tương lai hoặc bằng chứng statistical edge. Tăng lot
+không tự sửa expected lợi nhuận trên mỗi đơn vị; lot grid/minimum fee có thể
+đổi economics và đồng thời đổi rủi ro, phải mô phỏng đúng.
+
+Phí challenge/reset và tỷ lệ chia payout thuộc bài toán kinh tế toàn chương
+trình, không cộng vào commission từng lệnh nếu không có quy tắc phân bổ rõ.
+Quota/token AI, CPU, điện là chi phí vận hành riêng; không trộn vào trade PnL.
+
+### Đối chiếu và quyết định của lượt này
+
+Đọc lại [R088](EURUSD-POST-FOMC-RESULTS-20261109.md), [wrapper attribution](PRE-ECB-WRAPPER-ATTRIBUTION-RESULTS-20261108.md),
+[path risk](PRE-ECB-PATH-RISK-RESULTS-20261108.md) và [R056](PRE-ECB-SESSION-RISK-RESULTS-20261108.md).
+R08802:01→13:59NY khác R02102NY→14Berlin, không gộp PnL/clocks. MAE của
+noSLcounterfactual tới5,48R trên observed scope không cho bỏ SL. R056 đã thử
+session-volatility stop/risk25USD nhưng không qua frozen block gate; không
+đăng ký grid khác chỉ vì cần winner. Chưa có risk hypothesis mới đủ cơ sở
+để chạy thêm từ phép đối chiếu này; giữ recipes và phí lịch sử nguyên vẹn.
+
+Đối chiếu lại [AQR — Transactions Costs: Practical Application](https://www.aqr.com/Insights/Research/White-Papers/Transactions-Costs-Practical-Application)
+ngày09/11: trang primary hướng dẫn thẩm định chi phí và cảnh báo đơn giản
+hóa có thể làm hiểu sai khả năng giao dịch. Đây là phương pháp tham khảo,
+không chứng nhận edge hoặc phí FTMO/The5ers. Không đọc lại fullpaper trong
+lượt đối chiếu này. Existing qualification skill/reference đã bao phủ workflow;
+chưa có lỗi lặp hoặc capability gap cần thêm skill/framework.
