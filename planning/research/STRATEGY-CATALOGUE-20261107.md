@@ -1,6 +1,6 @@
-# Danh mục nghiên cứu chiến lược — cập nhật09/11/2026
+# Danh mục nghiên cứu chiến lược — cập nhật10/11/2026
 
-91 hồ sơ: 47 có policy/model version (58 versions), 43 chưa có account policy và 1 risk component. Trong 58 versions có 25 native offline rules và 33 tooling/coarse/model versions; gồm 9 controls. R091 round-level mới không retained: phần giá dương nhẹ nhưng riêng spread đã ăn hết ở cả 2019/2022. Price components và biến thể không tự là account policies hoặc independent edges. **Chưa có bản nào challenge-qualified.**
+92 hồ sơ: 47 có policy/model version (58 versions), 44 chưa có account policy và 1 risk component. Trong 58 versions có 25 native offline rules và 33 tooling/coarse/model versions; gồm 9 controls. R092 S&P–Nasdaq fixed formation không qua prefilter, chưa bot/PnL; R091 round-level giữ negative sau spread. Price components và biến thể không tự là account policies hoặc independent edges. **Chưa có bản nào challenge-qualified.**
 
 [Bản đồ cơ chế và task](MECHANISM-FIRST-EXECUTION-20261109.md) gom đủ80historicalIDs
 khôngtrùng/thiếu;R081 làconditionalderivative liênquanR080.8buckets cócontrols/
@@ -107,6 +107,7 @@ freeze trước outcomes; old quarter-mask failure và corrected attempt đều 
 |R089|EURUSD hồi sau ngày bất thường|daily_shock_reversion / R013|Khôngretained temporal:8/13nămdương/2blocksâm;volscorekhôngcứu|0|[Temporal](FX-ABNORMAL-DAY-TEMPORAL-RESULTS-20261109.md);164extensionopportunities,+549USD/unit,chưaaccount/prop/OOS|
 |R090|EURUSD tiếp diễn sau hourly shock|daily_shock_continuation / R089,relatedR007|Khôngretained:stress2019+592/2022−1.583USD/unit;2022âmtrướcphí|0|[Results](FX-INTRADAY-SHOCK-RESULTS-20261109.md);44opportunities,khôngSL/account/prop/OOS|
 |R091|EURUSD firstM5 round00/50 continuation60min|round_level_order_clustering / R015,relatedR001/R019|Khôngretained:stress2019−1.466/2022−2.779USD/unit;midpositive nhưng spread đãăn hết|0|[Results](FX-ROUND-LEVEL-RESULTS-20261109.md);380primaryopportunities,noSL/account/prop/OOS|
+|R092|S&P–Nasdaq fixedlinear formation|equity_index_relative_value / R035,relatedR067|Khôngretained:2018p0,55272/2021p0,41111;chưaPnL|0|[Results](INDEX-PAIR-FORMATION-RESULTS-20261110.md);503dates sourceadmitted,khôngaccountpolicy|
 
 
 ## Cách đọc và lịch sử các batch đầu
@@ -152,3 +153,4 @@ Chỉ nâng ngày cho nguồn thực sự đọc lại; top updated_on không c�
 - **WANG-FX-FOMC2018** — [Wang thesis, chapter1](https://www.olsendata.com/data_products/client_papers/papers/201808-MinhoWang-EssaysOnCurrencyMarkets.pdf), primaryPDFpages13–50 đọc09/11;midpoint/excessreturn/multi-currency, khôngEURUSDCFDnetreplication.
 - **XU-FX-FOMC-DISCUSSION2022** — [Xu discussion11/03/2022](https://www.nancyxu.net/_files/ugd/efd0b7_99257144559d4b61b592862dc067edfe.pdf),17pagesđọc09/11;12–24h vàjump/trendcritique, khôngcurrentfullpaper hoặccombinedpredictor.
 - **CAPORALE-PLASTUN-FX2020** — [Author PDF](https://bura.brunel.ac.uk/bitstream/2438/20567/5/FullText.pdf),§§3–4/Tables1–5 đọc09/11;paperbỏphí/clock-nchưađủ,owncausal20hproxy khácreplication;CCBY4paperkhônglàimportdata/code.
+- **BAEK-PAIRS2020** — [Publisher PDF](https://mdpi-res.com/d_attachment/sustainability/sustainability-12-06791/article_deploy/sustainability-12-06791.pdf),§§2.3–2.5/3.4/4 vàpage7render đọc10/11;futuresdaily/theoreticalfills/lowerboundwordingconflict;ownCFDlinearformationkhôngpaperreplication,khôngimportdata/code.

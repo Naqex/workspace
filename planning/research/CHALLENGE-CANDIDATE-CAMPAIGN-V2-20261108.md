@@ -6,6 +6,16 @@ negatives/exposure; chưa có ứng viên challenge. Các trạng thái active/p
 trong checkpoint cũ bên dưới là lịch sử, không là trạng thái Goal hiện hành.
 
 Workflow đã rà, giữ đường gọn hiện hành; không thêm skill/framework.
+Checkpoint10/11mới: [R092pairformation](INDEX-PAIR-FORMATION-RESULTS-20261110.md)
+source503datesđủ nhưng fixedlineargatekhôngđạt:2018p0,55272/2021p0,41111.
+1.006pricechecks/8Decimalstats/6mutations,khôngbot/PnL. Source96months/
+223.450fields/88GET+8reuse47,373s,statisticalphases3,740s;khôngjobnền.
+[WTIgapreview](WTI-GAP-TICK-RESULTS-20261110.md)6holeskhôngtick/6controlsđủ,
+548commonM1sidebarskhớp/9.980fields/4,468s;oldsourceadmissionfalsegiữ.
+Catalogue92/58/Goalactive/C1C2chưađạt. Khôngretryunchangedrequests/pair/window/
+lag/model/feegridcứu; tiếp primarysupportedmechanism hoặcmaterialsuvivorblocker
+cóevidence mới. Cáccheckpointdưới làlịchsử,khônglặpunchangedstudies.
+
 Checkpoint10/11: [WTI sourcefixture](WTI-SESSION-SOURCE-RESULTS-20261109.md)
 terminal/reviewed:20GET/106.510fields/4actualmutations,1.614/1.656roles;
 2019cả3phiên dưới98%,2022cả3đủ,fullsourceadmissionfalse. Source10,338s và

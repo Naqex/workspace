@@ -1,5 +1,13 @@
 # Tra cứu research đã có
 
+[R092S&P–Nasdaqformation](INDEX-PAIR-FORMATION-RESULTS-20261110.md):503datesđủ,
+p2018=0,55272/2021=0,41111;khôngretained fixedlinearformations,khôngbot/PnL.
+[Source](INDEX-PAIR-SOURCE-RESULTS-20261110.md)96months/223.450fields/88GET+8reuse,
+47,373s;statisticalproducer/review3,740s/6mutations.92records/58versions,
+Goalactive/C1C2chưađạt/khôngjobnền. Khôngpair/window/lag/modelgridcứu.
+[WTItickgaps](WTI-GAP-TICK-RESULTS-20261110.md):6holeskhôngtick/6controlsđủ,
+548commonM1sidebarskhớp/9.980fields/4,468s;giữoldsourcefail,khôngpatch/bulk.
+
 [WTI session-source results](WTI-SESSION-SOURCE-RESULTS-20261109.md), thực thi10/11:
 20GET/106.510fields/4actualmutations,1.614/1.656roles;2019coveragekhôngđạt98%,
 2022đủ,fulladmissionfalse. Source10,338s/review1,725s,khôngPnL/bulk/R092/job.
