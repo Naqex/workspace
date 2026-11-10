@@ -139,6 +139,36 @@ trước outcome; không rerun các EURUSDversions đã gác để mong kết qu
 Swing là loại tài khoản, không bắt bot giữ nhiều ngày. The5ers không phải cùng
 broker/feed/cost và chưa là một deployment thứ hai.
 
+### Đề xuất chọn tiếp sau M15 — chưa là quyết định của owner
+
+Owner hỏi thêm lựa chọn. Agent đề xuất giữ **EURUSD** để reuse dữ liệu và
+validators; đây là lợi ích triển khai, chưa chứng minh EURUSD có edge tốt nhất.
+Ba hướng để owner hiểu và chọn một câu hỏi nghiên cứu, không chạy cả ba:
+
+| Hướng | Ý tưởng dễ hiểu | Đánh đổi chính |
+|---|---|---|
+| A. Breakout | Giá ra khỏi vùng đã xác định, kỳ vọng tiếp tục đi | Luật tương đối rõ; phá vỡ giả và spread/slippage khi biến động là rủi ro |
+| B. Pullback theo xu hướng | Giá đang đi một hướng, chờ lùi rồi có dấu hiệu đi tiếp mới vào | Agent nghiêng về để owner học/kiểm luật; xác định trend và pullback phải khách quan, có thể lỡ đoạn giá chạy thẳng hoặc gặp đảo chiều |
+| C. Phá vỡ thất bại | Giá vượt biên rồi đóng trở lại vùng cũ, kỳ vọng hồi vào trong | Điều kiện vào có thể định nghĩa rõ; dễ thua nếu xu hướng mạnh tiếp diễn, không mặc định winrate cao |
+
+Đây là cách tổ chức ý tưởng, không ba edge độc lập đã admitted. Các bản
+breakout prior-day/session, retest R019 và pullback20/80 trước đây đã không
+được giữ sau cost screen; giữ nguyên kết quả âm và lineage trong
+[catalogue](STRATEGY-CATALOGUE-20261107.json). Không bê recipe cũ sang M15
+hoặc đổi SL/giờ/filter rồi tự coi là hướng mới có cơ sở. Owner chọn sở thích
+nghiên cứu trước; trước triển khai cần nêu giả thuyết có thể bác bỏ, khác biệt
+có cơ sở so với parent và admission review. Nếu chưa có khác biệt hợp lý thì
+báo chưa đủ điều kiện chạy, không mở grid để cứu loser.
+
+Nguồn đọc lại10/11: [FTMO Academy](https://academy.ftmo.com/lesson/how-to-create-a-trading-idea/)
+phân loại trend/range, breakout/holding level và yêu cầu entry/exit/risk rõ;
+không xác nhận hiệu suất bot. [NY Fed, Osler2001](https://www.newyorkfed.org/research/staff_reports/sr125.html)
+liên hệ order clustering với phản ứng tại level và momentum sau khi vượt
+level; bằng chứng lịch sử một dealing bank, không proof net CFD hiện tại
+hoặc cho phép suy stop map từ nến. Ưu tiên B là judgement về khả năng giải
+thích/kiểm luật, không ranking hiệu suất. Winrate, RR và tần suất còn unknown;
+0,25% chỉ baseline offline, chưa risk thật. Không numerical/broker/holdout run.
+
 **Trao đổi tiếp10/11 — timeframe nhỏ hơn:** owner hỏi có nên nhỏ hơnH1, chưa
 chốtM15/M30/H1 tại thời điểm hỏi; sau đó giao research rồi đề xuấtchốt, dẫn tới
 M15 ở report trên. H1 ban đầu là defaultreuse, không kết quả so sánh tối ưu.
