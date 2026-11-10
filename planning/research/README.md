@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+[Trading làm thu nhập chính và các mốc dự phòng](PROP-FIRM-FIT-20261102.md#trading-làm-thu-nhập-chính--làm-rõ-ngày-10112026):
+owner xác nhận mục tiêu, chưa chọn setup; so sánh 3/6/12/18 tháng, tách sinh hoạt/
+thử nghiệm, holding khác chu kỳ payout. Chưa có ứng viên đủ bằng chứng challenge;
+không đổi risk hoặc cấu hình bot theo khoản dự phòng chưa xác nhận.
+
 [Ưu tiên dữ liệu gần từ2022 — quyết định10/11](STRATEGY-VALIDATION-FRAMEWORK-20261105.md#ưu-tiên-dữ-liệu-gần--quyết-định-của-owner-ngày-10112026):
 recent-first cho study mới, lịch sử cũ stress/mẫu/warmup chọn lọc; không yêu cầu
 lời mọi thời kỳ.2022–24 không tự cleanOOS,2025+ vẫn reserved/gate riêng.
