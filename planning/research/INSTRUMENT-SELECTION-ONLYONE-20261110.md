@@ -60,8 +60,9 @@ AUD/GBP/JPY khác biệt không đồng nghĩa lợi nhuận độc lập; tươ
 - FTMO Swing FAQ hiện cho phép news/overnight/weekend trong phạm vi forbidden
   practices; chỉ thuộc 2-Step. Đây là rule, không guarantee fills hoặc lý do
   để mặc định giữ qua tin. The5ers phải đánh giá riêng, không kế thừa rule.
-- Chưa có phép đo so sánh cùng kỳ về M15 range, cost/R, adverse fills, gap,
-  signal frequency hay challenge outcome của shortlist trên target feed.
+- Trên target feed vẫn chưa có phép đo so sánh cùng kỳ về M15 range, cost/R,
+  adverse fills, gap, signal frequency hay challenge outcome. Bounded source
+  fixture theo giao việc sau đã có ở report kiểm sâu, không là target feed.
   Không dùng chart đẹp hoặc biến động danh nghĩa để điền chỗ trống này.
 
 Ví dụ giả định: risk trước phí 25 USD, round-trip cost 2 USD = 0,08R, cost
@@ -143,7 +144,15 @@ target-cost reference, adverse scenario, phase và các unknown rõ ràng; chỉ
 nâng account-specific verified khi có bằng chứng đúng account, không mở lệnh
 để xác minh từ yêu cầu tư vấn này.
 
-## Đề xuất tiếp theo, chưa dispatch
+## Kiểm sâu đã thực hiện theo giao việc tiếp theo của owner
+
+[Kết quả bốn sản phẩm](FOUR-INSTRUMENT-M15-FIT-RESULTS-20261110.md) giữ
+protocol trước số đo,128M15 từ32day/side requests, cost/range proxy, cơ chế,
+negative history và contract/margin gaps. Đã kiểm offline có giới hạn; không
+còn chỉ là đề xuất. Bốn ngày không đủ chọn winner; agent nghiêng US500 để
+hoàn thiện hồ sơ/trình owner, không chốt asset hoặc dispatch strategy.
+
+## Phạm vi so sánh và việc chưa dispatch
 
 So cuối **ba nhóm, bốn sản phẩm: EURUSD và USDJPY (Forex), US500 (equity),
 XAUUSD (vàng)**. Mục đích là kiểm lựa chọn nhóm thị trường, chưa tạo portfolio
@@ -151,7 +160,7 @@ hoặc chạy bốn bot. GBPUSD/AUDUSD/NAS100/DE40 giữ làm alternatives nếu
 cụ thể tốt hơn. Shortlist là judgement về mức khác biệt câu hỏi và effort,
 không proof bốn sản phẩm này thắng phần còn lại.
 
-Trước chọn only one cần packet gọn cho từng sản phẩm: target contract/cost
+Packet offline theo report kiểm sâu đã có; trước chọn only one vẫn cần target contract/cost
 và min-lot/margin, giờ/clock/DST, một cơ chế có nguồn, chất lượng dữ liệu,
 cost/range và cost/R phù hợp cơ chế, rủi ro đuôi; đánh dấu unknown thay vì score
 bịa. Sau đó chọn đúng **một instrument + một hypothesis** để đăng ký study.
@@ -165,7 +174,8 @@ time-fit/cost, index recipes không retained hoặc source/transfer issues:
 Giữ các kết quả âm; không lấy chúng để bác cả asset, hoặc đổi timeframe để
 cứu loser. Cũng không promote Gold M15 từ H4 survivor.
 
-Lượt này chỉ đọc nguồn public, không numerical run, account/provider mới,
+Phần khảo sát nguồn ban đầu chỉ đọc public; phép đo nhỏ theo giao việc sau
+được ghi riêng trong report kiểm sâu. Không account/provider mới,
 OrderCheck/OrderSend, benchmark engine hoặc mở dữ liệu holdout 2025+.
 
 ## Nguồn và giới hạn truy cập

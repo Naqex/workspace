@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+[Đã kiểm sâu bốn sản phẩm M15](FOUR-INSTRUMENT-M15-FIT-RESULTS-20261110.md):
+32day/side requests/128M15, data-source và proxycost/range trong4ngày2022;
+khôngtargetspread/edge. Cơ chế/negativehistory, lot/margin gaps rõ; nghiêng
+US500 đểhoànthiệnhồsơ, ownerchưa chốt. KhôngPnL/broker/holdout/jobnền.
+
 [Chọn sản phẩm only one M15 — so sánh trước khi chốt](INSTRUMENT-SELECTION-ONLYONE-20261110.md):
 owner yêu cầu không ưu tiên EURUSD vì data có sẵn; rút ưu tiên cũ, so Forex/
 indices/gold/oil/crypto theo cơ chế, costs, risk và luật. BIS final/official
