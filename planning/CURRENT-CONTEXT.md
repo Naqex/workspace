@@ -1,12 +1,23 @@
 # Current context — Naqex Workspace
 
 10/11/2026 · `WORK: ACTIVE / REVIEW: REVIEWED-PARTIAL / DOC: RESUMABLE`.
-Owner đã yêu cầu tiếp tục và cho tạo Goal mới; tool xác nhận `active`.
+Owner đã xóa app Goal rồi yêu cầu tiếp tục task và nghiên cứu portfolio.
+Tool xác nhận không còn Goal; không tự tạo lại. Task hiện tại tiếp tục theo giao việc.
 Đích: ứng viên đủ bằng chứng để đề xuất challenge FTMO/The5ers và quy trình
 được kiểm/sửa theo C1/C2 của [campaign v2](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).
 Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 ## Việc hiện tại
+
+- [R093 options-week](research/OPTIONS-WEEK-RESULTS-20261110.md) đã terminal/
+  reviewed:48windows/96cases/8books, stress2019+279,41USD/unit,2022−708,85;
+  2022âmtrướcphí nên gác exactalpha.96locators đủ/3.026.580fields/10mutations;
+  4workerphases51,181s, khôngjobnền. Catalogue**93/58**,C1C2chưađạt.
+  [Portfolio admission](research/PORTFOLIO-RESEARCH-AND-ADMISSION-20261110.md)
+  áp dụng P0→P6 vào workflow; chưaalignedequitypanel/sharedaccountproof hoặc
+  portfolioPnL. Không yêu cầu mọi sleeve thắng mọi năm; supportedhedge phải
+  đăngkýjointtest mới, khôngallpairs/weightsgridcứulosers. NguồnThe5ers03/11
+  cóbulk/concurrent/correlatedexposure limits, TermsEAapprovalgiữ; khônggrant.
 
 - [ECB archived source](research/ECB-ARCHIVED-SURPRISE-SOURCE-RESULTS-20261110.md)
   đã terminal/reviewed: 3 sheets × 308 dates tới 12/2024, 1.709 numeric cells
@@ -175,7 +186,7 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 | Lát | Kết luận / bước tiếp |
 |---|---|
-| Catalogue | 92 hồ sơ / 58 policy-model versions / 25 native / 9 controls; [catalogue](research/STRATEGY-CATALOGUE-20261107.md). Component/biến thể không tự là edge độc lập |
+| Catalogue | 93 hồ sơ / 58 policy-model versions / 25 native / 9 controls; [catalogue](research/STRATEGY-CATALOGUE-20261107.md). Component/biến thể không tự là edge độc lập |
 | FX NYMA4 | [Conditional results](research/NY-FX-GAP-SCENARIOS-RESULTS-20261109.md) âm ở hai năm; strict annual vẫn unknown. Không đổi clock/SL/risk để cứu exact recipe |
 | Gold R043 | [Cost admission](research/GOLD-TARGET-COST-ADMISSION-20261109.md) và [loss diagnosis](research/SELECTIVE-LOSS-DIAGNOSIS-RESULTS-20261109.md): funding/spec đích chưa verified; không zero-swap hoặc rerun để cứu outcome |
 | R080/R081 | [EU-open](research/US500-EU-OPEN-COMPONENT-RESULTS-20261109.md), [conditional](research/US500-INVENTORY-CONDITION-RESULTS-20261109.md): known net âm, giữ unknowns, gác exact recipes |

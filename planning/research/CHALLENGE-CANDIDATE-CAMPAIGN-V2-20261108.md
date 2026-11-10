@@ -1,11 +1,21 @@
 # Chiến dịch tìm ứng viên challenge — Goal mới, 08/11/2026
 
-**Đang thực hiện.** Owner ngày09/11 đã yêu cầu tiếp sau khi xóa Goal cũ;
-Goal mới tạo thành công, tool xác nhận `active`. Kế thừa C1/C2, toàn bộ trials/
-negatives/exposure; chưa có ứng viên challenge. Các trạng thái active/paused
-trong checkpoint cũ bên dưới là lịch sử, không là trạng thái Goal hiện hành.
+**Đang thực hiện theo task owner giao.** Ngày10/11 owner xóa appGoal rồi yêu
+cầu tiếp tục và nghiên cứu portfolio; tool xác nhận Goal=null, không tự tạo lại.
+Kế thừa C1/C2, toàn bộ trials/negatives/exposure; chưa có ứng viên challenge.
+Các trạng thái Goal active/paused trong checkpoint cũ bên dưới là lịch sử.
 
 Workflow đã rà, giữ đường gọn hiện hành; không thêm skill/framework.
+Checkpoint mới nhất10/11: [R093options-week](OPTIONS-WEEK-RESULTS-20261110.md)
+48windows/96cases/8books đãreviewed;stress2019+279,41/2022−708,85USDperunit,
+2022midâmtrướcphí,gác exactalpha. Source96locators đủ/3.026.580fields;
+4workerphases51,181s/khôngjobnền. Catalogue93/58/C1C2chưađạt,appGoalđãxóa.
+[Portfolioadmission](PORTFOLIO-RESEARCH-AND-ADMISSION-20261110.md) thêmđường
+P0→P6, giữreadiness4baselines/rolealphahedge;chưaalignedpanel/sharedaccount/
+portfolioPnL. Khôngallpairs/weightsgrid; khôngbắt mọisleeve thắngmọinăm nhưng
+hedge cầnjointprotocol/evidence mới, khôngtựmởnegativealphađểcứu. Termsquỹ
+vàruntimeexecutionowner giữriêng, khôngthêmgrant/broker/provider hoặcown2025+.
+
 Checkpoint mới nhất10/11: [ECB archived source](ECB-ARCHIVED-SURPRISE-SOURCE-RESULTS-20261110.md)
 terminal/reviewed, 3×308dates/1.709numericcells/8focus đủ. Structure đạt nhưng
 intraday availability/access/causal cleaning chưa admit cả4dates; tickpilot
