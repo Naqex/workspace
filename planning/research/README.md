@@ -1,5 +1,16 @@
 # Tra cứu research đã có
 
+[Portfolio cho prop firm](PORTFOLIO-RESEARCH-AND-ADMISSION-20261110.md):
+chia risk theo cơ chế, alignednetequity→dependency→frozenallocation→sharedaccount
+→perfirm/timefit/forward. Readiness4baselines đã rà, chưaportfolioPnL hoặc
+cặpđủadmission; khôngallpairs/optimizer hoặc3bot=3budget. The5ersbulk/concurrent
+wording/EAapproval cầnexactscope trướcdeployment, khôngpermission từresearch.
+
+[R093options-week results](OPTIONS-WEEK-RESULTS-20261110.md):48windows/
+96cases/8books reviewed;stress2019+279,41/2022−708,85USDperresearchunit,
+2022midđãâm.96endpointslocators đủ/3.026.580fields,source+review+economics
+51,181s;gác exactrecipe. Catalogue93/58,C1C2chưađạt,khôngjobnền;appGoalđãxóa.
+
 [ECB archived source results](ECB-ARCHIVED-SURPRISE-SOURCE-RESULTS-20261110.md):
 3 sheets × 308 dates tới 12/2024, 1.709 numeric cells parser parity/8 focus
 cells đủ nhưng cả 4 ngày chưa admit known-at/access; tick pilot vẫn false.

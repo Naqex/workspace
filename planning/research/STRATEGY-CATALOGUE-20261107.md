@@ -1,6 +1,6 @@
 # Danh mục nghiên cứu chiến lược — cập nhật10/11/2026
 
-92 hồ sơ: 47 có policy/model version (58 versions), 44 chưa có account policy và 1 risk component. Trong 58 versions có 25 native offline rules và 33 tooling/coarse/model versions; gồm 9 controls. R092 S&P–Nasdaq fixed formation không qua prefilter, chưa bot/PnL; R091 round-level giữ negative sau spread. Price components và biến thể không tự là account policies hoặc independent edges. **Chưa có bản nào challenge-qualified.**
+93 hồ sơ: 47 có policy/model version (58 versions), 45 chưa có account policy và 1 risk component. Trong 58 versions có 25 native offline rules và 33 tooling/coarse/model versions; gồm 9 controls. R093 options-week không qua stressgate2022, âm trước phí; R092 S&P–Nasdaq fixed formation không qua prefilter, chưa bot/PnL. Price components và biến thể không tự là account policies hoặc independent edges. **Chưa có bản nào challenge-qualified.**
 
 [Bản đồ cơ chế và task](MECHANISM-FIRST-EXECUTION-20261109.md) gom đủ80historicalIDs
 khôngtrùng/thiếu;R081 làconditionalderivative liênquanR080.8buckets cócontrols/
@@ -108,6 +108,7 @@ freeze trước outcomes; old quarter-mask failure và corrected attempt đều 
 |R090|EURUSD tiếp diễn sau hourly shock|daily_shock_continuation / R089,relatedR007|Khôngretained:stress2019+592/2022−1.583USD/unit;2022âmtrướcphí|0|[Results](FX-INTRADAY-SHOCK-RESULTS-20261109.md);44opportunities,khôngSL/account/prop/OOS|
 |R091|EURUSD firstM5 round00/50 continuation60min|round_level_order_clustering / R015,relatedR001/R019|Khôngretained:stress2019−1.466/2022−2.779USD/unit;midpositive nhưng spread đãăn hết|0|[Results](FX-ROUND-LEVEL-RESULTS-20261109.md);380primaryopportunities,noSL/account/prop/OOS|
 |R092|S&P–Nasdaq fixedlinear formation|equity_index_relative_value / R035,relatedR067|Khôngretained:2018p0,55272/2021p0,41111;chưaPnL|0|[Results](INDEX-PAIR-FORMATION-RESULTS-20261110.md);503dates sourceadmitted,khôngaccountpolicy|
+|R093|US500 monthly options-expiry week|monthly_options_inventory_calendar,relatedR025/R080|Khôngretained:stress2019+279,41/2022−708,85USD/unit;2022midâm|0|[Results](OPTIONS-WEEK-RESULTS-20261110.md);48windows/96cases,khôngSL/account/prop/OOS|
 
 
 ## Cách đọc và lịch sử các batch đầu
@@ -117,6 +118,10 @@ Discovery4/6/7 historical screens đã completed; MLreal policies thất bại, 
 Nguồn chỉ cho cơ chế/định nghĩa/phương pháp; code và datalicenses cần kiểm trước import. Các adaptations H1/SL/holding không phải exact paper replication. Fixed-window variants, ORBs và MLcontrols có quan hệ; số versions không là số bằng chứng độc lập. Public payout/case study tay không xác nhận bot edge.
 
 ## Nguồn và ngày kiểm
+
+Portfolio research và admission theo [báo cáo riêng](PORTFOLIO-RESEARCH-AND-ADMISSION-20261110.md):
+không đếm catalogue thành93independentedges hoặc quét mọi cặp để tìmwinner.
+Alpha/hedge cóvai trò khác; chưa có alignedportfolioequity/combinedaccountproof.
 
 Chỉ nâng ngày cho nguồn thực sự đọc lại; top updated_on không có nghĩa mọi paper đã refresh hoặc full-method audit.
 
@@ -154,3 +159,5 @@ Chỉ nâng ngày cho nguồn thực sự đọc lại; top updated_on không c�
 - **XU-FX-FOMC-DISCUSSION2022** — [Xu discussion11/03/2022](https://www.nancyxu.net/_files/ugd/efd0b7_99257144559d4b61b592862dc067edfe.pdf),17pagesđọc09/11;12–24h vàjump/trendcritique, khôngcurrentfullpaper hoặccombinedpredictor.
 - **CAPORALE-PLASTUN-FX2020** — [Author PDF](https://bura.brunel.ac.uk/bitstream/2438/20567/5/FullText.pdf),§§3–4/Tables1–5 đọc09/11;paperbỏphí/clock-nchưađủ,owncausal20hproxy khácreplication;CCBY4paperkhônglàimportdata/code.
 - **BAEK-PAIRS2020** — [Publisher PDF](https://mdpi-res.com/d_attachment/sustainability/sustainability-12-06791/article_deploy/sustainability-12-06791.pdf),§§2.3–2.5/3.4/4 vàpage7render đọc10/11;futuresdaily/theoreticalfills/lowerboundwordingconflict;ownCFDlinearformationkhôngpaperreplication,khôngimportdata/code.
+
+- **STIVERS-SUN-OPEX2013 / QC-OPEX** — [Publisher abstract](https://www.sciencedirect.com/science/article/abs/pii/S0378426613003051), [QC implementation](https://www.quantconnect.com/research/15295/option-expiration-week-effect/), đọc10/11 theo [method/protocol](OPTIONS-WEEK-METHOD-AND-PROTOCOL-20261110.md); chưa fullStiversmethod, OEF/S&P100 khác ownUS500/timing/costs, khôngimportcode hoặcperformanceclaim.

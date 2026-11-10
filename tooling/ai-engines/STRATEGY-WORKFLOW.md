@@ -10,6 +10,7 @@ bằng chứng. Paperclip own task/run/report; không thêm tracker/UI riêng.
 | Rule/data/risk | Profile/spec/QDM/validator hiện có | Program/phase, source date, cost/risk/consumed map |
 | Code/check/run | Opt-in runner/tests/preflight | Manifest/quality/results/receipt/decisions |
 | Qualification | [strategy-qualification](../../.agents/skills/strategy-qualification/SKILL.md), `strategy_evidence.py inspect` | Correctness/edge/prop/operations/authority và next stage |
+| Portfolio nếu có cơ sở phối hợp | [Portfolio admission](../../planning/research/PORTFOLIO-RESEARCH-AND-ADMISSION-20261110.md), qualification và execution owner hiện có | Alpha/hedge role, aligned net-equity/cost/exposure, frozen allocation, shared-account replay; không cộng standalone PnL thành prop proof |
 | Hậu kiểm batch | [engineering-retrospective](../../.agents/skills/engineering-retrospective/SKILL.md) | Sau screening/validation có evidence mới: sửa bounded theo bottleneck, đo parity/timing, giữ bài học cho lượt sau; không ép tối ưu mỗi lần |
 | Shadow/demo/operate | [Studio](../../.agents/skills/studio-operations/SKILL.md), runtime/grant/lifecycle | Binding/quote/risk/reconciliation/recovery |
 | Context/skills | [evidence continuity](../../.agents/skills/evidence-continuity/SKILL.md), [maintenance](../../docs/development/SKILL-MAINTENANCE.md) | Locator/revision/delta, không copy ledger/raw logs |

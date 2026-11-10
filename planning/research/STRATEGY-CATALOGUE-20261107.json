@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-09",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 92,
+  "record_count": 93,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -13,12 +13,12 @@
     "by_role": {
       "existing": 36,
       "variant": 39,
-      "new": 16,
+      "new": 17,
       "component": 1
     },
     "by_readiness": {
       "implemented": 36,
-      "component_probe_not_retained": 29,
+      "component_probe_not_retained": 30,
       "implemented_not_retained": 5,
       "method_clock_review": 1,
       "component_probe_completed_no_priority": 3,
@@ -440,6 +440,26 @@
       "limitations": "Daily futures2015-2020/theoretical targetfills; lower-bound wording conflict. Own CFD fixed linear formation differs from paper SVM/contract/fees; no imported data/code.",
       "checked_on": "2026-11-10",
       "method_review_locator": "INDEX-PAIR-METHOD-ADMISSION-20261110.md"
+    },
+    {
+      "id": "STIVERS-SUN-OPEX2013",
+      "title": "Returns and option activity over the option-expiration week for S&P100 stocks",
+      "url": "https://www.sciencedirect.com/science/article/abs/pii/S0378426613003051",
+      "publication": "2013",
+      "review_depth": "publisher_abstract_highlights_only",
+      "limitations": "No fullpaper audit; old S&P100 option activity not ownCFD/causal hedge observations",
+      "checked_on": "2026-11-10",
+      "method_review_locator": "OPTIONS-WEEK-METHOD-AND-PROTOCOL-20261110.md"
+    },
+    {
+      "id": "QC-OPEX",
+      "title": "Option Expiration Week Effect",
+      "url": "https://www.quantconnect.com/research/15295/option-expiration-week-effect/",
+      "publication": "implementation_page_accessed2026-11-10",
+      "review_depth": "method_and_embedded_implementation_read_no_execution",
+      "limitations": "OEFMonday10:00America/New_York/eventOnDataexit differs from ownUS500 cashweekclock; no imported code or profitability evidence",
+      "checked_on": "2026-11-10",
+      "method_review_locator": "OPTIONS-WEEK-METHOD-AND-PROTOCOL-20261110.md"
     }
   ],
   "records": [
@@ -3247,6 +3267,31 @@
       "implementations": [],
       "evidence_locator": "INDEX-PAIR-FORMATION-RESULTS-20261110.md",
       "profitability_evidence": "No trades/PnL. 2018cointp0.5527195024/2021p0.411113633;1006sourcepricechecks/8Decimalstats/6actualmutations reviewed.",
+      "dispatch_authorized": false
+    },
+    {
+      "id": "R093",
+      "title": "US500 monthly options-expiry calendar week",
+      "family": "monthly_options_inventory_calendar",
+      "role": "new",
+      "parent_id": null,
+      "readiness": "component_probe_not_retained",
+      "timeframe": "first_cash_day_open_plus60s_to_last_cash_day_close_minus60s_thirdFriday_week",
+      "rule_sketch": "Fixed long expirycalendar week vs previousweek longcontrol on2019/2022; jointticks endpoints, noSL/accountpolicy.",
+      "data_requirements": "96reviewedendpointhours/605316ticks/3026580fields;96locatorscomplete;no2025+",
+      "automation_feasibility": "offline_component_only_no_account_policy",
+      "prop_operational_concerns": "2022midpointnegative;declaredfunding/costs;nointradaypath/SL/margin/targetspec/prop/OOS/forward;The5ersautomation/one-sided/bulktermsseparate.",
+      "source_ids": [
+        "STIVERS-SUN-OPEX2013",
+        "QC-OPEX"
+      ],
+      "source_relation": "own_US500CFD_calendar_transfer_not_original_S&P100/OEF_replication_or_observed_dealer_flow;relatedR025/R080",
+      "next_action": "Park exactalpha;no_week/side/holding/feegrid_rescue. Portfolio admission requires supported joint hypothesis and aligned net equity, not arbitrary losingpairs.",
+      "implementation_state": "component_reviewed_not_retained_no_account_policy",
+      "candidate_id": null,
+      "implementations": [],
+      "evidence_locator": "OPTIONS-WEEK-RESULTS-20261110.md",
+      "profitability_evidence": "48windows/96financialcases/8books reviewed;stress2019+279.41/2022-708.85USDunit;2022mid-602.4255;controlincrement+222.85/-470.10.",
       "dispatch_authorized": false
     }
   ],
