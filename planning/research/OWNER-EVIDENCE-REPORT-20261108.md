@@ -1,6 +1,7 @@
 # Báo cáo cho owner: đã làm gì, bằng chứng đến đâu?
 
-**Hậu kiểm cập nhật10/11:** xem [mục12](#12-làm-lâu-nhưng-chưa-có-kết-quả-hậu-kiểm-delivery-ngày1011).
+**Hậu kiểm cập nhật10/11:** xem [mục12](#12-làm-lâu-nhưng-chưa-có-kết-quả-hậu-kiểm-delivery-ngày1011)
+và [đối chiếu cộng đồng mục13](#13-cộng-đồng-có-gặp-ngưỡng-này-không-đối-chiếu1011).
 Owner đã xóa app Goal; task hiện tại là phân tích/báo cáo, chưa chạy nghiên cứu
 mới. Các trạng thái active/paused và kết thúc đợt08/11 trong receipts là lịch sử.
 
@@ -623,3 +624,55 @@ shared-account proof; chưa xây optimizer để che thiếu hypotheses khả d�
 Không thêm skill/RAG/GPU/framework: các skills hiện có đã mô tả workflow, thiếu
 đang nằm ở evidence và ưu tiên thực thi. Đây là self-review có đọc nguồn khác,
 chưa một independent audit hoặc kiểm chứng lại toàn campaign.
+
+## 13. Cộng đồng có gặp ngưỡng này không? Đối chiếu10/11
+
+**Có các trường hợp gần giống, không có căn cứ từ chúng để ước lượng tỷ lệ phổ
+biến, thời gian trung bình vượt qua hoặc bảo đảm owner sẽ thành công.** Đã mở
+bài gốc và phần bình luận liên quan ngày10/11. Đây là convenience sample từ
+Reddit, có self-selection, survivorship/reporting bias và có thể quảng cáo;
+không xác minh danh tính, code, broker statements hoặc lợi nhuận từng người.
+Các case khác futures/options/crypto, chưa cùng FTMO/The5ers và hồ sơ tài chính
+của owner. Không dùng thời gian họ kể để hứa lịch đạt mục tiêu cho project.
+
+| Case trực tiếp đã đọc | Họ gặp gì / đã làm hoặc rút ra gì? | Giới hạn |
+|---|---|---|
+| [6 tháng full-time,17 chiến lược MNQ/NQ](https://www.reddit.com/r/algotrading/comments/1spd5nf/6_months_full_time_on_algo_17_strategies_dead_on/) | Có tick/L2 và custom Rust, chuyển sang Nautilus để giảm viết lại; vẫn không chứng minh edge. Tác giả nói sửa lookahead làm WR84%→53%. Bình luận đề xuất tìm cơ chế, tính phí sớm và theo dõi thời gian bác bỏ ý tưởng | Không có follow-up kiểm chứng họ đã kiếm được tiền. Không lấy WR/p-value/nhận định NQ của tác giả làm chứng nhận hoặc quy luật thị trường |
+| [Developer viết bot options7tuần](https://www.reddit.com/r/algotrading/comments/1otf3wg/built_my_own_algorithmic_options_trading_tool/) | Backtest có vẻ tốt, khi live phải sửa liên tục và nhận ra chưa tính slippage; tác giả nhận định nên reuse framework thay vì tự xây tất cả | Đây là bài kể thất bại và hỏi hướng sửa, không một giải pháp đã được đo thành công; options khác CFDprop |
+| [Thảo luận AI trong algotrading](https://www.reddit.com/r/algotrading/comments/1sn0yyg/has_ai_actually_helped_your_algo_trading_workflow/) | Một commenter tự kể1,5năm dùng AI vẫn chưa lời, chuyển sang quan sát cơ chế của ví on-chain; người khác thấy AI hữu ích cho code/visualization/loại ý tưởng | Chưa xác minh kết quả sau đổi hướng. Không nhận claims Python luôn leakage, Rust ngăn leakage hoặc AI không bao giờ tạo hypothesis như fact |
+| [Infrastructure vs alpha](https://www.reddit.com/r/algorithmictrading/comments/1vu8bu4/infrastructure_vs_alpha_generation_bottleneck_in/) | Chủ bài nói framework/execution gần xong nhưng không có OOSedge; comment đề xuất bắt đầu từ ai phải giao dịch, khi nào, vì sao và điều gì cản arbitrage | Tác giả hẹn thử và báo lại; chưa evidence đã thoát bottleneck. Có comments tự nhận thành công nhưng không hồ sơ kiểm chứng |
+
+Đáng giữ cả phản biện: trong thread17strategies, một commenter đề xuất cứu
+subgroup có lời nhỏ; chủ bài đọc lại và cho biết lợi nhuận bị một winner chi
+phối, bỏ winner thì âm. Đây là lời kể hữu ích để đặt câu hỏi concentration,
+không tái tính thống kê gốc. Một commenter khác nói intradayprop3–4lệnh/tuần
+đã live khoảng1tháng, đồng thời thừa nhận còn quá sớm để gọi đáng tin. Không
+lấy lời này làm recipe hay hiệu suất FTMO/The5ers đã xác minh.
+
+### Đối chiếu nguồn chính thức và điều áp dụng
+
+[QuantConnect Research Guide](https://www.quantconnect.com/docs/v2/cloud-platform/backtesting/research-guide),
+đọc10/11, khuyến nghị giả thuyết nhân→quả trước code, nhận diện overfitting và
+giữ OOS. Chỉ reuse các nguyên tắc; không áp các bảng30/70backtests,16hours hoặc
+số parameters như ngưỡng khoa học chung. Case platform không chứng minh mọi
+workflow/data của project đã đúng. Bài [FTMO Big Algo Test](https://ftmo.com/en/blog/a-big-test-of-algo-trading-does-it-work/)
+đã đọc lại:4tháng phát triển,91systems triển khai01/04/2018, sau1năm lỗ12.530USD
+trên100.000USD vàDD17,6%, theo hãng tự báo cáo. Đây là case lịch sử đã có ở mục7,
+không mẫu đại diện ngành/luật quỹ hiện tại. Không nhận các claims về xác suất
+lệnh độc lập hoặc đảo chiều loser thành winner trong bài làm bằng chứng.
+
+**Diễn giải cho project:** tìm và chứng minh expectednetedge hiện là nút thắt
+khó nhất đang thấy, dựa trên mục12/catalogue, không một thứ hạng khó đã đo cho
+toàn ngành. Engineering có acceptance hữu hạn cho từng hành vi; giả thuyết
+kinh tế có thể không tồn tại hoặc không đủ mạnh trên sản phẩm/chi phí/quyền
+truy cập này. Sau đó còn duy trì edge, execution/risk và payout/counterparty;
+không nói vượt bước này là xong hoặc tỷ lệ kiếm tiền đã biết.
+
+Bài học áp dụng ở mức đề xuất: kiểm cơ chế và netcost trước wrapper đắt; dùng
+AI để code/đối chiếu/quan sát thay vì lấy output làm proof; reuse nền hiện có;
+ghi thời gian tới quyết định và điều kiện mở lại. Không áp deadline2tuần của
+commenter thành automaticreject và không quét filters để cứu subgroup đã xem.
+Các lời khuyên đơn giản hóa/thêmfilters/đổi market trái nhau; chỉ một registered
+experiment mới cho biết chúng có giúp exactrecipe của mình không. Chưa đổi
+shortlist/risk/protocol, chạy backtest, mởholdout hoặc kết nối/gửi lệnh. Existing
+skills đủ workflow; không thêm framework/skill từ một lượt đọc cộng đồng.
