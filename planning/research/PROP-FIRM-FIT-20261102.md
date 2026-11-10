@@ -130,19 +130,24 @@ caseA có netedge. Scalping siêu ngắn chưa ưu tiên vì execution/cost sens
 không kết luận mọi scalper đều thất bại. Cần đo frequency/holding thực tế, không
 đổi threshold để ép đủ2–5lệnh hoặc closewithin-day khi chưa replayversion mới.
 
-Nếu owner chọnA, gói nghiên cứu agent đề xuất hiện là **EURUSD + M15 + intraday +
+Đề xuất trước, **đã rút ưu tiên instrument sau yêu cầu so sánh của owner10/11**:
+**EURUSD + M15 + intraday +
 FTMO2-StepSwing profile**, theo [đối chiếu cộng đồng/quỹ10/11](TIMEFRAME-SELECTION-ONLYONE-20261110.md).
 Đề xuấtH1 ban đầu được thay về mặt tư vấn, không sửa oldprotocols hoặc coiM15
 optimal đã đo. Owner đã chốt riêngM15, chưa xác nhận toàncase. EURUSD có data/validators reuse giảm setupcost,
 chưa là thị trường có edge tốt nhất. Cơ chế kinh tế vẫn phải được chọn và khóa
 trước outcome; không rerun các EURUSDversions đã gác để mong kết quả khác.
+Theo [research sản phẩm](INSTRUMENT-SELECTION-ONLYONE-20261110.md), cần so
+EURUSD/USDJPY, US500 và vàng theo cơ chế/cost/risk trước chọn một sản phẩm;
+không dùng reuse làm tiêu chí chính. M15 giữ nguyên; chưa chốt pullback.
 Swing là loại tài khoản, không bắt bot giữ nhiều ngày. The5ers không phải cùng
 broker/feed/cost và chưa là một deployment thứ hai.
 
 ### Đề xuất chọn tiếp sau M15 — chưa là quyết định của owner
 
-Owner hỏi thêm lựa chọn. Agent đề xuất giữ **EURUSD** để reuse dữ liệu và
-validators; đây là lợi ích triển khai, chưa chứng minh EURUSD có edge tốt nhất.
+Owner hỏi thêm lựa chọn. Agent từng đề xuất giữ **EURUSD** để reuse dữ liệu và
+validators; owner yêu cầu research các sản phẩm khác trước. **Ưu tiên này đã
+rút**, theo report sản phẩm trên; reuse chỉ là lợi ích triển khai thứ yếu.
 Ba hướng để owner hiểu và chọn một câu hỏi nghiên cứu, không chạy cả ba:
 
 | Hướng | Ý tưởng dễ hiểu | Đánh đổi chính |
@@ -168,6 +173,8 @@ level; bằng chứng lịch sử một dealing bank, không proof net CFD hiệ
 hoặc cho phép suy stop map từ nến. Ưu tiên B là judgement về khả năng giải
 thích/kiểm luật, không ranking hiệu suất. Winrate, RR và tần suất còn unknown;
 0,25% chỉ baseline offline, chưa risk thật. Không numerical/broker/holdout run.
+Ưu tiên B tạm thời cũng chưa đủ để ghép với một instrument chưa chọn; phải
+đối chiếu cơ chế phù hợp thị trường trước, không ép chung pullback mọi asset.
 
 **Trao đổi tiếp10/11 — timeframe nhỏ hơn:** owner hỏi có nên nhỏ hơnH1, chưa
 chốtM15/M30/H1 tại thời điểm hỏi; sau đó giao research rồi đề xuấtchốt, dẫn tới
