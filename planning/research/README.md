@@ -1,8 +1,8 @@
 # Tra cứu research đã có
 
-[Chốt đề xuất timeframe onlyone — M15](TIMEFRAME-SELECTION-ONLYONE-20261110.md):
+[Owner đã chốt timeframe onlyone — M15](TIMEFRAME-SELECTION-ONLYONE-20261110.md):
 đối chiếu ManAHL/AQR/FTMO/community; bảng M1→D1, chọn theo hồ sơ chứkhông
-claimoptimal. Thay tư vấnH1 cũ; owner chưa xác nhận, khôngnumeric/holdout/broker.
+claimoptimal. Thay tư vấnH1 cũ; market/cơ chế chưa chốt, khôngnumeric/holdout/broker.
 
 [Owner chọn thử onlyone — bảng mục tiêu và các case](PROP-FIRM-FIT-20261102.md#only-one-hồ-sơ-mục-tiêu-và-các-case-để-owner-chọn--10112026):
 thu nhập chính/propvốn/riskthấp đãchốt;intradayM15/shortswingH4/sparseevent
