@@ -28,6 +28,10 @@ Không mặc định mọi dữ liệu trước đó vô dụng hoặc thị tr�
 Research mechanisms có thể cũ nhưng vẫn cần kiểm hiện tại; phân biệt tuổi paper
 với tuổi dữ liệu và khả năng thực thi. Không nâng năm xuất bản thành evidence mới.
 
+[Đối chiếu tuổi thọ/window và trade tay-bot10/11](RECENT-WINDOWS-EDGE-DECAY-AND-DISCRETION-20261110.md)
+lưu thống kê/scope và readinglist. Các khoảng3–5năm/12–24tháng/3–6tháng trong đó
+là đề xuất theo vai trò, không minimumsample, protocol mới hoặc quyền mở2025+.
+
 | Vai trò dữ liệu | Cách dùng từ nay | Điều không được suy |
 |---|---|---|
 | 2022–2024 trong phạm vi đã được phép | Ưu tiên development và kiểm độ bền gần theo các đoạn liên tiếp; phân tích riêng năm/quý và đóng góp sau phí | Không tự gọi 2023/2024 là clean OOS: nhiều strategies/markets đã consumed hoặc prior exposure chưa rõ |
