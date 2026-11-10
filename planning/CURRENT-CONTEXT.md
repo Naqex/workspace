@@ -13,7 +13,10 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
   cơ chế/holding/risk/frequency/winrate còn cần chọn. [Hồ sơ lựa chọn](research/PROP-FIRM-FIT-20261102.md#only-one-hồ-sơ-mục-tiêu-và-các-case-để-owner-chọn--10112026)
   giữ confirmed/proposed/unknown: incomechính/propvốn/riskthấp,1lane kiểm sâu;
   [researchtimeframe](research/TIMEFRAME-SELECTION-ONLYONE-20261110.md) giữ quyết định
-  **M15**, thay tư vấnH1 cũ; EURUSD/intraday còn là đề xuất, **chưa chốt toàncase**. Không dispatch,
+  **M15**, thay tư vấnH1 cũ. **Owner yêu cầu research sản phẩm trước, rút ưu tiên
+  EURUSD chỉ vì reuse**; [so sánh instrument](research/INSTRUMENT-SELECTION-ONLYONE-20261110.md)
+  đề xuất so cuối EURUSD/USDJPY, US500, vàng theo cơ chế/cost/risk; chưa đo
+  target costs/M15 hay chốt asset/pullback/intraday. Không dispatch,
   riskgrid, sửaoldverdict hoặc mởholdout/broker từ hồ sơ tư vấn này.
 
 - **Owner10/11 yêu cầu phân tích vì làm2–3tháng chưa thấy kết quả.**
