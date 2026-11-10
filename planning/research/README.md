@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+[Cộng đồng mắc ở infrastructure→edge](OWNER-EVIDENCE-REPORT-20261108.md#13-cộng-đồng-có-gặp-ngưỡng-này-không-đối-chiếu1011):
+case6tháng/17strategies,developer7tuần,AI1,5năm và alpha bottleneck; self-reports,
+chưa proof đã khắc phục. Đối chiếu QC/FTMO, không tỷ lệ thành công/deadline,
+không đổi engine hoặc áp communityfilters trực tiếp.
+
 [Vì sao làm lâu vẫn chưa có ứng viên — hậu kiểm10/11](OWNER-EVIDENCE-REPORT-20261108.md#12-làm-lâu-nhưng-chưa-có-kết-quả-hậu-kiểm-delivery-ngày1011):
 93 hồ sơ không93bot; economics/transfer và delivery dàn trải đều là trở ngại.
 Giữ tài sản kỹ thuật, chưa có thời gian/%lãngphí đáng tin; đề xuất shortlist
