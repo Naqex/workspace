@@ -16,8 +16,11 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
   **M15**, thay tư vấnH1 cũ. **Owner yêu cầu research sản phẩm trước, rút ưu tiên
   EURUSD chỉ vì reuse**; [so sánh instrument](research/INSTRUMENT-SELECTION-ONLYONE-20261110.md)
   đề xuất so cuối EURUSD/USDJPY, US500, vàng theo cơ chế/cost/risk; chưa đo
-  target costs/M15 hay chốt asset/pullback/intraday. Không dispatch,
-  riskgrid, sửaoldverdict hoặc mởholdout/broker từ hồ sơ tư vấn này.
+  target costs/M15 hay chốt asset/pullback/intraday.
+  [Đối chiếu challenge](research/INSTRUMENT-SELECTION-ONLYONE-20261110.md#đối-chiếu-riêng-ftmo-challenge--bổ-sung-theo-yêu-cầu-owner-1011)
+  đã xác nhận published Forex5USD/lot roundtrip, index0, metals0,0007%/chiều;
+  spread thả nổi/account-specific vẫn chưa đo, không đổi old costs/outcomes.
+  Không dispatch, riskgrid, sửaoldverdict hoặc mởholdout/broker từ hồ sơ tư vấn này.
 
 - **Owner10/11 yêu cầu phân tích vì làm2–3tháng chưa thấy kết quả.**
   [Hậu kiểm delivery](research/OWNER-EVIDENCE-REPORT-20261108.md#12-làm-lâu-nhưng-chưa-có-kết-quả-hậu-kiểm-delivery-ngày1011)
