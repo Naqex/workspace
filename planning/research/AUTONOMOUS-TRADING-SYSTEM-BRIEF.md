@@ -14,8 +14,9 @@ Brief không là execution plan, acceptance ledger hoặc hợp đồng cấp qu
 - **10/11 — mục tiêu và cách tập trung:** owner xác nhận trading là hướng thu
   nhập chính, tiếp cận vốn prop với ưu tiên rủi ro thấp; chọn thử **only one**
   trong thời gian tới để thu hẹp phạm vi. [Hồ sơ và các case để chọn](PROP-FIRM-FIT-20261102.md#only-one-hồ-sơ-mục-tiêu-và-các-case-để-owner-chọn--10112026)
-  phân biệt quyết định với đề xuất. Chưa chốt instrument/timeframe/holding,
-  tần suất, winrate, risk/budget hoặc cỡ tài khoản; không tự chọn thay owner.
+  phân biệt quyết định với đề xuất. **Owner đã chốt khung tín hiệu M15** cho
+  vòng onlyone đầu10/11; instrument/cơ chế/holding, tần suất, winrate, risk/budget
+  và cỡ tài khoản chưa chốt; không tự chọn thay owner.
   Việc này không mở tài khoản, holdout, giao dịch hoặc mua challenge.
 - Mục tiêu dài hạn: tìm kiếm lợi nhuận trên thị trường bằng hệ thống, dùng AI
   để tự động hóa cả nghiên cứu và vận hành giao dịch.
@@ -30,8 +31,8 @@ Brief không là execution plan, acceptance ledger hoặc hợp đồng cấp qu
   **Forex major qua MT5**, lấy **FTMO 2-Step Swing** làm chuẩn mô phỏng cho nguồn
   vốn prop firm. Bắt đầu offline, sau đó free trial khi có bằng chứng và setup
   phù hợp; chưa mua challenge. [Khảo sát và quyết định](PROP-FIRM-FIT-20261102.md).
-  Chưa chốt cặp tiền, timeframe, cỡ tài khoản hoặc risk budget cụ thể; lựa chọn
-  này không mở quyền kết nối broker, đặt lệnh hoặc chi phí challenge.
+  Tại thời điểm02/11, chưa chốt cặp/timeframe/cỡ tài khoản/risk; M15 đã được chốt
+  riêng10/11 ở trên. Lựa chọn không mở broker, đặt lệnh hoặc chi phí challenge.
   Agent đã đăng ký [bài thử offline EURUSD/H4](FOREX-PROP-PILOT-20261102.md)
   với 10.000 USD giả lập/risk25 USD; đây là defaults nghiên cứu, không thay
   trạng thái chưa chốt ngân sách hoặc sự chấp thuận tiền thật của owner.
@@ -47,8 +48,8 @@ Brief không là execution plan, acceptance ledger hoặc hợp đồng cấp qu
   triển khai và tài sản workspace. Khi đó owner hỏi rõ spot so với futures;
   khuyến nghị sản phẩm khởi đầu vẫn là spot không vay/không leverage, long/cash.
   Chưa có quyết định mở futures, bằng chứng lợi nhuận hơn Forex hoặc quyền live.
-- Nhịp giao dịch **chưa chốt**: owner muốn đề xuất theo tính khả thi. D1/H4 mới
-  là khuyến nghị của assistant, chưa là lựa chọn được owner chốt.
+- Khung tín hiệu vòng onlyone đầu **M15 đã chốt10/11**; holding/tần suất giao
+  dịch chưa chốt. D1/H4 từng là khuyến nghị lịch sử, không thay quyết định này.
 - Owner đã chốt bộ nền ban đầu: **Paperclip** quản lý công việc/agents,
   **RD-Agent** nghiên cứu, **TradingAgents** phân tích/phản biện và **LangGraph**
   làm runtime workflow bên trong engine. Chọn fork Paperclip gốc để mở rộng i18n;

@@ -20,7 +20,8 @@ dưới giữ như lịch sử, không thay các nguồn cập nhật hoặc quy
 Owner chốt ngày 02/11/2026: **Forex major qua MT5; FTMO 2-Step Swing làm chuẩn
 mô phỏng đầu tiên; offline → free trial → chỉ xét challenge trả phí khi có đủ
 bằng chứng và duyệt ngân sách**. The5ers giữ làm ứng viên thử phí thấp sau đó.
-Chưa chốt cặp tiền, timeframe, cỡ tài khoản hoặc risk budget; chưa cấp quyền
+Tại quyết định02/11, cặp/timeframe/cỡ tài khoản/risk chưa chốt; cập nhậtM15 ở
+mục onlyone bên dưới. Lựa chọn này chưa cấp quyền
 đăng ký/kết nối tài khoản, đặt lệnh, mua challenge hay tự retry. Các nhận định
 bên dưới giải thích lựa chọn, không là kết quả kiểm chứng chiến lược.
 
@@ -99,6 +100,10 @@ cứu theo mục tiêu; yêu cầu nhắc lại mục tiêu, so timeframe/risk/f
 trước chọn case. Không đồng nghĩa chốt case cụ thể, phải trade hằng ngày hoặc
 đóng hết các hướng nghiên cứu cũ. Không có numeric run/strategy/filter mới.
 
+**Xác nhận tiếp10/11:** owner chốt **M15 làm khung tín hiệu cho vòng onlyone
+đầu tiên**. Sản phẩm, cơ chế, holding, tần suất, winrate và risk thật vẫn cần
+chọn; xác nhận khung không tự phê duyệt toàn bộcaseA/EURUSD hoặc gửi lệnh.
+
 | Nội dung | Đã chốt từ owner | Còn thiếu / cách hiểu |
 |---|---|---|
 | Thu nhập | Hướng tới trading là nguồn chính | Chưa xác nhận hiện profitable hoặc mức thu nhập ròng/sinh hoạt cần mỗi tháng |
@@ -107,7 +112,7 @@ trước chọn case. Không đồng nghĩa chốt case cụ thể, phải trade
 | Chuẩn chính | FTMO CFD2-StepSwing/MT5;The5ersHighStakes đối chiếu sau | Cỡ tài khoản/package/chi phí đích chưa pin; mỗi chương trình cần qualification riêng |
 | Cách nghiên cứu | Recent-first từ2022 và thử onlyone |2025+reserved giữ gate; không sửa oldoutcomes hoặc tự mở data |
 | Vận hành | Owner nói có thể để máy24/7, trừ sự cố bất khả kháng | Đây là khả năng owner khai báo, không runtimeuptime đã đo; cần supervision/recovery |
-| Holding/timeframe | Chưa giới hạn từ khảo sát trước | H1/H4không tự quy định giữ lệnh; chưa chọn day/swing hoặc có thể chịu ít lệnh/chuỗiSL tới mức nào |
+| Holding/timeframe | **M15 đã chốt cho vòng onlyone đầu** | Thời gian giữ lệnh/day-swing chưa chốt; khung nến không tự quyết định holding hoặc số lệnh |
 | Risk/winrate/frequency | Chưa có lựa chọn cuối |0,25% là baseline nghiên cứu đã dùng, không optimum hoặc authorityrisk thật; không tự đặt quota lệnh |
 | Thời hạn | Owner muốn so các mốc3/6/12tháng | Chưa deadline cá nhân hoặc dự báo pass; khác thời gian giữ một lệnh |
 
@@ -115,7 +120,7 @@ trước chọn case. Không đồng nghĩa chốt case cụ thể, phải trade
 
 | Case tổ chức nghiên cứu | Khung quyết định/holding minh họa | Tần suất mong muốn và đánh đổi |
 |---|---|---|
-| A.Intraday có chọn lọc — agent nghiêng về để bắt đầu | Một sản phẩm, khungM15 theo research10/11; giữ intraday theo rule được kiểm | Canh cơ hội hằng ngày, mong khoảng2–5lệnh hợp lệ/tuần; không quota. Có phản hồi đều hơn sparseevents nhưng fees/tail/clock cần đo |
+| A.Intraday có chọn lọc — agent nghiêng về để bắt đầu | KhungM15 owner đã chốt; một sản phẩm và holding intraday vẫn là đề xuất | Canh cơ hội hằng ngày, mong khoảng2–5lệnh hợp lệ/tuần; không quota. Có phản hồi đều hơn sparseevents nhưng fees/tail/clock cần đo |
 | B.Short swing | Một sản phẩm, khungH4, giữ1–5ngày theo rule được kiểm | Chấp nhận ít cơ hội hơn, nhiều ngày không vào; thêm funding/gap và payoutflatness cần đo |
 | C.Sự kiện thưa | Một sản phẩm, eventcalendar và một khung quyết định đã chọn | Có thể vài cơ hội/tháng; hợp cơ chế cụ thể nhưng tích lũy evidence và chuyển thành dòng tiền có thể chậm; không tự loại khi có edge |
 
@@ -128,7 +133,7 @@ không kết luận mọi scalper đều thất bại. Cần đo frequency/holdi
 Nếu owner chọnA, gói nghiên cứu agent đề xuất hiện là **EURUSD + M15 + intraday +
 FTMO2-StepSwing profile**, theo [đối chiếu cộng đồng/quỹ10/11](TIMEFRAME-SELECTION-ONLYONE-20261110.md).
 Đề xuấtH1 ban đầu được thay về mặt tư vấn, không sửa oldprotocols hoặc coiM15
-optimal đã đo. Owner chưa xác nhận case. EURUSD có data/validators reuse giảm setupcost,
+optimal đã đo. Owner đã chốt riêngM15, chưa xác nhận toàncase. EURUSD có data/validators reuse giảm setupcost,
 chưa là thị trường có edge tốt nhất. Cơ chế kinh tế vẫn phải được chọn và khóa
 trước outcome; không rerun các EURUSDversions đã gác để mong kết quả khác.
 Swing là loại tài khoản, không bắt bot giữ nhiều ngày. The5ers không phải cùng

@@ -1,9 +1,10 @@
 # Chọn timeframe cho vòng only one đầu tiên
 
 Research10/11/2026 theo yêu cầu owner chốt được khung, đối chiếu cộng đồng và
-quỹ lớn rồi đề xuất bằng bảng. **Agent đề xuất M15 làm khung quyết định của
-vòng nghiên cứu đầu**, thay đề xuất H1 ban đầu. Đây là scope/operational choice,
-không kết quả A/B hoặc proof M15 optimal/profitable; owner chưa xác nhận case.
+quỹ lớn rồi đề xuất bằng bảng. **Owner đã chốt M15 làm khung tín hiệu cho vòng
+nghiên cứu onlyone đầu tiên**, qua xác nhận “OKE CHỐT khung m15 đi” ngày10/11.
+Quyết định này thay đề xuất H1 ban đầu; sản phẩm, cơ chế và các phần case còn
+lại chưa được chốt. Đây là scopechoice, không proof M15 optimal/profitable.
 Không strategy/data/numericalrun, cache/schema/risk/holding/authority thay đổi.
 
 ## Nguồn đã đọc và giới hạn chuyển giao
@@ -31,7 +32,7 @@ chuỗiSL/cashflow/reserve cụ thể. Các ranks là qualitative judgement, ch�
 |---|---:|---|
 | M1 |1.440bars|Đểsau; chỉ khi cơ chế thật sự ngắn và execution/cost đủ cơ sở. Không allM1gambler hoặc ticks là trades |
 | M5 |288bars|Có thể phù hợp cơ chế nhanh nhưng thêm nhạy cảm về thời điểm signal/fill; chưa ưu tiênvòngđầu |
-| **M15** |**96bars**|**Đề xuất chốt vòng1**: quan sát intraday thường xuyên hơnH1, vẫn tách khỏi mục tiêu scalpingrấtngắn; chưa biết có thêm independenttrades |
+| **M15** |**96bars**|**Owner đã chốt vòng1**: quan sát intraday thường xuyên hơnH1, vẫn tách khỏi mục tiêu scalpingrấtngắn; chưa biết có thêm independenttrades |
 | M30 |48bars|Hợp lý nếu cơ chế cần; chưa evidence làm nó tốt hơnM15 hoặc cần thêm một branch nghiên cứu |
 | H1 |24bars|Khung dự phòng khi cơ chế dài hơn; có nhiều toolingreuse. Không đổi sangH1 để cứu một loser hậu kiểm |
 | H4/D1 |6/1bars|Phù hợp hướng dài hơn nếu có cơ chế; ít điểm quan sát theo ngày, không suy ítbar là ítsignal độc lập hoặc luôn sai cho income |
@@ -41,7 +42,7 @@ trong cùng phiên/trend có dependency; sample/uncertainty cần đo trên trad
 groups. Winrate càng precise vẫn có thể là netnegative; không bỏ fees/risk.
 Nhịp2–5trade/tuần ở profile chỉ mong muốn, không observedforecast hoặc quota.
 
-### Cấu hình phạm vi đề xuất để owner chọn
+### Khung tín hiệu đã chốt và phần phạm vi còn cần chọn
 
 - Một khung **tín hiệu M15 đóng nến**, dùng thông tin biết tại decision; order
   fill sau decision. Chưa chỉ định session/indicator/entry/exit/lookback/SL.
@@ -57,8 +58,8 @@ Nhịp2–5trade/tuần ở profile chỉ mong muốn, không observedforecast h
 - Đánh giá một đợt hữu hạn rồi review; giữ kết quả âm, không đổiM15→M5→M1 theo
   chart. Muốn đổi khung phải có cơ chế/evidence, recordtrial vàprotocol mới.
 
-Đây là đề xuất chốt phạm vi để tránh phân tán, không nghĩa bỏ qua một cơ chế
-thực tế chỉ vì cần độ phân giải khác. Sau khi owner chọn, bước kế là admission
+Đây là quyết định chốt khung để tránh phân tán, không nghĩa bỏ qua một cơ chế
+thực tế chỉ vì cần độ phân giải khác. Bước kế là chọn sản phẩm và admission
 một hypothesis phù hợp khung; chưa tìm winner bằngmultiframegrid hoặc thêm
 manager/framework. C1/C2 và mọi gateholdout2025+/broker giữ nguyên.
 
