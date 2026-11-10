@@ -17,6 +17,13 @@ riêng rule/cost theo chương trình/size/version; không tối ưu cho propfir
 thức 05/11, gồm giới hạn xác minh The5ers New/Classic/tier. Phần khảo sát 02/11 bên
 dưới giữ như lịch sử, không thay các nguồn cập nhật hoặc quyết định mua.
 
+**Cập nhật10/11 về scale:** owner đã kiểm trực tiếp Client Area, cấu hình
+2-Step/USD/MT5 chỉ thấy Swing10k/25k. Giữ đây là owner-observed availability,
+không quy định chung đã được agent xác minh cho mọi khách hàng. Agent đề xuất
+đánh giá tính phù hợp **Standard ở giai đoạn FTMO Account** từ đầu cho đích
+50k/100k/200k; [phân tích bên dưới](#standard-swing-và-đích-vốn-lớn--làm-rõ-ngày-10112026).
+Chưa thay owner choice02/11, old protocols, broker profile hoặc chạy lại số.
+
 Owner chốt ngày 02/11/2026: **Forex major qua MT5; FTMO 2-Step Swing làm chuẩn
 mô phỏng đầu tiên; offline → free trial → chỉ xét challenge trả phí khi có đủ
 bằng chứng và duyệt ngân sách**. The5ers giữ làm ứng viên thử phí thấp sau đó.
@@ -92,6 +99,61 @@ vẫn ghi chưa có ứng viên đủ bằng chứng đề xuất mua challenge.
 tính xác suất hết tiền dự phòng hoặc dự báo thu nhập cho owner. Bản cập nhật này
 chỉ lưu mục tiêu và phương án; chưa chọn thay owner hoặc thay cấu hình bot,
 protocol đã freeze, quyền broker/holdout hay trạng thái Goal.
+
+## Standard, Swing và đích vốn lớn — làm rõ ngày 10/11/2026
+
+Owner hỏi lại về timeframe/cost và Swing ở cỡ lớn, rồi xác nhận đã thấy trực
+tiếp trong Client Area: **chỉ10k/25k có Swing** ở lựa chọn2-Step/USD/MT5 của
+mình. Ngày10/11 agent mở start-challenge, bị chuyển sang trang đăng nhập;
+public2-Step pricing hiển thị10k→200k nhưng không có ma trận size×Swing.
+Không suy bảng size chung thành việc Swing50k/100k/200k có sẵn, không phủ nhận
+quan sát owner bằng FAQ chung. Không login, tạo account hoặc đặt mua.
+
+| Phần luật global CFD đã kiểm ngày10/11 | Phạm vi |
+|---|---|
+| Market break >2giờ | FTMO Account Standard phải đóng trước break; Challenge/Verification và Swing được miễn. Không phải giữ lệnh >2giờ thì vi phạm |
+| Qua đêm thông thường | Không tự cấm chỉ vì qua nửa đêm; phải xem giờ đóng/nghỉ của đúng symbol, holiday và maintenance |
+| Selected news, ±2phút | Standard funded cấm order execution trên symbols bị ảnh hưởng, gồm SL/TP/pending. Có thể giữ vị thế đã mở trước window theo rule, nhưng SL/TP khớp vẫn thuộc hạn chế |
+| Thử thách và hậu challenge | Các miễn trừ trong evaluation không chứng minh strategy sẽ phù hợp funded Standard |
+
+Sources đã đọc lại:
+[holding FAQ](https://ftmo.com/en/faq/can-i-hold-positions-overnight-or-over-the-weekend/),
+[news FAQ](https://ftmo.com/en/faq/can-i-trade-news/),
+[Swing FAQ](https://ftmo.com/en/faq/what-is-the-swing-account-type-and-how-does-it-work/),
+[2-Step page](https://ftmo.com/en/2-step-challenge/).
+FAQ Swing hiện nói chỉ thuộc2-Step và không đổi Standard→Swing sau mua;
+chưa đủ để xác nhận available tier theo account. Các phản ánh
+[Reddit về hạn chế Swing cỡ lớn](https://www.reddit.com/r/FTMO_Forex_Trading/comments/1rxmeql/swing_accounts_200k_and_above_not_anymore/)
+là self-report, không terms cho mọi khách hàng. Không trộn FTMO US/OANDA.
+
+### Timeframe, holding và phí là ba biến khác nhau
+
+M15 là một nến15phút, không nghĩa mỗi lệnh giữ15phút. Tín hiệuM15 vẫn có thể
+giữ vài giờ trong ngày; H1 không bắt giữ qua đêm. Rate commission không giảm
+theo khung: cost/R có thể giảm nếu cùng riskUSD nhưng stop hợp lý rộng hơn,
+lot nhỏ hơn và/hoặc giảm turnover. Không nớiSL một recipe cũ chỉ để giảm phí.
+
+Ví dụ giả định EURUSD,1lot=10USD/pip, commission5USD/lot mở–đóng. SL đo từ
+giá khớp; giữ lỗ do giá20USD trước commission, chưa adverse slippage/swap:
+
+| SL minh họa | Lot | Lỗ do giá tại SL | Commission RT | Lỗ + commission |
+|---|---:|---:|---:|---:|
+|10pip|0,20|20USD|1USD|21USD|
+|40pip|0,05|20USD|0,25USD|20,25USD|
+
+Đây là phép tính, không đề xuấtSL10/40, prediction hoặc cài risk mới. Spread
+đã đi vào giá Bid/Ask khi khớp; không cộng lần hai vào stop-distance đã đo từ
+fill. Nếu tính lợi nhuận trên mid, phải mô hình riêng tác động spread/fills.
+Giữ lâu qua rollover có thể phát sinh swap; số giao dịch/thời gian giữ và
+winrate có thể đổi nên tối ưu bằng net expectancy/equity, không riêng phí.
+
+**Khuyến nghị cho đích vốn lớn:** giữM15 đã chốt; ưu tiên nghiên cứu intraday
+và kiểm dưới **luật funded Standard ngay từ đầu**, gồm calendar/news/closures,
+costs và account risk. Không phụ thuộc miễn trừ Swing hoặc chọn phiên bản chỉ
+pass evaluation. Standard không bắt buộc mọi strategy phải flat mỗi đêm;
+nếu áp rule flat-intraday để vận hành đơn giản, đó là strategy choice mới,
+phải đăng ký/kiểm chứ không tự force-close old books. Không mua/chuyển account
+và chưa đổi confirmed target profile chỉ từ lượt tư vấn này.
 
 ## Only one: hồ sơ mục tiêu và các case để owner chọn — 10/11/2026
 

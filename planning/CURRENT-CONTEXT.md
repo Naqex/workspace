@@ -9,6 +9,13 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 ## Việc hiện tại
 
+- **Owner10/11 đã thấy Client Area chỉ có Swing10k/25k** cho2-Step/USD/MT5.
+  [Standard/Swing và scale](research/PROP-FIRM-FIT-20261102.md#standard-swing-và-đích-vốn-lớn--làm-rõ-ngày-10112026)
+  lưu owner-observed availability, official market-break/news rules và đề xuất
+  kiểm fundedStandard từ đầu cho đích50k–200k. Chưa đổi confirmed targetSwing,
+  oldprotocols/costs hoặc account. Không hiểu Standard cấm mọiovernight;
+  marketbreak>2giờ khác holding>2giờ. M15khôngđồngnghĩagiữ15phút.
+
 - **Owner10/11 đã chọn thử onlyone và chốt khung tín hiệu M15**; instrument/
   cơ chế/holding/risk/frequency/winrate còn cần chọn. [Hồ sơ lựa chọn](research/PROP-FIRM-FIT-20261102.md#only-one-hồ-sơ-mục-tiêu-và-các-case-để-owner-chọn--10112026)
   giữ confirmed/proposed/unknown: incomechính/propvốn/riskthấp,1lane kiểm sâu;
