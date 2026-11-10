@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+[Ưu tiên dữ liệu gần từ2022 — quyết định10/11](STRATEGY-VALIDATION-FRAMEWORK-20261105.md#ưu-tiên-dữ-liệu-gần--quyết-định-của-owner-ngày-10112026):
+recent-first cho study mới, lịch sử cũ stress/mẫu/warmup chọn lọc; không yêu cầu
+lời mọi thời kỳ.2022–24 không tự cleanOOS,2025+ vẫn reserved/gate riêng.
+
 [Portfolio cho prop firm](PORTFOLIO-RESEARCH-AND-ADMISSION-20261110.md):
 chia risk theo cơ chế, alignednetequity→dependency→frozenallocation→sharedaccount
 →perfirm/timefit/forward. Readiness4baselines đã rà, chưaportfolioPnL hoặc

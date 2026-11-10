@@ -9,6 +9,12 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 ## Việc hiện tại
 
+- **Ưu tiên owner10/11: nghiên cứu từ2022 trở đi**, trước2022 là stress/mẫu/
+  warmup chọn lọc và reuse. [Cách thực thi](research/STRATEGY-VALIDATION-FRAMEWORK-20261105.md#ưu-tiên-dữ-liệu-gần--quyết-định-của-owner-ngày-10112026)
+  áp study mới; không sửa frozen2019/2022 outcomes hoặc bắt thắngmọinăm.
+  Development2022–24 giữ exposed/unverified;2025+ vẫn reserved/gate riêng,
+  chưa mở data/chạy study mới. Cặp2019/2022 không tự đại diện thị trường2026.
+
 - [R093 options-week](research/OPTIONS-WEEK-RESULTS-20261110.md) đã terminal/
   reviewed:48windows/96cases/8books, stress2019+279,41USD/unit,2022−708,85;
   2022âmtrướcphí nên gác exactalpha.96locators đủ/3.026.580fields/10mutations;

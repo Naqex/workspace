@@ -15,6 +15,67 @@ Khung tốt cần làm rõ assumptions, tạo kết quả bác bỏ được, gh
 kiểm trên dữ liệu không dùng để sửa rules và so với hành vi thực tế.
 Độ tin cậy tăng bằng evidence và thử phá assumptions; không lấy lời agent xác nhận.
 
+## Ưu tiên dữ liệu gần — quyết định của owner ngày 10/11/2026
+
+**Các nghiên cứu đăng ký mới ưu tiên từ 01/01/2022 trở đi**, theo dữ liệu được
+phép dùng và phù hợp instrument/cơ chế; không mặc định mở lại lịch sử dài cho
+mọi ứng viên. Mục tiêu là bằng chứng có thể áp dụng vào challenge và vận hành
+sắp tới, sau chi phí và giới hạn quỹ. Không yêu cầu lời ở mọi thời kỳ/thị trường,
+không có bài kiểm nào chứng minh chắc chắn lợi nhuận tương lai.
+
+2022 là mốc ưu tiên owner chọn, không structural-break date đã được chứng minh.
+Không mặc định mọi dữ liệu trước đó vô dụng hoặc thị trường gần sẽ giữ nguyên.
+Research mechanisms có thể cũ nhưng vẫn cần kiểm hiện tại; phân biệt tuổi paper
+với tuổi dữ liệu và khả năng thực thi. Không nâng năm xuất bản thành evidence mới.
+
+| Vai trò dữ liệu | Cách dùng từ nay | Điều không được suy |
+|---|---|---|
+| 2022–2024 trong phạm vi đã được phép | Ưu tiên development và kiểm độ bền gần theo các đoạn liên tiếp; phân tích riêng năm/quý và đóng góp sau phí | Không tự gọi 2023/2024 là clean OOS: nhiều strategies/markets đã consumed hoặc prior exposure chưa rõ |
+| 2025 trở đi, gồm năm hiện tại 2026 | Giữ reserved holdout theo gate hiện có; chỉ chạy đúng window/candidate/protocol được cho phép sau freeze | Ưu tiên dữ liệu gần chưa tự cấp quyền tải/đọc/tuning holdout hoặc biến năm chưa kết thúc thành full year |
+| Trước 2022 | Reuse evidence cũ; chỉ mở phần có câu hỏi stress/tail/regime, thiếu mẫu hoặc warmup/fit cần thiết đã đăng ký | Không dùng total profit dài hạn che kết quả gần yếu, cũng không xóa tail loss hoặc negatives cũ |
+| Dữ liệu mới đến sau khi khóa rules | Shadow/forward/reconciliation và giám sát đúng scope đã cấp | Forward không có lệnh thật nếu chưa có authority; thời gian trôi qua không tự tạo đủ bằng chứng |
+
+Trong nhiều component gần đây, 2019/2022 là discovery comparison đã khóa.
+Hai năm rời nhau **chưa chứng minh relevance năm2026**. Các kết quả này giữ
+nguyên scope/verdict; không sửa frozen gates hoặc tự promote bản lỗ2019 bằng
+cách bỏ năm đó. Với hypothesis mới: chốt recent window/split trước outcomes,
+audit consumed map và source quality; coverage thiếu giữ unknown. Những helper
+chỉ nhận2019/2022 cần amendment, tests và version riêng trước dùng2023/2024,
+không chỉ đổi nhãn năm hoặc nới holdout guard.
+
+Thứ tự: recent development → freeze rules/cost/risk → temporal validation phù
+hợp exposure → stress chọn lọc → portfolio/prop equity/time-fit → prospective
+reconciliation. Bài cần huấn luyện dùng chronological rolling/expanding windows
+đã khóa; rules cố định không bắt buộc retrain. Purge/embargo chỉ khi overlap
+features/labels/positions cần; split theo ngày không tự loại hết leakage.
+Warmup trước2022 có thể hợp lệ, nhưng không tính PnL warmup vào evaluation.
+
+Không mặc định một độ dài 3–5năm là đủ: 12eventwindows/năm khác hàng nghìn
+giao dịch có thể vẫn phụ thuộc. Báo trade/event counts, effective dependence,
+uncertainty và regimes thực sự đã có; ít dữ liệu thì inconclusive hoặc mở thêm
+phạm vi có cơ sở, không ép recent-only để ra winner. Nhiều ticks không tự là
+nhiều cơ hội độc lập. Chưa khóa train/test dates chung cho mọi chiến lược.
+
+Nếu chỉ có lợi thế trong một trạng thái thị trường, điều kiện bật/tắt phải
+quan sát được **trước quyết định**, được freeze và kiểm ngoài dữ liệu dùng chọn
+điều kiện. Không gắn nhãn retrospective “năm thuận lợi” rồi bỏ các đoạn lỗ.
+Khác biệt trước/sau2022 cần nguyên nhân có bằng chứng hoặc ghi unknown; kể một
+câu chuyện regime không thay statistical/causal evidence. Tail breach cũ vẫn
+phải giải thích/quản trị trước deployment, không xóa vì nằm ngoài recent scope.
+
+Portfolio áp cùng recent-first policy nhưng vẫn kiểm joint downside/exposure
+và shared equity; nhiều sleeves cùng hợp2022–24 có thể cùng thất bại khi đổi
+regime. Không dùng riêng correlation gần thấp làm chứng nhận đa dạng hóa.
+
+Đối chiếu10/11: [QuantConnect Research Guide](https://www.quantconnect.com/docs/v2/writing-algorithms/key-concepts/research-guide)
+về chọn nhiều factors rồi chấm lại cùng mẫu/forward paper test; [scikit-learn
+TimeSeriesSplit](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.TimeSeriesSplit.html)
+về chronological validation (công cụ không tự hiểu financial leakage); [AQR
+trend attribution](https://www.aqr.com/Insights/Research/Journal-Article/You-Cant-Always-Trend-When-You-Want)
+landing summary về biến động hiệu suất theo cơ hội thị trường, không bằng chứng
+mọi thay đổi là permanent. Không đọc fullpaper AQR hoặc sao chép return/data/code.
+Đây là ưu tiên research áp cho study mới, chưa backtest/holdout/strategy sửa mới.
+
 Nguồn chính thức/chuyên môn đã đối chiếu:
 
 - [Bailey et al., Probability of Backtest Overfitting](https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf),
