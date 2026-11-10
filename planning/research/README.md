@@ -1,7 +1,11 @@
 # Tra cứu research đã có
 
+[Chốt đề xuất timeframe onlyone — M15](TIMEFRAME-SELECTION-ONLYONE-20261110.md):
+đối chiếu ManAHL/AQR/FTMO/community; bảng M1→D1, chọn theo hồ sơ chứkhông
+claimoptimal. Thay tư vấnH1 cũ; owner chưa xác nhận, khôngnumeric/holdout/broker.
+
 [Owner chọn thử onlyone — bảng mục tiêu và các case](PROP-FIRM-FIT-20261102.md#only-one-hồ-sơ-mục-tiêu-và-các-case-để-owner-chọn--10112026):
-thu nhập chính/propvốn/riskthấp đãchốt;intradayH1/shortswingH4/sparseevent
+thu nhập chính/propvốn/riskthấp đãchốt;intradayM15/shortswingH4/sparseevent
 đểownerchọn. Risk0,25%offline và2–5lệnh/tuần chỉ đề xuất, chưa case/authority.
 
 [Inefficiency, top-down/bottom-up, onlyone và filter](OWNER-EVIDENCE-REPORT-20261108.md#14-hiểu-cơ-chế-filter-và-cách-tập-trung):

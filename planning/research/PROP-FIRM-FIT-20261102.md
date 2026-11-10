@@ -115,7 +115,7 @@ trước chọn case. Không đồng nghĩa chốt case cụ thể, phải trade
 
 | Case tổ chức nghiên cứu | Khung quyết định/holding minh họa | Tần suất mong muốn và đánh đổi |
 |---|---|---|
-| A.Intraday có chọn lọc — agent nghiêng về để bắt đầu | Một sản phẩm, khungH1, giữ vài giờ và thoát trong ngày theo rule được kiểm | Canh cơ hội hằng ngày, mong khoảng2–5lệnh hợp lệ/tuần; không quota. Có phản hồi đều hơn sparseevents nhưng fees/tail/clock cần đo |
+| A.Intraday có chọn lọc — agent nghiêng về để bắt đầu | Một sản phẩm, khungM15 theo research10/11; giữ intraday theo rule được kiểm | Canh cơ hội hằng ngày, mong khoảng2–5lệnh hợp lệ/tuần; không quota. Có phản hồi đều hơn sparseevents nhưng fees/tail/clock cần đo |
 | B.Short swing | Một sản phẩm, khungH4, giữ1–5ngày theo rule được kiểm | Chấp nhận ít cơ hội hơn, nhiều ngày không vào; thêm funding/gap và payoutflatness cần đo |
 | C.Sự kiện thưa | Một sản phẩm, eventcalendar và một khung quyết định đã chọn | Có thể vài cơ hội/tháng; hợp cơ chế cụ thể nhưng tích lũy evidence và chuyển thành dòng tiền có thể chậm; không tự loại khi có edge |
 
@@ -125,15 +125,18 @@ caseA có netedge. Scalping siêu ngắn chưa ưu tiên vì execution/cost sens
 không kết luận mọi scalper đều thất bại. Cần đo frequency/holding thực tế, không
 đổi threshold để ép đủ2–5lệnh hoặc closewithin-day khi chưa replayversion mới.
 
-Nếu owner chọnA, gói nghiên cứu agent đề xuất là **EURUSD + H1 + intraday +
-FTMO2-StepSwing profile**; EURUSD có data/validators reuse nên giảm setupcost,
+Nếu owner chọnA, gói nghiên cứu agent đề xuất hiện là **EURUSD + M15 + intraday +
+FTMO2-StepSwing profile**, theo [đối chiếu cộng đồng/quỹ10/11](TIMEFRAME-SELECTION-ONLYONE-20261110.md).
+Đề xuấtH1 ban đầu được thay về mặt tư vấn, không sửa oldprotocols hoặc coiM15
+optimal đã đo. Owner chưa xác nhận case. EURUSD có data/validators reuse giảm setupcost,
 chưa là thị trường có edge tốt nhất. Cơ chế kinh tế vẫn phải được chọn và khóa
 trước outcome; không rerun các EURUSDversions đã gác để mong kết quả khác.
 Swing là loại tài khoản, không bắt bot giữ nhiều ngày. The5ers không phải cùng
 broker/feed/cost và chưa là một deployment thứ hai.
 
 **Trao đổi tiếp10/11 — timeframe nhỏ hơn:** owner hỏi có nên nhỏ hơnH1, chưa
-chốtM15/M30/H1. H1 ở đề xuất trên là defaultreuse, không kết quả so sánh tối ưu.
+chốtM15/M30/H1 tại thời điểm hỏi; sau đó giao research rồi đề xuấtchốt, dẫn tới
+M15 ở report trên. H1 ban đầu là defaultreuse, không kết quả so sánh tối ưu.
 M15 là lựa chọn có thể cân nhắc nếu cơ chế cần quan sát thay đổi trong khoảng
 30–90phút; H1 có thể đủ cho cơ chế kéo dài nhiều giờ. Các khoảng này minh họa
 độ phân giải, không suy holding/tần suất từ timeframe. Chọn theo thời gian của
