@@ -24,6 +24,74 @@ Chưa chốt cặp tiền, timeframe, cỡ tài khoản hoặc risk budget; chư
 đăng ký/kết nối tài khoản, đặt lệnh, mua challenge hay tự retry. Các nhận định
 bên dưới giải thích lựa chọn, không là kết quả kiểm chứng chiến lược.
 
+## Trading làm thu nhập chính — làm rõ ngày 10/11/2026
+
+**Owner xác nhận mục tiêu dùng trading làm thu nhập chính**, chưa xác nhận đang
+có thu nhập trading hoặc đủ dự phòng. Owner muốn so sánh các mốc trước khi chọn
+setup. Khoản 15 triệu nêu ngày 02/11 là lịch sử, không được suy thành tiền dự
+phòng hiện tại. Chưa chọn budget, risk/lệnh, holding period hay mua challenge.
+
+### Dự phòng sinh hoạt và ngân sách thử nghiệm
+
+Dùng chi phí sinh hoạt thiết yếu thực tế (ăn ở, điện nước, y tế, trả nợ/người phụ
+thuộc) để tính số tháng đủ sống khi **không có payout**. Bảng dưới là đề xuất lập
+kế hoạch của agent, không phải luật quỹ hoặc ngưỡng đã kiểm định bằng thống kê.
+Ví dụ **8 triệu đồng/tháng chỉ để minh họa**, chưa phải chi phí của owner:
+
+| Số tháng đủ sống | Tiền minh họa | Hướng vận hành đề xuất |
+|---|---:|---|
+| 3 tháng | 24 triệu | Ít dư địa cho nghiên cứu, fail challenge và chờ payout; ưu tiên demo/free trial và nguồn thu khác, chưa nên phụ thuộc trading |
+| 6 tháng | 48 triệu | Có thể thử quy mô nhỏ sau khi đủ bằng chứng và có ngân sách riêng; chưa mặc định bỏ nguồn thu khác |
+| 12 tháng | 96 triệu | Mốc lập kế hoạch ưu tiên nếu muốn phụ thuộc chủ yếu trading; vẫn phải chứng minh edge, vận hành và dòng tiền thực nhận |
+| 18 tháng | 144 triệu | Chịu gián đoạn lâu hơn; không làm bot tốt hơn và không tự cho phép nâng risk |
+
+Dưới 3 tháng thì còn ít dư địa hơn hàng đầu. Tách tiền đủ sống theo kế hoạch,
+khoản bất trắc ngoài dự kiến và ngân sách challenge/retry/vận hành; không tính
+trùng cùng một khoản tiền. Ngân sách thử nghiệm phải là khoản mất được mà vẫn
+giữ phần sinh hoạt đã dành riêng. Vốn danh nghĩa trên tài khoản quỹ và lợi nhuận
+chưa rút không phải tiền mặt của owner. Quỹ đủ sống cần dễ tiếp cận và ít biến
+động; không dùng chính bot trading để giữ tiền dự phòng.
+
+[CFPB về emergency fund](https://www.consumerfinance.gov/an-essential-guide-to-building-an-emergency-fund/),
+đọc 10/11: khoản cần có phụ thuộc hoàn cảnh và cần quản lý dòng tiền. Nguồn này
+không đặt chuẩn riêng 12/18 tháng cho prop trading; các mốc trên là khuyến nghị
+thận trọng cho mục tiêu thu nhập chính chưa được chứng minh của owner.
+
+### Thời gian giữ lệnh không phải chu kỳ thu nhập
+
+Nghiên cứu hiện có cả intraday và swing nhiều ngày; chưa chọn một bot để giao
+dịch challenge. M1/H1/H4 là khung dữ liệu, không tự quyết định giữ lệnh bao lâu;
+mục tiêu pass trong 3/6/12 tháng cũng không phải holding period. Intraday có thể
+giảm phơi nhiễm qua đêm, nhưng turnover/spread/slippage vẫn có thể làm mất edge.
+Swing có ít cơ hội hơn hoặc thêm funding/gap risk; không loại chỉ vì ít lệnh.
+So sánh hai hướng bằng net equity, chi phí thực tế, drawdown, thời gian không có
+payout và độ phù hợp với luật funded; không ép vào lệnh để tạo thu nhập mỗi ngày.
+
+FTMO Swing là loại tài khoản, không bắt buộc giữ lệnh nhiều ngày. Kiểm lại
+[Swing FAQ](https://ftmo.com/en/faq/what-is-the-swing-account-type-and-how-does-it-work/)
+và [holding FAQ](https://ftmo.com/en/faq/can-i-hold-positions-overnight-or-over-the-weekend/)
+ngày 10/11: Swing được miễn hạn chế giữ qua market break >2 giờ tương ứng, base
+leverage thấp hơn Standard. Không diễn giải Standard cấm mọi overnight.
+
+[Reward FAQ FTMO](https://ftmo.com/en/faq/how-do-i-withdraw-my-profits/), đọc 10/11:
+có thể yêu cầu từ ngày 14 sau lệnh đầu trên tài khoản tương ứng, phải đóng vị
+thế/lệnh chờ, đạt điều kiện và qua review/thanh toán. Đây không phải lương chắc
+chắn hai tuần/lần; evaluation PnL không là tiền sinh hoạt. Không suy cùng cơ chế
+reset loss limit/payout cho mọi chương trình. Sau withdrawal cần tính lại
+headroom theo đúng hợp đồng, không giữ sizing dựa trên lợi nhuận đã rút.
+
+Setup cần đánh giá thêm: thời gian không nhận được tiền, payout ròng sau split/
+phí/thuế và chi phí retry/vận hành, mất tài khoản/gián đoạn hãng, nhu cầu sinh
+hoạt và nguồn thu thay thế. Khoản thuế chưa được tư vấn/xác minh riêng cho owner.
+Không suy từ số dư mô phỏng hoặc một payout thành thu nhập bền vững. Không đổi
+risk/lệnh theo số tháng dự phòng, không tăng lot để bù thiếu tiền sinh hoạt.
+
+**Giới hạn hiện tại:** [báo cáo bằng chứng](OWNER-EVIDENCE-REPORT-20261108.md)
+vẫn ghi chưa có ứng viên đủ bằng chứng đề xuất mua challenge. Chưa có cơ sở
+tính xác suất hết tiền dự phòng hoặc dự báo thu nhập cho owner. Bản cập nhật này
+chỉ lưu mục tiêu và phương án; chưa chọn thay owner hoặc thay cấu hình bot,
+protocol đã freeze, quyền broker/holdout hay trạng thái Goal.
+
 ## Thời gian challenge và độ phù hợp chiến lược — kiểm lại 05/11/2026
 
 **Có research trước; còn thiếu bước áp vào đánh giá ứng viên.** Round1 và bản
