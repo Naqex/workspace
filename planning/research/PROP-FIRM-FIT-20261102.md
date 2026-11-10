@@ -92,6 +92,76 @@ tính xác suất hết tiền dự phòng hoặc dự báo thu nhập cho owner
 chỉ lưu mục tiêu và phương án; chưa chọn thay owner hoặc thay cấu hình bot,
 protocol đã freeze, quyền broker/holdout hay trạng thái Goal.
 
+## Only one: hồ sơ mục tiêu và các case để owner chọn — 10/11/2026
+
+**Quyết định mới của owner:** thử onlyone trong thời gian tới để thu hẹp nghiên
+cứu theo mục tiêu; yêu cầu nhắc lại mục tiêu, so timeframe/risk/frequency/winrate
+trước chọn case. Không đồng nghĩa chốt case cụ thể, phải trade hằng ngày hoặc
+đóng hết các hướng nghiên cứu cũ. Không có numeric run/strategy/filter mới.
+
+| Nội dung | Đã chốt từ owner | Còn thiếu / cách hiểu |
+|---|---|---|
+| Thu nhập | Hướng tới trading là nguồn chính | Chưa xác nhận hiện profitable hoặc mức thu nhập ròng/sinh hoạt cần mỗi tháng |
+| Nguồn vốn | Ưu tiên vốn prop và kiểm soát rủi ro cá nhân | Vốn danh nghĩa không tiền mặt owner; chi phí challenge/retry và reserve chưa chốt |
+| Đích | Có edge sau phí, đủ cơ sở challenge, giữ tài khoản/payout nhiều kỳ | Chưa có candidate challenge-qualified; không tối ưu chỉ một lần pass nhanh |
+| Chuẩn chính | FTMO CFD2-StepSwing/MT5;The5ersHighStakes đối chiếu sau | Cỡ tài khoản/package/chi phí đích chưa pin; mỗi chương trình cần qualification riêng |
+| Cách nghiên cứu | Recent-first từ2022 và thử onlyone |2025+reserved giữ gate; không sửa oldoutcomes hoặc tự mở data |
+| Vận hành | Owner nói có thể để máy24/7, trừ sự cố bất khả kháng | Đây là khả năng owner khai báo, không runtimeuptime đã đo; cần supervision/recovery |
+| Holding/timeframe | Chưa giới hạn từ khảo sát trước | H1/H4không tự quy định giữ lệnh; chưa chọn day/swing hoặc có thể chịu ít lệnh/chuỗiSL tới mức nào |
+| Risk/winrate/frequency | Chưa có lựa chọn cuối |0,25% là baseline nghiên cứu đã dùng, không optimum hoặc authorityrisk thật; không tự đặt quota lệnh |
+| Thời hạn | Owner muốn so các mốc3/6/12tháng | Chưa deadline cá nhân hoặc dự báo pass; khác thời gian giữ một lệnh |
+
+### Ba case để cân nhắc, chưa có chiến lược chứng minh đúng các tần suất này
+
+| Case tổ chức nghiên cứu | Khung quyết định/holding minh họa | Tần suất mong muốn và đánh đổi |
+|---|---|---|
+| A.Intraday có chọn lọc — agent nghiêng về để bắt đầu | Một sản phẩm, khungH1, giữ vài giờ và thoát trong ngày theo rule được kiểm | Canh cơ hội hằng ngày, mong khoảng2–5lệnh hợp lệ/tuần; không quota. Có phản hồi đều hơn sparseevents nhưng fees/tail/clock cần đo |
+| B.Short swing | Một sản phẩm, khungH4, giữ1–5ngày theo rule được kiểm | Chấp nhận ít cơ hội hơn, nhiều ngày không vào; thêm funding/gap và payoutflatness cần đo |
+| C.Sự kiện thưa | Một sản phẩm, eventcalendar và một khung quyết định đã chọn | Có thể vài cơ hội/tháng; hợp cơ chế cụ thể nhưng tích lũy evidence và chuyển thành dòng tiền có thể chậm; không tự loại khi có edge |
+
+Khung và frequency là sở thích vận hành đề xuất, không observedstatistics,
+statistical minimums hoặc bộ lọc tự loại. Chưa chọn cơ chế/entry/exit hoặc biết
+caseA có netedge. Scalping siêu ngắn chưa ưu tiên vì execution/cost sensitivity,
+không kết luận mọi scalper đều thất bại. Cần đo frequency/holding thực tế, không
+đổi threshold để ép đủ2–5lệnh hoặc closewithin-day khi chưa replayversion mới.
+
+Nếu owner chọnA, gói nghiên cứu agent đề xuất là **EURUSD + H1 + intraday +
+FTMO2-StepSwing profile**; EURUSD có data/validators reuse nên giảm setupcost,
+chưa là thị trường có edge tốt nhất. Cơ chế kinh tế vẫn phải được chọn và khóa
+trước outcome; không rerun các EURUSDversions đã gác để mong kết quả khác.
+Swing là loại tài khoản, không bắt bot giữ nhiều ngày. The5ers không phải cùng
+broker/feed/cost và chưa là một deployment thứ hai.
+
+### Risk và winrate để owner hiểu lựa chọn
+
+Đề xuất giữ **0,25%/trade làm mốc so sánh offline** để reuse baseline;10k×0,25%
+=25USDplannedSLrisk=1R. Chưa chốt risk giao dịch, daily/accountbudget, accountsize
+hoặc phép chạy lại riskgrid. PlannedSL không guaranteedmaxloss khi gap/slippage;
+không lấy mức5%/10%maxloss của hãng làm budget nên dùng. Sau khi có netedge mới
+review sizing và tổng exposure phù hợp; không tănglot để đủ sinh hoạt.
+
+Không khóa winrate≥60/70/80% trước. Xét averagewin/averageloss thực tế, costs,
+losingstreak/tails và thời gian khôngpayout. TP/SL danh nghĩa không bắt buộc bằng
+average realizedRR vì có timeexit/trailing/partial hoặccosts. Hai ví dụ dưới
+chỉ minh họa10lệnh,1R=25USD,loss=1R vàfee2,50USD/lệnh riêng:
+
+| Ví dụ | Winrate/averagewin trước phí | Tổngnet10lệnh |
+|---|---|---:|
+| A |4thắng×50USD,6thua×25USD;40%,2Rwin|200−150−25=+25USD|
+| B |7thắng×12,50USD,3thua×25USD;70%,0,5Rwin|87,50−75−25=−12,50USD|
+
+Không dự báo nhóm10trade tương lai có đúng4/7wins, không chứng minh expectancy
+hoặc riskcap thật. Lệnh hằng ngày không bảo đảm lãi/payout hằng ngày; để chọn
+accountsize/dòng tiền cần mức sinh hoạt/reserve/ngân sách thử nghiệm thực tế.
+Không sử dụng lại15triệu lịch sử hoặc8triệu/tháng minh họa như facts hiện tại.
+
+Nguồn chính thức mở10/11: [FTMO Swing](https://ftmo.com/en/faq/what-is-the-swing-account-type-and-how-does-it-work/)
+giữ flexibilityholding/news tương ứng, baseleverage1:30; [2-Step objectives](https://ftmo.com/en/trading-objectives/)
+target10%/5%,daily5%/overallstatic10% theo equity/clock của chương trình, không
+nhầm1-Step/Instant. Chỉ kiểm scope cần cho bảng lựa chọn, chưa toàntermsaudit.
+[The5ers page](https://the5ers.com/high-stakes/) đọc cùng ngày giữ targetphụ;
+chưa refresh/resolve mọi NewClassic/inactivity/approvalgap trong lượt này.
+
 ## Thời gian challenge và độ phù hợp chiến lược — kiểm lại 05/11/2026
 
 **Có research trước; còn thiếu bước áp vào đánh giá ứng viên.** Round1 và bản

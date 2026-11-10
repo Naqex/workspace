@@ -1,6 +1,6 @@
 # Hệ thống giao dịch tự chủ — brief hiện hành
 
-Cập nhật: **02/11/2026 (Asia/Saigon)**.
+Cập nhật: **10/11/2026 (Asia/Saigon)**; các mục lịch sử giữ ngày quyết định riêng.
 **WORK: DRAFT · REVIEW: DOCUMENTATION-ONLY · DOC: FULL.**
 Brief giữ mục tiêu, quyết định của owner và lịch sử trao đổi kiến trúc. Các đoạn
 đề xuất ngày31/10 bên dưới được giữ để truy vết, không báo trạng thái tích hợp
@@ -11,6 +11,12 @@ Brief không là execution plan, acceptance ledger hoặc hợp đồng cấp qu
 
 ## 1. Mục tiêu và bối cảnh do owner xác nhận
 
+- **10/11 — mục tiêu và cách tập trung:** owner xác nhận trading là hướng thu
+  nhập chính, tiếp cận vốn prop với ưu tiên rủi ro thấp; chọn thử **only one**
+  trong thời gian tới để thu hẹp phạm vi. [Hồ sơ và các case để chọn](PROP-FIRM-FIT-20261102.md#only-one-hồ-sơ-mục-tiêu-và-các-case-để-owner-chọn--10112026)
+  phân biệt quyết định với đề xuất. Chưa chốt instrument/timeframe/holding,
+  tần suất, winrate, risk/budget hoặc cỡ tài khoản; không tự chọn thay owner.
+  Việc này không mở tài khoản, holdout, giao dịch hoặc mua challenge.
 - Mục tiêu dài hạn: tìm kiếm lợi nhuận trên thị trường bằng hệ thống, dùng AI
   để tự động hóa cả nghiên cứu và vận hành giao dịch.
 - Trader hiện tại đi theo luồng giao dịch tay tham khảo FXReplay, kết hợp AI chat;
@@ -29,8 +35,9 @@ Brief không là execution plan, acceptance ledger hoặc hợp đồng cấp qu
   Agent đã đăng ký [bài thử offline EURUSD/H4](FOREX-PROP-PILOT-20261102.md)
   với 10.000 USD giả lập/risk25 USD; đây là defaults nghiên cứu, không thay
   trạng thái chưa chốt ngân sách hoặc sự chấp thuận tiền thật của owner.
-- Owner mới ra trường, hiện có 15 triệu đồng. Chưa rõ khoản này có bao gồm quỹ
-  sinh hoạt/dự phòng; không tự cấp ngân sách retry. The5ers là phương án thử phí
+- **Lịch sử02/11:** owner mới ra trường, khi đó cho biết có15triệu đồng; số tiền
+  hiện tại và phần sinh hoạt/dự phòng chưa xác minh lại, không tự cấp retrybudget.
+  The5ers là phương án thử phí
   thấp để xét sau, chưa là lệnh mua. HyroTrader giữ làm nhánh crypto tham khảo.
 - Lịch sử cùng ngày: owner từng đồng ý ưu tiên crypto cho pilot ban đầu.
   Crypto spot và các kết quả đã có tiếp tục làm baseline nghiên cứu; ưu tiên

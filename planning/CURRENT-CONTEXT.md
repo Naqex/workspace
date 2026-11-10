@@ -9,6 +9,12 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 ## Việc hiện tại
 
+- **Owner10/11 đã chọn thử onlyone**, muốn xem bảng mục tiêu/case trước chọn
+  instrument/timeframe/risk/frequency/winrate. [Hồ sơ lựa chọn](research/PROP-FIRM-FIT-20261102.md#only-one-hồ-sơ-mục-tiêu-và-các-case-để-owner-chọn--10112026)
+  giữ confirmed/proposed/unknown: incomechính/propvốn/riskthấp,1lane kiểm sâu;
+  agent nghiêngA intradayEURUSD/H1 nhưng **owner chưa chốt case**. Không dispatch,
+  riskgrid, sửaoldverdict hoặc mởholdout/broker từ hồ sơ tư vấn này.
+
 - **Owner10/11 yêu cầu phân tích vì làm2–3tháng chưa thấy kết quả.**
   [Hậu kiểm delivery](research/OWNER-EVIDENCE-REPORT-20261108.md#12-làm-lâu-nhưng-chưa-có-kết-quả-hậu-kiểm-delivery-ngày1011)
   tách tài sản kỹ thuật khỏi evidence kinh tế; economics/transfer và phạm vi

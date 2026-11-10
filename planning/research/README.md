@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+[Owner chọn thử onlyone — bảng mục tiêu và các case](PROP-FIRM-FIT-20261102.md#only-one-hồ-sơ-mục-tiêu-và-các-case-để-owner-chọn--10112026):
+thu nhập chính/propvốn/riskthấp đãchốt;intradayH1/shortswingH4/sparseevent
+đểownerchọn. Risk0,25%offline và2–5lệnh/tuần chỉ đề xuất, chưa case/authority.
+
 [Inefficiency, top-down/bottom-up, onlyone và filter](OWNER-EVIDENCE-REPORT-20261108.md#14-hiểu-cơ-chế-filter-và-cách-tập-trung):
 filter khác input/researchscreen; đề xuất1lane kiểm sâu, khôngđộc canh vĩnhviễn.
 Giữ discovery→confirm và guards; không nhận Reddit firsttestmustprofit/GEX
