@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+[Standard/Swing, vốn lớn và timeframe–holding–cost](PROP-FIRM-FIT-20261102.md#standard-swing-và-đích-vốn-lớn--làm-rõ-ngày-10112026):
+owner thấy Swing10k/25k; agent chưa kiểm checkout sau login. Standard không
+cấm mọi overnight; funded có market-break/news gates khác evaluation. Đề xuất
+fundedStandard-compatible để scale, chưa đổi account hoặc confirmed profile.
+
 [Đã kiểm sâu bốn sản phẩm M15](FOUR-INSTRUMENT-M15-FIT-RESULTS-20261110.md):
 32day/side requests/128M15, data-source và proxycost/range trong4ngày2022;
 khôngtargetspread/edge. Cơ chế/negativehistory, lot/margin gaps rõ; nghiêng
