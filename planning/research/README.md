@@ -4,6 +4,8 @@
 owner yêu cầu không ưu tiên EURUSD vì data có sẵn; rút ưu tiên cũ, so Forex/
 indices/gold/oil/crypto theo cơ chế, costs, risk và luật. BIS final/official
 sources; shortlist so cuối chưa là winner/dispatch hoặc target-cost measurement.
+Đối chiếu challenge: Forex5USD/lot round trip, indices0, metals theo notional
+từ official update; spread thả nổi chưa đo account, không miễn phí sau pass.
 
 [Owner đã chốt timeframe onlyone — M15](TIMEFRAME-SELECTION-ONLYONE-20261110.md):
 đối chiếu ManAHL/AQR/FTMO/community; bảng M1→D1, chọn theo hồ sơ chứkhông

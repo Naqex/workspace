@@ -70,6 +70,79 @@ baseline offline đã có, không risk mới được chốt. Cùng risk và SL 
 volatility, asset chạy mạnh có thể dùng lot nhỏ hơn; vẫn còn gap/slippage,
 lot-step và margin nên không suy mọi asset có cùng tail risk.
 
+## Đối chiếu riêng FTMO Challenge — bổ sung theo yêu cầu owner 10/11
+
+**Có spread và commission ngay trong challenge**, không chờ tới funded.
+Scope ở đây là FTMO global CFD/MT5, target 2-Step Swing đã dùng trong hồ sơ;
+không lấy biểu phí FTMO Futures hoặc FTMO US áp sang. Phí mua challenge là
+chi phí tiền thật riêng của owner; trading costs bên dưới được phản ánh trong
+tài khoản mô phỏng và ảnh hưởng net PnL/equity.
+
+| Sản phẩm đang so | Commission công bố mỗi chiều | Mở rồi đóng cùng volume | Spread |
+|---|---|---|---|
+| EURUSD / USDJPY / GBPUSD / AUDUSD | 2,50 USD/lot | 5 USD/lot | Thả nổi; chưa có distribution đúng target account/phiên |
+| US500 / NAS100 / DE40, đúng index symbol | 0 | 0 | Vẫn có; zero commission không zero cost |
+| XAUUSD, Metals CFD | 0,0007% giá trị danh nghĩa mỗi chiều | Tính riêng notional mở và đóng; xấp xỉ 0,0014% notional mở nếu giá gần như không đổi | Thả nổi; chưa xác minh quote live |
+
+Nguồn xác định **per side** là [FTMO update 25/09/2025](https://ftmo.com/en/blog/trading-updates/trading-update-25-sep-2025/),
+đọc lại 10/11/2026: áp từ market open 29/09/2025, nói áp dụng cho all accounts.
+Index0 theo [FTMO announcement](https://ftmo.com/en/blog/zero-commissions-on-indices/).
+Không tìm thấy thông báo thay thế các mức này trong lượt tra; đây vẫn là
+published reference, chưa là commission đối soát từ deals của đúng account.
+Không suy hai tài khoản luôn có Bid/Ask/fill giống hệt hoặc mọi historical
+year từng có mức phí này. Không áp The5ers rates vào FTMO.
+
+Số 3 USD/lot round trip thuộc mức Forex cũ 1,50 USD/lot/chiều. Bài
+[tips FTMO](https://ftmo.com/en/blog/tips-for-completing-the-ftmo-challenge-how-to-avoid-mistakes/)
+vẫn có ví dụ 5 lots mất 15 USD: giữ ví dụ như nội dung lịch sử, không dùng nó
+thay rate sau update. Search index của Symbols hiện trả Forex commission5,
+nhưng web-open text chỉ có khung trang; browser thử đọc bảng bị connection
+closed. **Không thu được live spread snapshot**, không coi search cache là
+quote executable. Không đổi TLS/proxy/security settings để lấy bảng.
+
+Spread = Ask − Bid, thay đổi theo thanh khoản và tin; FTMO giải thích trực
+tiếp trong bài tips. Không có một số pip cố định cho cả challenge. Để so
+asset, cần spread median/tail theo giờ có thể giao dịch và đúng account,
+không chỉ giá nhỏ nhất quảng cáo. M15 range/ATR và spread cần cùng units.
+
+Ví dụ **giả định**, không quote FTMO: EURUSD0,10lot, contract100.000EUR/lot,
+pip0,0001 và USD account → 1USD/pip. Commission round trip0,50USD; spread
+0,3pip tương đương0,30USD nếu spread mở/đóng tương tự; tổng khoảng0,80USD
+trước slippage/swap. Với giá trị danh nghĩa vàng100.000USD mỗi chiều,
+commission0,70USD/chiều, tổng1,40USD nếu notional không đổi. Giá mở/đóng khác
+thì phải tính riêng; không copy entry×2 khi cần phí chính xác.
+
+Khi replay đã dùng Bid/Ask cho fills, spread đã nằm trong PnL, **không trừ
+lần hai**; cộng riêng commission, slippage chưa mô hình và funding/dividend
+theo contract. Swap chỉ phát sinh khi giữ qua mốc tính phí, không đơn giản
+là lệnh kéo dài hơn24h. [FTMO 05/11](https://ftmo.com/en/blog/trading-updates/trading-update-5-nov-2026/)
+và [spec FAQ](https://ftmo.com/en/faq/what-are-the-account-specifications/)
+hướng tới specification hiện hành; rates có thể đổi.
+
+| Giai đoạn 2-Step | Cách dùng trong nghiên cứu |
+|---|---|
+| Challenge → Verification | Có costs; đánh giá khả năng chạm target/tránh drawdown bằng net equity, không gross trước phí |
+| FTMO Account / payout | Không được tự bỏ costs sau pass; tiếp kiểm symbol/server/contract và luật giai đoạn thực tế. Published all-account schedule không chứng nhận fills giống nhau |
+| Free Trial/demo đang có | Dùng để quan sát spec/quotes trong quyền được cấp; không tự chứng nhận paid Challenge hoặc tạo deals chỉ để đo commission |
+
+[FTMO Academy daily loss](https://academy.ftmo.com/lesson/maximum-daily-loss/)
+nêu equity gồm floating PnL/commission/swap. Vì vậy cost và spread widening
+không chỉ giảm lãi; có thể làm sát hoặc chạm giới hạn dù chưa đóng lệnh.
+
+Đã đối chiếu bằng chứng project: [Forex pilot §10](FOREX-PROP-PILOT-20261102.md#10-thông-số-ftmo-hiện-tại-và-development-dài-hơn--0211)
+đã dùng2,50USD/lot/chiều làm reference, account-deal verification vẫn false;
+[Gold target cost](GOLD-TARGET-COST-ADMISSION-20261109.md) đã giữ metals rate
+theo notional và swap/account gaps; [index cost review](FTMO-INDEX-COMMISSION-REVIEW-20261108.md)
+giữ scenario commission0 riêng. Không phải mọi backtest trước bỏ costs,
+cũng không phải mọi declared scenario đã là exact FTMO historical replay.
+Giữ frozen artifacts và verdict, không reprice/rerun trong lượt này.
+
+**Hệ quả cho lựa chọn:** US500/NAS100/DE40 có lợi thế một thành phần phí,
+chưa đủ thắng Forex/vàng về tổng cost/R hoặc edge. Trước study tiếp, khóa
+target-cost reference, adverse scenario, phase và các unknown rõ ràng; chỉ
+nâng account-specific verified khi có bằng chứng đúng account, không mở lệnh
+để xác minh từ yêu cầu tư vấn này.
+
 ## Đề xuất tiếp theo, chưa dispatch
 
 So cuối **ba nhóm, bốn sản phẩm: EURUSD và USDJPY (Forex), US500 (equity),
