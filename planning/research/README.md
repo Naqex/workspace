@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+[Dữ liệu gần, tuổi thọ edge, trade tay/bot và tài liệu học](RECENT-WINDOWS-EDGE-DECAY-AND-DISCRETION-20261110.md):
+2022→nay là recent-first có thể bắt đầu, chưa tối ưu số năm; decay97predictors
+khác58%strategieschết. Taiwan1992–2006 có nhóm nhỏ skill, khôngmanual-vs-bot
+trial. Window3–5năm/12–24tháng là đề xuất;2025+reserved, chưa numeric mới.
+
 [Cộng đồng mắc ở infrastructure→edge](OWNER-EVIDENCE-REPORT-20261108.md#13-cộng-đồng-có-gặp-ngưỡng-này-không-đối-chiếu1011):
 case6tháng/17strategies,developer7tuần,AI1,5năm và alpha bottleneck; self-reports,
 chưa proof đã khắc phục. Đối chiếu QC/FTMO, không tỷ lệ thành công/deadline,
