@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+[Vì sao làm lâu vẫn chưa có ứng viên — hậu kiểm10/11](OWNER-EVIDENCE-REPORT-20261108.md#12-làm-lâu-nhưng-chưa-có-kết-quả-hậu-kiểm-delivery-ngày1011):
+93 hồ sơ không93bot; economics/transfer và delivery dàn trải đều là trở ngại.
+Giữ tài sản kỹ thuật, chưa có thời gian/%lãngphí đáng tin; đề xuất shortlist
+hữu hạn và blocker quyết định, chưa dispatch nghiên cứu/broker/holdout mới.
+
 [Trading làm thu nhập chính và các mốc dự phòng](PROP-FIRM-FIT-20261102.md#trading-làm-thu-nhập-chính--làm-rõ-ngày-10112026):
 owner xác nhận mục tiêu, chưa chọn setup; so sánh 3/6/12/18 tháng, tách sinh hoạt/
 thử nghiệm, holding khác chu kỳ payout. Chưa có ứng viên đủ bằng chứng challenge;
