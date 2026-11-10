@@ -5,6 +5,18 @@ cầu tiếp tục và nghiên cứu portfolio; tool xác nhận Goal=null, khô
 Kế thừa C1/C2, toàn bộ trials/negatives/exposure; chưa có ứng viên challenge.
 Các trạng thái Goal active/paused trong checkpoint cũ bên dưới là lịch sử.
 
+## Ưu tiên hiện hành từ 10/11 — dữ liệu gần trước
+
+Owner yêu cầu tập trung từ2022 trở đi. Study mới ưu tiên recent development/
+robustness liên tiếp; historical trước2022 dùng có chọn lọc cho stress, mẫu
+hoặc warmup cần thiết và reuse evidence đã có. Không bắt strategy lời mọi năm,
+không coi mốc2022 là structuralbreak đã chứng minh hoặc sửa old verdicts.
+[Khung và giới hạn](STRATEGY-VALIDATION-FRAMEWORK-20261105.md#ưu-tiên-dữ-liệu-gần--quyết-định-của-owner-ngày-10112026)
+giữ cách thực thi:2022–24 đã exposed/unverified dùng đúng nhãn;2025+ vẫn
+reserved theo gate riêng. Không mở prices/holdout từ preference này. Freeze
+window/criteria trước outcomes mới; helper2019/2022 cần amendment/test trước
+đổi năm. Các lệnh “tiếp” trong checkpoint lịch sử không thay ưu tiên hiện tại.
+
 Workflow đã rà, giữ đường gọn hiện hành; không thêm skill/framework.
 Checkpoint mới nhất10/11: [R093options-week](OPTIONS-WEEK-RESULTS-20261110.md)
 48windows/96cases/8books đãreviewed;stress2019+279,41/2022−708,85USDperunit,
