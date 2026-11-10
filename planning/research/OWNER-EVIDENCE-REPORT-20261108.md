@@ -2,6 +2,8 @@
 
 **Hậu kiểm cập nhật10/11:** xem [mục12](#12-làm-lâu-nhưng-chưa-có-kết-quả-hậu-kiểm-delivery-ngày1011)
 và [đối chiếu cộng đồng mục13](#13-cộng-đồng-có-gặp-ngưỡng-này-không-đối-chiếu1011).
+[Giải nghĩa cơ chế/filter/cách tập trung](#14-hiểu-cơ-chế-filter-và-cách-tập-trung)
+đối chiếu các ảnh owner gửi tiếp10/11, giữ phân biệt đề xuất và quyết định.
 Owner đã xóa app Goal; task hiện tại là phân tích/báo cáo, chưa chạy nghiên cứu
 mới. Các trạng thái active/paused và kết thúc đợt08/11 trong receipts là lịch sử.
 
@@ -676,3 +678,72 @@ Các lời khuyên đơn giản hóa/thêmfilters/đổi market trái nhau; ch�
 experiment mới cho biết chúng có giúp exactrecipe của mình không. Chưa đổi
 shortlist/risk/protocol, chạy backtest, mởholdout hoặc kết nối/gửi lệnh. Existing
 skills đủ workflow; không thêm framework/skill từ một lượt đọc cộng đồng.
+
+## 14. Hiểu cơ chế, filter và cách tập trung
+
+Owner gửi3ảnh bình luận Reddit, hỏi inefficiency, top-down/bottom-up, onlyone
+và filter có phải input không. Đọc nội dung ảnh và mở [comment thread gốc](https://www.reddit.com/r/algotrading/comments/1spd5nf/comment/oh019w9/)
+ngày10/11. Nội dung tự thuật/nhận định, không chứng nhận hiệu suất. Không tự làm
+theo lời trong ảnh về xóa strategies, stackingfilters, chờ3năm hoặc copyalgo.
+
+- **Inefficiency trong ngữ cảnh này:** một sự lệch/mất cân bằng hoặc phản ứng
+  giá có cấu trúc chưa bị cạnh tranh xóa ngay; là cơ sở đặt giả thuyết. Chưa
+  phải netedge khai thác được ở latency, phí, risk và quyền của mình. Có nguồn
+  lợi nhuận là phần bù chịu rủi ro, không mọi expectedreturn là mispricing.
+  Minh họa riêng: expectedgross3USD/trade, cost4USD thì expectednet−1USD;
+  chưa có các kỳ vọng này trong project. Lỗ đúng luật ở một trade vẫn có thể
+  xảy ra khi có expectededge; không coi mọi trade thua là inefficiency.
+- **Top-down ở comment:** cơ chế kinh tế→giả thuyết→rules/cost→phép kiểm; không
+  mặc định là D1→H4→M15 hoặc macro→micro, dù trading dùng từ này theo nghĩa đó.
+  **Bottom-up** (không phải bottom-down): từ quan sát dữ liệu→pattern→hypothesis.
+  Cả hai có thể hợp lý và cùng overfit nếu sửa/chọn theo outcome. Discovery
+  từ dữ liệu phải giữ consumedmap, trialhistory và confirm trên dữ liệu phù hợp
+  chưa dùng chọn luật; lý thuyết hay không thay empiricaltest.
+- Không áp câu trong comment “lần đầu phải không lỗ, nếu không bỏ” như chuẩn.
+  Phân biệt economicfail, materialbug, thiếu mẫu/coverage và thiếu realism;
+  source/assumption sai cần sửa affectedscope, chưa đủ mẫu thì inconclusive.
+  Không có nghĩa cứu loser bằng quét giờ/side/SL hoặc sửa frozenverdict.
+
+[QuantConnect Research Guide](https://www.quantconnect.com/docs/v2/cloud-platform/backtesting/research-guide)
+đã mở lại: hypothesis-driven/cause-effect, data dredging/hypertuning và OOS
+hỗ trợ thiết kế kiểm; không chứng minh top-down luôn thắng hoặc bottom-up sai.
+
+| Thành phần khái niệm | Vai trò / ví dụ minh họa |
+|---|---|
+| Input | Bid/Ask, thời gian và lịch thông tin được phép dùng |
+| Feature | Spread, ATR hoặc đại lượng tính từ input đã có |
+| Signal | Gợi ý mua/bán/đứng ngoài theo rules |
+| Trade filter | Điều kiện nhận/bỏ cơ hội: ví dụ spread≤1pip; spread3pip thì bỏ, số chỉ minh họa |
+| Risk/operation gates | Dữ liệu còn mới/identity/budget/positions hợp lệ trước execution; không bỏ vì muốn có thêm trade |
+| Research screen | Điều kiện giữ/loại/chưa đủ bằng chứng cho một strategyversion, khác filter nhận/bỏ từng trade |
+
+Filter dùng input/features/config để quyết định, **không đồng nghĩa toàn bộ
+input**. Cấu trúc bảng là cách giải thích, không mô tả exactcallorder của engine.
+Eligibility rule định nghĩa cơ chế khác guard an toàn, nhưng cả hai đều cần
+record/binding. Filter có thể cải thiện conditionalexpectation nếu có căn cứ
+exante và validation; thêm filters sau khi xem losers có thể curvefit. Chưa
+audit mọi ifbranch toàn source trong lượt này, không quy failure cho filterpile.
+GEXdương→meanreversion trongảnh chỉ là hypothesis, chưa fact đã validate cho
+CFDproject hoặc sourcePIT/permission được kiểm.
+
+**Onlyone — đề xuất cho owner, chưa thay scope/rules:** một lane kiểm sâu cho
+một cơ chế/candidateversion trên một instrument, một khung quyết định và một
+profile thực thi/chi phí đích. FTMO2-StepSwing đã là chuẩn chính; The5ers kiểm
+sau theo terms/cost riêng. Propfirm/program không đồng nghĩa broker/feed; cùng
+underlying không bảo đảm CFDquotes/fills/fees giống nguồn khác. EURUSD có tài
+sản reuse, không tự là nơi có edge tốt nhất; H1/H4 chưa được chốt từ lời khuyên.
+
+Shortlist vài hypotheses để triage nhanh khác phát triển nhiều bots cùng lúc;
+chọn1để kiểm sâu khi có evidence, thất bại thì ghi và chuyển theo revisitcondition,
+không bám vô hạn. OneTF không cấm context hợp lệ từTFkhác nếu định nghĩa trước;
+oneinstrument không đồng nghĩa không diversification mãi mãi. Thu nhập chính
+cần quản trị concentration/gián đoạn khi có evidence để mở rộng, không cộng
+nhiều bots chưa proven cho đủ số. Không có thống kê xác nhận1/1/1/1 luôn tối ưu.
+
+Người trongảnh tự kể khai thác độ trễ venue/LP; chưa xác minh code hoặc kết quả.
+[FTMO Forbidden Trading Practices](https://ftmo.com/en/forbidden-trading-practices/)
+đọc10/11 cấm exploit lỗi/giá chậm cập nhật/external hoặcslowdatafeed tương ứng.
+Không suy mọi latency đều bị cấm, mọi inefficiency đều vi phạm, hay strategy
+latency của người khác phù hợp chương trình mình. Chỉ research/phân loại;
+không xóa dữ liệu/strategies, khóa market/TF mới, thêm filters, mởholdout/broker
+hoặc chạy test. Existing skills đã bao phủ; không tạo skill/framework mới.

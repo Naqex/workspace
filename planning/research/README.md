@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+[Inefficiency, top-down/bottom-up, onlyone và filter](OWNER-EVIDENCE-REPORT-20261108.md#14-hiểu-cơ-chế-filter-và-cách-tập-trung):
+filter khác input/researchscreen; đề xuất1lane kiểm sâu, khôngđộc canh vĩnhviễn.
+Giữ discovery→confirm và guards; không nhận Reddit firsttestmustprofit/GEX
+như fact hoặc chuyển latencyexploit sangFTMO. Chưa đổiscope/rules/runs.
+
 [Dữ liệu gần, tuổi thọ edge, trade tay/bot và tài liệu học](RECENT-WINDOWS-EDGE-DECAY-AND-DISCRETION-20261110.md):
 2022→nay là recent-first có thể bắt đầu, chưa tối ưu số năm; decay97predictors
 khác58%strategieschết. Taiwan1992–2006 có nhóm nhỏ skill, khôngmanual-vs-bot
