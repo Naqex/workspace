@@ -132,6 +132,20 @@ trước outcome; không rerun các EURUSDversions đã gác để mong kết qu
 Swing là loại tài khoản, không bắt bot giữ nhiều ngày. The5ers không phải cùng
 broker/feed/cost và chưa là một deployment thứ hai.
 
+**Trao đổi tiếp10/11 — timeframe nhỏ hơn:** owner hỏi có nên nhỏ hơnH1, chưa
+chốtM15/M30/H1. H1 ở đề xuất trên là defaultreuse, không kết quả so sánh tối ưu.
+M15 là lựa chọn có thể cân nhắc nếu cơ chế cần quan sát thay đổi trong khoảng
+30–90phút; H1 có thể đủ cho cơ chế kéo dài nhiều giờ. Các khoảng này minh họa
+độ phân giải, không suy holding/tần suất từ timeframe. Chọn theo thời gian của
+cơ chế trước, không quét nhiều khung rồi chỉ giữ winner trên cùngdata. M1/M5
+chỉ ưu tiên khi có lý do kinh tế/execution cụ thể; không nói mọi lowerTF kém.
+Nhiều nến không thêm independentopportunities; oneTFtínhiệu vẫn có thể dùng
+tick/M1 để mô phỏng SL/fill đúng. Ví dụ riêng:1pipcost trên5pipgross=20%, trên
+20pipgross=5%, chưa observedcost/netedge. [FTMO infrastructure](https://ftmo.com/en/faq/how-does-the-ftmo-technical-infrastructure-work/)
+và [QC slippage](https://www.quantconnect.com/docs/v2/writing-algorithms/reality-modeling/slippage/key-concepts)
+mở10/11 xác nhận commissions/delay/slippage cần mô hình; không xác nhận khung
+nào tối ưu. Chưa đổi case/rules/risk/config hoặc mở numericalrun/holdout/broker.
+
 ### Risk và winrate để owner hiểu lựa chọn
 
 Đề xuất giữ **0,25%/trade làm mốc so sánh offline** để reuse baseline;10k×0,25%
