@@ -1,7 +1,8 @@
 # Báo cáo cho owner: đã làm gì, bằng chứng đến đâu?
 
-**Đúc kết mới ngày09/11:** xem mục9 bên dưới. Goal mới đang **paused theo owner**;
-các quyết định kết thúc đợt08/11 và trạng thái active trong receipts cũ là lịch sử.
+**Hậu kiểm cập nhật10/11:** xem [mục12](#12-làm-lâu-nhưng-chưa-có-kết-quả-hậu-kiểm-delivery-ngày1011).
+Owner đã xóa app Goal; task hiện tại là phân tích/báo cáo, chưa chạy nghiên cứu
+mới. Các trạng thái active/paused và kết thúc đợt08/11 trong receipts là lịch sử.
 
 Đối chiếu hồ sơ ngày **08/11/2026** theo yêu cầu học và kiểm soát dự án của
 owner. Lượt này không chạy backtest mới. Đây là bản tổng hợp có nguồn; các
@@ -536,3 +537,89 @@ giao dịch khi nào→dấu hiệu quan sát trước entry→chi phí/rủi ro
 kiện effectmất→một registered causalrule/abstentionrule. So unconditional
 baseline và negativecontrols trên cùng lịch/cost rồi mới validation chưa dùng.
 Không tìm thêm bulkdata/AI mới hoặc bỏ oldnegative evidence chỉ từ ý tưởng.
+
+## 12. Làm lâu nhưng chưa có kết quả: hậu kiểm delivery ngày10/11
+
+**Kết luận:** đã tạo được năng lực nghiên cứu và kết quả loại/chưa đủ bằng chứng,
+nhưng chưa tạo được đầu ra owner cần: một chiến lược đủ cơ sở xét challenge và
+sau đó payout bền vững. Không nên gọi toàn bộ thời gian là vô ích, cũng không
+nên lấy số test/file/job hoàn tất để nói mục tiêu thu nhập đã gần đạt. Chẩn đoán
+hiện tại là cả economics chưa thuyết phục lẫn cách ưu tiên/phân phối công việc;
+không chỉ cần đợi lâu hơn hoặc chạy nhiều hơn.
+
+Owner cho biết đã phát triển project 2–3 tháng. Lượt này đọc lại context,
+catalogue JSON, campaign, báo cáo tiền/nguồn/transfer và benchmark; không chạy
+backtest mới hoặc audit toàn bộ các repo/phiên chat từ đầu. Không có timesheet
+active coding/research/review/rework hoàn chỉnh nên **chưa biết bao nhiêu giờ
+hoặc bao nhiêu phần trăm đã lãng phí**. Git timestamps/commit counts và worker
+seconds không thay thời gian công sức hoặc chi phí cơ hội.
+
+### Đầu ra nào đã có, đầu ra nào chưa?
+
+| Lát | Bằng chứng kế thừa đã đối chiếu | Giá trị / giới hạn |
+|---|---|---|
+| Dữ liệu và correctness | Sửa source padding, kiểm raw/quote/timing, đối soát cash/floating/cost, giữ failure và version | Giảm nguy cơ chọn bot từ số sai; chưa phải toàn hệ thống được kiểm toán độc lập |
+| Reliability và performance | Có resume bounded; benchmark Q1/2023 5×2 scenarios hoàn tất 1.800,48s và semantic golden parity | Có tài sản dùng lại; không đem job khác workload so để tuyên bố speedup, không tạo edge |
+| Bề rộng nghiên cứu | Catalogue hiện có 93 unique IDs, 47 records có implementations với 58 entries; 39 records mang role variant, 9 versions là controls | Không 93 bot hoàn chỉnh hoặc 93 ý tưởng độc lập; 45 records chưa account policy và 1 risk component |
+| Economics | FX24versions×13years×2costs =624cases;6versions tổng reference dương,0stress tổng dương | Nhiều exact recipes không đủ biên dưới assumptions đã khai báo; không thể chỉ đổ cho bộ lọc khắt khe |
+| Kết quả có vẻ khả quan | Gold SMA50k còn research survivor; R088 component net dương nhưng event-control gate không đạt | Giữ đúng vai trò và remaining gaps; không gọi mọi bản đều lỗ hoặc tự promote |
+| Kết quả theo mục tiêu owner | Chưa challenge-qualified; chưa strategy forward/reconciliation và payout evidence của ứng viên được chọn | Chưa có cơ sở lập ngân sách sinh hoạt từ hiệu suất project hoặc hứa ngày kiếm được tiền |
+
+Counts kiểm trực tiếp từ [catalogue JSON](STRATEGY-CATALOGUE-20261107.json);
+không biến nhãn `implemented` thành passed edge. Timing/parity ở
+[engineering review](ENGINEERING-REVIEW-Q1-20261105.md), FX ở
+[624-case results](EURUSD-CATALOGUE13-RESULTS-20261108.md), recovery/correctness
+theo các locators mục1. Không recheck toàn private raw/receipts trong lượt này.
+
+### Nguyên nhân, xếp theo ưu tiên thay đổi cách làm
+
+Thứ tự dưới là đánh giá định tính có căn cứ, **không phải tỷ trọng thống kê**:
+
+| Ưu tiên | Vấn đề | Bằng chứng và tác động | Điều cần thay đổi |
+|---|---|---|---|
+| 1 | Exact hypotheses/transfer chưa đủ biên kinh tế | Paper/indicator đã đổi instrument, horizon, entry/exit, SL và funding; FX nhiều bản gross mỏng hoặc âm | Ưu tiên ít cơ chế tái hiện được trên sản phẩm/chi phí khả dụng; kiểm original→adaptation và cost headroom trước bot wrapper |
+| 2 | Công việc dàn trải, đóng nhiều lát nhỏ nhưng chưa đóng một đường ứng viên | Catalogue tăng bằng variants, components, source admission; vẫn chưa có ứng viên qua chuỗi economics→validation→prop→forward | Đợt tới phải có shortlist hữu hạn và câu hỏi quyết định; không mở cơ chế tiếp chỉ vì vừa đóng một source/job |
+| 3 | Economics mô phỏng chưa gắn đủ với tài khoản đích | Gold/funding/spec còn unknown; chi phí declared không phải measured target costs | Phân biệt thất bại kinh tế dưới scenario, thiếu dữ liệu và fail priority heuristic; giải quyết gap làm đổi verdict thay vì thêm framework |
+| 4 | Có rework kỹ thuật thật | Source padding, reviewer bỏ quarter, recovery và stop/fill khác coarse đã có hồ sơ | Giữ regression/reuse; chỉ sửa affected scope, không làm lại study không đổi hoặc hứa toàn hệ thống sạch lỗi |
+| 5 | Độ tin cậy screening chưa được đo đầy đủ | Có bounded coarse/tick checks nhưng chưa global false-negative rate; year/block gates là heuristic ở vài studies | Review borderline theo quy tắc khóa trước outcome mới; không yêu cầu mọi strategy lời mọi năm, không đổi hồi tố old verdict |
+| 6 | Báo cáo làm owner thấy hoạt động nhiều nhưng không thấy tiến gần đích | Nhiều technical names, counts và checkpoints; mục5/9 đã thừa nhận khó nắm bản đồ | Báo số ứng viên tiến/lùi stage, lý do và blocker; số test/ticks/commit là bằng chứng phụ |
+
+Chi phí có tác động được đo, nhưng không giải thích mọi thất bại:
+[FX attribution](SCREEN-CALIBRATION-REPAIR-RESULTS-20261108.md) trong stress có
+15/24 tổng closed gross dương **sau embedded spread**, còn2/24 sau commission/
+slippage và0/24 net equity gồm funding/floating. Đây là cùng study, không24
+edges độc lập hoặc attribution nhân quả mọi thất bại. Không cộng lại spread,
+không hạ phí để tạo winner khi chưa có nguồn target hợp lệ.
+[R091 cost headroom](COST-HEADROOM-DIAGNOSTIC-20261109.md) cho thấy spread đã
+lớn hơn mid-price gross; [R093](OPTIONS-WEEK-RESULTS-20261110.md) năm2022 âm
+trước phí. Ngược lại, R088 net dương không chứng minh riêng FOMC gây ra edge.
+
+**Phần agent cần chịu trách nhiệm:** kiểm soát phạm vi và báo cáo theo kết quả
+chưa đủ tốt; đã để activity kỹ thuật che khoảng cách tới mục tiêu kinh tế.
+Việc sửa bug/risk là cần thiết, nhưng không đủ lý do tiếp tục tối ưu mọi thứ.
+Chưa có bằng chứng rằng chỉ do bug mà tất cả chiến lược thua, hoặc bộ lọc đã
+loại mất một winner cụ thể. Không thể bảo đảm đổi cách tổ chức sẽ tìm ra edge.
+
+### Đề xuất đợt tiếp theo — chưa dispatch trong lượt báo cáo
+
+1. Chốt một bảng shortlist tối đa3 hypotheses khác nhau về cơ chế, có input và
+   cost khả dụng, kế thừa negatives/lineage. Đây là giới hạn quản lý workload
+   đề xuất, không số lượng đủ chứng minh thị trường có cơ hội. Không mặc định
+   Gold là core, FOMC là edge hoặc khôi phục loser không có evidence mới.
+2. Với từng hypothesis, ghi một blocker quyết định và phép thử nhỏ nhất có thể
+   thay đổi việc giữ/loại. Thiếu nguồn material thì defer có điều kiện; economics
+   không đạt thì gác exact version; đủ cơ sở mới thiết kế full account policy.
+3. Dồn phần kiểm đắt vào ứng viên tốt nhất còn lại: target costs/spec→causal
+   equity/risk→validation→prop-specific→strategy forward. Đây là các stage,
+   không bắt chạy một lượt mọi thứ hoặc mở holdout/broker để hoàn tất checklist.
+4. Kết thúc đợt bằng review shortlist: có bản đủ đề xuất stage kế, hoặc chưa có
+   và lý do cụ thể. Không tự mở vòng vô hạn; kết thúc một đợt âm không phải hoàn
+   thành C1/C2. Báo thời gian còn thiếu dự kiến riêng, không hứa deadline có edge.
+
+Study mới tuân [recent-first](STRATEGY-VALIDATION-FRAMEWORK-20261105.md#ưu-tiên-dữ-liệu-gần--quyết-định-của-owner-ngày-10112026):
+2022–24 vẫn exposed/unverified,2025+ reserved; không mở data mới chỉ từ bản audit.
+[Portfolio](PORTFOLIO-RESEARCH-AND-ADMISSION-20261110.md) chưa có aligned panel/
+shared-account proof; chưa xây optimizer để che thiếu hypotheses khả dụng.
+Không thêm skill/RAG/GPU/framework: các skills hiện có đã mô tả workflow, thiếu
+đang nằm ở evidence và ưu tiên thực thi. Đây là self-review có đọc nguồn khác,
+chưa một independent audit hoặc kiểm chứng lại toàn campaign.

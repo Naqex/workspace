@@ -9,6 +9,12 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 ## Việc hiện tại
 
+- **Owner10/11 yêu cầu phân tích vì làm2–3tháng chưa thấy kết quả.**
+  [Hậu kiểm delivery](research/OWNER-EVIDENCE-REPORT-20261108.md#12-làm-lâu-nhưng-chưa-có-kết-quả-hậu-kiểm-delivery-ngày1011)
+  tách tài sản kỹ thuật khỏi evidence kinh tế; economics/transfer và phạm vi
+  dàn trải cùng cản mục tiêu. Đề xuất shortlist tối đa3 và blocker quyết định,
+  chưa dispatch hoặc đổi protocol/risk/gates; không tiếp discovery từ audit.
+
 - **Ưu tiên owner10/11: nghiên cứu từ2022 trở đi**, trước2022 là stress/mẫu/
   warmup chọn lọc và reuse. [Cách thực thi](research/STRATEGY-VALIDATION-FRAMEWORK-20261105.md#ưu-tiên-dữ-liệu-gần--quyết-định-của-owner-ngày-10112026)
   áp study mới; không sửa frozen2019/2022 outcomes hoặc bắt thắngmọinăm.
