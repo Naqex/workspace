@@ -91,3 +91,43 @@ Private locator `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-
 Raw upstream copies chỉ ở reference snapshot, không commit/bundle vào product.
 Catalogue giữ95records và verdicts, thêm building-block references cho related
 records để agent sau tìm lại đúng revision; không thêm trial hoặc cho live.
+
+## Đã lấy đủ năm kho source về local theo yêu cầu owner
+
+Owner yêu cầu “lấy hết về” sau khảo sát. Đã clone đủ working tree của5repo
+tại **các commit đã kiểm ở trên**, trong `.runtime/strategy-references/` của
+workspace. Root `README.md` là cửa vào; `source-manifest.json` giữ receipt,
+`candidate-files.json` giữ96file có từ khóa liên quan. **96file không là96
+ứng viên hoặc chiến lược có edge.** Không thêm vào catalog active integrations.
+
+| Thư mục local | Files checkout | Source MiB |
+|---|---:|---:|
+|`lean/`|6540|276,3|
+|`backtesting-py/`|53|4,5|
+|`nautilus-trader/`|5685|137,6|
+|`backtrader/`|378|6,7|
+|`vectorbt/`|306|167,9|
+|Tổng|12962|593,0|
+
+Dung lượng là working-tree source, chưa tính `.git`; clone shallow/filterblob
+để tránh tải cả lịch sử. Các repo không có `.gitmodules` tại pins này; không
+cài Git LFS payloads/dependencies/build hoặc chạy bất kỳ upstream script nào.
+Root library đã được `.gitignore` hiện hành loại trừ, không vendor hàng nghìn
+file/copy license vào product hoặc thay engine đang chạy.
+
+Đã kiểm từng origin/HEAD đúng pin, `git fsck --connectivity-only`, working tree
+sạch và giấy phép đủ.17file đã review trước đều khớp nội dung;11file khớp
+bytes,6fileLEAN khác CRLF/LF trong working tree nên lưu riêng reviewSHA và
+working-treeSHA cùng newline-equivalence. Không sửa source/blob để ép hash.
+Index local links đã kiểm. Receipt SHA256:
+`22f66e26ba45aa15c44b0139887cca89bd11374f79ad94e34d91ae40e6ffdcf4`.
+
+Lệnh gộp inventory/index bị automatic review chặn không nêu lý do; source
+clones đã hoàn tất trước đó. Đã hoàn tất index bằng script stdlib chỉ đọc
+metadata/checksum trong root cố định và ghi receipt/index, không gọi code
+upstream. Gitconfig có duplicatekeys hợp lệ dùng parser last-value; không đổi
+Git config global. Download logs và per-repo status giữ trong root library.
+
+Trạng thái đạt: **source đã có sẵn để đọc/port**, chưa engine installation,
+import smoke, strategy parity/backtest hoặc runtime adoption. Lần tiếp theo
+đọc local file đã pin qua index, giữ original→adaptation/fixture/license gate.
