@@ -197,8 +197,8 @@ không thống kê adoption, xác suất thành công hoặc xếp hạng profit
 
 | Họ | Ví dụ luật để hiểu | Mức thuận tiện / cơ hội |
 |---|---|---|
-| Opening-range breakout | Đóng ngoài range đầu phiên rồi đi theo | Rất rõ; R094đã có677modeledentries/3năm, khoảng4,3tuần; chưa edge |
-| Failed breakout | Đóng ra ngoài rồi quay lại trong range | Cần state hai bước; R095269entries/3năm, khoảng1,7tuần; exact version đã gác |
+| Opening-range breakout | Đóng ngoài range đầu phiên rồi đi theo | Rất rõ; R094đã có677modeledentries/3năm, khoảng4,3lệnh/tuần; chưa edge |
+| Failed breakout | Đóng ra ngoài rồi quay lại trong range | Cần state hai bước; R095269entries/3năm, khoảng1,7lệnh/tuần; exact version đã gác |
 | Trend pullback qua EMA | FastEMA>slowEMA; close trước dưới fastEMA, close hiện trên fastEMA thì BUY, SELL đối xứng | Price-only, dễ kiểm; số lệnh phụ thuộc rule/giờ, chưa đo exactM15version |
 | Reversion qua Bollinger | Close ngoài band rồi close trở lại bên trong, giao dịch về mean | Price-only, dễ kiểm; có thể quan sát mỗi phiên, không hứa số lệnh hoặc quay về mean |
 | VWAP pullback/reversion | Giá chạm/quay về VWAP rồi xác nhận | Code indicator được, nhưng cần volume basis đúng; dữ liệu CFD/quote-volume hiện có không chứng nhận exchangeVWAP |
