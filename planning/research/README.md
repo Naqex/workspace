@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+[Bản luật nền pullback US500 M15](US500-M15-PULLBACK-BASELINE-DRAFT-20261111.md):
+owner đã chốt7ATRbuffers; SMA20/80,armbarlevel,ATR14Wilderfreeze,4bar/SL2ATR/
+trend-noonexit là agentdraft, chưa executable/registered/PnL. Seed mặcđịnh
+NautiluskhácWilderđãinspect; giữR004lineage và95records. Tiếp nativefixtures.
+
 [Full framework adoption cả5 theo owner](STRATEGY-TEMPLATE-REUSE-REVIEW-20261111.md#owner-chon-dung-framework-day-du-ca-nam-engine):
 đã cài isolatedruntimes và chạy nativefixtures;3Pythonroundtripsđạt,
 LEANbuild/samplecompleted,Nautilus4directpass/4DBsetupgateblocked.

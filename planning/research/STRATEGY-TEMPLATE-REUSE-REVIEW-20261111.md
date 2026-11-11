@@ -301,3 +301,23 @@ Luồng tiếp: một strategy-spec dễ đọc → causal/nativefixtures → re
 7-buffer development batch → financial/equity/cost review và lựa chọn tiếp.
 Không cần owner duyệt khác biệt nhỏ khi đã giao thực thi; mọi actual account/
 holdout/purchase giữ gate riêng. Không tạo skill mới cho một parameter choice.
+
+## Đã soạn bản luật theo giao việc tiếp của owner
+
+[Draft nền pullback](US500-M15-PULLBACK-BASELINE-DRAFT-20261111.md) là nơi giữ
+exact proposedrules/data-clock/seed/arm-confirm-expiry/SL-exit/risk-cost/engine
+handoff và workedexample. StatusDRAFT/chưaregistered,khôngtrial/newPnL. Giữ
+7buffers ownerđãchốt; agent lựaSMA20/80,armbarhigh/low,ATR14WilderfirstTRseed,
+4bar/2ATR/trend-noonexit vì reuse/finite state/intraday, không dofitoutcome.
+Native1.xATR defaultSIMPLE vàWilderfirstTRseed đã inspect; hai lần probeimport
+enum sai namespace trước đó được sửa theo installedsource `indicators.averages`,
+không đổi dependency hoặc coi docs2.x là runtimeAPI1.x. Catalogue95giữ;
+policy/nativeparity/financialregistration vẫn là task tiếp theo, không làm
+ngầm qua một tài liệu. Bản draft nối R004/oldnegative không reset history.
+
+Review thực tế `.runtime/strategy-engines/pullback-spec-review-v1.json` bind
+draftSHA256 `b25b2f6ad72320a4b91600e64386ee36cbc399f36c1cb095ec3bcfaeb03b7d6e`:
+7BUY/7SELL workedexample decisions khớp, equality khôngconfirm; đây là kiểm
+arithmetic spec, chưa policytest. NativeATR14 trênTR1..14: defaultSIMPLE7,5,
+explicitWilder5,960694343078025 khớpDecimaloracle; SMA20ready ở20inputs/value10,5;
+gapcaseTR5khácH−L2 được kiểm. Không marketdata/PnL hoặc nativeUS500parity.
