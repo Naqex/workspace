@@ -92,5 +92,14 @@ class FitTests(unittest.TestCase):
         self.assertEqual(r['monthly'][0]['net'],10)
         self.assertEqual(r['monthly'][1]['net'],0)
 
+    def test_vietnam_midnight_wrap_is_relative_to_market_session(self):
+        first=trade('2022-01-03','10')
+        second=trade('2022-01-04','10')
+        second['entry_time']+=4*3600000
+        second['exit_ns']+=4*3600000*1000000
+        r=review([first,second],['2022-01-03','2022-01-04'])
+        self.assertEqual(r['entry_vn_session_relative_first'],dict(day_offset_from_NY_session=0,clock='22:00'))
+        self.assertEqual(r['entry_vn_session_relative_last'],dict(day_offset_from_NY_session=1,clock='02:00'))
+
 
 if __name__=='__main__':unittest.main()

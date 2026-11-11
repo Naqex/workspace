@@ -72,7 +72,8 @@ def book_fit(book, *, year, calendar_days, starting_balance):
         except (ValueError,TypeError):risk=None
         risks.append(risk)
         holding.append(D(trade['exit_ns']-entry*1000000-1)/D(60000000000))
-        local_entry.append(datetime.fromtimestamp(entry//1000,vn).strftime('%H:%M'))
+        local=datetime.fromtimestamp(entry//1000,vn)
+        local_entry.append(((local.date()-at.date()).days,local.strftime('%H:%M')))
         streak=streak+1 if value<0 else 0
         longest_streak=max(longest_streak,streak)
         cumulative+=value
@@ -123,7 +124,8 @@ def book_fit(book, *, year, calendar_days, starting_balance):
         max_planned_risk_pct_initial=max(risks)/capital*100 if risk_known and capital else None,
         mean_modeled_hold_minutes=sum(holding,D(0))/len(holding) if holding else None,
         max_modeled_hold_minutes=max(holding) if holding else None,intraday_all_closed=intraday,
-        entry_vn_clock_min=min(local_entry) if local_entry else None,entry_vn_clock_max=max(local_entry) if local_entry else None,
+        entry_vn_session_relative_first=dict(zip(('day_offset_from_NY_session','clock'),min(local_entry))) if local_entry else None,
+        entry_vn_session_relative_last=dict(zip(('day_offset_from_NY_session','clock'),max(local_entry))) if local_entry else None,
         clock_scope='historical_DST_conversion_not_future_schedule',unresolved=unresolved,
         return_scope='annual_reset_books_no_external_flows;zero_trade_months_retained')
 

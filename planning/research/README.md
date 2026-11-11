@@ -1,5 +1,11 @@
 # Tra cứu research đã có
 
+[Rà tổng thể US500: cadence, risk, monthlyreturn và propfit](STRATEGY-FIT-REVIEW-20261111.md):
+R123165lệnh/753phiên;47/157tuần0lệnh,chỉ11tuần>=3; chuẩn gần hòa vốn,
+stressâm3năm. GiữUS500/M15/intraday, gácR123;cap1/ngàyso3–5/tuần,
+khôngtăngrisk/cap. Saved9booksreview0,246s/10tests,khôngfinancialrerun;
+catalogue123/88/53giữ. ClosedDDkhôngfullintraminuteequity/prop/OOSproof.
+
 [Daytrading/nguồn thu chính: cadence và10/20/30triệu](DAYTRADING-INCOME-CADENCE-20261111.md):
 ownerchưachốtmonthlyincome;agentđềxuất3–8lệnh/tuần,ngàythường0–2,khôngquota.
 Các kịchbản50k/100k/200k chỉplanning,80%reward2Step official11/11,
