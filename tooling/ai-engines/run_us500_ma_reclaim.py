@@ -22,6 +22,24 @@ def frequency_eligible(rows):
     return sum(values)>=200 and min(values)>=50
 
 
+def cost_screen_registration(path,sha,attempt):
+    if source.digest(path)!=sha:
+        raise ValueError('reclaim_cost_registration_hash')
+    reg=json.loads(path.read_text(encoding='utf-8'))
+    expected=dict(schema='us500-ma-reclaim-cost-screen-registration-v1',stage='G2_exploratory_cost_and_execution_only',
+        parent_frequency_manifest_sha256=source.digest(attempt/'manifest.json'),
+        parent_frequency_result_sha256=source.digest(attempt/'result.json'),config=study.CONFIG,
+        years=[2022,2023,2024],observed_exact_signal_counts=[58,50,57],financial_books=6,null_books=3,
+        deep_review_frequency_floor_unchanged=200,strategy_rule_change=False,edge_qualified=False,holdout_read=False)
+    old=json.loads((attempt/'result.json').read_text(encoding='utf-8'))
+    manifest=json.loads((attempt/'manifest.json').read_text(encoding='utf-8'))
+    if (reg!=expected or old['status']!='completed_frequency_only_below_priority_floor' or old['rows']
+        or old['frequency_eligible'] is not False or manifest['config']!=study.CONFIG
+        or [r['exact_fill_available'] for r in old['frequencies']]!=[58,50,57]):
+        raise ValueError('reclaim_cost_registration_scope_or_parent')
+    return reg
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--data-root',type=Path,required=True)
@@ -29,22 +47,38 @@ def main():
     p.add_argument('--output',type=Path,required=True)
     p.add_argument('--protocol',type=Path,required=True)
     p.add_argument('--protocol-sha256',required=True)
+    p.add_argument('--cost-screen-registration',type=Path)
+    p.add_argument('--cost-screen-registration-sha256')
+    p.add_argument('--frequency-attempt',type=Path)
     args=p.parse_args()
     if source.digest(args.protocol)!=args.protocol_sha256:
         raise ValueError('reclaim_protocol_binding')
+    extras=(args.cost_screen_registration,args.cost_screen_registration_sha256,args.frequency_attempt)
+    if any(extras) and not all(extras):
+        raise ValueError('reclaim_cost_registration_complete_binding_required')
+    registration=cost_screen_registration(*extras) if all(extras) else None
     pins=source.source_pins(args.protocol)
     for path in (Path(__file__),Path(study.__file__),Path(frequency_parent.__file__),
                  Path(__file__).with_name('tests')/'test_us500_ma_reclaim.py'):
         pins[str(path.resolve())]=source.digest(path)
+    if registration:
+        pins[str(args.cost_screen_registration.resolve())]=source.digest(args.cost_screen_registration)
+        amendment=Path(__file__).resolve().parents[2]/'planning/research/US500-MA-RECLAIM-COST-SCREEN-AMENDMENT-20261111.md'
+        pins[str(amendment)]=source.digest(amendment)
     parent_paths=[args.parent_frequency/'result.json',args.parent_frequency/'manifest.json']
     parent_paths += [args.parent_frequency/f'{year}-FP02.json' for year in (2022,2023,2024)]
     parent_pins={str(path.resolve()):source.digest(path) for path in parent_paths}
+    if registration:
+        for name in ('result.json','manifest.json'):
+            path=args.frequency_attempt/name
+            parent_pins[str(path.resolve())]=source.digest(path)
     parent_result=json.loads((args.parent_frequency/'result.json').read_text(encoding='utf-8'))
     if parent_result['status']!='completed_frequency_only_not_edge':
         raise ValueError('reclaim_parent_frequency_terminal')
     args.output.mkdir(exist_ok=False)
     source.save(args.output/'manifest.json',dict(schema='us500-ma-reclaim-v1',source_pins=pins,parent_pins=parent_pins,
-            config=study.CONFIG,years=[2022,2023,2024],holdout_read=False,financial_books_if_eligible=6,null_books_if_eligible=3))
+            config=study.CONFIG,years=[2022,2023,2024],holdout_read=False,financial_books_if_eligible=6,null_books_if_eligible=3,
+            cost_screen_registration=registration))
     snapshot=args.output/'source-snapshot'
     snapshot.mkdir()
     for i,(name,sha) in enumerate(pins.items()):
@@ -95,9 +129,12 @@ def main():
             timings.append(dict(year=year,phase='frequency_and_setup_parity',seconds=time.perf_counter()-at))
             loaded[year]=(pairs,prepared)
         eligible=frequency_eligible(frequencies)
+        if registration and [r['exact_fill_available'] for r in frequencies]!=registration['observed_exact_signal_counts']:
+            raise ValueError('reclaim_registered_frequency_changed')
+        run_financial=eligible or registration is not None
         source.save(args.output/'frequency-gate.json',dict(frequencies=frequencies,eligible=eligible,
                      total_exact_fill_available=sum(r['exact_fill_available'] for r in frequencies),scope='research_priority_not_edge'))
-        if eligible:
+        if run_financial:
             for year in (2022,2023,2024):
                 pairs,prepared=loaded.pop(year)
                 at=time.perf_counter()
@@ -123,12 +160,13 @@ def main():
                     timings.append(dict(year=year,scenario=scenario,phase='native_book',simulation_seconds=simulation,review_seconds=time.perf_counter()-at))
                     progress('native_book_verified',year=year,scenario=scenario)
                 del pairs,prepared,quotes
-        if len(rows)!=(9 if eligible else 0) or any(source.digest(Path(path))!=sha for path,sha in {**pins,**parent_pins}.items()):
+        if len(rows)!=(9 if run_financial else 0) or any(source.digest(Path(path))!=sha for path,sha in {**pins,**parent_pins}.items()):
             raise ValueError('reclaim_final_census_or_source_drift')
-        status='completed_native_development_not_qualified' if eligible else 'completed_frequency_only_below_priority_floor'
+        status=('completed_exploratory_cost_screen_not_qualified' if registration else
+                'completed_native_development_not_qualified' if eligible else 'completed_frequency_only_below_priority_floor')
         source.save(args.output/'result.json',dict(status=status,frequency_eligible=eligible,frequencies=frequencies,rows=rows,timings=timings,
-            wall_seconds=time.perf_counter()-began,cpu_seconds=time.process_time()-cpu,financial_books=6 if eligible else 0,
-            null_books=3 if eligible else 0,manifest_sha256=source.digest(args.output/'manifest.json')))
+            wall_seconds=time.perf_counter()-began,cpu_seconds=time.process_time()-cpu,financial_books=6 if run_financial else 0,
+            null_books=3 if run_financial else 0,edge_qualified=False,manifest_sha256=source.digest(args.output/'manifest.json')))
         progress(status)
     except BaseException as error:
         source.save(args.output/'failure.json',dict(stage=phase,error_type=type(error).__name__,code=str(error),completed_books=len(rows),

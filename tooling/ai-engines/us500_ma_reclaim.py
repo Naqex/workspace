@@ -131,19 +131,29 @@ def review(result,prepared,pairs):
             raise ValueError('review_reclaim_trade_signal_binding')
         sign=1 if trade['side']=='BUY' else -1
         scheduled=None
+        missed_exit=False
         for t,e in prepared['snapshots'].items():
             if t<=trade['entry_time']:continue
+            if (t+parent.M)*1000000+1>trade['exit_ns']:
+                break
             m=e['m15']
             if t-parent.M not in pairs:
                 continue
             lost=m and (20 not in m['means'] or 80 not in m['means'] or sign*(m['means'][20]-m['means'][80])<=0)
             if e['slot']==360 or lost:
+                if t+parent.M not in pairs:
+                    missed_exit=True
+                    continue
                 scheduled=(t+parent.M,'session_flat' if e['slot']==360 else 'trend_lost')
                 break
         if scheduled is None:
-            raise ValueError('review_reclaim_missing_scheduled_exit')
+            if trade['reason']=='stop':
+                continue
+            raise ValueError('review_reclaim_scheduled_exit_clock')
         exit_ns=trade['exit_ns']
         expected_ns=scheduled[0]*1000000+1
+        if missed_exit and not trade['unresolved']:
+            raise ValueError('review_reclaim_missed_exit_must_remain_unknown')
         if trade['reason']=='stop':
             if exit_ns>expected_ns and scheduled[0] in pairs:
                 raise ValueError('review_reclaim_stop_after_missed_exit')

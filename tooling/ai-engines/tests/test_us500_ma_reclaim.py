@@ -3,11 +3,14 @@ from decimal import Decimal as D
 from pathlib import Path
 import sys
 import unittest
+import json
+import tempfile
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 import us500_multiframe as core
 import us500_ma_reclaim as study
-from run_us500_ma_reclaim import frequency_eligible
+from run_us500_ma_reclaim import frequency_eligible,cost_screen_registration
+from sealed_m1_review import digest
 from test_us500_multiframe import event
 
 
@@ -120,6 +123,19 @@ class NativeReclaimTests(unittest.TestCase):
             self.assertEqual(r['trades'][0]['reason'],'stop')
         r,_,_,_=self.run_case(missing=289)
         self.assertTrue(r['trades'][0]['unresolved'])
+        r,_,_,_=self.run_case(stop=True,missing=361)
+        self.assertFalse(r['trades'][0]['unresolved'])
+
+    def test_missing_exact_flat_exit_then_recovery_stays_unknown(self):
+        pairs,prepared,times=fixture(missing=361)
+        e=event(375,100)
+        e['m15']['means'][80]=D(100)
+        prepared['snapshots'][e['t']]=e
+        r=core.execute(study.CONFIG,prepared,pairs,core.quote_data(pairs),'.25',policy_factory=study.ReclaimPolicy)
+        study.review(r,prepared,pairs)
+        self.assertEqual(r['trades'][0]['exit_ns']//1000000,times[376])
+        self.assertTrue(r['trades'][0]['unresolved'])
+        self.assertEqual(r['trades'][0]['reason'],'trend_lost')
 
     def test_null_and_default_policy_injection_parity(self):
         pairs,prepared,_=fixture()
@@ -141,6 +157,63 @@ class NativeReclaimTests(unittest.TestCase):
         changed['fills'][-1]['timestamp_ns']=changed['trades'][0]['exit_ns']
         with self.assertRaisesRegex(ValueError,'scheduled_exit_clock'):
             study.review(changed,prepared,pairs)
+
+
+class CostRegistrationTests(unittest.TestCase):
+    def setup_files(self,root):
+        old=dict(status='completed_frequency_only_below_priority_floor',rows=[],frequency_eligible=False,
+                 frequencies=[dict(exact_fill_available=n) for n in (58,50,57)])
+        (root/'result.json').write_text(json.dumps(old),encoding='utf-8')
+        (root/'manifest.json').write_text(json.dumps(dict(config=study.CONFIG)),encoding='utf-8')
+        reg=dict(schema='us500-ma-reclaim-cost-screen-registration-v1',stage='G2_exploratory_cost_and_execution_only',
+            parent_frequency_manifest_sha256=digest(root/'manifest.json'),parent_frequency_result_sha256=digest(root/'result.json'),
+            config=study.CONFIG,years=[2022,2023,2024],observed_exact_signal_counts=[58,50,57],
+            financial_books=6,null_books=3,deep_review_frequency_floor_unchanged=200,
+            strategy_rule_change=False,edge_qualified=False,holdout_read=False)
+        path=root/'registration.json'
+        path.write_text(json.dumps(reg),encoding='utf-8')
+        return path,reg
+
+    def test_scoped_cost_screen_does_not_pass_deep_review_floor(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            path,reg=self.setup_files(root)
+            self.assertEqual(cost_screen_registration(path,digest(path),root),reg)
+            self.assertFalse(frequency_eligible([dict(year=y,exact_fill_available=n) for y,n in zip((2022,2023,2024),(58,50,57))]))
+
+    def test_scope_expansion_and_strategy_changes_are_rejected(self):
+        for key,value in [('years',[2022,2023,2025]),('edge_qualified',True),('holdout_read',True),
+                          ('strategy_rule_change',True),('financial_books',27),('deep_review_frequency_floor_unchanged',100),
+                          ('config',dict(study.CONFIG,k='0.05'))]:
+            with self.subTest(key=key),tempfile.TemporaryDirectory() as tmp:
+                root=Path(tmp)
+                path,reg=self.setup_files(root)
+                reg[key]=value
+                path.write_text(json.dumps(reg),encoding='utf-8')
+                with self.assertRaises(ValueError):cost_screen_registration(path,digest(path),root)
+
+    def test_parent_or_registration_tamper_is_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            path,reg=self.setup_files(root)
+            sha=digest(path)
+            path.write_text('{}',encoding='utf-8')
+            with self.assertRaisesRegex(ValueError,'registration_hash'):cost_screen_registration(path,sha,root)
+            path.write_text(json.dumps(reg),encoding='utf-8')
+            old=json.loads((root/'result.json').read_text())
+            old['rows']=[dict(already_financial=True)]
+            (root/'result.json').write_text(json.dumps(old))
+            reg['parent_frequency_result_sha256']=digest(root/'result.json')
+            path.write_text(json.dumps(reg))
+            with self.assertRaises(ValueError):cost_screen_registration(path,digest(path),root)
+
+    def test_known_frequency_cannot_be_replaced_to_choose_another_attempt(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            path,reg=self.setup_files(root)
+            reg['observed_exact_signal_counts']=[100,100,100]
+            path.write_text(json.dumps(reg),encoding='utf-8')
+            with self.assertRaises(ValueError):cost_screen_registration(path,digest(path),root)
 
 
 if __name__=='__main__':
