@@ -67,8 +67,23 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
   chưa>=200totalresearch-priorityfloorđãkhóa;khôngfinancialbatchmới.
   ParentR098/R120timestamp/sideparity đạt,10tests,22,06saudit.
   Lưu4frequency-onlyrelateddesigns trongcatalogue,khôngtăngaccountpolicy
-  versions hoặcxóatrials. Tiếpcầnýdotáchbạchchoconfirmationhypothesismới,
-  chưatriểnkhai/rearm/autotune/holdout/broker. Khôngjobnền hoặcGoal.
+  versions hoặcxóatrials. **OwnerđồngýtiếphypothesisMAreclaim**:
+  [R123results](research/US500-MA-RECLAIM-RESULTS-20261111.md),
+  [protocol](research/US500-MA-RECLAIM-PROTOCOL-20261111.md).
+  FP02setups giữ396arm,confirmationmới165(58/50/57). Originalfloor200false,
+  giữattempt0books; sauđó [đăngkýG2costscreen riêng](research/US500-MA-RECLAIM-COST-SCREEN-AMENDMENT-20261111.md)
+  trướcPnL,khôngsửafloor/strategy. 6financial+3nullnativebooks/88,02s;
+  reference+4,83USD,stress−307,03USD/3sổreset10k,stressâm3năm.
+  FullheldM1pathscovered,0reject/open/unresolved;40tests trongscope đạt.
+  **Gác exactR123**,khôngdeep/challenge/OOSpass hoặc retuneđểcứu.
+  Catalogue123/88versions/53native;FP05frequencyhistorygiữ,khôngdoublecount.
+  **Owner nhắc daytrading là nguồn thu chính, chưa chốt thu nhập**, yêu cầu
+  so sánh nhiều mức: [cadence/income planning](research/DAYTRADING-INCOME-CADENCE-20261111.md).
+  Agentđềxuấtdải3–8lệnh/tuần,ngàythường0–2,khôngquota/đổicapR123;
+  thayproposal2–5trước,chưalàchuẩnquỹ haymụcmonthlyownerchốt.
+  Kịchbản10/20/30triệu dùng80%reward2Stepđãkiểm,FX25k+chi1triệu chỉminhhọa,
+  khôngforecastR123. Tiếpadmissionýtưởngcómechanism/cadence+costedge,
+  không tăngrisk/muaquỹ/2025+/broker. Khôngjobnền hoặcGoal.
 
 - **Owner10/11 đã thấy Client Area chỉ có Swing10k/25k** cho2-Step/USD/MT5.
   [Standard/Swing và scale](research/PROP-FIRM-FIT-20261102.md#standard-swing-và-đích-vốn-lớn--làm-rõ-ngày-10112026)
@@ -283,7 +298,7 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 | Lát | Kết luận / bước tiếp |
 |---|---|
-| Catalogue | 122 hồ sơ / 87 policy-model versions / 52 native / 9 controls; [catalogue](research/STRATEGY-CATALOGUE-20261107.md). Component/biến thể không tự là edge độc lập |
+| Catalogue | 123 hồ sơ / 88 policy-model versions / 53 native / 9 controls; [catalogue](research/STRATEGY-CATALOGUE-20261107.md). Component/biến thể không tự là edge độc lập |
 | FX NYMA4 | [Conditional results](research/NY-FX-GAP-SCENARIOS-RESULTS-20261109.md) âm ở hai năm; strict annual vẫn unknown. Không đổi clock/SL/risk để cứu exact recipe |
 | Gold R043 | [Cost admission](research/GOLD-TARGET-COST-ADMISSION-20261109.md) và [loss diagnosis](research/SELECTIVE-LOSS-DIAGNOSIS-RESULTS-20261109.md): funding/spec đích chưa verified; không zero-swap hoặc rerun để cứu outcome |
 | R080/R081 | [EU-open](research/US500-EU-OPEN-COMPONENT-RESULTS-20261109.md), [conditional](research/US500-INVENTORY-CONDITION-RESULTS-20261109.md): known net âm, giữ unknowns, gác exact recipes |

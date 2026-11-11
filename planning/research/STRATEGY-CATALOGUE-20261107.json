@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-11",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 122,
+  "record_count": 123,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -12,14 +12,14 @@
   "counts": {
     "by_role": {
       "existing": 36,
-      "variant": 68,
+      "variant": 69,
       "new": 17,
       "component": 1
     },
     "by_readiness": {
       "implemented": 36,
       "component_probe_not_retained": 30,
-      "implemented_not_retained": 6,
+      "implemented_not_retained": 7,
       "method_clock_review": 1,
       "component_probe_completed_no_priority": 3,
       "price_data_spec_possible": 1,
@@ -4431,17 +4431,65 @@
         "k": "0.1",
         "id": "R122"
       }
+    },
+    {
+      "id": "R123",
+      "title": "US500 M15 closed MA20 reclaim after trend pullback",
+      "family": "trend_pullback",
+      "role": "variant",
+      "parent_id": "R004",
+      "lineage": [
+        "R098",
+        "FP02",
+        "FP05"
+      ],
+      "readiness": "implemented_not_retained",
+      "timeframe": "M15 setup/confirmation; cash session; modeled M1 native execution",
+      "rule_sketch": "SMA20/80 trend; previous close trend-side then arm close acrossSMA20; later close reclaim currentSMA20+/-0.10frozenATR; arm10-14NY,60min/15NYexpiry;15:31exit/trendlost/2ATRstop;1attempt/day",
+      "data_requirements": "Accepted full four-quarter explicit paired US500 M1 development2022-24,own81M15readiness,noH1filter",
+      "automation_feasibility": "native_nautilus_offline_M1_envelope_execution_only",
+      "prop_operational_concerns": "Stress negative all3years;~1signal/week below provisional3-8/week target; no targetspec/news/closures/intraminuteequityDD/OOS/forward",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "New fixed confirmation hypothesis after frequency audit; one related variant not independentedge; setup unchanged versusFP02",
+      "next_action": "Park exact recipe for deep/challenge review under tested costs; preserve all outcomes,do not retune MA/SL/TP/hour or promote SELL-only. New hypothesis needs mechanism/cadence admission.",
+      "implementation_state": "native_screened_reviewed_not_retained",
+      "candidate_id": "us500-ma-reclaim-v1",
+      "profitability_evidence": "165trades/cost(58/50/57 annual),fullheldpathscovered;3resetbooks reference+4.83USD,stress-307.03USD;stressannual-158.29/-58.09/-90.65USD",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-ma-reclaim-v1"
+      ],
+      "admission_evidence_locator": "US500-MA-RECLAIM-PROTOCOL-20261111.md",
+      "implementation_updated_on": "2026-11-11",
+      "evidence_locator": "US500-MA-RECLAIM-RESULTS-20261111.md",
+      "version_decisions": {
+        "us500-ma-reclaim-v1": "not_retained_exact_recipe_under_tested_costs"
+      },
+      "stage_history": [
+        {
+          "stage": "frequency_priority",
+          "result": "165below200",
+          "evidence": "US500-MA-RECLAIM-PROTOCOL-20261111.md"
+        },
+        {
+          "stage": "separately_registered_G2_cost_screen",
+          "result": "completed_not_retained_no_qualification",
+          "evidence": "US500-MA-RECLAIM-COST-SCREEN-AMENDMENT-20261111.md"
+        }
+      ]
     }
   ],
   "automatic_dispatch": false,
   "automatic_rejection": false,
   "holdout_opened": false,
   "updated_on": "2026-11-11",
-  "implemented_record_count": 76,
-  "implemented_rule_count": 87,
+  "implemented_record_count": 77,
+  "implemented_rule_count": 88,
   "implemented_control_rule_count": 9,
-  "implemented_noncontrol_rule_count": 78,
-  "native_offline_rule_count": 52,
+  "implemented_noncontrol_rule_count": 79,
+  "native_offline_rule_count": 53,
   "metal_coarse_rule_count": 6,
   "index_coarse_rule_count": 7,
   "fx_session_coarse_rule_count": 1,
@@ -4481,6 +4529,28 @@
       ],
       "exposure": "consumed_development_not_clean_OOS",
       "decision": "PrimaryFP04:158signals,annual55/50/53;belowregistered200totalpriorityfloor,no_new_financial_batch",
+      "dispatch_authorized": false
+    },
+    {
+      "id": "us500-ma-reclaim-v1-frequency",
+      "baseline": "FP02",
+      "configuration_ids": [
+        "FP05"
+      ],
+      "new_related_design_ids": [
+        "FP05"
+      ],
+      "status": "completed_frequency_below_original_priority_floor",
+      "financial_simulations": 0,
+      "exact_fill_available": [
+        58,
+        50,
+        57
+      ],
+      "subsequent_financial_record": "R123",
+      "subsequent_stage": "separate_G2_cost_screen_not_deep_pass",
+      "protocol_locator": "US500-MA-RECLAIM-PROTOCOL-20261111.md",
+      "evidence_locator": "US500-MA-RECLAIM-RESULTS-20261111.md",
       "dispatch_authorized": false
     }
   ]

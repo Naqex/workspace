@@ -1,5 +1,19 @@
 # Tra cứu research đã có
 
+[Daytrading/nguồn thu chính: cadence và10/20/30triệu](DAYTRADING-INCOME-CADENCE-20261111.md):
+ownerchưachốtmonthlyincome;agentđềxuất3–8lệnh/tuần,ngàythường0–2,khôngquota.
+Các kịchbản50k/100k/200k chỉplanning,80%reward2Step official11/11,
+FX25k+chi1triệu làgiảđịnh,khôngforecast hoặcquyềnmuaquỹ/tăngrisk.
+
+[R123 MA reclaim đã sàng lọc native](US500-MA-RECLAIM-RESULTS-20261111.md),
+[protocol](US500-MA-RECLAIM-PROTOCOL-20261111.md),
+[separateG2registration](US500-MA-RECLAIM-COST-SCREEN-AMENDMENT-20261111.md):
+165lệnh/cost,6financial+3null/88,02s;reference+4,83USD,stress−307,03USD,
+stressâm3năm,khônggiữexactrecipe. Originalfloor200falsegiữ;khônghạgaterồi
+claimpass. 40scopedtests,parentdefault/clock/SL/cash/unknown/parityđạt.
+Catalogue123/88versions/53native;FP05historykhôngdoublecount. Chưaedge/OOS/
+challenge,khôngjobnền. Tiếpý tưởngcómechanism/cadence/edge,khôngretuneR123.
+
 [US500: đã kiểm vì sao ít tín hiệu](US500-FREQUENCY-AUDIT-RESULTS-20261111.md),
 [protocol trước số đếm](US500-FREQUENCY-AUDIT-PROTOCOL-20261111.md):
 5probes/15annualcases,22,06s,10tests,parentR098/R120signaltraceparity.

@@ -81,6 +81,19 @@ effect size/dependence/uncertainty và horizon, không minimum chung cho mọi h
 Không dùng yêu cầu thu nhập để ép bot vào lệnh, tăngrisk hoặc xóa filter hồi tố.
 Thiếu tần suất là vấn đề research-priority/operational fit, không tự reject edge.
 
+Tách G1/G2 screening nhỏ về implementation/cost khỏi G3 kiểm edge sâu. Thiếu
+mẫu cho G3 không tự chặn mọi G2screen, nhưng phạm vi/stop rule của một study đã
+khóa phải giữ nguyên. Nếu đổi stage sau khi biết count, giữ oldattempt và đăng
+ký scope/inputbinding mới trước PnL; không sửa floor hồi tố hoặc gọi adaptive
+decision là preregistered từ trước outcome đã xem.
+
+Khi trading là nguồn thu chính nhưng owner chưa chốt mức tiền, so sánh các
+kịch bản thu nhập/vốn/risk/expectancy/costs/reward share thay vì ép số lệnh mỗi
+ngày. Ghi rõ đâu là owner goal, đâu là agent proposal và assumptions; số dư
+quỹ mô phỏng không là tiền owner sở hữu. Mục tiêu cadence/income không tự đổi
+frozenstrategy hoặc authority. [Case hiện hành](../../planning/research/DAYTRADING-INCOME-CADENCE-20261111.md)
+giữ nguồn/ngày kiểm và các mức chỉ minh họa, không hard-code vào skill/global rule.
+
 [US500 frequency audit](../../planning/research/US500-FREQUENCY-AUDIT-RESULTS-20261111.md)
 giữ protocol, parent trace parity, counters và giới hạn của case đã kiểm.
 
