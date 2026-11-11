@@ -4451,5 +4451,37 @@
   "metal_h1_ml_rule_count": 2,
   "fx_ny_ma4_h1_rule_count": 2,
   "fx_ny_ma4_M1_rule_count": 4,
-  "fx_ny_ma4_M1_conditional_rule_count": 4
+  "fx_ny_ma4_M1_conditional_rule_count": 4,
+  "frequency_only_studies": [
+    {
+      "id": "us500-frequency-audit-v1",
+      "baseline": "R098",
+      "diagnostic_parent": "R120",
+      "configuration_ids": [
+        "FP00",
+        "FP01",
+        "FP02",
+        "FP03",
+        "FP04"
+      ],
+      "new_related_design_ids": [
+        "FP01",
+        "FP02",
+        "FP03",
+        "FP04"
+      ],
+      "status": "completed_frequency_only_not_edge",
+      "financial_simulations": 0,
+      "protocol_locator": "US500-FREQUENCY-AUDIT-PROTOCOL-20261111.md",
+      "evidence_locator": "US500-FREQUENCY-AUDIT-RESULTS-20261111.md",
+      "source_years": [
+        2022,
+        2023,
+        2024
+      ],
+      "exposure": "consumed_development_not_clean_OOS",
+      "decision": "PrimaryFP04:158signals,annual55/50/53;belowregistered200totalpriorityfloor,no_new_financial_batch",
+      "dispatch_authorized": false
+    }
+  ]
 }

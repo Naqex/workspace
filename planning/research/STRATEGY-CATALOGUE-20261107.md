@@ -111,6 +111,14 @@ freeze trước outcomes; old quarter-mask failure và corrected attempt đều 
 |R093|US500 monthly options-expiry week|monthly_options_inventory_calendar,relatedR025/R080|Khôngretained:stress2019+279,41/2022−708,85USD/unit;2022midâm|0|[Results](OPTIONS-WEEK-RESULTS-20261110.md);48windows/96cases,khôngSL/account/prop/OOS|
 
 
+## Frequency-only designs đã xem, chưa là financial policies
+
+[US500 frequency audit](US500-FREQUENCY-AUDIT-RESULTS-20261111.md):FP00 làR098
+baseline,FP01–FP04 là4relateddesigns mới vềeligibility/clock/pullbackdefinition.
+Đã giữ cả5probes/trialhistory trongJSON `frequency_only_studies`; primaryFP04
+158signals/3năm, chưa200priorityfloor,0newfinancialbooks. Không cộng vào122
+account records/87versions hoặc coi relateddesigns là independentedges.
+
 ## US500 multiframe — 27 cấu hình đã chạy
 
 [Kết quả và hậu kiểm](US500-MULTIFRAME-RESULTS-20261111.md), [toàn bộ bảng](US500-MULTIFRAME-FULL-TABLE-20261111.md):
