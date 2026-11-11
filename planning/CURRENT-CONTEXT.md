@@ -1,6 +1,6 @@
 # Current context — Naqex Workspace
 
-10/11/2026 · `WORK: ACTIVE / REVIEW: REVIEWED-PARTIAL / DOC: RESUMABLE`.
+11/11/2026 · `WORK: ACTIVE / REVIEW: REVIEWED-PARTIAL / DOC: RESUMABLE`.
 Owner đã xóa app Goal rồi yêu cầu tiếp tục task và nghiên cứu portfolio.
 Tool xác nhận không còn Goal; không tự tạo lại. Task hiện tại tiếp tục theo giao việc.
 Đích: ứng viên đủ bằng chứng để đề xuất challenge FTMO/The5ers và quy trình
@@ -9,21 +9,29 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 ## Việc hiện tại
 
+- **Owner11/11 đồng ý hướng M15, giữ vài giờ intraday, kiểm FTMO 2-Step
+  Standard cả funded để hướng tới vốn lớn.** [Quyết định hiện hành](research/PROP-FIRM-FIT-20261102.md#hướng-hiện-hành--owner-đồng-ý-ngày-11112026)
+  thay hướng nghiên cứu Swing; không đổi account/leverage/old protocols.
+  EURUSD/US500 và cơ chế/risk/size chưa chốt. [Việc tiếp đã thu hẹp](research/INSTRUMENT-SELECTION-ONLYONE-20261110.md#chuẩn-bị-vòng-m15-standard--11112026):
+  chọn một asset/cơ chế, pin exact rules/cost/calendar rồi source/causal
+  preflight trước economic test. `prop_profile.py` chỉ đánh giá DD/headroom,
+  không tự chứng nhận news/closures compliance. Không batch/broker/holdout mới.
+
 - **Owner10/11 đã thấy Client Area chỉ có Swing10k/25k** cho2-Step/USD/MT5.
   [Standard/Swing và scale](research/PROP-FIRM-FIT-20261102.md#standard-swing-và-đích-vốn-lớn--làm-rõ-ngày-10112026)
   lưu owner-observed availability, official market-break/news rules và đề xuất
-  kiểm fundedStandard từ đầu cho đích50k–200k. Chưa đổi confirmed targetSwing,
-  oldprotocols/costs hoặc account. Không hiểu Standard cấm mọiovernight;
+  kiểm fundedStandard từ đầu cho đích50k–200k; owner đã đồng ý11/11 ở trên.
+  Giữ oldprotocols/costs và account. Không hiểu Standard cấm mọiovernight;
   marketbreak>2giờ khác holding>2giờ. M15khôngđồngnghĩagiữ15phút.
 
 - **Owner10/11 đã chọn thử onlyone và chốt khung tín hiệu M15**; instrument/
-  cơ chế/holding/risk/frequency/winrate còn cần chọn. [Hồ sơ lựa chọn](research/PROP-FIRM-FIT-20261102.md#only-one-hồ-sơ-mục-tiêu-và-các-case-để-owner-chọn--10112026)
+  cơ chế/exact exit/risk/frequency/winrate còn cần chọn. [Hồ sơ lựa chọn](research/PROP-FIRM-FIT-20261102.md#only-one-hồ-sơ-mục-tiêu-và-các-case-để-owner-chọn--10112026)
   giữ confirmed/proposed/unknown: incomechính/propvốn/riskthấp,1lane kiểm sâu;
   [researchtimeframe](research/TIMEFRAME-SELECTION-ONLYONE-20261110.md) giữ quyết định
   **M15**, thay tư vấnH1 cũ. **Owner yêu cầu research sản phẩm trước, rút ưu tiên
   EURUSD chỉ vì reuse**; [so sánh instrument](research/INSTRUMENT-SELECTION-ONLYONE-20261110.md)
   đề xuất so cuối EURUSD/USDJPY, US500, vàng theo cơ chế/cost/risk; chưa đo
-  target costs/account hay chốt asset/pullback/intraday.
+  target costs/account hay chốt asset/pullback; intraday đã được đồng ý11/11.
   [Đã kiểm sâu offline](research/FOUR-INSTRUMENT-M15-FIT-RESULTS-20261110.md):
   32requests/128M15,4ngày2022 đủcả4assets; cost/rangeproxy khôngFTMOspread/
   edge. Targetminlot/margin của3assets chưađủ; nghiêngUS500đểhoànthiệnhồsơ,
