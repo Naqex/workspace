@@ -376,12 +376,14 @@ class Pullback(Strategy):
         self.native_closed.append(event.realized_pnl.as_decimal())
 
 
-def execute(config, prepared, pairs, quotes, slip, progress=None, null=False):
+def execute(config, prepared, pairs, quotes, slip, progress=None, null=False, policy_factory=None):
     if nautilus_trader.__version__!='1.231.0':
         raise ValueError('native_runtime_pin')
     engine=BacktestEngine(config=BacktestEngineConfig(logging=LoggingConfig(bypass_logging=True),run_analysis=False))
     fill=AdverseFill(slip)
     strategy=Pullback(config,prepared,pairs,slip,progress,null)
+    if policy_factory is not None:
+        strategy.policy=policy_factory(config)
     try:
         engine.add_venue(venue=Venue('RESEARCH'),oms_type=OmsType.NETTING,account_type=AccountType.MARGIN,
                          starting_balances=[Money(10000,USD)],base_currency=USD,default_leverage=D(10),
