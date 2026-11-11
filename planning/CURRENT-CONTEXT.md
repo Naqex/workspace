@@ -39,6 +39,10 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
   tách causal falsebreak detection khỏi forecast, giữ shift của pivotconfirmation;
   chưa có majority-success census hoặc proofM15 từ58futures1–12monthpaper.
   NYSEcashclock đã kiểm; FTMOUS500 exactserverhours còn chưa account-verified.
+  **Owner đã chốt7mức đệm xác nhận theo ATRnếnđóng:**0→0,30ATR,bước0,05.
+  [Quyết định và resume](research/STRATEGY-TEMPLATE-REUSE-REVIEW-20261111.md#owner-chốt-lưới-đệm-atr--quyết-định-tiếp-theo-1111):
+  tiếp draft/freeze một pullbackspec trước nativefixtures/7-bufferbatch;
+  trend/anchor/SL/exit/ATRperiod còn chưa freeze,không coiATR14example làđãchốt.
 
 - **Owner10/11 đã thấy Client Area chỉ có Swing10k/25k** cho2-Step/USD/MT5.
   [Standard/Swing và scale](research/PROP-FIRM-FIT-20261102.md#standard-swing-và-đích-vốn-lớn--làm-rõ-ngày-10112026)

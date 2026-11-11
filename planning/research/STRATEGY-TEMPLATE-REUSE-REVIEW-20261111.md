@@ -282,3 +282,22 @@ Nguồn kiểm11/11/2026, không simulation/newPnL/holdout/broker/modelcalls;
 không đổi catalogue/trialcount hoặc qualifiedverdict. Diagram riêng là nến
 giả định để giải thích, không price feed/strategy outcome. Không sửa skill
 cho định nghĩa hiển nhiên; native-engines/qualification hiện có giữ workflow.
+
+## Owner chốt lưới đệm ATR — quyết định tiếp theo 11/11
+
+Owner đồng ý7mức confirmation buffer: **0 /0,05 /0,10 /0,15 /0,20 /0,25 /
+0,30ATR**, bước0,05ATR, dùng ATR từ nến đã đóng. Đây là phạm vi khảo sát
+được đồng ý, không thông số đã chứng minh tối ưu hoặc7trials đã chạy. Không
+tự mở rộng sang grid retest-width/SL/TP/giờ/risk; giữ mọi trial history cũ.
+
+Bước kế tiếp là draft/freeze một bản luật pullbackUS500M15: trend definition,
+level/anchor xác nhận, arm/retest/expiry/invalidation, ATRperiod/seed/warmup/
+width-freeze policy, next-event fills, SL/exit/session và shared risk/cost.
+Chưa chốt period14 hoặc exact rules chỉ từ ví dụ giải thích ATR14 trước đó.
+Giữ lineageR004 và negatives; engine native pilot/parity trước newfinancial
+screen,2022–24exposed,2025+reserved. Chưa code/run/newPnL/broker từ quyết định.
+
+Luồng tiếp: một strategy-spec dễ đọc → causal/nativefixtures → registered
+7-buffer development batch → financial/equity/cost review và lựa chọn tiếp.
+Không cần owner duyệt khác biệt nhỏ khi đã giao thực thi; mọi actual account/
+holdout/purchase giữ gate riêng. Không tạo skill mới cho một parameter choice.
