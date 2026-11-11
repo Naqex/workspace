@@ -1,6 +1,6 @@
 # Current context — Naqex Workspace
 
-11/11/2026 · `WORK: ACTIVE / REVIEW: REVIEWED-PARTIAL / DOC: RESUMABLE`.
+12/11/2026 · `WORK: ACTIVE / REVIEW: REVIEWED-PARTIAL / DOC: RESUMABLE`.
 Owner đã xóa app Goal rồi yêu cầu tiếp tục task và nghiên cứu portfolio.
 Tool xác nhận không còn Goal; không tự tạo lại. Task hiện tại tiếp tục theo giao việc.
 Đích: ứng viên đủ bằng chứng để đề xuất challenge FTMO/The5ers và quy trình
@@ -8,6 +8,17 @@ Tool xác nhận không còn Goal; không tự tạo lại. Task hiện tại ti
 Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 ## Việc hiện tại
+
+- **Owner12/11 đồng ý đếm cơ hội trước financial backtest tiếp**:
+  [FP06–08 đã chạy](research/US500-OPPORTUNITY-SCREEN-RESULTS-20261112.md),
+  [protocol](research/US500-OPPORTUNITY-SCREEN-PROTOCOL-20261112.md),commit
+  `0df2da5`trướcoutcomes.12cases/22,77s,9tests+savedFP05traceparity3năm.
+  Retryreclaim165→181(+9,7%),FP07prior20channel540firstdays/992raw,
+  FP08MAcross196firstdays/209raw. FP073,59cơhội/5phiên,1/157tuầntrống,
+  month10–21; ưu tiênthiếtkếG2economicprotocolriêng, chưaPnL/edge/prop.
+  Không gọi signals làtrades;firstdayselectiontrướcquotecheck,cảsamplesđủquote.
+  Catalogue123/88/53giữ+3relatedfrequencydesigns,khôngretune/đổicaprisk/
+  2025+/broker. Khôngjobnền. Research directionkhônglàpermission hoặcGoal.
 
 - **Owner11/11 đồng ý hướng M15, giữ vài giờ intraday, kiểm FTMO 2-Step
   Standard cả funded để hướng tới vốn lớn.** [Quyết định hiện hành](research/PROP-FIRM-FIT-20261102.md#hướng-hiện-hành--owner-đồng-ý-ngày-11112026)

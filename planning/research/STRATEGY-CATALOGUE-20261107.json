@@ -4484,7 +4484,7 @@
   "automatic_dispatch": false,
   "automatic_rejection": false,
   "holdout_opened": false,
-  "updated_on": "2026-11-11",
+  "updated_on": "2026-11-12",
   "implemented_record_count": 77,
   "implemented_rule_count": 88,
   "implemented_control_rule_count": 9,
@@ -4551,6 +4551,22 @@
       "subsequent_stage": "separate_G2_cost_screen_not_deep_pass",
       "protocol_locator": "US500-MA-RECLAIM-PROTOCOL-20261111.md",
       "evidence_locator": "US500-MA-RECLAIM-RESULTS-20261111.md",
+      "dispatch_authorized": false
+    },
+    {
+      "id": "us500-opportunity-screen-v1",
+      "baseline": "R123/FP05;R094 saved cadence only",
+      "related_parents": ["R123", "R001", "R002"],
+      "configuration_ids": ["FP06", "FP07", "FP08"],
+      "new_related_design_ids": ["FP06", "FP07", "FP08"],
+      "status": "completed_frequency_only_not_edge",
+      "financial_simulations": 0,
+      "protocol_locator": "US500-OPPORTUNITY-SCREEN-PROTOCOL-20261112.md",
+      "evidence_locator": "US500-OPPORTUNITY-SCREEN-RESULTS-20261112.md",
+      "first_signal_exact_quote_available": {"FP06": [65, 54, 62], "FP07": [195, 174, 171], "FP08": [72, 62, 62]},
+      "source_years": [2022, 2023, 2024],
+      "exposure": "consumed_development_not_clean_OOS",
+      "decision": "FP07 prioritized for separately registered economic-screen design on cadence only;FP06/FP08 lower cadence priority;no PnL or live cap change",
       "dispatch_authorized": false
     }
   ]
