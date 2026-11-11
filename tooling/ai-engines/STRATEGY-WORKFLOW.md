@@ -67,6 +67,23 @@ Protocol/data/source hashes và exit0 không tự chứng minh preregistration t
 causality, OOS hoặc prop fit. Dossier `review_checks` tách mechanical checks khỏi
 phần chưa được tool đánh giá; dùng bảng gate/evidence trong mọi đề xuất đổi stage.
 
+## Kiểm tần suất trước batch tài chính lớn
+
+Khi mục tiêu có thời hạn/cadence/nguồn thu cụ thể, kiểm sớm số cơ hội mà exact
+rules có thể tạo: eligible sessions → setups → confirmations → admissions →
+fills. Ghi đơn vị, unique dates, warmup/gap/giờ/one-attempt constraints và
+reasons theo tầng; không cộng cost scenarios/related variants thành samples
+độc lập. Signal count không là tradecount, và nhiều trades không chứng minh edge.
+
+Freeze câu hỏi/probes và điều kiện chuyển bước trước số đếm; giữ các biến thể
+frequency-only trong trial history dù chưa có PnL. Mốc sample là kế hoạch theo
+effect size/dependence/uncertainty và horizon, không minimum chung cho mọi họ.
+Không dùng yêu cầu thu nhập để ép bot vào lệnh, tăngrisk hoặc xóa filter hồi tố.
+Thiếu tần suất là vấn đề research-priority/operational fit, không tự reject edge.
+
+[US500 frequency audit](../../planning/research/US500-FREQUENCY-AUDIT-RESULTS-20261111.md)
+giữ protocol, parent trace parity, counters và giới hạn của case đã kiểm.
+
 ## Preflight cùng runner
 
 Fixture M1 nhiều instruments dùng `research_input_admission.py --root <sealed-fixture>

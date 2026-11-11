@@ -1,5 +1,13 @@
 # Tra cứu research đã có
 
+[US500: đã kiểm vì sao ít tín hiệu](US500-FREQUENCY-AUDIT-RESULTS-20261111.md),
+[protocol trước số đếm](US500-FREQUENCY-AUDIT-PROTOCOL-20261111.md):
+5probes/15annualcases,22,06s,10tests,parentR098/R120signaltraceparity.
+Giữ19signals;ownwarmup19;giờrộng93;wick54;kếthợp158(55/50/53),khoảng1/tuần.
+FP04chưafloor200totalđãkhóa,0newfinancialsimulations;khôngnớitiếptựđộng.
+Lưu4relatedfrequency-onlydesigns,catalogueaccount122/87versionsgiữ;khôngedge/OOS.
+Bướctiếpcầnconfirmationhypothesismới,khôngrerununchanged hoặc2025+/broker.
+
 [US500 multiframe đã backtest](US500-MULTIFRAME-RESULTS-20261111.md),
 [bảng đủ27cấu hình](US500-MULTIFRAME-FULL-TABLE-20261111.md),
 [protocol](US500-MULTIFRAME-PROTOCOL-20261111.md):162nativebooks+9null,

@@ -59,8 +59,16 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
   ChỉR120(A,MA40/160,k.10)stressdương3năm nhưng15lệnh,net+48,87USD
   trên3sổreset10k; chưaedge/challenge/timefit. Cảmatrix13–32lệnh/3năm,
   A/B20/80giốngnhau; không coi27configs là27edges. Catalogue122/87versions/
-  52native;giữoldnegatives. Tiếpsoi15R120trades/87arms trướcđăngkýtrialmới,
-  chưaautotune/mởholdout/broker. Khôngjobnền hoặcGoal.
+  52native;giữoldnegatives. **Đã audit tần suất trước batch tiếp**:
+  [frequency results](research/US500-FREQUENCY-AUDIT-RESULTS-20261111.md),
+  [protocol](research/US500-FREQUENCY-AUDIT-PROTOCOL-20261111.md).
+  FP00–04 counts19/19/93/54/158signals;warmupkhôngphảinútthắtchính.
+  FP04(ownwarmup+wicktouch+armđến14NY)55/50/53năm,khoảng1/tuần,
+  chưa>=200totalresearch-priorityfloorđãkhóa;khôngfinancialbatchmới.
+  ParentR098/R120timestamp/sideparity đạt,10tests,22,06saudit.
+  Lưu4frequency-onlyrelateddesigns trongcatalogue,khôngtăngaccountpolicy
+  versions hoặcxóatrials. Tiếpcầnýdotáchbạchchoconfirmationhypothesismới,
+  chưatriểnkhai/rearm/autotune/holdout/broker. Khôngjobnền hoặcGoal.
 
 - **Owner10/11 đã thấy Client Area chỉ có Swing10k/25k** cho2-Step/USD/MT5.
   [Standard/Swing và scale](research/PROP-FIRM-FIT-20261102.md#standard-swing-và-đích-vốn-lớn--làm-rõ-ngày-10112026)
