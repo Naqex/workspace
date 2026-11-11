@@ -1,5 +1,12 @@
 # Tra cứu research đã có
 
+[Đã đếm ba thiết kế cơ hội US500](US500-OPPORTUNITY-SCREEN-RESULTS-20261112.md),
+[protocol trước outcomes](US500-OPPORTUNITY-SCREEN-PROTOCOL-20261112.md):
+baseline165;FP06retry181,FP07prior20channel540firstdays/992rawtriggers,
+FP08MAcross196firstdays/209raw. FP073,59/5phiên,1/157tuầntrống,month10–21;
+ưu tiên thiết kếG2screen riêng, chưaPnL/edge/prop.12cases/22,77s,9tests,
+savedFP05parity3năm,catalogue123/88/53giữ+3relatedfrequencydesigns.
+
 [Tần suất US500: các nhóm, độ đều và dễ code](US500-FREQUENCY-LANDSCAPE-20261111.md):
 180savedbooks/30versions,90annualcostpairs entryclockparity,0replay/0newtrial.
 ORB677/0tuầntrống;failedbreak269/23;reclaim165/47;R12015/142trên157tuần.
