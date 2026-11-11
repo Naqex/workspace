@@ -3,19 +3,19 @@
 Ngày nghiên cứu: 10/11/2026. Owner yêu cầu nghiên cứu EURUSD và các sản phẩm
 khác trước khi chọn; không ưu tiên chỉ vì project có sẵn dữ liệu.
 
-**Kết luận:** rút ưu tiên EURUSD dựa trên reuse; chưa chốt instrument hoặc
-pullback. M15 vẫn là quyết định của owner. Hướng intraday/Standard đã được
-owner đồng ý11/11 ở phần cập nhật bên dưới. Đích là bot phù hợp challenge và
+**Kết luận hiện hành11/11:** owner đã chọn **US500 — ưu tiên nghiên cứu tiếp**
+cho vòng onlyone M15, intraday/FTMO Standard. EURUSD giữ làm tham chiếu;
+chưa chốt pullback hoặc exact strategy. Đích là bot phù hợp challenge và
 payout bền vững, không chọn sản phẩm chỉ vì chạy mạnh hoặc cộng đồng thích.
 
 ## Chuẩn bị vòng M15 Standard — 11/11/2026
 
 **Đã chốt:** tín hiệu M15, ưu tiên giữ vài giờ trong ngày, thiết kế theo FTMO
-2-Step Standard cả funded. **Chưa chốt:** EURUSD hay US500, cơ chế, exact
+2-Step Standard cả funded; owner đã chọn **US500** tiếp11/11. **Chưa chốt:** cơ chế, exact
 entry/exit/cutoff, SL/TP, risk/budget và cỡ tài khoản. Đây là hồ sơ chuẩn bị,
 chưa là protocol đủ để chạy kinh tế hoặc strategy đã có edge.
 
-### Hai hồ sơ để chốt một sản phẩm
+### Hai hồ sơ so sánh trước quyết định US500
 
 | Phần cần quyết định | EURUSD | US500.cash |
 |---|---|---|
@@ -24,7 +24,7 @@ chưa là protocol đủ để chạy kinh tế hoặc strategy đã có edge.
 | Spec có thể reuse | Snapshot EURUSD02/11 và public row08/11; chưa chứng nhận account Standard hiện tại | Public row08/11 có contract1 và Standard leverage50; minlot/step/tick/margin đúng account còn thiếu |
 | Điểm phải kiểm với Standard | Các restricted events USD và EUR có ảnh hưởng; calendar/symbol mapping phải đúng | Các restricted events Mỹ có ảnh hưởng; tránh suy sau09:30NY luôn hết tin |
 | Bằng chứng cũ cần giữ | R016/R017 ORB, R091 round-level và nhiều exact versions đã gác | First→last30min adaptation2022–24 âm; noise/ORB variants có lineage riêng |
-| Đánh giá hiện tại | Lựa chọn khả thi, reuse giúp giảm setup nhưng không chứng minh có edge | Agent ưu tiên nghiên cứu tiếp vì câu hỏi phiên rõ và commission0; không winner hoặc owner decision |
+| Đánh giá hiện tại | Giữ tham chiếu; reuse giúp giảm setup nhưng không chứng minh có edge | Owner đã chọn để nghiên cứu11/11; lý do agent đề xuất là câu hỏi phiên rõ và commission0, chưa economic winner |
 
 Spec trên là evidence lịch sử đúng ngày, không fresh broker contract. Nguồn:
 [public symbol/clock admission](FTMO-SYMBOL-AND-CLOCK-ADMISSION-20261108.md),
@@ -60,8 +60,8 @@ quản lý trước window cần được đăng ký và kiểm cả khớp lệ
 
 ### Thứ tự thực hiện đã thu hẹp
 
-1. Owner chọn một sản phẩm; agent đang đề xuất US500, EURUSD là alternative.
-   Chưa mở hai lane bot hoặc quét hàng loạt recipe.
+1. **Đã xong:** owner chọn US50011/11; EURUSD giữ tham chiếu.
+   Không mở hai lane bot hoặc quét hàng loạt recipe.
 2. Chọn **một cơ chế có cơ sở** và so lineage trước đăng ký. M15 thay H1/H4,
    đổi SL hoặc đổi giờ không tự tạo một cơ hội độc lập; giữ trial history.
    Hiện chưa có exact recipe mới được admit chỉ từ quyết định Standard.
@@ -82,6 +82,50 @@ closure; DST Mỹ/Prague lệch tuần. Đây là **yêu cầu kiểm**, chưa l
 Lượt này cập nhật quyết định và scoped qualification gap; không numeric run,
 không broker calls/OrderCheck/OrderSend, không mở holdout hoặc job nền. Không
 đổi catalogue93records, trial counts, frozen pilot/protocol hay old verdicts.
+
+## US500 đã chốt và câu hỏi nghiên cứu tiếp — 11/11/2026
+
+**Nhật ký quyết định:** owner chọn “US500 — ưu tiên nghiên cứu tiếp” trong
+khảo sát sau khi chốt M15/intraday/Standard. Chuyển instrument từ pending
+EURUSD/US500 → US500; không phải chọn bot, risk hoặc cấp quyền thực thi.
+
+Agent chọn một câu hỏi để **review phương pháp tiếp**: giá đóng nến M15 phá
+biên15phút đầu phiên cash Mỹ có tiếp diễn đủ bù chi phí hay không? Lý do chọn:
+khớp khung/holding owner muốn và có mốc phiên rõ. Đây là project hypothesis
+thuộc họ opening-range breakout, không evidence có edge hoặc cơ chế độc lập
+mới. Chưa pin threshold/expiry/SL/TP/sizing, chưa tạo financial registration,
+candidate/version mới hoặc dispatch. Chốt các rule đó trước khi đo outcome.
+
+Primary source đọc11/11:
+[NYSE auction timeline](https://www.nyse.com/trade/auctions) xác nhận quá trình
+mở phiên bắt đầu09:30ET, một số chứng khoán có thể mở trễ;
+[NYSE opening imbalance tool,06/05/2024](https://www.nyse.com/data-insights/nyse-introduces-the-enhanced-nyse-auction-tool-with-opening-imbalance-history)
+mô tả tập trung thanh khoản/price discovery, nhưng GUI được cập nhật sau khi
+auction hoàn tất. [Nasdaq cross documentation](https://www.nasdaqtrader.com/Trader.aspx?id=OpenClose)
+phân biệt opening cross và subscription imbalance feed. Các nguồn giải thích
+cơ chế thị trường cổ phiếu, **không chứng minh breakout15phút có lời trên CFD**.
+Không dùng historical GUI như dữ liệu orderflow biết trước; không đo imbalance
+từ candle/quote volume hoặc coi US500 CFD có auction/orderbook của cả500cổphiếu.
+
+Lineage bắt buộc giữ: R016/R017 FX opening-range; R019 prior-day retest đã
+không retained (catalogue hiện hành, thay trạng thái ý tưởng ở review08/11);
+R065 NASDAQ first5 direction/10R không retained sau conditional review;
+R048 US500 noise và R051 first→last30 cũng không retained theo
+[explicit-source correction](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md).
+Không chuyển các bản đó sang M15 rồi gọi độc lập hoặc “đã được paper chứng minh”.
+Cash-open range khác prior-day FX level/first5direction/noise band về thông tin
+tín hiệu, nhưng vẫn một transfer trial liên quan và phải tính vào trial history.
+
+Bước thực thi tiếp: khóa **một baseline breakout đơn giản**, calendar/DST,
+định nghĩa range/closed-bar/quote-after-decision, thời hạn tín hiệu/exit,
+controls, costs và coverage; kiểm nguồn/causal timing trước pilot2022–24.
+Chưa thêm retest, VWAP, filters hoặc gridSL/TP để cứu các bản âm. Nếu cần đổi
+rule sau outcome phải ghi trial mới. Pilot chưa đủ historical news/spec chỉ
+được ghi declared-scenario screen, không “đạt FTMO Standard”.
+
+Đây là decision/method review, không có kết quả PnL, số tín hiệu hoặc benchmark
+mới. Catalogue/trials thực thi không đổi; thêm catalogue/version khi exact
+recipe được đăng ký.2025+ reserved, old outcomes và account/runtime giữ nguyên.
 
 ## Cách so sánh
 

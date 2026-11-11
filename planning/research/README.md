@@ -1,9 +1,10 @@
 # Tra cứu research đã có
 
 [Hướng đã chốt11/11: M15, intraday và Standard funded](PROP-FIRM-FIT-20261102.md#hướng-hiện-hành--owner-đồng-ý-ngày-11112026).
-[Chuẩn bị bước tiếp EURUSD/US500](INSTRUMENT-SELECTION-ONLYONE-20261110.md#chuẩn-bị-vòng-m15-standard--11112026)
-giữ gap/spec, negative lineage và thứ tự kiểm; chưa chốt asset/risk hoặc
-dispatch. DD evaluator không bao gồm full news/closure qualification.
+[US500 đã được owner chọn11/11 và câu hỏi nghiên cứu tiếp](INSTRUMENT-SELECTION-ONLYONE-20261110.md#us500-đã-chốt-và-câu-hỏi-nghiên-cứu-tiếp--11112026):
+review phương pháp biên15phút đầu phiên Mỹ trước; giữ gap/spec, negative
+lineage và thứ tự kiểm. Chưa recipe/risk/dispatch; DD evaluator không bao gồm
+full news/closure qualification.
 
 [Standard/Swing, vốn lớn và timeframe–holding–cost](PROP-FIRM-FIT-20261102.md#standard-swing-và-đích-vốn-lớn--làm-rõ-ngày-10112026):
 owner thấy Swing10k/25k; agent chưa kiểm checkout sau login. Standard không
@@ -14,7 +15,7 @@ hoặc frozen profiles. Giữ quyết định10/11 và quan sát availability th
 [Đã kiểm sâu bốn sản phẩm M15](FOUR-INSTRUMENT-M15-FIT-RESULTS-20261110.md):
 32day/side requests/128M15, data-source và proxycost/range trong4ngày2022;
 khôngtargetspread/edge. Cơ chế/negativehistory, lot/margin gaps rõ; nghiêng
-US500 đểhoànthiệnhồsơ, ownerchưa chốt. KhôngPnL/broker/holdout/jobnền.
+US500 đểhoànthiệnhồsơ, owner đã chọn US500 sau đó11/11. KhôngPnL/broker/holdout/jobnền.
 
 [Chọn sản phẩm only one M15 — so sánh trước khi chốt](INSTRUMENT-SELECTION-ONLYONE-20261110.md):
 owner yêu cầu không ưu tiên EURUSD vì data có sẵn; rút ưu tiên cũ, so Forex/
@@ -25,11 +26,11 @@ từ official update; spread thả nổi chưa đo account, không miễn phí s
 
 [Owner đã chốt timeframe onlyone — M15](TIMEFRAME-SELECTION-ONLYONE-20261110.md):
 đối chiếu ManAHL/AQR/FTMO/community; bảng M1→D1, chọn theo hồ sơ chứkhông
-claimoptimal. Thay tư vấnH1 cũ; market/cơ chế chưa chốt, khôngnumeric/holdout/broker.
+claimoptimal. Thay tư vấnH1 cũ; market đã chốt US50011/11, cơ chế chưa chốt.
 
 [Owner chọn thử onlyone — bảng mục tiêu và các case](PROP-FIRM-FIT-20261102.md#only-one-hồ-sơ-mục-tiêu-và-các-case-để-owner-chọn--10112026):
 thu nhập chính/propvốn/riskthấp đãchốt; M15/intraday/Standard đồng ý11/11.
-Risk0,25%offline và2–5lệnh/tuần chỉ đề xuất, chưa asset/risk/authority.
+US500 đã chọn11/11; risk0,25%offline và2–5lệnh/tuần chỉ đề xuất, chưa risk/authority.
 
 [Inefficiency, top-down/bottom-up, onlyone và filter](OWNER-EVIDENCE-REPORT-20261108.md#14-hiểu-cơ-chế-filter-và-cách-tập-trung):
 filter khác input/researchscreen; đề xuất1lane kiểm sâu, khôngđộc canh vĩnhviễn.
