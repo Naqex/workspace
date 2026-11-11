@@ -1,5 +1,11 @@
 # Tra cứu research đã có
 
+[Hai bộ luật US500 M15 đã sàng lọc11/11](US500-M15-OPENING-SCREEN-RESULTS-20261111.md):
+18books/18reviews trong22,289s; breakout cost-sensitive/fullannualunknown,
+failed-break known2022/24âm, chưa giữ ứng viên.19tests/3actualmutations,
+v1newlinefail0books giữ, v2acceptedsource/4quarters; postreview sửa knownclosed
+reporting không rerun. Catalogue95records,2025+reserved,khôngbroker/jobnền.
+
 [Hướng đã chốt11/11: M15, intraday và Standard funded](PROP-FIRM-FIT-20261102.md#hướng-hiện-hành--owner-đồng-ý-ngày-11112026).
 [US500 đã được owner chọn11/11 và câu hỏi nghiên cứu tiếp](INSTRUMENT-SELECTION-ONLYONE-20261110.md#us500-đã-chốt-và-câu-hỏi-nghiên-cứu-tiếp--11112026):
 review phương pháp biên15phút đầu phiên Mỹ trước; giữ gap/spec, negative
