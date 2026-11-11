@@ -221,3 +221,64 @@ Skillcreator validator cho2entrypoints và23localreference links đạt; smoke
 script parse được, negative overwrite check đạt. Maintainer audit0errors/
 0warnings:global12.279B,project10.298/65.536B,reserve55.238B,combined22.577B.
 Entry points chỉ thêm routing có điều kiện; không tăng always-loaded policy.
+
+## Xu hướng, phá giả và giờ US500 — làm rõ theo owner 11/11
+
+Owner đề nghị tập trung xu hướng và hỏi khả năng phân biệt phá giả/pullback/
+phá cấu trúc bằng code. Giữ US500/M15/intraday; ưu tiên lane trend nghiên cứu
+trước, reversion là dự phòng, không chốt recipe/risk hoặc tạo trial mới.
+
+### Phân biệt sự kiện và khả năng dự báo
+
+- Pullback là nhịp ngược hướng trước đó; reversal là thay đổi xu hướng trên
+  timeframe đã định nghĩa. False breakout cần một mức giá bị vượt rồi quay
+  lại; không phải mọi reversal đều false breakout. Mất một swing low chỉ là
+  cảnh báo theo rule, có thể lại là false breakdown, không xác nhận tương lai.
+- [Fidelity slides](https://www.fidelity.com/bin-public/060_www_fidelity_com/documents/learning-center/Idenitfying-Chart-Patterns.pdf),
+  pp10–12 zero-based: confirmation filters gồm multiple closes/time/points;
+  false break quay lại qua mức break, failed break tiếp tục phá hướng ngược.
+  [Transcript](https://www.fidelity.com/bin-public/060_www_fidelity_com/documents/learning-center/Transcript_Chart-patterns_v2.pdf)
+  giải thích vào sớm có false signals, chờ confirmation vào muộn. Đây là
+  teaching material, không hiệu suất đo US500M15 hoặc universal terminology.
+- Code được state causal: level xác định trước → close vượt → retest/giữ
+  mức hoặc close quay lại trong thời gian đăng ký → confirmed/cancel/unknown.
+  Nến chưa đóng không đóng vai close; pivot cần K nến bên phải chỉ được biết
+  ở t+K; không backdate signal. Nếu label dùng N nến tương lai, chỉ làm outcome
+  sau horizon, không đưa nhãn đó vào features/entry trước khi biết. Truncate-
+  history test phải giữ tín hiệu quá khứ; label/stop/target/horizon phải freeze.
+- Dự báo trước một breakout sẽ thật/giả là bài xác suất khó, không có accuracy
+  chung để báo. Cần so baseline không filter với filter đã đăng ký: net/R sau
+  phí, entry delay, avoided losses, missed winners, số mẫu/dependence và DD.
+  Không tối ưu accuracy thay lợi ích giao dịch; giữ negative R094/R095, không
+  thêm hàng loạt filters để cứu outcomes hoặc tuyên bố AI phân biệt chắc chắn.
+
+### Xu hướng có chiếm đa số chiến lược hiệu quả không?
+
+Chưa có census/denominator đáng tin trong nguồn đã kiểm để kết luận đa phần
+successful strategies là trend. [Time Series Momentum2012](https://research.cbs.dk/en/publications/time-series-momentum/)
+abstract ghi58liquid futures và return persistence1–12months; [AQR century](https://www.aqr.com/Insights/Research/Journal-Article/A-Century-of-Evidence-on-Trend-Following-Investing)
+tái dựng historical time-series momentum về1880. Đây là bằng chứng cho họ
+trend dài hơn/đa thị trường, không cho exact pullback US500CFDM15/intraday.
+[AQR alternative risk premia](https://www.aqr.com/Insights/Research/White-Papers/Understanding-Alternative-Risk-Premia)
+phân biệt value/momentum/carry/defensive/trend/volatility; taxonomy không proof
+mọi cách đều profitable hiện tại. Ưu tiên trend ở đây là lựa chọn tập trung,
+chưa chứng minh optimal, luôn còn whipsaw/missed moves/cost/tail risks.
+
+### Giờ thị trường
+
+[NYSE calendar/core session](https://www.nyse.com/trade/hours-calendars) đã kiểm:
+cash equities09:30–16:00ET ngày thường, loại holiday/earlyclose. Đổi sangVN:
+EDT20:30–03:00ngày sau; EST21:30–04:00ngày sau. Tháng11/2026 đangEST. Đây
+không là toàn bộ giờCFD/futures. Cùng lịch trưaNY cho nghiên cứu sẽ đổi giờVN.
+[FTMO hours/holding FAQ](https://ftmo.com/en/faq/can-i-hold-positions-overnight-or-over-the-weekend/)
+nói giờ tùyinstrument và thay theoholiday/events; [symbols](https://ftmo.com/en/symbols/)
+và tradingupdates/platform là nơi xác nhận. Web parser lần này không có
+rowUS500, directHTTPS bịEOF; không dùng hoursAUDCAD hoặc secondary01:05–23:50
+để gọiFTMOUS500account-verified. Chưa broker/account read hoặc chốt serverhours.
+US500 không được thiết kế như crypto24/7; bot cần scheduled closed state,
+không lỗi/retry gửi lệnh ngoài session. News/closures/FTMOphase giữ gate riêng.
+
+Nguồn kiểm11/11/2026, không simulation/newPnL/holdout/broker/modelcalls;
+không đổi catalogue/trialcount hoặc qualifiedverdict. Diagram riêng là nến
+giả định để giải thích, không price feed/strategy outcome. Không sửa skill
+cho định nghĩa hiển nhiên; native-engines/qualification hiện có giữ workflow.

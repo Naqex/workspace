@@ -35,6 +35,10 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
   [Adoption/shortlist](research/STRATEGY-TEMPLATE-REUSE-REVIEW-20261111.md#owner-chon-dung-framework-day-du-ca-nam-engine)
   đề xuất trendpullback trước, bandreentry dựphòng; chưa freeze/newtrial/PnL.
   Giữ R003/R004/R094lineage/negatives và2025+gate; không coi upstreamdemo làedge.
+  **Owner tiếp đó đề nghị tập trung xu hướng**: [research delta](research/STRATEGY-TEMPLATE-REUSE-REVIEW-20261111.md#xu-hướng-phá-giả-và-giờ-us500--làm-rõ-theo-owner-1111)
+  tách causal falsebreak detection khỏi forecast, giữ shift của pivotconfirmation;
+  chưa có majority-success census hoặc proofM15 từ58futures1–12monthpaper.
+  NYSEcashclock đã kiểm; FTMOUS500 exactserverhours còn chưa account-verified.
 
 - **Owner10/11 đã thấy Client Area chỉ có Swing10k/25k** cho2-Step/USD/MT5.
   [Standard/Swing và scale](research/PROP-FIRM-FIT-20261102.md#standard-swing-và-đích-vốn-lớn--làm-rõ-ngày-10112026)
