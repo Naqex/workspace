@@ -168,6 +168,65 @@ abstract/introduction về selection/false positives khi thử nhiều configura
 Đây là cơ sở quản lý nghiên cứu, không evidence cho tỷ lệ80/20, lợi thế từng
 asset hoặc certification hai lane. Không cài engine/tools hoặc chạy PnL mới.
 
+## Giờ Việt Nam, ý tưởng dễ kiểm và vai trò edge — 11/11/2026
+
+Owner hỏi giao dịch US500 lúc nào, các ý tưởng phổ biến/dễ code/nhiều cơ hội,
+và giai đoạn này có cần edge chưa. Đây là giải thích/đề xuất, không đăng ký
+thêm candidate, đổi lịch R094/R095 hoặc mở batch mới.
+
+Trọng tâm nghiên cứu hiện tại: đầu phiên cash Mỹ09:30–12:01NewYork. Đây là
+cửa sổ được chọn cho study, không giờ duy nhất US500 CFD được giao dịch hoặc
+giờ tối ưu đã chứng minh. [NYSE core session](https://www.nyse.com/trade/hours-calendars)
+là09:30–16:00ET; broker sessions/holidays/maintenance phải kiểm riêng.
+[NIST DST](https://www.nist.gov/pml/time-and-frequency-division/popular-links/daylight-saving-time-dst)
+nêu Mỹ bắt đầu Chủ nhật thứ2 tháng3, kết thúc Chủ nhật đầu tháng11.
+
+| Mốc của hai luật vừa thử | Mỹ EDT (UTC−4) → Việt Nam | Mỹ EST (UTC−5) → Việt Nam |
+|---|---|---|
+| Lập biên09:30–09:45NY |20:30–20:45|21:30–21:45|
+| Earliest→latest possible entry10:01–11:01NY |21:01–22:01|22:01–23:01|
+| Scheduled exit12:01NY |23:01|00:01ngày sau|
+| Full cash session09:30–16:00NY |20:30–03:00ngày sau|21:30–04:00ngày sau|
+
+Đã kiểm bằng Python zoneinfo America/New_York→Asia/Ho_Chi_Minh cho01/07 và
+11/11/2026. Hiện11/11 là EST;00:01VN vẫn12:01NY cùng phiên. Bot phải dùng
+IANA/DST và tách server/reset clocks, không hard-code giờ Việt Nam quanh năm.
+
+Các họ có tài liệu công khai; mức dễ viết/test là judgement engineering,
+không thống kê adoption, xác suất thành công hoặc xếp hạng profitability:
+
+| Họ | Ví dụ luật để hiểu | Mức thuận tiện / cơ hội |
+|---|---|---|
+| Opening-range breakout | Đóng ngoài range đầu phiên rồi đi theo | Rất rõ; R094đã có677modeledentries/3năm, khoảng4,3tuần; chưa edge |
+| Failed breakout | Đóng ra ngoài rồi quay lại trong range | Cần state hai bước; R095269entries/3năm, khoảng1,7tuần; exact version đã gác |
+| Trend pullback qua EMA | FastEMA>slowEMA; close trước dưới fastEMA, close hiện trên fastEMA thì BUY, SELL đối xứng | Price-only, dễ kiểm; số lệnh phụ thuộc rule/giờ, chưa đo exactM15version |
+| Reversion qua Bollinger | Close ngoài band rồi close trở lại bên trong, giao dịch về mean | Price-only, dễ kiểm; có thể quan sát mỗi phiên, không hứa số lệnh hoặc quay về mean |
+| VWAP pullback/reversion | Giá chạm/quay về VWAP rồi xác nhận | Code indicator được, nhưng cần volume basis đúng; dữ liệu CFD/quote-volume hiện có không chứng nhận exchangeVWAP |
+
+Nguồn đọc11/11: [QC ORB example của tác giả](https://www.quantconnect.com/forum/discussion/799/strategy-opening-range-breakout),
+[EMA docs](https://www.quantconnect.com/docs/v2/writing-algorithms/indicators/supported-indicators/exponential-moving-average),
+[BB docs](https://www.quantconnect.com/docs/v2/writing-algorithms/indicators/supported-indicators/bollinger-bands),
+[VWAP docs](https://www.quantconnect.com/docs/v2/writing-algorithms/indicators/supported-indicators/volume-weighted-average-price-indicator).
+[FTMO VWAP article](https://ftmo.com/en/blog/zero-commissions-on-indices/) có
+educational setup, không broker-verified edge hoặc phép thay volume bằng quote
+count. Không cài/copy code hoặc dùng headline lợi nhuận để chọn winner.
+
+Không cần edge đã biết trước khi bắt đầu research. Tách ba mục tiêu:
+**code/data đúng → sàng lọc ích lợi tín hiệu sau chi phí → kiểm định edge/prop
+và forward**. Test code có thể dùng strategy cố ý không edge/nullcontrols;
+correctness không cần PnL dương. Nhưng screening hiện tại không chỉ test code:
+nó tìm evidence kinh tế và có quyền gác exact recipes yếu, không bác cả họ.
+Không cần lời mọi năm hoặc chắc100%, cũng không gọi vài trăm lệnh là đủ
+chứng minh. Tăng số lệnh có thể thêm chi phí và các bet liên quan, không tự
+tăng số mẫu độc lập hoặc độ chính xác của winrate.
+
+Đề xuất về **dễ formalize để so sánh**, chưa là admission kinh tế: reuseORB
+làm comparator đã có; khảo sát một trend-pullback M15 và một range-reversion
+M15, không grid hàng chục tham số. Liên hệ R004/R003 và negatives đã có;
+đổi timeframe không tự là cơ chế mới. Trước financial trial mới phải nêu
+transfer rationale, entry/exit/risk/cost/clock/control và đăng ký. VWAP để sau
+nếu chưa giải quyết volume. Giữ US500 chính/EURUSD khảo sát nhẹ.
+
 ## Cách so sánh
 
 So thị trường cùng cơ chế dự kiến, phiên giao dịch và chi phí của đúng hợp
