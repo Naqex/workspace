@@ -141,7 +141,7 @@ def prepare(sessions, pairs, progress=None):
         previous_day = day
         if progress and number % 25 == 0:
             progress('preparing', done=number, total=len(sessions))
-    return dict(snapshots=snapshots, minutes=minute_context, missing=set(missing), counts=dict(counts))
+    return dict(snapshots=snapshots, minutes=minute_context, missing=set(missing), counts=dict(counts), total_sessions=len(sessions))
 
 
 def direction(bar, fast, slow):
@@ -242,7 +242,7 @@ class AdverseFill(FillModel):
         ns=self.clock.timestamp_ns()
         if ns%NS==1 and self.strategy.position:
             p=self.strategy.position
-            if p['last_minute']+M!=(ns-1)//1000000:
+            if p['last_minute'] not in ((ns-1)//1000000,(ns-1)//1000000-M):
                 p['unresolved']=True
         if order.order_type==OrderType.STOP_MARKET and self.clock.timestamp_ns()%NS==NS-2:
             # Bid.low/Ask.high say a barrier was reached, not what fill price existed then.
@@ -341,7 +341,7 @@ class Pullback(Strategy):
                 if e['slot']==150:
                     self.noon_count+=1
                     if self.progress and self.noon_count%25==0:
-                        self.progress('simulating',done=self.noon_count,total=253)
+                        self.progress('simulating',done=self.noon_count,total=self.prepared.get('total_sessions',len({x['day'] for x in self.prepared['snapshots'].values()})))
 
     def on_order_filled(self, event):
         context=self.context[str(event.client_order_id)]

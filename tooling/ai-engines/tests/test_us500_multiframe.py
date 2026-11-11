@@ -166,6 +166,7 @@ class NativeTests(unittest.TestCase):
             self.assertEqual(r['native_cash'],D('9992.22'))
             self.assertEqual(r['native_open_positions'],0)
             self.assertEqual(r['native_open_orders'],0)
+            self.assertFalse(p['unresolved'])
 
     def test_native_intraminute_stop_and_adverse_gap(self):
         for side in ('BUY','SELL'):
@@ -204,6 +205,10 @@ class NativeTests(unittest.TestCase):
             changed=deepcopy(original)
             changed['trades'][0][field]=value
             with self.assertRaises(ValueError):reviewer.inspect(changed,p)
+        changed=deepcopy(original)
+        changed['trades'][0]['unresolved']=True
+        with self.assertRaisesRegex(ValueError,'held_path_classification'):
+            reviewer.inspect(changed,p)
 
     def test_missing_noon_exit_preserves_unknown(self):
         r,_=self.run_fixture(missing=151)

@@ -41,8 +41,8 @@ def inspect(result, pairs):
         if phase==NS-2:
             exit_minute=(end//M)*M
         missing=[x for x in range(t,exit_minute+1,M) if x not in pairs]
-        if missing and not trade['unresolved']:
-            raise ValueError('review_missing_path_masked')
+        if bool(missing)!=bool(trade['unresolved']):
+            raise ValueError('review_held_path_classification')
         expected=None
         # First protective crossing precedes scheduled exit at its exact open.
         for at in range(t,exit_minute+1,M):
