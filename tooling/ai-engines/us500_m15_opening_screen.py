@@ -86,7 +86,9 @@ def metrics(result):
     # Quotes already embed spread; gross here is before explicit extra charges.
     return dict(entries=result['entries'], closed=len(trades),
         full_net_usd=None if unknown else result['net_equity_usd'],
-        modeled_net_usd=result['net_equity_usd'], known_closed_net_usd=str(sum(nets, D(0))),
+        modeled_net_usd=result['net_equity_usd'], modeled_closed_net_usd=str(sum(nets, D(0))),
+        known_resolved_closed_net_usd=str(sum((D(t['net_usd']) for t in trades if not t['path_unresolved']),D(0))),
+        unresolved_closed_trades=sum(bool(t['path_unresolved']) for t in trades),
         unknown_path=unknown, gap_events=len(result['gap_events']),
         winrate_percent=str(D(len(wins))*100/len(nets)) if nets else None,
         average_win_usd=str(sum(wins)/len(wins)) if wins else None,

@@ -19,7 +19,7 @@
     "by_readiness": {
       "implemented": 36,
       "component_probe_not_retained": 30,
-      "implemented_not_retained": 5,
+      "implemented_not_retained": 6,
       "method_clock_review": 1,
       "component_probe_completed_no_priority": 3,
       "price_data_spec_possible": 1,
@@ -31,7 +31,7 @@
       "implemented_parked_conditional_negative": 1,
       "implemented_not_retained_no_qualified_signals": 2,
       "implemented_inconclusive_source_gap": 2,
-      "implemented_registered_not_screened": 2
+      "implemented_inconclusive_not_retained": 1
     }
   },
   "sources": [
@@ -3301,7 +3301,7 @@
       "family": "cash_opening_range",
       "role": "variant",
       "parent_id": "R016",
-      "readiness": "implemented_registered_not_screened",
+      "readiness": "implemented_inconclusive_not_retained",
       "timeframe": "M15 decisions / modeled M1 execution",
       "rule_sketch": "Opening Bid09:30-09:45; first close outside by11NY; exactdecision+60s entry; widthSL;12:01NYexit;max1attempt/day",
       "data_requirements": "Accepted paired explicit-source US500 M1 all four quarters2022-24 and frozenNYSEcalendars; exposed not cleanOOS",
@@ -3311,16 +3311,20 @@
         "LOCAL"
       ],
       "source_relation": "Own hypothesis motivated by cash-open price discovery, related to prior ORB/failed-break trials not independent edge",
-      "next_action": "Run exact registered18book screen; preserve negative lineage and unknown paths; no rule/fee/SL grid rescue",
-      "implementation_state": "registered_before_outcome",
+      "next_action": "Park exact version; preserve gaps/cost sensitivity and trial count. No TP/SL/hour/filter sweep or unchanged rerun. Separately justify any next mechanism/data repair before measuring.",
+      "implementation_state": "screened_reviewed_not_challenge_qualified",
       "candidate_id": "us500-m15-or15-firstbreak-width-stop-noon-v1",
-      "profitability_evidence": "none_for_this_exact_rule",
+      "profitability_evidence": "2022/23/24 modeled reference -108.25/-106.31/+329.21USD; stress -394.62/-580.59/-169.41; fullannual all N/A due held gaps;677entries per scenario, not economic rejection of family",
       "dispatch_authorized": false,
       "implementations": [
         "us500-m15-or15-firstbreak-width-stop-noon-v1"
       ],
       "admission_evidence_locator": "US500-M15-OPENING-SCREEN-PROTOCOL-20261111.md",
-      "implementation_updated_on": "2026-11-11"
+      "implementation_updated_on": "2026-11-11",
+      "evidence_locator": "US500-M15-OPENING-SCREEN-RESULTS-20261111.md",
+      "version_decisions": {
+        "us500-m15-or15-firstbreak-width-stop-noon-v1": "inconclusive_not_priority"
+      }
     },
     {
       "id": "R095",
@@ -3328,7 +3332,7 @@
       "family": "cash_opening_range",
       "role": "variant",
       "parent_id": "R094",
-      "readiness": "implemented_registered_not_screened",
+      "readiness": "implemented_not_retained",
       "timeframe": "M15 decisions / modeled M1 execution",
       "rule_sketch": "Opening Bid09:30-09:45; first break then later close back inside by11NY; exactdecision+60s entry; widthSL;12:01NYexit;max1attempt/day",
       "data_requirements": "Accepted paired explicit-source US500 M1 all four quarters2022-24 and frozenNYSEcalendars; exposed not cleanOOS",
@@ -3338,16 +3342,20 @@
         "LOCAL"
       ],
       "source_relation": "Own hypothesis motivated by cash-open price discovery, related to prior ORB/failed-break trials not independent edge",
-      "next_action": "Run exact registered18book screen; preserve negative lineage and unknown paths; no rule/fee/SL grid rescue",
-      "implementation_state": "registered_before_outcome",
+      "next_action": "Park exact version; preserve gaps/cost sensitivity and trial count. No TP/SL/hour/filter sweep or unchanged rerun. Separately justify any next mechanism/data repair before measuring.",
+      "implementation_state": "screened_reviewed_not_challenge_qualified",
       "candidate_id": "us500-m15-or15-failedbreak-width-stop-noon-v1",
-      "profitability_evidence": "none_for_this_exact_rule",
+      "profitability_evidence": "2022/24 full reference -18/-354.83USD, stress -136.17/-534.59;2023 full N/A, modeled -220.04/-361.43;269entries per scenario",
       "dispatch_authorized": false,
       "implementations": [
         "us500-m15-or15-failedbreak-width-stop-noon-v1"
       ],
       "admission_evidence_locator": "US500-M15-OPENING-SCREEN-PROTOCOL-20261111.md",
-      "implementation_updated_on": "2026-11-11"
+      "implementation_updated_on": "2026-11-11",
+      "evidence_locator": "US500-M15-OPENING-SCREEN-RESULTS-20261111.md",
+      "version_decisions": {
+        "us500-m15-or15-failedbreak-width-stop-noon-v1": "not_retained_for_next_stage"
+      }
     }
   ],
   "automatic_dispatch": false,

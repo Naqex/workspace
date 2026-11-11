@@ -13,14 +13,16 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
   Standard cả funded để hướng tới vốn lớn.** [Quyết định hiện hành](research/PROP-FIRM-FIT-20261102.md#hướng-hiện-hành--owner-đồng-ý-ngày-11112026)
   thay hướng nghiên cứu Swing; không đổi account/leverage/old protocols.
   **Owner đã chọn US500 để nghiên cứu tiếp11/11**; EURUSD giữ tham chiếu.
-  Cơ chế/risk/size chưa chốt. [Câu hỏi tiếp đã thu hẹp](research/INSTRUMENT-SELECTION-ONLYONE-20261110.md#us500-đã-chốt-và-câu-hỏi-nghiên-cứu-tiếp--11112026):
-  agent chọn review phương pháp opening-range breakout M15 trước, chưa
-  recipe/financial trial hoặc independent edge; pin exact rules/cost/calendar rồi source/causal
-  preflight trước economic test. `prop_profile.py` chỉ đánh giá DD/headroom,
-  không tự chứng nhận news/closures compliance. Không batch/broker/holdout mới.
-  Owner hỏi mở EURUSD song song: [đề xuất80/20](research/INSTRUMENT-SELECTION-ONLYONE-20261110.md#đề-xuất-us500-chính-eurusd-khảo-sát-nhẹ--11112026)
-  giữ US500 kiểm sâu, EURUSD tối đa một hồ sơ khảo sát; chưa mở study phụ,
-  đổi risk hoặc chạy portfolio. Đây là đề xuất effort, không owner decision mới.
+  Owner đã đồng ý US500 chính/EURUSD khảo sát nhẹ và cho screening11/11.
+  [R094/R095 M15 opening-range đã chạy](research/US500-M15-OPENING-SCREEN-RESULTS-20261111.md):
+  18books/18reviews,6null0;22,289s,19focusedtests/3actualmutations đạt.
+  R094cost-sensitive/fullannualunknown, R095known2022/24âm; không giữ ứng viên
+  challenge. Catalogue95records, không reset93records cũ. Không rerununchanged/
+  SL/TP/hourgrid. v1calendarnewlinefail0books giữ; v2acceptedproofreuse/4quarters,
+  postreview đã sửa field knownclosed để loại unresolved khỏi knownsubset.
+  EURUSD đã rà related break/retest dossier, chưa cơ sở mở trialM15 mới.
+  Risk/size thật chưa chốt;25USD/10k chỉ offline. `prop_profile.py` chỉ đánh giá
+  DD/headroom, chưa news/closures compliance.2025+reserved,khôngbroker/jobnền.
 
 - **Owner10/11 đã thấy Client Area chỉ có Swing10k/25k** cho2-Step/USD/MT5.
   [Standard/Swing và scale](research/PROP-FIRM-FIT-20261102.md#standard-swing-và-đích-vốn-lớn--làm-rõ-ngày-10112026)

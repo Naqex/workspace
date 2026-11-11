@@ -110,6 +110,8 @@ class M15OpeningTests(unittest.TestCase):
         s,p,t=fixture();del p[t[35]]
         r=study.simulate(s,p,policy='breakout',slippage=D('.25'))
         self.assertIsNone(study.metrics(r)['full_net_usd'])
+        self.assertEqual(study.metrics(r)['known_resolved_closed_net_usd'],'0')
+        self.assertEqual(study.metrics(r)['unresolved_closed_trades'],1)
         self.assertTrue(r['trades'][0]['path_unresolved'])
         reviewer.inspect(r,s,p)
 

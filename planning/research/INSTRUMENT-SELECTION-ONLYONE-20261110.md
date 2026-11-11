@@ -5,7 +5,10 @@ khác trước khi chọn; không ưu tiên chỉ vì project có sẵn dữ li�
 
 **Kết luận hiện hành11/11:** owner đã chọn **US500 — ưu tiên nghiên cứu tiếp**
 cho vòng onlyone M15, intraday/FTMO Standard. EURUSD giữ làm tham chiếu;
-chưa chốt pullback hoặc exact strategy. Đích là bot phù hợp challenge và
+owner đã đồng ý EURUSD khảo sát nhẹ và screening tiếp11/11. [Hai exact rules
+đã chạy offline](US500-M15-OPENING-SCREEN-RESULTS-20261111.md), chưa giữ bản
+challenge/risk thật. Các mục “chưa dispatch” bên dưới là checkpoint trước run.
+Đích là bot phù hợp challenge và
 payout bền vững, không chọn sản phẩm chỉ vì chạy mạnh hoặc cộng đồng thích.
 
 ## Chuẩn bị vòng M15 Standard — 11/11/2026
@@ -134,6 +137,10 @@ Owner hỏi có nên nghiên cứu song song hai sản phẩm, US500 làm chính
 thay US500 là sản phẩm onlyone đã chọn. Agent đề xuất khoảng80% công sức cho
 US500,20% cho EURUSD; tỷ lệ là ngân sách quản lý ban đầu, không optimum có
 bằng chứng hoặc tỷ lệ phân bổ vốn/risk/token cố định.
+
+**Continuation cùng11/11:** owner đồng ý hướng này và cho phép screening.
+R094/R095 US500 đã đăng ký/chạy theo report đầu trang; EURUSD chỉ rà một hồ
+sơ related break/retest, chưa mở financial study. Giữ proposal history ở bảng.
 
 | Lane | Phạm vi đề xuất cho đợt tiếp | Điều kiện không mở rộng |
 |---|---|---|
