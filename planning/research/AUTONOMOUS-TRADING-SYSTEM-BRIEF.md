@@ -15,14 +15,17 @@ Brief không là execution plan, acceptance ledger hoặc hợp đồng cấp qu
   ưu tiên giữ lệnh **vài giờ trong ngày**, thiết kế và kiểm theo **FTMO 2-Step
   Standard, gồm cả giai đoạn funded**, để hướng tới cỡ vốn lớn hơn. Thay chuẩn
   Swing trong định hướng nghiên cứu mới, không đổi tài khoản hoặc các protocol/
-  kết quả Swing đã freeze. EURUSD/US500, cơ chế, giờ vào/thoát, risk/budget và
-  cỡ tài khoản vẫn chưa chốt. [Phạm vi và việc tiếp theo](PROP-FIRM-FIT-20261102.md#hướng-hiện-hành--owner-đồng-ý-ngày-11112026).
+  kết quả Swing đã freeze. **Owner đã chọn US500 để ưu tiên nghiên cứu tiếp**
+  trong câu trả lời khảo sát11/11. Cơ chế, giờ vào/thoát, risk/budget và cỡ tài
+  khoản vẫn chưa chốt; chọn sản phẩm không xác nhận strategy có edge.
+  [Phạm vi và việc tiếp theo](PROP-FIRM-FIT-20261102.md#hướng-hiện-hành--owner-đồng-ý-ngày-11112026).
 - **10/11 — mục tiêu và cách tập trung:** owner xác nhận trading là hướng thu
   nhập chính, tiếp cận vốn prop với ưu tiên rủi ro thấp; chọn thử **only one**
   trong thời gian tới để thu hẹp phạm vi. [Hồ sơ và các case để chọn](PROP-FIRM-FIT-20261102.md#only-one-hồ-sơ-mục-tiêu-và-các-case-để-owner-chọn--10112026)
   phân biệt quyết định với đề xuất. **Owner đã chốt khung tín hiệu M15** cho
   vòng onlyone đầu10/11; holding/chuẩn quỹ được cập nhật11/11 ở trên;
-  instrument/cơ chế, tần suất, winrate, risk/budget và cỡ tài khoản chưa chốt.
+  instrument được chốt US500 tiếp11/11; cơ chế, tần suất, winrate, risk/budget
+  và cỡ tài khoản chưa chốt.
   Việc này không mở tài khoản, holdout, giao dịch hoặc mua challenge.
 - Mục tiêu dài hạn: tìm kiếm lợi nhuận trên thị trường bằng hệ thống, dùng AI
   để tự động hóa cả nghiên cứu và vận hành giao dịch.

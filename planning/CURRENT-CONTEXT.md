@@ -12,8 +12,10 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 - **Owner11/11 đồng ý hướng M15, giữ vài giờ intraday, kiểm FTMO 2-Step
   Standard cả funded để hướng tới vốn lớn.** [Quyết định hiện hành](research/PROP-FIRM-FIT-20261102.md#hướng-hiện-hành--owner-đồng-ý-ngày-11112026)
   thay hướng nghiên cứu Swing; không đổi account/leverage/old protocols.
-  EURUSD/US500 và cơ chế/risk/size chưa chốt. [Việc tiếp đã thu hẹp](research/INSTRUMENT-SELECTION-ONLYONE-20261110.md#chuẩn-bị-vòng-m15-standard--11112026):
-  chọn một asset/cơ chế, pin exact rules/cost/calendar rồi source/causal
+  **Owner đã chọn US500 để nghiên cứu tiếp11/11**; EURUSD giữ tham chiếu.
+  Cơ chế/risk/size chưa chốt. [Câu hỏi tiếp đã thu hẹp](research/INSTRUMENT-SELECTION-ONLYONE-20261110.md#us500-đã-chốt-và-câu-hỏi-nghiên-cứu-tiếp--11112026):
+  agent chọn review phương pháp opening-range breakout M15 trước, chưa
+  recipe/financial trial hoặc independent edge; pin exact rules/cost/calendar rồi source/causal
   preflight trước economic test. `prop_profile.py` chỉ đánh giá DD/headroom,
   không tự chứng nhận news/closures compliance. Không batch/broker/holdout mới.
 
@@ -24,18 +26,18 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
   Giữ oldprotocols/costs và account. Không hiểu Standard cấm mọiovernight;
   marketbreak>2giờ khác holding>2giờ. M15khôngđồngnghĩagiữ15phút.
 
-- **Owner10/11 đã chọn thử onlyone và chốt khung tín hiệu M15**; instrument/
+- **Owner10/11 đã chọn thử onlyone và chốt khung tín hiệu M15**,11/11 chọn US500;
   cơ chế/exact exit/risk/frequency/winrate còn cần chọn. [Hồ sơ lựa chọn](research/PROP-FIRM-FIT-20261102.md#only-one-hồ-sơ-mục-tiêu-và-các-case-để-owner-chọn--10112026)
   giữ confirmed/proposed/unknown: incomechính/propvốn/riskthấp,1lane kiểm sâu;
   [researchtimeframe](research/TIMEFRAME-SELECTION-ONLYONE-20261110.md) giữ quyết định
   **M15**, thay tư vấnH1 cũ. **Owner yêu cầu research sản phẩm trước, rút ưu tiên
   EURUSD chỉ vì reuse**; [so sánh instrument](research/INSTRUMENT-SELECTION-ONLYONE-20261110.md)
   đề xuất so cuối EURUSD/USDJPY, US500, vàng theo cơ chế/cost/risk; chưa đo
-  target costs/account hay chốt asset/pullback; intraday đã được đồng ý11/11.
+  target costs/account; US500 và intraday đã được đồng ý11/11, chưa chốt pullback.
   [Đã kiểm sâu offline](research/FOUR-INSTRUMENT-M15-FIT-RESULTS-20261110.md):
   32requests/128M15,4ngày2022 đủcả4assets; cost/rangeproxy khôngFTMOspread/
   edge. Targetminlot/margin của3assets chưađủ; nghiêngUS500đểhoànthiệnhồsơ,
-  chưaownerchốt hoặcdispatchstrategy. 4,680s source+review,khôngjobnền.
+  owner đã chốt US500 sau đó11/11, chưa dispatchstrategy. 4,680s source+review,khôngjobnền.
   [Đối chiếu challenge](research/INSTRUMENT-SELECTION-ONLYONE-20261110.md#đối-chiếu-riêng-ftmo-challenge--bổ-sung-theo-yêu-cầu-owner-1011)
   đã xác nhận published Forex5USD/lot roundtrip, index0, metals0,0007%/chiều;
   spread thả nổi/account-specific vẫn chưa đo, không đổi old costs/outcomes.

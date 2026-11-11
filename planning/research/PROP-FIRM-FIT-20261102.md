@@ -15,8 +15,10 @@ giữ giới hạn bằng chứng chiến lược.
 Owner trả lời “ok như thế đi, tiếp tục nào” sau đề xuất giữ **M15**, ưu tiên
 giữ lệnh **vài giờ intraday** và kiểm theo **FTMO CFD 2-Step Standard ở cả
 funded**, để hướng tới các cỡ vốn lớn hơn. Đây là hướng nghiên cứu hiện hành;
-The5ers vẫn đối chiếu riêng sau. Không tự coi US500 là sản phẩm đã được chọn.
-EURUSD/US500, cơ chế, giờ vào/thoát, risk, cỡ tài khoản và ngân sách chưa chốt.
+The5ers vẫn đối chiếu riêng sau. **Owner đã chọn “US500 — ưu tiên nghiên cứu
+tiếp”** trong khảo sát11/11: US500 là sản phẩm vòng onlyone đầu. EURUSD giữ
+làm tham chiếu, không chạy song song hai sản phẩm. Cơ chế, giờ vào/thoát,
+risk, cỡ tài khoản và ngân sách chưa chốt; chưa có ứng viên challenge-qualified.
 
 Thay đổi so với02/11: **chuẩn nghiên cứu mới Swing → Standard-compatible**;
 không rename profile Swing, đổi leverage, sửa frozen protocols, tính lại PnL
@@ -31,7 +33,7 @@ hưởng, gồm SL/TP/pending; phải đóng trước market break dài hơn2gi�
 Intraday không tự bảo đảm né hết news; giữ calendar/clock/spec gaps rõ ràng.
 
 Bước tiếp và các bằng chứng cần có được thu hẹp trong
-[hồ sơ chọn EURUSD/US500](INSTRUMENT-SELECTION-ONLYONE-20261110.md#chuẩn-bị-vòng-m15-standard--11112026).
+[hồ sơ US500 và cơ chế kiểm tiếp](INSTRUMENT-SELECTION-ONLYONE-20261110.md#us500-đã-chốt-và-câu-hỏi-nghiên-cứu-tiếp--11112026).
 Đây chưa là quyền mua challenge, mở holdout hoặc giao dịch.
 
 ### Các quyết định trước đó
@@ -192,7 +194,8 @@ trước chọn case. Không đồng nghĩa chốt case cụ thể, phải trade
 
 **Xác nhận tiếp10/11:** owner chốt **M15 làm khung tín hiệu cho vòng onlyone
 đầu tiên**. Ngày11/11 đã đồng ý hướng intraday/Standard ở đầu tài liệu;
-sản phẩm, cơ chế, exact holding/exit, tần suất, winrate và risk vẫn cần chọn.
+cơ chế, exact holding/exit, tần suất, winrate và risk vẫn cần chọn. Owner đã
+chọn US500 tiếp11/11 ở đầu tài liệu.
 Xác nhận khung không tự phê duyệt toàn bộcaseA/EURUSD hoặc gửi lệnh.
 
 | Nội dung | Đã chốt từ owner | Còn thiếu / cách hiểu |
@@ -201,6 +204,7 @@ Xác nhận khung không tự phê duyệt toàn bộcaseA/EURUSD hoặc gửi l
 | Nguồn vốn | Ưu tiên vốn prop và kiểm soát rủi ro cá nhân | Vốn danh nghĩa không tiền mặt owner; chi phí challenge/retry và reserve chưa chốt |
 | Đích | Có edge sau phí, đủ cơ sở challenge, giữ tài khoản/payout nhiều kỳ | Chưa có candidate challenge-qualified; không tối ưu chỉ một lần pass nhanh |
 | Chuẩn chính | FTMO CFD2-StepStandard/MT5, kiểm cả funded;The5ersHighStakes đối chiếu sau | Owner đồng ý11/11; cỡ tài khoản/package/chi phí đích chưa pin; không đổi oldSwing profiles |
+| Sản phẩm | **US500**, owner chọn11/11 cho vòng onlyone đầu | US500.cash là public target symbol đã quan sát; phải pin đúng symbol/server/contract khi qualification |
 | Cách nghiên cứu | Recent-first từ2022 và thử onlyone |2025+reserved giữ gate; không sửa oldoutcomes hoặc tự mở data |
 | Vận hành | Owner nói có thể để máy24/7, trừ sự cố bất khả kháng | Đây là khả năng owner khai báo, không runtimeuptime đã đo; cần supervision/recovery |
 | Holding/timeframe | **M15; ưu tiên vài giờ intraday**, owner đồng ý11/11 | Exact entry/exit/cutoff chưa chốt; không quota lệnh hoặc giới hạn cứng2giờ |
