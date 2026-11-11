@@ -321,3 +321,13 @@ draftSHA256 `b25b2f6ad72320a4b91600e64386ee36cbc399f36c1cb095ec3bcfaeb03b7d6e`:
 arithmetic spec, chưa policytest. NativeATR14 trênTR1..14: defaultSIMPLE7,5,
 explicitWilder5,960694343078025 khớpDecimaloracle; SMA20ready ở20inputs/value10,5;
 gapcaseTR5khácH−L2 được kiểm. Không marketdata/PnL hoặc nativeUS500parity.
+
+## Owner chốt mở rộng đối chiếu đa khung
+
+Owner tiếp đó đồng ý A/B/C trước và M1 sau, sau khi tự khai zone học trade
+tay chưa rõ/kết hợp nhiều cách. [MultiTF draft](US500-MULTITIMEFRAME-DRAFT-20261111.md)
+giữ3lane/7buffers và exact proposeddefaults choH1/M5; không sửa v1/probehash,
+không gọi đây là replication phương phápmanual chưa có exactrules. SMA20H1,
+fullhour/carry bias tạiarm, commonwarmup và expiry60phút được agent định rõ
+trướccode, chưa proofoptimal hoặc nativepolicy đãkiểm. Tiếp causal/native
+fixtures rồi đăng ký21configfinancialbatch; không newPnL/holdout/broker.

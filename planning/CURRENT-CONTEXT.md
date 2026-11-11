@@ -47,6 +47,11 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
   các defaults còn là draft hypotheses,không claimedoptimal/executable/frozen.
   NativeATRdefaultSIMPLE/firstTRseedWILDER đã kiểm,không giảsameATR14parity.
   Tiếp policy/nativefixtures và registration trước7-bufferPnL;catalogue95giữ.
+  **Owner tiếp đó chốt A/B/C trước,M1sau**: [multiTF draft](research/US500-MULTITIMEFRAME-DRAFT-20261111.md)
+  A=M15,B=A+H1gate,C=B+M5confirm;7buffers/lane=21relatedconfigs,chưarun.
+  Zone giữ armbarM15 high-low; H1SMA20/fullcashhour/carrysnapshot và M5asof/
+  60minuteexpiry là agentdefaults draft,không hiệuquảđãđo. V1hash/receiptgiữ.
+  Tiếp nativepolicy/causal-clockfixtures rồi registeredbatch;khôngjobnền.
 
 - **Owner10/11 đã thấy Client Area chỉ có Swing10k/25k** cho2-Step/USD/MT5.
   [Standard/Swing và scale](research/PROP-FIRM-FIT-20261102.md#standard-swing-và-đích-vốn-lớn--làm-rõ-ngày-10112026)

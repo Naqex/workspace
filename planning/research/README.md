@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+[Owner chốt A/B/C, M1 để sau](US500-MULTITIMEFRAME-DRAFT-20261111.md):
+21relatedconfigs dựkiến,A=M15/B=thêmH1/C=entryM5;fixedM15zone/ATR/SL/expiry.
+Exact H1clock/bias/carry và M5confirm đã draft, chưa executable/PnL hoặc
+economicregistration. Giữ baselinev1/hash và trialhistory; tiếp nativefixtures.
+
 [Bản luật nền pullback US500 M15](US500-M15-PULLBACK-BASELINE-DRAFT-20261111.md):
 owner đã chốt7ATRbuffers; SMA20/80,armbarlevel,ATR14Wilderfreeze,4bar/SL2ATR/
 trend-noonexit là agentdraft, chưa executable/registered/PnL. Seed mặcđịnh
