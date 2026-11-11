@@ -1,0 +1,23 @@
+{
+  "schema": "us500-ma-reclaim-cost-screen-registration-v1",
+  "stage": "G2_exploratory_cost_and_execution_only",
+  "parent_frequency_manifest_sha256": "f1ed9885de2399a928d90c80f401a75a8258184e16d2d53083b0434c34cfe216",
+  "parent_frequency_result_sha256": "83f1eae582d7cee7cd3827fa06acdd6ca85eb0d6b31b72643fca7e7e2f31a512",
+  "config": {
+    "id": "R123",
+    "lane": "A",
+    "fast": 20,
+    "slow": 80,
+    "k": "0.1",
+    "version": "us500-ma-reclaim-v1",
+    "exit_slot": 360
+  },
+  "years": [2022, 2023, 2024],
+  "observed_exact_signal_counts": [58, 50, 57],
+  "financial_books": 6,
+  "null_books": 3,
+  "deep_review_frequency_floor_unchanged": 200,
+  "strategy_rule_change": false,
+  "edge_qualified": false,
+  "holdout_read": false
+}

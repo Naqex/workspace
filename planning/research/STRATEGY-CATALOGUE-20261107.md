@@ -1,6 +1,6 @@
 # Danh mục nghiên cứu chiến lược — cập nhật11/11/2026
 
-122 hồ sơ: 76 có policy/model version (87 versions), 45 chưa có account policy và 1 risk component. Trong 87 versions có 52 native offline rules và 35 tooling/coarse/model versions; gồm 9 controls. R096–R122 là 27 related US500 pullback configurations, chưa đủ mẫu để chứng minh edge; R120 có 15 lệnh/3 năm. Không đếm variants thành independent edges. **Chưa có bản nào challenge-qualified.**
+123 hồ sơ: 77 có policy/model version (88 versions), 45 chưa có account policy và 1 risk component. Trong 88 versions có 53 native offline rules và 35 tooling/coarse/model versions; gồm 9 controls. R096–R122 là 27 related US500 pullback configurations, chưa đủ mẫu để chứng minh edge; R120 có 15 lệnh/3 năm. Không đếm variants thành independent edges. R123 MA-reclaim có165lệnh,stress âm3năm; không giữ exactrecipe. **Chưa có bản nào challenge-qualified.**
 
 [Bản đồ cơ chế và task](MECHANISM-FIRST-EXECUTION-20261109.md) gom đủ80historicalIDs
 khôngtrùng/thiếu;R081 làconditionalderivative liênquanR080.8buckets cócontrols/
@@ -110,6 +110,14 @@ freeze trước outcomes; old quarter-mask failure và corrected attempt đều 
 |R092|S&P–Nasdaq fixedlinear formation|equity_index_relative_value / R035,relatedR067|Khôngretained:2018p0,55272/2021p0,41111;chưaPnL|0|[Results](INDEX-PAIR-FORMATION-RESULTS-20261110.md);503dates sourceadmitted,khôngaccountpolicy|
 |R093|US500 monthly options-expiry week|monthly_options_inventory_calendar,relatedR025/R080|Khôngretained:stress2019+279,41/2022−708,85USD/unit;2022midâm|0|[Results](OPTIONS-WEEK-RESULTS-20261110.md);48windows/96cases,khôngSL/account/prop/OOS|
 
+
+## R123 — MA reclaim đã native screening
+
+[Results](US500-MA-RECLAIM-RESULTS-20261111.md):165actualtrades/cost,
+6financialbooks+3null; reference+4,83USD,stress−307,03USD/3sổreset10k.
+Originalpriority165<200 giữ; G2screen đăngkýriêng trướcPnL,khôngdeep/OOSpass.
+Không giữ exactrecipe,catalogue123/88versions/53native. FP05frequencydesign
+được ghi riêng phasehistory,không double-count thành hai financialpolicies.
 
 ## Frequency-only designs đã xem, chưa là financial policies
 

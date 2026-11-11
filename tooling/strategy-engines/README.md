@@ -126,3 +126,10 @@ không claim intra-book resume. Không rerun completed study không đổi.
 `postreview_us500_multiframe.py` là correction đã ghi amendment, không generic
 repair hoặc financial replay. `summarize_us500_multiframe.py` chỉ đọc completed,
 sealed correctedcohorts. Savedview không thay nativefinancial source version.
+
+[R123 MA-reclaim](../../planning/research/US500-MA-RECLAIM-RESULTS-20261111.md)
+reuse shared nativeexecution qua optional offline `policy_factory`; mặc định
+legacy không đổi. Runner `run_us500_ma_reclaim.py` giữ frequency gate và chỉ
+cho G2costscreen riêng khi có exact registration/parentattempt bindings theo
+[amendment](../../planning/research/US500-MA-RECLAIM-COST-SCREEN-AMENDMENT-20261111.md).
+Đã9books/40scopedtests; exactrecipe không retained, không productcutover.
