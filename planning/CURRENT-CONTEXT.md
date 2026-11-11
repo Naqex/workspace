@@ -26,9 +26,15 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
   Owner yêu cầu reuse khung/code mẫu: [5nguồn/17files đã pin và đọc](research/STRATEGY-TEMPLATE-REUSE-REVIEW-20261111.md),
   **đã clone đủ5repo** ở `.runtime/strategy-references/` sau yêu cầu lấy hết;
   README/manifest/index local đã có,12962files/593MiBsource. Ưu tiênLEAN làm
-  nguồn EMA/Bollinger/ORB reference; chưa thay engine/install/
-  codeport. Original→adaptation và fixtureparity trước PnL; giữ R003/R004/R094
-  lineage/negatives, chưa thêm trial hoặc coi upstream demo là edge.
+  nguồn EMA/Bollinger/ORB reference. **Owner sau đó yêu cầu full framework cả5**:
+  [native runtime guide](../tooling/strategy-engines/README.md) giữ commands/locks;
+  đã cài và chạy nativefixtures của cả5, chưa US500migration/parity/cutover.
+  Nautilus stable1.x reuse productlock; source2.x chỉ reference, không trộnAPI.
+  3Python smoke cùngnet3USD giả lập; LEANSPY2013samplecompleted; Nautilus4direct
+  testsđạt,4DBintegrationtestsbịTRUNCATEsetupgatechặn,khôngbypass.
+  [Adoption/shortlist](research/STRATEGY-TEMPLATE-REUSE-REVIEW-20261111.md#owner-chon-dung-framework-day-du-ca-nam-engine)
+  đề xuất trendpullback trước, bandreentry dựphòng; chưa freeze/newtrial/PnL.
+  Giữ R003/R004/R094lineage/negatives và2025+gate; không coi upstreamdemo làedge.
 
 - **Owner10/11 đã thấy Client Area chỉ có Swing10k/25k** cho2-Step/USD/MT5.
   [Standard/Swing và scale](research/PROP-FIRM-FIT-20261102.md#standard-swing-và-đích-vốn-lớn--làm-rõ-ngày-10112026)

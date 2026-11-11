@@ -1,4 +1,9 @@
-# Tái sử dụng mẫu chiến lược: ưu tiên LEAN, giữ engine hiện có
+# Engine chiến lược: source library và adoption full framework
+
+**Cập nhật theo owner:** yêu cầu dùng full framework cả năm engine thay đề
+xuất chỉ reference bên dưới; xem [trạng thái adoption](#owner-chon-dung-framework-day-du-ca-nam-engine).
+Các đoạn “chưa cài/chạy” bên dưới giữ trạng thái tại lần download, không mô tả
+trạng thái mới. Chưa có US500 migration/parity hoặc challenge candidate mới.
 
 11/11/2026. Owner yêu cầu kiểm nguồn có ví dụ/khung copy, clone, reuse cho
 ORB/pullback/reversion để giảm thời gian triển khai. Đã kiểm5upstream repos,
@@ -131,3 +136,88 @@ Git config global. Download logs và per-repo status giữ trong root library.
 Trạng thái đạt: **source đã có sẵn để đọc/port**, chưa engine installation,
 import smoke, strategy parity/backtest hoặc runtime adoption. Lần tiếp theo
 đọc local file đã pin qua index, giữ original→adaptation/fixture/license gate.
+
+## Owner chon dung framework day du ca nam engine
+
+11/11/2026 owner yêu cầu dùng **full Nautilus**, rồi mở rộng rõ cho **cả năm
+engine**. Đây là quyết định mới thay khuyến nghị reference-only, không bị hạ
+thành chỉ port indicators. Full ở đây dùng native engine APIs để backtest/
+screening và hướng tới execution khi có adapter/gates; chưa live broker.
+
+### Cài và chạy thực tế
+
+[Runtime guide](../../tooling/strategy-engines/README.md) là owner commands/
+lockfiles và cách chuyển US500; không thêm framework vào product imports hoặc
+catalog apps Paperclip. User yêu cầu cài local và kiểm engine, không yêu cầu
+mở tài khoản, API keys, optional provider services hoặc thay production DB.
+
+| Engine/runtime thực sự chạy | Bằng chứng11/11 | Giới hạn |
+|---|---|---|
+| Nautilus1.231.0, reuse locked product engine_runtime | `uv sync --locked --no-build`; 4direct tests đạt, gồm long/short golden fills/timing/costs, runtime identity, version rejection và parent-death child cleanup | 4DB integration tests không chạy qua setup gate; chưa US500 M15 port |
+| LEAN source pin ở trên, .NET10.0.400 | Native Launcher build0errors,4.456upstream warnings,92,02s; BasicTemplateAlgorithm completed,3.943data points,1actual simulated buy fill | Bundled SPY07–11/10/2013, còn holding mở; không là common roundtrip/US500/edge |
+| Backtesting.py0.6.6 | Native Backtest/Strategy, syntheticM15 buy/sell/fees/timing đạt;4,502s gồm import | Chưa target Bid/Ask/SL/gap/equity parity |
+| Backtrader1.9.78.123 | Native Cerebro/feed/Strategy/broker, cùngfixture đạt;3,624s gồm import | Upstream SyntaxWarning escape sequence; chưa target parity |
+| VectorBT1.2.0 | Native Portfolio.from_orders, cùngfixture đạt;28,751s gồm cold import/JIT | Không benchmark throughput hoặc target fill semantics |
+
+Ba smoke dùng cùng6nến OHLC giả lập2022: quyết định sau nến1/3, fillopen2=102/
+open4=104,quantity2,fee0,50USD/order; gross4−fee1=net3USD, cash10.003, flat.
+Đã kiểm indices/prices/fees/state; fixtureSHA256 giống nhau:
+`983aec4a12583bc5088774f3e7a6937eb94933a0f958000462abfb8c5b9101a5`.
+Đây là accounting sanity check, không proofUS500execution/model equivalence.
+Negative test cùng receiptpath reject trước simulation; không overwriteattempt.
+
+Nautilus module command thực tế chạy8tests/17,268s:4đạt,4fail ở fixture setup
+với `TW_V2_ALLOW_DESTRUCTIVE_TEST_DB=1 is required for TRUNCATE fixture tests`.
+Không bật flag, khôngTRUNCATE/migration, không gọi đây là8pass. Guide chỉ định
+directclass cho lần sau; integratedDB cần disposabletestDB riêng. Runtime
+PyArrow25.0.1 giữ riêng, productPyArrow21 không đổi; trackedTraderstatus sạch.
+
+Nautilus downloaded source là2.x, wheel tương thích adapter hiện có là1.x.
+Đã kiểm [official installation](https://nautilustrader.io/docs/latest/getting_started/installation/)
+và PyPI metadata, không âm thầm dùng prerelease2.x hoặc nâng Python. Full
+framework không đòi latestmajor; migration2.x có compatibility slice riêng.
+[Official integrations](https://nautilustrader.io/docs/latest/integrations/)
+không liệt kêMT5/FTMO tại ngày kiểm; chưa thể gọi ready-made propbroker connector.
+
+Python installs dùng isolatedvenvs/binary-onlyPyPI; manifests+full dependency
+locks được commit, wheels/cache/outputs không commit. LEAN build từ auditedpin
+bằng SDKđãcó; sourceworkingtree sạch, khôngDocker/login/paidcloud. LEAN logfile
+có “Disconnecting from brokerage” là simulatedbacktest lifecycle; không gọi
+đó là MT5/broker connection. Không đo outbound network process-level, nên
+không khẳng định toàn bộ LEAN execution tuyệt đối0HTTP từ logs.
+
+Local evidence `.runtime/strategy-engines/receipts/{backtesting,backtrader,vectorbt}-v1.json`,
+`.runtime/strategy-engines/lean/{build.log,run-v1.log,sample-v1/}`. Native
+Nautilus direct tests dùng module hiện có, stdout được ghi trong execution
+tool outputs; thất bại setup/command được giữ ở report này. Source download
+manifest cũ giữ nguyên vì là receipt lịch sử, không sửa cácfalse thànhtrue.
+
+### Đề xuất ứng viên, chưa freeze hoặc chạy PnL
+
+| Thứ tự | Ý tưởng | Vì sao xem tiếp | Điều phải kiểm trước khi tạo trial |
+|---|---|---|---|
+|1|US500M15 trend pullback: giá đang theo hướng, hồi rồi tiếp tục hướng cũ|Luật có thể viết rõ, khác câu hỏi firstopeningbreak; reuseEMA readiness/state|RelatedR004SMA20/80H4đã thử, không edge độc lập mới; phải chốt EMA/seed, cách xác định hồi/recross, SL/exit/session và rationale transfer |
+|2, dự phòng|US500M15 band reentry: ra ngoài dải rồi đóng trở lại, kỳ vọng về giữa|Một câu hỏi khác continuation; Bollinger chuẩn có code/reference rõ|RelatedR003zscore, không gọi BB là alpha mới; phải chốt prior/current-window bands, SL/meanexit/timecutoff, costs và tránh trend-day hindsightfilter |
+|Gác exactversion|R094firstopeningbreak/R095failedbreak|Đã có kết quả và giới hạn, không đáng chạy lại chỉ vì engine mới|Chỉ dùng làm frozen compatibility fixture; semanticschange là trial mới, không reset negative/history |
+
+Đây là shortlist triển khai dễ kiểm, **không xếp hạng expected profit**. Một
+phiên bản mỗi hypothesis, không gridEMA/SL/RR/giờ để cứu outcome. Trước PnL:
+freeze mechanism/negative lineage, bảngsource→target và nativeeventparity;
+chạy mộtdevelopmentpilot, reviewer tài chính/equity rồi mới promote engine lane.
+Không cần cả5engine mỗi thử nghiệm. Nautilus/LEAN đề xuất lanes kiểm sâu,
+VectorBTscreening, Backtesting.py/Backtraderprototype/crosscheck chọn lọc.
+2025+reserved, risk/account/challenge chưa chốt, không có job nền phải đợi.
+
+### Skill và review
+
+Reuse `strategy-research`, thêm conditional `references/native-engines.md`;
+`upstream-integrations` dẫn runtime guide khi install/adopt. Không tạo5skills,
+skillmanager hoặc thay global policy. Luồng agent: context/source→runtimeguide/
+lock→nativefixture→registeredpilot→qualification; engine outputs không tự
+ghi đè financial/source authority. Engine runtimes thật đã có nhưng chưa
+publish Paperclip capabilities hoặc route current US500 runner sangengine mới.
+
+Skillcreator validator cho2entrypoints và23localreference links đạt; smoke
+script parse được, negative overwrite check đạt. Maintainer audit0errors/
+0warnings:global12.279B,project10.298/65.536B,reserve55.238B,combined22.577B.
+Entry points chỉ thêm routing có điều kiện; không tăng always-loaded policy.

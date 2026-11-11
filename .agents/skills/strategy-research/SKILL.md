@@ -44,6 +44,10 @@ thì dùng dossier được giao; không bịa command hoặc bắt owner kể l
 
 ## Thực thi và bàn giao
 
+Khi dùng/port mẫu từ LEAN, NautilusTrader, Backtesting.py, Backtrader hoặc
+VectorBT, đọc [native engines](references/native-engines.md) để phân biệt
+full-framework use, code port và parity; reuse runtime/pin có sẵn.
+
 Với policy có huấn luyện/model pack, đọc [ML policies](references/ml-policies.md)
 trước tạo labels/splits/inference. Không cần nhánh này cho rules cố định hoặc
 chỉ hỏi tiến độ.

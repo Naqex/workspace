@@ -1,0 +1,8 @@
+[project]
+name = "naqex-backtesting-runtime"
+version = "0.1.0"
+requires-python = ">=3.12,<3.13"
+dependencies = ["backtesting==0.6.6"]
+
+[tool.uv]
+package = false
