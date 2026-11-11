@@ -1,19 +1,21 @@
 # Tra cứu research đã có
 
-[Owner chốt A/B/C, M1 để sau](US500-MULTITIMEFRAME-DRAFT-20261111.md):
-21relatedconfigs dựkiến,A=M15/B=thêmH1/C=entryM5;fixedM15zone/ATR/SL/expiry.
-Exact H1clock/bias/carry và M5confirm đã draft, chưa executable/PnL hoặc
-economicregistration. Giữ baselinev1/hash và trialhistory; tiếp nativefixtures.
-
-[Bản luật nền pullback US500 M15](US500-M15-PULLBACK-BASELINE-DRAFT-20261111.md):
-owner đã chốt7ATRbuffers; SMA20/80,armbarlevel,ATR14Wilderfreeze,4bar/SL2ATR/
-trend-noonexit là agentdraft, chưa executable/registered/PnL. Seed mặcđịnh
-NautiluskhácWilderđãinspect; giữR004lineage và95records. Tiếp nativefixtures.
+[US500 multiframe đã backtest](US500-MULTIFRAME-RESULTS-20261111.md),
+[bảng đủ27cấu hình](US500-MULTIFRAME-FULL-TABLE-20261111.md),
+[protocol](US500-MULTIFRAME-PROTOCOL-20261111.md):162nativebooks+9null,
+A/B/C×7buffers+6MA sensitivity,2022–24 exposed;≈5phút44batchparallel.
+24tests và6old→fixednativeparity đạt; [postreview](US500-MULTIFRAME-REVIEW-AMENDMENT-20261111.md)
+sửaqualityflags từsavedbooks,khôngđổiPnL/fills hoặcfinancialrerun. Dùngv3,
+khôngv2qualityflags. R120stress+48,87USD/15lệnh/3sổnăm,dương3năm nhưng
+mẫuquánhỏ,chưachallenge/OOS. Catalogue122/87versions,không27independentedges.
+Tiếpsoitrace/opportunityscarcity trướcnewtrial;khôngjobnền/2025+/broker.
+Drafts [baseline](US500-M15-PULLBACK-BASELINE-DRAFT-20261111.md) và
+[multiTF](US500-MULTITIMEFRAME-DRAFT-20261111.md) giữhistoricaldecisions/pins.
 
 [Full framework adoption cả5 theo owner](STRATEGY-TEMPLATE-REUSE-REVIEW-20261111.md#owner-chon-dung-framework-day-du-ca-nam-engine):
 đã cài isolatedruntimes và chạy nativefixtures;3Pythonroundtripsđạt,
 LEANbuild/samplecompleted,Nautilus4directpass/4DBsetupgateblocked.
-ChưaUS500parity/migration,trial/edge hoặcbroker; shortlistpullback/bandreentry
+US500nativeevent/accounting đã chạy ởlinktrên, chưaproductcutover/edge/broker; shortlistpullback/bandreentry
 giữnegativehistory. Runtimeguide/locks và nhánhskillnative-engines đã cập nhật.
 
 [Khảo sát code mẫu và receipt download trước adoption](STRATEGY-TEMPLATE-REUSE-REVIEW-20261111.md):

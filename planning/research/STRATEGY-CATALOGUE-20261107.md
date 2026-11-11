@@ -1,6 +1,6 @@
-# Danh mục nghiên cứu chiến lược — cập nhật10/11/2026
+# Danh mục nghiên cứu chiến lược — cập nhật11/11/2026
 
-93 hồ sơ: 47 có policy/model version (58 versions), 45 chưa có account policy và 1 risk component. Trong 58 versions có 25 native offline rules và 33 tooling/coarse/model versions; gồm 9 controls. R093 options-week không qua stressgate2022, âm trước phí; R092 S&P–Nasdaq fixed formation không qua prefilter, chưa bot/PnL. Price components và biến thể không tự là account policies hoặc independent edges. **Chưa có bản nào challenge-qualified.**
+122 hồ sơ: 76 có policy/model version (87 versions), 45 chưa có account policy và 1 risk component. Trong 87 versions có 52 native offline rules và 35 tooling/coarse/model versions; gồm 9 controls. R096–R122 là 27 related US500 pullback configurations, chưa đủ mẫu để chứng minh edge; R120 có 15 lệnh/3 năm. Không đếm variants thành independent edges. **Chưa có bản nào challenge-qualified.**
 
 [Bản đồ cơ chế và task](MECHANISM-FIRST-EXECUTION-20261109.md) gom đủ80historicalIDs
 khôngtrùng/thiếu;R081 làconditionalderivative liênquanR080.8buckets cócontrols/
@@ -110,6 +110,14 @@ freeze trước outcomes; old quarter-mask failure và corrected attempt đều 
 |R092|S&P–Nasdaq fixedlinear formation|equity_index_relative_value / R035,relatedR067|Khôngretained:2018p0,55272/2021p0,41111;chưaPnL|0|[Results](INDEX-PAIR-FORMATION-RESULTS-20261110.md);503dates sourceadmitted,khôngaccountpolicy|
 |R093|US500 monthly options-expiry week|monthly_options_inventory_calendar,relatedR025/R080|Khôngretained:stress2019+279,41/2022−708,85USD/unit;2022midâm|0|[Results](OPTIONS-WEEK-RESULTS-20261110.md);48windows/96cases,khôngSL/account/prop/OOS|
 
+
+## US500 multiframe — 27 cấu hình đã chạy
+
+[Kết quả và hậu kiểm](US500-MULTIFRAME-RESULTS-20261111.md), [toàn bộ bảng](US500-MULTIFRAME-FULL-TABLE-20261111.md):
+R096–R122, A/B/C×7buffers +6MA sensitivity;162nativebooks +9nullcontrols.
+Mỗi bản13–32lệnh/3năm, không daily-income proof. R120(MA40/160,A,k.10)
+stress+48,87USD/15lệnh, dương3năm nhưng mẫu quá nhỏ, không challenge/OOS.
+Các bản khác giữ đủ negatives/cost sensitivity; không tuning tự động.
 
 ## Cách đọc và lịch sử các batch đầu
 

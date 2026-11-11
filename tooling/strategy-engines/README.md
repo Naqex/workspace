@@ -104,3 +104,25 @@ Backtest/sample result phải kiểm status/fills/artifacts, không chỉ exit0.
 phân biệt installation, fixture, market parity và product/runtime acceptance.
 Rollback: ngừng chọn lane mới, dùng engine baseline; venv độc lập có thể dựng
 lại từ locks. Không migration dữ liệu, sửa service hay xóa kết quả cũ.
+
+## US500 native study đã chạy ngày11/11
+
+[Results/limitations](../../planning/research/US500-MULTIFRAME-RESULTS-20261111.md)
+ghi162financialbooks+9null, full native Nautilus1.231.0, chưa target execution
+hoặc product cutover. Source pin của financialrun và hậu kiểm có identity riêng;
+đọc correctedv3-review, không dùng oldv2qualityflags để kết luận missingpath.
+
+```powershell
+& projects/trader/foundation_v2/engine_runtime/.venv/Scripts/python.exe -X utf8 -W ignore::FutureWarning -m unittest discover -s tooling/ai-engines/tests -p '*us500_multiframe.py' -v
+& projects/trader/foundation_v2/engine_runtime/.venv/Scripts/python.exe -X utf8 -W ignore::FutureWarning -m unittest discover -s tooling/ai-engines/tests -p test_multiframe_runner_recovery.py -v
+```
+
+Runner `tooling/ai-engines/run_us500_multiframe.py` yêu cầu data/output/protocol
+paths và actual `--protocol-sha256`; optional `--year 2022/2023/2024` cho cohort
+riêng. Mỗi output chỉ một writer, `CANCEL` marker và1800sdeadline. Chỉ dùng
+`--resume-completed` khi original manifest/code/protocol/input bindings khớp;
+không claim intra-book resume. Không rerun completed study không đổi.
+
+`postreview_us500_multiframe.py` là correction đã ghi amendment, không generic
+repair hoặc financial replay. `summarize_us500_multiframe.py` chỉ đọc completed,
+sealed correctedcohorts. Savedview không thay nativefinancial source version.

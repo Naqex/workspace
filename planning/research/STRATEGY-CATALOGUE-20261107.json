@@ -2,7 +2,7 @@
   "schema": "naqex-strategy-research-catalogue-v1",
   "checked_on": "2026-11-11",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 95,
+  "record_count": 122,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -12,7 +12,7 @@
   "counts": {
     "by_role": {
       "existing": 36,
-      "variant": 41,
+      "variant": 68,
       "new": 17,
       "component": 1
     },
@@ -31,7 +31,8 @@
       "implemented_parked_conditional_negative": 1,
       "implemented_not_retained_no_qualified_signals": 2,
       "implemented_inconclusive_source_gap": 2,
-      "implemented_inconclusive_not_retained": 1
+      "implemented_inconclusive_not_retained": 1,
+      "implemented_inconclusive_small_sample": 27
     }
   },
   "sources": [
@@ -3404,17 +3405,1043 @@
       "version_decisions": {
         "us500-m15-or15-failedbreak-width-stop-noon-v1": "not_retained_for_next_stage"
       }
+    },
+    {
+      "id": "R096",
+      "title": "US500 pullback A MA20/80 k=0",
+      "family": "trend_pullback",
+      "role": "variant",
+      "parent_id": "R004",
+      "readiness": "implemented_inconclusive_small_sample",
+      "timeframe": "M15 setup; H1 gate B/C; closed M5 confirmation C; modeled M1 execution",
+      "rule_sketch": "LaneA; SMA20/80; frozen ATR14 Wilder; k=0; one arm/day10-10:45NY; SL2ATR; trend/noon exit",
+      "data_requirements": "Accepted explicit paired M1 proxy full cash sessions2022-24, exposed development; common161M15+20H1 eligibility",
+      "automation_feasibility": "native_nautilus_offline_M1_envelope_execution_only",
+      "prop_operational_concerns": "Too few trades for edge/timefit; no targetspec/news/closure/intraminute equityDD/OOS validation",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "Own fixed-rule adaptation of R004,27related trials; not independent edges or faithful replication of profitable manual method",
+      "next_action": "R120 only: inspect scarce confirmations and concentration with saved traces before any new trial. Others: preserve exact results; no automatic retune/holdout/challenge.",
+      "implementation_state": "native_screened_reviewed_not_challenge_qualified",
+      "candidate_id": "us500-pullback-A-ma20-80-k0-native-v1",
+      "profitability_evidence": "Three reset annual books reference -51.52USD/25trades; stress -81.19USD/25; all held paths covered; exploratory small sample, not cleanOOS",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-pullback-A-ma20-80-k0-native-v1"
+      ],
+      "admission_evidence_locator": "US500-MULTIFRAME-PROTOCOL-20261111.md",
+      "implementation_updated_on": "2026-11-11",
+      "evidence_locator": "US500-MULTIFRAME-RESULTS-20261111.md",
+      "version_decisions": {
+        "us500-pullback-A-ma20-80-k0-native-v1": "inconclusive_not_challenge_qualified"
+      },
+      "config": {
+        "lane": "A",
+        "fast": 20,
+        "slow": 80,
+        "k": "0",
+        "id": "R096"
+      }
+    },
+    {
+      "id": "R097",
+      "title": "US500 pullback A MA20/80 k=0.05",
+      "family": "trend_pullback",
+      "role": "variant",
+      "parent_id": "R004",
+      "readiness": "implemented_inconclusive_small_sample",
+      "timeframe": "M15 setup; H1 gate B/C; closed M5 confirmation C; modeled M1 execution",
+      "rule_sketch": "LaneA; SMA20/80; frozen ATR14 Wilder; k=0.05; one arm/day10-10:45NY; SL2ATR; trend/noon exit",
+      "data_requirements": "Accepted explicit paired M1 proxy full cash sessions2022-24, exposed development; common161M15+20H1 eligibility",
+      "automation_feasibility": "native_nautilus_offline_M1_envelope_execution_only",
+      "prop_operational_concerns": "Too few trades for edge/timefit; no targetspec/news/closure/intraminute equityDD/OOS validation",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "Own fixed-rule adaptation of R004,27related trials; not independent edges or faithful replication of profitable manual method",
+      "next_action": "R120 only: inspect scarce confirmations and concentration with saved traces before any new trial. Others: preserve exact results; no automatic retune/holdout/challenge.",
+      "implementation_state": "native_screened_reviewed_not_challenge_qualified",
+      "candidate_id": "us500-pullback-A-ma20-80-k0.05-native-v1",
+      "profitability_evidence": "Three reset annual books reference -28.86USD/21trades; stress -53.45USD/21; all held paths covered; exploratory small sample, not cleanOOS",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-pullback-A-ma20-80-k0.05-native-v1"
+      ],
+      "admission_evidence_locator": "US500-MULTIFRAME-PROTOCOL-20261111.md",
+      "implementation_updated_on": "2026-11-11",
+      "evidence_locator": "US500-MULTIFRAME-RESULTS-20261111.md",
+      "version_decisions": {
+        "us500-pullback-A-ma20-80-k0.05-native-v1": "inconclusive_not_challenge_qualified"
+      },
+      "config": {
+        "lane": "A",
+        "fast": 20,
+        "slow": 80,
+        "k": "0.05",
+        "id": "R097"
+      }
+    },
+    {
+      "id": "R098",
+      "title": "US500 pullback A MA20/80 k=0.1",
+      "family": "trend_pullback",
+      "role": "variant",
+      "parent_id": "R004",
+      "readiness": "implemented_inconclusive_small_sample",
+      "timeframe": "M15 setup; H1 gate B/C; closed M5 confirmation C; modeled M1 execution",
+      "rule_sketch": "LaneA; SMA20/80; frozen ATR14 Wilder; k=0.1; one arm/day10-10:45NY; SL2ATR; trend/noon exit",
+      "data_requirements": "Accepted explicit paired M1 proxy full cash sessions2022-24, exposed development; common161M15+20H1 eligibility",
+      "automation_feasibility": "native_nautilus_offline_M1_envelope_execution_only",
+      "prop_operational_concerns": "Too few trades for edge/timefit; no targetspec/news/closure/intraminute equityDD/OOS validation",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "Own fixed-rule adaptation of R004,27related trials; not independent edges or faithful replication of profitable manual method",
+      "next_action": "R120 only: inspect scarce confirmations and concentration with saved traces before any new trial. Others: preserve exact results; no automatic retune/holdout/challenge.",
+      "implementation_state": "native_screened_reviewed_not_challenge_qualified",
+      "candidate_id": "us500-pullback-A-ma20-80-k0.1-native-v1",
+      "profitability_evidence": "Three reset annual books reference -0.37USD/19trades; stress -24.04USD/19; all held paths covered; exploratory small sample, not cleanOOS",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-pullback-A-ma20-80-k0.1-native-v1"
+      ],
+      "admission_evidence_locator": "US500-MULTIFRAME-PROTOCOL-20261111.md",
+      "implementation_updated_on": "2026-11-11",
+      "evidence_locator": "US500-MULTIFRAME-RESULTS-20261111.md",
+      "version_decisions": {
+        "us500-pullback-A-ma20-80-k0.1-native-v1": "inconclusive_not_challenge_qualified"
+      },
+      "config": {
+        "lane": "A",
+        "fast": 20,
+        "slow": 80,
+        "k": "0.1",
+        "id": "R098"
+      }
+    },
+    {
+      "id": "R099",
+      "title": "US500 pullback A MA20/80 k=0.15",
+      "family": "trend_pullback",
+      "role": "variant",
+      "parent_id": "R004",
+      "readiness": "implemented_inconclusive_small_sample",
+      "timeframe": "M15 setup; H1 gate B/C; closed M5 confirmation C; modeled M1 execution",
+      "rule_sketch": "LaneA; SMA20/80; frozen ATR14 Wilder; k=0.15; one arm/day10-10:45NY; SL2ATR; trend/noon exit",
+      "data_requirements": "Accepted explicit paired M1 proxy full cash sessions2022-24, exposed development; common161M15+20H1 eligibility",
+      "automation_feasibility": "native_nautilus_offline_M1_envelope_execution_only",
+      "prop_operational_concerns": "Too few trades for edge/timefit; no targetspec/news/closure/intraminute equityDD/OOS validation",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "Own fixed-rule adaptation of R004,27related trials; not independent edges or faithful replication of profitable manual method",
+      "next_action": "R120 only: inspect scarce confirmations and concentration with saved traces before any new trial. Others: preserve exact results; no automatic retune/holdout/challenge.",
+      "implementation_state": "native_screened_reviewed_not_challenge_qualified",
+      "candidate_id": "us500-pullback-A-ma20-80-k0.15-native-v1",
+      "profitability_evidence": "Three reset annual books reference -0.37USD/19trades; stress -24.04USD/19; all held paths covered; exploratory small sample, not cleanOOS",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-pullback-A-ma20-80-k0.15-native-v1"
+      ],
+      "admission_evidence_locator": "US500-MULTIFRAME-PROTOCOL-20261111.md",
+      "implementation_updated_on": "2026-11-11",
+      "evidence_locator": "US500-MULTIFRAME-RESULTS-20261111.md",
+      "version_decisions": {
+        "us500-pullback-A-ma20-80-k0.15-native-v1": "inconclusive_not_challenge_qualified"
+      },
+      "config": {
+        "lane": "A",
+        "fast": 20,
+        "slow": 80,
+        "k": "0.15",
+        "id": "R099"
+      }
+    },
+    {
+      "id": "R100",
+      "title": "US500 pullback A MA20/80 k=0.2",
+      "family": "trend_pullback",
+      "role": "variant",
+      "parent_id": "R004",
+      "readiness": "implemented_inconclusive_small_sample",
+      "timeframe": "M15 setup; H1 gate B/C; closed M5 confirmation C; modeled M1 execution",
+      "rule_sketch": "LaneA; SMA20/80; frozen ATR14 Wilder; k=0.2; one arm/day10-10:45NY; SL2ATR; trend/noon exit",
+      "data_requirements": "Accepted explicit paired M1 proxy full cash sessions2022-24, exposed development; common161M15+20H1 eligibility",
+      "automation_feasibility": "native_nautilus_offline_M1_envelope_execution_only",
+      "prop_operational_concerns": "Too few trades for edge/timefit; no targetspec/news/closure/intraminute equityDD/OOS validation",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "Own fixed-rule adaptation of R004,27related trials; not independent edges or faithful replication of profitable manual method",
+      "next_action": "R120 only: inspect scarce confirmations and concentration with saved traces before any new trial. Others: preserve exact results; no automatic retune/holdout/challenge.",
+      "implementation_state": "native_screened_reviewed_not_challenge_qualified",
+      "candidate_id": "us500-pullback-A-ma20-80-k0.2-native-v1",
+      "profitability_evidence": "Three reset annual books reference 32.06USD/17trades; stress 9.69USD/17; all held paths covered; exploratory small sample, not cleanOOS",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-pullback-A-ma20-80-k0.2-native-v1"
+      ],
+      "admission_evidence_locator": "US500-MULTIFRAME-PROTOCOL-20261111.md",
+      "implementation_updated_on": "2026-11-11",
+      "evidence_locator": "US500-MULTIFRAME-RESULTS-20261111.md",
+      "version_decisions": {
+        "us500-pullback-A-ma20-80-k0.2-native-v1": "inconclusive_not_challenge_qualified"
+      },
+      "config": {
+        "lane": "A",
+        "fast": 20,
+        "slow": 80,
+        "k": "0.2",
+        "id": "R100"
+      }
+    },
+    {
+      "id": "R101",
+      "title": "US500 pullback A MA20/80 k=0.25",
+      "family": "trend_pullback",
+      "role": "variant",
+      "parent_id": "R004",
+      "readiness": "implemented_inconclusive_small_sample",
+      "timeframe": "M15 setup; H1 gate B/C; closed M5 confirmation C; modeled M1 execution",
+      "rule_sketch": "LaneA; SMA20/80; frozen ATR14 Wilder; k=0.25; one arm/day10-10:45NY; SL2ATR; trend/noon exit",
+      "data_requirements": "Accepted explicit paired M1 proxy full cash sessions2022-24, exposed development; common161M15+20H1 eligibility",
+      "automation_feasibility": "native_nautilus_offline_M1_envelope_execution_only",
+      "prop_operational_concerns": "Too few trades for edge/timefit; no targetspec/news/closure/intraminute equityDD/OOS validation",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "Own fixed-rule adaptation of R004,27related trials; not independent edges or faithful replication of profitable manual method",
+      "next_action": "R120 only: inspect scarce confirmations and concentration with saved traces before any new trial. Others: preserve exact results; no automatic retune/holdout/challenge.",
+      "implementation_state": "native_screened_reviewed_not_challenge_qualified",
+      "candidate_id": "us500-pullback-A-ma20-80-k0.25-native-v1",
+      "profitability_evidence": "Three reset annual books reference -13.06USD/14trades; stress -30.06USD/14; all held paths covered; exploratory small sample, not cleanOOS",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-pullback-A-ma20-80-k0.25-native-v1"
+      ],
+      "admission_evidence_locator": "US500-MULTIFRAME-PROTOCOL-20261111.md",
+      "implementation_updated_on": "2026-11-11",
+      "evidence_locator": "US500-MULTIFRAME-RESULTS-20261111.md",
+      "version_decisions": {
+        "us500-pullback-A-ma20-80-k0.25-native-v1": "inconclusive_not_challenge_qualified"
+      },
+      "config": {
+        "lane": "A",
+        "fast": 20,
+        "slow": 80,
+        "k": "0.25",
+        "id": "R101"
+      }
+    },
+    {
+      "id": "R102",
+      "title": "US500 pullback A MA20/80 k=0.3",
+      "family": "trend_pullback",
+      "role": "variant",
+      "parent_id": "R004",
+      "readiness": "implemented_inconclusive_small_sample",
+      "timeframe": "M15 setup; H1 gate B/C; closed M5 confirmation C; modeled M1 execution",
+      "rule_sketch": "LaneA; SMA20/80; frozen ATR14 Wilder; k=0.3; one arm/day10-10:45NY; SL2ATR; trend/noon exit",
+      "data_requirements": "Accepted explicit paired M1 proxy full cash sessions2022-24, exposed development; common161M15+20H1 eligibility",
+      "automation_feasibility": "native_nautilus_offline_M1_envelope_execution_only",
+      "prop_operational_concerns": "Too few trades for edge/timefit; no targetspec/news/closure/intraminute equityDD/OOS validation",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "Own fixed-rule adaptation of R004,27related trials; not independent edges or faithful replication of profitable manual method",
+      "next_action": "R120 only: inspect scarce confirmations and concentration with saved traces before any new trial. Others: preserve exact results; no automatic retune/holdout/challenge.",
+      "implementation_state": "native_screened_reviewed_not_challenge_qualified",
+      "candidate_id": "us500-pullback-A-ma20-80-k0.3-native-v1",
+      "profitability_evidence": "Three reset annual books reference -23.28USD/13trades; stress -39.37USD/13; all held paths covered; exploratory small sample, not cleanOOS",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-pullback-A-ma20-80-k0.3-native-v1"
+      ],
+      "admission_evidence_locator": "US500-MULTIFRAME-PROTOCOL-20261111.md",
+      "implementation_updated_on": "2026-11-11",
+      "evidence_locator": "US500-MULTIFRAME-RESULTS-20261111.md",
+      "version_decisions": {
+        "us500-pullback-A-ma20-80-k0.3-native-v1": "inconclusive_not_challenge_qualified"
+      },
+      "config": {
+        "lane": "A",
+        "fast": 20,
+        "slow": 80,
+        "k": "0.3",
+        "id": "R102"
+      }
+    },
+    {
+      "id": "R103",
+      "title": "US500 pullback B MA20/80 k=0",
+      "family": "trend_pullback",
+      "role": "variant",
+      "parent_id": "R004",
+      "readiness": "implemented_inconclusive_small_sample",
+      "timeframe": "M15 setup; H1 gate B/C; closed M5 confirmation C; modeled M1 execution",
+      "rule_sketch": "LaneB; SMA20/80; frozen ATR14 Wilder; k=0; one arm/day10-10:45NY; SL2ATR; trend/noon exit",
+      "data_requirements": "Accepted explicit paired M1 proxy full cash sessions2022-24, exposed development; common161M15+20H1 eligibility",
+      "automation_feasibility": "native_nautilus_offline_M1_envelope_execution_only",
+      "prop_operational_concerns": "Too few trades for edge/timefit; no targetspec/news/closure/intraminute equityDD/OOS validation",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "Own fixed-rule adaptation of R004,27related trials; not independent edges or faithful replication of profitable manual method",
+      "next_action": "R120 only: inspect scarce confirmations and concentration with saved traces before any new trial. Others: preserve exact results; no automatic retune/holdout/challenge.",
+      "implementation_state": "native_screened_reviewed_not_challenge_qualified",
+      "candidate_id": "us500-pullback-B-ma20-80-k0-native-v1",
+      "profitability_evidence": "Three reset annual books reference -51.52USD/25trades; stress -81.19USD/25; all held paths covered; exploratory small sample, not cleanOOS",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-pullback-B-ma20-80-k0-native-v1"
+      ],
+      "admission_evidence_locator": "US500-MULTIFRAME-PROTOCOL-20261111.md",
+      "implementation_updated_on": "2026-11-11",
+      "evidence_locator": "US500-MULTIFRAME-RESULTS-20261111.md",
+      "version_decisions": {
+        "us500-pullback-B-ma20-80-k0-native-v1": "inconclusive_not_challenge_qualified"
+      },
+      "config": {
+        "lane": "B",
+        "fast": 20,
+        "slow": 80,
+        "k": "0",
+        "id": "R103"
+      }
+    },
+    {
+      "id": "R104",
+      "title": "US500 pullback B MA20/80 k=0.05",
+      "family": "trend_pullback",
+      "role": "variant",
+      "parent_id": "R004",
+      "readiness": "implemented_inconclusive_small_sample",
+      "timeframe": "M15 setup; H1 gate B/C; closed M5 confirmation C; modeled M1 execution",
+      "rule_sketch": "LaneB; SMA20/80; frozen ATR14 Wilder; k=0.05; one arm/day10-10:45NY; SL2ATR; trend/noon exit",
+      "data_requirements": "Accepted explicit paired M1 proxy full cash sessions2022-24, exposed development; common161M15+20H1 eligibility",
+      "automation_feasibility": "native_nautilus_offline_M1_envelope_execution_only",
+      "prop_operational_concerns": "Too few trades for edge/timefit; no targetspec/news/closure/intraminute equityDD/OOS validation",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "Own fixed-rule adaptation of R004,27related trials; not independent edges or faithful replication of profitable manual method",
+      "next_action": "R120 only: inspect scarce confirmations and concentration with saved traces before any new trial. Others: preserve exact results; no automatic retune/holdout/challenge.",
+      "implementation_state": "native_screened_reviewed_not_challenge_qualified",
+      "candidate_id": "us500-pullback-B-ma20-80-k0.05-native-v1",
+      "profitability_evidence": "Three reset annual books reference -28.86USD/21trades; stress -53.45USD/21; all held paths covered; exploratory small sample, not cleanOOS",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-pullback-B-ma20-80-k0.05-native-v1"
+      ],
+      "admission_evidence_locator": "US500-MULTIFRAME-PROTOCOL-20261111.md",
+      "implementation_updated_on": "2026-11-11",
+      "evidence_locator": "US500-MULTIFRAME-RESULTS-20261111.md",
+      "version_decisions": {
+        "us500-pullback-B-ma20-80-k0.05-native-v1": "inconclusive_not_challenge_qualified"
+      },
+      "config": {
+        "lane": "B",
+        "fast": 20,
+        "slow": 80,
+        "k": "0.05",
+        "id": "R104"
+      }
+    },
+    {
+      "id": "R105",
+      "title": "US500 pullback B MA20/80 k=0.1",
+      "family": "trend_pullback",
+      "role": "variant",
+      "parent_id": "R004",
+      "readiness": "implemented_inconclusive_small_sample",
+      "timeframe": "M15 setup; H1 gate B/C; closed M5 confirmation C; modeled M1 execution",
+      "rule_sketch": "LaneB; SMA20/80; frozen ATR14 Wilder; k=0.1; one arm/day10-10:45NY; SL2ATR; trend/noon exit",
+      "data_requirements": "Accepted explicit paired M1 proxy full cash sessions2022-24, exposed development; common161M15+20H1 eligibility",
+      "automation_feasibility": "native_nautilus_offline_M1_envelope_execution_only",
+      "prop_operational_concerns": "Too few trades for edge/timefit; no targetspec/news/closure/intraminute equityDD/OOS validation",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "Own fixed-rule adaptation of R004,27related trials; not independent edges or faithful replication of profitable manual method",
+      "next_action": "R120 only: inspect scarce confirmations and concentration with saved traces before any new trial. Others: preserve exact results; no automatic retune/holdout/challenge.",
+      "implementation_state": "native_screened_reviewed_not_challenge_qualified",
+      "candidate_id": "us500-pullback-B-ma20-80-k0.1-native-v1",
+      "profitability_evidence": "Three reset annual books reference -0.37USD/19trades; stress -24.04USD/19; all held paths covered; exploratory small sample, not cleanOOS",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-pullback-B-ma20-80-k0.1-native-v1"
+      ],
+      "admission_evidence_locator": "US500-MULTIFRAME-PROTOCOL-20261111.md",
+      "implementation_updated_on": "2026-11-11",
+      "evidence_locator": "US500-MULTIFRAME-RESULTS-20261111.md",
+      "version_decisions": {
+        "us500-pullback-B-ma20-80-k0.1-native-v1": "inconclusive_not_challenge_qualified"
+      },
+      "config": {
+        "lane": "B",
+        "fast": 20,
+        "slow": 80,
+        "k": "0.1",
+        "id": "R105"
+      }
+    },
+    {
+      "id": "R106",
+      "title": "US500 pullback B MA20/80 k=0.15",
+      "family": "trend_pullback",
+      "role": "variant",
+      "parent_id": "R004",
+      "readiness": "implemented_inconclusive_small_sample",
+      "timeframe": "M15 setup; H1 gate B/C; closed M5 confirmation C; modeled M1 execution",
+      "rule_sketch": "LaneB; SMA20/80; frozen ATR14 Wilder; k=0.15; one arm/day10-10:45NY; SL2ATR; trend/noon exit",
+      "data_requirements": "Accepted explicit paired M1 proxy full cash sessions2022-24, exposed development; common161M15+20H1 eligibility",
+      "automation_feasibility": "native_nautilus_offline_M1_envelope_execution_only",
+      "prop_operational_concerns": "Too few trades for edge/timefit; no targetspec/news/closure/intraminute equityDD/OOS validation",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "Own fixed-rule adaptation of R004,27related trials; not independent edges or faithful replication of profitable manual method",
+      "next_action": "R120 only: inspect scarce confirmations and concentration with saved traces before any new trial. Others: preserve exact results; no automatic retune/holdout/challenge.",
+      "implementation_state": "native_screened_reviewed_not_challenge_qualified",
+      "candidate_id": "us500-pullback-B-ma20-80-k0.15-native-v1",
+      "profitability_evidence": "Three reset annual books reference -0.37USD/19trades; stress -24.04USD/19; all held paths covered; exploratory small sample, not cleanOOS",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-pullback-B-ma20-80-k0.15-native-v1"
+      ],
+      "admission_evidence_locator": "US500-MULTIFRAME-PROTOCOL-20261111.md",
+      "implementation_updated_on": "2026-11-11",
+      "evidence_locator": "US500-MULTIFRAME-RESULTS-20261111.md",
+      "version_decisions": {
+        "us500-pullback-B-ma20-80-k0.15-native-v1": "inconclusive_not_challenge_qualified"
+      },
+      "config": {
+        "lane": "B",
+        "fast": 20,
+        "slow": 80,
+        "k": "0.15",
+        "id": "R106"
+      }
+    },
+    {
+      "id": "R107",
+      "title": "US500 pullback B MA20/80 k=0.2",
+      "family": "trend_pullback",
+      "role": "variant",
+      "parent_id": "R004",
+      "readiness": "implemented_inconclusive_small_sample",
+      "timeframe": "M15 setup; H1 gate B/C; closed M5 confirmation C; modeled M1 execution",
+      "rule_sketch": "LaneB; SMA20/80; frozen ATR14 Wilder; k=0.2; one arm/day10-10:45NY; SL2ATR; trend/noon exit",
+      "data_requirements": "Accepted explicit paired M1 proxy full cash sessions2022-24, exposed development; common161M15+20H1 eligibility",
+      "automation_feasibility": "native_nautilus_offline_M1_envelope_execution_only",
+      "prop_operational_concerns": "Too few trades for edge/timefit; no targetspec/news/closure/intraminute equityDD/OOS validation",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "Own fixed-rule adaptation of R004,27related trials; not independent edges or faithful replication of profitable manual method",
+      "next_action": "R120 only: inspect scarce confirmations and concentration with saved traces before any new trial. Others: preserve exact results; no automatic retune/holdout/challenge.",
+      "implementation_state": "native_screened_reviewed_not_challenge_qualified",
+      "candidate_id": "us500-pullback-B-ma20-80-k0.2-native-v1",
+      "profitability_evidence": "Three reset annual books reference 32.06USD/17trades; stress 9.69USD/17; all held paths covered; exploratory small sample, not cleanOOS",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-pullback-B-ma20-80-k0.2-native-v1"
+      ],
+      "admission_evidence_locator": "US500-MULTIFRAME-PROTOCOL-20261111.md",
+      "implementation_updated_on": "2026-11-11",
+      "evidence_locator": "US500-MULTIFRAME-RESULTS-20261111.md",
+      "version_decisions": {
+        "us500-pullback-B-ma20-80-k0.2-native-v1": "inconclusive_not_challenge_qualified"
+      },
+      "config": {
+        "lane": "B",
+        "fast": 20,
+        "slow": 80,
+        "k": "0.2",
+        "id": "R107"
+      }
+    },
+    {
+      "id": "R108",
+      "title": "US500 pullback B MA20/80 k=0.25",
+      "family": "trend_pullback",
+      "role": "variant",
+      "parent_id": "R004",
+      "readiness": "implemented_inconclusive_small_sample",
+      "timeframe": "M15 setup; H1 gate B/C; closed M5 confirmation C; modeled M1 execution",
+      "rule_sketch": "LaneB; SMA20/80; frozen ATR14 Wilder; k=0.25; one arm/day10-10:45NY; SL2ATR; trend/noon exit",
+      "data_requirements": "Accepted explicit paired M1 proxy full cash sessions2022-24, exposed development; common161M15+20H1 eligibility",
+      "automation_feasibility": "native_nautilus_offline_M1_envelope_execution_only",
+      "prop_operational_concerns": "Too few trades for edge/timefit; no targetspec/news/closure/intraminute equityDD/OOS validation",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "Own fixed-rule adaptation of R004,27related trials; not independent edges or faithful replication of profitable manual method",
+      "next_action": "R120 only: inspect scarce confirmations and concentration with saved traces before any new trial. Others: preserve exact results; no automatic retune/holdout/challenge.",
+      "implementation_state": "native_screened_reviewed_not_challenge_qualified",
+      "candidate_id": "us500-pullback-B-ma20-80-k0.25-native-v1",
+      "profitability_evidence": "Three reset annual books reference -13.06USD/14trades; stress -30.06USD/14; all held paths covered; exploratory small sample, not cleanOOS",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-pullback-B-ma20-80-k0.25-native-v1"
+      ],
+      "admission_evidence_locator": "US500-MULTIFRAME-PROTOCOL-20261111.md",
+      "implementation_updated_on": "2026-11-11",
+      "evidence_locator": "US500-MULTIFRAME-RESULTS-20261111.md",
+      "version_decisions": {
+        "us500-pullback-B-ma20-80-k0.25-native-v1": "inconclusive_not_challenge_qualified"
+      },
+      "config": {
+        "lane": "B",
+        "fast": 20,
+        "slow": 80,
+        "k": "0.25",
+        "id": "R108"
+      }
+    },
+    {
+      "id": "R109",
+      "title": "US500 pullback B MA20/80 k=0.3",
+      "family": "trend_pullback",
+      "role": "variant",
+      "parent_id": "R004",
+      "readiness": "implemented_inconclusive_small_sample",
+      "timeframe": "M15 setup; H1 gate B/C; closed M5 confirmation C; modeled M1 execution",
+      "rule_sketch": "LaneB; SMA20/80; frozen ATR14 Wilder; k=0.3; one arm/day10-10:45NY; SL2ATR; trend/noon exit",
+      "data_requirements": "Accepted explicit paired M1 proxy full cash sessions2022-24, exposed development; common161M15+20H1 eligibility",
+      "automation_feasibility": "native_nautilus_offline_M1_envelope_execution_only",
+      "prop_operational_concerns": "Too few trades for edge/timefit; no targetspec/news/closure/intraminute equityDD/OOS validation",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "Own fixed-rule adaptation of R004,27related trials; not independent edges or faithful replication of profitable manual method",
+      "next_action": "R120 only: inspect scarce confirmations and concentration with saved traces before any new trial. Others: preserve exact results; no automatic retune/holdout/challenge.",
+      "implementation_state": "native_screened_reviewed_not_challenge_qualified",
+      "candidate_id": "us500-pullback-B-ma20-80-k0.3-native-v1",
+      "profitability_evidence": "Three reset annual books reference -23.28USD/13trades; stress -39.37USD/13; all held paths covered; exploratory small sample, not cleanOOS",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-pullback-B-ma20-80-k0.3-native-v1"
+      ],
+      "admission_evidence_locator": "US500-MULTIFRAME-PROTOCOL-20261111.md",
+      "implementation_updated_on": "2026-11-11",
+      "evidence_locator": "US500-MULTIFRAME-RESULTS-20261111.md",
+      "version_decisions": {
+        "us500-pullback-B-ma20-80-k0.3-native-v1": "inconclusive_not_challenge_qualified"
+      },
+      "config": {
+        "lane": "B",
+        "fast": 20,
+        "slow": 80,
+        "k": "0.3",
+        "id": "R109"
+      }
+    },
+    {
+      "id": "R110",
+      "title": "US500 pullback C MA20/80 k=0",
+      "family": "trend_pullback",
+      "role": "variant",
+      "parent_id": "R004",
+      "readiness": "implemented_inconclusive_small_sample",
+      "timeframe": "M15 setup; H1 gate B/C; closed M5 confirmation C; modeled M1 execution",
+      "rule_sketch": "LaneC; SMA20/80; frozen ATR14 Wilder; k=0; one arm/day10-10:45NY; SL2ATR; trend/noon exit",
+      "data_requirements": "Accepted explicit paired M1 proxy full cash sessions2022-24, exposed development; common161M15+20H1 eligibility",
+      "automation_feasibility": "native_nautilus_offline_M1_envelope_execution_only",
+      "prop_operational_concerns": "Too few trades for edge/timefit; no targetspec/news/closure/intraminute equityDD/OOS validation",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "Own fixed-rule adaptation of R004,27related trials; not independent edges or faithful replication of profitable manual method",
+      "next_action": "R120 only: inspect scarce confirmations and concentration with saved traces before any new trial. Others: preserve exact results; no automatic retune/holdout/challenge.",
+      "implementation_state": "native_screened_reviewed_not_challenge_qualified",
+      "candidate_id": "us500-pullback-C-ma20-80-k0-native-v1",
+      "profitability_evidence": "Three reset annual books reference -42.86USD/27trades; stress -75.45USD/27; all held paths covered; exploratory small sample, not cleanOOS",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-pullback-C-ma20-80-k0-native-v1"
+      ],
+      "admission_evidence_locator": "US500-MULTIFRAME-PROTOCOL-20261111.md",
+      "implementation_updated_on": "2026-11-11",
+      "evidence_locator": "US500-MULTIFRAME-RESULTS-20261111.md",
+      "version_decisions": {
+        "us500-pullback-C-ma20-80-k0-native-v1": "inconclusive_not_challenge_qualified"
+      },
+      "config": {
+        "lane": "C",
+        "fast": 20,
+        "slow": 80,
+        "k": "0",
+        "id": "R110"
+      }
+    },
+    {
+      "id": "R111",
+      "title": "US500 pullback C MA20/80 k=0.05",
+      "family": "trend_pullback",
+      "role": "variant",
+      "parent_id": "R004",
+      "readiness": "implemented_inconclusive_small_sample",
+      "timeframe": "M15 setup; H1 gate B/C; closed M5 confirmation C; modeled M1 execution",
+      "rule_sketch": "LaneC; SMA20/80; frozen ATR14 Wilder; k=0.05; one arm/day10-10:45NY; SL2ATR; trend/noon exit",
+      "data_requirements": "Accepted explicit paired M1 proxy full cash sessions2022-24, exposed development; common161M15+20H1 eligibility",
+      "automation_feasibility": "native_nautilus_offline_M1_envelope_execution_only",
+      "prop_operational_concerns": "Too few trades for edge/timefit; no targetspec/news/closure/intraminute equityDD/OOS validation",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "Own fixed-rule adaptation of R004,27related trials; not independent edges or faithful replication of profitable manual method",
+      "next_action": "R120 only: inspect scarce confirmations and concentration with saved traces before any new trial. Others: preserve exact results; no automatic retune/holdout/challenge.",
+      "implementation_state": "native_screened_reviewed_not_challenge_qualified",
+      "candidate_id": "us500-pullback-C-ma20-80-k0.05-native-v1",
+      "profitability_evidence": "Three reset annual books reference -41.08USD/24trades; stress -69.46USD/24; all held paths covered; exploratory small sample, not cleanOOS",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-pullback-C-ma20-80-k0.05-native-v1"
+      ],
+      "admission_evidence_locator": "US500-MULTIFRAME-PROTOCOL-20261111.md",
+      "implementation_updated_on": "2026-11-11",
+      "evidence_locator": "US500-MULTIFRAME-RESULTS-20261111.md",
+      "version_decisions": {
+        "us500-pullback-C-ma20-80-k0.05-native-v1": "inconclusive_not_challenge_qualified"
+      },
+      "config": {
+        "lane": "C",
+        "fast": 20,
+        "slow": 80,
+        "k": "0.05",
+        "id": "R111"
+      }
+    },
+    {
+      "id": "R112",
+      "title": "US500 pullback C MA20/80 k=0.1",
+      "family": "trend_pullback",
+      "role": "variant",
+      "parent_id": "R004",
+      "readiness": "implemented_inconclusive_small_sample",
+      "timeframe": "M15 setup; H1 gate B/C; closed M5 confirmation C; modeled M1 execution",
+      "rule_sketch": "LaneC; SMA20/80; frozen ATR14 Wilder; k=0.1; one arm/day10-10:45NY; SL2ATR; trend/noon exit",
+      "data_requirements": "Accepted explicit paired M1 proxy full cash sessions2022-24, exposed development; common161M15+20H1 eligibility",
+      "automation_feasibility": "native_nautilus_offline_M1_envelope_execution_only",
+      "prop_operational_concerns": "Too few trades for edge/timefit; no targetspec/news/closure/intraminute equityDD/OOS validation",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "Own fixed-rule adaptation of R004,27related trials; not independent edges or faithful replication of profitable manual method",
+      "next_action": "R120 only: inspect scarce confirmations and concentration with saved traces before any new trial. Others: preserve exact results; no automatic retune/holdout/challenge.",
+      "implementation_state": "native_screened_reviewed_not_challenge_qualified",
+      "candidate_id": "us500-pullback-C-ma20-80-k0.1-native-v1",
+      "profitability_evidence": "Three reset annual books reference -18.36USD/23trades; stress -46.71USD/23; all held paths covered; exploratory small sample, not cleanOOS",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-pullback-C-ma20-80-k0.1-native-v1"
+      ],
+      "admission_evidence_locator": "US500-MULTIFRAME-PROTOCOL-20261111.md",
+      "implementation_updated_on": "2026-11-11",
+      "evidence_locator": "US500-MULTIFRAME-RESULTS-20261111.md",
+      "version_decisions": {
+        "us500-pullback-C-ma20-80-k0.1-native-v1": "inconclusive_not_challenge_qualified"
+      },
+      "config": {
+        "lane": "C",
+        "fast": 20,
+        "slow": 80,
+        "k": "0.1",
+        "id": "R112"
+      }
+    },
+    {
+      "id": "R113",
+      "title": "US500 pullback C MA20/80 k=0.15",
+      "family": "trend_pullback",
+      "role": "variant",
+      "parent_id": "R004",
+      "readiness": "implemented_inconclusive_small_sample",
+      "timeframe": "M15 setup; H1 gate B/C; closed M5 confirmation C; modeled M1 execution",
+      "rule_sketch": "LaneC; SMA20/80; frozen ATR14 Wilder; k=0.15; one arm/day10-10:45NY; SL2ATR; trend/noon exit",
+      "data_requirements": "Accepted explicit paired M1 proxy full cash sessions2022-24, exposed development; common161M15+20H1 eligibility",
+      "automation_feasibility": "native_nautilus_offline_M1_envelope_execution_only",
+      "prop_operational_concerns": "Too few trades for edge/timefit; no targetspec/news/closure/intraminute equityDD/OOS validation",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "Own fixed-rule adaptation of R004,27related trials; not independent edges or faithful replication of profitable manual method",
+      "next_action": "R120 only: inspect scarce confirmations and concentration with saved traces before any new trial. Others: preserve exact results; no automatic retune/holdout/challenge.",
+      "implementation_state": "native_screened_reviewed_not_challenge_qualified",
+      "candidate_id": "us500-pullback-C-ma20-80-k0.15-native-v1",
+      "profitability_evidence": "Three reset annual books reference -21.45USD/22trades; stress -48.17USD/22; all held paths covered; exploratory small sample, not cleanOOS",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-pullback-C-ma20-80-k0.15-native-v1"
+      ],
+      "admission_evidence_locator": "US500-MULTIFRAME-PROTOCOL-20261111.md",
+      "implementation_updated_on": "2026-11-11",
+      "evidence_locator": "US500-MULTIFRAME-RESULTS-20261111.md",
+      "version_decisions": {
+        "us500-pullback-C-ma20-80-k0.15-native-v1": "inconclusive_not_challenge_qualified"
+      },
+      "config": {
+        "lane": "C",
+        "fast": 20,
+        "slow": 80,
+        "k": "0.15",
+        "id": "R113"
+      }
+    },
+    {
+      "id": "R114",
+      "title": "US500 pullback C MA20/80 k=0.2",
+      "family": "trend_pullback",
+      "role": "variant",
+      "parent_id": "R004",
+      "readiness": "implemented_inconclusive_small_sample",
+      "timeframe": "M15 setup; H1 gate B/C; closed M5 confirmation C; modeled M1 execution",
+      "rule_sketch": "LaneC; SMA20/80; frozen ATR14 Wilder; k=0.2; one arm/day10-10:45NY; SL2ATR; trend/noon exit",
+      "data_requirements": "Accepted explicit paired M1 proxy full cash sessions2022-24, exposed development; common161M15+20H1 eligibility",
+      "automation_feasibility": "native_nautilus_offline_M1_envelope_execution_only",
+      "prop_operational_concerns": "Too few trades for edge/timefit; no targetspec/news/closure/intraminute equityDD/OOS validation",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "Own fixed-rule adaptation of R004,27related trials; not independent edges or faithful replication of profitable manual method",
+      "next_action": "R120 only: inspect scarce confirmations and concentration with saved traces before any new trial. Others: preserve exact results; no automatic retune/holdout/challenge.",
+      "implementation_state": "native_screened_reviewed_not_challenge_qualified",
+      "candidate_id": "us500-pullback-C-ma20-80-k0.2-native-v1",
+      "profitability_evidence": "Three reset annual books reference 19.50USD/19trades; stress -4.73USD/19; all held paths covered; exploratory small sample, not cleanOOS",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-pullback-C-ma20-80-k0.2-native-v1"
+      ],
+      "admission_evidence_locator": "US500-MULTIFRAME-PROTOCOL-20261111.md",
+      "implementation_updated_on": "2026-11-11",
+      "evidence_locator": "US500-MULTIFRAME-RESULTS-20261111.md",
+      "version_decisions": {
+        "us500-pullback-C-ma20-80-k0.2-native-v1": "inconclusive_not_challenge_qualified"
+      },
+      "config": {
+        "lane": "C",
+        "fast": 20,
+        "slow": 80,
+        "k": "0.2",
+        "id": "R114"
+      }
+    },
+    {
+      "id": "R115",
+      "title": "US500 pullback C MA20/80 k=0.25",
+      "family": "trend_pullback",
+      "role": "variant",
+      "parent_id": "R004",
+      "readiness": "implemented_inconclusive_small_sample",
+      "timeframe": "M15 setup; H1 gate B/C; closed M5 confirmation C; modeled M1 execution",
+      "rule_sketch": "LaneC; SMA20/80; frozen ATR14 Wilder; k=0.25; one arm/day10-10:45NY; SL2ATR; trend/noon exit",
+      "data_requirements": "Accepted explicit paired M1 proxy full cash sessions2022-24, exposed development; common161M15+20H1 eligibility",
+      "automation_feasibility": "native_nautilus_offline_M1_envelope_execution_only",
+      "prop_operational_concerns": "Too few trades for edge/timefit; no targetspec/news/closure/intraminute equityDD/OOS validation",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "Own fixed-rule adaptation of R004,27related trials; not independent edges or faithful replication of profitable manual method",
+      "next_action": "R120 only: inspect scarce confirmations and concentration with saved traces before any new trial. Others: preserve exact results; no automatic retune/holdout/challenge.",
+      "implementation_state": "native_screened_reviewed_not_challenge_qualified",
+      "candidate_id": "us500-pullback-C-ma20-80-k0.25-native-v1",
+      "profitability_evidence": "Three reset annual books reference 15.46USD/15trades; stress -3.86USD/15; all held paths covered; exploratory small sample, not cleanOOS",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-pullback-C-ma20-80-k0.25-native-v1"
+      ],
+      "admission_evidence_locator": "US500-MULTIFRAME-PROTOCOL-20261111.md",
+      "implementation_updated_on": "2026-11-11",
+      "evidence_locator": "US500-MULTIFRAME-RESULTS-20261111.md",
+      "version_decisions": {
+        "us500-pullback-C-ma20-80-k0.25-native-v1": "inconclusive_not_challenge_qualified"
+      },
+      "config": {
+        "lane": "C",
+        "fast": 20,
+        "slow": 80,
+        "k": "0.25",
+        "id": "R115"
+      }
+    },
+    {
+      "id": "R116",
+      "title": "US500 pullback C MA20/80 k=0.3",
+      "family": "trend_pullback",
+      "role": "variant",
+      "parent_id": "R004",
+      "readiness": "implemented_inconclusive_small_sample",
+      "timeframe": "M15 setup; H1 gate B/C; closed M5 confirmation C; modeled M1 execution",
+      "rule_sketch": "LaneC; SMA20/80; frozen ATR14 Wilder; k=0.3; one arm/day10-10:45NY; SL2ATR; trend/noon exit",
+      "data_requirements": "Accepted explicit paired M1 proxy full cash sessions2022-24, exposed development; common161M15+20H1 eligibility",
+      "automation_feasibility": "native_nautilus_offline_M1_envelope_execution_only",
+      "prop_operational_concerns": "Too few trades for edge/timefit; no targetspec/news/closure/intraminute equityDD/OOS validation",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "Own fixed-rule adaptation of R004,27related trials; not independent edges or faithful replication of profitable manual method",
+      "next_action": "R120 only: inspect scarce confirmations and concentration with saved traces before any new trial. Others: preserve exact results; no automatic retune/holdout/challenge.",
+      "implementation_state": "native_screened_reviewed_not_challenge_qualified",
+      "candidate_id": "us500-pullback-C-ma20-80-k0.3-native-v1",
+      "profitability_evidence": "Three reset annual books reference 12.67USD/13trades; stress -4.91USD/13; all held paths covered; exploratory small sample, not cleanOOS",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-pullback-C-ma20-80-k0.3-native-v1"
+      ],
+      "admission_evidence_locator": "US500-MULTIFRAME-PROTOCOL-20261111.md",
+      "implementation_updated_on": "2026-11-11",
+      "evidence_locator": "US500-MULTIFRAME-RESULTS-20261111.md",
+      "version_decisions": {
+        "us500-pullback-C-ma20-80-k0.3-native-v1": "inconclusive_not_challenge_qualified"
+      },
+      "config": {
+        "lane": "C",
+        "fast": 20,
+        "slow": 80,
+        "k": "0.3",
+        "id": "R116"
+      }
+    },
+    {
+      "id": "R117",
+      "title": "US500 pullback A MA10/40 k=0.1",
+      "family": "trend_pullback",
+      "role": "variant",
+      "parent_id": "R004",
+      "readiness": "implemented_inconclusive_small_sample",
+      "timeframe": "M15 setup; H1 gate B/C; closed M5 confirmation C; modeled M1 execution",
+      "rule_sketch": "LaneA; SMA10/40; frozen ATR14 Wilder; k=0.1; one arm/day10-10:45NY; SL2ATR; trend/noon exit",
+      "data_requirements": "Accepted explicit paired M1 proxy full cash sessions2022-24, exposed development; common161M15+20H1 eligibility",
+      "automation_feasibility": "native_nautilus_offline_M1_envelope_execution_only",
+      "prop_operational_concerns": "Too few trades for edge/timefit; no targetspec/news/closure/intraminute equityDD/OOS validation",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "Own fixed-rule adaptation of R004,27related trials; not independent edges or faithful replication of profitable manual method",
+      "next_action": "R120 only: inspect scarce confirmations and concentration with saved traces before any new trial. Others: preserve exact results; no automatic retune/holdout/challenge.",
+      "implementation_state": "native_screened_reviewed_not_challenge_qualified",
+      "candidate_id": "us500-pullback-A-ma10-40-k0.1-native-v1",
+      "profitability_evidence": "Three reset annual books reference 31.28USD/29trades; stress -0.93USD/29; all held paths covered; exploratory small sample, not cleanOOS",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-pullback-A-ma10-40-k0.1-native-v1"
+      ],
+      "admission_evidence_locator": "US500-MULTIFRAME-PROTOCOL-20261111.md",
+      "implementation_updated_on": "2026-11-11",
+      "evidence_locator": "US500-MULTIFRAME-RESULTS-20261111.md",
+      "version_decisions": {
+        "us500-pullback-A-ma10-40-k0.1-native-v1": "inconclusive_not_challenge_qualified"
+      },
+      "config": {
+        "lane": "A",
+        "fast": 10,
+        "slow": 40,
+        "k": "0.1",
+        "id": "R117"
+      }
+    },
+    {
+      "id": "R118",
+      "title": "US500 pullback B MA10/40 k=0.1",
+      "family": "trend_pullback",
+      "role": "variant",
+      "parent_id": "R004",
+      "readiness": "implemented_inconclusive_small_sample",
+      "timeframe": "M15 setup; H1 gate B/C; closed M5 confirmation C; modeled M1 execution",
+      "rule_sketch": "LaneB; SMA10/40; frozen ATR14 Wilder; k=0.1; one arm/day10-10:45NY; SL2ATR; trend/noon exit",
+      "data_requirements": "Accepted explicit paired M1 proxy full cash sessions2022-24, exposed development; common161M15+20H1 eligibility",
+      "automation_feasibility": "native_nautilus_offline_M1_envelope_execution_only",
+      "prop_operational_concerns": "Too few trades for edge/timefit; no targetspec/news/closure/intraminute equityDD/OOS validation",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "Own fixed-rule adaptation of R004,27related trials; not independent edges or faithful replication of profitable manual method",
+      "next_action": "R120 only: inspect scarce confirmations and concentration with saved traces before any new trial. Others: preserve exact results; no automatic retune/holdout/challenge.",
+      "implementation_state": "native_screened_reviewed_not_challenge_qualified",
+      "candidate_id": "us500-pullback-B-ma10-40-k0.1-native-v1",
+      "profitability_evidence": "Three reset annual books reference 34.68USD/28trades; stress 3.17USD/28; all held paths covered; exploratory small sample, not cleanOOS",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-pullback-B-ma10-40-k0.1-native-v1"
+      ],
+      "admission_evidence_locator": "US500-MULTIFRAME-PROTOCOL-20261111.md",
+      "implementation_updated_on": "2026-11-11",
+      "evidence_locator": "US500-MULTIFRAME-RESULTS-20261111.md",
+      "version_decisions": {
+        "us500-pullback-B-ma10-40-k0.1-native-v1": "inconclusive_not_challenge_qualified"
+      },
+      "config": {
+        "lane": "B",
+        "fast": 10,
+        "slow": 40,
+        "k": "0.1",
+        "id": "R118"
+      }
+    },
+    {
+      "id": "R119",
+      "title": "US500 pullback C MA10/40 k=0.1",
+      "family": "trend_pullback",
+      "role": "variant",
+      "parent_id": "R004",
+      "readiness": "implemented_inconclusive_small_sample",
+      "timeframe": "M15 setup; H1 gate B/C; closed M5 confirmation C; modeled M1 execution",
+      "rule_sketch": "LaneC; SMA10/40; frozen ATR14 Wilder; k=0.1; one arm/day10-10:45NY; SL2ATR; trend/noon exit",
+      "data_requirements": "Accepted explicit paired M1 proxy full cash sessions2022-24, exposed development; common161M15+20H1 eligibility",
+      "automation_feasibility": "native_nautilus_offline_M1_envelope_execution_only",
+      "prop_operational_concerns": "Too few trades for edge/timefit; no targetspec/news/closure/intraminute equityDD/OOS validation",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "Own fixed-rule adaptation of R004,27related trials; not independent edges or faithful replication of profitable manual method",
+      "next_action": "R120 only: inspect scarce confirmations and concentration with saved traces before any new trial. Others: preserve exact results; no automatic retune/holdout/challenge.",
+      "implementation_state": "native_screened_reviewed_not_challenge_qualified",
+      "candidate_id": "us500-pullback-C-ma10-40-k0.1-native-v1",
+      "profitability_evidence": "Three reset annual books reference 68.91USD/32trades; stress -24.41USD/32; all held paths covered; exploratory small sample, not cleanOOS",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-pullback-C-ma10-40-k0.1-native-v1"
+      ],
+      "admission_evidence_locator": "US500-MULTIFRAME-PROTOCOL-20261111.md",
+      "implementation_updated_on": "2026-11-11",
+      "evidence_locator": "US500-MULTIFRAME-RESULTS-20261111.md",
+      "version_decisions": {
+        "us500-pullback-C-ma10-40-k0.1-native-v1": "inconclusive_not_challenge_qualified"
+      },
+      "config": {
+        "lane": "C",
+        "fast": 10,
+        "slow": 40,
+        "k": "0.1",
+        "id": "R119"
+      }
+    },
+    {
+      "id": "R120",
+      "title": "US500 pullback A MA40/160 k=0.1",
+      "family": "trend_pullback",
+      "role": "variant",
+      "parent_id": "R004",
+      "readiness": "implemented_inconclusive_small_sample",
+      "timeframe": "M15 setup; H1 gate B/C; closed M5 confirmation C; modeled M1 execution",
+      "rule_sketch": "LaneA; SMA40/160; frozen ATR14 Wilder; k=0.1; one arm/day10-10:45NY; SL2ATR; trend/noon exit",
+      "data_requirements": "Accepted explicit paired M1 proxy full cash sessions2022-24, exposed development; common161M15+20H1 eligibility",
+      "automation_feasibility": "native_nautilus_offline_M1_envelope_execution_only",
+      "prop_operational_concerns": "Too few trades for edge/timefit; no targetspec/news/closure/intraminute equityDD/OOS validation",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "Own fixed-rule adaptation of R004,27related trials; not independent edges or faithful replication of profitable manual method",
+      "next_action": "R120 only: inspect scarce confirmations and concentration with saved traces before any new trial. Others: preserve exact results; no automatic retune/holdout/challenge.",
+      "implementation_state": "native_screened_reviewed_not_challenge_qualified",
+      "candidate_id": "us500-pullback-A-ma40-160-k0.1-native-v1",
+      "profitability_evidence": "Three reset annual books reference 65.27USD/15trades; stress 48.87USD/15; all held paths covered; exploratory small sample, not cleanOOS",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-pullback-A-ma40-160-k0.1-native-v1"
+      ],
+      "admission_evidence_locator": "US500-MULTIFRAME-PROTOCOL-20261111.md",
+      "implementation_updated_on": "2026-11-11",
+      "evidence_locator": "US500-MULTIFRAME-RESULTS-20261111.md",
+      "version_decisions": {
+        "us500-pullback-A-ma40-160-k0.1-native-v1": "inconclusive_not_challenge_qualified"
+      },
+      "config": {
+        "lane": "A",
+        "fast": 40,
+        "slow": 160,
+        "k": "0.1",
+        "id": "R120"
+      }
+    },
+    {
+      "id": "R121",
+      "title": "US500 pullback B MA40/160 k=0.1",
+      "family": "trend_pullback",
+      "role": "variant",
+      "parent_id": "R004",
+      "readiness": "implemented_inconclusive_small_sample",
+      "timeframe": "M15 setup; H1 gate B/C; closed M5 confirmation C; modeled M1 execution",
+      "rule_sketch": "LaneB; SMA40/160; frozen ATR14 Wilder; k=0.1; one arm/day10-10:45NY; SL2ATR; trend/noon exit",
+      "data_requirements": "Accepted explicit paired M1 proxy full cash sessions2022-24, exposed development; common161M15+20H1 eligibility",
+      "automation_feasibility": "native_nautilus_offline_M1_envelope_execution_only",
+      "prop_operational_concerns": "Too few trades for edge/timefit; no targetspec/news/closure/intraminute equityDD/OOS validation",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "Own fixed-rule adaptation of R004,27related trials; not independent edges or faithful replication of profitable manual method",
+      "next_action": "R120 only: inspect scarce confirmations and concentration with saved traces before any new trial. Others: preserve exact results; no automatic retune/holdout/challenge.",
+      "implementation_state": "native_screened_reviewed_not_challenge_qualified",
+      "candidate_id": "us500-pullback-B-ma40-160-k0.1-native-v1",
+      "profitability_evidence": "Three reset annual books reference 36.10USD/13trades; stress 23.03USD/13; all held paths covered; exploratory small sample, not cleanOOS",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-pullback-B-ma40-160-k0.1-native-v1"
+      ],
+      "admission_evidence_locator": "US500-MULTIFRAME-PROTOCOL-20261111.md",
+      "implementation_updated_on": "2026-11-11",
+      "evidence_locator": "US500-MULTIFRAME-RESULTS-20261111.md",
+      "version_decisions": {
+        "us500-pullback-B-ma40-160-k0.1-native-v1": "inconclusive_not_challenge_qualified"
+      },
+      "config": {
+        "lane": "B",
+        "fast": 40,
+        "slow": 160,
+        "k": "0.1",
+        "id": "R121"
+      }
+    },
+    {
+      "id": "R122",
+      "title": "US500 pullback C MA40/160 k=0.1",
+      "family": "trend_pullback",
+      "role": "variant",
+      "parent_id": "R004",
+      "readiness": "implemented_inconclusive_small_sample",
+      "timeframe": "M15 setup; H1 gate B/C; closed M5 confirmation C; modeled M1 execution",
+      "rule_sketch": "LaneC; SMA40/160; frozen ATR14 Wilder; k=0.1; one arm/day10-10:45NY; SL2ATR; trend/noon exit",
+      "data_requirements": "Accepted explicit paired M1 proxy full cash sessions2022-24, exposed development; common161M15+20H1 eligibility",
+      "automation_feasibility": "native_nautilus_offline_M1_envelope_execution_only",
+      "prop_operational_concerns": "Too few trades for edge/timefit; no targetspec/news/closure/intraminute equityDD/OOS validation",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "Own fixed-rule adaptation of R004,27related trials; not independent edges or faithful replication of profitable manual method",
+      "next_action": "R120 only: inspect scarce confirmations and concentration with saved traces before any new trial. Others: preserve exact results; no automatic retune/holdout/challenge.",
+      "implementation_state": "native_screened_reviewed_not_challenge_qualified",
+      "candidate_id": "us500-pullback-C-ma40-160-k0.1-native-v1",
+      "profitability_evidence": "Three reset annual books reference 13.09USD/15trades; stress -1.01USD/15; all held paths covered; exploratory small sample, not cleanOOS",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-pullback-C-ma40-160-k0.1-native-v1"
+      ],
+      "admission_evidence_locator": "US500-MULTIFRAME-PROTOCOL-20261111.md",
+      "implementation_updated_on": "2026-11-11",
+      "evidence_locator": "US500-MULTIFRAME-RESULTS-20261111.md",
+      "version_decisions": {
+        "us500-pullback-C-ma40-160-k0.1-native-v1": "inconclusive_not_challenge_qualified"
+      },
+      "config": {
+        "lane": "C",
+        "fast": 40,
+        "slow": 160,
+        "k": "0.1",
+        "id": "R122"
+      }
     }
   ],
   "automatic_dispatch": false,
   "automatic_rejection": false,
   "holdout_opened": false,
-  "updated_on": "2026-11-10",
-  "implemented_record_count": 47,
-  "implemented_rule_count": 58,
+  "updated_on": "2026-11-11",
+  "implemented_record_count": 76,
+  "implemented_rule_count": 87,
   "implemented_control_rule_count": 9,
-  "implemented_noncontrol_rule_count": 49,
-  "native_offline_rule_count": 25,
+  "implemented_noncontrol_rule_count": 78,
+  "native_offline_rule_count": 52,
   "metal_coarse_rule_count": 6,
   "index_coarse_rule_count": 7,
   "fx_session_coarse_rule_count": 1,
