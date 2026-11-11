@@ -10,7 +10,33 @@ giữ giới hạn bằng chứng chiến lược.
 
 ## Quyết định của owner sau khảo sát
 
-**Phạm vi nghiên cứu làm rõ 05/11:** tập trung FTMO 2-Step Swing và The5ers High Stakes,
+### Hướng hiện hành — owner đồng ý ngày 11/11/2026
+
+Owner trả lời “ok như thế đi, tiếp tục nào” sau đề xuất giữ **M15**, ưu tiên
+giữ lệnh **vài giờ intraday** và kiểm theo **FTMO CFD 2-Step Standard ở cả
+funded**, để hướng tới các cỡ vốn lớn hơn. Đây là hướng nghiên cứu hiện hành;
+The5ers vẫn đối chiếu riêng sau. Không tự coi US500 là sản phẩm đã được chọn.
+EURUSD/US500, cơ chế, giờ vào/thoát, risk, cỡ tài khoản và ngân sách chưa chốt.
+
+Thay đổi so với02/11: **chuẩn nghiên cứu mới Swing → Standard-compatible**;
+không rename profile Swing, đổi leverage, sửa frozen protocols, tính lại PnL
+cũ hoặc chuyển account. M15 không quyết định thời gian giữ một lệnh; “vài
+giờ” là ưu tiên thiết kế, chưa là giới hạn thời gian đã code/kiểm.
+
+Kiểm lại11/11 tại [news FAQ](https://ftmo.com/en/faq/can-i-trade-news/)
+và [holding FAQ](https://ftmo.com/en/faq/can-i-hold-positions-overnight-or-over-the-weekend/):
+Standard funded có giới hạn execution quanh selected news trên asset bị ảnh
+hưởng, gồm SL/TP/pending; phải đóng trước market break dài hơn2giờ. Không suy
+“chặn entry là đủ”, “mọi tin đỏ đều cùng rule”, hoặc “giữ quá2giờ bị cấm”.
+Intraday không tự bảo đảm né hết news; giữ calendar/clock/spec gaps rõ ràng.
+
+Bước tiếp và các bằng chứng cần có được thu hẹp trong
+[hồ sơ chọn EURUSD/US500](INSTRUMENT-SELECTION-ONLYONE-20261110.md#chuẩn-bị-vòng-m15-standard--11112026).
+Đây chưa là quyền mua challenge, mở holdout hoặc giao dịch.
+
+### Các quyết định trước đó
+
+**Phạm vi nghiên cứu làm rõ 05/11 (lịch sử):** tập trung FTMO 2-Step Swing và The5ers High Stakes,
 FTMO làm chuẩn chính để reuse hệ thống hiện có. Dùng chung ý tưởng/logic, kiểm
 riêng rule/cost theo chương trình/size/version; không tối ưu cho propfirm chung.
 [Khảo sát và protocol mới](PROP-STRATEGY-ROUND1-20261105.md) đối chiếu nguồn chính
@@ -22,7 +48,8 @@ dưới giữ như lịch sử, không thay các nguồn cập nhật hoặc quy
 không quy định chung đã được agent xác minh cho mọi khách hàng. Agent đề xuất
 đánh giá tính phù hợp **Standard ở giai đoạn FTMO Account** từ đầu cho đích
 50k/100k/200k; [phân tích bên dưới](#standard-swing-và-đích-vốn-lớn--làm-rõ-ngày-10112026).
-Chưa thay owner choice02/11, old protocols, broker profile hoặc chạy lại số.
+Tại lượt10/11 chưa thay owner choice02/11; hướng nghiên cứu đã được owner
+đồng ý đổi11/11 ở trên. Old protocols và broker profile vẫn giữ nguyên.
 
 Owner chốt ngày 02/11/2026: **Forex major qua MT5; FTMO 2-Step Swing làm chuẩn
 mô phỏng đầu tiên; offline → free trial → chỉ xét challenge trả phí khi có đủ
@@ -153,7 +180,8 @@ costs và account risk. Không phụ thuộc miễn trừ Swing hoặc chọn ph
 pass evaluation. Standard không bắt buộc mọi strategy phải flat mỗi đêm;
 nếu áp rule flat-intraday để vận hành đơn giản, đó là strategy choice mới,
 phải đăng ký/kiểm chứ không tự force-close old books. Không mua/chuyển account
-và chưa đổi confirmed target profile chỉ từ lượt tư vấn này.
+và tại lượt tư vấn10/11 chưa đổi confirmed target profile. Hướng nghiên cứu
+Standard đã được owner đồng ý11/11; không tự đổi tài khoản/profile runtime.
 
 ## Only one: hồ sơ mục tiêu và các case để owner chọn — 10/11/2026
 
@@ -163,18 +191,19 @@ trước chọn case. Không đồng nghĩa chốt case cụ thể, phải trade
 đóng hết các hướng nghiên cứu cũ. Không có numeric run/strategy/filter mới.
 
 **Xác nhận tiếp10/11:** owner chốt **M15 làm khung tín hiệu cho vòng onlyone
-đầu tiên**. Sản phẩm, cơ chế, holding, tần suất, winrate và risk thật vẫn cần
-chọn; xác nhận khung không tự phê duyệt toàn bộcaseA/EURUSD hoặc gửi lệnh.
+đầu tiên**. Ngày11/11 đã đồng ý hướng intraday/Standard ở đầu tài liệu;
+sản phẩm, cơ chế, exact holding/exit, tần suất, winrate và risk vẫn cần chọn.
+Xác nhận khung không tự phê duyệt toàn bộcaseA/EURUSD hoặc gửi lệnh.
 
 | Nội dung | Đã chốt từ owner | Còn thiếu / cách hiểu |
 |---|---|---|
 | Thu nhập | Hướng tới trading là nguồn chính | Chưa xác nhận hiện profitable hoặc mức thu nhập ròng/sinh hoạt cần mỗi tháng |
 | Nguồn vốn | Ưu tiên vốn prop và kiểm soát rủi ro cá nhân | Vốn danh nghĩa không tiền mặt owner; chi phí challenge/retry và reserve chưa chốt |
 | Đích | Có edge sau phí, đủ cơ sở challenge, giữ tài khoản/payout nhiều kỳ | Chưa có candidate challenge-qualified; không tối ưu chỉ một lần pass nhanh |
-| Chuẩn chính | FTMO CFD2-StepSwing/MT5;The5ersHighStakes đối chiếu sau | Cỡ tài khoản/package/chi phí đích chưa pin; mỗi chương trình cần qualification riêng |
+| Chuẩn chính | FTMO CFD2-StepStandard/MT5, kiểm cả funded;The5ersHighStakes đối chiếu sau | Owner đồng ý11/11; cỡ tài khoản/package/chi phí đích chưa pin; không đổi oldSwing profiles |
 | Cách nghiên cứu | Recent-first từ2022 và thử onlyone |2025+reserved giữ gate; không sửa oldoutcomes hoặc tự mở data |
 | Vận hành | Owner nói có thể để máy24/7, trừ sự cố bất khả kháng | Đây là khả năng owner khai báo, không runtimeuptime đã đo; cần supervision/recovery |
-| Holding/timeframe | **M15 đã chốt cho vòng onlyone đầu** | Thời gian giữ lệnh/day-swing chưa chốt; khung nến không tự quyết định holding hoặc số lệnh |
+| Holding/timeframe | **M15; ưu tiên vài giờ intraday**, owner đồng ý11/11 | Exact entry/exit/cutoff chưa chốt; không quota lệnh hoặc giới hạn cứng2giờ |
 | Risk/winrate/frequency | Chưa có lựa chọn cuối |0,25% là baseline nghiên cứu đã dùng, không optimum hoặc authorityrisk thật; không tự đặt quota lệnh |
 | Thời hạn | Owner muốn so các mốc3/6/12tháng | Chưa deadline cá nhân hoặc dự báo pass; khác thời gian giữ một lệnh |
 

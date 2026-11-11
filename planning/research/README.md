@@ -1,9 +1,15 @@
 # Tra cứu research đã có
 
+[Hướng đã chốt11/11: M15, intraday và Standard funded](PROP-FIRM-FIT-20261102.md#hướng-hiện-hành--owner-đồng-ý-ngày-11112026).
+[Chuẩn bị bước tiếp EURUSD/US500](INSTRUMENT-SELECTION-ONLYONE-20261110.md#chuẩn-bị-vòng-m15-standard--11112026)
+giữ gap/spec, negative lineage và thứ tự kiểm; chưa chốt asset/risk hoặc
+dispatch. DD evaluator không bao gồm full news/closure qualification.
+
 [Standard/Swing, vốn lớn và timeframe–holding–cost](PROP-FIRM-FIT-20261102.md#standard-swing-và-đích-vốn-lớn--làm-rõ-ngày-10112026):
 owner thấy Swing10k/25k; agent chưa kiểm checkout sau login. Standard không
 cấm mọi overnight; funded có market-break/news gates khác evaluation. Đề xuất
-fundedStandard-compatible để scale, chưa đổi account hoặc confirmed profile.
+fundedStandard-compatible để scale đã được owner đồng ý11/11; không đổi account
+hoặc frozen profiles. Giữ quyết định10/11 và quan sát availability theo ngày.
 
 [Đã kiểm sâu bốn sản phẩm M15](FOUR-INSTRUMENT-M15-FIT-RESULTS-20261110.md):
 32day/side requests/128M15, data-source và proxycost/range trong4ngày2022;
@@ -22,8 +28,8 @@ từ official update; spread thả nổi chưa đo account, không miễn phí s
 claimoptimal. Thay tư vấnH1 cũ; market/cơ chế chưa chốt, khôngnumeric/holdout/broker.
 
 [Owner chọn thử onlyone — bảng mục tiêu và các case](PROP-FIRM-FIT-20261102.md#only-one-hồ-sơ-mục-tiêu-và-các-case-để-owner-chọn--10112026):
-thu nhập chính/propvốn/riskthấp đãchốt;intradayM15/shortswingH4/sparseevent
-đểownerchọn. Risk0,25%offline và2–5lệnh/tuần chỉ đề xuất, chưa case/authority.
+thu nhập chính/propvốn/riskthấp đãchốt; M15/intraday/Standard đồng ý11/11.
+Risk0,25%offline và2–5lệnh/tuần chỉ đề xuất, chưa asset/risk/authority.
 
 [Inefficiency, top-down/bottom-up, onlyone và filter](OWNER-EVIDENCE-REPORT-20261108.md#14-hiểu-cơ-chế-filter-và-cách-tập-trung):
 filter khác input/researchscreen; đề xuất1lane kiểm sâu, khôngđộc canh vĩnhviễn.

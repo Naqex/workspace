@@ -4,8 +4,84 @@ Ngày nghiên cứu: 10/11/2026. Owner yêu cầu nghiên cứu EURUSD và các 
 khác trước khi chọn; không ưu tiên chỉ vì project có sẵn dữ liệu.
 
 **Kết luận:** rút ưu tiên EURUSD dựa trên reuse; chưa chốt instrument hoặc
-pullback. M15 vẫn là quyết định của owner. Đích là bot phù hợp challenge và
+pullback. M15 vẫn là quyết định của owner. Hướng intraday/Standard đã được
+owner đồng ý11/11 ở phần cập nhật bên dưới. Đích là bot phù hợp challenge và
 payout bền vững, không chọn sản phẩm chỉ vì chạy mạnh hoặc cộng đồng thích.
+
+## Chuẩn bị vòng M15 Standard — 11/11/2026
+
+**Đã chốt:** tín hiệu M15, ưu tiên giữ vài giờ trong ngày, thiết kế theo FTMO
+2-Step Standard cả funded. **Chưa chốt:** EURUSD hay US500, cơ chế, exact
+entry/exit/cutoff, SL/TP, risk/budget và cỡ tài khoản. Đây là hồ sơ chuẩn bị,
+chưa là protocol đủ để chạy kinh tế hoặc strategy đã có edge.
+
+### Hai hồ sơ để chốt một sản phẩm
+
+| Phần cần quyết định | EURUSD | US500.cash |
+|---|---|---|
+| Câu hỏi phù hợp để nghiên cứu | Dòng tiền/biến động theo phiên FX; không có một giờ mở sàn spot toàn cầu | Dòng tiền quanh phiên cash Mỹ; phải tách cash session với giờ CFD |
+| Chi phí đã biết | Published5USD/lot RT; target spread/slippage chưa đo | Published commission0; target spread/slippage chưa đo |
+| Spec có thể reuse | Snapshot EURUSD02/11 và public row08/11; chưa chứng nhận account Standard hiện tại | Public row08/11 có contract1 và Standard leverage50; minlot/step/tick/margin đúng account còn thiếu |
+| Điểm phải kiểm với Standard | Các restricted events USD và EUR có ảnh hưởng; calendar/symbol mapping phải đúng | Các restricted events Mỹ có ảnh hưởng; tránh suy sau09:30NY luôn hết tin |
+| Bằng chứng cũ cần giữ | R016/R017 ORB, R091 round-level và nhiều exact versions đã gác | First→last30min adaptation2022–24 âm; noise/ORB variants có lineage riêng |
+| Đánh giá hiện tại | Lựa chọn khả thi, reuse giúp giảm setup nhưng không chứng minh có edge | Agent ưu tiên nghiên cứu tiếp vì câu hỏi phiên rõ và commission0; không winner hoặc owner decision |
+
+Spec trên là evidence lịch sử đúng ngày, không fresh broker contract. Nguồn:
+[public symbol/clock admission](FTMO-SYMBOL-AND-CLOCK-ADMISSION-20261108.md),
+[pilot bốn sản phẩm](FOUR-INSTRUMENT-M15-FIT-RESULTS-20261110.md),
+[FX negatives](EURUSD-CATALOGUE13-RESULTS-20261108.md),
+[US500 close negatives](US500-CLOSE-MOMENTUM-RESULTS-20261108.md).
+Pilot4ngày chỉ là source/proxy-cost evidence; không dùng để dự báo lời/winrate.
+
+### Khoảng thiếu đã kiểm ở bộ đánh giá hiện có
+
+Đọc trực tiếp11/11:
+`projects/trader/foundation_v2/trading_workspace_v2/semantics/prop_profile.py`,
+hàm `evaluate_prop_profile`: tính daily/total drawdown headroom trên snapshot,
+xử lý missing data và trả trạng thái. Hàm này **không đánh giá news/closures**.
+Đây là scoped code inspection, không audit phủ hết mọi execution gate trong repo;
+không kết luận mọi bộ phận khác đều thiếu hoặc đã hỗ trợ các luật đó.
+
+| Cần chứng minh trước khi gọi một study phù hợp Standard | Phần hiện có / phần cần làm cho study mới |
+|---|---|
+| Daily/overall equity, reset và costs | Reuse evaluator/risk semantics; cần replay đúng path, không chỉ final snapshot |
+| News window đúng event và symbol | Pin calendar/version/availability; kiểm entry, exit, SL, TP và pending executions, không chỉ entry filter |
+| Market break >2giờ | Pin symbol sessions, holiday/early-close/maintenance và clock; không dùng NYSE hours thay toàn bộ CFD hours |
+| Intraday exit | Đăng ký giờ/điều kiện thoát trước outcome; đóng trước tin/closure là rule mới, phải đánh giá cả tác động đến lợi nhuận |
+| Fill và lot/risk | Pin Bid/Ask, causal timing, minlot/step/tick, margin, adverse fills; không dùng Swing leverage đổi tên thành Standard |
+
+Nguồn chính thức đọc lại11/11:
+[news](https://ftmo.com/en/faq/can-i-trade-news/) và
+[holding](https://ftmo.com/en/faq/can-i-hold-positions-overnight-or-over-the-weekend/).
+Text Symbols fetch11/11 vẫn không expose đủ dynamic rows; không nâng ngày
+snapshot08/11 hoặc tự điền field chưa thấy. Không gọi `within_limits` là
+“đạt mọi luật Standard”. Không xử lý bằng tháo SL để né restriction; policy
+quản lý trước window cần được đăng ký và kiểm cả khớp lệnh trễ/gap.
+
+### Thứ tự thực hiện đã thu hẹp
+
+1. Owner chọn một sản phẩm; agent đang đề xuất US500, EURUSD là alternative.
+   Chưa mở hai lane bot hoặc quét hàng loạt recipe.
+2. Chọn **một cơ chế có cơ sở** và so lineage trước đăng ký. M15 thay H1/H4,
+   đổi SL hoặc đổi giờ không tự tạo một cơ hội độc lập; giữ trial history.
+   Hiện chưa có exact recipe mới được admit chỉ từ quyết định Standard.
+3. Khóa protocol với source/cost/risk/clock/exit và null/adverse controls.
+   Development2022–24 giữ exposed/unverified;2025+ còn reserved. Thiếu target
+   spec vẫn có thể làm declared-scenario screening, nhưng chưa exact FTMO fit.
+4. Preflight source, causal fill, accounting và các tình huống news/closure
+   của chính study đó; chỉ thêm phần code thật sự thiếu vào runner phù hợp.
+   Không xây prop engine thứ hai hoặc đổi fixed H4 fixture thành M15 qua nhãn.
+5. Chạy pilot kinh tế nhỏ có status/checkpoint và verdict; chỉ mở rộng nếu có
+   cơ sở. Giữ kết quả âm, không bắt chạy lại batch cũ hoặc chờ1giờ mặc định.
+
+Các tình huống cần đưa vào validation khi triển khai: SL khớp trong restricted
+window dù entry trước đó; close trễ vào window; giữ3giờ trong phiên liên tục
+khác giữ qua break3giờ; thiếu calendar/spec phải báo unknown; weekend/holiday
+closure; DST Mỹ/Prague lệch tuần. Đây là **yêu cầu kiểm**, chưa là tests đã pass.
+
+Lượt này cập nhật quyết định và scoped qualification gap; không numeric run,
+không broker calls/OrderCheck/OrderSend, không mở holdout hoặc job nền. Không
+đổi catalogue93records, trial counts, frozen pilot/protocol hay old verdicts.
 
 ## Cách so sánh
 

@@ -1,6 +1,6 @@
 # Hệ thống giao dịch tự chủ — brief hiện hành
 
-Cập nhật: **10/11/2026 (Asia/Saigon)**; các mục lịch sử giữ ngày quyết định riêng.
+Cập nhật: **11/11/2026 (Asia/Saigon)**; các mục lịch sử giữ ngày quyết định riêng.
 **WORK: DRAFT · REVIEW: DOCUMENTATION-ONLY · DOC: FULL.**
 Brief giữ mục tiêu, quyết định của owner và lịch sử trao đổi kiến trúc. Các đoạn
 đề xuất ngày31/10 bên dưới được giữ để truy vết, không báo trạng thái tích hợp
@@ -11,12 +11,18 @@ Brief không là execution plan, acceptance ledger hoặc hợp đồng cấp qu
 
 ## 1. Mục tiêu và bối cảnh do owner xác nhận
 
+- **11/11 — hướng hiện hành đã được owner đồng ý:** giữ tín hiệu **M15**,
+  ưu tiên giữ lệnh **vài giờ trong ngày**, thiết kế và kiểm theo **FTMO 2-Step
+  Standard, gồm cả giai đoạn funded**, để hướng tới cỡ vốn lớn hơn. Thay chuẩn
+  Swing trong định hướng nghiên cứu mới, không đổi tài khoản hoặc các protocol/
+  kết quả Swing đã freeze. EURUSD/US500, cơ chế, giờ vào/thoát, risk/budget và
+  cỡ tài khoản vẫn chưa chốt. [Phạm vi và việc tiếp theo](PROP-FIRM-FIT-20261102.md#hướng-hiện-hành--owner-đồng-ý-ngày-11112026).
 - **10/11 — mục tiêu và cách tập trung:** owner xác nhận trading là hướng thu
   nhập chính, tiếp cận vốn prop với ưu tiên rủi ro thấp; chọn thử **only one**
   trong thời gian tới để thu hẹp phạm vi. [Hồ sơ và các case để chọn](PROP-FIRM-FIT-20261102.md#only-one-hồ-sơ-mục-tiêu-và-các-case-để-owner-chọn--10112026)
   phân biệt quyết định với đề xuất. **Owner đã chốt khung tín hiệu M15** cho
-  vòng onlyone đầu10/11; instrument/cơ chế/holding, tần suất, winrate, risk/budget
-  và cỡ tài khoản chưa chốt; không tự chọn thay owner.
+  vòng onlyone đầu10/11; holding/chuẩn quỹ được cập nhật11/11 ở trên;
+  instrument/cơ chế, tần suất, winrate, risk/budget và cỡ tài khoản chưa chốt.
   Việc này không mở tài khoản, holdout, giao dịch hoặc mua challenge.
 - Mục tiêu dài hạn: tìm kiếm lợi nhuận trên thị trường bằng hệ thống, dùng AI
   để tự động hóa cả nghiên cứu và vận hành giao dịch.
@@ -27,7 +33,7 @@ Brief không là execution plan, acceptance ledger hoặc hợp đồng cấp qu
   sẵn sàng live; các gate hiện hành tiếp tục ở Product Plan/ledger của chúng.
 - Ưu tiên nền dài hạn, có thể duy trì và mở rộng. Các lát thực hiện sau này phải
   đóng góp cho kiến trúc đích; tránh làm bản ngắn hạn chỉ để có tính năng.
-- **Hướng hiện hành — owner chốt sau khảo sát, 02/11:** ưu tiên nghiên cứu
+- **Lịch sử — owner chốt sau khảo sát, 02/11:** ưu tiên nghiên cứu
   **Forex major qua MT5**, lấy **FTMO 2-Step Swing** làm chuẩn mô phỏng cho nguồn
   vốn prop firm. Bắt đầu offline, sau đó free trial khi có bằng chứng và setup
   phù hợp; chưa mua challenge. [Khảo sát và quyết định](PROP-FIRM-FIT-20261102.md).
@@ -48,8 +54,9 @@ Brief không là execution plan, acceptance ledger hoặc hợp đồng cấp qu
   triển khai và tài sản workspace. Khi đó owner hỏi rõ spot so với futures;
   khuyến nghị sản phẩm khởi đầu vẫn là spot không vay/không leverage, long/cash.
   Chưa có quyết định mở futures, bằng chứng lợi nhuận hơn Forex hoặc quyền live.
-- Khung tín hiệu vòng onlyone đầu **M15 đã chốt10/11**; holding/tần suất giao
-  dịch chưa chốt. D1/H4 từng là khuyến nghị lịch sử, không thay quyết định này.
+- Khung tín hiệu vòng onlyone đầu **M15 đã chốt10/11**; ưu tiên holding vài
+  giờ intraday được đồng ý11/11, chưa có exact exit/cutoff hoặc tần suất.
+  D1/H4 từng là khuyến nghị lịch sử, không thay quyết định này.
 - Owner đã chốt bộ nền ban đầu: **Paperclip** quản lý công việc/agents,
   **RD-Agent** nghiên cứu, **TradingAgents** phân tích/phản biện và **LangGraph**
   làm runtime workflow bên trong engine. Chọn fork Paperclip gốc để mở rộng i18n;
