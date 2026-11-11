@@ -2,8 +2,12 @@ from copy import deepcopy
 from datetime import datetime
 from decimal import Decimal as D
 from pathlib import Path
+import hashlib
+import json
 import sys
+import tempfile
 import unittest
+from unittest.mock import patch
 from zoneinfo import ZoneInfo
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -132,6 +136,25 @@ class M15OpeningTests(unittest.TestCase):
         self.assertEqual(datetime.fromtimestamp(b/1000,ZoneInfo('UTC')).hour,13)
         with self.assertRaisesRegex(ValueError,'holdout_closed'):
             runner.load_year(Path('not_read'),2025,lambda *a,**k:None)
+
+    def test_calendar_exact_snapshot_newline_reuse_and_semantic_tampering(self):
+        for mode in ('newline','changed','missing','tampered'):
+            with self.subTest(mode=mode),tempfile.TemporaryDirectory() as temp:
+                root=Path(temp);(root/'source-snapshot').mkdir();(root/'fixtures').mkdir()
+                body=b'{\n  "year": 2022\n}\n'
+                frozen=root/'source-snapshot/4-nyse-2022.json'
+                frozen.write_bytes(body)
+                proof={'calendar_sha256':hashlib.sha256(body).hexdigest()}
+                current=root/'fixtures/nyse-2022.json';current.write_bytes(body.replace(b'\n',b'\r\n'))
+                if mode=='changed':current.write_text(json.dumps({'year':2023}),encoding='utf-8')
+                elif mode=='missing':frozen.unlink()
+                elif mode=='tampered':frozen.write_bytes(body+b' ')
+                with patch.object(runner,'__file__',str(root/'runner.py')):
+                    if mode=='newline':
+                        cal,bindings=runner.admitted_calendar(root,2022,proof)
+                        self.assertEqual(cal['year'],2022);self.assertEqual(len(bindings),2)
+                    else:
+                        with self.assertRaises(ValueError):runner.admitted_calendar(root,2022,proof)
 
 
 if __name__=='__main__':unittest.main()

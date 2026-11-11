@@ -9,7 +9,8 @@ import sys
 import time
 
 import index_noise_study as core
-from sealed_m1_review import cash_sessions, digest, verify_source_proof, validate_rows, paired_spreads
+from sealed_m1_review import cash_sessions, digest, validate_rows, paired_spreads
+from us500_year_source import load_year_side
 import us500_m15_opening_screen as study
 import review_us500_m15_opening as reviewer
 
@@ -26,40 +27,42 @@ def save(path, value):
         f.write('\n')
 
 
+def admitted_calendar(root, year, proof):
+    current = Path(__file__).with_name('fixtures')/f'nyse-{year}.json'
+    matches = [p for p in (root/'source-snapshot').glob(f'*-nyse-{year}.json')
+               if digest(p) == proof['calendar_sha256']]
+    if len(matches) != 1:
+        raise ValueError('screen_frozen_calendar_missing_or_ambiguous')
+    frozen = matches[0]
+    calendar = json.loads(frozen.read_text(encoding='utf-8'))
+    if calendar != json.loads(current.read_text(encoding='utf-8')):
+        raise ValueError('screen_calendar_semantics_changed')
+    return calendar, {str(frozen):digest(frozen), str(current):digest(current)}
+
+
 def load_year(root, year, progress):
     if year not in PROOFS:
         raise ValueError('screen_registered_year_only_holdout_closed')
-    calendar = Path(__file__).with_name('fixtures')/f'nyse-{year}.json'
     if digest(root/'source-observation-proof.json') != PROOFS[year]:
         raise ValueError('accepted_source_proof_binding')
-    manifest = json.loads((root/'manifest.json').read_text(encoding='utf-8'))
-    downloaded = json.loads((root/'result.json').read_text(encoding='utf-8'))
-    provenance = verify_source_proof(root, manifest, downloaded, calendar, frozen_source=True)
-    sessions = cash_sessions(json.loads(calendar.read_text(encoding='utf-8')))
-    needed = {t for stamps in sessions.values() for t in stamps[:152]}
     proof = json.loads((root/'source-observation-proof.json').read_text(encoding='utf-8'))
-    seals = {r['request']: r for r in proof['output_seals']}
-    if set(seals) != {f'q{q}-{s}' for q in range(1, 5) for s in ('bid', 'ask')}:
-        raise ValueError('screen_four_quarters_both_sides')
-    pairs, bindings = {}, {str(root/'source-observation-proof.json'): PROOFS[year], str(calendar): digest(calendar)}
-    for q in range(1, 5):
-        progress('loading_quarter', year=year, quarter=q)
-        sides = []
-        lower = int(datetime(year, q*3-2, 1, tzinfo=timezone.utc).timestamp()*1000)
-        upper = int(datetime(year+1, 1, 1, tzinfo=timezone.utc).timestamp()*1000) if q == 4 else int(datetime(year, q*3+1, 1, tzinfo=timezone.utc).timestamp()*1000)
-        for side in ('bid', 'ask'):
-            path = root/f'q{q}-{side}.json'
-            if digest(path) != seals[f'q{q}-{side}']['sha256']:
-                raise ValueError('screen_canonical_seal')
-            rows = json.loads(path.read_text(encoding='utf-8'))
-            if len(rows) != seals[f'q{q}-{side}']['rows']:
-                raise ValueError('screen_quarter_census')
-            validate_rows(rows, lower, upper, .001)
-            bindings[str(path)] = seals[f'q{q}-{side}']['sha256']
-            sides.append(rows)
-        paired_spreads(*sides)
-        pairs.update({b['timestamp']: (b, a) for b, a in zip(*sides) if b['timestamp'] in needed})
-    return sessions, pairs, dict(provenance=provenance, bindings=bindings,
+    calendar,bindings = admitted_calendar(root,year,proof)
+    sessions = cash_sessions(calendar)
+    needed = {t for stamps in sessions.values() for t in stamps[:152]}
+    sides = []
+    lower=int(datetime(year,1,1,tzinfo=timezone.utc).timestamp()*1000)
+    upper=int(datetime(year+1,1,1,tzinfo=timezone.utc).timestamp()*1000)
+    for side in ('bid','ask'):
+        progress('loading_four_quarters',year=year,side=side)
+        loaded=load_year_side(root.resolve(),year=year,side=side,proof_sha256=PROOFS[year])
+        rows=list(loaded['rows'].values())
+        validate_rows(rows,lower,upper,.001)
+        bindings.update(loaded['bindings'])
+        sides.append([r for r in rows if r['timestamp'] in needed])
+        del loaded,rows
+    paired_spreads(*sides)
+    pairs={b['timestamp']:(b,a) for b,a in zip(*sides)}
+    return sessions, pairs, dict(provenance='reuse_accepted_raw_proof_and_direct_canonical_hashes_not_new_raw_decoder_validation', bindings=bindings,
                                 needed_minutes=len(needed), observed_minutes=len(pairs))
 
 
@@ -69,9 +72,13 @@ def main():
     p.add_argument('--output', type=Path, required=True)
     p.add_argument('--protocol', type=Path, required=True)
     p.add_argument('--protocol-sha256', required=True)
+    p.add_argument('--source-amendment', type=Path, required=True)
+    p.add_argument('--source-amendment-sha256', required=True)
     a = p.parse_args()
     if digest(a.protocol) != a.protocol_sha256:
         raise ValueError('screen_protocol_binding')
+    if digest(a.source_amendment) != a.source_amendment_sha256:
+        raise ValueError('screen_source_amendment_binding')
     workspace = Path(__file__).resolve().parents[2]
     core.bind_core(workspace/'projects/trader/foundation_v2')
     a.output.mkdir(exist_ok=False)
@@ -101,17 +108,19 @@ def main():
     try:
         paths = {Path(__file__).resolve(), Path(study.__file__), Path(reviewer.__file__),
                  Path(core.__file__), Path(study.book.__file__), Path(__file__).with_name('sealed_m1_review.py'),
-                 Path(__file__).with_name('review_index_noise.py')}
+                 Path(__file__).with_name('review_index_noise.py'),Path(__file__).with_name('us500_year_source.py')}
         paths.update(Path(m.__file__) for n,m in sys.modules.copy().items()
                      if getattr(m, '__file__', None) and (n.startswith('trading_workspace_v2') or n in ('forex_h4_pilot','forex_study_batch','candle_source_provenance')))
         pins = {str(path.resolve()): digest(path) for path in paths}
         save(a.output/'manifest.json', dict(protocol_sha256=a.protocol_sha256,
+            source_amendment_sha256=a.source_amendment_sha256,
             registered_years=list(PROOFS), candidates=study.CANDIDATES, source_pins=pins,
             data_proofs=PROOFS, python=sys.version, clean_oos=False, holdout_read=False,
             network_calls=0, broker_calls=0, model_calls=0))
         snapshot = a.output/'source-snapshot'
         snapshot.mkdir()
         (snapshot/'protocol.md').write_bytes(a.protocol.read_bytes())
+        (snapshot/'source-amendment.md').write_bytes(a.source_amendment.read_bytes())
         for i,path in enumerate(sorted(paths)):
             (snapshot/f'{i:03}-{path.name}').write_bytes(path.read_bytes())
         for year in PROOFS:
@@ -144,7 +153,8 @@ def main():
                     timings.append(dict(year=year,policy=policy,scenario=scenario,simulation_seconds=simulation_seconds,
                         review_seconds=time.perf_counter()-at,cpu_seconds=time.process_time()-used))
             del sessions,pairs
-        if any(digest(Path(path))!=sha for path,sha in pins.items()) or digest(a.protocol)!=a.protocol_sha256:
+        if (any(digest(Path(path))!=sha for path,sha in pins.items()) or digest(a.protocol)!=a.protocol_sha256
+                or digest(a.source_amendment)!=a.source_amendment_sha256):
             raise ValueError('screen_source_or_protocol_changed')
         if len(rows)!=18 or len(reviews)!=18:
             raise ValueError('screen_book_census')

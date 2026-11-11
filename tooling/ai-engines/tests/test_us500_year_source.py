@@ -15,20 +15,28 @@ def write(path, value):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def fixture(root):
+def fixture(root, year=2019):
     seals = []
     for q in range(1, 5):
-        at = int(datetime(2019, 3*q-2, 2, tzinfo=timezone.utc).timestamp()*1000)
+        at = int(datetime(year, 3*q-2, 2, tzinfo=timezone.utc).timestamp()*1000)
         for side in ('bid', 'ask'):
             p = root/f'q{q}-{side}.json'; digest = write(p, [dict(timestamp=at, close=100)])
             seals.append(dict(request=f'q{q}-{side}', rows=1, first=at, last=at, sha256=digest))
     proof = dict(schema='explicit-source-M1-proof-v1', status='source_explicit_prices_and_pairing_verified',
-        policy='paired-explicit-source-M1-v1', instrument='usa500idxusd', year=2019, holdout_read=False,
+        policy='paired-explicit-source-M1-v1', instrument='usa500idxusd', year=year, holdout_read=False,
         quarters=[dict(quarter=q) for q in range(1, 5)], output_seals=seals)
     return proof, write(root/'source-observation-proof.json', proof)
 
 
 class US500YearSourceTests(unittest.TestCase):
+    def test_recent_accepted_years_and_reserved_holdout_boundary(self):
+        for year in (2023,2024):
+            with tempfile.TemporaryDirectory() as temp:
+                root=Path(temp);_,sha=fixture(root,year)
+                self.assertEqual(len(load_year_side(root,year=year,side='bid',proof_sha256=sha)['rows']),4)
+        with self.assertRaisesRegex(ValueError,'explicit_registered_year'):
+            load_year_side(Path('not_read').resolve(),year=2025,side='bid',proof_sha256='0'*64)
+
     def test_all_quarters_are_loaded_and_bound_for_each_side(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp); _, digest = fixture(root)

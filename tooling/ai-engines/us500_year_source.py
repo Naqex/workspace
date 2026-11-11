@@ -13,7 +13,7 @@ def load_year_side(root, *, year, side, proof_sha256):
     or certify a new producer. A pilot quarter selection is never a full year.
     """
     root = Path(root)
-    if (not root.is_absolute() or type(year) is not int or year not in (2019, 2022)
+    if (not root.is_absolute() or type(year) is not int or year not in (2019, 2022, 2023, 2024)
             or side not in ('bid', 'ask') or type(proof_sha256) is not str
             or re.fullmatch('[a-f0-9]{64}', proof_sha256) is None):
         raise ValueError('explicit_registered_year_side_and_proof_required')
