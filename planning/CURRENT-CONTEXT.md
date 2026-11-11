@@ -23,6 +23,10 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
   EURUSD đã rà related break/retest dossier, chưa cơ sở mở trialM15 mới.
   Risk/size thật chưa chốt;25USD/10k chỉ offline. `prop_profile.py` chỉ đánh giá
   DD/headroom, chưa news/closures compliance.2025+reserved,khôngbroker/jobnền.
+  Owner yêu cầu reuse khung/code mẫu: [5nguồn/17files đã pin và đọc](research/STRATEGY-TEMPLATE-REUSE-REVIEW-20261111.md),
+  ưu tiênLEAN làm nguồn EMA/Bollinger/ORB reference; chưa thay engine/install/
+  codeport. Original→adaptation và fixtureparity trước PnL; giữ R003/R004/R094
+  lineage/negatives, chưa thêm trial hoặc coi upstream demo là edge.
 
 - **Owner10/11 đã thấy Client Area chỉ có Swing10k/25k** cho2-Step/USD/MT5.
   [Standard/Swing và scale](research/PROP-FIRM-FIT-20261102.md#standard-swing-và-đích-vốn-lớn--làm-rõ-ngày-10112026)

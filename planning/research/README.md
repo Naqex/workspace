@@ -1,5 +1,11 @@
 # Tra cứu research đã có
 
+[Khung/code mẫu để reuse cho US500](STRATEGY-TEMPLATE-REUSE-REVIEW-20261111.md):
+5upstream/17pinnedfiles+licenses; ưu tiênLEAN reference EMA/Bollinger/ORB,
+giữ currentengine. Có comment/configORBlệch3/5min, lunchsamplezeroFee/nullRisk,
+NautilusEMA thiếuSL/TP và vectorbtCommonsClause. Chưainstall/import/port/parity/
+PnL hoặc newtrial; catalogue95giữ và thêm building-block locators.
+
 [Hai bộ luật US500 M15 đã sàng lọc11/11](US500-M15-OPENING-SCREEN-RESULTS-20261111.md):
 18books/18reviews trong22,289s; breakout cost-sensitive/fullannualunknown,
 failed-break known2022/24âm, chưa giữ ứng viên.19tests/3actualmutations,
