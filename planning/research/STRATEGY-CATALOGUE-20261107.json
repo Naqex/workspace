@@ -555,7 +555,20 @@
         "eurusd-h4-z20-2-atr14-time6-r025-v1": "parked_after_registered_cost_screen"
       },
       "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
-      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry.",
+      "reuse_reference_scope": "Building blocks for proposed related M15 work; no change to historical implementation, economic verdict, lineage or trial count.",
+      "reuse_references": [
+        {
+          "repo": "QuantConnect/Lean",
+          "commit": "054ec0596a66f0ad09ca5101df424cf6697060a7",
+          "file": "Indicators/BollingerBands.cs",
+          "sha256": "4a13b983f4caad28335e6db4868d83dcea5457ce5ce5a7b192b3f3ea124d1825",
+          "url": "https://github.com/QuantConnect/Lean/blob/054ec0596a66f0ad09ca5101df424cf6697060a7/Indicators/BollingerBands.cs",
+          "license": "Apache-2.0",
+          "role": "reference_only_not_adopted_code_or_edge"
+        }
+      ],
+      "reuse_review_evidence": "STRATEGY-TEMPLATE-REUSE-REVIEW-20261111.md"
     },
     {
       "id": "R004",
@@ -590,7 +603,29 @@
         "eurusd-h1-pullback20-80-atr14x1p5-time24-r025-v1": "parked_after_registered_cost_screen"
       },
       "version_decision_evidence": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
-      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry."
+      "revisit_condition": "Confirmed material technical error permits affected correction; changed economic rules require a new registered trial, not unchanged batch retry.",
+      "reuse_reference_scope": "Building blocks for proposed related M15 work; no change to historical implementation, economic verdict, lineage or trial count.",
+      "reuse_references": [
+        {
+          "repo": "QuantConnect/Lean",
+          "commit": "054ec0596a66f0ad09ca5101df424cf6697060a7",
+          "file": "Indicators/ExponentialMovingAverage.cs",
+          "sha256": "dfc0ce32bf17259a18c2ebe19dcdcd412a1f7cf090b9a6063dbf07cca250575b",
+          "url": "https://github.com/QuantConnect/Lean/blob/054ec0596a66f0ad09ca5101df424cf6697060a7/Indicators/ExponentialMovingAverage.cs",
+          "license": "Apache-2.0",
+          "role": "reference_only_not_adopted_code_or_edge"
+        },
+        {
+          "repo": "QuantConnect/Lean",
+          "commit": "054ec0596a66f0ad09ca5101df424cf6697060a7",
+          "file": "Algorithm.Python/MovingAverageCrossAlgorithm.py",
+          "sha256": "1db7156684722fd9ddeefdffa2a20d5c60bb02bca39cf973027378ea0c660edf",
+          "url": "https://github.com/QuantConnect/Lean/blob/054ec0596a66f0ad09ca5101df424cf6697060a7/Algorithm.Python/MovingAverageCrossAlgorithm.py",
+          "license": "Apache-2.0",
+          "role": "reference_only_not_adopted_code_or_edge"
+        }
+      ],
+      "reuse_review_evidence": "STRATEGY-TEMPLATE-REUSE-REVIEW-20261111.md"
     },
     {
       "id": "R005",
@@ -3324,7 +3359,20 @@
       "evidence_locator": "US500-M15-OPENING-SCREEN-RESULTS-20261111.md",
       "version_decisions": {
         "us500-m15-or15-firstbreak-width-stop-noon-v1": "inconclusive_not_priority"
-      }
+      },
+      "reuse_reference_scope": "Building blocks for proposed related M15 work; no change to historical implementation, economic verdict, lineage or trial count.",
+      "reuse_references": [
+        {
+          "repo": "QuantConnect/Lean",
+          "commit": "054ec0596a66f0ad09ca5101df424cf6697060a7",
+          "file": "Algorithm.CSharp/OpeningBreakoutAlgorithm.cs",
+          "sha256": "5e3c73ab484a38c7772fd2bea8b11036f73dfe5909160bc494f2b1e99b5be6be",
+          "url": "https://github.com/QuantConnect/Lean/blob/054ec0596a66f0ad09ca5101df424cf6697060a7/Algorithm.CSharp/OpeningBreakoutAlgorithm.cs",
+          "license": "Apache-2.0",
+          "role": "reference_only_not_adopted_code_or_edge"
+        }
+      ],
+      "reuse_review_evidence": "STRATEGY-TEMPLATE-REUSE-REVIEW-20261111.md"
     },
     {
       "id": "R095",
