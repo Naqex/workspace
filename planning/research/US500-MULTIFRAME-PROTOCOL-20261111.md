@@ -124,3 +124,17 @@ Review only after all preregistered books, keep the complete table and every
 failed/incomplete attempt. A promising row is eligible for further review at
 most, not challenge approval. Postrun engineering review measures phases and
 fixes evidence-backed faults, without mandatory retuning or batch reruns.
+
+## Amendment v1.1 — correctness pilot, trước batch tiếp theo
+
+Attempt `us500-multiframe-native-v1` dừng13s ở book đầu,0book công nhận:
+`native_closed_position_census`. NETTING cache giữ latest lifecycle, không
+đếm được roundtrips qua `cache.positions()`. Sửa lấy native `PositionClosed`
+events, thêm fixture3roundtrips BUY/SELL trên3ngày và đối soát cash từng lần.
+Không xem/đổi k/MA/risk hoặc rules theo financial outcome; chưa numerical result
+được emit. Giữ failure/source snapshots v1, dùng outputv2 và code/protocol pins
+mới. Đây là sửa collector/accounting evidence, không trial strategy mới.
+V2 có thể chạy3cohorts năm song song bằng `--year`, mỗi cohort54financial+
+3nullbooks trong output/manifest/lock riêng. Tối đa3processes, không shared
+writer, mỗicohort chỉ đọc sources. Union cuối phải đúng162+9, không chọn bỏ
+năm lỗi. Per-cohort deadline1800s. Không mở thêm trial hoặc tăng số phép thử.

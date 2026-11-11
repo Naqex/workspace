@@ -216,6 +216,24 @@ class NativeTests(unittest.TestCase):
         self.assertEqual(r['native_cash'],10000)
         self.assertEqual(r['fills'],[])
 
+    def test_multiple_roundtrips_netting_history_cash(self):
+        pairs,prepared,_=fixture()
+        for offset in (1,2):
+            p,a,_=fixture(side='SELL' if offset==1 else 'BUY')
+            shift=offset*24*60*s.M
+            pairs.update({t+shift:tuple(dict(row,timestamp=t+shift) for row in pair) for t,pair in p.items()})
+            for t,e in a['snapshots'].items():
+                e=deepcopy(e)
+                e['t']+=shift
+                e['day']=f'2022-01-0{4+offset}'
+                e['m15']['previous']['day']=e['day']
+                prepared['snapshots'][t+shift]=e
+        r=s.execute(s.configurations()[0],prepared,pairs,s.quote_data(pairs),'.25')
+        self.assertEqual(len(r['trades']),3)
+        self.assertEqual(len(r['native_realized']),3)
+        self.assertEqual(r['native_cash'],D('9976.66'))
+        reviewer.inspect(r,pairs)
+
 
 if __name__=='__main__':
     unittest.main()

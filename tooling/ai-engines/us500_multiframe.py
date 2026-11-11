@@ -265,6 +265,7 @@ class Pullback(Strategy):
         self.context = {}
         self.marks, self.balance, self.peak, self.dd = 0, D(10000), D(10000), D(0)
         self.noon_count = 0
+        self.native_closed = []
 
     def on_start(self):
         self.subscribe_quote_ticks(ID)
@@ -370,6 +371,10 @@ class Pullback(Strategy):
     def on_order_denied(self,event):
         raise ValueError('native_order_denied:'+str(event.reason))
 
+    def on_position_closed(self,event):
+        # NETTING reuses the position ID; cache.positions() is not the trade history.
+        self.native_closed.append(event.realized_pnl.as_decimal())
+
 
 def execute(config, prepared, pairs, quotes, slip, progress=None, null=False):
     if nautilus_trader.__version__!='1.231.0':
@@ -389,7 +394,7 @@ def execute(config, prepared, pairs, quotes, slip, progress=None, null=False):
         engine.run()
         account=engine.cache.account_for_venue(Venue('RESEARCH'))
         native_cash=account.balance_total(USD).as_decimal()
-        native_realized=[p.realized_pnl.as_decimal() for p in engine.cache.positions() if p.is_closed]
+        native_realized=strategy.native_closed
         # Native Money converts through binary float at half-cent boundaries.
         # Validate each closed position separately; never hide a cash drift in a big tolerance.
         if len(native_realized)!=len(strategy.trades):

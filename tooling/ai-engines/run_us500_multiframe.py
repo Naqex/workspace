@@ -65,14 +65,17 @@ def main():
     parser.add_argument('--protocol-sha256',required=True)
     parser.add_argument('--resume-completed',action='store_true')
     parser.add_argument('--deadline-seconds',type=int,default=1800)
+    parser.add_argument('--year',type=int,choices=(2022,2023,2024),help='Isolated year cohort; separate output/writer')
     args=parser.parse_args()
     if digest(args.protocol)!=args.protocol_sha256:
         raise ValueError('protocol_pin_required')
     pins=source_pins(args.protocol)
     args.output.mkdir(exist_ok=args.resume_completed,parents=True)
+    years=[args.year] if args.year else [2022,2023,2024]
+    total_books=len(years)*57
     manifest=dict(schema='us500-multiframe-native-v1',source_pins=pins,proofs=PROOFS,
-                  configurations=study.configurations(),years=[2022,2023,2024],scenarios=['reference','stress'],
-                  financial_books=162,null_books=9,engine='NautilusTrader1.231.0',holdout_read=False,
+                  configurations=study.configurations(),years=years,scenarios=['reference','stress'],
+                  financial_books=54*len(years),null_books=3*len(years),engine='NautilusTrader1.231.0',holdout_read=False,
                   data_root=str(args.data_root.resolve()),deadline_seconds=args.deadline_seconds)
     path=args.output/'manifest.json'
     if args.resume_completed:
@@ -100,7 +103,7 @@ def main():
             raise TimeoutError('batch_deadline')
         sequence+=1
         current=dict(sequence=sequence,stage=stage,pid=os.getpid(),at_utc=datetime.now(timezone.utc).isoformat(),
-                     elapsed_seconds=round(time.perf_counter()-began,3),completed_books=len(rows),total_books=171,**values)
+                     elapsed_seconds=round(time.perf_counter()-began,3),completed_books=len(rows),total_books=total_books,**values)
         with (args.output/'events.jsonl').open('a',encoding='utf-8') as stream:
             stream.write(json.dumps(current,default=str)+'\n')
         save(args.output/'progress.json',current)
@@ -109,7 +112,7 @@ def main():
 
     try:
         warnings.filterwarnings('ignore',message='Timestamp.utcnow is deprecated.*')
-        for year in (2022,2023,2024):
+        for year in years:
             at=time.perf_counter()
             sessions,pairs,admission=load_year(args.data_root/str(year),year,progress)
             save(args.output/f'input-{year}.json',admission)
@@ -155,7 +158,7 @@ def main():
                                     simulation_seconds=simulation,review_seconds=time.perf_counter()-at,cpu_seconds=time.process_time()-used))
                 progress('book_verified',year=year,candidate=config['id'],scenario=scenario)
             del quotes,prepared,pairs,sessions
-        if len(rows)!=171 or any(digest(Path(p))!=sha for p,sha in pins.items()):
+        if len(rows)!=total_books or any(digest(Path(p))!=sha for p,sha in pins.items()):
             raise ValueError('final_census_or_source_drift')
         save(args.output/'result.json',dict(status='completed_development_screen_not_qualified',rows=rows,timings=timings,
                                           wall_seconds=time.perf_counter()-began,cpu_seconds=time.process_time()-cpu,
