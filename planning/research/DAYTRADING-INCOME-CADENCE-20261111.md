@@ -22,6 +22,28 @@ fit khi owner nhấn mạnh nguồn thu chính; không sửa frozenprotocols l�
 Không tự tăng cap1attempt/day của R123 thành2trades/day. Những giới hạn execution
 và account-wide budget cần thiết kế riêng trước một phiên bản mới.
 
+**So theo cap của version:** với tối đa một lệnh/ngày, tuần đủ5phiên chỉ có
+trần5lệnh; dùng3–5/tuần làm dải ưu tiên tìm kiếm cho loại version này. Dải3–8
+chỉ là preference rộng của campaign, không yêu cầu R123 làm điều luật của nó
+không cho phép. Không đổi cap hoặc coi ít lệnh tự động là không có edge.
+
+## Kịch bản lợi nhuận và cách tính phần trăm
+
+So sánh0,5% /1% /1,5% mỗi tháng sau trading costs, trước Reward split như
+**kịch bản lập kế hoạch**, chưa phải target owner chốt hay mức đã chứng minh
+khả thi. Không bắt tháng nào cũng dương hoặc tăng risk để đạt target.
+
+- Return cả sổ dùng vốn ban đầu của đúng source book; ba sổ reset10k/năm
+  không tự thành đường compounded ba năm.
+- Return tháng dùng vốn đầu tháng nếu flat và không external cash flows.
+  Nếu có cash flow/Reward reset cần tách rõ, không tự thay mẫu số.
+- Drawdown đúng nghĩa dùng đỉnh balance/equity của đúng series; tỷ lệ một
+  DDamount trên initialcapital là metric khác, phải ghi nhãn riêng.
+- Giới hạn quỹ theo đúng program/phase/anchor của hãng, không đổi theo mẫu số
+  return tháng hoặc dùng closedbalance thay full equity.
+- Mẫu số thiếu/không hợp lệ hoặc unresolved làm full result chưa biết thì
+  giữunknown, không tự dùng10k để lấp chỗ trống.
+
 Mẫu lệnh cần trải qua nhiều thời kỳ và không phụ thuộc quá mạnh. Không cộng
 variants/cost scenarios thành quan sát độc lập; không giảm chuẩn edge chỉ vì
 cần thu nhập. Số lệnh cao có thể làm tăng tổng lỗ nếu expectancy âm.
@@ -69,9 +91,14 @@ Nhiều vốn chỉ scale một lợi thế đã có; với expectancy âm thì 
 ## Đối chiếu với nghiên cứu hiện tại
 
 [R123](US500-MA-RECLAIM-RESULTS-20261111.md) có165lệnh/3năm,58/50/57 từng năm,
-khoảng1,1lệnh mỗi5phiên lịch. Nó chưa fit dải3–8/tuần và không bền qua costs:
+khoảng1,1lệnh mỗi5phiên lịch. Nó thấp hơn cả dải3–5 cho cap1/ngày và không bền qua costs:
 tổng independentcentnet+4,83USD chuẩn,−307,03USD stress trên3sổ năm riêng.
 Không dùng R123 làm mô hình thu nhập, không tăng lot hoặc chỉ giữ subgroup lời.
+
+[Rà tổng thể từ savedbooks](STRATEGY-FIT-REVIEW-20261111.md) bổ sung phân bố:
+47/157tuần không lệnh, chỉ11tuần cóít nhất3; trungvị4lệnh/tháng. Return tháng
+bìnhquân mô tả+0,0024%chuẩn/−0,0844%stress, chưa forecast. Phải xét cả độ bền
+kinh tế và nhịp lệnh; không có đủ cơ sở chọn chiến lược chỉ vì một trong hai tốt.
 
 **Ưu tiên kế tiếp:** admission ý tưởng cần kiểm cả cơ chế/độ đúng, tần suất phù
 hợp và lợi thế sau costs; economic screening nhỏ khác deep edge validation.

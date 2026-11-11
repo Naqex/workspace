@@ -118,6 +118,9 @@ Evidence private tại campaign `execution-v1/`:
   9books/reviews/metrics/seals,result/events/progress/timers.
 - `final-artifact-audit.json` trong costscreen:9seals/trace/census/side sums/null.
 - `income-cadence-scenarios.json`: planning math, không phải forecast từ R123.
+- [Fit review sau đó](STRATEGY-FIT-REVIEW-20261111.md): saved9books, weekly/monthly
+  distributions, monthlybalance denominator và scopeDD; khôngfinancialrerun.
+  Output `us500-strategy-fit-review-v2/result.json`; v1clocklabel giữ lịch sử.
 
 Code/protocol trướccount commit`d13deeb`; scopedcostscreen commit`9a08df4`
 trước financial outcomes. Không writer/job còn chạy; oldresults/negatives giữ.

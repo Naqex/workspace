@@ -84,6 +84,14 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
   Kịchbản10/20/30triệu dùng80%reward2Stepđãkiểm,FX25k+chi1triệu chỉminhhọa,
   khôngforecastR123. Tiếpadmissionýtưởngcómechanism/cadence+costedge,
   không tăngrisk/muaquỹ/2025+/broker. Khôngjobnền hoặcGoal.
+  **Owner yêu cầu rà tổng thể chiến lược theo mục tiêu**:
+  [fit review](research/STRATEGY-FIT-REVIEW-20261111.md) dùng9savedbooks,
+  0financialrerun/0newtrial. R12347/157tuần0lệnh,chỉ11tuần>=3,
+  median4lệnh/tháng;monthlymean+0,0024%chuẩn/−0,0844%stress.
+  Cap1/ngàyso3–5/tuần,khôngép8;0,5/1/1,5%monthlychỉplanningscenarios.
+  GiữUS500/M15/intraday/riskthấp,gácR123;chưaedge/prop/OOS/forward.
+  Savedreviewv2sửalabelVNquamidnight,allnonclockmetricsgiữ,10testsđạt,
+  review0,246s;catalogue123/88/53khôngđổi. Khôngtăngrisk/cap hoặcnewbatch.
 
 - **Owner10/11 đã thấy Client Area chỉ có Swing10k/25k** cho2-Step/USD/MT5.
   [Standard/Swing và scale](research/PROP-FIRM-FIT-20261102.md#standard-swing-và-đích-vốn-lớn--làm-rõ-ngày-10112026)
