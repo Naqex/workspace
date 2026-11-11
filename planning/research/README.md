@@ -4,7 +4,9 @@
 5upstream/17pinnedfiles+licenses; ưu tiênLEAN reference EMA/Bollinger/ORB,
 giữ currentengine. Có comment/configORBlệch3/5min, lunchsamplezeroFee/nullRisk,
 NautilusEMA thiếuSL/TP và vectorbtCommonsClause. Chưainstall/import/port/parity/
-PnL hoặc newtrial; catalogue95giữ và thêm building-block locators.
+PnL hoặc newtrial; catalogue95giữ và thêm building-block locators. **Đã clone
+đủ5repo** tại `.runtime/strategy-references/`:12962files/593MiBsource, README/
+manifest/96keywordfile index; origin/pin/clean/fsck và17reference matches đã kiểm.
 
 [Hai bộ luật US500 M15 đã sàng lọc11/11](US500-M15-OPENING-SCREEN-RESULTS-20261111.md):
 18books/18reviews trong22,289s; breakout cost-sensitive/fullannualunknown,
