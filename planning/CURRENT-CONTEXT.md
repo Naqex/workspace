@@ -92,6 +92,13 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
   GiữUS500/M15/intraday/riskthấp,gácR123;chưaedge/prop/OOS/forward.
   Savedreviewv2sửalabelVNquamidnight,allnonclockmetricsgiữ,10testsđạt,
   review0,246s;catalogue123/88/53khôngđổi. Khôngtăngrisk/cap hoặcnewbatch.
+  **Owner tiếp tục yêu cầu nghiên cứu riêng tần suất/độ đều/dễ code**:
+  [cadence landscape](research/US500-FREQUENCY-LANDSCAPE-20261111.md) đã đọc
+  180savedbooks/30versions trong2,118s,0replay/newtrial;90annualcostpairs
+  entryclockparity. ORB677/0tuầntrống,failedbreak269/23,reclaim165/47,
+  R12015/142trên157tuần. Đềxuấtưu tiên3–5/tuần5phiên,lawclear/session,
+  không tăngcap/risk hoặcphục hồiverdictâm. Chưareasonbydaymọiversion/
+  news-gatedcadence. Familyrankinglàstructuralinference,khôngempiricalbotcensus.
 
 - **Owner10/11 đã thấy Client Area chỉ có Swing10k/25k** cho2-Step/USD/MT5.
   [Standard/Swing và scale](research/PROP-FIRM-FIT-20261102.md#standard-swing-và-đích-vốn-lớn--làm-rõ-ngày-10112026)

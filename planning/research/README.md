@@ -1,5 +1,11 @@
 # Tra cứu research đã có
 
+[Tần suất US500: các nhóm, độ đều và dễ code](US500-FREQUENCY-LANDSCAPE-20261111.md):
+180savedbooks/30versions,90annualcostpairs entryclockparity,0replay/0newtrial.
+ORB677/0tuầntrống;failedbreak269/23;reclaim165/47;R12015/142trên157tuần.
+Đềxuất3–5/tuần5phiên cho cap1/ngày,khôngquota/optimum/challengeproof.
+Familycomparisonlàinference;missingdata/warmupkhôngtựlàno-setup.
+
 [Rà tổng thể US500: cadence, risk, monthlyreturn và propfit](STRATEGY-FIT-REVIEW-20261111.md):
 R123165lệnh/753phiên;47/157tuần0lệnh,chỉ11tuần>=3; chuẩn gần hòa vốn,
 stressâm3năm. GiữUS500/M15/intraday, gácR123;cap1/ngàyso3–5/tuần,

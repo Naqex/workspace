@@ -27,6 +27,14 @@ trần5lệnh; dùng3–5/tuần làm dải ưu tiên tìm kiếm cho loại ver
 chỉ là preference rộng của campaign, không yêu cầu R123 làm điều luật của nó
 không cho phép. Không đổi cap hoặc coi ít lệnh tự động là không có edge.
 
+[Rà riêng tần suất và độ dễ code](US500-FREQUENCY-LANDSCAPE-20261111.md) đã
+đọc180savedbooks/30versions, khôngfinancialrerun: ORB4,50 entry/5phiên lịch,
+failedbreak1,79, reclaim1,10;27strictpullbacks chỉ0,086–0,212mỗi bản.
+Chưađủedge/propfit;cadenceđẹp khôngphục hồiverdict cũ. Giữ3–5/tuần5phiên là
+researchpreference cho cap1/ngày; ưu tiên phân bố tuần/tháng, tuần0 và coverage,
+không quota hoặc tự mở cap2/ngày. Bảng nhóm ý tưởng trong research là structural
+inference, không số liệu tần suất bot ngoài thị trường đã được đo.
+
 ## Kịch bản lợi nhuận và cách tính phần trăm
 
 So sánh0,5% /1% /1,5% mỗi tháng sau trading costs, trước Reward split như
