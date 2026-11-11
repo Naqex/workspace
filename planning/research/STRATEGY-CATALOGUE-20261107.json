@@ -1,8 +1,8 @@
 {
   "schema": "naqex-strategy-research-catalogue-v1",
-  "checked_on": "2026-11-09",
+  "checked_on": "2026-11-11",
   "scope": "research_records_not_executable_specs_or_independent_edges",
-  "record_count": 93,
+  "record_count": 95,
   "source_use": "metadata_paraphrases_only_no_imported_code_or_redistributed_data; data/code licenses must be reviewed before reuse",
   "source_limitations": [
     "Primary summaries/descriptions read; no claim full paper replication.",
@@ -12,7 +12,7 @@
   "counts": {
     "by_role": {
       "existing": 36,
-      "variant": 39,
+      "variant": 41,
       "new": 17,
       "component": 1
     },
@@ -30,7 +30,8 @@
       "implemented_parked_conditional_2019_negative": 1,
       "implemented_parked_conditional_negative": 1,
       "implemented_not_retained_no_qualified_signals": 2,
-      "implemented_inconclusive_source_gap": 2
+      "implemented_inconclusive_source_gap": 2,
+      "implemented_registered_not_screened": 2
     }
   },
   "sources": [
@@ -3293,6 +3294,60 @@
       "evidence_locator": "OPTIONS-WEEK-RESULTS-20261110.md",
       "profitability_evidence": "48windows/96financialcases/8books reviewed;stress2019+279.41/2022-708.85USDunit;2022mid-602.4255;controlincrement+222.85/-470.10.",
       "dispatch_authorized": false
+    },
+    {
+      "id": "R094",
+      "title": "US500 M15 first opening-range close breakout",
+      "family": "cash_opening_range",
+      "role": "variant",
+      "parent_id": "R016",
+      "readiness": "implemented_registered_not_screened",
+      "timeframe": "M15 decisions / modeled M1 execution",
+      "rule_sketch": "Opening Bid09:30-09:45; first close outside by11NY; exactdecision+60s entry; widthSL;12:01NYexit;max1attempt/day",
+      "data_requirements": "Accepted paired explicit-source US500 M1 all four quarters2022-24 and frozenNYSEcalendars; exposed not cleanOOS",
+      "automation_feasibility": "offline_modeled_M1_only",
+      "prop_operational_concerns": "Declared25USD risk/10k annual book, targetspec/news/closures/tickDD/OOS not certified",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "Own hypothesis motivated by cash-open price discovery, related to prior ORB/failed-break trials not independent edge",
+      "next_action": "Run exact registered18book screen; preserve negative lineage and unknown paths; no rule/fee/SL grid rescue",
+      "implementation_state": "registered_before_outcome",
+      "candidate_id": "us500-m15-or15-firstbreak-width-stop-noon-v1",
+      "profitability_evidence": "none_for_this_exact_rule",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-m15-or15-firstbreak-width-stop-noon-v1"
+      ],
+      "admission_evidence_locator": "US500-M15-OPENING-SCREEN-PROTOCOL-20261111.md",
+      "implementation_updated_on": "2026-11-11"
+    },
+    {
+      "id": "R095",
+      "title": "US500 M15 first opening-range failed-break return",
+      "family": "cash_opening_range",
+      "role": "variant",
+      "parent_id": "R094",
+      "readiness": "implemented_registered_not_screened",
+      "timeframe": "M15 decisions / modeled M1 execution",
+      "rule_sketch": "Opening Bid09:30-09:45; first break then later close back inside by11NY; exactdecision+60s entry; widthSL;12:01NYexit;max1attempt/day",
+      "data_requirements": "Accepted paired explicit-source US500 M1 all four quarters2022-24 and frozenNYSEcalendars; exposed not cleanOOS",
+      "automation_feasibility": "offline_modeled_M1_only",
+      "prop_operational_concerns": "Declared25USD risk/10k annual book, targetspec/news/closures/tickDD/OOS not certified",
+      "source_ids": [
+        "LOCAL"
+      ],
+      "source_relation": "Own hypothesis motivated by cash-open price discovery, related to prior ORB/failed-break trials not independent edge",
+      "next_action": "Run exact registered18book screen; preserve negative lineage and unknown paths; no rule/fee/SL grid rescue",
+      "implementation_state": "registered_before_outcome",
+      "candidate_id": "us500-m15-or15-failedbreak-width-stop-noon-v1",
+      "profitability_evidence": "none_for_this_exact_rule",
+      "dispatch_authorized": false,
+      "implementations": [
+        "us500-m15-or15-failedbreak-width-stop-noon-v1"
+      ],
+      "admission_evidence_locator": "US500-M15-OPENING-SCREEN-PROTOCOL-20261111.md",
+      "implementation_updated_on": "2026-11-11"
     }
   ],
   "automatic_dispatch": false,
