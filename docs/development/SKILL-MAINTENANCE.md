@@ -7,6 +7,16 @@ daemon/scheduler hay hứa background tự chỉnh khi không có agent làm vi�
 
 ## Trigger và hành động
 
+11/11 — owner đổi từ reference-only sang full framework cả5engine. Reuse
+`strategy-research` với [native engines](../../.agents/skills/strategy-research/references/native-engines.md),
+`upstream-integrations` route tới runtimeguide/locks; không tạo5skill hay
+globalconfig. Positive walkthrough: fullNautilusrequest→reuse locked1.xruntime,
+không trộn downloaded2.xexamples;3Pythonfixtures vàLEANnativebacktest đã chạy.
+Negative: chỉ hỏi tiến độ không install/rerun; smokeequal không US500parity,
+4DBtests chặn khôngbypassTRUNCATE. Walkthrough tự review, không independentagent.
+Hai skill validators/23local links đạt; maintainer0errors/warnings,
+global12.279B,project10.298/65.536B,reserve55.238B,combined22.577B.
+
 09/11 — source-transformations reference bổ sung xử lý LF/CRLF hash drift:
 raw/pins gốc giữ nguyên, bind exact frozen snapshot và ghi current code hash
 riêng; không normalize raw hoặc chấp nhận content drift. Actual role-source

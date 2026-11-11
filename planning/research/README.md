@@ -1,10 +1,16 @@
 # Tra cứu research đã có
 
-[Khung/code mẫu để reuse cho US500](STRATEGY-TEMPLATE-REUSE-REVIEW-20261111.md):
+[Full framework adoption cả5 theo owner](STRATEGY-TEMPLATE-REUSE-REVIEW-20261111.md#owner-chon-dung-framework-day-du-ca-nam-engine):
+đã cài isolatedruntimes và chạy nativefixtures;3Pythonroundtripsđạt,
+LEANbuild/samplecompleted,Nautilus4directpass/4DBsetupgateblocked.
+ChưaUS500parity/migration,trial/edge hoặcbroker; shortlistpullback/bandreentry
+giữnegativehistory. Runtimeguide/locks và nhánhskillnative-engines đã cập nhật.
+
+[Khảo sát code mẫu và receipt download trước adoption](STRATEGY-TEMPLATE-REUSE-REVIEW-20261111.md):
 5upstream/17pinnedfiles+licenses; ưu tiênLEAN reference EMA/Bollinger/ORB,
 giữ currentengine. Có comment/configORBlệch3/5min, lunchsamplezeroFee/nullRisk,
-NautilusEMA thiếuSL/TP và vectorbtCommonsClause. Chưainstall/import/port/parity/
-PnL hoặc newtrial; catalogue95giữ và thêm building-block locators. **Đã clone
+NautilusEMA thiếuSL/TP và vectorbtCommonsClause. Tại lần download chưainstall/
+port/parity/PnL; adoptionmới ởlinktrên. Catalogue95giữ. **Đã clone
 đủ5repo** tại `.runtime/strategy-references/`:12962files/593MiBsource, README/
 manifest/96keywordfile index; origin/pin/clean/fsck và17reference matches đã kiểm.
 

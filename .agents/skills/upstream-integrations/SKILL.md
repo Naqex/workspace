@@ -13,6 +13,11 @@ For Paperclip dispatch failures or pilot/runtime recovery, read
 [Paperclip diagnostics](references/paperclip.md). Ordinary source adoption does
 not need that branch.
 
+For native strategy-engine installation or adoption, use the
+[engine runtime guide](../../../tooling/strategy-engines/README.md). It separates
+source pins from installed releases and owns rebuild/smoke commands; strategy
+semantics remain with `strategy-research`, not the integration catalog.
+
 1. Classify the actual change: source adoption, dependency installation, UI
    embedding, worker job connection or active-runtime cutover. Report those
    states separately. A clone or import is not a successful engine job.
