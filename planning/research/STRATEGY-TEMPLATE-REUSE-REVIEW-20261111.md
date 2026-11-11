@@ -282,3 +282,42 @@ Nguồn kiểm11/11/2026, không simulation/newPnL/holdout/broker/modelcalls;
 không đổi catalogue/trialcount hoặc qualifiedverdict. Diagram riêng là nến
 giả định để giải thích, không price feed/strategy outcome. Không sửa skill
 cho định nghĩa hiển nhiên; native-engines/qualification hiện có giữ workflow.
+
+## Owner chốt lưới đệm ATR — quyết định tiếp theo 11/11
+
+Owner đồng ý7mức confirmation buffer: **0 /0,05 /0,10 /0,15 /0,20 /0,25 /
+0,30ATR**, bước0,05ATR, dùng ATR từ nến đã đóng. Đây là phạm vi khảo sát
+được đồng ý, không thông số đã chứng minh tối ưu hoặc7trials đã chạy. Không
+tự mở rộng sang grid retest-width/SL/TP/giờ/risk; giữ mọi trial history cũ.
+
+Bước kế tiếp là draft/freeze một bản luật pullbackUS500M15: trend definition,
+level/anchor xác nhận, arm/retest/expiry/invalidation, ATRperiod/seed/warmup/
+width-freeze policy, next-event fills, SL/exit/session và shared risk/cost.
+Chưa chốt period14 hoặc exact rules chỉ từ ví dụ giải thích ATR14 trước đó.
+Giữ lineageR004 và negatives; engine native pilot/parity trước newfinancial
+screen,2022–24exposed,2025+reserved. Chưa code/run/newPnL/broker từ quyết định.
+
+Luồng tiếp: một strategy-spec dễ đọc → causal/nativefixtures → registered
+7-buffer development batch → financial/equity/cost review và lựa chọn tiếp.
+Không cần owner duyệt khác biệt nhỏ khi đã giao thực thi; mọi actual account/
+holdout/purchase giữ gate riêng. Không tạo skill mới cho một parameter choice.
+
+## Đã soạn bản luật theo giao việc tiếp của owner
+
+[Draft nền pullback](US500-M15-PULLBACK-BASELINE-DRAFT-20261111.md) là nơi giữ
+exact proposedrules/data-clock/seed/arm-confirm-expiry/SL-exit/risk-cost/engine
+handoff và workedexample. StatusDRAFT/chưaregistered,khôngtrial/newPnL. Giữ
+7buffers ownerđãchốt; agent lựaSMA20/80,armbarhigh/low,ATR14WilderfirstTRseed,
+4bar/2ATR/trend-noonexit vì reuse/finite state/intraday, không dofitoutcome.
+Native1.xATR defaultSIMPLE vàWilderfirstTRseed đã inspect; hai lần probeimport
+enum sai namespace trước đó được sửa theo installedsource `indicators.averages`,
+không đổi dependency hoặc coi docs2.x là runtimeAPI1.x. Catalogue95giữ;
+policy/nativeparity/financialregistration vẫn là task tiếp theo, không làm
+ngầm qua một tài liệu. Bản draft nối R004/oldnegative không reset history.
+
+Review thực tế `.runtime/strategy-engines/pullback-spec-review-v1.json` bind
+draftSHA256 `b25b2f6ad72320a4b91600e64386ee36cbc399f36c1cb095ec3bcfaeb03b7d6e`:
+7BUY/7SELL workedexample decisions khớp, equality khôngconfirm; đây là kiểm
+arithmetic spec, chưa policytest. NativeATR14 trênTR1..14: defaultSIMPLE7,5,
+explicitWilder5,960694343078025 khớpDecimaloracle; SMA20ready ở20inputs/value10,5;
+gapcaseTR5khácH−L2 được kiểm. Không marketdata/PnL hoặc nativeUS500parity.

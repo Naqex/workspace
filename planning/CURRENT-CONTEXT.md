@@ -39,6 +39,14 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
   tách causal falsebreak detection khỏi forecast, giữ shift của pivotconfirmation;
   chưa có majority-success census hoặc proofM15 từ58futures1–12monthpaper.
   NYSEcashclock đã kiểm; FTMOUS500 exactserverhours còn chưa account-verified.
+  **Owner đã chốt7mức đệm xác nhận theo ATRnếnđóng:**0→0,30ATR,bước0,05.
+  [Quyết định và resume](research/STRATEGY-TEMPLATE-REUSE-REVIEW-20261111.md#owner-chốt-lưới-đệm-atr--quyết-định-tiếp-theo-1111):
+  [Draft luật nền đã soạn](research/US500-M15-PULLBACK-BASELINE-DRAFT-20261111.md):
+  agent đềxuấtSMA20/80,closedbarpullback→armbarhigh/low,freezeATR14Wilder/
+  level,4barconfirm,SL2ATR,trend/noonexit,max1arm/ngày. Chỉ7buffers ownerchốt;
+  các defaults còn là draft hypotheses,không claimedoptimal/executable/frozen.
+  NativeATRdefaultSIMPLE/firstTRseedWILDER đã kiểm,không giảsameATR14parity.
+  Tiếp policy/nativefixtures và registration trước7-bufferPnL;catalogue95giữ.
 
 - **Owner10/11 đã thấy Client Area chỉ có Swing10k/25k** cho2-Step/USD/MT5.
   [Standard/Swing và scale](research/PROP-FIRM-FIT-20261102.md#standard-swing-và-đích-vốn-lớn--làm-rõ-ngày-10112026)
