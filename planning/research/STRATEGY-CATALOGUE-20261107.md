@@ -8,6 +8,11 @@ ML/riskroles, không8provenedges. Historicalnegative/pins giữ nguyên.
 
 [JSON](STRATEGY-CATALOGUE-20261107.json) là cùng dữ liệu có cấu trúc; protocol/source giữ exactrecipes, không automatic dispatch/rejection hoặc broker authority.
 
+12/11: [Opportunity screen FP06–08](US500-OPPORTUNITY-SCREEN-PROTOCOL-20261112.md)
+đã đăng ký frequency-only trước số đếm: retry setup sau thất bại, prior20channel
+và MA20/80cross. RelatedR123/R001/R002, không3independentedges; account counts
+123/88/53 giữ. Không PnL, không tự đổi cap/risk hoặc mở2025+.
+
 R076/R077 thêm [paper-window component v2](INDEX-PAPER-WINDOW-IMPLEMENTATION-20261109.md)
 đã [reviewed và không retained](INDEX-PAPER-WINDOW-RESULTS-20261109.md). Revision lineage nằm ngay trong
 hai JSON records; v1 negatives giữ nguyên, không tăng account-policy count

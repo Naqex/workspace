@@ -4552,6 +4552,20 @@
       "protocol_locator": "US500-MA-RECLAIM-PROTOCOL-20261111.md",
       "evidence_locator": "US500-MA-RECLAIM-RESULTS-20261111.md",
       "dispatch_authorized": false
+    },
+    {
+      "id": "us500-opportunity-screen-v1",
+      "baseline": "R123/FP05;R094 saved cadence only",
+      "related_parents": ["R123", "R001", "R002"],
+      "configuration_ids": ["FP06", "FP07", "FP08"],
+      "new_related_design_ids": ["FP06", "FP07", "FP08"],
+      "status": "registered_frequency_only_before_counts",
+      "financial_simulations": 0,
+      "protocol_locator": "US500-OPPORTUNITY-SCREEN-PROTOCOL-20261112.md",
+      "source_years": [2022, 2023, 2024],
+      "exposure": "consumed_development_not_clean_OOS",
+      "decision": "Count signals and first-confirmation-per-day quote availability only;no automatic financial dispatch or live cap change",
+      "dispatch_authorized": false
     }
   ]
 }
