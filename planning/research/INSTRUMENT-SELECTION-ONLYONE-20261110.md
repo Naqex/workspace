@@ -127,6 +127,40 @@ rule sau outcome phải ghi trial mới. Pilot chưa đủ historical news/spec 
 mới. Catalogue/trials thực thi không đổi; thêm catalogue/version khi exact
 recipe được đăng ký.2025+ reserved, old outcomes và account/runtime giữ nguyên.
 
+## Đề xuất US500 chính, EURUSD khảo sát nhẹ — 11/11/2026
+
+Owner hỏi có nên nghiên cứu song song hai sản phẩm, US500 làm chính. Đây là
+**đề xuất phân bổ effort**, chưa là quyết định mở hai financial studies hoặc
+thay US500 là sản phẩm onlyone đã chọn. Agent đề xuất khoảng80% công sức cho
+US500,20% cho EURUSD; tỷ lệ là ngân sách quản lý ban đầu, không optimum có
+bằng chứng hoặc tỷ lệ phân bổ vốn/risk/token cố định.
+
+| Lane | Phạm vi đề xuất cho đợt tiếp | Điều kiện không mở rộng |
+|---|---|---|
+| US500 chính | Khóa một baseline opening-range M15, kiểm causal/source/cost rồi pilot; ghi gross/net, chi phí, số lệnh, DD và độ tập trung lợi nhuận | Không gridSL/TP/filters hoặc thêm nhiều bot; thiếu news/spec phải giữ qualification unknown |
+| EURUSD phụ | Rà tối đa một hồ sơ cơ chế có cơ sở, target costs/source feasibility và negatives đã có; ưu tiên reuse | Chưa bulk download/backtest/OOS hoặc lặp recipe đã gác; nếu không có câu hỏi khác biệt hợp lý thì park |
+
+Không copy09:30NY opening auction sang Forex spot như cùng cơ chế; nếu thử
+transfer phải giải thích khác biệt và đăng ký trial mới. Mỗi phép kiểm giữ
+một instrument/phiên bản/clock/cost/split đã khóa. Hai nghiên cứu không tự là
+hai nguồn edge độc lập; giữ trial counts gồm cả failed/abandoned. EURUSD chỉ
+được đề xuất lên kiểm sâu sau method/source/cost admission và đủ ngân sách;
+không promote vì US500 thua hoặc một mẫu EURUSD đẹp hơn. US500 bị bác bỏ có
+thể dừng thay vì thêm filter; không cần đợi US500 thành công mới được so ý tưởng.
+
+Hai lane dùng chung loader/validator/log/checkpoint hiện có, không cần hai
+engine. Làm song song chỉ giúp khi không tranh bottleneck CPU/I/O/context;
+không hứa nhanh gấp đôi hoặc quota tăng đúng gấp đôi. Concurrent research
+khác concurrent execution và chưa là portfolio; phối hợp sau phải kiểm
+[account-wide risk/net equity](PORTFOLIO-RESEARCH-AND-ADMISSION-20261110.md).
+
+Nguồn primary đọc11/11:
+[QuantConnect research guide](https://www.quantconnect.com/docs/v2/writing-algorithms/key-concepts/research-guide)
+về hypothesis-driven research/overfitting; [Bailey và cộng sự,2015](https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf),
+abstract/introduction về selection/false positives khi thử nhiều configurations.
+Đây là cơ sở quản lý nghiên cứu, không evidence cho tỷ lệ80/20, lợi thế từng
+asset hoặc certification hai lane. Không cài engine/tools hoặc chạy PnL mới.
+
 ## Cách so sánh
 
 So thị trường cùng cơ chế dự kiến, phiên giao dịch và chi phí của đúng hợp

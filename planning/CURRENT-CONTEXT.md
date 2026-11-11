@@ -18,6 +18,9 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
   recipe/financial trial hoặc independent edge; pin exact rules/cost/calendar rồi source/causal
   preflight trước economic test. `prop_profile.py` chỉ đánh giá DD/headroom,
   không tự chứng nhận news/closures compliance. Không batch/broker/holdout mới.
+  Owner hỏi mở EURUSD song song: [đề xuất80/20](research/INSTRUMENT-SELECTION-ONLYONE-20261110.md#đề-xuất-us500-chính-eurusd-khảo-sát-nhẹ--11112026)
+  giữ US500 kiểm sâu, EURUSD tối đa một hồ sơ khảo sát; chưa mở study phụ,
+  đổi risk hoặc chạy portfolio. Đây là đề xuất effort, không owner decision mới.
 
 - **Owner10/11 đã thấy Client Area chỉ có Swing10k/25k** cho2-Step/USD/MT5.
   [Standard/Swing và scale](research/PROP-FIRM-FIT-20261102.md#standard-swing-và-đích-vốn-lớn--làm-rõ-ngày-10112026)
