@@ -17,7 +17,7 @@ class AdmissionTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp)
             (root/'source-observation-proof.json').write_text('{}')
-            with patch.object(runner,'digest',return_value=runner.PROOFS[2022]),patch.object(runner,'admitted_calendar',return_value=({},{})),patch.object(runner,'cash_sessions',return_value={'2022-01-04':stamps}),patch.object(runner,'load_year_side',return_value=dict(rows=rows,bindings={})): 
+            with patch.object(runner,'digest',return_value=runner.PROOFS[2022]),patch.object(runner,'admitted_calendar',return_value=({},{})),patch.object(runner,'cash_sessions',return_value={'2022-01-04':stamps}),patch.object(runner,'load_year_side',return_value=dict(rows=rows,bindings={})):
                 sessions,pairs,admission=runner.load_year(root,2022,lambda *a,**kw:None)
             self.assertEqual(len(pairs),390)
             self.assertIn(stamps[-1],pairs)
