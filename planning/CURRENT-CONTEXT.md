@@ -46,7 +46,21 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
   level,4barconfirm,SL2ATR,trend/noonexit,max1arm/ngày. Chỉ7buffers ownerchốt;
   các defaults còn là draft hypotheses,không claimedoptimal/executable/frozen.
   NativeATRdefaultSIMPLE/firstTRseedWILDER đã kiểm,không giảsameATR14parity.
-  Tiếp policy/nativefixtures và registration trước7-bufferPnL;catalogue95giữ.
+  **Đã chạy27cấu hình A/B/C và MA sensitivity** theo yêu cầu backtest:
+  [Results hiện hành](research/US500-MULTIFRAME-RESULTS-20261111.md),
+  [fulltable](research/US500-MULTIFRAME-FULL-TABLE-20261111.md),
+  [protocol](research/US500-MULTIFRAME-PROTOCOL-20261111.md).
+  162nativefinancialbooks+9null,2022–24;3cohortsparallel≈344,35s.
+  NativeNautilus1.231.0orders/matching/cash,24focused/recoverytests đạt;
+  v1NETTINGcollectorfail0books giữ. V2qualityfalsepositive đã sửa bằng
+  [savedbookpostreview](research/US500-MULTIFRAME-REVIEW-AMENDMENT-20261111.md):
+  allfinancialfields giữ,0financialrerun,29,77s. Dùngv3-review/summary,
+  không dùngv2qualityflags. Alltrades heldM1coverageknown; chưa tick/prop/OOS.
+  ChỉR120(A,MA40/160,k.10)stressdương3năm nhưng15lệnh,net+48,87USD
+  trên3sổreset10k; chưaedge/challenge/timefit. Cảmatrix13–32lệnh/3năm,
+  A/B20/80giốngnhau; không coi27configs là27edges. Catalogue122/87versions/
+  52native;giữoldnegatives. Tiếpsoi15R120trades/87arms trướcđăngkýtrialmới,
+  chưaautotune/mởholdout/broker. Khôngjobnền hoặcGoal.
 
 - **Owner10/11 đã thấy Client Area chỉ có Swing10k/25k** cho2-Step/USD/MT5.
   [Standard/Swing và scale](research/PROP-FIRM-FIT-20261102.md#standard-swing-và-đích-vốn-lớn--làm-rõ-ngày-10112026)
@@ -261,7 +275,7 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 | Lát | Kết luận / bước tiếp |
 |---|---|
-| Catalogue | 93 hồ sơ / 58 policy-model versions / 25 native / 9 controls; [catalogue](research/STRATEGY-CATALOGUE-20261107.md). Component/biến thể không tự là edge độc lập |
+| Catalogue | 122 hồ sơ / 87 policy-model versions / 52 native / 9 controls; [catalogue](research/STRATEGY-CATALOGUE-20261107.md). Component/biến thể không tự là edge độc lập |
 | FX NYMA4 | [Conditional results](research/NY-FX-GAP-SCENARIOS-RESULTS-20261109.md) âm ở hai năm; strict annual vẫn unknown. Không đổi clock/SL/risk để cứu exact recipe |
 | Gold R043 | [Cost admission](research/GOLD-TARGET-COST-ADMISSION-20261109.md) và [loss diagnosis](research/SELECTIVE-LOSS-DIAGNOSIS-RESULTS-20261109.md): funding/spec đích chưa verified; không zero-swap hoặc rerun để cứu outcome |
 | R080/R081 | [EU-open](research/US500-EU-OPEN-COMPONENT-RESULTS-20261109.md), [conditional](research/US500-INVENTORY-CONDITION-RESULTS-20261109.md): known net âm, giữ unknowns, gác exact recipes |
