@@ -8,6 +8,14 @@ ML/riskroles, không8provenedges. Historicalnegative/pins giữ nguyên.
 
 [JSON](STRATEGY-CATALOGUE-20261107.json) là cùng dữ liệu có cấu trúc; protocol/source giữ exactrecipes, không automatic dispatch/rejection hoặc broker authority.
 
+12/11: thêm scoped study [8 recent setups RS01–RS08](US500-RECENT-SCREEN-RESULTS-20261112.md)
+ngoài 123 hồ sơ lịch sử trên; JSON `registered_setup_studies` giữ lineage,
+không cộng thành independent edges hoặc âm thầm renumber old records.
+4 recipe có financial execution, 4 chỉ cadence/control; 2025 đã dùng chọn,
+RS01/RS07 đã kiểm 2026 diagnostic và historical. 56 sổ/48 financial/8 null,
+không winner hoặc challenge qualification; recent full net N/A do held gaps.
+Các negative R094/R095/R123 và account-policy totals lịch sử vẫn giữ nguyên.
+
 12/11: [Opportunity screen FP06–08](US500-OPPORTUNITY-SCREEN-PROTOCOL-20261112.md)
 đã [đếm xong](US500-OPPORTUNITY-SCREEN-RESULTS-20261112.md): retry setup sau
 thất bại181ngày, prior20channel540 và MA20/80cross196; baseline165.

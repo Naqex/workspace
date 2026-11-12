@@ -4483,7 +4483,8 @@
   ],
   "automatic_dispatch": false,
   "automatic_rejection": false,
-  "holdout_opened": false,
+  "holdout_opened": true,
+  "holdout_opened_scope": "owner-authorized recent-study 2025 selection and RS01/RS07 2026 diagnostic outcomes; pristine status unverified; other reserved scopes unchanged",
   "updated_on": "2026-11-12",
   "implemented_record_count": 77,
   "implemented_rule_count": 88,
@@ -4500,6 +4501,31 @@
   "fx_ny_ma4_h1_rule_count": 2,
   "fx_ny_ma4_M1_rule_count": 4,
   "fx_ny_ma4_M1_conditional_rule_count": 4,
+  "registered_setup_studies": [
+    {
+      "id": "us500-recent-discovery-20261112",
+      "configuration_ids": ["RS01", "RS02", "RS03", "RS04", "RS05", "RS06", "RS07", "RS08"],
+      "financial_recipe_ids": ["RS01", "RS02", "RS03", "RS07"],
+      "related_lineage": {"RS01": "R001/FP07", "RS02": "FP07 breakout-retest", "RS03": "R019 prior-day levels", "RS04": "R094 standardized execution", "RS05": "R095 standardized execution", "RS06": "R123/FP05 standardized exit", "RS07": "R003 band reentry", "RS08": "overnight/opening reversion"},
+      "status": "completed_scenario_screen_inconclusive_not_challenge_qualified",
+      "retained_books": 56,
+      "financial_books": 48,
+      "null_books": 8,
+      "reused_books": 37,
+      "development_years": [2022, 2023, 2024],
+      "selection_year": 2025,
+      "diagnostic_2026_codes": ["RS01", "RS07"],
+      "recent_cutoff_exclusive_utc": "2026-11-12T00:00:00Z",
+      "historical_stress_years": [2016, 2020, 2021],
+      "selection": "no_full_known_2025_eligible_recipe; fixed diagnostic controls per preregistered fallback",
+      "exposure": "2025_consumed_selection;RS01_RS07_2026_consumed_diagnostic;pristine_OOS_unverified",
+      "protocol_locator": "US500-RECENT-SCREEN-PROTOCOL-20261112.md",
+      "evidence_locator": "US500-RECENT-SCREEN-RESULTS-20261112.md",
+      "automatic_dispatch": false,
+      "execution_authorized": false,
+      "counting_scope": "supplement_to_historical_R_catalogue_not_independent_edges_or_rewrite_of_legacy_policy_counts"
+    }
+  ],
   "frequency_only_studies": [
     {
       "id": "us500-frequency-audit-v1",

@@ -9,6 +9,22 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 ## Việc hiện tại
 
+- **Vòng recent US500 12/11 đã hoàn tất**:
+  [Bảng setup/kết quả/điểm/đề xuất](research/US500-RECENT-SCREEN-RESULTS-20261112.md),
+  [recovery hai lỗi](research/US500-RECENT-RECOVERY-AMENDMENT-20261112.md).
+  8 setup cadence 2022–2025; 4 economic recipes; fixed RS01/RS07 diagnostic
+  2026 tới hết 11/11 NY và historical 2016/2020/2021. 56 retained books
+  (48 financial + 8 null), 37 reused byte-exact/re-reviewed; 38 focused tests.
+  Không recipe đủ full-known stress2025 nên không winner; fallback controls
+  không shortlist. Full net của recent books N/A do held gaps; known subsets
+  stress2025/2026 âm. Điểm kỹ thuật/cadence 2–3 trong 3 điểm đo được, 7 điểm
+  kinh tế chưa đủ bằng chứng; không scale thành /10. Source/code/price-gap
+  uncertainty và prop/forward vẫn tách biệt. 2026 đã consumed cho RS01/RS07,
+  không gọi clean OOS. Giữ negative lineage/catalogue cũ + scoped RS study.
+  Không job nền. Đã inventory: RS01/RS02 năm2025 cùng thiếu phút04/04 11:02NY;
+  tiếp đăng ký/kiểm khả năng phục hồi source có giới hạn trước tuning.
+  RS02 chưa chạy2026, cần đăng ký study mới nếu mở. Không broker/Goal mới.
+
 - **Owner12/11 mở rộng research nhiều setup và cho offline2025/2026**:
   [Recent discovery PLAN](research/US500-RECENT-DISCOVERY-PLAN-20261112.md)
   supersede2025+reserved **cho đúng study mới**, không đổi frozenprotocols cũ.

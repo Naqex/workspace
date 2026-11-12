@@ -1,5 +1,14 @@
 # Tra cứu research đã có
 
+[US500 recent: 8 setup, 2025 và 2026 đến 11/11, điểm và đề xuất](US500-RECENT-SCREEN-RESULTS-20261112.md):
+56 sổ retained/48 financial/8 null; 37 reuse có review. Chưa có winner:
+recent full net N/A do held gaps, known subsets stress âm; fixed RS01/RS07
+2026 là diagnostics, không shortlist. [Protocol](US500-RECENT-SCREEN-PROTOCOL-20261112.md),
+[amendment/recovery](US500-RECENT-RECOVERY-AMENDMENT-20261112.md) giữ hai lỗi
+và source deltas. 38 focused tests; không job nền; inventory RS01/RS02 năm2025
+cùng thiếu04/04 11:02NY, tiếp source recovery có giới hạn; không tuning hoặc
+đọc RS02/2026 như validation mới.
+
 [FP07 cùng luật: cadence2013–2021 và data gaps](US500-CHANNEL-HISTORY-RESULTS-20261112.md),
 [protocol/amendment trước counts](US500-CHANNEL-HISTORY-PROTOCOL-20261112.md):
 9years/45,41s,11scopedtests,912firstdaysđủquote;2016/20/21≈3/5phiên,
