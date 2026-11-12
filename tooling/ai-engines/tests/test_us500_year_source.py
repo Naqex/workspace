@@ -29,6 +29,23 @@ def fixture(root, year=2019):
 
 
 class US500YearSourceTests(unittest.TestCase):
+    def test_explicit_historical_scope_preserves_default_and_proof_checks(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp); _, sha = fixture(root, 2013)
+            with self.assertRaisesRegex(ValueError, 'explicit_registered_year'):
+                load_year_side(root, year=2013, side='bid', proof_sha256=sha)
+            loaded = load_year_side(root, year=2013, side='bid', proof_sha256=sha, registered_years=(2013,))
+            self.assertEqual(len(loaded['rows']), 4)
+            with self.assertRaisesRegex(ValueError, 'accepted_source_proof_binding'):
+                load_year_side(root, year=2013, side='bid', proof_sha256='0'*64, registered_years=(2013,))
+
+    def test_explicit_scope_never_opens_reserved_or_unregistered_years(self):
+        for years in ((2025,), (2012,), (), (2014, 2013), (2013, 2013), [2013], (True,)):
+            with self.assertRaisesRegex(ValueError, 'explicit_registered_year'):
+                load_year_side(Path('not_read').resolve(), year=2013, side='bid', proof_sha256='0'*64, registered_years=years)
+        with self.assertRaisesRegex(ValueError, 'explicit_registered_year'):
+            load_year_side(Path('not_read').resolve(), year=2014, side='bid', proof_sha256='0'*64, registered_years=(2013,))
+
     def test_recent_accepted_years_and_reserved_holdout_boundary(self):
         for year in (2023,2024):
             with tempfile.TemporaryDirectory() as temp:
