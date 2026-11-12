@@ -1,5 +1,12 @@
 # Tra cứu research đã có
 
+[FP07 cùng luật: cadence2013–2021 và data gaps](US500-CHANNEL-HISTORY-RESULTS-20261112.md),
+[protocol/amendment trước counts](US500-CHANNEL-HISTORY-PROTOCOL-20261112.md):
+9years/45,41s,11scopedtests,912firstdaysđủquote;2016/20/21≈3/5phiên,
+2013/14/17datawindowthiếunhiều. Không gọi nhịp thấp là rulefail/no-setup;
+2022–24reuse,2025+đóng,0PnL/newrules. V1preflightLF/CRLFfail0years giữ,
+v2verifiedsnapshotsource-newlineexception;marketdata/lockvẫnbindexact.
+
 [Đã đếm ba thiết kế cơ hội US500](US500-OPPORTUNITY-SCREEN-RESULTS-20261112.md),
 [protocol trước outcomes](US500-OPPORTUNITY-SCREEN-PROTOCOL-20261112.md):
 baseline165;FP06retry181,FP07prior20channel540firstdays/992rawtriggers,

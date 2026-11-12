@@ -6,14 +6,20 @@ from pathlib import Path
 import re
 
 
-def load_year_side(root, *, year, side, proof_sha256):
+def load_year_side(root, *, year, side, proof_sha256, registered_years=None):
     """Proof hash must come from the accepted source receipt, not a new self-seal.
 
     This binds the derived canonical files; it does not rerun raw transformation
     or certify a new producer. A pilot quarter selection is never a full year.
+    Historical callers must explicitly register a bounded year set; defaults
+    stay unchanged and no override can admit the reserved 2025+ window.
     """
     root = Path(root)
-    if (not root.is_absolute() or type(year) is not int or year not in (2019, 2022, 2023, 2024)
+    years = (2019, 2022, 2023, 2024) if registered_years is None else registered_years
+    if (type(years) is not tuple or not years or any(type(y) is not int or not 2013 <= y <= 2024 for y in years)
+            or tuple(sorted(set(years))) != years):
+        raise ValueError('explicit_registered_year_scope_required_holdout_closed')
+    if (not root.is_absolute() or type(year) is not int or year not in years
             or side not in ('bid', 'ask') or type(proof_sha256) is not str
             or re.fullmatch('[a-f0-9]{64}', proof_sha256) is None):
         raise ValueError('explicit_registered_year_side_and_proof_required')

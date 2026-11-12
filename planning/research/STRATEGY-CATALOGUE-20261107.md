@@ -15,6 +15,10 @@ RelatedR123/R001/R002, không3independentedges; account counts123/88/53 giữ.
 Ưu tiên thiết kế economic screen riêngFP07 theo cadence, chưaPnL/edge; không
 tự đổi cap/risk hoặc mở2025+.
 
+FP07 đã [kiểm cadence thêm2013–2021](US500-CHANNEL-HISTORY-RESULTS-20261112.md):
+912firstdaysđủquote,0newrules/PnL. Nhiều oldwindows bịdata gaps,không suy nhịp
+thấp là ít cơ hội thật hoặc gọi fullhistory/OOS/edge pass; không nới gaprules.
+
 R076/R077 thêm [paper-window component v2](INDEX-PAPER-WINDOW-IMPLEMENTATION-20261109.md)
 đã [reviewed và không retained](INDEX-PAPER-WINDOW-RESULTS-20261109.md). Revision lineage nằm ngay trong
 hai JSON records; v1 negatives giữ nguyên, không tăng account-policy count
