@@ -1,6 +1,6 @@
 # Current context — Naqex Workspace
 
-12/11/2026 · `WORK: ACTIVE/PARTIAL · REVIEW: SCOPED · DOC: RESUMABLE`.
+13/11/2026 · `WORK: ACTIVE/PARTIAL · REVIEW: SCOPED · DOC: RESUMABLE`.
 
 ## Việc hiện tại
 
@@ -9,15 +9,20 @@ Owner yêu cầu rà hệ thống/workflow và gom mọi bước, kể cả vi�
 một task. Audit/plan không là strategy accepted. C1/C2 chưa đạt; chưa có
 ứng viên challenge. AppGoal vừa kiểm=null; không tự bật lại.
 
-**Bước1–2 đã được owner chấp thuận; PR66 đã merge** vào main`c310bd2`.
-[Gold R043 cost/path diagnostic](research/GOLD-R043-FINANCING-PATH-AUDIT-20261112.md)
-đã đối soát220closed/2.007fee events/15cash paths và kiểm metadata2025–26.
-8.950,80financing=8.709,20closed+241,60open; BUY+6.142,85/SELL−3.563,23net.
-**Owner tạm dừng Bước3–4/PropRiskOverlay trên US500 multiframe**; không port
-Gold, sửa rules/costs hoặc mở study mới. Bước5 chưa giao; C1/C2 chưa đạt.
-Đề xuất kế tiếp: xác minh targetcost/account/calendar trước quyết định Gold
-nativepath; EURUSD có hạ tầng tick tốt nhất cho một intradayhypothesis mới.
-XAU M1cache tới13/10/2026 nhưng cleanOOS2025–26 chưa chứng nhận; không mởgiá.
+**PR67 đã merge** vào main`0240424`;4nhánh chỉ định đã dọn, multiframe cótag
+`archive/us500-multiframe-study` trỏ`b77fc68`. WIP/nhánhVI của chat khác giữ nguyên.
+[Gold M1 path + swap/sizing và EURUSDpostmortem](research/GOLD-M1-PATH-AND-EURUSD-POSTMORTEM-20261113.md)
+đã đo2010–24, giữ220closed+5open: base0,25% dailybao biên0,4926%, equitypeakDD
+4,20428%, staticinitialloss3,8812%; coverage lịch68,1741% gồmclosures/gaps,
+không wholepath/tick/targetaccountcert. Gold là multi-day/Swing research;
+0,40% đạt observedinternal3%/6,5% nếu6,5% làstaticloss, nhưng peakDD6,73%.
+0,50% vượt cảhai cap6,5%;0/15flat10%touch trong cả9case, chưa sizing thật.
+**US500overlay Bước3–4 vẫnpaused**; không portGold/alpha retune/freshstudy.
+Catalogue13:8H4+16H1;9bản grosssau spread khôngdương,13bản mất lãi trướcswap
+do commission/slip,2bản H4 mất vìswap.6reference dương,0stress dương.
+Tiếp đề xuất: targetcost/sourcegap admission trước boundedGoldnativefixture;
+EURUSDintraday mới cần hypothesis đủ trả ma sát và card/protocol, chưa tự chạy.
+Không mởgiá2025–26; metadata/OOS cũ không đổi. C1/C2 chưa đạt.
 [Hồ sơ Bước1–2](research/STRATEGY-STATUS-AND-CANDIDATE-DOSSIERS-20261112.md)
 giữ taxonomy/gap/testdesign; đề xuất US500overlay cũ đã được owner gác.
 
@@ -79,7 +84,8 @@ pricecomponent thành accountPnL. Dataset đã xem không tự thành cleanOOS.
 Auditdoctor đọc được4integration sources đúngpin/license; configuredPaperclip
 health endpoint unavailable. Không kết luận mọi runtime hỏng, không tự start/
 restart trong audit. Broker/target account/production chưa được acceptance.
-Chỉ sửa docs/skill workflow; không numericaljob, holdout mới, install hoặc lệnh.
+Lượt mới đã có fixed-trade M1diagnostic được owner giao; không strategyjob mới,
+holdout2025–26, install hoặc lệnh broker. Không promote/runtime từ kết quả này.
 
 Ngoài nativePaperclip task/runstate và existingreceipts không tạo tracker/UI
 cạnh tranh. Research/plan không cấp OrderCheck/OrderSend/account/provider/

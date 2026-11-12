@@ -1,6 +1,6 @@
 # Task tổng: US500 H1–M15 → kiểm chứng → challenge → payout
 
-**ID: STRATEGY-E2E · Owner: chủ project · Thực hiện: agent phụ trách · 12/11/2026.**
+**ID: STRATEGY-E2E · Owner: chủ project · Thực hiện: agent phụ trách · 13/11/2026.**
 Đây là task/PLAN chính của chiến dịch, thay phần điều hướng lịch sử trước audit.
 Native Paperclip vẫn sở hữu task/run khi được dùng; protocol/artifact của từng
 study sở hữu số liệu. Không tạo dashboard, ledger hoặc Goal song song.
@@ -91,6 +91,24 @@ Owner chấp thuận dossier`1c21e84`; PR66 đãmerge vào main`c310bd2` sau3CI�
   hypothesis mới. Đây là đề xuất hạ tầng, chưa chuyển mainmarket hoặc chốt setup.
 - XAU2025–26 có trong phạm vi QDMM1metadata, chưa chứng nhận globalcleanOOS;
   không mởprices để tự làm sạch nhãn exposure. Bước5/freshvalidation chưa giao.
+
+### Gold fixed-trade M1 diagnostic và EURUSDpostmortem — 13/11/2026
+
+[Kết quả và phạm vi](GOLD-M1-PATH-AND-EURUSD-POSTMORTEM-20261113.md) hoàn tất theo
+chỉ thị owner: raw2010–24,220closed+5open,3swapcases×3sizing, không đổi alpha.
+Gold được giữ là multi-day/Swing research, không épintraday. Base125USD/risk0,25%
+observedbao biên:daily246,30USD,peakDD2.102,14USD,initialloss1.940,60USD;
+225positioncoverage/cashbaseline/scalarwitness checks giữ trong JSON.
+0,40% có observedstaticloss<6,5% nhưng peakDD>6,5%;0,50% vượtcảhai cap.
+Không certifiedsafe do gaps/Ask/targetcost/execution; không tăngsizing thật.
+Flat10%touch0/15ởcả9case; time-fit chưa giải quyết, không mở grid để cứu.
+
+Catalogue13 đọc624sealedcases:24versions (8H4/16H1),6reference/0stress dương;
+9grosssau spread khôngdương,13mấtlãi trướcswap do commission/slip,2H4mất vìswap.
+Đây là postmortem, chưa hypothesisH1→M15 mới hoặc alpha trướcspread đã đo.
+PR67 đãmerge;4namedbranches dọn, multiframe cóarchive tag; giữVIWIP.
+Đề xuất tiếp targetcost/sourcegap admission rồiboundednativefixture choGold,
+hoặc card/count-only choEURUSDintraday mới khi được giao; không2025–26.
 
 Audit này rà luồng scope→data→code→simulation→validation→operations→handover,
 đối chiếu source/tests/evidence và health check; **không là full code/security
