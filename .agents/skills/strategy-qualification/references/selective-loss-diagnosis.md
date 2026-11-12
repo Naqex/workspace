@@ -63,6 +63,32 @@ Contract và ví dụ đã kiểm ở [hierarchical PnL](../../../../planning/re
 
 ## Từ phát hiện đến thay đổi
 
+### Budget cho vòng lặp chẩn đoán
+
+- Một vòng chỉ thử tối đa **một thay đổi có cơ chế rõ**, với baseline,
+  question/trial/time/data budget và stop criteria khóa trước outcome mới.
+  Ghi parent candidate/version, diagnostic đã xem, changed components/knobs,
+  exposure và effect mong đợi; giữ cả fail/abandoned/frequency-only trials.
+- Exit, partial/BE, sizing/phase policies và đổi cost assumptions đều vào
+  lịch sử lựa chọn; không đổi tên child hoặc engine để reset trial/exposure.
+  Thay nhiều điều kiện cùng lúc là compound version cần scope riêng, không
+  được mô tả như tác động đã cô lập của một filter.
+- Báo số cơ hội trước/sau, unique days/regimes, dependence và thời gian thu
+  mẫu/precision dự kiến. Không gán X% giảm mẫu hoặc Y tham số là chuẩn chống
+  overfit phổ quát; review theo câu hỏi và budget. Thiếu bằng chứng thì gác/
+  inconclusive, không điều chỉnh floor sau outcome hoặc ép vào thêm lệnh.
+- Sau **hai vòng liên tiếp không tạo thông tin hữu ích**, checkpoint rồi gác
+  nhánh, ghi điều kiện mở lại cụ thể. Thông tin hữu ích là giải quyết một bất
+  định/đổi quyết định bằng evidence, không chỉ PnL tăng; không mở vòng thứ ba
+  bằng rename hoặc quét thêm filter. Material bug vẫn sửa theo correctness,
+  không tự được tính thành một alpha-optimization loop.
+- Khóa lựa chọn trước fresh/prospective evaluation; validation đã xem là
+  consumed. Diagnostic từ winners/losers không là executable filter hoặc OOS.
+
+Đây là giới hạn quản lý chu kỳ theo task, không statistical certificate,
+daemon hoặc quyền chạy study mới. Ghi nguyên nhân bằng
+[taxonomy có scope](validation-gates.md#nhãn-nguyên-nhân-dừng-và-phạm-vi-bằng-chứng).
+
 Xếp vấn đề theo tiền ảnh hưởng, độ chắc của bằng chứng, khả năng tác động
 thật và công sức. Lỗi/spec chưa rõ sửa trước tuning. Giảm turnover/holding có
 thể bỏ cả các lệnh thắng lớn; đòi hypothesis và replay mới thay vì cộng khoản

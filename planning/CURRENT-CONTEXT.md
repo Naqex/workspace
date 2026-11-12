@@ -9,7 +9,12 @@ Owner yêu cầu rà hệ thống/workflow và gom mọi bước, kể cả vi�
 một task. Audit/plan không là strategy accepted. C1/C2 chưa đạt; chưa có
 ứng viên challenge. AppGoal vừa kiểm=null; không tự bật lại.
 
-Owner yêu cầu research mở rộng US500/EURUSD và cách dùng cả năm engine.
+**Lượt hiện tại: hậu kiểm Bước1–2 đã được owner phê duyệt**, chuẩn hóa nguyên
+nhân dừng và contract Alpha–Sizing–Exit. [Hồ sơ Gold +5US500 / gap và testplan](research/STRATEGY-STATUS-AND-CANDIDATE-DOSSIERS-20261112.md)
+giữ kết quả, JSON dẫn xuất và blockers. Không financialrun/runner mới;
+Bước3–5 chưa bắt đầu, chờ owner chọn scope/đối tượng. C1/C2 chưa đạt.
+
+Research mở rộng US500/EURUSD và cách dùng cả năm engine đã được khảo sát.
 [Báo cáo chiều sâu/engine/milestones](research/STRATEGY-DEPTH-ENGINES-AND-MILESTONES-20261112.md)
 đề xuất US500 chính/EURUSD phụ (80/20 công sức), một hypothesis mỗi lane;
 FX trước hết rà oldevidence/readiness, chưa numericalprotocol mới. Đây là
@@ -19,7 +24,7 @@ Owner bổ sung: [lọc feasibility sớm](../tooling/ai-engines/STRATEGY-WORKFL
 trước code sâu/financialbatch; reuse/count-only khi thiếu cadence. Bản có edge
 được xét sizing khác nếu stressDD/prop cho phép;0,25% chỉ baseline, chưa đổi risk thật.
 
-**Bước tiếp là T1 — chốt strategycard**, không chạy study mới: hypothesis →
+**T1 chiến lược vẫn chưa freeze card mới**, không tự chạy study sau hậu kiểm: hypothesis →
 H1bias/clock/carry → M15zone/available_at → setup → trigger → risk/entry/exit.
 Giữ US500/intraday, FTMO CFD2-StepStandard chính, risk thấp; The5ers nhánh riêng.
 Đề xuất chính là confirmedM15level→break→retest, giữ MA-arm comparator;

@@ -1,9 +1,16 @@
 # Tra cứu research đã có
 
 **Task đang thực hiện:** [STRATEGY-E2E — H1→M15 tới challenge/payout](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).
-Task này giữ audit, chặng T0–T9 và các việc xét sau Q1–Q12. Bước tiếp T1:
-chốt strategycard/clock/zone; các nextactions trong research cũ là lịch sử,
+Task này giữ audit, chặng T0–T9 và các việc xét sau Q1–Q12. Ưu tiên hiện tại:
+hậu kiểm Bước1–2 dưới đây; T1strategycard/clock/zone chưa freeze. Các nextactions trong research cũ là lịch sử,
 không tự dispatch. Index dưới đây dùng tra bằng chứng, không là taskqueue.
+
+[Bước1–2: taxonomy, GoldR043,5US500dương và gap/testplan](STRATEGY-STATUS-AND-CANDIDATE-DOSSIERS-20261112.md),
+[JSONderivedview](STRATEGY-STATUS-AND-CANDIDATE-DOSSIERS-20261112.json):
+R100/R107/R118/R120/R121 stress+9,69/+9,69/+3,17/+48,87/+23,03USD;
+R100/R107 cùngfinancialtrace. Gold+4.035,06USD/220closed/15resetyears vẫn
+researchsurvivor, chưa targetcost/timefit/OOS/prop. M1PnLknown khác tickDDknown;
+propunmeasured khác violated. Không đổi oldverdicts, không Bước3–5/runner mới.
 
 [Vì sao chưa có thành tích; một hay nhiều thị trường; năm engine và các chặng](STRATEGY-DEPTH-ENGINES-AND-MILESTONES-20261112.md):
 kế thừa EURUSD/US500/Gold, phân biệt variants với cơ hội độc lập; đề xuất

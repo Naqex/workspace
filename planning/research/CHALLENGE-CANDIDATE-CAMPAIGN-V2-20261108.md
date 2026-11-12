@@ -35,8 +35,9 @@ phối hợp năm engine trước task lớn. [Báo cáo đã hoàn tất trong 
 giữ chẩn đoán, nguồn, engine gaps và milestonesA–F nốiT1–T9/Q12. Khuyến nghị
 US500 chính/EURUSD phụ,80/20 **công sức**, một hypothesis mỗi lane; FX ban đầu
 chỉ rà evidence/readiness. Đây là đề xuất triển khai, chưa freeze recipe,
-mở data mới, cross-engine parity hoặc thành tích kinh tế mới. T1 vẫn là
-bước tiếp; không chờ hoàn thiện cả năm engine mới kiểm một hypothesis.
+mở data mới, cross-engine parity hoặc thành tích kinh tế mới. T1 chưa freeze;
+ưu tiên hiện tại là hai bước hậu kiểm được owner phê duyệt bên dưới. Không
+chờ hoàn thiện cả năm engine mới kiểm một hypothesis khi được giao đúngstage.
 
 Checkpoint từ nay báo card→technicalpass→economicsurvivor→fresh/robust→demo
 →challenge/payout cùng blockers, tách số trials/books; hiện0candidatechallenge.
@@ -55,6 +56,24 @@ không là hardfail chung; risk selection dùng account/equity replay khi cần,
 khóa trước T6. Đây là workflow, chưa runner enforcement hoặc risk thật mới.
 
 ## Rà soát hệ thống: sai ở đâu, thiếu ở đâu?
+
+### Hậu kiểm Bước 1–2 được phê duyệt ngày12/11
+
+Đây là hai bước của quantitative self-audit, **khác số chặng T0–T9** của
+chiến dịch. Owner phê duyệt chuẩn hóa nhãn/hồ sơ và sửa reference/contract;
+chưa giao triển khai Bước3–5/overlay phức tạp hoặc backtest mới trong lượt này.
+
+| Bước audit | Kết quả / evidence | Trạng thái |
+|---|---|---|
+|1. Chuẩn hóa nguyên nhân dừng, hồ sơ candidates|[Taxonomy và bảng scope](STRATEGY-STATUS-AND-CANDIDATE-DOSSIERS-20261112.md#taxonomy-và-bảng-trạng-thái-hiện-có), GoldR043 và đủ5US500 dương; [JSON](STRATEGY-STATUS-AND-CANDIDATE-DOSSIERS-20261112.json) bind54savedartifacts; R100/R107 duplicatefinancialtrace|Hoàn tất read-only extraction/review, không sửa frozen outcomes hoặc promote|
+|2. Contract Alpha–Sizing–Exit, anti-overfit và gap/testplan|Ba existingqualification references; [componentgap/RP01–10](STRATEGY-STATUS-AND-CANDIDATE-DOSSIERS-20261112.md#gap-matrix-và-test-cases-nhỏ-nhất-cho-bước-3)|Đã cập nhật docs; testcases mới chỉ là design, chưa engine implementation/test execution|
+|3–5. Tích hợp/replay/fresh validation|Chọn source/model/candidate/protocol và quyền theo scope kế tiếp; không tự triển khai từ việc hoàn thành tài liệu|Chưa bắt đầu; owner quyết định bước tiếp từ hai hồ sơ|
+
+Không candidate nào được gọi đã vi phạm DailyDD chỉ từ`prop_qualified=false`.
+Các bản positive-in-sample vẫn thiếu edge evidence; R043 originalretentionpass
+giữ nguyên. Financial/history/code/data sources cũ không bị rewrite. Ưu tiên
+engineeringfixtureUS500/R121 +R120comparator là **đề xuất**, không lựa chọn
+alpha hoặc mở lạiGoldlane. T1strategycard vẫn chưa freeze; không auto dispatch.
 
 Audit này rà luồng scope→data→code→simulation→validation→operations→handover,
 đối chiếu source/tests/evidence và health check; **không là full code/security

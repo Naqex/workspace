@@ -22,6 +22,29 @@ Thiếu trường liên quan giữ unknown; không dùng default hãng khác.
 
 ## Chọn sizing cho ứng viên có bằng chứng
 
+### Contract Core Alpha — Prop Sizing Policy — Exit
+
+| Owner | Inputs / đầu ra tối thiểu | Cửa kết luận |
+|---|---|---|
+| Core Alpha | Frozen signal/entry/exit rules, known-at/source/cost units; intent/abstain trace và net evidence/dependence/uncertainty | Kỳ vọng dương sau chi phí cần bằng chứng phù hợp; net mẫu dương chỉ provisional. Cadence/sample phải đủ cho câu hỏi và thời gian thu bằng chứng |
+| Prop Sizing Policy | Alpha intent + canonical account/phase/equity, daily/overall headroom, positions/pending/reservations, lot/margin và cost/gap allowance → size/reject/pause có reason | Chọn risk/time-fit/buffer theo profile; không tự sửa signal/exit để cứu economics. Phase lấy lifecycle, không tạo state machine cạnh tranh |
+| Exit Policy | Frozen SL/TP/time/partial/BE decisions có timestamp và remaining position | Đổi quản lý lệnh là version/trial mới. Primitive partial-close có sẵn không chứng minh exit đó tốt hơn hoặc đúng trong runner này |
+| Qualification | Hai phần evidence alpha và account replay, đúng rule/data/model version | Không lấy technical pass, sizing đẹp hoặc simulated target hit thay edge/OOS/authority |
+
+Screen có thể dùng baseline để ước lượng economics sớm, nhưng chưa promote
+alpha khi mẫu/precision/cadence không đủ. Một mức risk thấp không là trần
+bất biến; không loại candidate chỉ vì baseline return chưa đạt kỳ vọng.
+Nếu overlay đổi admissions/fills/account state, phải replay theo thời gian;
+không lấy trade list trước overlay làm toàn bộ kết quả mới. Ghi raw intent
+và accepted/rejected orders riêng để thấy alpha hay policy gây khác biệt.
+Risk halt khác strategy exit: stop-entry và account liquidation phải có
+policy/priority đã đăng ký tại execution owner; đóng sau breach không xóa
+witness đã xảy ra. Partial/BE không tự được bật như một risk emergency.
+
+Contract test plan và component reuse nằm ở [gap matrix của bước1–2](../../../../planning/research/STRATEGY-STATUS-AND-CANDIDATE-DOSSIERS-20261112.md#gap-matrix-và-test-cases-nhỏ-nhất-cho-bước-3).
+Thiết kế không là implementation; chưa tự bật overlay, partial/BE hoặc đổi
+risk thật. Giới hạn/taxonomy theo [validation gates](validation-gates.md#nhãn-nguyên-nhân-dừng-và-phạm-vi-bằng-chứng).
+
 Tách hai câu hỏi: tín hiệu có net edge trong model/data đã kiểm không, và
 size/risk nào phù hợp mục tiêu với daily/overall headroom? Không loại ứng
 viên chỉ vì return ở một baseline risk thấp chưa đáp ứng kỳ vọng. Risk lớn
