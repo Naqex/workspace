@@ -13,6 +13,11 @@ thêm1relatedversion vào scoped study supplement; baseline giảm cutoff15→14
 để so cùng parentwindow.12newnative+8reuse,khôngđếmRS02hai lần/khôngnewedge;
 giữhistorical123/88/53 và mọiunknown/negatives. ChưaATR/channelgrid hoặcwinner.
 
+Đã [chẩn đoán đà và costs](US500-CONTINUATION-DIAGNOSTIC-RESULTS-20261112.md)
+cho2recipe này:15/30/60phút,4năm,0newstrategy;giữ2.865rows/unknowns,
+24annualstressmeansâm. Park exactparametergrid,không loại toànfamily hoặc
+đếm diagnostic horizons/controls thành independentedges.
+
 12/11: thêm scoped study [8 recent setups RS01–RS08](US500-RECENT-SCREEN-RESULTS-20261112.md)
 ngoài 123 hồ sơ lịch sử trên; JSON `registered_setup_studies` giữ lineage,
 không cộng thành independent edges hoặc âm thầm renumber old records.

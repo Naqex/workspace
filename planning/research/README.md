@@ -1,5 +1,11 @@
 # Tra cứu research đã có
 
+[Chẩn đoán đà/chi phí/đường đi sau phá kênh](US500-CONTINUATION-DIAGNOSTIC-RESULTS-20261112.md),
+[protocol](US500-CONTINUATION-DIAGNOSTIC-PROTOCOL-20261112.md):4năm/2recipe,
+15–30–60phút,2.865eventrows/18.194controlbars,24annualcells stressmeanâm.
+37,041snumeric+45,627sseparatereview,7tests. Giữ2025RS02/60dấuhệumỏng,
+khôngedge/OOS;park exactATR/channel/exitgrid. Khôngnewstrategy/2026/broker.
+
 [Vào sau phá hay chờ hồi: đối chiếu cùng cutoff14NY](US500-ENTRY-METHOD-COMPARISON-RESULTS-20261112.md),
 [protocol](US500-ENTRY-METHOD-COMPARISON-PROTOCOL-20261112.md):BR01relatedversion
 mới,12native+8reuse/70,618s,624vs331trades. ATR14/kênh20/.10buffer/2ATRstop

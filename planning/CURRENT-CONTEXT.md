@@ -9,6 +9,17 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 ## Việc hiện tại
 
+- **Owner giao chẩn đoán continuation12/11 — đã xong**:
+  [Kết quả và quyết định](research/US500-CONTINUATION-DIAGNOSTIC-RESULTS-20261112.md),
+  [protocol](research/US500-CONTINUATION-DIAGNOSTIC-PROTOCOL-20261112.md),source
+  `99962a0`. 2.865markouts(2.849known/14gap/2outside),18.194nonbreakcontrolbars;
+  7focusedtests,37,041snumeric+45,627sseparatereview(1.892nativepaths).
+  BR01nearzero15/grossâm30/60;RS02grossâm3horizons khi gộp,24/24annualstresscellsâm.
+  2025RS02/60ref+0,0061R nhưngstress−0,0363R,normalization/costsensitive,
+  khôngwinner/OOS. Park exact2recipes'ATR/channel/exitgrid;chọnhypothesiscơchế
+  khác cólýdo trước newbatch,khôngtựdispatch. Unknowns/oldbooks giữ;reviewer
+  Fractionstringfailure giữđãsửa,khôngrerunnumeric. Khôngjobnền/2026/broker.
+
 - **Owner giao test entry12/11 — đã hoàn tất**:
   [Kết quả/các tham số cố định](research/US500-ENTRY-METHOD-COMPARISON-RESULTS-20261112.md),
   [protocol](research/US500-ENTRY-METHOD-COMPARISON-PROTOCOL-20261112.md),commit
