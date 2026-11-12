@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+[Ứng viên từng được giữ: rà lại trước đề xuất mới](STRATEGY-CATALOGUE-20261107.md#rà-lại-ứng-viên-từng-được-giữ--12112026):
+R120 US500/M15 còn inconclusive vì15lệnh/3năm và cadence thấp; GoldR043 dự
+phòng ngoài scope; UTC range/H1 cũ có later negatives/model limitations.
+Đề xuất rà savedR120trades trước đăng ký extension, chưa chạy batch mới.
+
 [Chẩn đoán đà/chi phí/đường đi sau phá kênh](US500-CONTINUATION-DIAGNOSTIC-RESULTS-20261112.md),
 [protocol](US500-CONTINUATION-DIAGNOSTIC-PROTOCOL-20261112.md):4năm/2recipe,
 15–30–60phút,2.865eventrows/18.194controlbars,24annualcells stressmeanâm.

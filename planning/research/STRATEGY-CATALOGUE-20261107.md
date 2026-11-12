@@ -8,6 +8,28 @@ ML/riskroles, không8provenedges. Historicalnegative/pins giữ nguyên.
 
 [JSON](STRATEGY-CATALOGUE-20261107.json) là cùng dữ liệu có cấu trúc; protocol/source giữ exactrecipes, không automatic dispatch/rejection hoặc broker authority.
 
+## Rà lại ứng viên từng được giữ — 12/11/2026
+
+Owner nhắc phải kế thừa shortlist cũ trước khi đề xuất cơ chế mới. Đây là
+review hồ sơ đã lưu, không backtest mới hoặc thay verdict của frozen studies.
+
+| Ứng viên | Bằng chứng đã có | Vì sao chưa đi tiếp / đề xuất |
+|---|---|---|
+| R120 US500 M15 pullback, MA40/160, đệm0,10ATR | [2022–24](US500-MULTIFRAME-RESULTS-20261111.md): 15lệnh, net chuẩn+65,27USD/cao+48,87USD, từng năm dương ở cả hai scenarios | Mẫu nhỏ, được chọn sau search27configs; [cadence audit](US500-FREQUENCY-LANDSCAPE-20261111.md):142/157tuần không entry. Giữ nghiên cứu có chọn lọc, chưa phù hợp vai trò daytrading chính. Rà contribution15lệnh từ savedbooks trước cân nhắc đăng ký extension giữ nguyên luật; chưa chạy extension hoặc mở2025/2026 cho recipe này |
+| R043 XAUUSD H4 SMA20/80 | [15sổ năm2010–24](GOLD-SMA50K-REVIEW-20261108.md), mỗi sổ reset50k: tổng net chi phí cao+4.035,06USD,10/15năm dương,220lệnh đóng | Research survivor; target/time-fit, concentration, funding/target execution và OOS còn thiếu. Ngoài lựa chọn US500/M15/intraday; giữ dự phòng, không tự chuyển lane |
+| UTC range EURUSD H4 đời đầu | [Annual2023](TIME-FIT-RESULTS-20261106.md):stress+186,96USD/10k; [Apr–Sep2022](PERIOD-RESULTS-20261106.md):+39,81USD/10k | Từng được giữ inconclusive, lợi nhuận mỏng/tập trung. [Related catalogue version2010–22](EURUSD-CATALOGUE13-RESULTS-20261108.md):stress−1.138,69USD tổng13sổ. Khác code/data/fill scope; không dùng số coarse để ghi đè tick receipts cũ hoặc gọi numerical-equivalent. Chưa cơ sở ưu tiên lại chỉ từ kết quả vòng đầu |
+| EURUSD H1 London16–20 và Asia→London | Từng được chọn từ2023/24; [extension2010–22](EURUSD-DISCOVERY11-RESULTS-20261108.md) không đạt frozen retention cho cả hai | Giữ negatives và native/coarse limitations; không phục hồi chỉ vì từng là survivors |
+| R088 EURUSD SELL sau FOMC12–24h | [Component stress2019/2022](EURUSD-POST-FOMC-RESULTS-20261109.md):+1.013/+545USD trên100kEUR notional | Positive component, không account strategy:2022 kém matched-week control, chưa SL/prop/OOS; ngoài lane hiện tại. Không ưu tiên qualification |
+
+**Đề xuất hiện tại:** rà sâu có giới hạn saved15trades của R120 trước khi mở
+nhánh mới; nếu dữ liệu/concentration không cho thấy lý do kiểm thêm thì giữ
+inconclusive và dừng ở đó. Nếu đáng kiểm tiếp, đăng ký recent extension cho
+đúng recipe/window, audit exposure/coverage trước outcomes; không gọi dữ liệu
+đã xem là clean OOS. Không nới MA/giờ/confirmation để ép đủ lệnh hoặc mặc định
+R120 thay thế mục tiêu cadence. Gold chỉ là lựa chọn riêng nếu owner mở lại
+market/timeframe scope. Đề xuất chưa là new-run dispatch; catalogue IDs/counts,
+protocols, financial artifacts và mọi thất bại cũ giữ nguyên. Existing skills đủ.
+
 12/11: [BR01 common14 so RS02](US500-ENTRY-METHOD-COMPARISON-RESULTS-20261112.md)
 thêm1relatedversion vào scoped study supplement; baseline giảm cutoff15→14NY
 để so cùng parentwindow.12newnative+8reuse,khôngđếmRS02hai lần/khôngnewedge;
