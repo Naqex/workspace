@@ -75,6 +75,30 @@ nhánh vô hạn. Candidate không có survivor thì kết quả đúng có th�
 
 ## Mượn ý tưởng thuật toán đến mức nào?
 
+### Đề xuất hướng chính sau câu hỏi tiếp của owner12/11
+
+Tập trung **tiếp diễn theo giá**, giữ ưu tiên xu hướng owner đã nêu. Không
+nghiên cứu active cả hai họ ngang nhau trong vòng kế. Reversion giữ history/
+negative làm tham chiếu, chưa mở study mới. Đây là quyết định phân bổ nghiên
+cứu của agent, không tuyên bố continuation có edge tốt hơn hoặc owner đã chọn
+recipe để vận hành. Chưa chốt H1 filter, MA hoặc thêm giờ/threshold mới.
+
+Một câu hỏi cho lát kế: **chờ retest sau phá kênh có đáng so với vào theo cú
+phá không?** RS01 làm baseline, RS02 làm related comparison; chưa gọi cả hai
+qualified. Dùng lại 2022–2025 đã có, không chạy financial rerun không đổi.
+So net/cost/risk/cadence/uncertainty, không chỉ tổng PnL hoặc ít lệnh hơn.
+Các trade sets khác nhau nên không coi chênh lệch tổng lãi là causal effect
+đã được tách hết yếu tố khác.
+
+Trước hết chốt feasibility của phút thiếu chung bằng inventory nguồn đã có
+hoặc bounds có đăng ký, không dành vô hạn thời gian sửa toàn feed. Sau đó đọc
+saved books có giới hạn để tìm điểm yếu/câu hỏi mới; chỉ nếu có cơ sở mới freeze
+study tiếp theo. RS02/2026 vẫn chưa có economic run; mở nó phải đăng ký riêng,
+ghi post-selection2025 và exposure đã biết, không tự gọi pristine holdout.
+Nếu exact recipe vẫn yếu/inconclusive, park với lý do; không thêm nhiều filter
+để cứu hoặc kết luận cả họ continuation thất bại. Không mở reversion chỉ để
+luôn giữ một candidate có kết quả đẹp. Chưa có numeric job mới.
+
 | Ý tưởng | Áp dụng có ích | Giới hạn trong trading |
 |---|---|---|
 | Cây/graph | Nhìn nhánh, parent, biến thể, phần chưa kiểm | Không tự tạo hoặc chứng minh edge |

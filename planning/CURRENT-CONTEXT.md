@@ -16,6 +16,10 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
   1–2recipe sâu nếu đủ evidence;đây là workloadheuristic/chưaownerchốt hoặc
   executableprotocol. Không ưu tiên chỉ vìPnLđẹp,khôngprune cảfamily từ1loser,
   khôngresettrials/2025–26exposure. KhôngnewPnL/engine/Goal/skill.
+  **Agent đề xuất tiếp:** continuation là lane chính; RS01 baseline/RS02
+  related retest comparison từ saved2022–25, khôngchứngminhedge hoặc newbatch.
+  Reversion giữ tham chiếu,khôngactive study ngang nhau. Chốt sourcegap
+  feasibility hữu hạn trước; exactstudy mới vẫnfreeze/protocol riêng.
 
 - **Vòng recent US500 12/11 đã hoàn tất**:
   [Bảng setup/kết quả/điểm/đề xuất](research/US500-RECENT-SCREEN-RESULTS-20261112.md),
