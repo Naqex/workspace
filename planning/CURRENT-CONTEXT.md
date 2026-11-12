@@ -9,13 +9,16 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 ## Việc hiện tại
 
-- **Owner nhắc kế thừa ứng viên tốt cũ12/11:** đã
-  [rà shortlist và đề xuất](research/STRATEGY-CATALOGUE-20261107.md#rà-lại-ứng-viên-từng-được-giữ--12112026).
-  R120 US500/M15 dương stress nhưng15lệnh/3năm,142/157tuần vắng; đề xuất rà
-  savedtrades/concentration trước extension nguyên luật có registration riêng.
-  GoldR043 giữ research survivor ngoài scope; UTC range/H1survivors cũ phải
-  đọc cả negative extensions và khác biệt model, không khôi phục từ vòng đầu.
-  Không newrun/holdout/broker/Goal hoặc đổi verdict; đây là đề xuất cho owner.
+- **Owner đồng ý rà ứng viên cũ12/11 — đã xong**:
+  [R120 savedtrade review](research/US500-R120-SAVED-REVIEW-20261112.md),
+  kế hoạch commit`a66abe3`;6books/30scenario rows,0simulation,3mutations reject,
+  Fraction/cash/hashreview khớp;0,382s+0,028s,không tính research/code/report.
+  Stress+48,87USD/15trades;trừ top1 còn+27,87,trừ top3−10,91 chỉdescriptive,
+  khôngedge rejection.142/157tuần vắng:giữinconclusive/research phụ,chưa ưu
+  tiên recent extension cho daytrading chính;khôngSELL-only/nớiluật/2025–26.
+  [Triage cũ](research/STRATEGY-CATALOGUE-20261107.md#rà-lại-ứng-viên-từng-được-giữ--12112026)
+  giữGoldR043ngoàiscope và FXlaternegatives/modeldifferences. Tiếp đề xuất
+  cơ chếUS500/M15 có lý do/cadence trướcnewnumeric;khôngjob/Goal/broker mới.
 
 - **Owner giao chẩn đoán continuation12/11 — đã xong**:
   [Kết quả và quyết định](research/US500-CONTINUATION-DIAGNOSTIC-RESULTS-20261112.md),
