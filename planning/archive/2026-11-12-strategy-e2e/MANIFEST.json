@@ -1,0 +1,31 @@
+{
+  "schema": "strategy-e2e-context-archive-v1",
+  "records": [
+    {
+      "original": "planning/CURRENT-CONTEXT.md",
+      "original_git_commit": "2b52c79763b1653ea9cf96dba40ce5eaafa3e341",
+      "original_sha256": "3c3d9b3002facf9a2111d2ec03e4e4d1baf86e1fa96b860ddec57b685c281b2c",
+      "archive": "planning/archive/2026-11-12-strategy-e2e/CURRENT-CONTEXT.before.md",
+      "archive_sha256": "4f1998472bcda7b72544bd1680e9927f40091e4cd291387233766c2213ef5e5b",
+      "transformation": "Exact original working bytes preserved in gzip to avoid Git line-ending conversion; readable .before.md relocates links and adds historical header only",
+      "original_bytes_snapshot": "planning/archive/2026-11-12-strategy-e2e/CURRENT-CONTEXT.original.txt.gz",
+      "original_git_blob_sha256": "26444959160fc81ed8e5e332e0d4d9259a3105631f818241c7b649bf07f8f274",
+      "original_bytes_encoding": "gzip; decompressed bytes match original_sha256",
+      "compressed_sha256": "6a5ec3bb88a38ca350db208d1796d9bdb99905129b7914670ea9d61080235253",
+      "archive_hash_policy": "LF-normalized readable Markdown only; exact original working bytes and gzip hashes remain byte-exact"
+    },
+    {
+      "original": "planning/research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md",
+      "original_git_commit": "2b52c79763b1653ea9cf96dba40ce5eaafa3e341",
+      "original_sha256": "a359a6675e37ccc481f0a33065f9f46a8d09fa5a93d083131ce1ca2d1716378b",
+      "archive": "planning/archive/2026-11-12-strategy-e2e/CAMPAIGN-V2.before.md",
+      "archive_sha256": "b9e44774f43822a3cc4649e1584fd444e4bcf00d2a2ceaf05b6ca66c13e7b020",
+      "transformation": "Exact original working bytes preserved in gzip to avoid Git line-ending conversion; readable .before.md relocates links and adds historical header only",
+      "original_bytes_snapshot": "planning/archive/2026-11-12-strategy-e2e/CAMPAIGN-V2.original.txt.gz",
+      "original_git_blob_sha256": "561ecfc2437aefcfb905f44c8db9b3f41a93572c24e85b55d0b49192ab0b48dd",
+      "original_bytes_encoding": "gzip; decompressed bytes match original_sha256",
+      "compressed_sha256": "8504d20fd3cc191f461754ec15356c12017eb000e1636d2c4d9f36271bedcb99",
+      "archive_hash_policy": "LF-normalized readable Markdown only; exact original working bytes and gzip hashes remain byte-exact"
+    }
+  ]
+}

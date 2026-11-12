@@ -1,8 +1,14 @@
 # Workflow chiến lược
 
-[AI plan](../../planning/trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md) giữ scope;
+[Task tổng STRATEGY-E2E](../../planning/research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)
+giữ mục tiêu, thứ tự chặng, các vòng hồi quy và backlog có điều kiện mở lại;
+[current context](../../planning/CURRENT-CONTEXT.md) chỉ điều hướng. File này
+giữ phương pháp/tool contracts, không là bảng tiến độ cạnh tranh.
+Paperclip own native task/run/report; protocol/artifact giữ số liệu từng study.
+[AI plan](../../planning/trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md) và
 [receipt](../../planning/checkpoints/ai-integrations-20261031/RECEIPT.md) giữ
-bằng chứng. Paperclip own task/run/report; không thêm tracker/UI riêng.
+scope/evidence của registered Studio fixtures, không thay scope nghiên cứu
+chiến lược hiện tại. Không thêm tracker/UI riêng.
 
 | Chặng | Skill/tool | Bàn giao |
 |---|---|---|

@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+**Task đang thực hiện:** [STRATEGY-E2E — H1→M15 tới challenge/payout](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).
+Task này giữ audit, chặng T0–T9 và các việc xét sau Q1–Q12. Bước tiếp T1:
+chốt strategycard/clock/zone; các nextactions trong research cũ là lịch sử,
+không tự dispatch. Index dưới đây dùng tra bằng chứng, không là taskqueue.
+
 [Zone/setupM15 dưới biasH1 và cách dùng AIagents để build/kiểm](H1-M15-ZONES-AND-AI-VALIDATION-20261112.md):
 Mia/RD-Agent/BacktestBench,SMCsourcefuturelabels,Freqtradecausality/warmup;
 đềxuất levelbreak→retest +MAcomparator,khônggrid/newbatch hoặc proofedge.

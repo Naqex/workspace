@@ -1,329 +1,208 @@
-# Chiến dịch tìm ứng viên challenge — Goal mới, 08/11/2026
+# Task tổng: US500 H1–M15 → kiểm chứng → challenge → payout
 
-**Đang thực hiện theo task owner giao.** Ngày10/11 owner xóa appGoal rồi yêu
-cầu tiếp tục và nghiên cứu portfolio; tool xác nhận Goal=null, không tự tạo lại.
-Kế thừa C1/C2, toàn bộ trials/negatives/exposure; chưa có ứng viên challenge.
-Các trạng thái Goal active/paused trong checkpoint cũ bên dưới là lịch sử.
+**ID: STRATEGY-E2E · Owner: chủ project · Thực hiện: agent phụ trách · 12/11/2026.**
+Đây là task/PLAN chính của chiến dịch, thay phần điều hướng lịch sử trước audit.
+Native Paperclip vẫn sở hữu task/run khi được dùng; protocol/artifact của từng
+study sở hữu số liệu. Không tạo dashboard, ledger hoặc Goal song song.
+App Goal được kiểm trong lượt audit: `null`; task này không tự bật Goal.
 
-## Ưu tiên hiện hành từ 10/11 — dữ liệu gần trước
+## Mục tiêu và phạm vi đã xác nhận
 
-Owner yêu cầu tập trung từ2022 trở đi. Study mới ưu tiên recent development/
-robustness liên tiếp; historical trước2022 dùng có chọn lọc cho stress, mẫu
-hoặc warmup cần thiết và reuse evidence đã có. Không bắt strategy lời mọi năm,
-không coi mốc2022 là structuralbreak đã chứng minh hoặc sửa old verdicts.
-[Khung và giới hạn](STRATEGY-VALIDATION-FRAMEWORK-20261105.md#ưu-tiên-dữ-liệu-gần--quyết-định-của-owner-ngày-10112026)
-giữ cách thực thi:2022–24 đã exposed/unverified dùng đúng nhãn;2025+ vẫn
-reserved theo gate riêng. Không mở prices/holdout từ preference này. Freeze
-window/criteria trước outcomes mới; helper2019/2022 cần amendment/test trước
-đổi năm. Các lệnh “tiếp” trong checkpoint lịch sử không thay ưu tiên hiện tại.
+Tìm chiến lược tự động có bằng chứng đủ để đề xuất challenge, vận hành funded
+và hướng tới reward thực nhận với rủi ro thấp. Owner muốn đây là nguồn thu chính
+và ưu tiên tiếp cận vốn quỹ lớn; thu nhập/độ ổn định phải kiểm riêng, chưa có
+chiến lược đạt hoặc bảo đảm sẽ tìm được bằng một số lượt thử cố định.
 
-Workflow đã rà, giữ đường gọn hiện hành; không thêm skill/framework.
-Checkpoint mới nhất10/11: [R093options-week](OPTIONS-WEEK-RESULTS-20261110.md)
-48windows/96cases/8books đãreviewed;stress2019+279,41/2022−708,85USDperunit,
-2022midâmtrướcphí,gác exactalpha. Source96locators đủ/3.026.580fields;
-4workerphases51,181s/khôngjobnền. Catalogue93/58/C1C2chưađạt,appGoalđãxóa.
-[Portfolioadmission](PORTFOLIO-RESEARCH-AND-ADMISSION-20261110.md) thêmđường
-P0→P6, giữreadiness4baselines/rolealphahedge;chưaalignedpanel/sharedaccount/
-portfolioPnL. Khôngallpairs/weightsgrid; khôngbắt mọisleeve thắngmọinăm nhưng
-hedge cầnjointprotocol/evidence mới, khôngtựmởnegativealphađểcứu. Termsquỹ
-vàruntimeexecutionowner giữriêng, khôngthêmgrant/broker/provider hoặcown2025+.
+- Hướng hiện tại: **US500, H1 bias → M15 zone/setup → entry**, intraday.
+- FTMO CFD **2-Step Standard** là mục tiêu chính; The5ers là nhánh đánh giá
+  riêng. Không trộn luật 1-Step/Futures/Swing/Classic/New hoặc challenge/funded.
+- Ưu tiên từ2022 trở đi và gần hiện tại; lịch sử xa dùng stress có câu hỏi.
+  2022–24 đã exposed;2025 đã selection ở studies khác;2026 exposure tùy recipe.
+  Mỗi study cần consumedmap/protocol riêng, không tự gọi một năm là unseen.
+- Ngân sách25USD/10k (0,25%) là baseline offline đã dùng, chưa là lot/risk thật
+  được chốt cho tài khoản. Nhịp3–5/tuần là ưu tiên thiết kế, không quota có edge.
+- AI giúp research/spec/code/review. Hành vi signal/risk/fill cần tái hiện được;
+  không cho model tự đổi strategy/authorization ở mỗi lệnh.
+- Các đề xuất retest/FVG/OB và defaults mới vẫn là hypotheses, không coi owner
+  đã chọn exactrules từ việc đồng ý research hoặc yêu cầu task tổng.
 
-Checkpoint mới nhất10/11: [ECB archived source](ECB-ARCHIVED-SURPRISE-SOURCE-RESULTS-20261110.md)
-terminal/reviewed, 3×308dates/1.709numericcells/8focus đủ. Structure đạt nhưng
-intraday availability/access/causal cleaning chưa admit cả4dates; tickpilot
-false giữ, khôngfinancialtrial/job nền. Source2,593s/3GET/review87,052s/0GET.
-Catalogue92/58/C1C2chưađạt/Goalactive; khôngretryunchangedpackage, relaxsource
-hoặccostgrid. Tiếp primary-supported mechanism khác hoặc materialgap cósource mới.
+## Rà soát hệ thống: sai ở đâu, thiếu ở đâu?
 
-Checkpoint10/11mới: [R092pairformation](INDEX-PAIR-FORMATION-RESULTS-20261110.md)
-source503datesđủ nhưng fixedlineargatekhôngđạt:2018p0,55272/2021p0,41111.
-1.006pricechecks/8Decimalstats/6mutations,khôngbot/PnL. Source96months/
-223.450fields/88GET+8reuse47,373s,statisticalphases3,740s;khôngjobnền.
-[WTIgapreview](WTI-GAP-TICK-RESULTS-20261110.md)6holeskhôngtick/6controlsđủ,
-548commonM1sidebarskhớp/9.980fields/4,468s;oldsourceadmissionfalsegiữ.
-Catalogue92/58/Goalactive/C1C2chưađạt. Khôngretryunchangedrequests/pair/window/
-lag/model/feegridcứu; tiếp primarysupportedmechanism hoặcmaterialsuvivorblocker
-cóevidence mới. Cáccheckpointdưới làlịchsử,khônglặpunchangedstudies.
+Audit này rà luồng scope→data→code→simulation→validation→operations→handover,
+đối chiếu source/tests/evidence và health check; **không là full code/security
+certification, mọi module đã reruntest hoặc chấp nhận broker/runtime đích**.
 
-Checkpoint10/11: [WTI sourcefixture](WTI-SESSION-SOURCE-RESULTS-20261109.md)
-terminal/reviewed:20GET/106.510fields/4actualmutations,1.614/1.656roles;
-2019cả3phiên dưới98%,2022cả3đủ,fullsourceadmissionfalse. Source10,338s và
-review1,725s,khôngPnL/bulk/R092/job. Catalogue91/58/C1C2chưađạt/Goalactive.
-Khôngretryunchangedquotes/padding/đổigate hoặcchọnriêng2022đểcứu; tiếp
-source-supported cơchếkhác hoặcsourcegiảiquyếtmaterialgap trướcoutcome.
-[Costdiagnosis](COST-HEADROOM-DIAGNOSTIC-20261109.md) thêmcáchđọcchoowner,
-khôngnewtrial/hạphí/thayverdict. CheckpointR091bêndưới giữlịchsử.
-
-Checkpoint trước: [R091 round-level](FX-ROUND-LEVEL-RESULTS-20261109.md)
-đãreviewed/notretained:stress2019−1.466USD/153opportunities,2022−2.779/227;
-midpositive nhưng spread đãlớnhơn. 6.252cases/24books/7mutations,9tests;
-source43.764slots/43.583valid,3.801reuse/source112,389s/economic5,992s,
-0marketGET/broker/model/khôngjob. Catalogue91/58,C1C2chưađạt/Goalactive.
-Tiếp source-supported mechanism chưa trùng hoặc material survivor evidence;
-khôngoffset/hour/lag/holding/feegrid/controlwinner rescue. Các checkpoint
-dưới là lịch sử, không rerun unchanged source hoặc Goldsignal review.
-
-Checkpoint C2 mới: [Gold signal review](GOLD-SMA-SIGNAL-REVIEW-RESULTS-20261109.md)
-30 old books/40.662 H4 evaluations/616 decisions khớp oracle riêng;450 entries/
-166 strategy exits,5tests/6actualmutations,41,207s. Conditional recorded-path
-audit, không tick/prop/edge; Gold vẫn low challenge priority, không PnL mới.
-[Vàng–bạc method delta](GOLD-SILVER-METHOD-DELTA-20261109.md) đã đọc fullpaper,
-không dùng ex-post break để cứu R067. Catalogue90/58/C1C2 chưa đạt/Goal active,
-không job. Không lặp signal review không đổi hoặc mở regime/fee grid.
-
-Checkpoint trước: [R090 hourly continuation](FX-INTRADAY-SHOCK-RESULTS-20261109.md)
-khôngretained:stress2019+592USD/18cơhội,2022−1.583USD/26cơhội trên100kEURnotional,
-2022midâmtrướcphí. Source11.021slots/10.985valid,36unavailablegiữ;3.126cases/
-12books reviewed/10actualmutations. Fullsource112,748s/economic3,357s,0GET/
-broker/model;khôngjob. Catalogue90/58,Goalactive/C1C2chưađạt. Tiếp admit cơchế
-khác có nguồn/inputs hoặc materialblocker củasurvivor đượcgỡbằngsource mới;
-chưanewrecipefreeze. Khônglag/hour/k/side/feegridcứu,khôngown2025+.
-
-Checkpoint trước: [R089 temporalresults](FX-ABNORMAL-DAY-TEMPORAL-RESULTS-20261109.md)
-not_retained:164extensionopportunities/+549stressUSDper100kEUR,8/13nămdương,
-2blocksâm;source/samplegatesđạt. [Vol-scalediagnosis](FX-ABNORMAL-DAY-VOL-SCALE-DIAGNOSTIC-20261109.md)
-vẫn2blocksâm/7nămdương, khôngsupportedriskwrapper. Source14.126/14.034valid,
-42unregisteredwarmup+50lategiữ;23.478cases/90booksfullreview/521rowsreuse.
-Controlledyear2010handoff/resumeexact/OSlock verified;source701s/economic12,357s,
-mọijobterminal. Catalogue89/58,Goalactive/C1C2chưađạt. Tiếp owncausal same-day
-abnormalreturncontinuation admission từprimarypaperđãđọc, relatedR007/R089,
-khôngfutureClosefilter/clock/side/feegrid hoặc own2025+. Cáccheckpointdưới làlịchsử.
-
-Checkpoint trước: [R089 FX abnormal-day results](FX-ABNORMAL-DAY-RESULTS-20261109.md)
-27selected/521weekdayrows,stress2019+493/2022+962USDper100kEURnotional;
-0selectedunknown.3.126financialcases/12books reviewed; frozenpriority đạt cho
-nexttemporalrobustness, chưaaccount/SL/prop/cleanOOS/challenge. Source1.954slots/
-1.947within60s,7unavailablevà21unavailablehistorydays2019giữ. Successfulphases
-178,088s,0GET/broker/model/khôngjob. Catalogue89/58,Goalactive/C1C2chưađạt.
-Tiếp đăngký consumedhistory temporalextension, giữn/k/clock/cost vàreuseexact
-2019/2022 trước supportedriskwrapper; khônglot/grid hoặc own2025+.
-
-Checkpoint trước: [FX abnormal-day sourcefixture](FX-ABNORMAL-DAY-SOURCE-FIXTURE-RESULTS-20261109.md)
-88/88slotsreviewed/4mutations14,723s,5featuretests đạt, chưarealfeatures/PnL;
-R089dựkiến/catalogue88/58giữ. V1runtimefail doPython/Pydanticđổi;sourceview
-riêngkhôngsửapins. V2Friday23UTCkhôngkhảdụng;registeredv3dùng20UTCallweekdays
-đủfixture, khôngrescue theoPnL. [Protocol](FX-ABNORMAL-DAY-PROTOCOL-20261109.md)
-active20hproxyv2 trướcfinancialoutcomes;tiếpfullsource2019/2022+w2018/2021
-census/admission trướccostpreflight/economics. Goalactive/C1C2chưađạt/khôngjob.
-
-Checkpoint trước: [R088 EURUSD sau FOMC](EURUSD-POST-FOMC-RESULTS-20261109.md)
-32windows/24books/192financialcases reviewed, stress2019+1.013/2022+545USD
-trên100.000EURnotional, matchedweek+718/+2.441; khôngđạt eventgate2022.
-Khôngnetnegative nhưngchưaeventedge/risk/prop/OOS.459.780sourcefields,
-successfulfullworkerphases18,662s;88records/58versions,Goalactive/C1C2chưađạt,
-khôngjob. Đã đối chiếu existingR021wrapper/pathrisk/R056, clocks khác nên
-khônggộpPnL. Không bỏSL/tănglot/stopgrid; phí thấp khônggiải quyết riskfit.
-[Costdiagnosis](COST-HEADROOM-DIAGNOSTIC-20261109.md) phân loại đúngsignal/
-cost/selection/unknown và giữ điều kiện mởlại, khôngrescuegrid.
-
-Checkpoint trước: [R087 Nhật–Mỹ results](JAPAN-US-CASH-REACTION-RESULTS-20261109.md)
-485phiên/20books,4.322of4.850casesreviewedresolved,66phiênunknown;knownstress
-âmcảhai năm, gác exactrecipe. Gross2019+781,824nhưngspread1.170,026;
-gross2022−676,615JPY/unit, khôngUSDaccount/fullyearPnL. 5.437.930sourcefields,
-962GET+8reuse,successfulworkers7phút13s. Revieweremptyrawbug đãsửa bằngv2,
-giữv1failure, khôngrefetch. [Costheadroom](COST-HEADROOM-DIAGNOSTIC-20261109.md)
-R086fixedpath đãreview, khôngnewstrategytrial.87records/58versions,Goalactive/
-C1C2chưađạt,khôngjob. Khôngclock/side/feegridcứu hoặc lặp nguồn unchanged.
-Các checkpoint dưới là lịch sử; cửa resume hiện hành là R088 ở trên.
-
-Mới nhất: [R086 FOMC results](US500-FOMC-PRICE-MOMENTUM-RESULTS-20261109.md)
-đã32books/256cases reviewed;stress2019−63,33/2022−14,66USD/unit, không qua
-gate dù cơ sở dương. Source126mốc đủ;250raws reuse+2tailGETs;deadlinefailure/
-sealedrecovery giữ nguyên, khôngrerun, chưaSL/account/prop/OOS/forward.
-86records/58versions, khôngjob. [Surprise source](FOMC-SURPRISE-SOURCE-RESULTS-20261109.md)
-historicalreviewed nhưng intradayavailability/access chưaadmit; stockresidual
-fullmethods đãrà, deferred data/program/cost. Publicindexcost đãrà nhưng thiếu
-exactaccountpackage; tiếp distinctmethod/source admission, không lặpwebpages
-hoặc fee0/horizon/lookbackgrid để cứu R086. Goalactive,
-C1/C2 chưađạt. Các checkpoint dưới là lịch sử; cửa resume hiện tại là đoạn này.
-
-[R084 USDJPY](USDJPY-TOKYO-COMPONENT-RESULTS-20261109.md) đã terminal/reviewed:
-32books/139dates, mua chính âm stress2019/2022; sensitivity và diagnostic
-bán sau fix dương nhưng chưa promote.84records/58versions, chưa challenge.
-Mới nhất: [R085 extension results](USDJPY-POSTFIX-EXTENSION-RESULTS-20261109.md)
-đã terminal/reviewed, không còn job.6/13extensionyears dương/2of4primaryblocks
-âm nên không đạt;calendar sensitivity cũng không đạt.240books gồm32discovery
-reuse,12.402.580newsourcechecks;không accountpolicy/SL/prop/OOS/forward.
-85records/58versions ở checkpointR085, Goalactive/chưa challengecandidate. Tiếp lúc đó:
-[residual-reversion admission](RESIDUAL-REVERSION-METHOD-ADMISSION-20261109.md):
-fullmethod/data/cost trước recipe, không stock→FX/index ngầm hoặc Tokyo rescuegrid.
-Các checkpoint dưới đây là lịch sử; cửa resume hiện hành là đoạn này và
-kết quả R085, không thực hiện lại các mục “tiếp” cũ.
-
-### Resume checkpoint — workflow và quote-cost fixture
-
-[Quote-cost result](FX-QUOTE-COST-ADMISSION-RESULTS-20261109.md) đã terminal/review:
-4hours/8.747quotes, full43.735rawfields,8synthetic/5mutations,3,229s source+review.
-Chưa hypothesis/accountpolicy/PnL mới,81/58 giữ nguyên; không C1/C2/prop/edge.
-Tiếp method admission own-code từ primary rule/economic mechanism; không
-clone bot, tune fixture cutoff hoặc rescue exact NYMA4. EIA clock/endpoint
-vẫn unknown. Workflow đủ gọn, chưa cần thêm skill/framework hoặc profile.
-
-### Current checkpoint — R082 conditional WTI,09/11
-
-[R082results](WTI-WEDNESDAY-COMPONENT-RESULTS-20261109.md) đã20books/88dates/
-1.162.180rawfields/630financialcases, khôngretained:2022net âm ngay sau spread;
-2019strictN/A/25missingholdingdays. [Clockdelta](EIA-HISTORICAL-CLOCK-RESULTS-20261109.md)
-normalhistoricalschedule/preannouncementdoc mới, khôngactual/PITallproof.
-[Role-source](OIL-EIA-ROLE-SOURCE-RESULTS-20261109.md) USO vẫnnotadmitted;
-LFCRLFfailure giữ vàrebindsnapshots;2negativeregressions đạt.82records/58versions,
-C1/C2 chưa đạt. Source+review102,663s, khôngjobnền. Tiếp underlying-settlement
-method admission từ primaryCME; relatedvariant phảifreeze riêng, khônghourgrid.
-
-### Current checkpoint — R083vàJPYsource,09/11
-
-[R083results](WTI-SETTLEMENT-COMPONENT-RESULTS-20261109.md):0network,
-6,330s;strictvàendpoint40bookssameoutcome,44trades/year,stressnet2019−6,298/
-2022−1,297USD/unit. Frozenpriorityfalse;khônghourgrid/rescue. Source176raw
-reused,704newendpointOpenchecks/17synthetic/7mutations.83records/58versions.
-[JPYpilot](USDJPY-TOKYO-SOURCE-RESULTS-20261109.md)4rawURLs/26.980fields/6mutations,
-1,226s,đủ61roleminutes×2dates. Chưanewstrategy/outcome/prop;methodnext nhưheader.
-Goalactive/C1C2unproven,khôngjobnền. Source/cost/recordversions giữởresults.
-
-## Goal cập nhật — 09/11/2026
-
-Đích giữ nguyên: ít nhất một ứng viên đủ bằng chứng để đề xuất challenge,
-ưu tiên rủi ro thấp và từng program FTMO/The5ers; đồng thời quy trình phải
-được kiểm/sửa và bàn giao owner rõ ràng (C1/C2 ở dưới). Goal mới kế thừa
-checkpoint 685e222, không reset trials/negatives/exposure hoặc dữ liệu đã xem.
-
-| Ưu tiên tiếp | Câu hỏi cần giải quyết | Đầu ra trước khi đi tiếp |
+| ID / ưu tiên | Phát hiện và độ chắc | Xử lý / gate còn lại |
 |---|---|---|
-| 1. Gold R043 | Funding/spec đã mô hình hóa có phù hợp công cụ và program đích không? | Nguồn, units, điều đã biết/chưa biết; quyết định tiếp/gác/cần dữ liệu. Chưa mặc định giảm phí hoặc sửa holding để cứu kết quả |
-| 2. Cơ hội EIA | Giờ công bố, exceptions biết trước và giá vào/ra có đủ căn cứ không? | Admission/protocol trước economics; chưa đủ thì giữ unknown, không default giờ hoặc chuyển ETF→CFD ngầm |
-| 3. Ứng viên qua sàng lọc | Có lợi thế bền sau phí và hợp giới hạn quỹ/thời gian không? | Kiểm định/OOS/selection/prop/prospective theo đúng cửa; chỉ phân tích sâu survivor/near-miss có lý do |
-| 4. Hậu kiểm mỗi đợt | Có lỗi hoặc nút thắt thực tế cần sửa không? | Logs/timing/decision, đối soát và cải tiến có evidence; reuse hệ thống đã có |
+|F1/P0|**Đã xác minh lệch hướng:** agent chuyển sang TC01 dù owner muốn H1→M15; R120 laneA không có H1|Quay lại scope owner; R121 mới là counterpart cóH1. TC01 giữ negativehistory, không tiếp tục như hướng chính|
+|F2/P0|**Đã xác minh phân mảnh context:** CURRENT475dòng và campaign329dòng có nhiều next/latest cũ; workflow còn dẫn UIprototype làm scope|Snapshot hai bản trước; task tổng này giữ một thứ tự/stage; context chỉ route, protocol/results cũ giữ nguyên|
+|F3/P0|**Đã xác minh sai tài liệu:** M5 draft ghi3M1, code `prepare` thực tế gom5M1|Sửa mô tả thành5M1, ghi correction; không sửa code/protocol tài chính hoặc rerun market history|
+|F4/P0|**Semantic gap:** H1 cũ neo09:30cash, trước10:30 có thể carry phiên trước; chưa là H1 nativeMT5 hay cách bias owner học|T1 phải ghi clock/closedbar/carry/definition; mismatch là thay semantics/version, không tự gắn nhãn codebug|
+|F5/P0|**Semantic gap:** zone cũ là nến hồi quanhMA; zone/setup/trigger và exact manualrule chưa chốt|Một strategycard trước code/PnL; comparator giữ nguyên; zone mới có available_at, expiry và selection rule|
+|F6/P0|**Đã có source gaps:** recentbooks có fullnetN/A; TC01 đủ endpoints vẫn có2holdingwindows thiếuM1|T2/G1 giữ unknown; recovery/bounds chỉ đúng scope đăng ký; không drop/ffill để pass|
+|F7/P0|**Chưa đủ target realism:** index cost scenarios declared, source proxy khác tài khoản FTMO đích|T2/T6 phải bind targetspec/fees/session/news/profile. Net theo scenario chưa là broker proof|
+|F8/P0|**Chưa full prop path:** US500native runner không tự đánh giá toàn bộ lifecycle quỹ; `prop_profile.py` kiểm DD/headroom từ snapshot|Reuse existing prop lifecycle modules rồi kiểm connection theo profile cụ thể; DDsnapshot không thay intrabar/news/days/phase/reward|
+|F9/P1|**Health đã đo:**4integration sources đúngpin/license/clean; doctor không truy cập được Papercliphealth theo configuredendpoint|Reconcile đúngruntimeowner trước khi sửa/khởi động. Offline research tiếp tục; chưa công nhận Studio/live healthy|
+|F10/P1|**Có bằng chứng trong scope:** native accounting, causal fixtures, seals/reviews/reuse đã có; chưa chứng nhận toàn hệ thống|Giữ và dùng lại; chỉ chạy affectedchecks/reruns. Same-agent arithmetic khác independentfeed/person|
+|F11/P1|**Quy trình có nguy cơ overfit:** thử/chọn nhiều biến thể trên exposeddata; sửa đến khi xanh không là kiểm định|T4–T6 tách exploration/validation, giữ mọi trial; vòng lặp hữu hạn, không reset exposure hoặc tăngrisk để cứu|
+|F12/P2|**Chưa thấy lý do thêm hạ tầng:** các probe mới tính/review trong khoảng30s; chưa đo end-to-end research bottleneck đầy đủ|Ghi timing từngphase; profile khi có chậm thật. Không mặc định Rust/GPU/RAG/engine mới là bước tiếp|
 
-Giữ phân rã nhiều tầng/mẫu số rõ theo báo cáo bên dưới; không thêm framework
-hoặc tuning mọi loser. Holdout, broker, tài khoản/provider mới, phí trả tiền,
-migration/xóa dữ liệu và production giữ gate riêng. Chưa mua challenge hoặc
-khởi động batch mới chỉ từ việc tạo Goal. Goal chỉ hoàn tất khi thật đạt C1/C2.
+Nguồn đọc: [H1/M15 research](H1-M15-ZONES-AND-AI-VALIDATION-20261112.md),
+[protocol](US500-MULTIFRAME-PROTOCOL-20261111.md),
+[code](../../tooling/ai-engines/us500_multiframe.py),
+[prop snapshot](../../projects/trader/foundation_v2/trading_workspace_v2/semantics/prop_profile.py),
+[existing lifecycle tests](../../projects/trader/foundation_v2/tests/test_ps02_prop_lifecycle.py),
+[cadence/entry/recent evidence index](README.md). F8 không có nghĩa các prop
+modules khác không tồn tại; khoảng trống cần kiểm là tích hợp đúng pipeline.
 
-## Checkpoint hiện hành — 09/11/2026
+## Một luồng chiến lược rõ ràng
 
-[Gold target-cost admission](GOLD-TARGET-COST-ADMISSION-20261109.md) đã hoàn
-tất scope public research: metals commission khác Forex; The5ers swap-free
-chỉ được công bố cho funded. Chưa exact account/historical swaps, không mở
-zero-swap evaluation hoặc rerun để cứu Gold. Catalogue vẫn 81/58, C1/C2 chưa
-đạt; chuyển ưu tiên sang EIA clock/endpoint admission.
+**Giả thuyết → H1bias → M15zone → setup → trigger → risk/admission → order/fill
+→ SL/exit → accounting/reconciliation → đánh giá.**
 
-[Phân rã lời/lỗ nhiều tầng](HIERARCHICAL-PNL-ATTRIBUTION-20261109.md) đã xong
-theo yêu cầu owner: 861 node, 40.418 tỷ lệ đối soát, giữ từng cost scenario,
-vốn sổ và open/closed bridge. Không thử chiến lược mới hoặc đổi quyết định
-Gold; mục tiêu challenge C1/C2 vẫn chưa đạt.
+| Thành phần | Phải ghi trước outcomes |
+|---|---|
+|Giả thuyết|Vì sao có thể có lợi nhuận, khi nào bị bác; priceproxy khác proof orderflow|
+|Bias H1|MA/cấu trúc cụ thể, stream/timezone/baranchor, closedbar, thời điểm biết/carry/neutral|
+|Zone M15|Định nghĩa vùng, anchor, available_at, biên, lựa chọn khi nhiều vùng, expiry/invalidation|
+|Setup|Chuỗi tình huống như break→retest; điều kiện hợp lệ cùng bias, không chỉ “chạm vùng”|
+|Trigger|Nến xác nhận nào, BUY/SELL, strict/equality, M15 trước; entryTF khác là bản riêng|
+|Risk/admission|SL, plannedrisk/cost/minlot/margin/accountwidebudget, pending/unknown/news/closure guards|
+|Entry/fill|Market/limit/stop, knownat/decision/fill, BidAsk, latency/slip/reject/gap semantics|
+|Exit|SL/TP/trailing/time/trendlost cụ thể; RR là thuộc tính recipe, không ép chung mọi họ|
+|Sổ và kết luận|Cash/equity/floating/fees, nguồn vốn mẫu số; correctness/edge/prop/operations/authority tách riêng|
 
-Lượt owner giao thêm đã xong: [selective lossdiagnosis](SELECTIVE-LOSS-DIAGNOSIS-RESULTS-20261109.md)
-trên Goldretained,30books/439cases/Fractionreview, khôngtuning; skill D0→D1→D2
-đã kiểm. [EIAdatecensus](EIA-RELEASE-DATE-CENSUS-RESULTS-20261109.md)103events
-đã kiểm/dedup;actualreleasehours chưaverified. Catalogue vẫn81/58, khôngnewpolicy.
-
-Owner giao thực thi[mechanism-first plan](MECHANISM-FIRST-EXECUTION-20261109.md)
-sauđúc kết. Lượt đó hoàn tất khi Goal cũ đang paused; Goal mới từng active,
-hiện owner đã tạm dừng như ghi ở trên, C1/C2 chưa đạt. Catalogue81records/58policy-modelversions/25native/9controls;
-manualcensus80historicalIDs đủ, R081condition liênquanR080khôngindependentedge.
-[R081results](US500-INVENTORY-CONDITION-RESULTS-20261109.md):5focusedtests,
-503rowraw/Fractionreview/5mutations;knownstress2019−187,61/2022−407,44USD/unit,
-218/242selectedresolved/24unknown,khôngretained. GiữparentR080negative/unknown.
-[Oilpilot](OIL-EIA-SOURCE-PILOT-RESULTS-20261109.md)8URLs/35.280fields kiểm,
-USO16:00Openmissingbothdates, chưaadmitETF→CFDhistory/economics.
-Khôngjobnền. Next:EIAcalendar/PITexceptions/endpointsemanticregistration và
-costfit trướcnewhistory;khôngthêmfilters/cost/clockgridcứuR081.
-[Olderclosingresults](INDEX-PAPER-WINDOW-RESULTS-20261109.md) giữquarterfix/
-3unknown,16millionticks đãcó khôngthu lại. Broker/own2025+/paidprovider giữgate.
+Mỗi version dùng một card tự đủ và link source/protocol. Log cần trả lời được
+“vì sao vào/không vào/thua”, gồm data block và không có setup; không log mỗi tick.
+Bar gắn nhãn quá khứ chỉ được dùng sau available_at. R120/R121, MAproxy/zone
+structure, entryM15/M5 không được tráo tên hoặc mặc định có cùng trade set.
 
 ## Đích và cách biết đã đạt
 
-Kế thừa **C1/C2** của campaign trước: ứng viên có lợi thế sau phí và đủ bằng
-chứng cho đúng bước challenge; quá trình có protocol, causal inputs, kiểm
-chéo số học/nguồn, trial history, prop equity/time-fit, prospective
-reconciliation và bàn giao owner. Không hạ ngưỡng để tạo winner hoặc coi một
-batch/admission hoàn tất là đạt mục tiêu. Không bảo đảm thị trường có edge.
+- **C1 — ứng viên:** đủ evidence về netedge/uncertainty, targetcost/risk/time-fit,
+  prop path và prospective reconciliation để đề xuất challenge đúng profile.
+- **C2 — quy trình:** rules/code/data/cost/pins/trials/selection/unknowns có thể
+  kiểm lại; materialbugs đã xử lý; regression/independent codepath phù hợp.
+- **Bàn giao:** owner giải thích được lúc trade/đứngngoài/cắt lỗ và cách dừng
+  hoặc phục hồi. Thiếu kinh nghiệm trade tay không thay bằng lời agent “đã đạt”.
+- **Kết quả thực tế:** qua challenge/funded và reward chỉ công nhận từ record
+  thực nhận; 1payout chưa chứng minh thu nhập chính ổn định. Theo dõi net sau
+  phí/retry/operation và sinh hoạt; không coi balance danh nghĩa là vốn sở hữu.
 
-FTMO/The5ers phải đánh giá riêng theo program và điều kiện hiện hành. Profile
-10k/25USD mỗi lệnh và mốc so sánh 3/6/12 tháng kế thừa để nghiên cứu; chưa là
-đề nghị mua challenge hay deadline cá nhân. Holdout 2025+, broker sends,
-tài khoản/provider mới, trả phí và production vẫn có gate riêng.
+C1/C2 hiện **chưa đạt**. Audit/plan hoàn tất không là hoàn tất trading goal.
+Nghiên cứu có thể kết thúc một chu kỳ bằng “chưa có candidate”; không hạ gate
+hoặc kéo dài vô hạn trên cùng dữ liệu để tạo một kết quả dương.
 
-## Baseline và các lát kế tiếp
+## Một task tổng, các chặng thực hiện theo thứ tự
 
-Baseline: 53 hồ sơ/41 policy versions, chưa challenge-qualified. Giữ negatives
-và [owner report](OWNER-EVIDENCE-REPORT-20261108.md), không chạy lại 624 cases
-FX không đổi. Gold SMA50k là research survivor, chưa đủ time-fit/realism/OOS.
+Trạng thái dưới đây là planning checklist của task này; native run/receipt giữ
+trạng thái thực thi thật. Không tự tạo một issue/chat/agent cho mỗi hàng.
 
-| Lát | Câu hỏi sẽ giải quyết | Đầu ra cần |
+| Chặng | Việc cần làm / đầu ra | Điều kiện đóng | Hiện tại |
+|---|---|---|---|
+|T0 Rà và tinh gọn|FindingsF1–F12, authority map, archive nguyên lịch sử, scopeguard cho agent|Links/preservation/skill audit và resume walkthrough đạt|**Hoàn tất audit trong scope**; tiếp T1|
+|**T1 Chốt một bộ luật**|Strategycard H1→M15→risk/exit; xác minh clock/carry; chọn một mainsetup và saved comparator|Không còn điều kiện mơ hồ; examples đúng/không đúng được giải thích trước outcome|**Bước tiếp bắt buộc**, chưa freeze recipe mới|
+|T2 Data và target model|Inventory/reuse source; gaps/quality/availability; contract/fees/session, accountprofile/ruleversion và exposuremap|Đủ cho stage đã đăng ký; unknown không thành0; cost scenario khác actual target được gắn nhãn|Partial assets; target admission chưa đủ|
+|T3 Code và kiểm kỹ thuật|Reuse nativeengine/runner; zone event lifecycle; oracle/prefix/mutations, BUY/SELL/equality/gap/reset/order/cash fixtures|Không material timing/state/accounting bug; kỹ thuật pass không thay C1|Old checks có evidence; zone mới chưa implement|
+|T4 Sàng lọc nhỏ|Khóa hypothesis/rules/window/metrics/budget; count→financialscreen→cost/control/attribution|Giữ/gác/inconclusive có lý do, đủ mẫu theo câu hỏi; không quota lệnh/winner|Blocked bởi T1–T3 cho recipe mới|
+|T5 Kiểm độ bền có chọn lọc|Horizon/regime/cost/delay/gap stress, concentration/dependence; risk/RR/entry variants khi có hypothesis|Evidence phù hợp selection và sample; không grid để cứu loser; version/trial giữ|Chỉ mở cho survivor/near-miss có lý do|
+|T6 Kiểm mới và luật quỹ|Protocolchronological/freshfrozen/forward nếu chưa có cleanholdout; full equity/news/closure/phase/day/target lifecycle, time-fit3/6/12m|C1/C2 review đúngscope, mọi targetblocker xử lý hoặc không promote|Chưa candidate; không mở2025/26 ngầm|
+|T7 Vận hành và bàn giao|Đúng owned runtime/account; health, status, stop/restart/unknown-order/reconcile, backup/restore, shadow→demo theo authority|Signal/order/fill/cost/model divergence trong bound đã khóa; recovery thật và owner runbook|Studiohealth chưa đạt; broker acceptance chưa audit lượt này|
+|T8 Quyết định challenge|Một packet C1/C2, owner understanding, risk/fees/time-fit/stop criteria, profile exactfirm/phase/size|Đủ bằng chứng để đề xuất; mua challenge/gửi lệnh cần quyền cụ thể khi tới bước đó|Chưa đủ điều kiện, không mua hoặc gửi lệnh trong task audit|
+|T9 Challenge → funded → payout|Vận hành cùngversion, dailyreconciliation, kiểm rulephase mới, payoutnet/fee/withdrawal/reset handling|Record actualpass/funded/reward và hậu kiểm; mở rộng vốn sau quan sát riêng|Chưa thực hiện; không hứa lợi nhuận hoặc ngày hoàn thành|
+
+**Đọc tiếp ngay:** T1 → [H1/M15 proposal](H1-M15-ZONES-AND-AI-VALIDATION-20261112.md)
+→ [oldB/C spec](US500-MULTITIMEFRAME-DRAFT-20261111.md)
+→ [saved fulltable](US500-MULTIFRAME-FULL-TABLE-20261111.md). Agent tự đề xuất
+một defaults có lý do dễ đảo ngược; không bắt owner chọn chi tiết nhỏ hoặc
+lấy sự chưa biết của owner làm quyền tự thay cả phương pháp.
+
+## Vòng lặp cải tiến và kiểm hồi quy
+
+| Loại phát hiện | Vòng xử lý bắt buộc |
+|---|---|
+|Bug kỹ thuật|Tái hiện→fixture bắt lỗi→sửa→focused regression→review sourcepins→rerun phần bị ảnh hưởng; giữ fail/oldoutput|
+|Code tối ưu giữ semantics|Đo bottleneck→sửa bounded→so event/fills/cash/unknown parity→benchmark cùngworkload; không chỉ so net|
+|Đổi luật/zone/bias/risk/fees|Giả thuyết trước outcome→newversion/parent→development/screen→robustness/validation đúng exposure→giữ/gác; không gọi là bugfix|
+|Lỗ đúng luật|Phân rã theo costs/signal/state/regime có evidence; một trade thua không buộc sửa strategy|
+|Sai model so live|Dừng theo ops/riskpolicy→reconcile submitted/unknown→đo mismatch→sửa source/model contract→regression/shadow lại; không gửi lại khi chưa biết order cũ|
+
+Mỗi T4–T6 study khóa budget/stop trước outcome. Mỗi lần review đề xuất tối đa
+1–2relatedhypotheses có lý do trong lane hiện tại, không tự chạy toàn backlog.
+Sau hai chu kỳ đổi luật cùng nhánh không tạo evidence mới hữu ích: checkpoint
+lý do/unknown/chi phí và đề xuất tiếp, không thêm filter hoặc tự đổi market.
+Đây là giới hạn phân bổ công sức tương lai, không economic rejection hồi tố.
+Nếu thiếu dữ liệu/quyền thì làm phần độc lập; không giả pass hoặc dùng thời
+gian chờ làm authorization. Dữ liệu đã xem không được “reset” bằng rename/fork.
+
+## Những việc “xét sau” đã đưa vào task
+
+Các mục Q là dependency-gated work của task tổng, không tự dispatch. Mỗi khi
+mở phải ghi trigger/evidence, version và stage/permission phù hợp.
+
+| Mục | Công việc | Khi nào mở / quay về chặng nào |
 |---|---|---|
-| Chuẩn hóa đầu vào đang dùng | Một file có hash có thật là đúng loại giá, giờ, side và nguồn không? | Reuse validators, metadata có version, hash/lineage, exposure, units và quality; áp fixture thật, kiểm mutation; không migration/raw rewrite |
-| R026 hedge cổ phiếu cuối tháng | Có thể tạo tín hiệu tương đối EUR/US causal bằng proxy đang có không? | Source/clock/mapping admission trước outcome; ghi rõ proxy khác paper, dividend/adjustment unknown; không gọi Total Market là total return |
-| Component trước bot | Với recipe được khóa, tín hiệu có giữ economics sau phí qua hai giai đoạn không? | Protocol trước outcome, các ngày thiếu vẫn có mặt, baseline/control và uncertainty; không claim account PnL từ price component |
-| Qualification | Survivors có giữ được sau causal fill, prop equity path và dữ liệu chưa dùng không? | Exact C1/C2 review, chỉ affected reruns, đúng permissions; owner handover dễ hiểu |
+|Q1 BiasH1cấu trúc vsMA|Định nghĩa pivot/confirmation/neutral/carry và so cùngM15setup|Khi T1 xác định method mismatch hoặc câu hỏi riêng sau baseline; T1→T3→T4|
+|Q2 EntryM5|So M15 với M5 trên cùngH1/zone/risk/exit, causal timestamps|Sau T3 và có lý do entrytiming ảnh hưởng chi phí/payoff; đăng ký T4, không chỉ vì khung nhỏ hơn|
+|Q3 EntryM1|Đánh giá thêm timing/granularity/cost/latency|Sau Q2review chỉ ra value còn thiếu, source/tick/order semantics admitted; T2→T4|
+|Q4 FVG|Một representative causal three-bar zone, birth/merge/mitigation/expiry|Sau T3baseline và T4primary đã có quyết định; ghi lý do riêng trước numeric, T1→T4|
+|Q5 OB/supply-demand|Exact zone choice/displacement/knownat, code/license/source audit|Sau Q4triage hoặc có method cụ thể đủ rõ; không assume OHLC biết lệnh tổ chức; T1→T4|
+|Q6 Risk/RR/SL/TP|Sensitivity có giới hạn, constantinitialrisk vs otherpolicy và exitvariants có lý do|Sau T4evidence đáng giữ; T5; không tăng lot để biến loser thành candidate|
+|Q7 Portfolio|Alpha/hedge roles, aligned returns/shared-account replay/exposurebudget|Khi có ít nhất các sleeves có lý do và owner mở scope; T5/T6; không cộng standalonePnL|
+|Q8 The5ers/EURUSD/asset khác|Profile/source/method/cost riêng, giữ onlyone scope đang active|The5ers sau candidate FTMO đáng chuyển và exactprogram được chọn; đổi instrument cần owner scope mới; T1/T2/T6|
+|Q9 Engine khác/Rust/GPU/RAG|Admit capabilitygap/profile, boundedprototype/parity/benchmark/rollback|Chỉ khi bottleneck đo được có ảnh hưởng, không thay incumbent để kiếm edge; reuse full-framework assets hiện có|
+|Q10 PaidEA/provider/cloud|Legal reference/preset, source/spec/permission/cost/rollback|Khi có gap đo được và authority/chi phí phù hợp; không mua/cài tự động hoặc suy hiệu suất từ ads|
+|Q11 Vận hành lâu dài|Giám sát thụ động, runbudget/tokenbudget, logsretention, backuprestore và sessionreuse|T7 trước sử dụng thực; dùng nativeUI/status đã có, không thêm manager/dashboard song song|
+|Q12 Thu nhập/payout/scaling|So netincome theo vốn/risk và3/6/12m, cashreserve/retryfees, account reset/counterparty|T8/T9; hypotheticaltargets không dự báo income. Tăng vốn/portfolio chỉ sau thực chứng riêng|
 
-Mỗi lát có phạm vi hữu hạn; kết quả âm dẫn tới hypothesis mới có lý do, không
-đóng Goal mới bằng kết luận B của đợt cũ. Lưu timing/status/log/attempt và
-quyết định trước/sau tại artifact/protocol owner. Sau batch có kết quả mới,
-hậu kiểm gọn; chỉ profile hoặc dọn khi có bottleneck/phần thừa đã xác minh.
-Không xóa evidence, không thêm dashboard/ledger cạnh tranh Paperclip.
+## Theo dõi tiến độ và quyền sở hữu
 
-## Lát đang triển khai
+Mỗi run có PID/attempt/phase/counters, UTCtime, protocol/source/inputhashes,
+log/checkpoint/deadline/cancel và receipt. Reuse theo binding; completed phải
+qua accounting/artifacts. Worker không tự đọc skill mới hoặc mang instruction
+mới vào một run cũ. Status stale khác processdead; không autorestart/mua/lệnh.
 
-[R026 continuation](R026-RELATIVE-EQUITY-CONTINUATION-RESULTS-20261108.md)
-đã terminal/reviewed:3/4năm mới âm, không đạt; gác exactpriceproxy, không
-rescue bằngSL/clock/side. [R010 source results](MULTI-ASSET-TREND-DATA-RESULTS-20261108.md)
-đã phân rã data blockers:monthlyhistory84/84 từ2018, ATRfullsessions chỉ32;
-asofcap120s không tăng140/144endpoints. [Monthly results](MULTI-ASSET-TREND-RESULTS-20261108.md)
-đã hoàn tất4books/review:primaryreference−1.138,18/stress−3.519,01USD trên10kproxy,
-khôngretained. Dataset864records cósource/clockreview và tái sử dụng cho numeric
-1,416s; không hạ phí hoặc tăngleverage cứu outcome. Bước tiếp: cơ chế holding
-ngắn có data/method rõ và khác các exactversions đã gác, freeze trước số mới.
-Dùng repo skills hiện có; không tạo một skill quản lý toàn bộ khác.
-[Gold session results](GOLD-SESSION-COMPONENT-RESULTS-20261108.md) thêmR054/R055:
-cả2negative saufees/0of15stressyears dương, khôngretained. Catalogue hiện55hồ
-sơ nhưng vẫn41accountpolicies; không tăngcount bằngpricecomponents. Lát tiếp
-ưu tiên full-historyPreECBprice robustness trước thiết kế riskwrapper khác.
-[PreECB long results](PRE-ECB-LONG-PRICE-RESULTS-20261108.md):đã terminal/reviewed,
-stress12/13years dương/cả4blocks dương; đủ ưu tiên đăng ký1wrapper theo scale
-holding-session nhưng chưaSL/account/prop/OOS. Giữ risk25USD,không grid/giữlot
-khi nớiSL; xem kết quả này để tiếp, không khởi động lại monthly/gold negatives.
-[Recent continuation](PRE-ECB-RECENT-PRICE-RESULTS-20261108.md) đã thêm2023/24
-same-clock/cost explicitrawmode:+187,1/+184,9stresspip. Combined14/15positive
-years/cả4blocks dương; đủ ưu tiên1riskwrapper, chưaaccount/SL/prop/OOS.
-[R056riskresults](PRE-ECB-SESSION-RISK-RESULTS-20261108.md) đã chạy1wrapper
-theoholding-sessionRMS20x2/risk25:3.171trades/cost,+1.535,95/+1.078,12USD
-nhưng2/4stressblocksâm,khôngretained. Khônghạgate/SLgrid;catalogue56records/
-42researchpolicyversions. Lát tiếp sourceadmissionGBPUSD/AUDUSDH1 với
-USDquote/existingDukascopy trước cơchế/portfoliobudgetchung,khôngbroker/holdout.
-[H1sourcepilot](FX-H1-SOURCE-RESULTS-20261108.md) đãđạt144bars/720Fraction
-checks/bridgeEURUSD7.971ticks;chưahistory/PnL. Bướctiếp đăngkýsourcehistory
-2010–24GBPUSD/AUDUSD trước numeric,không sourcepadding/nativefillclaim.
-[H1historyresults](FX-H1-HISTORY-RESULTS-20261108.md) đãreview60books/
-373.652bars/1.868.260checks;719/720months/30crossedhours,fulljointadmission
-inconclusive. Recoveryreuse15books vàvolume-roundingmetadata giữrõ. Tiếp
-registeredendpointcomponents trênOpenroleshợplệ,giữmissing/crossedrows;
-chưaeconomicoutcomes,khôngtrade/newprovider/holdout hoặcR056retuning.
-[TwoFXresults](TWO-FX-PRE-ECB-COMPONENT-RESULTS-20261108.md) đãterminal/reviewed:
-R057GBPUSDkhôngđạtblock/yearretention dùstresssumdương,R058AUDUSDâmrõ.
-Catalogue58records/42researchpolicyversions,khôngtăngpolicycount vìcomponents.
-Lát tiếp methodadmissionkhácprefixUSDshort;khôngcontrolsrescue/SLgrid hoặc
-tảidata/thêmengine khôngcâuhỏi. GoalC1/C2active,chưachallengecandidate.
+Owner cần nhìn được: **đang làm T nào → đã qua cửa nào → còn thiếu gì → lỗi ở
+đâu → bước tiếp**. Logbook perrun và nativePaperclip giữ event/runstate, task
+này giữ scope/dependencies. Numeric run dài mở status/terminal phù hợp; hiện
+chỉ đọc health và tài liệu, không khởi động job/service. Không có ETA đáng tin
+cho edge; ghi actual/estimate riêng và báo tiến độ theo phase thay vì hẹn1h
+mới biết một lỗi chuẩn bị. Forward cần thời gian thật, warmup quá khứ có thể
+reuse khi có binding; không rút gọn forward bằng replay rồi đổi nhãn.
 
-[Local-flow hai FX](LOCAL-FLOW-TWO-FX-RESULTS-20261108.md): R059/R060 đã terminal và review, cả hai không đạt frozen retention. Catalogue60/42; Goal vẫn active, chưa challenge candidate. Không thêm wrapper cho hai exact recipes. Lát tiếp admission relative/cross-market signal khác fixed-hour unconditional flow, reuse nguồn hiện có và giữ costs/funding trước PnL.
+## Nguồn phương pháp và luật đã kiểm 12/11
 
-[R033 pilot](FX-CROSS-SECTION-PILOT-RESULTS-20261108.md) đã terminal/review:132monthlycontributions×4books, gross/net negative, không retained. 864rows chuẩn hóa role/known-at/source/units, giữ2missing panel rows ngoài window đã đăng ký; chưa account/prop/OOS. Catalogue60/42. Bước tiếp admission R019 stateful break→retest có expiry/invalidation so parent R015; không tune universe/funding/control để cứu R033. Goal vẫn active.
+Kiểm chứng lượt audit:554localreferences/6anchors vào targets đã sửa hợp lệ;
+2originalworkingbyte snapshots nén gzip có hash khớp, Gitblobhash tách riêng;
+narrative archives giữ nguyên ngoài header/relocatedlinks. Numericalcode,
+frozenprotocol và catalogue so vớibaseline`2b52c79` giữ nguyên. Workspace
+contracts9guides/8pins đạt. Skillquickvalidator đạt trênbundledPython; product
+venv thiếuPyYAML không bị cài thêm. Maintainer0errors/warnings,21skills,
+global12.279B,project10.298/65.536B,reserve55.238B,combined22.577B.
+Privateauditreceipt ở campaign `execution-v1/strategy-e2e-audit-v1/` giữhealth,
+validation script/result. Không numeric/strategy/broker test mới trong audit.
 
-[R019 retest](PRIOR-DAY-RETEST-RESULTS-20261108.md) đã native implementation Trader83731fc8 và terminal paired stage1:8books, stress2019−5,16/2022−452,64USD, không giữ. Parent4books exact, preflight đầy đủ trước outcomes,1.268decisions/876trades kiểm lại. Catalogue60/43/25native; Goal active/chưa challenge. Lát tiếp NASDAQ100 method/source/cost admission trên existing provider, fixture nhỏ trước history/numeric; không hạ fees hoặc tune retest3 rescue.
+- [QuantConnect Research Guide](https://www.quantconnect.com/docs/v2/writing-algorithms/key-concepts/research-guide): hypothesis trước code, nhận diện scope drift/overfit; không dùng bảng heuristic platform làm chứng chỉ.
+- [Freqtrade lookahead](https://www.freqtrade.io/en/stable/lookahead-analysis/) và [H1/M15 source review](H1-M15-ZONES-AND-AI-VALIDATION-20261112.md): mượn kiểm causality/prefix/availability, không đổi sangFreqtrade hoặc coi chartlabel là livefeature.
+- [FTMO objectives](https://ftmo.com/en/trading-objectives/): 2-Step có target10%/5%, daily5%initial, overallstatic10%,4minimumdays; balance/equity/reset và ruleversion phải đúng phase/package. Không copy1-Steptrailing/consistency sang2-Step.
+- [FTMO news](https://ftmo.com/en/faq/can-i-trade-news/) và [holding](https://ftmo.com/en/faq/can-i-hold-positions-overnight-or-over-the-weekend/): phase Challenge/Verification vàSwing có exceptions; fundedStandard có restrictedexecution±2min cho targetednews, gồmSL/TP; breaks>2h có hạn chế. US500.cash có trong affectedUSindices. Design hướng payout cần kiểm fundedconstraints ngay cả khi evaluation cho phép.
+- [The5ers HighStakes](https://the5ers.com/high-stakes/) và [DDFAQ](https://the5ers.com/faqs/what-is-the-drawdown-rule-for-high-stakes/): dailybase dùng higher prior balance/equity lúcservermidnight, khácFTMO. Classic/New/account terms cần bind riêng; publicpage không đủ targethistoricalspreads/spec.
 
-[NASDAQ100 source/history](NASDAQ100-HISTORY-RESULTS-20261108.md) đã terminal/reviewed:56sources/8books/27.512bars,137.560checks, không strategy PnL. Catalogue61records vẫn43versions/25native, R061hypothesis chưa code. Tiếp exact economic/market/cost/funding/gap contract và fixtures trước numeric2019/2022; source admission không thay target broker specs, cleanOOS hoặc C1/C2.
+Không có nguồn nào bảo đảm một workflow hay AIagents tìm ra edge. Quy trình
+phải vừa có cơ sở kiểm chứng, vừa bám mục tiêu owner; testpass không là payout.
+Ba linkFTMO trên là summary theo ngày, không sửa config hoặc chứng nhận tài khoản.
+BaileyPBOPDF fetch timeout trong lượt này; không nâng ngày xác minh fullpaper cũ.
 
-[NASDAQ H4SMA results](NASDAQ100-H4-SMA-RESULTS-20261108.md): R061toolingprototype/13fixtures,4books/5.124decisions/42trades/5mutations reviewed; notretained (2019stress+240,59USD,2022−77,36,7/14closed). Gaps and targetcosts unverified; không challenge. Catalogue61records/44versions/25native. Next distinct-mechanism admission before outcomes, không SMA/ATR/costgrid hoặc épwinner. V1wronghash preflight preserved,0numeric;v2terminal0.
+## Lịch sử, authority và khôi phục
 
-[R035 formation](FX-PAIR-FORMATION-RESULTS-20261108.md) terminal/reviewed:8sourcebooks/519calendarrows đủ nhưng fixedcointegrationp2018=0,2358/2021=0,2696; không giữ để economicdesign, không accountpolicy/PnL mới. Decimal80log/OLS/residualADFt/5mutations reviewed; inferencecurves cùnglibrary. Literature overnightdrift update và sources/supply-chain ghi ởmethodreport; isolatedstatvenv không productmutation. Tiếp scheduledmacro-event primarymethod/calendar admission, không pairgrid. Catalogue61/44, Goal C1/C2 active.
+[Campaign trước audit](../archive/2026-11-12-strategy-e2e/CAMPAIGN-V2.before.md),
+[context trước audit](../archive/2026-11-12-strategy-e2e/CURRENT-CONTEXT.before.md)
+và [manifest hashes/originalGit](../archive/2026-11-12-strategy-e2e/MANIFEST.json)
+giữ lịch sử329/475dòng. Protocols/sourcebooks/data/trials/negatives không đổi;
+originalbytes truy được tạiGit`2b52c79763b1653ea9cf96dba40ce5eaafa3e341`.
+Productscope/runtime/executiongrant vẫn do ProductPlan/entrypoint/owner quản lý.
 
-[R062FOMCcomponent](FOMC-NASDAQ-COMPONENT-RESULTS-20261108.md) đãterminal/reviewed16events/32windows/64costcases, khôngretained vì2019stress−0,12USD/unit vàdelta−103,00, dù2022dương. Noaccountpolicy/newtradeauthority;catalogue62/44. [Cashsessionfixture](NASDAQ-DAILY-REVERSION-METHOD-20261108.md) reuse2pilotM1days, đủ390minutes/side/day+16:01endpoint,780presencechecks/4mutations;chưaindicator/PnL/fullhistory. Tiếp Nasdaqdailyreversion method/holiday/earlyclose/M1history admission, không H1cash09:30 approximation hoặcR062clockrescue. Goal C1/C2active.
+### Goal cập nhật — 09/11/2026
 
-
-[NASDAQ M1 source](NASDAQ-M1-HISTORY-RESULTS-20261108.md) đã terminal/reviewed8books/1.704rawdays/7.980.630checks, đủ economic registration. [R063cashRSI](NASDAQ-CASH-RSI-COMPONENT-RESULTS-20261108.md)8cases reviewed, stress2019−2,97/2022−486,42USD/unit, không retained; noSL/account/prop/OOS. Batchvalidate reuse giữ exact8case outputs, compute46,617→12,364s,12tests; không rule/cost/verdict đổi. Catalogue63/44/25native, Goal active. [Next method](NASDAQ-INTRADAY-MOMENTUM-METHOD-20261108.md) reuse source, first→last-half daily momentum khác R063, chưa newoutcomes. Không tải history lại hoặc retune RSI để cứu negative.
-
-
-[R064 first→last-half](NASDAQ-INTRADAY-MOMENTUM-RESULTS-20261108.md) đã terminal/reviewed503rows/413signaldaypairs/1.652costcases; primary stress2019−481,64/2022−1.969,99USD/unit và kém longcontrol, khôngretained/noaccountpolicy. Source reuse không download;9tests+6helperregressions/6mutations đạt, producer9,756s/review9,992s. Catalogue64/44/25native, Goal C1/C2 active. Tiếp [QQQ opening5 method](NASDAQ-OPENING5-ORB-METHOD-20261108.md): authorPDF có exact first5direction/SL/10RTP, adaptation riêng cần freeze risk25USD/clock/halfday/ambiguity/unknownstate trước outcomes; không đảo R064 hoặc copy1%risk/no-slip.
-
-
-[R065/datarevision09Nov](NASDAQ-OPENING5-ORB-DATA-REVISION-RESULTS-20261109.md) thêm1modeledpolicy từprimaryopening5rule:source-onlyM1v1 dừngunknown2019/2022,12tests/22Fractionfixtures/full8bookreview.8rawtickhours so1.028.380fields cho22missingminutes,15noquote/7cóquote nhưng2commonOpenmismatch nênoriginalpatchgatefalse. Newregisteredwholehourview raw/Fraction480fields đạt,sourceoutsideexact;replay2022 vàreuse2019 cho243closed/+714,71reference/+568,12stressUSD,2019vẫnunknown.191tradeprefix/nullstateexact, twoyeargate khôngrelax. Catalogue65/45/25native;Goalactive/chưachallengecandidate. Tiếp alternateofficialarchive sourceadmission2019firstgap, không tweak risk/TP/cost hoặc own2025+exposure.
+Anchor giữ cho caller cũ. Đây là [checkpoint lịch sử](../archive/2026-11-12-strategy-e2e/CAMPAIGN-V2.before.md#goal-cập-nhật--09112026),
+không Goalactive hoặc lệnh resume hiện tại. Dùng T1 và currentcontext ở trên.
