@@ -1,0 +1,792 @@
+{
+  "schema": "gold-r043-read-only-cost-path-audit-v1",
+  "status": "sealed_old_books_reconciled",
+  "candidate": "xauusd-h4-sma20-80-atr14-r025-v1",
+  "scenario": "cost-stress",
+  "created_at_utc": "2026-11-12T15:33:44.920436+00:00",
+  "separate_annual_reset_books": 15,
+  "annual_years": [
+    2010,
+    2024
+  ],
+  "starting_capital_each_usd": "50000",
+  "total_closed": {
+    "closed": 220,
+    "mid_benchmark_gross": "13781.37",
+    "bidask_gross": "12062.37",
+    "embedded_spread": "1719.00",
+    "commission": "85.95",
+    "slippage": "687.6",
+    "funding": "8709.20",
+    "net": "2579.62",
+    "before_financing_after_other_costs": "11288.82"
+  },
+  "side_breakdown": {
+    "BUY": {
+      "closed": 116,
+      "mid_benchmark_gross": "12809.60",
+      "bidask_gross": "11870.60",
+      "embedded_spread": "939.00",
+      "commission": "46.95",
+      "slippage": "375.6",
+      "funding": "5305.20",
+      "net": "6142.85",
+      "before_financing_after_other_costs": "11448.05"
+    },
+    "SELL": {
+      "closed": 104,
+      "mid_benchmark_gross": "971.77",
+      "bidask_gross": "191.77",
+      "embedded_spread": "780.00",
+      "commission": "39.00",
+      "slippage": "312.0",
+      "funding": "3404.00",
+      "net": "-3563.23",
+      "before_financing_after_other_costs": "-159.23"
+    }
+  },
+  "holding_buckets": {
+    "over_1_to_5_days": {
+      "closed": 63,
+      "mid_benchmark_gross": "-6403.99",
+      "bidask_gross": "-6863.99",
+      "embedded_spread": "460.00",
+      "commission": "23.00",
+      "slippage": "184.0",
+      "funding": "472.40",
+      "net": "-7543.39",
+      "before_financing_after_other_costs": "-7070.99",
+      "pct_closed_financing": "5.424149175584439443347264961",
+      "pct_total_including_open_financing": "5.277740537158689726058005988"
+    },
+    "over_5_days": {
+      "closed": 112,
+      "mid_benchmark_gross": "24497.31",
+      "bidask_gross": "23608.31",
+      "embedded_spread": "889.00",
+      "commission": "44.45",
+      "slippage": "355.6",
+      "funding": "8136.80",
+      "net": "15071.46",
+      "before_financing_after_other_costs": "23208.26",
+      "pct_closed_financing": "93.42763973728930326551233179",
+      "pct_total_including_open_financing": "90.90584081869777003172900746"
+    },
+    "up_to_1_day": {
+      "closed": 45,
+      "mid_benchmark_gross": "-4311.95",
+      "bidask_gross": "-4681.95",
+      "embedded_spread": "370.00",
+      "commission": "18.50",
+      "slippage": "148.0",
+      "funding": "100.00",
+      "net": "-4948.45",
+      "before_financing_after_other_costs": "-4848.45",
+      "pct_closed_financing": "1.148211087126257291140403252",
+      "pct_total_including_open_financing": "1.117218572641551593153684587"
+    }
+  },
+  "holding_distribution": {
+    "earliest_exit": {
+      "mean_days": "12.26799242424242424242424242",
+      "median_days": "5.166666666666666666666666667",
+      "p90_days": "31.83333333333333333333333333",
+      "max_days": "78.16666666666666666666666667",
+      "mean_elapsed_four_hour_units": "73.60795454545454545454545452",
+      "median_elapsed_four_hour_units": "31.00000000000000000000000000",
+      "p90_elapsed_four_hour_units": "191.0000000000000000000000000"
+    },
+    "latest_exit": {
+      "mean_days": "12.29356059895833333333333336",
+      "median_days": "5.166666666666666666666666667",
+      "p90_days": "31.83333333333333333333333333",
+      "max_days": "78.16666666666666666666666667",
+      "mean_elapsed_four_hour_units": "73.76136359375000000000000016",
+      "median_elapsed_four_hour_units": "31.00000000000000000000000000",
+      "p90_elapsed_four_hour_units": "191.0000000000000000000000000"
+    }
+  },
+  "holding_quantile_method": "type7 linear interpolation, h=(n-1)*p; calendar elapsed, not observed H4 bar count",
+  "longest_10_percent_by_count": {
+    "closed": 22,
+    "mid_benchmark_gross": "20673.71",
+    "bidask_gross": "20470.71",
+    "embedded_spread": "203.00",
+    "commission": "10.15",
+    "slippage": "81.2",
+    "funding": "4072.00",
+    "net": "16307.36",
+    "before_financing_after_other_costs": "20379.36",
+    "pct_closed_financing": "46.75515546778119689523722041",
+    "pct_total_financing": "45.49314027796398087321803638"
+  },
+  "year_books": [
+    {
+      "year": 2010,
+      "closed": 14,
+      "planned_risk_usd": "125",
+      "planned_risk_pct_initial": "0.25",
+      "net_equity_usd": "-51.48",
+      "cash_only_max_peak_to_trough_dd_usd": "1118.01",
+      "cash_only_dd_pct_initial": "2.23602",
+      "min_recorded_cash_usd": "48881.99",
+      "cash_only_room_above_45000_usd": "3881.99",
+      "max_after_close_cash_net_usd": "130.30",
+      "daily_equity_headroom_usd": null,
+      "overall_equity_headroom_usd": null,
+      "equity_max_dd_usd": null,
+      "original_max_dd_field_present": false
+    },
+    {
+      "year": 2011,
+      "closed": 13,
+      "planned_risk_usd": "125",
+      "planned_risk_pct_initial": "0.25",
+      "net_equity_usd": "1993.46",
+      "cash_only_max_peak_to_trough_dd_usd": "771.02",
+      "cash_only_dd_pct_initial": "1.54204",
+      "min_recorded_cash_usd": "49504.51",
+      "cash_only_room_above_45000_usd": "4504.51",
+      "max_after_close_cash_net_usd": "1987.42",
+      "daily_equity_headroom_usd": null,
+      "overall_equity_headroom_usd": null,
+      "equity_max_dd_usd": null,
+      "original_max_dd_field_present": false
+    },
+    {
+      "year": 2012,
+      "closed": 16,
+      "planned_risk_usd": "125",
+      "planned_risk_pct_initial": "0.25",
+      "net_equity_usd": "308.00",
+      "cash_only_max_peak_to_trough_dd_usd": "1254.88",
+      "cash_only_dd_pct_initial": "2.50976",
+      "min_recorded_cash_usd": "49114.63",
+      "cash_only_room_above_45000_usd": "4114.63",
+      "max_after_close_cash_net_usd": "580.40",
+      "daily_equity_headroom_usd": null,
+      "overall_equity_headroom_usd": null,
+      "equity_max_dd_usd": null,
+      "original_max_dd_field_present": false
+    },
+    {
+      "year": 2013,
+      "closed": 13,
+      "planned_risk_usd": "125",
+      "planned_risk_pct_initial": "0.25",
+      "net_equity_usd": "1234.52",
+      "cash_only_max_peak_to_trough_dd_usd": "705.51",
+      "cash_only_dd_pct_initial": "1.41102",
+      "min_recorded_cash_usd": "49294.49",
+      "cash_only_room_above_45000_usd": "4294.49",
+      "max_after_close_cash_net_usd": "1198.90",
+      "daily_equity_headroom_usd": null,
+      "overall_equity_headroom_usd": null,
+      "equity_max_dd_usd": null,
+      "original_max_dd_field_present": false
+    },
+    {
+      "year": 2014,
+      "closed": 14,
+      "planned_risk_usd": "125",
+      "planned_risk_pct_initial": "0.25",
+      "net_equity_usd": "358.77",
+      "cash_only_max_peak_to_trough_dd_usd": "984.73",
+      "cash_only_dd_pct_initial": "1.96946",
+      "min_recorded_cash_usd": "49212.73",
+      "cash_only_room_above_45000_usd": "4212.73",
+      "max_after_close_cash_net_usd": "488.48",
+      "daily_equity_headroom_usd": null,
+      "overall_equity_headroom_usd": null,
+      "equity_max_dd_usd": null,
+      "original_max_dd_field_present": false
+    },
+    {
+      "year": 2015,
+      "closed": 17,
+      "planned_risk_usd": "125",
+      "planned_risk_pct_initial": "0.25",
+      "net_equity_usd": "-954.31",
+      "cash_only_max_peak_to_trough_dd_usd": "1681.50",
+      "cash_only_dd_pct_initial": "3.363",
+      "min_recorded_cash_usd": "48638.35",
+      "cash_only_room_above_45000_usd": "3638.35",
+      "max_after_close_cash_net_usd": "319.85",
+      "daily_equity_headroom_usd": null,
+      "overall_equity_headroom_usd": null,
+      "equity_max_dd_usd": null,
+      "original_max_dd_field_present": false
+    },
+    {
+      "year": 2016,
+      "closed": 12,
+      "planned_risk_usd": "125",
+      "planned_risk_pct_initial": "0.25",
+      "net_equity_usd": "1580.09",
+      "cash_only_max_peak_to_trough_dd_usd": "625.06",
+      "cash_only_dd_pct_initial": "1.25012",
+      "min_recorded_cash_usd": "49687.60",
+      "cash_only_room_above_45000_usd": "4687.60",
+      "max_after_close_cash_net_usd": "1580.09",
+      "daily_equity_headroom_usd": null,
+      "overall_equity_headroom_usd": null,
+      "equity_max_dd_usd": null,
+      "original_max_dd_field_present": false
+    },
+    {
+      "year": 2017,
+      "closed": 9,
+      "planned_risk_usd": "125",
+      "planned_risk_pct_initial": "0.25",
+      "net_equity_usd": "270.90",
+      "cash_only_max_peak_to_trough_dd_usd": "528.69",
+      "cash_only_dd_pct_initial": "1.05738",
+      "min_recorded_cash_usd": "49719.11",
+      "cash_only_room_above_45000_usd": "4719.11",
+      "max_after_close_cash_net_usd": "721.80",
+      "daily_equity_headroom_usd": null,
+      "overall_equity_headroom_usd": null,
+      "equity_max_dd_usd": null,
+      "original_max_dd_field_present": false
+    },
+    {
+      "year": 2018,
+      "closed": 21,
+      "planned_risk_usd": "125",
+      "planned_risk_pct_initial": "0.25",
+      "net_equity_usd": "-1834.67",
+      "cash_only_max_peak_to_trough_dd_usd": "1834.67",
+      "cash_only_dd_pct_initial": "3.66934",
+      "min_recorded_cash_usd": "48165.33",
+      "cash_only_room_above_45000_usd": "3165.33",
+      "max_after_close_cash_net_usd": "0",
+      "daily_equity_headroom_usd": null,
+      "overall_equity_headroom_usd": null,
+      "equity_max_dd_usd": null,
+      "original_max_dd_field_present": false
+    },
+    {
+      "year": 2019,
+      "closed": 14,
+      "planned_risk_usd": "125",
+      "planned_risk_pct_initial": "0.25",
+      "net_equity_usd": "106.82",
+      "cash_only_max_peak_to_trough_dd_usd": "1082.67",
+      "cash_only_dd_pct_initial": "2.16534",
+      "min_recorded_cash_usd": "48917.33",
+      "cash_only_room_above_45000_usd": "3917.33",
+      "max_after_close_cash_net_usd": "870.94",
+      "daily_equity_headroom_usd": null,
+      "overall_equity_headroom_usd": null,
+      "equity_max_dd_usd": null,
+      "original_max_dd_field_present": false
+    },
+    {
+      "year": 2020,
+      "closed": 20,
+      "planned_risk_usd": "125",
+      "planned_risk_pct_initial": "0.25",
+      "net_equity_usd": "-1930.54",
+      "cash_only_max_peak_to_trough_dd_usd": "1930.54",
+      "cash_only_dd_pct_initial": "3.86108",
+      "min_recorded_cash_usd": "48069.46",
+      "cash_only_room_above_45000_usd": "3069.46",
+      "max_after_close_cash_net_usd": "0",
+      "daily_equity_headroom_usd": null,
+      "overall_equity_headroom_usd": null,
+      "equity_max_dd_usd": null,
+      "original_max_dd_field_present": false
+    },
+    {
+      "year": 2021,
+      "closed": 16,
+      "planned_risk_usd": "125",
+      "planned_risk_pct_initial": "0.25",
+      "net_equity_usd": "985.09",
+      "cash_only_max_peak_to_trough_dd_usd": "507.94",
+      "cash_only_dd_pct_initial": "1.01588",
+      "min_recorded_cash_usd": "49893.13",
+      "cash_only_room_above_45000_usd": "4893.13",
+      "max_after_close_cash_net_usd": "1493.03",
+      "daily_equity_headroom_usd": null,
+      "overall_equity_headroom_usd": null,
+      "equity_max_dd_usd": null,
+      "original_max_dd_field_present": false
+    },
+    {
+      "year": 2022,
+      "closed": 13,
+      "planned_risk_usd": "125",
+      "planned_risk_pct_initial": "0.25",
+      "net_equity_usd": "-268.70",
+      "cash_only_max_peak_to_trough_dd_usd": "994.48",
+      "cash_only_dd_pct_initial": "1.98896",
+      "min_recorded_cash_usd": "49005.52",
+      "cash_only_room_above_45000_usd": "4005.52",
+      "max_after_close_cash_net_usd": "0",
+      "daily_equity_headroom_usd": null,
+      "overall_equity_headroom_usd": null,
+      "equity_max_dd_usd": null,
+      "original_max_dd_field_present": false
+    },
+    {
+      "year": 2023,
+      "closed": 12,
+      "planned_risk_usd": "125",
+      "planned_risk_pct_initial": "0.25",
+      "net_equity_usd": "390.36",
+      "cash_only_max_peak_to_trough_dd_usd": "358.16",
+      "cash_only_dd_pct_initial": "0.71632",
+      "min_recorded_cash_usd": "49776.59",
+      "cash_only_room_above_45000_usd": "4776.59",
+      "max_after_close_cash_net_usd": "554.14",
+      "daily_equity_headroom_usd": null,
+      "overall_equity_headroom_usd": null,
+      "equity_max_dd_usd": null,
+      "original_max_dd_field_present": false
+    },
+    {
+      "year": 2024,
+      "closed": 16,
+      "planned_risk_usd": "125",
+      "planned_risk_pct_initial": "0.25",
+      "net_equity_usd": "1846.75",
+      "cash_only_max_peak_to_trough_dd_usd": "602.44",
+      "cash_only_dd_pct_initial": "1.20488",
+      "min_recorded_cash_usd": "49425.33",
+      "cash_only_room_above_45000_usd": "4425.33",
+      "max_after_close_cash_net_usd": "2168.91",
+      "daily_equity_headroom_usd": null,
+      "overall_equity_headroom_usd": null,
+      "equity_max_dd_usd": null,
+      "original_max_dd_field_present": false
+    }
+  ],
+  "terminal_open_positions": [
+    {
+      "year": 2010,
+      "side": "BUY",
+      "financing_usd": "22.00",
+      "floating_net_of_modeled_closing_costs_usd": "140.83"
+    },
+    {
+      "year": 2011,
+      "side": "SELL",
+      "financing_usd": "33.60",
+      "floating_net_of_modeled_closing_costs_usd": "390.54"
+    },
+    {
+      "year": 2013,
+      "side": "SELL",
+      "financing_usd": "48.00",
+      "floating_net_of_modeled_closing_costs_usd": "257.52"
+    },
+    {
+      "year": 2022,
+      "side": "BUY",
+      "financing_usd": "112.00",
+      "floating_net_of_modeled_closing_costs_usd": "725.78"
+    },
+    {
+      "year": 2023,
+      "side": "BUY",
+      "financing_usd": "26.00",
+      "floating_net_of_modeled_closing_costs_usd": "182.37"
+    }
+  ],
+  "bridge": {
+    "closed_net": "2579.62",
+    "closed_financing": "8709.20",
+    "open_financing": "241.60",
+    "total_financing": "8950.80",
+    "terminal_floating": "1697.04",
+    "total_annual_net_equity": "4035.06"
+  },
+  "funding_model": {
+    "reference_buy_debit_usd_lot": "20",
+    "reference_sell_debit_usd_lot": "20",
+    "stress_buy_debit_usd_lot": "40",
+    "stress_sell_debit_usd_lot": "40",
+    "rollover": "22:00 UTC fixed, weekdays, Wednesday x3, not verified broker calendar",
+    "rounding": "half up cents per event",
+    "charged_before_boundary_quote": true
+  },
+  "funding_events_checked": 2007,
+  "input_pins": {
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gold-selective-loss-v1\\result.json": "3bd9ba0354e6ca5e402eac4ce65a6126d9b742b4b3e45290ac6d2e82b1561301",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gold-selective-loss-v1\\trades.json": "c7d4040dd2933a9a463f8e63e72555624e41d47d984f869033b6814bb2c9bb0b",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gold-selective-loss-v1\\books.json": "1cfde8d31fb290de86ce1f35d60c2015847f311e24e12d678792a427daf05676",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gold-selective-loss-v1\\manifest.json": "832abbd490aa47e3b35352c6839e2daa062ed7468863427b5d9ac5cacad60c8d",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\metal-discovery9-screen\\attempt-v1\\manifest.json": "2e3e7bd5e7ee583dd29010ed364f1578e15e538644a0103d6ec40676787c83c9",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gold-sma50k-evidence-review-v1\\result.json": "ba1f6d5d08fdd065e8ecb21e223cedf763074db96edcf04716f1f980cd179927",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\metal-discovery9-screen\\attempt-v1\\source-snapshot\\scripts\\forex_coarse_screen.py": "2f0518350a913d06fa23eb9ff277014b755dba2c14954f2c3f66d0333f56b1a0",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\metal-discovery9-screen\\attempt-v1\\source-snapshot\\scripts\\forex_h4_pilot.py": "5cd0ae7d27db166315b2d0827109fc7a184da1f9886bca9e4762fcaae3239640",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\metal-discovery9-screen\\attempt-v1\\source-snapshot\\scripts\\metal_coarse_screen.py": "2920d5c220db616bd3627951c8dcac626f4b6576f7b57785bb19e1679b2b837f",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\metal-discovery9-screen\\attempt-v1\\2010-50000-xauusd-h4-sma20-80-atr14-r025-v1-cost-stress.json": "4d9bbb7c265690fdf8b108783e14466ca06c9387d26f4f8de2708cef828ea353",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\metal-discovery9-screen\\attempt-v1\\2011-50000-xauusd-h4-sma20-80-atr14-r025-v1-cost-stress.json": "3c9392f298bc4992a3b946bdea9adfe9c1f752fa2d49db0315237beee531e8a8",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\metal-discovery9-screen\\attempt-v1\\2012-50000-xauusd-h4-sma20-80-atr14-r025-v1-cost-stress.json": "8efb8c53ce7f0ea750d3089e5132edcd90a253eb80cdb33b0430266806b69598",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\metal-discovery9-screen\\attempt-v1\\2013-50000-xauusd-h4-sma20-80-atr14-r025-v1-cost-stress.json": "a40b8790f16fc4a1dd21c7570c249ba36e1cfe6826251afa09ce1c7e5dbb84c4",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\metal-discovery9-screen\\attempt-v1\\2014-50000-xauusd-h4-sma20-80-atr14-r025-v1-cost-stress.json": "15c95d95c7835bf9b0a823ddd9b8eb92c8d77774374a19c95e007d379ea015d3",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\metal-discovery9-screen\\attempt-v1\\2015-50000-xauusd-h4-sma20-80-atr14-r025-v1-cost-stress.json": "59eeeb6252aea5120253ddc1de0e0d7a2b95d52ddc8e4d7347f1aacecd3f8d93",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\metal-discovery9-screen\\attempt-v1\\2016-50000-xauusd-h4-sma20-80-atr14-r025-v1-cost-stress.json": "c2a31b1c2e0467ed7980b74d634235795efee9f8695cf40d6be53d1ed9652412",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\metal-discovery9-screen\\attempt-v1\\2017-50000-xauusd-h4-sma20-80-atr14-r025-v1-cost-stress.json": "b0e7f708c591ee42bad3855290aaa3c49eaa2cbfda838212b41072bcf5b6dda2",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\metal-discovery9-screen\\attempt-v1\\2018-50000-xauusd-h4-sma20-80-atr14-r025-v1-cost-stress.json": "be6814fedc93f16cce9457889081159f126fa1c01c8c42e99a546c19f78b20b4",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\metal-discovery9-screen\\attempt-v1\\2019-50000-xauusd-h4-sma20-80-atr14-r025-v1-cost-stress.json": "dd0e03834080b1ce88e0c0c53ee581d959619166f4b12e486b7e58fa85362a02",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\metal-discovery9-screen\\attempt-v1\\2020-50000-xauusd-h4-sma20-80-atr14-r025-v1-cost-stress.json": "602451a812037e2e6855e689045e6af12f0f04c279f41de4d1155e0996a6b96e",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\metal-discovery9-screen\\attempt-v1\\2021-50000-xauusd-h4-sma20-80-atr14-r025-v1-cost-stress.json": "7aa2de89b5260d5adbdf95b31aec5dcfd6c6d46e72af57ce3cc417a11eca6877",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\metal-discovery9-screen\\attempt-v1\\2022-50000-xauusd-h4-sma20-80-atr14-r025-v1-cost-stress.json": "d828752fd035ac24f7677817ae0ac41464e0b8b57a189951ff18ea53a11fe276",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\metal-discovery9-screen\\attempt-v1\\2023-50000-xauusd-h4-sma20-80-atr14-r025-v1-cost-stress.json": "b7887edd32beb3bd90583d2db13b5512582b7b7d23de569df835d6c6f08d56c6",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\metal-discovery9-screen\\attempt-v1\\2024-50000-xauusd-h4-sma20-80-atr14-r025-v1-cost-stress.json": "2c90c4bad21a8a58a8e1e25cc2d35be9c106468d1c029de7ff1d6f5c9a96d01d"
+  },
+  "verification": "hash seals; per-position funding; original trades and old cash checkpoints; Fraction sums and suffix cash-DD oracle; same agent",
+  "limits": [
+    "No equity path or prop daily/overall headroom measured",
+    "Terminal equity sums across reset books, not continuous return",
+    "Modeled stops with exit intervals; historical target swap unknown",
+    "Holding distributions exclude right-censored terminal open positions"
+  ],
+  "new_simulations": 0,
+  "market_price_rows_opened": 0,
+  "broker_calls": 0,
+  "fresh_holdout_opened": false,
+  "promotion_authorized": false,
+  "wall_seconds": 0.3067914999992354,
+  "diagnostic_script_sha256": "c7681cac854d84927fd405c3ea5c386e8d0f797833db32263896efe6dbe15674",
+  "private_result_sha256": "dcfa1c0514887cc71928ca9436dab9c1c4429142a26e82bac4ee5eb1389b5d32",
+  "private_evidence_sha256": "1b66e39aab0d632a7fe4ef903f4c51f0e8060c47d5abeb7025c71d13a48f6d5b",
+  "evidence": {
+    "as_of_utc": "2026-11-12T15:40:37.324185+00:00",
+    "repo_merge": {
+      "pr": 66,
+      "head": "1c21e8491c26e97725a2b5a06df9087ad028574e",
+      "merge_commit": "c310bd279ec5a38dfb21d95bbd2e898130c6ba99",
+      "required_ci_at_head": [
+        "Workspace contracts:SUCCESS",
+        "Workspace secret scan:SUCCESS",
+        "Trader UI registry:SUCCESS"
+      ]
+    },
+    "deleted_branches": [
+      {
+        "branch": "codex/focused-research-lanes",
+        "tip": "56147ca8b1c25d41f0162beee585de8270297955",
+        "ancestor_of": "c310bd279ec5a38dfb21d95bbd2e898130c6ba99",
+        "local_deleted": true,
+        "remote_deleted": true
+      },
+      {
+        "branch": "codex/local-strategy-source-library",
+        "tip": "5d7a147be8b0d606c62ed00164e84a20b8ffa15a",
+        "ancestor_of": "c310bd279ec5a38dfb21d95bbd2e898130c6ba99",
+        "local_deleted": true,
+        "remote_deleted": true
+      },
+      {
+        "branch": "codex/m15-standard-research-direction",
+        "tip": "eac54486f44683033b95610ca6a0005b4b391da7",
+        "ancestor_of": "c310bd279ec5a38dfb21d95bbd2e898130c6ba99",
+        "local_deleted": true,
+        "remote_deleted": true
+      },
+      {
+        "branch": "codex/strategy-fit-review",
+        "tip": "c1c31a28b9d140bf6600342f3f030ad0dc2697ef",
+        "ancestor_of": "c310bd279ec5a38dfb21d95bbd2e898130c6ba99",
+        "local_deleted": true,
+        "remote_deleted": true
+      },
+      {
+        "branch": "codex/strategy-template-reuse-review",
+        "tip": "ca71b1854f2d0952db49519442785cdfc122adce",
+        "ancestor_of": "c310bd279ec5a38dfb21d95bbd2e898130c6ba99",
+        "local_deleted": true,
+        "remote_deleted": true
+      },
+      {
+        "branch": "codex/us500-cadence-research",
+        "tip": "d63ac20f3544f1992153f8798252e93027818b3a",
+        "ancestor_of": "c310bd279ec5a38dfb21d95bbd2e898130c6ba99",
+        "local_deleted": true,
+        "remote_deleted": true
+      },
+      {
+        "branch": "codex/us500-channel-history",
+        "tip": "c087a835fa49bc6486375efd93655c90a0612de5",
+        "ancestor_of": "c310bd279ec5a38dfb21d95bbd2e898130c6ba99",
+        "local_deleted": true,
+        "remote_deleted": true
+      },
+      {
+        "branch": "codex/us500-m15-research-focus",
+        "tip": "8e9856ba726b89a8b8e11285b6f2f491aa7599fe",
+        "ancestor_of": "c310bd279ec5a38dfb21d95bbd2e898130c6ba99",
+        "local_deleted": true,
+        "remote_deleted": true
+      },
+      {
+        "branch": "codex/us500-m15-rule-screen",
+        "tip": "26fff6c967f0476b1a2b94a1e11b010350b559bf",
+        "ancestor_of": "c310bd279ec5a38dfb21d95bbd2e898130c6ba99",
+        "local_deleted": true,
+        "remote_deleted": true
+      },
+      {
+        "branch": "codex/us500-opportunity-screen",
+        "tip": "2c2cc3e65411820d7a9096a01abf3b575505f87f",
+        "ancestor_of": "c310bd279ec5a38dfb21d95bbd2e898130c6ba99",
+        "local_deleted": true,
+        "remote_deleted": true
+      },
+      {
+        "branch": "codex/us500-session-and-research-stages",
+        "tip": "de2958bf89c3a4c7ed7496dc10e77f8e302e6753",
+        "ancestor_of": "c310bd279ec5a38dfb21d95bbd2e898130c6ba99",
+        "local_deleted": true,
+        "remote_deleted": true
+      },
+      {
+        "branch": "codex/us500-recent-discovery",
+        "tip": "1c21e8491c26e97725a2b5a06df9087ad028574e",
+        "ancestor_of": "c310bd279ec5a38dfb21d95bbd2e898130c6ba99",
+        "local_deleted": true,
+        "remote_deleted": true
+      }
+    ],
+    "retained_branches": [
+      {
+        "branch": "codex/us500-frequency-review",
+        "tip": "8c647482c3af59062f1bab6d21c616fa187e6d3c",
+        "commits_not_in_main": [
+          "8c64748 docs: record US500 frequency bottlenecks and retain all probe trials",
+          "0f929a3 feat: register causal US500 frequency diagnostics before further backtests"
+        ],
+        "topic": "causal frequency diagnostics and complete probe history",
+        "identical_files": [
+          "planning/research/US500-FREQUENCY-AUDIT-PROTOCOL-20261111.md",
+          "planning/research/US500-FREQUENCY-AUDIT-RESULTS-20261111.md",
+          "tooling/ai-engines/run_us500_frequency_audit.py",
+          "tooling/ai-engines/tests/test_us500_frequency_audit.py",
+          "tooling/ai-engines/us500_frequency_audit.py"
+        ],
+        "modified_since_branch": [
+          "planning/CURRENT-CONTEXT.md",
+          "planning/research/README.md",
+          "planning/research/STRATEGY-CATALOGUE-20261107.json",
+          "planning/research/STRATEGY-CATALOGUE-20261107.md",
+          "tooling/ai-engines/STRATEGY-WORKFLOW.md"
+        ],
+        "missing_from_main": [],
+        "deleted": false
+      },
+      {
+        "branch": "codex/us500-ma-reclaim-study",
+        "tip": "6ef96ec01b20e95500286846aa50f27671b2e224",
+        "commits_not_in_main": [
+          "6ef96ec docs: record reclaim cost results and daytrading income scenarios",
+          "9a08df4 feat: separate exploratory cost screening from deep evidence admission",
+          "d13deeb feat: register native US500 moving-average reclaim hypothesis"
+        ],
+        "topic": "MA reclaim, exploratory cost admission and income cadence",
+        "identical_files": [
+          "planning/research/US500-MA-RECLAIM-COST-SCREEN-AMENDMENT-20261111.md",
+          "planning/research/US500-MA-RECLAIM-COST-SCREEN-REGISTRATION-20261111.json",
+          "planning/research/US500-MA-RECLAIM-PROTOCOL-20261111.md",
+          "tooling/ai-engines/run_us500_ma_reclaim.py",
+          "tooling/ai-engines/tests/test_us500_ma_reclaim.py",
+          "tooling/ai-engines/us500_ma_reclaim.py",
+          "tooling/ai-engines/us500_multiframe.py"
+        ],
+        "modified_since_branch": [
+          "planning/CURRENT-CONTEXT.md",
+          "planning/research/DAYTRADING-INCOME-CADENCE-20261111.md",
+          "planning/research/README.md",
+          "planning/research/STRATEGY-CATALOGUE-20261107.json",
+          "planning/research/STRATEGY-CATALOGUE-20261107.md",
+          "planning/research/US500-MA-RECLAIM-RESULTS-20261111.md",
+          "tooling/ai-engines/STRATEGY-WORKFLOW.md",
+          "tooling/strategy-engines/README.md"
+        ],
+        "missing_from_main": [],
+        "deleted": false
+      },
+      {
+        "branch": "codex/us500-multiframe-study",
+        "tip": "b77fc68639992a0a23d96e15bf005eeabfae9aee",
+        "commits_not_in_main": [
+          "b77fc68 docs: record all US500 multiframe outcomes and review limits",
+          "8639011 fix: distinguish current-minute fills from missing held paths",
+          "551f2f4 fix: reconcile netting closures from native lifecycle events",
+          "c9baa7b style: remove trailing whitespace from admission test",
+          "3ec9470 feat: register native US500 multiframe pullback screen",
+          "f131ca9 docs: record approved multiframe comparison and causal H1 M5 defaults"
+        ],
+        "topic": "multiframe study, lifecycle closure and held-path fixes, all outcomes",
+        "identical_files": [
+          "planning/research/STRATEGY-TEMPLATE-REUSE-REVIEW-20261111.md",
+          "planning/research/US500-MULTIFRAME-FULL-TABLE-20261111.md",
+          "planning/research/US500-MULTIFRAME-PROTOCOL-20261111.md",
+          "planning/research/US500-MULTIFRAME-RESULTS-20261111.md",
+          "planning/research/US500-MULTIFRAME-REVIEW-AMENDMENT-20261111.md",
+          "tooling/ai-engines/postreview_us500_multiframe.py",
+          "tooling/ai-engines/review_us500_multiframe.py",
+          "tooling/ai-engines/summarize_us500_multiframe.py",
+          "tooling/ai-engines/tests/test_multiframe_runner_recovery.py",
+          "tooling/ai-engines/tests/test_us500_multiframe.py"
+        ],
+        "modified_since_branch": [
+          "planning/CURRENT-CONTEXT.md",
+          "planning/research/README.md",
+          "planning/research/STRATEGY-CATALOGUE-20261107.json",
+          "planning/research/STRATEGY-CATALOGUE-20261107.md",
+          "planning/research/US500-MULTITIMEFRAME-DRAFT-20261111.md",
+          "tooling/ai-engines/run_us500_multiframe.py",
+          "tooling/ai-engines/tests/test_run_us500_multiframe.py",
+          "tooling/ai-engines/us500_multiframe.py",
+          "tooling/strategy-engines/README.md"
+        ],
+        "missing_from_main": [],
+        "deleted": false
+      }
+    ],
+    "qdm_inventory": {
+      "action": "symbols_metadata_only",
+      "retrieved_at_utc": "2026-11-12T15:30:51.627158+00:00",
+      "symbols": [
+        {
+          "Symbol": "AAPLUSUSD_TW",
+          "Instrument": "AAPLUSUSD",
+          "Timeframe": "M1",
+          "Timezone": "",
+          "Date from": "",
+          "Date to": "",
+          "Total days": "0",
+          "Total records": "0",
+          "Source": "Dukascopy",
+          "Data type": "Stock"
+        },
+        {
+          "Symbol": "EURUSD_TICK_TW",
+          "Instrument": "EURUSD",
+          "Timeframe": "TICK",
+          "Timezone": "(UTC) Coordinated Universal Time, DST: No",
+          "Date from": "2003.05.05",
+          "Date to": "2026.11.01",
+          "Total days": "8582",
+          "Total records": "517750341",
+          "Source": "Dukascopy",
+          "Data type": "Forex"
+        },
+        {
+          "Symbol": "EURUSD_TW",
+          "Instrument": "EURUSD",
+          "Timeframe": "M1",
+          "Timezone": "(UTC) Coordinated Universal Time, DST: No",
+          "Date from": "2003.05.05",
+          "Date to": "2026.10.07",
+          "Total days": "8557",
+          "Total records": "8755235",
+          "Source": "Dukascopy",
+          "Data type": "Forex"
+        },
+        {
+          "Symbol": "USATECHIDXUSD_TW",
+          "Instrument": "USATECHIDXUSD",
+          "Timeframe": "M1",
+          "Timezone": "",
+          "Date from": "",
+          "Date to": "",
+          "Total days": "0",
+          "Total records": "0",
+          "Source": "Dukascopy",
+          "Data type": "Index"
+        },
+        {
+          "Symbol": "XAUUSD_TW",
+          "Instrument": "XAUUSD",
+          "Timeframe": "M1",
+          "Timezone": "(UTC) Coordinated Universal Time, DST: No",
+          "Date from": "2003.05.05",
+          "Date to": "2026.10.13",
+          "Total days": "8563",
+          "Total records": "7972007",
+          "Source": "Dukascopy",
+          "Data type": "Forex"
+        }
+      ],
+      "wall_seconds": 7.575826300002518,
+      "price_exports": 0,
+      "price_rows_opened": 0,
+      "update_calls": 0,
+      "adapter_import_gap": "engine_runtime venv lacks psycopg; invoked exact native list command, no installation"
+    },
+    "xau_tick_fixture_metadata": {
+      "stage": "validated_bounded_fixture",
+      "rows": 206215,
+      "first": 1672704000720,
+      "last": 1672790399803,
+      "sha256": "29fe3fb52252b0b13fe4f86dda5f06edd977d54ce317eab922d39fe8030dbefe",
+      "at": "2026-11-07T19:28:32.941Z",
+      "sequenceBasis": "returned provider array order; no sort/dedup"
+    },
+    "xau_fixture_cross_transport_review_sha256": "8c95381a62e9a54ce1f4af6fe74c55013dc3f8637d1ad94b1bcb78fd3e975179",
+    "public_sources": [
+      {
+        "url": "https://ftmo.com/en/2-step-challenge/",
+        "checked_date": "2026-11-12",
+        "kind": "official_primary_source_web_tool",
+        "supports": "2-Step targets10/5 and limits5/10, not account acceptance"
+      },
+      {
+        "url": "https://academy.ftmo.com/lesson/maximum-daily-loss/",
+        "checked_date": "2026-11-12",
+        "kind": "official_primary_source_web_tool",
+        "supports": "Equity including costs/open PnL; midnight CE(S)T reset"
+      },
+      {
+        "url": "https://ftmo.com/en/faq/can-i-hold-positions-overnight-or-over-the-weekend/",
+        "checked_date": "2026-11-12",
+        "kind": "official_primary_source_web_tool",
+        "supports": "Market-break>2h restriction; Challenge/Verification and Swing exceptions"
+      },
+      {
+        "url": "https://ftmo.com/en/blog/trading-updates/trading-update-25-sep-2025/",
+        "checked_date": "2026-11-12",
+        "kind": "official_primary_source_web_tool",
+        "supports": "Published metals commission0.0007 percent volume per side from29Sep2025, not historical target cost series"
+      },
+      {
+        "url": "https://get.exness.help/hc/en-us/articles/360014709151-About-swap",
+        "checked_date": "2026-11-12",
+        "kind": "official_primary_source_web_tool",
+        "supports": "Swap schedule21UTC summer22UTC winter, metals Wednesday triple, units vary"
+      },
+      {
+        "url": "https://get.exness.help/hc/en-us/articles/4402341895570-Swap-free-status",
+        "checked_date": "2026-11-12",
+        "kind": "official_primary_source_web_tool",
+        "supports": "XAUUSD listed, conditional qualification based on trading activity, can be removed"
+      }
+    ],
+    "public_fetch_failures": [
+      "obsolete Exness swap article360014690299 inaccessible; corrected360014709151 succeeded",
+      "FTMO guessed daily-loss and overnight-and-the-weekend FAQ slugs inaccessible; official Academy and corrected overnight-or-over-the-weekend succeeded"
+    ],
+    "exposure": {
+      "r043_registered_evaluation_years": [
+        2010,
+        2024
+      ],
+      "r043_2025_2026_run_found_in_bound_chain": false,
+      "globally_unconsumed_confirmed": false,
+      "new_price_exposure_this_audit": false,
+      "whole_disk_or_all_product_database_audit": false
+    },
+    "closed_positions_crossing_saturday00utc": 137,
+    "crossed_weekend_scope": "Calendar interval diagnostic, not target session/holiday or breach simulation",
+    "authorized_next_actions": {
+      "us500_risk_overlay_steps3_4": "paused_by_owner",
+      "new_strategy_or_gold_port": "not_implemented",
+      "fresh_holdout": "not_opened"
+    }
+  }
+}

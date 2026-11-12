@@ -36,7 +36,7 @@ giữ chẩn đoán, nguồn, engine gaps và milestonesA–F nốiT1–T9/Q12. 
 US500 chính/EURUSD phụ,80/20 **công sức**, một hypothesis mỗi lane; FX ban đầu
 chỉ rà evidence/readiness. Đây là đề xuất triển khai, chưa freeze recipe,
 mở data mới, cross-engine parity hoặc thành tích kinh tế mới. T1 chưa freeze;
-ưu tiên hiện tại là hai bước hậu kiểm được owner phê duyệt bên dưới. Không
+ưu tiên hiện tại là chẩn đoán Gold và chỉ thị sau hậu kiểm bên dưới. Không
 chờ hoàn thiện cả năm engine mới kiểm một hypothesis khi được giao đúngstage.
 
 Checkpoint từ nay báo card→technicalpass→economicsurvivor→fresh/robust→demo
@@ -71,9 +71,26 @@ chưa giao triển khai Bước3–5/overlay phức tạp hoặc backtest mới 
 
 Không candidate nào được gọi đã vi phạm DailyDD chỉ từ`prop_qualified=false`.
 Các bản positive-in-sample vẫn thiếu edge evidence; R043 originalretentionpass
-giữ nguyên. Financial/history/code/data sources cũ không bị rewrite. Ưu tiên
-engineeringfixtureUS500/R121 +R120comparator là **đề xuất**, không lựa chọn
-alpha hoặc mở lạiGoldlane. T1strategycard vẫn chưa freeze; không auto dispatch.
+giữ nguyên. Financial/history/code/data sources cũ không bị rewrite. Đề xuất
+engineeringfixtureUS500/R121 +R120comparator đã được owner **tạm dừng** theo
+chỉ thị mới dưới đây. T1strategycard vẫn chưa freeze; không auto dispatch.
+
+### Điều hướng owner sau Bước1–2 — 12/11/2026
+
+Owner chấp thuận dossier`1c21e84`; PR66 đãmerge vào main`c310bd2` sau3CIđạt.
+Đã dọn12researchrefs (11cũ+PR66), giữ3nhánhdivergent chờ xác nhận. Chi tiết
+ở [Gold R043 diagnostic và repo hygiene](GOLD-R043-FINANCING-PATH-AUDIT-20261112.md).
+
+- **Tạm dừng Bước3–4/PropRiskOverlay lên US500multiframe**: economics/cadence
+  của các bản dương quá mỏng, không dùng engineering để cứu alpha.
+- Hoàn tất read-only Golddiagnostic: exactfees/LongShort/holding/15cashpaths/
+  QDMmetadata; không change rules/risk/cost/exit, no simulation hoặc holdout mới.
+- R043 đáng targetcost feasibility trước; chưa đủ để port/nativepropreplay.
+  Daily/overall EQUITY headroom chưa đo; không dùng cashDD để tăng sizing.
+- EURUSD có readiness tick/M1/nativepath tốt nhất nếu giao một intraday H1→M15
+  hypothesis mới. Đây là đề xuất hạ tầng, chưa chuyển mainmarket hoặc chốt setup.
+- XAU2025–26 có trong phạm vi QDMM1metadata, chưa chứng nhận globalcleanOOS;
+  không mởprices để tự làm sạch nhãn exposure. Bước5/freshvalidation chưa giao.
 
 Audit này rà luồng scope→data→code→simulation→validation→operations→handover,
 đối chiếu source/tests/evidence và health check; **không là full code/security

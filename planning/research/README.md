@@ -2,8 +2,18 @@
 
 **Task đang thực hiện:** [STRATEGY-E2E — H1→M15 tới challenge/payout](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).
 Task này giữ audit, chặng T0–T9 và các việc xét sau Q1–Q12. Ưu tiên hiện tại:
-hậu kiểm Bước1–2 dưới đây; T1strategycard/clock/zone chưa freeze. Các nextactions trong research cũ là lịch sử,
+Gold cost/path diagnostic dưới đây sau khi owner duyệt Bước1–2;
+T1strategycard/clock/zone chưa freeze. Các nextactions trong research cũ là lịch sử,
 không tự dispatch. Index dưới đây dùng tra bằng chứng, không là taskqueue.
+
+[Gold R043: phí BUY/SELL, holding,15cashDDbooks và inventory2025–26](GOLD-R043-FINANCING-PATH-AUDIT-20261112.md),
+[JSON](GOLD-R043-FINANCING-PATH-AUDIT-20261112.json): declaredstress40USD/lot/weekday
+cảhai chiều, thứ4x3;2.007events khớp. BUY+6.142,85/SELL−3.563,23USDnet;
+93,43%closedfinancing ở112lệnh>5ngày cũng là nguồn lãi chính. EquityDD/prop
+headroom vẫnunknown; M1vàng có metadata2025–26, globalcleanOOS chưa chứng nhận.
+PR66 đãmerge,12refsresearch đã dọn local/remote;3nhánhdivergent giữ nguyên.
+Owner **tạm dừng Bước3–4/US500overlay**; đề xuất targetcostfeasibility của Gold
+trước nativeport, EURUSD là intradayreadiness lane tốt nhất; chưa triển khai.
 
 [Bước1–2: taxonomy, GoldR043,5US500dương và gap/testplan](STRATEGY-STATUS-AND-CANDIDATE-DOSSIERS-20261112.md),
 [JSONderivedview](STRATEGY-STATUS-AND-CANDIDATE-DOSSIERS-20261112.json):

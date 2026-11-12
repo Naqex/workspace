@@ -9,10 +9,17 @@ Owner yêu cầu rà hệ thống/workflow và gom mọi bước, kể cả vi�
 một task. Audit/plan không là strategy accepted. C1/C2 chưa đạt; chưa có
 ứng viên challenge. AppGoal vừa kiểm=null; không tự bật lại.
 
-**Lượt hiện tại: hậu kiểm Bước1–2 đã được owner phê duyệt**, chuẩn hóa nguyên
-nhân dừng và contract Alpha–Sizing–Exit. [Hồ sơ Gold +5US500 / gap và testplan](research/STRATEGY-STATUS-AND-CANDIDATE-DOSSIERS-20261112.md)
-giữ kết quả, JSON dẫn xuất và blockers. Không financialrun/runner mới;
-Bước3–5 chưa bắt đầu, chờ owner chọn scope/đối tượng. C1/C2 chưa đạt.
+**Bước1–2 đã được owner chấp thuận; PR66 đã merge** vào main`c310bd2`.
+[Gold R043 cost/path diagnostic](research/GOLD-R043-FINANCING-PATH-AUDIT-20261112.md)
+đã đối soát220closed/2.007fee events/15cash paths và kiểm metadata2025–26.
+8.950,80financing=8.709,20closed+241,60open; BUY+6.142,85/SELL−3.563,23net.
+**Owner tạm dừng Bước3–4/PropRiskOverlay trên US500 multiframe**; không port
+Gold, sửa rules/costs hoặc mở study mới. Bước5 chưa giao; C1/C2 chưa đạt.
+Đề xuất kế tiếp: xác minh targetcost/account/calendar trước quyết định Gold
+nativepath; EURUSD có hạ tầng tick tốt nhất cho một intradayhypothesis mới.
+XAU M1cache tới13/10/2026 nhưng cleanOOS2025–26 chưa chứng nhận; không mởgiá.
+[Hồ sơ Bước1–2](research/STRATEGY-STATUS-AND-CANDIDATE-DOSSIERS-20261112.md)
+giữ taxonomy/gap/testdesign; đề xuất US500overlay cũ đã được owner gác.
 
 Research mở rộng US500/EURUSD và cách dùng cả năm engine đã được khảo sát.
 [Báo cáo chiều sâu/engine/milestones](research/STRATEGY-DEPTH-ENGINES-AND-MILESTONES-20261112.md)
