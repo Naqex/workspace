@@ -82,7 +82,8 @@ def recovery(root,contract_path,pins,stage,codes,years):
     oldpins=old['source_pins']
     delta={n:dict(old=oldpins.get(n),new=pins.get(n)) for n in oldpins.keys()|pins.keys() if oldpins.get(n)!=pins.get(n)}
     if delta!=contract['source_deltas']:raise ValueError('reuse_unreviewed_source_drift')
-    if contract['reason']!='trace_kind_only_no_economic_rule_change':raise ValueError('reuse_economic_change')
+    if contract['reason'] not in ('trace_kind_only_no_economic_rule_change','atomic_writer_retry_only_no_economic_rule_change'):
+        raise ValueError('reuse_economic_change')
     completed=json.loads((root/'completed-books.json').read_text(encoding='utf-8'))
     if core.digest(root/'completed-books.json')!=contract['completed_sha256']:raise ValueError('reuse_completed_binding')
     records={(r['year'],r['code'],r['scenario']):r for r in completed}

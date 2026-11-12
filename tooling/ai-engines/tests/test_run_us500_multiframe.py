@@ -9,6 +9,29 @@ import test_us500_multiframe as fixtures
 
 
 class AdmissionTests(unittest.TestCase):
+    def test_atomic_writer_retries_windows_reader_lock_without_changing_bytes(self):
+        import json,tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp)/'progress.json';path.write_text('old')
+            replace=runner.os.replace
+            error=PermissionError('reader lock');error.winerror=5
+            with patch.object(runner.os,'replace',side_effect=[error,None]) as move,patch.object(runner.time,'sleep') as sleep:
+                runner.save(path,{'done':1})
+                self.assertEqual(move.call_count,2);sleep.assert_called_once_with(.05)
+            replace(path.with_suffix('.json.tmp'),path)
+            self.assertEqual(path.read_text(),json.dumps({'done':1},ensure_ascii=False,default=str,indent=2,allow_nan=False)+'\n')
+
+    def test_atomic_writer_persistent_lock_and_other_permissions_stay_fail_closed(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp)/'result.json';path.write_text('last good')
+            for winerror,attempts in ((5,21),(13,1)):
+                error=PermissionError('unavailable');error.winerror=winerror
+                with patch.object(runner.os,'replace',side_effect=error) as move,patch.object(runner.time,'sleep'):
+                    with self.assertRaises(PermissionError):runner.save(path,{'done':1})
+                    self.assertEqual(move.call_count,attempts)
+                self.assertEqual(path.read_text(),'last good')
+
     def test_full_cash_session_not_152_minute_opening_subset(self):
         start=fixtures.event(0,100)['t']
         stamps=list(range(start,start+390*60000,60000))

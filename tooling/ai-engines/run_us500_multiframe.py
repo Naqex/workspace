@@ -19,7 +19,15 @@ import review_us500_multiframe as reviewer
 def save(path,value):
     temp=path.with_suffix(path.suffix+'.tmp')
     temp.write_text(json.dumps(value,ensure_ascii=False,default=str,indent=2,allow_nan=False)+'\n',encoding='utf-8')
-    os.replace(temp,path)
+    # Match the existing pilot writer: Windows readers can briefly deny rename.
+    for attempt in range(21):
+        try:
+            os.replace(temp,path)
+            return
+        except PermissionError as error:
+            if getattr(error,'winerror',None) not in (5,32) or attempt==20:
+                raise
+            time.sleep(.05)
 
 
 def load_year(root,year,progress):

@@ -37,3 +37,25 @@ native bằng source mới. Đây là reuse sổ hoàn thành, không resume gi�
 Đầu ra v2 mới, deadline 1.800 giây, status/events/CANCEL giữ nguyên. Sau development
 mới khóa selection theo protocol rồi chạy 2026 và historical stress. Không mở
 outcomes 2026 của cả tám setup hoặc tuning rules trên dữ liệu mới.
+
+## Recovery historical v1: Windows reader lock
+
+Historical v1 hoàn tất 14/15 sổ rồi gặp WinError 5 lúc atomic replace
+`progress.json`. Quan sát file bằng Windows reader có thể tạm chặn rename;
+trace chỉ ra telemetry writer, không financial policy. Development v2 và
+confirm v1 đã xong, giữ nguyên. Không dùng việc observer đọc lỗi để gọi job khỏe.
+
+Reuse đúng pattern `forex_h4_pilot.write_json` đã có: retry riêng WinError 5/32,
+tối đa 21 lần, chờ 50 ms, giữ bytes/schema/atomic replace và fail khi khóa kéo
+dài/quyền khác. Không kéo toàn bộ module pilot và dependencies vào writer này.
+Hai regression mới kiểm transient retry, exact persisted bytes, permanent
+failure và last-good retention; 5 multiframe-runner + 5 recent-runner tests đạt.
+
+Historical v2 dùng contract `us500-recent-history-recovery-contract-v2.json`,
+reason `atomic_writer_retry_only_no_economic_rule_change`, old/new source delta
+chỉ runner serializer, serializer tests và danh sách reason recovery trong
+recent controller. Giữ 14 sealed books, re-review input/signal/cash/exit rồi
+chạy một book chưa xong. Source hash cũ vẫn là provenance của sách cũ; không
+rewrite manifest hoặc công nhận source numerical mới từ một serializer fix.
+Final review cho phép đúng source delta này có locator/contract; source/data
+khác tiếp tục phải khớp. Financial rules và selection 2026 không thay đổi.
