@@ -9,6 +9,17 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 ## Việc hiện tại
 
+- **Owner12/11 yêu cầu kiểm FP07 trên quá khứ sâu hơn**:
+  [2013–2021 đã đếm](research/US500-CHANNEL-HISTORY-RESULTS-20261112.md),
+  [protocol](research/US500-CHANNEL-HISTORY-PROTOCOL-20261112.md),sourcecommit
+  `dc92d0a`+precountamendment`58f74fa`.9years/45,41s,11scopedtests,
+  912firstdaysđủquote;2016/20/21≈3/5phiên,2013/14/17data gapsnhiều.
+  Không suy oldlowcounts là thịtrườngítcơhội/strategyfail;chưafullcadence/
+  OOS/edge/prop. Rule/preparation giữ,1PythonLF→CRLFverifiedsnapshotequal,
+  4identityfilesexact;data/lockexact. Defaultloadergiữ,explicitoldscopekhông
+  mở2025+. V1preflightfail0yearsđãgiữ,v2completed;khôngjobnền. CùngFP07
+  windowextension,0newrules/PnL,catalogue123/88/53giữ. Chưa tựfixdata/nới gap.
+
 - **Owner12/11 đồng ý đếm cơ hội trước financial backtest tiếp**:
   [FP06–08 đã chạy](research/US500-OPPORTUNITY-SCREEN-RESULTS-20261112.md),
   [protocol](research/US500-OPPORTUNITY-SCREEN-PROTOCOL-20261112.md),commit

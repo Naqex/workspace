@@ -1,5 +1,8 @@
 # US500: đã đếm cơ hội, ưu tiên kiểm tiếp phá kênh20
 
+Owner sau đó yêu cầu [kiểm cùng FP07 trên2013–2021](US500-CHANNEL-HISTORY-RESULTS-20261112.md):
+đã hoàn tất frequency-only, giữ data-gap caveats; không đổi các số2022–24dưới đây.
+
 12/11/2026. **Phá kênh20 có nhịp đáng nghiên cứu tiếp; chưa biết có lời.**
 Đã hoàn tất 12ca = baseline+3frequency probes×3năm trong22,77giây.
 Không có financial simulation, broker/model calls hoặc dữ liệu2025+ mới.

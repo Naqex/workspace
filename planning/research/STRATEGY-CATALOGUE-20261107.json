@@ -4564,6 +4564,15 @@
       "protocol_locator": "US500-OPPORTUNITY-SCREEN-PROTOCOL-20261112.md",
       "evidence_locator": "US500-OPPORTUNITY-SCREEN-RESULTS-20261112.md",
       "first_signal_exact_quote_available": {"FP06": [65, 54, 62], "FP07": [195, 174, 171], "FP08": [72, 62, 62]},
+      "FP07_historical_extension": {
+        "source_years": [2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021],
+        "first_signal_exact_quote_available": [47, 24, 133, 160, 46, 107, 87, 152, 156],
+        "status": "completed_descriptive_frequency_data_limited_not_edge_or_clean_OOS",
+        "rule_changed": false,
+        "new_financial_simulations": 0,
+        "protocol_locator": "US500-CHANNEL-HISTORY-PROTOCOL-20261112.md",
+        "evidence_locator": "US500-CHANNEL-HISTORY-RESULTS-20261112.md"
+      },
       "source_years": [2022, 2023, 2024],
       "exposure": "consumed_development_not_clean_OOS",
       "decision": "FP07 prioritized for separately registered economic-screen design on cadence only;FP06/FP08 lower cadence priority;no PnL or live cap change",
