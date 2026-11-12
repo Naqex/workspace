@@ -65,3 +65,14 @@ resume đang hỗ trợ chỉ vì có completed-year files.
 Kết luận chỉ về cadence/coverage qua thời kỳ. Account catalogue123/88/53 giữ;
 đây là additional window của **FP07 hiện có**, không frequency design hoặc edge
 mới. Chưa mở financial screen hoặc tự promote sang challenge.
+
+## Preflight amendment trước số đếm
+
+Run đầu chặn ở `channel_history_rule_or_environment_changed`,0năm counted,
+chưa đọc price quarters. Đối chiếu source-snapshot đúng oldhash cho thấy chỉ
+`us500_opportunities.py` đổiLF→CRLF sau Git; bốn identity files còn lại exact.
+Cho phép riêng Python source có **toàn bytes bằng nhau sau CRLF→LF**, chỉ khi
+snapshot gốc khớp pin lịch sử. Semantic edits vẫn reject; data/.lock vẫn exact,
+không sửa oldhash/quote/calendar hoặc chọn rule khác. New manifest giữ old/new
+hash và snapshot locator. Thêm regressions; giữ preflight failure v1, chạy ở
+v2 mới sau commit amendment; chưa có numerical outcomes trước amendment.

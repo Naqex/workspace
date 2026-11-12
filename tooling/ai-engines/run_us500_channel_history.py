@@ -17,6 +17,24 @@ RECEIPT_SHA = '30cdcf5be9eed1e84953e5d0fd72bbb63028904eb01062a5908b60d4b7e0831f'
 MANIFEST_SHA = 'ed9aab08e0d89fddee0e20ee76b83dc6e0ab8a119c7dd88e8eab8d8c18683edc'
 
 
+def rule_identity(paths, recent_manifest, snapshots):
+    """Only Python source line endings may differ from a hash-verified snapshot."""
+    checks = []
+    for path in paths:
+        expected = recent_manifest['source_pins'].get(str(path.resolve()))
+        actual = source.digest(path)
+        if actual == expected:
+            checks.append(dict(path=str(path.resolve()), previous_sha256=expected, current_sha256=actual, exact=True))
+            continue
+        matches = [p for p in snapshots.glob('*-'+path.name) if source.digest(p) == expected]
+        if (path.suffix != '.py' or len(matches) != 1
+                or path.read_bytes().replace(b'\r\n', b'\n') != matches[0].read_bytes().replace(b'\r\n', b'\n')):
+            raise ValueError('channel_history_rule_or_environment_changed')
+        checks.append(dict(path=str(path.resolve()), previous_sha256=expected, current_sha256=actual,
+                           snapshot=str(matches[0]), exact=False, difference='CRLF_LF_only_python_source'))
+    return checks
+
+
 def historical_year(root, entry, progress):
     year = entry['year']
     if year not in YEARS:
@@ -105,8 +123,7 @@ def main():
     # The loader's registered window changes; rule, preparation and native lock do not.
     identity = [Path(study.__file__), Path(native.__file__), root/'review_us500_strategy_fit.py',
                 root/'sealed_m1_review.py', root.parents[1]/'projects/trader/foundation_v2/engine_runtime/uv.lock']
-    if any(source.digest(p) != recent_manifest['source_pins'].get(str(p.resolve())) for p in identity):
-        raise ValueError('channel_history_rule_or_environment_changed')
+    identity_checks = rule_identity(identity, recent_manifest, args.recent_run/'source-snapshot')
     pins = source.source_pins(args.protocol)
     for p in [Path(__file__), Path(study.__file__), root/'us500_ma_reclaim.py', root/'us500_frequency_audit.py',
               root/'review_us500_strategy_fit.py', root/'tests/test_us500_year_source.py',
@@ -115,7 +132,8 @@ def main():
         pins[str(p.resolve())] = source.digest(p)
     args.output.mkdir(exist_ok=False)
     source.save(args.output/'manifest.json', dict(schema='us500-channel-history-v1', source_pins=pins,
-        years=YEARS, probe='FP07', rule_changed=False, financial_simulations=0, holdout_read=False))
+        years=YEARS, probe='FP07', rule_changed=False, identity_checks=identity_checks,
+        financial_simulations=0, holdout_read=False))
     snapshot = args.output/'source-snapshot'
     snapshot.mkdir()
     for i, name in enumerate(pins):

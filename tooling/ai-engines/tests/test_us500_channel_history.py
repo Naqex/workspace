@@ -1,5 +1,6 @@
 from pathlib import Path
 import sys
+import tempfile
 import unittest
 from unittest.mock import patch
 
@@ -8,6 +9,31 @@ import run_us500_channel_history as h
 
 
 class ChannelHistoryTests(unittest.TestCase):
+    def test_only_source_newlines_can_differ_from_verified_snapshot(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp); snapshots = root/'snapshots'; snapshots.mkdir()
+            prior = snapshots/'01-rule.py'; prior.write_bytes(b'x = 1\n')
+            current = root/'rule.py'; current.write_bytes(b'x = 1\r\n')
+            manifest = dict(source_pins={str(current.resolve()): h.source.digest(prior)})
+            checks = h.rule_identity([current], manifest, snapshots)
+            self.assertEqual(checks[0]['difference'], 'CRLF_LF_only_python_source')
+            current.write_bytes(b'x = 2\r\n')
+            with self.assertRaisesRegex(ValueError, 'rule_or_environment_changed'):
+                h.rule_identity([current], manifest, snapshots)
+            current.write_bytes(b'x = 1\r\n'); prior.write_bytes(b'x = 3\n')
+            with self.assertRaisesRegex(ValueError, 'rule_or_environment_changed'):
+                h.rule_identity([current], manifest, snapshots)
+
+    def test_data_and_lock_files_never_receive_newline_exception(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp); snapshots = root/'snapshots'; snapshots.mkdir()
+            for name in ('quotes.json', 'uv.lock'):
+                prior = snapshots/('01-'+name); prior.write_bytes(b'1\n')
+                current = root/name; current.write_bytes(b'1\r\n')
+                manifest = dict(source_pins={str(current.resolve()): h.source.digest(prior)})
+                with self.assertRaisesRegex(ValueError, 'rule_or_environment_changed'):
+                    h.rule_identity([current], manifest, snapshots)
+
     def test_registered_window_stops_before_any_reserved_data_io(self):
         with patch.object(h.source, 'digest', side_effect=AssertionError('must not read')):
             for year in (2012, 2022, 2025):
