@@ -1,0 +1,97 @@
+{
+  "schema": "gold-continuous-portfolio-protocol-draft-v1",
+  "version": "1.0-draft-stageA",
+  "registered_before_continuous_outcomes": true,
+  "execution_status": "NOT_AUTHORIZED_FOR_LONG_REPLAY_UNTIL_ASTRA_REVIEW",
+  "owner_task": "STRATEGY-E2E",
+  "candidate": "xauusd-h4-sma20-80-atr14-r025-v1",
+  "alpha_changes": [],
+  "capital_usd": "50000",
+  "risk_endpoints_pct_initial": ["0.25", "0.40"],
+  "risk_sizing": "Fresh size per causal intent from125/200USD stop-risk budget, include pinned cost/gap allowance and floor0.01lots; not floor(parent annual size times multiplier)",
+  "clock": "UTC source M1 bar-start; decisions only on admitted completed H4; fills on next available quote or explicitly declared M1 execution model",
+  "source": {
+    "gold_raw_sha256": "d209df9a5ce871f1992eb312595ebef2c19a884c1fe0a1be6bfb76d86cf471b9",
+    "allowed_evaluation_start_utc": "2010-01-01T00:00:00Z",
+    "cutoff_exclusive_utc": "2025-01-01T00:00:00Z",
+    "last_observed_quote_handling": "Pin last actual timestamp; cash timeline may continue to cutoff but no fresh price marks through unknown gaps",
+    "price_basis": "Observed Bid M1, Ask modeled. Not fulltick or targetbroker historical feed",
+    "new2025_2026_price_access": false
+  },
+  "starts": {
+    "schedule": "Quarterly calendar00:00UTC January1/April1/July1/October1,2010through2024 inclusive",
+    "count": 60,
+    "trade_initialization": "Each independent start begins50k cash/flat/no pending/no inherited PnL; wait for next legitimate causal entry; do not import a position from pre-start",
+    "warmup": "Fixed100admitted complete H4 bars ending strictly before start; also retain preceding close for ATR. Use already authorized2009NovDec prefix for2010start. Insufficient complete warmup => start_ineligible, no padding or short-history default",
+    "indicator_policy": "SMA20/80 and WilderATR14 state seeded once per rolling start; use same canonical seeding order. No annual reseed. Warmup simulates no fills; no threshold-crossing intent or pending order carried into start",
+    "overlap": "Starts overlap and both risk versions share price history: descriptive conditional cohorts, not independent trials or calibrated pass probabilities"
+  },
+  "continuous_state": ["indicator_history", "ATR_seed", "H4_builder_partial_state", "previous_SMA_difference", "position_and_stop", "pending_entry_or_exit", "cash_and_equity", "funding_next_event_and_posted_ids", "daily_anchor_and_reset_clock", "qualifying_entry_dates", "first_breach_latch", "phase_and_account_id", "source_cursor_and_hashes"],
+  "challenge": {
+    "program": "FTMO CFD2-Step Swing,current-rules counterfactual",
+    "phase_targets_pct_initial": ["10", "5"],
+    "minimum_qualifying_entry_days_per_phase": 4,
+    "target_basis": "Balance above requiredtarget, positions0/pending0; >= comparators pinned to approved profile",
+    "daily_loss_pct_initial": "5",
+    "daily_anchor": "Balance recorded at00:00Europe/Prague, including DST, prior to same-instant fee under registered reset_then_fees convention",
+    "overall_loss_pct_initial": "10",
+    "overall_anchor": "Static phase initialcapital, not running equity peak",
+    "breach_priority": "First observed/model-supported breach latches before target; recoveries never erase it; uncertain bar order => interval_unknown",
+    "phase_transition": "Flat/pending0 only; retire prior account; new50k initialbalance/anchors/min-days/cashledger. Carry causal indicators and market clock; clear position-related latches and never resubmit old filled intents",
+    "transition_delay": "Diagnostic0market-time administrative delay explicitly optimistic. Real approval/KYC gap unknown; no live acceptance claim",
+    "calendar_year_transition": "No account, position, pending, indicator or financing reset atJanuary1"
+  },
+  "internal_caps": {
+    "daily_loss_pct_initial_strictly_less_than": "2.5",
+    "overall_static_initial_loss_pct_strictly_less_than": "6.5",
+    "peak_to_trough_equity_DD": "Report separately, no interchangeable cap",
+    "behavior": "StageB measurementonly, no liquidation/alpha exits on internal-cap crossing unless separately registered. Flag eligibility; simulate account halt/admission only in approved joint-account stage",
+    "legacy_guard_must_not_leak": "ForexPilot default25USD pertrade/100daily/500overall and UTC internalday are not the50kGoldpolicy. Adapter must explicitly bind125/200pertrade and documented profile/firstbreach behavior; no hidden oldbrakes or equality-comparator change"
+  },
+  "funded": {
+    "entry_to_mode": "After both approved challenge phases; also separately registered standalone funded diagnostics if needed, never imply challenge pass",
+    "reward_check_schedule": "Every14calendar days from first trade of each funded account, evaluate at first natural flat/pending0 checkpoint at or after eligibility date; wait, no forced liquidation",
+    "reward_ratio": "0.80 baseline for2-Step;0.90 only if verified eligibility not inferred",
+    "minimum_closed_profit_for_assumed_bank_channel_usd": "20",
+    "payment_timing": "Cash receivable at approvedrequest, real received_cash unknown until actual provider receipt. Official typical processing ranges are descriptive, not guaranteed simulatedfilltime",
+    "account_replacement": "After reward newaccount; no positions/pending migrate. Indicators may carry causal state; funded nextaccount initialbalance/allowedrollover must come from targetcontract",
+    "withdrawal_policy": "Draft full-distribution cash baseline, no rewardrollover. Zero-return waiting cycles retained. If nextaccount balance/reset details unresolved => stop with payout_contract_incomplete before numerical rewardseries",
+    "reserve": "No invented reserve capital added to account. Record profit retained or rewarded only by verified mechanics; costs owner pays remain separate",
+    "cash_reporting": ["simulated_trade_profit", "reward_eligible_profit", "reward_gross_before_owner_costs", "reward_receivable", "actual_received_cash_unknown", "challenge_and_retry_fees", "bank_FX_tax_and_operating_costs_unknown", "owner_net_scenarios_not_actual_income"]
+  },
+  "cost_models": {
+    "legacy_declared_comparator": "Old pinnedspread/commission/slip/swap retained in separately labeled lane; not actualFTMO2010-24",
+    "target_cost": "Requires complete account/platform/symbolsource package and datedrates; if absent no verified-target-cost lane or invented sign/pointconversion",
+    "changing_costs": "Actualcurrentquote rates can define presentterms counterfactual only, never an inferred historicalseries",
+    "no_new_fee_grid": true
+  },
+  "missing_observation_policy": {
+    "no_forward_fill": true,
+    "no_drop": true,
+    "coverage": "Calendar/session expectedminutes and observed source minutes with denominators; sessionclosure only where independently supported",
+    "missing_reset_quote": "Reset balance from cash known; contemporaneous floating unknown. Markstaleness explicit. No lastquotecarry claimed observed. Any breach uncertainty retained",
+    "M1_extrema_ordering": "Intraminute upper/lower path cases or conservative envelope, not exact quoteorder. Firstbreach/target ordering unresolved=>unknown",
+    "censoring": "Administrative cutoff and data-path censoring separate. Late starts cannot fail an unavailable12/24monthhorizon; do not count earlybreach as simple timeout or unknownnoevent",
+    "open_at_cutoff": "Rightcensored; floating mark reported only at lastlegitimate quote, no forcedclose or treat unrealized as cash target"
+  },
+  "outputs": {
+    "horizons_calendar_months": [3, 6, 12, 24],
+    "follow_until_cutoff": true,
+    "per_start": ["eligiblewarmup", "actualstart", "phasepass1", "phasepass2", "phasequalifyingdays", "firstbreachwitness", "internalcapcrossing", "observedcoverage", "unknownintervals", "time_to_target", "netbalance", "equity", "floating", "exposure", "peakDD", "staticloss", "dailyheadroom", "fundedcycles", "rewardwait", "no_rewardcycles", "rightcensor_reason"],
+    "aggregation": "Counts with separate denominators complete/censored/breached/unknown; no IID binomialCI on overlapping starts or concatenated annualreturns"
+  },
+  "portfolio": {
+    "current_counterpart": null,
+    "decision": "No EURUSD candidate qualifies economically under present stress/target-cost evidence; joint replay remains gated",
+    "common_window": "Gold and Catalogue13 overlap2010-2022,commonPragueclock; no extension to EURUSD2023-24 without separate boundsource admission",
+    "correlation_basis": "Aligned daily netMTM increments from truly continuous per-leg replay, not cumulativeequity or annualsummaries; missing legmark => N/A, no manufactured zero/carry",
+    "risk_comparison": "Goldalone vs EURalone vs jointaccount using same total stoprisk endpoints125/200USD. Jointdraft50/50 allocation62.50+62.50 or100+100; cannot grant eachleg full125/200 then claim diversification",
+    "account_state": ["jointcash", "jointpositions", "pending_and_reservations", "netting_or_hedging_mode", "USD_currency_exposure", "jointmargin_free_equity", "costs_perleg", "Praguereset_and_funding", "sharedphase", "firstbreach", "withdrawal"],
+    "event_order": "Knowncash/reset byprofile; markalllegs; firstbreach; exits; recomputecash/margin; then intents. Same-timestampGold-before-EUR deterministic tie only after commonbudget checks; registerbefore outcomes",
+    "metrics": ["dailyPearson_and_rank_increment_correlation_withcoverage", "lossday_overlap", "tailco_occurrence", "jointdrawdown", "samebudget_timefit", "turnover_costs", "breach_probability_notcalibrated", "withdrawalimpact"]
+  },
+  "stageB_gate": "ASTRA review ofStageA, sourcecost/gap contract and smallfixtures before longcontinuous orjointportfolio replay",
+  "broker_execution_authorized": false,
+  "new_holdout_authorized": false,
+  "auto_merge_authorized": false
+}

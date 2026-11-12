@@ -1,10 +1,17 @@
 # Tra cứu research đã có
 
-**Task đang thực hiện:** [STRATEGY-E2E — H1→M15 tới challenge/payout](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).
+**Task đang thực hiện:** [STRATEGY-E2E — chiến lược tới challenge/payout](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).
 Task này giữ audit, chặng T0–T9 và các việc xét sau Q1–Q12. Ưu tiên hiện tại:
-Gold M1/swap/sizing và EURUSDpostmortem dưới đây sau khi owner duyệt PR67;
+ĐợtA Goldcontinuous/EURUSDeconomics/portfolio doASTRAđiềuphối dướiđây;
 T1strategycard/clock/zone chưa freeze. Các nextactions trong research cũ là lịch sử,
 không tự dispatch. Index dưới đây dùng tra bằng chứng, không là taskqueue.
+
+[Đợt A: economics chi tiết15EURversions,Goldmodelaudit,targetcost và portfolio readiness](GOLD-EURUSD-PORTFOLIO-STAGE-A-20261113.md),
+[JSON](GOLD-EURUSD-PORTFOLIO-STAGE-A-20261113.json), [protocolv1draft](GOLD-CONTINUOUS-PORTFOLIO-PROTOCOL-V1-20261113.md):
+76.750closed+50openbindings/104year-sidegroups,13cost/Rdistributions; không
+rawtickbatch hoặc2025–26. Chưa counterpartEUR/empiricalrho; Goldstate phải
+carrycalendar, không nối15annualbooks. Ownercapdaily2,5%/staticloss6,5%; funded
+eligibility/newaccount/ratiotách.24focusedchecks đạt; khôngautomerge/đợtB trướcASTRAreview.
 
 [Gold M1 equity/Daily Loss,9case swap×sizing,225positioncoverage và Catalogue13postmortem](GOLD-M1-PATH-AND-EURUSD-POSTMORTEM-20261113.md),
 [JSON](GOLD-M1-PATH-AND-EURUSD-POSTMORTEM-20261113.json): base0,25% observedbao biên

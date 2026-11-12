@@ -1,4 +1,4 @@
-# Task tổng: US500 H1–M15 → kiểm chứng → challenge → payout
+# Task tổng: chiến lược → kiểm chứng → challenge → payout
 
 **ID: STRATEGY-E2E · Owner: chủ project · Thực hiện: agent phụ trách · 13/11/2026.**
 Đây là task/PLAN chính của chiến dịch, thay phần điều hướng lịch sử trước audit.
@@ -7,6 +7,12 @@ study sở hữu số liệu. Không tạo dashboard, ledger hoặc Goal song so
 App Goal được kiểm trong lượt audit: `null`; task này không tự bật Goal.
 
 ## Mục tiêu và phạm vi đã xác nhận
+
+**Scope mới13/11 qua owner tại ASTRA:** đợtA Goldcontinuous/rolling +EURUSDeconomics
++portfolio readiness; [report](GOLD-EURUSD-PORTFOLIO-STAGE-A-20261113.md) và
+[protocolv1draft](GOLD-CONTINUOUS-PORTFOLIO-PROTOCOL-V1-20261113.md) chờASTRAreview.
+Không alpha/exit/SLoptimization/newdiscovery, không longfinancialbatch hoặc
+2025–26. Phần US500 bên dưới giữ lịch sử/card chưa freeze, không là nextdispatch.
 
 Tìm chiến lược tự động có bằng chứng đủ để đề xuất challenge, vận hành funded
 và hướng tới reward thực nhận với rủi ro thấp. Owner muốn đây là nguồn thu chính
@@ -109,6 +115,30 @@ Catalogue13 đọc624sealedcases:24versions (8H4/16H1),6reference/0stress dươn
 PR67 đãmerge;4namedbranches dọn, multiframe cóarchive tag; giữVIWIP.
 Đề xuất tiếp targetcost/sourcegap admission rồiboundednativefixture choGold,
 hoặc card/count-only choEURUSDintraday mới khi được giao; không2025–26.
+
+### Đợt A Goldcontinuous/EURUSDeconomics/portfolio — 13/11/2026
+
+Owner giao ASTRA lãnhđạo/phươngpháp/review, Sol writerthực hiện và gửi một
+report completion vềASTRA theo humanmessage đãxácminh. ĐợtA hoàn tất
+[evidencepacket](GOLD-EURUSD-PORTFOLIO-STAGE-A-20261113.md); không cùnglúc
+spawnagents/dispatchlongrun hoặcmerge trướcASTRAreview. Mộtbranch/PRmission,
+giữVIWIP/submodulepins/runtime/oldartifacts. Không paid/account/provider/broker.
+
+-Gold: existingobserver/phase/reset/candidatecheckpoint reuse;50kexplicit
+  works,Gold→EURpilot rejectđúng; typedmarket/nativecash/commission/funding/
+  missingresetmark adapters cầnfixture. Khôngconcatenateannualreset.
+-EUR:2H4Longgrossâm/Shortreferencepositive còncost/swapgaps;13grosslot<9USD
+  comm/slipstress vànooverbudgetlotbug trongboundcases.104side/yeargroups,
+  holdings/bridges/costR/tails giữ trongJSON. KhôngchọnShort-only/newdiscovery.
+-Portfolio: chưa cóleg2eligible,khôngrho từequitycum/annualPnL; sourcecommon
+  window2010–22,aligneddailyMTMincrements chỉ saucontinuousstate hợp lệ.
+  Existingbarsharedwallet cófixtures nhưng chưasharedtick/margin/propfunding.
+-Protocoldraft:60quarterstarts2010–24×0,25/0,40%,100causalH4warmup,phase1+10%
+  phase2+5%flat/min4days,firstbreach/3–6–12–24monthrightcensor;funded14-day/
+  naturalflat/80%baseline/newaccount/costunknown. Ownercapsdaily<2,5%,overall
+  **staticinitialloss**<6,5%;peakDD báo riêng,không đổi metric đểpass.
+-ĐợtBđềxuất chỉboundedGoldadapter/continuityfixtures/sourcecostgapreview và
+  profile1startprefix trướcchốtlongbudget. Chưa chạy120cases/funded/portfolio.
 
 Audit này rà luồng scope→data→code→simulation→validation→operations→handover,
 đối chiếu source/tests/evidence và health check; **không là full code/security

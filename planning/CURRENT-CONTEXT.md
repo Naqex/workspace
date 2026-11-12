@@ -4,25 +4,28 @@
 
 ## Việc hiện tại
 
-**Một task chính:** [STRATEGY-E2E: US500 H1–M15 tới challenge/payout](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).
+**Một task chính:** [STRATEGY-E2E: chiến lược tới challenge/payout](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).
 Owner yêu cầu rà hệ thống/workflow và gom mọi bước, kể cả việc xét sau, vào
 một task. Audit/plan không là strategy accepted. C1/C2 chưa đạt; chưa có
 ứng viên challenge. AppGoal vừa kiểm=null; không tự bật lại.
 
-**PR67 đã merge** vào main`0240424`;4nhánh chỉ định đã dọn, multiframe cótag
-`archive/us500-multiframe-study` trỏ`b77fc68`. WIP/nhánhVI của chat khác giữ nguyên.
-[Gold M1 path + swap/sizing và EURUSDpostmortem](research/GOLD-M1-PATH-AND-EURUSD-POSTMORTEM-20261113.md)
-đã đo2010–24, giữ220closed+5open: base0,25% dailybao biên0,4926%, equitypeakDD
-4,20428%, staticinitialloss3,8812%; coverage lịch68,1741% gồmclosures/gaps,
-không wholepath/tick/targetaccountcert. Gold là multi-day/Swing research;
-0,40% đạt observedinternal3%/6,5% nếu6,5% làstaticloss, nhưng peakDD6,73%.
-0,50% vượt cảhai cap6,5%;0/15flat10%touch trong cả9case, chưa sizing thật.
-**US500overlay Bước3–4 vẫnpaused**; không portGold/alpha retune/freshstudy.
-Catalogue13:8H4+16H1;9bản grosssau spread khôngdương,13bản mất lãi trướcswap
-do commission/slip,2bản H4 mất vìswap.6reference dương,0stress dương.
-Tiếp đề xuất: targetcost/sourcegap admission trước boundedGoldnativefixture;
-EURUSDintraday mới cần hypothesis đủ trả ma sát và card/protocol, chưa tự chạy.
-Không mởgiá2025–26; metadata/OOS cũ không đổi. C1/C2 chưa đạt.
+**Đợt A do ASTRA điều phối:** [Gold continuous / EURUSD economics / portfolio](research/GOLD-EURUSD-PORTFOLIO-STAGE-A-20261113.md)
+đã hoàn tất evidence và [protocolv1draft](research/GOLD-CONTINUOUS-PORTFOLIO-PROTOCOL-V1-20261113.md),
+chờ ASTRAreview trước đợtB/merge. WriterSol duy nhất cho research; không thêmagents.
+76.750closed+50openEURcases bindintents/risk/quotesummaries. HaiH4Longgrossâm,
+Shortreferencegrossdương nhưngstressswap làmâm;13bản còn lại grosslot<9USDlot
+comm/slip. Chưa chọnEURcounterpart, chưa correlation/portfoliofinancialcurve.
+GoldM1audit không thêm lỗi số học material trongdeclaredscope;249ngày thiếu
+exactmidnightmark,135stopminutes khôngbiếtextremaordering. LowDD cũ không
+thànhfullpath/accountproof. Nativeobserver50k reuse được; Forexrunner vẫn
+EURUSD/10k, existingmultiassetbarwallet chưatick/margin/prop-ready.
+Draft60quarterstarts2010–24×2risk0,25/0,40%,100causalH4warmup,carryquaJanuary1,
+phaseflat/reset/min-days/firstbreach,3/6/12/24m vàrightcensor; chưa chạy dài.
+Ownercap **daily<2,5%,overallstaticinitialloss<6,5%**, peakDD báo riêng.
+Fundedreward cần14ngày/naturalflat/pending0/approval/split/newaccountcontract;
+không“chỉ dương là rút”. Targetcost đầy đủ vẫnunknown, không currentrate→history.
+**US500overlay vẫnpaused; không alpha/SL/exitoptimization hoặc giá2025–26.**
+PR68/M1checkpoint vẫn giữ ởmain`71a186d`; VIWIP/pins/runtime giữ nguyên.
 [Hồ sơ Bước1–2](research/STRATEGY-STATUS-AND-CANDIDATE-DOSSIERS-20261112.md)
 giữ taxonomy/gap/testdesign; đề xuất US500overlay cũ đã được owner gác.
 
@@ -36,9 +39,10 @@ Owner bổ sung: [lọc feasibility sớm](../tooling/ai-engines/STRATEGY-WORKFL
 trước code sâu/financialbatch; reuse/count-only khi thiếu cadence. Bản có edge
 được xét sizing khác nếu stressDD/prop cho phép;0,25% chỉ baseline, chưa đổi risk thật.
 
-**T1 chiến lược vẫn chưa freeze card mới**, không tự chạy study sau hậu kiểm: hypothesis →
+**T1 US500 lịch sử vẫn chưa freeze card mới**, không tự chạy study sau hậu kiểm: hypothesis →
 H1bias/clock/carry → M15zone/available_at → setup → trigger → risk/entry/exit.
-Giữ US500/intraday, FTMO CFD2-StepStandard chính, risk thấp; The5ers nhánh riêng.
+US500/intraday/Standard là scope trước đợtA; lượt hiện tại ưu tiên GoldSwing
+continuous/EUR economics/portfolio theo chỉ thị mới, không tự mở US500overlay.
 Đề xuất chính là confirmedM15level→break→retest, giữ MA-arm comparator;
 đây chưa là exactrecipe đã được owner chốt. [Research/spec gaps](research/H1-M15-ZONES-AND-AI-VALIDATION-20261112.md)
 và [oldB/C spec](research/US500-MULTITIMEFRAME-DRAFT-20261111.md) dẫn luật cũ.
