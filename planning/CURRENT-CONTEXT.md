@@ -9,6 +9,14 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 ## Việc hiện tại
 
+- **Owner12/11 mở rộng research nhiều setup và cho offline2025/2026**:
+  [Recent discovery PLAN](research/US500-RECENT-DISCOVERY-PLAN-20261112.md)
+  supersede2025+reserved **cho đúng study mới**, không đổi frozenprotocols cũ.
+  Ưu tiên data gần;2026YTD tới11/11NY,khôngfull-year. Freeze rule/shortlist
+  trước outcomes từngstage;2025selectiondata khôngfinalholdout;exposure chưa
+  rõ giữunverified. Research/cadence→boundedcostscreen→recent/stress→score/
+  recommendation, khôngbroker/account/risk/live/purchase. KhôngGoalmới.
+
 - **Owner12/11 yêu cầu kiểm FP07 trên quá khứ sâu hơn**:
   [2013–2021 đã đếm](research/US500-CHANNEL-HISTORY-RESULTS-20261112.md),
   [protocol](research/US500-CHANNEL-HISTORY-PROTOCOL-20261112.md),sourcecommit
