@@ -20,7 +20,9 @@ chiến lược đạt hoặc bảo đảm sẽ tìm được bằng một số 
   2022–24 đã exposed;2025 đã selection ở studies khác;2026 exposure tùy recipe.
   Mỗi study cần consumedmap/protocol riêng, không tự gọi một năm là unseen.
 - Ngân sách25USD/10k (0,25%) là baseline offline đã dùng, chưa là lot/risk thật
-  được chốt cho tài khoản. Nhịp3–5/tuần là ưu tiên thiết kế, không quota có edge.
+  được chốt cho tài khoản hoặc trần bất biến. Ứng viên có edge nhưng return
+  thấp được xét sizing khác khi còn đủ stressDD/headroom; không tăngrisk cứu
+  netedge âm. Nhịp3–5/tuần là ưu tiên thiết kế, không quota có edge.
 - AI giúp research/spec/code/review. Hành vi signal/risk/fill cần tái hiện được;
   không cho model tự đổi strategy/authorization ở mỗi lệnh.
 - Các đề xuất retest/FVG/OB và defaults mới vẫn là hypotheses, không coi owner
@@ -40,6 +42,17 @@ Checkpoint từ nay báo card→technicalpass→economicsurvivor→fresh/robust�
 →challenge/payout cùng blockers, tách số trials/books; hiện0candidatechallenge.
 Trước engine kiểm chéo đích, khóa phí/qty1–2–3/timing/SL/gap fixtures: old
 smoke size2 có fee formulas khác nhau nhưng cùng số, chưa size-generalparity.
+
+**Điều chỉnh owner12/11 — lọc sớm và sizing:** trước code sâu/native batch,
+T1–T3 phải có [feasibility verdict](../../tooling/ai-engines/STRATEGY-WORKFLOW.md#lọc-độ-phù-hợp-trước-khi-triển-khai-sâu)
+cho cadence/thời gian thu mẫu, code/causality, data, costs/fill, risk/RR/prop
+và effort. Reuse old evidence hoặc count-only nhỏ để gác sớm bản không hợp
+mục tiêu; chưa biết thì probe có budget, không full backtest để mới phát hiện
+quá thưa. Giữ reason/history; không sửa frozenfloor hoặc bác edge hồi tố.
+T5 có nhánh sizing cho survivor/near-miss có cơ sở: baseline0,25% không tự
+loại bản có thể đạt mục tiêu ở risk khác trong safe envelope. RR cao/ít trade
+không là hardfail chung; risk selection dùng account/equity replay khi cần,
+khóa trước T6. Đây là workflow, chưa runner enforcement hoặc risk thật mới.
 
 ## Rà soát hệ thống: sai ở đâu, thiếu ở đâu?
 
@@ -116,7 +129,7 @@ trạng thái thực thi thật. Không tự tạo một issue/chat/agent cho m�
 | Chặng | Việc cần làm / đầu ra | Điều kiện đóng | Hiện tại |
 |---|---|---|---|
 |T0 Rà và tinh gọn|FindingsF1–F12, authority map, archive nguyên lịch sử, scopeguard cho agent|Links/preservation/skill audit và resume walkthrough đạt|**Hoàn tất audit trong scope**; tiếp T1|
-|**T1 Chốt một bộ luật**|Strategycard H1→M15→risk/exit; xác minh clock/carry; chọn một mainsetup và saved comparator|Không còn điều kiện mơ hồ; examples đúng/không đúng được giải thích trước outcome|**Bước tiếp bắt buộc**, chưa freeze recipe mới|
+|**T1 Chốt một bộ luật**|Feasibility review trước code sâu; card H1→M15→risk/exit, clock/carry và comparator|Fit/unknown có verdict; luật/examples rõ; thiếu cadence dùng count-only ởT2–T3 trước financialbatch|**Bước tiếp bắt buộc**, chưa freeze recipe mới|
 |T2 Data và target model|Inventory/reuse source; gaps/quality/availability; contract/fees/session, accountprofile/ruleversion và exposuremap|Đủ cho stage đã đăng ký; unknown không thành0; cost scenario khác actual target được gắn nhãn|Partial assets; target admission chưa đủ|
 |T3 Code và kiểm kỹ thuật|Reuse nativeengine/runner; zone event lifecycle; oracle/prefix/mutations, BUY/SELL/equality/gap/reset/order/cash fixtures|Không material timing/state/accounting bug; kỹ thuật pass không thay C1|Old checks có evidence; zone mới chưa implement|
 |T4 Sàng lọc nhỏ|Khóa hypothesis/rules/window/metrics/budget; count→financialscreen→cost/control/attribution|Giữ/gác/inconclusive có lý do, đủ mẫu theo câu hỏi; không quota lệnh/winner|Blocked bởi T1–T3 cho recipe mới|
@@ -162,7 +175,7 @@ mở phải ghi trigger/evidence, version và stage/permission phù hợp.
 |Q3 EntryM1|Đánh giá thêm timing/granularity/cost/latency|Sau Q2review chỉ ra value còn thiếu, source/tick/order semantics admitted; T2→T4|
 |Q4 FVG|Một representative causal three-bar zone, birth/merge/mitigation/expiry|Sau T3baseline và T4primary đã có quyết định; ghi lý do riêng trước numeric, T1→T4|
 |Q5 OB/supply-demand|Exact zone choice/displacement/knownat, code/license/source audit|Sau Q4triage hoặc có method cụ thể đủ rõ; không assume OHLC biết lệnh tổ chức; T1→T4|
-|Q6 Risk/RR/SL/TP|Sensitivity có giới hạn, constantinitialrisk vs otherpolicy và exitvariants có lý do|Sau T4evidence đáng giữ; T5; không tăng lot để biến loser thành candidate|
+|Q6 Risk/RR/SL/TP|Sizing sensitivity cho bản có netedge/evidence đáng giữ; đổi exit là strategy version khác|Risk envelope sơ bộ ởT1; sauT4 so sizing/accountwideDD/time-fit tạiT5, freeze trướcT6. Không hạ edgegate hoặc tăngrisk cứu net âm|
 |Q7 Portfolio|Alpha/hedge roles, aligned returns/shared-account replay/exposurebudget|Khi có ít nhất các sleeves có lý do và owner mở scope; T5/T6; không cộng standalonePnL|
 |Q8 The5ers/EURUSD/asset khác|Profile/source/method/cost riêng; US500 vẫn mainlane|Owner12/11 đã mở research mở rộng; EURUSD evidence/readiness được khảo sát. Financialtrial cần T1–T3/protocol/budget riêng; chưa dispatch. The5ers sau candidate FTMO đáng chuyển và exactprogram được chọn; T1/T2/T6|
 |Q9 Engine khác/Rust/GPU/RAG|Admit capabilitygap/profile, boundedprototype/parity/benchmark/rollback|Chỉ khi bottleneck đo được có ảnh hưởng, không thay incumbent để kiếm edge; reuse full-framework assets hiện có|

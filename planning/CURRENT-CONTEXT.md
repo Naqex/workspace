@@ -15,6 +15,10 @@ Owner yêu cầu research mở rộng US500/EURUSD và cách dùng cả năm eng
 FX trước hết rà oldevidence/readiness, chưa numericalprotocol mới. Đây là
 đề xuất phân bổ, không tự đổi exactmethod hoặc bật nhiều broker runtimes.
 
+Owner bổ sung: [lọc feasibility sớm](../tooling/ai-engines/STRATEGY-WORKFLOW.md#lọc-độ-phù-hợp-trước-khi-triển-khai-sâu)
+trước code sâu/financialbatch; reuse/count-only khi thiếu cadence. Bản có edge
+được xét sizing khác nếu stressDD/prop cho phép;0,25% chỉ baseline, chưa đổi risk thật.
+
 **Bước tiếp là T1 — chốt strategycard**, không chạy study mới: hypothesis →
 H1bias/clock/carry → M15zone/available_at → setup → trigger → risk/entry/exit.
 Giữ US500/intraday, FTMO CFD2-StepStandard chính, risk thấp; The5ers nhánh riêng.

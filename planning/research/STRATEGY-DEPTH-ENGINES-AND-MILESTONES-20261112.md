@@ -238,6 +238,15 @@ freeze và tích lũy forward phù hợp, không đổi tên replay thành forwa
 
 ## 9. Việc cụ thể kế tiếp và cách báo tiến độ
 
+Owner bổ sung sau báo cáo: trước đầu tư code/batch, lọc mục tiêu/cadence và
+thời gian thu mẫu, độ rõ của code, data, fills/costs, risk/RR/prop và effort.
+[Workflow được mở rộng](../../tooling/ai-engines/STRATEGY-WORKFLOW.md#lọc-độ-phù-hợp-trước-khi-triển-khai-sâu)
+từ frequency-first đã có, không bắt backtest đầy đủ bản biết trước không hợp.
+Bản có net edge nhưng return ở baseline thấp cần được xét sizing trong vùng
+DD an toàn; không giữ0,25% như giới hạn bất biến. Risk không là RR, và đổi
+sizing có thể cần account replay dù reuse signal/data. Giữ old trials/floors;
+đây là policy tương lai, không đổi verdict hoặc cho phép risk thật mới.
+
 1. T1: hoàn thiện một card US500 H1→M15 với clock/carry/level known-at và
    comparator cũ; giải thích thông tin mới cần kiểm so với RS02 âm. Chưa quét
    tham số hoặc thêm M1/FVG/OB. EURUSD đồng thời chỉ rà evidence/readiness.

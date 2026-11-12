@@ -24,6 +24,10 @@ thì dùng dossier được giao; không bịa command hoặc bắt owner kể l
 - Lọc nguồn theo quy tắc rõ, cơ chế kinh tế, dữ liệu tái hiện, costs, điều kiện
   hãng và quyền dùng code/data. Case study trade tay không chứng minh bot;
   payout không chứng minh lợi nhuận sau tổng phí hoặc khả năng tồn tại.
+- Trước code sâu/batch tài chính, dùng [lọc độ phù hợp](../../../tooling/ai-engines/STRATEGY-WORKFLOW.md#lọc-độ-phù-hợp-trước-khi-triển-khai-sâu):
+  mục tiêu/cadence-thu mẫu, causal rules, data, execution/cost/prop, risk và
+  effort. Reuse counters hoặc count-only nhỏ khi thiếu; gác vì không hợp mục
+  tiêu khác bác edge. Baseline risk không là trần bất biến; sizing cần review riêng.
 - Tách official/paper/community/inference. Kiểm nguồn hiện hành trước quyết
   định nhạy thời gian; không xếp phổ biến/hiệu quả bằng upvote hoặc quảng cáo.
 
