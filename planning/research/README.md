@@ -2,16 +2,27 @@
 
 **Task đang thực hiện:** [STRATEGY-E2E — H1→M15 tới challenge/payout](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).
 Task này giữ audit, chặng T0–T9 và các việc xét sau Q1–Q12. Ưu tiên hiện tại:
-Gold cost/path diagnostic dưới đây sau khi owner duyệt Bước1–2;
+Gold M1/swap/sizing và EURUSDpostmortem dưới đây sau khi owner duyệt PR67;
 T1strategycard/clock/zone chưa freeze. Các nextactions trong research cũ là lịch sử,
 không tự dispatch. Index dưới đây dùng tra bằng chứng, không là taskqueue.
+
+[Gold M1 equity/Daily Loss,9case swap×sizing,225positioncoverage và Catalogue13postmortem](GOLD-M1-PATH-AND-EURUSD-POSTMORTEM-20261113.md),
+[JSON](GOLD-M1-PATH-AND-EURUSD-POSTMORTEM-20261113.json): base0,25% observedbao biên
+daily0,4926%/equitypeak4,20428%/staticloss3,8812%; gap/Ask/cost/tick cònunknown.
+0,40% staticloss đạtinternal6,5%, peakDD6,73% vượtcap;0,50% vượtcảhai.
+Không variant nào chạmflat10% trong15Jan-resetbooks; không tăngrisk thật.
+EURUSD8H4+16H1:9grossBidAskâm/13mấttrướcswap/2H4mấtvìswap; không coi mọi
+version âm ngay trướcspread. PR67 đãmerge;3nhánh cũ đãdọn,multiframe cóarchive tag.
+Gold giữmulti-day/Swingresearch, US500overlay vẫnpaused; không2025–26/newalpha.
 
 [Gold R043: phí BUY/SELL, holding,15cashDDbooks và inventory2025–26](GOLD-R043-FINANCING-PATH-AUDIT-20261112.md),
 [JSON](GOLD-R043-FINANCING-PATH-AUDIT-20261112.json): declaredstress40USD/lot/weekday
 cảhai chiều, thứ4x3;2.007events khớp. BUY+6.142,85/SELL−3.563,23USDnet;
-93,43%closedfinancing ở112lệnh>5ngày cũng là nguồn lãi chính. EquityDD/prop
-headroom vẫnunknown; M1vàng có metadata2025–26, globalcleanOOS chưa chứng nhận.
-PR66 đãmerge,12refsresearch đã dọn local/remote;3nhánhdivergent giữ nguyên.
+93,43%closedfinancing ở112lệnh>5ngày cũng là nguồn lãi chính. CheckpointPR67
+chưa đo equityDD; deltaM1 phía trên chỉ đóng gap trong observedscope, fullprop
+headroom vẫnunknown. M1vàng có metadata2025–26, globalcleanOOS chưa chứng nhận.
+PR66 đãmerge,12refsresearch đã dọn local/remote;3nhánhdivergent khi đó giữ lại,
+nay đã xử lý theo chỉ thị owner ở báo cáo13/11 phía trên.
 Owner **tạm dừng Bước3–4/US500overlay**; đề xuất targetcostfeasibility của Gold
 trước nativeport, EURUSD là intradayreadiness lane tốt nhất; chưa triển khai.
 
