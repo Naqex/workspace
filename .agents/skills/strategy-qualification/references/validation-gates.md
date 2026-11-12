@@ -22,6 +22,32 @@ Mọi gửi lệnh cần G6 riêng; system demo test không tự chứng minh st
 
 ## Cách báo cáo
 
+### Nhãn nguyên nhân dừng và phạm vi bằng chứng
+
+Dùng nhiều nhãn khi các vấn đề cùng tồn tại; nhãn là interpretation có source,
+không thay verdict/protocol đã freeze, không automatic rejection/dispatch.
+Mỗi nhãn giữ candidate/version, scenario/window, stage, evidence và reason.
+
+| Nhãn | Khi có thể dùng | Không được suy ra |
+|---|---|---|
+| `ECONOMIC_FAIL` | Net không đạt tiêu chí kinh tế đã đăng ký trong reference/stress, hoặc markout diagnostic yếu trong đúng cohort/horizon | Không bác toàn family; mean trong mẫu không là true expectancy. Gross/markout không tự là account PnL |
+| `CADENCE_OR_SAMPLE_SHORTFALL` | Cơ hội/mẫu không đủ cho precision, time-fit hoặc vai trò đang xét; có thể cùng net dương trong mẫu | Không gọi net dương là edge đã chứng minh, không đặt minimum trades chung hoặc ép thêm lệnh |
+| `DATA_PATH_INCOMPLETE` | Thiếu đường giữ lệnh cho full PnL, hoặc thiếu intraminute path cần cho DD/prop | Phải ghi metric/stage bị thiếu: M1 full net đã đối soát không thành N/A chỉ vì chưa đủ tick DD |
+| `PROP_UNMEASURED` | Chưa kiểm đủ rule/profile/path cho claim đang xét; ghi rõ partial checks nếu có | `prop_qualified=false`, null DD hoặc thiếu field không chứng minh đã vi phạm |
+| `PROP_VIOLATED` | Có evaluator/model phù hợp profile và witness vi phạm: rule/version, thời điểm, anchor/floor, equity/cost/reset semantics | Không suy từ âm cuối kỳ, endpoint maxDD hoặc flag chưa-qualified. Modeled breach khác actual broker breach |
+
+Tách `economic_result` (positive-in-sample / negative-in-model / unknown),
+`edge_status`, `data_scope` và `prop_status`; không ép một primary label che
+các blocker khác. Prop measured-within-limits chỉ đúng rules/window/coverage
+đã kiểm, không tự pass G3/G5/G6. Có observed breach đủ evidence dù phần path
+khác thiếu thì vẫn ghi witness; thiếu coverage cấm kết luận không-breach.
+Branch chỉ chứa docs/source setup có scope not-applicable, không gán economic
+failure. Technical invalidity vẫn theo G1/correctness, không gọi là alpha âm.
+
+Case adoption: [bảng chuẩn hóa và hồ sơ ứng viên](../../../../planning/research/STRATEGY-STATUS-AND-CANDIDATE-DOSSIERS-20261112.md)
+bind saved outputs, giữ unknown và old verdicts. Đây là derived review view,
+không taxonomy đã được runner hoặc product API tự enforce.
+
 Mỗi cửa ghi stage applicability, status **đã kiểm trong scope / chưa kiểm /
 không đạt / chưa đủ bằng chứng**, locator/version và bước sửa nhỏ nhất. Tool
 `strategy_evidence.py inspect` chỉ kiểm artifact invariants/bindings; đọc

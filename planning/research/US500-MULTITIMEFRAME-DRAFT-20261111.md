@@ -1,5 +1,8 @@
 # US500: đối chiếu M15, H1 và M5
 
+Erratum12/11: phần M5 từng ghi nhầm3M1; đã sửa thành5M1 theo
+`us500_multiframe.prepare`. Chỉ sửa mô tả, không đổi code/protocol/outcomes.
+
 11/11/2026. **DRAFT / chưa executable / chưa financial registration hoặc PnL.**
 Owner đã đồng ý A/B/C trước, M1 sau; 7 mức đệm giữ nguyên. Đây là phần mở rộng
 của [baseline v1](US500-M15-PULLBACK-BASELINE-DRAFT-20261111.md), không sửa file
@@ -65,7 +68,7 @@ missing path vẫn unresolved, không xóa ledger hoặc position.
 
 ### M5 entry trong C
 
-- Sau M15arm đã đóng, xét từng M5 đầy đủ từ cùng3M1/BidOHLC, timestamp phải
+- Sau M15arm đã đóng, xét từng M5 đầy đủ từ cùng5M1/BidOHLC, timestamp phải
   lớn hơn arm-time. BUYclose>L+k×A; SELLclose<L−k×A. Equality khôngconfirm.
 - L/zone/A đều là snapshot M15arm; ATR/SL không chuyển sang M5. Các kiểm
   hướng M15 chỉ cập nhật khi M15 mới đóng, không đoán M15 chưa đóng từ M5.

@@ -1,5 +1,72 @@
 # Tra cứu research đã có
 
+**Task đang thực hiện:** [STRATEGY-E2E — H1→M15 tới challenge/payout](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).
+Task này giữ audit, chặng T0–T9 và các việc xét sau Q1–Q12. Ưu tiên hiện tại:
+hậu kiểm Bước1–2 dưới đây; T1strategycard/clock/zone chưa freeze. Các nextactions trong research cũ là lịch sử,
+không tự dispatch. Index dưới đây dùng tra bằng chứng, không là taskqueue.
+
+[Bước1–2: taxonomy, GoldR043,5US500dương và gap/testplan](STRATEGY-STATUS-AND-CANDIDATE-DOSSIERS-20261112.md),
+[JSONderivedview](STRATEGY-STATUS-AND-CANDIDATE-DOSSIERS-20261112.json):
+R100/R107/R118/R120/R121 stress+9,69/+9,69/+3,17/+48,87/+23,03USD;
+R100/R107 cùngfinancialtrace. Gold+4.035,06USD/220closed/15resetyears vẫn
+researchsurvivor, chưa targetcost/timefit/OOS/prop. M1PnLknown khác tickDDknown;
+propunmeasured khác violated. Không đổi oldverdicts, không Bước3–5/runner mới.
+
+[Vì sao chưa có thành tích; một hay nhiều thị trường; năm engine và các chặng](STRATEGY-DEPTH-ENGINES-AND-MILESTONES-20261112.md):
+kế thừa EURUSD/US500/Gold, phân biệt variants với cơ hội độc lập; đề xuất
+US500 chính/EURUSD phụ có budget. Kiểm metadata/LEAN pin/source phí; ba
+smoke size2 chưa là variable-size parity. AI/MCP/RD-Agent, tổ chức/prop/paper/
+cộng đồng được tách nguồn; chưa numericalrun, install hoặc đổi scope thật.
+
+[Zone/setupM15 dưới biasH1 và cách dùng AIagents để build/kiểm](H1-M15-ZONES-AND-AI-VALIDATION-20261112.md):
+Mia/RD-Agent/BacktestBench,SMCsourcefuturelabels,Freqtradecausality/warmup;
+đềxuất levelbreak→retest +MAcomparator,khônggrid/newbatch hoặc proofedge.
+Phân biệt zone/setup/trigger và known-at;cashH1clock/carry phải chốt trướccode.
+
+[TC01: cùng khung giờ qua20ngày trước](US500-SAME-CLOCK-RESULTS-20261112.md),
+[protocol](US500-SAME-CLOCK-PROTOCOL-20261112.md):673cơhội/2022–24,4,47/5phiên;
+endpointstressâm3năm,khôngqua frozenpriority/controlgate.8tests,673signals/
+4.038componentrows đượcđốichiếu,3mutations;15,025s+14,850s. Park exactrecipe,
+khôngtune/SL/account/2025–26. Stockpaper→indexCFD làhypothesistransfer,khôngreplication.
+
+[Ứng viên từng được giữ: rà lại trước đề xuất mới](STRATEGY-CATALOGUE-20261107.md#rà-lại-ứng-viên-từng-được-giữ--12112026):
+R120 US500/M15 còn inconclusive vì15lệnh/3năm và cadence thấp; GoldR043 dự
+phòng ngoài scope; UTC range/H1 cũ có later negatives/model limitations.
+[SavedR120review đã xong](US500-R120-SAVED-REVIEW-20261112.md):6books/30scenario
+rows/3mutations,Decimal→Fractionreview,0simulation. Stress+48,87USD;trừ top1
+còn+27,87/top3−10,91 chỉconcentrationdiagnostic. Giữresearchphụ,chưaưu tiên
+recent extension cho daytrading chính,không đổi luật hoặc mở2025–26.
+
+[Chẩn đoán đà/chi phí/đường đi sau phá kênh](US500-CONTINUATION-DIAGNOSTIC-RESULTS-20261112.md),
+[protocol](US500-CONTINUATION-DIAGNOSTIC-PROTOCOL-20261112.md):4năm/2recipe,
+15–30–60phút,2.865eventrows/18.194controlbars,24annualcells stressmeanâm.
+37,041snumeric+45,627sseparatereview,7tests. Giữ2025RS02/60dấuhệumỏng,
+khôngedge/OOS;park exactATR/channel/exitgrid. Khôngnewstrategy/2026/broker.
+
+[Vào sau phá hay chờ hồi: đối chiếu cùng cutoff14NY](US500-ENTRY-METHOD-COMPARISON-RESULTS-20261112.md),
+[protocol](US500-ENTRY-METHOD-COMPARISON-PROTOCOL-20261112.md):BR01relatedversion
+mới,12native+8reuse/70,618s,624vs331trades. ATR14/kênh20/.10buffer/2ATRstop
+giữ cố định; chưaparametergrid. Unknowns giữ; chưaedge hoặc retest dominance.
+
+[Tổ chức tìm chiến lược theo bản đồ, top-down và bottom-up](US500-HIERARCHICAL-SEARCH-REVIEW-20261112.md):
+RS01/03/04 cùng nhánh phá mốc,RS02 related retest;8setup không8edge độc lập.
+Đề xuất ít representative rồi đi sâu theo evidence, giữ unknown/trialhistory;
+Hyperband chỉ tham khảo phân bổ ngân sách, chưa auto-search/newbatch hoặc proofedge.
+
+[Phút thiếu chung RS01/RS02: đã kiểm tick source](US500-RECENT-GAP-RESULTS-20261112.md),
+[protocol](US500-RECENT-GAP-PROTOCOL-20261112.md):23.875ticks/giờ, target04/04/2025
+11:02NY vẫn0tick;118M1BidAsk overlap exact,3mutations bị phát hiện. Chưa sửa
+được nguồn này, không ffill/rerun/promote; exact full net vẫnN/A.
+
+[US500 recent: 8 setup, 2025 và 2026 đến 11/11, điểm và đề xuất](US500-RECENT-SCREEN-RESULTS-20261112.md):
+56 sổ retained/48 financial/8 null; 37 reuse có review. Chưa có winner:
+recent full net N/A do held gaps, known subsets stress âm; fixed RS01/RS07
+2026 là diagnostics, không shortlist. [Protocol](US500-RECENT-SCREEN-PROTOCOL-20261112.md),
+[amendment/recovery](US500-RECENT-RECOVERY-AMENDMENT-20261112.md) giữ hai lỗi
+và source deltas. 38 focused tests; không job nền; inventory RS01/RS02 năm2025
+cùng thiếu04/04 11:02NY, tiếp source recovery có giới hạn; không tuning hoặc
+đọc RS02/2026 như validation mới.
+
 [FP07 cùng luật: cadence2013–2021 và data gaps](US500-CHANNEL-HISTORY-RESULTS-20261112.md),
 [protocol/amendment trước counts](US500-CHANNEL-HISTORY-PROTOCOL-20261112.md):
 9years/45,41s,11scopedtests,912firstdaysđủquote;2016/20/21≈3/5phiên,

@@ -1,0 +1,2670 @@
+{
+  "schema": "derived_strategy_diagnostic_view_v1",
+  "reviewed_on": "2026-11-12",
+  "generated_at_utc": "2026-11-12T13:46:18.655950+00:00",
+  "purpose": "approved_audit_steps_1_2_not_runner_enforcement_or_frozen_verdict_rewrite",
+  "selection_scope": "retrospective_positive_stress_totals_from_27_related_existing_configurations_not_new_retention_test",
+  "taxonomy_owner": ".agents/skills/strategy-qualification/references/validation-gates.md",
+  "gold": {
+    "id": "R043",
+    "candidate": "xauusd-h4-sma20-80-atr14-r025-v1",
+    "capital_scope": "fifteen_annual_reset_50000USD_books_2010_2024_not_continuous_return",
+    "historical_retention": "retained_under_original_10_of_15_gate_not_changed",
+    "stress_summary": {
+      "scenario": "cost-stress",
+      "total_annual_net_usd": "4035.06",
+      "normalized_sum_percent": "8.07012",
+      "positive_years": 10,
+      "closed": 220,
+      "finance_usd": "8950.80",
+      "wins": 53,
+      "losses": 167,
+      "top5_positive_trade_net": "8668.57",
+      "top5_share_of_positive_contributions": "0.3924564401090547890753251316",
+      "annual_sum_less_top5_closed_trade_net": "-4633.51",
+      "years_after_close_cash_ge_5000": 0,
+      "years_after_close_cash_ge_2500": 0,
+      "max_after_close_cash_net_usd": "2168.91",
+      "prefixes": [
+        {
+          "months": 3,
+          "books": 15,
+          "cash_net_min": "-527.85",
+          "cash_net_max": "1233.33",
+          "positive_cash_books": 6,
+          "books_with_unclosed_positions": 6
+        },
+        {
+          "months": 6,
+          "books": 15,
+          "cash_net_min": "-1082.28",
+          "cash_net_max": "1589.49",
+          "positive_cash_books": 6,
+          "books_with_unclosed_positions": 7
+        },
+        {
+          "months": 12,
+          "books": 15,
+          "cash_net_min": "-1930.54",
+          "cash_net_max": "1846.75",
+          "positive_cash_books": 10,
+          "books_with_unclosed_positions": 5
+        }
+      ]
+    },
+    "annual_books": [
+      {
+        "year": 2010,
+        "scenario": "cost-stress",
+        "net_equity_usd": "-51.48",
+        "financing_usd": "734.00",
+        "closed": 14,
+        "wins": 3,
+        "losses": 11,
+        "open_terminal": true,
+        "prefixes": [
+          {
+            "months": 3,
+            "cash_net_usd": "-429.90",
+            "closed": 5,
+            "positions_not_confirmed_closed": [
+              "coarse-6"
+            ],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          },
+          {
+            "months": 6,
+            "cash_net_usd": "-670.92",
+            "closed": 9,
+            "positions_not_confirmed_closed": [],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          },
+          {
+            "months": 12,
+            "cash_net_usd": "-192.31",
+            "closed": 14,
+            "positions_not_confirmed_closed": [
+              "coarse-15"
+            ],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          }
+        ],
+        "max_after_close_cash_net_usd": "130.30",
+        "flat_credit_checkpoints": [
+          {
+            "exit_interval": [
+              1262714400000,
+              1262717999999
+            ],
+            "cash_net_usd": "-122.73"
+          },
+          {
+            "exit_interval": [
+              1265284800000,
+              1265284800000
+            ],
+            "cash_net_usd": "-100.55"
+          },
+          {
+            "exit_interval": [
+              1265893200000,
+              1265896799999
+            ],
+            "cash_net_usd": "-230.51"
+          },
+          {
+            "exit_interval": [
+              1268323200000,
+              1268323200000
+            ],
+            "cash_net_usd": "-265.13"
+          },
+          {
+            "exit_interval": [
+              1269007200000,
+              1269010799999
+            ],
+            "cash_net_usd": "-386.70"
+          },
+          {
+            "exit_interval": [
+              1270080000000,
+              1270080000000
+            ],
+            "cash_net_usd": "-489.00"
+          },
+          {
+            "exit_interval": [
+              1272031200000,
+              1272034799999
+            ],
+            "cash_net_usd": "-628.92"
+          },
+          {
+            "exit_interval": [
+              1274400000000,
+              1274400000000
+            ],
+            "cash_net_usd": "-540.02"
+          },
+          {
+            "exit_interval": [
+              1275645600000,
+              1275649199999
+            ],
+            "cash_net_usd": "-670.92"
+          },
+          {
+            "exit_interval": [
+              1278298800000,
+              1278302399999
+            ],
+            "cash_net_usd": "-798.01"
+          },
+          {
+            "exit_interval": [
+              1287691200000,
+              1287691200000
+            ],
+            "cash_net_usd": "130.30"
+          },
+          {
+            "exit_interval": [
+              1288796400000,
+              1288799999999
+            ],
+            "cash_net_usd": "8.27"
+          },
+          {
+            "exit_interval": [
+              1290124800000,
+              1290124800000
+            ],
+            "cash_net_usd": "-124.45"
+          },
+          {
+            "exit_interval": [
+              1292529600000,
+              1292529600000
+            ],
+            "cash_net_usd": "-170.31"
+          }
+        ]
+      },
+      {
+        "year": 2011,
+        "scenario": "cost-stress",
+        "net_equity_usd": "1993.46",
+        "financing_usd": "542.00",
+        "closed": 13,
+        "wins": 3,
+        "losses": 10,
+        "open_terminal": true,
+        "prefixes": [
+          {
+            "months": 3,
+            "cash_net_usd": "138.30",
+            "closed": 3,
+            "positions_not_confirmed_closed": [],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          },
+          {
+            "months": 6,
+            "cash_net_usd": "-173.92",
+            "closed": 6,
+            "positions_not_confirmed_closed": [
+              "coarse-7"
+            ],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          },
+          {
+            "months": 12,
+            "cash_net_usd": "1602.92",
+            "closed": 13,
+            "positions_not_confirmed_closed": [
+              "coarse-14"
+            ],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          }
+        ],
+        "max_after_close_cash_net_usd": "1987.42",
+        "flat_credit_checkpoints": [
+          {
+            "exit_interval": [
+              1294750800000,
+              1294754399999
+            ],
+            "cash_net_usd": "-128.69"
+          },
+          {
+            "exit_interval": [
+              1300161600000,
+              1300161600000
+            ],
+            "cash_net_usd": "275.53"
+          },
+          {
+            "exit_interval": [
+              1301310000000,
+              1301313599999
+            ],
+            "cash_net_usd": "138.30"
+          },
+          {
+            "exit_interval": [
+              1304924400000,
+              1304927999999
+            ],
+            "cash_net_usd": "27.10"
+          },
+          {
+            "exit_interval": [
+              1308009600000,
+              1308009600000
+            ],
+            "cash_net_usd": "-18.17"
+          },
+          {
+            "exit_interval": [
+              1308830400000,
+              1308833999999
+            ],
+            "cash_net_usd": "-157.12"
+          },
+          {
+            "exit_interval": [
+              1309953600000,
+              1309957199999
+            ],
+            "cash_net_usd": "-299.49"
+          },
+          {
+            "exit_interval": [
+              1314374400000,
+              1314374400000
+            ],
+            "cash_net_usd": "1987.42"
+          },
+          {
+            "exit_interval": [
+              1316001600000,
+              1316001600000
+            ],
+            "cash_net_usd": "1948.55"
+          },
+          {
+            "exit_interval": [
+              1318942800000,
+              1318946399999
+            ],
+            "cash_net_usd": "1845.09"
+          },
+          {
+            "exit_interval": [
+              1319432400000,
+              1319435999999
+            ],
+            "cash_net_usd": "1726.68"
+          },
+          {
+            "exit_interval": [
+              1321603200000,
+              1321603200000
+            ],
+            "cash_net_usd": "1762.22"
+          },
+          {
+            "exit_interval": [
+              1323108000000,
+              1323111599999
+            ],
+            "cash_net_usd": "1636.52"
+          }
+        ]
+      },
+      {
+        "year": 2012,
+        "scenario": "cost-stress",
+        "net_equity_usd": "308.00",
+        "financing_usd": "551.20",
+        "closed": 16,
+        "wins": 4,
+        "losses": 12,
+        "open_terminal": false,
+        "prefixes": [
+          {
+            "months": 3,
+            "cash_net_usd": "330.11",
+            "closed": 3,
+            "positions_not_confirmed_closed": [],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          },
+          {
+            "months": 6,
+            "cash_net_usd": "-178.18",
+            "closed": 9,
+            "positions_not_confirmed_closed": [],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          },
+          {
+            "months": 12,
+            "cash_net_usd": "308.00",
+            "closed": 16,
+            "positions_not_confirmed_closed": [],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          }
+        ],
+        "max_after_close_cash_net_usd": "580.40",
+        "flat_credit_checkpoints": [
+          {
+            "exit_interval": [
+              1329177600000,
+              1329177600000
+            ],
+            "cash_net_usd": "369.51"
+          },
+          {
+            "exit_interval": [
+              1330527600000,
+              1330531199999
+            ],
+            "cash_net_usd": "229.07"
+          },
+          {
+            "exit_interval": [
+              1332907200000,
+              1332907200000
+            ],
+            "cash_net_usd": "330.11"
+          },
+          {
+            "exit_interval": [
+              1333713600000,
+              1333717199999
+            ],
+            "cash_net_usd": "213.89"
+          },
+          {
+            "exit_interval": [
+              1334336400000,
+              1334339999999
+            ],
+            "cash_net_usd": "97.02"
+          },
+          {
+            "exit_interval": [
+              1335441600000,
+              1335445199999
+            ],
+            "cash_net_usd": "-46.39"
+          },
+          {
+            "exit_interval": [
+              1335787200000,
+              1335790799999
+            ],
+            "cash_net_usd": "-164.63"
+          },
+          {
+            "exit_interval": [
+              1338796800000,
+              1338796800000
+            ],
+            "cash_net_usd": "-69.48"
+          },
+          {
+            "exit_interval": [
+              1340643600000,
+              1340647199999
+            ],
+            "cash_net_usd": "-178.18"
+          },
+          {
+            "exit_interval": [
+              1341561600000,
+              1341565199999
+            ],
+            "cash_net_usd": "-297.41"
+          },
+          {
+            "exit_interval": [
+              1342188000000,
+              1342191599999
+            ],
+            "cash_net_usd": "-420.93"
+          },
+          {
+            "exit_interval": [
+              1343923200000,
+              1343926799999
+            ],
+            "cash_net_usd": "-556.39"
+          },
+          {
+            "exit_interval": [
+              1345078800000,
+              1345082399999
+            ],
+            "cash_net_usd": "-681.37"
+          },
+          {
+            "exit_interval": [
+              1349899200000,
+              1349899200000
+            ],
+            "cash_net_usd": "580.40"
+          },
+          {
+            "exit_interval": [
+              1352980800000,
+              1352984399999
+            ],
+            "cash_net_usd": "451.93"
+          },
+          {
+            "exit_interval": [
+              1355331600000,
+              1355335199999
+            ],
+            "cash_net_usd": "308.00"
+          }
+        ]
+      },
+      {
+        "year": 2013,
+        "scenario": "cost-stress",
+        "net_equity_usd": "1234.52",
+        "financing_usd": "469.60",
+        "closed": 13,
+        "wins": 5,
+        "losses": 8,
+        "open_terminal": true,
+        "prefixes": [
+          {
+            "months": 3,
+            "cash_net_usd": "-238.21",
+            "closed": 6,
+            "positions_not_confirmed_closed": [],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          },
+          {
+            "months": 6,
+            "cash_net_usd": "901.70",
+            "closed": 9,
+            "positions_not_confirmed_closed": [],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          },
+          {
+            "months": 12,
+            "cash_net_usd": "977.00",
+            "closed": 13,
+            "positions_not_confirmed_closed": [
+              "coarse-14"
+            ],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          }
+        ],
+        "max_after_close_cash_net_usd": "1198.90",
+        "flat_credit_checkpoints": [
+          {
+            "exit_interval": [
+              1357239600000,
+              1357243199999
+            ],
+            "cash_net_usd": "-124.43"
+          },
+          {
+            "exit_interval": [
+              1357822800000,
+              1357826399999
+            ],
+            "cash_net_usd": "-258.63"
+          },
+          {
+            "exit_interval": [
+              1357912800000,
+              1357916399999
+            ],
+            "cash_net_usd": "-369.85"
+          },
+          {
+            "exit_interval": [
+              1359468000000,
+              1359471599999
+            ],
+            "cash_net_usd": "-487.10"
+          },
+          {
+            "exit_interval": [
+              1360580400000,
+              1360583999999
+            ],
+            "cash_net_usd": "-609.51"
+          },
+          {
+            "exit_interval": [
+              1363190400000,
+              1363190400000
+            ],
+            "cash_net_usd": "-238.21"
+          },
+          {
+            "exit_interval": [
+              1367236800000,
+              1367236800000
+            ],
+            "cash_net_usd": "985.83"
+          },
+          {
+            "exit_interval": [
+              1369987200000,
+              1369987200000
+            ],
+            "cash_net_usd": "1021.75"
+          },
+          {
+            "exit_interval": [
+              1371045600000,
+              1371049199999
+            ],
+            "cash_net_usd": "901.70"
+          },
+          {
+            "exit_interval": [
+              1375718400000,
+              1375718400000
+            ],
+            "cash_net_usd": "937.63"
+          },
+          {
+            "exit_interval": [
+              1378728000000,
+              1378728000000
+            ],
+            "cash_net_usd": "1198.90"
+          },
+          {
+            "exit_interval": [
+              1383609600000,
+              1383609600000
+            ],
+            "cash_net_usd": "1150.10"
+          },
+          {
+            "exit_interval": [
+              1386838800000,
+              1386842399999
+            ],
+            "cash_net_usd": "1025.00"
+          }
+        ]
+      },
+      {
+        "year": 2014,
+        "scenario": "cost-stress",
+        "net_equity_usd": "358.77",
+        "financing_usd": "826.40",
+        "closed": 14,
+        "wins": 4,
+        "losses": 10,
+        "open_terminal": false,
+        "prefixes": [
+          {
+            "months": 3,
+            "cash_net_usd": "197.46",
+            "closed": 3,
+            "positions_not_confirmed_closed": [],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          },
+          {
+            "months": 6,
+            "cash_net_usd": "-691.27",
+            "closed": 9,
+            "positions_not_confirmed_closed": [
+              "coarse-10"
+            ],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          },
+          {
+            "months": 12,
+            "cash_net_usd": "358.77",
+            "closed": 14,
+            "positions_not_confirmed_closed": [],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          }
+        ],
+        "max_after_close_cash_net_usd": "488.48",
+        "flat_credit_checkpoints": [
+          {
+            "exit_interval": [
+              1389020400000,
+              1389023999999
+            ],
+            "cash_net_usd": "-115.04"
+          },
+          {
+            "exit_interval": [
+              1391605200000,
+              1391608799999
+            ],
+            "cash_net_usd": "-240.06"
+          },
+          {
+            "exit_interval": [
+              1395374400000,
+              1395374400000
+            ],
+            "cash_net_usd": "197.46"
+          },
+          {
+            "exit_interval": [
+              1397563200000,
+              1397566799999
+            ],
+            "cash_net_usd": "63.03"
+          },
+          {
+            "exit_interval": [
+              1398423600000,
+              1398427199999
+            ],
+            "cash_net_usd": "-69.96"
+          },
+          {
+            "exit_interval": [
+              1399471200000,
+              1399474799999
+            ],
+            "cash_net_usd": "-195.29"
+          },
+          {
+            "exit_interval": [
+              1400068800000,
+              1400072399999
+            ],
+            "cash_net_usd": "-323.52"
+          },
+          {
+            "exit_interval": [
+              1400155200000,
+              1400158799999
+            ],
+            "cash_net_usd": "-439.69"
+          },
+          {
+            "exit_interval": [
+              1400760000000,
+              1400763599999
+            ],
+            "cash_net_usd": "-582.47"
+          },
+          {
+            "exit_interval": [
+              1405468800000,
+              1405468800000
+            ],
+            "cash_net_usd": "-316.55"
+          },
+          {
+            "exit_interval": [
+              1408104000000,
+              1408107599999
+            ],
+            "cash_net_usd": "-466.83"
+          },
+          {
+            "exit_interval": [
+              1412899200000,
+              1412899200000
+            ],
+            "cash_net_usd": "166.17"
+          },
+          {
+            "exit_interval": [
+              1416297600000,
+              1416297600000
+            ],
+            "cash_net_usd": "488.48"
+          },
+          {
+            "exit_interval": [
+              1418896800000,
+              1418900399999
+            ],
+            "cash_net_usd": "358.77"
+          }
+        ]
+      },
+      {
+        "year": 2015,
+        "scenario": "cost-stress",
+        "net_equity_usd": "-954.31",
+        "financing_usd": "515.20",
+        "closed": 17,
+        "wins": 3,
+        "losses": 14,
+        "open_terminal": false,
+        "prefixes": [
+          {
+            "months": 3,
+            "cash_net_usd": "291.05",
+            "closed": 1,
+            "positions_not_confirmed_closed": [
+              "coarse-2"
+            ],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          },
+          {
+            "months": 6,
+            "cash_net_usd": "-866.52",
+            "closed": 10,
+            "positions_not_confirmed_closed": [],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          },
+          {
+            "months": 12,
+            "cash_net_usd": "-954.31",
+            "closed": 17,
+            "positions_not_confirmed_closed": [],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          }
+        ],
+        "max_after_close_cash_net_usd": "319.85",
+        "flat_credit_checkpoints": [
+          {
+            "exit_interval": [
+              1422921600000,
+              1422921600000
+            ],
+            "cash_net_usd": "319.85"
+          },
+          {
+            "exit_interval": [
+              1429012800000,
+              1429012800000
+            ],
+            "cash_net_usd": "232.97"
+          },
+          {
+            "exit_interval": [
+              1429534800000,
+              1429538399999
+            ],
+            "cash_net_usd": "113.01"
+          },
+          {
+            "exit_interval": [
+              1430229600000,
+              1430233199999
+            ],
+            "cash_net_usd": "-33.32"
+          },
+          {
+            "exit_interval": [
+              1430395200000,
+              1430398799999
+            ],
+            "cash_net_usd": "-171.21"
+          },
+          {
+            "exit_interval": [
+              1430827200000,
+              1430830799999
+            ],
+            "cash_net_usd": "-296.62"
+          },
+          {
+            "exit_interval": [
+              1432209600000,
+              1432213199999
+            ],
+            "cash_net_usd": "-436.02"
+          },
+          {
+            "exit_interval": [
+              1433109600000,
+              1433113199999
+            ],
+            "cash_net_usd": "-582.79"
+          },
+          {
+            "exit_interval": [
+              1435060800000,
+              1435064399999
+            ],
+            "cash_net_usd": "-718.37"
+          },
+          {
+            "exit_interval": [
+              1435528800000,
+              1435528800000
+            ],
+            "cash_net_usd": "-866.52"
+          },
+          {
+            "exit_interval": [
+              1441382400000,
+              1441382400000
+            ],
+            "cash_net_usd": "-864.13"
+          },
+          {
+            "exit_interval": [
+              1442912400000,
+              1442915999999
+            ],
+            "cash_net_usd": "-992.13"
+          },
+          {
+            "exit_interval": [
+              1443787200000,
+              1443790799999
+            ],
+            "cash_net_usd": "-1112.21"
+          },
+          {
+            "exit_interval": [
+              1444305600000,
+              1444309199999
+            ],
+            "cash_net_usd": "-1236.85"
+          },
+          {
+            "exit_interval": [
+              1449633600000,
+              1449633600000
+            ],
+            "cash_net_usd": "-723.73"
+          },
+          {
+            "exit_interval": [
+              1450288800000,
+              1450292399999
+            ],
+            "cash_net_usd": "-835.51"
+          },
+          {
+            "exit_interval": [
+              1451548800000,
+              1451548800000
+            ],
+            "cash_net_usd": "-954.31"
+          }
+        ]
+      },
+      {
+        "year": 2016,
+        "scenario": "cost-stress",
+        "net_equity_usd": "1580.09",
+        "financing_usd": "816.80",
+        "closed": 12,
+        "wins": 4,
+        "losses": 8,
+        "open_terminal": false,
+        "prefixes": [
+          {
+            "months": 3,
+            "cash_net_usd": "1233.33",
+            "closed": 2,
+            "positions_not_confirmed_closed": [],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          },
+          {
+            "months": 6,
+            "cash_net_usd": "755.88",
+            "closed": 5,
+            "positions_not_confirmed_closed": [
+              "coarse-6"
+            ],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          },
+          {
+            "months": 12,
+            "cash_net_usd": "1580.09",
+            "closed": 12,
+            "positions_not_confirmed_closed": [],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          }
+        ],
+        "max_after_close_cash_net_usd": "1580.09",
+        "flat_credit_checkpoints": [
+          {
+            "exit_interval": [
+              1458144000000,
+              1458144000000
+            ],
+            "cash_net_usd": "1330.54"
+          },
+          {
+            "exit_interval": [
+              1458720000000,
+              1458720000000
+            ],
+            "cash_net_usd": "1233.33"
+          },
+          {
+            "exit_interval": [
+              1460592000000,
+              1460595599999
+            ],
+            "cash_net_usd": "1107.83"
+          },
+          {
+            "exit_interval": [
+              1461855600000,
+              1461859199999
+            ],
+            "cash_net_usd": "984.84"
+          },
+          {
+            "exit_interval": [
+              1463601600000,
+              1463601600000
+            ],
+            "cash_net_usd": "845.88"
+          },
+          {
+            "exit_interval": [
+              1468612800000,
+              1468612800000
+            ],
+            "cash_net_usd": "1356.62"
+          },
+          {
+            "exit_interval": [
+              1470607200000,
+              1470610799999
+            ],
+            "cash_net_usd": "1223.63"
+          },
+          {
+            "exit_interval": [
+              1473278400000,
+              1473278400000
+            ],
+            "cash_net_usd": "1179.16"
+          },
+          {
+            "exit_interval": [
+              1474480800000,
+              1474484399999
+            ],
+            "cash_net_usd": "1039.98"
+          },
+          {
+            "exit_interval": [
+              1474981200000,
+              1474984799999
+            ],
+            "cash_net_usd": "907.77"
+          },
+          {
+            "exit_interval": [
+              1477339200000,
+              1477339200000
+            ],
+            "cash_net_usd": "1363.52"
+          },
+          {
+            "exit_interval": [
+              1483099200000,
+              1483099200000
+            ],
+            "cash_net_usd": "1580.09"
+          }
+        ]
+      },
+      {
+        "year": 2017,
+        "scenario": "cost-stress",
+        "net_equity_usd": "270.90",
+        "financing_usd": "935.20",
+        "closed": 9,
+        "wins": 3,
+        "losses": 6,
+        "open_terminal": false,
+        "prefixes": [
+          {
+            "months": 3,
+            "cash_net_usd": "-145.69",
+            "closed": 2,
+            "positions_not_confirmed_closed": [
+              "coarse-3"
+            ],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          },
+          {
+            "months": 6,
+            "cash_net_usd": "77.25",
+            "closed": 4,
+            "positions_not_confirmed_closed": [],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          },
+          {
+            "months": 12,
+            "cash_net_usd": "270.90",
+            "closed": 9,
+            "positions_not_confirmed_closed": [],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          }
+        ],
+        "max_after_close_cash_net_usd": "721.80",
+        "flat_credit_checkpoints": [
+          {
+            "exit_interval": [
+              1485730800000,
+              1485734399999
+            ],
+            "cash_net_usd": "-129.17"
+          },
+          {
+            "exit_interval": [
+              1488772800000,
+              1488772800000
+            ],
+            "cash_net_usd": "-72.89"
+          },
+          {
+            "exit_interval": [
+              1493280000000,
+              1493280000000
+            ],
+            "cash_net_usd": "86.02"
+          },
+          {
+            "exit_interval": [
+              1497441600000,
+              1497441600000
+            ],
+            "cash_net_usd": "77.25"
+          },
+          {
+            "exit_interval": [
+              1505736000000,
+              1505736000000
+            ],
+            "cash_net_usd": "721.80"
+          },
+          {
+            "exit_interval": [
+              1508241600000,
+              1508245199999
+            ],
+            "cash_net_usd": "588.71"
+          },
+          {
+            "exit_interval": [
+              1510156800000,
+              1510160399999
+            ],
+            "cash_net_usd": "397.08"
+          },
+          {
+            "exit_interval": [
+              1510329600000,
+              1510333199999
+            ],
+            "cash_net_usd": "276.71"
+          },
+          {
+            "exit_interval": [
+              1513843200000,
+              1513843200000
+            ],
+            "cash_net_usd": "270.90"
+          }
+        ]
+      },
+      {
+        "year": 2018,
+        "scenario": "cost-stress",
+        "net_equity_usd": "-1834.67",
+        "financing_usd": "799.20",
+        "closed": 21,
+        "wins": 2,
+        "losses": 19,
+        "open_terminal": false,
+        "prefixes": [
+          {
+            "months": 3,
+            "cash_net_usd": "-519.74",
+            "closed": 4,
+            "positions_not_confirmed_closed": [],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          },
+          {
+            "months": 6,
+            "cash_net_usd": "-1077.99",
+            "closed": 10,
+            "positions_not_confirmed_closed": [
+              "coarse-11"
+            ],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          },
+          {
+            "months": 12,
+            "cash_net_usd": "-1834.67",
+            "closed": 21,
+            "positions_not_confirmed_closed": [],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          }
+        ],
+        "max_after_close_cash_net_usd": "0",
+        "flat_credit_checkpoints": [
+          {
+            "exit_interval": [
+              1518620400000,
+              1518623999999
+            ],
+            "cash_net_usd": "-154.74"
+          },
+          {
+            "exit_interval": [
+              1519084800000,
+              1519088399999
+            ],
+            "cash_net_usd": "-274.20"
+          },
+          {
+            "exit_interval": [
+              1519621200000,
+              1519624799999
+            ],
+            "cash_net_usd": "-394.75"
+          },
+          {
+            "exit_interval": [
+              1522252800000,
+              1522256399999
+            ],
+            "cash_net_usd": "-519.74"
+          },
+          {
+            "exit_interval": [
+              1523433600000,
+              1523433600000
+            ],
+            "cash_net_usd": "-622.43"
+          },
+          {
+            "exit_interval": [
+              1526356800000,
+              1526356800000
+            ],
+            "cash_net_usd": "-589.85"
+          },
+          {
+            "exit_interval": [
+              1527166800000,
+              1527170399999
+            ],
+            "cash_net_usd": "-758.45"
+          },
+          {
+            "exit_interval": [
+              1528315200000,
+              1528315200000
+            ],
+            "cash_net_usd": "-781.80"
+          },
+          {
+            "exit_interval": [
+              1528891200000,
+              1528891200000
+            ],
+            "cash_net_usd": "-882.49"
+          },
+          {
+            "exit_interval": [
+              1529064000000,
+              1529067599999
+            ],
+            "cash_net_usd": "-1011.99"
+          },
+          {
+            "exit_interval": [
+              1535428800000,
+              1535428800000
+            ],
+            "cash_net_usd": "-590.83"
+          },
+          {
+            "exit_interval": [
+              1536764400000,
+              1536767999999
+            ],
+            "cash_net_usd": "-716.99"
+          },
+          {
+            "exit_interval": [
+              1536940800000,
+              1536940800000
+            ],
+            "cash_net_usd": "-824.98"
+          },
+          {
+            "exit_interval": [
+              1537984800000,
+              1537988399999
+            ],
+            "cash_net_usd": "-990.12"
+          },
+          {
+            "exit_interval": [
+              1538488800000,
+              1538492399999
+            ],
+            "cash_net_usd": "-1122.27"
+          },
+          {
+            "exit_interval": [
+              1538982000000,
+              1538985599999
+            ],
+            "cash_net_usd": "-1245.40"
+          },
+          {
+            "exit_interval": [
+              1539241200000,
+              1539244799999
+            ],
+            "cash_net_usd": "-1386.20"
+          },
+          {
+            "exit_interval": [
+              1541088000000,
+              1541088000000
+            ],
+            "cash_net_usd": "-1391.46"
+          },
+          {
+            "exit_interval": [
+              1541527200000,
+              1541530799999
+            ],
+            "cash_net_usd": "-1511.87"
+          },
+          {
+            "exit_interval": [
+              1542718800000,
+              1542722399999
+            ],
+            "cash_net_usd": "-1679.70"
+          },
+          {
+            "exit_interval": [
+              1543330800000,
+              1543334399999
+            ],
+            "cash_net_usd": "-1834.67"
+          }
+        ]
+      },
+      {
+        "year": 2019,
+        "scenario": "cost-stress",
+        "net_equity_usd": "106.82",
+        "financing_usd": "761.20",
+        "closed": 14,
+        "wins": 2,
+        "losses": 12,
+        "open_terminal": false,
+        "prefixes": [
+          {
+            "months": 3,
+            "cash_net_usd": "-453.40",
+            "closed": 3,
+            "positions_not_confirmed_closed": [],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          },
+          {
+            "months": 6,
+            "cash_net_usd": "-1020.27",
+            "closed": 6,
+            "positions_not_confirmed_closed": [
+              "coarse-7"
+            ],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          },
+          {
+            "months": 12,
+            "cash_net_usd": "106.82",
+            "closed": 14,
+            "positions_not_confirmed_closed": [],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          }
+        ],
+        "max_after_close_cash_net_usd": "870.94",
+        "flat_credit_checkpoints": [
+          {
+            "exit_interval": [
+              1548183600000,
+              1548187199999
+            ],
+            "cash_net_usd": "-120.48"
+          },
+          {
+            "exit_interval": [
+              1551456000000,
+              1551456000000
+            ],
+            "cash_net_usd": "-277.13"
+          },
+          {
+            "exit_interval": [
+              1553778000000,
+              1553781599999
+            ],
+            "cash_net_usd": "-453.40"
+          },
+          {
+            "exit_interval": [
+              1554724800000,
+              1554728399999
+            ],
+            "cash_net_usd": "-605.01"
+          },
+          {
+            "exit_interval": [
+              1557334800000,
+              1557338399999
+            ],
+            "cash_net_usd": "-721.87"
+          },
+          {
+            "exit_interval": [
+              1558612800000,
+              1558616399999
+            ],
+            "cash_net_usd": "-869.47"
+          },
+          {
+            "exit_interval": [
+              1562817600000,
+              1562817600000
+            ],
+            "cash_net_usd": "487.99"
+          },
+          {
+            "exit_interval": [
+              1568102400000,
+              1568102400000
+            ],
+            "cash_net_usd": "870.94"
+          },
+          {
+            "exit_interval": [
+              1569420000000,
+              1569423599999
+            ],
+            "cash_net_usd": "753.77"
+          },
+          {
+            "exit_interval": [
+              1570017600000,
+              1570021199999
+            ],
+            "cash_net_usd": "633.69"
+          },
+          {
+            "exit_interval": [
+              1570766400000,
+              1570766400000
+            ],
+            "cash_net_usd": "548.89"
+          },
+          {
+            "exit_interval": [
+              1572267600000,
+              1572271199999
+            ],
+            "cash_net_usd": "429.81"
+          },
+          {
+            "exit_interval": [
+              1575442800000,
+              1575446399999
+            ],
+            "cash_net_usd": "226.35"
+          },
+          {
+            "exit_interval": [
+              1575450000000,
+              1575453599999
+            ],
+            "cash_net_usd": "106.82"
+          }
+        ]
+      },
+      {
+        "year": 2020,
+        "scenario": "cost-stress",
+        "net_equity_usd": "-1930.54",
+        "financing_usd": "168.00",
+        "closed": 20,
+        "wins": 1,
+        "losses": 19,
+        "open_terminal": false,
+        "prefixes": [
+          {
+            "months": 3,
+            "cash_net_usd": "-346.95",
+            "closed": 4,
+            "positions_not_confirmed_closed": [],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          },
+          {
+            "months": 6,
+            "cash_net_usd": "-1082.28",
+            "closed": 12,
+            "positions_not_confirmed_closed": [],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          },
+          {
+            "months": 12,
+            "cash_net_usd": "-1930.54",
+            "closed": 20,
+            "positions_not_confirmed_closed": [],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          }
+        ],
+        "max_after_close_cash_net_usd": "0",
+        "flat_credit_checkpoints": [
+          {
+            "exit_interval": [
+              1581523200000,
+              1581523200000
+            ],
+            "cash_net_usd": "-24.64"
+          },
+          {
+            "exit_interval": [
+              1581580800000,
+              1581580800000
+            ],
+            "cash_net_usd": "-136.69"
+          },
+          {
+            "exit_interval": [
+              1585242000000,
+              1585245599999
+            ],
+            "cash_net_usd": "-246.65"
+          },
+          {
+            "exit_interval": [
+              1585681200000,
+              1585684799999
+            ],
+            "cash_net_usd": "-346.95"
+          },
+          {
+            "exit_interval": [
+              1588928400000,
+              1588931999999
+            ],
+            "cash_net_usd": "-474.41"
+          },
+          {
+            "exit_interval": [
+              1589227200000,
+              1589227200000
+            ],
+            "cash_net_usd": "-533.55"
+          },
+          {
+            "exit_interval": [
+              1589443200000,
+              1589443200000
+            ],
+            "cash_net_usd": "-483.20"
+          },
+          {
+            "exit_interval": [
+              1590501600000,
+              1590505199999
+            ],
+            "cash_net_usd": "-611.53"
+          },
+          {
+            "exit_interval": [
+              1590775200000,
+              1590778799999
+            ],
+            "cash_net_usd": "-733.67"
+          },
+          {
+            "exit_interval": [
+              1591113600000,
+              1591117199999
+            ],
+            "cash_net_usd": "-845.34"
+          },
+          {
+            "exit_interval": [
+              1591290000000,
+              1591293599999
+            ],
+            "cash_net_usd": "-964.25"
+          },
+          {
+            "exit_interval": [
+              1592211600000,
+              1592215199999
+            ],
+            "cash_net_usd": "-1082.28"
+          },
+          {
+            "exit_interval": [
+              1597730400000,
+              1597733999999
+            ],
+            "cash_net_usd": "-1194.56"
+          },
+          {
+            "exit_interval": [
+              1599008400000,
+              1599011999999
+            ],
+            "cash_net_usd": "-1299.62"
+          },
+          {
+            "exit_interval": [
+              1600113600000,
+              1600113600000
+            ],
+            "cash_net_usd": "-1381.80"
+          },
+          {
+            "exit_interval": [
+              1602230400000,
+              1602230400000
+            ],
+            "cash_net_usd": "-1427.72"
+          },
+          {
+            "exit_interval": [
+              1604577600000,
+              1604581199999
+            ],
+            "cash_net_usd": "-1579.01"
+          },
+          {
+            "exit_interval": [
+              1604923200000,
+              1604926799999
+            ],
+            "cash_net_usd": "-1685.72"
+          },
+          {
+            "exit_interval": [
+              1605276000000,
+              1605279599999
+            ],
+            "cash_net_usd": "-1804.28"
+          },
+          {
+            "exit_interval": [
+              1607522400000,
+              1607525999999
+            ],
+            "cash_net_usd": "-1930.54"
+          }
+        ]
+      },
+      {
+        "year": 2021,
+        "scenario": "cost-stress",
+        "net_equity_usd": "985.09",
+        "financing_usd": "520.40",
+        "closed": 16,
+        "wins": 7,
+        "losses": 9,
+        "open_terminal": false,
+        "prefixes": [
+          {
+            "months": 3,
+            "cash_net_usd": "143.51",
+            "closed": 4,
+            "positions_not_confirmed_closed": [],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          },
+          {
+            "months": 6,
+            "cash_net_usd": "1014.87",
+            "closed": 7,
+            "positions_not_confirmed_closed": [
+              "coarse-8"
+            ],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          },
+          {
+            "months": 12,
+            "cash_net_usd": "985.09",
+            "closed": 16,
+            "positions_not_confirmed_closed": [],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          }
+        ],
+        "max_after_close_cash_net_usd": "1493.03",
+        "flat_credit_checkpoints": [
+          {
+            "exit_interval": [
+              1612238400000,
+              1612238400000
+            ],
+            "cash_net_usd": "-51.74"
+          },
+          {
+            "exit_interval": [
+              1612267200000,
+              1612267200000
+            ],
+            "cash_net_usd": "-33.27"
+          },
+          {
+            "exit_interval": [
+              1616054400000,
+              1616054400000
+            ],
+            "cash_net_usd": "261.50"
+          },
+          {
+            "exit_interval": [
+              1617210000000,
+              1617213599999
+            ],
+            "cash_net_usd": "143.51"
+          },
+          {
+            "exit_interval": [
+              1623182400000,
+              1623182400000
+            ],
+            "cash_net_usd": "1071.22"
+          },
+          {
+            "exit_interval": [
+              1623340800000,
+              1623340800000
+            ],
+            "cash_net_usd": "1174.42"
+          },
+          {
+            "exit_interval": [
+              1623416400000,
+              1623419999999
+            ],
+            "cash_net_usd": "1062.87"
+          },
+          {
+            "exit_interval": [
+              1625659200000,
+              1625659200000
+            ],
+            "cash_net_usd": "1439.37"
+          },
+          {
+            "exit_interval": [
+              1627534800000,
+              1627538399999
+            ],
+            "cash_net_usd": "1314.95"
+          },
+          {
+            "exit_interval": [
+              1627664400000,
+              1627667999999
+            ],
+            "cash_net_usd": "1192.25"
+          },
+          {
+            "exit_interval": [
+              1629403200000,
+              1629403200000
+            ],
+            "cash_net_usd": "1288.01"
+          },
+          {
+            "exit_interval": [
+              1633579200000,
+              1633579200000
+            ],
+            "cash_net_usd": "1493.03"
+          },
+          {
+            "exit_interval": [
+              1636027200000,
+              1636030799999
+            ],
+            "cash_net_usd": "1374.11"
+          },
+          {
+            "exit_interval": [
+              1637672400000,
+              1637675999999
+            ],
+            "cash_net_usd": "1214.71"
+          },
+          {
+            "exit_interval": [
+              1637924400000,
+              1637927999999
+            ],
+            "cash_net_usd": "1097.49"
+          },
+          {
+            "exit_interval": [
+              1640005200000,
+              1640008799999
+            ],
+            "cash_net_usd": "985.09"
+          }
+        ]
+      },
+      {
+        "year": 2022,
+        "scenario": "cost-stress",
+        "net_equity_usd": "-268.70",
+        "financing_usd": "343.60",
+        "closed": 13,
+        "wins": 3,
+        "losses": 10,
+        "open_terminal": true,
+        "prefixes": [
+          {
+            "months": 3,
+            "cash_net_usd": "-527.85",
+            "closed": 4,
+            "positions_not_confirmed_closed": [
+              "coarse-5"
+            ],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          },
+          {
+            "months": 6,
+            "cash_net_usd": "-749.29",
+            "closed": 9,
+            "positions_not_confirmed_closed": [],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          },
+          {
+            "months": 12,
+            "cash_net_usd": "-994.48",
+            "closed": 13,
+            "positions_not_confirmed_closed": [
+              "coarse-14"
+            ],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          }
+        ],
+        "max_after_close_cash_net_usd": "0",
+        "flat_credit_checkpoints": [
+          {
+            "exit_interval": [
+              1641916800000,
+              1641920399999
+            ],
+            "cash_net_usd": "-127.31"
+          },
+          {
+            "exit_interval": [
+              1642496400000,
+              1642499999999
+            ],
+            "cash_net_usd": "-258.37"
+          },
+          {
+            "exit_interval": [
+              1643698800000,
+              1643702399999
+            ],
+            "cash_net_usd": "-376.02"
+          },
+          {
+            "exit_interval": [
+              1644562800000,
+              1644566399999
+            ],
+            "cash_net_usd": "-509.85"
+          },
+          {
+            "exit_interval": [
+              1649692800000,
+              1649692800000
+            ],
+            "cash_net_usd": "-586.98"
+          },
+          {
+            "exit_interval": [
+              1653451200000,
+              1653451200000
+            ],
+            "cash_net_usd": "-390.11"
+          },
+          {
+            "exit_interval": [
+              1654873200000,
+              1654876799999
+            ],
+            "cash_net_usd": "-508.46"
+          },
+          {
+            "exit_interval": [
+              1655125200000,
+              1655128799999
+            ],
+            "cash_net_usd": "-615.38"
+          },
+          {
+            "exit_interval": [
+              1655395200000,
+              1655398799999
+            ],
+            "cash_net_usd": "-749.29"
+          },
+          {
+            "exit_interval": [
+              1660838400000,
+              1660838400000
+            ],
+            "cash_net_usd": "-715.10"
+          },
+          {
+            "exit_interval": [
+              1665385200000,
+              1665388799999
+            ],
+            "cash_net_usd": "-851.25"
+          },
+          {
+            "exit_interval": [
+              1667217600000,
+              1667217600000
+            ],
+            "cash_net_usd": "-769.87"
+          },
+          {
+            "exit_interval": [
+              1667286000000,
+              1667289599999
+            ],
+            "cash_net_usd": "-882.48"
+          }
+        ]
+      },
+      {
+        "year": 2023,
+        "scenario": "cost-stress",
+        "net_equity_usd": "390.36",
+        "financing_usd": "522.00",
+        "closed": 12,
+        "wins": 5,
+        "losses": 7,
+        "open_terminal": true,
+        "prefixes": [
+          {
+            "months": 3,
+            "cash_net_usd": "-183.41",
+            "closed": 2,
+            "positions_not_confirmed_closed": [
+              "coarse-3"
+            ],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          },
+          {
+            "months": 6,
+            "cash_net_usd": "334.60",
+            "closed": 5,
+            "positions_not_confirmed_closed": [
+              "coarse-6"
+            ],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          },
+          {
+            "months": 12,
+            "cash_net_usd": "207.99",
+            "closed": 12,
+            "positions_not_confirmed_closed": [
+              "coarse-13"
+            ],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          }
+        ],
+        "max_after_close_cash_net_usd": "554.14",
+        "flat_credit_checkpoints": [
+          {
+            "exit_interval": [
+              1678089600000,
+              1678089600000
+            ],
+            "cash_net_usd": "-14.20"
+          },
+          {
+            "exit_interval": [
+              1678456800000,
+              1678460399999
+            ],
+            "cash_net_usd": "-141.41"
+          },
+          {
+            "exit_interval": [
+              1682049600000,
+              1682049600000
+            ],
+            "cash_net_usd": "332.14"
+          },
+          {
+            "exit_interval": [
+              1683288000000,
+              1683291599999
+            ],
+            "cash_net_usd": "227.92"
+          },
+          {
+            "exit_interval": [
+              1686729600000,
+              1686729600000
+            ],
+            "cash_net_usd": "380.20"
+          },
+          {
+            "exit_interval": [
+              1689105600000,
+              1689105600000
+            ],
+            "cash_net_usd": "447.76"
+          },
+          {
+            "exit_interval": [
+              1693209600000,
+              1693209600000
+            ],
+            "cash_net_usd": "554.14"
+          },
+          {
+            "exit_interval": [
+              1695056400000,
+              1695059999999
+            ],
+            "cash_net_usd": "407.48"
+          },
+          {
+            "exit_interval": [
+              1695240000000,
+              1695243599999
+            ],
+            "cash_net_usd": "286.77"
+          },
+          {
+            "exit_interval": [
+              1697184000000,
+              1697184000000
+            ],
+            "cash_net_usd": "387.75"
+          },
+          {
+            "exit_interval": [
+              1699542000000,
+              1699545599999
+            ],
+            "cash_net_usd": "257.58"
+          },
+          {
+            "exit_interval": [
+              1702353600000,
+              1702353600000
+            ],
+            "cash_net_usd": "233.99"
+          }
+        ]
+      },
+      {
+        "year": 2024,
+        "scenario": "cost-stress",
+        "net_equity_usd": "1846.75",
+        "financing_usd": "446.00",
+        "closed": 16,
+        "wins": 4,
+        "losses": 12,
+        "open_terminal": false,
+        "prefixes": [
+          {
+            "months": 3,
+            "cash_net_usd": "-491.87",
+            "closed": 3,
+            "positions_not_confirmed_closed": [
+              "coarse-4"
+            ],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          },
+          {
+            "months": 6,
+            "cash_net_usd": "1589.49",
+            "closed": 8,
+            "positions_not_confirmed_closed": [],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          },
+          {
+            "months": 12,
+            "cash_net_usd": "1846.75",
+            "closed": 16,
+            "positions_not_confirmed_closed": [],
+            "ambiguous_boundary": [],
+            "equity_and_prop": "not_evaluated"
+          }
+        ],
+        "max_after_close_cash_net_usd": "2168.91",
+        "flat_credit_checkpoints": [
+          {
+            "exit_interval": [
+              1704978000000,
+              1704981599999
+            ],
+            "cash_net_usd": "-127.85"
+          },
+          {
+            "exit_interval": [
+              1706731200000,
+              1706734799999
+            ],
+            "cash_net_usd": "-241.08"
+          },
+          {
+            "exit_interval": [
+              1707822000000,
+              1707825599999
+            ],
+            "cash_net_usd": "-358.67"
+          },
+          {
+            "exit_interval": [
+              1713988800000,
+              1713988800000
+            ],
+            "cash_net_usd": "2073.22"
+          },
+          {
+            "exit_interval": [
+              1715612400000,
+              1715615999999
+            ],
+            "cash_net_usd": "1955.70"
+          },
+          {
+            "exit_interval": [
+              1717686000000,
+              1717689599999
+            ],
+            "cash_net_usd": "1828.73"
+          },
+          {
+            "exit_interval": [
+              1718974800000,
+              1718978399999
+            ],
+            "cash_net_usd": "1709.39"
+          },
+          {
+            "exit_interval": [
+              1719489600000,
+              1719493199999
+            ],
+            "cash_net_usd": "1589.49"
+          },
+          {
+            "exit_interval": [
+              1721908800000,
+              1721908800000
+            ],
+            "cash_net_usd": "1720.49"
+          },
+          {
+            "exit_interval": [
+              1722607200000,
+              1722610799999
+            ],
+            "cash_net_usd": "1626.66"
+          },
+          {
+            "exit_interval": [
+              1723197600000,
+              1723201199999
+            ],
+            "cash_net_usd": "1512.38"
+          },
+          {
+            "exit_interval": [
+              1725523200000,
+              1725523200000
+            ],
+            "cash_net_usd": "1776.86"
+          },
+          {
+            "exit_interval": [
+              1728532800000,
+              1728532800000
+            ],
+            "cash_net_usd": "2168.91"
+          },
+          {
+            "exit_interval": [
+              1730923200000,
+              1730923200000
+            ],
+            "cash_net_usd": "2093.87"
+          },
+          {
+            "exit_interval": [
+              1732503600000,
+              1732507199999
+            ],
+            "cash_net_usd": "1970.43"
+          },
+          {
+            "exit_interval": [
+              1734933600000,
+              1734937199999
+            ],
+            "cash_net_usd": "1846.75"
+          }
+        ]
+      }
+    ],
+    "closed_trades_per_year_descriptive": "14.66666666666666666666666667",
+    "latest_signal_review": {
+      "status": "verified_conditional_on_recorded_position_path",
+      "indicator_bars": 40662,
+      "decisions": 616,
+      "entries": 450,
+      "limitations": [
+        "recorded position path conditional; not stop-first-crossing proof",
+        "same agent; no independent human/feed review",
+        "no new PnL/clean OOS/target broker/prop/timefit qualification"
+      ]
+    },
+    "economic_result": "positive_in_sample",
+    "edge_status": "unproven",
+    "prop_status": "unmeasured",
+    "data_scope": {
+      "pnl": "verified_under_declared_indicative_coarse_model",
+      "observed_Ask": false,
+      "intraminute_equity_dd": "unmeasured",
+      "target_spec": "unverified"
+    },
+    "target_cost_verified": false,
+    "clean_oos_established": false,
+    "promotion_authorized": false,
+    "labels": [
+      {
+        "code": "CADENCE_OR_SAMPLE_SHORTFALL",
+        "scope": "current_goal_time_fit_and_G3",
+        "reason": "220_closed_trades_over_15_reset_years_no_closed_target_at_baseline_in_measured_Jan_start_books"
+      },
+      {
+        "code": "DATA_PATH_INCOMPLETE",
+        "scope": "G4_tick_execution_and_DD",
+        "reason": "indicative_Ask_and_coarse_path_not_target_tick_proof"
+      },
+      {
+        "code": "PROP_UNMEASURED",
+        "scope": "G4_target_profile",
+        "reason": "no_full_native_target_prop_path"
+      }
+    ],
+    "other_blockers": [
+      "TARGET_COST_UNVERIFIED",
+      "FUNDING_MODEL_UNVERIFIED",
+      "CONCENTRATION_REVIEW",
+      "CLEAN_OOS_NOT_ESTABLISHED",
+      "OUTSIDE_CURRENT_H1_M15_INTRADAY_MAIN_SCOPE"
+    ]
+  },
+  "us500_positive_configurations": [
+    {
+      "id": "R100",
+      "config": {
+        "lane": "A",
+        "fast": 20,
+        "slow": 80,
+        "k": "0.2",
+        "id": "R100"
+      },
+      "years": [
+        {
+          "year": 2022,
+          "trades": 8,
+          "stress_net_usd": "11.13"
+        },
+        {
+          "year": 2023,
+          "trades": 5,
+          "stress_net_usd": "26.50"
+        },
+        {
+          "year": 2024,
+          "trades": 4,
+          "stress_net_usd": "-27.94"
+        }
+      ],
+      "closed_trades": 17,
+      "wins": 9,
+      "stress_net_usd": "9.69",
+      "buy_net_usd": "14.32",
+      "sell_net_usd": "-4.63",
+      "closed_trades_per_year_descriptive": "5.666666666666666666666666667",
+      "financial_trace_sha256": "cb1f2c8fb088fe13cf33d6c08de0dbb13afd25573a99616079719fe31a8ac3b6",
+      "capital_scope": "three_cold_annual_reset_books_10000USD_2022_2024_not_continuous_return",
+      "economic_result": "positive_in_sample",
+      "edge_status": "unproven",
+      "prop_status": "unmeasured",
+      "data_scope": {
+        "pnl": "verified_at_declared_M1_stop_envelope_scope",
+        "held_M1_gaps": 0,
+        "intraminute_equity_dd": "unmeasured",
+        "target_feed": "proxy_not_validated_target"
+      },
+      "labels": [
+        {
+          "code": "CADENCE_OR_SAMPLE_SHORTFALL",
+          "scope": "G3_and_current_primary_daytrading_goal",
+          "reason": "small_related_selected_sample_not_positive_expectancy_proof"
+        },
+        {
+          "code": "DATA_PATH_INCOMPLETE",
+          "scope": "G4_intraminute_DD_only",
+          "reason": "M1_PnL_known_but_tick_path_unobserved"
+        },
+        {
+          "code": "PROP_UNMEASURED",
+          "scope": "G4_target_profile",
+          "reason": "no_complete_target_prop_path_evaluation"
+        }
+      ],
+      "target_cost_verified": false,
+      "clean_oos_established": false,
+      "promotion_authorized": false
+    },
+    {
+      "id": "R107",
+      "config": {
+        "lane": "B",
+        "fast": 20,
+        "slow": 80,
+        "k": "0.2",
+        "id": "R107"
+      },
+      "years": [
+        {
+          "year": 2022,
+          "trades": 8,
+          "stress_net_usd": "11.13"
+        },
+        {
+          "year": 2023,
+          "trades": 5,
+          "stress_net_usd": "26.50"
+        },
+        {
+          "year": 2024,
+          "trades": 4,
+          "stress_net_usd": "-27.94"
+        }
+      ],
+      "closed_trades": 17,
+      "wins": 9,
+      "stress_net_usd": "9.69",
+      "buy_net_usd": "14.32",
+      "sell_net_usd": "-4.63",
+      "closed_trades_per_year_descriptive": "5.666666666666666666666666667",
+      "financial_trace_sha256": "cb1f2c8fb088fe13cf33d6c08de0dbb13afd25573a99616079719fe31a8ac3b6",
+      "capital_scope": "three_cold_annual_reset_books_10000USD_2022_2024_not_continuous_return",
+      "economic_result": "positive_in_sample",
+      "edge_status": "unproven",
+      "prop_status": "unmeasured",
+      "data_scope": {
+        "pnl": "verified_at_declared_M1_stop_envelope_scope",
+        "held_M1_gaps": 0,
+        "intraminute_equity_dd": "unmeasured",
+        "target_feed": "proxy_not_validated_target"
+      },
+      "labels": [
+        {
+          "code": "CADENCE_OR_SAMPLE_SHORTFALL",
+          "scope": "G3_and_current_primary_daytrading_goal",
+          "reason": "small_related_selected_sample_not_positive_expectancy_proof"
+        },
+        {
+          "code": "DATA_PATH_INCOMPLETE",
+          "scope": "G4_intraminute_DD_only",
+          "reason": "M1_PnL_known_but_tick_path_unobserved"
+        },
+        {
+          "code": "PROP_UNMEASURED",
+          "scope": "G4_target_profile",
+          "reason": "no_complete_target_prop_path_evaluation"
+        }
+      ],
+      "target_cost_verified": false,
+      "clean_oos_established": false,
+      "promotion_authorized": false
+    },
+    {
+      "id": "R118",
+      "config": {
+        "lane": "B",
+        "fast": 10,
+        "slow": 40,
+        "k": "0.1",
+        "id": "R118"
+      },
+      "years": [
+        {
+          "year": 2022,
+          "trades": 16,
+          "stress_net_usd": "18.30"
+        },
+        {
+          "year": 2023,
+          "trades": 10,
+          "stress_net_usd": "-76.55"
+        },
+        {
+          "year": 2024,
+          "trades": 2,
+          "stress_net_usd": "61.42"
+        }
+      ],
+      "closed_trades": 28,
+      "wins": 14,
+      "stress_net_usd": "3.17",
+      "buy_net_usd": "3.56",
+      "sell_net_usd": "-0.39",
+      "closed_trades_per_year_descriptive": "9.333333333333333333333333333",
+      "financial_trace_sha256": "ec260c875ff0d158edd58ba9963bd46967318fd0af3d83496f641c4591e0afad",
+      "capital_scope": "three_cold_annual_reset_books_10000USD_2022_2024_not_continuous_return",
+      "economic_result": "positive_in_sample",
+      "edge_status": "unproven",
+      "prop_status": "unmeasured",
+      "data_scope": {
+        "pnl": "verified_at_declared_M1_stop_envelope_scope",
+        "held_M1_gaps": 0,
+        "intraminute_equity_dd": "unmeasured",
+        "target_feed": "proxy_not_validated_target"
+      },
+      "labels": [
+        {
+          "code": "CADENCE_OR_SAMPLE_SHORTFALL",
+          "scope": "G3_and_current_primary_daytrading_goal",
+          "reason": "small_related_selected_sample_not_positive_expectancy_proof"
+        },
+        {
+          "code": "DATA_PATH_INCOMPLETE",
+          "scope": "G4_intraminute_DD_only",
+          "reason": "M1_PnL_known_but_tick_path_unobserved"
+        },
+        {
+          "code": "PROP_UNMEASURED",
+          "scope": "G4_target_profile",
+          "reason": "no_complete_target_prop_path_evaluation"
+        }
+      ],
+      "target_cost_verified": false,
+      "clean_oos_established": false,
+      "promotion_authorized": false
+    },
+    {
+      "id": "R120",
+      "config": {
+        "lane": "A",
+        "fast": 40,
+        "slow": 160,
+        "k": "0.1",
+        "id": "R120"
+      },
+      "years": [
+        {
+          "year": 2022,
+          "trades": 9,
+          "stress_net_usd": "2.81"
+        },
+        {
+          "year": 2023,
+          "trades": 2,
+          "stress_net_usd": "11.99"
+        },
+        {
+          "year": 2024,
+          "trades": 4,
+          "stress_net_usd": "34.07"
+        }
+      ],
+      "closed_trades": 15,
+      "wins": 9,
+      "stress_net_usd": "48.87",
+      "buy_net_usd": "-0.41",
+      "sell_net_usd": "49.28",
+      "closed_trades_per_year_descriptive": "5",
+      "financial_trace_sha256": "8028b3ad3edcd7ce143b47146425f5fcafb68efd810a61ed2ca829ef91d5a850",
+      "capital_scope": "three_cold_annual_reset_books_10000USD_2022_2024_not_continuous_return",
+      "economic_result": "positive_in_sample",
+      "edge_status": "unproven",
+      "prop_status": "unmeasured",
+      "data_scope": {
+        "pnl": "verified_at_declared_M1_stop_envelope_scope",
+        "held_M1_gaps": 0,
+        "intraminute_equity_dd": "unmeasured",
+        "target_feed": "proxy_not_validated_target"
+      },
+      "labels": [
+        {
+          "code": "CADENCE_OR_SAMPLE_SHORTFALL",
+          "scope": "G3_and_current_primary_daytrading_goal",
+          "reason": "small_related_selected_sample_not_positive_expectancy_proof"
+        },
+        {
+          "code": "DATA_PATH_INCOMPLETE",
+          "scope": "G4_intraminute_DD_only",
+          "reason": "M1_PnL_known_but_tick_path_unobserved"
+        },
+        {
+          "code": "PROP_UNMEASURED",
+          "scope": "G4_target_profile",
+          "reason": "no_complete_target_prop_path_evaluation"
+        }
+      ],
+      "target_cost_verified": false,
+      "clean_oos_established": false,
+      "promotion_authorized": false
+    },
+    {
+      "id": "R121",
+      "config": {
+        "lane": "B",
+        "fast": 40,
+        "slow": 160,
+        "k": "0.1",
+        "id": "R121"
+      },
+      "years": [
+        {
+          "year": 2022,
+          "trades": 9,
+          "stress_net_usd": "2.81"
+        },
+        {
+          "year": 2023,
+          "trades": 1,
+          "stress_net_usd": "-8.64"
+        },
+        {
+          "year": 2024,
+          "trades": 3,
+          "stress_net_usd": "28.86"
+        }
+      ],
+      "closed_trades": 13,
+      "wins": 7,
+      "stress_net_usd": "23.03",
+      "buy_net_usd": "-26.25",
+      "sell_net_usd": "49.28",
+      "closed_trades_per_year_descriptive": "4.333333333333333333333333333",
+      "financial_trace_sha256": "f650c986679f76a7cc5029e99e6ebd0d60cedbb64466e08fee88a23a202e06ec",
+      "capital_scope": "three_cold_annual_reset_books_10000USD_2022_2024_not_continuous_return",
+      "economic_result": "positive_in_sample",
+      "edge_status": "unproven",
+      "prop_status": "unmeasured",
+      "data_scope": {
+        "pnl": "verified_at_declared_M1_stop_envelope_scope",
+        "held_M1_gaps": 0,
+        "intraminute_equity_dd": "unmeasured",
+        "target_feed": "proxy_not_validated_target"
+      },
+      "labels": [
+        {
+          "code": "CADENCE_OR_SAMPLE_SHORTFALL",
+          "scope": "G3_and_current_primary_daytrading_goal",
+          "reason": "small_related_selected_sample_not_positive_expectancy_proof"
+        },
+        {
+          "code": "DATA_PATH_INCOMPLETE",
+          "scope": "G4_intraminute_DD_only",
+          "reason": "M1_PnL_known_but_tick_path_unobserved"
+        },
+        {
+          "code": "PROP_UNMEASURED",
+          "scope": "G4_target_profile",
+          "reason": "no_complete_target_prop_path_evaluation"
+        }
+      ],
+      "target_cost_verified": false,
+      "clean_oos_established": false,
+      "promotion_authorized": false
+    }
+  ],
+  "us500_observed_financial_signature_groups": [
+    [
+      "R100",
+      "R107"
+    ],
+    [
+      "R118"
+    ],
+    [
+      "R120"
+    ],
+    [
+      "R121"
+    ]
+  ],
+  "independent_edges_claimed": false,
+  "source_artifacts_sha256": {
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-summary-v3\\summary.json": "257f68b5d7ffda4a800c5f701abfa998e345f3a1ec0f22ff2a95e7db4ad85414",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2022\\result.json": "9a4280d5945250f4f61fe6ac83b579fcd62f96d074c889ebd1a9c57f10212aa5",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2023\\result.json": "813aa3ed405056c5bc51d0b15fc62355d241ba1b39173b6791148d8a98170f6a",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2024\\result.json": "308aaa6f2f3568acbcce9bed9670e4ae187ad0bc1650b70e45654e4132c0234c",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2022\\2022-R100-stress-seal.json": "1516b8f10483782e7a596049e2fe404425ff272ca1de2b0ace04660f1698d633",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2022\\2022-R100-stress.json": "b9371c97b2a40bb8962e864ee5d9a3cd08e02d4fd09103d63cb43a749a8927a3",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2022\\2022-R100-stress-review.json": "ff338da01a03100bb9dec9602c1bcfcde0ac77e54e626b831de71bc646969bc2",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2022\\manifest.json": "82b41062f9042b13844af7be123db91b22a102f7f93d6b87c472bfb7b951dceb",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2023\\2023-R100-stress-seal.json": "46100e825f6db2209b72751461c46d3f659e949ea57a40c6b027f98675b67ed4",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2023\\2023-R100-stress.json": "d1d304c6446c7dcb2f049308e5ddd30a45082ada5db5914119dd62d47c9ab1b9",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2023\\2023-R100-stress-review.json": "4b162a24a96f40f357acb89bf241759474859af4028eb3c1e449122979bbf67c",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2023\\manifest.json": "d92f7d9552dad98ee0cc80572d07411778cd67bad2078e4e60baa2be9fa5cc86",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2024\\2024-R100-stress-seal.json": "7dd8571b791ec830b6d8eb8ae215911d20b3e930ba82a41098336ea0fa910353",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2024\\2024-R100-stress.json": "7659610f69d83d752ea22b5c146e3bcb524c65daf7000bcd6fd8505f999b3b49",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2024\\2024-R100-stress-review.json": "07163e9b3f8d612edb1c6dfc4bef4ed715edfe38947ec3c2ad66207956cdc278",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2024\\manifest.json": "3939f4fedac76b6de36b470f986200351a34361a13ebaaea80cc77535650c8ae",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2022\\2022-R107-stress-seal.json": "855c91ff3d64be716127f4869d24a06cc4683bbcf01a86b7ecbec183cc90362e",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2022\\2022-R107-stress.json": "0a56169ba2c82e48cc3464a745c656264940467f5cdf97c20e5ba6faadade768",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2022\\2022-R107-stress-review.json": "518b8886a35a5866a0ef514d937e447b3e84fbf0e942554075d68921f982aefb",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2023\\2023-R107-stress-seal.json": "ec9be8f5b92d02e743adbd832d7793f1cfeb2ead73257dbe5905ef24d03273a2",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2023\\2023-R107-stress.json": "219760c0f9469498be05f6f74cc75d3e40df070bb6d89919945c22b5e61b7b12",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2023\\2023-R107-stress-review.json": "1806d039e43ad684663b6d6563f889fe78fa7587a1399934578b3355cbfd13c9",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2024\\2024-R107-stress-seal.json": "c30e39b9bfb17331fc84a99774e0696cfe03e7ce742ebcff4200f4e1d811a11a",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2024\\2024-R107-stress.json": "31867ccd82b38e0cb1c2d1504ec99a350f3c0b9090296ff972627913c0979c46",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2024\\2024-R107-stress-review.json": "5e892e48c26b3e9201b0503d1ef670bcecb5cf555c7b471de8278c7159823637",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2022\\2022-R118-stress-seal.json": "3694127f56423545b13bae36bd07abcc1dc73f7f2fbb72ba7d5e14d7377c36c6",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2022\\2022-R118-stress.json": "0bff263068a2b661ac19f42faea46c8ddaa77227fe8565e56bd3f932936e7999",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2022\\2022-R118-stress-review.json": "2e78ec5c6adc8cf42050965bab4e7f0120eeaa0f6b4d1b39b724ffcd0b70caff",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2023\\2023-R118-stress-seal.json": "031f0a88c60e1314dca5b66a08da1de977761a7bc4778cb91d883227508d08b8",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2023\\2023-R118-stress.json": "c61e5c93966b53e2921231254b7efd9376e84c60f1a5292bf771bc40b0d95e19",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2023\\2023-R118-stress-review.json": "5247afbc65f4b241b7da0b2f1c5d2a340e8da3633f9c60cfdd83744d630463d5",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2024\\2024-R118-stress-seal.json": "091f0a817db609b9a1309906ed30d82054f4b1ec168111f4dd3e4145c7bdcfa4",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2024\\2024-R118-stress.json": "a31cd6519354bf84af24ca3f61cc13420f0e8722d3c44d597a63c48b33e55fcd",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2024\\2024-R118-stress-review.json": "348cb5c24695cf4e197a34a43bda725077291fe708875d077d7bad535991fdf3",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2022\\2022-R120-stress-seal.json": "8159aa8a2a768ced570192dc2b3431d94896b16df44d35ff9b3d22ce50c5146c",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2022\\2022-R120-stress.json": "eae8493c74c4690d64787e5a357450a9eeb9327b0c70d926851f49ef61a99891",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2022\\2022-R120-stress-review.json": "53958d3fc3e429bab6a9c1e42c13c77a5f202de92b5c007cd8bd09ab3c2f6413",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2023\\2023-R120-stress-seal.json": "c9bc342a6a142bf10a6820878d56db7f225f6374c9c61e5930559a7aa08bd546",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2023\\2023-R120-stress.json": "6404b4ad4dbbf39d449565ee0e251916b1ccd4346b72edc17fbed7521508553d",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2023\\2023-R120-stress-review.json": "bf4e5dcb5b3fa8c6f6770acef0b6771836770283295a2ffb8521baf4b081fa94",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2024\\2024-R120-stress-seal.json": "ad237c28a66e60161930289d8be7b56269f16610b14672154040bda4287619c2",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2024\\2024-R120-stress.json": "5d692c7b98764aea75d94f5023418070a882bdd724ac95b443316ddd577c1a4c",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2024\\2024-R120-stress-review.json": "ff1e997609f8967bae6c86fc88158c343ee5391331e5a0490dcd60e323182e81",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2022\\2022-R121-stress-seal.json": "911fc49aa3c96c3596955b96c223777a81535a6017808c816a31f4b783203783",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2022\\2022-R121-stress.json": "f49b271fce1e9bb9c9991b09ee755094795b5f31354755210a001abe036f700a",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2022\\2022-R121-stress-review.json": "273a9cc5d7edeb740afcb57ff66e242cec2fcf0daafcfcd4953ce18886dd7e14",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2023\\2023-R121-stress-seal.json": "043966e160082e77bf3064c479330a1d215311f70846de3dfa4dd8168be6298b",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2023\\2023-R121-stress.json": "c4204696f30408b5d0b47ce0be40ba4a8d6ddf6698cd09c624594343aa069ae4",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2023\\2023-R121-stress-review.json": "d1ef0d3af1c4a044d1eb25f23a52d23c577abddebe1b17a0e62e067556ddaee5",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2024\\2024-R121-stress-seal.json": "73ee26736b24cf0bea3016eb93f807254b916ec13aeaed7d5a91e31d3d796545",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2024\\2024-R121-stress.json": "9b8883ca00f3a1bee1a88a65fa2bed980981bd81c5c88d16b72d06a87c91db12",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\us500-multiframe-native-v3-review-2024\\2024-R121-stress-review.json": "0a0c6d40f24b0cee09112d32da59d02a1601ac7d128a97ebac8544b9e7da7324",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gold-sma50k-evidence-review-v1\\result.json": "ba1f6d5d08fdd065e8ecb21e223cedf763074db96edcf04716f1f980cd179927",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gold-sma-signal-review-v1\\result.json": "d199ecba1389d53da60134b98a1fbe5b64325815335c95069ff2947816120d91"
+  },
+  "execution": {
+    "new_simulations": 0,
+    "new_data_reads": false,
+    "source_prices_rescanned": false,
+    "holdout_opened": false,
+    "broker_calls": 0,
+    "product_source_changed": false,
+    "steps_3_5_started": false
+  }
+}

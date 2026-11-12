@@ -1,8 +1,14 @@
 # Workflow chiến lược
 
-[AI plan](../../planning/trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md) giữ scope;
+[Task tổng STRATEGY-E2E](../../planning/research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)
+giữ mục tiêu, thứ tự chặng, các vòng hồi quy và backlog có điều kiện mở lại;
+[current context](../../planning/CURRENT-CONTEXT.md) chỉ điều hướng. File này
+giữ phương pháp/tool contracts, không là bảng tiến độ cạnh tranh.
+Paperclip own native task/run/report; protocol/artifact giữ số liệu từng study.
+[AI plan](../../planning/trader/AI-RESEARCH-UI-PROTOTYPE-20261031.md) và
 [receipt](../../planning/checkpoints/ai-integrations-20261031/RECEIPT.md) giữ
-bằng chứng. Paperclip own task/run/report; không thêm tracker/UI riêng.
+scope/evidence của registered Studio fixtures, không thay scope nghiên cứu
+chiến lược hiện tại. Không thêm tracker/UI riêng.
 
 | Chặng | Skill/tool | Bàn giao |
 |---|---|---|
@@ -66,6 +72,41 @@ căn cứ và current gaps ở [framework audit](../../planning/research/STRATEG
 Protocol/data/source hashes và exit0 không tự chứng minh preregistration timing,
 causality, OOS hoặc prop fit. Dossier `review_checks` tách mechanical checks khỏi
 phần chưa được tool đánh giá; dùng bảng gate/evidence trong mọi đề xuất đổi stage.
+
+## Lọc độ phù hợp trước khi triển khai sâu
+
+Trước code đầy đủ hoặc batch tài chính, làm một feasibility review trong
+strategycard/protocol hiện có. Đây là cửa chọn nơi đáng đầu tư công sức,
+không là chứng minh edge. Tách review trên giấy/source khỏi probe đếm tín
+hiệu rẻ khi chưa biết cadence; không thể biết mọi điều trước khi có dữ liệu.
+
+| Mặt cần lọc | Kiểm sớm bằng gì? | Khi nào gác hoặc giải quyết trước? |
+|---|---|---|
+| Mục tiêu/vai trò | Main income/challenge horizon, main alpha hay hedge/research | Không hợp vai trò hiện tại; giữ archive/reason, không kết luận không có edge |
+| Cơ hội và thời gian thu mẫu | Saved counters hoặc causal count-only, ngày/tuần trống, clustering/regime và missing coverage | Tần suất không đạt nhu cầu hoặc cần thời gian thu bằng chứng vượt budget; chưa count thì probe nhỏ trước financial batch |
+| Luật có thể code | Bias/zone/setup/trigger/exit, known-at, ví dụ quyết định trước outcome | Rule mơ hồ/hindsight hoặc phụ thuộc dữ liệu chưa thể quan sát; ưu tiên bản rõ, không biến độ khó code thành economic verdict |
+| Dữ liệu | Nguồn hiện có, quyền dùng, lịch sử/độ phân giải, đường giữ lệnh và costs | Thiếu thứ thiết yếu cho stage mà không có cách xử lý hợp lý trong budget; không fetch/holdout ngầm |
+| Thực thi/chi phí | BidAsk/commission/slip, SL distance, lotstep/minlot, tickvalue, margin và capacity | Size tối thiểu đã vượt budget, cần fill không khả thi hoặc cost model không admitted; chưa rõ thì scoped probe/scenario, không giả pass |
+| Luật quỹ theo phase | EA/news/closure/day/reset/DD, cùng một recipe có sống được tới payout? | Vi phạm đã xác minh mà không có adaptation hợp lệ; terms chưa rõ thì gap, không gắn nhãn hợp quỹ |
+| Risk/RR và đường vốn | Sizing envelope, losing streak/tail risk, daily/overall headroom, time-fit | Chỉ đạt kỳ vọng khi risk vượt vùng an toàn nội bộ, leverage/capacity không cho phép, hoặc exit giả định thiếu cơ sở |
+| Giá trị nghiên cứu/công sức | Parent negatives, thông tin mới cần kiểm, effort/time/dependency budget | Lặp loser không đổi, thêm grid để cứu outcome, hoặc chi phí triển khai quá lớn so với câu hỏi |
+
+Không dùng RR cao, winrate thấp hoặc tần suất ít làm hard rejection chung.
+RR lớn không đồng nghĩa risk tiền lớn. Cadence cần so với thời gian thu mẫu/
+độ chính xác và mục tiêu vận hành; tín hiệu cùng ngày/cùng regime chưa độc
+lập. Chỉ đếm tín hiệu đủ điều kiện causal, không số nến hoặc cost scenarios.
+
+Ghi verdict **được screen nhỏ / gác cho mục tiêu hiện tại / cần probe giải
+quyết gap**, reasons/evidence/unknowns, budget và stage tiếp trong card/protocol.
+Vi phạm thật có thể reject implementation; không gọi một ý tưởng chưa kiểm
+là không có edge. Không thêm tracker hoặc sửa verdict/floor của old runs.
+Cheap probe phải có câu hỏi/stop trước outcome, giữ cả frequency-only trials.
+
+Độ phù hợp được lọc **sớm**, edge được kiểm tiếp trên dữ liệu, rồi mới chọn
+sizing cho ứng viên có evidence đáng giữ. Có thể so risk envelope sơ bộ từ
+đầu; không phải khóa vĩnh viễn một mức baseline cho mọi candidate. Quy trình
+chọn sizing và khi cần account replay ở
+[risk/prop reference](../../.agents/skills/strategy-qualification/references/risk-and-prop.md#chọn-sizing-cho-ứng-viên-có-bằng-chứng).
 
 ## Kiểm tần suất trước batch tài chính lớn
 

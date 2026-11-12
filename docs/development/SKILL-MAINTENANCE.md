@@ -7,6 +7,18 @@ daemon/scheduler hay hứa background tự chỉnh khi không có agent làm vi�
 
 ## Trigger và hành động
 
+12/11 — owner yêu cầu audit và một task từ H1bias→zone/setup→entry tới payout.
+Do scope drift đã xảy ra ởTC01, cập nhật7dòng trong `strategy-research`: đối
+chiếu chỉ dẫn owner/taskstage trước study mới, tách các tầng strategy và không
+gắn bản thiếufilter thành bản cófilter. Không tạo skill mới hoặc sửa global.
+Walkthrough tự review: “tiếp H1→M15” phải vềT1/counterpart cóH1, không mởTC01;
+owner yêu cầu research rộng thì vẫn được mở scope có đăng ký; chỉ hỏi status
+không dispatch. Đây là semantic walkthrough, không chứng minh model luôn làm đúng.
+Quickvalidator ban đầu thiếuPyYAML trong productvenv; dùng bundledPython với
+`-X utf8` thì đạt, không cài package vào runtime. Maintainer `-Force`:0errors/
+warnings,21skills,global12.279B,project10.298/65.536B,reserve55.238B,
+combined22.577B. Runtime/worker đang chạy không tự nhận skill đã sửa.
+
 11/11 — owner đổi từ reference-only sang full framework cả5engine. Reuse
 `strategy-research` với [native engines](../../.agents/skills/strategy-research/references/native-engines.md),
 `upstream-integrations` route tới runtimeguide/locks; không tạo5skill hay

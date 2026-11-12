@@ -4,6 +4,17 @@ const crypto = require('crypto');
 const native = require(path.resolve(__dirname, '../../.runtime/research-data/node_modules/dukascopy-node'));
 const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
 
+function checkResearchWindow(instrument, start, end, grant) {
+  const oldEnd = Date.parse('2025-01-01T00:00:00Z');
+  if (+end <= oldEnd && grant === undefined) return;
+  if (!grant || grant.id !== 'us500-recent-discovery-20261112' ||
+      grant.instrument !== 'usa500idxusd' || instrument !== grant.instrument ||
+      grant.from !== '2025-01-01T00:00:00Z' || grant.to !== '2026-11-12T00:00:00Z' ||
+      !Number.isFinite(+start) || !Number.isFinite(+end) ||
+      +start < Date.parse(grant.from) || +end > Date.parse(grant.to) ||
+      +end <= +start || +end > Date.now()) throw Error('holdout_closed');
+}
+
 function transient(error) {
   return error.name === 'TimeoutError' ||
     ['UND_ERR_CONNECT_TIMEOUT', 'ETIMEDOUT'].includes(error.cause?.code) ||
@@ -48,7 +59,7 @@ async function getCachedM1(request, options) {
   const [startDate, endDate] = native.normaliseDates({instrument: input.instrument,
     startDate: input.dates.from, endDate: input.dates.to,
     timeframe: input.timeframe, utcOffset: input.utcOffset});
-  if (+endDate > Date.parse('2025-01-01T00:00:00Z')) throw Error('holdout_closed');
+  checkResearchWindow(input.instrument, startDate, endDate, options.researchWindow);
   const urls = native.generateUrls({instrument: input.instrument, timeframe: input.timeframe,
     priceType: input.priceType, startDate, endDate});
   const fetcher = new native.BufferFetcher({batchSize: 1, pauseBetweenBatchesMs: 0,
@@ -134,4 +145,4 @@ function resolveBatch(urls,outcomes,options) {
   return buffers;
 }
 
-module.exports = {getCachedM1, requestWithRecovery,resolveBatch,explicitTimestamps};
+module.exports = {getCachedM1, requestWithRecovery,resolveBatch,explicitTimestamps,checkResearchWindow};

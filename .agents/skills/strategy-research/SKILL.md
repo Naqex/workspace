@@ -14,9 +14,20 @@ thì dùng dossier được giao; không bịa command hoặc bắt owner kể l
 - Đọc `planning/CURRENT-CONTEXT.md`, `planning/research/README.md` và PLAN/task
   khi có workspace. Chốt mục tiêu, thị trường, trade tay/semi-auto/auto và quỹ/
   program/phase. Số dư danh nghĩa không là risk budget hay tiền owner sở hữu.
+- Trước study mới, đối chiếu chỉ dẫn mới nhất của owner với task/stage và
+  baseline. “Tiếp tục” không tự cho phép thay cơ chế hoặc timeframe chỉ vì
+  bản cũ thưa/lỗ. Đổi hướng thành đề xuất rõ trước numeric; owner đã cho phép
+  mở rộng thì ghi scope mới và đăng ký trial, không dùng guard này để chặn.
+- Với setup nhiều tầng, tách hypothesis/bias/zone/setup/trigger/risk/entry/exit
+  và thời điểm biết. Không dùng bản thiếu filter làm bằng chứng cho bản có
+  filter; semantic gap cần giải quyết trước khi diễn giải PnL hoặc sửa thêm.
 - Lọc nguồn theo quy tắc rõ, cơ chế kinh tế, dữ liệu tái hiện, costs, điều kiện
   hãng và quyền dùng code/data. Case study trade tay không chứng minh bot;
   payout không chứng minh lợi nhuận sau tổng phí hoặc khả năng tồn tại.
+- Trước code sâu/batch tài chính, dùng [lọc độ phù hợp](../../../tooling/ai-engines/STRATEGY-WORKFLOW.md#lọc-độ-phù-hợp-trước-khi-triển-khai-sâu):
+  mục tiêu/cadence-thu mẫu, causal rules, data, execution/cost/prop, risk và
+  effort. Reuse counters hoặc count-only nhỏ khi thiếu; gác vì không hợp mục
+  tiêu khác bác edge. Baseline risk không là trần bất biến; sizing cần review riêng.
 - Tách official/paper/community/inference. Kiểm nguồn hiện hành trước quyết
   định nhạy thời gian; không xếp phổ biến/hiệu quả bằng upvote hoặc quảng cáo.
 

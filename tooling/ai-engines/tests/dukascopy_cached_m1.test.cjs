@@ -3,6 +3,19 @@ const assert = require('node:assert/strict');
 const {requestWithRecovery, getCachedM1,resolveBatch,explicitTimestamps} = require('../dukascopy_cached_m1.cjs');
 const url = 'https://datafeed.dukascopy.com/v1/candles/minute/fixture';
 
+test('recent research window needs exact owner-scoped instrument and dates; default stays closed',()=>{
+  const {checkResearchWindow: check} = require('../dukascopy_cached_m1.cjs');
+  const grant={id:'us500-recent-discovery-20261112',instrument:'usa500idxusd',
+    from:'2025-01-01T00:00:00Z',to:'2026-11-12T00:00:00Z'};
+  const start=new Date('2025-01-01'),end=new Date('2025-01-02');
+  assert.throws(()=>check('usa500idxusd',start,end),/holdout_closed/);
+  assert.doesNotThrow(()=>check('usa500idxusd',start,end,grant));
+  for(const bad of [{...grant,id:'unlimited'},{...grant,instrument:'eurusd'},
+    {...grant,to:'2027-01-01T00:00:00Z'}]) assert.throws(()=>check('usa500idxusd',start,end,bad),/holdout_closed/);
+  assert.throws(()=>check('usa500idxusd',new Date('2024-12-31'),end,grant),/holdout_closed/);
+  assert.throws(()=>check('usa500idxusd',start,new Date('2026-11-13'),grant),/holdout_closed/);
+});
+
 async function fixture(errors, initial = 6, cancel = false) {
   let calls = 0;
   const waits = [], budget = {failures: initial, maxFailures: 24};
