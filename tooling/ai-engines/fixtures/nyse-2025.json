@@ -1,0 +1,9 @@
+{
+  "schema": "cash-session-calendar-v1", "venue": "NYSE", "year": 2025,
+  "timezone": "America/New_York", "open": "09:30", "close": "16:00",
+  "holidays": ["2025-01-01", "2025-01-09", "2025-01-20", "2025-02-17", "2025-04-18", "2025-05-26", "2025-06-19", "2025-07-04", "2025-09-01", "2025-11-27", "2025-12-25"],
+  "early_closes": {"2025-07-03": "13:00", "2025-11-28": "13:00", "2025-12-24": "13:00"},
+  "source": "https://ir.theice.com/press/news-details/2024/NYSE-Group-Announces-2025-2026-and-2027-Holiday-and-Early-Closings-Calendar/default.aspx",
+  "exception_source": "https://ir.theice.com/press/news-details/2024/The-New-York-Stock-Exchange-Will-Close-Markets-on-January-9-to-Honor-the-Passing-of-Former-President-Jimmy-Carter-on-National-Day-of-Mourning/default.aspx",
+  "verified_on": "2026-11-12", "scope": "Cash proxy only, not CFD broker contract."
+}
