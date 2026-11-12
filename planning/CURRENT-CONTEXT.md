@@ -22,7 +22,10 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
   uncertainty và prop/forward vẫn tách biệt. 2026 đã consumed cho RS01/RS07,
   không gọi clean OOS. Giữ negative lineage/catalogue cũ + scoped RS study.
   Không job nền. Đã inventory: RS01/RS02 năm2025 cùng thiếu phút04/04 11:02NY;
-  tiếp đăng ký/kiểm khả năng phục hồi source có giới hạn trước tuning.
+  [Tick probe đã xong](research/US500-RECENT-GAP-RESULTS-20261112.md):23.875ticks/
+  một giờ, target0tick,118M1sidebars overlap exact; chưa phục hồi được bằng
+  endpoint này. Giữ unknowns, không patch/rerun. Tiếp inventory nguồn đã có
+  hoặc bounds study có đăng ký trước tuning.
   RS02 chưa chạy2026, cần đăng ký study mới nếu mở. Không broker/Goal mới.
 
 - **Owner12/11 mở rộng research nhiều setup và cho offline2025/2026**:

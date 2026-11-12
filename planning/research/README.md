@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+[Phút thiếu chung RS01/RS02: đã kiểm tick source](US500-RECENT-GAP-RESULTS-20261112.md),
+[protocol](US500-RECENT-GAP-PROTOCOL-20261112.md):23.875ticks/giờ, target04/04/2025
+11:02NY vẫn0tick;118M1BidAsk overlap exact,3mutations bị phát hiện. Chưa sửa
+được nguồn này, không ffill/rerun/promote; exact full net vẫnN/A.
+
 [US500 recent: 8 setup, 2025 và 2026 đến 11/11, điểm và đề xuất](US500-RECENT-SCREEN-RESULTS-20261112.md):
 56 sổ retained/48 financial/8 null; 37 reuse có review. Chưa có winner:
 recent full net N/A do held gaps, known subsets stress âm; fixed RS01/RS07

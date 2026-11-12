@@ -141,6 +141,41 @@ Nếu cần đo RS02 trên 2026, phải đăng ký study mới và ghi rõ lựa
 đã xem 2025; không gọi đó là validation chưa đụng tới. Với đúng RS03/RS07,
 giảm ưu tiên thay vì tiếp tục quét tham số. Không bác bỏ toàn family.
 
+**Delta kiểm tiếp 12/11:** [tick gap probe đã xong](US500-RECENT-GAP-RESULTS-20261112.md).
+23.875 ticks trong đúng một giờ; target11:02NY cũng không có tick, 118 M1
+overlap hai side khớp. Chưa sửa được bằng endpoint này; giữ hai lệnh unknown,
+không rerun hoặc tự ffill. Tiếp kiểm khả năng nguồn đã có/bounds có đăng ký.
+
+## Giải thích setup và điểm chung cho owner
+
+Setup là tình huống giá được mô tả rõ để bot biết khi nào xét giao dịch.
+Một strategy đầy đủ còn cần cách vào/thoát, cắt lỗ, khối lượng, phí và giờ chạy.
+
+RS01/02/03/04/06 thử **giá tiếp tục theo hướng vừa thể hiện**: khác nhau ở
+mức giá dùng làm mốc và có chờ hồi/xác nhận thêm không. RS05/07/08 thử
+**giá quay lại sau khi đi lệch một vùng/mức tham chiếu**. Đây là các giả thuyết,
+không phải bot biết trước đoạn nào sẽ tiếp diễn hoặc đảo chiều.
+
+Ví dụ giả định: biên trên một vùng là104, ATR=1 thì đệm0,10ATR=0,10 điểm.
+RS01 chờ nến đóng trên104,10 để xét BUY. RS02 chờ cú phá đó rồi một nến sau
+chạm lại vùng quanh104 và đóng trở lên ngoài đệm. RS05 dùng **vùng đầu phiên
+riêng**, chờ phá lên rồi nến sau đóng lại trong vùng để xét SELL. Giữ đúng mốc
+khác nhau; không đồng nhất kênh20nến với vùng15phút đầu phiên. Hình minh họa
+chỉ dừng ở tín hiệu, không vẽ diễn biến tương lai có lời.
+
+Tất cả dùng giá US500/BidAsk theo cash-clock nghiên cứu, M15 đã đóng, luật số
+học rõ và tối đa một trigger đầu/ngày cho mỗi recipe. BUY/SELL đều có; không
+martingale/thêm lot để gỡ. Chưa có H1 bias bắt buộc chung; RS06 dùng SMA20/80
+trên M15. ATR là đơn vị đo độ dao động để đặt đệm/stop, không tự là tín hiệu
+BUY/SELL. Rule rõ giúp tái hiện/check code, chưa chứng minh có edge.
+
+Bốn economic recipes dùng chung risk cap25USD/10k, stop2ATR, vào phút sau,
+chi phí reference/stress và exit trong ngày; RS07 có thêm thoát khi về mean20.
+Đây là điều kiện so sánh thử nghiệm, chưa khẳng định tối ưu cho từng family.
+Bốn recipe chỉ đếm cơ hội chưa được coi đã chạy toàn strategy lời/lỗ.
+RS01/RS02 chung parent, RS04/RS05 chung range; gặp cùng phiên có thể phụ thuộc
+nhau, nên không cộng số mẫu hoặc gộp PnL thành portfolio độc lập.
+
 ## Reliability, thời gian và nơi lưu
 
 Giữ **56 sổ**: 48 financial và 8 null controls, tất cả có source/input/signal/
