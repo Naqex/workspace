@@ -6,7 +6,7 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 import us500_recent_setups as s
 import us500_multiframe as native
 import review_us500_multiframe as review
-from test_us500_multiframe import event
+from test_us500_multiframe import event, fixture
 
 
 def bar(slot,close,day='2022-01-04',opening=100):
@@ -20,6 +20,18 @@ def prior():return [bar(i,100,'2022-01-03') for i in range(15,391,15)]
 
 
 class RecentSetupsTests(unittest.TestCase):
+    def test_missing_quote_rejections_keep_log_kind_out_of_order_decision(self):
+        for missing,expected in ((45,'entry_prefix_gap'),(46,'missing_exact_fill')):
+            pairs,prepared,_=fixture(missing=missing)
+            stamp=event(45,100)['t']
+            signal=dict(kind='confirm',t=stamp,side='BUY',atr=D(1))
+            factory=lambda config:s.FrozenPolicy(config,{stamp:signal})
+            result=native.execute(dict(id='RS01'),prepared,pairs,native.quote_data(pairs),'.25',policy_factory=factory)
+            review.inspect(result,pairs)
+            self.assertEqual(result['trades'],[])
+            self.assertEqual(result['rejections'][0]['kind'],expected)
+            self.assertNotIn('kind',factory(dict(id='RS01')).event(prepared['snapshots'][stamp]))
+
     def test_channel_retest_and_prior_range_closed_bar_clocks(self):
         es=prior()+[bar(15,100),bar(30,102),bar(45,102)]
         es[-1]['m15']['low']=D(101)

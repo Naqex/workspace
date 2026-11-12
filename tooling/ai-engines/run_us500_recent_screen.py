@@ -1,5 +1,6 @@
 """Frozen setup screen: development/2025 selection, then bounded 2026/history."""
 import argparse,bisect,json,os,time,traceback,warnings
+import shutil
 from datetime import datetime,timezone
 from pathlib import Path
 from decimal import Decimal as D
@@ -72,18 +73,49 @@ def select(rows):
                 basis='2025 full-known stress net descending; fixed RS01/RS07 if no eligible full-known book')
 
 
+def recovery(root,contract_path,pins,stage,codes,years):
+    """Explicit reviewed source migration, never accept arbitrary pin drift."""
+    contract=json.loads(contract_path.read_text(encoding='utf-8'))
+    path=root/'manifest.json';old=json.loads(path.read_text(encoding='utf-8'))
+    if core.digest(path)!=contract['parent_manifest_sha256']:raise ValueError('reuse_manifest_binding')
+    if (old['stage'],old['codes'],old['years'])!=(stage,codes,list(years)):raise ValueError('reuse_scope_drift')
+    oldpins=old['source_pins']
+    delta={n:dict(old=oldpins.get(n),new=pins.get(n)) for n in oldpins.keys()|pins.keys() if oldpins.get(n)!=pins.get(n)}
+    if delta!=contract['source_deltas']:raise ValueError('reuse_unreviewed_source_drift')
+    if contract['reason']!='trace_kind_only_no_economic_rule_change':raise ValueError('reuse_economic_change')
+    completed=json.loads((root/'completed-books.json').read_text(encoding='utf-8'))
+    if core.digest(root/'completed-books.json')!=contract['completed_sha256']:raise ValueError('reuse_completed_binding')
+    records={(r['year'],r['code'],r['scenario']):r for r in completed}
+    if len(records)!=len(completed):raise ValueError('reuse_duplicate_books')
+    return records
+
+
+def reuse_book(root,name,row,admission,signal_record):
+    year=row['year'];code=row['code'];path=root/(name+'.json')
+    seal=json.loads((root/(name+'-seal.json')).read_text(encoding='utf-8'))
+    if (core.digest(path)!=seal['book_sha256'] or core.digest(root/(name+'-review.json'))!=seal['review_sha256']
+        or core.digest(root/'manifest.json')!=seal['manifest_sha256']):raise ValueError('reuse_seal_drift')
+    if json.loads((root/f'input-{year}.json').read_text(encoding='utf-8'))!=admission:raise ValueError('reuse_input_drift')
+    canonical=json.loads(json.dumps(signal_record,default=str))
+    if json.loads((root/f'{year}-{code}-signals.json').read_text(encoding='utf-8'))!=canonical:
+        raise ValueError('reuse_signal_drift')
+    return json.loads(path.read_text(encoding='utf-8'))
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--base',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
     p.add_argument('--protocol',type=Path,required=True);p.add_argument('--protocol-sha256',required=True)
     p.add_argument('--stage',choices=('development','confirm','history'),required=True)
     p.add_argument('--selection',type=Path)
+    p.add_argument('--reuse-completed-from',type=Path);p.add_argument('--reuse-contract',type=Path)
     a=p.parse_args()
     if core.digest(a.protocol)!=a.protocol_sha256:raise ValueError('recent_protocol_binding')
     root=Path(__file__).resolve().parent;pins=core.source_pins(a.protocol)
     for f in (Path(__file__),Path(study.__file__),Path(counts.__file__),root/'us500_ma_reclaim.py',root/'us500_frequency_audit.py',
               root/'review_us500_strategy_fit.py',root/'tests/test_us500_recent_setups.py',root/'run_us500_channel_history.py'):
         pins[str(f.resolve())]=core.digest(f)
+    pins[str((root/'tests/test_run_us500_recent_screen.py').resolve())]=core.digest(root/'tests/test_run_us500_recent_screen.py')
     proof=a.base/'us500-recent-admitted-v1/source-proof.json';pins[str(proof.resolve())]=core.digest(proof)
     selection=None
     if a.stage!='development':
@@ -93,9 +125,16 @@ def main():
         if pins[str(parent.resolve())]!=selection['parent_result_sha256']:raise ValueError('selection_parent_binding')
     codes=list(study.ECONOMIC) if selection is None else selection['codes']
     years=(2022,2023,2024,2025) if a.stage=='development' else (2026,) if a.stage=='confirm' else (2016,2020,2021)
+    reused={}
+    if a.reuse_completed_from:
+        if not a.reuse_contract:raise ValueError('reviewed_reuse_contract_required')
+        reused=recovery(a.reuse_completed_from,a.reuse_contract,pins,a.stage,codes,years)
+    elif a.reuse_contract:raise ValueError('reuse_parent_required')
     a.output.mkdir(exist_ok=False)
     core.save(a.output/'manifest.json',dict(stage=a.stage,codes=codes,years=years,source_pins=pins,
-        exposure='development_or_current_study_validation_not_certified_pristine_holdout',broker_calls=0,model_calls=0))
+        exposure='development_or_current_study_validation_not_certified_pristine_holdout',broker_calls=0,model_calls=0,
+        recovery=None if not reused else dict(parent=str(a.reuse_completed_from.resolve()),
+            contract=str(a.reuse_contract.resolve()),contract_sha256=core.digest(a.reuse_contract))))
     snap=a.output/'source-snapshot';snap.mkdir()
     for i,n in enumerate(pins):
         if Path(n).suffix in ('.py','.md','.lock'):(snap/f'{i:02}-{Path(n).name}').write_bytes(Path(n).read_bytes())
@@ -134,23 +173,34 @@ def main():
                 scenarios=[('reference','.25',False),('stress','.75',False)]
                 if code==codes[0]:scenarios.append(('null','.25',True))
                 for scenario,slip,null in scenarios:
-                    progress('starting_book',year=year,code=code,scenario=scenario);start=time.perf_counter()
-                    book=native.execute(dict(id=code),prepared,pairs,quotes,slip,
-                        lambda stage,**v:progress(stage,year=year,code=code,scenario=scenario,**v),
-                        policy_factory=lambda config,m=mapping:study.FrozenPolicy(config,m),null=null)
-                    name=f'{year}-{code}-{scenario}';f=a.output/(name+'.json');core.save(f,book)
+                    name=f'{year}-{code}-{scenario}';f=a.output/(name+'.json');prior=reused.get((year,code,scenario))
+                    progress('rechecking_saved_book' if prior else 'starting_book',year=year,code=code,scenario=scenario);start=time.perf_counter()
+                    if prior:
+                        book=reuse_book(a.reuse_completed_from,name,prior,admission,
+                            dict(events=sigs[code],cadence=counts.cadence(sessions,sigs[code],pairs)))
+                        if book['config']!={'id':code} or D(book['slippage'])!=D(slip) or book['null']!=null:
+                            raise ValueError('reuse_book_identity')
+                        shutil.copyfile(a.reuse_completed_from/(name+'.json'),f)
+                    else:
+                        book=native.execute(dict(id=code),prepared,pairs,quotes,slip,
+                            lambda stage,**v:progress(stage,year=year,code=code,scenario=scenario,**v),
+                            policy_factory=lambda config,m=mapping:study.FrozenPolicy(config,m),null=null)
+                        core.save(f,book)
                     durable=json.loads(f.read_text(encoding='utf-8'));checked=reviewer.inspect(durable,pairs)
                     if null and (durable['trades'] or D(str(durable['decimal_cash']))!=10000 or durable['position'] is not None):
                         raise ValueError('recent_null_control_nonzero')
                     checked.update(check_policy(durable,prepared,sigs[code]));core.save(a.output/(name+'-review.json'),checked)
                     metric=reviewer.metrics(durable);row=dict(year=year,code=code,scenario=scenario,metrics=metric)
+                    if prior and row!=prior:raise ValueError('reuse_metric_drift')
                     rows.append(row);core.save(a.output/'completed-books.json',rows)
                     core.save(a.output/(name+'-seal.json'),dict(book_sha256=core.digest(f),review_sha256=core.digest(a.output/(name+'-review.json')),
                         manifest_sha256=core.digest(a.output/'manifest.json')))
-                    timings.append(dict(year=year,code=code,scenario=scenario,phase='native_and_review',seconds=time.perf_counter()-start))
+                    timings.append(dict(year=year,code=code,scenario=scenario,phase='reused_and_reviewed' if prior else 'native_and_review',seconds=time.perf_counter()-start))
             del pairs,prepared,quotes
             if any(core.digest(Path(n))!=s for n,s in admission['bindings'].items()):raise ValueError('recent_input_drift')
         if any(core.digest(Path(n))!=s for n,s in pins.items()):raise ValueError('recent_source_pin_drift')
+        if a.reuse_contract and core.digest(a.reuse_contract)!=json.loads((a.output/'manifest.json').read_text(encoding='utf-8'))['recovery']['contract_sha256']:
+            raise ValueError('reuse_contract_drift')
         result=a.output/'result.json';core.save(result,dict(status='completed_native_screen_not_challenge_qualified',stage=a.stage,
             rows=rows,cadence=cadence,timings=timings,wall_seconds=time.perf_counter()-began,selection=selection))
         if a.stage=='development':

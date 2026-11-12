@@ -97,6 +97,7 @@ class FrozenPolicy:
             return None
         ev=self.by_time.get(e['t'])
         if ev:
-            d=dict(ev,action='entry',level=m['close'])
+            # Trace labels belong to events; rejection records own their kind.
+            d=dict(action='entry',t=ev['t'],side=ev['side'],atr=ev['atr'],level=m['close'])
             self.events.append(dict(d,kind='confirm'));return d
         return None
