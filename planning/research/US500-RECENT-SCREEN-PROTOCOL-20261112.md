@@ -29,7 +29,7 @@ RS04/05/06 economic assumptions khác exit/SL cũ nên không gọi exact rerun.
 
 ## Chặng trước khi xem2026 outcomes
 
-1. Cadence cả8 trên2022–24, giữ đủ0/coverage/reasons; historical2016/20/21
+1. Cadence cả8 trên2022–24 và2025, giữ đủ0/coverage/reasons; historical2016/20/21
    count khi nguồn đã admitted. Không sửa setup theo count vừa thấy.
 2. **Chỉ RS01/RS02/RS03/RS07** chạy economic screen2022–24 rồi2025, mỗi năm
    reset10k, reference/stress; có nullcontrol. Chọn trước theo cơ chế rõ và
@@ -40,6 +40,9 @@ RS04/05/06 economic assumptions khác exit/SL cũ nên không gọi exact rerun.
    vẫn thử2để chẩn đoánrecenttransfer, ghi không đủ điều kiện/promote.
    Recipe unresolved/open/rejected accounting không được chọn bằng modeledPnL;
    nếu dưới2full-known thì chỉ chọn số đủ, không thayunknown bằng0.
+   Nếu không có recipe full-known, dùng **RS01/RS07 controls cố định** để
+   chẩn đoán2026, ghi diagnostics-only và giữ mọi unknown/failedgates2025;
+   không chọn theo modeledPnL của các recipe unresolved.
 4. Hai recipe đó chạy2026Jan1→11NovNY; không đọc outcomes recipes khác2026.
    Historical2016/20/21 cho đúng shortlist là stress phụ, giữ toàn năm/gaps.
    Source2026 ingestion/validation trước đó không đánh giá strategy/outcomes.
