@@ -9,6 +9,14 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 ## Việc hiện tại
 
+- **Owner hỏi bản đồ/top-down/bottom-up 12/11**:
+  [Research/đề xuất](research/US500-HIERARCHICAL-SEARCH-REVIEW-20261112.md)
+  đối chiếu8setup thành2họ/6nhánh đọc được,khôngindependenceproof. Đề xuất
+  top-down hypothesis + bottom-up evidence,2–3representatives/vòng nhỏ rồi
+  1–2recipe sâu nếu đủ evidence;đây là workloadheuristic/chưaownerchốt hoặc
+  executableprotocol. Không ưu tiên chỉ vìPnLđẹp,khôngprune cảfamily từ1loser,
+  khôngresettrials/2025–26exposure. KhôngnewPnL/engine/Goal/skill.
+
 - **Vòng recent US500 12/11 đã hoàn tất**:
   [Bảng setup/kết quả/điểm/đề xuất](research/US500-RECENT-SCREEN-RESULTS-20261112.md),
   [recovery hai lỗi](research/US500-RECENT-RECOVERY-AMENDMENT-20261112.md).

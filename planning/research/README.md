@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+[Tổ chức tìm chiến lược theo bản đồ, top-down và bottom-up](US500-HIERARCHICAL-SEARCH-REVIEW-20261112.md):
+RS01/03/04 cùng nhánh phá mốc,RS02 related retest;8setup không8edge độc lập.
+Đề xuất ít representative rồi đi sâu theo evidence, giữ unknown/trialhistory;
+Hyperband chỉ tham khảo phân bổ ngân sách, chưa auto-search/newbatch hoặc proofedge.
+
 [Phút thiếu chung RS01/RS02: đã kiểm tick source](US500-RECENT-GAP-RESULTS-20261112.md),
 [protocol](US500-RECENT-GAP-PROTOCOL-20261112.md):23.875ticks/giờ, target04/04/2025
 11:02NY vẫn0tick;118M1BidAsk overlap exact,3mutations bị phát hiện. Chưa sửa
