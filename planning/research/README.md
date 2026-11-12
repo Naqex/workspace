@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+[Zone/setupM15 dưới biasH1 và cách dùng AIagents để build/kiểm](H1-M15-ZONES-AND-AI-VALIDATION-20261112.md):
+Mia/RD-Agent/BacktestBench,SMCsourcefuturelabels,Freqtradecausality/warmup;
+đềxuất levelbreak→retest +MAcomparator,khônggrid/newbatch hoặc proofedge.
+Phân biệt zone/setup/trigger và known-at;cashH1clock/carry phải chốt trướccode.
+
 [TC01: cùng khung giờ qua20ngày trước](US500-SAME-CLOCK-RESULTS-20261112.md),
 [protocol](US500-SAME-CLOCK-PROTOCOL-20261112.md):673cơhội/2022–24,4,47/5phiên;
 endpointstressâm3năm,khôngqua frozenpriority/controlgate.8tests,673signals/

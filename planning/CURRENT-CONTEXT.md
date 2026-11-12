@@ -9,6 +9,15 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 ## Việc hiện tại
 
+- **Owner hỏi research zone/setupM15 và AIagents12/11 — đã đọc nguồn**:
+  [Báo cáo/đề xuất](research/H1-M15-ZONES-AND-AI-VALIDATION-20261112.md).
+  GiữH1→M15; đềxuất confirmedlevel→break→retest làm setupchính, MAarm cũ
+  comparator;FVG/OBđểsau. Đềxuất chưaownerchốt/executableprotocol/trialrun.
+  AIresearch/code/review tách vai trò, botluật rõ;inspectSMCforwardlabels nên
+  phải táchanchor/available_at/decision/fill. CashH1carry/clock/zone semantics
+  cầnchốt trướccode;existingtests chỉđọc,khôngclaim rerun. Không numeric/price/
+  install/service/broker/Goal mới;existingframeworks/skills đủ,oldnegatives giữ.
+
 - **Owner chỉnh lại hướng12/11: quay về bias H1 → zone/setup M15 → entry.**
   Agent đã hiểu lệch sangTC01same-clock20ngày; TC01 chỉ giữ negativehistory,
   không là hướng chính. Resume từ
