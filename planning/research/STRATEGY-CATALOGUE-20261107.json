@@ -4503,6 +4503,23 @@
   "fx_ny_ma4_M1_conditional_rule_count": 4,
   "registered_setup_studies": [
     {
+      "id": "us500-entry-common14-20261112",
+      "configuration_ids": ["BR01-common14-v1", "RS02-v1"],
+      "new_related_rule_versions": 1,
+      "parent": "RS01/FP07, shared breakout cutoff14NY from existing RS02 contract",
+      "status": "completed_comparison_inconclusive_not_challenge_qualified",
+      "new_native_books": 12,
+      "reused_books": 8,
+      "years": [2022, 2023, 2024, 2025],
+      "fixed": {"channel_bars": 20, "atr_period": 14, "break_buffer_atr": "0.10", "retest_width_atr": "0.10", "stop_atr": 2},
+      "protocol_locator": "US500-ENTRY-METHOD-COMPARISON-PROTOCOL-20261112.md",
+      "evidence_locator": "US500-ENTRY-METHOD-COMPARISON-RESULTS-20261112.md",
+      "exposure": "consumed_development2022-25;2026_not_opened_by_this_comparison",
+      "automatic_dispatch": false,
+      "execution_authorized": false,
+      "counting_scope": "supplement_to_historical_R_catalogue;1related_version_not_new_independent_edge;RS02_not_counted_twice"
+    },
+    {
       "id": "us500-recent-discovery-20261112",
       "configuration_ids": ["RS01", "RS02", "RS03", "RS04", "RS05", "RS06", "RS07", "RS08"],
       "financial_recipe_ids": ["RS01", "RS02", "RS03", "RS07"],

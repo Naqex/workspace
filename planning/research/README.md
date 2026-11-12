@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+[Vào sau phá hay chờ hồi: đối chiếu cùng cutoff14NY](US500-ENTRY-METHOD-COMPARISON-RESULTS-20261112.md),
+[protocol](US500-ENTRY-METHOD-COMPARISON-PROTOCOL-20261112.md):BR01relatedversion
+mới,12native+8reuse/70,618s,624vs331trades. ATR14/kênh20/.10buffer/2ATRstop
+giữ cố định; chưaparametergrid. Unknowns giữ; chưaedge hoặc retest dominance.
+
 [Tổ chức tìm chiến lược theo bản đồ, top-down và bottom-up](US500-HIERARCHICAL-SEARCH-REVIEW-20261112.md):
 RS01/03/04 cùng nhánh phá mốc,RS02 related retest;8setup không8edge độc lập.
 Đề xuất ít representative rồi đi sâu theo evidence, giữ unknown/trialhistory;

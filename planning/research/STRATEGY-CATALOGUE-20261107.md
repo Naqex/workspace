@@ -8,6 +8,11 @@ ML/riskroles, không8provenedges. Historicalnegative/pins giữ nguyên.
 
 [JSON](STRATEGY-CATALOGUE-20261107.json) là cùng dữ liệu có cấu trúc; protocol/source giữ exactrecipes, không automatic dispatch/rejection hoặc broker authority.
 
+12/11: [BR01 common14 so RS02](US500-ENTRY-METHOD-COMPARISON-RESULTS-20261112.md)
+thêm1relatedversion vào scoped study supplement; baseline giảm cutoff15→14NY
+để so cùng parentwindow.12newnative+8reuse,khôngđếmRS02hai lần/khôngnewedge;
+giữhistorical123/88/53 và mọiunknown/negatives. ChưaATR/channelgrid hoặcwinner.
+
 12/11: thêm scoped study [8 recent setups RS01–RS08](US500-RECENT-SCREEN-RESULTS-20261112.md)
 ngoài 123 hồ sơ lịch sử trên; JSON `registered_setup_studies` giữ lineage,
 không cộng thành independent edges hoặc âm thầm renumber old records.

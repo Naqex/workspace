@@ -9,6 +9,17 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 ## Việc hiện tại
 
+- **Owner giao test entry12/11 — đã hoàn tất**:
+  [Kết quả/các tham số cố định](research/US500-ENTRY-METHOD-COMPARISON-RESULTS-20261112.md),
+  [protocol](research/US500-ENTRY-METHOD-COMPARISON-PROTOCOL-20261112.md),commit
+  `ebd050a`trướcnewnative. Phát hiện cutoffconfound cũ:RS01tới15NY,RS02tới14NY.
+  BR01-common14-v1 giữ parentfirstsignal≤14NY,RS02khôngđổi.12newnative+8reused
+  books,70,618s,fullFraction/cash/clock/sealreview.624vs331trades,unknown6vs3;
+  knownsubsetstress mean−1,44vs−1,62USD/trade,khôngchứngminhretesttốthơn.
+  Kênh20/ATR14/breakbuffer.10/retestwidth.10/SL2ATR giữ,chưaATR/channelgrid;
+ 1relatedversionmới,khôngnewedge.2022–25consumed,khôngmởRS02/2026 hoặcbroker.
+  Khôngjobnền/challengecandidate;chưacơsởđàogridđểcứurecipe.
+
 - **Owner hỏi bản đồ/top-down/bottom-up 12/11**:
   [Research/đề xuất](research/US500-HIERARCHICAL-SEARCH-REVIEW-20261112.md)
   đối chiếu8setup thành2họ/6nhánh đọc được,khôngindependenceproof. Đề xuất
