@@ -1,5 +1,11 @@
 # Tra cứu research đã có
 
+[TC01: cùng khung giờ qua20ngày trước](US500-SAME-CLOCK-RESULTS-20261112.md),
+[protocol](US500-SAME-CLOCK-PROTOCOL-20261112.md):673cơhội/2022–24,4,47/5phiên;
+endpointstressâm3năm,khôngqua frozenpriority/controlgate.8tests,673signals/
+4.038componentrows đượcđốichiếu,3mutations;15,025s+14,850s. Park exactrecipe,
+khôngtune/SL/account/2025–26. Stockpaper→indexCFD làhypothesistransfer,khôngreplication.
+
 [Ứng viên từng được giữ: rà lại trước đề xuất mới](STRATEGY-CATALOGUE-20261107.md#rà-lại-ứng-viên-từng-được-giữ--12112026):
 R120 US500/M15 còn inconclusive vì15lệnh/3năm và cadence thấp; GoldR043 dự
 phòng ngoài scope; UTC range/H1 cũ có later negatives/model limitations.

@@ -8,6 +8,11 @@ ML/riskroles, không8provenedges. Historicalnegative/pins giữ nguyên.
 
 [JSON](STRATEGY-CATALOGUE-20261107.json) là cùng dữ liệu có cấu trúc; protocol/source giữ exactrecipes, không automatic dispatch/rejection hoặc broker authority.
 
+12/11: [TC01 same-clock component](US500-SAME-CLOCK-RESULTS-20261112.md)
+thêm1relatedhypothesis và2constantcontrols trong `registered_component_studies`;
+không accountpolicy/independentedge.673signals/2022–24,endpointstressâm3năm,
+park exactrecipe;không2025–26/grid. Historical123/88/53 vànegativeIDs giữ.
+
 ## Rà lại ứng viên từng được giữ — 12/11/2026
 
 Owner nhắc phải kế thừa shortlist cũ trước khi đề xuất cơ chế mới. Đây là

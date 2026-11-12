@@ -9,6 +9,17 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 ## Việc hiện tại
 
+- **Owner giao tiếp sauR120 — TC01 đã kiểm12/11:**
+  [Kết quả same-clock](research/US500-SAME-CLOCK-RESULTS-20261112.md),
+  [protocol](research/US500-SAME-CLOCK-PROTOCOL-20261112.md),freeze`df26bf1`.
+  673signals/753phiên≈4,47/5phiên; endpointstress−1.535,402point/unit,
+  âm3năm/kémSELLcontrol. Park exactcomponent,khôngSL/account/edge/prop proof.
+  8tests;673signal/4.038cost/controlrows khớp reviewerDecimal80,3mutations
+  reject;15,025sproducer+14,850sreview.2heldwindows thiếuM1interior vẫn giữ
+  pathunknown dùendpointsđủ. Source/currentbook reuse,0newGET/native/broker.
+  1relatedcomponent+2controls,oldcounts123/88/53giữ;không2025/26/Goal/jobnền.
+  Tiếp source/mechanism admission có thông tin mới trước trialgrid/coding tiếp.
+
 - **Owner đồng ý rà ứng viên cũ12/11 — đã xong**:
   [R120 savedtrade review](research/US500-R120-SAVED-REVIEW-20261112.md),
   kế hoạch commit`a66abe3`;6books/30scenario rows,0simulation,3mutations reject,

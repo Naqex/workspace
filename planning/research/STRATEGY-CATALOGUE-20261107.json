@@ -4560,6 +4560,26 @@
       "counting_scope": "supplement_to_historical_R_catalogue_not_independent_edges_or_rewrite_of_legacy_policy_counts"
     }
   ],
+  "registered_component_studies": [
+    {
+      "id": "us500-same-clock-v1",
+      "configuration_ids": ["TC01"],
+      "controls": ["constant_BUY", "constant_SELL"],
+      "related_families": ["calendar", "equity_intraday_momentum"],
+      "status": "park_exact_component",
+      "new_related_component_definitions": 1,
+      "source_years": [2022, 2023, 2024],
+      "signal_counts": [230, 228, 215],
+      "stress_net_point_per_unit": ["-768.960", "-354.516", "-411.926"],
+      "scope": "endpoint_only_no_SL_account_or_prop; not paper replication or independent edge",
+      "source_commit": "df26bf1",
+      "protocol_locator": "US500-SAME-CLOCK-PROTOCOL-20261112.md",
+      "evidence_locator": "US500-SAME-CLOCK-RESULTS-20261112.md",
+      "exposure": "consumed_development_not_clean_OOS",
+      "financial_simulations": 0,
+      "dispatch_authorized": false
+    }
+  ],
   "frequency_only_studies": [
     {
       "id": "us500-frequency-audit-v1",
