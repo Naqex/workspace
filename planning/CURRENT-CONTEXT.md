@@ -9,6 +9,19 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
 
 ## Việc hiện tại
 
+- **Owner chỉnh lại hướng12/11: quay về bias H1 → zone/setup M15 → entry.**
+  Agent đã hiểu lệch sangTC01same-clock20ngày; TC01 chỉ giữ negativehistory,
+  không là hướng chính. Resume từ
+  [setup A/B/C đã bàn](research/US500-MULTITIMEFRAME-DRAFT-20261111.md) và
+  [fulltable đã chạy](research/US500-MULTIFRAME-FULL-TABLE-20261111.md).
+  B=H1bias+M15setup/confirm;C=thêmM5confirm;M1chưa mở. R120 làlaneA,
+  không dùng H1direction; counterpart cóH1 củaMA40/160,k.10 làR121(laneB),
+  không lấyR120 làm bằng chứng cho toànsetupH1–M15. OldH1proxy=lastclosed
+  cash-anchoredH1 close soSMA20,cóprior-sessioncarry trước10:30NY;zone=nến
+  M15arm quanhMA,không faithfulmanualzone/structure đã được owner xác nhận.
+  Tiếp rà đúng định nghĩa bias/zone và savedlaneB trước newbatch; không tự
+  chuyển cơ chế/đổi rules/dispatch từ lời nhắc này. Oldprotocols/outcomes giữ.
+
 - **Owner giao tiếp sauR120 — TC01 đã kiểm12/11:**
   [Kết quả same-clock](research/US500-SAME-CLOCK-RESULTS-20261112.md),
   [protocol](research/US500-SAME-CLOCK-PROTOCOL-20261112.md),freeze`df26bf1`.
@@ -18,7 +31,7 @@ Không reset trials, negatives hoặc exposure; chưa có ứng viên challenge.
   reject;15,025sproducer+14,850sreview.2heldwindows thiếuM1interior vẫn giữ
   pathunknown dùendpointsđủ. Source/currentbook reuse,0newGET/native/broker.
   1relatedcomponent+2controls,oldcounts123/88/53giữ;không2025/26/Goal/jobnền.
-  Tiếp source/mechanism admission có thông tin mới trước trialgrid/coding tiếp.
+  Hướng agent đề xuất source/mechanism khác đã được owner chỉnh vềH1–M15 ở trên.
 
 - **Owner đồng ý rà ứng viên cũ12/11 — đã xong**:
   [R120 savedtrade review](research/US500-R120-SAVED-REVIEW-20261112.md),
