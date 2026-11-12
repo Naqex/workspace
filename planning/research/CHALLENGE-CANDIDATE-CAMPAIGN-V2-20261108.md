@@ -26,6 +26,21 @@ chiến lược đạt hoặc bảo đảm sẽ tìm được bằng một số 
 - Các đề xuất retest/FVG/OB và defaults mới vẫn là hypotheses, không coi owner
   đã chọn exactrules từ việc đồng ý research hoặc yêu cầu task tổng.
 
+### Research chiều sâu và cách dùng engine — yêu cầu bổ sung12/11
+
+Owner mở câu hỏi nghiên cứu US500/EURUSD/asset khác, kế thừa backtests và
+phối hợp năm engine trước task lớn. [Báo cáo đã hoàn tất trong scope](STRATEGY-DEPTH-ENGINES-AND-MILESTONES-20261112.md)
+giữ chẩn đoán, nguồn, engine gaps và milestonesA–F nốiT1–T9/Q12. Khuyến nghị
+US500 chính/EURUSD phụ,80/20 **công sức**, một hypothesis mỗi lane; FX ban đầu
+chỉ rà evidence/readiness. Đây là đề xuất triển khai, chưa freeze recipe,
+mở data mới, cross-engine parity hoặc thành tích kinh tế mới. T1 vẫn là
+bước tiếp; không chờ hoàn thiện cả năm engine mới kiểm một hypothesis.
+
+Checkpoint từ nay báo card→technicalpass→economicsurvivor→fresh/robust→demo
+→challenge/payout cùng blockers, tách số trials/books; hiện0candidatechallenge.
+Trước engine kiểm chéo đích, khóa phí/qty1–2–3/timing/SL/gap fixtures: old
+smoke size2 có fee formulas khác nhau nhưng cùng số, chưa size-generalparity.
+
 ## Rà soát hệ thống: sai ở đâu, thiếu ở đâu?
 
 Audit này rà luồng scope→data→code→simulation→validation→operations→handover,
@@ -149,7 +164,7 @@ mở phải ghi trigger/evidence, version và stage/permission phù hợp.
 |Q5 OB/supply-demand|Exact zone choice/displacement/knownat, code/license/source audit|Sau Q4triage hoặc có method cụ thể đủ rõ; không assume OHLC biết lệnh tổ chức; T1→T4|
 |Q6 Risk/RR/SL/TP|Sensitivity có giới hạn, constantinitialrisk vs otherpolicy và exitvariants có lý do|Sau T4evidence đáng giữ; T5; không tăng lot để biến loser thành candidate|
 |Q7 Portfolio|Alpha/hedge roles, aligned returns/shared-account replay/exposurebudget|Khi có ít nhất các sleeves có lý do và owner mở scope; T5/T6; không cộng standalonePnL|
-|Q8 The5ers/EURUSD/asset khác|Profile/source/method/cost riêng, giữ onlyone scope đang active|The5ers sau candidate FTMO đáng chuyển và exactprogram được chọn; đổi instrument cần owner scope mới; T1/T2/T6|
+|Q8 The5ers/EURUSD/asset khác|Profile/source/method/cost riêng; US500 vẫn mainlane|Owner12/11 đã mở research mở rộng; EURUSD evidence/readiness được khảo sát. Financialtrial cần T1–T3/protocol/budget riêng; chưa dispatch. The5ers sau candidate FTMO đáng chuyển và exactprogram được chọn; T1/T2/T6|
 |Q9 Engine khác/Rust/GPU/RAG|Admit capabilitygap/profile, boundedprototype/parity/benchmark/rollback|Chỉ khi bottleneck đo được có ảnh hưởng, không thay incumbent để kiếm edge; reuse full-framework assets hiện có|
 |Q10 PaidEA/provider/cloud|Legal reference/preset, source/spec/permission/cost/rollback|Khi có gap đo được và authority/chi phí phù hợp; không mua/cài tự động hoặc suy hiệu suất từ ads|
 |Q11 Vận hành lâu dài|Giám sát thụ động, runbudget/tokenbudget, logsretention, backuprestore và sessionreuse|T7 trước sử dụng thực; dùng nativeUI/status đã có, không thêm manager/dashboard song song|

@@ -16,9 +16,15 @@ vụ cloud hay thay mô hình dữ liệu để ép các engine ra cùng số.
 | Backtrader | Backtest event-driven thứ hai để đối chiếu chọn lọc | `backtrader/{pyproject.toml,uv.lock}` |
 
 Không chạy mọi candidate qua cả năm mặc định. Screening dùng một engine;
-shortlist mới kiểm chéo một engine khác. Đây là phân vai đề xuất, chưa promotion
-Nautilus thành mặc định cho các US500 studies. Engine hiện tại giữ baseline/
-rollback và các receipts cũ không đổi. Không fork source khi chưa cần sửa.
+shortlist mới kiểm chéo một engine khác. Nautilus đã thực thi native US500
+studies ngày11–12/11; đây là executor nghiên cứu đang có, chưa product/live
+cutover. LEAN/Backtrader chưa có target US500 parity; phân vai kiểm chéo vẫn
+là đề xuất. Giữ baseline/rollback và receipts cũ; chưa cần fork source.
+
+[Research cách phối hợp engine và AI,12/11](../../planning/research/STRATEGY-DEPTH-ENGINES-AND-MILESTONES-20261112.md#5-năm-engine-thực-sự-hoạt-động-thế-nào)
+giữ architecture/semantic gaps và đề xuất áp dụng. Dùng native API đầy đủ cho
+đúng câu hỏi, không thêm manager hoặc bắt mỗi trial chạy năm lần. Local LEAN
+không tự có QuantConnect MCP/Mia; chưa cấu hình hoặc mua dịch vụ đó.
 
 Nautilus source vừa tải là API2.x; adapter product đã pin stable1.x. Dùng bản
 stable đã tương thích để khôi phục môi trường; không chạy mẫu2.x bằng1.x hoặc
@@ -57,6 +63,14 @@ Mỗi backend chạy bằng interpreter của nó; đổi output cho mỗi attem
 nến1/3, mua2units ởopen2=102, bán ởopen4=104, phí0,50USD/order. Vốn10.000,
 gross4, phí1, net3, flat cuối mẫu. Kiểm cả timing, fill và phí, không chỉ import.
 Không dùng `python -O` vì smoke assertions là kiểm chứng.
+
+**Giới hạn đã rà12/11:** old smoke khóa size2. Backtesting.py/VectorBT đặt
+phí cố định0,50USD/order; Backtrader `COMM_FIXED` là0,25USD/unit/order, bằng
+nhau ở size2. Installedsource xác nhận size1/3 có công thức phí khác; chưa
+chạy nativeprobe cho size1/3. Smoke cũ vẫn đúng trong fixture, không variable-
+size fee parity. Trước market parity phải khóa cùng fee function và kiểm
+size1/2/3 cùng timing/fills. Không sửa receipt cũ hoặc suy US500 history sai
+từ khác biệt này; native studies dùng cost model riêng.
 
 Nautilus reuse bốn direct engine tests đã có, không bật destructive DB flag.
 Từ `projects/trader`, dùng module path và chỉ chọn direct class:

@@ -5,6 +5,12 @@ Task này giữ audit, chặng T0–T9 và các việc xét sau Q1–Q12. Bướ
 chốt strategycard/clock/zone; các nextactions trong research cũ là lịch sử,
 không tự dispatch. Index dưới đây dùng tra bằng chứng, không là taskqueue.
 
+[Vì sao chưa có thành tích; một hay nhiều thị trường; năm engine và các chặng](STRATEGY-DEPTH-ENGINES-AND-MILESTONES-20261112.md):
+kế thừa EURUSD/US500/Gold, phân biệt variants với cơ hội độc lập; đề xuất
+US500 chính/EURUSD phụ có budget. Kiểm metadata/LEAN pin/source phí; ba
+smoke size2 chưa là variable-size parity. AI/MCP/RD-Agent, tổ chức/prop/paper/
+cộng đồng được tách nguồn; chưa numericalrun, install hoặc đổi scope thật.
+
 [Zone/setupM15 dưới biasH1 và cách dùng AIagents để build/kiểm](H1-M15-ZONES-AND-AI-VALIDATION-20261112.md):
 Mia/RD-Agent/BacktestBench,SMCsourcefuturelabels,Freqtradecausality/warmup;
 đềxuất levelbreak→retest +MAcomparator,khônggrid/newbatch hoặc proofedge.

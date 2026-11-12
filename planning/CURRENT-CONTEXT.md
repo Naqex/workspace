@@ -9,6 +9,12 @@ Owner yêu cầu rà hệ thống/workflow và gom mọi bước, kể cả vi�
 một task. Audit/plan không là strategy accepted. C1/C2 chưa đạt; chưa có
 ứng viên challenge. AppGoal vừa kiểm=null; không tự bật lại.
 
+Owner yêu cầu research mở rộng US500/EURUSD và cách dùng cả năm engine.
+[Báo cáo chiều sâu/engine/milestones](research/STRATEGY-DEPTH-ENGINES-AND-MILESTONES-20261112.md)
+đề xuất US500 chính/EURUSD phụ (80/20 công sức), một hypothesis mỗi lane;
+FX trước hết rà oldevidence/readiness, chưa numericalprotocol mới. Đây là
+đề xuất phân bổ, không tự đổi exactmethod hoặc bật nhiều broker runtimes.
+
 **Bước tiếp là T1 — chốt strategycard**, không chạy study mới: hypothesis →
 H1bias/clock/carry → M15zone/available_at → setup → trigger → risk/entry/exit.
 Giữ US500/intraday, FTMO CFD2-StepStandard chính, risk thấp; The5ers nhánh riêng.
@@ -16,7 +22,8 @@ Giữ US500/intraday, FTMO CFD2-StepStandard chính, risk thấp; The5ers nhánh
 đây chưa là exactrecipe đã được owner chốt. [Research/spec gaps](research/H1-M15-ZONES-AND-AI-VALIDATION-20261112.md)
 và [oldB/C spec](research/US500-MULTITIMEFRAME-DRAFT-20261111.md) dẫn luật cũ.
 
-Owner đã chỉnh rõ H1→M15; không tự chuyển sang thống kê20ngày/market khác.
+Owner đã chỉnh rõ H1→M15; không tự chuyển sang thống kê20ngày/market khác
+ngoài phạm vi research mở rộng vừa giao; numeric mới vẫn cần protocol riêng.
 R120 làM15laneA, R121 mới là counterpart cóH1. Bias cũ là closedcashH1close
 soSMA20; trước10:30 cócarryphiên trước. Không giả đó là nativeMT5H1 hoặc
 manualstructure đã được xác nhận. Zone cũ là nến hồi quanhMA, không OB/FVG.
