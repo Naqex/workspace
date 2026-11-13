@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+**Hiện tại — campaign mới XAUUSD H1 Stage-0:** [Protocol](XAUUSD-H1-STAGE0-PROTOCOL-20261113.md).
+Owner giao3baseline, BUY/BOTH, chỉDevelopment2022–23; fixed4/8/24/48h có
+commission/spread/slip/funding. Chưa bot SL/TP/sizing, không mở giá2024–26.
+Chiến dịch cũ bên dưới giữ nguyên trạng thái đóng; không dùng lại quota B1.
+
 **Chiến dịch đã đóng theo owner:** [STRATEGY-E2E](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).
 PR74 đã merge `f0aadae`, nhánh audit xóa; XAUUSD B1 và EURUSD B1 đã hủy.
 Chưa có ứng viên challenge, không tự mở batch hoặc chuyển quota. T0–T9/Q1–Q12

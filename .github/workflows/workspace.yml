@@ -43,6 +43,8 @@ jobs:
         run: python -m unittest discover -s tooling/ai-engines/tests -p 'test_xau_intraday_b0.py' -v
       - name: Check Development scale-horizon censoring and friction diagnostics
         run: python -m unittest discover -s tooling/ai-engines/tests -p 'test_xau_scale_horizon_audit.py' -v
+      - name: Check H1 Stage-0 signals, bounded sources and overnight costs
+        run: python -m unittest discover -s tooling/ai-engines/tests -p 'test_xau_h1_stage0.py' -v
       - name: Check Development funnel and timestamp-only quality audits
         run: |
           python -m unittest discover -s tooling/ai-engines/tests -p 'test_eurusd_funnel_audit.py' -v

@@ -1,10 +1,19 @@
 # Current context — Naqex Workspace
 
-13/11/2026 · `RESEARCH: CLOSED_BY_OWNER · REVIEW: SCOPED · DOC: REFERENCE`.
+13/11/2026 · `RESEARCH: ACTIVE_STAGE0_H1 · REVIEW: PENDING · DOC: RESUMABLE`.
 
 ## Việc hiện tại
 
-**Chiến dịch đã đóng theo owner:** [STRATEGY-E2E](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).
+**Lượt mới được owner mở:** [XAUUSD H1 Stage-0](research/XAUUSD-H1-STAGE0-PROTOCOL-20261113.md),
+3 recipe cố định (Asian breakout/H4-trend H1 reclaim/momentum), BUY/BOTH views,
+Development2022–23 +seedNov2021; không giá2024–26 hoặc bot SL/TP/account replay.
+Rawcounts BOTH2022/23:103/107,116/136,61/85; chưa markout. Primary8h/24h/8h,
+đo thêm4/8/24/48h; financing proxy20/40USD/lot weekdays22UTC,Wed×3, target chưaverified.
+Job `execution-v1/xauusd-h1-stage0-20261113`, một downloader đang thu2286hours,
+reuse616/new1670; status/log/deadline có trongjob. Branch `codex/xauusd-h1-stage-zero`.
+Đây là campaign mới được giao, không phục hồi các B1 đã hủy hoặc tự bật Goal.
+
+**Chiến dịch cũ đã đóng theo owner:** [STRATEGY-E2E](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).
 Owner chốt No-Go XAUUSD B1, hủy lượt chưa dùng; EURUSD B1 cũng đã hủy.
 PR74 đã merge `f0aadae`, nhánh cũ đã xóa. Không mở biến thể, batch, holdout
 hoặc goal mới. C1/C2 chưa đạt, chưa có ứng viên challenge; đóng chiến dịch
