@@ -1,0 +1,1168 @@
+{
+  "schema": "XAUUSD-Intraday-B0-A0-dossier-v1",
+  "candidate": "XAUUSD-Intraday-B0-A0-v1",
+  "result": {
+    "schema": "XAU-A0-B0-result-v1",
+    "rows": [
+      {
+        "year": 2022,
+        "scenario": "reference",
+        "role": "development",
+        "source_counts": {
+          "admitted_m15_bars": 6963,
+          "directional_m15_bars": 5082,
+          "raw_signals": 399,
+          "source_valid_days": 258,
+          "full_27bar_days": 256,
+          "directional_h1_hours": 1317
+        },
+        "counters": {
+          "raw_signals": 399,
+          "friction_cap_rejected": 372,
+          "path_flagged_trades": 0,
+          "cost_admitted": 25,
+          "filled_entries": 24,
+          "position_active_rejected": 1,
+          "invalid_natural_stop": 2
+        },
+        "filled_trades": 24,
+        "closed_cohort_net_usd": 347.33,
+        "conditional_net_usd": 347.33,
+        "mean_net_r0": 0.09648055555555556,
+        "annual_net_r0": 2.315533333333333,
+        "gross_after_spread_usd": 359.59,
+        "commission_usd": 12.26,
+        "slippage_usd": 0.0,
+        "sum_lots": 4.78,
+        "gross_after_spread_usd_per_lot": 75.22803347280335,
+        "rejected_SL_median_usd_per_oz": 2.1425,
+        "accepted_SL_median_usd_per_oz": 6.7405,
+        "cost_pass_SL_median_usd_per_oz": 6.747,
+        "exit_breakdown": [
+          {
+            "reason": "TP_2R",
+            "trades": 2,
+            "wins": 2,
+            "net_winrate": 1.0,
+            "net_usd": 541.09,
+            "total_net_r0": 3.607266666666667,
+            "mean_net_r0": 1.8036333333333334
+          },
+          {
+            "reason": "SL",
+            "trades": 6,
+            "wins": 0,
+            "net_winrate": 0.0,
+            "net_usd": -835.67,
+            "total_net_r0": -5.571133333333333,
+            "mean_net_r0": -0.9285222222222221
+          },
+          {
+            "reason": "TIME_STOP_2H",
+            "trades": 16,
+            "wins": 10,
+            "net_winrate": 0.625,
+            "net_usd": 641.91,
+            "total_net_r0": 4.2794,
+            "mean_net_r0": 0.2674625
+          },
+          {
+            "reason": "SESSION_CLOSE_1800",
+            "trades": 0,
+            "wins": 0,
+            "net_winrate": null,
+            "net_usd": 0.0,
+            "total_net_r0": 0.0,
+            "mean_net_r0": null
+          }
+        ],
+        "side_breakdown": [
+          {
+            "side": "BUY",
+            "trades": 13,
+            "gross_after_spread_usd": 331.64,
+            "commission_usd": 6.55,
+            "slippage_usd": 0.0,
+            "net_usd": 325.09,
+            "total_net_r0": 2.1672666666666665
+          },
+          {
+            "side": "SELL",
+            "trades": 11,
+            "gross_after_spread_usd": 27.95,
+            "commission_usd": 5.71,
+            "slippage_usd": 0.0,
+            "net_usd": 22.24,
+            "total_net_r0": 0.14826666666666666
+          }
+        ],
+        "observed_equity_max_dd_usd": 612.45,
+        "observed_cumulative_r_dd": 4.083,
+        "observed_worst_daily_loss_usd": 279.43,
+        "observed_worst_daily_loss_pct": 0.55886,
+        "daily_witness": {
+          "at": 1646063261656,
+          "daily_anchor_usd": 49963.46,
+          "equity_usd": 49684.03
+        },
+        "dd_witness": {
+          "at": 1657898943412,
+          "peak_usd": 50242.92,
+          "equity_usd": 49630.47
+        },
+        "planned_friction_r0_median": 0.10375020806666665,
+        "max_realized_loss_r0": 0.9396,
+        "max_daily_fills": 2,
+        "static_initial_loss_usd": 369.53,
+        "minimum_equity_usd": 49630.47,
+        "peak_equity_usd": 50373.85,
+        "monthly_fills": {
+          "01": 3,
+          "02": 7,
+          "03": 4,
+          "04": 1,
+          "05": 1,
+          "06": 1,
+          "07": 3,
+          "08": 1,
+          "09": 0,
+          "10": 2,
+          "11": 1,
+          "12": 0
+        },
+        "path_flagged_trades": 0,
+        "censored": null,
+        "news_checked": false,
+        "target_calendar_verified": false,
+        "strict_B0_net": null,
+        "prop_status": "PROP_UNMEASURED"
+      },
+      {
+        "year": 2022,
+        "scenario": "stress",
+        "role": "development",
+        "source_counts": {
+          "admitted_m15_bars": 6963,
+          "directional_m15_bars": 5082,
+          "raw_signals": 399,
+          "source_valid_days": 258,
+          "full_27bar_days": 256,
+          "directional_h1_hours": 1317
+        },
+        "counters": {
+          "raw_signals": 399,
+          "friction_cap_rejected": 372,
+          "path_flagged_trades": 0,
+          "cost_admitted": 25,
+          "filled_entries": 24,
+          "position_active_rejected": 1,
+          "invalid_natural_stop": 2
+        },
+        "filled_trades": 24,
+        "closed_cohort_net_usd": 156.13,
+        "conditional_net_usd": 156.13,
+        "mean_net_r0": 0.04336944444444444,
+        "annual_net_r0": 1.0408666666666666,
+        "gross_after_spread_usd": 359.59,
+        "commission_usd": 12.26,
+        "slippage_usd": 191.2,
+        "sum_lots": 4.78,
+        "gross_after_spread_usd_per_lot": 75.22803347280335,
+        "rejected_SL_median_usd_per_oz": 2.1425,
+        "accepted_SL_median_usd_per_oz": 6.7405,
+        "cost_pass_SL_median_usd_per_oz": 6.747,
+        "exit_breakdown": [
+          {
+            "reason": "TP_2R",
+            "trades": 2,
+            "wins": 2,
+            "net_winrate": 1.0,
+            "net_usd": 521.49,
+            "total_net_r0": 3.4766,
+            "mean_net_r0": 1.7383
+          },
+          {
+            "reason": "SL",
+            "trades": 6,
+            "wins": 0,
+            "net_winrate": 0.0,
+            "net_usd": -882.87,
+            "total_net_r0": -5.8858,
+            "mean_net_r0": -0.9809666666666667
+          },
+          {
+            "reason": "TIME_STOP_2H",
+            "trades": 16,
+            "wins": 10,
+            "net_winrate": 0.625,
+            "net_usd": 517.51,
+            "total_net_r0": 3.450066666666667,
+            "mean_net_r0": 0.21562916666666668
+          },
+          {
+            "reason": "SESSION_CLOSE_1800",
+            "trades": 0,
+            "wins": 0,
+            "net_winrate": null,
+            "net_usd": 0.0,
+            "total_net_r0": 0.0,
+            "mean_net_r0": null
+          }
+        ],
+        "side_breakdown": [
+          {
+            "side": "BUY",
+            "trades": 13,
+            "gross_after_spread_usd": 331.64,
+            "commission_usd": 6.55,
+            "slippage_usd": 100.0,
+            "net_usd": 225.09,
+            "total_net_r0": 1.5006
+          },
+          {
+            "side": "SELL",
+            "trades": 11,
+            "gross_after_spread_usd": 27.95,
+            "commission_usd": 5.71,
+            "slippage_usd": 91.2,
+            "net_usd": -68.96,
+            "total_net_r0": -0.45973333333333327
+          }
+        ],
+        "observed_equity_max_dd_usd": 682.71,
+        "observed_cumulative_r_dd": 4.5514,
+        "observed_worst_daily_loss_usd": 293.03,
+        "observed_worst_daily_loss_pct": 0.5860599999999999,
+        "daily_witness": {
+          "at": 1646063261656,
+          "daily_anchor_usd": 49897.86,
+          "equity_usd": 49604.83
+        },
+        "dd_witness": {
+          "at": 1657898943412,
+          "peak_usd": 50167.98,
+          "equity_usd": 49485.27
+        },
+        "planned_friction_r0_median": 0.10375020806666665,
+        "max_realized_loss_r0": 0.9982666666666666,
+        "max_daily_fills": 2,
+        "static_initial_loss_usd": 514.73,
+        "minimum_equity_usd": 49485.27,
+        "peak_equity_usd": 50184.65,
+        "monthly_fills": {
+          "01": 3,
+          "02": 7,
+          "03": 4,
+          "04": 1,
+          "05": 1,
+          "06": 1,
+          "07": 3,
+          "08": 1,
+          "09": 0,
+          "10": 2,
+          "11": 1,
+          "12": 0
+        },
+        "path_flagged_trades": 0,
+        "censored": null,
+        "news_checked": false,
+        "target_calendar_verified": false,
+        "strict_B0_net": null,
+        "prop_status": "PROP_UNMEASURED"
+      },
+      {
+        "year": 2023,
+        "scenario": "reference",
+        "role": "development",
+        "source_counts": {
+          "admitted_m15_bars": 6934,
+          "directional_m15_bars": 4867,
+          "raw_signals": 414,
+          "source_valid_days": 257,
+          "full_27bar_days": 253,
+          "directional_h1_hours": 1263
+        },
+        "counters": {
+          "raw_signals": 414,
+          "friction_cap_rejected": 400,
+          "path_flagged_trades": 0,
+          "cost_admitted": 13,
+          "filled_entries": 13,
+          "invalid_natural_stop": 1
+        },
+        "filled_trades": 13,
+        "closed_cohort_net_usd": -337.53,
+        "conditional_net_usd": -337.53,
+        "mean_net_r0": -0.17309230769230768,
+        "annual_net_r0": -2.2502,
+        "gross_after_spread_usd": -331.46,
+        "commission_usd": 6.07,
+        "slippage_usd": 0.0,
+        "sum_lots": 2.21,
+        "gross_after_spread_usd_per_lot": -149.98190045248867,
+        "rejected_SL_median_usd_per_oz": 1.6915,
+        "accepted_SL_median_usd_per_oz": 7.998,
+        "cost_pass_SL_median_usd_per_oz": 7.998,
+        "exit_breakdown": [
+          {
+            "reason": "TP_2R",
+            "trades": 0,
+            "wins": 0,
+            "net_winrate": null,
+            "net_usd": 0.0,
+            "total_net_r0": 0.0,
+            "mean_net_r0": null
+          },
+          {
+            "reason": "SL",
+            "trades": 5,
+            "wins": 0,
+            "net_winrate": 0.0,
+            "net_usd": -685.81,
+            "total_net_r0": -4.572066666666666,
+            "mean_net_r0": -0.9144133333333333
+          },
+          {
+            "reason": "TIME_STOP_2H",
+            "trades": 8,
+            "wins": 4,
+            "net_winrate": 0.5,
+            "net_usd": 348.28,
+            "total_net_r0": 2.3218666666666667,
+            "mean_net_r0": 0.29023333333333334
+          },
+          {
+            "reason": "SESSION_CLOSE_1800",
+            "trades": 0,
+            "wins": 0,
+            "net_winrate": null,
+            "net_usd": 0.0,
+            "total_net_r0": 0.0,
+            "mean_net_r0": null
+          }
+        ],
+        "side_breakdown": [
+          {
+            "side": "BUY",
+            "trades": 7,
+            "gross_after_spread_usd": -507.41,
+            "commission_usd": 3.16,
+            "slippage_usd": 0.0,
+            "net_usd": -510.57,
+            "total_net_r0": -3.4038
+          },
+          {
+            "side": "SELL",
+            "trades": 6,
+            "gross_after_spread_usd": 175.95,
+            "commission_usd": 2.91,
+            "slippage_usd": 0.0,
+            "net_usd": 173.04,
+            "total_net_r0": 1.1536
+          }
+        ],
+        "observed_equity_max_dd_usd": 546.63,
+        "observed_cumulative_r_dd": 3.6442,
+        "observed_worst_daily_loss_usd": 140.41,
+        "observed_worst_daily_loss_pct": 0.28081999999999996,
+        "daily_witness": {
+          "at": 1682521737898,
+          "daily_anchor_usd": 50161.01,
+          "equity_usd": 50020.6
+        },
+        "dd_witness": {
+          "at": 1701960263072,
+          "peak_usd": 50209.1,
+          "equity_usd": 49662.47
+        },
+        "planned_friction_r0_median": 0.08262048876,
+        "max_realized_loss_r0": 0.9360666666666667,
+        "max_daily_fills": 1,
+        "static_initial_loss_usd": 337.53,
+        "minimum_equity_usd": 49662.47,
+        "peak_equity_usd": 50209.1,
+        "monthly_fills": {
+          "01": 2,
+          "02": 1,
+          "03": 1,
+          "04": 4,
+          "05": 1,
+          "06": 0,
+          "07": 0,
+          "08": 1,
+          "09": 0,
+          "10": 1,
+          "11": 0,
+          "12": 2
+        },
+        "path_flagged_trades": 0,
+        "censored": null,
+        "news_checked": false,
+        "target_calendar_verified": false,
+        "strict_B0_net": null,
+        "prop_status": "PROP_UNMEASURED"
+      },
+      {
+        "year": 2023,
+        "scenario": "stress",
+        "role": "development",
+        "source_counts": {
+          "admitted_m15_bars": 6934,
+          "directional_m15_bars": 4867,
+          "raw_signals": 414,
+          "source_valid_days": 257,
+          "full_27bar_days": 253,
+          "directional_h1_hours": 1263
+        },
+        "counters": {
+          "raw_signals": 414,
+          "friction_cap_rejected": 400,
+          "path_flagged_trades": 0,
+          "cost_admitted": 13,
+          "filled_entries": 13,
+          "invalid_natural_stop": 1
+        },
+        "filled_trades": 13,
+        "closed_cohort_net_usd": -425.93,
+        "conditional_net_usd": -425.93,
+        "mean_net_r0": -0.21842564102564102,
+        "annual_net_r0": -2.8395333333333332,
+        "gross_after_spread_usd": -331.46,
+        "commission_usd": 6.07,
+        "slippage_usd": 88.4,
+        "sum_lots": 2.21,
+        "gross_after_spread_usd_per_lot": -149.98190045248867,
+        "rejected_SL_median_usd_per_oz": 1.6915,
+        "accepted_SL_median_usd_per_oz": 7.998,
+        "cost_pass_SL_median_usd_per_oz": 7.998,
+        "exit_breakdown": [
+          {
+            "reason": "TP_2R",
+            "trades": 0,
+            "wins": 0,
+            "net_winrate": null,
+            "net_usd": 0.0,
+            "total_net_r0": 0.0,
+            "mean_net_r0": null
+          },
+          {
+            "reason": "SL",
+            "trades": 5,
+            "wins": 0,
+            "net_winrate": 0.0,
+            "net_usd": -722.21,
+            "total_net_r0": -4.814733333333334,
+            "mean_net_r0": -0.9629466666666667
+          },
+          {
+            "reason": "TIME_STOP_2H",
+            "trades": 8,
+            "wins": 4,
+            "net_winrate": 0.5,
+            "net_usd": 296.28,
+            "total_net_r0": 1.9752,
+            "mean_net_r0": 0.2469
+          },
+          {
+            "reason": "SESSION_CLOSE_1800",
+            "trades": 0,
+            "wins": 0,
+            "net_winrate": null,
+            "net_usd": 0.0,
+            "total_net_r0": 0.0,
+            "mean_net_r0": null
+          }
+        ],
+        "side_breakdown": [
+          {
+            "side": "BUY",
+            "trades": 7,
+            "gross_after_spread_usd": -507.41,
+            "commission_usd": 3.16,
+            "slippage_usd": 46.0,
+            "net_usd": -556.57,
+            "total_net_r0": -3.710466666666667
+          },
+          {
+            "side": "SELL",
+            "trades": 6,
+            "gross_after_spread_usd": 175.95,
+            "commission_usd": 2.91,
+            "slippage_usd": 42.4,
+            "net_usd": 130.64,
+            "total_net_r0": 0.8709333333333332
+          }
+        ],
+        "observed_equity_max_dd_usd": 603.83,
+        "observed_cumulative_r_dd": 4.025533333333334,
+        "observed_worst_daily_loss_usd": 149.61,
+        "observed_worst_daily_loss_pct": 0.29922,
+        "daily_witness": {
+          "at": 1682521737898,
+          "daily_anchor_usd": 50125.01,
+          "equity_usd": 49975.4
+        },
+        "dd_witness": {
+          "at": 1701960263072,
+          "peak_usd": 50177.9,
+          "equity_usd": 49574.07
+        },
+        "planned_friction_r0_median": 0.08262048876,
+        "max_realized_loss_r0": 0.9974,
+        "max_daily_fills": 1,
+        "static_initial_loss_usd": 425.93,
+        "minimum_equity_usd": 49574.07,
+        "peak_equity_usd": 50177.9,
+        "monthly_fills": {
+          "01": 2,
+          "02": 1,
+          "03": 1,
+          "04": 4,
+          "05": 1,
+          "06": 0,
+          "07": 0,
+          "08": 1,
+          "09": 0,
+          "10": 1,
+          "11": 0,
+          "12": 2
+        },
+        "path_flagged_trades": 0,
+        "censored": null,
+        "news_checked": false,
+        "target_calendar_verified": false,
+        "strict_B0_net": null,
+        "prop_status": "PROP_UNMEASURED"
+      },
+      {
+        "year": 2024,
+        "scenario": "reference",
+        "role": "historical_validation_previously_exposed",
+        "source_counts": {
+          "admitted_m15_bars": 6992,
+          "directional_m15_bars": 5110,
+          "raw_signals": 390,
+          "source_valid_days": 259,
+          "full_27bar_days": 258,
+          "directional_h1_hours": 1323
+        },
+        "counters": {
+          "raw_signals": 390,
+          "friction_cap_rejected": 359,
+          "path_flagged_trades": 0,
+          "cost_admitted": 31,
+          "filled_entries": 30,
+          "position_active_rejected": 1
+        },
+        "filled_trades": 30,
+        "closed_cohort_net_usd": -242.75,
+        "conditional_net_usd": -242.75,
+        "mean_net_r0": -0.05394444444444445,
+        "annual_net_r0": -1.6183333333333334,
+        "gross_after_spread_usd": -225.1,
+        "commission_usd": 17.65,
+        "slippage_usd": 0.0,
+        "sum_lots": 5.21,
+        "gross_after_spread_usd_per_lot": -43.20537428023032,
+        "rejected_SL_median_usd_per_oz": 2.243,
+        "accepted_SL_median_usd_per_oz": 7.993500000000001,
+        "cost_pass_SL_median_usd_per_oz": 7.873,
+        "exit_breakdown": [
+          {
+            "reason": "TP_2R",
+            "trades": 1,
+            "wins": 1,
+            "net_winrate": 1.0,
+            "net_usd": 268.95,
+            "total_net_r0": 1.793,
+            "mean_net_r0": 1.793
+          },
+          {
+            "reason": "SL",
+            "trades": 8,
+            "wins": 0,
+            "net_winrate": 0.0,
+            "net_usd": -1116.71,
+            "total_net_r0": -7.444733333333334,
+            "mean_net_r0": -0.9305916666666667
+          },
+          {
+            "reason": "TIME_STOP_2H",
+            "trades": 21,
+            "wins": 12,
+            "net_winrate": 0.5714285714285714,
+            "net_usd": 605.01,
+            "total_net_r0": 4.0334,
+            "mean_net_r0": 0.1920666666666667
+          },
+          {
+            "reason": "SESSION_CLOSE_1800",
+            "trades": 0,
+            "wins": 0,
+            "net_winrate": null,
+            "net_usd": 0.0,
+            "total_net_r0": 0.0,
+            "mean_net_r0": null
+          }
+        ],
+        "side_breakdown": [
+          {
+            "side": "BUY",
+            "trades": 24,
+            "gross_after_spread_usd": -133.96,
+            "commission_usd": 14.6,
+            "slippage_usd": 0.0,
+            "net_usd": -148.56,
+            "total_net_r0": -0.9904000000000001
+          },
+          {
+            "side": "SELL",
+            "trades": 6,
+            "gross_after_spread_usd": -91.14,
+            "commission_usd": 3.05,
+            "slippage_usd": 0.0,
+            "net_usd": -94.19,
+            "total_net_r0": -0.6279333333333333
+          }
+        ],
+        "observed_equity_max_dd_usd": 721.31,
+        "observed_cumulative_r_dd": 4.8087333333333335,
+        "observed_worst_daily_loss_usd": 248.65,
+        "observed_worst_daily_loss_pct": 0.4973,
+        "daily_witness": {
+          "at": 1714751038915,
+          "daily_anchor_usd": 50045.53,
+          "equity_usd": 49796.88
+        },
+        "dd_witness": {
+          "at": 1732291439751,
+          "peak_usd": 50404.76,
+          "equity_usd": 49683.45
+        },
+        "planned_friction_r0_median": 0.09422289253999999,
+        "max_realized_loss_r0": 0.9666,
+        "max_daily_fills": 2,
+        "static_initial_loss_usd": 316.55,
+        "minimum_equity_usd": 49683.45,
+        "peak_equity_usd": 50404.76,
+        "monthly_fills": {
+          "01": 1,
+          "02": 2,
+          "03": 2,
+          "04": 0,
+          "05": 5,
+          "06": 6,
+          "07": 2,
+          "08": 3,
+          "09": 1,
+          "10": 6,
+          "11": 2,
+          "12": 0
+        },
+        "path_flagged_trades": 0,
+        "censored": null,
+        "news_checked": false,
+        "target_calendar_verified": false,
+        "strict_B0_net": null,
+        "prop_status": "PROP_UNMEASURED"
+      },
+      {
+        "year": 2024,
+        "scenario": "stress",
+        "role": "historical_validation_previously_exposed",
+        "source_counts": {
+          "admitted_m15_bars": 6992,
+          "directional_m15_bars": 5110,
+          "raw_signals": 390,
+          "source_valid_days": 259,
+          "full_27bar_days": 258,
+          "directional_h1_hours": 1323
+        },
+        "counters": {
+          "raw_signals": 390,
+          "friction_cap_rejected": 359,
+          "path_flagged_trades": 0,
+          "cost_admitted": 31,
+          "filled_entries": 30,
+          "position_active_rejected": 1
+        },
+        "filled_trades": 30,
+        "closed_cohort_net_usd": -451.15,
+        "conditional_net_usd": -451.15,
+        "mean_net_r0": -0.10025555555555556,
+        "annual_net_r0": -3.0076666666666667,
+        "gross_after_spread_usd": -225.1,
+        "commission_usd": 17.65,
+        "slippage_usd": 208.4,
+        "sum_lots": 5.21,
+        "gross_after_spread_usd_per_lot": -43.20537428023032,
+        "rejected_SL_median_usd_per_oz": 2.243,
+        "accepted_SL_median_usd_per_oz": 7.993500000000001,
+        "cost_pass_SL_median_usd_per_oz": 7.873,
+        "exit_breakdown": [
+          {
+            "reason": "TP_2R",
+            "trades": 1,
+            "wins": 1,
+            "net_winrate": 1.0,
+            "net_usd": 262.55,
+            "total_net_r0": 1.7503333333333333,
+            "mean_net_r0": 1.7503333333333333
+          },
+          {
+            "reason": "SL",
+            "trades": 8,
+            "wins": 0,
+            "net_winrate": 0.0,
+            "net_usd": -1177.91,
+            "total_net_r0": -7.852733333333333,
+            "mean_net_r0": -0.9815916666666666
+          },
+          {
+            "reason": "TIME_STOP_2H",
+            "trades": 21,
+            "wins": 11,
+            "net_winrate": 0.5238095238095238,
+            "net_usd": 464.21,
+            "total_net_r0": 3.094733333333333,
+            "mean_net_r0": 0.14736825396825395
+          },
+          {
+            "reason": "SESSION_CLOSE_1800",
+            "trades": 0,
+            "wins": 0,
+            "net_winrate": null,
+            "net_usd": 0.0,
+            "total_net_r0": 0.0,
+            "mean_net_r0": null
+          }
+        ],
+        "side_breakdown": [
+          {
+            "side": "BUY",
+            "trades": 24,
+            "gross_after_spread_usd": -133.96,
+            "commission_usd": 14.6,
+            "slippage_usd": 172.0,
+            "net_usd": -320.56,
+            "total_net_r0": -2.1370666666666667
+          },
+          {
+            "side": "SELL",
+            "trades": 6,
+            "gross_after_spread_usd": -91.14,
+            "commission_usd": 3.05,
+            "slippage_usd": 36.4,
+            "net_usd": -130.59,
+            "total_net_r0": -0.8706
+          }
+        ],
+        "observed_equity_max_dd_usd": 777.74,
+        "observed_cumulative_r_dd": 5.184933333333333,
+        "observed_worst_daily_loss_usd": 257.65,
+        "observed_worst_daily_loss_pct": 0.5153,
+        "daily_witness": {
+          "at": 1714751038915,
+          "daily_anchor_usd": 50003.93,
+          "equity_usd": 49746.28
+        },
+        "dd_witness": {
+          "at": 1732291439751,
+          "peak_usd": 50256.19,
+          "equity_usd": 49478.45
+        },
+        "planned_friction_r0_median": 0.09422289253999999,
+        "max_realized_loss_r0": 1.0119333333333334,
+        "max_daily_fills": 2,
+        "static_initial_loss_usd": 521.55,
+        "minimum_equity_usd": 49478.45,
+        "peak_equity_usd": 50256.19,
+        "monthly_fills": {
+          "01": 1,
+          "02": 2,
+          "03": 2,
+          "04": 0,
+          "05": 5,
+          "06": 6,
+          "07": 2,
+          "08": 3,
+          "09": 1,
+          "10": 6,
+          "11": 2,
+          "12": 0
+        },
+        "path_flagged_trades": 0,
+        "censored": null,
+        "news_checked": false,
+        "target_calendar_verified": false,
+        "strict_B0_net": null,
+        "prop_status": "PROP_UNMEASURED"
+      }
+    ],
+    "pooled": [
+      {
+        "scenario": "reference",
+        "exit_breakdown": [
+          {
+            "reason": "TP_2R",
+            "trades": 3,
+            "wins": 3,
+            "net_winrate": 1.0,
+            "net_usd": 810.04,
+            "total_net_r0": 5.400266666666667,
+            "mean_net_r0": 1.800088888888889
+          },
+          {
+            "reason": "SL",
+            "trades": 19,
+            "wins": 0,
+            "net_winrate": 0.0,
+            "net_usd": -2638.19,
+            "total_net_r0": -17.587933333333332,
+            "mean_net_r0": -0.9256807017543859
+          },
+          {
+            "reason": "TIME_STOP_2H",
+            "trades": 45,
+            "wins": 26,
+            "net_winrate": 0.5777777777777777,
+            "net_usd": 1595.2,
+            "total_net_r0": 10.634666666666666,
+            "mean_net_r0": 0.2363259259259259
+          },
+          {
+            "reason": "SESSION_CLOSE_1800",
+            "trades": 0,
+            "wins": 0,
+            "net_winrate": null,
+            "net_usd": 0.0,
+            "total_net_r0": 0.0,
+            "mean_net_r0": null
+          }
+        ],
+        "closed_cohort_net_usd": -232.95,
+        "worst_annual_equity_r_dd": 4.8087333333333335,
+        "annual_capital_reset": true,
+        "continuous_account_replay": false,
+        "censored": false
+      },
+      {
+        "scenario": "stress",
+        "exit_breakdown": [
+          {
+            "reason": "TP_2R",
+            "trades": 3,
+            "wins": 3,
+            "net_winrate": 1.0,
+            "net_usd": 784.04,
+            "total_net_r0": 5.226933333333333,
+            "mean_net_r0": 1.7423111111111111
+          },
+          {
+            "reason": "SL",
+            "trades": 19,
+            "wins": 0,
+            "net_winrate": 0.0,
+            "net_usd": -2782.99,
+            "total_net_r0": -18.553266666666666,
+            "mean_net_r0": -0.9764877192982455
+          },
+          {
+            "reason": "TIME_STOP_2H",
+            "trades": 45,
+            "wins": 25,
+            "net_winrate": 0.5555555555555556,
+            "net_usd": 1278.0,
+            "total_net_r0": 8.52,
+            "mean_net_r0": 0.18933333333333333
+          },
+          {
+            "reason": "SESSION_CLOSE_1800",
+            "trades": 0,
+            "wins": 0,
+            "net_winrate": null,
+            "net_usd": 0.0,
+            "total_net_r0": 0.0,
+            "mean_net_r0": null
+          }
+        ],
+        "closed_cohort_net_usd": -720.95,
+        "worst_annual_equity_r_dd": 5.184933333333333,
+        "annual_capital_reset": true,
+        "continuous_account_replay": false,
+        "censored": false
+      }
+    ],
+    "config_sha256": "c44a2f1b30067758a9ba3f4407c029a7de19e251063839a7dfa2a64212b3ad31",
+    "strict_status": "BLOCKED_BY_CALENDAR_AND_TARGET_SPEC",
+    "prices2025_2026_read": false,
+    "B1_used": false,
+    "other_alpha_versions_run": false,
+    "broker_calls": 0,
+    "runtime": {
+      "python": "3.12.10",
+      "executable": "D:\\ANNAM\\TradingWorkspace\\projects\\trader\\foundation_v2\\.venv\\Scripts\\python.exe",
+      "pydantic": "2.13.5"
+    },
+    "pid": 37648,
+    "wall_seconds": 20.25,
+    "cpu_seconds": 19.90625
+  },
+  "arithmetic_path_review": {
+    "status": "PASS",
+    "kind": "separate_arithmetic_path_self_audit_not_independent_agent_review",
+    "result_sha256": "b6ed17a95484ea9a06039e22cfd48b673af17e8097c18996f46b75224681ca35",
+    "code_sha256": "23adeea865128e4e3a15879ec81e9fd2303d69eb22a394075f79b03376f6b6a9",
+    "checks": {
+      "floating_quote_marks": 2035213,
+      "scenario_trade_cash_bridges": 134
+    },
+    "rows": [
+      {
+        "year": 2022,
+        "scenario": "reference",
+        "trades": 24,
+        "cash_cents": 5034733,
+        "max_equity_dd_cents": 61245,
+        "worst_daily_loss_cents": 27943
+      },
+      {
+        "year": 2022,
+        "scenario": "stress",
+        "trades": 24,
+        "cash_cents": 5015613,
+        "max_equity_dd_cents": 68271,
+        "worst_daily_loss_cents": 29303
+      },
+      {
+        "year": 2023,
+        "scenario": "reference",
+        "trades": 13,
+        "cash_cents": 4966247,
+        "max_equity_dd_cents": 54663,
+        "worst_daily_loss_cents": 14041
+      },
+      {
+        "year": 2023,
+        "scenario": "stress",
+        "trades": 13,
+        "cash_cents": 4957407,
+        "max_equity_dd_cents": 60383,
+        "worst_daily_loss_cents": 14961
+      },
+      {
+        "year": 2024,
+        "scenario": "reference",
+        "trades": 30,
+        "cash_cents": 4975725,
+        "max_equity_dd_cents": 72131,
+        "worst_daily_loss_cents": 24865
+      },
+      {
+        "year": 2024,
+        "scenario": "stress",
+        "trades": 30,
+        "cash_cents": 4954885,
+        "max_equity_dd_cents": 77774,
+        "worst_daily_loss_cents": 25765
+      }
+    ]
+  },
+  "source_quality": {
+    "counts": {
+      "M1_OHLC_compared": 135281,
+      "M1_OHLC_exact": 135281,
+      "ticks": 30403243
+    },
+    "missing_source_minutes_with_ticks": 0,
+    "corrections": {
+      "schema": "XAU-A0-observed-tick-M1-corrections-v1",
+      "reason": "same-provider archived M1 differs from native observed ticks at 3 validation minutes; repair before financial outcome, fixed strategy",
+      "patches": [
+        {
+          "at": 1708003800000,
+          "original": [
+            1998715,
+            2004155,
+            1998715,
+            2001235
+          ],
+          "corrected": [
+            1998715,
+            2004065,
+            1998715,
+            2001235
+          ],
+          "raw_path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\xauusd-intraday-b0-20261113\\tick-source-v1\\cache\\ticks%2FXAU-USD%2F2024%2F2%2F15%2F13.json",
+          "raw_sha256": "e92da3f75e56794f6fbdb6c830c0e4182fd09a944836c72b704349a181130f62"
+        },
+        {
+          "at": 1734100380000,
+          "original": [
+            2661245,
+            2661475,
+            2660535,
+            2661298
+          ],
+          "corrected": [
+            2661804,
+            2662405,
+            2660535,
+            2661298
+          ],
+          "raw_path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\xauusd-intraday-b0-20261113\\tick-source-v1\\cache\\ticks%2FXAU-USD%2F2024%2F12%2F13%2F14.json",
+          "raw_sha256": "c4fe2b9dfe9a7f2b01a2659e9e345bb2f7a177d9619cf502991ce3e998b3628c"
+        },
+        {
+          "at": 1734966840000,
+          "original": [
+            2612134,
+            2612674,
+            2611975,
+            2612005
+          ],
+          "corrected": [
+            2612045,
+            2612674,
+            2611678,
+            2612005
+          ],
+          "raw_path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\xauusd-intraday-b0-20261113\\tick-source-v1\\cache\\ticks%2FXAU-USD%2F2024%2F12%2F23%2F15.json",
+          "raw_sha256": "898b26d049db2589c1b182e3640ac1910f258fb0586aa3ef3d40635213234017"
+        }
+      ],
+      "native_decoder_parity_rows": 58483,
+      "native_fixture_sha256": "94e9d936cb52b6b12c67228305d06edfc338182f2c8d4621ea723b9d2ec80eeb",
+      "prices2025_2026_opened": false,
+      "PnL_computed": false
+    },
+    "repair_delta": {
+      "status": "pre_outcome_data_repair_only",
+      "strategy_changed": false,
+      "old": "signal-source-v2",
+      "new": "signal-source-v4",
+      "old_count": 1203,
+      "new_count": 1203,
+      "signal_keys_added": 0,
+      "signal_keys_removed": 0,
+      "stop_units_changed": 0,
+      "same_tick_hours": true,
+      "old_census_sha256": "73a619357b84ed4b43254010de0819f9477eb4db221c2091978286121c170862",
+      "new_census_sha256": "63376b00d1038c0bc378b54f730e6f11fbfadbcce95bf18935ed8701ff4340e1",
+      "PnL_computed": false
+    }
+  },
+  "cadence_details": [
+    {
+      "year": 2022,
+      "filled_days": 23,
+      "zero_months": 2,
+      "holding_median_minutes": 120.00046666666667,
+      "maximum_held_quote_gap_ms": 26095,
+      "all_flat_before_1800": true
+    },
+    {
+      "year": 2023,
+      "filled_days": 13,
+      "zero_months": 4,
+      "holding_median_minutes": 120.0013,
+      "maximum_held_quote_gap_ms": 15825,
+      "all_flat_before_1800": true
+    },
+    {
+      "year": 2024,
+      "filled_days": 28,
+      "zero_months": 2,
+      "holding_median_minutes": 120.0005,
+      "maximum_held_quote_gap_ms": 16159,
+      "all_flat_before_1800": true
+    }
+  ],
+  "realized_friction_proxy": [
+    {
+      "year": 2022,
+      "scenario": "reference",
+      "benchmark": "entry_spread_plus_realized_commission_and_declared_slip_over_R0_not_independent_mid_execution_counterfactual",
+      "median": 0.04484,
+      "p90": 0.05682666666666667,
+      "maximum": 0.05840000000000001,
+      "cap_exceedances": 0
+    },
+    {
+      "year": 2022,
+      "scenario": "stress",
+      "benchmark": "entry_spread_plus_realized_commission_and_declared_slip_over_R0_not_independent_mid_execution_counterfactual",
+      "median": 0.10357333333333332,
+      "p90": 0.1162,
+      "maximum": 0.11838666666666665,
+      "cap_exceedances": 0
+    },
+    {
+      "year": 2023,
+      "scenario": "reference",
+      "benchmark": "entry_spread_plus_realized_commission_and_declared_slip_over_R0_not_independent_mid_execution_counterfactual",
+      "median": 0.038680000000000006,
+      "p90": 0.05182666666666667,
+      "maximum": 0.057473333333333335,
+      "cap_exceedances": 0
+    },
+    {
+      "year": 2023,
+      "scenario": "stress",
+      "benchmark": "entry_spread_plus_realized_commission_and_declared_slip_over_R0_not_independent_mid_execution_counterfactual",
+      "median": 0.08253333333333333,
+      "p90": 0.11049333333333335,
+      "maximum": 0.11880666666666666,
+      "cap_exceedances": 0
+    },
+    {
+      "year": 2024,
+      "scenario": "reference",
+      "benchmark": "entry_spread_plus_realized_commission_and_declared_slip_over_R0_not_independent_mid_execution_counterfactual",
+      "median": 0.04739666666666667,
+      "p90": 0.05853333333333334,
+      "maximum": 0.0624,
+      "cap_exceedances": 0
+    },
+    {
+      "year": 2024,
+      "scenario": "stress",
+      "benchmark": "entry_spread_plus_realized_commission_and_declared_slip_over_R0_not_independent_mid_execution_counterfactual",
+      "median": 0.09403333333333333,
+      "p90": 0.11266666666666665,
+      "maximum": 0.11573333333333333,
+      "cap_exceedances": 0
+    }
+  ],
+  "verdict": {
+    "research_status": [
+      "ECONOMIC_FAIL",
+      "CADENCE_OR_SAMPLE_SHORTFALL"
+    ],
+    "strict_execution_status": "BLOCKED_BY_CALENDAR_AND_TARGET_SPEC",
+    "prop_status": "PROP_UNMEASURED",
+    "challenge_candidate": false,
+    "A1_or_B1_run": false,
+    "EURUSD_B1": "CANCELLED_BY_OWNER",
+    "next_action": "park_fixed_A0_no_automatic_variant_or_sizing_sweep"
+  },
+  "timing": {
+    "source_download_wall_seconds": 1061.307,
+    "first_price_review_failed_wall_seconds": 145.532,
+    "corrected_price_review_wall_seconds": 147.75,
+    "financial_wall_seconds": 20.25,
+    "financial_cpu_seconds": 19.90625,
+    "implementation_and_manual_review_wall_seconds": null
+  },
+  "evidence": {
+    "study_root": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\xauusd-intraday-b0-20261113",
+    "registration_sha256": "c44a2f1b30067758a9ba3f4407c029a7de19e251063839a7dfa2a64212b3ad31",
+    "result_sha256": "b6ed17a95484ea9a06039e22cfd48b673af17e8097c18996f46b75224681ca35",
+    "tick_seal_sha256": "78989c264d22cfb89bd7b03b59322f46e710e2d929bd5046d9650c7b2382030c",
+    "review_sha256": "eb3a52f31ebd0c983399d8fa5304bb33a7bc7d92b96a00363169c5b548492194",
+    "source_snapshot": "source-snapshot-v2",
+    "workspace_base": "7ee9ace02a6125dd4de8633c08e380693353c65b",
+    "trader_pin": "930fa76882e741702620f626986bb38755368635",
+    "preflight_tests": 11
+  }
+}

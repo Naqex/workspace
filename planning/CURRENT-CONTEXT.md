@@ -16,17 +16,31 @@ dừng tối ưu challenge, giữ làm regression khi có correctness/sourcecomp
 [B2report](research/GOLD-CONTINUOUS-B2-20261113.md) giữ720conditionalpaths,
 36tests/7parity,120stresscached30,81s;0nhóm hoàn tất2vòng trong24tháng.
 
-**Checkpoint mới — audit Development xong, chờ duyệt hướng A:** PR71 đã merge
+**Checkpoint mới — XAUUSD Intraday B0/A0 đã chạy, không đủ challenge:**
+PR72 đã merge `7ee9ace`; nhánh `codex/intraday-funnel-audit` đã xóa.
+Owner hủy EURUSD B1, không chuyển quota. [Kết quả XAU B0](research/XAUUSD-INTRADAY-B0-RESULTS-20261113.md)
+/ [JSON](research/XAUUSD-INTRADAY-B0-RESULTS-20261113.json): chỉ A0, Development2022–23
+và historicalvalidation2024. Raw399/414/390 → fills24/13/30; stress
++156,13/−425,93/−451,15USD. ECONOMIC_FAIL + CADENCE_OR_SAMPLE_SHORTFALL;
+PROP_UNMEASURED, strictfunded còn calendar/targetspecblocked. Không A1/B1.
+30.403.243ticks đã kiểm;135.281phútOHLC khớp sau3sourcecorrections trướcoutcomes,
+giữ originalcache/failedviews/snapshot.11fixtures +134scenario-trade bridges,
+2.035.213floatingmarks self-audit đạt; không independentagentreview.
+Privateattempt `execution-v1/xauusd-intraday-b0-20261113/attempt-1` completedconditional;
+registration và source-snapshot-v2 đóng băng. Branch `codex/xauusd-intraday-b0`;
+Traderpin/runtime và VIWIP giữ nguyên;2025–26giáclosed, không ASTRA/broker.
+
+**Bằng chứng kế thừa — audit Development EURUSD:** PR71 đã merge
 `7d29ce4`; nhánh `codex/eurusd-b0-study` đã xóa local/remote. Owner gác EURUSD B0
 với `CADENCE_OR_SAMPLE_SHORTFALL` + `DATA_PATH_INCOMPLETE`; prop vẫn unmeasured.
 [Audit phễu](research/EURUSD-FUNNEL-AUDIT-RESULTS-20261113.md) / [JSON](research/EURUSD-FUNNEL-AUDIT-RESULTS-20261113.json):
 chỉ EURUSD2022–23,517zones→62ngày/67signals→24fills;455zones không confirmation.
 43costrejects có medianSL6pip, cần median9pip theo spread/lotfloor.
-NO-GO dispatchB1; đề xuất hủy lượt chưa dùng, chưa chuyển quota sang Gold.
+NO-GO dispatchB1; owner đã hủy lượt chưa dùng, không chuyển quota sang Gold.
 [Card XAUUSD Intraday B0/A0](research/XAUUSD-INTRADAY-B0-PROPOSAL-20261113.md)
-**PROPOSAL_PENDING_OWNER_APPROVAL**: M1timestampquality2022–24 cho10/11/12ngày
+đã được owner duyệt và thực thi theo protocol mới dẫn ở trên. M1timestampquality2022–24 cho10/11/12ngày
 thiếu đoạn>15phút, không gapnộiphiên>15phút; chưa certify calendar/Ask/tick.
-Lượt này không EURUSD2024diagnostic, Goldsignals/PnL/backtest hoặc giá2025–26.
+Không EURUSD2024diagnostic hoặc giá2025–26; GoldA0 là scope được duyệt riêng.
 
 **Bằng chứng B0 đã được kế thừa:** PR70 đã merge `0a8542ba`, nhánh
 `codex/prop-target-envelope` đã xóa. [Protocol B0](research/EURUSD-B0-PROTOCOL-20261113.md)
@@ -38,7 +52,7 @@ stressmodel +22,01/+864,84/+12,59USD;95pre-costsignals,65costrejects.
 CADENCE_OR_SAMPLE_SHORTFALL;2023 có sourcegap54,54phút lúc giữlệnh,
 DATA_PATH_INCOMPLETE. Strictfunded còn BLOCKED_BY_CALENDAR/PROP_UNMEASURED;
 không gọi conditionalnet là edge, fullpathDD hoặc khả năngchallenge.
-Không B1/Goldstrategyexecution hoặc risk0,40%. Privateattempt:
+Không EURUSDB1/GoldA1 hoặc risk0,40%. Privateattempt:
 `execution-v1/eurusd-b0-20261113/attempt-1`: completedconditional,17fixtures,
 60scenario-trade checks/19.482bar parity; giữ frozenattempt/reviews, không rerun
 unchangedbatch. Numericalcheckpoint `d33d917`; postrun chỉ sửa writer/reviewguards.
@@ -52,8 +66,8 @@ Trần4alpha versions mới toànchiếndịch;B0+tốiđa1diag,A0+tốiđa1diag
 khôngreset priortrialhistory hoặcdispatchA tựđộng. Dev2022–23 vàhistoricalvalidation2024
 đều previouslyexposed.2025–26 **CLOSED**, chưa chứng nhậnglobalcleanOOS; khôngđọcgiá.
 ExactEURCatalogue13 gác,khôngportfolio. US500overlaypaused; chưapayout/candidatechallenge.
-Một branch `codex/intraday-funnel-audit` theo protectedmain; không gửiASTRA,
-broker/providercalls hoặcđổiTraderpin/runtime.
+Một branch `codex/xauusd-intraday-b0` theo protectedmain; không gửiASTRA,
+broker/ordercalls hoặcđổiTraderpin/runtime. Publichistory2022–24 đã cache theo grantA0.
 VIWIP vàotherownedworktrees giữ nguyên. Không Goal/skill mới hoặcglobalconfig.
 [Hồ sơ Bước1–2](research/STRATEGY-STATUS-AND-CANDIDATE-DOSSIERS-20261112.md)
 giữ taxonomy/gap/testdesign; đề xuất US500overlay cũ đã được owner gác.
