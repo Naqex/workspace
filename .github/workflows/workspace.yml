@@ -39,6 +39,8 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_shadow*.py' -v
       - name: Check frozen EURUSD B0 timing, execution and cost fixtures
         run: python -m unittest discover -s tooling/ai-engines/tests -p 'test_eurusd_b0.py' -v
+      - name: Check frozen XAUUSD B0 notional fees, timing and risk fixtures
+        run: python -m unittest discover -s tooling/ai-engines/tests -p 'test_xau_intraday_b0.py' -v
       - name: Check Development funnel and timestamp-only quality audits
         run: |
           python -m unittest discover -s tooling/ai-engines/tests -p 'test_eurusd_funnel_audit.py' -v

@@ -2,11 +2,20 @@
 
 **Task đang thực hiện:** [STRATEGY-E2E — chiến lược tới challenge/payout](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).
 Task này giữ audit, chặng T0–T9 và các việc xét sau Q1–Q12. Ưu tiên hiện tại:
-**Hiện tại: audit Development EURUSD xong; hướng vàng chỉ có card chờ duyệt.**
+**Hiện tại: XAUUSD Intraday B0/A0 đã chạy, chưa có ứng viên challenge.**
+[Kết quả](XAUUSD-INTRADAY-B0-RESULTS-20261113.md) / [JSON](XAUUSD-INTRADAY-B0-RESULTS-20261113.json):
+24/13/30lệnh ở2022/23/24; stress+156,13/−425,93/−451,15USD.
+ECONOMIC_FAIL + CADENCE_OR_SAMPLE_SHORTFALL; PROP_UNMEASURED riêng.
+11fixtures và đối soát134scenario-trade/2.035.213floatingmarks đạt.
+PR72 đã merge`7ee9ace`, EURUSD B1hủy; chỉA0, khôngA1/B1 hoặcgiá2025–26.
+Sourcecheck bắt3M1revisions trướcoutcome; original/failedattempt giữ nguyên.
+
+**Bằng chứng kế thừa: audit EURUSD Development.**
 [Audit phễu](EURUSD-FUNNEL-AUDIT-RESULTS-20261113.md) / [JSON](EURUSD-FUNNEL-AUDIT-RESULTS-20261113.json):
 517zones→62ngày/67signals→24fills;455zones không confirmation. NO-GO B1,
-đề xuất hủy lượt chưa dùng. [XAUUSD Intraday B0/A0](XAUUSD-INTRADAY-B0-PROPOSAL-20261113.md)
-chỉ proposal; đã census timestampM1, chưa Goldsignals/backtest. PR71 đã merge `7d29ce4`.
+owner đã hủy lượt chưa dùng. [Card XAUUSD Intraday B0/A0](XAUUSD-INTRADAY-B0-PROPOSAL-20261113.md)
+là proposal lịch sử; [protocol đã duyệt](XAUUSD-INTRADAY-B0-PROTOCOL-20261113.md)
+và kết quả mới dẫn ở trên. PR71 đã merge `7d29ce4`.
 
 **Bằng chứng B0 đã kế thừa: EURUSD2022–2024, chưa đủ challenge.**
 [Protocol](EURUSD-B0-PROTOCOL-20261113.md) / [registration](EURUSD-B0-REGISTRATION-20261113.json)
@@ -14,7 +23,7 @@ khóa breakout/retest H1→M15, chỉB0; strictfunded còn lịchnews/targetsess
 [Kết quả](EURUSD-B0-RESULTS-20261113.md) / [JSON](EURUSD-B0-RESULTS-20261113.json):
 13/11/6lệnh;95confirmations→65costrejects→30fills;2023heldgap54,54phút.
 Mẫu dương cóđiềukiện, cadence/sample thiếu; không alpha/prop-pass.
-PR70 merged `0a8542ba`; khôngB1/XAU/sizing sweep hoặc mởgiá2025–26.
+PR70 merged `0a8542ba`; khôngEURUSDB1/GoldA1/sizing sweep hoặc mởgiá2025–26.
 [Envelope profile](../../.agents/skills/strategy-qualification/references/validation-gates.md#prop-target-envelope--profile-owner-ngày-13112026)
 giữcaps/sốhọc;khôngguaranteepass. PR69đãmerge`920b48a`,nhánhcũxóa.
 [R043Goldenfixture](GOLD-R043-REGRESSION-FIXTURE-20261113.json):cadence/timefitrejected,

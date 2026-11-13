@@ -8,15 +8,26 @@ App Goal được kiểm trong lượt audit: `null`; task này không tự bậ
 
 ## Mục tiêu và phạm vi đã xác nhận
 
-**Checkpoint hiện tại — Development funnel audit / Gold card pending:**
+**Checkpoint hiện tại — XAUUSD Intraday B0/A0 đã chạy:**
+PR72 merged `7ee9ace`, nhánh cũ đã xóa; EURUSD B1 CANCELLED_BY_OWNER.
+[Kết quả A0](XAUUSD-INTRADAY-B0-RESULTS-20261113.md) và
+[JSON](XAUUSD-INTRADAY-B0-RESULTS-20261113.json) giữ đủ4bảng + nguồn/review/timer.
+Development2022–23 có37fills, stress−269,80USD; historicalvalidation2024
+có30fills,−451,15USD. ECONOMIC_FAIL + CADENCE_OR_SAMPLE_SHORTFALL;
+strictfundedcalendar/targetspecblocked, PROP_UNMEASURED. Gác đúngA0,
+khôngA1/B1/sizing sweep. Protocol/snapshot/sourcecorrections đóng băng trướcoutcomes;
+11fixtures,134scenario-trade bridges/2.035.213floatingmarks self-audit đạt.
+Không2025–26giá hoặc broker. Một branch `codex/xauusd-intraday-b0`.
+
+**Bằng chứng kế thừa — EURUSD funnel audit:**
 PR71 đã merge `7d29ce4`, nhánh cũ đã xóa. Owner gác EURUSD B0 với hai nhãn
 CADENCE_OR_SAMPLE_SHORTFALL + DATA_PATH_INCOMPLETE; PROP_UNMEASURED tách riêng.
 [Audit mới](EURUSD-FUNNEL-AUDIT-RESULTS-20261113.md):517zones→62ngày/67signals→24fills;
 455zones không confirmation;43costrejects medianSL6pip so thresholdmedian9pip.
-NO-GO dispatch EURUSD B1, hủy lượt chưa dùng là đề xuất chưa tiêu budget.
-[Card XAUUSD Intraday B0 (A0)](XAUUSD-INTRADAY-B0-PROPOSAL-20261113.md) chờ owner
-duyệt; Goldquality chỉ timestamps2022–24, chưa signals/PnL hoặc executablefees.
-EURUSD2024 không dùng diagnostic;2025–26closed. Không tự mở A0 hoặc thêm A1.
+NO-GO dispatch EURUSD B1; owner đã hủy lượt chưa dùng, không chuyển quota.
+[Card XAUUSD Intraday B0 (A0)](XAUUSD-INTRADAY-B0-PROPOSAL-20261113.md) là proposal
+lịch sử, đã được owner duyệt/thực thi theo protocol và kết quả mới ở trên.
+EURUSD2024 không dùng diagnostic;2025–26closed. Không thêm A1.
 
 **Bằng chứng kế thừa — EURUSD B0 conditional complete:** PR70 merged `0a8542ba`;
 [protocol](EURUSD-B0-PROTOCOL-20261113.md) / [registration](EURUSD-B0-REGISTRATION-20261113.json)
@@ -29,7 +40,7 @@ PR69merged`920b48a`;[R043fixture](GOLD-R043-REGRESSION-FIXTURE-20261113.json)
 gắnCADENCE_OR_SAMPLE_SHORTFALL/PROP_TIMEFIT_REJECTED,stopchallengeoptimization.
 Envelopeownerprofile trongvalidation-gates;B/EURUSDđượckhuyếnnghịtrước,A/XAUdựphòng.
 Trần4newversions,khôngresetoldtrials;2022–24exposed,2025–26closed/cleanstatusunknown.
-B0 đã có quyền code/chạy; B1/A/broker/paid/OOS vẫn giữ gate riêng.
+B0/A0 đã có quyền code/chạy; B1/A1/broker/paid/OOS vẫn giữ gate riêng.
 
 **Checkpoint lịch sử B2:** [đã hoàn tất ledger/rolling](GOLD-CONTINUOUS-B2-20261113.md),
 720conditionalpaths/36fixtures/7centparity.0two-step trong24tháng mọi nhóm;
