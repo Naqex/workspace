@@ -1,8 +1,10 @@
 # Tra cứu research đã có
 
-**Task đang thực hiện:** [STRATEGY-E2E — chiến lược tới challenge/payout](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).
-Task này giữ audit, chặng T0–T9 và các việc xét sau Q1–Q12. Ưu tiên hiện tại:
-**Hiện tại: đã đo quy mô/horizon trên Development, khuyến nghị No-Go B1.**
+**Chiến dịch đã đóng theo owner:** [STRATEGY-E2E](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).
+PR74 đã merge `f0aadae`, nhánh audit xóa; XAUUSD B1 và EURUSD B1 đã hủy.
+Chưa có ứng viên challenge, không tự mở batch hoặc chuyển quota. T0–T9/Q1–Q12
+giữ làm lịch sử/backlog. Nghiên cứu mới áp [Stage-0](../../.agents/skills/strategy-qualification/references/validation-gates.md#stage-0-unconditional-markout--scale-screen).
+**Kết quả cuối: audit quy mô/horizon trên Development.**
 [Scale & Horizon Audit](XAUUSD-SCALE-HORIZON-AUDIT-RESULTS-20261113.md) /
 [JSON](XAUUSD-SCALE-HORIZON-AUDIT-RESULTS-20261113.json): chỉ2022–23;
 slip chiếm≈53% ma sát, cùng37fills giữ18UTC vẫn−211,86USD stress.

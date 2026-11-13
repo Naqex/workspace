@@ -1,6 +1,9 @@
 # XAUUSD B0 — chẩn đoán quy mô và thời gian giữ
 
-**Khuyến nghị No-Go cho quyền thử XAUUSD B1 trong chiến dịch hiện tại.** Chỉ kéo hạn giữ tới 18:00 chưa cứu được 37 lệnh đã nhận và không tăng số cơ hội qua phí. Chưa đủ cơ sở cho một B1 đồng thời sửa được cả tần suất và kỳ vọng. Đây là đề xuất cho owner, chưa ghi nhận owner đã hủy B1.
+**Owner đã chốt No-Go, hủy lượt XAUUSD B1 và đóng chiến dịch ngày 13/11/2026.**
+PR74 đã merge `f0aadae`; các phép đo dưới đây giữ nguyên. Chỉ kéo hạn giữ tới
+18:00 chưa cứu được 37 lệnh đã nhận và không tăng số cơ hội qua phí. Không tự
+chuyển quota hoặc mở lại; C1/C2/challenge chưa đạt.
 
 Một kết luận cần giữ đúng mức: **chưa chứng minh toàn bộ tín hiệu H1 → M15 không có lợi thế định hướng**. Toàn bộ raw signals có markout sau phí stress đến 18:00 hơi dương, nhưng khoảng bất định còn bao gồm số âm và hai năm khác nhau. Bằng chứng bác cách triển khai B0 hiện tại mạnh hơn bằng chứng bác mọi phiên bản có thể nghĩ ra.
 
@@ -105,7 +108,7 @@ Tín hiệu thô đến 18:00 có mean net stress **+0,365 USD/oz**, nhưng CI [
 ## 6. Phán quyết B1 và hồ sơ B0
 
 - **Giữ B0 gác:** `ECONOMIC_FAIL` + `CADENCE_OR_SAMPLE_SHORTFALL`. Ghi nguyên nhân cơ học: stop tự nhiên M15 khoảng2USD/oz, sàn phí stress xấp xỉ6USD/oz, fills khoảng7 USD/oz, TP khoảng14USD/oz trong2 giờ. Đây là bất tương thích đã đo; chưa chứng minh là nguyên nhân duy nhất gây lỗ.
-- **Đề xuất No-Go/hủy lượt B1 trên nhánh M15 này trong chiến dịch:** thay một exit sang18:00 vẫn âm và không sửa cadence. Chuyển sang stop ATR H1 đồng thời đổi horizon là nhiều thay đổi chưa được đo, không được quảng bá như một bản vá đã có edge. Chưa chạy hoặc ghi owner đã hủy B1.
+- **No-Go/B1 đã hủy theo owner:** thay một exit sang 18:00 vẫn âm và không sửa cadence. Chuyển sang stop ATR H1 đồng thời đổi horizon là nhiều thay đổi chưa được đo. Không chạy B1; quyết định hủy không xóa lịch sử đề xuất và phép đo đã lưu.
 - **Không kết luận thị trường/signal hoàn toàn vô ích:** markout raw đến 18:00 hơi dương nhưng còn yếu/không đều. Nếu sau này mở lại cần hypothesis mới và bằng chứng tiền nghiệm cụ thể; không tự tìm thêm cutoff/ATR/side để cứu bản hiện tại.
 - Không tự hạ slippage, tăng risk, bỏ SELL, đọc2024 để tune hoặc mở2025–2026. Chưa có bằng chứng calibration broker đủ để chọn một mức slip nhẹ hơn.
 

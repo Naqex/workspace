@@ -20,6 +20,40 @@ material; chưa đủ realism thì chỉ được kết luận ở mức scenari
 shadow/demo cho strategy: review thêm G3/G4 theo mục tiêu, nêu remaining gaps.
 Mọi gửi lệnh cần G6 riêng; system demo test không tự chứng minh strategy edge.
 
+## Stage-0: Unconditional Markout & Scale Screen
+
+**Chính sách sàng lọc của owner ngày 13/11/2026 cho cơ chế tín hiệu mới**, trước
+khi đóng gói SL/TP/sizing, partial close hoặc filter phụ. Không áp hồi tố để
+đổi sealed outcomes; chưa được runner tự enforce và không phải chuẩn thống kê
+phổ quát. Bài học: US500 BR01/RS02, EURUSD Catalogue13/B0 và
+[XAUUSD scale/horizon audit](../../../../planning/research/XAUUSD-SCALE-HORIZON-AUDIT-RESULTS-20261113.md).
+
+1. **Raw markout trước SL/TP/filter:** khóa tín hiệu thô, Development, cost
+   stress, đơn vị và horizon chính trước outcome; khóa cả budget horizon phụ.
+   Đo phân phối sau spread/commission/slippage và financing nếu có tại các mốc
+   cố định phù hợp: +1h/+2h/+4h/cuối phiên hoặc +1d/+3d/+5d. Giữ count, unique
+   days, overlap, từng năm, uncertainty và missing quotes; không chọn horizon
+   thắng sau khi xem kết quả. Bid/Ask đã chứa spread thì không trừ lần hai.
+   **Dừng Stage-0** nếu mean net stress tại horizon chính không dương ở mọi
+   năm Development, hoặc nhỏ hơn mean ma sát thực thi stress trên cùng cohort,
+   cùng đơn vị. Không viết tiếp biến thể SL/TP, partial close hoặc filter để
+   cứu kết quả; thiếu nguồn/cost thì giữ blocked/unknown, không giả bằng 0.
+2. **Natural stop và quy mô phí:** trên raw cohort trước lọc phí, đo stop
+   tự nhiên theo cấu trúc nhân quả; `median(F_stress) / median(natural_SL)`
+   phải ≤ trần đã khóa trong **12%–15%** (ưu tiên 12%, không quá 15%). Hai vế
+   phải cùng đơn vị giá, ví dụ USD/oz hoặc pip; không chia USD tiền tài khoản
+   cho khoảng giá, không trộn phí nhóm fills với SL nhóm rejects. Đây là screen
+   quy mô, khác `Friction/R0` trên từng intent; trần intent 12% hiện hành vẫn giữ.
+3. **Không dùng cost gate để đổi bản chất mẫu:** cấm bộ lọc `Friction/R`
+   loại **>50%** tín hiệu tự nhiên. Mẫu số là raw signals đã đăng ký, không
+   thu hẹp bằng filter phụ rồi tính lại. Giữ funnel và lý do loại; vượt ngưỡng
+   thì dừng recipe, không nới SL nhân tạo, tăng risk hoặc hạ stress sau outcome.
+   Tỷ lệ loại lớn là rủi ro chọn lọc quy mô/nến cực đoan, chưa tự chứng minh
+   exhaustion hoặc nguyên nhân nhân quả của khoản lỗ.
+
+Qua Stage-0 chỉ cho phép xét đầu tư tiếp đúng protocol; raw markout có thể
+chồng lấn, không là account PnL hay chứng minh edge/OOS/prop. G0–G6 vẫn áp dụng.
+
 ## Cách báo cáo
 
 ### Nhãn nguyên nhân dừng và phạm vi bằng chứng
