@@ -37,7 +37,9 @@ no signal/cost filter, no parameter search, no resurrection of cancelled B1.
   Reset can occur without a quote: retain balance exactly, flag stale floating
   marks for equity-start comparison. Closed quote gaps remain unknown paths.
   At coincident timestamps: reset from pre-event balance/last observed mark,
-  observe fresh quote, charge swap, process exits, then admit new entries.
+  charge scheduled swap, then consume quotes in original source order and
+  process exits/entries on their exact quote ordinals. Milliseconds alone do
+  not order multiple quotes with the same timestamp.
 - No later-than-deadline fill invented. If endpoint unavailable, noTP stays
   unresolved; TP/SL observed earlier can resolve an individual path. Missing
   intervals/known closures >2h flag Standard compliance unknown, not a pass.

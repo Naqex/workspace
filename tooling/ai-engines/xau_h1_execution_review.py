@@ -54,15 +54,18 @@ def oracle_book(trades,reader,year,cells=('SYM_FLAT','ASYM_ORDER')):
     actions=defaultdict(list);cash={c:0 for c in cells};parts={}
     for i,t in enumerate(trades):
         parts[i]={c:money_parts(t,c) for c in cells}
-        actions[t['entry_msc']].append(('entry',i,0))
-        actions[t['exit_msc']].append(('exit',i,0))
-        for at,m in funding(t['entry_msc'],t['exit_msc']):actions[at].append(('swap',i,m))
+        def ordinal(field):
+            at=t[field+'_msc']
+            return t[field+'_quote_index'] if field+'_quote_index' in t else next(j for j,r in enumerate(reader.hour(at//HOUR*HOUR)) if r[0]==at)
+        actions[(t['entry_msc'],ordinal('entry'))].append(('entry',i,0))
+        actions[(t['exit_msc'],ordinal('exit'))].append(('exit',i,0))
+        for at,m in funding(t['entry_msc'],t['exit_msc']):actions[(at,-1)].append(('swap',i,m))
     d=datetime(year,1,1).date()
     while d.year<=year:
         at=int(datetime(d.year,d.month,d.day,tzinfo=ZoneInfo('Europe/Prague')).timestamp()*1000)
-        actions[at].append(('reset',None,0));d+=timedelta(days=1)
+        actions[(at,-1)].append(('reset',None,0));d+=timedelta(days=1)
     start=min(t['entry_msc'] for t in trades);end=max(t['exit_msc'] for t in trades)
-    stamps=sorted(at for at in actions if start<=at<=end);ai=0
+    stamps=sorted(key for key in actions if start<=key[0]<=end);ai=0
     qtyb=qtys=basis=0;last=None
     state={c:dict(peak=0,dd=0,daily=0,anchor=0,minimum=0) for c in cells}
     def mark():
@@ -71,12 +74,13 @@ def oracle_book(trades,reader,year,cells=('SYM_FLAT','ASYM_ORDER')):
             value=cash[c]*10+floating;s=state[c]
             s['dd']=max(s['dd'],s['peak']-value);s['peak']=max(s['peak'],value)
             s['daily']=max(s['daily'],s['anchor']*10-value);s['minimum']=min(s['minimum'],value)
-    def act(at,quote=None):
+    def act(key,quote=None):
         nonlocal qtyb,qtys,basis,last
-        if any(a[0]=='reset' for a in actions[at]):
+        at=key[0]
+        if any(a[0]=='reset' for a in actions[key]):
             for c in cells:state[c]['anchor']=cash[c]
         if quote is not None:last=quote;mark()
-        for kind,i,m in sorted(actions[at],key=lambda a:{'reset':0,'swap':1,'exit':2,'entry':3}[a[0]]):
+        for kind,i,m in sorted(actions[key],key=lambda a:{'reset':0,'swap':1,'exit':2,'entry':3}[a[0]]):
             if kind=='reset':continue
             t=trades[i];q=t['ounces'];sign=1 if t['side']=='BUY' else -1
             if kind=='entry':
@@ -90,15 +94,16 @@ def oracle_book(trades,reader,year,cells=('SYM_FLAT','ASYM_ORDER')):
             mark()
     tick_marks=0
     for hour in range(start//HOUR*HOUR,end//HOUR*HOUR+1,HOUR):
-        for row in reader.hour(hour):
+        for index,row in enumerate(reader.hour(hour)):
             at=row[0]
             if at<start or at>end:continue
-            while ai<len(stamps) and stamps[ai]<=at:
-                s=stamps[ai];act(s,row if s==at else None);ai+=1
+            key=(at,index)
+            while ai<len(stamps) and stamps[ai]<=key:
+                s=stamps[ai];act(s,row if s==key else None);ai+=1
             last=row
             if qtyb or qtys:mark();tick_marks+=1
         # Missing source hours are legal only while flat; still apply resets.
-        while ai<len(stamps) and stamps[ai]<hour+HOUR:
+        while ai<len(stamps) and stamps[ai][0]<hour+HOUR:
             act(stamps[ai]);ai+=1
     assert qtyb==qtys==basis==0
     return {c:dict(dd_usd=s['dd']/1000,daily_usd=s['daily']/1000,cash_usd=cash[c]/100)
@@ -107,8 +112,31 @@ def oracle_book(trades,reader,year,cells=('SYM_FLAT','ASYM_ORDER')):
 
 def review(root):
     root=Path(root);result=json.loads((root/'result.json').read_bytes());trades=json.loads((root/'trades.json').read_bytes())
-    reader=Reader(root/'ticks');count=0;books=[];ticks=0
+    reader=Reader(root/'ticks');count=0;books=[];ticks=0;path_checks=0
+    source=json.loads((root/'source-review.json').read_bytes())
+    for h in source['hours']:
+        assert digest(root/'ticks'/f"{h['at']}.ticks")==h['binary_sha256']
     for t in trades:
+        sign=1 if t['side']=='BUY' else -1;p0=t['entry_price_units'];stop=t['stop_units']
+        assert t['ounces']==150000//(sign*(p0-stop))
+        found=None
+        for hour in range(t['entry_msc']//HOUR*HOUR,(t['deadline_msc']+60000)//HOUR*HOUR+1,HOUR):
+            for index,q in enumerate(reader.hour(hour)):
+                if q[0]<t['entry_msc']:continue
+                if q[0]>t['deadline_msc']+60000:break
+                price=q[1] if sign==1 else q[2]
+                if q[0]>=t['deadline_msc']:
+                    reason='FRIDAY_CLOSE' if t['deadline_msc']<t['entry_msc']+48*HOUR else 'TIME_48H'
+                    found=(reason,price,q[0],index);break
+                if sign*(price-stop)<=0:found=('SL',price,q[0],index);break
+                tp=t['tp_units']
+                if tp is not None and sign*(price-tp)>=0:found=('TP2R',tp,q[0],index);break
+            if found:break
+        if found:
+            assert found==(t['reason'],t['exit_price_units'],t['exit_msc'],t['exit_quote_index'])
+        else:assert t['reason']=='UNRESOLVED_ENDPOINT' and t['exit_msc'] is None
+        path_checks+=1
+        if path_checks%50==0:print(json.dumps(dict(stage='first_passage_oracle',paths=path_checks,total=len(trades))),flush=True)
         if t['costs'] is None:continue
         for c in CELLS:
             p=money_parts(t,c);e=t['costs'][c]
@@ -135,7 +163,7 @@ def review(root):
         books.append(dict(recipe=summary['recipe'],view=summary['view'],policy=summary['policy'],year=summary['year'],
             resolved_subcohort_only=subcohort,oracle=observed,tick_marks=n))
         print(json.dumps(dict(stage='integer_oracle',books=len(books),tick_marks=ticks)),flush=True)
-    packet=dict(status='SELF_AUDIT_PASSED_NOT_INDEPENDENT_REVIEW',cost_bridges=count,books=books,
+    packet=dict(status='SELF_AUDIT_PASSED_NOT_INDEPENDENT_REVIEW',cost_bridges=count,path_checks=path_checks,books=books,
         observed_tick_marks=ticks,result_sha256=digest(root/'result.json'),trades_sha256=digest(root/'trades.json'),
         reviewer_source_sha256=digest(__file__),prices2024_2026_read=False)
     write_json(root/'arithmetic-review.json',packet)

@@ -101,7 +101,8 @@ class Quotes:
     def interval(self,start,end):
         for hour in range(start//HOUR*HOUR,end//HOUR*HOUR+1,HOUR):
             rows,times=self.hour(hour)
-            yield from rows[bisect_left(times,start):bisect_right(times,end)]
+            for index in range(bisect_left(times,start),bisect_right(times,end)):
+                yield rows[index],index
 
 
 def admit_sources(cfg,out,event):
@@ -151,7 +152,9 @@ def path_for(row,quotes,hard_tp):
     end=deadline(at);tp=price+sign*2*distance if hard_tp else None
     previous=at;largest_gap=0;gap_count=0;records=0;close=None
     mae=0;mfe=0
-    for quote in quotes.interval(at,end+60000):
+    entry_index=None;exit_index=None
+    for quote,index in quotes.interval(at,end+60000):
+        if entry_index is None:entry_index=index
         stamp=quote[0]
         if stamp>previous:
             largest_gap=max(largest_gap,stamp-previous)
@@ -162,12 +165,14 @@ def path_for(row,quotes,hard_tp):
         # Quotes arriving at/after deadline have time-close priority; no new TP.
         if stamp>=end:
             close=('FRIDAY_CLOSE' if end<at+48*HOUR else 'TIME_48H',quote_exit(side,quote),stamp)
+            exit_index=index
             break
         reason,fill=trigger(side,quote,stop,tp)
         if reason:
-            close=(reason,fill,stamp);break
+            close=(reason,fill,stamp);exit_index=index;break
     result=dict(signal_id=signal_id(row),recipe=row['recipe'],side=side,day=row['day'],
         entry_msc=at,entry_quote=row['entry_quote'],entry_price_units=price,stop_units=stop,
+        entry_quote_index=entry_index,exit_quote_index=exit_index,
         natural_sl_usd_per_oz=distance/1000,ounces=ounces,lot=ounces/100,
         tp_units=tp,deadline_msc=end,exit_policy='TP2R' if hard_tp else 'NO_TP',
         records=records,max_observed_quote_gap_ms=largest_gap,gaps_gt15m=gap_count,
@@ -230,19 +235,22 @@ def book(trades,quotes,year):
             resolved_subcohort_only=book(resolved,quotes,year) if resolved else None)
     actions=defaultdict(list);stats={c:Stat() for c in CELLS}
     for i,t in enumerate(trades):
-        actions[t['entry_msc']].append(('entry',i,1))
-        actions[t['exit_msc']].append(('exit',i,1))
-        for e in funding_events(t['entry_msc'],t['exit_msc']):actions[e['at']].append(('swap',i,e['multiplier']))
-    for at in reset_times(year):actions[at].append(('reset',None,1))
+        _,et=quotes.hour(t['entry_msc']//HOUR*HOUR)
+        _,xt=quotes.hour(t['exit_msc']//HOUR*HOUR)
+        actions[(t['entry_msc'],t.get('entry_quote_index',bisect_left(et,t['entry_msc'])))].append(('entry',i,1))
+        actions[(t['exit_msc'],t.get('exit_quote_index',bisect_left(xt,t['exit_msc'])))].append(('exit',i,1))
+        for e in funding_events(t['entry_msc'],t['exit_msc']):actions[(e['at'],-1)].append(('swap',i,e['multiplier']))
+    for at in reset_times(year):actions[(at,-1)].append(('reset',None,1))
     active={};qbuy=qsell=0;basis=0.;last_quote=None;max_concurrency=0;max_gross_oz=0
     stale_resets=0;event_marks=0
     if not trades:return dict(status='EMPTY')
     start=min(t['entry_msc'] for t in trades);end=max(t['exit_msc'] for t in trades)
-    action_times=sorted(at for at in actions if start<=at<=end)
+    action_times=sorted(key for key in actions if start<=key[0]<=end)
     ai=0
-    def apply(at,quote=None):
+    def apply(key,quote=None):
         nonlocal qbuy,qsell,basis,max_concurrency,max_gross_oz,stale_resets,event_marks,last_quote
-        if any(a[0]=='reset' for a in actions[at]):
+        at=key[0]
+        if any(a[0]=='reset' for a in actions[key]):
             if active and (last_quote is None or at-last_quote[0]>60000):stale_resets+=1
             for s in stats.values():
                 s.anchor=s.cash
@@ -252,7 +260,7 @@ def book(trades,quotes,year):
             if active:
                 value=(qbuy*quote[1]-qsell*quote[2])/1000-basis
                 for s in stats.values():s.add(s.cash+value,s.cash+value,0,s.cash+value,at)
-        for kind,i,mult in sorted(actions[at],key=lambda x: {'reset':0,'swap':1,'exit':2,'entry':3}[x[0]]):
+        for kind,i,mult in sorted(actions[key],key=lambda x: {'reset':0,'swap':1,'exit':2,'entry':3}[x[0]]):
             if kind=='reset':continue
             t=trades[i];q=t['ounces'];sign=1 if t['side']=='BUY' else -1
             if kind=='entry':
@@ -278,12 +286,14 @@ def book(trades,quotes,year):
         path=quotes.root/f'{hour}.ticks'
         if not path.exists():
             if active:raise ValueError('missing_requested_path_hour')
-            while ai<len(action_times) and action_times[ai]<hour+HOUR:
+            while ai<len(action_times) and action_times[ai][0]<hour+HOUR:
                 apply(action_times[ai]);ai+=1
             continue
         rows,times=quotes.hour(hour);cursor=bisect_left(times,start)
-        while ai<len(action_times) and action_times[ai]<hour+HOUR:
-            at=action_times[ai];cut=bisect_left(times,at)
+        while ai<len(action_times) and action_times[ai][0]<hour+HOUR:
+            key=action_times[ai];at,index=key
+            cut=bisect_left(times,at) if index<0 else index
+            if index>=0 and (cut>=len(rows) or rows[cut][0]!=at):raise ValueError('event_quote_ordinal')
             segment=rows[cursor:cut]
             if segment:
                 if active:
@@ -291,8 +301,8 @@ def book(trades,quotes,year):
                     for s in stats.values():s.add(s.cash+low-basis,s.cash+high-basis,dd,s.cash+last-basis,segment[-1][0])
                 last_quote=segment[-1]
             # At a quote timestamp positions act on that quote, before later ticks.
-            quote=rows[cut] if cut<len(rows) and rows[cut][0]==at else None
-            apply(at,quote);ai+=1;cursor=cut
+            quote=rows[cut] if index>=0 else None
+            apply(key,quote);ai+=1;cursor=cut
         segment=rows[cursor:bisect_right(times,end)]
         if segment:
             if active:

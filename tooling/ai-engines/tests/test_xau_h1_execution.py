@@ -141,5 +141,21 @@ class ExecutionTests(unittest.TestCase):
                 self.assertAlmostEqual(r['daily_usd'],b['costs'][c]['worst_daily_loss_usd'])
                 self.assertAlmostEqual(r['cash_usd'],b['costs'][c]['realized_net_usd'])
 
+    def test_duplicate_millisecond_quotes_keep_source_order(self):
+        with tempfile.TemporaryDirectory() as temp:
+            at=ms('2023-03-06T10:00:00')
+            rows=[(at,1999900,2000000),(at+1,2000500,2000600),
+                (at+1,1998900,1999000),(at+1,2003000,2003100)]
+            save_quotes(temp,rows)
+            row=dict(recipe='H1A_ASIA',side='BUY',decision_msc=at,day='2023-03-06',
+                entry_quote=list(rows[0]),stop_units=1999000)
+            t=path_for(row,Quotes(temp),True)
+            self.assertEqual(t['reason'],'SL');self.assertEqual(t['exit_quote_index'],2)
+            b=book([t],Quotes(temp),2023)
+            oracle,_=oracle_book([t],Reader(temp),2023)
+            for c,r in oracle.items():
+                self.assertAlmostEqual(r['dd_usd'],b['costs'][c]['max_equity_drawdown_usd'])
+                self.assertAlmostEqual(r['daily_usd'],b['costs'][c]['worst_daily_loss_usd'])
+
 
 if __name__=='__main__':unittest.main()
