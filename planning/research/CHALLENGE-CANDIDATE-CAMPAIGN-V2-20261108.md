@@ -8,7 +8,17 @@ App Goal được kiểm trong lượt audit: `null`; task này không tự bậ
 
 ## Mục tiêu và phạm vi đã xác nhận
 
-**Checkpoint hiện tại — EURUSD B0 conditional complete:** PR70 merged `0a8542ba`;
+**Checkpoint hiện tại — Development funnel audit / Gold card pending:**
+PR71 đã merge `7d29ce4`, nhánh cũ đã xóa. Owner gác EURUSD B0 với hai nhãn
+CADENCE_OR_SAMPLE_SHORTFALL + DATA_PATH_INCOMPLETE; PROP_UNMEASURED tách riêng.
+[Audit mới](EURUSD-FUNNEL-AUDIT-RESULTS-20261113.md):517zones→62ngày/67signals→24fills;
+455zones không confirmation;43costrejects medianSL6pip so thresholdmedian9pip.
+NO-GO dispatch EURUSD B1, hủy lượt chưa dùng là đề xuất chưa tiêu budget.
+[Card XAUUSD Intraday B0 (A0)](XAUUSD-INTRADAY-B0-PROPOSAL-20261113.md) chờ owner
+duyệt; Goldquality chỉ timestamps2022–24, chưa signals/PnL hoặc executablefees.
+EURUSD2024 không dùng diagnostic;2025–26closed. Không tự mở A0 hoặc thêm A1.
+
+**Bằng chứng kế thừa — EURUSD B0 conditional complete:** PR70 merged `0a8542ba`;
 [protocol](EURUSD-B0-PROTOCOL-20261113.md) / [registration](EURUSD-B0-REGISTRATION-20261113.json)
 khóa B0 trên2022–23 Development/2024 exposed historicalvalidation;2025–26closed.
 [B0 results](EURUSD-B0-RESULTS-20261113.md): 30trades/3năm,65/95costrejects,

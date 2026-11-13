@@ -1,0 +1,329 @@
+{
+  "schema": "intraday-research-funnel-and-readiness-v1",
+  "EURUSD_development": {
+    "schema": "eurusd-B0-development-funnel-audit-v1",
+    "annual": [
+      {
+        "year": 2022,
+        "valid_zones": 258,
+        "exclusive_zone_stages": {
+          "confirmation_reached": 30,
+          "no_admitted_bias_breakout": 123,
+          "touch_reached_no_confirmation": 55,
+          "bias_breakout_reached_no_admitted_touch": 50
+        },
+        "no_setup_subtypes": {
+          "opposite_bias_only": 31,
+          "mixed_neutral_and_opposite_bias": 36,
+          "neutral_or_unavailable_bias_only": 36,
+          "no_geometric_breakout": 20
+        },
+        "setup_fates": {
+          "bias_breakouts": 261,
+          "pre_cost_confirmed_signals": 31,
+          "first_touches": 125,
+          "first_touch_not_confirmed": 94,
+          "setup_cutoff_cancelled": 68,
+          "setup_expired": 68
+        },
+        "trigger_details": {
+          "confirmed": 31,
+          "body_direction_failed_only": 29,
+          "both_reclaim_and_body_failed": 65
+        },
+        "confirmed_signal_events": 31,
+        "confirmed_unique_zones": 30,
+        "zones_without_confirmation": 228,
+        "cost_rejected_events": 18,
+        "filled_events": 13,
+        "cost_rejected_sl_pips": {
+          "count": 18,
+          "median": 6.95,
+          "minimum": 4.0,
+          "maximum": 10.3
+        },
+        "cost_required_sl_pips": {
+          "median": 9.8,
+          "minimum": 8.2,
+          "maximum": 11.4
+        },
+        "saved_B0_counter_parity": true,
+        "new_strategy_backtests": 0,
+        "pnl_computed": false
+      },
+      {
+        "year": 2023,
+        "valid_zones": 259,
+        "exclusive_zone_stages": {
+          "no_admitted_bias_breakout": 115,
+          "bias_breakout_reached_no_admitted_touch": 54,
+          "touch_reached_no_confirmation": 58,
+          "confirmation_reached": 32
+        },
+        "no_setup_subtypes": {
+          "no_geometric_breakout": 17,
+          "opposite_bias_only": 30,
+          "mixed_neutral_and_opposite_bias": 35,
+          "neutral_or_unavailable_bias_only": 33
+        },
+        "setup_fates": {
+          "bias_breakouts": 283,
+          "setup_expired": 61,
+          "setup_cutoff_cancelled": 83,
+          "first_touch_not_confirmed": 100,
+          "first_touches": 136,
+          "pre_cost_confirmed_signals": 36,
+          "setup_bias_cancelled": 3
+        },
+        "trigger_details": {
+          "body_direction_failed_only": 31,
+          "both_reclaim_and_body_failed": 69,
+          "confirmed": 36
+        },
+        "confirmed_signal_events": 36,
+        "confirmed_unique_zones": 32,
+        "zones_without_confirmation": 227,
+        "cost_rejected_events": 25,
+        "filled_events": 11,
+        "cost_rejected_sl_pips": {
+          "count": 25,
+          "median": 5.4,
+          "minimum": 2.6,
+          "maximum": 8.5
+        },
+        "cost_required_sl_pips": {
+          "median": 8.2,
+          "minimum": 7.3,
+          "maximum": 10.7
+        },
+        "saved_B0_counter_parity": true,
+        "new_strategy_backtests": 0,
+        "pnl_computed": false
+      }
+    ],
+    "combined": {
+      "exclusive_zone_stages": {
+        "confirmation_reached": 62,
+        "no_admitted_bias_breakout": 238,
+        "touch_reached_no_confirmation": 113,
+        "bias_breakout_reached_no_admitted_touch": 104
+      },
+      "no_setup_subtypes": {
+        "opposite_bias_only": 61,
+        "mixed_neutral_and_opposite_bias": 71,
+        "neutral_or_unavailable_bias_only": 69,
+        "no_geometric_breakout": 37
+      },
+      "setup_fates": {
+        "bias_breakouts": 544,
+        "pre_cost_confirmed_signals": 67,
+        "first_touches": 261,
+        "first_touch_not_confirmed": 194,
+        "setup_cutoff_cancelled": 151,
+        "setup_expired": 129,
+        "setup_bias_cancelled": 3
+      },
+      "trigger_details": {
+        "confirmed": 67,
+        "body_direction_failed_only": 60,
+        "both_reclaim_and_body_failed": 134
+      },
+      "valid_zones": 517,
+      "confirmed_signal_events": 67,
+      "confirmed_unique_zones": 62,
+      "zones_without_confirmation": 455,
+      "rejected_events": 43,
+      "filled_events": 24,
+      "rejected_sl_median_pips": 6.0,
+      "required_sl_median_pips": 9.0,
+      "required_sl_range_pips": [
+        7.3,
+        11.4
+      ]
+    },
+    "input_sha256": {
+      "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\eurusd-b0-20261113\\config-attempt-1.json": "56be9c77e051547c18a1c68b52a2f7b18ebb743ce95877c392442eaa27b61b06",
+      "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\eurusd-b0-20261113\\source-attempt-1\\tooling\\ai-engines\\eurusd_b0.py": "6c7c964cae950ae8f528baef10a57978c658330108b90614d33939b9b8199808",
+      "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\eurusd-b0-20261113\\prepared-v1\\20211101\\bars.json": "0dcbbfa69dcbad3eaa88fe2c72429329557d6fbe4c716bfbd0b029ef87a107da",
+      "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\eurusd-b0-20261113\\prepared-v1\\20220101\\bars.json": "278e980af396a1b4de63d8fbf54fef74c7f20815c4a4e445c4804540e56ba03c",
+      "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\eurusd-b0-20261113\\prepared-v1\\20230101\\bars.json": "0d44d06ca4b0b8903ba15b3606b09262222fc7c9f13962e51257b2dba6fb8f1c",
+      "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\eurusd-b0-20261113\\attempt-1\\2022\\stress-details.json": "f7dda0c373f04bd8884bc917878da3d75bcff0cc4aedc886f7380b71a0db3d51",
+      "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\eurusd-b0-20261113\\attempt-1\\2023\\stress-details.json": "79b1e1ac7c301b3ae561d71aef0c0eb83cf14d31e6659c4d407afa7c62e08ff2"
+    },
+    "frozen_feature_sha256": "6c7c964cae950ae8f528baef10a57978c658330108b90614d33939b9b8199808",
+    "current_feature_sha256": "a95ce591f70fbbf74cd6819d424ae371d840951b59527616ff8676b126d77e05",
+    "source_sha256": {
+      "run_eurusd_funnel_audit.py": "096c48306a092143027bd7d0ea87a1b312d4907bef981b27f902ded544c9c447",
+      "eurusd_funnel_audit.py": "f7f4e584c0227f652720aa70349c997e26a18c0f671d928e4d3bfe8df52d1818"
+    },
+    "diagnostic_years": [
+      2022,
+      2023
+    ],
+    "indicator_warmup_only": "2021-11-01/2021-12-31",
+    "EURUSD_2024_read": false,
+    "price_2025_2026_read": false,
+    "new_strategy_backtests": 0,
+    "pnl_recomputed": false,
+    "financial_rules_changed": false,
+    "new_order_events": 0,
+    "wall_seconds": 0.26600000000325963
+  },
+  "H1_quality": {
+    "schema": "development-H1-bias-quality-sidecar-v1",
+    "years": [
+      2022,
+      2023
+    ],
+    "annual": [
+      {
+        "year": 2022,
+        "raw_breakout_bar_counts": {
+          "neutral_H1_bars": 371
+        },
+        "days_involving_missing_H1": []
+      },
+      {
+        "year": 2023,
+        "raw_breakout_bar_counts": {
+          "neutral_H1_bars": 313
+        },
+        "days_involving_missing_H1": []
+      }
+    ],
+    "EURUSD2024_read": false,
+    "pnl_computed": false
+  },
+  "Gold_timestamp_quality": {
+    "schema": "XAUUSD-M1-intraday-quality-2022-2024-v1",
+    "annual": [
+      {
+        "year": 2022,
+        "weekday_windows": 260,
+        "expected_clock_minutes": 218400,
+        "observed_minutes": 215601,
+        "days_with_missing_run_gt15": 10,
+        "empty_weekday_windows": 2,
+        "nonempty_days_with_missing_run_gt15": 8,
+        "days_with_interior_missing_run_gt15": 0,
+        "days_with_boundary_missing_run_gt15": 8,
+        "total_runs_gt15": 10,
+        "days_with_interbar_gap_gt15": 0,
+        "worst_missing_run_minutes": 840,
+        "weekday_clock_coverage_pct": 98.7184065934066
+      },
+      {
+        "year": 2023,
+        "weekday_windows": 260,
+        "expected_clock_minutes": 218400,
+        "observed_minutes": 214607,
+        "days_with_missing_run_gt15": 11,
+        "empty_weekday_windows": 3,
+        "nonempty_days_with_missing_run_gt15": 8,
+        "days_with_interior_missing_run_gt15": 0,
+        "days_with_boundary_missing_run_gt15": 8,
+        "total_runs_gt15": 11,
+        "days_with_interbar_gap_gt15": 0,
+        "worst_missing_run_minutes": 840,
+        "weekday_clock_coverage_pct": 98.26327838827838
+      },
+      {
+        "year": 2024,
+        "weekday_windows": 262,
+        "expected_clock_minutes": 220080,
+        "observed_minutes": 216465,
+        "days_with_missing_run_gt15": 12,
+        "empty_weekday_windows": 3,
+        "nonempty_days_with_missing_run_gt15": 9,
+        "days_with_interior_missing_run_gt15": 0,
+        "days_with_boundary_missing_run_gt15": 9,
+        "total_runs_gt15": 12,
+        "days_with_interbar_gap_gt15": 0,
+        "worst_missing_run_minutes": 840,
+        "weekday_clock_coverage_pct": 98.35741548527808
+      }
+    ],
+    "window": "07:00-inclusive/21:00-exclusive UTC; weekdays including unverified holidays",
+    "gap_definition": "strictly more than15 consecutive absent M1 opens; separately report >15min observed interbar spacing",
+    "source": {
+      "raw_sha256": "d209df9a5ce871f1992eb312595ebef2c19a884c1fe0a1be6bfb76d86cf471b9",
+      "timestamp_manifest_sha256": "5a5a23cbe71d63164da20b81496103278de16d11087bbbe1062183b8b05b2cd7",
+      "timestamp_file_sha256": "23c3b4084b385679657ab6cbb1f85ace7bdafe53c8983568580d28ef143e17b9",
+      "source_cache": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gold-continuous-B2-20261113-v1\\source-cache",
+      "raw_path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\metal-discovery9-preparation\\export\\XAUUSD_TW-M1-No Session.csv",
+      "side": "Bid",
+      "selected_timestamp_rows": 1063493
+    },
+    "code_sha256": "f98d1abb2c6e142d13c1d78ef4c9b0207a2a1c1b5f0ee1cdac20cadda2f8c9a5",
+    "price_columns_opened": false,
+    "price_2025_2026_read": false,
+    "provider_outage_or_trading_session_coverage_certified": false,
+    "calendar_verified": false,
+    "Ask_or_tick_execution_admitted": false,
+    "signals_counted": false,
+    "new_strategy_backtests": 0,
+    "wall_seconds": 2.60999999998603
+  },
+  "Gold_CSV_timestamp_verification": {
+    "schema": "gold-intraday-timestamp-CSV-parity-v1",
+    "matched_timestamp_rows": 1063493,
+    "window": "2022-01-01/2025-01-01-exclusive",
+    "all_selected_timestamps_equal_raw_CSV": true,
+    "OHLC_fields_decoded": false,
+    "prices_2025_2026_opened": false,
+    "independent_feed": false
+  },
+  "verification": {
+    "schema": "funnel-development-read-only-verification-v1",
+    "status": "passed_scoped_self_review",
+    "zone_denominator_parity": true,
+    "saved_setup_counter_parity": true,
+    "checked_rejected_thresholds_exact_rational": 43,
+    "Gold_timestamp_rows_equal_CSV": 1063493,
+    "independent_feed_or_reviewer": false,
+    "EURUSD_2024_used": false,
+    "prices_2025_2026_opened": false
+  },
+  "decision": {
+    "B0_status": [
+      "CADENCE_OR_SAMPLE_SHORTFALL",
+      "DATA_PATH_INCOMPLETE"
+    ],
+    "B0_owner_approved_parked": true,
+    "prop_status": "PROP_UNMEASURED",
+    "B1_dispatch": "NO_GO_EVIDENCE_INSUFFICIENT",
+    "B1_retirement": "recommended_not_consumed",
+    "unused_B1_budget_transferred": false,
+    "EURUSD_all_intraday_edge_impossible": false,
+    "Gold_A0": "PROPOSAL_PENDING_OWNER_APPROVAL"
+  },
+  "fixed_trace_body_only_change": {
+    "additional_trigger_events": 60,
+    "existing_fills": 24,
+    "optimistic_fixed_trace_fills": 84,
+    "per_year_frozen_trace": [
+      42,
+      42
+    ],
+    "counterfactual_executable_B1_bound": false,
+    "expected_gross_or_PnL_measured": false
+  },
+  "merge": {
+    "pr": 71,
+    "merge_commit": "7d29ce4",
+    "old_branch_deleted": "codex/eurusd-b0-study"
+  },
+  "source_quality_interpretation": {
+    "raw_bytes_hashed": true,
+    "Gold_OHLC_price_fields_decoded": false,
+    "calendar_gaps_not_certified_feed_outages": true
+  },
+  "artifact_hashes": {
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\eurusd-b0-funnel-audit-20261113\\attempt-1\\result.json": "ec75c44a749f259c0f21b5c83f8e29a521536a17dd4ca6114062f19906422277",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\eurusd-b0-funnel-audit-20261113\\attempt-1\\verification.json": "ca345d691519df25d46ef2a9dc60f8d18aa68af7993392ce0dd3827dc16270db",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\eurusd-b0-funnel-audit-20261113\\attempt-1\\bias-neutral-vs-missing.json": "8d66b985e59488b17011e5a68c357a49ffb53b8a9a68699b7d0b9afa15ea85b1",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\xauusd-intraday-readiness-20261113\\attempt-1\\result.json": "113594af0a48bfcd56ae7bb1e38db06596dc91806c08ee2f5fb0024e2ce44837",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\xauusd-intraday-readiness-20261113\\attempt-1\\quality-by-day.json": "a99bbd70125705b0c6e179db2aed500b09aba6083ced96fc926574a6d055d64e",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\xauusd-intraday-readiness-20261113\\attempt-1\\csv-timestamp-parity.json": "ad85b95192e7982b99e97576c9dabb246577dfa356b1699b508aa80a3c5909d0"
+  }
+}
