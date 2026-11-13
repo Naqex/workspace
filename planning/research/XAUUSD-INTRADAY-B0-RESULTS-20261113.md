@@ -1,5 +1,12 @@
 # XAUUSD Intraday B0/A0 — kết quả cố định 2022–2024
 
+**Chẩn đoán tiếp trên Development 2022–2023:** [Scale & Horizon Audit](XAUUSD-SCALE-HORIZON-AUDIT-RESULTS-20261113.md)
+giữ hai nhãn `ECONOMIC_FAIL` + `CADENCE_OR_SAMPLE_SHORTFALL`. Ghi nhận bất tương
+thích quy mô: SL M15 tự nhiên trung vị khoảng 2 USD/oz, sàn phí stress liên tục
+xấp xỉ 5,93 USD/oz, fills được chọn có SL khoảng 7 USD/oz nhưng hạn giữ 2 giờ.
+Không coi 7,5 USD là một sàn chung hoặc nến lớn là bằng chứng đã hết đà.
+Giữ nguyên các bảng B0 dưới đây; chưa thử B1, không dùng 2024 để thiết kế tiếp.
+
 **Không đưa B0 vào challenge.** Đã chạy đúng một phiên bản: 37 lệnh Development 2022–2023 lỗ 269,80 USD dưới phí stress; 30 lệnh Historical Validation 2024 lỗ 451,15 USD. Tổng cộng 67 lệnh: stress −720,95 USD (−4,8063R0), chuẩn −232,95 USD. Mỗi sổ năm bắt đầu lại với 50.000 USD; chưa mô phỏng một tài khoản chạy liên tục hoặc đầy đủ quy trình quỹ.
 
 Trạng thái: `ECONOMIC_FAIL` + `CADENCE_OR_SAMPLE_SHORTFALL`; kiểm định quỹ vẫn là `PROP_UNMEASURED`. Kết quả chỉ áp dụng cho bản B0 này. EURUSD B1 đã hủy theo quyết định của chủ project, không chuyển lượt thử sang Gold. PR #72 đã merge tại `7ee9ace`, nhánh cũ đã xóa. Không đọc giá 2025–2026.

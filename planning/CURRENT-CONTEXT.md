@@ -16,7 +16,23 @@ dừng tối ưu challenge, giữ làm regression khi có correctness/sourcecomp
 [B2report](research/GOLD-CONTINUOUS-B2-20261113.md) giữ720conditionalpaths,
 36tests/7parity,120stresscached30,81s;0nhóm hoàn tất2vòng trong24tháng.
 
-**Checkpoint mới — XAUUSD Intraday B0/A0 đã chạy, không đủ challenge:**
+**Checkpoint mới — Scale & Horizon Audit, chỉ Development 2022–2023:**
+PR73 đã merge `f1fa995`, nhánh cũ đã xóa local/remote.
+[Báo cáo](research/XAUUSD-SCALE-HORIZON-AUDIT-RESULTS-20261113.md) /
+[JSON](research/XAUUSD-SCALE-HORIZON-AUDIT-RESULTS-20261113.json):
+ma sát median0,3486USD/oz chuẩn,0,7486stress; slip chiếm53,43% median.
+772/813tínhiệu loại phí; SLrawmedian1,958USD/oz, sàn liên tục≈5,935,
+fillsmedian7,02. Giữ cùng37fills tới18UTC vẫn stress−211,86USD;
+14fills SL6,5–8 tới18UTC:1TP/6SL/7right-censored. Median toàncohort chưa xác định.
+Rawmarkout18UTC meanstress+0,365USD/oz, dayclusterCI[−0,845;+1,731], chưa edge;
+không bác mọi tínhiệu M15. **Khuyến nghị No-Go/hủy B1**, owner chưa xác nhận
+hủy, không dispatch. B0 vẫn ECONOMIC_FAIL + CADENCE_OR_SAMPLE_SHORTFALL,
+PROP_UNMEASURED. 10fixtures/2sourceguards/153passage/2.401markoutchecks đạt;
+23.829.464ticks chỉ2022–23, không2024design/2025–26giá/ASTRA/broker.
+Privatejob `execution-v1/xauusd-scale-horizon-audit-20261113/attempt-1` completed;
+branch `codex/xauusd-scale-horizon-audit`, Traderpin/VIWIP giữ nguyên.
+
+**Bằng chứng kế thừa — XAUUSD Intraday B0/A0:**
 PR72 đã merge `7ee9ace`; nhánh `codex/intraday-funnel-audit` đã xóa.
 Owner hủy EURUSD B1, không chuyển quota. [Kết quả XAU B0](research/XAUUSD-INTRADAY-B0-RESULTS-20261113.md)
 / [JSON](research/XAUUSD-INTRADAY-B0-RESULTS-20261113.json): chỉ A0, Development2022–23
@@ -27,7 +43,7 @@ PROP_UNMEASURED, strictfunded còn calendar/targetspecblocked. Không A1/B1.
 giữ originalcache/failedviews/snapshot.11fixtures +134scenario-trade bridges,
 2.035.213floatingmarks self-audit đạt; không independentagentreview.
 Privateattempt `execution-v1/xauusd-intraday-b0-20261113/attempt-1` completedconditional;
-registration và source-snapshot-v2 đóng băng. Branch `codex/xauusd-intraday-b0`;
+registration và source-snapshot-v2 đóng băng. Branch cũ đã merge/xóa ở PR73;
 Traderpin/runtime và VIWIP giữ nguyên;2025–26giáclosed, không ASTRA/broker.
 
 **Bằng chứng kế thừa — audit Development EURUSD:** PR71 đã merge
@@ -66,7 +82,7 @@ Trần4alpha versions mới toànchiếndịch;B0+tốiđa1diag,A0+tốiđa1diag
 khôngreset priortrialhistory hoặcdispatchA tựđộng. Dev2022–23 vàhistoricalvalidation2024
 đều previouslyexposed.2025–26 **CLOSED**, chưa chứng nhậnglobalcleanOOS; khôngđọcgiá.
 ExactEURCatalogue13 gác,khôngportfolio. US500overlaypaused; chưapayout/candidatechallenge.
-Một branch `codex/xauusd-intraday-b0` theo protectedmain; không gửiASTRA,
+Một branch `codex/xauusd-scale-horizon-audit` theo protectedmain; không gửiASTRA,
 broker/ordercalls hoặcđổiTraderpin/runtime. Publichistory2022–24 đã cache theo grantA0.
 VIWIP vàotherownedworktrees giữ nguyên. Không Goal/skill mới hoặcglobalconfig.
 [Hồ sơ Bước1–2](research/STRATEGY-STATUS-AND-CANDIDATE-DOSSIERS-20261112.md)

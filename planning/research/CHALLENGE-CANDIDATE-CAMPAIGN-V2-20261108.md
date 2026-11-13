@@ -8,7 +8,20 @@ App Goal được kiểm trong lượt audit: `null`; task này không tự bậ
 
 ## Mục tiêu và phạm vi đã xác nhận
 
-**Checkpoint hiện tại — XAUUSD Intraday B0/A0 đã chạy:**
+**Checkpoint hiện tại — Scale & Horizon Diagnostic hoàn tất:**
+PR73 merged`f1fa995`, nhánh cũ xóa; chỉ Development2022–23.
+[Báo cáo](XAUUSD-SCALE-HORIZON-AUDIT-RESULTS-20261113.md) /
+[JSON](XAUUSD-SCALE-HORIZON-AUDIT-RESULTS-20261113.json) giữ cohort/protocol/
+censoring/cost/markout và self-audit. SLrawmedian1,958; sàn phí liên tục≈5,935;
+fills7,02USD/oz. Cùng37fills kéo18UTC vẫn−211,86USD stress; cadence không đổi.
+14fillsSL6,5–8:1TP/6SL/7chưa chạm tại18UTC, median toàncohort chưa xác định.
+Raw18UTCstress+0,365USD/oz nhưngCIqua0; không bác hết tín hiệu M15.
+Khuyến nghị No-Go/hủy quyền B1 trong chiến dịch; chưa ownercancellation,
+không chạy B1 hoặc dùng2024design/2025–26giá. B0 giữ2nhãn economic/cadence.
+10fixtures/2guards/153passage/2.401markoutchecks đạt. Branch
+`codex/xauusd-scale-horizon-audit`; không broker/ASTRA/Traderpin/runtimechange.
+
+**Bằng chứng kế thừa — XAUUSD Intraday B0/A0:**
 PR72 merged `7ee9ace`, nhánh cũ đã xóa; EURUSD B1 CANCELLED_BY_OWNER.
 [Kết quả A0](XAUUSD-INTRADAY-B0-RESULTS-20261113.md) và
 [JSON](XAUUSD-INTRADAY-B0-RESULTS-20261113.json) giữ đủ4bảng + nguồn/review/timer.
@@ -17,7 +30,7 @@ có30fills,−451,15USD. ECONOMIC_FAIL + CADENCE_OR_SAMPLE_SHORTFALL;
 strictfundedcalendar/targetspecblocked, PROP_UNMEASURED. Gác đúngA0,
 khôngA1/B1/sizing sweep. Protocol/snapshot/sourcecorrections đóng băng trướcoutcomes;
 11fixtures,134scenario-trade bridges/2.035.213floatingmarks self-audit đạt.
-Không2025–26giá hoặc broker. Một branch `codex/xauusd-intraday-b0`.
+Không2025–26giá hoặc broker. Branch B0 đã merge/xóa ở PR73.
 
 **Bằng chứng kế thừa — EURUSD funnel audit:**
 PR71 đã merge `7d29ce4`, nhánh cũ đã xóa. Owner gác EURUSD B0 với hai nhãn
