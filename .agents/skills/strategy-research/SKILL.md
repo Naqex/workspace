@@ -28,6 +28,9 @@ thì dùng dossier được giao; không bịa command hoặc bắt owner kể l
   mục tiêu/cadence-thu mẫu, causal rules, data, execution/cost/prop, risk và
   effort. Reuse counters hoặc count-only nhỏ khi thiếu; gác vì không hợp mục
   tiêu khác bác edge. Baseline risk không là trần bất biến; sizing cần review riêng.
+- Cơ chế tín hiệu mới phải qua [Stage-0 raw markout/scale](../strategy-qualification/references/validation-gates.md#stage-0-unconditional-markout--scale-screen)
+  trên Development trước khi code SL/TP/sizing/filter phụ; giữ tiêu chí và
+  budget đã khóa, không chọn lại cohort/horizon để cứu kết quả.
 - Tách official/paper/community/inference. Kiểm nguồn hiện hành trước quyết
   định nhạy thời gian; không xếp phổ biến/hiệu quả bằng upvote hoặc quảng cáo.
 

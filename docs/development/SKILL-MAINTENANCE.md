@@ -7,6 +7,17 @@ daemon/scheduler hay hứa background tự chỉnh khi không có agent làm vi�
 
 ## Trigger và hành động
 
+13/11 — owner đóng chiến dịch sau PR74, yêu cầu Stage-0 trước SL/TP/sizing.
+Thêm policy tại `strategy-qualification/references/validation-gates.md`, route
+một lần từ `strategy-research`; không tạo skill/script mới hoặc runtime gate.
+Tự walkthrough với số giả định: mean net từng năm vượt friction, tỷ lệ scale10%
+và reject20% → chỉ qua Stage-0; một năm âm, net nhỏ hơn friction, scale38%
+hoặc reject51% → dừng; thiếu quote/cost → blocked. Không chọn lại horizon/cohort
+để pass, không coi policy là chứng minh exhaustion/edge. Đây là semantic review,
+không model forward-test hoặc backtest mới. Cả hai quick validators đạt.
+Instruction kernel không đổi: global12.279B,project10.298/65.536B,
+reserve55.238B,combined22.577B; reference chỉ tải khi cần.
+
 13/11 — sau B2, owner yêu cầu design-from-constraints. Reuse
 `strategy-qualification/references/validation-gates.md`: thêm owner-scoped
 Prop Target Envelope và `PROP_TIMEFIT_REJECTED`; `risk-and-prop.md` chỉ link,

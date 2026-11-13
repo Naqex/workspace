@@ -6,6 +6,19 @@ Native Paperclip vẫn sở hữu task/run khi được dùng; protocol/artifact
 study sở hữu số liệu. Không tạo dashboard, ledger hoặc Goal song song.
 App Goal được kiểm trong lượt audit: `null`; task này không tự bật Goal.
 
+## Chốt sổ theo owner — 13/11/2026
+
+**CLOSED_BY_OWNER_NO_CANDIDATE.** Owner phê duyệt PR74 (`11ed522`), đã merge
+vào main tại `f0aadae`, xóa nhánh audit. XAUUSD B1 `CANCELLED_BY_OWNER`, hủy
+lượt còn lại; EURUSD B1 đã hủy trước đó. Không chuyển quota hoặc tự mở lại.
+Audit và các thử nghiệm đã kết thúc; C1/C2/challenge/payout chưa đạt.
+Giữ nguyên raw data, frozen runs, lỗi và kết quả âm. Các chặng T0–T9/Q1–Q12
+bên dưới là lịch sử/backlog tham khảo, không phải lệnh tiếp tục thực thi.
+
+Nghiên cứu mới dùng [Stage-0 raw markout/scale](../../.agents/skills/strategy-qualification/references/validation-gates.md#stage-0-unconditional-markout--scale-screen)
+trước khi đầu tư vào SL/TP/sizing/filter. Chính sách mới không sửa lại verdict
+của sealed runs, không tự cấp quyền holdout hoặc broker. AppGoal khi chốt=null.
+
 ## Mục tiêu và phạm vi đã xác nhận
 
 **Checkpoint hiện tại — Scale & Horizon Diagnostic hoàn tất:**
@@ -16,10 +29,9 @@ censoring/cost/markout và self-audit. SLrawmedian1,958; sàn phí liên tục�
 fills7,02USD/oz. Cùng37fills kéo18UTC vẫn−211,86USD stress; cadence không đổi.
 14fillsSL6,5–8:1TP/6SL/7chưa chạm tại18UTC, median toàncohort chưa xác định.
 Raw18UTCstress+0,365USD/oz nhưngCIqua0; không bác hết tín hiệu M15.
-Khuyến nghị No-Go/hủy quyền B1 trong chiến dịch; chưa ownercancellation,
-không chạy B1 hoặc dùng2024design/2025–26giá. B0 giữ2nhãn economic/cadence.
-10fixtures/2guards/153passage/2.401markoutchecks đạt. Branch
-`codex/xauusd-scale-horizon-audit`; không broker/ASTRA/Traderpin/runtimechange.
+Owner đã chốt No-Go và hủy quyền B1; không chạy B1 hoặc dùng2024design/2025–26giá.
+B0 giữ2nhãn economic/cadence.10fixtures/2guards/153passage/2.401markoutchecks đạt.
+Nhánh audit đã merge/xóa ở PR74; không broker/ASTRA/Traderpin/runtimechange.
 
 **Bằng chứng kế thừa — XAUUSD Intraday B0/A0:**
 PR72 merged `7ee9ace`, nhánh cũ đã xóa; EURUSD B1 CANCELLED_BY_OWNER.

@@ -4128,9 +4128,10 @@
       "CADENCE_OR_SAMPLE_SHORTFALL"
     ],
     "root_cause_note": "Observed scale-horizon mismatch: natural M15 stop median1.958USD/oz; continuous stress cost floor approx5.935USD/oz; accepted fills median7.02USD/oz; maxholding2h. Does not prove exhaustion or sole loss cause.",
-    "B1": "RECOMMEND_NO_GO_NOT_RUN_OWNER_CANCELLATION_NOT_YET_RECORDED",
+    "B1": "CANCELLED_BY_OWNER",
     "directional_edge": "INCONCLUSIVE_AT_1800_NOT_PROVEN_ABSENT",
-    "reason": "Extending unchanged protected fills to1800 remains negative in both development years and does not repair cadence; raw1800 markout is weak positive but CI crosses zero and years differ."
+    "reason": "Extending unchanged protected fills to1800 remains negative in both development years and does not repair cadence; raw1800 markout is weak positive but CI crosses zero and years differ.",
+    "B1_previous_recommendation": "RECOMMEND_NO_GO_NOT_RUN_OWNER_CANCELLATION_NOT_YET_RECORDED"
   },
   "evidence": {
     "study_root": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\xauusd-scale-horizon-audit-20261113",
@@ -4176,5 +4177,16 @@
       "tooling/ai-engines/xau_scale_horizon_audit.py": "0e2e7b263fde50b7cee76a8ffce4deea84f2f9a8b008c0bf35dd7ed11b21e4e2",
       "tooling/ai-engines/tests/test_xau_scale_horizon_audit.py": "53e7bd262cd37df835fe200971b57e5ff98ef981af5bc1e2919d106eb0ddd184"
     }
+  },
+  "owner_closure": {
+    "date": "2026-11-13",
+    "campaign_status": "CLOSED_BY_OWNER_NO_CANDIDATE",
+    "XAUUSD_B1": "CANCELLED_BY_OWNER",
+    "unused_trial_cancelled": true,
+    "quota_transferred": false,
+    "PR74_merge": "f0aadae",
+    "new_backtests_run": false,
+    "challenge_candidate_found": false,
+    "original_numerical_results_preserved": true
   }
 }

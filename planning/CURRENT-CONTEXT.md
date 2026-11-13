@@ -1,13 +1,17 @@
 # Current context — Naqex Workspace
 
-13/11/2026 · `WORK: ACTIVE/PARTIAL · REVIEW: SCOPED · DOC: RESUMABLE`.
+13/11/2026 · `RESEARCH: CLOSED_BY_OWNER · REVIEW: SCOPED · DOC: REFERENCE`.
 
 ## Việc hiện tại
 
-**Một task chính:** [STRATEGY-E2E: chiến lược tới challenge/payout](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).
-Owner yêu cầu rà hệ thống/workflow và gom mọi bước, kể cả việc xét sau, vào
-một task. Audit/plan không là strategy accepted. C1/C2 chưa đạt; chưa có
-ứng viên challenge. AppGoal vừa kiểm=null; không tự bật lại.
+**Chiến dịch đã đóng theo owner:** [STRATEGY-E2E](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).
+Owner chốt No-Go XAUUSD B1, hủy lượt chưa dùng; EURUSD B1 cũng đã hủy.
+PR74 đã merge `f0aadae`, nhánh cũ đã xóa. Không mở biến thể, batch, holdout
+hoặc goal mới. C1/C2 chưa đạt, chưa có ứng viên challenge; đóng chiến dịch
+khác đạt mục tiêu lợi nhuận. AppGoal kiểm khi chốt sổ=null.
+[Stage-0](../.agents/skills/strategy-qualification/references/validation-gates.md#stage-0-unconditional-markout--scale-screen)
+là chính sách mới cho nghiên cứu sau này; không chạy hồi tố hoặc tự mở lại.
+Các checkpoint và backlog bên dưới giữ làm bằng chứng lịch sử.
 
 **PR69 đã merge, chuyển sang thiết kế từ ràng buộc:** mergeSHA`920b48a`,
 nhánh`codex/gold-eurusd-portfolio` đã xóa local/remote. [R043fixture](research/GOLD-R043-REGRESSION-FIXTURE-20261113.json)
@@ -25,12 +29,12 @@ ma sát median0,3486USD/oz chuẩn,0,7486stress; slip chiếm53,43% median.
 fillsmedian7,02. Giữ cùng37fills tới18UTC vẫn stress−211,86USD;
 14fills SL6,5–8 tới18UTC:1TP/6SL/7right-censored. Median toàncohort chưa xác định.
 Rawmarkout18UTC meanstress+0,365USD/oz, dayclusterCI[−0,845;+1,731], chưa edge;
-không bác mọi tínhiệu M15. **Khuyến nghị No-Go/hủy B1**, owner chưa xác nhận
-hủy, không dispatch. B0 vẫn ECONOMIC_FAIL + CADENCE_OR_SAMPLE_SHORTFALL,
+không bác mọi tínhiệu M15. **Owner đã chốt No-Go/hủy B1**, không dispatch.
+B0 vẫn ECONOMIC_FAIL + CADENCE_OR_SAMPLE_SHORTFALL,
 PROP_UNMEASURED. 10fixtures/2sourceguards/153passage/2.401markoutchecks đạt;
 23.829.464ticks chỉ2022–23, không2024design/2025–26giá/ASTRA/broker.
 Privatejob `execution-v1/xauusd-scale-horizon-audit-20261113/attempt-1` completed;
-branch `codex/xauusd-scale-horizon-audit`, Traderpin/VIWIP giữ nguyên.
+branch audit đã merge/xóa ở PR74; Traderpin/VIWIP giữ nguyên.
 
 **Bằng chứng kế thừa — XAUUSD Intraday B0/A0:**
 PR72 đã merge `7ee9ace`; nhánh `codex/intraday-funnel-audit` đã xóa.
@@ -82,7 +86,7 @@ Trần4alpha versions mới toànchiếndịch;B0+tốiđa1diag,A0+tốiđa1diag
 khôngreset priortrialhistory hoặcdispatchA tựđộng. Dev2022–23 vàhistoricalvalidation2024
 đều previouslyexposed.2025–26 **CLOSED**, chưa chứng nhậnglobalcleanOOS; khôngđọcgiá.
 ExactEURCatalogue13 gác,khôngportfolio. US500overlaypaused; chưapayout/candidatechallenge.
-Một branch `codex/xauusd-scale-horizon-audit` theo protectedmain; không gửiASTRA,
+Không còn branch audit cần giữ sau khi merge; không gửiASTRA,
 broker/ordercalls hoặcđổiTraderpin/runtime. Publichistory2022–24 đã cache theo grantA0.
 VIWIP vàotherownedworktrees giữ nguyên. Không Goal/skill mới hoặcglobalconfig.
 [Hồ sơ Bước1–2](research/STRATEGY-STATUS-AND-CANDIDATE-DOSSIERS-20261112.md)
