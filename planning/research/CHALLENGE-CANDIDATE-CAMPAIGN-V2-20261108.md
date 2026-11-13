@@ -8,7 +8,13 @@ App Goal được kiểm trong lượt audit: `null`; task này không tự bậ
 
 ## Mục tiêu và phạm vi đã xác nhận
 
-**Checkpoint B1 / chỉ thị mới nhất:** [kết quả](GOLD-CONTINUOUS-B1-RESULTS-20261113.md)
+**Checkpoint hiện tại B2:** [đã hoàn tất ledger/rolling](GOLD-CONTINUOUS-B2-20261113.md),
+720conditionalpaths/36fixtures/7centparity.0two-step trong24tháng mọi nhóm;
+BUYOnly là1registereddiagnostic, chưacandidate. ExactEURCatalogue13 gác theoowner,
+khôngportfolio. PR69 chờownerreview trướcmerge; không gửiASTRA/2025–26/newalpha.
+Resetcashclock đãsửa trongresearchadapter, khônggenericTrader/productruntime.
+
+**Checkpoint lịch sử B1 / chỉ thị mới nhất:** [kết quả](GOLD-CONTINUOUS-B1-RESULTS-20261113.md)
 hoàn tất19fixtures và fixedQ1/2010 hai budgets125/200USD. Nativequality còn
 blocked_by_data; chưa challengequalified. [v1.1](GOLD-CONTINUOUS-B1-AMENDMENT-V1P1-20261113.md)
 thay warmup100H4 bằng canonicalfullNov2009seed và sửa rewardeligibility.

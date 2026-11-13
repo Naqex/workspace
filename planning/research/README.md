@@ -2,7 +2,14 @@
 
 **Task đang thực hiện:** [STRATEGY-E2E — chiến lược tới challenge/payout](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).
 Task này giữ audit, chặng T0–T9 và các việc xét sau Q1–Q12. Ưu tiên hiện tại:
-**B1 đã xong và dừng theo owner:** [19fixtures + Gold Q1/2010 tại125/200USD](GOLD-CONTINUOUS-B1-RESULTS-20261113.md),
+**B2 đã xong:** [reset/ledger/rolling720paths](GOLD-CONTINUOUS-B2-20261113.md),
+[JSONsummary/hashes](GOLD-CONTINUOUS-B2-RESULTS-20261113.json).36fixtures/7paritycases;
+120Original/stress đo30,81s từcache,720paths178,58s. Không nhóm nào hoàn tất2vòng
+trong24tháng; stressrisk200Original1/60/median7,22năm,BUYOnly3/60/14,53năm.
+Chưachallengequalified/OOS/targetcost/payout. Gác exactEURCatalogue13,khôngportfolio;
+PR69 mở đểownerreview trướcmerge,khônggửiASTRA hoặcdispatchstrategy mới.
+
+**Checkpoint lịch sử B1:** [19fixtures + Gold Q1/2010 tại125/200USD](GOLD-CONTINUOUS-B1-RESULTS-20261113.md),
 [v1.1amendment](GOLD-CONTINUOUS-B1-AMENDMENT-V1P1-20261113.md). Cảhaiquý âm;
 risk125 khớp frozen9intents/ATR/qty/cash. Gap/stopquality giữunknown;
 nativeapproximate chặnpass và chưa tiếncashclock. Chưalongrolling/funded/portfolio;

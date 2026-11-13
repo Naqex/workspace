@@ -1,0 +1,76 @@
+{
+  "schema": "gold-B2-two-phase-v1",
+  "registered_at_utc": "2026-11-13T08:38:22.217834+00:00",
+  "parent": "f57ade80b0de106032355807232860c3138b09d7",
+  "scope": "2010-01-01 inclusive to2025-01-01 exclusive;seed2009-11-01;no2025-26prices",
+  "risks_usd": [
+    125,
+    200
+  ],
+  "capital_usd": 50000,
+  "starts": "60quarterly2010-2024",
+  "costs": {
+    "spread_usd_per_oz": 1,
+    "commission_per_lot_side": 2.5,
+    "slippage_usd_per_oz_side": 0.2,
+    "swap_debits_per_lot": {
+      "S1_20_20": [
+        20,
+        20
+      ],
+      "S2_40_40": [
+        40,
+        40
+      ],
+      "S3_declared_45_5": [
+        45,
+        5
+      ]
+    },
+    "rollover": "22UTCweekdayWednesdayx3"
+  },
+  "variants": [
+    "Original",
+    "BUY-Only-structural-diagnostic-v1"
+  ],
+  "selection_exposure": "BUY/SELL220annualtrades2010-24alreadyseen;BUYOnlyis1registeredexposeddiagnostic,notOOS",
+  "hypothesis": "Secularpositivegolddriftandshortswapfrictionmaymakebuy-onlydifferent;keepallMA/ATR/SL/exittiming,noadditionalfilter/tuning",
+  "phaseA": "OneadmittedM1parse/canonicalindicatorstream;potentialentryepisodesforeachcausalflatcrosswithbothriskquantities;orderedcash/resetsegmentswithpoint/envelopeextremaandwithinsegmentpeakDD;notglobaltradefilter",
+  "invariance_correction": "Originalglobalholdingchangeswhatcrossmeans(entryvsexit);rollingflatandBUYOnlymustselectepisodescausally,skipconsumedexitcross;fees/minlot/marginmaydifferperrisk",
+  "price_quality": "Cashanchoradvanceswithoutquote;resetNO_FRESH_QUOTE_AT_RESETlatchescoverageunknownnotphaseclockfreeze;freshM1pointscontinuechecks;reportconditionalmodelpassseparatefullpathsafetyunknown",
+  "ledger_sufficiency": "Splitateverycashchange/reset/entry/exit;minfloatingalonecannotpreservedrawdownorfirstbreach;keepmin/max/orderedinternalDD/time/firstlast/gapandstopflags;refinebreachfromrawifneeded",
+  "challenge": "phase1+5000thenflat/pending0/min4Pragueentrydays;new50000cashphase2+2500same4days;0admindelayoptimistic;indicatorcarry,alreadyconsumedintentnotresubmit",
+  "risk_limits": "daily<anchor-2500andstatic<45000breach,equalityallowed;ownerinternaldaily<1250/staticloss<3250reportseparately;peakDDseparate",
+  "horizons_months": [
+    3,
+    6,
+    12,
+    24
+  ],
+  "cost_scenarios_declared_not_target_verified": true,
+  "validation": {
+    "primary": "Q1/2010bothbudgetsagainstsealedB1",
+    "random_seed": 6902,
+    "additional_quarters": [
+      "2013-10-01",
+      "2011-10-01"
+    ],
+    "additional": "directM1Original125/200eachquartercanonicalseed;BUYOnlydirectquarter125;100percentcentparitycash/floating/point/envelopeDDanddecisions"
+  },
+  "survival": "Missingorunorderedminutesneverbecomefullno-breach;conditionalcohortpasscountsnotIIDprobabilities;rightcensorlate2024starts",
+  "funded": "Noactualpayoutseries;existingeligibilityfixturesonly",
+  "budgets": {
+    "prepare_seconds": 900,
+    "phaseA_seconds": 900,
+    "phaseB_seconds": 900,
+    "direct_case_seconds": 900
+  },
+  "authority": {
+    "broker": false,
+    "paid": false,
+    "new_holdout": false,
+    "merge": false,
+    "send_to_astra": false
+  },
+  "stop": "NoiterationtotuneBUYOnlyoutcome;failedparityhaltsrollinguntilaffectedbugfixedandfailurepreserved"
+}

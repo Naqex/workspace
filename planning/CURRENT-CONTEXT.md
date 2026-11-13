@@ -9,30 +9,29 @@ Owner yêu cầu rà hệ thống/workflow và gom mọi bước, kể cả vi�
 một task. Audit/plan không là strategy accepted. C1/C2 chưa đạt; chưa có
 ứng viên challenge. AppGoal vừa kiểm=null; không tự bật lại.
 
-**B1 đã xong, dừng theo owner:** [Gold Q1/2010 bounded prefix](research/GOLD-CONTINUOUS-B1-RESULTS-20261113.md)
-và [amendmentv1.1](research/GOLD-CONTINUOUS-B1-AMENDMENT-V1P1-20261113.md) sửa AR01–03
-sau [đợtA](research/GOLD-EURUSD-PORTFOLIO-STAGE-A-20261113.md). 19fixtures đạt;
-125/200USD: markednet−489,19/−780,42USD,5closed+1open mỗi case. Risk125 khớp
-9intents/ATR/qty và cash−429,90USD sealedparent. 41,554s totalcompute; gaps giữ
-unknown, nativeapproximate chặn pass, chưa nối challenge continuous thực.
-Chỉ thị mới: **không gửi thêm prompt/messageASTRA; hoàn tất rồi dừng**.
-PR69 mở, khôngmerge/longrolling. WriterSol duy nhất; VIWIP/pins/runtime giữ nguyên.
-76.750closed+50openEURcases bindintents/risk/quotesummaries. HaiH4Longgrossâm,
-Shortreferencegrossdương nhưngstressswap làmâm;13bản còn lại grosslot<9USDlot
-comm/slip. Chưa chọnEURcounterpart, chưa correlation/portfoliofinancialcurve.
-GoldM1audit không thêm lỗi số học material trongdeclaredscope;249ngày thiếu
-exactmidnightmark,135stopminutes khôngbiếtextremaordering. LowDD cũ không
-thànhfullpath/accountproof. Nativeobserver50k reuse được; Forexrunner vẫn
-EURUSD/10k, existingmultiassetbarwallet chưatick/margin/prop-ready.
-Draft60quarterstarts2010–24×2risk0,25/0,40%,canonicalseed01/11/2009/toànH4hợp lệ,carryquaJanuary1,
-phaseflat/reset/min-days/firstbreach,3/6/12/24m vàrightcensor; chưa chạy dài.
-Ownercap **daily<2,5%,overallstaticinitialloss<6,5%**, peakDD báo riêng.
-Fundedreward earliestfirsttrade+14×24h/naturalflat/pending0/approval/split/newaccountcontract;
-không“chỉ dương là rút”. Targetcost đầy đủ vẫnunknown, không currentrate→history.
-**US500overlay vẫnpaused; không alpha/SL/exitoptimization hoặc giá2025–26.**
-PR68/M1checkpoint vẫn giữ ởmain`71a186d`; VIWIP/pins/runtime giữ nguyên.
-Nativeapproximate không tiến clock/anchor: B2 cần contractreview;120cases ước
-16–22giờ tuần tự theo prefix, có thể vượt900s/case. Không dùng estimate5–30phút cũ.
+**B2 đã hoàn tất, chờ owner review trước merge:** [Gold ledger/rolling2010–2024](research/GOLD-CONTINUOUS-B2-20261113.md)
+và [số liệu/hashes](research/GOLD-CONTINUOUS-B2-RESULTS-20261113.json). Sửa adapter
+cashreset khi thiếuquote;36fixtures đạt,7directcentparitycases đạt.308potential
+entryepisodes mỗi risk giữ causalflat/exit; không chỉlọcglobaltrades.60quarterstarts
+×2risk125/200×3swapdeclared×Original/BUYOnly=720conditionalpaths đã chạy.
+**0nhóm hoàn tất2vòng trong24tháng.** Stress40/40,risk200:Original1/60,
+BUYOnly3/60 modeltwo-step; median7,22/14,53năm, chỉ1/60 mỗi bản giữinternalbuffer.
+Risk125stress:Original0/BUYOnly0two-step. LongOnly là1exposeddiagnostic, chưaOOS.
+
+PhaseB720paths178,58s;đo riêng120Original/stress30,81s saupreparecache. Coldprepare
+vàbuildước110s từartifacttimestamps; không dùng16–22h forecast cũ nhưbenchmark.
+Oldslowbaseline dừng ở≈440vìentrycostbreach handler, khôngclaim720oldnewparity.
+RawM1/source/failedattempts/coverage giữ nguyên; no2025–26/provider/broker calls.
+Cashanchor/dailyclock luôn tiến; NO_FRESH_QUOTE_AT_RESET khácchứngminhfullsurvival.
+Modelpass không là certifiedFTMO/candidatechallenge. Actualtargetcost và
+fundedwithdrawalcontract còn thiếu; chưapayoutseries hoặcstableincome.
+
+**Owner chốt gác exactEURUSD Catalogue13; không ghép portfolio.** ĐợtA vàB1
+ở[researchindex](research/README.md), [B1report](research/GOLD-CONTINUOUS-B1-RESULTS-20261113.md)
+giữ history/oldhashes. CanonicalseedNov2009 thay100H4;cashanchorvspricequality và
+rewardearliesteligibility đãtách. Internalcapdaily<2,5%/staticloss<6,5%,peakDDriêng.
+US500overlay vẫnpaused. Mộtbranch/PR69, khôngmerge hoặcgửiASTRA; VIWIP/pins/runtime
+giữ nguyên. Chưa tự mởoptimizationgrid/nhánhstrategy mới. C1/C2 vẫnchưađạt.
 [Hồ sơ Bước1–2](research/STRATEGY-STATUS-AND-CANDIDATE-DOSSIERS-20261112.md)
 giữ taxonomy/gap/testdesign; đề xuất US500overlay cũ đã được owner gác.
 

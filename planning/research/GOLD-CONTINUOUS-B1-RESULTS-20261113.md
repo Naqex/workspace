@@ -1,5 +1,8 @@
 # Gold B1 — đối soát Q1/2010, chưa đủ kết luận đi quỹ
 
+**Kế thừa sau B1:** [B2 ledger/rolling](GOLD-CONTINUOUS-B2-20261113.md) đã hoàn tất theo chỉ thị mới.
+Forecast16–22h bên dưới là lịch sử directM1; ledger mới đã có benchmark riêng.
+
 **B1 đã hoàn tất phép thử được giao; chưa có kết luận Gold đủ chuẩn challenge.**
 Đã sửa protocol theo AR01–03, kiểm19 tình huống nhỏ rồi chạy đúng Q1/2010 ở
 risk125/200USD. Không đổi tín hiệu, bỏ Short, mở giá2025–26 hoặc chạy rolling120cases.
