@@ -1,0 +1,71 @@
+{
+  "schema": "eurusd-b0-registration-v1",
+  "registered_at_utc": "2026-11-13T10:49:57.158628+00:00",
+  "candidate": "eurusd-b0-v1",
+  "workspace": "D:\\ANNAM\\TradingWorkspace",
+  "output": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\eurusd-b0-20261113\\attempt-1",
+  "prepared": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\eurusd-b0-20261113\\prepared-v1",
+  "protocol": "planning/research/EURUSD-B0-PROTOCOL-20261113.md",
+  "protocol_sha256": "2fb79fa5f4a0c36d44d8234e32680e08376f42a95d5251341c2ce0f35fd8a6b8",
+  "years": [
+    2022,
+    2023,
+    2024
+  ],
+  "sources": [
+    {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\eurusd-observed-history-v2\\2021\\attempt-1\\export\\EURUSD_TICK_TW-TICK-No Session.csv",
+      "sha256": "bbdcf03baac9974567ac80ed462290fdb9fefc25068b05bf97f81fb04ff3cae5",
+      "first_day": "20211101",
+      "last_day": "20211231",
+      "slice_from_annual": true
+    },
+    {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\eurusd-observed-history-v2\\2022\\attempt-1\\export\\EURUSD_TICK_TW-TICK-No Session.csv",
+      "sha256": "37140d6b6d35b17b0a097241d3ee20e6090858ac0b0774836ed053fb1d911af1",
+      "first_day": "20220101",
+      "last_day": "20221231",
+      "slice_from_annual": false
+    },
+    {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\prop-time-fit-20261106\\execution-v1\\export-2023\\EURUSD_TICK_TW-TICK-No Session.csv",
+      "sha256": "0cc3d1206f83f0bd53fbe5eea512542f58f4172a435bfecc590ecb49906531ce",
+      "first_day": "20230101",
+      "last_day": "20231231",
+      "prepared_metadata": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\prop-survivors-20261106\\execution-v1\\prepared-cache\\ticks-161b04ca6bc4587f9b8aef7eb260823e1e8dd4301a81661f284ff32a9479a068.json"
+    },
+    {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\utc-validation-20261107\\execution-v1\\export-development\\EURUSD_TICK_TW-TICK-No Session.csv",
+      "sha256": "3eafa49a7a1cf7bcf6d567d74115dc01b7f05888db13851f7ee0e36133e51ed0",
+      "first_day": "20240101",
+      "last_day": "20241231",
+      "prepared_metadata": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\utc-validation-20261107\\execution-v1\\prepared-cache\\ticks-b4b2ccd28c36c1f913eff25284854c8168938b5d59281bebaa99475425fb516a.json"
+    }
+  ],
+  "source_pins": {
+    "tooling/ai-engines/eurusd_b0.py": "6c7c964cae950ae8f528baef10a57978c658330108b90614d33939b9b8199808",
+    "tooling/ai-engines/eurusd_b0_source.py": "a7f1f0356b10a47b732c24c347061a0cab6f9b3c1140a4d8d0a745248467bb84",
+    "tooling/ai-engines/run_eurusd_b0.py": "96abcb8aea988a2be5116faf656e2360b7b0c94e9277a573c26e92d02841c345",
+    "tooling/ai-engines/forex_study_batch.py": "4d5371bcf3528d731d5a4a472dcae8f3560c402fc73737cc83c635887c7807e2",
+    "projects/trader/foundation_v2/trading_workspace_v2/research_market.py": "337d35a9f54b3e26146ac835ab3d4e47acd612086e100f2e27d86e6879160186",
+    "projects/trader/foundation_v2/trading_workspace_v2/semantics/data_costs.py": "1ba3ba60a00939ab3baa20ef47a751a0cf0636c99a1ec372e0616498d2612672",
+    "projects/trader/foundation_v2/trading_workspace_v2/semantics/data_contracts.py": "96d385c15fa3b6052fe4a81798694a4d4f168ba01fc8c478b755d5b4ab05ff27",
+    "projects/trader/foundation_v2/trading_workspace_v2/execution_semantics.py": "9e53bfe3b801e61e687177d46c4c0bb1ec3e92bca175f1db187aa95e85b877af"
+  },
+  "deadline_seconds": 1800,
+  "mode": "conditional_economic_diagnostic",
+  "news_checked": false,
+  "target_calendar_verified": false,
+  "strict_status": "BLOCKED_BY_CALENDAR",
+  "risk_usd": 150,
+  "starting_balance_usd": 50000,
+  "alpha_versions_used": [
+    "B0"
+  ],
+  "b1_used": false,
+  "closed_price_years": [
+    2025,
+    2026
+  ],
+  "config_sha256": "56be9c77e051547c18a1c68b52a2f7b18ebb743ce95877c392442eaa27b61b06"
+}
