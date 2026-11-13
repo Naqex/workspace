@@ -66,7 +66,7 @@ def oracle_book(trades,reader,year,cells=('SYM_FLAT','ASYM_ORDER')):
         actions[(at,-1)].append(('reset',None,0));d+=timedelta(days=1)
     start=min(t['entry_msc'] for t in trades);end=max(t['exit_msc'] for t in trades)
     stamps=sorted(key for key in actions if start<=key[0]<=end);ai=0
-    qtyb=qtys=basis=0;last=None
+    qtyb=qtys=basis=0;last=None;open_swaps={c:{} for c in cells}
     state={c:dict(peak=0,dd=0,daily=0,anchor=0,minimum=0) for c in cells}
     def mark():
         floating=qtyb*last[1]-qtys*last[2]-basis if last else 0
@@ -78,19 +78,25 @@ def oracle_book(trades,reader,year,cells=('SYM_FLAT','ASYM_ORDER')):
         nonlocal qtyb,qtys,basis,last
         at=key[0]
         if any(a[0]=='reset' for a in actions[key]):
-            for c in cells:state[c]['anchor']=cash[c]
+            for c in cells:state[c]['anchor']=cash[c]+(qtyb+qtys)*20-sum(open_swaps[c].values())
         if quote is not None:last=quote;mark()
         for kind,i,m in sorted(actions[key],key=lambda a:{'reset':0,'swap':1,'exit':2,'entry':3}[a[0]]):
             if kind=='reset':continue
             t=trades[i];q=t['ounces'];sign=1 if t['side']=='BUY' else -1
             if kind=='entry':
                 qtyb+=q if sign==1 else 0;qtys+=q if sign==-1 else 0;basis+=sign*q*t['entry_price_units']
-                for c in cells:cash[c]-=parts[i][c]['commission'][0]+parts[i][c]['slip'][0]
+                for c in cells:
+                    open_swaps[c][i]=0
+                    cash[c]-=parts[i][c]['commission'][0]+parts[i][c]['slip'][0]
             elif kind=='exit':
                 qtyb-=q if sign==1 else 0;qtys-=q if sign==-1 else 0;basis-=sign*q*t['entry_price_units']
-                for c in cells:cash[c]+=parts[i][c]['gross']-parts[i][c]['commission'][1]-parts[i][c]['slip'][1]
+                for c in cells:
+                    open_swaps[c].pop(i)
+                    cash[c]+=parts[i][c]['gross']-parts[i][c]['commission'][1]-parts[i][c]['slip'][1]
             else:
-                for c in cells:cash[c]+=dict(parts[i][c]['swaps'])[at]
+                for c in cells:
+                    charge=dict(parts[i][c]['swaps'])[at]
+                    cash[c]+=charge;open_swaps[c][i]+=charge
             mark()
     tick_marks=0
     for hour in range(start//HOUR*HOUR,end//HOUR*HOUR+1,HOUR):

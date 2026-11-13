@@ -31,9 +31,17 @@ no signal/cost filter, no parameter search, no resurrection of cancelled B1.
   overlapping signals in separate A/C virtual hedged books, no admission caps,
   no margin enforcement. Report concurrency; this is not a deployable prop book.
 - Synchronized tick equity includes entry fees/slip, floating executable PnL,
-  booked swap and realized exits. R-DD uses peak equity; daily loss uses Prague
+  accrued swap and realized exits. R-DD uses peak equity; daily loss uses Prague
   midnight **balance** minus equity, /fixed50k, DST-aware. Report equity-start
   daily change separately. Never sum independent trade MAEs as account DD.
+  Entry slippage is represented as an equity expense to keep paired geometry
+  fixed. Reconstruct true realized balance at resets by adding back the entry
+  slip of still-open positions; entry slip remains floating until their exit.
+  Swap also accrues on each open position and realizes at exit, rather than
+  pretending every overnight charge is already a balance operation. Reconstruct
+  reset balance by removing the accrued swap of open positions from the equity
+  cash component. This is the ordinary MT5 position-accrual model; broker swap
+  by reopening/balance-operation modes remain outside this declared scenario.
   Reset can occur without a quote: retain balance exactly, flag stale floating
   marks for equity-start comparison. Closed quote gaps remain unknown paths.
   At coincident timestamps: reset from pre-event balance/last observed mark,
@@ -81,3 +89,10 @@ full-slippage cell as the conservative comparator. [30Mar2023 update](https://ft
 states metals closed on Good Friday07Apr2023; [23Nov2023 update](https://ftmo.com/de/blog/trading-updates/trading-update-23-november-2023/)
 reports early metal closure. These are counterexamples to universal Friday
 coverage/compliance; no hindsight calendar/backfill or new exit scenario added.
+
+Accounting source: [MQL5 deal properties](https://www.mql5.com/en/docs/constants/tradingconstants/dealproperties)
+defines DEAL_SWAP as cumulative swap on close; [MT5 reporting](https://www.metatrader5.com/en/terminal/help/trading_advanced/history_report)
+separates balance from open-position results. Attempt1 was cancelled during
+source review, before any new PnL, to correct reset balance for unrealized entry
+slippage and open-position swap. Preserve its failure/snapshot; v2 freezes this
+correction without changing signals, trigger paths, quantities or final net PnL.

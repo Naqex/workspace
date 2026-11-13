@@ -241,7 +241,7 @@ def book(trades,quotes,year):
         actions[(t['exit_msc'],t.get('exit_quote_index',bisect_left(xt,t['exit_msc'])))].append(('exit',i,1))
         for e in funding_events(t['entry_msc'],t['exit_msc']):actions[(e['at'],-1)].append(('swap',i,e['multiplier']))
     for at in reset_times(year):actions[(at,-1)].append(('reset',None,1))
-    active={};qbuy=qsell=0;basis=0.;last_quote=None;max_concurrency=0;max_gross_oz=0
+    active={};accrued={c:{} for c in CELLS};qbuy=qsell=0;basis=0.;last_quote=None;max_concurrency=0;max_gross_oz=0
     stale_resets=0;event_marks=0
     if not trades:return dict(status='EMPTY')
     start=min(t['entry_msc'] for t in trades);end=max(t['exit_msc'] for t in trades)
@@ -252,8 +252,10 @@ def book(trades,quotes,year):
         at=key[0]
         if any(a[0]=='reset' for a in actions[key]):
             if active and (last_quote is None or at-last_quote[0]>60000):stale_resets+=1
-            for s in stats.values():
-                s.anchor=s.cash
+            for cell,s in stats.items():
+                # Entry slip is temporarily represented as an equity expense;
+                # in MT5 it stays in open price PnL until the position closes.
+                s.anchor=s.cash+round_fee((qbuy+qsell)*.20)-sum(accrued[cell].values())
                 s.equity_anchor=s.cash+((qbuy*last_quote[1]-qsell*last_quote[2])/1000-basis if active else 0)
         if quote is not None:
             last_quote=quote
@@ -267,14 +269,19 @@ def book(trades,quotes,year):
                 active[i]=t;basis+=sign*q*t['entry_price_units']/1000
                 if sign==1:qbuy+=q
                 else:qsell+=q
-                for cell,s in stats.items():s.cash-=commission(t['entry_price_units'],q)+round_fee(q*.20)
+                for cell,s in stats.items():
+                    accrued[cell][i]=0.
+                    s.cash-=commission(t['entry_price_units'],q)+round_fee(q*.20)
             elif kind=='swap':
-                for cell,s in stats.items():s.cash+=round_fee(q*swap_per_oz(t['side'],cell)*mult)
+                for cell,s in stats.items():
+                    charge=round_fee(q*swap_per_oz(t['side'],cell)*mult)
+                    s.cash+=charge;accrued[cell][i]+=charge
             else:
                 del active[i];basis-=sign*q*t['entry_price_units']/1000
                 if sign==1:qbuy-=q
                 else:qsell-=q
                 for cell,s in stats.items():
+                    accrued[cell].pop(i)
                     s.cash+=t['costs'][cell]['gross_usd']-commission(t['exit_price_units'],q)-round_fee(q*exit_slip(t['reason'],cell))
             max_concurrency=max(max_concurrency,len(active));max_gross_oz=max(max_gross_oz,qbuy+qsell)
             if last_quote:
@@ -326,6 +333,8 @@ def execute(config_path):
         for name,sha in cfg['pins'].items():
             if digest(Path(cfg['workspace'])/name)!=sha:raise ValueError('frozen_code_changed:'+name)
         if digest(cfg['measurements'])!=cfg['measurements_sha256']:raise ValueError('parent_changed')
+        if digest(cfg['source_correction'])!=cfg['source_correction_sha256']:raise ValueError('source_correction_changed')
+        if digest(Path(cfg['cache'])/'manifest.json')!=cfg['cache_manifest_sha256']:raise ValueError('cache_manifest_changed')
         parent_rows=json.loads(Path(cfg['measurements']).read_bytes())
         if len(parent_rows)!=608 or any(not START<=r['decision_msc']<END for r in parent_rows):
             raise ValueError('parent_cohort_or_closed_window')

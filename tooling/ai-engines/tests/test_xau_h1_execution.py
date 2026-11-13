@@ -157,5 +157,32 @@ class ExecutionTests(unittest.TestCase):
                 self.assertAlmostEqual(r['dd_usd'],b['costs'][c]['max_equity_drawdown_usd'])
                 self.assertAlmostEqual(r['daily_usd'],b['costs'][c]['worst_daily_loss_usd'])
 
+    def test_open_entry_slip_is_not_realized_balance_at_midnight(self):
+        with tempfile.TemporaryDirectory() as temp:
+            at=ms('2023-03-06T22:30:00');reset=ms('2023-03-06T23:00:00')
+            rows=[(at,1999900,2000000),(reset-1,1999900,2000000),
+                (reset,1990000,1990100),(reset+60000,1995000,1995100)]
+            save_quotes(temp,rows)
+            t=trade(at,rows[-1][0],entry=2000000,exit=1995000,q=10,reason='TIME_48H')
+            b=book([t],Quotes(temp),2023)['costs']['SYM_FLAT']
+            # Only entry commission is in actual balance; floating includes
+            # 100 dollars adverse move and 2 dollars entry slippage.
+            self.assertAlmostEqual(b['worst_daily_loss_usd'],102)
+            oracle,_=oracle_book([t],Reader(temp),2023)
+            self.assertAlmostEqual(oracle['SYM_FLAT']['daily_usd'],102)
+
+    def test_open_swap_accrues_until_close_not_into_midnight_balance(self):
+        with tempfile.TemporaryDirectory() as temp:
+            at=ms('2023-03-08T21:30:00');reset=ms('2023-03-08T23:00:00')
+            rows=[(at,1999900,2000000),(reset-1,1999900,2000000),
+                (reset,1990000,1990100),(reset+60000,1995000,1995100)]
+            save_quotes(temp,rows)
+            t=trade(at,rows[-1][0],entry=2000000,exit=1995000,q=10,reason='TIME_48H')
+            b=book([t],Quotes(temp),2023)
+            self.assertAlmostEqual(b['costs']['SYM_FLAT']['worst_daily_loss_usd'],114)
+            self.assertAlmostEqual(b['costs']['ASYM_ORDER']['worst_daily_loss_usd'],115.5)
+            oracle,_=oracle_book([t],Reader(temp),2023)
+            self.assertAlmostEqual(oracle['SYM_FLAT']['daily_usd'],114)
+
 
 if __name__=='__main__':unittest.main()
