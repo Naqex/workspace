@@ -7,6 +7,20 @@ daemon/scheduler hay hứa background tự chỉnh khi không có agent làm vi�
 
 ## Trigger và hành động
 
+13/11 — sau B2, owner yêu cầu design-from-constraints. Reuse
+`strategy-qualification/references/validation-gates.md`: thêm owner-scoped
+Prop Target Envelope và `PROP_TIMEFIT_REJECTED`; `risk-and-prop.md` chỉ link,
+không nhân bản profile. Không skill mới/globalconfig/runtime enforcement.
+Sửa các suy luận dễ sai:25–40R/năm chưa đủ6–12tháng mọirisk;15R×0,40%=6%
+không phải<6%;daily cap độc lập;flat21:45UTC chưa chắc tránhrollover;R043swap
+không thể cộng lại chointradayrecipe. R043 giữ regression, khôngoptimizechallenge.
+Positive walkthrough: profile được đọc để soạn G0/B0 và count-only proposal,
+không dispatch trước owner duyệt. Negative: F/R thấp hoặc60trades không tự
+pass edge/timefit; chỉ hỏi status R043 không rerun; thiếu exitquote khôngswap0.
+Đây là manualsemanticreview/sốhọc, không modelroutingtest hoặc backtest mới.
+Quickvalidator/scopedlinks đạt; maintainer0errors/0warnings,21skills,
+global12.279B,project10.298/65.536B,reserve55.238B,combined22.577B.
+
 12/11 — owner yêu cầu audit và một task từ H1bias→zone/setup→entry tới payout.
 Do scope drift đã xảy ra ởTC01, cập nhật7dòng trong `strategy-research`: đối
 chiếu chỉ dẫn owner/taskstage trước study mới, tách các tầng strategy và không

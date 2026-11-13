@@ -9,29 +9,28 @@ Owner yêu cầu rà hệ thống/workflow và gom mọi bước, kể cả vi�
 một task. Audit/plan không là strategy accepted. C1/C2 chưa đạt; chưa có
 ứng viên challenge. AppGoal vừa kiểm=null; không tự bật lại.
 
-**B2 đã hoàn tất, chờ owner review trước merge:** [Gold ledger/rolling2010–2024](research/GOLD-CONTINUOUS-B2-20261113.md)
-và [số liệu/hashes](research/GOLD-CONTINUOUS-B2-RESULTS-20261113.json). Sửa adapter
-cashreset khi thiếuquote;36fixtures đạt,7directcentparitycases đạt.308potential
-entryepisodes mỗi risk giữ causalflat/exit; không chỉlọcglobaltrades.60quarterstarts
-×2risk125/200×3swapdeclared×Original/BUYOnly=720conditionalpaths đã chạy.
-**0nhóm hoàn tất2vòng trong24tháng.** Stress40/40,risk200:Original1/60,
-BUYOnly3/60 modeltwo-step; median7,22/14,53năm, chỉ1/60 mỗi bản giữinternalbuffer.
-Risk125stress:Original0/BUYOnly0two-step. LongOnly là1exposeddiagnostic, chưaOOS.
+**PR69 đã merge, chuyển sang thiết kế từ ràng buộc:** mergeSHA`920b48a`,
+nhánh`codex/gold-eurusd-portfolio` đã xóa local/remote. [R043fixture](research/GOLD-R043-REGRESSION-FIXTURE-20261113.json)
+đóng băng source/evidence: `CADENCE_OR_SAMPLE_SHORTFALL` + `PROP_TIMEFIT_REJECTED`;
+dừng tối ưu challenge, giữ làm regression khi có correctness/sourcecompatibility need.
+[B2report](research/GOLD-CONTINUOUS-B2-20261113.md) giữ720conditionalpaths,
+36tests/7parity,120stresscached30,81s;0nhóm hoàn tất2vòng trong24tháng.
 
-PhaseB720paths178,58s;đo riêng120Original/stress30,81s saupreparecache. Coldprepare
-vàbuildước110s từartifacttimestamps; không dùng16–22h forecast cũ nhưbenchmark.
-Oldslowbaseline dừng ở≈440vìentrycostbreach handler, khôngclaim720oldnewparity.
-RawM1/source/failedattempts/coverage giữ nguyên; no2025–26/provider/broker calls.
-Cashanchor/dailyclock luôn tiến; NO_FRESH_QUOTE_AT_RESET khácchứngminhfullsurvival.
-Modelpass không là certifiedFTMO/candidatechallenge. Actualtargetcost và
-fundedwithdrawalcontract còn thiếu; chưapayoutseries hoặcstableincome.
+**Lượt này design-only:** [Research Proposal](research/PROP-DESIGN-FROM-CONSTRAINTS-PROPOSAL-20261113.md)
+chờownerphêduyệt trướcstrategycode/count-only/backtest. Đề xuấtB/EURUSD H1→M15
+trước nhờBidAsk/tickreadiness,A/XAUintraday dựphòng; chưa đổi thành approvedstrategy.
+[Prop Target Envelope](../.agents/skills/strategy-qualification/references/validation-gates.md#prop-target-envelope--profile-owner-ngày-13112026)
+là ownerdesignprofile, khônguniversalstandard/officialFTMOrule hoặc runner đãenforce.
+F/Rplan ưu tiên≤10%,trần12%;cadence≥60/năm ưu tiên120;25–40netR0/năm là dảikhởiđầu.
+Planning12tháng cần50R0 ở0,30% hoặc37,5R0 ở0,40%;6tháng cần gấpđôi. DD15R0
+không bảo đảm Daily; giữ daily<2,5%/staticloss<6,5%,strict6% làdesignaspiration.
 
-**Owner chốt gác exactEURUSD Catalogue13; không ghép portfolio.** ĐợtA vàB1
-ở[researchindex](research/README.md), [B1report](research/GOLD-CONTINUOUS-B1-RESULTS-20261113.md)
-giữ history/oldhashes. CanonicalseedNov2009 thay100H4;cashanchorvspricequality và
-rewardearliesteligibility đãtách. Internalcapdaily<2,5%/staticloss<6,5%,peakDDriêng.
-US500overlay vẫnpaused. Mộtbranch/PR69, khôngmerge hoặcgửiASTRA; VIWIP/pins/runtime
-giữ nguyên. Chưa tự mởoptimizationgrid/nhánhstrategy mới. C1/C2 vẫnchưađạt.
+Trần4alpha versions mới toànchiếndịch;B0+tốiđa1diag,A0+tốiđa1diag chỉdựphòng,
+khôngreset priortrialhistory hoặcdispatchA tựđộng. Dev2022–23 vàhistoricalvalidation2024
+đều previouslyexposed.2025–26 **CLOSED**, chưa chứng nhậnglobalcleanOOS; khôngđọcgiá.
+ExactEURCatalogue13 gác,khôngportfolio. US500overlaypaused; chưapayout/candidatechallenge.
+Mộtdocsbranch theo protectedmain; không gửiASTRA,broker/providercalls hoặcđổiTraderpin/runtime.
+VIWIP vàotherownedworktrees giữ nguyên. Không Goal/skill mới hoặcglobalconfig.
 [Hồ sơ Bước1–2](research/STRATEGY-STATUS-AND-CANDIDATE-DOSSIERS-20261112.md)
 giữ taxonomy/gap/testdesign; đề xuất US500overlay cũ đã được owner gác.
 
