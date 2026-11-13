@@ -106,7 +106,14 @@ def execute(config_path):
         assert digest(study/'tick-source-v1/result.json')==cfg['tick_source_sha256']
         source=json.loads((study/'tick-source-v1/result.json').read_bytes())
         assert sorted(r['at'] for r in source['hours'])==census['hours']
-        minutes,_=source_views(cfg['cache'],end_msc=END)
+        correction=cfg.get('source_correction')
+        if correction:
+            assert digest(correction)==cfg['source_correction_sha256']
+            assert digest(cfg['correction_parity'])==cfg['correction_parity_sha256']
+            parity=json.loads(Path(cfg['correction_parity']).read_bytes())
+            assert parity['H1_OHLC_bitwise_equal'] and parity['H4_OHLC_bitwise_equal']
+            assert parity['source_signals_sha256']==census['signals_sha256']
+        minutes,_=source_views(cfg['cache'],correction,end_msc=END)
         prefixes={};proofs=[];counts=Counter();mismatches=[];missing=set()
         view=out/'prefix';view.mkdir()
         for n,row in enumerate(source['hours'],1):

@@ -2,7 +2,10 @@
 
 **Hiện tại — campaign mới XAUUSD H1 Stage-0:** [Protocol](XAUUSD-H1-STAGE0-PROTOCOL-20261113.md).
 Owner giao3baseline, BUY/BOTH, chỉDevelopment2022–23; fixed4/8/24/48h có
-commission/spread/slip/funding. Chưa bot SL/TP/sizing, không mở giá2024–26.
+commission/spread/slip/funding. [Kết quả](XAUUSD-H1-STAGE0-RESULTS-20261113.md) /
+[JSON](XAUUSD-H1-STAGE0-RESULTS-20261113.json): leadA/BOTH48h +1,767/+1,326USD/oz,
+observed63/65; chưa passprimary8h, missingweekend/CIqua0. Chưa đónggói bot hoặc
+candidatechallenge; không đổiprimarysauoutcome/SL/sizing hoặc mởgiá2024–26.
 Chiến dịch cũ bên dưới giữ nguyên trạng thái đóng; không dùng lại quota B1.
 
 **Chiến dịch đã đóng theo owner:** [STRATEGY-E2E](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).

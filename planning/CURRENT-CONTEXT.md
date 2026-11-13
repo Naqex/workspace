@@ -1,16 +1,25 @@
 # Current context — Naqex Workspace
 
-13/11/2026 · `RESEARCH: ACTIVE_STAGE0_H1 · REVIEW: PENDING · DOC: RESUMABLE`.
+13/11/2026 · `RESEARCH: STAGE0_COMPLETE_LEADS_ONLY · REVIEW: SCOPED · DOC: RESUMABLE`.
 
 ## Việc hiện tại
 
 **Lượt mới được owner mở:** [XAUUSD H1 Stage-0](research/XAUUSD-H1-STAGE0-PROTOCOL-20261113.md),
-3 recipe cố định (Asian breakout/H4-trend H1 reclaim/momentum), BUY/BOTH views,
-Development2022–23 +seedNov2021; không giá2024–26 hoặc bot SL/TP/account replay.
-Rawcounts BOTH2022/23:103/107,116/136,61/85; chưa markout. Primary8h/24h/8h,
-đo thêm4/8/24/48h; financing proxy20/40USD/lot weekdays22UTC,Wed×3, target chưaverified.
-Job `execution-v1/xauusd-h1-stage0-20261113`, một downloader đang thu2286hours,
-reuse616/new1670; status/log/deadline có trongjob. Branch `codex/xauusd-h1-stage-zero`.
+3 recipe cố định (Asian breakout/H4-trend H1 reclaim/momentum), BUY/BOTH views.
+[Kết quả](research/XAUUSD-H1-STAGE0-RESULTS-20261113.md) /
+[JSON](research/XAUUSD-H1-STAGE0-RESULTS-20261113.json): Development2022–23,
+seedNov2021; không giá2024–26 hoặc bot SL/TP/account replay. RawBOTH103/107,
+116/136,61/85. Primary8h/24h/8h chưa pass; chỉ48h có observedmeans dương2năm.
+Lead ưu tiên A/BOTH48h:+1,767/+1,326USD/oz stress saufunding, observed63/65;
+raw103/107, SL11,512/8,667, giữ90,3%/76,6% ở12%. C/BOTH48h leadphụ,
+nhưng2022chỉ32observed. Không candidatechallenge; endpoint48h missing không
+ngẫu nhiên (229weekend/231missing), CIqua0 và48h là horizonphụ đã xem.
+Funding proxy20/40USD/lot,weekdays22UTC,Wed×3 chưa targetverified.
+Job `execution-v1/xauusd-h1-stage0-20261113/attempt-2` completed;19.722.614ticks,
+114.803M1OHLC khớp sau1M1openrevision, H1/H4 và608signals identical.
+Giữfailedattempt1/snapshotv1; registration-v2/snapshotv2 vàFractionselfaudit
+1.976markouts/608entries/48summarygroups đạt;12fixtures+11regressions+2guards.
+Branch `codex/xauusd-h1-stage-zero`; chưa auto đổiprimary/SL/risk hoặc mởholdout.
 Đây là campaign mới được giao, không phục hồi các B1 đã hủy hoặc tự bật Goal.
 
 **Chiến dịch cũ đã đóng theo owner:** [STRATEGY-E2E](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).

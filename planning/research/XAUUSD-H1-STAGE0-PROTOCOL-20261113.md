@@ -69,3 +69,14 @@ fees/Wedtriplerollover/weekendmissing/holdout trước run. Independent arithmet
 self-audit sau run, không gửi ASTRA. Một writer, deadline/retry/cancel/logs,
 raw/failedattempts giữ nguyên. Kết quả/counters/timers → JSON + báo cáo,
 commit/push/một PR, chưa tự merge hoặc đóng gói bot từ kết quả đẹp.
+
+## Data amendment trước lần markout đầu tiên
+
+Attempt1 dừng tại source guard, chưa tính markout:114.802/114.803phútOHLC khớp,
+một phút05/12/2023 10:29UTC lệchopen2023,754→2023,635USD/oz; high/low/close
+không đổi. Native `processData` parity6.997quotes củaaffectedhour xác nhận
+revision; giữ CSV/cache/attempt1/snapshotv1 gốc. Correctionmanifest bind rawhash,
+original/correctedOHLC; loader kiểm exact trước khi áp. Full H1 và H4 arrays
+trước/sau **identical**, nên giữ nguyên608signals/census/horizons/stopgeometry.
+Đây là dataversion, không đổi alpha/parameters. Snapshot/configv2 vàattempt2
+kiểm lại nguồn đã sửa trước khi tính markout; không tải lại rawhours.

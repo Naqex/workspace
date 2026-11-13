@@ -1,0 +1,3714 @@
+{
+  "schema": "XAUUSD-H1-Stage0-discovery-dossier-v1",
+  "result": {
+    "schema": "XAU-H1-stage0-result-v1",
+    "yearly": [
+      {
+        "recipe": "H1A_ASIA",
+        "view": "BUY",
+        "year": 2022,
+        "raw_signals": 54,
+        "buy_signals": 54,
+        "sell_signals": 0,
+        "unique_days": 54,
+        "entry_quote_missing": 0,
+        "invalid_stops": 0,
+        "natural_SL": {
+          "n": 54,
+          "mean": 13.613870370370371,
+          "median": 11.986,
+          "p10": 7.35,
+          "p90": 20.182,
+          "min": 4.267,
+          "max": 44.357
+        },
+        "ex_ante_friction": {
+          "n": 54,
+          "mean": 0.8030800728518519,
+          "median": 0.797092651,
+          "p10": 0.722620576,
+          "p90": 0.909503802,
+          "min": 0.648035112,
+          "max": 0.910990742
+        },
+        "scale_ratio_of_medians": 0.06650197321875521,
+        "fraction_pass12": 0.9074074074074074,
+        "fraction_pass15": 0.9629629629629629,
+        "no_cost_filter_applied_to_markout": true,
+        "markouts": [
+          {
+            "hours": 4,
+            "observed": 54,
+            "missing": 0,
+            "missing_reasons": {},
+            "gross_after_spread": {
+              "n": 54,
+              "mean": -0.7162592592592594,
+              "median": -1.0445,
+              "p10": -11.007,
+              "p90": 8.355,
+              "min": -24.004,
+              "max": 33.214
+            },
+            "reference_net": {
+              "n": 54,
+              "mean": -0.7417602442222222,
+              "median": -1.0690005635,
+              "p10": -11.032784745,
+              "p90": 8.329357173,
+              "min": -24.03155662,
+              "max": 33.19025516
+            },
+            "stress_net": {
+              "n": 54,
+              "mean": -1.141760244222222,
+              "median": -1.4690005634999999,
+              "p10": -11.432784745,
+              "p90": 7.929357173,
+              "min": -24.43155662,
+              "max": 32.79025516
+            },
+            "execution_friction": {
+              "n": 54,
+              "mean": 0.7901583923703703,
+              "median": 0.7814715265000001,
+              "p10": 0.713393579,
+              "p90": 0.87370416,
+              "min": 0.680039722,
+              "max": 0.91111054
+            },
+            "stress_financing": {
+              "n": 54,
+              "mean": 0.0,
+              "median": 0.0,
+              "p10": 0.0,
+              "p90": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "day_cluster_ci": {
+              "lower": -3.699814624648148,
+              "upper": 1.4579308668333335,
+              "day_clusters": 54,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 8,
+            "observed": 44,
+            "missing": 10,
+            "missing_reasons": {
+              "no_fresh_quote": 10
+            },
+            "gross_after_spread": {
+              "n": 44,
+              "mean": -2.4205,
+              "median": -3.243,
+              "p10": -16.02,
+              "p90": 13.094,
+              "min": -32.334,
+              "max": 31.454
+            },
+            "reference_net": {
+              "n": 44,
+              "mean": -2.468664265045455,
+              "median": -3.267799495,
+              "p10": -16.047290592,
+              "p90": 12.870287766,
+              "min": -32.36149831,
+              "max": 31.380195816
+            },
+            "stress_net": {
+              "n": 44,
+              "mean": -2.8913915377727273,
+              "median": -3.667799495,
+              "p10": -16.447290592,
+              "p90": 12.270287766,
+              "min": -32.76149831,
+              "max": 30.980195816
+            },
+            "execution_friction": {
+              "n": 44,
+              "mean": 0.8375619923181818,
+              "median": 0.7784575595000001,
+              "p10": 0.73218073,
+              "p90": 0.91070405,
+              "min": 0.715519905,
+              "max": 1.58973252
+            },
+            "stress_financing": {
+              "n": 44,
+              "mean": 0.045454545454545456,
+              "median": 0.0,
+              "p10": 0.0,
+              "p90": 0.0,
+              "min": 0.0,
+              "max": 0.4
+            },
+            "day_cluster_ci": {
+              "lower": -6.714637908522727,
+              "upper": 1.1797216693636363,
+              "day_clusters": 44,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 24,
+            "observed": 44,
+            "missing": 10,
+            "missing_reasons": {
+              "no_fresh_quote": 10
+            },
+            "gross_after_spread": {
+              "n": 44,
+              "mean": 0.47425000000000006,
+              "median": -1.376,
+              "p10": -15.206,
+              "p90": 21.877,
+              "min": -43.094,
+              "max": 33.43
+            },
+            "reference_net": {
+              "n": 44,
+              "mean": 0.17601221379545454,
+              "median": -1.8015953040000001,
+              "p10": -15.430186246,
+              "p90": 21.274714263,
+              "min": -43.32105017,
+              "max": 33.206145414
+            },
+            "stress_net": {
+              "n": 44,
+              "mean": -0.4967150589318184,
+              "median": -2.601595304,
+              "p10": -16.030186246,
+              "p90": 20.274714263,
+              "min": -43.92105017,
+              "max": 32.606145414
+            },
+            "execution_friction": {
+              "n": 44,
+              "mean": 0.7968627862045454,
+              "median": 0.7832795955,
+              "p10": 0.72375594,
+              "p90": 0.88533978,
+              "min": 0.670558975,
+              "max": 0.91108947
+            },
+            "stress_financing": {
+              "n": 44,
+              "mean": 0.5454545454545454,
+              "median": 0.4,
+              "p10": 0.4,
+              "p90": 1.2,
+              "min": 0.4,
+              "max": 1.2
+            },
+            "day_cluster_ci": {
+              "lower": -5.092870749568182,
+              "upper": 4.119784659590909,
+              "day_clusters": 44,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 48,
+            "observed": 33,
+            "missing": 21,
+            "missing_reasons": {
+              "no_fresh_quote": 21
+            },
+            "gross_after_spread": {
+              "n": 33,
+              "mean": 3.6046969696969695,
+              "median": -1.114,
+              "p10": -19.135,
+              "p90": 34.497,
+              "min": -41.948,
+              "max": 64.395
+            },
+            "reference_net": {
+              "n": 33,
+              "mean": 2.9610968785757574,
+              "median": -1.93906049,
+              "p10": -19.959830897,
+              "p90": 33.670765617,
+              "min": -42.771903852,
+              "max": 63.571036893
+            },
+            "stress_net": {
+              "n": 33,
+              "mean": 1.9429150603939394,
+              "median": -3.13906049,
+              "p10": -21.159830897,
+              "p90": 32.470765617,
+              "min": -43.971903852,
+              "max": 62.371036893
+            },
+            "execution_friction": {
+              "n": 33,
+              "mean": 0.7943576668787878,
+              "median": 0.78445656,
+              "p10": 0.728802868,
+              "p90": 0.8953115,
+              "min": 0.686582018,
+              "max": 0.91075046
+            },
+            "stress_financing": {
+              "n": 33,
+              "mean": 1.2363636363636363,
+              "median": 1.6,
+              "p10": 0.8,
+              "p90": 1.6,
+              "min": 0.8,
+              "max": 1.6
+            },
+            "day_cluster_ci": {
+              "lower": -6.349707344272727,
+              "upper": 10.233544338333333,
+              "day_clusters": 33,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          }
+        ]
+      },
+      {
+        "recipe": "H1A_ASIA",
+        "view": "BUY",
+        "year": 2023,
+        "raw_signals": 57,
+        "buy_signals": 57,
+        "sell_signals": 0,
+        "unique_days": 57,
+        "entry_quote_missing": 0,
+        "invalid_stops": 0,
+        "natural_SL": {
+          "n": 57,
+          "mean": 10.403473684210526,
+          "median": 8.905,
+          "p10": 5.007,
+          "p90": 17.661,
+          "min": 3.378,
+          "max": 21.545
+        },
+        "ex_ante_friction": {
+          "n": 57,
+          "mean": 0.7619826127017544,
+          "median": 0.74753331,
+          "p10": 0.71783025,
+          "p90": 0.81672467,
+          "min": 0.678863864,
+          "max": 0.994899788
+        },
+        "scale_ratio_of_medians": 0.08394534643458731,
+        "fraction_pass12": 0.8070175438596491,
+        "fraction_pass15": 0.9298245614035088,
+        "no_cost_filter_applied_to_markout": true,
+        "markouts": [
+          {
+            "hours": 4,
+            "observed": 57,
+            "missing": 0,
+            "missing_reasons": {},
+            "gross_after_spread": {
+              "n": 57,
+              "mean": 1.3124035087719297,
+              "median": -0.27,
+              "p10": -12.367,
+              "p90": 14.88,
+              "min": -19.37,
+              "max": 25.273
+            },
+            "reference_net": {
+              "n": 57,
+              "mean": 1.2849906566140352,
+              "median": -0.29895746,
+              "p10": -12.395521759,
+              "p90": 14.85343787,
+              "min": -19.39761388,
+              "max": 25.244923301
+            },
+            "stress_net": {
+              "n": 57,
+              "mean": 0.8849906566140352,
+              "median": -0.69895746,
+              "p10": -12.795521759,
+              "p90": 14.45343787,
+              "min": -19.79761388,
+              "max": 24.844923301
+            },
+            "execution_friction": {
+              "n": 57,
+              "mean": 0.7687374135614035,
+              "median": 0.752031979,
+              "p10": 0.729265901,
+              "p90": 0.810295794,
+              "min": 0.69512219,
+              "max": 1.112689463
+            },
+            "stress_financing": {
+              "n": 57,
+              "mean": 0.0,
+              "median": 0.0,
+              "p10": 0.0,
+              "p90": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "day_cluster_ci": {
+              "lower": -1.723653703491228,
+              "upper": 3.53439924977193,
+              "day_clusters": 57,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 8,
+            "observed": 51,
+            "missing": 6,
+            "missing_reasons": {
+              "no_fresh_quote": 6
+            },
+            "gross_after_spread": {
+              "n": 51,
+              "mean": 0.5010392156862746,
+              "median": -3.72,
+              "p10": -13.7,
+              "p90": 13.203,
+              "min": -39.06,
+              "max": 40.92
+            },
+            "reference_net": {
+              "n": 51,
+              "mean": 0.43447009813725507,
+              "median": -3.74739835,
+              "p10": -13.72787267,
+              "p90": 13.173948229,
+              "min": -39.08713109,
+              "max": 40.89261957
+            },
+            "stress_net": {
+              "n": 51,
+              "mean": -0.004745588137254659,
+              "median": -4.14739835,
+              "p10": -14.12787267,
+              "p90": 12.773948229,
+              "min": -39.48713109,
+              "max": 40.49261957
+            },
+            "execution_friction": {
+              "n": 51,
+              "mean": 0.8064122548039215,
+              "median": 0.76563109,
+              "p10": 0.72126344,
+              "p90": 0.922545993,
+              "min": 0.705698311,
+              "max": 1.392829278
+            },
+            "stress_financing": {
+              "n": 51,
+              "mean": 0.0784313725490196,
+              "median": 0.0,
+              "p10": 0.0,
+              "p90": 0.4,
+              "min": 0.0,
+              "max": 1.2
+            },
+            "day_cluster_ci": {
+              "lower": -3.917593285333333,
+              "upper": 4.0125478532352945,
+              "day_clusters": 51,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 24,
+            "observed": 44,
+            "missing": 13,
+            "missing_reasons": {
+              "no_fresh_quote": 13
+            },
+            "gross_after_spread": {
+              "n": 44,
+              "mean": 2.430772727272727,
+              "median": 3.4195,
+              "p10": -13.217,
+              "p90": 17.15,
+              "min": -45.39,
+              "max": 33.56
+            },
+            "reference_net": {
+              "n": 44,
+              "mean": 2.0579644733636364,
+              "median": 3.1921293035,
+              "p10": -13.444049589,
+              "p90": 16.9215744,
+              "min": -45.61708678,
+              "max": 32.93146345
+            },
+            "stress_net": {
+              "n": 44,
+              "mean": 1.3125099279090908,
+              "median": 2.5921293035,
+              "p10": -14.044049589,
+              "p90": 16.3215744,
+              "min": -46.21708678,
+              "max": 31.93146345
+            },
+            "execution_friction": {
+              "n": 44,
+              "mean": 0.7622059811818181,
+              "median": 0.751571785,
+              "p10": 0.73056977,
+              "p90": 0.79558678,
+              "min": 0.68849395,
+              "max": 0.94060815
+            },
+            "stress_financing": {
+              "n": 44,
+              "mean": 0.6909090909090909,
+              "median": 0.4,
+              "p10": 0.4,
+              "p90": 1.2,
+              "min": 0.4,
+              "max": 1.2
+            },
+            "day_cluster_ci": {
+              "lower": -2.774086029318182,
+              "upper": 5.486687668863636,
+              "day_clusters": 44,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 48,
+            "observed": 33,
+            "missing": 24,
+            "missing_reasons": {
+              "no_fresh_quote": 24
+            },
+            "gross_after_spread": {
+              "n": 33,
+              "mean": 4.4236969696969695,
+              "median": 7.193,
+              "p10": -15.401,
+              "p90": 21.609,
+              "min": -30.69,
+              "max": 37.96
+            },
+            "reference_net": {
+              "n": 33,
+              "mean": 3.6690779143030303,
+              "median": 6.366670879,
+              "p10": -15.828403663,
+              "p90": 20.782124067,
+              "min": -31.51753464,
+              "max": 37.13251093
+            },
+            "stress_net": {
+              "n": 33,
+              "mean": 2.541805187030303,
+              "median": 5.166670879,
+              "p10": -16.628403663,
+              "p90": 19.582124067,
+              "min": -32.71753464,
+              "max": 35.93251093
+            },
+            "execution_friction": {
+              "n": 33,
+              "mean": 0.7625281463030303,
+              "median": 0.76189512,
+              "p10": 0.72201916,
+              "p90": 0.797147129,
+              "min": 0.71765539,
+              "max": 0.896474639
+            },
+            "stress_financing": {
+              "n": 33,
+              "mean": 1.4545454545454546,
+              "median": 1.6,
+              "p10": 0.8,
+              "p90": 1.6,
+              "min": 0.8,
+              "max": 1.6
+            },
+            "day_cluster_ci": {
+              "lower": -3.3202107736666666,
+              "upper": 8.124407481060606,
+              "day_clusters": 33,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          }
+        ]
+      },
+      {
+        "recipe": "H1A_ASIA",
+        "view": "BOTH",
+        "year": 2022,
+        "raw_signals": 103,
+        "buy_signals": 54,
+        "sell_signals": 49,
+        "unique_days": 103,
+        "entry_quote_missing": 0,
+        "invalid_stops": 0,
+        "natural_SL": {
+          "n": 103,
+          "mean": 13.062407766990292,
+          "median": 11.512,
+          "p10": 7.092,
+          "p90": 20.182,
+          "min": 4.267,
+          "max": 44.357
+        },
+        "ex_ante_friction": {
+          "n": 103,
+          "mean": 0.7924994776504855,
+          "median": 0.792323788,
+          "p10": 0.722091368,
+          "p90": 0.879771782,
+          "min": 0.648035112,
+          "max": 0.943710564
+        },
+        "scale_ratio_of_medians": 0.0688259023627519,
+        "fraction_pass12": 0.9029126213592233,
+        "fraction_pass15": 0.970873786407767,
+        "no_cost_filter_applied_to_markout": true,
+        "markouts": [
+          {
+            "hours": 4,
+            "observed": 103,
+            "missing": 0,
+            "missing_reasons": {},
+            "gross_after_spread": {
+              "n": 103,
+              "mean": 0.0536990291262135,
+              "median": 0.759,
+              "p10": -9.634,
+              "p90": 9.594,
+              "min": -25.627,
+              "max": 33.214
+            },
+            "reference_net": {
+              "n": 103,
+              "mean": 0.028321689427184434,
+              "median": 0.735176697,
+              "p10": -9.66061561,
+              "p90": 9.56677231,
+              "min": -25.651155719,
+              "max": 33.19025516
+            },
+            "stress_net": {
+              "n": 103,
+              "mean": -0.37167831057281553,
+              "median": 0.335176697,
+              "p10": -10.06061561,
+              "p90": 9.16677231,
+              "min": -26.051155719,
+              "max": 32.79025516
+            },
+            "execution_friction": {
+              "n": 103,
+              "mean": 0.7866006406699029,
+              "median": 0.77455662,
+              "p10": 0.71856106,
+              "p90": 0.869935617,
+              "min": 0.680039722,
+              "max": 0.927722996
+            },
+            "stress_financing": {
+              "n": 103,
+              "mean": 0.0,
+              "median": 0.0,
+              "p10": 0.0,
+              "p90": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "day_cluster_ci": {
+              "lower": -2.128789158446602,
+              "upper": 1.4547535501359223,
+              "day_clusters": 103,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 8,
+            "observed": 90,
+            "missing": 13,
+            "missing_reasons": {
+              "no_fresh_quote": 13
+            },
+            "gross_after_spread": {
+              "n": 90,
+              "mean": -0.13357777777777785,
+              "median": 0.484,
+              "p10": -16.314,
+              "p90": 13.702,
+              "min": -32.334,
+              "max": 36.707
+            },
+            "reference_net": {
+              "n": 90,
+              "mean": -0.19228014788888906,
+              "median": 0.358161607,
+              "p10": -16.34009152,
+              "p90": 13.677031322,
+              "min": -32.36149831,
+              "max": 36.681974307
+            },
+            "stress_net": {
+              "n": 90,
+              "mean": -0.6256134812222223,
+              "median": -0.141838393,
+              "p10": -16.74009152,
+              "p90": 13.277031322,
+              "min": -32.76149831,
+              "max": 36.281974307
+            },
+            "execution_friction": {
+              "n": 90,
+              "mean": 0.8131190367777777,
+              "median": 0.77932464,
+              "p10": 0.725474,
+              "p90": 0.904850873,
+              "min": 0.69772193,
+              "max": 1.58973252
+            },
+            "stress_financing": {
+              "n": 90,
+              "mean": 0.06666666666666667,
+              "median": 0.0,
+              "p10": 0.0,
+              "p90": 0.4,
+              "min": 0.0,
+              "max": 1.2
+            },
+            "day_cluster_ci": {
+              "lower": -3.368773181522222,
+              "upper": 2.0549118319888886,
+              "day_clusters": 90,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 24,
+            "observed": 82,
+            "missing": 21,
+            "missing_reasons": {
+              "no_fresh_quote": 21
+            },
+            "gross_after_spread": {
+              "n": 82,
+              "mean": 1.0455,
+              "median": -0.7475,
+              "p10": -15.476,
+              "p90": 21.899,
+              "min": -43.094,
+              "max": 37.849
+            },
+            "reference_net": {
+              "n": 82,
+              "mean": 0.742055518207317,
+              "median": -1.1000643465,
+              "p10": -15.69892535,
+              "p90": 21.652423973,
+              "min": -43.32105017,
+              "max": 37.623982301
+            },
+            "stress_net": {
+              "n": 82,
+              "mean": 0.06400673771951192,
+              "median": -1.7000643465,
+              "p10": -16.29892535,
+              "p90": 21.052423973,
+              "min": -43.92105017,
+              "max": 37.023982301
+            },
+            "execution_friction": {
+              "n": 82,
+              "mean": 0.7855359452073171,
+              "median": 0.776108087,
+              "p10": 0.713785737,
+              "p90": 0.869619147,
+              "min": 0.670558975,
+              "max": 0.91108947
+            },
+            "stress_financing": {
+              "n": 82,
+              "mean": 0.5560975609756098,
+              "median": 0.4,
+              "p10": 0.4,
+              "p90": 1.2,
+              "min": 0.4,
+              "max": 1.2
+            },
+            "day_cluster_ci": {
+              "lower": -3.203027154853659,
+              "upper": 3.4863798404999997,
+              "day_clusters": 82,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 48,
+            "observed": 63,
+            "missing": 40,
+            "missing_reasons": {
+              "no_fresh_quote": 40
+            },
+            "gross_after_spread": {
+              "n": 63,
+              "mean": 3.4749999999999996,
+              "median": 1.78,
+              "p10": -22.917,
+              "p90": 34.497,
+              "min": -48.776,
+              "max": 64.395
+            },
+            "reference_net": {
+              "n": 63,
+              "mean": 2.808346554174603,
+              "median": 0.952398832,
+              "p10": -23.342258359,
+              "p90": 33.670765617,
+              "min": -49.202889604,
+              "max": 63.571036893
+            },
+            "stress_net": {
+              "n": 63,
+              "mean": 1.7670767129047618,
+              "median": -0.247601168,
+              "p10": -24.142258359,
+              "p90": 32.470765617,
+              "min": -50.002889604,
+              "max": 62.371036893
+            },
+            "execution_friction": {
+              "n": 63,
+              "mean": 0.7863518585238095,
+              "median": 0.772778876,
+              "p10": 0.719758359,
+              "p90": 0.859849643,
+              "min": 0.686582018,
+              "max": 0.91075046
+            },
+            "stress_financing": {
+              "n": 63,
+              "mean": 1.2825396825396826,
+              "median": 1.6,
+              "p10": 0.8,
+              "p90": 1.6,
+              "min": 0.8,
+              "max": 1.6
+            },
+            "day_cluster_ci": {
+              "lower": -4.06777267568254,
+              "upper": 8.065787226301588,
+              "day_clusters": 63,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          }
+        ]
+      },
+      {
+        "recipe": "H1A_ASIA",
+        "view": "BOTH",
+        "year": 2023,
+        "raw_signals": 107,
+        "buy_signals": 57,
+        "sell_signals": 50,
+        "unique_days": 107,
+        "entry_quote_missing": 0,
+        "invalid_stops": 0,
+        "natural_SL": {
+          "n": 107,
+          "mean": 9.877915887850467,
+          "median": 8.667,
+          "p10": 5.186,
+          "p90": 16.41,
+          "min": 3.378,
+          "max": 21.545
+        },
+        "ex_ante_friction": {
+          "n": 107,
+          "mean": 0.7590233247476635,
+          "median": 0.74698017,
+          "p10": 0.71567971,
+          "p90": 0.813141892,
+          "min": 0.669091756,
+          "max": 1.12779203
+        },
+        "scale_ratio_of_medians": 0.08618670474212531,
+        "fraction_pass12": 0.7663551401869159,
+        "fraction_pass15": 0.9252336448598131,
+        "no_cost_filter_applied_to_markout": true,
+        "markouts": [
+          {
+            "hours": 4,
+            "observed": 107,
+            "missing": 0,
+            "missing_reasons": {},
+            "gross_after_spread": {
+              "n": 107,
+              "mean": -0.31185981308411215,
+              "median": -0.257,
+              "p10": -13.45,
+              "p90": 12.45,
+              "min": -28.421,
+              "max": 25.273
+            },
+            "reference_net": {
+              "n": 107,
+              "mean": -0.33901660400934575,
+              "median": -0.283809811,
+              "p10": -13.47675694,
+              "p90": 12.4226895,
+              "min": -28.448196757,
+              "max": 25.244923301
+            },
+            "stress_net": {
+              "n": 107,
+              "mean": -0.7390166040093458,
+              "median": -0.683809811,
+              "p10": -13.87675694,
+              "p90": 12.0226895,
+              "min": -28.848196757,
+              "max": 24.844923301
+            },
+            "execution_friction": {
+              "n": 107,
+              "mean": 0.762895108682243,
+              "median": 0.752533447,
+              "p10": 0.7164593,
+              "p90": 0.802696757,
+              "min": 0.689146223,
+              "max": 1.112689463
+            },
+            "stress_financing": {
+              "n": 107,
+              "mean": 0.0,
+              "median": 0.0,
+              "p10": 0.0,
+              "p90": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "day_cluster_ci": {
+              "lower": -2.6045577138037386,
+              "upper": 1.1306364182616824,
+              "day_clusters": 107,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 8,
+            "observed": 95,
+            "missing": 12,
+            "missing_reasons": {
+              "no_fresh_quote": 12
+            },
+            "gross_after_spread": {
+              "n": 95,
+              "mean": 0.588821052631579,
+              "median": -1.432,
+              "p10": -14.597,
+              "p90": 12.97,
+              "min": -39.06,
+              "max": 40.92
+            },
+            "reference_net": {
+              "n": 95,
+              "mean": 0.500625309031579,
+              "median": -1.65960912,
+              "p10": -14.64576623,
+              "p90": 12.94127116,
+              "min": -39.08713109,
+              "max": 40.89261957
+            },
+            "stress_net": {
+              "n": 95,
+              "mean": 0.0395726774526317,
+              "median": -2.25960912,
+              "p10": -15.04576623,
+              "p90": 12.54127116,
+              "min": -39.48713109,
+              "max": 40.49261957
+            },
+            "execution_friction": {
+              "n": 95,
+              "mean": 0.823874690968421,
+              "median": 0.76372884,
+              "p10": 0.71709231,
+              "p90": 0.937058649,
+              "min": 0.682663869,
+              "max": 1.56910912
+            },
+            "stress_financing": {
+              "n": 95,
+              "mean": 0.12210526315789474,
+              "median": 0.0,
+              "p10": 0.0,
+              "p90": 0.4,
+              "min": 0.0,
+              "max": 1.2
+            },
+            "day_cluster_ci": {
+              "lower": -2.7428328511578948,
+              "upper": 2.740964395157895,
+              "day_clusters": 95,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 24,
+            "observed": 87,
+            "missing": 20,
+            "missing_reasons": {
+              "no_fresh_quote": 20
+            },
+            "gross_after_spread": {
+              "n": 87,
+              "mean": 0.5211724137931034,
+              "median": 1.14,
+              "p10": -17.16,
+              "p90": 15.68,
+              "min": -45.39,
+              "max": 33.56
+            },
+            "reference_net": {
+              "n": 87,
+              "mean": 0.1837047721379311,
+              "median": 0.91202191,
+              "p10": -17.38751959,
+              "p90": 15.05263329,
+              "min": -45.61708678,
+              "max": 32.93146345
+            },
+            "stress_net": {
+              "n": 87,
+              "mean": -0.526640055448276,
+              "median": 0.31202191,
+              "p10": -17.98751959,
+              "p90": 14.05263329,
+              "min": -46.21708678,
+              "max": 31.93146345
+            },
+            "execution_friction": {
+              "n": 87,
+              "mean": 0.7618871818850574,
+              "median": 0.75260772,
+              "p10": 0.72230518,
+              "p90": 0.809734551,
+              "min": 0.68849395,
+              "max": 0.94060815
+            },
+            "stress_financing": {
+              "n": 87,
+              "mean": 0.6206896551724138,
+              "median": 0.4,
+              "p10": 0.4,
+              "p90": 1.2,
+              "min": 0.4,
+              "max": 1.2
+            },
+            "day_cluster_ci": {
+              "lower": -3.425991303954023,
+              "upper": 2.211885677045977,
+              "day_clusters": 87,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 48,
+            "observed": 65,
+            "missing": 42,
+            "missing_reasons": {
+              "no_fresh_quote": 42
+            },
+            "gross_after_spread": {
+              "n": 65,
+              "mean": 3.1441538461538463,
+              "median": 5.92,
+              "p10": -19.35,
+              "p90": 21.76,
+              "min": -61.677,
+              "max": 37.96
+            },
+            "reference_net": {
+              "n": 65,
+              "mean": 2.4216180236307694,
+              "median": 5.09282313,
+              "p10": -19.7773259,
+              "p90": 20.93361525,
+              "min": -62.505176589,
+              "max": 37.13251093
+            },
+            "stress_net": {
+              "n": 65,
+              "mean": 1.3262334082461538,
+              "median": 3.89282313,
+              "p10": -20.5773259,
+              "p90": 19.73361525,
+              "min": -63.705176589,
+              "max": 35.93251093
+            },
+            "execution_friction": {
+              "n": 65,
+              "mean": 0.7601358225230769,
+              "median": 0.75702272,
+              "p10": 0.71765539,
+              "p90": 0.797147129,
+              "min": 0.704095829,
+              "max": 0.943270967
+            },
+            "stress_financing": {
+              "n": 65,
+              "mean": 1.3907692307692308,
+              "median": 1.6,
+              "p10": 0.8,
+              "p90": 1.6,
+              "min": 0.8,
+              "max": 1.6
+            },
+            "day_cluster_ci": {
+              "lower": -3.2299636471384616,
+              "upper": 5.539846763830769,
+              "day_clusters": 65,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          }
+        ]
+      },
+      {
+        "recipe": "H1B_RECLAIM",
+        "view": "BUY",
+        "year": 2022,
+        "raw_signals": 54,
+        "buy_signals": 54,
+        "sell_signals": 0,
+        "unique_days": 40,
+        "entry_quote_missing": 0,
+        "invalid_stops": 0,
+        "natural_SL": {
+          "n": 54,
+          "mean": 6.711648148148148,
+          "median": 5.593,
+          "p10": 3.145,
+          "p90": 10.371,
+          "min": 2.692,
+          "max": 24.834
+        },
+        "ex_ante_friction": {
+          "n": 54,
+          "mean": 0.7719901526666667,
+          "median": 0.76433347,
+          "p10": 0.696681524,
+          "p90": 0.838233462,
+          "min": 0.64657121,
+          "max": 0.910879022
+        },
+        "scale_ratio_of_medians": 0.13665894332200965,
+        "fraction_pass12": 0.35185185185185186,
+        "fraction_pass15": 0.6296296296296297,
+        "no_cost_filter_applied_to_markout": true,
+        "markouts": [
+          {
+            "hours": 4,
+            "observed": 54,
+            "missing": 0,
+            "missing_reasons": {},
+            "gross_after_spread": {
+              "n": 54,
+              "mean": -0.14594444444444443,
+              "median": 0.387,
+              "p10": -10.737,
+              "p90": 7.026,
+              "min": -24.004,
+              "max": 40.306
+            },
+            "reference_net": {
+              "n": 54,
+              "mean": -0.17135950142592596,
+              "median": 0.361138045,
+              "p10": -10.764608427,
+              "p90": 7.00019527,
+              "min": -24.03155662,
+              "max": 40.28178329
+            },
+            "stress_net": {
+              "n": 54,
+              "mean": -0.571359501425926,
+              "median": -0.038861955,
+              "p10": -11.164608427,
+              "p90": 6.60019527,
+              "min": -24.43155662,
+              "max": 39.88178329
+            },
+            "execution_friction": {
+              "n": 54,
+              "mean": 0.7743224643888889,
+              "median": 0.7622095705,
+              "p10": 0.71440929,
+              "p90": 0.84192266,
+              "min": 0.67305422,
+              "max": 1.03884098
+            },
+            "stress_financing": {
+              "n": 54,
+              "mean": 0.0,
+              "median": 0.0,
+              "p10": 0.0,
+              "p90": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "day_cluster_ci": {
+              "lower": -3.175801000980769,
+              "upper": 2.2150531811525425,
+              "day_clusters": 40,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 8,
+            "observed": 42,
+            "missing": 12,
+            "missing_reasons": {
+              "no_fresh_quote": 12
+            },
+            "gross_after_spread": {
+              "n": 42,
+              "mean": -0.1473571428571432,
+              "median": 2.1155,
+              "p10": -22.917,
+              "p90": 9.728,
+              "min": -32.334,
+              "max": 45.736
+            },
+            "reference_net": {
+              "n": 42,
+              "mean": -0.2251177397380952,
+              "median": 2.0899175865,
+              "p10": -22.942293849,
+              "p90": 9.7030415,
+              "min": -32.36149831,
+              "max": 45.71174528
+            },
+            "stress_net": {
+              "n": 42,
+              "mean": -0.6774986921190477,
+              "median": 1.6899175865,
+              "p10": -23.342293849,
+              "p90": 9.3030415,
+              "min": -32.76149831,
+              "max": 45.31174528
+            },
+            "execution_friction": {
+              "n": 42,
+              "mean": 0.8304867873571429,
+              "median": 0.77539978,
+              "p10": 0.71311625,
+              "p90": 0.890395647,
+              "min": 0.684882511,
+              "max": 1.37942439
+            },
+            "stress_financing": {
+              "n": 42,
+              "mean": 0.10476190476190476,
+              "median": 0.0,
+              "p10": 0.0,
+              "p90": 0.0,
+              "min": 0.0,
+              "max": 1.2
+            },
+            "day_cluster_ci": {
+              "lower": -6.1140685318,
+              "upper": 4.613359935128206,
+              "day_clusters": 33,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 24,
+            "observed": 40,
+            "missing": 14,
+            "missing_reasons": {
+              "no_fresh_quote": 14
+            },
+            "gross_after_spread": {
+              "n": 40,
+              "mean": 0.901575,
+              "median": -2.14,
+              "p10": -21.18,
+              "p90": 31.814,
+              "min": -28.304,
+              "max": 55.02
+            },
+            "reference_net": {
+              "n": 40,
+              "mean": 0.5763037086750001,
+              "median": -2.365324075,
+              "p10": -21.40530759,
+              "p90": 31.18980968,
+              "min": -28.53152652,
+              "max": 54.791829032
+            },
+            "stress_net": {
+              "n": 40,
+              "mean": -0.12369629132500005,
+              "median": -2.965324075,
+              "p10": -22.00530759,
+              "p90": 30.18980968,
+              "min": -29.18515527,
+              "max": 54.191829032
+            },
+            "execution_friction": {
+              "n": 40,
+              "mean": 0.775683791325,
+              "median": 0.7695730000000001,
+              "p10": 0.71528374,
+              "p90": 0.880307517,
+              "min": 0.697769878,
+              "max": 0.90939344
+            },
+            "stress_financing": {
+              "n": 40,
+              "mean": 0.6,
+              "median": 0.4,
+              "p10": 0.4,
+              "p90": 1.2,
+              "min": 0.4,
+              "max": 1.2
+            },
+            "day_cluster_ci": {
+              "lower": -6.524886226947369,
+              "upper": 6.731140119897436,
+              "day_clusters": 30,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 48,
+            "observed": 32,
+            "missing": 22,
+            "missing_reasons": {
+              "no_fresh_quote": 22
+            },
+            "gross_after_spread": {
+              "n": 32,
+              "mean": 2.52334375,
+              "median": 0.8719999999999999,
+              "p10": -18.548,
+              "p90": 16.228,
+              "min": -40.636,
+              "max": 47.134
+            },
+            "reference_net": {
+              "n": 32,
+              "mean": 1.86059275084375,
+              "median": 0.046745400000000006,
+              "p10": -19.373218354,
+              "p90": 15.802996,
+              "min": -41.463440196,
+              "max": 46.589352159
+            },
+            "stress_net": {
+              "n": 32,
+              "mean": 0.82309275084375,
+              "median": -1.1345576585,
+              "p10": -20.573218354,
+              "p90": 15.002996,
+              "min": -42.663440196,
+              "max": 45.789352159
+            },
+            "execution_friction": {
+              "n": 32,
+              "mean": 0.78348537415625,
+              "median": 0.772598416,
+              "p10": 0.713848404,
+              "p90": 0.844132937,
+              "min": 0.683009071,
+              "max": 0.98429756
+            },
+            "stress_financing": {
+              "n": 32,
+              "mean": 1.2750000000000001,
+              "median": 1.6,
+              "p10": 0.8,
+              "p90": 1.6,
+              "min": 0.8,
+              "max": 1.6
+            },
+            "day_cluster_ci": {
+              "lower": -6.087475766969697,
+              "upper": 8.129961389051283,
+              "day_clusters": 26,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          }
+        ]
+      },
+      {
+        "recipe": "H1B_RECLAIM",
+        "view": "BUY",
+        "year": 2023,
+        "raw_signals": 66,
+        "buy_signals": 66,
+        "sell_signals": 0,
+        "unique_days": 49,
+        "entry_quote_missing": 0,
+        "invalid_stops": 0,
+        "natural_SL": {
+          "n": 66,
+          "mean": 6.831439393939394,
+          "median": 5.897,
+          "p10": 3.308,
+          "p90": 10.74,
+          "min": 1.829,
+          "max": 22.944
+        },
+        "ex_ante_friction": {
+          "n": 66,
+          "mean": 0.767758286939394,
+          "median": 0.76624279,
+          "p10": 0.71795583,
+          "p90": 0.80708937,
+          "min": 0.694058808,
+          "max": 0.97559969
+        },
+        "scale_ratio_of_medians": 0.12993772935390877,
+        "fraction_pass12": 0.42424242424242425,
+        "fraction_pass15": 0.6818181818181818,
+        "no_cost_filter_applied_to_markout": true,
+        "markouts": [
+          {
+            "hours": 4,
+            "observed": 65,
+            "missing": 1,
+            "missing_reasons": {
+              "no_fresh_quote": 1
+            },
+            "gross_after_spread": {
+              "n": 65,
+              "mean": 0.3979384615384615,
+              "median": -0.33,
+              "p10": -8.59,
+              "p90": 11.023,
+              "min": -48.63,
+              "max": 36.86
+            },
+            "reference_net": {
+              "n": 65,
+              "mean": 0.3705183038461539,
+              "median": -0.3557145,
+              "p10": -8.61765112,
+              "p90": 10.995864031,
+              "min": -48.65865478,
+              "max": 36.83196857
+            },
+            "stress_net": {
+              "n": 65,
+              "mean": -0.02948169615384604,
+              "median": -0.7557145,
+              "p10": -9.01765112,
+              "p90": 10.595864031,
+              "min": -49.05865478,
+              "max": 36.43196857
+            },
+            "execution_friction": {
+              "n": 65,
+              "mean": 0.7677816961538462,
+              "median": 0.763185553,
+              "p10": 0.73096517,
+              "p90": 0.80831065,
+              "min": 0.69839837,
+              "max": 0.87230164
+            },
+            "stress_financing": {
+              "n": 65,
+              "mean": 0.0,
+              "median": 0.0,
+              "p10": 0.0,
+              "p90": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "day_cluster_ci": {
+              "lower": -2.989371720892308,
+              "upper": 2.9375928088656718,
+              "day_clusters": 49,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 8,
+            "observed": 54,
+            "missing": 12,
+            "missing_reasons": {
+              "no_fresh_quote": 12
+            },
+            "gross_after_spread": {
+              "n": 54,
+              "mean": -0.6161111111111112,
+              "median": -2.1285,
+              "p10": -14.95,
+              "p90": 12.81,
+              "min": -44.02,
+              "max": 37.73
+            },
+            "reference_net": {
+              "n": 54,
+              "mean": -0.7028156164814814,
+              "median": -2.1559631105,
+              "p10": -14.97782066,
+              "p90": 12.78153646,
+              "min": -44.04867193,
+              "max": 37.70198222
+            },
+            "stress_net": {
+              "n": 54,
+              "mean": -1.1620748757407409,
+              "median": -2.5559631105,
+              "p10": -15.37782066,
+              "p90": 12.38153646,
+              "min": -44.44867193,
+              "max": 37.30198222
+            },
+            "execution_friction": {
+              "n": 54,
+              "mean": 0.824584135,
+              "median": 0.7710833155,
+              "p10": 0.72335105,
+              "p90": 0.90086915,
+              "min": 0.710611609,
+              "max": 1.631433759
+            },
+            "stress_financing": {
+              "n": 54,
+              "mean": 0.11851851851851852,
+              "median": 0.0,
+              "p10": 0.0,
+              "p90": 0.4,
+              "min": 0.0,
+              "max": 1.2
+            },
+            "day_cluster_ci": {
+              "lower": -6.1487938873620696,
+              "upper": 3.837191136425926,
+              "day_clusters": 44,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 24,
+            "observed": 51,
+            "missing": 15,
+            "missing_reasons": {
+              "no_fresh_quote": 15
+            },
+            "gross_after_spread": {
+              "n": 51,
+              "mean": 3.650705882352941,
+              "median": 5.54,
+              "p10": -17.19,
+              "p90": 27.05,
+              "min": -46.45,
+              "max": 47.66
+            },
+            "reference_net": {
+              "n": 51,
+              "mean": 3.3527144612941178,
+              "median": 5.31257575,
+              "p10": -17.41678354,
+              "p90": 26.82159204,
+              "min": -46.67867004,
+              "max": 47.43189297
+            },
+            "stress_net": {
+              "n": 51,
+              "mean": 2.682126226,
+              "median": 4.71257575,
+              "p10": -18.01678354,
+              "p90": 26.22159204,
+              "min": -47.27867004,
+              "max": 46.83189297
+            },
+            "execution_friction": {
+              "n": 51,
+              "mean": 0.7633149504705883,
+              "median": 0.75805397,
+              "p10": 0.72204338,
+              "p90": 0.792031489,
+              "min": 0.67837282,
+              "max": 1.006936951
+            },
+            "stress_financing": {
+              "n": 51,
+              "mean": 0.5411764705882353,
+              "median": 0.4,
+              "p10": 0.4,
+              "p90": 1.2,
+              "min": 0.4,
+              "max": 1.2
+            },
+            "day_cluster_ci": {
+              "lower": -4.017791398086957,
+              "upper": 9.86623554852,
+              "day_clusters": 38,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 48,
+            "observed": 39,
+            "missing": 27,
+            "missing_reasons": {
+              "no_fresh_quote": 27
+            },
+            "gross_after_spread": {
+              "n": 39,
+              "mean": 2.891717948717949,
+              "median": 6.68,
+              "p10": -25.24,
+              "p90": 25.86,
+              "min": -49.82,
+              "max": 36.219
+            },
+            "reference_net": {
+              "n": 39,
+              "mean": 2.207877950897436,
+              "median": 5.85369883,
+              "p10": -26.06719479,
+              "p90": 25.03358781,
+              "min": -50.24864645,
+              "max": 35.390981023
+            },
+            "stress_net": {
+              "n": 39,
+              "mean": 1.1514676944871793,
+              "median": 4.65369883,
+              "p10": -27.26719479,
+              "p90": 23.83358781,
+              "min": -51.04864645,
+              "max": 34.190981023
+            },
+            "execution_friction": {
+              "n": 39,
+              "mean": 0.7568912798717948,
+              "median": 0.756180569,
+              "p10": 0.7178572,
+              "p90": 0.78641219,
+              "min": 0.705501429,
+              "max": 0.853905983
+            },
+            "stress_financing": {
+              "n": 39,
+              "mean": 1.3128205128205128,
+              "median": 1.6,
+              "p10": 0.8,
+              "p90": 1.6,
+              "min": 0.8,
+              "max": 1.6
+            },
+            "day_cluster_ci": {
+              "lower": -7.279874842486486,
+              "upper": 9.802244171238096,
+              "day_clusters": 29,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          }
+        ]
+      },
+      {
+        "recipe": "H1B_RECLAIM",
+        "view": "BOTH",
+        "year": 2022,
+        "raw_signals": 116,
+        "buy_signals": 54,
+        "sell_signals": 62,
+        "unique_days": 90,
+        "entry_quote_missing": 0,
+        "invalid_stops": 0,
+        "natural_SL": {
+          "n": 116,
+          "mean": 7.246275862068965,
+          "median": 6.245,
+          "p10": 3.4,
+          "p90": 11.258,
+          "min": 2.692,
+          "max": 24.834
+        },
+        "ex_ante_friction": {
+          "n": 116,
+          "mean": 0.7739214959482759,
+          "median": 0.768997814,
+          "p10": 0.705998168,
+          "p90": 0.844774658,
+          "min": 0.64657121,
+          "max": 0.910879022
+        },
+        "scale_ratio_of_medians": 0.12313816076861489,
+        "fraction_pass12": 0.47413793103448276,
+        "fraction_pass15": 0.6551724137931034,
+        "no_cost_filter_applied_to_markout": true,
+        "markouts": [
+          {
+            "hours": 4,
+            "observed": 116,
+            "missing": 0,
+            "missing_reasons": {},
+            "gross_after_spread": {
+              "n": 116,
+              "mean": -1.666948275862069,
+              "median": -0.96,
+              "p10": -13.069,
+              "p90": 7.026,
+              "min": -34.664,
+              "max": 40.306
+            },
+            "reference_net": {
+              "n": 116,
+              "mean": -1.6921218686034483,
+              "median": -0.986009795,
+              "p10": -13.094566765,
+              "p90": 7.00019527,
+              "min": -34.68698324,
+              "max": 40.28178329
+            },
+            "stress_net": {
+              "n": 116,
+              "mean": -2.0921218686034484,
+              "median": -1.386009795,
+              "p10": -13.494566765,
+              "p90": 6.60019527,
+              "min": -35.08698324,
+              "max": 39.88178329
+            },
+            "execution_friction": {
+              "n": 116,
+              "mean": 0.7771089375689655,
+              "median": 0.7666515375,
+              "p10": 0.715335109,
+              "p90": 0.84192266,
+              "min": 0.67305422,
+              "max": 1.03884098
+            },
+            "stress_financing": {
+              "n": 116,
+              "mean": 0.0,
+              "median": 0.0,
+              "p10": 0.0,
+              "p90": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "day_cluster_ci": {
+              "lower": -3.8819724798157895,
+              "upper": -0.3351331060695652,
+              "day_clusters": 90,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 8,
+            "observed": 91,
+            "missing": 25,
+            "missing_reasons": {
+              "no_fresh_quote": 25
+            },
+            "gross_after_spread": {
+              "n": 91,
+              "mean": -1.7783956043956044,
+              "median": -0.499,
+              "p10": -21.677,
+              "p90": 11.138,
+              "min": -36.527,
+              "max": 45.736
+            },
+            "reference_net": {
+              "n": 91,
+              "mean": -1.8650671527032967,
+              "median": -0.524568865,
+              "p10": -21.702287591,
+              "p90": 11.11324975,
+              "min": -36.549996281,
+              "max": 45.71174528
+            },
+            "stress_net": {
+              "n": 91,
+              "mean": -2.326605614241758,
+              "median": -1.040338749,
+              "p10": -22.102287591,
+              "p90": 10.71324975,
+              "min": -36.949996281,
+              "max": 45.31174528
+            },
+            "execution_friction": {
+              "n": 91,
+              "mean": 0.827841877978022,
+              "median": 0.778049495,
+              "p10": 0.71452886,
+              "p90": 0.917942046,
+              "min": 0.684882511,
+              "max": 1.37942439
+            },
+            "stress_financing": {
+              "n": 91,
+              "mean": 0.12307692307692307,
+              "median": 0.0,
+              "p10": 0.0,
+              "p90": 0.4,
+              "min": 0.0,
+              "max": 1.2
+            },
+            "day_cluster_ci": {
+              "lower": -5.515149980966666,
+              "upper": 1.4562844182790695,
+              "day_clusters": 75,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 24,
+            "observed": 93,
+            "missing": 23,
+            "missing_reasons": {
+              "no_fresh_quote": 23
+            },
+            "gross_after_spread": {
+              "n": 93,
+              "mean": -1.88794623655914,
+              "median": -2.538,
+              "p10": -22.344,
+              "p90": 13.866,
+              "min": -39.779,
+              "max": 55.02
+            },
+            "reference_net": {
+              "n": 93,
+              "mean": -2.24208792327957,
+              "median": -2.761381316,
+              "p10": -22.62947734,
+              "p90": 13.641427354,
+              "min": -40.405422655,
+              "max": 54.791829032
+            },
+            "stress_net": {
+              "n": 93,
+              "mean": -2.971120181344086,
+              "median": -3.361381316,
+              "p10": -23.62947734,
+              "p90": 13.041427354,
+              "min": -41.405422655,
+              "max": 54.191829032
+            },
+            "execution_friction": {
+              "n": 93,
+              "mean": 0.7752277082258064,
+              "median": 0.76961475,
+              "p10": 0.71655119,
+              "p90": 0.83826674,
+              "min": 0.682865594,
+              "max": 0.91046668
+            },
+            "stress_financing": {
+              "n": 93,
+              "mean": 0.6580645161290323,
+              "median": 0.4,
+              "p10": 0.4,
+              "p90": 1.2,
+              "min": 0.4,
+              "max": 1.2
+            },
+            "day_cluster_ci": {
+              "lower": -7.228255353885417,
+              "upper": 1.3436634619638557,
+              "day_clusters": 72,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 48,
+            "observed": 76,
+            "missing": 40,
+            "missing_reasons": {
+              "no_fresh_quote": 40
+            },
+            "gross_after_spread": {
+              "n": 76,
+              "mean": 1.7165657894736843,
+              "median": 1.196,
+              "p10": -24.412,
+              "p90": 22.918,
+              "min": -48.776,
+              "max": 61.061
+            },
+            "reference_net": {
+              "n": 76,
+              "mean": 0.9967423329078948,
+              "median": 0.37045245000000004,
+              "p10": -25.23647522,
+              "p90": 22.09388115,
+              "min": -49.202889604,
+              "max": 60.236144785
+            },
+            "stress_net": {
+              "n": 76,
+              "mean": -0.09799450919736857,
+              "median": -0.82954755,
+              "p10": -26.43647522,
+              "p90": 20.89388115,
+              "min": -50.002889604,
+              "max": 59.036144785
+            },
+            "execution_friction": {
+              "n": 76,
+              "mean": 0.78061293025,
+              "median": 0.7728754929999999,
+              "p10": 0.713848404,
+              "p90": 0.840942653,
+              "min": 0.66747522,
+              "max": 0.98429756
+            },
+            "stress_financing": {
+              "n": 76,
+              "mean": 1.3894736842105264,
+              "median": 1.6,
+              "p10": 0.8,
+              "p90": 1.6,
+              "min": 0.8,
+              "max": 1.6
+            },
+            "day_cluster_ci": {
+              "lower": -5.40343477364557,
+              "upper": 4.885317342026315,
+              "day_clusters": 62,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          }
+        ]
+      },
+      {
+        "recipe": "H1B_RECLAIM",
+        "view": "BOTH",
+        "year": 2023,
+        "raw_signals": 136,
+        "buy_signals": 66,
+        "sell_signals": 70,
+        "unique_days": 105,
+        "entry_quote_missing": 0,
+        "invalid_stops": 0,
+        "natural_SL": {
+          "n": 136,
+          "mean": 7.522867647058823,
+          "median": 6.2245,
+          "p10": 2.942,
+          "p90": 13.253,
+          "min": 1.205,
+          "max": 30.839
+        },
+        "ex_ante_friction": {
+          "n": 136,
+          "mean": 0.7688562812352941,
+          "median": 0.75744196,
+          "p10": 0.71710519,
+          "p90": 0.80708937,
+          "min": 0.68234595,
+          "max": 1.147478922
+        },
+        "scale_ratio_of_medians": 0.12168719736525022,
+        "fraction_pass12": 0.47794117647058826,
+        "fraction_pass15": 0.7058823529411765,
+        "no_cost_filter_applied_to_markout": true,
+        "markouts": [
+          {
+            "hours": 4,
+            "observed": 135,
+            "missing": 1,
+            "missing_reasons": {
+              "no_fresh_quote": 1
+            },
+            "gross_after_spread": {
+              "n": 135,
+              "mean": -0.0025703703703703817,
+              "median": -0.247,
+              "p10": -11.947,
+              "p90": 9.64,
+              "min": -48.63,
+              "max": 36.86
+            },
+            "reference_net": {
+              "n": 135,
+              "mean": -0.02966593371111105,
+              "median": -0.273985441,
+              "p10": -11.972714199,
+              "p90": 9.61282985,
+              "min": -48.65865478,
+              "max": 36.83196857
+            },
+            "stress_net": {
+              "n": 135,
+              "mean": -0.42966593371111106,
+              "median": -0.673985441,
+              "p10": -12.372714199,
+              "p90": 9.21282985,
+              "min": -49.05865478,
+              "max": 36.43196857
+            },
+            "execution_friction": {
+              "n": 135,
+              "mean": 0.7662881559333333,
+              "median": 0.756402651,
+              "p10": 0.72213543,
+              "p90": 0.80831065,
+              "min": 0.6918282,
+              "max": 0.97289178
+            },
+            "stress_financing": {
+              "n": 135,
+              "mean": 0.0,
+              "median": 0.0,
+              "p10": 0.0,
+              "p90": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "day_cluster_ci": {
+              "lower": -2.0979950939166665,
+              "upper": 1.3992438852919709,
+              "day_clusters": 105,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 8,
+            "observed": 104,
+            "missing": 32,
+            "missing_reasons": {
+              "no_fresh_quote": 32
+            },
+            "gross_after_spread": {
+              "n": 104,
+              "mean": 0.10740384615384609,
+              "median": -1.2905,
+              "p10": -12.382,
+              "p90": 11.4,
+              "min": -44.02,
+              "max": 37.73
+            },
+            "reference_net": {
+              "n": 104,
+              "mean": -0.0024741426538460874,
+              "median": -1.4168299365,
+              "p10": -12.60977467,
+              "p90": 11.37256469,
+              "min": -44.04867193,
+              "max": 37.70198222
+            },
+            "stress_net": {
+              "n": 104,
+              "mean": -0.4851664503461539,
+              "median": -1.831329555,
+              "p10": -13.20977467,
+              "p90": 10.97256469,
+              "min": -44.44867193,
+              "max": 37.30198222
+            },
+            "execution_friction": {
+              "n": 104,
+              "mean": 0.8451135657307692,
+              "median": 0.7685306555,
+              "p10": 0.72709728,
+              "p90": 1.111454063,
+              "min": 0.710611609,
+              "max": 1.631433759
+            },
+            "stress_financing": {
+              "n": 104,
+              "mean": 0.16538461538461538,
+              "median": 0.0,
+              "p10": 0.0,
+              "p90": 0.4,
+              "min": 0.0,
+              "max": 1.2
+            },
+            "day_cluster_ci": {
+              "lower": -3.536391134238096,
+              "upper": 2.5070668303867922,
+              "day_clusters": 85,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 24,
+            "observed": 106,
+            "missing": 30,
+            "missing_reasons": {
+              "no_fresh_quote": 30
+            },
+            "gross_after_spread": {
+              "n": 106,
+              "mean": 1.9893018867924528,
+              "median": 3.0149999999999997,
+              "p10": -15.81,
+              "p90": 18.31,
+              "min": -46.45,
+              "max": 47.66
+            },
+            "reference_net": {
+              "n": 106,
+              "mean": 1.6791749393207547,
+              "median": 2.68382728,
+              "p10": -16.0373588,
+              "p90": 17.68261306,
+              "min": -46.67867004,
+              "max": 47.43189297
+            },
+            "stress_net": {
+              "n": 106,
+              "mean": 0.9961560713962264,
+              "median": 1.8838272800000002,
+              "p10": -16.6373588,
+              "p90": 16.68261306,
+              "min": -47.27867004,
+              "max": 46.83189297
+            },
+            "execution_friction": {
+              "n": 106,
+              "mean": 0.7652260040754717,
+              "median": 0.7555210245,
+              "p10": 0.72218786,
+              "p90": 0.809734551,
+              "min": 0.67837282,
+              "max": 1.006936951
+            },
+            "stress_financing": {
+              "n": 106,
+              "mean": 0.5660377358490566,
+              "median": 0.4,
+              "p10": 0.4,
+              "p90": 1.2,
+              "min": 0.4,
+              "max": 1.2
+            },
+            "day_cluster_ci": {
+              "lower": -2.7142606345370375,
+              "upper": 5.073099619574074,
+              "day_clusters": 82,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 48,
+            "observed": 80,
+            "missing": 56,
+            "missing_reasons": {
+              "no_fresh_quote": 56
+            },
+            "gross_after_spread": {
+              "n": 80,
+              "mean": 0.1084000000000001,
+              "median": -0.40499999999999997,
+              "p10": -29.13,
+              "p90": 25.383,
+              "min": -61.677,
+              "max": 36.219
+            },
+            "reference_net": {
+              "n": 80,
+              "mean": -0.563773116775,
+              "median": -1.031865825,
+              "p10": -29.95559396,
+              "p90": 24.954995471,
+              "min": -62.505176589,
+              "max": 35.390981023
+            },
+            "stress_net": {
+              "n": 80,
+              "mean": -1.608773116775,
+              "median": -2.031865825,
+              "p10": -31.15559396,
+              "p90": 23.83358781,
+              "min": -63.705176589,
+              "max": 34.190981023
+            },
+            "execution_friction": {
+              "n": 80,
+              "mean": 0.763985616775,
+              "median": 0.7558872645,
+              "p10": 0.7184039,
+              "p90": 0.797375933,
+              "min": 0.705501429,
+              "max": 0.946491186
+            },
+            "stress_financing": {
+              "n": 80,
+              "mean": 1.29,
+              "median": 1.6,
+              "p10": 0.8,
+              "p90": 1.6,
+              "min": 0.8,
+              "max": 1.6
+            },
+            "day_cluster_ci": {
+              "lower": -7.759086289843374,
+              "upper": 4.218884613822785,
+              "day_clusters": 61,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          }
+        ]
+      },
+      {
+        "recipe": "H1C_MOMENTUM",
+        "view": "BUY",
+        "year": 2022,
+        "raw_signals": 25,
+        "buy_signals": 25,
+        "sell_signals": 0,
+        "unique_days": 21,
+        "entry_quote_missing": 0,
+        "invalid_stops": 0,
+        "natural_SL": {
+          "n": 25,
+          "mean": 16.89008,
+          "median": 15.127,
+          "p10": 7.097,
+          "p90": 23.917,
+          "min": 5.91,
+          "max": 38.156
+        },
+        "ex_ante_friction": {
+          "n": 25,
+          "mean": 0.80561920856,
+          "median": 0.807402732,
+          "p10": 0.712292688,
+          "p90": 0.898397248,
+          "min": 0.64657121,
+          "max": 0.911229722
+        },
+        "scale_ratio_of_medians": 0.05337494096648377,
+        "fraction_pass12": 0.96,
+        "fraction_pass15": 1.0,
+        "no_cost_filter_applied_to_markout": true,
+        "markouts": [
+          {
+            "hours": 4,
+            "observed": 25,
+            "missing": 0,
+            "missing_reasons": {},
+            "gross_after_spread": {
+              "n": 25,
+              "mean": -0.22276000000000012,
+              "median": -0.219,
+              "p10": -15.114,
+              "p90": 11.994,
+              "min": -39.56,
+              "max": 33.214
+            },
+            "reference_net": {
+              "n": 25,
+              "mean": -0.24825764924000007,
+              "median": -0.245017845,
+              "p10": -15.13818689,
+              "p90": 11.970295466,
+              "min": -39.587359892,
+              "max": 33.19025516
+            },
+            "stress_net": {
+              "n": 25,
+              "mean": -0.6482576492400002,
+              "median": -0.645017845,
+              "p10": -15.53818689,
+              "p90": 11.570295466,
+              "min": -39.987359892,
+              "max": 32.79025516
+            },
+            "execution_friction": {
+              "n": 25,
+              "mean": 0.79779764924,
+              "median": 0.782517845,
+              "p10": 0.719142054,
+              "p90": 0.89996318,
+              "min": 0.677934801,
+              "max": 0.91122345
+            },
+            "stress_financing": {
+              "n": 25,
+              "mean": 0.0,
+              "median": 0.0,
+              "p10": 0.0,
+              "p90": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "day_cluster_ci": {
+              "lower": -5.703041299444444,
+              "upper": 4.732939920958334,
+              "day_clusters": 21,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 8,
+            "observed": 23,
+            "missing": 2,
+            "missing_reasons": {
+              "no_fresh_quote": 2
+            },
+            "gross_after_spread": {
+              "n": 23,
+              "mean": -5.604130434782609,
+              "median": -4.184,
+              "p10": -26.957,
+              "p90": 9.754,
+              "min": -54.061,
+              "max": 31.454
+            },
+            "reference_net": {
+              "n": 23,
+              "mean": -5.734013734652174,
+              "median": -4.20736796,
+              "p10": -26.982382511,
+              "p90": 9.52951134,
+              "min": -54.088258385,
+              "max": 31.23026748
+            },
+            "stress_net": {
+              "n": 23,
+              "mean": -6.238361560739131,
+              "median": -4.60736796,
+              "p10": -27.382382511,
+              "p90": 8.92951134,
+              "min": -54.488258385,
+              "max": 30.63026748
+            },
+            "execution_friction": {
+              "n": 23,
+              "mean": 0.928905039,
+              "median": 0.779121636,
+              "p10": 0.725474,
+              "p90": 1.37123024,
+              "min": 0.684882511,
+              "max": 1.63998866
+            },
+            "stress_financing": {
+              "n": 23,
+              "mean": 0.20869565217391306,
+              "median": 0.0,
+              "p10": 0.0,
+              "p90": 0.4,
+              "min": 0.0,
+              "max": 1.2
+            },
+            "day_cluster_ci": {
+              "lower": -14.409581231679999,
+              "upper": 1.748521337190476,
+              "day_clusters": 21,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 24,
+            "observed": 23,
+            "missing": 2,
+            "missing_reasons": {
+              "no_fresh_quote": 2
+            },
+            "gross_after_spread": {
+              "n": 23,
+              "mean": -5.105565217391304,
+              "median": -5.904,
+              "p10": -20.8,
+              "p90": 15.474,
+              "min": -64.06,
+              "max": 33.43
+            },
+            "reference_net": {
+              "n": 23,
+              "mean": -5.3658476196521745,
+              "median": -6.13002488,
+              "p10": -21.02542561,
+              "p90": 15.2494713,
+              "min": -64.287188392,
+              "max": 33.206145414
+            },
+            "stress_net": {
+              "n": 23,
+              "mean": -6.000630228347826,
+              "median": -6.73002488,
+              "p10": -21.62542561,
+              "p90": 14.6494713,
+              "min": -64.887188392,
+              "max": 32.606145414
+            },
+            "execution_friction": {
+              "n": 23,
+              "mean": 0.8016737066086956,
+              "median": 0.782399833,
+              "p10": 0.70442561,
+              "p90": 0.89528931,
+              "min": 0.690162942,
+              "max": 0.91111376
+            },
+            "stress_financing": {
+              "n": 23,
+              "mean": 0.46956521739130436,
+              "median": 0.4,
+              "p10": 0.4,
+              "p90": 0.4,
+              "min": 0.4,
+              "max": 1.2
+            },
+            "day_cluster_ci": {
+              "lower": -17.037073907708333,
+              "upper": 3.8865657990454547,
+              "day_clusters": 19,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 48,
+            "observed": 15,
+            "missing": 10,
+            "missing_reasons": {
+              "no_fresh_quote": 10
+            },
+            "gross_after_spread": {
+              "n": 15,
+              "mean": 2.8590666666666666,
+              "median": -3.77,
+              "p10": -13.084,
+              "p90": 16.324,
+              "min": -18.605,
+              "max": 64.395
+            },
+            "reference_net": {
+              "n": 15,
+              "mean": 2.2205736346666667,
+              "median": -4.597635062,
+              "p10": -13.5082011,
+              "p90": 15.896483,
+              "min": -19.428267013,
+              "max": 63.571036893
+            },
+            "stress_net": {
+              "n": 15,
+              "mean": 1.2072403013333335,
+              "median": -5.797635062,
+              "p10": -14.3082011,
+              "p90": 15.096483,
+              "min": -20.628267013,
+              "max": 62.371036893
+            },
+            "execution_friction": {
+              "n": 15,
+              "mean": 0.785793032,
+              "median": 0.785024355,
+              "p10": 0.69216682,
+              "p90": 0.888267013,
+              "min": 0.683009071,
+              "max": 0.899463107
+            },
+            "stress_financing": {
+              "n": 15,
+              "mean": 1.2266666666666668,
+              "median": 1.6,
+              "p10": 0.8,
+              "p90": 1.6,
+              "min": 0.8,
+              "max": 1.6
+            },
+            "day_cluster_ci": {
+              "lower": -7.172852799466667,
+              "upper": 12.430986774214286,
+              "day_clusters": 14,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          }
+        ]
+      },
+      {
+        "recipe": "H1C_MOMENTUM",
+        "view": "BUY",
+        "year": 2023,
+        "raw_signals": 46,
+        "buy_signals": 46,
+        "sell_signals": 0,
+        "unique_days": 35,
+        "entry_quote_missing": 0,
+        "invalid_stops": 0,
+        "natural_SL": {
+          "n": 46,
+          "mean": 15.477826086956522,
+          "median": 13.653500000000001,
+          "p10": 7.647,
+          "p90": 27.378,
+          "min": 4.406,
+          "max": 35.461
+        },
+        "ex_ante_friction": {
+          "n": 46,
+          "mean": 0.7772879913913043,
+          "median": 0.76525099,
+          "p10": 0.71730147,
+          "p90": 0.84910873,
+          "min": 0.71623803,
+          "max": 0.994899788
+        },
+        "scale_ratio_of_medians": 0.05604797231479107,
+        "fraction_pass12": 0.9782608695652174,
+        "fraction_pass15": 0.9782608695652174,
+        "no_cost_filter_applied_to_markout": true,
+        "markouts": [
+          {
+            "hours": 4,
+            "observed": 46,
+            "missing": 0,
+            "missing_reasons": {},
+            "gross_after_spread": {
+              "n": 46,
+              "mean": 2.075934782608696,
+              "median": 0.6365000000000001,
+              "p10": -10.18,
+              "p90": 15.64,
+              "min": -20.0,
+              "max": 28.85
+            },
+            "reference_net": {
+              "n": 46,
+              "mean": 2.048675737934783,
+              "median": 0.6102345545000001,
+              "p10": -10.20662219,
+              "p90": 15.61316585,
+              "min": -20.02791271,
+              "max": 28.82119836
+            },
+            "stress_net": {
+              "n": 46,
+              "mean": 1.6486757379347827,
+              "median": 0.2102345545,
+              "p10": -10.60662219,
+              "p90": 15.21316585,
+              "min": -20.42791271,
+              "max": 28.42119836
+            },
+            "execution_friction": {
+              "n": 46,
+              "mean": 0.7722916533695652,
+              "median": 0.7625154455,
+              "p10": 0.729064137,
+              "p90": 0.83086978,
+              "min": 0.69512219,
+              "max": 0.92302933
+            },
+            "stress_financing": {
+              "n": 46,
+              "mean": 0.0,
+              "median": 0.0,
+              "p10": 0.0,
+              "p90": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "day_cluster_ci": {
+              "lower": -2.241134337790698,
+              "upper": 5.369376190614035,
+              "day_clusters": 35,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 8,
+            "observed": 37,
+            "missing": 9,
+            "missing_reasons": {
+              "no_fresh_quote": 9
+            },
+            "gross_after_spread": {
+              "n": 37,
+              "mean": -0.7951891891891891,
+              "median": -1.927,
+              "p10": -14.62,
+              "p90": 9.4,
+              "min": -30.05,
+              "max": 40.56
+            },
+            "reference_net": {
+              "n": 37,
+              "mean": -0.9304634792432432,
+              "median": -2.153283901,
+              "p10": -14.64576623,
+              "p90": 9.37271085,
+              "min": -30.07784236,
+              "max": 40.53328653
+            },
+            "stress_net": {
+              "n": 37,
+              "mean": -1.4385715873513514,
+              "median": -2.753283901,
+              "p10": -15.04576623,
+              "p90": 8.97271085,
+              "min": -30.47784236,
+              "max": 40.13328653
+            },
+            "execution_friction": {
+              "n": 37,
+              "mean": 0.8986256414054055,
+              "median": 0.77677185,
+              "p10": 0.725516521,
+              "p90": 1.337590552,
+              "min": 0.7162255,
+              "max": 1.521068708
+            },
+            "stress_financing": {
+              "n": 37,
+              "mean": 0.21621621621621623,
+              "median": 0.0,
+              "p10": 0.0,
+              "p90": 0.4,
+              "min": 0.0,
+              "max": 1.2
+            },
+            "day_cluster_ci": {
+              "lower": -6.0718099026,
+              "upper": 4.16286106216279,
+              "day_clusters": 30,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 24,
+            "observed": 36,
+            "missing": 10,
+            "missing_reasons": {
+              "no_fresh_quote": 10
+            },
+            "gross_after_spread": {
+              "n": 36,
+              "mean": -1.8494444444444444,
+              "median": -0.31999999999999995,
+              "p10": -20.25,
+              "p90": 11.532,
+              "min": -33.62,
+              "max": 29.766
+            },
+            "reference_net": {
+              "n": 36,
+              "mean": -2.2433368469444446,
+              "median": -0.742371085,
+              "p10": -20.87760772,
+              "p90": 11.306086574,
+              "min": -33.84781737,
+              "max": 29.53789185
+            },
+            "stress_net": {
+              "n": 36,
+              "mean": -3.010003513611111,
+              "median": -1.542371085,
+              "p10": -21.72848783,
+              "p90": 10.706086574,
+              "min": -34.44781737,
+              "max": 28.93789185
+            },
+            "execution_friction": {
+              "n": 36,
+              "mean": 0.7766146247222222,
+              "median": 0.7644214899999999,
+              "p10": 0.728402333,
+              "p90": 0.832556927,
+              "min": 0.715549701,
+              "max": 0.966913426
+            },
+            "stress_financing": {
+              "n": 36,
+              "mean": 0.7333333333333333,
+              "median": 0.4,
+              "p10": 0.4,
+              "p90": 1.2,
+              "min": 0.4,
+              "max": 1.2
+            },
+            "day_cluster_ci": {
+              "lower": -7.95909172840625,
+              "upper": 1.4095377756666667,
+              "day_clusters": 28,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 48,
+            "observed": 31,
+            "missing": 15,
+            "missing_reasons": {
+              "no_fresh_quote": 15
+            },
+            "gross_after_spread": {
+              "n": 31,
+              "mean": 2.916677419354839,
+              "median": 4.03,
+              "p10": -20.237,
+              "p90": 27.39,
+              "min": -64.15,
+              "max": 44.12
+            },
+            "reference_net": {
+              "n": 31,
+              "mean": 2.1411508580967746,
+              "median": 3.2036744,
+              "p10": -21.062877131,
+              "p90": 26.56288312,
+              "min": -64.57760366,
+              "max": 43.69198733
+            },
+            "stress_net": {
+              "n": 31,
+              "mean": 0.9927637613225803,
+              "median": 2.0036744,
+              "p10": -22.262877131,
+              "p90": 25.36288312,
+              "min": -65.37760366,
+              "max": 42.89198733
+            },
+            "execution_friction": {
+              "n": 31,
+              "mean": 0.7678168838387097,
+              "median": 0.76260366,
+              "p10": 0.72711688,
+              "p90": 0.840756857,
+              "min": 0.69060638,
+              "max": 0.896474639
+            },
+            "stress_financing": {
+              "n": 31,
+              "mean": 1.4967741935483871,
+              "median": 1.6,
+              "p10": 0.8,
+              "p90": 1.6,
+              "min": 0.8,
+              "max": 1.6
+            },
+            "day_cluster_ci": {
+              "lower": -7.784832661521739,
+              "upper": 9.469651286774193,
+              "day_clusters": 23,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          }
+        ]
+      },
+      {
+        "recipe": "H1C_MOMENTUM",
+        "view": "BOTH",
+        "year": 2022,
+        "raw_signals": 61,
+        "buy_signals": 25,
+        "sell_signals": 36,
+        "unique_days": 49,
+        "entry_quote_missing": 0,
+        "invalid_stops": 0,
+        "natural_SL": {
+          "n": 61,
+          "mean": 14.900819672131147,
+          "median": 12.336,
+          "p10": 8.19,
+          "p90": 24.008,
+          "min": 4.987,
+          "max": 38.156
+        },
+        "ex_ante_friction": {
+          "n": 61,
+          "mean": 0.7926528812459016,
+          "median": 0.78009344,
+          "p10": 0.713394432,
+          "p90": 0.898397248,
+          "min": 0.64657121,
+          "max": 0.967343012
+        },
+        "scale_ratio_of_medians": 0.06323714656290531,
+        "fraction_pass12": 0.9508196721311475,
+        "fraction_pass15": 0.9836065573770492,
+        "no_cost_filter_applied_to_markout": true,
+        "markouts": [
+          {
+            "hours": 4,
+            "observed": 61,
+            "missing": 0,
+            "missing_reasons": {},
+            "gross_after_spread": {
+              "n": 61,
+              "mean": -1.5224098360655738,
+              "median": -0.398,
+              "p10": -15.114,
+              "p90": 10.033,
+              "min": -39.56,
+              "max": 33.214
+            },
+            "reference_net": {
+              "n": 61,
+              "mean": -1.5476622599836065,
+              "median": -0.422864882,
+              "p10": -15.13818689,
+              "p90": 10.008786181,
+              "min": -39.587359892,
+              "max": 33.19025516
+            },
+            "stress_net": {
+              "n": 61,
+              "mean": -1.9476622599836066,
+              "median": -0.822864882,
+              "p10": -15.53818689,
+              "p90": 9.608786181,
+              "min": -39.987359892,
+              "max": 32.79025516
+            },
+            "execution_friction": {
+              "n": 61,
+              "mean": 0.7880720960491804,
+              "median": 0.774488643,
+              "p10": 0.72484477,
+              "p90": 0.89529757,
+              "min": 0.677934801,
+              "max": 0.927722996
+            },
+            "stress_financing": {
+              "n": 61,
+              "mean": 0.0,
+              "median": 0.0,
+              "p10": 0.0,
+              "p90": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "day_cluster_ci": {
+              "lower": -4.877769735770492,
+              "upper": 0.6935561168644068,
+              "day_clusters": 49,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 8,
+            "observed": 55,
+            "missing": 6,
+            "missing_reasons": {
+              "no_fresh_quote": 6
+            },
+            "gross_after_spread": {
+              "n": 55,
+              "mean": -2.8308363636363634,
+              "median": -0.194,
+              "p10": -18.45,
+              "p90": 9.754,
+              "min": -54.061,
+              "max": 33.267
+            },
+            "reference_net": {
+              "n": 55,
+              "mean": -2.932355392690909,
+              "median": -0.21795463,
+              "p10": -18.4733079,
+              "p90": 9.52951134,
+              "min": -54.088258385,
+              "max": 33.242020787
+            },
+            "stress_net": {
+              "n": 55,
+              "mean": -3.4087190290545455,
+              "median": -0.75123024,
+              "p10": -18.8733079,
+              "p90": 8.92951134,
+              "min": -54.488258385,
+              "max": 32.842020787
+            },
+            "execution_friction": {
+              "n": 55,
+              "mean": 0.8469826654181818,
+              "median": 0.782881686,
+              "p10": 0.725474,
+              "p90": 0.897755756,
+              "min": 0.684882511,
+              "max": 1.63998866
+            },
+            "stress_financing": {
+              "n": 55,
+              "mean": 0.15272727272727274,
+              "median": 0.0,
+              "p10": 0.0,
+              "p90": 0.4,
+              "min": 0.0,
+              "max": 1.2
+            },
+            "day_cluster_ci": {
+              "lower": -8.067308695,
+              "upper": 0.8489320571551727,
+              "day_clusters": 48,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 24,
+            "observed": 48,
+            "missing": 13,
+            "missing_reasons": {
+              "no_fresh_quote": 13
+            },
+            "gross_after_spread": {
+              "n": 48,
+              "mean": -4.009666666666667,
+              "median": -3.1100000000000003,
+              "p10": -25.354,
+              "p90": 15.474,
+              "min": -64.06,
+              "max": 34.541
+            },
+            "reference_net": {
+              "n": 48,
+              "mean": -4.2848990685,
+              "median": -3.335993135,
+              "p10": -25.57786727,
+              "p90": 15.2494713,
+              "min": -64.287188392,
+              "max": 34.316029705
+            },
+            "stress_net": {
+              "n": 48,
+              "mean": -4.9348990685,
+              "median": -3.935993135,
+              "p10": -26.17786727,
+              "p90": 14.6494713,
+              "min": -64.887188392,
+              "max": 33.716029705
+            },
+            "execution_friction": {
+              "n": 48,
+              "mean": 0.7840032351666667,
+              "median": 0.77295872,
+              "p10": 0.70442561,
+              "p90": 0.8851169,
+              "min": 0.680328248,
+              "max": 0.91111376
+            },
+            "stress_financing": {
+              "n": 48,
+              "mean": 0.5,
+              "median": 0.4,
+              "p10": 0.4,
+              "p90": 1.2,
+              "min": 0.4,
+              "max": 1.2
+            },
+            "day_cluster_ci": {
+              "lower": -11.556152071749999,
+              "upper": 1.3567152886666667,
+              "day_clusters": 39,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 48,
+            "observed": 32,
+            "missing": 29,
+            "missing_reasons": {
+              "no_fresh_quote": 29
+            },
+            "gross_after_spread": {
+              "n": 32,
+              "mean": 3.0595,
+              "median": -1.1235,
+              "p10": -18.605,
+              "p90": 25.492,
+              "min": -48.776,
+              "max": 64.395
+            },
+            "reference_net": {
+              "n": 32,
+              "mean": 2.38427355225,
+              "median": -1.5490863615,
+              "p10": -19.428267013,
+              "p90": 24.667432828,
+              "min": -49.202889604,
+              "max": 63.571036893
+            },
+            "stress_net": {
+              "n": 32,
+              "mean": 1.3342735522500002,
+              "median": -2.3490863615,
+              "p10": -20.628267013,
+              "p90": 23.467432828,
+              "min": -50.002889604,
+              "max": 62.371036893
+            },
+            "execution_friction": {
+              "n": 32,
+              "mean": 0.78833582275,
+              "median": 0.7889695635,
+              "p10": 0.716931222,
+              "p90": 0.88236474,
+              "min": 0.683009071,
+              "max": 0.899463107
+            },
+            "stress_financing": {
+              "n": 32,
+              "mean": 1.3,
+              "median": 1.6,
+              "p10": 0.8,
+              "p90": 1.6,
+              "min": 0.8,
+              "max": 1.6
+            },
+            "day_cluster_ci": {
+              "lower": -7.057022088999999,
+              "upper": 10.035006525548388,
+              "day_clusters": 28,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          }
+        ]
+      },
+      {
+        "recipe": "H1C_MOMENTUM",
+        "view": "BOTH",
+        "year": 2023,
+        "raw_signals": 85,
+        "buy_signals": 46,
+        "sell_signals": 39,
+        "unique_days": 67,
+        "entry_quote_missing": 0,
+        "invalid_stops": 0,
+        "natural_SL": {
+          "n": 85,
+          "mean": 13.531329411764705,
+          "median": 10.97,
+          "p10": 6.521,
+          "p90": 23.243,
+          "min": 4.344,
+          "max": 35.461
+        },
+        "ex_ante_friction": {
+          "n": 85,
+          "mean": 0.7654028859294117,
+          "median": 0.74885337,
+          "p10": 0.71646203,
+          "p90": 0.81672467,
+          "min": 0.69342927,
+          "max": 0.994899788
+        },
+        "scale_ratio_of_medians": 0.06826375296262534,
+        "fraction_pass12": 0.9294117647058824,
+        "fraction_pass15": 0.9764705882352941,
+        "no_cost_filter_applied_to_markout": true,
+        "markouts": [
+          {
+            "hours": 4,
+            "observed": 85,
+            "missing": 0,
+            "missing_reasons": {},
+            "gross_after_spread": {
+              "n": 85,
+              "mean": 1.0992470588235295,
+              "median": 0.109,
+              "p10": -7.26,
+              "p90": 12.169,
+              "min": -20.0,
+              "max": 28.85
+            },
+            "reference_net": {
+              "n": 85,
+              "mean": 1.072177315835294,
+              "median": 0.081380653,
+              "p10": -7.28802933,
+              "p90": 12.141041027,
+              "min": -20.02791271,
+              "max": 28.82119836
+            },
+            "stress_net": {
+              "n": 85,
+              "mean": 0.6721773158352942,
+              "median": -0.318619347,
+              "p10": -7.68802933,
+              "p90": 11.741041027,
+              "min": -20.42791271,
+              "max": 28.42119836
+            },
+            "execution_friction": {
+              "n": 85,
+              "mean": 0.7622697429882352,
+              "median": 0.75584473,
+              "p10": 0.71723133,
+              "p90": 0.80245679,
+              "min": 0.6918282,
+              "max": 0.92302933
+            },
+            "stress_financing": {
+              "n": 85,
+              "mean": 0.0,
+              "median": 0.0,
+              "p10": 0.0,
+              "p90": 0.0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            "day_cluster_ci": {
+              "lower": -1.5693774474625,
+              "upper": 3.0499395612777778,
+              "day_clusters": 67,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 8,
+            "observed": 69,
+            "missing": 16,
+            "missing_reasons": {
+              "no_fresh_quote": 16
+            },
+            "gross_after_spread": {
+              "n": 69,
+              "mean": -0.3330289855072463,
+              "median": -0.36,
+              "p10": -14.62,
+              "p90": 10.663,
+              "min": -30.05,
+              "max": 40.56
+            },
+            "reference_net": {
+              "n": 69,
+              "mean": -0.48469178752173914,
+              "median": -0.884012784,
+              "p10": -14.64576623,
+              "p90": 10.636432431,
+              "min": -30.07784236,
+              "max": 40.53328653
+            },
+            "stress_net": {
+              "n": 69,
+              "mean": -1.0093294686811594,
+              "median": -1.284012784,
+              "p10": -15.04576623,
+              "p90": 10.236432431,
+              "min": -30.47784236,
+              "max": 40.13328653
+            },
+            "execution_friction": {
+              "n": 69,
+              "mean": 0.860872946942029,
+              "median": 0.779461341,
+              "p10": 0.725516521,
+              "p90": 1.205030261,
+              "min": 0.682663869,
+              "max": 1.521068708
+            },
+            "stress_financing": {
+              "n": 69,
+              "mean": 0.2492753623188406,
+              "median": 0.0,
+              "p10": 0.0,
+              "p90": 0.4,
+              "min": 0.0,
+              "max": 1.2
+            },
+            "day_cluster_ci": {
+              "lower": -4.099864982716418,
+              "upper": 2.323491081185714,
+              "day_clusters": 57,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 24,
+            "observed": 72,
+            "missing": 13,
+            "missing_reasons": {
+              "no_fresh_quote": 13
+            },
+            "gross_after_spread": {
+              "n": 72,
+              "mean": -0.2417361111111111,
+              "median": 0.3745,
+              "p10": -17.19,
+              "p90": 13.64,
+              "min": -33.62,
+              "max": 29.766
+            },
+            "reference_net": {
+              "n": 72,
+              "mean": -0.6132310215972223,
+              "median": 0.087750365,
+              "p10": -17.644836851,
+              "p90": 13.01317985,
+              "min": -33.84781737,
+              "max": 29.53789185
+            },
+            "stress_net": {
+              "n": 72,
+              "mean": -1.3576754660416666,
+              "median": -0.512249635,
+              "p10": -18.644836851,
+              "p90": 12.01317985,
+              "min": -34.44781737,
+              "max": 28.93789185
+            },
+            "execution_friction": {
+              "n": 72,
+              "mean": 0.7664254660416666,
+              "median": 0.7568949305,
+              "p10": 0.72697408,
+              "p90": 0.80739589,
+              "min": 0.715549701,
+              "max": 0.966913426
+            },
+            "stress_financing": {
+              "n": 72,
+              "mean": 0.6888888888888889,
+              "median": 0.4,
+              "p10": 0.4,
+              "p90": 1.2,
+              "min": 0.4,
+              "max": 1.2
+            },
+            "day_cluster_ci": {
+              "lower": -4.567682737140845,
+              "upper": 1.5729075650000002,
+              "day_clusters": 57,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          },
+          {
+            "hours": 48,
+            "observed": 61,
+            "missing": 24,
+            "missing_reasons": {
+              "no_fresh_quote": 24
+            },
+            "gross_after_spread": {
+              "n": 61,
+              "mean": 4.611508196721312,
+              "median": 4.95,
+              "p10": -15.401,
+              "p90": 27.39,
+              "min": -64.15,
+              "max": 47.539
+            },
+            "reference_net": {
+              "n": 61,
+              "mean": 3.863217098229508,
+              "median": 4.12330018,
+              "p10": -15.9702479,
+              "p90": 26.56288312,
+              "min": -64.57760366,
+              "max": 46.711288617
+            },
+            "stress_net": {
+              "n": 61,
+              "mean": 2.741905622819672,
+              "median": 3.07419415,
+              "p10": -17.1702479,
+              "p90": 25.36288312,
+              "min": -65.37760366,
+              "max": 45.511288617
+            },
+            "execution_friction": {
+              "n": 61,
+              "mean": 0.7583156886557377,
+              "median": 0.75303464,
+              "p10": 0.718211383,
+              "p90": 0.787610517,
+              "min": 0.69060638,
+              "max": 0.896474639
+            },
+            "stress_financing": {
+              "n": 61,
+              "mean": 1.4426229508196722,
+              "median": 1.6,
+              "p10": 0.8,
+              "p90": 1.6,
+              "min": 0.8,
+              "max": 1.6
+            },
+            "day_cluster_ci": {
+              "lower": -2.5843189886206894,
+              "upper": 7.943014748587301,
+              "day_clusters": 48,
+              "repetitions": 2000,
+              "seed": 20261113,
+              "scope": "conditional_within_day_dependence_only_not_trial_adjusted_or_future_edge_proof"
+            }
+          }
+        ]
+      }
+    ],
+    "decisions": [
+      {
+        "recipe": "H1A_ASIA",
+        "view": "BUY",
+        "status": "NOT_ELIGIBLE_FOR_PACKAGING",
+        "reasons": [
+          "PRIMARY_ENDPOINTS_MISSING_2022",
+          "ECONOMIC_2022",
+          "PRIMARY_ENDPOINTS_MISSING_2023",
+          "ECONOMIC_2023"
+        ],
+        "primary_horizon_hours": 8,
+        "clean_OOS_verified": false,
+        "prop_qualified": false
+      },
+      {
+        "recipe": "H1A_ASIA",
+        "view": "BOTH",
+        "status": "NOT_ELIGIBLE_FOR_PACKAGING",
+        "reasons": [
+          "PRIMARY_ENDPOINTS_MISSING_2022",
+          "ECONOMIC_2022",
+          "PRIMARY_ENDPOINTS_MISSING_2023",
+          "NET_SMALLER_THAN_FRICTION_2023"
+        ],
+        "primary_horizon_hours": 8,
+        "clean_OOS_verified": false,
+        "prop_qualified": false
+      },
+      {
+        "recipe": "H1B_RECLAIM",
+        "view": "BUY",
+        "status": "NOT_ELIGIBLE_FOR_PACKAGING",
+        "reasons": [
+          "SCALE_2022",
+          "COST_REJECTION_GT50_2022",
+          "PRIMARY_ENDPOINTS_MISSING_2022",
+          "ECONOMIC_2022",
+          "SCALE_2023",
+          "COST_REJECTION_GT50_2023",
+          "PRIMARY_ENDPOINTS_MISSING_2023"
+        ],
+        "primary_horizon_hours": 24,
+        "clean_OOS_verified": false,
+        "prop_qualified": false
+      },
+      {
+        "recipe": "H1B_RECLAIM",
+        "view": "BOTH",
+        "status": "NOT_ELIGIBLE_FOR_PACKAGING",
+        "reasons": [
+          "SCALE_2022",
+          "COST_REJECTION_GT50_2022",
+          "PRIMARY_ENDPOINTS_MISSING_2022",
+          "ECONOMIC_2022",
+          "SCALE_2023",
+          "COST_REJECTION_GT50_2023",
+          "PRIMARY_ENDPOINTS_MISSING_2023"
+        ],
+        "primary_horizon_hours": 24,
+        "clean_OOS_verified": false,
+        "prop_qualified": false
+      },
+      {
+        "recipe": "H1C_MOMENTUM",
+        "view": "BUY",
+        "status": "NOT_ELIGIBLE_FOR_PACKAGING",
+        "reasons": [
+          "CADENCE_2022",
+          "PRIMARY_ENDPOINTS_MISSING_2022",
+          "ECONOMIC_2022",
+          "PRIMARY_ENDPOINTS_MISSING_2023",
+          "ECONOMIC_2023"
+        ],
+        "primary_horizon_hours": 8,
+        "clean_OOS_verified": false,
+        "prop_qualified": false
+      },
+      {
+        "recipe": "H1C_MOMENTUM",
+        "view": "BOTH",
+        "status": "NOT_ELIGIBLE_FOR_PACKAGING",
+        "reasons": [
+          "PRIMARY_ENDPOINTS_MISSING_2022",
+          "ECONOMIC_2022",
+          "PRIMARY_ENDPOINTS_MISSING_2023",
+          "ECONOMIC_2023"
+        ],
+        "primary_horizon_hours": 8,
+        "clean_OOS_verified": false,
+        "prop_qualified": false
+      }
+    ],
+    "config_sha256": "4b1b471368ea35d074b5b791103bae68566f8a7819e957b2e8800ada407bb042",
+    "measurements_sha256": "6ce426b50b4f15cbc31bf45a7d311ac196aa732cdef28d5a4dab5e64485e85b7",
+    "source_review_sha256": "b8de6e94032882615bc85afa66bdb231bb6807a474e82731a99dc99f4ceec9e5",
+    "source_counts": {
+      "M1_compared": 114803,
+      "ticks": 19722614
+    },
+    "primary_horizons": {
+      "H1A_ASIA": 8,
+      "H1B_RECLAIM": 24,
+      "H1C_MOMENTUM": 8
+    },
+    "signal_recipes": 3,
+    "direction_views_are_dependent": true,
+    "no_SLTP_or_account_simulation": true,
+    "prices2024_2026_read": false,
+    "broker_calls": 0,
+    "funding_model": "DECLARED_SYMMETRIC_22UTC_WEEKDAYS_WED3_NOT_TARGET_VERIFIED",
+    "preparation_seconds": 94.18799999999464,
+    "wall_seconds": 96.51600000000326,
+    "cpu_seconds": 73.609375
+  },
+  "review": {
+    "status": "PASS",
+    "review": "separate_Fraction_fee_rollover_quote_self_audit_not_independent_agent",
+    "checks": {
+      "raw_signal_entries": 608,
+      "stop_and_friction_ratios": 608,
+      "fraction_markout_fee_swap_bridges": 1976,
+      "missing_endpoints_retained": 456,
+      "year_view_horizon_summary_groups": 48,
+      "direction_view_reconciliation": 6
+    },
+    "result_sha256": "5bd7cf9264c143630ef5c2f4d662280d9df57deb2ee4e0be6ea644daa017d217",
+    "review_code_sha256": "a4dae7fdf49a7cf351ffb7e45e96b8d8cb6425484f5cc2d68cdd6fd458c95d56",
+    "no_2024_2026_prices": true
+  },
+  "availability": [
+    {
+      "hours": 4,
+      "total_raw": 608,
+      "observed": 607,
+      "missing": 1,
+      "calendar_target_classes": {
+        "weekday_no_fresh_quote_session_or_feed_unverified": 1
+      }
+    },
+    {
+      "hours": 8,
+      "total_raw": 608,
+      "observed": 504,
+      "missing": 104,
+      "calendar_target_classes": {
+        "weekday_no_fresh_quote_session_or_feed_unverified": 104
+      }
+    },
+    {
+      "hours": 24,
+      "total_raw": 608,
+      "observed": 488,
+      "missing": 120,
+      "calendar_target_classes": {
+        "weekend_target": 118,
+        "weekday_no_fresh_quote_session_or_feed_unverified": 2
+      }
+    },
+    {
+      "hours": 48,
+      "total_raw": 608,
+      "observed": 377,
+      "missing": 231,
+      "calendar_target_classes": {
+        "weekend_target": 229,
+        "weekday_no_fresh_quote_session_or_feed_unverified": 2
+      }
+    }
+  ],
+  "observed_positive_cases": [
+    {
+      "recipe": "H1A_ASIA",
+      "view": "BUY",
+      "hours": 48,
+      "positive_observed_mean_both_years": true,
+      "observations": [
+        33,
+        33
+      ],
+      "missing": [
+        21,
+        24
+      ],
+      "raw": [
+        54,
+        57
+      ],
+      "mean_net_stress": [
+        1.9429150603939394,
+        2.541805187030303
+      ],
+      "mean_at_least_execution_friction": true,
+      "raw_cadence_at_least40": true,
+      "observed_cadence_at_least40": false,
+      "pass12_preserves_at_least50pct": true,
+      "pass15_preserves_at_least50pct": true,
+      "exploratory_horizon": true,
+      "all_endpoints_observed": false,
+      "eligible_for_challenge": false
+    },
+    {
+      "recipe": "H1A_ASIA",
+      "view": "BOTH",
+      "hours": 48,
+      "positive_observed_mean_both_years": true,
+      "observations": [
+        63,
+        65
+      ],
+      "missing": [
+        40,
+        42
+      ],
+      "raw": [
+        103,
+        107
+      ],
+      "mean_net_stress": [
+        1.7670767129047618,
+        1.3262334082461538
+      ],
+      "mean_at_least_execution_friction": true,
+      "raw_cadence_at_least40": true,
+      "observed_cadence_at_least40": true,
+      "pass12_preserves_at_least50pct": true,
+      "pass15_preserves_at_least50pct": true,
+      "exploratory_horizon": true,
+      "all_endpoints_observed": false,
+      "eligible_for_challenge": false
+    },
+    {
+      "recipe": "H1B_RECLAIM",
+      "view": "BUY",
+      "hours": 48,
+      "positive_observed_mean_both_years": true,
+      "observations": [
+        32,
+        39
+      ],
+      "missing": [
+        22,
+        27
+      ],
+      "raw": [
+        54,
+        66
+      ],
+      "mean_net_stress": [
+        0.82309275084375,
+        1.1514676944871793
+      ],
+      "mean_at_least_execution_friction": true,
+      "raw_cadence_at_least40": true,
+      "observed_cadence_at_least40": false,
+      "pass12_preserves_at_least50pct": false,
+      "pass15_preserves_at_least50pct": true,
+      "exploratory_horizon": true,
+      "all_endpoints_observed": false,
+      "eligible_for_challenge": false
+    },
+    {
+      "recipe": "H1C_MOMENTUM",
+      "view": "BUY",
+      "hours": 48,
+      "positive_observed_mean_both_years": true,
+      "observations": [
+        15,
+        31
+      ],
+      "missing": [
+        10,
+        15
+      ],
+      "raw": [
+        25,
+        46
+      ],
+      "mean_net_stress": [
+        1.2072403013333335,
+        0.9927637613225803
+      ],
+      "mean_at_least_execution_friction": true,
+      "raw_cadence_at_least40": false,
+      "observed_cadence_at_least40": false,
+      "pass12_preserves_at_least50pct": true,
+      "pass15_preserves_at_least50pct": true,
+      "exploratory_horizon": true,
+      "all_endpoints_observed": false,
+      "eligible_for_challenge": false
+    },
+    {
+      "recipe": "H1C_MOMENTUM",
+      "view": "BOTH",
+      "hours": 48,
+      "positive_observed_mean_both_years": true,
+      "observations": [
+        32,
+        61
+      ],
+      "missing": [
+        29,
+        24
+      ],
+      "raw": [
+        61,
+        85
+      ],
+      "mean_net_stress": [
+        1.3342735522500002,
+        2.741905622819672
+      ],
+      "mean_at_least_execution_friction": true,
+      "raw_cadence_at_least40": true,
+      "observed_cadence_at_least40": false,
+      "pass12_preserves_at_least50pct": true,
+      "pass15_preserves_at_least50pct": true,
+      "exploratory_horizon": true,
+      "all_endpoints_observed": false,
+      "eligible_for_challenge": false
+    }
+  ],
+  "recommendation": {
+    "priority_lead": "H1A_ASIA BOTH +48h",
+    "backup_lead": "H1C_MOMENTUM BOTH +48h",
+    "status": "CONDITIONAL_DISCOVERY_LEADS_NO_FULL_STAGE0_PRIMARY_PASS",
+    "reason": "Only48h has positive observed means in both years; primary8h/24h tests fail, endpoint availability is nonrandom and bootstrap intervals cross0.",
+    "no_bot_packaging_yet": true,
+    "no_challenge_candidate": true,
+    "no_2024_2026_prices": true
+  },
+  "trial_history": {
+    "previous_EURUSD_B1": "CANCELLED_BY_OWNER",
+    "previous_XAUUSD_B1": "CANCELLED_BY_OWNER",
+    "new_registered_recipes": 3,
+    "direction_views": [
+      "BUY",
+      "BOTH"
+    ],
+    "views_not_independent": true,
+    "horizons": [
+      4,
+      8,
+      24,
+      48
+    ],
+    "primary_horizons": {
+      "H1A_ASIA": 8,
+      "H1B_RECLAIM": 24,
+      "H1C_MOMENTUM": 8
+    },
+    "no_parameter_sweep": true
+  },
+  "evidence": {
+    "study": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\xauusd-h1-stage0-20261113",
+    "registration": "registration-v2.json",
+    "registration_sha256": "4b1b471368ea35d074b5b791103bae68566f8a7819e957b2e8800ada407bb042",
+    "source_snapshot": "source-snapshot-v2",
+    "result_sha256": "5bd7cf9264c143630ef5c2f4d662280d9df57deb2ee4e0be6ea644daa017d217",
+    "review_sha256": "b28aa86769a25ecae2dcfc9e328fef7d6cfbd9b36289677affc0894b55a69a4d",
+    "source_revision": {
+      "M1_revisions": 1,
+      "H1_OHLC_bitwise_equal": true,
+      "H4_OHLC_bitwise_equal": true,
+      "H1_bars": 12808,
+      "source_signals_sha256": "2b2edbcad81a3f9fa283a7db8a65473bc36f02e3d9c624414f6be8967a1ed52c",
+      "strategy_changed": false,
+      "markouts_previously_computed": false,
+      "native_parity_rows": 6997
+    },
+    "first_attempt_failed_before_markout": true
+  },
+  "timing": {
+    "download_seconds": 675.626,
+    "source_prepare_corrected_seconds": 94.18799999999464,
+    "total_corrected_scan_seconds": 96.51600000000326,
+    "cpu_seconds": 73.609375,
+    "manual_code_report_seconds": null
+  }
+}
