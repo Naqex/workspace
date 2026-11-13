@@ -8,13 +8,20 @@ App Goal được kiểm trong lượt audit: `null`; task này không tự bậ
 
 ## Mục tiêu và phạm vi đã xác nhận
 
-**Checkpoint hiện tại B2:** [đã hoàn tất ledger/rolling](GOLD-CONTINUOUS-B2-20261113.md),
+**Checkpoint hiện tại — design-from-constraints:** [proposal](PROP-DESIGN-FROM-CONSTRAINTS-PROPOSAL-20261113.md)
+chưađượcphêduyệtđểchạy. PR69merged`920b48a`;[R043fixture](GOLD-R043-REGRESSION-FIXTURE-20261113.json)
+gắnCADENCE_OR_SAMPLE_SHORTFALL/PROP_TIMEFIT_REJECTED,stopchallengeoptimization.
+Envelopeownerprofile trongvalidation-gates;B/EURUSDđượckhuyếnnghịtrước,A/XAUdựphòng.
+Trần4newversions,khôngresetoldtrials;2022–24exposed,2025–26closed/cleanstatusunknown.
+Khôngstrategycode/countonly/backtesttrướcownerduyệt;broker/paid/OOS gatesgiữnguyên.
+
+**Checkpoint lịch sử B2:** [đã hoàn tất ledger/rolling](GOLD-CONTINUOUS-B2-20261113.md),
 720conditionalpaths/36fixtures/7centparity.0two-step trong24tháng mọi nhóm;
 BUYOnly là1registereddiagnostic, chưacandidate. ExactEURCatalogue13 gác theoowner,
 khôngportfolio. PR69 chờownerreview trướcmerge; không gửiASTRA/2025–26/newalpha.
 Resetcashclock đãsửa trongresearchadapter, khônggenericTrader/productruntime.
 
-**Checkpoint lịch sử B1 / chỉ thị mới nhất:** [kết quả](GOLD-CONTINUOUS-B1-RESULTS-20261113.md)
+**Checkpoint lịch sử B1:** [kết quả](GOLD-CONTINUOUS-B1-RESULTS-20261113.md)
 hoàn tất19fixtures và fixedQ1/2010 hai budgets125/200USD. Nativequality còn
 blocked_by_data; chưa challengequalified. [v1.1](GOLD-CONTINUOUS-B1-AMENDMENT-V1P1-20261113.md)
 thay warmup100H4 bằng canonicalfullNov2009seed và sửa rewardeligibility.
@@ -32,7 +39,7 @@ và hướng tới reward thực nhận với rủi ro thấp. Owner muốn đâ
 và ưu tiên tiếp cận vốn quỹ lớn; thu nhập/độ ổn định phải kiểm riêng, chưa có
 chiến lược đạt hoặc bảo đảm sẽ tìm được bằng một số lượt thử cố định.
 
-- Hướng hiện tại: **US500, H1 bias → M15 zone/setup → entry**, intraday.
+- Hướng lịch sử trước designproposal13/11: **US500, H1 bias → M15 zone/setup → entry**, intraday; chưa dispatch mới.
 - FTMO CFD **2-Step Standard** là mục tiêu chính; The5ers là nhánh đánh giá
   riêng. Không trộn luật 1-Step/Futures/Swing/Classic/New hoặc challenge/funded.
 - Ưu tiên từ2022 trở đi và gần hiện tại; lịch sử xa dùng stress có câu hỏi.

@@ -1,0 +1,81 @@
+{
+  "schema": "gold-r043-golden-regression-v1",
+  "frozen_at_utc": "2026-11-13T09:37:09.483912+00:00",
+  "candidate": "xauusd-h4-sma20-80-atr14-r025-v1",
+  "variants": [
+    "Original",
+    "BUY-Only-structural-diagnostic-v1"
+  ],
+  "labels": [
+    "CADENCE_OR_SAMPLE_SHORTFALL",
+    "PROP_TIMEFIT_REJECTED"
+  ],
+  "role": "golden_regression_fixture_only",
+  "challenge_optimization": "STOPPED_BY_OWNER",
+  "source_approved_commit": "7cabefb6b42d35989c44f9acd361e896469175f2",
+  "merged_main_commit": "920b48af6204a8f6df6f9fec21443447cd124b80",
+  "merged_pr": "https://github.com/Naqex/workspace/pull/69",
+  "git_blob_oids": {
+    "planning/research/GOLD-CONTINUOUS-B1-RESULTS-20261113.json": "70ce5a4ea32c31a3dabd05abcc33e635a97888a3",
+    "planning/research/GOLD-CONTINUOUS-B2-RESULTS-20261113.json": "3051da6a4272716ea8ed232a17f24d43a8c7c05f",
+    "tooling/ai-engines/gold_continuous_b1.py": "d238dd8dde58c9c1b0f3a42d65cbca62c2693ed0",
+    "tooling/ai-engines/gold_continuous_ledger.py": "2d13c295f695ace4413d35d992139ceaac037ea0",
+    "tooling/ai-engines/run_gold_continuous_b2.py": "2d888ab329989e0d0e96ad42b3027c9938397912",
+    "tooling/ai-engines/tests/test_gold_continuous_b1.py": "33800bb22824485a7e0ee8672053eba1dd547ea4",
+    "tooling/ai-engines/tests/test_gold_continuous_ledger.py": "27d9b5a630993cc1ed335d65fb7f10e41dc18602"
+  },
+  "blob_hash_note": "GitblobOIDs bind committed bytes; do not normalize private raw hashes or assume CRLF working-copy byte parity",
+  "raw_M1_sha256": "d209df9a5ce871f1992eb312595ebef2c19a884c1fe0a1be6bfb76d86cf471b9",
+  "allowed_evaluation": "2010-2024;indicatorseed2009-11-01",
+  "new2025_2026_access": false,
+  "primary_Q1_expected": {
+    "125": {
+      "entries": 6,
+      "closed_trades": 5,
+      "net_cash_usd": "-429.90",
+      "floating_usd": "-59.29",
+      "net_marked_equity_usd": "-489.19",
+      "funding_debit_usd": "182.40",
+      "decisions": 9,
+      "result_sha256": "2abe6ee251a74d08c47703703323b1f80eebf038f60ce243edd9c3b7b7684fa3",
+      "scope": "Q1/2010Originallegacy40/40"
+    },
+    "200": {
+      "entries": 6,
+      "closed_trades": 5,
+      "net_cash_usd": "-688.19",
+      "floating_usd": "-92.23",
+      "net_marked_equity_usd": "-780.42",
+      "funding_debit_usd": "294.00",
+      "decisions": 9,
+      "result_sha256": "1d6bcc1d1f213c2f611fe30ad0de5c7c59a208d3d1aa4390bb8141850eb78578",
+      "scope": "Q1/2010Originallegacy40/40"
+    }
+  },
+  "rolling_reference": {
+    "cohorts": 720,
+    "groups": 12,
+    "quarter_starts": 60,
+    "risks_usd": [
+      125,
+      200
+    ],
+    "two_step_within_24_months_all_groups": 0,
+    "summary_locator": "planning/research/GOLD-CONTINUOUS-B2-RESULTS-20261113.json",
+    "full_path_qualified": false
+  },
+  "performance_reference": {
+    "ledger_720_seconds": 178.57990019998397,
+    "cached_120_seconds": 30.806683499977225,
+    "hard_wall_assertion": false,
+    "note": "Machine/cache/load scoped observations, not portableSLO or expected speed on everyrun"
+  },
+  "validation_reference": {
+    "unit_tests": 36,
+    "numeric_parity_cases": 7,
+    "new_run_this_turn": false
+  },
+  "private_evidence": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gold-continuous-B2-20261113-v1\\final-completed.json",
+  "reopen_conditions": "Materialcorrectnessbug or ownerrequests regressionbenchmark/sourcecompatibility. Noalpha/exit/risk/feeoptimization torescuechallengefit.",
+  "interpretation": "Rejecttimefit fordeclaredcandidate/profile/observedhorizons;notproofeverygoldstrategyfails,norindependentOOSorpaidpayoutproof"
+}

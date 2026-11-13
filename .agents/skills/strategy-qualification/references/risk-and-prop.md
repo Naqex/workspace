@@ -3,6 +3,10 @@
 Phương pháp, không chứa luật hãng hiện hành hoặc risk budget owner.
 Pin rules/terms đúng account/program/phase và ngày hiệu lực.
 
+Khi thiết kế chiến dịch prop intraday13/11/2026 của owner, dùng
+[Prop Target Envelope](validation-gates.md#prop-target-envelope--profile-owner-ngày-13112026)
+đúng scope; các ngưỡng đó là design profile, không thay luật hãng hoặc quyền execution.
+
 | Khái niệm | Kiểm gì |
 |---|---|
 | Drawdown quan sát | Đỉnh→đáy của đúng balance/equity series, coverage/thời gian |

@@ -32,6 +32,7 @@ Mỗi nhãn giữ candidate/version, scenario/window, stage, evidence và reason
 |---|---|---|
 | `ECONOMIC_FAIL` | Net không đạt tiêu chí kinh tế đã đăng ký trong reference/stress, hoặc markout diagnostic yếu trong đúng cohort/horizon | Không bác toàn family; mean trong mẫu không là true expectancy. Gross/markout không tự là account PnL |
 | `CADENCE_OR_SAMPLE_SHORTFALL` | Cơ hội/mẫu không đủ cho precision, time-fit hoặc vai trò đang xét; có thể cùng net dương trong mẫu | Không gọi net dương là edge đã chứng minh, không đặt minimum trades chung hoặc ép thêm lệnh |
+| `PROP_TIMEFIT_REJECTED` | Exact candidate/model không đạt thời gian mục tiêu đã đo, hoặc owner gác sau review; giữ horizon, risk/cost, censoring và verdict source | Khác vi phạm DD, âm kinh tế hoặc bác toàn family; không suy mọi start/tương lai đều thất bại |
 | `DATA_PATH_INCOMPLETE` | Thiếu đường giữ lệnh cho full PnL, hoặc thiếu intraminute path cần cho DD/prop | Phải ghi metric/stage bị thiếu: M1 full net đã đối soát không thành N/A chỉ vì chưa đủ tick DD |
 | `PROP_UNMEASURED` | Chưa kiểm đủ rule/profile/path cho claim đang xét; ghi rõ partial checks nếu có | `prop_qualified=false`, null DD hoặc thiếu field không chứng minh đã vi phạm |
 | `PROP_VIOLATED` | Có evaluator/model phù hợp profile và witness vi phạm: rule/version, thời điểm, anchor/floor, equity/cost/reset semantics | Không suy từ âm cuối kỳ, endpoint maxDD hoặc flag chưa-qualified. Modeled breach khác actual broker breach |
@@ -93,3 +94,66 @@ Provenance: [R065 bounds](../../../../planning/research/NASDAQ-OPENING5-BOUNDS-R
 và [R066](../../../../planning/research/NASDAQ-NOISE14-RESULTS-20261109.md) đã có
 registered models, full Fraction reviews và retained exact unknowns. Đây là
 hai cases cùng agent/provider, không universal fidelity certificate.
+
+## Prop Target Envelope — profile owner ngày 13/11/2026
+
+Áp dụng chiến dịch H1→M15 intraday mới trong workspace, theo
+[đề xuất design-from-constraints](../../../../planning/research/PROP-DESIGN-FROM-CONSTRAINTS-PROPOSAL-20261113.md).
+Đây là điều kiện thiết kế/suitability của owner, **không phải chuẩn thống kê
+phổ quát, luật FTMO, bằng chứng có edge hoặc quyền chạy study**. Freeze profile
+trong protocol trước outcome; không áp hồi tố để sửa sealed results. Reference
+này chưa được runner tự enforce. Funded và challenge có qualification riêng.
+
+### Đơn vị và chi phí
+
+- `R0` = ngân sách USD/lệnh cố định theo vốn đầu phase (gồm stop-risk và cost/
+  gap allowance đã khai báo); netR = netPnL/R0. Ghi thêm `R_price` = lot×contract
+  × khoảng cách entry fill tới SL, vì lotrounding khiến hai mẫu số khác nhau.
+- `F_stress` = spread drag có benchmark hợp lệ + commission cả vòng + slippage
+  cả vòng; không gồm financing. Gross Bid/Ask đã chứa spread thì **không trừ
+  spread lần hai** để tính net. Thiếu benchmark/oppositequote → unknown/bounds,
+  không0. Phân biệt ex-ante reserve với chi phí realized, không dùng exitquote
+  tương lai để lọc entry.
+
+| Điều kiện thiết kế | Gate trong scope này |
+|---|---|
+| Friction/R0 | Ưu tiên ≤10%; trần kế hoạch stress ≤12%/intent. Vùng10–12% cần ghi rõ trade-off, không nới sau outcome. Báo realized median/p90/tail/vượt cap; không xóa các lệnh phí cao hoặc hứa fill không bao giờ vượt reserve. |
+| Overnight shield | Ưu tiên session-bounded, flat trước **rollover/session close đúng account/symbol/date trừ buffer thực thi**. 21:45UTC chỉ hợp lệ nếu calendar chứng minh nó đủ sớm. Không fresh exitquote/không xác nhận flat thì unknown/execution failure, không tự ghi swap0. |
+| Nếu cho phép overnight | Khóa maxholding trước; financing debit ≤15% gross-positive-PnL pool của cùng closed cohort, đồng thời net sau mọi phí vẫn dương. Pool=sum(max(gross Bid/Ask trước commission/slip/swap,0)); pool0→N/A. Credits/open financing tách riêng; báo thêm net financing/gross signed, không dùng credit che debit hay mẫu số âm. |
+| Cadence | Sàn suitability60 filled trades/năm đầy đủ; ưu tiên120/năm (5–10/tháng). Đếm sau mọi filter/lot/margin/news rules, giữ tháng0 và báo mức đều/tập trung/unique days/dependence. Không quota giao dịch, không chứng nhận statistical power. |
+| R-velocity | +25 đến+40 netR0/năm stress là dải tham vọng ban đầu, **chưa đủ** để mặc định đạt challenge6–12tháng; dùng phép tính ngược phía dưới. Mean/R-year không thay distribution, rolling paths/OOS. |
+| R-drawdown | Hướng tới cumulative peak-to-trough equityDD ≤15R0, báo static initial loss và daily loss riêng. Cần floating/cost/gap coverage; thiếu path không được pass bằng cashDD. |
+| Sizing | 0,30%/0,40% là hai endpoint nghiên cứu có đăng ký, không risk thật hoặc tham số tối ưu. Core alpha dương trước review sizing; không tăng risk để cứu net âm. |
+
+Intraday không tự tương thích100% Standard/Swing: còn news execution, market
+breaks, sessions, margin và contract. Không cộng ngược8.950,80USD swap cũ vào
+Gold intraday: đóng sớm còn thay chính returns/trades. Source hiện hành phải
+kiểm lại khi freeze account profile, không lấy declared legacy rates làm thực.
+
+### Tính ngược thời gian và rủi ro
+
+Với phase targets10% rồi5%, mỗi phase reset vốn và fixed risk `r`, kế hoạch
+lý tưởng cần `R_required = 10/r + 5/r` (r dùng cùng đơn vị phần trăm). Đây
+chỉ là số học planning, **không time-to-pass dự báo**: chưa overshoot, min-days,
+approval gap, đường lỗ/phí mới hoặc censoring. Phí đã ở netR không trừ lại.
+
+| Risk/lệnh | R0 cần phase1 +phase2 | Pace cho12tháng | Pace cho6tháng |
+|---|---|---|---|
+|0,30%|33,33 +16,67 =50R0|50R0/năm|100R0/năm|
+|0,40%|25 +12,5 =37,5R0|37,5R0/năm|75R0/năm|
+
+Do đó25–40R0/năm không bảo đảm6–12tháng. Freeze **12tháng là mục tiêu chính,
+6tháng là mục tiêu cao hơn**, rồi đo cả hai; không tăng lot hoặc nới DD khi
+arithmetic không đạt. Với N trades/năm, cần kiểm thêm `net expectancy R0/trade
+× N` so pace, không chỉ gross USD/lot. `R-Calmar = annual netR0 / maxR-DD`
+là tỷ số báo riêng; annualR0 tự nó không phải Calmar.
+
+Tại0,40%,15R0 =6,0%, **không phải <6,0%**. Nếu profile yêu cầu strict<6% thì
+R-DD phải<15R0, còn allowance/gap cần buffer. DD≤15R0 không bảo đảm daily<2,5%:
+phải đo riêng worstday<6,25R0 ở0,40% hoặc<8,33R0 ở0,30%, dưới cùng cash/reset
+semantics. Giữ hard internal daily<2,5%, staticloss<6,5%; strict6% là mục tiêu
+thiết kế chặt hơn, không đổi định nghĩa peakDD thành staticloss sau outcome.
+
+Với payout: cần net edge, survival, reconciliation, eligibility/withdrawal và
+dòng tiền sau owner costs riêng. Không áp target15% cho mỗi chu kỳ funded,
+không gọi model-pass hoặc R-velocity là thu nhập chắc chắn. G0–G6 giữ nguyên.

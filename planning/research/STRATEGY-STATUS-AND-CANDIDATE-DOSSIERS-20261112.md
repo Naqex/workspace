@@ -1,5 +1,10 @@
 # Bước 1–2: trạng thái chuẩn hóa, hồ sơ ứng viên và contract kiểm định
 
+**Quyết định mới13/11:** GoldR043 mang nhãn `CADENCE_OR_SAMPLE_SHORTFALL` và
+`PROP_TIMEFIT_REJECTED`, giữ làm [Golden Regression Fixture](GOLD-R043-REGRESSION-FIXTURE-20261113.json),
+dừng tối ưu cho challenge theo owner sau B2. Bảng bên dưới là snapshot12/11;
+không sửa verdict/số liệu sealed cũ. Chưa bác toàn family vàng hoặc chứng nhận edge/payout.
+
 12/11/2026. Owner phê duyệt hai bước đầu sau quantitative self-audit:
 chuẩn hóa nguyên nhân dừng và chốt contract Alpha–Sizing–Exit. **Chưa phê
 duyệt triển khai Bước 3–5 trong lượt này.** Không code runner/product mới,

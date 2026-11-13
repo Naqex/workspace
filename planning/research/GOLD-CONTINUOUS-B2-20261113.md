@@ -1,5 +1,10 @@
 # Gold B2 — reset bằng tiền, ledger M1 và rolling challenge
 
+**Owner decision sau report:** PR69 đã merge `920b48a`; R043 được đóng băng
+[regression fixture](GOLD-R043-REGRESSION-FIXTURE-20261113.json),
+`CADENCE_OR_SAMPLE_SHORTFALL` + `PROP_TIMEFIT_REJECTED`. Không tiếp tục tối ưu
+cho challenge. Nội dung dưới giữ evidence/giới hạn và trạng thái tại thời điểm chạy.
+
 13/11/2026. Chỉ thị mới của owner mở rộng B1: sửa reset khi thiếu quote,
 chạy hai pha2010–2024 và một structural diagnostic BUY-Only. EURUSD Catalogue13
 được gác; không ghép các exact versions này vào portfolio. Giữ PR69 mở để

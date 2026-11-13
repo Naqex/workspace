@@ -2,7 +2,14 @@
 
 **Task đang thực hiện:** [STRATEGY-E2E — chiến lược tới challenge/payout](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).
 Task này giữ audit, chặng T0–T9 và các việc xét sau Q1–Q12. Ưu tiên hiện tại:
-**B2 đã xong:** [reset/ledger/rolling720paths](GOLD-CONTINUOUS-B2-20261113.md),
+**Hiện tại: design-only, chờ owner duyệt.** [Prop research proposal](PROP-DESIGN-FROM-CONSTRAINTS-PROPOSAL-20261113.md)
+đề xuấtEURUSDH1→M15trước,XAUdựphòng;4newalphaversionsmax,khôngcode/backtest/OOS.
+[Envelope profile](../../.agents/skills/strategy-qualification/references/validation-gates.md#prop-target-envelope--profile-owner-ngày-13112026)
+giữcaps/sốhọc;khôngguaranteepass. PR69đãmerge`920b48a`,nhánhcũxóa.
+[R043Goldenfixture](GOLD-R043-REGRESSION-FIXTURE-20261113.json):cadence/timefitrejected,
+dừngchallengeoptimization;giữbenchmark/numericalprovenance.
+
+**Checkpoint lịch sử B2:** [reset/ledger/rolling720paths](GOLD-CONTINUOUS-B2-20261113.md),
 [JSONsummary/hashes](GOLD-CONTINUOUS-B2-RESULTS-20261113.json).36fixtures/7paritycases;
 120Original/stress đo30,81s từcache,720paths178,58s. Không nhóm nào hoàn tất2vòng
 trong24tháng; stressrisk200Original1/60/median7,22năm,BUYOnly3/60/14,53năm.
