@@ -1,5 +1,10 @@
 # Đợt A: Gold continuous khả thi có điều kiện; chưa chọn leg EURUSD cho portfolio
 
+**Checkpoint mới:** [B1 đã hoàn tất](GOLD-CONTINUOUS-B1-RESULTS-20261113.md);
+[v1.1](GOLD-CONTINUOUS-B1-AMENDMENT-V1P1-20261113.md) thay warmup/reward assumptions
+của v1 bên dưới. Giữ số liệu đợtA và protocolv1 nguyên lịch sử. Owner yêu cầu
+kết thúc B1 rồi dừng, không gửi thêm messageASTRA. Longbatch/merge vẫn chưa mở.
+
 13/11/2026. WorkerSol, ASTRA điều phối/review. Đã xác minh trong threadASTRA
 lời owner cho phép giao trực tiếp và worker gửi báo cáo về; không suy quyền
 chỉ từ promptđiềuphối. Đợt A chỉ diagnosis/sourceadmission/protocol trước run

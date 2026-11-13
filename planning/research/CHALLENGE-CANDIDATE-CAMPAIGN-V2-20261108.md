@@ -8,7 +8,14 @@ App Goal được kiểm trong lượt audit: `null`; task này không tự bậ
 
 ## Mục tiêu và phạm vi đã xác nhận
 
-**Scope mới13/11 qua owner tại ASTRA:** đợtA Goldcontinuous/rolling +EURUSDeconomics
+**Checkpoint B1 / chỉ thị mới nhất:** [kết quả](GOLD-CONTINUOUS-B1-RESULTS-20261113.md)
+hoàn tất19fixtures và fixedQ1/2010 hai budgets125/200USD. Nativequality còn
+blocked_by_data; chưa challengequalified. [v1.1](GOLD-CONTINUOUS-B1-AMENDMENT-V1P1-20261113.md)
+thay warmup100H4 bằng canonicalfullNov2009seed và sửa rewardeligibility.
+Owner yêu cầu hoàn tất rồi dừng, **không gửi thêm prompt/messageASTRA**.
+PR69 mở; khôngmerge/longrolling/funded/portfolio/newalpha hoặc2025–26.
+
+**Scope13/11 qua owner tại ASTRA:** đợtA Goldcontinuous/rolling +EURUSDeconomics
 +portfolio readiness; [report](GOLD-EURUSD-PORTFOLIO-STAGE-A-20261113.md) và
 [protocolv1draft](GOLD-CONTINUOUS-PORTFOLIO-PROTOCOL-V1-20261113.md) chờASTRAreview.
 Không alpha/exit/SLoptimization/newdiscovery, không longfinancialbatch hoặc

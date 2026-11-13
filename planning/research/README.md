@@ -2,6 +2,13 @@
 
 **Task đang thực hiện:** [STRATEGY-E2E — chiến lược tới challenge/payout](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).
 Task này giữ audit, chặng T0–T9 và các việc xét sau Q1–Q12. Ưu tiên hiện tại:
+**B1 đã xong và dừng theo owner:** [19fixtures + Gold Q1/2010 tại125/200USD](GOLD-CONTINUOUS-B1-RESULTS-20261113.md),
+[v1.1amendment](GOLD-CONTINUOUS-B1-AMENDMENT-V1P1-20261113.md). Cảhaiquý âm;
+risk125 khớp frozen9intents/ATR/qty/cash. Gap/stopquality giữunknown;
+nativeapproximate chặnpass và chưa tiếncashclock. Chưalongrolling/funded/portfolio;
+120cases ước16–22giờ tuần tự, cần profile/contract trước. Không gửi tinASTRA;
+PR69 mở, khôngmerge. v1cũ giữnguyên, v1.1 thay warmup100H4 bằng fullseedNov2009.
+
 ĐợtA Goldcontinuous/EURUSDeconomics/portfolio doASTRAđiềuphối dướiđây;
 T1strategycard/clock/zone chưa freeze. Các nextactions trong research cũ là lịch sử,
 không tự dispatch. Index dưới đây dùng tra bằng chứng, không là taskqueue.

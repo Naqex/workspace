@@ -1,0 +1,238 @@
+{
+  "schema": "gold-B1-review-summary-v1",
+  "status": "bounded_prefix_complete_prop_still_inconclusive",
+  "scope": "Q1/2010 only125/200legacy40/40;no2025-26",
+  "registration": {
+    "protocol_path": "D:\\ANNAM\\TradingWorkspace\\planning\\research\\GOLD-CONTINUOUS-B1-AMENDMENT-V1P1-20261113.json",
+    "protocol_sha256": "599ade78e3c9f221f681a98cc95b41533f311e4c5afedb5d1eaebd2d385d0a7d",
+    "source_binding_sha256": "47b7aac2107f4a5c24d1ed9b3eafd1d4f5608c712339b774a08c822f64dc1713",
+    "registered_at_utc": "2026-11-13T06:38:23.023064+00:00",
+    "before_B1_market_results": true,
+    "previous_registration_sha256": "c9f5429a0a668fc1dbfd498fa1777591d7d6a69cb5887fae849418080a1b094e",
+    "source_review_receipt_sha256": "dd6d1d0a0e4c519c3aa1918f4a2cdf8dd61f3218ab85679300d3f29aadb1b06d"
+  },
+  "private_evidence_root": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gold-continuous-B1-20261113-v1",
+  "private_seal_sha256": "d57f9c5cedb84e1b5e39281a758c33bf1996ede0518146cb5c13b707c3f3e953",
+  "source_binding_sha256": "47b7aac2107f4a5c24d1ed9b3eafd1d4f5608c712339b774a08c822f64dc1713",
+  "fixtures": {
+    "count": 19,
+    "status": "pass",
+    "first_attempt_errors": 3,
+    "errors": "invalid synthetic OHLC twice and explicit native calendar progression omitted in fixture; repaired fixture inputs/calls, no weakened assertion"
+  },
+  "verification": {
+    "status": "scoped_arithmetic_parent_and_negative_controls_pass",
+    "parent_sha256": "4d9bbb7c265690fdf8b108783e14466ca06c9387d26f4f8de2708cef828ea353",
+    "parent_oracle_sha256": "ba1f6d5d08fdd065e8ecb21e223cedf763074db96edcf04716f1f980cd179927",
+    "sameagent_review_not_independent_feed": true,
+    "closed_trades_reviewed": 10,
+    "parent_decisions_exact": 9,
+    "parent_closed_cash_exact": "-429.90",
+    "parent_warmup_h4": 256,
+    "parent_price_fee_finance_deltas_zero": true,
+    "path_refinements": [
+      {
+        "position": "B1-1",
+        "parent_interval": [
+          1262714400000,
+          1262717999999
+        ],
+        "m1_exit": 1262716259999,
+        "refined_stop_time": true,
+        "cash_delta": "0"
+      },
+      {
+        "position": "B1-2",
+        "parent_interval": [
+          1265284800000,
+          1265284800000
+        ],
+        "m1_exit": 1265284800000,
+        "refined_stop_time": false,
+        "cash_delta": "0"
+      },
+      {
+        "position": "B1-3",
+        "parent_interval": [
+          1265893200000,
+          1265896799999
+        ],
+        "m1_exit": 1265894699999,
+        "refined_stop_time": true,
+        "cash_delta": "0"
+      },
+      {
+        "position": "B1-4",
+        "parent_interval": [
+          1268323200000,
+          1268323200000
+        ],
+        "m1_exit": 1268323200000,
+        "refined_stop_time": false,
+        "cash_delta": "0"
+      },
+      {
+        "position": "B1-5",
+        "parent_interval": [
+          1269007200000,
+          1269010799999
+        ],
+        "m1_exit": 1269009059999,
+        "refined_stop_time": true,
+        "cash_delta": "0"
+      }
+    ],
+    "negative_controls": [
+      {
+        "case": "commission",
+        "rejected": "commission"
+      },
+      {
+        "case": "funding_sign",
+        "rejected": "debit sign"
+      },
+      {
+        "case": "quantity",
+        "rejected": "gross"
+      },
+      {
+        "case": "missing_intent",
+        "rejected": "intent census"
+      },
+      {
+        "case": "ATR_seed",
+        "rejected": "ATR seed/distance"
+      }
+    ],
+    "new_simulations": 0,
+    "reviewed_at_utc": "2026-11-13T06:41:00.273778+00:00"
+  },
+  "cases": [
+    {
+      "risk_budget_usd": "125",
+      "initial_balance_usd": "50000",
+      "net_cash_usd": "-429.90",
+      "floating_usd": "-59.29",
+      "net_marked_equity_usd": "-489.19",
+      "entries": 6,
+      "closed_trades": 5,
+      "margin_rejections": 0,
+      "funding_debit_usd": "182.40",
+      "warmup_h4": 256,
+      "observed_m1_rows": 89524,
+      "calendar_minutes": 129600,
+      "calendar_coverage_pct": "69.07716049382716049382716049",
+      "point_metrics": {
+        "peak": "50148.89",
+        "peak_dd": "676.39",
+        "daily_loss": "122.73",
+        "static_loss": "527.50"
+      },
+      "conditional_held_minute_envelope": {
+        "peak": "50150.15",
+        "peak_dd": "678.37",
+        "daily_loss": "122.73",
+        "static_loss": "528.22"
+      },
+      "first_supported_breach": null,
+      "first_conditional_breach": null,
+      "timing": {
+        "prep_shared_wall_seconds": 3.696667600001092,
+        "loop_and_metrics_wall_seconds": 16.05841810000129,
+        "cpu_seconds": 13.8125,
+        "process_peak_working_set_bytes": 128995328
+      },
+      "qualification": "INCONCLUSIVE_M1_MODEL_AND_GAPS_NO_FULL_PATH_SURVIVAL",
+      "lifecycle": {
+        "schema": "prop-objectives-v1",
+        "phase_index": 1,
+        "money": null,
+        "calendar": null,
+        "positions_ready": false,
+        "pass_ready": false,
+        "technical_status": "blocked_by_data",
+        "terminal_action": null
+      },
+      "result_sha256": "2abe6ee251a74d08c47703703323b1f80eebf038f60ce243edd9c3b7b7684fa3",
+      "unknown_counts": {
+        "unordered_stop_minute": 3,
+        "held_source_gap": 595,
+        "missing_reset_price": 14
+      },
+      "reset_count": 90,
+      "open_positions": 1,
+      "pending_action": "EXIT"
+    },
+    {
+      "risk_budget_usd": "200",
+      "initial_balance_usd": "50000",
+      "net_cash_usd": "-688.19",
+      "floating_usd": "-92.23",
+      "net_marked_equity_usd": "-780.42",
+      "entries": 6,
+      "closed_trades": 5,
+      "margin_rejections": 0,
+      "funding_debit_usd": "294.00",
+      "warmup_h4": 256,
+      "observed_m1_rows": 89524,
+      "calendar_minutes": 129600,
+      "calendar_coverage_pct": "69.07716049382716049382716049",
+      "point_metrics": {
+        "peak": "50251.72",
+        "peak_dd": "1091.73",
+        "daily_loss": "194.51",
+        "static_loss": "840.01"
+      },
+      "conditional_held_minute_envelope": {
+        "peak": "50253.76",
+        "peak_dd": "1094.89",
+        "daily_loss": "194.51",
+        "static_loss": "841.13"
+      },
+      "first_supported_breach": null,
+      "first_conditional_breach": null,
+      "timing": {
+        "prep_shared_wall_seconds": 3.696667600001092,
+        "loop_and_metrics_wall_seconds": 21.51686649999465,
+        "cpu_seconds": 14.5,
+        "process_peak_working_set_bytes": 129818624
+      },
+      "qualification": "INCONCLUSIVE_M1_MODEL_AND_GAPS_NO_FULL_PATH_SURVIVAL",
+      "lifecycle": {
+        "schema": "prop-objectives-v1",
+        "phase_index": 1,
+        "money": null,
+        "calendar": null,
+        "positions_ready": false,
+        "pass_ready": false,
+        "technical_status": "blocked_by_data",
+        "terminal_action": null
+      },
+      "result_sha256": "1d6bcc1d1f213c2f611fe30ad0de5c7c59a208d3d1aa4390bb8141850eb78578",
+      "unknown_counts": {
+        "unordered_stop_minute": 3,
+        "held_source_gap": 595,
+        "missing_reset_price": 14
+      },
+      "reset_count": 90,
+      "open_positions": 1,
+      "pending_action": "EXIT"
+    }
+  ],
+  "total_wall_seconds": 41.55422849999741,
+  "private_artifacts_bytes_at_seal": 719337,
+  "estimated_120_case_quarter_equivalents": 3660,
+  "estimated_sequential_hours": [
+    16.32605840166798,
+    21.875480941661227
+  ],
+  "estimate_limits": "Linear extrapolation only, no fullbatch/nativechallenge benchmark; full warmup/larger checkpoints/phasecallbacks may add cost. Per-case900s cap may be exceeded for15y prefixes. No dispatch.",
+  "authority": {
+    "broker": false,
+    "new_holdout": false,
+    "long_batch": false,
+    "merge": false,
+    "send_to_astra": false
+  },
+  "next_gate": "Need reviewed native cash-clock/price-quality contract and bounded profiling before longrolling. Owner requests stop after B1."
+}

@@ -9,9 +9,14 @@ Owner yêu cầu rà hệ thống/workflow và gom mọi bước, kể cả vi�
 một task. Audit/plan không là strategy accepted. C1/C2 chưa đạt; chưa có
 ứng viên challenge. AppGoal vừa kiểm=null; không tự bật lại.
 
-**Đợt A do ASTRA điều phối:** [Gold continuous / EURUSD economics / portfolio](research/GOLD-EURUSD-PORTFOLIO-STAGE-A-20261113.md)
-đã hoàn tất evidence và [protocolv1draft](research/GOLD-CONTINUOUS-PORTFOLIO-PROTOCOL-V1-20261113.md),
-chờ ASTRAreview trước đợtB/merge. WriterSol duy nhất cho research; không thêmagents.
+**B1 đã xong, dừng theo owner:** [Gold Q1/2010 bounded prefix](research/GOLD-CONTINUOUS-B1-RESULTS-20261113.md)
+và [amendmentv1.1](research/GOLD-CONTINUOUS-B1-AMENDMENT-V1P1-20261113.md) sửa AR01–03
+sau [đợtA](research/GOLD-EURUSD-PORTFOLIO-STAGE-A-20261113.md). 19fixtures đạt;
+125/200USD: markednet−489,19/−780,42USD,5closed+1open mỗi case. Risk125 khớp
+9intents/ATR/qty và cash−429,90USD sealedparent. 41,554s totalcompute; gaps giữ
+unknown, nativeapproximate chặn pass, chưa nối challenge continuous thực.
+Chỉ thị mới: **không gửi thêm prompt/messageASTRA; hoàn tất rồi dừng**.
+PR69 mở, khôngmerge/longrolling. WriterSol duy nhất; VIWIP/pins/runtime giữ nguyên.
 76.750closed+50openEURcases bindintents/risk/quotesummaries. HaiH4Longgrossâm,
 Shortreferencegrossdương nhưngstressswap làmâm;13bản còn lại grosslot<9USDlot
 comm/slip. Chưa chọnEURcounterpart, chưa correlation/portfoliofinancialcurve.
@@ -19,13 +24,15 @@ GoldM1audit không thêm lỗi số học material trongdeclaredscope;249ngày t
 exactmidnightmark,135stopminutes khôngbiếtextremaordering. LowDD cũ không
 thànhfullpath/accountproof. Nativeobserver50k reuse được; Forexrunner vẫn
 EURUSD/10k, existingmultiassetbarwallet chưatick/margin/prop-ready.
-Draft60quarterstarts2010–24×2risk0,25/0,40%,100causalH4warmup,carryquaJanuary1,
+Draft60quarterstarts2010–24×2risk0,25/0,40%,canonicalseed01/11/2009/toànH4hợp lệ,carryquaJanuary1,
 phaseflat/reset/min-days/firstbreach,3/6/12/24m vàrightcensor; chưa chạy dài.
 Ownercap **daily<2,5%,overallstaticinitialloss<6,5%**, peakDD báo riêng.
-Fundedreward cần14ngày/naturalflat/pending0/approval/split/newaccountcontract;
+Fundedreward earliestfirsttrade+14×24h/naturalflat/pending0/approval/split/newaccountcontract;
 không“chỉ dương là rút”. Targetcost đầy đủ vẫnunknown, không currentrate→history.
 **US500overlay vẫnpaused; không alpha/SL/exitoptimization hoặc giá2025–26.**
 PR68/M1checkpoint vẫn giữ ởmain`71a186d`; VIWIP/pins/runtime giữ nguyên.
+Nativeapproximate không tiến clock/anchor: B2 cần contractreview;120cases ước
+16–22giờ tuần tự theo prefix, có thể vượt900s/case. Không dùng estimate5–30phút cũ.
 [Hồ sơ Bước1–2](research/STRATEGY-STATUS-AND-CANDIDATE-DOSSIERS-20261112.md)
 giữ taxonomy/gap/testdesign; đề xuất US500overlay cũ đã được owner gác.
 
