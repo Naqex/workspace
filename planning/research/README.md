@@ -1,10 +1,31 @@
 # Tra cứu research đã có
 
-**Task đang thực hiện:** [STRATEGY-E2E — H1→M15 tới challenge/payout](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).
+**Task đang thực hiện:** [STRATEGY-E2E — chiến lược tới challenge/payout](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).
 Task này giữ audit, chặng T0–T9 và các việc xét sau Q1–Q12. Ưu tiên hiện tại:
-Gold M1/swap/sizing và EURUSDpostmortem dưới đây sau khi owner duyệt PR67;
+**B2 đã xong:** [reset/ledger/rolling720paths](GOLD-CONTINUOUS-B2-20261113.md),
+[JSONsummary/hashes](GOLD-CONTINUOUS-B2-RESULTS-20261113.json).36fixtures/7paritycases;
+120Original/stress đo30,81s từcache,720paths178,58s. Không nhóm nào hoàn tất2vòng
+trong24tháng; stressrisk200Original1/60/median7,22năm,BUYOnly3/60/14,53năm.
+Chưachallengequalified/OOS/targetcost/payout. Gác exactEURCatalogue13,khôngportfolio;
+PR69 mở đểownerreview trướcmerge,khônggửiASTRA hoặcdispatchstrategy mới.
+
+**Checkpoint lịch sử B1:** [19fixtures + Gold Q1/2010 tại125/200USD](GOLD-CONTINUOUS-B1-RESULTS-20261113.md),
+[v1.1amendment](GOLD-CONTINUOUS-B1-AMENDMENT-V1P1-20261113.md). Cảhaiquý âm;
+risk125 khớp frozen9intents/ATR/qty/cash. Gap/stopquality giữunknown;
+nativeapproximate chặnpass và chưa tiếncashclock. Chưalongrolling/funded/portfolio;
+120cases ước16–22giờ tuần tự, cần profile/contract trước. Không gửi tinASTRA;
+PR69 mở, khôngmerge. v1cũ giữnguyên, v1.1 thay warmup100H4 bằng fullseedNov2009.
+
+ĐợtA Goldcontinuous/EURUSDeconomics/portfolio doASTRAđiềuphối dướiđây;
 T1strategycard/clock/zone chưa freeze. Các nextactions trong research cũ là lịch sử,
 không tự dispatch. Index dưới đây dùng tra bằng chứng, không là taskqueue.
+
+[Đợt A: economics chi tiết15EURversions,Goldmodelaudit,targetcost và portfolio readiness](GOLD-EURUSD-PORTFOLIO-STAGE-A-20261113.md),
+[JSON](GOLD-EURUSD-PORTFOLIO-STAGE-A-20261113.json), [protocolv1draft](GOLD-CONTINUOUS-PORTFOLIO-PROTOCOL-V1-20261113.md):
+76.750closed+50openbindings/104year-sidegroups,13cost/Rdistributions; không
+rawtickbatch hoặc2025–26. Chưa counterpartEUR/empiricalrho; Goldstate phải
+carrycalendar, không nối15annualbooks. Ownercapdaily2,5%/staticloss6,5%; funded
+eligibility/newaccount/ratiotách.24focusedchecks đạt; khôngautomerge/đợtB trướcASTRAreview.
 
 [Gold M1 equity/Daily Loss,9case swap×sizing,225positioncoverage và Catalogue13postmortem](GOLD-M1-PATH-AND-EURUSD-POSTMORTEM-20261113.md),
 [JSON](GOLD-M1-PATH-AND-EURUSD-POSTMORTEM-20261113.json): base0,25% observedbao biên

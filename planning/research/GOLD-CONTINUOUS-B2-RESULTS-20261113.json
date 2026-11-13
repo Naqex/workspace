@@ -1,0 +1,471 @@
+{
+  "schema": "gold-B2-public-summary-v1",
+  "scope": "consumed2010-2024;canonical2009-11seed;no2025-26",
+  "summary": [
+    {
+      "risk_usd": 125,
+      "variant": "Original",
+      "cost_scenario": "S1_20_20",
+      "starts": 60,
+      "phase1_model_passes": 14,
+      "two_step_model_passes": 5,
+      "model_breaches": 0,
+      "censored": 55,
+      "median_two_step_days_among_passes": 5046.833333333333,
+      "worst_daily_loss_usd": 242.99,
+      "worst_static_loss_usd": 3280.22,
+      "worst_peak_dd_usd": 3921.93,
+      "qualified_full_path_passes": 0,
+      "interpretation": "overlapping_descriptive_conditional_M1_model_counts_not_probability_or_certified_survival",
+      "two_step_with_internal_buffer": 5,
+      "full_followup_counts_by_months": {
+        "3": 60,
+        "6": 59,
+        "12": 57,
+        "24": 53
+      },
+      "two_step_within_horizon_counts": {
+        "3": 0,
+        "6": 0,
+        "12": 0,
+        "24": 0
+      }
+    },
+    {
+      "risk_usd": 125,
+      "variant": "Original",
+      "cost_scenario": "S2_40_40",
+      "starts": 60,
+      "phase1_model_passes": 0,
+      "two_step_model_passes": 0,
+      "model_breaches": 0,
+      "censored": 60,
+      "median_two_step_days_among_passes": null,
+      "worst_daily_loss_usd": 242.99,
+      "worst_static_loss_usd": 4250.02,
+      "worst_peak_dd_usd": 4914.13,
+      "qualified_full_path_passes": 0,
+      "interpretation": "overlapping_descriptive_conditional_M1_model_counts_not_probability_or_certified_survival",
+      "two_step_with_internal_buffer": 0,
+      "full_followup_counts_by_months": {
+        "3": 60,
+        "6": 59,
+        "12": 57,
+        "24": 53
+      },
+      "two_step_within_horizon_counts": {
+        "3": 0,
+        "6": 0,
+        "12": 0,
+        "24": 0
+      }
+    },
+    {
+      "risk_usd": 125,
+      "variant": "Original",
+      "cost_scenario": "S3_declared_45_5",
+      "starts": 60,
+      "phase1_model_passes": 7,
+      "two_step_model_passes": 0,
+      "model_breaches": 0,
+      "censored": 60,
+      "median_two_step_days_among_passes": null,
+      "worst_daily_loss_usd": 242.99,
+      "worst_static_loss_usd": 3448.07,
+      "worst_peak_dd_usd": 4117.78,
+      "qualified_full_path_passes": 0,
+      "interpretation": "overlapping_descriptive_conditional_M1_model_counts_not_probability_or_certified_survival",
+      "two_step_with_internal_buffer": 0,
+      "full_followup_counts_by_months": {
+        "3": 60,
+        "6": 59,
+        "12": 57,
+        "24": 53
+      },
+      "two_step_within_horizon_counts": {
+        "3": 0,
+        "6": 0,
+        "12": 0,
+        "24": 0
+      }
+    },
+    {
+      "risk_usd": 125,
+      "variant": "BUY-Only",
+      "cost_scenario": "S1_20_20",
+      "starts": 60,
+      "phase1_model_passes": 20,
+      "two_step_model_passes": 7,
+      "model_breaches": 0,
+      "censored": 53,
+      "median_two_step_days_among_passes": 5046.833333333333,
+      "worst_daily_loss_usd": 131.29,
+      "worst_static_loss_usd": 1947.95,
+      "worst_peak_dd_usd": 2484.76,
+      "qualified_full_path_passes": 0,
+      "interpretation": "overlapping_descriptive_conditional_M1_model_counts_not_probability_or_certified_survival",
+      "two_step_with_internal_buffer": 7,
+      "full_followup_counts_by_months": {
+        "3": 60,
+        "6": 59,
+        "12": 57,
+        "24": 53
+      },
+      "two_step_within_horizon_counts": {
+        "3": 0,
+        "6": 0,
+        "12": 0,
+        "24": 0
+      }
+    },
+    {
+      "risk_usd": 125,
+      "variant": "BUY-Only",
+      "cost_scenario": "S2_40_40",
+      "starts": 60,
+      "phase1_model_passes": 4,
+      "two_step_model_passes": 0,
+      "model_breaches": 0,
+      "censored": 60,
+      "median_two_step_days_among_passes": null,
+      "worst_daily_loss_usd": 137.89,
+      "worst_static_loss_usd": 2523.33,
+      "worst_peak_dd_usd": 3051.33,
+      "qualified_full_path_passes": 0,
+      "interpretation": "overlapping_descriptive_conditional_M1_model_counts_not_probability_or_certified_survival",
+      "two_step_with_internal_buffer": 0,
+      "full_followup_counts_by_months": {
+        "3": 60,
+        "6": 59,
+        "12": 57,
+        "24": 53
+      },
+      "two_step_within_horizon_counts": {
+        "3": 0,
+        "6": 0,
+        "12": 0,
+        "24": 0
+      }
+    },
+    {
+      "risk_usd": 125,
+      "variant": "BUY-Only",
+      "cost_scenario": "S3_declared_45_5",
+      "starts": 60,
+      "phase1_model_passes": 0,
+      "two_step_model_passes": 0,
+      "model_breaches": 0,
+      "censored": 60,
+      "median_two_step_days_among_passes": null,
+      "worst_daily_loss_usd": 139.54,
+      "worst_static_loss_usd": 2705.88,
+      "worst_peak_dd_usd": 3273.58,
+      "qualified_full_path_passes": 0,
+      "interpretation": "overlapping_descriptive_conditional_M1_model_counts_not_probability_or_certified_survival",
+      "two_step_with_internal_buffer": 0,
+      "full_followup_counts_by_months": {
+        "3": 60,
+        "6": 59,
+        "12": 57,
+        "24": 53
+      },
+      "two_step_within_horizon_counts": {
+        "3": 0,
+        "6": 0,
+        "12": 0,
+        "24": 0
+      }
+    },
+    {
+      "risk_usd": 200,
+      "variant": "Original",
+      "cost_scenario": "S1_20_20",
+      "starts": 60,
+      "phase1_model_passes": 29,
+      "two_step_model_passes": 14,
+      "model_breaches": 5,
+      "censored": 41,
+      "median_two_step_days_among_passes": 2241.25,
+      "worst_daily_loss_usd": 380.77,
+      "worst_static_loss_usd": 5000.6,
+      "worst_peak_dd_usd": 6435.82,
+      "qualified_full_path_passes": 0,
+      "interpretation": "overlapping_descriptive_conditional_M1_model_counts_not_probability_or_certified_survival",
+      "two_step_with_internal_buffer": 11,
+      "full_followup_counts_by_months": {
+        "3": 60,
+        "6": 59,
+        "12": 57,
+        "24": 53
+      },
+      "two_step_within_horizon_counts": {
+        "3": 0,
+        "6": 0,
+        "12": 0,
+        "24": 0
+      }
+    },
+    {
+      "risk_usd": 200,
+      "variant": "Original",
+      "cost_scenario": "S2_40_40",
+      "starts": 60,
+      "phase1_model_passes": 9,
+      "two_step_model_passes": 1,
+      "model_breaches": 18,
+      "censored": 41,
+      "median_two_step_days_among_passes": 2636.5,
+      "worst_daily_loss_usd": 380.77,
+      "worst_static_loss_usd": 5009.43,
+      "worst_peak_dd_usd": 8042.02,
+      "qualified_full_path_passes": 0,
+      "interpretation": "overlapping_descriptive_conditional_M1_model_counts_not_probability_or_certified_survival",
+      "two_step_with_internal_buffer": 1,
+      "full_followup_counts_by_months": {
+        "3": 60,
+        "6": 59,
+        "12": 57,
+        "24": 53
+      },
+      "two_step_within_horizon_counts": {
+        "3": 0,
+        "6": 0,
+        "12": 0,
+        "24": 0
+      }
+    },
+    {
+      "risk_usd": 200,
+      "variant": "Original",
+      "cost_scenario": "S3_declared_45_5",
+      "starts": 60,
+      "phase1_model_passes": 16,
+      "two_step_model_passes": 6,
+      "model_breaches": 7,
+      "censored": 47,
+      "median_two_step_days_among_passes": 2368.5,
+      "worst_daily_loss_usd": 380.77,
+      "worst_static_loss_usd": 5008.69,
+      "worst_peak_dd_usd": 6783.17,
+      "qualified_full_path_passes": 0,
+      "interpretation": "overlapping_descriptive_conditional_M1_model_counts_not_probability_or_certified_survival",
+      "two_step_with_internal_buffer": 6,
+      "full_followup_counts_by_months": {
+        "3": 60,
+        "6": 59,
+        "12": 57,
+        "24": 53
+      },
+      "two_step_within_horizon_counts": {
+        "3": 0,
+        "6": 0,
+        "12": 0,
+        "24": 0
+      }
+    },
+    {
+      "risk_usd": 200,
+      "variant": "BUY-Only",
+      "cost_scenario": "S1_20_20",
+      "starts": 60,
+      "phase1_model_passes": 51,
+      "two_step_model_passes": 10,
+      "model_breaches": 0,
+      "censored": 50,
+      "median_two_step_days_among_passes": 2927.166666666667,
+      "worst_daily_loss_usd": 206.32,
+      "worst_static_loss_usd": 3302.45,
+      "worst_peak_dd_usd": 4203.19,
+      "qualified_full_path_passes": 0,
+      "interpretation": "overlapping_descriptive_conditional_M1_model_counts_not_probability_or_certified_survival",
+      "two_step_with_internal_buffer": 7,
+      "full_followup_counts_by_months": {
+        "3": 60,
+        "6": 59,
+        "12": 57,
+        "24": 53
+      },
+      "two_step_within_horizon_counts": {
+        "3": 0,
+        "6": 0,
+        "12": 0,
+        "24": 0
+      }
+    },
+    {
+      "risk_usd": 200,
+      "variant": "BUY-Only",
+      "cost_scenario": "S2_40_40",
+      "starts": 60,
+      "phase1_model_passes": 15,
+      "two_step_model_passes": 3,
+      "model_breaches": 0,
+      "censored": 57,
+      "median_two_step_days_among_passes": 5306.166666666667,
+      "worst_daily_loss_usd": 215.92,
+      "worst_static_loss_usd": 4219.36,
+      "worst_peak_dd_usd": 5044.36,
+      "qualified_full_path_passes": 0,
+      "interpretation": "overlapping_descriptive_conditional_M1_model_counts_not_probability_or_certified_survival",
+      "two_step_with_internal_buffer": 1,
+      "full_followup_counts_by_months": {
+        "3": 60,
+        "6": 59,
+        "12": 57,
+        "24": 53
+      },
+      "two_step_within_horizon_counts": {
+        "3": 0,
+        "6": 0,
+        "12": 0,
+        "24": 0
+      }
+    },
+    {
+      "risk_usd": 200,
+      "variant": "BUY-Only",
+      "cost_scenario": "S3_declared_45_5",
+      "starts": 60,
+      "phase1_model_passes": 12,
+      "two_step_model_passes": 0,
+      "model_breaches": 0,
+      "censored": 60,
+      "median_two_step_days_among_passes": null,
+      "worst_daily_loss_usd": 218.32,
+      "worst_static_loss_usd": 4518.61,
+      "worst_peak_dd_usd": 5392.32,
+      "qualified_full_path_passes": 0,
+      "interpretation": "overlapping_descriptive_conditional_M1_model_counts_not_probability_or_certified_survival",
+      "two_step_with_internal_buffer": 0,
+      "full_followup_counts_by_months": {
+        "3": 60,
+        "6": 59,
+        "12": 57,
+        "24": 53
+      },
+      "two_step_within_horizon_counts": {
+        "3": 0,
+        "6": 0,
+        "12": 0,
+        "24": 0
+      }
+    }
+  ],
+  "parity": [
+    {
+      "case": "Q1/2010-125",
+      "cent_parity": true,
+      "baseline": "sealedB1"
+    },
+    {
+      "case": "Q1/2010-200",
+      "cent_parity": true,
+      "baseline": "sealedB1"
+    },
+    {
+      "case": "2013-10-01-125",
+      "cent_parity": true,
+      "direct_wall_seconds": 14.579191400000127,
+      "ledger_wall_seconds": 0.00856809999095276,
+      "baseline": "directM1canonicalseed"
+    },
+    {
+      "case": "2013-10-01-200",
+      "cent_parity": true,
+      "direct_wall_seconds": 14.247876000008546,
+      "ledger_wall_seconds": 0.00845400002435781,
+      "baseline": "directM1canonicalseed"
+    },
+    {
+      "case": "2011-10-01-125",
+      "cent_parity": true,
+      "direct_wall_seconds": 15.102552000025753,
+      "ledger_wall_seconds": 0.00867330000619404,
+      "baseline": "directM1canonicalseed"
+    },
+    {
+      "case": "2011-10-01-200",
+      "cent_parity": true,
+      "direct_wall_seconds": 15.04642229998717,
+      "ledger_wall_seconds": 0.009781000000657514,
+      "baseline": "directM1canonicalseed"
+    },
+    {
+      "case": "BUY-Only-Q1/2010-125",
+      "cent_parity": true
+    }
+  ],
+  "timings": {
+    "prepare": 0.5453863999864552,
+    "phaseA": 1.2385872000013478,
+    "phaseB": 178.57990019998397,
+    "total": 184.37611660000402,
+    "cpu": 181.453125,
+    "peak_working_set_bytes": 815882240
+  },
+  "benchmark120": {
+    "cases": 120,
+    "wall_seconds": 30.806683499977225,
+    "cache": "warm validated episode ledger",
+    "all_fields_equal": true,
+    "baseline16to22hours": "prior estimate only; not measuredfullM1run"
+  },
+  "terminal_state_correction": {
+    "affected": 30,
+    "scope": "floating/markednet on failed paths now taken from native firstbreach phase state; allotherfieldsidentical",
+    "wall_seconds": 6.731217099993955
+  },
+  "review": {
+    "status": "scoped_review_pass",
+    "cohorts": 720,
+    "groups": 12,
+    "reset_records_checked": 5479,
+    "held_missing_resets": 830,
+    "negative_controls": [
+      {
+        "case": "cash",
+        "rejected": "cash/equity"
+      },
+      {
+        "case": "duplicate",
+        "rejected": "duplicate cohort"
+      },
+      {
+        "case": "denominator",
+        "rejected": "denominator"
+      },
+      {
+        "case": "target",
+        "rejected": "target"
+      }
+    ],
+    "primary_ATR_decisions_per_risk": 9,
+    "hashes": {
+      "attempt-1794560361149980800\\results.json": "8e50bb6f249e8ea061150ec1b8ce6f704b02ec9b282a5339d5734bf6b6410421",
+      "attempt-1794560361149980800\\results-corrected.json": "2098056f50a3397c25d62d802ac9e9a8dd7106025aeee8a7d6218a803746742b",
+      "attempt-1794560361149980800\\parity.json": "687ed5502faaadfa27f8d596250c121b77a40228c0a776ce9e5ec699f61518e9",
+      "attempt-1794560361149980800\\reset-audit-original-2010-125.json": "559141e10dc557fc7fb2808324f23504e4edcec9fd43035cfc38adf1459e3e3b",
+      "registration.json": "51f417593950dea1d5acfc4949002d5228f2a97c7770ae00ef2615c15a4ca5f1",
+      "source-cache\\manifest.json": "5a5a23cbe71d63164da20b81496103278de16d11087bbbe1062183b8b05b2cd7",
+      "fixtures-final-36.log": "94e13df9f20a74533e1f9c0d96e0a1d47b9bf7daaeb9da63652e2c5bd5b793b9",
+      "cohort-profile.txt": "260e8bf2939e5881ccb312a6e4313b1e448688681e06be0a610de84889c10f81"
+    },
+    "final_source_sha256": {
+      "gold_continuous_ledger.py": "fea97f6292bb4c390d3975baf18d785062aa51bf31f56b1843596b939733daec",
+      "run_gold_continuous_b2.py": "093c1337f6e8f71cfb57befaed9a283890d73c443b3559b16c296d5fa3e2d30a",
+      "test_gold_continuous_ledger.py": "4c8dc5a64e15d6f9ebb667469b9bba24ed436dfd909c7b06c615aff9f634ce50"
+    },
+    "source_delta": "terminal floating corrected in30failed paths; allothernumericfields verifiedunchanged. Addedauditcallback/outputlockdoesnotchangefinancialfunction.",
+    "sameagent_not_independent": true,
+    "checked_at_utc": "2026-11-13T09:12:38.174754+00:00"
+  },
+  "prepared_input_rows": 5399878,
+  "potential_episodes_per_risk": {
+    "125": 308,
+    "200": 308
+  },
+  "private_evidence_root": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gold-continuous-B2-20261113-v1",
+  "detailed_results_sha256": "2098056f50a3397c25d62d802ac9e9a8dd7106025aeee8a7d6218a803746742b",
+  "full_path_qualified": false,
+  "next_action": "Nochallengecandidateyet;donotmergebeforeownerreview;nofurtheroptimizationgridorresearchdispatch"
+}
