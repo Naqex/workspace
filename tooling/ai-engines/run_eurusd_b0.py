@@ -37,9 +37,10 @@ def execute(config_path):
             stream.write(json.dumps(row, ensure_ascii=False)+'\n')
         write_json(output/'status.json', row)
         print(json.dumps(row), flush=True)
+    # A rejected second writer must not publish failure/status into the live attempt.
+    with (output/'writer.lock').open('x') as stream:
+        stream.write(str(os.getpid()))
     try:
-        with (output/'writer.lock').open('x') as stream:
-            stream.write(str(os.getpid()))
         if cfg['candidate'] != 'eurusd-b0-v1' or cfg['years'] != [2022, 2023, 2024]:
             raise ValueError('B0_exact_version_and_years_required')
         for source in cfg['sources']:

@@ -8,12 +8,18 @@ App Goal được kiểm trong lượt audit: `null`; task này không tự bậ
 
 ## Mục tiêu và phạm vi đã xác nhận
 
-**Checkpoint hiện tại — design-from-constraints:** [proposal](PROP-DESIGN-FROM-CONSTRAINTS-PROPOSAL-20261113.md)
-chưađượcphêduyệtđểchạy. PR69merged`920b48a`;[R043fixture](GOLD-R043-REGRESSION-FIXTURE-20261113.json)
+**Checkpoint hiện tại — EURUSD B0 conditional complete:** PR70 merged `0a8542ba`;
+[protocol](EURUSD-B0-PROTOCOL-20261113.md) / [registration](EURUSD-B0-REGISTRATION-20261113.json)
+khóa B0 trên2022–23 Development/2024 exposed historicalvalidation;2025–26closed.
+[B0 results](EURUSD-B0-RESULTS-20261113.md): 30trades/3năm,65/95costrejects,
+stressmodel +899,44USD/5,9963R0;96,15%net từ2023, cóheldsourcegap54,54phút.
+Cadence/sample thiếu, affectedpath incomplete. Strictfunded evidence
+BLOCKED_BY_CALENDAR/PROP_UNMEASURED; không promote hoặc mở B1/A/sizing sweep.
+PR69merged`920b48a`;[R043fixture](GOLD-R043-REGRESSION-FIXTURE-20261113.json)
 gắnCADENCE_OR_SAMPLE_SHORTFALL/PROP_TIMEFIT_REJECTED,stopchallengeoptimization.
 Envelopeownerprofile trongvalidation-gates;B/EURUSDđượckhuyếnnghịtrước,A/XAUdựphòng.
 Trần4newversions,khôngresetoldtrials;2022–24exposed,2025–26closed/cleanstatusunknown.
-Khôngstrategycode/countonly/backtesttrướcownerduyệt;broker/paid/OOS gatesgiữnguyên.
+B0 đã có quyền code/chạy; B1/A/broker/paid/OOS vẫn giữ gate riêng.
 
 **Checkpoint lịch sử B2:** [đã hoàn tất ledger/rolling](GOLD-CONTINUOUS-B2-20261113.md),
 720conditionalpaths/36fixtures/7centparity.0two-step trong24tháng mọi nhóm;

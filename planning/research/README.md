@@ -2,8 +2,13 @@
 
 **Task đang thực hiện:** [STRATEGY-E2E — chiến lược tới challenge/payout](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).
 Task này giữ audit, chặng T0–T9 và các việc xét sau Q1–Q12. Ưu tiên hiện tại:
-**Hiện tại: design-only, chờ owner duyệt.** [Prop research proposal](PROP-DESIGN-FROM-CONSTRAINTS-PROPOSAL-20261113.md)
-đề xuấtEURUSDH1→M15trước,XAUdựphòng;4newalphaversionsmax,khôngcode/backtest/OOS.
+**Hiện tại: EURUSD B0 đã chạy2022–2024, chưa đủ challenge.**
+[Protocol](EURUSD-B0-PROTOCOL-20261113.md) / [registration](EURUSD-B0-REGISTRATION-20261113.json)
+khóa breakout/retest H1→M15, chỉB0; strictfunded còn lịchnews/targetsessionunknown.
+[Kết quả](EURUSD-B0-RESULTS-20261113.md) / [JSON](EURUSD-B0-RESULTS-20261113.json):
+13/11/6lệnh;95confirmations→65costrejects→30fills;2023heldgap54,54phút.
+Mẫu dương cóđiềukiện, cadence/sample thiếu; không alpha/prop-pass.
+PR70 merged `0a8542ba`; khôngB1/XAU/sizing sweep hoặc mởgiá2025–26.
 [Envelope profile](../../.agents/skills/strategy-qualification/references/validation-gates.md#prop-target-envelope--profile-owner-ngày-13112026)
 giữcaps/sốhọc;khôngguaranteepass. PR69đãmerge`920b48a`,nhánhcũxóa.
 [R043Goldenfixture](GOLD-R043-REGRESSION-FIXTURE-20261113.json):cadence/timefitrejected,

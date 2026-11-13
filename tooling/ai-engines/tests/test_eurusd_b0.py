@@ -199,6 +199,20 @@ class B0Tests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'binding_changed'):
                 source.prepare(dict(cfg, first_day='20230101'), p, lambda **kw: None)
 
+    def test_second_writer_cannot_publish_failure_into_active_attempt(self):
+        from run_eurusd_b0 import execute
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp)
+            (p/'writer.lock').write_text('other-writer')
+            (p/'status.json').write_text('{"stage":"running"}')
+            config = p/'config.json'
+            config.write_text(json.dumps(dict(workspace=str(ROOT), output=str(p))))
+            with self.assertRaises(FileExistsError):
+                execute(config)
+            self.assertFalse((p/'failure.json').exists())
+            self.assertEqual((p/'writer.lock').read_text(), 'other-writer')
+            self.assertEqual((p/'status.json').read_text(), '{"stage":"running"}')
+
     def test_csv_matches_native_and_seek_does_not_drop_first_tick(self):
         from trading_workspace_v2.forex_h4 import read_qdm_ticks
         with tempfile.TemporaryDirectory() as tmp:

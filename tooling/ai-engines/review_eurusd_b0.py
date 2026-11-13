@@ -1,5 +1,6 @@
 """Read-only B0 source/fill and integer-cash audit; no research variants."""
 from bisect import bisect_left
+import argparse
 from collections import Counter
 from decimal import Decimal as D, ROUND_HALF_UP
 import json
@@ -9,14 +10,17 @@ import sys
 from eurusd_b0_source import MINUTE, digest, read_session, session, write_json
 
 
-def review(config_path):
+def review(config_path, *, source_snapshot=None, receipt_path=None):
+    if sys.flags.optimize:
+        raise ValueError('B0_review_requires_assertions_enabled')
     cfg = json.loads(Path(config_path).read_bytes())
     out, root = Path(cfg['output']), Path(cfg['workspace'])
     result = json.loads((out/'result.json').read_bytes())
     if result['config_sha256'] != digest(config_path):
         raise ValueError('review_config_binding')
+    frozen_root = Path(source_snapshot) if source_snapshot is not None else root
     for name, expected in cfg['source_pins'].items():
-        assert digest(root/name) == expected, name
+        assert digest(frozen_root/name) == expected, name
     rows, checked = [], Counter()
     for source in cfg['sources'][1:]:
         prepared = Path(cfg['prepared'])/source['first_day']
@@ -125,9 +129,18 @@ def review(config_path):
         review_source_sha256=digest(__file__), checks=dict(checked), rows=rows,
         independent_agent_review=False, independent_feed=False, full_native_replay_parity=False,
         strict_news_and_target_calendar_qualification=False, opened_2025_2026=False)
-    write_json(out/'review.json', receipt)
+    receipt['verified_source_root'] = str(frozen_root)
+    destination = Path(receipt_path) if receipt_path is not None else out/'review.json'
+    if destination.exists():
+        raise ValueError('B0_review_receipt_exists_choose_new_output')
+    write_json(destination, receipt)
     return receipt
 
 
 if __name__ == '__main__':
-    print(json.dumps(review(sys.argv[1]), indent=2))
+    parser = argparse.ArgumentParser()
+    parser.add_argument('config', type=Path)
+    parser.add_argument('--source-snapshot', type=Path)
+    parser.add_argument('--output', type=Path)
+    args = parser.parse_args()
+    print(json.dumps(review(args.config, source_snapshot=args.source_snapshot, receipt_path=args.output), indent=2))
