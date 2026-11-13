@@ -17,7 +17,9 @@ END = 1735689600000
 HOUR = 3600000
 
 
-def source_views(cache, corrections=None):
+def source_views(cache, corrections=None, *, end_msc=END):
+    if type(end_msc) is not int or not START<end_msc<=END:
+        raise ValueError('XAU_source_scope_or_holdout')
     cache = Path(cache)
     manifest = json.loads((cache/'manifest.json').read_bytes())
     if manifest['raw_sha256'] != RAW_SHA or manifest['scope_end_exclusive'] != END//1000:
@@ -29,7 +31,7 @@ def source_views(cache, corrections=None):
         if packet['schema']!='XAU-A0-observed-tick-M1-corrections-v1':raise ValueError('unregistered_M1_corrections')
         for patch in packet['patches']:
             at=patch['at'];hour=at//HOUR*HOUR
-            if not START<=at<END or at%MINUTE or at in patches:raise ValueError('correction_clock_or_holdout')
+            if not START<=at<end_msc or at%MINUTE or at in patches:raise ValueError('correction_clock_or_holdout')
             if digest(patch['raw_path'])!=patch['raw_sha256']:raise ValueError('correction_raw_binding')
             observed=minute_ohlc(decode(json.loads(Path(patch['raw_path']).read_bytes()),start_msc=hour,end_msc=hour+HOUR))
             if [observed[at]['bid'][key] for key in ('open','high','low','close')]!=patch['corrected']:
@@ -42,7 +44,7 @@ def source_views(cache, corrections=None):
         times.fromfile(f, manifest['rows'])
     if sys.byteorder != manifest['byteorder']:
         times.byteswap()
-    lo, hi = bisect_left(times, START//1000), bisect_left(times, END//1000)
+    lo, hi = bisect_left(times, START//1000), bisect_left(times, end_msc//1000)
     prices = []
     for name in ('o', 'h', 'l', 'c'):
         if digest(cache/(name+'.bin')) != manifest['files'][name+'.bin']:
@@ -63,7 +65,7 @@ def source_views(cache, corrections=None):
             if [o,h,l,c]!=p['original']:raise ValueError('correction_original_not_equal')
             o,h,l,c=p['corrected']
             applied.add(at)
-        if not START <= at < END or at <= previous or at % MINUTE or not 0 < l <= min(o,c) <= max(o,c) <= h:
+        if not START <= at < end_msc or at <= previous or at % MINUTE or not 0 < l <= min(o,c) <= max(o,c) <= h:
             raise ValueError('XAU_M1_schema')
         previous = at
         minutes[at] = [o,h,l,c]
