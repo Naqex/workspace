@@ -39,6 +39,10 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_shadow*.py' -v
       - name: Check frozen EURUSD B0 timing, execution and cost fixtures
         run: python -m unittest discover -s tooling/ai-engines/tests -p 'test_eurusd_b0.py' -v
+      - name: Check Development funnel and timestamp-only quality audits
+        run: |
+          python -m unittest discover -s tooling/ai-engines/tests -p 'test_eurusd_funnel_audit.py' -v
+          python -m unittest discover -s tooling/ai-engines/tests -p 'test_gold_intraday_quality.py' -v
   secrets:
     name: Workspace secret scan
     runs-on: ubuntu-latest

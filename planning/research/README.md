@@ -2,7 +2,13 @@
 
 **Task đang thực hiện:** [STRATEGY-E2E — chiến lược tới challenge/payout](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).
 Task này giữ audit, chặng T0–T9 và các việc xét sau Q1–Q12. Ưu tiên hiện tại:
-**Hiện tại: EURUSD B0 đã chạy2022–2024, chưa đủ challenge.**
+**Hiện tại: audit Development EURUSD xong; hướng vàng chỉ có card chờ duyệt.**
+[Audit phễu](EURUSD-FUNNEL-AUDIT-RESULTS-20261113.md) / [JSON](EURUSD-FUNNEL-AUDIT-RESULTS-20261113.json):
+517zones→62ngày/67signals→24fills;455zones không confirmation. NO-GO B1,
+đề xuất hủy lượt chưa dùng. [XAUUSD Intraday B0/A0](XAUUSD-INTRADAY-B0-PROPOSAL-20261113.md)
+chỉ proposal; đã census timestampM1, chưa Goldsignals/backtest. PR71 đã merge `7d29ce4`.
+
+**Bằng chứng B0 đã kế thừa: EURUSD2022–2024, chưa đủ challenge.**
 [Protocol](EURUSD-B0-PROTOCOL-20261113.md) / [registration](EURUSD-B0-REGISTRATION-20261113.json)
 khóa breakout/retest H1→M15, chỉB0; strictfunded còn lịchnews/targetsessionunknown.
 [Kết quả](EURUSD-B0-RESULTS-20261113.md) / [JSON](EURUSD-B0-RESULTS-20261113.json):

@@ -1,5 +1,10 @@
 # EURUSD B0: có kết quả dương có điều kiện, nhưng quá ít cơ hội
 
+**Kế thừa sau owner review:** PR71 đã merge `7d29ce4`; B0 được gác với
+`CADENCE_OR_SAMPLE_SHORTFALL` + `DATA_PATH_INCOMPLETE`. [Audit Development mới](EURUSD-FUNNEL-AUDIT-RESULTS-20261113.md)
+tách zone/ngày khỏi setup/tín hiệu; không sửa numerical results hoặc dùng2024
+để chẩn đoán thiết kế. Card vàng còn chờ duyệt, không B1 hoặc backtest mới.
+
 **Quyết định: chưa đề xuất challenge; chưa dùng B1 hoặc chuyển XAUUSD.**
 Đã chạy đúng một bộ luật B0 trên Development 2022–2023 và historical validation 2024.
 Chỉ có **30 lệnh trong 3 năm**. Lợi nhuận stress theo mô hình quan sát là 899,44 USD,
