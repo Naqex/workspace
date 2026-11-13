@@ -16,9 +16,20 @@ dừng tối ưu challenge, giữ làm regression khi có correctness/sourcecomp
 [B2report](research/GOLD-CONTINUOUS-B2-20261113.md) giữ720conditionalpaths,
 36tests/7parity,120stresscached30,81s;0nhóm hoàn tất2vòng trong24tháng.
 
-**Lượt này design-only:** [Research Proposal](research/PROP-DESIGN-FROM-CONSTRAINTS-PROPOSAL-20261113.md)
-chờownerphêduyệt trướcstrategycode/count-only/backtest. Đề xuấtB/EURUSD H1→M15
-trước nhờBidAsk/tickreadiness,A/XAUintraday dựphòng; chưa đổi thành approvedstrategy.
+**B0 đã chạy và đối soát, chưa đủ challenge:** PR70 đã merge `0a8542ba`, nhánh
+`codex/prop-target-envelope` đã xóa. [Protocol B0](research/EURUSD-B0-PROTOCOL-20261113.md)
+và [registration](research/EURUSD-B0-REGISTRATION-20261113.json) khóa duy nhất
+EURUSD H1→M15 breakout/retest: Development2022–23 + historicalvalidation2024.
+Nativecost/sizing + observedtickpath. [Kết quả B0](research/EURUSD-B0-RESULTS-20261113.md)
+và [JSON](research/EURUSD-B0-RESULTS-20261113.json): 13/11/6 lệnh ở2022/23/24,
+stressmodel +22,01/+864,84/+12,59USD;95pre-costsignals,65costrejects.
+CADENCE_OR_SAMPLE_SHORTFALL;2023 có sourcegap54,54phút lúc giữlệnh,
+DATA_PATH_INCOMPLETE. Strictfunded còn BLOCKED_BY_CALENDAR/PROP_UNMEASURED;
+không gọi conditionalnet là edge, fullpathDD hoặc khả năngchallenge.
+Không B1/A hoặc risk0,40%. Privateattempt:
+`execution-v1/eurusd-b0-20261113/attempt-1`: completedconditional,17fixtures,
+60scenario-trade checks/19.482bar parity; giữ frozenattempt/reviews, không rerun
+unchangedbatch. Numericalcheckpoint `d33d917`; postrun chỉ sửa writer/reviewguards.
 [Prop Target Envelope](../.agents/skills/strategy-qualification/references/validation-gates.md#prop-target-envelope--profile-owner-ngày-13112026)
 là ownerdesignprofile, khônguniversalstandard/officialFTMOrule hoặc runner đãenforce.
 F/Rplan ưu tiên≤10%,trần12%;cadence≥60/năm ưu tiên120;25–40netR0/năm là dảikhởiđầu.
@@ -29,7 +40,8 @@ Trần4alpha versions mới toànchiếndịch;B0+tốiđa1diag,A0+tốiđa1diag
 khôngreset priortrialhistory hoặcdispatchA tựđộng. Dev2022–23 vàhistoricalvalidation2024
 đều previouslyexposed.2025–26 **CLOSED**, chưa chứng nhậnglobalcleanOOS; khôngđọcgiá.
 ExactEURCatalogue13 gác,khôngportfolio. US500overlaypaused; chưapayout/candidatechallenge.
-Mộtdocsbranch theo protectedmain; không gửiASTRA,broker/providercalls hoặcđổiTraderpin/runtime.
+Một branch `codex/eurusd-b0-study` theo protectedmain; không gửiASTRA,
+broker/providercalls hoặcđổiTraderpin/runtime.
 VIWIP vàotherownedworktrees giữ nguyên. Không Goal/skill mới hoặcglobalconfig.
 [Hồ sơ Bước1–2](research/STRATEGY-STATUS-AND-CANDIDATE-DOSSIERS-20261112.md)
 giữ taxonomy/gap/testdesign; đề xuất US500overlay cũ đã được owner gác.

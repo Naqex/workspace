@@ -1,0 +1,1056 @@
+{
+  "schema": "eurusd-b0-result-v1",
+  "candidate": "eurusd-b0-v1",
+  "config_sha256": "56be9c77e051547c18a1c68b52a2f7b18ebb743ce95877c392442eaa27b61b06",
+  "protocol_sha256": "2fb79fa5f4a0c36d44d8234e32680e08376f42a95d5251341c2ce0f35fd8a6b8",
+  "source_pins": {
+    "tooling/ai-engines/eurusd_b0.py": "6c7c964cae950ae8f528baef10a57978c658330108b90614d33939b9b8199808",
+    "tooling/ai-engines/eurusd_b0_source.py": "a7f1f0356b10a47b732c24c347061a0cab6f9b3c1140a4d8d0a745248467bb84",
+    "tooling/ai-engines/run_eurusd_b0.py": "96abcb8aea988a2be5116faf656e2360b7b0c94e9277a573c26e92d02841c345",
+    "tooling/ai-engines/forex_study_batch.py": "4d5371bcf3528d731d5a4a472dcae8f3560c402fc73737cc83c635887c7807e2",
+    "projects/trader/foundation_v2/trading_workspace_v2/research_market.py": "337d35a9f54b3e26146ac835ab3d4e47acd612086e100f2e27d86e6879160186",
+    "projects/trader/foundation_v2/trading_workspace_v2/semantics/data_costs.py": "1ba3ba60a00939ab3baa20ef47a751a0cf0636c99a1ec372e0616498d2612672",
+    "projects/trader/foundation_v2/trading_workspace_v2/semantics/data_contracts.py": "96d385c15fa3b6052fe4a81798694a4d4f168ba01fc8c478b755d5b4ab05ff27",
+    "projects/trader/foundation_v2/trading_workspace_v2/execution_semantics.py": "9e53bfe3b801e61e687177d46c4c0bb1ec3e92bca175f1db187aa95e85b877af"
+  },
+  "rows": [
+    {
+      "year": 2022,
+      "role": "development",
+      "scenario": "reference",
+      "counters": {
+        "days": 260,
+        "valid_zones": 258,
+        "bias_breakouts": 261,
+        "first_touches": 125,
+        "pre_cost_confirmed_signals": 31,
+        "friction_cap_rejected": 18,
+        "first_touch_not_confirmed": 94,
+        "path_flagged_trades": 0,
+        "setup_cutoff_cancelled": 68,
+        "filled_entries": 13,
+        "setup_expired": 68,
+        "invalid_zone_missing_m15": 2,
+        "missing_signal_bar": 1
+      },
+      "closed_trades": 13,
+      "buy_trades": 9,
+      "sell_trades": 4,
+      "natural_sl_pips_pre_admission": {
+        "count": 31,
+        "median": 8.4,
+        "p90": 15.2,
+        "maximum": 28.5
+      },
+      "natural_sl_pips_filled": {
+        "count": 13,
+        "median": 12.3,
+        "p90": 24.460000000000008,
+        "maximum": 28.5
+      },
+      "planned_stress_friction_r0": {
+        "count": 13,
+        "median": 0.104,
+        "p90": 0.112,
+        "maximum": 0.1166
+      },
+      "realized_friction_r0": {
+        "count": 13,
+        "median": 0.0688,
+        "p90": 0.07522666666666666,
+        "maximum": 0.081
+      },
+      "realized_friction_cap_exceedances": 0,
+      "cost_rejection_rate": 0.5806451612903226,
+      "sum_lots": 14.01,
+      "gross_after_spread_usd": 148.1,
+      "gross_after_spread_usd_per_lot": 10.571020699500357,
+      "commission_usd": 70.05,
+      "slippage_usd": 0.0,
+      "conditional_net_usd": 78.05,
+      "annual_net_r0": 0.5203333333333333,
+      "mean_net_r0": 0.040025641025641025,
+      "max_entries_day": 1,
+      "active_trade_days": 13,
+      "monthly_filled_entries": {
+        "01": 1,
+        "02": 1,
+        "03": 4,
+        "04": 0,
+        "05": 0,
+        "06": 1,
+        "07": 1,
+        "08": 1,
+        "09": 0,
+        "10": 0,
+        "11": 2,
+        "12": 2
+      },
+      "zero_trade_months": 4,
+      "worst_daily_loss_usd": 149.85,
+      "worst_daily_loss_pct": 0.2997,
+      "worst_liquidation_daily_loss_pct": 0.2997,
+      "max_equity_dd_usd": 698.27,
+      "max_cumulative_r_dd": 4.655133333333334,
+      "max_liquidation_r_dd": 4.665933333333333,
+      "static_initial_loss_usd": 481.43,
+      "minimum_equity_usd": 49518.57,
+      "peak_equity_usd": 50216.84,
+      "daily_witness": {
+        "at": 1667984074522,
+        "daily_anchor_usd": 49986.63,
+        "equity_usd": 49836.78
+      },
+      "dd_witness": {
+        "at": 1660639224768,
+        "peak_usd": 50216.84,
+        "equity_usd": 49518.57
+      },
+      "strict_news_admitted_trades": null,
+      "strict_net_usd": null,
+      "news_checked": false,
+      "target_calendar_verified": false,
+      "prop_qualified": false,
+      "interpretation": "conditional_observed_tick_economics_not_funded_qualification"
+    },
+    {
+      "year": 2022,
+      "role": "development",
+      "scenario": "stress",
+      "counters": {
+        "days": 260,
+        "valid_zones": 258,
+        "bias_breakouts": 261,
+        "first_touches": 125,
+        "pre_cost_confirmed_signals": 31,
+        "friction_cap_rejected": 18,
+        "first_touch_not_confirmed": 94,
+        "path_flagged_trades": 0,
+        "setup_cutoff_cancelled": 68,
+        "filled_entries": 13,
+        "setup_expired": 68,
+        "invalid_zone_missing_m15": 2,
+        "missing_signal_bar": 1
+      },
+      "closed_trades": 13,
+      "buy_trades": 9,
+      "sell_trades": 4,
+      "natural_sl_pips_pre_admission": {
+        "count": 31,
+        "median": 8.4,
+        "p90": 15.2,
+        "maximum": 28.5
+      },
+      "natural_sl_pips_filled": {
+        "count": 13,
+        "median": 12.3,
+        "p90": 24.460000000000008,
+        "maximum": 28.5
+      },
+      "planned_stress_friction_r0": {
+        "count": 13,
+        "median": 0.104,
+        "p90": 0.112,
+        "maximum": 0.1166
+      },
+      "realized_friction_r0": {
+        "count": 13,
+        "median": 0.09706666666666666,
+        "p90": 0.1147,
+        "maximum": 0.117
+      },
+      "realized_friction_cap_exceedances": 0,
+      "cost_rejection_rate": 0.5806451612903226,
+      "sum_lots": 14.01,
+      "gross_after_spread_usd": 148.1,
+      "gross_after_spread_usd_per_lot": 10.571020699500357,
+      "commission_usd": 70.05,
+      "slippage_usd": 56.04,
+      "conditional_net_usd": 22.01,
+      "annual_net_r0": 0.14673333333333335,
+      "mean_net_r0": 0.011287179487179489,
+      "max_entries_day": 1,
+      "active_trade_days": 13,
+      "monthly_filled_entries": {
+        "01": 1,
+        "02": 1,
+        "03": 4,
+        "04": 0,
+        "05": 0,
+        "06": 1,
+        "07": 1,
+        "08": 1,
+        "09": 0,
+        "10": 0,
+        "11": 2,
+        "12": 2
+      },
+      "zero_trade_months": 4,
+      "worst_daily_loss_usd": 155.25,
+      "worst_daily_loss_pct": 0.3105,
+      "worst_liquidation_daily_loss_pct": 0.3105,
+      "max_equity_dd_usd": 716.37,
+      "max_cumulative_r_dd": 4.7758,
+      "max_liquidation_r_dd": 4.795266666666667,
+      "static_initial_loss_usd": 515.57,
+      "minimum_equity_usd": 49484.43,
+      "peak_equity_usd": 50200.8,
+      "daily_witness": {
+        "at": 1667984074522,
+        "daily_anchor_usd": 49945.63,
+        "equity_usd": 49790.38
+      },
+      "dd_witness": {
+        "at": 1660639224768,
+        "peak_usd": 50200.8,
+        "equity_usd": 49484.43
+      },
+      "strict_news_admitted_trades": null,
+      "strict_net_usd": null,
+      "news_checked": false,
+      "target_calendar_verified": false,
+      "prop_qualified": false,
+      "interpretation": "conditional_observed_tick_economics_not_funded_qualification"
+    },
+    {
+      "year": 2023,
+      "role": "development",
+      "scenario": "reference",
+      "counters": {
+        "days": 260,
+        "valid_zones": 259,
+        "path_flagged_trades": 1,
+        "bias_breakouts": 283,
+        "setup_expired": 61,
+        "setup_cutoff_cancelled": 83,
+        "first_touches": 136,
+        "first_touch_not_confirmed": 100,
+        "pre_cost_confirmed_signals": 36,
+        "filled_entries": 11,
+        "setup_bias_cancelled": 3,
+        "friction_cap_rejected": 25,
+        "missing_signal_bar": 1,
+        "invalid_zone_missing_m15": 1
+      },
+      "closed_trades": 11,
+      "buy_trades": 7,
+      "sell_trades": 4,
+      "natural_sl_pips_pre_admission": {
+        "count": 36,
+        "median": 6.0,
+        "p90": 11.35,
+        "maximum": 14.1
+      },
+      "natural_sl_pips_filled": {
+        "count": 11,
+        "median": 10.5,
+        "p90": 13.3,
+        "maximum": 14.1
+      },
+      "planned_stress_friction_r0": {
+        "count": 11,
+        "median": 0.104,
+        "p90": 0.11333333333333333,
+        "maximum": 0.12
+      },
+      "realized_friction_r0": {
+        "count": 11,
+        "median": 0.065,
+        "p90": 0.075,
+        "maximum": 0.084
+      },
+      "realized_friction_cap_exceedances": 0,
+      "cost_rejection_rate": 0.6944444444444444,
+      "sum_lots": 14.37,
+      "gross_after_spread_usd": 994.17,
+      "gross_after_spread_usd_per_lot": 69.18371607515658,
+      "commission_usd": 71.85,
+      "slippage_usd": 0.0,
+      "conditional_net_usd": 922.32,
+      "annual_net_r0": 6.1488000000000005,
+      "mean_net_r0": 0.5589818181818182,
+      "max_entries_day": 1,
+      "active_trade_days": 11,
+      "monthly_filled_entries": {
+        "01": 1,
+        "02": 2,
+        "03": 1,
+        "04": 0,
+        "05": 0,
+        "06": 1,
+        "07": 2,
+        "08": 0,
+        "09": 2,
+        "10": 1,
+        "11": 1,
+        "12": 0
+      },
+      "zero_trade_months": 4,
+      "worst_daily_loss_usd": 144.2,
+      "worst_daily_loss_pct": 0.2884,
+      "worst_liquidation_daily_loss_pct": 0.2884,
+      "max_equity_dd_usd": 285.94,
+      "max_cumulative_r_dd": 1.9062666666666668,
+      "max_liquidation_r_dd": 1.9002666666666668,
+      "static_initial_loss_usd": 272.64,
+      "minimum_equity_usd": 49727.36,
+      "peak_equity_usd": 51036.19,
+      "daily_witness": {
+        "at": 1673601567721,
+        "daily_anchor_usd": 50000.0,
+        "equity_usd": 49855.8
+      },
+      "dd_witness": {
+        "at": 1675766558478,
+        "peak_usd": 50013.3,
+        "equity_usd": 49727.36
+      },
+      "strict_news_admitted_trades": null,
+      "strict_net_usd": null,
+      "news_checked": false,
+      "target_calendar_verified": false,
+      "prop_qualified": false,
+      "interpretation": "conditional_observed_tick_economics_not_funded_qualification"
+    },
+    {
+      "year": 2023,
+      "role": "development",
+      "scenario": "stress",
+      "counters": {
+        "days": 260,
+        "valid_zones": 259,
+        "path_flagged_trades": 1,
+        "bias_breakouts": 283,
+        "setup_expired": 61,
+        "setup_cutoff_cancelled": 83,
+        "first_touches": 136,
+        "first_touch_not_confirmed": 100,
+        "pre_cost_confirmed_signals": 36,
+        "filled_entries": 11,
+        "setup_bias_cancelled": 3,
+        "friction_cap_rejected": 25,
+        "missing_signal_bar": 1,
+        "invalid_zone_missing_m15": 1
+      },
+      "closed_trades": 11,
+      "buy_trades": 7,
+      "sell_trades": 4,
+      "natural_sl_pips_pre_admission": {
+        "count": 36,
+        "median": 6.0,
+        "p90": 11.35,
+        "maximum": 14.1
+      },
+      "natural_sl_pips_filled": {
+        "count": 11,
+        "median": 10.5,
+        "p90": 13.3,
+        "maximum": 14.1
+      },
+      "planned_stress_friction_r0": {
+        "count": 11,
+        "median": 0.104,
+        "p90": 0.11333333333333333,
+        "maximum": 0.12
+      },
+      "realized_friction_r0": {
+        "count": 11,
+        "median": 0.09966666666666667,
+        "p90": 0.115,
+        "maximum": 0.12133333333333333
+      },
+      "realized_friction_cap_exceedances": 1,
+      "cost_rejection_rate": 0.6944444444444444,
+      "sum_lots": 14.37,
+      "gross_after_spread_usd": 994.17,
+      "gross_after_spread_usd_per_lot": 69.18371607515658,
+      "commission_usd": 71.85,
+      "slippage_usd": 57.48,
+      "conditional_net_usd": 864.84,
+      "annual_net_r0": 5.7656,
+      "mean_net_r0": 0.5241454545454546,
+      "max_entries_day": 1,
+      "active_trade_days": 11,
+      "monthly_filled_entries": {
+        "01": 1,
+        "02": 2,
+        "03": 1,
+        "04": 0,
+        "05": 0,
+        "06": 1,
+        "07": 2,
+        "08": 0,
+        "09": 2,
+        "10": 1,
+        "11": 1,
+        "12": 0
+      },
+      "zero_trade_months": 4,
+      "worst_daily_loss_usd": 149.8,
+      "worst_daily_loss_pct": 0.2996,
+      "worst_liquidation_daily_loss_pct": 0.2996,
+      "max_equity_dd_usd": 290.82,
+      "max_cumulative_r_dd": 1.9388,
+      "max_liquidation_r_dd": 1.928,
+      "static_initial_loss_usd": 280.32,
+      "minimum_equity_usd": 49719.68,
+      "peak_equity_usd": 50981.07,
+      "daily_witness": {
+        "at": 1673601567721,
+        "daily_anchor_usd": 50000.0,
+        "equity_usd": 49850.2
+      },
+      "dd_witness": {
+        "at": 1675766558478,
+        "peak_usd": 50010.5,
+        "equity_usd": 49719.68
+      },
+      "strict_news_admitted_trades": null,
+      "strict_net_usd": null,
+      "news_checked": false,
+      "target_calendar_verified": false,
+      "prop_qualified": false,
+      "interpretation": "conditional_observed_tick_economics_not_funded_qualification"
+    },
+    {
+      "year": 2024,
+      "role": "historical_validation_previously_exposed",
+      "scenario": "reference",
+      "counters": {
+        "days": 262,
+        "invalid_zone_missing_m15": 2,
+        "valid_zones": 260,
+        "bias_breakouts": 262,
+        "setup_cutoff_cancelled": 86,
+        "path_flagged_trades": 0,
+        "setup_expired": 66,
+        "first_touches": 109,
+        "first_touch_not_confirmed": 81,
+        "pre_cost_confirmed_signals": 28,
+        "friction_cap_rejected": 22,
+        "filled_entries": 6,
+        "missing_signal_bar": 4,
+        "setup_gap_cancelled": 1
+      },
+      "closed_trades": 6,
+      "buy_trades": 2,
+      "sell_trades": 4,
+      "natural_sl_pips_pre_admission": {
+        "count": 28,
+        "median": 6.050000000000001,
+        "p90": 8.89,
+        "maximum": 17.9
+      },
+      "natural_sl_pips_filled": {
+        "count": 6,
+        "median": 8.95,
+        "p90": 13.799999999999999,
+        "maximum": 17.9
+      },
+      "planned_stress_friction_r0": {
+        "count": 6,
+        "median": 0.1056,
+        "p90": 0.112,
+        "maximum": 0.11466666666666667
+      },
+      "realized_friction_r0": {
+        "count": 6,
+        "median": 0.06755,
+        "p90": 0.07326666666666667,
+        "maximum": 0.07653333333333333
+      },
+      "realized_friction_cap_exceedances": 0,
+      "cost_rejection_rate": 0.7857142857142857,
+      "sum_lots": 8.56,
+      "gross_after_spread_usd": 89.63,
+      "gross_after_spread_usd_per_lot": 10.470794392523363,
+      "commission_usd": 42.8,
+      "slippage_usd": 0.0,
+      "conditional_net_usd": 46.83,
+      "annual_net_r0": 0.3122,
+      "mean_net_r0": 0.05203333333333333,
+      "max_entries_day": 1,
+      "active_trade_days": 6,
+      "monthly_filled_entries": {
+        "01": 0,
+        "02": 0,
+        "03": 0,
+        "04": 1,
+        "05": 0,
+        "06": 0,
+        "07": 0,
+        "08": 0,
+        "09": 2,
+        "10": 0,
+        "11": 3,
+        "12": 0
+      },
+      "zero_trade_months": 9,
+      "worst_daily_loss_usd": 146.15,
+      "worst_daily_loss_pct": 0.2923,
+      "worst_liquidation_daily_loss_pct": 0.2923,
+      "max_equity_dd_usd": 458.38,
+      "max_cumulative_r_dd": 3.0558666666666667,
+      "max_liquidation_r_dd": 3.055066666666667,
+      "static_initial_loss_usd": 223.27,
+      "minimum_equity_usd": 49776.73,
+      "peak_equity_usd": 50235.11,
+      "daily_witness": {
+        "at": 1731321072696,
+        "daily_anchor_usd": 50073.7,
+        "equity_usd": 49927.55
+      },
+      "dd_witness": {
+        "at": 1731575707808,
+        "peak_usd": 50235.11,
+        "equity_usd": 49776.73
+      },
+      "strict_news_admitted_trades": null,
+      "strict_net_usd": null,
+      "news_checked": false,
+      "target_calendar_verified": false,
+      "prop_qualified": false,
+      "interpretation": "conditional_observed_tick_economics_not_funded_qualification"
+    },
+    {
+      "year": 2024,
+      "role": "historical_validation_previously_exposed",
+      "scenario": "stress",
+      "counters": {
+        "days": 262,
+        "invalid_zone_missing_m15": 2,
+        "valid_zones": 260,
+        "bias_breakouts": 262,
+        "setup_cutoff_cancelled": 86,
+        "path_flagged_trades": 0,
+        "setup_expired": 66,
+        "first_touches": 109,
+        "first_touch_not_confirmed": 81,
+        "pre_cost_confirmed_signals": 28,
+        "friction_cap_rejected": 22,
+        "filled_entries": 6,
+        "missing_signal_bar": 4,
+        "setup_gap_cancelled": 1
+      },
+      "closed_trades": 6,
+      "buy_trades": 2,
+      "sell_trades": 4,
+      "natural_sl_pips_pre_admission": {
+        "count": 28,
+        "median": 6.050000000000001,
+        "p90": 8.89,
+        "maximum": 17.9
+      },
+      "natural_sl_pips_filled": {
+        "count": 6,
+        "median": 8.95,
+        "p90": 13.799999999999999,
+        "maximum": 17.9
+      },
+      "planned_stress_friction_r0": {
+        "count": 6,
+        "median": 0.1056,
+        "p90": 0.112,
+        "maximum": 0.11466666666666667
+      },
+      "realized_friction_r0": {
+        "count": 6,
+        "median": 0.10721666666666667,
+        "p90": 0.11746666666666666,
+        "maximum": 0.12026666666666666
+      },
+      "realized_friction_cap_exceedances": 1,
+      "cost_rejection_rate": 0.7857142857142857,
+      "sum_lots": 8.56,
+      "gross_after_spread_usd": 89.63,
+      "gross_after_spread_usd_per_lot": 10.470794392523363,
+      "commission_usd": 42.8,
+      "slippage_usd": 34.24,
+      "conditional_net_usd": 12.59,
+      "annual_net_r0": 0.08393333333333333,
+      "mean_net_r0": 0.01398888888888889,
+      "max_entries_day": 1,
+      "active_trade_days": 6,
+      "monthly_filled_entries": {
+        "01": 0,
+        "02": 0,
+        "03": 0,
+        "04": 1,
+        "05": 0,
+        "06": 0,
+        "07": 0,
+        "08": 0,
+        "09": 2,
+        "10": 0,
+        "11": 3,
+        "12": 0
+      },
+      "zero_trade_months": 9,
+      "worst_daily_loss_usd": 149.31,
+      "worst_daily_loss_pct": 0.29862,
+      "worst_liquidation_daily_loss_pct": 0.29862,
+      "max_equity_dd_usd": 474.12,
+      "max_cumulative_r_dd": 3.1608,
+      "max_liquidation_r_dd": 3.1593333333333335,
+      "static_initial_loss_usd": 254.55,
+      "minimum_equity_usd": 49745.45,
+      "peak_equity_usd": 50219.57,
+      "daily_witness": {
+        "at": 1731321072696,
+        "daily_anchor_usd": 50055.1,
+        "equity_usd": 49905.79
+      },
+      "dd_witness": {
+        "at": 1731575707808,
+        "peak_usd": 50219.57,
+        "equity_usd": 49745.45
+      },
+      "strict_news_admitted_trades": null,
+      "strict_net_usd": null,
+      "news_checked": false,
+      "target_calendar_verified": false,
+      "prop_qualified": false,
+      "interpretation": "conditional_observed_tick_economics_not_funded_qualification"
+    }
+  ],
+  "coverage": [
+    {
+      "year": 2022,
+      "input_ticks": 36946763,
+      "session_ticks": 10102972,
+      "observed_m15": 24960,
+      "incomplete_m15": 733,
+      "observed_h1": 6240,
+      "incomplete_h1": 429
+    },
+    {
+      "year": 2023,
+      "input_ticks": 27549175,
+      "session_ticks": 7058201,
+      "observed_m15": 24896,
+      "incomplete_m15": 1014,
+      "observed_h1": 6225,
+      "incomplete_h1": 595
+    },
+    {
+      "year": 2024,
+      "input_ticks": 20687149,
+      "session_ticks": 5169241,
+      "observed_m15": 24998,
+      "incomplete_m15": 1180,
+      "observed_h1": 6250,
+      "incomplete_h1": 737
+    }
+  ],
+  "pooled": [
+    {
+      "scenario": "reference",
+      "conditional_net_usd": 1047.2,
+      "net_r0": 6.981333333333334,
+      "pooled_equity_dd_usd": 698.27,
+      "pooled_cumulative_r_dd": 4.655133333333334,
+      "zero_compounding": true,
+      "annual_capital_resets": true
+    },
+    {
+      "scenario": "stress",
+      "conditional_net_usd": 899.44,
+      "net_r0": 5.996266666666667,
+      "pooled_equity_dd_usd": 716.37,
+      "pooled_cumulative_r_dd": 4.7758,
+      "zero_compounding": true,
+      "annual_capital_resets": true
+    }
+  ],
+  "strict_status": "BLOCKED_BY_CALENDAR",
+  "strict_net_usd": null,
+  "prop_qualified": false,
+  "note": "Conditional economics before historical known-at news/target-session admission; not a full B0 qualification.",
+  "trial_budget": {
+    "alpha_versions_used": [
+      "B0"
+    ],
+    "b1_used": false,
+    "xau_used": false
+  },
+  "closed_price_years": [
+    2025,
+    2026
+  ],
+  "broker_calls": 0,
+  "network_requests": 0,
+  "timing": {
+    "preparation_wall_seconds": 459.9059999999881,
+    "features_wall_seconds": 0.1870000000053551,
+    "simulation_wall_seconds": 10.26600000000326,
+    "total_wall_seconds": 470.61000000001513,
+    "process_cpu_seconds": 407.171875
+  },
+  "preparation_seal_sha256": [
+    "bae35c48639876f4bab22b8616075dc235ee0def324f6d644d6e4309fcc67dc0",
+    "2e2f59e0b34f30c57f11bed453d1f3161bad914c26131e17dd6136265d9f44d0",
+    "34c13dfef1c4a42afc495bd1bf76a43f42cf223df52439aca7897b9c7c76ec13",
+    "16c336c67d23169dd6bba68838334ea951912b52767ad49587a3b2b72a668845"
+  ],
+  "derived": [
+    {
+      "year": 2022,
+      "scenario": "reference",
+      "sides": {
+        "BUY": {
+          "trades": 9,
+          "lots": 10.42,
+          "gross_after_spread_usd": -54.99,
+          "conditional_net_usd": -107.09,
+          "gross_usd_per_lot": -5.277351247600768
+        },
+        "SELL": {
+          "trades": 4,
+          "lots": 3.59,
+          "gross_after_spread_usd": 203.09,
+          "conditional_net_usd": 185.14,
+          "gross_usd_per_lot": 56.571030640668525
+        }
+      },
+      "mean_natural_sl_pips_before_admission": 10.193548387096774,
+      "mean_natural_sl_pips_filled": 14.407692307692308,
+      "median_r_price_usd": 138.0,
+      "exit_reasons": {
+        "stop_loss": 6,
+        "take_profit": 3,
+        "session_cutoff": 4
+      },
+      "holding_minutes": {
+        "median": 72.17821666666667,
+        "maximum": 210.00183333333334
+      },
+      "held_gap_free_trades": 13,
+      "held_gap_trade_days": [],
+      "all_actual_holding_minutes": 982.4275
+    },
+    {
+      "year": 2022,
+      "scenario": "stress",
+      "sides": {
+        "BUY": {
+          "trades": 9,
+          "lots": 10.42,
+          "gross_after_spread_usd": -54.99,
+          "conditional_net_usd": -148.77,
+          "gross_usd_per_lot": -5.277351247600768
+        },
+        "SELL": {
+          "trades": 4,
+          "lots": 3.59,
+          "gross_after_spread_usd": 203.09,
+          "conditional_net_usd": 170.78,
+          "gross_usd_per_lot": 56.571030640668525
+        }
+      },
+      "mean_natural_sl_pips_before_admission": 10.193548387096774,
+      "mean_natural_sl_pips_filled": 14.407692307692308,
+      "median_r_price_usd": 138.0,
+      "exit_reasons": {
+        "stop_loss": 6,
+        "take_profit": 3,
+        "session_cutoff": 4
+      },
+      "holding_minutes": {
+        "median": 72.17821666666667,
+        "maximum": 210.00183333333334
+      },
+      "held_gap_free_trades": 13,
+      "held_gap_trade_days": [],
+      "all_actual_holding_minutes": 982.4275
+    },
+    {
+      "year": 2023,
+      "scenario": "reference",
+      "sides": {
+        "BUY": {
+          "trades": 7,
+          "lots": 8.97,
+          "gross_after_spread_usd": 669.64,
+          "conditional_net_usd": 624.79,
+          "gross_usd_per_lot": 74.65328874024526
+        },
+        "SELL": {
+          "trades": 4,
+          "lots": 5.4,
+          "gross_after_spread_usd": 324.53,
+          "conditional_net_usd": 297.53,
+          "gross_usd_per_lot": 60.09814814814815
+        }
+      },
+      "mean_natural_sl_pips_before_admission": 7.136111111111111,
+      "mean_natural_sl_pips_filled": 10.772727272727273,
+      "median_r_price_usd": 136.5,
+      "exit_reasons": {
+        "stop_loss": 1,
+        "session_cutoff": 7,
+        "take_profit": 3
+      },
+      "holding_minutes": {
+        "median": 120.00231666666667,
+        "maximum": 210.00111666666666
+      },
+      "held_gap_free_trades": 10,
+      "held_gap_trade_days": [
+        "2023-09-25"
+      ],
+      "all_actual_holding_minutes": 1325.2666833333333
+    },
+    {
+      "year": 2023,
+      "scenario": "stress",
+      "sides": {
+        "BUY": {
+          "trades": 7,
+          "lots": 8.97,
+          "gross_after_spread_usd": 669.64,
+          "conditional_net_usd": 588.91,
+          "gross_usd_per_lot": 74.65328874024526
+        },
+        "SELL": {
+          "trades": 4,
+          "lots": 5.4,
+          "gross_after_spread_usd": 324.53,
+          "conditional_net_usd": 275.93,
+          "gross_usd_per_lot": 60.09814814814815
+        }
+      },
+      "mean_natural_sl_pips_before_admission": 7.136111111111111,
+      "mean_natural_sl_pips_filled": 10.772727272727273,
+      "median_r_price_usd": 136.5,
+      "exit_reasons": {
+        "stop_loss": 1,
+        "session_cutoff": 7,
+        "take_profit": 3
+      },
+      "holding_minutes": {
+        "median": 120.00231666666667,
+        "maximum": 210.00111666666666
+      },
+      "held_gap_free_trades": 10,
+      "held_gap_trade_days": [
+        "2023-09-25"
+      ],
+      "all_actual_holding_minutes": 1325.2666833333333
+    },
+    {
+      "year": 2024,
+      "scenario": "reference",
+      "sides": {
+        "BUY": {
+          "trades": 2,
+          "lots": 2.93,
+          "gross_after_spread_usd": -167.93,
+          "conditional_net_usd": -182.58,
+          "gross_usd_per_lot": -57.31399317406143
+        },
+        "SELL": {
+          "trades": 4,
+          "lots": 5.63,
+          "gross_after_spread_usd": 257.56,
+          "conditional_net_usd": 229.41,
+          "gross_usd_per_lot": 45.747779751332146
+        }
+      },
+      "mean_natural_sl_pips_before_admission": 6.364285714285714,
+      "mean_natural_sl_pips_filled": 10.216666666666667,
+      "median_r_price_usd": 134.66,
+      "exit_reasons": {
+        "stop_loss": 3,
+        "take_profit": 2,
+        "session_cutoff": 1
+      },
+      "holding_minutes": {
+        "median": 56.526725,
+        "maximum": 179.99848333333333
+      },
+      "held_gap_free_trades": 6,
+      "held_gap_trade_days": [],
+      "all_actual_holding_minutes": 488.09246666666667
+    },
+    {
+      "year": 2024,
+      "scenario": "stress",
+      "sides": {
+        "BUY": {
+          "trades": 2,
+          "lots": 2.93,
+          "gross_after_spread_usd": -167.93,
+          "conditional_net_usd": -194.3,
+          "gross_usd_per_lot": -57.31399317406143
+        },
+        "SELL": {
+          "trades": 4,
+          "lots": 5.63,
+          "gross_after_spread_usd": 257.56,
+          "conditional_net_usd": 206.89,
+          "gross_usd_per_lot": 45.747779751332146
+        }
+      },
+      "mean_natural_sl_pips_before_admission": 6.364285714285714,
+      "mean_natural_sl_pips_filled": 10.216666666666667,
+      "median_r_price_usd": 134.66,
+      "exit_reasons": {
+        "stop_loss": 3,
+        "take_profit": 2,
+        "session_cutoff": 1
+      },
+      "holding_minutes": {
+        "median": 56.526725,
+        "maximum": 179.99848333333333
+      },
+      "held_gap_free_trades": 6,
+      "held_gap_trade_days": [],
+      "all_actual_holding_minutes": 488.09246666666667
+    }
+  ],
+  "preparation_phases": [
+    {
+      "first_day": "20211101",
+      "ticks": 2898251,
+      "session_ticks": 771925,
+      "wall_seconds": 26.405999999988126,
+      "cpu_seconds": 16.9375
+    },
+    {
+      "first_day": "20220101",
+      "ticks": 36946763,
+      "session_ticks": 10102972,
+      "wall_seconds": 199.98399999999674,
+      "cpu_seconds": 176.140625
+    },
+    {
+      "first_day": "20230101",
+      "ticks": 27549175,
+      "session_ticks": 7058201,
+      "wall_seconds": 137.28099999998813,
+      "cpu_seconds": 116.1875
+    },
+    {
+      "first_day": "20240101",
+      "ticks": 20687149,
+      "session_ticks": 5169241,
+      "wall_seconds": 96.14100000000326,
+      "cpu_seconds": 87.5625
+    }
+  ],
+  "gap_diagnostic": {
+    "schema": "eurusd-b0-held-gap-diagnostic-v1",
+    "day": "2023-09-25",
+    "before_utc": "2023-09-25T10:05:27.510+00:00",
+    "after_utc": "2023-09-25T11:00:00.177+00:00",
+    "gap_ms": 3272667,
+    "gap_minutes": 54.54445,
+    "source_ordinals": [
+      20881900,
+      20881901
+    ],
+    "closed_fully_missing_m1_minutes": 54,
+    "conditional_trade_net_stress_usd": -45.9,
+    "observed_gap_free_trade_fraction": 0.9666666666666667,
+    "source_recovery": "not_recovered_in_bounded_local_lookup",
+    "searched_scope": [
+      "current D Trader QDM runtime location absent",
+      "archived E workspace old QDM runtime location absent",
+      "EUR-USD2023-09-25 cached request filename census under execution-v1 returned none"
+    ],
+    "complete_local_inventory": false,
+    "new_price_data_downloaded": false,
+    "unknown_SL_TP_order_and_eligibility": true,
+    "drop_trade_or_impute_price": false,
+    "raw_csv_to_prepared_session_tick_parity": true,
+    "matched_tick_count": 17774,
+    "classification": "source_gap_already_in_sealed_QDM_CSV_not_B0_view_omission"
+  },
+  "verdict": {
+    "labels": [
+      "CADENCE_OR_SAMPLE_SHORTFALL",
+      "DATA_PATH_INCOMPLETE",
+      "PROP_UNMEASURED"
+    ],
+    "economic_fail": false,
+    "positive_conditional_observation_is_not_edge_proof": true,
+    "strict_B0_completed": false,
+    "strict_B0_net_usd": null,
+    "strict_daily_dd_pct": null,
+    "candidate_for_challenge": false,
+    "baseline_version": "B0",
+    "B1_not_authorized_or_used": true,
+    "strict_cadence_per_year": null
+  },
+  "artifacts": {
+    "root": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\eurusd-b0-20261113",
+    "config": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\eurusd-b0-20261113\\config-attempt-1.json",
+    "result_sha256": "d5c8e369e2f407de7e05c22bbf935576c42548cc21a34aff8181948a7fc5f538",
+    "review_original_sha256": "4b9faa0541640d0b72b164590c9df0ffc2594d19273e8327ae12438e5dd02693",
+    "gap_sha256": "93a66efa609f88f9cae7a98b462877fd7104bd2cd88a521ebf45067234345f49",
+    "final_fixture_log_sha256": "da3f7dc57f47a19ff332cff5b5432bcb1725b510a4a2c4c21c7fb15f80c6afd7",
+    "review_final_sha256": "80450ba832a88fe59fe72e08115c3e1cd44e3b525fdf51f305d08f31efdbcadb"
+  },
+  "source_checkpoint": "d33d917",
+  "post_run_maintenance": "Only second-writer ownership and audit source-snapshot/receipt safeguards; no financial engine or source-price change; no economic rerun.",
+  "official_rule_references": [
+    "https://ftmo.com/faq/can-i-trade-news/",
+    "https://ftmo.com/en/symbols/"
+  ],
+  "review_final": {
+    "schema": "eurusd-b0-review-v1",
+    "status": "passed_scoped_self_review",
+    "config_sha256": "56be9c77e051547c18a1c68b52a2f7b18ebb743ce95877c392442eaa27b61b06",
+    "result_sha256": "d5c8e369e2f407de7e05c22bbf935576c42548cc21a34aff8181948a7fc5f538",
+    "review_source_sha256": "553d718d44a9ae160dd42f8a365a562dc1ff17887054e085e77f4e2ea8e02565",
+    "checks": {
+      "same_source_session_bar_parity": 19482,
+      "observed_equity_marks": 541248,
+      "trade_cash_fill_cost_parity": 60
+    },
+    "rows": [
+      {
+        "year": 2022,
+        "scenario": "reference",
+        "cash_dd_daily_parity": true,
+        "trades": 13
+      },
+      {
+        "year": 2022,
+        "scenario": "stress",
+        "cash_dd_daily_parity": true,
+        "trades": 13
+      },
+      {
+        "year": 2023,
+        "scenario": "reference",
+        "cash_dd_daily_parity": true,
+        "trades": 11
+      },
+      {
+        "year": 2023,
+        "scenario": "stress",
+        "cash_dd_daily_parity": true,
+        "trades": 11
+      },
+      {
+        "year": 2024,
+        "scenario": "reference",
+        "cash_dd_daily_parity": true,
+        "trades": 6
+      },
+      {
+        "year": 2024,
+        "scenario": "stress",
+        "cash_dd_daily_parity": true,
+        "trades": 6
+      }
+    ],
+    "independent_agent_review": false,
+    "independent_feed": false,
+    "full_native_replay_parity": false,
+    "strict_news_and_target_calendar_qualification": false,
+    "opened_2025_2026": false,
+    "verified_source_root": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\eurusd-b0-20261113\\source-attempt-1"
+  }
+}
