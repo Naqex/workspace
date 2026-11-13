@@ -2,7 +2,14 @@
 
 **Task đang thực hiện:** [STRATEGY-E2E — chiến lược tới challenge/payout](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).
 Task này giữ audit, chặng T0–T9 và các việc xét sau Q1–Q12. Ưu tiên hiện tại:
-**Hiện tại: XAUUSD Intraday B0/A0 đã chạy, chưa có ứng viên challenge.**
+**Hiện tại: đã đo quy mô/horizon trên Development, khuyến nghị No-Go B1.**
+[Scale & Horizon Audit](XAUUSD-SCALE-HORIZON-AUDIT-RESULTS-20261113.md) /
+[JSON](XAUUSD-SCALE-HORIZON-AUDIT-RESULTS-20261113.json): chỉ2022–23;
+slip chiếm≈53% ma sát, cùng37fills giữ18UTC vẫn−211,86USD stress.
+Rawmarkout18UTC dương nhẹ nhưng CIqua0, chưa chứng minh edge hoặc bác mọiM15.
+Không B1/2024design/2025–26giá. PR73 merged`f1fa995`, nhánh cũ xóa.
+
+**Bằng chứng kế thừa: XAUUSD Intraday B0/A0 chưa đủ challenge.**
 [Kết quả](XAUUSD-INTRADAY-B0-RESULTS-20261113.md) / [JSON](XAUUSD-INTRADAY-B0-RESULTS-20261113.json):
 24/13/30lệnh ở2022/23/24; stress+156,13/−425,93/−451,15USD.
 ECONOMIC_FAIL + CADENCE_OR_SAMPLE_SHORTFALL; PROP_UNMEASURED riêng.
