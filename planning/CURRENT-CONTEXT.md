@@ -1,8 +1,49 @@
 # Current context — Naqex Workspace
 
-14/11/2026 · `RESEARCH: PROP_PORTFOLIO_V3_COMPLETED_CONDITIONAL · PROP: NOT_QUALIFIED · DOC: REVIEWABLE`.
+15/11/2026 · `RESEARCH: PROP_COCORE_V4_COMPLETED_CONDITIONAL · PROP: NOT_QUALIFIED · HOLDOUT: CLOSED`.
 
 ## Việc hiện tại
+
+**V4 đã hoàn tất, chưa payout hoặc sẵn sàng mở full holdout:**
+[báo cáo](research/PROP-COCORE-V4-RESULTS-20261114.md) /
+[JSON](research/PROP-COCORE-V4-RESULTS-20261114.json) /
+[quyết định](research/PROP-COCORE-V4-DECISION-20261114.json) /
+[protocol](research/PROP-COCORE-V4-PROTOCOL-20261114.md).
+Task `d6d78dc3-c7e9-40ee-a684-61490c368f27`, branch `codex/prop-cocore-v4`,
+private job `execution-v1/prop-cocore-v4-20261114`.
+Tên campaign dùng ngày UTC 14/11, bàn giao ngày địa phương 15/11.
+
+PR81 đã merge `5864d8b`, branch V3 xóa. Top10 chỉ xét Dev 2022–2023:
+không third sleeve đủ source/scale/carry gates. GBP Asia/London có screen
+dương nhưng chỉ H1, QDM không list GBP cached dataset. EUR thực tế có
+Dev drawdown 35,757R so với net14,334R, không gọi đường vốn mượt.
+Trong 13 cửa sổ V3 chưa xong vòng2, 7 dương/6 âm. V3 funded equity từng
+50.379,30USD nhưng flat balance đủ14/30ngày cao nhất49.849,38USD.
+
+Một trial co-core: hai nhánh $200/$175/$125 theo phase, cap mở1,6%,
+reserve floor46k (8%), throttle4%/6% và daily halt2% giữ nguyên.
+48 Dev accounts đạt: worststatic7,9359%, daily1,34082%.
+Commit composition `8b1bfba` trước replay2024; không chọn theo2024.
+144 V4 accounts (36starts ×2models ×14/30day proxies): ASYM quaP1 14/36,
+qua2vòng3/36; SYM13/36 và2/36; payout0 ở cả14/30ngày.
+Mỗi model chỉ một đường funded riêng, không độc lập. Worststatic7,994/7,995%;
+daily1,280/1,341%; peak-to-valley14,365/14,468% vốnđầu. Không modeledbreach.
+Caprejects0 nhưng reserve chặn nhiều hơn V3; không tăng risk tiếp để ép payout.
+
+209 tests (12 fixtures V4), oracle144accounts/32.866 admissions/
+10.102 rejects/104.985.511 jointquotes đạt. 72V3defaults tái hiện đúng cash,
+DD,accepted/closed/rejects/lifecycle. Cùng implementer, không independent
+human/model review. Không numericalwriter còn chạy; delivery/CI receipt tại job.
+
+Chỉ QDM symbol metadata: EURtick quảng bá tới01/11/2026, EURM1 07/10,
+GoldM1 13/10; Goldpairedticks2025–26 chưa được chứng nhận. Chưa fullwindow
+01/2025–10/2026 hoặc pristineOOS certified. FAQ FTMO fetch lỗiTLS;14ngày là
+request proxy, không currentofficial acceptance hay tiền nhận thật.
+Giữ giá2025–26 đóng, VI DubberWIP/Traderpin; không broker/model/paid/Astra,
+không auto-merge PR V4 hoặc chạy holdout/newcampaign.
+Các trạng thái bên dưới là lịch sử, không phải hàng đợi thực thi.
+
+## V3 đã merge
 
 **V3 đã hoàn tất Phase 0–4, chưa đủ điều kiện Challenge:**
 [báo cáo](research/PROP-PORTFOLIO-V3-RESULTS-20261114.md) /
@@ -40,7 +81,7 @@ không payout, top-trade concentration, completion phụ thuộc swap proxy,
 actual target spec/news/margin/feed/forward còn thiếu. `prop_qualified=false`.
 Không numerical writer còn chạy; CI/delivery receipt ở private job.
 Giữ đóng giá 2025–2026, WIP VI Dubber; không broker/model/paid/Astra,
-không tự merge PR V3 hoặc mở chiến dịch mới.
+PR81 sau đó đã merge `5864d8b` theo chỉ thị V4; nhánh V3 đã xóa.
 
 ## V2 đã hoàn tất
 

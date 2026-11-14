@@ -24,6 +24,8 @@ def stats(values):
 
 
 class Account:
+    reward_interval_days=30
+
     def __init__(self,start,end,cell,rolling=False,fixed_risk=150):
         self.start=start;self.end=end;self.cell=cell;self.rolling=rolling;self.fixed_risk=fixed_risk
         self.balance=self.anchor=self.peak=CAPITAL
@@ -82,7 +84,7 @@ class Account:
         if self.phase!=3 or self.active or self.funded_first is None:return
         since=self.last_payout if self.last_payout is not None else self.funded_first
         profit=self.balance-CAPITAL
-        if at-since<30*DAY or profit<20000:return
+        if at-since<self.reward_interval_days*DAY or profit<20000:return
         # Debit the whole account profit. Trader/firm split must sum to debit.
         trader=(profit*80//100)//10*10
         self.payouts.append(dict(at=at,gross_removed_usd=profit/1000,

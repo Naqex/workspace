@@ -1,5 +1,22 @@
 # Tra cứu research đã có
 
+**V4 hoàn tất, co-core chưa tạo payout hoặc sẵn sàng full holdout:**
+[Báo cáo](PROP-COCORE-V4-RESULTS-20261114.md) /
+[JSON](PROP-COCORE-V4-RESULTS-20261114.json) /
+[quyết định](PROP-COCORE-V4-DECISION-20261114.json) /
+[protocol](PROP-COCORE-V4-PROTOCOL-20261114.md).
+PR81 merged `5864d8b`, V3 branch xóa; branch mới `codex/prop-cocore-v4`.
+Không third sleeve đủ source/scale/carry. Một trial equal-risk hai nhánh,
+cap1,6%/reserve8%; chọn chỉ2022–23, commit`8b1bfba` trước2024.
+144accounts: ASYM P1 14/36, hai vòng3/36; SYM13/36 và2/36; payout0
+cả14/30ngày. Các successfulstarts cùng một fundedpath/model.
+Worststatic sát8%, peak-to-valley14,4% vốnđầu; chưa challenge/main-income ready.
+209tests/144accountoracle/72V3defaultparity đạt; không independent reviewer.
+Metadata-only: GoldM1 tới13/10/2026, EURM1 07/10, EURtick01/11; full
+01/2025–10/2026 và Goldpairedticks chưa certified. Không mở giá2025–26.
+Giữ VIWIP/Traderpin; không auto-merge PR V4, holdout, broker hoặc Astra.
+Privatejob `prop-cocore-v4-20261114`; ngày UTC14/11, local15/11.
+
 **V3 hoàn tất, danh mục có tiến bộ nhưng chưa đủ điều kiện Challenge:**
 [Báo cáo](PROP-PORTFOLIO-V3-RESULTS-20261114.md) /
 [JSON](PROP-PORTFOLIO-V3-RESULTS-20261114.json) /

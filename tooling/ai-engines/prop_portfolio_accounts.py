@@ -62,6 +62,11 @@ def trade_money(trade, quantity, model, risk):
 
 
 class PortfolioAccount(Account):
+    open_cap_milli = 500000
+    internal_floor_milli = 46500000
+    cap_rejection = "OPEN_STOP_RISK_1PCT_CAP"
+    floor_rejection = "INTERNAL_STATIC_7PCT_RESERVE"
+
     def __init__(self, *args, include_satellite=True, scaled=False, **kwargs):
         super().__init__(*args, **kwargs)
         self.include_satellite = include_satellite
@@ -69,6 +74,9 @@ class PortfolioAccount(Account):
         self.day_halt = False
         self.risk_buckets = Counter()
         self.maximum_stop_exposure = 0
+
+    def risk_request(self, equity, role, weight):
+        return requested_risk(self.phase, equity, role, weight)
 
     def floating(self, trades, quote):
         value = 0
@@ -130,7 +138,7 @@ class PortfolioAccount(Account):
                 return
             equity = self.balance + self.floating(trades, quote)
             weight = t.get("regime_weight", 1) if self.scaled else 1
-            risk = requested_risk(self.phase, equity, t["role"], weight)
+            risk = self.risk_request(equity, t["role"], weight)
             try:
                 q = quantity_steps(t, risk)
             except ValueError:
@@ -141,13 +149,13 @@ class PortfolioAccount(Account):
                 abs(trades[k]["entry_price_units"] - trades[k]["stop_units"])
                 for k, (size, _) in self.active.items())
             new_risk = q * VALUE[t["asset"]] * abs(t["entry_price_units"] - t["stop_units"])
-            if not within_open_risk_cap(old_risk, new_risk):
-                self.rejected["OPEN_STOP_RISK_1PCT_CAP"] += 1
+            if old_risk + new_risk > self.open_cap_milli:
+                self.rejected[self.cap_rejection] += 1
                 return
             fee = entry_exit_fee(t, t["entry_price_units"], q)
             projected = self.reserve_floor(trades, i, q, fee)
-            if projected <= 46500000:
-                self.rejected["INTERNAL_STATIC_7PCT_RESERVE"] += 1
+            if projected <= self.internal_floor_milli:
+                self.rejected[self.floor_rejection] += 1
                 return
             if projected < max(self.anchor - 2500000, 45000000):
                 self.rejected["SHARED_STOP_RESERVE"] += 1
