@@ -19,13 +19,16 @@ class RiskV2(Account):
         return risk
 
     def action(self,kind,at,i,trades,quote,mult=0):
-        count=len(self.accepted)
+        count=len(self.accepted);state=None
         if (kind=='entry' and self.rolling and self.start<=at<self.end and
                 not self.breach and trades[i]['decision_msc']>self.gate):
             risk=self.risk(self.balance+self.floating(trades,quote))
             q=quantity(trades[i],risk)
             fee=cents(commission(trades[i]['entry_price_units'],q))*10
             projected=self.reserve_floor(trades,i,q,fee)
+            state=dict(balance_milli_usd=self.balance,
+                equity_milli_usd=self.balance+self.floating(trades,quote),
+                daily_anchor_milli_usd=self.anchor,projected_stop_milli_usd=projected)
             if projected<=46500000:
                 self.rejected['INTERNAL_STATIC_7PCT_RESERVE']+=1
                 self.internal_rejections.append(dict(trade=i,at=at,phase=self.phase,
@@ -34,6 +37,7 @@ class RiskV2(Account):
         super().action(kind,at,i,trades,quote,mult)
         if len(self.accepted)>count:
             self.risk_buckets[str(self.accepted[-1]['risk_usd'])]+=1
+            self.accepted[-1]['risk_state']=state
 
     def dump(self):
         r=super().dump()

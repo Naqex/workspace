@@ -4,7 +4,8 @@ import unittest
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from prop_atlas_core import carry_path
 from prop_atlas_scan import catalog,candidates,money,exit_deadline,daily_context
-from prop_atlas_source import ComponentQuotes
+from prop_atlas_source import ComponentQuotes,decode_grid
+from prop_atlas_uncertainty import intervals
 from prop_campaign_source import stamp,HOUR,DAY,END
 from prop_campaign_exits import costs
 from test_prop_campaign import Quotes
@@ -114,6 +115,24 @@ class AtlasTests(unittest.TestCase):
         self.assertFalse(c.active)
         self.assertEqual(c.rejected['INTERNAL_STATIC_7PCT_RESERVE'],1)
         self.assertEqual(len(c.internal_rejections),1)
+
+    def test_native_fx_grid_keeps_integer_deltas_and_same_ms_order(self):
+        at=stamp('2023-06-20T08:00:00')
+        r=dict(timestamp=at,multiplier=.00001,bid=1.2,ask=1.20002,
+            times=[0,0,1000],bids=[0,1,-2],asks=[0,1,-2],
+            bidVolumes=[0,1,2],askVolumes=[1,2,3])
+        p=decode_grid(r,at,100000)
+        self.assertEqual(list(p.bid_units),[120000,120001,119999])
+        self.assertEqual(list(p.timestamps),[at,at,at+1000])
+        self.assertEqual(r['multiplier'],.00001)
+        with self.assertRaises(ValueError):decode_grid(r,at,1000)
+
+    def test_bootstrap_constant_and_simultaneous_interval_is_not_narrower(self):
+        r=intervals([3.]*20,1,replications=1000)
+        self.assertEqual(r['ordinary95'],[3.,3.])
+        x=intervals(list(range(20)),1,replications=2000)
+        self.assertLessEqual(x['bonferroni112_95_per_year_model'][0],x['ordinary95'][0])
+        self.assertGreaterEqual(x['bonferroni112_95_per_year_model'][1],x['ordinary95'][1])
 
 
 if __name__=='__main__':unittest.main()

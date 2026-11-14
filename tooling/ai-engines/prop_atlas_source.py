@@ -26,6 +26,19 @@ class ComponentQuotes:
         return [at,b[0],a[0],0] if 0<b[0]<=a[0] else None
 
 
+class ResolvedEndpoints:
+    def __init__(self,component,native):
+        self.component=component;self.native=native;self.kind=component.kind
+    def endpoint(self,at):
+        if not START<=at<END:raise ValueError('atlas_development_price_fence')
+        # Use the original component when it can represent this exact clock;
+        # the missing-role attempt only resolves its absent observations.
+        r=self.component.endpoint(at)
+        if r is not None:return r
+        if at//HOUR*HOUR in self.native.files:return self.native.endpoint(at)
+        return None
+
+
 def aggregate_minutes(rows):
     groups=defaultdict(list)
     for at,(bid,ask) in rows.items():groups[at//HOUR*HOUR].append((at,bid))
@@ -49,6 +62,7 @@ def load_eur():
         payload=read(path)['payload']
         if payload['binding']['sha256']!=p['raw_sha256']:raise ValueError('EUR_raw_binding')
         source=next(s for s in cfg['sources'] if s['first_day'].startswith(str(year)))
+        if digest(source['path'])!=source['sha256']:raise ValueError('EUR_exact_endpoint_raw_changed')
         hpath=ROOT/f"eurusd-b0-20261113/prepared-v1/{source['first_day']}/bars.json"
         bars=read(hpath)['h1'];hours.extend(bars)
         for r in payload['hours']:
@@ -83,7 +97,8 @@ class EURExact:
                 ts=line[:21].decode('ascii')
                 if ts<target:continue
                 if ts[:8]>'20231231':break
-                actual=int(datetime.strptime(ts,'%Y%m%d %H:%M:%S.%f').replace(tzinfo=timezone.utc).timestamp()*1000)
+                sec=datetime.strptime(ts[:17],'%Y%m%d %H:%M:%S').replace(tzinfo=timezone.utc)
+                actual=int(sec.timestamp())*1000+int(ts[18:])
                 if actual-at>60000:break
                 row=line.decode('ascii').split(',')
                 result=[actual,units(row[1]),units(row[2]),None];break
@@ -112,6 +127,8 @@ def load_us500():
 
 def load_extra_fx(asset):
     root=ROOT/'fx-h1-history-v3'
+    if digest(root/'result.json')!='19f85521a4f29d7b4e683ef33398deb7e2336b6df8ed658f8562ba27c490ec43':
+        raise ValueError('FX_accepted_history_receipt_changed')
     seals=read(root/'sealed-books.json')
     if isinstance(seals,dict):
         seals=seals.get('books',seals.get('seals',[]))
@@ -160,6 +177,9 @@ def inputs():
                          ('GBPUSD',lambda:load_extra_fx('GBPUSD')),
                          ('AUDUSD',lambda:load_extra_fx('AUDUSD'))):
         bars,q,pins=loader()
+        native=JOB/f'{asset}-endpoint-manifest.json'
+        if native.exists() and asset!='EURUSD':
+            q=ResolvedEndpoints(q,Prices(read(native)))
         data[asset]=(bars,q,1000 if asset=='US500' else 100000,
                      'OBSERVED_PAIRED_OPEN' if asset=='EURUSD' else q.kind)
         proofs[asset]=dict(pins=pins,hours=len(bars),cutoff=END)
@@ -168,6 +188,49 @@ def inputs():
         reason='Selected fixing-day M1 history cannot generate full-year H1 session catalog')
     write_json(JOB/'source-inventory.json',proofs)
     return data
+
+
+def decode_grid(raw,at,scale):
+    """Reuse exact integer-delta decoder; normalize only its base-price grid."""
+    from decimal import Decimal as D
+    from candle_source_provenance import base_units,number
+    from index_tick_review import decode
+    grid=D(1)/scale
+    if scale not in (1000,100000) or number(raw['multiplier'])!=grid:
+        raise ValueError('explicit_tick_price_grid_required')
+    p=raw
+    if scale==100000:
+        p=dict(raw,multiplier=.001,
+            bid=float(D(base_units(raw['bid'],grid))/1000),
+            ask=float(D(base_units(raw['ask'],grid))/1000))
+    return decode(p,start_msc=at,end_msc=at+HOUR)
+
+
+def admit_resolved():
+    import numpy as np
+    from prop_campaign_source import DTYPE
+    packet=read(JOB/'missing-endpoint-source/result.json')
+    census=read(JOB/'missing-endpoint-inventory.json')
+    expected={(a,t) for a,ts in census.items() for t in ts}
+    if {(r['asset'],r['at']) for r in packet['hours']}!=expected:
+        raise ValueError('resolved_endpoint_census')
+    out=JOB/'resolved-endpoint-binaries';out.mkdir(exist_ok=False)
+    manifests=defaultdict(dict);proof=[]
+    for n,r in enumerate(packet['hours']):
+        at=r['at'];asset=r['asset']
+        if not START<=at<END or digest(r['rawPath'])!=r['sha256']:
+            raise ValueError('resolved_raw_binding')
+        ticks=decode_grid(read(r['rawPath']),at,1000 if asset=='US500' else 100000)
+        a=np.empty(len(ticks),dtype=DTYPE)
+        a['t']=ticks.timestamps;a['b']=ticks.bid_units;a['a']=ticks.ask_units
+        p=out/f'{asset}-{at}.ticks';a.tofile(p)
+        manifests[asset][str(at)]=dict(path=str(p),sha256=digest(p),records=len(a))
+        proof.append(dict(asset=asset,at=at,raw_sha256=r['sha256'],records=len(a)))
+        if n%100==0:event('resolved_endpoint_review',hours=n,total=len(packet['hours']))
+    for asset,m in manifests.items():write_json(JOB/f'{asset}-endpoint-manifest.json',m)
+    write_json(JOB/'resolved-endpoint-review.json',dict(hours=proof,
+        original_h1_m1_prices_unchanged=True,source='native paired raw tick deltas',
+        full_tick_path_claim=False,prices2024_2026_read=False))
 
 
 def admit_gold():
