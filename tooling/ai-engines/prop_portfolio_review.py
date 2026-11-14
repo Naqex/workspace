@@ -64,10 +64,12 @@ def checked_joint_hour(readers, hour, previous):
 
 
 class CashOracle:
-    def __init__(self, expected, trades, model):
+    def __init__(self, expected, trades, model, *, cocore=False, reward_days=30):
         self.expected = expected
         self.trades = trades
         self.model = model
+        self.cocore = cocore
+        self.reward_days = reward_days
         self.accepted = {a["trade"]:a for a in expected["accepted"]}
         self.closed = {a["trade"]:a for a in expected["closed"]}
         self.cash = self.anchor = self.peak = CAP
@@ -149,7 +151,7 @@ class CashOracle:
             reason="COLLISION"
         elif self.halt:
             reason="DAILY_HALT"
-        base=((200,175,125) if t["role"]=="CORE" else (100,100,75))[self.phase-1]
+        base=((200,175,125) if self.cocore or t["role"]=="CORE" else (100,100,75))[self.phase-1]
         risk=min(base,90) if equity<=47000000 else min(base,150) if equity<=48000000 else base
         multiplier=1 if t["asset"]=="XAUUSD" else 10
         proposed_quantity=int(risk*1000)//(multiplier*abs(t["entry_price_units"]-t["stop_units"]))
@@ -159,7 +161,7 @@ class CashOracle:
                      abs(self.trades[k]["entry_price_units"]-self.trades[k]["stop_units"])
                      for k,q in self.open.items())
         new_risk=proposed_quantity*multiplier*abs(t["entry_price_units"]-t["stop_units"])
-        if old_risk+new_risk>500000:
+        if old_risk+new_risk>(800000 if self.cocore else 500000):
             reason=reason or "OPEN_CAP"
         if proposed_quantity:
             money=parts(t,proposed_quantity,self.model)
@@ -176,7 +178,7 @@ class CashOracle:
                       -450 if old["side"]=="BUY" else -50) if gold else -400
                 projected += min(0,rate)*q*sum(
                     m for _,m in funding(old["entry_msc"],old["deadline_msc"]))
-            if projected<=46500000 or projected<max(self.anchor-2500000,45000000):
+            if projected<=(46000000 if self.cocore else 46500000) or projected<max(self.anchor-2500000,45000000):
                 reason=reason or "RESERVE"
         if bool(accepted) != (reason is None):
             raise ValueError(f"oracle_admission_decision:{i}:{reason}:{self.expected['start_msc']}")
@@ -244,7 +246,7 @@ class CashOracle:
         elif kind=="reward":
             since=self.last_reward if self.last_reward is not None else self.first_funded
             amount=int(round(extra["gross_removed_usd"]*1000))
-            if (self.phase!=3 or self.open or since is None or at-since<30*DAY
+            if (self.phase!=3 or self.open or since is None or at-since<self.reward_days*DAY
                     or self.cash-CAP!=amount or amount<20000):
                 raise ValueError("oracle_invalid_reward")
             trader=(amount*80//100)//10*10
