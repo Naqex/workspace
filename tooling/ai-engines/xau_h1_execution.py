@@ -71,7 +71,7 @@ def economics(trade, cell):
     gross=round_fee(Decimal(sign*(trade['exit_price_units']-trade['entry_price_units'])*q)/1000)
     return dict(gross_usd=gross,commission_usd=entry_fee+exit_fee,slippage_usd=slip,
         swap_usd=funding,net_usd=round_fee(gross-entry_fee-exit_fee-slip+funding),
-        net_R=round_fee(gross-entry_fee-exit_fee-slip+funding)/RISK)
+        net_R=round_fee(gross-entry_fee-exit_fee-slip+funding)/trade.get('risk_usd',RISK))
 
 
 class Events:
@@ -143,13 +143,17 @@ def admit_sources(cfg,out,event):
     return review
 
 
-def path_for(row,quotes,hard_tp):
+def path_for(row,quotes,hard_tp,*,deadline_rule=None,risk_usd=RISK):
     at,bid,ask=row['entry_quote'];side=row['side'];sign=1 if side=='BUY' else -1
     price=ask if side=='BUY' else bid;stop=row['stop_units'];distance=sign*(price-stop)
     if distance<=0 or (bid<=stop if side=='BUY' else ask>=stop):raise ValueError('invalid_natural_stop')
-    ounces=150000//distance
+    if risk_usd not in (150,200):raise ValueError('unregistered_fixed_risk')
+    ounces=risk_usd*1000//distance
     if not 1<=ounces<=5000:raise ValueError('size_outside_declared_lot_spec')
-    end=deadline(at);tp=price+sign*2*distance if hard_tp else None
+    if deadline_rule is None:
+        end=deadline(at);deadline_kind='FRIDAY_CLOSE' if end<at+48*HOUR else 'TIME_48H'
+    else:end,deadline_kind=deadline_rule(at)
+    tp=price+sign*2*distance if hard_tp else None
     previous=at;largest_gap=0;gap_count=0;records=0;close=None
     mae=0;mfe=0
     entry_index=None;exit_index=None
@@ -164,7 +168,7 @@ def path_for(row,quotes,hard_tp):
         mae=min(mae,move);mfe=max(mfe,move)
         # Quotes arriving at/after deadline have time-close priority; no new TP.
         if stamp>=end:
-            close=('FRIDAY_CLOSE' if end<at+48*HOUR else 'TIME_48H',quote_exit(side,quote),stamp)
+            close=(deadline_kind,quote_exit(side,quote),stamp)
             exit_index=index
             break
         reason,fill=trigger(side,quote,stop,tp)
@@ -174,6 +178,7 @@ def path_for(row,quotes,hard_tp):
         entry_msc=at,entry_quote=row['entry_quote'],entry_price_units=price,stop_units=stop,
         entry_quote_index=entry_index,exit_quote_index=exit_index,
         natural_sl_usd_per_oz=distance/1000,ounces=ounces,lot=ounces/100,
+        risk_usd=risk_usd,
         tp_units=tp,deadline_msc=end,exit_policy='TP2R' if hard_tp else 'NO_TP',
         records=records,max_observed_quote_gap_ms=largest_gap,gaps_gt15m=gap_count,
         MAE_usd_per_oz=mae/1000,MFE_usd_per_oz=mfe/1000,
