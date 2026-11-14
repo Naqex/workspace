@@ -58,6 +58,9 @@ jobs:
       - name: Check isolated GBP source and ordinal-bound economics fixtures
         run: |
           python -m unittest discover -s tooling/ai-engines/tests -p 'test_solo_gbp_*.py' -v
+          mkdir -p .runtime/research-data
+          cp tooling/ai-engines/source-runtime/package{,-lock}.json .runtime/research-data/
+          npm ci --prefix .runtime/research-data --ignore-scripts --no-audit --no-fund
           node --test tooling/ai-engines/tests/prepare_solo_gbp_source.test.cjs
       - name: Check Development funnel and timestamp-only quality audits
         run: |
