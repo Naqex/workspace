@@ -7,6 +7,8 @@ from prop_campaign_accounts import Account
 from prop_campaign_source import HOUR, stamp
 from prop_campaign_source import DAY
 from prop_portfolio_regime import states, weight_at
+from prop_portfolio_sources import deadline, merge_bars, BAR
+import numpy as np
 
 
 def trade():
@@ -67,6 +69,22 @@ class DailyRegimeTests(unittest.TestCase):
         rows.append(dict(day=start+60*DAY,minutes=720,close=9999999))
         self.assertEqual(states(rows),baseline)
         self.assertEqual(weight_at(baseline,start+70*DAY,"SELL"),(None,None))
+
+class SourceClockTests(unittest.TestCase):
+    def test_friday_exit_avoids_us500_summer_source_break(self):
+        row=dict(asset="US500",horizon="48H")
+        end,why=deadline(row,stamp("2022-07-29T12:00:00"))
+        self.assertEqual(end,stamp("2022-07-29T20:00:00"))
+        self.assertEqual(why,"SOURCE_BREAK_PRE_FLAT_1600_NY")
+        end,_=deadline(row,stamp("2022-12-16T12:00:00"))
+        self.assertEqual(end,stamp("2022-12-16T20:30:00"))
+
+    def test_chunk_boundary_merges_same_minute_without_new_bar(self):
+        one=np.array([(1000,10,12,9,11,11,13,10,12)],dtype=BAR)
+        two=np.array([(1000,11,15,8,13,12,16,9,14)],dtype=BAR)
+        rows=merge_bars([one,two])
+        self.assertEqual(len(rows),1)
+        self.assertEqual(tuple(rows[0]),(1000,10,15,8,13,11,16,9,14))
 
 
 if __name__ == "__main__":

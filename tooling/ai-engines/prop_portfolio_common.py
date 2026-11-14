@@ -14,7 +14,7 @@ DECISION = Path("planning/research/PROP-PORTFOLIO-V3-DECISION-20261114.json")
 
 
 def event(stage, **fields):
-    record = dict(stage=stage, utc=datetime.now(timezone.utc).isoformat(), **fields)
+    record = {"stage": stage, "utc": datetime.now(timezone.utc).isoformat(), **fields}
     write_json(JOB / "status.json", record)
     with (JOB / "events.jsonl").open("a", encoding="utf-8") as stream:
         stream.write(json.dumps(record) + "\n")

@@ -135,3 +135,23 @@ Same-implementer alternate arithmetic is not independent human/model review.
 Keep all trials, missing paths and deviations. Full Markdown+JSON report,
 context/index update, coherent commits, one PR with three green checks on
 exact HEAD; never infer an assigned PR number or merge the new PR.
+
+## Source-clock clarification before Phase 2 PnL
+
+The timestamp-only US500 census shows its daily source break starts at
+16:15 New York (20:15 UTC in summer, 21:15 in winter), ending at 18:00 NY.
+The inherited Friday/DAY 20:30 UTC can fall inside that break. If a registered
+exit falls in this deterministic interval, close at **16:00 NY** instead;
+otherwise retain the original deadline. This changes neither entries nor
+holding-horizon choices and is a new source-calendar scenario, not a claim
+that FTMO has these exact hours. Keep raw missing-endpoint results unchanged.
+No clock chosen from PnL. US500 overnight dividend uncertainty remains blocked.
+
+M1 observed-feed screens record every interval with no quote. Normal declared
+NY maintenance breaks use the last known mark, with no invented bars or fills.
+Other gaps >15 minutes are path-incomplete; shorter no-quote intervals remain
+explicit stale-source intervals, with adverse reopening fills and M1-envelope
+equity bounds. Thus "priceable" means this declared M1 source model, never
+unconditional exact tick equity or verified FTMO execution. Gold bid-only
+M1 cannot certify SELL ask triggers; require admitted paired ticks there.
+H1-only GBPUSD/AUDUSD remain conditional and ineligible without M1/tick paths.
