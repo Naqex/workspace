@@ -10,6 +10,11 @@ from prop_portfolio_regime import states, weight_at
 from prop_portfolio_sources import deadline, merge_bars, BAR
 from prop_portfolio_scan import realize, net_values, corr, quote
 from prop_portfolio_policy import requested_risk, within_open_risk_cap, BalancedAccount
+from prop_portfolio_accounts import (
+    PortfolioAccount, JOINT, joint_hour, trade_money, quantity_steps,
+)
+from prop_campaign_source import DTYPE
+from prop_campaign_exits import costs
 import numpy as np
 
 
@@ -147,6 +152,44 @@ class PortfolioBudgetTests(unittest.TestCase):
         account.action("reset",row["entry_msc"]+2,None,[row],
                        [row["entry_msc"]+2,1999900,2000000])
         self.assertFalse(account.day_halt)
+
+class JointPortfolioTests(unittest.TestCase):
+    def test_gold_adapter_matches_existing_cent_rounded_economics(self):
+        row=trade();row.update(asset="XAUUSD",reason="SL")
+        for model in ("SYM_FLAT","ASYM_FLAT"):
+            q=quantity_steps(row,150)
+            actual=trade_money(row,q,model,150)
+            parent=costs(row,model,150)
+            self.assertEqual(actual,parent)
+
+    def test_fx_contract_grid_and_round_trip_costs(self):
+        row=trade();row.update(asset="EURUSD",entry_price_units=110010,
+                              exit_price_units=110110,stop_units=109800)
+        money=trade_money(row,10,"ASYM_FLAT",100)
+        self.assertEqual(money["gross_usd"],10)
+        self.assertEqual(money["commission_usd"],.5)
+        self.assertEqual(money["slippage_usd"],.4)
+        self.assertEqual(money["net_usd"],9.1)
+
+    def test_joint_quotes_forward_fill_only_past_asset_updates(self):
+        class Reader:
+            def __init__(self,rows):self.files={0:{}};self.rows=rows
+            def hour(self,at):return self.rows
+        gold=np.array([(10,2000000,2000100),(30,2000200,2000300)],dtype=DTYPE)
+        eur=np.array([(20,110000,110010),(30,110020,110030)],dtype=DTYPE)
+        rows,maps=joint_hour({"XAUUSD":Reader(gold),"EURUSD":Reader(eur)},0,None)
+        self.assertEqual(list(rows["t"]),[10,20,30,30])
+        self.assertEqual(list(rows["b1"]),[0,110000,110000,110020])
+        self.assertEqual(list(maps[0]),[0,2])
+
+    def test_mixed_asset_account_reserve_ignores_future_exit(self):
+        row=trade();row.update(asset="EURUSD",entry_price_units=110010,
+                              exit_price_units=110110,stop_units=109800)
+        account=PortfolioAccount(0,10**15,"ASYM_FLAT",rolling=True)
+        expected=account.reserve_floor([row],0,10,0)
+        row["exit_msc"]+=1000*HOUR
+        row["exit_price_units"]=999999
+        self.assertEqual(account.reserve_floor([row],0,10,0),expected)
 
 
 if __name__ == "__main__":
