@@ -1,0 +1,178 @@
+{
+  "selected_exit": "A0",
+  "exit_decisions": [
+    {
+      "policy": "E1",
+      "reasons": [
+        "SYM_FLAT:2023:RETURN_DD_GAIN_LT10",
+        "SYM_FLAT:2023:EX_TOP3_GAIN_LT1R",
+        "ASYM_FLAT:2023:RETURN_DD_GAIN_LT10",
+        "ASYM_FLAT:2023:EX_TOP3_GAIN_LT1R"
+      ],
+      "eligible": false,
+      "worst_gain": 0.19077057928699126,
+      "worst_dd": 19.063046666666665
+    },
+    {
+      "policy": "E2",
+      "reasons": [
+        "SYM_FLAT:2022:RETURN_DD_GAIN_LT10",
+        "SYM_FLAT:2022:EX_TOP3_GAIN_LT1R",
+        "SYM_FLAT:2023:NEGATIVE",
+        "SYM_FLAT:2023:RETURN_DD_GAIN_LT10",
+        "SYM_FLAT:2023:EX_TOP3_GAIN_LT1R",
+        "ASYM_FLAT:2022:RETURN_DD_GAIN_LT10",
+        "ASYM_FLAT:2022:EX_TOP3_GAIN_LT1R",
+        "ASYM_FLAT:2023:RETURN_DD_GAIN_LT10",
+        "ASYM_FLAT:2023:EX_TOP3_GAIN_LT1R"
+      ],
+      "eligible": false,
+      "worst_gain": -0.08351438798045503,
+      "worst_dd": 20.48294
+    },
+    {
+      "policy": "E3",
+      "reasons": [
+        "SYM_FLAT:UNKNOWN_DECISION_PRICE",
+        "ASYM_FLAT:UNKNOWN_DECISION_PRICE"
+      ],
+      "eligible": false,
+      "worst_gain": null,
+      "worst_dd": null
+    }
+  ],
+  "selected_sleeves": [],
+  "stage0": {
+    "S1": {
+      "annual": [
+        {
+          "year": 2022,
+          "raw_signals": 57,
+          "priced": 57,
+          "natural_sl_median": 7.992,
+          "friction_median": 0.7709026880000001,
+          "scale_ratio": 0.0964592952952953,
+          "pass12_fraction": 0.6666666666666666,
+          "net_mean": {
+            "SYM_FLAT": 0.2594188629824562,
+            "ASYM_FLAT": 0.2594188629824562
+          },
+          "mean_execution_friction": 0.8006074528070176,
+          "reasons": [
+            "NET_SMALLER_THAN_FRICTION_SYM_FLAT",
+            "NET_SMALLER_THAN_FRICTION_ASYM_FLAT"
+          ]
+        },
+        {
+          "year": 2023,
+          "raw_signals": 70,
+          "priced": 70,
+          "natural_sl_median": 8.276,
+          "friction_median": 0.7643143290000001,
+          "scale_ratio": 0.09235310886901886,
+          "pass12_fraction": 0.6571428571428571,
+          "net_mean": {
+            "SYM_FLAT": 1.9703890923,
+            "ASYM_FLAT": 1.9703890923
+          },
+          "mean_execution_friction": 0.7993966219857143,
+          "reasons": []
+        }
+      ],
+      "pass_stage0": false
+    },
+    "S2": {
+      "annual": [
+        {
+          "year": 2022,
+          "raw_signals": 40,
+          "priced": 40,
+          "natural_sl_median": 8.660499999999999,
+          "friction_median": 0.771223081,
+          "scale_ratio": 0.08905064153339878,
+          "pass12_fraction": 0.7,
+          "net_mean": {
+            "SYM_FLAT": -1.8189706191250004,
+            "ASYM_FLAT": -1.4402206191250004
+          },
+          "mean_execution_friction": 0.793995619125,
+          "reasons": [
+            "ECONOMIC_SYM_FLAT",
+            "ECONOMIC_ASYM_FLAT"
+          ]
+        },
+        {
+          "year": 2023,
+          "raw_signals": 37,
+          "priced": 37,
+          "natural_sl_median": 6.104,
+          "friction_median": 0.74692011,
+          "scale_ratio": 0.12236567988204457,
+          "pass12_fraction": 0.5135135135135135,
+          "net_mean": {
+            "SYM_FLAT": 3.587484925189189,
+            "ASYM_FLAT": 3.9753227630270267
+          },
+          "mean_execution_friction": 0.7599204802162163,
+          "reasons": [
+            "CADENCE",
+            "SCALE"
+          ]
+        }
+      ],
+      "pass_stage0": false
+    },
+    "S3": {
+      "annual": [
+        {
+          "year": 2022,
+          "raw_signals": 86,
+          "priced": 86,
+          "natural_sl_median": 0.00462,
+          "friction_median": 0.00013000000000000002,
+          "scale_ratio": 0.028138528138528143,
+          "pass12_fraction": 1.0,
+          "net_mean": {
+            "SYM_FLAT": -0.0008977906976744185,
+            "ASYM_FLAT": -0.0008977906976744185
+          },
+          "mean_execution_friction": 0.00013000000000000002,
+          "reasons": [
+            "ECONOMIC_SYM_FLAT",
+            "ECONOMIC_ASYM_FLAT"
+          ]
+        },
+        {
+          "year": 2023,
+          "raw_signals": 94,
+          "priced": 94,
+          "natural_sl_median": 0.00307,
+          "friction_median": 0.00012,
+          "scale_ratio": 0.03908794788273616,
+          "pass12_fraction": 1.0,
+          "net_mean": {
+            "SYM_FLAT": -0.0008478723404255318,
+            "ASYM_FLAT": -0.0008478723404255318
+          },
+          "mean_execution_friction": 0.00012319148936170213,
+          "reasons": [
+            "ECONOMIC_SYM_FLAT",
+            "ECONOMIC_ASYM_FLAT"
+          ]
+        }
+      ],
+      "pass_stage0": false
+    }
+  },
+  "frozen_at_utc": "2026-11-14T12:35:18.005819+00:00",
+  "selection_data_end_exclusive": 1704067200000,
+  "prices2024_for_selection": false,
+  "prices2025_2026_read": false,
+  "source_pins": {
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\prop-qualification-campaign-20261114\\stage0-S1.json": "73584d16acca8df1eb4958a8c6cd547cff2bf5284f2b81ef9d9bfe67151f404b",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\prop-qualification-campaign-20261114\\stage0-S2.json": "9373fc40dabfe128b183d72cb01f073860e2a46a5f5e4a49db0441f3e84d2e15",
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\prop-qualification-campaign-20261114\\stage0-S3.json": "eb737a2d1840c5563638977d67370ed611e5d2ad164c899c3eab5b3c51a466a1"
+  },
+  "phase1_metrics_sha256": "8c10c0b9a42cad4f658c79e3c7371669458631ee929cd5f8e0b3349609eea8ab",
+  "implementation_freeze_sha256": "67a000e75b7af58f842661095f69e726bff3b76153ac8ac0c9e2f9855dbd51e0"
+}

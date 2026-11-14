@@ -49,6 +49,10 @@ jobs:
         run: python -m unittest discover -s tooling/ai-engines/tests -p 'test_xau_h1_execution.py' -v
       - name: Check A holiday calendar, validation fence and continuous prop accounts
         run: python -m unittest discover -s tooling/ai-engines/tests -p 'test_xau_a_validation.py' -v
+      - name: Check registered exits, shared prop sizing and reward accounting
+        run: |
+          python -m pip install numpy==2.3.5
+          python -m unittest discover -s tooling/ai-engines/tests -p 'test_prop_campaign.py' -v
       - name: Check Development funnel and timestamp-only quality audits
         run: |
           python -m unittest discover -s tooling/ai-engines/tests -p 'test_eurusd_funnel_audit.py' -v

@@ -1,8 +1,24 @@
 # Current context — Naqex Workspace
 
-14/11/2026 · `RESEARCH: A_HOLIDAY_VALIDATION_COMPLETE_TIMEFIT_NOT_MET · REVIEW: SELF_AUDIT · DOC: RESUMABLE`.
+14/11/2026 · `RESEARCH: PROP_CAMPAIGN_COMPLETE_NOT_CHALLENGE_READY · REVIEW: COMPUTATIONAL_PARITY_PASSED · DOC: RESUMABLE`.
 
 ## Việc hiện tại
+
+**Chiến dịch exit → sleeves → phase-aware36monthlystarts đã hoàn tất:**
+[báo cáo duy nhất](research/PROP-QUALIFICATION-CAMPAIGN-RESULTS-20261114.md) /
+[JSON](research/PROP-QUALIFICATION-CAMPAIGN-RESULTS-20261114.json) /
+[protocol](research/PROP-QUALIFICATION-CAMPAIGN-PROTOCOL-20261114.md).
+PR78merged`3307fae`; freeze`95e3709`, Devdecision/code`2e713c1`.
+Không E1/E2/E3 hoặc S1/S2/S3 nào đủ cổng Dev; giữ A0, không sleeve.
+Risk.50→.35→.25%: P1 8/36SYM,13/36ASYM; P2/payout0; observedbreach0.
+Worststatic9,321/8,899%, không đủ buffer để khuyến nghị Challenge.
+147tests +72accountoracles +2.464Fractioncostbridges đạt; cùng implementer,
+không Astra/agentreview. Chỉ2022–23select;2024HistoricalValidation;
+khônggiá2025–26/broker/model/paid. WIP VI Dubber nguyên vẹn.
+Privatejob`execution-v1/prop-qualification-campaign-20261114`; không numericalwriter
+còn chạy. Branch`codex/prop-qualification-campaign` chờ owner duyệt PR, không tự merge.
+
+## Baseline trước chiến dịch
 
 **Đã hoàn tất calendar + Historical Validation 2024 + rolling accounts cho A BOTH/noTP.**
 PR77 merged `3406ed1`, nhánh cũ đã xóa. [Protocol](research/XAUUSD-A-HOLIDAY-VALIDATION-PROTOCOL-20261114.md) /
