@@ -19,7 +19,9 @@ PRAGUE = ZoneInfo("Europe/Prague")
 POINTS = (END - START) // MINUTE + 1
 
 
-def gap_unknown(times, width):
+def gap_unknown(times, width, *, asset):
+    if asset not in ("XAUUSD", "EURUSD", "GBPUSD", "AUDUSD", "US500"):
+        raise ValueError("gap_calendar_asset_required")
     gaps = []
     for i in np.flatnonzero(np.diff(times) > max(15 * MINUTE, width)):
         start, end = int(times[i] + width), int(times[i + 1])
@@ -27,9 +29,11 @@ def gap_unknown(times, width):
         local_end = datetime.fromtimestamp(end / 1000, timezone.utc).astimezone(NY)
         clock = local_start.hour * 60 + local_start.minute
         normal = (
+            asset == "US500" and
             end - start <= 2 * HOUR and
             local_start.date() == local_end.date() and
-            16 * 60 + 15 <= clock <= 18 * 60
+            16 * 60 + 15 <= clock < 18 * 60 and
+            local_end <= local_end.replace(hour=18, minute=0, second=0, microsecond=0)
         )
         if not normal:
             gaps.append((start, end))
@@ -172,7 +176,7 @@ def realize(row, rows, native=None, width=MINUTE):
         reason = "SL_M1" if width == MINUTE else "SL_H1_CONDITIONAL"
     elif exit_px <= row["stop_units"] if buy else exit_px >= row["stop_units"]:
         reason = "SL_GAP_ENDPOINT"
-    unknown_gaps = gap_unknown(np.r_[path["t"], exit_at], width)
+    unknown_gaps = gap_unknown(np.r_[path["t"], exit_at], width, asset=asset)
     if unknown_gaps:
         exact_path = False
     if width != MINUTE and end % HOUR:

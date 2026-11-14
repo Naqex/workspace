@@ -20,7 +20,7 @@ def curves(trades, reader, model, risk):
     net = []
     for trade in trades:
         ticks, _ = reader.path(trade["entry_msc"], trade["exit_msc"])
-        gaps = gap_unknown(ticks["t"], 0)
+        gaps = gap_unknown(ticks["t"], 0, asset=trade["asset"])
         if gaps:
             source_gaps.append(dict(day=trade["day"], gaps=gaps))
         bars = native_bars(reader, trade["entry_msc"], trade["exit_msc"])

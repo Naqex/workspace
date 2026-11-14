@@ -1,3 +1,27 @@
+# Current context — independent solo system
+
+15/11/2026 · `SOLO_PROP_SYSTEM_ACTIVE · CHALLENGE_NOT_QUALIFIED`.
+
+Owner yêu cầu chat này tự hoàn thành toàn bộ mục tiêu alpha/portfolio và
+hệ thống tự động cho một người, không phụ thuộc thread gốc. Nguồn trạng thái
+của chiến dịch này: [plan](research/SOLO-PROP-SYSTEM-PLAN-20261115.md).
+Checkout workspace: `C:/Users/MIIKEY/.codex/worktrees/solo-prop-system/TradingWorkspace`,
+branch `codex/solo-prop-system`, base `5864d8b` sau mergePR81.
+Trader đang sửa riêng tại `C:/Users/MIIKEY/.codex/worktrees/04e2/trader`,
+branch `codex/solo-system-research`. Không ghi vào checkout/campaign/runtime
+của thread gốc. Output riêng: `E:/BACKUP-TRADINGWORKSPACE/solo-system-20261115-04e2/`.
+
+Kế thừa V3 làm evidence; không nâng verdict cũ. Đợt S01 đã đăng ký
+[GBP source/path confirmation](research/SOLO-GBP-CONFIRMATION-PROTOCOL-20261115.md):
+một recipe cố định, Dev2022–2023, budget và gates khóa trước outcome mới.
+2024 đã exposed, chưa mở numeric mới; 2025–2026 tiếp tục đóng.
+Runtime isolation/AI skills đang kiểm; recovery offline171tests đạt, native
+supervisor/restore rehearsal đang thực hiện. Chưa có candidate Challenge-qualified.
+
+Các phần dưới là checkpoint kế thừa, không là taskqueue hay hạn chế scope mới.
+
+---
+
 # Current context — Naqex Workspace
 
 14/11/2026 · `RESEARCH: PROP_PORTFOLIO_V3_COMPLETED_CONDITIONAL · PROP: NOT_QUALIFIED · DOC: REVIEWABLE`.

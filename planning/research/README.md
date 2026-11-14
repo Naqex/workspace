@@ -1,5 +1,13 @@
 # Tra cứu research đã có
 
+**Chiến dịch độc lập đang thực thi — solo system:**
+[Plan và trạng thái](SOLO-PROP-SYSTEM-PLAN-20261115.md) /
+[S01 GBP source/path confirmation](SOLO-GBP-CONFIRMATION-PROTOCOL-20261115.md).
+Owner giao toàn bộ alpha/portfolio/system, không phụ thuộc V4 thread gốc.
+Checkout/outputs riêng; Dev2022–23, 2024exposed/validation theo freeze riêng,
+2025–26đóng. Các verdict cũ giữ nguyên; chưa có ứng viên Challenge-qualified.
+
+
 **V3 hoàn tất, danh mục có tiến bộ nhưng chưa đủ điều kiện Challenge:**
 [Báo cáo](PROP-PORTFOLIO-V3-RESULTS-20261114.md) /
 [JSON](PROP-PORTFOLIO-V3-RESULTS-20261114.json) /
