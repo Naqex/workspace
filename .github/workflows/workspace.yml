@@ -55,6 +55,10 @@ jobs:
           python -m unittest discover -s tooling/ai-engines/tests -p 'test_prop_campaign.py' -v
           python -m unittest discover -s tooling/ai-engines/tests -p 'test_prop_atlas_v2.py' -v
           python -m unittest discover -s tooling/ai-engines/tests -p 'test_prop_portfolio_v3.py' -v
+      - name: Check isolated GBP source and ordinal-bound economics fixtures
+        run: |
+          python -m unittest discover -s tooling/ai-engines/tests -p 'test_solo_gbp_*.py' -v
+          node --test tooling/ai-engines/tests/prepare_solo_gbp_source.test.cjs
       - name: Check Development funnel and timestamp-only quality audits
         run: |
           python -m unittest discover -s tooling/ai-engines/tests -p 'test_eurusd_funnel_audit.py' -v
