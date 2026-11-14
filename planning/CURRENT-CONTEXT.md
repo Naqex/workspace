@@ -1,8 +1,21 @@
 # Current context — Naqex Workspace
 
-14/11/2026 · `RESEARCH: PROP_CAMPAIGN_COMPLETE_NOT_CHALLENGE_READY · REVIEW: COMPUTATIONAL_PARITY_PASSED · DOC: RESUMABLE`.
+14/11/2026 · `RESEARCH: PROP_ATLAS_V2_ACTIVE · REVIEW: REQUIRED_BEFORE_DELIVERY · DOC: RESUMABLE`.
 
 ## Việc hiện tại
+
+**Owner giao V2:** [protocol112cells đã khóa](research/PROP-ATLAS-V2-PROTOCOL-20261114.md),
+commit`6fcd3f3`; PR79merged`a42fb9f`, nhánh cũ đã xóa.
+Branch`codex/prop-stage0-atlas-v2`; privatejob`execution-v1/prop-atlas-v2-20261114`.
+Phase0 diagnostic đã tách2024BUY+14,689R/SELL−12,044R;13P2 đều datasetcensored.
+Phase1 CA1/CA2 không đủ cổngDev, giữA0. Atlas112cells trên5assets:
+XAU/EUR/US500/GBP/AUD; USDJPY thiếu continuoussource.693goldhours đã review,
+1workingM1patch trướcPnL; raw/original giữ nguyên. Phase2 chỉ2022–23;2024
+đãexposedởPhase0 nhưng readerPhase2 phải chặn. Khônggiá2025–26/broker/model/paid.
+Giữ WIP VI Dubber; hoàn tấtStage0→Stage1survivors→freeze→2024→72accounts/
+continuous→oracle/tests/report/PR3green; không tự merge PR mới hoặc gửi Astra.
+
+## Chiến dịch V1 đã hoàn tất
 
 **Chiến dịch exit → sleeves → phase-aware36monthlystarts đã hoàn tất:**
 [báo cáo duy nhất](research/PROP-QUALIFICATION-CAMPAIGN-RESULTS-20261114.md) /

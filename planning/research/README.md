@@ -1,5 +1,11 @@
 # Tra cứu research đã có
 
+**Đang chạy — V2 carry-aware / Atlas112cells / safer lifecycle:**
+[Protocol](PROP-ATLAS-V2-PROTOCOL-20261114.md), commit`6fcd3f3`.
+PR79merged`a42fb9f`; Phase0 thirteenaccounts/2024directionaudit; CA1/CA2khôngđạt,
+giữA0. Atlas5assets Development2022–23;2024 chỉPhase3saufreeze,
+khônggiá2025–26. Job`prop-atlas-v2-20261114`, branch`codex/prop-stage0-atlas-v2`.
+
 **Hiện tại — exit/sleeves/phase-aware campaign hoàn tất, chưa Challenge-ready:**
 [Báo cáo](PROP-QUALIFICATION-CAMPAIGN-RESULTS-20261114.md) /
 [JSON](PROP-QUALIFICATION-CAMPAIGN-RESULTS-20261114.json) /
