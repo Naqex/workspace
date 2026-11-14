@@ -17,8 +17,9 @@ from xau_h1_stage0_scan import funding_events
 
 ASSETS = ("XAUUSD", "EURUSD")
 FIELDS = {"XAUUSD": ("b0", "a0"), "EURUSD": ("b1", "a1")}
-VALUE = {"XAUUSD": 1, "EURUSD": 10}  # milli-USD per integer price grid / quantity step
-SLIP = {"XAUUSD": 200, "EURUSD": 20}
+# GBP extends standalone money/curve helpers, not the two-asset joint replay.
+VALUE = {"XAUUSD": 1, "EURUSD": 10, "GBPUSD": 10}  # milli-USD / price grid / quantity step
+SLIP = {"XAUUSD": 200, "EURUSD": 20, "GBPUSD": 20}
 JOINT = np.dtype([("t", "<i8")] + [(n, "<i4") for n in ("b0", "a0", "b1", "a1")])
 
 

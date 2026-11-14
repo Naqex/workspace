@@ -95,7 +95,15 @@ def collect(raw_signals, cutoff=END):
     return manifest
 
 
-def realize_ticks(raw, manifest, cutoff=END):
+def realize_ticks(raw, manifest, cutoff=END, *, asset="EURUSD", recipe="SAT1"):
+    if (asset, recipe) not in (("EURUSD", "SAT1"),
+                              ("GBPUSD", "GBPUSD.SWEEP.ASIA.LONDON.DAY")):
+        raise ValueError("unregistered_tick_recipe")
+    if any(row["asset"] != asset or (asset == "GBPUSD" and row["id"] != recipe)
+           for row in raw):
+        raise ValueError("tick_recipe_asset_mismatch")
+    if asset == "GBPUSD" and cutoff != END:
+        raise ValueError("GBP_tick_confirmation_Development_only")
     price_scope(cutoff)
     reader = Prices(manifest, cutoff)
     trades = []
@@ -126,8 +134,8 @@ def realize_ticks(raw, manifest, cutoff=END):
         if len(hit):
             reason = "SL"
         trades.append(dict(
-            row, asset="EURUSD", role="SATELLITE", recipe="SAT1",
-            signal_id=f"SAT1:{row['decision_msc']}:{row['side']}",
+            row, asset=asset, role="SATELLITE", recipe=recipe,
+            signal_id=f"{recipe}:{row['decision_msc']}:{row['side']}",
             entry_msc=entry[0], entry_price_units=p0, entry_quote=entry[:3],
             entry_quote_index=entry[3], stop_units=row["stop_units"],
             deadline_msc=end, exit_msc=int(ticks["t"][index]),
