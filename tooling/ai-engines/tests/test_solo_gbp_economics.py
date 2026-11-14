@@ -91,6 +91,19 @@ class SourceFenceTests(unittest.TestCase):
                     self.assertRaisesRegex(ValueError, "frozen_deadline_changed"):
                 econ.validated_source(job)
 
+    def test_v2_schema_cannot_bypass_correction_lineage(self):
+        with tempfile.TemporaryDirectory() as folder, self.patches():
+            job = Path(folder) / "S01-gbp-confirmation-source-v2"
+            job.mkdir()
+            source, _ = self.fixture(job)
+            source.update(schema=econ.SOURCE_V2, job_root=str(job.absolute()))
+            atomic_json(job / "registration.json", source)
+            proof = json.loads((job / "source-proof.json").read_text())
+            proof["registration_sha256"] = digest(job / "registration.json")
+            atomic_json(job / "source-proof.json", proof)
+            with self.assertRaisesRegex(ValueError, "v2_lineage_or_required_pins"):
+                econ.validated_source(job)
+
     def test_source_producer_drift_denies_before_price_reads(self):
         with tempfile.TemporaryDirectory() as folder, self.patches(), \
                 patch.object(econ, "Prices") as price, patch.object(econ.np, "load") as load:
@@ -231,6 +244,130 @@ class ExecutionAndMoneyTests(unittest.TestCase):
         self.assertEqual(ASSETS, ("XAUUSD", "EURUSD"))
         self.assertNotIn("GBPUSD", FIELDS)
         self.assertEqual(JOINT.names, ("t", "b0", "a0", "b1", "a1"))
+
+
+class CorrectionLineageTests(unittest.TestCase):
+    def fixture(self, folder):
+        root = Path(folder)
+        old = root / "S01-gbp-confirmation"
+        job = root / "S01-gbp-confirmation-source-v2"
+        old.mkdir()
+        job.mkdir()
+        review = old / "source-discrepancy-review"
+        signals = []
+        for i in range(300):
+            at = AT + i * 24 * HOUR
+            row = signal(at)
+            row.pop("horizon")
+            row["day"] = econ.datetime.fromtimestamp(at / 1000, econ.timezone.utc).date().isoformat()
+            row["deadline_msc"] = at + (10 if i < 24 else 11) * HOUR + HOUR // 2
+            signals.append(row)
+        _, hours = econ.census(signals)
+        self.assertEqual(len(hours), 3576)
+        manifest = {str(at): {"fixture": True} for at in hours}
+        books = {}
+        for year in (2022, 2023):
+            for side in ("bid", "ask"):
+                name = f"{year}-gbpusd-{side}"
+                book, proof = old / (name + ".json"), old / (name + "-source-proof.json")
+                atomic_json(book, [])
+                atomic_json(proof, {})
+                books[name] = {"book": str(book), "proof": str(proof)}
+        source = dict(schema="solo-gbp-source-v1", cell=CELL, job_root=str(old.absolute()),
+            window={"first": START, "end_exclusive": END}, prices2024_2026_read=False,
+            prior_stage0_pass=False, prior_stage0_annual={"prior": "negative"},
+            signals=signals, hours=hours, input_pins=[], producer_pins=[], h1_source_books=books)
+        atomic_json(old / "registration.json", source)
+        atomic_json(old / "manifest.json", manifest)
+        old_proof = dict(status="SOURCE_REVIEW_REQUIRED", registration_sha256=digest(old / "registration.json"),
+            manifest_sha256=digest(old / "manifest.json"), h1_difference_count=4, empty_hours=[], held_path_issue_count=0)
+        atomic_json(old / "source-proof.json", old_proof)
+        for name in econ.REVIEW_FILES:
+            path = review / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            atomic_json(path, {})
+        nested = old / "nested-input.json"
+        atomic_json(nested, {"fixture": "bound"})
+        nested_pin = econ.source_pin(nested)
+        sensitivity = dict(original_reproduced=True, original_count=300, corrected_count=300,
+            events_added=[], events_removed=[], changes=[], source_only=True, financial_outcomes=False,
+            prices2024_2026_read=False, input_books=[])
+        atomic_json(review / "cohort-sensitivity/result.json", sensitivity)
+        atomic_json(review / "cohort-sensitivity/corrected-signals.json", signals)
+        atomic_json(review / "cohort-sensitivity/registration.json", {"pins": [nested_pin]})
+        pins = [econ.source_pin(old / name) for name in ("registration.json", "source-proof.json", "manifest.json")]
+        pins += [econ.source_pin(review / name) for name in econ.REVIEW_FILES] + [nested_pin]
+        card = dict(schema="S01-source-correction-v2", original_job=str(old.absolute()),
+            signals=300, held_hours=3576, same_vendor=True, original_H1_files_unchanged=True,
+            non_OHLC_fields_including_volume_unchanged=True, cohort_and_natural_stops_unchanged=True,
+            independent_feed_verified=False, FTMO_feed_verified=False, prior_stage0_pass=False,
+            financial_outcomes_computed=False, prices2024_2026_read=False, source_pins=list(pins),
+            changes={side: [{"at": at} for at in econ.CORRECTED_HOURS] for side in ("bid", "ask")})
+        atomic_json(job / "correction-card.json", card)
+        card_pin = econ.source_pin(job / "correction-card.json")
+        newbooks = {name: dict(detail) for name, detail in books.items()}
+        for side in ("bid", "ask"):
+            name = f"2022-gbpusd-{side}"
+            book, proof = job / (name + ".json"), job / (name + "-source-proof.json")
+            atomic_json(book, [])
+            atomic_json(proof, dict(correction_card=card_pin,
+                original_book=econ.source_pin(books[name]["book"]), original_proof=econ.source_pin(books[name]["proof"]),
+                corrected_hours=list(econ.CORRECTED_HOURS), changed_fields=["open", "high", "low", "close"],
+                observedTickTimestamps=False, original_volume_retained_not_tick_volume=True))
+            newbooks[name] = {"book": str(book), "proof": str(proof)}
+            pins += [econ.source_pin(book), econ.source_pin(proof)]
+        lineage = dict(card=card_pin, original_registration=econ.source_pin(old / "registration.json"),
+            original_source_proof=econ.source_pin(old / "source-proof.json"), original_manifest=econ.source_pin(old / "manifest.json"),
+            cohort_receipt=econ.source_pin(review / "cohort-sensitivity/result.json"), corrected_hours=list(econ.CORRECTED_HOURS),
+            financial_results_computed=False)
+        source2 = dict(source, schema=econ.SOURCE_V2, job_root=str(job.absolute()), source_correction=lineage,
+            correction_network_budget=0, missing_hours=[], h1_source_books=newbooks,
+            input_pins=pins + [card_pin], producer_pins=[econ.source_pin(econ.WORKSPACE / p)
+                for p in (econ.CORRECTION_PRODUCER, econ.CORRECTION_PROTOCOL)])
+        atomic_json(job / "registration.json", source2)
+        atomic_json(job / "manifest.json", manifest)
+        proof2 = dict(status="SOURCE_RECONCILED", registration_sha256=digest(job / "registration.json"),
+            manifest_sha256=digest(job / "manifest.json"), expected_hours=3576, admitted_hours=3576,
+            h1_difference_count=0, empty_hours=[], held_path_issue_count=0, source_only=True,
+            new_financial_outcomes_computed=False, same_ms_order_preserved=True, prices2024_2026_read=False,
+            registered_source_correction=lineage, independent_feed_verified=False)
+        atomic_json(job / "source-proof.json", proof2)
+        atomic_json(job / "correction-admission-receipt.json", dict(source_proof=econ.source_pin(job / "source-proof.json"),
+            source_correction=lineage, strict_H1_gate_unchanged=True, reconciled=True,
+            all_original_pins_unchanged=True, financial_results_computed=False))
+        return job, source2, proof2, manifest, nested_pin
+
+    def test_valid_v2_preserves_v1_block_and_checks_full_cohort_without_prices(self):
+        with tempfile.TemporaryDirectory() as folder, patch.object(econ, "deadline", frozen_deadline), \
+                patch.object(econ, "Prices") as prices, patch.object(econ.np, "load") as load:
+            job, *_ = self.fixture(folder)
+            _, signals, manifest = econ.validated_source(job)
+            self.assertEqual((len(signals), len(manifest)), (300, 3576))
+            with self.assertRaisesRegex(ValueError, "requires_SOURCE_RECONCILED"):
+                econ.validated_source(job.with_name("S01-gbp-confirmation"))
+            prices.assert_not_called()
+            load.assert_not_called()
+
+    def test_receipt_and_exact_lineage_missing_pin_or_changed_cohort_are_rejected(self):
+        for mutation, error in (("receipt", "admission_receipt_binding"),
+                                ("nested", "transitive_receipt_unpinned"),
+                                ("hours", "lineage_or_required_pins"),
+                                ("stop", "original_proof_or_cohort_changed")):
+            with self.subTest(mutation=mutation), tempfile.TemporaryDirectory() as folder:
+                job, source, proof, manifest, nested = self.fixture(folder)
+                if mutation == "receipt":
+                    path = job / "correction-admission-receipt.json"
+                    receipt = econ.read(path)
+                    receipt["strict_H1_gate_unchanged"] = False
+                    atomic_json(path, receipt)
+                elif mutation == "nested":
+                    source["input_pins"].remove(nested)
+                elif mutation == "hours":
+                    source["source_correction"]["corrected_hours"] = [econ.CORRECTED_HOURS[0]]
+                else:
+                    source["signals"][0]["stop_units"] += 1
+                with self.assertRaisesRegex(ValueError, error):
+                    econ.validate_correction_lineage(job, source, proof, manifest)
 
 
 class CohortAndCurveTests(unittest.TestCase):

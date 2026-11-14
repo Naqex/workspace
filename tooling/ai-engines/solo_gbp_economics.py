@@ -13,6 +13,10 @@ from solo_gbp_source import (
     WORKSPACE, PARENT, JOB, CELL, PROTOCOL, read, digest, atomic_json,
     output_root, source_pin, verify_pins, census,
 )
+from solo_gbp_source_correction import (
+    HOURS as CORRECTED_HOURS, CORRECTION_PROTOCOL, PRODUCER as CORRECTION_PRODUCER,
+    REVIEW_FILES, verify_cohort,
+)
 from prop_campaign_source import Prices, START, END, DAY, HOUR, CALENDAR
 from prop_portfolio_common import MODELS
 from prop_portfolio_ticks import realize_ticks
@@ -37,6 +41,101 @@ PARAMETERS = dict(reference_risk_usd=150, marginal_gbp_risk_usd=75,
     horizon="DAY", hard_tp=None, models=list(MODELS),
     baseline_path_correction="ordinal boundary-minute delta; frozen terminal cash unchanged",
     correlation_risk_usd=75)
+SOURCE_V2 = "solo-gbp-source-v2-two-hour-correction"
+
+
+def validate_correction_lineage(job, registration, proof, manifest):
+    """V2 is an exact two-hour source amendment, never a generic schema bypass."""
+    original_job = job.with_name("S01-gbp-confirmation")
+    review = original_job / "source-discrepancy-review"
+    if job.name != "S01-gbp-confirmation-source-v2":
+        raise ValueError("S01_v2_registered_sibling_required")
+    lineage = registration.get("source_correction", {})
+    expected_paths = dict(card=job / "correction-card.json",
+        original_registration=original_job / "registration.json",
+        original_source_proof=original_job / "source-proof.json",
+        original_manifest=original_job / "manifest.json",
+        cohort_receipt=review / "cohort-sensitivity/result.json")
+    if not set(expected_paths).issubset(lineage):
+        raise ValueError("S01_v2_lineage_or_required_pins")
+    inputs = registration["input_pins"]
+    required = [source_pin(p) for p in expected_paths.values()]
+    required.extend(source_pin(review / name) for name in REVIEW_FILES)
+    if (any(lineage.get(name) != source_pin(path) for name, path in expected_paths.items()) or
+            any(pin not in inputs for pin in required) or
+            lineage.get("corrected_hours") != list(CORRECTED_HOURS) or
+            lineage.get("financial_results_computed") is not False or
+            proof.get("registered_source_correction") != lineage or
+            proof.get("independent_feed_verified") is not False or
+            registration.get("correction_network_budget") != 0 or
+            registration.get("missing_hours") != []):
+        raise ValueError("S01_v2_lineage_or_required_pins")
+    for relative in (CORRECTION_PRODUCER, CORRECTION_PROTOCOL):
+        if source_pin(WORKSPACE / relative) not in registration["producer_pins"]:
+            raise ValueError("S01_v2_correction_producer_unpinned")
+    original = read(original_job / "registration.json")
+    old_proof = read(original_job / "source-proof.json")
+    old_manifest = read(original_job / "manifest.json")
+    verify_pins(original)
+    if (original.get("schema") != "solo-gbp-source-v1" or
+            original.get("job_root") != str(original_job) or
+            old_proof.get("status") != "SOURCE_REVIEW_REQUIRED" or
+            old_proof.get("registration_sha256") != digest(original_job / "registration.json") or
+            old_proof.get("manifest_sha256") != digest(original_job / "manifest.json") or
+            old_proof.get("h1_difference_count") != 4 or old_proof.get("empty_hours") != [] or
+            old_proof.get("held_path_issue_count") != 0 or manifest != old_manifest or
+            registration["signals"] != original["signals"] or
+            registration["hours"] != original["hours"] or
+            registration.get("prior_stage0_annual") != original.get("prior_stage0_annual") or
+            any(p not in inputs for p in original["input_pins"]) or
+            any(p not in registration["producer_pins"] for p in original["producer_pins"])):
+        raise ValueError("S01_v2_original_proof_or_cohort_changed")
+    sensitivity = read(review / "cohort-sensitivity/result.json")
+    verify_cohort(original, read(review / "cohort-sensitivity/corrected-signals.json"), sensitivity)
+    nested = read(review / "cohort-sensitivity/registration.json")["pins"] + sensitivity["input_books"]
+    for pin in nested:
+        required = {"path": pin["path"], "sha256": pin["sha256"]}
+        if required not in inputs:
+            raise ValueError("S01_v2_transitive_receipt_unpinned")
+        if "proof_path" in pin and {"path": pin["proof_path"], "sha256": pin["proof_sha256"]} not in inputs:
+            raise ValueError("S01_v2_transitive_receipt_unpinned")
+    card = read(job / "correction-card.json")
+    if (card.get("schema") != "S01-source-correction-v2" or
+            card.get("original_job") != str(original_job) or card.get("signals") != EXPECTED_RAW or
+            card.get("held_hours") != EXPECTED_HOURS or
+            any(card.get(k) is not True for k in ("same_vendor", "original_H1_files_unchanged",
+                "non_OHLC_fields_including_volume_unchanged", "cohort_and_natural_stops_unchanged")) or
+            any(card.get(k) is not False for k in ("independent_feed_verified", "FTMO_feed_verified",
+                "prior_stage0_pass", "financial_outcomes_computed", "prices2024_2026_read")) or
+            set(card.get("changes", {})) != {"bid", "ask"} or
+            any([r["at"] for r in card["changes"][side]] != list(CORRECTED_HOURS) for side in ("bid", "ask")) or
+            any(pin not in inputs for pin in card["source_pins"])):
+        raise ValueError("S01_v2_correction_card_scope")
+    for side in ("bid", "ask"):
+        name = f"2022-gbpusd-{side}"
+        book = source_pin(job / (name + ".json"))
+        book_proof = source_pin(job / (name + "-source-proof.json"))
+        detail = registration["h1_source_books"][name]
+        derived = read(book_proof["path"])
+        if (book not in inputs or book_proof not in inputs or
+                str(Path(detail["book"]).resolve()) != book["path"] or
+                str(Path(detail["proof"]).resolve()) != book_proof["path"] or
+                derived.get("correction_card") != lineage["card"] or
+                derived.get("original_book") != source_pin(original["h1_source_books"][name]["book"]) or
+                derived.get("original_proof") != source_pin(original["h1_source_books"][name]["proof"]) or
+                derived.get("corrected_hours") != list(CORRECTED_HOURS) or
+                derived.get("changed_fields") != ["open", "high", "low", "close"] or
+                derived.get("observedTickTimestamps") is not False or
+                derived.get("original_volume_retained_not_tick_volume") is not True):
+            raise ValueError("S01_v2_corrected_book_proof")
+        if registration["h1_source_books"][f"2023-gbpusd-{side}"] != original["h1_source_books"][f"2023-gbpusd-{side}"]:
+            raise ValueError("S01_v2_unregistered_2023_book_change")
+    receipt = read(output_root(job / "correction-admission-receipt.json"))
+    if (receipt.get("source_proof") != source_pin(job / "source-proof.json") or
+            receipt.get("source_correction") != lineage or
+            any(receipt.get(k) is not True for k in ("strict_H1_gate_unchanged", "reconciled", "all_original_pins_unchanged")) or
+            receipt.get("financial_results_computed") is not False):
+        raise ValueError("S01_v2_admission_receipt_binding")
 
 
 def validated_source(job):
@@ -49,7 +148,7 @@ def validated_source(job):
     if (proof.get("registration_sha256") != digest(job / "registration.json") or
             proof.get("manifest_sha256") != digest(job / "manifest.json")):
         raise ValueError("S01_source_proof_binding")
-    if (registration.get("schema") != "solo-gbp-source-v1" or
+    if (registration.get("schema") not in ("solo-gbp-source-v1", SOURCE_V2) or
             registration.get("cell") != CELL or registration.get("job_root") != str(job) or
             registration.get("window") != {"first": START, "end_exclusive": END} or
             registration.get("prices2024_2026_read") is not False or
@@ -69,6 +168,8 @@ def validated_source(job):
             proof.get("held_path_issue_count") != 0):
         raise ValueError("S01_source_census_or_quality")
     verify_pins(registration)
+    if registration["schema"] == SOURCE_V2:
+        validate_correction_lineage(job, registration, proof, manifest)
     for row in signals:
         row["horizon"] = "DAY"
         if deadline(row, row["decision_msc"]) != (row["deadline_msc"], row["deadline_kind"]):
@@ -93,7 +194,7 @@ def producer_paths():
                 dependency = root / (name.split(".")[0] + ".py")
                 if dependency.exists():
                     pending.append(dependency)
-    found.update((WORKSPACE / PROTOCOL, WORKSPACE / CALENDAR,
+    found.update((WORKSPACE / PROTOCOL, WORKSPACE / CORRECTION_PROTOCOL, WORKSPACE / CALENDAR,
                   WORKSPACE / ADDENDUM, WORKSPACE / LEGACY_DECISION,
                   root / "prop_portfolio_select.py", root / "tests/test_solo_gbp_economics.py"))
     return sorted(found)
@@ -162,11 +263,13 @@ def register(job=JOB, baseline=BASELINE):
             raise ValueError("S01_commit_economics_before_registration:" + relative)
         producers.append(source_pin(current))
     baselines = {name: source_pin(p) for name, p in baseline_paths(baseline).items()}
+    correction_pins = ([source_pin(job / "correction-admission-receipt.json")]
+                       if source["schema"] == SOURCE_V2 else [])
     result = dict(schema="solo-gbp-economics-v1", cell=CELL, job_root=str(job),
         producer_commit=head, producer_pins=producers,
         input_pins=[source_pin(job / name) for name in (
             "registration.json", "manifest.json", "source-proof.json",
-            "held-path-quality.json", "h1-reconciliation.json")] + list(baselines.values()),
+            "held-path-quality.json", "h1-reconciliation.json")] + correction_pins + list(baselines.values()),
         baseline_root=str(Path(baseline).resolve()), baselines=baselines,
         parameters=PARAMETERS, window={"first": START, "end_exclusive": END},
         numpy_version=np.__version__, prior_stage0_pass=False,
