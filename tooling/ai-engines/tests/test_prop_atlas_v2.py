@@ -1,6 +1,7 @@
 from pathlib import Path
 import sys
 import unittest
+from unittest.mock import patch
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from prop_atlas_core import carry_path
 from prop_atlas_scan import catalog,candidates,money,exit_deadline,daily_context
@@ -10,6 +11,7 @@ from prop_campaign_source import stamp,HOUR,DAY,END
 from prop_campaign_exits import costs
 from test_prop_campaign import Quotes
 from prop_atlas_policy import RiskV2
+from prop_atlas_report import reserve_diagnostic
 
 
 def parent(side='BUY'):
@@ -133,6 +135,40 @@ class AtlasTests(unittest.TestCase):
         x=intervals(list(range(20)),1,replications=2000)
         self.assertLessEqual(x['bonferroni112_95_per_year_model'][0],x['ordinary95'][0])
         self.assertGreaterEqual(x['bonferroni112_95_per_year_model'][1],x['ordinary95'][1])
+
+    def test_reserve_diagnostic_includes_other_open_positions_to_known_deadline(self):
+        at=stamp('2023-06-20T08:00:00')
+        trades=[
+            dict(entry_msc=at,entry_quote_index=0,exit_msc=at+17*HOUR,
+                 exit_quote_index=0,deadline_msc=at+48*HOUR,side='BUY'),
+            dict(entry_msc=at+2*HOUR,entry_quote_index=0,exit_msc=at+10*HOUR,
+                 exit_quote_index=0,deadline_msc=at+12*HOUR,side='BUY'),
+        ]
+        cases={'SYM_FLAT':[dict(accepted=[
+            dict(trade=0,ounces=10,risk_state=dict(projected_stop_milli_usd=47000000)),
+            dict(trade=1,ounces=3,risk_state=dict(projected_stop_milli_usd=46900000)),
+        ])]}
+        with patch('prop_atlas_report.read',return_value=trades), \
+                patch('prop_atlas_report.write_json'), \
+                patch('prop_atlas_report.digest',return_value='fixture'):
+            result=reserve_diagnostic(cases)
+        row=result['rows'][0]
+        self.assertEqual(row['entries_checked'],2)
+        self.assertEqual(row['reserve_projection_changed'],2)
+        self.assertEqual(row['minimum_projected_stop_equity_usd'],46888)
+
+    def test_reserve_diagnostic_blocks_report_if_causal_reserve_changes_admission(self):
+        at=stamp('2023-06-20T08:00:00')
+        trade=dict(entry_msc=at,entry_quote_index=0,exit_msc=at+17*HOUR,
+                   exit_quote_index=0,deadline_msc=at+48*HOUR,side='BUY')
+        cases={'SYM_FLAT':[dict(accepted=[
+            dict(trade=0,ounces=10,risk_state=dict(projected_stop_milli_usd=46510000)),
+        ])]}
+        with patch('prop_atlas_report.read',return_value=[trade]), \
+                patch('prop_atlas_report.write_json'), \
+                patch('prop_atlas_report.digest',return_value='fixture'), \
+                self.assertRaisesRegex(ValueError,'causal_reserve_changes_admission'):
+            reserve_diagnostic(cases)
 
 
 if __name__=='__main__':unittest.main()
