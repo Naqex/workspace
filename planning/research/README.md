@@ -1,15 +1,25 @@
 # Tra cứu research đã có
 
-**Hiện tại — H1 execution-aware đã hoàn tất:**
-[Protocol](XAUUSD-H1-EXECUTION-PROTOCOL-20261113.md) /
+**Hiện tại — A BOTH holiday calendar / Historical Validation2024 / continuous accounts đã hoàn tất:**
+[Protocol](XAUUSD-A-HOLIDAY-VALIDATION-PROTOCOL-20261114.md) /
+[lịch khóa trướcValidation](XAUUSD-A-SESSION-CALENDAR-20261114.json) /
+[báo cáo](XAUUSD-A-HOLIDAY-VALIDATION-RESULTS-20261114.md) /
+[JSON](XAUUSD-A-HOLIDAY-VALIDATION-RESULTS-20261114.json).
+PR77merged`3406ed1`, nhánh cũxóa. A giữ nguyên308signals/SL; coverage103/107/98đủ.
+ASYMrisk.30%net+5,901/+16,462/+2,645R; positive nhưng top3/year hơn toàn bộ net.
+36mốctháng×2risks×2costs; quarterlysubset;0qua2vòng, không observedlossrulebreach.
+**Đề xuất gác Challenge track, giữbenchmark; không tự thêmvariant/mở2025–26/broker.**
+2024đãconsumedHistoricalValidation, không pristineOOS. Reportgapsactualcost/spec/news/calendar;
+14fixtures/30regressions/2guards và308paths/1.232costbridges/12costbooks selfauditđạt,
+không independent/ASTRAreview. Job`xauusd-a-validation-20261114/attempt-2` hiện hành;
+attempt1M1mismatch trướcPnL giữ nguyên;11workingcorrections không đổi308signals/SL.
+
+**Parent — H1 execution-aware:**
+[protocol](XAUUSD-H1-EXECUTION-PROTOCOL-20261113.md) /
 [báo cáo](XAUUSD-H1-EXECUTION-RESULTS-20261113.md) /
 [JSON](XAUUSD-H1-EXECUTION-RESULTS-20261113.json), [PR77](https://github.com/Naqex/workspace/pull/77).
-PR76 đã merge;48giờlịch/Friday20:30, chỉ2022–23, giữ đónggiá2024–26.
-Giữ A BOTH/noTP làm lead: SYM_FLAT+7,510/+13,122R và ASYM_ORDER+9,421/+15,789R;
-2023chỉ106/107địnhgiá, chưafullcohort/propqualified. C và TP2R fail2022.
-Endpoint601/608,710/712SL-activecases;55.662.238ticks/416.710M1 khớp;
-712paths/2.840costbridges/16books×2cells selfaudit đạt. Calendar/news/targetspec,
-concentration và unknownA24Nov2023 còn chặn; không tự mởholdout hoặc vá exit.
+Số cũ601/608endpoint và A2023chỉ106/107 được thay cho ứng viênA bởi báo cáo trên;
+không dùng bảng cũ để suyfullcohort/propqualified. C/TP2R vẫn gác, không mở lại.
 
 **Parent — XAUUSD H1 Stage-0 đã hoàn tất:** [Protocol](XAUUSD-H1-STAGE0-PROTOCOL-20261113.md).
 Owner giao3baseline, BUY/BOTH, chỉDevelopment2022–23; fixed4/8/24/48h có

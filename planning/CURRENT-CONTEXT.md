@@ -1,36 +1,37 @@
 # Current context — Naqex Workspace
 
-14/11/2026 · `RESEARCH: H1_EXECUTION_COMPLETE_A_LEAD_ONLY · REVIEW: SCOPED · DOC: RESUMABLE`.
+14/11/2026 · `RESEARCH: A_HOLIDAY_VALIDATION_COMPLETE_TIMEFIT_NOT_MET · REVIEW: SELF_AUDIT · DOC: RESUMABLE`.
 
 ## Việc hiện tại
 
-**Đã hoàn tất kiểm đường giá H1 theo owner:** PR76 merged `7ab3311`, nhánh cũ đã xóa.
-[Protocol](research/XAUUSD-H1-EXECUTION-PROTOCOL-20261113.md) /
-[báo cáo](research/XAUUSD-H1-EXECUTION-RESULTS-20261113.md) /
-[JSON](research/XAUUSD-H1-EXECUTION-RESULTS-20261113.json).
-Giữ A BOTH/noTP làm lead nghiên cứu: SYM_FLAT+7,510/+13,122R và
-ASYM_ORDER+9,421/+15,789R ở2022/2023; năm2023 chỉ106/107 đã định giá.
-A TP2R và C đều âm2022; gác, không tự vá exit/filter hoặc chọn SELL-only.
-A SELL đóng góp chính, nhưng top5 A/noTP tạo29,83/31,57R; phần còn lại âm.
-Chưa candidatechallenge: calendar/news/targetspec/margin/phase/payout chưa qualified.
+**Đã hoàn tất calendar + Historical Validation 2024 + rolling accounts cho A BOTH/noTP.**
+PR77 merged `3406ed1`, nhánh cũ đã xóa. [Protocol](research/XAUUSD-A-HOLIDAY-VALIDATION-PROTOCOL-20261114.md) /
+[báo cáo](research/XAUUSD-A-HOLIDAY-VALIDATION-RESULTS-20261114.md) /
+[JSON](research/XAUUSD-A-HOLIDAY-VALIDATION-RESULTS-20261114.json).
+Lịch freeze trước mở2024: Friday20:30, holidayguard17UTC, GoodFridayevecut;
+không đổi tín hiệu/SL. Coverage103/103,107/107,98/98; không loại ngày theo outcome.
+11M1revisions2024 sửa workingcopy trướcPnL, all308signals/SL identical;
+giữ nguyên original và attempt1fail. Hai phút cótick thiếuM1 được ghi riêng.
 
-Owner chốt48giờ **lịch**, clampFriday20:30UTC; chỉDevelopment2022–23,
-giá2024–26 đóng. Endpoint601/608 (restored224/231); SL-active710/712cases,
-1signal A BUY24Nov2023 chưa có giá đóng cho cả2policies. Không impute/moveMonday.
-55.662.238ticks/416.710M1OHLC khớp,0admittedM1 thiếu tick trongrequestedhours.
-18fixtures+12Stage0regressions,712passage/2.840Fractionbridges và16books×2cells
-integerDD/daily selfaudit đạt; không independent/ASTRA review hoặc broker/Goal.
-R0$150/$50k, commonquantity, synchronizedbooks. Resetbalance đã tách open entry
-slip/swap khỏi realized balance; TPzero-adverse chỉ scenario, không FTMO guarantee.
+Risk.30%, SYM+4,050/+13,795/+1,845R và ASYM+5,901/+16,462/+2,645R (2022/23/24).
+Năm2022 giảm vì holidayflat: SELL04July từ+3,921R thành−0,333R ASYM;
+BlackFriday24Nov2023 khôi phục+0,673R. Top3/year chiếm hơn toàn bộ net profit;
+phần còn lại âm3năm. Không chọn SELL-only hay vá exit sau nhìnValidation.
+36monthlystarts×2risks×2costs=144cases;12quarterstarts làsubset.
+Risk.30%0/36quaP1; risk.40%2/36SYM,5/36ASYMquaP1;0casequaP2.
+Không observedbreach 5%daily/10%static; risk.40%worstrollingstatic7,234/7,083%.
+**Đề xuất gác khỏi đường Challenge hiện tại; giữ researchbenchmark.** Positive point
+estimates không chứng minh edge bền/thu nhập chính. Chưa timefit hoặc fullpropqualified;
+actualswap/minstep/news/margin/feed/calendar còn gap. Không mở2025–26/variant/risk/broker.
+209/222midnightmarks cũ>60s; DD/daily là observed/carriedmarkconditional, không boundunknownquotes.
 
-Branch `codex/xauusd-execution-path`, [PR77](https://github.com/Naqex/workspace/pull/77),
-chưa được giao merge. Privatejob `execution-v1/xauusd-h1-execution-20261113`
-trong E: jobroot: `driver-v2-status.json` completed_self_audit;
-`registration-v2.json`/`source-snapshot-v2`/`attempt-2` là source/evidence hiện tại.
-Attempt1 cancelled trong source review trước PnL; giữ snapshot/failure/receipt,
-không tải lại raw. Không còn numericalwriter. Bước đề xuất (chưa chạy):
-calendar nghỉ lễ + profile account cho A gốc, xử lý1unknownexit; sau đó mới
-xem protocol validation/risk/prop. Không mởholdout/biếnthể tự động.
+14newfixtures+18execution+12Stage0regressions và2negativeCLIguards đạt;
+308firstpassage/1.232rationalcostbridges/12annualcostbooks directtick selfaudit đạt.
+Không independent/ASTRA review. Privatejob `execution-v1/xauusd-a-validation-20261114`:
+`execution-config-v2.json`, `source-snapshot-v1` code, `source-snapshot-v2` inputs,
+`attempt-2/result.json` và `arithmetic-review.json`; không còn numericalwriter.
+Branch `codex/xauusd-holiday-validation`, chưa được giao merge báo cáo mới.
+Giữ WIPVI Dubber; Trader không đổi. Bước mới cần scope riêng; không tự tiêu holdout.
 
 **Parent đã hoàn thành — không thay kết luận cũ:**
 **Lượt mới được owner mở:** [XAUUSD H1 Stage-0](research/XAUUSD-H1-STAGE0-PROTOCOL-20261113.md),
