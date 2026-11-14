@@ -6,9 +6,10 @@ const {requestWithRecovery,checkResearchWindow}=require('./dukascopy_cached_m1.c
 const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
 const source=process.argv[2],out=path.resolve(process.argv[3]);
 const census=JSON.parse(fs.readFileSync(source,'utf8'));
-const diagnostic=['XAU-A0-scale-horizon-census-v1','XAU-H1-stage0-census-v1','XAU-H1-execution-census-v1'].includes(census.schema);
+const validation=census.schema==='XAU-H1-A-validation-census-v1';
+const diagnostic=validation||['XAU-A0-scale-horizon-census-v1','XAU-H1-stage0-census-v1','XAU-H1-execution-census-v1'].includes(census.schema);
 const scopeStart=Date.parse('2022-01-01T00:00:00Z');
-const scopeEnd=Date.parse(diagnostic?'2024-01-01T00:00:00Z':'2025-01-01T00:00:00Z');
+const scopeEnd=Date.parse(diagnostic&&!validation?'2024-01-01T00:00:00Z':'2025-01-01T00:00:00Z');
 const reused=new Map((diagnostic?census.reused_hours:[]).map(r=>[r.at,r]));
 const began=Date.now(),deadline=began+3600000;
 const save=(name,v)=>{const p=path.join(out,name);fs.writeFileSync(p+'.tmp',JSON.stringify(v,null,2));fs.renameSync(p+'.tmp',p);};
@@ -21,6 +22,7 @@ const fetcher=new native.BufferFetcher({batchSize:1,pauseBetweenBatchesMs:0,requ
 const budget={failures:0,maxFailures:16};
 (async()=>{try{
  if(census.schema!=='XAU-A0-signal-census-v1'&&!diagnostic)throw Error('unregistered_census');
+ if(validation&&census.holdout_start!==scopeEnd)throw Error('validation_requires_2025_price_fence');
  if(new Set(census.hours).size!==census.hours.length||census.hours.some(at=>!Number.isSafeInteger(at)||at%3600000))throw Error('invalid_hour_census');
  if(diagnostic&&(census.scope_start!==scopeStart||census.scope_end_exclusive!==scopeEnd))throw Error('unregistered_diagnostic_scope');
  const requests=census.hours.map(at=>{

@@ -1,0 +1,304 @@
+{
+  "schema": "XAU-A-session-calendar-v1",
+  "scope_start": "2022-01-01",
+  "scope_end_exclusive": "2025-01-01",
+  "normal_friday_flat_utc": "20:30",
+  "holiday_guard_utc": "17:00",
+  "events": [
+    {
+      "day": "2022-01-17",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": null,
+      "target_time_status": "UNVERIFIED_GUARD_NOT_ACTUAL_CLOSE",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2022-02-21",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": null,
+      "target_time_status": "UNVERIFIED_GUARD_NOT_ACTUAL_CLOSE",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2022-04-14",
+      "kind": "GOOD_FRIDAY_EVE",
+      "flat_utc": "20:30",
+      "target_time_status": "CONSERVATIVE_EVE_FLAT",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-30-mar-2023/"
+    },
+    {
+      "day": "2022-04-15",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "METALS_GOOD_FRIDAY",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-30-mar-2023/"
+    },
+    {
+      "day": "2022-05-30",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": null,
+      "target_time_status": "UNVERIFIED_GUARD_NOT_ACTUAL_CLOSE",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2022-06-20",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": null,
+      "target_time_status": "UNVERIFIED_GUARD_NOT_ACTUAL_CLOSE",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2022-07-04",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": null,
+      "target_time_status": "UNVERIFIED_GUARD_NOT_ACTUAL_CLOSE",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2022-09-05",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": null,
+      "target_time_status": "UNVERIFIED_GUARD_NOT_ACTUAL_CLOSE",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2022-11-24",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": null,
+      "target_time_status": "UNVERIFIED_GUARD_NOT_ACTUAL_CLOSE",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2022-11-25",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": null,
+      "target_time_status": "UNVERIFIED_GUARD_NOT_ACTUAL_CLOSE",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2022-12-26",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "HOLIDAY_DATE_CLOSED_SCENARIO",
+      "source": "https://ftmo.com/it/blog/trading-update-05-01-2023-2-2-2/"
+    },
+    {
+      "day": "2023-01-02",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "HOLIDAY_DATE_CLOSED_SCENARIO",
+      "source": "https://ftmo.com/it/blog/trading-update-05-01-2023-2-2-2/"
+    },
+    {
+      "day": "2023-01-16",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": "19:15",
+      "target_time_status": "DATED_FTMO_PUBLIC_NOTICE",
+      "source": "https://ftmo.com/it/blog/trading-update-05-01-2023-2-2-2/"
+    },
+    {
+      "day": "2023-02-20",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": null,
+      "target_time_status": "UNVERIFIED_GUARD_NOT_ACTUAL_CLOSE",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2023-04-06",
+      "kind": "GOOD_FRIDAY_EVE",
+      "flat_utc": "20:30",
+      "target_time_status": "CONSERVATIVE_EVE_FLAT",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-30-mar-2023/"
+    },
+    {
+      "day": "2023-04-07",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "METALS_GOOD_FRIDAY",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-30-mar-2023/"
+    },
+    {
+      "day": "2023-05-29",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": null,
+      "target_time_status": "UNVERIFIED_GUARD_NOT_ACTUAL_CLOSE",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2023-06-19",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": null,
+      "target_time_status": "UNVERIFIED_GUARD_NOT_ACTUAL_CLOSE",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2023-07-04",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": null,
+      "target_time_status": "UNVERIFIED_GUARD_NOT_ACTUAL_CLOSE",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2023-09-04",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": null,
+      "target_time_status": "UNVERIFIED_GUARD_NOT_ACTUAL_CLOSE",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2023-11-23",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": "19:30",
+      "target_time_status": "DATED_FTMO_PUBLIC_NOTICE",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-23-nov-2023/"
+    },
+    {
+      "day": "2023-11-24",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": "18:45",
+      "target_time_status": "DATED_FTMO_PUBLIC_NOTICE",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-23-nov-2023/"
+    },
+    {
+      "day": "2023-12-25",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "HOLIDAY_DATE_CLOSED_SCENARIO",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2024-01-01",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "HOLIDAY_DATE_CLOSED_SCENARIO",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2024-01-15",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": "19:30",
+      "target_time_status": "DATED_FTMO_PUBLIC_NOTICE",
+      "source": "https://ftmo.com/vi/blog/trading-updates/trading-update-11-january-2024-2-2/"
+    },
+    {
+      "day": "2024-02-19",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": "19:15",
+      "target_time_status": "DATED_FTMO_PUBLIC_NOTICE",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-15-feb-2024/"
+    },
+    {
+      "day": "2024-03-28",
+      "kind": "GOOD_FRIDAY_EVE",
+      "flat_utc": "20:30",
+      "target_time_status": "CONSERVATIVE_EVE_FLAT",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-30-mar-2023/"
+    },
+    {
+      "day": "2024-03-29",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "METALS_GOOD_FRIDAY",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-30-mar-2023/"
+    },
+    {
+      "day": "2024-05-27",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": "18:30",
+      "target_time_status": "DATED_FTMO_PUBLIC_NOTICE",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-23-may-2024/"
+    },
+    {
+      "day": "2024-06-19",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": "18:30",
+      "target_time_status": "DATED_FTMO_PUBLIC_NOTICE",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-13-jun-2024/"
+    },
+    {
+      "day": "2024-07-04",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": "18:30",
+      "target_time_status": "DATED_FTMO_PUBLIC_NOTICE",
+      "source": "https://ftmo.com/fr/blog/trading-updates/trading-update-4-juillet-2024/"
+    },
+    {
+      "day": "2024-09-02",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": "17:30",
+      "target_time_status": "DATED_FTMO_PUBLIC_NOTICE",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-29-aug-2024/"
+    },
+    {
+      "day": "2024-11-28",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": "19:30",
+      "target_time_status": "DATED_FTMO_PUBLIC_NOTICE",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-28-nov-2024/"
+    },
+    {
+      "day": "2024-11-29",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": "19:45",
+      "target_time_status": "DATED_FTMO_PUBLIC_NOTICE",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-28-nov-2024/"
+    },
+    {
+      "day": "2024-12-24",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": null,
+      "target_time_status": "UNVERIFIED_GUARD_NOT_ACTUAL_CLOSE",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2024-12-25",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "HOLIDAY_DATE_CLOSED_SCENARIO",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2024-12-31",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": null,
+      "target_time_status": "UNVERIFIED_GUARD_NOT_ACTUAL_CLOSE",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2025-01-01",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "HOLIDAY_DATE_CLOSED_SCENARIO",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    }
+  ],
+  "actual_target_calendar_fully_verified": false,
+  "prices_used_to_choose_calendar": false,
+  "price2024_read_before_freeze": false
+}
