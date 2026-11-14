@@ -9,6 +9,7 @@ from prop_campaign_source import DAY, HOUR, stamp
 from prop_portfolio_accounts import PortfolioAccount, JOINT
 from prop_cocore_v4 import CoCoreAccount, MeasuredAccount
 from prop_cocore_audit import third_gate
+from prop_portfolio_review import CashOracle
 
 
 class CoCoreTests(unittest.TestCase):
@@ -82,6 +83,20 @@ class CoCoreTests(unittest.TestCase):
         self.assertEqual(len(a.payouts), 1)
         with self.assertRaises(ValueError):
             self.account(reward_days=7)
+
+    def test_cash_posted_oracle_checks_day14_and_full_reward_debit(self):
+        start = stamp("2022-01-01")
+        expected = dict(start_msc=start, end_msc=start+40*DAY, accepted=[], closed=[])
+        oracle = CashOracle(expected, [], "ASYM_FLAT", cocore=True, reward_days=14)
+        oracle.phase = 3
+        oracle.first_funded = start
+        oracle.cash += 100000
+        reward = dict(gross_removed_usd=100, trader_usd=80, firm_usd=20)
+        with self.assertRaises(ValueError):
+            oracle.action("reward", None, start+14*DAY-1, None, reward)
+        oracle.action("reward", None, start+14*DAY, None, reward)
+        self.assertEqual(oracle.cash, 50000000)
+        self.assertEqual(oracle.reward_checks, 1)
 
     def test_new_cap_admits_three_200dollar_positions_without_hedge_netting(self):
         a = self.account()
