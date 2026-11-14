@@ -1,9 +1,14 @@
 # Tra cứu research đã có
 
-**Đang chạy — exit/sleeves/phase-aware qualification campaign:**
-[Protocol](PROP-QUALIFICATION-CAMPAIGN-PROTOCOL-20261114.md), owner14Nov2026.
-PR78merged`3307fae`; Anchor0 giữ nguyên. Development2022–23;2024 chỉ xác nhận
-sau khóa chọn; không giá2025–26, không broker, giữ VI Dubber WIP.
+**Hiện tại — exit/sleeves/phase-aware campaign hoàn tất, chưa Challenge-ready:**
+[Báo cáo](PROP-QUALIFICATION-CAMPAIGN-RESULTS-20261114.md) /
+[JSON](PROP-QUALIFICATION-CAMPAIGN-RESULTS-20261114.json) /
+[Protocol](PROP-QUALIFICATION-CAMPAIGN-PROTOCOL-20261114.md).
+PR78merged`3307fae`; A0 giữ nguyên, cả3exit/3sleeve không được chọn từDev2022–23.
+36starts×2costs: risk.50→.35→.25% P1 8/36SYM,13/36ASYM; P2/payout0,
+observedbreach0; worststatic9,321/8,899%. 147tests/72accountoracles/2.464costbridges
+đạt; cùng implementer, không Astra. 2024HistoricalValidation sau freeze,
+không giá2025–26/broker, giữ VI Dubber WIP. Đề xuất gác Challenge, không tăng risk thêm.
 
 **Hiện tại — A BOTH holiday calendar / Historical Validation2024 / continuous accounts đã hoàn tất:**
 [Protocol](XAUUSD-A-HOLIDAY-VALIDATION-PROTOCOL-20261114.md) /
