@@ -35,7 +35,7 @@ chỉ tiêu không được hạ để gọi winner là đạt.
 | S3 | Skills và AI environment | Existing skill/reference đã cập nhật; audit 0 lỗi/0 cảnh báo | 4 links, 7 routing cases; không global mutation |
 | S4 | Recovery/reconciliation | 175 recovery tests; restore16/16 và Demo5/5 trên cụm riêng đạt | 47 bảng đối soát; hai grant race winners kiểm riêng; các cụm đã dừng; không broker acceptance |
 | Q0 | Kế thừa và chọn thí nghiệm | S01 GBP đã khóa trước source/numeric mới | Một inherited SL recipe, giữ raw markout âm và 112-trial history; chưa mở trial phụ |
-| Q1 | Source/path confirmation | Downloader riêng đang chạy, chưa admission cuối | 300 raw/3.576 giờ, reuse292; tải3.284; check20giờ đầu khớp81.345ticks/H1, không thay full gate |
+| Q1 | Source/path confirmation | Đã tải đủ, original admission `SOURCE_REVIEW_REQUIRED`; correction v2 đang review | 25.537.048ticks/3.576giờ;0empty/heldgap;2giờH1 khác tick; nguồn overlay giữ nguyên300signals+SL; chưa PnL |
 | Q2 | Alpha, portfolio, time-fit | Chưa chạy; adapter synthetic đang review | Sửa ordinal entry/exit cùng-ms ở đường M1; baseline A+EUR cần cùng semantics trước marginal gate |
 | Q3 | Robustness/validation | Chưa chạy | Freeze trước validation; exposed khác clean OOS; stress và unseen/prospective gap minh bạch |
 | S5 | Bind chiến lược với engine/runtime | Chưa đủ candidate qualified | Same decision semantics, units/account/risk, no duplicate, exact artifact/code lineage |
@@ -70,8 +70,11 @@ merge hoặc promote vào lane gốc. Bằng chứng kỹ thuật, kinh tế, pr
 vận hành và quyền execution được kết luận riêng.
 
 Trader [PR32](https://github.com/Naqex/trader/pull/32), head `621f0e0b`, chứa
-isolation/storage fixes và báo cáo kỹ thuật. Git merge-tree không conflict với
-main `930fa768`; chưa merge/deploy. Worktree và PR không attach được vào app do
+isolation/storage fixes và báo cáo kỹ thuật, review độc lập và5/5CIđạt.
+Git merge-tree không conflict với main `930fa768`; chưa merge/deploy. Workspace
+[PR84](https://github.com/Naqex/workspace/pull/84) đangdraft,3/3CI trên nhánh riêng
+`685ca57` đạt; hội nhậpmain còn conflict ởCI/index và hoãn tới khi source/numeric
+freeze hoàn tất. Không đổi producer giữa run. Worktree và PR không attach được vào app do
 giới hạn100attachments; đường dẫn/URL vẫn dùng được, không tạo checkout thay thế.
 
 ## Hàng đợi theo bằng chứng, chưa mở trial mới
@@ -96,3 +99,23 @@ giữ observed spread, stressslip1,5point/vòng, naturalSL và gates. Không ch�
 PnL hoặc nói phí0 đã cứu retention. Swap không thuộc cost geometry gate nên
 thay swap không giải quyết cửa này. Không giảm stress thiếu bằng chứng; mọi
 numeric mới cần registration riêng trước outcome.
+
+## Source checkpoint và seam tiếp theo
+
+Original S01 proof giữ nguyên failed H1 reconciliation; hai backend cùngvendor
+candle/tick khác nhau tại18/10/2022 12:00 và15:00UTC. Independent integer decode
+tái hiện đúng mỗi nguồn. Source-only generator comparison với2H1hours lấy từ
+tick giữ nguyên300events và naturalSL. Bốn GET kiểm lại đềuHTTP202bodyrỗng,
+khôngadmit/retry. Xem [discrepancy protocol](SOLO-GBP-SOURCE-DISCREPANCY-20261115.md).
+V2 chỉ được tạo sau correctionproducer/protocol/tests/review; oldproof không
+sửa thànhPASS, không hạ tolerance hoặc bỏ4mismatches khỏioriginalbook.
+
+Read-only seam audit cho shared-account tiếp theo: reuse `PortfolioAccount`
+và policy hiện có, thêm assettuple với haiassetdefaults giữ nguyên, đồng thời
+giữ timestamp/age từngasset. `JOINT` hiện chỉ có chung`t`; reset của adapter
+không ghi stalequote như parent, nên thêmcộtGBP không đủ chứng minh DailyLoss.
+Oracle cần merge theo `(timestamp,asset_rank,source_ordinal)`, vì fixedleft/right
+search của haiasset không đúng cho EUR ở giữa Gold→EUR→GBP. Fixture phải giữ
+haiassetparity, đồngtimestamp, missing/stalequotes, totalcap/reserve, DST/funding,
+flatphase/reward và thiếumargin. Đây là thiết kế tối thiểu, chưa triểnkhai hay
+prop-qualification; chỉ làm sauGBPđạt cổngmarginal đãkhóa.

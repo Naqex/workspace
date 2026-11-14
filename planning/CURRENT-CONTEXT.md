@@ -17,9 +17,10 @@ một recipe cố định, Dev2022–2023, budget và gates khóa trước outco
 2024 đã exposed, chưa mở numeric mới; 2025–2026 tiếp tục đóng.
 Runtime isolation/AI skills đã có review và focused tests; recovery175tests,
 metadata restore16/16 và Demo crash/restore5/5 đạt trên cụm riêng. Trader
-[PR32](https://github.com/Naqex/trader/pull/32) đang CI, chưa merge/rollout.
-S01 nguồnGBP đang tải trong output riêng; chưa full admission/PnL. Adapter
-đang sửa ordinal entry/exit để đườngM1 không chứa tick sau lúc lệnh đã đóng.
+[PR32](https://github.com/Naqex/trader/pull/32) đạt5/5CI, chưa merge/rollout.
+S01 nguồnGBP đủ25,54triệu tick; originalproof bịchặn vì2giờ H1khác ticks.
+Correctionv2 đangreview trướcsourceadmission; chưaPnL. Bộsinh tínhiệu dùng2H1
+tickderived vẫn giữ nguyên300events+SL. Adapter ordinal entry/exit đã cófixtures.
 Chưa có candidate Challenge-qualified; các số software không thay edge proof.
 
 Các phần dưới là checkpoint kế thừa, không là taskqueue hay hạn chế scope mới.
