@@ -1,8 +1,48 @@
 # Current context — Naqex Workspace
 
-14/11/2026 · `RESEARCH: PROP_ATLAS_V2_COMPLETE_NOT_QUALIFIED · REVIEW: NUMERICAL_PASS_SAME_IMPLEMENTER · DOC: COMPLETE`.
+14/11/2026 · `RESEARCH: PROP_PORTFOLIO_V3_COMPLETED_CONDITIONAL · PROP: NOT_QUALIFIED · DOC: REVIEWABLE`.
 
 ## Việc hiện tại
+
+**V3 đã hoàn tất Phase 0–4, chưa đủ điều kiện Challenge:**
+[báo cáo](research/PROP-PORTFOLIO-V3-RESULTS-20261114.md) /
+[JSON](research/PROP-PORTFOLIO-V3-RESULTS-20261114.json) /
+[composition](research/PROP-PORTFOLIO-V3-DECISION-20261114.json) /
+[protocol](research/PROP-PORTFOLIO-V3-PROTOCOL-20261114.md),
+task `ded836a8-3f42-4204-9742-9fc0ad3c369e`.
+PR #80 đã merge `91dd2d5`, nhánh cũ xóa; nhánh giao V3
+`codex/prop-portfolio-v3`, job `execution-v1/prop-portfolio-v3-20261114`.
+
+Funding reserve chỉ dùng deadline biết trước, không nhìn exit tương lai.
+Một trial D1 SMA50/slope5/0.5x làm giảm tỷ số Net/DD, giữ A_Original.
+112 Natural-SL screens; 42 đủ đường cho M1 scenario. US500 khôi phục
+715/732 endpoint cũ, 17 còn unknown; GBP/AUD thiếu M1/tick, USDJPY thiếu nguồn.
+Lượt lỗi Ask=0 ở Gold giữ nguyên trong quarantine, không dùng để chọn.
+Chỉ chọn `EURUSD.SWEEP.ASIA.LONDON.DAY`: tick Dev +3,7714R / +10,5621R,
+112/124 lệnh, correlation ngày khoảng 0,10; cải thiện Net/DD ghép nửa ngân sách.
+Composition commit `ec602f7` trước release/mở 2024; LF/CRLF preflight đã chặn
+trước release, semantic/byte binding sửa rồi commit lại, không đổi tham số.
+Historical Validation 2024 của EUR: 67 lệnh, +6,3371R; đã exposed, không clean OOS.
+
+144 accounts (2 models × 2 systems × 36 monthly starts), cùng shared-account
+lifecycle và joint paired ticks. Portfolio qua vòng 1 15/36 ở cả SYM/ASYM;
+hoàn tất hai vòng 0/36 SYM, 2/36 ASYM, payout 0. Hai cửa sổ ASYM chỉ có
+một đường funded riêng biệt: funded lỗ $1.096,26 cuối 2023, lãi $847,82
+năm 2024, cuối mẫu $49.751,56. Không suy thành xác suất pass tương lai.
+Worst static portfolio 6,998% / 6,997%, sát reserve nội bộ 7%;
+worst daily 1,132% / 1,071%; không observed modeled breach.
+
+197 tests (21 fixtures V3) và bốn đối soát đạt: 112 screens, 420 D1 decisions,
+25.447.523 tick EUR khớp CSV gốc, 144 account ledgers cùng admissions/rejections.
+Cùng implementer dùng phép tính khác; không reviewer người/model độc lập.
+Giữ A + EUR để review hữu hạn tiếp theo, chưa Challenge/thu nhập chính:
+không payout, top-trade concentration, completion phụ thuộc swap proxy,
+actual target spec/news/margin/feed/forward còn thiếu. `prop_qualified=false`.
+Không numerical writer còn chạy; CI/delivery receipt ở private job.
+Giữ đóng giá 2025–2026, WIP VI Dubber; không broker/model/paid/Astra,
+không tự merge PR V3 hoặc mở chiến dịch mới.
+
+## V2 đã hoàn tất
 
 **V2 đã hoàn tất phép đo, chưa đủ điều kiện Challenge:**
 [báo cáo](research/PROP-ATLAS-V2-RESULTS-20261114.md) /

@@ -100,8 +100,13 @@ class Account:
             t=trades[i];sign=1 if t['side']=='BUY' else -1
             # Initial stop is conservative even if a protection arms later.
             stop=t['stop_units'];gross=sign*size*(stop-t['entry_price_units'])
+            end=t.get('deadline_msc')
+            if type(end) is not int or end<t['entry_msc']:
+                raise ValueError('missing_or_invalid_prelocked_funding_horizon')
+            # The stop exit is unknown pretrade. Reserve through the holding
+            # deadline even for positions whose replay later stops out early.
             future=sum(min(0,funding_rate(t['side'],self.cell)*e['multiplier'])*size*1000
-                for e in funding_events(t['entry_msc'],t['exit_msc']))
+                for e in funding_events(t['entry_msc'],end))
             v+=gross-size*400+int(round(future))-cents(commission(stop,size))*10
         return v
 

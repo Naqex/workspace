@@ -1,0 +1,105 @@
+{
+  "schema": "PROP-PORTFOLIO-V3-COMPOSITION-v1",
+  "core": "A_Original",
+  "satellites": [
+    "EURUSD.SWEEP.ASIA.LONDON.DAY"
+  ],
+  "utc": "2026-11-14T16:05:19.216594+00:00",
+  "selection_end_exclusive": 1704067200000,
+  "development": "2022-2023 only",
+  "validation": "2024 already exposed",
+  "holdout": "2025-2026 closed",
+  "prices2024_used_in_selection": false,
+  "prices2025_2026_read": false,
+  "core_risk_usd": [
+    200,
+    175,
+    125
+  ],
+  "satellite_risk_usd": [
+    100,
+    100,
+    75
+  ],
+  "throttle_equity_usd": [
+    48000,
+    47000
+  ],
+  "throttle_caps_usd": [
+    150,
+    90
+  ],
+  "daily_realized_halt_usd": 1000,
+  "shared_open_stop_risk_usd": 500,
+  "internal_projected_equity_floor_usd": 46500,
+  "core_decision_sha256": "d5ee0022896ae2f3d2dc6683958c932052ec11fa01af23a08de918292f4498f5",
+  "satellite_decision_sha256": "32a31254e47f47b6c90f39b6a9a92edb7213256f65f0226f98b4c5cd4b4f8c25",
+  "source_dev_manifest_sha256": "0926bd7bdb15aabc715d7e7ae9cf5740c0de3acf12d6257ee60a4a955880a963",
+  "source_dev_trades_sha256": "2119f32c3192c2e3b9185a6aaa6566604bd4ea56a7a01989c6eb3ee81c53b6ad",
+  "code_and_rules": [
+    {
+      "path": "planning/research/PROP-PORTFOLIO-V3-PROTOCOL-20261114.md",
+      "sha256": "243dbab877bbc48e39db2224b84e51ca17aab5a0a73fc8b4231dda1d970b6994"
+    },
+    {
+      "path": "planning/research/XAUUSD-A-SESSION-CALENDAR-20261114.json",
+      "sha256": "21ea50841ce640675c49330a4d6567d16548f7956acd5ed0c08f76332c7b14ca"
+    },
+    {
+      "path": "tooling/ai-engines/prop_atlas_scan.py",
+      "sha256": "83fda244e0ae261e5c20c6684f9a5b74061ddcf7cab7d2e243effeece99e61fe"
+    },
+    {
+      "path": "tooling/ai-engines/prop_campaign_accounts.py",
+      "sha256": "99800cb4bbde40cb1d04da01831fe645a33c55706d048f5814f87111dd4f700c"
+    },
+    {
+      "path": "tooling/ai-engines/prop_portfolio_accounts.py",
+      "sha256": "4db6518a906e8836cf1d0ac75d6b560b87f61fcf44813f83ee4c13cf52cf8077"
+    },
+    {
+      "path": "tooling/ai-engines/prop_portfolio_campaign.py",
+      "sha256": "15556d73e4f92fc0d45b37e5cf6a5aecefb137e0390d487f35df7537d96eae9b"
+    },
+    {
+      "path": "tooling/ai-engines/prop_portfolio_common.py",
+      "sha256": "0630ca9bde0b8bcbb401aa297a3fbfab63a2358ee2bab9e14c41949175d78084"
+    },
+    {
+      "path": "tooling/ai-engines/prop_portfolio_confirm.py",
+      "sha256": "c4e4b9389e76b9c806ef8f75569ead9b1221be23896048a298ac623bc36240a1"
+    },
+    {
+      "path": "tooling/ai-engines/prop_portfolio_policy.py",
+      "sha256": "8a420f1f28ec089c7b722725e4dc613c825cd02106e0f3494588d5cc62325e02"
+    },
+    {
+      "path": "tooling/ai-engines/prop_portfolio_regime.py",
+      "sha256": "3a61fa52d3ee53a1831f6f9371730c9d7220ce7023db14e51ae55b2f36a8de90"
+    },
+    {
+      "path": "tooling/ai-engines/prop_portfolio_scan.py",
+      "sha256": "f6c9b68df586f794ba3a3dc2816a3485cf6943b0bc44cdbdbe949515a567284d"
+    },
+    {
+      "path": "tooling/ai-engines/prop_portfolio_select.py",
+      "sha256": "ec80a025d082447c49024df0dc133361ce51d2411741429f8bf761f97d793521"
+    },
+    {
+      "path": "tooling/ai-engines/prop_portfolio_sources.py",
+      "sha256": "bf2071d93ebcbd7a785954b1cfe8b49ad2e170f7cf0403fa593688baf660c2ff"
+    },
+    {
+      "path": "tooling/ai-engines/prop_portfolio_ticks.py",
+      "sha256": "188d5929c5dcb31b5faf554ff858ebd5e1ee58c3d7ebf8be6afa190276236827"
+    }
+  ],
+  "reward_proxy": {
+    "days": 30,
+    "min_profit_usd": 20,
+    "trader_share": 0.8,
+    "cash_debit_share": 1,
+    "administrative_delay_days": 0
+  },
+  "target_specs_news_margin_and_forward_verified": false
+}
