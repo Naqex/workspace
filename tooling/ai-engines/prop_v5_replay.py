@@ -9,7 +9,11 @@ from prop_campaign_source import Calendar, CALENDAR
 from prop_v5_common import START, HOUR, DAY, event
 
 TAGGED = np.dtype([("t","<i8"),("b0","<i4"),("a0","<i4"),
-                  ("b1","<i4"),("a1","<i4"),("src","i1")])
+                  ("b1","<i4"),("a1","<i4"),("src","i1"),("ordinal","<i4")])
+
+
+def session_clock(record):
+    return None if record.get("kind") == "CLOSED" else (record.get("flat_utc") or "20:30")
 
 
 def replay(trades, readers, accounts, end):
@@ -29,9 +33,10 @@ def replay(trades, readers, accounts, end):
         utc0 = int(day.timestamp()*1000)
         if day.weekday()<5:
             record = calendar.events.get(day.date().isoformat(), {})
-            clock = record.get("flat_utc", "20:30")
-            close = utc0+(int(clock[:2])*60+int(clock[3:]))*60000
-            actions[(close,-1,-1)].append(("session_flat",None,0))
+            clock = session_clock(record)
+            if clock:
+                close = utc0+(int(clock[:2])*60+int(clock[3:]))*60000
+                actions[(close,-1,-1)].append(("session_flat",None,0))
         day += timedelta(days=1)
     priority=dict(reset=0,swap=1,session_flat=2,exit=3,entry=4)
     keys=sorted(actions); cursor=0; last=None; total=0
@@ -56,6 +61,7 @@ def replay(trades, readers, accounts, end):
             rows[name]=raw[name]
         for asset, indices in enumerate(maps):
             rows["src"][indices]=asset
+            rows["ordinal"][indices]=np.arange(len(indices))
         total+=len(rows); start=0
         while cursor<len(keys) and keys[cursor][0]<hour+HOUR:
             at,asset,index=keys[cursor]

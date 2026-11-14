@@ -7,8 +7,9 @@ import numpy as np
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from prop_v5_account import ColdState,V5Account
 from prop_v5_data import timestamp_file
-from prop_v5_replay import TAGGED
+from prop_v5_replay import TAGGED,session_clock
 from prop_campaign_source import stamp,DAY,HOUR
+from prop_v5_bootstrap import block_indices,simulate
 
 
 def trade(at,asset="XAUUSD"):
@@ -26,6 +27,11 @@ def quote(at,source=0,gold=2000000,eur=110000):
 
 
 class V5Tests(unittest.TestCase):
+    def test_closed_holiday_null_flat_does_not_create_session_order(self):
+        self.assertIsNone(session_clock(dict(kind="CLOSED",flat_utc=None)))
+        self.assertEqual(session_clock(dict(kind="EARLY",flat_utc="17:00")),"17:00")
+        self.assertEqual(session_clock(dict(flat_utc=None)),"20:30")
+
     def account(self,**kw):
         return V5Account(stamp("2022-01-01"),stamp("2024-01-01"),"ASYM_FLAT",rolling=True,**kw)
 
@@ -125,6 +131,35 @@ class V5Tests(unittest.TestCase):
         with patch("prop_cocore_v4.MeasuredAccount.dump",return_value={"net_R":5,"net_usd":375}):
             row=a.dump()
         self.assertEqual(row["net_R"],2.5)
+
+    def test_reference_books_do_not_park_at_prop_reserve_floor(self):
+        a=V5Account(stamp("2022-01-01"),stamp("2024-01-01"),"ASYM_FLAT",
+                     fixed_risk=150,controller=False)
+        a.balance=45000000;at=a.start+8*HOUR;t=trade(at);a._trades=[t]
+        a.action("entry",at,0,[t],quote(at))
+        self.assertEqual(len(a.accepted),1)
+        self.assertEqual(a.accepted[0]["risk_usd"],150)
+
+    def test_bootstrap_reuses_whole_joint_blocks_with_seed(self):
+        a=block_indices(100,paths=20,days=42,block=20)
+        self.assertTrue(np.array_equal(a,block_indices(100,paths=20,days=42,block=20)))
+        self.assertTrue(np.all(np.diff(a[:,:20],axis=1)==1))
+        self.assertTrue(np.all(np.diff(a[:,20:40],axis=1)==1))
+        self.assertLess(int(a.max()),100)
+
+    def test_bootstrap_flat_ledger_cannot_manufacture_profit_or_pass(self):
+        ledger=[dict(equity_delta=0,low=50000,high=50000,open_eq=50000,low_at=1,high_at=2)]*20
+        result=simulate(ledger,block_indices(20,paths=10,days=252),funded=True)
+        self.assertEqual(result["mean_trader_payout_usd"],0)
+        self.assertEqual(result["breach_rate"],0)
+        self.assertEqual(result["mean_terminal_balance_usd"],50000)
+
+    def test_bootstrap_daily_breach_stops_path_at_first_crossing(self):
+        ledger=[dict(equity_delta=0,low=45000,high=51000,open_eq=50000,low_at=1,high_at=2)]*20
+        result=simulate(ledger,block_indices(20,paths=10,days=2))
+        self.assertEqual(result["breach_rate"],1)
+        self.assertLess(result["mean_terminal_balance_usd"],45000)
+        self.assertAlmostEqual(result["max_static_percentiles_pct"][0],200/150*10)
 
 
 if __name__=="__main__":unittest.main()

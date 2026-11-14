@@ -1,0 +1,119 @@
+{
+  "schema": "PROP-OVERNIGHT-V5-DECISION-v1",
+  "utc": "2026-11-14T17:49:29.087548+00:00",
+  "mechanism": "PARENT",
+  "selection": {
+    "selected": "PARENT",
+    "trials": [
+      {
+        "mechanism": "D1",
+        "reasons": [
+          "EUR_DD_NOT_LOWER",
+          "2022:EUR_VELOCITY_LT80PCT",
+          "SYM_FLAT:PORTFOLIO_DD_NOT_LOWER",
+          "SYM_FLAT:PORTFOLIO_NET_LT80PCT",
+          "ASYM_FLAT:PORTFOLIO_DD_NOT_LOWER",
+          "ASYM_FLAT:PORTFOLIO_NET_LT80PCT"
+        ],
+        "min_portfolio_DD_reduction_R": -7.483093333333336,
+        "eur_DD_R": 35.89906666666667
+      },
+      {
+        "mechanism": "D2",
+        "reasons": [
+          "2023:EUR_VELOCITY_LT80PCT",
+          "SYM_FLAT:PORTFOLIO_NET_LT80PCT",
+          "ASYM_FLAT:PORTFOLIO_NET_LT80PCT"
+        ],
+        "min_portfolio_DD_reduction_R": 5.7790000000000035,
+        "eur_DD_R": 23.3508
+      }
+    ],
+    "selection_years": [
+      2022,
+      2023
+    ],
+    "trial_count": 2
+  },
+  "third_sleeve": [],
+  "controller": "ratchet7/5,3.5;harvest1/2pct;14days",
+  "core_risk_usd": [
+    200,
+    175,
+    125
+  ],
+  "source_recovery_sha256": "1a73a3da94c399ff8e23da985c6189b7369036b2004fc64103faad8c03f5cf22",
+  "pins": [
+    {
+      "path": "tooling\\ai-engines\\prop_v5_account.py",
+      "sha256": "52fa11d2534366d7d2f122b325a2c09a964c8ca7b12ff872f4a2d941785ba7a4"
+    },
+    {
+      "path": "tooling\\ai-engines\\prop_v5_bootstrap.py",
+      "sha256": "a63095a8101a0a4d7cfe4a51b9ba23435aa888519ee531cf45d2f65b549e1b38"
+    },
+    {
+      "path": "tooling\\ai-engines\\prop_v5_campaign.py",
+      "sha256": "0c765ff2d159d02762c780bf529ea9a05b522e77e266a3723101f03c6f5c2934"
+    },
+    {
+      "path": "tooling\\ai-engines\\prop_v5_common.py",
+      "sha256": "3b5a12d9c5d36f35b77b03f2742e3d09212ea55ebd7fa876cb7185772798a38f"
+    },
+    {
+      "path": "tooling\\ai-engines\\prop_v5_data.py",
+      "sha256": "47d90fc1982f48b5386e644f556e18299e8259c2b64639e4a6fad2c4f98cadd5"
+    },
+    {
+      "path": "tooling\\ai-engines\\prop_v5_replay.py",
+      "sha256": "a9666fa3eebc54e9f2ff980a19e266410208ab190142de06dc78dc96a62c52f4"
+    },
+    {
+      "path": "tooling\\ai-engines\\prop_v5_review.py",
+      "sha256": "1ad96a9fbe1bf498a30766f8195c9af2beaccac2bcd18df4ce9af9d92adac9d3"
+    },
+    {
+      "path": "planning\\research\\PROP-OVERNIGHT-V5-PROTOCOL-20261115.md",
+      "sha256": "4cae428207c3ca2279a2e0311853ff48af3d0bf4104c4627e18bf35af346c62c"
+    },
+    {
+      "path": "tooling\\ai-engines\\prop_campaign_accounts.py",
+      "sha256": "2cc14ee74557980f05f71dce0089416f617c415acad5eb783c23f3ea6507c559"
+    },
+    {
+      "path": "tooling\\ai-engines\\prop_portfolio_accounts.py",
+      "sha256": "dd1542edecf77c471a15832b2894c98176e8cd542bfa78ebf96b3fd142f853cb"
+    },
+    {
+      "path": "tooling\\ai-engines\\prop_cocore_v4.py",
+      "sha256": "2449cb3f6e28f726865e4e240bffda5ec35c528073dfc51223efa640fc77b7f1"
+    },
+    {
+      "path": "planning\\research\\XAUUSD-A-SESSION-CALENDAR-20261114.json",
+      "sha256": "21ea50841ce640675c49330a4d6567d16548f7956acd5ed0c08f76332c7b14ca"
+    },
+    {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\prop-portfolio-v3-20261114\\system-trades.json",
+      "sha256": "12c8f9d53fdc8032f943b9f8aafd4cf105385f8689cd1eafb54db91e9480ec98"
+    },
+    {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\prop-portfolio-v3-20261114\\system-eur-manifest.json",
+      "sha256": "dd05e29d83c5d3595efef4c4af6d8445eb7aab8cb563b6590c588ae34a16babb"
+    },
+    {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\xauusd-a-validation-20261114\\attempt-2\\binary-manifest.json",
+      "sha256": "300a159557fcfeebabcfd181ff6fa9406bdeb8a03d0ca64bfe6471c2ecf703e5"
+    }
+  ],
+  "dev_accounts_sha256": "062e84a7c69cb67bb8f19b7a314d97c563e67b0056848ca7fe7a5cecffb3d08f",
+  "selection2022_2023_only": true,
+  "validation2024_already_exposed": true,
+  "holdout2025_2026": "timestamps only; no signals/PnL",
+  "bootstrap": {
+    "seed": 20261115,
+    "paths_per_model": 10000,
+    "primary_block_days": 20,
+    "sensitivity_block_days": 5,
+    "year_business_days": 252
+  }
+}

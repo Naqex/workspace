@@ -122,6 +122,22 @@ class V5Account(CoCoreAccount):
                 self.rejected[reason] += 1
                 self.policy_rejects[reason] += 1
                 return
+            if not self.rolling:
+                # A reference signal curve measures every admitted opportunity,
+                # without the account-level stop reserve parking later signals.
+                if t["decision_msc"] < self.start:
+                    return
+                risk = self.risk_request(self.balance + self.floating(trades, quote), t["role"], 1)
+                q = quantity_steps(t, risk)
+                self.balance -= entry_exit_fee(t, t["entry_price_units"], q)
+                self.active[i] = (q, risk)
+                self.accrued[i] = 0
+                self.accepted.append(dict(trade=i, at=at, phase=self.phase,
+                                          risk_usd=risk, ounces=q, quantity_steps=q,
+                                          asset=t["asset"]))
+                self.max_concurrency = max(self.max_concurrency, len(self.active))
+                self.check(at, self.floating(trades, quote))
+                return
         if kind == "exit" and i in self.pending:
             self.pending.pop(i)
         super().action(kind, at, i, trades, quote, mult)
@@ -150,7 +166,8 @@ class V5Account(CoCoreAccount):
         super().action("exit", int(at), i, local, quote)
         close = self.closed[-1]
         close["execution_override"] = dict(
-            exit_msc=int(at), exit_price_units=actual["exit_price_units"], reason=reason)
+            exit_msc=int(at), exit_price_units=actual["exit_price_units"],
+            exit_quote_index=int(quote["ordinal"]), reason=reason)
         self.forced_closes.append(dict(trade=i, at=int(at), reason=reason,
                                        price_units=actual["exit_price_units"],
                                        net_usd=close["net_usd"]))
