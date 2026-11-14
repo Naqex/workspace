@@ -5,7 +5,7 @@ from decimal import Decimal as D,ROUND_FLOOR,ROUND_CEILING
 from statistics import mean,median
 import numpy as np
 
-from prop_campaign_source import START,END,HOUR,DAY,Calendar,CALENDAR,read,write_json,digest
+from prop_campaign_source import START,END,FINAL,HOUR,DAY,Calendar,CALENDAR,read,write_json,digest
 from prop_campaign_exits import funding_rate
 from xau_h1_stage0_scan import funding_events
 from xau_h1_stage0_source import signal_features
@@ -52,14 +52,22 @@ def daily_context(hours):
     return regions,trends
 
 
-def candidates(hours,asset):
+def candidates(hours,asset,*,first=START,end=END,only_cells=None):
+    if (first,end) not in ((START,END),(END,FINAL)):
+        raise ValueError('registered_atlas_window_required')
+    if end==FINAL and not only_cells:
+        raise ValueError('validation_requires_frozen_cell_whitelist')
     cells=[r for r in catalog() if r['asset']==asset]
+    if only_cells is not None:
+        if not set(only_cells)<=set(r['id'] for r in cells):
+            raise ValueError('unregistered_atlas_cell')
+        cells=[r for r in cells if r['id'] in only_cells]
     history,up=daily_context(hours)
     hm={r[0]:r for r in hours if r[5]==60}
     cal=Calendar(CALENDAR);seen=set();signals=[];abstentions=Counter()
     for f in signal_features(hours):
         at=f['at'];dt=datetime.fromtimestamp(at/1000,timezone.utc)
-        if not START<=at<END or dt.weekday()>=5 or f['atr_before'] is None:
+        if not first<=at<end or dt.weekday()>=5 or f['atr_before'] is None:
             continue
         window='LONDON' if 8<=dt.hour<=11 else 'NY' if 13<=dt.hour<=16 else None
         if window is None:continue

@@ -12,7 +12,10 @@ from prop_portfolio_scan import realize, net_values, corr, quote
 from prop_portfolio_policy import requested_risk, within_open_risk_cap, BalancedAccount
 from prop_portfolio_accounts import (
     PortfolioAccount, JOINT, joint_hour, trade_money, quantity_steps,
+    replay as replay_portfolio,
 )
+from prop_atlas_scan import candidates
+from prop_portfolio_common import price_scope
 from prop_campaign_source import DTYPE
 from prop_campaign_exits import costs
 import numpy as np
@@ -154,6 +157,37 @@ class PortfolioBudgetTests(unittest.TestCase):
         self.assertFalse(account.day_halt)
 
 class JointPortfolioTests(unittest.TestCase):
+    def test_two_assets_share_one_cash_book_with_real_contract_units(self):
+        at=stamp("2023-06-20T08:00:00")
+        class Reader:
+            def __init__(self,rows):
+                self.rows=rows;self.files=set(rows)
+            def hour(self,hour):return self.rows[hour]
+        readers={
+            "XAUUSD":Reader({
+                at:np.array([(at,1999900,2000000),(at+1800000,2005000,2005100)],dtype=DTYPE),
+                at+HOUR:np.array([(at+HOUR,2004900,2005000)],dtype=DTYPE),
+            }),
+            "EURUSD":Reader({
+                at:np.array([(at+100,110000,110010),(at+1800100,110090,110100)],dtype=DTYPE),
+                at+HOUR:np.array([(at+HOUR+100,110110,110120)],dtype=DTYPE),
+            }),
+        }
+        gold=trade();gold.update(
+            asset="XAUUSD",role="CORE",recipe="A",decision_msc=at,
+            day="2023-06-20",entry_quote_index=0,exit_quote_index=0,
+            exit_msc=at+HOUR,exit_price_units=2004900,deadline_msc=at+12*HOUR)
+        eur=dict(gold,asset="EURUSD",role="SATELLITE",recipe="SAT1",
+                 decision_msc=at+100,entry_msc=at+100,exit_msc=at+HOUR+100,
+                 entry_price_units=110010,exit_price_units=110110,stop_units=109800)
+        accounts=[PortfolioAccount(at,at+2*HOUR,"ASYM_FLAT",rolling=True,include_satellite=v)
+                  for v in (False,True)]
+        result=replay_portfolio([gold,eur],readers,accounts,end=at+2*HOUR)
+        self.assertEqual(result[0]["balance_usd"],50089.44)
+        self.assertEqual(result[1]["balance_usd"],50132.20)
+        self.assertEqual(result[1]["entries"],2)
+        self.assertLessEqual(result[1]["maximum_open_stop_risk_pct"],1)
+
     def test_gold_adapter_matches_existing_cent_rounded_economics(self):
         row=trade();row.update(asset="XAUUSD",reason="SL")
         for model in ("SYM_FLAT","ASYM_FLAT"):
@@ -190,6 +224,15 @@ class JointPortfolioTests(unittest.TestCase):
         row["exit_msc"]+=1000*HOUR
         row["exit_price_units"]=999999
         self.assertEqual(account.reserve_floor([row],0,10,0),expected)
+
+class ValidationScopeTests(unittest.TestCase):
+    def test_2024_signal_generation_requires_a_frozen_cell_whitelist(self):
+        with self.assertRaisesRegex(ValueError,"whitelist"):
+            candidates([],"EURUSD",first=stamp("2024-01-01"),end=stamp("2025-01-01"))
+        with self.assertRaisesRegex(ValueError,"registered_atlas_window"):
+            candidates([],"EURUSD",first=stamp("2025-01-01"),end=stamp("2026-01-01"))
+        with self.assertRaisesRegex(ValueError,"excludes_2025_2026"):
+            price_scope(stamp("2026-01-01"))
 
 
 if __name__ == "__main__":

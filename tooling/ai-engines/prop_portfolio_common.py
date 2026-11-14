@@ -2,6 +2,8 @@
 from datetime import datetime, timezone
 import json
 from pathlib import Path
+import hashlib
+import subprocess
 
 from prop_campaign_source import ROOT, START, END, FINAL, HOUR, DAY, read, write_json, digest
 
@@ -29,3 +31,8 @@ def price_scope(cutoff):
     release = read(JOB / "validation-release.json")
     if release["decision_sha256"] != digest(DECISION):
         raise ValueError("V3_validation_before_committed_composition")
+    committed = subprocess.check_output([
+        "git", "show", release["decision_commit"] + ":" + DECISION.as_posix()
+    ])
+    if hashlib.sha256(committed).hexdigest() != release["decision_sha256"]:
+        raise ValueError("V3_validation_decision_not_committed")
