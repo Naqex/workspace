@@ -1,6 +1,8 @@
 from pathlib import Path
 import sys
 import unittest
+import hashlib
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from prop_campaign_accounts import Account
@@ -226,6 +228,20 @@ class JointPortfolioTests(unittest.TestCase):
         self.assertEqual(account.reserve_floor([row],0,10,0),expected)
 
 class ValidationScopeTests(unittest.TestCase):
+    def test_git_line_endings_do_not_bypass_semantic_decision_binding(self):
+        committed=b'{"core":"A"}\n'
+        release=dict(decision_sha256="working",decision_commit="fixture",
+                     committed_decision_sha256=hashlib.sha256(committed).hexdigest())
+        for current,valid in (({"core":"A"},True),({"core":"B"},False)):
+            with patch("prop_portfolio_common.read",side_effect=[release,current]), \
+                    patch("prop_portfolio_common.digest",return_value="working"), \
+                    patch("prop_portfolio_common.subprocess.check_output",return_value=committed):
+                if valid:
+                    self.assertIsNone(price_scope(stamp("2025-01-01")))
+                else:
+                    with self.assertRaisesRegex(ValueError,"decision_not_committed"):
+                        price_scope(stamp("2025-01-01"))
+
     def test_2024_signal_generation_requires_a_frozen_cell_whitelist(self):
         with self.assertRaisesRegex(ValueError,"whitelist"):
             candidates([],"EURUSD",first=stamp("2024-01-01"),end=stamp("2025-01-01"))

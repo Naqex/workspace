@@ -34,5 +34,6 @@ def price_scope(cutoff):
     committed = subprocess.check_output([
         "git", "show", release["decision_commit"] + ":" + DECISION.as_posix()
     ])
-    if hashlib.sha256(committed).hexdigest() != release["decision_sha256"]:
+    if (hashlib.sha256(committed).hexdigest() != release["committed_decision_sha256"]
+            or json.loads(committed) != read(DECISION)):
         raise ValueError("V3_validation_decision_not_committed")

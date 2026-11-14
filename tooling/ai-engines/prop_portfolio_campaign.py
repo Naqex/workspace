@@ -2,6 +2,8 @@
 from datetime import datetime, timezone
 from pathlib import Path
 import subprocess
+import hashlib
+import json
 
 from prop_campaign_source import Prices, PARENT, CALENDAR, stamp
 from prop_atlas_scan import candidates
@@ -51,7 +53,7 @@ def freeze():
 def release():
     head = subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip()
     content = subprocess.check_output(["git","show",head+":"+DECISION.as_posix()])
-    if content != DECISION.read_bytes():
+    if json.loads(content) != read(DECISION):
         raise ValueError("decision_must_be_committed_before_validation")
     decision = read(DECISION)
     for pin in decision["code_and_rules"]:
@@ -59,6 +61,7 @@ def release():
             raise ValueError("code_or_rules_changed_after_freeze:"+pin["path"])
     write_json(JOB / "validation-release.json",dict(
         decision_commit=head,decision_sha256=digest(DECISION),
+        committed_decision_sha256=hashlib.sha256(content).hexdigest(),
         utc=datetime.now(timezone.utc).isoformat(),cutoff=FINAL,no2025_2026=True,
     ))
     event("validation_released",decision_commit=head)

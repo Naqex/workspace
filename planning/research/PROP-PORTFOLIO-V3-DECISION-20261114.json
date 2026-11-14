@@ -4,7 +4,7 @@
   "satellites": [
     "EURUSD.SWEEP.ASIA.LONDON.DAY"
   ],
-  "utc": "2026-11-14T16:02:27.180584+00:00",
+  "utc": "2026-11-14T16:05:19.216594+00:00",
   "selection_end_exclusive": 1704067200000,
   "development": "2022-2023 only",
   "validation": "2024 already exposed",
@@ -59,11 +59,11 @@
     },
     {
       "path": "tooling/ai-engines/prop_portfolio_campaign.py",
-      "sha256": "6daada9e717524af06a467030c65457c936af80a5127f163b8da57504e259c5b"
+      "sha256": "15556d73e4f92fc0d45b37e5cf6a5aecefb137e0390d487f35df7537d96eae9b"
     },
     {
       "path": "tooling/ai-engines/prop_portfolio_common.py",
-      "sha256": "541c5066704a16b21f3885ec3a0a595ab0699f86b6d102b920c3986830100cf5"
+      "sha256": "0630ca9bde0b8bcbb401aa297a3fbfab63a2358ee2bab9e14c41949175d78084"
     },
     {
       "path": "tooling/ai-engines/prop_portfolio_confirm.py",
