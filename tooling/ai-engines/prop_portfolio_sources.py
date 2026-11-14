@@ -140,7 +140,8 @@ def prepare_gold():
             i = int(rows["t"].searchsorted(patch["at"]))
             if rows["t"][i] != patch["at"]:
                 raise ValueError("Gold_patch_minute")
-            rows[i][["bo", "bh", "bl", "bc"]] = tuple(patch["corrected"])
+            for name, value in zip(("bo", "bh", "bl", "bc"), patch["corrected"]):
+                rows[name][i] = value
     path = JOB / "XAUUSD-dev-m1.bin"
     rows.tofile(path)
     write_json(JOB / "XAUUSD-dev-m1-source.json", dict(

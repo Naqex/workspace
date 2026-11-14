@@ -8,6 +8,7 @@ from prop_campaign_source import HOUR, stamp
 from prop_campaign_source import DAY
 from prop_portfolio_regime import states, weight_at
 from prop_portfolio_sources import deadline, merge_bars, BAR
+from prop_portfolio_scan import realize, net_values, corr
 import numpy as np
 
 
@@ -85,6 +86,30 @@ class SourceClockTests(unittest.TestCase):
         rows=merge_bars([one,two])
         self.assertEqual(len(rows),1)
         self.assertEqual(tuple(rows[0]),(1000,10,15,8,13,11,16,9,14))
+
+class NaturalPathTests(unittest.TestCase):
+    def test_stop_gap_uses_adverse_open_and_ignores_gaps_after_exit(self):
+        at=stamp("2023-06-20T08:00:00")
+        end=stamp("2023-06-20T20:30:00")
+        bars=np.array([
+            (at,110000,110100,109900,110020,110010,110110,109910,110030),
+            (at+60000,109700,109800,109650,109750,109710,109810,109660,109760),
+            (end,110000,110100,109900,110020,110010,110110,109910,110030),
+        ],dtype=BAR)
+        row=dict(id="fixture",asset="EURUSD",side="BUY",day="2023-06-20",
+                 decision_msc=at,stop_units=109800,horizon="DAY")
+        record,path=realize(row,bars)
+        self.assertEqual(record["exit_price_units"],109700)
+        self.assertEqual(record["reason"],"SL_M1")
+        self.assertTrue(record["source_path_complete"])
+        self.assertEqual(len(path),2)
+
+    def test_fx_bid_ask_gross_is_not_charged_spread_twice(self):
+        at=stamp("2023-06-20T08:00:00")
+        result=net_values("EURUSD","BUY",110010,np.array([110110]),
+                          np.array([at+12*HOUR]),at,"ASYM_FLAT")
+        self.assertAlmostEqual(float(result[0]),0.00091)
+        self.assertIsNone(corr({"2022-01-03":0.},{"2022-01-03":1.}))
 
 
 if __name__ == "__main__":

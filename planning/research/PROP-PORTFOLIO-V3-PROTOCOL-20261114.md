@@ -155,3 +155,7 @@ equity bounds. Thus "priceable" means this declared M1 source model, never
 unconditional exact tick equity or verified FTMO execution. Gold bid-only
 M1 cannot certify SELL ask triggers; require admitted paired ticks there.
 H1-only GBPUSD/AUDUSD remain conditional and ineligible without M1/tick paths.
+Reference lot grids in this screen: Gold one ounce, FX 1,000 base units
+(0.01 lot), US500 one index contract under the legacy multiplier-one model.
+US500 target lot/margin specifications remain unverified. Report priceable
+source-model outcomes separately from broker/prop qualification.
