@@ -5,6 +5,8 @@ import unittest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from prop_campaign_accounts import Account
 from prop_campaign_source import HOUR, stamp
+from prop_campaign_source import DAY
+from prop_portfolio_regime import states, weight_at
 
 
 def trade():
@@ -44,6 +46,27 @@ class FundingReserveTests(unittest.TestCase):
         for deadline in (None, row["entry_msc"] - 1, "tomorrow"):
             with self.assertRaisesRegex(ValueError, "prelocked_funding_horizon"):
                 account.reserve_floor([dict(row, deadline_msc=deadline)], 0, 10, 0)
+
+class DailyRegimeTests(unittest.TestCase):
+    def test_future_daily_closes_do_not_change_earlier_weight(self):
+        start = stamp("2021-01-01")
+        rows = [dict(day=start+i*DAY,minutes=1440,close=2000000+i*100)
+                for i in range(70)]
+        at = start+60*DAY+8*HOUR
+        old = weight_at(states(rows[:60]),at,"SELL")
+        later = weight_at(states(rows),at,"SELL")
+        self.assertEqual(old,later)
+        self.assertEqual(old[0],0.5)
+        self.assertLess(old[1]["known_at"],at)
+
+    def test_partial_day_cannot_become_a_full_d1_close(self):
+        start = stamp("2021-01-01")
+        rows = [dict(day=start+i*DAY,minutes=1440,close=2000000+i*100)
+                for i in range(60)]
+        baseline=states(rows)
+        rows.append(dict(day=start+60*DAY,minutes=720,close=9999999))
+        self.assertEqual(states(rows),baseline)
+        self.assertEqual(weight_at(baseline,start+70*DAY,"SELL"),(None,None))
 
 
 if __name__ == "__main__":
