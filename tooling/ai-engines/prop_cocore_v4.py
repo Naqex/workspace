@@ -132,6 +132,9 @@ def inputs(validation=False):
         for pin in read(DECISION)["code_and_rules"]:
             if digest(pin["path"]) != pin["sha256"]:
                 raise ValueError("V4_frozen_code_changed:" + pin["path"])
+        for pin in read(DECISION)["input_pins"]:
+            if digest(pin["path"]) != pin["sha256"]:
+                raise ValueError("V4_frozen_input_changed:" + pin["path"])
         trades = read(V3 / "system-trades.json")
         gold = read(PARENT / "attempt-2/binary-manifest.json")
         eur = read(V3 / "system-eur-manifest.json")
@@ -183,7 +186,8 @@ def freeze():
         raise ValueError("third_sleeve_requires_admitted_native_adapter")
     files = list(Path("tooling/ai-engines").glob("prop_cocore_*.py")) + [
         Path("tooling/ai-engines/prop_campaign_accounts.py"),
-        Path("tooling/ai-engines/prop_portfolio_accounts.py"), PROTOCOL]
+        Path("tooling/ai-engines/prop_portfolio_accounts.py"),
+        Path("tooling/ai-engines/prop_portfolio_review.py"), PROTOCOL]
     decision = dict(
         schema="PROP-COCORE-V4-COMPOSITION-v1",
         utc=datetime.now(timezone.utc).isoformat(),
@@ -195,6 +199,7 @@ def freeze():
         reward_proxy=dict(min_profit_usd=20, trader_share=.8,
                           debit_share=1, administrative_delay_days=0),
         development=read(JOB / "risk-decision.json"),
+        development_accounts_sha256=digest(JOB / "development-accounts.json"),
         third_audit_sha256=digest(JOB / "third-sleeve-audit.json"),
         code_and_rules=[dict(path=p.as_posix(), sha256=digest(p)) for p in sorted(files)],
         input_pins=[dict(path=str(p), sha256=digest(p)) for p in (
@@ -226,11 +231,25 @@ def validation():
         for model in MODELS for days in (14, 30)
         for year in (2022, 2023, 2024) for month in range(1, 13)]
     diagnostics = [
-        MeasuredAccount(stamp(start), end, "ASYM_FLAT", rolling=True)
-        for start in ("2022-01-01", "2022-02-01")]
+        MeasuredAccount(stamp(f"{year}-{month:02d}-01"), end, model, rolling=True)
+        for model in MODELS for year in (2022, 2023, 2024) for month in range(1, 13)]
     rows = replay(trades, readers, accounts + diagnostics, end=end, progress=event)
     write_json(JOB / "validation-accounts.json", rows[:144])
-    write_json(JOB / "v3-funded-paths.json", rows[144:])
+    old_rows = rows[144:]
+    for model in MODELS:
+        archived = read(V3 / f"lifecycle-{model}-PORTFOLIO.json")
+        reproduced = [r for r in old_rows if r["cell"] == model]
+        for a, b in zip(archived, reproduced):
+            for key in ("accepted", "closed", "rejections", "balance_usd",
+                        "peak_dd_pct", "worst_daily_loss_pct", "static_loss_pct",
+                        "phase_passes", "payouts"):
+                if a[key] != b[key]:
+                    raise ValueError("V3_default_regression:" + key)
+    write_json(JOB / "v3-reproduced-accounts.json", old_rows)
+    write_json(JOB / "v3-default-parity.json", dict(
+        status="PASS", accounts=72, exact_cash_dd_decisions_and_lifecycle=True))
+    write_json(JOB / "v3-funded-paths.json", [
+        r for r in old_rows if r["cell"] == "ASYM_FLAT" and len(r["phase_passes"]) == 2])
     eur = [t for t in trades if t["asset"] == "EURUSD"]
     a = CoCoreAccount(stamp("2024-01-01"), end, "SYM_FLAT", fixed_risk=150)
     write_json(JOB / "eur-validation-book.json", replay(eur, readers, [a], end=end))

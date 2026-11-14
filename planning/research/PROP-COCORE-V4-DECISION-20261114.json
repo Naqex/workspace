@@ -1,0 +1,97 @@
+{
+  "schema": "PROP-COCORE-V4-COMPOSITION-v1",
+  "utc": "2026-11-14T17:07:37.226486+00:00",
+  "core": [
+    "XAUUSD.A_Original",
+    "EURUSD.SWEEP.ASIA.LONDON.DAY"
+  ],
+  "third_sleeve": [],
+  "risk_usd": [
+    200,
+    175,
+    125
+  ],
+  "open_cap_usd": 800,
+  "internal_floor_usd": 46000,
+  "throttle_equity_usd": [
+    48000,
+    47000
+  ],
+  "throttle_risk_caps_usd": [
+    150,
+    90
+  ],
+  "daily_halt_usd": 1000,
+  "reward_days": [
+    14,
+    30
+  ],
+  "reward_primary_days": 14,
+  "reward_proxy": {
+    "min_profit_usd": 20,
+    "trader_share": 0.8,
+    "debit_share": 1,
+    "administrative_delay_days": 0
+  },
+  "development": {
+    "eligible": true,
+    "trial_count": 1,
+    "years": [
+      2022,
+      2023
+    ],
+    "worst_static_pct": 7.9359,
+    "worst_daily_pct": 1.34082,
+    "rule": "sole equal-risk policy; no retuning after outcomes"
+  },
+  "development_accounts_sha256": "48b05bba70782547bdbb3ae3de584accdd9302a85cffb9925204ae2340391f5a",
+  "third_audit_sha256": "b8dc91bce97d5a3c539bef73e214163d80bc1aa8c30fc09a96b7e031e6a230d3",
+  "code_and_rules": [
+    {
+      "path": "planning/research/PROP-COCORE-V4-PROTOCOL-20261114.md",
+      "sha256": "4173d12065927427a934b50f86dcfcaa45dfea1d807d16fa9a5dc4e1ab9f8a68"
+    },
+    {
+      "path": "tooling/ai-engines/prop_campaign_accounts.py",
+      "sha256": "2cc14ee74557980f05f71dce0089416f617c415acad5eb783c23f3ea6507c559"
+    },
+    {
+      "path": "tooling/ai-engines/prop_cocore_audit.py",
+      "sha256": "f73e72be2b2a6d2d65bb73b5aff7246ee85b7680f4bd8ae1760b2677876d07cf"
+    },
+    {
+      "path": "tooling/ai-engines/prop_cocore_review.py",
+      "sha256": "435d8e7fc98c695f1050bafe6c0ad29be5f583ca07732ea38d077a0336a70bf4"
+    },
+    {
+      "path": "tooling/ai-engines/prop_cocore_v4.py",
+      "sha256": "4a65f99e61bebae1b115471c3b4cb5f8e3430cead6ee7ce128e59bbd6c740d12"
+    },
+    {
+      "path": "tooling/ai-engines/prop_portfolio_accounts.py",
+      "sha256": "dd1542edecf77c471a15832b2894c98176e8cd542bfa78ebf96b3fd142f853cb"
+    },
+    {
+      "path": "tooling/ai-engines/prop_portfolio_review.py",
+      "sha256": "62b8c124396c68d6f2271ff18d2a142d5441374648ba6076474631f9eddeec02"
+    }
+  ],
+  "input_pins": [
+    {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\prop-portfolio-v3-20261114\\system-trades.json",
+      "sha256": "12c8f9d53fdc8032f943b9f8aafd4cf105385f8689cd1eafb54db91e9480ec98"
+    },
+    {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\prop-portfolio-v3-20261114\\system-eur-manifest.json",
+      "sha256": "dd05e29d83c5d3595efef4c4af6d8445eb7aab8cb563b6590c588ae34a16babb"
+    },
+    {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\xauusd-a-validation-20261114\\attempt-2\\binary-manifest.json",
+      "sha256": "300a159557fcfeebabcfd181ff6fa9406bdeb8a03d0ca64bfe6471c2ecf703e5"
+    }
+  ],
+  "selection": "2022-2023",
+  "historical_validation": "2024 already exposed",
+  "prices2024_used_for_selection": false,
+  "prices2025_2026_read": false
+}

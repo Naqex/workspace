@@ -65,8 +65,10 @@ rules differ from 1-Step. No challenge fee/retry/tax/cash injection.
 Commit code/rules/composition before new 2024 price traversal. Validate
 36 starts x 2 swaps x 2 reward schedules =144 V4 accounts; one joint traversal.
 Add bounded diagnostic accounts: EUR fixed-$150 annual/combined books and
-the two archived V3 funded paths. V3 rejections/throttles are extracted from
-archived full ledgers; diagnostics must reproduce V3 cash/DD/pass dates.
+all 72 archived V3 portfolio accounts, including the two shared funded paths.
+Accepted/throttled orders are extracted from archived ledgers; rejection
+reasons by asset require reproduction because V3 saved only aggregate rejects.
+The reproduced defaults must match archived V3 cash/DD/decisions/pass dates.
 Report five requested comparison columns, plus the reward-schedule comparison.
 Overlapping starts and shared funded paths are not independent pass estimates.
 
