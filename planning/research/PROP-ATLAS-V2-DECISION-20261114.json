@@ -1,0 +1,15 @@
+{
+  "core": "A0",
+  "sleeves": [],
+  "stage1_status": "NOT_RUN_NO_STAGE0_SURVIVORS",
+  "correlation": null,
+  "utc": "2026-11-14T14:30:16.270446+00:00",
+  "selection_cutoff": 1704067200000,
+  "atlas_sha256": "51fa6f5ff7aeea47ab1099b0a98a9a74c1832d75a41c768a0dcb0725f57b2d7f",
+  "core_decision_sha256": "77ef713df5ee2a8a7531bb7084ec952c2e945f830748eeb87cc43f5153e2195a",
+  "source_resolution_sha256": "2fd44c2509b6925d9461044508a8bd71355936460e1d94ee938e144a6c966c0b",
+  "policy_sha256": "c79e2454f663f251a3066c0342f1d8b5412b01f932ad225b7e3749930f95b230",
+  "protocol_sha256": "638a8c3d80dad2fcb7815e6dddebdd619a2ca2a223ef68d89cf4af6f956cefb3",
+  "prices2024_used_in_selection": false,
+  "prices2025_2026_read": false
+}

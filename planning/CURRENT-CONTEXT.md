@@ -1,8 +1,35 @@
 # Current context — Naqex Workspace
 
-14/11/2026 · `RESEARCH: PROP_CAMPAIGN_COMPLETE_NOT_CHALLENGE_READY · REVIEW: COMPUTATIONAL_PARITY_PASSED · DOC: RESUMABLE`.
+14/11/2026 · `RESEARCH: PROP_ATLAS_V2_COMPLETE_NOT_QUALIFIED · REVIEW: NUMERICAL_PASS_SAME_IMPLEMENTER · DOC: COMPLETE`.
 
 ## Việc hiện tại
+
+**V2 đã hoàn tất phép đo, chưa đủ điều kiện Challenge:**
+[báo cáo](research/PROP-ATLAS-V2-RESULTS-20261114.md) /
+[JSON](research/PROP-ATLAS-V2-RESULTS-20261114.json) /
+[quyết định đã khóa](research/PROP-ATLAS-V2-DECISION-20261114.json) /
+[protocol](research/PROP-ATLAS-V2-PROTOCOL-20261114.md).
+PR #79 đã merge `a42fb9f`, nhánh cũ đã xóa. Nhánh giao V2:
+`codex/prop-stage0-atlas-v2`; private job `execution-v1/prop-atlas-v2-20261114`.
+
+2024 BUY +14,689R / SELL −12,044R; 13 tài khoản cũ vòng 2 đều hết dữ liệu,
+không vi phạm DD. CA1/CA2 không đạt đủ cổng Development, giữ A0.
+Atlas 112 cấu hình / 5 tài sản: 84 đủ endpoint nhưng không qua cổng, 28 còn
+thiếu endpoint; 0 sleeve. Stage-1/correlation N/A, không dựng portfolio giả.
+Risk v2 trên 36 mốc tháng/mô hình: SYM qua vòng 1 2/36, ASYM 5/36;
+không hoàn tất hai vòng, không payout. Worst static 6,157% / 6,083%,
+worst daily 1,071% / 0,979%. Cổng dự trữ 7% chặn 0 lệnh.
+
+176 tests và bốn đối soát số học đạt, gồm 72 tài khoản; cùng implementer,
+không gọi là review độc lập bởi agent khác. Cổng dự trữ kế thừa dùng exit
+đã biết cho funding; kiểm lại bằng deadline khóa trước không đổi admissions,
+nhưng helper chưa đạt nhân quả cho vận hành. Decision JSON khóa private trước
+replay, chỉ commit lúc báo cáo: sai lệch yêu cầu commit trước Phase 3 được ghi rõ.
+Giữ A0 làm benchmark, chưa đủ Challenge/thu nhập chính. Năm 2024 đã exposed,
+chỉ Historical Validation; không mở giá 2025–2026, broker/model/paid.
+Giữ WIP VI Dubber; không tự merge PR V2, gửi Astra hoặc mở chiến dịch mới.
+
+## Chiến dịch V1 đã hoàn tất
 
 **Chiến dịch exit → sleeves → phase-aware36monthlystarts đã hoàn tất:**
 [báo cáo duy nhất](research/PROP-QUALIFICATION-CAMPAIGN-RESULTS-20261114.md) /

@@ -1,5 +1,20 @@
 # Tra cứu research đã có
 
+**Hiện tại — V2 hoàn tất, chưa đủ điều kiện Challenge:**
+[Báo cáo](PROP-ATLAS-V2-RESULTS-20261114.md) /
+[JSON](PROP-ATLAS-V2-RESULTS-20261114.json) /
+[quyết định](PROP-ATLAS-V2-DECISION-20261114.json) /
+[protocol](PROP-ATLAS-V2-PROTOCOL-20261114.md).
+2024 BUY +14,689R / SELL −12,044R; 13 tài khoản vòng 2 cũ đều hết dữ liệu.
+Giữ A0; Atlas 112 cấu hình / 5 tài sản có 84 đủ endpoint, 28 chưa đủ,
+0 sleeve; Stage-1/correlation N/A. Risk v2 qua vòng 1 2/36 SYM, 5/36 ASYM;
+0 hoàn tất hai vòng / payout; worst static 6,157% / 6,083%.
+176 tests, đối soát 72 tài khoản đạt. Báo cáo ghi rõ reserve funding chưa causal
+(kiểm deadline không đổi admissions) và decision chỉ commit sau replay dù đã
+freeze private trước. Không clean OOS mới; giữ giá 2025–2026 đóng.
+PR #79 đã merge `a42fb9f`; job `prop-atlas-v2-20261114`,
+nhánh `codex/prop-stage0-atlas-v2`. Không tự merge PR V2 hoặc mở nghiên cứu mới.
+
 **Hiện tại — exit/sleeves/phase-aware campaign hoàn tất, chưa Challenge-ready:**
 [Báo cáo](PROP-QUALIFICATION-CAMPAIGN-RESULTS-20261114.md) /
 [JSON](PROP-QUALIFICATION-CAMPAIGN-RESULTS-20261114.json) /

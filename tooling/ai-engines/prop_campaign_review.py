@@ -42,9 +42,10 @@ def oracle(trades,accepted,passes,payouts,reader,start,end,cell):
         d+=timedelta(days=1)
     keys=sorted(k for k in actions if start<=k[0]<end);cursor=0;open_ids=set()
     cash=anchor=peak=CAP;dd=daily=static=0;last=None;breach=None;marks=0
+    max_equity=max_balance=max_flat=CAP
     bridge=[];qbuy=qsell=basis=0
     def measure(values,times):
-        nonlocal peak,dd,daily,static,breach,marks
+        nonlocal peak,dd,daily,static,breach,marks,max_equity
         if len(values)==0 or breach:return
         eq=values+cash
         bad=np.flatnonzero(eq<max(anchor-2500000,45000000))
@@ -52,10 +53,15 @@ def oracle(trades,accepted,passes,payouts,reader,start,end,cell):
             n=int(bad[0]);breach=dict(at=int(times[n]),equity=int(eq[n]))
             eq=eq[:n+1]
         running=np.maximum.accumulate(np.r_[peak,eq])
+        max_equity=max(max_equity,int(eq.max()))
         dd=max(dd,int((running[1:]-eq).max()));peak=int(running[-1])
         daily=max(daily,anchor-int(eq.min()));static=max(static,CAP-int(eq.min()))
         marks+=len(eq)
     def point(clock=None):
+        nonlocal max_balance,max_flat
+        realized=cash+sum(sizes[k]*200-funding_open[k] for k in open_ids)
+        max_balance=max(max_balance,realized)
+        if not open_ids:max_flat=max(max_flat,cash)
         if last is not None:
             v=qbuy*last[1]-qsell*last[2]-basis
             measure(np.array([v],dtype='int64'),np.array([last[0] if clock is None else clock],dtype='int64'))
@@ -108,7 +114,8 @@ def oracle(trades,accepted,passes,payouts,reader,start,end,cell):
         if breach:break
         segment(j,len(a))
     return dict(dd=dd,daily=daily,static=static,breach=breach,cash=cash,
-        marks=marks,phase_bridges=bridge,open_ids=sorted(open_ids))
+        marks=marks,phase_bridges=bridge,open_ids=sorted(open_ids),
+        max_equity=max_equity,max_realized_balance=max_balance,max_flat_balance=max_flat)
 
 
 def run():
