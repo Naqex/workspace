@@ -1,9 +1,38 @@
 # Current context — Naqex Workspace
 
-13/11/2026 · `RESEARCH: STAGE0_COMPLETE_LEADS_ONLY · REVIEW: SCOPED · DOC: RESUMABLE`.
+14/11/2026 · `RESEARCH: H1_EXECUTION_COMPLETE_A_LEAD_ONLY · REVIEW: SCOPED · DOC: RESUMABLE`.
 
 ## Việc hiện tại
 
+**Đã hoàn tất kiểm đường giá H1 theo owner:** PR76 merged `7ab3311`, nhánh cũ đã xóa.
+[Protocol](research/XAUUSD-H1-EXECUTION-PROTOCOL-20261113.md) /
+[báo cáo](research/XAUUSD-H1-EXECUTION-RESULTS-20261113.md) /
+[JSON](research/XAUUSD-H1-EXECUTION-RESULTS-20261113.json).
+Giữ A BOTH/noTP làm lead nghiên cứu: SYM_FLAT+7,510/+13,122R và
+ASYM_ORDER+9,421/+15,789R ở2022/2023; năm2023 chỉ106/107 đã định giá.
+A TP2R và C đều âm2022; gác, không tự vá exit/filter hoặc chọn SELL-only.
+A SELL đóng góp chính, nhưng top5 A/noTP tạo29,83/31,57R; phần còn lại âm.
+Chưa candidatechallenge: calendar/news/targetspec/margin/phase/payout chưa qualified.
+
+Owner chốt48giờ **lịch**, clampFriday20:30UTC; chỉDevelopment2022–23,
+giá2024–26 đóng. Endpoint601/608 (restored224/231); SL-active710/712cases,
+1signal A BUY24Nov2023 chưa có giá đóng cho cả2policies. Không impute/moveMonday.
+55.662.238ticks/416.710M1OHLC khớp,0admittedM1 thiếu tick trongrequestedhours.
+18fixtures+12Stage0regressions,712passage/2.840Fractionbridges và16books×2cells
+integerDD/daily selfaudit đạt; không independent/ASTRA review hoặc broker/Goal.
+R0$150/$50k, commonquantity, synchronizedbooks. Resetbalance đã tách open entry
+slip/swap khỏi realized balance; TPzero-adverse chỉ scenario, không FTMO guarantee.
+
+Branch `codex/xauusd-execution-path`, [PR77](https://github.com/Naqex/workspace/pull/77),
+chưa được giao merge. Privatejob `execution-v1/xauusd-h1-execution-20261113`
+trong E: jobroot: `driver-v2-status.json` completed_self_audit;
+`registration-v2.json`/`source-snapshot-v2`/`attempt-2` là source/evidence hiện tại.
+Attempt1 cancelled trong source review trước PnL; giữ snapshot/failure/receipt,
+không tải lại raw. Không còn numericalwriter. Bước đề xuất (chưa chạy):
+calendar nghỉ lễ + profile account cho A gốc, xử lý1unknownexit; sau đó mới
+xem protocol validation/risk/prop. Không mởholdout/biếnthể tự động.
+
+**Parent đã hoàn thành — không thay kết luận cũ:**
 **Lượt mới được owner mở:** [XAUUSD H1 Stage-0](research/XAUUSD-H1-STAGE0-PROTOCOL-20261113.md),
 3 recipe cố định (Asian breakout/H4-trend H1 reclaim/momentum), BUY/BOTH views.
 [Kết quả](research/XAUUSD-H1-STAGE0-RESULTS-20261113.md) /
@@ -19,7 +48,7 @@ Job `execution-v1/xauusd-h1-stage0-20261113/attempt-2` completed;19.722.614ticks
 114.803M1OHLC khớp sau1M1openrevision, H1/H4 và608signals identical.
 Giữfailedattempt1/snapshotv1; registration-v2/snapshotv2 vàFractionselfaudit
 1.976markouts/608entries/48summarygroups đạt;12fixtures+11regressions+2guards.
-Branch `codex/xauusd-h1-stage-zero`; chưa auto đổiprimary/SL/risk hoặc mởholdout.
+PR76 đã merge/xóa branch; verdict primary cũ giữ nguyên, follow-up ở bằng chứng mới bên trên.
 Đây là campaign mới được giao, không phục hồi các B1 đã hủy hoặc tự bật Goal.
 
 **Chiến dịch cũ đã đóng theo owner:** [STRATEGY-E2E](research/CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md).

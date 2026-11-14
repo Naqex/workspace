@@ -6,7 +6,7 @@ const {requestWithRecovery,checkResearchWindow}=require('./dukascopy_cached_m1.c
 const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
 const source=process.argv[2],out=path.resolve(process.argv[3]);
 const census=JSON.parse(fs.readFileSync(source,'utf8'));
-const diagnostic=['XAU-A0-scale-horizon-census-v1','XAU-H1-stage0-census-v1'].includes(census.schema);
+const diagnostic=['XAU-A0-scale-horizon-census-v1','XAU-H1-stage0-census-v1','XAU-H1-execution-census-v1'].includes(census.schema);
 const scopeStart=Date.parse('2022-01-01T00:00:00Z');
 const scopeEnd=Date.parse(diagnostic?'2024-01-01T00:00:00Z':'2025-01-01T00:00:00Z');
 const reused=new Map((diagnostic?census.reused_hours:[]).map(r=>[r.at,r]));

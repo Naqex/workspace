@@ -1,6 +1,17 @@
 # Tra cứu research đã có
 
-**Hiện tại — campaign mới XAUUSD H1 Stage-0:** [Protocol](XAUUSD-H1-STAGE0-PROTOCOL-20261113.md).
+**Hiện tại — H1 execution-aware đã hoàn tất:**
+[Protocol](XAUUSD-H1-EXECUTION-PROTOCOL-20261113.md) /
+[báo cáo](XAUUSD-H1-EXECUTION-RESULTS-20261113.md) /
+[JSON](XAUUSD-H1-EXECUTION-RESULTS-20261113.json), [PR77](https://github.com/Naqex/workspace/pull/77).
+PR76 đã merge;48giờlịch/Friday20:30, chỉ2022–23, giữ đónggiá2024–26.
+Giữ A BOTH/noTP làm lead: SYM_FLAT+7,510/+13,122R và ASYM_ORDER+9,421/+15,789R;
+2023chỉ106/107địnhgiá, chưafullcohort/propqualified. C và TP2R fail2022.
+Endpoint601/608,710/712SL-activecases;55.662.238ticks/416.710M1 khớp;
+712paths/2.840costbridges/16books×2cells selfaudit đạt. Calendar/news/targetspec,
+concentration và unknownA24Nov2023 còn chặn; không tự mởholdout hoặc vá exit.
+
+**Parent — XAUUSD H1 Stage-0 đã hoàn tất:** [Protocol](XAUUSD-H1-STAGE0-PROTOCOL-20261113.md).
 Owner giao3baseline, BUY/BOTH, chỉDevelopment2022–23; fixed4/8/24/48h có
 commission/spread/slip/funding. [Kết quả](XAUUSD-H1-STAGE0-RESULTS-20261113.md) /
 [JSON](XAUUSD-H1-STAGE0-RESULTS-20261113.json): leadA/BOTH48h +1,767/+1,326USD/oz,

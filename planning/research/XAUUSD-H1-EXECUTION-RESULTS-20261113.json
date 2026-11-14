@@ -1,0 +1,2406 @@
+{
+  "schema": "XAU-H1-execution-dossier-v2",
+  "opened_date": "2026-11-13",
+  "report_date_local": "2026-11-14",
+  "protocol": "XAUUSD-H1-EXECUTION-PROTOCOL-20261113.md",
+  "parent_PR": 76,
+  "parent_merge": "7ab3311b05e36f8497ccb3419b06800e5eecec97",
+  "implementation_commit": "60cd76c",
+  "raw_configuration": {
+    "workspace": "D:\\ANNAM\\TradingWorkspace",
+    "output": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\xauusd-h1-execution-20261113\\attempt-2",
+    "pins": {
+      "planning/research/XAUUSD-H1-EXECUTION-PROTOCOL-20261113.md": "6d9432310b41f64237ecb7ea99833179850878d9feec73bed0ab9b2fcf42f6f0",
+      "tooling/ai-engines/xau_h1_execution.py": "1928a727c5f4220f9bac42f1234149826cf188652c06b72c6423bd05331ea6c0",
+      "tooling/ai-engines/xau_h1_execution_prepare.py": "80b7555a2643a976bbe84ab27b739aa8562b60942ad0cced5501e681f6578be8",
+      "tooling/ai-engines/xau_h1_execution_review.py": "56fc797952e6727c885c8556a83952a794f472aa2e37a6614c046c062c23144a",
+      "tooling/ai-engines/xau_h1_stage0_source.py": "73493b81e9a66f885d6cb1358bf0c24523eea1c3e1d1688e97e01fc434144988",
+      "tooling/ai-engines/xau_h1_stage0_scan.py": "f1cfbd1e6e6d3ae0b8340cdce91d002125ad28ce977483b4ef4a36767c1d202e",
+      "tooling/ai-engines/xau_intraday_source.py": "0c62efd56f724069c9c73505850b36da1428bcdc7aa8259c7e0ed8d2cbf7b084",
+      "tooling/ai-engines/xau_scale_horizon_audit.py": "65838be80436d98a526c9c64d7e40588e4dc3f8a77bd4be3c10c3ee093d9a4b4",
+      "tooling/ai-engines/eurusd_b0.py": "a95ce591f70fbbf74cd6819d424ae371d840951b59527616ff8676b126d77e05",
+      "tooling/ai-engines/eurusd_b0_source.py": "3a97f6415a9e540416ba67eec5224a67cbcdd1346cc408e764c5b5a5367567d2",
+      "tooling/ai-engines/index_tick_review.py": "0a4c001b5f76e3d360592747c021879516fe0239357c6cb3e43532ce7df2ff46",
+      "tooling/ai-engines/candle_source_provenance.py": "85ed9f1fd725b27a0dd4a03f62dd0555761f43fd23c6ec6ef714f14604702fe1"
+    },
+    "measurements": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\xauusd-h1-stage0-20261113\\attempt-2\\measurements.json",
+    "measurements_sha256": "6ce426b50b4f15cbc31bf45a7d311ac196aa732cdef28d5a4dab5e64485e85b7",
+    "cache": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gold-continuous-B2-20261113-v1\\source-cache",
+    "source_correction": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\xauusd-h1-stage0-20261113\\source-correction-v1.json",
+    "census": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\xauusd-h1-execution-20261113\\census.json",
+    "census_sha256": "d7983650bd7192c68efea713077ac07530cf7483a1411dabce2b04fb2b8229c1",
+    "tick_source": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\xauusd-h1-execution-20261113\\tick-source-v1\\result.json",
+    "parent_commit": "bfd98ee8c829ebb7e9bb7ef88db3f024e865ce37",
+    "code_commit": "60cd76c",
+    "horizon": "48_CALENDAR_HOURS_FRIDAY_2030_UTC",
+    "risk_R0_usd": 150,
+    "initial_usd": 50000,
+    "swap_scenarios": {
+      "SYM": [
+        -40,
+        -40
+      ],
+      "ASYM": [
+        -45,
+        -5
+      ]
+    },
+    "TP2R_limit_adverse_slippage_proxy_only": true,
+    "scope_start": 1640995200000,
+    "scope_end_exclusive": 1704067200000,
+    "tick_source_sha256": "d18b95bee7c5eb5e080ee51d5f5056374a2bb73aa29b002cbcb52c623fb85e12",
+    "source_correction_sha256": "493e059c661269a1b65b89a2e5910bd07795e8fc37529fea4b1b828f7e9fa059",
+    "cache_manifest_sha256": "5a5a23cbe71d63164da20b81496103278de16d11087bbbe1062183b8b05b2cd7",
+    "corrects_attempt1": "RESET_ANCHOR_OPEN_SLIPPAGE_AND_SWAP_BEFORE_OUTCOMES"
+  },
+  "result": {
+    "schema": "XAU-H1-execution-result-v1",
+    "summaries": [
+      {
+        "recipe": "H1A_ASIA",
+        "view": "BOTH",
+        "policy": "NO_TP",
+        "year": 2022,
+        "signals": 103,
+        "resolved": 103,
+        "exit_counts": {
+          "SL": 52,
+          "FRIDAY_CLOSE": 24,
+          "TIME_48H": 27
+        },
+        "costs": {
+          "SYM_FLAT": {
+            "annual_net_R": 7.510399999999999,
+            "mean_net_R": 0.07291650485436892,
+            "net_usd": 1126.56,
+            "gross_usd": 2422.8900000000003,
+            "commission_usd": 35.13,
+            "slippage_usd": 556.0,
+            "swap_usd": -705.2
+          },
+          "SYM_ORDER": {
+            "annual_net_R": 7.510399999999999,
+            "mean_net_R": 0.07291650485436892,
+            "net_usd": 1126.56,
+            "gross_usd": 2422.8900000000003,
+            "commission_usd": 35.13,
+            "slippage_usd": 556.0,
+            "swap_usd": -705.2
+          },
+          "ASYM_FLAT": {
+            "annual_net_R": 9.421399999999998,
+            "mean_net_R": 0.09146990291262135,
+            "net_usd": 1413.2099999999998,
+            "gross_usd": 2422.8900000000003,
+            "commission_usd": 35.13,
+            "slippage_usd": 556.0,
+            "swap_usd": -418.55
+          },
+          "ASYM_ORDER": {
+            "annual_net_R": 9.421399999999998,
+            "mean_net_R": 0.09146990291262135,
+            "net_usd": 1413.2099999999998,
+            "gross_usd": 2422.8900000000003,
+            "commission_usd": 35.13,
+            "slippage_usd": 556.0,
+            "swap_usd": -418.55
+          }
+        },
+        "book": {
+          "status": "OBSERVED_TICK_BOOK_CONDITIONAL",
+          "costs": {
+            "SYM_FLAT": {
+              "max_equity_R_drawdown": 16.77601333333332,
+              "max_equity_drawdown_usd": 2516.401999999998,
+              "worst_daily_loss_pct": 0.686051999999976,
+              "worst_daily_loss_usd": 343.025999999988,
+              "equity_start_daily_loss_pct": 0.8648280000000227,
+              "max_loss_from_initial_pct": 1.3303680000000022,
+              "dd_segment_witness": 1656989999238,
+              "daily_segment_witness": 1660197599389,
+              "realized_net_usd": 1126.5600000000006
+            },
+            "SYM_ORDER": {
+              "max_equity_R_drawdown": 16.77601333333332,
+              "max_equity_drawdown_usd": 2516.401999999998,
+              "worst_daily_loss_pct": 0.686051999999976,
+              "worst_daily_loss_usd": 343.025999999988,
+              "equity_start_daily_loss_pct": 0.8648280000000227,
+              "max_loss_from_initial_pct": 1.3303680000000022,
+              "dd_segment_witness": 1656989999238,
+              "daily_segment_witness": 1660197599389,
+              "realized_net_usd": 1126.5600000000006
+            },
+            "ASYM_FLAT": {
+              "max_equity_R_drawdown": 16.101533333333307,
+              "max_equity_drawdown_usd": 2415.229999999996,
+              "worst_daily_loss_pct": 0.6981519999999828,
+              "worst_daily_loss_usd": 349.0759999999914,
+              "equity_start_daily_loss_pct": 0.8424280000000235,
+              "max_loss_from_initial_pct": 1.3318680000000023,
+              "dd_segment_witness": 1656989999238,
+              "daily_segment_witness": 1660197599389,
+              "realized_net_usd": 1413.2100000000007
+            },
+            "ASYM_ORDER": {
+              "max_equity_R_drawdown": 16.101533333333307,
+              "max_equity_drawdown_usd": 2415.229999999996,
+              "worst_daily_loss_pct": 0.6981519999999828,
+              "worst_daily_loss_usd": 349.0759999999914,
+              "equity_start_daily_loss_pct": 0.8424280000000235,
+              "max_loss_from_initial_pct": 1.3318680000000023,
+              "dd_segment_witness": 1656989999238,
+              "daily_segment_witness": 1660197599389,
+              "realized_net_usd": 1413.2100000000007
+            }
+          },
+          "max_concurrent_positions": 3,
+          "max_gross_ounces": 51,
+          "stale_equity_start_resets": 70,
+          "event_marks": 296,
+          "daily_anchor": "PRAGUE_MIDNIGHT_BALANCE",
+          "unobserved_quotes_not_bounded": true
+        },
+        "paths_with_gap_gt15m": 59,
+        "max_quote_gap_minutes": 301.0308333333333
+      },
+      {
+        "recipe": "H1A_ASIA",
+        "view": "BOTH",
+        "policy": "NO_TP",
+        "year": 2023,
+        "signals": 107,
+        "resolved": 106,
+        "exit_counts": {
+          "TIME_48H": 35,
+          "SL": 58,
+          "FRIDAY_CLOSE": 13,
+          "UNRESOLVED_ENDPOINT": 1
+        },
+        "costs": {
+          "SYM_FLAT": {
+            "annual_net_R": 13.121933333333333,
+            "mean_net_R": 0.12379182389937106,
+            "net_usd": 1968.29,
+            "gross_usd": 3696.42,
+            "commission_usd": 50.53,
+            "slippage_usd": 743.6,
+            "swap_usd": -934.0
+          },
+          "SYM_ORDER": {
+            "annual_net_R": 13.121933333333333,
+            "mean_net_R": 0.12379182389937106,
+            "net_usd": 1968.29,
+            "gross_usd": 3696.42,
+            "commission_usd": 50.53,
+            "slippage_usd": 743.6,
+            "swap_usd": -934.0
+          },
+          "ASYM_FLAT": {
+            "annual_net_R": 15.788933333333334,
+            "mean_net_R": 0.14895220125786165,
+            "net_usd": 2368.34,
+            "gross_usd": 3696.42,
+            "commission_usd": 50.53,
+            "slippage_usd": 743.6,
+            "swap_usd": -533.95
+          },
+          "ASYM_ORDER": {
+            "annual_net_R": 15.788933333333334,
+            "mean_net_R": 0.14895220125786165,
+            "net_usd": 2368.34,
+            "gross_usd": 3696.42,
+            "commission_usd": 50.53,
+            "slippage_usd": 743.6,
+            "swap_usd": -533.95
+          }
+        },
+        "book": {
+          "status": "UNRESOLVED_PATH_BOOK_NOT_MEASURED",
+          "excluded_signal_ids": [
+            "H1A_ASIA:1700823600000:BUY"
+          ],
+          "resolved_subcohort_only": {
+            "status": "OBSERVED_TICK_BOOK_CONDITIONAL",
+            "costs": {
+              "SYM_FLAT": {
+                "max_equity_R_drawdown": 22.17707999999989,
+                "max_equity_drawdown_usd": 3326.5619999999835,
+                "worst_daily_loss_pct": 0.7993800000000315,
+                "worst_daily_loss_usd": 399.69000000001574,
+                "equity_start_daily_loss_pct": 1.384613999999978,
+                "max_loss_from_initial_pct": 3.2018299999999873,
+                "dd_segment_witness": 1693313999688,
+                "daily_segment_witness": 1691157599729,
+                "realized_net_usd": 1968.290000000003
+              },
+              "SYM_ORDER": {
+                "max_equity_R_drawdown": 22.17707999999989,
+                "max_equity_drawdown_usd": 3326.5619999999835,
+                "worst_daily_loss_pct": 0.7993800000000315,
+                "worst_daily_loss_usd": 399.69000000001574,
+                "equity_start_daily_loss_pct": 1.384613999999978,
+                "max_loss_from_initial_pct": 3.2018299999999873,
+                "dd_segment_witness": 1693313999688,
+                "daily_segment_witness": 1691157599729,
+                "realized_net_usd": 1968.290000000003
+              },
+              "ASYM_FLAT": {
+                "max_equity_R_drawdown": 20.893413333333203,
+                "max_equity_drawdown_usd": 3134.0119999999806,
+                "worst_daily_loss_pct": 0.73148000000002,
+                "worst_daily_loss_usd": 365.74000000001,
+                "equity_start_daily_loss_pct": 1.3865139999999778,
+                "max_loss_from_initial_pct": 2.8177299999999814,
+                "dd_segment_witness": 1693313999688,
+                "daily_segment_witness": 1691157599729,
+                "realized_net_usd": 2368.3399999999997
+              },
+              "ASYM_ORDER": {
+                "max_equity_R_drawdown": 20.893413333333203,
+                "max_equity_drawdown_usd": 3134.0119999999806,
+                "worst_daily_loss_pct": 0.73148000000002,
+                "worst_daily_loss_usd": 365.74000000001,
+                "equity_start_daily_loss_pct": 1.3865139999999778,
+                "max_loss_from_initial_pct": 2.8177299999999814,
+                "dd_segment_witness": 1693313999688,
+                "daily_segment_witness": 1691157599729,
+                "realized_net_usd": 2368.3399999999997
+              }
+            },
+            "max_concurrent_positions": 3,
+            "max_gross_ounces": 79,
+            "stale_equity_start_resets": 69,
+            "event_marks": 300,
+            "daily_anchor": "PRAGUE_MIDNIGHT_BALANCE",
+            "unobserved_quotes_not_bounded": true
+          }
+        },
+        "paths_with_gap_gt15m": 51,
+        "max_quote_gap_minutes": 60.08295
+      },
+      {
+        "recipe": "H1A_ASIA",
+        "view": "BOTH",
+        "policy": "TP2R",
+        "year": 2022,
+        "signals": 103,
+        "resolved": 103,
+        "exit_counts": {
+          "SL": 49,
+          "TP2R": 22,
+          "FRIDAY_CLOSE": 17,
+          "TIME_48H": 15
+        },
+        "costs": {
+          "SYM_FLAT": {
+            "annual_net_R": -3.7439333333333327,
+            "mean_net_R": -0.03634886731391585,
+            "net_usd": -561.5899999999999,
+            "gross_usd": 489.52000000000015,
+            "commission_usd": 35.11,
+            "slippage_usd": 556.0,
+            "swap_usd": -460.0
+          },
+          "SYM_ORDER": {
+            "annual_net_R": -3.2199333333333335,
+            "mean_net_R": -0.03126148867313916,
+            "net_usd": -482.99000000000007,
+            "gross_usd": 489.52000000000015,
+            "commission_usd": 35.11,
+            "slippage_usd": 477.4,
+            "swap_usd": -460.0
+          },
+          "ASYM_FLAT": {
+            "annual_net_R": -2.497933333333335,
+            "mean_net_R": -0.024251779935275095,
+            "net_usd": -374.69000000000017,
+            "gross_usd": 489.52000000000015,
+            "commission_usd": 35.11,
+            "slippage_usd": 556.0,
+            "swap_usd": -273.1
+          },
+          "ASYM_ORDER": {
+            "annual_net_R": -1.9739333333333342,
+            "mean_net_R": -0.019164401294498392,
+            "net_usd": -296.0900000000001,
+            "gross_usd": 489.52000000000015,
+            "commission_usd": 35.11,
+            "slippage_usd": 477.4,
+            "swap_usd": -273.1
+          }
+        },
+        "book": {
+          "status": "OBSERVED_TICK_BOOK_CONDITIONAL",
+          "costs": {
+            "SYM_FLAT": {
+              "max_equity_R_drawdown": 14.336026666666609,
+              "max_equity_drawdown_usd": 2150.4039999999914,
+              "worst_daily_loss_pct": 0.66922,
+              "worst_daily_loss_usd": 334.61,
+              "equity_start_daily_loss_pct": 0.864827999999993,
+              "max_loss_from_initial_pct": 1.5839760000000023,
+              "dd_segment_witness": 1669834799851,
+              "daily_segment_witness": 1668651951216,
+              "realized_net_usd": -561.5899999999997
+            },
+            "SYM_ORDER": {
+              "max_equity_R_drawdown": 14.320026666666635,
+              "max_equity_drawdown_usd": 2148.0039999999954,
+              "worst_daily_loss_pct": 0.6692199999999999,
+              "worst_daily_loss_usd": 334.60999999999996,
+              "equity_start_daily_loss_pct": 0.8648279999999925,
+              "max_loss_from_initial_pct": 1.4267760000000016,
+              "dd_segment_witness": 1669834799851,
+              "daily_segment_witness": 1668651951216,
+              "realized_net_usd": -482.9899999999993
+            },
+            "ASYM_FLAT": {
+              "max_equity_R_drawdown": 14.103026666666617,
+              "max_equity_drawdown_usd": 2115.4539999999924,
+              "worst_daily_loss_pct": 0.67612,
+              "worst_daily_loss_usd": 338.06,
+              "equity_start_daily_loss_pct": 0.8424279999999926,
+              "max_loss_from_initial_pct": 1.3318680000000023,
+              "dd_segment_witness": 1669834799851,
+              "daily_segment_witness": 1668651951216,
+              "realized_net_usd": -374.6899999999996
+            },
+            "ASYM_ORDER": {
+              "max_equity_R_drawdown": 14.087026666666594,
+              "max_equity_drawdown_usd": 2113.053999999989,
+              "worst_daily_loss_pct": 0.67612,
+              "worst_daily_loss_usd": 338.06,
+              "equity_start_daily_loss_pct": 0.8424279999999926,
+              "max_loss_from_initial_pct": 1.3318680000000023,
+              "dd_segment_witness": 1669834799851,
+              "daily_segment_witness": 1668651951216,
+              "realized_net_usd": -296.0899999999996
+            }
+          },
+          "max_concurrent_positions": 3,
+          "max_gross_ounces": 37,
+          "stale_equity_start_resets": 60,
+          "event_marks": 278,
+          "daily_anchor": "PRAGUE_MIDNIGHT_BALANCE",
+          "unobserved_quotes_not_bounded": true
+        },
+        "paths_with_gap_gt15m": 53,
+        "max_quote_gap_minutes": 301.0308333333333
+      },
+      {
+        "recipe": "H1A_ASIA",
+        "view": "BOTH",
+        "policy": "TP2R",
+        "year": 2023,
+        "signals": 107,
+        "resolved": 106,
+        "exit_counts": {
+          "TIME_48H": 18,
+          "SL": 55,
+          "FRIDAY_CLOSE": 5,
+          "TP2R": 28,
+          "UNRESOLVED_ENDPOINT": 1
+        },
+        "costs": {
+          "SYM_FLAT": {
+            "annual_net_R": 1.6351999999999993,
+            "mean_net_R": 0.015426415094339617,
+            "net_usd": 245.27999999999992,
+            "gross_usd": 1440.2299999999998,
+            "commission_usd": 50.55,
+            "slippage_usd": 743.6,
+            "swap_usd": -400.8
+          },
+          "SYM_ORDER": {
+            "annual_net_R": 2.393866666666666,
+            "mean_net_R": 0.02258364779874213,
+            "net_usd": 359.08,
+            "gross_usd": 1440.2299999999998,
+            "commission_usd": 50.55,
+            "slippage_usd": 629.8,
+            "swap_usd": -400.8
+          },
+          "ASYM_FLAT": {
+            "annual_net_R": 2.9545333333333326,
+            "mean_net_R": 0.02787295597484276,
+            "net_usd": 443.1799999999999,
+            "gross_usd": 1440.2299999999998,
+            "commission_usd": 50.55,
+            "slippage_usd": 743.6,
+            "swap_usd": -202.9
+          },
+          "ASYM_ORDER": {
+            "annual_net_R": 3.713199999999999,
+            "mean_net_R": 0.035030188679245275,
+            "net_usd": 556.9799999999999,
+            "gross_usd": 1440.2299999999998,
+            "commission_usd": 50.55,
+            "slippage_usd": 629.8,
+            "swap_usd": -202.9
+          }
+        },
+        "book": {
+          "status": "UNRESOLVED_PATH_BOOK_NOT_MEASURED",
+          "excluded_signal_ids": [
+            "H1A_ASIA:1700823600000:BUY"
+          ],
+          "resolved_subcohort_only": {
+            "status": "OBSERVED_TICK_BOOK_CONDITIONAL",
+            "costs": {
+              "SYM_FLAT": {
+                "max_equity_R_drawdown": 13.050473333333406,
+                "max_equity_drawdown_usd": 1957.5710000000108,
+                "worst_daily_loss_pct": 0.6504200000000001,
+                "worst_daily_loss_usd": 325.21000000000004,
+                "equity_start_daily_loss_pct": 0.81213999999999,
+                "max_loss_from_initial_pct": 2.854420000000042,
+                "dd_segment_witness": 1687345199598,
+                "daily_segment_witness": 1691152856234,
+                "realized_net_usd": 245.27999999999926
+              },
+              "SYM_ORDER": {
+                "max_equity_R_drawdown": 12.979806666666748,
+                "max_equity_drawdown_usd": 1946.9710000000123,
+                "worst_daily_loss_pct": 0.65042,
+                "worst_daily_loss_usd": 325.21,
+                "equity_start_daily_loss_pct": 0.8121399999999859,
+                "max_loss_from_initial_pct": 2.7960200000000475,
+                "dd_segment_witness": 1687345199598,
+                "daily_segment_witness": 1691152856234,
+                "realized_net_usd": 359.0799999999997
+              },
+              "ASYM_FLAT": {
+                "max_equity_R_drawdown": 12.971140000000062,
+                "max_equity_drawdown_usd": 1945.6710000000094,
+                "worst_daily_loss_pct": 0.6357200000000001,
+                "worst_daily_loss_usd": 317.86,
+                "equity_start_daily_loss_pct": 0.8121399999999859,
+                "max_loss_from_initial_pct": 2.8154200000000422,
+                "dd_segment_witness": 1687345199598,
+                "daily_segment_witness": 1691152856234,
+                "realized_net_usd": 443.1800000000005
+              },
+              "ASYM_ORDER": {
+                "max_equity_R_drawdown": 12.900473333333405,
+                "max_equity_drawdown_usd": 1935.0710000000108,
+                "worst_daily_loss_pct": 0.6357200000000002,
+                "worst_daily_loss_usd": 317.86000000000007,
+                "equity_start_daily_loss_pct": 0.8121399999999876,
+                "max_loss_from_initial_pct": 2.7570200000000478,
+                "dd_segment_witness": 1687345199598,
+                "daily_segment_witness": 1691152856234,
+                "realized_net_usd": 556.98
+              }
+            },
+            "max_concurrent_positions": 2,
+            "max_gross_ounces": 57,
+            "stale_equity_start_resets": 50,
+            "event_marks": 268,
+            "daily_anchor": "PRAGUE_MIDNIGHT_BALANCE",
+            "unobserved_quotes_not_bounded": true
+          }
+        },
+        "paths_with_gap_gt15m": 37,
+        "max_quote_gap_minutes": 60.08295
+      },
+      {
+        "recipe": "H1A_ASIA",
+        "view": "BUY",
+        "policy": "NO_TP",
+        "year": 2022,
+        "signals": 54,
+        "resolved": 54,
+        "exit_counts": {
+          "SL": 27,
+          "TIME_48H": 13,
+          "FRIDAY_CLOSE": 14
+        },
+        "costs": {
+          "SYM_FLAT": {
+            "annual_net_R": -1.490733333333333,
+            "mean_net_R": -0.027606172839506168,
+            "net_usd": -223.6100000000001,
+            "gross_usd": 405.03000000000014,
+            "commission_usd": 17.84,
+            "slippage_usd": 280.4,
+            "swap_usd": -330.4
+          },
+          "SYM_ORDER": {
+            "annual_net_R": -1.490733333333333,
+            "mean_net_R": -0.027606172839506168,
+            "net_usd": -223.6100000000001,
+            "gross_usd": 405.03000000000014,
+            "commission_usd": 17.84,
+            "slippage_usd": 280.4,
+            "swap_usd": -330.4
+          },
+          "ASYM_FLAT": {
+            "annual_net_R": -1.7660666666666676,
+            "mean_net_R": -0.03270493827160496,
+            "net_usd": -264.91000000000014,
+            "gross_usd": 405.03000000000014,
+            "commission_usd": 17.84,
+            "slippage_usd": 280.4,
+            "swap_usd": -371.7
+          },
+          "ASYM_ORDER": {
+            "annual_net_R": -1.7660666666666676,
+            "mean_net_R": -0.03270493827160496,
+            "net_usd": -264.91000000000014,
+            "gross_usd": 405.03000000000014,
+            "commission_usd": 17.84,
+            "slippage_usd": 280.4,
+            "swap_usd": -371.7
+          }
+        },
+        "book": {
+          "status": "OBSERVED_TICK_BOOK_CONDITIONAL",
+          "costs": {
+            "SYM_FLAT": {
+              "max_equity_R_drawdown": 13.376933333333339,
+              "max_equity_drawdown_usd": 2006.5400000000009,
+              "worst_daily_loss_pct": 0.6860519999999871,
+              "worst_daily_loss_usd": 343.02599999999353,
+              "equity_start_daily_loss_pct": 0.7044800000000161,
+              "max_loss_from_initial_pct": 1.5560360000000073,
+              "dd_segment_witness": 1667923199983,
+              "daily_segment_witness": 1660197599389,
+              "realized_net_usd": -223.60999999999981
+            },
+            "SYM_ORDER": {
+              "max_equity_R_drawdown": 13.376933333333339,
+              "max_equity_drawdown_usd": 2006.5400000000009,
+              "worst_daily_loss_pct": 0.6860519999999871,
+              "worst_daily_loss_usd": 343.02599999999353,
+              "equity_start_daily_loss_pct": 0.7044800000000161,
+              "max_loss_from_initial_pct": 1.5560360000000073,
+              "dd_segment_witness": 1667923199983,
+              "daily_segment_witness": 1660197599389,
+              "realized_net_usd": -223.60999999999981
+            },
+            "ASYM_FLAT": {
+              "max_equity_R_drawdown": 13.496266666666658,
+              "max_equity_drawdown_usd": 2024.4399999999987,
+              "worst_daily_loss_pct": 0.6981519999999894,
+              "worst_daily_loss_usd": 349.07599999999474,
+              "equity_start_daily_loss_pct": 0.7083800000000213,
+              "max_loss_from_initial_pct": 1.5679360000000013,
+              "dd_segment_witness": 1667923199983,
+              "daily_segment_witness": 1660197599389,
+              "realized_net_usd": -264.9100000000003
+            },
+            "ASYM_ORDER": {
+              "max_equity_R_drawdown": 13.496266666666658,
+              "max_equity_drawdown_usd": 2024.4399999999987,
+              "worst_daily_loss_pct": 0.6981519999999894,
+              "worst_daily_loss_usd": 349.07599999999474,
+              "equity_start_daily_loss_pct": 0.7083800000000213,
+              "max_loss_from_initial_pct": 1.5679360000000013,
+              "dd_segment_witness": 1667923199983,
+              "daily_segment_witness": 1660197599389,
+              "realized_net_usd": -264.9100000000003
+            }
+          },
+          "max_concurrent_positions": 3,
+          "max_gross_ounces": 39,
+          "stale_equity_start_resets": 35,
+          "event_marks": 152,
+          "daily_anchor": "PRAGUE_MIDNIGHT_BALANCE",
+          "unobserved_quotes_not_bounded": true
+        },
+        "paths_with_gap_gt15m": 29,
+        "max_quote_gap_minutes": 301.0308333333333
+      },
+      {
+        "recipe": "H1A_ASIA",
+        "view": "BUY",
+        "policy": "NO_TP",
+        "year": 2023,
+        "signals": 57,
+        "resolved": 56,
+        "exit_counts": {
+          "TIME_48H": 17,
+          "SL": 30,
+          "FRIDAY_CLOSE": 9,
+          "UNRESOLVED_ENDPOINT": 1
+        },
+        "costs": {
+          "SYM_FLAT": {
+            "annual_net_R": 2.5327333333333333,
+            "mean_net_R": 0.04522738095238095,
+            "net_usd": 379.91,
+            "gross_usd": 1201.11,
+            "commission_usd": 26.0,
+            "slippage_usd": 378.0,
+            "swap_usd": -417.2
+          },
+          "SYM_ORDER": {
+            "annual_net_R": 2.5327333333333333,
+            "mean_net_R": 0.04522738095238095,
+            "net_usd": 379.91,
+            "gross_usd": 1201.11,
+            "commission_usd": 26.0,
+            "slippage_usd": 378.0,
+            "swap_usd": -417.2
+          },
+          "ASYM_FLAT": {
+            "annual_net_R": 2.1850666666666663,
+            "mean_net_R": 0.03901904761904761,
+            "net_usd": 327.76,
+            "gross_usd": 1201.11,
+            "commission_usd": 26.0,
+            "slippage_usd": 378.0,
+            "swap_usd": -469.35
+          },
+          "ASYM_ORDER": {
+            "annual_net_R": 2.1850666666666663,
+            "mean_net_R": 0.03901904761904761,
+            "net_usd": 327.76,
+            "gross_usd": 1201.11,
+            "commission_usd": 26.0,
+            "slippage_usd": 378.0,
+            "swap_usd": -469.35
+          }
+        },
+        "book": {
+          "status": "UNRESOLVED_PATH_BOOK_NOT_MEASURED",
+          "excluded_signal_ids": [
+            "H1A_ASIA:1700823600000:BUY"
+          ],
+          "resolved_subcohort_only": {
+            "status": "OBSERVED_TICK_BOOK_CONDITIONAL",
+            "costs": {
+              "SYM_FLAT": {
+                "max_equity_R_drawdown": 15.365479999999856,
+                "max_equity_drawdown_usd": 2304.8219999999783,
+                "worst_daily_loss_pct": 0.6263399999999999,
+                "worst_daily_loss_usd": 313.16999999999996,
+                "equity_start_daily_loss_pct": 1.384613999999978,
+                "max_loss_from_initial_pct": 1.4700699999999778,
+                "dd_segment_witness": 1693313999688,
+                "daily_segment_witness": 1673453853824,
+                "realized_net_usd": 379.9100000000001
+              },
+              "SYM_ORDER": {
+                "max_equity_R_drawdown": 15.365479999999856,
+                "max_equity_drawdown_usd": 2304.8219999999783,
+                "worst_daily_loss_pct": 0.6263399999999999,
+                "worst_daily_loss_usd": 313.16999999999996,
+                "equity_start_daily_loss_pct": 1.384613999999978,
+                "max_loss_from_initial_pct": 1.4700699999999778,
+                "dd_segment_witness": 1693313999688,
+                "daily_segment_witness": 1673453853824,
+                "realized_net_usd": 379.9100000000001
+              },
+              "ASYM_FLAT": {
+                "max_equity_R_drawdown": 15.432813333333227,
+                "max_equity_drawdown_usd": 2314.921999999984,
+                "worst_daily_loss_pct": 0.62784,
+                "worst_daily_loss_usd": 313.91999999999996,
+                "equity_start_daily_loss_pct": 1.3865139999999783,
+                "max_loss_from_initial_pct": 1.5213699999999952,
+                "dd_segment_witness": 1693313999688,
+                "daily_segment_witness": 1673453853824,
+                "realized_net_usd": 327.75999999999976
+              },
+              "ASYM_ORDER": {
+                "max_equity_R_drawdown": 15.432813333333227,
+                "max_equity_drawdown_usd": 2314.921999999984,
+                "worst_daily_loss_pct": 0.62784,
+                "worst_daily_loss_usd": 313.91999999999996,
+                "equity_start_daily_loss_pct": 1.3865139999999783,
+                "max_loss_from_initial_pct": 1.5213699999999952,
+                "dd_segment_witness": 1693313999688,
+                "daily_segment_witness": 1673453853824,
+                "realized_net_usd": 327.75999999999976
+              }
+            },
+            "max_concurrent_positions": 3,
+            "max_gross_ounces": 79,
+            "stale_equity_start_resets": 32,
+            "event_marks": 154,
+            "daily_anchor": "PRAGUE_MIDNIGHT_BALANCE",
+            "unobserved_quotes_not_bounded": true
+          }
+        },
+        "paths_with_gap_gt15m": 24,
+        "max_quote_gap_minutes": 60.08295
+      },
+      {
+        "recipe": "H1A_ASIA",
+        "view": "BUY",
+        "policy": "TP2R",
+        "year": 2022,
+        "signals": 54,
+        "resolved": 54,
+        "exit_counts": {
+          "SL": 27,
+          "TP2R": 8,
+          "FRIDAY_CLOSE": 11,
+          "TIME_48H": 8
+        },
+        "costs": {
+          "SYM_FLAT": {
+            "annual_net_R": -9.938733333333333,
+            "mean_net_R": -0.1840506172839506,
+            "net_usd": -1490.81,
+            "gross_usd": -976.99,
+            "commission_usd": 17.82,
+            "slippage_usd": 280.4,
+            "swap_usd": -215.6
+          },
+          "SYM_ORDER": {
+            "annual_net_R": -9.732066666666666,
+            "mean_net_R": -0.18022345679012344,
+            "net_usd": -1459.8100000000002,
+            "gross_usd": -976.99,
+            "commission_usd": 17.82,
+            "slippage_usd": 249.4,
+            "swap_usd": -215.6
+          },
+          "ASYM_FLAT": {
+            "annual_net_R": -10.118400000000001,
+            "mean_net_R": -0.1873777777777778,
+            "net_usd": -1517.7600000000002,
+            "gross_usd": -976.99,
+            "commission_usd": 17.82,
+            "slippage_usd": 280.4,
+            "swap_usd": -242.55
+          },
+          "ASYM_ORDER": {
+            "annual_net_R": -9.911733333333332,
+            "mean_net_R": -0.1835506172839506,
+            "net_usd": -1486.76,
+            "gross_usd": -976.99,
+            "commission_usd": 17.82,
+            "slippage_usd": 249.4,
+            "swap_usd": -242.55
+          }
+        },
+        "book": {
+          "status": "OBSERVED_TICK_BOOK_CONDITIONAL",
+          "costs": {
+            "SYM_FLAT": {
+              "max_equity_R_drawdown": 13.156919999999968,
+              "max_equity_drawdown_usd": 1973.537999999995,
+              "worst_daily_loss_pct": 0.66922,
+              "worst_daily_loss_usd": 334.61,
+              "equity_start_daily_loss_pct": 0.6494920000000218,
+              "max_loss_from_initial_pct": 3.4424159999999717,
+              "dd_segment_witness": 1669834799851,
+              "daily_segment_witness": 1668651951216,
+              "realized_net_usd": -1490.8099999999993
+            },
+            "SYM_ORDER": {
+              "max_equity_R_drawdown": 13.071586666666613,
+              "max_equity_drawdown_usd": 1960.737999999992,
+              "worst_daily_loss_pct": 0.66922,
+              "worst_daily_loss_usd": 334.61,
+              "equity_start_daily_loss_pct": 0.6494920000000218,
+              "max_loss_from_initial_pct": 3.3804159999999723,
+              "dd_segment_witness": 1669834799851,
+              "daily_segment_witness": 1668651951216,
+              "realized_net_usd": -1459.8099999999993
+            },
+            "ASYM_FLAT": {
+              "max_equity_R_drawdown": 13.285919999999956,
+              "max_equity_drawdown_usd": 1992.8879999999936,
+              "worst_daily_loss_pct": 0.6761199999999999,
+              "worst_daily_loss_usd": 338.05999999999995,
+              "equity_start_daily_loss_pct": 0.6515920000000217,
+              "max_loss_from_initial_pct": 3.4929159999999717,
+              "dd_segment_witness": 1669834799851,
+              "daily_segment_witness": 1668651951216,
+              "realized_net_usd": -1517.759999999999
+            },
+            "ASYM_ORDER": {
+              "max_equity_R_drawdown": 13.200586666666604,
+              "max_equity_drawdown_usd": 1980.0879999999906,
+              "worst_daily_loss_pct": 0.6761199999999999,
+              "worst_daily_loss_usd": 338.05999999999995,
+              "equity_start_daily_loss_pct": 0.6515920000000217,
+              "max_loss_from_initial_pct": 3.430915999999972,
+              "dd_segment_witness": 1669834799851,
+              "daily_segment_witness": 1668651951216,
+              "realized_net_usd": -1486.759999999999
+            }
+          },
+          "max_concurrent_positions": 3,
+          "max_gross_ounces": 35,
+          "stale_equity_start_resets": 31,
+          "event_marks": 145,
+          "daily_anchor": "PRAGUE_MIDNIGHT_BALANCE",
+          "unobserved_quotes_not_bounded": true
+        },
+        "paths_with_gap_gt15m": 27,
+        "max_quote_gap_minutes": 301.0308333333333
+      },
+      {
+        "recipe": "H1A_ASIA",
+        "view": "BUY",
+        "policy": "TP2R",
+        "year": 2023,
+        "signals": 57,
+        "resolved": 56,
+        "exit_counts": {
+          "TIME_48H": 9,
+          "SL": 29,
+          "FRIDAY_CLOSE": 4,
+          "TP2R": 14,
+          "UNRESOLVED_ENDPOINT": 1
+        },
+        "costs": {
+          "SYM_FLAT": {
+            "annual_net_R": 1.265133333333333,
+            "mean_net_R": 0.02259166666666666,
+            "net_usd": 189.76999999999992,
+            "gross_usd": 746.5599999999998,
+            "commission_usd": 25.990000000000002,
+            "slippage_usd": 378.0,
+            "swap_usd": -152.8
+          },
+          "SYM_ORDER": {
+            "annual_net_R": 1.5877999999999994,
+            "mean_net_R": 0.02835357142857142,
+            "net_usd": 238.16999999999996,
+            "gross_usd": 746.5599999999998,
+            "commission_usd": 25.990000000000002,
+            "slippage_usd": 329.6,
+            "swap_usd": -152.8
+          },
+          "ASYM_FLAT": {
+            "annual_net_R": 1.1377999999999995,
+            "mean_net_R": 0.020317857142857134,
+            "net_usd": 170.66999999999993,
+            "gross_usd": 746.5599999999998,
+            "commission_usd": 25.990000000000002,
+            "slippage_usd": 378.0,
+            "swap_usd": -171.9
+          },
+          "ASYM_ORDER": {
+            "annual_net_R": 1.4604666666666661,
+            "mean_net_R": 0.026079761904761894,
+            "net_usd": 219.06999999999996,
+            "gross_usd": 746.5599999999998,
+            "commission_usd": 25.990000000000002,
+            "slippage_usd": 329.6,
+            "swap_usd": -171.9
+          }
+        },
+        "book": {
+          "status": "UNRESOLVED_PATH_BOOK_NOT_MEASURED",
+          "excluded_signal_ids": [
+            "H1A_ASIA:1700823600000:BUY"
+          ],
+          "resolved_subcohort_only": {
+            "status": "OBSERVED_TICK_BOOK_CONDITIONAL",
+            "costs": {
+              "SYM_FLAT": {
+                "max_equity_R_drawdown": 8.609133333333327,
+                "max_equity_drawdown_usd": 1291.369999999999,
+                "worst_daily_loss_pct": 0.6263399999999999,
+                "worst_daily_loss_usd": 313.16999999999996,
+                "equity_start_daily_loss_pct": 0.6087760000000201,
+                "max_loss_from_initial_pct": 1.2807800000000062,
+                "dd_segment_witness": 1702915199820,
+                "daily_segment_witness": 1673453853824,
+                "realized_net_usd": 189.7699999999996
+              },
+              "SYM_ORDER": {
+                "max_equity_R_drawdown": 8.585133333333337,
+                "max_equity_drawdown_usd": 1287.7700000000004,
+                "worst_daily_loss_pct": 0.6263399999999999,
+                "worst_daily_loss_usd": 313.16999999999996,
+                "equity_start_daily_loss_pct": 0.6087760000000171,
+                "max_loss_from_initial_pct": 1.2807800000000062,
+                "dd_segment_witness": 1702915199820,
+                "daily_segment_witness": 1673453853824,
+                "realized_net_usd": 238.1699999999996
+              },
+              "ASYM_FLAT": {
+                "max_equity_R_drawdown": 8.622800000000012,
+                "max_equity_drawdown_usd": 1293.420000000002,
+                "worst_daily_loss_pct": 0.62784,
+                "worst_daily_loss_usd": 313.91999999999996,
+                "equity_start_daily_loss_pct": 0.6087760000000171,
+                "max_loss_from_initial_pct": 1.2846800000000074,
+                "dd_segment_witness": 1702915199820,
+                "daily_segment_witness": 1673453853824,
+                "realized_net_usd": 170.66999999999953
+              },
+              "ASYM_ORDER": {
+                "max_equity_R_drawdown": 8.598800000000022,
+                "max_equity_drawdown_usd": 1289.8200000000033,
+                "worst_daily_loss_pct": 0.62784,
+                "worst_daily_loss_usd": 313.91999999999996,
+                "equity_start_daily_loss_pct": 0.6087760000000222,
+                "max_loss_from_initial_pct": 1.2846800000000074,
+                "dd_segment_witness": 1702915199820,
+                "daily_segment_witness": 1673453853824,
+                "realized_net_usd": 219.06999999999985
+              }
+            },
+            "max_concurrent_positions": 2,
+            "max_gross_ounces": 44,
+            "stale_equity_start_resets": 20,
+            "event_marks": 136,
+            "daily_anchor": "PRAGUE_MIDNIGHT_BALANCE",
+            "unobserved_quotes_not_bounded": true
+          }
+        },
+        "paths_with_gap_gt15m": 15,
+        "max_quote_gap_minutes": 60.08295
+      },
+      {
+        "recipe": "H1A_ASIA",
+        "view": "SELL",
+        "policy": "NO_TP",
+        "year": 2022,
+        "signals": 49,
+        "resolved": 49,
+        "exit_counts": {
+          "SL": 25,
+          "FRIDAY_CLOSE": 10,
+          "TIME_48H": 14
+        },
+        "costs": {
+          "SYM_FLAT": {
+            "annual_net_R": 9.001133333333332,
+            "mean_net_R": 0.18369659863945575,
+            "net_usd": 1350.1699999999998,
+            "gross_usd": 2017.8600000000001,
+            "commission_usd": 17.29,
+            "slippage_usd": 275.6,
+            "swap_usd": -374.8
+          },
+          "SYM_ORDER": {
+            "annual_net_R": 9.001133333333332,
+            "mean_net_R": 0.18369659863945575,
+            "net_usd": 1350.1699999999998,
+            "gross_usd": 2017.8600000000001,
+            "commission_usd": 17.29,
+            "slippage_usd": 275.6,
+            "swap_usd": -374.8
+          },
+          "ASYM_FLAT": {
+            "annual_net_R": 11.187466666666666,
+            "mean_net_R": 0.22831564625850337,
+            "net_usd": 1678.12,
+            "gross_usd": 2017.8600000000001,
+            "commission_usd": 17.29,
+            "slippage_usd": 275.6,
+            "swap_usd": -46.85
+          },
+          "ASYM_ORDER": {
+            "annual_net_R": 11.187466666666666,
+            "mean_net_R": 0.22831564625850337,
+            "net_usd": 1678.12,
+            "gross_usd": 2017.8600000000001,
+            "commission_usd": 17.29,
+            "slippage_usd": 275.6,
+            "swap_usd": -46.85
+          }
+        },
+        "book": {
+          "status": "OBSERVED_TICK_BOOK_CONDITIONAL",
+          "costs": {
+            "SYM_FLAT": {
+              "max_equity_R_drawdown": 13.541533333333307,
+              "max_equity_drawdown_usd": 2031.229999999996,
+              "worst_daily_loss_pct": 0.6823399999999997,
+              "worst_daily_loss_usd": 341.1699999999999,
+              "equity_start_daily_loss_pct": 0.8648279999999935,
+              "max_loss_from_initial_pct": 1.7756039999999922,
+              "dd_segment_witness": 1656989999238,
+              "daily_segment_witness": 1656592964116,
+              "realized_net_usd": 1350.1699999999996
+            },
+            "SYM_ORDER": {
+              "max_equity_R_drawdown": 13.541533333333307,
+              "max_equity_drawdown_usd": 2031.229999999996,
+              "worst_daily_loss_pct": 0.6823399999999997,
+              "worst_daily_loss_usd": 341.1699999999999,
+              "equity_start_daily_loss_pct": 0.8648279999999935,
+              "max_loss_from_initial_pct": 1.7756039999999922,
+              "dd_segment_witness": 1656989999238,
+              "daily_segment_witness": 1656592964116,
+              "realized_net_usd": 1350.1699999999996
+            },
+            "ASYM_FLAT": {
+              "max_equity_R_drawdown": 13.133199999999972,
+              "max_equity_drawdown_usd": 1969.979999999996,
+              "worst_daily_loss_pct": 0.6361400000000001,
+              "worst_daily_loss_usd": 318.07000000000005,
+              "equity_start_daily_loss_pct": 0.8424279999999944,
+              "max_loss_from_initial_pct": 1.509603999999992,
+              "dd_segment_witness": 1656989999238,
+              "daily_segment_witness": 1656592964116,
+              "realized_net_usd": 1678.1199999999994
+            },
+            "ASYM_ORDER": {
+              "max_equity_R_drawdown": 13.133199999999972,
+              "max_equity_drawdown_usd": 1969.979999999996,
+              "worst_daily_loss_pct": 0.6361400000000001,
+              "worst_daily_loss_usd": 318.07000000000005,
+              "equity_start_daily_loss_pct": 0.8424279999999944,
+              "max_loss_from_initial_pct": 1.509603999999992,
+              "dd_segment_witness": 1656989999238,
+              "daily_segment_witness": 1656592964116,
+              "realized_net_usd": 1678.1199999999994
+            }
+          },
+          "max_concurrent_positions": 3,
+          "max_gross_ounces": 51,
+          "stale_equity_start_resets": 35,
+          "event_marks": 144,
+          "daily_anchor": "PRAGUE_MIDNIGHT_BALANCE",
+          "unobserved_quotes_not_bounded": true
+        },
+        "paths_with_gap_gt15m": 30,
+        "max_quote_gap_minutes": 211.02081666666666
+      },
+      {
+        "recipe": "H1A_ASIA",
+        "view": "SELL",
+        "policy": "NO_TP",
+        "year": 2023,
+        "signals": 50,
+        "resolved": 50,
+        "exit_counts": {
+          "TIME_48H": 18,
+          "FRIDAY_CLOSE": 4,
+          "SL": 28
+        },
+        "costs": {
+          "SYM_FLAT": {
+            "annual_net_R": 10.5892,
+            "mean_net_R": 0.211784,
+            "net_usd": 1588.38,
+            "gross_usd": 2495.31,
+            "commission_usd": 24.53,
+            "slippage_usd": 365.6,
+            "swap_usd": -516.8
+          },
+          "SYM_ORDER": {
+            "annual_net_R": 10.5892,
+            "mean_net_R": 0.211784,
+            "net_usd": 1588.38,
+            "gross_usd": 2495.31,
+            "commission_usd": 24.53,
+            "slippage_usd": 365.6,
+            "swap_usd": -516.8
+          },
+          "ASYM_FLAT": {
+            "annual_net_R": 13.603866666666669,
+            "mean_net_R": 0.2720773333333334,
+            "net_usd": 2040.5800000000002,
+            "gross_usd": 2495.31,
+            "commission_usd": 24.53,
+            "slippage_usd": 365.6,
+            "swap_usd": -64.6
+          },
+          "ASYM_ORDER": {
+            "annual_net_R": 13.603866666666669,
+            "mean_net_R": 0.2720773333333334,
+            "net_usd": 2040.5800000000002,
+            "gross_usd": 2495.31,
+            "commission_usd": 24.53,
+            "slippage_usd": 365.6,
+            "swap_usd": -64.6
+          }
+        },
+        "book": {
+          "status": "OBSERVED_TICK_BOOK_CONDITIONAL",
+          "costs": {
+            "SYM_FLAT": {
+              "max_equity_R_drawdown": 15.277233333333182,
+              "max_equity_drawdown_usd": 2291.5849999999773,
+              "worst_daily_loss_pct": 0.7993800000000001,
+              "worst_daily_loss_usd": 399.69,
+              "equity_start_daily_loss_pct": 1.053140000000015,
+              "max_loss_from_initial_pct": 1.8803479999999688,
+              "dd_segment_witness": 1694509198476,
+              "daily_segment_witness": 1691157599729,
+              "realized_net_usd": 1588.380000000001
+            },
+            "SYM_ORDER": {
+              "max_equity_R_drawdown": 15.277233333333182,
+              "max_equity_drawdown_usd": 2291.5849999999773,
+              "worst_daily_loss_pct": 0.7993800000000001,
+              "worst_daily_loss_usd": 399.69,
+              "equity_start_daily_loss_pct": 1.053140000000015,
+              "max_loss_from_initial_pct": 1.8803479999999688,
+              "dd_segment_witness": 1694509198476,
+              "daily_segment_witness": 1691157599729,
+              "realized_net_usd": 1588.380000000001
+            },
+            "ASYM_FLAT": {
+              "max_equity_R_drawdown": 13.881899999999877,
+              "max_equity_drawdown_usd": 2082.2849999999817,
+              "worst_daily_loss_pct": 0.7314800000000028,
+              "worst_daily_loss_usd": 365.7400000000014,
+              "equity_start_daily_loss_pct": 1.0251400000000181,
+              "max_loss_from_initial_pct": 1.4449479999999748,
+              "dd_segment_witness": 1694509198476,
+              "daily_segment_witness": 1691157599729,
+              "realized_net_usd": 2040.5800000000008
+            },
+            "ASYM_ORDER": {
+              "max_equity_R_drawdown": 13.881899999999877,
+              "max_equity_drawdown_usd": 2082.2849999999817,
+              "worst_daily_loss_pct": 0.7314800000000028,
+              "worst_daily_loss_usd": 365.7400000000014,
+              "equity_start_daily_loss_pct": 1.0251400000000181,
+              "max_loss_from_initial_pct": 1.4449479999999748,
+              "dd_segment_witness": 1694509198476,
+              "daily_segment_witness": 1691157599729,
+              "realized_net_usd": 2040.5800000000008
+            }
+          },
+          "max_concurrent_positions": 3,
+          "max_gross_ounces": 74,
+          "stale_equity_start_resets": 37,
+          "event_marks": 146,
+          "daily_anchor": "PRAGUE_MIDNIGHT_BALANCE",
+          "unobserved_quotes_not_bounded": true
+        },
+        "paths_with_gap_gt15m": 27,
+        "max_quote_gap_minutes": 60.08266666666667
+      },
+      {
+        "recipe": "H1A_ASIA",
+        "view": "SELL",
+        "policy": "TP2R",
+        "year": 2022,
+        "signals": 49,
+        "resolved": 49,
+        "exit_counts": {
+          "SL": 22,
+          "TP2R": 14,
+          "FRIDAY_CLOSE": 6,
+          "TIME_48H": 7
+        },
+        "costs": {
+          "SYM_FLAT": {
+            "annual_net_R": 6.194800000000001,
+            "mean_net_R": 0.1264244897959184,
+            "net_usd": 929.2200000000001,
+            "gross_usd": 1466.5100000000002,
+            "commission_usd": 17.29,
+            "slippage_usd": 275.6,
+            "swap_usd": -244.4
+          },
+          "SYM_ORDER": {
+            "annual_net_R": 6.512133333333333,
+            "mean_net_R": 0.13290068027210883,
+            "net_usd": 976.82,
+            "gross_usd": 1466.5100000000002,
+            "commission_usd": 17.29,
+            "slippage_usd": 228.0,
+            "swap_usd": -244.4
+          },
+          "ASYM_FLAT": {
+            "annual_net_R": 7.620466666666666,
+            "mean_net_R": 0.15551972789115645,
+            "net_usd": 1143.07,
+            "gross_usd": 1466.5100000000002,
+            "commission_usd": 17.29,
+            "slippage_usd": 275.6,
+            "swap_usd": -30.55
+          },
+          "ASYM_ORDER": {
+            "annual_net_R": 7.937799999999999,
+            "mean_net_R": 0.16199591836734692,
+            "net_usd": 1190.6699999999998,
+            "gross_usd": 1466.5100000000002,
+            "commission_usd": 17.29,
+            "slippage_usd": 228.0,
+            "swap_usd": -30.55
+          }
+        },
+        "book": {
+          "status": "OBSERVED_TICK_BOOK_CONDITIONAL",
+          "costs": {
+            "SYM_FLAT": {
+              "max_equity_R_drawdown": 8.574806666666626,
+              "max_equity_drawdown_usd": 1286.220999999994,
+              "worst_daily_loss_pct": 0.5138839999999855,
+              "worst_daily_loss_usd": 256.94199999999273,
+              "equity_start_daily_loss_pct": 0.8648279999999932,
+              "max_loss_from_initial_pct": 0.3964480000000039,
+              "dd_segment_witness": 1669118399877,
+              "daily_segment_witness": 1656514799951,
+              "realized_net_usd": 929.2199999999996
+            },
+            "SYM_ORDER": {
+              "max_equity_R_drawdown": 8.574806666666603,
+              "max_equity_drawdown_usd": 1286.2209999999905,
+              "worst_daily_loss_pct": 0.5138839999999913,
+              "worst_daily_loss_usd": 256.9419999999957,
+              "equity_start_daily_loss_pct": 0.8648279999999932,
+              "max_loss_from_initial_pct": 0.3964480000000039,
+              "dd_segment_witness": 1669118399877,
+              "daily_segment_witness": 1656514799951,
+              "realized_net_usd": 976.8199999999995
+            },
+            "ASYM_FLAT": {
+              "max_equity_R_drawdown": 8.31347333333329,
+              "max_equity_drawdown_usd": 1247.0209999999934,
+              "worst_daily_loss_pct": 0.4977839999999915,
+              "worst_daily_loss_usd": 248.89199999999573,
+              "equity_start_daily_loss_pct": 0.8424279999999926,
+              "max_loss_from_initial_pct": 0.3964480000000039,
+              "dd_segment_witness": 1669118399877,
+              "daily_segment_witness": 1656514799951,
+              "realized_net_usd": 1143.0699999999997
+            },
+            "ASYM_ORDER": {
+              "max_equity_R_drawdown": 8.313473333333265,
+              "max_equity_drawdown_usd": 1247.0209999999897,
+              "worst_daily_loss_pct": 0.4977839999999974,
+              "worst_daily_loss_usd": 248.8919999999987,
+              "equity_start_daily_loss_pct": 0.8424279999999926,
+              "max_loss_from_initial_pct": 0.3964480000000039,
+              "dd_segment_witness": 1669118399877,
+              "daily_segment_witness": 1656514799951,
+              "realized_net_usd": 1190.6699999999996
+            }
+          },
+          "max_concurrent_positions": 2,
+          "max_gross_ounces": 37,
+          "stale_equity_start_resets": 29,
+          "event_marks": 133,
+          "daily_anchor": "PRAGUE_MIDNIGHT_BALANCE",
+          "unobserved_quotes_not_bounded": true
+        },
+        "paths_with_gap_gt15m": 26,
+        "max_quote_gap_minutes": 211.02081666666666
+      },
+      {
+        "recipe": "H1A_ASIA",
+        "view": "SELL",
+        "policy": "TP2R",
+        "year": 2023,
+        "signals": 50,
+        "resolved": 50,
+        "exit_counts": {
+          "TIME_48H": 9,
+          "TP2R": 14,
+          "SL": 26,
+          "FRIDAY_CLOSE": 1
+        },
+        "costs": {
+          "SYM_FLAT": {
+            "annual_net_R": 0.37006666666666643,
+            "mean_net_R": 0.007401333333333328,
+            "net_usd": 55.50999999999999,
+            "gross_usd": 693.67,
+            "commission_usd": 24.56,
+            "slippage_usd": 365.6,
+            "swap_usd": -248.0
+          },
+          "SYM_ORDER": {
+            "annual_net_R": 0.8060666666666664,
+            "mean_net_R": 0.016121333333333328,
+            "net_usd": 120.91000000000003,
+            "gross_usd": 693.67,
+            "commission_usd": 24.56,
+            "slippage_usd": 300.2,
+            "swap_usd": -248.0
+          },
+          "ASYM_FLAT": {
+            "annual_net_R": 1.816733333333333,
+            "mean_net_R": 0.03633466666666666,
+            "net_usd": 272.50999999999993,
+            "gross_usd": 693.67,
+            "commission_usd": 24.56,
+            "slippage_usd": 365.6,
+            "swap_usd": -31.0
+          },
+          "ASYM_ORDER": {
+            "annual_net_R": 2.252733333333333,
+            "mean_net_R": 0.04505466666666666,
+            "net_usd": 337.90999999999997,
+            "gross_usd": 693.67,
+            "commission_usd": 24.56,
+            "slippage_usd": 300.2,
+            "swap_usd": -31.0
+          }
+        },
+        "book": {
+          "status": "OBSERVED_TICK_BOOK_CONDITIONAL",
+          "costs": {
+            "SYM_FLAT": {
+              "max_equity_R_drawdown": 12.65153999999997,
+              "max_equity_drawdown_usd": 1897.7309999999957,
+              "worst_daily_loss_pct": 0.6504200000000001,
+              "worst_daily_loss_usd": 325.21000000000004,
+              "equity_start_daily_loss_pct": 0.8121399999999874,
+              "max_loss_from_initial_pct": 3.0992799999999985,
+              "dd_segment_witness": 1687345199598,
+              "daily_segment_witness": 1691152856234,
+              "realized_net_usd": 55.50999999999948
+            },
+            "SYM_ORDER": {
+              "max_equity_R_drawdown": 12.550206666666657,
+              "max_equity_drawdown_usd": 1882.5309999999986,
+              "worst_daily_loss_pct": 0.6504199999999998,
+              "worst_daily_loss_usd": 325.2099999999999,
+              "equity_start_daily_loss_pct": 0.8121399999999862,
+              "max_loss_from_initial_pct": 3.068880000000005,
+              "dd_segment_witness": 1687345199598,
+              "daily_segment_witness": 1691152856234,
+              "realized_net_usd": 120.90999999999968
+            },
+            "ASYM_FLAT": {
+              "max_equity_R_drawdown": 12.527873333333325,
+              "max_equity_drawdown_usd": 1879.1809999999987,
+              "worst_daily_loss_pct": 0.6357200000000001,
+              "worst_daily_loss_usd": 317.86,
+              "equity_start_daily_loss_pct": 0.812139999999986,
+              "max_loss_from_initial_pct": 3.0453800000000046,
+              "dd_segment_witness": 1687345199598,
+              "daily_segment_witness": 1691152856234,
+              "realized_net_usd": 272.5100000000002
+            },
+            "ASYM_ORDER": {
+              "max_equity_R_drawdown": 12.42654000000001,
+              "max_equity_drawdown_usd": 1863.9810000000016,
+              "worst_daily_loss_pct": 0.6357200000000001,
+              "worst_daily_loss_usd": 317.86,
+              "equity_start_daily_loss_pct": 0.812139999999984,
+              "max_loss_from_initial_pct": 3.0149800000000107,
+              "dd_segment_witness": 1687345199598,
+              "daily_segment_witness": 1691152856234,
+              "realized_net_usd": 337.90999999999985
+            }
+          },
+          "max_concurrent_positions": 2,
+          "max_gross_ounces": 57,
+          "stale_equity_start_resets": 30,
+          "event_marks": 132,
+          "daily_anchor": "PRAGUE_MIDNIGHT_BALANCE",
+          "unobserved_quotes_not_bounded": true
+        },
+        "paths_with_gap_gt15m": 22,
+        "max_quote_gap_minutes": 60.08266666666667
+      },
+      {
+        "recipe": "H1C_MOMENTUM",
+        "view": "BOTH",
+        "policy": "NO_TP",
+        "year": 2022,
+        "signals": 61,
+        "resolved": 61,
+        "exit_counts": {
+          "SL": 33,
+          "FRIDAY_CLOSE": 16,
+          "TIME_48H": 12
+        },
+        "costs": {
+          "SYM_FLAT": {
+            "annual_net_R": -14.153,
+            "mean_net_R": -0.23201639344262295,
+            "net_usd": -2122.95,
+            "gross_usd": -1527.57,
+            "commission_usd": 18.18,
+            "slippage_usd": 290.4,
+            "swap_usd": -286.8
+          },
+          "SYM_ORDER": {
+            "annual_net_R": -14.153,
+            "mean_net_R": -0.23201639344262295,
+            "net_usd": -2122.95,
+            "gross_usd": -1527.57,
+            "commission_usd": 18.18,
+            "slippage_usd": 290.4,
+            "swap_usd": -286.8
+          },
+          "ASYM_FLAT": {
+            "annual_net_R": -13.184,
+            "mean_net_R": -0.2161311475409836,
+            "net_usd": -1977.6,
+            "gross_usd": -1527.57,
+            "commission_usd": 18.18,
+            "slippage_usd": 290.4,
+            "swap_usd": -141.45
+          },
+          "ASYM_ORDER": {
+            "annual_net_R": -13.184,
+            "mean_net_R": -0.2161311475409836,
+            "net_usd": -1977.6,
+            "gross_usd": -1527.57,
+            "commission_usd": 18.18,
+            "slippage_usd": 290.4,
+            "swap_usd": -141.45
+          }
+        },
+        "book": {
+          "status": "OBSERVED_TICK_BOOK_CONDITIONAL",
+          "costs": {
+            "SYM_FLAT": {
+              "max_equity_R_drawdown": 20.486266666666538,
+              "max_equity_drawdown_usd": 3072.9399999999805,
+              "worst_daily_loss_pct": 0.6327600000000002,
+              "worst_daily_loss_usd": 316.3800000000001,
+              "equity_start_daily_loss_pct": 0.7772900000000086,
+              "max_loss_from_initial_pct": 6.111569999999963,
+              "dd_segment_witness": 1667923199983,
+              "daily_segment_witness": 1654872594064,
+              "realized_net_usd": -2122.949999999999
+            },
+            "SYM_ORDER": {
+              "max_equity_R_drawdown": 20.486266666666538,
+              "max_equity_drawdown_usd": 3072.9399999999805,
+              "worst_daily_loss_pct": 0.6327600000000002,
+              "worst_daily_loss_usd": 316.3800000000001,
+              "equity_start_daily_loss_pct": 0.7772900000000086,
+              "max_loss_from_initial_pct": 6.111569999999963,
+              "dd_segment_witness": 1667923199983,
+              "daily_segment_witness": 1654872594064,
+              "realized_net_usd": -2122.949999999999
+            },
+            "ASYM_FLAT": {
+              "max_equity_R_drawdown": 19.569499999999874,
+              "max_equity_drawdown_usd": 2935.424999999981,
+              "worst_daily_loss_pct": 0.6302399999999994,
+              "worst_daily_loss_usd": 315.11999999999966,
+              "equity_start_daily_loss_pct": 0.765390000000008,
+              "max_loss_from_initial_pct": 5.836539999999965,
+              "dd_segment_witness": 1661957999955,
+              "daily_segment_witness": 1659461732081,
+              "realized_net_usd": -1977.599999999999
+            },
+            "ASYM_ORDER": {
+              "max_equity_R_drawdown": 19.569499999999874,
+              "max_equity_drawdown_usd": 2935.424999999981,
+              "worst_daily_loss_pct": 0.6302399999999994,
+              "worst_daily_loss_usd": 315.11999999999966,
+              "equity_start_daily_loss_pct": 0.765390000000008,
+              "max_loss_from_initial_pct": 5.836539999999965,
+              "dd_segment_witness": 1661957999955,
+              "daily_segment_witness": 1659461732081,
+              "realized_net_usd": -1977.599999999999
+            }
+          },
+          "max_concurrent_positions": 3,
+          "max_gross_ounces": 39,
+          "stale_equity_start_resets": 32,
+          "event_marks": 169,
+          "daily_anchor": "PRAGUE_MIDNIGHT_BALANCE",
+          "unobserved_quotes_not_bounded": true
+        },
+        "paths_with_gap_gt15m": 33,
+        "max_quote_gap_minutes": 60.083333333333336
+      },
+      {
+        "recipe": "H1C_MOMENTUM",
+        "view": "BOTH",
+        "policy": "NO_TP",
+        "year": 2023,
+        "signals": 85,
+        "resolved": 85,
+        "exit_counts": {
+          "SL": 35,
+          "FRIDAY_CLOSE": 11,
+          "TIME_48H": 39
+        },
+        "costs": {
+          "SYM_FLAT": {
+            "annual_net_R": 13.722466666666667,
+            "mean_net_R": 0.1614407843137255,
+            "net_usd": 2058.37,
+            "gross_usd": 3431.8,
+            "commission_usd": 30.63,
+            "slippage_usd": 454.4,
+            "swap_usd": -888.4
+          },
+          "SYM_ORDER": {
+            "annual_net_R": 13.722466666666667,
+            "mean_net_R": 0.1614407843137255,
+            "net_usd": 2058.37,
+            "gross_usd": 3431.8,
+            "commission_usd": 30.63,
+            "slippage_usd": 454.4,
+            "swap_usd": -888.4
+          },
+          "ASYM_FLAT": {
+            "annual_net_R": 16.238133333333334,
+            "mean_net_R": 0.19103686274509804,
+            "net_usd": 2435.7200000000003,
+            "gross_usd": 3431.8,
+            "commission_usd": 30.63,
+            "slippage_usd": 454.4,
+            "swap_usd": -511.05
+          },
+          "ASYM_ORDER": {
+            "annual_net_R": 16.238133333333334,
+            "mean_net_R": 0.19103686274509804,
+            "net_usd": 2435.7200000000003,
+            "gross_usd": 3431.8,
+            "commission_usd": 30.63,
+            "slippage_usd": 454.4,
+            "swap_usd": -511.05
+          }
+        },
+        "book": {
+          "status": "OBSERVED_TICK_BOOK_CONDITIONAL",
+          "costs": {
+            "SYM_FLAT": {
+              "max_equity_R_drawdown": 14.44913333333335,
+              "max_equity_drawdown_usd": 2167.3700000000026,
+              "worst_daily_loss_pct": 0.9303400000000002,
+              "worst_daily_loss_usd": 465.1700000000001,
+              "equity_start_daily_loss_pct": 1.417868000000028,
+              "max_loss_from_initial_pct": 4.256420000000013,
+              "dd_segment_witness": 1694613599866,
+              "daily_segment_witness": 1684510424358,
+              "realized_net_usd": 2058.3700000000013
+            },
+            "SYM_ORDER": {
+              "max_equity_R_drawdown": 14.44913333333335,
+              "max_equity_drawdown_usd": 2167.3700000000026,
+              "worst_daily_loss_pct": 0.9303400000000002,
+              "worst_daily_loss_usd": 465.1700000000001,
+              "equity_start_daily_loss_pct": 1.417868000000028,
+              "max_loss_from_initial_pct": 4.256420000000013,
+              "dd_segment_witness": 1694613599866,
+              "daily_segment_witness": 1684510424358,
+              "realized_net_usd": 2058.3700000000013
+            },
+            "ASYM_FLAT": {
+              "max_equity_R_drawdown": 13.413933333333214,
+              "max_equity_drawdown_usd": 2012.089999999982,
+              "worst_daily_loss_pct": 0.91144,
+              "worst_daily_loss_usd": 455.72,
+              "equity_start_daily_loss_pct": 1.3842680000000076,
+              "max_loss_from_initial_pct": 3.9448599999999714,
+              "dd_segment_witness": 1689094799617,
+              "daily_segment_witness": 1684510424358,
+              "realized_net_usd": 2435.7200000000007
+            },
+            "ASYM_ORDER": {
+              "max_equity_R_drawdown": 13.413933333333214,
+              "max_equity_drawdown_usd": 2012.089999999982,
+              "worst_daily_loss_pct": 0.91144,
+              "worst_daily_loss_usd": 455.72,
+              "equity_start_daily_loss_pct": 1.3842680000000076,
+              "max_loss_from_initial_pct": 3.9448599999999714,
+              "dd_segment_witness": 1689094799617,
+              "daily_segment_witness": 1684510424358,
+              "realized_net_usd": 2435.7200000000007
+            }
+          },
+          "max_concurrent_positions": 4,
+          "max_gross_ounces": 58,
+          "stale_equity_start_resets": 65,
+          "event_marks": 266,
+          "daily_anchor": "PRAGUE_MIDNIGHT_BALANCE",
+          "unobserved_quotes_not_bounded": true
+        },
+        "paths_with_gap_gt15m": 56,
+        "max_quote_gap_minutes": 60.117333333333335
+      },
+      {
+        "recipe": "H1C_MOMENTUM",
+        "view": "BOTH",
+        "policy": "TP2R",
+        "year": 2022,
+        "signals": 61,
+        "resolved": 61,
+        "exit_counts": {
+          "SL": 33,
+          "FRIDAY_CLOSE": 16,
+          "TIME_48H": 8,
+          "TP2R": 4
+        },
+        "costs": {
+          "SYM_FLAT": {
+            "annual_net_R": -21.328266666666668,
+            "mean_net_R": -0.34964371584699455,
+            "net_usd": -3199.24,
+            "gross_usd": -2653.87,
+            "commission_usd": 18.17,
+            "slippage_usd": 290.4,
+            "swap_usd": -236.8
+          },
+          "SYM_ORDER": {
+            "annual_net_R": -21.2536,
+            "mean_net_R": -0.3484196721311475,
+            "net_usd": -3188.04,
+            "gross_usd": -2653.87,
+            "commission_usd": 18.17,
+            "slippage_usd": 279.2,
+            "swap_usd": -236.8
+          },
+          "ASYM_FLAT": {
+            "annual_net_R": -20.490933333333334,
+            "mean_net_R": -0.3359169398907104,
+            "net_usd": -3073.64,
+            "gross_usd": -2653.87,
+            "commission_usd": 18.17,
+            "slippage_usd": 290.4,
+            "swap_usd": -111.2
+          },
+          "ASYM_ORDER": {
+            "annual_net_R": -20.41626666666667,
+            "mean_net_R": -0.3346928961748634,
+            "net_usd": -3062.44,
+            "gross_usd": -2653.87,
+            "commission_usd": 18.17,
+            "slippage_usd": 279.2,
+            "swap_usd": -111.2
+          }
+        },
+        "book": {
+          "status": "OBSERVED_TICK_BOOK_CONDITIONAL",
+          "costs": {
+            "SYM_FLAT": {
+              "max_equity_R_drawdown": 23.378199999999875,
+              "max_equity_drawdown_usd": 3506.7299999999814,
+              "worst_daily_loss_pct": 0.6327600000000002,
+              "worst_daily_loss_usd": 316.3800000000001,
+              "equity_start_daily_loss_pct": 0.7772900000000086,
+              "max_loss_from_initial_pct": 6.979149999999964,
+              "dd_segment_witness": 1667920470391,
+              "daily_segment_witness": 1654872594064,
+              "realized_net_usd": -3199.2399999999993
+            },
+            "SYM_ORDER": {
+              "max_equity_R_drawdown": 23.323533333333206,
+              "max_equity_drawdown_usd": 3498.5299999999806,
+              "worst_daily_loss_pct": 0.6327600000000002,
+              "worst_daily_loss_usd": 316.3800000000001,
+              "equity_start_daily_loss_pct": 0.7772900000000086,
+              "max_loss_from_initial_pct": 6.962749999999963,
+              "dd_segment_witness": 1667920470391,
+              "daily_segment_witness": 1654872594064,
+              "realized_net_usd": -3188.0399999999995
+            },
+            "ASYM_FLAT": {
+              "max_equity_R_drawdown": 22.630833333333236,
+              "max_equity_drawdown_usd": 3394.6249999999854,
+              "worst_daily_loss_pct": 0.6302399999999998,
+              "worst_daily_loss_usd": 315.1199999999999,
+              "equity_start_daily_loss_pct": 0.765390000000008,
+              "max_loss_from_initial_pct": 6.754939999999973,
+              "dd_segment_witness": 1661957999955,
+              "daily_segment_witness": 1659461732081,
+              "realized_net_usd": -3073.6399999999994
+            },
+            "ASYM_ORDER": {
+              "max_equity_R_drawdown": 22.613499999999913,
+              "max_equity_drawdown_usd": 3392.024999999987,
+              "worst_daily_loss_pct": 0.6302399999999998,
+              "worst_daily_loss_usd": 315.1199999999999,
+              "equity_start_daily_loss_pct": 0.765390000000008,
+              "max_loss_from_initial_pct": 6.749739999999976,
+              "dd_segment_witness": 1661957999955,
+              "daily_segment_witness": 1659461732081,
+              "realized_net_usd": -3062.4399999999987
+            }
+          },
+          "max_concurrent_positions": 3,
+          "max_gross_ounces": 39,
+          "stale_equity_start_resets": 30,
+          "event_marks": 164,
+          "daily_anchor": "PRAGUE_MIDNIGHT_BALANCE",
+          "unobserved_quotes_not_bounded": true
+        },
+        "paths_with_gap_gt15m": 31,
+        "max_quote_gap_minutes": 60.083333333333336
+      },
+      {
+        "recipe": "H1C_MOMENTUM",
+        "view": "BOTH",
+        "policy": "TP2R",
+        "year": 2023,
+        "signals": 85,
+        "resolved": 85,
+        "exit_counts": {
+          "SL": 34,
+          "FRIDAY_CLOSE": 7,
+          "TP2R": 20,
+          "TIME_48H": 24
+        },
+        "costs": {
+          "SYM_FLAT": {
+            "annual_net_R": 8.659866666666666,
+            "mean_net_R": 0.10188078431372548,
+            "net_usd": 1298.98,
+            "gross_usd": 2403.61,
+            "commission_usd": 30.63,
+            "slippage_usd": 454.4,
+            "swap_usd": -619.6
+          },
+          "SYM_ORDER": {
+            "annual_net_R": 9.126533333333333,
+            "mean_net_R": 0.10737098039215685,
+            "net_usd": 1368.9799999999998,
+            "gross_usd": 2403.61,
+            "commission_usd": 30.63,
+            "slippage_usd": 384.4,
+            "swap_usd": -619.6
+          },
+          "ASYM_FLAT": {
+            "annual_net_R": 10.402199999999999,
+            "mean_net_R": 0.12237882352941175,
+            "net_usd": 1560.33,
+            "gross_usd": 2403.61,
+            "commission_usd": 30.63,
+            "slippage_usd": 454.4,
+            "swap_usd": -358.25
+          },
+          "ASYM_ORDER": {
+            "annual_net_R": 10.868866666666666,
+            "mean_net_R": 0.12786901960784314,
+            "net_usd": 1630.33,
+            "gross_usd": 2403.61,
+            "commission_usd": 30.63,
+            "slippage_usd": 384.4,
+            "swap_usd": -358.25
+          }
+        },
+        "book": {
+          "status": "OBSERVED_TICK_BOOK_CONDITIONAL",
+          "costs": {
+            "SYM_FLAT": {
+              "max_equity_R_drawdown": 13.712306666666748,
+              "max_equity_drawdown_usd": 2056.8460000000123,
+              "worst_daily_loss_pct": 0.93034,
+              "worst_daily_loss_usd": 465.17,
+              "equity_start_daily_loss_pct": 1.1306140000000222,
+              "max_loss_from_initial_pct": 4.069380000000004,
+              "dd_segment_witness": 1694613599866,
+              "daily_segment_witness": 1684510424358,
+              "realized_net_usd": 1298.9800000000012
+            },
+            "SYM_ORDER": {
+              "max_equity_R_drawdown": 13.64430666666672,
+              "max_equity_drawdown_usd": 2046.646000000008,
+              "worst_daily_loss_pct": 0.9303400000000002,
+              "worst_daily_loss_usd": 465.1700000000001,
+              "equity_start_daily_loss_pct": 1.1306140000000224,
+              "max_loss_from_initial_pct": 4.025779999999999,
+              "dd_segment_witness": 1694613599866,
+              "daily_segment_witness": 1684510424358,
+              "realized_net_usd": 1368.9800000000007
+            },
+            "ASYM_FLAT": {
+              "max_equity_R_drawdown": 13.060973333333386,
+              "max_equity_drawdown_usd": 1959.146000000008,
+              "worst_daily_loss_pct": 0.91144,
+              "worst_daily_loss_usd": 455.71999999999997,
+              "equity_start_daily_loss_pct": 1.1117140000000223,
+              "max_loss_from_initial_pct": 3.8033800000000046,
+              "dd_segment_witness": 1694613599866,
+              "daily_segment_witness": 1684510424358,
+              "realized_net_usd": 1560.3299999999995
+            },
+            "ASYM_ORDER": {
+              "max_equity_R_drawdown": 12.992973333333357,
+              "max_equity_drawdown_usd": 1948.9460000000036,
+              "worst_daily_loss_pct": 0.91144,
+              "worst_daily_loss_usd": 455.71999999999997,
+              "equity_start_daily_loss_pct": 1.1117140000000223,
+              "max_loss_from_initial_pct": 3.759779999999999,
+              "dd_segment_witness": 1694613599866,
+              "daily_segment_witness": 1684510424358,
+              "realized_net_usd": 1630.3299999999995
+            }
+          },
+          "max_concurrent_positions": 3,
+          "max_gross_ounces": 58,
+          "stale_equity_start_resets": 57,
+          "event_marks": 249,
+          "daily_anchor": "PRAGUE_MIDNIGHT_BALANCE",
+          "unobserved_quotes_not_bounded": true
+        },
+        "paths_with_gap_gt15m": 52,
+        "max_quote_gap_minutes": 60.117333333333335
+      }
+    ],
+    "coverage": {
+      "total": 608,
+      "available": 601,
+      "old_missing": 231,
+      "restored": 224,
+      "missing": [
+        {
+          "signal_id": "H1A_ASIA:1649840400000:BUY",
+          "recipe": "H1A_ASIA",
+          "side": "BUY",
+          "day": "2022-04-13",
+          "old_missing": true,
+          "target_msc": 1650013200029,
+          "quote": null,
+          "clamped": false
+        },
+        {
+          "signal_id": "H1B_RECLAIM:1649937600000:BUY",
+          "recipe": "H1B_RECLAIM",
+          "side": "BUY",
+          "day": "2022-04-14",
+          "old_missing": true,
+          "target_msc": 1650054600000,
+          "quote": null,
+          "clamped": true
+        },
+        {
+          "signal_id": "H1A_ASIA:1680681600000:BUY",
+          "recipe": "H1A_ASIA",
+          "side": "BUY",
+          "day": "2023-04-05",
+          "old_missing": true,
+          "target_msc": 1680854400078,
+          "quote": null,
+          "clamped": false
+        },
+        {
+          "signal_id": "H1B_RECLAIM:1680775200000:BUY",
+          "recipe": "H1B_RECLAIM",
+          "side": "BUY",
+          "day": "2023-04-06",
+          "old_missing": true,
+          "target_msc": 1680899400000,
+          "quote": null,
+          "clamped": true
+        },
+        {
+          "signal_id": "H1B_RECLAIM:1700740800000:BUY",
+          "recipe": "H1B_RECLAIM",
+          "side": "BUY",
+          "day": "2023-11-23",
+          "old_missing": true,
+          "target_msc": 1700857800000,
+          "quote": null,
+          "clamped": true
+        },
+        {
+          "signal_id": "H1B_RECLAIM:1700751600000:BUY",
+          "recipe": "H1B_RECLAIM",
+          "side": "BUY",
+          "day": "2023-11-23",
+          "old_missing": true,
+          "target_msc": 1700857800000,
+          "quote": null,
+          "clamped": true
+        },
+        {
+          "signal_id": "H1A_ASIA:1700823600000:BUY",
+          "recipe": "H1A_ASIA",
+          "side": "BUY",
+          "day": "2023-11-24",
+          "old_missing": true,
+          "target_msc": 1700857800000,
+          "quote": null,
+          "clamped": true
+        }
+      ]
+    },
+    "source_counts": {
+      "admitted_M1_minutes_in_requested_hours": 416710,
+      "admitted_M1_minutes_without_ticks": 0,
+      "M1_compared": 416710,
+      "ticks": 55662238,
+      "hours": 7256,
+      "empty_hours": 307
+    },
+    "config_sha256": "e60a0be7b74c8e8b80e96eaea5febeb59e9d9d7b18b76e767475b28ee828efee",
+    "trades_sha256": "b015d52f6e9a7d382622a292af52107df89460537a260632ce42c4e09d4f975a",
+    "coverage_sha256": "ea1d31d8a92cf9cbf638781d4c96d225188886507c868956d5e6b1a41b9322e8",
+    "source_review_sha256": "63293a408bba1e2e57a8034ff550951275436c8bfb871e6021fad999cd8c7277",
+    "prices2024_2026_read": false,
+    "prop_qualified": false,
+    "broker_calls": 0,
+    "wall_seconds": 638.3589999999967
+  },
+  "arithmetic_review": {
+    "status": "SELF_AUDIT_PASSED_NOT_INDEPENDENT_REVIEW",
+    "cost_bridges": 2840,
+    "path_checks": 712,
+    "books": [
+      {
+        "recipe": "H1A_ASIA",
+        "view": "BOTH",
+        "policy": "NO_TP",
+        "year": 2022,
+        "resolved_subcohort_only": false,
+        "oracle": {
+          "SYM_FLAT": {
+            "dd_usd": 2516.402,
+            "daily_usd": 343.026,
+            "cash_usd": 1126.56
+          },
+          "ASYM_ORDER": {
+            "dd_usd": 2415.23,
+            "daily_usd": 349.076,
+            "cash_usd": 1413.21
+          }
+        },
+        "tick_marks": 19251196
+      },
+      {
+        "recipe": "H1A_ASIA",
+        "view": "BOTH",
+        "policy": "NO_TP",
+        "year": 2023,
+        "resolved_subcohort_only": true,
+        "oracle": {
+          "SYM_FLAT": {
+            "dd_usd": 3326.562,
+            "daily_usd": 399.69,
+            "cash_usd": 1968.29
+          },
+          "ASYM_ORDER": {
+            "dd_usd": 3134.012,
+            "daily_usd": 365.74,
+            "cash_usd": 2368.34
+          }
+        },
+        "tick_marks": 12673293
+      },
+      {
+        "recipe": "H1A_ASIA",
+        "view": "BOTH",
+        "policy": "TP2R",
+        "year": 2022,
+        "resolved_subcohort_only": false,
+        "oracle": {
+          "SYM_FLAT": {
+            "dd_usd": 2150.404,
+            "daily_usd": 334.61,
+            "cash_usd": -561.59
+          },
+          "ASYM_ORDER": {
+            "dd_usd": 2113.054,
+            "daily_usd": 338.06,
+            "cash_usd": -296.09
+          }
+        },
+        "tick_marks": 17123476
+      },
+      {
+        "recipe": "H1A_ASIA",
+        "view": "BOTH",
+        "policy": "TP2R",
+        "year": 2023,
+        "resolved_subcohort_only": true,
+        "oracle": {
+          "SYM_FLAT": {
+            "dd_usd": 1957.571,
+            "daily_usd": 325.21,
+            "cash_usd": 245.28
+          },
+          "ASYM_ORDER": {
+            "dd_usd": 1935.071,
+            "daily_usd": 317.86,
+            "cash_usd": 556.98
+          }
+        },
+        "tick_marks": 9735886
+      },
+      {
+        "recipe": "H1A_ASIA",
+        "view": "BUY",
+        "policy": "NO_TP",
+        "year": 2022,
+        "resolved_subcohort_only": false,
+        "oracle": {
+          "SYM_FLAT": {
+            "dd_usd": 2006.54,
+            "daily_usd": 343.026,
+            "cash_usd": -223.61
+          },
+          "ASYM_ORDER": {
+            "dd_usd": 2024.44,
+            "daily_usd": 349.076,
+            "cash_usd": -264.91
+          }
+        },
+        "tick_marks": 9603717
+      },
+      {
+        "recipe": "H1A_ASIA",
+        "view": "BUY",
+        "policy": "NO_TP",
+        "year": 2023,
+        "resolved_subcohort_only": true,
+        "oracle": {
+          "SYM_FLAT": {
+            "dd_usd": 2304.822,
+            "daily_usd": 313.17,
+            "cash_usd": 379.91
+          },
+          "ASYM_ORDER": {
+            "dd_usd": 2314.922,
+            "daily_usd": 313.92,
+            "cash_usd": 327.76
+          }
+        },
+        "tick_marks": 7174938
+      },
+      {
+        "recipe": "H1A_ASIA",
+        "view": "BUY",
+        "policy": "TP2R",
+        "year": 2022,
+        "resolved_subcohort_only": false,
+        "oracle": {
+          "SYM_FLAT": {
+            "dd_usd": 1973.538,
+            "daily_usd": 334.61,
+            "cash_usd": -1490.81
+          },
+          "ASYM_ORDER": {
+            "dd_usd": 1980.088,
+            "daily_usd": 338.06,
+            "cash_usd": -1486.76
+          }
+        },
+        "tick_marks": 8626016
+      },
+      {
+        "recipe": "H1A_ASIA",
+        "view": "BUY",
+        "policy": "TP2R",
+        "year": 2023,
+        "resolved_subcohort_only": true,
+        "oracle": {
+          "SYM_FLAT": {
+            "dd_usd": 1291.37,
+            "daily_usd": 313.17,
+            "cash_usd": 189.77
+          },
+          "ASYM_ORDER": {
+            "dd_usd": 1289.82,
+            "daily_usd": 313.92,
+            "cash_usd": 219.07
+          }
+        },
+        "tick_marks": 5261582
+      },
+      {
+        "recipe": "H1A_ASIA",
+        "view": "SELL",
+        "policy": "NO_TP",
+        "year": 2022,
+        "resolved_subcohort_only": false,
+        "oracle": {
+          "SYM_FLAT": {
+            "dd_usd": 2031.23,
+            "daily_usd": 341.17,
+            "cash_usd": 1350.17
+          },
+          "ASYM_ORDER": {
+            "dd_usd": 1969.98,
+            "daily_usd": 318.07,
+            "cash_usd": 1678.12
+          }
+        },
+        "tick_marks": 9647479
+      },
+      {
+        "recipe": "H1A_ASIA",
+        "view": "SELL",
+        "policy": "NO_TP",
+        "year": 2023,
+        "resolved_subcohort_only": false,
+        "oracle": {
+          "SYM_FLAT": {
+            "dd_usd": 2291.585,
+            "daily_usd": 399.69,
+            "cash_usd": 1588.38
+          },
+          "ASYM_ORDER": {
+            "dd_usd": 2082.285,
+            "daily_usd": 365.74,
+            "cash_usd": 2040.58
+          }
+        },
+        "tick_marks": 5500896
+      },
+      {
+        "recipe": "H1A_ASIA",
+        "view": "SELL",
+        "policy": "TP2R",
+        "year": 2022,
+        "resolved_subcohort_only": false,
+        "oracle": {
+          "SYM_FLAT": {
+            "dd_usd": 1286.221,
+            "daily_usd": 256.942,
+            "cash_usd": 929.22
+          },
+          "ASYM_ORDER": {
+            "dd_usd": 1247.021,
+            "daily_usd": 248.892,
+            "cash_usd": 1190.67
+          }
+        },
+        "tick_marks": 8497460
+      },
+      {
+        "recipe": "H1A_ASIA",
+        "view": "SELL",
+        "policy": "TP2R",
+        "year": 2023,
+        "resolved_subcohort_only": false,
+        "oracle": {
+          "SYM_FLAT": {
+            "dd_usd": 1897.731,
+            "daily_usd": 325.21,
+            "cash_usd": 55.51
+          },
+          "ASYM_ORDER": {
+            "dd_usd": 1863.981,
+            "daily_usd": 317.86,
+            "cash_usd": 337.91
+          }
+        },
+        "tick_marks": 4476845
+      },
+      {
+        "recipe": "H1C_MOMENTUM",
+        "view": "BOTH",
+        "policy": "NO_TP",
+        "year": 2022,
+        "resolved_subcohort_only": false,
+        "oracle": {
+          "SYM_FLAT": {
+            "dd_usd": 3072.94,
+            "daily_usd": 316.38,
+            "cash_usd": -2122.95
+          },
+          "ASYM_ORDER": {
+            "dd_usd": 2935.425,
+            "daily_usd": 315.12,
+            "cash_usd": -1977.6
+          }
+        },
+        "tick_marks": 9795903
+      },
+      {
+        "recipe": "H1C_MOMENTUM",
+        "view": "BOTH",
+        "policy": "NO_TP",
+        "year": 2023,
+        "resolved_subcohort_only": false,
+        "oracle": {
+          "SYM_FLAT": {
+            "dd_usd": 2167.37,
+            "daily_usd": 465.17,
+            "cash_usd": 2058.37
+          },
+          "ASYM_ORDER": {
+            "dd_usd": 2012.09,
+            "daily_usd": 455.72,
+            "cash_usd": 2435.72
+          }
+        },
+        "tick_marks": 10930869
+      },
+      {
+        "recipe": "H1C_MOMENTUM",
+        "view": "BOTH",
+        "policy": "TP2R",
+        "year": 2022,
+        "resolved_subcohort_only": false,
+        "oracle": {
+          "SYM_FLAT": {
+            "dd_usd": 3506.73,
+            "daily_usd": 316.38,
+            "cash_usd": -3199.24
+          },
+          "ASYM_ORDER": {
+            "dd_usd": 3392.025,
+            "daily_usd": 315.12,
+            "cash_usd": -3062.44
+          }
+        },
+        "tick_marks": 9392391
+      },
+      {
+        "recipe": "H1C_MOMENTUM",
+        "view": "BOTH",
+        "policy": "TP2R",
+        "year": 2023,
+        "resolved_subcohort_only": false,
+        "oracle": {
+          "SYM_FLAT": {
+            "dd_usd": 2056.846,
+            "daily_usd": 465.17,
+            "cash_usd": 1298.98
+          },
+          "ASYM_ORDER": {
+            "dd_usd": 1948.946,
+            "daily_usd": 455.72,
+            "cash_usd": 1630.33
+          }
+        },
+        "tick_marks": 10072267
+      }
+    ],
+    "observed_tick_marks": 157764214,
+    "result_sha256": "0c09ef18c96aac338982710ddc5814db40f2bd8126157446a244380b9a97e70c",
+    "trades_sha256": "b015d52f6e9a7d382622a292af52107df89460537a260632ce42c4e09d4f975a",
+    "reviewer_source_sha256": "56fc797952e6727c885c8556a83952a794f472aa2e37a6614c046c062c23144a",
+    "prices2024_2026_read": false
+  },
+  "result_sha256": "0c09ef18c96aac338982710ddc5814db40f2bd8126157446a244380b9a97e70c",
+  "registration_sha256": "e60a0be7b74c8e8b80e96eaea5febeb59e9d9d7b18b76e767475b28ee828efee",
+  "coverage_by_recipe_year": [
+    {
+      "recipe": "H1A_ASIA",
+      "year": 2022,
+      "signals": 103,
+      "old_available": 63,
+      "new_available": 102,
+      "restored": 39
+    },
+    {
+      "recipe": "H1A_ASIA",
+      "year": 2023,
+      "signals": 107,
+      "old_available": 65,
+      "new_available": 105,
+      "restored": 40
+    },
+    {
+      "recipe": "H1B_RECLAIM",
+      "year": 2022,
+      "signals": 116,
+      "old_available": 76,
+      "new_available": 115,
+      "restored": 39
+    },
+    {
+      "recipe": "H1B_RECLAIM",
+      "year": 2023,
+      "signals": 136,
+      "old_available": 80,
+      "new_available": 133,
+      "restored": 53
+    },
+    {
+      "recipe": "H1C_MOMENTUM",
+      "year": 2022,
+      "signals": 61,
+      "old_available": 32,
+      "new_available": 61,
+      "restored": 29
+    },
+    {
+      "recipe": "H1C_MOMENTUM",
+      "year": 2023,
+      "signals": 85,
+      "old_available": 61,
+      "new_available": 85,
+      "restored": 24
+    }
+  ],
+  "A_noTP_concentration": [
+    {
+      "year": 2022,
+      "resolved": 103,
+      "annual_net_R": 9.421399999999998,
+      "largest_net_R": 9.266866666666667,
+      "top5_net_R": 29.830199999999998,
+      "rest_net_R": -20.4088,
+      "winrate": 0.3592233009708738,
+      "median_hold_hours": 21.9869625
+    },
+    {
+      "year": 2023,
+      "resolved": 106,
+      "annual_net_R": 15.788933333333334,
+      "largest_net_R": 9.654200000000001,
+      "top5_net_R": 31.56846666666667,
+      "rest_net_R": -15.779533333333333,
+      "winrate": 0.3584905660377358,
+      "median_hold_hours": 12.500000555555555
+    }
+  ],
+  "observed_source_quote_gaps_over2h": [
+    {
+      "signal_id": "H1A_ASIA:1642406400000:BUY",
+      "day": "2022-01-17",
+      "side": "BUY",
+      "exit_policy": "NO_TP",
+      "max_observed_quote_gap_ms": 18061850
+    },
+    {
+      "signal_id": "H1A_ASIA:1642406400000:BUY",
+      "day": "2022-01-17",
+      "side": "BUY",
+      "exit_policy": "TP2R",
+      "max_observed_quote_gap_ms": 18061850
+    },
+    {
+      "signal_id": "H1A_ASIA:1656932400000:SELL",
+      "day": "2022-07-04",
+      "side": "SELL",
+      "exit_policy": "NO_TP",
+      "max_observed_quote_gap_ms": 12661249
+    },
+    {
+      "signal_id": "H1A_ASIA:1656932400000:SELL",
+      "day": "2022-07-04",
+      "side": "SELL",
+      "exit_policy": "TP2R",
+      "max_observed_quote_gap_ms": 12661249
+    }
+  ],
+  "scope": {
+    "development": [
+      2022,
+      2023
+    ],
+    "prices2024_2026_read": false,
+    "broker_calls": 0,
+    "prop_qualified": false,
+    "same_signals_and_quantities_across_cells": true,
+    "TP3R_run": false,
+    "BUY_SELL_are_views_not_new_alpha": true
+  },
+  "cost_profiles": {
+    "SYM": {
+      "swap_long_usd_per_lot": -40,
+      "swap_short_usd_per_lot": -40
+    },
+    "ASYM": {
+      "swap_long_usd_per_lot": -45,
+      "swap_short_usd_per_lot": -5
+    },
+    "market_stop_sl_time_friday_slippage_usd_per_oz_per_side": 0.2,
+    "limit_tp_slippage": 0.0,
+    "commission_notional_per_side": 7e-06,
+    "swap_booking": "POSITION_ACCRUAL_UNTIL_EXIT",
+    "funding_clock": "22UTC_WEEKDAYS_WED3_PROXY_NOT_VERIFIED_TARGET_HISTORY"
+  },
+  "verdicts": {
+    "A_BOTH_NO_TP": "PROVISIONAL_POSITIVE_MODEL_DATA_AND_CALENDAR_INCOMPLETE_PROP_UNMEASURED",
+    "A_BOTH_TP2R": "ECONOMIC_FAIL_2022",
+    "C_BOTH_NO_TP": "ECONOMIC_FAIL_2022",
+    "C_BOTH_TP2R": "ECONOMIC_FAIL_2022"
+  },
+  "artifacts": {
+    "root": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\xauusd-h1-execution-20261113",
+    "attempt": "attempt-2",
+    "trades": "attempt-2/trades.json",
+    "coverage": "attempt-2/coverage.json",
+    "source_review": "attempt-2/source-review.json",
+    "audit": "attempt-2/arithmetic-review.json",
+    "source_snapshot": "source-snapshot-v2"
+  },
+  "engineering": {
+    "attempt1_cancelled_before_PnL": true,
+    "reason": "MIDNIGHT_BALANCE_OPEN_SLIP_AND_SWAP",
+    "raw_source_reused_after_cancellation": true,
+    "unit_fixtures": 18,
+    "stage0_regressions": 12,
+    "source_collection_wall_seconds": 2005.403,
+    "execution_wall_seconds": 638.3589999999967
+  }
+}
