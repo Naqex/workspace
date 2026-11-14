@@ -1,36 +1,46 @@
 # Current context — Naqex Workspace
 
-14/11/2026 · `RESEARCH: PROP_PORTFOLIO_V3_ACTIVE · REVIEW: REQUIRED_BEFORE_DELIVERY · DOC: RESUMABLE`.
+14/11/2026 · `RESEARCH: PROP_PORTFOLIO_V3_COMPLETED_CONDITIONAL · PROP: NOT_QUALIFIED · DOC: REVIEWABLE`.
 
 ## Việc hiện tại
 
-**Owner giao V3:** [protocol](research/PROP-PORTFOLIO-V3-PROTOCOL-20261114.md),
-task `ded836a8-3f42-4204-9742-9fc0ad3c369e`. PR #80 đã merge `91dd2d5`,
-nhánh cũ xóa; nhánh mới `codex/prop-portfolio-v3`.
-Job `execution-v1/prop-portfolio-v3-20261114`.
+**V3 đã hoàn tất Phase 0–4, chưa đủ điều kiện Challenge:**
+[báo cáo](research/PROP-PORTFOLIO-V3-RESULTS-20261114.md) /
+[JSON](research/PROP-PORTFOLIO-V3-RESULTS-20261114.json) /
+[composition](research/PROP-PORTFOLIO-V3-DECISION-20261114.json) /
+[protocol](research/PROP-PORTFOLIO-V3-PROTOCOL-20261114.md),
+task `ded836a8-3f42-4204-9742-9fc0ad3c369e`.
+PR #80 đã merge `91dd2d5`, nhánh cũ xóa; nhánh giao V3
+`codex/prop-portfolio-v3`, job `execution-v1/prop-portfolio-v3-20261114`.
 
-Reserve funding đã sửa sang `deadline_msc`, test future-exit perturbation đạt.
-Một thử nghiệm D1 SMA50/slope5/0.5x đã chạy Dev: tỷ số lợi nhuận/DD gộp giảm
-ở cả hai stress models, giữ A_Original. 112 Natural-SL screens đã chạy;
-42 cấu hình có đường giá đủ cho M1 scenario, phần khác còn source-conditional.
-USDJPY không đủ nguồn; GBP/AUD H1 chưa đủ M1 để promote.
-Source clock US500 chặn giờ nghỉ NY đã đăng ký trước PnL, không thay entry.
-Nguồn M1: Gold 707.602, EURUSD 743.906, US500 673.918 bars trên 2022–2023.
-Lượt natural đầu lỗi Ask trống ở Gold bị quarantine nguyên tại
-`natural-attempt-1-invalid-ask-quote`; test chặn Ask=0 và bản sửa `5e8747b`.
-Không dùng kết quả invalid để chọn. Đã chọn sơ bộ EURUSD sweep Asia/London/DAY;
-20.905.654 tick gốc / 2.994 giờ xác nhận 236/247 cơ hội (11 friction rejects),
-Net R 2022 +3,7714 / 2023 +10,5621, correlation ~0,10, cải thiện tỷ số
-portfolio fixed-half-budget ở cả hai mô hình. Final satellite giữ nguyên
-`EURUSD.SWEEP.ASIA.LONDON.DAY`; không nhìn 2024 để chọn.
-[Composition](research/PROP-PORTFOLIO-V3-DECISION-20261114.json) đã freeze;
-commit file này rồi mới release Phase 3. Code trước freeze `99c992f`.
-Shared-account adapter tái dùng Account lifecycle, joint paired ticks Gold/EUR,
-19 fixtures V3 đạt (cùng 16 fixtures V2); giữ cả single-core control và portfolio.
-Tiếp: release sau commit → bounded EUR 2024 signal/tick intake → 144 accounts
-(2 models × 2 systems × 36 starts) → numerical oracles/report/PR ba CI xanh.
+Funding reserve chỉ dùng deadline biết trước, không nhìn exit tương lai.
+Một trial D1 SMA50/slope5/0.5x làm giảm tỷ số Net/DD, giữ A_Original.
+112 Natural-SL screens; 42 đủ đường cho M1 scenario. US500 khôi phục
+715/732 endpoint cũ, 17 còn unknown; GBP/AUD thiếu M1/tick, USDJPY thiếu nguồn.
+Lượt lỗi Ask=0 ở Gold giữ nguyên trong quarantine, không dùng để chọn.
+Chỉ chọn `EURUSD.SWEEP.ASIA.LONDON.DAY`: tick Dev +3,7714R / +10,5621R,
+112/124 lệnh, correlation ngày khoảng 0,10; cải thiện Net/DD ghép nửa ngân sách.
+Composition commit `ec602f7` trước release/mở 2024; LF/CRLF preflight đã chặn
+trước release, semantic/byte binding sửa rồi commit lại, không đổi tham số.
+Historical Validation 2024 của EUR: 67 lệnh, +6,3371R; đã exposed, không clean OOS.
+
+144 accounts (2 models × 2 systems × 36 monthly starts), cùng shared-account
+lifecycle và joint paired ticks. Portfolio qua vòng 1 15/36 ở cả SYM/ASYM;
+hoàn tất hai vòng 0/36 SYM, 2/36 ASYM, payout 0. Hai cửa sổ ASYM chỉ có
+một đường funded riêng biệt: funded lỗ $1.096,26 cuối 2023, lãi $847,82
+năm 2024, cuối mẫu $49.751,56. Không suy thành xác suất pass tương lai.
+Worst static portfolio 6,998% / 6,997%, sát reserve nội bộ 7%;
+worst daily 1,132% / 1,071%; không observed modeled breach.
+
+197 tests (21 fixtures V3) và bốn đối soát đạt: 112 screens, 420 D1 decisions,
+25.447.523 tick EUR khớp CSV gốc, 144 account ledgers cùng admissions/rejections.
+Cùng implementer dùng phép tính khác; không reviewer người/model độc lập.
+Giữ A + EUR để review hữu hạn tiếp theo, chưa Challenge/thu nhập chính:
+không payout, top-trade concentration, completion phụ thuộc swap proxy,
+actual target spec/news/margin/feed/forward còn thiếu. `prop_qualified=false`.
+Không numerical writer còn chạy; CI/delivery receipt ở private job.
 Giữ đóng giá 2025–2026, WIP VI Dubber; không broker/model/paid/Astra,
-không tự merge PR V3.
+không tự merge PR V3 hoặc mở chiến dịch mới.
 
 ## V2 đã hoàn tất
 

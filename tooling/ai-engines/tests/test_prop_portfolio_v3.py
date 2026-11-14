@@ -159,6 +159,24 @@ class PortfolioBudgetTests(unittest.TestCase):
         self.assertFalse(account.day_halt)
 
 class JointPortfolioTests(unittest.TestCase):
+    def test_funded_reward_debits_full_profit_from_shared_account(self):
+        at=stamp("2023-06-20T08:00:00")
+        row=trade();row.update(asset="XAUUSD",role="CORE",recipe="A",
+                              exit_price_units=2050000,exit_msc=at+HOUR)
+        account=PortfolioAccount(at-40*DAY,at+2*HOUR,"ASYM_FLAT",rolling=True)
+        account.phase=3;account.funded_first=at-31*DAY
+        account.active={0:(10,125)};account.accrued={0:0}
+        account.balance-=140
+        account._trades=[row]
+        quote=np.zeros(1,dtype=JOINT)[0];quote["t"]=at+HOUR
+        quote["b0"]=2050000;quote["a0"]=2050100
+        account.action("exit",at+HOUR,0,[row],quote)
+        result=account.dump()
+        reward=result["payouts"][0]
+        self.assertEqual(result["balance_usd"],50000)
+        self.assertEqual(reward["gross_removed_usd"],495.72)
+        self.assertAlmostEqual(reward["trader_usd"]+reward["firm_usd"],495.72)
+
     def test_two_assets_share_one_cash_book_with_real_contract_units(self):
         at=stamp("2023-06-20T08:00:00")
         class Reader:

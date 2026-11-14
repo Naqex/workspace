@@ -1,14 +1,21 @@
 # Tra cứu research đã có
 
-**Đang chạy — V3 D1 scaling / satellite contribution / causal reserve:**
-[Protocol](PROP-PORTFOLIO-V3-PROTOCOL-20261114.md), task
+**V3 hoàn tất, danh mục có tiến bộ nhưng chưa đủ điều kiện Challenge:**
+[Báo cáo](PROP-PORTFOLIO-V3-RESULTS-20261114.md) /
+[JSON](PROP-PORTFOLIO-V3-RESULTS-20261114.json) /
+[composition](PROP-PORTFOLIO-V3-DECISION-20261114.json) /
+[protocol](PROP-PORTFOLIO-V3-PROTOCOL-20261114.md), task
 `ded836a8-3f42-4204-9742-9fc0ad3c369e`; PR #80 đã merge `91dd2d5`.
-Giữ A gốc sau một trial D1; 112 Natural-SL screens chỉ trên Dev 2022–2023.
-EURUSD Asia/London sweep DAY đã xác nhận bằng 20,9 triệu tick: +3,7714R /
-+10,5621R; giữ làm một satellite theo marginal gate. Khóa
-[composition](PROP-PORTFOLIO-V3-DECISION-20261114.json) trước mở 2024.
+Giữ A gốc, không dùng D1 scaling; 112 Natural-SL screens chỉ chọn một vệ tinh
+EURUSD Asia/London sweep DAY. Tick Dev +3,7714R / +10,5621R,
+Historical Validation 2024 +6,3371R; không clean OOS.
+Composition commit `ec602f7` trước release 2024; funding reserve đã causal.
+144 accounts: portfolio qua vòng 1 15/36 ở cả hai models; hoàn tất hai vòng
+0/36 SYM và 2/36 ASYM nhưng chỉ một đường funded riêng biệt; payout 0.
+Worst static 6,998% / 6,997%, sát cổng nội bộ 7%; không modeled breach.
+197 tests, bốn đối soát số học/source đạt; cùng implementer, không review độc lập.
 Job `prop-portfolio-v3-20261114`, nhánh `codex/prop-portfolio-v3`.
-Giữ đóng 2025–2026; không tự merge PR mới, broker hoặc Astra.
+Giữ đóng 2025–2026, WIP VI Dubber; không tự merge PR mới, broker hoặc Astra.
 
 **V2 hoàn tất, chưa đủ điều kiện Challenge:**
 [Báo cáo](PROP-ATLAS-V2-RESULTS-20261114.md) /
