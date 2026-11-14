@@ -1,5 +1,23 @@
 # Tra cứu research đã có
 
+**V5 đã kiểm, No-Go promote; source/exact-bootstrap chưa đủ:**
+[Báo cáo](PROP-OVERNIGHT-V5-RESULTS-20261115.md) /
+[JSON](PROP-OVERNIGHT-V5-RESULTS-20261115.json) /
+[quyết định](PROP-OVERNIGHT-V5-DECISION-20261115.json) /
+[protocol](PROP-OVERNIGHT-V5-PROTOCOL-20261115.md).
+PR82 merged `5beeb75`; branch `codex/prop-overnight-v5`.
+Không GBP M1/tick2022–24 hoặc third sleeve. D1/D2 rớtDev; giữPARENT.
+Ratchet/harvester72accounts: ASYM6/36P1,1/36hai vòng; SYM4/36,0;
+payout0; worstpeak12,96%, protectedfloor làm nhiều accounts đứng lại.
+231tests/22V5fixtures, oracle72accounts/32nativeforcedfills đạt.
+10.000block-bootstrap paths/model/block là daily-flat stresssurrogate,
+512scalar bridges đạt nhưng chưa exactV5 qualification/futureprobability.
+Timestamp-only holdout audit được owner cho phép: Gold632.140M1 đến13/10/2026,
+EUR657.549 đến07/10;GBPabsent; không giá/indicator/signal/PnLholdout.
+Giữ VIWIP/Traderpin; không auto-merge PR V5, broker hoặc Astra.
+Privatejob `prop-overnight-v5-20261115`; source/exactMC blockers ghi rõ,
+không gọi mọi acceptance đã đạt vì CI xanh.
+
 **V4 hoàn tất, co-core chưa tạo payout hoặc sẵn sàng full holdout:**
 [Báo cáo](PROP-COCORE-V4-RESULTS-20261114.md) /
 [JSON](PROP-COCORE-V4-RESULTS-20261114.json) /

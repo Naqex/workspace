@@ -10,6 +10,7 @@ from prop_v5_data import timestamp_file
 from prop_v5_replay import TAGGED,session_clock
 from prop_campaign_source import stamp,DAY,HOUR
 from prop_v5_bootstrap import block_indices,simulate
+from prop_v5_stat_review import scalar
 
 
 def trade(at,asset="XAUUSD"):
@@ -160,6 +161,15 @@ class V5Tests(unittest.TestCase):
         self.assertEqual(result["breach_rate"],1)
         self.assertLess(result["mean_terminal_balance_usd"],45000)
         self.assertAlmostEqual(result["max_static_percentiles_pct"][0],200/150*10)
+
+    def test_bootstrap_scalar_oracle_matches_vector_on_phase_and_reward_events(self):
+        ledger=[dict(equity_delta=150,low=49950,high=50200,open_eq=50000,low_at=1,high_at=2)]*25
+        indices=block_indices(25,paths=3,days=252)
+        vector=simulate(ledger,indices)["pathwise"]
+        for j,path in enumerate(indices):
+            answer=scalar(ledger,path)
+            for key,value in answer.items():
+                self.assertAlmostEqual(float(vector[key][j]),float(value),places=6)
 
 
 if __name__=="__main__":unittest.main()

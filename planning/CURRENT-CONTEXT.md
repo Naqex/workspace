@@ -1,8 +1,55 @@
 # Current context — Naqex Workspace
 
-15/11/2026 · `RESEARCH: PROP_COCORE_V4_COMPLETED_CONDITIONAL · PROP: NOT_QUALIFIED · HOLDOUT: CLOSED`.
+15/11/2026 · `RESEARCH: PROP_OVERNIGHT_V5_REVIEWED_NO_GO · PROP: NOT_QUALIFIED · HOLDOUT: TIMESTAMPS_ONLY`.
 
 ## Việc hiện tại
+
+**V5 đã có kết quả, không promote; source/exact-MC gates còn thiếu:**
+[báo cáo](research/PROP-OVERNIGHT-V5-RESULTS-20261115.md) /
+[JSON](research/PROP-OVERNIGHT-V5-RESULTS-20261115.json) /
+[quyết định](research/PROP-OVERNIGHT-V5-DECISION-20261115.json) /
+[protocol](research/PROP-OVERNIGHT-V5-PROTOCOL-20261115.md).
+Task `36b050c6-aa94-4b8c-bb1d-8c5520b23a61`, branch
+`codex/prop-overnight-v5`, private job `execution-v1/prop-overnight-v5-20261115`.
+PR82 merged `5beeb75`, branch V4 xóa. Không tự merge PR V5.
+
+Rà local/QDM không có GBP M1/tick2022–24; upstream fixtures GBP2012,
+AUD2020/USDJPY2013 không đúng kỳ. 28 thiếu ban đầu là24US500+4AUD;
+tái dùng V3 sửa715/732US500 endpoints,17unknown còn giữ nguyên.
+Không third sleeve, không tự tải dữ liệu từ provider mới.
+
+EUR DD35,757R: đỉnh30/09/2022, đáy10/03/2023, hồi đỉnh trên tick18/10/2023.
+BUY góp17,665R/SELL18,093R. D1(rangeAsia>2ATR) netDev4,829R/DD35,899R;
+D2(coldDD8R/factor.5/recover4R) net9,967R/DD23,351R, mất tốc độ2023.
+Cả hai rớt cổngDev, giữPARENT. Recheck year-carry bằng continuous closed cash
+thay annual standalone cold starts xác nhận cùng verdict, không thêm trial.
+
+V5 giữ V4 risk/cap/reserve, thêm ratchet7%/5% và3,5%; harvester1%/2%,
+requestproxy14ngày. Commit`c63a255` trước2024 replay. 72accounts:
+ASYM P1 6/36,hai vòng1/36; SYM4/36,hai vòng0. Payout0, không modeledbreach.
+Worstpeak12,957/12,773%, chưa<9,5%; static7,994/7,995%, daily1,280/1,341%.
+15SYM/14ASYM phase1 đứng ở protectedfloor;32dynamic closes dùng quote thật.
+FundedASYM một đường, balance cuối49.683,57USD; không harvesttrigger.
+
+231tests/22V5fixtures và oracle72accounts/9.532admissions/11.952rejects/
+32nativeforcedfills/104.985.511quotes đạt. Cùng implementer, không independent
+human/model reviewer. Holiday-null failure và reference-admission bug giữ
+failed artifacts; không dùng outputs lỗi để chọn.
+
+10.000paths/model/block20day và5day sensitivity, challenge/funded start riêng.
+512scalar/vector bridges đạt, nhưng daily-flat surrogate khác exact lifecycle,
+không qualification/xác suất tương lai. Exact V5 event-bootstrap còn chưa đạt.
+Không coi CI xanh là toàn bộ mega-task acceptance đạt.
+
+Owner đã cho phép timestamp-only holdout audit: Gold632.140M1 tới13/10/2026,
+EUR657.549M1 tới07/10;445/458 ngày thường07–21UTC đủ timestamp,33/20ngày
+gap/nghỉ chưa phân loại;GBPabsent. Không đọc cột giá/indicator/signals/PnL
+holdout, không update/download. Chưa certified Stage1/fullwindow/pristineOOS.
+Giữ VI DubberWIP/Traderpin, không broker/model/paid/Astra, không mở nghiên cứu
+mới hoặc holdout strategy. SourceGBP/exactMC blockers ở báo cáo; giữV3/V4benchmark.
+Delivery/CI receipt ở privatejob; không numericalwriter còn chạy khi bàn giao.
+
+## V4 đã merge
 
 **V4 đã hoàn tất, chưa payout hoặc sẵn sàng mở full holdout:**
 [báo cáo](research/PROP-COCORE-V4-RESULTS-20261114.md) /
@@ -40,7 +87,7 @@ GoldM1 13/10; Goldpairedticks2025–26 chưa được chứng nhận. Chưa full
 01/2025–10/2026 hoặc pristineOOS certified. FAQ FTMO fetch lỗiTLS;14ngày là
 request proxy, không currentofficial acceptance hay tiền nhận thật.
 Giữ giá2025–26 đóng, VI DubberWIP/Traderpin; không broker/model/paid/Astra,
-không auto-merge PR V4 hoặc chạy holdout/newcampaign.
+PR82 sau đó đã merge `5beeb75` theo chỉ thị V5; branch V4 đã xóa.
 Các trạng thái bên dưới là lịch sử, không phải hàng đợi thực thi.
 
 ## V3 đã merge
