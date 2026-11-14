@@ -1,8 +1,29 @@
 # Current context — Naqex Workspace
 
-14/11/2026 · `RESEARCH: PROP_ATLAS_V2_COMPLETE_NOT_QUALIFIED · REVIEW: NUMERICAL_PASS_SAME_IMPLEMENTER · DOC: COMPLETE`.
+14/11/2026 · `RESEARCH: PROP_PORTFOLIO_V3_ACTIVE · REVIEW: REQUIRED_BEFORE_DELIVERY · DOC: RESUMABLE`.
 
 ## Việc hiện tại
+
+**Owner giao V3:** [protocol](research/PROP-PORTFOLIO-V3-PROTOCOL-20261114.md),
+task `ded836a8-3f42-4204-9742-9fc0ad3c369e`. PR #80 đã merge `91dd2d5`,
+nhánh cũ xóa; nhánh mới `codex/prop-portfolio-v3`.
+Job `execution-v1/prop-portfolio-v3-20261114`.
+
+Reserve funding đã sửa sang `deadline_msc`, test future-exit perturbation đạt.
+Một thử nghiệm D1 SMA50/slope5/0.5x đã chạy Dev: tỷ số lợi nhuận/DD gộp giảm
+ở cả hai stress models, giữ A_Original. 112 Natural-SL screens đã chạy;
+42 cấu hình có đường giá đủ cho M1 scenario, phần khác còn source-conditional.
+USDJPY không đủ nguồn; GBP/AUD H1 chưa đủ M1 để promote.
+Source clock US500 chặn giờ nghỉ NY đã đăng ký trước PnL, không thay entry.
+Nguồn M1: Gold 707.602, EURUSD 743.906, US500 673.918 bars trên 2022–2023.
+Lượt natural đầu lỗi Ask trống ở Gold bị quarantine nguyên tại
+`natural-attempt-1-invalid-ask-quote`; test chặn Ask=0 và bản sửa `5e8747b`.
+Không dùng kết quả invalid để chọn. Chờ marginal selection → commit composition
+trước Phase 3 → balanced risk / shared cap → 2024 → numerical oracles/report/PR.
+Giữ đóng giá 2025–2026, WIP VI Dubber; không broker/model/paid/Astra,
+không tự merge PR V3.
+
+## V2 đã hoàn tất
 
 **V2 đã hoàn tất phép đo, chưa đủ điều kiện Challenge:**
 [báo cáo](research/PROP-ATLAS-V2-RESULTS-20261114.md) /

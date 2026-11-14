@@ -1,6 +1,14 @@
 # Tra cứu research đã có
 
-**Hiện tại — V2 hoàn tất, chưa đủ điều kiện Challenge:**
+**Đang chạy — V3 D1 scaling / satellite contribution / causal reserve:**
+[Protocol](PROP-PORTFOLIO-V3-PROTOCOL-20261114.md), task
+`ded836a8-3f42-4204-9742-9fc0ad3c369e`; PR #80 đã merge `91dd2d5`.
+Giữ A gốc sau một trial D1; 112 Natural-SL screens chỉ trên Dev 2022–2023;
+đang kiểm marginal contribution trước commit composition và replay 2024.
+Job `prop-portfolio-v3-20261114`, nhánh `codex/prop-portfolio-v3`.
+Giữ đóng 2025–2026; không tự merge PR mới, broker hoặc Astra.
+
+**V2 hoàn tất, chưa đủ điều kiện Challenge:**
 [Báo cáo](PROP-ATLAS-V2-RESULTS-20261114.md) /
 [JSON](PROP-ATLAS-V2-RESULTS-20261114.json) /
 [quyết định](PROP-ATLAS-V2-DECISION-20261114.json) /

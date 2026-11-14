@@ -9,6 +9,7 @@ from prop_campaign_source import DAY
 from prop_portfolio_regime import states, weight_at
 from prop_portfolio_sources import deadline, merge_bars, BAR
 from prop_portfolio_scan import realize, net_values, corr, quote
+from prop_portfolio_policy import requested_risk, within_open_risk_cap, BalancedAccount
 import numpy as np
 
 
@@ -114,6 +115,38 @@ class NaturalPathTests(unittest.TestCase):
                           np.array([at+12*HOUR]),at,"ASYM_FLAT")
         self.assertAlmostEqual(float(result[0]),0.00091)
         self.assertIsNone(corr({"2022-01-03":0.},{"2022-01-03":1.}))
+
+class PortfolioBudgetTests(unittest.TestCase):
+    def test_phase_buckets_and_balanced_throttle_do_not_raise_satellite_risk(self):
+        self.assertEqual(requested_risk(1,50000000),200)
+        self.assertEqual(requested_risk(2,50000000),175)
+        self.assertEqual(requested_risk(1,48000000),150)
+        self.assertEqual(requested_risk(1,47000000),90)
+        self.assertEqual(requested_risk(1,48000000,weight=.5),75)
+        self.assertEqual(requested_risk(1,48000000,"SATELLITE"),100)
+        self.assertEqual(requested_risk(3,47000000,"SATELLITE"),75)
+
+    def test_shared_cap_sums_gross_risk_without_netting_hedges(self):
+        self.assertTrue(within_open_risk_cap(400000,100000))
+        self.assertFalse(within_open_risk_cap(400000,100001))
+        with self.assertRaises(ValueError):
+            within_open_risk_cap(-100,100)
+
+    def test_daily_loss_halt_latches_until_reset(self):
+        account=BalancedAccount(0,10**15,"ASYM_FLAT",rolling=True)
+        account.balance=49000000
+        row=trade();row.update(decision_msc=row["entry_msc"],recipe="A")
+        account.action("entry",row["entry_msc"],0,[row],
+                       [row["entry_msc"],1999900,2000000])
+        self.assertTrue(account.day_halt)
+        self.assertFalse(account.active)
+        account.balance=50000000
+        account.action("entry",row["entry_msc"]+1,0,[row],
+                       [row["entry_msc"]+1,1999900,2000000])
+        self.assertFalse(account.active)
+        account.action("reset",row["entry_msc"]+2,None,[row],
+                       [row["entry_msc"]+2,1999900,2000000])
+        self.assertFalse(account.day_halt)
 
 
 if __name__ == "__main__":
