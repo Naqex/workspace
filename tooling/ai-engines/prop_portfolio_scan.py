@@ -40,7 +40,10 @@ def quote(rows, at, width=MINUTE):
     i = int(rows["t"].searchsorted(at))
     if i == len(rows) or rows["t"][i] - at > 60000:
         return None
-    return [int(rows["t"][i]), int(rows["bo"][i]), int(rows["ao"][i]), i]
+    bid, ask = int(rows["bo"][i]), int(rows["ao"][i])
+    if not 0 < bid <= ask:
+        return None
+    return [int(rows["t"][i]), bid, ask, i]
 
 
 def net_values(asset, side, entry_price, prices, at, entry_at, model):
@@ -120,7 +123,7 @@ def realize(row, rows, native=None, width=MINUTE):
     end, why = deadline(row, entry[0])
     if end >= END:
         return dict(status="ENDPOINT_SCOPE_UNKNOWN", raw=row, **geometry), None
-    finish = quote(rows, end, width)
+    finish = native.endpoint(end) if asset == "XAUUSD" else quote(rows, end, width)
     if finish is None and asset in ("GBPUSD", "AUDUSD"):
         if row.get("exit_quote") and row.get("deadline_msc") == end:
             finish = row["exit_quote"]

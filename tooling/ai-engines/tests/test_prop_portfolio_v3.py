@@ -8,7 +8,7 @@ from prop_campaign_source import HOUR, stamp
 from prop_campaign_source import DAY
 from prop_portfolio_regime import states, weight_at
 from prop_portfolio_sources import deadline, merge_bars, BAR
-from prop_portfolio_scan import realize, net_values, corr
+from prop_portfolio_scan import realize, net_values, corr, quote
 import numpy as np
 
 
@@ -88,6 +88,10 @@ class SourceClockTests(unittest.TestCase):
         self.assertEqual(tuple(rows[0]),(1000,10,15,8,13,11,16,9,14))
 
 class NaturalPathTests(unittest.TestCase):
+    def test_bid_only_bar_is_never_a_zero_ask_execution_quote(self):
+        rows=np.array([(1000,2000000,2000100,1999900,2000000,0,0,0,0)],dtype=BAR)
+        self.assertIsNone(quote(rows,1000))
+
     def test_stop_gap_uses_adverse_open_and_ignores_gaps_after_exit(self):
         at=stamp("2023-06-20T08:00:00")
         end=stamp("2023-06-20T20:30:00")
