@@ -16,6 +16,12 @@ Giữ lịch sử 112 configs, V3 ngoại lệ marginal selection, các fail và
 Giả thuyết có thể bác bỏ: lợi nhuận screen còn tồn tại sau paired ticks/phí
 và GBP góp thêm giá trị vào **A+EUR**, không chỉ ít tương quan với Gold.
 
+Đối chiếu source trước numeric mới: saved raw DAY markout sau phí thực tế đã
+âm cả2022 (−0,0004035374, khoảng−4,0354pip) và2023 (−0,0000097386,
+khoảng−0,0974pip). Vì vậy S01 xác nhận **recipe có Natural SL đã được thử
+trong ngoại lệ V3**, không tuyên bố tín hiệu raw có edge hoặc pass Stage-0.
+Sự khác biệt raw và stopped outcomes phải được báo rõ cùng selection history.
+
 ## Budget khóa trước outcome mới
 
 - Một recipe, hai chiều cùng lúc; không BUY-only/SELL-only, đổi giờ, filters,
