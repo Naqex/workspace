@@ -1,8 +1,15 @@
 # Current context — Naqex Workspace
 
-14/11/2026 · `RESEARCH: A_HOLIDAY_VALIDATION_COMPLETE_TIMEFIT_NOT_MET · REVIEW: SELF_AUDIT · DOC: RESUMABLE`.
+14/11/2026 · `RESEARCH: PROP_QUALIFICATION_CAMPAIGN_ACTIVE · REVIEW: COMPUTATIONAL_PARITY_REQUIRED · DOC: RESUMABLE`.
 
 ## Việc hiện tại
+
+Owner giao chiến dịch tự hành exit → sleeves → phase-aware36monthlystarts:
+[protocol khóa trước kết quả](research/PROP-QUALIFICATION-CAMPAIGN-PROTOCOL-20261114.md).
+PR78merged`3307fae`, branch hiện hành`codex/prop-qualification-campaign`.
+Design/select chỉ2022–23;2024HistoricalValidation sau freeze; tuyệt đối không
+đọcgiá2025–26. Giữ WIP VI Dubber. Các khuyến nghị dừng bên dưới thuộc baseline,
+được task mới thay scope; không đổi kết quả lịch sử hoặc cấp quyền broker.
 
 **Đã hoàn tất calendar + Historical Validation 2024 + rolling accounts cho A BOTH/noTP.**
 PR77 merged `3406ed1`, nhánh cũ đã xóa. [Protocol](research/XAUUSD-A-HOLIDAY-VALIDATION-PROTOCOL-20261114.md) /

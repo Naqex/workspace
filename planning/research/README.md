@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+**Đang chạy — exit/sleeves/phase-aware qualification campaign:**
+[Protocol](PROP-QUALIFICATION-CAMPAIGN-PROTOCOL-20261114.md), owner14Nov2026.
+PR78merged`3307fae`; Anchor0 giữ nguyên. Development2022–23;2024 chỉ xác nhận
+sau khóa chọn; không giá2025–26, không broker, giữ VI Dubber WIP.
+
 **Hiện tại — A BOTH holiday calendar / Historical Validation2024 / continuous accounts đã hoàn tất:**
 [Protocol](XAUUSD-A-HOLIDAY-VALIDATION-PROTOCOL-20261114.md) /
 [lịch khóa trướcValidation](XAUUSD-A-SESSION-CALENDAR-20261114.json) /
