@@ -18,8 +18,17 @@ Source clock US500 chặn giờ nghỉ NY đã đăng ký trước PnL, không t
 Nguồn M1: Gold 707.602, EURUSD 743.906, US500 673.918 bars trên 2022–2023.
 Lượt natural đầu lỗi Ask trống ở Gold bị quarantine nguyên tại
 `natural-attempt-1-invalid-ask-quote`; test chặn Ask=0 và bản sửa `5e8747b`.
-Không dùng kết quả invalid để chọn. Chờ marginal selection → commit composition
-trước Phase 3 → balanced risk / shared cap → 2024 → numerical oracles/report/PR.
+Không dùng kết quả invalid để chọn. Đã chọn sơ bộ EURUSD sweep Asia/London/DAY;
+20.905.654 tick gốc / 2.994 giờ xác nhận 236/247 cơ hội (11 friction rejects),
+Net R 2022 +3,7714 / 2023 +10,5621, correlation ~0,10, cải thiện tỷ số
+portfolio fixed-half-budget ở cả hai mô hình. Final satellite giữ nguyên
+`EURUSD.SWEEP.ASIA.LONDON.DAY`; không nhìn 2024 để chọn.
+[Composition](research/PROP-PORTFOLIO-V3-DECISION-20261114.json) đã freeze;
+commit file này rồi mới release Phase 3. Code trước freeze `99c992f`.
+Shared-account adapter tái dùng Account lifecycle, joint paired ticks Gold/EUR,
+19 fixtures V3 đạt (cùng 16 fixtures V2); giữ cả single-core control và portfolio.
+Tiếp: release sau commit → bounded EUR 2024 signal/tick intake → 144 accounts
+(2 models × 2 systems × 36 starts) → numerical oracles/report/PR ba CI xanh.
 Giữ đóng giá 2025–2026, WIP VI Dubber; không broker/model/paid/Astra,
 không tự merge PR V3.
 
