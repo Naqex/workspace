@@ -1,12 +1,31 @@
 # Tra cứu research đã có
 
+**V8 — N1/N2 và ba Gold sleeves No-Go; baseline backward cũng không đạt:**
+[Báo cáo](PROP-GOLD-V8-RESULTS-20261115.md) /
+[JSON](PROP-GOLD-V8-RESULTS-20261115.json) /
+[decision](PROP-GOLD-V8-DECISION-20261115.json) /
+[protocol](PROP-GOLD-V8-PROTOCOL-20261115.md) /
+[calendar](PROP-V8-SESSION-CALENDAR-20261115.json).
+PR86 merge `c99fa7e`; branch `codex/prop-gold-v8`, không tự merge PR mới.
+N1 SYM2022/23 −1,54/−12,77R; N2 −15,24/+10,09R; ba sweep horizons dương
+nhưng retain45,1%/37,5%, F/SL15,82%/16,92%. Không composition đủ gate;
+khóa No-Go `91aa670` trước backward, chỉ baseline control ngoài Dev.
+2018–21 có prior exposure, không clean OOS; baseline cả4năm âm,0/48P1.
+Full baseline57mốc khớp268sổ V7. 992tests/492accountoracles/3.318costbridges PASS.
+FTMO xác minh31Dec2021 Metals Normal Hours: sửa proxy CLOSED tại5c299be và
+đo lại riêng backward;343/343intentspriced. Giữattempt1, một config nhưng
+hai technical attempts; không gọi pristine one-shot hoặc clean holdout.
+M1/Ask proxy và holiday guards còn có điều kiện; full2024 phát hiện native
+gap~66phút trên2SELL paths dù endpoints đủ. Giữ VIWIP/Traderpin.
+Private job `prop-gold-v8-20261115`; delivery/CI receipt tại đó.
+
 **V7 — Gold audit sau sửa lịch, EURUSD decommission; NOT_QUALIFIED:**
 [Báo cáo](PROP-GOLD-V7-RESULTS-20261115.md) /
 [JSON](PROP-GOLD-V7-RESULTS-20261115.json) /
 [freeze](PROP-GOLD-V7-DECISION-20261115.json) /
 [protocol](PROP-GOLD-V7-PROTOCOL-20261115.md) /
 [calendar](PROP-V7-SESSION-CALENDAR-20261115.json).
-PR85 merged `70b9ba1`; branch `codex/prop-gold-v7-audit`, không tự merge PR mới.
+PR85 merged `70b9ba1`; PR86 sau đó merge `c99fa7e`, nhánh V7 đã xóa.
 Rule holiday preclose2phút: 931/931 đường lệnh có giá, 57 mốc/policy/model đo
 tới13/10/2026. GoldV4 hai vòng0/36, tăngrisk0SYM/1ASYM; mốc mới0/21P1.
 Gold2025 risk150 âm nhẹ, khác risk125 dương do lot-grid weighting; không kết luận
