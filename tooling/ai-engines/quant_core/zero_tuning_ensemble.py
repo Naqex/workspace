@@ -7,7 +7,7 @@ def cumulative_drawdown(daily):
     return float(np.max(np.maximum.accumulate(equity)-equity))
 
 
-def mechanical_composition(components, *, max_sleeves=8):
+def mechanical_composition(components, *, max_sleeves=8, correlation_limit=.30):
     """Correlation is a supplied Development proxy, not a claim of independent bets."""
     rows=sorted(components,key=lambda r:r["id"])
     if len({r["id"] for r in rows})!=len(rows):
@@ -34,7 +34,7 @@ def mechanical_composition(components, *, max_sleeves=8):
         for j in range(i):
             overlap[i,j]=overlap[j,i]=len(events[i]&events[j])/max(1,min(len(events[i]),len(events[j])))
             if ((rows[i]["asset"],rows[i]["family"])==(rows[j]["asset"],rows[j]["family"])
-                    and (corr[i,j]>=.30 or overlap[i,j]>=.50)):
+                    and (corr[i,j]>=correlation_limit or overlap[i,j]>=.50)):
                 parent[find(i)]=find(j)
     groups={}
     for i in range(len(rows)):
@@ -46,7 +46,7 @@ def mechanical_composition(components, *, max_sleeves=8):
         clusters.append(dict(members=[rows[i]["id"] for i in group],medoid=rows[winner]["id"]))
     selected,blocked=[],[]
     for i in sorted(representatives,key=lambda i:(rows[i]["asset"],rows[i]["family"],rows[i]["id"])):
-        conflicts=[rows[j]["id"] for j in selected if corr[i,j]>=.30]
+        conflicts=[rows[j]["id"] for j in selected if corr[i,j]>=correlation_limit]
         if conflicts:
             blocked.append(dict(id=rows[i]["id"],reason="CORRELATION",conflicts=conflicts))
         elif len(selected)==max_sleeves:

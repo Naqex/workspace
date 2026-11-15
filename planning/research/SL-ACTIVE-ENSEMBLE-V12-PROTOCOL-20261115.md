@@ -53,6 +53,8 @@ P1: kích hoạt sau khi giá thuận chiều đủ để net liquidation, gồm
 commission, market slippage và swap đã tích lũy, đạt +1,5R. Mức bảo vệ là
 giá cho net +0,15R tại lúc kích hoạt, có bù phí/swap khi đó; không cam kết
 net +0,15R sau swap hoặc gap/slippage khác trong tương lai.
+Trigger/protect dùng phí SYM bảo thủ cho cả hai cost views, không chọn
+thời điểm bảo vệ theo scenario nào có lợi nhuận đẹp hơn.
 Stop cũ được xét trước favorable excursion. Dời stop có hiệu lực từ bar kế
 tiếp, không dùng thứ tự high/low chưa biết để giả fill trong chính bar kích
 hoạt. Bar đồng thời chạm stop và TP luôn xét stop trước. Với H1 không biết
@@ -68,6 +70,12 @@ ra SL chưa chạm. Lịch đóng định kỳ đã biết được tách khỏi
 ghi số phút/giờ thiếu và coverage, không ép mọi khoảng trống là đóng cửa.
 Unknown không được tính như lệnh 0R hoặc vào ensemble; source-complete gate
 không được cứu bằng bỏ các trade chưa biết.
+
+Preflight timestamp trước numeric ghi source schedule theo New York:
+FX nghỉ Fri 17:00–Sun 17:00; Gold Fri 17:00–Sun 18:00, ngày thường
+17:00–18:00; US500 Fri 16:15–Sun 18:00, ngày thường 16:15–18:00. Đây là
+source-calendar proxy, không live FTMO hours. Các phút hụt ngoài khung đó
+vẫn unknown, kể cả thiếu một phút sát giờ nghỉ; không suy từ mức PnL.
 
 ## Phí, profile ngày và ghép tổ hợp
 
@@ -89,6 +97,10 @@ cùng recipe là biến thể cùng cơ chế, không nhiều bets độc lập.
 asset/family/ID, cross-representative corr<0,25, tối đa 8; không profit sort.
 Equal risk 1R/trade. Cần K=4–8, có ít nhất hai tài sản hoặc có cả F1–F4 và
 F5; không ép chọn F5 nếu nó không qua cổng.
+
+Shared composer thêm tham số threshold, default 0,30 giữ semantics V11;
+V12 gọi explicit 0,25. Exact V11 source từ Git `2175685` được lưu/hash
+trong private job, giữ registration lịch sử; không sửa frozen pins V11.
 
 Ensemble: ≥60 admitted/year trung bình ở từng cụm; 120 là mục tiêu không
 trần. ≥5/6 năm dương, net ex-best-year >0 cả SYM/ASYM, raw/admitted hai cụm

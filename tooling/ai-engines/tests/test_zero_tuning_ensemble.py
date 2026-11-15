@@ -12,6 +12,15 @@ def row(name,series,events,asset="XAUUSD",family="F4"):
 
 
 class EnsembleTests(unittest.TestCase):
+    def test_versioned_correlation_limit_preserves_default_and_supports_V12(self):
+        a=np.array([1.,-1.,1.,-1.])
+        noise=np.array([1.,1.,-1.,-1.])
+        b=.27*a+np.sqrt(1-.27**2)*noise
+        rows=[dict(id="a",asset="XAUUSD",family="F1",daily=a,events=[1]),
+              dict(id="b",asset="US500",family="F5",daily=b,events=[2])]
+        self.assertEqual(len(mechanical_composition(rows)["selected"]),2)
+        self.assertEqual(len(mechanical_composition(rows,correlation_limit=.25)["selected"]),1)
+
     def test_component_can_be_low_frequency_without_four_positive_years(self):
         from prop_v11_campaign import component_reasons
         clusters=[dict(years=[y,y+1,y+2],retention=.8,scale_ratio=.1,
