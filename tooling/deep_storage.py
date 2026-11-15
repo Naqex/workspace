@@ -6,8 +6,60 @@ import os
 from pathlib import Path
 import shutil
 import zipfile
+import stat
 
 from workspace_maintenance import inventory, verified_tree, linked
+
+
+def merkle_tree(target, *, hash_cache=None):
+    """Complete relative-path/content manifest, including empty directories."""
+    target = Path(target).absolute()
+    # Reading through a junction would prove a different owner tree.
+    for parent in [target, *target.parents]:
+        if linked(parent):
+            raise ValueError("merkle_reparse_ancestor")
+    if not target.is_dir():
+        raise ValueError("merkle_not_directory")
+    cache = {} if hash_cache is None else hash_cache
+    entries, pending, hashed = [], [target], 0
+    while pending:
+        folder = pending.pop()
+        with os.scandir(folder) as stream:
+            children = sorted(stream, key=lambda e: e.name)
+        for item in children:
+            path = folder/item.name
+            before = item.stat(follow_symlinks=False)
+            if item.is_symlink() or getattr(before, "st_file_attributes", 0) & 1024:
+                raise ValueError("merkle_reparse_descendant")
+            relative = path.relative_to(target).as_posix()
+            if item.is_dir(follow_symlinks=False):
+                entries.append(dict(kind="D", relative=relative))
+                pending.append(path)
+            elif stat.S_ISREG(before.st_mode):
+                # Windows DirEntry.stat may report zero device/inode; obtain the real identity.
+                before = path.stat(follow_symlinks=False)
+                key = (before.st_dev, before.st_ino, before.st_size,
+                       before.st_mtime_ns, before.st_ctime_ns)
+                if key not in cache:
+                    with path.open("rb") as file:
+                        cache[key] = hashlib.file_digest(file, "sha256").hexdigest()
+                    hashed += before.st_size
+                after = path.stat(follow_symlinks=False)
+                if key != (after.st_dev, after.st_ino, after.st_size,
+                           after.st_mtime_ns, after.st_ctime_ns):
+                    raise ValueError("merkle_file_changed")
+                entries.append(dict(kind="F", relative=relative, bytes=before.st_size,
+                                    sha256=cache[key], links=before.st_nlink))
+            else:
+                raise ValueError("merkle_special_file")
+    entries.sort(key=lambda e: e["relative"])
+    # Link count is deletion-risk metadata; it does not change content equality.
+    content = [{k:v for k,v in e.items() if k != "links"} for e in entries]
+    digest = hashlib.sha256(json.dumps(content, sort_keys=True, separators=(",",":")).encode()).hexdigest()
+    return dict(path=str(target), merkle_sha256=digest, entries=entries,
+        files=sum(e["kind"]=="F" for e in entries), folders=sum(e["kind"]=="D" for e in entries),
+        bytes=sum(e.get("bytes",0) for e in entries), bytes_hashed=hashed,
+        hardlinked_files=sum(e.get("links",0)>1 for e in entries), includes_empty_folders=True)
 
 
 def disjoint_partitions(census):

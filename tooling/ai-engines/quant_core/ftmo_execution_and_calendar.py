@@ -4,6 +4,59 @@ from decimal import Decimal, ROUND_HALF_UP
 from prop_v8_source import Calendar
 from prop_v8_calendar_correction import corrected_data
 from xau_h1_stage0_scan import funding_events
+from bisect import bisect_right
+from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
+
+HOUR = 3600000
+DAY = 24 * HOUR
+
+
+class SessionSchedule:
+    """Versioned declared guards, separate from proof that a feed had no quotes."""
+    version = "V13_DECLARED_SESSION_AND_NEXT_QUOTE_V1"
+
+    def __init__(self, events):
+        self.events = {r["day"]: dict(r) for r in events}
+        self.ny = ZoneInfo("America/New_York")
+        self.flats = sorted(
+            int(datetime.fromisoformat(day).replace(tzinfo=timezone.utc).timestamp()*1000)
+            + (int(row["flat_utc"][:2])*60+int(row["flat_utc"][3:]))*60000
+            for day, row in self.events.items() if row.get("flat_utc"))
+
+    def off_kind(self, at, asset):
+        utc = datetime.fromtimestamp(int(at)/1000, timezone.utc)
+        local = utc.astimezone(self.ny)
+        minute = local.hour*60+local.minute
+        if (local.weekday() == 5 or local.weekday() == 4 and minute >= 1020 or
+                local.weekday() == 6 and minute < (1080 if asset == "XAUUSD" else 1020)):
+            return "WEEKEND"
+        row = self.events.get(utc.date().isoformat(), {})
+        if row.get("kind") == "CLOSED":
+            return "DECLARED_HOLIDAY"
+        # Guards are not broker-certified closing times. Classification retains that label.
+        if row.get("flat_utc") and utc.strftime("%H:%M") >= row["flat_utc"]:
+            if local.hour < 18:
+                return "DECLARED_EARLY_GUARD"
+        if asset == "XAUUSD" and 1020 <= minute < 1080:
+            return "DAILY_BREAK"
+        return None
+
+    def target(self, entry, deadline, asset):
+        """No source prices/timestamps are used to anticipate a future gap."""
+        j = bisect_right(self.flats, int(entry))
+        if j < len(self.flats) and self.flats[j] <= deadline:
+            deadline = self.flats[j]
+        kind = self.off_kind(deadline, asset)
+        if kind == "DAILY_BREAK":
+            local = datetime.fromtimestamp(int(deadline)/1000, timezone.utc).astimezone(self.ny)
+            return int(local.replace(hour=18, minute=0, second=0, microsecond=0).timestamp()*1000)
+        return int(deadline)
+
+
+def execution_schedule(first, end):
+    """Explicit opt-in; frozen V1–V12 calendar consumers keep their old semantics."""
+    return SessionSchedule(gold_calendar(first, end).events.values())
 
 
 @dataclass(frozen=True)

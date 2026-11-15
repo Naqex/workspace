@@ -77,6 +77,24 @@ def expected_deadline(trade, flats):
     return target
 
 
+def source_off_kind(at, asset, spec):
+    """Own scalar calendar interpretation; no producer session helper."""
+    utc = datetime.fromtimestamp(int(at)/1000, timezone.utc)
+    local = utc.astimezone(ZoneInfo("America/New_York"))
+    minute = local.hour*60+local.minute
+    if (local.weekday() == 5 or local.weekday() == 4 and minute >= 1020 or
+            local.weekday() == 6 and minute < (1080 if asset == "XAUUSD" else 1020)):
+        return "WEEKEND"
+    row = spec.get("session_events", {}).get(utc.date().isoformat(), {})
+    if row.get("kind") == "CLOSED":
+        return "DECLARED_HOLIDAY"
+    if row.get("flat_utc") and utc.strftime("%H:%M") >= row["flat_utc"] and local.hour < 18:
+        return "DECLARED_EARLY_GUARD"
+    if asset == "XAUUSD" and 1020 <= minute < 1080:
+        return "DAILY_BREAK"
+    return None
+
+
 def audit_trade(trade, source, spec, flats):
     """source=(timestamps, original integer OHLC rows), independently traversed."""
     times, bars = source
@@ -84,6 +102,20 @@ def audit_trade(trade, source, spec, flats):
     entry, exit_at = int(trade["entry_time"]), int(trade["exit_time"])
     errors = []
     limit = expected_deadline(trade, flats)
+    gap_scenario = spec.get("gap_policy") == "V13_NEXT_QUOTE"
+    uncertain_gaps = []
+    if gap_scenario:
+        if source_off_kind(limit, trade["symbol"], spec) == "DAILY_BREAK":
+            local = datetime.fromtimestamp(limit/1000, timezone.utc).astimezone(ZoneInfo("America/New_York"))
+            limit = int(local.replace(hour=18, minute=0, second=0, microsecond=0).timestamp()*1000)
+        scheduled = limit
+        target_index = bisect_left(times, limit)
+        if target_index < len(times):
+            limit = int(times[target_index])
+        if "scheduled_deadline" in trade and trade["scheduled_deadline"] != scheduled:
+            errors.append("SCHEDULED_DEADLINE")
+        if "effective_deadline" in trade and trade["effective_deadline"] != limit:
+            errors.append("DEFERRED_DEADLINE")
     if entry > limit or exit_at > limit+60000 or exit_at < entry:
         errors.append("CALENDAR_OR_CLOCK")
     utc_entry = datetime.fromtimestamp(entry/1000, timezone.utc)
@@ -104,11 +136,16 @@ def audit_trade(trade, source, spec, flats):
     expected_hit = None
     for i in range(start, bisect_right(times, min(exit_at, limit))):
         t = int(times[i])
-        if t+step-1 > min(exit_at, limit):
+        if t+step-1 > min(exit_at, limit) and not (gap_scenario and t == exit_at):
             break
         row = bars[i]
         if i > start and int(times[i])-int(times[i-1]) > step:
+            unknown = False
             for missing in range(int(times[i-1])+step, int(times[i]), step):
+                if gap_scenario:
+                    if source_off_kind(missing, trade["symbol"], spec) is None:
+                        unknown = True
+                    continue
                 utc = datetime.fromtimestamp(missing/1000, timezone.utc)
                 local = utc.astimezone(ZoneInfo("America/New_York"))
                 minute = local.hour*60+local.minute
@@ -123,12 +160,21 @@ def audit_trade(trade, source, spec, flats):
                 if not off:
                     errors.append("UNOBSERVED_PATH_GAP")
                     break
+            if unknown:
+                uncertain_gaps.append((int(times[i-1]), t))
             if "UNOBSERVED_PATH_GAP" in errors:
                 break
         stop = protected_price if protected_at is not None and t >= protected_at else natural_stop
         adverse = D(int(row["bl" if sign == 1 else "ah"]))/scale
         favorable = D(int(row["bh" if sign == 1 else "al"]))/scale
         opening = D(int(row["bo" if sign == 1 else "ao"]))/scale
+        opening_hit = opening <= stop if sign == 1 else opening >= stop
+        if gap_scenario and opening_hit:
+            expected_hit = (t, opening, "PROTECT" if stop != natural_stop else "SL")
+            break
+        # The endpoint open supplies no high/low information from the coming minute.
+        if gap_scenario and t+step-1 > min(exit_at, limit):
+            break
         stop_hit = adverse <= stop if sign == 1 else adverse >= stop
         if stop_hit:
             fill = min(opening, stop) if sign == 1 else max(opening, stop)
@@ -179,8 +225,12 @@ def audit_trade(trade, source, spec, flats):
     for key in ("gross", "commission", "slippage", "swap", "net"):
         if key+"_usd" in trade and cent(trade[key+"_usd"]) != amount[key]:
             errors.append("CASH_"+key.upper())
+    if gap_scenario and "source_uncertain" in trade and bool(trade["source_uncertain"]) != bool(uncertain_gaps):
+        errors.append("SOURCE_UNCERTAINTY_LABEL")
     return dict(passed=not errors, errors=errors, net_usd=str(amount["net"]),
-                first_hit=expected_hit, protection_time=protected_at)
+                first_hit=expected_hit, protection_time=protected_at,
+                uncertain_gaps=uncertain_gaps, source_complete=not uncertain_gaps,
+                execution_scenario=gap_scenario)
 
 
 def audit_equity(trades, observations, specs, *, initial="50000", model="SYM"):
