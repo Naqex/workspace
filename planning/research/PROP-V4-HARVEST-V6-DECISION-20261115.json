@@ -1,0 +1,124 @@
+{
+  "schema": "PROP-V4-HARVEST-V6-FREEZE-v1",
+  "utc": "2026-11-14T23:40:52.640246+00:00",
+  "candidate": "V4_Harvest",
+  "signals": [
+    "XAUUSD.H1A_ASIA",
+    "EURUSD.SWEEP.ASIA.LONDON.DAY"
+  ],
+  "mechanism": "PARENT",
+  "ratchet": false,
+  "d1": false,
+  "d2": false,
+  "risk_usd": [
+    200,
+    175,
+    125
+  ],
+  "open_cap_usd": 800,
+  "reserve_floor_usd": 46000,
+  "equity_throttle_usd": [
+    48000,
+    47000
+  ],
+  "throttle_caps_usd": [
+    150,
+    90
+  ],
+  "daily_realized_halt_usd": 1000,
+  "harvest": {
+    "phase": 3,
+    "days": 14,
+    "pre_freeze_balance": 50500,
+    "due_proximity_hours": 48,
+    "lock_balance": 51000,
+    "min_profit": 20,
+    "trader_share": 0.8,
+    "debit_share": 1,
+    "administrative_delay_days": 0
+  },
+  "start_inclusive": 1735689600000,
+  "end_exclusive": 1791936000000,
+  "gold_m1_ask_proxy_spread_units": 338,
+  "proxy_estimation": "median A entry spread Development 2022-2023, integer .001 USD/oz",
+  "m1_paths": [
+    "OPEN_LOW_HIGH_CLOSE",
+    "OPEN_HIGH_LOW_CLOSE"
+  ],
+  "m1_offsets_ms": [
+    0,
+    20000,
+    40000,
+    59999
+  ],
+  "m1_claim": "conditional ordering scenarios; neither observed ticks nor certified DD bound",
+  "missing_path": "retain unresolved exposure; never count an unknown path as a clean pass",
+  "tail": "do not force-close at sample end; open positions are right-censored",
+  "holdout_history": "first V6 evaluation; global pristine OOS not certified",
+  "pins": [
+    {
+      "path": "planning/research/PROP-V4-HARVEST-V6-PROTOCOL-20261115.md",
+      "sha256": "bff5133ecf24caec88271d667796ebf6a0afb9f539e475db11b924b0be70351a"
+    },
+    {
+      "path": "planning/research/PROP-V6-SESSION-CALENDAR-20261115.json",
+      "sha256": "876d7cc248d21621507576610860c13f434a07761276137ea6642a53ca8876e4"
+    },
+    {
+      "path": "tooling/ai-engines/prop_v6_account.py",
+      "sha256": "bf7d8e8a09de97a537390be8e12a7a980e5b4a3f044b4012d9315f312e553035"
+    },
+    {
+      "path": "tooling/ai-engines/prop_v6_signals.py",
+      "sha256": "f61eabeafc008721884d924895714393bc449611fa9bcd8bd12ab370322f4733"
+    },
+    {
+      "path": "tooling/ai-engines/prop_v6_paths.py",
+      "sha256": "6f0e976e4aa11164e110fcd6078e59774a5e0acbd7970b885636752c7e861230"
+    },
+    {
+      "path": "tooling/ai-engines/prop_v6_replay.py",
+      "sha256": "6125bc3f544ea4454337417c15ec3622f7a44299bc9792c4bc45dc6960cacdd9"
+    },
+    {
+      "path": "tooling/ai-engines/prop_v5_account.py",
+      "sha256": "9c582aeece8a2eb8dc1b2eabb6a68615ad9119f2c6ceea8d07561fd6f25a2061"
+    },
+    {
+      "path": "tooling/ai-engines/prop_cocore_v4.py",
+      "sha256": "2449cb3f6e28f726865e4e240bffda5ec35c528073dfc51223efa640fc77b7f1"
+    },
+    {
+      "path": "tooling/ai-engines/prop_portfolio_accounts.py",
+      "sha256": "dd1542edecf77c471a15832b2894c98176e8cd542bfa78ebf96b3fd142f853cb"
+    },
+    {
+      "path": "tooling/ai-engines/prop_campaign_accounts.py",
+      "sha256": "2cc14ee74557980f05f71dce0089416f617c415acad5eb783c23f3ea6507c559"
+    },
+    {
+      "path": "tooling/ai-engines/prop_campaign_exits.py",
+      "sha256": "ec974924ceb1c8742a35b26431bb19e7dc878fc8904dd6584922e89659d88772"
+    },
+    {
+      "path": "tooling/ai-engines/xau_h1_stage0_source.py",
+      "sha256": "73493b81e9a66f885d6cb1358bf0c24523eea1c3e1d1688e97e01fc434144988"
+    },
+    {
+      "path": "tooling/ai-engines/prop_campaign_source.py",
+      "sha256": "f2cbcce621fc045d1acbc034f274ad3abaeabf2aa000a4d591e1968bf1a0e94e"
+    },
+    {
+      "path": "E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/execution-v1/prop-portfolio-v3-20261114/system-trades.json",
+      "sha256": "12c8f9d53fdc8032f943b9f8aafd4cf105385f8689cd1eafb54db91e9480ec98"
+    },
+    {
+      "path": "E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/execution-v1/prop-portfolio-v3-20261114/system-eur-manifest.json",
+      "sha256": "dd05e29d83c5d3595efef4c4af6d8445eb7aab8cb563b6590c588ae34a16babb"
+    },
+    {
+      "path": "E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/execution-v1/xauusd-a-validation-20261114/attempt-2/binary-manifest.json",
+      "sha256": "300a159557fcfeebabcfd181ff6fa9406bdeb8a03d0ca64bfe6471c2ecf703e5"
+    }
+  ]
+}

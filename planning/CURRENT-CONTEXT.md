@@ -1,8 +1,47 @@
 # Current context — Naqex Workspace
 
-15/11/2026 · `RESEARCH: PROP_OVERNIGHT_V5_REVIEWED_NO_GO · PROP: NOT_QUALIFIED · HOLDOUT: TIMESTAMPS_ONLY`.
+15/11/2026 · `RESEARCH: V4_HARVEST_V6_EVALUATED · PROP: NOT_QUALIFIED · HOLDOUT: 2025–13/10/2026 EXPOSED; GOLD PATH INCOMPLETE`.
 
 ## Việc hiện tại
+
+**V6 đã chạy, có payout mô phỏng nhưng chưa đủ điều kiện Challenge:**
+[báo cáo](research/PROP-V4-HARVEST-V6-RESULTS-20261115.md) /
+[JSON](research/PROP-V4-HARVEST-V6-RESULTS-20261115.json) /
+[freeze](research/PROP-V4-HARVEST-V6-DECISION-20261115.json) /
+[protocol](research/PROP-V4-HARVEST-V6-PROTOCOL-20261115.md).
+Task `ed4d3a18-01c0-4907-8e16-5ffbd13e4440`, branch
+`codex/prop-v4-harvest-v6`, private job `execution-v1/prop-v4-harvest-v6-20261115`.
+PR83 merged `5a8dd69`, nhánh V5 đã xóa.
+V6 ở [PR #85](https://github.com/Naqex/workspace/pull/85), không tự merge;
+GitHub cấp số85 thay cho84 dự kiến. Delivery/CI receipt nằm ở private job.
+
+Freeze `665ed5b` trước mở giá; giữ V4 $200/$175/$125, cap800/reserve46k,
+bỏ D1/D2/ratchet, harvester chỉ Funded.72checkpoint cuối2024 khớp V4.
+24 standalone Funded cases (12 quý ×2 phí): Jan2022 có12 payout, trader
+3.667,64 ASYM/3.856,49 SYM USD trong3năm; riêng2024 không payout.
+Max daily12mốc0,795/0,832%, max static7,909/7,995%, không modeled breach.
+
+Owner đã cho phép đọc giá/signals/PnL 2025–13/10/2026. Đoạn này nay consumed,
+không còn timestamp-only hoặc pristine OOS mới; không tune lại trên đó.
+EUR38.292.958 paired ticks tới13/10:2025 -14,5963R,2026 -3,5090R.
+Gold632.140 BidM1, Ask proxy0,338 USD/oz khóa trước release; không native tick.
+Gold2025 +2,82/+2,96R;2026 chỉ known-cohort+1,70/+2,04R, thiếu1exit,
+2tín hiệu không đạt minlot ở risk125. Không gọi Gold2026 đã dương trọn kỳ.
+
+Gold02/07/2026 thiếu quote ở hạn nghỉ lễ03/07 17:00UTC: censor tài khoản
+còn giữ lệnh tại hạn này, không carry unknown exposure tới tháng10. Giữ attempt
+lỗi riêng; candidate không đổi.36mốc cũ SYM/ASYM P1 23/26, hai vòng7/7,
+payout23/21events; tổng trader chồng lấn6.678,20/6.369,78USD, không thu nhập
+một tài khoản.20/21sổ cũ và17/21sổ mới censored; mốc mới chưa pass trước cutoff.
+Không modeled breach trên đoạn đã đo, không bảo đảm phần thiếu.967tests qua
+runtime matrix;252alternate-accounting cases đạt, không independent reviewer.
+
+Đính chính: V4 Funded từ10/2023;49.751,56 là V3, không phải V4. FTMO FAQ
+fetch TLS lỗi;14ngày/80:20/zero admin delay vẫn proxy. Không broker/paid/Astra/
+subagents; giữ VI WIP/Traderpin. Báo cáo giữ full ledger/failed attempts locators.
+Các trạng thái V5 trở xuống là lịch sử; phạm vi holdout cũ đã được V6 thay thế.
+
+## V5 đã merge (lịch sử)
 
 **V5 đã có kết quả, không promote; source/exact-MC gates còn thiếu:**
 [báo cáo](research/PROP-OVERNIGHT-V5-RESULTS-20261115.md) /
