@@ -83,9 +83,11 @@ def run():
     native_measurements,audits=[],{}
     calendar=gold_calendar(FIRST,END)
     for asset in index["new_assets_admitted"]:
+        print(dict(stage="V11_native_source_start",asset=asset),flush=True)
         store=(IndexedUs500Store(index["minute_indices"][asset],index["seed"],END) if asset=="US500"
                else PairedHourlyStore(index["hourly_indices"][asset],index["seed"],END))
         bars=store.bars()
+        print(dict(stage="V11_native_source_loaded",asset=asset,rows=len(bars)),flush=True)
         raw=(m1_recipes(bars,"XAUUSD",FIRST,END,calendar) if asset=="US500"
              else native_recipes(bars,asset,FIRST,END,calendar))
         if len(raw)!=(92 if asset=="US500" else 44): raise ValueError("native_grid_budget_changed")
@@ -99,6 +101,7 @@ def run():
         audits[asset]=dict(store.audit,measurement_rows=[start,len(native_measurements)],
                            execution_cost_alias="US500_LEGACY_ATLAS_STRESS" if asset=="US500"
                            else "EURUSD_USD_QUOTED_FX_DECLARED_PROXY")
+        print(dict(stage="V11_native_measurements",asset=asset,cells=len(native_measurements)-start),flush=True)
     extra=[]
     if native_measurements:
         extra,_=summaries(native_measurements,FIRST,END,trials)
