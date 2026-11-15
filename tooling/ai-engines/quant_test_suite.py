@@ -1,14 +1,12 @@
 """Disjoint Fast CI / historical suites with per-test timing and runtime groups."""
 import argparse
 from collections import defaultdict
-from concurrent.futures import ThreadPoolExecutor
 import contextlib
 import json
 from pathlib import Path
 import sys
 import time
 import unittest
-import subprocess
 
 NATIVE = {
     "test_multiframe_runner_recovery", "test_run_us500_multiframe",
@@ -64,7 +62,10 @@ class TimedResult(unittest.TextTestResult):
 
 def run(group, tier, output, selected=None):
     selected = modules(group, tier) if selected is None else selected
-    sys.path[:0] = [str(Path(__file__).parent), str(Path(__file__).with_name("tests"))]
+    # PYTHONPATH and unittest callers can already contain both entries. Repeated
+    # search roots add filesystem probes to every import on Windows.
+    candidates = [str(Path(__file__).parent), str(Path(__file__).with_name("tests")), *sys.path]
+    sys.path = list(dict.fromkeys(str(Path(p).resolve()) for p in candidates))
     start = time.perf_counter()
     with output.with_suffix(".log").open("w", encoding="utf-8") as log, \
             contextlib.redirect_stdout(log), contextlib.redirect_stderr(log):
@@ -87,6 +88,8 @@ def run(group, tier, output, selected=None):
 
 
 def parallel(group, tier, output, workers, profile=None):
+    from concurrent.futures import ThreadPoolExecutor
+    import subprocess
     selected = modules(group, tier)
     durations = {}
     if profile:
