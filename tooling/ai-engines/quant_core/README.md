@@ -62,3 +62,6 @@ parent đối soát modules và test IDs trùng. Không chia lớp có fixture c
 statistics và worker dependencies. Local còn giữ4runtime groups đã pin;
 receipt V10 đối soát đầy đủ1.030IDs, giữ nguyên1.013IDs V9,0skip.
 CI chạy full suite và lưu timings/IDs, không cần private prices.
+Contracts chạy Windows để thực thi cả process ownership/sharing-race và
+Windows absolute-path contracts; Linux còn secret scan/UI registry. Không
+skip các test này để làm xanh full gate. HTTP fixtures dùng httpx từ Trader lock.

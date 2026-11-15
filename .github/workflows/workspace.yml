@@ -12,8 +12,11 @@ concurrency:
 jobs:
   contracts:
     name: Workspace contracts
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     timeout-minutes: 10
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Fetch all pinned Naqex products
@@ -25,18 +28,20 @@ jobs:
       - run: python -m pip install -r tooling/github-workflow/requirements.txt
       - run: python tooling/github-workflow/check.py
       - run: python -m unittest discover -s tooling/github-workflow/tests -v
-      - name: Install the shadow controller's locked model dependency
+      - name: Install locked controller and HTTP test dependencies
         run: |
           python - <<'PY'
           import subprocess, sys, tomllib
           from pathlib import Path
           lock = tomllib.loads(Path('projects/trader/foundation_v2/uv.lock').read_text())
-          version = next(p['version'] for p in lock['package'] if p['name'] == 'pydantic')
-          subprocess.run([sys.executable, '-m', 'pip', 'install', f'pydantic=={version}'], check=True)
+          pins = [f"{p['name']}=={p['version']}" for p in lock['package']
+                  if p['name'] in ('pydantic', 'httpx')]
+          subprocess.run([sys.executable, '-m', 'pip', 'install', *pins], check=True)
           PY
       - name: Check full quant audit including native and statistical fixtures
         env:
-          PYTHONPATH: projects/trader/foundation_v2:tooling/ai-engines:tooling/ai-engines/tests
+          PYTHONPATH: projects/trader/foundation_v2;tooling/ai-engines;tooling/ai-engines/tests
+          QUANT_RECEIPT: ${{ runner.temp }}/quant-full.json
         run: |
           python - <<'PY'
           import subprocess, sys, tomllib
@@ -47,13 +52,13 @@ jobs:
           subprocess.run([sys.executable, '-m', 'pip', 'install',
                           'numpy==2.3.5', 'statsmodels==0.15.0', *pins], check=True)
           PY
-          python tooling/ai-engines/quant_test_suite.py --group complete --tier all --workers 2 --output /tmp/quant-full.json
+          python tooling/ai-engines/quant_test_suite.py --group complete --tier all --workers 2 --output "$QUANT_RECEIPT"
       - name: Preserve quant test IDs and timings
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: quant-full-audit
-          path: /tmp/quant-full*
+          path: ${{ runner.temp }}/quant-full*
       - name: Check anti-bloat budgets on changed raw artifacts
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}

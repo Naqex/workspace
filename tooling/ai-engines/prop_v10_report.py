@@ -68,7 +68,7 @@ def run():
              "postpersist-failure.json","oracle.json","signal-benchmark.json","tests-final-matrix.json",
              "storage-D-before.json","storage-D-after.json","storage-E-before.json","storage-E-after.json",
              "E-cleanup-dry-run-manifest.json","historical-seals-v10.json","admission-oracle.json",
-             "source-scope-evidence.json")
+             "source-scope-evidence.json","aggregation-oracle.json","ci-attempt1-summary.json")
     proof = {name:dict(path=str(JOB/name),sha256=sha(JOB/name)) for name in names}
     decision = dict(schema="ENTERPRISE-ALPHA-V10-DECISION-v1",trials=544,
         economic_pass=0,eligible=0,stage1="CANCELED_FAILED_STAGE0",
@@ -86,7 +86,9 @@ def run():
         verification=dict(oracle={k:v for k,v in oracle.items() if k!="changed_gate_rows"},
                           changed_gate_row_count=len(oracle["changed_gate_rows"]),
                           correction=correction,historical_seals=read("historical-seals-v10.json"),
-                          admission=read("admission-oracle.json")),
+                          admission=read("admission-oracle.json"),
+                          aggregation=read("aggregation-oracle.json"),
+                          initial_CI_failure=read("ci-attempt1-summary.json")),
         decision=decision,annual_lifecycle=annual,artifacts=proof,
         limitations=["Synthetic Ask: Gold0.338USD/oz and EUR1pip; not observed BidAsk.",
                      "Holiday guards/swaps are scenarios, not certified historical FTMO execution.",
@@ -178,6 +180,10 @@ def run():
         "Benchmark signal giữ nguyên output. Lần scan8,58s là trước cache và trước correction;",
         "không gắn thời gian đó cho một lượt SL-active hoặc toàn chiến dịch đã sửa.",
         "CI chuyển sang full suite gồm native/statistical/worker, upload test IDs và timings.",
+        "Attempt Linux đầu chạy đủ 1.030 IDs nhưng lỗi thiếu httpx, một assertion đường dẫn Windows",
+        "và 3 skip theo nền tảng. Đã thêm httpx từ lockfile và đặt contracts runner Windows",
+        "để chạy cả process ownership/sharing-race tests; giữ nguyên assertions và frozen code.",
+        "Secret scan/UI registry tiếp tục trên Linux. Kết quả CI cuối gắn đúng HEAD trong delivery receipt.",
         "",
         "### Lỗi đã bắt và cách xử lý",
         "",

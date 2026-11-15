@@ -144,6 +144,10 @@ Tối ưu là cache timing masks dùng lại trong cùng lần quét; không b�
 Benchmark signal giữ nguyên output. Lần scan8,58s là trước cache và trước correction;
 không gắn thời gian đó cho một lượt SL-active hoặc toàn chiến dịch đã sửa.
 CI chuyển sang full suite gồm native/statistical/worker, upload test IDs và timings.
+Attempt Linux đầu chạy đủ 1.030 IDs nhưng lỗi thiếu httpx, một assertion đường dẫn Windows
+và 3 skip theo nền tảng. Đã thêm httpx từ lockfile và đặt contracts runner Windows
+để chạy cả process ownership/sharing-race tests; giữ nguyên assertions và frozen code.
+Secret scan/UI registry tiếp tục trên Linux. Kết quả CI cuối gắn đúng HEAD trong delivery receipt.
 
 ### Lỗi đã bắt và cách xử lý
 

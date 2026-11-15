@@ -287,8 +287,57 @@ def benchmark():
         price_inputs="Development 2018–2023 plus prior warmup only"))
 
 
+def aggregation():
+    matrix = np.load(JOB/"raw-matrix-reviewed.npz")
+    result = json.loads((JOB/"discovery-reviewed.json").read_text())
+    max_error = 0.
+    def equal(actual, expected):
+        nonlocal max_error
+        error = abs(float(actual)-float(expected))
+        max_error = max(max_error,error)
+        assert error < 1e-8,(actual,expected)
+    scores = []
+    for j,row in enumerate(result["rows"]):
+        arrays = {key:matrix[f"{j}:{key}"] for key in
+                  ("years","ok","admitted","SYM:net_R","ASYM:net_R")}
+        get = arrays.__getitem__
+        scores_ = []
+        for annual in row["annual"]:
+            raw = [i for i,y in enumerate(get("years")) if y == annual["year"]]
+            priced = [i for i in raw if get("ok")[i]]
+            admitted = [i for i in raw if get("admitted")[i]]
+            assert [annual[k] for k in ("raw","priced","admitted")] == [len(raw),len(priced),len(admitted)]
+            for model in ("SYM","ASYM"):
+                values = get(f"{model}:net_R")
+                equal(annual["economics"][model]["raw_net_R"],sum(float(values[i]) for i in priced))
+                equal(annual["economics"][model]["admitted_net_R"],sum(float(values[i]) for i in admitted))
+        for cluster in row["clusters"]:
+            raw = [i for i,y in enumerate(get("years")) if int(y) in cluster["years"]]
+            priced = [i for i in raw if get("ok")[i]]
+            admitted = [i for i in raw if get("admitted")[i]]
+            assert cluster["raw"] == len(raw) and cluster["admitted"] == len(admitted)
+            equal(cluster["retention"],len(admitted)/len(raw) if raw else 0)
+            for model in ("SYM","ASYM"):
+                values = get(f"{model}:net_R")
+                total = sum(float(values[i]) for i in priced)
+                equal(cluster["net"][model]["raw"],total)
+                equal(cluster["net"][model]["admitted"],sum(float(values[i]) for i in admitted))
+                if model == "SYM":
+                    scores_.append(total/3)
+        score = min(scores_)
+        equal(row["score"],score)
+        scores.append(score)
+    order = sorted(range(len(scores)),key=lambda i:(scores[i],sum(
+        c["net"]["SYM"]["raw"] for c in result["rows"][i]["clusters"])),reverse=True)
+    key = lambda r:(r["asset"],r["recipe"],r["horizon"])
+    assert [key(result["rows"][i]) for i in order[:15]] == [key(r) for r in result["top15"]]
+    save("aggregation-oracle.json",dict(passed=True,configurations=544,annual_cells=544*6,
+        clustered_cells=544*2,ranking_top15=True,max_abs_error=max_error,
+        scope="Independent scalar summation of all annual/cluster raw/admitted R, counts, retention, ranking."))
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("mode", choices=("oracle","benchmark","remeasure"))
+    parser.add_argument("mode", choices=("oracle","benchmark","remeasure","aggregation"))
     args = parser.parse_args()
-    {"oracle":oracle,"benchmark":benchmark,"remeasure":remeasure}[args.mode]()
+    {"oracle":oracle,"benchmark":benchmark,"remeasure":remeasure,"aggregation":aggregation}[args.mode]()

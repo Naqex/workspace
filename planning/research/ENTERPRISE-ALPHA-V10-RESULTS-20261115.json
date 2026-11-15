@@ -6337,6 +6337,33 @@
       "passed": true,
       "rows": 244264,
       "scope": "All naturalSL, upfront stress friction and 15% admission masks; independent Fraction formula; no cost filtering before raw markout."
+    },
+    "aggregation": {
+      "passed": true,
+      "configurations": 544,
+      "annual_cells": 3264,
+      "clustered_cells": 1088,
+      "ranking_top15": true,
+      "max_abs_error": 1.1368683772161603e-13,
+      "scope": "Independent scalar summation of all annual/cluster raw/admitted R, counts, retention, ranking."
+    },
+    "initial_CI_failure": {
+      "run_id": 43676020377,
+      "head": "1c3d9ae67092a58a2a61b934ae353303a032e09f",
+      "platform": "Linux",
+      "passed": false,
+      "tests": 1030,
+      "errors": 1,
+      "failures": 1,
+      "skipped": 3,
+      "receipt_path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\enterprise-alpha-v10-20261115\\ci-attempt1\\quant-full.json",
+      "receipt_sha256": "1fc2bdbf271427eda9e728db421255c7f2977049791d23bfbcaeb44753588b4d",
+      "causes": [
+        "missing httpx dependency",
+        "Windows absolute path assertion on Linux",
+        "3 Windows ownership/sharing tests skipped by original platform decorators"
+      ],
+      "resolution": "Use Windows contracts runner and locked httpx; preserve test assertions, no historical engine edit."
     }
   },
   "decision": {
@@ -6518,6 +6545,14 @@
     "source-scope-evidence.json": {
       "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\enterprise-alpha-v10-20261115\\source-scope-evidence.json",
       "sha256": "55b79ca008024bd0de19a9f63846870586ddc0932f010f492a13397b49835c02"
+    },
+    "aggregation-oracle.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\enterprise-alpha-v10-20261115\\aggregation-oracle.json",
+      "sha256": "ea4c82e4d2af95430c65da2d4e8f19ac4b2c2669824a66abb821fefcbc3846d6"
+    },
+    "ci-attempt1-summary.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\enterprise-alpha-v10-20261115\\ci-attempt1-summary.json",
+      "sha256": "0bdee03c53aad483278d5a367c75746fe5a42bccdf64cf5b5f3a44893220b015"
     }
   },
   "limitations": [
