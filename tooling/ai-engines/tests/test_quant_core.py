@@ -9,7 +9,7 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from quant_core.market_data_store import MarketDataStore, QuoteStore, QUOTE, Checksums, HOUR
 from quant_core.ftmo_execution_and_calendar import GoldCosts, gold_calendar
-from quant_core.prop_lifecycle_and_parity import bindings
+from quant_core.prop_lifecycle_and_parity import bindings, simulate, AuditAccount
 from prop_campaign_source import stamp
 from prop_portfolio_accounts import trade_money
 
@@ -89,3 +89,27 @@ class CoreTests(unittest.TestCase):
             with bindings(module, value=2):
                 raise RuntimeError()
         self.assertEqual(module.value, 1)
+
+    def test_lifecycle_adapter_replays_shared_quotes_and_cash(self):
+        with tempfile.TemporaryDirectory() as folder:
+            first = stamp("2022-01-04")
+            entry, exit_at = first + 8 * HOUR, first + 9 * HOUR
+            p = Path(folder) / "quotes.bin"
+            np.array([(entry, 1999900, 2000000), (exit_at, 2001000, 2001100)], dtype=QUOTE).tofile(p)
+            sha = hashlib.sha256(p.read_bytes()).hexdigest()
+            manifest = {str(at): dict(path=str(p), records=1, byte_offset=i * QUOTE.itemsize, sha256=sha)
+                        for i, at in enumerate((entry, exit_at))}
+            end = first + 10 * HOUR
+            reader = QuoteStore(manifest, first, end)
+            t = dict(asset="XAUUSD", role="CORE", side="BUY", decision_msc=entry-1,
+                     entry_msc=entry, entry_price_units=2000000, stop_units=1990000,
+                     deadline_msc=exit_at, exit_msc=exit_at, exit_price_units=2001000,
+                     entry_quote_index=0, exit_quote_index=0, d1_gate=True,
+                     regime_weight=1, reason="TIME_CLOSE")
+            a = AuditAccount(first, end, "SYM_FLAT", rolling=False, fixed_risk=150)
+            rows = simulate([t], dict(XAUUSD=reader, EURUSD=QuoteStore({}, first, end)),
+                            [a], first, end, gold_calendar(first, end))
+            self.assertEqual(rows[0]["closed_trades"], 1)
+            self.assertAlmostEqual(rows[0]["net_usd"], GoldCosts("SYM_FLAT").money(t, 15)["net_usd"])
+            self.assertTrue(rows[0]["cash_bridge_verified"])
+            reader.hour.cache_clear()

@@ -56,3 +56,18 @@ class V9Tests(unittest.TestCase):
                                  retention_pct=100, scale_ratio=.1, median_friction=.7,
                                  primary="DAY", markouts={"DAY": dict(observed=100, **values)}))
         self.assertTrue(all(not r["eligible"] for r in gates(rows).values()))
+
+    def test_eurusd_proxy_units_and_roundtrip_costs(self):
+        from prop_v9_eurusd import measure
+        from quant_core.market_data_store import BAR
+        first = stamp("2023-01-03")
+        bars = np.zeros(2, dtype=BAR)
+        bars["t"] = [first + 9 * HOUR, first + 20 * HOUR + HOUR // 2]
+        bars["bo"] = [110000, 110100]
+        bars["ao"] = bars["bo"] + 10
+        raw = [dict(side="BUY", decision_msc=int(bars["t"][0]), stop_units=109800, horizon="DAY")]
+        row = measure(raw, bars, gold_calendar(first, first + DAY))[0]
+        self.assertEqual(row["natural_sl_pips"], 21)
+        self.assertEqual(row["gross_USD_per_lot"], 90)
+        self.assertEqual(row["net_USD_per_lot"], 81)
+        self.assertEqual(row["net_pips"], 8.1)
