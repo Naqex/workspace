@@ -1,17 +1,50 @@
 # Current context — Naqex Workspace
 
-15/11/2026 · `RESEARCH: V9_STAGE0_NO_GO · SYSTEM: STORAGE_AND_QUANT_CORE_DELIVERED · PROP: NOT_QUALIFIED`.
+15/11/2026 · `RESEARCH: V10_STAGE0_NO_GO · SYSTEM: VECTOR_SCAN_AND_FULL_AUDIT_DELIVERED · PROP: NOT_QUALIFIED`.
 
 ## Việc hiện tại
 
-**V9 đã kiểm xong: chưa có ứng viên mới để Challenge.**
+**V10 đã kiểm xong: 0/544 cấu hình vượt Discovery; chưa có ứng viên Challenge.**
+[Báo cáo bốn phần](research/ENTERPRISE-ALPHA-V10-RESULTS-20261115.md) /
+[JSON](research/ENTERPRISE-ALPHA-V10-RESULTS-20261115.json) /
+[decision](research/ENTERPRISE-ALPHA-V10-DECISION-20261115.json) /
+[protocol](research/ENTERPRISE-ALPHA-V10-PROTOCOL-20261115.md).
+PR88 đã merge `97a44f2`; branch `codex/enterprise-alpha-v10`.
+PR V10 chờ owner duyệt, không tự merge. Private job `enterprise-alpha-v10-20261115`.
+
+F1–F4 trên XAUUSD/EURUSD, Dev2018–2023,136 recipes ×4horizons.
+Không có cấu hình qua toàn bộ cổng kinh tế/cadence; tất cả fail Holm/DSRproxy.
+Không mở giá2024–2026, không Stage1/portfolio/lifecycle cho nhánh fail.
+Ask/swap/calendar vẫn conditional; raw endpointR không SL-active/accountPnL.
+Không cleanOOS, broker/paid/Astra/runtime promotion.
+
+Fraction oracle bắt backward DAY exit; đã chặn cùng post-Friday-flat entry.
+24cells/176occurrences invalidated, không đổi grid/entry/SL/quotes;
+cluster scale dùng pooled medians đúng protocol. Original attempts/pins giữ nguyên,
+Top15 không đổi,0economic/eligible.243.884priced occurrences ×2costviews đối soát;
+V8 exact seals/V7 snapshot giữ nguyên. Same implementer, không independent person review.
+
+1.030tests giữ đủ1.013IDs cũ,0skip; smoke30tests/0,64s.
+Base serial40,96s→2process21,91s; full grouped Windows29,02s.
+Signal cache16alternatingpairs giữ toàn bộ136recipes,6,29→1,39s (~4,52×).
+Không gắn speedup signal/seek cho full account simulation.
+
+D đọc được591.222→575.154files; giảm ròng362.263.076bytes.
+E chỉ dry-run119.790.227.244bytes/100.287files build caches, chưa purge.
+Hai VI permission gaps giữ nguyên; E có private research duy nhất, không mirror D.
+[Maintenance](../tooling/WORKSPACE-MAINTENANCE.md) /
+[quant core](../tooling/ai-engines/quant_core/README.md).
+Chặng mới cần hypothesis/budget hoặc source/cost admission được giao;
+không hạ gate, thêm grid hoặc tăng risk để cứu Top15.
+
+## V9 đã merge (nền hạ tầng)
+
 [Báo cáo4trụ cột](research/SYSTEM-AND-ALPHA-V9-RESULTS-20261115.md) /
 [JSON](research/SYSTEM-AND-ALPHA-V9-RESULTS-20261115.json) /
 [closure](research/SYSTEM-AND-ALPHA-V9-DECISION-20261115.json) /
 [protocol](research/SYSTEM-AND-ALPHA-V9-PROTOCOL-20261115.md) /
 [EUR admission](research/SYSTEM-AND-ALPHA-V9-EURUSD-ADMISSION-20261115.md).
-PR87 merged `5f1b687`, branch cũ xóa. Branch `codex/system-and-alpha-v9`;
-PR V9 chờ owner duyệt, không tự merge. Private job `system-and-alpha-v9-20261115`.
+PR88 merged `97a44f2`, nhánh V9 đã xóa. Private job `system-and-alpha-v9-20261115`.
 
 D scanned633.571→591.665files, giảm11,84GB/4.627folders;2VIpermission gaps
 không đụng ACL. Cache/Rust incremental đã purge;2coldvenvs nén và roundtrip.

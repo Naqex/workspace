@@ -1,0 +1,17 @@
+{
+  "schema": "ENTERPRISE-ALPHA-V10-DECISION-v1",
+  "trials": 544,
+  "economic_pass": 0,
+  "eligible": 0,
+  "stage1": "CANCELED_FAILED_STAGE0",
+  "validation_2024_2026": "NOT_OPENED_IN_V10",
+  "portfolio": null,
+  "lifecycle": "CANCELED_FAILED_STAGE0",
+  "clean_OOS": false,
+  "cutoff": "2026-10-13",
+  "challenge_qualified": false,
+  "broker_authority": false,
+  "new_strategy_trials_after_outcomes": 0,
+  "technical_recalculation": true,
+  "reason": "No configuration meets the preregistered clustered economic/cadence/robustness gate."
+}

@@ -50,3 +50,27 @@ CI `check_anti_bloat.py --base <commit>` chặn mỗi JSON/JSONL/CSV mới/đổ
 >1MiB, tổng>8MiB hoặc>100 files. Blobs lịch sử không đổi được grandfathered.
 Raw/ledger đặt private, tracked summary nhỏ có provenance; không thay seal
 lịch sử bằng bản nén mới. Nén lossless không tự làm raw phù hợp đưa lên Git.
+
+## Phase2: phân hoạch và cold bundles
+
+`deep_storage.disjoint_partitions(inventory)` tách cấp2 và phần `@direct` còn
+dư của cha; tổng bytes/files/folders phải khớp phần đọc được, không cộng cha
+và con chồng lấn. Lấy Top15 theo files/bytes từ các partition, luôn báo phần
+còn lại và permission errors. Không gọi đó là100% allocated space của ổ.
+
+`backup_plan(census, output)` chỉ xuất metadata manifest/hash cho build caches
+cũ của E, bảo vệ workspace/ai-engine-jobs/current-owner snapshots. Không xóa,
+không cho rằng trùng tên là duplicate content. Trước apply cần đối soát owners,
+processes/worktrees, rebuildability hoặc archive và metadata hiện hành.
+
+`cold_zip(root, target, destination, remove=True)` chỉ cho explicit derivatives
+dưới `.artifacts` hoặc UI QA artifacts: chặn reparse/embeddedGit, SHA256 từng
+file, verifyZIP rồi rehashsource trước remove. MANIFEST giữ restore parent;
+giải nén vào parent đó và kiểm từng hash. Có link thì dừng, không tự tháo guard.
+`generated_dependencies` chỉ xóa node_modules của UI QA artifacts sau kiểm
+ownership/process ở caller; không follow package-manager links. Không áp dụng
+cho app active, canonical data, pinned evidence hoặc VI WIP.
+
+V10 dùng Git `repack -a -d --keep-unreachable` với fsck và refs/HEAD trước/sau;
+không `prune=now` trên repository có shared worktrees. Các API explicit không
+là cleanup daemon; người/agent vẫn phải xác minh scope rồi mới gọi mutation.
