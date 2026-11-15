@@ -1,12 +1,27 @@
 # Tra cứu research đã có
 
+**V10 — 0/544 cấu hình F1–F4 qua Stage0; chưa mở validation/lifecycle:**
+[Báo cáo bốn phần](ENTERPRISE-ALPHA-V10-RESULTS-20261115.md) /
+[JSON](ENTERPRISE-ALPHA-V10-RESULTS-20261115.json) /
+[decision](ENTERPRISE-ALPHA-V10-DECISION-20261115.json) /
+[protocol](ENTERPRISE-ALPHA-V10-PROTOCOL-20261115.md).
+PR88 merge97a44f2; branchcodex/enterprise-alpha-v10, không tự merge PR mới.
+Dev2018–2023: XAUUSD92/EURUSD44recipes ×4horizons; Ask/swap conditional.
+Đã sửa backward DAY/post-Friday entry và pooled cluster scale; giữ original
+attempts/pins.243.884priced occurrences ×2fees Fraction oracle,0eligible.
+1.030tests/0skip giữ1.013IDs;2process base21,91s,smoke0,64s.
+D−362,26MB/16.068files ròng; E119,79GB dry-run, chưa purge.
+V8 exact seals/V7 snapshot giữ nguyên,VIWIP/Traderpin không đổi.
+Giá2024–2026 không mở trong V10; không portfolio/payout mới hoặc cleanOOS.
+Private jobexecution-v1/enterprise-alpha-v10-20261115; đọc report trước trial mới.
+
 **V9 — storage/quant core đã giao; Gold/EUR S1/S2 đều No-Go ở Stage0:**
 [Báo cáo4trụ cột](SYSTEM-AND-ALPHA-V9-RESULTS-20261115.md) /
 [JSON](SYSTEM-AND-ALPHA-V9-RESULTS-20261115.json) /
 [closure](SYSTEM-AND-ALPHA-V9-DECISION-20261115.json) /
 [protocol](SYSTEM-AND-ALPHA-V9-PROTOCOL-20261115.md) /
 [EUR admission](SYSTEM-AND-ALPHA-V9-EURUSD-ADMISSION-20261115.md).
-PR87 merged5f1b687; branchcodex/system-and-alpha-v9, không tự merge PR mới.
+PR88 merged97a44f2; nhánh V9 đã xóa.
 D−11,84GB/41.906files;2VIpermission gaps vẫn giữ; Ekhôngpurge.
 1.013tests giữ995IDs cũ,2anti-bloatfixtures riêng. Core/adapters reuse legacy
 seals, không rewrite lịch sử. 3.892Gold và562EURdirectcostbridges PASS,
