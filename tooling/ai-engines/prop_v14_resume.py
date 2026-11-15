@@ -1,6 +1,7 @@
 """Resume only missing V14 account batches under a committed technical erratum."""
 import json
 import subprocess
+from pathlib import Path
 import numpy as np
 from prop_v14_source import JOB,FIRST,END,read,save,sha
 from prop_v14_paths import M1ScenarioQuotes
@@ -12,18 +13,24 @@ ERRATUM="planning/research/EVIDENCE-AND-LIFECYCLE-V14-ERRATUM-01-20261115.json"
 
 
 def run(tag):
-    correction=read(ERRATUM)
-    committed=json.loads(subprocess.check_output(["git","show","HEAD:"+ERRATUM]))
-    if correction!=committed:raise ValueError("V14_erratum_not_committed")
+    corrections=[]
+    for p in sorted(Path("planning/research").glob("EVIDENCE-AND-LIFECYCLE-V14-ERRATUM-*.json")):
+        correction=read(p)
+        committed=json.loads(subprocess.check_output(["git","show","HEAD:"+p.as_posix()]))
+        if correction!=committed:raise ValueError("V14_erratum_not_committed")
+        corrections.append(correction)
     cfg=read(JOB/"candidate-freeze.json")
     release=read(JOB/"longitudinal-release.json")
     original=json.loads(subprocess.check_output(["git","show",release["commit"]+
         ":planning/research/EVIDENCE-AND-LIFECYCLE-V14-FREEZE-20261115.json"]))
     if cfg!=original:raise ValueError("V14_original_freeze_changed")
-    for p,digest in dict(cfg["pins"],**correction["technical_pins"]).items():
+    pins=dict(cfg["pins"])
+    for correction in corrections:pins.update(correction["technical_pins"])
+    for p,digest in pins.items():
         if sha(p)!=digest:raise ValueError("V14_resume_code_drift:"+p)
-    for name,digest in correction["completed_before_fix"].items():
-        if sha(JOB/name)!=digest:raise ValueError("V14_completed_result_drift")
+    for correction in corrections:
+        for name,digest in correction["completed_before_fix"].items():
+            if sha(JOB/name)!=digest:raise ValueError("V14_completed_result_drift")
     order="OPEN_LOW_HIGH_CLOSE" if tag=="OLHC" else "OPEN_HIGH_LOW_CLOSE"
     proofs=read(JOB/"full-source-admission.json")["assets"]
     readers={}

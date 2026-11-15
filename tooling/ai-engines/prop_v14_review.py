@@ -27,7 +27,7 @@ def audit_accounts(expected,trades,readers,calendar,first=FIRST,end=END):
                 if first<=at<end:actions[(at,-1,-1)].append(("swap",i,j,None))
         for kind,key in (("pass","phase_passes"),("reward","payouts")):
             for event in c.e[key]:
-                closed=next((r for r in c.e["closed"] if r["at"]==event["at"]),None)
+                closed=next((r for r in reversed(c.e["closed"]) if r["at"]==event["at"]),None)
                 t=c.trades[closed["trade"]] if closed else None
                 key=(event["at"],0 if t["asset"]=="XAUUSD" else 1,t["exit_quote_index"]) if t else (event["at"],-1,-1)
                 actions[key].append((kind,None,j,event))

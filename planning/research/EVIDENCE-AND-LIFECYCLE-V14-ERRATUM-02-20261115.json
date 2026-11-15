@@ -1,0 +1,13 @@
+{
+  "schema": "V14-audit-erratum-02",
+  "reason": "Extend scalar oracle to independently check source-uncertainty labels and all unit reference cash legs; bind pass/payout event to the last same-time close.",
+  "no_producer_economics_changed": true,
+  "no_account_rerun": true,
+  "technical_pins": {
+    "tooling\\ai-engines\\independent_ledger_auditor.py": "c65527b13229f4a6e285f1c7cdb5c92988dd270cf3221ff551e26051e10e4584",
+    "tooling\\ai-engines\\prop_v14_review.py": "fa16431f507e3b1ac4ec7180f861e5db8ecedab4d28bbae9cee5858c6c5b9cca",
+    "tooling\\ai-engines\\prop_v14_resume.py": "21796b82e6cc216efbfcf690114d7bb289a8ad24228946a544d8b32ea9422711"
+  },
+  "completed_before_fix": {},
+  "original_freeze_preserved": true
+}

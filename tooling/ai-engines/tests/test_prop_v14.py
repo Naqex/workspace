@@ -81,6 +81,10 @@ class V14Tests(unittest.TestCase):
         self.assertTrue(audit_v14_path(t,b,events,r.cutoff)["passed"])
         t["exit_price_units"]+=1
         self.assertIn("FIRST_PASSAGE",audit_v14_path(t,b,events,r.cutoff)["errors"])
+        t["exit_price_units"]-=1;t["source_uncertain"]=True
+        self.assertIn("SOURCE_UNCERTAINTY_LABEL",audit_v14_path(t,b,events,r.cutoff)["errors"])
+        t["source_uncertain"]=False;t["reference"]["SYM"]["net"]+=.01
+        self.assertIn("REFERENCE_SYM_net",audit_v14_path(t,b,events,r.cutoff)["errors"])
 
     def test_protection_price_is_independently_recomputed(self):
         b,m,t,r=self.realized([(100,120,99,118),(118,119,101,102),(102,103,101,102)],"P1")

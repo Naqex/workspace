@@ -386,6 +386,24 @@ def audit_v14_path(t,bars,events,cutoff):
     if hit!=(t["exit_msc"],t["exit_price_units"],t["reason"]):errors.append("FIRST_PASSAGE")
     if (t["activation_time"],t["protection_price"] if t["activation_time"] is not None else None)!=(trigger,protect):
         errors.append("PROTECTION")
+    uncertain=False
+    for j in range(start+1,bisect_right(times,min(t["exit_msc"],cutoff-1))):
+        if int(times[j])-int(times[j-1])>60000:
+            if any(source_off_kind(at,t["asset"],spec) is None for at in
+                   range(int(times[j-1])+60000,int(times[j]),60000)):
+                uncertain=True
+    if uncertain!=t["source_uncertain"]:errors.append("SOURCE_UNCERTAINTY_LABEL")
+    if not t["censored"]:
+        cash_row=dict(row,exit_time=t["exit_msc"],
+            exit_price=str(D(t["exit_price_units"])/scale),reason=t["reason"])
+        for model,claimed in t["reference"].items():
+            legs=cash_legs(cash_row,model,spec)
+            for name,key in (("gross","gross"),("commission","commission"),("slippage","slippage"),
+                             ("funding","swap"),("net","net")):
+                if abs(float(legs[key]/contract)-claimed[name])>1e-9:
+                    errors.append("REFERENCE_"+model+"_"+name)
+            if abs(float(legs["net"]/contract/natural)-claimed["net_R"])>1e-9:
+                errors.append("REFERENCE_NET_R")
     return dict(passed=not errors,errors=errors,entry=entry,exit=t["exit_msc"],first_hit=hit,
         scope="conditional M1 ordering, fixed Ask proxy; missing extrema remain unknown")
 
