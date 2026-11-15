@@ -97,3 +97,39 @@ Full local Windows V11 giữ 1.030 test IDs cũ, thêm 18, tổng 1.048, không 
 Smoke 44 tests quan sát 0,673s; full grouped 28,47s. Đây là timing của từng
 lượt, không bảo đảm tốc độ host khác. Oracle dùng Fraction/scalar và source
 decoder khác đường producer; cùng implementer, không phải reviewer độc lập.
+
+## V12: stop-active paths và ledger oracle
+
+`vectorized_sl_active_kernel.PathIndex` dùng extrema blocks 64 bars rồi resolve
+first hit bằng bar gốc. `replay` hỗ trợ P0 natural SL, P1 net +1,5R rồi protect
+net +0,15R tại lúc kích hoạt, P2 TP 3R. Stop mới có hiệu lực từ bar kế tiếp;
+same-bar stop/TP thì stop trước; gap qua stop khớp open bất lợi. H1 có deadline
+giữa giờ không được lấy extrema của phần bar sau deadline. Missing path là
+unknown, không tự dựng quote hoặc tính thành 0R.
+
+`money` giữ V11 cost scenarios, tính carry đến exit thực. Đây là reference
+1 lot, chưa shared-account quantity model. US500 giá 0,001 point cần round
+gross leg tới cent trước net; nghịch đảo P1 phải xử lý plateau cent. Lần đầu
+oracle bắt sai khác đó; bản sửa chỉ rerun US500, giữ bốn asset và failed attempt.
+`daily_mtm` ghi entry/exit cost đúng leg và carry, dùng cho correlation; không
+thay M1 intraday equity/DD hay execution trên account.
+
+`independent_ledger_auditor.py` ở cấp `ai-engines/` cố ý không import Quant
+Core accounting. Nó tự tính Decimal cash/fees/carry, kiểm first-hit/calendar
+và Prague balance anchor qua raw quote snapshots. Ledger cần contract/cost/
+calendar, exit reason và protection decision ngoài các fields tối thiểu;
+không suy tất cả từ symbol hoặc đọc producer PnL làm oracle.
+
+Consumer `prop_v12_campaign.py` khóa 2.888 path cells. `--attempt cent-corrected`
+reuse hash-bound Gold/EUR/GBP/AUD và chỉ đo lại US500. `prop_v12_verify.py`
+decode accepted source riêng và kiểm cash/path; báo đầy đủ scope của partial
+coverage. Current composer thêm `correlation_limit`, default 0,30 giữ V11,
+V12 gọi 0,25; exact V11 source còn trong Git/snapshot, không đổi seal lịch sử.
+
+V12 chưa có component đủ path để ghép ensemble, không mở giá 2024–2026 hoặc
+chạy lifecycle. Đọc [protocol](../../../planning/research/SL-ACTIVE-ENSEMBLE-V12-PROTOCOL-20261115.md),
+[cent correction](../../../planning/research/SL-ACTIVE-ENSEMBLE-V12-CENT-CORRECTION-20261115.md)
+và [report](../../../planning/research/SL-ACTIVE-ENSEMBLE-V12-RESULTS-20261115.md).
+Full local giữ 1.048 IDs cũ, tổng 1.072/0 skip; smoke 66 tests quan sát 0,670s.
+Các query/property cases vẫn đầy đủ, chỉ bỏ NumPy scalar-access overhead
+trong test oracle. Không chuyển timing kernel thành timing toàn pipeline.

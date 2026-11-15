@@ -169,7 +169,8 @@ def run():
                               independently_decoded_rows=len(bars),failures=len(failures)-before_failures,
                               matrix_path=str(matrix_root/f"{asset}-path-matrix.npz"),
                               matrix_sha256=sha(matrix_root/f"{asset}-path-matrix.npz"))
-        print(dict(stage="oracle_asset_complete",asset=asset,**by_asset[asset],failures=len(failures)),flush=True)
+        print(dict(stage="oracle_asset_complete",asset=asset,**by_asset[asset],
+                   cumulative_failures=len(failures)),flush=True)
     out = dict(passed=not failures,cash_cost_views=cash_records,scalar_path_checks=path_records,
         by_asset=by_asset,failures=failures,failure_count=len(failures),
         sample_trades=samples,cent_comparison_exact=True,pre_cent_float_decimal_places=8,

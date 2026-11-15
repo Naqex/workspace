@@ -1,0 +1,103 @@
+{
+  "schema": "V12-DECISION-v1",
+  "passed": false,
+  "K": 0,
+  "composition": null,
+  "status": "NO_QUALIFIED_ENSEMBLE",
+  "dual_positive_cells": 28,
+  "economic_but_path": 19,
+  "research_status": [
+    "DATA_PATH_INCOMPLETE",
+    "PROP_UNMEASURED"
+  ],
+  "validation_2024_2026": "NOT_OPENED",
+  "lifecycle": "CANCELED_FAILED_DEV_GATE",
+  "prop_status": "PROP_UNMEASURED",
+  "independent_person_review": false,
+  "artifacts": {
+    "registration.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\sl-active-ensemble-v12-20261115\\registration.json",
+      "sha256": "b0e45144160869486ed7b2521c53dbb3b95d684124276d0239e4667a435416b3"
+    },
+    "discovery.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\sl-active-ensemble-v12-20261115\\discovery.json",
+      "sha256": "9441507dbaa5aef2dcd1071bd6de33ba1f23c72cd0a2af884037c4454660d619"
+    },
+    "decision.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\sl-active-ensemble-v12-20261115\\decision.json",
+      "sha256": "d601f2a95e9c4dc0961439e3003c64a4bfec20233d8f06e81b661ecc1348e100"
+    },
+    "independent-audit.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\sl-active-ensemble-v12-20261115\\independent-audit.json",
+      "sha256": "59305629ee08b929f46f31c468dfd2bf204fd4452a1ec9a157fd2e66f336ac14"
+    },
+    "timings.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\sl-active-ensemble-v12-20261115\\timings.json",
+      "sha256": "b73b36cbae529e31e7642151c8733c92baa8edd2c7d579011d023e797edbfcfd"
+    },
+    "archive-members.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\sl-active-ensemble-v12-20261115\\archive-members.json",
+      "sha256": "810ade7b6d08e7b9a01fb9037c1e3a844ef3b98ba003db7e883ababc8189d01d"
+    },
+    "duplicate-files-crosspath.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\sl-active-ensemble-v12-20261115\\duplicate-files-crosspath.json",
+      "sha256": "3428a3cc62ac549db3812fee2405ac102279c86b43a1a66b077f322dcd759273"
+    },
+    "duplicate-directory-candidates.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\sl-active-ensemble-v12-20261115\\duplicate-directory-candidates.json",
+      "sha256": "a3351da627409085aa4d6f08a47f8e863a0a83324a1ced68fdbd8af08332bd43"
+    },
+    "storage-D-final.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\sl-active-ensemble-v12-20261115\\storage-D-final.json",
+      "sha256": "e475a128af4617d95e1ac73ad8e6460cffb38e0ae3a17fafc25695d471037ed1"
+    },
+    "storage-E-final.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\sl-active-ensemble-v12-20261115\\storage-E-final.json",
+      "sha256": "60d1d421ebcca88d689e0408296bade5158b2209878e968550fd566d80fba804"
+    },
+    "tests-final-matrix.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\sl-active-ensemble-v12-20261115\\tests-final-matrix.json",
+      "sha256": "5f633d66ee054c51e4a2f1ca066e1cab8f09ef97ef1c490b73e9ebf14e22da7f"
+    },
+    "source-path-audit.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\sl-active-ensemble-v12-20261115\\source-path-audit.json",
+      "sha256": "acbc04dc91dd72583bc6768e5f6382044ae20c36eb9265cd1daad7551abfe14d"
+    },
+    "V11-exact-composer.py": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\sl-active-ensemble-v12-20261115\\V11-exact-composer.py",
+      "sha256": "e22404e9f91df36faefc3580616419a8450cf843111e4fb65541f8438e6e1533"
+    },
+    "cent-corrected\\registration.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\sl-active-ensemble-v12-20261115\\cent-corrected\\registration.json",
+      "sha256": "75c94ed6e0892bfb2953b4b571f89cb299f179f11875538896d3c885fc768de6"
+    },
+    "cent-corrected\\discovery.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\sl-active-ensemble-v12-20261115\\cent-corrected\\discovery.json",
+      "sha256": "939ba376535111082d919636f4e43107ed3c3536b23eb6fc52be1d1eabc2f8e2"
+    },
+    "cent-corrected\\decision.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\sl-active-ensemble-v12-20261115\\cent-corrected\\decision.json",
+      "sha256": "d601f2a95e9c4dc0961439e3003c64a4bfec20233d8f06e81b661ecc1348e100"
+    },
+    "cent-corrected\\independent-audit.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\sl-active-ensemble-v12-20261115\\cent-corrected\\independent-audit.json",
+      "sha256": "6b77cff39121dac65db559b7e8dfaca4f533bb56aa922d496400d0a398e59665"
+    },
+    "cent-corrected\\US500-path-matrix.npz": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\sl-active-ensemble-v12-20261115\\cent-corrected\\US500-path-matrix.npz",
+      "sha256": "856c2e103059b31a7b6e78671aea84df0a1420ccc5fd141c3f2c898b87333908"
+    },
+    "cent-corrected\\source-path-audit.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\sl-active-ensemble-v12-20261115\\cent-corrected\\source-path-audit.json",
+      "sha256": "acbc04dc91dd72583bc6768e5f6382044ae20c36eb9265cd1daad7551abfe14d"
+    },
+    "cent-corrected\\timings.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\sl-active-ensemble-v12-20261115\\cent-corrected\\timings.json",
+      "sha256": "9474234a12f5fbd8a10fe0d05a6b003ae98a3d0980a02cc16292a15225ba3e48"
+    },
+    "cent-corrected\\oracle-logging-failure.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\sl-active-ensemble-v12-20261115\\cent-corrected\\oracle-logging-failure.json",
+      "sha256": "d3d7303de6db9fc24f1ad3cb45e8a297ec8a0410412558aaabbe7bbe8b88f316"
+    }
+  }
+}
