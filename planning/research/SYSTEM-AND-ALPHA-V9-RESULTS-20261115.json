@@ -409,13 +409,13 @@
   },
   "tests": {
     "before": 995,
-    "after": 1012,
+    "after": 1013,
     "original_IDs_retained": true,
-    "new_tests": 17,
+    "new_tests": 18,
     "before_seconds": 50.92033980000997,
-    "after_seconds": 46.710728999983985,
-    "fast_tests": 278,
-    "fast_seconds": 12.216472400003113,
+    "after_seconds": 46.848783499968704,
+    "fast_tests": 279,
+    "fast_seconds": 12.354526899987832,
     "historical_tests": 734,
     "warm_first_after_seconds": 46.342202299972996,
     "cold_first_after_seconds": 55.698625800025184,
@@ -424,7 +424,7 @@
       {
         "module": "test_shadow_reconcile",
         "before_seconds": 10.630020699929446,
-        "after_seconds": 7.641957300074864
+        "after_seconds": 7.770186800102238
       },
       {
         "module": "test_forex_study_batch",
@@ -439,7 +439,7 @@
       {
         "module": "test_shadow_night",
         "before_seconds": 2.1655337000265718,
-        "after_seconds": 2.1131316000246443
+        "after_seconds": 2.1179336999193765
       },
       {
         "module": "test_explicit_m1_view",

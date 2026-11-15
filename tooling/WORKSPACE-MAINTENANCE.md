@@ -3,6 +3,15 @@
 Chạy từ workspace bằng Python3.12 có sẵn. `workspace_maintenance.py` không là
 service nền, không tự xóa cache khi import hoặc chạy inventory.
 
+Một lệnh kiểm tra, dọn cache D có xác nhận bằng flag và xuất backup preview:
+
+```powershell
+python tooling/workspace_maintenance.py maintain --root D:/ANNAM/TradingWorkspace --apply-caches --destination E:/BACKUP-TRADINGWORKSPACE/workspace --output <private-job>/health.json
+```
+
+Bỏ `--apply-caches` để chỉ xem trước. Backup luôn giữ `/L`, không tự copy/xóa E.
+Các chế độ riêng khi chỉ cần một phần:
+
 ```powershell
 python tooling/workspace_maintenance.py inventory --root D:/ANNAM/TradingWorkspace --output <private-job>/inventory.json
 python tooling/workspace_maintenance.py purge --root D:/ANNAM/TradingWorkspace --approved-inventory <private-job>/inventory.json --output <private-job>/purge.json

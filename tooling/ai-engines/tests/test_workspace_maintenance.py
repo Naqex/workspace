@@ -6,7 +6,7 @@ import tempfile
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
-from workspace_maintenance import inventory, purge, compact_environment, purge_incremental, snapshot_view
+from workspace_maintenance import inventory, purge, compact_environment, purge_incremental, snapshot_view, maintain
 
 
 class MaintenanceTests(unittest.TestCase):
@@ -76,3 +76,19 @@ class MaintenanceTests(unittest.TestCase):
             self.assertEqual(Path(out[0]["snapshot"]).read_bytes(), b'{"fixture":1}\n')
             with self.assertRaisesRegex(ValueError, "content_changed"):
                 snapshot_view([dict(path=str(source), sha256="0"*64)], root / "other")
+
+    def test_one_command_health_cleanup_and_backup_preview_keeps_backup_untouched(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder) / "workspace"
+            cache = root / "__pycache__"
+            cache.mkdir(parents=True)
+            (cache / "fixture.pyc").write_bytes(b"cache")
+            backup = Path(folder) / "backup"
+            preview = maintain(root, destination=backup)
+            self.assertTrue(cache.exists())
+            self.assertIn("/L", preview["backup"]["command"])
+            applied = maintain(root, destination=backup, apply_caches=True)
+            self.assertFalse(cache.exists())
+            self.assertFalse(backup.exists())
+            self.assertEqual(applied["cache_purge"]["files"], 1)
+            self.assertFalse(applied["backup_copied"])

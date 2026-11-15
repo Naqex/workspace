@@ -187,14 +187,40 @@ def snapshot_view(records, destination):
     return output
 
 
+def backup_plan(root, destination):
+    source, destination = Path(root).resolve(strict=True), Path(destination).absolute()
+    if destination == source or destination.is_relative_to(source) or source.is_relative_to(destination):
+        raise ValueError("backup_roots_overlap")
+    return dict(source=str(source), destination=str(destination), read_only=True,
+                command=["robocopy", str(source), str(destination), "/E", "/L", "/XJ",
+                         "/R:0", "/W:0", "/XD", *sorted(CACHES),
+                         "node_modules", ".venv", "target", "/XF", "*.pyc"],
+                note="Dry-run only. Never /MIR or /PURGE; preserve existing E research evidence.")
+
+
+def maintain(root, *, destination=None, apply_caches=False):
+    before = inventory(root)
+    # Validate the backup destination before any optional cleanup.
+    plan = backup_plan(root, destination) if destination else None
+    deleted = purge(root, before["cache_candidates"]) if apply_caches else None
+    after = inventory(root) if apply_caches else before
+    return dict(before=before, after=after, cache_purge=deleted, backup=plan,
+                caches_applied=apply_caches, backup_copied=False)
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("action", choices=("inventory", "purge", "backup-plan"))
+    p.add_argument("action", choices=("inventory", "purge", "backup-plan", "maintain"))
     p.add_argument("--root", required=True)
     p.add_argument("--output", required=True)
     p.add_argument("--approved-inventory")
     p.add_argument("--destination")
+    p.add_argument("--apply-caches", action="store_true")
     a = p.parse_args()
+    if a.action == "backup-plan" and not a.destination:
+        p.error("backup-plan requires --destination")
+    if a.action == "purge" and not a.approved_inventory:
+        p.error("purge requires --approved-inventory")
     if a.action == "inventory":
         result = inventory(a.root)
     elif a.action == "purge":
@@ -202,16 +228,17 @@ def main():
         if Path(prior["root"]).resolve() != Path(a.root).resolve():
             raise ValueError("inventory_root_mismatch")
         result = purge(a.root, prior["cache_candidates"])
+    elif a.action == "backup-plan":
+        result = backup_plan(a.root, a.destination)
     else:
-        source, destination = Path(a.root).resolve(strict=True), Path(a.destination).absolute()
-        if destination == source or destination.is_relative_to(source) or source.is_relative_to(destination):
-            raise ValueError("backup_roots_overlap")
-        result = dict(source=str(source), destination=str(destination), read_only=True,
-                      command=["robocopy", str(source), str(destination), "/E", "/L", "/XJ",
-                               "/R:0", "/W:0", "/XD", *sorted(CACHES),
-                               "node_modules", ".venv", "target", "/XF", "*.pyc"],
-                      note="Dry-run only. Never /MIR or /PURGE; preserve existing E research evidence. Review the plan before copying.")
+        result = maintain(a.root, destination=a.destination, apply_caches=a.apply_caches)
     Path(a.output).write_text(json.dumps(result, indent=2), encoding="utf-8")
+    if a.action == "maintain":
+        print(json.dumps(dict(root=result["before"]["root"],
+                              before=result["before"]["groups"]["/"],
+                              after=result["after"]["groups"]["/"],
+                              caches_applied=result["caches_applied"], backup_copied=False)))
+        return
     print(json.dumps(dict(root=result.get("root"), total=result.get("groups", {}).get("/"),
                           errors=len(result.get("errors", [])),
                           files_purged=result.get("files"), bytes_purged=result.get("bytes"))))

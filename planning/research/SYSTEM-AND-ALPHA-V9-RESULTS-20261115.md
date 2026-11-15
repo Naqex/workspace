@@ -87,8 +87,8 @@ Core là consumer contract cho lượt sau. Backend lifecycle vẫn fixed fee/ri
 | Kiểm thử | Số test | Giây local |
 |---|---:|---:|
 | Trước, 4 runtime | 995 | 50.920 |
-| Sau, đủ ID và thêm regression | 1012 | 46.711 |
-| Fast CI | 278 | 12.216 |
+| Sau, đủ ID và thêm regression | 1013 | 46.849 |
+| Fast CI | 279 | 12.355 |
 | Historical, các runtime còn lại | 734 | 34.494 |
 
 Không skip, không bỏ995 IDs cũ. Fast chứa mọi module CI cũ; historical là tập bù.
@@ -99,10 +99,10 @@ mỗi class, từng test dùng bản sao writable và kiểm fixture gốc bất
 
 | Top10 module theo tổng thời gian test (không import/class setup) | Trước s | Sau s |
 |---|---:|---:|
-| `test_shadow_reconcile` | 10.630 | 7.642 |
+| `test_shadow_reconcile` | 10.630 | 7.770 |
 | `test_forex_study_batch` | 5.013 | 4.427 |
 | `test_frozen_source_proof` | 2.631 | 2.562 |
-| `test_shadow_night` | 2.166 | 2.113 |
+| `test_shadow_night` | 2.166 | 2.118 |
 | `test_explicit_m1_view` | 2.054 | 1.886 |
 | `test_fx_pair_formation` | 1.900 | 1.847 |
 | `test_us500_euopen_component` | 1.830 | 1.727 |
