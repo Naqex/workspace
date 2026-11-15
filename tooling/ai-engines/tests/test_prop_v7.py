@@ -9,6 +9,7 @@ from prop_v6_signals import Calendar
 from prop_v7_common import START, END, HOUR, stamp, read, CALENDAR
 from prop_campaign_source import DTYPE
 from test_prop_v5 import trade, quote
+from prop_v7_review import Oracle
 
 
 class Reader:
@@ -103,6 +104,29 @@ class V7Tests(unittest.TestCase):
         out, _ = reprice([t], {"XAUUSD": r}, Calendar(read(CALENDAR), END))
         self.assertEqual(out[0]["reason"], "SL")
         self.assertEqual(out[0]["exit_msc"], at + HOUR)
+
+    def test_oracle_observes_harvest_due_threshold_before_admitting_entry(self):
+        t = trade(START + HOUR)
+        e = dict(start_msc=START, end_msc=END, cell="SYM_FLAT", rolling=True,
+                 standalone_funded=True, accepted=[], closed=[], policy_id="GOLD_V4",
+                 reference_side="BOTH")
+        o = Oracle(e, [t])
+        o.cash = o.anchor = 50500000
+        o.first_funded = START
+        o.entry(0, START + 12 * 24 * HOUR + HOUR, quote(START + HOUR))
+        self.assertTrue(o.frozen)
+        self.assertEqual(o.entry_checks, 0)
+        self.assertEqual(o.rejected_checks, 1)
+
+    def test_enhanced_entry_matches_alternate_rational_cash_and_risk_state(self):
+        at = START + 8 * HOUR
+        t = trade(at)
+        a = AuditAccount(START, END, "SYM_FLAT", rolling=True, policy="GOLD_SCALED")
+        a._trades = [t]
+        a.action("entry", at, 0, [t], quote(at))
+        o = Oracle(a.dump(), [t])
+        o.action("entry", 0, at, quote(at))
+        self.assertTrue(o.finish()["cash_bridge"])
 
 
 if __name__ == "__main__":

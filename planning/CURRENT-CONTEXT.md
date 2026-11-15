@@ -1,8 +1,49 @@
 # Current context — Naqex Workspace
 
-15/11/2026 · `RESEARCH: V4_HARVEST_V6_EVALUATED · PROP: NOT_QUALIFIED · HOLDOUT: 2025–13/10/2026 EXPOSED; GOLD PATH INCOMPLETE`.
+15/11/2026 · `RESEARCH: GOLD_V7_AUDITED · PROP: NOT_QUALIFIED · 2025–13/10/2026: POST_HOLDOUT_DIAGNOSTIC; ALL EXIT ENDPOINTS PRICED, GOLD M1 CONDITIONAL`.
 
 ## Việc hiện tại
+
+**V7 đã sửa lịch và kiểm đủ 804 sổ; chưa đủ Challenge/thu nhập chính:**
+[báo cáo](research/PROP-GOLD-V7-RESULTS-20261115.md) /
+[JSON](research/PROP-GOLD-V7-RESULTS-20261115.json) /
+[freeze](research/PROP-GOLD-V7-DECISION-20261115.json) /
+[protocol](research/PROP-GOLD-V7-PROTOCOL-20261115.md) /
+[calendar](research/PROP-V7-SESSION-CALENDAR-20261115.json).
+Task `66e95afe-4594-4ddf-a63c-0278e67b3b78`, branch `codex/prop-gold-v7-audit`,
+private job `execution-v1/prop-gold-v7-20261115`.
+PR #85 đã merge `70b9ba1`, nhánh V6 xóa. Không tự merge PR V7.
+
+Freeze `b5e5f08`: Gold A BOTH entry/SL không đổi; EURUSD Sweep đã decommission,
+chỉ còn trong đối chứng co-core. FTMO xác nhận Metals đóng 03/07/2026 17:00 UTC;
+rule buffer 2 phút cho holiday từ 2025 cho exit 16:58, 931/931 đường lệnh có giá,
+476/476 tín hiệu Gold có exit. 12 hồ sơ đổi deadline, 6 đổi thời điểm exit.
+Mọi policy/phí đủ 57 mốc tới 13/10/2026, không data censor hoặc vị thế mở.
+11 ngày có giờ đóng đích FTMO xác minh; lịch còn lại vẫn declared guards.
+
+36 mốc cũ: co-core sửa lịch qua hai vòng 7/36 mỗi phí; Gold V4 0/36;
+Gold tăng risk 0/36 SYM, 1/36 ASYM (37,38 tháng). 21 mốc mới đều chưa qua P1.
+Gold giảm DD nhưng không tăng challenge completion. Jan2022 standalone Funded
+nối gần 5 năm: Gold V4 trader 3.656,35/4.145,22 USD SYM/ASYM; Gold tăng risk
+4.048,26/4.732,30 USD. Payout mô phỏng, không tiền nhận thực; năm 2024 không payout.
+
+Annual cùng risk150: Gold Net R ASYM 5,9006 /16,4619 /2,6449 /−0,1347 /3,5321.
+2026 có 72 tín hiệu có giá nhưng 71 thực thi vì minimum lot. Kết luận V6
+“2025 dương” dùng risk125 (+2,9490R sau sửa lịch); risk150 âm do lot grid đổi
+trọng số. Không coi Gold dương bền 4 năm ở cùng sizing, không chọn risk125 hồi tố.
+Asia range/SL median tăng mạnh; ngày2 cứu 2022–24 nhưng làm giảm R ở 2025–26,
+không đổi policy thành24h. Ba Gold Top10 cells chỉ reuse Dev, chưa đủ source/scale.
+
+978 tests PASS qua 4 môi trường; oracle hữu tỷ PASS 402 sổ mỗi thứ tự M1.
+Hai lỗi verifier đầu giữ nguyên attempts; sửa observe harvest trước admission,
+không sửa producer/rerun kinh tế. Cùng implementer, không independent reviewer.
+Gold 2025–26 vẫn Bid M1 + Ask proxy0,338, không native tick/prop certification.
+Giữ label post-holdout cho mọi diễn giải mới; không giá sau13/10, broker/paid/
+Astra/subagent; giữ VI WIP/Traderpin. Bước tiếp chỉ đề xuất: chốt target
+quote/cost/news gaps và protocol dữ liệu thực sự mới; chưa promote/tune thêm.
+Delivery/CI receipt ở private job.
+
+## V6 đã merge (lịch sử; lỗi endpoint đã được V7 xử lý)
 
 **V6 đã chạy, có payout mô phỏng nhưng chưa đủ điều kiện Challenge:**
 [báo cáo](research/PROP-V4-HARVEST-V6-RESULTS-20261115.md) /
@@ -12,7 +53,7 @@
 Task `ed4d3a18-01c0-4907-8e16-5ffbd13e4440`, branch
 `codex/prop-v4-harvest-v6`, private job `execution-v1/prop-v4-harvest-v6-20261115`.
 PR83 merged `5a8dd69`, nhánh V5 đã xóa.
-V6 ở [PR #85](https://github.com/Naqex/workspace/pull/85), không tự merge;
+V6 ở [PR #85](https://github.com/Naqex/workspace/pull/85), đã merge `70b9ba1` theo V7;
 GitHub cấp số85 thay cho84 dự kiến. Delivery/CI receipt nằm ở private job.
 
 Freeze `665ed5b` trước mở giá; giữ V4 $200/$175/$125, cap800/reserve46k,
