@@ -4,6 +4,8 @@ from datetime import datetime,timezone
 import hashlib
 import json
 import subprocess
+import argparse
+from zoneinfo import ZoneInfo
 import numpy as np
 
 from prop_campaign_source import ROOT
@@ -18,6 +20,7 @@ JOB=ROOT/"ensemble-and-storage-v11-20261115"
 OLD=ROOT/"enterprise-alpha-v10-20261115"
 PROTOCOL=Path("planning/research/ENSEMBLE-AND-STORAGE-V11-PROTOCOL-20261115.md")
 DAY=86400000
+CORRECT_INDEX_CLOCK=False
 
 
 def save(name,value):
@@ -61,6 +64,33 @@ def us500_proxy(rows,bars):
     return rows
 
 
+def us500_source_clock(rows,bars):
+    """Port V3's declared source break repair; never search for a profitable exit."""
+    ny=ZoneInfo("America/New_York")
+    for m in rows:
+        target=m["deadline"].copy()
+        changed=np.zeros(len(target),dtype=bool)
+        for i,at in enumerate(target):
+            local=datetime.fromtimestamp(int(at)/1000,timezone.utc).astimezone(ny)
+            if 16*60+15<=local.hour*60+local.minute<18*60:
+                target[i]=int(local.replace(hour=16,minute=0,second=0,microsecond=0).timestamp()*1000)
+                changed[i]=True
+        indices=bars["t"].searchsorted(target)
+        safe=np.minimum(indices,len(bars)-1)
+        end=bars["t"][safe]
+        weekday=(m["entry_at"]//DAY+3)%7
+        valid=((m["entry_at"]-m["at"]>=0)&(m["entry_at"]-m["at"]<=60000)&
+               (m["natural"]>0)&(m["at"]>=FIRST)&(m["at"]<END)&
+               ~((weekday==4)&(m["entry_at"]%DAY>=73800000))&
+               (target>=m["entry_at"])&(indices<len(bars))&(end-target<=60000)&
+               (end>=target)&(target<END))
+        m.update(deadline=target,exit_at=end,ok=valid,source_session_clamp=changed)
+        m["exit_price"]=np.where(m["side"]==1,bars["bo"][safe],bars["ao"][safe])
+        gross=np.where(m["side"]==1,1,-1)*(m["exit_price"]-m["entry_price"])/1000
+        for money in m["model"].values(): money["gross"]=gross.copy()
+    return rows
+
+
 def run():
     inputs=("discovery-reviewed.json","raw-matrix-reviewed.npz","daily-R.npz")
     files=[PROTOCOL,PROTOCOL.with_name("ENSEMBLE-AND-STORAGE-V11-SOURCE-ADDENDUM-20261115.md"),
@@ -70,6 +100,8 @@ def run():
            Path(__file__).with_name("quant_core")/"vectorized_stage0_scanner.py",
            Path(__file__).with_name("quant_core")/"market_data_store.py",
            Path(__file__).with_name("us500_year_source.py")]
+    if CORRECT_INDEX_CLOCK:
+        files.append(PROTOCOL.with_name("ENSEMBLE-AND-STORAGE-V11-CLOCK-CORRECTION-20261115.md"))
     index=json.loads((JOB/"source-admission-v11.json").read_text())
     trials=544+sum(368 if a=="US500" else 176 for a in index["new_assets_admitted"])
     save("selection-registration.json",dict(
@@ -77,6 +109,7 @@ def run():
         code={str(p):sha(p) for p in files},parent={f:sha(OLD/f) for f in inputs},
         source_index_sha256=sha(JOB/"source-admission-v11.json"),trials=trials,
         protocol="V11 after V10 exposure, changed component/ensemble gates",
+        US500_source_clock_corrected=CORRECT_INDEX_CLOCK,
         validation_prices_opened=False,subset_search=False))
     original=json.loads((OLD/"discovery-reviewed.json").read_text())
     matrix=np.load(OLD/"raw-matrix-reviewed.npz")
@@ -96,11 +129,14 @@ def run():
             # Same USD-quoted FX stress/lot units; retain actual asset label after summary.
             rows=measure("XAUUSD" if asset=="US500" else "EURUSD",recipe,bars,calendar,FIRST,END)
             if asset=="US500":
+                if CORRECT_INDEX_CLOCK: us500_source_clock(rows,bars)
                 us500_proxy(rows,bars)
             native_measurements.extend(rows)
         audits[asset]=dict(store.audit,measurement_rows=[start,len(native_measurements)],
                            execution_cost_alias="US500_LEGACY_ATLAS_STRESS" if asset=="US500"
                            else "EURUSD_USD_QUOTED_FX_DECLARED_PROXY")
+        audits[asset]["source_clock_clamped_records"]=sum(int(m.get("source_session_clamp",np.zeros(0)).sum())
+            for m in native_measurements[start:])
         print(dict(stage="V11_native_measurements",asset=asset,cells=len(native_measurements)-start),flush=True)
     extra=[]
     if native_measurements:
@@ -119,6 +155,8 @@ def run():
             for field in ("at","entry_at","exit_at","deadline","side","entry_price","exit_price",
                           "stop","natural","friction","ratio","ok","admitted","years"):
                 packed[f"{j}:{field}"]=m[field]
+            if "source_session_clamp" in m:
+                packed[f"{j}:source_session_clamp"]=m["source_session_clamp"]
             for model in ("SYM","ASYM"):
                 for field in ("gross","commission","funding","funding_multipliers","net","net_R"):
                     packed[f"{j}:{model}:{field}"]=m["model"][model][field]
@@ -224,4 +262,11 @@ def run():
 
 
 if __name__=="__main__":
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--attempt",choices=("initial","clock-corrected"),default="initial")
+    args=parser.parse_args()
+    if args.attempt=="clock-corrected":
+        JOB=JOB/"clock-corrected"
+        JOB.mkdir(exist_ok=True)
+        CORRECT_INDEX_CLOCK=True
     run()

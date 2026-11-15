@@ -16,6 +16,20 @@ from quant_core.vectorized_stage0_scanner import DAY,HOUR
 
 
 class NativeH1Tests(unittest.TestCase):
+    def test_index_source_clock_reuses_known_prebreak_flat_without_next_quote_backfill(self):
+        from prop_v11_campaign import us500_source_clock
+        from quant_core.vectorized_stage0_scanner import measure
+        first=stamp("2023-01-01");end=stamp("2024-01-01");at=stamp("2023-03-24T15:00")
+        bars=np.zeros(3,dtype=BAR);bars["t"]=[at,stamp("2023-03-24T20:00"),stamp("2023-03-26T22:00")]
+        bars["bo"]=[4100000,4120000,4110000];bars["ao"]=bars["bo"]+1000
+        r=dict(id="fixture",family="F4",at=np.array([at]),side=np.array([1]),stop=np.array([4000000]))
+        rows=measure("XAUUSD",r,bars,gold_calendar(first,end),first,end)
+        self.assertFalse(rows[0]["ok"][0])
+        fixed=us500_source_clock(rows,bars)
+        self.assertTrue(fixed[0]["ok"][0])
+        self.assertEqual(fixed[0]["exit_at"][0],stamp("2023-03-24T20:00"))
+        self.assertEqual(fixed[0]["exit_price"][0],4120000)
+
     def test_us500_proxy_uses_index_units_and_legacy_carry_not_gold_commission_swap(self):
         from prop_v11_campaign import us500_proxy
         from quant_core.vectorized_stage0_scanner import measure
