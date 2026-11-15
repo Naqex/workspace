@@ -158,6 +158,35 @@ def purge_incremental(root, target):
     return receipt
 
 
+def snapshot_view(records, destination):
+    """Copy exact sealed bytes into one view; absolute inputs never form outputs."""
+    destination = Path(destination).resolve()
+    prepared = []
+    for r in records:
+        source = Path(r["path"])
+        raw = source.read_bytes()
+        candidates = {raw}
+        if source.suffix in {".py", ".md", ".json"}:
+            lf = raw.replace(b"\r\n", b"\n")
+            candidates.update((lf, lf.replace(b"\n", b"\r\n")))
+        matches = [b for b in candidates if hashlib.sha256(b).hexdigest() == r["sha256"]]
+        if len(matches) != 1:
+            raise ValueError("snapshot_content_changed")
+        name = hashlib.sha256(str(source).encode()).hexdigest()[:16] + "-" + source.name
+        target = destination / name
+        if not target.resolve().is_relative_to(destination) or target.resolve() == source.resolve():
+            raise ValueError("snapshot_output_overrides_source")
+        prepared.append((source, target, matches[0], r["sha256"]))
+    destination.mkdir(parents=True, exist_ok=True)
+    output = []
+    for source, target, raw, sha in prepared:
+        if target.exists() and target.read_bytes() != raw:
+            raise ValueError("existing_snapshot_changed")
+        target.write_bytes(raw)
+        output.append(dict(source=str(source), snapshot=str(target), sha256=sha))
+    return output
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("action", choices=("inventory", "purge", "backup-plan"))

@@ -26,6 +26,12 @@ roundtrip và rehash source trước bỏ bản giải nén. Khôi phục archiv
 parent cũ rồi kiểm MANIFEST; hash bytes không chứng nhận Windows ACL/runtime.
 Không dùng các API này cho raw/evidence directories đang có consumers.
 
+`snapshot_view` nhận danh sách source/hash, xuất exact-byte view vào một root
+riêng. Absolute input chỉ là nguồn đọc, không được ghép thành output path.
+Chỉ chấp nhận exact hash hoặc bản LF/CRLF khớp đúng hash đã đăng ký; không
+normalize nội dung tùy ý hoặc đổi seal. V7/V8 có newline seals khác nhau nên
+không ép cả hai vào cùng byte representation của một checkout.
+
 E có nhiều raw/private inputs được pin bằng path/hash: **không mirror purge**.
 Backup plan chỉ xuất argv Robocopy với `/L /E /XJ`, không `/MIR /PURGE`.
 Giữ `/L` để xem trước; không tự áp plan vào E. Không merge hoặc xóa các bản

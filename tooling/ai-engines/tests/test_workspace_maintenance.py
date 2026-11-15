@@ -6,7 +6,7 @@ import tempfile
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
-from workspace_maintenance import inventory, purge, compact_environment, purge_incremental
+from workspace_maintenance import inventory, purge, compact_environment, purge_incremental, snapshot_view
 
 
 class MaintenanceTests(unittest.TestCase):
@@ -61,3 +61,18 @@ class MaintenanceTests(unittest.TestCase):
             self.assertTrue((path.parent / "api.exe").exists())
             with self.assertRaises(ValueError):
                 purge_incremental(root, path.parent)
+
+    def test_absolute_input_never_overrides_snapshot_destination(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            source = root / "immutable.json"
+            source.write_bytes(b'{"fixture":1}\r\n')
+            before = source.stat().st_mtime_ns
+            expected = hashlib.sha256(b'{"fixture":1}\n').hexdigest()
+            out = snapshot_view([dict(path=str(source.resolve()), sha256=expected)], root / "view")
+            self.assertTrue(Path(out[0]["snapshot"]).is_relative_to(root / "view"))
+            self.assertEqual(source.stat().st_mtime_ns, before)
+            self.assertEqual(source.read_bytes(), b'{"fixture":1}\r\n')
+            self.assertEqual(Path(out[0]["snapshot"]).read_bytes(), b'{"fixture":1}\n')
+            with self.assertRaisesRegex(ValueError, "content_changed"):
+                snapshot_view([dict(path=str(source), sha256="0"*64)], root / "other")
