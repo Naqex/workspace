@@ -292,3 +292,291 @@ def audit_equity(trades, observations, specs, *, initial="50000", model="SYM"):
         static_breach=worst_static >= initial*D(".10"),
         anchor="midnight Europe/Prague balance; costs and floating included",
         scope="provided raw quote snapshots; not unobserved intrabar path")
+
+
+def v14_parts(t, quantity, model):
+    """Own Decimal cash legs at actual lot size, never producer money()."""
+    gold=t["asset"]=="XAUUSD"
+    q=quantity
+    row=dict(symbol=t["asset"],direction=t["side"],lots=str(D(q)/(100 if gold else 100)),
+        entry_price=str(D(t["entry_price_units"])/(1000 if gold else 100000)),
+        exit_price=str(D(t["exit_price_units"])/(1000 if gold else 100000)),
+        entry_time=t["entry_msc"],exit_time=t["exit_msc"],reason=t["reason"])
+    legs=cash_legs(row,model[:4].replace("_",""),dict(contract=100 if gold else 100000))
+    return {k:int(v*1000) for k,v in legs.items() if k!="carry"} | {
+        "carry":{at:int(v*1000) for at,v in legs["carry"]}}
+
+
+def audit_v14_path(t,bars,events,cutoff):
+    """Scalar first passage over the declared four-point M1 ordering."""
+    errors=[];times=bars["t"];gold=t["asset"]=="XAUUSD"
+    scale=1000 if gold else 100000;contract=100 if gold else 100000
+    entry=t["entry_msc"];sign=1 if t["side"]=="BUY" else -1
+    horizon=t["id"].split("|")[-2]
+    flats=[int(datetime.fromisoformat(d).replace(tzinfo=timezone.utc).timestamp()*1000)+
+        (int(r["flat_utc"][:2])*60+int(r["flat_utc"][3:]))*60000
+        for d,r in events.items() if r.get("flat_utc")]
+    utc_entry=datetime.fromtimestamp(entry/1000,timezone.utc)
+    friday=(utc_entry+timedelta(days=(4-utc_entry.weekday())%7)).replace(hour=20,minute=30,second=0,microsecond=0)
+    if friday.timestamp()*1000<=entry:friday+=timedelta(days=7)
+    flats.append(int(friday.timestamp()*1000))
+    row=dict(symbol=t["asset"],direction=t["side"],entry_time=entry,exit_time=entry,
+        entry_price=str(D(t["entry_price_units"])/scale),exit_price=str(D(t["entry_price_units"])/scale),
+        lots="1",reason="MARKET",horizon=horizon)
+    spec=dict(contract=contract,session_events=events)
+    scheduled=expected_deadline(row,flats)
+    if source_off_kind(scheduled,t["asset"],spec)=="DAILY_BREAK":
+        local=datetime.fromtimestamp(scheduled/1000,timezone.utc).astimezone(ZoneInfo("America/New_York"))
+        scheduled=int(local.replace(hour=18,minute=0,second=0,microsecond=0).timestamp()*1000)
+    if scheduled!=t["deadline_msc"]:errors.append("DEADLINE")
+    endpoint=bisect_left(times,scheduled)
+    end=int(times[endpoint]) if endpoint<len(times) else scheduled
+    end=min(end,cutoff-1)
+    start=bisect_left(times,entry)
+    if start>=len(times) or times[start]!=entry:return dict(passed=False,errors=["ENTRY_SOURCE"])
+    p0=t["entry_price_units"];stop=t["stop_units"];natural=D(str(t["natural"]))
+    if p0!=int(bars[start]["ao" if sign==1 else "bo"]):errors.append("ENTRY_PRICE")
+    trigger=None;protect=None;hit=None;previous=None
+    names="olhc" if t["order"]=="OPEN_LOW_HIGH_CLOSE" else "ohlc"
+    for j in range(start,bisect_right(times,end)):
+        bar=bars[j];at=int(times[j]);level=protect if trigger is not None and at>=trigger else stop
+        for offset,name in zip((0,20000,40000,59999),names):
+            now=at+offset
+            if now>end:break
+            px=int(bar[("b" if sign==1 else "a")+name])
+            reason=("PROTECT" if level!=stop else "SL") if sign*(px-level)<=0 else None
+            target=p0+sign*3*abs(p0-stop)
+            if not reason and t["mode"]=="P2" and sign*(px-target)>=0:reason="TP";level=target
+            if reason:
+                if not offset or previous is None:
+                    fill=level if reason=="TP" else min(px,level) if sign==1 else max(px,level)
+                    when=now
+                else:
+                    before,old=previous
+                    den=abs(px-old);numerator=abs(level-old)*(now-before)
+                    when=before+max(1,(numerator+den-1)//den) if den else now
+                    fill=level
+                hit=(when,fill,reason);break
+            previous=(now,px)
+        if hit:break
+        if t["mode"]=="P1" and trigger is None and at+59999<=end:
+            favorable=int(bar["bh" if sign==1 else "al"])
+            mark=dict(row,exit_time=at+59999,exit_price=str(D(favorable)/scale))
+            value=cash_legs(mark,"SYM",spec)["net"]/contract
+            if value>=D("1.5")*natural:
+                trigger=at+60000
+                mark["exit_price"]=row["entry_price"]
+                drag=-cash_legs(mark,"SYM",spec)["net"]/contract
+                candidate=(D(p0)+sign*(D(".15")*natural+drag)*scale).to_integral_value(
+                    rounding="ROUND_CEILING" if sign==1 else "ROUND_FLOOR")
+                for _ in range(128):
+                    mark["exit_price"]=str(candidate/scale)
+                    if cash_legs(mark,"SYM",spec)["net"]/contract>=D(".15")*natural:break
+                    candidate+=sign
+                for _ in range(128):
+                    mark["exit_price"]=str((candidate-sign)/scale)
+                    if cash_legs(mark,"SYM",spec)["net"]/contract<D(".15")*natural:break
+                    candidate-=sign
+                protect=int(candidate)
+    if hit is None:
+        if scheduled>=cutoff:hit=(cutoff,t["exit_price_units"],"RIGHT_CENSORED")
+        elif endpoint<len(times):
+            hit=(int(times[endpoint]),int(bars[endpoint]["bo" if sign==1 else "ao"]),"HORIZON")
+        else:errors.append("MISSING_ENDPOINT")
+    if hit!=(t["exit_msc"],t["exit_price_units"],t["reason"]):errors.append("FIRST_PASSAGE")
+    if (t["activation_time"],t["protection_price"] if t["activation_time"] is not None else None)!=(trigger,protect):
+        errors.append("PROTECTION")
+    return dict(passed=not errors,errors=errors,entry=entry,exit=t["exit_msc"],first_hit=hit,
+        scope="conditional M1 ordering, fixed Ask proxy; missing extrema remain unknown")
+
+
+class V14LedgerOracle:
+    """Separate cash/equity/admission oracle; consumes original scenario quotes.
+
+    This is an audit, not a second producer or a different feed/person. Events
+    claimed by the producer are checked, including missing/invalid phase passes.
+    """
+    def __init__(self,expected,trades):
+        self.e=expected
+        self.trades=[dict(t) for t in trades]
+        for c in expected["closed"]:
+            self.trades[c["trade"]].update(c.get("execution_override",{}))
+        self.accepted={r["trade"]:r for r in expected["accepted"]}
+        self.closed={r["trade"]:r for r in expected["closed"]}
+        self.open={};self.parts={};self.carry={}
+        self.cash=self.anchor=self.peak=50000000
+        self.phase=3 if expected["standalone_funded"] else 1
+        self.dd=self.daily=self.static=0
+        self.coeff=[0]*4;self.basis=0
+        self.days=set();self.halt=False;self.gate=expected["start_msc"]-1
+        self.first_funded=self.last_reward=None
+        self.harvest="NORMAL";self.pending={};self.breach=None
+        self.entries=self.exits=self.rejects=self.passes=self.rewards=0
+
+    def floating(self,quote):
+        gross=sum(c*int(quote[n]) for c,n in zip(self.coeff,("b0","a0","b1","a1"))) if self.open else 0
+        return gross-self.basis+sum(self.carry.values())-sum(
+            q*(200 if self.trades[i]["asset"]=="XAUUSD" else 10) for i,q in self.open.items())
+
+    def measure(self,values,times):
+        import numpy as np
+        if not len(values) or self.breach:return
+        equities=values+self.cash-self.basis+sum(self.carry.values())-sum(
+            q*(200 if self.trades[i]["asset"]=="XAUUSD" else 10) for i,q in self.open.items())
+        bad=np.flatnonzero(equities<=max(self.anchor-2500000,45000000)) if self.e["rolling"] else []
+        if len(bad):
+            k=int(bad[0]);equities=equities[:k+1]
+            self.breach=dict(at=int(times[k]),equity=int(equities[-1]))
+        peaks=np.maximum.accumulate(np.r_[self.peak,equities])
+        self.dd=max(self.dd,int(np.max(peaks[1:]-equities)))
+        self.daily=max(self.daily,self.anchor-int(equities.min()))
+        self.static=max(self.static,50000000-int(equities.min()))
+        self.peak=int(peaks[-1])
+
+    def point(self,at,quote):
+        import numpy as np
+        value=sum(c*int(quote[n]) for c,n in zip(self.coeff,("b0","a0","b1","a1"))) if self.open else 0
+        self.measure(np.array([value],dtype="int64"),np.array([at]))
+        self.observe(at)
+
+    def segment(self,rows,cache):
+        import numpy as np
+        if not self.open or self.breach or not len(rows):return
+        key=tuple(self.coeff)
+        if key not in cache:
+            v=np.zeros(len(rows),dtype="int64")
+            for c,n in zip(key,("b0","a0","b1","a1")):
+                if c:v+=c*rows[n].astype("int64")
+            cache[key]=v
+        self.measure(cache[key],rows["t"])
+
+    def observe(self,at):
+        if self.phase!=3 or self.first_funded is None or not self.e["rolling"]:return
+        due=(self.last_reward if self.last_reward is not None else self.first_funded)+14*DAY
+        if self.cash>=51000000 and self.harvest!="PROFIT_LOCK_IDLE":
+            self.harvest="PROFIT_LOCK_IDLE"
+            for i in self.open:self.pending.setdefault(i,(at,"PROFIT_LOCK_IDLE"))
+        elif self.cash>=50500000 and at>=due-48*HOUR and self.harvest=="NORMAL":
+            self.harvest="PRE_PAYOUT_FREEZE"
+
+    def reserve(self,i,q):
+        t=self.trades[i];p=v14_parts(t,q,self.e["cell"])
+        value=self.cash+p["entry_charge"]
+        for k,size in [*self.open.items(),(i,q)]:
+            old=self.trades[k];gold=old["asset"]=="XAUUSD"
+            sign=1 if old["side"]=="BUY" else -1
+            px=D(old["stop_units"])/(1000 if gold else 100000)
+            fee=cent(px*size*D(".000007")) if gold else cent(D(size)*D(".035"))
+            value+=sign*size*(1 if gold else 10)*(old["stop_units"]-old["entry_price_units"])
+            value-=int(fee*1000)+size*(200 if gold else 10)
+            rate=(-400 if self.e["cell"].startswith("SYM") else -450 if sign==1 else -50) if gold else -400
+            value+=min(0,rate)*size*sum(m for _,m in swap_events(
+                old["entry_msc"],old["deadline_msc"],old["asset"]))
+        return value
+
+    def entry(self,i,at,quote):
+        t=self.trades[i];a=self.accepted.get(i);rolling=self.e["rolling"]
+        equity=self.cash+self.floating(quote)
+        risk=(200,175,125)[self.phase-1] if rolling else 150
+        if rolling:risk=min(risk,90) if equity<=47000000 else min(risk,150) if equity<=48000000 else risk
+        value=1 if t["asset"]=="XAUUSD" else 10
+        q=risk*1000//(value*abs(t["entry_price_units"]-t["stop_units"]))
+        reason=None
+        if rolling:
+            if self.harvest!="NORMAL":reason="HARVEST"
+            elif t["decision_msc"]<self.e["start_msc"] or t["decision_msc"]<=self.gate:reason="GATE"
+            elif any(self.trades[k]["asset"]==t["asset"] and
+                     self.trades[k]["decision_msc"]==t["decision_msc"] for k in self.open):reason="COLLISION"
+            elif self.halt or self.cash-self.anchor<=-1000000:reason="HALT"
+        elif t["decision_msc"]<self.e["start_msc"]:reason="PRESTART"
+        if not 1<=q<=(5000 if t["asset"]=="XAUUSD" else 100000):reason=reason or "LOT"
+        prior=sum(size*(1 if self.trades[k]["asset"]=="XAUUSD" else 10)*abs(
+            self.trades[k]["entry_price_units"]-self.trades[k]["stop_units"]) for k,size in self.open.items())
+        new=q*value*abs(t["entry_price_units"]-t["stop_units"])
+        projected=self.reserve(i,q) if q else 0
+        if rolling and prior+new>800000:reason=reason or "CAP"
+        if rolling and (projected<=46000000 or projected<max(self.anchor-2500000,45000000)):
+            reason=reason or "RESERVE"
+        if bool(a)!=(reason is None):raise ValueError(f"V14_audit_admission:{i}:{reason}:{self.e['start_msc']}")
+        if a is None:self.rejects+=1;return
+        if (a["risk_usd"],a["quantity_steps"],a["phase"])!=(risk,q,self.phase):
+            raise ValueError("V14_audit_quantity_phase")
+        if rolling:
+            for field,v in (("balance_milli_usd",self.cash),("equity_milli_usd",equity),
+                ("daily_anchor_milli_usd",self.anchor),("projected_stop_milli_usd",projected),
+                ("prior_stop_risk_milli_usd",prior),("new_stop_risk_milli_usd",new)):
+                if a["risk_state"][field]!=v:raise ValueError("V14_audit_risk_state:"+field)
+        self.parts[i]=v14_parts(t,q,self.e["cell"]);self.open[i]=q;self.carry[i]=0
+        self.cash+=self.parts[i]["entry_charge"]
+        field=(0 if t["asset"]=="XAUUSD" else 2)+(t["side"]=="SELL")
+        sign=1 if t["side"]=="BUY" else -1
+        self.coeff[field]+=sign*q*value;self.basis+=sign*q*value*t["entry_price_units"]
+        if rolling:
+            self.days.add(datetime.fromtimestamp(at/1000,timezone.utc).astimezone(ZoneInfo("Europe/Prague")).date())
+        if self.phase==3 and self.first_funded is None:self.first_funded=at
+        self.entries+=1
+
+    def action(self,kind,i,at,quote,extra=None):
+        if not self.e["start_msc"]<=at<self.e["end_msc"] or self.breach:return
+        if kind=="reset":self.anchor=self.cash;self.halt=False
+        elif kind=="session_flat":
+            self.observe(at)
+            if self.harvest=="PRE_PAYOUT_FREEZE":
+                for k in self.open:self.pending.setdefault(k,(at,"PRE_PAYOUT_SESSION_CLOSE"))
+            return
+        elif kind=="entry":self.entry(i,at,quote)
+        elif kind=="swap" and i in self.open:self.carry[i]+=self.parts[i]["carry"][at]
+        elif kind=="exit" and i in self.open:
+            t=self.trades[i];p=self.parts[i];q=self.open.pop(i);self.carry.pop(i)
+            if "execution_override" in self.closed[i]:
+                request=self.pending.get(i)
+                if not request or request[1]!=t["reason"] or not request[0]<at:
+                    raise ValueError("V14_audit_unrequested_liquidation")
+            self.pending.pop(i,None)
+            self.cash+=p["net"]-p["entry_charge"]
+            field=(0 if t["asset"]=="XAUUSD" else 2)+(t["side"]=="SELL")
+            sign=1 if t["side"]=="BUY" else -1;value=1 if t["asset"]=="XAUUSD" else 10
+            self.coeff[field]-=sign*q*value;self.basis-=sign*q*value*t["entry_price_units"]
+            c=self.closed[i]
+            if int(cent(c["net_usd"])*1000)!=p["net"]:raise ValueError("V14_audit_cash_legs")
+            if c["phase"]!=self.phase:raise ValueError("V14_audit_close_phase")
+            self.exits+=1
+            if (self.e["rolling"] and self.phase<3 and not self.open and len(self.days)>=4
+                    and self.cash>=50000000+(5000000 if self.phase==1 else 2500000)
+                    and not any(r["at"]==at and r["phase"]==self.phase for r in self.e["phase_passes"])):
+                raise ValueError("V14_audit_missing_pass")
+        elif kind=="pass":
+            if (self.open or len(self.days)<4 or self.phase>=3 or
+                self.cash<50000000+(5000000 if self.phase==1 else 2500000) or
+                extra["phase"]!=self.phase or extra["days"]!=len(self.days) or
+                int(cent(extra["balance_usd"])*1000)!=self.cash):
+                raise ValueError("V14_audit_invalid_pass")
+            self.phase+=1;self.cash=self.anchor=self.peak=50000000
+            self.days=set();self.gate=at;self.passes+=1
+        elif kind=="reward":
+            since=self.last_reward if self.last_reward is not None else self.first_funded
+            removed=int(cent(extra["gross_removed_usd"])*1000)
+            trader=(removed*80//100)//10*10
+            if (self.phase!=3 or self.open or since is None or at-since<14*DAY or
+                removed<20000 or self.cash-50000000!=removed or
+                int(cent(extra["trader_usd"])*1000)!=trader or
+                int(cent(extra["firm_usd"])*1000)+trader!=removed):
+                raise ValueError("V14_audit_payout_cash_bridge")
+            self.cash-=removed;self.anchor=self.peak=50000000
+            self.last_reward=at;self.gate=at;self.harvest="NORMAL";self.pending.clear();self.rewards+=1
+        self.point(at,quote)
+        if self.cash-self.anchor<=-1000000:self.halt=True
+
+    def finish(self):
+        e=self.e
+        for v,name in ((self.dd,"peak_dd_pct"),(self.daily,"worst_daily_loss_pct"),(self.static,"static_loss_pct")):
+            if abs(v-e[name]*500000)>1e-5:raise ValueError("V14_audit_equity:"+name+":"+str((v,e[name]*500000,e["start_msc"])))
+        if (self.open!={p["trade"]:p["quantity"] for p in e["open_positions"]} or
+            self.cash!=int(cent(e["balance_usd"])*1000) or self.phase!=e["phase"] or
+            bool(self.breach)!=bool(e["first_breach"]) or self.entries!=len(e["accepted"]) or
+            self.exits!=len(e["closed"]) or self.passes!=len(e["phase_passes"]) or self.rewards!=len(e["payouts"])):
+            raise ValueError("V14_audit_terminal")
+        if self.breach and self.breach["at"]!=e["first_breach"]["at"]:raise ValueError("V14_audit_first_breach")
+        return dict(start=e["start_msc"],model=e["cell"],entries=self.entries,exits=self.exits,
+            rejected=self.rejects,passes=self.passes,payouts=self.rewards,cash_bridge=True,
+            dd_milli=self.dd,daily_milli=self.daily,static_milli=self.static)

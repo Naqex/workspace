@@ -1,0 +1,80 @@
+{
+  "schema": "V14-fixed-candidates-v1",
+  "selection_years": [
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023
+  ],
+  "candidate_A": [
+    "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+    "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0",
+    "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1"
+  ],
+  "candidate_B": [
+    "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+    "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0",
+    "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1",
+    "EURUSD|F3:compression=NR:n=14:multiple=1|DAY|P1",
+    "XAUUSD|F3:compression=NR:n=14:multiple=2|48H|P0"
+  ],
+  "B_individual_economic_failures_allowed_for_fixed_comparison": true,
+  "risk_usd": [
+    200,
+    175,
+    125
+  ],
+  "reference_risk_usd": 150,
+  "initial_usd": 50000,
+  "path_models": [
+    "NEXT_QUOTE",
+    "CLEAN_COHORT"
+  ],
+  "M1_orders": [
+    "OPEN_LOW_HIGH_CLOSE",
+    "OPEN_HIGH_LOW_CLOSE"
+  ],
+  "models": [
+    "SYM",
+    "ASYM"
+  ],
+  "start": 1514764800000,
+  "end": 1791936000000,
+  "starts": "105 monthly Jan2018–Sep2026",
+  "standalone": true,
+  "cadence": "mean over Dev>=50/year; owner authorized V14 change",
+  "price_exposure_label": "POST_EXPOSURE_LONGITUDINAL; F5 first mechanism evaluation on exposed data",
+  "validation_prices_opened": false,
+  "protocol_sha256": "432bb4e6265a00a2b621e26bc97ebd344b4c5b3d8099974fc47c29f77927eb31",
+  "development_sha256": "7c5f940917bb4a3a65e3152bc60664a7e4d2150dd0984e50eaf7b08a4eab1c95",
+  "source_dev_sha256": "a600b700e8072920411d88bae955e3b9472f9c9b2e4c5433cbce89ac65dbb0c6",
+  "session_calendar_sha256": "fc70de9085cf24fc3aede96c8b4c76a953d6884db0f68f9efc43df56adea639f",
+  "pins": {
+    "planning\\research\\EVIDENCE-AND-LIFECYCLE-V14-PROTOCOL-20261115.md": "432bb4e6265a00a2b621e26bc97ebd344b4c5b3d8099974fc47c29f77927eb31",
+    "tooling\\ai-engines\\prop_v14_accounts.py": "837a9ea2b626d4c04752baaf38b334769d38cf5cc9703f989050169ecdbafe65",
+    "tooling\\ai-engines\\prop_v14_campaign.py": "45911f41683e787b50425a33b0f6764f9622a400b885f97874ba0a8bde7c4951",
+    "tooling\\ai-engines\\prop_v14_longitudinal.py": "1c02988f85854030c4e87f7eaa4190aaa8a19ac37888d4d07647acd1c01c273e",
+    "tooling\\ai-engines\\prop_v14_paths.py": "563dc92728caf54ad3beb0af26acb2d6fd800529440e6f889fad2050e507e445",
+    "tooling\\ai-engines\\prop_v14_review.py": "02d356a9e5fcf2119b9660d1291b3bf144a3e374061e7278e364818d49ceb492",
+    "tooling\\ai-engines\\prop_v14_source.py": "f8b09f05642c86a26dcfde726d1d198e029f178b88801d04a1df88512cffe807",
+    "tooling\\ai-engines\\prop_v14_storage.py": "7ae11b6ecb808f3541fccbfb67a2c04ce28215e19cd831bccbdf47cf764603df",
+    "tooling\\ai-engines\\independent_ledger_auditor.py": "7d9d2cd56a537eb6d728c6816b05e20f4addc752c1bdf8c61aee22a960e774ee",
+    "tooling\\ai-engines\\quant_core\\gap_aware_execution.py": "da425a2452b37e284c9adda6be6e4f5cf00152b89a9a123ae66c93dabf756c66",
+    "tooling\\ai-engines\\quant_core\\ftmo_execution_and_calendar.py": "143f8cfd5ff8255c50d7f2686f6b1752ad89c2275d72d371b50b8d581914c657",
+    "tooling\\ai-engines\\prop_v6_account.py": "b444f11bf2822d8d8a528588aaedc7d32bab796d28dd55017784336a8f4b2645",
+    "tooling\\ai-engines\\prop_v6_replay.py": "c762611f25f10514cda8e2cfaf225f49cad56ee3ffde3a27eb065ebd49b61303",
+    "tooling\\ai-engines\\prop_v5_account.py": "9c582aeece8a2eb8dc1b2eabb6a68615ad9119f2c6ceea8d07561fd6f25a2061",
+    "tooling\\ai-engines\\prop_cocore_v4.py": "2449cb3f6e28f726865e4e240bffda5ec35c528073dfc51223efa640fc77b7f1",
+    "tooling\\ai-engines\\prop_portfolio_accounts.py": "dd1542edecf77c471a15832b2894c98176e8cd542bfa78ebf96b3fd142f853cb",
+    "tooling\\ai-engines\\prop_campaign_accounts.py": "2cc14ee74557980f05f71dce0089416f617c415acad5eb783c23f3ea6507c559",
+    "tooling\\ai-engines\\prop_v10_signals.py": "3e34b82a0c02ef4306004515879eb3b2e99a941c538e89544f81a63347c71864",
+    "tooling\\ai-engines\\prop_v12_signals.py": "57dc25439d63f1ed760f455e908e2978ee5bd17f43528f37387334d531021430",
+    "tooling\\ai-engines\\quant_core\\vectorized_stage0_scanner.py": "fc00190dbca0c7e0d3e071c53e30bbf9ef18723cbe5c19c0023e45cdf0892662",
+    "tooling\\ai-engines\\quant_core\\vectorized_sl_active_kernel.py": "a49c44e4df4064d333c89cd54509677882c1fdd9fd0a330e38f2e268275bdadc",
+    "tooling\\ai-engines\\prop_v8_calendar_correction.py": "59ed05cf4c9043adc13737e51d68ec96ab3ad8e3c205321b9ff053504df89269",
+    "tooling\\ai-engines\\prop_v8_source.py": "49e2f0ef01d2ae92bcc255d3a13913963c33728269a1967d22d0a9de0a13f388",
+    "tooling\\ai-engines\\prop_v6_signals.py": "e42315ab4709b0e4bacf7c02988856eed9e54c71f99ec2694417fe5e35de186b"
+  }
+}
