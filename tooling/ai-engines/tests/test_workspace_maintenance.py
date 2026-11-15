@@ -21,6 +21,16 @@ class MaintenanceTests(unittest.TestCase):
             self.assertFalse(out["automatic_deletion"])
             self.assertTrue((cache/"compiled.o").exists())
 
+    def test_cross_drive_detects_new_unlisted_nested_cache_without_double_counting(self):
+        from workspace_maintenance import cross_drive_audit
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder);target=root/"new/target";child=target/"nested/rust-target"
+            child.mkdir(parents=True);(child/"compiled.o").write_bytes(b"123")
+            out=cross_drive_audit([root],cache_budget_bytes=3)
+            self.assertEqual(out["cache_known_bytes"],3)
+            self.assertTrue(out["cache_budget_exceeded"])
+            self.assertTrue((child/"compiled.o").exists())
+
     def test_market_inventory_is_metadata_only_and_excludes_builds(self):
         from workspace_maintenance import market_inventory
         with tempfile.TemporaryDirectory() as folder:

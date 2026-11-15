@@ -13,6 +13,7 @@ import tarfile
 import re
 
 CACHES = {"__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache"}
+BUILD_CACHES = {"target","cargo-target","rust-target","api-target","release-target"}
 PROTECTED = {".git", "node_modules", ".venv", "venv", "source-cache"}
 REPARSE = getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 1024)
 
@@ -26,7 +27,7 @@ def inventory(root):
     root = Path(root).resolve(strict=True)
     groups = defaultdict(lambda: dict(bytes=0, files=0, folders=0))
     groups["/"]  # Empty roots still have a valid zero-count health summary.
-    candidates, skipped, errors = [], [], []
+    candidates, build_candidates, skipped, errors = [], [], [], []
     stack = [root]
     while stack:
         folder = stack.pop()
@@ -52,10 +53,13 @@ def inventory(root):
                         stack.append(p)
                         if p.name in CACHES and "vi-dubber" not in rel and ".git" not in rel:
                             candidates.append(str(p))
+                        if p.name in BUILD_CACHES and "vi-dubber" not in rel and ".git" not in rel:
+                            build_candidates.append(str(p))
         except OSError as exc:
             errors.append(dict(path=str(folder), type=type(exc).__name__))
     return dict(root=str(root), groups=dict(sorted(groups.items())),
-                cache_candidates=candidates, skipped_links=skipped, errors=errors)
+                cache_candidates=candidates, build_cache_candidates=build_candidates,
+                skipped_links=skipped, errors=errors)
 
 
 def verified_tree(root, target):
@@ -265,7 +269,13 @@ def cross_drive_audit(roots, cache_targets=(), *, cache_budget_bytes=120_000_000
     """Explicit disk health snapshot; alert on cache growth without automatic deletion."""
     snapshots=[inventory(root) for root in roots]
     cache=[]
-    for target in cache_targets:
+    targets={Path(p).absolute() for p in cache_targets}
+    targets.update(Path(p).absolute() for census in snapshots for p in census["build_cache_candidates"])
+    selected=[]
+    for path in sorted(targets,key=lambda p:(len(p.parts),str(p))):
+        if not any(path.is_relative_to(parent) for parent in selected):
+            selected.append(path)
+    for target in selected:
         path=Path(target)
         if not path.exists():
             cache.append(dict(path=str(path),exists=False,bytes=0));continue
@@ -274,10 +284,11 @@ def cross_drive_audit(roots, cache_targets=(), *, cache_budget_bytes=120_000_000
         census=inventory(path)
         cache.append(dict(path=str(path),exists=True,**census["groups"]["/"],errors=census["errors"]))
     known=sum(r.get("bytes",0) for r in cache)
-    unknown=any(r.get("unknown") or r.get("errors") for r in cache)
+    unknown=any(r.get("unknown") or r.get("errors") for r in cache) or any(r["errors"] for r in snapshots)
     return dict(read_only=True,roots=snapshots,caches=cache,cache_known_bytes=known,
                 cache_budget_bytes=cache_budget_bytes,cache_budget_exceeded=known>=cache_budget_bytes,
-                cache_unknown=unknown,no_future_growth_guarantee=True,automatic_deletion=False)
+                cache_unknown=unknown,no_future_growth_guarantee=True,automatic_deletion=False,
+                discovered_build_candidates=True,names_are_not_delete_authority=True)
 
 
 def main():
