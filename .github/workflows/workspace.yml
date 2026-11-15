@@ -58,7 +58,7 @@ jobs:
           subprocess.run([sys.executable, '-m', 'pip', 'install',
                           'numpy==2.3.5', 'statsmodels==0.15.0', *pins], check=True)
           PY
-          python tooling/ai-engines/quant_test_suite.py --group complete --tier all --workers 2 --output "$QUANT_RECEIPT"
+          python tooling/ai-engines/quant_test_suite.py --group complete --tier all --workers 4 --output "$QUANT_RECEIPT"
       - name: Preserve quant test IDs and timings
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

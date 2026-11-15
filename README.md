@@ -74,15 +74,12 @@ flowchart LR
 | Design foundations / trading UI | [UI Systems](UI-Systems/README.md) · [Trading UI](UI/README.md) |
 | Tìm code và tài liệu bằng Xerj local | [Search tooling](tooling/search/README.md) |
 
-Đợt nghiên cứu gần nhất: [V16 — gap, đóng trong ngày và đa tài sản](planning/research/GAP-IMMUNE-MULTIASSET-V16-RESULTS-20261116.md).
+Đợt nghiên cứu gần nhất: [V17 — trọng số, hạn mức và tốc độ Challenge](planning/research/ADAPTIVE-VELOCITY-V17-RESULTS-20261116.md).
 Kết luận và giới hạn kiểm định nằm trong báo cáo; kết quả nghiên cứu chưa là quyền giao dịch.
 | Học trading | [Education](education/README.md) |
 | CI, version, release và đóng góp | [Contributing](CONTRIBUTING.md) |
 | Đặt tên branch, commit/push, PR và dọn branch | [GitHub workflow](tooling/github-workflow/README.md) |
 | Quyền sử dụng và thương mại | [License](LICENSE) · [Chính sách](docs/licensing.md) |
-
-Nghiên cứu mới nhất: [V15 — kiểm gap và hiệu chỉnh sizing](planning/research/BRIDGE-AND-VELOCITY-V15-RESULTS-20261115.md).
-Tốc độ mô phỏng có cải thiện; chưa đủ bằng chứng để mua Challenge.
 
 README chỉ điều hướng. PLAN giữ scope; ledger/checkpoint do PLAN chỉ định giữ
 trạng thái và bằng chứng. Các báo cáo có ngày là lịch sử, không tự chứng minh

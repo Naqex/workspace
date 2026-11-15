@@ -1,8 +1,7 @@
 import copy
 from pathlib import Path
-import shutil
 import tempfile
-from types import SimpleNamespace
+from types import SimpleNamespace,MappingProxyType
 import unittest
 from unittest.mock import patch
 
@@ -28,12 +27,12 @@ class ReconcileTests(unittest.TestCase):
             fetch=lambda start,end:cls.page(SimpleNamespace(plan=cls.capture_plan),start,end),
             max_batches=60,now_msc=4000000,
             comparison_policy=cls.capture_plan.stability_policy)
-        cls.capture_bytes={p.name:p.read_bytes() for p in cls.capture_fixture.glob('*.json')}
+        cls.capture_bytes=MappingProxyType({p.name:p.read_bytes() for p in cls.capture_fixture.iterdir() if p.is_file()})
 
     @classmethod
     def tearDownClass(cls):
         # Every test gets writable copies; the shared baseline must stay immutable.
-        if cls.capture_bytes!={p.name:p.read_bytes() for p in cls.capture_fixture.glob('*.json')}:
+        if cls.capture_bytes!={p.name:p.read_bytes() for p in cls.capture_fixture.iterdir() if p.is_file()}:
             raise AssertionError('shared_capture_fixture_changed')
 
     def setUp(self):
@@ -43,7 +42,8 @@ class ReconcileTests(unittest.TestCase):
         self.secret.write_text('{"owner_bearer":"fixture-not-printed"}')
         self.plan=self.capture_plan.model_copy(deep=True)
         self.manifest.write_text(self.plan.model_dump_json())
-        shutil.copytree(self.capture_fixture,self.source/'capture')
+        target=self.source/'capture';target.mkdir()
+        for name,data in self.capture_bytes.items():(target/name).write_bytes(data)
         self.binary=self.root/'shadow.exe';self.binary.write_bytes(b'fixture')
         self.python=self.root/'python.exe';self.python.write_bytes(b'fixture python')
         group=dict(schema_version=revision.group.SCHEMA,
@@ -81,6 +81,14 @@ class ReconcileTests(unittest.TestCase):
     def assert_original_unchanged(self):
         self.assertEqual(self.original,{str(p.relative_to(self.source)):p.read_bytes()
             for p in (self.source/'capture').glob('*.json')})
+
+    def test_shared_fixture_bytes_are_readonly_and_working_copy_is_isolated(self):
+        name=next(n for n in self.capture_bytes if n.endswith('.json'))
+        original=self.capture_bytes[name]
+        with self.assertRaises(TypeError):self.capture_bytes[name]=b'changed'
+        (self.source/'capture'/name).write_bytes(b'changed')
+        self.assertEqual(self.capture_bytes[name],original)
+        self.assertEqual((self.capture_fixture/name).read_bytes(),original)
 
     def test_additions_recompute_hour_preserve_original_and_never_qualify_live(self):
         result=self.run_revision()

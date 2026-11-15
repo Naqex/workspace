@@ -24,7 +24,7 @@ FAST = {
     "test_eurusd_funnel_audit", "test_gold_intraday_quality",
     "test_vectorized_stage0", "test_deep_storage", "test_zero_tuning_ensemble",
     "test_sl_active_kernel", "test_independent_ledger_auditor", "test_v12_signals",
-    "test_gap_aware_execution", "test_v13_protocol", "test_prop_v14", "test_prop_v15", "test_prop_v16",
+    "test_gap_aware_execution", "test_v13_protocol", "test_prop_v14", "test_prop_v15", "test_prop_v16", "test_prop_v17",
 }
 SMOKE = {"test_quant_core", "test_vectorized_stage0", "test_workspace_maintenance",
          "test_deep_storage", "test_zero_tuning_ensemble", "test_sl_active_kernel",
@@ -141,7 +141,7 @@ if __name__ == "__main__":
     parser.add_argument("--group", choices=("base", "native", "statistics", "worker", "complete"), default="base")
     parser.add_argument("--tier", choices=("smoke", "fast", "historical", "all"), default="all")
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--workers", type=int, choices=(1, 2), default=1)
+    parser.add_argument("--workers", type=int, choices=(1, 2, 4), default=1)
     parser.add_argument("--profile", type=Path)
     parser.add_argument("--module", action="append")
     args = parser.parse_args()
