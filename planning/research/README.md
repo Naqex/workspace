@@ -1,5 +1,25 @@
 # Tra cứu research đã có
 
+**V18 — hoàn tất tuyển chọn và stress, chưa có Champion đủ chứng cứ:**
+[Báo cáo buổi sáng](MORNING-EXECUTIVE-SUMMARY-20261116.md) /
+[kết quả](FINAL-CONVERGENCE-V18-RESULTS-20261116.md) /
+[JSON](FINAL-CONVERGENCE-V18-RESULTS-20261116.json) /
+[freeze](FINAL-CONVERGENCE-V18-FREEZE-20261116.json) /
+[protocol](FINAL-CONVERGENCE-V18-PROTOCOL-20261116.md) /
+[Free Trial spec](FTMO-FREE-TRIAL-EXECUTION-SPEC-20261116.md).
+PR #96 merge `92569ca`; protocol `50c474f`, code/freeze `bec7fe1`.
+V16 tham chiếu tốc độ: PRIMARY +42,30R, 71/105, median 47,08 tháng;
+STRICT −5,05R/1 completion; PRIMARY phí 1,50× còn 7/105.
+V17 dự phòng Funded chỉ đạt static <6% trong PRIMARY, không certified Ultra-Safe.
+5.000 chung quarter draws ×12 ca, 36 tháng/prefix 12/18/24, không daily-PnL proxy;
+120.000 native cash bridges, 768 sampled full ledger checks, cùng author/feed.
+1.153 PASS/0 skip, giữ 1.148 IDs; full 22,062s. Smoke chỉ 7/10 <0,80s,
+max 0,853s: không đạt speed target, không retry để tạo chuỗi đẹp.
+Net snapshot giảm 116,04 GiB/156.924 files, không là physical reclaimed bytes.
+PR #97 để mở; exact-head CI/test-ID receipts trong private V18 job.
+Kit chuẩn bị quote/spec capture, chưa là EA/quyền giao dịch; terms hiện hành
+chưa truy cập lại thành công. Giữ data/freezes/negative attempts/VI WIP/Trader pin.
+
 **V17 — chưa có nâng cấp đạt time-fit/gap convergence:**
 [Báo cáo bốn phần](ADAPTIVE-VELOCITY-V17-RESULTS-20261116.md) /
 [JSON](ADAPTIVE-VELOCITY-V17-RESULTS-20261116.json) /
@@ -12,8 +32,9 @@ SYM V17 PRIMARY 68/105, median 42,95 tháng; STRICT 0/105; recent 0/33.
 Giảm DD không lấp đường giá thiếu hay tạo alpha. 1.148 PASS/0 skip, giữ
 1.138 IDs; wall 28,23→21,14s; smoke 10/10 <0,80s, max 0,733s.
 64 logs V15/V16 cold-pack có restore/SHA; nguồn/path/ledger/freezes giữ nguyên.
-PR #96 giữ mở; exact-head CI/ID receipt nằm trong private V17 job.
-Không broker/deploy/provider downloads/Astra/memory update; chưa mở V18.
+PR #96 đã đạt 3CI và merge `92569ca` trong V18; nhánh V17 đã xóa.
+Exact-head CI/ID receipt lịch sử nằm trong private V17 job.
+V17 không broker/deploy/provider downloads/Astra/memory update; V18 theo protocol riêng.
 
 **V16 — chưa có breadth addition đạt chuẩn, G2 vẫn nhạy gap:**
 [Báo cáo bốn phần](GAP-IMMUNE-MULTIASSET-V16-RESULTS-20261116.md) /

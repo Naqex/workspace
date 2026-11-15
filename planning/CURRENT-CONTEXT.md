@@ -1,10 +1,41 @@
 # Current context — Naqex Workspace
 
-16/11/2026 · `RESEARCH: V17_NO_QUALIFIED_VELOCITY_UPGRADE · SYSTEM: DAILY_FLAT_STILL_SOURCE_UNCERTAIN · PROP: NOT_QUALIFIED`.
+16/11/2026 · `RESEARCH: V18_NO_CERTIFIED_CHAMPION · SYSTEM: SOURCE_UNCERTAINTY_REMAINS · PROP: NOT_QUALIFIED`.
 
 ## Việc hiện tại
 
-**V17 chưa đạt time-fit/gap convergence; PR #96 giữ mở.**
+**V18 đã hoàn tất kiểm định; chưa đủ chứng cứ mua Challenge hoặc bật bot Free Trial.**
+[Báo cáo buổi sáng](research/MORNING-EXECUTIVE-SUMMARY-20261116.md) /
+[kết quả](research/FINAL-CONVERGENCE-V18-RESULTS-20261116.md) /
+[JSON](research/FINAL-CONVERGENCE-V18-RESULTS-20261116.json) /
+[protocol](research/FINAL-CONVERGENCE-V18-PROTOCOL-20261116.md) /
+[freeze](research/FINAL-CONVERGENCE-V18-FREEZE-20261116.json) /
+[Free Trial kit](research/FTMO-FREE-TRIAL-EXECUTION-SPEC-20261116.md).
+PR #96/exact head `ee97543` đạt 3CI, merge `92569ca`; nhánh V17 đã xóa.
+Nhánh hiện tại `codex/final-convergence-v18`: protocol `50c474f`, freeze `bec7fe1`.
+Tournament V1–V17: V16 là tham chiếu tốc độ, V17 là dự phòng Funded trong mô hình,
+chưa có Champion/Ultra-Safe certified. V16 PRIMARY +42,30R, 71/105 hoàn tất,
+median 47,08 tháng; STRICT −5,05R, 1/105. Phí 1,50×: PRIMARY còn 7/105.
+Đã chạy cùng 5.000 quarter-block draws ×12 cost/source/order cases đến 36 tháng,
+giữ prefix 12/18/24; 120.000 native cash bridges và 768 full sampled ledger audits.
+Source clocks được sao chép; đây là cost sensitivity trên paths cố định,
+không là regenerated broker fills, clean OOS hay xác suất tương lai.
+1.153 PASS/0 skip, giữ đủ 1.148 IDs V17; full wall 22,062s.
+Smoke chức năng PASS cả 10 lần, nhưng chỉ 7/10 dưới 0,80s (max 0,853s):
+không đạt speed target; giữ outliers và không retry để lấy chuỗi đẹp.
+Storage snapshot giảm ròng 116,04 GiB/156.924 files so canonical V9,
+không coi tất cả là rác hoặc physical space reclaimed; D giữ 2 lỗi đọc VI.
+Private job `execution-v1/final-convergence-v18-20261116`: kết quả/audit/
+tests/storage receipts đã hoàn tất; không có financial job còn chạy.
+PR #97 để mở; exact-head CI và downloaded 1.153 IDs đối soát sau push bằng
+`ci-exact-head-reconciliation.json` / `completion-receipt.json` trong private job.
+Chưa broker/deploy/account mới. Kit chỉ chuẩn bị capture/parity, chưa là EA;
+terms hiện hành chưa xác minh lại thành công, snapshot 02/11 chỉ tham chiếu.
+Giữ VI WIP/Trader pin/data/freezes/failed attempts; không tự mở nghiên cứu mới.
+
+## V17 đã merge (lịch sử)
+
+**V17 chưa đạt time-fit/gap convergence; PR #96 đã merge trong V18.**
 [Báo cáo bốn phần](research/ADAPTIVE-VELOCITY-V17-RESULTS-20261116.md) /
 [JSON](research/ADAPTIVE-VELOCITY-V17-RESULTS-20261116.json) /
 [freeze](research/ADAPTIVE-VELOCITY-V17-FREEZE-20261116.json) /
@@ -27,7 +58,7 @@ max0,733s; 64 logs V15/V16 cold-pack restore/SHA, không xóa nguồn/evidence.
 Private job `execution-v1/adaptive-velocity-v17-20261116`; exact-head CI/
 downloaded test IDs receipt ghi sau push, không sửa HEAD chỉ để tự đóng dấu.
 VI WIP/Trader pin giữ nguyên. Không broker/deploy/provider downloads/Astra/
-memory update; không merge PR #96 hoặc tự mở V18.
+memory update ở V17; V18 chỉ được mở theo yêu cầu riêng đã ghi trong protocol.
 
 ## V16 đã merge (lịch sử)
 

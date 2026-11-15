@@ -73,13 +73,14 @@ flowchart LR
 | Quy tắc giữ, compact và archive plan/evidence | [Context lifecycle](planning/CONTEXT-LIFECYCLE.md) |
 | Design foundations / trading UI | [UI Systems](UI-Systems/README.md) · [Trading UI](UI/README.md) |
 | Tìm code và tài liệu bằng Xerj local | [Search tooling](tooling/search/README.md) |
-
-Đợt nghiên cứu gần nhất: [V17 — trọng số, hạn mức và tốc độ Challenge](planning/research/ADAPTIVE-VELOCITY-V17-RESULTS-20261116.md).
-Kết luận và giới hạn kiểm định nằm trong báo cáo; kết quả nghiên cứu chưa là quyền giao dịch.
 | Học trading | [Education](education/README.md) |
 | CI, version, release và đóng góp | [Contributing](CONTRIBUTING.md) |
 | Đặt tên branch, commit/push, PR và dọn branch | [GitHub workflow](tooling/github-workflow/README.md) |
 | Quyền sử dụng và thương mại | [License](LICENSE) · [Chính sách](docs/licensing.md) |
+
+Đợt nghiên cứu gần nhất: [V18 — báo cáo buổi sáng](planning/research/MORNING-EXECUTIVE-SUMMARY-20261116.md)
+và [kết quả kiểm định](planning/research/FINAL-CONVERGENCE-V18-RESULTS-20261116.md).
+Chưa có Champion đủ chứng cứ; kết quả nghiên cứu chưa là quyền giao dịch.
 
 README chỉ điều hướng. PLAN giữ scope; ledger/checkpoint do PLAN chỉ định giữ
 trạng thái và bằng chứng. Các báo cáo có ngày là lịch sử, không tự chứng minh
