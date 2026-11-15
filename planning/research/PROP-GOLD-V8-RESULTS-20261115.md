@@ -2,7 +2,7 @@
 
 **Kết luận: N1, N2 và cả ba sleeve đều chưa qua cổng Development. Không hình thành danh mục V8 đủ điều kiện.** Đã hoàn thành chẩn đoán và kiểm baseline đối chứng; không gọi việc hoàn tất hạ tầng/báo cáo là đạt mục tiêu Challenge hay thu nhập chính.
 
-PR #86 đã merge tại `c99fa7e`; branch V8 `codex/prop-gold-v8`. Quyết định No-Go được commit `91aa6701ddf5f963cd8856deb9538f158ac75553` trước mở giá lùi thời gian. 2024–2026 không dùng để chọn N1/N2/sleeve; không có trial ngoài hai bản core và ba horizon đã đăng ký.
+PR #86 đã merge tại `c99fa7e`; branch V8 `codex/prop-gold-v8`. Quyết định No-Go được commit `91aa6701ddf5f963cd8856deb9538f158ac75553` trước mở giá lùi thời gian. 2024–2026 không dùng để chọn N1/N2/sleeve. Hai cơ chế core và ba horizon; N2 có một attempt global-stop không đúng conditional intent và một attempt sửa semantics chỉ trên Dev, giữ cả hai trong lịch sử. Không quét grid.
 
 ## 1. Hai điều cần sửa trong tiền đề
 
@@ -16,7 +16,7 @@ SL 28,21/58,85 USD/oz không phải hộp Á: hộp Á median là 23,33/46,06 US
 
 - **N1:** giữ SL toàn hộp, chỉ nhận Asia range / median 20 ngày Á trước đó ≤P85 Development, k=1.598513 từ 483 ngày đủ context. Không fit k theo lợi nhuận.
 
-- **N2:** SL theo Low/High của nến H1 breakout +0,1 ATR_H1 trước nến, chỉ thay khi gần hơn cấu trúc toàn hộp. Không cắt SL đến một mức USD tùy ý, không mid-box/grid/biến thể kết hợp.
+- **N2 đúng điều kiện:** chỉ khi natural SL cũ>25 USD/oz mới dùng Low/High của nến H1 breakout +0,1 ATR_H1 trước nến và chỉ thay khi gần hơn cấu trúc toàn hộp; còn lại giữ nguyên SL cũ. Không cắt SL đến một mức USD tùy ý, không mid-box/grid/biến thể kết hợp.
 
 - Hai bản chỉ nhận natural SL≤25 USD/oz và stressF/SL≤12%. Với risk 125 USD, SL≤25 bảo đảm ít nhất 5 oz =0,05 lot; budget 125/150/200 đều được kiểm trên cùng trade set. Lệnh không đạt thì bỏ, không ép level/volume.
 
@@ -30,8 +30,8 @@ SL 28,21/58,85 USD/oz không phải hộp Á: hộp Á median là 23,33/46,06 US
 | BASELINE | 2023 | 107 | 107 | 107 | 8.67 | 8.62 | 13.795 |
 | N1 | 2022 | 103 | 83 | 71 | 11.36 | 7.03 | -1.544 |
 | N1 | 2023 | 107 | 94 | 69 | 8.32 | 9.07 | -12.772 |
-| N2 | 2022 | 103 | 103 | 45 | 5.76 | 13.75 | -15.237 |
-| N2 | 2023 | 107 | 107 | 26 | 4.49 | 16.64 | 10.095 |
+| N2 | 2022 | 103 | 103 | 92 | 11.51 | 6.88 | -6.278 |
+| N2 | 2023 | 107 | 107 | 82 | 8.67 | 8.62 | -4.583 |
 
 Baseline không áp các bộ lọc mới; cột lệnh nhận của baseline gồm toàn bộ tín hiệu. SYM swap BUY/SELL−40/−40, ASYM proxy−45/−5 USD/lot/rollover; commission/slip giữ V7.
 
@@ -41,12 +41,14 @@ Baseline không áp các bộ lọc mới; cột lệnh nhận của baseline g�
 | BASELINE | 2023 | 16.0550 | 16.4619 | 16.2417 | 14.87 |
 | N1 | 2022 | 0.4614 | -0.2126 | 0.1740 | 14.41 |
 | N1 | 2023 | -11.4898 | -11.3492 | -11.4902 | 9.90 |
-| N2 | 2022 | -14.7788 | -14.6360 | -14.9448 | 11.87 |
-| N2 | 2023 | 10.2807 | 10.3947 | 10.5982 | 11.91 |
+| N2 | 2022 | -4.0593 | -4.7475 | -4.2442 | 14.41 |
+| N2 | 2023 | -3.1977 | -2.8509 | -3.2251 | 14.87 |
 
 **N1 không cứu được kinh tế:** năm 2023 SYM khoảng−12,77 R thay baseline+13,79 R. Năm 2022 ASYM còn đổi dấu giữa 125/150/200 dù đã có ít nhất 5 oz. Giảm sai số lot không bảo đảm bất biến dấu cho một kỳ vọng rất gần 0.
 
-**N2 lặp lại nút thắt stop quá nhỏ:** SL median 5,76/4,49 USD/oz, F/SL 13,75%/16,64%; phí loại 57/103 và 81/107 tín hiệu. Chỉ còn 45/26 lệnh, năm 2022 SYM−15,24 R. Thu nhỏ stop đến cấu trúc H1 là thay chiến lược và tăng nguy cơ bị dừng sớm, không phải sửa lỗi miễn phí.
+**N2 conditional vẫn fail economics:** chỉ 6 tín hiệu 2022 cần thay stop; SL median trước phí giữ 11,51/8,67 USD/oz, đủ 92/82 lệnh, nhưng SYM−6,28/−4,58 R. Không còn nguyên nhân cadence/median-scale của bản global; nguyên nhân chặn hiện tại là net âm. Năm 2023 cost gate bỏ 25 lệnh baseline từng tạo+18,38 R, nên kết quả sau lọc không còn dương.
+
+**Giữ attempt N2 cũ để kiểm toán:** bản đầu thay stop H1 cho mọi tín hiệu, cho−15,24/+10,09 R và 45/26 lệnh. Bản này không đúng ý đồ chỉ đổi khi hộp/stop cũ quá rộng. Correction được commit 03 b 185 c trước đo lại Dev, không đổi cap 25/fee 12%/budgets; không dùng backward đã xem để chọn tham số và không chạy N2 mới ngoài Dev. JSON giữ cả kết quả global cũ và conditional đúng yêu cầu.
 
 ### Phân rã N1: những tín hiệu bị bỏ trước đây đóng góp bao nhiêu?
 
@@ -173,7 +175,7 @@ Không cộng các mốc chồng lấn thành thu nhập của một account. Pa
 | backward | OPEN_LOW_HIGH_CLOSE | 112 | PASS | 13930 | 6896 | 13930 | 0 |
 | backward | OPEN_HIGH_LOW_CLOSE | 112 | PASS | 13930 | 6896 | 13930 | 0 |
 
-**993 tests PASS**,15 fixtures V8; **492 sổ account** đối soát bằng rational/cash-posted oracle và **3318 bridges** cho economics Dev ba budgets. Cùng implementer, không có independent human/model reviewer.
+**995 tests PASS**,17 fixtures V8; **492 sổ account** đối soát bằng rational/cash-posted oracle và **3936 bridges** cho economics Dev ba budgets. Cùng implementer, không có independent human/model reviewer.
 
 492 sổ ở bảng là kết quả authoritative sau sửa lịch (268 full+224 backward). 224 sổ backward attempt 1 cũng đã đối soát nhưng archived vì calendar sai; không cộng các lượt đo trùng profile thành mẫu độc lập. Correction chỉ bổ sung tín hiệu ngày 31/12/2021, không mở vòng tìm tham số mới.
 
@@ -185,11 +187,12 @@ Backward chỉ có Bid M1 và Ask proxy, các giờ holiday 2018–2021 là cons
 
 | Phần | Phát hiện | Đã làm | Giới hạn |
 |---|---|---|---|
-| Packaging | Registration cần tạo private directory trước write | Sửa trước khi mở dữ liệu; regression 15 fixtures | Không đổi strategy outcome |
+| Packaging | Registration cần tạo private directory trước write | Sửa trước khi mở dữ liệu; regression 17 fixtures | Không đổi strategy outcome |
 | CI portability | LF/CRLF làm khác byte-hash của cùng lịch | Chỉ chấp nhận chuyển newline theo frozen Windows hash; content mutation vẫn fail; calendar-v 2 parity PASS | Không sửa source prices hoặc rerun tài chính |
 | Calendar | Federal observance khác giờ Metals 31 Dec 2021 | Nguồn FTMO xác minh; giữ attempt 1; commit fix và rerun riêng backward | Hai technical attempts, không pristine one-shot |
 | Reuse | V6/V7 đã có lifecycle/harvester/oracle | Adapter chỉ đổi inputs/observer; restore bindings trong finally; parent parity 268 sổ | Không gọi self-review là independent person |
 | Selection | Cả 2 core/3 sleeve failDev | Khóa No-Go trước backward; không tuning cứu kết quả | Chưa có all-Gold candidate mới |
+| N2 semantics | Attempt đầu thay stop cả các hộp đã vừa budget | Giữ attempt cũ; chỉ trigger naturalSL>25; đo lại Dev và rational bridges | Hai N2 implementations; corrected No-Go, không reuse backward làm OOS |
 | Source/exposure | 2018–21 đã có prior use; M1 không thành tick | Giữ fence tới release; ghi nhãn đúng; seek partitions | Không sạch OOS, không broker validation |
 
 ## Quyết định cuối

@@ -146,6 +146,11 @@ def build():
     tests = read(JOB / "tests.json")
     if tests["status"] != "PASS":
         raise ValueError("V8_tests_not_passed")
+    legacy_n2 = {k:v for k,v in dev["candidates"]["N2"].items() if k!="trades"}
+    corrected_n2 = read(JOB/"N2-semantic-correction.json")
+    if corrected_n2["gate"]["eligible"]:
+        raise ValueError("V8_corrected_N2_requires_fresh_stage_review_not_exposed_holdout_reuse")
+    dev["candidates"]["N2"] = corrected_n2
     review = development_review(dev)
     write_json(JOB / "development-accounting-parity.json", review)
     scenarios, bindings = {}, []
@@ -202,6 +207,9 @@ def build():
     if (JOB/"portability-parity.json").exists():
         bindings.append(dict(path=(JOB/"portability-parity.json").as_posix(),
                              sha256=digest(JOB/"portability-parity.json")))
+    for path in (JOB/"N2-semantic-correction.json",
+                 Path("planning/research/PROP-V8-N2-CORRECTION-20261115.json")):
+        bindings.append(dict(path=path.as_posix(),sha256=digest(path)))
     result = dict(schema="PROP-GOLD-V8-RESULTS-v1", date="2026-11-15",
         verdict="NO_GO_NORMALIZED_AND_PORTFOLIO", prop_qualified=False, main_income_proven=False,
         evidence_status=dict(development="ECONOMIC_FAIL_AND_SCALE_RETENTION_SHORTFALL",
@@ -221,6 +229,8 @@ def build():
                     for a in read(JOB/"backward"/ORDERS[0]/"accounts.json") if not a["rolling"]]),
         development={k: {name: {field:value for field,value in c.items() if field != "trades"}
                          for name,c in dev[k].items()} for k in ("candidates","sleeves")},
+        current_dev_verdict={name:dev["candidates"][name]["gate"] for name in ("N1","N2")},
+        archived_N2_global_attempt=legacy_n2,
         calibration=dict(k=dev["decision"]["compression_k"], days=dev["ratio_calibration_days"], percentile=85),
         diagnostic_review=review, scenarios=scenarios,
         canceled_columns=dict(normalized_post_dev="NO_GO_ON_DEVELOPMENT",
@@ -246,7 +256,8 @@ def render(r):
         "Đã hoàn thành chẩn đoán và kiểm baseline đối chứng; không gọi việc hoàn tất hạ tầng/báo cáo là đạt mục tiêu Challenge hay thu nhập chính.",
         "PR #86 đã merge tại `c99fa7e`; branch V8 `codex/prop-gold-v8`. "
         f"Quyết định No-Go được commit `{r['freeze_commit']}` trước mở giá lùi thời gian. "
-        "2024–2026 không dùng để chọn N1/N2/sleeve; không có trial ngoài hai bản core và ba horizon đã đăng ký.",
+        "2024–2026 không dùng để chọn N1/N2/sleeve. Hai cơ chế core và ba horizon; N2 có một attempt global-stop "
+        "không đúng conditional intent và một attempt sửa semantics chỉ trên Dev, giữ cả hai trong lịch sử. Không quét grid.",
         "## 1. Hai điều cần sửa trong tiền đề",
         "SL 28,21/58,85 USD/oz không phải hộp Á: hộp Á median là 23,33/46,06 USD/oz năm2025/2026. "
         "Quan sát hộp/SL tăng chưa chứng minh “sóng đã chạy xong”. V8 kiểm hai giả thuyết cụ thể; "
@@ -265,7 +276,8 @@ def render(r):
         "## 2. Đã thử đúng những gì?",
         f"- **N1:** giữ SL toàn hộp, chỉ nhận Asia range / median20 ngày Á trước đó ≤P85 Development, k={n(r['calibration']['k'],6)} "
         f"từ {r['calibration']['days']} ngày đủ context. Không fit k theo lợi nhuận.",
-        "- **N2:** SL theo Low/High của nến H1 breakout +0,1ATR_H1 trước nến, chỉ thay khi gần hơn cấu trúc toàn hộp. "
+        "- **N2 đúng điều kiện:** chỉ khi natural SL cũ>25USD/oz mới dùng Low/High của nến H1 breakout "
+        "+0,1ATR_H1 trước nến và chỉ thay khi gần hơn cấu trúc toàn hộp; còn lại giữ nguyên SL cũ. "
         "Không cắt SL đến một mức USD tùy ý, không mid-box/grid/biến thể kết hợp.",
         "- Hai bản chỉ nhận natural SL≤25 USD/oz và stressF/SL≤12%. Với risk125 USD, SL≤25 bảo đảm ít nhất5oz =0,05lot; "
         "budget125/150/200 đều được kiểm trên cùng trade set. Lệnh không đạt thì bỏ, không ép level/volume.",
@@ -294,9 +306,15 @@ def render(r):
           "**N1 không cứu được kinh tế:** năm2023 SYM khoảng−12,77R thay baseline+13,79R. "
           "Năm2022 ASYM còn đổi dấu giữa125/150/200 dù đã có ít nhất5oz. "
           "Giảm sai số lot không bảo đảm bất biến dấu cho một kỳ vọng rất gần0.",
-          "**N2 lặp lại nút thắt stop quá nhỏ:** SL median5,76/4,49 USD/oz, F/SL13,75%/16,64%; "
-          "phí loại57/103 và81/107 tín hiệu. Chỉ còn45/26lệnh, năm2022 SYM−15,24R. "
-          "Thu nhỏ stop đến cấu trúc H1 là thay chiến lược và tăng nguy cơ bị dừng sớm, không phải sửa lỗi miễn phí.",
+          "**N2 conditional vẫn fail economics:** chỉ6tín hiệu2022 cần thay stop; "
+          "SL median trước phí giữ11,51/8,67USD/oz, đủ92/82lệnh, nhưng SYM−6,28/−4,58R. "
+          "Không còn nguyên nhân cadence/median-scale của bản global; nguyên nhân chặn hiện tại là net âm. "
+          "Năm2023 cost gate bỏ25lệnh baseline từng tạo+18,38R, nên kết quả sau lọc không còn dương.",
+          "**Giữ attempt N2 cũ để kiểm toán:** bản đầu thay stop H1 cho mọi tín hiệu, cho−15,24/+10,09R "
+          "và45/26lệnh. Bản này không đúng ý đồ chỉ đổi khi hộp/stop cũ quá rộng. "
+          "Correction được commit03b185c trước đo lại Dev, không đổi cap25/fee12%/budgets; "
+          "không dùng backward đã xem để chọn tham số và không chạy N2 mới ngoài Dev. "
+          "JSON giữ cả kết quả global cũ và conditional đúng yêu cầu.",
           "### Phân rã N1: những tín hiệu bị bỏ trước đây đóng góp bao nhiêu?",
           "Dưới đây là R của **lệnh baseline gốc**, chia theo lý do N1 giữ/bỏ; không chạy trial nới filter nào."]
     s += [table(["Năm","Nhóm","Lệnh","Baseline R SYM","Baseline R ASYM"],
@@ -410,6 +428,7 @@ def render(r):
               ["Calendar","Federal observance khác giờ Metals31Dec2021","Nguồn FTMO xác minh; giữ attempt1; commit fix và rerun riêng backward","Hai technical attempts, không pristine one-shot"],
               ["Reuse","V6/V7 đã có lifecycle/harvester/oracle","Adapter chỉ đổi inputs/observer; restore bindings trong finally; parent parity268sổ","Không gọi self-review là independent person"],
               ["Selection","Cả2core/3sleeve failDev","Khóa No-Go trước backward; không tuning cứu kết quả","Chưa có all-Gold candidate mới"],
+              ["N2 semantics","Attempt đầu thay stop cả các hộp đã vừa budget","Giữ attempt cũ; chỉ trigger naturalSL>25; đo lại Dev và rational bridges","Hai N2 implementations; corrected No-Go, không reuse backward làm OOS"],
               ["Source/exposure","2018–21 đã có prior use; M1không thànhtick","Giữ fence tới release; ghi nhãn đúng; seek partitions","Không sạch OOS, không broker validation"],
           ]),
           "## Quyết định cuối",

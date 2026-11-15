@@ -907,48 +907,68 @@
         "rejected": []
       },
       "N2": {
+        "commit": "03b185ce178bc514b2552f6770470eb81fa91316",
+        "registration": {
+          "schema": "V8-N2-semantic-correction-v1",
+          "original_development_sha256": "9dd8c8d03096432b20492e94df1b24ce9fe06a990544b988b45d65fbdf87f020",
+          "reason": "Initial N2 applied H1 stop globally; owner requested structural replacement when the old box stop is too wide",
+          "corrected_trigger": "original natural SL >25 USD/oz using causal entry Bid/Ask",
+          "when_not_triggered": "Keep original whole-box natural stop",
+          "when_triggered": "Use existing H1 structural stop if closer; retain identical 12pct friction gate and 25USD admission cap",
+          "locked_risks": [
+            125,
+            150,
+            200
+          ],
+          "compression_k_unchanged": true,
+          "new_parameter_grid": false,
+          "data_scope": "Development2022-2023 only; backward and2024-2026 not used for correction selection",
+          "prior_N2_global_attempt_preserved": true,
+          "selection_history": "One invalid global-stop attempt plus corrected conditional mechanism; both reported",
+          "no_new_holdout_reselection": true
+        },
         "economics": [
           {
             "year": 2022,
             "model": "SYM_FLAT",
             "raw": 103,
             "normalized_before_cost": 103,
-            "cost_rejected": 57,
+            "cost_rejected": 10,
             "lot_scale_rejected": 1,
-            "admitted": 45,
-            "retained_pct": 43.689320388349515,
-            "median_sl": 9.824,
-            "natural_median_sl": 5.763,
-            "scale_ratio": 0.1374846066284921,
+            "admitted": 92,
+            "retained_pct": 89.32038834951456,
+            "median_sl": 11.942,
+            "natural_median_sl": 11.512,
+            "scale_ratio": 0.0688259023627519,
             "endpoint_coverage_pct": 100.0,
             "sides": {
-              "BUY": 26,
-              "SELL": 19
+              "BUY": 48,
+              "SELL": 44
             },
             "budgets": {
               "125": {
-                "trades": 45,
+                "trades": 92,
                 "unresolved_or_minlot": 0,
-                "net_R": -15.366,
-                "mean_R": -0.34146666666666664,
-                "median_rounding_error_pct": 3.728000000000009,
-                "max_rounding_error_pct": 10.618399999999994
+                "net_R": -5.56168,
+                "mean_R": -0.060453043478260866,
+                "median_rounding_error_pct": 4.923999999999995,
+                "max_rounding_error_pct": 14.412000000000013
               },
               "150": {
-                "trades": 45,
+                "trades": 92,
                 "unresolved_or_minlot": 0,
-                "net_R": -15.237333333333334,
-                "mean_R": -0.3386074074074074,
-                "median_rounding_error_pct": 3.6760000000000015,
+                "net_R": -6.2784666666666675,
+                "mean_R": -0.06824420289855074,
+                "median_rounding_error_pct": 4.145000000000004,
                 "max_rounding_error_pct": 11.86533333333334
               },
               "200": {
-                "trades": 45,
+                "trades": 92,
                 "unresolved_or_minlot": 0,
-                "net_R": -15.548,
-                "mean_R": -0.3455111111111111,
-                "median_rounding_error_pct": 2.0945000000000102,
-                "max_rounding_error_pct": 8.42400000000001
+                "net_R": -5.78365,
+                "mean_R": -0.06286576086956522,
+                "median_rounding_error_pct": 2.828250000000004,
+                "max_rounding_error_pct": 9.181000000000017
               }
             }
           },
@@ -957,42 +977,42 @@
             "model": "ASYM_FLAT",
             "raw": 103,
             "normalized_before_cost": 103,
-            "cost_rejected": 57,
+            "cost_rejected": 10,
             "lot_scale_rejected": 1,
-            "admitted": 45,
-            "retained_pct": 43.689320388349515,
-            "median_sl": 9.824,
-            "natural_median_sl": 5.763,
-            "scale_ratio": 0.1374846066284921,
+            "admitted": 92,
+            "retained_pct": 89.32038834951456,
+            "median_sl": 11.942,
+            "natural_median_sl": 11.512,
+            "scale_ratio": 0.0688259023627519,
             "endpoint_coverage_pct": 100.0,
             "sides": {
-              "BUY": 26,
-              "SELL": 19
+              "BUY": 48,
+              "SELL": 44
             },
             "budgets": {
               "125": {
-                "trades": 45,
+                "trades": 92,
                 "unresolved_or_minlot": 0,
-                "net_R": -14.7788,
-                "mean_R": -0.3284177777777778,
-                "median_rounding_error_pct": 3.728000000000009,
-                "max_rounding_error_pct": 10.618399999999994
+                "net_R": -4.059280000000001,
+                "mean_R": -0.04412260869565219,
+                "median_rounding_error_pct": 4.923999999999995,
+                "max_rounding_error_pct": 14.412000000000013
               },
               "150": {
-                "trades": 45,
+                "trades": 92,
                 "unresolved_or_minlot": 0,
-                "net_R": -14.636,
-                "mean_R": -0.32524444444444445,
-                "median_rounding_error_pct": 3.6760000000000015,
+                "net_R": -4.747466666666668,
+                "mean_R": -0.05160289855072465,
+                "median_rounding_error_pct": 4.145000000000004,
                 "max_rounding_error_pct": 11.86533333333334
               },
               "200": {
-                "trades": 45,
+                "trades": 92,
                 "unresolved_or_minlot": 0,
-                "net_R": -14.94475,
-                "mean_R": -0.3321055555555556,
-                "median_rounding_error_pct": 2.0945000000000102,
-                "max_rounding_error_pct": 8.42400000000001
+                "net_R": -4.24415,
+                "mean_R": -0.046132065217391306,
+                "median_rounding_error_pct": 2.828250000000004,
+                "max_rounding_error_pct": 9.181000000000017
               }
             }
           },
@@ -1001,42 +1021,42 @@
             "model": "SYM_FLAT",
             "raw": 107,
             "normalized_before_cost": 107,
-            "cost_rejected": 81,
+            "cost_rejected": 25,
             "lot_scale_rejected": 0,
-            "admitted": 26,
-            "retained_pct": 24.299065420560748,
-            "median_sl": 8.4835,
-            "natural_median_sl": 4.49,
-            "scale_ratio": 0.16636529398663696,
+            "admitted": 82,
+            "retained_pct": 76.6355140186916,
+            "median_sl": 10.153500000000001,
+            "natural_median_sl": 8.667,
+            "scale_ratio": 0.08618670474212531,
             "endpoint_coverage_pct": 100.0,
             "sides": {
-              "BUY": 17,
-              "SELL": 9
+              "BUY": 46,
+              "SELL": 36
             },
             "budgets": {
               "125": {
-                "trades": 26,
+                "trades": 82,
                 "unresolved_or_minlot": 0,
-                "net_R": 9.97232,
-                "mean_R": 0.38355076923076925,
-                "median_rounding_error_pct": 3.5123999999999933,
-                "max_rounding_error_pct": 11.906399999999994
+                "net_R": -4.922079999999999,
+                "mean_R": -0.06002536585365853,
+                "median_rounding_error_pct": 3.559599999999996,
+                "max_rounding_error_pct": 14.872000000000007
               },
               "150": {
-                "trades": 26,
+                "trades": 82,
                 "unresolved_or_minlot": 0,
-                "net_R": 10.094733333333334,
-                "mean_R": 0.3882589743589744,
-                "median_rounding_error_pct": 1.4430000000000054,
-                "max_rounding_error_pct": 8.98133333333334
+                "net_R": -4.5826,
+                "mean_R": -0.05588536585365854,
+                "median_rounding_error_pct": 3.1999999999999975,
+                "max_rounding_error_pct": 13.819999999999988
               },
               "200": {
-                "trades": 26,
+                "trades": 82,
                 "unresolved_or_minlot": 0,
-                "net_R": 10.29415,
-                "mean_R": 0.39592884615384616,
-                "median_rounding_error_pct": 1.8299999999999983,
-                "max_rounding_error_pct": 6.137000000000004
+                "net_R": -4.96735,
+                "mean_R": -0.060577439024390244,
+                "median_rounding_error_pct": 2.7244999999999964,
+                "max_rounding_error_pct": 9.230500000000008
               }
             }
           },
@@ -1045,42 +1065,42 @@
             "model": "ASYM_FLAT",
             "raw": 107,
             "normalized_before_cost": 107,
-            "cost_rejected": 81,
+            "cost_rejected": 25,
             "lot_scale_rejected": 0,
-            "admitted": 26,
-            "retained_pct": 24.299065420560748,
-            "median_sl": 8.4835,
-            "natural_median_sl": 4.49,
-            "scale_ratio": 0.16636529398663696,
+            "admitted": 82,
+            "retained_pct": 76.6355140186916,
+            "median_sl": 10.153500000000001,
+            "natural_median_sl": 8.667,
+            "scale_ratio": 0.08618670474212531,
             "endpoint_coverage_pct": 100.0,
             "sides": {
-              "BUY": 17,
-              "SELL": 9
+              "BUY": 46,
+              "SELL": 36
             },
             "budgets": {
               "125": {
-                "trades": 26,
+                "trades": 82,
                 "unresolved_or_minlot": 0,
-                "net_R": 10.28072,
-                "mean_R": 0.39541230769230773,
-                "median_rounding_error_pct": 3.5123999999999933,
-                "max_rounding_error_pct": 11.906399999999994
+                "net_R": -3.1976799999999996,
+                "mean_R": -0.03899609756097561,
+                "median_rounding_error_pct": 3.559599999999996,
+                "max_rounding_error_pct": 14.872000000000007
               },
               "150": {
-                "trades": 26,
+                "trades": 82,
                 "unresolved_or_minlot": 0,
-                "net_R": 10.394733333333333,
-                "mean_R": 0.3997974358974359,
-                "median_rounding_error_pct": 1.4430000000000054,
-                "max_rounding_error_pct": 8.98133333333334
+                "net_R": -2.8509333333333333,
+                "mean_R": -0.03476747967479675,
+                "median_rounding_error_pct": 3.1999999999999975,
+                "max_rounding_error_pct": 13.819999999999988
               },
               "200": {
-                "trades": 26,
+                "trades": 82,
                 "unresolved_or_minlot": 0,
-                "net_R": 10.59815,
-                "mean_R": 0.4076211538461539,
-                "median_rounding_error_pct": 1.8299999999999983,
-                "max_rounding_error_pct": 6.137000000000004
+                "net_R": -3.2251000000000003,
+                "mean_R": -0.03933048780487805,
+                "median_rounding_error_pct": 2.7244999999999964,
+                "max_rounding_error_pct": 9.230500000000008
               }
             }
           }
@@ -1088,26 +1108,16 @@
         "gate": {
           "eligible": false,
           "reasons": [
-            "2022:SYM_FLAT:retention",
-            "2022:SYM_FLAT:cost_reject_majority",
-            "2022:SYM_FLAT:natural_scale",
             "2022:SYM_FLAT:economic",
-            "2022:ASYM_FLAT:retention",
-            "2022:ASYM_FLAT:cost_reject_majority",
-            "2022:ASYM_FLAT:natural_scale",
             "2022:ASYM_FLAT:economic",
-            "2023:SYM_FLAT:cadence",
-            "2023:SYM_FLAT:retention",
-            "2023:SYM_FLAT:cost_reject_majority",
-            "2023:SYM_FLAT:natural_scale",
-            "2023:ASYM_FLAT:cadence",
-            "2023:ASYM_FLAT:retention",
-            "2023:ASYM_FLAT:cost_reject_majority",
-            "2023:ASYM_FLAT:natural_scale"
+            "2023:SYM_FLAT:economic",
+            "2023:ASYM_FLAT:economic"
           ]
         },
         "normalization_skips": [],
-        "rejected": []
+        "rejected": [],
+        "triggered": 6,
+        "new_non_development_evaluation": false
       }
     },
     "sleeves": {
@@ -1714,7 +1724,7 @@
   },
   "diagnostic_review": {
     "status": "PASS",
-    "rational_cost_bridges": 3318,
+    "rational_cost_bridges": 3936,
     "attribution": {
       "N1": [
         {
@@ -1771,16 +1781,16 @@
         {
           "year": 2022,
           "category": "cost",
-          "trades": 57,
-          "SYM_FLAT_baseline_R": 11.6908,
-          "ASYM_FLAT_baseline_R": 13.198133333333333
+          "trades": 10,
+          "SYM_FLAT_baseline_R": 8.8362,
+          "ASYM_FLAT_baseline_R": 9.223866666666666
         },
         {
           "year": 2022,
           "category": "kept",
-          "trades": 45,
-          "SYM_FLAT_baseline_R": -8.716266666666666,
-          "ASYM_FLAT_baseline_R": -8.371266666666667
+          "trades": 92,
+          "SYM_FLAT_baseline_R": -5.861666666666666,
+          "ASYM_FLAT_baseline_R": -4.397
         },
         {
           "year": 2022,
@@ -1792,16 +1802,16 @@
         {
           "year": 2023,
           "category": "cost",
-          "trades": 81,
-          "SYM_FLAT_baseline_R": 8.255133333333333,
-          "ASYM_FLAT_baseline_R": 10.6178
+          "trades": 25,
+          "SYM_FLAT_baseline_R": 18.377533333333332,
+          "ASYM_FLAT_baseline_R": 19.312866666666668
         },
         {
           "year": 2023,
           "category": "kept",
-          "trades": 26,
-          "SYM_FLAT_baseline_R": 5.5398,
-          "ASYM_FLAT_baseline_R": 5.844133333333334
+          "trades": 82,
+          "SYM_FLAT_baseline_R": -4.5826,
+          "ASYM_FLAT_baseline_R": -2.8509333333333333
         }
       ]
     },
@@ -23094,24 +23104,24 @@
   },
   "tests": {
     "status": "PASS",
-    "unique_tests": 993,
-    "V8_fixtures": 15,
+    "unique_tests": 995,
+    "V8_fixtures": 17,
     "no_new_installs": true,
     "reused_unaffected_groups": [
       "native",
       "statistics",
       "worker"
     ],
-    "base_rerun_reason": "Newline-only pin portability and content mutation regression",
+    "base_rerun_reason": "N2 conditional semantics regression",
     "matrix": [
       {
         "group": "base",
         "passed": true,
-        "tests": 887,
+        "tests": 889,
         "errors": 0,
         "failures": 0,
         "skipped": 0,
-        "seconds": 53.20299999997951,
+        "seconds": 40.625,
         "python": "C:\\Users\\MIIKEY\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe"
       },
       {
@@ -23161,8 +23171,12 @@
       "sha256": "1b28c3f98a7c21781539c608d4e6532c9ac46a73e75ea01a028eef715635a2f8"
     },
     {
+      "path": "tooling/ai-engines/prop_v8_n2_correction.py",
+      "sha256": "bc0a340707634fce90fa263475fdc7e2031ae87fe8bd6b5750da2555f13d75d0"
+    },
+    {
       "path": "tooling/ai-engines/prop_v8_report.py",
-      "sha256": "4665be159b9447d2f51aa474f2452db46268ae47e88bd7530941c485f35f2e95"
+      "sha256": "8e2cceeefd068bafa15051ae7f184f4d43df70abef9553aeee5edfb8d96d42d1"
     },
     {
       "path": "tooling/ai-engines/prop_v8_review.py",
@@ -23308,20 +23322,251 @@
     },
     {
       "path": "E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/execution-v1/prop-gold-v8-20261115/development-accounting-parity.json",
-      "sha256": "8c8871613b8348762260fd0ee66de8da91bebb3552b965d0b49aa9afa9a1ad1a"
+      "sha256": "e3102ec19b7e51147ba54df796b94332c558f1a3d9f0b71cfc7870ec07ea2946"
     },
     {
       "path": "E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/execution-v1/prop-gold-v8-20261115/tests.json",
-      "sha256": "3edf71bfb14838cdc3b778726a08fa0db1e36c13f77f19c2c6336a6cc09598a2"
+      "sha256": "b08822ba16554853e051d6d958db0e110bf3ce8c585e062fcdac12d54bd66caa"
     },
     {
       "path": "E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/execution-v1/prop-gold-v8-20261115/portability-parity.json",
       "sha256": "8c254478e5da23b86c02ff7d7707dc2adcd8707c0c4cc91a88921e84ce87c669"
+    },
+    {
+      "path": "E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/execution-v1/prop-gold-v8-20261115/N2-semantic-correction.json",
+      "sha256": "93efd0d861e2ffe7105582fd40bf63a8b5c4e22e2f9b4ef00efc853e82432430"
+    },
+    {
+      "path": "planning/research/PROP-V8-N2-CORRECTION-20261115.json",
+      "sha256": "eca0ef8c131f8cb2438d558782efe6f8fe36b8f3826714458b7acc4bb56ef467"
     }
   ],
   "private_job": "E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/execution-v1/prop-gold-v8-20261115",
   "broker_executions": 0,
   "actual_payout_received_usd": 0,
   "same_implementer_alternate_accounting": true,
-  "independent_person_or_model_review": false
+  "independent_person_or_model_review": false,
+  "archived_N2_global_attempt": {
+    "economics": [
+      {
+        "year": 2022,
+        "model": "SYM_FLAT",
+        "raw": 103,
+        "normalized_before_cost": 103,
+        "cost_rejected": 57,
+        "lot_scale_rejected": 1,
+        "admitted": 45,
+        "retained_pct": 43.689320388349515,
+        "median_sl": 9.824,
+        "natural_median_sl": 5.763,
+        "scale_ratio": 0.1374846066284921,
+        "endpoint_coverage_pct": 100.0,
+        "sides": {
+          "BUY": 26,
+          "SELL": 19
+        },
+        "budgets": {
+          "125": {
+            "trades": 45,
+            "unresolved_or_minlot": 0,
+            "net_R": -15.366,
+            "mean_R": -0.34146666666666664,
+            "median_rounding_error_pct": 3.728000000000009,
+            "max_rounding_error_pct": 10.618399999999994
+          },
+          "150": {
+            "trades": 45,
+            "unresolved_or_minlot": 0,
+            "net_R": -15.237333333333334,
+            "mean_R": -0.3386074074074074,
+            "median_rounding_error_pct": 3.6760000000000015,
+            "max_rounding_error_pct": 11.86533333333334
+          },
+          "200": {
+            "trades": 45,
+            "unresolved_or_minlot": 0,
+            "net_R": -15.548,
+            "mean_R": -0.3455111111111111,
+            "median_rounding_error_pct": 2.0945000000000102,
+            "max_rounding_error_pct": 8.42400000000001
+          }
+        }
+      },
+      {
+        "year": 2022,
+        "model": "ASYM_FLAT",
+        "raw": 103,
+        "normalized_before_cost": 103,
+        "cost_rejected": 57,
+        "lot_scale_rejected": 1,
+        "admitted": 45,
+        "retained_pct": 43.689320388349515,
+        "median_sl": 9.824,
+        "natural_median_sl": 5.763,
+        "scale_ratio": 0.1374846066284921,
+        "endpoint_coverage_pct": 100.0,
+        "sides": {
+          "BUY": 26,
+          "SELL": 19
+        },
+        "budgets": {
+          "125": {
+            "trades": 45,
+            "unresolved_or_minlot": 0,
+            "net_R": -14.7788,
+            "mean_R": -0.3284177777777778,
+            "median_rounding_error_pct": 3.728000000000009,
+            "max_rounding_error_pct": 10.618399999999994
+          },
+          "150": {
+            "trades": 45,
+            "unresolved_or_minlot": 0,
+            "net_R": -14.636,
+            "mean_R": -0.32524444444444445,
+            "median_rounding_error_pct": 3.6760000000000015,
+            "max_rounding_error_pct": 11.86533333333334
+          },
+          "200": {
+            "trades": 45,
+            "unresolved_or_minlot": 0,
+            "net_R": -14.94475,
+            "mean_R": -0.3321055555555556,
+            "median_rounding_error_pct": 2.0945000000000102,
+            "max_rounding_error_pct": 8.42400000000001
+          }
+        }
+      },
+      {
+        "year": 2023,
+        "model": "SYM_FLAT",
+        "raw": 107,
+        "normalized_before_cost": 107,
+        "cost_rejected": 81,
+        "lot_scale_rejected": 0,
+        "admitted": 26,
+        "retained_pct": 24.299065420560748,
+        "median_sl": 8.4835,
+        "natural_median_sl": 4.49,
+        "scale_ratio": 0.16636529398663696,
+        "endpoint_coverage_pct": 100.0,
+        "sides": {
+          "BUY": 17,
+          "SELL": 9
+        },
+        "budgets": {
+          "125": {
+            "trades": 26,
+            "unresolved_or_minlot": 0,
+            "net_R": 9.97232,
+            "mean_R": 0.38355076923076925,
+            "median_rounding_error_pct": 3.5123999999999933,
+            "max_rounding_error_pct": 11.906399999999994
+          },
+          "150": {
+            "trades": 26,
+            "unresolved_or_minlot": 0,
+            "net_R": 10.094733333333334,
+            "mean_R": 0.3882589743589744,
+            "median_rounding_error_pct": 1.4430000000000054,
+            "max_rounding_error_pct": 8.98133333333334
+          },
+          "200": {
+            "trades": 26,
+            "unresolved_or_minlot": 0,
+            "net_R": 10.29415,
+            "mean_R": 0.39592884615384616,
+            "median_rounding_error_pct": 1.8299999999999983,
+            "max_rounding_error_pct": 6.137000000000004
+          }
+        }
+      },
+      {
+        "year": 2023,
+        "model": "ASYM_FLAT",
+        "raw": 107,
+        "normalized_before_cost": 107,
+        "cost_rejected": 81,
+        "lot_scale_rejected": 0,
+        "admitted": 26,
+        "retained_pct": 24.299065420560748,
+        "median_sl": 8.4835,
+        "natural_median_sl": 4.49,
+        "scale_ratio": 0.16636529398663696,
+        "endpoint_coverage_pct": 100.0,
+        "sides": {
+          "BUY": 17,
+          "SELL": 9
+        },
+        "budgets": {
+          "125": {
+            "trades": 26,
+            "unresolved_or_minlot": 0,
+            "net_R": 10.28072,
+            "mean_R": 0.39541230769230773,
+            "median_rounding_error_pct": 3.5123999999999933,
+            "max_rounding_error_pct": 11.906399999999994
+          },
+          "150": {
+            "trades": 26,
+            "unresolved_or_minlot": 0,
+            "net_R": 10.394733333333333,
+            "mean_R": 0.3997974358974359,
+            "median_rounding_error_pct": 1.4430000000000054,
+            "max_rounding_error_pct": 8.98133333333334
+          },
+          "200": {
+            "trades": 26,
+            "unresolved_or_minlot": 0,
+            "net_R": 10.59815,
+            "mean_R": 0.4076211538461539,
+            "median_rounding_error_pct": 1.8299999999999983,
+            "max_rounding_error_pct": 6.137000000000004
+          }
+        }
+      }
+    ],
+    "gate": {
+      "eligible": false,
+      "reasons": [
+        "2022:SYM_FLAT:retention",
+        "2022:SYM_FLAT:cost_reject_majority",
+        "2022:SYM_FLAT:natural_scale",
+        "2022:SYM_FLAT:economic",
+        "2022:ASYM_FLAT:retention",
+        "2022:ASYM_FLAT:cost_reject_majority",
+        "2022:ASYM_FLAT:natural_scale",
+        "2022:ASYM_FLAT:economic",
+        "2023:SYM_FLAT:cadence",
+        "2023:SYM_FLAT:retention",
+        "2023:SYM_FLAT:cost_reject_majority",
+        "2023:SYM_FLAT:natural_scale",
+        "2023:ASYM_FLAT:cadence",
+        "2023:ASYM_FLAT:retention",
+        "2023:ASYM_FLAT:cost_reject_majority",
+        "2023:ASYM_FLAT:natural_scale"
+      ]
+    },
+    "normalization_skips": [],
+    "rejected": []
+  },
+  "current_dev_verdict": {
+    "N1": {
+      "eligible": false,
+      "reasons": [
+        "2022:SYM_FLAT:economic",
+        "2022:ASYM_FLAT:economic",
+        "2023:SYM_FLAT:economic",
+        "2023:ASYM_FLAT:economic"
+      ]
+    },
+    "N2": {
+      "eligible": false,
+      "reasons": [
+        "2022:SYM_FLAT:economic",
+        "2022:ASYM_FLAT:economic",
+        "2023:SYM_FLAT:economic",
+        "2023:ASYM_FLAT:economic"
+      ]
+    }
+  }
 }
