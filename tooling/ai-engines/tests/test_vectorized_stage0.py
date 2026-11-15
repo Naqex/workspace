@@ -22,6 +22,15 @@ class VectorTests(unittest.TestCase):
         self.assertEqual((92 + 44) * 4, 544)
         self.assertEqual(len({r["id"] for r in catalog("XAUUSD")}), 92)
 
+    def test_terminal_event_keeps_numeric_stage_without_duplicate_keyword(self):
+        from prop_v10_campaign import completion_event
+        decision = dict(stage="STAGE0", eligible=[])
+        out = completion_event(decision, 1.25)
+        self.assertEqual(out["stage"], "STAGE0")
+        self.assertEqual(out["event"], "V10_Discovery_complete")
+        self.assertEqual(out["scan_seconds"], 1.25)
+        self.assertEqual(decision, dict(stage="STAGE0", eligible=[]))
+
     def test_wednesday_triple_rollover_entry_excluded_exit_included(self):
         first = stamp("2023-03-01T21:00")
         values = funding_multipliers(np.array([first, first+HOUR]),
@@ -55,6 +64,21 @@ class VectorTests(unittest.TestCase):
         _, ok = endpoint_indices(bars, np.array([0, 60001, 180000]), 180000)
         self.assertEqual(ok.tolist(), [True, False, False])
 
+    def test_late_day_and_post_friday_flat_never_price_a_backward_or_weekend_trade(self):
+        first, end = stamp("2023-01-01"), stamp("2024-01-01")
+        times = [stamp(t) for t in ("2023-03-02T20:30", "2023-03-02T23:00",
+                                   "2023-03-03T20:30", "2023-03-03T21:00",
+                                   "2023-03-06T20:30", "2023-03-10T20:30")]
+        bars = np.zeros(len(times), dtype=BAR)
+        bars["t"] = times
+        bars["bo"], bars["ao"] = 1800000, 1800338
+        recipe = dict(id="late", family="F1",
+                      at=np.array([times[1], times[3]]),
+                      side=np.array([1, 1]), stop=np.array([1790000, 1790000]))
+        rows = measure("XAUUSD", recipe, bars, gold_calendar(first,end), first,end)
+        self.assertFalse(rows[0]["ok"].any())
+        self.assertTrue(all(not r["ok"][1] for r in rows))
+
     def test_holm_known_example_and_monotonicity(self):
         np.testing.assert_allclose(holm([.01, .04, .03]), [.03, .06, .06])
         with self.assertRaises(ValueError):
@@ -75,6 +99,21 @@ class VectorTests(unittest.TestCase):
         out = rolling(a, 2, "max")
         self.assertEqual(out[2], 2)
         self.assertEqual(out[3], 100)
+
+    def test_scale_gate_uses_pooled_cluster_medians_not_worst_year(self):
+        years = np.repeat(np.arange(2018, 2024), [1, 5, 5, 1, 5, 5])
+        at = np.array([stamp(f"{y}-01-02") for y in years])
+        natural = np.where(np.isin(years, [2018, 2021]), 1., 10.)
+        n = len(years)
+        money = dict(net_R=np.ones(n), net=np.ones(n), gross=np.ones(n),
+                     funding=np.zeros(n))
+        m = dict(asset="XAUUSD", recipe="fixture", family="F1", horizon="DAY",
+                 years=years, at=at, natural=natural, friction=np.ones(n),
+                 ratio=1/natural, ok=np.ones(n, dtype=bool),
+                 admitted=1/natural <= .15, model=dict(SYM=money, ASYM=money))
+        out, _ = summaries([m], stamp("2018-01-01"), stamp("2024-01-01"), 544)
+        self.assertEqual([c["scale_ratio"] for c in out[0]["clusters"]], [.1, .1])
+        self.assertFalse(any("SCALE" in r for r in out[0]["reasons"]))
 
     def test_nonempty_signal_prefix_is_unchanged_by_future_bars(self):
         first = stamp("2022-01-03")

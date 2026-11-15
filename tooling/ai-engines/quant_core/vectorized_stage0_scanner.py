@@ -101,6 +101,9 @@ def measure(asset, recipe, bars, calendar, first, cutoff):
     spread = (bars["ao"][entries] - bars["bo"][entries]) / spec.scale
     friction = spread + spec.extra_roundtrip + 2 * p0 / spec.scale * spec.notional_side
     valid = entry_ok & (natural > 0) & (decision >= first) & (decision < cutoff)
+    weekday = (at // DAY + 3) % 7
+    # A Friday signal after hard-flat cannot be carried into the following week.
+    valid &= (weekday < 5) & ~((weekday == 4) & (at % DAY >= 20 * HOUR + HOUR // 2))
     ratio = np.divide(friction, natural, out=np.full(len(natural), np.inf), where=natural > 0)
     years = (decision.astype("datetime64[ms]").astype("datetime64[Y]").astype(int) + 1970)
     result = []
@@ -109,7 +112,8 @@ def measure(asset, recipe, bars, calendar, first, cutoff):
         exits, exit_ok = endpoint_indices(bars, target, cutoff)
         px = np.where(side == 1, bars["bo"][exits], bars["ao"][exits])
         end = bars["t"][exits]
-        ok = valid & exit_ok
+        # DAY has no executable same-day endpoint for decisions after its close.
+        ok = valid & exit_ok & (target >= at) & (end >= at)
         row = dict(asset=asset, recipe=recipe["id"], family=recipe["family"], horizon=horizon,
                    at=decision, entry_at=at, exit_at=end, deadline=target, side=side,
                    entry_price=p0, exit_price=px, stop=stops, natural=natural,
@@ -203,6 +207,7 @@ def summaries(measurements, first, end, trials):
                            annual=annual))
     statistics = daily_statistics(daily, trials)
     for j, row in enumerate(output):
+        measurement = measurements[j]
         row["statistics"] = {k: (float(v[j]) if isinstance(v, np.ndarray) else v) for k, v in statistics.items()}
         reasons, clusters = [], []
         for years in ((2018, 2019, 2020), (2021, 2022, 2023)):
@@ -210,13 +215,17 @@ def summaries(measurements, first, end, trials):
             raw, admitted = sum(r["raw"] for r in a), sum(r["admitted"] for r in a)
             c = dict(years=list(years), raw=raw, admitted=admitted,
                      retention=admitted / raw if raw else 0, net={})
+            cohort = np.isin(measurement["years"], years) & measurement["ok"]
+            c["scale_ratio"] = (float(np.median(measurement["friction"][cohort]) /
+                                      np.median(measurement["natural"][cohort]))
+                                if cohort.any() else None)
             if raw == 0 or c["retention"] < .6:
                 reasons.append(f"{years[0]}:RETENTION")
             if admitted < 60:
                 reasons.append(f"{years[0]}:CADENCE")
             if sum(r["priced"] for r in a) != raw:
                 reasons.append(f"{years[0]}:ENDPOINT")
-            if any(r["scale_ratio"] is None or r["scale_ratio"] > .15 for r in a):
+            if c["scale_ratio"] is None or c["scale_ratio"] > .15:
                 reasons.append(f"{years[0]}:SCALE")
             for model in ("SYM", "ASYM"):
                 totals = dict(raw=sum(r["economics"][model]["raw_net_R"] for r in a),

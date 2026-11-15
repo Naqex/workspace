@@ -34,12 +34,26 @@ jobs:
           version = next(p['version'] for p in lock['package'] if p['name'] == 'pydantic')
           subprocess.run([sys.executable, '-m', 'pip', 'install', f'pydantic=={version}'], check=True)
           PY
-      - name: Check Fast CI quant core and all existing campaign CI fixtures
+      - name: Check full quant audit including native and statistical fixtures
         env:
           PYTHONPATH: projects/trader/foundation_v2:tooling/ai-engines:tooling/ai-engines/tests
         run: |
-          python -m pip install numpy==2.3.5
-          python tooling/ai-engines/quant_test_suite.py --tier fast --output /tmp/quant-fast.json
+          python - <<'PY'
+          import subprocess, sys, tomllib
+          from pathlib import Path
+          lock = tomllib.loads(Path('projects/trader/foundation_v2/engine_runtime/uv.lock').read_text())
+          pins = [f"{p['name']}=={p['version']}" for p in lock['package']
+                  if p['name'] in ('nautilus-trader', 'pandas')]
+          subprocess.run([sys.executable, '-m', 'pip', 'install',
+                          'numpy==2.3.5', 'statsmodels==0.15.0', *pins], check=True)
+          PY
+          python tooling/ai-engines/quant_test_suite.py --group complete --tier all --workers 2 --output /tmp/quant-full.json
+      - name: Preserve quant test IDs and timings
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: quant-full-audit
+          path: /tmp/quant-full*
       - name: Check anti-bloat budgets on changed raw artifacts
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}

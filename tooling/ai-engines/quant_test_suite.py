@@ -1,12 +1,14 @@
 """Disjoint Fast CI / historical suites with per-test timing and runtime groups."""
 import argparse
 from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor
 import contextlib
 import json
 from pathlib import Path
 import sys
 import time
 import unittest
+import subprocess
 
 NATIVE = {
     "test_multiframe_runner_recovery", "test_run_us500_multiframe",
@@ -22,7 +24,9 @@ FAST = {
     "test_eurusd_b0", "test_xau_intraday_b0", "test_xau_scale_horizon_audit",
     "test_xau_h1_stage0", "test_xau_h1_execution", "test_xau_a_validation",
     "test_eurusd_funnel_audit", "test_gold_intraday_quality",
+    "test_vectorized_stage0", "test_deep_storage",
 }
+SMOKE = {"test_quant_core", "test_vectorized_stage0", "test_workspace_maintenance", "test_deep_storage"}
 
 
 def modules(group, tier):
@@ -32,7 +36,10 @@ def modules(group, tier):
         "native": lambda m: m in NATIVE,
         "statistics": lambda m: m == "test_fx_pair_formation",
         "worker": lambda m: m == "test_engine_worker",
+        "complete": lambda m: True,
     }[group]
+    if tier == "smoke":
+        return [m for m in names if match(m) and m in SMOKE]
     return [m for m in names if match(m) and
             (tier == "all" or (m in FAST or m.startswith("test_shadow")) == (tier == "fast"))]
 
@@ -51,8 +58,8 @@ class TimedResult(unittest.TextTestResult):
         super().stopTest(test)
 
 
-def run(group, tier, output):
-    selected = modules(group, tier)
+def run(group, tier, output, selected=None):
+    selected = modules(group, tier) if selected is None else selected
     sys.path[:0] = [str(Path(__file__).parent), str(Path(__file__).with_name("tests"))]
     start = time.perf_counter()
     with output.with_suffix(".log").open("w", encoding="utf-8") as log, \
@@ -75,10 +82,63 @@ def run(group, tier, output):
     return 0 if result.wasSuccessful() else 1
 
 
+def parallel(group, tier, output, workers, profile=None):
+    selected = modules(group, tier)
+    durations = {}
+    if profile:
+        durations = json.loads(profile.read_text(encoding="utf-8-sig")).get("module_seconds", {})
+    batches, weights = [[] for _ in range(workers)], [0.] * workers
+    for name in sorted(selected, key=lambda n: -durations.get(n, .1)):
+        i = min(range(workers), key=lambda j: weights[j])
+        batches[i].append(name)
+        weights[i] += durations.get(name, .1)
+    start = time.perf_counter()
+
+    def child(i):
+        receipt = output.with_name(output.stem + f"-shard{i}.json")
+        command = [sys.executable, str(Path(__file__).resolve()), "--group", group,
+                   "--tier", tier, "--output", str(receipt)]
+        for module in batches[i]:
+            command += ["--module", module]
+        with receipt.with_suffix(".stdout").open("w") as log:
+            status = subprocess.run(command, stdout=log, stderr=subprocess.STDOUT).returncode
+        return status, json.loads(receipt.read_text())
+
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        results = list(pool.map(child, range(workers)))
+    timings, totals = {}, {}
+    for status, r in results:
+        if set(timings) & set(r["timings"]):
+            raise ValueError("duplicate_parallel_test_ID")
+        timings.update(r["timings"])
+        totals.update(r["module_seconds"])
+    all_modules = [m for _, r in results for m in r["modules"]]
+    if sorted(all_modules) != selected:
+        raise ValueError("parallel_module_coverage_changed")
+    result = dict(group=group, tier=tier, workers=workers, modules=selected,
+                  passed=all(code == 0 and r["passed"] for code, r in results),
+                  tests=sum(r["tests"] for _, r in results),
+                  skipped=sum(r["skipped"] for _, r in results),
+                  errors=sum(r["errors"] for _, r in results),
+                  failures=sum(r["failures"] for _, r in results),
+                  seconds=time.perf_counter()-start, timings=timings,
+                  module_seconds=totals, shard_seconds=[r["seconds"] for _, r in results],
+                  parallel_processes=True)
+    output.write_text(json.dumps(result, indent=2), encoding="utf-8")
+    print({k: v for k, v in result.items() if k not in ("timings", "modules", "module_seconds")})
+    return 0 if result["passed"] else 1
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--group", choices=("base", "native", "statistics", "worker"), default="base")
-    parser.add_argument("--tier", choices=("fast", "historical", "all"), default="all")
+    parser.add_argument("--group", choices=("base", "native", "statistics", "worker", "complete"), default="base")
+    parser.add_argument("--tier", choices=("smoke", "fast", "historical", "all"), default="all")
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--workers", type=int, choices=(1, 2), default=1)
+    parser.add_argument("--profile", type=Path)
+    parser.add_argument("--module", action="append")
     args = parser.parse_args()
-    raise SystemExit(run(args.group, args.tier, args.output))
+    if args.module and (args.workers != 1 or not set(args.module) <= set(modules(args.group, args.tier))):
+        parser.error("--module requires a registered serial subset")
+    raise SystemExit(parallel(args.group, args.tier, args.output, args.workers, args.profile)
+                     if args.workers > 1 else run(args.group, args.tier, args.output, args.module))

@@ -80,7 +80,11 @@ def run():
         composition=None, validation="NEEDS_STAGE1_AND_COMMITTED_FREEZE" if eligible else "CANCELED_FAILED_STAGE0",
         lifecycle="NOT_RUN", clean_OOS=False, source_conditional=True)
     write_json(JOB / "decision.json", decision)
-    print(dict(stage="V10_Discovery_complete", **decision, scan_seconds=scan_seconds), flush=True)
+    print(completion_event(decision, scan_seconds), flush=True)
+
+
+def completion_event(decision, seconds):
+    return dict(decision, event="V10_Discovery_complete", scan_seconds=seconds)
 
 
 if __name__ == "__main__":

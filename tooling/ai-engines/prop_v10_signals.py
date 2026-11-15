@@ -114,6 +114,7 @@ def recipes(bars, asset, first, end, calendar):
     h1_atr4 = align(h4, h1["t"], "atr")
     h4_atr4 = h4["atr"]
     allowed_cache = {}
+    timing_cache = {}
 
     def admit(cfg, tf, buy, sell, stop_buy, stop_sell):
         times = tf["t"]
@@ -184,7 +185,10 @@ def recipes(bars, asset, first, end, calendar):
             admit(cfg, h4, buy, sell, h4["c"] - delta, h4["c"] + delta)
         else:
             hour = h1["t"] // HOUR % 24
-            condition = ((hour == cfg["hour"]) & timing_mask(h1["t"], cfg["timing"]) &
+            mode = cfg["timing"]
+            if mode not in timing_cache:
+                timing_cache[mode] = timing_mask(h1["t"], mode)
+            condition = ((hour == cfg["hour"]) & timing_cache[mode] &
                          (abs(h1["c"] - h1["o"]) >= cfg["impulse"] * h1["atr"]))
             delta = cfg["multiple"] * h1_atr4
             admit(cfg, h1, condition & (s1 > 0), condition & (s1 < 0),
