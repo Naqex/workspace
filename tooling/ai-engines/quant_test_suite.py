@@ -24,9 +24,10 @@ FAST = {
     "test_eurusd_b0", "test_xau_intraday_b0", "test_xau_scale_horizon_audit",
     "test_xau_h1_stage0", "test_xau_h1_execution", "test_xau_a_validation",
     "test_eurusd_funnel_audit", "test_gold_intraday_quality",
-    "test_vectorized_stage0", "test_deep_storage",
+    "test_vectorized_stage0", "test_deep_storage", "test_zero_tuning_ensemble",
 }
-SMOKE = {"test_quant_core", "test_vectorized_stage0", "test_workspace_maintenance", "test_deep_storage"}
+SMOKE = {"test_quant_core", "test_vectorized_stage0", "test_workspace_maintenance",
+         "test_deep_storage", "test_zero_tuning_ensemble"}
 
 
 def modules(group, tier):
