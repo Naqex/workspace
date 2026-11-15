@@ -1,13 +1,29 @@
 # Tra cứu research đã có
 
+**V13 — 19 cases định giá đủ theo gap scenario; ensemble fail cadence:**
+[Báo cáo bốn phần](PATH-RESOLUTION-AND-DEDUP-V13-RESULTS-20261115.md) /
+[JSON](PATH-RESOLUTION-AND-DEDUP-V13-RESULTS-20261115.json) /
+[decision](PATH-RESOLUTION-AND-DEDUP-V13-DECISION-20261115.json) /
+[protocol](PATH-RESOLUTION-AND-DEDUP-V13-PROTOCOL-20261115.md).
+PR #91 merged `ad362ea`, nhánh V12 đã xóa. V13 branch
+`codex/path-resolution-and-dedup-v13`, chưa được giao merge PR mới.
+28 frozen cells → 16 scenario components → 3 medoids, SYM +50,232R/6năm,
+nhưng 2018/19 chỉ 43/47 tín hiệu dưới sàn 50/năm. Source uncertainty còn;
+0 source-verified component. Không mở 2024–2026/lifecycle/account replay.
+Auditor 3.165 paths/31.650 cash legs khớp; không independent person/feed.
+1.091 tests giữ đủ 1.072 IDs cũ, 0 skip. Full Merkle 403 cây/887 pairs:
+106 whole-tree equal, không admission xóa dependency/source/backup; 0GB thu hồi.
+V10→V12 D chỉ +1.925.237 bytes, không +15GB. Tick timestamp probe giữ
+48 no-quote gaps/328 chưa có native hours, không sửa financial inputs.
+Private job `execution-v1/path-resolution-and-dedup-v13-20261115`.
+
 **V12 — SL-active/F5 đã đo; chưa có ensemble vì path gaps và kinh tế:**
 [Báo cáo bốn phần](SL-ACTIVE-ENSEMBLE-V12-RESULTS-20261115.md) /
 [JSON](SL-ACTIVE-ENSEMBLE-V12-RESULTS-20261115.json) /
 [decision](SL-ACTIVE-ENSEMBLE-V12-DECISION-20261115.json) /
 [protocol](SL-ACTIVE-ENSEMBLE-V12-PROTOCOL-20261115.md) /
 [cent correction](SL-ACTIVE-ENSEMBLE-V12-CENT-CORRECTION-20261115.md).
-PR #90 merged `2175685`, nhánh V11 đã xóa. Branch `codex/sl-active-ensemble-v12`,
-PR mới chờ owner duyệt, không tự merge. 2.888 path cells: 1.264 F1–F4 ×2 modes
+PR #91 merged `ad362ea`, nhánh V12 đã xóa theo V13. 2.888 path cells: 1.264 F1–F4 ×2 modes
 và 120 F5 ×3 modes. 28 available-path dual-positive; 19 chỉ còn path gate,
 chưa chứng minh full expectancy. K=0, không mở giá 2024–2026/lifecycle/payout.
 Scalar Decimal auditor bắt US500 cent/P1 plateau; chỉ rerun US500 sau freeze,

@@ -1,0 +1,142 @@
+{
+  "passed": false,
+  "reasons": [
+    "CADENCE_BELOW50_IN_A_YEAR"
+  ],
+  "metrics": {
+    "SYM": {
+      "net_R": 50.23201445213211,
+      "early_R": 19.900780586765833,
+      "late_R": 30.33123386536628,
+      "positive_years": 4,
+      "ex_best_R": 13.03386673071514,
+      "stability_passed": true
+    },
+    "ASYM": {
+      "net_R": 52.38571310653898,
+      "early_R": 20.428200268182803,
+      "late_R": 31.957512838356177,
+      "positive_years": 4,
+      "ex_best_R": 14.232423724069044,
+      "stability_passed": true
+    }
+  },
+  "selected": [
+    "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+    "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0",
+    "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1"
+  ],
+  "K": 3,
+  "components": 16,
+  "source_verified_components": 0,
+  "pricing_complete_cells": 26,
+  "annual": [
+    {
+      "year": 2018,
+      "trades": 43,
+      "models": {
+        "SYM": {
+          "net_R": 9.300617306221628,
+          "daily_MTM_R_DD": 5.178290793451065
+        },
+        "ASYM": {
+          "net_R": 9.205930728173659,
+          "daily_MTM_R_DD": 5.178290793451065
+        }
+      }
+    },
+    {
+      "year": 2019,
+      "trades": 47,
+      "models": {
+        "SYM": {
+          "net_R": -3.3655698407825216,
+          "daily_MTM_R_DD": 7.325031774767634
+        },
+        "ASYM": {
+          "net_R": -3.143335095185445,
+          "daily_MTM_R_DD": 7.3099457977557805
+        }
+      }
+    },
+    {
+      "year": 2020,
+      "trades": 57,
+      "models": {
+        "SYM": {
+          "net_R": 13.965733121326728,
+          "daily_MTM_R_DD": 4.95100354100994
+        },
+        "ASYM": {
+          "net_R": 14.365604635194588,
+          "daily_MTM_R_DD": 4.929110461569815
+        }
+      }
+    },
+    {
+      "year": 2021,
+      "trades": 51,
+      "models": {
+        "SYM": {
+          "net_R": 2.6257893848202114,
+          "daily_MTM_R_DD": 9.878629987117149
+        },
+        "ASYM": {
+          "net_R": 2.8634809111924113,
+          "daily_MTM_R_DD": 9.77136451009926
+        }
+      }
+    },
+    {
+      "year": 2022,
+      "trades": 66,
+      "models": {
+        "SYM": {
+          "net_R": -9.492703240870906,
+          "daily_MTM_R_DD": 11.1608366055803
+        },
+        "ASYM": {
+          "net_R": -9.05925745530617,
+          "daily_MTM_R_DD": 10.774327767993585
+        }
+      }
+    },
+    {
+      "year": 2023,
+      "trades": 76,
+      "models": {
+        "SYM": {
+          "net_R": 37.19814772141697,
+          "daily_MTM_R_DD": 6.167556163380127
+        },
+        "ASYM": {
+          "net_R": 38.153289382469936,
+          "daily_MTM_R_DD": 6.060542568877025
+        }
+      }
+    }
+  ],
+  "pair_correlations": [
+    {
+      "left": "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0",
+      "right": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+      "correlation": -0.034653185297
+    },
+    {
+      "left": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1",
+      "right": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+      "correlation": -0.030180047776
+    },
+    {
+      "left": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1",
+      "right": "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0",
+      "correlation": 0.069138591242
+    }
+  ],
+  "scope": "conditional next-quote scenario; reference risk, not account replay",
+  "validation": "CANCELED_FAILED_DEVELOPMENT",
+  "lifecycle": "NOT_RUN",
+  "actual_account_replayed": false,
+  "clean_OOS": false,
+  "validation_prices_opened": false
+}

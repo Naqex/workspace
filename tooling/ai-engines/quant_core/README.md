@@ -11,6 +11,21 @@ chỉnh 31Dec2021. Giữ rõ ngày có official target times và declared guards
 SYM_FLAT/ASYM_ORDER là hai **giả định** cố định; không biểu phí FTMO live.
 DAY vẫn min holiday/Friday deadline, funding được đếm theo timestamp.
 
+Consumer V13 opt-in `execution_schedule` + `gap_aware_execution` giữ nguyên
+default V1–V12. Nó định giá next-available-open với stop ưu tiên tại open,
+deadline trong giờ nghỉ vàng chờ reopen, holiday guard khóa từ trước và P1
+có hiệu lực bar sau trigger. `source_uncertain`/`evidence` luôn giữ phút nguồn
+chưa xác minh; `valid` chỉ là định giá được theo kịch bản, không chứng nhận
+source path. EURUSD không dùng daily metals break. Không dùng endpoint
+high/low để khớp một lệnh time-close tại open.
+
+`prop_v13_campaign.py` reuse đúng 28 matrices V12, không chạy grid mới;
+`--verify` đối soát mọi valid trade bằng scalar/Decimal auditor không import
+producer accounting. V13 dừng ở Dev cadence: 3 nhánh có reference SYM
++50,232R nhưng 2018/19 chỉ 43/47 tín hiệu. Không có V13 validation/account
+replay. [Báo cáo V13](../../../planning/research/PATH-RESOLUTION-AND-DEDUP-V13-RESULTS-20261115.md)
+giữ scope nguồn, cohort, test-ID parity và các bước không được chạy.
+
 `prop_lifecycle_and_parity` reuse V6 harvester, V7 account và alternate rational
 oracle bằng adapter. Không copy state machine, không sửa các module V1–V8 có
 seal. Tham số fee/risk của lifecycle backend vẫn là fixed scenarios đã kiểm;

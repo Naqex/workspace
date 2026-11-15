@@ -42,8 +42,10 @@ class VectorTests(unittest.TestCase):
         p0, px = np.array([1800000, 1800000]), np.array([1810000, 1790000])
         for model, swaps in (("SYM", [-1.2, -1.2]), ("ASYM", [-1.35, -.15])):
             r = economics("XAUUSD", np.array([1, -1]), p0, px, at, at+HOUR, model)
-            np.testing.assert_allclose(r["gross"], [10, 10])
-            np.testing.assert_allclose(r["funding"], swaps)
+            self.assertEqual(r["gross"].shape, (2,))
+            self.assertEqual(r["funding"].shape, (2,))
+            self.assertTrue(np.allclose(r["gross"], [10, 10], rtol=1e-7, atol=0))
+            self.assertTrue(np.allclose(r["funding"], swaps, rtol=1e-7, atol=0))
             self.assertAlmostEqual(r["net"][0], 10-.4-.0253+swaps[0])
 
     def test_eur_cost_does_not_reuse_gold_commission_or_units(self):
@@ -80,7 +82,9 @@ class VectorTests(unittest.TestCase):
         self.assertTrue(all(not r["ok"][1] for r in rows))
 
     def test_holm_known_example_and_monotonicity(self):
-        np.testing.assert_allclose(holm([.01, .04, .03]), [.03, .06, .06])
+        actual = holm([.01, .04, .03])
+        self.assertEqual(actual.shape, (3,))
+        self.assertTrue(np.allclose(actual, [.03, .06, .06], rtol=1e-7, atol=0))
         with self.assertRaises(ValueError):
             holm([float("nan")])
 
@@ -134,4 +138,4 @@ class VectorTests(unittest.TestCase):
         self.assertGreater(sum(len(r["at"]) for r in prefix), 0)
         for p, f in zip(prefix, full):
             for field in ("at", "side", "stop"):
-                np.testing.assert_array_equal(p[field], f[field][f["at"] < cut])
+                self.assertEqual(p[field].tolist(), f[field][f["at"] < cut].tolist())
