@@ -132,6 +132,13 @@ class V14Tests(unittest.TestCase):
         a.check(1,-2500000)
         self.assertTrue(a.breach["daily"])
 
+    def test_reference_book_skips_stop_larger_than_risk_at_minimum_lot(self):
+        t=dict(asset="XAUUSD",entry_price_units=2000000,stop_units=1800000)
+        a=V14Account(0,10000,"SYM_FLAT",rolling=False)
+        a.action("entry",1,0,[t],None)
+        self.assertFalse(a.accepted)
+        self.assertEqual(a.rejected["LOT_GRID_MIN_MAX"],1)
+
     def test_small_account_replay_and_independent_cash_equity_oracle(self):
         b,m=fixture([(100,101,99,100),(100,104,99,103),(103,105,102,104)])
         m["asset"]="XAUUSD"

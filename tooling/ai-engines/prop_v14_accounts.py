@@ -73,6 +73,14 @@ class V14Account(HarvestAccount):
                     daily=equity<=self.anchor-2500000,overall=equity<=45000000)
 
     def action(self,kind,at,i,trades,quote,mult=0):
+        if kind=="entry" and not self.rolling and self.start<=at<self.end:
+            from prop_portfolio_accounts import quantity_steps
+            try:quantity_steps(trades[i],self.fixed_risk)
+            except ValueError:
+                # A natural stop can exceed the reference risk at minimum lot.
+                # The lifecycle branch already rejects this; never round up.
+                self.rejected["LOT_GRID_MIN_MAX"]+=1
+                return
         if kind=="reset" and self.start<=at<self.end and self.active:
             self.resets_with_open.append(dict(at=int(at),mark_age_ms=int(at-quote["t"]),
                 active=len(self.active),scope="carried last scenario quote, not observed midnight tick"))
