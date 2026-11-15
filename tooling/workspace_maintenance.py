@@ -10,8 +10,10 @@ from pathlib import Path
 import shutil
 import stat
 import tarfile
+import re
 
 CACHES = {"__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache"}
+BUILD_CACHES = {"target","cargo-target","rust-target","api-target","release-target"}
 PROTECTED = {".git", "node_modules", ".venv", "venv", "source-cache"}
 REPARSE = getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 1024)
 
@@ -25,7 +27,7 @@ def inventory(root):
     root = Path(root).resolve(strict=True)
     groups = defaultdict(lambda: dict(bytes=0, files=0, folders=0))
     groups["/"]  # Empty roots still have a valid zero-count health summary.
-    candidates, skipped, errors = [], [], []
+    candidates, build_candidates, skipped, errors = [], [], [], []
     stack = [root]
     while stack:
         folder = stack.pop()
@@ -51,10 +53,13 @@ def inventory(root):
                         stack.append(p)
                         if p.name in CACHES and "vi-dubber" not in rel and ".git" not in rel:
                             candidates.append(str(p))
+                        if p.name in BUILD_CACHES and "vi-dubber" not in rel and ".git" not in rel:
+                            build_candidates.append(str(p))
         except OSError as exc:
             errors.append(dict(path=str(folder), type=type(exc).__name__))
     return dict(root=str(root), groups=dict(sorted(groups.items())),
-                cache_candidates=candidates, skipped_links=skipped, errors=errors)
+                cache_candidates=candidates, build_cache_candidates=build_candidates,
+                skipped_links=skipped, errors=errors)
 
 
 def verified_tree(root, target):
@@ -209,20 +214,106 @@ def maintain(root, *, destination=None, apply_caches=False):
                 caches_applied=apply_caches, backup_copied=False)
 
 
+def market_inventory(roots):
+    """Filename/size metadata only; never decode validation quotes or follow links."""
+    skip = {".git","node_modules",".venv","venv","__pycache__",".pytest_cache",
+            "$recycle.bin","system volume information","program files","program files (x86)",
+            "programdata","windows","steamlibrary","riot games","googledrivecache",
+            "target","cargo-target","rust-target","api-target","release-target"}
+    symbols = re.compile(r"XAUUSD|XAGUSD|EURUSD|GBPUSD|USDJPY|AUDUSD|USDCHF|USDCAD|NZDUSD|"
+                         r"GBPJPY|EURJPY|AUDJPY|BTCUSDT?|ETHUSDT?|US500|SPX500|USA500|"
+                         r"USAIDXUSD|NAS100|US100|USATECHIDXUSD|US30|WTI|BRENT",re.I)
+    data_ext = {".csv",".parquet",".arrow",".feather",".bi5",".hcc",".hc",".hst",
+                ".fxt",".bin",".ticks",".h5",".hdf5",".db",".sqlite",".sqlite3"}
+    files, skipped, errors = [], [], []
+    resolved = sorted({Path(p).resolve(strict=True) for p in roots},key=lambda p:len(p.parts))
+    admitted = []
+    for root in resolved:
+        if not any(root.is_relative_to(parent) for parent in admitted):
+            admitted.append(root)
+    for root in admitted:
+        stack=[root]
+        while stack:
+            folder=stack.pop()
+            try:
+                scan="\\\\?\\"+str(folder) if os.name=="nt" else folder
+                with os.scandir(scan) as entries:
+                    for entry in entries:
+                        path=folder/entry.name
+                        s=entry.stat(follow_symlinks=False)
+                        if entry.is_symlink() or getattr(s,"st_file_attributes",0)&REPARSE:
+                            skipped.append(dict(path=str(path),reason="link"));continue
+                        if entry.is_dir(follow_symlinks=False):
+                            if entry.name.lower() in skip:
+                                skipped.append(dict(path=str(path),reason="non_market_dependency_or_system"))
+                            else:
+                                stack.append(path)
+                            continue
+                        text=str(path)
+                        tokens=sorted(set(m.group().upper() for m in symbols.finditer(text)))
+                        likely=bool(tokens) or any(t in text.lower() for t in
+                            ("ai-engine-jobs","dukascopy","/qdm","\\qdm","market-data","forex-data","source-cache"))
+                        metadata=path.suffix.lower()==".json" and any(
+                            t in entry.name.lower() for t in ("manifest","source-proof","source-admission",
+                                "source-metadata","source-observation-proof","sealed-books"))
+                        if likely and (path.suffix.lower() in data_ext or metadata):
+                            files.append(dict(path=str(path),bytes=s.st_size,mtime_ns=s.st_mtime_ns,
+                                symbols=tokens,kind="manifest_metadata" if metadata else "potential_market_source"))
+            except OSError as exc:
+                errors.append(dict(path=str(folder),error=type(exc).__name__))
+    return dict(roots=list(map(str,admitted)),files=files,skipped=skipped,errors=errors,
+                read_only=True,quote_values_decoded=False,names_are_not_admission=True)
+
+
+def cross_drive_audit(roots, cache_targets=(), *, cache_budget_bytes=120_000_000_000):
+    """Explicit disk health snapshot; alert on cache growth without automatic deletion."""
+    snapshots=[inventory(root) for root in roots]
+    cache=[]
+    targets={Path(p).absolute() for p in cache_targets}
+    targets.update(Path(p).absolute() for census in snapshots for p in census["build_cache_candidates"])
+    selected=[]
+    for path in sorted(targets,key=lambda p:(len(p.parts),str(p))):
+        if not any(path.is_relative_to(parent) for parent in selected):
+            selected.append(path)
+    for target in selected:
+        path=Path(target)
+        if not path.exists():
+            cache.append(dict(path=str(path),exists=False,bytes=0));continue
+        if linked(path):
+            cache.append(dict(path=str(path),exists=True,unknown=True,reason="link"));continue
+        census=inventory(path)
+        cache.append(dict(path=str(path),exists=True,**census["groups"]["/"],errors=census["errors"]))
+    known=sum(r.get("bytes",0) for r in cache)
+    unknown=any(r.get("unknown") or r.get("errors") for r in cache) or any(r["errors"] for r in snapshots)
+    return dict(read_only=True,roots=snapshots,caches=cache,cache_known_bytes=known,
+                cache_budget_bytes=cache_budget_bytes,cache_budget_exceeded=known>=cache_budget_bytes,
+                cache_unknown=unknown,no_future_growth_guarantee=True,automatic_deletion=False,
+                discovered_build_candidates=True,names_are_not_delete_authority=True)
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("action", choices=("inventory", "purge", "backup-plan", "maintain"))
+    p.add_argument("action", choices=("inventory", "purge", "backup-plan", "maintain","cross-drive-audit","market-inventory"))
     p.add_argument("--root", required=True)
     p.add_argument("--output", required=True)
     p.add_argument("--approved-inventory")
     p.add_argument("--destination")
     p.add_argument("--apply-caches", action="store_true")
+    p.add_argument("--other-root",action="append",default=[])
+    p.add_argument("--cache-manifest")
     a = p.parse_args()
     if a.action == "backup-plan" and not a.destination:
         p.error("backup-plan requires --destination")
     if a.action == "purge" and not a.approved_inventory:
         p.error("purge requires --approved-inventory")
-    if a.action == "inventory":
+    if a.action=="cross-drive-audit":
+        targets=[]
+        if a.cache_manifest:
+            targets=[r["path"] for r in json.loads(Path(a.cache_manifest).read_bytes())["candidates"]]
+        result=cross_drive_audit([a.root,*a.other_root],targets)
+    elif a.action=="market-inventory":
+        result=market_inventory([a.root,*a.other_root])
+    elif a.action == "inventory":
         result = inventory(a.root)
     elif a.action == "purge":
         prior = json.loads(Path(a.approved_inventory).read_text())
@@ -234,6 +325,12 @@ def main():
     else:
         result = maintain(a.root, destination=a.destination, apply_caches=a.apply_caches)
     Path(a.output).write_text(json.dumps(result, indent=2), encoding="utf-8")
+    if a.action in ("cross-drive-audit","market-inventory"):
+        print(json.dumps({k:v for k,v in result.items() if k not in
+                          ("roots","files","skipped","errors","caches")}))
+        if a.action=="market-inventory":
+            print(dict(files=len(result["files"]),errors=len(result["errors"])))
+        return
     if a.action == "maintain":
         print(json.dumps(dict(root=result["before"]["root"],
                               before=result["before"]["groups"]["/"],

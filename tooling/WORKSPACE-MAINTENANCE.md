@@ -74,3 +74,36 @@ cho app active, canonical data, pinned evidence hoặc VI WIP.
 V10 dùng Git `repack -a -d --keep-unreachable` với fsck và refs/HEAD trước/sau;
 không `prune=now` trên repository có shared worktrees. Các API explicit không
 là cleanup daemon; người/agent vẫn phải xác minh scope rồi mới gọi mutation.
+
+## V11: manifest được duyệt và health audit D/E
+
+`deep_storage.apply_backup_plan` chỉ nhận manifest đã được owner duyệt,
+SHA256 dự kiến, process references và đường dẫn receipt/journal. Caller phải
+thu thập process audit trước khi gọi. Trước khi xóa,
+kiểm toàn bộ target: containment, không reparse/embedded Git, đúng file set,
+size/mtime và số folder; gặp dữ liệu thị trường hoặc drift thì dừng trước
+mutation. Journal giữ intent/done theo target, hỗ trợ đối soát khi chạy dở.
+Tên thư mục cache tự nó không cấp quyền xóa.
+
+V11 đã dùng API này xóa đúng 17 target trên E trong manifest V10:
+119.790.227.244 logical bytes, 100.287 files, 12.101 folders. Biên nhận và
+snapshot trước/sau nằm trong private job được dẫn ở
+[báo cáo V11](../planning/research/ENSEMBLE-AND-STORAGE-V11-RESULTS-20261115.md).
+Không áp lại manifest đã hoàn thành hoặc mở rộng sang source/research khác.
+
+Theo dõi D/E bằng lệnh đọc, không tự xóa:
+
+```powershell
+python tooling/workspace_maintenance.py cross-drive-audit --root D:/ANNAM/TradingWorkspace --other-root E:/BACKUP-TRADINGWORKSPACE --cache-manifest <approved-manifest.json> --output <private-job>/health.json
+python tooling/workspace_maintenance.py market-inventory --root D:/ANNAM --other-root E:/BACKUP-TRADINGWORKSPACE --output <private-job>/market-inventory.json
+```
+
+Health audit kiểm cả target trong manifest và các thư mục build cache mới
+nhận diện theo tên; không cộng lồng cha/con hai lần. Budget mặc định 120 GB
+(hệ thập phân), `cache_unknown` giữ lỗi quyền đọc; không coi vùng chưa đọc là
+0 byte. Các candidate ngoài manifest vẫn được bảo vệ. Đây là snapshot/cảnh
+báo, không là daemon hoặc cam kết cache không bao giờ tăng lại.
+
+Market inventory chỉ ghi path/size và dấu hiệu metadata; loại OS/apps/games,
+dependencies/build trees, không theo links hoặc phân tích giá. Tên file không
+chứng minh schema, đủ lịch sử hay sạch OOS; nguồn phải qua admission riêng.
