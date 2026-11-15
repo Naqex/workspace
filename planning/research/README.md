@@ -1,5 +1,22 @@
 # Tra cứu research đã có
 
+**V12 — SL-active/F5 đã đo; chưa có ensemble vì path gaps và kinh tế:**
+[Báo cáo bốn phần](SL-ACTIVE-ENSEMBLE-V12-RESULTS-20261115.md) /
+[JSON](SL-ACTIVE-ENSEMBLE-V12-RESULTS-20261115.json) /
+[decision](SL-ACTIVE-ENSEMBLE-V12-DECISION-20261115.json) /
+[protocol](SL-ACTIVE-ENSEMBLE-V12-PROTOCOL-20261115.md) /
+[cent correction](SL-ACTIVE-ENSEMBLE-V12-CENT-CORRECTION-20261115.md).
+PR #90 merged `2175685`, nhánh V11 đã xóa. Branch `codex/sl-active-ensemble-v12`,
+PR mới chờ owner duyệt, không tự merge. 2.888 path cells: 1.264 F1–F4 ×2 modes
+và 120 F5 ×3 modes. 28 available-path dual-positive; 19 chỉ còn path gate,
+chưa chứng minh full expectancy. K=0, không mở giá 2024–2026/lifecycle/payout.
+Scalar Decimal auditor bắt US500 cent/P1 plateau; chỉ rerun US500 sau freeze,
+giữ original attempt và failed oracle. Reference 1 lot chưa actual account.
+1.072 tests giữ 1.048 IDs, 0 skip; smoke 66/0,670s. Storage census/archive
+metadata/duplicate hashes không xóa thêm; GBP/AUD chưa có full M1 mới.
+Không clean OOS hoặc independent person review. Private job
+`execution-v1/sl-active-ensemble-v12-20261115`; đọc report trước source repair.
+
 **V11 — purge 119,79 GB trên E; ensemble 6 nhánh chưa vượt Development:**
 [Báo cáo bốn phần](ENSEMBLE-AND-STORAGE-V11-RESULTS-20261115.md) /
 [JSON](ENSEMBLE-AND-STORAGE-V11-RESULTS-20261115.json) /
@@ -7,8 +24,7 @@
 [protocol](ENSEMBLE-AND-STORAGE-V11-PROTOCOL-20261115.md) /
 [source admission](ENSEMBLE-AND-STORAGE-V11-SOURCE-ADDENDUM-20261115.md) /
 [clock correction](ENSEMBLE-AND-STORAGE-V11-CLOCK-CORRECTION-20261115.md).
-PR #89 merged `3dd35a7`, nhánh V10 đã xóa. Branch `codex/ensemble-and-storage-v11`;
-PR mới chờ owner duyệt, không tự merge. Giữ VI WIP/Trader pin/raw/seals.
+PR #90 merged `2175685`, nhánh V11 đã xóa theo V12. Giữ VI WIP/Trader pin/raw/seals.
 17 target E đã purge đúng manifest: 100.287 files / 12.101 folders.
 Source sweep tìm lại GBP/AUD native H1 và US500 M1, không copy raw.
 1.264 ô → 42 dương hai cụm → 33 component-admitted → 6 medoids bằng risk.

@@ -1,18 +1,50 @@
 # Current context — Naqex Workspace
 
-15/11/2026 · `RESEARCH: V11_ENSEMBLE_NO_GO · SYSTEM: E_PURGE_AND_CROSS_DRIVE_AUDIT_DELIVERED · PROP: UNMEASURED_FOR_V11`.
+15/11/2026 · `RESEARCH: V12_PATH_INCOMPLETE_NO_ENSEMBLE · SYSTEM: SL_ACTIVE_AND_DECIMAL_AUDITOR · PROP: UNMEASURED_FOR_V12`.
 
 ## Việc hiện tại
 
-**V11 đã kiểm xong: 6 nhánh đạt tần suất tổng nhưng chưa đủ ổn định để đi tiếp.**
+**V12 đã quét đủ 2.888 path cells; chưa có ensemble đủ điều kiện Challenge.**
+[Báo cáo bốn phần](research/SL-ACTIVE-ENSEMBLE-V12-RESULTS-20261115.md) /
+[JSON](research/SL-ACTIVE-ENSEMBLE-V12-RESULTS-20261115.json) /
+[decision](research/SL-ACTIVE-ENSEMBLE-V12-DECISION-20261115.json) /
+[protocol](research/SL-ACTIVE-ENSEMBLE-V12-PROTOCOL-20261115.md) /
+[cent correction](research/SL-ACTIVE-ENSEMBLE-V12-CENT-CORRECTION-20261115.md).
+PR #90 merged `2175685`, nhánh V11 đã xóa. Branch `codex/sl-active-ensemble-v12`;
+PR mới chờ owner duyệt, không tự merge. Private job `sl-active-ensemble-v12-20261115`.
+
+1.264 F1–F4 × P0/P1 + 120 F5 × P0/P1/P2 = 2.888 cells. P2 chỉ TP 3R,
+không side/weight/subset search. 28 cells dương hai cụm trên phần có path,
+gồm 20 F1–F4 và 8 F5 EURUSD. 19 trường hợp (13 Gold, 6 EUR) chỉ còn vướng
+path gate; positive available-only không chứng minh toàn bộ expectancy.
+K=0 qualified components; không diễn giải empty ensemble thành return 0.
+Report so V11/P0/P1 trên common cohort, giữ censoring/source limitations.
+
+Kernel full lần đầu 36,91s, toàn pipeline có IO/profiles/write lâu hơn.
+Auditor bắt US500 gross/cent rounding và P1 plateau; giữ failed attempt,
+commit `c88cafb` trước correction outcome. Chỉ rerun US500, reuse bốn asset.
+Auditor không import core accounting; cùng implementer/feed, không independent
+person review. Actual continuous account daily/static vẫn chưa đo.
+1.072 tests giữ đủ 1.048 IDs cũ, 0 skip; smoke 66 tests / 0,670s.
+
+Không mở giá 2024–2026 trong V12, không Challenge/payout/GoldA variant mới.
+Historical validation đã có exposure, không clean OOS. Reference 1 lot chưa
+actual sizing; không nhân R thành payout. Trader pin/VI WIP/frozen attempts giữ.
+Storage chỉ census/archive metadata/bounded duplicate hashes, không xóa thêm.
+Chặng sau cần source-path repair có budget; chưa thêm grid, tăng risk hoặc
+tune để cứu phần dữ liệu còn thiếu.
+
+## V11 đã merge (lịch sử)
+
+**V11: 6 nhánh đạt tần suất tổng nhưng chưa đủ ổn định để đi tiếp.**
 [Báo cáo bốn phần](research/ENSEMBLE-AND-STORAGE-V11-RESULTS-20261115.md) /
 [JSON](research/ENSEMBLE-AND-STORAGE-V11-RESULTS-20261115.json) /
 [decision](research/ENSEMBLE-AND-STORAGE-V11-DECISION-20261115.json) /
 [protocol](research/ENSEMBLE-AND-STORAGE-V11-PROTOCOL-20261115.md) /
 [source admission](research/ENSEMBLE-AND-STORAGE-V11-SOURCE-ADDENDUM-20261115.md) /
 [clock correction](research/ENSEMBLE-AND-STORAGE-V11-CLOCK-CORRECTION-20261115.md).
-PR #89 merged `3dd35a7`, nhánh V10 đã xóa. Branch `codex/ensemble-and-storage-v11`;
-PR V11 chờ owner duyệt, không tự merge. Private job `ensemble-and-storage-v11-20261115`.
+PR #90 merged `2175685`, nhánh `codex/ensemble-and-storage-v11` đã xóa theo V12.
+Private job `ensemble-and-storage-v11-20261115`.
 
 Đã xóa đúng 17 target E theo manifest được duyệt: 119.790.227.244 bytes /
 100.287 files / 12.101 folders. Không raw/research/VI WIP bị xóa. Net snapshot
