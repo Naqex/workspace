@@ -7,6 +7,8 @@ from prop_v6_account import HarvestAccount
 from prop_v6_signals import Calendar
 from prop_v6_paths import scenario, realize
 from prop_v6_replay import clocks
+from prop_v6_campaign import ReferenceAccount
+from prop_v6_measurement import MeasuredHarvest
 from prop_campaign_source import stamp, HOUR, DAY
 from prop_portfolio_sources import BAR
 from test_prop_v5 import trade, quote
@@ -82,6 +84,42 @@ class V6Tests(unittest.TestCase):
             stamp("2025-03-30"), stamp("2025-04-01"), c) if kind == "reset")
         self.assertIn(stamp("2025-03-30T22:00"), events)
         self.assertIn(stamp("2025-03-31T22:00"), events)
+
+    def test_reference_rejects_below_minimum_lot_without_changing_stop_or_risk(self):
+        a = ReferenceAccount(stamp("2025-01-01"), stamp("2027-01-01"), "SYM_FLAT", fixed_risk=125)
+        at = a.start + 8 * HOUR
+        t = trade(at)
+        t["stop_units"] = t["entry_price_units"] - 251617
+        a._trades = [t]
+        a.action("entry", at, 0, [t], quote(at))
+        self.assertFalse(a.accepted)
+        self.assertEqual(a.rejected["LOT_GRID_MIN_MAX"], 1)
+        self.assertEqual(t["stop_units"], t["entry_price_units"] - 251617)
+
+    def test_missing_scheduled_exit_censors_before_future_gain_is_counted(self):
+        a = MeasuredHarvest(stamp("2025-01-01"), stamp("2027-01-01"), "SYM_FLAT",
+                            rolling=True, standalone=True)
+        at = a.start + 8 * HOUR
+        t = dict(trade(at), reason="ENDPOINT_UNKNOWN_OPEN", deadline_msc=at + HOUR)
+        a._trades = [t]
+        a.action("entry", at, 0, [t], quote(at))
+        before = a.balance
+        a.check(at + HOUR, 999999999)
+        a.action("session_flat", at + 2 * HOUR, None, [t], quote(at + 2 * HOUR, gold=4000000))
+        self.assertEqual(a.balance, before)
+        self.assertFalse(a.payouts)
+        self.assertEqual(a.dump()["status"], "DATA_PATH_CENSORED")
+        self.assertLess(a.peak, 51000000)
+
+    def test_unknown_exit_that_was_liquidated_earlier_does_not_censor(self):
+        a = MeasuredHarvest(stamp("2025-01-01"), stamp("2027-01-01"), "SYM_FLAT",
+                            rolling=True, standalone=True)
+        at = a.start + 8 * HOUR
+        t = dict(trade(at), reason="ENDPOINT_UNKNOWN_OPEN", deadline_msc=at + HOUR)
+        a._trades = [t]
+        a.action("entry", at, 0, [t], quote(at))
+        a.liquidate(at + 1, 0, [t], quote(at + 1), "TEST_EARLY")
+        self.assertFalse(a.censor(at + 2 * HOUR))
 
 
 if __name__ == "__main__":

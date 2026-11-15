@@ -1,6 +1,23 @@
 # Tra cứu research đã có
 
-**V5 đã kiểm, No-Go promote; source/exact-bootstrap chưa đủ:**
+**V6 — V4_Harvest đã đánh giá; NOT_QUALIFIED:**
+[Báo cáo](PROP-V4-HARVEST-V6-RESULTS-20261115.md) /
+[JSON](PROP-V4-HARVEST-V6-RESULTS-20261115.json) /
+[freeze](PROP-V4-HARVEST-V6-DECISION-20261115.json) /
+[protocol](PROP-V4-HARVEST-V6-PROTOCOL-20261115.md).
+PR83 merged `5a8dd69`; branch `codex/prop-v4-harvest-v6`.
+Freeze `665ed5b` trước giá holdout. Standalone Jan2022:12 payout mô phỏng,
+trader3.667,64/3.856,49USD qua3năm; riêng2024 không payout.
+EUR2025/2026YTD âm -14,60/-3,51R trên38,29triệu tick; Gold chỉ BidM1/Ask proxy.
+Gold thiếu exit03/07/2026 17:00: censor20–21/36mốc cũ và17/21mốc mới.
+36cũ qua hai vòng7/36 mỗi phí, payout23SYM/21ASYM events, tổng cửa sổ
+chồng lấn6.678,20/6.369,78USD; không cộng thành thu nhập một tài khoản.
+967tests qua runtime matrix,252alternate-accounting cases đạt; không reviewer
+độc lập, không prop qualified. Holdout tới13/10/2026 nay consumed theo quyền V6;
+không tune từ kết quả. Không tự merge PR V6, broker/paid/Astra/subagents.
+Giữ VI WIP/Traderpin, private job `prop-v4-harvest-v6-20261115`.
+
+**V5 đã kiểm (lịch sử), No-Go promote; source/exact-bootstrap chưa đủ:**
 [Báo cáo](PROP-OVERNIGHT-V5-RESULTS-20261115.md) /
 [JSON](PROP-OVERNIGHT-V5-RESULTS-20261115.json) /
 [quyết định](PROP-OVERNIGHT-V5-DECISION-20261115.json) /
