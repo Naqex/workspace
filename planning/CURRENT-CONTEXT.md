@@ -1,10 +1,39 @@
 # Current context — Naqex Workspace
 
-15/11/2026 · `RESEARCH: V15_SIZING_IMPROVES_BUT_TIME_FIT_FAILS · SYSTEM: CONDITIONAL_M1_BRIDGE_MODEL · PROP: NOT_QUALIFIED`.
+16/11/2026 · `RESEARCH: V16_NO_QUALIFIED_BREADTH_ADDITION · SYSTEM: G2_STILL_SOURCE_UNCERTAIN · PROP: NOT_QUALIFIED`.
 
 ## Việc hiện tại
 
-**V15 đã hiệu chỉnh sizing trên Dev; chưa nên mua Challenge.**
+**V16 chưa có nâng cấp đạt zero-gap/time-fit; PR #95 giữ mở.**
+[Báo cáo bốn phần](research/GAP-IMMUNE-MULTIASSET-V16-RESULTS-20261116.md) /
+[JSON](research/GAP-IMMUNE-MULTIASSET-V16-RESULTS-20261116.json) /
+[freeze](research/GAP-IMMUNE-MULTIASSET-V16-FREEZE-20261116.json) /
+[protocol](research/GAP-IMMUNE-MULTIASSET-V16-PROTOCOL-20261116.md).
+PR #94 đã merge `1c6e516`; nhánh V15 đã xóa. V16 đăng ký `d68a5d4`,
+khóa `985df06` trước đo G2 mới trên 2024–13/10/2026 đã exposed giá.
+715 DAY cells: Gold 198, EUR 103, US500 202, GBP/AUD mỗi asset 106;
+0 qualified additions. GBP/AUD thiếu M1 dài hạn; US500 0/202 dương cả hai
+cụm Dev; 18 Gold + 11 EUR qua Stage-0 đều còn gap, đa số thiếu cadence.
+G2 daily flat 20:30 UTC dùng lịch biết trước, không hindsight outage exits.
+494 signals, 0 overnight nhưng 32 source-uncertain trades (Dev 25).
+SYM hai order: primary 71/105, median 47,08 tháng; strict 1/105.
+Strict median 18,95 tháng chỉ của một start 02/2023, không chứng minh nhanh.
+Cả hai vẫn 0/33 recent starts; 0 breach mô hình không là bảo đảm broker.
+G1 thêm 0 M1; 38 native-envelope cases có 0 quote trong phút thiếu;
+zero recorded ticks không chứng minh continuity. Giữ V15 làm research baseline.
+Sửa Gold P1 một ô giá bằng regression; audit scanner 85.387 endpoints/
+7.624 paths; A cash/active levels parity giữ nguyên, không mở grid mới.
+Nén 8 console logs, SHA/restore trước xóa bản dư: 53.155.811 bytes →
+2.657.786 bytes; nguồn/freezes/ledgers/path và packages giữ nguyên.
+Private job `execution-v1/gap-immune-and-multiasset-v16-20261116`.
+1.138 tests/0 skip, giữ đủ 1.126 IDs cũ; full wall 34,01→28,23s.
+Smoke 10/10 <0,80s, max 0,758s. CI exact-head receipts và giới hạn nằm
+trong báo cáo, đối soát bằng artifact tải về sau push. Giữ VI WIP/Trader pin.
+Không broker/deploy/provider downloads/Astra/memory update; không merge PR #95.
+
+## V15 đã merge (lịch sử)
+
+**V15 đã hiệu chỉnh sizing trên Dev; chưa đạt time-fit.**
 [Báo cáo bốn phần](research/BRIDGE-AND-VELOCITY-V15-RESULTS-20261115.md) /
 [JSON](research/BRIDGE-AND-VELOCITY-V15-RESULTS-20261115.json) /
 [freeze](research/BRIDGE-AND-VELOCITY-V15-FREEZE-20261115.json) /
@@ -24,7 +53,7 @@ all-uncertified shared-path stress 133 bars chỉ 0/105 hoàn tất hai vòng.
 47 duplicate targets đã có disposition: archive+restore+SHA rồi xóa 2 copies
 (11.875.972 bytes logic, archives 3.247.516 bytes); 45 package subtrees giữ toàn vẹn.
 Không lặp purge 4 cây V14. Giữ VI WIP/Trader pin, không broker/deploy/Astra.
-PR #94 để review, không merge; receipts/test IDs/CI ở private V15 job được dẫn trong báo cáo.
+PR #94 đã merge trong V16; receipts/test IDs/CI lịch sử giữ tại private V15 job.
 
 ## V14 đã merge (lịch sử)
 

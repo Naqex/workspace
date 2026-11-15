@@ -54,7 +54,7 @@ def net_level(asset, side, p0, natural, entry, when, target):
     for _ in range(16):
         net = money(asset, "SYM", side, p0, level, entry, when, reason)["net"]
         bad = net + 1e-12 < target * natural
-        if asset == "US500":
+        if asset in ("XAUUSD", "US500"):
             previous = money(asset, "SYM", side, p0, level-side, entry, when, reason)["net"]
             lower = ~bad & (previous+1e-12 >= target*natural)
             if not bad.any() and not lower.any():

@@ -351,7 +351,7 @@ def v14_parts(t, quantity, model):
         "carry":{at:int(v*1000) for at,v in legs["carry"]}}
 
 
-def audit_v14_path(t,bars,events,cutoff):
+def audit_v14_path(t,bars,events,cutoff,*,scheduled_override=None):
     """Scalar first passage over the declared four-point M1 ordering."""
     errors=[];times=bars["t"];gold=t["asset"]=="XAUUSD"
     scale=1000 if gold else 100000;contract=100 if gold else 100000
@@ -372,6 +372,7 @@ def audit_v14_path(t,bars,events,cutoff):
     if source_off_kind(scheduled,t["asset"],spec)=="DAILY_BREAK":
         local=datetime.fromtimestamp(scheduled/1000,timezone.utc).astimezone(ZoneInfo("America/New_York"))
         scheduled=int(local.replace(hour=18,minute=0,second=0,microsecond=0).timestamp()*1000)
+    if scheduled_override is not None:scheduled=int(scheduled_override)
     if scheduled!=t["deadline_msc"]:errors.append("DEADLINE")
     endpoint=bisect_left(times,scheduled)
     end=int(times[endpoint]) if endpoint<len(times) else scheduled
@@ -682,3 +683,38 @@ class V15LedgerOracle(V14LedgerOracle):
     def entry(self,i,at,quote):
         if self.e.get("sleeve_id") and self.trades[i]["id"]!=self.e["sleeve_id"]:return
         return super().entry(i,at,quote)
+
+
+def audit_tick_continuity(ticks,first,end,side,stop,proof):
+    """Recorded absence and feed continuity are distinct claims."""
+    if side not in (-1,1) or first>=end:raise ValueError("tick_interval_contract")
+    previous=None;count=0;hit=False
+    for at,bid,ask in ticks:
+        if previous is not None and at<previous or bid<=0 or ask<bid:
+            raise ValueError("tick_order_or_quote_side")
+        previous=at
+        if first<=at<end:
+            count+=1
+            hit|=bid<=stop if side==1 else ask>=stop
+    continuity=(proof.get("complete_interval") and proof.get("unfiltered_quotes") and
+        proof.get("sequence_checked") and proof.get("missing_sequence_count")==0 and
+        proof.get("first",end)<=first and proof.get("end",first)>=end)
+    return dict(recorded_quotes=count,recorded_SL_hit=hit,
+        status="RECORDED_SL_HIT" if hit else "TICK_VERIFIED_NO_SL_IN_DECLARED_FEED" if continuity
+            else "RECORDED_ZERO_TICKS_CONTINUITY_UNKNOWN" if not count else "RECORDED_NO_SL_CONTINUITY_UNKNOWN",
+        declared_feed_continuity=bool(continuity),market_or_broker_guarantee=False)
+
+
+def v16_causal_cutoff(entry,parent_deadline,asset,events):
+    """Separate calendar arithmetic; no producer schedule or future price access."""
+    day=entry//DAY*DAY
+    date=datetime.fromtimestamp(entry/1000,timezone.utc)
+    limit=day+73800000
+    row=events.get(date.date().isoformat(),{})
+    clock=row.get("flat_utc")
+    if clock:
+        h,m=map(int,clock.split(":"));limit=min(limit,day+(h*60+m)*60000)
+    if asset=="US500":
+        local=date.astimezone(ZoneInfo("America/New_York")).replace(hour=16,minute=0,second=0,microsecond=0)
+        limit=min(limit,int(local.timestamp()*1000))
+    return min(parent_deadline,limit)
