@@ -34,36 +34,23 @@ jobs:
           version = next(p['version'] for p in lock['package'] if p['name'] == 'pydantic')
           subprocess.run([sys.executable, '-m', 'pip', 'install', f'pydantic=={version}'], check=True)
           PY
-      - name: Check independent shadow session controls without broker or models
-        working-directory: tooling/ai-engines
-        run: python -m unittest discover -s tests -p 'test_shadow*.py' -v
-      - name: Check frozen EURUSD B0 timing, execution and cost fixtures
-        run: python -m unittest discover -s tooling/ai-engines/tests -p 'test_eurusd_b0.py' -v
-      - name: Check frozen XAUUSD B0 notional fees, timing and risk fixtures
-        run: python -m unittest discover -s tooling/ai-engines/tests -p 'test_xau_intraday_b0.py' -v
-      - name: Check Development scale-horizon censoring and friction diagnostics
-        run: python -m unittest discover -s tooling/ai-engines/tests -p 'test_xau_scale_horizon_audit.py' -v
-      - name: Check H1 Stage-0 signals, bounded sources and overnight costs
-        run: python -m unittest discover -s tooling/ai-engines/tests -p 'test_xau_h1_stage0.py' -v
-      - name: Check H1 clamped execution, directional costs and overlapping equity
-        run: python -m unittest discover -s tooling/ai-engines/tests -p 'test_xau_h1_execution.py' -v
-      - name: Check A holiday calendar, validation fence and continuous prop accounts
-        run: python -m unittest discover -s tooling/ai-engines/tests -p 'test_xau_a_validation.py' -v
-      - name: Check registered exits, shared prop sizing and reward accounting
+      - name: Check Fast CI quant core and all existing campaign CI fixtures
+        env:
+          PYTHONPATH: projects/trader/foundation_v2:tooling/ai-engines:tooling/ai-engines/tests
         run: |
           python -m pip install numpy==2.3.5
-          python -m unittest discover -s tooling/ai-engines/tests -p 'test_prop_campaign.py' -v
-          python -m unittest discover -s tooling/ai-engines/tests -p 'test_prop_atlas_v2.py' -v
-          python -m unittest discover -s tooling/ai-engines/tests -p 'test_prop_portfolio_v3.py' -v
-          python -m unittest discover -s tooling/ai-engines/tests -p 'test_prop_cocore_v4.py' -v
-          python -m unittest discover -s tooling/ai-engines/tests -p 'test_prop_v5.py' -v
-          python -m unittest discover -s tooling/ai-engines/tests -p 'test_prop_v6.py' -v
-          python -m unittest discover -s tooling/ai-engines/tests -p 'test_prop_v7.py' -v
-          python -m unittest discover -s tooling/ai-engines/tests -p 'test_prop_v8.py' -v
-      - name: Check Development funnel and timestamp-only quality audits
+          python tooling/ai-engines/quant_test_suite.py --tier fast --output /tmp/quant-fast.json
+      - name: Check anti-bloat budgets on changed raw artifacts
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: |
-          python -m unittest discover -s tooling/ai-engines/tests -p 'test_eurusd_funnel_audit.py' -v
-          python -m unittest discover -s tooling/ai-engines/tests -p 'test_gold_intraday_quality.py' -v
+          if [ -n "$BASE_SHA" ] && [ "$BASE_SHA" != "0000000000000000000000000000000000000000" ]; then
+            git fetch --depth=1 origin "$BASE_SHA"
+            python tooling/check_anti_bloat.py --base "$BASE_SHA"
+          else
+            python tooling/check_anti_bloat.py --base HEAD
+          fi
+          python -m unittest discover -s tooling/tests -p test_anti_bloat.py -v
   secrets:
     name: Workspace secret scan
     runs-on: ubuntu-latest

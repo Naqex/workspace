@@ -1,6 +1,8 @@
 import copy
 from pathlib import Path
+import shutil
 import tempfile
+from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 
@@ -11,20 +13,37 @@ shadow=revision.shadow
 
 
 class ReconcileTests(unittest.TestCase):
-    def setUp(self):
-        temp=tempfile.TemporaryDirectory();self.addCleanup(temp.cleanup)
-        self.root=Path(temp.name);self.source=self.root/'group/ftmo';self.source.mkdir(parents=True)
-        self.output=self.root/'revision';self.manifest=self.root/'ftmo.json';self.secret=self.root/'secret.json'
-        self.secret.write_text('{"owner_bearer":"fixture-not-printed"}')
-        self.plan=shadow.Plan.model_validate(dict(schema_version='mt5-shadow-session-v2',capture=dict(
+    @classmethod
+    def setUpClass(cls):
+        temp=tempfile.TemporaryDirectory()
+        cls.addClassCleanup(temp.cleanup)
+        cls.capture_fixture=Path(temp.name)/'capture'
+        cls.capture_plan=shadow.Plan.model_validate(dict(schema_version='mt5-shadow-session-v2',capture=dict(
             schema_version='mt5-observed-capture-v1',api_origin='http://127.0.0.1:8010',
             binding=dict(workspace_id='fixture',connection_id='492ec8a5-3938-41a3-8a26-8c0f7f59ed43',
                 generation=1,login='123',server='Fixture',environment='demo'),
             symbol='EURUSD',from_msc=0,to_msc=3600000,page_seconds=60),
             deadline_msc=3690000,source_sha256=shadow.source_pins(),stability_policy='ordered_quotes_v1'))
+        capture.record(cls.capture_plan.capture,cls.capture_fixture,resume=False,
+            fetch=lambda start,end:cls.page(SimpleNamespace(plan=cls.capture_plan),start,end),
+            max_batches=60,now_msc=4000000,
+            comparison_policy=cls.capture_plan.stability_policy)
+        cls.capture_bytes={p.name:p.read_bytes() for p in cls.capture_fixture.glob('*.json')}
+
+    @classmethod
+    def tearDownClass(cls):
+        # Every test gets writable copies; the shared baseline must stay immutable.
+        if cls.capture_bytes!={p.name:p.read_bytes() for p in cls.capture_fixture.glob('*.json')}:
+            raise AssertionError('shared_capture_fixture_changed')
+
+    def setUp(self):
+        temp=tempfile.TemporaryDirectory();self.addCleanup(temp.cleanup)
+        self.root=Path(temp.name);self.source=self.root/'group/ftmo';self.source.mkdir(parents=True)
+        self.output=self.root/'revision';self.manifest=self.root/'ftmo.json';self.secret=self.root/'secret.json'
+        self.secret.write_text('{"owner_bearer":"fixture-not-printed"}')
+        self.plan=self.capture_plan.model_copy(deep=True)
         self.manifest.write_text(self.plan.model_dump_json())
-        capture.record(self.plan.capture,self.source/'capture',resume=False,fetch=self.page,
-            max_batches=60,now_msc=4000000,comparison_policy=self.plan.stability_policy)
+        shutil.copytree(self.capture_fixture,self.source/'capture')
         self.binary=self.root/'shadow.exe';self.binary.write_bytes(b'fixture')
         self.python=self.root/'python.exe';self.python.write_bytes(b'fixture python')
         group=dict(schema_version=revision.group.SCHEMA,
