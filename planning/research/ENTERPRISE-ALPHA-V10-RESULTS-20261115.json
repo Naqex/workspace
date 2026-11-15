@@ -6347,24 +6347,43 @@
       "max_abs_error": 1.1368683772161603e-13,
       "scope": "Independent scalar summation of all annual/cluster raw/admitted R, counts, retention, ranking."
     },
-    "initial_CI_failure": {
-      "run_id": 43676020377,
-      "head": "1c3d9ae67092a58a2a61b934ae353303a032e09f",
-      "platform": "Linux",
-      "passed": false,
-      "tests": 1030,
-      "errors": 1,
-      "failures": 1,
-      "skipped": 3,
-      "receipt_path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\enterprise-alpha-v10-20261115\\ci-attempt1\\quant-full.json",
-      "receipt_sha256": "1fc2bdbf271427eda9e728db421255c7f2977049791d23bfbcaeb44753588b4d",
-      "causes": [
-        "missing httpx dependency",
-        "Windows absolute path assertion on Linux",
-        "3 Windows ownership/sharing tests skipped by original platform decorators"
-      ],
-      "resolution": "Use Windows contracts runner and locked httpx; preserve test assertions, no historical engine edit."
-    }
+    "CI_failures": [
+      {
+        "run_id": 43676020377,
+        "head": "1c3d9ae67092a58a2a61b934ae353303a032e09f",
+        "platform": "Linux",
+        "passed": false,
+        "tests": 1030,
+        "errors": 1,
+        "failures": 1,
+        "skipped": 3,
+        "receipt_path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\enterprise-alpha-v10-20261115\\ci-attempt1\\quant-full.json",
+        "receipt_sha256": "1fc2bdbf271427eda9e728db421255c7f2977049791d23bfbcaeb44753588b4d",
+        "causes": [
+          "missing httpx dependency",
+          "Windows absolute path assertion on Linux",
+          "3 Windows ownership/sharing tests skipped by original platform decorators"
+        ],
+        "resolution": "Use Windows contracts runner and locked httpx; preserve test assertions, no historical engine edit."
+      },
+      {
+        "run_id": 43676365476,
+        "head": "f7a0f17e7c173d75745bda0cad9133b05af0031c",
+        "platform": "Windows",
+        "passed": false,
+        "tests": 1030,
+        "errors": 5,
+        "failures": 2,
+        "skipped": 0,
+        "receipt_path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\enterprise-alpha-v10-20261115\\ci-attempt2\\quant-full.json",
+        "receipt_sha256": "445f95710c3954788f7b606d3cb3f686b2e6b4e2fcfda3714d13be0ed8cd2741",
+        "causes": [
+          "openai missing from isolated worker test dependencies",
+          "default RUNNER~1 temporary path resolves to a different long-path prefix; strict containment/source-selection fixtures reject alias"
+        ],
+        "resolution": "Install openai from TradingAgents lock; create explicit canonical runner.temp/quant-audit via TEMP/TMP. Keep containment guards, assertions and historical code unchanged."
+      }
+    ]
   },
   "decision": {
     "schema": "ENTERPRISE-ALPHA-V10-DECISION-v1",
@@ -6553,6 +6572,14 @@
     "ci-attempt1-summary.json": {
       "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\enterprise-alpha-v10-20261115\\ci-attempt1-summary.json",
       "sha256": "0bdee03c53aad483278d5a367c75746fe5a42bccdf64cf5b5f3a44893220b015"
+    },
+    "ci-attempt2-summary.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\enterprise-alpha-v10-20261115\\ci-attempt2-summary.json",
+      "sha256": "2342683217b1d42ad9ef435df5f0cb90fa9c694ab8ac8dcadd0fb436a8fb3e48"
+    },
+    "oracle-failure-discovery.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\enterprise-alpha-v10-20261115\\oracle-failure-discovery.json",
+      "sha256": "d12f13303f796f3b00c1d49641ef0be71a134101fb1c722a8a8fa076b93a4a25"
     }
   },
   "limitations": [

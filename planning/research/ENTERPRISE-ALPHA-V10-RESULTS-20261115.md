@@ -147,6 +147,9 @@ CI chuyển sang full suite gồm native/statistical/worker, upload test IDs và
 Attempt Linux đầu chạy đủ 1.030 IDs nhưng lỗi thiếu httpx, một assertion đường dẫn Windows
 và 3 skip theo nền tảng. Đã thêm httpx từ lockfile và đặt contracts runner Windows
 để chạy cả process ownership/sharing-race tests; giữ nguyên assertions và frozen code.
+Attempt Windows đầu còn thiếu SDK openai cho fixture429 và TEMP dạng RUNNER~1 bị đổi
+sang long path khi resolve. Đã thêm SDK từ lock và TEMP/TMP canonical riêng cho test;
+không sửa containment guards hoặc source-selection assertions để bỏ qua lỗi.
 Secret scan/UI registry tiếp tục trên Linux. Kết quả CI cuối gắn đúng HEAD trong delivery receipt.
 
 ### Lỗi đã bắt và cách xử lý

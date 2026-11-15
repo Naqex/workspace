@@ -36,16 +36,22 @@ jobs:
           lock = tomllib.loads(Path('projects/trader/foundation_v2/uv.lock').read_text())
           pins = [f"{p['name']}=={p['version']}" for p in lock['package']
                   if p['name'] in ('pydantic', 'httpx')]
+          worker_lock = tomllib.loads(Path('projects/integrations/TradingAgents/uv.lock').read_text())
+          pins += [f"{p['name']}=={p['version']}" for p in worker_lock['package']
+                   if p['name'] == 'openai']
           subprocess.run([sys.executable, '-m', 'pip', 'install', *pins], check=True)
           PY
       - name: Check full quant audit including native and statistical fixtures
         env:
           PYTHONPATH: projects/trader/foundation_v2;tooling/ai-engines;tooling/ai-engines/tests
           QUANT_RECEIPT: ${{ runner.temp }}/quant-full.json
+          TEMP: ${{ runner.temp }}/quant-audit
+          TMP: ${{ runner.temp }}/quant-audit
         run: |
           python - <<'PY'
-          import subprocess, sys, tomllib
+          import os, subprocess, sys, tomllib
           from pathlib import Path
+          Path(os.environ['TEMP']).mkdir(parents=True, exist_ok=True)
           lock = tomllib.loads(Path('projects/trader/foundation_v2/engine_runtime/uv.lock').read_text())
           pins = [f"{p['name']}=={p['version']}" for p in lock['package']
                   if p['name'] in ('nautilus-trader', 'pandas')]
