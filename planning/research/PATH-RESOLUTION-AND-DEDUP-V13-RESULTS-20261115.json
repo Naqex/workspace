@@ -1,0 +1,6585 @@
+{
+  "schema": "V13-results-v1",
+  "decision": {
+    "passed": false,
+    "reasons": [
+      "CADENCE_BELOW50_IN_A_YEAR"
+    ],
+    "metrics": {
+      "SYM": {
+        "net_R": 50.23201445213211,
+        "early_R": 19.900780586765833,
+        "late_R": 30.33123386536628,
+        "positive_years": 4,
+        "ex_best_R": 13.03386673071514,
+        "stability_passed": true
+      },
+      "ASYM": {
+        "net_R": 52.38571310653898,
+        "early_R": 20.428200268182803,
+        "late_R": 31.957512838356177,
+        "positive_years": 4,
+        "ex_best_R": 14.232423724069044,
+        "stability_passed": true
+      }
+    },
+    "selected": [
+      "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+      "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0",
+      "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1"
+    ],
+    "K": 3,
+    "components": 16,
+    "source_verified_components": 0,
+    "pricing_complete_cells": 26,
+    "annual": [
+      {
+        "year": 2018,
+        "trades": 43,
+        "models": {
+          "SYM": {
+            "net_R": 9.300617306221628,
+            "daily_MTM_R_DD": 5.178290793451065
+          },
+          "ASYM": {
+            "net_R": 9.205930728173659,
+            "daily_MTM_R_DD": 5.178290793451065
+          }
+        }
+      },
+      {
+        "year": 2019,
+        "trades": 47,
+        "models": {
+          "SYM": {
+            "net_R": -3.3655698407825216,
+            "daily_MTM_R_DD": 7.325031774767634
+          },
+          "ASYM": {
+            "net_R": -3.143335095185445,
+            "daily_MTM_R_DD": 7.3099457977557805
+          }
+        }
+      },
+      {
+        "year": 2020,
+        "trades": 57,
+        "models": {
+          "SYM": {
+            "net_R": 13.965733121326728,
+            "daily_MTM_R_DD": 4.95100354100994
+          },
+          "ASYM": {
+            "net_R": 14.365604635194588,
+            "daily_MTM_R_DD": 4.929110461569815
+          }
+        }
+      },
+      {
+        "year": 2021,
+        "trades": 51,
+        "models": {
+          "SYM": {
+            "net_R": 2.6257893848202114,
+            "daily_MTM_R_DD": 9.878629987117149
+          },
+          "ASYM": {
+            "net_R": 2.8634809111924113,
+            "daily_MTM_R_DD": 9.77136451009926
+          }
+        }
+      },
+      {
+        "year": 2022,
+        "trades": 66,
+        "models": {
+          "SYM": {
+            "net_R": -9.492703240870906,
+            "daily_MTM_R_DD": 11.1608366055803
+          },
+          "ASYM": {
+            "net_R": -9.05925745530617,
+            "daily_MTM_R_DD": 10.774327767993585
+          }
+        }
+      },
+      {
+        "year": 2023,
+        "trades": 76,
+        "models": {
+          "SYM": {
+            "net_R": 37.19814772141697,
+            "daily_MTM_R_DD": 6.167556163380127
+          },
+          "ASYM": {
+            "net_R": 38.153289382469936,
+            "daily_MTM_R_DD": 6.060542568877025
+          }
+        }
+      }
+    ],
+    "pair_correlations": [
+      {
+        "left": "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0",
+        "right": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "correlation": -0.034653185297
+      },
+      {
+        "left": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1",
+        "right": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "correlation": -0.030180047776
+      },
+      {
+        "left": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1",
+        "right": "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0",
+        "correlation": 0.069138591242
+      }
+    ],
+    "scope": "conditional next-quote scenario; reference risk, not account replay",
+    "validation": "CANCELED_FAILED_DEVELOPMENT",
+    "lifecycle": "NOT_RUN",
+    "actual_account_replayed": false,
+    "clean_OOS": false,
+    "validation_prices_opened": false
+  },
+  "totals": {
+    "cases": 28,
+    "focus_cases": 19,
+    "focus_raw": 2156,
+    "focus_priced": 2156,
+    "old_priced": 2715,
+    "new_priced": 3165,
+    "raw": 3179,
+    "old_unresolved": 464,
+    "scenario_components": 16,
+    "strict_source_verified_components": 0,
+    "unique_crossed_gaps": 467,
+    "unique_missing_minutes_by_kind": {
+      "UNCLASSIFIED_SOURCE_GAP": 434,
+      "DAILY_BREAK": 6900
+    },
+    "gap_classes": {
+      "UNCLASSIFIED_ONLY": 352,
+      "SCHEDULED_PLUS_UNCLASSIFIED": 24,
+      "SCHEDULED_ONLY": 91
+    }
+  },
+  "cases": [
+    {
+      "label": "C01",
+      "id": "XAUUSD|F3:compression=NR:n=14:multiple=2|DAY|P0",
+      "asset": "XAUUSD",
+      "family": "F3",
+      "recipe": "F3:compression=NR:n=14:multiple=2",
+      "horizon": "DAY",
+      "mode": "P0",
+      "annual": [
+        {
+          "year": 2018,
+          "raw": 19,
+          "priced": 19,
+          "admitted": 19,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": -3.162227215487175,
+              "net_R": -3.162227215487175
+            },
+            "ASYM": {
+              "raw_R": -3.162227215487175,
+              "net_R": -3.162227215487175
+            }
+          }
+        },
+        {
+          "year": 2019,
+          "raw": 20,
+          "priced": 20,
+          "admitted": 20,
+          "path_unknown": 5,
+          "models": {
+            "SYM": {
+              "raw_R": -3.2446332534162723,
+              "net_R": -3.2446332534162723
+            },
+            "ASYM": {
+              "raw_R": -3.2446332534162723,
+              "net_R": -3.2446332534162723
+            }
+          }
+        },
+        {
+          "year": 2020,
+          "raw": 20,
+          "priced": 20,
+          "admitted": 20,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": 4.884166883240836,
+              "net_R": 4.884166883240836
+            },
+            "ASYM": {
+              "raw_R": 4.884166883240836,
+              "net_R": 4.884166883240836
+            }
+          }
+        },
+        {
+          "year": 2021,
+          "raw": 14,
+          "priced": 14,
+          "admitted": 14,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": 1.294506527987451,
+              "net_R": 1.294506527987451
+            },
+            "ASYM": {
+              "raw_R": 1.294506527987451,
+              "net_R": 1.294506527987451
+            }
+          }
+        },
+        {
+          "year": 2022,
+          "raw": 16,
+          "priced": 16,
+          "admitted": 16,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": 2.0874738745964576,
+              "net_R": 2.0874738745964576
+            },
+            "ASYM": {
+              "raw_R": 2.0874738745964576,
+              "net_R": 2.0874738745964576
+            }
+          }
+        },
+        {
+          "year": 2023,
+          "raw": 15,
+          "priced": 15,
+          "admitted": 15,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": -0.07165132337736703,
+              "net_R": -0.07165132337736703
+            },
+            "ASYM": {
+              "raw_R": -0.07165132337736703,
+              "net_R": -0.07165132337736703
+            }
+          }
+        }
+      ],
+      "clusters": [
+        {
+          "years": [
+            2018,
+            2019,
+            2020
+          ],
+          "raw": 59,
+          "priced": 59,
+          "admitted": 59,
+          "retention": 1.0,
+          "scale_ratio": 0.061239997575169736,
+          "net": {
+            "SYM": {
+              "raw": -1.5226935856626116,
+              "admitted": -1.5226935856626116
+            },
+            "ASYM": {
+              "raw": -1.5226935856626116,
+              "admitted": -1.5226935856626116
+            }
+          }
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "raw": 45,
+          "priced": 45,
+          "admitted": 45,
+          "retention": 1.0,
+          "scale_ratio": 0.042120589740761175,
+          "net": {
+            "SYM": {
+              "raw": 3.310329079206541,
+              "admitted": 3.310329079206541
+            },
+            "ASYM": {
+              "raw": 3.310329079206541,
+              "admitted": 3.310329079206541
+            }
+          }
+        }
+      ],
+      "economics": {
+        "SYM": {
+          "raw_R": 1.7876354935439294,
+          "net_R": 1.7876354935439294,
+          "mean_R": 0.017188802822537784,
+          "cash_R_DD": 7.172961419117575,
+          "daily_MTM_R_DD": 7.172961419117575
+        },
+        "ASYM": {
+          "raw_R": 1.7876354935439294,
+          "net_R": 1.7876354935439294,
+          "mean_R": 0.017188802822537784,
+          "cash_R_DD": 7.172961419117575,
+          "daily_MTM_R_DD": 7.172961419117575
+        }
+      },
+      "raw": 104,
+      "priced": 104,
+      "admitted": 104,
+      "path_unknown": 10,
+      "reasons": [
+        "2018:ECONOMIC",
+        "MEAN_BELOW004"
+      ],
+      "admitted_component": false,
+      "dual_positive": false,
+      "exits": {
+        "HORIZON": 97,
+        "SL": 7
+      },
+      "complete_path": true,
+      "source_cell": 140,
+      "old_priced": 94,
+      "old_reasons": [
+        "PATH_OR_ENDPOINT_INCOMPLETE"
+      ],
+      "only_path_before": true,
+      "source_uncertain": 10,
+      "source_uncertain_admitted": 10,
+      "source_verified_component": false,
+      "execution_scenario": "V13_NEXT_QUOTE",
+      "deferred_endpoint_events": [],
+      "open_stop_events": [],
+      "original_block_minutes": {
+        "UNCLASSIFIED_SOURCE_GAP": 24
+      },
+      "original_gap_count": 20,
+      "remaining_invalid_events": []
+    },
+    {
+      "label": "C02",
+      "id": "XAUUSD|F3:compression=NR:n=14:multiple=2|DAY|P1",
+      "asset": "XAUUSD",
+      "family": "F3",
+      "recipe": "F3:compression=NR:n=14:multiple=2",
+      "horizon": "DAY",
+      "mode": "P1",
+      "annual": [
+        {
+          "year": 2018,
+          "raw": 19,
+          "priced": 19,
+          "admitted": 19,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": -3.162227215487175,
+              "net_R": -3.162227215487175
+            },
+            "ASYM": {
+              "raw_R": -3.162227215487175,
+              "net_R": -3.162227215487175
+            }
+          }
+        },
+        {
+          "year": 2019,
+          "raw": 20,
+          "priced": 20,
+          "admitted": 20,
+          "path_unknown": 5,
+          "models": {
+            "SYM": {
+              "raw_R": -3.2446332534162723,
+              "net_R": -3.2446332534162723
+            },
+            "ASYM": {
+              "raw_R": -3.2446332534162723,
+              "net_R": -3.2446332534162723
+            }
+          }
+        },
+        {
+          "year": 2020,
+          "raw": 20,
+          "priced": 20,
+          "admitted": 20,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": 4.884166883240836,
+              "net_R": 4.884166883240836
+            },
+            "ASYM": {
+              "raw_R": 4.884166883240836,
+              "net_R": 4.884166883240836
+            }
+          }
+        },
+        {
+          "year": 2021,
+          "raw": 14,
+          "priced": 14,
+          "admitted": 14,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": 1.294506527987451,
+              "net_R": 1.294506527987451
+            },
+            "ASYM": {
+              "raw_R": 1.294506527987451,
+              "net_R": 1.294506527987451
+            }
+          }
+        },
+        {
+          "year": 2022,
+          "raw": 16,
+          "priced": 16,
+          "admitted": 16,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": 2.0874738745964576,
+              "net_R": 2.0874738745964576
+            },
+            "ASYM": {
+              "raw_R": 2.0874738745964576,
+              "net_R": 2.0874738745964576
+            }
+          }
+        },
+        {
+          "year": 2023,
+          "raw": 15,
+          "priced": 15,
+          "admitted": 15,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": -0.07165132337736703,
+              "net_R": -0.07165132337736703
+            },
+            "ASYM": {
+              "raw_R": -0.07165132337736703,
+              "net_R": -0.07165132337736703
+            }
+          }
+        }
+      ],
+      "clusters": [
+        {
+          "years": [
+            2018,
+            2019,
+            2020
+          ],
+          "raw": 59,
+          "priced": 59,
+          "admitted": 59,
+          "retention": 1.0,
+          "scale_ratio": 0.061239997575169736,
+          "net": {
+            "SYM": {
+              "raw": -1.5226935856626116,
+              "admitted": -1.5226935856626116
+            },
+            "ASYM": {
+              "raw": -1.5226935856626116,
+              "admitted": -1.5226935856626116
+            }
+          }
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "raw": 45,
+          "priced": 45,
+          "admitted": 45,
+          "retention": 1.0,
+          "scale_ratio": 0.042120589740761175,
+          "net": {
+            "SYM": {
+              "raw": 3.310329079206541,
+              "admitted": 3.310329079206541
+            },
+            "ASYM": {
+              "raw": 3.310329079206541,
+              "admitted": 3.310329079206541
+            }
+          }
+        }
+      ],
+      "economics": {
+        "SYM": {
+          "raw_R": 1.7876354935439294,
+          "net_R": 1.7876354935439294,
+          "mean_R": 0.017188802822537784,
+          "cash_R_DD": 7.172961419117575,
+          "daily_MTM_R_DD": 7.172961419117575
+        },
+        "ASYM": {
+          "raw_R": 1.7876354935439294,
+          "net_R": 1.7876354935439294,
+          "mean_R": 0.017188802822537784,
+          "cash_R_DD": 7.172961419117575,
+          "daily_MTM_R_DD": 7.172961419117575
+        }
+      },
+      "raw": 104,
+      "priced": 104,
+      "admitted": 104,
+      "path_unknown": 10,
+      "reasons": [
+        "2018:ECONOMIC",
+        "MEAN_BELOW004"
+      ],
+      "admitted_component": false,
+      "dual_positive": false,
+      "exits": {
+        "HORIZON": 97,
+        "SL": 7
+      },
+      "complete_path": true,
+      "source_cell": 140,
+      "old_priced": 94,
+      "old_reasons": [
+        "PATH_OR_ENDPOINT_INCOMPLETE"
+      ],
+      "only_path_before": true,
+      "source_uncertain": 10,
+      "source_uncertain_admitted": 10,
+      "source_verified_component": false,
+      "execution_scenario": "V13_NEXT_QUOTE",
+      "deferred_endpoint_events": [],
+      "open_stop_events": [],
+      "original_block_minutes": {
+        "UNCLASSIFIED_SOURCE_GAP": 24
+      },
+      "original_gap_count": 20,
+      "remaining_invalid_events": []
+    },
+    {
+      "label": "C03",
+      "id": "XAUUSD|F3:compression=NR:n=14:multiple=2|48H|P0",
+      "asset": "XAUUSD",
+      "family": "F3",
+      "recipe": "F3:compression=NR:n=14:multiple=2",
+      "horizon": "48H",
+      "mode": "P0",
+      "annual": [
+        {
+          "year": 2018,
+          "raw": 19,
+          "priced": 19,
+          "admitted": 19,
+          "path_unknown": 6,
+          "models": {
+            "SYM": {
+              "raw_R": -2.4093174578984953,
+              "net_R": -2.4093174578984953
+            },
+            "ASYM": {
+              "raw_R": -2.0175795716863436,
+              "net_R": -2.0175795716863436
+            }
+          }
+        },
+        {
+          "year": 2019,
+          "raw": 20,
+          "priced": 20,
+          "admitted": 20,
+          "path_unknown": 16,
+          "models": {
+            "SYM": {
+              "raw_R": -8.24516037493755,
+              "net_R": -8.24516037493755
+            },
+            "ASYM": {
+              "raw_R": -7.418281797763128,
+              "net_R": -7.418281797763128
+            }
+          }
+        },
+        {
+          "year": 2020,
+          "raw": 20,
+          "priced": 20,
+          "admitted": 20,
+          "path_unknown": 5,
+          "models": {
+            "SYM": {
+              "raw_R": 3.3663817573369195,
+              "net_R": 3.3663817573369195
+            },
+            "ASYM": {
+              "raw_R": 3.848722077491311,
+              "net_R": 3.848722077491311
+            }
+          }
+        },
+        {
+          "year": 2021,
+          "raw": 14,
+          "priced": 14,
+          "admitted": 14,
+          "path_unknown": 3,
+          "models": {
+            "SYM": {
+              "raw_R": -0.7019566084760607,
+              "net_R": -0.7019566084760607
+            },
+            "ASYM": {
+              "raw_R": -0.4144443763424748,
+              "net_R": -0.4144443763424748
+            }
+          }
+        },
+        {
+          "year": 2022,
+          "raw": 16,
+          "priced": 16,
+          "admitted": 16,
+          "path_unknown": 4,
+          "models": {
+            "SYM": {
+              "raw_R": 3.5852587499672373,
+              "net_R": 3.5852587499672373
+            },
+            "ASYM": {
+              "raw_R": 4.0181331344333175,
+              "net_R": 4.0181331344333175
+            }
+          }
+        },
+        {
+          "year": 2023,
+          "raw": 15,
+          "priced": 15,
+          "admitted": 15,
+          "path_unknown": 5,
+          "models": {
+            "SYM": {
+              "raw_R": -0.11610515659555243,
+              "net_R": -0.11610515659555243
+            },
+            "ASYM": {
+              "raw_R": 0.2069590683389595,
+              "net_R": 0.2069590683389595
+            }
+          }
+        }
+      ],
+      "clusters": [
+        {
+          "years": [
+            2018,
+            2019,
+            2020
+          ],
+          "raw": 59,
+          "priced": 59,
+          "admitted": 59,
+          "retention": 1.0,
+          "scale_ratio": 0.061239997575169736,
+          "net": {
+            "SYM": {
+              "raw": -7.288096075499128,
+              "admitted": -7.288096075499128
+            },
+            "ASYM": {
+              "raw": -5.5871392919581595,
+              "admitted": -5.5871392919581595
+            }
+          }
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "raw": 45,
+          "priced": 45,
+          "admitted": 45,
+          "retention": 1.0,
+          "scale_ratio": 0.042120589740761175,
+          "net": {
+            "SYM": {
+              "raw": 2.767196984895625,
+              "admitted": 2.767196984895625
+            },
+            "ASYM": {
+              "raw": 3.810647826429802,
+              "admitted": 3.810647826429802
+            }
+          }
+        }
+      ],
+      "economics": {
+        "SYM": {
+          "raw_R": -4.520899090603503,
+          "net_R": -4.520899090603503,
+          "mean_R": -0.043470183563495225,
+          "cash_R_DD": 17.048238325551175,
+          "daily_MTM_R_DD": 17.04823832555118
+        },
+        "ASYM": {
+          "raw_R": -1.776491465528359,
+          "net_R": -1.776491465528359,
+          "mean_R": -0.017081648707003454,
+          "cash_R_DD": 15.675954156870912,
+          "daily_MTM_R_DD": 15.675954156870908
+        }
+      },
+      "raw": 104,
+      "priced": 104,
+      "admitted": 104,
+      "path_unknown": 39,
+      "reasons": [
+        "2018:ECONOMIC",
+        "MEAN_BELOW004"
+      ],
+      "admitted_component": false,
+      "dual_positive": false,
+      "exits": {
+        "HORIZON": 74,
+        "SL": 30
+      },
+      "complete_path": true,
+      "source_cell": 142,
+      "old_priced": 65,
+      "old_reasons": [
+        "PATH_OR_ENDPOINT_INCOMPLETE"
+      ],
+      "only_path_before": true,
+      "source_uncertain": 39,
+      "source_uncertain_admitted": 39,
+      "source_verified_component": false,
+      "execution_scenario": "V13_NEXT_QUOTE",
+      "deferred_endpoint_events": [
+        26
+      ],
+      "open_stop_events": [
+        4
+      ],
+      "original_block_minutes": {
+        "UNCLASSIFIED_SOURCE_GAP": 176,
+        "DAILY_BREAK": 3720
+      },
+      "original_gap_count": 192,
+      "remaining_invalid_events": []
+    },
+    {
+      "label": "C04",
+      "id": "XAUUSD|F3:compression=NR:n=14:multiple=2|48H|P1",
+      "asset": "XAUUSD",
+      "family": "F3",
+      "recipe": "F3:compression=NR:n=14:multiple=2",
+      "horizon": "48H",
+      "mode": "P1",
+      "annual": [
+        {
+          "year": 2018,
+          "raw": 19,
+          "priced": 19,
+          "admitted": 19,
+          "path_unknown": 6,
+          "models": {
+            "SYM": {
+              "raw_R": -2.2321689690680153,
+              "net_R": -2.2321689690680153
+            },
+            "ASYM": {
+              "raw_R": -1.8404310828558634,
+              "net_R": -1.8404310828558634
+            }
+          }
+        },
+        {
+          "year": 2019,
+          "raw": 20,
+          "priced": 20,
+          "admitted": 20,
+          "path_unknown": 16,
+          "models": {
+            "SYM": {
+              "raw_R": -8.24516037493755,
+              "net_R": -8.24516037493755
+            },
+            "ASYM": {
+              "raw_R": -7.418281797763128,
+              "net_R": -7.418281797763128
+            }
+          }
+        },
+        {
+          "year": 2020,
+          "raw": 20,
+          "priced": 20,
+          "admitted": 20,
+          "path_unknown": 5,
+          "models": {
+            "SYM": {
+              "raw_R": 3.3663817573369195,
+              "net_R": 3.3663817573369195
+            },
+            "ASYM": {
+              "raw_R": 3.848722077491311,
+              "net_R": 3.848722077491311
+            }
+          }
+        },
+        {
+          "year": 2021,
+          "raw": 14,
+          "priced": 14,
+          "admitted": 14,
+          "path_unknown": 3,
+          "models": {
+            "SYM": {
+              "raw_R": 1.7819272040226344,
+              "net_R": 1.7819272040226344
+            },
+            "ASYM": {
+              "raw_R": 1.988663991891277,
+              "net_R": 1.988663991891277
+            }
+          }
+        },
+        {
+          "year": 2022,
+          "raw": 16,
+          "priced": 16,
+          "admitted": 16,
+          "path_unknown": 4,
+          "models": {
+            "SYM": {
+              "raw_R": 3.2957572721347246,
+              "net_R": 3.2957572721347246
+            },
+            "ASYM": {
+              "raw_R": 3.728631656600805,
+              "net_R": 3.728631656600805
+            }
+          }
+        },
+        {
+          "year": 2023,
+          "raw": 15,
+          "priced": 15,
+          "admitted": 15,
+          "path_unknown": 5,
+          "models": {
+            "SYM": {
+              "raw_R": -0.11610515659555243,
+              "net_R": -0.11610515659555243
+            },
+            "ASYM": {
+              "raw_R": 0.2069590683389595,
+              "net_R": 0.2069590683389595
+            }
+          }
+        }
+      ],
+      "clusters": [
+        {
+          "years": [
+            2018,
+            2019,
+            2020
+          ],
+          "raw": 59,
+          "priced": 59,
+          "admitted": 59,
+          "retention": 1.0,
+          "scale_ratio": 0.061239997575169736,
+          "net": {
+            "SYM": {
+              "raw": -7.110947586668646,
+              "admitted": -7.110947586668646
+            },
+            "ASYM": {
+              "raw": -5.409990803127679,
+              "admitted": -5.409990803127679
+            }
+          }
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "raw": 45,
+          "priced": 45,
+          "admitted": 45,
+          "retention": 1.0,
+          "scale_ratio": 0.042120589740761175,
+          "net": {
+            "SYM": {
+              "raw": 4.961579319561807,
+              "admitted": 4.961579319561807
+            },
+            "ASYM": {
+              "raw": 5.92425471683104,
+              "admitted": 5.92425471683104
+            }
+          }
+        }
+      ],
+      "economics": {
+        "SYM": {
+          "raw_R": -2.149368267106839,
+          "net_R": -2.149368267106839,
+          "mean_R": -0.020667002568334987,
+          "cash_R_DD": 16.871089836720696,
+          "daily_MTM_R_DD": 16.871089836720696
+        },
+        "ASYM": {
+          "raw_R": 0.5142639137033616,
+          "net_R": 0.5142639137033616,
+          "mean_R": 0.004944845324070784,
+          "cash_R_DD": 15.498805668040433,
+          "daily_MTM_R_DD": 15.49880566804043
+        }
+      },
+      "raw": 104,
+      "priced": 104,
+      "admitted": 104,
+      "path_unknown": 39,
+      "reasons": [
+        "2018:ECONOMIC",
+        "MEAN_BELOW004"
+      ],
+      "admitted_component": false,
+      "dual_positive": false,
+      "exits": {
+        "HORIZON": 72,
+        "SL": 28,
+        "PROTECT": 4
+      },
+      "complete_path": true,
+      "source_cell": 142,
+      "old_priced": 65,
+      "old_reasons": [
+        "PATH_OR_ENDPOINT_INCOMPLETE"
+      ],
+      "only_path_before": true,
+      "source_uncertain": 39,
+      "source_uncertain_admitted": 39,
+      "source_verified_component": false,
+      "execution_scenario": "V13_NEXT_QUOTE",
+      "deferred_endpoint_events": [
+        26
+      ],
+      "open_stop_events": [
+        4
+      ],
+      "original_block_minutes": {
+        "UNCLASSIFIED_SOURCE_GAP": 176,
+        "DAILY_BREAK": 3660
+      },
+      "original_gap_count": 191,
+      "remaining_invalid_events": []
+    },
+    {
+      "label": "C05",
+      "id": "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0",
+      "asset": "XAUUSD",
+      "family": "F3",
+      "recipe": "F3:compression=BB:n=60:quantile=0.1:multiple=1",
+      "horizon": "48H",
+      "mode": "P0",
+      "annual": [
+        {
+          "year": 2018,
+          "raw": 12,
+          "priced": 12,
+          "admitted": 3,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": -0.18179811048475175,
+              "net_R": -1.4392063518433431
+            },
+            "ASYM": {
+              "raw_R": 0.8808028280138955,
+              "net_R": -1.506240642973541
+            }
+          }
+        },
+        {
+          "year": 2019,
+          "raw": 12,
+          "priced": 12,
+          "admitted": 10,
+          "path_unknown": 3,
+          "models": {
+            "SYM": {
+              "raw_R": -0.9277481476015133,
+              "net_R": -2.741491620338925
+            },
+            "ASYM": {
+              "raw_R": -0.8639853098454289,
+              "net_R": -2.657796552166258
+            }
+          }
+        },
+        {
+          "year": 2020,
+          "raw": 13,
+          "priced": 13,
+          "admitted": 13,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": 6.7670976182387435,
+              "net_R": 6.7670976182387435
+            },
+            "ASYM": {
+              "raw_R": 7.139072639447223,
+              "net_R": 7.139072639447223
+            }
+          }
+        },
+        {
+          "year": 2021,
+          "raw": 10,
+          "priced": 10,
+          "admitted": 10,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": 1.2767296680129971,
+              "net_R": 1.2767296680129971
+            },
+            "ASYM": {
+              "raw_R": 1.3833968479208967,
+              "net_R": 1.3833968479208967
+            }
+          }
+        },
+        {
+          "year": 2022,
+          "raw": 12,
+          "priced": 12,
+          "admitted": 12,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": -6.173494290734375,
+              "net_R": -6.173494290734375
+            },
+            "ASYM": {
+              "raw_R": -6.009387702251694,
+              "net_R": -6.009387702251694
+            }
+          }
+        },
+        {
+          "year": 2023,
+          "raw": 15,
+          "priced": 15,
+          "admitted": 15,
+          "path_unknown": 5,
+          "models": {
+            "SYM": {
+              "raw_R": 14.344534909474037,
+              "net_R": 14.344534909474037
+            },
+            "ASYM": {
+              "raw_R": 15.060395850202744,
+              "net_R": 15.060395850202744
+            }
+          }
+        }
+      ],
+      "clusters": [
+        {
+          "years": [
+            2018,
+            2019,
+            2020
+          ],
+          "raw": 37,
+          "priced": 37,
+          "admitted": 26,
+          "retention": 0.7027027027027027,
+          "scale_ratio": 0.11464507889963725,
+          "net": {
+            "SYM": {
+              "raw": 5.657551360152478,
+              "admitted": 2.5863996460564747
+            },
+            "ASYM": {
+              "raw": 7.155890157615689,
+              "admitted": 2.975035444307425
+            }
+          }
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "raw": 37,
+          "priced": 37,
+          "admitted": 37,
+          "retention": 1.0,
+          "scale_ratio": 0.08714977430397079,
+          "net": {
+            "SYM": {
+              "raw": 9.447770286752656,
+              "admitted": 9.447770286752656
+            },
+            "ASYM": {
+              "raw": 10.434404995871942,
+              "admitted": 10.434404995871942
+            }
+          }
+        }
+      ],
+      "economics": {
+        "SYM": {
+          "raw_R": 15.105321646905136,
+          "net_R": 12.03416993280913,
+          "mean_R": 0.19101857036204967,
+          "cash_R_DD": 11.50950127820157,
+          "daily_MTM_R_DD": 11.50950127820157
+        },
+        "ASYM": {
+          "raw_R": 17.59029515348763,
+          "net_R": 13.409440440179369,
+          "mean_R": 0.21284826095522807,
+          "cash_R_DD": 11.346316694299773,
+          "daily_MTM_R_DD": 11.346316694299773
+        }
+      },
+      "raw": 74,
+      "priced": 74,
+      "admitted": 63,
+      "path_unknown": 13,
+      "reasons": [],
+      "admitted_component": true,
+      "dual_positive": true,
+      "exits": {
+        "HORIZON": 33,
+        "SL": 30
+      },
+      "complete_path": true,
+      "source_cell": 146,
+      "old_priced": 61,
+      "old_reasons": [
+        "PATH_OR_ENDPOINT_INCOMPLETE"
+      ],
+      "only_path_before": true,
+      "source_uncertain": 13,
+      "source_uncertain_admitted": 11,
+      "source_verified_component": false,
+      "execution_scenario": "V13_NEXT_QUOTE",
+      "deferred_endpoint_events": [],
+      "open_stop_events": [],
+      "original_block_minutes": {
+        "DAILY_BREAK": 1140,
+        "UNCLASSIFIED_SOURCE_GAP": 47
+      },
+      "original_gap_count": 61,
+      "remaining_invalid_events": []
+    },
+    {
+      "label": "C06",
+      "id": "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P1",
+      "asset": "XAUUSD",
+      "family": "F3",
+      "recipe": "F3:compression=BB:n=60:quantile=0.1:multiple=1",
+      "horizon": "48H",
+      "mode": "P1",
+      "annual": [
+        {
+          "year": 2018,
+          "raw": 12,
+          "priced": 12,
+          "admitted": 3,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": -1.2014517395954751,
+              "net_R": -2.4588599809540668
+            },
+            "ASYM": {
+              "raw_R": -0.13885080109682885,
+              "net_R": -2.5258942720842645
+            }
+          }
+        },
+        {
+          "year": 2019,
+          "raw": 12,
+          "priced": 12,
+          "admitted": 10,
+          "path_unknown": 3,
+          "models": {
+            "SYM": {
+              "raw_R": -1.4376544876591735,
+              "net_R": -3.2513979603965852
+            },
+            "ASYM": {
+              "raw_R": -1.3738916499030895,
+              "net_R": -3.167702892223918
+            }
+          }
+        },
+        {
+          "year": 2020,
+          "raw": 13,
+          "priced": 13,
+          "admitted": 13,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": 6.7670976182387435,
+              "net_R": 6.7670976182387435
+            },
+            "ASYM": {
+              "raw_R": 7.139072639447223,
+              "net_R": 7.139072639447223
+            }
+          }
+        },
+        {
+          "year": 2021,
+          "raw": 10,
+          "priced": 10,
+          "admitted": 10,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": 2.668778351368954,
+              "net_R": 2.668778351368954
+            },
+            "ASYM": {
+              "raw_R": 2.7899298881714074,
+              "net_R": 2.7899298881714074
+            }
+          }
+        },
+        {
+          "year": 2022,
+          "raw": 12,
+          "priced": 12,
+          "admitted": 12,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": -3.6378524282553117,
+              "net_R": -3.6378524282553117
+            },
+            "ASYM": {
+              "raw_R": -3.473745839772631,
+              "net_R": -3.473745839772631
+            }
+          }
+        },
+        {
+          "year": 2023,
+          "raw": 15,
+          "priced": 15,
+          "admitted": 15,
+          "path_unknown": 5,
+          "models": {
+            "SYM": {
+              "raw_R": 11.410885748672756,
+              "net_R": 11.410885748672756
+            },
+            "ASYM": {
+              "raw_R": 12.140282152314294,
+              "net_R": 12.140282152314294
+            }
+          }
+        }
+      ],
+      "clusters": [
+        {
+          "years": [
+            2018,
+            2019,
+            2020
+          ],
+          "raw": 37,
+          "priced": 37,
+          "admitted": 26,
+          "retention": 0.7027027027027027,
+          "scale_ratio": 0.11464507889963725,
+          "net": {
+            "SYM": {
+              "raw": 4.127991390984095,
+              "admitted": 1.0568396768880919
+            },
+            "ASYM": {
+              "raw": 5.626330188447305,
+              "admitted": 1.4454754751390428
+            }
+          }
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "raw": 37,
+          "priced": 37,
+          "admitted": 37,
+          "retention": 1.0,
+          "scale_ratio": 0.08714977430397079,
+          "net": {
+            "SYM": {
+              "raw": 10.441811671786397,
+              "admitted": 10.441811671786397
+            },
+            "ASYM": {
+              "raw": 11.456466200713068,
+              "admitted": 11.456466200713068
+            }
+          }
+        }
+      ],
+      "economics": {
+        "SYM": {
+          "raw_R": 14.569803062770493,
+          "net_R": 11.498651348674489,
+          "mean_R": 0.18251827537578555,
+          "cash_R_DD": 8.973859415722508,
+          "daily_MTM_R_DD": 8.973859415722508
+        },
+        "ASYM": {
+          "raw_R": 17.082796389160375,
+          "net_R": 12.901941675852113,
+          "mean_R": 0.2047927250135256,
+          "cash_R_DD": 8.81067483182071,
+          "daily_MTM_R_DD": 8.81067483182071
+        }
+      },
+      "raw": 74,
+      "priced": 74,
+      "admitted": 63,
+      "path_unknown": 13,
+      "reasons": [],
+      "admitted_component": true,
+      "dual_positive": true,
+      "exits": {
+        "PROTECT": 8,
+        "SL": 27,
+        "HORIZON": 28
+      },
+      "complete_path": true,
+      "source_cell": 146,
+      "old_priced": 61,
+      "old_reasons": [
+        "PATH_OR_ENDPOINT_INCOMPLETE"
+      ],
+      "only_path_before": true,
+      "source_uncertain": 13,
+      "source_uncertain_admitted": 11,
+      "source_verified_component": false,
+      "execution_scenario": "V13_NEXT_QUOTE",
+      "deferred_endpoint_events": [],
+      "open_stop_events": [],
+      "original_block_minutes": {
+        "DAILY_BREAK": 1140,
+        "UNCLASSIFIED_SOURCE_GAP": 47
+      },
+      "original_gap_count": 61,
+      "remaining_invalid_events": []
+    },
+    {
+      "label": "C07",
+      "id": "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=2|48H|P1",
+      "asset": "XAUUSD",
+      "family": "F3",
+      "recipe": "F3:compression=BB:n=60:quantile=0.1:multiple=2",
+      "horizon": "48H",
+      "mode": "P1",
+      "annual": [
+        {
+          "year": 2018,
+          "raw": 12,
+          "priced": 12,
+          "admitted": 12,
+          "path_unknown": 3,
+          "models": {
+            "SYM": {
+              "raw_R": 1.474606170474353,
+              "net_R": 1.474606170474353
+            },
+            "ASYM": {
+              "raw_R": 2.002860633181334,
+              "net_R": 2.002860633181334
+            }
+          }
+        },
+        {
+          "year": 2019,
+          "raw": 12,
+          "priced": 12,
+          "admitted": 12,
+          "path_unknown": 4,
+          "models": {
+            "SYM": {
+              "raw_R": -1.228757842054394,
+              "net_R": -1.228757842054394
+            },
+            "ASYM": {
+              "raw_R": -1.1919726370817014,
+              "net_R": -1.1919726370817014
+            }
+          }
+        },
+        {
+          "year": 2020,
+          "raw": 13,
+          "priced": 13,
+          "admitted": 13,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": 3.019807392475509,
+              "net_R": 3.019807392475509
+            },
+            "ASYM": {
+              "raw_R": 3.228177977819651,
+              "net_R": 3.228177977819651
+            }
+          }
+        },
+        {
+          "year": 2021,
+          "raw": 10,
+          "priced": 10,
+          "admitted": 10,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": -0.9404976981171523,
+              "net_R": -0.9404976981171523
+            },
+            "ASYM": {
+              "raw_R": -0.890505129508561,
+              "net_R": -0.890505129508561
+            }
+          }
+        },
+        {
+          "year": 2022,
+          "raw": 12,
+          "priced": 12,
+          "admitted": 12,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": -4.7338776703121335,
+              "net_R": -4.7338776703121335
+            },
+            "ASYM": {
+              "raw_R": -4.562268193526027,
+              "net_R": -4.562268193526027
+            }
+          }
+        },
+        {
+          "year": 2023,
+          "raw": 15,
+          "priced": 15,
+          "admitted": 15,
+          "path_unknown": 5,
+          "models": {
+            "SYM": {
+              "raw_R": 7.643179223395963,
+              "net_R": 7.643179223395963
+            },
+            "ASYM": {
+              "raw_R": 7.980218616482046,
+              "net_R": 7.980218616482046
+            }
+          }
+        }
+      ],
+      "clusters": [
+        {
+          "years": [
+            2018,
+            2019,
+            2020
+          ],
+          "raw": 37,
+          "priced": 37,
+          "admitted": 37,
+          "retention": 1.0,
+          "scale_ratio": 0.05873862324788972,
+          "net": {
+            "SYM": {
+              "raw": 3.2656557208954675,
+              "admitted": 3.2656557208954675
+            },
+            "ASYM": {
+              "raw": 4.039065973919284,
+              "admitted": 4.039065973919284
+            }
+          }
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "raw": 37,
+          "priced": 37,
+          "admitted": 37,
+          "retention": 1.0,
+          "scale_ratio": 0.04438262664884653,
+          "net": {
+            "SYM": {
+              "raw": 1.9688038549666773,
+              "admitted": 1.9688038549666773
+            },
+            "ASYM": {
+              "raw": 2.527445293447459,
+              "admitted": 2.527445293447459
+            }
+          }
+        }
+      ],
+      "economics": {
+        "SYM": {
+          "raw_R": 5.234459575862144,
+          "net_R": 5.234459575862144,
+          "mean_R": 0.0707359402143533,
+          "cash_R_DD": 7.656102832747517,
+          "daily_MTM_R_DD": 7.857441781025241
+        },
+        "ASYM": {
+          "raw_R": 6.566511267366743,
+          "net_R": 6.566511267366743,
+          "mean_R": 0.08873663874819923,
+          "cash_R_DD": 7.28069182031078,
+          "daily_MTM_R_DD": 7.28069182031078
+        }
+      },
+      "raw": 74,
+      "priced": 74,
+      "admitted": 74,
+      "path_unknown": 15,
+      "reasons": [],
+      "admitted_component": true,
+      "dual_positive": true,
+      "exits": {
+        "PROTECT": 5,
+        "HORIZON": 49,
+        "SL": 20
+      },
+      "complete_path": true,
+      "source_cell": 150,
+      "old_priced": 59,
+      "old_reasons": [
+        "PATH_OR_ENDPOINT_INCOMPLETE"
+      ],
+      "only_path_before": true,
+      "source_uncertain": 15,
+      "source_uncertain_admitted": 15,
+      "source_verified_component": false,
+      "execution_scenario": "V13_NEXT_QUOTE",
+      "deferred_endpoint_events": [],
+      "open_stop_events": [],
+      "original_block_minutes": {
+        "UNCLASSIFIED_SOURCE_GAP": 52,
+        "DAILY_BREAK": 1440
+      },
+      "original_gap_count": 67,
+      "remaining_invalid_events": []
+    },
+    {
+      "label": "C08",
+      "id": "XAUUSD|F3:compression=BB:n=60:quantile=0.15:multiple=2|24H|P1",
+      "asset": "XAUUSD",
+      "family": "F3",
+      "recipe": "F3:compression=BB:n=60:quantile=0.15:multiple=2",
+      "horizon": "24H",
+      "mode": "P1",
+      "annual": [
+        {
+          "year": 2018,
+          "raw": 17,
+          "priced": 17,
+          "admitted": 17,
+          "path_unknown": 5,
+          "models": {
+            "SYM": {
+              "raw_R": -2.9583698925471618,
+              "net_R": -2.9583698925471618
+            },
+            "ASYM": {
+              "raw_R": -2.7167824437235994,
+              "net_R": -2.7167824437235994
+            }
+          }
+        },
+        {
+          "year": 2019,
+          "raw": 18,
+          "priced": 18,
+          "admitted": 18,
+          "path_unknown": 10,
+          "models": {
+            "SYM": {
+              "raw_R": 3.425279056631525,
+              "net_R": 3.425279056631525
+            },
+            "ASYM": {
+              "raw_R": 3.4272312375804086,
+              "net_R": 3.4272312375804086
+            }
+          }
+        },
+        {
+          "year": 2020,
+          "raw": 18,
+          "priced": 18,
+          "admitted": 18,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": 1.909473707621129,
+              "net_R": 1.909473707621129
+            },
+            "ASYM": {
+              "raw_R": 2.110825811547958,
+              "net_R": 2.110825811547958
+            }
+          }
+        },
+        {
+          "year": 2021,
+          "raw": 16,
+          "priced": 16,
+          "admitted": 16,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": 1.6075315968390975,
+              "net_R": 1.6075315968390975
+            },
+            "ASYM": {
+              "raw_R": 1.718325115430996,
+              "net_R": 1.718325115430996
+            }
+          }
+        },
+        {
+          "year": 2022,
+          "raw": 18,
+          "priced": 18,
+          "admitted": 18,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": -0.6954866692410413,
+              "net_R": -0.6954866692410413
+            },
+            "ASYM": {
+              "raw_R": -0.6083728579604691,
+              "net_R": -0.6083728579604691
+            }
+          }
+        },
+        {
+          "year": 2023,
+          "raw": 18,
+          "priced": 18,
+          "admitted": 18,
+          "path_unknown": 6,
+          "models": {
+            "SYM": {
+              "raw_R": 3.272506823106932,
+              "net_R": 3.272506823106932
+            },
+            "ASYM": {
+              "raw_R": 3.4766972319700953,
+              "net_R": 3.4766972319700953
+            }
+          }
+        }
+      ],
+      "clusters": [
+        {
+          "years": [
+            2018,
+            2019,
+            2020
+          ],
+          "raw": 53,
+          "priced": 53,
+          "admitted": 53,
+          "retention": 1.0,
+          "scale_ratio": 0.06728567989347536,
+          "net": {
+            "SYM": {
+              "raw": 2.376382871705493,
+              "admitted": 2.376382871705493
+            },
+            "ASYM": {
+              "raw": 2.8212746054047675,
+              "admitted": 2.8212746054047675
+            }
+          }
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "raw": 52,
+          "priced": 52,
+          "admitted": 52,
+          "retention": 1.0,
+          "scale_ratio": 0.04399411612568762,
+          "net": {
+            "SYM": {
+              "raw": 4.18455175070499,
+              "admitted": 4.18455175070499
+            },
+            "ASYM": {
+              "raw": 4.586649489440622,
+              "admitted": 4.586649489440622
+            }
+          }
+        }
+      ],
+      "economics": {
+        "SYM": {
+          "raw_R": 6.56093462241048,
+          "net_R": 6.56093462241048,
+          "mean_R": 0.062485091642004574,
+          "cash_R_DD": 5.577682227116474,
+          "daily_MTM_R_DD": 5.7278577072578845
+        },
+        "ASYM": {
+          "raw_R": 7.407924094845389,
+          "net_R": 7.407924094845389,
+          "mean_R": 0.07055165804614656,
+          "cash_R_DD": 5.413857473225045,
+          "daily_MTM_R_DD": 5.507238888710762
+        }
+      },
+      "raw": 105,
+      "priced": 105,
+      "admitted": 105,
+      "path_unknown": 23,
+      "reasons": [],
+      "admitted_component": true,
+      "dual_positive": true,
+      "exits": {
+        "HORIZON": 89,
+        "SL": 15,
+        "PROTECT": 1
+      },
+      "complete_path": true,
+      "source_cell": 157,
+      "old_priced": 82,
+      "old_reasons": [
+        "PATH_OR_ENDPOINT_INCOMPLETE",
+        "MEAN_BELOW004"
+      ],
+      "only_path_before": false,
+      "source_uncertain": 23,
+      "source_uncertain_admitted": 23,
+      "source_verified_component": false,
+      "execution_scenario": "V13_NEXT_QUOTE",
+      "deferred_endpoint_events": [],
+      "open_stop_events": [],
+      "original_block_minutes": {
+        "UNCLASSIFIED_SOURCE_GAP": 74,
+        "DAILY_BREAK": 1380
+      },
+      "original_gap_count": 85,
+      "remaining_invalid_events": []
+    },
+    {
+      "label": "C09",
+      "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|DAY|P0",
+      "asset": "XAUUSD",
+      "family": "F4",
+      "recipe": "F4:hour=15:impulse=1:timing=MONTH:multiple=1",
+      "horizon": "DAY",
+      "mode": "P0",
+      "annual": [
+        {
+          "year": 2018,
+          "raw": 12,
+          "priced": 12,
+          "admitted": 6,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": -5.448886612576295,
+              "net_R": -1.967797129376206
+            },
+            "ASYM": {
+              "raw_R": -5.448886612576295,
+              "net_R": -1.967797129376206
+            }
+          }
+        },
+        {
+          "year": 2019,
+          "raw": 18,
+          "priced": 18,
+          "admitted": 12,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": 7.0682148999934,
+              "net_R": 4.010857477333099
+            },
+            "ASYM": {
+              "raw_R": 7.0682148999934,
+              "net_R": 4.010857477333099
+            }
+          }
+        },
+        {
+          "year": 2020,
+          "raw": 12,
+          "priced": 12,
+          "admitted": 12,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": 3.372901264066578,
+              "net_R": 3.372901264066578
+            },
+            "ASYM": {
+              "raw_R": 3.372901264066578,
+              "net_R": 3.372901264066578
+            }
+          }
+        },
+        {
+          "year": 2021,
+          "raw": 14,
+          "priced": 14,
+          "admitted": 14,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": 1.668439091776816,
+              "net_R": 1.668439091776816
+            },
+            "ASYM": {
+              "raw_R": 1.668439091776816,
+              "net_R": 1.668439091776816
+            }
+          }
+        },
+        {
+          "year": 2022,
+          "raw": 18,
+          "priced": 18,
+          "admitted": 18,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": -0.7923326593839333,
+              "net_R": -0.7923326593839333
+            },
+            "ASYM": {
+              "raw_R": -0.7923326593839333,
+              "net_R": -0.7923326593839333
+            }
+          }
+        },
+        {
+          "year": 2023,
+          "raw": 21,
+          "priced": 21,
+          "admitted": 21,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": 2.8051341496710673,
+              "net_R": 2.8051341496710673
+            },
+            "ASYM": {
+              "raw_R": 2.8051341496710673,
+              "net_R": 2.8051341496710673
+            }
+          }
+        }
+      ],
+      "clusters": [
+        {
+          "years": [
+            2018,
+            2019,
+            2020
+          ],
+          "raw": 42,
+          "priced": 42,
+          "admitted": 30,
+          "retention": 0.7142857142857143,
+          "scale_ratio": 0.13612472856372462,
+          "net": {
+            "SYM": {
+              "raw": 4.992229551483683,
+              "admitted": 5.415961612023472
+            },
+            "ASYM": {
+              "raw": 4.992229551483683,
+              "admitted": 5.415961612023472
+            }
+          }
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "raw": 53,
+          "priced": 53,
+          "admitted": 53,
+          "retention": 1.0,
+          "scale_ratio": 0.08216371545415412,
+          "net": {
+            "SYM": {
+              "raw": 3.6812405820639507,
+              "admitted": 3.6812405820639507
+            },
+            "ASYM": {
+              "raw": 3.6812405820639507,
+              "admitted": 3.6812405820639507
+            }
+          }
+        }
+      ],
+      "economics": {
+        "SYM": {
+          "raw_R": 8.673470133547633,
+          "net_R": 9.097202194087421,
+          "mean_R": 0.10960484571189665,
+          "cash_R_DD": 4.073491319868512,
+          "daily_MTM_R_DD": 4.073491319868512
+        },
+        "ASYM": {
+          "raw_R": 8.673470133547633,
+          "net_R": 9.097202194087421,
+          "mean_R": 0.10960484571189665,
+          "cash_R_DD": 4.073491319868512,
+          "daily_MTM_R_DD": 4.073491319868512
+        }
+      },
+      "raw": 95,
+      "priced": 95,
+      "admitted": 83,
+      "path_unknown": 6,
+      "reasons": [],
+      "admitted_component": true,
+      "dual_positive": true,
+      "exits": {
+        "HORIZON": 69,
+        "SL": 14
+      },
+      "complete_path": true,
+      "source_cell": 312,
+      "old_priced": 89,
+      "old_reasons": [
+        "PATH_OR_ENDPOINT_INCOMPLETE"
+      ],
+      "only_path_before": true,
+      "source_uncertain": 6,
+      "source_uncertain_admitted": 5,
+      "source_verified_component": false,
+      "execution_scenario": "V13_NEXT_QUOTE",
+      "deferred_endpoint_events": [],
+      "open_stop_events": [],
+      "original_block_minutes": {
+        "UNCLASSIFIED_SOURCE_GAP": 9
+      },
+      "original_gap_count": 7,
+      "remaining_invalid_events": []
+    },
+    {
+      "label": "C10",
+      "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|DAY|P1",
+      "asset": "XAUUSD",
+      "family": "F4",
+      "recipe": "F4:hour=15:impulse=1:timing=MONTH:multiple=1",
+      "horizon": "DAY",
+      "mode": "P1",
+      "annual": [
+        {
+          "year": 2018,
+          "raw": 12,
+          "priced": 12,
+          "admitted": 6,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": -5.448886612576295,
+              "net_R": -1.967797129376206
+            },
+            "ASYM": {
+              "raw_R": -5.448886612576295,
+              "net_R": -1.967797129376206
+            }
+          }
+        },
+        {
+          "year": 2019,
+          "raw": 18,
+          "priced": 18,
+          "admitted": 12,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": 7.0682148999934,
+              "net_R": 4.010857477333099
+            },
+            "ASYM": {
+              "raw_R": 7.0682148999934,
+              "net_R": 4.010857477333099
+            }
+          }
+        },
+        {
+          "year": 2020,
+          "raw": 12,
+          "priced": 12,
+          "admitted": 12,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": 3.372901264066578,
+              "net_R": 3.372901264066578
+            },
+            "ASYM": {
+              "raw_R": 3.372901264066578,
+              "net_R": 3.372901264066578
+            }
+          }
+        },
+        {
+          "year": 2021,
+          "raw": 14,
+          "priced": 14,
+          "admitted": 14,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": 1.668439091776816,
+              "net_R": 1.668439091776816
+            },
+            "ASYM": {
+              "raw_R": 1.668439091776816,
+              "net_R": 1.668439091776816
+            }
+          }
+        },
+        {
+          "year": 2022,
+          "raw": 18,
+          "priced": 18,
+          "admitted": 18,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": -0.7923326593839333,
+              "net_R": -0.7923326593839333
+            },
+            "ASYM": {
+              "raw_R": -0.7923326593839333,
+              "net_R": -0.7923326593839333
+            }
+          }
+        },
+        {
+          "year": 2023,
+          "raw": 21,
+          "priced": 21,
+          "admitted": 21,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": 2.8051341496710673,
+              "net_R": 2.8051341496710673
+            },
+            "ASYM": {
+              "raw_R": 2.8051341496710673,
+              "net_R": 2.8051341496710673
+            }
+          }
+        }
+      ],
+      "clusters": [
+        {
+          "years": [
+            2018,
+            2019,
+            2020
+          ],
+          "raw": 42,
+          "priced": 42,
+          "admitted": 30,
+          "retention": 0.7142857142857143,
+          "scale_ratio": 0.13612472856372462,
+          "net": {
+            "SYM": {
+              "raw": 4.992229551483683,
+              "admitted": 5.415961612023472
+            },
+            "ASYM": {
+              "raw": 4.992229551483683,
+              "admitted": 5.415961612023472
+            }
+          }
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "raw": 53,
+          "priced": 53,
+          "admitted": 53,
+          "retention": 1.0,
+          "scale_ratio": 0.08216371545415412,
+          "net": {
+            "SYM": {
+              "raw": 3.6812405820639507,
+              "admitted": 3.6812405820639507
+            },
+            "ASYM": {
+              "raw": 3.6812405820639507,
+              "admitted": 3.6812405820639507
+            }
+          }
+        }
+      ],
+      "economics": {
+        "SYM": {
+          "raw_R": 8.673470133547633,
+          "net_R": 9.097202194087421,
+          "mean_R": 0.10960484571189665,
+          "cash_R_DD": 4.073491319868512,
+          "daily_MTM_R_DD": 4.073491319868512
+        },
+        "ASYM": {
+          "raw_R": 8.673470133547633,
+          "net_R": 9.097202194087421,
+          "mean_R": 0.10960484571189665,
+          "cash_R_DD": 4.073491319868512,
+          "daily_MTM_R_DD": 4.073491319868512
+        }
+      },
+      "raw": 95,
+      "priced": 95,
+      "admitted": 83,
+      "path_unknown": 6,
+      "reasons": [],
+      "admitted_component": true,
+      "dual_positive": true,
+      "exits": {
+        "HORIZON": 69,
+        "SL": 14
+      },
+      "complete_path": true,
+      "source_cell": 312,
+      "old_priced": 89,
+      "old_reasons": [
+        "PATH_OR_ENDPOINT_INCOMPLETE"
+      ],
+      "only_path_before": true,
+      "source_uncertain": 6,
+      "source_uncertain_admitted": 5,
+      "source_verified_component": false,
+      "execution_scenario": "V13_NEXT_QUOTE",
+      "deferred_endpoint_events": [],
+      "open_stop_events": [],
+      "original_block_minutes": {
+        "UNCLASSIFIED_SOURCE_GAP": 9
+      },
+      "original_gap_count": 7,
+      "remaining_invalid_events": []
+    },
+    {
+      "label": "C11",
+      "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P0",
+      "asset": "XAUUSD",
+      "family": "F4",
+      "recipe": "F4:hour=15:impulse=1:timing=MONTH:multiple=1",
+      "horizon": "24H",
+      "mode": "P0",
+      "annual": [
+        {
+          "year": 2018,
+          "raw": 12,
+          "priced": 12,
+          "admitted": 6,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": -8.232687070264086,
+              "net_R": -3.2571430599416
+            },
+            "ASYM": {
+              "raw_R": -8.270422035141124,
+              "net_R": -3.284795346859371
+            }
+          }
+        },
+        {
+          "year": 2019,
+          "raw": 18,
+          "priced": 18,
+          "admitted": 12,
+          "path_unknown": 10,
+          "models": {
+            "SYM": {
+              "raw_R": 8.968605314563943,
+              "net_R": 3.453896282585756
+            },
+            "ASYM": {
+              "raw_R": 9.371169614883287,
+              "net_R": 3.592435960010164
+            }
+          }
+        },
+        {
+          "year": 2020,
+          "raw": 12,
+          "priced": 12,
+          "admitted": 12,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": 9.701896875198248,
+              "net_R": 9.701896875198248
+            },
+            "ASYM": {
+              "raw_R": 9.729793367857622,
+              "net_R": 9.729793367857622
+            }
+          }
+        },
+        {
+          "year": 2021,
+          "raw": 14,
+          "priced": 14,
+          "admitted": 14,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": -0.3820742605604506,
+              "net_R": -0.3820742605604506
+            },
+            "ASYM": {
+              "raw_R": -0.25104991409615085,
+              "net_R": -0.25104991409615085
+            }
+          }
+        },
+        {
+          "year": 2022,
+          "raw": 18,
+          "priced": 18,
+          "admitted": 18,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": -5.196456020445803,
+              "net_R": -5.196456020445803
+            },
+            "ASYM": {
+              "raw_R": -4.92711682336375,
+              "net_R": -4.92711682336375
+            }
+          }
+        },
+        {
+          "year": 2023,
+          "raw": 21,
+          "priced": 21,
+          "admitted": 21,
+          "path_unknown": 5,
+          "models": {
+            "SYM": {
+              "raw_R": 8.816172093854048,
+              "net_R": 8.816172093854048
+            },
+            "ASYM": {
+              "raw_R": 9.05545281417831,
+              "net_R": 9.05545281417831
+            }
+          }
+        }
+      ],
+      "clusters": [
+        {
+          "years": [
+            2018,
+            2019,
+            2020
+          ],
+          "raw": 42,
+          "priced": 42,
+          "admitted": 30,
+          "retention": 0.7142857142857143,
+          "scale_ratio": 0.13612472856372462,
+          "net": {
+            "SYM": {
+              "raw": 10.437815119498104,
+              "admitted": 9.898650097842404
+            },
+            "ASYM": {
+              "raw": 10.830540947599786,
+              "admitted": 10.037433981008416
+            }
+          }
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "raw": 53,
+          "priced": 53,
+          "admitted": 53,
+          "retention": 1.0,
+          "scale_ratio": 0.08216371545415412,
+          "net": {
+            "SYM": {
+              "raw": 3.2376418128477926,
+              "admitted": 3.2376418128477926
+            },
+            "ASYM": {
+              "raw": 3.87728607671841,
+              "admitted": 3.87728607671841
+            }
+          }
+        }
+      ],
+      "economics": {
+        "SYM": {
+          "raw_R": 13.675456932345893,
+          "net_R": 13.136291910690195,
+          "mean_R": 0.15826857723723126,
+          "cash_R_DD": 11.527035964070489,
+          "daily_MTM_R_DD": 11.853881973148312
+        },
+        "ASYM": {
+          "raw_R": 14.707827024318197,
+          "net_R": 13.914720057726825,
+          "mean_R": 0.16764722961116657,
+          "cash_R_DD": 11.10580600801776,
+          "daily_MTM_R_DD": 11.432652017095585
+        }
+      },
+      "raw": 95,
+      "priced": 95,
+      "admitted": 83,
+      "path_unknown": 19,
+      "reasons": [],
+      "admitted_component": true,
+      "dual_positive": true,
+      "exits": {
+        "HORIZON": 52,
+        "SL": 31
+      },
+      "complete_path": true,
+      "source_cell": 313,
+      "old_priced": 76,
+      "old_reasons": [
+        "PATH_OR_ENDPOINT_INCOMPLETE"
+      ],
+      "only_path_before": true,
+      "source_uncertain": 19,
+      "source_uncertain_admitted": 15,
+      "source_verified_component": false,
+      "execution_scenario": "V13_NEXT_QUOTE",
+      "deferred_endpoint_events": [],
+      "open_stop_events": [],
+      "original_block_minutes": {
+        "UNCLASSIFIED_SOURCE_GAP": 58,
+        "DAILY_BREAK": 1080
+      },
+      "original_gap_count": 63,
+      "remaining_invalid_events": []
+    },
+    {
+      "label": "C12",
+      "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1",
+      "asset": "XAUUSD",
+      "family": "F4",
+      "recipe": "F4:hour=15:impulse=1:timing=MONTH:multiple=1",
+      "horizon": "24H",
+      "mode": "P1",
+      "annual": [
+        {
+          "year": 2018,
+          "raw": 12,
+          "priced": 12,
+          "admitted": 6,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": -8.232687070264086,
+              "net_R": -3.2571430599416
+            },
+            "ASYM": {
+              "raw_R": -8.270422035141124,
+              "net_R": -3.284795346859371
+            }
+          }
+        },
+        {
+          "year": 2019,
+          "raw": 18,
+          "priced": 18,
+          "admitted": 12,
+          "path_unknown": 10,
+          "models": {
+            "SYM": {
+              "raw_R": 9.422486928238063,
+              "net_R": 3.9077778962598764
+            },
+            "ASYM": {
+              "raw_R": 9.825051228557408,
+              "net_R": 4.046317573684285
+            }
+          }
+        },
+        {
+          "year": 2020,
+          "raw": 12,
+          "priced": 12,
+          "admitted": 12,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": 9.701896875198248,
+              "net_R": 9.701896875198248
+            },
+            "ASYM": {
+              "raw_R": 9.729793367857622,
+              "net_R": 9.729793367857622
+            }
+          }
+        },
+        {
+          "year": 2021,
+          "raw": 14,
+          "priced": 14,
+          "admitted": 14,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": -0.3820742605604506,
+              "net_R": -0.3820742605604506
+            },
+            "ASYM": {
+              "raw_R": -0.25104991409615085,
+              "net_R": -0.25104991409615085
+            }
+          }
+        },
+        {
+          "year": 2022,
+          "raw": 18,
+          "priced": 18,
+          "admitted": 18,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": -5.120626636559562,
+              "net_R": -5.120626636559562
+            },
+            "ASYM": {
+              "raw_R": -4.85128743947751,
+              "net_R": -4.85128743947751
+            }
+          }
+        },
+        {
+          "year": 2023,
+          "raw": 21,
+          "priced": 21,
+          "admitted": 21,
+          "path_unknown": 5,
+          "models": {
+            "SYM": {
+              "raw_R": 7.85716727844474,
+              "net_R": 7.85716727844474
+            },
+            "ASYM": {
+              "raw_R": 8.096447998769001,
+              "net_R": 8.096447998769001
+            }
+          }
+        }
+      ],
+      "clusters": [
+        {
+          "years": [
+            2018,
+            2019,
+            2020
+          ],
+          "raw": 42,
+          "priced": 42,
+          "admitted": 30,
+          "retention": 0.7142857142857143,
+          "scale_ratio": 0.13612472856372462,
+          "net": {
+            "SYM": {
+              "raw": 10.891696733172225,
+              "admitted": 10.352531711516525
+            },
+            "ASYM": {
+              "raw": 11.284422561273907,
+              "admitted": 10.491315594682536
+            }
+          }
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "raw": 53,
+          "priced": 53,
+          "admitted": 53,
+          "retention": 1.0,
+          "scale_ratio": 0.08216371545415412,
+          "net": {
+            "SYM": {
+              "raw": 2.354466381324725,
+              "admitted": 2.354466381324725
+            },
+            "ASYM": {
+              "raw": 2.9941106451953416,
+              "admitted": 2.9941106451953416
+            }
+          }
+        }
+      ],
+      "economics": {
+        "SYM": {
+          "raw_R": 13.24616311449695,
+          "net_R": 12.706998092841252,
+          "mean_R": 0.15309636256435244,
+          "cash_R_DD": 11.451206580184245,
+          "daily_MTM_R_DD": 11.77805258926207
+        },
+        "ASYM": {
+          "raw_R": 14.27853320646925,
+          "net_R": 13.485426239877876,
+          "mean_R": 0.16247501493828767,
+          "cash_R_DD": 11.02997662413152,
+          "daily_MTM_R_DD": 11.356822633209346
+        }
+      },
+      "raw": 95,
+      "priced": 95,
+      "admitted": 83,
+      "path_unknown": 19,
+      "reasons": [],
+      "admitted_component": true,
+      "dual_positive": true,
+      "exits": {
+        "HORIZON": 47,
+        "SL": 31,
+        "PROTECT": 5
+      },
+      "complete_path": true,
+      "source_cell": 313,
+      "old_priced": 76,
+      "old_reasons": [
+        "PATH_OR_ENDPOINT_INCOMPLETE"
+      ],
+      "only_path_before": true,
+      "source_uncertain": 19,
+      "source_uncertain_admitted": 15,
+      "source_verified_component": false,
+      "execution_scenario": "V13_NEXT_QUOTE",
+      "deferred_endpoint_events": [],
+      "open_stop_events": [],
+      "original_block_minutes": {
+        "UNCLASSIFIED_SOURCE_GAP": 58,
+        "DAILY_BREAK": 1080
+      },
+      "original_gap_count": 63,
+      "remaining_invalid_events": []
+    },
+    {
+      "label": "C13",
+      "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|48H|P0",
+      "asset": "XAUUSD",
+      "family": "F4",
+      "recipe": "F4:hour=15:impulse=1:timing=MONTH:multiple=1",
+      "horizon": "48H",
+      "mode": "P0",
+      "annual": [
+        {
+          "year": 2018,
+          "raw": 12,
+          "priced": 12,
+          "admitted": 6,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": -8.904483693374685,
+              "net_R": -3.928939683052198
+            },
+            "ASYM": {
+              "raw_R": -8.942218658251722,
+              "net_R": -3.9565919699699688
+            }
+          }
+        },
+        {
+          "year": 2019,
+          "raw": 18,
+          "priced": 18,
+          "admitted": 12,
+          "path_unknown": 11,
+          "models": {
+            "SYM": {
+              "raw_R": 18.08141605464779,
+              "net_R": 9.516864865526276
+            },
+            "ASYM": {
+              "raw_R": 18.63606152834714,
+              "net_R": 9.73670715212442
+            }
+          }
+        },
+        {
+          "year": 2020,
+          "raw": 12,
+          "priced": 12,
+          "admitted": 12,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": 11.385667914705058,
+              "net_R": 11.385667914705058
+            },
+            "ASYM": {
+              "raw_R": 11.50970464777521,
+              "net_R": 11.50970464777521
+            }
+          }
+        },
+        {
+          "year": 2021,
+          "raw": 14,
+          "priced": 14,
+          "admitted": 14,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": 0.38200107046191456,
+              "net_R": 0.38200107046191456
+            },
+            "ASYM": {
+              "raw_R": 0.5014833147827593,
+              "net_R": 0.5014833147827593
+            }
+          }
+        },
+        {
+          "year": 2022,
+          "raw": 18,
+          "priced": 18,
+          "admitted": 18,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": -6.143797552483494,
+              "net_R": -6.143797552483494
+            },
+            "ASYM": {
+              "raw_R": -5.6450215656855995,
+              "net_R": -5.6450215656855995
+            }
+          }
+        },
+        {
+          "year": 2023,
+          "raw": 21,
+          "priced": 21,
+          "admitted": 21,
+          "path_unknown": 6,
+          "models": {
+            "SYM": {
+              "raw_R": 12.45166756914368,
+              "net_R": 12.45166756914368
+            },
+            "ASYM": {
+              "raw_R": 12.70675274545094,
+              "net_R": 12.70675274545094
+            }
+          }
+        }
+      ],
+      "clusters": [
+        {
+          "years": [
+            2018,
+            2019,
+            2020
+          ],
+          "raw": 42,
+          "priced": 42,
+          "admitted": 30,
+          "retention": 0.7142857142857143,
+          "scale_ratio": 0.13612472856372462,
+          "net": {
+            "SYM": {
+              "raw": 20.562600275978163,
+              "admitted": 16.97359309717914
+            },
+            "ASYM": {
+              "raw": 21.203547517870632,
+              "admitted": 17.28981982992967
+            }
+          }
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "raw": 53,
+          "priced": 53,
+          "admitted": 53,
+          "retention": 1.0,
+          "scale_ratio": 0.08216371545415412,
+          "net": {
+            "SYM": {
+              "raw": 6.689871087122098,
+              "admitted": 6.689871087122098
+            },
+            "ASYM": {
+              "raw": 7.563214494548101,
+              "admitted": 7.563214494548101
+            }
+          }
+        }
+      ],
+      "economics": {
+        "SYM": {
+          "raw_R": 27.252471363100256,
+          "net_R": 23.66346418430123,
+          "mean_R": 0.2851019781241112,
+          "cash_R_DD": 11.66241645774164,
+          "daily_MTM_R_DD": 12.057589711367244
+        },
+        "ASYM": {
+          "raw_R": 28.766762012418727,
+          "net_R": 24.85303432447776,
+          "mean_R": 0.29943414848768385,
+          "cash_R_DD": 11.028827073720207,
+          "daily_MTM_R_DD": 11.418465067742126
+        }
+      },
+      "raw": 95,
+      "priced": 95,
+      "admitted": 83,
+      "path_unknown": 22,
+      "reasons": [],
+      "admitted_component": true,
+      "dual_positive": true,
+      "exits": {
+        "HORIZON": 46,
+        "SL": 37
+      },
+      "complete_path": true,
+      "source_cell": 314,
+      "old_priced": 73,
+      "old_reasons": [
+        "PATH_OR_ENDPOINT_INCOMPLETE"
+      ],
+      "only_path_before": true,
+      "source_uncertain": 22,
+      "source_uncertain_admitted": 18,
+      "source_verified_component": false,
+      "execution_scenario": "V13_NEXT_QUOTE",
+      "deferred_endpoint_events": [],
+      "open_stop_events": [],
+      "original_block_minutes": {
+        "UNCLASSIFIED_SOURCE_GAP": 76,
+        "DAILY_BREAK": 1680
+      },
+      "original_gap_count": 89,
+      "remaining_invalid_events": []
+    },
+    {
+      "label": "C14",
+      "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|48H|P1",
+      "asset": "XAUUSD",
+      "family": "F4",
+      "recipe": "F4:hour=15:impulse=1:timing=MONTH:multiple=1",
+      "horizon": "48H",
+      "mode": "P1",
+      "annual": [
+        {
+          "year": 2018,
+          "raw": 12,
+          "priced": 12,
+          "admitted": 6,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": -8.904483693374685,
+              "net_R": -3.928939683052198
+            },
+            "ASYM": {
+              "raw_R": -8.942218658251722,
+              "net_R": -3.9565919699699688
+            }
+          }
+        },
+        {
+          "year": 2019,
+          "raw": 18,
+          "priced": 18,
+          "admitted": 12,
+          "path_unknown": 11,
+          "models": {
+            "SYM": {
+              "raw_R": 16.525951582304803,
+              "net_R": 7.96140039318329
+            },
+            "ASYM": {
+              "raw_R": 17.047600540507258,
+              "net_R": 8.148246164284542
+            }
+          }
+        },
+        {
+          "year": 2020,
+          "raw": 12,
+          "priced": 12,
+          "admitted": 12,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": 11.385667914705058,
+              "net_R": 11.385667914705058
+            },
+            "ASYM": {
+              "raw_R": 11.50970464777521,
+              "net_R": 11.50970464777521
+            }
+          }
+        },
+        {
+          "year": 2021,
+          "raw": 14,
+          "priced": 14,
+          "admitted": 14,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": -0.3779365393660299,
+              "net_R": -0.3779365393660299
+            },
+            "ASYM": {
+              "raw_R": -0.2530023268846793,
+              "net_R": -0.2530023268846793
+            }
+          }
+        },
+        {
+          "year": 2022,
+          "raw": 18,
+          "priced": 18,
+          "admitted": 18,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": -4.696381093143291,
+              "net_R": -4.696381093143291
+            },
+            "ASYM": {
+              "raw_R": -4.322012689283785,
+              "net_R": -4.322012689283785
+            }
+          }
+        },
+        {
+          "year": 2023,
+          "raw": 21,
+          "priced": 21,
+          "admitted": 21,
+          "path_unknown": 6,
+          "models": {
+            "SYM": {
+              "raw_R": 10.944776183375897,
+              "net_R": 10.944776183375897
+            },
+            "ASYM": {
+              "raw_R": 11.21591272404913,
+              "net_R": 11.21591272404913
+            }
+          }
+        }
+      ],
+      "clusters": [
+        {
+          "years": [
+            2018,
+            2019,
+            2020
+          ],
+          "raw": 42,
+          "priced": 42,
+          "admitted": 30,
+          "retention": 0.7142857142857143,
+          "scale_ratio": 0.13612472856372462,
+          "net": {
+            "SYM": {
+              "raw": 19.007135803635173,
+              "admitted": 15.41812862483615
+            },
+            "ASYM": {
+              "raw": 19.61508653003075,
+              "admitted": 15.701358842089785
+            }
+          }
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "raw": 53,
+          "priced": 53,
+          "admitted": 53,
+          "retention": 1.0,
+          "scale_ratio": 0.08216371545415412,
+          "net": {
+            "SYM": {
+              "raw": 5.870458550866573,
+              "admitted": 5.870458550866573
+            },
+            "ASYM": {
+              "raw": 6.640897707880665,
+              "admitted": 6.640897707880665
+            }
+          }
+        }
+      ],
+      "economics": {
+        "SYM": {
+          "raw_R": 24.877594354501745,
+          "net_R": 21.288587175702723,
+          "mean_R": 0.2564890021169003,
+          "cash_R_DD": 10.974937608229386,
+          "daily_MTM_R_DD": 11.37011086185498
+        },
+        "ASYM": {
+          "raw_R": 26.255984237911413,
+          "net_R": 22.342256549970447,
+          "mean_R": 0.2691838138550656,
+          "cash_R_DD": 10.460303838985832,
+          "daily_MTM_R_DD": 10.849941833007744
+        }
+      },
+      "raw": 95,
+      "priced": 95,
+      "admitted": 83,
+      "path_unknown": 22,
+      "reasons": [],
+      "admitted_component": true,
+      "dual_positive": true,
+      "exits": {
+        "HORIZON": 40,
+        "SL": 35,
+        "PROTECT": 8
+      },
+      "complete_path": true,
+      "source_cell": 314,
+      "old_priced": 73,
+      "old_reasons": [
+        "PATH_OR_ENDPOINT_INCOMPLETE"
+      ],
+      "only_path_before": true,
+      "source_uncertain": 22,
+      "source_uncertain_admitted": 18,
+      "source_verified_component": false,
+      "execution_scenario": "V13_NEXT_QUOTE",
+      "deferred_endpoint_events": [],
+      "open_stop_events": [],
+      "original_block_minutes": {
+        "UNCLASSIFIED_SOURCE_GAP": 73,
+        "DAILY_BREAK": 1560
+      },
+      "original_gap_count": 84,
+      "remaining_invalid_events": []
+    },
+    {
+      "label": "C15",
+      "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=2|DAY|P0",
+      "asset": "XAUUSD",
+      "family": "F4",
+      "recipe": "F4:hour=15:impulse=1:timing=MONTH:multiple=2",
+      "horizon": "DAY",
+      "mode": "P0",
+      "annual": [
+        {
+          "year": 2018,
+          "raw": 12,
+          "priced": 12,
+          "admitted": 12,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": -2.7528055853626836,
+              "net_R": -2.7528055853626836
+            },
+            "ASYM": {
+              "raw_R": -2.7528055853626836,
+              "net_R": -2.7528055853626836
+            }
+          }
+        },
+        {
+          "year": 2019,
+          "raw": 18,
+          "priced": 18,
+          "admitted": 18,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": 3.25739351029803,
+              "net_R": 3.25739351029803
+            },
+            "ASYM": {
+              "raw_R": 3.25739351029803,
+              "net_R": 3.25739351029803
+            }
+          }
+        },
+        {
+          "year": 2020,
+          "raw": 12,
+          "priced": 12,
+          "admitted": 12,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": 1.8126908826670127,
+              "net_R": 1.8126908826670127
+            },
+            "ASYM": {
+              "raw_R": 1.8126908826670127,
+              "net_R": 1.8126908826670127
+            }
+          }
+        },
+        {
+          "year": 2021,
+          "raw": 14,
+          "priced": 14,
+          "admitted": 14,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": 0.5528899902590169,
+              "net_R": 0.5528899902590169
+            },
+            "ASYM": {
+              "raw_R": 0.5528899902590169,
+              "net_R": 0.5528899902590169
+            }
+          }
+        },
+        {
+          "year": 2022,
+          "raw": 18,
+          "priced": 18,
+          "admitted": 18,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": -0.9819192490805493,
+              "net_R": -0.9819192490805493
+            },
+            "ASYM": {
+              "raw_R": -0.9819192490805493,
+              "net_R": -0.9819192490805493
+            }
+          }
+        },
+        {
+          "year": 2023,
+          "raw": 21,
+          "priced": 21,
+          "admitted": 21,
+          "path_unknown": 3,
+          "models": {
+            "SYM": {
+              "raw_R": 1.667630864290923,
+              "net_R": 1.667630864290923
+            },
+            "ASYM": {
+              "raw_R": 1.667630864290923,
+              "net_R": 1.667630864290923
+            }
+          }
+        }
+      ],
+      "clusters": [
+        {
+          "years": [
+            2018,
+            2019,
+            2020
+          ],
+          "raw": 42,
+          "priced": 42,
+          "admitted": 42,
+          "retention": 1.0,
+          "scale_ratio": 0.0691879273640932,
+          "net": {
+            "SYM": {
+              "raw": 2.3172788076023587,
+              "admitted": 2.3172788076023587
+            },
+            "ASYM": {
+              "raw": 2.3172788076023587,
+              "admitted": 2.3172788076023587
+            }
+          }
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "raw": 53,
+          "priced": 53,
+          "admitted": 53,
+          "retention": 1.0,
+          "scale_ratio": 0.041558175602852326,
+          "net": {
+            "SYM": {
+              "raw": 1.2386016054693905,
+              "admitted": 1.2386016054693905
+            },
+            "ASYM": {
+              "raw": 1.2386016054693905,
+              "admitted": 1.2386016054693905
+            }
+          }
+        }
+      ],
+      "economics": {
+        "SYM": {
+          "raw_R": 3.5558804130717494,
+          "net_R": 3.5558804130717494,
+          "mean_R": 0.03743032013759736,
+          "cash_R_DD": 3.0671279497615744,
+          "daily_MTM_R_DD": 3.0671279497615744
+        },
+        "ASYM": {
+          "raw_R": 3.5558804130717494,
+          "net_R": 3.5558804130717494,
+          "mean_R": 0.03743032013759736,
+          "cash_R_DD": 3.0671279497615744,
+          "daily_MTM_R_DD": 3.0671279497615744
+        }
+      },
+      "raw": 95,
+      "priced": 95,
+      "admitted": 95,
+      "path_unknown": 7,
+      "reasons": [
+        "MEAN_BELOW004"
+      ],
+      "admitted_component": false,
+      "dual_positive": true,
+      "exits": {
+        "HORIZON": 91,
+        "SL": 4
+      },
+      "complete_path": true,
+      "source_cell": 316,
+      "old_priced": 88,
+      "old_reasons": [
+        "PATH_OR_ENDPOINT_INCOMPLETE",
+        "MEAN_BELOW004"
+      ],
+      "only_path_before": false,
+      "source_uncertain": 7,
+      "source_uncertain_admitted": 7,
+      "source_verified_component": false,
+      "execution_scenario": "V13_NEXT_QUOTE",
+      "deferred_endpoint_events": [],
+      "open_stop_events": [],
+      "original_block_minutes": {
+        "UNCLASSIFIED_SOURCE_GAP": 15
+      },
+      "original_gap_count": 12,
+      "remaining_invalid_events": []
+    },
+    {
+      "label": "C16",
+      "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=2|DAY|P1",
+      "asset": "XAUUSD",
+      "family": "F4",
+      "recipe": "F4:hour=15:impulse=1:timing=MONTH:multiple=2",
+      "horizon": "DAY",
+      "mode": "P1",
+      "annual": [
+        {
+          "year": 2018,
+          "raw": 12,
+          "priced": 12,
+          "admitted": 12,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": -2.7528055853626836,
+              "net_R": -2.7528055853626836
+            },
+            "ASYM": {
+              "raw_R": -2.7528055853626836,
+              "net_R": -2.7528055853626836
+            }
+          }
+        },
+        {
+          "year": 2019,
+          "raw": 18,
+          "priced": 18,
+          "admitted": 18,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": 3.25739351029803,
+              "net_R": 3.25739351029803
+            },
+            "ASYM": {
+              "raw_R": 3.25739351029803,
+              "net_R": 3.25739351029803
+            }
+          }
+        },
+        {
+          "year": 2020,
+          "raw": 12,
+          "priced": 12,
+          "admitted": 12,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": 1.8126908826670127,
+              "net_R": 1.8126908826670127
+            },
+            "ASYM": {
+              "raw_R": 1.8126908826670127,
+              "net_R": 1.8126908826670127
+            }
+          }
+        },
+        {
+          "year": 2021,
+          "raw": 14,
+          "priced": 14,
+          "admitted": 14,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": 0.5528899902590169,
+              "net_R": 0.5528899902590169
+            },
+            "ASYM": {
+              "raw_R": 0.5528899902590169,
+              "net_R": 0.5528899902590169
+            }
+          }
+        },
+        {
+          "year": 2022,
+          "raw": 18,
+          "priced": 18,
+          "admitted": 18,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": -0.9819192490805493,
+              "net_R": -0.9819192490805493
+            },
+            "ASYM": {
+              "raw_R": -0.9819192490805493,
+              "net_R": -0.9819192490805493
+            }
+          }
+        },
+        {
+          "year": 2023,
+          "raw": 21,
+          "priced": 21,
+          "admitted": 21,
+          "path_unknown": 3,
+          "models": {
+            "SYM": {
+              "raw_R": 1.667630864290923,
+              "net_R": 1.667630864290923
+            },
+            "ASYM": {
+              "raw_R": 1.667630864290923,
+              "net_R": 1.667630864290923
+            }
+          }
+        }
+      ],
+      "clusters": [
+        {
+          "years": [
+            2018,
+            2019,
+            2020
+          ],
+          "raw": 42,
+          "priced": 42,
+          "admitted": 42,
+          "retention": 1.0,
+          "scale_ratio": 0.0691879273640932,
+          "net": {
+            "SYM": {
+              "raw": 2.3172788076023587,
+              "admitted": 2.3172788076023587
+            },
+            "ASYM": {
+              "raw": 2.3172788076023587,
+              "admitted": 2.3172788076023587
+            }
+          }
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "raw": 53,
+          "priced": 53,
+          "admitted": 53,
+          "retention": 1.0,
+          "scale_ratio": 0.041558175602852326,
+          "net": {
+            "SYM": {
+              "raw": 1.2386016054693905,
+              "admitted": 1.2386016054693905
+            },
+            "ASYM": {
+              "raw": 1.2386016054693905,
+              "admitted": 1.2386016054693905
+            }
+          }
+        }
+      ],
+      "economics": {
+        "SYM": {
+          "raw_R": 3.5558804130717494,
+          "net_R": 3.5558804130717494,
+          "mean_R": 0.03743032013759736,
+          "cash_R_DD": 3.0671279497615744,
+          "daily_MTM_R_DD": 3.0671279497615744
+        },
+        "ASYM": {
+          "raw_R": 3.5558804130717494,
+          "net_R": 3.5558804130717494,
+          "mean_R": 0.03743032013759736,
+          "cash_R_DD": 3.0671279497615744,
+          "daily_MTM_R_DD": 3.0671279497615744
+        }
+      },
+      "raw": 95,
+      "priced": 95,
+      "admitted": 95,
+      "path_unknown": 7,
+      "reasons": [
+        "MEAN_BELOW004"
+      ],
+      "admitted_component": false,
+      "dual_positive": true,
+      "exits": {
+        "HORIZON": 91,
+        "SL": 4
+      },
+      "complete_path": true,
+      "source_cell": 316,
+      "old_priced": 88,
+      "old_reasons": [
+        "PATH_OR_ENDPOINT_INCOMPLETE",
+        "MEAN_BELOW004"
+      ],
+      "only_path_before": false,
+      "source_uncertain": 7,
+      "source_uncertain_admitted": 7,
+      "source_verified_component": false,
+      "execution_scenario": "V13_NEXT_QUOTE",
+      "deferred_endpoint_events": [],
+      "open_stop_events": [],
+      "original_block_minutes": {
+        "UNCLASSIFIED_SOURCE_GAP": 15
+      },
+      "original_gap_count": 12,
+      "remaining_invalid_events": []
+    },
+    {
+      "label": "C17",
+      "id": "XAUUSD|F4:hour=16:impulse=1:timing=MONTH:multiple=2|DAY|P0",
+      "asset": "XAUUSD",
+      "family": "F4",
+      "recipe": "F4:hour=16:impulse=1:timing=MONTH:multiple=2",
+      "horizon": "DAY",
+      "mode": "P0",
+      "annual": [
+        {
+          "year": 2018,
+          "raw": 7,
+          "priced": 7,
+          "admitted": 7,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": 0.14396224443841574,
+              "net_R": 0.14396224443841574
+            },
+            "ASYM": {
+              "raw_R": 0.14396224443841574,
+              "net_R": 0.14396224443841574
+            }
+          }
+        },
+        {
+          "year": 2019,
+          "raw": 11,
+          "priced": 11,
+          "admitted": 11,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": 1.2149172792120981,
+              "net_R": 1.2149172792120981
+            },
+            "ASYM": {
+              "raw_R": 1.2149172792120981,
+              "net_R": 1.2149172792120981
+            }
+          }
+        },
+        {
+          "year": 2020,
+          "raw": 12,
+          "priced": 12,
+          "admitted": 12,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": -0.7672530764933309,
+              "net_R": -0.7672530764933309
+            },
+            "ASYM": {
+              "raw_R": -0.7672530764933309,
+              "net_R": -0.7672530764933309
+            }
+          }
+        },
+        {
+          "year": 2021,
+          "raw": 5,
+          "priced": 5,
+          "admitted": 5,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": 0.019719088254711026,
+              "net_R": 0.019719088254711026
+            },
+            "ASYM": {
+              "raw_R": 0.019719088254711026,
+              "net_R": 0.019719088254711026
+            }
+          }
+        },
+        {
+          "year": 2022,
+          "raw": 5,
+          "priced": 5,
+          "admitted": 5,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": -1.7040890600230405,
+              "net_R": -1.7040890600230405
+            },
+            "ASYM": {
+              "raw_R": -1.7040890600230405,
+              "net_R": -1.7040890600230405
+            }
+          }
+        },
+        {
+          "year": 2023,
+          "raw": 10,
+          "priced": 10,
+          "admitted": 10,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": 2.202587462660667,
+              "net_R": 2.202587462660667
+            },
+            "ASYM": {
+              "raw_R": 2.202587462660667,
+              "net_R": 2.202587462660667
+            }
+          }
+        }
+      ],
+      "clusters": [
+        {
+          "years": [
+            2018,
+            2019,
+            2020
+          ],
+          "raw": 30,
+          "priced": 30,
+          "admitted": 30,
+          "retention": 1.0,
+          "scale_ratio": 0.057801068810485405,
+          "net": {
+            "SYM": {
+              "raw": 0.5916264471571829,
+              "admitted": 0.5916264471571829
+            },
+            "ASYM": {
+              "raw": 0.5916264471571829,
+              "admitted": 0.5916264471571829
+            }
+          }
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "raw": 20,
+          "priced": 20,
+          "admitted": 20,
+          "retention": 1.0,
+          "scale_ratio": 0.04104394942083904,
+          "net": {
+            "SYM": {
+              "raw": 0.5182174908923377,
+              "admitted": 0.5182174908923377
+            },
+            "ASYM": {
+              "raw": 0.5182174908923377,
+              "admitted": 0.5182174908923377
+            }
+          }
+        }
+      ],
+      "economics": {
+        "SYM": {
+          "raw_R": 1.1098439380495206,
+          "net_R": 1.1098439380495206,
+          "mean_R": 0.022196878760990413,
+          "cash_R_DD": 3.2334931983375608,
+          "daily_MTM_R_DD": 3.2334931983375608
+        },
+        "ASYM": {
+          "raw_R": 1.1098439380495206,
+          "net_R": 1.1098439380495206,
+          "mean_R": 0.022196878760990413,
+          "cash_R_DD": 3.2334931983375608,
+          "daily_MTM_R_DD": 3.2334931983375608
+        }
+      },
+      "raw": 50,
+      "priced": 50,
+      "admitted": 50,
+      "path_unknown": 3,
+      "reasons": [
+        "MEAN_BELOW004"
+      ],
+      "admitted_component": false,
+      "dual_positive": true,
+      "exits": {
+        "HORIZON": 49,
+        "SL": 1
+      },
+      "complete_path": true,
+      "source_cell": 364,
+      "old_priced": 47,
+      "old_reasons": [
+        "PATH_OR_ENDPOINT_INCOMPLETE",
+        "MEAN_BELOW004"
+      ],
+      "only_path_before": false,
+      "source_uncertain": 3,
+      "source_uncertain_admitted": 3,
+      "source_verified_component": false,
+      "execution_scenario": "V13_NEXT_QUOTE",
+      "deferred_endpoint_events": [],
+      "open_stop_events": [],
+      "original_block_minutes": {
+        "UNCLASSIFIED_SOURCE_GAP": 4
+      },
+      "original_gap_count": 4,
+      "remaining_invalid_events": []
+    },
+    {
+      "label": "C18",
+      "id": "XAUUSD|F4:hour=16:impulse=1:timing=MONTH:multiple=2|DAY|P1",
+      "asset": "XAUUSD",
+      "family": "F4",
+      "recipe": "F4:hour=16:impulse=1:timing=MONTH:multiple=2",
+      "horizon": "DAY",
+      "mode": "P1",
+      "annual": [
+        {
+          "year": 2018,
+          "raw": 7,
+          "priced": 7,
+          "admitted": 7,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": 0.14396224443841574,
+              "net_R": 0.14396224443841574
+            },
+            "ASYM": {
+              "raw_R": 0.14396224443841574,
+              "net_R": 0.14396224443841574
+            }
+          }
+        },
+        {
+          "year": 2019,
+          "raw": 11,
+          "priced": 11,
+          "admitted": 11,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": 1.2149172792120981,
+              "net_R": 1.2149172792120981
+            },
+            "ASYM": {
+              "raw_R": 1.2149172792120981,
+              "net_R": 1.2149172792120981
+            }
+          }
+        },
+        {
+          "year": 2020,
+          "raw": 12,
+          "priced": 12,
+          "admitted": 12,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": -0.7672530764933309,
+              "net_R": -0.7672530764933309
+            },
+            "ASYM": {
+              "raw_R": -0.7672530764933309,
+              "net_R": -0.7672530764933309
+            }
+          }
+        },
+        {
+          "year": 2021,
+          "raw": 5,
+          "priced": 5,
+          "admitted": 5,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": 0.019719088254711026,
+              "net_R": 0.019719088254711026
+            },
+            "ASYM": {
+              "raw_R": 0.019719088254711026,
+              "net_R": 0.019719088254711026
+            }
+          }
+        },
+        {
+          "year": 2022,
+          "raw": 5,
+          "priced": 5,
+          "admitted": 5,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": -1.7040890600230405,
+              "net_R": -1.7040890600230405
+            },
+            "ASYM": {
+              "raw_R": -1.7040890600230405,
+              "net_R": -1.7040890600230405
+            }
+          }
+        },
+        {
+          "year": 2023,
+          "raw": 10,
+          "priced": 10,
+          "admitted": 10,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": 2.202587462660667,
+              "net_R": 2.202587462660667
+            },
+            "ASYM": {
+              "raw_R": 2.202587462660667,
+              "net_R": 2.202587462660667
+            }
+          }
+        }
+      ],
+      "clusters": [
+        {
+          "years": [
+            2018,
+            2019,
+            2020
+          ],
+          "raw": 30,
+          "priced": 30,
+          "admitted": 30,
+          "retention": 1.0,
+          "scale_ratio": 0.057801068810485405,
+          "net": {
+            "SYM": {
+              "raw": 0.5916264471571829,
+              "admitted": 0.5916264471571829
+            },
+            "ASYM": {
+              "raw": 0.5916264471571829,
+              "admitted": 0.5916264471571829
+            }
+          }
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "raw": 20,
+          "priced": 20,
+          "admitted": 20,
+          "retention": 1.0,
+          "scale_ratio": 0.04104394942083904,
+          "net": {
+            "SYM": {
+              "raw": 0.5182174908923377,
+              "admitted": 0.5182174908923377
+            },
+            "ASYM": {
+              "raw": 0.5182174908923377,
+              "admitted": 0.5182174908923377
+            }
+          }
+        }
+      ],
+      "economics": {
+        "SYM": {
+          "raw_R": 1.1098439380495206,
+          "net_R": 1.1098439380495206,
+          "mean_R": 0.022196878760990413,
+          "cash_R_DD": 3.2334931983375608,
+          "daily_MTM_R_DD": 3.2334931983375608
+        },
+        "ASYM": {
+          "raw_R": 1.1098439380495206,
+          "net_R": 1.1098439380495206,
+          "mean_R": 0.022196878760990413,
+          "cash_R_DD": 3.2334931983375608,
+          "daily_MTM_R_DD": 3.2334931983375608
+        }
+      },
+      "raw": 50,
+      "priced": 50,
+      "admitted": 50,
+      "path_unknown": 3,
+      "reasons": [
+        "MEAN_BELOW004"
+      ],
+      "admitted_component": false,
+      "dual_positive": true,
+      "exits": {
+        "HORIZON": 49,
+        "SL": 1
+      },
+      "complete_path": true,
+      "source_cell": 364,
+      "old_priced": 47,
+      "old_reasons": [
+        "PATH_OR_ENDPOINT_INCOMPLETE",
+        "MEAN_BELOW004"
+      ],
+      "only_path_before": false,
+      "source_uncertain": 3,
+      "source_uncertain_admitted": 3,
+      "source_verified_component": false,
+      "execution_scenario": "V13_NEXT_QUOTE",
+      "deferred_endpoint_events": [],
+      "open_stop_events": [],
+      "original_block_minutes": {
+        "UNCLASSIFIED_SOURCE_GAP": 4
+      },
+      "original_gap_count": 4,
+      "remaining_invalid_events": []
+    },
+    {
+      "label": "C19",
+      "id": "EURUSD|F3:compression=NR:n=7:multiple=1|DAY|P1",
+      "asset": "EURUSD",
+      "family": "F3",
+      "recipe": "F3:compression=NR:n=7:multiple=1",
+      "horizon": "DAY",
+      "mode": "P1",
+      "annual": [
+        {
+          "year": 2018,
+          "raw": 34,
+          "priced": 34,
+          "admitted": 34,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": 3.5976453458213493,
+              "net_R": 3.5976453458213493
+            },
+            "ASYM": {
+              "raw_R": 3.5976453458213493,
+              "net_R": 3.5976453458213493
+            }
+          }
+        },
+        {
+          "year": 2019,
+          "raw": 37,
+          "priced": 37,
+          "admitted": 36,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": -5.577933335020508,
+              "net_R": -4.4989859665993315
+            },
+            "ASYM": {
+              "raw_R": -5.577933335020508,
+              "net_R": -4.4989859665993315
+            }
+          }
+        },
+        {
+          "year": 2020,
+          "raw": 27,
+          "priced": 27,
+          "admitted": 27,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": 2.1032491065749417,
+              "net_R": 2.1032491065749417
+            },
+            "ASYM": {
+              "raw_R": 2.1032491065749417,
+              "net_R": 2.1032491065749417
+            }
+          }
+        },
+        {
+          "year": 2021,
+          "raw": 27,
+          "priced": 27,
+          "admitted": 27,
+          "path_unknown": 10,
+          "models": {
+            "SYM": {
+              "raw_R": -2.5390010880942357,
+              "net_R": -2.5390010880942357
+            },
+            "ASYM": {
+              "raw_R": -2.5390010880942357,
+              "net_R": -2.5390010880942357
+            }
+          }
+        },
+        {
+          "year": 2022,
+          "raw": 34,
+          "priced": 34,
+          "admitted": 34,
+          "path_unknown": 4,
+          "models": {
+            "SYM": {
+              "raw_R": 2.7910827239997325,
+              "net_R": 2.7910827239997325
+            },
+            "ASYM": {
+              "raw_R": 2.7910827239997325,
+              "net_R": 2.7910827239997325
+            }
+          }
+        },
+        {
+          "year": 2023,
+          "raw": 34,
+          "priced": 34,
+          "admitted": 34,
+          "path_unknown": 3,
+          "models": {
+            "SYM": {
+              "raw_R": -2.470036382947671,
+              "net_R": -2.470036382947671
+            },
+            "ASYM": {
+              "raw_R": -2.470036382947671,
+              "net_R": -2.470036382947671
+            }
+          }
+        }
+      ],
+      "clusters": [
+        {
+          "years": [
+            2018,
+            2019,
+            2020
+          ],
+          "raw": 98,
+          "priced": 98,
+          "admitted": 97,
+          "retention": 0.9897959183673469,
+          "scale_ratio": 0.06761565836298933,
+          "net": {
+            "SYM": {
+              "raw": 0.12296111737578208,
+              "admitted": 1.2019084857969584
+            },
+            "ASYM": {
+              "raw": 0.12296111737578208,
+              "admitted": 1.2019084857969584
+            }
+          }
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "raw": 95,
+          "priced": 95,
+          "admitted": 95,
+          "retention": 1.0,
+          "scale_ratio": 0.057750759878419454,
+          "net": {
+            "SYM": {
+              "raw": -2.2179547470421728,
+              "admitted": -2.2179547470421728
+            },
+            "ASYM": {
+              "raw": -2.2179547470421728,
+              "admitted": -2.2179547470421728
+            }
+          }
+        }
+      ],
+      "economics": {
+        "SYM": {
+          "raw_R": -2.0949936296663907,
+          "net_R": -1.0160462612452146,
+          "mean_R": -0.005291907610652159,
+          "cash_R_DD": 11.739046303839789,
+          "daily_MTM_R_DD": 11.739046303839789
+        },
+        "ASYM": {
+          "raw_R": -2.0949936296663907,
+          "net_R": -1.0160462612452146,
+          "mean_R": -0.005291907610652159,
+          "cash_R_DD": 11.739046303839789,
+          "daily_MTM_R_DD": 11.739046303839789
+        }
+      },
+      "raw": 193,
+      "priced": 193,
+      "admitted": 192,
+      "path_unknown": 21,
+      "reasons": [
+        "2021:ECONOMIC",
+        "MEAN_BELOW004"
+      ],
+      "admitted_component": false,
+      "dual_positive": false,
+      "exits": {
+        "SL": 55,
+        "HORIZON": 132,
+        "PROTECT": 5
+      },
+      "complete_path": true,
+      "source_cell": 128,
+      "old_priced": 172,
+      "old_reasons": [
+        "PATH_OR_ENDPOINT_INCOMPLETE",
+        "MEAN_BELOW004"
+      ],
+      "only_path_before": false,
+      "source_uncertain": 21,
+      "source_uncertain_admitted": 21,
+      "source_verified_component": false,
+      "execution_scenario": "V13_NEXT_QUOTE",
+      "deferred_endpoint_events": [],
+      "open_stop_events": [],
+      "original_block_minutes": {
+        "UNCLASSIFIED_SOURCE_GAP": 36
+      },
+      "original_gap_count": 33,
+      "remaining_invalid_events": []
+    },
+    {
+      "label": "C20",
+      "id": "EURUSD|F3:compression=NR:n=14:multiple=1|DAY|P1",
+      "asset": "EURUSD",
+      "family": "F3",
+      "recipe": "F3:compression=NR:n=14:multiple=1",
+      "horizon": "DAY",
+      "mode": "P1",
+      "annual": [
+        {
+          "year": 2018,
+          "raw": 21,
+          "priced": 21,
+          "admitted": 21,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": 2.8598862157074167,
+              "net_R": 2.8598862157074167
+            },
+            "ASYM": {
+              "raw_R": 2.8598862157074167,
+              "net_R": 2.8598862157074167
+            }
+          }
+        },
+        {
+          "year": 2019,
+          "raw": 20,
+          "priced": 20,
+          "admitted": 19,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": -6.1183884128690575,
+              "net_R": -5.039441044447881
+            },
+            "ASYM": {
+              "raw_R": -6.1183884128690575,
+              "net_R": -5.039441044447881
+            }
+          }
+        },
+        {
+          "year": 2020,
+          "raw": 14,
+          "priced": 14,
+          "admitted": 14,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": 3.6259086276740575,
+              "net_R": 3.6259086276740575
+            },
+            "ASYM": {
+              "raw_R": 3.6259086276740575,
+              "net_R": 3.6259086276740575
+            }
+          }
+        },
+        {
+          "year": 2021,
+          "raw": 20,
+          "priced": 20,
+          "admitted": 20,
+          "path_unknown": 9,
+          "models": {
+            "SYM": {
+              "raw_R": -3.328240753266306,
+              "net_R": -3.328240753266306
+            },
+            "ASYM": {
+              "raw_R": -3.328240753266306,
+              "net_R": -3.328240753266306
+            }
+          }
+        },
+        {
+          "year": 2022,
+          "raw": 18,
+          "priced": 18,
+          "admitted": 18,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": 4.352692400687298,
+              "net_R": 4.352692400687298
+            },
+            "ASYM": {
+              "raw_R": 4.352692400687298,
+              "net_R": 4.352692400687298
+            }
+          }
+        },
+        {
+          "year": 2023,
+          "raw": 16,
+          "priced": 16,
+          "admitted": 16,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": -0.28473151762605275,
+              "net_R": -0.28473151762605275
+            },
+            "ASYM": {
+              "raw_R": -0.28473151762605275,
+              "net_R": -0.28473151762605275
+            }
+          }
+        }
+      ],
+      "clusters": [
+        {
+          "years": [
+            2018,
+            2019,
+            2020
+          ],
+          "raw": 55,
+          "priced": 55,
+          "admitted": 54,
+          "retention": 0.9818181818181818,
+          "scale_ratio": 0.06761565836298933,
+          "net": {
+            "SYM": {
+              "raw": 0.3674064305124156,
+              "admitted": 1.4463537989335935
+            },
+            "ASYM": {
+              "raw": 0.3674064305124156,
+              "admitted": 1.4463537989335935
+            }
+          }
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "raw": 54,
+          "priced": 54,
+          "admitted": 54,
+          "retention": 1.0,
+          "scale_ratio": 0.057838660578386616,
+          "net": {
+            "SYM": {
+              "raw": 0.7397201297949393,
+              "admitted": 0.7397201297949393
+            },
+            "ASYM": {
+              "raw": 0.7397201297949393,
+              "admitted": 0.7397201297949393
+            }
+          }
+        }
+      ],
+      "economics": {
+        "SYM": {
+          "raw_R": 1.1071265603073561,
+          "net_R": 2.1860739287285353,
+          "mean_R": 0.020241425266004958,
+          "cash_R_DD": 9.33722222965777,
+          "daily_MTM_R_DD": 9.33722222965777
+        },
+        "ASYM": {
+          "raw_R": 1.1071265603073561,
+          "net_R": 2.1860739287285353,
+          "mean_R": 0.020241425266004958,
+          "cash_R_DD": 9.33722222965777,
+          "daily_MTM_R_DD": 9.33722222965777
+        }
+      },
+      "raw": 109,
+      "priced": 109,
+      "admitted": 108,
+      "path_unknown": 14,
+      "reasons": [
+        "MEAN_BELOW004"
+      ],
+      "admitted_component": false,
+      "dual_positive": true,
+      "exits": {
+        "HORIZON": 74,
+        "SL": 32,
+        "PROTECT": 2
+      },
+      "complete_path": true,
+      "source_cell": 136,
+      "old_priced": 95,
+      "old_reasons": [
+        "PATH_OR_ENDPOINT_INCOMPLETE",
+        "MEAN_BELOW004"
+      ],
+      "only_path_before": false,
+      "source_uncertain": 14,
+      "source_uncertain_admitted": 14,
+      "source_verified_component": false,
+      "execution_scenario": "V13_NEXT_QUOTE",
+      "deferred_endpoint_events": [],
+      "open_stop_events": [],
+      "original_block_minutes": {
+        "UNCLASSIFIED_SOURCE_GAP": 27
+      },
+      "original_gap_count": 24,
+      "remaining_invalid_events": []
+    },
+    {
+      "label": "C21",
+      "id": "EURUSD|F5:tf=H1:n=10:adx=25:buffer=0.1|DAY|P0",
+      "asset": "EURUSD",
+      "family": "F5",
+      "recipe": "F5:tf=H1:n=10:adx=25:buffer=0.1",
+      "horizon": "DAY",
+      "mode": "P0",
+      "annual": [
+        {
+          "year": 2018,
+          "raw": 20,
+          "priced": 20,
+          "admitted": 19,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": 12.796102790484397,
+              "net_R": 13.899551066346381
+            },
+            "ASYM": {
+              "raw_R": 12.796102790484397,
+              "net_R": 13.899551066346381
+            }
+          }
+        },
+        {
+          "year": 2019,
+          "raw": 31,
+          "priced": 28,
+          "admitted": 15,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": 4.522771562181183,
+              "net_R": 13.22664517326395
+            },
+            "ASYM": {
+              "raw_R": 4.522771562181183,
+              "net_R": 13.22664517326395
+            }
+          }
+        },
+        {
+          "year": 2020,
+          "raw": 25,
+          "priced": 23,
+          "admitted": 13,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": -10.130171466986175,
+              "net_R": -8.288822287641777
+            },
+            "ASYM": {
+              "raw_R": -10.130171466986175,
+              "net_R": -8.288822287641777
+            }
+          }
+        },
+        {
+          "year": 2021,
+          "raw": 29,
+          "priced": 29,
+          "admitted": 14,
+          "path_unknown": 13,
+          "models": {
+            "SYM": {
+              "raw_R": 3.5995750503374877,
+              "net_R": 3.028721875391277
+            },
+            "ASYM": {
+              "raw_R": 3.5995750503374877,
+              "net_R": 3.028721875391277
+            }
+          }
+        },
+        {
+          "year": 2022,
+          "raw": 25,
+          "priced": 24,
+          "admitted": 17,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": -3.643658242970246,
+              "net_R": -1.6310333593708786
+            },
+            "ASYM": {
+              "raw_R": -3.643658242970246,
+              "net_R": -1.6310333593708786
+            }
+          }
+        },
+        {
+          "year": 2023,
+          "raw": 33,
+          "priced": 32,
+          "admitted": 23,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": 5.088327050452086,
+              "net_R": -1.3307229564570506
+            },
+            "ASYM": {
+              "raw_R": 5.088327050452086,
+              "net_R": -1.3307229564570506
+            }
+          }
+        }
+      ],
+      "clusters": [
+        {
+          "years": [
+            2018,
+            2019,
+            2020
+          ],
+          "raw": 76,
+          "priced": 71,
+          "admitted": 47,
+          "retention": 0.618421052631579,
+          "scale_ratio": 0.1130952380952381,
+          "net": {
+            "SYM": {
+              "raw": 7.188702885679402,
+              "admitted": 18.837373951968548
+            },
+            "ASYM": {
+              "raw": 7.188702885679402,
+              "admitted": 18.837373951968548
+            }
+          }
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "raw": 87,
+          "priced": 85,
+          "admitted": 54,
+          "retention": 0.6206896551724138,
+          "scale_ratio": 0.11801242236024845,
+          "net": {
+            "SYM": {
+              "raw": 5.044243857819332,
+              "admitted": 0.06696555956334782
+            },
+            "ASYM": {
+              "raw": 5.044243857819332,
+              "admitted": 0.06696555956334782
+            }
+          }
+        }
+      ],
+      "economics": {
+        "SYM": {
+          "raw_R": 12.232946743498738,
+          "net_R": 18.904339511531894,
+          "mean_R": 0.18717167833199896,
+          "cash_R_DD": 12.142211993088758,
+          "daily_MTM_R_DD": 12.142211993088758
+        },
+        "ASYM": {
+          "raw_R": 12.232946743498738,
+          "net_R": 18.904339511531894,
+          "mean_R": 0.18717167833199896,
+          "cash_R_DD": 12.142211993088758,
+          "daily_MTM_R_DD": 12.142211993088758
+        }
+      },
+      "raw": 163,
+      "priced": 156,
+      "admitted": 101,
+      "path_unknown": 16,
+      "reasons": [
+        "PATH_OR_ENDPOINT_INCOMPLETE"
+      ],
+      "admitted_component": false,
+      "dual_positive": true,
+      "exits": {
+        "HORIZON": 64,
+        "SL": 37
+      },
+      "complete_path": false,
+      "source_cell": 184,
+      "old_priced": 141,
+      "old_reasons": [
+        "2021:ECONOMIC",
+        "PATH_OR_ENDPOINT_INCOMPLETE"
+      ],
+      "only_path_before": false,
+      "source_uncertain": 16,
+      "source_uncertain_admitted": 7,
+      "source_verified_component": false,
+      "execution_scenario": "V13_NEXT_QUOTE",
+      "deferred_endpoint_events": [
+        45
+      ],
+      "open_stop_events": [],
+      "original_block_minutes": {
+        "UNCLASSIFIED_SOURCE_GAP": 30
+      },
+      "original_gap_count": 28,
+      "remaining_invalid_events": [
+        {
+          "event": 21,
+          "entry": 1548194400000,
+          "decision": 1548194400000,
+          "deadline": 1548189000000,
+          "reasons": [
+            "ENTRY_AFTER_DAY_DEADLINE"
+          ]
+        },
+        {
+          "event": 45,
+          "entry": 1571000400000,
+          "decision": 1570827600000,
+          "deadline": 1570998600000,
+          "reasons": [
+            "ENTRY_AFTER_DAY_DEADLINE",
+            "ENTRY_MORE_THAN_60S_AFTER_DECISION",
+            "WEEKEND_ENTRY"
+          ]
+        },
+        {
+          "event": 47,
+          "entry": 1573678800000,
+          "decision": 1573678800000,
+          "deadline": 1573677000000,
+          "reasons": [
+            "ENTRY_AFTER_DAY_DEADLINE"
+          ]
+        },
+        {
+          "event": 59,
+          "entry": 1590613200000,
+          "decision": 1590613200000,
+          "deadline": 1590611400000,
+          "reasons": [
+            "ENTRY_AFTER_DAY_DEADLINE"
+          ]
+        },
+        {
+          "event": 64,
+          "entry": 1594854000000,
+          "decision": 1594854000000,
+          "deadline": 1594845000000,
+          "reasons": [
+            "ENTRY_AFTER_DAY_DEADLINE"
+          ]
+        },
+        {
+          "event": 127,
+          "entry": 1670014800000,
+          "decision": 1670014800000,
+          "deadline": 1670013000000,
+          "reasons": [
+            "ENTRY_AFTER_DAY_DEADLINE",
+            "ENTRY_AFTER_FRIDAY_FLAT"
+          ]
+        },
+        {
+          "event": 149,
+          "entry": 1692219600000,
+          "decision": 1692219600000,
+          "deadline": 1692217800000,
+          "reasons": [
+            "ENTRY_AFTER_DAY_DEADLINE"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "C22",
+      "id": "EURUSD|F5:tf=H1:n=10:adx=25:buffer=0.1|DAY|P1",
+      "asset": "EURUSD",
+      "family": "F5",
+      "recipe": "F5:tf=H1:n=10:adx=25:buffer=0.1",
+      "horizon": "DAY",
+      "mode": "P1",
+      "annual": [
+        {
+          "year": 2018,
+          "raw": 20,
+          "priced": 20,
+          "admitted": 19,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": 9.250003499704173,
+              "net_R": 10.353451775566157
+            },
+            "ASYM": {
+              "raw_R": 9.250003499704173,
+              "net_R": 10.353451775566157
+            }
+          }
+        },
+        {
+          "year": 2019,
+          "raw": 31,
+          "priced": 28,
+          "admitted": 15,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": 1.510271562181153,
+              "net_R": 13.22664517326395
+            },
+            "ASYM": {
+              "raw_R": 1.510271562181153,
+              "net_R": 13.22664517326395
+            }
+          }
+        },
+        {
+          "year": 2020,
+          "raw": 25,
+          "priced": 23,
+          "admitted": 13,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": -6.815242720613156,
+              "net_R": -6.255583682114094
+            },
+            "ASYM": {
+              "raw_R": -6.815242720613156,
+              "net_R": -6.255583682114094
+            }
+          }
+        },
+        {
+          "year": 2021,
+          "raw": 29,
+          "priced": 29,
+          "admitted": 14,
+          "path_unknown": 12,
+          "models": {
+            "SYM": {
+              "raw_R": 3.244329202805827,
+              "net_R": 4.306557297212688
+            },
+            "ASYM": {
+              "raw_R": 3.244329202805827,
+              "net_R": 4.306557297212688
+            }
+          }
+        },
+        {
+          "year": 2022,
+          "raw": 25,
+          "priced": 24,
+          "admitted": 17,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": -2.465196704508708,
+              "net_R": -0.45257182090933973
+            },
+            "ASYM": {
+              "raw_R": -2.465196704508708,
+              "net_R": -0.45257182090933973
+            }
+          }
+        },
+        {
+          "year": 2023,
+          "raw": 33,
+          "priced": 32,
+          "admitted": 23,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": 0.47230548845899634,
+              "net_R": -0.10934891065565866
+            },
+            "ASYM": {
+              "raw_R": 0.47230548845899634,
+              "net_R": -0.10934891065565866
+            }
+          }
+        }
+      ],
+      "clusters": [
+        {
+          "years": [
+            2018,
+            2019,
+            2020
+          ],
+          "raw": 76,
+          "priced": 71,
+          "admitted": 47,
+          "retention": 0.618421052631579,
+          "scale_ratio": 0.1130952380952381,
+          "net": {
+            "SYM": {
+              "raw": 3.9450323412721704,
+              "admitted": 17.324513266716014
+            },
+            "ASYM": {
+              "raw": 3.9450323412721704,
+              "admitted": 17.324513266716014
+            }
+          }
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "raw": 87,
+          "priced": 85,
+          "admitted": 54,
+          "retention": 0.6206896551724138,
+          "scale_ratio": 0.11801242236024845,
+          "net": {
+            "SYM": {
+              "raw": 1.251437986756118,
+              "admitted": 3.7446365656476903
+            },
+            "ASYM": {
+              "raw": 1.251437986756118,
+              "admitted": 3.7446365656476903
+            }
+          }
+        }
+      ],
+      "economics": {
+        "SYM": {
+          "raw_R": 5.19647032802829,
+          "net_R": 21.0691498323637,
+          "mean_R": 0.2086054438847891,
+          "cash_R_DD": 7.3128708989322,
+          "daily_MTM_R_DD": 7.3128708989322
+        },
+        "ASYM": {
+          "raw_R": 5.19647032802829,
+          "net_R": 21.0691498323637,
+          "mean_R": 0.2086054438847891,
+          "cash_R_DD": 7.3128708989322,
+          "daily_MTM_R_DD": 7.3128708989322
+        }
+      },
+      "raw": 163,
+      "priced": 156,
+      "admitted": 101,
+      "path_unknown": 14,
+      "reasons": [
+        "PATH_OR_ENDPOINT_INCOMPLETE"
+      ],
+      "admitted_component": false,
+      "dual_positive": true,
+      "exits": {
+        "HORIZON": 60,
+        "SL": 33,
+        "PROTECT": 8
+      },
+      "complete_path": false,
+      "source_cell": 184,
+      "old_priced": 143,
+      "old_reasons": [
+        "2021:ECONOMIC",
+        "PATH_OR_ENDPOINT_INCOMPLETE"
+      ],
+      "only_path_before": false,
+      "source_uncertain": 14,
+      "source_uncertain_admitted": 7,
+      "source_verified_component": false,
+      "execution_scenario": "V13_NEXT_QUOTE",
+      "deferred_endpoint_events": [
+        45
+      ],
+      "open_stop_events": [],
+      "original_block_minutes": {
+        "UNCLASSIFIED_SOURCE_GAP": 26
+      },
+      "original_gap_count": 24,
+      "remaining_invalid_events": [
+        {
+          "event": 21,
+          "entry": 1548194400000,
+          "decision": 1548194400000,
+          "deadline": 1548189000000,
+          "reasons": [
+            "ENTRY_AFTER_DAY_DEADLINE"
+          ]
+        },
+        {
+          "event": 45,
+          "entry": 1571000400000,
+          "decision": 1570827600000,
+          "deadline": 1570998600000,
+          "reasons": [
+            "ENTRY_AFTER_DAY_DEADLINE",
+            "ENTRY_MORE_THAN_60S_AFTER_DECISION",
+            "WEEKEND_ENTRY"
+          ]
+        },
+        {
+          "event": 47,
+          "entry": 1573678800000,
+          "decision": 1573678800000,
+          "deadline": 1573677000000,
+          "reasons": [
+            "ENTRY_AFTER_DAY_DEADLINE"
+          ]
+        },
+        {
+          "event": 59,
+          "entry": 1590613200000,
+          "decision": 1590613200000,
+          "deadline": 1590611400000,
+          "reasons": [
+            "ENTRY_AFTER_DAY_DEADLINE"
+          ]
+        },
+        {
+          "event": 64,
+          "entry": 1594854000000,
+          "decision": 1594854000000,
+          "deadline": 1594845000000,
+          "reasons": [
+            "ENTRY_AFTER_DAY_DEADLINE"
+          ]
+        },
+        {
+          "event": 127,
+          "entry": 1670014800000,
+          "decision": 1670014800000,
+          "deadline": 1670013000000,
+          "reasons": [
+            "ENTRY_AFTER_DAY_DEADLINE",
+            "ENTRY_AFTER_FRIDAY_FLAT"
+          ]
+        },
+        {
+          "event": 149,
+          "entry": 1692219600000,
+          "decision": 1692219600000,
+          "deadline": 1692217800000,
+          "reasons": [
+            "ENTRY_AFTER_DAY_DEADLINE"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "C23",
+      "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+      "asset": "EURUSD",
+      "family": "F5",
+      "recipe": "F5:tf=H4:n=5:adx=25:buffer=0.1",
+      "horizon": "DAY",
+      "mode": "P0",
+      "annual": [
+        {
+          "year": 2018,
+          "raw": 36,
+          "priced": 36,
+          "admitted": 34,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": 16.45973876840754,
+              "net_R": 13.99696671800657
+            },
+            "ASYM": {
+              "raw_R": 16.45973876840754,
+              "net_R": 13.99696671800657
+            }
+          }
+        },
+        {
+          "year": 2019,
+          "raw": 27,
+          "priced": 27,
+          "admitted": 25,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": -5.718022124608681,
+              "net_R": -4.531856116703473
+            },
+            "ASYM": {
+              "raw_R": -5.718022124608681,
+              "net_R": -4.531856116703473
+            }
+          }
+        },
+        {
+          "year": 2020,
+          "raw": 33,
+          "priced": 33,
+          "admitted": 32,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": -3.596044877264814,
+              "net_R": -2.503261372110262
+            },
+            "ASYM": {
+              "raw_R": -3.596044877264814,
+              "net_R": -2.503261372110262
+            }
+          }
+        },
+        {
+          "year": 2021,
+          "raw": 28,
+          "priced": 28,
+          "admitted": 27,
+          "path_unknown": 13,
+          "models": {
+            "SYM": {
+              "raw_R": 0.6437553365908835,
+              "net_R": 1.7311339773676666
+            },
+            "ASYM": {
+              "raw_R": 0.6437553365908835,
+              "net_R": 1.7311339773676666
+            }
+          }
+        },
+        {
+          "year": 2022,
+          "raw": 36,
+          "priced": 36,
+          "admitted": 36,
+          "path_unknown": 3,
+          "models": {
+            "SYM": {
+              "raw_R": 1.8014176864230316,
+              "net_R": 1.8014176864230316
+            },
+            "ASYM": {
+              "raw_R": 1.8014176864230316,
+              "net_R": 1.8014176864230316
+            }
+          }
+        },
+        {
+          "year": 2023,
+          "raw": 40,
+          "priced": 40,
+          "admitted": 40,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": 14.996445533498195,
+              "net_R": 14.996445533498195
+            },
+            "ASYM": {
+              "raw_R": 14.996445533498195,
+              "net_R": 14.996445533498195
+            }
+          }
+        }
+      ],
+      "clusters": [
+        {
+          "years": [
+            2018,
+            2019,
+            2020
+          ],
+          "raw": 96,
+          "priced": 96,
+          "admitted": 91,
+          "retention": 0.9479166666666666,
+          "scale_ratio": 0.06219312602291326,
+          "net": {
+            "SYM": {
+              "raw": 7.145671766534051,
+              "admitted": 6.961849229192835
+            },
+            "ASYM": {
+              "raw": 7.145671766534051,
+              "admitted": 6.961849229192835
+            }
+          }
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "raw": 104,
+          "priced": 104,
+          "admitted": 103,
+          "retention": 0.9903846153846154,
+          "scale_ratio": 0.05891472868217055,
+          "net": {
+            "SYM": {
+              "raw": 17.441618556512108,
+              "admitted": 18.52899719728889
+            },
+            "ASYM": {
+              "raw": 17.441618556512108,
+              "admitted": 18.52899719728889
+            }
+          }
+        }
+      ],
+      "economics": {
+        "SYM": {
+          "raw_R": 24.587290323046158,
+          "net_R": 25.490846426481728,
+          "mean_R": 0.13139611560042128,
+          "cash_R_DD": 12.427014189317914,
+          "daily_MTM_R_DD": 12.427014189317914
+        },
+        "ASYM": {
+          "raw_R": 24.587290323046158,
+          "net_R": 25.490846426481728,
+          "mean_R": 0.13139611560042128,
+          "cash_R_DD": 12.427014189317914,
+          "daily_MTM_R_DD": 12.427014189317914
+        }
+      },
+      "raw": 200,
+      "priced": 200,
+      "admitted": 194,
+      "path_unknown": 19,
+      "reasons": [],
+      "admitted_component": true,
+      "dual_positive": true,
+      "exits": {
+        "HORIZON": 144,
+        "SL": 50
+      },
+      "complete_path": true,
+      "source_cell": 192,
+      "old_priced": 181,
+      "old_reasons": [
+        "PATH_OR_ENDPOINT_INCOMPLETE"
+      ],
+      "only_path_before": true,
+      "source_uncertain": 19,
+      "source_uncertain_admitted": 18,
+      "source_verified_component": false,
+      "execution_scenario": "V13_NEXT_QUOTE",
+      "deferred_endpoint_events": [
+        114
+      ],
+      "open_stop_events": [
+        121
+      ],
+      "original_block_minutes": {
+        "UNCLASSIFIED_SOURCE_GAP": 39
+      },
+      "original_gap_count": 37,
+      "remaining_invalid_events": []
+    },
+    {
+      "label": "C24",
+      "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P1",
+      "asset": "EURUSD",
+      "family": "F5",
+      "recipe": "F5:tf=H4:n=5:adx=25:buffer=0.1",
+      "horizon": "DAY",
+      "mode": "P1",
+      "annual": [
+        {
+          "year": 2018,
+          "raw": 36,
+          "priced": 36,
+          "admitted": 34,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": 13.656328214997105,
+              "net_R": 14.59831806935796
+            },
+            "ASYM": {
+              "raw_R": 13.656328214997105,
+              "net_R": 14.59831806935796
+            }
+          }
+        },
+        {
+          "year": 2019,
+          "raw": 27,
+          "priced": 27,
+          "admitted": 25,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": -5.190244346830838,
+              "net_R": -4.00407833892563
+            },
+            "ASYM": {
+              "raw_R": -5.190244346830838,
+              "net_R": -4.00407833892563
+            }
+          }
+        },
+        {
+          "year": 2020,
+          "raw": 33,
+          "priced": 33,
+          "admitted": 32,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": -4.343720236068098,
+              "net_R": -4.498359411325848
+            },
+            "ASYM": {
+              "raw_R": -4.343720236068098,
+              "net_R": -4.498359411325848
+            }
+          }
+        },
+        {
+          "year": 2021,
+          "raw": 28,
+          "priced": 28,
+          "admitted": 27,
+          "path_unknown": 13,
+          "models": {
+            "SYM": {
+              "raw_R": 0.6437553365908835,
+              "net_R": 1.7311339773676666
+            },
+            "ASYM": {
+              "raw_R": 0.6437553365908835,
+              "net_R": 1.7311339773676666
+            }
+          }
+        },
+        {
+          "year": 2022,
+          "raw": 36,
+          "priced": 36,
+          "admitted": 36,
+          "path_unknown": 3,
+          "models": {
+            "SYM": {
+              "raw_R": 3.6559517631098197,
+              "net_R": 3.6559517631098197
+            },
+            "ASYM": {
+              "raw_R": 3.6559517631098197,
+              "net_R": 3.6559517631098197
+            }
+          }
+        },
+        {
+          "year": 2023,
+          "raw": 40,
+          "priced": 40,
+          "admitted": 40,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": 14.214407616120416,
+              "net_R": 14.214407616120416
+            },
+            "ASYM": {
+              "raw_R": 14.214407616120416,
+              "net_R": 14.214407616120416
+            }
+          }
+        }
+      ],
+      "clusters": [
+        {
+          "years": [
+            2018,
+            2019,
+            2020
+          ],
+          "raw": 96,
+          "priced": 96,
+          "admitted": 91,
+          "retention": 0.9479166666666666,
+          "scale_ratio": 0.06219312602291326,
+          "net": {
+            "SYM": {
+              "raw": 4.122363632098171,
+              "admitted": 6.095880319106483
+            },
+            "ASYM": {
+              "raw": 4.122363632098171,
+              "admitted": 6.095880319106483
+            }
+          }
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "raw": 104,
+          "priced": 104,
+          "admitted": 103,
+          "retention": 0.9903846153846154,
+          "scale_ratio": 0.05891472868217055,
+          "net": {
+            "SYM": {
+              "raw": 18.514114715821115,
+              "admitted": 19.601493356597903
+            },
+            "ASYM": {
+              "raw": 18.514114715821115,
+              "admitted": 19.601493356597903
+            }
+          }
+        }
+      ],
+      "economics": {
+        "SYM": {
+          "raw_R": 22.636478347919287,
+          "net_R": 25.69737367570439,
+          "mean_R": 0.13246068905002265,
+          "cash_R_DD": 13.894334450755656,
+          "daily_MTM_R_DD": 13.894334450755656
+        },
+        "ASYM": {
+          "raw_R": 22.636478347919287,
+          "net_R": 25.69737367570439,
+          "mean_R": 0.13246068905002265,
+          "cash_R_DD": 13.894334450755656,
+          "daily_MTM_R_DD": 13.894334450755656
+        }
+      },
+      "raw": 200,
+      "priced": 200,
+      "admitted": 194,
+      "path_unknown": 19,
+      "reasons": [],
+      "admitted_component": true,
+      "dual_positive": true,
+      "exits": {
+        "HORIZON": 138,
+        "SL": 48,
+        "PROTECT": 8
+      },
+      "complete_path": true,
+      "source_cell": 192,
+      "old_priced": 181,
+      "old_reasons": [
+        "PATH_OR_ENDPOINT_INCOMPLETE"
+      ],
+      "only_path_before": true,
+      "source_uncertain": 19,
+      "source_uncertain_admitted": 18,
+      "source_verified_component": false,
+      "execution_scenario": "V13_NEXT_QUOTE",
+      "deferred_endpoint_events": [
+        114
+      ],
+      "open_stop_events": [
+        121
+      ],
+      "original_block_minutes": {
+        "UNCLASSIFIED_SOURCE_GAP": 39
+      },
+      "original_gap_count": 37,
+      "remaining_invalid_events": []
+    },
+    {
+      "label": "C25",
+      "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P2",
+      "asset": "EURUSD",
+      "family": "F5",
+      "recipe": "F5:tf=H4:n=5:adx=25:buffer=0.1",
+      "horizon": "DAY",
+      "mode": "P2",
+      "annual": [
+        {
+          "year": 2018,
+          "raw": 36,
+          "priced": 36,
+          "admitted": 34,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": 16.65283516702029,
+              "net_R": 14.817047243603497
+            },
+            "ASYM": {
+              "raw_R": 16.68791152040389,
+              "net_R": 14.844187089050592
+            }
+          }
+        },
+        {
+          "year": 2019,
+          "raw": 27,
+          "priced": 27,
+          "admitted": 25,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": -5.718022124608681,
+              "net_R": -4.531856116703473
+            },
+            "ASYM": {
+              "raw_R": -5.718022124608681,
+              "net_R": -4.531856116703473
+            }
+          }
+        },
+        {
+          "year": 2020,
+          "raw": 33,
+          "priced": 33,
+          "admitted": 32,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": -2.787221347852975,
+              "net_R": -1.6944378426984228
+            },
+            "ASYM": {
+              "raw_R": -2.7823193870686618,
+              "net_R": -1.6895358819141095
+            }
+          }
+        },
+        {
+          "year": 2021,
+          "raw": 28,
+          "priced": 28,
+          "admitted": 27,
+          "path_unknown": 13,
+          "models": {
+            "SYM": {
+              "raw_R": 0.21063431748259448,
+              "net_R": 1.2980129582593773
+            },
+            "ASYM": {
+              "raw_R": 0.2170037442341866,
+              "net_R": 1.3043823850109695
+            }
+          }
+        },
+        {
+          "year": 2022,
+          "raw": 36,
+          "priced": 36,
+          "admitted": 36,
+          "path_unknown": 3,
+          "models": {
+            "SYM": {
+              "raw_R": 3.9857934129982464,
+              "net_R": 3.9857934129982464
+            },
+            "ASYM": {
+              "raw_R": 3.9950935757510937,
+              "net_R": 3.9950935757510937
+            }
+          }
+        },
+        {
+          "year": 2023,
+          "raw": 40,
+          "priced": 40,
+          "admitted": 40,
+          "path_unknown": 2,
+          "models": {
+            "SYM": {
+              "raw_R": 8.530474007548397,
+              "net_R": 8.530474007548397
+            },
+            "ASYM": {
+              "raw_R": 8.549915681600327,
+              "net_R": 8.549915681600327
+            }
+          }
+        }
+      ],
+      "clusters": [
+        {
+          "years": [
+            2018,
+            2019,
+            2020
+          ],
+          "raw": 96,
+          "priced": 96,
+          "admitted": 91,
+          "retention": 0.9479166666666666,
+          "scale_ratio": 0.06219312602291326,
+          "net": {
+            "SYM": {
+              "raw": 8.147591694558635,
+              "admitted": 8.590753284201604
+            },
+            "ASYM": {
+              "raw": 8.187570008726553,
+              "admitted": 8.622795090433009
+            }
+          }
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "raw": 104,
+          "priced": 104,
+          "admitted": 103,
+          "retention": 0.9903846153846154,
+          "scale_ratio": 0.05891472868217055,
+          "net": {
+            "SYM": {
+              "raw": 12.726901738029234,
+              "admitted": 13.81428037880602
+            },
+            "ASYM": {
+              "raw": 12.762013001585604,
+              "admitted": 13.84939164236239
+            }
+          }
+        }
+      ],
+      "economics": {
+        "SYM": {
+          "raw_R": 20.87449343258787,
+          "net_R": 22.40503366300762,
+          "mean_R": 0.11548986424230732,
+          "cash_R_DD": 11.618190659906073,
+          "daily_MTM_R_DD": 11.618190659906073
+        },
+        "ASYM": {
+          "raw_R": 20.949583010312157,
+          "net_R": 22.4721867327954,
+          "mean_R": 0.11583601408657422,
+          "cash_R_DD": 11.61328869912176,
+          "daily_MTM_R_DD": 11.61328869912176
+        }
+      },
+      "raw": 200,
+      "priced": 200,
+      "admitted": 194,
+      "path_unknown": 19,
+      "reasons": [],
+      "admitted_component": true,
+      "dual_positive": true,
+      "exits": {
+        "HORIZON": 132,
+        "SL": 50,
+        "TP": 12
+      },
+      "complete_path": true,
+      "source_cell": 192,
+      "old_priced": 181,
+      "old_reasons": [
+        "PATH_OR_ENDPOINT_INCOMPLETE"
+      ],
+      "only_path_before": true,
+      "source_uncertain": 19,
+      "source_uncertain_admitted": 18,
+      "source_verified_component": false,
+      "execution_scenario": "V13_NEXT_QUOTE",
+      "deferred_endpoint_events": [
+        114
+      ],
+      "open_stop_events": [
+        121
+      ],
+      "original_block_minutes": {
+        "UNCLASSIFIED_SOURCE_GAP": 38
+      },
+      "original_gap_count": 36,
+      "remaining_invalid_events": []
+    },
+    {
+      "label": "C26",
+      "id": "EURUSD|F5:tf=H4:n=10:adx=25:buffer=0.1|DAY|P0",
+      "asset": "EURUSD",
+      "family": "F5",
+      "recipe": "F5:tf=H4:n=10:adx=25:buffer=0.1",
+      "horizon": "DAY",
+      "mode": "P0",
+      "annual": [
+        {
+          "year": 2018,
+          "raw": 20,
+          "priced": 20,
+          "admitted": 20,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": 9.468777843491802,
+              "net_R": 9.468777843491802
+            },
+            "ASYM": {
+              "raw_R": 9.468777843491802,
+              "net_R": 9.468777843491802
+            }
+          }
+        },
+        {
+          "year": 2019,
+          "raw": 14,
+          "priced": 14,
+          "admitted": 13,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": -0.5089298678124154,
+              "net_R": 0.5728883140058582
+            },
+            "ASYM": {
+              "raw_R": -0.5089298678124154,
+              "net_R": 0.5728883140058582
+            }
+          }
+        },
+        {
+          "year": 2020,
+          "raw": 17,
+          "priced": 17,
+          "admitted": 16,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": -4.306037509433184,
+              "net_R": -3.213254004278632
+            },
+            "ASYM": {
+              "raw_R": -4.306037509433184,
+              "net_R": -3.213254004278632
+            }
+          }
+        },
+        {
+          "year": 2021,
+          "raw": 21,
+          "priced": 21,
+          "admitted": 20,
+          "path_unknown": 11,
+          "models": {
+            "SYM": {
+              "raw_R": 2.2936946510176055,
+              "net_R": 3.3810732917943884
+            },
+            "ASYM": {
+              "raw_R": 2.2936946510176055,
+              "net_R": 3.3810732917943884
+            }
+          }
+        },
+        {
+          "year": 2022,
+          "raw": 15,
+          "priced": 15,
+          "admitted": 15,
+          "path_unknown": 3,
+          "models": {
+            "SYM": {
+              "raw_R": 5.5211170479810905,
+              "net_R": 5.5211170479810905
+            },
+            "ASYM": {
+              "raw_R": 5.5211170479810905,
+              "net_R": 5.5211170479810905
+            }
+          }
+        },
+        {
+          "year": 2023,
+          "raw": 29,
+          "priced": 29,
+          "admitted": 29,
+          "path_unknown": 3,
+          "models": {
+            "SYM": {
+              "raw_R": 12.853718767045054,
+              "net_R": 12.853718767045054
+            },
+            "ASYM": {
+              "raw_R": 12.853718767045054,
+              "net_R": 12.853718767045054
+            }
+          }
+        }
+      ],
+      "clusters": [
+        {
+          "years": [
+            2018,
+            2019,
+            2020
+          ],
+          "raw": 51,
+          "priced": 51,
+          "admitted": 49,
+          "retention": 0.9607843137254902,
+          "scale_ratio": 0.05993690851735016,
+          "net": {
+            "SYM": {
+              "raw": 4.653810466246201,
+              "admitted": 6.828412153219026
+            },
+            "ASYM": {
+              "raw": 4.653810466246201,
+              "admitted": 6.828412153219026
+            }
+          }
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "raw": 65,
+          "priced": 65,
+          "admitted": 64,
+          "retention": 0.9846153846153847,
+          "scale_ratio": 0.06597222222222222,
+          "net": {
+            "SYM": {
+              "raw": 20.668530466043745,
+              "admitted": 21.755909106820532
+            },
+            "ASYM": {
+              "raw": 20.668530466043745,
+              "admitted": 21.755909106820532
+            }
+          }
+        }
+      ],
+      "economics": {
+        "SYM": {
+          "raw_R": 25.322340932289954,
+          "net_R": 28.584321260039555,
+          "mean_R": 0.252958595221589,
+          "cash_R_DD": 7.9819943984051855,
+          "daily_MTM_R_DD": 7.9819943984051855
+        },
+        "ASYM": {
+          "raw_R": 25.322340932289954,
+          "net_R": 28.584321260039555,
+          "mean_R": 0.252958595221589,
+          "cash_R_DD": 7.9819943984051855,
+          "daily_MTM_R_DD": 7.9819943984051855
+        }
+      },
+      "raw": 116,
+      "priced": 116,
+      "admitted": 113,
+      "path_unknown": 18,
+      "reasons": [],
+      "admitted_component": true,
+      "dual_positive": true,
+      "exits": {
+        "HORIZON": 86,
+        "SL": 27
+      },
+      "complete_path": true,
+      "source_cell": 196,
+      "old_priced": 98,
+      "old_reasons": [
+        "PATH_OR_ENDPOINT_INCOMPLETE"
+      ],
+      "only_path_before": true,
+      "source_uncertain": 18,
+      "source_uncertain_admitted": 17,
+      "source_verified_component": false,
+      "execution_scenario": "V13_NEXT_QUOTE",
+      "deferred_endpoint_events": [
+        63
+      ],
+      "open_stop_events": [],
+      "original_block_minutes": {
+        "UNCLASSIFIED_SOURCE_GAP": 40
+      },
+      "original_gap_count": 40,
+      "remaining_invalid_events": []
+    },
+    {
+      "label": "C27",
+      "id": "EURUSD|F5:tf=H4:n=10:adx=25:buffer=0.1|DAY|P1",
+      "asset": "EURUSD",
+      "family": "F5",
+      "recipe": "F5:tf=H4:n=10:adx=25:buffer=0.1",
+      "horizon": "DAY",
+      "mode": "P1",
+      "annual": [
+        {
+          "year": 2018,
+          "raw": 20,
+          "priced": 20,
+          "admitted": 20,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": 9.468777843491802,
+              "net_R": 9.468777843491802
+            },
+            "ASYM": {
+              "raw_R": 9.468777843491802,
+              "net_R": 9.468777843491802
+            }
+          }
+        },
+        {
+          "year": 2019,
+          "raw": 14,
+          "priced": 14,
+          "admitted": 13,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": -0.5089298678124154,
+              "net_R": 0.5728883140058582
+            },
+            "ASYM": {
+              "raw_R": -0.5089298678124154,
+              "net_R": 0.5728883140058582
+            }
+          }
+        },
+        {
+          "year": 2020,
+          "raw": 17,
+          "priced": 17,
+          "admitted": 16,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": -3.0586148290208817,
+              "net_R": -3.213254004278632
+            },
+            "ASYM": {
+              "raw_R": -3.0586148290208817,
+              "net_R": -3.213254004278632
+            }
+          }
+        },
+        {
+          "year": 2021,
+          "raw": 21,
+          "priced": 21,
+          "admitted": 20,
+          "path_unknown": 11,
+          "models": {
+            "SYM": {
+              "raw_R": 2.2936946510176055,
+              "net_R": 3.3810732917943884
+            },
+            "ASYM": {
+              "raw_R": 2.2936946510176055,
+              "net_R": 3.3810732917943884
+            }
+          }
+        },
+        {
+          "year": 2022,
+          "raw": 15,
+          "priced": 15,
+          "admitted": 15,
+          "path_unknown": 3,
+          "models": {
+            "SYM": {
+              "raw_R": 7.375651124667878,
+              "net_R": 7.375651124667878
+            },
+            "ASYM": {
+              "raw_R": 7.375651124667878,
+              "net_R": 7.375651124667878
+            }
+          }
+        },
+        {
+          "year": 2023,
+          "raw": 29,
+          "priced": 29,
+          "admitted": 29,
+          "path_unknown": 3,
+          "models": {
+            "SYM": {
+              "raw_R": 12.071680849667281,
+              "net_R": 12.071680849667281
+            },
+            "ASYM": {
+              "raw_R": 12.071680849667281,
+              "net_R": 12.071680849667281
+            }
+          }
+        }
+      ],
+      "clusters": [
+        {
+          "years": [
+            2018,
+            2019,
+            2020
+          ],
+          "raw": 51,
+          "priced": 51,
+          "admitted": 49,
+          "retention": 0.9607843137254902,
+          "scale_ratio": 0.05993690851735016,
+          "net": {
+            "SYM": {
+              "raw": 5.9012331466585035,
+              "admitted": 6.828412153219026
+            },
+            "ASYM": {
+              "raw": 5.9012331466585035,
+              "admitted": 6.828412153219026
+            }
+          }
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "raw": 65,
+          "priced": 65,
+          "admitted": 64,
+          "retention": 0.9846153846153847,
+          "scale_ratio": 0.06597222222222222,
+          "net": {
+            "SYM": {
+              "raw": 21.74102662535276,
+              "admitted": 22.828405266129547
+            },
+            "ASYM": {
+              "raw": 21.74102662535276,
+              "admitted": 22.828405266129547
+            }
+          }
+        }
+      ],
+      "economics": {
+        "SYM": {
+          "raw_R": 27.64225977201127,
+          "net_R": 29.656817419348563,
+          "mean_R": 0.262449711675651,
+          "cash_R_DD": 7.9819943984051855,
+          "daily_MTM_R_DD": 7.9819943984051855
+        },
+        "ASYM": {
+          "raw_R": 27.64225977201127,
+          "net_R": 29.656817419348563,
+          "mean_R": 0.262449711675651,
+          "cash_R_DD": 7.9819943984051855,
+          "daily_MTM_R_DD": 7.9819943984051855
+        }
+      },
+      "raw": 116,
+      "priced": 116,
+      "admitted": 113,
+      "path_unknown": 18,
+      "reasons": [],
+      "admitted_component": true,
+      "dual_positive": true,
+      "exits": {
+        "HORIZON": 83,
+        "SL": 25,
+        "PROTECT": 5
+      },
+      "complete_path": true,
+      "source_cell": 196,
+      "old_priced": 98,
+      "old_reasons": [
+        "PATH_OR_ENDPOINT_INCOMPLETE"
+      ],
+      "only_path_before": true,
+      "source_uncertain": 18,
+      "source_uncertain_admitted": 17,
+      "source_verified_component": false,
+      "execution_scenario": "V13_NEXT_QUOTE",
+      "deferred_endpoint_events": [
+        63
+      ],
+      "open_stop_events": [],
+      "original_block_minutes": {
+        "UNCLASSIFIED_SOURCE_GAP": 40
+      },
+      "original_gap_count": 40,
+      "remaining_invalid_events": []
+    },
+    {
+      "label": "C28",
+      "id": "EURUSD|F5:tf=H4:n=10:adx=25:buffer=0.1|DAY|P2",
+      "asset": "EURUSD",
+      "family": "F5",
+      "recipe": "F5:tf=H4:n=10:adx=25:buffer=0.1",
+      "horizon": "DAY",
+      "mode": "P2",
+      "annual": [
+        {
+          "year": 2018,
+          "raw": 20,
+          "priced": 20,
+          "admitted": 20,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": 6.929715343491822,
+              "net_R": 6.929715343491822
+            },
+            "ASYM": {
+              "raw_R": 6.937527843491822,
+              "net_R": 6.937527843491822
+            }
+          }
+        },
+        {
+          "year": 2019,
+          "raw": 14,
+          "priced": 14,
+          "admitted": 13,
+          "path_unknown": 1,
+          "models": {
+            "SYM": {
+              "raw_R": -0.5089298678124154,
+              "net_R": 0.5728883140058582
+            },
+            "ASYM": {
+              "raw_R": -0.5089298678124154,
+              "net_R": 0.5728883140058582
+            }
+          }
+        },
+        {
+          "year": 2020,
+          "raw": 17,
+          "priced": 17,
+          "admitted": 16,
+          "path_unknown": 0,
+          "models": {
+            "SYM": {
+              "raw_R": -4.306037509433184,
+              "net_R": -3.213254004278632
+            },
+            "ASYM": {
+              "raw_R": -4.306037509433184,
+              "net_R": -3.213254004278632
+            }
+          }
+        },
+        {
+          "year": 2021,
+          "raw": 21,
+          "priced": 21,
+          "admitted": 20,
+          "path_unknown": 11,
+          "models": {
+            "SYM": {
+              "raw_R": 1.8605736319093156,
+              "net_R": 2.9479522726860985
+            },
+            "ASYM": {
+              "raw_R": 1.8669430586609082,
+              "net_R": 2.954321699437691
+            }
+          }
+        },
+        {
+          "year": 2022,
+          "raw": 15,
+          "priced": 15,
+          "admitted": 15,
+          "path_unknown": 3,
+          "models": {
+            "SYM": {
+              "raw_R": 7.705492774556306,
+              "net_R": 7.705492774556306
+            },
+            "ASYM": {
+              "raw_R": 7.714792937309153,
+              "net_R": 7.714792937309153
+            }
+          }
+        },
+        {
+          "year": 2023,
+          "raw": 29,
+          "priced": 29,
+          "admitted": 29,
+          "path_unknown": 3,
+          "models": {
+            "SYM": {
+              "raw_R": 7.832833946297535,
+              "net_R": 7.832833946297535
+            },
+            "ASYM": {
+              "raw_R": 7.846495273528657,
+              "net_R": 7.846495273528657
+            }
+          }
+        }
+      ],
+      "clusters": [
+        {
+          "years": [
+            2018,
+            2019,
+            2020
+          ],
+          "raw": 51,
+          "priced": 51,
+          "admitted": 49,
+          "retention": 0.9607843137254902,
+          "scale_ratio": 0.05993690851735016,
+          "net": {
+            "SYM": {
+              "raw": 2.114747966246221,
+              "admitted": 4.289349653219047
+            },
+            "ASYM": {
+              "raw": 2.122560466246221,
+              "admitted": 4.297162153219047
+            }
+          }
+        },
+        {
+          "years": [
+            2021,
+            2022,
+            2023
+          ],
+          "raw": 65,
+          "priced": 65,
+          "admitted": 64,
+          "retention": 0.9846153846153847,
+          "scale_ratio": 0.06597222222222222,
+          "net": {
+            "SYM": {
+              "raw": 17.398900352763157,
+              "admitted": 18.48627899353994
+            },
+            "ASYM": {
+              "raw": 17.428231269498717,
+              "admitted": 18.5156099102755
+            }
+          }
+        }
+      ],
+      "economics": {
+        "SYM": {
+          "raw_R": 19.513648319009377,
+          "net_R": 22.775628646758992,
+          "mean_R": 0.20155423581202647,
+          "cash_R_DD": 7.981994398405181,
+          "daily_MTM_R_DD": 7.981994398405181
+        },
+        "ASYM": {
+          "raw_R": 19.55079173574494,
+          "net_R": 22.81277206349455,
+          "mean_R": 0.201882938614996,
+          "cash_R_DD": 7.981994398405181,
+          "daily_MTM_R_DD": 7.981994398405181
+        }
+      },
+      "raw": 116,
+      "priced": 116,
+      "admitted": 113,
+      "path_unknown": 18,
+      "reasons": [],
+      "admitted_component": true,
+      "dual_positive": true,
+      "exits": {
+        "HORIZON": 79,
+        "SL": 27,
+        "TP": 7
+      },
+      "complete_path": true,
+      "source_cell": 196,
+      "old_priced": 98,
+      "old_reasons": [
+        "PATH_OR_ENDPOINT_INCOMPLETE"
+      ],
+      "only_path_before": true,
+      "source_uncertain": 18,
+      "source_uncertain_admitted": 17,
+      "source_verified_component": false,
+      "execution_scenario": "V13_NEXT_QUOTE",
+      "deferred_endpoint_events": [
+        63
+      ],
+      "open_stop_events": [],
+      "original_block_minutes": {
+        "UNCLASSIFIED_SOURCE_GAP": 39
+      },
+      "original_gap_count": 39,
+      "remaining_invalid_events": []
+    }
+  ],
+  "research_status": [
+    "CADENCE_OR_SAMPLE_SHORTFALL",
+    "DATA_PATH_INCOMPLETE",
+    "PROP_UNMEASURED"
+  ],
+  "source_path_certified": false,
+  "parent_selection_cells": 2888,
+  "independent_audit": {
+    "passed": true,
+    "counts": {
+      "paths": 3165,
+      "paths_with_source_uncertainty": 450,
+      "cash_legs": 31650,
+      "cost_views": 6330
+    },
+    "failure_count": 0,
+    "seconds": 50.524144700029865,
+    "same_implementer": true,
+    "independent_source_feed": false,
+    "independent_scalar_and_decimal": true,
+    "source_coverage_certified": false,
+    "producer": "01ebb65a54e1fd543c5b79e0a7cf1cb8a22da9ac3e955182be77c783bd8b9b98",
+    "auditor": "5cb87fb400973569e19d20b59dd04fa45672d68f56612c032ed4352bdf5f671b"
+  },
+  "storage_summary": {
+    "D_history": {
+      "V10": {
+        "bytes": 211765450617,
+        "files": 575154,
+        "folders": 75226
+      },
+      "V12": {
+        "bytes": 211767375854,
+        "files": 575377,
+        "folders": 75350
+      },
+      "V13_before": {
+        "bytes": 211768711272,
+        "files": 575429,
+        "folders": 75369
+      },
+      "V13_after": {
+        "bytes": 211768731710,
+        "files": 575430,
+        "folders": 75369
+      }
+    },
+    "V10_to_V12_bytes": 1925237,
+    "D_units": {
+      "V10": {
+        "decimal_GB": 211.765450617,
+        "GiB": 197.2219446832314
+      },
+      "V12": {
+        "decimal_GB": 211.767375854,
+        "GiB": 197.223737699911
+      },
+      "V13_before": {
+        "decimal_GB": 211.768711272,
+        "GiB": 197.22498140484095
+      },
+      "V13_after": {
+        "decimal_GB": 211.76873171,
+        "GiB": 197.22500043921173
+      }
+    },
+    "V12_to_V13_largest_changes": [
+      {
+        "group": "planning/research",
+        "delta_bytes": 915275
+      },
+      {
+        "group": ".git/objects",
+        "delta_bytes": 286515
+      },
+      {
+        "group": "tooling/ai-engines",
+        "delta_bytes": 121460
+      },
+      {
+        "group": "tooling/__pycache__",
+        "delta_bytes": 4868
+      },
+      {
+        "group": "tooling/deep_storage.py",
+        "delta_bytes": 2931
+      },
+      {
+        "group": "planning/CURRENT-CONTEXT.md",
+        "delta_bytes": 2062
+      },
+      {
+        "group": ".git/logs",
+        "delta_bytes": 1212
+      },
+      {
+        "group": ".git/index",
+        "delta_bytes": 1185
+      },
+      {
+        "group": ".git/FETCH_HEAD",
+        "delta_bytes": -138
+      },
+      {
+        "group": ".git/refs",
+        "delta_bytes": 41
+      },
+      {
+        "group": ".git/HEAD",
+        "delta_bytes": 7
+      }
+    ],
+    "observed_scope_delta": {
+      "D": {
+        "bytes": 20438,
+        "files": 1,
+        "folders": 0
+      },
+      "E": {
+        "bytes": 19684165,
+        "files": 422,
+        "folders": 0
+      }
+    },
+    "exact_removed": {
+      "D": {
+        "bytes": 0,
+        "files": 0,
+        "folders": 0
+      },
+      "E": {
+        "bytes": 0,
+        "files": 0,
+        "folders": 0
+      }
+    },
+    "before_errors": {
+      "D": [
+        {
+          "path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\pytest-p20-final",
+          "type": "PermissionError"
+        },
+        {
+          "path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\pytest-p20",
+          "type": "PermissionError"
+        }
+      ],
+      "E": []
+    },
+    "after_errors": {
+      "D": [
+        {
+          "path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\pytest-p20-final",
+          "type": "PermissionError"
+        },
+        {
+          "path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\pytest-p20",
+          "type": "PermissionError"
+        }
+      ],
+      "E": []
+    },
+    "duplicate_pairs": 887,
+    "whole_tree_equal_pairs": 106,
+    "ownership_holds": {
+      "INSTALLED_DEPENDENCY_OR_PACKAGE_CACHE_NOT_REDUNDANT_BY_BYTES": 215,
+      "HISTORICAL_FIXTURE_OR_BACKUP_RETIREMENT_NOT_PROVEN": 6,
+      "PROJECT_SOURCE_OR_VENDOR_CONSUMER": 657,
+      "CANONICAL_OWNER_AND_CONSUMER_ABSENCE_NOT_PROVEN": 9
+    },
+    "all_1998_input_pairs_covered": true,
+    "seconds": 1034.8780012999778,
+    "observed_utc": "2026-11-15T08:03:18.323295+00:00",
+    "logical_bytes_only": true,
+    "baseline_correction": {
+      "reason": "use final V12 census instead of its initial census; no rescan or mutation",
+      "original_preserved": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\storage-summary.json",
+      "source": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\sl-active-ensemble-v12-20261115\\storage-D-final.json"
+    }
+  },
+  "dedup_summary": {
+    "input_file_pairs": 1998,
+    "input_directory_pairs": 887,
+    "whole_trees": 403,
+    "equal_tree_pairs": 106,
+    "errors": 0,
+    "unique_content_hash_work_bytes": 2180806282,
+    "hardlink_metadata_preserved": true,
+    "referenced_text_files": 2089,
+    "process_scope": "ExecutablePath only; interpreter command-line imports are not disproven",
+    "deleted": false,
+    "logical_bytes_removed": {
+      "D": 0,
+      "E": 0
+    },
+    "physical_bytes_freed": null,
+    "disclosure": "content equality is proven where stated; canonical redundancy/consumer absence is not"
+  },
+  "tests": {
+    "groups": {
+      "base": {
+        "tests": 985,
+        "passed": true,
+        "skipped": 0,
+        "seconds": 57.95990690001054
+      },
+      "native": {
+        "tests": 78,
+        "passed": true,
+        "skipped": 0,
+        "seconds": 18.341476000030525
+      },
+      "statistics": {
+        "tests": 5,
+        "passed": true,
+        "skipped": 0,
+        "seconds": 10.440243899996858
+      },
+      "worker": {
+        "tests": 23,
+        "passed": true,
+        "skipped": 0,
+        "seconds": 6.082151699985843
+      }
+    },
+    "old_tests": 1072,
+    "new_tests": 1091,
+    "old_IDs_preserved": true,
+    "removed": [],
+    "added": [
+      "test_gap_aware_execution.GapAwareTests.test_FX_has_no_metals_daily_maintenance_break",
+      "test_gap_aware_execution.GapAwareTests.test_P1_protection_survives_gap_and_gap_loss_can_exceed_floor",
+      "test_gap_aware_execution.GapAwareTests.test_calendar_keeps_verified_2021_normal_hours_and_conservative_guard",
+      "test_gap_aware_execution.GapAwareTests.test_daily_break_deferral_charges_crossed_rollover",
+      "test_gap_aware_execution.GapAwareTests.test_deferred_horizon_open_checks_stop_before_time_close",
+      "test_gap_aware_execution.GapAwareTests.test_early_guard_clamp_is_predetermined_not_last_observed_quote",
+      "test_gap_aware_execution.GapAwareTests.test_endpoint_future_extremes_cannot_create_stop_or_tp",
+      "test_gap_aware_execution.GapAwareTests.test_long_gap_through_stop_fills_adverse_open_immediately",
+      "test_gap_aware_execution.GapAwareTests.test_missing_horizon_defers_forward_without_hindsight_previous_close",
+      "test_gap_aware_execution.GapAwareTests.test_oracle_detects_erased_source_uncertainty",
+      "test_gap_aware_execution.GapAwareTests.test_short_gap_through_stop_uses_ask_open",
+      "test_gap_aware_execution.GapAwareTests.test_unknown_gap_is_priced_but_never_relabelled_verified",
+      "test_v13_protocol.V13ProtocolTests.test_Merkle_detects_content_change_with_same_length",
+      "test_v13_protocol.V13ProtocolTests.test_Merkle_includes_empty_directories",
+      "test_v13_protocol.V13ProtocolTests.test_Merkle_requires_all_relative_paths_not_a_filename_sample",
+      "test_v13_protocol.V13ProtocolTests.test_V13_stability_OR_accepts_two_positive_clusters_with_positive_exbest",
+      "test_v13_protocol.V13ProtocolTests.test_cadence_cannot_use_multi_year_average_to_hide_a_sparse_year",
+      "test_v13_protocol.V13ProtocolTests.test_five_positive_years_is_the_other_registered_stability_route",
+      "test_v13_protocol.V13ProtocolTests.test_one_positive_cluster_and_four_positive_years_does_not_pass"
+    ],
+    "test_IDs_sha256": "188c2588e98ef79dbc8d40c567706ea14f4fcf24d361ced2ea8ed0949e37ebec",
+    "unique_ids": 1091,
+    "skipped": 0
+  },
+  "smoke": {
+    "samples": [
+      {
+        "batch": "initial-isolated",
+        "sample": 0,
+        "seconds": 0.8917086999863386,
+        "import_seconds": 0.30148309998912737,
+        "receipt": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\smoke-isolated-0.json"
+      },
+      {
+        "batch": "initial-isolated",
+        "sample": 1,
+        "seconds": 1.010735299962107,
+        "import_seconds": 0.35486439999658614,
+        "receipt": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\smoke-isolated-1.json"
+      },
+      {
+        "batch": "initial-isolated",
+        "sample": 2,
+        "seconds": 0.941753700026311,
+        "import_seconds": 0.2773639999795705,
+        "receipt": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\smoke-isolated-2.json"
+      },
+      {
+        "batch": "initial-isolated",
+        "sample": 3,
+        "seconds": 0.8330219000345096,
+        "import_seconds": 0.3215055000036955,
+        "receipt": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\smoke-isolated-3.json"
+      },
+      {
+        "batch": "initial-isolated",
+        "sample": 4,
+        "seconds": 0.9033378000021912,
+        "import_seconds": 0.3097764000413008,
+        "receipt": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\smoke-isolated-4.json"
+      },
+      {
+        "batch": "alternating-comparison",
+        "pair": 0,
+        "workers": 1,
+        "seconds": 0.7107354999752715,
+        "receipt": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\smoke-paired-0-1.json"
+      },
+      {
+        "batch": "alternating-comparison",
+        "pair": 1,
+        "workers": 1,
+        "seconds": 0.7774339999887161,
+        "receipt": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\smoke-paired-1-1.json"
+      },
+      {
+        "batch": "alternating-comparison",
+        "pair": 2,
+        "workers": 1,
+        "seconds": 0.8069597000139765,
+        "receipt": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\smoke-paired-2-1.json"
+      },
+      {
+        "batch": "alternating-comparison",
+        "pair": 3,
+        "workers": 1,
+        "seconds": 0.8641770000103861,
+        "receipt": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\smoke-paired-3-1.json"
+      },
+      {
+        "batch": "alternating-comparison",
+        "pair": 4,
+        "workers": 1,
+        "seconds": 0.8220953000127338,
+        "receipt": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\smoke-paired-4-1.json"
+      }
+    ],
+    "median_seconds": 0.8485994500224479,
+    "max_seconds": 1.010735299962107,
+    "under_one_second": 9,
+    "latest_batch_median": 0.8069597000139765,
+    "latest_batch_max": 0.8641770000103861,
+    "all_below_one_second": false,
+    "target": "median achieved; one isolated cold/jitter sample 1.011s, no universal wall-time guarantee",
+    "chosen_mode": "serial",
+    "parallel_candidate_rejected": {
+      "median": 0.8920080999960192,
+      "maximum": 1.7259481999790296
+    },
+    "tests": 78,
+    "skipped": 0,
+    "previous_receipts": [
+      "preflight-smoke.json",
+      "final-smoke.json",
+      "smoke-performance.json",
+      "smoke-parallel-comparison.json"
+    ],
+    "all_78_IDs_preserved": true
+  },
+  "artifacts": {
+    "registration.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\registration.json",
+      "sha256": "01ebb65a54e1fd543c5b79e0a7cf1cb8a22da9ac3e955182be77c783bd8b9b98",
+      "bytes": 3323
+    },
+    "session-calendar.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\session-calendar.json",
+      "sha256": "137e5e5c868eb54b56029c6c797490a97edced41cca383a5c4f11c39d5c65e41",
+      "bytes": 32136
+    },
+    "forensics.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\forensics.json",
+      "sha256": "d4af47747e0b766b9225a0fd5e0d68135265abbab046bc53da3755ebfb251100",
+      "bytes": 615039
+    },
+    "discovery.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\discovery.json",
+      "sha256": "a419645f097a2cfcd49bacedb82ab3010d4b3f97fdb43e3c7ff527fd080fea62",
+      "bytes": 162249
+    },
+    "decision.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\decision.json",
+      "sha256": "3abf71f10a8aae53b50ebb19ace956707c1c334012337196b63528cca676e459",
+      "bytes": 3690
+    },
+    "independent-audit.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\independent-audit.json",
+      "sha256": "823490dec773816674b17ca2e2b34dc6187e732a97087dfce421ed694fd27e2f",
+      "bytes": 11852
+    },
+    "timings.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\timings.json",
+      "sha256": "57f924a88f4a7062585d7fdd3e8233b271a0747f69d16b4811a2448d3cba0dc1",
+      "bytes": 122
+    },
+    "storage-summary.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\storage-summary.json",
+      "sha256": "a2e49d5cb1a83623bdccf3f5b6fb5e60cd498cd8f87ac8ec4832180582ba2909",
+      "bytes": 3410
+    },
+    "storage-summary-final.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\storage-summary-final.json",
+      "sha256": "d33ba9ebf98b18b6ad1ba00c889b98229612780cb6a84d7577b6c3bc30055bfe",
+      "bytes": 3798
+    },
+    "directory-dedup.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\directory-dedup.json",
+      "sha256": "85d5da980999a309651b6fecd9f6a137a6c96072acbcd7b32fa9a69708921382",
+      "bytes": 930506
+    },
+    "tests-final-matrix.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\tests-final-matrix.json",
+      "sha256": "e4da265780647d03dc8a92dd2a998675dee278f25bec0edd7ecfb9bba7c552ab",
+      "bytes": 2730
+    },
+    "smoke-performance.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\smoke-performance.json",
+      "sha256": "11fe59281fa60100ca6d89d3e862e668d2f3c030084ef159b91f4f8fdbdc6cc4",
+      "bytes": 1892
+    },
+    "smoke-performance-final.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\smoke-performance-final.json",
+      "sha256": "d3f411c4320bb939bdb9277e233989f7de0036ddba3a7830a141828a4a86a6a9",
+      "bytes": 3878
+    },
+    "smoke-parallel-comparison.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\smoke-parallel-comparison.json",
+      "sha256": "3a16a9874f121c518d4ecd7a8409468512177716c9a95b067b1d27faecf07ba1",
+      "bytes": 2904
+    },
+    "primary-sources/receipts.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\primary-sources\\receipts.json",
+      "sha256": "1325e586b5819df34d0bb984e81fa5cc269fc7c7c9423546dcab2ebe9f3030e7",
+      "bytes": 814
+    },
+    "native-gap-probe-registration.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\native-gap-probe-registration.json",
+      "sha256": "ac7cdd982f3ac5640b00dc0a2e5588a0e0beca3aae7aefa283becac082ca79b1",
+      "bytes": 844
+    },
+    "native-gap-probe.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\native-gap-probe.json",
+      "sha256": "043160df40c8c8af1b29cc36928a59f80bf276aba95924940d646c6d2308ee45",
+      "bytes": 149633
+    },
+    "XAUUSD-path-matrix.npz": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\XAUUSD-path-matrix.npz",
+      "sha256": "e5914371b776ed23074ba4d09ebfb8d1c6ab00a53bb19c9e83db4992e22d5056",
+      "bytes": 290335
+    },
+    "EURUSD-path-matrix.npz": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\EURUSD-path-matrix.npz",
+      "sha256": "e8f30e9601aae8b98fcefdf199a413abcae8a47bef50d129ed696d5c17d03501",
+      "bytes": 189401
+    },
+    "storage-D-before.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\storage-D-before.json",
+      "sha256": "5c8a74516267612598b34d54ff7e9e716fff90e9b455862ff8470e1b14f0c9de",
+      "bytes": 912311
+    },
+    "storage-D-after.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\storage-D-after.json",
+      "sha256": "330c2a65a0940da8ed2c13ac6466c5330cfe492d8bbc87c6d0c9232e5bfc7673",
+      "bytes": 912311
+    },
+    "storage-E-before.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\storage-E-before.json",
+      "sha256": "7d4d870e34b2f85bd693c555233a04a3c2dcbdab7f729036ce761491d29295d8",
+      "bytes": 715076
+    },
+    "storage-E-after.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\path-resolution-and-dedup-v13-20261115\\storage-E-after.json",
+      "sha256": "b58bd4d4d4e446ef99d2e5ef133e8b6e7f7aff46b52bb919928710a3bffc46ef",
+      "bytes": 715076
+    }
+  },
+  "native_gap_probe": {
+    "counts": {
+      "NO_ADMITTED_TICK_HOUR": 328,
+      "NO_QUOTES_IN_ADMITTED_TICK_HOURS": 48
+    },
+    "native_hours_decoded": 37,
+    "validation_prices_opened": false,
+    "price_outcomes_computed": false,
+    "producer_matrices_changed": false
+  },
+  "validation_prices_opened": false,
+  "actual_account_replayed": false,
+  "disclosure": "all profits are Development next-quote scenario estimates at reference risk, not payouts"
+}

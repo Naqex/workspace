@@ -107,3 +107,20 @@ báo, không là daemon hoặc cam kết cache không bao giờ tăng lại.
 Market inventory chỉ ghi path/size và dấu hiệu metadata; loại OS/apps/games,
 dependencies/build trees, không theo links hoặc phân tích giá. Tên file không
 chứng minh schema, đủ lịch sử hay sạch OOS; nguồn phải qua admission riêng.
+
+## V13: đối chiếu cả cây
+
+`deep_storage.merkle_tree` dùng scandir + SHA256 cho mọi relative path/file
+và cả thư mục rỗng; từ chối reparse/junction, lỗi đọc và file thay đổi trong
+lúc hash. Trên Windows phải dùng Path.stat để lấy device/inode thật, không
+dùng các giá trị 0 mà DirEntry.stat có thể trả. Giữ link count để không quy
+logical bytes thành dung lượng vật lý đã thu hồi.
+
+Consumer `prop_v13_storage.py` kiểm toàn bộ 887 cặp parent-directory từ 1.998
+file pairs V12, lưu manifest private theo cây, đối chiếu refs và vai trò
+dependency/source/fixture. Merkle bằng nhau chỉ chứng minh content tại thời
+điểm kiểm, không tự cho phép xóa. Không có mutation trong consumer này vì
+chưa chứng minh cây nào có thể được retire cùng canonical/consumer của nó.
+V10→V12 D chỉ tăng 1.925.237 bytes; 211,77 decimal GB và khoảng 197,22 GiB
+không là bằng chứng tăng 15GB. [Báo cáo V13](../planning/research/PATH-RESOLUTION-AND-DEDUP-V13-RESULTS-20261115.md)
+giữ census cùng scope và bảng giảm thực/biến động snapshot riêng.

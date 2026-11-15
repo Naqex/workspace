@@ -96,7 +96,7 @@ def run():
         print(dict(stage="V13_census_after",root=str(root)),flush=True)
         after[label]=inventory(root);save(f"storage-{label}-after.json",after[label])
     v10=read(Path("planning/research/ENTERPRISE-ALPHA-V10-RESULTS-20261115.json"))["storage"]
-    v12=read(V12/"storage-D.json")
+    v12=read(V12/"storage-D-final.json")
     total=lambda x:x["groups"]["/"]
     history=dict(V10=v10["D_after"],V12=total(v12),V13_before=total(before["D"]),V13_after=total(after["D"]))
     changes=[]
@@ -120,5 +120,30 @@ def run():
     print(dict(stage="V13_storage_complete",summary=summary),flush=True)
 
 
+def reconcile_baseline():
+    """Receipt-only correction: the final V12 census is the comparable endpoint."""
+    summary=read(JOB/"storage-summary.json")
+    v12=read(V12/"storage-D-final.json")
+    current=read(JOB/"storage-D-before.json")
+    summary["D_history"]["V12"]=v12["groups"]["/"]
+    summary["V10_to_V12_bytes"]=summary["D_history"]["V12"]["bytes"]-summary["D_history"]["V10"]["bytes"]
+    summary["D_units"]={k:dict(decimal_GB=v["bytes"]/1e9,GiB=v["bytes"]/1024**3)
+                        for k,v in summary["D_history"].items()}
+    previous,now=disjoint_partitions(v12),disjoint_partitions(current)
+    changes=[dict(group=k,delta_bytes=now.get(k,{}).get("bytes",0)-previous.get(k,{}).get("bytes",0))
+             for k in previous.keys()|now.keys()]
+    summary["V12_to_V13_largest_changes"]=sorted(
+        [r for r in changes if r["delta_bytes"]],key=lambda r:-abs(r["delta_bytes"]))[:20]
+    summary["baseline_correction"]=dict(
+        reason="use final V12 census instead of its initial census; no rescan or mutation",
+        original_preserved=str(JOB/"storage-summary.json"),source=str(V12/"storage-D-final.json"))
+    save("storage-summary-final.json",summary)
+    print(dict(V10_to_V12_bytes=summary["V10_to_V12_bytes"],rescan=False))
+
+
 if __name__=="__main__":
-    run()
+    import argparse
+    p=argparse.ArgumentParser(description=__doc__)
+    p.add_argument("--reconcile-baseline",action="store_true")
+    args=p.parse_args()
+    reconcile_baseline() if args.reconcile_baseline else run()

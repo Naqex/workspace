@@ -1,8 +1,42 @@
 # Current context — Naqex Workspace
 
-15/11/2026 · `RESEARCH: V12_PATH_INCOMPLETE_NO_ENSEMBLE · SYSTEM: SL_ACTIVE_AND_DECIMAL_AUDITOR · PROP: UNMEASURED_FOR_V12`.
+15/11/2026 · `RESEARCH: V13_CONDITIONAL_ENSEMBLE_CADENCE_FAIL · SYSTEM: GAP_SCENARIO_AND_FULL_TREE_MERKLE · PROP: UNMEASURED_FOR_V13`.
 
 ## Việc hiện tại
+
+**V13 định giá được 19/19 cases trọng tâm; tổ hợp vẫn chưa qua Dev gate.**
+[Báo cáo bốn phần](research/PATH-RESOLUTION-AND-DEDUP-V13-RESULTS-20261115.md) /
+[JSON](research/PATH-RESOLUTION-AND-DEDUP-V13-RESULTS-20261115.json) /
+[decision](research/PATH-RESOLUTION-AND-DEDUP-V13-DECISION-20261115.json) /
+[protocol](research/PATH-RESOLUTION-AND-DEDUP-V13-PROTOCOL-20261115.md).
+PR #91 merged `ad362ea`, nhánh V12 đã xóa. Branch
+`codex/path-resolution-and-dedup-v13`; PR V13 chờ owner duyệt, không tự merge.
+Private job `execution-v1/path-resolution-and-dedup-v13-20261115`.
+
+Giữ đúng 28 cells/modes/entries/SL/costs V12, không grid mới. 19 cases chỉ
+vướng path: 2.156/2.156 lượt được định giá theo next-quote scenario; toàn lô
+3.165/3.179, hai EUR F5 H1/n10 còn 14 lượt clock-invalid (7 unique events).
+Source uncertainty không bị xóa: gap giữa phiên có thể che một excursion.
+Native timestamp probe: 48 gap có tick hours nhưng không quote; 328 gap
+chưa có native hours được admission. Không source-verified component.
+
+16 scenario components → 3 medoids bằng risk, pair corr đều <0,25.
+SYM +50,232R, ASYM +52,386R / 6 năm, 4/6 năm dương, ex-best SYM +13,034R.
+Nhưng 2018/19 chỉ 43/47 tín hiệu dưới sàn 50 mỗi năm đã khóa trước outcome.
+Không hạ gate, đổi subset/weights hoặc nâng risk. 2024–2026 **CLOSED** trong
+V13; lifecycle/payout/account daily/static **NOT RUN/N/A**. Daily UTC profile
+không phải Prague/intraminute equity. Không clean OOS/Challenge candidate.
+
+403 cây/887 cặp directory bao phủ 1.998 file pairs: 106 whole-tree equal;
+0 tree errors. Không xóa vì equality không chứng minh dependency/source/
+backup được retire. D V10→V12 chỉ +1.925.237 bytes, không +15GB; phân biệt
+decimal GB/GiB. Hai VI permission gaps giữ nguyên. Giữ raw/old seals/pins/WIP.
+Auditor 3.165 paths/31.650 cash legs, zero discrepancies; same implementer/feed.
+1.091 tests/0skip giữ đủ 1.072 IDs cũ; smoke timing và limits ở report.
+Native gap probe/read-only report không thay source hoặc rerun financial batch.
+Source repair cần admission riêng; không tự mở chiến dịch/holdout/broker.
+
+## V12 đã merge (lịch sử)
 
 **V12 đã quét đủ 2.888 path cells; chưa có ensemble đủ điều kiện Challenge.**
 [Báo cáo bốn phần](research/SL-ACTIVE-ENSEMBLE-V12-RESULTS-20261115.md) /
@@ -10,8 +44,9 @@
 [decision](research/SL-ACTIVE-ENSEMBLE-V12-DECISION-20261115.json) /
 [protocol](research/SL-ACTIVE-ENSEMBLE-V12-PROTOCOL-20261115.md) /
 [cent correction](research/SL-ACTIVE-ENSEMBLE-V12-CENT-CORRECTION-20261115.md).
-PR #90 merged `2175685`, nhánh V11 đã xóa. Branch `codex/sl-active-ensemble-v12`;
-PR mới chờ owner duyệt, không tự merge. Private job `sl-active-ensemble-v12-20261115`.
+PR #91 merged `ad362ea`, nhánh `codex/sl-active-ensemble-v12` đã xóa theo V13.
+Private job `sl-active-ensemble-v12-20261115`; V13 ở trên thay đường resume,
+không sửa kết luận/attempts của V12.
 
 1.264 F1–F4 × P0/P1 + 120 F5 × P0/P1/P2 = 2.888 cells. P2 chỉ TP 3R,
 không side/weight/subset search. 28 cells dương hai cụm trên phần có path,

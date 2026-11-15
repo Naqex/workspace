@@ -51,7 +51,7 @@ class SLKernelTests(unittest.TestCase):
                 values = columns[field]
                 expected.append(next((j for j in range(lo, hi)
                     if (values[j] >= p if up else values[j] <= p)), hi))
-            np.testing.assert_array_equal(got, expected)
+            self.assertEqual(got.tolist(), expected)
 
     def test_gap_through_stop_is_not_artificially_capped_at_minus_one_R(self):
         b, m = fixture([(100, 101, 99, 100), (87, 90, 85, 88), (88, 89, 87, 88)])
