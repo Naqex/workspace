@@ -35,11 +35,14 @@ class SLKernelTests(unittest.TestCase):
         for favorable in (False, True):
             got = index.first(starts, ends, level, side=side, favorable=favorable)
             expected = []
+            columns = {name:b[name].tolist() for name in ("bh","bl","ah","al")}
             for lo, hi, s, p in zip(starts, ends, side, level):
+                lo, hi, s, p = map(int,(lo,hi,s,p))
                 field = ("bh" if s == 1 else "al") if favorable else ("bl" if s == 1 else "ah")
                 up = (favorable and s == 1) or (not favorable and s == -1)
+                values = columns[field]
                 expected.append(next((j for j in range(lo, hi)
-                    if (b[field][j] >= p if up else b[field][j] <= p)), hi))
+                    if (values[j] >= p if up else values[j] <= p)), hi))
             np.testing.assert_array_equal(got, expected)
 
     def test_gap_through_stop_is_not_artificially_capped_at_minus_one_R(self):

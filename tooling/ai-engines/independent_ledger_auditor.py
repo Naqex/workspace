@@ -86,6 +86,10 @@ def audit_trade(trade, source, spec, flats):
     limit = expected_deadline(trade, flats)
     if entry > limit or exit_at > limit+60000 or exit_at < entry:
         errors.append("CALENDAR_OR_CLOCK")
+    utc_entry = datetime.fromtimestamp(entry/1000, timezone.utc)
+    if (utc_entry.weekday() >= 5 or utc_entry.weekday() == 4 and entry%DAY >= int(20.5*HOUR)
+            or any(t//DAY == entry//DAY and t <= entry for t in flats)):
+        errors.append("ENTRY_AFTER_SESSION_FLAT")
     sign = 1 if trade["direction"] == "BUY" else -1
     p0, natural_stop = D(str(trade["entry_price"])), D(str(trade["sl_price"]))
     natural = sign*(p0-natural_stop)
@@ -103,6 +107,24 @@ def audit_trade(trade, source, spec, flats):
         if t+step-1 > min(exit_at, limit):
             break
         row = bars[i]
+        if i > start and int(times[i])-int(times[i-1]) > step:
+            for missing in range(int(times[i-1])+step, int(times[i]), step):
+                utc = datetime.fromtimestamp(missing/1000, timezone.utc)
+                local = utc.astimezone(ZoneInfo("America/New_York"))
+                minute = local.hour*60+local.minute
+                asset = trade["symbol"]
+                end_week = 975 if asset == "US500" else 1020
+                start_week = 1080 if asset in ("XAUUSD", "US500") else 1020
+                off = (utc.date().isoformat() in spec.get("closed_days", ()) or
+                       local.weekday() == 5 or local.weekday() == 4 and minute >= end_week or
+                       local.weekday() == 6 and minute < start_week or
+                       asset == "XAUUSD" and 1020 <= minute < 1080 or
+                       asset == "US500" and 975 <= minute < 1080)
+                if not off:
+                    errors.append("UNOBSERVED_PATH_GAP")
+                    break
+            if "UNOBSERVED_PATH_GAP" in errors:
+                break
         stop = protected_price if protected_at is not None and t >= protected_at else natural_stop
         adverse = D(int(row["bl" if sign == 1 else "ah"]))/scale
         favorable = D(int(row["bh" if sign == 1 else "al"]))/scale

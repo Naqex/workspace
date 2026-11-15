@@ -67,3 +67,13 @@ class IndependentAuditorTests(unittest.TestCase):
         at = stamp("2023-03-24T15:00");flat = stamp("2023-03-24T20:30")
         t = dict(symbol="US500", entry_time=at, horizon="FRIDAY")
         self.assertEqual(oracle.expected_deadline(t, [flat]), stamp("2023-03-24T20:00"))
+
+    def test_oracle_rejects_unobserved_path_even_with_a_known_endpoint(self):
+        b,m=fixture([(100,101,99,100)]*3)
+        b["t"][1:]+=60000
+        trade=dict(symbol="XAUUSD",direction="BUY",entry_time=int(b["t"][0]),
+                   exit_time=int(b["t"][-1]),entry_price="100.1",exit_price="100",
+                   sl_price="90",lots="1",reason="HORIZON",mode="P0",horizon="24H")
+        r=oracle.audit_trade(trade,(b["t"],b),dict(contract=100,scale=1000,step=60000),
+                             [int(b["t"][0])+4*DAY])
+        self.assertIn("UNOBSERVED_PATH_GAP",r["errors"])

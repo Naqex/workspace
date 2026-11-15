@@ -8,6 +8,7 @@ import stat
 import zipfile
 import tarfile
 import re
+import argparse
 from workspace_maintenance import inventory
 from prop_campaign_source import ROOT
 
@@ -106,5 +107,64 @@ def run():
                identical_file_pairs=len(duplicates), deleted=False), flush=True)
 
 
+def crosspath_duplicates():
+    """Renamed projects need filename/size candidates, not only matching relative paths."""
+    maps = []
+    errors = []
+    for root in ROOTS:
+        found = {}
+        for folder, dirs, names in os.walk(root, followlinks=False,
+                onerror=lambda e: errors.append(dict(path=str(e.filename), error=type(e).__name__))):
+            safe = []
+            for name in dirs:
+                try:
+                    s = (Path(folder)/name).lstat()
+                    if name.lower() not in SKIP and not stat.S_ISLNK(s.st_mode) and not getattr(s, "st_file_attributes", 0) & 1024:
+                        safe.append(name)
+                except OSError as exc:
+                    errors.append(dict(path=str(Path(folder)/name), error=type(exc).__name__))
+            dirs[:] = safe
+            for name in names:
+                p = Path(folder)/name
+                if p.suffix.lower() not in {".py", ".rs", ".md", ".ts", ".js", ".toml"}:
+                    continue
+                try:
+                    s = p.lstat()
+                    if not stat.S_ISLNK(s.st_mode) and not getattr(s, "st_file_attributes", 0) & 1024 and 4096 <= s.st_size <= 2_000_000:
+                        found.setdefault((name.lower(), s.st_size), []).append(p)
+                except OSError as exc:
+                    errors.append(dict(path=str(p), error=type(exc).__name__))
+        maps.append(found)
+    hashes, matches, checked = {}, [], 0
+    for key in sorted(maps[0].keys() & maps[1].keys()):
+        for left in sorted(maps[0][key]):
+            for right in sorted(maps[1][key]):
+                if checked == 2000:
+                    break
+                checked += 1
+                try:
+                    for p in (left, right):
+                        if p not in hashes:
+                            with p.open("rb") as f:
+                                hashes[p] = hashlib.file_digest(f, "sha256").hexdigest()
+                    if hashes[left] == hashes[right]:
+                        matches.append(dict(D=str(left), E=str(right), bytes=key[1], sha256=hashes[left]))
+                except OSError as exc:
+                    errors.append(dict(path=str(right), error=type(exc).__name__))
+            if checked == 2000:
+                break
+        if checked == 2000:
+            break
+    write("duplicate-files-crosspath.json", dict(verified_identical_file_pairs=matches,
+        checked_pairs=checked, hashed_files=len(hashes), pair_budget=2000,
+        bytes_hashed=sum(p.stat().st_size for p in hashes), errors=errors,
+        scope="same filename/size code/docs 4KB–2MB, across renamed paths",
+        whole_directory_redundancy_proven=False, deleted=False))
+    print(dict(stage="crosspath_duplicates", pairs=checked, identical=len(matches)), flush=True)
+
+
 if __name__ == "__main__":
-    run()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--duplicates-only", action="store_true")
+    args = parser.parse_args()
+    crosspath_duplicates() if args.duplicates_only else run()
