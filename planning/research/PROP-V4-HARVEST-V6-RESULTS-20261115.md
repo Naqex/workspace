@@ -1,5 +1,8 @@
 # V6 — Kết quả V4_Harvest và sát hạch 2025–2026
 
+Bàn giao qua [PR #85](https://github.com/Naqex/workspace/pull/85), chưa merge.
+GitHub tự cấp số 85; không tạo hoặc sửa PR 84 ngoài phạm vi.
+
 **Chưa đủ điều kiện Challenge/thu nhập chính.** EURUSD âm trên tick đầy đủ ở cả 2025
 và 2026 YTD. Gold dương nhẹ ở các lệnh định giá được, nhưng Bid M1/Ask giả định và
 một hạn thoát nghỉ lễ thiếu giá khiến phần 2026 chưa hoàn chỉnh. Có payout mô phỏng

@@ -11,7 +11,9 @@
 [protocol](research/PROP-V4-HARVEST-V6-PROTOCOL-20261115.md).
 Task `ed4d3a18-01c0-4907-8e16-5ffbd13e4440`, branch
 `codex/prop-v4-harvest-v6`, private job `execution-v1/prop-v4-harvest-v6-20261115`.
-PR83 merged `5a8dd69`, nhánh V5 đã xóa. Không tự merge PR V6.
+PR83 merged `5a8dd69`, nhánh V5 đã xóa.
+V6 ở [PR #85](https://github.com/Naqex/workspace/pull/85), không tự merge;
+GitHub cấp số85 thay cho84 dự kiến. Delivery/CI receipt nằm ở private job.
 
 Freeze `665ed5b` trước mở giá; giữ V4 $200/$175/$125, cap800/reserve46k,
 bỏ D1/D2/ratchet, harvester chỉ Funded.72checkpoint cuối2024 khớp V4.

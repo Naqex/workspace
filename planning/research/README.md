@@ -6,6 +6,8 @@
 [freeze](PROP-V4-HARVEST-V6-DECISION-20261115.json) /
 [protocol](PROP-V4-HARVEST-V6-PROTOCOL-20261115.md).
 PR83 merged `5a8dd69`; branch `codex/prop-v4-harvest-v6`.
+V6 ở [PR #85](https://github.com/Naqex/workspace/pull/85), chưa merge;
+GitHub tự cấp số85 thay số84 dự kiến.
 Freeze `665ed5b` trước giá holdout. Standalone Jan2022:12 payout mô phỏng,
 trader3.667,64/3.856,49USD qua3năm; riêng2024 không payout.
 EUR2025/2026YTD âm -14,60/-3,51R trên38,29triệu tick; Gold chỉ BidM1/Ask proxy.

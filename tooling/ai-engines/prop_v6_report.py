@@ -191,6 +191,8 @@ def build():
                for a in oldrows if len(a["phase_passes"]) == 2]
     result = dict(
         schema="PROP-V4-HARVEST-V6-RESULTS-v1", date="2026-11-15",
+        delivery=dict(pr=85, url="https://github.com/Naqex/workspace/pull/85",
+                      requested_number=84, number_assigned_by_GitHub=True, merge_authorized=False),
         verdict="NOT_QUALIFIED", freeze_commit=release["commit"],
         policy=frozen, holdout_end_exclusive=END,
         holdout_status="ONE_SHOT_EXPOSED; no tuning; incomplete Gold deadline path",
@@ -209,6 +211,8 @@ def build():
 
     lines = [
         "# V6 — Kết quả V4_Harvest và sát hạch 2025–2026", "",
+        "Bàn giao qua [PR #85](https://github.com/Naqex/workspace/pull/85), chưa merge.",
+        "GitHub tự cấp số85; không tạo hoặc sửa PR84 ngoài phạm vi.", "",
         "**Chưa đủ điều kiện Challenge/thu nhập chính.** EURUSD âm trên tick đầy đủ ở cả2025",
         "và2026YTD. Gold dương nhẹ ở các lệnh định giá được, nhưng BidM1/Ask giả định và",
         "một hạn thoát nghỉ lễ thiếu giá khiến phần2026 chưa hoàn chỉnh. Có payout mô phỏng",

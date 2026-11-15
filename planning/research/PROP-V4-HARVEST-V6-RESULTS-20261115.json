@@ -1,6 +1,13 @@
 {
   "schema": "PROP-V4-HARVEST-V6-RESULTS-v1",
   "date": "2026-11-15",
+  "delivery": {
+    "pr": 85,
+    "url": "https://github.com/Naqex/workspace/pull/85",
+    "requested_number": 84,
+    "number_assigned_by_GitHub": true,
+    "merge_authorized": false
+  },
   "verdict": "NOT_QUALIFIED",
   "freeze_commit": "665ed5ba6f6424e6e40c154a26752779e0833c86",
   "policy": {
@@ -28331,7 +28338,7 @@
     },
     {
       "path": "tooling/ai-engines/prop_v6_report.py",
-      "sha256": "d130a263ef33f1fc77aa6cbeeff72804a9d523bb90bcb73b4e5094bd1f984400"
+      "sha256": "5ec8ed1270301525c7421fbe81e6ab03850fbe0039568b499c67e9a8cadb49cc"
     },
     {
       "path": "tooling/ai-engines/prop_v6_review.py",
