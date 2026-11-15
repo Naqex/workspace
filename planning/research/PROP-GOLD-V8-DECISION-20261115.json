@@ -1,0 +1,109 @@
+{
+  "schema": "V8-composition-v1",
+  "normalization": null,
+  "sleeve": null,
+  "compression_k": 1.5985128124262569,
+  "compression_percentile": 85,
+  "max_natural_sl": 25,
+  "min_ounces_at125": 5,
+  "core_friction_cap": 0.12,
+  "sleeve_friction_cap": 0.15,
+  "risk": [
+    200,
+    175,
+    125
+  ],
+  "open_cap": 800,
+  "reserve_floor": 46000,
+  "core_priority": true,
+  "ratchet": false,
+  "dev_candidates": {
+    "N1": {
+      "eligible": false,
+      "reasons": [
+        "2022:SYM_FLAT:economic",
+        "2022:ASYM_FLAT:economic",
+        "2023:SYM_FLAT:economic",
+        "2023:ASYM_FLAT:economic"
+      ]
+    },
+    "N2": {
+      "eligible": false,
+      "reasons": [
+        "2022:SYM_FLAT:retention",
+        "2022:SYM_FLAT:cost_reject_majority",
+        "2022:SYM_FLAT:natural_scale",
+        "2022:SYM_FLAT:economic",
+        "2022:ASYM_FLAT:retention",
+        "2022:ASYM_FLAT:cost_reject_majority",
+        "2022:ASYM_FLAT:natural_scale",
+        "2022:ASYM_FLAT:economic",
+        "2023:SYM_FLAT:cadence",
+        "2023:SYM_FLAT:retention",
+        "2023:SYM_FLAT:cost_reject_majority",
+        "2023:SYM_FLAT:natural_scale",
+        "2023:ASYM_FLAT:cadence",
+        "2023:ASYM_FLAT:retention",
+        "2023:ASYM_FLAT:cost_reject_majority",
+        "2023:ASYM_FLAT:natural_scale"
+      ]
+    }
+  },
+  "sleeve_candidates": {
+    "XAUUSD.SWEEP.PREVDAY.LONDON.DAY": {
+      "eligible": false,
+      "reasons": [
+        "2022:SYM_FLAT:retention",
+        "2022:SYM_FLAT:cost_reject_majority",
+        "2022:SYM_FLAT:natural_scale",
+        "2022:ASYM_FLAT:retention",
+        "2022:ASYM_FLAT:cost_reject_majority",
+        "2022:ASYM_FLAT:natural_scale",
+        "2023:SYM_FLAT:retention",
+        "2023:SYM_FLAT:cost_reject_majority",
+        "2023:SYM_FLAT:natural_scale",
+        "2023:ASYM_FLAT:retention",
+        "2023:ASYM_FLAT:cost_reject_majority",
+        "2023:ASYM_FLAT:natural_scale"
+      ]
+    },
+    "XAUUSD.SWEEP.PREVDAY.LONDON.24H": {
+      "eligible": false,
+      "reasons": [
+        "2022:SYM_FLAT:retention",
+        "2022:SYM_FLAT:cost_reject_majority",
+        "2022:SYM_FLAT:natural_scale",
+        "2022:ASYM_FLAT:retention",
+        "2022:ASYM_FLAT:cost_reject_majority",
+        "2022:ASYM_FLAT:natural_scale",
+        "2023:SYM_FLAT:retention",
+        "2023:SYM_FLAT:cost_reject_majority",
+        "2023:SYM_FLAT:natural_scale",
+        "2023:ASYM_FLAT:retention",
+        "2023:ASYM_FLAT:cost_reject_majority",
+        "2023:ASYM_FLAT:natural_scale"
+      ]
+    },
+    "XAUUSD.SWEEP.PREVDAY.LONDON.48H": {
+      "eligible": false,
+      "reasons": [
+        "2022:SYM_FLAT:retention",
+        "2022:SYM_FLAT:cost_reject_majority",
+        "2022:SYM_FLAT:natural_scale",
+        "2022:ASYM_FLAT:retention",
+        "2022:ASYM_FLAT:cost_reject_majority",
+        "2022:ASYM_FLAT:natural_scale",
+        "2023:SYM_FLAT:retention",
+        "2023:SYM_FLAT:cost_reject_majority",
+        "2023:SYM_FLAT:natural_scale",
+        "2023:ASYM_FLAT:retention",
+        "2023:ASYM_FLAT:cost_reject_majority",
+        "2023:ASYM_FLAT:natural_scale"
+      ]
+    }
+  },
+  "backward_status": "LOCKED_UNTIL_COMMITTED_RELEASE_PRIOR_PROJECT_EXPOSURE",
+  "failed_candidate_not_tested_outside_dev": true,
+  "portfolio_alias_core": true,
+  "control_only": true
+}
