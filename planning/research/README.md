@@ -1,5 +1,18 @@
 # Tra cứu research đã có
 
+**V16 — chưa có breadth addition đạt chuẩn, G2 vẫn nhạy gap:**
+[Báo cáo bốn phần](GAP-IMMUNE-MULTIASSET-V16-RESULTS-20261116.md) /
+[JSON](GAP-IMMUNE-MULTIASSET-V16-RESULTS-20261116.json) /
+[freeze](GAP-IMMUNE-MULTIASSET-V16-FREEZE-20261116.json) /
+[protocol](GAP-IMMUNE-MULTIASSET-V16-PROTOCOL-20261116.md).
+PR #94 merge `1c6e516`; code/selection khóa `985df06`. 715 DAY cells,
+0 additions; không hạ gate để chọn nhánh. G1 thêm 0 observed M1.
+G2 daily flat còn 32 uncertain trades; primary SYM 71/105, median 47,08
+tháng; strict 1/105, recent 0/33 ở cả hai. Không đạt zero-gap/time-fit.
+Auditor riêng kiểm scanner + mọi sổ G2; same implementer/feed.
+Nén 8 logs có restore/SHA, giữ nguồn/freezes/ledger và VI WIP/Trader pin.
+PR #95 giữ mở; full test/smoke/CI receipts trong private job được báo cáo dẫn tới.
+
 **V15 — sizing có cải thiện, chưa đạt time-fit và còn bất định gap:**
 [Báo cáo bốn phần](BRIDGE-AND-VELOCITY-V15-RESULTS-20261115.md) /
 [JSON](BRIDGE-AND-VELOCITY-V15-RESULTS-20261115.json) /
@@ -10,7 +23,7 @@ Dev chọn factor 1,5. SYM 63/105 hoàn tất, median 41,03 tháng; cushion 66/1
 34,85 tháng; chưa đạt <18. Primary bridge model không ép stop nào, không
 là chứng nhận thị trường. All-uncertified shared-path sensitivity 0/105.
 45 package targets KEEP có lý do; 2 copies archive/restore/SHA rồi xóa.
-Giữ nguồn/freeze/lịch sử, VI WIP/Trader pin. PR #94 mở review, không merge.
+Giữ nguồn/freeze/lịch sử, VI WIP/Trader pin. PR #94 đã merge trong V16.
 
 **V14 — đã merge; baseline lifecycle 2018–2026:**
 [Báo cáo bốn phần](EVIDENCE-AND-LIFECYCLE-V14-RESULTS-20261115.md) /
