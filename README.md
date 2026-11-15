@@ -69,6 +69,7 @@ flowchart LR
 |---|---|
 | Bản đồ thư mục, commands và cách giao việc cho agent | [Development guide](docs/development/README.md) |
 | Context liên project và nguồn tiến độ | [CURRENT-CONTEXT](planning/CURRENT-CONTEXT.md) |
+| Bằng chứng nghiên cứu chiến lược và các quyết định đã kiểm | [Research index](planning/research/README.md) |
 | Quy tắc giữ, compact và archive plan/evidence | [Context lifecycle](planning/CONTEXT-LIFECYCLE.md) |
 | Design foundations / trading UI | [UI Systems](UI-Systems/README.md) · [Trading UI](UI/README.md) |
 | Tìm code và tài liệu bằng Xerj local | [Search tooling](tooling/search/README.md) |

@@ -1,12 +1,30 @@
 # Tra cứu research đã có
 
+**V14 — đã chạy lifecycle 2018–2026; chưa phù hợp mua Challenge:**
+[Báo cáo bốn phần](EVIDENCE-AND-LIFECYCLE-V14-RESULTS-20261115.md) /
+[JSON](EVIDENCE-AND-LIFECYCLE-V14-RESULTS-20261115.json) /
+[freeze](EVIDENCE-AND-LIFECYCLE-V14-FREEZE-20261115.json) /
+[protocol](EVIDENCE-AND-LIFECYCLE-V14-PROTOCOL-20261115.md).
+PR #92 đã merge `65bf0c2`; A/B khóa `ae575b7` trước khi mở 2024–13/10/2026.
+Cổng trung bình >=50/năm được owner duyệt cho V14. A 3 sleeves, B thêm đúng
+2 cấu hình theo thứ tự cơ học. Giữ V13 verdict cũ. A/SYM NEXT_QUOTE
+Validation +13,89R, nhưng 48/105 cửa sổ pass 2 vòng, median ~54 tháng;
+CLEAN_COHORT 0/105. Đây là sensitivity ex-post, không phải filter live hoặc
+biên PnL toán học. Chưa đạt time-fit/độ tin cậy nguồn cho Challenge.
+B bổ sung cadence nhưng Validation SYM chỉ +6,18R, clean âm.
+Đã thêm 1 phút EUR Dev từ 106 tick và 5.723 phút tail 2026 từ nguồn native
+đã có hash; không sửa nguồn V1–V13. 4 E copies được xóa an toàn, 47 giữ lại;
+16.305.540 bytes logic, không claim physical GB. Giữ VI WIP/Trader pin.
+Private job `execution-v1/evidence-and-lifecycle-v14-20261115`;
+branch `codex/evidence-and-lifecycle-v14`, PR #93 để review, không tự merge.
+
 **V13 — 19 cases định giá đủ theo gap scenario; ensemble fail cadence:**
 [Báo cáo bốn phần](PATH-RESOLUTION-AND-DEDUP-V13-RESULTS-20261115.md) /
 [JSON](PATH-RESOLUTION-AND-DEDUP-V13-RESULTS-20261115.json) /
 [decision](PATH-RESOLUTION-AND-DEDUP-V13-DECISION-20261115.json) /
 [protocol](PATH-RESOLUTION-AND-DEDUP-V13-PROTOCOL-20261115.md).
-PR #91 merged `ad362ea`, nhánh V12 đã xóa. V13 branch
-`codex/path-resolution-and-dedup-v13`, chưa được giao merge PR mới.
+PR #91 merged `ad362ea`; PR #92/V13 cũng đã merge trong V14. Các nhánh cũ
+đã xóa; đoạn sau giữ kết luận V13 trước khi owner đổi cổng cadence.
 28 frozen cells → 16 scenario components → 3 medoids, SYM +50,232R/6năm,
 nhưng 2018/19 chỉ 43/47 tín hiệu dưới sàn 50/năm. Source uncertainty còn;
 0 source-verified component. Không mở 2024–2026/lifecycle/account replay.
