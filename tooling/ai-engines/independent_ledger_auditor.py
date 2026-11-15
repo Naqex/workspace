@@ -294,6 +294,50 @@ def audit_equity(trades, observations, specs, *, initial="50000", model="SYM"):
         scope="provided raw quote snapshots; not unobserved intrabar path")
 
 
+def bridge_screen(side,level,before,after,minutes,sigma,adjacent_range,envelope,*,first=None,end=None):
+    """Conditional source envelope or diffusion diagnostic, never a market bound."""
+    from math import exp,isfinite,log,sqrt
+    if side not in (-1,1) or minutes<=0:raise ValueError("invalid_bridge_contract")
+    d0,d1=side*(before-level),side*(after-level)
+    minimum=min(d0,d1)
+    envelope_ok=(envelope.get("available") and envelope.get("complete_export_assumption") and
+        not envelope.get("derived_from_gappy_M1",True) and
+        envelope.get("origin") in ("RECORDED_NATIVE_TICK_ENVELOPE","PROVIDER_NATIVE_HTF") and
+        first is not None and end is not None and envelope.get("first",end)<=first and
+        envelope.get("end",first)>=end)
+    extreme=envelope.get("bid_low") if side==1 else envelope.get("ask_high")
+    exclusion=bool(envelope_ok and extreme is not None and side*(extreme-level)>0 and minimum>0)
+    valid_sigma=sigma is not None and isfinite(sigma) and sigma>0
+    threshold=3*sigma*sqrt(minutes) if valid_sigma else None
+    log_p=-2*d0*d1/(sigma*sigma*minutes) if valid_sigma and minimum>0 else (0. if minimum<=0 else None)
+    probability=exp(max(log_p,-745)) if log_p is not None else None
+    low_risk=minimum>0 and valid_sigma and minimum>threshold and minimum>2*adjacent_range
+    status=("ENDPOINT_TOUCH_OR_BEYOND_STOP" if minimum<=0 else
+        "SOURCE_ENVELOPE_EXCLUDES_SL" if exclusion else "MODEL_LOW_RISK" if low_risk else "AMBIGUOUS")
+    return dict(status=status,signed_distances=[d0,d1],minimum_distance=minimum,
+        sigma_threshold=threshold,adjacent_threshold=2*adjacent_range,
+        model_log_hit_probability=log_p,model_hit_probability=probability,
+        conditional_source_exclusion=exclusion,market_certificate=False,
+        deterministic_bound=False,positive_model_tail=bool(valid_sigma and minimum>0),
+        model_assumptions="constant estimated sigma, continuous Gaussian bridge; jumps/feed omissions not bounded")
+
+
+def audit_duration_censorship(trades,claimed):
+    """Own medians/counters; no assertion that all removed trades are winners."""
+    groups={}
+    for label,flag in (("NO_UNKNOWN_GAP",False),("UNKNOWN_GAP",True)):
+        rows=[t for t in trades if bool(t["source_uncertain"])==flag]
+        v=sorted((t["exit_msc"]-t["entry_msc"])/3600000 for t in rows)
+        middle=(v[(len(v)-1)//2]+v[len(v)//2])/2 if v else None
+        wins=sum(t["reference"]["SYM"]["net_R"]>0 for t in rows)
+        losses=sum(t["reference"]["SYM"]["net_R"]<0 for t in rows)
+        c=claimed[label]
+        if (len(rows),middle,wins,losses)!=(c["trades"],c["median_hours"],c["wins"],c["losses"]):
+            raise ValueError("duration_censorship_counter_or_median")
+        groups[label]=dict(trades=len(rows),median_hours=middle,wins=wins,losses=losses)
+    return dict(passed=True,groups=groups,causal_proof=False,ex_post_selection=True)
+
+
 def v14_parts(t, quantity, model):
     """Own Decimal cash legs at actual lot size, never producer money()."""
     gold=t["asset"]=="XAUUSD"
@@ -492,13 +536,21 @@ class V14LedgerOracle:
                 old["entry_msc"],old["deadline_msc"],old["asset"]))
         return value
 
+    def requested_risk(self,equity):
+        risk=(200,175,125)[self.phase-1] if self.e["rolling"] else 150
+        if self.e["rolling"]:
+            risk=min(risk,90) if equity<=47000000 else min(risk,150) if equity<=48000000 else risk
+        return risk
+
+    def policy_limits(self):
+        return 800000,46000000
+
     def entry(self,i,at,quote):
         t=self.trades[i];a=self.accepted.get(i);rolling=self.e["rolling"]
         equity=self.cash+self.floating(quote)
-        risk=(200,175,125)[self.phase-1] if rolling else 150
-        if rolling:risk=min(risk,90) if equity<=47000000 else min(risk,150) if equity<=48000000 else risk
+        risk=self.requested_risk(equity)
         value=1 if t["asset"]=="XAUUSD" else 10
-        q=risk*1000//(value*abs(t["entry_price_units"]-t["stop_units"]))
+        q=int(D(str(risk))*1000)//(value*abs(t["entry_price_units"]-t["stop_units"]))
         reason=None
         if rolling:
             if self.harvest!="NORMAL":reason="HARVEST"
@@ -512,8 +564,9 @@ class V14LedgerOracle:
             self.trades[k]["entry_price_units"]-self.trades[k]["stop_units"]) for k,size in self.open.items())
         new=q*value*abs(t["entry_price_units"]-t["stop_units"])
         projected=self.reserve(i,q) if q else 0
-        if rolling and prior+new>800000:reason=reason or "CAP"
-        if rolling and (projected<=46000000 or projected<max(self.anchor-2500000,45000000)):
+        cap,floor=self.policy_limits()
+        if rolling and prior+new>cap:reason=reason or "CAP"
+        if rolling and (projected<=floor or projected<max(self.anchor-2500000,45000000)):
             reason=reason or "RESERVE"
         if bool(a)!=(reason is None):raise ValueError(f"V14_audit_admission:{i}:{reason}:{self.e['start_msc']}")
         if a is None:self.rejects+=1;return
@@ -598,3 +651,34 @@ class V14LedgerOracle:
         return dict(start=e["start_msc"],model=e["cell"],entries=self.entries,exits=self.exits,
             rejected=self.rejects,passes=self.passes,payouts=self.rewards,cash_bridge=True,
             dd_milli=self.dd,daily_milli=self.daily,static_milli=self.static)
+
+
+class V15LedgerOracle(V14LedgerOracle):
+    """Independent risk arithmetic; old lifecycle/cash oracle remains the owner."""
+    def __init__(self,*args):
+        super().__init__(*args)
+        self.cushion_active=False;self.seen_phase=self.phase
+
+    def observe(self,at):
+        if self.seen_phase!=self.phase:
+            self.seen_phase=self.phase;self.cushion_active=False
+        if self.e.get("cushion") and self.phase==1:
+            if self.cash<=50000000:self.cushion_active=False
+            if self.cash>=51500000:self.cushion_active=True
+        super().observe(at)
+
+    def requested_risk(self,equity):
+        if not self.e["policy"].startswith("V15"):return super().requested_risk(equity)
+        risk=D((200,175,125)[self.phase-1])*D(str(self.e["V15_factor"]))
+        if self.e.get("cushion") and self.phase==1 and self.cushion_active and equity>50000000:
+            risk+=min(D(self.cash-50000000)/1000/5,D(250))
+        if equity<=46500000:risk=min(risk,D(75))
+        elif equity<=47500000:risk=min(risk,D(150))
+        return float(risk)
+
+    def policy_limits(self):
+        return (1000000,45800000) if self.e["policy"].startswith("V15") else super().policy_limits()
+
+    def entry(self,i,at,quote):
+        if self.e.get("sleeve_id") and self.trades[i]["id"]!=self.e["sleeve_id"]:return
+        return super().entry(i,at,quote)

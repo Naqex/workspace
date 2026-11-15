@@ -1,10 +1,34 @@
 # Current context — Naqex Workspace
 
-15/11/2026 · `RESEARCH: V14_LIFECYCLE_MEASURED_TIME_FIT_SHORTFALL · SYSTEM: CONDITIONAL_M1_AND_NATIVE_BACKFILL · PROP: NOT_QUALIFIED`.
+15/11/2026 · `RESEARCH: V15_SIZING_IMPROVES_BUT_TIME_FIT_FAILS · SYSTEM: CONDITIONAL_M1_BRIDGE_MODEL · PROP: NOT_QUALIFIED`.
 
 ## Việc hiện tại
 
-**V14 đã đo đầy đủ A/B qua 2018–13/10/2026; chưa nên mua Challenge.**
+**V15 đã hiệu chỉnh sizing trên Dev; chưa nên mua Challenge.**
+[Báo cáo bốn phần](research/BRIDGE-AND-VELOCITY-V15-RESULTS-20261115.md) /
+[JSON](research/BRIDGE-AND-VELOCITY-V15-RESULTS-20261115.json) /
+[freeze](research/BRIDGE-AND-VELOCITY-V15-FREEZE-20261115.json) /
+[protocol](research/BRIDGE-AND-VELOCITY-V15-PROTOCOL-20261115.md).
+PR #93 đã merge `69bc7a6`, nhánh V14 đã xóa. Candidate B dừng tối ưu; giữ
+năm sleeves cho attribution. V15 đăng ký `7ed51a5`, khóa code/sizing
+`4b426ae` trước khi đo sizing mới trên 2024–13/10/2026 đã exposed giá.
+Dev chọn factor 1,5: risk 300/262,50/187,50 USD, có throttle/cap/reserve.
+SYM full: V14 48/105, median 54 tháng → V15 63/105, 41,03 tháng →
+cushion 66/105, 34,85 tháng; chưa đạt mục tiêu <18 tháng.
+Static max 8,13102%; cushion daily max 2,36724%; không breach mô hình.
+Đó không phải chứng nhận an toàn broker hoặc tỷ lệ thành công độc lập.
+296 clean/44 uncertain Dev giữ trung vị 5,13/18,77 giờ; uncertain vẫn 17 lệnh thua.
+38 conditional native-envelope exclusions + 95 model-low-risk gap occurrences;
+0 chứng nhận thị trường tuyệt đối. Primary stress 0 patches bằng baseline;
+all-uncertified shared-path stress 133 bars chỉ 0/105 hoàn tất hai vòng.
+47 duplicate targets đã có disposition: archive+restore+SHA rồi xóa 2 copies
+(11.875.972 bytes logic, archives 3.247.516 bytes); 45 package subtrees giữ toàn vẹn.
+Không lặp purge 4 cây V14. Giữ VI WIP/Trader pin, không broker/deploy/Astra.
+PR #94 để review, không merge; receipts/test IDs/CI ở private V15 job được dẫn trong báo cáo.
+
+## V14 đã merge (lịch sử)
+
+**V14 đo đầy đủ A/B qua 2018–13/10/2026.**
 [Báo cáo](research/EVIDENCE-AND-LIFECYCLE-V14-RESULTS-20261115.md) /
 [JSON](research/EVIDENCE-AND-LIFECYCLE-V14-RESULTS-20261115.json) /
 [freeze](research/EVIDENCE-AND-LIFECYCLE-V14-FREEZE-20261115.json) /
@@ -17,7 +41,7 @@ CLEAN_COHORT 0/105. Không phải tỷ lệ thành công độc lập hoặc fil
 Giá 2024–2026 đã exposed lịch sử; các M1 order/source scenarios không chứng
 nhận native intraminute path. Chưa shadow/demo/broker, không actual payout.
 4 E backup trees xóa với manifest/rehash, 47 giữ; VI WIP/Trader pin nguyên.
-V14 branch `codex/evidence-and-lifecycle-v14`, PR #93 chờ review, không merge.
+PR #93 đã merge trong V15; `codex/evidence-and-lifecycle-v14` đã xóa.
 Errata kỹ thuật giữ original freeze và log; không đổi alpha/SL/exit/risk grid.
 
 ## V13 đã merge (lịch sử)

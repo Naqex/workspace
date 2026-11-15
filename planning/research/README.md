@@ -1,6 +1,18 @@
 # Tra cứu research đã có
 
-**V14 — đã chạy lifecycle 2018–2026; chưa phù hợp mua Challenge:**
+**V15 — sizing có cải thiện, chưa đạt time-fit và còn bất định gap:**
+[Báo cáo bốn phần](BRIDGE-AND-VELOCITY-V15-RESULTS-20261115.md) /
+[JSON](BRIDGE-AND-VELOCITY-V15-RESULTS-20261115.json) /
+[freeze](BRIDGE-AND-VELOCITY-V15-FREEZE-20261115.json) /
+[protocol](BRIDGE-AND-VELOCITY-V15-PROTOCOL-20261115.md).
+PR #93 merge `69bc7a6`; B dừng tối ưu. Đăng ký `7ed51a5`, khóa `4b426ae`:
+Dev chọn factor 1,5. SYM 63/105 hoàn tất, median 41,03 tháng; cushion 66/105,
+34,85 tháng; chưa đạt <18. Primary bridge model không ép stop nào, không
+là chứng nhận thị trường. All-uncertified shared-path sensitivity 0/105.
+45 package targets KEEP có lý do; 2 copies archive/restore/SHA rồi xóa.
+Giữ nguồn/freeze/lịch sử, VI WIP/Trader pin. PR #94 mở review, không merge.
+
+**V14 — đã merge; baseline lifecycle 2018–2026:**
 [Báo cáo bốn phần](EVIDENCE-AND-LIFECYCLE-V14-RESULTS-20261115.md) /
 [JSON](EVIDENCE-AND-LIFECYCLE-V14-RESULTS-20261115.json) /
 [freeze](EVIDENCE-AND-LIFECYCLE-V14-FREEZE-20261115.json) /
@@ -16,7 +28,7 @@ B bổ sung cadence nhưng Validation SYM chỉ +6,18R, clean âm.
 đã có hash; không sửa nguồn V1–V13. 4 E copies được xóa an toàn, 47 giữ lại;
 16.305.540 bytes logic, không claim physical GB. Giữ VI WIP/Trader pin.
 Private job `execution-v1/evidence-and-lifecycle-v14-20261115`;
-branch `codex/evidence-and-lifecycle-v14`, PR #93 để review, không tự merge.
+PR #93 đã merge trong V15 và nhánh `codex/evidence-and-lifecycle-v14` đã xóa.
 
 **V13 — 19 cases định giá đủ theo gap scenario; ensemble fail cadence:**
 [Báo cáo bốn phần](PATH-RESOLUTION-AND-DEDUP-V13-RESULTS-20261115.md) /
