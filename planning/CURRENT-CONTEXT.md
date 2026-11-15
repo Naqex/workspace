@@ -1,10 +1,37 @@
 # Current context — Naqex Workspace
 
-16/11/2026 · `RESEARCH: V16_NO_QUALIFIED_BREADTH_ADDITION · SYSTEM: G2_STILL_SOURCE_UNCERTAIN · PROP: NOT_QUALIFIED`.
+16/11/2026 · `RESEARCH: V17_NO_QUALIFIED_VELOCITY_UPGRADE · SYSTEM: DAILY_FLAT_STILL_SOURCE_UNCERTAIN · PROP: NOT_QUALIFIED`.
 
 ## Việc hiện tại
 
-**V16 chưa có nâng cấp đạt zero-gap/time-fit; PR #95 giữ mở.**
+**V17 chưa đạt time-fit/gap convergence; PR #96 giữ mở.**
+[Báo cáo bốn phần](research/ADAPTIVE-VELOCITY-V17-RESULTS-20261116.md) /
+[JSON](research/ADAPTIVE-VELOCITY-V17-RESULTS-20261116.json) /
+[freeze](research/ADAPTIVE-VELOCITY-V17-FREEZE-20261116.json) /
+[protocol](research/ADAPTIVE-VELOCITY-V17-PROTOCOL-20261116.md).
+PR #95 đã merge `0fb47ae`, nhánh V16 đã xóa. V17 đăng ký `e3a390d`,
+khóa `d1d1d3b` trước đo policy mới trên 2024–13/10/2026 đã exposed.
+V16 không có overnight blocker: 36 cap occurrences/3 unique Dev signals
+PRIMARY; 0 partial shrink do cap. Không dùng future completeness cấp carry.
+Giữ daily-flat; 503 session cells trên Gold/EUR/US500, 0 additions.
+Dev fixed-$150 sleeve books chọn EUR Core1,0 và hai Gold Support0,6.
+Cap 1.000 USD, swing400/intraday reserve600 (dormant vì thực tế intraday);
+thêm projected daily reservation 1.200 USD, không là bảo đảm fill <2,5%.
+SYM V17 PRIMARY 68/105, median 42,95 tháng (V16 47,08; V15 34,85);
+STRICT 0/105; cả ba recent 0/33. PRIMARY daily1,6434%/static5,3626%;
+STRICT daily1,8295%/static8,3988%, 0 breach mô hình, vẫn chưa qualified.
+So V15 STRICT đúng factor1,5+cushion; cột cũ dùng risk V14 không được gắn nhầm.
+20 path/account audits mới, same implementer/feed. 1.148 PASS/0 skip, giữ
+đủ1.138 IDs; full21,14s so baseline28,23s (−25,1%). Smoke10/10<0,80s,
+max0,733s; 64 logs V15/V16 cold-pack restore/SHA, không xóa nguồn/evidence.
+Private job `execution-v1/adaptive-velocity-v17-20261116`; exact-head CI/
+downloaded test IDs receipt ghi sau push, không sửa HEAD chỉ để tự đóng dấu.
+VI WIP/Trader pin giữ nguyên. Không broker/deploy/provider downloads/Astra/
+memory update; không merge PR #96 hoặc tự mở V18.
+
+## V16 đã merge (lịch sử)
+
+**V16 chưa có nâng cấp đạt zero-gap/time-fit; PR #95 đã merge trong V17.**
 [Báo cáo bốn phần](research/GAP-IMMUNE-MULTIASSET-V16-RESULTS-20261116.md) /
 [JSON](research/GAP-IMMUNE-MULTIASSET-V16-RESULTS-20261116.json) /
 [freeze](research/GAP-IMMUNE-MULTIASSET-V16-FREEZE-20261116.json) /
@@ -29,7 +56,7 @@ Private job `execution-v1/gap-immune-and-multiasset-v16-20261116`.
 1.138 tests/0 skip, giữ đủ 1.126 IDs cũ; full wall 34,01→28,23s.
 Smoke 10/10 <0,80s, max 0,758s. CI exact-head receipts và giới hạn nằm
 trong báo cáo, đối soát bằng artifact tải về sau push. Giữ VI WIP/Trader pin.
-Không broker/deploy/provider downloads/Astra/memory update; không merge PR #95.
+Không broker/deploy/provider downloads/Astra/memory update ở V16; receipts lịch sử giữ nguyên.
 
 ## V15 đã merge (lịch sử)
 

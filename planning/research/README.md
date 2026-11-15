@@ -1,5 +1,20 @@
 # Tra cứu research đã có
 
+**V17 — chưa có nâng cấp đạt time-fit/gap convergence:**
+[Báo cáo bốn phần](ADAPTIVE-VELOCITY-V17-RESULTS-20261116.md) /
+[JSON](ADAPTIVE-VELOCITY-V17-RESULTS-20261116.json) /
+[freeze](ADAPTIVE-VELOCITY-V17-FREEZE-20261116.json) /
+[protocol](ADAPTIVE-VELOCITY-V17-PROTOCOL-20261116.md).
+PR #95 merge `0fb47ae`; V17 đăng ký `e3a390d`, khóa `d1d1d3b`.
+V16 không có overnight blocker; cap chỉ loại 3 unique Dev signals PRIMARY.
+Tier EUR 1,0 / Gold 0,6, daily reservation 2,4%; 503 session cells, 0 additions.
+SYM V17 PRIMARY 68/105, median 42,95 tháng; STRICT 0/105; recent 0/33.
+Giảm DD không lấp đường giá thiếu hay tạo alpha. 1.148 PASS/0 skip, giữ
+1.138 IDs; wall 28,23→21,14s; smoke 10/10 <0,80s, max 0,733s.
+64 logs V15/V16 cold-pack có restore/SHA; nguồn/path/ledger/freezes giữ nguyên.
+PR #96 giữ mở; exact-head CI/ID receipt nằm trong private V17 job.
+Không broker/deploy/provider downloads/Astra/memory update; chưa mở V18.
+
 **V16 — chưa có breadth addition đạt chuẩn, G2 vẫn nhạy gap:**
 [Báo cáo bốn phần](GAP-IMMUNE-MULTIASSET-V16-RESULTS-20261116.md) /
 [JSON](GAP-IMMUNE-MULTIASSET-V16-RESULTS-20261116.json) /
@@ -11,7 +26,7 @@ G2 daily flat còn 32 uncertain trades; primary SYM 71/105, median 47,08
 tháng; strict 1/105, recent 0/33 ở cả hai. Không đạt zero-gap/time-fit.
 Auditor riêng kiểm scanner + mọi sổ G2; same implementer/feed.
 Nén 8 logs có restore/SHA, giữ nguồn/freezes/ledger và VI WIP/Trader pin.
-PR #95 giữ mở; full test/smoke/CI receipts trong private job được báo cáo dẫn tới.
+PR #95 đã merge trong V17; full test/smoke/CI receipts lịch sử giữ nguyên.
 
 **V15 — sizing có cải thiện, chưa đạt time-fit và còn bất định gap:**
 [Báo cáo bốn phần](BRIDGE-AND-VELOCITY-V15-RESULTS-20261115.md) /

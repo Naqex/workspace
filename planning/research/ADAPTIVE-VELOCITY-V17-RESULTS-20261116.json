@@ -1,0 +1,3001 @@
+{
+  "schema": "V17-results-v1",
+  "decision": "NO_QUALIFIED_VELOCITY_OR_GAP_CONVERGENCE_UPGRADE",
+  "prop_qualified": false,
+  "market_certified": false,
+  "freeze": {
+    "schema": "V17-registered-tiered-risk-v1",
+    "tiers": {
+      "tiers": {
+        "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 1.0,
+        "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 0.6,
+        "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 0.6
+      },
+      "core": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+      "scores": [
+        {
+          "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+          "cases": [
+            {
+              "order": "OLHC",
+              "cost": "SYM_",
+              "trades": 194,
+              "annual_reference_R": 4.1985222222222225,
+              "floating_R_DD": 12.9892,
+              "annual_R_over_DD": 0.3232317788795478,
+              "rejections": {}
+            },
+            {
+              "order": "OLHC",
+              "cost": "ASYM",
+              "trades": 194,
+              "annual_reference_R": 4.1985222222222225,
+              "floating_R_DD": 12.9892,
+              "annual_R_over_DD": 0.3232317788795478,
+              "rejections": {}
+            },
+            {
+              "order": "OHLC",
+              "cost": "SYM_",
+              "trades": 194,
+              "annual_reference_R": 4.1985222222222225,
+              "floating_R_DD": 12.9892,
+              "annual_R_over_DD": 0.3232317788795478,
+              "rejections": {}
+            },
+            {
+              "order": "OHLC",
+              "cost": "ASYM",
+              "trades": 194,
+              "annual_reference_R": 4.1985222222222225,
+              "floating_R_DD": 12.9892,
+              "annual_R_over_DD": 0.3232317788795478,
+              "rejections": {}
+            }
+          ],
+          "worst_score": 0.3232317788795478
+        },
+        {
+          "id": "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0",
+          "cases": [
+            {
+              "order": "OLHC",
+              "cost": "SYM_",
+              "trades": 63,
+              "annual_reference_R": -1.6168555555555555,
+              "floating_R_DD": 14.181173333333334,
+              "annual_R_over_DD": -0.11401422982082034,
+              "rejections": {}
+            },
+            {
+              "order": "OLHC",
+              "cost": "ASYM",
+              "trades": 63,
+              "annual_reference_R": -1.6168555555555555,
+              "floating_R_DD": 14.181173333333334,
+              "annual_R_over_DD": -0.11401422982082034,
+              "rejections": {}
+            },
+            {
+              "order": "OHLC",
+              "cost": "SYM_",
+              "trades": 63,
+              "annual_reference_R": -1.6168555555555555,
+              "floating_R_DD": 14.181173333333334,
+              "annual_R_over_DD": -0.11401422982082034,
+              "rejections": {}
+            },
+            {
+              "order": "OHLC",
+              "cost": "ASYM",
+              "trades": 63,
+              "annual_reference_R": -1.6168555555555555,
+              "floating_R_DD": 14.181173333333334,
+              "annual_R_over_DD": -0.11401422982082034,
+              "rejections": {}
+            }
+          ],
+          "worst_score": -0.11401422982082034
+        },
+        {
+          "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1",
+          "cases": [
+            {
+              "order": "OLHC",
+              "cost": "SYM_",
+              "trades": 83,
+              "annual_reference_R": 1.4411333333333334,
+              "floating_R_DD": 4.977626666666667,
+              "annual_R_over_DD": 0.2895221819233798,
+              "rejections": {}
+            },
+            {
+              "order": "OLHC",
+              "cost": "ASYM",
+              "trades": 83,
+              "annual_reference_R": 1.4411333333333334,
+              "floating_R_DD": 4.977626666666667,
+              "annual_R_over_DD": 0.2895221819233798,
+              "rejections": {}
+            },
+            {
+              "order": "OHLC",
+              "cost": "SYM_",
+              "trades": 83,
+              "annual_reference_R": 1.4411333333333334,
+              "floating_R_DD": 4.977626666666667,
+              "annual_R_over_DD": 0.2895221819233798,
+              "rejections": {}
+            },
+            {
+              "order": "OHLC",
+              "cost": "ASYM",
+              "trades": 83,
+              "annual_reference_R": 1.4411333333333334,
+              "floating_R_DD": 4.977626666666667,
+              "annual_R_over_DD": 0.2895221819233798,
+              "rejections": {}
+            }
+          ],
+          "worst_score": 0.2895221819233798
+        }
+      ],
+      "rank_inconclusive": false,
+      "selection_uses_only_2018_2023": true,
+      "annual_R_over_DD_not_CAGR": true,
+      "variants": 1,
+      "no_equal_weight_outcome_selection": true
+    },
+    "selection": {
+      "selected": [],
+      "eligible": 0,
+      "cases": 503,
+      "status": "EMPTY_ADDITIONS"
+    },
+    "code_pins": {
+      "planning\\research\\ADAPTIVE-VELOCITY-V17-PROTOCOL-20261116.md": "c169ab9eaabd3b4bdb4bb877c0882bea3daec4c40745de55e073774dc4fadedd",
+      "tooling\\ai-engines\\prop_v17_accounts.py": "9aeb6e1faa66a37de9d1ff4a17c66dfe7e7082b0d4e4e154c933a10754d8bfa9",
+      "tooling\\ai-engines\\prop_v17_campaign.py": "b35c0f6d6d6876efed8e17ba31fc72a6922d4963bfafd061daa84e96e75803a7",
+      "tooling\\ai-engines\\prop_v17_common.py": "f817d76fa47605a6d0759b42b3d2f32ea7323002deb474c91804fba7591ca673",
+      "tooling\\ai-engines\\prop_v17_diagnosis.py": "a2af78a75ec11e82d9783cd9a26f2b54b4be49b7a5b68dd6bdf903731270532b",
+      "tooling\\ai-engines\\prop_v17_scan.py": "cf5c84397ebf8de99becda9873d27dd5f1eef45a2071a652868ae19948d0449d",
+      "tooling\\ai-engines\\independent_ledger_auditor.py": "f63df6a3a30c341dac8193399cd4d99401213146ef5cd664cb6c7156e766cd26",
+      "tooling\\ai-engines\\prop_v16_paths.py": "7e5a63c5dbc36f201e132d8936fa373f1b562b45e313f4dee7a3171c026f6ef4",
+      "tooling\\ai-engines\\prop_v15_paths.py": "3a6421b75893c7c5c52962da817037b266214ac4028068690f1c71c5aef2eb01",
+      "tooling\\ai-engines\\prop_v15_accounts.py": "4edb29264096a11502b1e7403f6cece358031a3d506d7387e26ea84394289bae",
+      "tooling\\ai-engines\\prop_v14_paths.py": "85ad5028159cbc4a8cbdf76c425a65578d00c6300938074edcfe1b86dcafb58b",
+      "tooling\\ai-engines\\prop_v14_accounts.py": "9a4f3dfb8a9bbfb97e060cdf9fefb68c3349363d51ed6a9aa70f0538c5f91f60",
+      "tooling\\ai-engines\\prop_v14_review.py": "9c40e9658b8fe33b970e2628fb93b7a6d678ed7fb7c7a89c20b68fbaf1ef4023",
+      "tooling\\ai-engines\\prop_v6_replay.py": "c762611f25f10514cda8e2cfaf225f49cad56ee3ffde3a27eb065ebd49b61303",
+      "tooling\\ai-engines\\prop_v6_account.py": "b444f11bf2822d8d8a528588aaedc7d32bab796d28dd55017784336a8f4b2645",
+      "tooling\\ai-engines\\prop_v5_account.py": "9c582aeece8a2eb8dc1b2eabb6a68615ad9119f2c6ceea8d07561fd6f25a2061",
+      "tooling\\ai-engines\\prop_portfolio_accounts.py": "dd1542edecf77c471a15832b2894c98176e8cd542bfa78ebf96b3fd142f853cb",
+      "tooling\\ai-engines\\quant_core\\gap_aware_execution.py": "da425a2452b37e284c9adda6be6e4f5cf00152b89a9a123ae66c93dabf756c66",
+      "tooling\\ai-engines\\quant_core\\vectorized_sl_active_kernel.py": "16f067671bca28006dd6b005ac70c7ff511492cf95919fbb7887c5086c8a6afe",
+      "tooling\\ai-engines\\quant_core\\ftmo_execution_and_calendar.py": "143f8cfd5ff8255c50d7f2686f6b1752ad89c2275d72d371b50b8d581914c657"
+    },
+    "Dev_audits": {
+      "Dev-OLHC-PRIMARY-account-audit.json": "052328b3fc86071678d2f81954ea80af223dbce793817af7bb2f6cd3d584d2db",
+      "Dev-OLHC-V17-PRIMARY-path-audit.json": "85b6775cb9cc6994acb83f853bbb584f6c59bd5eaf19dddb61a8320bcad1eb07",
+      "Dev-OLHC-STRICT-account-audit.json": "f977a576a9815037fe0c70d8ec007903ed9261054133c8d2567f13307be92f2b",
+      "Dev-OLHC-V17-STRICT-path-audit.json": "0f5c5aa79525cf46e9edc1cb88f64c397a23b640e4ed54a208c7b142bd37288f",
+      "Dev-OHLC-PRIMARY-account-audit.json": "052328b3fc86071678d2f81954ea80af223dbce793817af7bb2f6cd3d584d2db",
+      "Dev-OHLC-V17-PRIMARY-path-audit.json": "79d1eb53344c2179741b0dac197ea5159a87ae53466f92fd4f06b10056cb23bd",
+      "Dev-OHLC-STRICT-account-audit.json": "db3a09a5a560ba206fbba2d4e11adca2334a5330250ad6f180dc87973388ebba",
+      "Dev-OHLC-V17-STRICT-path-audit.json": "8351ef865b0c10f5740380fea69d9050b5a617e3cb55b3425e71ee3e08cd93f8"
+    },
+    "Dev_end": 1704067200000,
+    "later_prices_already_exposed": true,
+    "new_full_policy_not_yet_measured": true,
+    "candidate_A": [
+      "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+      "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0",
+      "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1"
+    ],
+    "parent_source_admission_sha256": "3c49b2b3519f4312f5b2c8351b3cad521786976480fd0dbd5d96ded374adec85",
+    "parent_V16_freeze_sha256": "d17b9b32dfbd7ec13502e4d64a9de6f1770c1140f9f36827821bf4ed6542589e",
+    "scan_receipts": {
+      "XAUUSD": "63b9fd4220292073ebed10bbdc9385ca833d76c06632ce0868270cde4296f152",
+      "EURUSD": "bc7208a3bd50f749a040dfbbc98e784bf6abdb9e0e1d67649fdd30904bcae748",
+      "US500": "cbe7617fada2cdf81e636760808fdd2dd374944b443beca502a16d5d52733f2e"
+    },
+    "no_ex_ante_future_path_certificate": true
+  },
+  "freeze_commit": "d1d1d3b",
+  "PR95_merge": "0fb47ae",
+  "comparison": [
+    {
+      "version": "V15",
+      "mode": "PRIMARY",
+      "order": "OLHC",
+      "cost": "SYM",
+      "windows": 105,
+      "phase1": 78,
+      "funded": 66,
+      "median_months": 34.85352498288843,
+      "breaches": 0,
+      "worst_static": 8.13102,
+      "worst_daily": 2.36724,
+      "payout_count_windows": 836,
+      "payout_windows_usd": 157249.14,
+      "standalone_payout": 8834.15,
+      "standalone_payout_count": 42,
+      "censored_phase1": 27,
+      "censored_phase2": 12,
+      "recent_33": {
+        "windows": 33,
+        "phase1": 6,
+        "funded": 0,
+        "median_months": null,
+        "breaches": 0,
+        "worst_static": 6.58368,
+        "worst_daily": 2.36724,
+        "payout_count_windows": 0,
+        "payout_windows_usd": 0,
+        "standalone_payout": null,
+        "standalone_payout_count": null,
+        "censored_phase1": 27,
+        "censored_phase2": 6
+      }
+    },
+    {
+      "version": "V15",
+      "mode": "PRIMARY",
+      "order": "OLHC",
+      "cost": "ASYM",
+      "windows": 105,
+      "phase1": 78,
+      "funded": 67,
+      "median_months": 33.04654346338125,
+      "breaches": 0,
+      "worst_static": 8.05396,
+      "worst_daily": 2.3659,
+      "payout_count_windows": 923,
+      "payout_windows_usd": 196514.91,
+      "standalone_payout": 9422.51,
+      "standalone_payout_count": 42,
+      "censored_phase1": 27,
+      "censored_phase2": 11,
+      "recent_33": {
+        "windows": 33,
+        "phase1": 6,
+        "funded": 0,
+        "median_months": null,
+        "breaches": 0,
+        "worst_static": 6.54524,
+        "worst_daily": 2.3659,
+        "payout_count_windows": 0,
+        "payout_windows_usd": 0,
+        "standalone_payout": null,
+        "standalone_payout_count": null,
+        "censored_phase1": 27,
+        "censored_phase2": 6
+      }
+    },
+    {
+      "version": "V15",
+      "mode": "STRICT",
+      "order": "OLHC",
+      "cost": "SYM",
+      "windows": 105,
+      "phase1": 16,
+      "funded": 0,
+      "median_months": null,
+      "breaches": 0,
+      "worst_static": 8.39948,
+      "worst_daily": 2.51824,
+      "payout_count_windows": 0,
+      "payout_windows_usd": 0,
+      "standalone_payout": 1552.23,
+      "standalone_payout_count": 10,
+      "censored_phase1": 89,
+      "censored_phase2": 16,
+      "recent_33": {
+        "windows": 33,
+        "phase1": 0,
+        "funded": 0,
+        "median_months": null,
+        "breaches": 0,
+        "worst_static": 8.042976,
+        "worst_daily": 2.51824,
+        "payout_count_windows": 0,
+        "payout_windows_usd": 0,
+        "standalone_payout": null,
+        "standalone_payout_count": null,
+        "censored_phase1": 33,
+        "censored_phase2": 0
+      }
+    },
+    {
+      "version": "V15",
+      "mode": "STRICT",
+      "order": "OLHC",
+      "cost": "ASYM",
+      "windows": 105,
+      "phase1": 19,
+      "funded": 2,
+      "median_months": 12.561943874058862,
+      "breaches": 0,
+      "worst_static": 8.399,
+      "worst_daily": 2.32714,
+      "payout_count_windows": 2,
+      "payout_windows_usd": 42.5,
+      "standalone_payout": 1540.95,
+      "standalone_payout_count": 10,
+      "censored_phase1": 86,
+      "censored_phase2": 17,
+      "recent_33": {
+        "windows": 33,
+        "phase1": 0,
+        "funded": 0,
+        "median_months": null,
+        "breaches": 0,
+        "worst_static": 8.118396,
+        "worst_daily": 2.32714,
+        "payout_count_windows": 0,
+        "payout_windows_usd": 0,
+        "standalone_payout": null,
+        "standalone_payout_count": null,
+        "censored_phase1": 33,
+        "censored_phase2": 0
+      }
+    },
+    {
+      "version": "V16",
+      "mode": "PRIMARY",
+      "order": "OLHC",
+      "cost": "SYM",
+      "windows": 105,
+      "phase1": 81,
+      "funded": 71,
+      "median_months": 47.07529089664613,
+      "breaches": 0,
+      "worst_static": 6.38254,
+      "worst_daily": 1.96304,
+      "payout_count_windows": 608,
+      "payout_windows_usd": 68232.22,
+      "standalone_payout": 6457.11,
+      "standalone_payout_count": 40,
+      "censored_phase1": 24,
+      "censored_phase2": 10,
+      "recent_33": {
+        "windows": 33,
+        "phase1": 9,
+        "funded": 0,
+        "median_months": null,
+        "breaches": 0,
+        "worst_static": 6.005284,
+        "worst_daily": 1.96304,
+        "payout_count_windows": 0,
+        "payout_windows_usd": 0,
+        "standalone_payout": null,
+        "standalone_payout_count": null,
+        "censored_phase1": 24,
+        "censored_phase2": 9
+      }
+    },
+    {
+      "version": "V16",
+      "mode": "PRIMARY",
+      "order": "OLHC",
+      "cost": "ASYM",
+      "windows": 105,
+      "phase1": 81,
+      "funded": 71,
+      "median_months": 47.07529089664613,
+      "breaches": 0,
+      "worst_static": 6.38254,
+      "worst_daily": 1.96304,
+      "payout_count_windows": 608,
+      "payout_windows_usd": 68232.22,
+      "standalone_payout": 6457.11,
+      "standalone_payout_count": 40,
+      "censored_phase1": 24,
+      "censored_phase2": 10,
+      "recent_33": {
+        "windows": 33,
+        "phase1": 9,
+        "funded": 0,
+        "median_months": null,
+        "breaches": 0,
+        "worst_static": 6.005284,
+        "worst_daily": 1.96304,
+        "payout_count_windows": 0,
+        "payout_windows_usd": 0,
+        "standalone_payout": null,
+        "standalone_payout_count": null,
+        "censored_phase1": 24,
+        "censored_phase2": 9
+      }
+    },
+    {
+      "version": "V16",
+      "mode": "STRICT",
+      "order": "OLHC",
+      "cost": "SYM",
+      "windows": 105,
+      "phase1": 18,
+      "funded": 1,
+      "median_months": 18.95208761122519,
+      "breaches": 0,
+      "worst_static": 8.3997,
+      "worst_daily": 1.9628,
+      "payout_count_windows": 2,
+      "payout_windows_usd": 132.61,
+      "standalone_payout": 1824.95,
+      "standalone_payout_count": 11,
+      "censored_phase1": 87,
+      "censored_phase2": 17,
+      "recent_33": {
+        "windows": 33,
+        "phase1": 1,
+        "funded": 0,
+        "median_months": null,
+        "breaches": 0,
+        "worst_static": 7.300136,
+        "worst_daily": 1.785,
+        "payout_count_windows": 0,
+        "payout_windows_usd": 0,
+        "standalone_payout": null,
+        "standalone_payout_count": null,
+        "censored_phase1": 32,
+        "censored_phase2": 1
+      }
+    },
+    {
+      "version": "V16",
+      "mode": "STRICT",
+      "order": "OLHC",
+      "cost": "ASYM",
+      "windows": 105,
+      "phase1": 18,
+      "funded": 1,
+      "median_months": 18.95208761122519,
+      "breaches": 0,
+      "worst_static": 8.3997,
+      "worst_daily": 1.9628,
+      "payout_count_windows": 2,
+      "payout_windows_usd": 132.61,
+      "standalone_payout": 1824.95,
+      "standalone_payout_count": 11,
+      "censored_phase1": 87,
+      "censored_phase2": 17,
+      "recent_33": {
+        "windows": 33,
+        "phase1": 1,
+        "funded": 0,
+        "median_months": null,
+        "breaches": 0,
+        "worst_static": 7.300136,
+        "worst_daily": 1.785,
+        "payout_count_windows": 0,
+        "payout_windows_usd": 0,
+        "standalone_payout": null,
+        "standalone_payout_count": null,
+        "censored_phase1": 32,
+        "censored_phase2": 1
+      }
+    },
+    {
+      "version": "V17",
+      "mode": "PRIMARY",
+      "order": "OLHC",
+      "cost": "SYM",
+      "windows": 105,
+      "phase1": 74,
+      "funded": 68,
+      "median_months": 42.95208761122519,
+      "breaches": 0,
+      "worst_static": 5.36258,
+      "worst_daily": 1.64344,
+      "payout_count_windows": 590,
+      "payout_windows_usd": 77456.6,
+      "standalone_payout": 6314.2699999999995,
+      "standalone_payout_count": 35,
+      "censored_phase1": 31,
+      "censored_phase2": 6,
+      "recent_33": {
+        "windows": 33,
+        "phase1": 2,
+        "funded": 0,
+        "median_months": null,
+        "breaches": 0,
+        "worst_static": 4.73456,
+        "worst_daily": 1.64344,
+        "payout_count_windows": 0,
+        "payout_windows_usd": 0,
+        "standalone_payout": null,
+        "standalone_payout_count": null,
+        "censored_phase1": 31,
+        "censored_phase2": 2
+      }
+    },
+    {
+      "version": "V17",
+      "mode": "PRIMARY",
+      "order": "OLHC",
+      "cost": "ASYM",
+      "windows": 105,
+      "phase1": 74,
+      "funded": 68,
+      "median_months": 42.95208761122519,
+      "breaches": 0,
+      "worst_static": 5.36258,
+      "worst_daily": 1.64344,
+      "payout_count_windows": 590,
+      "payout_windows_usd": 77456.6,
+      "standalone_payout": 6314.2699999999995,
+      "standalone_payout_count": 35,
+      "censored_phase1": 31,
+      "censored_phase2": 6,
+      "recent_33": {
+        "windows": 33,
+        "phase1": 2,
+        "funded": 0,
+        "median_months": null,
+        "breaches": 0,
+        "worst_static": 4.73456,
+        "worst_daily": 1.64344,
+        "payout_count_windows": 0,
+        "payout_windows_usd": 0,
+        "standalone_payout": null,
+        "standalone_payout_count": null,
+        "censored_phase1": 31,
+        "censored_phase2": 2
+      }
+    },
+    {
+      "version": "V17",
+      "mode": "STRICT",
+      "order": "OLHC",
+      "cost": "SYM",
+      "windows": 105,
+      "phase1": 14,
+      "funded": 0,
+      "median_months": null,
+      "breaches": 0,
+      "worst_static": 8.39884,
+      "worst_daily": 1.8295,
+      "payout_count_windows": 0,
+      "payout_windows_usd": 0,
+      "standalone_payout": 2098.35,
+      "standalone_payout_count": 11,
+      "censored_phase1": 91,
+      "censored_phase2": 14,
+      "recent_33": {
+        "windows": 33,
+        "phase1": 0,
+        "funded": 0,
+        "median_months": null,
+        "breaches": 0,
+        "worst_static": 6.31726,
+        "worst_daily": 1.8295,
+        "payout_count_windows": 0,
+        "payout_windows_usd": 0,
+        "standalone_payout": null,
+        "standalone_payout_count": null,
+        "censored_phase1": 33,
+        "censored_phase2": 0
+      }
+    },
+    {
+      "version": "V17",
+      "mode": "STRICT",
+      "order": "OLHC",
+      "cost": "ASYM",
+      "windows": 105,
+      "phase1": 14,
+      "funded": 0,
+      "median_months": null,
+      "breaches": 0,
+      "worst_static": 8.39884,
+      "worst_daily": 1.8295,
+      "payout_count_windows": 0,
+      "payout_windows_usd": 0,
+      "standalone_payout": 2098.35,
+      "standalone_payout_count": 11,
+      "censored_phase1": 91,
+      "censored_phase2": 14,
+      "recent_33": {
+        "windows": 33,
+        "phase1": 0,
+        "funded": 0,
+        "median_months": null,
+        "breaches": 0,
+        "worst_static": 6.31726,
+        "worst_daily": 1.8295,
+        "payout_count_windows": 0,
+        "payout_windows_usd": 0,
+        "standalone_payout": null,
+        "standalone_payout_count": null,
+        "censored_phase1": 33,
+        "censored_phase2": 0
+      }
+    },
+    {
+      "version": "V15",
+      "mode": "PRIMARY",
+      "order": "OHLC",
+      "cost": "SYM",
+      "windows": 105,
+      "phase1": 78,
+      "funded": 66,
+      "median_months": 34.85352498288843,
+      "breaches": 0,
+      "worst_static": 8.13102,
+      "worst_daily": 2.36724,
+      "payout_count_windows": 836,
+      "payout_windows_usd": 157249.14,
+      "standalone_payout": 8834.15,
+      "standalone_payout_count": 42,
+      "censored_phase1": 27,
+      "censored_phase2": 12,
+      "recent_33": {
+        "windows": 33,
+        "phase1": 6,
+        "funded": 0,
+        "median_months": null,
+        "breaches": 0,
+        "worst_static": 6.58368,
+        "worst_daily": 2.36724,
+        "payout_count_windows": 0,
+        "payout_windows_usd": 0,
+        "standalone_payout": null,
+        "standalone_payout_count": null,
+        "censored_phase1": 27,
+        "censored_phase2": 6
+      }
+    },
+    {
+      "version": "V15",
+      "mode": "PRIMARY",
+      "order": "OHLC",
+      "cost": "ASYM",
+      "windows": 105,
+      "phase1": 78,
+      "funded": 67,
+      "median_months": 33.04654346338125,
+      "breaches": 0,
+      "worst_static": 8.05396,
+      "worst_daily": 2.3659,
+      "payout_count_windows": 923,
+      "payout_windows_usd": 196514.91,
+      "standalone_payout": 9422.51,
+      "standalone_payout_count": 42,
+      "censored_phase1": 27,
+      "censored_phase2": 11,
+      "recent_33": {
+        "windows": 33,
+        "phase1": 6,
+        "funded": 0,
+        "median_months": null,
+        "breaches": 0,
+        "worst_static": 6.54524,
+        "worst_daily": 2.3659,
+        "payout_count_windows": 0,
+        "payout_windows_usd": 0,
+        "standalone_payout": null,
+        "standalone_payout_count": null,
+        "censored_phase1": 27,
+        "censored_phase2": 6
+      }
+    },
+    {
+      "version": "V15",
+      "mode": "STRICT",
+      "order": "OHLC",
+      "cost": "SYM",
+      "windows": 105,
+      "phase1": 16,
+      "funded": 0,
+      "median_months": null,
+      "breaches": 0,
+      "worst_static": 8.39948,
+      "worst_daily": 2.51824,
+      "payout_count_windows": 0,
+      "payout_windows_usd": 0,
+      "standalone_payout": 1552.23,
+      "standalone_payout_count": 10,
+      "censored_phase1": 89,
+      "censored_phase2": 16,
+      "recent_33": {
+        "windows": 33,
+        "phase1": 0,
+        "funded": 0,
+        "median_months": null,
+        "breaches": 0,
+        "worst_static": 8.042976,
+        "worst_daily": 2.51824,
+        "payout_count_windows": 0,
+        "payout_windows_usd": 0,
+        "standalone_payout": null,
+        "standalone_payout_count": null,
+        "censored_phase1": 33,
+        "censored_phase2": 0
+      }
+    },
+    {
+      "version": "V15",
+      "mode": "STRICT",
+      "order": "OHLC",
+      "cost": "ASYM",
+      "windows": 105,
+      "phase1": 19,
+      "funded": 2,
+      "median_months": 12.561943874058862,
+      "breaches": 0,
+      "worst_static": 8.399,
+      "worst_daily": 2.32714,
+      "payout_count_windows": 2,
+      "payout_windows_usd": 42.5,
+      "standalone_payout": 1540.95,
+      "standalone_payout_count": 10,
+      "censored_phase1": 86,
+      "censored_phase2": 17,
+      "recent_33": {
+        "windows": 33,
+        "phase1": 0,
+        "funded": 0,
+        "median_months": null,
+        "breaches": 0,
+        "worst_static": 8.118396,
+        "worst_daily": 2.32714,
+        "payout_count_windows": 0,
+        "payout_windows_usd": 0,
+        "standalone_payout": null,
+        "standalone_payout_count": null,
+        "censored_phase1": 33,
+        "censored_phase2": 0
+      }
+    },
+    {
+      "version": "V16",
+      "mode": "PRIMARY",
+      "order": "OHLC",
+      "cost": "SYM",
+      "windows": 105,
+      "phase1": 81,
+      "funded": 71,
+      "median_months": 47.07529089664613,
+      "breaches": 0,
+      "worst_static": 6.38254,
+      "worst_daily": 1.96304,
+      "payout_count_windows": 608,
+      "payout_windows_usd": 68232.22,
+      "standalone_payout": 6457.11,
+      "standalone_payout_count": 40,
+      "censored_phase1": 24,
+      "censored_phase2": 10,
+      "recent_33": {
+        "windows": 33,
+        "phase1": 9,
+        "funded": 0,
+        "median_months": null,
+        "breaches": 0,
+        "worst_static": 6.005284,
+        "worst_daily": 1.96304,
+        "payout_count_windows": 0,
+        "payout_windows_usd": 0,
+        "standalone_payout": null,
+        "standalone_payout_count": null,
+        "censored_phase1": 24,
+        "censored_phase2": 9
+      }
+    },
+    {
+      "version": "V16",
+      "mode": "PRIMARY",
+      "order": "OHLC",
+      "cost": "ASYM",
+      "windows": 105,
+      "phase1": 81,
+      "funded": 71,
+      "median_months": 47.07529089664613,
+      "breaches": 0,
+      "worst_static": 6.38254,
+      "worst_daily": 1.96304,
+      "payout_count_windows": 608,
+      "payout_windows_usd": 68232.22,
+      "standalone_payout": 6457.11,
+      "standalone_payout_count": 40,
+      "censored_phase1": 24,
+      "censored_phase2": 10,
+      "recent_33": {
+        "windows": 33,
+        "phase1": 9,
+        "funded": 0,
+        "median_months": null,
+        "breaches": 0,
+        "worst_static": 6.005284,
+        "worst_daily": 1.96304,
+        "payout_count_windows": 0,
+        "payout_windows_usd": 0,
+        "standalone_payout": null,
+        "standalone_payout_count": null,
+        "censored_phase1": 24,
+        "censored_phase2": 9
+      }
+    },
+    {
+      "version": "V16",
+      "mode": "STRICT",
+      "order": "OHLC",
+      "cost": "SYM",
+      "windows": 105,
+      "phase1": 18,
+      "funded": 1,
+      "median_months": 18.95208761122519,
+      "breaches": 0,
+      "worst_static": 8.3997,
+      "worst_daily": 1.9628,
+      "payout_count_windows": 2,
+      "payout_windows_usd": 132.61,
+      "standalone_payout": 1824.95,
+      "standalone_payout_count": 11,
+      "censored_phase1": 87,
+      "censored_phase2": 17,
+      "recent_33": {
+        "windows": 33,
+        "phase1": 1,
+        "funded": 0,
+        "median_months": null,
+        "breaches": 0,
+        "worst_static": 7.300136,
+        "worst_daily": 1.785,
+        "payout_count_windows": 0,
+        "payout_windows_usd": 0,
+        "standalone_payout": null,
+        "standalone_payout_count": null,
+        "censored_phase1": 32,
+        "censored_phase2": 1
+      }
+    },
+    {
+      "version": "V16",
+      "mode": "STRICT",
+      "order": "OHLC",
+      "cost": "ASYM",
+      "windows": 105,
+      "phase1": 18,
+      "funded": 1,
+      "median_months": 18.95208761122519,
+      "breaches": 0,
+      "worst_static": 8.3997,
+      "worst_daily": 1.9628,
+      "payout_count_windows": 2,
+      "payout_windows_usd": 132.61,
+      "standalone_payout": 1824.95,
+      "standalone_payout_count": 11,
+      "censored_phase1": 87,
+      "censored_phase2": 17,
+      "recent_33": {
+        "windows": 33,
+        "phase1": 1,
+        "funded": 0,
+        "median_months": null,
+        "breaches": 0,
+        "worst_static": 7.300136,
+        "worst_daily": 1.785,
+        "payout_count_windows": 0,
+        "payout_windows_usd": 0,
+        "standalone_payout": null,
+        "standalone_payout_count": null,
+        "censored_phase1": 32,
+        "censored_phase2": 1
+      }
+    },
+    {
+      "version": "V17",
+      "mode": "PRIMARY",
+      "order": "OHLC",
+      "cost": "SYM",
+      "windows": 105,
+      "phase1": 74,
+      "funded": 68,
+      "median_months": 42.95208761122519,
+      "breaches": 0,
+      "worst_static": 5.36258,
+      "worst_daily": 1.64344,
+      "payout_count_windows": 590,
+      "payout_windows_usd": 77456.6,
+      "standalone_payout": 6314.2699999999995,
+      "standalone_payout_count": 35,
+      "censored_phase1": 31,
+      "censored_phase2": 6,
+      "recent_33": {
+        "windows": 33,
+        "phase1": 2,
+        "funded": 0,
+        "median_months": null,
+        "breaches": 0,
+        "worst_static": 4.73456,
+        "worst_daily": 1.64344,
+        "payout_count_windows": 0,
+        "payout_windows_usd": 0,
+        "standalone_payout": null,
+        "standalone_payout_count": null,
+        "censored_phase1": 31,
+        "censored_phase2": 2
+      }
+    },
+    {
+      "version": "V17",
+      "mode": "PRIMARY",
+      "order": "OHLC",
+      "cost": "ASYM",
+      "windows": 105,
+      "phase1": 74,
+      "funded": 68,
+      "median_months": 42.95208761122519,
+      "breaches": 0,
+      "worst_static": 5.36258,
+      "worst_daily": 1.64344,
+      "payout_count_windows": 590,
+      "payout_windows_usd": 77456.6,
+      "standalone_payout": 6314.2699999999995,
+      "standalone_payout_count": 35,
+      "censored_phase1": 31,
+      "censored_phase2": 6,
+      "recent_33": {
+        "windows": 33,
+        "phase1": 2,
+        "funded": 0,
+        "median_months": null,
+        "breaches": 0,
+        "worst_static": 4.73456,
+        "worst_daily": 1.64344,
+        "payout_count_windows": 0,
+        "payout_windows_usd": 0,
+        "standalone_payout": null,
+        "standalone_payout_count": null,
+        "censored_phase1": 31,
+        "censored_phase2": 2
+      }
+    },
+    {
+      "version": "V17",
+      "mode": "STRICT",
+      "order": "OHLC",
+      "cost": "SYM",
+      "windows": 105,
+      "phase1": 14,
+      "funded": 0,
+      "median_months": null,
+      "breaches": 0,
+      "worst_static": 8.39884,
+      "worst_daily": 1.8295,
+      "payout_count_windows": 0,
+      "payout_windows_usd": 0,
+      "standalone_payout": 2098.35,
+      "standalone_payout_count": 11,
+      "censored_phase1": 91,
+      "censored_phase2": 14,
+      "recent_33": {
+        "windows": 33,
+        "phase1": 0,
+        "funded": 0,
+        "median_months": null,
+        "breaches": 0,
+        "worst_static": 6.31726,
+        "worst_daily": 1.8295,
+        "payout_count_windows": 0,
+        "payout_windows_usd": 0,
+        "standalone_payout": null,
+        "standalone_payout_count": null,
+        "censored_phase1": 33,
+        "censored_phase2": 0
+      }
+    },
+    {
+      "version": "V17",
+      "mode": "STRICT",
+      "order": "OHLC",
+      "cost": "ASYM",
+      "windows": 105,
+      "phase1": 14,
+      "funded": 0,
+      "median_months": null,
+      "breaches": 0,
+      "worst_static": 8.39884,
+      "worst_daily": 1.8295,
+      "payout_count_windows": 0,
+      "payout_windows_usd": 0,
+      "standalone_payout": 2098.35,
+      "standalone_payout_count": 11,
+      "censored_phase1": 91,
+      "censored_phase2": 14,
+      "recent_33": {
+        "windows": 33,
+        "phase1": 0,
+        "funded": 0,
+        "median_months": null,
+        "breaches": 0,
+        "worst_static": 6.31726,
+        "worst_daily": 1.8295,
+        "payout_count_windows": 0,
+        "payout_windows_usd": 0,
+        "standalone_payout": null,
+        "standalone_payout_count": null,
+        "censored_phase1": 33,
+        "censored_phase2": 0
+      }
+    }
+  ],
+  "ledger_bindings": [
+    {
+      "version": "V15",
+      "mode": "PRIMARY",
+      "order": "OLHC",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\Full-OLHC-sizing-accounts.json",
+      "sha256": "dab3c54a147095e25d854ebfe5a88170e4fab9f61273852d8b70b00ec8bfe720"
+    },
+    {
+      "version": "V15",
+      "mode": "STRICT",
+      "order": "OLHC",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OLHC-V15-CUSHION-STRICT-accounts.json",
+      "sha256": "8060c7934170ca62494fe5724965a8c39637688aaca184b04e211869ff65d91f"
+    },
+    {
+      "version": "V16",
+      "mode": "PRIMARY",
+      "order": "OLHC",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\Full-OLHC-PRIMARY-accounts.json",
+      "sha256": "82c07d06a2a16fa0812d7b9f46756a169d4c145460b2c8bdc794c7bf25f95ab5"
+    },
+    {
+      "version": "V16",
+      "mode": "STRICT",
+      "order": "OLHC",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\Full-OLHC-STRICT-accounts.json",
+      "sha256": "bec798b32397946f2f44be8cf2bc786567c5c5324cffc4c1a8d965f404a198f8"
+    },
+    {
+      "version": "V17",
+      "mode": "PRIMARY",
+      "order": "OLHC",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OLHC-PRIMARY-accounts.json",
+      "sha256": "7ff61c43418256335f490901d64aa2857ed06dca6fac6006c3617077cdc898c8"
+    },
+    {
+      "version": "V17",
+      "mode": "STRICT",
+      "order": "OLHC",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OLHC-STRICT-accounts.json",
+      "sha256": "ab3194b8f7d2b67b7b23ed7d5d05bf4e398fd608214358e68e28164ced3c8972"
+    },
+    {
+      "version": "V15",
+      "mode": "PRIMARY",
+      "order": "OHLC",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\Full-OHLC-sizing-accounts.json",
+      "sha256": "1113f478e48e207e38a8ab4076cd776124d4e16098ea0d6bd23426ea0a8f82da"
+    },
+    {
+      "version": "V15",
+      "mode": "STRICT",
+      "order": "OHLC",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OHLC-V15-CUSHION-STRICT-accounts.json",
+      "sha256": "d6ad6ec133b921a87ac6c0fdd4104e9d0d96b6536922b79d6cc2c0e964765dcb"
+    },
+    {
+      "version": "V16",
+      "mode": "PRIMARY",
+      "order": "OHLC",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\Full-OHLC-PRIMARY-accounts.json",
+      "sha256": "c53fa41dc8bc7f8114a203d33127f1e21001912fceb7a62e45eb43cd09be382e"
+    },
+    {
+      "version": "V16",
+      "mode": "STRICT",
+      "order": "OHLC",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\Full-OHLC-STRICT-accounts.json",
+      "sha256": "6bbeff70597fbbd1b341c4d2bd93eee67023a85aa97c330b834cebd8a1283113"
+    },
+    {
+      "version": "V17",
+      "mode": "PRIMARY",
+      "order": "OHLC",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OHLC-PRIMARY-accounts.json",
+      "sha256": "7edae759fde3884ff47c1a8c63540ef2e34907d5b8a949bf98fe23324d1cdc80"
+    },
+    {
+      "version": "V17",
+      "mode": "STRICT",
+      "order": "OHLC",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OHLC-STRICT-accounts.json",
+      "sha256": "46ee1a3273261b536012b4819b02bd625c2b40285f6984f956756f9b7f48f3aa"
+    }
+  ],
+  "audits": [
+    {
+      "scope": "Dev",
+      "order": "OLHC",
+      "mode": "PRIMARY",
+      "kind": "path",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Dev-OLHC-V17-PRIMARY-path-audit.json",
+      "count": 340,
+      "sha256": "85b6775cb9cc6994acb83f853bbb584f6c59bd5eaf19dddb61a8320bcad1eb07"
+    },
+    {
+      "scope": "Dev",
+      "order": "OLHC",
+      "mode": "PRIMARY",
+      "kind": "account",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Dev-OLHC-PRIMARY-account-audit.json",
+      "count": 146,
+      "sha256": "052328b3fc86071678d2f81954ea80af223dbce793817af7bb2f6cd3d584d2db"
+    },
+    {
+      "scope": "Dev",
+      "order": "OLHC",
+      "mode": "STRICT",
+      "kind": "path",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Dev-OLHC-V17-STRICT-path-audit.json",
+      "count": 340,
+      "sha256": "0f5c5aa79525cf46e9edc1cb88f64c397a23b640e4ed54a208c7b142bd37288f"
+    },
+    {
+      "scope": "Dev",
+      "order": "OLHC",
+      "mode": "STRICT",
+      "kind": "account",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Dev-OLHC-STRICT-account-audit.json",
+      "count": 146,
+      "sha256": "f977a576a9815037fe0c70d8ec007903ed9261054133c8d2567f13307be92f2b"
+    },
+    {
+      "scope": "Full",
+      "order": "OLHC",
+      "mode": "PRIMARY",
+      "kind": "path",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OLHC-V17-PRIMARY-path-audit.json",
+      "count": 494,
+      "sha256": "d4393f47567d91251bd66cccacdf97958d99f2c3fe19aeeb44255cedeebaa1ce"
+    },
+    {
+      "scope": "Full",
+      "order": "OLHC",
+      "mode": "PRIMARY",
+      "kind": "account",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OLHC-PRIMARY-account-audit.json",
+      "count": 212,
+      "sha256": "ecba34625dcd3ffb137a22f152a63256fe0bac7006a6b96ed7312cfc5ce6a862"
+    },
+    {
+      "scope": "Full",
+      "order": "OLHC",
+      "mode": "STRICT",
+      "kind": "path",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OLHC-V17-STRICT-path-audit.json",
+      "count": 494,
+      "sha256": "5782bc541d7f45afdbb64d4a415d17e5e48668c8f0810ed8584995e33ae25be6"
+    },
+    {
+      "scope": "Full",
+      "order": "OLHC",
+      "mode": "STRICT",
+      "kind": "account",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OLHC-STRICT-account-audit.json",
+      "count": 212,
+      "sha256": "f52ff94a5aefe909781e058516217ecec41e05ad12973c4da4b4bed51ae91e67"
+    },
+    {
+      "scope": "Full",
+      "order": "OLHC",
+      "mode": "V15_CUSHION_STRICT",
+      "kind": "account",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OLHC-V15-CUSHION-STRICT-account-audit.json",
+      "count": 212,
+      "sha256": "1be45bd9b5897971eaf9ee958e7779ec417911d07b1906931fe0c4a73662e984"
+    },
+    {
+      "scope": "Full",
+      "order": "OLHC",
+      "mode": "V15_CUSHION_STRICT",
+      "kind": "path",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OLHC-V15-CUSHION-STRICT-path-audit.json",
+      "count": 494,
+      "sha256": "54bac45a9b0b1b4f28e2d99ba1a50c9fe601fe51ca13585282e4cf04ec96e1f1"
+    },
+    {
+      "scope": "Dev",
+      "order": "OHLC",
+      "mode": "PRIMARY",
+      "kind": "path",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Dev-OHLC-V17-PRIMARY-path-audit.json",
+      "count": 340,
+      "sha256": "79d1eb53344c2179741b0dac197ea5159a87ae53466f92fd4f06b10056cb23bd"
+    },
+    {
+      "scope": "Dev",
+      "order": "OHLC",
+      "mode": "PRIMARY",
+      "kind": "account",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Dev-OHLC-PRIMARY-account-audit.json",
+      "count": 146,
+      "sha256": "052328b3fc86071678d2f81954ea80af223dbce793817af7bb2f6cd3d584d2db"
+    },
+    {
+      "scope": "Dev",
+      "order": "OHLC",
+      "mode": "STRICT",
+      "kind": "path",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Dev-OHLC-V17-STRICT-path-audit.json",
+      "count": 340,
+      "sha256": "8351ef865b0c10f5740380fea69d9050b5a617e3cb55b3425e71ee3e08cd93f8"
+    },
+    {
+      "scope": "Dev",
+      "order": "OHLC",
+      "mode": "STRICT",
+      "kind": "account",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Dev-OHLC-STRICT-account-audit.json",
+      "count": 146,
+      "sha256": "db3a09a5a560ba206fbba2d4e11adca2334a5330250ad6f180dc87973388ebba"
+    },
+    {
+      "scope": "Full",
+      "order": "OHLC",
+      "mode": "PRIMARY",
+      "kind": "path",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OHLC-V17-PRIMARY-path-audit.json",
+      "count": 494,
+      "sha256": "f94637255fa60e86402b720c60cec9650227c73f29fc248f88cfba968fcd789c"
+    },
+    {
+      "scope": "Full",
+      "order": "OHLC",
+      "mode": "PRIMARY",
+      "kind": "account",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OHLC-PRIMARY-account-audit.json",
+      "count": 212,
+      "sha256": "ecba34625dcd3ffb137a22f152a63256fe0bac7006a6b96ed7312cfc5ce6a862"
+    },
+    {
+      "scope": "Full",
+      "order": "OHLC",
+      "mode": "STRICT",
+      "kind": "path",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OHLC-V17-STRICT-path-audit.json",
+      "count": 494,
+      "sha256": "9847ca089343eea84b9bc1a7f35d99012446d67aaf887025d1c1b7ad107bd250"
+    },
+    {
+      "scope": "Full",
+      "order": "OHLC",
+      "mode": "STRICT",
+      "kind": "account",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OHLC-STRICT-account-audit.json",
+      "count": 212,
+      "sha256": "f52ff94a5aefe909781e058516217ecec41e05ad12973c4da4b4bed51ae91e67"
+    },
+    {
+      "scope": "Full",
+      "order": "OHLC",
+      "mode": "V15_CUSHION_STRICT",
+      "kind": "account",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OHLC-V15-CUSHION-STRICT-account-audit.json",
+      "count": 212,
+      "sha256": "aafea734c38df908de7082574f3aa951d1b416235f2b7bb6af05376c6d47f4bd"
+    },
+    {
+      "scope": "Full",
+      "order": "OHLC",
+      "mode": "V15_CUSHION_STRICT",
+      "kind": "path",
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OHLC-V15-CUSHION-STRICT-path-audit.json",
+      "count": 494,
+      "sha256": "2bc723d57e52055a756832cc21840de91d1220a3cd96cfd1b9463d3cf44a86e9"
+    }
+  ],
+  "tiers": {
+    "tiers": {
+      "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 1.0,
+      "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 0.6,
+      "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 0.6
+    },
+    "core": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+    "scores": [
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "cases": [
+          {
+            "order": "OLHC",
+            "cost": "SYM_",
+            "trades": 194,
+            "annual_reference_R": 4.1985222222222225,
+            "floating_R_DD": 12.9892,
+            "annual_R_over_DD": 0.3232317788795478,
+            "rejections": {}
+          },
+          {
+            "order": "OLHC",
+            "cost": "ASYM",
+            "trades": 194,
+            "annual_reference_R": 4.1985222222222225,
+            "floating_R_DD": 12.9892,
+            "annual_R_over_DD": 0.3232317788795478,
+            "rejections": {}
+          },
+          {
+            "order": "OHLC",
+            "cost": "SYM_",
+            "trades": 194,
+            "annual_reference_R": 4.1985222222222225,
+            "floating_R_DD": 12.9892,
+            "annual_R_over_DD": 0.3232317788795478,
+            "rejections": {}
+          },
+          {
+            "order": "OHLC",
+            "cost": "ASYM",
+            "trades": 194,
+            "annual_reference_R": 4.1985222222222225,
+            "floating_R_DD": 12.9892,
+            "annual_R_over_DD": 0.3232317788795478,
+            "rejections": {}
+          }
+        ],
+        "worst_score": 0.3232317788795478
+      },
+      {
+        "id": "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0",
+        "cases": [
+          {
+            "order": "OLHC",
+            "cost": "SYM_",
+            "trades": 63,
+            "annual_reference_R": -1.6168555555555555,
+            "floating_R_DD": 14.181173333333334,
+            "annual_R_over_DD": -0.11401422982082034,
+            "rejections": {}
+          },
+          {
+            "order": "OLHC",
+            "cost": "ASYM",
+            "trades": 63,
+            "annual_reference_R": -1.6168555555555555,
+            "floating_R_DD": 14.181173333333334,
+            "annual_R_over_DD": -0.11401422982082034,
+            "rejections": {}
+          },
+          {
+            "order": "OHLC",
+            "cost": "SYM_",
+            "trades": 63,
+            "annual_reference_R": -1.6168555555555555,
+            "floating_R_DD": 14.181173333333334,
+            "annual_R_over_DD": -0.11401422982082034,
+            "rejections": {}
+          },
+          {
+            "order": "OHLC",
+            "cost": "ASYM",
+            "trades": 63,
+            "annual_reference_R": -1.6168555555555555,
+            "floating_R_DD": 14.181173333333334,
+            "annual_R_over_DD": -0.11401422982082034,
+            "rejections": {}
+          }
+        ],
+        "worst_score": -0.11401422982082034
+      },
+      {
+        "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1",
+        "cases": [
+          {
+            "order": "OLHC",
+            "cost": "SYM_",
+            "trades": 83,
+            "annual_reference_R": 1.4411333333333334,
+            "floating_R_DD": 4.977626666666667,
+            "annual_R_over_DD": 0.2895221819233798,
+            "rejections": {}
+          },
+          {
+            "order": "OLHC",
+            "cost": "ASYM",
+            "trades": 83,
+            "annual_reference_R": 1.4411333333333334,
+            "floating_R_DD": 4.977626666666667,
+            "annual_R_over_DD": 0.2895221819233798,
+            "rejections": {}
+          },
+          {
+            "order": "OHLC",
+            "cost": "SYM_",
+            "trades": 83,
+            "annual_reference_R": 1.4411333333333334,
+            "floating_R_DD": 4.977626666666667,
+            "annual_R_over_DD": 0.2895221819233798,
+            "rejections": {}
+          },
+          {
+            "order": "OHLC",
+            "cost": "ASYM",
+            "trades": 83,
+            "annual_reference_R": 1.4411333333333334,
+            "floating_R_DD": 4.977626666666667,
+            "annual_R_over_DD": 0.2895221819233798,
+            "rejections": {}
+          }
+        ],
+        "worst_score": 0.2895221819233798
+      }
+    ],
+    "rank_inconclusive": false,
+    "selection_uses_only_2018_2023": true,
+    "annual_R_over_DD_not_CAGR": true,
+    "variants": 1,
+    "no_equal_weight_outcome_selection": true
+  },
+  "admission_diagnosis": [
+    {
+      "order": "OLHC",
+      "mode": "PRIMARY",
+      "cost": "SYM",
+      "accounts": 73,
+      "cap_occurrences": 36,
+      "unique_cap_signals": 3,
+      "overnight_cap_blockers": 0,
+      "partial_lot_shrink_due_to_cap": 0,
+      "rejections": {
+        "V15_OPEN_STOP_RISK_2PCT_CAP": 36
+      },
+      "quality_of_rejected_signals": "NOT_INFERRED_FROM_SUBSEQUENT_PNL"
+    },
+    {
+      "order": "OLHC",
+      "mode": "PRIMARY",
+      "cost": "ASYM",
+      "accounts": 73,
+      "cap_occurrences": 36,
+      "unique_cap_signals": 3,
+      "overnight_cap_blockers": 0,
+      "partial_lot_shrink_due_to_cap": 0,
+      "rejections": {
+        "V15_OPEN_STOP_RISK_2PCT_CAP": 36
+      },
+      "quality_of_rejected_signals": "NOT_INFERRED_FROM_SUBSEQUENT_PNL"
+    },
+    {
+      "order": "OLHC",
+      "mode": "STRICT",
+      "cost": "SYM",
+      "accounts": 73,
+      "cap_occurrences": 15,
+      "unique_cap_signals": 6,
+      "overnight_cap_blockers": 0,
+      "partial_lot_shrink_due_to_cap": 0,
+      "rejections": {
+        "V15_INTERNAL_STATIC_8P4PCT_RESERVE": 4205,
+        "V15_OPEN_STOP_RISK_2PCT_CAP": 15
+      },
+      "quality_of_rejected_signals": "NOT_INFERRED_FROM_SUBSEQUENT_PNL"
+    },
+    {
+      "order": "OLHC",
+      "mode": "STRICT",
+      "cost": "ASYM",
+      "accounts": 73,
+      "cap_occurrences": 15,
+      "unique_cap_signals": 6,
+      "overnight_cap_blockers": 0,
+      "partial_lot_shrink_due_to_cap": 0,
+      "rejections": {
+        "V15_INTERNAL_STATIC_8P4PCT_RESERVE": 4205,
+        "V15_OPEN_STOP_RISK_2PCT_CAP": 15
+      },
+      "quality_of_rejected_signals": "NOT_INFERRED_FROM_SUBSEQUENT_PNL"
+    },
+    {
+      "order": "OHLC",
+      "mode": "PRIMARY",
+      "cost": "SYM",
+      "accounts": 73,
+      "cap_occurrences": 36,
+      "unique_cap_signals": 3,
+      "overnight_cap_blockers": 0,
+      "partial_lot_shrink_due_to_cap": 0,
+      "rejections": {
+        "V15_OPEN_STOP_RISK_2PCT_CAP": 36
+      },
+      "quality_of_rejected_signals": "NOT_INFERRED_FROM_SUBSEQUENT_PNL"
+    },
+    {
+      "order": "OHLC",
+      "mode": "PRIMARY",
+      "cost": "ASYM",
+      "accounts": 73,
+      "cap_occurrences": 36,
+      "unique_cap_signals": 3,
+      "overnight_cap_blockers": 0,
+      "partial_lot_shrink_due_to_cap": 0,
+      "rejections": {
+        "V15_OPEN_STOP_RISK_2PCT_CAP": 36
+      },
+      "quality_of_rejected_signals": "NOT_INFERRED_FROM_SUBSEQUENT_PNL"
+    },
+    {
+      "order": "OHLC",
+      "mode": "STRICT",
+      "cost": "SYM",
+      "accounts": 73,
+      "cap_occurrences": 15,
+      "unique_cap_signals": 6,
+      "overnight_cap_blockers": 0,
+      "partial_lot_shrink_due_to_cap": 0,
+      "rejections": {
+        "V15_INTERNAL_STATIC_8P4PCT_RESERVE": 4205,
+        "V15_OPEN_STOP_RISK_2PCT_CAP": 15
+      },
+      "quality_of_rejected_signals": "NOT_INFERRED_FROM_SUBSEQUENT_PNL"
+    },
+    {
+      "order": "OHLC",
+      "mode": "STRICT",
+      "cost": "ASYM",
+      "accounts": 73,
+      "cap_occurrences": 15,
+      "unique_cap_signals": 6,
+      "overnight_cap_blockers": 0,
+      "partial_lot_shrink_due_to_cap": 0,
+      "rejections": {
+        "V15_INTERNAL_STATIC_8P4PCT_RESERVE": 4205,
+        "V15_OPEN_STOP_RISK_2PCT_CAP": 15
+      },
+      "quality_of_rejected_signals": "NOT_INFERRED_FROM_SUBSEQUENT_PNL"
+    }
+  ],
+  "parent_code_binding": {
+    "passed": true,
+    "rows": [
+      {
+        "path": "planning\\research\\GAP-IMMUNE-MULTIASSET-V16-PROTOCOL-20261116.md",
+        "original_frozen_sha256": "3cd231211634b8f32c0f0f9376fa2a6d3c7ace69f67ae917aa16d8d9811c45fc",
+        "current_sha256": "210e7d9d0b235ede596a05d46458e8b34c86b074d422055196efc8632b84ce58",
+        "status": "CHECKOUT_LINE_ENDINGS_ONLY"
+      },
+      {
+        "path": "tooling\\ai-engines\\prop_v16_campaign.py",
+        "original_frozen_sha256": "303b9ad30d12878197e65fcbcf81e194756622d21934d68c62d05bf7baa1f7bf",
+        "current_sha256": "10549eea2119a40c95b026e45cad00f35e9f3aa1206532653f757d7071214b0c",
+        "status": "CHECKOUT_LINE_ENDINGS_ONLY"
+      },
+      {
+        "path": "tooling\\ai-engines\\prop_v16_common.py",
+        "original_frozen_sha256": "280a4bdcb8e6b5ead348b40af126a517277939953b486f5c93fca59eb82d23c7",
+        "current_sha256": "73495c3e377198463c8e20e38c4f8e4c53273755b64ae8b35157167ecae047ff",
+        "status": "CHECKOUT_LINE_ENDINGS_ONLY"
+      },
+      {
+        "path": "tooling\\ai-engines\\prop_v16_delivery.py",
+        "original_frozen_sha256": "7a21ccff358f6f23a4a81d420c0256f3c50d3c47416aed724e73b2c58fb1ef6e",
+        "current_sha256": "fcfdc3f0be5f08b31b51d35707b6250c8d8ae15e845a55fbd2248b8cf5c881d7",
+        "status": "CHECKOUT_LINE_ENDINGS_ONLY"
+      },
+      {
+        "path": "tooling\\ai-engines\\prop_v16_paths.py",
+        "original_frozen_sha256": "91868d2c21a72a7ec0b1d0dac13b0f2dac7731fe67d2837b1e2c3da4e69e7686",
+        "current_sha256": "7e5a63c5dbc36f201e132d8936fa373f1b562b45e313f4dee7a3171c026f6ef4",
+        "status": "CHECKOUT_LINE_ENDINGS_ONLY"
+      },
+      {
+        "path": "tooling\\ai-engines\\prop_v16_performance.py",
+        "original_frozen_sha256": "202576e146280b202a6b029b1b0529db9f5385176c0877d58e70c6bf1bd2ad82",
+        "current_sha256": "a121232df6b8b02dc20c1bc58868f6ad62668180b4db60519b70bff88334bff6",
+        "status": "CHECKOUT_LINE_ENDINGS_ONLY"
+      },
+      {
+        "path": "tooling\\ai-engines\\prop_v16_scan.py",
+        "original_frozen_sha256": "b021b552997e2d1f11ac8064d1c71be7b807bb5d3bd8fe45eb70ec645338aff8",
+        "current_sha256": "68b476ad441661974d8992fe82fd7added4cde8ff0e8a3bb823d942e8f698937",
+        "status": "CHECKOUT_LINE_ENDINGS_ONLY"
+      },
+      {
+        "path": "tooling\\ai-engines\\prop_v16_scan_review.py",
+        "original_frozen_sha256": "d03e987591547b54d39846fdf267cb62fb9b157c35d595781c5247c2efbb5106",
+        "current_sha256": "2436a4a732cf2f026eb44dc1966918fb6721f90146b82c8af3e6007e37738a93",
+        "status": "CHECKOUT_LINE_ENDINGS_ONLY"
+      },
+      {
+        "path": "tooling\\ai-engines\\prop_v16_sources.py",
+        "original_frozen_sha256": "892bac8aea1fd76a3466dabcc81428ae51020efda57e2adee565dd68ca9de53a",
+        "current_sha256": "2658d719a72e87e4bfbf3a1a2ed3019c486ebc869e858668f8d61c364c23cd20",
+        "status": "CHECKOUT_LINE_ENDINGS_ONLY"
+      },
+      {
+        "path": "tooling\\ai-engines\\prop_v16_storage.py",
+        "original_frozen_sha256": "d4c67096acaeb0423dd0cb46e6dd6f5c6b53d879fc207657eea4805345c16420",
+        "current_sha256": "3cc267f86392f34d800cb2154b5bdc6125ac8ac9322344f76f2ead0eaf38384e",
+        "status": "CHECKOUT_LINE_ENDINGS_ONLY"
+      },
+      {
+        "path": "tooling\\ai-engines\\independent_ledger_auditor.py",
+        "original_frozen_sha256": "346d8a82e10d88eecaef4c56a66671692c5b178bb76655c4e0e01e831a807524",
+        "current_sha256": "f7566ad5e191985ba2192c6792afb28956b432798e4cdb6fb153d5a0a3910e46",
+        "status": "APPEND_ONLY_V17_ORACLE_EXTENSION"
+      },
+      {
+        "path": "tooling\\ai-engines\\prop_v14_paths.py",
+        "original_frozen_sha256": "85ad5028159cbc4a8cbdf76c425a65578d00c6300938074edcfe1b86dcafb58b",
+        "current_sha256": "85ad5028159cbc4a8cbdf76c425a65578d00c6300938074edcfe1b86dcafb58b",
+        "status": "RAW_MATCH"
+      },
+      {
+        "path": "tooling\\ai-engines\\prop_v14_accounts.py",
+        "original_frozen_sha256": "9a4f3dfb8a9bbfb97e060cdf9fefb68c3349363d51ed6a9aa70f0538c5f91f60",
+        "current_sha256": "9a4f3dfb8a9bbfb97e060cdf9fefb68c3349363d51ed6a9aa70f0538c5f91f60",
+        "status": "RAW_MATCH"
+      },
+      {
+        "path": "tooling\\ai-engines\\prop_v14_review.py",
+        "original_frozen_sha256": "9c40e9658b8fe33b970e2628fb93b7a6d678ed7fb7c7a89c20b68fbaf1ef4023",
+        "current_sha256": "9c40e9658b8fe33b970e2628fb93b7a6d678ed7fb7c7a89c20b68fbaf1ef4023",
+        "status": "RAW_MATCH"
+      },
+      {
+        "path": "tooling\\ai-engines\\prop_v15_paths.py",
+        "original_frozen_sha256": "3a6421b75893c7c5c52962da817037b266214ac4028068690f1c71c5aef2eb01",
+        "current_sha256": "3a6421b75893c7c5c52962da817037b266214ac4028068690f1c71c5aef2eb01",
+        "status": "RAW_MATCH"
+      },
+      {
+        "path": "tooling\\ai-engines\\prop_v15_accounts.py",
+        "original_frozen_sha256": "4edb29264096a11502b1e7403f6cece358031a3d506d7387e26ea84394289bae",
+        "current_sha256": "4edb29264096a11502b1e7403f6cece358031a3d506d7387e26ea84394289bae",
+        "status": "RAW_MATCH"
+      },
+      {
+        "path": "tooling\\ai-engines\\prop_v6_replay.py",
+        "original_frozen_sha256": "c762611f25f10514cda8e2cfaf225f49cad56ee3ffde3a27eb065ebd49b61303",
+        "current_sha256": "c762611f25f10514cda8e2cfaf225f49cad56ee3ffde3a27eb065ebd49b61303",
+        "status": "RAW_MATCH"
+      },
+      {
+        "path": "tooling\\ai-engines\\prop_v6_account.py",
+        "original_frozen_sha256": "b444f11bf2822d8d8a528588aaedc7d32bab796d28dd55017784336a8f4b2645",
+        "current_sha256": "b444f11bf2822d8d8a528588aaedc7d32bab796d28dd55017784336a8f4b2645",
+        "status": "RAW_MATCH"
+      },
+      {
+        "path": "tooling\\ai-engines\\prop_v5_account.py",
+        "original_frozen_sha256": "9c582aeece8a2eb8dc1b2eabb6a68615ad9119f2c6ceea8d07561fd6f25a2061",
+        "current_sha256": "9c582aeece8a2eb8dc1b2eabb6a68615ad9119f2c6ceea8d07561fd6f25a2061",
+        "status": "RAW_MATCH"
+      },
+      {
+        "path": "tooling\\ai-engines\\prop_portfolio_accounts.py",
+        "original_frozen_sha256": "dd1542edecf77c471a15832b2894c98176e8cd542bfa78ebf96b3fd142f853cb",
+        "current_sha256": "dd1542edecf77c471a15832b2894c98176e8cd542bfa78ebf96b3fd142f853cb",
+        "status": "RAW_MATCH"
+      },
+      {
+        "path": "tooling\\ai-engines\\quant_core\\gap_aware_execution.py",
+        "original_frozen_sha256": "da425a2452b37e284c9adda6be6e4f5cf00152b89a9a123ae66c93dabf756c66",
+        "current_sha256": "da425a2452b37e284c9adda6be6e4f5cf00152b89a9a123ae66c93dabf756c66",
+        "status": "RAW_MATCH"
+      },
+      {
+        "path": "tooling\\ai-engines\\quant_core\\vectorized_sl_active_kernel.py",
+        "original_frozen_sha256": "16f067671bca28006dd6b005ac70c7ff511492cf95919fbb7887c5086c8a6afe",
+        "current_sha256": "16f067671bca28006dd6b005ac70c7ff511492cf95919fbb7887c5086c8a6afe",
+        "status": "RAW_MATCH"
+      },
+      {
+        "path": "tooling\\ai-engines\\quant_core\\ftmo_execution_and_calendar.py",
+        "original_frozen_sha256": "143f8cfd5ff8255c50d7f2686f6b1752ad89c2275d72d371b50b8d581914c657",
+        "current_sha256": "143f8cfd5ff8255c50d7f2686f6b1752ad89c2275d72d371b50b8d581914c657",
+        "status": "RAW_MATCH"
+      }
+    ],
+    "original_freeze_unchanged": true
+  },
+  "scan": {
+    "XAUUSD": {
+      "cells": 198,
+      "outcomes": {
+        "STAGE0_ECONOMIC_OR_SCALE_FAIL": 180,
+        "REJECTED": 18
+      },
+      "reasons": {
+        "CADENCE_BELOW40_PER_YEAR": 16,
+        "SOURCE_UNCERTIFIED_GAPS": 18,
+        "MEAN_BELOW004": 12,
+        "SL_ACTIVE_ECONOMIC_FAIL": 6,
+        "CORRELATION": 2
+      },
+      "endpoint_cash_checks": 29555,
+      "scalar_paths": 4676,
+      "source_uncertain_gaps": 1405,
+      "sha256": "63b9fd4220292073ebed10bbdc9385ca833d76c06632ce0868270cde4296f152"
+    },
+    "EURUSD": {
+      "cells": 103,
+      "outcomes": {
+        "STAGE0_ECONOMIC_OR_SCALE_FAIL": 97,
+        "REJECTED": 6
+      },
+      "reasons": {
+        "CADENCE_BELOW40_PER_YEAR": 6,
+        "SOURCE_UNCERTIFIED_GAPS": 6,
+        "CORRELATION": 3
+      },
+      "endpoint_cash_checks": 14932,
+      "scalar_paths": 1152,
+      "source_uncertain_gaps": 6320,
+      "sha256": "bc7208a3bd50f749a040dfbbc98e784bf6abdb9e0e1d67649fdd30904bcae748"
+    },
+    "US500": {
+      "cells": 202,
+      "outcomes": {
+        "STAGE0_ECONOMIC_OR_SCALE_FAIL": 202
+      },
+      "reasons": {},
+      "endpoint_cash_checks": 21272,
+      "scalar_paths": 0,
+      "source_uncertain_gaps": 60053,
+      "sha256": "cbe7617fada2cdf81e636760808fdd2dd374944b443beca502a16d5d52733f2e"
+    }
+  },
+  "selection": {
+    "selected": [],
+    "eligible": 0,
+    "cases": 503,
+    "status": "EMPTY_ADDITIONS"
+  },
+  "parent_path_summary": {
+    "signals": 494,
+    "parent_signals": 494,
+    "skipped": [],
+    "entry_exits_overnight": 0,
+    "source_uncertain": 32,
+    "synthetic_patches": [],
+    "exits": {
+      "HORIZON": 386,
+      "SL": 108
+    },
+    "source_coverage_certificate": false,
+    "policy": "V16_EX_ANTE_DAILY_2030_AND_REGISTERED_EARLY_GUARDS",
+    "known_calendar_only": true,
+    "last_quote_before_unknown_outage_used": false
+  },
+  "tests": {
+    "tests": 1148,
+    "preserved_baseline_ids": 1138,
+    "zero_skip": true,
+    "total_wall_seconds": 21.14436969999224,
+    "baseline_wall_seconds": 28.226056499988772,
+    "latency_reduction_pct": 25.089182401372113,
+    "groups": {
+      "base": {
+        "tests": 1042,
+        "seconds": 12.427949200035073,
+        "workers": 4,
+        "shard_seconds": [
+          11.922147300036158,
+          11.501508300018031,
+          11.919798000017181,
+          12.170344199985266
+        ],
+        "import_seconds": null
+      },
+      "native": {
+        "tests": 78,
+        "seconds": 3.8317111999494955,
+        "workers": null,
+        "shard_seconds": null,
+        "import_seconds": 1.4502986000152305
+      },
+      "statistics": {
+        "tests": 5,
+        "seconds": 2.142800299974624,
+        "workers": null,
+        "shard_seconds": null,
+        "import_seconds": 0.010760199977084994
+      },
+      "worker": {
+        "tests": 23,
+        "seconds": 1.460876900004223,
+        "workers": null,
+        "shard_seconds": null,
+        "import_seconds": 0.15621200000168756
+      }
+    },
+    "top15": [
+      [
+        "test_shadow_reconcile.ReconcileTests.test_additions_recompute_hour_preserve_original_and_never_qualify_live",
+        2.9553170999861322
+      ],
+      [
+        "test_shadow_reconcile.ReconcileTests.test_interrupted_resume_uses_same_revision_and_reaudits_saved_prefix",
+        2.331829899980221
+      ],
+      [
+        "test_shadow_reconcile.ReconcileTests.test_orphan_selected_page_after_crash_is_adopted_without_rewriting",
+        2.206664400000591
+      ],
+      [
+        "test_fx_pair_formation.FormationTests.test_degenerate_short_and_nonfinite_are_not_low_p_winners",
+        2.0676096999668516
+      ],
+      [
+        "test_forex_study_batch.SourceSelectionTests.test_isolated_checkout_is_used_by_worker_and_evidence_reviewer",
+        1.8778287000022829
+      ],
+      [
+        "test_multiframe_runner_recovery.RunnerRecoveryTests.test_failed_book_preserved_and_resume_reuses_only_sealed_books",
+        1.6630199000355788
+      ],
+      [
+        "test_us500_euopen_component.EUOpenTests.test_summary_census_unknowns_quarters_and_authority",
+        1.5858515999861993
+      ],
+      [
+        "test_frozen_source_proof.FrozenSourceProofTests.test_missing_corrupt_and_ambiguous_snapshot_rejected",
+        1.2358790999860503
+      ],
+      [
+        "test_engine_worker.LifecycleTests.test_provider_429_blocks_once_without_leaking_diagnostics",
+        0.893635299988091
+      ],
+      [
+        "test_forex_discovery_report.DiscoveryReportTests.test_real_sealed_synthetic_batch_reconciles_and_refuses_mismatched_probe",
+        0.8648132999660447
+      ],
+      [
+        "test_forex_study_batch.ResultTests.test_registered_execution_caps_reject_dispatch_before_input_preparation",
+        0.8363733000005595
+      ],
+      [
+        "test_frozen_source_proof.FrozenSourceProofTests.test_frozen_code_does_not_allow_changed_raw_or_calendar",
+        0.7844129999866709
+      ],
+      [
+        "test_explicit_m1_view.ExplicitM1ViewTests.test_real_source_zero_volume_survives_but_native_padding_does_not",
+        0.7741812000167556
+      ],
+      [
+        "test_forex_study_batch.OwnedProcessTests.test_supervisor_crash_also_stops_owned_worker",
+        0.7092579000163823
+      ],
+      [
+        "test_index_cash_close_tick_component.CashCloseTickTests.test_summary_requires_all_scenarios_years_and_retains_unknown_census",
+        0.6558905999991111
+      ]
+    ],
+    "new_IDs": [
+      "test_prop_v17.V17PolicyTests.test_US500_scalar_audit_uses_contract_one_and_001_price_grid",
+      "test_prop_v17.V17PolicyTests.test_bucket_and_daily_floor_match_independent_oracle",
+      "test_prop_v17.V17PolicyTests.test_bucket_uses_deadline_not_48H_name_or_realized_profit",
+      "test_prop_v17.V17PolicyTests.test_daily_reservation_rejects_fourth_loss_in_real_replay_and_audit",
+      "test_prop_v17.V17PolicyTests.test_entry_clock_has_no_future_gap_quality_filter",
+      "test_prop_v17.V17PolicyTests.test_intraday_can_borrow_unused_swing_but_keeps_total_cap",
+      "test_prop_v17.V17PolicyTests.test_swing_cannot_spend_reserved_intraday_capacity",
+      "test_prop_v17.V17PolicyTests.test_tier_rounding_cushion_and_equity_throttle_match_separate_oracle",
+      "test_prop_v17.V17PolicyTests.test_unregistered_tier_and_relaxed_daily_contract_are_rejected",
+      "test_shadow_reconcile.ReconcileTests.test_shared_fixture_bytes_are_readonly_and_working_copy_is_isolated"
+    ],
+    "baseline_matrix_sha256": "c4028528e22f5de659b97772b27f5cde7b2037973204906d075e0f694002ba2d",
+    "base_workers": 4,
+    "baseline_base_workers": 2,
+    "cpu_count": 6,
+    "peak_process_tree_memory_bytes": null,
+    "memory_measurement": "not measured",
+    "changes": [
+      "Immutable bytes baseline and isolated writable test copies",
+      "Four profile-balanced isolated base workers instead of two"
+    ],
+    "fixture_only_speedup": null,
+    "workload_identical": false,
+    "limitation": "Historical baseline; ten additional tests. Combined changes, no causal attribution to fixture alone."
+  },
+  "smoke": {
+    "plan": {
+      "attempts": 10,
+      "fresh_process": true,
+      "workers": 1,
+      "threshold_wall_seconds": 0.8,
+      "preserve_every_outlier": true,
+      "retry_to_find_good_streak": false,
+      "tests_unchanged": 78
+    },
+    "rows": [
+      {
+        "attempt": 1,
+        "wall": 0.7325559000018984,
+        "suite": 0.559879899956286,
+        "tests": 78,
+        "passed": true,
+        "skipped": 0
+      },
+      {
+        "attempt": 2,
+        "wall": 0.7177245999919251,
+        "suite": 0.5579987999517471,
+        "tests": 78,
+        "passed": true,
+        "skipped": 0
+      },
+      {
+        "attempt": 3,
+        "wall": 0.7153998999856412,
+        "suite": 0.5563604999915697,
+        "tests": 78,
+        "passed": true,
+        "skipped": 0
+      },
+      {
+        "attempt": 4,
+        "wall": 0.7137321000336669,
+        "suite": 0.5550231999950483,
+        "tests": 78,
+        "passed": true,
+        "skipped": 0
+      },
+      {
+        "attempt": 5,
+        "wall": 0.7080498000141233,
+        "suite": 0.5494559000362642,
+        "tests": 78,
+        "passed": true,
+        "skipped": 0
+      },
+      {
+        "attempt": 6,
+        "wall": 0.7214679999742657,
+        "suite": 0.5674534999998286,
+        "tests": 78,
+        "passed": true,
+        "skipped": 0
+      },
+      {
+        "attempt": 7,
+        "wall": 0.7083815999794751,
+        "suite": 0.5498273999546655,
+        "tests": 78,
+        "passed": true,
+        "skipped": 0
+      },
+      {
+        "attempt": 8,
+        "wall": 0.7126921999733895,
+        "suite": 0.5583860999904573,
+        "tests": 78,
+        "passed": true,
+        "skipped": 0
+      },
+      {
+        "attempt": 9,
+        "wall": 0.7217343000229448,
+        "suite": 0.5617078000213951,
+        "tests": 78,
+        "passed": true,
+        "skipped": 0
+      },
+      {
+        "attempt": 10,
+        "wall": 0.7207088000141084,
+        "suite": 0.5635705000022426,
+        "tests": 78,
+        "passed": true,
+        "skipped": 0
+      }
+    ],
+    "wall_max": 0.7325559000018984,
+    "wall_median": 0.7165622499887832,
+    "all_ten_below080": true
+  },
+  "storage": {
+    "baseline_retention_inventory": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\cold-log-inventory.json",
+    "baseline_retention_sha256": "64a1a59352a58e6cfcbbf6862f31ddbf5aad1dabedf9325d1e91deb2a24bfbb4",
+    "bounded_sizes_before": [
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115",
+        "files": 223,
+        "bytes": 1491024075,
+        "skipped_reparse": [],
+        "errors": []
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116",
+        "files": 174,
+        "bytes": 550708827,
+        "skipped_reparse": [],
+        "errors": []
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116",
+        "files": 116,
+        "bytes": 614144865,
+        "skipped_reparse": [],
+        "errors": []
+      }
+    ],
+    "D_campaign_tracked_bytes": 44290,
+    "D_scan_scope": "V17 tracked campaign files; no full-drive census",
+    "removed": [
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-00.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/smoke-00.log",
+        "bytes": 12923,
+        "sha256": "e46f7be0f0cf135f84739ad9dc9b646d7988bb457756c02e3f67a9d0a6f9e977",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-00.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-01.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/smoke-01.log",
+        "bytes": 12923,
+        "sha256": "556b2880255eeee3264e48c4375ed8497bf782550fc9b4bdc2f46b625c884077",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-01.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-02.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/smoke-02.log",
+        "bytes": 12923,
+        "sha256": "adf3882fde58c904d3ea534b9248c2c977098c25ee1d2a04534f7c290f4f39bd",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-02.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-03.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/smoke-03.log",
+        "bytes": 12923,
+        "sha256": "8c050c80ee4be9eb15f6ff0c8d6dcd12c7782a89af7c1ad5240261b761eb7277",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-03.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-04.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/smoke-04.log",
+        "bytes": 12923,
+        "sha256": "9a4b0901ae91f30e5860aa2034971ee874dbef48636c309fbe9b47302c637ad0",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-04.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-05.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/smoke-05.log",
+        "bytes": 12923,
+        "sha256": "bee20c6027c7ebe946810eed32687286c2c22e3828e8b89fa859d84b7bdc9233",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-05.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-06.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/smoke-06.log",
+        "bytes": 12923,
+        "sha256": "2fd0ffb34d0904d8c85804aa7ec22c0e38bc343331b1eed0ad3b5c53c2249f2b",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-06.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-07.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/smoke-07.log",
+        "bytes": 12923,
+        "sha256": "9bcf4dec9347ae0f7753811ccdeaf78ad1d0bc6b28dd0ea3229fae7234df7cfc",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-07.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-08.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/smoke-08.log",
+        "bytes": 12923,
+        "sha256": "196804a2fc10ef88d84f35424ac8d6c385e5c076ceef72f837231d1d5bf5a66b",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-08.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-09.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/smoke-09.log",
+        "bytes": 12923,
+        "sha256": "43c9514e57086befa418f5f80be3c5957f3b007e270f23a5f22a12671f58a052",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-09.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-cpu-profile.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/smoke-cpu-profile.log",
+        "bytes": 12923,
+        "sha256": "f6a59030bdf368486d74babdbe98fb559ab0211aec25bd2da24f8e411b4e2515",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-cpu-profile.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-optimized-00.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/smoke-optimized-00.log",
+        "bytes": 12923,
+        "sha256": "8c050c80ee4be9eb15f6ff0c8d6dcd12c7782a89af7c1ad5240261b761eb7277",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-optimized-00.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-optimized-01.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/smoke-optimized-01.log",
+        "bytes": 12923,
+        "sha256": "1b300444a4b55b6d64ca879c9d5000d8a4f65b2859e779d03abb568ce471b526",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-optimized-01.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-optimized-02.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/smoke-optimized-02.log",
+        "bytes": 12923,
+        "sha256": "7a5862b0737f792f0fab603110865401a87f0a819d7654b272e0a1778a2cd88d",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-optimized-02.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-optimized-03.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/smoke-optimized-03.log",
+        "bytes": 12923,
+        "sha256": "2fd0ffb34d0904d8c85804aa7ec22c0e38bc343331b1eed0ad3b5c53c2249f2b",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-optimized-03.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-optimized-04.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/smoke-optimized-04.log",
+        "bytes": 12923,
+        "sha256": "18ee3705c979eb7c1b769881aea9fb999f53a713f81db6d5a3e4e4ec74244d73",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-optimized-04.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-optimized-05.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/smoke-optimized-05.log",
+        "bytes": 12923,
+        "sha256": "01fcef9879291e7906233f3f375ddd6e105c1b2ff8e808a90e7d26e7f12866fb",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-optimized-05.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-optimized-06.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/smoke-optimized-06.log",
+        "bytes": 12923,
+        "sha256": "b602201cc938f6b558d39ce40ef3d8e0619efc138a622dc39fdc759511a06c07",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-optimized-06.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-optimized-07.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/smoke-optimized-07.log",
+        "bytes": 12923,
+        "sha256": "18ee3705c979eb7c1b769881aea9fb999f53a713f81db6d5a3e4e4ec74244d73",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-optimized-07.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-optimized-08.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/smoke-optimized-08.log",
+        "bytes": 12923,
+        "sha256": "b602201cc938f6b558d39ce40ef3d8e0619efc138a622dc39fdc759511a06c07",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-optimized-08.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-optimized-09.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/smoke-optimized-09.log",
+        "bytes": 12923,
+        "sha256": "9a4b0901ae91f30e5860aa2034971ee874dbef48636c309fbe9b47302c637ad0",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-optimized-09.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-optimized-cpu-profile.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/smoke-optimized-cpu-profile.log",
+        "bytes": 12923,
+        "sha256": "dd27c7713f9d149f64221fc9e6e295ff49356d86fb25a0699b76b1232011bea9",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-optimized-cpu-profile.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-optimized-profile.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/smoke-optimized-profile.log",
+        "bytes": 12923,
+        "sha256": "1ee8a338bb86836ca4c1cb219990a1b9cd357d02f6176fdbd9a685464448a53f",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-optimized-profile.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-profile.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/smoke-profile.log",
+        "bytes": 12923,
+        "sha256": "5524e4adb5b6b445dd5db86e1c28ad9552140d446e9a808c0da82b271f2a60ec",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\smoke-profile.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\tests-base-after-runner-shard0.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/tests-base-after-runner-shard0.log",
+        "bytes": 83567,
+        "sha256": "80ec9c8e515ccfbe2da060c5550b4c732f7616db0bf5e660e24955d41041e62a",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\tests-base-after-runner-shard0.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\tests-base-after-runner-shard0.stdout",
+        "member": "bridge-certification-and-velocity-v15-20261115/tests-base-after-runner-shard0.stdout",
+        "bytes": 286,
+        "sha256": "1e7d63589594d2ea20ec174ee690a8e5e14af54e26aceb9ac437bfc2016302fc",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\tests-base-after-runner-shard0.stdout.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\tests-base-after-runner-shard1.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/tests-base-after-runner-shard1.log",
+        "bytes": 82978,
+        "sha256": "9c1e56d5d2ee7e370bdf57a07bce74d5f79f9e58ba6a1dd669c1279b40ade8e3",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\tests-base-after-runner-shard1.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\tests-base-after-runner-shard1.stdout",
+        "member": "bridge-certification-and-velocity-v15-20261115/tests-base-after-runner-shard1.stdout",
+        "bytes": 286,
+        "sha256": "e912daa101581873dde7b47d1c6cd71ab92811c628f1995a23ed9348d90025b0",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\tests-base-after-runner-shard1.stdout.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\tests-base-shard0.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/tests-base-shard0.log",
+        "bytes": 83567,
+        "sha256": "f5c467eee27c8f936c90ebe510c26fd5bfa2be63cc68230dca39a337af83b827",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\tests-base-shard0.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\tests-base-shard0.stdout",
+        "member": "bridge-certification-and-velocity-v15-20261115/tests-base-shard0.stdout",
+        "bytes": 287,
+        "sha256": "a9e1195d98bd8ba64b599e17d648f09e4163748df099d0978fe76960f79fe808",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\tests-base-shard0.stdout.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\tests-base-shard1.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/tests-base-shard1.log",
+        "bytes": 82979,
+        "sha256": "157fda7580a42efccbba8acc0faeb5668bfba9eb72c49dbc011bc632cb03f407",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\tests-base-shard1.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\tests-base-shard1.stdout",
+        "member": "bridge-certification-and-velocity-v15-20261115/tests-base-shard1.stdout",
+        "bytes": 287,
+        "sha256": "f70b1179c7d6ffdc741954078ff0da7717d3b5d88381a1f7c9ff4cca4597f504",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\tests-base-shard1.stdout.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\tests-native-after-runner.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/tests-native-after-runner.log",
+        "bytes": 11950,
+        "sha256": "4519ded424c9a8f4b6d87eb0211ce130c2edd200aa723f82b9d3f2313bf9fb71",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\tests-native-after-runner.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\tests-native.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/tests-native.log",
+        "bytes": 11950,
+        "sha256": "18597dd391bbd4f608e3ec899c2343be323e9966ea2017e59eec6dfbc34a39bf",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\tests-native.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\tests-statistics-after-runner.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/tests-statistics-after-runner.log",
+        "bytes": 881,
+        "sha256": "80df514328019ba2accb6f4987809d75ef6191e15983418f6208b57b1980d76b",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\tests-statistics-after-runner.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\tests-statistics.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/tests-statistics.log",
+        "bytes": 881,
+        "sha256": "1effe4cfae33c154e9b4515b4cf2844681eb85a5c029ee272196be5e7ac5a724",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\tests-statistics.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\tests-worker-after-runner.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/tests-worker-after-runner.log",
+        "bytes": 4181,
+        "sha256": "1a2590470e917d9ef4c47c41438850a74fdd7f84856059adf47cf60180d4af03",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\tests-worker-after-runner.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\tests-worker.log",
+        "member": "bridge-certification-and-velocity-v15-20261115/tests-worker.log",
+        "bytes": 4181,
+        "sha256": "e737125115604a837a107cb251c96090d12705f60781d839274295edf32a444b",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\bridge-certification-and-velocity-v15-20261115\\tests-worker.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\smoke-00.log",
+        "member": "gap-immune-and-multiasset-v16-20261116/smoke-00.log",
+        "bytes": 12923,
+        "sha256": "56b398b54631dcdc019cc69a5f6f4f0eb82331df12916153b19b379949af7881",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\smoke-00.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\smoke-01.log",
+        "member": "gap-immune-and-multiasset-v16-20261116/smoke-01.log",
+        "bytes": 12923,
+        "sha256": "9a4b0901ae91f30e5860aa2034971ee874dbef48636c309fbe9b47302c637ad0",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\smoke-01.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\smoke-02.log",
+        "member": "gap-immune-and-multiasset-v16-20261116/smoke-02.log",
+        "bytes": 12923,
+        "sha256": "8d8c683025d46048625c11ec51e381bcba82cb6f9568ea6d40af6d6c849eb931",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\smoke-02.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\smoke-03.log",
+        "member": "gap-immune-and-multiasset-v16-20261116/smoke-03.log",
+        "bytes": 12923,
+        "sha256": "79c4c30efeead3916e18789aa25f0bd8618b0f3e735e235fdd24b21dd008f482",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\smoke-03.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\smoke-04.log",
+        "member": "gap-immune-and-multiasset-v16-20261116/smoke-04.log",
+        "bytes": 12923,
+        "sha256": "f1d4683feae13a12947b949de846267eb5e2292220b028f16e2fa7efd3da79c4",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\smoke-04.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\smoke-05.log",
+        "member": "gap-immune-and-multiasset-v16-20261116/smoke-05.log",
+        "bytes": 12923,
+        "sha256": "8d8c683025d46048625c11ec51e381bcba82cb6f9568ea6d40af6d6c849eb931",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\smoke-05.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\smoke-06.log",
+        "member": "gap-immune-and-multiasset-v16-20261116/smoke-06.log",
+        "bytes": 12923,
+        "sha256": "8c050c80ee4be9eb15f6ff0c8d6dcd12c7782a89af7c1ad5240261b761eb7277",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\smoke-06.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\smoke-07.log",
+        "member": "gap-immune-and-multiasset-v16-20261116/smoke-07.log",
+        "bytes": 12923,
+        "sha256": "e59957128768c8ad83bf8cba1ac5473deb8fff10c4b54a9544b2525ea328c919",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\smoke-07.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\smoke-08.log",
+        "member": "gap-immune-and-multiasset-v16-20261116/smoke-08.log",
+        "bytes": 12923,
+        "sha256": "37d51b40673cdff7446b814c576f660ea6f8e60ce8e35c733f273f9eb355d83c",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\smoke-08.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\smoke-09.log",
+        "member": "gap-immune-and-multiasset-v16-20261116/smoke-09.log",
+        "bytes": 12923,
+        "sha256": "aef7e369ea4ca6b733ad5a12d79b880fdbd66689602026aec1f85c1b4a380784",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\smoke-09.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\smoke-delivery.log",
+        "member": "gap-immune-and-multiasset-v16-20261116/smoke-delivery.log",
+        "bytes": 107,
+        "sha256": "f8c36fbc425eee609fd1f55ca81098794806e7d807cc6384e86a299bc8f72eea",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\smoke-delivery.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\tests-after-base-shard0.log",
+        "member": "gap-immune-and-multiasset-v16-20261116/tests-after-base-shard0.log",
+        "bytes": 78676,
+        "sha256": "02752bfb0c7fd5aa5e6349f2ae1bfb7681d84dbd5315daff406f2bd698f84e8c",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\tests-after-base-shard0.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\tests-after-base-shard0.stdout",
+        "member": "gap-immune-and-multiasset-v16-20261116/tests-after-base-shard0.stdout",
+        "bytes": 286,
+        "sha256": "b90cab7d8131fd16d172a40465009929e90143a01bed5d92d2dbf74ead1d6f36",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\tests-after-base-shard0.stdout.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\tests-after-base-shard1.log",
+        "member": "gap-immune-and-multiasset-v16-20261116/tests-after-base-shard1.log",
+        "bytes": 89920,
+        "sha256": "19372d855eb556e2bc4a25f5af53e40a695ea6ce03f3a1b23c9e24388b24e526",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\tests-after-base-shard1.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\tests-after-base-shard1.stdout",
+        "member": "gap-immune-and-multiasset-v16-20261116/tests-after-base-shard1.stdout",
+        "bytes": 287,
+        "sha256": "727771f04abc0d6474162193fa7120d1ab4d8294451148203907dc15180aa454",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\tests-after-base-shard1.stdout.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\tests-after-native.log",
+        "member": "gap-immune-and-multiasset-v16-20261116/tests-after-native.log",
+        "bytes": 11950,
+        "sha256": "6331e48847eb9d69faeedeead5cd8cacd77621ee150c122b202bb49bae4df76f",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\tests-after-native.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\tests-after-statistics.log",
+        "member": "gap-immune-and-multiasset-v16-20261116/tests-after-statistics.log",
+        "bytes": 881,
+        "sha256": "4beae1ef44282e4ce4b4a69cf4ba0b2c225a2bf8ccd010aaf618ad2a62a85f90",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\tests-after-statistics.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\tests-after-worker.log",
+        "member": "gap-immune-and-multiasset-v16-20261116/tests-after-worker.log",
+        "bytes": 4181,
+        "sha256": "57d2421aa9dda74bc2d2ddb830ef736f13f9d0fa036e5c8d2e16baab5e4d7c71",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\tests-after-worker.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\tests-before-base-shard0.log",
+        "member": "gap-immune-and-multiasset-v16-20261116/tests-before-base-shard0.log",
+        "bytes": 83567,
+        "sha256": "f2fcec054dea71b57bb90cacc8212d85615b04d78218978248d5fc1365aac996",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\tests-before-base-shard0.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\tests-before-base-shard0.stdout",
+        "member": "gap-immune-and-multiasset-v16-20261116/tests-before-base-shard0.stdout",
+        "bytes": 287,
+        "sha256": "5281352ac791200d32442a1f00f3d758fe6634c4a65a3c8c928d79fa74104309",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\tests-before-base-shard0.stdout.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\tests-before-base-shard1.log",
+        "member": "gap-immune-and-multiasset-v16-20261116/tests-before-base-shard1.log",
+        "bytes": 82978,
+        "sha256": "97427ced7a7236b04f722c49b6dfaa39482e6b643a3949f47fdfe66378aa44fd",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\tests-before-base-shard1.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\tests-before-base-shard1.stdout",
+        "member": "gap-immune-and-multiasset-v16-20261116/tests-before-base-shard1.stdout",
+        "bytes": 287,
+        "sha256": "51570ed732803a88cae6ca7b91d2b504bca63ea0c3985939c70863e50a424362",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\tests-before-base-shard1.stdout.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\tests-before-matrix.log",
+        "member": "gap-immune-and-multiasset-v16-20261116/tests-before-matrix.log",
+        "bytes": 3772,
+        "sha256": "6d8c047c144e046902503fa051ea70c1d69c1acb4d663aef94bad50e9727598e",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\tests-before-matrix.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\tests-before-native.log",
+        "member": "gap-immune-and-multiasset-v16-20261116/tests-before-native.log",
+        "bytes": 11950,
+        "sha256": "23cdfac0f70d1fd6efcc142b55e52b9b632beb91a779bad35367e37ff72b3d8c",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\tests-before-native.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\tests-before-statistics.log",
+        "member": "gap-immune-and-multiasset-v16-20261116/tests-before-statistics.log",
+        "bytes": 881,
+        "sha256": "5093d7e11b0190b8eaedd354b1fa5c886e4838db3dce0d10885b442aaf58ee6c",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\tests-before-statistics.log.v17-cold.json"
+      },
+      {
+        "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\tests-before-worker.log",
+        "member": "gap-immune-and-multiasset-v16-20261116/tests-before-worker.log",
+        "bytes": 4181,
+        "sha256": "f3a7c49625c73595cb26b4fbd4031b6a6b2966f7a679284a764d97fb51f6d3ca",
+        "code_references": [],
+        "active_pids": [],
+        "locator": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\gap-immune-and-multiasset-v16-20261116\\tests-before-worker.log.v17-cold.json"
+      }
+    ],
+    "held": [],
+    "archive": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\closed-test-console-logs.zip",
+    "archive_sha256": "01952c00a3f991161df289927a32209d4c94ab94e7014d03eecfea5394edf2ba",
+    "archive_bytes": 243001,
+    "logical_removed_bytes": 1181834,
+    "logical_net_before_receipts": 938833,
+    "physical_bytes_freed": null,
+    "restoration_proven_for_every_member": true,
+    "source_or_ledger_removed": 0,
+    "absolute_zero_bloat_claim": false
+  },
+  "independent_implementation_not_independent_author": true,
+  "same_feed": true,
+  "actual_broker_orders": 0,
+  "actual_payout_usd": 0,
+  "official_sources_checked_20261116": [
+    "https://ftmo.com/en/faq/do-i-have-to-close-my-positions-overnight/",
+    "https://ftmo.com/en/faq/can-i-trade-news/"
+  ],
+  "limits": [
+    "Later 2024-2026 prices already exposed; no pristine OOS.",
+    "2026 ends 13 Oct; overlapping monthly starts are not independent probabilities.",
+    "M1 two-order scenarios and declared Ask/slippage proxies, not verified broker fills.",
+    "Historical news, account specification and future data continuity not certified.",
+    "Strict synthetic excursions are sensitivity, not recovered data or mathematical bounds.",
+    "Prospective 2.4% daily reserve is an entry guard, not a guaranteed gap-fill loss bound.",
+    "Hypothetical payout sums across overlapping accounts are not owner income."
+  ],
+  "artifact_index": {
+    "closed-test-console-logs.zip": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\closed-test-console-logs.zip",
+      "bytes": 243001,
+      "sha256": "01952c00a3f991161df289927a32209d4c94ab94e7014d03eecfea5394edf2ba"
+    },
+    "cold-compaction.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\cold-compaction.json",
+      "bytes": 42087,
+      "sha256": "5982aa0d79152054e54bb87040e5a749c702e4d592b4b18b8cf49c31cc84233f"
+    },
+    "Dev-OHLC-PRIMARY-account-audit.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Dev-OHLC-PRIMARY-account-audit.json",
+      "bytes": 43807,
+      "sha256": "052328b3fc86071678d2f81954ea80af223dbce793817af7bb2f6cd3d584d2db"
+    },
+    "Dev-OHLC-PRIMARY-accounts.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Dev-OHLC-PRIMARY-accounts.json",
+      "bytes": 44389974,
+      "sha256": "b98d771e879f81df5ad7d4d14b1ea3ad42c7e6fe8a4727a534db3ca15d098b4e"
+    },
+    "Dev-OHLC-sleeve-books-audit.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Dev-OHLC-sleeve-books-audit.json",
+      "bytes": 1906,
+      "sha256": "28f03aa2c838edb014a0b7bf2668e27d870aed3758aa164a145d19fb4562e821"
+    },
+    "Dev-OHLC-sleeve-books.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Dev-OHLC-sleeve-books.json",
+      "bytes": 1224366,
+      "sha256": "e678338e59176c6ce38961cfada9924a48881893da4b454622aaeeb67ba9d6f5"
+    },
+    "Dev-OHLC-STRICT-account-audit.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Dev-OHLC-STRICT-account-audit.json",
+      "bytes": 43933,
+      "sha256": "db3a09a5a560ba206fbba2d4e11adca2334a5330250ad6f180dc87973388ebba"
+    },
+    "Dev-OHLC-STRICT-accounts.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Dev-OHLC-STRICT-accounts.json",
+      "bytes": 36462768,
+      "sha256": "078dc774efb689cd02ffe000c4397e131b7522b4f1538fa84ed162fad8803f39"
+    },
+    "Dev-OHLC-V17-PRIMARY-path-audit.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Dev-OHLC-V17-PRIMARY-path-audit.json",
+      "bytes": 413,
+      "sha256": "79d1eb53344c2179741b0dac197ea5159a87ae53466f92fd4f06b10056cb23bd"
+    },
+    "Dev-OHLC-V17-STRICT-path-audit.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Dev-OHLC-V17-STRICT-path-audit.json",
+      "bytes": 412,
+      "sha256": "8351ef865b0c10f5740380fea69d9050b5a617e3cb55b3425e71ee3e08cd93f8"
+    },
+    "Dev-OLHC-PRIMARY-account-audit.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Dev-OLHC-PRIMARY-account-audit.json",
+      "bytes": 43807,
+      "sha256": "052328b3fc86071678d2f81954ea80af223dbce793817af7bb2f6cd3d584d2db"
+    },
+    "Dev-OLHC-PRIMARY-accounts.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Dev-OLHC-PRIMARY-accounts.json",
+      "bytes": 44389974,
+      "sha256": "11de3c241553604ff448e9e0f5d0d3b8432811c8e6ce4ab9e830d79c693cf51c"
+    },
+    "Dev-OLHC-sleeve-books-audit.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Dev-OLHC-sleeve-books-audit.json",
+      "bytes": 1906,
+      "sha256": "28f03aa2c838edb014a0b7bf2668e27d870aed3758aa164a145d19fb4562e821"
+    },
+    "Dev-OLHC-sleeve-books.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Dev-OLHC-sleeve-books.json",
+      "bytes": 1224366,
+      "sha256": "c9fe665e2728b484246be01bfd14761cff44e068577823f7840065f1f313fce3"
+    },
+    "Dev-OLHC-STRICT-account-audit.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Dev-OLHC-STRICT-account-audit.json",
+      "bytes": 43933,
+      "sha256": "f977a576a9815037fe0c70d8ec007903ed9261054133c8d2567f13307be92f2b"
+    },
+    "Dev-OLHC-STRICT-accounts.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Dev-OLHC-STRICT-accounts.json",
+      "bytes": 36462768,
+      "sha256": "e537b6c5fd22ae112c131cddc2bc9980de44a5aea508813111523c86a3db3d0a"
+    },
+    "Dev-OLHC-V17-PRIMARY-path-audit.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Dev-OLHC-V17-PRIMARY-path-audit.json",
+      "bytes": 413,
+      "sha256": "85b6775cb9cc6994acb83f853bbb584f6c59bd5eaf19dddb61a8320bcad1eb07"
+    },
+    "Dev-OLHC-V17-STRICT-path-audit.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Dev-OLHC-V17-STRICT-path-audit.json",
+      "bytes": 412,
+      "sha256": "0f5c5aa79525cf46e9edc1cb88f64c397a23b640e4ed54a208c7b142bd37288f"
+    },
+    "EURUSD-eligible-profile.npz": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\EURUSD-eligible-profile.npz",
+      "bytes": 2627,
+      "sha256": "18b2eb7991bd00fd45b715e8e4ca3ff97888a86cec60f4666d150126a5efa30c"
+    },
+    "EURUSD-OHLC-path-pack.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\EURUSD-OHLC-path-pack.json",
+      "bytes": 852024,
+      "sha256": "6a0564156aa36b663fd332c3834a2bd331e16a88fcd3ff0a1a18d685b75a474f"
+    },
+    "EURUSD-OLHC-path-pack.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\EURUSD-OLHC-path-pack.json",
+      "bytes": 852021,
+      "sha256": "2b70b5d0a3603a6f0e9b1cdf85107cbc3fc30e8d1494f57a94b6d0928f86a92f"
+    },
+    "EURUSD-scan.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\EURUSD-scan.json",
+      "bytes": 104663,
+      "sha256": "bc7208a3bd50f749a040dfbbc98e784bf6abdb9e0e1d67649fdd30904bcae748"
+    },
+    "freeze.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\freeze.json",
+      "bytes": 8997,
+      "sha256": "cabeabf74f096d0f13390e2beb52ee2595c9eec6bd4c96e753f0156b521e57e1"
+    },
+    "Full-OHLC-PRIMARY-account-audit.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OHLC-PRIMARY-account-audit.json",
+      "bytes": 63508,
+      "sha256": "ecba34625dcd3ffb137a22f152a63256fe0bac7006a6b96ed7312cfc5ce6a862"
+    },
+    "Full-OHLC-PRIMARY-accounts.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OHLC-PRIMARY-accounts.json",
+      "bytes": 89091831,
+      "sha256": "7edae759fde3884ff47c1a8c63540ef2e34907d5b8a949bf98fe23324d1cdc80"
+    },
+    "Full-OHLC-STRICT-account-audit.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OHLC-STRICT-account-audit.json",
+      "bytes": 63674,
+      "sha256": "f52ff94a5aefe909781e058516217ecec41e05ad12973c4da4b4bed51ae91e67"
+    },
+    "Full-OHLC-STRICT-accounts.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OHLC-STRICT-accounts.json",
+      "bytes": 67632439,
+      "sha256": "46ee1a3273261b536012b4819b02bd625c2b40285f6984f956756f9b7f48f3aa"
+    },
+    "Full-OHLC-V15-CUSHION-STRICT-account-audit.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OHLC-V15-CUSHION-STRICT-account-audit.json",
+      "bytes": 63438,
+      "sha256": "aafea734c38df908de7082574f3aa951d1b416235f2b7bb6af05376c6d47f4bd"
+    },
+    "Full-OHLC-V15-CUSHION-STRICT-accounts.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OHLC-V15-CUSHION-STRICT-accounts.json",
+      "bytes": 62901952,
+      "sha256": "d6ad6ec133b921a87ac6c0fdd4104e9d0d96b6536922b79d6cc2c0e964765dcb"
+    },
+    "Full-OHLC-V15-CUSHION-STRICT-path-audit.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OHLC-V15-CUSHION-STRICT-path-audit.json",
+      "bytes": 430,
+      "sha256": "2bc723d57e52055a756832cc21840de91d1220a3cd96cfd1b9463d3cf44a86e9"
+    },
+    "Full-OHLC-V17-PRIMARY-path-audit.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OHLC-V17-PRIMARY-path-audit.json",
+      "bytes": 414,
+      "sha256": "f94637255fa60e86402b720c60cec9650227c73f29fc248f88cfba968fcd789c"
+    },
+    "Full-OHLC-V17-STRICT-path-audit.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OHLC-V17-STRICT-path-audit.json",
+      "bytes": 413,
+      "sha256": "9847ca089343eea84b9bc1a7f35d99012446d67aaf887025d1c1b7ad107bd250"
+    },
+    "Full-OLHC-PRIMARY-account-audit.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OLHC-PRIMARY-account-audit.json",
+      "bytes": 63508,
+      "sha256": "ecba34625dcd3ffb137a22f152a63256fe0bac7006a6b96ed7312cfc5ce6a862"
+    },
+    "Full-OLHC-PRIMARY-accounts.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OLHC-PRIMARY-accounts.json",
+      "bytes": 89091729,
+      "sha256": "7ff61c43418256335f490901d64aa2857ed06dca6fac6006c3617077cdc898c8"
+    },
+    "Full-OLHC-STRICT-account-audit.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OLHC-STRICT-account-audit.json",
+      "bytes": 63674,
+      "sha256": "f52ff94a5aefe909781e058516217ecec41e05ad12973c4da4b4bed51ae91e67"
+    },
+    "Full-OLHC-STRICT-accounts.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OLHC-STRICT-accounts.json",
+      "bytes": 67632439,
+      "sha256": "ab3194b8f7d2b67b7b23ed7d5d05bf4e398fd608214358e68e28164ced3c8972"
+    },
+    "Full-OLHC-V15-CUSHION-STRICT-account-audit.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OLHC-V15-CUSHION-STRICT-account-audit.json",
+      "bytes": 63438,
+      "sha256": "1be45bd9b5897971eaf9ee958e7779ec417911d07b1906931fe0c4a73662e984"
+    },
+    "Full-OLHC-V15-CUSHION-STRICT-accounts.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OLHC-V15-CUSHION-STRICT-accounts.json",
+      "bytes": 62901952,
+      "sha256": "8060c7934170ca62494fe5724965a8c39637688aaca184b04e211869ff65d91f"
+    },
+    "Full-OLHC-V15-CUSHION-STRICT-path-audit.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OLHC-V15-CUSHION-STRICT-path-audit.json",
+      "bytes": 430,
+      "sha256": "54bac45a9b0b1b4f28e2d99ba1a50c9fe601fe51ca13585282e4cf04ec96e1f1"
+    },
+    "Full-OLHC-V17-PRIMARY-path-audit.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OLHC-V17-PRIMARY-path-audit.json",
+      "bytes": 414,
+      "sha256": "d4393f47567d91251bd66cccacdf97958d99f2c3fe19aeeb44255cedeebaa1ce"
+    },
+    "Full-OLHC-V17-STRICT-path-audit.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\Full-OLHC-V17-STRICT-path-audit.json",
+      "bytes": 413,
+      "sha256": "5782bc541d7f45afdbb64d4a415d17e5e48668c8f0810ed8584995e33ae25be6"
+    },
+    "scan-registration.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\scan-registration.json",
+      "bytes": 31171,
+      "sha256": "681888253599354f61ba7fea59f5909c2bb2d72c85762f9c5b63374f320d0f2a"
+    },
+    "selection.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\selection.json",
+      "bytes": 89,
+      "sha256": "25a44f49f5748c201a3914b44917b91caf14d878ebdf80f0cdf2a50d8f107c90"
+    },
+    "smoke-00.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\smoke-00.json",
+      "bytes": 10990,
+      "sha256": "c6d81e08d0ff6674eb924a5a961cc2a44d7205c21248bacf2aa9ebf955be4495"
+    },
+    "smoke-01.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\smoke-01.json",
+      "bytes": 10989,
+      "sha256": "2604c9c949bacf58169ba9895fccae700fdc4d393e225e3766096e3039f72455"
+    },
+    "smoke-02.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\smoke-02.json",
+      "bytes": 10989,
+      "sha256": "259427b3fe2ea81f67ac474b04f56dfd4834371f4053e5c51414037b2f2f98fc"
+    },
+    "smoke-03.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\smoke-03.json",
+      "bytes": 10978,
+      "sha256": "e78a30f8d6914baf986b64266d9c924c6ebbaa72e5f8c5e61d1eb8deb5f3f6cc"
+    },
+    "smoke-04.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\smoke-04.json",
+      "bytes": 10984,
+      "sha256": "6c9e53f3936b286b945660d031770dc24fb11645f2831e371236c704797507fe"
+    },
+    "smoke-05.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\smoke-05.json",
+      "bytes": 10980,
+      "sha256": "094b6812e7c6d329dd6b988af1bc91e6cb62173ae6d4d833803a7b8d59619042"
+    },
+    "smoke-06.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\smoke-06.json",
+      "bytes": 10994,
+      "sha256": "2c1e4d61e1751912bd5a1b2931a0b253be31aec6c027b3b95736c268c48ddbb6"
+    },
+    "smoke-07.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\smoke-07.json",
+      "bytes": 10985,
+      "sha256": "9f056571262e72c77edf156eaac4d887511a847d112b9e43de87b2ae4be4c36e"
+    },
+    "smoke-08.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\smoke-08.json",
+      "bytes": 10984,
+      "sha256": "9160b8f55964ab0c2960955ef2feac086896b1ab17336f62919d68f0a4c0a7e7"
+    },
+    "smoke-09.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\smoke-09.json",
+      "bytes": 10982,
+      "sha256": "855284ef569441a05d038b80f64e4a6e07c6e21d9f1d9f49894993a66a3c0411"
+    },
+    "smoke-plan.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\smoke-plan.json",
+      "bytes": 199,
+      "sha256": "770596c35dddad6c19500a822ab6b140a08eae43e90a0bd8ada82f4b9f89eb2e"
+    },
+    "smoke-results.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\smoke-results.json",
+      "bytes": 2051,
+      "sha256": "59554d66ae30437afeb1342121a46f0ee6c1735648a96d825ca32cffa847f031"
+    },
+    "tests-after-base-shard0.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\tests-after-base-shard0.json",
+      "bytes": 31548,
+      "sha256": "4aebee2e935cda192fbbcec6fcca99b4460caddb21fcfae29b1e0b65388b2ada"
+    },
+    "tests-after-base-shard1.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\tests-after-base-shard1.json",
+      "bytes": 33786,
+      "sha256": "9b463a0c86ed1237fddf820d8ca4a17f1d3669f6fdd3cd35c8345257e1a2d0dc"
+    },
+    "tests-after-base-shard2.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\tests-after-base-shard2.json",
+      "bytes": 35381,
+      "sha256": "91c4d739d47e2c22187cdc5d2f26a4a65f661b4a0190bce97127a314f036d7ac"
+    },
+    "tests-after-base-shard3.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\tests-after-base-shard3.json",
+      "bytes": 42196,
+      "sha256": "abc23dedab4852b77c87b83871d0aa5b1bca1aa192b743a7a50e3e551ac65974"
+    },
+    "tests-after-base.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\tests-after-base.json",
+      "bytes": 141769,
+      "sha256": "95ad0afdd07b8eea2939fdac5a7e0a68e2f32408d32f5ea4ab3efbded2f2a1d1"
+    },
+    "tests-after-matrix.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\tests-after-matrix.json",
+      "bytes": 5017,
+      "sha256": "8920daabe488ae79c1e13b96c93039dc1d02b2e08ad52007ae9cb4d3b41bafaf"
+    },
+    "tests-after-native.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\tests-after-native.json",
+      "bytes": 10715,
+      "sha256": "390ebad27afcf84748a66bbfc72087eecdea2e68d1bfbc28b1050b973497601e"
+    },
+    "tests-after-statistics.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\tests-after-statistics.json",
+      "bytes": 1061,
+      "sha256": "6554f35852f6d579baf12e40451a2873e516be57a374fb6ecca6389ea43b5d98"
+    },
+    "tests-after-worker.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\tests-after-worker.json",
+      "bytes": 3108,
+      "sha256": "009042a9aa658b382c6432cc4585deed9917db53aa4930822de4816b523dcd53"
+    },
+    "tier-selection.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\tier-selection.json",
+      "bytes": 4308,
+      "sha256": "ddeeb27bcf9e1bb2a79db7f36152ebf6e6aa2273244b6e5e79cfcd8101c24991"
+    },
+    "US500-eligible-profile.npz": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\US500-eligible-profile.npz",
+      "bytes": 2627,
+      "sha256": "18b2eb7991bd00fd45b715e8e4ca3ff97888a86cec60f4666d150126a5efa30c"
+    },
+    "US500-OHLC-path-pack.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\US500-OHLC-path-pack.json",
+      "bytes": 47,
+      "sha256": "5dc024d4f06163decdc6461bcfcf90053e518b307f942af7c78f9bb41cf5619c"
+    },
+    "US500-OLHC-path-pack.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\US500-OLHC-path-pack.json",
+      "bytes": 47,
+      "sha256": "5dc024d4f06163decdc6461bcfcf90053e518b307f942af7c78f9bb41cf5619c"
+    },
+    "US500-scan.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\US500-scan.json",
+      "bytes": 194537,
+      "sha256": "cbe7617fada2cdf81e636760808fdd2dd374944b443beca502a16d5d52733f2e"
+    },
+    "V16-Dev-admission-diagnosis.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\V16-Dev-admission-diagnosis.json",
+      "bytes": 129238,
+      "sha256": "5a511288bea2ea5a5c2142c3be5ec7ae8aa0a8bc8b85e7789b693896a338b561"
+    },
+    "V16-parent-code-binding.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\V16-parent-code-binding.json",
+      "bytes": 7203,
+      "sha256": "bf125884659e734487e94977761ecce4432b5bc82dead1f10c95a571f85bd790"
+    },
+    "XAUUSD-eligible-profile.npz": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\XAUUSD-eligible-profile.npz",
+      "bytes": 2627,
+      "sha256": "18b2eb7991bd00fd45b715e8e4ca3ff97888a86cec60f4666d150126a5efa30c"
+    },
+    "XAUUSD-OHLC-path-pack.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\XAUUSD-OHLC-path-pack.json",
+      "bytes": 3404036,
+      "sha256": "424b2b57638111588a5476ce04946d12a611c992625a27ea94b302e5a2271113"
+    },
+    "XAUUSD-OLHC-path-pack.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\XAUUSD-OLHC-path-pack.json",
+      "bytes": 3404034,
+      "sha256": "3713c4ccab35a8e6c177ebdb3219635a73c5b4f47290310a8f0f53599e401e81"
+    },
+    "XAUUSD-scan.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\XAUUSD-scan.json",
+      "bytes": 207581,
+      "sha256": "63b9fd4220292073ebed10bbdc9385ca833d76c06632ce0868270cde4296f152"
+    }
+  }
+}
