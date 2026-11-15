@@ -1,11 +1,28 @@
 # Tra cứu research đã có
 
+**V11 — purge 119,79 GB trên E; ensemble 6 nhánh chưa vượt Development:**
+[Báo cáo bốn phần](ENSEMBLE-AND-STORAGE-V11-RESULTS-20261115.md) /
+[JSON](ENSEMBLE-AND-STORAGE-V11-RESULTS-20261115.json) /
+[decision](ENSEMBLE-AND-STORAGE-V11-DECISION-20261115.json) /
+[protocol](ENSEMBLE-AND-STORAGE-V11-PROTOCOL-20261115.md) /
+[source admission](ENSEMBLE-AND-STORAGE-V11-SOURCE-ADDENDUM-20261115.md) /
+[clock correction](ENSEMBLE-AND-STORAGE-V11-CLOCK-CORRECTION-20261115.md).
+PR #89 merged `3dd35a7`, nhánh V10 đã xóa. Branch `codex/ensemble-and-storage-v11`;
+PR mới chờ owner duyệt, không tự merge. Giữ VI WIP/Trader pin/raw/seals.
+17 target E đã purge đúng manifest: 100.287 files / 12.101 folders.
+Source sweep tìm lại GBP/AUD native H1 và US500 M1, không copy raw.
+1.264 ô → 42 dương hai cụm → 33 component-admitted → 6 medoids bằng risk.
+86 tín hiệu/năm, nhưng 4/6 năm dương; efficiency kém nhánh tốt nhất. Không
+mở giá 2024–2026 hay chạy SL-active/Challenge/payout; prop metrics N/A.
+Không clean OOS. 1.048 tests / 0 skip, smoke 0,673s; scalar/source oracle khớp.
+Private job `execution-v1/ensemble-and-storage-v11-20261115`; đọc report trước trial mới.
+
 **V10 — 0/544 cấu hình F1–F4 qua Stage0; chưa mở validation/lifecycle:**
 [Báo cáo bốn phần](ENTERPRISE-ALPHA-V10-RESULTS-20261115.md) /
 [JSON](ENTERPRISE-ALPHA-V10-RESULTS-20261115.json) /
 [decision](ENTERPRISE-ALPHA-V10-DECISION-20261115.json) /
 [protocol](ENTERPRISE-ALPHA-V10-PROTOCOL-20261115.md).
-PR88 merge97a44f2; branchcodex/enterprise-alpha-v10, không tự merge PR mới.
+PR #89 merged `3dd35a7`, nhánh `codex/enterprise-alpha-v10` đã xóa theo V11.
 Dev2018–2023: XAUUSD92/EURUSD44recipes ×4horizons; Ask/swap conditional.
 Đã sửa backward DAY/post-Friday entry và pooled cluster scale; giữ original
 attempts/pins.243.884priced occurrences ×2fees Fraction oracle,0eligible.

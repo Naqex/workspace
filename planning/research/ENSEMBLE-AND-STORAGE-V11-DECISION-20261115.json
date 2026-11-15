@@ -1,0 +1,29 @@
+{
+  "schema": "V11-DECISION-v1",
+  "trials": 1264,
+  "dual_positive": 42,
+  "component_count": 33,
+  "K": 6,
+  "passed": false,
+  "selected": [
+    "US500|F1:tf=D1:n=5:impulse=0.5:multiple=1|FRIDAY",
+    "US500|F3:compression=BB:n=120:quantile=0.15:multiple=1|FRIDAY",
+    "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|24H",
+    "XAUUSD|F4:hour=14:impulse=1:timing=WEEK:multiple=1|DAY",
+    "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H",
+    "XAUUSD|F4:hour=16:impulse=1:timing=MONTH:multiple=1|DAY"
+  ],
+  "reasons": [
+    "SYM:ENSEMBLE_FEWER_THAN5_POSITIVE_YEARS",
+    "ASYM:ENSEMBLE_FEWER_THAN5_POSITIVE_YEARS",
+    "EFFICIENCY_NOT_ABOVE_EVERY_COMPONENT"
+  ],
+  "SL_active": "CANCELED_FAILED_DEV_ENDPOINT_GATE",
+  "composition": null,
+  "validation_2024_2026": "NOT_OPENED_IN_V11",
+  "lifecycle": "CANCELED_FAILED_DEV_ENSEMBLE",
+  "GoldA_variant": "NOT_RUN_BASE_ENSEMBLE_DID_NOT_PASS",
+  "clean_OOS": false,
+  "prop_status": "PROP_UNMEASURED",
+  "broker_execution_authorized": false
+}

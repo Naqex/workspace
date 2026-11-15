@@ -65,3 +65,35 @@ CI chạy full suite và lưu timings/IDs, không cần private prices.
 Contracts chạy Windows để thực thi cả process ownership/sharing-race và
 Windows absolute-path contracts; Linux còn secret scan/UI registry. Không
 skip các test này để làm xanh full gate. HTTP fixtures dùng httpx từ Trader lock.
+
+## V11: nguồn H1 gốc và bộ ghép cố định
+
+`native_hourly_source.PairedHourlyStore` đọc Bid/Ask H1 gốc qua index và hash;
+không dựng M1 giả để lấp đường giá trong giờ. `IndexedUs500Store` dùng lại
+JSON M1 theo quý và source proof cũ. Cả hai đọc nguồn trên E, không nhân bản
+full raw. Adapter công thức chạy module V10 cô lập với closed frames chuẩn bị
+sẵn; không sửa file frozen hay monkeypatch instance dùng chung.
+
+US500 dùng lại lịch `prop_portfolio_sources.deadline`: hạn rơi vào break
+16:15–18:00 New York chuyển sớm về 16:00 cùng ngày. Không dùng quote sau giờ
+nghỉ để lấp thiếu. Attempt ban đầu được giữ, bản sửa có protocol/commit riêng.
+H1 FX thiếu quote 20:30 vẫn là thiếu, không nội suy hoặc lấy 21:00.
+
+`zero_tuning_ensemble.mechanical_composition` nhận daily endpoint proxy và
+thời điểm tín hiệu từ Development. Trong cùng asset/family, graph nối các
+nhánh tương quan ≥0,30 hoặc trùng ≥50% quyết định; mỗi connected component
+giữ medoid trung tâm. Sort theo asset/family/ID, nhận lần lượt khi corr <0,30
+với các nhánh đã giữ, tối đa 8. Không thử mọi subset, trọng số hoặc direction.
+
+Endpoint R ghi theo ngày entry chỉ phục vụ sàng lọc. Nó không thay actual
+daily MTM covariance, đường lệnh SL-active, prop DD hay portfolio accounting.
+V11 có 1.264 cells, 42 dual-positive, 33 component-admitted, 6 selected;
+fail cổng Development nên hủy các bước SL-active/validation/lifecycle.
+Đọc [protocol](../../../planning/research/ENSEMBLE-AND-STORAGE-V11-PROTOCOL-20261115.md)
+và [report](../../../planning/research/ENSEMBLE-AND-STORAGE-V11-RESULTS-20261115.md)
+trước khi tái sử dụng.
+
+Full local Windows V11 giữ 1.030 test IDs cũ, thêm 18, tổng 1.048, không skip.
+Smoke 44 tests quan sát 0,673s; full grouped 28,47s. Đây là timing của từng
+lượt, không bảo đảm tốc độ host khác. Oracle dùng Fraction/scalar và source
+decoder khác đường producer; cùng implementer, không phải reviewer độc lập.

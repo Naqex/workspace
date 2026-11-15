@@ -1,16 +1,51 @@
 # Current context — Naqex Workspace
 
-15/11/2026 · `RESEARCH: V10_STAGE0_NO_GO · SYSTEM: VECTOR_SCAN_AND_FULL_AUDIT_DELIVERED · PROP: NOT_QUALIFIED`.
+15/11/2026 · `RESEARCH: V11_ENSEMBLE_NO_GO · SYSTEM: E_PURGE_AND_CROSS_DRIVE_AUDIT_DELIVERED · PROP: UNMEASURED_FOR_V11`.
 
 ## Việc hiện tại
+
+**V11 đã kiểm xong: 6 nhánh đạt tần suất tổng nhưng chưa đủ ổn định để đi tiếp.**
+[Báo cáo bốn phần](research/ENSEMBLE-AND-STORAGE-V11-RESULTS-20261115.md) /
+[JSON](research/ENSEMBLE-AND-STORAGE-V11-RESULTS-20261115.json) /
+[decision](research/ENSEMBLE-AND-STORAGE-V11-DECISION-20261115.json) /
+[protocol](research/ENSEMBLE-AND-STORAGE-V11-PROTOCOL-20261115.md) /
+[source admission](research/ENSEMBLE-AND-STORAGE-V11-SOURCE-ADDENDUM-20261115.md) /
+[clock correction](research/ENSEMBLE-AND-STORAGE-V11-CLOCK-CORRECTION-20261115.md).
+PR #89 merged `3dd35a7`, nhánh V10 đã xóa. Branch `codex/ensemble-and-storage-v11`;
+PR V11 chờ owner duyệt, không tự merge. Private job `ensemble-and-storage-v11-20261115`.
+
+Đã xóa đúng 17 target E theo manifest được duyệt: 119.790.227.244 bytes /
+100.287 files / 12.101 folders. Không raw/research/VI WIP bị xóa. Net snapshot
+khác exact purge do journal/job phát sinh; 2 VI permission gaps vẫn unknown.
+Health audit tìm cả build cache mới, cảnh báo budget 120 GB; không daemon,
+không tự mở rộng quyền xóa và không bảo đảm dung lượng tương lai.
+
+Tìm lại GBP/AUD paired H1 và US500 paired M1; index read-only, không copy raw.
+Reuse 544 ô V10 + 720 ô nguồn mới = 1.264 ô. Sau sửa lịch nguồn US500 bằng
+helper đã có: 42 dual-positive → 33 component-admitted → 6 medoids bằng risk.
+Giữ attempt đầu và correction protocol trước outcome; không sửa frozen V10.
+516 tín hiệu / 6 năm = 86/năm, chỉ dương 4/6 năm. SYM endpoint NetR +59,421,
+DD 47,585R; tỷ lệ 1,2487 thấp hơn nhánh tốt nhất 1,2868. Năm 2023 đóng góp
+vượt tổng cả 6 năm. No-Go theo gate Development đã đăng ký.
+
+Không mở giá 2024–2026, không SL-active/GoldA variant/Challenge/payout mới.
+Daily/static loss là N/A, không lấy endpoint DD thành prop loss. Các năm
+validation có exposure lịch sử, không clean OOS. Phí/Ask nguồn vẫn conditional.
+Không broker/paid/Astra/runtime promotion; giữ Trader pin và VI WIP.
+1.048 tests giữ đủ 1.030 IDs cũ, 0 skip; smoke 44 tests / 0,673s.
+Fraction/scalar/source-quote oracle khớp; cùng implementer, không reviewer độc lập.
+Chặng tiếp cần hypothesis/budget hoặc source work mới, không thử thêm subset/
+weights hay tăng risk để cứu chính lô này.
+
+## V10 đã merge (lịch sử)
 
 **V10 đã kiểm xong: 0/544 cấu hình vượt Discovery; chưa có ứng viên Challenge.**
 [Báo cáo bốn phần](research/ENTERPRISE-ALPHA-V10-RESULTS-20261115.md) /
 [JSON](research/ENTERPRISE-ALPHA-V10-RESULTS-20261115.json) /
 [decision](research/ENTERPRISE-ALPHA-V10-DECISION-20261115.json) /
 [protocol](research/ENTERPRISE-ALPHA-V10-PROTOCOL-20261115.md).
-PR88 đã merge `97a44f2`; branch `codex/enterprise-alpha-v10`.
-PR V10 chờ owner duyệt, không tự merge. Private job `enterprise-alpha-v10-20261115`.
+PR #89 đã merge `3dd35a7`, nhánh `codex/enterprise-alpha-v10` đã xóa theo V11.
+Private job `enterprise-alpha-v10-20261115`.
 
 F1–F4 trên XAUUSD/EURUSD, Dev2018–2023,136 recipes ×4horizons.
 Không có cấu hình qua toàn bộ cổng kinh tế/cadence; tất cả fail Holm/DSRproxy.
