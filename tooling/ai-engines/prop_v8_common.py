@@ -35,6 +35,7 @@ def pins():
 
 
 def register():
+    JOB.mkdir(parents=True, exist_ok=True)
     if (JOB / "registration.json").exists():
         raise ValueError("V8_registration_already_exists")
     write_json(JOB / "registration.json", dict(pins=pins(), dev_only=True,

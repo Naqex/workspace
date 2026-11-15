@@ -17,6 +17,14 @@ from test_prop_v5 import trade, quote
 
 
 class V8Tests(unittest.TestCase):
+    def test_registration_creates_its_private_directory(self):
+        import prop_v8_common as common
+        with tempfile.TemporaryDirectory() as root:
+            target = Path(root) / "new-job"
+            with patch.object(common, "JOB", target), patch.object(common, "pins", return_value=[]):
+                common.register()
+                self.assertTrue((target / "registration.json").exists())
+
     def test_backward_price_access_blocked_before_release(self):
         with self.assertRaisesRegex(ValueError, "backward_prices_locked"):
             cache_bars(BACK_START, BACK_END)
