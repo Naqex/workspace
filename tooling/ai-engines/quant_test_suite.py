@@ -26,7 +26,7 @@ FAST = {
     "test_eurusd_funnel_audit", "test_gold_intraday_quality",
     "test_vectorized_stage0", "test_deep_storage", "test_zero_tuning_ensemble",
     "test_sl_active_kernel", "test_independent_ledger_auditor", "test_v12_signals",
-    "test_gap_aware_execution", "test_v13_protocol",
+    "test_gap_aware_execution", "test_v13_protocol", "test_prop_v14",
 }
 SMOKE = {"test_quant_core", "test_vectorized_stage0", "test_workspace_maintenance",
          "test_deep_storage", "test_zero_tuning_ensemble", "test_sl_active_kernel",

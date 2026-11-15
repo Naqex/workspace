@@ -1,0 +1,22 @@
+{
+  "schema": "V14-technical-erratum-01",
+  "original_freeze_commit": "ae575b7e88298d6607207c00e411f6486aeac0d6",
+  "reason": "Annual reference inherited a throwing quantity_steps call. A Gold natural stop wider than $150 at minimum .01lot aborts B reference replay; lifecycle already rejects this case.",
+  "correction": "Apply same minimum-lot rejection to annual reference; no upward rounding, SL change, signal selection, risk or exit change.",
+  "failed_logs": [
+    "OLHC-lifecycle.log",
+    "OHLC-lifecycle.log"
+  ],
+  "completed_before_fix": {
+    "OHLC-A-CLEAN_COHORT-accounts.json": "1a97e59937bb5041d7a7bfaad6e02038e3664af390325a317c2e9331ffddf4dd",
+    "OHLC-A-NEXT_QUOTE-accounts.json": "01878e447e057fa4af088fef53d25a9902367a5ff8783b421e2f0dff3912745f",
+    "OLHC-A-CLEAN_COHORT-accounts.json": "054fc9e4ef6e4f917468836f82304870c0ddf3094c957967053620416e1050cf",
+    "OLHC-A-NEXT_QUOTE-accounts.json": "812fa95881d4f29f52d0adff3de5336f3a37d9fd20e2e3e56acfbe86cd14d7cc"
+  },
+  "technical_pins": {
+    "tooling\\ai-engines\\prop_v14_accounts.py": "e53a5b8251582654c55ef60f67c04d3d75b3473739bf90f7f5a53b7b290d6b32",
+    "tooling\\ai-engines\\prop_v14_resume.py": "58fa93cbb453ac9689a7a8c90218c86ed636de93c46b482ea301711bd9407a2b"
+  },
+  "resume": "Missing B batches only; preserve all A ledgers and failed logs; independent audit all accounts.",
+  "source_admission_v2": "Original full-source-admission preserved as -v1; append witnessed EUR tick-derived M1 tail to versioned binary, no price replacement or cost change."
+}

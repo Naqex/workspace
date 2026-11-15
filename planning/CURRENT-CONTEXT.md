@@ -1,16 +1,34 @@
 # Current context — Naqex Workspace
 
-15/11/2026 · `RESEARCH: V13_CONDITIONAL_ENSEMBLE_CADENCE_FAIL · SYSTEM: GAP_SCENARIO_AND_FULL_TREE_MERKLE · PROP: UNMEASURED_FOR_V13`.
+15/11/2026 · `RESEARCH: V14_LIFECYCLE_MEASURED_TIME_FIT_SHORTFALL · SYSTEM: CONDITIONAL_M1_AND_NATIVE_BACKFILL · PROP: NOT_QUALIFIED`.
 
 ## Việc hiện tại
+
+**V14 đã đo đầy đủ A/B qua 2018–13/10/2026; chưa nên mua Challenge.**
+[Báo cáo](research/EVIDENCE-AND-LIFECYCLE-V14-RESULTS-20261115.md) /
+[JSON](research/EVIDENCE-AND-LIFECYCLE-V14-RESULTS-20261115.json) /
+[freeze](research/EVIDENCE-AND-LIFECYCLE-V14-FREEZE-20261115.json) /
+[protocol](research/EVIDENCE-AND-LIFECYCLE-V14-PROTOCOL-20261115.md).
+PR #92 merged `65bf0c2`, V13 branch đã xóa. A/B khóa `ae575b7`; chỉ đổi cổng
+tần suất thành trung bình >=50/năm theo quyền owner, không sửa verdict V13.
+Core A 3 sleeves tốt hơn B thêm 2 sleeves về Validation: +13,89R vs +6,18R
+SYM. A/SYM NEXT_QUOTE pass hai vòng 48/105 starts nhưng median ~54 tháng;
+CLEAN_COHORT 0/105. Không phải tỷ lệ thành công độc lập hoặc filter chạy live.
+Giá 2024–2026 đã exposed lịch sử; các M1 order/source scenarios không chứng
+nhận native intraminute path. Chưa shadow/demo/broker, không actual payout.
+4 E backup trees xóa với manifest/rehash, 47 giữ; VI WIP/Trader pin nguyên.
+V14 branch `codex/evidence-and-lifecycle-v14`, PR #93 chờ review, không merge.
+Errata kỹ thuật giữ original freeze và log; không đổi alpha/SL/exit/risk grid.
+
+## V13 đã merge (lịch sử)
 
 **V13 định giá được 19/19 cases trọng tâm; tổ hợp vẫn chưa qua Dev gate.**
 [Báo cáo bốn phần](research/PATH-RESOLUTION-AND-DEDUP-V13-RESULTS-20261115.md) /
 [JSON](research/PATH-RESOLUTION-AND-DEDUP-V13-RESULTS-20261115.json) /
 [decision](research/PATH-RESOLUTION-AND-DEDUP-V13-DECISION-20261115.json) /
 [protocol](research/PATH-RESOLUTION-AND-DEDUP-V13-PROTOCOL-20261115.md).
-PR #91 merged `ad362ea`, nhánh V12 đã xóa. Branch
-`codex/path-resolution-and-dedup-v13`; PR V13 chờ owner duyệt, không tự merge.
+PR #91 merged `ad362ea`; PR #92/V13 đã merge trong V14.
+Nhánh V13 đã xóa; kết luận dưới đây giữ nguyên theo gate tại thời điểm V13.
 Private job `execution-v1/path-resolution-and-dedup-v13-20261115`.
 
 Giữ đúng 28 cells/modes/entries/SL/costs V12, không grid mới. 19 cases chỉ
