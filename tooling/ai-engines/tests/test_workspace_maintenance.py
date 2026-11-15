@@ -10,6 +10,29 @@ from workspace_maintenance import inventory, purge, compact_environment, purge_i
 
 
 class MaintenanceTests(unittest.TestCase):
+    def test_cross_drive_health_reports_cache_budget_without_deletion(self):
+        from workspace_maintenance import cross_drive_audit
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder);cache=root/"old/cargo-target";cache.mkdir(parents=True)
+            (cache/"compiled.o").write_bytes(b"12345")
+            out=cross_drive_audit([root],[cache,root/"missing-cache"],cache_budget_bytes=5)
+            self.assertTrue(out["cache_budget_exceeded"])
+            self.assertEqual(out["cache_known_bytes"],5)
+            self.assertFalse(out["automatic_deletion"])
+            self.assertTrue((cache/"compiled.o").exists())
+
+    def test_market_inventory_is_metadata_only_and_excludes_builds(self):
+        from workspace_maintenance import market_inventory
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder)
+            for rel in ("data/GBPUSD_M1_2018.csv","cargo-target/XAUUSD.csv","other/private.txt"):
+                path=root/rel;path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(b"not parsed")
+            out=market_inventory([root,root/"data"])
+            self.assertEqual(len(out["files"]),1)
+            self.assertEqual(out["files"][0]["symbols"],["GBPUSD"])
+            self.assertFalse(out["quote_values_decoded"])
+            self.assertEqual(len(out["roots"]),1)
+
     def test_purge_preserves_canonical_and_vi_wip_and_rejects_outside(self):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)

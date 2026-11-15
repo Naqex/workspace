@@ -137,3 +137,70 @@ def generated_dependencies(root, target):
     shutil.rmtree(target)
     return dict(path=str(target), files=files, bytes=byte_count, links_removed=links,
                 external_link_targets_followed=False, generated_dependencies_only=True)
+
+
+def apply_backup_plan(manifest, expected_sha256, backup_root, receipt, *, active_references=()):
+    """Apply only a hash-bound, unchanged cache manifest explicitly approved by owner."""
+    manifest, receipt = Path(manifest), Path(receipt)
+    if receipt.exists() or receipt.with_suffix(".journal.jsonl").exists():
+        raise ValueError("preserve_cleanup_attempt")
+    raw = manifest.read_bytes()
+    if hashlib.sha256(raw).hexdigest() != expected_sha256:
+        raise ValueError("cleanup_manifest_binding")
+    plan = json.loads(raw)
+    root = Path(backup_root).resolve(strict=True)
+    if Path(plan["root"]).resolve(strict=True) != root or not plan["dry_run"]:
+        raise ValueError("cleanup_root_binding")
+    admitted = []
+    protected_data = {".csv", ".parquet", ".bi5", ".qdm", ".npz", ".feather",
+                      ".hcc", ".hc", ".hst", ".fxt", ".arrow"}
+    for row in plan["candidates"]:
+        target = Path(row["path"]).absolute()
+        if (not target.is_relative_to(root) or len(target.relative_to(root).parts) != 2
+                or target.name not in {"cargo-target", "rust-target", "api-target"}
+                or target.relative_to(root).parts[0] in plan["protected"]):
+            raise ValueError("cleanup_scope")
+        if any(str(target).replace("/", "\\").lower() in str(ref).replace("/", "\\").lower()
+               for ref in active_references):
+            raise ValueError("cleanup_active_reference:" + str(target))
+        files = verified_tree(root, target)
+        actual = [dict(relative=str(p.relative_to(target)), bytes=p.stat().st_size,
+                       mtime_ns=p.stat().st_mtime_ns) for p in sorted(files)]
+        digest = hashlib.sha256(json.dumps(actual, sort_keys=True).encode()).hexdigest()
+        if actual != row["files"] or digest != row["metadata_manifest_sha256"]:
+            raise ValueError("cleanup_manifest_drift:" + str(target))
+        if any(p.suffix.lower() in protected_data or ".git" in p.relative_to(target).parts
+               or p.name in {"times.bin", "quotes.bin", "ticks.bin", "bars.bin"} for p in files):
+            raise ValueError("cleanup_protected_data:" + str(target))
+        folders = 1
+        for _, dirs, _ in os.walk(target, followlinks=False):
+            if ".git" in dirs:
+                raise ValueError("cleanup_embedded_repository")
+            folders += len(dirs)
+        total = dict(bytes=sum(r["bytes"] for r in actual), files=len(actual), folders=folders)
+        if total != row["inventory"]:
+            raise ValueError("cleanup_inventory_drift:" + str(target))
+        admitted.append(dict(path=str(target), **total))
+    if len({r["path"].lower() for r in admitted}) != len(admitted):
+        raise ValueError("cleanup_duplicate_target")
+    journal = receipt.with_suffix(".journal.jsonl")
+    result = dict(manifest=str(manifest), manifest_sha256=expected_sha256,
+                  root=str(root), all_targets_preflighted=True, completed=[], executed=True)
+    def event(value):
+        with journal.open("a", encoding="utf-8") as stream:
+            stream.write(json.dumps(value) + "\n")
+    for row in admitted:
+        event(dict(event="REMOVE_INTENT", **row))
+        try:
+            # Scope, resolved containment, links and exact manifest were checked above.
+            shutil.rmtree(row["path"])
+        except OSError as exc:
+            result.update(passed=False, failure=dict(path=row["path"], error=type(exc).__name__),
+                          partial_deletion_possible=True)
+            receipt.write_text(json.dumps(result, indent=2), encoding="utf-8")
+            raise
+        result["completed"].append(row)
+        event(dict(event="REMOVED", **row))
+    result.update(passed=True, **{k:sum(r[k] for r in admitted) for k in ("bytes","files","folders")})
+    receipt.write_text(json.dumps(result, indent=2), encoding="utf-8")
+    return result
