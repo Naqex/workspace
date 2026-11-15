@@ -1,8 +1,61 @@
 # Current context — Naqex Workspace
 
-15/11/2026 · `RESEARCH: GOLD_V7_AUDITED · PROP: NOT_QUALIFIED · 2025–13/10/2026: POST_HOLDOUT_DIAGNOSTIC; ALL EXIT ENDPOINTS PRICED, GOLD M1 CONDITIONAL`.
+15/11/2026 · `RESEARCH: GOLD_V8_NO_GO · PROP: NOT_QUALIFIED · BACKWARD_2018_2021: PRIOR_EXPOSURE; FULL_2022_2026: POST_HOLDOUT_DIAGNOSTIC`.
 
 ## Việc hiện tại
+
+**V8 hoàn tất: không normalized core/sleeve nào qua Dev, không có portfolio mới:**
+[báo cáo](research/PROP-GOLD-V8-RESULTS-20261115.md) /
+[JSON](research/PROP-GOLD-V8-RESULTS-20261115.json) /
+[freeze gốc](research/PROP-GOLD-V8-DECISION-20261115.json) /
+[N2 semantic correction](research/PROP-V8-N2-CORRECTION-20261115.json) /
+[protocol](research/PROP-GOLD-V8-PROTOCOL-20261115.md) /
+[calendar](research/PROP-V8-SESSION-CALENDAR-20261115.json).
+Task `690031eb-d490-465f-84f1-7b372e0902b8`, branch `codex/prop-gold-v8`;
+private job `execution-v1/prop-gold-v8-20261115`. PR86 merge `c99fa7e`, nhánh V7 xóa.
+Không tự merge PR V8. Giữ VI Dubber WIP và Trader pin.
+
+Hai trial N1 compression/P85=1,598513 và N2 stop cấu trúc H1; cùng cap natural
+SL25 USD/oz và F/SL12%, minimum5oz tại125 USD. N1 SYM −1,544/−12,772R;
+N2 conditional −6,278/−4,583R trong2022/23,92/82lệnh. Lot error giảm nhưng N1 2022 ASYM vẫn
+đổi dấu125/150/200. Cả hai No-Go. Ba PREVDAY/LONDON SWEEP DAY/24H/48H dương
+nhưng chỉ23/51 và21/56 tín hiệu, F/SL15,82%/16,92%; không qua scale/retention.
+V3 không thiếu holiday endpoints: blocker là12–14 SELL Ask paths conditional.
+N2 attempt đầu áp H1 stop toàn bộ (−15,237/+10,095R) không đúng conditional
+intent. Giữ attempt đó; commit03b185c chỉ thay khi oldSL>25 trước đo lại Dev.
+Chỉ6tín hiệu đổi stop, corrected N2 fail economics cả2năm; không dùng backward
+đã xem để chỉnh/chọn, không đánh giá corrected N2 ngoài Dev. Freeze gốc giữ nguyên,
+report/correction giữ verdict hiện hành và toàn bộ lịch sử sửa semantics.
+
+Freeze decision `91aa670` trước mở backward. Không normalized/sleeve đủ gate
+nên canceled các cột V8 ngoài Dev; chỉ baseline control ở Phase3, không tune
+trên2024–26 hoặc2018–21 để cứu trial. 2018–21 đã có prior project use/warmup2021,
+không gọi clean holdout. Một release, hai OHLC orders và hai swaps cố định.
+Backward baseline annual NetR ASYM −27,205/−12,624/−2,471/−9,857R;
+0/48 mốc quaP1 hoặc cả2 mỗi phí. Gross sau spread cũng âm2018/19/21.
+343/343 baseline intents có giá sau calendar correction.
+FTMO16/12/2021 xác nhận Metals31/12/2021 Normal Hours, khác federal-observed
+proxy CLOSED. Commit sửa5c299be trước rerun riêng backward, giữ16:58guard và
+mọi strategy parameter. Attempt1 giữ nguyên224sổ; một strategy release nhưng
+hai technical attempts, không gọi pristine one-shot. Dev/full không chạy lại.
+
+Full baseline57mốc khớp V7 Gold V4 ở cả268sổ (2orders), cả2vòng0/57.
+995tests/17fixtures PASS;492accountoracles và3.936Dev rational cost bridges PASS,
+cùng implementer không independent reviewer. Không modeled breach trong lifecycle;
+annual fixed-risk150 reference2018 SYM static10,377% không có guard.
+Đủ endpoint không phải đủ path: hai vị thếSELL08/09Oct2024 đi qua native-tick
+gap09Oct23:05:51→10Oct00:11:48 UTC; full DD còn DATA_PATH_INCOMPLETE tại đoạn này.
+Backward không unknown long-gap active theo audit, nhưng vẫn M1/Ask proxy0,338
+và lịch holiday declared guards, không broker certification.
+
+Không promote/mua Challenge/tăng risk hoặc mở nghiên cứu thêm trong V8.
+Mục tiêu thu nhập chính chưa đạt; đề xuất tiếp theo phải là hypothesis/budget
+mới rõ ràng hoặc giải quyết execution evidence, không nới gate để tạo winner.
+Delivery/CI receipt ở private job; source/ledgers/failed setup attempt giữ nguyên.
+CI attempt1 bắt LF/CRLF calendar-pin khác byte: chỉ nhận newline translation,
+content mutation vẫn fail; corrected-calendar content parity đạt, không rerun tài chính.
+
+## V7 đã merge (lịch sử; V8 thay verdict ứng viên)
 
 **V7 đã sửa lịch và kiểm đủ 804 sổ; chưa đủ Challenge/thu nhập chính:**
 [báo cáo](research/PROP-GOLD-V7-RESULTS-20261115.md) /
@@ -12,7 +65,7 @@
 [calendar](research/PROP-V7-SESSION-CALENDAR-20261115.json).
 Task `66e95afe-4594-4ddf-a63c-0278e67b3b78`, branch `codex/prop-gold-v7-audit`,
 private job `execution-v1/prop-gold-v7-20261115`.
-PR #85 đã merge `70b9ba1`, nhánh V6 xóa. Không tự merge PR V7.
+PR #85 đã merge `70b9ba1`, nhánh V6 xóa. PR #86 sau đó merge `c99fa7e` theo V8.
 
 Freeze `b5e5f08`: Gold A BOTH entry/SL không đổi; EURUSD Sweep đã decommission,
 chỉ còn trong đối chứng co-core. FTMO xác nhận Metals đóng 03/07/2026 17:00 UTC;

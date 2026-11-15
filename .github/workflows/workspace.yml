@@ -59,6 +59,7 @@ jobs:
           python -m unittest discover -s tooling/ai-engines/tests -p 'test_prop_v5.py' -v
           python -m unittest discover -s tooling/ai-engines/tests -p 'test_prop_v6.py' -v
           python -m unittest discover -s tooling/ai-engines/tests -p 'test_prop_v7.py' -v
+          python -m unittest discover -s tooling/ai-engines/tests -p 'test_prop_v8.py' -v
       - name: Check Development funnel and timestamp-only quality audits
         run: |
           python -m unittest discover -s tooling/ai-engines/tests -p 'test_eurusd_funnel_audit.py' -v
