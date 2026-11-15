@@ -1,0 +1,131 @@
+{
+  "schema": "PROP-GOLD-V7-DECISION-v1",
+  "label": "POST_HOLDOUT_DIAGNOSTIC_FULL_SAMPLE_2022_2026",
+  "owner_task": "66e95afe-4594-4ddf-a63c-0278e67b3b78",
+  "utc": "2026-11-15T00:32:49.166931+00:00",
+  "policies": {
+    "COCORE_FIXED": [
+      200,
+      175,
+      125
+    ],
+    "GOLD_V4": [
+      200,
+      175,
+      125
+    ],
+    "GOLD_SCALED": [
+      250,
+      200,
+      150
+    ]
+  },
+  "main_signal": "XAUUSD.A_Original.BOTH",
+  "eurusd_active": false,
+  "eurusd_only_counterfactual": true,
+  "ratchet": false,
+  "cap_usd": 800,
+  "internal_floor_usd": 46000,
+  "throttle_equity": [
+    48000,
+    47000
+  ],
+  "throttle_caps": [
+    150,
+    90
+  ],
+  "daily_realized_halt_usd": 1000,
+  "firm_limits": {
+    "daily_pct": 5,
+    "static_pct": 10
+  },
+  "calendar_buffer_minutes": 2,
+  "fallback_on_arbitrary_gap": false,
+  "calendar_policy": "min(legacy conservative holiday guard, verified target close) minus2minutes",
+  "natural_SL_entry_unchanged": true,
+  "extra_horizon_search": false,
+  "selection_claim": false,
+  "funded_starts": "Jan1 of each2022-2026, all continued to Oct13,2026",
+  "reference_risk_usd": 150,
+  "reference_sides": [
+    "BOTH",
+    "BUY",
+    "SELL"
+  ],
+  "source": "2022-24 admitted ticks;2025-26 two conditional Gold M1 scenarios/EUR native ticks",
+  "supplementary": "three pre-existing Gold Top10 cells, Development curves only; no new sleeves",
+  "pins": [
+    {
+      "path": "E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/execution-v1/prop-portfolio-v3-20261114/system-trades.json",
+      "sha256": "12c8f9d53fdc8032f943b9f8aafd4cf105385f8689cd1eafb54db91e9480ec98"
+    },
+    {
+      "path": "E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/execution-v1/prop-v4-harvest-v6-20261115/eur-manifest.json",
+      "sha256": "4ff496787167b1b4c5f0d5f913d6f221c82e1b39eb12405fff9624606c330e47"
+    },
+    {
+      "path": "E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/execution-v1/prop-v4-harvest-v6-20261115/gold-source-proof.json",
+      "sha256": "9e069530d192313494bced1c9eebabb39275b764af449bdd674f9f3aad46b015"
+    },
+    {
+      "path": "E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/execution-v1/prop-v4-harvest-v6-20261115/OPEN_LOW_HIGH_CLOSE/holdout-trades.json",
+      "sha256": "026ffd8abf12a31c7a4a806dba343c3e74cb7622ca0465e3bbadecce3ebc5808"
+    },
+    {
+      "path": "planning/research/PROP-GOLD-V7-PROTOCOL-20261115.md",
+      "sha256": "d8c3a8ba1ef0a0dce24855bd3b41f5fab89510187da91d396d94b90a65a2a49f"
+    },
+    {
+      "path": "planning/research/PROP-V7-SESSION-CALENDAR-20261115.json",
+      "sha256": "4e5211236661971c4ae9c3d124e6a5888bba8ef03fd8078dca807689980d954c"
+    },
+    {
+      "path": "tooling/ai-engines/prop_campaign_accounts.py",
+      "sha256": "2cc14ee74557980f05f71dce0089416f617c415acad5eb783c23f3ea6507c559"
+    },
+    {
+      "path": "tooling/ai-engines/prop_campaign_exits.py",
+      "sha256": "ec974924ceb1c8742a35b26431bb19e7dc878fc8904dd6584922e89659d88772"
+    },
+    {
+      "path": "tooling/ai-engines/prop_cocore_v4.py",
+      "sha256": "2449cb3f6e28f726865e4e240bffda5ec35c528073dfc51223efa640fc77b7f1"
+    },
+    {
+      "path": "tooling/ai-engines/prop_portfolio_accounts.py",
+      "sha256": "dd1542edecf77c471a15832b2894c98176e8cd542bfa78ebf96b3fd142f853cb"
+    },
+    {
+      "path": "tooling/ai-engines/prop_v5_account.py",
+      "sha256": "9c582aeece8a2eb8dc1b2eabb6a68615ad9119f2c6ceea8d07561fd6f25a2061"
+    },
+    {
+      "path": "tooling/ai-engines/prop_v6_account.py",
+      "sha256": "b444f11bf2822d8d8a528588aaedc7d32bab796d28dd55017784336a8f4b2645"
+    },
+    {
+      "path": "tooling/ai-engines/prop_v6_paths.py",
+      "sha256": "ea1093e52c4839864b605597aa611eb23bf474f38b808471596a84b9ea316deb"
+    },
+    {
+      "path": "tooling/ai-engines/prop_v6_signals.py",
+      "sha256": "e42315ab4709b0e4bacf7c02988856eed9e54c71f99ec2694417fe5e35de186b"
+    },
+    {
+      "path": "tooling/ai-engines/prop_v7_accounts.py",
+      "sha256": "4444c349fc219b6e7e516d1491ab60b7fb9ade990e3ae60ee19df38b3158c0a4"
+    },
+    {
+      "path": "tooling/ai-engines/prop_v7_common.py",
+      "sha256": "8a7c2092df4f332f661b32a68573e5a42efcc600dd78af1d0f3646668506d8e7"
+    },
+    {
+      "path": "tooling/ai-engines/prop_v7_paths.py",
+      "sha256": "3f08a7ad1a729ca0f2a16505afb0c2b8ad05c7b4c43e8e9f01c9d9e2cc9cdacc"
+    },
+    {
+      "path": "tooling/ai-engines/prop_v7_replay.py",
+      "sha256": "1ffdd1db79d430840f4a2f867ad6879ea702986b3b5d3b95548cd82649db4c33"
+    }
+  ]
+}

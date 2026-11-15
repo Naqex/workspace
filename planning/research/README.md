@@ -1,12 +1,27 @@
 # Tra cứu research đã có
 
-**V6 — V4_Harvest đã đánh giá; NOT_QUALIFIED:**
+**V7 — Gold audit sau sửa lịch, EURUSD decommission; NOT_QUALIFIED:**
+[Báo cáo](PROP-GOLD-V7-RESULTS-20261115.md) /
+[JSON](PROP-GOLD-V7-RESULTS-20261115.json) /
+[freeze](PROP-GOLD-V7-DECISION-20261115.json) /
+[protocol](PROP-GOLD-V7-PROTOCOL-20261115.md) /
+[calendar](PROP-V7-SESSION-CALENDAR-20261115.json).
+PR85 merged `70b9ba1`; branch `codex/prop-gold-v7-audit`, không tự merge PR mới.
+Rule holiday preclose2phút: 931/931 đường lệnh có giá, 57 mốc/policy/model đo
+tới13/10/2026. GoldV4 hai vòng0/36, tăngrisk0SYM/1ASYM; mốc mới0/21P1.
+Gold2025 risk150 âm nhẹ, khác risk125 dương do lot-grid weighting; không kết luận
+dương bền4năm. 978tests/804accountoracles PASS; không independent reviewer.
+Post-Holdout Diagnostic, M1/Ask proxy có điều kiện; chưa certify target/news.
+Ba GoldTop10 cells chỉ reuseDev và chưa đủ source/scale, không thêm sleeve.
+Giữ VIWIP/Traderpin; private job `prop-gold-v7-20261115`, delivery/CI receipt tại đó.
+
+**V6 — lịch sử trước sửa lịch V7; NOT_QUALIFIED:**
 [Báo cáo](PROP-V4-HARVEST-V6-RESULTS-20261115.md) /
 [JSON](PROP-V4-HARVEST-V6-RESULTS-20261115.json) /
 [freeze](PROP-V4-HARVEST-V6-DECISION-20261115.json) /
 [protocol](PROP-V4-HARVEST-V6-PROTOCOL-20261115.md).
 PR83 merged `5a8dd69`; branch `codex/prop-v4-harvest-v6`.
-V6 ở [PR #85](https://github.com/Naqex/workspace/pull/85), chưa merge;
+V6 ở [PR #85](https://github.com/Naqex/workspace/pull/85), đã merge `70b9ba1`;
 GitHub tự cấp số85 thay số84 dự kiến.
 Freeze `665ed5b` trước giá holdout. Standalone Jan2022:12 payout mô phỏng,
 trader3.667,64/3.856,49USD qua3năm; riêng2024 không payout.
@@ -16,7 +31,7 @@ Gold thiếu exit03/07/2026 17:00: censor20–21/36mốc cũ và17/21mốc mới
 chồng lấn6.678,20/6.369,78USD; không cộng thành thu nhập một tài khoản.
 967tests qua runtime matrix,252alternate-accounting cases đạt; không reviewer
 độc lập, không prop qualified. Holdout tới13/10/2026 nay consumed theo quyền V6;
-không tune từ kết quả. Không tự merge PR V6, broker/paid/Astra/subagents.
+không tune từ kết quả. Phạm vi V7 đã thay trạng thái endpoint; không broker/paid/Astra/subagents.
 Giữ VI WIP/Traderpin, private job `prop-v4-harvest-v6-20261115`.
 
 **V5 đã kiểm (lịch sử), No-Go promote; source/exact-bootstrap chưa đủ:**
