@@ -23094,24 +23094,24 @@
   },
   "tests": {
     "status": "PASS",
-    "unique_tests": 992,
-    "V8_fixtures": 14,
+    "unique_tests": 993,
+    "V8_fixtures": 15,
     "no_new_installs": true,
     "reused_unaffected_groups": [
       "native",
       "statistics",
       "worker"
     ],
-    "base_rerun_reason": "Added source-confirmed calendar regression",
+    "base_rerun_reason": "Newline-only pin portability and content mutation regression",
     "matrix": [
       {
         "group": "base",
         "passed": true,
-        "tests": 886,
+        "tests": 887,
         "errors": 0,
         "failures": 0,
         "skipped": 0,
-        "seconds": 65.35999999998603,
+        "seconds": 53.20299999997951,
         "python": "C:\\Users\\MIIKEY\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe"
       },
       {
@@ -23150,7 +23150,7 @@
   "code": [
     {
       "path": "tooling/ai-engines/prop_v8_calendar_correction.py",
-      "sha256": "18bd857c8f721895ba25c68969ee02f5bb6c46dab124d345ebd2192018519326"
+      "sha256": "affd55f01fec4df3d814984136a1a43ca47098fe13cb565aee3c6b6f58a3719a"
     },
     {
       "path": "tooling/ai-engines/prop_v8_campaign.py",
@@ -23162,7 +23162,7 @@
     },
     {
       "path": "tooling/ai-engines/prop_v8_report.py",
-      "sha256": "74c3a26d042548c86ac0c940268a5fb08bdf0d4883d5fe11db273236b5997b49"
+      "sha256": "4665be159b9447d2f51aa474f2452db46268ae47e88bd7530941c485f35f2e95"
     },
     {
       "path": "tooling/ai-engines/prop_v8_review.py",
@@ -23312,7 +23312,11 @@
     },
     {
       "path": "E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/execution-v1/prop-gold-v8-20261115/tests.json",
-      "sha256": "3239d49c62e9c8c4aaf841333cce9788b99af8219356f136d4406a48347e5484"
+      "sha256": "3edf71bfb14838cdc3b778726a08fa0db1e36c13f77f19c2c6336a6cc09598a2"
+    },
+    {
+      "path": "E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/execution-v1/prop-gold-v8-20261115/portability-parity.json",
+      "sha256": "8c254478e5da23b86c02ff7d7707dc2adcd8707c0c4cc91a88921e84ce87c669"
     }
   ],
   "private_job": "E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/challenge-discovery4-20261108/execution-v1/prop-gold-v8-20261115",

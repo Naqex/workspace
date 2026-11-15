@@ -173,7 +173,7 @@ Không cộng các mốc chồng lấn thành thu nhập của một account. Pa
 | backward | OPEN_LOW_HIGH_CLOSE | 112 | PASS | 13930 | 6896 | 13930 | 0 |
 | backward | OPEN_HIGH_LOW_CLOSE | 112 | PASS | 13930 | 6896 | 13930 | 0 |
 
-**992 tests PASS**,14 fixtures V8; **492 sổ account** đối soát bằng rational/cash-posted oracle và **3318 bridges** cho economics Dev ba budgets. Cùng implementer, không có independent human/model reviewer.
+**993 tests PASS**,15 fixtures V8; **492 sổ account** đối soát bằng rational/cash-posted oracle và **3318 bridges** cho economics Dev ba budgets. Cùng implementer, không có independent human/model reviewer.
 
 492 sổ ở bảng là kết quả authoritative sau sửa lịch (268 full+224 backward). 224 sổ backward attempt 1 cũng đã đối soát nhưng archived vì calendar sai; không cộng các lượt đo trùng profile thành mẫu độc lập. Correction chỉ bổ sung tín hiệu ngày 31/12/2021, không mở vòng tìm tham số mới.
 
@@ -185,7 +185,8 @@ Backward chỉ có Bid M1 và Ask proxy, các giờ holiday 2018–2021 là cons
 
 | Phần | Phát hiện | Đã làm | Giới hạn |
 |---|---|---|---|
-| Packaging | Registration cần tạo private directory trước write | Sửa trước khi mở dữ liệu; regression 14 fixtures | Không đổi strategy outcome |
+| Packaging | Registration cần tạo private directory trước write | Sửa trước khi mở dữ liệu; regression 15 fixtures | Không đổi strategy outcome |
+| CI portability | LF/CRLF làm khác byte-hash của cùng lịch | Chỉ chấp nhận chuyển newline theo frozen Windows hash; content mutation vẫn fail; calendar-v 2 parity PASS | Không sửa source prices hoặc rerun tài chính |
 | Calendar | Federal observance khác giờ Metals 31 Dec 2021 | Nguồn FTMO xác minh; giữ attempt 1; commit fix và rerun riêng backward | Hai technical attempts, không pristine one-shot |
 | Reuse | V6/V7 đã có lifecycle/harvester/oracle | Adapter chỉ đổi inputs/observer; restore bindings trong finally; parent parity 268 sổ | Không gọi self-review là independent person |
 | Selection | Cả 2 core/3 sleeve failDev | Khóa No-Go trước backward; không tuning cứu kết quả | Chưa có all-Gold candidate mới |

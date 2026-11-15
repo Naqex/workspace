@@ -1,6 +1,7 @@
 """One source-confirmed calendar correction; never reselect the V8 composition."""
 from prop_v8_common import *
 from prop_v8_campaign import temporary_bindings
+import hashlib
 
 CORRECTION = Path("planning/research/PROP-V8-CALENDAR-CORRECTION-20261115.json")
 CORRECTED = JOB / "calendar-corrected"
@@ -8,7 +9,12 @@ CORRECTED = JOB / "calendar-corrected"
 
 def corrected_data():
     cfg = read(CORRECTION)
-    if digest(CALENDAR) != cfg["parent_calendar_sha256"]:
+    raw = CALENDAR.read_bytes()
+    # The registered Windows bytes use CRLF; Git's Linux checkout uses LF.
+    # Reconstruct only that representation, retaining the original frozen hash.
+    windows_bytes = raw.replace(b"\r\n",b"\n").replace(b"\n",b"\r\n")
+    if (hashlib.sha256(raw).hexdigest() != cfg["parent_calendar_sha256"] and
+            hashlib.sha256(windows_bytes).hexdigest() != cfg["parent_calendar_sha256"]):
         raise ValueError("V8_calendar_correction_parent_changed")
     data = read(CALENDAR)
     target = next(r for r in data["events"] if r["day"] == "2021-12-31")

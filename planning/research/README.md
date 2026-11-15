@@ -11,7 +11,7 @@ N1 SYM2022/23 −1,54/−12,77R; N2 −15,24/+10,09R; ba sweep horizons dương
 nhưng retain45,1%/37,5%, F/SL15,82%/16,92%. Không composition đủ gate;
 khóa No-Go `91aa670` trước backward, chỉ baseline control ngoài Dev.
 2018–21 có prior exposure, không clean OOS; baseline cả4năm âm,0/48P1.
-Full baseline57mốc khớp268sổ V7. 992tests/492accountoracles/3.318costbridges PASS.
+Full baseline57mốc khớp268sổ V7. 993tests/492accountoracles/3.318costbridges PASS.
 FTMO xác minh31Dec2021 Metals Normal Hours: sửa proxy CLOSED tại5c299be và
 đo lại riêng backward;343/343intentspriced. Giữattempt1, một config nhưng
 hai technical attempts; không gọi pristine one-shot hoặc clean holdout.

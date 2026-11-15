@@ -17,6 +17,19 @@ from test_prop_v5 import trade, quote
 
 
 class V8Tests(unittest.TestCase):
+    def test_calendar_pin_accepts_only_newline_translation_not_content_mutation(self):
+        import prop_v8_calendar_correction as correction
+        raw = correction.CALENDAR.read_bytes().replace(b"\r\n",b"\n")
+        expected = correction.corrected_data()
+        with tempfile.TemporaryDirectory() as root:
+            path = Path(root)/"calendar.json"
+            path.write_bytes(raw)
+            with patch.object(correction,"CALENDAR",path):
+                self.assertEqual(correction.corrected_data(),expected)
+                path.write_bytes(raw.replace(b"16:58",b"16:59",1))
+                with self.assertRaisesRegex(ValueError,"parent_changed"):
+                    correction.corrected_data()
+
     def test_target_metals_normal_dec31_overrides_federal_holiday_proxy_only(self):
         from prop_v8_calendar_correction import corrected_data
         from prop_v8_common import CALENDAR, read

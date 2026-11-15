@@ -199,6 +199,9 @@ def build():
     for path in (CORRECTION, CORRECTED/"calendar.json", CORRECTED/"release.json",
                  JOB/"development.json", JOB/"development-accounting-parity.json", JOB/"tests.json"):
         bindings.append(dict(path=path.as_posix(),sha256=digest(path)))
+    if (JOB/"portability-parity.json").exists():
+        bindings.append(dict(path=(JOB/"portability-parity.json").as_posix(),
+                             sha256=digest(JOB/"portability-parity.json")))
     result = dict(schema="PROP-GOLD-V8-RESULTS-v1", date="2026-11-15",
         verdict="NO_GO_NORMALIZED_AND_PORTFOLIO", prop_qualified=False, main_income_proven=False,
         evidence_status=dict(development="ECONOMIC_FAIL_AND_SCALE_RETENTION_SHORTFALL",
@@ -380,7 +383,7 @@ def render(r):
             p=a["parity"]
             rows.append([tag,order,p["accounts"],p["status"],p["accepted"],p["rejected"],p["costs"],p["dynamic_fills"]])
     s += [table(["Kỳ","Order","Sổ","Oracle","Admissions","Rejects","Costs","Dynamic fills"],rows),
-          f"**{r['tests']['unique_tests']} tests PASS**,14fixtures V8; "
+          f"**{r['tests']['unique_tests']} tests PASS**,{r['tests']['V8_fixtures']}fixtures V8; "
           f"**{r['accounting_cases']} sổ account** đối soát bằng rational/cash-posted oracle và "
           f"**{r['diagnostic_review']['rational_cost_bridges']} bridges** cho economics Dev ba budgets. "
           "Cùng implementer, không có independent human/model reviewer.",
@@ -402,7 +405,8 @@ def render(r):
           "hoặc sửa policy nguồn sau outcome. Backward không phát hiện long-gap đang giữ lệnh theo tiêu chí này, "
           "nhưng vẫn là M1/Ask proxy, không tick certification.",
           table(["Phần","Phát hiện","Đã làm","Giới hạn"],[
-              ["Packaging","Registration cần tạo private directory trước write","Sửa trước khi mở dữ liệu; regression14fixtures","Không đổi strategy outcome"],
+              ["Packaging","Registration cần tạo private directory trước write",f"Sửa trước khi mở dữ liệu; regression{r['tests']['V8_fixtures']}fixtures","Không đổi strategy outcome"],
+              ["CI portability","LF/CRLF làm khác byte-hash của cùng lịch","Chỉ chấp nhận chuyển newline theo frozen Windows hash; content mutation vẫn fail; calendar-v2 parity PASS","Không sửa source prices hoặc rerun tài chính"],
               ["Calendar","Federal observance khác giờ Metals31Dec2021","Nguồn FTMO xác minh; giữ attempt1; commit fix và rerun riêng backward","Hai technical attempts, không pristine one-shot"],
               ["Reuse","V6/V7 đã có lifecycle/harvester/oracle","Adapter chỉ đổi inputs/observer; restore bindings trong finally; parent parity268sổ","Không gọi self-review là independent person"],
               ["Selection","Cả2core/3sleeve failDev","Khóa No-Go trước backward; không tuning cứu kết quả","Chưa có all-Gold candidate mới"],

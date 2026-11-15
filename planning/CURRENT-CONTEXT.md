@@ -34,7 +34,7 @@ mọi strategy parameter. Attempt1 giữ nguyên224sổ; một strategy release 
 hai technical attempts, không gọi pristine one-shot. Dev/full không chạy lại.
 
 Full baseline57mốc khớp V7 Gold V4 ở cả268sổ (2orders), cả2vòng0/57.
-992tests/14fixtures PASS;492accountoracles và3.318Dev rational cost bridges PASS,
+993tests/15fixtures PASS;492accountoracles và3.318Dev rational cost bridges PASS,
 cùng implementer không independent reviewer. Không modeled breach trong lifecycle;
 annual fixed-risk150 reference2018 SYM static10,377% không có guard.
 Đủ endpoint không phải đủ path: hai vị thếSELL08/09Oct2024 đi qua native-tick
@@ -46,6 +46,8 @@ Không promote/mua Challenge/tăng risk hoặc mở nghiên cứu thêm trong V8
 Mục tiêu thu nhập chính chưa đạt; đề xuất tiếp theo phải là hypothesis/budget
 mới rõ ràng hoặc giải quyết execution evidence, không nới gate để tạo winner.
 Delivery/CI receipt ở private job; source/ledgers/failed setup attempt giữ nguyên.
+CI attempt1 bắt LF/CRLF calendar-pin khác byte: chỉ nhận newline translation,
+content mutation vẫn fail; corrected-calendar content parity đạt, không rerun tài chính.
 
 ## V7 đã merge (lịch sử; V8 thay verdict ứng viên)
 
