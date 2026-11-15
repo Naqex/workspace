@@ -1,0 +1,68 @@
+{
+  "schema": "V16-fixed-causal-policy-v1",
+  "selected_additions": [],
+  "candidate_A": [
+    "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+    "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0",
+    "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1"
+  ],
+  "code_pins": {
+    "planning\\research\\GAP-IMMUNE-MULTIASSET-V16-PROTOCOL-20261116.md": "3cd231211634b8f32c0f0f9376fa2a6d3c7ace69f67ae917aa16d8d9811c45fc",
+    "tooling\\ai-engines\\prop_v16_campaign.py": "303b9ad30d12878197e65fcbcf81e194756622d21934d68c62d05bf7baa1f7bf",
+    "tooling\\ai-engines\\prop_v16_common.py": "280a4bdcb8e6b5ead348b40af126a517277939953b486f5c93fca59eb82d23c7",
+    "tooling\\ai-engines\\prop_v16_delivery.py": "7a21ccff358f6f23a4a81d420c0256f3c50d3c47416aed724e73b2c58fb1ef6e",
+    "tooling\\ai-engines\\prop_v16_paths.py": "91868d2c21a72a7ec0b1d0dac13b0f2dac7731fe67d2837b1e2c3da4e69e7686",
+    "tooling\\ai-engines\\prop_v16_performance.py": "202576e146280b202a6b029b1b0529db9f5385176c0877d58e70c6bf1bd2ad82",
+    "tooling\\ai-engines\\prop_v16_scan.py": "b021b552997e2d1f11ac8064d1c71be7b807bb5d3bd8fe45eb70ec645338aff8",
+    "tooling\\ai-engines\\prop_v16_scan_review.py": "d03e987591547b54d39846fdf267cb62fb9b157c35d595781c5247c2efbb5106",
+    "tooling\\ai-engines\\prop_v16_sources.py": "892bac8aea1fd76a3466dabcc81428ae51020efda57e2adee565dd68ca9de53a",
+    "tooling\\ai-engines\\prop_v16_storage.py": "d4c67096acaeb0423dd0cb46e6dd6f5c6b53d879fc207657eea4805345c16420",
+    "tooling\\ai-engines\\independent_ledger_auditor.py": "346d8a82e10d88eecaef4c56a66671692c5b178bb76655c4e0e01e831a807524",
+    "tooling\\ai-engines\\prop_v14_paths.py": "85ad5028159cbc4a8cbdf76c425a65578d00c6300938074edcfe1b86dcafb58b",
+    "tooling\\ai-engines\\prop_v14_accounts.py": "9a4f3dfb8a9bbfb97e060cdf9fefb68c3349363d51ed6a9aa70f0538c5f91f60",
+    "tooling\\ai-engines\\prop_v14_review.py": "9c40e9658b8fe33b970e2628fb93b7a6d678ed7fb7c7a89c20b68fbaf1ef4023",
+    "tooling\\ai-engines\\prop_v15_paths.py": "3a6421b75893c7c5c52962da817037b266214ac4028068690f1c71c5aef2eb01",
+    "tooling\\ai-engines\\prop_v15_accounts.py": "4edb29264096a11502b1e7403f6cece358031a3d506d7387e26ea84394289bae",
+    "tooling\\ai-engines\\prop_v6_replay.py": "c762611f25f10514cda8e2cfaf225f49cad56ee3ffde3a27eb065ebd49b61303",
+    "tooling\\ai-engines\\prop_v6_account.py": "b444f11bf2822d8d8a528588aaedc7d32bab796d28dd55017784336a8f4b2645",
+    "tooling\\ai-engines\\prop_v5_account.py": "9c582aeece8a2eb8dc1b2eabb6a68615ad9119f2c6ceea8d07561fd6f25a2061",
+    "tooling\\ai-engines\\prop_portfolio_accounts.py": "dd1542edecf77c471a15832b2894c98176e8cd542bfa78ebf96b3fd142f853cb",
+    "tooling\\ai-engines\\quant_core\\gap_aware_execution.py": "da425a2452b37e284c9adda6be6e4f5cf00152b89a9a123ae66c93dabf756c66",
+    "tooling\\ai-engines\\quant_core\\vectorized_sl_active_kernel.py": "16f067671bca28006dd6b005ac70c7ff511492cf95919fbb7887c5086c8a6afe",
+    "tooling\\ai-engines\\quant_core\\ftmo_execution_and_calendar.py": "143f8cfd5ff8255c50d7f2686f6b1752ad89c2275d72d371b50b8d581914c657"
+  },
+  "audits": {
+    "Dev-OLHC-PRIMARY-path-audit.json": "51d02c9254890e52308ade71cd507726101c5d4ef1ebb3a9cfea4e4afd72f473",
+    "Dev-OLHC-PRIMARY-account-audit.json": "a7a68f71ccf0e472a2d59a20e284ba62a6c82ef0ba8ac4ed011004bca3c27686",
+    "Dev-OLHC-STRICT-path-audit.json": "51d02c9254890e52308ade71cd507726101c5d4ef1ebb3a9cfea4e4afd72f473",
+    "Dev-OLHC-STRICT-account-audit.json": "03d62b8558ec7dfed449c818333bd98d97dc53aff81669c5064d9df7ed098fd9",
+    "Dev-OHLC-PRIMARY-path-audit.json": "51d02c9254890e52308ade71cd507726101c5d4ef1ebb3a9cfea4e4afd72f473",
+    "Dev-OHLC-PRIMARY-account-audit.json": "a7a68f71ccf0e472a2d59a20e284ba62a6c82ef0ba8ac4ed011004bca3c27686",
+    "Dev-OHLC-STRICT-path-audit.json": "51d02c9254890e52308ade71cd507726101c5d4ef1ebb3a9cfea4e4afd72f473",
+    "Dev-OHLC-STRICT-account-audit.json": "d09515483d514cf5ea86169bef373bb2375b5de4dba37ec117b5f63571d72431"
+  },
+  "source_manifest_sha256": "3c49b2b3519f4312f5b2c8351b3cad521786976480fd0dbd5d96ded374adec85",
+  "scan_audit_sha256": "5e04e3de278b8409adf28e151436562aac9001ff69a2fc22717425208a9528c5",
+  "registration_sha256": "211e65cce8337a0050ddded104653815b861fb3642641fb74346593018c0082d",
+  "selection": {
+    "selected": [],
+    "eligible": 0,
+    "cases": 715,
+    "status": "NO_ADDITION_QUALIFIED",
+    "A_Dev_source_unknown": 25,
+    "zero_gap_A_qualified": false
+  },
+  "risk": {
+    "name": "CUSHION",
+    "factor": 1.5,
+    "cushion": true
+  },
+  "Development": [
+    1514764800000,
+    1704067200000
+  ],
+  "evaluation_end": 1791936000000,
+  "zero_gap_qualified": false,
+  "later_prices_preexposed": true,
+  "new_policy_later_performance_measured": false
+}
