@@ -78,6 +78,9 @@ flowchart LR
 | Đặt tên branch, commit/push, PR và dọn branch | [GitHub workflow](tooling/github-workflow/README.md) |
 | Quyền sử dụng và thương mại | [License](LICENSE) · [Chính sách](docs/licensing.md) |
 
+Nghiên cứu mới nhất: [V15 — kiểm gap và hiệu chỉnh sizing](planning/research/BRIDGE-AND-VELOCITY-V15-RESULTS-20261115.md).
+Tốc độ mô phỏng có cải thiện; chưa đủ bằng chứng để mua Challenge.
+
 README chỉ điều hướng. PLAN giữ scope; ledger/checkpoint do PLAN chỉ định giữ
 trạng thái và bằng chứng. Các báo cáo có ngày là lịch sử, không tự chứng minh
 nghiệm thu hiện tại. Đóng gói và public release ứng dụng được để sang đợt sau.
