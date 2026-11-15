@@ -17,6 +17,16 @@ from test_prop_v5 import trade, quote
 
 
 class V8Tests(unittest.TestCase):
+    def test_target_metals_normal_dec31_overrides_federal_holiday_proxy_only(self):
+        from prop_v8_calendar_correction import corrected_data
+        from prop_v8_common import CALENDAR, read
+        old = {r["day"]:r for r in read(CALENDAR)["events"]}
+        new = {r["day"]:r for r in corrected_data()["events"]}
+        self.assertEqual(new["2021-12-31"]["flat_utc"],"16:58")
+        self.assertNotEqual(new["2021-12-31"]["kind"],"CLOSED")
+        self.assertEqual({k:v for k,v in old.items() if k!="2021-12-31"},
+                         {k:v for k,v in new.items() if k!="2021-12-31"})
+
     def test_registration_creates_its_private_directory(self):
         import prop_v8_common as common
         with tempfile.TemporaryDirectory() as root:

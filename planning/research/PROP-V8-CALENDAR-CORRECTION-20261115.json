@@ -1,0 +1,17 @@
+{
+  "schema": "V8-calendar-source-correction-v1",
+  "parent_calendar_sha256": "ee19fbb783ae2080c2c00679ae0940232c3d7350abff0d6eed917f7ea15af6dc",
+  "official_source": "https://ftmo.com/es/blog/trading-update-16-12-2021/",
+  "verified_date": "2026-11-15",
+  "target_day": "2021-12-31",
+  "target_asset": "Metals",
+  "official_status": "Normal Hours",
+  "old_assumption": "US federal observed New Year date incorrectly treated as Metals closed",
+  "correction": "Permit entries, retain pre-existing conservative Dec31 16:58 UTC guard; all other dates unchanged",
+  "strategy_parameters_changed": false,
+  "development_reselection": false,
+  "initial_backward_attempt_preserved": true,
+  "technical_measurement_attempt": 2,
+  "scope": "Only backward 2018-2021; full2022-2026 and Development unchanged",
+  "one_shot_limitation": "One frozen strategy release, but two technical measurement attempts due to source correction; not a pristine one-shot claim"
+}
