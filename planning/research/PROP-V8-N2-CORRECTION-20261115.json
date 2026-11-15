@@ -1,0 +1,19 @@
+{
+  "schema": "V8-N2-semantic-correction-v1",
+  "original_development_sha256": "9dd8c8d03096432b20492e94df1b24ce9fe06a990544b988b45d65fbdf87f020",
+  "reason": "Initial N2 applied H1 stop globally; owner requested structural replacement when the old box stop is too wide",
+  "corrected_trigger": "original natural SL >25 USD/oz using causal entry Bid/Ask",
+  "when_not_triggered": "Keep original whole-box natural stop",
+  "when_triggered": "Use existing H1 structural stop if closer; retain identical 12pct friction gate and 25USD admission cap",
+  "locked_risks": [
+    125,
+    150,
+    200
+  ],
+  "compression_k_unchanged": true,
+  "new_parameter_grid": false,
+  "data_scope": "Development2022-2023 only; backward and2024-2026 not used for correction selection",
+  "prior_N2_global_attempt_preserved": true,
+  "selection_history": "One invalid global-stop attempt plus corrected conditional mechanism; both reported",
+  "no_new_holdout_reselection": true
+}

@@ -17,6 +17,24 @@ from test_prop_v5 import trade, quote
 
 
 class V8Tests(unittest.TestCase):
+    def test_corrected_n2_keeps_stop_when_original_fits_registered_lot_band(self):
+        from prop_v8_n2_correction import conditional_normalize
+        r=dict(side="BUY",stop_units=1990000,decision_msc=START,day="2022-01-01",
+               bar_units=[2000000,2010000,2000000,2005000],atr_h1_before_units="5000")
+        reader=SimpleNamespace(endpoint=lambda at:[at,2005000,2005100,0])
+        out=conditional_normalize([r],reader)[0]
+        self.assertFalse(out["n2_stop_triggered"])
+        self.assertEqual(out["stop_units"],1990000)
+
+    def test_corrected_n2_changes_structure_only_when_original_stop_too_wide(self):
+        from prop_v8_n2_correction import conditional_normalize
+        r=dict(side="BUY",stop_units=1800000,decision_msc=START,day="2022-01-01",
+               bar_units=[2000000,2010000,2000000,2005000],atr_h1_before_units="5000")
+        reader=SimpleNamespace(endpoint=lambda at:[at,2005000,2005100,0])
+        out=conditional_normalize([r],reader)[0]
+        self.assertTrue(out["n2_stop_triggered"])
+        self.assertEqual(out["stop_units"],1999500)
+
     def test_calendar_pin_accepts_only_newline_translation_not_content_mutation(self):
         import prop_v8_calendar_correction as correction
         raw = correction.CALENDAR.read_bytes().replace(b"\r\n",b"\n")
