@@ -10,6 +10,7 @@ import independent_ledger_auditor as oracle
 from prop_campaign_source import ROOT
 
 JOB = ROOT/"sl-active-ensemble-v12-20261115"
+FINAL = JOB/"cent-corrected"
 OLD = ROOT/"ensemble-and-storage-v11-20261115"
 V10 = ROOT/"enterprise-alpha-v10-20261115"
 DAY, HOUR = 86400000, 3600000
@@ -95,7 +96,7 @@ def ledger_row(row, arrays, i, asset, mode, model):
 
 def run():
     start = time.perf_counter()
-    discovery = read(JOB/"discovery.json")
+    discovery = read(FINAL/"discovery.json")
     old = read(OLD/"clock-corrected/component-atlas.json")
     index = read(OLD/"source-admission-v11.json")
     # Deterministic reviewed calendar input, not a producer deadline helper.
@@ -119,12 +120,13 @@ def run():
     for asset in ("XAUUSD","EURUSD","GBPUSD","AUDUSD","US500"):
         print(dict(stage="oracle_source",asset=asset),flush=True)
         bars = original_input(asset,index)
-        arrays = np.load(JOB/f"{asset}-path-matrix.npz")
+        matrix_root = FINAL if asset=="US500" else JOB
+        arrays = np.load(matrix_root/f"{asset}-path-matrix.npz")
         spec = dict(contract=100 if asset=="XAUUSD" else 1 if asset=="US500" else 100000,
                     scale=1000 if asset in ("XAUUSD","US500") else 100000,
                     step=HOUR if asset in ("GBPUSD","AUDUSD") else 60000,
                     closed_days=[d for d,r in events.items() if r["kind"]=="CLOSED"])
-        local_cash, local_paths = 0,0
+        local_cash, local_paths, before_failures = 0,0,len(failures)
         for row in discovery["rows"]:
             if row["asset"] != asset:
                 continue
@@ -164,17 +166,19 @@ def run():
                         samples.append(dict(id=row["id"],i=int(i),**trade))
         cash_records += local_cash;path_records += local_paths
         by_asset[asset] = dict(cash_cost_views=local_cash,scalar_path_checks=local_paths,
-                              independently_decoded_rows=len(bars))
+                              independently_decoded_rows=len(bars),failures=len(failures)-before_failures,
+                              matrix_path=str(matrix_root/f"{asset}-path-matrix.npz"),
+                              matrix_sha256=sha(matrix_root/f"{asset}-path-matrix.npz"))
         print(dict(stage="oracle_asset_complete",asset=asset,**by_asset[asset],failures=len(failures)),flush=True)
     out = dict(passed=not failures,cash_cost_views=cash_records,scalar_path_checks=path_records,
-        by_asset=by_asset,failures=failures[:100],failure_count=len(failures),
+        by_asset=by_asset,failures=failures,failure_count=len(failures),
         sample_trades=samples,cent_comparison_exact=True,pre_cent_float_decimal_places=8,
         original_input_decoding=True,no_quant_core_accounting_import=True,
         same_implementer=True,independent_feed=False,actual_account_audited=False,
         seconds=time.perf_counter()-start,auditor_sha256=sha(Path(oracle.__file__)),
-        producer_registration_sha256=sha(JOB/"registration.json"),
+        producer_registration_sha256=sha(FINAL/"registration.json"),
         disclosure="accepted V12 input sources; Gold/EUR Ask proxies preserved; not broker-native fills")
-    with (JOB/"independent-audit.json").open("x",encoding="utf-8") as f:
+    with (FINAL/"independent-audit.json").open("x",encoding="utf-8") as f:
         json.dump(out,f,ensure_ascii=False,indent=2)
     print(dict(passed=out["passed"],cash_cost_views=cash_records,scalar_paths=path_records,
                failures=len(failures),seconds=out["seconds"]),flush=True)

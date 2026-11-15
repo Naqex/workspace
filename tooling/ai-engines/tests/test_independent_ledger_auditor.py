@@ -77,3 +77,14 @@ class IndependentAuditorTests(unittest.TestCase):
         r=oracle.audit_trade(trade,(b["t"],b),dict(contract=100,scale=1000,step=60000),
                              [int(b["t"][0])+4*DAY])
         self.assertIn("UNOBSERVED_PATH_GAP",r["errors"])
+
+    def test_US500_protection_matches_cent_cash_trigger_and_minimal_quote(self):
+        b,m=fixture([(100,130,99,125),(125,126,101,104),(104,105,103,104)])
+        r=replay(PathIndex(b,asset="US500"),m,"P1")
+        t=dict(symbol="US500",direction="BUY",entry_time=int(m["entry_at"][0]),
+               exit_time=int(r["exit_at"][0]),entry_price="100.1",
+               exit_price=str(r["exit_price"][0]/1000),sl_price="90",lots="1",
+               reason=str(r["reason"][0]),mode="P1",horizon="24H")
+        out=oracle.audit_trade(t,(b["t"],b),dict(contract=1,scale=1000,step=60000),
+                               [int(b["t"][0])+4*DAY])
+        self.assertTrue(out["passed"],out)

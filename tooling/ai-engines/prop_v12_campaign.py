@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 import json
 import subprocess
 import time
+import argparse
 import numpy as np
 from prop_campaign_source import ROOT
 from prop_v10_source import FIRST, END, SEED, sha, sources
@@ -18,6 +19,8 @@ from quant_core.vectorized_sl_active_kernel import PathIndex, replay, daily_mtm
 from quant_core.zero_tuning_ensemble import mechanical_composition, cumulative_drawdown
 
 JOB = ROOT/"sl-active-ensemble-v12-20261115"
+PARENT = JOB
+CENT_CORRECTION = False
 V10 = ROOT/"enterprise-alpha-v10-20261115"
 V11 = ROOT/"ensemble-and-storage-v11-20261115"
 ASSETS = ("XAUUSD", "EURUSD", "GBPUSD", "AUDUSD", "US500")
@@ -114,16 +117,35 @@ def run():
             Path(__file__).with_name("independent_ledger_auditor.py"),
             Path(__file__).parent/"quant_core/vectorized_sl_active_kernel.py",
             Path(__file__).parent/"quant_core/zero_tuning_ensemble.py", protocol]
+    if CENT_CORRECTION:
+        code.append(protocol.with_name("SL-ACTIVE-ENSEMBLE-V12-CENT-CORRECTION-20261115.md"))
     save("registration.json", dict(commit=subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
         code={str(p):sha(p) for p in code}, V11_atlas=sha(V11/"clock-corrected/component-atlas.json"),
         V10_matrix=sha(V10/"raw-matrix-reviewed.npz"), V11_matrix=sha(V11/"clock-corrected/native-hourly-matrix.npz"),
-        trials=2888, validation_prices_opened=False, utc=datetime.now(timezone.utc).isoformat()))
+        trials=2888, validation_prices_opened=False, utc=datetime.now(timezone.utc).isoformat(),
+        cent_correction=CENT_CORRECTION,
+        reused_assets={a:dict(path=str(PARENT/f"{a}-path-matrix.npz"),sha256=sha(PARENT/f"{a}-path-matrix.npz"))
+                       for a in ASSETS if CENT_CORRECTION and a!="US500"}))
     calendar = gold_calendar(FIRST, END)
     days = np.arange(FIRST//DAY, END//DAY)
     days = days[(days+3)%7 < 5]
     all_rows, components, all_profiles = [], [], {}
     timings, source_audits = {}, {}
+    parent_rows = read(PARENT/"discovery.json")["rows"] if CENT_CORRECTION else []
+    parent_profiles = np.load(PARENT/"daily-profiles.npz") if CENT_CORRECTION else None
     for asset in ASSETS:
+        if CENT_CORRECTION and asset != "US500":
+            for j,row in enumerate(parent_rows):
+                if row["asset"] != asset:
+                    continue
+                all_rows.append(row)
+                all_profiles[row["id"]] = {model:parent_profiles[f"{j}:{model}"] for model in ("SYM","ASYM")}
+                if row["admitted_component"]:
+                    raise ValueError("unexpected_old_component_requires_explicit_event_reuse")
+            source_audits[asset] = read(PARENT/"source-path-audit.json")[asset]
+            timings[asset] = dict(reused=True,kernel=0,original=read(PARENT/"timings.json")["assets"][asset])
+            print(dict(stage="reuse_unaffected_asset",asset=asset),flush=True)
+            continue
         tick = time.perf_counter()
         print(dict(stage="load_source", asset=asset), flush=True)
         bars = load_bars(asset, index)
@@ -217,4 +239,10 @@ def run():
 
 
 if __name__ == "__main__":
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--attempt",choices=("initial","cent-corrected"),default="initial")
+    args=parser.parse_args()
+    if args.attempt=="cent-corrected":
+        CENT_CORRECTION=True
+        JOB=JOB/"cent-corrected"
     run()

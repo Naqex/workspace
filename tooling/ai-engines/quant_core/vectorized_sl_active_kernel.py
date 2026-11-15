@@ -35,6 +35,8 @@ def money(asset, model, side, p0, px, entry, exit_at, reason):
     else:
         raise ValueError("asset_cost_not_admitted")
     gross = side * (px - p0)
+    if asset == "US500":
+        gross = np.sign(gross)*np.floor(abs(gross)*100+.5+1e-8)/100
     net = gross - fee0 - feex - slip0 - slipx + swap
     return dict(gross=gross, commission=fee0+feex, slippage=slip0+slipx, funding=swap,
                 net=net, entry_cost=fee0+slip0)
@@ -52,6 +54,13 @@ def net_level(asset, side, p0, natural, entry, when, target):
     for _ in range(16):
         net = money(asset, "SYM", side, p0, level, entry, when, reason)["net"]
         bad = net + 1e-12 < target * natural
+        if asset == "US500":
+            previous = money(asset, "SYM", side, p0, level-side, entry, when, reason)["net"]
+            lower = ~bad & (previous+1e-12 >= target*natural)
+            if not bad.any() and not lower.any():
+                return level
+            level += side*(bad.astype("int64")-lower.astype("int64"))
+            continue
         if not bad.any():
             return level
         level[bad] += side[bad]
@@ -244,9 +253,10 @@ def daily_mtm(index, m, result, model, days):
         price = np.where(close, result["exit_price"][valid], mark)
         value = money(index.asset, model, side, p0, price, start, np.maximum(cutoff, start),
                       result["reason"][valid])
-        net = np.where(close, value["net"], side*(price-p0) /
-                       (1000 if index.asset in ("XAUUSD", "US500") else 100000)
-                       - value["entry_cost"] + value["funding"])
+        floating = side*(price-p0)/(1000 if index.asset in ("XAUUSD","US500") else 100000)
+        if index.asset == "US500":
+            floating = np.sign(floating)*np.floor(abs(floating)*100+.5+1e-8)/100
+        net = np.where(close, value["net"], floating-value["entry_cost"]+value["funding"])
         current = net/natural
         pos = days.searchsorted(day)
         good = active & (pos < len(days)) & (days[np.minimum(pos, len(days)-1)] == day)

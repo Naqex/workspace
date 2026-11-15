@@ -156,6 +156,11 @@ def audit_trade(trade, source, spec, flats):
                 if protected_price is None:
                     errors.append("PROTECTION_SEARCH")
                     break
+                for _ in range(64):
+                    mark["exit_price"] = str(protected_price-sign/scale)
+                    if cash_legs(mark,"SYM",spec)["net"]/D(str(spec["contract"])) < D(".15")*natural:
+                        break
+                    protected_price -= sign/scale
     if expected_hit:
         if (exit_at, D(str(trade["exit_price"])), trade["reason"]) != expected_hit:
             errors.append("MISSED_OR_WRONG_FIRST_HIT")

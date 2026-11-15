@@ -24,6 +24,14 @@ def fixture(values, step=60000):
 
 
 class SLKernelTests(unittest.TestCase):
+    def test_US500_rounds_gross_leg_before_net_and_P1_inverts_the_cent_plateau(self):
+        at=np.array([stamp("2023-03-06T10:00")])
+        r=money("US500","SYM",np.array([1]),np.array([4000000]),np.array([4000805]),at,at,np.array(["SL"]))
+        self.assertAlmostEqual(r["gross"][0],.81)
+        self.assertAlmostEqual(r["net"][0],-1.69)
+        level=net_level("US500",np.array([1]),np.array([4000000]),np.array([10.003]),at,at,.15)
+        self.assertEqual(level[0],4004005)
+
     def test_block_first_passage_matches_scalar_across_partial_blocks_and_sides(self):
         rng = np.random.default_rng(102)
         b = np.zeros(1027, dtype=BAR);b["t"] = stamp("2023-03-06")+np.arange(len(b))*60000
