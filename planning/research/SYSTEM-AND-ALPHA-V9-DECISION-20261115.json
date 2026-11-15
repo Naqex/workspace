@@ -1,0 +1,80 @@
+{
+  "schema": "V9-closure-v1",
+  "status": "NO_NEW_CHALLENGE_CANDIDATE",
+  "Gold_gates": {
+    "S1.DAY": {
+      "eligible": false,
+      "reasons": [
+        "2019:CADENCE",
+        "2019:RETENTION",
+        "2019:NATURAL_SCALE",
+        "2019:SYM_FLAT:NONPOSITIVE_RAW_MARKOUT",
+        "2019:SYM_FLAT:GROSS_BELOW_FRICTION",
+        "2019:ASYM_ORDER:NONPOSITIVE_RAW_MARKOUT",
+        "2019:ASYM_ORDER:GROSS_BELOW_FRICTION",
+        "2020:SYM_FLAT:NONPOSITIVE_RAW_MARKOUT",
+        "2020:SYM_FLAT:GROSS_BELOW_FRICTION",
+        "2020:ASYM_ORDER:NONPOSITIVE_RAW_MARKOUT",
+        "2020:ASYM_ORDER:GROSS_BELOW_FRICTION",
+        "2023:SYM_FLAT:NONPOSITIVE_RAW_MARKOUT",
+        "2023:SYM_FLAT:GROSS_BELOW_FRICTION",
+        "2023:ASYM_ORDER:NONPOSITIVE_RAW_MARKOUT",
+        "2023:ASYM_ORDER:GROSS_BELOW_FRICTION"
+      ]
+    },
+    "S1.24H": {
+      "eligible": false,
+      "reasons": [
+        "2019:CADENCE",
+        "2019:RETENTION",
+        "2019:NATURAL_SCALE",
+        "2019:SYM_FLAT:NONPOSITIVE_RAW_MARKOUT",
+        "2019:SYM_FLAT:GROSS_BELOW_FRICTION",
+        "2019:ASYM_ORDER:NONPOSITIVE_RAW_MARKOUT",
+        "2019:ASYM_ORDER:GROSS_BELOW_FRICTION",
+        "2020:SYM_FLAT:NONPOSITIVE_RAW_MARKOUT",
+        "2020:SYM_FLAT:GROSS_BELOW_FRICTION",
+        "2020:ASYM_ORDER:NONPOSITIVE_RAW_MARKOUT",
+        "2020:ASYM_ORDER:GROSS_BELOW_FRICTION",
+        "2023:SYM_FLAT:NONPOSITIVE_RAW_MARKOUT",
+        "2023:SYM_FLAT:GROSS_BELOW_FRICTION",
+        "2023:ASYM_ORDER:NONPOSITIVE_RAW_MARKOUT",
+        "2023:ASYM_ORDER:GROSS_BELOW_FRICTION"
+      ]
+    },
+    "S2.DAY": {
+      "eligible": false,
+      "reasons": [
+        "2019:CADENCE",
+        "2019:RETENTION",
+        "2019:NATURAL_SCALE",
+        "2019:SYM_FLAT:NONPOSITIVE_RAW_MARKOUT",
+        "2019:SYM_FLAT:GROSS_BELOW_FRICTION",
+        "2019:ASYM_ORDER:NONPOSITIVE_RAW_MARKOUT",
+        "2019:ASYM_ORDER:GROSS_BELOW_FRICTION",
+        "2020:SYM_FLAT:NONPOSITIVE_RAW_MARKOUT",
+        "2020:SYM_FLAT:GROSS_BELOW_FRICTION",
+        "2020:ASYM_ORDER:NONPOSITIVE_RAW_MARKOUT",
+        "2020:ASYM_ORDER:GROSS_BELOW_FRICTION",
+        "2022:SYM_FLAT:NONPOSITIVE_RAW_MARKOUT",
+        "2022:SYM_FLAT:GROSS_BELOW_FRICTION",
+        "2022:ASYM_ORDER:NONPOSITIVE_RAW_MARKOUT",
+        "2022:ASYM_ORDER:GROSS_BELOW_FRICTION"
+      ]
+    }
+  },
+  "EUR_eligible": false,
+  "EUR_reasons": [
+    "2019:ECONOMIC",
+    "2022:ECONOMIC",
+    "2023:ECONOMIC"
+  ],
+  "portfolio": null,
+  "validation_2018_2021": "CANCELED_FAILED_STAGE0",
+  "validation_2024_2026": "CANCELED_FAILED_STAGE0",
+  "lifecycle_2018_2026": "CANCELED_NO_ELIGIBLE_COMPOSITION",
+  "clean_OOS": false,
+  "requires_new_authorization_for_further_trials": true,
+  "results_canonical_sha256": "ea41447356d5b8693897565bc5c03e5f16c483234cf9ca14ff22229efc9c4a44",
+  "results_hash_encoding": "UTF8 JSON sort_keys=True separators=comma:colon ensure_ascii=False, independent of checkout newlines"
+}

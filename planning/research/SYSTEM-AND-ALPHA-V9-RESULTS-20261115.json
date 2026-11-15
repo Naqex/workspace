@@ -1,0 +1,1797 @@
+{
+  "schema": "SYSTEM-AND-ALPHA-V9-v1",
+  "status": "NO_NEW_CHALLENGE_CANDIDATE",
+  "parent_merge": "5f1b687",
+  "branch": "codex/system-and-alpha-v9",
+  "storage": {
+    "D_before": {
+      "bytes": 223969976794,
+      "files": 633571,
+      "folders": 80979
+    },
+    "D_after": {
+      "bytes": 212129506773,
+      "files": 591665,
+      "folders": 76352
+    },
+    "D_reduction": {
+      "bytes": 11840470021,
+      "files": 41906,
+      "folders": 4627
+    },
+    "errors_before": [
+      {
+        "path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\pytest-p20-final",
+        "type": "PermissionError"
+      },
+      {
+        "path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\pytest-p20",
+        "type": "PermissionError"
+      }
+    ],
+    "errors_after": [
+      {
+        "path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\pytest-p20-final",
+        "type": "PermissionError"
+      },
+      {
+        "path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\pytest-p20",
+        "type": "PermissionError"
+      }
+    ],
+    "D_top_level": {
+      ".agents": {
+        "bytes": 129704,
+        "files": 31,
+        "folders": 24
+      },
+      ".artifacts": {
+        "bytes": 1260821977,
+        "files": 18447,
+        "folders": 2601
+      },
+      ".codex": {
+        "bytes": 1212,
+        "files": 1,
+        "folders": 1
+      },
+      ".git": {
+        "bytes": 461711184,
+        "files": 1488,
+        "folders": 833
+      },
+      ".gitattributes": {
+        "bytes": 615,
+        "files": 1,
+        "folders": 0
+      },
+      ".github": {
+        "bytes": 8993,
+        "files": 5,
+        "folders": 3
+      },
+      ".gitignore": {
+        "bytes": 1295,
+        "files": 1,
+        "folders": 0
+      },
+      ".gitleaksignore": {
+        "bytes": 6734,
+        "files": 1,
+        "folders": 0
+      },
+      ".gitmodules": {
+        "bytes": 1099,
+        "files": 1,
+        "folders": 0
+      },
+      ".runtime": {
+        "bytes": 11706453359,
+        "files": 116281,
+        "folders": 24407
+      },
+      ".worktrees": {
+        "bytes": 7218536,
+        "files": 315,
+        "folders": 49
+      },
+      "AGENTS.md": {
+        "bytes": 10298,
+        "files": 1,
+        "folders": 0
+      },
+      "CONTRIBUTING.md": {
+        "bytes": 2878,
+        "files": 1,
+        "folders": 0
+      },
+      "LICENSE": {
+        "bytes": 8199,
+        "files": 1,
+        "folders": 0
+      },
+      "README.md": {
+        "bytes": 4988,
+        "files": 1,
+        "folders": 0
+      },
+      "THIRD_PARTY_NOTICES.md": {
+        "bytes": 1670,
+        "files": 1,
+        "folders": 0
+      },
+      "UI": {
+        "bytes": 6171,
+        "files": 4,
+        "folders": 6
+      },
+      "UI-Systems": {
+        "bytes": 234932,
+        "files": 49,
+        "folders": 31
+      },
+      "docs": {
+        "bytes": 193739,
+        "files": 12,
+        "folders": 5
+      },
+      "education": {
+        "bytes": 1319084423,
+        "files": 9542,
+        "folders": 513
+      },
+      "planning": {
+        "bytes": 3478078962,
+        "files": 33965,
+        "folders": 5197
+      },
+      "projects": {
+        "bytes": 204283755069,
+        "files": 393060,
+        "folders": 41125
+      },
+      "src": {
+        "bytes": 0,
+        "files": 0,
+        "folders": 2
+      },
+      "tests": {
+        "bytes": 0,
+        "files": 0,
+        "folders": 2
+      },
+      "tooling": {
+        "bytes": 1452240757,
+        "files": 60362,
+        "folders": 6180
+      }
+    },
+    "D_top20_level2": {
+      "projects/integrations": {
+        "bytes": 3318734947,
+        "files": 161772,
+        "folders": 19315
+      },
+      "projects/mt5-tradingview-backtester": {
+        "bytes": 47483995229,
+        "files": 97379,
+        "folders": 10797
+      },
+      "projects/vi-dubber": {
+        "bytes": 138574982738,
+        "files": 82693,
+        "folders": 6482
+      },
+      "projects/trader": {
+        "bytes": 14750160192,
+        "files": 45968,
+        "folders": 3977
+      },
+      ".runtime/paperclip": {
+        "bytes": 625089032,
+        "files": 39425,
+        "folders": 15815
+      },
+      "planning/trader": {
+        "bytes": 3317261339,
+        "files": 32767,
+        "folders": 5060
+      },
+      "tooling/strategy-engines": {
+        "bytes": 792679299,
+        "files": 29987,
+        "folders": 3689
+      },
+      ".runtime/hermes": {
+        "bytes": 658651604,
+        "files": 22755,
+        "folders": 2450
+      },
+      "tooling/ui-qa": {
+        "bytes": 527806752,
+        "files": 22006,
+        "folders": 1292
+      },
+      ".runtime/strategy-references": {
+        "bytes": 1700211752,
+        "files": 14681,
+        "folders": 2053
+      },
+      ".artifacts/wm-all-plan-20261002": {
+        "bytes": 887649102,
+        "files": 12908,
+        "folders": 1550
+      },
+      ".runtime/research-statistics": {
+        "bytes": 415233050,
+        "files": 11668,
+        "folders": 1303
+      },
+      ".runtime/research-ml": {
+        "bytes": 250984268,
+        "files": 7059,
+        "folders": 784
+      },
+      "tooling/chatgpt-web-core": {
+        "bytes": 112709442,
+        "files": 6756,
+        "folders": 773
+      },
+      ".runtime/chatgpt-core-checkout-68f631d8": {
+        "bytes": 114501213,
+        "files": 6749,
+        "folders": 775
+      },
+      "education/research": {
+        "bytes": 1158302294,
+        "files": 6736,
+        "folders": 31
+      },
+      "projects/quant-trading": {
+        "bytes": 134688023,
+        "files": 5115,
+        "folders": 539
+      },
+      ".runtime/chatgpt-core-upstream-20261019": {
+        "bytes": 146040116,
+        "files": 4238,
+        "folders": 454
+      },
+      ".runtime/research": {
+        "bytes": 105793288,
+        "files": 4154,
+        "folders": 191
+      },
+      ".runtime/search": {
+        "bytes": 140295694,
+        "files": 2381,
+        "folders": 280
+      }
+    },
+    "E_initial_observed": {
+      "bytes": 343254308388,
+      "files": 656744,
+      "folders": 49858
+    },
+    "E_after_observed": {
+      "bytes": 344869899007,
+      "files": 656854,
+      "folders": 49870
+    },
+    "E_initial_errors": 9,
+    "E_after_errors": 0,
+    "E_top20_level2": {
+      "workspace/projects": {
+        "bytes": 105383994597,
+        "files": 140989,
+        "folders": 11984
+      },
+      "ai-engine-jobs/challenge-discovery4-20261108": {
+        "bytes": 41620524302,
+        "files": 138656,
+        "folders": 1720
+      },
+      "naqex-migration-20261029/cargo-target": {
+        "bytes": 20457377810,
+        "files": 17521,
+        "folders": 1331
+      },
+      "label-settings-20261029/api-target": {
+        "bytes": 19750184032,
+        "files": 12126,
+        "folders": 1154
+      },
+      "controls-refine-20261024/rust-target": {
+        "bytes": 16775182072,
+        "files": 10930,
+        "folders": 926
+      },
+      "grid-system-20261025/rust-target": {
+        "bytes": 15439465174,
+        "files": 10064,
+        "folders": 923
+      },
+      "owner-system-audit-20261031/cargo-target": {
+        "bytes": 11525243918,
+        "files": 7664,
+        "folders": 867
+      },
+      "dashboard-refine-20261024/rust-target": {
+        "bytes": 8404026718,
+        "files": 6083,
+        "folders": 834
+      },
+      "report-period-averages-20261025/rust-target": {
+        "bytes": 7703701604,
+        "files": 5780,
+        "folders": 840
+      },
+      "ai-foundation-20261023/target": {
+        "bytes": 6970568362,
+        "files": 4117,
+        "folders": 412
+      },
+      "solo-system-20261115-04e2/cargo-target": {
+        "bytes": 6449409442,
+        "files": 3261,
+        "folders": 420
+      },
+      "mt5-tools-20261024/rust-target": {
+        "bytes": 5468093924,
+        "files": 6543,
+        "folders": 1071
+      },
+      "activity-report-20261024/rust-target": {
+        "bytes": 5273863286,
+        "files": 5114,
+        "folders": 826
+      },
+      "system-capabilities-20261103/isolated-owner-restore": {
+        "bytes": 4448253971,
+        "files": 5663,
+        "folders": 58
+      },
+      "ai-foundation-20261023/backup": {
+        "bytes": 4307303289,
+        "files": 5413,
+        "folders": 341
+      },
+      "ui-system-20261031/trade-merge-release": {
+        "bytes": 4287749478,
+        "files": 4339,
+        "folders": 68
+      },
+      "ui-system-20261031/note-picker-release": {
+        "bytes": 4286737290,
+        "files": 4322,
+        "folders": 69
+      },
+      "notes-folders-20261029/backup": {
+        "bytes": 4275308561,
+        "files": 4144,
+        "folders": 338
+      },
+      "note-workspace-20261030/runtime-before": {
+        "bytes": 4274703394,
+        "files": 4145,
+        "folders": 338
+      },
+      "controls-refine-20261024/owner-backup": {
+        "bytes": 4268668058,
+        "files": 4148,
+        "folders": 338
+      }
+    },
+    "backup_purged": false,
+    "logical_bytes_only": true,
+    "caches": {
+      "bytes": 576731875,
+      "files": 30329,
+      "seconds": 20.361272100009955
+    },
+    "rust_incremental": {
+      "path": "D:\\ANNAM\\TradingWorkspace\\projects\\mt5-tradingview-backtester\\foundation_v2\\api-rust\\target\\debug\\incremental",
+      "files": 6524,
+      "bytes": 10665360906
+    },
+    "archives": [
+      {
+        "path": "old-clean-engine.tar.gz",
+        "bytes": 161770568,
+        "files": 5551
+      },
+      {
+        "path": "old-clean-python.tar.gz",
+        "bytes": 46373799,
+        "files": 2097
+      }
+    ]
+  },
+  "tests": {
+    "before": 995,
+    "after": 1013,
+    "original_IDs_retained": true,
+    "new_tests": 18,
+    "before_seconds": 50.92033980000997,
+    "after_seconds": 46.848783499968704,
+    "fast_tests": 279,
+    "fast_seconds": 12.354526899987832,
+    "historical_tests": 734,
+    "warm_first_after_seconds": 46.342202299972996,
+    "cold_first_after_seconds": 55.698625800025184,
+    "timings_are_single_runs": true,
+    "top10_modules": [
+      {
+        "module": "test_shadow_reconcile",
+        "before_seconds": 10.630020699929446,
+        "after_seconds": 7.770186800102238
+      },
+      {
+        "module": "test_forex_study_batch",
+        "before_seconds": 5.01279909996083,
+        "after_seconds": 4.426740600029007
+      },
+      {
+        "module": "test_frozen_source_proof",
+        "before_seconds": 2.631395399919711,
+        "after_seconds": 2.5618002999108285
+      },
+      {
+        "module": "test_shadow_night",
+        "before_seconds": 2.1655337000265718,
+        "after_seconds": 2.1179336999193765
+      },
+      {
+        "module": "test_explicit_m1_view",
+        "before_seconds": 2.0536193999578245,
+        "after_seconds": 1.8859559999546036
+      },
+      {
+        "module": "test_fx_pair_formation",
+        "before_seconds": 1.8997361998772249,
+        "after_seconds": 1.8466669999761507
+      },
+      {
+        "module": "test_us500_euopen_component",
+        "before_seconds": 1.8296854000072926,
+        "after_seconds": 1.7271812001126818
+      },
+      {
+        "module": "test_multiframe_runner_recovery",
+        "before_seconds": 1.6164589999825694,
+        "after_seconds": 1.591493400046602
+      },
+      {
+        "module": "test_index_cash_close_tick_component",
+        "before_seconds": 1.5537287999759428,
+        "after_seconds": 1.491444100101944
+      },
+      {
+        "module": "test_engine_worker",
+        "before_seconds": 1.1692809999804012,
+        "after_seconds": 1.1304743000073358
+      }
+    ]
+  },
+  "benchmark": {
+    "scope": "warm seek of same 2022Jan M1 columns, one process, alternating",
+    "rows": 28799,
+    "sample_count": 16,
+    "samples": {
+      "before": [
+        0.00581240002065897,
+        0.004955400014296174,
+        0.0052133999997749925,
+        0.0047958999639377,
+        0.0056151999742724,
+        0.0048670999822206795,
+        0.005111000034958124,
+        0.004875299986451864,
+        0.004839800007175654,
+        0.006230700004380196,
+        0.005258799996227026,
+        0.004819300025701523,
+        0.005157699983101338,
+        0.004837199987377971,
+        0.004782100033480674,
+        0.004875199985690415
+      ],
+      "after": [
+        0.0005038999952375889,
+        0.00044679996790364385,
+        0.0005000999663025141,
+        0.00045870000030845404,
+        0.0005175999831408262,
+        0.00044680002611130476,
+        0.0005163999740034342,
+        0.000443600001744926,
+        0.0005598000134341419,
+        0.0005067000165581703,
+        0.0005265000509098172,
+        0.000458099995739758,
+        0.0005215000128373504,
+        0.00046500004827976227,
+        0.0006001999718137085,
+        0.0004819000023417175
+      ]
+    },
+    "medians": {
+      "before": 0.004915350000374019,
+      "after": 0.0005019999807700515
+    },
+    "startup_binary_validation_seconds": 0.2908187999855727,
+    "checksum_bytes": 129597072,
+    "source_sha256": "056bfb4b82287f12dd5471d06606ae229eaaa2f01bca699cf5ba5b20e7f639d8",
+    "field_parity": true,
+    "cold_start_is_not_compared": true,
+    "full_campaign_speedup_unmeasured": true,
+    "speedup": 9.791534240367966
+  },
+  "gold": {
+    "annual": [
+      {
+        "candidate": "S1.DAY",
+        "year": 2019,
+        "raw": 43,
+        "valid": 43,
+        "sides": {
+          "SELL": 18,
+          "BUY": 25
+        },
+        "regimes": {
+          "PREVDAY_SWEEP": 43
+        },
+        "admitted": 7,
+        "retention_pct": 16.27906976744186,
+        "median_SL": 3.224,
+        "median_friction": 0.75654153,
+        "scale_ratio": 0.2346592834987593,
+        "primary": "DAY",
+        "markouts": {
+          "DAY": {
+            "observed": 43,
+            "SYM_FLAT": {
+              "mean_net_per_oz": -1.0070697674418603,
+              "mean_gross_per_oz": -0.5878604651162791,
+              "net_R": -20.08232893765959,
+              "swap_per_oz": 0.0
+            },
+            "ASYM_ORDER": {
+              "mean_net_per_oz": -1.0070697674418603,
+              "mean_gross_per_oz": -0.5878604651162791,
+              "net_R": -20.08232893765959,
+              "swap_per_oz": 0.0
+            }
+          },
+          "24H": {
+            "observed": 43,
+            "SYM_FLAT": {
+              "mean_net_per_oz": -1.215241860465116,
+              "mean_gross_per_oz": -0.38672093023255827,
+              "net_R": -27.96185406469183,
+              "swap_per_oz": -17.6
+            },
+            "ASYM_ORDER": {
+              "mean_net_per_oz": -1.0896604651162791,
+              "mean_gross_per_oz": -0.38672093023255827,
+              "net_R": -25.70189425007905,
+              "swap_per_oz": -12.200000000000001
+            }
+          }
+        }
+      },
+      {
+        "candidate": "S1.DAY",
+        "year": 2020,
+        "raw": 55,
+        "valid": 55,
+        "sides": {
+          "BUY": 27,
+          "SELL": 28
+        },
+        "regimes": {
+          "PREVDAY_SWEEP": 55
+        },
+        "admitted": 36,
+        "retention_pct": 65.45454545454545,
+        "median_SL": 6.862,
+        "median_friction": 0.7628631320000001,
+        "scale_ratio": 0.11117212649373362,
+        "primary": "DAY",
+        "markouts": {
+          "DAY": {
+            "observed": 55,
+            "SYM_FLAT": {
+              "mean_net_per_oz": -0.8734199999999998,
+              "mean_gross_per_oz": -0.4486545454545455,
+              "net_R": -16.541575566077217,
+              "swap_per_oz": 0.0
+            },
+            "ASYM_ORDER": {
+              "mean_net_per_oz": -0.8734199999999998,
+              "mean_gross_per_oz": -0.4486545454545455,
+              "net_R": -16.541575566077217,
+              "swap_per_oz": 0.0
+            }
+          },
+          "24H": {
+            "observed": 55,
+            "SYM_FLAT": {
+              "mean_net_per_oz": -0.7722618181818179,
+              "mean_gross_per_oz": 0.14705454545454497,
+              "net_R": -12.830040875760657,
+              "swap_per_oz": -27.2
+            },
+            "ASYM_ORDER": {
+              "mean_net_per_oz": -0.6086254545454547,
+              "mean_gross_per_oz": 0.14705454545454497,
+              "net_R": -10.837957908101693,
+              "swap_per_oz": -18.2
+            }
+          }
+        }
+      },
+      {
+        "candidate": "S1.DAY",
+        "year": 2022,
+        "raw": 51,
+        "valid": 51,
+        "sides": {
+          "SELL": 20,
+          "BUY": 31
+        },
+        "regimes": {
+          "PREVDAY_SWEEP": 51
+        },
+        "admitted": 37,
+        "retention_pct": 72.54901960784314,
+        "median_SL": 5.92,
+        "median_friction": 0.763321296,
+        "scale_ratio": 0.1289394081081081,
+        "primary": "DAY",
+        "markouts": {
+          "DAY": {
+            "observed": 51,
+            "SYM_FLAT": {
+              "mean_net_per_oz": 4.092319607843137,
+              "mean_gross_per_oz": 4.517333333333333,
+              "net_R": 29.98474800998534,
+              "swap_per_oz": 0.0
+            },
+            "ASYM_ORDER": {
+              "mean_net_per_oz": 4.092319607843137,
+              "mean_gross_per_oz": 4.517333333333333,
+              "net_R": 29.98474800998534,
+              "swap_per_oz": 0.0
+            }
+          },
+          "24H": {
+            "observed": 51,
+            "SYM_FLAT": {
+              "mean_net_per_oz": 4.080484313725491,
+              "mean_gross_per_oz": 4.999627450980392,
+              "net_R": 31.57504913277839,
+              "swap_per_oz": -25.2
+            },
+            "ASYM_ORDER": {
+              "mean_net_per_oz": 4.144209803921569,
+              "mean_gross_per_oz": 4.999627450980392,
+              "net_R": 32.31424319223343,
+              "swap_per_oz": -21.950000000000003
+            }
+          }
+        }
+      },
+      {
+        "candidate": "S1.DAY",
+        "year": 2023,
+        "raw": 56,
+        "valid": 56,
+        "sides": {
+          "BUY": 30,
+          "SELL": 26
+        },
+        "regimes": {
+          "PREVDAY_SWEEP": 56
+        },
+        "admitted": 31,
+        "retention_pct": 55.357142857142854,
+        "median_SL": 5.346500000000001,
+        "median_friction": 0.7649335570000001,
+        "scale_ratio": 0.14307183334891985,
+        "primary": "DAY",
+        "markouts": {
+          "DAY": {
+            "observed": 56,
+            "SYM_FLAT": {
+              "mean_net_per_oz": -1.1346696428571421,
+              "mean_gross_per_oz": -0.7074285714285712,
+              "net_R": -29.38673982938694,
+              "swap_per_oz": 0.0
+            },
+            "ASYM_ORDER": {
+              "mean_net_per_oz": -1.1346696428571421,
+              "mean_gross_per_oz": -0.7074285714285712,
+              "net_R": -29.38673982938694,
+              "swap_per_oz": 0.0
+            }
+          },
+          "24H": {
+            "observed": 56,
+            "SYM_FLAT": {
+              "mean_net_per_oz": -0.4485160714285715,
+              "mean_gross_per_oz": 0.5287321428571428,
+              "net_R": -26.640942871994515,
+              "swap_per_oz": -30.8
+            },
+            "ASYM_ORDER": {
+              "mean_net_per_oz": -0.2886946428571421,
+              "mean_gross_per_oz": 0.5287321428571428,
+              "net_R": -23.856258161817728,
+              "swap_per_oz": -21.85
+            }
+          }
+        }
+      },
+      {
+        "candidate": "S1.24H",
+        "year": 2019,
+        "raw": 43,
+        "valid": 43,
+        "sides": {
+          "SELL": 18,
+          "BUY": 25
+        },
+        "regimes": {
+          "PREVDAY_SWEEP": 43
+        },
+        "admitted": 7,
+        "retention_pct": 16.27906976744186,
+        "median_SL": 3.224,
+        "median_friction": 0.75654153,
+        "scale_ratio": 0.2346592834987593,
+        "primary": "24H",
+        "markouts": {
+          "DAY": {
+            "observed": 43,
+            "SYM_FLAT": {
+              "mean_net_per_oz": -1.0070697674418603,
+              "mean_gross_per_oz": -0.5878604651162791,
+              "net_R": -20.08232893765959,
+              "swap_per_oz": 0.0
+            },
+            "ASYM_ORDER": {
+              "mean_net_per_oz": -1.0070697674418603,
+              "mean_gross_per_oz": -0.5878604651162791,
+              "net_R": -20.08232893765959,
+              "swap_per_oz": 0.0
+            }
+          },
+          "24H": {
+            "observed": 43,
+            "SYM_FLAT": {
+              "mean_net_per_oz": -1.215241860465116,
+              "mean_gross_per_oz": -0.38672093023255827,
+              "net_R": -27.96185406469183,
+              "swap_per_oz": -17.6
+            },
+            "ASYM_ORDER": {
+              "mean_net_per_oz": -1.0896604651162791,
+              "mean_gross_per_oz": -0.38672093023255827,
+              "net_R": -25.70189425007905,
+              "swap_per_oz": -12.200000000000001
+            }
+          }
+        }
+      },
+      {
+        "candidate": "S1.24H",
+        "year": 2020,
+        "raw": 55,
+        "valid": 55,
+        "sides": {
+          "BUY": 27,
+          "SELL": 28
+        },
+        "regimes": {
+          "PREVDAY_SWEEP": 55
+        },
+        "admitted": 36,
+        "retention_pct": 65.45454545454545,
+        "median_SL": 6.862,
+        "median_friction": 0.7628631320000001,
+        "scale_ratio": 0.11117212649373362,
+        "primary": "24H",
+        "markouts": {
+          "DAY": {
+            "observed": 55,
+            "SYM_FLAT": {
+              "mean_net_per_oz": -0.8734199999999998,
+              "mean_gross_per_oz": -0.4486545454545455,
+              "net_R": -16.541575566077217,
+              "swap_per_oz": 0.0
+            },
+            "ASYM_ORDER": {
+              "mean_net_per_oz": -0.8734199999999998,
+              "mean_gross_per_oz": -0.4486545454545455,
+              "net_R": -16.541575566077217,
+              "swap_per_oz": 0.0
+            }
+          },
+          "24H": {
+            "observed": 55,
+            "SYM_FLAT": {
+              "mean_net_per_oz": -0.7722618181818179,
+              "mean_gross_per_oz": 0.14705454545454497,
+              "net_R": -12.830040875760657,
+              "swap_per_oz": -27.2
+            },
+            "ASYM_ORDER": {
+              "mean_net_per_oz": -0.6086254545454547,
+              "mean_gross_per_oz": 0.14705454545454497,
+              "net_R": -10.837957908101693,
+              "swap_per_oz": -18.2
+            }
+          }
+        }
+      },
+      {
+        "candidate": "S1.24H",
+        "year": 2022,
+        "raw": 51,
+        "valid": 51,
+        "sides": {
+          "SELL": 20,
+          "BUY": 31
+        },
+        "regimes": {
+          "PREVDAY_SWEEP": 51
+        },
+        "admitted": 37,
+        "retention_pct": 72.54901960784314,
+        "median_SL": 5.92,
+        "median_friction": 0.763321296,
+        "scale_ratio": 0.1289394081081081,
+        "primary": "24H",
+        "markouts": {
+          "DAY": {
+            "observed": 51,
+            "SYM_FLAT": {
+              "mean_net_per_oz": 4.092319607843137,
+              "mean_gross_per_oz": 4.517333333333333,
+              "net_R": 29.98474800998534,
+              "swap_per_oz": 0.0
+            },
+            "ASYM_ORDER": {
+              "mean_net_per_oz": 4.092319607843137,
+              "mean_gross_per_oz": 4.517333333333333,
+              "net_R": 29.98474800998534,
+              "swap_per_oz": 0.0
+            }
+          },
+          "24H": {
+            "observed": 51,
+            "SYM_FLAT": {
+              "mean_net_per_oz": 4.080484313725491,
+              "mean_gross_per_oz": 4.999627450980392,
+              "net_R": 31.57504913277839,
+              "swap_per_oz": -25.2
+            },
+            "ASYM_ORDER": {
+              "mean_net_per_oz": 4.144209803921569,
+              "mean_gross_per_oz": 4.999627450980392,
+              "net_R": 32.31424319223343,
+              "swap_per_oz": -21.950000000000003
+            }
+          }
+        }
+      },
+      {
+        "candidate": "S1.24H",
+        "year": 2023,
+        "raw": 56,
+        "valid": 56,
+        "sides": {
+          "BUY": 30,
+          "SELL": 26
+        },
+        "regimes": {
+          "PREVDAY_SWEEP": 56
+        },
+        "admitted": 31,
+        "retention_pct": 55.357142857142854,
+        "median_SL": 5.346500000000001,
+        "median_friction": 0.7649335570000001,
+        "scale_ratio": 0.14307183334891985,
+        "primary": "24H",
+        "markouts": {
+          "DAY": {
+            "observed": 56,
+            "SYM_FLAT": {
+              "mean_net_per_oz": -1.1346696428571421,
+              "mean_gross_per_oz": -0.7074285714285712,
+              "net_R": -29.38673982938694,
+              "swap_per_oz": 0.0
+            },
+            "ASYM_ORDER": {
+              "mean_net_per_oz": -1.1346696428571421,
+              "mean_gross_per_oz": -0.7074285714285712,
+              "net_R": -29.38673982938694,
+              "swap_per_oz": 0.0
+            }
+          },
+          "24H": {
+            "observed": 56,
+            "SYM_FLAT": {
+              "mean_net_per_oz": -0.4485160714285715,
+              "mean_gross_per_oz": 0.5287321428571428,
+              "net_R": -26.640942871994515,
+              "swap_per_oz": -30.8
+            },
+            "ASYM_ORDER": {
+              "mean_net_per_oz": -0.2886946428571421,
+              "mean_gross_per_oz": 0.5287321428571428,
+              "net_R": -23.856258161817728,
+              "swap_per_oz": -21.85
+            }
+          }
+        }
+      },
+      {
+        "candidate": "S2.DAY",
+        "year": 2019,
+        "raw": 103,
+        "valid": 103,
+        "sides": {
+          "BUY": 67,
+          "SELL": 36
+        },
+        "regimes": {
+          "ASIA_EXPANSION": 9,
+          "ASIA_NORMAL_SWEEP": 94
+        },
+        "admitted": 33,
+        "retention_pct": 32.03883495145631,
+        "median_SL": 3.819,
+        "median_friction": 0.7579151820000001,
+        "scale_ratio": 0.19845906834249805,
+        "primary": "DAY",
+        "markouts": {
+          "DAY": {
+            "observed": 103,
+            "SYM_FLAT": {
+              "mean_net_per_oz": -1.3391029126213594,
+              "mean_gross_per_oz": -0.9193495145631068,
+              "net_R": -34.52721248785453,
+              "swap_per_oz": 0.0
+            },
+            "ASYM_ORDER": {
+              "mean_net_per_oz": -1.3391029126213594,
+              "mean_gross_per_oz": -0.9193495145631068,
+              "net_R": -34.52721248785453,
+              "swap_per_oz": 0.0
+            }
+          },
+          "24H": {
+            "observed": 103,
+            "SYM_FLAT": {
+              "mean_net_per_oz": -1.9282805825242717,
+              "mean_gross_per_oz": -1.05026213592233,
+              "net_R": -40.70592476500406,
+              "swap_per_oz": -47.2
+            },
+            "ASYM_ORDER": {
+              "mean_net_per_oz": -1.8263388349514562,
+              "mean_gross_per_oz": -1.05026213592233,
+              "net_R": -36.5791805463977,
+              "swap_per_oz": -36.7
+            }
+          }
+        }
+      },
+      {
+        "candidate": "S2.DAY",
+        "year": 2020,
+        "raw": 143,
+        "valid": 143,
+        "sides": {
+          "BUY": 71,
+          "SELL": 72
+        },
+        "regimes": {
+          "ASIA_EXPANSION": 17,
+          "ASIA_NORMAL_SWEEP": 126
+        },
+        "admitted": 94,
+        "retention_pct": 65.73426573426573,
+        "median_SL": 7.118,
+        "median_friction": 0.76293869,
+        "scale_ratio": 0.1071844183759483,
+        "primary": "DAY",
+        "markouts": {
+          "DAY": {
+            "observed": 143,
+            "SYM_FLAT": {
+              "mean_net_per_oz": -0.9458755244755247,
+              "mean_gross_per_oz": -0.5209930069930071,
+              "net_R": -17.33384722734366,
+              "swap_per_oz": 0.0
+            },
+            "ASYM_ORDER": {
+              "mean_net_per_oz": -0.9458755244755247,
+              "mean_gross_per_oz": -0.5209930069930071,
+              "net_R": -17.33384722734366,
+              "swap_per_oz": 0.0
+            }
+          },
+          "24H": {
+            "observed": 143,
+            "SYM_FLAT": {
+              "mean_net_per_oz": -0.8892692307692308,
+              "mean_gross_per_oz": 0.039111888111888135,
+              "net_R": -23.092869649831698,
+              "swap_per_oz": -72.0
+            },
+            "ASYM_ORDER": {
+              "mean_net_per_oz": -0.694863636363636,
+              "mean_gross_per_oz": 0.039111888111888135,
+              "net_R": -18.406526475519588,
+              "swap_per_oz": -44.2
+            }
+          }
+        }
+      },
+      {
+        "candidate": "S2.DAY",
+        "year": 2022,
+        "raw": 161,
+        "valid": 161,
+        "sides": {
+          "BUY": 78,
+          "SELL": 83
+        },
+        "regimes": {
+          "ASIA_NORMAL_SWEEP": 144,
+          "ASIA_EXPANSION": 17
+        },
+        "admitted": 98,
+        "retention_pct": 60.869565217391305,
+        "median_SL": 5.885,
+        "median_friction": 0.763326602,
+        "scale_ratio": 0.1297071541206457,
+        "primary": "DAY",
+        "markouts": {
+          "DAY": {
+            "observed": 161,
+            "SYM_FLAT": {
+              "mean_net_per_oz": -1.0486975155279503,
+              "mean_gross_per_oz": -0.6235031055900622,
+              "net_R": -39.96848730573267,
+              "swap_per_oz": 0.0
+            },
+            "ASYM_ORDER": {
+              "mean_net_per_oz": -1.0486975155279503,
+              "mean_gross_per_oz": -0.6235031055900622,
+              "net_R": -39.96848730573267,
+              "swap_per_oz": 0.0
+            }
+          },
+          "24H": {
+            "observed": 161,
+            "SYM_FLAT": {
+              "mean_net_per_oz": -1.967816770186335,
+              "mean_gross_per_oz": -1.0333043478260873,
+              "net_R": -63.343626963748626,
+              "swap_per_oz": -82.0
+            },
+            "ASYM_ORDER": {
+              "mean_net_per_oz": -1.788003105590062,
+              "mean_gross_per_oz": -1.0333043478260873,
+              "net_R": -58.2970511087045,
+              "swap_per_oz": -53.050000000000004
+            }
+          }
+        }
+      },
+      {
+        "candidate": "S2.DAY",
+        "year": 2023,
+        "raw": 156,
+        "valid": 156,
+        "sides": {
+          "BUY": 71,
+          "SELL": 85
+        },
+        "regimes": {
+          "ASIA_EXPANSION": 17,
+          "ASIA_NORMAL_SWEEP": 139
+        },
+        "admitted": 84,
+        "retention_pct": 53.84615384615385,
+        "median_SL": 5.6274999999999995,
+        "median_friction": 0.7648034060000001,
+        "scale_ratio": 0.13590464788982676,
+        "primary": "DAY",
+        "markouts": {
+          "DAY": {
+            "observed": 156,
+            "SYM_FLAT": {
+              "mean_net_per_oz": 0.5495871794871794,
+              "mean_gross_per_oz": 0.9767692307692306,
+              "net_R": 19.20333946361568,
+              "swap_per_oz": 0.0
+            },
+            "ASYM_ORDER": {
+              "mean_net_per_oz": 0.5495871794871794,
+              "mean_gross_per_oz": 0.9767692307692306,
+              "net_R": 19.20333946361568,
+              "swap_per_oz": 0.0
+            }
+          },
+          "24H": {
+            "observed": 156,
+            "SYM_FLAT": {
+              "mean_net_per_oz": 0.6303993589743587,
+              "mean_gross_per_oz": 1.5524615384615386,
+              "net_R": 12.370502969948715,
+              "swap_per_oz": -77.2
+            },
+            "ASYM_ORDER": {
+              "mean_net_per_oz": 0.8505916666666667,
+              "mean_gross_per_oz": 1.5524615384615386,
+              "net_R": 20.79815220527759,
+              "swap_per_oz": -42.85
+            }
+          }
+        }
+      }
+    ],
+    "gates": {
+      "S1.DAY": {
+        "eligible": false,
+        "reasons": [
+          "2019:CADENCE",
+          "2019:RETENTION",
+          "2019:NATURAL_SCALE",
+          "2019:SYM_FLAT:NONPOSITIVE_RAW_MARKOUT",
+          "2019:SYM_FLAT:GROSS_BELOW_FRICTION",
+          "2019:ASYM_ORDER:NONPOSITIVE_RAW_MARKOUT",
+          "2019:ASYM_ORDER:GROSS_BELOW_FRICTION",
+          "2020:SYM_FLAT:NONPOSITIVE_RAW_MARKOUT",
+          "2020:SYM_FLAT:GROSS_BELOW_FRICTION",
+          "2020:ASYM_ORDER:NONPOSITIVE_RAW_MARKOUT",
+          "2020:ASYM_ORDER:GROSS_BELOW_FRICTION",
+          "2023:SYM_FLAT:NONPOSITIVE_RAW_MARKOUT",
+          "2023:SYM_FLAT:GROSS_BELOW_FRICTION",
+          "2023:ASYM_ORDER:NONPOSITIVE_RAW_MARKOUT",
+          "2023:ASYM_ORDER:GROSS_BELOW_FRICTION"
+        ]
+      },
+      "S1.24H": {
+        "eligible": false,
+        "reasons": [
+          "2019:CADENCE",
+          "2019:RETENTION",
+          "2019:NATURAL_SCALE",
+          "2019:SYM_FLAT:NONPOSITIVE_RAW_MARKOUT",
+          "2019:SYM_FLAT:GROSS_BELOW_FRICTION",
+          "2019:ASYM_ORDER:NONPOSITIVE_RAW_MARKOUT",
+          "2019:ASYM_ORDER:GROSS_BELOW_FRICTION",
+          "2020:SYM_FLAT:NONPOSITIVE_RAW_MARKOUT",
+          "2020:SYM_FLAT:GROSS_BELOW_FRICTION",
+          "2020:ASYM_ORDER:NONPOSITIVE_RAW_MARKOUT",
+          "2020:ASYM_ORDER:GROSS_BELOW_FRICTION",
+          "2023:SYM_FLAT:NONPOSITIVE_RAW_MARKOUT",
+          "2023:SYM_FLAT:GROSS_BELOW_FRICTION",
+          "2023:ASYM_ORDER:NONPOSITIVE_RAW_MARKOUT",
+          "2023:ASYM_ORDER:GROSS_BELOW_FRICTION"
+        ]
+      },
+      "S2.DAY": {
+        "eligible": false,
+        "reasons": [
+          "2019:CADENCE",
+          "2019:RETENTION",
+          "2019:NATURAL_SCALE",
+          "2019:SYM_FLAT:NONPOSITIVE_RAW_MARKOUT",
+          "2019:SYM_FLAT:GROSS_BELOW_FRICTION",
+          "2019:ASYM_ORDER:NONPOSITIVE_RAW_MARKOUT",
+          "2019:ASYM_ORDER:GROSS_BELOW_FRICTION",
+          "2020:SYM_FLAT:NONPOSITIVE_RAW_MARKOUT",
+          "2020:SYM_FLAT:GROSS_BELOW_FRICTION",
+          "2020:ASYM_ORDER:NONPOSITIVE_RAW_MARKOUT",
+          "2020:ASYM_ORDER:GROSS_BELOW_FRICTION",
+          "2022:SYM_FLAT:NONPOSITIVE_RAW_MARKOUT",
+          "2022:SYM_FLAT:GROSS_BELOW_FRICTION",
+          "2022:ASYM_ORDER:NONPOSITIVE_RAW_MARKOUT",
+          "2022:ASYM_ORDER:GROSS_BELOW_FRICTION"
+        ]
+      }
+    },
+    "source": [
+      {
+        "start": "2019-01-01",
+        "end": "2021-01-01",
+        "seed": "2018-11-01",
+        "bars": 765889,
+        "signals": 442,
+        "quotes_manifest_sha256": "1c131b6c159272102cdfb39d4059f963ff63ec2af8ed465681c1120614807885",
+        "raw_declared_sha256": "d209df9a5ce871f1992eb312595ebef2c19a884c1fe0a1be6bfb76d86cf471b9",
+        "binary_columns_verified": true,
+        "price_units": ".001",
+        "prior_exposed": true
+      },
+      {
+        "start": "2022-01-01",
+        "end": "2024-01-01",
+        "seed": "2021-11-01",
+        "bars": 767741,
+        "signals": 531,
+        "quotes_manifest_sha256": "2ce581999a7415b3498ec7b6897978226b163433863e7b2be4fa0e5efe1a25d3",
+        "raw_declared_sha256": "d209df9a5ce871f1992eb312595ebef2c19a884c1fe0a1be6bfb76d86cf471b9",
+        "binary_columns_verified": true,
+        "price_units": ".001",
+        "prior_exposed": true
+      }
+    ],
+    "S2_regime_attribution": [
+      {
+        "year": 2019,
+        "regime": "ASIA_EXPANSION",
+        "signals": 9,
+        "mean_net_usd_oz": -4.683677777777778
+      },
+      {
+        "year": 2019,
+        "regime": "ASIA_NORMAL_SWEEP",
+        "signals": 94,
+        "mean_net_usd_oz": -1.0188776595744682
+      },
+      {
+        "year": 2020,
+        "regime": "ASIA_EXPANSION",
+        "signals": 17,
+        "mean_net_usd_oz": -0.4343411764705881
+      },
+      {
+        "year": 2020,
+        "regime": "ASIA_NORMAL_SWEEP",
+        "signals": 126,
+        "mean_net_usd_oz": -1.0148920634920635
+      },
+      {
+        "year": 2022,
+        "regime": "ASIA_EXPANSION",
+        "signals": 17,
+        "mean_net_usd_oz": -0.9463411764705884
+      },
+      {
+        "year": 2022,
+        "regime": "ASIA_NORMAL_SWEEP",
+        "signals": 144,
+        "mean_net_usd_oz": -1.06078125
+      },
+      {
+        "year": 2023,
+        "regime": "ASIA_EXPANSION",
+        "signals": 17,
+        "mean_net_usd_oz": 2.0971000000000006
+      },
+      {
+        "year": 2023,
+        "regime": "ASIA_NORMAL_SWEEP",
+        "signals": 139,
+        "mean_net_usd_oz": 0.36032302158273377
+      }
+    ]
+  },
+  "eurusd": {
+    "annual": [
+      {
+        "year": 2019,
+        "raw": 156,
+        "observed": 156,
+        "admitted": 88,
+        "median_SL_pips": 13.65,
+        "retention_pct": 56.41025641025641,
+        "mean_net_USD_lot": -20.423076923076923,
+        "total_raw_markout_R": -28.002082697684173
+      },
+      {
+        "year": 2020,
+        "raw": 134,
+        "observed": 134,
+        "admitted": 117,
+        "median_SL_pips": 20.6,
+        "retention_pct": 87.31343283582089,
+        "mean_net_USD_lot": 8.261194029850746,
+        "total_raw_markout_R": -12.951868887772862
+      },
+      {
+        "year": 2022,
+        "raw": 136,
+        "observed": 136,
+        "admitted": 131,
+        "median_SL_pips": 27.05,
+        "retention_pct": 96.32352941176471,
+        "mean_net_USD_lot": -88.76470588235294,
+        "total_raw_markout_R": -45.64781646969969
+      },
+      {
+        "year": 2023,
+        "raw": 136,
+        "observed": 136,
+        "admitted": 115,
+        "median_SL_pips": 18.75,
+        "retention_pct": 84.55882352941177,
+        "mean_net_USD_lot": -2.176470588235294,
+        "total_raw_markout_R": -12.89835046032014
+      }
+    ],
+    "source": [
+      {
+        "file": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\eur-2019\\EURUSD_TW-M1-No Session.csv",
+        "sha256": "12d638946ab151da9580edf0396fd72888901d95ac836f5352ed01c82451beee",
+        "records": 807594,
+        "cached_only": true,
+        "start": "2019-01-01",
+        "seed": "2018-11-01",
+        "end": "2021-01-01",
+        "native_Ask": false
+      },
+      {
+        "file": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\eur-2022\\EURUSD_TW-M1-No Session.csv",
+        "sha256": "9e45e5364f17269e7b8da14b7fdf01567eff18fadd8ef4d7406fc7775b75538d",
+        "records": 808216,
+        "cached_only": true,
+        "start": "2022-01-01",
+        "seed": "2021-11-01",
+        "end": "2024-01-01",
+        "native_Ask": false
+      }
+    ],
+    "eligible": false,
+    "reasons": [
+      "2019:ECONOMIC",
+      "2022:ECONOMIC",
+      "2023:ECONOMIC"
+    ],
+    "conditional": true,
+    "validation_opened": false
+  },
+  "annual_baseline_control": [
+    {
+      "year": 2018,
+      "trades": 84,
+      "SYM_NetR": -30.9964,
+      "ASYM_NetR": -27.2054,
+      "source": "prop-gold-v8-20261115/calendar-corrected/backward/OPEN_LOW_HIGH_CLOSE/annual-economics.json",
+      "V9_strategy": null,
+      "V9_status": "NOT_RUN_FAILED_DEV"
+    },
+    {
+      "year": 2019,
+      "trades": 55,
+      "SYM_NetR": -13.851866666666666,
+      "ASYM_NetR": -12.6242,
+      "source": "prop-gold-v8-20261115/calendar-corrected/backward/OPEN_LOW_HIGH_CLOSE/annual-economics.json",
+      "V9_strategy": null,
+      "V9_status": "NOT_RUN_FAILED_DEV"
+    },
+    {
+      "year": 2020,
+      "trades": 98,
+      "SYM_NetR": -3.030533333333332,
+      "ASYM_NetR": -2.4708666666666645,
+      "source": "prop-gold-v8-20261115/calendar-corrected/backward/OPEN_LOW_HIGH_CLOSE/annual-economics.json",
+      "V9_strategy": null,
+      "V9_status": "NOT_RUN_FAILED_DEV"
+    },
+    {
+      "year": 2021,
+      "trades": 106,
+      "SYM_NetR": -11.999799999999999,
+      "ASYM_NetR": -9.857466666666667,
+      "source": "prop-gold-v8-20261115/calendar-corrected/backward/OPEN_LOW_HIGH_CLOSE/annual-economics.json",
+      "V9_strategy": null,
+      "V9_status": "NOT_RUN_FAILED_DEV"
+    },
+    {
+      "year": 2022,
+      "trades": 103,
+      "SYM_NetR": 4.049933333333332,
+      "ASYM_NetR": 5.900600000000001,
+      "source": "prop-gold-v8-20261115/full/OPEN_LOW_HIGH_CLOSE/annual-economics.json",
+      "V9_strategy": null,
+      "V9_status": "NOT_RUN_FAILED_DEV"
+    },
+    {
+      "year": 2023,
+      "trades": 107,
+      "SYM_NetR": 13.794933333333333,
+      "ASYM_NetR": 16.461933333333334,
+      "source": "prop-gold-v8-20261115/full/OPEN_LOW_HIGH_CLOSE/annual-economics.json",
+      "V9_strategy": null,
+      "V9_status": "NOT_RUN_FAILED_DEV"
+    },
+    {
+      "year": 2024,
+      "trades": 98,
+      "SYM_NetR": 1.845266666666667,
+      "ASYM_NetR": 2.6449333333333334,
+      "source": "prop-gold-v8-20261115/full/OPEN_LOW_HIGH_CLOSE/annual-economics.json",
+      "V9_strategy": null,
+      "V9_status": "NOT_RUN_FAILED_DEV"
+    },
+    {
+      "year": 2025,
+      "trades": 96,
+      "SYM_NetR": -0.28473333333333295,
+      "ASYM_NetR": -0.13473333333333348,
+      "source": "prop-gold-v8-20261115/full/OPEN_LOW_HIGH_CLOSE/annual-economics.json",
+      "V9_strategy": null,
+      "V9_status": "NOT_RUN_FAILED_DEV"
+    },
+    {
+      "year": 2026,
+      "trades": 71,
+      "SYM_NetR": 3.174466666666667,
+      "ASYM_NetR": 3.5321333333333333,
+      "source": "prop-gold-v8-20261115/full/OPEN_LOW_HIGH_CLOSE/annual-economics.json",
+      "V9_strategy": null,
+      "V9_status": "NOT_RUN_FAILED_DEV"
+    }
+  ],
+  "audits": {
+    "gold": {
+      "status": "PASS",
+      "entries": 973,
+      "endpoints": 1946,
+      "cost_bridges": 3892,
+      "independent_arithmetic": true,
+      "independent_person_or_model": false,
+      "producer_sha256": "f2de838b03b9b0fa41c95b88d34262a7f3a04ba6900a77d6835364624564eaee"
+    },
+    "eur": {
+      "status": "PASS",
+      "trades": 562,
+      "direct_CSV_quotes": 1124,
+      "same_implementer": true,
+      "native_Ask": false
+    },
+    "historical_seals": {
+      "status": "PASS_FOR_DECLARED_VIEWS",
+      "V8_development_exact": true,
+      "V8_release_exact": true,
+      "V7_exact_snapshot": true,
+      "V7_current_worktree_exact": false,
+      "V7_records": [
+        {
+          "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\prop-portfolio-v3-20261114\\system-trades.json",
+          "registered": "12c8f9d53fdc8032f943b9f8aafd4cf105385f8689cd1eafb54db91e9480ec98",
+          "working_tree_exact": true,
+          "snapshot_exact": true,
+          "snapshot_path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-exact-byte-view\\e7d90a88b80227c7-system-trades.json"
+        },
+        {
+          "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\prop-v4-harvest-v6-20261115\\eur-manifest.json",
+          "registered": "4ff496787167b1b4c5f0d5f913d6f221c82e1b39eb12405fff9624606c330e47",
+          "working_tree_exact": true,
+          "snapshot_exact": true,
+          "snapshot_path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-exact-byte-view\\a41c7e24121918ec-eur-manifest.json"
+        },
+        {
+          "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\prop-v4-harvest-v6-20261115\\gold-source-proof.json",
+          "registered": "9e069530d192313494bced1c9eebabb39275b764af449bdd674f9f3aad46b015",
+          "working_tree_exact": true,
+          "snapshot_exact": true,
+          "snapshot_path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-exact-byte-view\\ac544ec3ed24b485-gold-source-proof.json"
+        },
+        {
+          "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\prop-v4-harvest-v6-20261115\\OPEN_LOW_HIGH_CLOSE\\holdout-trades.json",
+          "registered": "026ffd8abf12a31c7a4a806dba343c3e74cb7622ca0465e3bbadecce3ebc5808",
+          "working_tree_exact": true,
+          "snapshot_exact": true,
+          "snapshot_path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-exact-byte-view\\8b6087ff96fb086f-holdout-trades.json"
+        },
+        {
+          "path": "planning\\research\\PROP-GOLD-V7-PROTOCOL-20261115.md",
+          "registered": "d8c3a8ba1ef0a0dce24855bd3b41f5fab89510187da91d396d94b90a65a2a49f",
+          "working_tree_exact": true,
+          "snapshot_exact": true,
+          "snapshot_path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-exact-byte-view\\e75fa7993e227f49-PROP-GOLD-V7-PROTOCOL-20261115.md"
+        },
+        {
+          "path": "planning\\research\\PROP-V7-SESSION-CALENDAR-20261115.json",
+          "registered": "4e5211236661971c4ae9c3d124e6a5888bba8ef03fd8078dca807689980d954c",
+          "working_tree_exact": true,
+          "snapshot_exact": true,
+          "snapshot_path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-exact-byte-view\\10b32c0b39d77bb6-PROP-V7-SESSION-CALENDAR-20261115.json"
+        },
+        {
+          "path": "tooling\\ai-engines\\prop_campaign_accounts.py",
+          "registered": "2cc14ee74557980f05f71dce0089416f617c415acad5eb783c23f3ea6507c559",
+          "working_tree_exact": true,
+          "snapshot_exact": true,
+          "snapshot_path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-exact-byte-view\\9a115f53e09669b7-prop_campaign_accounts.py"
+        },
+        {
+          "path": "tooling\\ai-engines\\prop_campaign_exits.py",
+          "registered": "ec974924ceb1c8742a35b26431bb19e7dc878fc8904dd6584922e89659d88772",
+          "working_tree_exact": true,
+          "snapshot_exact": true,
+          "snapshot_path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-exact-byte-view\\4e004b4884bd2e17-prop_campaign_exits.py"
+        },
+        {
+          "path": "tooling\\ai-engines\\prop_cocore_v4.py",
+          "registered": "2449cb3f6e28f726865e4e240bffda5ec35c528073dfc51223efa640fc77b7f1",
+          "working_tree_exact": true,
+          "snapshot_exact": true,
+          "snapshot_path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-exact-byte-view\\85f5fe00e9bb77cc-prop_cocore_v4.py"
+        },
+        {
+          "path": "tooling\\ai-engines\\prop_portfolio_accounts.py",
+          "registered": "dd1542edecf77c471a15832b2894c98176e8cd542bfa78ebf96b3fd142f853cb",
+          "working_tree_exact": true,
+          "snapshot_exact": true,
+          "snapshot_path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-exact-byte-view\\abd0a546f856a845-prop_portfolio_accounts.py"
+        },
+        {
+          "path": "tooling\\ai-engines\\prop_v5_account.py",
+          "registered": "9c582aeece8a2eb8dc1b2eabb6a68615ad9119f2c6ceea8d07561fd6f25a2061",
+          "working_tree_exact": true,
+          "snapshot_exact": true,
+          "snapshot_path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-exact-byte-view\\4b8e6b81b427215d-prop_v5_account.py"
+        },
+        {
+          "path": "tooling\\ai-engines\\prop_v6_account.py",
+          "registered": "b444f11bf2822d8d8a528588aaedc7d32bab796d28dd55017784336a8f4b2645",
+          "working_tree_exact": true,
+          "snapshot_exact": true,
+          "snapshot_path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-exact-byte-view\\d95585273f8b04d0-prop_v6_account.py"
+        },
+        {
+          "path": "tooling\\ai-engines\\prop_v6_paths.py",
+          "registered": "ea1093e52c4839864b605597aa611eb23bf474f38b808471596a84b9ea316deb",
+          "working_tree_exact": true,
+          "snapshot_exact": true,
+          "snapshot_path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-exact-byte-view\\408979eaf6bf79d5-prop_v6_paths.py"
+        },
+        {
+          "path": "tooling\\ai-engines\\prop_v6_signals.py",
+          "registered": "e42315ab4709b0e4bacf7c02988856eed9e54c71f99ec2694417fe5e35de186b",
+          "working_tree_exact": true,
+          "snapshot_exact": true,
+          "snapshot_path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-exact-byte-view\\641ada0171558a40-prop_v6_signals.py"
+        },
+        {
+          "path": "tooling\\ai-engines\\prop_v7_accounts.py",
+          "registered": "4444c349fc219b6e7e516d1491ab60b7fb9ade990e3ae60ee19df38b3158c0a4",
+          "working_tree_exact": false,
+          "snapshot_exact": true,
+          "snapshot_path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-exact-byte-view\\ab2d3fff8843ef14-prop_v7_accounts.py"
+        },
+        {
+          "path": "tooling\\ai-engines\\prop_v7_common.py",
+          "registered": "8a7c2092df4f332f661b32a68573e5a42efcc600dd78af1d0f3646668506d8e7",
+          "working_tree_exact": true,
+          "snapshot_exact": true,
+          "snapshot_path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-exact-byte-view\\f4c11c722146fb27-prop_v7_common.py"
+        },
+        {
+          "path": "tooling\\ai-engines\\prop_v7_paths.py",
+          "registered": "3f08a7ad1a729ca0f2a16505afb0c2b8ad05c7b4c43e8e9f01c9d9e2cc9cdacc",
+          "working_tree_exact": true,
+          "snapshot_exact": true,
+          "snapshot_path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-exact-byte-view\\8aa1829dff129ae3-prop_v7_paths.py"
+        },
+        {
+          "path": "tooling\\ai-engines\\prop_v7_replay.py",
+          "registered": "1ffdd1db79d430840f4a2f867ad6879ea702986b3b5d3b95548cd82649db4c33",
+          "working_tree_exact": true,
+          "snapshot_exact": true,
+          "snapshot_path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-exact-byte-view\\195bbfcd46efe327-prop_v7_replay.py"
+        }
+      ],
+      "frozen_pins_updated": false,
+      "semantic_changes": false,
+      "reason": "V7 LF and V8 CRLF seals on shared source cannot both bind one working-tree byte representation",
+      "snapshot_path_repair": {
+        "prior_attempt": "absolute input path overrode snapshot prefix; four JSON inputs rewritten with identical bytes; all four registered SHA256 unchanged",
+        "same_byte_rewrites": [
+          {
+            "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\prop-portfolio-v3-20261114\\system-trades.json",
+            "original_content_hash": "12c8f9d53fdc8032f943b9f8aafd4cf105385f8689cd1eafb54db91e9480ec98",
+            "current_content_hash": "12c8f9d53fdc8032f943b9f8aafd4cf105385f8689cd1eafb54db91e9480ec98",
+            "content_unchanged": true
+          },
+          {
+            "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\prop-v4-harvest-v6-20261115\\eur-manifest.json",
+            "original_content_hash": "4ff496787167b1b4c5f0d5f913d6f221c82e1b39eb12405fff9624606c330e47",
+            "current_content_hash": "4ff496787167b1b4c5f0d5f913d6f221c82e1b39eb12405fff9624606c330e47",
+            "content_unchanged": true
+          },
+          {
+            "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\prop-v4-harvest-v6-20261115\\gold-source-proof.json",
+            "original_content_hash": "9e069530d192313494bced1c9eebabb39275b764af449bdd674f9f3aad46b015",
+            "current_content_hash": "9e069530d192313494bced1c9eebabb39275b764af449bdd674f9f3aad46b015",
+            "content_unchanged": true
+          },
+          {
+            "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\prop-v4-harvest-v6-20261115\\OPEN_LOW_HIGH_CLOSE\\holdout-trades.json",
+            "original_content_hash": "026ffd8abf12a31c7a4a806dba343c3e74cb7622ca0465e3bbadecce3ebc5808",
+            "current_content_hash": "026ffd8abf12a31c7a4a806dba343c3e74cb7622ca0465e3bbadecce3ebc5808",
+            "content_unchanged": true
+          }
+        ],
+        "resolved_snapshot_root": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-exact-byte-view",
+        "all_snapshot_outputs_contained": true
+      },
+      "V7_verified_view_v2": [
+        {
+          "source": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\prop-portfolio-v3-20261114\\system-trades.json",
+          "snapshot": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-verified-view-v2\\e7d90a88b80227c7-system-trades.json",
+          "sha256": "12c8f9d53fdc8032f943b9f8aafd4cf105385f8689cd1eafb54db91e9480ec98"
+        },
+        {
+          "source": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\prop-v4-harvest-v6-20261115\\eur-manifest.json",
+          "snapshot": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-verified-view-v2\\a41c7e24121918ec-eur-manifest.json",
+          "sha256": "4ff496787167b1b4c5f0d5f913d6f221c82e1b39eb12405fff9624606c330e47"
+        },
+        {
+          "source": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\prop-v4-harvest-v6-20261115\\gold-source-proof.json",
+          "snapshot": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-verified-view-v2\\ac544ec3ed24b485-gold-source-proof.json",
+          "sha256": "9e069530d192313494bced1c9eebabb39275b764af449bdd674f9f3aad46b015"
+        },
+        {
+          "source": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\prop-v4-harvest-v6-20261115\\OPEN_LOW_HIGH_CLOSE\\holdout-trades.json",
+          "snapshot": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-verified-view-v2\\8b6087ff96fb086f-holdout-trades.json",
+          "sha256": "026ffd8abf12a31c7a4a806dba343c3e74cb7622ca0465e3bbadecce3ebc5808"
+        },
+        {
+          "source": "planning\\research\\PROP-GOLD-V7-PROTOCOL-20261115.md",
+          "snapshot": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-verified-view-v2\\e75fa7993e227f49-PROP-GOLD-V7-PROTOCOL-20261115.md",
+          "sha256": "d8c3a8ba1ef0a0dce24855bd3b41f5fab89510187da91d396d94b90a65a2a49f"
+        },
+        {
+          "source": "planning\\research\\PROP-V7-SESSION-CALENDAR-20261115.json",
+          "snapshot": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-verified-view-v2\\10b32c0b39d77bb6-PROP-V7-SESSION-CALENDAR-20261115.json",
+          "sha256": "4e5211236661971c4ae9c3d124e6a5888bba8ef03fd8078dca807689980d954c"
+        },
+        {
+          "source": "tooling\\ai-engines\\prop_campaign_accounts.py",
+          "snapshot": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-verified-view-v2\\9a115f53e09669b7-prop_campaign_accounts.py",
+          "sha256": "2cc14ee74557980f05f71dce0089416f617c415acad5eb783c23f3ea6507c559"
+        },
+        {
+          "source": "tooling\\ai-engines\\prop_campaign_exits.py",
+          "snapshot": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-verified-view-v2\\4e004b4884bd2e17-prop_campaign_exits.py",
+          "sha256": "ec974924ceb1c8742a35b26431bb19e7dc878fc8904dd6584922e89659d88772"
+        },
+        {
+          "source": "tooling\\ai-engines\\prop_cocore_v4.py",
+          "snapshot": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-verified-view-v2\\85f5fe00e9bb77cc-prop_cocore_v4.py",
+          "sha256": "2449cb3f6e28f726865e4e240bffda5ec35c528073dfc51223efa640fc77b7f1"
+        },
+        {
+          "source": "tooling\\ai-engines\\prop_portfolio_accounts.py",
+          "snapshot": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-verified-view-v2\\abd0a546f856a845-prop_portfolio_accounts.py",
+          "sha256": "dd1542edecf77c471a15832b2894c98176e8cd542bfa78ebf96b3fd142f853cb"
+        },
+        {
+          "source": "tooling\\ai-engines\\prop_v5_account.py",
+          "snapshot": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-verified-view-v2\\4b8e6b81b427215d-prop_v5_account.py",
+          "sha256": "9c582aeece8a2eb8dc1b2eabb6a68615ad9119f2c6ceea8d07561fd6f25a2061"
+        },
+        {
+          "source": "tooling\\ai-engines\\prop_v6_account.py",
+          "snapshot": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-verified-view-v2\\d95585273f8b04d0-prop_v6_account.py",
+          "sha256": "b444f11bf2822d8d8a528588aaedc7d32bab796d28dd55017784336a8f4b2645"
+        },
+        {
+          "source": "tooling\\ai-engines\\prop_v6_paths.py",
+          "snapshot": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-verified-view-v2\\408979eaf6bf79d5-prop_v6_paths.py",
+          "sha256": "ea1093e52c4839864b605597aa611eb23bf474f38b808471596a84b9ea316deb"
+        },
+        {
+          "source": "tooling\\ai-engines\\prop_v6_signals.py",
+          "snapshot": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-verified-view-v2\\641ada0171558a40-prop_v6_signals.py",
+          "sha256": "e42315ab4709b0e4bacf7c02988856eed9e54c71f99ec2694417fe5e35de186b"
+        },
+        {
+          "source": "tooling\\ai-engines\\prop_v7_accounts.py",
+          "snapshot": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-verified-view-v2\\ab2d3fff8843ef14-prop_v7_accounts.py",
+          "sha256": "4444c349fc219b6e7e516d1491ab60b7fb9ade990e3ae60ee19df38b3158c0a4"
+        },
+        {
+          "source": "tooling\\ai-engines\\prop_v7_common.py",
+          "snapshot": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-verified-view-v2\\f4c11c722146fb27-prop_v7_common.py",
+          "sha256": "8a7c2092df4f332f661b32a68573e5a42efcc600dd78af1d0f3646668506d8e7"
+        },
+        {
+          "source": "tooling\\ai-engines\\prop_v7_paths.py",
+          "snapshot": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-verified-view-v2\\8aa1829dff129ae3-prop_v7_paths.py",
+          "sha256": "3f08a7ad1a729ca0f2a16505afb0c2b8ad05c7b4c43e8e9f01c9d9e2cc9cdacc"
+        },
+        {
+          "source": "tooling\\ai-engines\\prop_v7_replay.py",
+          "snapshot": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\V7-verified-view-v2\\195bbfcd46efe327-prop_v7_replay.py",
+          "sha256": "1ffdd1db79d430840f4a2f867ad6879ea702986b3b5d3b95548cd82649db4c33"
+        }
+      ]
+    }
+  },
+  "validation": {
+    "candidate_eligible": 0,
+    "newly_decoded_2018_2021_validation": false,
+    "newly_decoded_2024_2026_validation": false,
+    "portfolio": null,
+    "nine_year_candidate_lifecycle": "CANCELED_FAILED_STAGE0",
+    "historical_labels": "ALL_YEARS_PREVIOUSLY_EXPOSED",
+    "cutoff": "2026-10-13",
+    "independent_person_review": false
+  },
+  "private_job": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115",
+  "artifacts": {
+    "development-stage0.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\development-stage0.json",
+      "sha256": "f2de838b03b9b0fa41c95b88d34262a7f3a04ba6900a77d6835364624564eaee"
+    },
+    "eurusd-stage0.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\eurusd-stage0.json",
+      "sha256": "1554e7ca9fe0bf2710c5f515e12ed20a3633bba2bdd0d688c8a035d9393dcb4e"
+    },
+    "stage0-accounting-parity.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\stage0-accounting-parity.json",
+      "sha256": "cf4f53238b37dd89367d73dd9ef8136d3ce2340d51e6c0000877f41705c948cd"
+    },
+    "eurusd-accounting-parity.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\eurusd-accounting-parity.json",
+      "sha256": "1f56ab8546e9efeefe03f205f089c18373e72b8d4309310e7eb0b0e8018e01f5"
+    },
+    "core-benchmark.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\core-benchmark.json",
+      "sha256": "b65dd3bf660ea84b0e613e156220798b6f7c1c307b97597497170366a2720476"
+    },
+    "historical-seals.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\historical-seals.json",
+      "sha256": "941b08e8b676aaa14af94dac7ff4d119ca10a17c3d637b8427f066e1cd5167da"
+    },
+    "storage-D-before-longpaths.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\storage-D-before-longpaths.json",
+      "sha256": "82f392762a6733e2e38d2c190164738a07857fe0d5139fca2f3facc37f2f0827"
+    },
+    "storage-D-after.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\storage-D-after.json",
+      "sha256": "b9dd99a1790a7caeea5013403ed1cc125e5b4aac22cb42d857f450a64fd4cadf"
+    },
+    "storage-E-before.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\storage-E-before.json",
+      "sha256": "8c682d7afbf96cc801c6eb5d1c93aa72b523d2351a1be68eea4bd643fe8203b5"
+    },
+    "storage-E-after.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\storage-E-after.json",
+      "sha256": "be14d6d726d1379870977f4a9f280ef38ef34ac46ffe1fd930a918cc90e352c9"
+    },
+    "cache-purge.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\cache-purge.json",
+      "sha256": "56f33d8062733a2d4cd4e6061b2da86aabd751740a4cfe41bf67a98df10650b3"
+    },
+    "backup-plan.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\backup-plan.json",
+      "sha256": "3dfa76d40ae0bf32bc2f127b980d9c5af6a719249e2a46c7ed300a4f3bde650e"
+    },
+    "research-registration.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\research-registration.json",
+      "sha256": "4d819f18e8fc19e1d107749bc9d77e5335bf8ed4246f9eaad9256750d801015e"
+    },
+    "eurusd-registration.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\eurusd-registration.json",
+      "sha256": "8f7c44b4d114391cf68c326635bc48a1bf167348b64d1749b8cfccfa4c2dd146"
+    },
+    "maintenance-cli-smoke.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\maintenance-cli-smoke.json",
+      "sha256": "c081188546281915466cb97a9b8a783b36f417a5b64353a4fb18beaed049b8b3"
+    }
+  }
+}

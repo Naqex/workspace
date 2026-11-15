@@ -1,5 +1,22 @@
 # Tra cứu research đã có
 
+**V9 — storage/quant core đã giao; Gold/EUR S1/S2 đều No-Go ở Stage0:**
+[Báo cáo4trụ cột](SYSTEM-AND-ALPHA-V9-RESULTS-20261115.md) /
+[JSON](SYSTEM-AND-ALPHA-V9-RESULTS-20261115.json) /
+[closure](SYSTEM-AND-ALPHA-V9-DECISION-20261115.json) /
+[protocol](SYSTEM-AND-ALPHA-V9-PROTOCOL-20261115.md) /
+[EUR admission](SYSTEM-AND-ALPHA-V9-EURUSD-ADMISSION-20261115.md).
+PR87 merged5f1b687; branchcodex/system-and-alpha-v9, không tự merge PR mới.
+D−11,84GB/41.906files;2VIpermission gaps vẫn giữ; Ekhôngpurge.
+1.013tests giữ995IDs cũ,2anti-bloatfixtures riêng. Core/adapters reuse legacy
+seals, không rewrite lịch sử. 3.892Gold và562EURdirectcostbridges PASS,
+cùng implementer. Dev2019–20+2022–23 đều không đủ; không validation/lifecycle
+candidate V9.9-year table làbaselineV8reused, không portfolio mới/cleanOOS.
+V8 exact seals, V7 exact snapshot view do newline conflict;4same-byte writes
+của snapshot attempt được giữ/audit, regression đã sửa. VIWIP/Traderpin giữ nguyên.
+Privatejobexecution-v1/system-and-alpha-v9-20261115. Read report trước hypothesis mới.
+
+
 **V8 — N1/N2 và ba Gold sleeves No-Go; baseline backward cũng không đạt:**
 [Báo cáo](PROP-GOLD-V8-RESULTS-20261115.md) /
 [JSON](PROP-GOLD-V8-RESULTS-20261115.json) /
@@ -7,7 +24,7 @@
 [N2 correction](PROP-V8-N2-CORRECTION-20261115.json) /
 [protocol](PROP-GOLD-V8-PROTOCOL-20261115.md) /
 [calendar](PROP-V8-SESSION-CALENDAR-20261115.json).
-PR86 merge `c99fa7e`; branch `codex/prop-gold-v8`, không tự merge PR mới.
+PR86 merge `c99fa7e`; PR87 đã merge `5f1b687`, nhánh V8 đã xóa.
 N1 SYM2022/23 −1,54/−12,77R; N2 conditional −6,28/−4,58R; ba sweep horizons dương
 nhưng retain45,1%/37,5%, F/SL15,82%/16,92%. Không composition đủ gate;
 khóa No-Go `91aa670` trước backward, chỉ baseline control ngoài Dev.

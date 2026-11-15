@@ -43,6 +43,8 @@ quản lý; dùng các nguồn này khi thêm service, không lấy cổng mặc
 ### Tìm đúng context để tiếp tục
 
 Strategy workflow: [nghiên cứu → kiểm định → vận hành](../../tooling/ai-engines/STRATEGY-WORKFLOW.md).
+Shared quant contracts và test tiers: [quant core](../../tooling/ai-engines/quant_core/README.md).
+Inventory, cache purge và backup dry-run: [workspace maintenance](../../tooling/WORKSPACE-MAINTENANCE.md).
 Skill management: [trigger cập nhật/đánh giá/dọn](SKILL-MAINTENANCE.md), dùng
 maintainer hiện có khi thay instruction; không cài manager/service khác.
 
