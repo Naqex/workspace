@@ -75,6 +75,6 @@
   "lifecycle_2018_2026": "CANCELED_NO_ELIGIBLE_COMPOSITION",
   "clean_OOS": false,
   "requires_new_authorization_for_further_trials": true,
-  "results_canonical_sha256": "35e1c4e8c83d065abc2d54d68f66f09d9dc313a113703f84396968d1632569fe",
+  "results_canonical_sha256": "ea41447356d5b8693897565bc5c03e5f16c483234cf9ca14ff22229efc9c4a44",
   "results_hash_encoding": "UTF8 JSON sort_keys=True separators=comma:colon ensure_ascii=False, independent of checkout newlines"
 }

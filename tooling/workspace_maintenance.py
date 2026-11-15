@@ -24,6 +24,7 @@ def linked(path):
 def inventory(root):
     root = Path(root).resolve(strict=True)
     groups = defaultdict(lambda: dict(bytes=0, files=0, folders=0))
+    groups["/"]  # Empty roots still have a valid zero-count health summary.
     candidates, skipped, errors = [], [], []
     stack = [root]
     while stack:

@@ -18,7 +18,7 @@ không đụng ACL. Cache/Rust incremental đã purge;2coldvenvs nén và roundt
 E chỉ inventory +backup dry-run, không purge hoặc mirror các raw/evidence pins.
 [Maintenance](../tooling/WORKSPACE-MAINTENANCE.md) và
 [quant core/testtiers](../tooling/ai-engines/quant_core/README.md) là entrypoints.
-1.012unique tests giữ995IDs cũ,17regressions mới;2anti-bloat fixtures riêng.
+1.013unique tests giữ995IDs cũ,18regressions mới;2anti-bloat fixtures riêng.
 Warm seek same-slice9,79×; không full-campaign speed claim. Timings/receipts ở report.
 
 Gold S1.DAY/S1.24H/S2.DAY và conditional EURUSD S2 đều fail Stage0 Dev

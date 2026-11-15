@@ -91,4 +91,5 @@ class MaintenanceTests(unittest.TestCase):
             self.assertFalse(cache.exists())
             self.assertFalse(backup.exists())
             self.assertEqual(applied["cache_purge"]["files"], 1)
+            self.assertEqual(applied["after"]["groups"]["/"]["files"], 0)
             self.assertFalse(applied["backup_copied"])

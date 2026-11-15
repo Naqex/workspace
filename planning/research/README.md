@@ -8,7 +8,7 @@
 [EUR admission](SYSTEM-AND-ALPHA-V9-EURUSD-ADMISSION-20261115.md).
 PR87 merged5f1b687; branchcodex/system-and-alpha-v9, không tự merge PR mới.
 D−11,84GB/41.906files;2VIpermission gaps vẫn giữ; Ekhôngpurge.
-1.012tests giữ995IDs cũ,2anti-bloatfixtures riêng. Core/adapters reuse legacy
+1.013tests giữ995IDs cũ,2anti-bloatfixtures riêng. Core/adapters reuse legacy
 seals, không rewrite lịch sử. 3.892Gold và562EURdirectcostbridges PASS,
 cùng implementer. Dev2019–20+2022–23 đều không đủ; không validation/lifecycle
 candidate V9.9-year table làbaselineV8reused, không portfolio mới/cleanOOS.

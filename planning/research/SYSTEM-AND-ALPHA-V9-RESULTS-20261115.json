@@ -1788,6 +1788,10 @@
     "eurusd-registration.json": {
       "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\eurusd-registration.json",
       "sha256": "8f7c44b4d114391cf68c326635bc48a1bf167348b64d1749b8cfccfa4c2dd146"
+    },
+    "maintenance-cli-smoke.json": {
+      "path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\system-and-alpha-v9-20261115\\maintenance-cli-smoke.json",
+      "sha256": "c081188546281915466cb97a9b8a783b36f417a5b64353a4fb18beaed049b8b3"
     }
   }
 }

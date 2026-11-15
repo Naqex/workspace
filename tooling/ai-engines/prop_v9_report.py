@@ -74,7 +74,7 @@ def run():
                  "eurusd-accounting-parity.json", "core-benchmark.json", "historical-seals.json",
                  "storage-D-before-longpaths.json", "storage-D-after.json", "storage-E-before.json",
                  "storage-E-after.json", "cache-purge.json", "backup-plan.json",
-                 "research-registration.json", "eurusd-registration.json"):
+                 "research-registration.json", "eurusd-registration.json", "maintenance-cli-smoke.json"):
         p = JOB / name
         artifacts[name] = dict(path=str(p), sha256=hashlib.sha256(p.read_bytes()).hexdigest())
     output = dict(schema="SYSTEM-AND-ALPHA-V9-v1", status="NO_NEW_CHALLENGE_CANDIDATE",
@@ -268,6 +268,7 @@ def run():
         "- Anti-bloat CI chặn changed JSON/JSONL/CSV >1MiB/file, >8MiB tổng hoặc>100 files;",
         "  raw/ledger và full storage maps giữ private, tracked JSON chỉ compact summary/pins.",
         "- Maintenance có inventory/purge có preflight, cold archive roundtrip, backup `/L`.",
+        "  Một lệnh `maintain` kiểm tra, tùy chọn purge cache D và xuất backup preview; đã CLI smoke.",
         "  Không daemon, global config hoặc manager mới.",
         "- Gold:973 entries/1.946 endpoints/3.892 Fraction cost bridges PASS. EUR:562 lệnh/",
         "  1.124 quotes đọc trực tiếp từ CSV PASS. Khác implementation, **cùng implementer**;",
@@ -280,8 +281,10 @@ def run():
         "",
         "Các failed/technical attempts vẫn giữ private: cleanup attempt1 có ancestor scan O(n²),",
         "dừng trước mutation (0 cache mất), thay bằng ancestor set; cleanup sau20,36s. Fixture",
-        "class setup lần đầu sai receiver, sửa rồi toàn suite pass. Checkout LF/CRLF có các",
-        "strict-hash failures đã giữ; restore chỉ khi exact registered SHA khớp.",
+        "class setup lần đầu sai receiver, sửa rồi toàn suite pass.",
+        "CLI maintain smoke lần đầu gặp empty-root summary thiếu zero row; đã sửa và kiểm",
+        "cả regression lẫn actual CLI (purge fixture, E preview giữ read-only).",
+        "Checkout LF/CRLF có strict-hash failures đã giữ; restore chỉ khi exact registered SHA khớp.",
         "Một snapshot attempt ghép absolute source path sai đã ghi lại **cùng bytes** vào4",
         "private JSON inputs; SHA256 cả4 vẫn nguyên. Đã tạo view trong root riêng bằng helper",
         "có containment guard và regression kiểm source mtime/bytes không đổi. Không giấu lỗi này",
