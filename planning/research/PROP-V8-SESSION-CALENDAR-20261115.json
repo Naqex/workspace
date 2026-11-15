@@ -1,0 +1,963 @@
+{
+  "schema": "V8-calendar-v1",
+  "events": [
+    {
+      "day": "2017-01-01",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2017-01-02",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2017-12-25",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2018-01-01",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2018-01-15",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2018-02-19",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2018-03-29",
+      "kind": "GOOD_FRIDAY_EVE",
+      "flat_utc": "20:28",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2018-03-30",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2018-05-28",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2018-07-03",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2018-07-04",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2018-09-03",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2018-11-22",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2018-11-23",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2018-12-24",
+      "kind": "CONSERVATIVE_EVE",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2018-12-25",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2018-12-31",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2019-01-01",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2019-01-21",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2019-02-18",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2019-04-18",
+      "kind": "GOOD_FRIDAY_EVE",
+      "flat_utc": "20:28",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2019-04-19",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2019-05-27",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2019-07-03",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2019-07-04",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2019-09-02",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2019-11-28",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2019-11-29",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2019-12-24",
+      "kind": "CONSERVATIVE_EVE",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2019-12-25",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2019-12-31",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2020-01-01",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2020-01-20",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2020-02-17",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2020-04-09",
+      "kind": "GOOD_FRIDAY_EVE",
+      "flat_utc": "20:28",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2020-04-10",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2020-05-25",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2020-07-03",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2020-09-07",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2020-11-26",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2020-11-27",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2020-12-24",
+      "kind": "CONSERVATIVE_EVE",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2020-12-25",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2020-12-31",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2021-01-01",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2021-01-18",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2021-02-15",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2021-04-01",
+      "kind": "GOOD_FRIDAY_EVE",
+      "flat_utc": "20:28",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2021-04-02",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2021-05-31",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2021-07-05",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2021-09-06",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2021-11-25",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2021-11-26",
+      "kind": "DECLARED_METALS_EARLY_GUARD",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2021-12-23",
+      "kind": "CONSERVATIVE_EVE",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2021-12-24",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2021-12-25",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2021-12-30",
+      "kind": "CONSERVATIVE_EVE",
+      "flat_utc": "16:58",
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2021-12-31",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+    },
+    {
+      "day": "2022-01-17",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": null,
+      "target_time_status": "UNVERIFIED_GUARD_NOT_ACTUAL_CLOSE",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2022-02-21",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": null,
+      "target_time_status": "UNVERIFIED_GUARD_NOT_ACTUAL_CLOSE",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2022-04-14",
+      "kind": "GOOD_FRIDAY_EVE",
+      "flat_utc": "20:30",
+      "target_time_status": "CONSERVATIVE_EVE_FLAT",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-30-mar-2023/"
+    },
+    {
+      "day": "2022-04-15",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "METALS_GOOD_FRIDAY",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-30-mar-2023/"
+    },
+    {
+      "day": "2022-05-30",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": null,
+      "target_time_status": "UNVERIFIED_GUARD_NOT_ACTUAL_CLOSE",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2022-06-20",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": null,
+      "target_time_status": "UNVERIFIED_GUARD_NOT_ACTUAL_CLOSE",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2022-07-04",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": null,
+      "target_time_status": "UNVERIFIED_GUARD_NOT_ACTUAL_CLOSE",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2022-09-05",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": null,
+      "target_time_status": "UNVERIFIED_GUARD_NOT_ACTUAL_CLOSE",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2022-11-24",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": null,
+      "target_time_status": "UNVERIFIED_GUARD_NOT_ACTUAL_CLOSE",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2022-11-25",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": null,
+      "target_time_status": "UNVERIFIED_GUARD_NOT_ACTUAL_CLOSE",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2022-12-26",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "HOLIDAY_DATE_CLOSED_SCENARIO",
+      "source": "https://ftmo.com/it/blog/trading-update-05-01-2023-2-2-2/"
+    },
+    {
+      "day": "2023-01-02",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "HOLIDAY_DATE_CLOSED_SCENARIO",
+      "source": "https://ftmo.com/it/blog/trading-update-05-01-2023-2-2-2/"
+    },
+    {
+      "day": "2023-01-16",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": "19:15",
+      "target_time_status": "DATED_FTMO_PUBLIC_NOTICE",
+      "source": "https://ftmo.com/it/blog/trading-update-05-01-2023-2-2-2/"
+    },
+    {
+      "day": "2023-02-20",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": null,
+      "target_time_status": "UNVERIFIED_GUARD_NOT_ACTUAL_CLOSE",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2023-04-06",
+      "kind": "GOOD_FRIDAY_EVE",
+      "flat_utc": "20:30",
+      "target_time_status": "CONSERVATIVE_EVE_FLAT",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-30-mar-2023/"
+    },
+    {
+      "day": "2023-04-07",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "METALS_GOOD_FRIDAY",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-30-mar-2023/"
+    },
+    {
+      "day": "2023-05-29",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": null,
+      "target_time_status": "UNVERIFIED_GUARD_NOT_ACTUAL_CLOSE",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2023-06-19",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": null,
+      "target_time_status": "UNVERIFIED_GUARD_NOT_ACTUAL_CLOSE",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2023-07-04",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": null,
+      "target_time_status": "UNVERIFIED_GUARD_NOT_ACTUAL_CLOSE",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2023-09-04",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": null,
+      "target_time_status": "UNVERIFIED_GUARD_NOT_ACTUAL_CLOSE",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2023-11-23",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": "19:30",
+      "target_time_status": "DATED_FTMO_PUBLIC_NOTICE",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-23-nov-2023/"
+    },
+    {
+      "day": "2023-11-24",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": "18:45",
+      "target_time_status": "DATED_FTMO_PUBLIC_NOTICE",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-23-nov-2023/"
+    },
+    {
+      "day": "2023-12-25",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "HOLIDAY_DATE_CLOSED_SCENARIO",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2024-01-01",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "HOLIDAY_DATE_CLOSED_SCENARIO",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2024-01-15",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": "19:30",
+      "target_time_status": "DATED_FTMO_PUBLIC_NOTICE",
+      "source": "https://ftmo.com/vi/blog/trading-updates/trading-update-11-january-2024-2-2/"
+    },
+    {
+      "day": "2024-02-19",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": "19:15",
+      "target_time_status": "DATED_FTMO_PUBLIC_NOTICE",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-15-feb-2024/"
+    },
+    {
+      "day": "2024-03-28",
+      "kind": "GOOD_FRIDAY_EVE",
+      "flat_utc": "20:30",
+      "target_time_status": "CONSERVATIVE_EVE_FLAT",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-30-mar-2023/"
+    },
+    {
+      "day": "2024-03-29",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "METALS_GOOD_FRIDAY",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-30-mar-2023/"
+    },
+    {
+      "day": "2024-05-27",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": "18:30",
+      "target_time_status": "DATED_FTMO_PUBLIC_NOTICE",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-23-may-2024/"
+    },
+    {
+      "day": "2024-06-19",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": "18:30",
+      "target_time_status": "DATED_FTMO_PUBLIC_NOTICE",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-13-jun-2024/"
+    },
+    {
+      "day": "2024-07-04",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": "18:30",
+      "target_time_status": "DATED_FTMO_PUBLIC_NOTICE",
+      "source": "https://ftmo.com/fr/blog/trading-updates/trading-update-4-juillet-2024/"
+    },
+    {
+      "day": "2024-09-02",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": "17:30",
+      "target_time_status": "DATED_FTMO_PUBLIC_NOTICE",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-29-aug-2024/"
+    },
+    {
+      "day": "2024-11-28",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": "19:30",
+      "target_time_status": "DATED_FTMO_PUBLIC_NOTICE",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-28-nov-2024/"
+    },
+    {
+      "day": "2024-11-29",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": "19:45",
+      "target_time_status": "DATED_FTMO_PUBLIC_NOTICE",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-28-nov-2024/"
+    },
+    {
+      "day": "2024-12-24",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": null,
+      "target_time_status": "UNVERIFIED_GUARD_NOT_ACTUAL_CLOSE",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2024-12-25",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "HOLIDAY_DATE_CLOSED_SCENARIO",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2024-12-31",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "17:00",
+      "target_close_utc": null,
+      "target_time_status": "UNVERIFIED_GUARD_NOT_ACTUAL_CLOSE",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/"
+    },
+    {
+      "day": "2025-01-01",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "DECLARED_CONSERVATIVE_GUARD_TARGET_CLOSE_UNVERIFIED",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/",
+      "legacy_guard_utc": null,
+      "target_time_verified": false,
+      "target_close_utc": null
+    },
+    {
+      "day": "2025-01-01",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "DECLARED_CONSERVATIVE_GUARD_TARGET_CLOSE_UNVERIFIED",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/",
+      "legacy_guard_utc": null,
+      "target_time_verified": false,
+      "target_close_utc": null
+    },
+    {
+      "day": "2025-01-20",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "16:58",
+      "target_time_status": "DECLARED_CONSERVATIVE_GUARD_TARGET_CLOSE_UNVERIFIED",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/",
+      "legacy_guard_utc": "17:00",
+      "target_time_verified": false,
+      "target_close_utc": null
+    },
+    {
+      "day": "2025-02-17",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "16:58",
+      "target_time_status": "DECLARED_CONSERVATIVE_GUARD_TARGET_CLOSE_UNVERIFIED",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/",
+      "legacy_guard_utc": "17:00",
+      "target_time_verified": false,
+      "target_close_utc": null
+    },
+    {
+      "day": "2025-04-17",
+      "kind": "GOOD_FRIDAY_EVE",
+      "flat_utc": "20:28",
+      "target_time_status": "DECLARED_CONSERVATIVE_GUARD_TARGET_CLOSE_UNVERIFIED",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/",
+      "legacy_guard_utc": "20:30",
+      "target_time_verified": false,
+      "target_close_utc": null
+    },
+    {
+      "day": "2025-04-18",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "DECLARED_CONSERVATIVE_GUARD_TARGET_CLOSE_UNVERIFIED",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/",
+      "legacy_guard_utc": null,
+      "target_time_verified": false,
+      "target_close_utc": null
+    },
+    {
+      "day": "2025-05-26",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "16:58",
+      "target_time_status": "DECLARED_CONSERVATIVE_GUARD_TARGET_CLOSE_UNVERIFIED",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/",
+      "legacy_guard_utc": "17:00",
+      "target_time_verified": false,
+      "target_close_utc": null
+    },
+    {
+      "day": "2025-06-19",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "16:58",
+      "target_time_status": "DECLARED_CONSERVATIVE_GUARD_TARGET_CLOSE_UNVERIFIED",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/",
+      "legacy_guard_utc": "17:00",
+      "target_time_verified": false,
+      "target_close_utc": null
+    },
+    {
+      "day": "2025-07-04",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "16:58",
+      "target_time_status": "VERIFIED_FTMO_CLOSE_WITH_CONSERVATIVE_EARLIER_GUARD",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-3-jul-2025/",
+      "legacy_guard_utc": "17:00",
+      "target_time_verified": true,
+      "target_close_utc": "17:00",
+      "metatrader_UTC_offset_hours": 3,
+      "metatrader_close": "20:00"
+    },
+    {
+      "day": "2025-09-01",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "16:58",
+      "target_time_status": "DECLARED_CONSERVATIVE_GUARD_TARGET_CLOSE_UNVERIFIED",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/",
+      "legacy_guard_utc": "17:00",
+      "target_time_verified": false,
+      "target_close_utc": null
+    },
+    {
+      "day": "2025-11-27",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "16:58",
+      "target_time_status": "VERIFIED_FTMO_CLOSE_WITH_CONSERVATIVE_EARLIER_GUARD",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-20-nov-2025/",
+      "legacy_guard_utc": "17:00",
+      "target_time_verified": true,
+      "target_close_utc": "19:30",
+      "metatrader_UTC_offset_hours": 2,
+      "metatrader_close": "21:30"
+    },
+    {
+      "day": "2025-11-28",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "16:58",
+      "target_time_status": "VERIFIED_FTMO_CLOSE_WITH_CONSERVATIVE_EARLIER_GUARD",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-20-nov-2025/",
+      "legacy_guard_utc": "17:00",
+      "target_time_verified": true,
+      "target_close_utc": "19:45",
+      "metatrader_UTC_offset_hours": 2,
+      "metatrader_close": "21:45"
+    },
+    {
+      "day": "2025-12-24",
+      "kind": "CONSERVATIVE_EVE_FLAT",
+      "flat_utc": "16:58",
+      "target_time_status": "VERIFIED_FTMO_CLOSE_WITH_CONSERVATIVE_EARLIER_GUARD",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-18-dec-2025/",
+      "legacy_guard_utc": "17:00",
+      "target_time_verified": true,
+      "target_close_utc": "18:45",
+      "metatrader_UTC_offset_hours": 2,
+      "metatrader_close": "20:45"
+    },
+    {
+      "day": "2025-12-25",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "VERIFIED_FTMO_CLOSED",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-18-dec-2025/",
+      "legacy_guard_utc": null,
+      "target_time_verified": true,
+      "target_close_utc": null,
+      "metatrader_UTC_offset_hours": 2,
+      "metatrader_close": "CLOSED"
+    },
+    {
+      "day": "2025-12-31",
+      "kind": "CONSERVATIVE_EVE_FLAT",
+      "flat_utc": "16:58",
+      "target_time_status": "DECLARED_CONSERVATIVE_GUARD_TARGET_CLOSE_UNVERIFIED",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/",
+      "legacy_guard_utc": "17:00",
+      "target_time_verified": false,
+      "target_close_utc": null
+    },
+    {
+      "day": "2026-01-01",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "VERIFIED_FTMO_CLOSED",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-18-dec-2025/",
+      "legacy_guard_utc": null,
+      "target_time_verified": true,
+      "target_close_utc": null,
+      "metatrader_UTC_offset_hours": 2,
+      "metatrader_close": "CLOSED"
+    },
+    {
+      "day": "2026-01-19",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "16:58",
+      "target_time_status": "VERIFIED_FTMO_CLOSE_WITH_CONSERVATIVE_EARLIER_GUARD",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-15-jan-2026/",
+      "legacy_guard_utc": "17:00",
+      "target_time_verified": true,
+      "target_close_utc": "19:30",
+      "metatrader_UTC_offset_hours": 2,
+      "metatrader_close": "21:30"
+    },
+    {
+      "day": "2026-02-16",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "16:58",
+      "target_time_status": "VERIFIED_FTMO_CLOSE_WITH_CONSERVATIVE_EARLIER_GUARD",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-12-feb-2026/",
+      "legacy_guard_utc": "17:00",
+      "target_time_verified": true,
+      "target_close_utc": "19:30",
+      "metatrader_UTC_offset_hours": 2,
+      "metatrader_close": "21:30"
+    },
+    {
+      "day": "2026-04-02",
+      "kind": "GOOD_FRIDAY_EVE",
+      "flat_utc": "20:28",
+      "target_time_status": "DECLARED_CONSERVATIVE_GUARD_TARGET_CLOSE_UNVERIFIED",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/",
+      "legacy_guard_utc": "20:30",
+      "target_time_verified": false,
+      "target_close_utc": null
+    },
+    {
+      "day": "2026-04-03",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "DECLARED_CONSERVATIVE_GUARD_TARGET_CLOSE_UNVERIFIED",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/",
+      "legacy_guard_utc": null,
+      "target_time_verified": false,
+      "target_close_utc": null
+    },
+    {
+      "day": "2026-05-25",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "16:58",
+      "target_time_status": "VERIFIED_FTMO_CLOSE_WITH_CONSERVATIVE_EARLIER_GUARD",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-21-may-2026/",
+      "legacy_guard_utc": "17:00",
+      "target_time_verified": true,
+      "target_close_utc": "18:30",
+      "metatrader_UTC_offset_hours": 3,
+      "metatrader_close": "21:30"
+    },
+    {
+      "day": "2026-06-19",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "16:58",
+      "target_time_status": "DECLARED_CONSERVATIVE_GUARD_TARGET_CLOSE_UNVERIFIED",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/",
+      "legacy_guard_utc": "17:00",
+      "target_time_verified": false,
+      "target_close_utc": null
+    },
+    {
+      "day": "2026-07-03",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "16:58",
+      "target_time_status": "VERIFIED_FTMO_CLOSE_WITH_CONSERVATIVE_EARLIER_GUARD",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-update-25-jun-2026/",
+      "legacy_guard_utc": "17:00",
+      "target_time_verified": true,
+      "target_close_utc": "17:00",
+      "metatrader_UTC_offset_hours": 3,
+      "metatrader_close": "20:00"
+    },
+    {
+      "day": "2026-09-07",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "16:58",
+      "target_time_status": "VERIFIED_FTMO_CLOSE_WITH_CONSERVATIVE_EARLIER_GUARD",
+      "source": "https://ftmo.com/en/blog/trading-updates/trading-updates-27-aug-2026/",
+      "legacy_guard_utc": "17:00",
+      "target_time_verified": true,
+      "target_close_utc": "18:30",
+      "metatrader_UTC_offset_hours": 3,
+      "metatrader_close": "21:30"
+    },
+    {
+      "day": "2026-11-26",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "16:58",
+      "target_time_status": "DECLARED_CONSERVATIVE_GUARD_TARGET_CLOSE_UNVERIFIED",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/",
+      "legacy_guard_utc": "17:00",
+      "target_time_verified": false,
+      "target_close_utc": null
+    },
+    {
+      "day": "2026-11-27",
+      "kind": "US_METAL_EARLY_SESSION",
+      "flat_utc": "16:58",
+      "target_time_status": "DECLARED_CONSERVATIVE_GUARD_TARGET_CLOSE_UNVERIFIED",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/",
+      "legacy_guard_utc": "17:00",
+      "target_time_verified": false,
+      "target_close_utc": null
+    },
+    {
+      "day": "2026-12-24",
+      "kind": "CONSERVATIVE_EVE_FLAT",
+      "flat_utc": "16:58",
+      "target_time_status": "DECLARED_CONSERVATIVE_GUARD_TARGET_CLOSE_UNVERIFIED",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/",
+      "legacy_guard_utc": "17:00",
+      "target_time_verified": false,
+      "target_close_utc": null
+    },
+    {
+      "day": "2026-12-25",
+      "kind": "CLOSED",
+      "flat_utc": null,
+      "target_time_status": "DECLARED_CONSERVATIVE_GUARD_TARGET_CLOSE_UNVERIFIED",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/",
+      "legacy_guard_utc": null,
+      "target_time_verified": false,
+      "target_close_utc": null
+    },
+    {
+      "day": "2026-12-31",
+      "kind": "CONSERVATIVE_EVE_FLAT",
+      "flat_utc": "16:58",
+      "target_time_status": "DECLARED_CONSERVATIVE_GUARD_TARGET_CLOSE_UNVERIFIED",
+      "source": "https://www.opm.gov/policy-data-oversight/pay-leave/federal-holidays/",
+      "legacy_guard_utc": "17:00",
+      "target_time_verified": false,
+      "target_close_utc": null
+    }
+  ],
+  "historical_FTMO_times_certified": false,
+  "preserved_V7_2022_2026": true,
+  "sources": [
+    "https://www.cmegroup.com/trading/metals/files/metals-prod-guide-2020.pdf",
+    "https://www.cmegroup.com/trading-hours.html",
+    "https://ftmo.com/faq/can-i-hold-positions-overnight-or-over-the-weekend/"
+  ]
+}
