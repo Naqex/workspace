@@ -249,9 +249,11 @@ def collect():
                   storage=read(JOB / "cold-compaction.json"),
                   independent_implementation_not_independent_author=True, same_feed=True,
                   actual_broker_orders=0, actual_payout_usd=0,
-                  official_sources_checked_20261116=[
+                  official_sources_attempted_20261116=[
                       "https://ftmo.com/en/faq/do-i-have-to-close-my-positions-overnight/",
                       "https://ftmo.com/en/faq/can-i-trade-news/"],
+                  current_official_terms_reverified=False,
+                  official_fetch_receipt=str(JOB / "official-terms-check.json"),
                   limits=["Later 2024-2026 prices already exposed; no pristine OOS.",
                           "2026 ends 13 Oct; overlapping monthly starts are not independent probabilities.",
                           "M1 two-order scenarios and declared Ask/slippage proxies, not verified broker fills.",
@@ -377,11 +379,12 @@ def write_report(s):
               "khi thực tế daily-flat; không dùng future completeness làm carry gate; so đúng risk profile; "
               "lưu fail và kiểm ID thay vì chỉ số test count. Các skill hiện hành đã bao phủ các guard "
               "này; không thêm skill hoặc instruction trùng lặp.", "",
-              "Official FTMO FAQ được đọc lại 16/11/2026: Standard FTMO Account có điều kiện news/market "
-              "break riêng; Evaluation khác. Chưa có đầy đủ lịch news/terms/spec execution lịch sử, "
-              "nên không tuyên bố 100% tuân thủ FTMO từ simulation.", "",
+              "Đã thử truy cập official FTMO FAQ ngày 16/11/2026 nhưng web tool không trả nội dung "
+              "đối soát được, HTTP fallback lỗi SSL; receipt `official-terms-check.json`. Chưa xác minh "
+              "lại terms hiện hành. Giữ proxy lịch/news đã đăng ký, không coi chúng là chứng nhận "
+              "đầy đủ lịch news/terms/spec execution lịch sử hay 100% tuân thủ FTMO.", "",
               f"Evidence `{JOB}`; JSON <1MiB. PR #96 giữ mở; receipt "
-              "`ci-exact-head-reconciliation.json` được ghi sau push/check/download artifact, "
+              "`ci-exact-head-reconciliation-v2.json` được ghi sau push/check/download artifact, "
               "không sửa HEAD chỉ để nhét SHA CI vào cùng commit. VI WIP/Trader pin giữ nguyên; "
               "không broker, deploy, provider download, Astra hay memory update.", ""]
     REPORT.with_suffix(".md").write_text("\n".join(lines), encoding="utf-8")

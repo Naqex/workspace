@@ -2608,10 +2608,6 @@
   "same_feed": true,
   "actual_broker_orders": 0,
   "actual_payout_usd": 0,
-  "official_sources_checked_20261116": [
-    "https://ftmo.com/en/faq/do-i-have-to-close-my-positions-overnight/",
-    "https://ftmo.com/en/faq/can-i-trade-news/"
-  ],
   "limits": [
     "Later 2024-2026 prices already exposed; no pristine OOS.",
     "2026 ends 13 Oct; overlapping monthly starts are not independent probabilities.",
@@ -2997,5 +2993,11 @@
       "bytes": 207581,
       "sha256": "63b9fd4220292073ebed10bbdc9385ca833d76c06632ce0868270cde4296f152"
     }
-  }
+  },
+  "official_sources_attempted_20261116": [
+    "https://ftmo.com/en/faq/do-i-have-to-close-my-positions-overnight/",
+    "https://ftmo.com/en/faq/can-i-trade-news/"
+  ],
+  "current_official_terms_reverified": false,
+  "official_fetch_receipt": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\adaptive-velocity-v17-20261116\\official-terms-check.json"
 }

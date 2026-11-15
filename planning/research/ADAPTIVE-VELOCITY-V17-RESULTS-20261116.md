@@ -122,6 +122,6 @@ Luồng chính: A paths V16 giữ nguyên → Dev sleeve books → tier freeze �
 
 Hậu kiểm: phân biệt occurrences/unique signals; không đổ lỗi concurrency cho overnight khi thực tế daily-flat; không dùng future completeness làm carry gate; so đúng risk profile; lưu fail và kiểm ID thay vì chỉ số test count. Các skill hiện hành đã bao phủ các guard này; không thêm skill hoặc instruction trùng lặp.
 
-Official FTMO FAQ được đọc lại 16/11/2026: Standard FTMO Account có điều kiện news/market break riêng; Evaluation khác. Chưa có đầy đủ lịch news/terms/spec execution lịch sử, nên không tuyên bố 100% tuân thủ FTMO từ simulation.
+Đã thử truy cập official FTMO FAQ ngày 16/11/2026 nhưng web tool không trả nội dung đối soát được, HTTP fallback lỗi SSL; receipt `official-terms-check.json`. Chưa xác minh lại terms hiện hành. Giữ proxy lịch/news đã đăng ký, không coi chúng là chứng nhận đầy đủ lịch news/terms/spec execution lịch sử hay 100% tuân thủ FTMO.
 
-Evidence `E:\BACKUP-TRADINGWORKSPACE\ai-engine-jobs\challenge-discovery4-20261108\execution-v1\adaptive-velocity-v17-20261116`; JSON <1MiB. PR #96 giữ mở; receipt `ci-exact-head-reconciliation.json` được ghi sau push/check/download artifact, không sửa HEAD chỉ để nhét SHA CI vào cùng commit. VI WIP/Trader pin giữ nguyên; không broker, deploy, provider download, Astra hay memory update.
+Evidence `E:\BACKUP-TRADINGWORKSPACE\ai-engine-jobs\challenge-discovery4-20261108\execution-v1\adaptive-velocity-v17-20261116`; JSON <1MiB. PR #96 giữ mở; receipt `ci-exact-head-reconciliation-v2.json` được ghi sau push/check/download artifact, không sửa HEAD chỉ để nhét SHA CI vào cùng commit. VI WIP/Trader pin giữ nguyên; không broker, deploy, provider download, Astra hay memory update.
