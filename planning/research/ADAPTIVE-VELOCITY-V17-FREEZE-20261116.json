@@ -1,0 +1,198 @@
+{
+  "schema": "V17-registered-tiered-risk-v1",
+  "tiers": {
+    "tiers": {
+      "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 1.0,
+      "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 0.6,
+      "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 0.6
+    },
+    "core": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+    "scores": [
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "cases": [
+          {
+            "order": "OLHC",
+            "cost": "SYM_",
+            "trades": 194,
+            "annual_reference_R": 4.1985222222222225,
+            "floating_R_DD": 12.9892,
+            "annual_R_over_DD": 0.3232317788795478,
+            "rejections": {}
+          },
+          {
+            "order": "OLHC",
+            "cost": "ASYM",
+            "trades": 194,
+            "annual_reference_R": 4.1985222222222225,
+            "floating_R_DD": 12.9892,
+            "annual_R_over_DD": 0.3232317788795478,
+            "rejections": {}
+          },
+          {
+            "order": "OHLC",
+            "cost": "SYM_",
+            "trades": 194,
+            "annual_reference_R": 4.1985222222222225,
+            "floating_R_DD": 12.9892,
+            "annual_R_over_DD": 0.3232317788795478,
+            "rejections": {}
+          },
+          {
+            "order": "OHLC",
+            "cost": "ASYM",
+            "trades": 194,
+            "annual_reference_R": 4.1985222222222225,
+            "floating_R_DD": 12.9892,
+            "annual_R_over_DD": 0.3232317788795478,
+            "rejections": {}
+          }
+        ],
+        "worst_score": 0.3232317788795478
+      },
+      {
+        "id": "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0",
+        "cases": [
+          {
+            "order": "OLHC",
+            "cost": "SYM_",
+            "trades": 63,
+            "annual_reference_R": -1.6168555555555555,
+            "floating_R_DD": 14.181173333333334,
+            "annual_R_over_DD": -0.11401422982082034,
+            "rejections": {}
+          },
+          {
+            "order": "OLHC",
+            "cost": "ASYM",
+            "trades": 63,
+            "annual_reference_R": -1.6168555555555555,
+            "floating_R_DD": 14.181173333333334,
+            "annual_R_over_DD": -0.11401422982082034,
+            "rejections": {}
+          },
+          {
+            "order": "OHLC",
+            "cost": "SYM_",
+            "trades": 63,
+            "annual_reference_R": -1.6168555555555555,
+            "floating_R_DD": 14.181173333333334,
+            "annual_R_over_DD": -0.11401422982082034,
+            "rejections": {}
+          },
+          {
+            "order": "OHLC",
+            "cost": "ASYM",
+            "trades": 63,
+            "annual_reference_R": -1.6168555555555555,
+            "floating_R_DD": 14.181173333333334,
+            "annual_R_over_DD": -0.11401422982082034,
+            "rejections": {}
+          }
+        ],
+        "worst_score": -0.11401422982082034
+      },
+      {
+        "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1",
+        "cases": [
+          {
+            "order": "OLHC",
+            "cost": "SYM_",
+            "trades": 83,
+            "annual_reference_R": 1.4411333333333334,
+            "floating_R_DD": 4.977626666666667,
+            "annual_R_over_DD": 0.2895221819233798,
+            "rejections": {}
+          },
+          {
+            "order": "OLHC",
+            "cost": "ASYM",
+            "trades": 83,
+            "annual_reference_R": 1.4411333333333334,
+            "floating_R_DD": 4.977626666666667,
+            "annual_R_over_DD": 0.2895221819233798,
+            "rejections": {}
+          },
+          {
+            "order": "OHLC",
+            "cost": "SYM_",
+            "trades": 83,
+            "annual_reference_R": 1.4411333333333334,
+            "floating_R_DD": 4.977626666666667,
+            "annual_R_over_DD": 0.2895221819233798,
+            "rejections": {}
+          },
+          {
+            "order": "OHLC",
+            "cost": "ASYM",
+            "trades": 83,
+            "annual_reference_R": 1.4411333333333334,
+            "floating_R_DD": 4.977626666666667,
+            "annual_R_over_DD": 0.2895221819233798,
+            "rejections": {}
+          }
+        ],
+        "worst_score": 0.2895221819233798
+      }
+    ],
+    "rank_inconclusive": false,
+    "selection_uses_only_2018_2023": true,
+    "annual_R_over_DD_not_CAGR": true,
+    "variants": 1,
+    "no_equal_weight_outcome_selection": true
+  },
+  "selection": {
+    "selected": [],
+    "eligible": 0,
+    "cases": 503,
+    "status": "EMPTY_ADDITIONS"
+  },
+  "code_pins": {
+    "planning\\research\\ADAPTIVE-VELOCITY-V17-PROTOCOL-20261116.md": "c169ab9eaabd3b4bdb4bb877c0882bea3daec4c40745de55e073774dc4fadedd",
+    "tooling\\ai-engines\\prop_v17_accounts.py": "9aeb6e1faa66a37de9d1ff4a17c66dfe7e7082b0d4e4e154c933a10754d8bfa9",
+    "tooling\\ai-engines\\prop_v17_campaign.py": "b35c0f6d6d6876efed8e17ba31fc72a6922d4963bfafd061daa84e96e75803a7",
+    "tooling\\ai-engines\\prop_v17_common.py": "f817d76fa47605a6d0759b42b3d2f32ea7323002deb474c91804fba7591ca673",
+    "tooling\\ai-engines\\prop_v17_diagnosis.py": "a2af78a75ec11e82d9783cd9a26f2b54b4be49b7a5b68dd6bdf903731270532b",
+    "tooling\\ai-engines\\prop_v17_scan.py": "cf5c84397ebf8de99becda9873d27dd5f1eef45a2071a652868ae19948d0449d",
+    "tooling\\ai-engines\\independent_ledger_auditor.py": "f63df6a3a30c341dac8193399cd4d99401213146ef5cd664cb6c7156e766cd26",
+    "tooling\\ai-engines\\prop_v16_paths.py": "7e5a63c5dbc36f201e132d8936fa373f1b562b45e313f4dee7a3171c026f6ef4",
+    "tooling\\ai-engines\\prop_v15_paths.py": "3a6421b75893c7c5c52962da817037b266214ac4028068690f1c71c5aef2eb01",
+    "tooling\\ai-engines\\prop_v15_accounts.py": "4edb29264096a11502b1e7403f6cece358031a3d506d7387e26ea84394289bae",
+    "tooling\\ai-engines\\prop_v14_paths.py": "85ad5028159cbc4a8cbdf76c425a65578d00c6300938074edcfe1b86dcafb58b",
+    "tooling\\ai-engines\\prop_v14_accounts.py": "9a4f3dfb8a9bbfb97e060cdf9fefb68c3349363d51ed6a9aa70f0538c5f91f60",
+    "tooling\\ai-engines\\prop_v14_review.py": "9c40e9658b8fe33b970e2628fb93b7a6d678ed7fb7c7a89c20b68fbaf1ef4023",
+    "tooling\\ai-engines\\prop_v6_replay.py": "c762611f25f10514cda8e2cfaf225f49cad56ee3ffde3a27eb065ebd49b61303",
+    "tooling\\ai-engines\\prop_v6_account.py": "b444f11bf2822d8d8a528588aaedc7d32bab796d28dd55017784336a8f4b2645",
+    "tooling\\ai-engines\\prop_v5_account.py": "9c582aeece8a2eb8dc1b2eabb6a68615ad9119f2c6ceea8d07561fd6f25a2061",
+    "tooling\\ai-engines\\prop_portfolio_accounts.py": "dd1542edecf77c471a15832b2894c98176e8cd542bfa78ebf96b3fd142f853cb",
+    "tooling\\ai-engines\\quant_core\\gap_aware_execution.py": "da425a2452b37e284c9adda6be6e4f5cf00152b89a9a123ae66c93dabf756c66",
+    "tooling\\ai-engines\\quant_core\\vectorized_sl_active_kernel.py": "16f067671bca28006dd6b005ac70c7ff511492cf95919fbb7887c5086c8a6afe",
+    "tooling\\ai-engines\\quant_core\\ftmo_execution_and_calendar.py": "143f8cfd5ff8255c50d7f2686f6b1752ad89c2275d72d371b50b8d581914c657"
+  },
+  "Dev_audits": {
+    "Dev-OLHC-PRIMARY-account-audit.json": "052328b3fc86071678d2f81954ea80af223dbce793817af7bb2f6cd3d584d2db",
+    "Dev-OLHC-V17-PRIMARY-path-audit.json": "85b6775cb9cc6994acb83f853bbb584f6c59bd5eaf19dddb61a8320bcad1eb07",
+    "Dev-OLHC-STRICT-account-audit.json": "f977a576a9815037fe0c70d8ec007903ed9261054133c8d2567f13307be92f2b",
+    "Dev-OLHC-V17-STRICT-path-audit.json": "0f5c5aa79525cf46e9edc1cb88f64c397a23b640e4ed54a208c7b142bd37288f",
+    "Dev-OHLC-PRIMARY-account-audit.json": "052328b3fc86071678d2f81954ea80af223dbce793817af7bb2f6cd3d584d2db",
+    "Dev-OHLC-V17-PRIMARY-path-audit.json": "79d1eb53344c2179741b0dac197ea5159a87ae53466f92fd4f06b10056cb23bd",
+    "Dev-OHLC-STRICT-account-audit.json": "db3a09a5a560ba206fbba2d4e11adca2334a5330250ad6f180dc87973388ebba",
+    "Dev-OHLC-V17-STRICT-path-audit.json": "8351ef865b0c10f5740380fea69d9050b5a617e3cb55b3425e71ee3e08cd93f8"
+  },
+  "Dev_end": 1704067200000,
+  "later_prices_already_exposed": true,
+  "new_full_policy_not_yet_measured": true,
+  "candidate_A": [
+    "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+    "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0",
+    "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1"
+  ],
+  "parent_source_admission_sha256": "3c49b2b3519f4312f5b2c8351b3cad521786976480fd0dbd5d96ded374adec85",
+  "parent_V16_freeze_sha256": "d17b9b32dfbd7ec13502e4d64a9de6f1770c1140f9f36827821bf4ed6542589e",
+  "scan_receipts": {
+    "XAUUSD": "63b9fd4220292073ebed10bbdc9385ca833d76c06632ce0868270cde4296f152",
+    "EURUSD": "bc7208a3bd50f749a040dfbbc98e784bf6abdb9e0e1d67649fdd30904bcae748",
+    "US500": "cbe7617fada2cdf81e636760808fdd2dd374944b443beca502a16d5d52733f2e"
+  },
+  "no_ex_ante_future_path_certificate": true
+}

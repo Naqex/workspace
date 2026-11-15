@@ -82,6 +82,10 @@ def source_off_kind(at, asset, spec):
     utc = datetime.fromtimestamp(int(at)/1000, timezone.utc)
     local = utc.astimezone(ZoneInfo("America/New_York"))
     minute = local.hour*60+local.minute
+    if asset == "US500":
+        if local.weekday()==5 or local.weekday()==4 and minute>=975 or local.weekday()==6 and minute<1080:
+            return "WEEKEND"
+        if 975<=minute<1080:return "DAILY_BREAK"
     if (local.weekday() == 5 or local.weekday() == 4 and minute >= 1020 or
             local.weekday() == 6 and minute < (1080 if asset == "XAUUSD" else 1020)):
         return "WEEKEND"
@@ -354,7 +358,8 @@ def v14_parts(t, quantity, model):
 def audit_v14_path(t,bars,events,cutoff,*,scheduled_override=None):
     """Scalar first passage over the declared four-point M1 ordering."""
     errors=[];times=bars["t"];gold=t["asset"]=="XAUUSD"
-    scale=1000 if gold else 100000;contract=100 if gold else 100000
+    scale=1000 if t["asset"] in ("XAUUSD","US500") else 100000
+    contract=100 if gold else 1 if t["asset"]=="US500" else 100000
     entry=t["entry_msc"];sign=1 if t["side"]=="BUY" else -1
     horizon=t["id"].split("|")[-2]
     flats=[int(datetime.fromisoformat(d).replace(tzinfo=timezone.utc).timestamp()*1000)+
@@ -718,3 +723,42 @@ def v16_causal_cutoff(entry,parent_deadline,asset,events):
         local=date.astimezone(ZoneInfo("America/New_York")).replace(hour=16,minute=0,second=0,microsecond=0)
         limit=min(limit,int(local.timestamp()*1000))
     return min(parent_deadline,limit)
+
+
+class V17LedgerOracle(V15LedgerOracle):
+    """Own tier/lot-budget and reserved-cap arithmetic over the V14 cash oracle."""
+    def __init__(self,*args):
+        super().__init__(*args)
+        self.target=None
+        if self.e.get("tiers") is None or any(w not in (1.,.6) for w in self.e["tiers"].values()):
+            raise ValueError("V17_oracle_unregistered_tiers")
+        expected=(self.e.get("total_stop_cap_usd"),self.e.get("swing_stop_cap_usd"),
+            self.e.get("intraday_reserved_stop_usd"),self.e.get("daily_reserved_loss_usd"))
+        if expected!=(1000,400,600,1200):raise ValueError("V17_oracle_bucket_contract")
+
+    def requested_risk(self,equity):
+        if self.target is None:raise ValueError("V17_oracle_missing_target")
+        risk=D((200,175,125)[self.phase-1])*D("1.5")
+        if self.e.get("cushion") and self.phase==1 and self.cushion_active and equity>50000000:
+            risk+=min(D(self.cash-50000000)/1000/5,D(250))
+        if equity<=46500000:risk=min(risk,D(75))
+        elif equity<=47500000:risk=min(risk,D(150))
+        tier=D(str(self.e["tiers"][self.trades[self.target]["id"]]))
+        return float((risk*tier*1000).to_integral_value(rounding="ROUND_FLOOR")/1000)
+
+    def policy_limits(self):
+        t=self.trades[self.target]
+        cap=1000000
+        if t["deadline_msc"]//DAY!=t["entry_msc"]//DAY:
+            intraday=0
+            for i,q in self.open.items():
+                old=self.trades[i]
+                if old["deadline_msc"]//DAY==old["entry_msc"]//DAY:
+                    intraday+=q*(1 if old["asset"]=="XAUUSD" else 10)*abs(
+                        old["entry_price_units"]-old["stop_units"])
+            cap=min(cap,400000+intraday)
+        return cap,max(45800000,self.anchor-1200000)
+
+    def entry(self,i,at,quote):
+        self.target=i
+        return super().entry(i,at,quote)
