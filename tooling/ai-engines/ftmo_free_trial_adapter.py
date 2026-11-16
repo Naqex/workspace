@@ -216,14 +216,35 @@ class NativeMT5Reader:
 
     def hourly(self, asset, now, count=1000):
         rows = self.sdk.copy_rates_from_pos(asset, self.sdk.TIMEFRAME_H1, 0, count)
-        if rows is None:
+        if rows is None or not len(rows):
             raise AdapterError("MT5_H1_WARMUP_QUERY_FAILED")
+        first = int(rows[0]["time"]) * 1000
+        minutes = self.sdk.copy_rates_range(asset, self.sdk.TIMEFRAME_M1,
+            datetime.fromtimestamp(first / 1000, timezone.utc),
+            datetime.fromtimestamp(now / 1000, timezone.utc))
+        if minutes is None:
+            raise AdapterError("MT5_H1_M1_COMPLETENESS_QUERY_FAILED")
+        grouped, previous = {}, -1
+        for minute in minutes:
+            at = int(minute["time"]) * 1000
+            if at <= previous or at % MINUTE:
+                raise AdapterError("NATIVE_M1_ORDER_OR_GRID")
+            previous = at
+            if at + MINUTE <= now:
+                grouped.setdefault(at // 3600000 * 3600000, []).append(minute)
         scale = 1000 if asset == "XAUUSD" else 100000
         out = []
         for r in rows:
             at = int(r["time"]) * 1000
             if at + 3600000 > now:
                 continue
+            source = grouped.get(at, [])
+            if len(source) != 60 or [int(v["time"]) * 1000 for v in source] != list(range(at, at + 3600000, MINUTE)):
+                continue
+            aggregate = [source[0]["open"], max(v["high"] for v in source),
+                         min(v["low"] for v in source), source[-1]["close"]]
+            if any(float(r[k]) != float(v) for k, v in zip(("open", "high", "low", "close"), aggregate)):
+                raise AdapterError("NATIVE_H1_M1_OHLC_DIVERGENCE")
             values = [Decimal(str(float(r[k]))) * scale for k in ("open", "high", "low", "close")]
             if any(v != v.to_integral_value() for v in values):
                 raise AdapterError("NATIVE_H1_OUTSIDE_FROZEN_PRICE_GRID")
@@ -334,6 +355,9 @@ class ShadowPaper:
         self.trades, self.quotes, self.intents, self.expected, self.log = [], {}, {}, [], []
         self.last_time, self.day, self.mark = start - 1, None, None
         self.closed_minute, self.minute_close = {}, {}
+        from prop_v19_common import FREEZE, read
+        self.frozen_profile = read(FREEZE)["selected_profile"]
+        self.allowed_ids = set(self.frozen_profile["weights"])
         if plan["phase"] not in ("FREE_TRIAL", "CHALLENGE", "VERIFICATION", "FUNDED_STANDARD"):
             raise AdapterError("PROGRAM_PHASE_UNKNOWN")
         standalone = plan["phase"] == "FUNDED_STANDARD"
@@ -341,8 +365,7 @@ class ShadowPaper:
             if any(t % MINUTE or t + MINUTE > start for t in times):
                 raise AdapterError("FUTURE_OR_UNALIGNED_INITIAL_M1_HISTORY")
         if plan["policy"] == "V19":
-            from prop_v19_common import FREEZE, read
-            if plan["profile"] != read(FREEZE)["selected_profile"]:
+            if plan["profile"] != self.frozen_profile:
                 raise AdapterError("SHADOW_PROFILE_DIFFERS_FROM_FROZEN_V19")
             self.account = V19Account(start, end, "SYM_FLAT", rolling=True, friction_pct=100, standalone=standalone,
                                       profile=plan["profile"])
@@ -361,6 +384,12 @@ class ShadowPaper:
         self.log.append(dict(kind=kind, known_at_msc=at, **fields))
 
     def offer(self, intent, known_at):
+        if (intent.get("id") not in self.allowed_ids or intent.get("asset") not in ASSETS or
+                intent.get("side") not in ("BUY", "SELL") or intent.get("mode") not in ("P0", "P1") or
+                type(intent.get("decision_msc")) is not int or type(intent.get("stop_units")) is not int or
+                intent["stop_units"] <= 0 or not isinstance(intent.get("intent_id"), str) or not intent["intent_id"] or
+                intent["id"].split("|")[0] != intent["asset"] or intent["id"].rsplit("|", 1)[-1] != intent["mode"]):
+            raise AdapterError("UNREGISTERED_OR_INVALID_SIGNAL_INTENT")
         if intent["decision_msc"] > known_at or known_at < self.last_time:
             raise AdapterError("FUTURE_SIGNAL_DECISION")
         if intent["intent_id"] in self.intents:
@@ -401,7 +430,8 @@ class ShadowPaper:
         from quant_core.vectorized_sl_active_kernel import money, net_level
         asset, at = row["asset"], row["known_at_msc"]
         source_at = row["time_msc"]
-        if asset not in ASSETS or at < self.last_time or source_at > at:
+        if (type(at) is not int or type(source_at) is not int or
+                asset not in ASSETS or at < self.last_time or source_at > at):
             raise AdapterError("QUOTE_ASSET_OR_CAUSAL_ORDER")
         if (not all(math.isfinite(float(row[k])) for k in ("bid", "ask")) or
                 row["bid"] <= 0 or row["ask"] < row["bid"]):
@@ -437,8 +467,10 @@ class ShadowPaper:
                             t.get("activation_time") is not None):
                         continue
                     side = np.array([1 if t["side"] == "BUY" else -1])
-                    close_px = previous["bid_units"] if side[0] == 1 else previous["ask_units"]
-                    value = money(asset, "SYM", side, [t["entry_price_units"]], [close_px],
+                    favorable_px = t.get("p1_favorable_units")
+                    if favorable_px is None or t.get("p1_minute") != previous["source_msc"] // MINUTE:
+                        continue
+                    value = money(asset, "SYM", side, [t["entry_price_units"]], [favorable_px],
                                   [t["entry_msc"]], [at], ["MARKET"])["net"][0]
                     if value >= 1.5 * t["natural"]:
                         level = net_level(asset, side, np.array([t["entry_price_units"]]),
@@ -460,6 +492,10 @@ class ShadowPaper:
                 if stopped:
                     self.close(i, at, quote, reason)
                     continue
+                if t.get("p1_minute") != source_at // MINUTE:
+                    t["p1_minute"], t["p1_favorable_units"] = source_at // MINUTE, px
+                else:
+                    t["p1_favorable_units"] = (max if t["side"] == "BUY" else min)(t["p1_favorable_units"], px)
                 news_exit = any(asset in e["assets"] and e.get("known_at_msc", 0) <= at and
                                 e["at_msc"] - 150000 <= at <= e["at_msc"] + 120000
                                 for e in self.plan["news"].get("events", []))
@@ -499,6 +535,7 @@ class ShadowPaper:
                     deadline_msc=deadline, role="CORE", regime_weight=1, d1_gate=True,
                     natural=abs(entry - intent["stop_units"]) / scale,
                     spread_units=ask - bid, activation_time=None, protection_price=None,
+                    p1_minute=source_at // MINUTE, p1_favorable_units=bid if intent["side"] == "BUY" else ask,
                     censored=False, entry_quote_index=quote["ordinal"])
                 self.trades.append(t)
                 i = len(self.trades) - 1
@@ -534,7 +571,6 @@ class ShadowPaper:
 
     def entry_reason(self, intent, now, tick):
         from prop_v19_paths import preceding_continuity
-        from types import SimpleNamespace
         import numpy as np
         asset = intent["asset"]
         if not 0 <= now - intent["decision_msc"] <= 60000:
@@ -559,8 +595,12 @@ class ShadowPaper:
             if now - self.quotes[held]["known_at_msc"] > 2 * MINUTE:
                 return "OTHER_ACTIVE_ASSET_QUOTE_STALE"
         if self.plan["policy"] == "V19":
+            from prop_v16_paths import CausalFlatSchedule
             known = self.plan.get("closed_M1_times", {}).get(asset, [])
-            schedule = SimpleNamespace(off_kind=lambda at, symbol: None)
+            events = [dict(day=day, kind="CLOSED" if row.get("closed") else "EARLY",
+                           flat_utc=row.get("flat_utc"))
+                      for day, row in self.plan["holidays"].get("days", {}).items()]
+            schedule = CausalFlatSchedule(events)
             if not preceding_continuity(np.asarray(known, dtype="int64"), intent["decision_msc"], schedule, asset):
                 return "PRECEDING_M1_DISCONTINUITY"
         spec = validate_spec(asset, self.plan["specs"][asset])
@@ -678,9 +718,12 @@ def known_hour_seed(seed_spec, native_hours, now):
     by_time = {r["t"]: r for r in seed["rows"]}
     if len(by_time) != len(seed["rows"]) or sorted(by_time) != [r["t"] for r in seed["rows"]]:
         raise AdapterError("SIGNAL_SEED_DUPLICATE_OR_ORDER")
+    seed_last = seed["rows"][-1]["t"]
     for r in native_hours:
         if r["t"] in by_time and by_time[r["t"]] != r:
             raise AdapterError("BROKER_H1_SEED_OVERLAP_DIVERGENCE")
+        if r["t"] <= seed_last and r["t"] not in by_time:
+            raise AdapterError("SEED_HISTORICAL_HOUR_ADDITION_REQUIRES_NEW_ADMISSION")
         by_time[r["t"]] = r
     return [by_time[t] for t in sorted(by_time)]
 
@@ -723,7 +766,7 @@ def run_native_shadow(reader, plan, output, *, max_seconds=60, poll_seconds=2, c
                 for asset in ASSETS:
                     hourly = known_hour_seed(plan["signal_seeds"][asset], reader.hourly(asset, now), now)
                     event = dict(kind="closed_hours", known_at_msc=now, asset=asset, rows=hourly,
-                                 source="NATIVE_MT5_CLOSED_H1_BID")
+                                 source="NATIVE_MT5_H1_CHECKED_AGAINST_60_CLOSED_M1")
                     accept(event)
                     import numpy as np
                     dtype = [(k, "<i8") for k in ("t", "bo", "bh", "bl", "bc")]

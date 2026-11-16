@@ -49,7 +49,10 @@ sau lịch tin hiện hành.
 - Đóng theo deadline 20:30 UTC cùng ngày hoặc holiday early-close đã biết.
   Thiếu quote sau deadline được ghi là đóng muộn, không backdate. Mất feed
   >2 phút chỉ được thoát ở quote sau khi quan sát được lại.
-- P1 chỉ arm sau khi phút trước đã hoàn tất; không dùng high/low tương lai.
+- P1 dùng favorable high/low **đã quan sát sau entry** của phút trước, rồi
+  chỉ arm sau khi phút đó hoàn tất; không dùng high/low tương lai và không
+  thay điều kiện bằng giá close phải còn đạt 1,5R. Đây là chi tiết trong
+  kernel V16; spec V18 diễn đạt “markout của M1 đã hoàn tất” chưa đủ rõ.
   Mức bảo vệ không khớp tick-size broker được gắn
   `PAPER_ONLY_NONEXECUTABLE_PROTECTION_LEVEL`, không làm tròn ngầm.
 - Thiếu specification, khác contract size/lot step, SL không hợp hướng/
@@ -70,6 +73,11 @@ hash từ mốc 01/11/2017 UTC; file `v16-closed-hour-seed-v1` lưu `first`,
 `known_at_msc` và các hàng `t,bo,bh,bl,bc`. Seed chỉ chứa nến đã đóng, thứ tự
 tăng, không trùng. Overlap với nến native khác nhau phải dừng để đối chiếu,
 không âm thầm trộn feed.
+Native H1 chỉ được nhận khi đối soát được đủ 60 M1 đã đóng và OHLC trùng
+aggregation của các phút đó, giống cổng tạo H1 của nghiên cứu. H1 broker có
+phút thiếu không tự thành một giờ đã chứng nhận. Một giờ mới xuất hiện
+trong đoạn seed lịch sử đã khóa cần source admission mới, không tự chèn vào
+và làm đổi state ATR/ADX.
 
 Đã đối chiếu sáu prefix Development từ cùng nguồn M1 gốc: generator native
 hourly giữ nguyên thời điểm/chiều/SL. Điều này chưa chứng minh seed broker,

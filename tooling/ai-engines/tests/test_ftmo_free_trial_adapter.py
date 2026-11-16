@@ -147,6 +147,12 @@ class CalendarGuardTests(unittest.TestCase):
 
 
 class PaperHarnessTests(unittest.TestCase):
+    def test_invalid_or_unregistered_signal_cannot_be_reinterpreted_as_sell(self):
+        for fields in (dict(side="BUYY"), dict(mode="P2"), dict(id="XAUUSD|new|DAY|P0"),
+                       dict(stop_units=1990000.5), dict(decision_msc=float(FIRST))):
+            with self.assertRaises(app.AdapterError):
+                paper().offer(dict(intent(), **fields), FIRST)
+
     def test_paper_initial_phase_controls_risk_instead_of_only_changing_a_label(self):
         risks = {}
         for phase in ("CHALLENGE", "VERIFICATION", "FUNDED_STANDARD"):
@@ -226,6 +232,16 @@ class PaperHarnessTests(unittest.TestCase):
         p.advance(tick(FIRST + 90000, 2001, 2001.34))
         self.assertTrue(any(r.get("reason") == "PROTECT" for r in p.log))
 
+    def test_P1_uses_observed_favorable_extreme_of_completed_minute_not_only_its_close(self):
+        p = paper()
+        p.offer(intent("XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1"), FIRST)
+        p.advance(tick())
+        p.advance(tick(FIRST + 30000, 2017, 2017.34))
+        p.advance(tick(FIRST + 59000, 2010, 2010.34))
+        self.assertIsNone(p.trades[0]["activation_time"])
+        p.advance(tick(FIRST + 60000, 2010, 2010.34))
+        self.assertEqual(p.trades[0]["activation_time"], FIRST + 60000)
+
     def test_pre_news_flat_uses_known_deadline_before_restricted_window(self):
         p = paper()
         p.plan["news"]["events"] = [dict(at_msc=FIRST + 600000, assets=["XAUUSD"])]
@@ -277,6 +293,28 @@ class PaperHarnessTests(unittest.TestCase):
 
 
 class SignalAndReconciliationTests(unittest.TestCase):
+    def test_native_H1_requires_sixty_closed_M1_and_matching_OHLC(self):
+        dtype = [("time", "<i8")] + [(k, "<f8") for k in ("open", "high", "low", "close")]
+        hour = np.array([(FIRST // 1000 - 3600, 2000, 2001, 1999, 2000)], dtype=dtype)
+        minutes = np.array([(FIRST // 1000 - 3600 + n * 60, 2000, 2001, 1999, 2000)
+                            for n in range(60)], dtype=dtype)
+        class SDK:
+            TIMEFRAME_H1, TIMEFRAME_M1 = 1, 2
+            minute_rows = minutes
+            def copy_rates_from_pos(self, *args):
+                return hour
+            def copy_rates_range(self, *args):
+                return self.minute_rows
+        reader = object.__new__(app.NativeMT5Reader)
+        reader.sdk = SDK()
+        self.assertEqual(len(reader.hourly("XAUUSD", FIRST)), 1)
+        reader.sdk.minute_rows = minutes[:-1]
+        self.assertEqual(reader.hourly("XAUUSD", FIRST), [])
+        reader.sdk.minute_rows = minutes.copy()
+        reader.sdk.minute_rows["high"][3] = 2002
+        with self.assertRaises(app.AdapterError):
+            reader.hourly("XAUUSD", FIRST)
+
     def test_inclusive_live_tick_boundary_preserves_duplicates_and_detects_revision(self):
         a = dict(tick(), flags=1)
         saved = [(FIRST, a["bid"], a["ask"], 1)]
