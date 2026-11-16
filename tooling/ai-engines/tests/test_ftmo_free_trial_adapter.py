@@ -68,6 +68,13 @@ def paper():
 
 
 class BindingCollectorTests(unittest.TestCase):
+    def test_adapter_has_no_broker_submission_API_even_if_a_caller_changes_the_flag(self):
+        import ast
+        tree = ast.parse(Path(app.__file__).read_text(encoding="utf-8"))
+        self.assertFalse(any(isinstance(n, ast.Attribute) and n.attr in ("order_send", "order_check", "login")
+                             for n in ast.walk(tree)))
+        self.assertIs(app.ALLOW_LIVE_ORDER_SEND, False)
+
     def test_real_or_unverified_account_cannot_be_accepted(self):
         p = plan()
         for value in (2, False, None):
@@ -140,6 +147,18 @@ class CalendarGuardTests(unittest.TestCase):
 
 
 class PaperHarnessTests(unittest.TestCase):
+    def test_paper_initial_phase_controls_risk_instead_of_only_changing_a_label(self):
+        risks = {}
+        for phase in ("CHALLENGE", "VERIFICATION", "FUNDED_STANDARD"):
+            value = plan()
+            value["phase"] = phase
+            p = app.ShadowPaper(value, FIRST, FIRST + 3600000)
+            p.mark = mark()
+            p.offer(intent(), FIRST)
+            p.advance(tick())
+            risks[phase] = p.account.accepted[0]["risk_usd"]
+        self.assertEqual(risks, dict(CHALLENGE=300, VERIFICATION=262.5, FUNDED_STANDARD=187.5))
+
     def test_one_intent_one_paper_entry_and_no_broker_send(self):
         p = paper()
         p.offer(intent(), FIRST)
@@ -242,6 +261,14 @@ class PaperHarnessTests(unittest.TestCase):
         p.advance(tick(FIRST + 501))
         self.assertEqual(len(p.account.accepted), 1)
 
+    def test_stale_tick_waits_for_fresh_quote_without_cancelling_valid_entry_window(self):
+        p = paper()
+        p.offer(intent(), FIRST)
+        p.advance(dict(tick(FIRST + 1000), known_at_msc=FIRST + 5000))
+        self.assertFalse(p.intents["test-intent"]["consumed"])
+        p.advance(tick(FIRST + 5001))
+        self.assertEqual(len(p.account.accepted), 1)
+
     def test_unfrozen_policy_is_not_a_v19_live_shadow_configuration(self):
         value = plan()
         value["profile"]["gamma"] = .5
@@ -334,6 +361,15 @@ class SignalAndReconciliationTests(unittest.TestCase):
         hours["t"] = FIRST - np.arange(399, -1, -1) * 3600000
         with self.assertRaises(app.AdapterError):
             app.signals_from_closed_hours(hours, "XAUUSD", FIRST, object())
+
+    def test_hourly_bridge_never_truncates_fractional_integer_grid(self):
+        row = dict(t=FIRST - 3600000, bo=100, bh=101, bl=99, bc=100.5)
+        with self.assertRaises(app.AdapterError):
+            app.validate_closed_hours([row], FIRST)
+        row["bc"] = 100
+        app.validate_closed_hours([row], FIRST)
+        with self.assertRaises(app.AdapterError):
+            app.validate_closed_hours([row, row], FIRST)
 
     def test_partial_fills_use_weighted_price_and_signed_slippage(self):
         expected = [dict(intent_id="a", asset="XAUUSD", side="BUY", price=2000, volume=.3, requested_at_msc=10)]

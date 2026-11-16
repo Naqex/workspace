@@ -314,6 +314,17 @@ def signals_from_closed_hours(hourly, asset, now, calendar):
     return result
 
 
+def validate_closed_hours(rows, now):
+    previous = -1
+    for r in rows:
+        if any(type(r.get(k)) is not int for k in ("t", "bo", "bh", "bl", "bc")):
+            raise AdapterError("NONINTEGER_NATIVE_H1_GRID")
+        if (r["t"] <= previous or r["t"] % 3600000 or r["t"] + 3600000 > now or r["bl"] <= 0 or
+                r["bl"] > min(r["bo"], r["bc"]) or r["bh"] < max(r["bo"], r["bc"])):
+            raise AdapterError("INVALID_NATIVE_H1_SIGNAL_OHLC")
+        previous = r["t"]
+
+
 class ShadowPaper:
     """One private paper account; actual broker positions are never modified."""
     def __init__(self, plan, start, end):
@@ -323,6 +334,9 @@ class ShadowPaper:
         self.trades, self.quotes, self.intents, self.expected, self.log = [], {}, {}, [], []
         self.last_time, self.day, self.mark = start - 1, None, None
         self.closed_minute, self.minute_close = {}, {}
+        if plan["phase"] not in ("FREE_TRIAL", "CHALLENGE", "VERIFICATION", "FUNDED_STANDARD"):
+            raise AdapterError("PROGRAM_PHASE_UNKNOWN")
+        standalone = plan["phase"] == "FUNDED_STANDARD"
         for times in plan.get("closed_M1_times", {}).values():
             if any(t % MINUTE or t + MINUTE > start for t in times):
                 raise AdapterError("FUTURE_OR_UNALIGNED_INITIAL_M1_HISTORY")
@@ -330,16 +344,18 @@ class ShadowPaper:
             from prop_v19_common import FREEZE, read
             if plan["profile"] != read(FREEZE)["selected_profile"]:
                 raise AdapterError("SHADOW_PROFILE_DIFFERS_FROM_FROZEN_V19")
-            self.account = V19Account(start, end, "SYM_FLAT", rolling=True, friction_pct=100,
+            self.account = V19Account(start, end, "SYM_FLAT", rolling=True, friction_pct=100, standalone=standalone,
                                       profile=plan["profile"])
         elif plan["policy"] == "V16":
             class GuardedV16(FrictionAccount):
                 @property
                 def internal_floor_milli(self):
                     return max(45800000, self.anchor - 1100000)
-            self.account = GuardedV16(start, end, "SYM_FLAT", rolling=True, friction_pct=100)
+            self.account = GuardedV16(start, end, "SYM_FLAT", rolling=True, friction_pct=100, standalone=standalone)
         else:
             raise AdapterError("UNREGISTERED_PAPER_POLICY")
+        if plan["phase"] == "VERIFICATION":
+            self.account.phase = 2
 
     def emit(self, kind, at, **fields):
         self.log.append(dict(kind=kind, known_at_msc=at, **fields))
@@ -468,6 +484,9 @@ class ShadowPaper:
                 if intent["consumed"] or intent["asset"] != asset:
                     continue
                 if source_at < intent["offered_at"]:
+                    continue
+                if at - source_at > 2000 and at - intent["decision_msc"] <= 60000:
+                    self.emit("WAIT_FRESH_EXECUTION_QUOTE", at, intent_id=identity, source_msc=source_at)
                     continue
                 intent["consumed"] = True
                 reason = self.entry_reason(intent, at, row)
@@ -604,6 +623,7 @@ def reduce_bridge(bundle, plan):
             previous = paper.plan.setdefault("closed_M1_times", {}).setdefault(r["asset"], [])
             paper.plan["closed_M1_times"][r["asset"]] = sorted(set(previous + times))[-1000:]
         elif r["kind"] == "closed_hours":
+            validate_closed_hours(r["rows"], known)
             dtype = [(k, "<i8") for k in ("t", "bo", "bh", "bl", "bc")]
             hours = np.array([tuple(v[k] for k, _ in dtype) for v in r["rows"]], dtype=dtype)
             if (np.any(hours["t"] % 3600000) or np.any(hours["bl"] <= 0) or
@@ -653,6 +673,8 @@ def known_hour_seed(seed_spec, native_hours, now):
         raise AdapterError("SIGNAL_SEED_ORIGIN_NOT_CANONICAL")
     if seed.get("known_at_msc", now + 1) > now or any(r["t"] + 3600000 > now for r in seed["rows"]):
         raise AdapterError("FUTURE_SIGNAL_SEED")
+    validate_closed_hours(seed["rows"], now)
+    validate_closed_hours(native_hours, now)
     by_time = {r["t"]: r for r in seed["rows"]}
     if len(by_time) != len(seed["rows"]) or sorted(by_time) != [r["t"] for r in seed["rows"]]:
         raise AdapterError("SIGNAL_SEED_DUPLICATE_OR_ORDER")
