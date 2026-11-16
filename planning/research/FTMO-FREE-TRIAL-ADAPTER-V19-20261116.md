@@ -96,6 +96,10 @@ intent hoặc kiểm thử. Khi nối generator từ nến, không thay bằng m
 signal rồi gọi đó là parity chiến lược.
 
 Native shadow chạy hữu hạn tối đa 3.600 giây mỗi lần; mặc định 60 giây.
+`known_at_msc` lấy sau khi nhận dữ liệu/tính tín hiệu, không lấy giờ bắt đầu
+API call để backdate quyết định. Quote stale chỉ được ghi/đánh dấu; nếu đang
+có vị thế paper thì path trở thành uncertain, đóng tại quote mới hợp lệ và
+khóa entry chờ đối soát. Không ghi một market fill bằng giá cũ đã hết hiệu lực.
 Nó lưu `effective-paper-plan.json` và `native-shadow-events.jsonl` trước khi
 xử lý. Tick ở cùng millisecond được đọc lại tại biên, giữ duplicate có thứ
 tự; thay lịch sử biên thì dừng. Account identity được kiểm lại mỗi vòng.

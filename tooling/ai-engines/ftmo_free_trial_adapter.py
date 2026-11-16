@@ -354,6 +354,7 @@ class ShadowPaper:
         self.plan = plan
         self.trades, self.quotes, self.intents, self.expected, self.log = [], {}, {}, [], []
         self.last_time, self.day, self.mark = start - 1, None, None
+        self.path_uncertain, self.halted_reason = False, None
         self.closed_minute, self.minute_close = {}, {}
         from prop_v19_common import FREEZE, read
         self.frozen_profile = read(FREEZE)["selected_profile"]
@@ -447,6 +448,17 @@ class ShadowPaper:
         self.quotes[asset] = dict(bid_units=bid, ask_units=ask, known_at_msc=at, source_msc=source_at)
         self.last_time = at
         quote = self.paired(at, asset)
+        if not self.account.start <= at < self.account.end:
+            self.emit("OUTSIDE_PAPER_OBSERVATION_WINDOW", at)
+            return
+        if at - source_at > 2000:
+            for i in self.account.active:
+                if self.trades[i]["asset"] == asset:
+                    self.trades[i]["stale_close_requested"] = at
+                    self.path_uncertain = True
+                    self.halted_reason = "STALE_POSITION_PATH_REQUIRES_RECONCILIATION"
+            self.emit("STALE_QUOTE_MARK_ONLY", at, asset=asset, source_msc=source_at)
+            return
         with cost_bindings(100):
             self.account._trades = self.trades
             day = prague_midnight(at)
@@ -464,7 +476,7 @@ class ShadowPaper:
                 for i in list(self.account.active):
                     t = self.trades[i]
                     if (not contiguous or t["asset"] != asset or t["mode"] != "P1" or
-                            t.get("activation_time") is not None):
+                            t.get("activation_time") is not None or t.get("stale_close_requested") is not None):
                         continue
                     side = np.array([1 if t["side"] == "BUY" else -1])
                     favorable_px = t.get("p1_favorable_units")
@@ -484,6 +496,9 @@ class ShadowPaper:
             for i in list(self.account.active):
                 t = self.trades[i]
                 if t["asset"] != asset:
+                    continue
+                if t.get("stale_close_requested") is not None:
+                    self.close(i, at, quote, "STALE_PATH_RECOVERY_NEXT_QUOTE")
                     continue
                 level = t.get("protection_price") if t.get("activation_time") is not None else t["stop_units"]
                 px = bid if t["side"] == "BUY" else ask
@@ -573,6 +588,10 @@ class ShadowPaper:
         from prop_v19_paths import preceding_continuity
         import numpy as np
         asset = intent["asset"]
+        if self.halted_reason:
+            return self.halted_reason
+        if now >= self.plan.get("entry_cutoff_msc", self.account.end):
+            return "PAPER_RUN_ENTRY_CUTOFF"
         if not 0 <= now - intent["decision_msc"] <= 60000:
             return "SIGNAL_ENTRY_WINDOW_EXPIRED"
         if now - tick["time_msc"] > 2000:
@@ -631,7 +650,10 @@ class ShadowPaper:
             research_program="inherited 50k two-step +10/+5; not actual Free Trial completion rules",
             policy=self.plan["policy"], account=account, log=self.log,
             expected_fills=self.expected, broker_orders_sent=0, slippage_measured=False,
-            broker_execution_ready=False, historical_news_overlay_parity_certified=False)
+            known_through_msc=self.last_time, path_uncertain=self.path_uncertain,
+            equity_DD_status="INCOMPLETE_STALE_POSITION_PATH" if self.path_uncertain else "OBSERVED_PAPER_QUOTES_ONLY",
+            halted_reason=self.halted_reason, broker_execution_ready=False,
+            historical_news_overlay_parity_certified=False)
 
 
 def reduce_bridge(bundle, plan):
@@ -663,7 +685,10 @@ def reduce_bridge(bundle, plan):
             previous = paper.plan.setdefault("closed_M1_times", {}).setdefault(r["asset"], [])
             paper.plan["closed_M1_times"][r["asset"]] = sorted(set(previous + times))[-1000:]
         elif r["kind"] == "closed_hours":
-            validate_closed_hours(r["rows"], known)
+            asof = r.get("signal_asof_msc", known)
+            if type(asof) is not int or asof > known:
+                raise AdapterError("FUTURE_SIGNAL_ASOF")
+            validate_closed_hours(r["rows"], asof)
             dtype = [(k, "<i8") for k in ("t", "bo", "bh", "bl", "bc")]
             hours = np.array([tuple(v[k] for k, _ in dtype) for v in r["rows"]], dtype=dtype)
             if (np.any(hours["t"] % 3600000) or np.any(hours["bl"] <= 0) or
@@ -676,7 +701,7 @@ def reduce_bridge(bundle, plan):
                         return at < session_deadline(at, paper.plan["holidays"])
                     except AdapterError:
                         return False
-            intents = signals_from_closed_hours(hours, r["asset"], known, Calendar())
+            intents = signals_from_closed_hours(hours, r["asset"], asof, Calendar())
             for intent in intents:
                 paper.offer(intent, known)
             paper.emit("NATIVE_CLOSED_HOURS_CONSUMED", known, asset=r["asset"],
@@ -740,34 +765,40 @@ def run_native_shadow(reader, plan, output, *, max_seconds=60, poll_seconds=2, c
     verify_account(reader.account(), plan["binding"])
     if not all(asset in plan.get("signal_seeds", {}) for asset in ASSETS):
         raise AdapterError("CANONICAL_SIGNAL_SEEDS_REQUIRED_FOR_NATIVE_SHADOW")
-    plan = dict(plan, from_msc=now, closed_M1_times={})
+    deadline = min(plan["to_msc"], now + max_seconds * 1000)
+    plan = dict(plan, from_msc=now, closed_M1_times={}, entry_cutoff_msc=deadline)
     for asset in ASSETS:
         plan["specs"][asset] = validate_spec(asset, reader.spec(asset))
         plan["closed_M1_times"][asset] = reader.closed_minutes(asset, now)
     with (output / "effective-paper-plan.json").open("x", encoding="utf-8") as f:
         json.dump({k: plan[k] for k in ("policy", "profile", "phase", "from_msc", "to_msc",
-                                       "binding", "specs", "news", "holidays", "closed_M1_times", "signal_seeds") if k in plan}, f, indent=2)
+                                       "binding", "specs", "news", "holidays", "closed_M1_times", "signal_seeds",
+                                       "entry_cutoff_msc") if k in plan}, f, indent=2)
     paper = ShadowPaper(plan, now, plan["to_msc"])
     boundary = {}
     last_hour, ordinal = None, 0
-    deadline = min(plan["to_msc"], now + max_seconds * 1000)
     with (output / "native-shadow-events.jsonl").open("x", encoding="utf-8") as journal:
         def accept(event):
             nonlocal ordinal
+            if not plan["from_msc"] <= event["known_at_msc"] < plan["to_msc"]:
+                raise AdapterError("NATIVE_SHADOW_OBSERVATION_WINDOW_EXPIRED")
             event["record_id"] = f"native:{ordinal}"
             ordinal += 1
             journal.write(json.dumps(event) + "\n")
             journal.flush()
+        now = clock()
         while now < deadline:
             verify_account(reader.account(), plan["binding"])
             paper.mark = reader.account_mark(now, 50000)
-            accept(dict(kind="account_mark", known_at_msc=now, mark=paper.mark))
+            received = clock()
+            if paper.mark is not None:
+                paper.mark = dict(paper.mark, known_at_msc=received)
+            accept(dict(kind="account_mark", known_at_msc=received, mark=paper.mark))
+            paper.last_time = received
             if last_hour != now // 3600000:
                 for asset in ASSETS:
                     hourly = known_hour_seed(plan["signal_seeds"][asset], reader.hourly(asset, now), now)
-                    event = dict(kind="closed_hours", known_at_msc=now, asset=asset, rows=hourly,
-                                 source="NATIVE_MT5_H1_CHECKED_AGAINST_60_CLOSED_M1")
-                    accept(event)
+                    received = clock()
                     import numpy as np
                     dtype = [(k, "<i8") for k in ("t", "bo", "bh", "bl", "bc")]
                     frame = np.array([tuple(r[k] for k, _ in dtype) for r in hourly], dtype=dtype)
@@ -778,25 +809,33 @@ def run_native_shadow(reader, plan, output, *, max_seconds=60, poll_seconds=2, c
                             except AdapterError:
                                 return False
                     intents = signals_from_closed_hours(frame, asset, now, Calendar())
+                    processed = clock()
+                    event = dict(kind="closed_hours", known_at_msc=processed, signal_asof_msc=now,
+                                 received_at_msc=received, asset=asset, rows=hourly,
+                                 source="NATIVE_MT5_H1_CHECKED_AGAINST_60_CLOSED_M1")
+                    accept(event)
                     for intent in intents:
-                        paper.offer(intent, now)
-                    paper.emit("NATIVE_CLOSED_HOURS_CONSUMED", now, asset=asset,
+                        paper.offer(intent, processed)
+                    paper.emit("NATIVE_CLOSED_HOURS_CONSUMED", processed, asset=asset,
                                bars=len(hourly), signals=len(intents), source=event["source"])
+                    paper.last_time = processed
                 last_hour = now // 3600000
             incoming = []
+            quote_request_end = clock()
             for asset in ASSETS:
                 first = boundary[asset][0] if asset in boundary else now
-                rows = reader.ticks(asset, first, now + 1)
+                rows = reader.ticks(asset, first, quote_request_end + 1)
                 incoming.extend(new_live_ticks(rows, boundary.get(asset)))
                 if rows:
                     at = rows[-1]["time_msc"]
                     boundary[asset] = (at, [(r["time_msc"], r["bid"], r["ask"], r.get("flags", 0))
                                            for r in rows if r["time_msc"] == at])
+            received = clock()
             for r in sorted(incoming, key=lambda q: (q["time_msc"], ASSETS.index(q["asset"]))):
-                event = dict(r, kind="quote", known_at_msc=now)
+                event = dict(r, kind="quote", known_at_msc=received)
                 accept(event)
                 paper.advance(event)
-            sleeper(min(poll_seconds, max(0, (deadline - now) / 1000)))
+            sleeper(min(poll_seconds, max(0, (deadline - clock()) / 1000)))
             now = clock()
     result = paper.report()
     result.update(mode="LIVE_SHADOW_PAPER", source_cross_asset_order="timestamp then fixed asset order",
@@ -830,6 +869,7 @@ def main():
             import time
             observed = int(time.time() * 1000) if isinstance(reader, NativeMT5Reader) else plan["observed_at_msc"]
             result = collect(reader, plan["binding"], plan["from_msc"], plan["to_msc"], observed_at=observed)
+            result["received_at_msc"] = int(time.time() * 1000) if isinstance(reader, NativeMT5Reader) else observed
         else:
             if args.bridge is not None and not args.attach_running_terminal:
                 result = reduce_bridge(FileBridge(args.bridge).bundle, plan)

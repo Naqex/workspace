@@ -285,6 +285,21 @@ class PaperHarnessTests(unittest.TestCase):
         p.advance(tick(FIRST + 5001))
         self.assertEqual(len(p.account.accepted), 1)
 
+    def test_stale_position_path_never_creates_a_backdated_market_fill(self):
+        p = paper()
+        p.offer(intent(), FIRST)
+        p.advance(tick())
+        p.advance(dict(tick(FIRST + 1000, 1989, 1989.34), known_at_msc=FIRST + 5000))
+        self.assertTrue(p.path_uncertain)
+        self.assertEqual(len(p.account.closed), 0)
+        p.advance(tick(FIRST + 5001, 1988, 1988.34))
+        self.assertEqual(p.expected[-1]["requested_at_msc"], FIRST + 5001)
+        self.assertEqual(p.expected[-1]["price"], 1988)
+        p.offer(dict(intent(), intent_id="after-stale", decision_msc=FIRST + 5001), FIRST + 5001)
+        p.advance(tick(FIRST + 5002))
+        self.assertEqual(len(p.account.accepted), 1)
+        self.assertIsNotNone(p.halted_reason)
+
     def test_unfrozen_policy_is_not_a_v19_live_shadow_configuration(self):
         value = plan()
         value["profile"]["gamma"] = .5
@@ -333,11 +348,14 @@ class SignalAndReconciliationTests(unittest.TestCase):
             def closed_minutes(self, asset, now):
                 return list(range(FIRST - 30 * 60000, FIRST, 60000))
             def account_mark(self, now, initial):
+                value[0] += 10
                 return mark(now)
             def hourly(self, asset, now):
+                value[0] += 20
                 return [dict(t=FIRST - n * 3600000, bo=2000000, bh=2001000, bl=1999000, bc=2000000)
                         for n in range(400, 0, -1)]
             def ticks(self, asset, first, end):
+                value[0] += 10
                 values = sorted(set([first, end - 1]))
                 if asset == "XAUUSD":
                     return [dict(tick(at), flags=1) for at in values]
@@ -368,6 +386,7 @@ class SignalAndReconciliationTests(unittest.TestCase):
         self.assertEqual(live["account"], replay["account"])
         self.assertEqual(live["expected_fills"], replay["expected_fills"])
         self.assertEqual(live["actual_broker_orders"], 0)
+        self.assertGreater(live["expected_fills"][0]["requested_at_msc"], FIRST)
 
     def test_seed_change_future_and_overlap_divergence_fail_closed(self):
         with tempfile.TemporaryDirectory() as root:
