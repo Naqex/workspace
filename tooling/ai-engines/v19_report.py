@@ -91,10 +91,18 @@ def collect():
                     payout_basis="Standalone Funded from path start; not payouts after passing Challenge.", **value))
     states = read(JOB / "state-first-passage.json")
     paid = read(JOB / "state-payout-supplement.json")
+    unit_drag = read(JOB / "Dev-fit.json")["volatility_drag"]
     for r in states["rows"]:
         p = next(p for p in paid["rows"] if p["policy"] == r["policy"] and p["state_pct"] == r["account_return_pct"])
         r["post_funded_payout_per_elapsed_month_USD"] = p["mean_USD_per_elapsed_month"]
         r["payout_zero_paths"] = p["zeros"]
+        denominator = (1 + r["account_return_pct"] / 100) ** 2
+        r["volatility_drag_reference"] = dict(
+            approximate_daily_log_drag=unit_drag["approximate_daily_log_drag"] / denominator,
+            approximate_annual_log_drag=unit_drag["approximate_annual_log_drag"] / denominator,
+            basis="Same fixed-$150 Dev unit-book USD variance divided by hypothetical opening equity squared.",
+            not_measured_adaptive_account_returns=True,
+            measured_adaptive_account_log_drag=None)
     reset = []
     for policy in ("V16", "V19"):
         fresh = next(r for r in states["rows"] if r["policy"] == policy and r["account_return_pct"] == 0)
@@ -144,6 +152,7 @@ def collect():
         O3_actual_payout_measurement=paid["rows"], reset_analysis=reset,
         O3_original_first_passage_outcomes_identical=paid["all_original_first_passage_outcomes_identical"],
         engineering=dict(tests=tests, smoke=smoke, storage=read(JOB / "storage-final-summary.json"),
+            storage_growth_attribution=read(JOB / "storage-growth-attribution.json"),
             V18_slow_fast_attribution=read(JOB / "V18-smoke-slow-fast-attribution.json"),
             smoke_profile_pair=read(JOB / "smoke-diagnostic-paired.json"),
             smoke_workers_comparison=read(JOB / "smoke-diagnostic-workers.json"),
@@ -177,7 +186,7 @@ def collect():
     text = json.dumps(result, indent=2, ensure_ascii=False)
     if len(text.encode("utf-8")) > 1024 * 1024:
         raise ValueError("V19_bounded_results_exceed_1MiB")
-    REPORT.with_suffix(".json").write_text(text, encoding="utf-8")
+    REPORT.with_suffix(".json").write_text(text, encoding="utf-8", newline="\n")
     write_report(result)
     event("V19_report_written", path=str(REPORT), bytes=len(text.encode("utf-8")))
 
@@ -296,6 +305,15 @@ def write_report(s):
         "36 tháng và gồm zeros; không lấy thu nhập sổ Funded riêng gán cho tài khoản đang thi. "
         "Lượt đo bổ sung giữ nguyên mọi first-passage outcome và đối soát full ledger. "
         "JSON giữ bảng V16 bên cạnh, conditional mean, restricted mean và số không đạt.", "",
+        "Drag tham chiếu dưới đây dùng cùng phương sai USD/ngày của unit book risk cố định "
+        "150 USD, chia equity giả định từng state rồi lấy `0,5 × variance × 252`. "
+        "Đây là phép đổi mẫu số để so quy mô; chưa đo drag của actual adaptive account tại từng "
+        "state và không đưa các con số này vào chọn policy.", ""]
+    lines += table(["State %", "Drag log/năm tham chiếu %"], [
+        [fmt(r["account_return_pct"], 0),
+         fmt(r["volatility_drag_reference"]["approximate_annual_log_drag"] * 100, 5)]
+        for r in s["state_first_passage"]["rows"] if r["policy"] == "V19"])
+    lines += ["",
         "**O3 chưa xác định được ngưỡng reset tối ưu.** Không suy thời gian kỳ vọng vô hạn từ "
         "median của nhóm thắng, không coi restricted mean là expected time thật. "
         "Phí retry/điều kiện reset chưa biết; nhận định mua lại giúp nhanh hơn chưa có cơ sở. "
@@ -313,6 +331,7 @@ def write_report(s):
         "Bốn runtime groups chạy chồng có kiểm soát; không gọi là cùng workload nhanh hơn toàn máy.", "",
         f"Smoke cùng 78 IDs/assertions, 10 fresh processes và startup: **{smoke['below078']}/10 "
         f"dưới 0,78s**, max **{fmt(smoke['wall_max'], 3)}s**, median **{fmt(smoke['wall_median'], 3)}s**. "
+        f"Target 10/10 dưới 0,78s: **{'đạt' if smoke['all_ten_below078'] else 'chưa đạt'}**. "
         "Giữ mọi outliers; không retry lấy chuỗi đẹp. Profile và paired diagnostics được giữ; "
         "không chứng minh chính xác nguyên nhân ba lần chậm lịch sử chỉ từ timing V18.", "",
         "Timing V18 cho thấy ba lần chậm hơn nhóm còn lại trung bình 80,2ms: 23,7ms ở import, "
@@ -324,11 +343,15 @@ def write_report(s):
         "Hai worker smoke không thắng rõ nên không dùng. Oracle single-point bỏ NumPy array một "
         "phần tử sau 16 full-ledger parity checks; không bỏ quote/reset/exit clocks.", ""]
     lines += table(["Kho", "Hiện tại GiB", "Delta so V18 GiB", "Delta files", "Lỗi đọc"], [
-        [root, fmt(r["current"]["bytes"] / 2**30), fmt(r["delta_since_V18"]["bytes"] / 2**30),
+        [root, fmt(r["current"]["bytes"] / 2**30), fmt(r["delta_since_V18"]["bytes"] / 2**30, 3),
          r["delta_since_V18"]["files"], len(r["errors"])]
         for root, r in s["engineering"]["storage"]["roots"].items()])
-    lines += ["", "Không xóa dữ liệu mới. Audit journals/quote packs và receipts là tăng trưởng có "
-        "mục đích; không gọi là rác. Snapshot logical/non-atomic không là physical freed bytes.", "",
+    growth = s["engineering"]["storage_growth_attribution"]
+    lines += ["", f"Job V19 giữ **{fmt(growth['job_logical_bytes'] / 2**30, 3)}GiB / "
+        f"{growth['job_files']} files**, chủ yếu JSON account/path packs và NPY quote arrays. "
+        "Đây là evidence được giữ có chủ đích, gần toàn bộ mức tăng quan sát trên E. "
+        "Không xóa dữ liệu mới hoặc chứng nhận toàn ổ không có rác. Snapshot logical/non-atomic "
+        "không là physical freed bytes; hai lỗi đọc D thuộc VI Dubber và giữ nguyên.", "",
         "## 7. Chốt bước tiếp", "",
         "**Giữ research-only; chưa mua Challenge hoặc tự gửi lệnh Free Trial.** "
         "Ưu tiên thu dữ liệu đích có binding và kiểm continuity/spec/news cùng seed, rồi mới "
@@ -342,7 +365,7 @@ def write_report(s):
         f"JSON: [{REPORT.with_suffix('.json').name}]({REPORT.with_suffix('.json').name}). "
         f"Private job: `{JOB}`. `ci-exact-head-reconciliation.json` và `completion-receipt.json` "
         "được ghi sau 3 CI đúng HEAD/downloaded test IDs; không sửa HEAD chỉ để tự đóng dấu.", ""]
-    REPORT.with_suffix(".md").write_text("\n".join(lines), encoding="utf-8")
+    REPORT.with_suffix(".md").write_text("\n".join(lines), encoding="utf-8", newline="\n")
 
 
 if __name__ == "__main__":

@@ -78,9 +78,10 @@ flowchart LR
 | Đặt tên branch, commit/push, PR và dọn branch | [GitHub workflow](tooling/github-workflow/README.md) |
 | Quyền sử dụng và thương mại | [License](LICENSE) · [Chính sách](docs/licensing.md) |
 
-Đợt nghiên cứu gần nhất: [V18 — báo cáo buổi sáng](planning/research/MORNING-EXECUTIVE-SUMMARY-20261116.md)
-và [kết quả kiểm định](planning/research/FINAL-CONVERGENCE-V18-RESULTS-20261116.md).
-Chưa có Champion đủ chứng cứ; kết quả nghiên cứu chưa là quyền giao dịch.
+Đợt nghiên cứu gần nhất: [V19 — kết quả kiểm định](planning/research/ASYMMETRIC-RECOVERY-V19-RESULTS-20261116.md)
+và [adapter chỉ đọc/shadow](planning/research/FTMO-FREE-TRIAL-ADAPTER-V19-20261116.md).
+Chưa có nâng cấp đủ chứng cứ để mua Challenge; adapter đã kiểm offline,
+chưa xác minh trên MT5 thật.
 
 README chỉ điều hướng. PLAN giữ scope; ledger/checkpoint do PLAN chỉ định giữ
 trạng thái và bằng chứng. Các báo cáo có ngày là lịch sử, không tự chứng minh
