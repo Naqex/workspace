@@ -108,6 +108,9 @@ thế paper cần replay/binding review; không tự xóa ledger để reset.
 
 Đối soát fill bên ngoài cần: `intent_id`, `deal_id`, asset, **side của vị thế**,
 `leg=ENTRY/EXIT`, volume, price, request/fill time, commission/swap/fee.
+Expected/actual phải có cùng `account_hash`; không ghép cùng một signal ID
+giữa hai tài khoản. Chi phí thực còn thiếu được để unknown, không điền 0;
+commission/swap/fee giữ dấu cashflow USD của deal broker.
 Nhiều partial fills được tính giá bình quân theo volume; missing/duplicate/
 unexpected/excess hoặc fill trước request không được gọi là match. Slippage
 bất lợi đổi dấu giữa BUY/SELL và ENTRY/EXIT. Chuẩn hóa side của deal MT5
@@ -139,6 +142,7 @@ Ngày 16/11/2026 đã đọc được các tài liệu chính thức MQL5:
 [initialize](https://www.mql5.com/en/docs/python_metatrader5/mt5initialize_py),
 [ticks](https://www.mql5.com/en/docs/python_metatrader5/mt5copyticksrange_py),
 [rates](https://www.mql5.com/en/docs/python_metatrader5/mt5copyratesfrompos_py),
+[rates theo khoảng thời gian](https://www.mql5.com/en/docs/python_metatrader5/mt5copyratesrange_py),
 [deals](https://www.mql5.com/en/docs/python_metatrader5/mt5historydealsget_py),
 [symbol](https://www.mql5.com/en/docs/python_metatrader5/mt5symbolinfo_py) và
 [account](https://www.mql5.com/en/docs/python_metatrader5/mt5accountinfo_py).

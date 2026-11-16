@@ -435,6 +435,15 @@ class SignalAndReconciliationTests(unittest.TestCase):
         result = app.reconcile_fills(expected, fills)[0]
         self.assertEqual(result["status"], "MATCHED")
         self.assertAlmostEqual(result["adverse_slippage_price_units"], .3)
+        self.assertIsNone(result["commission"])
+        self.assertEqual(result["actual_cost_status"], "INCOMPLETE")
+
+    def test_fill_from_another_account_cannot_match_a_shared_strategy_intent(self):
+        e = [dict(intent_id="a", account_hash="expected-account", asset="XAUUSD", side="BUY",
+                  price=2000, volume=.1, requested_at_msc=10)]
+        f = [dict(intent_id="a", account_hash="other-account", deal_id=1, asset="XAUUSD", side="BUY",
+                  price=2000.1, volume=.1, filled_at_msc=20, commission=-.1, swap=0, fee=0)]
+        self.assertEqual(app.reconcile_fills(e, f)[0]["status"], "ACCOUNT_BINDING_MISMATCH")
 
     def test_missing_duplicate_or_pre_request_fills_not_counted_as_valid(self):
         e = [dict(intent_id="a", asset="XAUUSD", side="SELL", price=2000, volume=.1, requested_at_msc=10)]

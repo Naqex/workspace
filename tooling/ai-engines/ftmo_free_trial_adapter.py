@@ -134,6 +134,9 @@ def reconcile_fills(expected, actual):
         if not compatible or any(f["volume"] <= 0 for f in fills):
             result.append(dict(intent_id=identity, status="ASSET_SIDE_LEG_OR_VOLUME_MISMATCH"))
             continue
+        if e.get("account_hash") is not None and any(f.get("account_hash") != e["account_hash"] for f in fills):
+            result.append(dict(intent_id=identity, status="ACCOUNT_BINDING_MISMATCH"))
+            continue
         if any(not math.isfinite(float(f["price"])) or
                not math.isfinite(float(f["volume"])) or f["filled_at_msc"] < e["requested_at_msc"] for f in fills):
             result.append(dict(intent_id=identity, status="INVALID_PRICE_VOLUME_OR_FILL_BEFORE_REQUEST"))
@@ -143,13 +146,16 @@ def reconcile_fills(expected, actual):
         sign = 1 if e["side"] == "BUY" else -1
         if e.get("leg", "ENTRY") == "EXIT":
             sign = -sign
+        costs = {k: sum(f[k] for f in fills) if all(
+            k in f and math.isfinite(float(f[k])) for f in fills) else None
+                 for k in ("commission", "swap", "fee")}
         result.append(dict(intent_id=identity,
             status="MATCHED" if volume == Decimal(str(e["volume"])) else "PARTIAL_OR_EXCESS_VOLUME",
             volume=float(volume), weighted_fill_price=float(average),
             adverse_slippage_price_units=float(sign * (average - Decimal(str(e["price"])))),
             latency_ms=[f["filled_at_msc"] - e["requested_at_msc"] for f in fills],
-            commission=sum(f.get("commission", 0) for f in fills),
-            swap=sum(f.get("swap", 0) for f in fills), fee=sum(f.get("fee", 0) for f in fills)))
+            **costs, actual_cost_status="COMPLETE" if all(v is not None for v in costs.values()) else "INCOMPLETE",
+            cost_units="signed broker deal cashflow in the bound USD account"))
     return result
 
 
@@ -421,6 +427,7 @@ class ShadowPaper:
         self.account.action("exit", now, i, self.trades, quote)
         identity = t["intent_id"] + ":EXIT"
         self.expected.append(dict(intent_id=identity, asset=t["asset"], side=t["side"], leg="EXIT",
+            account_hash=self.plan["binding"]["account_hash"],
             volume=quantity / 100, price=t["exit_price_units"] / t["scale"], requested_at_msc=now))
         self.emit("PAPER_EXIT", now, trade=i, reason=reason, price_units=t["exit_price_units"])
 
@@ -577,6 +584,7 @@ class ShadowPaper:
                     continue
                 q = self.account.active[i][0]
                 self.expected.append(dict(intent_id=identity, asset=asset, side=t["side"], leg="ENTRY",
+                    account_hash=self.plan["binding"]["account_hash"],
                     volume=q / 100, price=entry / scale, requested_at_msc=at))
                 self.emit("PAPER_ENTRY", at, intent_id=identity, volume=q / 100,
                           risk_usd=self.account.active[i][1], price_units=entry)
