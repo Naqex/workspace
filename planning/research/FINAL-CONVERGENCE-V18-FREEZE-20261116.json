@@ -1,0 +1,60 @@
+{
+  "schema": "V18-frozen-diagnostic-stress-v1",
+  "tournament_sha256": "bd50ce1d2b5eb3ed0c732f779e7c655aafbaf8f4a5cd997eb095f6a9f1013152",
+  "diagnostic_reference": "V16",
+  "champion_qualified": false,
+  "seed": 20261116,
+  "paths": 5000,
+  "friction_pct": [
+    100,
+    125,
+    150
+  ],
+  "source_modes": [
+    "PRIMARY",
+    "STRICT"
+  ],
+  "orderings": [
+    "OLHC",
+    "OHLC"
+  ],
+  "code_pins": {
+    "planning\\research\\FINAL-CONVERGENCE-V18-PROTOCOL-20261116.md": "c5fe9c96b172a4d4a39e514efd88e31baa7015131fdf340dfa9dfe39e8cc971f",
+    "tooling\\ai-engines\\prop_v18_audit.py": "dd0027601d7321900e384cbaf0d4b4558aa1707c1ffee3f72a47d5bebfba5909",
+    "tooling\\ai-engines\\prop_v18_blocks.py": "801756fab9c269851168073d0b661fcf88ca2836bd5a493e00a535e3cc336568",
+    "tooling\\ai-engines\\prop_v18_bootstrap.py": "29018d424cabb9490c07fbef7a6c20d2abcc8c77211ec9b203d8099d8aa4890f",
+    "tooling\\ai-engines\\prop_v18_common.py": "2c27087bce3075257e24aeff7b0fd43cd04b9ce44f9647f2ba48a5e16f7094fc",
+    "tooling\\ai-engines\\prop_v18_costs.py": "80553213b0ab6c54fa876be0c359fa10977821d11fdd3af776736b1b10ff5bb4",
+    "tooling\\ai-engines\\prop_v18_tournament.py": "6252ebafdd9073358d54a91d702556ccc99ea8bde95339798f6ecbabcd75e8e5",
+    "tooling\\ai-engines\\prop_v15_accounts.py": "4edb29264096a11502b1e7403f6cece358031a3d506d7387e26ea84394289bae",
+    "tooling\\ai-engines\\prop_v14_accounts.py": "9a4f3dfb8a9bbfb97e060cdf9fefb68c3349363d51ed6a9aa70f0538c5f91f60",
+    "tooling\\ai-engines\\prop_cocore_v4.py": "2449cb3f6e28f726865e4e240bffda5ec35c528073dfc51223efa640fc77b7f1",
+    "tooling\\ai-engines\\prop_v6_account.py": "b444f11bf2822d8d8a528588aaedc7d32bab796d28dd55017784336a8f4b2645",
+    "tooling\\ai-engines\\prop_v5_account.py": "9c582aeece8a2eb8dc1b2eabb6a68615ad9119f2c6ceea8d07561fd6f25a2061",
+    "tooling\\ai-engines\\prop_campaign_accounts.py": "2cc14ee74557980f05f71dce0089416f617c415acad5eb783c23f3ea6507c559",
+    "tooling\\ai-engines\\prop_portfolio_accounts.py": "dd1542edecf77c471a15832b2894c98176e8cd542bfa78ebf96b3fd142f853cb",
+    "tooling\\ai-engines\\prop_portfolio_policy.py": "2bcc175ff90cb6390ce6e7256b82fa6c5aa589918194b85fcf820df023e06750",
+    "tooling\\ai-engines\\prop_v6_replay.py": "c762611f25f10514cda8e2cfaf225f49cad56ee3ffde3a27eb065ebd49b61303",
+    "tooling\\ai-engines\\xau_h1_execution.py": "3bbf09a3526f501d560a194167cef7edc128712585cc877220e558a31073ee39",
+    "tooling\\ai-engines\\xau_h1_stage0_scan.py": "f1cfbd1e6e6d3ae0b8340cdce91d002125ad28ce977483b4ef4a36767c1d202e",
+    "tooling\\ai-engines\\independent_ledger_auditor.py": "f63df6a3a30c341dac8193399cd4d99401213146ef5cd664cb6c7156e766cd26"
+  },
+  "block_receipts": {
+    "OLHC-PRIMARY": "c6d95b27a6ed1e7855551a06a2f8404dbf04ac9860416b960276c84035f657f3",
+    "OLHC-STRICT": "b71ff91963e4b1e8e73d23b60bf903a9925b44639688256d4bce7a1962576db4",
+    "OHLC-PRIMARY": "2c7d297320820f087b2fa1dc0e42bb82352d5d83be68f9984ffe3d9631cd1b9f",
+    "OHLC-STRICT": "a4150f98aaa088cb94d1481e5369629d267955c28109fea5d2a4e1509504baf6"
+  },
+  "native_parity_receipts": {
+    "preflight-optimized": "582a3e57035a2c1b17dcec465af006e2b9b2879599891768ba604d5c2207b22d",
+    "preflight-OLHC-STRICT-optimized": "9d56af6c5bd1ecfef75395a6be761729e70e7a2c6b1690d5911640a1cb35f7ac",
+    "preflight-OHLC-PRIMARY-optimized": "3e762d36e25d07e2480091687947f94145de25ce13b160d923186c6cb9e672ab",
+    "preflight-OHLC-STRICT-optimized": "742bf7a3a16032a1e841c10be570cdbd533afeb544bea14564fe7476bcb4f98c"
+  },
+  "independent_sample_size": 32,
+  "independent_sample_seed": 20261117,
+  "surcharge": "additional half-spread + slippage per side, rounded upward to order cent",
+  "source_clock_preserved": true,
+  "later_history_already_exposed": true,
+  "SYM_ASYM_reuse": "All source trades intraday and no hard TP: identical fees and zero funding."
+}
