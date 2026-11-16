@@ -117,6 +117,20 @@ class V19ContinuityTests(unittest.TestCase):
 
 
 class V19AccountTests(unittest.TestCase):
+    def test_import_gate_statement_walk_keeps_all_nested_imports(self):
+        import ast
+        from pathlib import Path
+        import independent_ledger_auditor
+        from test_independent_ledger_auditor import imported_from_modules
+        fixtures = [Path(independent_ledger_auditor.__file__).read_text(),
+            "def f():\n try:\n  from prop_bad import x\n except Exception:\n  from quant_core.bad import y\n",
+            "class A:\n def g(self):\n  if True:\n   from nested import z\n",
+            "match 1:\n case 1:\n  from inside_case import a\n"]
+        for text in fixtures:
+            tree = ast.parse(text)
+            self.assertCountEqual(imported_from_modules(tree),
+                [n.module for n in ast.walk(tree) if isinstance(n, ast.ImportFrom)])
+
     def test_scalar_oracle_point_keeps_equality_breach_and_all_drawdowns(self):
         from independent_ledger_auditor import V14LedgerOracle
         from prop_v19_stress import FastV16Oracle

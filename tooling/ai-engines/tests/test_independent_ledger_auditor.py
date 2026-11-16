@@ -11,10 +11,25 @@ from prop_campaign_source import stamp
 from quant_core.vectorized_stage0_scanner import HOUR, DAY
 
 
+def imported_from_modules(tree):
+    # Import statements can be nested in statement containers, never in an
+    # expression subtree. Keep nested try/except/class/function coverage while
+    # avoiding visits to every arithmetic operand in the large ledger oracle.
+    pending = [tree]
+    names = []
+    while pending:
+        node = pending.pop()
+        if isinstance(node, ast.ImportFrom):
+            names.append(node.module)
+        elif not isinstance(node, ast.expr):
+            pending.extend(ast.iter_child_nodes(node))
+    return names
+
+
 class IndependentAuditorTests(unittest.TestCase):
     def test_oracle_imports_no_producer_or_quant_core_accounting(self):
         tree = ast.parse(Path(oracle.__file__).read_text())
-        names = [n.module for n in ast.walk(tree) if isinstance(n, ast.ImportFrom)]
+        names = imported_from_modules(tree)
         self.assertFalse(any(n and ("quant_core" in n or n.startswith("prop_")) for n in names))
 
     def test_wednesday_triple_funding_and_asymmetric_short_are_independently_rounded(self):
