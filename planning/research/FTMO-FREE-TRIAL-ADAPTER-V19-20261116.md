@@ -148,8 +148,23 @@ Ngày 16/11/2026 đã đọc được các tài liệu chính thức MQL5:
 [account](https://www.mql5.com/en/docs/python_metatrader5/mt5accountinfo_py).
 HTML/hash và receipt ở private V19 job; chưa là runtime acceptance.
 
-Hai FAQ FTMO về tin và giữ lệnh không truy cập lại được do TLS timeout;
-web tool cũng không cung cấp nội dung đối soát. Ngưỡng của engine là
-**giả định nghiên cứu đã version hóa**, chưa chứng minh điều khoản FTMO hiện
-hành của account. Tiếp tục phải đối chiếu Client Area/program/phase, session,
-specification và các khoản phí của chính tài khoản trước vận hành.
+Các lần đọc FAQ FTMO ban đầu lỗi TLS được giữ nguyên. Lượt kiểm lại bằng
+web ngày 16/11/2026 đã đọc được trang chính thức về
+[2-Step](https://ftmo.com/en/2-step-challenge/),
+[giới hạn lỗ](https://ftmo.com/en/trading-objectives/),
+[giữ lệnh](https://ftmo.com/en/faq/do-i-have-to-close-my-positions-overnight/),
+[tin tức](https://ftmo.com/en/faq/can-i-trade-news/) và
+[Free Trial](https://ftmo.com/en/faq/how-does-the-free-trial-work/).
+Receipt diễn giải riêng là `official-public-recheck-20261116.json` trong job
+private; không thay receipt lỗi cũ hoặc giả nhận đã lưu HTML của lượt web.
+
+Quy tắc 2-Step công khai khớp giả định target +10%/+5%, daily loss 5% và
+static loss 10%; daily anchor dùng balance lúc 00:00 CE(S)T. Restriction tin
+±2 phút và đóng trước cuối tuần/kỳ nghỉ >2 giờ áp dụng ở FTMO Account
+Standard, còn giai đoạn Evaluation được miễn. Free Trial kéo dài 14 ngày,
+có ít nhất hai ngày giao dịch và target bằng nửa Challenge; paper engine
+hai vòng hiện tại không mô phỏng việc đậu Free Trial.
+
+Chưa đối chiếu Client Area/program/phase, session, specification, phí và
+lịch tin của tài khoản đích. Quy tắc công khai không chứng minh broker parity
+hoặc thay thế các binding còn thiếu trước vận hành.

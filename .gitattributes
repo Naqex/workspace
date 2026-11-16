@@ -13,3 +13,7 @@ planning/research/ASYMMETRIC-RECOVERY-V19-PROTOCOL-20261116.md text eol=lf
 tooling/ai-engines/prop_v18_*.py text eol=lf
 tooling/ai-engines/prop_v19_*.py text eol=lf
 tooling/ai-engines/quant_core/asymmetric_opportunity_optimizer.py text eol=lf
+planning/research/V19-O2-CONSTRAINT-CORRECTION-20261116.md text eol=lf
+tooling/ai-engines/v19_*.py text eol=lf
+tooling/ai-engines/quant_core/asymmetric_covariance_optimizer.py text eol=lf
+tooling/ai-engines/ftmo_free_trial_adapter.py text eol=lf
