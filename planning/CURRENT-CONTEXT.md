@@ -1,8 +1,31 @@
 # Current context — Naqex Workspace
 
-16/11/2026 · `RESEARCH: V18_NO_CERTIFIED_CHAMPION · SYSTEM: SOURCE_UNCERTAINTY_REMAINS · PROP: NOT_QUALIFIED`.
+16/11/2026 · `RESEARCH: V19_DEV_FROZEN · SYSTEM: SOURCE_UNCERTAINTY_REMAINS · PROP: NOT_QUALIFIED`.
 
 ## Việc hiện tại
+
+**V19: Dev đã kiểm; khóa baseline có guard để đối chiếu, không promote CPPI.**
+[Protocol](research/ASYMMETRIC-RECOVERY-V19-PROTOCOL-20261116.md) /
+[freeze](research/ASYMMETRIC-RECOVERY-V19-FREEZE-20261116.json).
+PR #97/head `014e1eb` đạt 3CI, merge `beaabdd`; nhánh V18 đã xóa.
+Nhánh `codex/asymmetric-recovery-and-mt5-v19`; đăng ký `f2c7dd8`.
+18 regression ban đầu PASS; thêm state/point-oracle regression trước freeze.
+1.752 Dev accounts qua full independent ledger oracle, cùng tác giả/feed.
+O2 mean-matched inverse-vol cần trọng số vượt [0,25;2] và tăng variance:
+ineligible, không nới gate. O1 gamma 0,35/0,50 không thắng `BASE_GUARD`;
+khóa diagnostic baseline, không gọi là nâng cấp risk đã qualified.
+32/494 V16 trades /55 gap occurrences; refreshed local probes không có quote
+mới trong gap. Guard 30 phút trước entry loại 0 Dev signals; timeout >2 phút
+chỉ có 1 yêu cầu, không thoát hồi tố và không chứng nhận source continuity.
+Private job `execution-v1/asymmetric-recovery-and-mt5-v19-20261116` giữ probes,
+Dev native/audit JSONL, negative source-writer binding attempt, source hashes,
+`Dev-processes.json`, `Dev-fit.json`, oracle profile/parity và freeze.
+Tiếp: full historical validation, cùng 5.000 draws/100% account-path audits,
+state first-passage, read-only/shadow adapter và benchmark smoke không retry.
+Không mua/reset account/broker orders/deploy; giữ VI WIP/Trader pin/nguồn.
+PR #98 để mở khi hoàn tất; không coi mục tiêu dương/gap-zero/speed là đã đạt.
+
+## V18 đã merge (lịch sử)
 
 **V18 đã hoàn tất kiểm định; chưa đủ chứng cứ mua Challenge hoặc bật bot Free Trial.**
 [Báo cáo buổi sáng](research/MORNING-EXECUTIVE-SUMMARY-20261116.md) /
@@ -27,7 +50,7 @@ Storage snapshot giảm ròng 116,04 GiB/156.924 files so canonical V9,
 không coi tất cả là rác hoặc physical space reclaimed; D giữ 2 lỗi đọc VI.
 Private job `execution-v1/final-convergence-v18-20261116`: kết quả/audit/
 tests/storage receipts đã hoàn tất; không có financial job còn chạy.
-PR #97 để mở; exact-head CI và downloaded 1.153 IDs đối soát sau push bằng
+PR #97 đã merge trong V19; exact-head CI và downloaded 1.153 IDs đã đối soát bằng
 `ci-exact-head-reconciliation.json` / `completion-receipt.json` trong private job.
 Chưa broker/deploy/account mới. Kit chỉ chuẩn bị capture/parity, chưa là EA;
 terms hiện hành chưa xác minh lại thành công, snapshot 02/11 chỉ tham chiếu.

@@ -1,5 +1,13 @@
 # Tra cứu research đã có
 
+**V19 — đang đối chiếu sau Dev, CPPI/O2 chưa chứng minh nâng cấp:**
+[Protocol](ASYMMETRIC-RECOVERY-V19-PROTOCOL-20261116.md) /
+[freeze](ASYMMETRIC-RECOVERY-V19-FREEZE-20261116.json).
+PR #97 đã merge `beaabdd`; V19 đăng ký `f2c7dd8`.
+1.752 Dev account ledgers kiểm đủ; chọn diagnostic `BASE_GUARD`, không có
+qualified sizing upgrade. Source probes không bổ sung quan sát/gap certificate.
+Trạng thái và resume tại [current context](../CURRENT-CONTEXT.md).
+
 **V18 — hoàn tất tuyển chọn và stress, chưa có Champion đủ chứng cứ:**
 [Báo cáo buổi sáng](MORNING-EXECUTIVE-SUMMARY-20261116.md) /
 [kết quả](FINAL-CONVERGENCE-V18-RESULTS-20261116.md) /
@@ -16,7 +24,7 @@ V17 dự phòng Funded chỉ đạt static <6% trong PRIMARY, không certified U
 1.153 PASS/0 skip, giữ 1.148 IDs; full 22,062s. Smoke chỉ 7/10 <0,80s,
 max 0,853s: không đạt speed target, không retry để tạo chuỗi đẹp.
 Net snapshot giảm 116,04 GiB/156.924 files, không là physical reclaimed bytes.
-PR #97 để mở; exact-head CI/test-ID receipts trong private V18 job.
+PR #97 đã merge trong V19; exact-head CI/test-ID receipts trong private V18 job.
 Kit chuẩn bị quote/spec capture, chưa là EA/quyền giao dịch; terms hiện hành
 chưa truy cập lại thành công. Giữ data/freezes/negative attempts/VI WIP/Trader pin.
 
