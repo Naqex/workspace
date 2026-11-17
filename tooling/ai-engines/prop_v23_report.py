@@ -13,7 +13,7 @@ def label(identity):
 def report():
     from prop_v23_campaign import verify
     frozen=verify();dev=read(JOB/'Dev-ablation-results.json');post=read(JOB/'post-freeze-attribution.json')
-    h1=read(JOB/'H1-calendar-diagnosis.json');sessions=read(JOB/'H1-target-session-review.json')
+    h1=read(JOB/'H1-calendar-diagnosis.json');sessions=read(JOB/'H1-target-session-review-v2.json')
     f5=read(JOB/'F5-transfer-results.json');tests=read(JOB/'tests-final-matrix.json');smoke=read(JOB/'smoke-final-results.json')
     integrity=read(JOB/'artifact-integrity-audit.json');assert integrity['passed']
     tail=read(JOB/'A1-tail-cadence-diagnostic.json')
@@ -74,7 +74,9 @@ def report():
          *[fmt(v) for v in r['cases'][0]['cluster_R']],'PASS' if r['passed'] else ', '.join(r['cases'][0]['reasons'])] for r in dev['cases']])
     lines+=['','Baseline Dev: +23,8524R / 12,2065R equityDD. A1: '
         f"+{m['net_R']:.4f}R / {m['equity_R_DD']:.4f}R; giữ nguyên risk hai nhánh còn lại, không phân bổ lại risk F3. "
-        'Day-range/ATR là biến biết tại entry; L3 là nhãn sau outcome, không dùng làm tín hiệu trực tiếp.','',
+        'Day-range/ATR là biến biết tại entry; L3 là nhãn sau outcome, không dùng làm tín hiệu trực tiếp. '
+        'Worst daily R ở screen unit-book dùng ngày UTC theo cùng helper baseline; daily loss tài khoản ở phần 3 '
+        'dùng reset/anchor của lifecycle profile đã pin, không thay bằng ngày UTC.','',
         'Phân nhóm ngày biến động lớn sau đây chỉ mô tả Dev, không là bộ lọc mới hay bằng chứng nhân quả. '
         'Mẫu ngày lớn của F5 có thể không đồng nhất với mọi chế độ đảo chiều.','']
     lines+=table(['Nhánh','DayRange/ATR','Lệnh','NetR','MeanR'],[
@@ -94,8 +96,10 @@ def report():
         '[24/12/2021](https://ftmo.com/es/blog/trading-update-16-12-2021/), '
         '[15/04/2022](https://ftmo.com/it/blog/trading-update-07-04-2022-2/), '
         '[07/04/2023](https://ftmo.com/en/blog/trading-updates/trading-update-30-mar-2023/), '
-        '[bảng Christmas 26/12/2022](https://ftmo.com/it/blog/trading-update-05-01-2023-2-2-2/). '
-        'Ngày 26/12/2022 FX đóng: quote nguồn không được coi là lệnh đích hợp lệ. '
+        '[thông báo trước lễ 15/12/2022](https://ftmo.com/it/blog/trading-update-15-12-2022/), '
+        '[bảng hồi cứu 12/01/2023](https://ftmo.com/it/blog/trading-update-05-01-2023-2-2-2/). '
+        'Hai nguồn cuối mâu thuẫn về FX26/12/2022 (mở bình thường so với đóng): giữ SOURCE_CONFLICT/TARGET_SESSION_UNVERIFIED, '
+        'rút claim closed ban đầu và giữ artifact cũ. Có4 quan sát normal được hỗ trợ,8 quan sát thuộc4 ngày còn unknown/conflict. '
         '2018/2019/2021 Good Friday chưa có thông báo đúng ngày được xác minh; giữ unknown. '
         'Không lấy lịch broker khác thay FTMO. Các phép đo transfer dùng declared weekday scenario, chưa chứng nhận lịch đích.','',
         'F5 giữ H4 / vùng 5 ngày / ADX≤25 / buffer 0,1ATR / tín hiệu đầu tiên mỗi ngày UTC / naturalSL P0; '
@@ -166,6 +170,8 @@ def report():
         'Kiểm toán độc lập agent tại `6d2df38`: không finding material trong ablation/calendar/watcher, '
         '15 tests xanh và29 manifests lúc review; không bao gồm final aggregates/CI chưa có lúc đó. '
         'Integrity audit cuối kiểm thêm toàn bộ ledgers/manifests. Không phải nguồn giá độc lập hay broker acceptance.','',
+        'Review bổ sung tại `fb82499` xác nhận arithmetic/period DD/ExTop10 và phát hiện P2: '
+        'hai thông báo FTMO mâu thuẫn về26/12/2022. Đã sửa provenance/claim trong v2, giữ initial review, không thay financial runs.','',
         '| Hậu kiểm | Kết luận |','|---|---|',
         '| Bỏ nhánh âm Dev vẫn làm ít mốc pass hơn | Diversification, account path và phase state khác cộng R; không promote bằng Dev tổng |',
         '| `ok=false` bị gọi là thiếu giá | Tách price availability và target-session eligibility; giữ V22 receipts, sửa active interpretation |',

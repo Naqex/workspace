@@ -19,7 +19,8 @@ Resume: reconcile process/journal trước; không chạy writer thứ hai. Đ�
 `prop_v23_delivery.py tests`, `audit`, `prop_v23_report.py`; cập nhật report/context,
 commit/push và exact-head CI/download IDs, ready PR102, không merge PR102.
 V22 “6 missing” mỗi FX là calendar rejection do Gold guard: entry/20:00 đã đủ
-GBP2288/2288, AUD1795/1795. FTMO26/12/2022 FX closed dù source có quote;
+GBP2288/2288, AUD1795/1795. FTMO26/12/2022 có hai notices mâu thuẫn open/closed;
+giữ SOURCE_CONFLICT trong `H1-target-session-review-v2.json`, rút closed claim ban đầu.
 Good Friday2018/2019/2021 target sessions unknown. Không gọi100% price là100% broker eligibility.
 Watcher chỉ bounded native FTMO Demo/Trial USD read-only, có account/executable binding,
 không fixture fallback; actual timeout/no terminal, chưa capture thành công trên MT5 thật.

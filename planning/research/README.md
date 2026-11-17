@@ -6,7 +6,7 @@
 [PR102](https://github.com/Naqex/workspace/pull/102).
 Dev33,554R/DD11,437R; Full historical63/105 hai vòng, baseline71/105.
 Ba F5 transfers fail. GBP/AUD endpoint đủ100%;12 `ok=false` do Gold calendar
-guard, không thiếu giá. FTMO26/12/2022 FX closed; một số Good Friday vẫn unknown.
+guard, không thiếu giá. FTMO26/12/2022 notices mâu thuẫn; một số Good Friday vẫn unknown.
 Watcher bounded/read-only có timeout/account binding, chưa native successful capture.
 Resume/checkpoints/CI theo [current context](../CURRENT-CONTEXT.md); giữ BASE_GUARD.
 
