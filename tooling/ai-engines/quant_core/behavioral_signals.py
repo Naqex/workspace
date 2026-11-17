@@ -54,8 +54,10 @@ def recipes(bars,asset,first,end,*,hourly=False):
     for level,hi,lo in (("PD",prior_high,prior_low),("ASIA",asia_h,asia_l)):
         for fraction in (.1,.3,.6):
             inside=(h1["c"]>lo)&(h1["c"]<hi)
-            buy=(h1["l"]<=lo-fraction*atr4)&inside&(h1["c"]>midpoint)
-            sell=(h1["h"]>=hi+fraction*atr4)&inside&(h1["c"]<midpoint)
+            swept_low=h1["l"]<=lo-fraction*atr4
+            swept_high=h1["h"]>=hi+fraction*atr4
+            buy=swept_low&~swept_high&inside&(h1["c"]>midpoint)
+            sell=swept_high&~swept_low&inside&(h1["c"]<midpoint)
             add(f"B2:{level}:sweep={fraction}","B2",windows&(buy!=sell),np.where(buy,1,-1))
     if asset in ("XAUUSD","US500"):
         clock=np.array([london_hour(at)==15 for at in t])

@@ -89,3 +89,27 @@ class ForensicTests(unittest.TestCase):
         self.assertEqual(len(before),6)
         for a,b in zip(before,after):
             for k in ("at","side","stop"):np.testing.assert_array_equal(a[k],b[k])
+
+    def sweep_fixture(self,dual=False):
+        from quant_core.market_data_store import BAR
+        t=np.arange(45*24)*3600000;b=np.zeros(len(t),dtype=BAR);b['t']=t
+        for n,v in (('o',100),('h',105),('l',95),('c',100)):
+            b['b'+n]=v;b['a'+n]=v+1
+        at=(35*24+8)*3600000;j=int(np.searchsorted(t,at));b['bl'][j]=93;b['bc'][j]=101
+        b['bh'][j]=107 if dual else 103
+        return b,at+3600000
+
+    def test_two_sided_sweep_abstains_before_close_direction_is_applied(self):
+        b,at=self.sweep_fixture(True)
+        rows=recipes(b,'EURUSD',0,40*86400000,hourly=True)
+        r=next(r for r in rows if r['id']=='B2:PD:sweep=0.1')
+        self.assertNotIn(at,r['at'])
+
+    def test_nonempty_sweep_prefix_is_causal_and_reproducible(self):
+        b,at=self.sweep_fixture();cut=36*86400000
+        first=recipes(b,'EURUSD',0,cut,hourly=True)
+        r=next(r for r in first if r['id']=='B2:PD:sweep=0.1');self.assertIn(at,r['at'])
+        for n in ('o','h','l','c'):b['b'+n][b['t']>=cut]+=1000
+        second=recipes(b,'EURUSD',0,cut,hourly=True)
+        for a,c in zip(first,second):
+            for k in ('at','side','stop'):np.testing.assert_array_equal(a[k],c[k])

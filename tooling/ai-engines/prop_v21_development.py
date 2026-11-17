@@ -12,6 +12,8 @@ from prop_v16_paths import CausalFlatSchedule
 from prop_v12_campaign import load_bars
 
 DAY=86400000
+REGISTRATION=JOB/'registration.json'
+CORRECTED=False
 
 
 def register():
@@ -25,7 +27,7 @@ def register():
 
 
 def check_registration():
-    r=read(JOB/'registration.json')
+    r=read(REGISTRATION)
     for p,digest in r['code'].items():
         if sha(p)!=digest:raise ValueError('V21_registered_code_changed:'+p)
 
@@ -125,6 +127,10 @@ def behavioral():
         if len(raw)!=(8 if asset in ('XAUUSD','US500') else 6):raise ValueError('V21_recipe_budget')
         paths=None
         for recipe in raw:
+            if CORRECTED and recipe['family']=='B3':
+                parent=read(JOB.parent/'behavioral-results.json')
+                reused=next(r for r in parent['rows'] if r['asset']==asset and r['recipe']==recipe['id'])
+                output.append(dict(reused,reused_unchanged_B3=True));continue
             m=measure(recipe,bars,asset,schedule,hourly=hourly);r=screen(m)
             compressed(asset+'-'+recipe['id'].replace(':','_')+'-raw',m)
             if r['stage0_passed']:
@@ -149,4 +155,15 @@ def behavioral():
 
 if __name__=='__main__':
     import argparse
-    p=argparse.ArgumentParser();p.add_argument('stage',choices=('register','b1','behavioral'));a=p.parse_args();globals()[a.stage]()
+    p=argparse.ArgumentParser();p.add_argument('stage',choices=('register','b1','behavioral'))
+    p.add_argument('--corrected-attempt',action='store_true');a=p.parse_args()
+    if a.corrected_attempt:
+        if a.stage!='behavioral':p.error('correction scope is behavioral only')
+        correction=read(JOB/'behavioral-correction-registration.json')
+        for name,digest in correction['code'].items():
+            if sha(name)!=digest:raise ValueError('V21_correction_code_changed')
+        REGISTRATION=JOB/'behavioral-correction-registration.json'
+        CORRECTED=True
+        import prop_v21_common as common
+        JOB=JOB/'behavioral-corrected-v2';JOB.mkdir(exist_ok=True);common.JOB=JOB
+    globals()[a.stage]()
