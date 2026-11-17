@@ -66,6 +66,9 @@ def check_mt5_ready(*, terminal=None, sdk=None, inventory=None):
             r["reason"]="NON_FTMO_ACCOUNT_OUTSIDE_SCOPE";return r
         if a.get("currency")!="USD":r["reason"]="USD_ACCOUNT_REQUIRED";return r
         r["account"]={k:a.get(k) for k in ("server","company","currency","trade_mode")}
+        if type(a.get("login")) is int:
+            r["binding"]=dict(server=a["server"],account_hash=adapter.account_hash(a["login"],a["server"]))
+        r["terminal_path"]=str(Path(terminal).resolve())
         r["terminal_connected"]=bool(ti.get("connected"))
         ping=ti.get("ping_last")
         if isinstance(ping,(int,float)) and math.isfinite(ping) and ping>0:r["last_reported_broker_ping_ms"]=ping/1000
@@ -161,6 +164,9 @@ def parity(snapshot_value, holidays=None):
         if not expected:
             rows.append(dict(asset=asset,field="strategy_contract",status="NOT_IN_ACTIVE_PORTFOLIO",
                              expected=None,actual=spec.get("trade_contract_size")))
+        rows.append(dict(asset=asset,field="commission_schedule",status="UNKNOWN",actual=None,
+            expected="Registered proxy requires target deal/spec reconciliation; SDK symbol_info does not establish commission.",
+            consequence="Read-only collection allowed; no execution-cost certification."))
     active=[r for r in rows if r["field"]=="sessions_trade" and r["asset"] in adapter.ASSETS]
     return dict(rows=rows,exact_session_parity=all(r["status"]=="MATCH" for r in active),
         session_parity_scope="Current registered cutoff versus supplied weekly sessions; not independent broker holiday certification.",
@@ -306,13 +312,16 @@ def builtin_fixture():
     return dict(account=account,specs=specs,events=events),p
 
 
-def run(mode,output,*,manifest=None,bridge=None,replay=False,seconds=60,speed=1.,terminal=None):
+def run(mode,output,*,manifest=None,bridge=None,replay=False,seconds=60,speed=1.,terminal=None,
+        require_native=False,expected_binding=None):
     if not 1<=seconds<=3600:raise ValueError("bounded_duration_1_to_3600_seconds")
     if not math.isfinite(speed) or speed<=0:raise ValueError("positive_replay_speed_required")
     inventory=terminal_inventory() if not replay else []
     output=Path(output);output.mkdir(parents=True,exist_ok=False)
     write(output/"environment.json",dict(terminals=inventory,SDK_available=bool(importlib.util.find_spec("MetaTrader5")),
         broker_order_capability=False,python=sys.executable))
+    if require_native and (replay or bridge or not inventory):
+        raise adapter.AdapterError("WATCH_NATIVE_TERMINAL_DISAPPEARED_NO_REPLAY_FALLBACK")
     if bridge:
         if not manifest:raise ValueError("bridge_requires_plan_manifest")
         bundle=json.loads(Path(bridge).read_text(encoding="utf-8-sig"));plan=json.loads(Path(manifest).read_text(encoding="utf-8-sig"))
@@ -326,6 +335,8 @@ def run(mode,output,*,manifest=None,bridge=None,replay=False,seconds=60,speed=1.
         reader=adapter.NativeMT5Reader(terminal)
         try:
             now=int(time.time()*1000);snap=snapshot(reader,now)
+            if expected_binding is not None and snap["binding"]!=expected_binding:
+                raise adapter.AdapterError("WATCH_ACCOUNT_CHANGED_AFTER_PROBE")
             if manifest:
                 plan=json.loads(Path(manifest).read_text(encoding="utf-8-sig"))
                 if plan["binding"]!=snap["binding"]:raise adapter.AdapterError("MANIFEST_ACCOUNT_MISMATCH")
@@ -405,6 +416,53 @@ def run(mode,output,*,manifest=None,bridge=None,replay=False,seconds=60,speed=1.
         slippage_measured=False))
 
 
+def watch_mt5(output,*,timeout=300,poll_seconds=5,capture_seconds=60,terminal=None,manifest=None,
+              probe=None,capture=None,clock=time.monotonic,sleeper=time.sleep):
+    """Bounded foreground wait followed by native read-only capture, never paper/orders."""
+    if not math.isfinite(timeout) or not 1<=timeout<=3600:raise ValueError("WATCH_TIMEOUT_1_TO_3600_SECONDS")
+    if not math.isfinite(poll_seconds) or not .1<=poll_seconds<=30:raise ValueError("WATCH_POLL_01_TO_30_SECONDS")
+    if not 1<=capture_seconds<=3600:raise ValueError("WATCH_CAPTURE_1_TO_3600_SECONDS")
+    output=Path(output);output.mkdir(parents=True,exist_ok=False)
+    probe=probe or check_mt5_ready;capture=capture or run
+    start=clock();deadline=start+timeout;attempts=0
+    result=dict(schema="MT5-watch-v23",status="WAITING",actual_broker_orders=0,native_capture_completed=False,
+        wait_timeout_seconds=timeout,capture_seconds=capture_seconds,permanent_service_installed=False)
+    write(output/"watch-plan.json",dict(timeout=timeout,poll_seconds=poll_seconds,capture_seconds=capture_seconds,
+        terminal=terminal,manifest_supplied=manifest is not None,scope="FTMO_DEMO_USD_NATIVE_READONLY_ONLY"))
+    try:
+        with (output/"watch-events.jsonl").open("x",encoding="utf-8") as journal:
+            while clock()<deadline:
+                r=probe(terminal=terminal);attempts+=1
+                journal.write(json.dumps(dict(attempt=attempts,elapsed=clock()-start,status=r.get("status"),
+                    reason=r.get("reason"),terminals_seen=r.get("terminals_seen"),read_only_ready=r.get("read_only_ready",False)))+"\n");journal.flush()
+                if clock()>=deadline:break
+                if r.get("read_only_ready"):
+                    if not r.get("binding") or not r.get("terminal_path"):
+                        raise adapter.AdapterError("WATCH_PROBE_ACCOUNT_OR_TERMINAL_BINDING_UNKNOWN")
+                    write(output/"ready-probe.json",r)
+                    capture("read-only",output/"native-capture",seconds=capture_seconds,
+                        terminal=r["terminal_path"],manifest=manifest,require_native=True,expected_binding=r["binding"])
+                    native=json.loads((output/"native-capture/report.json").read_text(encoding="utf-8"))
+                    if native.get("source")!="NATIVE_MT5" or not native.get("native_terminal_verified"):
+                        raise adapter.AdapterError("WATCH_CAPTURE_MUST_BE_NATIVE_NOT_REPLAY")
+                    result.update(status="NATIVE_READONLY_CAPTURE_COMPLETED",native_capture_completed=True,
+                        spec_snapshot="native-capture/TARGET_ACCOUNT_SPEC_SNAPSHOT.json",quote_capture="native-capture/quotes.parquet",
+                        shadow_ready=False,commission_and_sessions_may_remain_unknown=True)
+                    break
+                sleeper(min(poll_seconds,max(0.,deadline-clock())))
+            else:result["status"]="TIMEOUT_NO_READY_TARGET"
+            if result["status"]=="WAITING":result["status"]="TIMEOUT_NO_READY_TARGET"
+    except KeyboardInterrupt:
+        result["status"]="INTERRUPTED";result["resume_requires_reconciliation"]=True
+    except Exception as exc:
+        result.update(status="CAPTURE_OR_PROBE_FAILED",error_type=type(exc).__name__)
+        if isinstance(exc,adapter.AdapterError):result["reason"]=str(exc)
+    finally:
+        result.update(attempts=attempts,total_wall_seconds=clock()-start)
+        write(output/"WATCH_REPORT.json",result)
+    return result
+
+
 def main():
     import argparse
     p=argparse.ArgumentParser(description=__doc__);p.add_argument("--mode",choices=("read-only","shadow-paper"),default="read-only")
@@ -412,7 +470,18 @@ def main():
     p.add_argument("--replay",action="store_true");p.add_argument("--seconds",type=int,default=60)
     p.add_argument("--speed",type=float,default=1.);p.add_argument("--terminal")
     p.add_argument("--check-mt5-ready",action="store_true")
+    p.add_argument("--watch-mt5",action="store_true");p.add_argument("--watch-timeout",type=float,default=300)
+    p.add_argument("--watch-poll-seconds",type=float,default=5)
     a=p.parse_args()
+    if a.watch_mt5:
+        if a.check_mt5_ready or a.replay or a.bridge or a.mode!="read-only":p.error("watch only supports native read-only capture")
+        from prop_v23_common import JOB as watch_root
+        out=a.output or watch_root/("watch-"+datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ"))
+        try:r=watch_mt5(out,timeout=a.watch_timeout,poll_seconds=a.watch_poll_seconds,capture_seconds=a.seconds,
+            terminal=a.terminal,manifest=a.manifest)
+        except ValueError as exc:p.error(str(exc))
+        print(json.dumps(dict(r,output=str(out))))
+        return 0 if r["native_capture_completed"] else 130 if r["status"]=="INTERRUPTED" else 2
     if a.check_mt5_ready:
         if a.replay or a.bridge or a.manifest:p.error("readiness check is separate from replay/shadow manifests")
         from prop_v22_common import JOB as check_root
