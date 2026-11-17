@@ -61,14 +61,14 @@ def check_mt5_ready(*, terminal=None, sdk=None, inventory=None):
         account=sdk.account_info();info=sdk.terminal_info()
         if account is None or info is None:r["reason"]="ACCOUNT_OR_TERMINAL_INFO_UNAVAILABLE";return r
         a=account._asdict();ti=info._asdict()
-        if a.get("trade_mode")!=0:r["reason"]="DEMO_TRIAL_REQUIRED";return r
+        if type(a.get("trade_mode")) is not int or a["trade_mode"]!=0:r["reason"]="DEMO_TRIAL_REQUIRED";return r
         if "ftmo" not in (str(a.get("server",""))+str(a.get("company",""))).lower():
             r["reason"]="NON_FTMO_ACCOUNT_OUTSIDE_SCOPE";return r
         if a.get("currency")!="USD":r["reason"]="USD_ACCOUNT_REQUIRED";return r
         r["account"]={k:a.get(k) for k in ("server","company","currency","trade_mode")}
         r["terminal_connected"]=bool(ti.get("connected"))
         ping=ti.get("ping_last")
-        if isinstance(ping,(int,float)) and math.isfinite(ping) and ping>=0:r["last_reported_broker_ping_ms"]=ping/1000
+        if isinstance(ping,(int,float)) and math.isfinite(ping) and ping>0:r["last_reported_broker_ping_ms"]=ping/1000
         symbols={};now=int(time.time()*1000)
         for asset in ASSETS:
             spec=sdk.symbol_info(asset);tick=sdk.symbol_info_tick(asset) if spec is not None else None
@@ -87,7 +87,10 @@ def check_mt5_ready(*, terminal=None, sdk=None, inventory=None):
     except Exception as exc:
         r["reason"]="PREFLIGHT_ERROR";r["error_type"]=type(exc).__name__;return r
     finally:
-        if initialized:sdk.shutdown()
+        if initialized:
+            try:sdk.shutdown()
+            except Exception as exc:
+                r.update(status="NOT_READY",read_only_ready=False,reason="READONLY_IPC_SHUTDOWN_FAILED",error_type=type(exc).__name__)
         r["probe_wall_ms"]=(time.perf_counter()-started)*1000
         r["probe_under_one_second"]=r["probe_wall_ms"]<1000
 

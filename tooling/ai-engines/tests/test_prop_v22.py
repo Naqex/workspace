@@ -89,7 +89,7 @@ class V22Tests(unittest.TestCase):
         self.assertNotIn('login',r['account']);self.assertEqual(s.calls[-1],('shutdown',))
 
     def test_preflight_rejects_real_unrelated_and_nonUSD_accounts(self):
-        for changes in (dict(trade_mode=2),dict(server='Other',company='Other'),dict(currency='EUR')):
+        for changes in (dict(trade_mode=2),dict(trade_mode=False),dict(server='Other',company='Other'),dict(currency='EUR')):
             s=sdk_fixture(**changes);r=runner.check_mt5_ready(sdk=s,inventory=INVENTORY)
             self.assertFalse(r['read_only_ready']);self.assertEqual(s.calls[-1],('shutdown',))
 
@@ -116,3 +116,10 @@ class V22Tests(unittest.TestCase):
         def bad(a):raise RuntimeError('private detail')
         s.symbol_info=bad;r=runner.check_mt5_ready(sdk=s,inventory=INVENTORY)
         self.assertEqual(r['error_type'],'RuntimeError');self.assertNotIn('private detail',str(r));self.assertEqual(s.calls[-1],('shutdown',))
+
+    def test_preflight_shutdown_failure_is_not_a_successful_diagnostic(self):
+        s=sdk_fixture()
+        def bad():raise RuntimeError('private detail')
+        s.shutdown=bad;r=runner.check_mt5_ready(sdk=s,inventory=INVENTORY)
+        self.assertFalse(r['read_only_ready']);self.assertEqual(r['reason'],'READONLY_IPC_SHUTDOWN_FAILED')
+        self.assertNotIn('private detail',str(r))
