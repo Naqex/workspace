@@ -3,13 +3,15 @@
 **Chiến dịch độc lập đang thực thi — solo system:**
 [Plan và trạng thái](SOLO-PROP-SYSTEM-PLAN-20261115.md) /
 [S01 GBP source/path confirmation](SOLO-GBP-CONFIRMATION-PROTOCOL-20261115.md) /
+[S01 kết quả đã đối soát](SOLO-GBP-CONFIRMATION-RESULTS-20261117.md) /
 [Sửa false reject đúng15%](SOLO-GBP-COST-GATE-CORRECTION-20261117.md) /
 [S02 shared-account protocol](SOLO-THREE-ASSET-REPLAY-PROTOCOL-20261117.md).
 Owner giao toàn bộ alpha/portfolio/system, không phụ thuộc V4 thread gốc.
 Checkout/outputs riêng; Dev2022–23, 2024exposed/validation theo freeze riêng,
 2025–26đóng. Các verdict cũ giữ nguyên; chưa có ứng viên Challenge-qualified.
-17/11: oracle S01 v2 bắt một false reject do float, nên economics-v1
-286fills chưa promote. Repair là precision-only, S02 chưa numerical.
+17/11: precision-only repair thêm đúng một lệnh thua, economics-v2 có287fills.
+Oracle độc lập đối soát300intents và sáuGBPcurves PASS; S02 đang code/test,
+chưa numerical. Không dùng software/arithmetic PASS thay edge/prop proof.
 
 
 **V3 hoàn tất, danh mục có tiến bộ nhưng chưa đủ điều kiện Challenge:**
