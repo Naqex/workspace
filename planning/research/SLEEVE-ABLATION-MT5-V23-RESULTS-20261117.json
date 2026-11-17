@@ -1,0 +1,3426 @@
+{
+  "schema": "V23-results-v1",
+  "selection": {
+    "schema": "V23-Dev-freeze-v1",
+    "selected": {
+      "name": "A1_DROP_WEAKEST",
+      "drop_id": "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0"
+    },
+    "Development": [
+      1514764800000,
+      1704067200000
+    ],
+    "later_statistics_not_yet_computed": true,
+    "later_history_already_exposed": true,
+    "Dev_passes": [
+      "A1_DROP_WEAKEST"
+    ],
+    "F5_passes": [],
+    "financial_source_pins": {
+      "planning\\research\\SLEEVE-ABLATION-MT5-V23-PROTOCOL-20261117.md": "b32aefecbea2f7a49d5c9275c5440e1de68071d164312a97a2f68fd5933db574",
+      "D:\\ANNAM\\TradingWorkspace\\tooling\\ai-engines\\prop_v23_campaign.py": "a01b9380fc0d8e24df717bbf4073dc0ecf0709f12186c83ff43f7ebcfca17353",
+      "tooling\\ai-engines\\quant_core\\sleeve_ablation.py": "5ffc6459f7c76a1b28ca6d0c73499ed0733d0dbf282b5b43730dbe5a316ab76b"
+    },
+    "bindings": {
+      "registration.json": "1c20af9be445305809fc9793c4fcc0ba6576d56db919a1e009f165c4d503d518",
+      "profiles-before-outcomes.json": "06164d5dd43612b8a05e949da5b11ba5457028ae568c6dd53b7a59da8411901c",
+      "Dev-ablation-results.json": "f3cb64fabbaf56a6916ef52fcaa4633d2373195b47c868f2aeb7398258238a0b",
+      "F5-transfer-results.json": "617833107a0de7d9b9670db0bbf26ffbb588b39bfb0a126616c91a2f54e606c4",
+      "H1-calendar-diagnosis.json": "68b5c0bfcf4e3bdd41f61a937668df8bf95ea408b8edde8be74054da3eadd52f"
+    },
+    "baseline_profile": {
+      "name": "BASE_GUARD",
+      "gamma": null,
+      "weights": {
+        "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 1.0,
+        "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 1.0,
+        "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0
+      }
+    },
+    "baseline_report_sha256": "8dc8ed4bfca2873256431003284662eb992ef78d6dca04da805492c7b6036e76",
+    "no_risk_redistribution": true,
+    "source_gaps_remain": true,
+    "prop_qualified": false
+  },
+  "Development": {
+    "cases": [
+      {
+        "profile": {
+          "name": "A1_DROP_WEAKEST",
+          "drop_id": "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0"
+        },
+        "cases": [
+          {
+            "order": "OLHC",
+            "base": {
+              "net_R": 23.8524,
+              "equity_R_DD": 12.206533333333919,
+              "worst_daily_R": 2.037066666666667,
+              "worst_daily_pct": 0.6111200000000001,
+              "Calmar": 0.3256780521906145,
+              "fixed150_not_account_lifecycle": true
+            },
+            "candidate": {
+              "net_R": 33.553533333333334,
+              "equity_R_DD": 11.437266666666972,
+              "worst_daily_R": 1.7654000000001098,
+              "worst_daily_pct": 0.529620000000033,
+              "Calmar": 0.48895035138541904,
+              "annualization_years": 6,
+              "fixed150_not_account_lifecycle": true
+            },
+            "taxonomy": {
+              "trades": 277,
+              "net_R": 33.553533333333334,
+              "groups": [
+                {
+                  "label": "W1",
+                  "name": "TRUE_STRUCTURAL_WIN",
+                  "count": 111,
+                  "pct": 40.07220216606498,
+                  "net_R": 107.08793333333334,
+                  "provisional": 0
+                },
+                {
+                  "label": "W2",
+                  "name": "FRAGILE_OR_LUCKY_WIN",
+                  "count": 16,
+                  "pct": 5.776173285198556,
+                  "net_R": 14.191866666666666,
+                  "provisional": 12
+                },
+                {
+                  "label": "L1",
+                  "name": "STOP_HUNTED_RIGHT_DIRECTION",
+                  "count": 9,
+                  "pct": 3.2490974729241877,
+                  "net_R": -9.3192,
+                  "provisional": 1
+                },
+                {
+                  "label": "L2",
+                  "name": "ROUND_TRIP_GIVEBACK",
+                  "count": 12,
+                  "pct": 4.332129963898917,
+                  "net_R": -9.18,
+                  "provisional": 1
+                },
+                {
+                  "label": "L3",
+                  "name": "EXHAUSTION_OR_CHASING_TRAP",
+                  "count": 10,
+                  "pct": 3.6101083032490973,
+                  "net_R": -6.9736,
+                  "provisional": 1
+                },
+                {
+                  "label": "L4",
+                  "name": "CLEAN_EXPECTED_LOSS",
+                  "count": 119,
+                  "pct": 42.96028880866426,
+                  "net_R": -62.25346666666667,
+                  "provisional": 16
+                }
+              ],
+              "provisional": 31,
+              "overlapping_loss_flags": {
+                "L1": {
+                  "count": 9,
+                  "loss_R": 9.3192
+                },
+                "L2": {
+                  "count": 12,
+                  "loss_R": 9.18
+                },
+                "L3": {
+                  "count": 10,
+                  "loss_R": 6.9736
+                }
+              },
+              "W1_share": 0.4007220216606498
+            },
+            "concentration": {
+              "total_net_R": 33.553533333333334,
+              "without_top5": 7.729733333333336,
+              "without_top10": -8.807533333333332,
+              "top10": [
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1678867200000",
+                  "net_R": 7.6464,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1521446400000",
+                  "net_R": 5.459933333333334,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1682395200000",
+                  "net_R": 4.357333333333333,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1659412800000",
+                  "net_R": 4.2086,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1529985600000",
+                  "net_R": 4.151533333333333,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1697097600000",
+                  "net_R": 3.7829333333333337,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1@1564671600000",
+                  "net_R": 3.7656,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1626235200000",
+                  "net_R": 3.3566000000000003,
+                  "label": "W2"
+                },
+                {
+                  "trade_key": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1@1701442800000",
+                  "net_R": 2.975,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1685692800000",
+                  "net_R": 2.6571333333333333,
+                  "label": "W1"
+                }
+              ],
+              "hypothetical_removal_not_an_executable_strategy": true
+            },
+            "cluster_R": [
+              11.820666666666666,
+              21.732866666666666
+            ],
+            "retained": 277,
+            "top10_retained": 10,
+            "passed": true,
+            "reasons": []
+          },
+          {
+            "order": "OHLC",
+            "base": {
+              "net_R": 23.8524,
+              "equity_R_DD": 12.2065333333328,
+              "worst_daily_R": 2.0370666666666652,
+              "worst_daily_pct": 0.6111199999999996,
+              "Calmar": 0.3256780521906444,
+              "fixed150_not_account_lifecycle": true
+            },
+            "candidate": {
+              "net_R": 33.553533333333334,
+              "equity_R_DD": 11.437266666666552,
+              "worst_daily_R": 1.7653999999999108,
+              "worst_daily_pct": 0.5296199999999732,
+              "Calmar": 0.48895035138543697,
+              "annualization_years": 6,
+              "fixed150_not_account_lifecycle": true
+            },
+            "taxonomy": {
+              "trades": 277,
+              "net_R": 33.553533333333334,
+              "groups": [
+                {
+                  "label": "W1",
+                  "name": "TRUE_STRUCTURAL_WIN",
+                  "count": 111,
+                  "pct": 40.07220216606498,
+                  "net_R": 107.08793333333334,
+                  "provisional": 0
+                },
+                {
+                  "label": "W2",
+                  "name": "FRAGILE_OR_LUCKY_WIN",
+                  "count": 16,
+                  "pct": 5.776173285198556,
+                  "net_R": 14.191866666666666,
+                  "provisional": 12
+                },
+                {
+                  "label": "L1",
+                  "name": "STOP_HUNTED_RIGHT_DIRECTION",
+                  "count": 9,
+                  "pct": 3.2490974729241877,
+                  "net_R": -9.3192,
+                  "provisional": 1
+                },
+                {
+                  "label": "L2",
+                  "name": "ROUND_TRIP_GIVEBACK",
+                  "count": 12,
+                  "pct": 4.332129963898917,
+                  "net_R": -9.18,
+                  "provisional": 1
+                },
+                {
+                  "label": "L3",
+                  "name": "EXHAUSTION_OR_CHASING_TRAP",
+                  "count": 10,
+                  "pct": 3.6101083032490973,
+                  "net_R": -6.9736,
+                  "provisional": 1
+                },
+                {
+                  "label": "L4",
+                  "name": "CLEAN_EXPECTED_LOSS",
+                  "count": 119,
+                  "pct": 42.96028880866426,
+                  "net_R": -62.25346666666667,
+                  "provisional": 16
+                }
+              ],
+              "provisional": 31,
+              "overlapping_loss_flags": {
+                "L1": {
+                  "count": 9,
+                  "loss_R": 9.3192
+                },
+                "L2": {
+                  "count": 12,
+                  "loss_R": 9.18
+                },
+                "L3": {
+                  "count": 10,
+                  "loss_R": 6.9736
+                }
+              },
+              "W1_share": 0.4007220216606498
+            },
+            "concentration": {
+              "total_net_R": 33.553533333333334,
+              "without_top5": 7.729733333333336,
+              "without_top10": -8.807533333333332,
+              "top10": [
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1678867200000",
+                  "net_R": 7.6464,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1521446400000",
+                  "net_R": 5.459933333333334,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1682395200000",
+                  "net_R": 4.357333333333333,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1659412800000",
+                  "net_R": 4.2086,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1529985600000",
+                  "net_R": 4.151533333333333,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1697097600000",
+                  "net_R": 3.7829333333333337,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1@1564671600000",
+                  "net_R": 3.7656,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1626235200000",
+                  "net_R": 3.3566000000000003,
+                  "label": "W2"
+                },
+                {
+                  "trade_key": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1@1701442800000",
+                  "net_R": 2.975,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1685692800000",
+                  "net_R": 2.6571333333333333,
+                  "label": "W1"
+                }
+              ],
+              "hypothetical_removal_not_an_executable_strategy": true
+            },
+            "cluster_R": [
+              11.820666666666666,
+              21.732866666666666
+            ],
+            "retained": 277,
+            "top10_retained": 10,
+            "passed": true,
+            "reasons": []
+          }
+        ],
+        "passed": true
+      },
+      {
+        "profile": {
+          "name": "A2_F3_EXHAUSTION90"
+        },
+        "cases": [
+          {
+            "order": "OLHC",
+            "base": {
+              "net_R": 23.8524,
+              "equity_R_DD": 12.206533333333919,
+              "worst_daily_R": 2.037066666666667,
+              "worst_daily_pct": 0.6111200000000001,
+              "Calmar": 0.3256780521906145,
+              "fixed150_not_account_lifecycle": true
+            },
+            "candidate": {
+              "net_R": 27.906133333333333,
+              "equity_R_DD": 12.442000000000004,
+              "worst_daily_R": 2.0370666666666573,
+              "worst_daily_pct": 0.6111199999999971,
+              "Calmar": 0.3738162853417634,
+              "annualization_years": 6,
+              "fixed150_not_account_lifecycle": true
+            },
+            "taxonomy": {
+              "trades": 306,
+              "net_R": 27.906133333333333,
+              "groups": [
+                {
+                  "label": "W1",
+                  "name": "TRUE_STRUCTURAL_WIN",
+                  "count": 118,
+                  "pct": 38.56209150326797,
+                  "net_R": 112.9938,
+                  "provisional": 0
+                },
+                {
+                  "label": "W2",
+                  "name": "FRAGILE_OR_LUCKY_WIN",
+                  "count": 17,
+                  "pct": 5.555555555555555,
+                  "net_R": 14.751866666666666,
+                  "provisional": 12
+                },
+                {
+                  "label": "L1",
+                  "name": "STOP_HUNTED_RIGHT_DIRECTION",
+                  "count": 9,
+                  "pct": 2.9411764705882355,
+                  "net_R": -9.3192,
+                  "provisional": 1
+                },
+                {
+                  "label": "L2",
+                  "name": "ROUND_TRIP_GIVEBACK",
+                  "count": 17,
+                  "pct": 5.555555555555555,
+                  "net_R": -12.500933333333332,
+                  "provisional": 3
+                },
+                {
+                  "label": "L3",
+                  "name": "EXHAUSTION_OR_CHASING_TRAP",
+                  "count": 10,
+                  "pct": 3.2679738562091503,
+                  "net_R": -6.9736,
+                  "provisional": 1
+                },
+                {
+                  "label": "L4",
+                  "name": "CLEAN_EXPECTED_LOSS",
+                  "count": 135,
+                  "pct": 44.11764705882353,
+                  "net_R": -71.0458,
+                  "provisional": 16
+                }
+              ],
+              "provisional": 33,
+              "overlapping_loss_flags": {
+                "L1": {
+                  "count": 9,
+                  "loss_R": 9.3192
+                },
+                "L2": {
+                  "count": 17,
+                  "loss_R": 12.500933333333332
+                },
+                "L3": {
+                  "count": 10,
+                  "loss_R": 6.9736
+                }
+              },
+              "W1_share": 0.38562091503267976
+            },
+            "concentration": {
+              "total_net_R": 27.906133333333333,
+              "without_top5": 2.0823333333333345,
+              "without_top10": -14.454933333333333,
+              "top10": [
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1678867200000",
+                  "net_R": 7.6464,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1521446400000",
+                  "net_R": 5.459933333333334,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1682395200000",
+                  "net_R": 4.357333333333333,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1659412800000",
+                  "net_R": 4.2086,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1529985600000",
+                  "net_R": 4.151533333333333,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1697097600000",
+                  "net_R": 3.7829333333333337,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1@1564671600000",
+                  "net_R": 3.7656,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1626235200000",
+                  "net_R": 3.3566000000000003,
+                  "label": "W2"
+                },
+                {
+                  "trade_key": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1@1701442800000",
+                  "net_R": 2.975,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1685692800000",
+                  "net_R": 2.6571333333333333,
+                  "label": "W1"
+                }
+              ],
+              "hypothetical_removal_not_an_executable_strategy": true
+            },
+            "cluster_R": [
+              11.240933333333333,
+              16.6652
+            ],
+            "retained": 306,
+            "top10_retained": 10,
+            "passed": false,
+            "reasons": [
+              "EQUITY_DD_NOT_LOWER"
+            ]
+          },
+          {
+            "order": "OHLC",
+            "base": {
+              "net_R": 23.8524,
+              "equity_R_DD": 12.2065333333328,
+              "worst_daily_R": 2.0370666666666652,
+              "worst_daily_pct": 0.6111199999999996,
+              "Calmar": 0.3256780521906444,
+              "fixed150_not_account_lifecycle": true
+            },
+            "candidate": {
+              "net_R": 27.906133333333333,
+              "equity_R_DD": 12.442000000000059,
+              "worst_daily_R": 2.0370666666666235,
+              "worst_daily_pct": 0.611119999999987,
+              "Calmar": 0.3738162853417618,
+              "annualization_years": 6,
+              "fixed150_not_account_lifecycle": true
+            },
+            "taxonomy": {
+              "trades": 306,
+              "net_R": 27.906133333333333,
+              "groups": [
+                {
+                  "label": "W1",
+                  "name": "TRUE_STRUCTURAL_WIN",
+                  "count": 118,
+                  "pct": 38.56209150326797,
+                  "net_R": 112.9938,
+                  "provisional": 0
+                },
+                {
+                  "label": "W2",
+                  "name": "FRAGILE_OR_LUCKY_WIN",
+                  "count": 17,
+                  "pct": 5.555555555555555,
+                  "net_R": 14.751866666666666,
+                  "provisional": 12
+                },
+                {
+                  "label": "L1",
+                  "name": "STOP_HUNTED_RIGHT_DIRECTION",
+                  "count": 9,
+                  "pct": 2.9411764705882355,
+                  "net_R": -9.3192,
+                  "provisional": 1
+                },
+                {
+                  "label": "L2",
+                  "name": "ROUND_TRIP_GIVEBACK",
+                  "count": 17,
+                  "pct": 5.555555555555555,
+                  "net_R": -12.500933333333332,
+                  "provisional": 3
+                },
+                {
+                  "label": "L3",
+                  "name": "EXHAUSTION_OR_CHASING_TRAP",
+                  "count": 10,
+                  "pct": 3.2679738562091503,
+                  "net_R": -6.9736,
+                  "provisional": 1
+                },
+                {
+                  "label": "L4",
+                  "name": "CLEAN_EXPECTED_LOSS",
+                  "count": 135,
+                  "pct": 44.11764705882353,
+                  "net_R": -71.0458,
+                  "provisional": 16
+                }
+              ],
+              "provisional": 33,
+              "overlapping_loss_flags": {
+                "L1": {
+                  "count": 9,
+                  "loss_R": 9.3192
+                },
+                "L2": {
+                  "count": 17,
+                  "loss_R": 12.500933333333332
+                },
+                "L3": {
+                  "count": 10,
+                  "loss_R": 6.9736
+                }
+              },
+              "W1_share": 0.38562091503267976
+            },
+            "concentration": {
+              "total_net_R": 27.906133333333333,
+              "without_top5": 2.0823333333333345,
+              "without_top10": -14.454933333333333,
+              "top10": [
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1678867200000",
+                  "net_R": 7.6464,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1521446400000",
+                  "net_R": 5.459933333333334,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1682395200000",
+                  "net_R": 4.357333333333333,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1659412800000",
+                  "net_R": 4.2086,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1529985600000",
+                  "net_R": 4.151533333333333,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1697097600000",
+                  "net_R": 3.7829333333333337,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1@1564671600000",
+                  "net_R": 3.7656,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1626235200000",
+                  "net_R": 3.3566000000000003,
+                  "label": "W2"
+                },
+                {
+                  "trade_key": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1@1701442800000",
+                  "net_R": 2.975,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1685692800000",
+                  "net_R": 2.6571333333333333,
+                  "label": "W1"
+                }
+              ],
+              "hypothetical_removal_not_an_executable_strategy": true
+            },
+            "cluster_R": [
+              11.240933333333333,
+              16.6652
+            ],
+            "retained": 306,
+            "top10_retained": 10,
+            "passed": false,
+            "reasons": [
+              "EQUITY_DD_NOT_LOWER"
+            ]
+          }
+        ],
+        "passed": false
+      },
+      {
+        "profile": {
+          "name": "A2_F4_EXHAUSTION90"
+        },
+        "cases": [
+          {
+            "order": "OLHC",
+            "base": {
+              "net_R": 23.8524,
+              "equity_R_DD": 12.206533333333919,
+              "worst_daily_R": 2.037066666666667,
+              "worst_daily_pct": 0.6111200000000001,
+              "Calmar": 0.3256780521906145,
+              "fixed150_not_account_lifecycle": true
+            },
+            "candidate": {
+              "net_R": 19.274933333333333,
+              "equity_R_DD": 15.784466666667608,
+              "worst_daily_R": 1.5930000000000106,
+              "worst_daily_pct": 0.47790000000000316,
+              "Calmar": 0.2035221687706921,
+              "annualization_years": 6,
+              "fixed150_not_account_lifecycle": true
+            },
+            "taxonomy": {
+              "trades": 296,
+              "net_R": 19.274933333333333,
+              "groups": [
+                {
+                  "label": "W1",
+                  "name": "TRUE_STRUCTURAL_WIN",
+                  "count": 108,
+                  "pct": 36.486486486486484,
+                  "net_R": 100.22826666666667,
+                  "provisional": 0
+                },
+                {
+                  "label": "W2",
+                  "name": "FRAGILE_OR_LUCKY_WIN",
+                  "count": 16,
+                  "pct": 5.405405405405405,
+                  "net_R": 14.902333333333333,
+                  "provisional": 11
+                },
+                {
+                  "label": "L1",
+                  "name": "STOP_HUNTED_RIGHT_DIRECTION",
+                  "count": 9,
+                  "pct": 3.0405405405405403,
+                  "net_R": -9.3192,
+                  "provisional": 1
+                },
+                {
+                  "label": "L2",
+                  "name": "ROUND_TRIP_GIVEBACK",
+                  "count": 17,
+                  "pct": 5.743243243243243,
+                  "net_R": -12.444466666666667,
+                  "provisional": 3
+                },
+                {
+                  "label": "L3",
+                  "name": "EXHAUSTION_OR_CHASING_TRAP",
+                  "count": 17,
+                  "pct": 5.743243243243243,
+                  "net_R": -3.8846666666666665,
+                  "provisional": 0
+                },
+                {
+                  "label": "L4",
+                  "name": "CLEAN_EXPECTED_LOSS",
+                  "count": 129,
+                  "pct": 43.58108108108108,
+                  "net_R": -70.20733333333334,
+                  "provisional": 14
+                }
+              ],
+              "provisional": 29,
+              "overlapping_loss_flags": {
+                "L1": {
+                  "count": 9,
+                  "loss_R": 9.3192
+                },
+                "L2": {
+                  "count": 17,
+                  "loss_R": 12.444466666666667
+                },
+                "L3": {
+                  "count": 17,
+                  "loss_R": 3.8846666666666665
+                }
+              },
+              "W1_share": 0.36486486486486486
+            },
+            "concentration": {
+              "total_net_R": 19.274933333333333,
+              "without_top5": -6.548866666666665,
+              "without_top10": -23.086133333333333,
+              "top10": [
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1678867200000",
+                  "net_R": 7.6464,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1521446400000",
+                  "net_R": 5.459933333333334,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1682395200000",
+                  "net_R": 4.357333333333333,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1659412800000",
+                  "net_R": 4.2086,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1529985600000",
+                  "net_R": 4.151533333333333,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1697097600000",
+                  "net_R": 3.7829333333333337,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1@1564671600000",
+                  "net_R": 3.7656,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1626235200000",
+                  "net_R": 3.3566000000000003,
+                  "label": "W2"
+                },
+                {
+                  "trade_key": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1@1701442800000",
+                  "net_R": 2.975,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1685692800000",
+                  "net_R": 2.6571333333333333,
+                  "label": "W1"
+                }
+              ],
+              "hypothetical_removal_not_an_executable_strategy": true
+            },
+            "cluster_R": [
+              6.781266666666666,
+              12.493666666666666
+            ],
+            "retained": 296,
+            "top10_retained": 10,
+            "passed": false,
+            "reasons": [
+              "NET_NOT_HIGHER",
+              "EQUITY_DD_NOT_LOWER"
+            ]
+          },
+          {
+            "order": "OHLC",
+            "base": {
+              "net_R": 23.8524,
+              "equity_R_DD": 12.2065333333328,
+              "worst_daily_R": 2.0370666666666652,
+              "worst_daily_pct": 0.6111199999999996,
+              "Calmar": 0.3256780521906444,
+              "fixed150_not_account_lifecycle": true
+            },
+            "candidate": {
+              "net_R": 19.274933333333333,
+              "equity_R_DD": 15.784466666666143,
+              "worst_daily_R": 1.5930000000000026,
+              "worst_daily_pct": 0.47790000000000077,
+              "Calmar": 0.203522168770711,
+              "annualization_years": 6,
+              "fixed150_not_account_lifecycle": true
+            },
+            "taxonomy": {
+              "trades": 296,
+              "net_R": 19.274933333333333,
+              "groups": [
+                {
+                  "label": "W1",
+                  "name": "TRUE_STRUCTURAL_WIN",
+                  "count": 108,
+                  "pct": 36.486486486486484,
+                  "net_R": 100.22826666666667,
+                  "provisional": 0
+                },
+                {
+                  "label": "W2",
+                  "name": "FRAGILE_OR_LUCKY_WIN",
+                  "count": 16,
+                  "pct": 5.405405405405405,
+                  "net_R": 14.902333333333333,
+                  "provisional": 11
+                },
+                {
+                  "label": "L1",
+                  "name": "STOP_HUNTED_RIGHT_DIRECTION",
+                  "count": 9,
+                  "pct": 3.0405405405405403,
+                  "net_R": -9.3192,
+                  "provisional": 1
+                },
+                {
+                  "label": "L2",
+                  "name": "ROUND_TRIP_GIVEBACK",
+                  "count": 17,
+                  "pct": 5.743243243243243,
+                  "net_R": -12.444466666666667,
+                  "provisional": 3
+                },
+                {
+                  "label": "L3",
+                  "name": "EXHAUSTION_OR_CHASING_TRAP",
+                  "count": 17,
+                  "pct": 5.743243243243243,
+                  "net_R": -3.8846666666666665,
+                  "provisional": 0
+                },
+                {
+                  "label": "L4",
+                  "name": "CLEAN_EXPECTED_LOSS",
+                  "count": 129,
+                  "pct": 43.58108108108108,
+                  "net_R": -70.20733333333334,
+                  "provisional": 14
+                }
+              ],
+              "provisional": 29,
+              "overlapping_loss_flags": {
+                "L1": {
+                  "count": 9,
+                  "loss_R": 9.3192
+                },
+                "L2": {
+                  "count": 17,
+                  "loss_R": 12.444466666666667
+                },
+                "L3": {
+                  "count": 17,
+                  "loss_R": 3.8846666666666665
+                }
+              },
+              "W1_share": 0.36486486486486486
+            },
+            "concentration": {
+              "total_net_R": 19.274933333333333,
+              "without_top5": -6.548866666666665,
+              "without_top10": -23.086133333333333,
+              "top10": [
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1678867200000",
+                  "net_R": 7.6464,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1521446400000",
+                  "net_R": 5.459933333333334,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1682395200000",
+                  "net_R": 4.357333333333333,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1659412800000",
+                  "net_R": 4.2086,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1529985600000",
+                  "net_R": 4.151533333333333,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1697097600000",
+                  "net_R": 3.7829333333333337,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1@1564671600000",
+                  "net_R": 3.7656,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1626235200000",
+                  "net_R": 3.3566000000000003,
+                  "label": "W2"
+                },
+                {
+                  "trade_key": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1@1701442800000",
+                  "net_R": 2.975,
+                  "label": "W1"
+                },
+                {
+                  "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1685692800000",
+                  "net_R": 2.6571333333333333,
+                  "label": "W1"
+                }
+              ],
+              "hypothetical_removal_not_an_executable_strategy": true
+            },
+            "cluster_R": [
+              6.781266666666666,
+              12.493666666666666
+            ],
+            "retained": 296,
+            "top10_retained": 10,
+            "passed": false,
+            "reasons": [
+              "NET_NOT_HIGHER",
+              "EQUITY_DD_NOT_LOWER"
+            ]
+          }
+        ],
+        "passed": false
+      }
+    ],
+    "V22_A_attribution": [
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "rejected": 0,
+        "avoided_loss_R": 0,
+        "lost_winner_R": 0,
+        "L3_loss_R": 0
+      },
+      {
+        "id": "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0",
+        "rejected": 34,
+        "avoided_loss_R": 6.6528,
+        "lost_winner_R": 2.599066666666667,
+        "L3_loss_R": 3.8846666666666665
+      },
+      {
+        "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1",
+        "rejected": 44,
+        "avoided_loss_R": 10.636666666666667,
+        "lost_winner_R": 15.214133333333333,
+        "L3_loss_R": 6.9736
+      }
+    ]
+  },
+  "attribution": {
+    "orders": {
+      "OLHC": {
+        "rows": [
+          {
+            "period": "Development",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "trades": 194,
+            "winrate": 0.4484536082474227,
+            "mean_R": 0.12985120274914086,
+            "net_R": 25.191133333333326,
+            "equity_R_DD": 12.991066666666837,
+            "cash_R_DD": 12.359066666666667,
+            "ExGlobalTop10_R": -7.7722000000000016,
+            "provisional": 25,
+            "start_flat": true
+          },
+          {
+            "period": "Development",
+            "id": "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0",
+            "trades": 63,
+            "winrate": 0.31746031746031744,
+            "mean_R": -0.15398624338624342,
+            "net_R": -9.701133333333335,
+            "equity_R_DD": 14.180866666666569,
+            "cash_R_DD": 12.909266666666666,
+            "ExGlobalTop10_R": -9.701133333333333,
+            "provisional": 2,
+            "start_flat": true
+          },
+          {
+            "period": "Development",
+            "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1",
+            "trades": 83,
+            "winrate": 0.4819277108433735,
+            "mean_R": 0.10075180722891568,
+            "net_R": 8.362400000000001,
+            "equity_R_DD": 4.977533333333341,
+            "cash_R_DD": 4.045133333333332,
+            "ExGlobalTop10_R": 4.5968,
+            "provisional": 6,
+            "start_flat": true
+          },
+          {
+            "period": "Later_exposed",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "trades": 72,
+            "winrate": 0.4305555555555556,
+            "mean_R": 0.16319722222222224,
+            "net_R": 11.750200000000001,
+            "equity_R_DD": 8.862733333333647,
+            "cash_R_DD": 8.282133333333332,
+            "ExGlobalTop10_R": -0.19353333333333428,
+            "provisional": 7,
+            "start_flat": true
+          },
+          {
+            "period": "Later_exposed",
+            "id": "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0",
+            "trades": 40,
+            "winrate": 0.55,
+            "mean_R": 0.25565999999999994,
+            "net_R": 10.226399999999998,
+            "equity_R_DD": 4.303866666666674,
+            "cash_R_DD": 2.7156666666666665,
+            "ExGlobalTop10_R": 10.2264,
+            "provisional": 0,
+            "start_flat": true
+          },
+          {
+            "period": "Later_exposed",
+            "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1",
+            "trades": 42,
+            "winrate": 0.42857142857142855,
+            "mean_R": -0.08184126984126983,
+            "net_R": -3.4373333333333327,
+            "equity_R_DD": 7.69733333333336,
+            "cash_R_DD": 7.4168666666666665,
+            "ExGlobalTop10_R": -3.4373333333333327,
+            "provisional": 0,
+            "start_flat": true
+          }
+        ],
+        "global_top10": [
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1521446400000",
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1529985600000",
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1626235200000",
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1659412800000",
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1678867200000",
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1682395200000",
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1697097600000",
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1706875200000",
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1755864000000",
+          "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1@1564671600000"
+        ],
+        "full_selected_unit_metrics": {
+          "net_R": 41.8664,
+          "equity_R_DD": 11.437266666666972,
+          "worst_daily_R": 1.9936666666665062,
+          "worst_daily_pct": 0.5980999999999518,
+          "Calmar": 0.41676411604411345,
+          "annualization_years": 8.783205678419133,
+          "fixed150_not_account_lifecycle": true
+        },
+        "full_selected_count": 391,
+        "original_count": 494
+      },
+      "OHLC": {
+        "rows": [
+          {
+            "period": "Development",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "trades": 194,
+            "winrate": 0.4484536082474227,
+            "mean_R": 0.12985120274914086,
+            "net_R": 25.191133333333326,
+            "equity_R_DD": 12.99106666666654,
+            "cash_R_DD": 12.359066666666667,
+            "ExGlobalTop10_R": -7.7722000000000016,
+            "provisional": 25,
+            "start_flat": true
+          },
+          {
+            "period": "Development",
+            "id": "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0",
+            "trades": 63,
+            "winrate": 0.31746031746031744,
+            "mean_R": -0.15398624338624342,
+            "net_R": -9.701133333333335,
+            "equity_R_DD": 14.180866666666809,
+            "cash_R_DD": 12.909266666666666,
+            "ExGlobalTop10_R": -9.701133333333333,
+            "provisional": 2,
+            "start_flat": true
+          },
+          {
+            "period": "Development",
+            "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1",
+            "trades": 83,
+            "winrate": 0.4819277108433735,
+            "mean_R": 0.10075180722891568,
+            "net_R": 8.362400000000001,
+            "equity_R_DD": 4.977533333333372,
+            "cash_R_DD": 4.045133333333332,
+            "ExGlobalTop10_R": 4.5968,
+            "provisional": 6,
+            "start_flat": true
+          },
+          {
+            "period": "Later_exposed",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "trades": 72,
+            "winrate": 0.4305555555555556,
+            "mean_R": 0.16319722222222224,
+            "net_R": 11.750200000000001,
+            "equity_R_DD": 8.862733333332748,
+            "cash_R_DD": 8.282133333333332,
+            "ExGlobalTop10_R": -0.19353333333333428,
+            "provisional": 7,
+            "start_flat": true
+          },
+          {
+            "period": "Later_exposed",
+            "id": "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0",
+            "trades": 40,
+            "winrate": 0.55,
+            "mean_R": 0.25565999999999994,
+            "net_R": 10.226399999999998,
+            "equity_R_DD": 4.303866666666668,
+            "cash_R_DD": 2.7156666666666665,
+            "ExGlobalTop10_R": 10.2264,
+            "provisional": 0,
+            "start_flat": true
+          },
+          {
+            "period": "Later_exposed",
+            "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1",
+            "trades": 42,
+            "winrate": 0.42857142857142855,
+            "mean_R": -0.08184126984126983,
+            "net_R": -3.4373333333333327,
+            "equity_R_DD": 7.6973333333333445,
+            "cash_R_DD": 7.4168666666666665,
+            "ExGlobalTop10_R": -3.4373333333333327,
+            "provisional": 0,
+            "start_flat": true
+          }
+        ],
+        "global_top10": [
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1521446400000",
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1529985600000",
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1626235200000",
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1659412800000",
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1678867200000",
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1682395200000",
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1697097600000",
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1706875200000",
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1755864000000",
+          "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1@1564671600000"
+        ],
+        "full_selected_unit_metrics": {
+          "net_R": 41.8664,
+          "equity_R_DD": 11.437266666666552,
+          "worst_daily_R": 1.9936666666672025,
+          "worst_daily_pct": 0.5981000000001607,
+          "Calmar": 0.4167641160441287,
+          "annualization_years": 8.783205678419133,
+          "fixed150_not_account_lifecycle": true
+        },
+        "full_selected_count": 391,
+        "original_count": 494
+      }
+    },
+    "Dev_regime_description": [
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "day_range_ATR_band": "<=0.9",
+        "count": 143,
+        "net_R": 24.60193333333333,
+        "mean_R": 0.17204149184149184
+      },
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "day_range_ATR_band": ">0.9",
+        "count": 51,
+        "net_R": 0.5891999999999998,
+        "mean_R": 0.011552941176470585
+      },
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "day_range_ATR_band": "UNKNOWN",
+        "count": 0,
+        "net_R": 0,
+        "mean_R": null
+      },
+      {
+        "id": "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0",
+        "day_range_ATR_band": "<=0.9",
+        "count": 29,
+        "net_R": -5.6474,
+        "mean_R": -0.19473793103448275
+      },
+      {
+        "id": "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0",
+        "day_range_ATR_band": ">0.9",
+        "count": 34,
+        "net_R": -4.053733333333333,
+        "mean_R": -0.11922745098039214
+      },
+      {
+        "id": "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0",
+        "day_range_ATR_band": "UNKNOWN",
+        "count": 0,
+        "net_R": 0,
+        "mean_R": null
+      },
+      {
+        "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1",
+        "day_range_ATR_band": "<=0.9",
+        "count": 39,
+        "net_R": 3.784933333333334,
+        "mean_R": 0.09704957264957266
+      },
+      {
+        "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1",
+        "day_range_ATR_band": ">0.9",
+        "count": 44,
+        "net_R": 4.577466666666666,
+        "mean_R": 0.10403333333333332
+      },
+      {
+        "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1",
+        "day_range_ATR_band": "UNKNOWN",
+        "count": 0,
+        "net_R": 0,
+        "mean_R": null
+      }
+    ],
+    "no_new_selection": true,
+    "later_already_exposed": true,
+    "global_top10_already_exposed": true
+  },
+  "H1_price": {
+    "rows": [
+      {
+        "asset": "GBPUSD",
+        "recipe": "B2:PD:sweep=0.1",
+        "decision": 1617354000000,
+        "deadline": 1617393600000,
+        "next_observed": 1617393600000,
+        "date": "2021-04-02",
+        "entry_exact": true,
+        "endpoint_exact": true,
+        "prior_off_kind": "DECLARED_HOLIDAY",
+        "prior_calendar": {
+          "day": "2021-04-02",
+          "kind": "CLOSED",
+          "flat_utc": null,
+          "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+        },
+        "diagnosis": "ENTRY_CALENDAR_REJECTION_NOT_MISSING_PRICE",
+        "new_price_rows_added": 0,
+        "target_account_permission": "UNVERIFIED_UNLESS_DATE_SPECIFIC_NOTICE"
+      },
+      {
+        "asset": "GBPUSD",
+        "recipe": "B2:PD:sweep=0.1",
+        "decision": 1680879600000,
+        "deadline": 1680897600000,
+        "next_observed": 1680897600000,
+        "date": "2023-04-07",
+        "entry_exact": true,
+        "endpoint_exact": true,
+        "prior_off_kind": "DECLARED_HOLIDAY",
+        "prior_calendar": {
+          "day": "2023-04-07",
+          "kind": "CLOSED",
+          "flat_utc": null,
+          "target_time_status": "METALS_GOOD_FRIDAY",
+          "source": "https://ftmo.com/en/blog/trading-updates/trading-update-30-mar-2023/"
+        },
+        "diagnosis": "ENTRY_CALENDAR_REJECTION_NOT_MISSING_PRICE",
+        "new_price_rows_added": 0,
+        "target_account_permission": "UNVERIFIED_UNLESS_DATE_SPECIFIC_NOTICE"
+      },
+      {
+        "asset": "GBPUSD",
+        "recipe": "B2:ASIA:sweep=0.1",
+        "decision": 1555668000000,
+        "deadline": 1555704000000,
+        "next_observed": 1555704000000,
+        "date": "2019-04-19",
+        "entry_exact": true,
+        "endpoint_exact": true,
+        "prior_off_kind": "DECLARED_HOLIDAY",
+        "prior_calendar": {
+          "day": "2019-04-19",
+          "kind": "CLOSED",
+          "flat_utc": null,
+          "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+        },
+        "diagnosis": "ENTRY_CALENDAR_REJECTION_NOT_MISSING_PRICE",
+        "new_price_rows_added": 0,
+        "target_account_permission": "UNVERIFIED_UNLESS_DATE_SPECIFIC_NOTICE"
+      },
+      {
+        "asset": "GBPUSD",
+        "recipe": "B2:ASIA:sweep=0.1",
+        "decision": 1640354400000,
+        "deadline": 1640376000000,
+        "next_observed": 1640376000000,
+        "date": "2021-12-24",
+        "entry_exact": true,
+        "endpoint_exact": true,
+        "prior_off_kind": "DECLARED_HOLIDAY",
+        "prior_calendar": {
+          "day": "2021-12-24",
+          "kind": "CLOSED",
+          "flat_utc": null,
+          "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+        },
+        "diagnosis": "ENTRY_CALENDAR_REJECTION_NOT_MISSING_PRICE",
+        "new_price_rows_added": 0,
+        "target_account_permission": "UNVERIFIED_UNLESS_DATE_SPECIFIC_NOTICE"
+      },
+      {
+        "asset": "GBPUSD",
+        "recipe": "B2:ASIA:sweep=0.1",
+        "decision": 1650013200000,
+        "deadline": 1650052800000,
+        "next_observed": 1650052800000,
+        "date": "2022-04-15",
+        "entry_exact": true,
+        "endpoint_exact": true,
+        "prior_off_kind": "DECLARED_HOLIDAY",
+        "prior_calendar": {
+          "day": "2022-04-15",
+          "kind": "CLOSED",
+          "flat_utc": null,
+          "target_time_status": "METALS_GOOD_FRIDAY",
+          "source": "https://ftmo.com/en/blog/trading-updates/trading-update-30-mar-2023/"
+        },
+        "diagnosis": "ENTRY_CALENDAR_REJECTION_NOT_MISSING_PRICE",
+        "new_price_rows_added": 0,
+        "target_account_permission": "UNVERIFIED_UNLESS_DATE_SPECIFIC_NOTICE"
+      },
+      {
+        "asset": "GBPUSD",
+        "recipe": "B2:ASIA:sweep=0.1",
+        "decision": 1680858000000,
+        "deadline": 1680897600000,
+        "next_observed": 1680897600000,
+        "date": "2023-04-07",
+        "entry_exact": true,
+        "endpoint_exact": true,
+        "prior_off_kind": "DECLARED_HOLIDAY",
+        "prior_calendar": {
+          "day": "2023-04-07",
+          "kind": "CLOSED",
+          "flat_utc": null,
+          "target_time_status": "METALS_GOOD_FRIDAY",
+          "source": "https://ftmo.com/en/blog/trading-updates/trading-update-30-mar-2023/"
+        },
+        "diagnosis": "ENTRY_CALENDAR_REJECTION_NOT_MISSING_PRICE",
+        "new_price_rows_added": 0,
+        "target_account_permission": "UNVERIFIED_UNLESS_DATE_SPECIFIC_NOTICE"
+      },
+      {
+        "asset": "AUDUSD",
+        "recipe": "B2:PD:sweep=0.1",
+        "decision": 1522418400000,
+        "deadline": 1522440000000,
+        "next_observed": 1522440000000,
+        "date": "2018-03-30",
+        "entry_exact": true,
+        "endpoint_exact": true,
+        "prior_off_kind": "DECLARED_HOLIDAY",
+        "prior_calendar": {
+          "day": "2018-03-30",
+          "kind": "CLOSED",
+          "flat_utc": null,
+          "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+        },
+        "diagnosis": "ENTRY_CALENDAR_REJECTION_NOT_MISSING_PRICE",
+        "new_price_rows_added": 0,
+        "target_account_permission": "UNVERIFIED_UNLESS_DATE_SPECIFIC_NOTICE"
+      },
+      {
+        "asset": "AUDUSD",
+        "recipe": "B2:PD:sweep=0.3",
+        "decision": 1522418400000,
+        "deadline": 1522440000000,
+        "next_observed": 1522440000000,
+        "date": "2018-03-30",
+        "entry_exact": true,
+        "endpoint_exact": true,
+        "prior_off_kind": "DECLARED_HOLIDAY",
+        "prior_calendar": {
+          "day": "2018-03-30",
+          "kind": "CLOSED",
+          "flat_utc": null,
+          "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+        },
+        "diagnosis": "ENTRY_CALENDAR_REJECTION_NOT_MISSING_PRICE",
+        "new_price_rows_added": 0,
+        "target_account_permission": "UNVERIFIED_UNLESS_DATE_SPECIFIC_NOTICE"
+      },
+      {
+        "asset": "AUDUSD",
+        "recipe": "B2:ASIA:sweep=0.1",
+        "decision": 1522418400000,
+        "deadline": 1522440000000,
+        "next_observed": 1522440000000,
+        "date": "2018-03-30",
+        "entry_exact": true,
+        "endpoint_exact": true,
+        "prior_off_kind": "DECLARED_HOLIDAY",
+        "prior_calendar": {
+          "day": "2018-03-30",
+          "kind": "CLOSED",
+          "flat_utc": null,
+          "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+        },
+        "diagnosis": "ENTRY_CALENDAR_REJECTION_NOT_MISSING_PRICE",
+        "new_price_rows_added": 0,
+        "target_account_permission": "UNVERIFIED_UNLESS_DATE_SPECIFIC_NOTICE"
+      },
+      {
+        "asset": "AUDUSD",
+        "recipe": "B2:ASIA:sweep=0.1",
+        "decision": 1617350400000,
+        "deadline": 1617393600000,
+        "next_observed": 1617393600000,
+        "date": "2021-04-02",
+        "entry_exact": true,
+        "endpoint_exact": true,
+        "prior_off_kind": "DECLARED_HOLIDAY",
+        "prior_calendar": {
+          "day": "2021-04-02",
+          "kind": "CLOSED",
+          "flat_utc": null,
+          "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+        },
+        "diagnosis": "ENTRY_CALENDAR_REJECTION_NOT_MISSING_PRICE",
+        "new_price_rows_added": 0,
+        "target_account_permission": "UNVERIFIED_UNLESS_DATE_SPECIFIC_NOTICE"
+      },
+      {
+        "asset": "AUDUSD",
+        "recipe": "B2:ASIA:sweep=0.1",
+        "decision": 1672045200000,
+        "deadline": 1672084800000,
+        "next_observed": 1672084800000,
+        "date": "2022-12-26",
+        "entry_exact": true,
+        "endpoint_exact": true,
+        "prior_off_kind": "DECLARED_HOLIDAY",
+        "prior_calendar": {
+          "day": "2022-12-26",
+          "kind": "CLOSED",
+          "flat_utc": null,
+          "target_time_status": "HOLIDAY_DATE_CLOSED_SCENARIO",
+          "source": "https://ftmo.com/it/blog/trading-update-05-01-2023-2-2-2/"
+        },
+        "diagnosis": "ENTRY_CALENDAR_REJECTION_NOT_MISSING_PRICE",
+        "new_price_rows_added": 0,
+        "target_account_permission": "UNVERIFIED_UNLESS_DATE_SPECIFIC_NOTICE"
+      },
+      {
+        "asset": "AUDUSD",
+        "recipe": "B2:ASIA:sweep=0.3",
+        "decision": 1522418400000,
+        "deadline": 1522440000000,
+        "next_observed": 1522440000000,
+        "date": "2018-03-30",
+        "entry_exact": true,
+        "endpoint_exact": true,
+        "prior_off_kind": "DECLARED_HOLIDAY",
+        "prior_calendar": {
+          "day": "2018-03-30",
+          "kind": "CLOSED",
+          "flat_utc": null,
+          "target_time_status": "UNVERIFIED_HISTORICAL_GUARD"
+        },
+        "diagnosis": "ENTRY_CALENDAR_REJECTION_NOT_MISSING_PRICE",
+        "new_price_rows_added": 0,
+        "target_account_permission": "UNVERIFIED_UNLESS_DATE_SPECIFIC_NOTICE"
+      }
+    ],
+    "summary": {
+      "GBPUSD": {
+        "observations": 2288,
+        "exact_endpoints": 2288,
+        "coverage_pct": 100.0,
+        "prior_invalid_rows": 6,
+        "actual_missing_endpoints": 0,
+        "eligibility_not_certified": true
+      },
+      "AUDUSD": {
+        "observations": 1795,
+        "exact_endpoints": 1795,
+        "coverage_pct": 100.0,
+        "prior_invalid_rows": 6,
+        "actual_missing_endpoints": 0,
+        "eligibility_not_certified": true
+      }
+    },
+    "source_prices_modified": 0,
+    "V22_coverage_interpretation_corrected": true,
+    "early_close_needed_to_create_prices": false
+  },
+  "H1_sessions": {
+    "reviewed_UTC_date": "2026-11-17",
+    "rows": [
+      {
+        "asset": "GBPUSD",
+        "recipe": "B2:PD:sweep=0.1",
+        "date": "2021-04-02",
+        "entry_exact": true,
+        "endpoint_exact": true,
+        "status": "UNVERIFIED_DATE_SPECIFIC_FX_SESSION",
+        "source": null
+      },
+      {
+        "asset": "GBPUSD",
+        "recipe": "B2:PD:sweep=0.1",
+        "date": "2023-04-07",
+        "entry_exact": true,
+        "endpoint_exact": true,
+        "status": "FTMO_NOTICE_NORMAL_FX_HOURS",
+        "source": "https://ftmo.com/en/blog/trading-updates/trading-update-30-mar-2023/",
+        "notice_scope": "Forex normal; metals closed"
+      },
+      {
+        "asset": "GBPUSD",
+        "recipe": "B2:ASIA:sweep=0.1",
+        "date": "2019-04-19",
+        "entry_exact": true,
+        "endpoint_exact": true,
+        "status": "UNVERIFIED_DATE_SPECIFIC_FX_SESSION",
+        "source": null
+      },
+      {
+        "asset": "GBPUSD",
+        "recipe": "B2:ASIA:sweep=0.1",
+        "date": "2021-12-24",
+        "entry_exact": true,
+        "endpoint_exact": true,
+        "status": "FTMO_NOTICE_NORMAL_FX_HOURS",
+        "source": "https://ftmo.com/es/blog/trading-update-16-12-2021/",
+        "notice_scope": "Forex normal; metals closed"
+      },
+      {
+        "asset": "GBPUSD",
+        "recipe": "B2:ASIA:sweep=0.1",
+        "date": "2022-04-15",
+        "entry_exact": true,
+        "endpoint_exact": true,
+        "status": "FTMO_NOTICE_NORMAL_FX_HOURS",
+        "source": "https://ftmo.com/it/blog/trading-update-07-04-2022-2/",
+        "notice_scope": "Forex and crypto normal; most other assets closed"
+      },
+      {
+        "asset": "GBPUSD",
+        "recipe": "B2:ASIA:sweep=0.1",
+        "date": "2023-04-07",
+        "entry_exact": true,
+        "endpoint_exact": true,
+        "status": "FTMO_NOTICE_NORMAL_FX_HOURS",
+        "source": "https://ftmo.com/en/blog/trading-updates/trading-update-30-mar-2023/",
+        "notice_scope": "Forex normal; metals closed"
+      },
+      {
+        "asset": "AUDUSD",
+        "recipe": "B2:PD:sweep=0.1",
+        "date": "2018-03-30",
+        "entry_exact": true,
+        "endpoint_exact": true,
+        "status": "UNVERIFIED_DATE_SPECIFIC_FX_SESSION",
+        "source": null
+      },
+      {
+        "asset": "AUDUSD",
+        "recipe": "B2:PD:sweep=0.3",
+        "date": "2018-03-30",
+        "entry_exact": true,
+        "endpoint_exact": true,
+        "status": "UNVERIFIED_DATE_SPECIFIC_FX_SESSION",
+        "source": null
+      },
+      {
+        "asset": "AUDUSD",
+        "recipe": "B2:ASIA:sweep=0.1",
+        "date": "2018-03-30",
+        "entry_exact": true,
+        "endpoint_exact": true,
+        "status": "UNVERIFIED_DATE_SPECIFIC_FX_SESSION",
+        "source": null
+      },
+      {
+        "asset": "AUDUSD",
+        "recipe": "B2:ASIA:sweep=0.1",
+        "date": "2021-04-02",
+        "entry_exact": true,
+        "endpoint_exact": true,
+        "status": "UNVERIFIED_DATE_SPECIFIC_FX_SESSION",
+        "source": null
+      },
+      {
+        "asset": "AUDUSD",
+        "recipe": "B2:ASIA:sweep=0.1",
+        "date": "2022-12-26",
+        "entry_exact": true,
+        "endpoint_exact": true,
+        "status": "SOURCE_CONFLICT_TARGET_SESSION_UNVERIFIED",
+        "source": "https://ftmo.com/it/blog/trading-update-05-01-2023-2-2-2/",
+        "notice_scope": "Archived Christmas table: Forex closed 26 Dec; notice retained retrospectively",
+        "sources": [
+          {
+            "url": "https://ftmo.com/it/blog/trading-update-15-12-2022/",
+            "notice_date": "2022-12-15",
+            "FX_26Dec": "NORMAL_HOURS"
+          },
+          {
+            "url": "https://ftmo.com/it/blog/trading-update-05-01-2023-2-2-2/",
+            "notice_date": "2023-01-12",
+            "FX_26Dec": "CLOSED"
+          }
+        ],
+        "prior_closed_claim_withdrawn": true
+      },
+      {
+        "asset": "AUDUSD",
+        "recipe": "B2:ASIA:sweep=0.3",
+        "date": "2018-03-30",
+        "entry_exact": true,
+        "endpoint_exact": true,
+        "status": "UNVERIFIED_DATE_SPECIFIC_FX_SESSION",
+        "source": null
+      }
+    ],
+    "source_prices_modified": 0,
+    "all_raw_price_endpoints_available": true,
+    "price_availability_is_not_target_eligibility": true,
+    "F5_results_unchanged": true,
+    "FXResearchCalendar_is_declared_weekday_scenario": true,
+    "remaining_unknown_dates": [
+      "2018-03-30",
+      "2019-04-19",
+      "2021-04-02",
+      "2022-12-26"
+    ],
+    "initial_review_sha256": "effadc67131ae7023fc774fcbbe9fdcbef5cd542fabf87d7e9329bf8eda2e370",
+    "initial_review_preserved": true,
+    "independent_review_correction": "Conflicting official notices; no definitive open or closed determination for 2022-12-26",
+    "financial_runs_changed": false
+  },
+  "F5_transfers": {
+    "rows": [
+      {
+        "asset": "GBPUSD",
+        "recipe": "F5:tf=H4:n=5:adx=25:buffer=0.1",
+        "family": "F5",
+        "raw": 172,
+        "priced": 172,
+        "retained": 167,
+        "retention": 0.9709302325581395,
+        "median_natural": 0.003995,
+        "scale_ratio": 0.045056320400500616,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 24,
+            "priced": 24,
+            "admitted": 23,
+            "mean_net_units": -0.0008620833333333305,
+            "mean_friction_units": 0.00016666666666666666,
+            "raw_net_R": -3.6091700730846337
+          },
+          {
+            "year": 2019,
+            "raw": 21,
+            "priced": 21,
+            "admitted": 21,
+            "mean_net_units": -0.002056666666666672,
+            "mean_friction_units": 0.00018142857142857142,
+            "raw_net_R": -9.411504616697446
+          },
+          {
+            "year": 2020,
+            "raw": 21,
+            "priced": 21,
+            "admitted": 21,
+            "mean_net_units": -0.0010138095238095065,
+            "mean_friction_units": 0.00018333333333333334,
+            "raw_net_R": -2.4549506081272967
+          },
+          {
+            "year": 2021,
+            "raw": 36,
+            "priced": 36,
+            "admitted": 33,
+            "mean_net_units": 0.001928888888888872,
+            "mean_friction_units": 0.00017638888888888888,
+            "raw_net_R": 20.729141368075553
+          },
+          {
+            "year": 2022,
+            "raw": 25,
+            "priced": 25,
+            "admitted": 25,
+            "mean_net_units": -0.0006636000000000183,
+            "mean_friction_units": 0.0001872,
+            "raw_net_R": -5.3592477857730145
+          },
+          {
+            "year": 2023,
+            "raw": 45,
+            "priced": 45,
+            "admitted": 44,
+            "mean_net_units": 0.00034466666666667226,
+            "mean_friction_units": 0.00018000000000000004,
+            "raw_net_R": 3.841523302309861
+          }
+        ],
+        "cluster_net_units": [
+          -0.08516999999999969,
+          0.0683599999999992
+        ],
+        "reasons": [
+          "2018:NET_NONPOSITIVE_OR_MISSING",
+          "2018:MARKOUT_NOT_ABOVE_FRICTION",
+          "2019:NET_NONPOSITIVE_OR_MISSING",
+          "2019:MARKOUT_NOT_ABOVE_FRICTION",
+          "2020:NET_NONPOSITIVE_OR_MISSING",
+          "2020:MARKOUT_NOT_ABOVE_FRICTION",
+          "2022:NET_NONPOSITIVE_OR_MISSING",
+          "2022:MARKOUT_NOT_ABOVE_FRICTION",
+          "DUAL_CLUSTER_FAIL",
+          "CADENCE_BELOW40"
+        ],
+        "stage0_passed": false,
+        "kind": "F5_EXACT_TRANSFER",
+        "data_resolution": "H1",
+        "cluster_net_R": [
+          -15.475625297909374,
+          19.211416884612397
+        ],
+        "dual_cluster_positive": false,
+        "cost_only_retention": 0.9709302325581395,
+        "exact_intrahour_path_certified": false
+      },
+      {
+        "asset": "AUDUSD",
+        "recipe": "F5:tf=H4:n=5:adx=25:buffer=0.1",
+        "family": "F5",
+        "raw": 188,
+        "priced": 188,
+        "retained": 156,
+        "retention": 0.8297872340425532,
+        "median_natural": 0.002715,
+        "scale_ratio": 0.06998158379373849,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 33,
+            "priced": 33,
+            "admitted": 28,
+            "mean_net_units": -0.00017454545454543635,
+            "mean_friction_units": 0.00017303030303030301,
+            "raw_net_R": -0.7821092295862723
+          },
+          {
+            "year": 2019,
+            "raw": 25,
+            "priced": 25,
+            "admitted": 13,
+            "mean_net_units": 0.00010519999999999106,
+            "mean_friction_units": 0.000178,
+            "raw_net_R": -6.8262851138163185
+          },
+          {
+            "year": 2020,
+            "raw": 30,
+            "priced": 30,
+            "admitted": 24,
+            "mean_net_units": -0.0007523333333333312,
+            "mean_friction_units": 0.0001873333333333333,
+            "raw_net_R": -6.322128373294085
+          },
+          {
+            "year": 2021,
+            "raw": 32,
+            "priced": 32,
+            "admitted": 29,
+            "mean_net_units": -0.00033906250000000435,
+            "mean_friction_units": 0.0001903125,
+            "raw_net_R": -8.824677364198848
+          },
+          {
+            "year": 2022,
+            "raw": 35,
+            "priced": 35,
+            "admitted": 32,
+            "mean_net_units": -0.00018685714285714283,
+            "mean_friction_units": 0.00020714285714285713,
+            "raw_net_R": -3.073624275646191
+          },
+          {
+            "year": 2023,
+            "raw": 33,
+            "priced": 33,
+            "admitted": 30,
+            "mean_net_units": -0.0002278787878787927,
+            "mean_friction_units": 0.0002027272727272727,
+            "raw_net_R": -0.762223206984328
+          }
+        ],
+        "cluster_net_units": [
+          -0.02569999999999956,
+          -0.024910000000000293
+        ],
+        "reasons": [
+          "2018:NET_NONPOSITIVE_OR_MISSING",
+          "2018:MARKOUT_NOT_ABOVE_FRICTION",
+          "2019:MARKOUT_NOT_ABOVE_FRICTION",
+          "2020:NET_NONPOSITIVE_OR_MISSING",
+          "2020:MARKOUT_NOT_ABOVE_FRICTION",
+          "2021:NET_NONPOSITIVE_OR_MISSING",
+          "2021:MARKOUT_NOT_ABOVE_FRICTION",
+          "2022:NET_NONPOSITIVE_OR_MISSING",
+          "2022:MARKOUT_NOT_ABOVE_FRICTION",
+          "2023:NET_NONPOSITIVE_OR_MISSING",
+          "2023:MARKOUT_NOT_ABOVE_FRICTION",
+          "DUAL_CLUSTER_FAIL",
+          "CADENCE_BELOW40"
+        ],
+        "stage0_passed": false,
+        "kind": "F5_EXACT_TRANSFER",
+        "data_resolution": "H1",
+        "cluster_net_R": [
+          -13.930522716696675,
+          -12.66052484682937
+        ],
+        "dual_cluster_positive": false,
+        "cost_only_retention": 0.8297872340425532,
+        "exact_intrahour_path_certified": false
+      },
+      {
+        "asset": "XAUUSD",
+        "recipe": "F5:tf=H4:n=5:adx=25:buffer=0.1",
+        "family": "F5",
+        "raw": 197,
+        "priced": 197,
+        "retained": 126,
+        "retention": 0.6395939086294417,
+        "median_natural": 7.91,
+        "scale_ratio": 0.09643489254108724,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 30,
+            "priced": 30,
+            "admitted": 9,
+            "mean_net_units": 0.13985999999997947,
+            "mean_friction_units": 0.75574,
+            "raw_net_R": 4.898328683548567
+          },
+          {
+            "year": 2019,
+            "raw": 29,
+            "priced": 29,
+            "admitted": 16,
+            "mean_net_units": 0.17625172413794102,
+            "mean_friction_units": 0.7574689655172416,
+            "raw_net_R": 2.154125283073014
+          },
+          {
+            "year": 2020,
+            "raw": 31,
+            "priced": 31,
+            "admitted": 27,
+            "mean_net_units": -2.3366806451613056,
+            "mean_friction_units": 0.7631161290322581,
+            "raw_net_R": -9.058962323615772
+          },
+          {
+            "year": 2021,
+            "raw": 30,
+            "priced": 30,
+            "admitted": 26,
+            "mean_net_units": -3.365886666666658,
+            "mean_friction_units": 0.7631266666666667,
+            "raw_net_R": -11.800576250898194
+          },
+          {
+            "year": 2022,
+            "raw": 39,
+            "priced": 39,
+            "admitted": 26,
+            "mean_net_units": -0.11577692307692268,
+            "mean_friction_units": 0.7629794871794872,
+            "raw_net_R": -0.6692756388972768
+          },
+          {
+            "year": 2023,
+            "raw": 38,
+            "priced": 38,
+            "admitted": 22,
+            "mean_net_units": -0.6484026315789791,
+            "mean_friction_units": 0.7650842105263158,
+            "raw_net_R": -3.5277233736171514
+          }
+        ],
+        "cluster_net_units": [
+          -63.13000000000079,
+          -130.13120000000094
+        ],
+        "reasons": [
+          "2018:MARKOUT_NOT_ABOVE_FRICTION",
+          "2019:MARKOUT_NOT_ABOVE_FRICTION",
+          "2020:NET_NONPOSITIVE_OR_MISSING",
+          "2020:MARKOUT_NOT_ABOVE_FRICTION",
+          "2021:NET_NONPOSITIVE_OR_MISSING",
+          "2021:MARKOUT_NOT_ABOVE_FRICTION",
+          "2022:NET_NONPOSITIVE_OR_MISSING",
+          "2022:MARKOUT_NOT_ABOVE_FRICTION",
+          "2023:NET_NONPOSITIVE_OR_MISSING",
+          "2023:MARKOUT_NOT_ABOVE_FRICTION",
+          "DUAL_CLUSTER_FAIL",
+          "CADENCE_BELOW40"
+        ],
+        "stage0_passed": false,
+        "kind": "F5_EXACT_TRANSFER",
+        "data_resolution": "M1",
+        "cluster_net_R": [
+          -2.0065083569941904,
+          -15.997575263412628
+        ],
+        "dual_cluster_positive": false,
+        "cost_only_retention": 0.6395939086294417,
+        "exact_intrahour_path_certified": false
+      }
+    ],
+    "recipes": 3,
+    "parameter_search": false
+  },
+  "historical": [
+    {
+      "scope": "Dev",
+      "windows": 72,
+      "phase1": 63,
+      "funded": 6,
+      "median_months": 56.37303216974675,
+      "breaches": 0,
+      "worst_static": 4.67478,
+      "worst_daily": 1.876356,
+      "payout_count_windows": 32,
+      "payout_windows_usd": 9729.36,
+      "standalone_payout": 5262.75,
+      "standalone_payout_count": 28,
+      "censored_phase1": 9,
+      "censored_phase2": 57,
+      "recent_starts": 0,
+      "recent_completions": 0,
+      "order": "OLHC",
+      "source": "PRIMARY",
+      "friction": 100,
+      "accounts": 73,
+      "seconds": 18.716182899999694
+    },
+    {
+      "scope": "Dev",
+      "windows": 72,
+      "phase1": 36,
+      "funded": 6,
+      "median_months": 63.026009582477755,
+      "breaches": 0,
+      "worst_static": 5.16198,
+      "worst_daily": 1.905392,
+      "payout_count_windows": 9,
+      "payout_windows_usd": 3246.7200000000003,
+      "standalone_payout": 4142.09,
+      "standalone_payout_count": 23,
+      "censored_phase1": 36,
+      "censored_phase2": 30,
+      "recent_starts": 0,
+      "recent_completions": 0,
+      "order": "OLHC",
+      "source": "PRIMARY",
+      "friction": 150,
+      "accounts": 73,
+      "seconds": 18.446972099998675
+    },
+    {
+      "scope": "Dev",
+      "windows": 72,
+      "phase1": 6,
+      "funded": 0,
+      "median_months": null,
+      "breaches": 0,
+      "worst_static": 8.39966,
+      "worst_daily": 1.358676,
+      "payout_count_windows": 0,
+      "payout_windows_usd": 0,
+      "standalone_payout": 1970.7,
+      "standalone_payout_count": 12,
+      "censored_phase1": 66,
+      "censored_phase2": 6,
+      "recent_starts": 0,
+      "recent_completions": 0,
+      "order": "OLHC",
+      "source": "STRICT",
+      "friction": 100,
+      "accounts": 73,
+      "seconds": 16.427388000000064
+    },
+    {
+      "scope": "Dev",
+      "windows": 72,
+      "phase1": 63,
+      "funded": 6,
+      "median_months": 56.37303216974675,
+      "breaches": 0,
+      "worst_static": 4.67478,
+      "worst_daily": 1.876356,
+      "payout_count_windows": 32,
+      "payout_windows_usd": 9729.36,
+      "standalone_payout": 5262.75,
+      "standalone_payout_count": 28,
+      "censored_phase1": 9,
+      "censored_phase2": 57,
+      "recent_starts": 0,
+      "recent_completions": 0,
+      "order": "OHLC",
+      "source": "PRIMARY",
+      "friction": 100,
+      "accounts": 73,
+      "seconds": 18.152445399999124
+    },
+    {
+      "scope": "Dev",
+      "windows": 72,
+      "phase1": 36,
+      "funded": 6,
+      "median_months": 63.026009582477755,
+      "breaches": 0,
+      "worst_static": 5.16198,
+      "worst_daily": 1.905392,
+      "payout_count_windows": 9,
+      "payout_windows_usd": 3246.7200000000003,
+      "standalone_payout": 4142.09,
+      "standalone_payout_count": 23,
+      "censored_phase1": 36,
+      "censored_phase2": 30,
+      "recent_starts": 0,
+      "recent_completions": 0,
+      "order": "OHLC",
+      "source": "PRIMARY",
+      "friction": 150,
+      "accounts": 73,
+      "seconds": 18.320312900003046
+    },
+    {
+      "scope": "Dev",
+      "windows": 72,
+      "phase1": 6,
+      "funded": 0,
+      "median_months": null,
+      "breaches": 0,
+      "worst_static": 8.39966,
+      "worst_daily": 1.358676,
+      "payout_count_windows": 0,
+      "payout_windows_usd": 0,
+      "standalone_payout": 1970.7,
+      "standalone_payout_count": 12,
+      "censored_phase1": 66,
+      "censored_phase2": 6,
+      "recent_starts": 0,
+      "recent_completions": 0,
+      "order": "OHLC",
+      "source": "STRICT",
+      "friction": 100,
+      "accounts": 73,
+      "seconds": 16.575557899999694
+    },
+    {
+      "scope": "Full",
+      "windows": 105,
+      "phase1": 78,
+      "funded": 63,
+      "median_months": 42.08145106091718,
+      "breaches": 0,
+      "worst_static": 5.97448,
+      "worst_daily": 1.876356,
+      "payout_count_windows": 430,
+      "payout_windows_usd": 73654.73,
+      "standalone_payout": 7141.16,
+      "standalone_payout_count": 37,
+      "censored_phase1": 27,
+      "censored_phase2": 15,
+      "recent_starts": 33,
+      "recent_completions": 0,
+      "order": "OLHC",
+      "source": "PRIMARY",
+      "friction": 100,
+      "accounts": 106,
+      "seconds": 40.54933990000063
+    },
+    {
+      "scope": "Full",
+      "windows": 105,
+      "phase1": 75,
+      "funded": 36,
+      "median_months": 63.026009582477755,
+      "breaches": 0,
+      "worst_static": 6.15112,
+      "worst_daily": 1.905392,
+      "payout_count_windows": 113,
+      "payout_windows_usd": 16572.87,
+      "standalone_payout": 5582.25,
+      "standalone_payout_count": 31,
+      "censored_phase1": 30,
+      "censored_phase2": 39,
+      "recent_starts": 33,
+      "recent_completions": 0,
+      "order": "OLHC",
+      "source": "PRIMARY",
+      "friction": 150,
+      "accounts": 106,
+      "seconds": 37.94599569999991
+    },
+    {
+      "scope": "Full",
+      "windows": 105,
+      "phase1": 14,
+      "funded": 0,
+      "median_months": null,
+      "breaches": 0,
+      "worst_static": 8.39966,
+      "worst_daily": 1.83964,
+      "payout_count_windows": 0,
+      "payout_windows_usd": 0,
+      "standalone_payout": 1970.7,
+      "standalone_payout_count": 12,
+      "censored_phase1": 91,
+      "censored_phase2": 14,
+      "recent_starts": 33,
+      "recent_completions": 0,
+      "order": "OLHC",
+      "source": "STRICT",
+      "friction": 100,
+      "accounts": 106,
+      "seconds": 32.903941399999894
+    },
+    {
+      "scope": "Full",
+      "windows": 105,
+      "phase1": 78,
+      "funded": 63,
+      "median_months": 42.08145106091718,
+      "breaches": 0,
+      "worst_static": 5.97448,
+      "worst_daily": 1.876356,
+      "payout_count_windows": 430,
+      "payout_windows_usd": 73654.73,
+      "standalone_payout": 7141.16,
+      "standalone_payout_count": 37,
+      "censored_phase1": 27,
+      "censored_phase2": 15,
+      "recent_starts": 33,
+      "recent_completions": 0,
+      "order": "OHLC",
+      "source": "PRIMARY",
+      "friction": 100,
+      "accounts": 106,
+      "seconds": 42.242924300000595
+    },
+    {
+      "scope": "Full",
+      "windows": 105,
+      "phase1": 75,
+      "funded": 36,
+      "median_months": 63.026009582477755,
+      "breaches": 0,
+      "worst_static": 6.15112,
+      "worst_daily": 1.905392,
+      "payout_count_windows": 113,
+      "payout_windows_usd": 16572.87,
+      "standalone_payout": 5582.25,
+      "standalone_payout_count": 31,
+      "censored_phase1": 30,
+      "censored_phase2": 39,
+      "recent_starts": 33,
+      "recent_completions": 0,
+      "order": "OHLC",
+      "source": "PRIMARY",
+      "friction": 150,
+      "accounts": 106,
+      "seconds": 43.0274038000025
+    },
+    {
+      "scope": "Full",
+      "windows": 105,
+      "phase1": 14,
+      "funded": 0,
+      "median_months": null,
+      "breaches": 0,
+      "worst_static": 8.39966,
+      "worst_daily": 1.83964,
+      "payout_count_windows": 0,
+      "payout_windows_usd": 0,
+      "standalone_payout": 1970.7,
+      "standalone_payout_count": 12,
+      "censored_phase1": 91,
+      "censored_phase2": 14,
+      "recent_starts": 33,
+      "recent_completions": 0,
+      "order": "OHLC",
+      "source": "STRICT",
+      "friction": 100,
+      "accounts": 106,
+      "seconds": 32.45458719999806
+    }
+  ],
+  "monte": [
+    {
+      "paths": 5000,
+      "horizons": [
+        {
+          "months": 12,
+          "phase1_pct": 20.04,
+          "both_pct": 1.52,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 18,
+          "phase1_pct": 34.86,
+          "both_pct": 5.32,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 24,
+          "phase1_pct": 47.26,
+          "both_pct": 12.04,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 36,
+          "phase1_pct": 64.36,
+          "both_pct": 29.86,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        }
+      ],
+      "conditional_median_months": 26.34428473648186,
+      "mean_annual_payout_USD": 904.6246873333333,
+      "annual_payout_P25_P50_P75": [
+        498.5466666666666,
+        867.4483333333335,
+        1245.2725
+      ],
+      "all_path_ledgers_independently_checked": true,
+      "no_clean_OOS_or_independent_feed": true,
+      "order": "OLHC",
+      "mode": "PRIMARY",
+      "friction": 100,
+      "accounts_fully_audited": 10000,
+      "journal_sha256": "816927c6b0a00ca8aa1c11049f91b580e4fc20a6034dd300012b5b9d084c16c3",
+      "worst_daily": 2.04372,
+      "worst_static": 8.38958,
+      "mean_post_challenge_payout_USD_per_elapsed_year": 101.76297933333332,
+      "seconds": 4918.042359299998
+    },
+    {
+      "paths": 5000,
+      "horizons": [
+        {
+          "months": 12,
+          "phase1_pct": 20.04,
+          "both_pct": 1.52,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 18,
+          "phase1_pct": 34.86,
+          "both_pct": 5.32,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 24,
+          "phase1_pct": 47.26,
+          "both_pct": 12.04,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 36,
+          "phase1_pct": 64.36,
+          "both_pct": 29.86,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        }
+      ],
+      "conditional_median_months": 26.34428473648186,
+      "mean_annual_payout_USD": 904.6246873333333,
+      "annual_payout_P25_P50_P75": [
+        498.5466666666666,
+        867.4483333333335,
+        1245.2725
+      ],
+      "all_path_ledgers_independently_checked": true,
+      "no_clean_OOS_or_independent_feed": true,
+      "order": "OHLC",
+      "mode": "PRIMARY",
+      "friction": 100,
+      "accounts_fully_audited": 10000,
+      "journal_sha256": "79fd11e92fe06f4b1364687566e0ffd417176da24bb167dc43aad5fa923fa0b9",
+      "worst_daily": 2.04372,
+      "worst_static": 8.38958,
+      "mean_post_challenge_payout_USD_per_elapsed_year": 101.76297933333332,
+      "seconds": 4898.345267999997
+    }
+  ],
+  "baseline_history": [
+    {
+      "version": "V16",
+      "order": "OLHC",
+      "mode": "PRIMARY",
+      "friction_pct": 100,
+      "phase1": 81,
+      "funded": 71,
+      "median_months": 47.07529089664613,
+      "worst_daily": 1.96304,
+      "worst_static": 6.38254,
+      "breaches": 0,
+      "standalone_payout": 6457.11,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "version": "V19",
+      "order": "OLHC",
+      "mode": "PRIMARY",
+      "friction_pct": 100,
+      "profile": "BASE_GUARD",
+      "windows": 105,
+      "phase1": 80,
+      "funded": 71,
+      "median_months": 48.06091718001369,
+      "breaches": 0,
+      "worst_static": 6.38254,
+      "worst_daily": 2.0275,
+      "payout_count_windows": 501,
+      "payout_windows_usd": 61933.06,
+      "standalone_payout": 6471.13,
+      "standalone_payout_count": 40,
+      "censored_phase1": 25,
+      "censored_phase2": 9,
+      "restricted_mean_months": 39.50942276979238,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "version": "V16",
+      "order": "OLHC",
+      "mode": "PRIMARY",
+      "friction_pct": 150,
+      "phase1": 74,
+      "funded": 7,
+      "median_months": 87.09171800136893,
+      "worst_daily": 1.92476,
+      "worst_static": 7.72284,
+      "breaches": 0,
+      "standalone_payout": 4170.0,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "version": "V19",
+      "order": "OLHC",
+      "mode": "PRIMARY",
+      "friction_pct": 150,
+      "profile": "BASE_GUARD",
+      "windows": 105,
+      "phase1": 74,
+      "funded": 15,
+      "median_months": 40.931553730321696,
+      "breaches": 0,
+      "worst_static": 7.72284,
+      "worst_daily": 2.03088,
+      "payout_count_windows": 50,
+      "payout_windows_usd": 3275.9500000000003,
+      "standalone_payout": 4184.0,
+      "standalone_payout_count": 32,
+      "censored_phase1": 31,
+      "censored_phase2": 59,
+      "restricted_mean_months": 51.990006844626976,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "version": "V16",
+      "order": "OLHC",
+      "mode": "STRICT",
+      "friction_pct": 100,
+      "phase1": 18,
+      "funded": 1,
+      "median_months": 18.95208761122519,
+      "worst_daily": 1.9628,
+      "worst_static": 8.3997,
+      "breaches": 0,
+      "standalone_payout": 1824.95,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "version": "V19",
+      "order": "OLHC",
+      "mode": "STRICT",
+      "friction_pct": 100,
+      "profile": "BASE_GUARD",
+      "windows": 105,
+      "phase1": 14,
+      "funded": 0,
+      "median_months": null,
+      "breaches": 0,
+      "worst_static": 8.3997,
+      "worst_daily": 1.98582,
+      "payout_count_windows": 0,
+      "payout_windows_usd": 0,
+      "standalone_payout": 1824.95,
+      "standalone_payout_count": 11,
+      "censored_phase1": 91,
+      "censored_phase2": 14,
+      "restricted_mean_months": 53.423760633616894,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "version": "V16",
+      "order": "OHLC",
+      "mode": "PRIMARY",
+      "friction_pct": 100,
+      "phase1": 81,
+      "funded": 71,
+      "median_months": 47.07529089664613,
+      "worst_daily": 1.96304,
+      "worst_static": 6.38254,
+      "breaches": 0,
+      "standalone_payout": 6457.11,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "version": "V19",
+      "order": "OHLC",
+      "mode": "PRIMARY",
+      "friction_pct": 100,
+      "profile": "BASE_GUARD",
+      "windows": 105,
+      "phase1": 80,
+      "funded": 71,
+      "median_months": 48.06091718001369,
+      "breaches": 0,
+      "worst_static": 6.38254,
+      "worst_daily": 2.0275,
+      "payout_count_windows": 501,
+      "payout_windows_usd": 61933.06,
+      "standalone_payout": 6471.13,
+      "standalone_payout_count": 40,
+      "censored_phase1": 25,
+      "censored_phase2": 9,
+      "restricted_mean_months": 39.50942276979238,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "version": "V16",
+      "order": "OHLC",
+      "mode": "PRIMARY",
+      "friction_pct": 150,
+      "phase1": 74,
+      "funded": 7,
+      "median_months": 87.09171800136893,
+      "worst_daily": 1.92476,
+      "worst_static": 7.72284,
+      "breaches": 0,
+      "standalone_payout": 4170.0,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "version": "V19",
+      "order": "OHLC",
+      "mode": "PRIMARY",
+      "friction_pct": 150,
+      "profile": "BASE_GUARD",
+      "windows": 105,
+      "phase1": 74,
+      "funded": 15,
+      "median_months": 40.931553730321696,
+      "breaches": 0,
+      "worst_static": 7.72284,
+      "worst_daily": 2.03088,
+      "payout_count_windows": 50,
+      "payout_windows_usd": 3275.9500000000003,
+      "standalone_payout": 4184.0,
+      "standalone_payout_count": 32,
+      "censored_phase1": 31,
+      "censored_phase2": 59,
+      "restricted_mean_months": 51.990006844626976,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "version": "V16",
+      "order": "OHLC",
+      "mode": "STRICT",
+      "friction_pct": 100,
+      "phase1": 18,
+      "funded": 1,
+      "median_months": 18.95208761122519,
+      "worst_daily": 1.9628,
+      "worst_static": 8.3997,
+      "breaches": 0,
+      "standalone_payout": 1824.95,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "version": "V19",
+      "order": "OHLC",
+      "mode": "STRICT",
+      "friction_pct": 100,
+      "profile": "BASE_GUARD",
+      "windows": 105,
+      "phase1": 14,
+      "funded": 0,
+      "median_months": null,
+      "breaches": 0,
+      "worst_static": 8.3997,
+      "worst_daily": 1.98582,
+      "payout_count_windows": 0,
+      "payout_windows_usd": 0,
+      "standalone_payout": 1824.95,
+      "standalone_payout_count": 11,
+      "censored_phase1": 91,
+      "censored_phase2": 14,
+      "restricted_mean_months": 53.423760633616894,
+      "recent_starts": 33,
+      "recent_completions": 0
+    }
+  ],
+  "baseline_monte": [
+    {
+      "version": "V16",
+      "path": "MC-V16-OLHC-PRIMARY-100-summary.json",
+      "sha256": "53b99f73fd70deabc37a205dbf425fbc03ddec2dd8b63a9eeaf8fdf963ce2975",
+      "payout_basis": "Standalone Funded from path start; not payouts after passing Challenge.",
+      "paths": 5000,
+      "horizons": [
+        {
+          "months": 12,
+          "phase1_pct": 22.68,
+          "both_pct": 1.24,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 18,
+          "phase1_pct": 39.22,
+          "both_pct": 6.08,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 24,
+          "phase1_pct": 52.24,
+          "both_pct": 14.32,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 36,
+          "phase1_pct": 67.88,
+          "both_pct": 33.36,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        }
+      ],
+      "conditional_median_months": 25.90075290896646,
+      "mean_annual_payout_USD": 946.3679973333334,
+      "annual_payout_P25_P50_P75": [
+        544.9233333333334,
+        908.1883333333333,
+        1301.1891666666666
+      ],
+      "all_path_ledgers_independently_checked": true,
+      "no_clean_OOS_or_independent_feed": true,
+      "seconds_this_attempt": 2731.5078877999913,
+      "journal_sha256": "5a5061d65b18ff3fed66a0d0f49545b4a5094565699d02b4e89ea08e3312dab1",
+      "accounts_fully_audited": 10000,
+      "baseline": true,
+      "mode": "PRIMARY",
+      "order": "OLHC",
+      "friction": 100,
+      "binding": {
+        "pack": "c6d95b27a6ed1e7855551a06a2f8404dbf04ac9860416b960276c84035f657f3",
+        "selected": {
+          "name": "BASE_GUARD",
+          "gamma": null,
+          "weights": {
+            "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 1.0,
+            "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 1.0,
+            "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0
+          }
+        },
+        "baseline": true,
+        "friction": 100,
+        "stress_code": "a9949ce6892b6440935d9c2d5a11480e43abc56681487d72df43b4b94080adb0",
+        "policy_code": "c248965bf227522113a9b0eb682690330fc2272c01b7015c4c4fa7e5ecd16ec5",
+        "oracle_adapter": "dd0027601d7321900e384cbaf0d4b4558aa1707c1ffee3f72a47d5bebfba5909",
+        "count": 5000,
+        "seed": 20261116
+      }
+    },
+    {
+      "version": "V19",
+      "path": "MC-V19-OLHC-PRIMARY-100-summary.json",
+      "sha256": "a3bcea77e1cf6ecd0780cecb8e1fda01e21cd7ffe17a8e43e8b496a83c0e70fe",
+      "payout_basis": "Standalone Funded from path start; not payouts after passing Challenge.",
+      "paths": 5000,
+      "horizons": [
+        {
+          "months": 12,
+          "phase1_pct": 22.56,
+          "both_pct": 1.38,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 18,
+          "phase1_pct": 38.94,
+          "both_pct": 6.2,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 24,
+          "phase1_pct": 52.08,
+          "both_pct": 14.5,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 36,
+          "phase1_pct": 67.54,
+          "both_pct": 33.56,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        }
+      ],
+      "conditional_median_months": 25.88432580424367,
+      "mean_annual_payout_USD": 946.4054546666667,
+      "annual_payout_P25_P50_P75": [
+        542.3275,
+        906.205,
+        1301.695
+      ],
+      "all_path_ledgers_independently_checked": true,
+      "no_clean_OOS_or_independent_feed": true,
+      "seconds_this_attempt": 2601.0012219999917,
+      "journal_sha256": "46b592a66586b8e672bdf2ba5327344b747664e9b9e8a12c9bc01f51e6bc2552",
+      "accounts_fully_audited": 10000,
+      "baseline": false,
+      "mode": "PRIMARY",
+      "order": "OLHC",
+      "friction": 100,
+      "binding": {
+        "pack": "1546a2a6c8f3ff82c663c21dde56cdb642a073a98d53f358f649fa4f6ed68cef",
+        "selected": {
+          "name": "BASE_GUARD",
+          "gamma": null,
+          "weights": {
+            "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 1.0,
+            "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 1.0,
+            "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0
+          }
+        },
+        "baseline": false,
+        "friction": 100,
+        "stress_code": "a9949ce6892b6440935d9c2d5a11480e43abc56681487d72df43b4b94080adb0",
+        "policy_code": "c248965bf227522113a9b0eb682690330fc2272c01b7015c4c4fa7e5ecd16ec5",
+        "oracle_adapter": "dd0027601d7321900e384cbaf0d4b4558aa1707c1ffee3f72a47d5bebfba5909",
+        "count": 5000,
+        "seed": 20261116
+      }
+    },
+    {
+      "version": "V16",
+      "path": "MC-V16-OHLC-PRIMARY-100-summary.json",
+      "sha256": "0d317201060b41df058c0fdb03341909ad1ba659103b1eabaeb3beb837396f86",
+      "payout_basis": "Standalone Funded from path start; not payouts after passing Challenge.",
+      "paths": 5000,
+      "horizons": [
+        {
+          "months": 12,
+          "phase1_pct": 22.68,
+          "both_pct": 1.24,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 18,
+          "phase1_pct": 39.22,
+          "both_pct": 6.08,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 24,
+          "phase1_pct": 52.24,
+          "both_pct": 14.32,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 36,
+          "phase1_pct": 67.88,
+          "both_pct": 33.36,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        }
+      ],
+      "conditional_median_months": 25.90075290896646,
+      "mean_annual_payout_USD": 946.3679973333334,
+      "annual_payout_P25_P50_P75": [
+        544.9233333333334,
+        908.1883333333333,
+        1301.1891666666666
+      ],
+      "all_path_ledgers_independently_checked": true,
+      "no_clean_OOS_or_independent_feed": true,
+      "seconds_this_attempt": 4083.118215699971,
+      "journal_sha256": "f14017f543279024fdf69782b688e66f4da07a23e1ffb5ea2fcc3b986dd8bb75",
+      "accounts_fully_audited": 10000,
+      "baseline": true,
+      "mode": "PRIMARY",
+      "order": "OHLC",
+      "friction": 100,
+      "binding": {
+        "pack": "2c7d297320820f087b2fa1dc0e42bb82352d5d83be68f9984ffe3d9631cd1b9f",
+        "selected": {
+          "name": "BASE_GUARD",
+          "gamma": null,
+          "weights": {
+            "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 1.0,
+            "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 1.0,
+            "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0
+          }
+        },
+        "baseline": true,
+        "friction": 100,
+        "stress_code": "a9949ce6892b6440935d9c2d5a11480e43abc56681487d72df43b4b94080adb0",
+        "policy_code": "c248965bf227522113a9b0eb682690330fc2272c01b7015c4c4fa7e5ecd16ec5",
+        "oracle_adapter": "dd0027601d7321900e384cbaf0d4b4558aa1707c1ffee3f72a47d5bebfba5909",
+        "count": 5000,
+        "seed": 20261116
+      }
+    },
+    {
+      "version": "V19",
+      "path": "MC-V19-OHLC-PRIMARY-100-summary.json",
+      "sha256": "13d0ceb392bf1def0a5d902a1556c5318a2a28733aee6d4c9b8f186b4a52654e",
+      "payout_basis": "Standalone Funded from path start; not payouts after passing Challenge.",
+      "paths": 5000,
+      "horizons": [
+        {
+          "months": 12,
+          "phase1_pct": 22.56,
+          "both_pct": 1.38,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 18,
+          "phase1_pct": 38.94,
+          "both_pct": 6.2,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 24,
+          "phase1_pct": 52.08,
+          "both_pct": 14.5,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 36,
+          "phase1_pct": 67.54,
+          "both_pct": 33.56,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        }
+      ],
+      "conditional_median_months": 25.88432580424367,
+      "mean_annual_payout_USD": 946.4054546666667,
+      "annual_payout_P25_P50_P75": [
+        542.3275,
+        906.205,
+        1301.695
+      ],
+      "all_path_ledgers_independently_checked": true,
+      "no_clean_OOS_or_independent_feed": true,
+      "seconds_this_attempt": 2704.2798307000194,
+      "journal_sha256": "9c982993177fc4f034f894b1d37a14226e804a747bd0bbbd28929c3be1963be3",
+      "accounts_fully_audited": 10000,
+      "baseline": false,
+      "mode": "PRIMARY",
+      "order": "OHLC",
+      "friction": 100,
+      "binding": {
+        "pack": "6fd4656e808be83f22c4756b82ede1692c0286e8c2c576f3955b005c992f6852",
+        "selected": {
+          "name": "BASE_GUARD",
+          "gamma": null,
+          "weights": {
+            "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 1.0,
+            "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 1.0,
+            "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0
+          }
+        },
+        "baseline": false,
+        "friction": 100,
+        "stress_code": "a9949ce6892b6440935d9c2d5a11480e43abc56681487d72df43b4b94080adb0",
+        "policy_code": "c248965bf227522113a9b0eb682690330fc2272c01b7015c4c4fa7e5ecd16ec5",
+        "oracle_adapter": "dd0027601d7321900e384cbaf0d4b4558aa1707c1ffee3f72a47d5bebfba5909",
+        "count": 5000,
+        "seed": 20261116
+      }
+    }
+  ],
+  "tests": {
+    "passed": true,
+    "tests": 1295,
+    "zero_skip": true,
+    "preserved_V22_IDs": 1280,
+    "total_wall_seconds": 19.728213100002904,
+    "target_under132": false,
+    "added_IDs": [
+      "test_prop_v23.V23Tests.test_A1_drops_exact_sleeve_without_rescaling_other_trades",
+      "test_prop_v23.V23Tests.test_H1_price_availability_is_separate_from_Gold_holiday_admission",
+      "test_prop_v23.V23Tests.test_filtered_tape_remaps_only_entry_exit_preserves_quotes_clocks_and_input",
+      "test_prop_v23.V23Tests.test_mechanism_specific_gate_never_filters_F5",
+      "test_prop_v23.V23Tests.test_missing_tape_decision_is_not_treated_as_reject_or_accept",
+      "test_prop_v23.V23Tests.test_native_capture_rejects_account_drift_after_probe",
+      "test_prop_v23.V23Tests.test_watch_detects_later_target_and_requires_native_binding",
+      "test_prop_v23.V23Tests.test_watch_disappearing_terminal_cannot_silently_replay",
+      "test_prop_v23.V23Tests.test_watch_does_not_start_capture_after_wait_deadline",
+      "test_prop_v23.V23Tests.test_watch_interrupt_preserves_report_without_claiming_flat",
+      "test_prop_v23.V23Tests.test_watch_invalid_budget_does_not_create_output",
+      "test_prop_v23.V23Tests.test_watch_missing_binding_does_not_capture",
+      "test_prop_v23.V23Tests.test_watch_rejects_replay_result_even_if_callback_claims_completion",
+      "test_prop_v23.V23Tests.test_watch_timeout_is_bounded_and_does_not_capture",
+      "test_prop_v23.V23Tests.test_weakest_uses_dev_mean_not_global_top10_or_trade_count"
+    ],
+    "groups": {
+      "base": 19.46212910000031,
+      "native": 12.099342199999228,
+      "statistics": 6.017685900002107,
+      "worker": 4.060297200001514,
+      "observer": 3.139220799999748
+    }
+  },
+  "smoke": {
+    "rows": [
+      {
+        "attempt": 1,
+        "wall": 0.8760118999998667,
+        "tests": 78,
+        "passed": true,
+        "skipped": 0
+      },
+      {
+        "attempt": 2,
+        "wall": 0.8757115000007616,
+        "tests": 78,
+        "passed": true,
+        "skipped": 0
+      },
+      {
+        "attempt": 3,
+        "wall": 1.047918899999786,
+        "tests": 78,
+        "passed": true,
+        "skipped": 0
+      },
+      {
+        "attempt": 4,
+        "wall": 0.9060620999989624,
+        "tests": 78,
+        "passed": true,
+        "skipped": 0
+      },
+      {
+        "attempt": 5,
+        "wall": 0.8648278000000573,
+        "tests": 78,
+        "passed": true,
+        "skipped": 0
+      },
+      {
+        "attempt": 6,
+        "wall": 0.8731068000015512,
+        "tests": 78,
+        "passed": true,
+        "skipped": 0
+      },
+      {
+        "attempt": 7,
+        "wall": 0.8897655999971903,
+        "tests": 78,
+        "passed": true,
+        "skipped": 0
+      },
+      {
+        "attempt": 8,
+        "wall": 0.8327153000027465,
+        "tests": 78,
+        "passed": true,
+        "skipped": 0
+      },
+      {
+        "attempt": 9,
+        "wall": 0.8836364999988291,
+        "tests": 78,
+        "passed": true,
+        "skipped": 0
+      },
+      {
+        "attempt": 10,
+        "wall": 0.8691899000004923,
+        "tests": 78,
+        "passed": true,
+        "skipped": 0
+      }
+    ],
+    "below072": 0,
+    "median": 0.8758617000003142,
+    "max": 1.047918899999786
+  },
+  "watch": {
+    "schema": "MT5-watch-v23",
+    "status": "TIMEOUT_NO_READY_TARGET",
+    "actual_broker_orders": 0,
+    "native_capture_completed": false,
+    "wait_timeout_seconds": 2.0,
+    "capture_seconds": 2,
+    "permanent_service_installed": false,
+    "attempts": 2,
+    "total_wall_seconds": 2.2180000000007567
+  },
+  "integrity": {
+    "passed": true,
+    "compressed_tables": 31,
+    "manifests": [
+      {
+        "manifest": "AUDUSD-B2_ASIA_sweep=0.1-calendar-diagnostic-manifest.json",
+        "file": "AUDUSD-B2_ASIA_sweep=0.1-calendar-diagnostic.json.zst",
+        "original_bytes": 4136,
+        "compressed_bytes": 359,
+        "original_sha256": "83e8515384a8d7d3db0ab1298efbca8e7d016c3fcb9605af18c57347a87f48ab",
+        "compressed_sha256": "cc286d71298ea6b79de890ebac6a038a95447fa48cb705ce2bff9696fb125734",
+        "roundtrip_verified": true
+      },
+      {
+        "manifest": "AUDUSD-B2_ASIA_sweep=0.3-calendar-diagnostic-manifest.json",
+        "file": "AUDUSD-B2_ASIA_sweep=0.3-calendar-diagnostic.json.zst",
+        "original_bytes": 2254,
+        "compressed_bytes": 357,
+        "original_sha256": "77855d02cff8efedac29378add42db700632cb36f6e4b9402044aa1d98ad3e64",
+        "compressed_sha256": "7c374085bdc548b20e6e7930a2ea3e48d5ba5d9b18b50ec520500bb7cd15a259",
+        "roundtrip_verified": true
+      },
+      {
+        "manifest": "AUDUSD-B2_ASIA_sweep=0.6-calendar-diagnostic-manifest.json",
+        "file": "AUDUSD-B2_ASIA_sweep=0.6-calendar-diagnostic.json.zst",
+        "original_bytes": 1009,
+        "compressed_bytes": 360,
+        "original_sha256": "3c93a6aed806d093f26a776b213c84978166ea59f7c83f96a3da28ee2c75629c",
+        "compressed_sha256": "c7c12a81707e0c2275087078443111f459a1eb30bbd4293bc02e8b7c91347afe",
+        "roundtrip_verified": true
+      },
+      {
+        "manifest": "AUDUSD-B2_PD_sweep=0.1-calendar-diagnostic-manifest.json",
+        "file": "AUDUSD-B2_PD_sweep=0.1-calendar-diagnostic.json.zst",
+        "original_bytes": 2822,
+        "compressed_bytes": 361,
+        "original_sha256": "059e8d7e88e76adda207037734821f4e971dc0c4e81c3a952af0a22437131364",
+        "compressed_sha256": "0c33bae61e5d0381307e91a7d8f42cea184647de556a00be6ce85db7231efcd0",
+        "roundtrip_verified": true
+      },
+      {
+        "manifest": "AUDUSD-B2_PD_sweep=0.3-calendar-diagnostic-manifest.json",
+        "file": "AUDUSD-B2_PD_sweep=0.3-calendar-diagnostic.json.zst",
+        "original_bytes": 1813,
+        "compressed_bytes": 353,
+        "original_sha256": "34c14e2963f10f65f1738cb588a86026733ab38d4d314a573a8eb003781a1988",
+        "compressed_sha256": "7e33bc73bfb6ad6a4ebf0bfa0b016600155ba1b1d1d57cc53c57f574990940ff",
+        "roundtrip_verified": true
+      },
+      {
+        "manifest": "AUDUSD-B2_PD_sweep=0.6-calendar-diagnostic-manifest.json",
+        "file": "AUDUSD-B2_PD_sweep=0.6-calendar-diagnostic.json.zst",
+        "original_bytes": 1025,
+        "compressed_bytes": 354,
+        "original_sha256": "c6178f251d7a32373d62c080781719a29088ced1720b9f48b559d85c3560c750",
+        "compressed_sha256": "45e66c853dfa844a940e848f30d46eab5757d2fd5d836f683f3951a89690fb5b",
+        "roundtrip_verified": true
+      },
+      {
+        "manifest": "AUDUSD-F5-raw-manifest.json",
+        "file": "AUDUSD-F5-raw.json.zst",
+        "original_bytes": 31379,
+        "compressed_bytes": 7084,
+        "original_sha256": "4dfb8e44029b4d77b2c9a7729d4676ed93bb995dc3d05e518efdb6a03e1e2802",
+        "compressed_sha256": "2deed3dce7818670e8821335b3ced58914ffae403ff89372c061e9aabea23d95",
+        "roundtrip_verified": true
+      },
+      {
+        "manifest": "Dev-OHLC-PRIMARY-100-accounts-manifest.json",
+        "file": "Dev-OHLC-PRIMARY-100-accounts.json.zst",
+        "original_bytes": 10466379,
+        "compressed_bytes": 389302,
+        "original_sha256": "7de0c62f405f6a30c66016b818396693ec445b083dbd4dbb713530331e6aa7c8",
+        "compressed_sha256": "1d1c54709aae00f3048ab24ba28acf1e8045da5565ac929b57167be3d0deb265",
+        "roundtrip_verified": true
+      },
+      {
+        "manifest": "Dev-OHLC-PRIMARY-150-accounts-manifest.json",
+        "file": "Dev-OHLC-PRIMARY-150-accounts.json.zst",
+        "original_bytes": 10496548,
+        "compressed_bytes": 424651,
+        "original_sha256": "e2031c25c7701e8d640b77a0d1af8af55152c87326f87061083c4b6e3c201601",
+        "compressed_sha256": "f06dac0e5c502e7f4a245162e8e07a65cb7da6a4fc0c060535053c801cf26bbf",
+        "roundtrip_verified": true
+      },
+      {
+        "manifest": "Dev-OHLC-STRICT-100-accounts-manifest.json",
+        "file": "Dev-OHLC-STRICT-100-accounts.json.zst",
+        "original_bytes": 9435925,
+        "compressed_bytes": 347445,
+        "original_sha256": "b0b0d6633e5f160a5fffe715515121ff21458f7a9205b49f4ded5057c90f1fd5",
+        "compressed_sha256": "f8ca927b9d5df89776f6893f206af36df93d2ed95ae99a540730f03cd5edbbc2",
+        "roundtrip_verified": true
+      },
+      {
+        "manifest": "Dev-OLHC-PRIMARY-100-accounts-manifest.json",
+        "file": "Dev-OLHC-PRIMARY-100-accounts.json.zst",
+        "original_bytes": 10466379,
+        "compressed_bytes": 389415,
+        "original_sha256": "df7cdec35374d6e953ceae5277e8f87761fdcca3359aa7c1c566389ec40f51e6",
+        "compressed_sha256": "9a695424c7bee47d32872b7b282fdc90e80c5a7f6ff8dba5150ab14e4cbb85a0",
+        "roundtrip_verified": true
+      },
+      {
+        "manifest": "Dev-OLHC-PRIMARY-150-accounts-manifest.json",
+        "file": "Dev-OLHC-PRIMARY-150-accounts.json.zst",
+        "original_bytes": 10496548,
+        "compressed_bytes": 424637,
+        "original_sha256": "87f295fe03d30d8775f75bdfacd3677d4577ea930541a8cdf4b03bcfc41dcdf4",
+        "compressed_sha256": "74c214bc1f3b8c5f30eb7b265d76d24ac8492186e833a522e8b1a7f09ec78f67",
+        "roundtrip_verified": true
+      },
+      {
+        "manifest": "Dev-OLHC-STRICT-100-accounts-manifest.json",
+        "file": "Dev-OLHC-STRICT-100-accounts.json.zst",
+        "original_bytes": 9435925,
+        "compressed_bytes": 347424,
+        "original_sha256": "3798cb35d7b5d584d5ec7a72be640b803c4ba99f5cc4ba97447c49bf1af250a2",
+        "compressed_sha256": "a82f632aa4aa10c13c3b5d929b3f1e925999164831090f9988f12d8d63c6541c",
+        "roundtrip_verified": true
+      },
+      {
+        "manifest": "Full-OHLC-PRIMARY-100-accounts-manifest.json",
+        "file": "Full-OHLC-PRIMARY-100-accounts.json.zst",
+        "original_bytes": 20324626,
+        "compressed_bytes": 519956,
+        "original_sha256": "52ddd8b4d6a5465c4a335e0752e0b0b0a33302d01a0fd927e1d4c828ec17c82e",
+        "compressed_sha256": "0642f2cbe2850b585a04f739d03ef2c14b448d0f9fdac5e6bb0f8f7dbefe1bf7",
+        "roundtrip_verified": true
+      },
+      {
+        "manifest": "Full-OHLC-PRIMARY-150-accounts-manifest.json",
+        "file": "Full-OHLC-PRIMARY-150-accounts.json.zst",
+        "original_bytes": 20295664,
+        "compressed_bytes": 593386,
+        "original_sha256": "6dfe431fd5b4248790bbcc5eb6b3ac96362b71e0382f98d476804c689db2726f",
+        "compressed_sha256": "2b85b3a1935e1b7e2eb262a31275f409083ffec2905e3bc48b6d283ef9f8b09d",
+        "roundtrip_verified": true
+      },
+      {
+        "manifest": "Full-OHLC-STRICT-100-accounts-manifest.json",
+        "file": "Full-OHLC-STRICT-100-accounts.json.zst",
+        "original_bytes": 16668304,
+        "compressed_bytes": 593525,
+        "original_sha256": "abcf802e91212fbbefbab1009d2d6fab9ebda794ed4d2d5bd9247d6a3ba7ebb4",
+        "compressed_sha256": "f3831cdb435b51b5eca6058d01aed8689595d9e2cc8ab9093824b9f290ef677c",
+        "roundtrip_verified": true
+      },
+      {
+        "manifest": "Full-OLHC-PRIMARY-100-accounts-manifest.json",
+        "file": "Full-OLHC-PRIMARY-100-accounts.json.zst",
+        "original_bytes": 20324626,
+        "compressed_bytes": 519979,
+        "original_sha256": "7dfad16a4e42d7b7e16eb50edbd8b12c22e76d3afc7bcf478efc1b359019b6a3",
+        "compressed_sha256": "c1ad187225a7592b6c5ae1e572e17fd5a7410a0777e02c0963e687beb2c92580",
+        "roundtrip_verified": true
+      },
+      {
+        "manifest": "Full-OLHC-PRIMARY-150-accounts-manifest.json",
+        "file": "Full-OLHC-PRIMARY-150-accounts.json.zst",
+        "original_bytes": 20295664,
+        "compressed_bytes": 593247,
+        "original_sha256": "6d750583ea5dd4c4f3aa6eefa636b95f60a4f7298b810d6ee820496fea5ba75d",
+        "compressed_sha256": "3de354f169bc6844292b57814529ca5f22ae1baae536aeeebae10df150d313fe",
+        "roundtrip_verified": true
+      },
+      {
+        "manifest": "Full-OLHC-STRICT-100-accounts-manifest.json",
+        "file": "Full-OLHC-STRICT-100-accounts.json.zst",
+        "original_bytes": 16668304,
+        "compressed_bytes": 593536,
+        "original_sha256": "0f8bad914dad64798b471878302993a967cbb5e5e029b8b95b33a4a88f3e50d2",
+        "compressed_sha256": "c17fb05ec9a9d3ffcb1f179410a67a68602bdbda172493dd377ed48038d697bc",
+        "roundtrip_verified": true
+      },
+      {
+        "manifest": "GBPUSD-B2_ASIA_sweep=0.1-calendar-diagnostic-manifest.json",
+        "file": "GBPUSD-B2_ASIA_sweep=0.1-calendar-diagnostic.json.zst",
+        "original_bytes": 4645,
+        "compressed_bytes": 361,
+        "original_sha256": "e70b53fdcbf67567ea2432d16d73248cfd6579a2f4ed973c89dcfc3d32c9b871",
+        "compressed_sha256": "2ec9c33b0aab75ef7dd3a80eba8e5c42d9eaa9e1ee10a91cabb558bc7342940d",
+        "roundtrip_verified": true
+      },
+      {
+        "manifest": "GBPUSD-B2_ASIA_sweep=0.3-calendar-diagnostic-manifest.json",
+        "file": "GBPUSD-B2_ASIA_sweep=0.3-calendar-diagnostic.json.zst",
+        "original_bytes": 3078,
+        "compressed_bytes": 359,
+        "original_sha256": "d38a9acc161f47e3a6f42cfad53a88c9de852dc8804afb722f066afee70a7e97",
+        "compressed_sha256": "b7f952e601ea6fb90d6672faa1a5585ee4b5ab38f14319036f89a2cb98ab8bcc",
+        "roundtrip_verified": true
+      },
+      {
+        "manifest": "GBPUSD-B2_ASIA_sweep=0.6-calendar-diagnostic-manifest.json",
+        "file": "GBPUSD-B2_ASIA_sweep=0.6-calendar-diagnostic.json.zst",
+        "original_bytes": 1424,
+        "compressed_bytes": 355,
+        "original_sha256": "7940cf58704c202cd0556c8763d58edc81896c8ed3442ae998530fd3351a420f",
+        "compressed_sha256": "a95ab0ceb682acf5e4ebd96d6d83d0cdd2435a8eeba676139017074b96ea30e3",
+        "roundtrip_verified": true
+      },
+      {
+        "manifest": "GBPUSD-B2_PD_sweep=0.1-calendar-diagnostic-manifest.json",
+        "file": "GBPUSD-B2_PD_sweep=0.1-calendar-diagnostic.json.zst",
+        "original_bytes": 3226,
+        "compressed_bytes": 368,
+        "original_sha256": "384eca68b87d3e397b649a8e2cae328181b9e1fa4385fc85bb43d1f46b858157",
+        "compressed_sha256": "b2845125d3bc0e142a2dd664cac68887a86b156c384d446c64f2f9d02e7bb8a9",
+        "roundtrip_verified": true
+      },
+      {
+        "manifest": "GBPUSD-B2_PD_sweep=0.3-calendar-diagnostic-manifest.json",
+        "file": "GBPUSD-B2_PD_sweep=0.3-calendar-diagnostic.json.zst",
+        "original_bytes": 2105,
+        "compressed_bytes": 364,
+        "original_sha256": "8473d86e1f6095a26fd4a7a60a817588cc5c3c6ddc100d9358c65028d3174736",
+        "compressed_sha256": "7fede8c4d370cd677ff5f48c375180b107fbf26e1be136f37aff0617aa10d40f",
+        "roundtrip_verified": true
+      },
+      {
+        "manifest": "GBPUSD-B2_PD_sweep=0.6-calendar-diagnostic-manifest.json",
+        "file": "GBPUSD-B2_PD_sweep=0.6-calendar-diagnostic.json.zst",
+        "original_bytes": 1052,
+        "compressed_bytes": 353,
+        "original_sha256": "c4e52760e55f2ec014b795d0479e2cc8353599de894717f1f525aed2e1d16ed6",
+        "compressed_sha256": "83c406e3b13ce96fb1f443b30454b4f2f39ce4ac346a33efe014a82bee905bbb",
+        "roundtrip_verified": true
+      },
+      {
+        "manifest": "GBPUSD-F5-raw-manifest.json",
+        "file": "GBPUSD-F5-raw.json.zst",
+        "original_bytes": 29117,
+        "compressed_bytes": 6751,
+        "original_sha256": "8b56bf26d4822c4c685467fecb20b43e80cc517eed3b936d80e4e409eadc1d06",
+        "compressed_sha256": "052ddc5fd37d78a298c77111f57f8df4fb3599b7a7f67fa400b1edc4df0d90ea",
+        "roundtrip_verified": true
+      },
+      {
+        "manifest": "MC-OHLC-paths-manifest.json",
+        "file": "MC-OHLC-paths.json.zst",
+        "original_bytes": 3803116,
+        "compressed_bytes": 700499,
+        "original_sha256": "64afc3d9c32616e8c10aa458ca09e588ee34e1fac58314dfd46bb1f02ed8620a",
+        "compressed_sha256": "578603127c5825055bd24dfadc707ee414768d75b81f5c417f71381b46155270",
+        "roundtrip_verified": true
+      },
+      {
+        "manifest": "MC-OLHC-paths-manifest.json",
+        "file": "MC-OLHC-paths.json.zst",
+        "original_bytes": 3803111,
+        "compressed_bytes": 700838,
+        "original_sha256": "96431d5da71169d61a16e2060f7cd73c7a580199561958129456f7c7c2b385ab",
+        "compressed_sha256": "cd439b63e0793862b9ccad97d300bfa0a9d3f69247376375dd0caeb6cfff346b",
+        "roundtrip_verified": true
+      },
+      {
+        "manifest": "preflight-MC-OLHC-paths-manifest.json",
+        "file": "preflight-MC-OLHC-paths.json.zst",
+        "original_bytes": 1495,
+        "compressed_bytes": 571,
+        "original_sha256": "ac6c4b6e231a32e35b00c120057600d02dded0a530760970ff308c9b78217c1f",
+        "compressed_sha256": "836ff435e4ecbaffb03b01891aa412a459ca8f044912a8407c6c48eac2b9c9a5",
+        "roundtrip_verified": true
+      },
+      {
+        "manifest": "preflight-OLHC-PRIMARY-100-accounts-manifest.json",
+        "file": "preflight-OLHC-PRIMARY-100-accounts.json.zst",
+        "original_bytes": 261459,
+        "compressed_bytes": 27538,
+        "original_sha256": "072f216a726682b54c768b21782df7d516cf496e8ba0303c055ad889a59992cf",
+        "compressed_sha256": "72f093d1708c0481dfb20994844a8b9884397b183d4bc8d0f671eb901db5c49f",
+        "roundtrip_verified": true
+      },
+      {
+        "manifest": "XAUUSD-F5-raw-manifest.json",
+        "file": "XAUUSD-F5-raw.json.zst",
+        "original_bytes": 32363,
+        "compressed_bytes": 8765,
+        "original_sha256": "50a6382d635e0d9d7f67541e0149e647c815cfeeb594b7a8227932e8556096e9",
+        "compressed_sha256": "32bc4de9f3dab2dbe403b6818d79c3f776d0d0b7cf8d802934c417ee88fddfb6",
+        "roundtrip_verified": true
+      }
+    ],
+    "original_bytes": 183365521,
+    "compressed_bytes": 7192853,
+    "checks": [
+      "494 attribution conservation",
+      "V22 avoided/lost contributions",
+      "committed freeze pins",
+      "both orderings and all historical ledgers",
+      "10000 audited Challenge/funded pairs",
+      "compressed/raw SHA256 roundtrips"
+    ],
+    "independent_arithmetic_same_feed": true,
+    "remaining_source_gaps_not_repaired": true
+  },
+  "A1_tail_cadence": {
+    "full_kept": 391,
+    "annual_cadence": 44.5167760286783,
+    "ExGlobalTop10_R": -6.8062666666666685,
+    "baseline_ExGlobalTop10_R": -6.2810000000000015,
+    "remaining_source_uncertain": 30,
+    "original_source_uncertain": 32,
+    "no_new_selection": true
+  },
+  "performance_AB": {
+    "rows": [
+      {
+        "kind": "baseline",
+        "wall": 0.874501499998587,
+        "runner_seconds": 0.6693233999976655
+      },
+      {
+        "kind": "candidate",
+        "wall": 0.8765361000005214,
+        "runner_seconds": 0.6577082000003429
+      },
+      {
+        "kind": "baseline",
+        "wall": 0.82061750000139,
+        "runner_seconds": 0.6262513000001491
+      },
+      {
+        "kind": "candidate",
+        "wall": 0.8378512999988743,
+        "runner_seconds": 0.6432730999986234
+      },
+      {
+        "kind": "baseline",
+        "wall": 0.8482628000019758,
+        "runner_seconds": 0.6404892999998992
+      },
+      {
+        "kind": "candidate",
+        "wall": 0.8341467999998713,
+        "runner_seconds": 0.6295872999980929
+      },
+      {
+        "kind": "baseline",
+        "wall": 0.807410900000832,
+        "runner_seconds": 0.6167523000003712
+      },
+      {
+        "kind": "candidate",
+        "wall": 0.8295383999975456,
+        "runner_seconds": 0.6311846999997215
+      }
+    ]
+  },
+  "incumbent": "V16/V19 BASE_GUARD",
+  "A1_status": "DEV_SCREEN_PASSED_BUT_NOT_INCUMBENT_REPLACEMENT",
+  "prop_qualified": false,
+  "actual_broker_orders": 0,
+  "actual_payout_USD": 0,
+  "limits": [
+    "Later 2024-2026 history already exposed; no clean OOS claim.",
+    "Fixed150 unit-book attribution is not account lifecycle or real account performance.",
+    "All proposed child profiles and three exact transfers are counted; no new weights or thresholds.",
+    "Global top10 removal is descriptive; Dev selection used mean R/trade only.",
+    "Original 32/494 source-uncertain paths remain unresolved; removed F3 does not repair source gaps.",
+    "M1 ordering/Ask/cost/news/session proxies remain. H1 endpoints do not certify intrahour SL or equity.",
+    "Target FTMO holiday session can be closed while vendor quote exists; price coverage is separate.",
+    "Historical monthly starts overlap; conditional medians omit uncompleted starts.",
+    "Quarter-block bootstrap reuses exposed joint history and is not a future probability.",
+    "Standalone Funded payouts differ from post-Challenge payouts; neither is an actual payout.",
+    "Native watcher success and real execution slippage are unverified with no target terminal present.",
+    "Read-only observation never grants shadow/live execution or account submission."
+  ],
+  "bindings": {
+    "protocol_sha256": "b32aefecbea2f7a49d5c9275c5440e1de68071d164312a97a2f68fd5933db574",
+    "freeze_sha256": "f3d6cc090176379a7948de2bdd5b36ae549b72131ad90cfdc052f63b3f1d46b4",
+    "baseline_report_sha256": "8dc8ed4bfca2873256431003284662eb992ef78d6dca04da805492c7b6036e76"
+  }
+}

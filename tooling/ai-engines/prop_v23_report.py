@@ -111,7 +111,7 @@ def report():
          fmt(100*r['scale_ratio'],2),*[fmt(v) for v in r['cluster_net_R']],f"{r['dual_cluster_positive']} / {r['stage0_passed']}"] for r in f5['rows']])
     lines+=['','**0/3 qua Dual-Cluster; 0/3 qua Stage-0.** Không chạy SL/account cho losers. '
         'Tất cả còn thiếu cadence≥40 mỗi năm và ít nhất một năm âm/không bù ma sát.','',
-        '## 3. A1: mô phỏng tài khoản thật về mặt model, chưa là giao dịch thật','',
+        '## 3. A1: mô phỏng vòng đời tài khoản, chưa là giao dịch thật','',
         'Chỉ A1 qua Dev nên mới được chạy toàn kỳ. Reuse quote/event quarter tapes V19, bỏ đúng actions F3, '
         'giữ quotes/reset/session/cost/lot/shared risk/house-money. Mỗi case gồm 105 mốc mở Challenge hằng tháng '
         'và 1 sổ Standalone Funded, với oracle kiểm toàn ledger. Không cộng payout của các mốc chồng nhau thành thu nhập.','']
@@ -163,7 +163,9 @@ def report():
         f"**{smoke['below072']}/10 <0,72s**, median **{smoke['median']:.3f}s**, max **{smoke['max']:.6f}s**. "
         'Giữ mọi outlier; không retry chọn streak. Startup và fixture I/O nằm trong timer.','',
         'Profile smoke cho thấy chi phí import/filesystem. Thử A/B 8 samples xen kẽ dedup import roots không cho cải thiện nhất quán; '
-        'không đưa thay đổi đó vào source. MC workers cùng chạy trong A/B, nên không so absolute samples đó với final idle timing.','',
+        'không đưa thay đổi đó vào source. MC workers cùng chạy trong A/B, nên không so absolute samples đó với final timing sau khi MC kết thúc. '
+        '**Chưa đạt acceptance hiệu năng V23.** Tải ngoài trong đúng cửa sổ đo cuối chưa được profile; '
+        'chưa đủ bằng chứng quy nguyên nhân, không đổ toàn bộ cho15 test mới hoặc khẳng định máy đã idle.','',
         f"{integrity['compressed_tables']} bảng Zstd9: {integrity['original_bytes']:,} → {integrity['compressed_bytes']:,} bytes; "
         'SHA256 compressed/original và roundtrip đã kiểm. Journals/checkpoints/raw logs giữ nguyên để đối soát/resume; '
         'small human-readable receipts giữ JSON, không nhân bản price cache hoặc xóa nguồn.','',
