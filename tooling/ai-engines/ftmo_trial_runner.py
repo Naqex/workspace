@@ -35,6 +35,63 @@ def terminal_inventory():
     return value if isinstance(value,list) else [value]
 
 
+def check_mt5_ready(*, terminal=None, sdk=None, inventory=None):
+    """Inspect an existing FTMO demo IPC session; never login/select/send."""
+    started=time.perf_counter();initialized=False
+    r=dict(schema="MT5-readonly-preflight-v22",status="NOT_READY",read_only_ready=False,
+        shadow_ready=False,actual_broker_orders=0,terminal_connected=False,
+        last_reported_broker_ping_ms=None,ping_is_fresh_network_measurement=False,
+        remaining_shadow_requirements=["account/spec/session parity","news/holiday coverage","admitted seeds"])
+    try:
+        terminals=terminal_inventory() if inventory is None else inventory
+        r["terminals_seen"]=len(terminals)
+        if not terminals:r["reason"]="NO_RUNNING_TERMINAL";return r
+        if terminal is None:
+            if len(terminals)!=1:r["reason"]="MULTIPLE_TERMINALS_REQUIRE_EXPLICIT_PATH";return r
+            terminal=terminals[0].get("ExecutablePath")
+        if not terminal or str(Path(terminal).resolve()).casefold() not in {
+                str(Path(t["ExecutablePath"]).resolve()).casefold() for t in terminals if t.get("ExecutablePath")}:
+            r["reason"]="REQUESTED_TERMINAL_NOT_OBSERVED_RUNNING";return r
+        if sdk is None:
+            import importlib
+            sdk=importlib.import_module("MetaTrader5")
+        if not sdk.initialize(path=str(Path(terminal).resolve()),timeout=500):
+            r["reason"]="READONLY_IPC_ATTACH_FAILED";return r
+        initialized=True
+        account=sdk.account_info();info=sdk.terminal_info()
+        if account is None or info is None:r["reason"]="ACCOUNT_OR_TERMINAL_INFO_UNAVAILABLE";return r
+        a=account._asdict();ti=info._asdict()
+        if a.get("trade_mode")!=0:r["reason"]="DEMO_TRIAL_REQUIRED";return r
+        if "ftmo" not in (str(a.get("server",""))+str(a.get("company",""))).lower():
+            r["reason"]="NON_FTMO_ACCOUNT_OUTSIDE_SCOPE";return r
+        if a.get("currency")!="USD":r["reason"]="USD_ACCOUNT_REQUIRED";return r
+        r["account"]={k:a.get(k) for k in ("server","company","currency","trade_mode")}
+        r["terminal_connected"]=bool(ti.get("connected"))
+        ping=ti.get("ping_last")
+        if isinstance(ping,(int,float)) and math.isfinite(ping) and ping>=0:r["last_reported_broker_ping_ms"]=ping/1000
+        symbols={};now=int(time.time()*1000)
+        for asset in ASSETS:
+            spec=sdk.symbol_info(asset);tick=sdk.symbol_info_tick(asset) if spec is not None else None
+            quote=tick._asdict() if tick is not None else {}
+            valid=(isinstance(quote.get("time_msc"),int) and quote["time_msc"]<=now and
+                all(isinstance(quote.get(k),(int,float)) and math.isfinite(quote[k]) for k in ("bid","ask")) and
+                quote["bid"]>0 and quote["ask"]>=quote["bid"])
+            age=now-quote["time_msc"] if valid else None
+            symbols[asset]=dict(info_readable=spec is not None,quote_readable=bool(valid),quote_age_ms=age,
+                fresh=bool(valid and age<=120000),permission_inferred_from_read_success_only=True)
+        r["symbols"]=symbols
+        r["read_only_ready"]=r["terminal_connected"] and all(symbols[a]["fresh"] for a in adapter.ASSETS)
+        r["status"]="READ_ONLY_PROBE_OK" if r["read_only_ready"] else "NOT_READY"
+        r["reason"]="SHADOW_PARITY_STILL_REQUIRED" if r["read_only_ready"] else "DISCONNECTED_OR_ACTIVE_SYMBOL_QUOTE_UNAVAILABLE_OR_STALE"
+        return r
+    except Exception as exc:
+        r["reason"]="PREFLIGHT_ERROR";r["error_type"]=type(exc).__name__;return r
+    finally:
+        if initialized:sdk.shutdown()
+        r["probe_wall_ms"]=(time.perf_counter()-started)*1000
+        r["probe_under_one_second"]=r["probe_wall_ms"]<1000
+
+
 def snapshot(reader, now, *, replay=False):
     account=reader.account()
     if type(account.get("trade_mode")) is not int or account["trade_mode"] != 0:
@@ -351,7 +408,16 @@ def main():
     p.add_argument("--output",type=Path);p.add_argument("--manifest",type=Path);p.add_argument("--bridge",type=Path)
     p.add_argument("--replay",action="store_true");p.add_argument("--seconds",type=int,default=60)
     p.add_argument("--speed",type=float,default=1.);p.add_argument("--terminal")
+    p.add_argument("--check-mt5-ready",action="store_true")
     a=p.parse_args()
+    if a.check_mt5_ready:
+        if a.replay or a.bridge or a.manifest:p.error("readiness check is separate from replay/shadow manifests")
+        from prop_v22_common import JOB as check_root
+        out=a.output or check_root/("preflight-"+datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ"))
+        out.mkdir(parents=True,exist_ok=False)
+        result=check_mt5_ready(terminal=a.terminal);write(out/"MT5_PREFLIGHT.json",result)
+        print(json.dumps(dict(result,output=str(out))))
+        return 0 if result["read_only_ready"] else 2
     from prop_v20_common import JOB
     out=a.output or JOB/("observer-"+datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ"))
     try:run(a.mode,out,manifest=a.manifest,bridge=a.bridge,replay=a.replay,seconds=a.seconds,speed=a.speed,terminal=a.terminal)
@@ -361,4 +427,4 @@ def main():
     print(json.dumps(dict(output=str(out),mode=a.mode,actual_broker_orders=0)))
 
 
-if __name__=="__main__":main()
+if __name__=="__main__":raise SystemExit(main())

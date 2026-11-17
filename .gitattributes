@@ -27,3 +27,6 @@ planning/research/TRADE-FORENSICS-BEHAVIORAL-V21-*.md text eol=lf
 tooling/ai-engines/prop_v21_*.py text eol=lf
 tooling/ai-engines/quant_core/trade_forensics_classifier.py text eol=lf
 tooling/ai-engines/quant_core/behavioral_signals.py text eol=lf
+planning/research/EXHAUSTION-H1-ALIGN-V22-*.md text eol=lf
+tooling/ai-engines/prop_v22_*.py text eol=lf
+tooling/ai-engines/quant_core/exhaustion_gate.py text eol=lf
