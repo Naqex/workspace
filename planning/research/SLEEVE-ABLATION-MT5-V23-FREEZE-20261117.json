@@ -1,0 +1,42 @@
+{
+  "schema": "V23-Dev-freeze-v1",
+  "selected": {
+    "name": "A1_DROP_WEAKEST",
+    "drop_id": "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0"
+  },
+  "Development": [
+    1514764800000,
+    1704067200000
+  ],
+  "later_statistics_not_yet_computed": true,
+  "later_history_already_exposed": true,
+  "Dev_passes": [
+    "A1_DROP_WEAKEST"
+  ],
+  "F5_passes": [],
+  "financial_source_pins": {
+    "planning\\research\\SLEEVE-ABLATION-MT5-V23-PROTOCOL-20261117.md": "b32aefecbea2f7a49d5c9275c5440e1de68071d164312a97a2f68fd5933db574",
+    "D:\\ANNAM\\TradingWorkspace\\tooling\\ai-engines\\prop_v23_campaign.py": "a01b9380fc0d8e24df717bbf4073dc0ecf0709f12186c83ff43f7ebcfca17353",
+    "tooling\\ai-engines\\quant_core\\sleeve_ablation.py": "5ffc6459f7c76a1b28ca6d0c73499ed0733d0dbf282b5b43730dbe5a316ab76b"
+  },
+  "bindings": {
+    "registration.json": "1c20af9be445305809fc9793c4fcc0ba6576d56db919a1e009f165c4d503d518",
+    "profiles-before-outcomes.json": "06164d5dd43612b8a05e949da5b11ba5457028ae568c6dd53b7a59da8411901c",
+    "Dev-ablation-results.json": "f3cb64fabbaf56a6916ef52fcaa4633d2373195b47c868f2aeb7398258238a0b",
+    "F5-transfer-results.json": "617833107a0de7d9b9670db0bbf26ffbb588b39bfb0a126616c91a2f54e606c4",
+    "H1-calendar-diagnosis.json": "68b5c0bfcf4e3bdd41f61a937668df8bf95ea408b8edde8be74054da3eadd52f"
+  },
+  "baseline_profile": {
+    "name": "BASE_GUARD",
+    "gamma": null,
+    "weights": {
+      "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 1.0,
+      "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 1.0,
+      "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0
+    }
+  },
+  "baseline_report_sha256": "8dc8ed4bfca2873256431003284662eb992ef78d6dca04da805492c7b6036e76",
+  "no_risk_redistribution": true,
+  "source_gaps_remain": true,
+  "prop_qualified": false
+}
