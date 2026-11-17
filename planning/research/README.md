@@ -1,5 +1,16 @@
 # Tra cứu research đã có
 
+**V22 — hai cổng exhaustion rớt Dev; H120:00 chưa tạo booster:**
+[Kết quả](EXHAUSTION-H1-ALIGN-V22-RESULTS-20261117.md) /
+[JSON](EXHAUSTION-H1-ALIGN-V22-RESULTS-20261117.json) /
+[protocol](EXHAUSTION-H1-ALIGN-V22-PROTOCOL-20261117.md) /
+[freeze](EXHAUSTION-H1-ALIGN-V22-FREEZE-20261117.json).
+A/B giữ Dev top10 nhưng net giảm/DD tăng; không tune ngưỡng thứ3.
+GBP H1 endpoint2282/2288, AUD1789/1795;0/34 đủ Stage-0,22 cases M1 reuse.
+MT5 preflight không terminal, chưa native acceptance.1.280 PASS/0skip/full13,013s;
+smoke10/10<0,75s, stretch<0,72s chỉ9/10. PR100 đã merge, giữ baseline/source gaps.
+Trạng thái và CI receipts theo [current context](../CURRENT-CONTEXT.md).
+
 **V21 — đủ494 nhãn đường giá, không có cải tiến vượt Development:**
 [Kết quả](TRADE-FORENSICS-BEHAVIORAL-V21-RESULTS-20261117.md) /
 [JSON](TRADE-FORENSICS-BEHAVIORAL-V21-RESULTS-20261117.json) /
