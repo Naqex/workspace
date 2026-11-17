@@ -1,0 +1,35 @@
+{
+  "schema": "V22-Development-freeze-v1",
+  "selected": null,
+  "decision": "RETAIN_BASE_GUARD_NO_EXHAUSTION_OR_H1_BOOSTER_PROMOTED",
+  "Development": [
+    1514764800000,
+    1704067200000
+  ],
+  "gates": 2,
+  "behavioral_original_cells": 28,
+  "unchanged_reused": 22,
+  "GBP_rerun": 6,
+  "AUD_extra": 6,
+  "new_historical_accounts": 0,
+  "new_MC_paths": 0,
+  "Full_snapshots_not_yet_opened": true,
+  "later_history_already_exposed": true,
+  "bindings": {
+    "registration.json": "7cfdff1d30d350611036e027056de3f3aac11b707f9f313263a0c29892214c7b",
+    "threshold-fit-before-outcome.json": "926446237dc3f05dc25178288c6f2c8f208d28712a5e89be761cfd8605b7fa6f",
+    "Dev-gate-results.json": "6853eb61b27c0924222887d0886673cbbb4289ff3edb729b75d33d9c659a98c3",
+    "H1-behavioral-results.json": "9f1f534aad0915af99eb6955c3875671d4b9b1900ce4a80b28c25a5444e89648"
+  },
+  "code_pins": {
+    "tooling/ai-engines/prop_v22_development.py": "74c8009ea90ddaf83382a4aedfd541d6f8692c9503a0f38e9f89faeacb1dc1b5",
+    "tooling/ai-engines/quant_core/exhaustion_gate.py": "807fc87d5cb11ad616d37f8ef81d4bd3438b882c7658b73b75653123a2c964f3"
+  },
+  "thresholds": {
+    "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 1.4851891333067408,
+    "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.313211870661447
+  },
+  "top10_retention_not_sufficient_for_promotion": true,
+  "prop_qualified": false,
+  "actual_broker_orders": 0
+}

@@ -1,8 +1,36 @@
 # Current context — Naqex Workspace
 
-17/11/2026 · `RESEARCH: V21_DEV_REJECTED · SYSTEM: OFFLINE_OBSERVER_VERIFIED · PROP: NOT_QUALIFIED`.
+17/11/2026 · `RESEARCH: V22_DEV_REJECTED · SYSTEM: READONLY_PREFLIGHT_NO_TERMINAL · PROP: NOT_QUALIFIED`.
 
 ## Việc hiện tại
+
+**V22: hai cổng exhaustion rớt Dev; H120:00 phục hồi endpoint nhưng chưa có booster.**
+[Kết quả](research/EXHAUSTION-H1-ALIGN-V22-RESULTS-20261117.md) /
+[JSON](research/EXHAUSTION-H1-ALIGN-V22-RESULTS-20261117.json) /
+[protocol](research/EXHAUSTION-H1-ALIGN-V22-PROTOCOL-20261117.md) /
+[freeze](research/EXHAUSTION-H1-ALIGN-V22-FREEZE-20261117.json).
+PR100/head `1118904` merge `ec0cbe7`; nhánh V21 local/remote đã xóa.
+Nhánh `codex/exhaustion-gate-and-h1-align-v22`; protocol `98dd4ec`, freeze `f0b823a`
+trước Full entry snapshots. Global top10 =9 EURF5 +1 GoldF4; Dev-only top10 =8+2.
+A/B giữ10/10 Dev top10 nhưng net23,852R→23,329R/22,491R; equityDD tăng
+12,207R→12,788R/13,006R. A tránh17,289R lỗ nhưng bỏ17,813R winner; không threshold thứ3.
+L3 là label sau outcome, không thể loại riêng45 loss bằng filter biết trước.
+34 B2/B3 cells:22 M1 reuse,6 GBP H1 rerun,6 AUD thêm được đăng ký;0 Stage-0 survivors.
+GBP endpoint14/2288→2282/2288; AUD1789/1795. Missing vẫn có, không M1 giả,
+H1 không chứng minh intrahour SL/DD; cost-only retention tách quote availability.
+Không child qua Dev:0 Full child backtests/0 new historical accounts/0 MC paths;
+baseline105 starts/5.000 draws chỉ reuse có binding. Giữ V16/V19 BASE_GUARD.
+`--check-mt5-ready`: ca không terminal, whole CLI0,970s, probe594,8ms;
+native attach chưa kiểm; terminal ping không là RTT mới, shadow vẫn gated.
+1.280 PASS/0skip, giữ1.261 IDs, full13,013s. Smoke10/10<0,75s,9/10<0,72s,
+median0,678s/max0,720108s; giữ outlier, không retry streak.
+14 Zstd tables1.241.511→222.119bytes, exact SHA/roundtrip; không source deletion/cache copy.
+Private job `execution-v1/exhaustion-h1-align-v22-20261117` giữ evidence/CI receipts.
+PR101 để mở; exact-head3CI/downloaded IDs chốt trong `ci-exact-head-reconciliation.json`
+và `completion-receipt.json` sau push. Không financial worker còn chạy.
+Giữ Trader pin/VI WIP/nguồn/freezes/negative attempts; không broker/provider/deploy/Astra/memory.
+
+## V21 đã merge (lịch sử)
 
 **V21: đủ494 nhãn mô tả đường giá, chưa có cải tiến vượt Development.**
 [Kết quả](research/TRADE-FORENSICS-BEHAVIORAL-V21-RESULTS-20261117.md) /
@@ -25,8 +53,9 @@ Dev decision khóa trước Full baseline taxonomy. Không có candidate để c
 6/10<0,70s, median0,692s/max0,719s. Không retry chọn streak.
 Private job `execution-v1/trade-forensics-behavioral-v21-20261117` giữ raw Zstd/SHA,
 registrations/correction/Dev freeze/Full taxonomy/audit/tests/storage/CI receipts.
-PR100 để mở; exact-head3CI/downloaded IDs chốt trong `ci-exact-head-reconciliation.json`
-và `completion-receipt.json` sau push. Không financial worker còn chạy.
+PR100/head `1118904` đã merge `ec0cbe7` trong V22; nhánh V21 local/remote đã xóa.
+Exact-head3CI/downloaded IDs lịch sử giữ trong `ci-exact-head-reconciliation.json`
+và `completion-receipt.json` của job V21. Không financial worker còn chạy.
 Giữ Trader pin/VI WIP/nguồn/freezes/negatives; không broker/provider/deploy/Astra/memory.
 
 ## V20 đã merge (lịch sử)

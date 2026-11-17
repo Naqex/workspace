@@ -32,6 +32,18 @@ chỉ thay tốc độ phát lại, không đổi timestamps hoặc bỏ quotes.
 
 ## Chuyển sang shadow trên quote MT5 thật
 
+Kiểm tra nhanh terminal đang mở trước khi thu dữ liệu:
+
+```powershell
+uv run --project tooling/strategy-engines/observer --no-sync python -m tooling.ai_engines.ftmo_trial_runner --check-mt5-ready
+```
+
+Kết quả ở `MT5_PREFLIGHT.json`: connected, ping gần nhất do terminal báo,
+tuổi quote và symbol đọc được. Exit code `2` nghĩa chưa sẵn sàng; checker không
+tự bật terminal, login hoặc phát lại fixture. Ping này không là phép đo RTT mới.
+`read_only_ready=true` vẫn chưa là `shadow_ready`; sessions/news/seeds/spec parity
+cần xác minh riêng. Thời gian kiểm đo được phụ thuộc IPC và trạng thái máy.
+
 Không thể hứa cold setup hoàn tất trong 30 giây. Entry point có một lệnh,
 nhưng prerequisites phải được xác minh trước. Dùng thêm `--manifest <private.json>`
 và khi nhiều terminal có `--terminal <terminal64.exe>`. Runner không mở terminal,
