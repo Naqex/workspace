@@ -1,5 +1,16 @@
 # Tra cứu research đã có
 
+**V21 — đủ494 nhãn đường giá, không có cải tiến vượt Development:**
+[Kết quả](TRADE-FORENSICS-BEHAVIORAL-V21-RESULTS-20261117.md) /
+[JSON](TRADE-FORENSICS-BEHAVIORAL-V21-RESULTS-20261117.json) /
+[protocol](TRADE-FORENSICS-BEHAVIORAL-V21-PROTOCOL-20261117.md) /
+[freeze](TRADE-FORENSICS-BEHAVIORAL-V21-FREEZE-20261117.json).
+W1/W2/L1/L2/L3/L4 =194/24/12/28/45/191;40 nhãn provisional, không là skill certificate.
+Bỏ top10 winner thì42,392R thành−6,281R. B1 net giảm;0/28 B2/B3 qua Stage-0.
+Giữ bản lỗi dual-sweep và24 ca sửa;4 B3 reuse, không tune thêm/không chạy MC child.
+1.261 PASS/0skip, full13,176s; smoke10/10<0,78s, stretch<0,70s chỉ6/10.
+PR99 đã merge trong V21. Trạng thái/bindings/CI theo [current context](../CURRENT-CONTEXT.md).
+
 **V20 — hoàn tất phép đo; O2 scaling chưa thắng V16, chưa đủ điều kiện Challenge:**
 [Kết quả](VOLTARGET-SHADOW-V20-RESULTS-20261117.md) /
 [JSON](VOLTARGET-SHADOW-V20-RESULTS-20261117.json) /

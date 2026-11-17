@@ -78,9 +78,9 @@ flowchart LR
 | Đặt tên branch, commit/push, PR và dọn branch | [GitHub workflow](tooling/github-workflow/README.md) |
 | Quyền sử dụng và thương mại | [License](LICENSE) · [Chính sách](docs/licensing.md) |
 
-Đợt nghiên cứu gần nhất: [V20 — kết quả kiểm định](planning/research/VOLTARGET-SHADOW-V20-RESULTS-20261117.md)
+Đợt nghiên cứu gần nhất: [V21 — giải phẫu lệnh và kiểm định hành vi](planning/research/TRADE-FORENSICS-BEHAVIORAL-V21-RESULTS-20261117.md)
 và [quickstart chỉ đọc/shadow](planning/research/QUICKSTART-FTMO-FREE-TRIAL.md).
-O2 scaling chưa thắng V16; chưa có nâng cấp đủ chứng cứ để mua Challenge.
+V21 chưa có cải tiến vượt Development; chưa có nâng cấp đủ chứng cứ để mua Challenge.
 Observer đã kiểm replay, chưa xác minh trên MT5 thật; 32 lệnh thiếu giá lịch sử còn nguyên.
 
 README chỉ điều hướng. PLAN giữ scope; ledger/checkpoint do PLAN chỉ định giữ
