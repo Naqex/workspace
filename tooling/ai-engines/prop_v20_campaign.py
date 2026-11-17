@@ -7,13 +7,26 @@ import time
 import numpy as np
 from prop_v20_common import *
 from prop_v20_accounts import V20Account, FastV20Oracle
-from prop_v19_campaign import Tape
+from prop_v19_campaign import Tape as OriginalTape
 from prop_v18_costs import cost_bindings
 from prop_v18_bootstrap import draw_plan, sequence_for, MC_END, YEAR
 from prop_v19_stress import summarize
 from prop_v14_accounts import monthly_starts
 from prop_v15_campaign import metrics
 from quant_core.prop_lifecycle_and_parity import bindings
+
+
+class Tape(OriginalTape):
+    def __init__(self, tag, mode, dev=False):
+        meta = read(V19 / ("Dev-pack" if dev else "Full-pack") / f"{tag}-{mode}-blocks.json")
+        if Path(meta["quote_path"]).exists():
+            super().__init__(tag, mode, dev)
+        else:
+            from evidence_compaction import EvidenceStore
+            store = EvidenceStore(V19)
+            if store.canonical_sha(meta["quote_path"]) != meta["quote_sha256"]:
+                raise ValueError("V20_archived_quote_pack_changed")
+            self.meta, self.quotes, self.blocks = meta, np.asarray(store.numpy(meta["quote_path"])), meta["blocks"]
 
 
 def audit(tape, sequence, row):

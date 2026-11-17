@@ -23,6 +23,9 @@ def read(path):
 
 
 def sha(path):
+    if not Path(path).exists():
+        from evidence_compaction import EvidenceStore
+        return EvidenceStore(V19).canonical_sha(path)
     with Path(path).open("rb") as f:
         return hashlib.file_digest(f, "sha256").hexdigest()
 
