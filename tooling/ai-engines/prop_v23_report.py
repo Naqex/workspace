@@ -16,6 +16,7 @@ def report():
     h1=read(JOB/'H1-calendar-diagnosis.json');sessions=read(JOB/'H1-target-session-review.json')
     f5=read(JOB/'F5-transfer-results.json');tests=read(JOB/'tests-final-matrix.json');smoke=read(JOB/'smoke-final-results.json')
     integrity=read(JOB/'artifact-integrity-audit.json');assert integrity['passed']
+    tail=read(JOB/'A1-tail-cadence-diagnostic.json')
     baseline=read('planning/research/ASYMMETRIC-RECOVERY-V19-RESULTS-20261116.json')
     historical=[dict(scope=scope,**read(JOB/f'{scope}-{tag}-{mode}-{pct}-summary.json')) for scope in ('Dev','Full')
         for tag in ('OLHC','OHLC') for mode,pct in (('PRIMARY',100),('PRIMARY',150),('STRICT',100))]
@@ -24,7 +25,7 @@ def report():
     result=dict(schema='V23-results-v1',selection=frozen,Development=dev,attribution=post,H1_price=h1,H1_sessions=sessions,
         F5_transfers=f5,historical=historical,monte=mc,baseline_history=baseline['historical'],
         baseline_monte=[v for v in baseline['monte'] if v['mode']=='PRIMARY' and v['friction']==100],
-        tests=tests,smoke=smoke,watch=watch,integrity=integrity,performance_AB=read(JOB/'smoke-AB-results.json'),
+        tests=tests,smoke=smoke,watch=watch,integrity=integrity,A1_tail_cadence=tail,performance_AB=read(JOB/'smoke-AB-results.json'),
         incumbent='V16/V19 BASE_GUARD',A1_status='DEV_SCREEN_PASSED_BUT_NOT_INCUMBENT_REPLACEMENT',
         prop_qualified=False,actual_broker_orders=0,actual_payout_USD=0,
         limits=['Later 2024-2026 history already exposed; no clean OOS claim.',
@@ -124,7 +125,9 @@ def report():
         'Dev72 starts và OHLC mọi case giữ đầy đủ trong JSON.','',
         f"A1 fixed150 toàn kỳ giữ {post['orders']['OLHC']['full_selected_count']}/494 lệnh, "
         f"NetR {post['orders']['OLHC']['full_selected_unit_metrics']['net_R']:.4f} so với baseline42,3917R. "
-        'Đây là sổ đơn vị, chưa phải đường vốn tài khoản adaptive.','',
+        f"Cadence khoảng {tail['annual_cadence']:.2f} lệnh/năm; ExGlobalTop10 còn {tail['ExGlobalTop10_R']:.4f}R "
+        f"(baseline {tail['baseline_ExGlobalTop10_R']:.4f}R). A1 còn30/391 path source-uncertain "
+        'so với32/494 gốc: loại F3 không khôi phục dữ liệu thiếu. Đây là sổ đơn vị, chưa phải đường vốn tài khoản adaptive.','',
         'Bootstrap: **5.000 cùng draw plans cho mỗi ordering**, mỗi draw có Challenge + Standalone Funded, '
         '36 tháng và prefixes 12/18/24, giữ tương quan giữa tài sản qua joint quarter blocks. '
         '10.000 draw-order evaluations / 20.000 ledgers đều audit. Đây là tần suất resampling lịch sử đã exposed, '

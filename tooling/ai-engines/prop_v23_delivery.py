@@ -78,7 +78,7 @@ def tests():
     for i in range(10):
         out=JOB/f'smoke-final-{i:02d}.json';start=time.perf_counter()
         if out.exists():raise ValueError('Preserve final smoke attempt')
-        p=subprocess.run([sys.executable,'tooling/ai-engines/quant_test_suite.py','--group','base','--tier','smoke',
+        p=subprocess.run([RUNTIMES['base'],'tooling/ai-engines/quant_test_suite.py','--group','base','--tier','smoke',
             '--indexed-imports','--output',str(out)],capture_output=True,env=env)
         wall=time.perf_counter()-start;r=read(out)
         assert not p.returncode and r['passed'] and not r['skipped'] and set(r['timings'])==expected
