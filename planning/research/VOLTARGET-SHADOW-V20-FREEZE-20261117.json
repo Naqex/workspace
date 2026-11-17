@@ -1,0 +1,135 @@
+{
+  "schema": "V20-frozen-diagnostic-v1",
+  "fit": {
+    "k_sigma": 1.3427250066475998,
+    "k_DD": 1.0060868252930228,
+    "k_vol": 1.0060868252930228,
+    "source_Dev_worst_static": 7.9516,
+    "profiles": [
+      {
+        "name": "O2_UNSCALED",
+        "k": 1.0,
+        "house_money": true,
+        "weights": {
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 0.6795318286445249,
+          "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 0.25,
+          "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0921851359699877
+        }
+      },
+      {
+        "name": "O2_VOL",
+        "k": 1.0060868252930228,
+        "house_money": false,
+        "weights": {
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 0.6795318286445249,
+          "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 0.25,
+          "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0921851359699877
+        }
+      },
+      {
+        "name": "O2_VOL_CUSHION",
+        "k": 1.0060868252930228,
+        "house_money": true,
+        "weights": {
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 0.6795318286445249,
+          "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 0.25,
+          "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0921851359699877
+        }
+      }
+    ],
+    "Dev_only": true,
+    "fit_source_sha256": "ba41026d45ab6f7cccc1afb2d27fd4ce2f46098773a7139f8ad43d15bfa7ef42",
+    "ranking_source_sha256": "e29c1efd3998bbd56063dbfe4722c0ff00cd39fe43d4a54c8df45a2e85c1cf98",
+    "earlier_Validation_exposed": true,
+    "target_static_pct": 8.0,
+    "acceptance_static_pct": 8.2
+  },
+  "profiles": [
+    {
+      "name": "O2_UNSCALED",
+      "k": 1.0,
+      "house_money": true,
+      "weights": {
+        "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 0.6795318286445249,
+        "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 0.25,
+        "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0921851359699877
+      }
+    },
+    {
+      "name": "O2_VOL",
+      "k": 1.0060868252930228,
+      "house_money": false,
+      "weights": {
+        "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 0.6795318286445249,
+        "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 0.25,
+        "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0921851359699877
+      }
+    },
+    {
+      "name": "O2_VOL_CUSHION",
+      "k": 1.0060868252930228,
+      "house_money": true,
+      "weights": {
+        "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 0.6795318286445249,
+        "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 0.25,
+        "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0921851359699877
+      }
+    }
+  ],
+  "Development": [
+    {
+      "profile": {
+        "name": "O2_UNSCALED",
+        "k": 1.0,
+        "house_money": true,
+        "weights": {
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 0.6795318286445249,
+          "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 0.25,
+          "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0921851359699877
+        }
+      },
+      "worst_static": 7.9516,
+      "worst_daily": 1.731892,
+      "worst_completions": 0
+    },
+    {
+      "profile": {
+        "name": "O2_VOL",
+        "k": 1.0060868252930228,
+        "house_money": false,
+        "weights": {
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 0.6795318286445249,
+          "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 0.25,
+          "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0921851359699877
+        }
+      },
+      "worst_static": 7.95928,
+      "worst_daily": 0.951464,
+      "worst_completions": 0
+    },
+    {
+      "profile": {
+        "name": "O2_VOL_CUSHION",
+        "k": 1.0060868252930228,
+        "house_money": true,
+        "weights": {
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 0.6795318286445249,
+          "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 0.25,
+          "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0921851359699877
+        }
+      },
+      "worst_static": 7.95928,
+      "worst_daily": 1.75054,
+      "worst_completions": 0
+    }
+  ],
+  "no_winner_selected_from_Validation": true,
+  "validation_already_exposed": true,
+  "prop_qualified": false,
+  "code_pins": {
+    "planning\\research\\VOLTARGET-SHADOW-V20-PROTOCOL-20261117.md": "e6346da4451049d693d50a8cc7ac23d9c726995417868d8b3d6cfd8220c84780",
+    "tooling\\ai-engines\\prop_v20_accounts.py": "8938a0adf49e82cfb6292016616ef6a8de47d41b25e22b753cf499e29741a67b",
+    "tooling\\ai-engines\\prop_v20_campaign.py": "790099f13770a3351abe6123183762460a187dccd1e31b8ed58aca0bde1fe528",
+    "tooling\\ai-engines\\prop_v20_common.py": "503d7b8ea6fb067ae68cf17b91e5f260cd1f00b937732e3f16474b02c6b958e7"
+  }
+}

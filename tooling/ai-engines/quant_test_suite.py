@@ -3,6 +3,8 @@ import argparse
 from collections import defaultdict
 import contextlib
 import json
+import importlib.util
+import os
 from pathlib import Path
 import sys
 import time
@@ -14,7 +16,8 @@ NATIVE = {
     "test_us500_frequency_audit", "test_us500_ma_reclaim",
     "test_us500_multiframe", "test_us500_opportunities", "test_us500_recent_setups",
 }
-SPECIAL = NATIVE | {"test_fx_pair_formation", "test_engine_worker"}
+OBSERVER = {"test_evidence_compaction", "test_ftmo_trial_runner"}
+SPECIAL = NATIVE | OBSERVER | {"test_fx_pair_formation", "test_engine_worker"}
 FAST = {
     "test_prop_campaign", "test_prop_atlas_v2", "test_prop_portfolio_v3",
     "test_prop_cocore_v4", "test_prop_v5", "test_prop_v6", "test_prop_v7", "test_prop_v8",
@@ -25,11 +28,29 @@ FAST = {
     "test_vectorized_stage0", "test_deep_storage", "test_zero_tuning_ensemble",
     "test_sl_active_kernel", "test_independent_ledger_auditor", "test_v12_signals",
     "test_gap_aware_execution", "test_v13_protocol", "test_prop_v14", "test_prop_v15", "test_prop_v16", "test_prop_v17", "test_prop_v18",
-    "test_prop_v19", "test_ftmo_free_trial_adapter", "test_v19_covariance",
+    "test_prop_v19", "test_ftmo_free_trial_adapter", "test_v19_covariance", "test_prop_v20",
+    "test_evidence_compaction", "test_ftmo_trial_runner",
 }
 SMOKE = {"test_quant_core", "test_vectorized_stage0", "test_workspace_maintenance",
          "test_deep_storage", "test_zero_tuning_ensemble", "test_sl_active_kernel",
          "test_independent_ledger_auditor", "test_gap_aware_execution"}
+
+
+class RepoModuleFinder:
+    """Index only these already-prioritized local roots; standard loader reads source/pyc."""
+    def __init__(self):
+        source = Path(__file__).parent
+        self.files = {}
+        for folder, prefix in ((source, ""), (source / "tests", ""), (source / "quant_core", "quant_core.")):
+            for entry in os.scandir(folder):
+                if entry.name.endswith(".py") and entry.is_file() and entry.name != "__init__.py":
+                    name = prefix + entry.name[:-3]
+                    if prefix or name.startswith(("test_", "prop_", "xau_", "eurusd_", "us500_")):
+                        self.files.setdefault(name, entry.path)
+
+    def find_spec(self, fullname, path=None, target=None):
+        filename = self.files.get(fullname)
+        return importlib.util.spec_from_file_location(fullname, filename) if filename else None
 
 
 def modules(group, tier):
@@ -39,6 +60,7 @@ def modules(group, tier):
         "native": lambda m: m in NATIVE,
         "statistics": lambda m: m == "test_fx_pair_formation",
         "worker": lambda m: m == "test_engine_worker",
+        "observer": lambda m: m in OBSERVER,
         "complete": lambda m: True,
     }[group]
     if tier == "smoke":
@@ -61,13 +83,17 @@ class TimedResult(unittest.TextTestResult):
         super().stopTest(test)
 
 
-def run(group, tier, output, selected=None):
+def run(group, tier, output, selected=None, indexed_imports=False):
     selected = modules(group, tier) if selected is None else selected
     # PYTHONPATH and unittest callers can already contain both entries. Repeated
     # search roots add filesystem probes to every import on Windows.
-    candidates = [str(Path(__file__).parent), str(Path(__file__).with_name("tests")), *sys.path]
+    candidates = [str(Path(__file__).parent), str(Path(__file__).with_name("tests")),
+                  str(Path(__file__).resolve().parents[2]), *sys.path]
     sys.path = list(dict.fromkeys(str(Path(p).resolve()) for p in candidates))
     start = time.perf_counter()
+    finder = RepoModuleFinder() if indexed_imports else None
+    if finder is not None:
+        sys.meta_path.insert(0, finder)
     with output.with_suffix(".log").open("w", encoding="utf-8") as log, \
             contextlib.redirect_stdout(log), contextlib.redirect_stderr(log):
         load_start = time.perf_counter()
@@ -78,6 +104,8 @@ def run(group, tier, output, selected=None):
         # for the lazy imports performed by individual test cases.
         sys.path = list(dict.fromkeys(sys.path))
         result = unittest.TextTestRunner(stream=log, verbosity=2, resultclass=TimedResult).run(suite)
+    if finder is not None:
+        sys.meta_path.remove(finder)
     totals = defaultdict(float)
     for name, duration in result.timings.items():
         totals[name.split(".")[0]] += duration
@@ -86,7 +114,7 @@ def run(group, tier, output, selected=None):
                    failures=len(result.failures), errors=len(result.errors),
                    seconds=time.perf_counter() - start, import_seconds=load_seconds,
                    timings=result.timings, module_seconds=dict(sorted(totals.items(), key=lambda x: -x[1])),
-                   python=sys.executable)
+                   python=sys.executable, indexed_imports=indexed_imports)
     output.write_text(json.dumps(receipt, indent=2), encoding="utf-8")
     print(json.dumps({k: v for k, v in receipt.items() if k not in ("timings", "module_seconds", "modules")}))
     return 0 if result.wasSuccessful() else 1
@@ -143,14 +171,15 @@ def parallel(group, tier, output, workers, profile=None):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--group", choices=("base", "native", "statistics", "worker", "complete"), default="base")
+    parser.add_argument("--group", choices=("base", "native", "statistics", "worker", "observer", "complete"), default="base")
     parser.add_argument("--tier", choices=("smoke", "fast", "historical", "all"), default="all")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--workers", type=int, choices=(1, 2, 4), default=1)
+    parser.add_argument("--indexed-imports", action="store_true")
     parser.add_argument("--profile", type=Path)
     parser.add_argument("--module", action="append")
     args = parser.parse_args()
     if args.module and (args.workers != 1 or not set(args.module) <= set(modules(args.group, args.tier))):
         parser.error("--module requires a registered serial subset")
     raise SystemExit(parallel(args.group, args.tier, args.output, args.workers, args.profile)
-                     if args.workers > 1 else run(args.group, args.tier, args.output, args.module))
+                     if args.workers > 1 else run(args.group, args.tier, args.output, args.module, args.indexed_imports))

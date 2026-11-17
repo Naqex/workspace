@@ -1,0 +1,3949 @@
+{
+  "schema": "V20-results-v1",
+  "prop_qualified": false,
+  "O2_promoted": false,
+  "incumbent": "BASE_GUARD",
+  "actual_broker_orders": 0,
+  "actual_payout_USD": 0,
+  "decision": "RESEARCH_ONLY_EXECUTION_AND_SOURCE_GATES_REMAIN_OPEN",
+  "merged_PR98": "9fba6e006538fe933a11faaf0faf8e02a9e1b249",
+  "frozen": {
+    "schema": "V20-frozen-diagnostic-v1",
+    "fit": {
+      "k_sigma": 1.3427250066475998,
+      "k_DD": 1.0060868252930228,
+      "k_vol": 1.0060868252930228,
+      "source_Dev_worst_static": 7.9516,
+      "profiles": [
+        {
+          "name": "O2_UNSCALED",
+          "k": 1.0,
+          "house_money": true,
+          "weights": {
+            "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 0.6795318286445249,
+            "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 0.25,
+            "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0921851359699877
+          }
+        },
+        {
+          "name": "O2_VOL",
+          "k": 1.0060868252930228,
+          "house_money": false,
+          "weights": {
+            "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 0.6795318286445249,
+            "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 0.25,
+            "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0921851359699877
+          }
+        },
+        {
+          "name": "O2_VOL_CUSHION",
+          "k": 1.0060868252930228,
+          "house_money": true,
+          "weights": {
+            "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 0.6795318286445249,
+            "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 0.25,
+            "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0921851359699877
+          }
+        }
+      ],
+      "Dev_only": true,
+      "fit_source_sha256": "ba41026d45ab6f7cccc1afb2d27fd4ce2f46098773a7139f8ad43d15bfa7ef42",
+      "ranking_source_sha256": "e29c1efd3998bbd56063dbfe4722c0ff00cd39fe43d4a54c8df45a2e85c1cf98",
+      "earlier_Validation_exposed": true,
+      "target_static_pct": 8.0,
+      "acceptance_static_pct": 8.2
+    },
+    "profiles": [
+      {
+        "name": "O2_UNSCALED",
+        "k": 1.0,
+        "house_money": true,
+        "weights": {
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 0.6795318286445249,
+          "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 0.25,
+          "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0921851359699877
+        }
+      },
+      {
+        "name": "O2_VOL",
+        "k": 1.0060868252930228,
+        "house_money": false,
+        "weights": {
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 0.6795318286445249,
+          "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 0.25,
+          "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0921851359699877
+        }
+      },
+      {
+        "name": "O2_VOL_CUSHION",
+        "k": 1.0060868252930228,
+        "house_money": true,
+        "weights": {
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 0.6795318286445249,
+          "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 0.25,
+          "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0921851359699877
+        }
+      }
+    ],
+    "Development": [
+      {
+        "profile": {
+          "name": "O2_UNSCALED",
+          "k": 1.0,
+          "house_money": true,
+          "weights": {
+            "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 0.6795318286445249,
+            "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 0.25,
+            "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0921851359699877
+          }
+        },
+        "worst_static": 7.9516,
+        "worst_daily": 1.731892,
+        "worst_completions": 0
+      },
+      {
+        "profile": {
+          "name": "O2_VOL",
+          "k": 1.0060868252930228,
+          "house_money": false,
+          "weights": {
+            "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 0.6795318286445249,
+            "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 0.25,
+            "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0921851359699877
+          }
+        },
+        "worst_static": 7.95928,
+        "worst_daily": 0.951464,
+        "worst_completions": 0
+      },
+      {
+        "profile": {
+          "name": "O2_VOL_CUSHION",
+          "k": 1.0060868252930228,
+          "house_money": true,
+          "weights": {
+            "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 0.6795318286445249,
+            "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 0.25,
+            "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0921851359699877
+          }
+        },
+        "worst_static": 7.95928,
+        "worst_daily": 1.75054,
+        "worst_completions": 0
+      }
+    ],
+    "no_winner_selected_from_Validation": true,
+    "validation_already_exposed": true,
+    "prop_qualified": false,
+    "code_pins": {
+      "planning\\research\\VOLTARGET-SHADOW-V20-PROTOCOL-20261117.md": "e6346da4451049d693d50a8cc7ac23d9c726995417868d8b3d6cfd8220c84780",
+      "tooling\\ai-engines\\prop_v20_accounts.py": "8938a0adf49e82cfb6292016616ef6a8de47d41b25e22b753cf499e29741a67b",
+      "tooling\\ai-engines\\prop_v20_campaign.py": "790099f13770a3351abe6123183762460a187dccd1e31b8ed58aca0bde1fe528",
+      "tooling\\ai-engines\\prop_v20_common.py": "503d7b8ea6fb067ae68cf17b91e5f260cd1f00b937732e3f16474b02c6b958e7"
+    }
+  },
+  "fit": {
+    "k_sigma": 1.3427250066475998,
+    "k_DD": 1.0060868252930228,
+    "k_vol": 1.0060868252930228,
+    "source_Dev_worst_static": 7.9516,
+    "profiles": [
+      {
+        "name": "O2_UNSCALED",
+        "k": 1.0,
+        "house_money": true,
+        "weights": {
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 0.6795318286445249,
+          "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 0.25,
+          "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0921851359699877
+        }
+      },
+      {
+        "name": "O2_VOL",
+        "k": 1.0060868252930228,
+        "house_money": false,
+        "weights": {
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 0.6795318286445249,
+          "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 0.25,
+          "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0921851359699877
+        }
+      },
+      {
+        "name": "O2_VOL_CUSHION",
+        "k": 1.0060868252930228,
+        "house_money": true,
+        "weights": {
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 0.6795318286445249,
+          "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 0.25,
+          "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0921851359699877
+        }
+      }
+    ],
+    "Dev_only": true,
+    "fit_source_sha256": "ba41026d45ab6f7cccc1afb2d27fd4ce2f46098773a7139f8ad43d15bfa7ef42",
+    "ranking_source_sha256": "e29c1efd3998bbd56063dbfe4722c0ff00cd39fe43d4a54c8df45a2e85c1cf98",
+    "earlier_Validation_exposed": true,
+    "target_static_pct": 8.0,
+    "acceptance_static_pct": 8.2
+  },
+  "historical": [
+    {
+      "order": "OLHC",
+      "mode": "PRIMARY",
+      "friction": 100,
+      "profile": "O2_UNSCALED",
+      "windows": 105,
+      "phase1": 65,
+      "funded": 9,
+      "median_months": 66.0321697467488,
+      "breaches": 0,
+      "worst_static": 5.45882,
+      "worst_daily": 1.98828,
+      "payout_count_windows": 72,
+      "payout_windows_usd": 8017.01,
+      "standalone_payout": 4722.89,
+      "standalone_payout_count": 39,
+      "censored_phase1": 40,
+      "censored_phase2": 56,
+      "restricted_mean_months": 50.60852644959421,
+      "account_net_R_sum": 2521.9939553541685,
+      "overlapping_start_net_R_not_additive_performance": true,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "order": "OLHC",
+      "mode": "PRIMARY",
+      "friction": 100,
+      "profile": "O2_VOL",
+      "windows": 105,
+      "phase1": 59,
+      "funded": 11,
+      "median_months": 70.5003422313484,
+      "breaches": 0,
+      "worst_static": 5.5991,
+      "worst_daily": 1.10118,
+      "payout_count_windows": 54,
+      "payout_windows_usd": 3902.0200000000004,
+      "standalone_payout": 4758.66,
+      "standalone_payout_count": 39,
+      "censored_phase1": 46,
+      "censored_phase2": 48,
+      "restricted_mean_months": 50.370007496496214,
+      "account_net_R_sum": 2515.6000793875014,
+      "overlapping_start_net_R_not_additive_performance": true,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "order": "OLHC",
+      "mode": "PRIMARY",
+      "friction": 100,
+      "profile": "O2_VOL_CUSHION",
+      "windows": 105,
+      "phase1": 66,
+      "funded": 10,
+      "median_months": 65.98288843258042,
+      "breaches": 0,
+      "worst_static": 5.5991,
+      "worst_daily": 1.9959,
+      "payout_count_windows": 65,
+      "payout_windows_usd": 7528.1,
+      "standalone_payout": 4758.66,
+      "standalone_payout_count": 39,
+      "censored_phase1": 39,
+      "censored_phase2": 56,
+      "restricted_mean_months": 50.51961800462827,
+      "account_net_R_sum": 2509.511396833927,
+      "overlapping_start_net_R_not_additive_performance": true,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "order": "OLHC",
+      "mode": "PRIMARY",
+      "friction": 150,
+      "profile": "O2_UNSCALED",
+      "windows": 105,
+      "phase1": 38,
+      "funded": 4,
+      "median_months": 75.46132785763176,
+      "breaches": 0,
+      "worst_static": 5.75886,
+      "worst_daily": 2.03824,
+      "payout_count_windows": 4,
+      "payout_windows_usd": 619.8,
+      "standalone_payout": 3481.38,
+      "standalone_payout_count": 29,
+      "censored_phase1": 67,
+      "censored_phase2": 34,
+      "restricted_mean_months": 52.339702095759584,
+      "account_net_R_sum": 1867.6362756086746,
+      "overlapping_start_net_R_not_additive_performance": true,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "order": "OLHC",
+      "mode": "PRIMARY",
+      "friction": 150,
+      "profile": "O2_VOL",
+      "windows": 105,
+      "phase1": 25,
+      "funded": 0,
+      "median_months": null,
+      "breaches": 0,
+      "worst_static": 5.8232,
+      "worst_daily": 1.12926,
+      "payout_count_windows": 0,
+      "payout_windows_usd": 0,
+      "standalone_payout": 3513.67,
+      "standalone_payout_count": 28,
+      "censored_phase1": 80,
+      "censored_phase2": 25,
+      "restricted_mean_months": 53.423760633616894,
+      "account_net_R_sum": 1864.6978851149338,
+      "overlapping_start_net_R_not_additive_performance": true,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "order": "OLHC",
+      "mode": "PRIMARY",
+      "friction": 150,
+      "profile": "O2_VOL_CUSHION",
+      "windows": 105,
+      "phase1": 43,
+      "funded": 4,
+      "median_months": 75.46132785763176,
+      "breaches": 0,
+      "worst_static": 5.8232,
+      "worst_daily": 2.0458,
+      "payout_count_windows": 4,
+      "payout_windows_usd": 619.8,
+      "standalone_payout": 3513.67,
+      "standalone_payout_count": 28,
+      "censored_phase1": 62,
+      "censored_phase2": 39,
+      "restricted_mean_months": 52.339702095759584,
+      "account_net_R_sum": 1861.128380504828,
+      "overlapping_start_net_R_not_additive_performance": true,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "order": "OLHC",
+      "mode": "STRICT",
+      "friction": 100,
+      "profile": "O2_UNSCALED",
+      "windows": 105,
+      "phase1": 2,
+      "funded": 0,
+      "median_months": null,
+      "breaches": 0,
+      "worst_static": 8.158472,
+      "worst_daily": 1.89464,
+      "payout_count_windows": 0,
+      "payout_windows_usd": 0,
+      "standalone_payout": 1481.87,
+      "standalone_payout_count": 15,
+      "censored_phase1": 103,
+      "censored_phase2": 2,
+      "restricted_mean_months": 53.423760633616894,
+      "account_net_R_sum": -695.1698340724906,
+      "overlapping_start_net_R_not_additive_performance": true,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "order": "OLHC",
+      "mode": "STRICT",
+      "friction": 100,
+      "profile": "O2_VOL",
+      "windows": 105,
+      "phase1": 0,
+      "funded": 0,
+      "median_months": null,
+      "breaches": 0,
+      "worst_static": 8.169892,
+      "worst_daily": 1.10118,
+      "payout_count_windows": 0,
+      "payout_windows_usd": 0,
+      "standalone_payout": 1499.76,
+      "standalone_payout_count": 15,
+      "censored_phase1": 105,
+      "censored_phase2": 0,
+      "restricted_mean_months": 53.423760633616894,
+      "account_net_R_sum": -565.5677251981714,
+      "overlapping_start_net_R_not_additive_performance": true,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "order": "OLHC",
+      "mode": "STRICT",
+      "friction": 100,
+      "profile": "O2_VOL_CUSHION",
+      "windows": 105,
+      "phase1": 2,
+      "funded": 0,
+      "median_months": null,
+      "breaches": 0,
+      "worst_static": 8.169892,
+      "worst_daily": 1.89464,
+      "payout_count_windows": 0,
+      "payout_windows_usd": 0,
+      "standalone_payout": 1499.76,
+      "standalone_payout_count": 15,
+      "censored_phase1": 103,
+      "censored_phase2": 2,
+      "restricted_mean_months": 53.423760633616894,
+      "account_net_R_sum": -685.8721593169591,
+      "overlapping_start_net_R_not_additive_performance": true,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "order": "OHLC",
+      "mode": "PRIMARY",
+      "friction": 100,
+      "profile": "O2_UNSCALED",
+      "windows": 105,
+      "phase1": 65,
+      "funded": 9,
+      "median_months": 66.0321697467488,
+      "breaches": 0,
+      "worst_static": 5.45882,
+      "worst_daily": 1.98828,
+      "payout_count_windows": 72,
+      "payout_windows_usd": 8017.01,
+      "standalone_payout": 4722.89,
+      "standalone_payout_count": 39,
+      "censored_phase1": 40,
+      "censored_phase2": 56,
+      "restricted_mean_months": 50.60852644959421,
+      "account_net_R_sum": 2521.9939553541685,
+      "overlapping_start_net_R_not_additive_performance": true,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "order": "OHLC",
+      "mode": "PRIMARY",
+      "friction": 100,
+      "profile": "O2_VOL",
+      "windows": 105,
+      "phase1": 59,
+      "funded": 11,
+      "median_months": 70.5003422313484,
+      "breaches": 0,
+      "worst_static": 5.5991,
+      "worst_daily": 1.10118,
+      "payout_count_windows": 54,
+      "payout_windows_usd": 3902.0200000000004,
+      "standalone_payout": 4758.66,
+      "standalone_payout_count": 39,
+      "censored_phase1": 46,
+      "censored_phase2": 48,
+      "restricted_mean_months": 50.370007496496214,
+      "account_net_R_sum": 2515.6000793875014,
+      "overlapping_start_net_R_not_additive_performance": true,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "order": "OHLC",
+      "mode": "PRIMARY",
+      "friction": 100,
+      "profile": "O2_VOL_CUSHION",
+      "windows": 105,
+      "phase1": 66,
+      "funded": 10,
+      "median_months": 65.98288843258042,
+      "breaches": 0,
+      "worst_static": 5.5991,
+      "worst_daily": 1.9959,
+      "payout_count_windows": 65,
+      "payout_windows_usd": 7528.1,
+      "standalone_payout": 4758.66,
+      "standalone_payout_count": 39,
+      "censored_phase1": 39,
+      "censored_phase2": 56,
+      "restricted_mean_months": 50.51961800462827,
+      "account_net_R_sum": 2509.511396833927,
+      "overlapping_start_net_R_not_additive_performance": true,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "order": "OHLC",
+      "mode": "PRIMARY",
+      "friction": 150,
+      "profile": "O2_UNSCALED",
+      "windows": 105,
+      "phase1": 38,
+      "funded": 4,
+      "median_months": 75.46132785763176,
+      "breaches": 0,
+      "worst_static": 5.75886,
+      "worst_daily": 2.03824,
+      "payout_count_windows": 4,
+      "payout_windows_usd": 619.8,
+      "standalone_payout": 3481.38,
+      "standalone_payout_count": 29,
+      "censored_phase1": 67,
+      "censored_phase2": 34,
+      "restricted_mean_months": 52.339702095759584,
+      "account_net_R_sum": 1867.6362756086746,
+      "overlapping_start_net_R_not_additive_performance": true,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "order": "OHLC",
+      "mode": "PRIMARY",
+      "friction": 150,
+      "profile": "O2_VOL",
+      "windows": 105,
+      "phase1": 25,
+      "funded": 0,
+      "median_months": null,
+      "breaches": 0,
+      "worst_static": 5.8232,
+      "worst_daily": 1.12926,
+      "payout_count_windows": 0,
+      "payout_windows_usd": 0,
+      "standalone_payout": 3513.67,
+      "standalone_payout_count": 28,
+      "censored_phase1": 80,
+      "censored_phase2": 25,
+      "restricted_mean_months": 53.423760633616894,
+      "account_net_R_sum": 1864.6978851149338,
+      "overlapping_start_net_R_not_additive_performance": true,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "order": "OHLC",
+      "mode": "PRIMARY",
+      "friction": 150,
+      "profile": "O2_VOL_CUSHION",
+      "windows": 105,
+      "phase1": 43,
+      "funded": 4,
+      "median_months": 75.46132785763176,
+      "breaches": 0,
+      "worst_static": 5.8232,
+      "worst_daily": 2.0458,
+      "payout_count_windows": 4,
+      "payout_windows_usd": 619.8,
+      "standalone_payout": 3513.67,
+      "standalone_payout_count": 28,
+      "censored_phase1": 62,
+      "censored_phase2": 39,
+      "restricted_mean_months": 52.339702095759584,
+      "account_net_R_sum": 1861.128380504828,
+      "overlapping_start_net_R_not_additive_performance": true,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "order": "OHLC",
+      "mode": "STRICT",
+      "friction": 100,
+      "profile": "O2_UNSCALED",
+      "windows": 105,
+      "phase1": 2,
+      "funded": 0,
+      "median_months": null,
+      "breaches": 0,
+      "worst_static": 8.158472,
+      "worst_daily": 1.89464,
+      "payout_count_windows": 0,
+      "payout_windows_usd": 0,
+      "standalone_payout": 1481.87,
+      "standalone_payout_count": 15,
+      "censored_phase1": 103,
+      "censored_phase2": 2,
+      "restricted_mean_months": 53.423760633616894,
+      "account_net_R_sum": -695.1698340724906,
+      "overlapping_start_net_R_not_additive_performance": true,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "order": "OHLC",
+      "mode": "STRICT",
+      "friction": 100,
+      "profile": "O2_VOL",
+      "windows": 105,
+      "phase1": 0,
+      "funded": 0,
+      "median_months": null,
+      "breaches": 0,
+      "worst_static": 8.169892,
+      "worst_daily": 1.10118,
+      "payout_count_windows": 0,
+      "payout_windows_usd": 0,
+      "standalone_payout": 1499.76,
+      "standalone_payout_count": 15,
+      "censored_phase1": 105,
+      "censored_phase2": 0,
+      "restricted_mean_months": 53.423760633616894,
+      "account_net_R_sum": -565.5677251981714,
+      "overlapping_start_net_R_not_additive_performance": true,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "order": "OHLC",
+      "mode": "STRICT",
+      "friction": 100,
+      "profile": "O2_VOL_CUSHION",
+      "windows": 105,
+      "phase1": 2,
+      "funded": 0,
+      "median_months": null,
+      "breaches": 0,
+      "worst_static": 8.169892,
+      "worst_daily": 1.89464,
+      "payout_count_windows": 0,
+      "payout_windows_usd": 0,
+      "standalone_payout": 1499.76,
+      "standalone_payout_count": 15,
+      "censored_phase1": 103,
+      "censored_phase2": 2,
+      "restricted_mean_months": 53.423760633616894,
+      "account_net_R_sum": -685.8721593169591,
+      "overlapping_start_net_R_not_additive_performance": true,
+      "recent_starts": 33,
+      "recent_completions": 0
+    }
+  ],
+  "monte": [
+    {
+      "paths": 5000,
+      "horizons": [
+        {
+          "months": 12,
+          "phase1_pct": 8.68,
+          "both_pct": 0.18,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 18,
+          "phase1_pct": 20.7,
+          "both_pct": 0.94,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 24,
+          "phase1_pct": 33.12,
+          "both_pct": 3.28,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 36,
+          "phase1_pct": 52.58,
+          "both_pct": 14.36,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        }
+      ],
+      "conditional_median_months": 29.1368925393566,
+      "mean_annual_payout_USD": 686.0427293333335,
+      "annual_payout_P25_P50_P75": [
+        390.70000000000005,
+        652.8416666666667,
+        944.3366666666666
+      ],
+      "all_path_ledgers_independently_checked": true,
+      "no_clean_OOS_or_independent_feed": true,
+      "profile": "O2_UNSCALED",
+      "order": "OLHC",
+      "mode": "PRIMARY",
+      "friction": 100,
+      "accounts_fully_audited": 10000,
+      "mean_post_challenge_payout_USD_per_elapsed_year": 27.610491333333332,
+      "worst_daily": 1.98828,
+      "worst_static": 8.39924,
+      "journal_sha256": "64b43c186ba5f150de45f95aba78f7164ac041c965a217b7e724782d709df1f4",
+      "seconds": 3102.0663824000003,
+      "path": "MC-O2_UNSCALED-OLHC-summary.json",
+      "sha256": "a1aa00635868bac420d5a19f6260d11c5dc17cb90e0991fb602ae6752ed284cb"
+    },
+    {
+      "paths": 5000,
+      "horizons": [
+        {
+          "months": 12,
+          "phase1_pct": 1.5,
+          "both_pct": 0.04,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 18,
+          "phase1_pct": 6.42,
+          "both_pct": 0.24,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 24,
+          "phase1_pct": 15.6,
+          "both_pct": 0.98,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 36,
+          "phase1_pct": 35.52,
+          "both_pct": 6.12,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        }
+      ],
+      "conditional_median_months": 31.04243668720055,
+      "mean_annual_payout_USD": 691.1455673333334,
+      "annual_payout_P25_P50_P75": [
+        393.28833333333336,
+        656.0016666666667,
+        952.5933333333332
+      ],
+      "all_path_ledgers_independently_checked": true,
+      "no_clean_OOS_or_independent_feed": true,
+      "profile": "O2_VOL",
+      "order": "OLHC",
+      "mode": "PRIMARY",
+      "friction": 100,
+      "accounts_fully_audited": 10000,
+      "mean_post_challenge_payout_USD_per_elapsed_year": 10.429903333333332,
+      "worst_daily": 1.10118,
+      "worst_static": 8.39994,
+      "journal_sha256": "7e3e41c2f96029f1820e21c490e07efebedd42e63421c9abf0993f069fe29e26",
+      "seconds": 3107.9570863999998,
+      "path": "MC-O2_VOL-OLHC-summary.json",
+      "sha256": "288f08230b43825cdf5693737a141e17939db0aa6e5912865f7c3c73bbc9bba6"
+    },
+    {
+      "paths": 5000,
+      "horizons": [
+        {
+          "months": 12,
+          "phase1_pct": 8.98,
+          "both_pct": 0.18,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 18,
+          "phase1_pct": 20.94,
+          "both_pct": 0.98,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 24,
+          "phase1_pct": 33.44,
+          "both_pct": 3.44,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 36,
+          "phase1_pct": 53.06,
+          "both_pct": 14.56,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        }
+      ],
+      "conditional_median_months": 29.071184120465432,
+      "mean_annual_payout_USD": 691.1455673333334,
+      "annual_payout_P25_P50_P75": [
+        393.28833333333336,
+        656.0016666666667,
+        952.5933333333332
+      ],
+      "all_path_ledgers_independently_checked": true,
+      "no_clean_OOS_or_independent_feed": true,
+      "profile": "O2_VOL_CUSHION",
+      "order": "OLHC",
+      "mode": "PRIMARY",
+      "friction": 100,
+      "accounts_fully_audited": 10000,
+      "mean_post_challenge_payout_USD_per_elapsed_year": 28.599035333333333,
+      "worst_daily": 1.9959,
+      "worst_static": 8.39994,
+      "journal_sha256": "210474c06ab6cf31cb3ca3dbd6efcd864599b88ab35572d229e4b223c3ccfdc2",
+      "seconds": 2483.0112753000003,
+      "path": "MC-O2_VOL_CUSHION-OLHC-summary.json",
+      "sha256": "889c5701c1a2f51348fec375217c52db851d8addaf30c9bf1b88563a898c0ef7"
+    },
+    {
+      "paths": 5000,
+      "horizons": [
+        {
+          "months": 12,
+          "phase1_pct": 8.68,
+          "both_pct": 0.18,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 18,
+          "phase1_pct": 20.7,
+          "both_pct": 0.94,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 24,
+          "phase1_pct": 33.12,
+          "both_pct": 3.28,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 36,
+          "phase1_pct": 52.58,
+          "both_pct": 14.36,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        }
+      ],
+      "conditional_median_months": 29.1368925393566,
+      "mean_annual_payout_USD": 686.0427293333335,
+      "annual_payout_P25_P50_P75": [
+        390.70000000000005,
+        652.8416666666667,
+        944.3366666666666
+      ],
+      "all_path_ledgers_independently_checked": true,
+      "no_clean_OOS_or_independent_feed": true,
+      "profile": "O2_UNSCALED",
+      "order": "OHLC",
+      "mode": "PRIMARY",
+      "friction": 100,
+      "accounts_fully_audited": 10000,
+      "mean_post_challenge_payout_USD_per_elapsed_year": 27.610491333333332,
+      "worst_daily": 1.98828,
+      "worst_static": 8.39924,
+      "journal_sha256": "a0f33df671e45758423bd1f6d6798a08f8ad263f690f5b931acb1a8856629ddf",
+      "seconds": 3111.2448209,
+      "path": "MC-O2_UNSCALED-OHLC-summary.json",
+      "sha256": "8ad19bbbe4143dac18b54b356d058875b7f18ad2dced9bff2d7392782af5e955"
+    },
+    {
+      "paths": 5000,
+      "horizons": [
+        {
+          "months": 12,
+          "phase1_pct": 1.5,
+          "both_pct": 0.04,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 18,
+          "phase1_pct": 6.42,
+          "both_pct": 0.24,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 24,
+          "phase1_pct": 15.6,
+          "both_pct": 0.98,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 36,
+          "phase1_pct": 35.52,
+          "both_pct": 6.12,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        }
+      ],
+      "conditional_median_months": 31.04243668720055,
+      "mean_annual_payout_USD": 691.1455673333334,
+      "annual_payout_P25_P50_P75": [
+        393.28833333333336,
+        656.0016666666667,
+        952.5933333333332
+      ],
+      "all_path_ledgers_independently_checked": true,
+      "no_clean_OOS_or_independent_feed": true,
+      "profile": "O2_VOL",
+      "order": "OHLC",
+      "mode": "PRIMARY",
+      "friction": 100,
+      "accounts_fully_audited": 10000,
+      "mean_post_challenge_payout_USD_per_elapsed_year": 10.429903333333332,
+      "worst_daily": 1.10118,
+      "worst_static": 8.39994,
+      "journal_sha256": "6e3dec0e5139bf884f655d82c43cd50f894858c62fa306fc15c391765eacdf6c",
+      "seconds": 3096.7359520000005,
+      "path": "MC-O2_VOL-OHLC-summary.json",
+      "sha256": "3644676c183fcd73e9a6d69de272027d7633cfbb4d786975e61bf0b40890d024"
+    },
+    {
+      "paths": 5000,
+      "horizons": [
+        {
+          "months": 12,
+          "phase1_pct": 8.98,
+          "both_pct": 0.18,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 18,
+          "phase1_pct": 20.94,
+          "both_pct": 0.98,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 24,
+          "phase1_pct": 33.44,
+          "both_pct": 3.44,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 36,
+          "phase1_pct": 53.06,
+          "both_pct": 14.56,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        }
+      ],
+      "conditional_median_months": 29.071184120465432,
+      "mean_annual_payout_USD": 691.1455673333334,
+      "annual_payout_P25_P50_P75": [
+        393.28833333333336,
+        656.0016666666667,
+        952.5933333333332
+      ],
+      "all_path_ledgers_independently_checked": true,
+      "no_clean_OOS_or_independent_feed": true,
+      "profile": "O2_VOL_CUSHION",
+      "order": "OHLC",
+      "mode": "PRIMARY",
+      "friction": 100,
+      "accounts_fully_audited": 10000,
+      "mean_post_challenge_payout_USD_per_elapsed_year": 28.599035333333333,
+      "worst_daily": 1.9959,
+      "worst_static": 8.39994,
+      "journal_sha256": "e08073943ce55a182fdfca45d6ec326ec789b53c422bc8071d267d40829d85cc",
+      "seconds": 2484.1043026999996,
+      "path": "MC-O2_VOL_CUSHION-OHLC-summary.json",
+      "sha256": "941a1157f00a6096a93090b2f1c5718ffa91781f369a76e242e0849cc32e7a6e"
+    }
+  ],
+  "economics": [
+    {
+      "profile": "O2_UNSCALED",
+      "source": "PRIMARY",
+      "friction": 100,
+      "net_USD": 4644.189999999999,
+      "net_R_base150": 30.961266666666656,
+      "minlot_skips": 5,
+      "reference_base_risk_USD": 150,
+      "no_house_money_or_account_admissions_in_unit_book": true
+    },
+    {
+      "profile": "O2_VOL",
+      "source": "PRIMARY",
+      "friction": 100,
+      "net_USD": 4701.97,
+      "net_R_base150": 31.346466666666668,
+      "minlot_skips": 5,
+      "reference_base_risk_USD": 150,
+      "no_house_money_or_account_admissions_in_unit_book": true
+    },
+    {
+      "profile": "O2_VOL_CUSHION",
+      "source": "PRIMARY",
+      "friction": 100,
+      "net_USD": 4701.97,
+      "net_R_base150": 31.346466666666668,
+      "minlot_skips": 5,
+      "reference_base_risk_USD": 150,
+      "no_house_money_or_account_admissions_in_unit_book": true
+    },
+    {
+      "profile": "O2_UNSCALED",
+      "source": "PRIMARY",
+      "friction": 150,
+      "net_USD": 3220.2100000000014,
+      "net_R_base150": 21.468066666666676,
+      "minlot_skips": 5,
+      "reference_base_risk_USD": 150,
+      "no_house_money_or_account_admissions_in_unit_book": true
+    },
+    {
+      "profile": "O2_VOL",
+      "source": "PRIMARY",
+      "friction": 150,
+      "net_USD": 3268.0299999999997,
+      "net_R_base150": 21.786866666666665,
+      "minlot_skips": 5,
+      "reference_base_risk_USD": 150,
+      "no_house_money_or_account_admissions_in_unit_book": true
+    },
+    {
+      "profile": "O2_VOL_CUSHION",
+      "source": "PRIMARY",
+      "friction": 150,
+      "net_USD": 3268.0299999999997,
+      "net_R_base150": 21.786866666666665,
+      "minlot_skips": 5,
+      "reference_base_risk_USD": 150,
+      "no_house_money_or_account_admissions_in_unit_book": true
+    },
+    {
+      "profile": "O2_UNSCALED",
+      "source": "STRICT",
+      "friction": 100,
+      "net_USD": -316.52000000000004,
+      "net_R_base150": -2.1101333333333336,
+      "minlot_skips": 5,
+      "reference_base_risk_USD": 150,
+      "no_house_money_or_account_admissions_in_unit_book": true
+    },
+    {
+      "profile": "O2_VOL",
+      "source": "STRICT",
+      "friction": 100,
+      "net_USD": -279.3,
+      "net_R_base150": -1.862,
+      "minlot_skips": 5,
+      "reference_base_risk_USD": 150,
+      "no_house_money_or_account_admissions_in_unit_book": true
+    },
+    {
+      "profile": "O2_VOL_CUSHION",
+      "source": "STRICT",
+      "friction": 100,
+      "net_USD": -279.3,
+      "net_R_base150": -1.862,
+      "minlot_skips": 5,
+      "reference_base_risk_USD": 150,
+      "no_house_money_or_account_admissions_in_unit_book": true
+    }
+  ],
+  "new_Development_full_audits": 1752,
+  "new_historical_full_audits": 1908,
+  "new_MC_full_audits": 60000,
+  "parent_historical": [
+    {
+      "version": "V16",
+      "order": "OLHC",
+      "mode": "PRIMARY",
+      "friction_pct": 100,
+      "phase1": 81,
+      "funded": 71,
+      "median_months": 47.07529089664613,
+      "worst_daily": 1.96304,
+      "worst_static": 6.38254,
+      "breaches": 0,
+      "standalone_payout": 6457.11,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "version": "V16",
+      "order": "OLHC",
+      "mode": "PRIMARY",
+      "friction_pct": 150,
+      "phase1": 74,
+      "funded": 7,
+      "median_months": 87.09171800136893,
+      "worst_daily": 1.92476,
+      "worst_static": 7.72284,
+      "breaches": 0,
+      "standalone_payout": 4170.0,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "version": "V16",
+      "order": "OLHC",
+      "mode": "STRICT",
+      "friction_pct": 100,
+      "phase1": 18,
+      "funded": 1,
+      "median_months": 18.95208761122519,
+      "worst_daily": 1.9628,
+      "worst_static": 8.3997,
+      "breaches": 0,
+      "standalone_payout": 1824.95,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "version": "V16",
+      "order": "OHLC",
+      "mode": "PRIMARY",
+      "friction_pct": 100,
+      "phase1": 81,
+      "funded": 71,
+      "median_months": 47.07529089664613,
+      "worst_daily": 1.96304,
+      "worst_static": 6.38254,
+      "breaches": 0,
+      "standalone_payout": 6457.11,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "version": "V16",
+      "order": "OHLC",
+      "mode": "PRIMARY",
+      "friction_pct": 150,
+      "phase1": 74,
+      "funded": 7,
+      "median_months": 87.09171800136893,
+      "worst_daily": 1.92476,
+      "worst_static": 7.72284,
+      "breaches": 0,
+      "standalone_payout": 4170.0,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "version": "V16",
+      "order": "OHLC",
+      "mode": "STRICT",
+      "friction_pct": 100,
+      "phase1": 18,
+      "funded": 1,
+      "median_months": 18.95208761122519,
+      "worst_daily": 1.9628,
+      "worst_static": 8.3997,
+      "breaches": 0,
+      "standalone_payout": 1824.95,
+      "recent_starts": 33,
+      "recent_completions": 0
+    }
+  ],
+  "parent_reference_economics": [
+    {
+      "version": "V16",
+      "source": "PRIMARY",
+      "friction": 100,
+      "years": {
+        "2018": {
+          "signals": 43,
+          "trades": 43,
+          "net_USD": 1573.08,
+          "net_R": 10.487199999999998
+        },
+        "2019": {
+          "signals": 47,
+          "trades": 47,
+          "net_USD": -154.6499999999999,
+          "net_R": -1.0309999999999993
+        },
+        "2020": {
+          "signals": 57,
+          "trades": 57,
+          "net_USD": 25.03000000000005,
+          "net_R": 0.16686666666666755
+        },
+        "2021": {
+          "signals": 51,
+          "trades": 51,
+          "net_USD": 272.0599999999999,
+          "net_R": 1.813733333333335
+        },
+        "2022": {
+          "signals": 66,
+          "trades": 66,
+          "net_USD": -686.1299999999999,
+          "net_R": -4.5742
+        },
+        "2023": {
+          "signals": 76,
+          "trades": 76,
+          "net_USD": 2591.1300000000006,
+          "net_R": 17.2742
+        },
+        "2024": {
+          "signals": 65,
+          "trades": 65,
+          "net_USD": 2033.2300000000005,
+          "net_R": 13.554866666666669
+        },
+        "2025": {
+          "signals": 51,
+          "trades": 51,
+          "net_USD": 124.72000000000031,
+          "net_R": 0.831466666666665
+        },
+        "2026": {
+          "signals": 38,
+          "trades": 38,
+          "net_USD": 567.0499999999998,
+          "net_R": 3.780333333333332
+        }
+      },
+      "reference_net_R": 42.303466666666665,
+      "reference_net_USD": 6345.520000000001,
+      "min_lot_skips": 0,
+      "reference_risk_USD": 150,
+      "account_caps_or_harvest_not_applied": true
+    },
+    {
+      "version": "V16",
+      "source": "PRIMARY",
+      "friction": 150,
+      "years": {
+        "2018": {
+          "signals": 43,
+          "trades": 43,
+          "net_USD": 1383.3799999999997,
+          "net_R": 9.222533333333333
+        },
+        "2019": {
+          "signals": 47,
+          "trades": 47,
+          "net_USD": -435.90999999999997,
+          "net_R": -2.9060666666666664
+        },
+        "2020": {
+          "signals": 57,
+          "trades": 57,
+          "net_USD": -200.08999999999983,
+          "net_R": -1.3339333333333339
+        },
+        "2021": {
+          "signals": 51,
+          "trades": 51,
+          "net_USD": 42.60000000000002,
+          "net_R": 0.28400000000000025
+        },
+        "2022": {
+          "signals": 66,
+          "trades": 66,
+          "net_USD": -946.2299999999999,
+          "net_R": -6.3082
+        },
+        "2023": {
+          "signals": 76,
+          "trades": 76,
+          "net_USD": 2246.6700000000005,
+          "net_R": 14.977799999999998
+        },
+        "2024": {
+          "signals": 65,
+          "trades": 65,
+          "net_USD": 1766.3500000000001,
+          "net_R": 11.77566666666667
+        },
+        "2025": {
+          "signals": 51,
+          "trades": 51,
+          "net_USD": -30.680000000000035,
+          "net_R": -0.2045333333333304
+        },
+        "2026": {
+          "signals": 38,
+          "trades": 38,
+          "net_USD": 473.69,
+          "net_R": 3.157933333333333
+        }
+      },
+      "reference_net_R": 28.665200000000002,
+      "reference_net_USD": 4299.780000000001,
+      "min_lot_skips": 0,
+      "reference_risk_USD": 150,
+      "account_caps_or_harvest_not_applied": true
+    },
+    {
+      "version": "V16",
+      "source": "STRICT",
+      "friction": 100,
+      "years": {
+        "2018": {
+          "signals": 43,
+          "trades": 43,
+          "net_USD": 1295.4700000000003,
+          "net_R": 8.636466666666664
+        },
+        "2019": {
+          "signals": 47,
+          "trades": 47,
+          "net_USD": -419.04999999999984,
+          "net_R": -2.7936666666666667
+        },
+        "2020": {
+          "signals": 57,
+          "trades": 57,
+          "net_USD": 25.03000000000005,
+          "net_R": 0.16686666666666755
+        },
+        "2021": {
+          "signals": 51,
+          "trades": 51,
+          "net_USD": -2245.55,
+          "net_R": -14.970333333333333
+        },
+        "2022": {
+          "signals": 66,
+          "trades": 66,
+          "net_USD": -1513.6800000000003,
+          "net_R": -10.0912
+        },
+        "2023": {
+          "signals": 76,
+          "trades": 76,
+          "net_USD": 1664.88,
+          "net_R": 11.099199999999998
+        },
+        "2024": {
+          "signals": 65,
+          "trades": 65,
+          "net_USD": 1327.7200000000003,
+          "net_R": 8.851466666666667
+        },
+        "2025": {
+          "signals": 51,
+          "trades": 51,
+          "net_USD": -1050.0799999999997,
+          "net_R": -7.000533333333336
+        },
+        "2026": {
+          "signals": 38,
+          "trades": 38,
+          "net_USD": 158.14999999999998,
+          "net_R": 1.0543333333333325
+        }
+      },
+      "reference_net_R": -5.047400000000008,
+      "reference_net_USD": -757.1099999999993,
+      "min_lot_skips": 0,
+      "reference_risk_USD": 150,
+      "account_caps_or_harvest_not_applied": true
+    }
+  ],
+  "parent_monte": [
+    {
+      "version": "V16",
+      "path": "MC-V16-OLHC-PRIMARY-100-summary.json",
+      "sha256": "53b99f73fd70deabc37a205dbf425fbc03ddec2dd8b63a9eeaf8fdf963ce2975",
+      "payout_basis": "Standalone Funded from path start; not payouts after passing Challenge.",
+      "paths": 5000,
+      "horizons": [
+        {
+          "months": 12,
+          "phase1_pct": 22.68,
+          "both_pct": 1.24,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 18,
+          "phase1_pct": 39.22,
+          "both_pct": 6.08,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 24,
+          "phase1_pct": 52.24,
+          "both_pct": 14.32,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 36,
+          "phase1_pct": 67.88,
+          "both_pct": 33.36,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        }
+      ],
+      "conditional_median_months": 25.90075290896646,
+      "mean_annual_payout_USD": 946.3679973333334,
+      "annual_payout_P25_P50_P75": [
+        544.9233333333334,
+        908.1883333333333,
+        1301.1891666666666
+      ],
+      "all_path_ledgers_independently_checked": true,
+      "no_clean_OOS_or_independent_feed": true,
+      "seconds_this_attempt": 2731.5078877999913,
+      "journal_sha256": "5a5061d65b18ff3fed66a0d0f49545b4a5094565699d02b4e89ea08e3312dab1",
+      "accounts_fully_audited": 10000,
+      "baseline": true,
+      "mode": "PRIMARY",
+      "order": "OLHC",
+      "friction": 100,
+      "binding": {
+        "pack": "c6d95b27a6ed1e7855551a06a2f8404dbf04ac9860416b960276c84035f657f3",
+        "selected": {
+          "name": "BASE_GUARD",
+          "gamma": null,
+          "weights": {
+            "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 1.0,
+            "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 1.0,
+            "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0
+          }
+        },
+        "baseline": true,
+        "friction": 100,
+        "stress_code": "a9949ce6892b6440935d9c2d5a11480e43abc56681487d72df43b4b94080adb0",
+        "policy_code": "c248965bf227522113a9b0eb682690330fc2272c01b7015c4c4fa7e5ecd16ec5",
+        "oracle_adapter": "dd0027601d7321900e384cbaf0d4b4558aa1707c1ffee3f72a47d5bebfba5909",
+        "count": 5000,
+        "seed": 20261116
+      }
+    },
+    {
+      "version": "V16",
+      "path": "MC-V16-OHLC-PRIMARY-100-summary.json",
+      "sha256": "0d317201060b41df058c0fdb03341909ad1ba659103b1eabaeb3beb837396f86",
+      "payout_basis": "Standalone Funded from path start; not payouts after passing Challenge.",
+      "paths": 5000,
+      "horizons": [
+        {
+          "months": 12,
+          "phase1_pct": 22.68,
+          "both_pct": 1.24,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 18,
+          "phase1_pct": 39.22,
+          "both_pct": 6.08,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 24,
+          "phase1_pct": 52.24,
+          "both_pct": 14.32,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 36,
+          "phase1_pct": 67.88,
+          "both_pct": 33.36,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        }
+      ],
+      "conditional_median_months": 25.90075290896646,
+      "mean_annual_payout_USD": 946.3679973333334,
+      "annual_payout_P25_P50_P75": [
+        544.9233333333334,
+        908.1883333333333,
+        1301.1891666666666
+      ],
+      "all_path_ledgers_independently_checked": true,
+      "no_clean_OOS_or_independent_feed": true,
+      "seconds_this_attempt": 4083.118215699971,
+      "journal_sha256": "f14017f543279024fdf69782b688e66f4da07a23e1ffb5ea2fcc3b986dd8bb75",
+      "accounts_fully_audited": 10000,
+      "baseline": true,
+      "mode": "PRIMARY",
+      "order": "OHLC",
+      "friction": 100,
+      "binding": {
+        "pack": "2c7d297320820f087b2fa1dc0e42bb82352d5d83be68f9984ffe3d9631cd1b9f",
+        "selected": {
+          "name": "BASE_GUARD",
+          "gamma": null,
+          "weights": {
+            "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 1.0,
+            "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 1.0,
+            "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0
+          }
+        },
+        "baseline": true,
+        "friction": 100,
+        "stress_code": "a9949ce6892b6440935d9c2d5a11480e43abc56681487d72df43b4b94080adb0",
+        "policy_code": "c248965bf227522113a9b0eb682690330fc2272c01b7015c4c4fa7e5ecd16ec5",
+        "oracle_adapter": "dd0027601d7321900e384cbaf0d4b4558aa1707c1ffee3f72a47d5bebfba5909",
+        "count": 5000,
+        "seed": 20261116
+      }
+    }
+  ],
+  "gap_localization": {
+    "rows": [
+      {
+        "year": 2018,
+        "signals": 43,
+        "unverified_trades": 2,
+        "unverified_pct": 4.651162790697675,
+        "strict_net_R": 8.636466666666664,
+        "primary_net_R": 10.202799999999996
+      },
+      {
+        "year": 2019,
+        "signals": 47,
+        "unverified_trades": 2,
+        "unverified_pct": 4.25531914893617,
+        "strict_net_R": -2.7936666666666667,
+        "primary_net_R": -1.0309999999999993
+      },
+      {
+        "year": 2020,
+        "signals": 57,
+        "unverified_trades": 0,
+        "unverified_pct": 0.0,
+        "strict_net_R": 0.16686666666666755,
+        "primary_net_R": 0.16686666666666755
+      },
+      {
+        "year": 2021,
+        "signals": 51,
+        "unverified_trades": 12,
+        "unverified_pct": 23.529411764705884,
+        "strict_net_R": -14.970333333333333,
+        "primary_net_R": 1.813733333333335
+      },
+      {
+        "year": 2022,
+        "signals": 66,
+        "unverified_trades": 4,
+        "unverified_pct": 6.0606060606060606,
+        "strict_net_R": -10.0912,
+        "primary_net_R": -4.5742
+      },
+      {
+        "year": 2023,
+        "signals": 76,
+        "unverified_trades": 5,
+        "unverified_pct": 6.578947368421052,
+        "strict_net_R": 11.099199999999998,
+        "primary_net_R": 17.2742
+      },
+      {
+        "year": 2024,
+        "signals": 65,
+        "unverified_trades": 2,
+        "unverified_pct": 3.076923076923077,
+        "strict_net_R": 8.851466666666667,
+        "primary_net_R": 13.554866666666669
+      },
+      {
+        "year": 2025,
+        "signals": 51,
+        "unverified_trades": 2,
+        "unverified_pct": 3.9215686274509802,
+        "strict_net_R": -7.000533333333336,
+        "primary_net_R": 1.204066666666665
+      },
+      {
+        "year": 2026,
+        "signals": 38,
+        "unverified_trades": 3,
+        "unverified_pct": 7.894736842105263,
+        "strict_net_R": 1.0543333333333325,
+        "primary_net_R": 3.780333333333332
+      }
+    ],
+    "periods": [
+      {
+        "period": "2018-2021",
+        "signals": 198,
+        "unverified": 16,
+        "strict_net_R": -8.960666666666668,
+        "primary_net_R": 11.1524
+      },
+      {
+        "period": "2022-2026YTD",
+        "signals": 296,
+        "unverified": 16,
+        "strict_net_R": 3.9132666666666607,
+        "primary_net_R": 31.239266666666666
+      }
+    ],
+    "affected": [
+      {
+        "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1",
+        "source_event": 4,
+        "asset": "XAUUSD",
+        "side": "BUY",
+        "entry_msc": 1535641200000,
+        "exit_msc": 1535661000000,
+        "entry_UTC": "2018-08-30T15:00:00+00:00",
+        "entry_hour_UTC": 15,
+        "gaps": [
+          {
+            "before": 1535642580000,
+            "after": 1535642820000,
+            "missing": 3,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 3
+            },
+            "source_uncertain": true,
+            "asset": "XAUUSD",
+            "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1",
+            "family": "F4",
+            "entry": 1535641200000,
+            "exit": 1535661000000,
+            "side": 1,
+            "level": 1195677,
+            "protected": false,
+            "first_unknown": 1535642640000,
+            "first_unknown_UTC": "2018-08-30T15:24:00+00:00"
+          }
+        ],
+        "reference_R": -0.17136693469309813
+      },
+      {
+        "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1",
+        "source_event": 5,
+        "asset": "XAUUSD",
+        "side": "BUY",
+        "entry_msc": 1541084400000,
+        "exit_msc": 1541104200000,
+        "entry_UTC": "2018-11-01T15:00:00+00:00",
+        "entry_hour_UTC": 15,
+        "gaps": [
+          {
+            "before": 1541103720000,
+            "after": 1541103840000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "XAUUSD",
+            "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1",
+            "family": "F4",
+            "entry": 1541084400000,
+            "exit": 1541104200000,
+            "side": 1,
+            "level": 1227652,
+            "protected": false,
+            "first_unknown": 1541103780000,
+            "first_unknown_UTC": "2018-11-01T20:23:00+00:00"
+          }
+        ],
+        "reference_R": -0.11998556998553751
+      },
+      {
+        "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1",
+        "source_event": 14,
+        "asset": "XAUUSD",
+        "side": "SELL",
+        "entry_msc": 1569855600000,
+        "exit_msc": 1569875400000,
+        "entry_UTC": "2019-09-30T15:00:00+00:00",
+        "entry_hour_UTC": 15,
+        "gaps": [
+          {
+            "before": 1569874620000,
+            "after": 1569874740000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "XAUUSD",
+            "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1",
+            "family": "F4",
+            "entry": 1569855600000,
+            "exit": 1569875400000,
+            "side": -1,
+            "level": 1479105,
+            "protected": true,
+            "first_unknown": 1569874680000,
+            "first_unknown_UTC": "2019-09-30T20:18:00+00:00"
+          }
+        ],
+        "reference_R": 0.8368625075711905
+      },
+      {
+        "id": "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0",
+        "source_event": 44,
+        "asset": "XAUUSD",
+        "side": "SELL",
+        "entry_msc": 1667462400000,
+        "exit_msc": 1667507400000,
+        "entry_UTC": "2022-11-03T08:00:00+00:00",
+        "entry_hour_UTC": 8,
+        "gaps": [
+          {
+            "before": 1667507280000,
+            "after": 1667507400000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "XAUUSD",
+            "id": "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0",
+            "family": "F3",
+            "entry": 1667462400000,
+            "exit": 1667507400000,
+            "side": -1,
+            "level": 1640470,
+            "protected": false,
+            "first_unknown": 1667507340000,
+            "first_unknown_UTC": "2022-11-03T20:29:00+00:00"
+          }
+        ],
+        "reference_R": -0.10594402321445848
+      },
+      {
+        "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1",
+        "source_event": 77,
+        "asset": "XAUUSD",
+        "side": "SELL",
+        "entry_msc": 1693580400000,
+        "exit_msc": 1693600200000,
+        "entry_UTC": "2023-09-01T15:00:00+00:00",
+        "entry_hour_UTC": 15,
+        "gaps": [
+          {
+            "before": 1693599180000,
+            "after": 1693599300000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "XAUUSD",
+            "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1",
+            "family": "F4",
+            "entry": 1693580400000,
+            "exit": 1693600200000,
+            "side": -1,
+            "level": 1946268,
+            "protected": false,
+            "first_unknown": 1693599240000,
+            "first_unknown_UTC": "2023-09-01T20:14:00+00:00"
+          }
+        ],
+        "reference_R": -0.09217280408099272
+      },
+      {
+        "id": "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0",
+        "source_event": 58,
+        "asset": "XAUUSD",
+        "side": "SELL",
+        "entry_msc": 1694520000000,
+        "exit_msc": 1694550600000,
+        "entry_UTC": "2023-09-12T12:00:00+00:00",
+        "entry_hour_UTC": 12,
+        "gaps": [
+          {
+            "before": 1694549460000,
+            "after": 1694549580000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "XAUUSD",
+            "id": "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0",
+            "family": "F3",
+            "entry": 1694520000000,
+            "exit": 1694550600000,
+            "side": -1,
+            "level": 1918661,
+            "protected": false,
+            "first_unknown": 1694549520000,
+            "first_unknown_UTC": "2023-09-12T20:12:00+00:00"
+          }
+        ],
+        "reference_R": -0.15067171891148687
+      },
+      {
+        "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1",
+        "source_event": 80,
+        "asset": "XAUUSD",
+        "side": "SELL",
+        "entry_msc": 1696258800000,
+        "exit_msc": 1696278600000,
+        "entry_UTC": "2023-10-02T15:00:00+00:00",
+        "entry_hour_UTC": 15,
+        "gaps": [
+          {
+            "before": 1696275060000,
+            "after": 1696275180000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "XAUUSD",
+            "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1",
+            "family": "F4",
+            "entry": 1696258800000,
+            "exit": 1696278600000,
+            "side": -1,
+            "level": 1837275,
+            "protected": false,
+            "first_unknown": 1696275120000,
+            "first_unknown_UTC": "2023-10-02T19:32:00+00:00"
+          }
+        ],
+        "reference_R": 0.02195524146055123
+      },
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "source_event": 44,
+        "asset": "EURUSD",
+        "side": "BUY",
+        "entry_msc": 1558339200000,
+        "exit_msc": 1558384200000,
+        "entry_UTC": "2019-05-20T08:00:00+00:00",
+        "entry_hour_UTC": 8,
+        "gaps": [
+          {
+            "before": 1558374780000,
+            "after": 1558374900000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1558339200000,
+            "exit": 1558384200000,
+            "side": 1,
+            "level": 111488,
+            "protected": false,
+            "first_unknown": 1558374840000,
+            "first_unknown_UTC": "2019-05-20T17:54:00+00:00"
+          }
+        ],
+        "reference_R": 0.02649006622514138
+      },
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "source_event": 94,
+        "asset": "EURUSD",
+        "side": "SELL",
+        "entry_msc": 1614052800000,
+        "exit_msc": 1614066515122,
+        "entry_UTC": "2021-02-23T04:00:00+00:00",
+        "entry_hour_UTC": 4,
+        "gaps": [
+          {
+            "before": 1614054300000,
+            "after": 1614054420000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1614052800000,
+            "exit": 1614066515122,
+            "side": -1,
+            "level": 121801,
+            "protected": false,
+            "first_unknown": 1614054360000,
+            "first_unknown_UTC": "2021-02-23T04:26:00+00:00"
+          },
+          {
+            "before": 1614057840000,
+            "after": 1614057960000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1614052800000,
+            "exit": 1614066515122,
+            "side": -1,
+            "level": 121801,
+            "protected": false,
+            "first_unknown": 1614057900000,
+            "first_unknown_UTC": "2021-02-23T05:25:00+00:00"
+          },
+          {
+            "before": 1614059100000,
+            "after": 1614059220000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1614052800000,
+            "exit": 1614066515122,
+            "side": -1,
+            "level": 121801,
+            "protected": false,
+            "first_unknown": 1614059160000,
+            "first_unknown_UTC": "2021-02-23T05:46:00+00:00"
+          }
+        ],
+        "reference_R": -1.067669172932371
+      },
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "source_event": 97,
+        "asset": "EURUSD",
+        "side": "SELL",
+        "entry_msc": 1621958400000,
+        "exit_msc": 1621974600000,
+        "entry_UTC": "2021-05-25T16:00:00+00:00",
+        "entry_hour_UTC": 16,
+        "gaps": [
+          {
+            "before": 1621973400000,
+            "after": 1621973520000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1621958400000,
+            "exit": 1621974600000,
+            "side": -1,
+            "level": 122695,
+            "protected": false,
+            "first_unknown": 1621973460000,
+            "first_unknown_UTC": "2021-05-25T20:11:00+00:00"
+          },
+          {
+            "before": 1621974300000,
+            "after": 1621974420000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1621958400000,
+            "exit": 1621974600000,
+            "side": -1,
+            "level": 122695,
+            "protected": false,
+            "first_unknown": 1621974360000,
+            "first_unknown_UTC": "2021-05-25T20:26:00+00:00"
+          }
+        ],
+        "reference_R": -0.4648648648648704
+      },
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "source_event": 98,
+        "asset": "EURUSD",
+        "side": "SELL",
+        "entry_msc": 1622016000000,
+        "exit_msc": 1622061000000,
+        "entry_UTC": "2021-05-26T08:00:00+00:00",
+        "entry_hour_UTC": 8,
+        "gaps": [
+          {
+            "before": 1622057820000,
+            "after": 1622057940000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1622016000000,
+            "exit": 1622061000000,
+            "side": -1,
+            "level": 122660,
+            "protected": false,
+            "first_unknown": 1622057880000,
+            "first_unknown_UTC": "2021-05-26T19:38:00+00:00"
+          },
+          {
+            "before": 1622060280000,
+            "after": 1622060400000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1622016000000,
+            "exit": 1622061000000,
+            "side": -1,
+            "level": 122660,
+            "protected": false,
+            "first_unknown": 1622060340000,
+            "first_unknown_UTC": "2021-05-26T20:19:00+00:00"
+          }
+        ],
+        "reference_R": 2.1936936936937275
+      },
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "source_event": 99,
+        "asset": "EURUSD",
+        "side": "BUY",
+        "entry_msc": 1622217600000,
+        "exit_msc": 1622233800000,
+        "entry_UTC": "2021-05-28T16:00:00+00:00",
+        "entry_hour_UTC": 16,
+        "gaps": [
+          {
+            "before": 1622233620000,
+            "after": 1622233740000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1622217600000,
+            "exit": 1622233800000,
+            "side": 1,
+            "level": 121295,
+            "protected": false,
+            "first_unknown": 1622233680000,
+            "first_unknown_UTC": "2021-05-28T20:28:00+00:00"
+          }
+        ],
+        "reference_R": -0.0799999999999893
+      },
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "source_event": 100,
+        "asset": "EURUSD",
+        "side": "BUY",
+        "entry_msc": 1626235200000,
+        "exit_msc": 1626294600000,
+        "entry_UTC": "2021-07-14T04:00:00+00:00",
+        "entry_hour_UTC": 4,
+        "gaps": [
+          {
+            "before": 1626236280000,
+            "after": 1626236400000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1626235200000,
+            "exit": 1626294600000,
+            "side": 1,
+            "level": 117685,
+            "protected": false,
+            "first_unknown": 1626236340000,
+            "first_unknown_UTC": "2021-07-14T04:19:00+00:00"
+          },
+          {
+            "before": 1626293820000,
+            "after": 1626293940000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1626235200000,
+            "exit": 1626294600000,
+            "side": 1,
+            "level": 117685,
+            "protected": false,
+            "first_unknown": 1626293880000,
+            "first_unknown_UTC": "2021-07-14T20:18:00+00:00"
+          }
+        ],
+        "reference_R": 3.3757961783439527
+      },
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "source_event": 102,
+        "asset": "EURUSD",
+        "side": "BUY",
+        "entry_msc": 1626796800000,
+        "exit_msc": 1626813000000,
+        "entry_UTC": "2021-07-20T16:00:00+00:00",
+        "entry_hour_UTC": 16,
+        "gaps": [
+          {
+            "before": 1626811860000,
+            "after": 1626811980000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1626796800000,
+            "exit": 1626813000000,
+            "side": 1,
+            "level": 117528,
+            "protected": false,
+            "first_unknown": 1626811920000,
+            "first_unknown_UTC": "2021-07-20T20:12:00+00:00"
+          }
+        ],
+        "reference_R": 0.23245614035090567
+      },
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "source_event": 105,
+        "asset": "EURUSD",
+        "side": "BUY",
+        "entry_msc": 1628870400000,
+        "exit_msc": 1628886600000,
+        "entry_UTC": "2021-08-13T16:00:00+00:00",
+        "entry_hour_UTC": 16,
+        "gaps": [
+          {
+            "before": 1628874540000,
+            "after": 1628874660000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1628870400000,
+            "exit": 1628886600000,
+            "side": 1,
+            "level": 117568,
+            "protected": false,
+            "first_unknown": 1628874600000,
+            "first_unknown_UTC": "2021-08-13T17:10:00+00:00"
+          },
+          {
+            "before": 1628881560000,
+            "after": 1628881680000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1628870400000,
+            "exit": 1628886600000,
+            "side": 1,
+            "level": 117568,
+            "protected": false,
+            "first_unknown": 1628881620000,
+            "first_unknown_UTC": "2021-08-13T19:07:00+00:00"
+          },
+          {
+            "before": 1628881740000,
+            "after": 1628881860000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1628870400000,
+            "exit": 1628886600000,
+            "side": 1,
+            "level": 117568,
+            "protected": false,
+            "first_unknown": 1628881800000,
+            "first_unknown_UTC": "2021-08-13T19:10:00+00:00"
+          },
+          {
+            "before": 1628886240000,
+            "after": 1628886360000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1628870400000,
+            "exit": 1628886600000,
+            "side": 1,
+            "level": 117568,
+            "protected": false,
+            "first_unknown": 1628886300000,
+            "first_unknown_UTC": "2021-08-13T20:25:00+00:00"
+          }
+        ],
+        "reference_R": -0.0724999999999945
+      },
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "source_event": 108,
+        "asset": "EURUSD",
+        "side": "BUY",
+        "entry_msc": 1630080000000,
+        "exit_msc": 1630096200000,
+        "entry_UTC": "2021-08-27T16:00:00+00:00",
+        "entry_hour_UTC": 16,
+        "gaps": [
+          {
+            "before": 1630089240000,
+            "after": 1630089360000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1630080000000,
+            "exit": 1630096200000,
+            "side": 1,
+            "level": 117322,
+            "protected": false,
+            "first_unknown": 1630089300000,
+            "first_unknown_UTC": "2021-08-27T18:35:00+00:00"
+          }
+        ],
+        "reference_R": -0.020833333333339744
+      },
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "source_event": 109,
+        "asset": "EURUSD",
+        "side": "BUY",
+        "entry_msc": 1631548800000,
+        "exit_msc": 1631565060000,
+        "entry_UTC": "2021-09-13T16:00:00+00:00",
+        "entry_hour_UTC": 16,
+        "gaps": [
+          {
+            "before": 1631558040000,
+            "after": 1631558160000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1631548800000,
+            "exit": 1631565060000,
+            "side": 1,
+            "level": 117691,
+            "protected": false,
+            "first_unknown": 1631558100000,
+            "first_unknown_UTC": "2021-09-13T18:35:00+00:00"
+          },
+          {
+            "before": 1631563560000,
+            "after": 1631563680000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1631548800000,
+            "exit": 1631565060000,
+            "side": 1,
+            "level": 117691,
+            "protected": false,
+            "first_unknown": 1631563620000,
+            "first_unknown_UTC": "2021-09-13T20:07:00+00:00"
+          },
+          {
+            "before": 1631564160000,
+            "after": 1631564340000,
+            "missing": 2,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 2
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1631548800000,
+            "exit": 1631565060000,
+            "side": 1,
+            "level": 117691,
+            "protected": false,
+            "first_unknown": 1631564220000,
+            "first_unknown_UTC": "2021-09-13T20:17:00+00:00"
+          },
+          {
+            "before": 1631564940000,
+            "after": 1631565060000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1631548800000,
+            "exit": 1631565060000,
+            "side": 1,
+            "level": 117691,
+            "protected": false,
+            "first_unknown": 1631565000000,
+            "first_unknown_UTC": "2021-09-13T20:30:00+00:00"
+          }
+        ],
+        "reference_R": -0.017199017198985006
+      },
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "source_event": 110,
+        "asset": "EURUSD",
+        "side": "BUY",
+        "entry_msc": 1632369600000,
+        "exit_msc": 1632429000000,
+        "entry_UTC": "2021-09-23T04:00:00+00:00",
+        "entry_hour_UTC": 4,
+        "gaps": [
+          {
+            "before": 1632428400000,
+            "after": 1632428520000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1632369600000,
+            "exit": 1632429000000,
+            "side": 1,
+            "level": 116806,
+            "protected": false,
+            "first_unknown": 1632428460000,
+            "first_unknown_UTC": "2021-09-23T20:21:00+00:00"
+          }
+        ],
+        "reference_R": 1.1734317343173004
+      },
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "source_event": 113,
+        "asset": "EURUSD",
+        "side": "BUY",
+        "entry_msc": 1636128000000,
+        "exit_msc": 1636144200000,
+        "entry_UTC": "2021-11-05T16:00:00+00:00",
+        "entry_hour_UTC": 16,
+        "gaps": [
+          {
+            "before": 1636143660000,
+            "after": 1636143780000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1636128000000,
+            "exit": 1636144200000,
+            "side": 1,
+            "level": 115102,
+            "protected": false,
+            "first_unknown": 1636143720000,
+            "first_unknown_UTC": "2021-11-05T20:22:00+00:00"
+          }
+        ],
+        "reference_R": 0.34265734265734393
+      },
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "source_event": 115,
+        "asset": "EURUSD",
+        "side": "BUY",
+        "entry_msc": 1639483200000,
+        "exit_msc": 1639508880000,
+        "entry_UTC": "2021-12-14T12:00:00+00:00",
+        "entry_hour_UTC": 12,
+        "gaps": [
+          {
+            "before": 1639499640000,
+            "after": 1639499820000,
+            "missing": 2,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 2
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1639483200000,
+            "exit": 1639508880000,
+            "side": 1,
+            "level": 112628,
+            "protected": false,
+            "first_unknown": 1639499700000,
+            "first_unknown_UTC": "2021-12-14T16:35:00+00:00"
+          }
+        ],
+        "reference_R": -1.0158172231985894
+      },
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "source_event": 118,
+        "asset": "EURUSD",
+        "side": "SELL",
+        "entry_msc": 1641182400000,
+        "exit_msc": 1641241800000,
+        "entry_UTC": "2022-01-03T04:00:00+00:00",
+        "entry_hour_UTC": 4,
+        "gaps": [
+          {
+            "before": 1641183000000,
+            "after": 1641183120000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1641182400000,
+            "exit": 1641241800000,
+            "side": -1,
+            "level": 113790,
+            "protected": false,
+            "first_unknown": 1641183060000,
+            "first_unknown_UTC": "2022-01-03T04:11:00+00:00"
+          },
+          {
+            "before": 1641184680000,
+            "after": 1641184800000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1641182400000,
+            "exit": 1641241800000,
+            "side": -1,
+            "level": 113790,
+            "protected": false,
+            "first_unknown": 1641184740000,
+            "first_unknown_UTC": "2022-01-03T04:39:00+00:00"
+          },
+          {
+            "before": 1641184980000,
+            "after": 1641185100000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1641182400000,
+            "exit": 1641241800000,
+            "side": -1,
+            "level": 113790,
+            "protected": false,
+            "first_unknown": 1641185040000,
+            "first_unknown_UTC": "2022-01-03T04:44:00+00:00"
+          },
+          {
+            "before": 1641186660000,
+            "after": 1641186780000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1641182400000,
+            "exit": 1641241800000,
+            "side": -1,
+            "level": 113790,
+            "protected": false,
+            "first_unknown": 1641186720000,
+            "first_unknown_UTC": "2022-01-03T05:12:00+00:00"
+          },
+          {
+            "before": 1641189660000,
+            "after": 1641189780000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1641182400000,
+            "exit": 1641241800000,
+            "side": -1,
+            "level": 113790,
+            "protected": false,
+            "first_unknown": 1641189720000,
+            "first_unknown_UTC": "2022-01-03T06:02:00+00:00"
+          },
+          {
+            "before": 1641192360000,
+            "after": 1641192480000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1641182400000,
+            "exit": 1641241800000,
+            "side": -1,
+            "level": 113790,
+            "protected": false,
+            "first_unknown": 1641192420000,
+            "first_unknown_UTC": "2022-01-03T06:47:00+00:00"
+          }
+        ],
+        "reference_R": 1.6201298701298616
+      },
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "source_event": 122,
+        "asset": "EURUSD",
+        "side": "SELL",
+        "entry_msc": 1647547200000,
+        "exit_msc": 1647549000000,
+        "entry_UTC": "2022-03-17T20:00:00+00:00",
+        "entry_hour_UTC": 20,
+        "gaps": [
+          {
+            "before": 1647548760000,
+            "after": 1647548880000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1647547200000,
+            "exit": 1647549000000,
+            "side": -1,
+            "level": 111425,
+            "protected": false,
+            "first_unknown": 1647548820000,
+            "first_unknown_UTC": "2022-03-17T20:27:00+00:00"
+          }
+        ],
+        "reference_R": 0.10430839002263682
+      },
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "source_event": 128,
+        "asset": "EURUSD",
+        "side": "BUY",
+        "entry_msc": 1652457600000,
+        "exit_msc": 1652473800000,
+        "entry_UTC": "2022-05-13T16:00:00+00:00",
+        "entry_hour_UTC": 16,
+        "gaps": [
+          {
+            "before": 1652472540000,
+            "after": 1652472660000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1652457600000,
+            "exit": 1652473800000,
+            "side": 1,
+            "level": 103451,
+            "protected": false,
+            "first_unknown": 1652472600000,
+            "first_unknown_UTC": "2022-05-13T20:10:00+00:00"
+          }
+        ],
+        "reference_R": -0.1502976190476238
+      },
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "source_event": 171,
+        "asset": "EURUSD",
+        "side": "SELL",
+        "entry_msc": 1682524800000,
+        "exit_msc": 1682541000000,
+        "entry_UTC": "2023-04-26T16:00:00+00:00",
+        "entry_hour_UTC": 16,
+        "gaps": [
+          {
+            "before": 1682540280000,
+            "after": 1682540400000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1682524800000,
+            "exit": 1682541000000,
+            "side": -1,
+            "level": 110985,
+            "protected": false,
+            "first_unknown": 1682540340000,
+            "first_unknown_UTC": "2023-04-26T20:19:00+00:00"
+          },
+          {
+            "before": 1682540460000,
+            "after": 1682540580000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1682524800000,
+            "exit": 1682541000000,
+            "side": -1,
+            "level": 110985,
+            "protected": false,
+            "first_unknown": 1682540520000,
+            "first_unknown_UTC": "2023-04-26T20:22:00+00:00"
+          }
+        ],
+        "reference_R": 0.21848739495795233
+      },
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "source_event": 193,
+        "asset": "EURUSD",
+        "side": "SELL",
+        "entry_msc": 1701230400000,
+        "exit_msc": 1701289800000,
+        "entry_UTC": "2023-11-29T04:00:00+00:00",
+        "entry_hour_UTC": 4,
+        "gaps": [
+          {
+            "before": 1701267360000,
+            "after": 1701267480000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1701230400000,
+            "exit": 1701289800000,
+            "side": -1,
+            "level": 110201,
+            "protected": false,
+            "first_unknown": 1701267420000,
+            "first_unknown_UTC": "2023-11-29T14:17:00+00:00"
+          },
+          {
+            "before": 1701268740000,
+            "after": 1701268860000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1701230400000,
+            "exit": 1701289800000,
+            "side": -1,
+            "level": 110201,
+            "protected": false,
+            "first_unknown": 1701268800000,
+            "first_unknown_UTC": "2023-11-29T14:40:00+00:00"
+          }
+        ],
+        "reference_R": 1.0779816513761458
+      },
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "source_event": 203,
+        "asset": "EURUSD",
+        "side": "BUY",
+        "entry_msc": 1712145600000,
+        "exit_msc": 1712176200000,
+        "entry_UTC": "2024-04-03T12:00:00+00:00",
+        "entry_hour_UTC": 12,
+        "gaps": [
+          {
+            "before": 1712168340000,
+            "after": 1712168460000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1712145600000,
+            "exit": 1712176200000,
+            "side": 1,
+            "level": 107627,
+            "protected": false,
+            "first_unknown": 1712168400000,
+            "first_unknown_UTC": "2024-04-03T18:20:00+00:00"
+          },
+          {
+            "before": 1712174820000,
+            "after": 1712175000000,
+            "missing": 2,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 2
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1712145600000,
+            "exit": 1712176200000,
+            "side": 1,
+            "level": 107627,
+            "protected": false,
+            "first_unknown": 1712174880000,
+            "first_unknown_UTC": "2024-04-03T20:08:00+00:00"
+          },
+          {
+            "before": 1712175120000,
+            "after": 1712175240000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1712145600000,
+            "exit": 1712176200000,
+            "side": 1,
+            "level": 107627,
+            "protected": false,
+            "first_unknown": 1712175180000,
+            "first_unknown_UTC": "2024-04-03T20:13:00+00:00"
+          },
+          {
+            "before": 1712175840000,
+            "after": 1712175960000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1712145600000,
+            "exit": 1712176200000,
+            "side": 1,
+            "level": 107627,
+            "protected": false,
+            "first_unknown": 1712175900000,
+            "first_unknown_UTC": "2024-04-03T20:25:00+00:00"
+          },
+          {
+            "before": 1712175960000,
+            "after": 1712176080000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1712145600000,
+            "exit": 1712176200000,
+            "side": 1,
+            "level": 107627,
+            "protected": false,
+            "first_unknown": 1712176020000,
+            "first_unknown_UTC": "2024-04-03T20:27:00+00:00"
+          }
+        ],
+        "reference_R": 2.1883408071748516
+      },
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "source_event": 205,
+        "asset": "EURUSD",
+        "side": "SELL",
+        "entry_msc": 1714132800000,
+        "exit_msc": 1714163400000,
+        "entry_UTC": "2024-04-26T12:00:00+00:00",
+        "entry_hour_UTC": 12,
+        "gaps": [
+          {
+            "before": 1714162800000,
+            "after": 1714162920000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1714132800000,
+            "exit": 1714163400000,
+            "side": -1,
+            "level": 107553,
+            "protected": false,
+            "first_unknown": 1714162860000,
+            "first_unknown_UTC": "2024-04-26T20:21:00+00:00"
+          }
+        ],
+        "reference_R": 0.5000000000000041
+      },
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "source_event": 235,
+        "asset": "EURUSD",
+        "side": "BUY",
+        "entry_msc": 1755864000000,
+        "exit_msc": 1755894600000,
+        "entry_UTC": "2025-08-22T12:00:00+00:00",
+        "entry_hour_UTC": 12,
+        "gaps": [
+          {
+            "before": 1755893760000,
+            "after": 1755893880000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1755864000000,
+            "exit": 1755894600000,
+            "side": 1,
+            "level": 115886,
+            "protected": false,
+            "first_unknown": 1755893820000,
+            "first_unknown_UTC": "2025-08-22T20:17:00+00:00"
+          }
+        ],
+        "reference_R": 6.8461538461538485
+      },
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "source_event": 245,
+        "asset": "EURUSD",
+        "side": "SELL",
+        "entry_msc": 1764561600000,
+        "exit_msc": 1764576993889,
+        "entry_UTC": "2025-12-01T04:00:00+00:00",
+        "entry_hour_UTC": 4,
+        "gaps": [
+          {
+            "before": 1764567420000,
+            "after": 1764567540000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1764561600000,
+            "exit": 1764576993889,
+            "side": -1,
+            "level": 116184,
+            "protected": false,
+            "first_unknown": 1764567480000,
+            "first_unknown_UTC": "2025-12-01T05:38:00+00:00"
+          },
+          {
+            "before": 1764575460000,
+            "after": 1764575700000,
+            "missing": 3,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 3
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1764561600000,
+            "exit": 1764576993889,
+            "side": -1,
+            "level": 116184,
+            "protected": false,
+            "first_unknown": 1764575520000,
+            "first_unknown_UTC": "2025-12-01T07:52:00+00:00"
+          }
+        ],
+        "reference_R": -1.0418604651162204
+      },
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "source_event": 257,
+        "asset": "EURUSD",
+        "side": "SELL",
+        "entry_msc": 1781553600000,
+        "exit_msc": 1781555400000,
+        "entry_UTC": "2026-06-15T20:00:00+00:00",
+        "entry_hour_UTC": 20,
+        "gaps": [
+          {
+            "before": 1781554620000,
+            "after": 1781554740000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1781553600000,
+            "exit": 1781555400000,
+            "side": -1,
+            "level": 116078,
+            "protected": false,
+            "first_unknown": 1781554680000,
+            "first_unknown_UTC": "2026-06-15T20:18:00+00:00"
+          }
+        ],
+        "reference_R": -0.24778761061945598
+      },
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "source_event": 264,
+        "asset": "EURUSD",
+        "side": "BUY",
+        "entry_msc": 1786608000000,
+        "exit_msc": 1786653000000,
+        "entry_UTC": "2026-08-13T08:00:00+00:00",
+        "entry_hour_UTC": 8,
+        "gaps": [
+          {
+            "before": 1786652400000,
+            "after": 1786652520000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1786608000000,
+            "exit": 1786653000000,
+            "side": 1,
+            "level": 115099,
+            "protected": false,
+            "first_unknown": 1786652460000,
+            "first_unknown_UTC": "2026-08-13T20:21:00+00:00"
+          }
+        ],
+        "reference_R": 0.017857142857082127
+      },
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "source_event": 265,
+        "asset": "EURUSD",
+        "side": "SELL",
+        "entry_msc": 1788969600000,
+        "exit_msc": 1788985800000,
+        "entry_UTC": "2026-09-09T16:00:00+00:00",
+        "entry_hour_UTC": 16,
+        "gaps": [
+          {
+            "before": 1788984720000,
+            "after": 1788984840000,
+            "missing": 1,
+            "scheduled": false,
+            "minutes_by_kind": {
+              "UNCLASSIFIED_SOURCE_GAP": 1
+            },
+            "source_uncertain": true,
+            "asset": "EURUSD",
+            "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+            "family": "F5",
+            "entry": 1788969600000,
+            "exit": 1788985800000,
+            "side": -1,
+            "level": 116560,
+            "protected": false,
+            "first_unknown": 1788984780000,
+            "first_unknown_UTC": "2026-09-09T20:13:00+00:00"
+          }
+        ],
+        "reference_R": -0.15120274914091839
+      }
+    ],
+    "missing_occurrences": 55,
+    "source_sha256": "8dc8ed4bfca2873256431003284662eb992ef78d6dca04da805492c7b6036e76",
+    "no_price_data_read": true,
+    "no_cohort_selection": true,
+    "fixed_reference_risk_USD": 150
+  },
+  "observer": {
+    "environment": {
+      "modules": [
+        {
+          "name": "metatrader5",
+          "version": "5.0.6231",
+          "license": "MIT",
+          "homepage": [
+            "Documentation, https://www.mql5.com/en/docs/integration/python_metatrader5",
+            "Forum, https://www.mql5.com/en/forum"
+          ]
+        },
+        {
+          "name": "zstandard",
+          "version": "0.25.0",
+          "license": "BSD-3-Clause",
+          "homepage": [
+            "Homepage, https://github.com/indygreg/python-zstandard",
+            "Documentation, https://python-zstandard.readthedocs.io/en/latest/"
+          ]
+        },
+        {
+          "name": "pyarrow",
+          "version": "26.0.1",
+          "license": "Apache-2.0",
+          "homepage": [
+            "Homepage, https://arrow.apache.org/",
+            "Documentation, https://arrow.apache.org/docs/python",
+            "Repository, https://github.com/apache/arrow",
+            "Issues, https://github.com/apache/arrow/issues"
+          ]
+        },
+        {
+          "name": "tzdata",
+          "version": "2026.6",
+          "license": "Apache-2.0",
+          "homepage": [
+            "Bug Reports, https://github.com/python/tzdata/issues",
+            "Source, https://github.com/python/tzdata",
+            "Documentation, https://tzdata.python.org"
+          ]
+        }
+      ],
+      "terminals": [],
+      "no_terminal_attached": true,
+      "broker_orders": 0,
+      "dependency_lock_sha256": "eeb39d781cf552a6556d9a77d2871640f55b46cd49319c96c76126c6796577c1",
+      "own_runtime_only": true
+    },
+    "CLI": {
+      "passed": true,
+      "source_sha256": "a155270cf503e4b084eaa26efa2e422cb2c079d5a9f3b649ec436935892b7cc0",
+      "adapter_sha256": "7e968a80cfac1d64503e048e71365f84ec35710615ca1e7f54f6316e9dc912ac",
+      "rows": [
+        {
+          "mode": "read-only",
+          "report": {
+            "mode": "READ_ONLY",
+            "actual_broker_orders": 0,
+            "source": "TIMESTAMP_PACED_REPLAY",
+            "native_terminal_verified": false,
+            "injected_fixture_intent": true,
+            "strategy_signal_parity_not_established_by_builtin_fixture": true,
+            "slippage_measured": false
+          },
+          "report_sha256": "76191806fe2705264142ad9feaeadeaef35ee12d07805cc948cd757a89fc17af",
+          "parquet": {
+            "rows": 4,
+            "observation_gaps": [],
+            "no_tick_arrival_not_proof_of_missing_vendor_ticks": true,
+            "slippage_measured": false,
+            "file": "quotes.parquet",
+            "sha256": "b5666fcb1ff93ba932e7da2ae7f73d60046d3407b0ccbbe2a461e9eaf9a973a9"
+          }
+        },
+        {
+          "mode": "shadow-paper",
+          "report": {
+            "schema": "ftmo-shadow-paper-v19",
+            "mode": "SHADOW_PAPER",
+            "execution_capability": false,
+            "research_program": "inherited 50k two-step +10/+5; not actual Free Trial completion rules",
+            "policy": "V19",
+            "account": {
+              "start_msc": 1651485600000,
+              "end_msc": 1651572000000,
+              "cell": "SYM_FLAT",
+              "rolling": true,
+              "phase": 1,
+              "phase_passes": [],
+              "first_breach": null,
+              "entries": 1,
+              "closed_trades": 1,
+              "rejections": {},
+              "accepted": [
+                {
+                  "trade": 0,
+                  "at": 1651485600000,
+                  "phase": 1,
+                  "risk_usd": 300.0,
+                  "ounces": 29,
+                  "quantity_steps": 29,
+                  "asset": "XAUUSD",
+                  "risk_state": {
+                    "balance_milli_usd": 50000000,
+                    "equity_milli_usd": 50000000,
+                    "daily_anchor_milli_usd": 50000000,
+                    "role": "CORE",
+                    "weight": 1,
+                    "risk_usd": 300.0,
+                    "prior_stop_risk_milli_usd": 0,
+                    "new_stop_risk_milli_usd": 299802,
+                    "projected_stop_milli_usd": 49687788
+                  }
+                }
+              ],
+              "closed": [
+                {
+                  "trade": 0,
+                  "at": 1651485603000,
+                  "phase": 1,
+                  "risk_usd": 300.0,
+                  "net_usd": -370.21,
+                  "net_R": -1.2340333333333333,
+                  "costs": {
+                    "gross_usd": -357.8,
+                    "commission_usd": 0.81,
+                    "slippage_usd": 11.6,
+                    "swap_usd": 0.0,
+                    "net_usd": -370.21,
+                    "net_R": -1.2340333333333333,
+                    "execution_surcharge_usd": 0.0
+                  }
+                }
+              ],
+              "balance_usd": 49629.79,
+              "net_usd": -370.21,
+              "net_R": -1.2340333333333333,
+              "mean_net_R": -1.2340333333333333,
+              "net_ex_top3_R": 0,
+              "max_equity_R_DD": null,
+              "peak_dd_pct": 0.754796,
+              "static_loss_pct": 0.74042,
+              "worst_daily_loss_pct": 0.74042,
+              "max_concurrency": 1,
+              "throttled_entries": 0,
+              "payouts": [],
+              "trader_payout_usd": 0,
+              "cash_bridge_verified": true,
+              "stale_midnight_marks": [],
+              "daily_equity_marks": [
+                [
+                  1651485600000,
+                  50000000
+                ]
+              ],
+              "prop_qualified": false,
+              "status": "RIGHT_CENSORED",
+              "include_satellite": true,
+              "risk_buckets": {
+                "300.0": 1
+              },
+              "maximum_open_stop_risk_pct": 0.599604,
+              "policy": "V19_BASE_GUARD",
+              "d1_scaled": false,
+              "entry_audit": [
+                {
+                  "trade": 0,
+                  "at": 1651485600000,
+                  "asset": "XAUUSD",
+                  "phase": 1,
+                  "accepted": true,
+                  "reason": "ACCEPTED",
+                  "risk_usd": 300.0
+                }
+              ],
+              "funded_peaks": {
+                "equity_usd": 50000.0,
+                "balance_usd": 50000.0,
+                "equity_after14_usd": null,
+                "equity_after30_usd": null,
+                "flat_balance_after14_usd": null,
+                "flat_balance_after30_usd": null
+              },
+              "reward_interval_days": 14,
+              "open_risk_cap_pct": 2.0,
+              "internal_reserve_pct": 8.4,
+              "mechanism": "PARENT",
+              "controller": true,
+              "operations": [],
+              "forced_closes": [],
+              "pending_liquidations": {},
+              "ratchet": false,
+              "protected_floor_touched": false,
+              "harvest_state": "NORMAL",
+              "standalone_funded": false,
+              "open_positions": [],
+              "terminal_equity_usd": 49629.79,
+              "cost_contract": "V13_UNIT_COSTS_AT_ACTUAL_QUANTITY",
+              "entry_slip_charged_at_entry": true,
+              "midnight_carried_marks": [],
+              "account_source": "conditional M1 scenario, Ask proxy, missing-path model",
+              "V15_factor": 1.5,
+              "cushion": true,
+              "cushion_armed": false,
+              "requested_phase_risks_usd": [
+                300.0,
+                262.5,
+                187.5
+              ],
+              "friction_pct": 100,
+              "spread_stress": "per-leg surcharge; frozen first-passage path",
+              "surcharge_rounding": "up to actual-order cent per side",
+              "V19_profile": {
+                "name": "BASE_GUARD",
+                "gamma": null,
+                "weights": {
+                  "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 1.0,
+                  "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 1.0,
+                  "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0
+                }
+              },
+              "daily_projected_loss_reserve_pct": 2.2
+            },
+            "log": [
+              {
+                "kind": "PAPER_INTENT",
+                "known_at_msc": 1651485600000,
+                "id": "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0",
+                "asset": "XAUUSD",
+                "side": "BUY",
+                "decision_msc": 1651485600000,
+                "stop_units": 1990000,
+                "mode": "P0",
+                "intent_id": "synthetic-demo"
+              },
+              {
+                "kind": "PAPER_ENTRY",
+                "known_at_msc": 1651485600000,
+                "intent_id": "synthetic-demo",
+                "volume": 0.29,
+                "risk_usd": 300.0,
+                "price_units": 2000338
+              },
+              {
+                "kind": "PAPER_EQUITY",
+                "known_at_msc": 1651485600000,
+                "balance_USD": 49993.79,
+                "equity_USD": 49978.188
+              },
+              {
+                "kind": "PAPER_EQUITY",
+                "known_at_msc": 1651485601000,
+                "balance_USD": 49993.79,
+                "equity_USD": 50007.188
+              },
+              {
+                "kind": "PAPER_EQUITY",
+                "known_at_msc": 1651485602000,
+                "balance_USD": 49993.79,
+                "equity_USD": 49920.188
+              },
+              {
+                "kind": "PAPER_EXIT",
+                "known_at_msc": 1651485603000,
+                "trade": 0,
+                "reason": "SL",
+                "price_units": 1988000
+              },
+              {
+                "kind": "PAPER_EQUITY",
+                "known_at_msc": 1651485603000,
+                "balance_USD": 49629.79,
+                "equity_USD": 49629.79
+              }
+            ],
+            "expected_fills": [
+              {
+                "intent_id": "synthetic-demo",
+                "asset": "XAUUSD",
+                "side": "BUY",
+                "leg": "ENTRY",
+                "account_hash": "eefb0af49c3d7b598e0e7f1e54bad33b2d5598856c9f8aff6aced2a323173efa",
+                "volume": 0.29,
+                "price": 2000.338,
+                "requested_at_msc": 1651485600000
+              },
+              {
+                "intent_id": "synthetic-demo:EXIT",
+                "asset": "XAUUSD",
+                "side": "BUY",
+                "leg": "EXIT",
+                "account_hash": "eefb0af49c3d7b598e0e7f1e54bad33b2d5598856c9f8aff6aced2a323173efa",
+                "volume": 0.29,
+                "price": 1988.0,
+                "requested_at_msc": 1651485603000
+              }
+            ],
+            "broker_orders_sent": 0,
+            "slippage_measured": false,
+            "known_through_msc": 1651485603000,
+            "path_uncertain": false,
+            "equity_DD_status": "OBSERVED_PAPER_QUOTES_ONLY",
+            "halted_reason": null,
+            "broker_execution_ready": false,
+            "historical_news_overlay_parity_certified": false,
+            "requested_policy": "V19",
+            "excursions": {
+              "synthetic-demo": {
+                "MFE_price": 0.6620000000000346,
+                "MAE_price": -12.337999999999965,
+                "observations": 4,
+                "last_quote_msc": 1651485603000
+              }
+            },
+            "excursion_basis": "Observed executable quote markout; not net account PnL or certified intrasecond path.",
+            "fill_reconciliation": [
+              {
+                "intent_id": "synthetic-demo",
+                "status": "NO_ACTUAL_FILL_SLIPPAGE_UNMEASURED"
+              },
+              {
+                "intent_id": "synthetic-demo:EXIT",
+                "status": "NO_ACTUAL_FILL_SLIPPAGE_UNMEASURED"
+              }
+            ],
+            "source": "TIMESTAMP_PACED_REPLAY",
+            "native_terminal_verified": false,
+            "injected_fixture_intent": true,
+            "strategy_signal_parity_not_established_by_builtin_fixture": true
+          },
+          "report_sha256": "f6f887dff9facbd9ec9810c0ee962a25d062c8cbeadc74d853b40573898ba472",
+          "parquet": {
+            "rows": 4,
+            "observation_gaps": [],
+            "no_tick_arrival_not_proof_of_missing_vendor_ticks": true,
+            "slippage_measured": false,
+            "file": "quotes.parquet",
+            "sha256": "b5666fcb1ff93ba932e7da2ae7f73d60046d3407b0ccbbe2a461e9eaf9a973a9"
+          }
+        }
+      ],
+      "native_terminal_verified": false,
+      "actual_broker_orders": 0,
+      "session_parity_and_DST_tests": "tests-session-parity-and-dst.log"
+    },
+    "generated_Development_replay": {
+      "passed": true,
+      "injected_intents": false,
+      "native_terminal": false,
+      "observed_tick_path": false,
+      "report_sha256": "9ec920e6dd6fc4ce465dd3760dd9916843bde8b8652350071eea854100c50e7b",
+      "entries": 1,
+      "fixture_tick_size": 0.001,
+      "broker_tick_size_still_unknown": true,
+      "previous_tick_grid_guard_rejection_preserved": true,
+      "generated_intents": [
+        {
+          "kind": "PAPER_INTENT",
+          "known_at_msc": 1641222000000,
+          "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1",
+          "asset": "XAUUSD",
+          "side": "SELL",
+          "decision_msc": 1641222000000,
+          "stop_units": 1809293,
+          "mode": "P1",
+          "intent_id": "9b065fbc4a503d5dee1150a2ab2bad9bb3d85c604a55d0c6e5907c31df14bf4e"
+        }
+      ]
+    },
+    "SDK_session_capability": {
+      "SDK_version": "5.0.6231",
+      "session_named_exports": [],
+      "symbol_info_session_trade": false,
+      "symbol_info_session_quote": false,
+      "terminal_initialization_called": false,
+      "broker_orders": 0
+    },
+    "native_terminal_verified": false,
+    "MQL5_exporter_compiled_or_executed": false,
+    "spec_sessions_commission_and_native_news_not_verified": true,
+    "quickstart": "planning/research/QUICKSTART-FTMO-FREE-TRIAL.md"
+  },
+  "engineering": {
+    "tests": {
+      "tests": 1239,
+      "preserved_V19_IDs": 1216,
+      "zero_skip": true,
+      "total_wall_seconds": 13.436856099999204,
+      "target_under16": true,
+      "new_IDs": [
+        "test_evidence_compaction.EvidenceCompactionTests.test_all_originals_preflight_before_any_delete_on_drift",
+        "test_evidence_compaction.EvidenceCompactionTests.test_compression_preserves_exact_bytes_failures_and_restorable_paths",
+        "test_evidence_compaction.EvidenceCompactionTests.test_corrupt_archive_prevents_unlink_and_cannot_be_read_after_loss",
+        "test_evidence_compaction.EvidenceCompactionTests.test_existing_restore_collision_is_not_overwritten",
+        "test_evidence_compaction.EvidenceCompactionTests.test_manifest_escape_and_wrong_root_are_rejected",
+        "test_evidence_compaction.EvidenceCompactionTests.test_numpy_archive_is_array_equivalent_without_pickle_or_padding",
+        "test_evidence_compaction.EvidenceCompactionTests.test_wrong_manifest_digest_and_repeat_attempt_do_not_delete",
+        "test_ftmo_trial_runner.ObserverRunnerTests.test_account_snapshot_is_sanitized_and_captures_unknown_sessions",
+        "test_ftmo_trial_runner.ObserverRunnerTests.test_changed_lot_step_is_a_diff_not_a_silent_repair",
+        "test_ftmo_trial_runner.ObserverRunnerTests.test_future_quote_and_mutated_event_order_fail_closed",
+        "test_ftmo_trial_runner.ObserverRunnerTests.test_native_shadow_refuses_missing_session_export_before_any_paper_entry",
+        "test_ftmo_trial_runner.ObserverRunnerTests.test_no_submission_api_and_module_namespace_resolves_existing_implementation",
+        "test_ftmo_trial_runner.ObserverRunnerTests.test_one_command_readonly_and_shadow_replay_leave_zero_orders",
+        "test_ftmo_trial_runner.ObserverRunnerTests.test_paced_replay_keeps_quotes_ledger_and_observed_excursions",
+        "test_ftmo_trial_runner.ObserverRunnerTests.test_real_or_unrelated_account_does_not_become_an_ftmo_probe",
+        "test_ftmo_trial_runner.ObserverRunnerTests.test_replay_unknown_news_blocks_entry_and_does_not_fake_slippage",
+        "test_ftmo_trial_runner.ObserverRunnerTests.test_session_timezone_dst_mapping_and_unknown_holiday_cannot_imply_parity",
+        "test_ftmo_trial_runner.ObserverRunnerTests.test_supplied_weekly_sessions_detect_an_early_close_before_registered_cutoff",
+        "test_prop_v20.V20PolicyTests.test_global_scale_follows_throttle_and_sleeve_then_cent_floor",
+        "test_prop_v20.V20PolicyTests.test_house_money_is_existing_realized_phase1_bonus_not_new_sqrt",
+        "test_prop_v20.V20PolicyTests.test_indexed_imports_use_identical_standard_loader_sources_and_preserve_external_resolution",
+        "test_prop_v20.V20PolicyTests.test_invalid_profile_cannot_be_treated_as_an_admitted_scale",
+        "test_prop_v20.V20PolicyTests.test_scaled_account_matches_separate_cash_equity_and_admission_oracle"
+      ],
+      "runtime_groups": [
+        "base",
+        "native",
+        "statistics",
+        "worker",
+        "observer"
+      ],
+      "group_seconds": {
+        "base": 13.241836000001058,
+        "native": 5.3340575999991415,
+        "statistics": 3.657840899999428,
+        "worker": 2.6738702000002377,
+        "observer": 2.0051208999993833
+      },
+      "same_assertions_and_fixture_IO": true,
+      "temporary_root": "D:\\ANNAM\\TradingWorkspace\\.runtime\\v20-test-temp",
+      "V19_reference_wall": 15.580282900016755,
+      "no_claim_identical_workload": true
+    },
+    "smoke": {
+      "rows": [
+        {
+          "attempt": 1,
+          "wall": 0.6500111000004836,
+          "tests": 78,
+          "passed": true,
+          "skipped": 0,
+          "import_seconds": 0.18756539999958477,
+          "suite_seconds": 0.4904184000006353
+        },
+        {
+          "attempt": 2,
+          "wall": 0.6511915999999474,
+          "tests": 78,
+          "passed": true,
+          "skipped": 0,
+          "import_seconds": 0.18409319999955187,
+          "suite_seconds": 0.4885787999992317
+        },
+        {
+          "attempt": 3,
+          "wall": 0.6792448999985936,
+          "tests": 78,
+          "passed": true,
+          "skipped": 0,
+          "import_seconds": 0.21336210000117717,
+          "suite_seconds": 0.5146127999996679
+        },
+        {
+          "attempt": 4,
+          "wall": 0.6352368000007118,
+          "tests": 78,
+          "passed": true,
+          "skipped": 0,
+          "import_seconds": 0.1840479000002233,
+          "suite_seconds": 0.4785855999998603
+        },
+        {
+          "attempt": 5,
+          "wall": 0.6742148999983328,
+          "tests": 78,
+          "passed": true,
+          "skipped": 0,
+          "import_seconds": 0.18977090000043972,
+          "suite_seconds": 0.5117036999999982
+        },
+        {
+          "attempt": 6,
+          "wall": 0.680234900000869,
+          "tests": 78,
+          "passed": true,
+          "skipped": 0,
+          "import_seconds": 0.19033280000076047,
+          "suite_seconds": 0.5162586999995256
+        },
+        {
+          "attempt": 7,
+          "wall": 0.6778430999984266,
+          "tests": 78,
+          "passed": true,
+          "skipped": 0,
+          "import_seconds": 0.20256530000006023,
+          "suite_seconds": 0.5084270999996079
+        },
+        {
+          "attempt": 8,
+          "wall": 0.6413630999995803,
+          "tests": 78,
+          "passed": true,
+          "skipped": 0,
+          "import_seconds": 0.18675720000101137,
+          "suite_seconds": 0.4841517000004387
+        },
+        {
+          "attempt": 9,
+          "wall": 0.6579804000011791,
+          "tests": 78,
+          "passed": true,
+          "skipped": 0,
+          "import_seconds": 0.19339009999930568,
+          "suite_seconds": 0.4863437000003614
+        },
+        {
+          "attempt": 10,
+          "wall": 0.630020799999329,
+          "tests": 78,
+          "passed": true,
+          "skipped": 0,
+          "import_seconds": 0.1782853000004252,
+          "suite_seconds": 0.47470980000070995
+        }
+      ],
+      "below078": 10,
+      "wall_max": 0.680234900000869,
+      "wall_median": 0.6545860000005632,
+      "all_ten_below078": true,
+      "median_target_met": false,
+      "unchanged_78_IDs": true
+    },
+    "test_receipts_dir": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\voltarget-shadow-v20-20261117\\test-recovery-v2",
+    "preserved_original_smoke_failure": {
+      "rows": [
+        {
+          "stage": "compaction",
+          "returncode": 0
+        },
+        {
+          "stage": "performance",
+          "returncode": 0
+        },
+        {
+          "stage": "smoke",
+          "returncode": 1
+        }
+      ]
+    },
+    "test_recovery": {
+      "reason": "Original smoke stopped on sample4 after a same-size corruption fixture overwrite retained Windows mtime. Not a performance-target retry.",
+      "diagnostic": "checksum-metadata-diagnostic.json",
+      "diagnostic_attempts": 30,
+      "unchanged_mtime_and_undetected": 25,
+      "change": "Explicit os.utime declares changed fixture generation; checksum mismatch/cache reuse assertions retained.",
+      "financial_source_unchanged": true,
+      "cache_limit": "Same-size mutation retaining mtime can evade existing cached checks; input generations assumed immutable.",
+      "original_attempt_preserved": true,
+      "new_attempt": "test-recovery-v2",
+      "new_attempt_budget": 1,
+      "no_retry_for_timing_streak": true,
+      "test_sha256": "17703a53df7d6ac25bf87d65fb1f3a54dd205c68039922a0f2cbe664f41f5d29"
+    },
+    "storage": {
+      "roots": {
+        "D": {
+          "before": {
+            "bytes": 211934624389,
+            "files": 578500,
+            "folders": 75657
+          },
+          "after": {
+            "bytes": 211932470810,
+            "files": 577864,
+            "folders": 75431
+          },
+          "delta": {
+            "bytes": -2153579,
+            "files": -636,
+            "folders": -226
+          },
+          "before_errors": [
+            {
+              "path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\pytest-p20-final",
+              "type": "PermissionError"
+            },
+            {
+              "path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\pytest-p20",
+              "type": "PermissionError"
+            }
+          ],
+          "after_errors": [
+            {
+              "path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\pytest-p20-final",
+              "type": "PermissionError"
+            },
+            {
+              "path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\pytest-p20",
+              "type": "PermissionError"
+            }
+          ]
+        },
+        "E": {
+          "before": {
+            "bytes": 232629120899,
+            "files": 558379,
+            "folders": 37754
+          },
+          "after": {
+            "bytes": 231243336612,
+            "files": 558589,
+            "folders": 37771
+          },
+          "delta": {
+            "bytes": -1385784287,
+            "files": 210,
+            "folders": 17
+          },
+          "before_errors": [],
+          "after_errors": []
+        }
+      },
+      "compaction": {
+        "manifest_sha256": "fc3c5addac7cbfbf0c82740d45ee7f4f3ac5af4fb6712134e96cc434abe23282",
+        "removed": [
+          "Dev-OHLC-PRIMARY-100-accounts.json",
+          "Dev-OHLC-PRIMARY-150-accounts.json",
+          "Dev-OHLC-STRICT-100-accounts.json",
+          "Dev-OHLC-STRICT-150-accounts.json",
+          "Dev-OLHC-PRIMARY-100-accounts.json",
+          "Dev-OLHC-PRIMARY-150-accounts.json",
+          "Dev-OLHC-STRICT-100-accounts.json",
+          "Dev-OLHC-STRICT-150-accounts.json",
+          "Dev-pack/OHLC-PRIMARY-blocks.json",
+          "Dev-pack/OHLC-PRIMARY-quotes.npy",
+          "Dev-pack/OHLC-STRICT-blocks.json",
+          "Dev-pack/OHLC-STRICT-quotes.npy",
+          "Dev-pack/OLHC-PRIMARY-blocks.json",
+          "Dev-pack/OLHC-PRIMARY-quotes.npy",
+          "Dev-pack/OLHC-STRICT-blocks.json",
+          "Dev-pack/OLHC-STRICT-quotes.npy",
+          "Full-OHLC-PRIMARY-100-accounts.json",
+          "Full-OHLC-PRIMARY-150-accounts.json",
+          "Full-OHLC-STRICT-100-accounts.json",
+          "Full-OLHC-PRIMARY-100-accounts.json",
+          "Full-OLHC-PRIMARY-150-accounts.json",
+          "Full-OLHC-STRICT-100-accounts.json",
+          "Full-pack/OHLC-PRIMARY-blocks.json",
+          "Full-pack/OHLC-PRIMARY-quotes.npy",
+          "Full-pack/OHLC-STRICT-blocks.json",
+          "Full-pack/OHLC-STRICT-quotes.npy",
+          "Full-pack/OLHC-PRIMARY-blocks.json",
+          "Full-pack/OLHC-PRIMARY-quotes.npy",
+          "Full-pack/OLHC-STRICT-blocks.json",
+          "Full-pack/OLHC-STRICT-quotes.npy",
+          "MC-V16-OHLC-PRIMARY-100-paths.jsonl",
+          "MC-V16-OHLC-PRIMARY-150-paths.jsonl",
+          "MC-V16-OHLC-STRICT-100-paths.jsonl",
+          "MC-V16-OLHC-PRIMARY-100-paths.jsonl",
+          "MC-V16-OLHC-PRIMARY-150-paths.jsonl",
+          "MC-V16-OLHC-STRICT-100-paths.jsonl",
+          "MC-V19-OHLC-PRIMARY-100-paths.jsonl",
+          "MC-V19-OHLC-PRIMARY-150-paths.jsonl",
+          "MC-V19-OHLC-STRICT-100-paths.jsonl",
+          "MC-V19-OLHC-PRIMARY-100-paths.jsonl",
+          "MC-V19-OLHC-PRIMARY-150-paths.jsonl",
+          "MC-V19-OLHC-STRICT-100-paths.jsonl",
+          "O2-constraint-correction/Dev-OHLC-PRIMARY-100-accounts.json",
+          "O2-constraint-correction/Dev-OHLC-PRIMARY-150-accounts.json",
+          "O2-constraint-correction/Dev-OHLC-STRICT-100-accounts.json",
+          "O2-constraint-correction/Dev-OHLC-STRICT-150-accounts.json",
+          "O2-constraint-correction/Dev-OLHC-PRIMARY-100-accounts.json",
+          "O2-constraint-correction/Dev-OLHC-PRIMARY-150-accounts.json",
+          "O2-constraint-correction/Dev-OLHC-STRICT-100-accounts.json",
+          "O2-constraint-correction/Dev-OLHC-STRICT-150-accounts.json",
+          "raw-source-census.json"
+        ],
+        "original_bytes": 1619709335,
+        "compressed_bytes": 109226584,
+        "net_payload_bytes_saved": 1510482751,
+        "originals_removed": true,
+        "restored_originals_available": true,
+        "physical_freed_bytes_not_measured": true,
+        "all_archived_originals_read_and_verified": true,
+        "numpy_reader_verified": true,
+        "numpy_rows": 856974,
+        "canonical_manifest_sha256": "fc3c5addac7cbfbf0c82740d45ee7f4f3ac5af4fb6712134e96cc434abe23282"
+      },
+      "logical_non_atomic_snapshots": true,
+      "physical_freed_bytes": null,
+      "unrelated_WIP_untouched": true
+    },
+    "import_profile": {
+      "path": "smoke-before.pstats",
+      "not_final_timing": true
+    },
+    "indexed_import_diagnostics": {
+      "rows": [
+        {
+          "indexed": false,
+          "wall": 0.8424282999999377,
+          "passed": true,
+          "tests": 78,
+          "import_seconds": 0.22060479999981908
+        },
+        {
+          "indexed": true,
+          "wall": 0.7956250000002001,
+          "passed": true,
+          "tests": 78,
+          "import_seconds": 0.20135140000002139
+        },
+        {
+          "indexed": true,
+          "wall": 0.812319799999841,
+          "passed": true,
+          "tests": 78,
+          "import_seconds": 0.1837244999996983
+        },
+        {
+          "indexed": false,
+          "wall": 0.9095504000001711,
+          "passed": true,
+          "tests": 78,
+          "import_seconds": 0.2075670999997783
+        },
+        {
+          "indexed": false,
+          "wall": 0.9705008000000817,
+          "passed": true,
+          "tests": 78,
+          "import_seconds": 0.19182279999995444
+        },
+        {
+          "indexed": true,
+          "wall": 0.8108093999999255,
+          "passed": true,
+          "tests": 78,
+          "import_seconds": 0.18693409999968935
+        }
+      ],
+      "unchanged_78_IDs": true,
+      "financial_and_storage_jobs_contending": true,
+      "not_final_benchmark": true
+    },
+    "temporary_root_diagnostics": {
+      "rows": [
+        {
+          "root": "C",
+          "wall": 1.6494689999999537,
+          "returncode": 0
+        },
+        {
+          "root": "E",
+          "wall": 1.7084813999999824,
+          "returncode": 0
+        },
+        {
+          "root": "D",
+          "wall": 1.3802975000003244,
+          "returncode": 0
+        },
+        {
+          "root": "D",
+          "wall": 1.491002799999933,
+          "returncode": 0
+        },
+        {
+          "root": "E",
+          "wall": 1.6117784000002757,
+          "returncode": 0
+        },
+        {
+          "root": "C",
+          "wall": 1.9618737999999212,
+          "returncode": 0
+        }
+      ],
+      "financial_jobs_running": true,
+      "not_final_attempts": true,
+      "unchanged_78_IDs": true
+    },
+    "lean_startup_diagnostics": {
+      "rows": [
+        {
+          "lean": false,
+          "wall": 2.101647099999809,
+          "returncode": 0,
+          "tests": 78,
+          "passed": true
+        },
+        {
+          "lean": true,
+          "wall": 1.986852099999851,
+          "returncode": 0,
+          "tests": 78,
+          "passed": true
+        },
+        {
+          "lean": true,
+          "wall": 2.061859899999945,
+          "returncode": 0,
+          "tests": 78,
+          "passed": true
+        },
+        {
+          "lean": false,
+          "wall": 1.6041009000000486,
+          "returncode": 0,
+          "tests": 78,
+          "passed": true
+        },
+        {
+          "lean": false,
+          "wall": 1.726510099999814,
+          "returncode": 0,
+          "tests": 78,
+          "passed": true
+        },
+        {
+          "lean": true,
+          "wall": 1.4405851999999868,
+          "returncode": 0,
+          "tests": 78,
+          "passed": true
+        }
+      ],
+      "sitepaths": [
+        "C:\\Users\\MIIKEY\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\Lib\\site-packages",
+        "C:\\Users\\MIIKEY\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\Lib\\site-packages"
+      ],
+      "financial_jobs_running": true,
+      "not_final_samples": true,
+      "all_child_startup_in_wall": true,
+      "no_test_body_changes": true
+    }
+  },
+  "limits": [
+    "Historical validation already exposed; no clean OOS claim.",
+    "Variance matching does not equal maximum drawdown matching. Actual k is formula-limited.",
+    "No new historical observations; 32 source-uncertain trades retained.",
+    "Bootstrap is conditional on historical quarter blocks and copied source clocks, not future probability.",
+    "New MC matrix is PRIMARY100 only; source/cost stress measured in historical matrix, not every bootstrap cell.",
+    "Both orderings are M1 scenarios; Ask proxy and fixed first-passage cost stress are not actual target fills.",
+    "Separate oracle is same author/feed, not independent human review.",
+    "Native terminal unavailable; replay is not broker execution or measured slippage.",
+    "Payout split/timer remain inherited proxies, not current target-account contract.",
+    "Compression preserves bytes, not source validity; snapshots logical/non-atomic, physical savings unmeasured.",
+    "Existing Checksums cache assumes immutable input generations; same-size content changes retaining mtime can evade a cached check. No financial source changed."
+  ]
+}
