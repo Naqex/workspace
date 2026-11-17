@@ -42,9 +42,71 @@ PARAMETERS = dict(reference_risk_usd=150, marginal_gbp_risk_usd=75,
     baseline_path_correction="ordinal boundary-minute delta; frozen terminal cash unchanged",
     correlation_risk_usd=75)
 SOURCE_V2 = "solo-gbp-source-v2-two-hour-correction"
+COST_GATE_PROTOCOL = "planning/research/SOLO-GBP-COST-GATE-CORRECTION-20261117.md"
+GATE_SIGNAL = (1687165200000, "BUY")
+GATE_DIAGNOSIS_SHA = "f08f2dc64de389d733c902699e38050116325f3e1c867349495a9e84a33c073d"
+GATE_ORACLE_SHA = "e85e4e5795ac4eed954b8f26fb4d48788a1551e14084a9f67f6de9099e4628ac"
+PRIOR_ECONOMICS_COMMIT = "7f9dd4c16527054150ddcd038246ca5d64be25da"
+PRIOR_REGISTRATION_SHA = "5e50fc0110d68b744d2407fbdcb83f4a01f91a08a2041a39de448503cabbe875"
+PRIOR_RESULT_SHA = "6b1d88044e3edb6fa988e9e9e1581286264cddf0adae664e7de0c3c4467c56e5"
 
 
-def validate_correction_lineage(job, registration, proof, manifest):
+def historical_blob(pin, commit):
+    path = Path(pin["path"]).resolve()
+    if not path.is_relative_to(WORKSPACE):
+        raise ValueError("S01_historical_producer_outside_workspace")
+    relative = path.relative_to(WORKSPACE).as_posix()
+    blob = subprocess.check_output(["git", "show", commit + ":" + relative], cwd=WORKSPACE)
+    lf = blob.replace(b"\r\n", b"\n")
+    if pin["sha256"] not in {hashlib.sha256(x).hexdigest() for x in (blob, lf, lf.replace(b"\n", b"\r\n"))}:
+        raise ValueError("S01_historical_producer_hash")
+    return blob
+
+
+def verify_gate_only_change(old_source, current_source):
+    """The repair may change the gate, not other functions or displayed geometry."""
+    old, current = [ast.parse(text) for text in (old_source, current_source)]
+    selected = []
+    for tree in (old, current):
+        functions = [n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == "raw_geometry"]
+        if len(functions) != 1:
+            raise ValueError("S01_exact_gate_function_required")
+        selected.append(functions[0])
+        tree.body.remove(functions[0])
+    if ast.dump(old) != ast.dump(current):
+        raise ValueError("S01_change_outside_cost_gate")
+    before, after = selected
+    metadata = lambda node: {name: ast.dump(value) if isinstance(value, ast.AST)
+        else [ast.dump(item) if isinstance(item, ast.AST) else item for item in value]
+        if isinstance(value, list) else value
+        for name, value in ast.iter_fields(node) if name != "body"}
+    if metadata(before) != metadata(after):
+        raise ValueError("S01_cost_gate_signature_changed")
+    if (ast.dump(ast.Module(body=before.body[:-1], type_ignores=[])) !=
+            ast.dump(ast.Module(body=after.body[:-3], type_ignores=[])) or
+            not isinstance(before.body[-1], ast.Return) or
+            not isinstance(after.body[-1], ast.Return) or
+            ast.dump(ast.Tuple(elts=before.body[-1].value.elts[:3], ctx=ast.Load())) !=
+            ast.dump(ast.Tuple(elts=after.body[-1].value.elts[:3], ctx=ast.Load()))):
+        raise ValueError("S01_cost_gate_geometry_changed")
+
+
+def verify_source_pins_for_gate_correction(registration):
+    """Only the registered gate repair may differ from historical source code."""
+    for pin in registration["input_pins"]:
+        if digest(pin["path"]) != pin["sha256"]:
+            raise ValueError("S01_source_input_changed")
+    gate_path = (WORKSPACE / "tooling/ai-engines/prop_portfolio_scan.py").resolve()
+    for pin in registration["producer_pins"]:
+        if digest(pin["path"]) == pin["sha256"]:
+            continue
+        if Path(pin["path"]).resolve() != gate_path:
+            raise ValueError("S01_unregistered_source_producer_change")
+        old = historical_blob(pin, registration["producer_commit"])
+        verify_gate_only_change(old.decode("utf-8-sig"), gate_path.read_text(encoding="utf-8-sig"))
+
+
+def validate_correction_lineage(job, registration, proof, manifest, *, cost_gate_correction=False):
     """V2 is an exact two-hour source amendment, never a generic schema bypass."""
     original_job = job.with_name("S01-gbp-confirmation")
     review = original_job / "source-discrepancy-review"
@@ -76,7 +138,7 @@ def validate_correction_lineage(job, registration, proof, manifest):
     original = read(original_job / "registration.json")
     old_proof = read(original_job / "source-proof.json")
     old_manifest = read(original_job / "manifest.json")
-    verify_pins(original)
+    (verify_source_pins_for_gate_correction if cost_gate_correction else verify_pins)(original)
     if (original.get("schema") != "solo-gbp-source-v1" or
             original.get("job_root") != str(original_job) or
             old_proof.get("status") != "SOURCE_REVIEW_REQUIRED" or
@@ -138,7 +200,7 @@ def validate_correction_lineage(job, registration, proof, manifest):
         raise ValueError("S01_v2_admission_receipt_binding")
 
 
-def validated_source(job):
+def validated_source(job, *, cost_gate_correction=False):
     """Reject admission failures before constructing any price/curve reader."""
     job = output_root(job)
     proof = read(job / "source-proof.json")
@@ -167,9 +229,10 @@ def validated_source(job):
             proof.get("h1_difference_count") != 0 or proof.get("empty_hours") != [] or
             proof.get("held_path_issue_count") != 0):
         raise ValueError("S01_source_census_or_quality")
-    verify_pins(registration)
+    (verify_source_pins_for_gate_correction if cost_gate_correction else verify_pins)(registration)
     if registration["schema"] == SOURCE_V2:
-        validate_correction_lineage(job, registration, proof, manifest)
+        validate_correction_lineage(job, registration, proof, manifest,
+                                    cost_gate_correction=cost_gate_correction)
     for row in signals:
         row["horizon"] = "DAY"
         if deadline(row, row["decision_msc"]) != (row["deadline_msc"], row["deadline_kind"]):
@@ -177,7 +240,7 @@ def validated_source(job):
     return registration, signals, manifest
 
 
-def producer_paths():
+def producer_paths(version=1):
     """Bind local Python dependencies, including imports inside functions."""
     root = WORKSPACE / "tooling/ai-engines"
     pending = [root / "solo_gbp_economics.py"]
@@ -197,6 +260,8 @@ def producer_paths():
     found.update((WORKSPACE / PROTOCOL, WORKSPACE / CORRECTION_PROTOCOL, WORKSPACE / CALENDAR,
                   WORKSPACE / ADDENDUM, WORKSPACE / LEGACY_DECISION,
                   root / "prop_portfolio_select.py", root / "tests/test_solo_gbp_economics.py"))
+    if version == 2:
+        found.update((WORKSPACE / COST_GATE_PROTOCOL, root / "tests/test_solo_gbp_gate_correction.py"))
     return sorted(found)
 
 
@@ -244,19 +309,133 @@ def legacy_producers():
     return receipt
 
 
-def register(job=JOB, baseline=BASELINE):
+def economics_folder(job, version):
+    if type(version) is not int or version not in (1, 2):
+        raise ValueError("S01_unregistered_economics_version")
+    return output_root(Path(job) / f"economics-v{version}")
+
+
+def cost_correction_parent(job):
+    """Bind the one failed v1 attempt, retaining all external inputs byte-exact."""
+    job = Path(job)
+    if job.name != "S01-gbp-confirmation-source-v2":
+        raise ValueError("S01_gate_correction_requires_source_v2")
+    prior = job / "economics-v1"
+    review = job / "independent-review-v2"
+    paths = dict(registration=prior / "registration.json", result=prior / "run/result.json",
+        diagnosis=review / "gate-diagnosis.json", oracle=review / "review_s01_v2.py",
+        failure=review / "failure-20261117T015544Z.json",
+        audit_registration=review / "audit-registration.json")
+    expected = dict(registration=PRIOR_REGISTRATION_SHA, result=PRIOR_RESULT_SHA,
+                    diagnosis=GATE_DIAGNOSIS_SHA, oracle=GATE_ORACLE_SHA)
+    pins = {key: source_pin(path) for key, path in paths.items()}
+    if any(pins[key]["sha256"] != value for key, value in expected.items()):
+        raise ValueError("S01_gate_correction_parent_identity")
+    parent = read(paths["registration"])
+    result = read(paths["result"])
+    failure, diagnosis = read(paths["failure"]), read(paths["diagnosis"])
+    if (parent.get("schema") != "solo-gbp-economics-v1" or
+            parent.get("producer_commit") != PRIOR_ECONOMICS_COMMIT or
+            parent.get("parameters") != PARAMETERS or parent.get("cell") != CELL or
+            parent.get("job_root") != str(job) or
+            parent.get("window") != {"first": START, "end_exclusive": END} or
+            result.get("registration_sha256") != pins["registration"]["sha256"] or
+            result.get("raw") != 300 or result.get("filled") != 286 or
+            result.get("prices2024_2026_read") is not False or
+            failure.get("status") != "REVIEW_FAILED" or failure.get("message") != "raw_cost_gate" or
+            failure.get("script_sha256") != GATE_ORACLE_SHA or
+            read(paths["audit_registration"]).get("script_sha256") != GATE_ORACLE_SHA or
+            diagnosis.get("mismatch_count") != 1):
+        raise ValueError("S01_gate_correction_parent_scope")
+    for pin in parent["input_pins"]:
+        if digest(pin["path"]) != pin["sha256"]:
+            raise ValueError("S01_gate_correction_parent_input_changed")
+    allowed = {"tooling/ai-engines/prop_portfolio_scan.py",
+               "tooling/ai-engines/solo_gbp_economics.py"}
+    for pin in parent["producer_pins"]:
+        if digest(pin["path"]) == pin["sha256"]:
+            continue
+        path = Path(pin["path"]).resolve()
+        if not path.is_relative_to(WORKSPACE) or path.relative_to(WORKSPACE).as_posix() not in allowed:
+            raise ValueError("S01_gate_correction_unregistered_producer")
+        old = historical_blob(pin, parent["producer_commit"]).decode("utf-8-sig")
+        current = path.read_text(encoding="utf-8-sig")
+        if path.name == "prop_portfolio_scan.py":
+            verify_gate_only_change(old, current)
+        else:
+            # Registration/output plumbing changes; economic formulas do not.
+            names = ("assert_day_flat", "raw_measurements", "economics_rows", "trade_summary", "annual_measurements",
+                     "gate_reasons", "load_curve", "OrdinalBoundedPrices", "corrected_baseline",
+                     "baseline_reader", "unchanged_core_events", "marginal_comparison",
+                     "exposure", "overlap_summary", "legacy_producers")
+            trees = [ast.parse(text) for text in (old, current)]
+            for name in names:
+                nodes = [[n for n in tree.body if getattr(n, "name", None) == name] for tree in trees]
+                if any(len(part) != 1 for part in nodes) or ast.dump(nodes[0][0]) != ast.dump(nodes[1][0]):
+                    raise ValueError("S01_gate_correction_economic_formula_changed:" + name)
+    artifacts = result["artifact_sha256"]
+    if (set(artifacts) != {"raw.json", "trades.json", "gbp-curves.npz",
+                          "baseline-corrected-SYM_FLAT.npz", "baseline-corrected-ASYM_FLAT.npz"} or
+            artifacts["raw.json"] != diagnosis.get("raw_sha256") or
+            artifacts["trades.json"] != diagnosis.get("trades_sha256")):
+        raise ValueError("S01_gate_correction_parent_artifact_census")
+    for name, checksum in artifacts.items():
+        pin = source_pin(prior / "run" / name)
+        if pin["sha256"] != checksum:
+            raise ValueError("S01_gate_correction_parent_artifact_changed")
+        pins[name] = pin
+    if parent["baselines"] != {name: source_pin(path) for name, path in baseline_paths(parent["baseline_root"]).items()}:
+        raise ValueError("S01_gate_correction_parent_baseline_changed")
+    return dict(prior_producer_commit=parent["producer_commit"],
+                baseline_root=parent["baseline_root"], pins=pins,
+                expected_added_signal=dict(decision_msc=GATE_SIGNAL[0], side=GATE_SIGNAL[1]),
+                exact_threshold="100 * friction_units <= 15 * natural_stop_units",
+                original_economics_retained=True)
+
+
+def corrected_cohort_delta(job, raw, trades):
+    prior = Path(job) / "economics-v1/run"
+    previous_raw, previous_trades = read(prior / "raw.json"), read(prior / "trades.json")
+    key = lambda row: (row["decision_msc"], row["side"])
+    if (len(raw) != EXPECTED_RAW or len(previous_raw) != EXPECTED_RAW or
+            len({key(row) for row in raw}) != EXPECTED_RAW):
+        raise ValueError("S01_gate_correction_raw_census")
+    changed = []
+    for old, new in zip(previous_raw, raw):
+        if {k: v for k, v in old.items() if k != "passes"} != {k: v for k, v in new.items() if k != "passes"}:
+            raise ValueError("S01_gate_correction_raw_facts_changed")
+        if old["passes"] != new["passes"]:
+            if key(new) != GATE_SIGNAL or old["passes"] is not False or new["passes"] is not True:
+                raise ValueError("S01_gate_correction_unregistered_membership")
+            changed.append(key(new))
+    by_key = {key(row): row for row in trades}
+    if (changed != [GATE_SIGNAL] or len(trades) != 287 or len(by_key) != 287 or
+            len(previous_trades) != 286 or
+            set(by_key) != {key(row) for row in previous_trades} | {GATE_SIGNAL}):
+        raise ValueError("S01_gate_correction_fill_census")
+    if any(by_key[key(row)] != row for row in previous_trades):
+        raise ValueError("S01_gate_correction_prior_trade_changed")
+    return dict(raw_signals=300, unchanged_trades=286, corrected_fills=287,
+                corrected_rejects=13, added_signal=list(GATE_SIGNAL),
+                all_prior_trade_fields_and_money_unchanged=True)
+
+
+def register(job=JOB, baseline=BASELINE, *, version=1):
     job = output_root(job)
-    source, _, _ = validated_source(job)
-    target = output_root(job / "economics-v1")
+    target = economics_folder(job, version)
+    source, _, _ = validated_source(job, cost_gate_correction=version == 2)
+    correction = cost_correction_parent(job) if version == 2 else None
+    if correction is not None and str(Path(baseline).resolve()) != correction["baseline_root"]:
+        raise ValueError("S01_gate_correction_baseline_reselection")
     path = output_root(target / "registration.json")
     if path.exists():
-        previous = verify_registration(job)
+        previous = verify_registration(job, version=version)
         if previous["baseline_root"] != str(Path(baseline).resolve()):
             raise ValueError("S01_baseline_changed")
         return previous
     head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=WORKSPACE, text=True).strip()
     producers = []
-    for current in producer_paths():
+    for current in producer_paths(version):
         relative = current.relative_to(WORKSPACE).as_posix()
         committed = subprocess.check_output(["git", "show", head + ":" + relative], cwd=WORKSPACE)
         if committed.replace(b"\r\n", b"\n") != current.read_bytes().replace(b"\r\n", b"\n"):
@@ -265,7 +444,7 @@ def register(job=JOB, baseline=BASELINE):
     baselines = {name: source_pin(p) for name, p in baseline_paths(baseline).items()}
     correction_pins = ([source_pin(job / "correction-admission-receipt.json")]
                        if source["schema"] == SOURCE_V2 else [])
-    result = dict(schema="solo-gbp-economics-v1", cell=CELL, job_root=str(job),
+    result = dict(schema=f"solo-gbp-economics-v{version}", cell=CELL, job_root=str(job),
         producer_commit=head, producer_pins=producers,
         input_pins=[source_pin(job / name) for name in (
             "registration.json", "manifest.json", "source-proof.json",
@@ -277,6 +456,9 @@ def register(job=JOB, baseline=BASELINE):
         legacy_producers=legacy_producers(),
         prices2024_2026_read=False, created_at_utc=datetime.now(timezone.utc).isoformat(),
         scope="inherited stopped-recipe confirmation; M1-envelope marginal screen only")
+    if correction is not None:
+        result["cost_gate_correction"] = correction
+        result["input_pins"].extend(correction["pins"].values())
     target.mkdir(exist_ok=True)
     with path.open("x", encoding="utf-8") as output:
         json.dump(result, output, indent=2, ensure_ascii=False, allow_nan=False)
@@ -284,11 +466,12 @@ def register(job=JOB, baseline=BASELINE):
     return result
 
 
-def verify_registration(job):
+def verify_registration(job, *, version=1):
     job = output_root(job)
-    validated_source(job)
-    registration = read(output_root(job / "economics-v1/registration.json"))
-    if (registration.get("schema") != "solo-gbp-economics-v1" or
+    target = economics_folder(job, version)
+    validated_source(job, cost_gate_correction=version == 2)
+    registration = read(output_root(target / "registration.json"))
+    if (registration.get("schema") != f"solo-gbp-economics-v{version}" or
             registration.get("job_root") != str(job) or registration.get("cell") != CELL or
             registration.get("parameters") != PARAMETERS or
             registration.get("window") != {"first": START, "end_exclusive": END} or
@@ -296,9 +479,15 @@ def verify_registration(job):
             registration.get("prices2024_2026_read") is not False):
         raise ValueError("S01_economics_registration_changed")
     verify_pins(registration)
+    if version == 2:
+        correction = cost_correction_parent(job)
+        if (registration.get("cost_gate_correction") != correction or
+                registration.get("baseline_root") != correction["baseline_root"] or
+                any(pin not in registration["input_pins"] for pin in correction["pins"].values())):
+            raise ValueError("S01_gate_correction_lineage_changed")
     if registration.get("legacy_producers") != legacy_producers():
         raise ValueError("S01_legacy_producer_binding_changed")
-    required = {str(p.resolve()) for p in producer_paths()}
+    required = {str(p.resolve()) for p in producer_paths(version)}
     if required != {p["path"] for p in registration["producer_pins"]}:
         raise ValueError("S01_economics_producer_census")
     for name, path in baseline_paths(registration["baseline_root"]).items():
@@ -588,11 +777,11 @@ def overlap_summary(gbp, core, eur):
         GBP_fraction_also_A_or_EUR=float(np.mean((a + e)[held] > 0)) if minutes else None)
 
 
-def run(job=JOB):
+def run(job=JOB, *, version=1):
     job = output_root(job)
-    registration = verify_registration(job)
-    source, signals, manifest = validated_source(job)
-    target = output_root(job / "economics-v1/run")
+    registration = verify_registration(job, version=version)
+    source, signals, manifest = validated_source(job, cost_gate_correction=version == 2)
+    target = output_root(economics_folder(job, version) / "run")
     target.mkdir(exist_ok=False)
     print(json.dumps({"stage": "S01_economics_started", "output": str(target)}), flush=True)
     reader = Prices(manifest, END)
@@ -601,6 +790,7 @@ def run(job=JOB):
     if len(trades) + len(skipped) != len(signals) or any("UNKNOWN" in r["reason"] for r in skipped):
         raise ValueError("S01_unknown_cohort_not_omitted")
     money = economics_rows(trades, 150)
+    correction_delta = corrected_cohort_delta(job, raw, money) if version == 2 else None
     annual = annual_measurements(raw, money)
     print(json.dumps({"stage": "S01_GBP_curves", "trades": len(trades)}), flush=True)
     clipped = OrdinalBoundedPrices(reader, trades)
@@ -628,7 +818,7 @@ def run(job=JOB):
         comparisons[model]["baseline_ordinal_correction"] = dict(core=core_delta, eur=eur_delta)
         comparisons[model]["overlap"] = overlap_summary(trades, core_trades, eur_trades)
     reasons = gate_reasons(annual, comparisons)
-    result = dict(schema="solo-gbp-economics-result-v1", cell=CELL,
+    result = dict(schema=f"solo-gbp-economics-result-v{version}", cell=CELL,
         status="INELIGIBLE" if reasons else "ELIGIBLE_FOR_THREE_ASSET_REPLAY_REVIEW",
         reasons=reasons, annual=annual, pooled_economics=trade_summary(money), comparison=comparisons,
         raw=len(raw), filled=len(trades), skipped=skipped,
@@ -640,11 +830,15 @@ def run(job=JOB):
         gbp_curves_clip_entry_exit_ordinals=True,
         exact_shared_account_three_assets=False, prices2024_2026_read=False,
         new_financial_outcomes_computed=True, window={"first": START, "end_exclusive": END},
-        parameters=PARAMETERS, registration_sha256=digest(job / "economics-v1/registration.json"),
+        parameters=PARAMETERS, registration_sha256=digest(economics_folder(job, version) / "registration.json"),
         units=dict(FX_price="USD/base unit", pip=.0001, lots="100000 base units",
                    curve_R="USD divided by reference150, including risk75 sleeves"))
     # Recheck bindings after computation; changed inputs never receive a sealed verdict.
-    verify_registration(job)
+    verify_registration(job, version=version)
+    if correction_delta is not None:
+        result["cost_gate_correction"] = dict(
+            **correction_delta, parent=registration["cost_gate_correction"],
+            corrected_threshold_without_parameter_change=True)
     for name in ("raw.json", "trades.json", "gbp-curves.npz", "result.json",
                  *(f"baseline-corrected-{model}.npz" for model in MODELS)):
         output_root(target / name)
@@ -665,7 +859,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("action", choices=("register", "run"))
     parser.add_argument("--job", type=Path, default=JOB)
+    parser.add_argument("--economics-version", type=int, choices=(1, 2), default=1)
     args = parser.parse_args()
-    out = register(args.job) if args.action == "register" else run(args.job)
+    out = (register(args.job, version=args.economics_version) if args.action == "register"
+           else run(args.job, version=args.economics_version))
     print(json.dumps({"action": args.action, "status": out.get("status", "REGISTERED"),
                       "job": str(args.job)}))

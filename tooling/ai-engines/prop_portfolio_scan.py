@@ -89,7 +89,12 @@ def raw_geometry(row, entry):
     valid = distance > 0 and (
         entry[1] > row["stop_units"] if buy else entry[2] < row["stop_units"]
     )
-    return p0, distance, friction, valid and friction / distance <= 0.15
+    # Compare exact price-grid costs: binary float can reject equality at 15%.
+    cost_units = ((entry[2] - entry[1] + 400) * 1000000 + 14 * p0
+                  if asset == "XAUUSD" else
+                  (entry[2] - entry[1] + (2500 if asset == "US500" else 9)) * 1000000)
+    stop_units = p0 - row["stop_units"] if buy else row["stop_units"] - p0
+    return p0, distance, friction, valid and 100 * cost_units <= 15 * stop_units * 1000000
 
 
 def native_bars(native, entry, end):
