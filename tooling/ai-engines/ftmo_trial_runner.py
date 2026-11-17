@@ -264,7 +264,8 @@ def run(mode,output,*,manifest=None,bridge=None,replay=False,seconds=60,speed=1.
                     if not manifest:raise adapter.AdapterError("NATIVE_SHADOW_NEEDS_VERIFIED_SEED_NEWS_SESSION_MANIFEST")
                     plan=json.loads(Path(manifest).read_text(encoding="utf-8-sig"))
                     if plan["binding"]!=snap["binding"]:raise adapter.AdapterError("MANIFEST_ACCOUNT_MISMATCH")
-                    if not all(snap["specs"][a].get("sessions_trade") is not None for a in adapter.ASSETS):
+                    if not all(isinstance(snap["specs"][a].get("sessions_trade"),list) and
+                               bool(snap["specs"][a]["sessions_trade"]) for a in adapter.ASSETS):
                         raise adapter.AdapterError("SESSION_EXPORT_BRIDGE_REQUIRED_BEFORE_NATIVE_SHADOW")
                     if not adapter.calendar_known(plan["holidays"],now) or not adapter.calendar_known(plan["news"],now):
                         raise adapter.AdapterError("CURRENT_NEWS_AND_HOLIDAY_COVERAGE_REQUIRED")

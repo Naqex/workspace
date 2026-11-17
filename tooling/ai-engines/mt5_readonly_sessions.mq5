@@ -34,9 +34,15 @@ void OnStart() {
       AccountInfoInteger(ACCOUNT_LOGIN),Escape(server),(long)TimeTradeServer());
    for(int i=0;i<ArraySize(names);i++) {
       if(i>0) out+=",";
+      bool custom=false;
+      if(!SymbolExist(names[i],custom)) {
+         out+="\""+names[i]+"\":{\"status\":\"SYMBOL_UNAVAILABLE\"}";
+         continue;
+      }
       out+="\""+names[i]+"\":{\"sessions_quote\":"+Sessions(names[i],false)+",\"sessions_trade\":"+Sessions(names[i],true)+"}";
    }
    out+="}}";
+   if(FileIsExist(OutputFile)) { Print("Output already exists: choose a new private filename."); return; }
    int handle=FileOpen(OutputFile,FILE_WRITE|FILE_TXT|FILE_ANSI,0,CP_UTF8);
    if(handle==INVALID_HANDLE) { Print("Cannot write private session export."); return; }
    FileWriteString(handle,out); FileClose(handle);

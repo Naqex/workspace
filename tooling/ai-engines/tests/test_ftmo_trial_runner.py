@@ -24,6 +24,21 @@ class ObserverRunnerTests(unittest.TestCase):
             b,p=runner.builtin_fixture();b["account"].update(trade_mode=mode,server=server,company=server)
             with self.assertRaises(runner.adapter.AdapterError):runner.snapshot(self.reader(b),p["from_msc"])
 
+    def test_native_shadow_refuses_missing_session_export_before_any_paper_entry(self):
+        b,p=runner.builtin_fixture()
+        class Reader:
+            def account(self):return b["account"]
+            def spec(self,asset):return b["specs"][asset]
+            def close(self):pass
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d);manifest=root/"manifest.json";manifest.write_text(json.dumps(p),encoding="utf-8")
+            with patch.object(runner,"terminal_inventory",return_value=[dict(ExecutablePath="already-running.exe")]), \
+                 patch.object(runner.adapter,"NativeMT5Reader",return_value=Reader()):
+                with self.assertRaisesRegex(runner.adapter.AdapterError,"SESSION_EXPORT"):
+                    runner.run("shadow-paper",root/"capture",manifest=manifest)
+            self.assertFalse((root/"capture/shadow_paper_ledger.json").exists())
+            self.assertTrue((root/"capture/TARGET_ACCOUNT_SPEC_SNAPSHOT.json").exists())
+
     def test_changed_lot_step_is_a_diff_not_a_silent_repair(self):
         b,p=runner.builtin_fixture();b["specs"]["XAUUSD"]["volume_step"]=.1
         s=runner.snapshot(self.reader(b),p["from_msc"],replay=True);diff=runner.parity(s)
