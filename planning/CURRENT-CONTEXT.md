@@ -1,8 +1,31 @@
 # Current context — Naqex Workspace
 
-17/11/2026 · `RESEARCH: V22_DEV_REJECTED · SYSTEM: READONLY_PREFLIGHT_NO_TERMINAL · PROP: NOT_QUALIFIED`.
+17/11/2026 · `RESEARCH: V23_A1_FULL_REPLAY_RUNNING · SYSTEM: WATCHER_NO_TARGET_TERMINAL · PROP: NOT_QUALIFIED`.
 
 ## Việc hiện tại
+
+**V23: A1 bỏ Gold F3 qua Dev, chưa đủ điều kiện thay BASE_GUARD.**
+[Protocol](research/SLEEVE-ABLATION-MT5-V23-PROTOCOL-20261117.md) /
+[freeze](research/SLEEVE-ABLATION-MT5-V23-FREEZE-20261117.json) /
+[PR102 draft](https://github.com/Naqex/workspace/pull/102).
+PR101/head `26de14c` đã merge `9309109`; nhánh V22 local/remote đã xóa.
+Nhánh `codex/sleeve-ablation-and-mt5-v23`; Dev freeze `d7e8150` trước later attribution.
+A1 Dev277 lệnh/+33,5535R/equityDD11,4373R; hai A2 fail, ba F5 transfers fail.
+Full391 lệnh/+41,8664R; historical PRIMARY100 chỉ63/105 hai vòng so với baseline71/105.
+Bootstrap5.000 common draws mỗi ordering đang chạy, chưa có final verdict/performance receipts.
+Private job `execution-v1/sleeve-ablation-and-mt5-v23-20261117` giữ
+`delivery-checkpoint.json`, events, supervisor `run-financial.py`, Full/MC journals và source pins.
+Resume: reconcile process/journal trước; không chạy writer thứ hai. Đợi MC đủ rồi chạy
+`prop_v23_delivery.py tests`, `audit`, `prop_v23_report.py`; cập nhật report/context,
+commit/push và exact-head CI/download IDs, ready PR102, không merge PR102.
+V22 “6 missing” mỗi FX là calendar rejection do Gold guard: entry/20:00 đã đủ
+GBP2288/2288, AUD1795/1795. FTMO26/12/2022 FX closed dù source có quote;
+Good Friday2018/2019/2021 target sessions unknown. Không gọi100% price là100% broker eligibility.
+Watcher chỉ bounded native FTMO Demo/Trial USD read-only, có account/executable binding,
+không fixture fallback; actual timeout/no terminal, chưa capture thành công trên MT5 thật.
+Giữ source gaps (A1 còn30/391), Trader pin, VI WIP, mọi freeze/negative attempt; không order/deploy.
+
+## V22 đã merge (lịch sử; interpretation H1 được sửa trong V23)
 
 **V22: hai cổng exhaustion rớt Dev; H120:00 phục hồi endpoint nhưng chưa có booster.**
 [Kết quả](research/EXHAUSTION-H1-ALIGN-V22-RESULTS-20261117.md) /
@@ -16,7 +39,8 @@ A/B giữ10/10 Dev top10 nhưng net23,852R→23,329R/22,491R; equityDD tăng
 12,207R→12,788R/13,006R. A tránh17,289R lỗ nhưng bỏ17,813R winner; không threshold thứ3.
 L3 là label sau outcome, không thể loại riêng45 loss bằng filter biết trước.
 34 B2/B3 cells:22 M1 reuse,6 GBP H1 rerun,6 AUD thêm được đăng ký;0 Stage-0 survivors.
-GBP endpoint14/2288→2282/2288; AUD1789/1795. Missing vẫn có, không M1 giả,
+GBP endpoint14/2288→2282/2288; AUD1789/1795 theo V22 `ok` mask. V23 đã xác minh
+12 quan sát bị calendar guard chặn đều có giá, không còn missing endpoint trong cohort này; không M1 giả,
 H1 không chứng minh intrahour SL/DD; cost-only retention tách quote availability.
 Không child qua Dev:0 Full child backtests/0 new historical accounts/0 MC paths;
 baseline105 starts/5.000 draws chỉ reuse có binding. Giữ V16/V19 BASE_GUARD.
@@ -26,7 +50,7 @@ native attach chưa kiểm; terminal ping không là RTT mới, shadow vẫn gat
 median0,678s/max0,720108s; giữ outlier, không retry streak.
 14 Zstd tables1.241.511→222.119bytes, exact SHA/roundtrip; không source deletion/cache copy.
 Private job `execution-v1/exhaustion-h1-align-v22-20261117` giữ evidence/CI receipts.
-PR101 để mở; exact-head3CI/downloaded IDs chốt trong `ci-exact-head-reconciliation.json`
+PR101 đã merge `9309109` trong V23; exact-head3CI/downloaded IDs lịch sử giữ trong `ci-exact-head-reconciliation.json`
 và `completion-receipt.json` sau push. Không financial worker còn chạy.
 Giữ Trader pin/VI WIP/nguồn/freezes/negative attempts; không broker/provider/deploy/Astra/memory.
 

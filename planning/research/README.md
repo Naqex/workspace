@@ -1,12 +1,23 @@
 # Tra cứu research đã có
 
+**V23 — A1 bỏ F3 qua Dev; Full/Bootstrap đang hoàn tất, chưa promote:**
+[protocol](SLEEVE-ABLATION-MT5-V23-PROTOCOL-20261117.md) /
+[freeze](SLEEVE-ABLATION-MT5-V23-FREEZE-20261117.json) /
+[PR102](https://github.com/Naqex/workspace/pull/102).
+Dev33,554R/DD11,437R; Full historical63/105 hai vòng, baseline71/105.
+Ba F5 transfers fail. GBP/AUD endpoint đủ100%;12 `ok=false` do Gold calendar
+guard, không thiếu giá. FTMO26/12/2022 FX closed; một số Good Friday vẫn unknown.
+Watcher bounded/read-only có timeout/account binding, chưa native successful capture.
+Resume/checkpoints/CI theo [current context](../CURRENT-CONTEXT.md); giữ BASE_GUARD.
+
 **V22 — hai cổng exhaustion rớt Dev; H120:00 chưa tạo booster:**
 [Kết quả](EXHAUSTION-H1-ALIGN-V22-RESULTS-20261117.md) /
 [JSON](EXHAUSTION-H1-ALIGN-V22-RESULTS-20261117.json) /
 [protocol](EXHAUSTION-H1-ALIGN-V22-PROTOCOL-20261117.md) /
 [freeze](EXHAUSTION-H1-ALIGN-V22-FREEZE-20261117.json).
 A/B giữ Dev top10 nhưng net giảm/DD tăng; không tune ngưỡng thứ3.
-GBP H1 endpoint2282/2288, AUD1789/1795;0/34 đủ Stage-0,22 cases M1 reuse.
+GBP H1 endpoint2282/2288, AUD1789/1795 theo mask cũ; V23 đã sửa interpretation:
+12 quan sát đều có giá, bị lịch Gold áp sang FX chặn.0/34 đủ Stage-0,22 cases M1 reuse.
 MT5 preflight không terminal, chưa native acceptance.1.280 PASS/0skip/full13,013s;
 smoke10/10<0,75s, stretch<0,72s chỉ9/10. PR100 đã merge, giữ baseline/source gaps.
 Trạng thái và CI receipts theo [current context](../CURRENT-CONTEXT.md).
