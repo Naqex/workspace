@@ -761,7 +761,8 @@ def known_hour_seed(seed_spec, native_hours, now):
     return [by_time[t] for t in sorted(by_time)]
 
 
-def run_native_shadow(reader, plan, output, *, max_seconds=60, poll_seconds=2, clock=None, sleeper=None):
+def run_native_shadow(reader, plan, output, *, max_seconds=60, poll_seconds=2, clock=None, sleeper=None,
+                      paper_factory=None, event_sink=None):
     import time
     clock = clock or (lambda: int(time.time() * 1000))
     sleeper = sleeper or time.sleep
@@ -781,8 +782,8 @@ def run_native_shadow(reader, plan, output, *, max_seconds=60, poll_seconds=2, c
     with (output / "effective-paper-plan.json").open("x", encoding="utf-8") as f:
         json.dump({k: plan[k] for k in ("policy", "profile", "phase", "from_msc", "to_msc",
                                        "binding", "specs", "news", "holidays", "closed_M1_times", "signal_seeds",
-                                       "entry_cutoff_msc") if k in plan}, f, indent=2)
-    paper = ShadowPaper(plan, now, plan["to_msc"])
+                                       "entry_cutoff_msc", "v20_profile") if k in plan}, f, indent=2)
+    paper = (paper_factory or ShadowPaper)(plan, now, plan["to_msc"])
     boundary = {}
     last_hour, ordinal = None, 0
     with (output / "native-shadow-events.jsonl").open("x", encoding="utf-8") as journal:
@@ -794,6 +795,8 @@ def run_native_shadow(reader, plan, output, *, max_seconds=60, poll_seconds=2, c
             ordinal += 1
             journal.write(json.dumps(event) + "\n")
             journal.flush()
+            if event_sink is not None:
+                event_sink(event)
         now = clock()
         while now < deadline:
             verify_account(reader.account(), plan["binding"])
