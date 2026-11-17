@@ -12,6 +12,11 @@ class FastFailTests(unittest.TestCase):
     def test_cost_gate_boundary_and_scalper_flag(self):
         self.assertTrue(toxicity_scale(self.profile(),friction=1.2,median_stop=10,retention=.5)['passed'])
         self.assertIn('FRICTION_FRAGILITY_SCALPER',toxicity_scale(self.profile(),friction=3,median_stop=10,retention=1)['reasons'])
+    def test_decimal_twelve_percent_equality_is_inclusive_without_tolerance(self):
+        self.assertGreater(.084/.7,.12)
+        self.assertTrue(toxicity_scale(self.profile(),friction=.084,median_stop=.7,retention=.5)['passed'])
+        self.assertIn('STAGE0_FRICTION_SCALE_FAIL',toxicity_scale(self.profile(),friction=.084000000001,median_stop=.7,retention=.5)['reasons'])
+        self.assertTrue(toxicity_scale(self.profile(),friction=.083999999999,median_stop=.7,retention=.5)['passed'])
     def test_improved_net_with_worse_DD_fails(self):
         base=self.metrics();c=dict(base,net_R=15,equity_R_DD=6)
         self.assertFalse(development_gate(c,base,inputs_sha256='a',recipe_sha256='b')['passed'])

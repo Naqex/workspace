@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**Tiếp nhận lane xingchiapi-astra (17/11):** [bảng đối chiếu và kiểm chứng](SOLO-LANE-ADOPTION-20261117.md).
+Đã sửa exact cost caps và quote source age trong Shadow/Gate1; 1.340 PASS/0skip.
+GBP/S02 chưa promote; runtime/artifact product đi qua PR32, chưa deploy.
+
 **V24 — P80 fail; connector reuse/static Bot Lab có implementation, speed targets chưa đạt:**
 [Kết quả](PARETO-MT5-BOT-LAB-V24-RESULTS-20261117.md) /
 [JSON](PARETO-MT5-BOT-LAB-V24-RESULTS-20261117.json) /

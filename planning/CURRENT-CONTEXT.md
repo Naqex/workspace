@@ -4,6 +4,10 @@
 
 ## Việc hiện tại
 
+Tiếp nhận từ lane `xingchiapi-astra`: [adoption report](research/SOLO-LANE-ADOPTION-20261117.md).
+PR103 bổ sung exact cost caps/source quote age; 1.340 PASS/0skip, giữ đủ 1.335 IDs cũ.
+Không nhận GBP/S02 vào BASE_GUARD; Trader PR32 chưa merge/deploy; VI WIP nguyên vẹn.
+
 **V24: connector reuse/Bot Lab có source và fixtures; P80 rớt, speed targets chưa đạt.**
 [Kết quả](research/PARETO-MT5-BOT-LAB-V24-RESULTS-20261117.md) /
 [JSON](research/PARETO-MT5-BOT-LAB-V24-RESULTS-20261117.json) /

@@ -1,6 +1,7 @@
 """Pure prepared-input admission gates; stdout consumers own optional evidence writes."""
 import hashlib,json,math,subprocess
 from pathlib import Path
+from quant_core.cost_gates import exceeds_friction_cap
 
 def content_hash(value):return hashlib.sha256(json.dumps(value,sort_keys=True,separators=(',',':')).encode()).hexdigest()
 
@@ -13,9 +14,8 @@ def toxicity_scale(profile,*,friction=None,median_stop=None,retention=None):
     if any(v is None or isinstance(v,bool) or not math.isfinite(v) for v in values):reasons.append('SCALE_EVIDENCE_REQUIRED')
     elif friction<0 or median_stop<=0 or not 0<=retention<=1:reasons.append('INVALID_SCALE_INPUT')
     else:
-        ratio=friction/median_stop
-        if ratio>.25:reasons.append('FRICTION_FRAGILITY_SCALPER')
-        elif ratio>.12:reasons.append('STAGE0_FRICTION_SCALE_FAIL')
+        if exceeds_friction_cap(friction,median_stop,25):reasons.append('FRICTION_FRAGILITY_SCALPER')
+        elif exceeds_friction_cap(friction,median_stop,12):reasons.append('STAGE0_FRICTION_SCALE_FAIL')
         if retention<.5:reasons.append('RETENTION_BELOW_HALF')
     return dict(gate=1,passed=not reasons,reasons=reasons,profile_sha256=content_hash(profile),
         full_logic_qualification=False,artifact_writes=0)

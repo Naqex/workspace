@@ -619,7 +619,7 @@ class ShadowPaper:
             return str(exc)
         for i in self.account.active:
             held = self.trades[i]["asset"]
-            if now - self.quotes[held]["known_at_msc"] > 2 * MINUTE:
+            if now - self.quotes[held]["source_msc"] > 2 * MINUTE:
                 return "OTHER_ACTIVE_ASSET_QUOTE_STALE"
         if self.plan["policy"] == "V19":
             from prop_v16_paths import CausalFlatSchedule
@@ -642,11 +642,9 @@ class ShadowPaper:
             return "NATURAL_SL_INVALID_OR_TOO_CLOSE"
         if Decimal(intent["stop_units"]) / scale % Decimal(str(spec["trade_tick_size"])) != 0:
             return "NATURAL_SL_OFF_BROKER_TICK_GRID"
-        from quant_core.vectorized_sl_active_kernel import money
-        sign = np.array([1 if intent["side"] == "BUY" else -1])
-        exit_px = quote["bid_units"] if sign[0] == 1 else quote["ask_units"]
-        friction = -money(asset, "SYM", sign, [entry], [exit_px], [now], [now], ["MARKET"])["net"][0]
-        if friction / (distance / scale) > .15:
+        from quant_core.cost_gates import exceeds_friction_cap, stress_market_friction_units
+        friction = stress_market_friction_units(asset, quote["bid_units"], quote["ask_units"])
+        if exceeds_friction_cap(friction, distance, 15):
             return "FRICTION_OVER_15PCT_OF_NATURAL_SL"
         return None
 

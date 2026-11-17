@@ -1,5 +1,8 @@
 # V24 — connector MT5, Bot Lab và phép thử Pareto
 
+Addendum sau baseline `0704f885`: [tiếp nhận exact cost caps và quote source age](SOLO-LANE-ADOPTION-20261117.md).
+Code mới có 1.340 PASS/0skip; số đo chiến lược và hiệu năng V24 bên dưới giữ nguyên theo run gốc.
+
 **P80_20 rớt Development; giữ V16/V19 BASE_GUARD. Connector và lab đã có implementation/fixtures, nhưng native login/capture chưa kiểm thực tế, chưa có causal clone tự động và chưa đạt mục tiêu tốc độ.**
 
 PR102/head19bf58c đã merge555c2bd, nhánh V23 local/remote đã xóa. V24 đăng ký220550d trước kết quả, đúng một trial1,30/0,70/0,70, không grid hoặc tune theo2024+. Giữ Trader pin930fa768/VI WIP, không broker orders/deploy. PR103 để mở.

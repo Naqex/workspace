@@ -1,5 +1,7 @@
 from copy import deepcopy
 from datetime import datetime, timezone
+from decimal import Decimal, ROUND_HALF_UP
+from fractions import Fraction
 from pathlib import Path
 import json
 import tempfile
@@ -284,6 +286,70 @@ class PaperHarnessTests(unittest.TestCase):
         self.assertFalse(p.intents["test-intent"]["consumed"])
         p.advance(tick(FIRST + 5001))
         self.assertEqual(len(p.account.accepted), 1)
+
+    def test_friction_equality_and_adjacent_native_stop_units(self):
+        identity = "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0"
+        for stop, accepted in ((128063, 1), (128064, 1), (128065, 0)):
+            with self.subTest(stop=stop):
+                p = paper()
+                p.plan["closed_M1_times"]["EURUSD"] = list(p.plan["closed_M1_times"]["XAUUSD"])
+                p.offer(dict(intent(identity), asset="EURUSD", stop_units=stop), FIRST)
+                p.advance(dict(tick(), asset="EURUSD", bid=1.28175, ask=1.28184))
+                self.assertEqual(len(p.account.accepted), accepted)
+                if not accepted:
+                    self.assertEqual(p.log[-2]["reason"], "FRICTION_OVER_15PCT_OF_NATURAL_SL")
+
+    def test_native_friction_matches_independent_decimal_commission_rounding(self):
+        from quant_core.cost_gates import stress_market_friction_units
+        from quant_core.vectorized_sl_active_kernel import money
+        for asset, scale, bid, ask in (("EURUSD", 100000, 128175, 128184),
+                                       ("XAUUSD", 1000, 2000000, 2000340),
+                                       ("XAUUSD", 1000, 2007142, 2007143),
+                                       ("XAUUSD", 1000, 2007143, 2007483)):
+            if asset == "XAUUSD":
+                fees = sum((Decimal(price) / scale * Decimal("0.000007")).quantize(
+                    Decimal("0.0001"), rounding=ROUND_HALF_UP) for price in (bid, ask))
+                expected = Decimal(ask - bid) + (fees + Decimal(".4")) * scale
+            else:
+                expected = Decimal(ask - bid + 9)
+            cost = stress_market_friction_units(asset, bid, ask)
+            self.assertEqual(cost, Fraction(expected))
+            for side in (1, -1):
+                entry, exit_px = (ask, bid) if side == 1 else (bid, ask)
+                old = -money(asset, "SYM", np.array([side]), [entry], [exit_px],
+                             [FIRST], [FIRST], ["MARKET"])["net"][0]
+                self.assertAlmostEqual(float(cost) / scale, old, places=10)
+
+    def test_gold_friction_equality_both_sides_and_adjacent_broker_ticks(self):
+        from quant_core.cost_gates import stress_market_friction_units
+        self.assertEqual(stress_market_friction_units("XAUUSD", 2000000, 2000340), 768)
+        for side, entry in (("BUY", 2000340), ("SELL", 2000000)):
+            for distance, accepted in ((5110, 0), (5120, 1), (5130, 1)):
+                with self.subTest(side=side, distance=distance):
+                    p = paper()
+                    stop = entry - distance if side == "BUY" else entry + distance
+                    p.offer(dict(intent(), side=side, stop_units=stop), FIRST)
+                    p.advance(tick())
+                    self.assertEqual(len(p.account.accepted), accepted)
+
+    def test_other_held_asset_age_uses_source_clock_not_arrival_clock(self):
+        p = paper()
+        p.offer(intent(), FIRST)
+        p.advance(dict(tick(), known_at_msc=FIRST + 500))
+        self.assertEqual(len(p.account.active), 1)
+        identity = "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0"
+        for age, expected in ((120000, None), (120001, "OTHER_ACTIVE_ASSET_QUOTE_STALE")):
+            with self.subTest(age=age):
+                now = FIRST + age
+                p.mark = mark(now)
+                p.quotes["EURUSD"] = dict(bid_units=110000, ask_units=110009,
+                                         known_at_msc=now, source_msc=now)
+                p.plan["closed_M1_times"]["EURUSD"] = list(range(
+                    now // app.MINUTE * app.MINUTE - 30 * app.MINUTE,
+                    now // app.MINUTE * app.MINUTE, app.MINUTE))
+                incoming = dict(intent(identity), asset="EURUSD", decision_msc=now, stop_units=109000)
+                row = dict(tick(now), asset="EURUSD", bid=1.1, ask=1.10009)
+                self.assertEqual(p.entry_reason(incoming, now, row), expected)
 
     def test_stale_position_path_never_creates_a_backdated_market_fill(self):
         p = paper()
