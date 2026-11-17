@@ -49,6 +49,26 @@ nhưng prerequisites phải được xác minh trước. Dùng thêm `--manifest
 và khi nhiều terminal có `--terminal <terminal64.exe>`. Runner không mở terminal,
 không login, không đổi account/symbol selection và không gửi lệnh.
 
+Để chờ chủ tài khoản mở MT5 và đăng nhập FTMO Demo/Trial USD:
+
+```powershell
+uv run --project tooling/strategy-engines/observer --no-sync python -m tooling.ai_engines.ftmo_trial_runner --watch-mt5 --watch-timeout 300 --seconds 60
+```
+
+Watcher chạy trong terminal hiện tại, mặc định kiểm mỗi 5 giây; có thể đổi bằng
+`--watch-poll-seconds`. Thời gian chờ `--watch-timeout` và thời gian ghi spread
+`--seconds` đều giới hạn 1–3.600 giây. Khi nhận đúng account và quote đủ mới,
+công cụ bind executable/account hash/server, chụp `TARGET_ACCOUNT_SPEC_SNAPSHOT.json`,
+ghi `SPEC_PARITY_DIFF.json` rồi lưu Bid/Ask/spread thành Zstd Parquet có SHA256.
+Mất terminal hoặc đổi account giữa probe và capture sẽ báo lỗi; không tự phát
+fixture. Nhiều terminal cần đường dẫn chỉ định; terminal ngoài FTMO hoặc account
+thật không được nhận. Đây là thu thập read-only, chưa xác nhận quyền shadow,
+biểu phí commission hoặc lịch giao dịch đầy đủ.
+
+`WATCH_REPORT.json` giữ kết quả timeout/interrupt/failure; exit `2` là chưa thu
+thành công, `130` là đã ngắt. Poll/IPC có thể kết thúc muộn hơn deadline một
+probe đang chạy. Không cài daemon/service, không tự đăng nhập và không gửi lệnh.
+
 Manifest kế thừa schema trong [runbook adapter V19](FTMO-FREE-TRIAL-ADAPTER-V19-20261116.md):
 binding account hash/server, phase, capture window, exact seeded H1 từ nguồn
 đã admission, specs, lịch tin và holiday có provenance/known-at/coverage.

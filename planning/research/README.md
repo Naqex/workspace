@@ -1,12 +1,27 @@
 # Tra cứu research đã có
 
+**V23 — A1 qua Dev nhưng chưa thắng toàn kỳ; performance target chưa đạt:**
+[Kết quả](SLEEVE-ABLATION-MT5-V23-RESULTS-20261117.md) /
+[JSON](SLEEVE-ABLATION-MT5-V23-RESULTS-20261117.json) /
+[protocol](SLEEVE-ABLATION-MT5-V23-PROTOCOL-20261117.md) /
+[freeze](SLEEVE-ABLATION-MT5-V23-FREEZE-20261117.json).
+A1 bỏ F3: Dev33,554R/DD11,437R; Full391 lệnh/41,866R, historical63/105 hai vòng so với71/105.
+5.000 common draws/ordering:24m12,04%,36m29,86%; giữ V16/V19 BASE_GUARD, không promote.
+Ba F5 transfers fail. GBP/AUD endpoint đủ100%;12 calendar rejections không phải missing quotes.
+FTMO26/12/2022 notices mâu thuẫn; một số Good Friday vẫn unknown. Watcher native read-only
+có timeout/account binding, actual no-terminal; chưa native acceptance.
+1.295 PASS/0skip nhưng full19,728s/smoke0/10<0,72s: công bố chưa đạt speed target.
+31 Zstd tables/hash/roundtrip; source gaps và exposure còn nguyên. PR102 và final CI receipts theo
+[current context](../CURRENT-CONTEXT.md).
+
 **V22 — hai cổng exhaustion rớt Dev; H120:00 chưa tạo booster:**
 [Kết quả](EXHAUSTION-H1-ALIGN-V22-RESULTS-20261117.md) /
 [JSON](EXHAUSTION-H1-ALIGN-V22-RESULTS-20261117.json) /
 [protocol](EXHAUSTION-H1-ALIGN-V22-PROTOCOL-20261117.md) /
 [freeze](EXHAUSTION-H1-ALIGN-V22-FREEZE-20261117.json).
 A/B giữ Dev top10 nhưng net giảm/DD tăng; không tune ngưỡng thứ3.
-GBP H1 endpoint2282/2288, AUD1789/1795;0/34 đủ Stage-0,22 cases M1 reuse.
+GBP H1 endpoint2282/2288, AUD1789/1795 theo mask cũ; V23 đã sửa interpretation:
+12 quan sát đều có giá, bị lịch Gold áp sang FX chặn.0/34 đủ Stage-0,22 cases M1 reuse.
 MT5 preflight không terminal, chưa native acceptance.1.280 PASS/0skip/full13,013s;
 smoke10/10<0,75s, stretch<0,72s chỉ9/10. PR100 đã merge, giữ baseline/source gaps.
 Trạng thái và CI receipts theo [current context](../CURRENT-CONTEXT.md).

@@ -29,7 +29,7 @@ FAST = {
     "test_sl_active_kernel", "test_independent_ledger_auditor", "test_v12_signals",
     "test_gap_aware_execution", "test_v13_protocol", "test_prop_v14", "test_prop_v15", "test_prop_v16", "test_prop_v17", "test_prop_v18",
     "test_prop_v19", "test_ftmo_free_trial_adapter", "test_v19_covariance", "test_prop_v20",
-    "test_evidence_compaction", "test_ftmo_trial_runner", "test_trade_forensics", "test_prop_v22",
+    "test_evidence_compaction", "test_ftmo_trial_runner", "test_trade_forensics", "test_prop_v22", "test_prop_v23",
 }
 SMOKE = {"test_quant_core", "test_vectorized_stage0", "test_workspace_maintenance",
          "test_deep_storage", "test_zero_tuning_ensemble", "test_sl_active_kernel",

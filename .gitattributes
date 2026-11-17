@@ -30,3 +30,6 @@ tooling/ai-engines/quant_core/behavioral_signals.py text eol=lf
 planning/research/EXHAUSTION-H1-ALIGN-V22-*.md text eol=lf
 tooling/ai-engines/prop_v22_*.py text eol=lf
 tooling/ai-engines/quant_core/exhaustion_gate.py text eol=lf
+planning/research/SLEEVE-ABLATION-MT5-V23-*.md text eol=lf
+tooling/ai-engines/prop_v23_*.py text eol=lf
+tooling/ai-engines/quant_core/sleeve_ablation.py text eol=lf
