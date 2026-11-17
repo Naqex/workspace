@@ -107,8 +107,9 @@ def marked_metrics(trades,context,tag):
         daily=max(daily,float(anchor-eq[use].min()))
     net=sum(trade_money(t,exact_quantity(t,150),"SYM_FLAT",150)["net_usd"]/150 for t in trades)
     if len(eq) and abs(eq[-1]-net)>1e-7:raise ValueError("V21_marked_cash_conservation")
+    years=6 if context.end==DEV_END else (context.end-FIRST)/(365.2425*DAY)
     return dict(net_R=net,equity_R_DD=dd,worst_daily_R=daily,worst_daily_pct=daily*.3,
-        Calmar=(net/6/dd if dd else None),fixed150_not_account_lifecycle=True)
+        Calmar=(net/years/dd if dd else None),annualization_years=years,fixed150_not_account_lifecycle=True)
 
 
 def refine(trades,context,tag,choice):

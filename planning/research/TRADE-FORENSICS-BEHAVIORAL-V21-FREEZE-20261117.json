@@ -1,0 +1,36 @@
+{
+  "schema": "V21-Development-decision-v1",
+  "selected": null,
+  "decision": "RETAIN_V16_V19_BASE_GUARD_NO_QUALIFIED_REFINEMENT",
+  "Development": [
+    1514764800000,
+    1704067200000
+  ],
+  "B1": "B1_EARLY_NET_BE",
+  "B1_passed": false,
+  "B2_B3_cases": 28,
+  "B2_B3_Stage0_survivors": 0,
+  "original_buggy_B2_evaluations_retained": 24,
+  "corrected_B2_evaluations": 24,
+  "unchanged_B3_reused": 4,
+  "later_V21_taxonomy_seen_before_selection": false,
+  "new_historical_accounts": 0,
+  "new_MC_paths": 0,
+  "source_gap_and_native_execution_gates_remain_open": true,
+  "bindings": {
+    "registration.json": "f6ee7a62c696dffc20f6a763ebee5943d2349181f0016551135b0f06cfb7a67b",
+    "B1-choice-before-child-outcome.json": "52ad8234d6ab3437d4b55bd020733c0fd8901a327ea657d38ba0af19439331f1",
+    "B1-result.json": "d5b63e7a4b7f6f022bdbf04d607f08bb624ec75e2d1fd783eca3340854607868",
+    "behavioral-results.json": "0cfd27bf61f807e5f1d2d131b3cb3f16c62a043953f15d0c86d40195c6d95090",
+    "behavioral-correction-registration.json": "ada4612782c202ddb6d9ee5612aaad21e472e8704d4786c161a8c54b72301784",
+    "behavioral-corrected-v2\\behavioral-results.json": "ca286b7d1f0b618362c8692e0b342cb3a02ef268d8d2597ee9c7b8bb80f94dea"
+  },
+  "final_forensics_code": {
+    "tooling/ai-engines/prop_v21_forensics.py": "d353c532f538ae9e6613aa7c259153796d0f241316951b6a9779152a2c98575f",
+    "tooling/ai-engines/quant_core/trade_forensics_classifier.py": "76857bd5b934d17e58e3938e8d63ea8c40ede6718a1f277602a7f7d39d5662c0"
+  },
+  "full_annualization_clarification": "Full taxonomy Calmar uses actual elapsed years; Dev stays exactly six years; no Dev outcome/rules changed.",
+  "full_taxonomy_allowed_only_for_attribution": true,
+  "prop_qualified": false,
+  "actual_broker_orders": 0
+}

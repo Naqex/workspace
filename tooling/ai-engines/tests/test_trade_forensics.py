@@ -113,3 +113,35 @@ class ForensicTests(unittest.TestCase):
         second=recipes(b,'EURUSD',0,cut,hourly=True)
         for a,c in zip(first,second):
             for k in ('at','side','stop'):np.testing.assert_array_equal(a[k],c[k])
+
+    def test_early_protection_waits_for_next_minute_and_keeps_entry_stop(self):
+        from types import SimpleNamespace
+        from prop_v21_forensics import refine
+        from quant_core.market_data_store import QUOTE
+        q=np.array([(0,99662,100000),(20000,101600,101938),(40000,99900,100238),
+            (60000,100700,101038),(80000,100100,100438),(120000,100500,100838)],dtype=QUOTE)
+        t=dict(id='XAUUSD|F3:test|DAY|P0',asset='XAUUSD',side='BUY',entry_msc=0,exit_msc=120000,
+            entry_price_units=100000,exit_price_units=100500,stop_units=99000,natural=1.,mode='P0',
+            reason='HORIZON',reference={'SYM':{'net_R':.1}})
+        c=SimpleNamespace(reader=lambda *a:SimpleNamespace(points=lambda lo,hi:q[(q['t']>=lo)&(q['t']<=hi)]))
+        new=refine([t],c,'OLHC','B1_EARLY_NET_BE')[0]
+        self.assertEqual(new['activation_time'],60000);self.assertGreaterEqual(new['exit_msc'],60000)
+        self.assertLess(new['exit_msc'],120000);self.assertEqual(new['reason'],'PROTECT')
+        for k in ('entry_msc','entry_price_units','stop_units','side'):self.assertEqual(new[k],t[k])
+        self.assertEqual(t['reason'],'HORIZON')
+
+    def test_development_gate_rejects_more_profit_with_larger_drawdown(self):
+        from prop_v21_development import comparison
+        b=dict(net_R=10,Calmar=1,equity_R_DD=2,worst_daily_R=1)
+        n=dict(net_R=11,Calmar=1.1,equity_R_DD=2.1,worst_daily_R=1)
+        old=dict(W1_share=.3,overlapping_loss_flags={'L2':{'loss_R':3},'L3':{'loss_R':2}})
+        new=dict(W1_share=.4,overlapping_loss_flags={'L2':{'loss_R':1},'L3':{'loss_R':1}})
+        self.assertIn('EQUITY_DD_INCREASE',comparison(b,n,old,new))
+
+    def test_raw_screen_missing_quotes_are_not_zero_fee_or_profitable_observations(self):
+        from prop_v21_development import screen
+        m=dict(asset='GBPUSD',recipe='B2:test',family='B2',at=np.array([1]),years=np.array([2022]),
+            ok=np.array([False]),admitted=np.array([False]),net=np.array([100.]),natural=np.array([10.]),friction=np.array([1.]))
+        r=screen(m)
+        self.assertFalse(r['stage0_passed']);self.assertEqual(r['priced'],0)
+        self.assertIsNone(next(a for a in r['annual'] if a['year']==2022)['mean_net_units'])
