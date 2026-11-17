@@ -87,7 +87,8 @@ def run(group, tier, output, selected=None, indexed_imports=False):
     selected = modules(group, tier) if selected is None else selected
     # PYTHONPATH and unittest callers can already contain both entries. Repeated
     # search roots add filesystem probes to every import on Windows.
-    candidates = [str(Path(__file__).parent), str(Path(__file__).with_name("tests")), *sys.path]
+    candidates = [str(Path(__file__).parent), str(Path(__file__).with_name("tests")),
+                  str(Path(__file__).resolve().parents[2]), *sys.path]
     sys.path = list(dict.fromkeys(str(Path(p).resolve()) for p in candidates))
     start = time.perf_counter()
     finder = RepoModuleFinder() if indexed_imports else None

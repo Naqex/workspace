@@ -60,3 +60,17 @@ quote. Slippage thực cần log request/fill bên ngoài cùng account/intent;
 capture spread không tự đo được slippage. Kết thúc process có thể còn vị thế
 paper: journal/report giữ trạng thái, cần replay/reconciliation trước resume,
 không xóa ledger để coi như đã flat. Vị thế broker không bị tác động.
+
+## Đọc lại evidence V19 đã nén
+
+`evidence_compaction.EvidenceStore` đọc trực tiếp archive và kiểm cả SHA256
+bản nén/bản gốc. Các consumer cũ đã freeze vẫn giữ nguyên code; khi cần chạy
+lại chúng, khôi phục đúng đường file và byte gốc:
+
+```powershell
+uv run --project tooling/strategy-engines/observer --no-sync python tooling/ai-engines/evidence_compaction.py restore --relative "Full-pack/OLHC-PRIMARY-quotes.npy"
+```
+
+Tên tương đối phải lấy từ `evidence-zstd-v20/MANIFEST.json` của job V19,
+không đoán tên theo ví dụ. Bỏ `--relative` sẽ restore toàn bộ các file đã nén,
+làm tăng lại dung lượng tương ứng. Restore không ghi đè file khác nội dung.
