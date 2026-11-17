@@ -30,6 +30,7 @@ FAST = {
     "test_gap_aware_execution", "test_v13_protocol", "test_prop_v14", "test_prop_v15", "test_prop_v16", "test_prop_v17", "test_prop_v18",
     "test_prop_v19", "test_ftmo_free_trial_adapter", "test_v19_covariance", "test_prop_v20",
     "test_evidence_compaction", "test_ftmo_trial_runner", "test_trade_forensics", "test_prop_v22", "test_prop_v23",
+    "test_bot_lab", "test_ftmo_connection", "test_research_fast_fail",
 }
 SMOKE = {"test_quant_core", "test_vectorized_stage0", "test_workspace_maintenance",
          "test_deep_storage", "test_zero_tuning_ensemble", "test_sl_active_kernel",
@@ -54,6 +55,8 @@ class RepoModuleFinder:
 
 
 def modules(group, tier):
+    if tier=='smoke':
+        return sorted(SMOKE) if group in ('base','complete') else []
     names = sorted(p.stem for p in Path(__file__).with_name("tests").glob("test_*.py"))
     match = {
         "base": lambda m: m not in SPECIAL,
@@ -174,7 +177,7 @@ if __name__ == "__main__":
     parser.add_argument("--group", choices=("base", "native", "statistics", "worker", "observer", "complete"), default="base")
     parser.add_argument("--tier", choices=("smoke", "fast", "historical", "all"), default="all")
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--workers", type=int, choices=(1, 2, 4), default=1)
+    parser.add_argument("--workers", type=int, choices=(1, 2, 4, 6), default=1)
     parser.add_argument("--indexed-imports", action="store_true")
     parser.add_argument("--profile", type=Path)
     parser.add_argument("--module", action="append")
