@@ -37,7 +37,7 @@ def terminal_inventory():
 
 def check_mt5_ready(*, terminal=None, sdk=None, inventory=None):
     """Inspect an existing FTMO demo IPC session; never login/select/send."""
-    started=time.perf_counter();initialized=False
+    started=time.perf_counter();initialized=False;native_clock=sdk is None
     r=dict(schema="MT5-readonly-preflight-v22",status="NOT_READY",read_only_ready=False,
         shadow_ready=False,actual_broker_orders=0,terminal_connected=False,
         last_reported_broker_ping_ms=None,ping_is_fresh_network_measurement=False,
@@ -76,6 +76,9 @@ def check_mt5_ready(*, terminal=None, sdk=None, inventory=None):
         for asset in ASSETS:
             spec=sdk.symbol_info(asset);tick=sdk.symbol_info_tick(asset) if spec is not None else None
             quote=tick._asdict() if tick is not None else {}
+            if native_clock and quote.get('time_msc') is not None:
+                from ftmo_connection import quote_utc_msc
+                quote['time_msc']=quote_utc_msc(quote['time_msc'],a.get('server'))
             valid=(isinstance(quote.get("time_msc"),int) and quote["time_msc"]<=now and
                 all(isinstance(quote.get(k),(int,float)) and math.isfinite(quote[k]) for k in ("bid","ask")) and
                 quote["bid"]>0 and quote["ask"]>=quote["bid"])
@@ -332,7 +335,8 @@ def run(mode,output,*,manifest=None,bridge=None,replay=False,seconds=60,speed=1.
         if terminal is None:
             if len(inventory)!=1:raise adapter.AdapterError("MULTIPLE_TERMINALS_REQUIRE_EXPLICIT_PATH")
             terminal=inventory[0]["ExecutablePath"]
-        reader=adapter.NativeMT5Reader(terminal)
+        from ftmo_connection import ClockReader
+        reader=ClockReader(adapter.NativeMT5Reader(terminal))
         try:
             now=int(time.time()*1000);snap=snapshot(reader,now)
             if expected_binding is not None and snap["binding"]!=expected_binding:
@@ -472,7 +476,20 @@ def main():
     p.add_argument("--check-mt5-ready",action="store_true")
     p.add_argument("--watch-mt5",action="store_true");p.add_argument("--watch-timeout",type=float,default=300)
     p.add_argument("--watch-poll-seconds",type=float,default=5)
+    p.add_argument('--credentials-file',type=Path,help='Four-key private FTMO Trial env file; never a shell script')
     a=p.parse_args()
+    from ftmo_connection import credentials,trial_session
+    try:
+        values=credentials(a.credentials_file)
+        if values and (a.replay or a.bridge):p.error('credentials are separate from fixture/bridge replay')
+        with trial_session(values) as terminal:
+            a.credentials_active=values is not None
+            if terminal:a.terminal=terminal
+            return dispatch(a,p)
+    except ValueError as exc:p.exit(2,'FTMO Trial setup stopped: '+str(exc)+'\n')
+
+
+def dispatch(a,p):
     if a.watch_mt5:
         if a.check_mt5_ready or a.replay or a.bridge or a.mode!="read-only":p.error("watch only supports native read-only capture")
         from prop_v23_common import JOB as watch_root
@@ -492,7 +509,8 @@ def main():
         return 0 if result["read_only_ready"] else 2
     from prop_v20_common import JOB
     out=a.output or JOB/("observer-"+datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ"))
-    try:run(a.mode,out,manifest=a.manifest,bridge=a.bridge,replay=a.replay,seconds=a.seconds,speed=a.speed,terminal=a.terminal)
+    try:run(a.mode,out,manifest=a.manifest,bridge=a.bridge,replay=a.replay,seconds=a.seconds,speed=a.speed,terminal=a.terminal,
+        require_native=a.credentials_active)
     except (adapter.AdapterError,ValueError,ModuleNotFoundError) as exc:
         if out.exists() and not (out/"failure.json").exists():write(out/"failure.json",dict(error=str(exc),actual_broker_orders=0))
         p.exit(2,"Read-only/shadow stopped: "+str(exc)+". See QUICKSTART-FTMO-FREE-TRIAL.md.\n")

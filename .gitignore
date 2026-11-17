@@ -70,3 +70,6 @@ desktop.ini
 
 # Previous Trader checkout retained temporarily for the owned runtime and WIP.
 /projects/mt5-tradingview-backtester/
+/config/ftmo_free_trial.env
+/research/bot_reverse_lab/inbox/*
+!/research/bot_reverse_lab/inbox/.gitkeep
