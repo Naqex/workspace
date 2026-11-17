@@ -1,6 +1,6 @@
 """Bounded FTMO DEMO observation or private shadow ledger; never sends orders."""
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 import hashlib
 import importlib.util
@@ -9,6 +9,7 @@ import math
 import subprocess
 import sys
 import time
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 import ftmo_free_trial_adapter as adapter
 
@@ -62,7 +63,7 @@ def snapshot(reader, now, *, replay=False):
         commission_schedule="Requires signed deal-level costs; not inferred from swap or spread.")
 
 
-def parity(snapshot_value):
+def parity(snapshot_value, holidays=None):
     rows=[]
     for asset,spec in snapshot_value["specs"].items():
         expected={"trade_contract_size":100 if asset=="XAUUSD" else 100000,
@@ -71,13 +72,38 @@ def parity(snapshot_value):
             actual=spec.get(field)
             rows.append(dict(asset=asset,field=field,expected=value,actual=actual,
                 status="UNKNOWN" if actual is None else "MATCH" if actual==value else "DIFFERENT"))
-        rows.append(dict(asset=asset,field="sessions_trade",status="UNKNOWN",
-            expected="20:30 UTC daily-flat with registered early-close; session mapping requires broker timezone",
-            actual=spec.get("sessions_trade")))
+        status="UNKNOWN";deadline=None
+        now=snapshot_value["observed_at_msc"]
+        sessions=spec.get("sessions_trade")
+        if asset in adapter.ASSETS and sessions and spec.get("session_timezone") and adapter.calendar_known(holidays,now):
+            try:
+                deadline=adapter.session_deadline(now,holidays)
+                zone=ZoneInfo(spec["session_timezone"])
+                local_date=datetime.fromtimestamp(deadline/1000,timezone.utc).astimezone(zone).date()
+                opened=False
+                for day in (local_date-timedelta(days=1),local_date):
+                    midnight=datetime.combine(day,datetime.min.time(),tzinfo=zone)
+                    for session in sessions:
+                        if session["weekday"]!=(day.weekday()+1)%7:continue
+                        start=int(session["from_server_seconds"])%86400
+                        raw_end=int(session["to_server_seconds"])
+                        end=raw_end%86400 or (86400 if raw_end else 0)
+                        if end<=start:end+=86400
+                        lo=int((midnight+timedelta(seconds=start)).timestamp()*1000)
+                        hi=int((midnight+timedelta(seconds=end)).timestamp()*1000)
+                        opened=opened or lo<=deadline<hi
+                status="MATCH" if opened else "DIFFERENT"
+            except (adapter.AdapterError,KeyError,ValueError,TypeError,ZoneInfoNotFoundError):
+                status="UNKNOWN"
+        rows.append(dict(asset=asset,field="sessions_trade",status=status,
+            expected="Current UTC day's registered flat deadline must be inside a supplied weekly trade session.",
+            expected_deadline_msc=deadline,actual=sessions))
         if not expected:
             rows.append(dict(asset=asset,field="strategy_contract",status="NOT_IN_ACTIVE_PORTFOLIO",
                              expected=None,actual=spec.get("trade_contract_size")))
-    return dict(rows=rows,exact_session_parity=False,
+    active=[r for r in rows if r["field"]=="sessions_trade" and r["asset"] in adapter.ASSETS]
+    return dict(rows=rows,exact_session_parity=all(r["status"]=="MATCH" for r in active),
+        session_parity_scope="Current registered cutoff versus supplied weekly sessions; not independent broker holiday certification.",
         blocking_divergences=[r for r in rows if r["status"]=="DIFFERENT"],
         missing_session_data_blocks_live_shadow=True)
 
@@ -257,7 +283,8 @@ def run(mode,output,*,manifest=None,bridge=None,replay=False,seconds=60,speed=1.
                         for key in ("sessions_quote","sessions_trade"):
                             if key in values:snap["specs"][asset][key]=values[key]
                         snap["specs"][asset]["session_timezone"]=export.get("session_timezone")
-            write(output/"TARGET_ACCOUNT_SPEC_SNAPSHOT.json",snap);write(output/"SPEC_PARITY_DIFF.json",parity(snap))
+            diff=parity(snap,plan.get("holidays") if manifest else None)
+            write(output/"TARGET_ACCOUNT_SPEC_SNAPSHOT.json",snap);write(output/"SPEC_PARITY_DIFF.json",diff)
             with_path=QuoteParquet(output/"quotes.parquet")
             try:
                 if mode=="shadow-paper":
@@ -271,6 +298,8 @@ def run(mode,output,*,manifest=None,bridge=None,replay=False,seconds=60,speed=1.
                         raise adapter.AdapterError("CURRENT_NEWS_AND_HOLIDAY_COVERAGE_REQUIRED")
                     if not all(snap["specs"][a].get("session_timezone") for a in adapter.ASSETS):
                         raise adapter.AdapterError("BROKER_SESSION_TIMEZONE_MAPPING_REQUIRED")
+                    if not diff["exact_session_parity"] or diff["blocking_divergences"]:
+                        raise adapter.AdapterError("SPEC_OR_SESSION_CUTOFF_PARITY_NOT_ESTABLISHED")
                     result=adapter.run_native_shadow(reader,plan,output,max_seconds=seconds,poll_seconds=1,
                         paper_factory=ObserverPaper,event_sink=with_path.accept)
                     write(output/"shadow_paper_ledger.json",result)

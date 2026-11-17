@@ -45,6 +45,28 @@ class ObserverRunnerTests(unittest.TestCase):
         self.assertTrue(any(r["field"]=="volume_step" and r["status"]=="DIFFERENT" for r in diff["rows"]))
         self.assertFalse(diff["exact_session_parity"])
 
+    def test_supplied_weekly_sessions_detect_an_early_close_before_registered_cutoff(self):
+        b,p=runner.builtin_fixture();s=runner.snapshot(self.reader(b),p["from_msc"],replay=True)
+        for asset in runner.adapter.ASSETS:
+            s["specs"][asset].update(session_timezone="UTC",sessions_trade=[
+                dict(weekday=1,from_server_seconds=0,to_server_seconds=22*3600)])
+        self.assertTrue(runner.parity(s,p["holidays"])["exact_session_parity"])
+        s["specs"]["XAUUSD"]["sessions_trade"][0]["to_server_seconds"]=19*3600
+        diff=runner.parity(s,p["holidays"])
+        self.assertFalse(diff["exact_session_parity"])
+        self.assertTrue(any(r["asset"]=="XAUUSD" and r["field"]=="sessions_trade" and r["status"]=="DIFFERENT" for r in diff["rows"]))
+
+    def test_session_timezone_dst_mapping_and_unknown_holiday_cannot_imply_parity(self):
+        b,p=runner.builtin_fixture();s=runner.snapshot(self.reader(b),p["from_msc"],replay=True)
+        # Prague in May is UTC+2: 20:30 UTC is22:30 server-local.
+        for asset in runner.adapter.ASSETS:
+            s["specs"][asset].update(session_timezone="Europe/Prague",sessions_trade=[
+                dict(weekday=1,from_server_seconds=0,to_server_seconds=23*3600)])
+        self.assertTrue(runner.parity(s,p["holidays"])["exact_session_parity"])
+        s["specs"]["XAUUSD"]["sessions_trade"][0]["to_server_seconds"]=22*3600
+        self.assertFalse(runner.parity(s,p["holidays"])["exact_session_parity"])
+        self.assertFalse(runner.parity(s)["exact_session_parity"])
+
     def test_paced_replay_keeps_quotes_ledger_and_observed_excursions(self):
         import pyarrow.parquet as pq
         b,p=runner.builtin_fixture();waits=[]

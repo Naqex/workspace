@@ -54,6 +54,9 @@ to_msc, coverage_complete và session_timezone đã xác minh. Không tự suy
 múi giờ server hoặc holiday từ giờ Windows. Session export thường kỳ không
 thay thông báo lịch đóng sớm theo ngày. Thiếu seed/news/session/spec hợp lệ
 thì shadow dừng hoặc chặn entry có reason; không biến unknown thành an toàn.
+Khi có export và múi giờ hợp lệ, parity diff kiểm deadline đóng của ngày UTC
+hiện tại có nằm trong weekly trade session hay không, có DST. Đây không là
+chứng nhận độc lập rằng lịch holiday/đóng sớm của broker đã đầy đủ.
 
 MFE/MAE chỉ trên quotes đã quan sát; không chứng nhận từng giây không có
 quote. Slippage thực cần log request/fill bên ngoài cùng account/intent;

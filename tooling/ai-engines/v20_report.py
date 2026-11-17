@@ -25,7 +25,8 @@ def economics(profiles):
     from prop_v15_accounts import exact_quantity
     rows=[]
     for source in ("PRIMARY","STRICT"):
-        trades=read(V19/f"Full-OLHC-{source}-trades.json")
+        blocks=read(V19/"Full-pack"/f"OLHC-{source}-blocks.json")["blocks"]
+        trades=[t for block in blocks for t in block["trades"]]
         for pct in (100,150) if source=="PRIMARY" else (100,):
             for p in profiles:
                 net=0.;skipped=0
@@ -76,9 +77,10 @@ def collect():
         new_Development_full_audits=dev_accounts,new_historical_full_audits=full_accounts,
         new_MC_full_audits=sum(v["accounts_fully_audited"] for v in monte),
         parent_historical=[v for v in parent["historical"] if v["version"]=="V16"],
+        parent_reference_economics=[v for v in parent["reference_economics"] if v["version"]=="V16"],
         parent_monte=[v for v in parent["monte"] if v["version"]=="V16" and v["mode"]=="PRIMARY" and v["friction"]==100],
         gap_localization=read(JOB/"gap-localization.json"),observer=dict(
-            environment=read(JOB/"observer-environment-verified.json"),CLI=read(JOB/"observer-final-CLI-receipts.json"),
+            environment=read(JOB/"observer-environment-verified.json"),CLI=read(JOB/"observer-final-v2-CLI-receipts.json"),
             generated_Development_replay=read(JOB/"Development-generated-replay-final-verification.json"),
             SDK_session_capability=read(JOB/"sdk-session-capability.json"),
             native_terminal_verified=False,MQL5_exporter_compiled_or_executed=False,
@@ -129,7 +131,7 @@ def write_report(r):
     lines+=table(["Profile Dev","Worst static %","Worst daily %","Worst hai vòng"],[
         [v["profile"]["name"],fmt(v["worst_static"],4),fmt(v["worst_daily"],4),v["worst_completions"]]
         for v in r["frozen"]["Development"]])
-    lines += ["","105 mốc bắt đầu chồng lấn; median chỉ trên các cửa sổ hoàn tất. "
+    lines += ["","Toàn kỳ2018–13/10/2026; năm2026 chưa đủ năm. 105 mốc bắt đầu chồng lấn; median chỉ trên các cửa sổ hoàn tất. "
         "Bảng OLHC; JSON giữ cả OHLC và ba kịch bản nguồn/phí. Không cộng Net R của các mốc "
         "tài khoản chồng nhau thành hiệu suất danh mục.",""]
     base=next(v for v in r["parent_historical"] if v["order"]=="OLHC" and v["mode"]=="PRIMARY" and v["friction_pct"]==100)
@@ -140,8 +142,11 @@ def write_report(r):
          for v in r["historical"] if v["order"]=="OLHC"])
     lines += ["","Sổ tham chiếu dùng 150USD × sleeve weight × k rồi lot floor; R dưới đây luôn "
         "quy về **150USD**, không đổi mẫu số để giấu tăng size. Cushion/account caps không áp trong "
-        "unit book, nên hai bản VOL có cùng reference economics; lifecycle table mới xét cushion.",""]
+        "unit book, nên hai bản VOL có cùng reference economics; lifecycle table mới xét cushion. "
+        "Mean-matching của fit tuyến tính không bảo đảm giữ mean sau actual lot-floor/minlot skips.",""]
     lines+=table(["Profile / source / phí","Net USD tham chiếu","Net R /150USD","Minlot skips"],[
+        [f"V16 / {v['source']} / {v['friction']/100:g}×",fmt(v["reference_net_USD"]),fmt(v["reference_net_R"]),v["min_lot_skips"]]
+        for v in r["parent_reference_economics"]]+[
         [f"{v['profile']} / {v['source']} / {v['friction']/100:g}×",fmt(v["net_USD"]),fmt(v["net_R_base150"]),v["minlot_skips"]]
         for v in r["economics"]])
     lines += ["","Cùng 5.000 draws/36 tháng, prefix12/18/24; không chọn lại quý/năm. "
@@ -157,12 +162,14 @@ def write_report(r):
     lines += ["","Payout đều mô phỏng, giữ zeros và chưa trừ phí Challenge/retry/thuế/vận hành. "
         "Funded riêng giả định đã Funded từ ngày đầu; khác tiền rút sau hai vòng. Payout thực nhận0.",""]
     lines+=table(["Năm","Lệnh chưa xác minh/tổng","Tỷ lệ %","PRIMARY R","STRICT R"],[
-        [v["year"],f"{v['unverified_trades']}/{v['signals']}",fmt(v["unverified_pct"]),fmt(v["primary_net_R"]),fmt(v["strict_net_R"])]
+        ["2026YTD" if v["year"]==2026 else v["year"],f"{v['unverified_trades']}/{v['signals']}",fmt(v["unverified_pct"]),fmt(v["primary_net_R"]),fmt(v["strict_net_R"])]
         for v in r["gap_localization"]["rows"]])
     lines+=table(["Giai đoạn","Unknown/tổng","PRIMARY R","STRICT R"],[
         [v["period"],f"{v['unverified']}/{v['signals']}",fmt(v["primary_net_R"]),fmt(v["strict_net_R"])]
         for v in r["gap_localization"]["periods"]])
     lines += ["","32 lệnh chia đều16/16 giữa hai giai đoạn; tỷ lệ gần đây thấp hơn nhưng chưa sạch. "
+        "Chỉ4/32 lệnh thuộc2018–2020; năm2021 nhiều nhất với12 lệnh, nên giả thuyết chủ yếu "
+        "nằm ở ba năm đầu không được số đếm ủng hộ. "
         "Giữ55 gap occurrences riêng, không nhầm với32 trade identities. Không xóa lệnh thiếu hoặc "
         "chọn bắt đầu năm2022 từ bảng này; không có quote mới/certificate mới.","",
         "## 2. MT5 read-only / shadow và quickstart","",
