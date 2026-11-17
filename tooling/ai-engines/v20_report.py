@@ -80,6 +80,7 @@ def collect():
         gap_localization=read(JOB/"gap-localization.json"),observer=dict(
             environment=read(JOB/"observer-environment-verified.json"),CLI=read(JOB/"observer-final-CLI-receipts.json"),
             generated_Development_replay=read(JOB/"Development-generated-replay-final-verification.json"),
+            SDK_session_capability=read(JOB/"sdk-session-capability.json"),
             native_terminal_verified=False,MQL5_exporter_compiled_or_executed=False,
             spec_sessions_commission_and_native_news_not_verified=True,
             quickstart="planning/research/QUICKSTART-FTMO-FREE-TRIAL.md"),
