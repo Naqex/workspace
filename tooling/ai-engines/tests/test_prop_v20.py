@@ -11,6 +11,19 @@ def profile(k=1., house_money=True):
 
 
 class V20PolicyTests(unittest.TestCase):
+    def test_indexed_imports_use_identical_standard_loader_sources_and_preserve_external_resolution(self):
+        import importlib.machinery
+        import quant_test_suite
+        from pathlib import Path
+        finder=quant_test_suite.RepoModuleFinder()
+        for name in ("prop_v19_accounts","test_prop_v20","quant_core.market_data_store"):
+            spec=finder.find_spec(name)
+            self.assertIsInstance(spec.loader,importlib.machinery.SourceFileLoader)
+            self.assertTrue(Path(spec.origin).is_file())
+            self.assertEqual(Path(spec.origin).read_bytes(),Path(finder.files[name]).read_bytes())
+        self.assertIsNone(finder.find_spec("numpy"))
+        self.assertIsNone(finder.find_spec("json"))
+
     def test_global_scale_follows_throttle_and_sleeve_then_cent_floor(self):
         p=profile(1.25);p["weights"]["XAUUSD|F3:test|DAY|P0"]=1.1
         a=V20Account(0,1000,"SYM_FLAT",rolling=True,profile=p)
