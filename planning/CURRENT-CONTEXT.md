@@ -1,6 +1,6 @@
 # Current context — independent solo system
 
-15/11/2026 · `SOLO_PROP_SYSTEM_ACTIVE · CHALLENGE_NOT_QUALIFIED`.
+17/11/2026 · `SOLO_PROP_SYSTEM_ACTIVE · CHALLENGE_NOT_QUALIFIED`.
 
 Owner yêu cầu chat này tự hoàn thành toàn bộ mục tiêu alpha/portfolio và
 hệ thống tự động cho một người, không phụ thuộc thread gốc. Nguồn trạng thái
@@ -18,9 +18,17 @@ một recipe cố định, Dev2022–2023, budget và gates khóa trước outco
 Runtime isolation/AI skills đã có review và focused tests; recovery175tests,
 metadata restore16/16 và Demo crash/restore5/5 đạt trên cụm riêng. Trader
 [PR32](https://github.com/Naqex/trader/pull/32) đạt5/5CI, chưa merge/rollout.
-S01 nguồnGBP đủ25,54triệu tick; originalproof bịchặn vì2giờ H1khác ticks.
-Correctionv2 đangreview trướcsourceadmission; chưaPnL. Bộsinh tínhiệu dùng2H1
-tickderived vẫn giữ nguyên300events+SL. Adapter ordinal entry/exit đã cófixtures.
+S01 có 25.537.048 tick; original proof bị chặn vì hai giờ H1 khác ticks.
+Correction v2 đã `SOURCE_RECONCILED`, giữ nguyên 300 events và SL.
+Economics-v1 đã chạy: 286 fills, +5,1173R/+25,4707R (2022/2023) ở risk150.
+Ngày17/11 oracle độc lập v2 phát hiện một false reject tại đúng ngưỡng15%;
+kết quả v1 chưa đủ correctness để promote. Đã đăng ký
+[precision repair](research/SOLO-GBP-COST-GATE-CORRECTION-20261117.md),
+giữ nguyên chiến lược/phí/risk; chưa tính PnL lệnh thêm trước đăng ký.
+[S02 shared-account](research/SOLO-THREE-ASSET-REPLAY-PROTOCOL-20261117.md)
+đã thiết kế nhưng chờ repair + independent audit; chưa chạy numerical.
+Oracle đầu tiên fail vì trỏ original proof cũng giữ nguyên. Owner xác nhận tiếp tục
+độc lập với phạm vi rộng ngày 17/11; goal mới không thay quyền holdout/broker.
 Chưa có candidate Challenge-qualified; các số software không thay edge proof.
 
 Các phần dưới là checkpoint kế thừa, không là taskqueue hay hạn chế scope mới.

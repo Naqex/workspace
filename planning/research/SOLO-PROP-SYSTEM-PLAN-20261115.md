@@ -4,6 +4,13 @@ Owner giao thực thi và mở rộng phạm vi ngày 15/11/2026. Mục tiêu l�
 viên đủ điều kiện Challenge và hệ thống vận hành riêng, tiến tới funded/payout.
 Không đạt mục tiêu chỉ bằng code, CI, báo cáo hoặc số backtest tăng lên.
 
+Ngày 17/11/2026 owner xác nhận lại: **tiếp tục độc lập, phạm vi rộng**.
+Goal cũ đã xóa; goal mới bao gồm alpha, portfolio, kiểm định, kiến trúc,
+engines, môi trường AI và vận hành cho một người. Có thể mở rộng phương pháp
+và tối ưu tiếp khi có bằng chứng cần thiết; các quyền broker, chi phí ngoài,
+holdout và bảo vệ nhánh gốc bên dưới vẫn riêng biệt. Không phụ thuộc việc
+thread gốc có tiếp tục hay không.
+
 ## Quyền và nơi làm việc
 
 - Workspace riêng: `C:/Users/MIIKEY/.codex/worktrees/solo-prop-system/TradingWorkspace`,
@@ -35,13 +42,13 @@ chỉ tiêu không được hạ để gọi winner là đạt.
 | S3 | Skills và AI environment | Existing skill/reference đã cập nhật; audit 0 lỗi/0 cảnh báo | 4 links, 7 routing cases; không global mutation |
 | S4 | Recovery/reconciliation | 175 recovery tests; restore16/16 và Demo5/5 trên cụm riêng đạt | 47 bảng đối soát; hai grant race winners kiểm riêng; các cụm đã dừng; không broker acceptance |
 | Q0 | Kế thừa và chọn thí nghiệm | S01 GBP đã khóa trước source/numeric mới | Một inherited SL recipe, giữ raw markout âm và 112-trial history; chưa mở trial phụ |
-| Q1 | Source/path confirmation | Đã tải đủ, original admission `SOURCE_REVIEW_REQUIRED`; correction v2 đang review | 25.537.048ticks/3.576giờ;0empty/heldgap;2giờH1 khác tick; nguồn overlay giữ nguyên300signals+SL; chưa PnL |
-| Q2 | Alpha, portfolio, time-fit | Chưa chạy; adapter synthetic đang review | Sửa ordinal entry/exit cùng-ms ở đường M1; baseline A+EUR cần cùng semantics trước marginal gate |
+| Q1 | Source/path confirmation | Correction v2 `SOURCE_RECONCILED`; giữ original admission `SOURCE_REVIEW_REQUIRED` | 25.537.048 ticks/3.576 giờ; không H1 mismatch/held gap sau correction hai giờ; cùng vendor, chưa FTMO parity |
+| Q2 | Alpha, portfolio, time-fit | S01 economics-v1 286 fills chưa qua correctness; oracle v2 phát hiện false reject đúng15% | Kết quả v1 +5,1173R/+25,4707R giữ lịch sử, chưa promote. Sửa precision theo protocol riêng, không đổi strategy; S02 chờ |
 | Q3 | Robustness/validation | Chưa chạy | Freeze trước validation; exposed khác clean OOS; stress và unseen/prospective gap minh bạch |
 | S5 | Bind chiến lược với engine/runtime | Chưa đủ candidate qualified | Same decision semantics, units/account/risk, no duplicate, exact artifact/code lineage |
 | D0 | Bàn giao vận hành cho owner | Chưa đủ | Runnable own setup, stop/recover/rollback, runbook và cách hiểu risk/results; quyền broker riêng |
 
-Goal vẫn active khi còn thiếu ứng viên đủ điều kiện. Kết quả âm/inconclusive
+Goal hiện active theo xác nhận của owner ngày 17/11. Kết quả âm/inconclusive
 là kết quả nghiên cứu, không phải lý do tự tuyên bố mục tiêu lợi nhuận hoàn tất.
 Sau từng đợt finite, cập nhật bằng chứng và quyết định tiếp dựa trên thông tin
 mới; không quét hoặc sửa tham số vô hạn chỉ để có PnL dương.
@@ -69,13 +76,15 @@ Mỗi repo một branch coherent; review + tests trước commit/push/PR. Không
 merge hoặc promote vào lane gốc. Bằng chứng kỹ thuật, kinh tế, prop-fit,
 vận hành và quyền execution được kết luận riêng.
 
-Trader [PR32](https://github.com/Naqex/trader/pull/32), head `621f0e0b`, chứa
-isolation/storage fixes và báo cáo kỹ thuật, review độc lập và5/5CIđạt.
-Git merge-tree không conflict với main `930fa768`; chưa merge/deploy. Workspace
-[PR84](https://github.com/Naqex/workspace/pull/84) đangdraft,3/3CI trên nhánh riêng
-`685ca57` đạt; hội nhậpmain còn conflict ởCI/index và hoãn tới khi source/numeric
-freeze hoàn tất. Không đổi producer giữa run. Worktree và PR không attach được vào app do
-giới hạn100attachments; đường dẫn/URL vẫn dùng được, không tạo checkout thay thế.
+Checkpoint delivery ngày 15/11: Trader
+[PR32](https://github.com/Naqex/trader/pull/32), head `621f0e0b`, có review độc
+lập và 5/5 CI đạt; chưa có bằng chứng merge/deploy trong chiến dịch này.
+Workspace [PR84](https://github.com/Naqex/workspace/pull/84) là draft; direct
+branch `7f9dd4c` có 3/3 CI đạt, run `43634922641`. Hội nhập main còn conflict
+CI/index ở checkpoint đó; phải refresh trước tích hợp, không gọi trạng thái
+GitHub lịch sử là hiện hành. Ngày 17/11 hai checkout vẫn sạch trước khi tiếp.
+Không đổi producer giữa run. Attachment từng chạm giới hạn 100 identities;
+giữ checkout và đường dẫn hiện có, không tạo checkout thay thế.
 
 ## Hàng đợi theo bằng chứng, chưa mở trial mới
 
@@ -119,3 +128,11 @@ search của haiasset không đúng cho EUR ở giữa Gold→EUR→GBP. Fixture
 haiassetparity, đồngtimestamp, missing/stalequotes, totalcap/reserve, DST/funding,
 flatphase/reward và thiếumargin. Đây là thiết kế tối thiểu, chưa triểnkhai hay
 prop-qualification; chỉ làm sauGBPđạt cổngmarginal đãkhóa.
+
+Ngày17/11, source-v2 đã qua admission nhưng independent economics oracle
+bắt false reject đúng15% tại BUY19/06/2023. Theo
+[repair protocol](SOLO-GBP-COST-GATE-CORRECTION-20261117.md), sửa arithmetic
+và chạy attempt mới rồi review, giữ nguyên v1. Vì vậy marginal gate v1 chưa
+được dùng để mở numerical S02. [S02 protocol](SOLO-THREE-ASSET-REPLAY-PROTOCOL-20261117.md)
+khóa108accounts, fixed150/75/75, source ages và common USD150 R; đang ở bước
+thiết kế/preparation. Không để metadata trạng thái cũ vượt qua lỗi correctness.
