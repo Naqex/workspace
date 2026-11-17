@@ -101,6 +101,21 @@ Scope source/cost/timing vẫn có giới hạn: không independent market feed,
 không tái sinh lại signal/ATR bằng oracle này, không FTMO broker acceptance,
 không mở2024–2026. Software tests không thay kiểm định ngoài mẫu.
 
+Hậu kiểm kỹ thuật dùng `engineering-retrospective`: ưu tiên sửa lỗi tính
+đúng và tránh chạy lại vô ích; chưa có bottleneck performance cần đổi engine.
+
+| Vấn đề | Quyết định và kiểm chứng |
+|---|---|
+| Float làm lệch inclusive cost gate | Exact integer comparison, regression tại đúng witness và hai phía ngưỡng;2.790Fraction checks độc lập |
+| Source code đã sửa nhưng receipt nguồn cũ còn giá trị | Reuse nguồn sealed bằng historical committed bytes đúng pin; code mới/pins/output riêng, không bỏ guard |
+| Cấu hình baseline có thể đổi phép thử | Pin lại root và toàn baseline artifacts với v1, denial fixture trước numerical |
+| Final guard thêm sau hash review | Giữ addendum chính xác; writer bàn giao final hashes rồi dừng ghi trước dispatch lần tiếp |
+| Có cần chạy lại all campaigns hoặc tối ưu tốc độ? | Không; chỉ correction cohort300 và EUR boundary audit. Chưa có benchmark cũ cùng semantics nên không tuyên bố speedup |
+
+Không thêm skill mới từ một lỗi đơn lẻ: workflow sửa lỗi, source lineage,
+exact arithmetic và independent review đã có consumer/guidance. Regression
+được đặt cạnh implementation; giữ skill/environment hiện có.
+
 ## Bước tiếp và điều còn thiếu
 
 Sau oracle đầy đủ, tiếp [S02 shared-account replay](SOLO-THREE-ASSET-REPLAY-PROTOCOL-20261117.md):

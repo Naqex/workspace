@@ -168,12 +168,15 @@ class Account:
         self.metrics(offset+s['low'],offset+s['high'],s['dd'])
         self.float=offset+s['last']-self.balance
 
+    def open_entry_fee(self, trade, quantity):
+        return cents(commission(trade['entry_price_units'],quantity))*10
+
     def dump(self):
         net=sum(r['net_usd'] for r in self.closed)
         expected=CAPITAL+int(round(net*1000))
         phase_profit=sum(int(round((p['balance_usd']-50000)*1000)) for p in self.passes)
         removed=sum(int(round(p['gross_removed_usd']*1000)) for p in self.payouts)
-        unpaid=sum(cents(commission(self._trades[i]['entry_price_units'],q))*10 for i,(q,_) in self.active.items()) if self.active else 0
+        unpaid=sum(self.open_entry_fee(self._trades[i],q) for i,(q,_) in self.active.items()) if self.active else 0
         if self.balance!=expected-phase_profit-removed-unpaid:
             raise ValueError('account_cash_bridge')
         return dict(start_msc=self.start,end_msc=self.end,cell=self.cell,rolling=self.rolling,
