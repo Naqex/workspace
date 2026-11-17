@@ -1,8 +1,35 @@
 # Current context — Naqex Workspace
 
-17/11/2026 · `RESEARCH: V20_MEASURED_NO_UPGRADE · SYSTEM: OFFLINE_OBSERVER_VERIFIED · PROP: NOT_QUALIFIED`.
+17/11/2026 · `RESEARCH: V21_DEV_REJECTED · SYSTEM: OFFLINE_OBSERVER_VERIFIED · PROP: NOT_QUALIFIED`.
 
 ## Việc hiện tại
+
+**V21: đủ494 nhãn mô tả đường giá, chưa có cải tiến vượt Development.**
+[Kết quả](research/TRADE-FORENSICS-BEHAVIORAL-V21-RESULTS-20261117.md) /
+[JSON](research/TRADE-FORENSICS-BEHAVIORAL-V21-RESULTS-20261117.json) /
+[protocol](research/TRADE-FORENSICS-BEHAVIORAL-V21-PROTOCOL-20261117.md) /
+[freeze](research/TRADE-FORENSICS-BEHAVIORAL-V21-FREEZE-20261117.json).
+PR99/head `c9075fb` merge `a2d9c86`; nhánh V20 local/remote đã xóa.
+Nhánh `codex/trade-taxonomy-and-behavioral-v21`; protocol `ed96cc0`, freeze `ec26e5c`.
+V19 canonical494/fixed150USD đạt42,39167R; sáu nhóm W1/W2/L1/L2/L3/L4 có
+194/24/12/28/45/191 lệnh. 40 nhãn provisional, gồm32 open paths còn thiếu;
+không suy skill/luck hoặc tác nhân stop-hunt từ OHLC. Top5 bỏ đi còn12,984R;
+top10 bỏ đi còn−6,281R: mô tả phụ thuộc đuôi phải, không là strategy filter.
+B1 early net BE trên P0: Dev23,8524R→22,66R, DD giảm nhưng net/W1 không đạt.
+24 B2 +4 B3 có0 Stage-0 survivors; GBP endpoint20:30 phần lớn thiếu trên H1,
+không gọi missing là economic loss. Giữ attempt lỗi dual-sweep, chỉ tính lại24 B2,
+reuse4 B3;53 cell evaluations/29 recipes logic. Không tune threshold hoặc chọn bằng2024+.
+Dev decision khóa trước Full baseline taxonomy. Không có candidate để chạy mới
+105 starts/5.000 bootstrap; baseline receipts V16/V19 chỉ reuse với binding.
+1.261 tests PASS/0skip, giữ1.239 V20 IDs, full13,176s; smoke10/10<0,78s,
+6/10<0,70s, median0,692s/max0,719s. Không retry chọn streak.
+Private job `execution-v1/trade-forensics-behavioral-v21-20261117` giữ raw Zstd/SHA,
+registrations/correction/Dev freeze/Full taxonomy/audit/tests/storage/CI receipts.
+PR100 để mở; exact-head3CI/downloaded IDs chốt trong `ci-exact-head-reconciliation.json`
+và `completion-receipt.json` sau push. Không financial worker còn chạy.
+Giữ Trader pin/VI WIP/nguồn/freezes/negatives; không broker/provider/deploy/Astra/memory.
+
+## V20 đã merge (lịch sử)
 
 **V20 đã đo đủ; O2 scaling chưa thắng V16, chưa có nâng cấp đủ điều kiện Challenge.**
 [Kết quả](research/VOLTARGET-SHADOW-V20-RESULTS-20261117.md) /
@@ -29,8 +56,9 @@ Cache checksum vẫn giả định input immutable; sửa nội dung giữ metad
 Giữ mọi failed replay, nguồn/freezes, Trader pin và VI WIP; không broker/Astra.
 Private job `execution-v1/voltarget-shadow-v20-20261117`:
 Không còn financial writer; test receipts hiện hành nằm trong `test-recovery-v2`.
-PR99 để mở; exact-head 3CI/downloaded IDs chốt tại `ci-exact-head-reconciliation.json`
-và `completion-receipt.json` sau push, không sửa HEAD chỉ để đóng dấu CI của nó.
+PR99/head `c9075fb` đã merge `a2d9c86` trong V21; nhánh V20 local/remote đã xóa.
+Exact-head3CI/downloaded IDs lịch sử giữ tại `ci-exact-head-reconciliation.json`
+và `completion-receipt.json` trong job V20.
 Bước tiếp có ích: xác minh tài khoản đích/feed/session/news bằng read-only rồi review shadow;
 không dùng dữ liệu MT5 mới để tự chứng nhận các khoảng trống lịch sử.
 

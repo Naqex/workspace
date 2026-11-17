@@ -1,0 +1,5925 @@
+{
+  "schema": "V21-results-v1",
+  "decision": {
+    "schema": "V21-Development-decision-v1",
+    "selected": null,
+    "decision": "RETAIN_V16_V19_BASE_GUARD_NO_QUALIFIED_REFINEMENT",
+    "Development": [
+      1514764800000,
+      1704067200000
+    ],
+    "B1": "B1_EARLY_NET_BE",
+    "B1_passed": false,
+    "B2_B3_cases": 28,
+    "B2_B3_Stage0_survivors": 0,
+    "original_buggy_B2_evaluations_retained": 24,
+    "corrected_B2_evaluations": 24,
+    "unchanged_B3_reused": 4,
+    "later_V21_taxonomy_seen_before_selection": false,
+    "new_historical_accounts": 0,
+    "new_MC_paths": 0,
+    "source_gap_and_native_execution_gates_remain_open": true,
+    "bindings": {
+      "registration.json": "f6ee7a62c696dffc20f6a763ebee5943d2349181f0016551135b0f06cfb7a67b",
+      "B1-choice-before-child-outcome.json": "52ad8234d6ab3437d4b55bd020733c0fd8901a327ea657d38ba0af19439331f1",
+      "B1-result.json": "d5b63e7a4b7f6f022bdbf04d607f08bb624ec75e2d1fd783eca3340854607868",
+      "behavioral-results.json": "0cfd27bf61f807e5f1d2d131b3cb3f16c62a043953f15d0c86d40195c6d95090",
+      "behavioral-correction-registration.json": "ada4612782c202ddb6d9ee5612aaad21e472e8704d4786c161a8c54b72301784",
+      "behavioral-corrected-v2\\behavioral-results.json": "ca286b7d1f0b618362c8692e0b342cb3a02ef268d8d2597ee9c7b8bb80f94dea"
+    },
+    "final_forensics_code": {
+      "tooling/ai-engines/prop_v21_forensics.py": "d353c532f538ae9e6613aa7c259153796d0f241316951b6a9779152a2c98575f",
+      "tooling/ai-engines/quant_core/trade_forensics_classifier.py": "76857bd5b934d17e58e3938e8d63ea8c40ede6718a1f277602a7f7d39d5662c0"
+    },
+    "full_annualization_clarification": "Full taxonomy Calmar uses actual elapsed years; Dev stays exactly six years; no Dev outcome/rules changed.",
+    "full_taxonomy_allowed_only_for_attribution": true,
+    "prop_qualified": false,
+    "actual_broker_orders": 0
+  },
+  "prop_qualified": false,
+  "actual_broker_orders": 0,
+  "actual_payout_USD": 0,
+  "Dev": {
+    "OLHC": {
+      "total": {
+        "trades": 340,
+        "net_R": 23.8524,
+        "groups": [
+          {
+            "label": "W1",
+            "name": "TRUE_STRUCTURAL_WIN",
+            "count": 129,
+            "pct": 37.94117647058823,
+            "net_R": 115.3436,
+            "provisional": 0
+          },
+          {
+            "label": "W2",
+            "name": "FRAGILE_OR_LUCKY_WIN",
+            "count": 18,
+            "pct": 5.294117647058823,
+            "net_R": 15.001133333333334,
+            "provisional": 12
+          },
+          {
+            "label": "L1",
+            "name": "STOP_HUNTED_RIGHT_DIRECTION",
+            "count": 9,
+            "pct": 2.6470588235294117,
+            "net_R": -9.3192,
+            "provisional": 1
+          },
+          {
+            "label": "L2",
+            "name": "ROUND_TRIP_GIVEBACK",
+            "count": 18,
+            "pct": 5.294117647058823,
+            "net_R": -13.4918,
+            "provisional": 3
+          },
+          {
+            "label": "L3",
+            "name": "EXHAUSTION_OR_CHASING_TRAP",
+            "count": 27,
+            "pct": 7.9411764705882355,
+            "net_R": -10.858266666666667,
+            "provisional": 1
+          },
+          {
+            "label": "L4",
+            "name": "CLEAN_EXPECTED_LOSS",
+            "count": 139,
+            "pct": 40.88235294117647,
+            "net_R": -72.82306666666666,
+            "provisional": 16
+          }
+        ],
+        "provisional": 33,
+        "overlapping_loss_flags": {
+          "L1": {
+            "count": 9,
+            "loss_R": 9.3192
+          },
+          "L2": {
+            "count": 18,
+            "loss_R": 13.4918
+          },
+          "L3": {
+            "count": 27,
+            "loss_R": 10.858266666666667
+          }
+        },
+        "W1_share": 0.37941176470588234
+      },
+      "concentration": {
+        "total_net_R": 23.8524,
+        "without_top5": -1.9713999999999992,
+        "without_top10": -18.508666666666667,
+        "top10": [
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1678867200000",
+            "net_R": 7.6464,
+            "label": "W1"
+          },
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1521446400000",
+            "net_R": 5.459933333333334,
+            "label": "W1"
+          },
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1682395200000",
+            "net_R": 4.357333333333333,
+            "label": "W1"
+          },
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1659412800000",
+            "net_R": 4.2086,
+            "label": "W1"
+          },
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1529985600000",
+            "net_R": 4.151533333333333,
+            "label": "W1"
+          },
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1697097600000",
+            "net_R": 3.7829333333333337,
+            "label": "W1"
+          },
+          {
+            "trade_key": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1@1564671600000",
+            "net_R": 3.7656,
+            "label": "W1"
+          },
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1626235200000",
+            "net_R": 3.3566000000000003,
+            "label": "W2"
+          },
+          {
+            "trade_key": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1@1701442800000",
+            "net_R": 2.975,
+            "label": "W1"
+          },
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1685692800000",
+            "net_R": 2.6571333333333333,
+            "label": "W1"
+          }
+        ],
+        "hypothetical_removal_not_an_executable_strategy": true
+      },
+      "sleeves": {
+        "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": {
+          "trades": 194,
+          "net_R": 25.191133333333333,
+          "groups": [
+            {
+              "label": "W1",
+              "name": "TRUE_STRUCTURAL_WIN",
+              "count": 75,
+              "pct": 38.65979381443299,
+              "net_R": 77.72306666666667,
+              "provisional": 0
+            },
+            {
+              "label": "W2",
+              "name": "FRAGILE_OR_LUCKY_WIN",
+              "count": 12,
+              "pct": 6.185567010309279,
+              "net_R": 13.092333333333332,
+              "provisional": 10
+            },
+            {
+              "label": "L1",
+              "name": "STOP_HUNTED_RIGHT_DIRECTION",
+              "count": 8,
+              "pct": 4.123711340206185,
+              "net_R": -8.312333333333333,
+              "provisional": 1
+            },
+            {
+              "label": "L2",
+              "name": "ROUND_TRIP_GIVEBACK",
+              "count": 10,
+              "pct": 5.154639175257732,
+              "net_R": -7.846866666666666,
+              "provisional": 1
+            },
+            {
+              "label": "L3",
+              "name": "EXHAUSTION_OR_CHASING_TRAP",
+              "count": 0,
+              "pct": 0.0,
+              "net_R": 0,
+              "provisional": 0
+            },
+            {
+              "label": "L4",
+              "name": "CLEAN_EXPECTED_LOSS",
+              "count": 89,
+              "pct": 45.876288659793815,
+              "net_R": -49.465066666666665,
+              "provisional": 13
+            }
+          ],
+          "provisional": 25,
+          "overlapping_loss_flags": {
+            "L1": {
+              "count": 8,
+              "loss_R": 8.312333333333333
+            },
+            "L2": {
+              "count": 10,
+              "loss_R": 7.846866666666666
+            },
+            "L3": {
+              "count": 0,
+              "loss_R": 0
+            }
+          },
+          "W1_share": 0.3865979381443299
+        },
+        "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": {
+          "trades": 63,
+          "net_R": -9.701133333333333,
+          "groups": [
+            {
+              "label": "W1",
+              "name": "TRUE_STRUCTURAL_WIN",
+              "count": 18,
+              "pct": 28.571428571428573,
+              "net_R": 8.255666666666666,
+              "provisional": 0
+            },
+            {
+              "label": "W2",
+              "name": "FRAGILE_OR_LUCKY_WIN",
+              "count": 2,
+              "pct": 3.1746031746031744,
+              "net_R": 0.8092666666666667,
+              "provisional": 0
+            },
+            {
+              "label": "L1",
+              "name": "STOP_HUNTED_RIGHT_DIRECTION",
+              "count": 0,
+              "pct": 0.0,
+              "net_R": 0,
+              "provisional": 0
+            },
+            {
+              "label": "L2",
+              "name": "ROUND_TRIP_GIVEBACK",
+              "count": 6,
+              "pct": 9.523809523809524,
+              "net_R": -4.3118,
+              "provisional": 2
+            },
+            {
+              "label": "L3",
+              "name": "EXHAUSTION_OR_CHASING_TRAP",
+              "count": 17,
+              "pct": 26.984126984126984,
+              "net_R": -3.8846666666666665,
+              "provisional": 0
+            },
+            {
+              "label": "L4",
+              "name": "CLEAN_EXPECTED_LOSS",
+              "count": 20,
+              "pct": 31.746031746031747,
+              "net_R": -10.5696,
+              "provisional": 0
+            }
+          ],
+          "provisional": 2,
+          "overlapping_loss_flags": {
+            "L1": {
+              "count": 0,
+              "loss_R": 0
+            },
+            "L2": {
+              "count": 6,
+              "loss_R": 4.3118
+            },
+            "L3": {
+              "count": 17,
+              "loss_R": 3.8846666666666665
+            }
+          },
+          "W1_share": 0.2857142857142857
+        },
+        "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": {
+          "trades": 83,
+          "net_R": 8.362400000000001,
+          "groups": [
+            {
+              "label": "W1",
+              "name": "TRUE_STRUCTURAL_WIN",
+              "count": 36,
+              "pct": 43.373493975903614,
+              "net_R": 29.364866666666668,
+              "provisional": 0
+            },
+            {
+              "label": "W2",
+              "name": "FRAGILE_OR_LUCKY_WIN",
+              "count": 4,
+              "pct": 4.819277108433735,
+              "net_R": 1.0995333333333335,
+              "provisional": 2
+            },
+            {
+              "label": "L1",
+              "name": "STOP_HUNTED_RIGHT_DIRECTION",
+              "count": 1,
+              "pct": 1.2048192771084338,
+              "net_R": -1.0068666666666666,
+              "provisional": 0
+            },
+            {
+              "label": "L2",
+              "name": "ROUND_TRIP_GIVEBACK",
+              "count": 2,
+              "pct": 2.4096385542168677,
+              "net_R": -1.3331333333333333,
+              "provisional": 0
+            },
+            {
+              "label": "L3",
+              "name": "EXHAUSTION_OR_CHASING_TRAP",
+              "count": 10,
+              "pct": 12.048192771084338,
+              "net_R": -6.9736,
+              "provisional": 1
+            },
+            {
+              "label": "L4",
+              "name": "CLEAN_EXPECTED_LOSS",
+              "count": 30,
+              "pct": 36.144578313253014,
+              "net_R": -12.7884,
+              "provisional": 3
+            }
+          ],
+          "provisional": 6,
+          "overlapping_loss_flags": {
+            "L1": {
+              "count": 1,
+              "loss_R": 1.0068666666666666
+            },
+            "L2": {
+              "count": 2,
+              "loss_R": 1.3331333333333333
+            },
+            "L3": {
+              "count": 10,
+              "loss_R": 6.9736
+            }
+          },
+          "W1_share": 0.43373493975903615
+        }
+      },
+      "periods": {
+        "2018-2023": {
+          "trades": 340,
+          "net_R": 23.8524,
+          "groups": [
+            {
+              "label": "W1",
+              "name": "TRUE_STRUCTURAL_WIN",
+              "count": 129,
+              "pct": 37.94117647058823,
+              "net_R": 115.3436,
+              "provisional": 0
+            },
+            {
+              "label": "W2",
+              "name": "FRAGILE_OR_LUCKY_WIN",
+              "count": 18,
+              "pct": 5.294117647058823,
+              "net_R": 15.001133333333334,
+              "provisional": 12
+            },
+            {
+              "label": "L1",
+              "name": "STOP_HUNTED_RIGHT_DIRECTION",
+              "count": 9,
+              "pct": 2.6470588235294117,
+              "net_R": -9.3192,
+              "provisional": 1
+            },
+            {
+              "label": "L2",
+              "name": "ROUND_TRIP_GIVEBACK",
+              "count": 18,
+              "pct": 5.294117647058823,
+              "net_R": -13.4918,
+              "provisional": 3
+            },
+            {
+              "label": "L3",
+              "name": "EXHAUSTION_OR_CHASING_TRAP",
+              "count": 27,
+              "pct": 7.9411764705882355,
+              "net_R": -10.858266666666667,
+              "provisional": 1
+            },
+            {
+              "label": "L4",
+              "name": "CLEAN_EXPECTED_LOSS",
+              "count": 139,
+              "pct": 40.88235294117647,
+              "net_R": -72.82306666666666,
+              "provisional": 16
+            }
+          ],
+          "provisional": 33,
+          "overlapping_loss_flags": {
+            "L1": {
+              "count": 9,
+              "loss_R": 9.3192
+            },
+            "L2": {
+              "count": 18,
+              "loss_R": 13.4918
+            },
+            "L3": {
+              "count": 27,
+              "loss_R": 10.858266666666667
+            }
+          },
+          "W1_share": 0.37941176470588234
+        },
+        "2024-2026YTD": {
+          "trades": 0,
+          "net_R": 0,
+          "groups": [
+            {
+              "label": "W1",
+              "name": "TRUE_STRUCTURAL_WIN",
+              "count": 0,
+              "pct": null,
+              "net_R": 0,
+              "provisional": 0
+            },
+            {
+              "label": "W2",
+              "name": "FRAGILE_OR_LUCKY_WIN",
+              "count": 0,
+              "pct": null,
+              "net_R": 0,
+              "provisional": 0
+            },
+            {
+              "label": "L1",
+              "name": "STOP_HUNTED_RIGHT_DIRECTION",
+              "count": 0,
+              "pct": null,
+              "net_R": 0,
+              "provisional": 0
+            },
+            {
+              "label": "L2",
+              "name": "ROUND_TRIP_GIVEBACK",
+              "count": 0,
+              "pct": null,
+              "net_R": 0,
+              "provisional": 0
+            },
+            {
+              "label": "L3",
+              "name": "EXHAUSTION_OR_CHASING_TRAP",
+              "count": 0,
+              "pct": null,
+              "net_R": 0,
+              "provisional": 0
+            },
+            {
+              "label": "L4",
+              "name": "CLEAN_EXPECTED_LOSS",
+              "count": 0,
+              "pct": null,
+              "net_R": 0,
+              "provisional": 0
+            }
+          ],
+          "provisional": 0,
+          "overlapping_loss_flags": {
+            "L1": {
+              "count": 0,
+              "loss_R": 0
+            },
+            "L2": {
+              "count": 0,
+              "loss_R": 0
+            },
+            "L3": {
+              "count": 0,
+              "loss_R": 0
+            }
+          },
+          "W1_share": 0.0
+        }
+      },
+      "metrics": {
+        "net_R": 23.8524,
+        "equity_R_DD": 12.206533333333919,
+        "worst_daily_R": 2.037066666666667,
+        "worst_daily_pct": 0.6111200000000001,
+        "Calmar": 0.3256780521906145,
+        "fixed150_not_account_lifecycle": true
+      }
+    },
+    "OHLC": {
+      "total": {
+        "trades": 340,
+        "net_R": 23.8524,
+        "groups": [
+          {
+            "label": "W1",
+            "name": "TRUE_STRUCTURAL_WIN",
+            "count": 129,
+            "pct": 37.94117647058823,
+            "net_R": 115.3436,
+            "provisional": 0
+          },
+          {
+            "label": "W2",
+            "name": "FRAGILE_OR_LUCKY_WIN",
+            "count": 18,
+            "pct": 5.294117647058823,
+            "net_R": 15.001133333333334,
+            "provisional": 12
+          },
+          {
+            "label": "L1",
+            "name": "STOP_HUNTED_RIGHT_DIRECTION",
+            "count": 9,
+            "pct": 2.6470588235294117,
+            "net_R": -9.3192,
+            "provisional": 1
+          },
+          {
+            "label": "L2",
+            "name": "ROUND_TRIP_GIVEBACK",
+            "count": 18,
+            "pct": 5.294117647058823,
+            "net_R": -13.4918,
+            "provisional": 3
+          },
+          {
+            "label": "L3",
+            "name": "EXHAUSTION_OR_CHASING_TRAP",
+            "count": 27,
+            "pct": 7.9411764705882355,
+            "net_R": -10.858266666666667,
+            "provisional": 1
+          },
+          {
+            "label": "L4",
+            "name": "CLEAN_EXPECTED_LOSS",
+            "count": 139,
+            "pct": 40.88235294117647,
+            "net_R": -72.82306666666666,
+            "provisional": 16
+          }
+        ],
+        "provisional": 33,
+        "overlapping_loss_flags": {
+          "L1": {
+            "count": 9,
+            "loss_R": 9.3192
+          },
+          "L2": {
+            "count": 18,
+            "loss_R": 13.4918
+          },
+          "L3": {
+            "count": 27,
+            "loss_R": 10.858266666666667
+          }
+        },
+        "W1_share": 0.37941176470588234
+      },
+      "concentration": {
+        "total_net_R": 23.8524,
+        "without_top5": -1.9713999999999992,
+        "without_top10": -18.508666666666667,
+        "top10": [
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1678867200000",
+            "net_R": 7.6464,
+            "label": "W1"
+          },
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1521446400000",
+            "net_R": 5.459933333333334,
+            "label": "W1"
+          },
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1682395200000",
+            "net_R": 4.357333333333333,
+            "label": "W1"
+          },
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1659412800000",
+            "net_R": 4.2086,
+            "label": "W1"
+          },
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1529985600000",
+            "net_R": 4.151533333333333,
+            "label": "W1"
+          },
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1697097600000",
+            "net_R": 3.7829333333333337,
+            "label": "W1"
+          },
+          {
+            "trade_key": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1@1564671600000",
+            "net_R": 3.7656,
+            "label": "W1"
+          },
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1626235200000",
+            "net_R": 3.3566000000000003,
+            "label": "W2"
+          },
+          {
+            "trade_key": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1@1701442800000",
+            "net_R": 2.975,
+            "label": "W1"
+          },
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1685692800000",
+            "net_R": 2.6571333333333333,
+            "label": "W1"
+          }
+        ],
+        "hypothetical_removal_not_an_executable_strategy": true
+      },
+      "sleeves": {
+        "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": {
+          "trades": 194,
+          "net_R": 25.191133333333333,
+          "groups": [
+            {
+              "label": "W1",
+              "name": "TRUE_STRUCTURAL_WIN",
+              "count": 75,
+              "pct": 38.65979381443299,
+              "net_R": 77.72306666666667,
+              "provisional": 0
+            },
+            {
+              "label": "W2",
+              "name": "FRAGILE_OR_LUCKY_WIN",
+              "count": 12,
+              "pct": 6.185567010309279,
+              "net_R": 13.092333333333332,
+              "provisional": 10
+            },
+            {
+              "label": "L1",
+              "name": "STOP_HUNTED_RIGHT_DIRECTION",
+              "count": 8,
+              "pct": 4.123711340206185,
+              "net_R": -8.312333333333333,
+              "provisional": 1
+            },
+            {
+              "label": "L2",
+              "name": "ROUND_TRIP_GIVEBACK",
+              "count": 10,
+              "pct": 5.154639175257732,
+              "net_R": -7.846866666666666,
+              "provisional": 1
+            },
+            {
+              "label": "L3",
+              "name": "EXHAUSTION_OR_CHASING_TRAP",
+              "count": 0,
+              "pct": 0.0,
+              "net_R": 0,
+              "provisional": 0
+            },
+            {
+              "label": "L4",
+              "name": "CLEAN_EXPECTED_LOSS",
+              "count": 89,
+              "pct": 45.876288659793815,
+              "net_R": -49.465066666666665,
+              "provisional": 13
+            }
+          ],
+          "provisional": 25,
+          "overlapping_loss_flags": {
+            "L1": {
+              "count": 8,
+              "loss_R": 8.312333333333333
+            },
+            "L2": {
+              "count": 10,
+              "loss_R": 7.846866666666666
+            },
+            "L3": {
+              "count": 0,
+              "loss_R": 0
+            }
+          },
+          "W1_share": 0.3865979381443299
+        },
+        "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": {
+          "trades": 63,
+          "net_R": -9.701133333333333,
+          "groups": [
+            {
+              "label": "W1",
+              "name": "TRUE_STRUCTURAL_WIN",
+              "count": 18,
+              "pct": 28.571428571428573,
+              "net_R": 8.255666666666666,
+              "provisional": 0
+            },
+            {
+              "label": "W2",
+              "name": "FRAGILE_OR_LUCKY_WIN",
+              "count": 2,
+              "pct": 3.1746031746031744,
+              "net_R": 0.8092666666666667,
+              "provisional": 0
+            },
+            {
+              "label": "L1",
+              "name": "STOP_HUNTED_RIGHT_DIRECTION",
+              "count": 0,
+              "pct": 0.0,
+              "net_R": 0,
+              "provisional": 0
+            },
+            {
+              "label": "L2",
+              "name": "ROUND_TRIP_GIVEBACK",
+              "count": 6,
+              "pct": 9.523809523809524,
+              "net_R": -4.3118,
+              "provisional": 2
+            },
+            {
+              "label": "L3",
+              "name": "EXHAUSTION_OR_CHASING_TRAP",
+              "count": 17,
+              "pct": 26.984126984126984,
+              "net_R": -3.8846666666666665,
+              "provisional": 0
+            },
+            {
+              "label": "L4",
+              "name": "CLEAN_EXPECTED_LOSS",
+              "count": 20,
+              "pct": 31.746031746031747,
+              "net_R": -10.5696,
+              "provisional": 0
+            }
+          ],
+          "provisional": 2,
+          "overlapping_loss_flags": {
+            "L1": {
+              "count": 0,
+              "loss_R": 0
+            },
+            "L2": {
+              "count": 6,
+              "loss_R": 4.3118
+            },
+            "L3": {
+              "count": 17,
+              "loss_R": 3.8846666666666665
+            }
+          },
+          "W1_share": 0.2857142857142857
+        },
+        "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": {
+          "trades": 83,
+          "net_R": 8.362400000000001,
+          "groups": [
+            {
+              "label": "W1",
+              "name": "TRUE_STRUCTURAL_WIN",
+              "count": 36,
+              "pct": 43.373493975903614,
+              "net_R": 29.364866666666668,
+              "provisional": 0
+            },
+            {
+              "label": "W2",
+              "name": "FRAGILE_OR_LUCKY_WIN",
+              "count": 4,
+              "pct": 4.819277108433735,
+              "net_R": 1.0995333333333335,
+              "provisional": 2
+            },
+            {
+              "label": "L1",
+              "name": "STOP_HUNTED_RIGHT_DIRECTION",
+              "count": 1,
+              "pct": 1.2048192771084338,
+              "net_R": -1.0068666666666666,
+              "provisional": 0
+            },
+            {
+              "label": "L2",
+              "name": "ROUND_TRIP_GIVEBACK",
+              "count": 2,
+              "pct": 2.4096385542168677,
+              "net_R": -1.3331333333333333,
+              "provisional": 0
+            },
+            {
+              "label": "L3",
+              "name": "EXHAUSTION_OR_CHASING_TRAP",
+              "count": 10,
+              "pct": 12.048192771084338,
+              "net_R": -6.9736,
+              "provisional": 1
+            },
+            {
+              "label": "L4",
+              "name": "CLEAN_EXPECTED_LOSS",
+              "count": 30,
+              "pct": 36.144578313253014,
+              "net_R": -12.7884,
+              "provisional": 3
+            }
+          ],
+          "provisional": 6,
+          "overlapping_loss_flags": {
+            "L1": {
+              "count": 1,
+              "loss_R": 1.0068666666666666
+            },
+            "L2": {
+              "count": 2,
+              "loss_R": 1.3331333333333333
+            },
+            "L3": {
+              "count": 10,
+              "loss_R": 6.9736
+            }
+          },
+          "W1_share": 0.43373493975903615
+        }
+      },
+      "periods": {
+        "2018-2023": {
+          "trades": 340,
+          "net_R": 23.8524,
+          "groups": [
+            {
+              "label": "W1",
+              "name": "TRUE_STRUCTURAL_WIN",
+              "count": 129,
+              "pct": 37.94117647058823,
+              "net_R": 115.3436,
+              "provisional": 0
+            },
+            {
+              "label": "W2",
+              "name": "FRAGILE_OR_LUCKY_WIN",
+              "count": 18,
+              "pct": 5.294117647058823,
+              "net_R": 15.001133333333334,
+              "provisional": 12
+            },
+            {
+              "label": "L1",
+              "name": "STOP_HUNTED_RIGHT_DIRECTION",
+              "count": 9,
+              "pct": 2.6470588235294117,
+              "net_R": -9.3192,
+              "provisional": 1
+            },
+            {
+              "label": "L2",
+              "name": "ROUND_TRIP_GIVEBACK",
+              "count": 18,
+              "pct": 5.294117647058823,
+              "net_R": -13.4918,
+              "provisional": 3
+            },
+            {
+              "label": "L3",
+              "name": "EXHAUSTION_OR_CHASING_TRAP",
+              "count": 27,
+              "pct": 7.9411764705882355,
+              "net_R": -10.858266666666667,
+              "provisional": 1
+            },
+            {
+              "label": "L4",
+              "name": "CLEAN_EXPECTED_LOSS",
+              "count": 139,
+              "pct": 40.88235294117647,
+              "net_R": -72.82306666666666,
+              "provisional": 16
+            }
+          ],
+          "provisional": 33,
+          "overlapping_loss_flags": {
+            "L1": {
+              "count": 9,
+              "loss_R": 9.3192
+            },
+            "L2": {
+              "count": 18,
+              "loss_R": 13.4918
+            },
+            "L3": {
+              "count": 27,
+              "loss_R": 10.858266666666667
+            }
+          },
+          "W1_share": 0.37941176470588234
+        },
+        "2024-2026YTD": {
+          "trades": 0,
+          "net_R": 0,
+          "groups": [
+            {
+              "label": "W1",
+              "name": "TRUE_STRUCTURAL_WIN",
+              "count": 0,
+              "pct": null,
+              "net_R": 0,
+              "provisional": 0
+            },
+            {
+              "label": "W2",
+              "name": "FRAGILE_OR_LUCKY_WIN",
+              "count": 0,
+              "pct": null,
+              "net_R": 0,
+              "provisional": 0
+            },
+            {
+              "label": "L1",
+              "name": "STOP_HUNTED_RIGHT_DIRECTION",
+              "count": 0,
+              "pct": null,
+              "net_R": 0,
+              "provisional": 0
+            },
+            {
+              "label": "L2",
+              "name": "ROUND_TRIP_GIVEBACK",
+              "count": 0,
+              "pct": null,
+              "net_R": 0,
+              "provisional": 0
+            },
+            {
+              "label": "L3",
+              "name": "EXHAUSTION_OR_CHASING_TRAP",
+              "count": 0,
+              "pct": null,
+              "net_R": 0,
+              "provisional": 0
+            },
+            {
+              "label": "L4",
+              "name": "CLEAN_EXPECTED_LOSS",
+              "count": 0,
+              "pct": null,
+              "net_R": 0,
+              "provisional": 0
+            }
+          ],
+          "provisional": 0,
+          "overlapping_loss_flags": {
+            "L1": {
+              "count": 0,
+              "loss_R": 0
+            },
+            "L2": {
+              "count": 0,
+              "loss_R": 0
+            },
+            "L3": {
+              "count": 0,
+              "loss_R": 0
+            }
+          },
+          "W1_share": 0.0
+        }
+      },
+      "metrics": {
+        "net_R": 23.8524,
+        "equity_R_DD": 12.2065333333328,
+        "worst_daily_R": 2.0370666666666652,
+        "worst_daily_pct": 0.6111199999999996,
+        "Calmar": 0.3256780521906444,
+        "fixed150_not_account_lifecycle": true
+      }
+    }
+  },
+  "Full": {
+    "OLHC": {
+      "total": {
+        "trades": 494,
+        "net_R": 42.391666666666666,
+        "groups": [
+          {
+            "label": "W1",
+            "name": "TRUE_STRUCTURAL_WIN",
+            "count": 194,
+            "pct": 39.27125506072875,
+            "net_R": 170.3062,
+            "provisional": 0
+          },
+          {
+            "label": "W2",
+            "name": "FRAGILE_OR_LUCKY_WIN",
+            "count": 24,
+            "pct": 4.8582995951417,
+            "net_R": 24.515733333333333,
+            "provisional": 16
+          },
+          {
+            "label": "L1",
+            "name": "STOP_HUNTED_RIGHT_DIRECTION",
+            "count": 12,
+            "pct": 2.42914979757085,
+            "net_R": -12.466866666666666,
+            "provisional": 1
+          },
+          {
+            "label": "L2",
+            "name": "ROUND_TRIP_GIVEBACK",
+            "count": 28,
+            "pct": 5.668016194331984,
+            "net_R": -19.371866666666666,
+            "provisional": 3
+          },
+          {
+            "label": "L3",
+            "name": "EXHAUSTION_OR_CHASING_TRAP",
+            "count": 45,
+            "pct": 9.109311740890687,
+            "net_R": -20.7304,
+            "provisional": 1
+          },
+          {
+            "label": "L4",
+            "name": "CLEAN_EXPECTED_LOSS",
+            "count": 191,
+            "pct": 38.663967611336034,
+            "net_R": -99.86113333333333,
+            "provisional": 19
+          }
+        ],
+        "provisional": 40,
+        "overlapping_loss_flags": {
+          "L1": {
+            "count": 12,
+            "loss_R": 12.466866666666666
+          },
+          "L2": {
+            "count": 30,
+            "loss_R": 21.4694
+          },
+          "L3": {
+            "count": 45,
+            "loss_R": 20.7304
+          }
+        },
+        "W1_share": 0.39271255060728744
+      },
+      "concentration": {
+        "total_net_R": 42.391666666666666,
+        "without_top5": 12.984266666666667,
+        "without_top10": -6.280999999999999,
+        "top10": [
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1678867200000",
+            "net_R": 7.6464,
+            "label": "W1"
+          },
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1755864000000",
+            "net_R": 6.787733333333333,
+            "label": "W2"
+          },
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1521446400000",
+            "net_R": 5.459933333333334,
+            "label": "W1"
+          },
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1706875200000",
+            "net_R": 5.156,
+            "label": "W1"
+          },
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1682395200000",
+            "net_R": 4.357333333333333,
+            "label": "W1"
+          },
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1659412800000",
+            "net_R": 4.2086,
+            "label": "W1"
+          },
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1529985600000",
+            "net_R": 4.151533333333333,
+            "label": "W1"
+          },
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1697097600000",
+            "net_R": 3.7829333333333337,
+            "label": "W1"
+          },
+          {
+            "trade_key": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1@1564671600000",
+            "net_R": 3.7656,
+            "label": "W1"
+          },
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1626235200000",
+            "net_R": 3.3566000000000003,
+            "label": "W2"
+          }
+        ],
+        "hypothetical_removal_not_an_executable_strategy": true
+      },
+      "sleeves": {
+        "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": {
+          "trades": 266,
+          "net_R": 36.94133333333333,
+          "groups": [
+            {
+              "label": "W1",
+              "name": "TRUE_STRUCTURAL_WIN",
+              "count": 101,
+              "pct": 37.96992481203007,
+              "net_R": 102.43213333333333,
+              "provisional": 0
+            },
+            {
+              "label": "W2",
+              "name": "FRAGILE_OR_LUCKY_WIN",
+              "count": 17,
+              "pct": 6.390977443609023,
+              "net_R": 22.587933333333332,
+              "provisional": 14
+            },
+            {
+              "label": "L1",
+              "name": "STOP_HUNTED_RIGHT_DIRECTION",
+              "count": 11,
+              "pct": 4.135338345864661,
+              "net_R": -11.46,
+              "provisional": 1
+            },
+            {
+              "label": "L2",
+              "name": "ROUND_TRIP_GIVEBACK",
+              "count": 14,
+              "pct": 5.2631578947368425,
+              "net_R": -11.1206,
+              "provisional": 1
+            },
+            {
+              "label": "L3",
+              "name": "EXHAUSTION_OR_CHASING_TRAP",
+              "count": 0,
+              "pct": 0.0,
+              "net_R": 0,
+              "provisional": 0
+            },
+            {
+              "label": "L4",
+              "name": "CLEAN_EXPECTED_LOSS",
+              "count": 123,
+              "pct": 46.2406015037594,
+              "net_R": -65.49813333333333,
+              "provisional": 16
+            }
+          ],
+          "provisional": 32,
+          "overlapping_loss_flags": {
+            "L1": {
+              "count": 11,
+              "loss_R": 11.46
+            },
+            "L2": {
+              "count": 16,
+              "loss_R": 13.218133333333334
+            },
+            "L3": {
+              "count": 0,
+              "loss_R": 0
+            }
+          },
+          "W1_share": 0.37969924812030076
+        },
+        "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": {
+          "trades": 103,
+          "net_R": 0.5252666666666665,
+          "groups": [
+            {
+              "label": "W1",
+              "name": "TRUE_STRUCTURAL_WIN",
+              "count": 40,
+              "pct": 38.83495145631068,
+              "net_R": 27.2028,
+              "provisional": 0
+            },
+            {
+              "label": "W2",
+              "name": "FRAGILE_OR_LUCKY_WIN",
+              "count": 2,
+              "pct": 1.941747572815534,
+              "net_R": 0.8092666666666667,
+              "provisional": 0
+            },
+            {
+              "label": "L1",
+              "name": "STOP_HUNTED_RIGHT_DIRECTION",
+              "count": 0,
+              "pct": 0.0,
+              "net_R": 0,
+              "provisional": 0
+            },
+            {
+              "label": "L2",
+              "name": "ROUND_TRIP_GIVEBACK",
+              "count": 9,
+              "pct": 8.737864077669903,
+              "net_R": -5.8125333333333336,
+              "provisional": 2
+            },
+            {
+              "label": "L3",
+              "name": "EXHAUSTION_OR_CHASING_TRAP",
+              "count": 26,
+              "pct": 25.24271844660194,
+              "net_R": -7.433133333333333,
+              "provisional": 0
+            },
+            {
+              "label": "L4",
+              "name": "CLEAN_EXPECTED_LOSS",
+              "count": 26,
+              "pct": 25.24271844660194,
+              "net_R": -14.241133333333334,
+              "provisional": 0
+            }
+          ],
+          "provisional": 2,
+          "overlapping_loss_flags": {
+            "L1": {
+              "count": 0,
+              "loss_R": 0
+            },
+            "L2": {
+              "count": 9,
+              "loss_R": 5.8125333333333336
+            },
+            "L3": {
+              "count": 26,
+              "loss_R": 7.433133333333333
+            }
+          },
+          "W1_share": 0.3883495145631068
+        },
+        "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": {
+          "trades": 125,
+          "net_R": 4.925066666666668,
+          "groups": [
+            {
+              "label": "W1",
+              "name": "TRUE_STRUCTURAL_WIN",
+              "count": 53,
+              "pct": 42.4,
+              "net_R": 40.67126666666667,
+              "provisional": 0
+            },
+            {
+              "label": "W2",
+              "name": "FRAGILE_OR_LUCKY_WIN",
+              "count": 5,
+              "pct": 4.0,
+              "net_R": 1.1185333333333334,
+              "provisional": 2
+            },
+            {
+              "label": "L1",
+              "name": "STOP_HUNTED_RIGHT_DIRECTION",
+              "count": 1,
+              "pct": 0.8,
+              "net_R": -1.0068666666666666,
+              "provisional": 0
+            },
+            {
+              "label": "L2",
+              "name": "ROUND_TRIP_GIVEBACK",
+              "count": 5,
+              "pct": 4.0,
+              "net_R": -2.4387333333333334,
+              "provisional": 0
+            },
+            {
+              "label": "L3",
+              "name": "EXHAUSTION_OR_CHASING_TRAP",
+              "count": 19,
+              "pct": 15.2,
+              "net_R": -13.297266666666667,
+              "provisional": 1
+            },
+            {
+              "label": "L4",
+              "name": "CLEAN_EXPECTED_LOSS",
+              "count": 42,
+              "pct": 33.6,
+              "net_R": -20.121866666666666,
+              "provisional": 3
+            }
+          ],
+          "provisional": 6,
+          "overlapping_loss_flags": {
+            "L1": {
+              "count": 1,
+              "loss_R": 1.0068666666666666
+            },
+            "L2": {
+              "count": 5,
+              "loss_R": 2.4387333333333334
+            },
+            "L3": {
+              "count": 19,
+              "loss_R": 13.297266666666667
+            }
+          },
+          "W1_share": 0.424
+        }
+      },
+      "periods": {
+        "2018-2023": {
+          "trades": 340,
+          "net_R": 23.8524,
+          "groups": [
+            {
+              "label": "W1",
+              "name": "TRUE_STRUCTURAL_WIN",
+              "count": 129,
+              "pct": 37.94117647058823,
+              "net_R": 115.3436,
+              "provisional": 0
+            },
+            {
+              "label": "W2",
+              "name": "FRAGILE_OR_LUCKY_WIN",
+              "count": 18,
+              "pct": 5.294117647058823,
+              "net_R": 15.001133333333334,
+              "provisional": 12
+            },
+            {
+              "label": "L1",
+              "name": "STOP_HUNTED_RIGHT_DIRECTION",
+              "count": 9,
+              "pct": 2.6470588235294117,
+              "net_R": -9.3192,
+              "provisional": 1
+            },
+            {
+              "label": "L2",
+              "name": "ROUND_TRIP_GIVEBACK",
+              "count": 18,
+              "pct": 5.294117647058823,
+              "net_R": -13.4918,
+              "provisional": 3
+            },
+            {
+              "label": "L3",
+              "name": "EXHAUSTION_OR_CHASING_TRAP",
+              "count": 27,
+              "pct": 7.9411764705882355,
+              "net_R": -10.858266666666667,
+              "provisional": 1
+            },
+            {
+              "label": "L4",
+              "name": "CLEAN_EXPECTED_LOSS",
+              "count": 139,
+              "pct": 40.88235294117647,
+              "net_R": -72.82306666666666,
+              "provisional": 16
+            }
+          ],
+          "provisional": 33,
+          "overlapping_loss_flags": {
+            "L1": {
+              "count": 9,
+              "loss_R": 9.3192
+            },
+            "L2": {
+              "count": 18,
+              "loss_R": 13.4918
+            },
+            "L3": {
+              "count": 27,
+              "loss_R": 10.858266666666667
+            }
+          },
+          "W1_share": 0.37941176470588234
+        },
+        "2024-2026YTD": {
+          "trades": 154,
+          "net_R": 18.539266666666666,
+          "groups": [
+            {
+              "label": "W1",
+              "name": "TRUE_STRUCTURAL_WIN",
+              "count": 65,
+              "pct": 42.20779220779221,
+              "net_R": 54.9626,
+              "provisional": 0
+            },
+            {
+              "label": "W2",
+              "name": "FRAGILE_OR_LUCKY_WIN",
+              "count": 6,
+              "pct": 3.896103896103896,
+              "net_R": 9.5146,
+              "provisional": 4
+            },
+            {
+              "label": "L1",
+              "name": "STOP_HUNTED_RIGHT_DIRECTION",
+              "count": 3,
+              "pct": 1.948051948051948,
+              "net_R": -3.147666666666667,
+              "provisional": 0
+            },
+            {
+              "label": "L2",
+              "name": "ROUND_TRIP_GIVEBACK",
+              "count": 10,
+              "pct": 6.4935064935064934,
+              "net_R": -5.880066666666667,
+              "provisional": 0
+            },
+            {
+              "label": "L3",
+              "name": "EXHAUSTION_OR_CHASING_TRAP",
+              "count": 18,
+              "pct": 11.688311688311689,
+              "net_R": -9.872133333333332,
+              "provisional": 0
+            },
+            {
+              "label": "L4",
+              "name": "CLEAN_EXPECTED_LOSS",
+              "count": 52,
+              "pct": 33.76623376623377,
+              "net_R": -27.038066666666666,
+              "provisional": 3
+            }
+          ],
+          "provisional": 7,
+          "overlapping_loss_flags": {
+            "L1": {
+              "count": 3,
+              "loss_R": 3.147666666666667
+            },
+            "L2": {
+              "count": 12,
+              "loss_R": 7.9776
+            },
+            "L3": {
+              "count": 18,
+              "loss_R": 9.872133333333332
+            }
+          },
+          "W1_share": 0.42207792207792205
+        }
+      },
+      "metrics": {
+        "net_R": 42.391666666666666,
+        "equity_R_DD": 12.206533333333919,
+        "worst_daily_R": 2.037066666666667,
+        "worst_daily_pct": 0.6111200000000001,
+        "Calmar": 0.395398572732443,
+        "annualization_years": 8.783205678419133,
+        "fixed150_not_account_lifecycle": true
+      }
+    },
+    "OHLC": {
+      "total": {
+        "trades": 494,
+        "net_R": 42.391666666666666,
+        "groups": [
+          {
+            "label": "W1",
+            "name": "TRUE_STRUCTURAL_WIN",
+            "count": 194,
+            "pct": 39.27125506072875,
+            "net_R": 170.3062,
+            "provisional": 0
+          },
+          {
+            "label": "W2",
+            "name": "FRAGILE_OR_LUCKY_WIN",
+            "count": 24,
+            "pct": 4.8582995951417,
+            "net_R": 24.515733333333333,
+            "provisional": 16
+          },
+          {
+            "label": "L1",
+            "name": "STOP_HUNTED_RIGHT_DIRECTION",
+            "count": 12,
+            "pct": 2.42914979757085,
+            "net_R": -12.466866666666666,
+            "provisional": 1
+          },
+          {
+            "label": "L2",
+            "name": "ROUND_TRIP_GIVEBACK",
+            "count": 28,
+            "pct": 5.668016194331984,
+            "net_R": -19.371866666666666,
+            "provisional": 3
+          },
+          {
+            "label": "L3",
+            "name": "EXHAUSTION_OR_CHASING_TRAP",
+            "count": 45,
+            "pct": 9.109311740890687,
+            "net_R": -20.7304,
+            "provisional": 1
+          },
+          {
+            "label": "L4",
+            "name": "CLEAN_EXPECTED_LOSS",
+            "count": 191,
+            "pct": 38.663967611336034,
+            "net_R": -99.86113333333333,
+            "provisional": 19
+          }
+        ],
+        "provisional": 40,
+        "overlapping_loss_flags": {
+          "L1": {
+            "count": 12,
+            "loss_R": 12.466866666666666
+          },
+          "L2": {
+            "count": 30,
+            "loss_R": 21.4694
+          },
+          "L3": {
+            "count": 45,
+            "loss_R": 20.7304
+          }
+        },
+        "W1_share": 0.39271255060728744
+      },
+      "concentration": {
+        "total_net_R": 42.391666666666666,
+        "without_top5": 12.984266666666667,
+        "without_top10": -6.280999999999999,
+        "top10": [
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1678867200000",
+            "net_R": 7.6464,
+            "label": "W1"
+          },
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1755864000000",
+            "net_R": 6.787733333333333,
+            "label": "W2"
+          },
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1521446400000",
+            "net_R": 5.459933333333334,
+            "label": "W1"
+          },
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1706875200000",
+            "net_R": 5.156,
+            "label": "W1"
+          },
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1682395200000",
+            "net_R": 4.357333333333333,
+            "label": "W1"
+          },
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1659412800000",
+            "net_R": 4.2086,
+            "label": "W1"
+          },
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1529985600000",
+            "net_R": 4.151533333333333,
+            "label": "W1"
+          },
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1697097600000",
+            "net_R": 3.7829333333333337,
+            "label": "W1"
+          },
+          {
+            "trade_key": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1@1564671600000",
+            "net_R": 3.7656,
+            "label": "W1"
+          },
+          {
+            "trade_key": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0@1626235200000",
+            "net_R": 3.3566000000000003,
+            "label": "W2"
+          }
+        ],
+        "hypothetical_removal_not_an_executable_strategy": true
+      },
+      "sleeves": {
+        "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": {
+          "trades": 266,
+          "net_R": 36.94133333333333,
+          "groups": [
+            {
+              "label": "W1",
+              "name": "TRUE_STRUCTURAL_WIN",
+              "count": 101,
+              "pct": 37.96992481203007,
+              "net_R": 102.43213333333333,
+              "provisional": 0
+            },
+            {
+              "label": "W2",
+              "name": "FRAGILE_OR_LUCKY_WIN",
+              "count": 17,
+              "pct": 6.390977443609023,
+              "net_R": 22.587933333333332,
+              "provisional": 14
+            },
+            {
+              "label": "L1",
+              "name": "STOP_HUNTED_RIGHT_DIRECTION",
+              "count": 11,
+              "pct": 4.135338345864661,
+              "net_R": -11.46,
+              "provisional": 1
+            },
+            {
+              "label": "L2",
+              "name": "ROUND_TRIP_GIVEBACK",
+              "count": 14,
+              "pct": 5.2631578947368425,
+              "net_R": -11.1206,
+              "provisional": 1
+            },
+            {
+              "label": "L3",
+              "name": "EXHAUSTION_OR_CHASING_TRAP",
+              "count": 0,
+              "pct": 0.0,
+              "net_R": 0,
+              "provisional": 0
+            },
+            {
+              "label": "L4",
+              "name": "CLEAN_EXPECTED_LOSS",
+              "count": 123,
+              "pct": 46.2406015037594,
+              "net_R": -65.49813333333333,
+              "provisional": 16
+            }
+          ],
+          "provisional": 32,
+          "overlapping_loss_flags": {
+            "L1": {
+              "count": 11,
+              "loss_R": 11.46
+            },
+            "L2": {
+              "count": 16,
+              "loss_R": 13.218133333333334
+            },
+            "L3": {
+              "count": 0,
+              "loss_R": 0
+            }
+          },
+          "W1_share": 0.37969924812030076
+        },
+        "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": {
+          "trades": 103,
+          "net_R": 0.5252666666666665,
+          "groups": [
+            {
+              "label": "W1",
+              "name": "TRUE_STRUCTURAL_WIN",
+              "count": 40,
+              "pct": 38.83495145631068,
+              "net_R": 27.2028,
+              "provisional": 0
+            },
+            {
+              "label": "W2",
+              "name": "FRAGILE_OR_LUCKY_WIN",
+              "count": 2,
+              "pct": 1.941747572815534,
+              "net_R": 0.8092666666666667,
+              "provisional": 0
+            },
+            {
+              "label": "L1",
+              "name": "STOP_HUNTED_RIGHT_DIRECTION",
+              "count": 0,
+              "pct": 0.0,
+              "net_R": 0,
+              "provisional": 0
+            },
+            {
+              "label": "L2",
+              "name": "ROUND_TRIP_GIVEBACK",
+              "count": 9,
+              "pct": 8.737864077669903,
+              "net_R": -5.8125333333333336,
+              "provisional": 2
+            },
+            {
+              "label": "L3",
+              "name": "EXHAUSTION_OR_CHASING_TRAP",
+              "count": 26,
+              "pct": 25.24271844660194,
+              "net_R": -7.433133333333333,
+              "provisional": 0
+            },
+            {
+              "label": "L4",
+              "name": "CLEAN_EXPECTED_LOSS",
+              "count": 26,
+              "pct": 25.24271844660194,
+              "net_R": -14.241133333333334,
+              "provisional": 0
+            }
+          ],
+          "provisional": 2,
+          "overlapping_loss_flags": {
+            "L1": {
+              "count": 0,
+              "loss_R": 0
+            },
+            "L2": {
+              "count": 9,
+              "loss_R": 5.8125333333333336
+            },
+            "L3": {
+              "count": 26,
+              "loss_R": 7.433133333333333
+            }
+          },
+          "W1_share": 0.3883495145631068
+        },
+        "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": {
+          "trades": 125,
+          "net_R": 4.925066666666668,
+          "groups": [
+            {
+              "label": "W1",
+              "name": "TRUE_STRUCTURAL_WIN",
+              "count": 53,
+              "pct": 42.4,
+              "net_R": 40.67126666666667,
+              "provisional": 0
+            },
+            {
+              "label": "W2",
+              "name": "FRAGILE_OR_LUCKY_WIN",
+              "count": 5,
+              "pct": 4.0,
+              "net_R": 1.1185333333333334,
+              "provisional": 2
+            },
+            {
+              "label": "L1",
+              "name": "STOP_HUNTED_RIGHT_DIRECTION",
+              "count": 1,
+              "pct": 0.8,
+              "net_R": -1.0068666666666666,
+              "provisional": 0
+            },
+            {
+              "label": "L2",
+              "name": "ROUND_TRIP_GIVEBACK",
+              "count": 5,
+              "pct": 4.0,
+              "net_R": -2.4387333333333334,
+              "provisional": 0
+            },
+            {
+              "label": "L3",
+              "name": "EXHAUSTION_OR_CHASING_TRAP",
+              "count": 19,
+              "pct": 15.2,
+              "net_R": -13.297266666666667,
+              "provisional": 1
+            },
+            {
+              "label": "L4",
+              "name": "CLEAN_EXPECTED_LOSS",
+              "count": 42,
+              "pct": 33.6,
+              "net_R": -20.121866666666666,
+              "provisional": 3
+            }
+          ],
+          "provisional": 6,
+          "overlapping_loss_flags": {
+            "L1": {
+              "count": 1,
+              "loss_R": 1.0068666666666666
+            },
+            "L2": {
+              "count": 5,
+              "loss_R": 2.4387333333333334
+            },
+            "L3": {
+              "count": 19,
+              "loss_R": 13.297266666666667
+            }
+          },
+          "W1_share": 0.424
+        }
+      },
+      "periods": {
+        "2018-2023": {
+          "trades": 340,
+          "net_R": 23.8524,
+          "groups": [
+            {
+              "label": "W1",
+              "name": "TRUE_STRUCTURAL_WIN",
+              "count": 129,
+              "pct": 37.94117647058823,
+              "net_R": 115.3436,
+              "provisional": 0
+            },
+            {
+              "label": "W2",
+              "name": "FRAGILE_OR_LUCKY_WIN",
+              "count": 18,
+              "pct": 5.294117647058823,
+              "net_R": 15.001133333333334,
+              "provisional": 12
+            },
+            {
+              "label": "L1",
+              "name": "STOP_HUNTED_RIGHT_DIRECTION",
+              "count": 9,
+              "pct": 2.6470588235294117,
+              "net_R": -9.3192,
+              "provisional": 1
+            },
+            {
+              "label": "L2",
+              "name": "ROUND_TRIP_GIVEBACK",
+              "count": 18,
+              "pct": 5.294117647058823,
+              "net_R": -13.4918,
+              "provisional": 3
+            },
+            {
+              "label": "L3",
+              "name": "EXHAUSTION_OR_CHASING_TRAP",
+              "count": 27,
+              "pct": 7.9411764705882355,
+              "net_R": -10.858266666666667,
+              "provisional": 1
+            },
+            {
+              "label": "L4",
+              "name": "CLEAN_EXPECTED_LOSS",
+              "count": 139,
+              "pct": 40.88235294117647,
+              "net_R": -72.82306666666666,
+              "provisional": 16
+            }
+          ],
+          "provisional": 33,
+          "overlapping_loss_flags": {
+            "L1": {
+              "count": 9,
+              "loss_R": 9.3192
+            },
+            "L2": {
+              "count": 18,
+              "loss_R": 13.4918
+            },
+            "L3": {
+              "count": 27,
+              "loss_R": 10.858266666666667
+            }
+          },
+          "W1_share": 0.37941176470588234
+        },
+        "2024-2026YTD": {
+          "trades": 154,
+          "net_R": 18.539266666666666,
+          "groups": [
+            {
+              "label": "W1",
+              "name": "TRUE_STRUCTURAL_WIN",
+              "count": 65,
+              "pct": 42.20779220779221,
+              "net_R": 54.9626,
+              "provisional": 0
+            },
+            {
+              "label": "W2",
+              "name": "FRAGILE_OR_LUCKY_WIN",
+              "count": 6,
+              "pct": 3.896103896103896,
+              "net_R": 9.5146,
+              "provisional": 4
+            },
+            {
+              "label": "L1",
+              "name": "STOP_HUNTED_RIGHT_DIRECTION",
+              "count": 3,
+              "pct": 1.948051948051948,
+              "net_R": -3.147666666666667,
+              "provisional": 0
+            },
+            {
+              "label": "L2",
+              "name": "ROUND_TRIP_GIVEBACK",
+              "count": 10,
+              "pct": 6.4935064935064934,
+              "net_R": -5.880066666666667,
+              "provisional": 0
+            },
+            {
+              "label": "L3",
+              "name": "EXHAUSTION_OR_CHASING_TRAP",
+              "count": 18,
+              "pct": 11.688311688311689,
+              "net_R": -9.872133333333332,
+              "provisional": 0
+            },
+            {
+              "label": "L4",
+              "name": "CLEAN_EXPECTED_LOSS",
+              "count": 52,
+              "pct": 33.76623376623377,
+              "net_R": -27.038066666666666,
+              "provisional": 3
+            }
+          ],
+          "provisional": 7,
+          "overlapping_loss_flags": {
+            "L1": {
+              "count": 3,
+              "loss_R": 3.147666666666667
+            },
+            "L2": {
+              "count": 12,
+              "loss_R": 7.9776
+            },
+            "L3": {
+              "count": 18,
+              "loss_R": 9.872133333333332
+            }
+          },
+          "W1_share": 0.42207792207792205
+        }
+      },
+      "metrics": {
+        "net_R": 42.391666666666666,
+        "equity_R_DD": 12.2065333333328,
+        "worst_daily_R": 2.0370666666666652,
+        "worst_daily_pct": 0.6111199999999996,
+        "Calmar": 0.39539857273247925,
+        "annualization_years": 8.783205678419133,
+        "fixed150_not_account_lifecycle": true
+      }
+    }
+  },
+  "sleeve_period": {
+    "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0 / 2018-2023": {
+      "trades": 194,
+      "net_R": 25.191133333333333,
+      "groups": [
+        {
+          "label": "W1",
+          "name": "TRUE_STRUCTURAL_WIN",
+          "count": 75,
+          "pct": 38.65979381443299,
+          "net_R": 77.72306666666667,
+          "provisional": 0
+        },
+        {
+          "label": "W2",
+          "name": "FRAGILE_OR_LUCKY_WIN",
+          "count": 12,
+          "pct": 6.185567010309279,
+          "net_R": 13.092333333333332,
+          "provisional": 10
+        },
+        {
+          "label": "L1",
+          "name": "STOP_HUNTED_RIGHT_DIRECTION",
+          "count": 8,
+          "pct": 4.123711340206185,
+          "net_R": -8.312333333333333,
+          "provisional": 1
+        },
+        {
+          "label": "L2",
+          "name": "ROUND_TRIP_GIVEBACK",
+          "count": 10,
+          "pct": 5.154639175257732,
+          "net_R": -7.846866666666666,
+          "provisional": 1
+        },
+        {
+          "label": "L3",
+          "name": "EXHAUSTION_OR_CHASING_TRAP",
+          "count": 0,
+          "pct": 0.0,
+          "net_R": 0,
+          "provisional": 0
+        },
+        {
+          "label": "L4",
+          "name": "CLEAN_EXPECTED_LOSS",
+          "count": 89,
+          "pct": 45.876288659793815,
+          "net_R": -49.465066666666665,
+          "provisional": 13
+        }
+      ],
+      "provisional": 25,
+      "overlapping_loss_flags": {
+        "L1": {
+          "count": 8,
+          "loss_R": 8.312333333333333
+        },
+        "L2": {
+          "count": 10,
+          "loss_R": 7.846866666666666
+        },
+        "L3": {
+          "count": 0,
+          "loss_R": 0
+        }
+      },
+      "W1_share": 0.3865979381443299
+    },
+    "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0 / 2024-2026YTD": {
+      "trades": 72,
+      "net_R": 11.750199999999998,
+      "groups": [
+        {
+          "label": "W1",
+          "name": "TRUE_STRUCTURAL_WIN",
+          "count": 26,
+          "pct": 36.111111111111114,
+          "net_R": 24.709066666666665,
+          "provisional": 0
+        },
+        {
+          "label": "W2",
+          "name": "FRAGILE_OR_LUCKY_WIN",
+          "count": 5,
+          "pct": 6.944444444444445,
+          "net_R": 9.4956,
+          "provisional": 4
+        },
+        {
+          "label": "L1",
+          "name": "STOP_HUNTED_RIGHT_DIRECTION",
+          "count": 3,
+          "pct": 4.166666666666667,
+          "net_R": -3.147666666666667,
+          "provisional": 0
+        },
+        {
+          "label": "L2",
+          "name": "ROUND_TRIP_GIVEBACK",
+          "count": 4,
+          "pct": 5.555555555555555,
+          "net_R": -3.2737333333333334,
+          "provisional": 0
+        },
+        {
+          "label": "L3",
+          "name": "EXHAUSTION_OR_CHASING_TRAP",
+          "count": 0,
+          "pct": 0.0,
+          "net_R": 0,
+          "provisional": 0
+        },
+        {
+          "label": "L4",
+          "name": "CLEAN_EXPECTED_LOSS",
+          "count": 34,
+          "pct": 47.22222222222222,
+          "net_R": -16.033066666666667,
+          "provisional": 3
+        }
+      ],
+      "provisional": 7,
+      "overlapping_loss_flags": {
+        "L1": {
+          "count": 3,
+          "loss_R": 3.147666666666667
+        },
+        "L2": {
+          "count": 6,
+          "loss_R": 5.371266666666667
+        },
+        "L3": {
+          "count": 0,
+          "loss_R": 0
+        }
+      },
+      "W1_share": 0.3611111111111111
+    },
+    "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0 / 2018-2023": {
+      "trades": 63,
+      "net_R": -9.701133333333333,
+      "groups": [
+        {
+          "label": "W1",
+          "name": "TRUE_STRUCTURAL_WIN",
+          "count": 18,
+          "pct": 28.571428571428573,
+          "net_R": 8.255666666666666,
+          "provisional": 0
+        },
+        {
+          "label": "W2",
+          "name": "FRAGILE_OR_LUCKY_WIN",
+          "count": 2,
+          "pct": 3.1746031746031744,
+          "net_R": 0.8092666666666667,
+          "provisional": 0
+        },
+        {
+          "label": "L1",
+          "name": "STOP_HUNTED_RIGHT_DIRECTION",
+          "count": 0,
+          "pct": 0.0,
+          "net_R": 0,
+          "provisional": 0
+        },
+        {
+          "label": "L2",
+          "name": "ROUND_TRIP_GIVEBACK",
+          "count": 6,
+          "pct": 9.523809523809524,
+          "net_R": -4.3118,
+          "provisional": 2
+        },
+        {
+          "label": "L3",
+          "name": "EXHAUSTION_OR_CHASING_TRAP",
+          "count": 17,
+          "pct": 26.984126984126984,
+          "net_R": -3.8846666666666665,
+          "provisional": 0
+        },
+        {
+          "label": "L4",
+          "name": "CLEAN_EXPECTED_LOSS",
+          "count": 20,
+          "pct": 31.746031746031747,
+          "net_R": -10.5696,
+          "provisional": 0
+        }
+      ],
+      "provisional": 2,
+      "overlapping_loss_flags": {
+        "L1": {
+          "count": 0,
+          "loss_R": 0
+        },
+        "L2": {
+          "count": 6,
+          "loss_R": 4.3118
+        },
+        "L3": {
+          "count": 17,
+          "loss_R": 3.8846666666666665
+        }
+      },
+      "W1_share": 0.2857142857142857
+    },
+    "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0 / 2024-2026YTD": {
+      "trades": 40,
+      "net_R": 10.2264,
+      "groups": [
+        {
+          "label": "W1",
+          "name": "TRUE_STRUCTURAL_WIN",
+          "count": 22,
+          "pct": 55.0,
+          "net_R": 18.947133333333333,
+          "provisional": 0
+        },
+        {
+          "label": "W2",
+          "name": "FRAGILE_OR_LUCKY_WIN",
+          "count": 0,
+          "pct": 0.0,
+          "net_R": 0,
+          "provisional": 0
+        },
+        {
+          "label": "L1",
+          "name": "STOP_HUNTED_RIGHT_DIRECTION",
+          "count": 0,
+          "pct": 0.0,
+          "net_R": 0,
+          "provisional": 0
+        },
+        {
+          "label": "L2",
+          "name": "ROUND_TRIP_GIVEBACK",
+          "count": 3,
+          "pct": 7.5,
+          "net_R": -1.5007333333333333,
+          "provisional": 0
+        },
+        {
+          "label": "L3",
+          "name": "EXHAUSTION_OR_CHASING_TRAP",
+          "count": 9,
+          "pct": 22.5,
+          "net_R": -3.5484666666666667,
+          "provisional": 0
+        },
+        {
+          "label": "L4",
+          "name": "CLEAN_EXPECTED_LOSS",
+          "count": 6,
+          "pct": 15.0,
+          "net_R": -3.6715333333333335,
+          "provisional": 0
+        }
+      ],
+      "provisional": 0,
+      "overlapping_loss_flags": {
+        "L1": {
+          "count": 0,
+          "loss_R": 0
+        },
+        "L2": {
+          "count": 3,
+          "loss_R": 1.5007333333333333
+        },
+        "L3": {
+          "count": 9,
+          "loss_R": 3.5484666666666667
+        }
+      },
+      "W1_share": 0.55
+    },
+    "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1 / 2018-2023": {
+      "trades": 83,
+      "net_R": 8.362400000000001,
+      "groups": [
+        {
+          "label": "W1",
+          "name": "TRUE_STRUCTURAL_WIN",
+          "count": 36,
+          "pct": 43.373493975903614,
+          "net_R": 29.364866666666668,
+          "provisional": 0
+        },
+        {
+          "label": "W2",
+          "name": "FRAGILE_OR_LUCKY_WIN",
+          "count": 4,
+          "pct": 4.819277108433735,
+          "net_R": 1.0995333333333335,
+          "provisional": 2
+        },
+        {
+          "label": "L1",
+          "name": "STOP_HUNTED_RIGHT_DIRECTION",
+          "count": 1,
+          "pct": 1.2048192771084338,
+          "net_R": -1.0068666666666666,
+          "provisional": 0
+        },
+        {
+          "label": "L2",
+          "name": "ROUND_TRIP_GIVEBACK",
+          "count": 2,
+          "pct": 2.4096385542168677,
+          "net_R": -1.3331333333333333,
+          "provisional": 0
+        },
+        {
+          "label": "L3",
+          "name": "EXHAUSTION_OR_CHASING_TRAP",
+          "count": 10,
+          "pct": 12.048192771084338,
+          "net_R": -6.9736,
+          "provisional": 1
+        },
+        {
+          "label": "L4",
+          "name": "CLEAN_EXPECTED_LOSS",
+          "count": 30,
+          "pct": 36.144578313253014,
+          "net_R": -12.7884,
+          "provisional": 3
+        }
+      ],
+      "provisional": 6,
+      "overlapping_loss_flags": {
+        "L1": {
+          "count": 1,
+          "loss_R": 1.0068666666666666
+        },
+        "L2": {
+          "count": 2,
+          "loss_R": 1.3331333333333333
+        },
+        "L3": {
+          "count": 10,
+          "loss_R": 6.9736
+        }
+      },
+      "W1_share": 0.43373493975903615
+    },
+    "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1 / 2024-2026YTD": {
+      "trades": 42,
+      "net_R": -3.4373333333333327,
+      "groups": [
+        {
+          "label": "W1",
+          "name": "TRUE_STRUCTURAL_WIN",
+          "count": 17,
+          "pct": 40.476190476190474,
+          "net_R": 11.3064,
+          "provisional": 0
+        },
+        {
+          "label": "W2",
+          "name": "FRAGILE_OR_LUCKY_WIN",
+          "count": 1,
+          "pct": 2.380952380952381,
+          "net_R": 0.019,
+          "provisional": 0
+        },
+        {
+          "label": "L1",
+          "name": "STOP_HUNTED_RIGHT_DIRECTION",
+          "count": 0,
+          "pct": 0.0,
+          "net_R": 0,
+          "provisional": 0
+        },
+        {
+          "label": "L2",
+          "name": "ROUND_TRIP_GIVEBACK",
+          "count": 3,
+          "pct": 7.142857142857143,
+          "net_R": -1.1056,
+          "provisional": 0
+        },
+        {
+          "label": "L3",
+          "name": "EXHAUSTION_OR_CHASING_TRAP",
+          "count": 9,
+          "pct": 21.428571428571427,
+          "net_R": -6.323666666666666,
+          "provisional": 0
+        },
+        {
+          "label": "L4",
+          "name": "CLEAN_EXPECTED_LOSS",
+          "count": 12,
+          "pct": 28.571428571428573,
+          "net_R": -7.333466666666666,
+          "provisional": 0
+        }
+      ],
+      "provisional": 0,
+      "overlapping_loss_flags": {
+        "L1": {
+          "count": 0,
+          "loss_R": 0
+        },
+        "L2": {
+          "count": 3,
+          "loss_R": 1.1056
+        },
+        "L3": {
+          "count": 9,
+          "loss_R": 6.323666666666666
+        }
+      },
+      "W1_share": 0.40476190476190477
+    }
+  },
+  "B1": {
+    "choice": "B1_EARLY_NET_BE",
+    "cases": [
+      {
+        "order": "OLHC",
+        "choice": "B1_EARLY_NET_BE",
+        "base": {
+          "net_R": 23.8524,
+          "equity_R_DD": 12.206533333333919,
+          "worst_daily_R": 2.037066666666667,
+          "worst_daily_pct": 0.6111200000000001,
+          "Calmar": 0.3256780521906145,
+          "fixed150_not_account_lifecycle": true
+        },
+        "child": {
+          "net_R": 22.66,
+          "equity_R_DD": 11.094066666666684,
+          "worst_daily_R": 2.0370666666666573,
+          "worst_daily_pct": 0.6111199999999971,
+          "Calmar": 0.34042220766656,
+          "fixed150_not_account_lifecycle": true
+        },
+        "trades": 340,
+        "taxonomy": {
+          "trades": 340,
+          "net_R": 22.66,
+          "groups": [
+            {
+              "label": "W1",
+              "name": "TRUE_STRUCTURAL_WIN",
+              "count": 123,
+              "pct": 36.1764705882353,
+              "net_R": 106.73433333333334,
+              "provisional": 0
+            },
+            {
+              "label": "W2",
+              "name": "FRAGILE_OR_LUCKY_WIN",
+              "count": 17,
+              "pct": 5.0,
+              "net_R": 13.8102,
+              "provisional": 12
+            },
+            {
+              "label": "L1",
+              "name": "STOP_HUNTED_RIGHT_DIRECTION",
+              "count": 9,
+              "pct": 2.6470588235294117,
+              "net_R": -9.3192,
+              "provisional": 1
+            },
+            {
+              "label": "L2",
+              "name": "ROUND_TRIP_GIVEBACK",
+              "count": 25,
+              "pct": 7.352941176470588,
+              "net_R": -4.884,
+              "provisional": 2
+            },
+            {
+              "label": "L3",
+              "name": "EXHAUSTION_OR_CHASING_TRAP",
+              "count": 27,
+              "pct": 7.9411764705882355,
+              "net_R": -10.858266666666667,
+              "provisional": 1
+            },
+            {
+              "label": "L4",
+              "name": "CLEAN_EXPECTED_LOSS",
+              "count": 139,
+              "pct": 40.88235294117647,
+              "net_R": -72.82306666666666,
+              "provisional": 16
+            }
+          ],
+          "provisional": 32,
+          "overlapping_loss_flags": {
+            "L1": {
+              "count": 9,
+              "loss_R": 9.3192
+            },
+            "L2": {
+              "count": 25,
+              "loss_R": 4.884
+            },
+            "L3": {
+              "count": 27,
+              "loss_R": 10.858266666666667
+            }
+          },
+          "W1_share": 0.36176470588235293
+        },
+        "reasons": [
+          "NET_NOT_HIGHER",
+          "W1_SHARE_NOT_HIGHER"
+        ],
+        "passed": false,
+        "cluster_R": [
+          10.6792,
+          11.980799999999999
+        ]
+      },
+      {
+        "order": "OHLC",
+        "choice": "B1_EARLY_NET_BE",
+        "base": {
+          "net_R": 23.8524,
+          "equity_R_DD": 12.2065333333328,
+          "worst_daily_R": 2.0370666666666652,
+          "worst_daily_pct": 0.6111199999999996,
+          "Calmar": 0.3256780521906444,
+          "fixed150_not_account_lifecycle": true
+        },
+        "child": {
+          "net_R": 22.66,
+          "equity_R_DD": 11.094066666666741,
+          "worst_daily_R": 2.0370666666666235,
+          "worst_daily_pct": 0.611119999999987,
+          "Calmar": 0.34042220766655823,
+          "fixed150_not_account_lifecycle": true
+        },
+        "trades": 340,
+        "taxonomy": {
+          "trades": 340,
+          "net_R": 22.66,
+          "groups": [
+            {
+              "label": "W1",
+              "name": "TRUE_STRUCTURAL_WIN",
+              "count": 123,
+              "pct": 36.1764705882353,
+              "net_R": 106.73433333333334,
+              "provisional": 0
+            },
+            {
+              "label": "W2",
+              "name": "FRAGILE_OR_LUCKY_WIN",
+              "count": 17,
+              "pct": 5.0,
+              "net_R": 13.8102,
+              "provisional": 12
+            },
+            {
+              "label": "L1",
+              "name": "STOP_HUNTED_RIGHT_DIRECTION",
+              "count": 9,
+              "pct": 2.6470588235294117,
+              "net_R": -9.3192,
+              "provisional": 1
+            },
+            {
+              "label": "L2",
+              "name": "ROUND_TRIP_GIVEBACK",
+              "count": 25,
+              "pct": 7.352941176470588,
+              "net_R": -4.884,
+              "provisional": 2
+            },
+            {
+              "label": "L3",
+              "name": "EXHAUSTION_OR_CHASING_TRAP",
+              "count": 27,
+              "pct": 7.9411764705882355,
+              "net_R": -10.858266666666667,
+              "provisional": 1
+            },
+            {
+              "label": "L4",
+              "name": "CLEAN_EXPECTED_LOSS",
+              "count": 139,
+              "pct": 40.88235294117647,
+              "net_R": -72.82306666666666,
+              "provisional": 16
+            }
+          ],
+          "provisional": 32,
+          "overlapping_loss_flags": {
+            "L1": {
+              "count": 9,
+              "loss_R": 9.3192
+            },
+            "L2": {
+              "count": 25,
+              "loss_R": 4.884
+            },
+            "L3": {
+              "count": 27,
+              "loss_R": 10.858266666666667
+            }
+          },
+          "W1_share": 0.36176470588235293
+        },
+        "reasons": [
+          "NET_NOT_HIGHER",
+          "W1_SHARE_NOT_HIGHER"
+        ],
+        "passed": false,
+        "cluster_R": [
+          10.6792,
+          11.980799999999999
+        ]
+      }
+    ],
+    "passed": false,
+    "source_gap_stress_required_before_promotion": true
+  },
+  "behavioral": {
+    "rows": [
+      {
+        "asset": "XAUUSD",
+        "recipe": "B2:PD:sweep=0.1",
+        "family": "B2",
+        "raw": 440,
+        "priced": 440,
+        "retained": 183,
+        "retention": 0.4159090909090909,
+        "median_natural": 5.4555,
+        "scale_ratio": 0.13982219778205482,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 67,
+            "priced": 67,
+            "admitted": 2,
+            "mean_net_units": -0.3289343283581996,
+            "mean_friction_units": 0.7558119402985076,
+            "raw_net_R": -8.935292813962075
+          },
+          {
+            "year": 2019,
+            "raw": 69,
+            "priced": 69,
+            "admitted": 13,
+            "mean_net_units": -0.09936231884057113,
+            "mean_friction_units": 0.7572318840579711,
+            "raw_net_R": -13.965088385708523
+          },
+          {
+            "year": 2020,
+            "raw": 74,
+            "priced": 74,
+            "admitted": 48,
+            "mean_net_units": -1.61234189189189,
+            "mean_friction_units": 0.7630324324324326,
+            "raw_net_R": -11.91514930093057
+          },
+          {
+            "year": 2021,
+            "raw": 88,
+            "priced": 88,
+            "admitted": 42,
+            "mean_net_units": -1.9764704545454526,
+            "mean_friction_units": 0.7631613636363636,
+            "raw_net_R": -38.79826977654801
+          },
+          {
+            "year": 2022,
+            "raw": 65,
+            "priced": 65,
+            "admitted": 34,
+            "mean_net_units": -1.5885969230769255,
+            "mean_friction_units": 0.7632338461538462,
+            "raw_net_R": -20.66107079116581
+          },
+          {
+            "year": 2023,
+            "raw": 77,
+            "priced": 77,
+            "admitted": 44,
+            "mean_net_units": 0.663519480519464,
+            "mean_friction_units": 0.7652207792207792,
+            "raw_net_R": -13.60720296474976
+          }
+        ],
+        "cluster_net_units": [
+          -148.20789999999863,
+          -226.09720000000118
+        ],
+        "reasons": [
+          "2018:NET_NONPOSITIVE_OR_MISSING",
+          "2018:MARKOUT_NOT_ABOVE_FRICTION",
+          "2019:NET_NONPOSITIVE_OR_MISSING",
+          "2019:MARKOUT_NOT_ABOVE_FRICTION",
+          "2020:NET_NONPOSITIVE_OR_MISSING",
+          "2020:MARKOUT_NOT_ABOVE_FRICTION",
+          "2021:NET_NONPOSITIVE_OR_MISSING",
+          "2021:MARKOUT_NOT_ABOVE_FRICTION",
+          "2022:NET_NONPOSITIVE_OR_MISSING",
+          "2022:MARKOUT_NOT_ABOVE_FRICTION",
+          "2023:MARKOUT_NOT_ABOVE_FRICTION",
+          "DUAL_CLUSTER_FAIL",
+          "SCALE_FAIL",
+          "RETENTION_BELOW50",
+          "CADENCE_BELOW40"
+        ],
+        "stage0_passed": false,
+        "cost_eligible": 183,
+        "cost_only_retention": 0.4159090909090909,
+        "priced_and_cost_retention": 0.4159090909090909
+      },
+      {
+        "asset": "XAUUSD",
+        "recipe": "B2:PD:sweep=0.3",
+        "family": "B2",
+        "raw": 219,
+        "priced": 219,
+        "retained": 132,
+        "retention": 0.6027397260273972,
+        "median_natural": 7.302,
+        "scale_ratio": 0.10446453026568064,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 34,
+            "priced": 34,
+            "admitted": 4,
+            "mean_net_units": 0.9304000000000191,
+            "mean_friction_units": 0.755764705882353,
+            "raw_net_R": 4.8532580733399815
+          },
+          {
+            "year": 2019,
+            "raw": 24,
+            "priced": 24,
+            "admitted": 10,
+            "mean_net_units": 0.7776791666666744,
+            "mean_friction_units": 0.7571,
+            "raw_net_R": -1.5534761870754965
+          },
+          {
+            "year": 2020,
+            "raw": 45,
+            "priced": 45,
+            "admitted": 34,
+            "mean_net_units": -3.484580000000006,
+            "mean_friction_units": 0.7628088888888891,
+            "raw_net_R": -15.18068598666606
+          },
+          {
+            "year": 2021,
+            "raw": 45,
+            "priced": 45,
+            "admitted": 31,
+            "mean_net_units": -1.538426666666664,
+            "mean_friction_units": 0.7632977777777777,
+            "raw_net_R": -3.904064532547752
+          },
+          {
+            "year": 2022,
+            "raw": 31,
+            "priced": 31,
+            "admitted": 23,
+            "mean_net_units": -0.3281580645161275,
+            "mean_friction_units": 0.7631677419354838,
+            "raw_net_R": -1.4503094228753
+          },
+          {
+            "year": 2023,
+            "raw": 40,
+            "priced": 40,
+            "admitted": 30,
+            "mean_net_units": 3.9113024999999966,
+            "mean_friction_units": 0.76531,
+            "raw_net_R": 18.657772983426685
+          }
+        ],
+        "cluster_net_units": [
+          -106.50819999999945,
+          77.05000000000001
+        ],
+        "reasons": [
+          "2020:NET_NONPOSITIVE_OR_MISSING",
+          "2020:MARKOUT_NOT_ABOVE_FRICTION",
+          "2021:NET_NONPOSITIVE_OR_MISSING",
+          "2021:MARKOUT_NOT_ABOVE_FRICTION",
+          "2022:NET_NONPOSITIVE_OR_MISSING",
+          "2022:MARKOUT_NOT_ABOVE_FRICTION",
+          "DUAL_CLUSTER_FAIL",
+          "CADENCE_BELOW40"
+        ],
+        "stage0_passed": false,
+        "cost_eligible": 132,
+        "cost_only_retention": 0.6027397260273972,
+        "priced_and_cost_retention": 0.6027397260273972
+      },
+      {
+        "asset": "XAUUSD",
+        "recipe": "B2:PD:sweep=0.6",
+        "family": "B2",
+        "raw": 73,
+        "priced": 73,
+        "retained": 63,
+        "retention": 0.863013698630137,
+        "median_natural": 9.448,
+        "scale_ratio": 0.08077900084674006,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 7,
+            "priced": 7,
+            "admitted": 3,
+            "mean_net_units": 5.315514285714351,
+            "mean_friction_units": 0.756,
+            "raw_net_R": 4.97060557017124
+          },
+          {
+            "year": 2019,
+            "raw": 10,
+            "priced": 10,
+            "admitted": 4,
+            "mean_net_units": 0.3198499999999941,
+            "mean_friction_units": 0.7568400000000001,
+            "raw_net_R": 0.5337308194671992
+          },
+          {
+            "year": 2020,
+            "raw": 18,
+            "priced": 18,
+            "admitted": 18,
+            "mean_net_units": -6.450872222222224,
+            "mean_friction_units": 0.7628222222222223,
+            "raw_net_R": -11.691729318007715
+          },
+          {
+            "year": 2021,
+            "raw": 15,
+            "priced": 15,
+            "admitted": 15,
+            "mean_net_units": 1.6478266666666603,
+            "mean_friction_units": 0.7635200000000002,
+            "raw_net_R": 2.519910525415584
+          },
+          {
+            "year": 2022,
+            "raw": 9,
+            "priced": 9,
+            "admitted": 9,
+            "mean_net_units": -3.897433333333328,
+            "mean_friction_units": 0.7629777777777779,
+            "raw_net_R": -3.9488170410967687
+          },
+          {
+            "year": 2023,
+            "raw": 14,
+            "priced": 14,
+            "admitted": 14,
+            "mean_net_units": 1.7875785714285635,
+            "mean_friction_units": 0.7650714285714286,
+            "raw_net_R": 2.684528846723611
+          }
+        ],
+        "cluster_net_units": [
+          -75.70859999999965,
+          14.666599999999846
+        ],
+        "reasons": [
+          "2019:MARKOUT_NOT_ABOVE_FRICTION",
+          "2020:NET_NONPOSITIVE_OR_MISSING",
+          "2020:MARKOUT_NOT_ABOVE_FRICTION",
+          "2022:NET_NONPOSITIVE_OR_MISSING",
+          "2022:MARKOUT_NOT_ABOVE_FRICTION",
+          "DUAL_CLUSTER_FAIL",
+          "CADENCE_BELOW40"
+        ],
+        "stage0_passed": false,
+        "cost_eligible": 63,
+        "cost_only_retention": 0.863013698630137,
+        "priced_and_cost_retention": 0.863013698630137
+      },
+      {
+        "asset": "XAUUSD",
+        "recipe": "B2:ASIA:sweep=0.1",
+        "family": "B2",
+        "raw": 666,
+        "priced": 665,
+        "retained": 183,
+        "retention": 0.2747747747747748,
+        "median_natural": 4.414,
+        "scale_ratio": 0.17281377435432715,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 103,
+            "priced": 103,
+            "admitted": 4,
+            "mean_net_units": -0.6287553398058345,
+            "mean_friction_units": 0.7558019417475725,
+            "raw_net_R": -33.358190290635484
+          },
+          {
+            "year": 2019,
+            "raw": 82,
+            "priced": 81,
+            "admitted": 8,
+            "mean_net_units": -0.46813333333334517,
+            "mean_friction_units": 0.7578370370370372,
+            "raw_net_R": -28.342094450912732
+          },
+          {
+            "year": 2020,
+            "raw": 106,
+            "priced": 106,
+            "admitted": 51,
+            "mean_net_units": -2.4266367924528387,
+            "mean_friction_units": 0.7627471698113206,
+            "raw_net_R": -35.817203152220465
+          },
+          {
+            "year": 2021,
+            "raw": 133,
+            "priced": 133,
+            "admitted": 40,
+            "mean_net_units": -1.0584233082706727,
+            "mean_friction_units": 0.7632210526315789,
+            "raw_net_R": -53.0709375170171
+          },
+          {
+            "year": 2022,
+            "raw": 125,
+            "priced": 125,
+            "admitted": 36,
+            "mean_net_units": -1.4856160000000078,
+            "mean_friction_units": 0.7631136000000003,
+            "raw_net_R": -39.791392119598015
+          },
+          {
+            "year": 2023,
+            "raw": 117,
+            "priced": 117,
+            "admitted": 44,
+            "mean_net_units": 1.3979837606837635,
+            "mean_friction_units": 0.7651760683760683,
+            "raw_net_R": 29.882723062648452
+          }
+        ],
+        "cluster_net_units": [
+          -359.90410000000287,
+          -162.90820000000008
+        ],
+        "reasons": [
+          "2018:NET_NONPOSITIVE_OR_MISSING",
+          "2018:MARKOUT_NOT_ABOVE_FRICTION",
+          "2019:NET_NONPOSITIVE_OR_MISSING",
+          "2019:MARKOUT_NOT_ABOVE_FRICTION",
+          "2020:NET_NONPOSITIVE_OR_MISSING",
+          "2020:MARKOUT_NOT_ABOVE_FRICTION",
+          "2021:NET_NONPOSITIVE_OR_MISSING",
+          "2021:MARKOUT_NOT_ABOVE_FRICTION",
+          "2022:NET_NONPOSITIVE_OR_MISSING",
+          "2022:MARKOUT_NOT_ABOVE_FRICTION",
+          "DUAL_CLUSTER_FAIL",
+          "ENDPOINT_INCOMPLETE",
+          "SCALE_FAIL",
+          "RETENTION_BELOW50",
+          "CADENCE_BELOW40"
+        ],
+        "stage0_passed": false,
+        "cost_eligible": 183,
+        "cost_only_retention": 0.2747747747747748,
+        "priced_and_cost_retention": 0.2747747747747748
+      },
+      {
+        "asset": "XAUUSD",
+        "recipe": "B2:ASIA:sweep=0.3",
+        "family": "B2",
+        "raw": 318,
+        "priced": 318,
+        "retained": 159,
+        "retention": 0.5,
+        "median_natural": 6.324,
+        "scale_ratio": 0.12065148640101205,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 48,
+            "priced": 48,
+            "admitted": 4,
+            "mean_net_units": -1.1499208333333308,
+            "mean_friction_units": 0.7558250000000001,
+            "raw_net_R": -18.951233454167756
+          },
+          {
+            "year": 2019,
+            "raw": 38,
+            "priced": 38,
+            "admitted": 8,
+            "mean_net_units": 1.4184552631578815,
+            "mean_friction_units": 0.7578894736842109,
+            "raw_net_R": 9.999529858454848
+          },
+          {
+            "year": 2020,
+            "raw": 52,
+            "priced": 52,
+            "admitted": 34,
+            "mean_net_units": -1.3569153846153859,
+            "mean_friction_units": 0.7624846153846156,
+            "raw_net_R": 0.24451743831538897
+          },
+          {
+            "year": 2021,
+            "raw": 66,
+            "priced": 66,
+            "admitted": 40,
+            "mean_net_units": -2.7624075757575723,
+            "mean_friction_units": 0.7632939393939393,
+            "raw_net_R": -41.53753723488515
+          },
+          {
+            "year": 2022,
+            "raw": 58,
+            "priced": 58,
+            "admitted": 32,
+            "mean_net_units": -0.12184137931034639,
+            "mean_friction_units": 0.7631310344827585,
+            "raw_net_R": -8.948821366333098
+          },
+          {
+            "year": 2023,
+            "raw": 56,
+            "priced": 56,
+            "admitted": 41,
+            "mean_net_units": 2.581758928571414,
+            "mean_friction_units": 0.7651035714285717,
+            "raw_net_R": 15.717378488620383
+          }
+        ],
+        "cluster_net_units": [
+          -71.85450000000046,
+          -44.807200000000734
+        ],
+        "reasons": [
+          "2018:NET_NONPOSITIVE_OR_MISSING",
+          "2018:MARKOUT_NOT_ABOVE_FRICTION",
+          "2020:NET_NONPOSITIVE_OR_MISSING",
+          "2020:MARKOUT_NOT_ABOVE_FRICTION",
+          "2021:NET_NONPOSITIVE_OR_MISSING",
+          "2021:MARKOUT_NOT_ABOVE_FRICTION",
+          "2022:NET_NONPOSITIVE_OR_MISSING",
+          "2022:MARKOUT_NOT_ABOVE_FRICTION",
+          "DUAL_CLUSTER_FAIL",
+          "SCALE_FAIL",
+          "CADENCE_BELOW40"
+        ],
+        "stage0_passed": false,
+        "cost_eligible": 159,
+        "cost_only_retention": 0.5,
+        "priced_and_cost_retention": 0.5
+      },
+      {
+        "asset": "XAUUSD",
+        "recipe": "B2:ASIA:sweep=0.6",
+        "family": "B2",
+        "raw": 84,
+        "priced": 84,
+        "retained": 73,
+        "retention": 0.8690476190476191,
+        "median_natural": 9.969999999999999,
+        "scale_ratio": 0.07656970912738216,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 10,
+            "priced": 10,
+            "admitted": 3,
+            "mean_net_units": 0.6659500000000832,
+            "mean_friction_units": 0.75604,
+            "raw_net_R": -0.07823157201524733
+          },
+          {
+            "year": 2019,
+            "raw": 6,
+            "priced": 6,
+            "admitted": 5,
+            "mean_net_units": -5.426483333333297,
+            "mean_friction_units": 0.7582,
+            "raw_net_R": -4.373088360224937
+          },
+          {
+            "year": 2020,
+            "raw": 13,
+            "priced": 13,
+            "admitted": 12,
+            "mean_net_units": -6.93610000000002,
+            "mean_friction_units": 0.7631230769230769,
+            "raw_net_R": -8.7583009728251
+          },
+          {
+            "year": 2021,
+            "raw": 20,
+            "priced": 20,
+            "admitted": 19,
+            "mean_net_units": 1.559110000000004,
+            "mean_friction_units": 0.76335,
+            "raw_net_R": 2.413403017204503
+          },
+          {
+            "year": 2022,
+            "raw": 11,
+            "priced": 11,
+            "admitted": 11,
+            "mean_net_units": -0.7831090909091106,
+            "mean_friction_units": 0.7635818181818181,
+            "raw_net_R": -4.721518604827903
+          },
+          {
+            "year": 2023,
+            "raw": 24,
+            "priced": 24,
+            "admitted": 23,
+            "mean_net_units": 2.702091666666662,
+            "mean_friction_units": 0.7651249999999999,
+            "raw_net_R": 7.809854834723906
+          }
+        ],
+        "cluster_net_units": [
+          -116.0686999999992,
+          87.41819999999977
+        ],
+        "reasons": [
+          "2018:MARKOUT_NOT_ABOVE_FRICTION",
+          "2019:NET_NONPOSITIVE_OR_MISSING",
+          "2019:MARKOUT_NOT_ABOVE_FRICTION",
+          "2020:NET_NONPOSITIVE_OR_MISSING",
+          "2020:MARKOUT_NOT_ABOVE_FRICTION",
+          "2022:NET_NONPOSITIVE_OR_MISSING",
+          "2022:MARKOUT_NOT_ABOVE_FRICTION",
+          "DUAL_CLUSTER_FAIL",
+          "CADENCE_BELOW40"
+        ],
+        "stage0_passed": false,
+        "cost_eligible": 73,
+        "cost_only_retention": 0.8690476190476191,
+        "priced_and_cost_retention": 0.8690476190476191
+      },
+      {
+        "asset": "XAUUSD",
+        "recipe": "B3:London15:impulse=1:ALL",
+        "family": "B3",
+        "raw": 315,
+        "priced": 315,
+        "retained": 231,
+        "retention": 0.7333333333333333,
+        "median_natural": 8.786,
+        "scale_ratio": 0.08684270430229914,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 46,
+            "priced": 46,
+            "admitted": 10,
+            "mean_net_units": -0.8846652173912896,
+            "mean_friction_units": 0.7559,
+            "raw_net_R": -11.887313556710536
+          },
+          {
+            "year": 2019,
+            "raw": 45,
+            "priced": 45,
+            "admitted": 15,
+            "mean_net_units": -0.2690377777777738,
+            "mean_friction_units": 0.7575244444444446,
+            "raw_net_R": -0.055636868844810616
+          },
+          {
+            "year": 2020,
+            "raw": 45,
+            "priced": 45,
+            "admitted": 42,
+            "mean_net_units": -0.3416288888888642,
+            "mean_friction_units": 0.7634400000000002,
+            "raw_net_R": -4.351353581750598
+          },
+          {
+            "year": 2021,
+            "raw": 58,
+            "priced": 58,
+            "admitted": 55,
+            "mean_net_units": -1.480274137931027,
+            "mean_friction_units": 0.7631034482758621,
+            "raw_net_R": -8.612564032038101
+          },
+          {
+            "year": 2022,
+            "raw": 50,
+            "priced": 50,
+            "admitted": 46,
+            "mean_net_units": 0.6725619999999899,
+            "mean_friction_units": 0.7633759999999999,
+            "raw_net_R": 4.702175219073994
+          },
+          {
+            "year": 2023,
+            "raw": 71,
+            "priced": 71,
+            "admitted": 63,
+            "mean_net_units": -0.8461971830985908,
+            "mean_friction_units": 0.7651661971830984,
+            "raw_net_R": -2.434149686041657
+          }
+        ],
+        "cluster_net_units": [
+          -68.17459999999804,
+          -112.30780000000001
+        ],
+        "reasons": [
+          "2018:NET_NONPOSITIVE_OR_MISSING",
+          "2018:MARKOUT_NOT_ABOVE_FRICTION",
+          "2019:NET_NONPOSITIVE_OR_MISSING",
+          "2019:MARKOUT_NOT_ABOVE_FRICTION",
+          "2020:NET_NONPOSITIVE_OR_MISSING",
+          "2020:MARKOUT_NOT_ABOVE_FRICTION",
+          "2021:NET_NONPOSITIVE_OR_MISSING",
+          "2021:MARKOUT_NOT_ABOVE_FRICTION",
+          "2022:MARKOUT_NOT_ABOVE_FRICTION",
+          "2023:NET_NONPOSITIVE_OR_MISSING",
+          "2023:MARKOUT_NOT_ABOVE_FRICTION",
+          "DUAL_CLUSTER_FAIL",
+          "CADENCE_BELOW40"
+        ],
+        "stage0_passed": false,
+        "reused_unchanged_B3": true,
+        "cost_eligible": 231,
+        "cost_only_retention": 0.7333333333333333,
+        "priced_and_cost_retention": 0.7333333333333333
+      },
+      {
+        "asset": "XAUUSD",
+        "recipe": "B3:London15:impulse=1:MONTH",
+        "family": "B3",
+        "raw": 59,
+        "priced": 59,
+        "retained": 36,
+        "retention": 0.6101694915254238,
+        "median_natural": 7.816,
+        "scale_ratio": 0.09756908904810646,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 13,
+            "priced": 13,
+            "admitted": 2,
+            "mean_net_units": -1.5989923076922514,
+            "mean_friction_units": 0.7556,
+            "raw_net_R": -3.8541867213381398
+          },
+          {
+            "year": 2019,
+            "raw": 9,
+            "priced": 9,
+            "admitted": 1,
+            "mean_net_units": 1.769300000000048,
+            "mean_friction_units": 0.7579333333333333,
+            "raw_net_R": 2.153410678382416
+          },
+          {
+            "year": 2020,
+            "raw": 6,
+            "priced": 6,
+            "admitted": 5,
+            "mean_net_units": 6.135699999999939,
+            "mean_friction_units": 0.7626666666666666,
+            "raw_net_R": 3.046586410329943
+          },
+          {
+            "year": 2021,
+            "raw": 13,
+            "priced": 13,
+            "admitted": 12,
+            "mean_net_units": -1.3394538461538397,
+            "mean_friction_units": 0.7629846153846154,
+            "raw_net_R": -1.066793313635996
+          },
+          {
+            "year": 2022,
+            "raw": 7,
+            "priced": 7,
+            "admitted": 7,
+            "mean_net_units": 2.2007428571428234,
+            "mean_friction_units": 0.7636571428571429,
+            "raw_net_R": 1.8840617649082716
+          },
+          {
+            "year": 2023,
+            "raw": 11,
+            "priced": 11,
+            "admitted": 9,
+            "mean_net_units": 2.810581818181828,
+            "mean_friction_units": 0.7647818181818183,
+            "raw_net_R": 2.000169454018932
+          }
+        ],
+        "cluster_net_units": [
+          31.951000000000782,
+          28.908699999999968
+        ],
+        "reasons": [
+          "2018:NET_NONPOSITIVE_OR_MISSING",
+          "2018:MARKOUT_NOT_ABOVE_FRICTION",
+          "2021:NET_NONPOSITIVE_OR_MISSING",
+          "2021:MARKOUT_NOT_ABOVE_FRICTION",
+          "CADENCE_BELOW40"
+        ],
+        "stage0_passed": false,
+        "reused_unchanged_B3": true,
+        "cost_eligible": 36,
+        "cost_only_retention": 0.6101694915254238,
+        "priced_and_cost_retention": 0.6101694915254238
+      },
+      {
+        "asset": "EURUSD",
+        "recipe": "B2:PD:sweep=0.1",
+        "family": "B2",
+        "raw": 480,
+        "priced": 478,
+        "retained": 301,
+        "retention": 0.6270833333333333,
+        "median_natural": 0.001885,
+        "scale_ratio": 0.10079575596816977,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 83,
+            "priced": 83,
+            "admitted": 58,
+            "mean_net_units": 0.00015722891566264657,
+            "mean_friction_units": 0.00019000000000000004,
+            "raw_net_R": 15.088751353839262
+          },
+          {
+            "year": 2019,
+            "raw": 91,
+            "priced": 91,
+            "admitted": 34,
+            "mean_net_units": -0.0004315384615384442,
+            "mean_friction_units": 0.00019,
+            "raw_net_R": -29.237924912567063
+          },
+          {
+            "year": 2020,
+            "raw": 77,
+            "priced": 77,
+            "admitted": 53,
+            "mean_net_units": 0.00011922077922076585,
+            "mean_friction_units": 0.00018999999999999998,
+            "raw_net_R": -0.838786198770593
+          },
+          {
+            "year": 2021,
+            "raw": 62,
+            "priced": 60,
+            "admitted": 35,
+            "mean_net_units": -0.0001463333333333174,
+            "mean_friction_units": 0.00018999999999999998,
+            "raw_net_R": -2.889990532845241
+          },
+          {
+            "year": 2022,
+            "raw": 76,
+            "priced": 76,
+            "admitted": 63,
+            "mean_net_units": -5.552631578946823e-05,
+            "mean_friction_units": 0.00018999999999999998,
+            "raw_net_R": -6.581996884765717
+          },
+          {
+            "year": 2023,
+            "raw": 91,
+            "priced": 91,
+            "admitted": 58,
+            "mean_net_units": -0.0003274725274725336,
+            "mean_friction_units": 0.00019,
+            "raw_net_R": -32.56494831786219
+          }
+        ],
+        "cluster_net_units": [
+          -0.017039999999999784,
+          -0.042799999999999186
+        ],
+        "reasons": [
+          "2018:MARKOUT_NOT_ABOVE_FRICTION",
+          "2019:NET_NONPOSITIVE_OR_MISSING",
+          "2019:MARKOUT_NOT_ABOVE_FRICTION",
+          "2020:MARKOUT_NOT_ABOVE_FRICTION",
+          "2021:NET_NONPOSITIVE_OR_MISSING",
+          "2021:MARKOUT_NOT_ABOVE_FRICTION",
+          "2022:NET_NONPOSITIVE_OR_MISSING",
+          "2022:MARKOUT_NOT_ABOVE_FRICTION",
+          "2023:NET_NONPOSITIVE_OR_MISSING",
+          "2023:MARKOUT_NOT_ABOVE_FRICTION",
+          "DUAL_CLUSTER_FAIL",
+          "ENDPOINT_INCOMPLETE"
+        ],
+        "stage0_passed": false,
+        "cost_eligible": 302,
+        "cost_only_retention": 0.6291666666666667,
+        "priced_and_cost_retention": 0.6270833333333333
+      },
+      {
+        "asset": "EURUSD",
+        "recipe": "B2:PD:sweep=0.3",
+        "family": "B2",
+        "raw": 241,
+        "priced": 240,
+        "retained": 194,
+        "retention": 0.8049792531120332,
+        "median_natural": 0.00218,
+        "scale_ratio": 0.0871559633027523,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 36,
+            "priced": 36,
+            "admitted": 32,
+            "mean_net_units": 0.000508055555555551,
+            "mean_friction_units": 0.00019,
+            "raw_net_R": 11.992127482771057
+          },
+          {
+            "year": 2019,
+            "raw": 50,
+            "priced": 50,
+            "admitted": 26,
+            "mean_net_units": -0.00027419999999998536,
+            "mean_friction_units": 0.00018999999999999998,
+            "raw_net_R": -17.11072197555731
+          },
+          {
+            "year": 2020,
+            "raw": 41,
+            "priced": 41,
+            "admitted": 35,
+            "mean_net_units": 0.0002692682926829085,
+            "mean_friction_units": 0.00019,
+            "raw_net_R": -0.8131618523270359
+          },
+          {
+            "year": 2021,
+            "raw": 32,
+            "priced": 31,
+            "admitted": 25,
+            "mean_net_units": -0.0001190322580644841,
+            "mean_friction_units": 0.00019,
+            "raw_net_R": -2.103947801646609
+          },
+          {
+            "year": 2022,
+            "raw": 38,
+            "priced": 38,
+            "admitted": 37,
+            "mean_net_units": 0.00033078947368420645,
+            "mean_friction_units": 0.00019,
+            "raw_net_R": 3.6492197325772007
+          },
+          {
+            "year": 2023,
+            "raw": 44,
+            "priced": 44,
+            "admitted": 39,
+            "mean_net_units": -4.7272727272734884e-05,
+            "mean_friction_units": 0.00018999999999999998,
+            "raw_net_R": -7.964593272101608
+          }
+        ],
+        "cluster_net_units": [
+          0.015619999999999815,
+          0.006800000000000507
+        ],
+        "reasons": [
+          "2019:NET_NONPOSITIVE_OR_MISSING",
+          "2019:MARKOUT_NOT_ABOVE_FRICTION",
+          "2021:NET_NONPOSITIVE_OR_MISSING",
+          "2021:MARKOUT_NOT_ABOVE_FRICTION",
+          "2023:NET_NONPOSITIVE_OR_MISSING",
+          "2023:MARKOUT_NOT_ABOVE_FRICTION",
+          "ENDPOINT_INCOMPLETE",
+          "CADENCE_BELOW40"
+        ],
+        "stage0_passed": false,
+        "cost_eligible": 195,
+        "cost_only_retention": 0.8091286307053942,
+        "priced_and_cost_retention": 0.8049792531120332
+      },
+      {
+        "asset": "EURUSD",
+        "recipe": "B2:PD:sweep=0.6",
+        "family": "B2",
+        "raw": 50,
+        "priced": 49,
+        "retained": 46,
+        "retention": 0.92,
+        "median_natural": 0.00328,
+        "scale_ratio": 0.057926829268292686,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 5,
+            "priced": 5,
+            "admitted": 5,
+            "mean_net_units": 7.40000000000086e-05,
+            "mean_friction_units": 0.00019,
+            "raw_net_R": 1.133382658415476
+          },
+          {
+            "year": 2019,
+            "raw": 17,
+            "priced": 17,
+            "admitted": 14,
+            "mean_net_units": -0.00019882352941175905,
+            "mean_friction_units": 0.00019,
+            "raw_net_R": -1.4933535380051455
+          },
+          {
+            "year": 2020,
+            "raw": 7,
+            "priced": 7,
+            "admitted": 7,
+            "mean_net_units": 0.0008342857142856476,
+            "mean_friction_units": 0.00019000000000000004,
+            "raw_net_R": 2.607727683975739
+          },
+          {
+            "year": 2021,
+            "raw": 5,
+            "priced": 4,
+            "admitted": 4,
+            "mean_net_units": -0.0016149999999998876,
+            "mean_friction_units": 0.00019,
+            "raw_net_R": -2.156156434966242
+          },
+          {
+            "year": 2022,
+            "raw": 8,
+            "priced": 8,
+            "admitted": 8,
+            "mean_net_units": -0.0009774999999999994,
+            "mean_friction_units": 0.00019,
+            "raw_net_R": -1.3665084486768146
+          },
+          {
+            "year": 2023,
+            "raw": 8,
+            "priced": 8,
+            "admitted": 8,
+            "mean_net_units": 0.001224999999999983,
+            "mean_friction_units": 0.00019,
+            "raw_net_R": 3.0451940597064704
+          }
+        ],
+        "cluster_net_units": [
+          0.0028299999999996726,
+          -0.004479999999999679
+        ],
+        "reasons": [
+          "2018:MARKOUT_NOT_ABOVE_FRICTION",
+          "2019:NET_NONPOSITIVE_OR_MISSING",
+          "2019:MARKOUT_NOT_ABOVE_FRICTION",
+          "2021:NET_NONPOSITIVE_OR_MISSING",
+          "2021:MARKOUT_NOT_ABOVE_FRICTION",
+          "2022:NET_NONPOSITIVE_OR_MISSING",
+          "2022:MARKOUT_NOT_ABOVE_FRICTION",
+          "DUAL_CLUSTER_FAIL",
+          "ENDPOINT_INCOMPLETE",
+          "CADENCE_BELOW40"
+        ],
+        "stage0_passed": false,
+        "cost_eligible": 47,
+        "cost_only_retention": 0.94,
+        "priced_and_cost_retention": 0.92
+      },
+      {
+        "asset": "EURUSD",
+        "recipe": "B2:ASIA:sweep=0.1",
+        "family": "B2",
+        "raw": 598,
+        "priced": 596,
+        "retained": 342,
+        "retention": 0.5719063545150501,
+        "median_natural": 0.001735,
+        "scale_ratio": 0.10951008645533142,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 122,
+            "priced": 122,
+            "admitted": 87,
+            "mean_net_units": 0.0006342622950819782,
+            "mean_friction_units": 0.00019,
+            "raw_net_R": 51.235729704124594
+          },
+          {
+            "year": 2019,
+            "raw": 127,
+            "priced": 127,
+            "admitted": 27,
+            "mean_net_units": 0.0002897637795275679,
+            "mean_friction_units": 0.00018999999999999998,
+            "raw_net_R": 35.68953180102495
+          },
+          {
+            "year": 2020,
+            "raw": 100,
+            "priced": 99,
+            "admitted": 65,
+            "mean_net_units": -0.00010242424242423617,
+            "mean_friction_units": 0.00019,
+            "raw_net_R": -12.058503753942075
+          },
+          {
+            "year": 2021,
+            "raw": 36,
+            "priced": 35,
+            "admitted": 17,
+            "mean_net_units": -0.0011120000000000212,
+            "mean_friction_units": 0.00019,
+            "raw_net_R": -22.103151897640345
+          },
+          {
+            "year": 2022,
+            "raw": 107,
+            "priced": 107,
+            "admitted": 95,
+            "mean_net_units": -0.000360934579439257,
+            "mean_friction_units": 0.00019,
+            "raw_net_R": -22.602456440364744
+          },
+          {
+            "year": 2023,
+            "raw": 106,
+            "priced": 106,
+            "admitted": 51,
+            "mean_net_units": 8.660377358491071e-05,
+            "mean_friction_units": 0.00019,
+            "raw_net_R": 6.832275417759532
+          }
+        ],
+        "cluster_net_units": [
+          0.1040400000000031,
+          -0.0683600000000007
+        ],
+        "reasons": [
+          "2020:NET_NONPOSITIVE_OR_MISSING",
+          "2020:MARKOUT_NOT_ABOVE_FRICTION",
+          "2021:NET_NONPOSITIVE_OR_MISSING",
+          "2021:MARKOUT_NOT_ABOVE_FRICTION",
+          "2022:NET_NONPOSITIVE_OR_MISSING",
+          "2022:MARKOUT_NOT_ABOVE_FRICTION",
+          "2023:MARKOUT_NOT_ABOVE_FRICTION",
+          "DUAL_CLUSTER_FAIL",
+          "ENDPOINT_INCOMPLETE"
+        ],
+        "stage0_passed": false,
+        "cost_eligible": 342,
+        "cost_only_retention": 0.5719063545150501,
+        "priced_and_cost_retention": 0.5719063545150501
+      },
+      {
+        "asset": "EURUSD",
+        "recipe": "B2:ASIA:sweep=0.3",
+        "family": "B2",
+        "raw": 316,
+        "priced": 316,
+        "retained": 239,
+        "retention": 0.7563291139240507,
+        "median_natural": 0.00211,
+        "scale_ratio": 0.09004739336492892,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 71,
+            "priced": 71,
+            "admitted": 61,
+            "mean_net_units": 0.00022422535211268324,
+            "mean_friction_units": 0.00018999999999999996,
+            "raw_net_R": 7.890377142279206
+          },
+          {
+            "year": 2019,
+            "raw": 59,
+            "priced": 59,
+            "admitted": 27,
+            "mean_net_units": 6.186440677967754e-05,
+            "mean_friction_units": 0.00018999999999999998,
+            "raw_net_R": 4.617917060809136
+          },
+          {
+            "year": 2020,
+            "raw": 48,
+            "priced": 48,
+            "admitted": 40,
+            "mean_net_units": 0.00038687500000000635,
+            "mean_friction_units": 0.00019000000000000004,
+            "raw_net_R": 4.914447056063663
+          },
+          {
+            "year": 2021,
+            "raw": 18,
+            "priced": 18,
+            "admitted": 13,
+            "mean_net_units": -0.0009655555555555675,
+            "mean_friction_units": 0.00019,
+            "raw_net_R": -11.557262727678879
+          },
+          {
+            "year": 2022,
+            "raw": 59,
+            "priced": 59,
+            "admitted": 58,
+            "mean_net_units": -0.00031525423728814335,
+            "mean_friction_units": 0.00018999999999999998,
+            "raw_net_R": -15.21776369847167
+          },
+          {
+            "year": 2023,
+            "raw": 61,
+            "priced": 61,
+            "admitted": 40,
+            "mean_net_units": 0.00031655737704917945,
+            "mean_friction_units": 0.00018999999999999996,
+            "raw_net_R": 2.9016974494153343
+          }
+        ],
+        "cluster_net_units": [
+          0.03814000000000179,
+          -0.016670000000000726
+        ],
+        "reasons": [
+          "2019:MARKOUT_NOT_ABOVE_FRICTION",
+          "2021:NET_NONPOSITIVE_OR_MISSING",
+          "2021:MARKOUT_NOT_ABOVE_FRICTION",
+          "2022:NET_NONPOSITIVE_OR_MISSING",
+          "2022:MARKOUT_NOT_ABOVE_FRICTION",
+          "DUAL_CLUSTER_FAIL",
+          "CADENCE_BELOW40"
+        ],
+        "stage0_passed": false,
+        "cost_eligible": 239,
+        "cost_only_retention": 0.7563291139240507,
+        "priced_and_cost_retention": 0.7563291139240507
+      },
+      {
+        "asset": "EURUSD",
+        "recipe": "B2:ASIA:sweep=0.6",
+        "family": "B2",
+        "raw": 60,
+        "priced": 60,
+        "retained": 59,
+        "retention": 0.9833333333333333,
+        "median_natural": 0.002895,
+        "scale_ratio": 0.06563039723661486,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 9,
+            "priced": 9,
+            "admitted": 9,
+            "mean_net_units": 0.00241444444444447,
+            "mean_friction_units": 0.00019,
+            "raw_net_R": 5.917278360283251
+          },
+          {
+            "year": 2019,
+            "raw": 21,
+            "priced": 21,
+            "admitted": 20,
+            "mean_net_units": -0.0006485714285714187,
+            "mean_friction_units": 0.00019,
+            "raw_net_R": -5.961557551719342
+          },
+          {
+            "year": 2020,
+            "raw": 10,
+            "priced": 10,
+            "admitted": 10,
+            "mean_net_units": 0.00023000000000003145,
+            "mean_friction_units": 0.00019,
+            "raw_net_R": 0.9070821457882215
+          },
+          {
+            "year": 2021,
+            "raw": 0,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2022,
+            "raw": 11,
+            "priced": 11,
+            "admitted": 11,
+            "mean_net_units": 0.00015000000000005853,
+            "mean_friction_units": 0.00019000000000000004,
+            "raw_net_R": -0.001750973751559859
+          },
+          {
+            "year": 2023,
+            "raw": 9,
+            "priced": 9,
+            "admitted": 9,
+            "mean_net_units": -0.0007955555555556133,
+            "mean_friction_units": 0.00019,
+            "raw_net_R": -1.8530832459145392
+          }
+        ],
+        "cluster_net_units": [
+          0.01041000000000075,
+          -0.005509999999999878
+        ],
+        "reasons": [
+          "2019:NET_NONPOSITIVE_OR_MISSING",
+          "2019:MARKOUT_NOT_ABOVE_FRICTION",
+          "2021:NET_NONPOSITIVE_OR_MISSING",
+          "2021:MARKOUT_NOT_ABOVE_FRICTION",
+          "2022:MARKOUT_NOT_ABOVE_FRICTION",
+          "2023:NET_NONPOSITIVE_OR_MISSING",
+          "2023:MARKOUT_NOT_ABOVE_FRICTION",
+          "DUAL_CLUSTER_FAIL",
+          "CADENCE_BELOW40"
+        ],
+        "stage0_passed": false,
+        "cost_eligible": 59,
+        "cost_only_retention": 0.9833333333333333,
+        "priced_and_cost_retention": 0.9833333333333333
+      },
+      {
+        "asset": "US500",
+        "recipe": "B2:PD:sweep=0.1",
+        "family": "B2",
+        "raw": 161,
+        "priced": 161,
+        "retained": 46,
+        "retention": 0.2857142857142857,
+        "median_natural": 18.626,
+        "scale_ratio": 0.16176312681198324,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 5,
+            "priced": 5,
+            "admitted": 0,
+            "mean_net_units": -2.3600000000000003,
+            "mean_friction_units": 2.9806000000000004,
+            "raw_net_R": 0.9241267141444004
+          },
+          {
+            "year": 2019,
+            "raw": 6,
+            "priced": 6,
+            "admitted": 1,
+            "mean_net_units": 12.106666666666667,
+            "mean_friction_units": 2.8275,
+            "raw_net_R": 6.849872953298592
+          },
+          {
+            "year": 2020,
+            "raw": 39,
+            "priced": 39,
+            "admitted": 10,
+            "mean_net_units": 0.22666666666666685,
+            "mean_friction_units": 3.0472820512820515,
+            "raw_net_R": 6.316499174906831
+          },
+          {
+            "year": 2021,
+            "raw": 18,
+            "priced": 18,
+            "admitted": 3,
+            "mean_net_units": -3.315000000000001,
+            "mean_friction_units": 3.044111111111111,
+            "raw_net_R": -2.972354422014611
+          },
+          {
+            "year": 2022,
+            "raw": 73,
+            "priced": 73,
+            "admitted": 27,
+            "mean_net_units": -5.209589041095891,
+            "mean_friction_units": 3.0116575342465755,
+            "raw_net_R": -20.858417413650194
+          },
+          {
+            "year": 2023,
+            "raw": 20,
+            "priced": 20,
+            "admitted": 5,
+            "mean_net_units": -2.3645000000000005,
+            "mean_friction_units": 3.0050500000000007,
+            "raw_net_R": -6.089730654580475
+          }
+        ],
+        "cluster_net_units": [
+          69.67999999999999,
+          -487.2599999999999
+        ],
+        "reasons": [
+          "2018:NET_NONPOSITIVE_OR_MISSING",
+          "2018:MARKOUT_NOT_ABOVE_FRICTION",
+          "2020:MARKOUT_NOT_ABOVE_FRICTION",
+          "2021:NET_NONPOSITIVE_OR_MISSING",
+          "2021:MARKOUT_NOT_ABOVE_FRICTION",
+          "2022:NET_NONPOSITIVE_OR_MISSING",
+          "2022:MARKOUT_NOT_ABOVE_FRICTION",
+          "2023:NET_NONPOSITIVE_OR_MISSING",
+          "2023:MARKOUT_NOT_ABOVE_FRICTION",
+          "DUAL_CLUSTER_FAIL",
+          "SCALE_FAIL",
+          "RETENTION_BELOW50",
+          "CADENCE_BELOW40"
+        ],
+        "stage0_passed": false,
+        "cost_eligible": 46,
+        "cost_only_retention": 0.2857142857142857,
+        "priced_and_cost_retention": 0.2857142857142857
+      },
+      {
+        "asset": "US500",
+        "recipe": "B2:PD:sweep=0.3",
+        "family": "B2",
+        "raw": 75,
+        "priced": 75,
+        "retained": 36,
+        "retention": 0.48,
+        "median_natural": 23.568,
+        "scale_ratio": 0.12771554650373387,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 0,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2019,
+            "raw": 2,
+            "priced": 2,
+            "admitted": 0,
+            "mean_net_units": -3.31,
+            "mean_friction_units": 2.7110000000000003,
+            "raw_net_R": -0.5110220212768379
+          },
+          {
+            "year": 2020,
+            "raw": 16,
+            "priced": 16,
+            "admitted": 7,
+            "mean_net_units": -16.286875,
+            "mean_friction_units": 2.9933125,
+            "raw_net_R": -9.399819645797947
+          },
+          {
+            "year": 2021,
+            "raw": 9,
+            "priced": 9,
+            "admitted": 2,
+            "mean_net_units": -1.4422222222222219,
+            "mean_friction_units": 3.0443333333333333,
+            "raw_net_R": -1.0876830488363725
+          },
+          {
+            "year": 2022,
+            "raw": 38,
+            "priced": 38,
+            "admitted": 23,
+            "mean_net_units": -1.5494736842105274,
+            "mean_friction_units": 2.9993157894736853,
+            "raw_net_R": -1.0007657196172102
+          },
+          {
+            "year": 2023,
+            "raw": 10,
+            "priced": 10,
+            "admitted": 4,
+            "mean_net_units": -11.545,
+            "mean_friction_units": 3.0034,
+            "raw_net_R": -5.209256923923668
+          }
+        ],
+        "cluster_net_units": [
+          -267.21000000000004,
+          -187.31000000000006
+        ],
+        "reasons": [
+          "2018:NET_NONPOSITIVE_OR_MISSING",
+          "2018:MARKOUT_NOT_ABOVE_FRICTION",
+          "2019:NET_NONPOSITIVE_OR_MISSING",
+          "2019:MARKOUT_NOT_ABOVE_FRICTION",
+          "2020:NET_NONPOSITIVE_OR_MISSING",
+          "2020:MARKOUT_NOT_ABOVE_FRICTION",
+          "2021:NET_NONPOSITIVE_OR_MISSING",
+          "2021:MARKOUT_NOT_ABOVE_FRICTION",
+          "2022:NET_NONPOSITIVE_OR_MISSING",
+          "2022:MARKOUT_NOT_ABOVE_FRICTION",
+          "2023:NET_NONPOSITIVE_OR_MISSING",
+          "2023:MARKOUT_NOT_ABOVE_FRICTION",
+          "DUAL_CLUSTER_FAIL",
+          "SCALE_FAIL",
+          "RETENTION_BELOW50",
+          "CADENCE_BELOW40"
+        ],
+        "stage0_passed": false,
+        "cost_eligible": 36,
+        "cost_only_retention": 0.48,
+        "priced_and_cost_retention": 0.48
+      },
+      {
+        "asset": "US500",
+        "recipe": "B2:PD:sweep=0.6",
+        "family": "B2",
+        "raw": 19,
+        "priced": 19,
+        "retained": 18,
+        "retention": 0.9473684210526315,
+        "median_natural": 45.692,
+        "scale_ratio": 0.06581020747614462,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 0,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2019,
+            "raw": 0,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2020,
+            "raw": 4,
+            "priced": 4,
+            "admitted": 3,
+            "mean_net_units": -1.8425000000000011,
+            "mean_friction_units": 2.9669999999999996,
+            "raw_net_R": 0.45102598955969564
+          },
+          {
+            "year": 2021,
+            "raw": 1,
+            "priced": 1,
+            "admitted": 1,
+            "mean_net_units": -7.3,
+            "mean_friction_units": 3.007,
+            "raw_net_R": -0.2509798528501685
+          },
+          {
+            "year": 2022,
+            "raw": 10,
+            "priced": 10,
+            "admitted": 10,
+            "mean_net_units": 17.156,
+            "mean_friction_units": 3.0232,
+            "raw_net_R": 3.611841798676509
+          },
+          {
+            "year": 2023,
+            "raw": 4,
+            "priced": 4,
+            "admitted": 4,
+            "mean_net_units": -8.925,
+            "mean_friction_units": 2.9937500000000004,
+            "raw_net_R": -0.7174115372556912
+          }
+        ],
+        "cluster_net_units": [
+          -7.3700000000000045,
+          128.55999999999997
+        ],
+        "reasons": [
+          "2018:NET_NONPOSITIVE_OR_MISSING",
+          "2018:MARKOUT_NOT_ABOVE_FRICTION",
+          "2019:NET_NONPOSITIVE_OR_MISSING",
+          "2019:MARKOUT_NOT_ABOVE_FRICTION",
+          "2020:NET_NONPOSITIVE_OR_MISSING",
+          "2020:MARKOUT_NOT_ABOVE_FRICTION",
+          "2021:NET_NONPOSITIVE_OR_MISSING",
+          "2021:MARKOUT_NOT_ABOVE_FRICTION",
+          "2023:NET_NONPOSITIVE_OR_MISSING",
+          "2023:MARKOUT_NOT_ABOVE_FRICTION",
+          "DUAL_CLUSTER_FAIL",
+          "CADENCE_BELOW40"
+        ],
+        "stage0_passed": false,
+        "cost_eligible": 18,
+        "cost_only_retention": 0.9473684210526315,
+        "priced_and_cost_retention": 0.9473684210526315
+      },
+      {
+        "asset": "US500",
+        "recipe": "B2:ASIA:sweep=0.1",
+        "family": "B2",
+        "raw": 139,
+        "priced": 137,
+        "retained": 52,
+        "retention": 0.37410071942446044,
+        "median_natural": 19.939,
+        "scale_ratio": 0.15146195897487336,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 2,
+            "priced": 2,
+            "admitted": 2,
+            "mean_net_units": -1.3599999999999994,
+            "mean_friction_units": 2.96,
+            "raw_net_R": -0.3371225860301692
+          },
+          {
+            "year": 2019,
+            "raw": 2,
+            "priced": 2,
+            "admitted": 0,
+            "mean_net_units": 19.14,
+            "mean_friction_units": 2.9604999999999997,
+            "raw_net_R": 2.173963292019928
+          },
+          {
+            "year": 2020,
+            "raw": 45,
+            "priced": 45,
+            "admitted": 18,
+            "mean_net_units": -10.51977777777778,
+            "mean_friction_units": 3.1236888888888883,
+            "raw_net_R": -12.18898135952133
+          },
+          {
+            "year": 2021,
+            "raw": 23,
+            "priced": 23,
+            "admitted": 6,
+            "mean_net_units": -8.173478260869567,
+            "mean_friction_units": 3.0276086956521735,
+            "raw_net_R": -16.634945114312075
+          },
+          {
+            "year": 2022,
+            "raw": 64,
+            "priced": 62,
+            "admitted": 25,
+            "mean_net_units": 9.175806451612903,
+            "mean_friction_units": 3.0103709677419355,
+            "raw_net_R": 35.735227524123374
+          },
+          {
+            "year": 2023,
+            "raw": 3,
+            "priced": 3,
+            "admitted": 1,
+            "mean_net_units": 14.833333333333334,
+            "mean_friction_units": 2.9776666666666665,
+            "raw_net_R": 7.303134265525245
+          }
+        ],
+        "cluster_net_units": [
+          -437.83,
+          425.4100000000001
+        ],
+        "reasons": [
+          "2018:NET_NONPOSITIVE_OR_MISSING",
+          "2018:MARKOUT_NOT_ABOVE_FRICTION",
+          "2020:NET_NONPOSITIVE_OR_MISSING",
+          "2020:MARKOUT_NOT_ABOVE_FRICTION",
+          "2021:NET_NONPOSITIVE_OR_MISSING",
+          "2021:MARKOUT_NOT_ABOVE_FRICTION",
+          "DUAL_CLUSTER_FAIL",
+          "ENDPOINT_INCOMPLETE",
+          "SCALE_FAIL",
+          "RETENTION_BELOW50",
+          "CADENCE_BELOW40"
+        ],
+        "stage0_passed": false,
+        "cost_eligible": 52,
+        "cost_only_retention": 0.37410071942446044,
+        "priced_and_cost_retention": 0.37410071942446044
+      },
+      {
+        "asset": "US500",
+        "recipe": "B2:ASIA:sweep=0.3",
+        "family": "B2",
+        "raw": 64,
+        "priced": 64,
+        "retained": 40,
+        "retention": 0.625,
+        "median_natural": 28.536,
+        "scale_ratio": 0.10537566582562377,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 1,
+            "priced": 1,
+            "admitted": 1,
+            "mean_net_units": 32.94,
+            "mean_friction_units": 2.96,
+            "raw_net_R": 1.08348134991119
+          },
+          {
+            "year": 2019,
+            "raw": 1,
+            "priced": 1,
+            "admitted": 0,
+            "mean_net_units": 18.94,
+            "mean_friction_units": 2.96,
+            "raw_net_R": 1.1243025050457083
+          },
+          {
+            "year": 2020,
+            "raw": 20,
+            "priced": 20,
+            "admitted": 12,
+            "mean_net_units": -29.153000000000002,
+            "mean_friction_units": 3.0904000000000003,
+            "raw_net_R": -18.130387236790444
+          },
+          {
+            "year": 2021,
+            "raw": 11,
+            "priced": 11,
+            "admitted": 5,
+            "mean_net_units": 13.52,
+            "mean_friction_units": 2.894,
+            "raw_net_R": 5.38757426802816
+          },
+          {
+            "year": 2022,
+            "raw": 30,
+            "priced": 30,
+            "admitted": 21,
+            "mean_net_units": 2.850333333333333,
+            "mean_friction_units": 3.0189000000000012,
+            "raw_net_R": 6.853928666307123
+          },
+          {
+            "year": 2023,
+            "raw": 1,
+            "priced": 1,
+            "admitted": 1,
+            "mean_net_units": 10.1,
+            "mean_friction_units": 2.908,
+            "raw_net_R": 0.20868630935162608
+          }
+        ],
+        "cluster_net_units": [
+          -531.18,
+          244.33
+        ],
+        "reasons": [
+          "2020:NET_NONPOSITIVE_OR_MISSING",
+          "2020:MARKOUT_NOT_ABOVE_FRICTION",
+          "2022:MARKOUT_NOT_ABOVE_FRICTION",
+          "DUAL_CLUSTER_FAIL",
+          "CADENCE_BELOW40"
+        ],
+        "stage0_passed": false,
+        "cost_eligible": 40,
+        "cost_only_retention": 0.625,
+        "priced_and_cost_retention": 0.625
+      },
+      {
+        "asset": "US500",
+        "recipe": "B2:ASIA:sweep=0.6",
+        "family": "B2",
+        "raw": 14,
+        "priced": 14,
+        "retained": 14,
+        "retention": 1.0,
+        "median_natural": 45.095,
+        "scale_ratio": 0.06614924049229405,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 0,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2019,
+            "raw": 0,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2020,
+            "raw": 1,
+            "priced": 1,
+            "admitted": 1,
+            "mean_net_units": -16.35,
+            "mean_friction_units": 2.651,
+            "raw_net_R": -0.27761741433762355
+          },
+          {
+            "year": 2021,
+            "raw": 5,
+            "priced": 5,
+            "admitted": 5,
+            "mean_net_units": 25.328000000000003,
+            "mean_friction_units": 2.8552,
+            "raw_net_R": 3.63845719572869
+          },
+          {
+            "year": 2022,
+            "raw": 7,
+            "priced": 7,
+            "admitted": 7,
+            "mean_net_units": 10.185714285714287,
+            "mean_friction_units": 3.0808571428571425,
+            "raw_net_R": 2.21402858922915
+          },
+          {
+            "year": 2023,
+            "raw": 1,
+            "priced": 1,
+            "admitted": 1,
+            "mean_net_units": 10.1,
+            "mean_friction_units": 2.908,
+            "raw_net_R": 0.20868630935162608
+          }
+        ],
+        "cluster_net_units": [
+          -16.35,
+          208.04000000000002
+        ],
+        "reasons": [
+          "2018:NET_NONPOSITIVE_OR_MISSING",
+          "2018:MARKOUT_NOT_ABOVE_FRICTION",
+          "2019:NET_NONPOSITIVE_OR_MISSING",
+          "2019:MARKOUT_NOT_ABOVE_FRICTION",
+          "2020:NET_NONPOSITIVE_OR_MISSING",
+          "2020:MARKOUT_NOT_ABOVE_FRICTION",
+          "DUAL_CLUSTER_FAIL",
+          "CADENCE_BELOW40"
+        ],
+        "stage0_passed": false,
+        "cost_eligible": 14,
+        "cost_only_retention": 1.0,
+        "priced_and_cost_retention": 1.0
+      },
+      {
+        "asset": "US500",
+        "recipe": "B3:London15:impulse=1:ALL",
+        "family": "B3",
+        "raw": 269,
+        "priced": 267,
+        "retained": 114,
+        "retention": 0.42379182156133827,
+        "median_natural": 22.459,
+        "scale_ratio": 0.13379936773676476,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 18,
+            "priced": 16,
+            "admitted": 5,
+            "mean_net_units": -1.3481250000000002,
+            "mean_friction_units": 2.9114375,
+            "raw_net_R": -0.534437156920885
+          },
+          {
+            "year": 2019,
+            "raw": 24,
+            "priced": 24,
+            "admitted": 3,
+            "mean_net_units": 0.9775,
+            "mean_friction_units": 2.818958333333333,
+            "raw_net_R": 0.41355119173886123
+          },
+          {
+            "year": 2020,
+            "raw": 29,
+            "priced": 29,
+            "admitted": 14,
+            "mean_net_units": -7.304137931034483,
+            "mean_friction_units": 2.9037931034482765,
+            "raw_net_R": -3.644341578526646
+          },
+          {
+            "year": 2021,
+            "raw": 67,
+            "priced": 67,
+            "admitted": 21,
+            "mean_net_units": -1.6346268656716418,
+            "mean_friction_units": 2.9588507462686566,
+            "raw_net_R": -5.413327885416539
+          },
+          {
+            "year": 2022,
+            "raw": 71,
+            "priced": 71,
+            "admitted": 62,
+            "mean_net_units": -5.62281690140845,
+            "mean_friction_units": 2.9980422535211266,
+            "raw_net_R": -10.788143360284986
+          },
+          {
+            "year": 2023,
+            "raw": 60,
+            "priced": 60,
+            "admitted": 9,
+            "mean_net_units": -1.9623333333333337,
+            "mean_friction_units": 3.0072,
+            "raw_net_R": -10.088523033958433
+          }
+        ],
+        "cluster_net_units": [
+          -209.93000000000004,
+          -626.4799999999999
+        ],
+        "reasons": [
+          "2018:NET_NONPOSITIVE_OR_MISSING",
+          "2018:MARKOUT_NOT_ABOVE_FRICTION",
+          "2019:MARKOUT_NOT_ABOVE_FRICTION",
+          "2020:NET_NONPOSITIVE_OR_MISSING",
+          "2020:MARKOUT_NOT_ABOVE_FRICTION",
+          "2021:NET_NONPOSITIVE_OR_MISSING",
+          "2021:MARKOUT_NOT_ABOVE_FRICTION",
+          "2022:NET_NONPOSITIVE_OR_MISSING",
+          "2022:MARKOUT_NOT_ABOVE_FRICTION",
+          "2023:NET_NONPOSITIVE_OR_MISSING",
+          "2023:MARKOUT_NOT_ABOVE_FRICTION",
+          "DUAL_CLUSTER_FAIL",
+          "ENDPOINT_INCOMPLETE",
+          "SCALE_FAIL",
+          "RETENTION_BELOW50",
+          "CADENCE_BELOW40"
+        ],
+        "stage0_passed": false,
+        "reused_unchanged_B3": true,
+        "cost_eligible": 114,
+        "cost_only_retention": 0.42379182156133827,
+        "priced_and_cost_retention": 0.42379182156133827
+      },
+      {
+        "asset": "US500",
+        "recipe": "B3:London15:impulse=1:MONTH",
+        "family": "B3",
+        "raw": 44,
+        "priced": 44,
+        "retained": 21,
+        "retention": 0.4772727272727273,
+        "median_natural": 24.44,
+        "scale_ratio": 0.12133797054009819,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 3,
+            "priced": 3,
+            "admitted": 0,
+            "mean_net_units": 9.906666666666666,
+            "mean_friction_units": 2.894,
+            "raw_net_R": 1.5161126520682355
+          },
+          {
+            "year": 2019,
+            "raw": 1,
+            "priced": 1,
+            "admitted": 0,
+            "mean_net_units": 13.940000000000001,
+            "mean_friction_units": 2.761,
+            "raw_net_R": 0.7387778896602895
+          },
+          {
+            "year": 2020,
+            "raw": 6,
+            "priced": 6,
+            "admitted": 3,
+            "mean_net_units": -5.616666666666667,
+            "mean_friction_units": 2.8405,
+            "raw_net_R": 0.5393156955339216
+          },
+          {
+            "year": 2021,
+            "raw": 10,
+            "priced": 10,
+            "admitted": 2,
+            "mean_net_units": 0.07600000000000033,
+            "mean_friction_units": 2.9397999999999995,
+            "raw_net_R": 0.07196362133212672
+          },
+          {
+            "year": 2022,
+            "raw": 15,
+            "priced": 15,
+            "admitted": 14,
+            "mean_net_units": -0.7293333333333332,
+            "mean_friction_units": 2.959,
+            "raw_net_R": 0.01656501706819058
+          },
+          {
+            "year": 2023,
+            "raw": 9,
+            "priced": 9,
+            "admitted": 2,
+            "mean_net_units": 14.456666666666669,
+            "mean_friction_units": 2.9867777777777773,
+            "raw_net_R": 7.2465621507015
+          }
+        ],
+        "cluster_net_units": [
+          9.96,
+          119.93
+        ],
+        "reasons": [
+          "2020:NET_NONPOSITIVE_OR_MISSING",
+          "2020:MARKOUT_NOT_ABOVE_FRICTION",
+          "2021:MARKOUT_NOT_ABOVE_FRICTION",
+          "2022:NET_NONPOSITIVE_OR_MISSING",
+          "2022:MARKOUT_NOT_ABOVE_FRICTION",
+          "SCALE_FAIL",
+          "RETENTION_BELOW50",
+          "CADENCE_BELOW40"
+        ],
+        "stage0_passed": false,
+        "reused_unchanged_B3": true,
+        "cost_eligible": 21,
+        "cost_only_retention": 0.4772727272727273,
+        "priced_and_cost_retention": 0.4772727272727273
+      },
+      {
+        "asset": "GBPUSD",
+        "recipe": "B2:PD:sweep=0.1",
+        "family": "B2",
+        "raw": 509,
+        "priced": 3,
+        "retained": 3,
+        "retention": 0.005893909626719057,
+        "median_natural": 0.00264,
+        "scale_ratio": 0.06818181818181818,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 83,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2019,
+            "raw": 79,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2020,
+            "raw": 95,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2021,
+            "raw": 89,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2022,
+            "raw": 83,
+            "priced": 2,
+            "admitted": 2,
+            "mean_net_units": -0.0005350000000000288,
+            "mean_friction_units": 0.000185,
+            "raw_net_R": -0.5697858842189
+          },
+          {
+            "year": 2023,
+            "raw": 80,
+            "priced": 1,
+            "admitted": 1,
+            "mean_net_units": -0.0011199999999998646,
+            "mean_friction_units": 0.00014,
+            "raw_net_R": -0.3612903225806015
+          }
+        ],
+        "cluster_net_units": [
+          0.0,
+          -0.002189999999999922
+        ],
+        "reasons": [
+          "2018:NET_NONPOSITIVE_OR_MISSING",
+          "2018:MARKOUT_NOT_ABOVE_FRICTION",
+          "2019:NET_NONPOSITIVE_OR_MISSING",
+          "2019:MARKOUT_NOT_ABOVE_FRICTION",
+          "2020:NET_NONPOSITIVE_OR_MISSING",
+          "2020:MARKOUT_NOT_ABOVE_FRICTION",
+          "2021:NET_NONPOSITIVE_OR_MISSING",
+          "2021:MARKOUT_NOT_ABOVE_FRICTION",
+          "2022:NET_NONPOSITIVE_OR_MISSING",
+          "2022:MARKOUT_NOT_ABOVE_FRICTION",
+          "2023:NET_NONPOSITIVE_OR_MISSING",
+          "2023:MARKOUT_NOT_ABOVE_FRICTION",
+          "DUAL_CLUSTER_FAIL",
+          "ENDPOINT_INCOMPLETE",
+          "CADENCE_BELOW40"
+        ],
+        "stage0_passed": false,
+        "cost_eligible": 467,
+        "cost_only_retention": 0.9174852652259332,
+        "priced_and_cost_retention": 0.005893909626719057
+      },
+      {
+        "asset": "GBPUSD",
+        "recipe": "B2:PD:sweep=0.3",
+        "family": "B2",
+        "raw": 285,
+        "priced": 1,
+        "retained": 1,
+        "retention": 0.0035087719298245615,
+        "median_natural": 0.00295,
+        "scale_ratio": 0.06101694915254237,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 45,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2019,
+            "raw": 49,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2020,
+            "raw": 53,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2021,
+            "raw": 51,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2022,
+            "raw": 41,
+            "priced": 1,
+            "admitted": 1,
+            "mean_net_units": -0.0011800000000000356,
+            "mean_friction_units": 0.00017,
+            "raw_net_R": -0.6082474226804307
+          },
+          {
+            "year": 2023,
+            "raw": 46,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          }
+        ],
+        "cluster_net_units": [
+          0.0,
+          -0.0011800000000000356
+        ],
+        "reasons": [
+          "2018:NET_NONPOSITIVE_OR_MISSING",
+          "2018:MARKOUT_NOT_ABOVE_FRICTION",
+          "2019:NET_NONPOSITIVE_OR_MISSING",
+          "2019:MARKOUT_NOT_ABOVE_FRICTION",
+          "2020:NET_NONPOSITIVE_OR_MISSING",
+          "2020:MARKOUT_NOT_ABOVE_FRICTION",
+          "2021:NET_NONPOSITIVE_OR_MISSING",
+          "2021:MARKOUT_NOT_ABOVE_FRICTION",
+          "2022:NET_NONPOSITIVE_OR_MISSING",
+          "2022:MARKOUT_NOT_ABOVE_FRICTION",
+          "2023:NET_NONPOSITIVE_OR_MISSING",
+          "2023:MARKOUT_NOT_ABOVE_FRICTION",
+          "DUAL_CLUSTER_FAIL",
+          "ENDPOINT_INCOMPLETE",
+          "CADENCE_BELOW40"
+        ],
+        "stage0_passed": false,
+        "cost_eligible": 277,
+        "cost_only_retention": 0.9719298245614035,
+        "priced_and_cost_retention": 0.0035087719298245615
+      },
+      {
+        "asset": "GBPUSD",
+        "recipe": "B2:PD:sweep=0.6",
+        "family": "B2",
+        "raw": 75,
+        "priced": 0,
+        "retained": 0,
+        "retention": 0.0,
+        "median_natural": 0.00412,
+        "scale_ratio": 0.04126213592233009,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 16,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2019,
+            "raw": 11,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2020,
+            "raw": 14,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2021,
+            "raw": 12,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2022,
+            "raw": 9,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2023,
+            "raw": 13,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          }
+        ],
+        "cluster_net_units": [
+          0.0,
+          0.0
+        ],
+        "reasons": [
+          "2018:NET_NONPOSITIVE_OR_MISSING",
+          "2018:MARKOUT_NOT_ABOVE_FRICTION",
+          "2019:NET_NONPOSITIVE_OR_MISSING",
+          "2019:MARKOUT_NOT_ABOVE_FRICTION",
+          "2020:NET_NONPOSITIVE_OR_MISSING",
+          "2020:MARKOUT_NOT_ABOVE_FRICTION",
+          "2021:NET_NONPOSITIVE_OR_MISSING",
+          "2021:MARKOUT_NOT_ABOVE_FRICTION",
+          "2022:NET_NONPOSITIVE_OR_MISSING",
+          "2022:MARKOUT_NOT_ABOVE_FRICTION",
+          "2023:NET_NONPOSITIVE_OR_MISSING",
+          "2023:MARKOUT_NOT_ABOVE_FRICTION",
+          "DUAL_CLUSTER_FAIL",
+          "ENDPOINT_INCOMPLETE",
+          "CADENCE_BELOW40"
+        ],
+        "stage0_passed": false,
+        "cost_eligible": 74,
+        "cost_only_retention": 0.9866666666666667,
+        "priced_and_cost_retention": 0.0
+      },
+      {
+        "asset": "GBPUSD",
+        "recipe": "B2:ASIA:sweep=0.1",
+        "family": "B2",
+        "raw": 792,
+        "priced": 7,
+        "retained": 5,
+        "retention": 0.006313131313131313,
+        "median_natural": 0.00241,
+        "scale_ratio": 0.07261410788381743,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 127,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2019,
+            "raw": 130,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2020,
+            "raw": 126,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2021,
+            "raw": 140,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2022,
+            "raw": 131,
+            "priced": 4,
+            "admitted": 4,
+            "mean_net_units": 0.0006125000000000504,
+            "mean_friction_units": 0.0001825,
+            "raw_net_R": 2.218197265418526
+          },
+          {
+            "year": 2023,
+            "raw": 138,
+            "priced": 3,
+            "admitted": 1,
+            "mean_net_units": -0.00080999999999998,
+            "mean_friction_units": 0.00016666666666666666,
+            "raw_net_R": -1.3335109504862992
+          }
+        ],
+        "cluster_net_units": [
+          0.0,
+          2.0000000000261562e-05
+        ],
+        "reasons": [
+          "2018:NET_NONPOSITIVE_OR_MISSING",
+          "2018:MARKOUT_NOT_ABOVE_FRICTION",
+          "2019:NET_NONPOSITIVE_OR_MISSING",
+          "2019:MARKOUT_NOT_ABOVE_FRICTION",
+          "2020:NET_NONPOSITIVE_OR_MISSING",
+          "2020:MARKOUT_NOT_ABOVE_FRICTION",
+          "2021:NET_NONPOSITIVE_OR_MISSING",
+          "2021:MARKOUT_NOT_ABOVE_FRICTION",
+          "2023:NET_NONPOSITIVE_OR_MISSING",
+          "2023:MARKOUT_NOT_ABOVE_FRICTION",
+          "DUAL_CLUSTER_FAIL",
+          "ENDPOINT_INCOMPLETE",
+          "CADENCE_BELOW40"
+        ],
+        "stage0_passed": false,
+        "cost_eligible": 694,
+        "cost_only_retention": 0.8762626262626263,
+        "priced_and_cost_retention": 0.006313131313131313
+      },
+      {
+        "asset": "GBPUSD",
+        "recipe": "B2:ASIA:sweep=0.3",
+        "family": "B2",
+        "raw": 479,
+        "priced": 1,
+        "retained": 1,
+        "retention": 0.0020876826722338203,
+        "median_natural": 0.00289,
+        "scale_ratio": 0.058823529411764705,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 84,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2019,
+            "raw": 76,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2020,
+            "raw": 83,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2021,
+            "raw": 86,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2022,
+            "raw": 73,
+            "priced": 1,
+            "admitted": 1,
+            "mean_net_units": 0.002430000000000078,
+            "mean_friction_units": 0.00015,
+            "raw_net_R": 1.7737226277372833
+          },
+          {
+            "year": 2023,
+            "raw": 77,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          }
+        ],
+        "cluster_net_units": [
+          0.0,
+          0.002430000000000078
+        ],
+        "reasons": [
+          "2018:NET_NONPOSITIVE_OR_MISSING",
+          "2018:MARKOUT_NOT_ABOVE_FRICTION",
+          "2019:NET_NONPOSITIVE_OR_MISSING",
+          "2019:MARKOUT_NOT_ABOVE_FRICTION",
+          "2020:NET_NONPOSITIVE_OR_MISSING",
+          "2020:MARKOUT_NOT_ABOVE_FRICTION",
+          "2021:NET_NONPOSITIVE_OR_MISSING",
+          "2021:MARKOUT_NOT_ABOVE_FRICTION",
+          "2023:NET_NONPOSITIVE_OR_MISSING",
+          "2023:MARKOUT_NOT_ABOVE_FRICTION",
+          "DUAL_CLUSTER_FAIL",
+          "ENDPOINT_INCOMPLETE",
+          "CADENCE_BELOW40"
+        ],
+        "stage0_passed": false,
+        "cost_eligible": 461,
+        "cost_only_retention": 0.9624217118997912,
+        "priced_and_cost_retention": 0.0020876826722338203
+      },
+      {
+        "asset": "GBPUSD",
+        "recipe": "B2:ASIA:sweep=0.6",
+        "family": "B2",
+        "raw": 148,
+        "priced": 0,
+        "retained": 0,
+        "retention": 0.0,
+        "median_natural": 0.00378,
+        "scale_ratio": 0.047619047619047616,
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 28,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2019,
+            "raw": 21,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2020,
+            "raw": 26,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2021,
+            "raw": 26,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2022,
+            "raw": 22,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          },
+          {
+            "year": 2023,
+            "raw": 25,
+            "priced": 0,
+            "admitted": 0,
+            "mean_net_units": null,
+            "mean_friction_units": null,
+            "raw_net_R": null
+          }
+        ],
+        "cluster_net_units": [
+          0.0,
+          0.0
+        ],
+        "reasons": [
+          "2018:NET_NONPOSITIVE_OR_MISSING",
+          "2018:MARKOUT_NOT_ABOVE_FRICTION",
+          "2019:NET_NONPOSITIVE_OR_MISSING",
+          "2019:MARKOUT_NOT_ABOVE_FRICTION",
+          "2020:NET_NONPOSITIVE_OR_MISSING",
+          "2020:MARKOUT_NOT_ABOVE_FRICTION",
+          "2021:NET_NONPOSITIVE_OR_MISSING",
+          "2021:MARKOUT_NOT_ABOVE_FRICTION",
+          "2022:NET_NONPOSITIVE_OR_MISSING",
+          "2022:MARKOUT_NOT_ABOVE_FRICTION",
+          "2023:NET_NONPOSITIVE_OR_MISSING",
+          "2023:MARKOUT_NOT_ABOVE_FRICTION",
+          "DUAL_CLUSTER_FAIL",
+          "ENDPOINT_INCOMPLETE",
+          "CADENCE_BELOW40"
+        ],
+        "stage0_passed": false,
+        "cost_eligible": 148,
+        "cost_only_retention": 1.0,
+        "priced_and_cost_retention": 0.0
+      }
+    ],
+    "registered_trials": 28,
+    "Stage0_survivors": 0,
+    "SL_survivors": []
+  },
+  "B1_changes": {
+    "count": 18,
+    "improvement_R": 8.6128,
+    "deterioration_R": -9.8052
+  },
+  "taxonomy_order_disagreements": 0,
+  "open_path_unknown": 32,
+  "post_path_unknown_SL": 8,
+  "post_stop_2R": 5,
+  "W2_flags": {
+    "near_death": {
+      "count": 5,
+      "net_R": 3.6524666666666668
+    },
+    "late_windfall": {
+      "count": 3,
+      "net_R": 0.0622
+    },
+    "open_path_unknown": {
+      "count": 16,
+      "net_R": 20.5916
+    }
+  },
+  "giveback_by_mode_and_bucket": {
+    "P0": {
+      "0.80–<1.00": {
+        "count": 8,
+        "net_R": -4.786666666666667
+      },
+      "1.00–<1.50": {
+        "count": 7,
+        "net_R": -5.741333333333333
+      },
+      ">=1.50": {
+        "count": 10,
+        "net_R": -8.502666666666666
+      }
+    },
+    "P1": {
+      "0.80–<1.00": {
+        "count": 2,
+        "net_R": -1.7291333333333332
+      },
+      "1.00–<1.50": {
+        "count": 3,
+        "net_R": -0.7096
+      },
+      ">=1.50": {
+        "count": 0,
+        "net_R": 0
+      }
+    }
+  },
+  "audit": {
+    "passed": true,
+    "cases": [
+      {
+        "scope": "Dev",
+        "order": "OLHC",
+        "trades": 340,
+        "separate_cash_and_extrema_verified": true
+      },
+      {
+        "scope": "Dev",
+        "order": "OHLC",
+        "trades": 340,
+        "separate_cash_and_extrema_verified": true
+      },
+      {
+        "scope": "Full",
+        "order": "OLHC",
+        "trades": 494,
+        "separate_cash_and_extrema_verified": true
+      },
+      {
+        "scope": "Full",
+        "order": "OHLC",
+        "trades": 494,
+        "separate_cash_and_extrema_verified": true
+      }
+    ],
+    "compressed_tables": 60,
+    "canonical_net_R": 42.391666666666666,
+    "same_author_and_feed": true,
+    "independent_human_review": false
+  },
+  "tests": {
+    "passed": true,
+    "tests": 1261,
+    "preserved_V20_IDs": 1239,
+    "zero_skip": true,
+    "total_wall_seconds": 13.176226800000222,
+    "target_under15": true,
+    "stretch_under14": true,
+    "added_IDs": [
+      "test_trade_forensics.ForensicTests.test_closed_atr_wilder_includes_last_closed_day",
+      "test_trade_forensics.ForensicTests.test_concentration_retains_losing_trades_and_denominator",
+      "test_trade_forensics.ForensicTests.test_development_gate_rejects_more_profit_with_larger_drawdown",
+      "test_trade_forensics.ForensicTests.test_early_protection_waits_for_next_minute_and_keeps_entry_stop",
+      "test_trade_forensics.ForensicTests.test_excursion_truncates_exit_bar_and_tracks_strictly_later_recovery",
+      "test_trade_forensics.ForensicTests.test_exhaustion_is_not_assigned_to_FX_range_rejection",
+      "test_trade_forensics.ForensicTests.test_favorable_geometry_is_description_not_skill_certificate",
+      "test_trade_forensics.ForensicTests.test_future_prices_cannot_change_prior_registered_signal_prefix",
+      "test_trade_forensics.ForensicTests.test_giveback_boundary_and_pre_protection_bucket",
+      "test_trade_forensics.ForensicTests.test_giveback_overlap_is_not_lost_to_exclusive_priority",
+      "test_trade_forensics.ForensicTests.test_late_burst_requires_both_late_share_and_mostly_unprofitable_path",
+      "test_trade_forensics.ForensicTests.test_london_clock_has_winter_and_summer_mapping",
+      "test_trade_forensics.ForensicTests.test_near_death_boundary_precedes_good_reward_adverse_ratio",
+      "test_trade_forensics.ForensicTests.test_nonempty_sweep_prefix_is_causal_and_reproducible",
+      "test_trade_forensics.ForensicTests.test_nonfinite_and_negative_magnitudes_rejected",
+      "test_trade_forensics.ForensicTests.test_positive_residual_is_explicit_fragile_geometry",
+      "test_trade_forensics.ForensicTests.test_raw_screen_missing_quotes_are_not_zero_fee_or_profitable_observations",
+      "test_trade_forensics.ForensicTests.test_short_excursion_uses_ask_direction",
+      "test_trade_forensics.ForensicTests.test_stop_recovery_requires_stop_and_one_R_recovery",
+      "test_trade_forensics.ForensicTests.test_two_sided_sweep_abstains_before_close_direction_is_applied",
+      "test_trade_forensics.ForensicTests.test_unknown_loss_is_provisional_not_certified_clean",
+      "test_trade_forensics.ForensicTests.test_unverified_positive_path_never_becomes_structural_win"
+    ],
+    "groups": {
+      "base": 12.982355600001029,
+      "native": 5.832732199998645,
+      "statistics": 3.8065924999991694,
+      "worker": 2.744986300000164,
+      "observer": 1.5116809000010107
+    }
+  },
+  "smoke": {
+    "rows": [
+      {
+        "attempt": 1,
+        "wall": 0.702626300000702,
+        "tests": 78,
+        "passed": true,
+        "skipped": 0
+      },
+      {
+        "attempt": 2,
+        "wall": 0.6901524000004429,
+        "tests": 78,
+        "passed": true,
+        "skipped": 0
+      },
+      {
+        "attempt": 3,
+        "wall": 0.6801563999997597,
+        "tests": 78,
+        "passed": true,
+        "skipped": 0
+      },
+      {
+        "attempt": 4,
+        "wall": 0.6758457999985694,
+        "tests": 78,
+        "passed": true,
+        "skipped": 0
+      },
+      {
+        "attempt": 5,
+        "wall": 0.6667648999991798,
+        "tests": 78,
+        "passed": true,
+        "skipped": 0
+      },
+      {
+        "attempt": 6,
+        "wall": 0.7118410999992193,
+        "tests": 78,
+        "passed": true,
+        "skipped": 0
+      },
+      {
+        "attempt": 7,
+        "wall": 0.6944251999993867,
+        "tests": 78,
+        "passed": true,
+        "skipped": 0
+      },
+      {
+        "attempt": 8,
+        "wall": 0.7059923999986495,
+        "tests": 78,
+        "passed": true,
+        "skipped": 0
+      },
+      {
+        "attempt": 9,
+        "wall": 0.6545781000004354,
+        "tests": 78,
+        "passed": true,
+        "skipped": 0
+      },
+      {
+        "attempt": 10,
+        "wall": 0.7190474000017275,
+        "tests": 78,
+        "passed": true,
+        "skipped": 0
+      }
+    ],
+    "below078": 10,
+    "below070": 6,
+    "median": 0.6922887999999148,
+    "max": 0.7190474000017275
+  },
+  "storage": {
+    "roots": {
+      "D": {
+        "before": {
+          "bytes": 211932470810,
+          "files": 577864,
+          "folders": 75431
+        },
+        "after": {
+          "bytes": 211933081419,
+          "files": 577939,
+          "folders": 75481
+        },
+        "delta_bytes": 610609,
+        "before_errors": [
+          {
+            "path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\pytest-p20-final",
+            "type": "PermissionError"
+          },
+          {
+            "path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\pytest-p20",
+            "type": "PermissionError"
+          }
+        ],
+        "after_errors": [
+          {
+            "path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\pytest-p20-final",
+            "type": "PermissionError"
+          },
+          {
+            "path": "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\pytest-p20",
+            "type": "PermissionError"
+          }
+        ],
+        "baseline": "Reused V20 final non-atomic inventory; other activity may contribute."
+      },
+      "E": {
+        "before": {
+          "bytes": 231243336612,
+          "files": 558589,
+          "folders": 37771
+        },
+        "after": {
+          "bytes": 231247295533,
+          "files": 558804,
+          "folders": 37774
+        },
+        "delta_bytes": 3958921,
+        "before_errors": [],
+        "after_errors": [],
+        "baseline": "Reused V20 final non-atomic inventory; other activity may contribute."
+      }
+    },
+    "compressed_tables": 60,
+    "original_table_bytes": 5112249,
+    "compressed_table_bytes": 766456,
+    "own_job_bytes": 3402878,
+    "files": 193,
+    "source_data_deleted": 0,
+    "raw_price_cache_duplicated": false,
+    "physical_freed_bytes": null
+  },
+  "baseline_history": [
+    {
+      "version": "V16",
+      "order": "OLHC",
+      "mode": "PRIMARY",
+      "friction_pct": 100,
+      "phase1": 81,
+      "funded": 71,
+      "median_months": 47.07529089664613,
+      "worst_daily": 1.96304,
+      "worst_static": 6.38254,
+      "breaches": 0,
+      "standalone_payout": 6457.11,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "version": "V19",
+      "order": "OLHC",
+      "mode": "PRIMARY",
+      "friction_pct": 100,
+      "profile": "BASE_GUARD",
+      "windows": 105,
+      "phase1": 80,
+      "funded": 71,
+      "median_months": 48.06091718001369,
+      "breaches": 0,
+      "worst_static": 6.38254,
+      "worst_daily": 2.0275,
+      "payout_count_windows": 501,
+      "payout_windows_usd": 61933.06,
+      "standalone_payout": 6471.13,
+      "standalone_payout_count": 40,
+      "censored_phase1": 25,
+      "censored_phase2": 9,
+      "restricted_mean_months": 39.50942276979238,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "version": "V16",
+      "order": "OLHC",
+      "mode": "PRIMARY",
+      "friction_pct": 150,
+      "phase1": 74,
+      "funded": 7,
+      "median_months": 87.09171800136893,
+      "worst_daily": 1.92476,
+      "worst_static": 7.72284,
+      "breaches": 0,
+      "standalone_payout": 4170.0,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "version": "V19",
+      "order": "OLHC",
+      "mode": "PRIMARY",
+      "friction_pct": 150,
+      "profile": "BASE_GUARD",
+      "windows": 105,
+      "phase1": 74,
+      "funded": 15,
+      "median_months": 40.931553730321696,
+      "breaches": 0,
+      "worst_static": 7.72284,
+      "worst_daily": 2.03088,
+      "payout_count_windows": 50,
+      "payout_windows_usd": 3275.9500000000003,
+      "standalone_payout": 4184.0,
+      "standalone_payout_count": 32,
+      "censored_phase1": 31,
+      "censored_phase2": 59,
+      "restricted_mean_months": 51.990006844626976,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "version": "V16",
+      "order": "OLHC",
+      "mode": "STRICT",
+      "friction_pct": 100,
+      "phase1": 18,
+      "funded": 1,
+      "median_months": 18.95208761122519,
+      "worst_daily": 1.9628,
+      "worst_static": 8.3997,
+      "breaches": 0,
+      "standalone_payout": 1824.95,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "version": "V19",
+      "order": "OLHC",
+      "mode": "STRICT",
+      "friction_pct": 100,
+      "profile": "BASE_GUARD",
+      "windows": 105,
+      "phase1": 14,
+      "funded": 0,
+      "median_months": null,
+      "breaches": 0,
+      "worst_static": 8.3997,
+      "worst_daily": 1.98582,
+      "payout_count_windows": 0,
+      "payout_windows_usd": 0,
+      "standalone_payout": 1824.95,
+      "standalone_payout_count": 11,
+      "censored_phase1": 91,
+      "censored_phase2": 14,
+      "restricted_mean_months": 53.423760633616894,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "version": "V16",
+      "order": "OHLC",
+      "mode": "PRIMARY",
+      "friction_pct": 100,
+      "phase1": 81,
+      "funded": 71,
+      "median_months": 47.07529089664613,
+      "worst_daily": 1.96304,
+      "worst_static": 6.38254,
+      "breaches": 0,
+      "standalone_payout": 6457.11,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "version": "V19",
+      "order": "OHLC",
+      "mode": "PRIMARY",
+      "friction_pct": 100,
+      "profile": "BASE_GUARD",
+      "windows": 105,
+      "phase1": 80,
+      "funded": 71,
+      "median_months": 48.06091718001369,
+      "breaches": 0,
+      "worst_static": 6.38254,
+      "worst_daily": 2.0275,
+      "payout_count_windows": 501,
+      "payout_windows_usd": 61933.06,
+      "standalone_payout": 6471.13,
+      "standalone_payout_count": 40,
+      "censored_phase1": 25,
+      "censored_phase2": 9,
+      "restricted_mean_months": 39.50942276979238,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "version": "V16",
+      "order": "OHLC",
+      "mode": "PRIMARY",
+      "friction_pct": 150,
+      "phase1": 74,
+      "funded": 7,
+      "median_months": 87.09171800136893,
+      "worst_daily": 1.92476,
+      "worst_static": 7.72284,
+      "breaches": 0,
+      "standalone_payout": 4170.0,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "version": "V19",
+      "order": "OHLC",
+      "mode": "PRIMARY",
+      "friction_pct": 150,
+      "profile": "BASE_GUARD",
+      "windows": 105,
+      "phase1": 74,
+      "funded": 15,
+      "median_months": 40.931553730321696,
+      "breaches": 0,
+      "worst_static": 7.72284,
+      "worst_daily": 2.03088,
+      "payout_count_windows": 50,
+      "payout_windows_usd": 3275.9500000000003,
+      "standalone_payout": 4184.0,
+      "standalone_payout_count": 32,
+      "censored_phase1": 31,
+      "censored_phase2": 59,
+      "restricted_mean_months": 51.990006844626976,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "version": "V16",
+      "order": "OHLC",
+      "mode": "STRICT",
+      "friction_pct": 100,
+      "phase1": 18,
+      "funded": 1,
+      "median_months": 18.95208761122519,
+      "worst_daily": 1.9628,
+      "worst_static": 8.3997,
+      "breaches": 0,
+      "standalone_payout": 1824.95,
+      "recent_starts": 33,
+      "recent_completions": 0
+    },
+    {
+      "version": "V19",
+      "order": "OHLC",
+      "mode": "STRICT",
+      "friction_pct": 100,
+      "profile": "BASE_GUARD",
+      "windows": 105,
+      "phase1": 14,
+      "funded": 0,
+      "median_months": null,
+      "breaches": 0,
+      "worst_static": 8.3997,
+      "worst_daily": 1.98582,
+      "payout_count_windows": 0,
+      "payout_windows_usd": 0,
+      "standalone_payout": 1824.95,
+      "standalone_payout_count": 11,
+      "censored_phase1": 91,
+      "censored_phase2": 14,
+      "restricted_mean_months": 53.423760633616894,
+      "recent_starts": 33,
+      "recent_completions": 0
+    }
+  ],
+  "baseline_monte": [
+    {
+      "version": "V16",
+      "path": "MC-V16-OLHC-PRIMARY-100-summary.json",
+      "sha256": "53b99f73fd70deabc37a205dbf425fbc03ddec2dd8b63a9eeaf8fdf963ce2975",
+      "payout_basis": "Standalone Funded from path start; not payouts after passing Challenge.",
+      "paths": 5000,
+      "horizons": [
+        {
+          "months": 12,
+          "phase1_pct": 22.68,
+          "both_pct": 1.24,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 18,
+          "phase1_pct": 39.22,
+          "both_pct": 6.08,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 24,
+          "phase1_pct": 52.24,
+          "both_pct": 14.32,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 36,
+          "phase1_pct": 67.88,
+          "both_pct": 33.36,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        }
+      ],
+      "conditional_median_months": 25.90075290896646,
+      "mean_annual_payout_USD": 946.3679973333334,
+      "annual_payout_P25_P50_P75": [
+        544.9233333333334,
+        908.1883333333333,
+        1301.1891666666666
+      ],
+      "all_path_ledgers_independently_checked": true,
+      "no_clean_OOS_or_independent_feed": true,
+      "seconds_this_attempt": 2731.5078877999913,
+      "journal_sha256": "5a5061d65b18ff3fed66a0d0f49545b4a5094565699d02b4e89ea08e3312dab1",
+      "accounts_fully_audited": 10000,
+      "baseline": true,
+      "mode": "PRIMARY",
+      "order": "OLHC",
+      "friction": 100,
+      "binding": {
+        "pack": "c6d95b27a6ed1e7855551a06a2f8404dbf04ac9860416b960276c84035f657f3",
+        "selected": {
+          "name": "BASE_GUARD",
+          "gamma": null,
+          "weights": {
+            "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 1.0,
+            "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 1.0,
+            "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0
+          }
+        },
+        "baseline": true,
+        "friction": 100,
+        "stress_code": "a9949ce6892b6440935d9c2d5a11480e43abc56681487d72df43b4b94080adb0",
+        "policy_code": "c248965bf227522113a9b0eb682690330fc2272c01b7015c4c4fa7e5ecd16ec5",
+        "oracle_adapter": "dd0027601d7321900e384cbaf0d4b4558aa1707c1ffee3f72a47d5bebfba5909",
+        "count": 5000,
+        "seed": 20261116
+      }
+    },
+    {
+      "version": "V19",
+      "path": "MC-V19-OLHC-PRIMARY-100-summary.json",
+      "sha256": "a3bcea77e1cf6ecd0780cecb8e1fda01e21cd7ffe17a8e43e8b496a83c0e70fe",
+      "payout_basis": "Standalone Funded from path start; not payouts after passing Challenge.",
+      "paths": 5000,
+      "horizons": [
+        {
+          "months": 12,
+          "phase1_pct": 22.56,
+          "both_pct": 1.38,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 18,
+          "phase1_pct": 38.94,
+          "both_pct": 6.2,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 24,
+          "phase1_pct": 52.08,
+          "both_pct": 14.5,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 36,
+          "phase1_pct": 67.54,
+          "both_pct": 33.56,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        }
+      ],
+      "conditional_median_months": 25.88432580424367,
+      "mean_annual_payout_USD": 946.4054546666667,
+      "annual_payout_P25_P50_P75": [
+        542.3275,
+        906.205,
+        1301.695
+      ],
+      "all_path_ledgers_independently_checked": true,
+      "no_clean_OOS_or_independent_feed": true,
+      "seconds_this_attempt": 2601.0012219999917,
+      "journal_sha256": "46b592a66586b8e672bdf2ba5327344b747664e9b9e8a12c9bc01f51e6bc2552",
+      "accounts_fully_audited": 10000,
+      "baseline": false,
+      "mode": "PRIMARY",
+      "order": "OLHC",
+      "friction": 100,
+      "binding": {
+        "pack": "1546a2a6c8f3ff82c663c21dde56cdb642a073a98d53f358f649fa4f6ed68cef",
+        "selected": {
+          "name": "BASE_GUARD",
+          "gamma": null,
+          "weights": {
+            "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 1.0,
+            "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 1.0,
+            "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0
+          }
+        },
+        "baseline": false,
+        "friction": 100,
+        "stress_code": "a9949ce6892b6440935d9c2d5a11480e43abc56681487d72df43b4b94080adb0",
+        "policy_code": "c248965bf227522113a9b0eb682690330fc2272c01b7015c4c4fa7e5ecd16ec5",
+        "oracle_adapter": "dd0027601d7321900e384cbaf0d4b4558aa1707c1ffee3f72a47d5bebfba5909",
+        "count": 5000,
+        "seed": 20261116
+      }
+    },
+    {
+      "version": "V16",
+      "path": "MC-V16-OHLC-PRIMARY-100-summary.json",
+      "sha256": "0d317201060b41df058c0fdb03341909ad1ba659103b1eabaeb3beb837396f86",
+      "payout_basis": "Standalone Funded from path start; not payouts after passing Challenge.",
+      "paths": 5000,
+      "horizons": [
+        {
+          "months": 12,
+          "phase1_pct": 22.68,
+          "both_pct": 1.24,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 18,
+          "phase1_pct": 39.22,
+          "both_pct": 6.08,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 24,
+          "phase1_pct": 52.24,
+          "both_pct": 14.32,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 36,
+          "phase1_pct": 67.88,
+          "both_pct": 33.36,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        }
+      ],
+      "conditional_median_months": 25.90075290896646,
+      "mean_annual_payout_USD": 946.3679973333334,
+      "annual_payout_P25_P50_P75": [
+        544.9233333333334,
+        908.1883333333333,
+        1301.1891666666666
+      ],
+      "all_path_ledgers_independently_checked": true,
+      "no_clean_OOS_or_independent_feed": true,
+      "seconds_this_attempt": 4083.118215699971,
+      "journal_sha256": "f14017f543279024fdf69782b688e66f4da07a23e1ffb5ea2fcc3b986dd8bb75",
+      "accounts_fully_audited": 10000,
+      "baseline": true,
+      "mode": "PRIMARY",
+      "order": "OHLC",
+      "friction": 100,
+      "binding": {
+        "pack": "2c7d297320820f087b2fa1dc0e42bb82352d5d83be68f9984ffe3d9631cd1b9f",
+        "selected": {
+          "name": "BASE_GUARD",
+          "gamma": null,
+          "weights": {
+            "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 1.0,
+            "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 1.0,
+            "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0
+          }
+        },
+        "baseline": true,
+        "friction": 100,
+        "stress_code": "a9949ce6892b6440935d9c2d5a11480e43abc56681487d72df43b4b94080adb0",
+        "policy_code": "c248965bf227522113a9b0eb682690330fc2272c01b7015c4c4fa7e5ecd16ec5",
+        "oracle_adapter": "dd0027601d7321900e384cbaf0d4b4558aa1707c1ffee3f72a47d5bebfba5909",
+        "count": 5000,
+        "seed": 20261116
+      }
+    },
+    {
+      "version": "V19",
+      "path": "MC-V19-OHLC-PRIMARY-100-summary.json",
+      "sha256": "13d0ceb392bf1def0a5d902a1556c5318a2a28733aee6d4c9b8f186b4a52654e",
+      "payout_basis": "Standalone Funded from path start; not payouts after passing Challenge.",
+      "paths": 5000,
+      "horizons": [
+        {
+          "months": 12,
+          "phase1_pct": 22.56,
+          "both_pct": 1.38,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 18,
+          "phase1_pct": 38.94,
+          "both_pct": 6.2,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 24,
+          "phase1_pct": 52.08,
+          "both_pct": 14.5,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        },
+        {
+          "months": 36,
+          "phase1_pct": 67.54,
+          "both_pct": 33.56,
+          "daily_breach_pct": 0.0,
+          "overall_breach_pct": 0.0
+        }
+      ],
+      "conditional_median_months": 25.88432580424367,
+      "mean_annual_payout_USD": 946.4054546666667,
+      "annual_payout_P25_P50_P75": [
+        542.3275,
+        906.205,
+        1301.695
+      ],
+      "all_path_ledgers_independently_checked": true,
+      "no_clean_OOS_or_independent_feed": true,
+      "seconds_this_attempt": 2704.2798307000194,
+      "journal_sha256": "9c982993177fc4f034f894b1d37a14226e804a747bd0bbbd28929c3be1963be3",
+      "accounts_fully_audited": 10000,
+      "baseline": false,
+      "mode": "PRIMARY",
+      "order": "OHLC",
+      "friction": 100,
+      "binding": {
+        "pack": "6fd4656e808be83f22c4756b82ede1692c0286e8c2c576f3955b005c992f6852",
+        "selected": {
+          "name": "BASE_GUARD",
+          "gamma": null,
+          "weights": {
+            "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 1.0,
+            "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 1.0,
+            "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0
+          }
+        },
+        "baseline": false,
+        "friction": 100,
+        "stress_code": "a9949ce6892b6440935d9c2d5a11480e43abc56681487d72df43b4b94080adb0",
+        "policy_code": "c248965bf227522113a9b0eb682690330fc2272c01b7015c4c4fa7e5ecd16ec5",
+        "oracle_adapter": "dd0027601d7321900e384cbaf0d4b4558aa1707c1ffee3f72a47d5bebfba5909",
+        "count": 5000,
+        "seed": 20261116
+      }
+    }
+  ],
+  "baseline_reused_not_new_V21_simulation": true,
+  "new_accounts": 0,
+  "new_MC_paths": 0,
+  "limits": [
+    "Labels describe modeled price geometry, not true skill/luck or manipulation.",
+    "32 open paths remain source-uncertain; post-stop uncertainty adds provisional labels.",
+    "M1 orderings, proxy Ask and inherited cost/calendar scenarios are not broker fills.",
+    "ATR/day ranges derived from admitted M1; historical context/feed/news not independently certified.",
+    "Later history already exposed; no clean OOS or new prospective validation.",
+    "GBP primary20:30 endpoint mostly unavailable in H1-only source; no economic family rejection from missing data.",
+    "One registered B1 diagnostic; no additional anti-exhaustion variant or wider-stop search.",
+    "Original dual-sweep bug attempt retained;24 B2 corrections,4 B3 results reused; no thresholds retuned.",
+    "Fixed150 marked path is not an adaptive Challenge account. Tail removal is descriptive only."
+  ]
+}
