@@ -7,11 +7,13 @@ from quant_core.market_data_store import MarketDataStore
 HOUR=3600000
 
 def frame(bars,step,at):
+    if not len(bars):return []
     codes=bars['t']//step*step
     starts=np.r_[0,np.flatnonzero(np.diff(codes))+1];ends=np.r_[starts[1:],len(bars)]
     return [(int(codes[i])+step,float(bars['bo'][i]),float(bars['bh'][i:j].max()),
         float(bars['bl'][i:j].min()),float(bars['bc'][j-1])) for i,j in zip(starts,ends)
-        if int(codes[i])+step<=at and j-i==step//60000]
+        if int(codes[i])+step<=at and j-i==step//60000 and
+        np.array_equal(bars['t'][i:j],np.arange(codes[i],codes[i]+step,60000))]
 
 def atr(rows):
     if len(rows)<15:return None
@@ -48,6 +50,10 @@ class MarketFingerprint:
             result['RSI14_H1_simple']=float(100*gain/(gain+loss)) if gain+loss else 50.
         day=at//(24*HOUR)*(24*HOUR);prev=b[(b['t']>=day-24*HOUR)&(b['t']<day)]
         asia=b[(b['t']>=day)&(b['t']<day+6*HOUR)] if at>=day+6*HOUR else []
-        if len(prev):result.update(PDH_UTC=float(prev['bh'].max()/scale),PDL_UTC=float(prev['bl'].min()/scale))
-        if len(asia):result.update(Asian00_06_high=float(asia['bh'].max()/scale),Asian00_06_low=float(asia['bl'].min()/scale))
+        prev_ok=len(prev)==1440 and np.array_equal(prev['t'],np.arange(day-24*HOUR,day,60000))
+        asia_ok=len(asia)==360 and np.array_equal(asia['t'],np.arange(day,day+6*HOUR,60000))
+        result.update(previous_UTC_day_coverage='COMPLETE_M1_GRID' if prev_ok else 'INCOMPLETE_OR_MARKET_BREAK_UNVERIFIED',
+            Asian00_06_coverage='COMPLETE_M1_GRID' if asia_ok else 'INCOMPLETE_OR_NOT_YET_CLOSED')
+        if prev_ok:result.update(PDH_UTC=float(prev['bh'].max()/scale),PDL_UTC=float(prev['bl'].min()/scale))
+        if asia_ok:result.update(Asian00_06_high=float(asia['bh'].max()/scale),Asian00_06_low=float(asia['bl'].min()/scale))
         return result

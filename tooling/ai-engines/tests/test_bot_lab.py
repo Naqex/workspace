@@ -22,6 +22,15 @@ class BotLabTests(unittest.TestCase):
     def test_malformed_PE_never_loads_DLL(self):
         r=inspect_bytes(b'MZ'+b'\0'*100,'.dll')
         self.assertEqual(r['symbol_imports_status'],'MALFORMED_OR_UNSUPPORTED_PE');self.assertFalse(r['execution_performed'])
+    def test_market_frame_requires_exact_closed_minute_grid(self):
+        import numpy as np
+        from quant_core.market_data_store import BAR
+        from quant_core.bot_market_fingerprint import frame,HOUR
+        b=np.zeros(60,dtype=BAR);b['t']=np.arange(60)*60000
+        self.assertEqual(len(frame(b,HOUR,HOUR)),1)
+        self.assertEqual(frame(b,HOUR,HOUR-1),[])
+        b['t']+=1000;self.assertEqual(frame(b,HOUR,HOUR),[])
+        self.assertEqual(frame(b[:0],HOUR,HOUR),[])
     def test_calendar_filter_requires_review_not_a_proven_scam(self):
         p=inspect_bytes(b'if year == 2022:\n    skip = True\n','.py')
         self.assertEqual(p['findings'][0]['confidence'],'REVIEW_ONLY')
