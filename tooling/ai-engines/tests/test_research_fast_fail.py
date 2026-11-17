@@ -20,6 +20,11 @@ class FastFailTests(unittest.TestCase):
         for override in (dict(SL_active_validated=False),dict(development_years=[2024,2026])):
             c=dict(base,net_R=15,equity_R_DD=4,**override)
             self.assertFalse(development_gate(c,base,inputs_sha256='a',recipe_sha256='b')['passed'])
+    def test_invalid_magnitudes_boolean_clusters_and_baseline_scope_fail(self):
+        base=self.metrics();c=dict(base,net_R=15,equity_R_DD=4)
+        for value in (dict(c,static_R_loss=-1),dict(c,cluster_R=[True,True])):
+            self.assertFalse(development_gate(value,base,inputs_sha256='a',recipe_sha256='b')['passed'])
+        self.assertFalse(development_gate(c,dict(base,development_years=[2024,2026]),inputs_sha256='a',recipe_sha256='b')['passed'])
     def test_gate3_needs_real_committed_freeze_and_unchanged_source(self):
         base=self.metrics();d=development_gate(dict(base,net_R=15,equity_R_DD=4),base,inputs_sha256='a',recipe_sha256='b')
         with tempfile.TemporaryDirectory() as folder:

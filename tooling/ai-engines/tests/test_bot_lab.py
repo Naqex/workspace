@@ -12,6 +12,16 @@ class BotLabTests(unittest.TestCase):
         self.assertEqual(p['findings'],[])
     def test_multiplication_without_loss_is_not_declared_martingale(self):
         self.assertEqual(inspect_bytes(b'lot = lot * 2\n','.py')['findings'],[])
+    def test_fractional_loss_multipliers_are_detected(self):
+        for statement in ('lot *= 1.1','volume = volume * 1.5','qty *= 2.5'):
+            self.assertIn('MARTINGALE_GRID_TOXICITY',[v['flag'] for v in inspect_bytes(('if last_profit < 0:\n    '+statement).encode(),'.py')['findings']])
+    def test_csharp_market_order_entry_is_captured(self):
+        self.assertTrue(inspect_bytes(b'ExecuteMarketOrder(TradeType.Buy, SymbolName, lots);','.cs')['entry_logic'])
+    def test_large_log_row_count_is_bounded(self):
+        with self.assertRaisesRegex(ValueError,'ROW_LIMIT'):fingerprint([{}]*50001)
+    def test_malformed_PE_never_loads_DLL(self):
+        r=inspect_bytes(b'MZ'+b'\0'*100,'.dll')
+        self.assertEqual(r['symbol_imports_status'],'MALFORMED_OR_UNSUPPORTED_PE');self.assertFalse(r['execution_performed'])
     def test_calendar_filter_requires_review_not_a_proven_scam(self):
         p=inspect_bytes(b'if year == 2022:\n    skip = True\n','.py')
         self.assertEqual(p['findings'][0]['confidence'],'REVIEW_ONLY')
@@ -57,3 +67,10 @@ class BotLabTests(unittest.TestCase):
     def test_market_unknown_is_preserved(self):
         r=fingerprint([dict(open_time='2023-01-01T12:00Z',price=1,symbol='EURUSD')])
         self.assertEqual(r['geometry'][0]['market_features_status'],'MARKET_DATA_REQUIRED')
+    def test_size_escalation_uses_only_prior_closed_same_symbol(self):
+        a=dict(open_time='2023-01-01T10:00Z',close_time='2023-01-01T12:00Z',price=1,symbol='EURUSD',profit=-10,volume=1)
+        b=dict(open_time='2023-01-01T11:00Z',close_time='2023-01-01T13:00Z',price=1,symbol='EURUSD',profit=10,volume=2)
+        self.assertEqual(fingerprint([b,a])['size_escalations_after_loss'],0)
+        b['open_time']='2023-01-01T12:30Z'
+        self.assertEqual(fingerprint([b,a])['size_escalations_after_loss'],1)
+        b['symbol']='GBPUSD';self.assertEqual(fingerprint([b,a])['size_escalations_after_loss'],0)

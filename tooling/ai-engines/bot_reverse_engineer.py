@@ -7,12 +7,16 @@ def main():
     p=argparse.ArgumentParser(description=__doc__);g=p.add_mutually_exclusive_group(required=True)
     g.add_argument('--inspect',type=Path);g.add_argument('--clone-log',type=Path)
     p.add_argument('--log-timezone');p.add_argument('--market-store',type=Path)
+    p.add_argument('--friction',type=float);p.add_argument('--natural-sl',type=float);p.add_argument('--retention',type=float)
     a=p.parse_args();started=time.perf_counter();path=a.inspect or a.clone_log
     try:
         if not path.is_file() or path.is_symlink():raise ValueError('REGULAR_SAMPLE_FILE_REQUIRED')
         if path.stat().st_size>16*1024*1024:raise ValueError('INPUT_SIZE_LIMIT_16MIB')
         raw=path.read_bytes()
-        if a.inspect:r=inspect_bytes(raw,path.suffix.lower())
+        if a.inspect:
+            r=inspect_bytes(raw,path.suffix.lower())
+            from quant_core.research_fast_fail import toxicity_scale
+            r['prepared_scale_gate']=toxicity_scale(r,friction=a.friction,median_stop=a.natural_sl,retention=a.retention)
         else:
             market=None
             if a.market_store:

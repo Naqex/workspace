@@ -26,15 +26,17 @@ def development_gate(candidate,baseline,*,inputs_sha256,recipe_sha256):
     for key in required:
         if any(isinstance(r.get(key),bool) or not isinstance(r.get(key),(int,float)) or not math.isfinite(r[key]) for r in (candidate,baseline)):
             reasons.append('MISSING_OR_NONFINITE_'+key)
+        elif key!='net_R' and any(r[key]<0 for r in (candidate,baseline)):reasons.append('NEGATIVE_RISK_METRIC_'+key)
     if not reasons:
         if candidate['net_R']<=baseline['net_R']+1e-8:reasons.append('NET_NOT_HIGHER')
         if candidate['equity_R_DD']>=baseline['equity_R_DD']-1e-8:reasons.append('EQUITY_DD_NOT_LOWER')
         for key in ('static_R_loss','worst_daily_R','max_open_risk_USD'):
             if candidate[key]>baseline[key]+1e-8:reasons.append(key.upper()+'_INCREASED')
-    clusters=candidate.get('cluster_R',[])
-    if len(clusters)!=2 or any(not math.isfinite(v) or v<=0 for v in clusters):reasons.append('DUAL_CLUSTER_FAIL')
-    if candidate.get('development_years')!=[2018,2023]:reasons.append('DEVELOPMENT_SCOPE_REQUIRED')
-    if candidate.get('SL_active_validated') is not True or candidate.get('signal_contract_status')!='CAUSAL_FROZEN':reasons.append('CAUSAL_SL_ACTIVE_EVIDENCE_REQUIRED')
+    for item in (candidate,baseline):
+        clusters=item.get('cluster_R',[])
+        if len(clusters)!=2 or any(isinstance(v,bool) or not isinstance(v,(int,float)) or not math.isfinite(v) or v<=0 for v in clusters):reasons.append('DUAL_CLUSTER_FAIL')
+        if item.get('development_years')!=[2018,2023]:reasons.append('DEVELOPMENT_SCOPE_REQUIRED')
+        if item.get('SL_active_validated') is not True or item.get('signal_contract_status')!='CAUSAL_FROZEN':reasons.append('CAUSAL_SL_ACTIVE_EVIDENCE_REQUIRED')
     value=dict(schema='ResearchGate2-v1',gate=2,passed=not reasons,reasons=reasons,candidate=candidate,baseline=baseline,
         inputs_sha256=inputs_sha256,recipe_sha256=recipe_sha256)
     return dict(value,evidence_sha256=content_hash(value))

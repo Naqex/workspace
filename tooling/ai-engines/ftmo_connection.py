@@ -52,15 +52,23 @@ def trial_session(values,*,sdk=None,product=None,inventory=None):
     except FileExistsError:raise ValueError('OWNED_TRIAL_SESSION_LOCKED') from None
     os.close(fd)
     previous=os.environ.get('TW_V2_MT5_TERMINAL');os.environ['TW_V2_MT5_TERMINAL']=values[KEYS[3]]
-    process=None;initialized=False
+    process=None;initialized=False;job=None
     try:
         terminal,config=product.prepare_terminal(root,str(key),trading=False)
         sdk=sdk or __import__('MetaTrader5')
         startup=None
         if sys.platform=='win32':
             startup=subprocess.STARTUPINFO();startup.dwFlags|=subprocess.STARTF_USESHOWWINDOW;startup.wShowWindow=0
+        sys.path.insert(0,str(ROOT/'projects/trader/foundation_v2'))
+        from trading_workspace_v2.nautilus_worker import _WorkerOwnedJob
+        job=_WorkerOwnedJob()
         process=subprocess.Popen([str(terminal),'/portable',f'/config:{config}'],cwd=terminal.parent,
-            startupinfo=startup,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+            startupinfo=startup,creationflags=0x4,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+        job.assign(process)
+        import ctypes
+        resume=ctypes.WinDLL('ntdll').NtResumeProcess
+        resume.argtypes=[ctypes.c_void_p];resume.restype=ctypes.c_long
+        if resume(int(process._handle))!=0:raise ValueError('OWNED_PROCESS_RESUME_FAILED')
         if not sdk.initialize(str(terminal),login=int(values[KEYS[0]]),password=values[KEYS[1]],
                 server=values[KEYS[2]],timeout=10000,portable=True):raise ValueError(product.initialization_error(sdk))
         initialized=True;account=product.verify_identity(sdk,dict(login=values[KEYS[0]],server=values[KEYS[2]]))
@@ -80,20 +88,47 @@ def trial_session(values,*,sdk=None,product=None,inventory=None):
                 process.terminate()
                 try:process.wait(timeout=5)
                 except subprocess.TimeoutExpired:process.kill();process.wait(timeout=5)
-        finally:lock.unlink(missing_ok=True)
+        finally:
+            if job is not None:job.close()
+            lock.unlink(missing_ok=True)
 
 def quote_utc_msc(value,server):return int(product_module('mt5_clock').utc_msc(value,server))
 
-class ClockReader:
-    def __init__(self,reader):self.inner=reader;self.clock=product_module('mt5_clock')
-    def __getattr__(self,name):return getattr(self.inner,name)
-    def ticks(self,asset,first,end):
+class ClockSDK:
+    """Normalize every price/history clock before inherited causal checks run."""
+    def __init__(self,sdk,server):self.raw,self.server,self.clock=sdk,server,product_module('mt5_clock')
+    def __getattr__(self,name):return getattr(self.raw,name)
+    def rates(self,rows):
+        if rows is None:return None
+        return [dict(zip(r.dtype.names,r))|{'time':int(self.clock.utc_seconds(r['time'],self.server))} for r in rows]
+    def copy_rates_from_pos(self,*args):return self.rates(self.raw.copy_rates_from_pos(*args))
+    def copy_rates_range(self,asset,tf,first,end):
+        lo,hi=self.clock.history_range(first,end,self.server)
+        rows=self.rates(self.raw.copy_rates_range(asset,tf,lo,hi))
+        return None if rows is None else [r for r in rows if first.timestamp()<=r['time']<=end.timestamp()]
+    def history_deals_get(self,first,end):
+        lo,hi=self.clock.history_range(first,end,self.server);rows=self.raw.history_deals_get(lo,hi)
+        if rows is None:return None
+        out=[]
+        for r in rows:
+            at=self.clock.utc_seconds(r.time,self.server)
+            if first.timestamp()<=at<=end.timestamp():out.append(r._replace(time=int(at)))
+        return out
+    def copy_ticks_range(self,asset,first,end,flags):
         from datetime import datetime,timezone
-        server=self.inner.account()['server']
-        lo,hi=self.clock.history_range(datetime.fromtimestamp(first/1000,timezone.utc),datetime.fromtimestamp(end/1000,timezone.utc),server)
-        raw=self.inner.ticks(asset,int(lo.timestamp()*1000),int(hi.timestamp()*1000))
+        lo,hi=self.clock.history_range(first,end,self.server);raw=self.raw.copy_ticks_range(asset,lo,hi,flags)
+        if raw is None:return None
         out=[]
         for r in raw:
-            at=int(self.clock.utc_msc(r['time_msc'],server))
-            if first<=at<end:out.append(dict(r,time_msc=at,source_time_msc=r['time_msc']))
+            at=int(self.clock.utc_msc(r['time_msc'],self.server))
+            if first.timestamp()*1000<=at<=end.timestamp()*1000:
+                out.append(dict(time_msc=at,bid=r['bid'],ask=r['ask'],flags=r['flags']))
         return out
+
+class ClockReader:
+    def __init__(self,reader):
+        self.inner=reader
+        from ftmo_free_trial_adapter import NativeMT5Reader
+        self.normalized=NativeMT5Reader.__new__(NativeMT5Reader)
+        self.normalized.sdk=ClockSDK(reader.sdk,reader.account()['server'])
+    def __getattr__(self,name):return getattr(self.normalized,name)

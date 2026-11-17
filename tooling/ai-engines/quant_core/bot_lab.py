@@ -3,7 +3,7 @@ from dataclasses import dataclass,asdict
 from datetime import datetime,timezone
 from html.parser import HTMLParser
 from pathlib import Path
-import ast,csv,hashlib,io,json,math,re,tokenize
+import ast,csv,hashlib,io,json,math,re,tokenize,heapq
 
 SOURCE={'.py','.mq4','.mq5','.cs','.pine'}
 BINARY={'.ex4','.ex5','.dll','.pyc'}
@@ -32,17 +32,20 @@ def inspect_bytes(raw,suffix):
     if len(raw)>16*1024*1024:raise ValueError('BOT_SIZE_LIMIT_16MIB')
     digest=hashlib.sha256(raw).hexdigest();findings=[]
     if suffix in BINARY:
+        from quant_core.binary_bot_metadata import pe_imports
         strings=[s.decode('ascii',errors='replace') for s in re.findall(rb'[\x20-\x7e]{4,200}',raw)]
         strings += [s.decode('utf-16le',errors='replace') for s in re.findall(rb'(?:[\x20-\x7e]\x00){4,200}',raw)]
         names=sorted({n for s in strings for n in re.findall(r'(?:iMA|iATR|iRSI|iBands|iCustom|OrderSend|OrderClose|Buy|Sell|[A-Za-z0-9_]+\.dll)',s)})
+        imports=pe_imports(raw)
         return dict(schema='BotBinaryForensics-v1',sha256=digest,format=suffix,bytes=len(raw),
             string_signatures=names[:256],PE_header=raw[:2]==b'MZ',python_magic_hex=raw[:4].hex() if suffix=='.pyc' else None,
-            symbol_imports_status='NOT_PARSED',logic_recovery='UNAVAILABLE_FROM_STRINGS',
+            binary_imports=imports,symbol_imports_status=imports['status'],logic_recovery='UNAVAILABLE_FROM_STRINGS',
             admission='BINARY_ONLY_REVIEW_REQUIRED',execution_performed=False,confidence='LOW',
             limits=['Strings may be absent, dead or obfuscated; absence is not proof of safety.',
                 'No original source recovery, DRM removal, DLL load or pyc deserialization.'])
     text=raw.decode('utf-16' if raw.startswith((b'\xff\xfe',b'\xfe\xff')) else 'utf-8-sig')
     if suffix=='.py':
+        if len(raw)>1048576:raise ValueError('SOURCE_AST_SIZE_LIMIT_1MIB')
         tree=ast.parse(text)
         # Evidence from parsed nodes only; never import or evaluate the sample.
         lines=text.splitlines()
@@ -62,7 +65,8 @@ def inspect_bytes(raw,suffix):
     sizing=evidence(r'lot|volume|multiplier|qty|position_size')
     for row in sizing:
         i=row['line']-1;context='\n'.join(lines[max(0,i-8):min(len(lines),i+9)])
-        multiply=re.search(r'\b(?:lot\w*|volume\w*|qty)\s*(?:\*=\s*(?:[2-9]\d*(?:\.\d+)?|multiplier)|=\s*(?:lot\w*|volume\w*|qty)\s*\*\s*(?:[2-9]\d*|multiplier))',lines[i],re.I)
+        multiply=re.search(r'\b(?:lot\w*|volume\w*|qty)\s*(?:\*=\s*|=\s*(?:lot\w*|volume\w*|qty)\s*\*\s*)(\d+(?:\.\d+)?|\.\d+|multiplier)\b',lines[i],re.I)
+        multiply=bool(multiply and (multiply[1].casefold()=='multiplier' or float(multiply[1])>1))
         loss=re.search(r'(?:profit|pnl|unrealized)\w*\s*<\s*0|last_loss|after_loss|averaging_down',context,re.I)
         if multiply and loss:
             findings.append(dict(flag='MARTINGALE_GRID_TOXICITY',confidence='HIGH_STATIC_PATTERN',evidence=row,
@@ -80,7 +84,7 @@ def inspect_bytes(raw,suffix):
     if re.search(r'(?:exec|eval|__import__|pickle\.loads|subprocess|WebRequest|DllImport)\s*\(',code):
         findings.append(dict(flag='DYNAMIC_OR_EXTERNAL_BEHAVIOR',confidence='REVIEW_ONLY',evidence=evidence(r'exec|eval|__import__|pickle|subprocess|WebRequest|DllImport')))
     profile=BotDNAProfile('BotDNAProfile-v1',digest,suffix,indicators,timeframes,
-        evidence(r'\b(?:if|elif)\b|OrderSend|\.Buy\(|\.Sell\(|order_send|strategy\.entry'),
+        evidence(r'\b(?:if|elif)\b|OrderSend|\.Buy\(|\.Sell\(|ExecuteMarket(?:Range)?Order|order_send|strategy\.entry'),
         evidence(r'stop.?loss|\bsl\b|take.?profit|\btp\b|trail|breakeven|strategy\.exit'),
         evidence(r'hour|session|weekday|dayofweek|calendar|TimeHour'),sizing,findings,
         'PYTHON_AST_AND_STRUCTURAL_EVIDENCE' if suffix=='.py' else 'STRUCTURAL_PATTERNS_NOT_FULL_COMPILER',
@@ -115,8 +119,17 @@ def log_rows(raw,suffix):
 
 def fingerprint(rows,*,timezone_name=None,market_bars=None):
     from zoneinfo import ZoneInfo
-    hours={};geometry=[];lots=[];previous=None;escalations=0
-    for r in rows:
+    if len(rows)>50000:raise ValueError('LOG_ROW_LIMIT_50000')
+    hours={};geometry=[];pending=[];latest={};escalations=0;unknown_loss_context=0
+    def clock(value):
+        d=datetime.fromisoformat(str(value).replace('Z','+00:00'))
+        if d.tzinfo is None:
+            if timezone_name is None:raise ValueError('LOG_TIMEZONE_REQUIRED_NO_SERVER_GUESS')
+            d=d.replace(tzinfo=ZoneInfo(timezone_name))
+            if d.replace(fold=0).utcoffset()!=d.replace(fold=1).utcoffset() or d.astimezone(timezone.utc).astimezone(d.tzinfo).replace(tzinfo=None)!=d.replace(tzinfo=None):raise ValueError('AMBIGUOUS_LOG_CLOCK')
+        return d
+    rows=sorted(rows,key=lambda r:clock(r['open_time']))
+    for serial,r in enumerate(rows):
         at=datetime.fromisoformat(str(r['open_time']).replace('Z','+00:00'))
         if at.tzinfo is None:
             if timezone_name is None:raise ValueError('LOG_TIMEZONE_REQUIRED_NO_SERVER_GUESS')
@@ -127,13 +140,24 @@ def fingerprint(rows,*,timezone_name=None,market_bars=None):
         stamp=int(at.timestamp()*1000);hour=at.astimezone(timezone.utc).hour;hours[hour]=hours.get(hour,0)+1
         price=float(r['price']);sl=float(r.get('sl') or 0);tp=float(r.get('tp') or 0)
         if not all(math.isfinite(v) for v in (price,sl,tp)) or price<=0:raise ValueError('INVALID_TRADE_GEOMETRY')
-        if previous is not None and float(previous.get('profit') or 0)<0 and float(r.get('volume') or 0)>float(previous.get('volume') or 0)*1.5:escalations+=1
+        volume=float(r.get('volume') or 0);profit=float(r.get('profit') or 0)
+        if not all(math.isfinite(v) for v in (volume,profit)) or volume<0:raise ValueError('INVALID_LOG_VOLUME_OR_PROFIT')
+        while pending and pending[0][0]<=stamp:
+            end,_,item=heapq.heappop(pending);latest[item['symbol']]=item
+        if r['symbol'] in latest:
+            previous=latest[r['symbol']]
+            if previous['profit']<0 and previous['volume']>0 and volume>previous['volume']*1.5:escalations+=1
+        else:unknown_loss_context+=1
         g=dict(symbol=r['symbol'],entry_msc=stamp,SL_distance=abs(price-sl) if sl>0 else None,TP_distance=abs(tp-price) if tp>0 else None,
             market_features_status='MARKET_DATA_REQUIRED',causal_strategy_recovered=False)
         if market_bars is not None:
             g.update(market_bars(r['symbol'],stamp,price,sl,tp))
-        geometry.append(g);previous=r
+        geometry.append(g)
+        if r.get('close_time'):
+            end=int(clock(r['close_time']).timestamp()*1000)
+            if end<stamp:raise ValueError('LOG_CLOSE_BEFORE_ENTRY')
+            heapq.heappush(pending,(end,serial,dict(symbol=r['symbol'],close=end,volume=volume,profit=profit)))
     return dict(schema='TradeLogFingerprint-v1',trades=len(rows),session_hour_UTC=hours,geometry=geometry,
-        size_escalations_after_loss=escalations,algorithm_identifiable=False,
+        size_escalations_after_loss=escalations,unknown_prior_closed_loss_context=unknown_loss_context,algorithm_identifiable=False,
         quant_core_contract='OBSERVED_LOG_REPLAY_ONLY_NOT_CAUSAL_ALPHA',
         automatic_2018_2026_backtest=False,limits=['Trade logs alone do not identify a unique signal, missed trades or counterfactual fills.'])
