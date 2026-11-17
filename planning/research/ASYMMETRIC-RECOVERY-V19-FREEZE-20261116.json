@@ -1,0 +1,92 @@
+{
+  "schema": "V19-Dev-selection-v1",
+  "selected_profile": {
+    "name": "BASE_GUARD",
+    "gamma": null,
+    "weights": {
+      "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 1.0,
+      "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 1.0,
+      "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0
+    }
+  },
+  "eligible_risk_improvement": false,
+  "prop_qualified": false,
+  "ranking": [
+    {
+      "profile": {
+        "name": "BASE_GUARD",
+        "gamma": null,
+        "weights": {
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 1.0,
+          "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 1.0,
+          "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0
+        }
+      },
+      "worst_completions": 0,
+      "slowest_restricted_months": 36.51289071412275,
+      "lowest_standalone_payout": 1608.79,
+      "worst_daily": 1.358676,
+      "worst_static": 8.3997,
+      "breaches": 0
+    },
+    {
+      "profile": {
+        "name": "O1_G035",
+        "gamma": 0.35,
+        "weights": {
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 1.0,
+          "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 1.0,
+          "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0
+        }
+      },
+      "worst_completions": 0,
+      "slowest_restricted_months": 36.51289071412275,
+      "lowest_standalone_payout": 1525.18,
+      "worst_daily": 1.35706,
+      "worst_static": 8.39332,
+      "breaches": 0
+    },
+    {
+      "profile": {
+        "name": "O1_G050",
+        "gamma": 0.5,
+        "weights": {
+          "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 1.0,
+          "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 1.0,
+          "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 1.0
+        }
+      },
+      "worst_completions": 0,
+      "slowest_restricted_months": 36.51289071412275,
+      "lowest_standalone_payout": 1500.67,
+      "worst_daily": 1.35706,
+      "worst_static": 8.39806,
+      "breaches": 0
+    }
+  ],
+  "Dev_bindings": {
+    "Dev-OLHC-PRIMARY-100-summary.json": "9f50a677606ada6aed82634c6bc04a11407323a6369b57d4b35f8babf71a28a4",
+    "Dev-OLHC-PRIMARY-150-summary.json": "be67a6113d8976b0f8f2b321b09b15ac433fc1d7561b2cd68901ef24f03e3432",
+    "Dev-OLHC-STRICT-100-summary.json": "05ebdff40b4b121227e09793749bb371b87ea9808c0e6d61cf557345e5969d4a",
+    "Dev-OLHC-STRICT-150-summary.json": "6c20f97af9924e167f996b4076ed97363337725b36c484efb82f481649708db0",
+    "Dev-OHLC-PRIMARY-100-summary.json": "e99f42877fbd527a224d4d4890681ef957a1fa647f7d1c38a1815c899d35625a",
+    "Dev-OHLC-PRIMARY-150-summary.json": "6c0bbace80a58e5d0253fe519fb3fa9a364c78243d6318b58c3c26070657a23f",
+    "Dev-OHLC-STRICT-100-summary.json": "32568e11e0116fb96afca815c107f378adc543da1674e77183a6050a3e5802c7",
+    "Dev-OHLC-STRICT-150-summary.json": "f12b5a76c190b5039635bbe6745202ac3fbb6df6ef399db92a52cd1a207a009a"
+  },
+  "fit_sha256": "a2b94dbe56dfcce08f61b8c54dfae5f466c37c603220aa7078eb3b1860180c38",
+  "code_pins": {
+    "planning\\research\\ASYMMETRIC-RECOVERY-V19-PROTOCOL-20261116.md": "8fcb70eb92501aab4f705b55ab1d899f03aee45b12447b7c560cae6fed749777",
+    "tooling\\ai-engines\\prop_v19_accounts.py": "c248965bf227522113a9b0eb682690330fc2272c01b7015c4c4fa7e5ecd16ec5",
+    "tooling\\ai-engines\\prop_v19_campaign.py": "cc1ce3831b9a1de9f4d4d21e44f1a0c0678ea15d4fd01b0335863c1413ced2c4",
+    "tooling\\ai-engines\\prop_v19_common.py": "74252b02b17b029069fe583464d864c90c8936d8e78800b94ad0dcc7d990b60f",
+    "tooling\\ai-engines\\prop_v19_paths.py": "5fe582e84b2096a5347be4481c23427a19454cf725769fb47b6e7185edc7457c",
+    "tooling\\ai-engines\\prop_v19_sources.py": "c21ecfcf3df4f842e586fb9906c2b66c0d88b0435a4ee0286583edaa46c94168",
+    "tooling\\ai-engines\\prop_v19_stress.py": "a9949ce6892b6440935d9c2d5a11480e43abc56681487d72df43b4b94080adb0",
+    "tooling\\ai-engines\\quant_core\\asymmetric_opportunity_optimizer.py": "815928b82c76f7b22d43098790031ce00996e5c5f5c6b76e07fbaef58059c5b2"
+  },
+  "seed": 20261116,
+  "paths": 5000,
+  "validation_already_exposed": true,
+  "no_Validation_outcome_selection": true
+}

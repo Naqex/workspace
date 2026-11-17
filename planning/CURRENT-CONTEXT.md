@@ -1,8 +1,39 @@
 # Current context — Naqex Workspace
 
-16/11/2026 · `RESEARCH: V18_NO_CERTIFIED_CHAMPION · SYSTEM: SOURCE_UNCERTAINTY_REMAINS · PROP: NOT_QUALIFIED`.
+16/11/2026 · `RESEARCH: V19_COMPLETE · SYSTEM: OFFLINE_ADAPTER_VERIFIED · PROP: NOT_QUALIFIED`.
 
 ## Việc hiện tại
+
+**V19 hoàn tất phép đo; chưa có nâng cấp CPPI hoặc gap-immunization đủ chứng cứ.**
+[Kết quả](research/ASYMMETRIC-RECOVERY-V19-RESULTS-20261116.md) /
+[JSON](research/ASYMMETRIC-RECOVERY-V19-RESULTS-20261116.json) /
+[protocol](research/ASYMMETRIC-RECOVERY-V19-PROTOCOL-20261116.md) /
+[freeze](research/ASYMMETRIC-RECOVERY-V19-FREEZE-20261116.json).
+PR #97/head `014e1eb` đạt 3CI, merge `beaabdd`; nhánh V18 đã xóa.
+Giữ `BASE_GUARD`; O1 không thắng. [O2 correction](research/V19-O2-CONSTRAINT-CORRECTION-20261116.md)
+fit đúng covariance objective trên Dev, giảm unit-book variance 44,53% nhưng
+không thắng hai gate lifecycle. Correction đăng ký sau baseline Validation
+exposure; không claim clean OOS hoặc sửa freeze `9aaaf29`.
+3.504 Dev ledgers và 120.000 MC ledgers kiểm toàn bộ, cùng tác giả/feed.
+V19 PRIMARY: +42,39R tham chiếu, 71/105 hoàn tất, median 48,06 tháng;
+STRICT: −5,05R, 0/105. Recent starts 0/33; các mốc có thời gian quan sát khác nhau.
+Bootstrap PRIMARY hai vòng/24 tháng 14,50%, không là xác suất tương lai.
+32/494 lệnh vẫn source-uncertain; probes không có quote mới. Guard 30 phút
+loại 0 tín hiệu; Full có 2 timeout requests, đóng ở quote sau timeout.
+[Adapter](research/FTMO-FREE-TRIAL-ADAPTER-V19-20261116.md) có read-only/shadow,
+38 regression tests, hai CLI và six-prefix parity; chưa attach MT5 thật.
+Đã đọc lại được public FTMO rules; account specs/news/seed vẫn chưa xác minh.
+Full suite 1.216 PASS/0 skip, giữ đủ 1.153 V18 IDs, wall 15,580s.
+Smoke đúng 10 fresh processes: 7/10 <0,78s, max 0,827s; chưa đạt target,
+không retry lấy streak. Storage D +1,76MiB/E +1,52GiB, giữ evidence/nguồn.
+Private job `execution-v1/asymmetric-recovery-and-mt5-v19-20261116` giữ
+mọi attempts, source bindings, journals, benchmark và storage receipts.
+PR #98 để mở trên `codex/asymmetric-recovery-and-mt5-v19`; exact-head CI và
+downloaded IDs được chốt ở `ci-exact-head-reconciliation.json`/`completion-receipt.json`
+trong job sau push; không sửa HEAD chỉ để ghi chính CI SHA của nó.
+Không mua/reset account/broker orders/deploy; giữ VI WIP/Trader pin/nguồn.
+
+## V18 đã merge (lịch sử)
 
 **V18 đã hoàn tất kiểm định; chưa đủ chứng cứ mua Challenge hoặc bật bot Free Trial.**
 [Báo cáo buổi sáng](research/MORNING-EXECUTIVE-SUMMARY-20261116.md) /
@@ -12,7 +43,7 @@
 [freeze](research/FINAL-CONVERGENCE-V18-FREEZE-20261116.json) /
 [Free Trial kit](research/FTMO-FREE-TRIAL-EXECUTION-SPEC-20261116.md).
 PR #96/exact head `ee97543` đạt 3CI, merge `92569ca`; nhánh V17 đã xóa.
-Nhánh hiện tại `codex/final-convergence-v18`: protocol `50c474f`, freeze `bec7fe1`.
+Nhánh của đợt V18 `codex/final-convergence-v18`: protocol `50c474f`, freeze `bec7fe1`.
 Tournament V1–V17: V16 là tham chiếu tốc độ, V17 là dự phòng Funded trong mô hình,
 chưa có Champion/Ultra-Safe certified. V16 PRIMARY +42,30R, 71/105 hoàn tất,
 median 47,08 tháng; STRICT −5,05R, 1/105. Phí 1,50×: PRIMARY còn 7/105.
@@ -27,7 +58,7 @@ Storage snapshot giảm ròng 116,04 GiB/156.924 files so canonical V9,
 không coi tất cả là rác hoặc physical space reclaimed; D giữ 2 lỗi đọc VI.
 Private job `execution-v1/final-convergence-v18-20261116`: kết quả/audit/
 tests/storage receipts đã hoàn tất; không có financial job còn chạy.
-PR #97 để mở; exact-head CI và downloaded 1.153 IDs đối soát sau push bằng
+PR #97 đã merge trong V19; exact-head CI và downloaded 1.153 IDs đã đối soát bằng
 `ci-exact-head-reconciliation.json` / `completion-receipt.json` trong private job.
 Chưa broker/deploy/account mới. Kit chỉ chuẩn bị capture/parity, chưa là EA;
 terms hiện hành chưa xác minh lại thành công, snapshot 02/11 chỉ tham chiếu.

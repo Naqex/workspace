@@ -7,3 +7,13 @@ docs/archive/** -text -diff
 # Frozen study registration pins exact protocol bytes across checkouts.
 planning/research/PROP-HISTORICAL-ROBUSTNESS-20261105.md -text
 planning/research/PROP-HISTORICAL-ROBUSTNESS-20261105.json -text
+# V18/V19 registrations hash LF bytes; keep them stable under Windows autocrlf.
+planning/research/FINAL-CONVERGENCE-V18-PROTOCOL-20261116.md text eol=lf
+planning/research/ASYMMETRIC-RECOVERY-V19-PROTOCOL-20261116.md text eol=lf
+tooling/ai-engines/prop_v18_*.py text eol=lf
+tooling/ai-engines/prop_v19_*.py text eol=lf
+tooling/ai-engines/quant_core/asymmetric_opportunity_optimizer.py text eol=lf
+planning/research/V19-O2-CONSTRAINT-CORRECTION-20261116.md text eol=lf
+tooling/ai-engines/v19_*.py text eol=lf
+tooling/ai-engines/quant_core/asymmetric_covariance_optimizer.py text eol=lf
+tooling/ai-engines/ftmo_free_trial_adapter.py text eol=lf
