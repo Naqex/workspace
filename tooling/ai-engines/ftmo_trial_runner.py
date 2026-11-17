@@ -500,6 +500,8 @@ def dispatch(a,p):
     if a.watch_mt5:
         if a.check_mt5_ready or a.replay or a.bridge or a.mode!="read-only":p.error("watch only supports native read-only capture")
         from prop_v23_common import JOB as watch_root
+        if a.credentials_active:
+            from prop_v24_common import JOB as watch_root
         out=a.output or watch_root/("watch-"+datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ"))
         try:r=watch_mt5(out,timeout=a.watch_timeout,poll_seconds=a.watch_poll_seconds,capture_seconds=a.seconds,
             terminal=a.terminal,manifest=a.manifest,expected_binding=a.expected_binding)
@@ -509,12 +511,16 @@ def dispatch(a,p):
     if a.check_mt5_ready:
         if a.replay or a.bridge or a.manifest:p.error("readiness check is separate from replay/shadow manifests")
         from prop_v22_common import JOB as check_root
+        if a.credentials_active:
+            from prop_v24_common import JOB as check_root
         out=a.output or check_root/("preflight-"+datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ"))
         out.mkdir(parents=True,exist_ok=False)
         result=check_mt5_ready(terminal=a.terminal,expected_binding=a.expected_binding);write(out/"MT5_PREFLIGHT.json",result)
         print(json.dumps(dict(result,output=str(out))))
         return 0 if result["read_only_ready"] else 2
     from prop_v20_common import JOB
+    if a.credentials_active:
+        from prop_v24_common import JOB
     out=a.output or JOB/("observer-"+datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ"))
     try:run(a.mode,out,manifest=a.manifest,bridge=a.bridge,replay=a.replay,seconds=a.seconds,speed=a.speed,terminal=a.terminal,
         require_native=a.credentials_active,expected_binding=a.expected_binding)

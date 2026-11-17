@@ -9,6 +9,7 @@ REPORT=Path('planning/research/PARETO-MT5-BOT-LAB-V24-RESULTS-20261117')
 def report():
     tests=read(JOB/'tests-release-verified-summary.json');smoke=read(JOB/'smoke-release-summary.json')
     inventory=read(JOB/'connector-inventory-summary.json');lab=read(JOB/'seed-corpus-summary-final.json')
+    corpus=read(JOB/'inventoried-bot-static-summary.json')
     decision=read(JOB/'P80-Development-decision.json');native=read(JOB/'actual-no-credentials-CLI.json')
     assert tests['passed'] and tests['tests']>=1310 and tests['preserved_V23_IDs']==1295
     assert not decision['passed'] and decision['new_historical_children']==decision['new_bootstrap_children']==0
@@ -22,7 +23,7 @@ def report():
             m=read(p)
             if m.get('file','').endswith('.json.zst'):
                 unpack(m['file'][:-9]);manifests.append(m)
-    result=dict(schema='V24-results-v1',tests=tests,smoke=smoke,inventory=inventory,lab=lab,Development=decision,
+    result=dict(schema='V24-results-v1',tests=tests,smoke=smoke,inventory=inventory,lab=lab,inventoried_bot_corpus=corpus,Development=decision,
         native_CLI=native,source_pins=source_pins,compressed_manifests=manifests,
         performance_targets_met=tests['wall']<12.5 and smoke['below065']==10,
         implemented=['New Trial env-file rotation using pinned product isolation/clock','Bounded static source/binary inspection',
@@ -62,6 +63,9 @@ def report():
         f"{inventory['skipped_large']} large candidate files skipped. Maxdepth18; generated folders pruned. "
         'Không gọi đây là toàn bộ nội dung mọi file/dependency. Full redacted list và Git-history metadata nằm trong Zstd private; '
         'không password/account values vào báo cáo hoặc Git. Lần Python walk đầu quá chậm được giữ receipt và thay bằng rg traversal.','',
+        '48.425 errors là FileNotFoundError, chủ yếu generated/long paths, cộng1 rg traversal error; '
+        'đó là scan gaps, không phải48.426 connector hỏng và không bị biến thành coverage100%. '
+        'Không thay quyền hệ thống để ép đọc các cây không liên quan.','',
         'Dùng `--credentials-file config/ftmo_free_trial.env` hoặc bốn environment keys. '
         'Đúng FTMO Demo/Trial USD mới được nhận; không đổi terminal Trader đang chạy. Lock theo account, '
         'process tree riêng tắt Experts/DLL. Snapshot/parity và ticks/rates/deals dùng clock helper product, '
@@ -109,6 +113,10 @@ def report():
         'được inspect trong scope scanner, giữ SHA. Martingale fractional>1 trong loss context, literalSL0, date-condition review '
         'và friction ratio có flags. Không có ground truth corpus để tuyên bố100% real-world recall hoặc mọi bot không flag đều sạch. '
         'Hardcoded dates có thể là holiday hợp lệ, multiplier có thể là sizing hợp lệ; manual reachability/context vẫn cần.','',
+        f"Ngoài seed, toàn bộ **{corpus['paths']}** MQL source/binary paths tìm được được inspect tĩnh, "
+        f"**{corpus['unique_content_profiles']}** profile nội dung duy nhất sau dedup, **{corpus['failures']}** parse/access failures. "
+        'Đây gồm example/library/utility và bản sao backup, không phải1.016 chiến lược độc lập. '
+        'Raw profiles/flags SHA-bound ở Zstd private; không chạy EX5 hoặc promote bằng absence-of-flags.','',
         '**Chưa có engine tự khôi phục causal bot tương đương từ EX5/trade logs hoặc tự chạy9năm.** '
         'Đã có fingerprint/typed translation gate; thuật toán không định danh duy nhất từ các đầu vào này. '
         'Không ghi timestamp trades thành alpha giả hoặc lách Dev bằng outcome. '

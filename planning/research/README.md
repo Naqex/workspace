@@ -1,5 +1,16 @@
 # Tra cứu research đã có
 
+**V24 — P80 fail; connector reuse/static Bot Lab có implementation, speed targets chưa đạt:**
+[Kết quả](PARETO-MT5-BOT-LAB-V24-RESULTS-20261117.md) /
+[JSON](PARETO-MT5-BOT-LAB-V24-RESULTS-20261117.json) /
+[protocol](PARETO-MT5-BOT-LAB-V24-PROTOCOL-20261117.md) /
+[playbook](BOT-REVERSE-LAB-PLAYBOOK.md).
+P8032,278R nhưngDD14,673R/openrisk314,52USD vượtbaseline;0Full/MCchild, giữBASE_GUARD.
+Reuse Trader isolation/clock/account binding, credential rotation mới chưa native acceptance.
+1.016inventoriedMQL/EX5→420staticprofiles,3controls/18trackedsources; chưa causal clone tự động.
+1.335PASS/0skip, full13,278s/smoke0/10<.65: performance chưađạt. D/Escan gaps ghi rõ;
+source/freezes/VIWIP/Traderpin giữ nguyên. PR103/current CI theo[current context](../CURRENT-CONTEXT.md).
+
 **V23 — A1 qua Dev nhưng chưa thắng toàn kỳ; performance target chưa đạt:**
 [Kết quả](SLEEVE-ABLATION-MT5-V23-RESULTS-20261117.md) /
 [JSON](SLEEVE-ABLATION-MT5-V23-RESULTS-20261117.json) /

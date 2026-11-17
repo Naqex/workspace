@@ -1,8 +1,36 @@
 # Current context — Naqex Workspace
 
-17/11/2026 · `RESEARCH: V23_A1_NOT_PROMOTED · PERF: TARGET_NOT_MET · SYSTEM: WATCHER_NO_TARGET_TERMINAL · PROP: NOT_QUALIFIED`.
+17/11/2026 · `RESEARCH: V24_P80_REJECTED · LAB: STATIC_INSPECTION · PERF: TARGET_NOT_MET · SYSTEM: TRIAL_LOGIN_UNVERIFIED · PROP: NOT_QUALIFIED`.
 
 ## Việc hiện tại
+
+**V24: connector reuse/Bot Lab có source và fixtures; P80 rớt, speed targets chưa đạt.**
+[Kết quả](research/PARETO-MT5-BOT-LAB-V24-RESULTS-20261117.md) /
+[JSON](research/PARETO-MT5-BOT-LAB-V24-RESULTS-20261117.json) /
+[protocol](research/PARETO-MT5-BOT-LAB-V24-PROTOCOL-20261117.md) /
+[playbook](research/BOT-REVERSE-LAB-PLAYBOOK.md) / [PR103](https://github.com/Naqex/workspace/pull/103).
+PR102/head19bf58c đã merge555c2bd; nhánh V23 local/remote đã xóa. Nhánh
+`codex/pareto-mt5-and-bot-lab-v24`; registration220550d trước outcome.
+Reuse pinned Trader portable connector/clock/WindowsJob, env-file mới ignore,
+không decrypt secret cũ/switch terminal product; configured account binding, ticks/rates/deals UTC.
+Native no-credential preflight/watch không terminal; new Trial login/capture và actual clock parity chưa kiểm.
+Bot Lab source/binary/PE/log fingerprint, không execute/import unknown sample hoặc tự khôi phục causal algo.
+D/E inventory272.988 candidates/4.821 matches;1.016 MQL/EX5 paths→420 unique profiles;
+48.425 long-path FileNotFound +1traversal error, không gọi full-tree coverage100%.
+3synthetic controls pass/18tracked strategy sources; static absence-of-flags chưa là safety/edge.
+P80 fixed1,30/.70/.70 giữ340 Dev trades:32,2779R nhưngDD14,6735R>12,2065R,
+maxopen314,52>312,80USD; Gate2fail cảordering.0new105-start/5000-draw children.
+Giữ V16/V19 BASE_GUARD, không chọn bằng2024+, không tăng risk hoặc promote bot.
+1.335 PASS/0skip, giữ1.295 V23 IDs; final source6workers13,2784s>12,5s;
+smoke release78IDs10runs:0/10<.65/max.712075s; mục tiêu<.55 cũng0/10.
+Log buffering thử không cải thiện đã revert; giữ mọi attempts, thiếuPyYAML/correction,
+đo source mới sau exact-minute-grid fix; không retry chọn streak.
+Private job `execution-v1/pareto-mt5-bot-lab-v24-20261117` giữ source inventory/Zstd,
+reviews/corrections, P80 decision, performance samples, native process-tree smoke/CLI receipts.
+Không worker còn chạy. PR103 để mở; exact-head3CI/downloaded IDs/completion receipt chốt sau push.
+Giữ Trader pin930fa768 và VI WIP, không broker orders/deploy/payout thật.
+
+## V23 đã merge (lịch sử)
 
 **V23: hoàn tất kiểm định A1; giữ V16/V19 BASE_GUARD, chưa đạt mục tiêu hiệu năng.**
 [Kết quả](research/SLEEVE-ABLATION-MT5-V23-RESULTS-20261117.md) /

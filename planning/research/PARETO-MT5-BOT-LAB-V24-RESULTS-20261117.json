@@ -1,0 +1,393 @@
+{
+  "schema": "V24-results-v1",
+  "tests": {
+    "passed": true,
+    "tests": 1335,
+    "preserved_V23_IDs": 1295,
+    "zero_skip": true,
+    "wall": 13.278444399998989,
+    "target_under125": false,
+    "new_IDs": [
+      "test_bot_lab.BotLabTests.test_binary_ASCII_and_UTF16_are_evidence_only",
+      "test_bot_lab.BotLabTests.test_binary_cannot_pass_scale_gate",
+      "test_bot_lab.BotLabTests.test_calendar_filter_requires_review_not_a_proven_scam",
+      "test_bot_lab.BotLabTests.test_comments_and_docstrings_are_not_live_code",
+      "test_bot_lab.BotLabTests.test_csharp_market_order_entry_is_captured",
+      "test_bot_lab.BotLabTests.test_fractional_loss_multipliers_are_detected",
+      "test_bot_lab.BotLabTests.test_large_log_row_count_is_bounded",
+      "test_bot_lab.BotLabTests.test_literal_MT4_no_SL_is_detected",
+      "test_bot_lab.BotLabTests.test_log_formats_share_canonical_semantics",
+      "test_bot_lab.BotLabTests.test_log_rejects_nan_and_dst_ambiguity",
+      "test_bot_lab.BotLabTests.test_loss_linked_lot_multiplication_is_flagged",
+      "test_bot_lab.BotLabTests.test_malformed_PE_never_loads_DLL",
+      "test_bot_lab.BotLabTests.test_market_frame_requires_exact_closed_minute_grid",
+      "test_bot_lab.BotLabTests.test_market_unknown_is_preserved",
+      "test_bot_lab.BotLabTests.test_multiplication_without_loss_is_not_declared_martingale",
+      "test_bot_lab.BotLabTests.test_naive_log_time_needs_explicit_timezone",
+      "test_bot_lab.BotLabTests.test_pine_and_CSharp_indicator_names",
+      "test_bot_lab.BotLabTests.test_python_order_dictionary_no_SL_is_detected",
+      "test_bot_lab.BotLabTests.test_sensitive_source_lines_are_redacted",
+      "test_bot_lab.BotLabTests.test_size_escalation_uses_only_prior_closed_same_symbol",
+      "test_bot_lab.BotLabTests.test_source_never_runs_imports_or_side_effects",
+      "test_bot_lab.BotLabTests.test_unsupported_and_oversize_inputs_fail_before_analysis",
+      "test_ftmo_connection.ConnectionTests.test_clock_does_not_guess_old_FTMO_regime",
+      "test_ftmo_connection.ConnectionTests.test_clock_reader_queries_envelope_and_filters_normalized_UTC",
+      "test_ftmo_connection.ConnectionTests.test_env_file_is_data_no_interpolation",
+      "test_ftmo_connection.ConnectionTests.test_exact_server_clock_uses_existing_decoder",
+      "test_ftmo_connection.ConnectionTests.test_isolated_session_owns_tree_and_never_passes_password_in_argv",
+      "test_ftmo_connection.ConnectionTests.test_missing_credentials_preserves_attach_only",
+      "test_ftmo_connection.ConnectionTests.test_non_ftmo_and_non_numeric_login_rejected",
+      "test_ftmo_connection.ConnectionTests.test_partial_credentials_do_not_login_last_saved_account",
+      "test_ftmo_connection.ConnectionTests.test_running_owned_terminal_is_never_cleaned_or_rotated",
+      "test_ftmo_connection.ConnectionTests.test_shadow_rates_and_deals_use_normalized_clock_before_checks",
+      "test_ftmo_connection.ConnectionTests.test_unknown_env_keys_rejected",
+      "test_ftmo_connection.ConnectionTests.test_watch_does_not_accept_other_demo_after_credential_login",
+      "test_research_fast_fail.FastFailTests.test_cost_gate_boundary_and_scalper_flag",
+      "test_research_fast_fail.FastFailTests.test_endpoint_or_later_evidence_cannot_be_promoted",
+      "test_research_fast_fail.FastFailTests.test_gate3_needs_real_committed_freeze_and_unchanged_source",
+      "test_research_fast_fail.FastFailTests.test_improved_net_with_worse_DD_fails",
+      "test_research_fast_fail.FastFailTests.test_invalid_magnitudes_boolean_clusters_and_baseline_scope_fail",
+      "test_research_fast_fail.FastFailTests.test_scale_missing_nan_and_retention_are_not_passes"
+    ],
+    "runtime": "D:\\ANNAM\\TradingWorkspace\\.runtime\\quant-audit-v24\\Scripts\\python.exe",
+    "workers": 6,
+    "runner_source_sha256": "752fadcda70b8c269c898bcec2a2bc3ea7f0681e3bd2ace14a7319579786b05e"
+  },
+  "smoke": {
+    "rows": [
+      {
+        "attempt": 1,
+        "wall": 0.7113102000002982,
+        "tests": 78,
+        "import_seconds": 0.2037968999975419
+      },
+      {
+        "attempt": 2,
+        "wall": 0.6716306999987864,
+        "tests": 78,
+        "import_seconds": 0.19439280000005965
+      },
+      {
+        "attempt": 3,
+        "wall": 0.6646436000009999,
+        "tests": 78,
+        "import_seconds": 0.19583659999989322
+      },
+      {
+        "attempt": 4,
+        "wall": 0.691166599997814,
+        "tests": 78,
+        "import_seconds": 0.20489760000054957
+      },
+      {
+        "attempt": 5,
+        "wall": 0.6802955000021029,
+        "tests": 78,
+        "import_seconds": 0.20917909999843687
+      },
+      {
+        "attempt": 6,
+        "wall": 0.6615046000006259,
+        "tests": 78,
+        "import_seconds": 0.19265960000120685
+      },
+      {
+        "attempt": 7,
+        "wall": 0.6916823999999906,
+        "tests": 78,
+        "import_seconds": 0.21210740000242367
+      },
+      {
+        "attempt": 8,
+        "wall": 0.6669567999997525,
+        "tests": 78,
+        "import_seconds": 0.2049793000005593
+      },
+      {
+        "attempt": 9,
+        "wall": 0.6945027999972808,
+        "tests": 78,
+        "import_seconds": 0.2185122999981104
+      },
+      {
+        "attempt": 10,
+        "wall": 0.7120752000009816,
+        "tests": 78,
+        "import_seconds": 0.1935687000004691
+      }
+    ],
+    "below055": 0,
+    "below065": 0,
+    "median": 0.6857310499999585,
+    "max": 0.7120752000009816,
+    "source_sha256": "752fadcda70b8c269c898bcec2a2bc3ea7f0681e3bd2ace14a7319579786b05e"
+  },
+  "inventory": {
+    "candidate_files": 272988,
+    "matches": 4821,
+    "bot_paths": 1016,
+    "errors": 48426,
+    "skipped_large": 3839,
+    "seconds": 1471.032814899998,
+    "max_scan_depth": 18,
+    "generated_directories_pruned": true
+  },
+  "lab": {
+    "controls": 3,
+    "controls_expected_patterns_passed": true,
+    "repository_strategy_sources": 18,
+    "manifest": {
+      "file": "seed-corpus-static-audit-final.json.zst",
+      "original_bytes": 8845,
+      "compressed_bytes": 2785,
+      "original_sha256": "a66c575aed8e40f5757cd08e0fce2af93c3b6e39c87b1935652e88c708093745",
+      "compressed_sha256": "c778203bb254f763d75173ba01fe5677e70591fd31475a5766f0a77c3c7a21fa",
+      "roundtrip_verified": true
+    },
+    "Gate1_max_fixture_seconds": 0.0020035000015923288,
+    "real_world_recall_not_measured": true
+  },
+  "inventoried_bot_corpus": {
+    "paths": 1016,
+    "readable_paths": 1016,
+    "unique_content_profiles": 420,
+    "failures": 0,
+    "formats": {
+      ".mq5": 747,
+      ".ex5": 266,
+      ".mq4": 3
+    },
+    "flags": {},
+    "flags_are_heuristic_not_scam_convictions": true,
+    "manifest": {
+      "file": "inventoried-bot-static-profiles.json.zst",
+      "original_bytes": 854644,
+      "compressed_bytes": 52784,
+      "original_sha256": "95b02bf23e0457a7ad6352f87ff4ec23227b6d2a304a7e3fa07aa0a19b0ca6d0",
+      "compressed_sha256": "47040ced251626ad595b2780151f6d463ea4522e49437e1092ff390fe2d3ff1e",
+      "roundtrip_verified": true
+    },
+    "seconds": 2.260865299998841
+  },
+  "Development": {
+    "passed": false,
+    "cases": [
+      {
+        "order": "OLHC",
+        "decision": {
+          "schema": "ResearchGate2-v1",
+          "gate": 2,
+          "passed": false,
+          "reasons": [
+            "EQUITY_DD_NOT_LOWER",
+            "MAX_OPEN_RISK_USD_INCREASED"
+          ],
+          "candidate": {
+            "net_R": 32.27786666666667,
+            "equity_R_DD": 14.67346666666642,
+            "static_R_loss": 3.707333333333338,
+            "worst_daily_R": 1.8615333333334743,
+            "max_open_risk_USD": 314.52,
+            "cluster_R": [
+              10.613066666666668,
+              21.664800000000003
+            ],
+            "development_years": [
+              2018,
+              2023
+            ],
+            "trades": 340,
+            "SL_active_validated": true,
+            "signal_contract_status": "CAUSAL_FROZEN"
+          },
+          "baseline": {
+            "net_R": 23.85239999999999,
+            "equity_R_DD": 12.206533333333919,
+            "static_R_loss": 3.983866666666658,
+            "worst_daily_R": 2.0370666666666652,
+            "max_open_risk_USD": 312.8,
+            "cluster_R": [
+              9.338666666666665,
+              14.513733333333331
+            ],
+            "development_years": [
+              2018,
+              2023
+            ],
+            "trades": 340,
+            "SL_active_validated": true,
+            "signal_contract_status": "CAUSAL_FROZEN"
+          },
+          "inputs_sha256": "653cddf48398e5232ddc2d2ce11e3da63210a51264d471fcd8a98eda627fc53a",
+          "recipe_sha256": "b83c61bca173aa1cd573c74fa6eb84ef7a51fa60cc6023d4bff24a03e68ea9eb",
+          "evidence_sha256": "ae90cf9586daf0d83b1580b22ae8710e395fe97b8c09fa354bc6068443327c6b"
+        },
+        "prepared_gate_seconds": 0.45120809999934863,
+        "max_account_open_risk_cap_USD": 1000,
+        "account_reserve_unchanged": true
+      },
+      {
+        "order": "OHLC",
+        "decision": {
+          "schema": "ResearchGate2-v1",
+          "gate": 2,
+          "passed": false,
+          "reasons": [
+            "EQUITY_DD_NOT_LOWER",
+            "MAX_OPEN_RISK_USD_INCREASED"
+          ],
+          "candidate": {
+            "net_R": 32.27786666666667,
+            "equity_R_DD": 14.673466666667036,
+            "static_R_loss": 3.7073333333333336,
+            "worst_daily_R": 1.8615333333332469,
+            "max_open_risk_USD": 314.52,
+            "cluster_R": [
+              10.613066666666668,
+              21.664800000000003
+            ],
+            "development_years": [
+              2018,
+              2023
+            ],
+            "trades": 340,
+            "SL_active_validated": true,
+            "signal_contract_status": "CAUSAL_FROZEN"
+          },
+          "baseline": {
+            "net_R": 23.85239999999999,
+            "equity_R_DD": 12.2065333333328,
+            "static_R_loss": 3.9838666666666764,
+            "worst_daily_R": 2.0370666666666652,
+            "max_open_risk_USD": 312.8,
+            "cluster_R": [
+              9.338666666666665,
+              14.513733333333331
+            ],
+            "development_years": [
+              2018,
+              2023
+            ],
+            "trades": 340,
+            "SL_active_validated": true,
+            "signal_contract_status": "CAUSAL_FROZEN"
+          },
+          "inputs_sha256": "33a5ccc94d6d97b653c362d0301cbfd66e7be56d60ce42d00f7e01b2524b16ad",
+          "recipe_sha256": "b83c61bca173aa1cd573c74fa6eb84ef7a51fa60cc6023d4bff24a03e68ea9eb",
+          "evidence_sha256": "d7cab249ea2be33971bcbd7420e7ea56e2f3734d3070950eeb63a0cf0f5fcd5b"
+        },
+        "prepared_gate_seconds": 0.34821480000027805,
+        "max_account_open_risk_cap_USD": 1000,
+        "account_reserve_unchanged": true
+      }
+    ],
+    "weights": {
+      "F5": 1.3,
+      "F3": 0.7,
+      "F4": 0.7
+    },
+    "trials": 1,
+    "end_to_end_seconds": 3.953412599999865,
+    "prices_2024_2026_opened": false,
+    "new_historical_children": 0,
+    "new_bootstrap_children": 0,
+    "incumbent": "V16/V19 BASE_GUARD",
+    "prop_qualified": false
+  },
+  "native_CLI": {
+    "rows": [
+      {
+        "label": "check",
+        "returncode": 2,
+        "wall": 0.9960515999991912,
+        "output": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\pareto-mt5-bot-lab-v24-20261117\\actual-native-check",
+        "credentials_supplied": false
+      },
+      {
+        "label": "watch",
+        "returncode": 2,
+        "wall": 2.3703750999993645,
+        "output": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\pareto-mt5-bot-lab-v24-20261117\\actual-native-watch",
+        "credentials_supplied": false
+      }
+    ],
+    "actual_broker_orders": 0,
+    "no_credential_login_attempted": true
+  },
+  "source_pins": {
+    "planning\\research\\PARETO-MT5-BOT-LAB-V24-PROTOCOL-20261117.md": "d408c4a75de7b41be8175e685b4b3721631aa5e3814dd2e33dd7078efcd8b359",
+    "tooling\\ai-engines\\prop_v24_bot_inventory_audit.py": "30b1872ef1c9c275902ada5b5bcef2fcecad395ee31b7908842eb41f425b8f97",
+    "tooling\\ai-engines\\prop_v24_common.py": "4c74e13d0fd254cafe796a9c6c0bc19da36faaa82a41f921fb51990326ef200b",
+    "tooling\\ai-engines\\prop_v24_inventory.py": "fda90220829a0ce09af132a89e1ed0a7175dfc053dcb7aa70a88dc40e967c545",
+    "tooling\\ai-engines\\prop_v24_lab_audit.py": "9c05d90ccf5bdb3d156cd70b1429476b181bd371f4ff57917204fd6d2707d782",
+    "tooling\\ai-engines\\prop_v24_pareto.py": "028f923ebcacd7efc9e76c8271e3cd67226cc736bc4887c7836629e8834af756",
+    "tooling\\ai-engines\\prop_v24_performance.py": "7fe49528d193ed251a170abf1ad11a2b841dabf830d48a9e67c486fcd25b1213",
+    "tooling\\ai-engines\\prop_v24_report.py": "3406c0f5f4eb1f3615aebcf04751f635a576b38cc200cedf8817047093ce3a9f",
+    "tooling\\ai-engines\\ftmo_connection.py": "f9e23a702463ea91277b051af66257f0a867ae80d9fe238bcefe9586c7482155",
+    "tooling\\ai-engines\\ftmo_trial_runner.py": "b9d1652f570b32a04ce73ecb2eed05f28044f30b8b190943d7fd3d9d617ba8dc",
+    "tooling\\ai-engines\\quant_core\\bot_lab.py": "029cbc6d7d498c22c423319382680e10c20f19d8621d97b537c9c68eca1ec86b",
+    "tooling\\ai-engines\\quant_core\\binary_bot_metadata.py": "9b12ffe1fd744be1a429ceebc60f2990af59daf5581c405d71d45a3bdcf3fc1a",
+    "tooling\\ai-engines\\quant_core\\bot_market_fingerprint.py": "e2ce15980701ff03cba9ae7606e1fb76cbc0506c61d8b1dfbf26599334215d8a",
+    "tooling\\ai-engines\\quant_core\\research_fast_fail.py": "0bbb68b73ab249132ea7e7e8d516af27e502a2e3f31f1e45c7df6f7c91e1fbd0"
+  },
+  "compressed_manifests": [
+    {
+      "file": "connector-source-inventory.json.zst",
+      "original_bytes": 18268474,
+      "compressed_bytes": 307149,
+      "original_sha256": "1ea2f73bb8f94a1f6f75d84f050c24cc98d862634bb8d3d5b94f4237dbb99ed5",
+      "compressed_sha256": "c1f63da7cea15f9b0830d7330c4a578763e47c96ae108eb8bd2cf9c0205d8de1",
+      "roundtrip_verified": true
+    },
+    {
+      "file": "inventoried-bot-static-profiles.json.zst",
+      "original_bytes": 854644,
+      "compressed_bytes": 52784,
+      "original_sha256": "95b02bf23e0457a7ad6352f87ff4ec23227b6d2a304a7e3fa07aa0a19b0ca6d0",
+      "compressed_sha256": "47040ced251626ad595b2780151f6d463ea4522e49437e1092ff390fe2d3ff1e",
+      "roundtrip_verified": true
+    },
+    {
+      "file": "seed-corpus-static-audit-final.json.zst",
+      "original_bytes": 8845,
+      "compressed_bytes": 2785,
+      "original_sha256": "a66c575aed8e40f5757cd08e0fce2af93c3b6e39c87b1935652e88c708093745",
+      "compressed_sha256": "c778203bb254f763d75173ba01fe5677e70591fd31475a5766f0a77c3c7a21fa",
+      "roundtrip_verified": true
+    },
+    {
+      "file": "seed-corpus-static-audit.json.zst",
+      "original_bytes": 8646,
+      "compressed_bytes": 2722,
+      "original_sha256": "33528990c107794fde7b8e00d5cd1e07192d3c6b651853ded6ea33cc0f668350",
+      "compressed_sha256": "46a93f331435683e0ed6402f05e6bcc57f52c3b1fb21a55bd3ff674ad30d3700",
+      "roundtrip_verified": true
+    }
+  ],
+  "performance_targets_met": false,
+  "implemented": [
+    "New Trial env-file rotation using pinned product isolation/clock",
+    "Bounded static source/binary inspection",
+    "Causal trade-log fingerprint with optional bound Bid market-store features",
+    "Prepared-input fast-fail evidence gates",
+    "One Dev Pareto allocation trial",
+    "Complete runtime, six-worker option, preserved test IDs"
+  ],
+  "remaining": [
+    "Native new-credential login/capture and broker-clock parity not validated on actual MT5",
+    "Automatic recovery of a unique causal strategy from opaque binary/log is not implemented or inferable from these inputs",
+    "Static patterns are not full MQL/CSharp/Pine semantic analysis or a safety/FTMO certification",
+    "Full<12.5s and smoke10/10<.65s not achieved; no true claim of <.55s",
+    "Runtime/script shutdown fixtures do not establish operational native-terminal stability"
+  ],
+  "incumbent": "V16/V19 BASE_GUARD",
+  "prop_qualified": false,
+  "actual_broker_orders": 0,
+  "actual_payout_USD": 0,
+  "baseline_PR102_merge": "555c2bd",
+  "Trader_pin_unchanged": true,
+  "VI_WIP_preserved": true,
+  "full_weight_search_count": 1,
+  "no_later_prices_used_for_selection": true,
+  "independent_review": "Core/connector review found and corrected clock/binding/tree/causality/input-domain/fractional-multiplier issues"
+}
