@@ -8,6 +8,7 @@ from prop_v20_common import *
 from prop_v20_campaign import verify
 
 REPORT=Path("planning/research/VOLTARGET-SHADOW-V20-RESULTS-20261117")
+TEST_JOB=JOB/"test-recovery-v2"
 
 
 def fmt(value,n=2):
@@ -69,9 +70,9 @@ def collect():
                     raise ValueError("Development_parity_not_verified")
                 dev_accounts+=a["accounts"]
     parent=read("planning/research/ASYMMETRIC-RECOVERY-V19-RESULTS-20261116.json")
-    tests,smoke=read(JOB/"tests-final-matrix.json"),read(JOB/"smoke-final-results.json")
+    tests,smoke=read(TEST_JOB/"tests-final-matrix.json"),read(TEST_JOB/"smoke-final-results.json")
     if tests["preserved_V19_IDs"]!=1216 or not tests["zero_skip"]:raise ValueError("missing_baseline_tests")
-    r=dict(schema="V20-results-v1",prop_qualified=False,actual_broker_orders=0,actual_payout_USD=0,
+    r=dict(schema="V20-results-v1",prop_qualified=False,O2_promoted=False,incumbent="BASE_GUARD",actual_broker_orders=0,actual_payout_USD=0,
         decision="RESEARCH_ONLY_EXECUTION_AND_SOURCE_GATES_REMAIN_OPEN",merged_PR98="9fba6e006538fe933a11faaf0faf8e02a9e1b249",
         frozen=frozen,fit=fit,historical=history,monte=monte,economics=economics(fit["profiles"]),
         new_Development_full_audits=dev_accounts,new_historical_full_audits=full_accounts,
@@ -86,7 +87,9 @@ def collect():
             native_terminal_verified=False,MQL5_exporter_compiled_or_executed=False,
             spec_sessions_commission_and_native_news_not_verified=True,
             quickstart="planning/research/QUICKSTART-FTMO-FREE-TRIAL.md"),
-        engineering=dict(tests=tests,smoke=smoke,storage=read(JOB/"storage-final-summary.json"),
+        engineering=dict(tests=tests,smoke=smoke,test_receipts_dir=str(TEST_JOB),
+            preserved_original_smoke_failure=read(JOB/"delivery-stages-failed.json"),
+            test_recovery=read(JOB/"test-recovery-plan.json"),storage=read(JOB/"storage-final-summary.json"),
             import_profile=dict(path="smoke-before.pstats",not_final_timing=True),
             indexed_import_diagnostics=read(JOB/"smoke-indexed-import-diagnostics.json"),
             temporary_root_diagnostics=read(JOB/"smoke-temp-diagnostics.json"),
@@ -101,6 +104,7 @@ def collect():
             "Native terminal unavailable; replay is not broker execution or measured slippage.",
             "Payout split/timer remain inherited proxies, not current target-account contract.",
             "Compression preserves bytes, not source validity; snapshots logical/non-atomic, physical savings unmeasured."])
+    r["limits"].append("Existing Checksums cache assumes immutable input generations; same-size content changes retaining mtime can evade a cached check. No financial source changed.")
     text=json.dumps(r,indent=2,ensure_ascii=False)
     if len(text.encode())>1048576:raise ValueError("bounded_V20_result_over_1MiB")
     REPORT.with_suffix(".json").write_text(text,encoding="utf-8",newline="\n")
@@ -110,8 +114,8 @@ def collect():
 def write_report(r):
     fit=r["fit"];tests=r["engineering"]["tests"];smoke=r["engineering"]["smoke"]
     lines=["# V20 — đi vốn O2, dữ liệu thiếu, MT5 shadow và nén evidence","",
-        "**Đã đo theo ngân sách; chưa đủ điều kiện Challenge hoặc gửi lệnh broker.** "
-        "Các target tốc độ/tiết kiệm là kết quả cần đo, không tự được gắn PASS.","",
+        "**Hoàn tất phép đo V20; không chọn O2 thay V16/BASE_GUARD, chưa đủ điều kiện Challenge.** "
+        "Giảm phương sai chưa cải thiện tốc độ qua vòng. Observer mới có bằng chứng replay, chưa có kết nối MT5 thật.","",
         "PR98/head `75edaa0` merge `9fba6e0`; nhánh V19 local/remote đã xóa. "
         "V20 đăng ký `1cee37d`, financial freeze `2dc7a1d`; PR99 để mở, không merge tự động. "
         "Giữ Trader pin, VI WIP, mọi nguồn/freezes/failed attempts. No Astra/broker orders.","",
@@ -164,6 +168,7 @@ def write_report(r):
     lines+=table(["Năm","Lệnh chưa xác minh/tổng","Tỷ lệ %","PRIMARY R","STRICT R"],[
         ["2026YTD" if v["year"]==2026 else v["year"],f"{v['unverified_trades']}/{v['signals']}",fmt(v["unverified_pct"]),fmt(v["primary_net_R"]),fmt(v["strict_net_R"])]
         for v in r["gap_localization"]["rows"]])
+    lines += [""]
     lines+=table(["Giai đoạn","Unknown/tổng","PRIMARY R","STRICT R"],[
         [v["period"],f"{v['unverified']}/{v['signals']}",fmt(v["primary_net_R"]),fmt(v["strict_net_R"])]
         for v in r["gap_localization"]["periods"]])
@@ -222,6 +227,17 @@ def write_report(r):
         "Index chỉ các module local đã ưu tiên, vẫn SourceFileLoader/source/pyc cũ; không đổi "
         "assertions hoặc prewarm ngoài timer. Paired diagnostic, temp-root và -S thử nghiệm giữ riêng; "
         "-S không được dùng trong final benchmark. Fixture vẫn tạo/đọc/xóa trên đĩa thật.","",
+        "Lượt smoke đầu dừng tại lần4/10: corruption test dùng same-size overwrite quá nhanh trên Windows "
+        "vẫn có cùng mtime. Probe30 files có25 lần cùng timestamp và25 cache hits không phát hiện sửa. "
+        "Fixture mới khai báo generation bằng mtime khác rõ ràng, giữ assertion checksum mismatch và cache reuse. "
+        "Không đổi Checksums hay financial source; cache vẫn giả định inputs immutable, không bảo vệ "
+        "sửa nội dung giữ nguyên metadata. Giữ failed logs tại job gốc; full/smoke sau sửa nằm trong "
+        "`test-recovery-v2`, không lựa chọn lượt nhanh nhất giữa các attempts.","",
+        "| Hậu kiểm | Quyết định / bằng chứng |", "|---|---|",
+        "| Variance giảm nhưng DD không giảm tương ứng | Giữ k theo formula; không ép1,34×, không promote O2 |",
+        "| Session APIs SDK thiếu | Export bridge + unknown-blocking; native acceptance còn mở |",
+        "| Metadata timestamp làm corruption test không xác định | Fixture generation xác định; giữ cache limitation/failed attempt |",
+        "| Evidence V19 lớn | Zstd9, SHA/roundtrip/restore trước unlink; không xóa nguồn giá |", "",
         "PR99 để mở; exact-head3CI/downloaded IDs chốt trong private `ci-exact-head-reconciliation.json` "
         "và `completion-receipt.json` sau push, không sửa HEAD để tự đóng dấu. Không có "
         "Challenge purchase, account reset, broker order hoặc triển khai sản phẩm.","",

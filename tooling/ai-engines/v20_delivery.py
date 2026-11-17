@@ -12,11 +12,12 @@ from prop_v16_performance import RUNTIMES as OLD_RUNTIMES
 
 RUNTIMES=dict(OLD_RUNTIMES,observer=str(Path("tooling/strategy-engines/observer/.venv/Scripts/python.exe").resolve()))
 TEMP_ROOT=Path("D:/ANNAM/TradingWorkspace/.runtime/v20-test-temp")
+CAMPAIGN_JOB=JOB
 
 
 def idle():
     for name in ("Full-MC-processes.json","Full-historical-processes.json","compaction-prepared.json"):
-        if not (JOB/name).exists() or not read(JOB/name)["passed"]:
+        if not (CAMPAIGN_JOB/name).exists() or not read(CAMPAIGN_JOB/name)["passed"]:
             raise ValueError("V20_wait_for_completed_financial_and_storage_preparation:"+name)
 
 
@@ -107,5 +108,15 @@ def storage():
 
 if __name__=="__main__":
     import argparse
-    p=argparse.ArgumentParser();p.add_argument("stage",choices=("compaction","performance","smoke","storage"));a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument("stage",choices=("compaction","performance","smoke","storage"))
+    p.add_argument("--attempt", help="Separate performance/smoke receipts after a documented source correction.")
+    a=p.parse_args()
+    if a.attempt:
+        if a.stage not in ("performance","smoke") or not a.attempt.replace("-", "").isalnum():
+            p.error("attempt must be one alphanumeric/hyphen directory for performance or smoke")
+        idle()
+        import prop_v20_common as common
+        JOB = JOB / a.attempt
+        JOB.mkdir(exist_ok=True)
+        common.JOB = JOB
     globals()[a.stage]()

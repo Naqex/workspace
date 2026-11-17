@@ -1,28 +1,38 @@
 # Current context — Naqex Workspace
 
-17/11/2026 · `RESEARCH: V20_MC_RUNNING · SYSTEM: OFFLINE_OBSERVER_VERIFIED · PROP: NOT_QUALIFIED`.
+17/11/2026 · `RESEARCH: V20_MEASURED_NO_UPGRADE · SYSTEM: OFFLINE_OBSERVER_VERIFIED · PROP: NOT_QUALIFIED`.
 
 ## Việc hiện tại
 
-**V20: hoàn tất Dev/full historical, đang chạy sáu bootstrap cases.**
-[Protocol](research/VOLTARGET-SHADOW-V20-PROTOCOL-20261117.md) /
+**V20 đã đo đủ; O2 scaling chưa thắng V16, chưa có nâng cấp đủ điều kiện Challenge.**
+[Kết quả](research/VOLTARGET-SHADOW-V20-RESULTS-20261117.md) /
+[JSON](research/VOLTARGET-SHADOW-V20-RESULTS-20261117.json) /
+[protocol](research/VOLTARGET-SHADOW-V20-PROTOCOL-20261117.md) /
 [freeze](research/VOLTARGET-SHADOW-V20-FREEZE-20261117.json) /
 [quickstart](research/QUICKSTART-FTMO-FREE-TRIAL.md).
 PR98/head `75edaa0` merge `9fba6e0`; nhánh V19 local/remote đã xóa.
 Nhánh `codex/mt5-shadow-and-voltarget-v20`; protocol `1cee37d`, freeze `2dc7a1d`.
-Theo formula đã khóa, k_sigma1,342725 nhưng k_DD1,006087 giới hạn k cuối.
-1.752 Dev/1.908 historical ledgers audit đủ, unscaled O2 khớp V19.
-PRIMARY100: O2_UNSCALED9/105, VOL11/105, VOL_CUSHION10/105; chưa promote.
-32 unknown trades chia16/16 ở2018–21/2022–26; STRICT reference−8,96R/+3,91R.
+Theo công thức khóa trên Dev, k_sigma = 1,342725 nhưng k_DD giới hạn k cuối ở 1,006087×.
+1.752 Dev / 1.908 historical / 60.000 MC ledgers audit đủ; unscaled O2 khớp V19.
+PRIMARY100: O2_UNSCALED 9/105, VOL 11/105, VOL_CUSHION 10/105; V16 71/105.
+Bootstrap 24 tháng OLHC: 3,28% / 0,98% / 3,44%, so V16 14,32%; không là xác suất tương lai.
+32 unknown trades chia 16/16 ở 2018–21 / 2022–26; STRICT reference −8,96R / +3,91R.
 Observer runtime riêng có SDK/pyarrow/zstandard, chưa terminal MT5 đang chạy.
 Hai paced CLI replay và generated Development replay đã kiểm; chưa native acceptance.
-51 V19 files đã nén/roundtrip:1,509GiB→0,102GiB; originals còn nguyên khi MC đọc.
-Finalizer chỉ apply archive rồi benchmark/test/storage/report sau financial idle.
+51 V19 files đã nén/roundtrip rồi xóa đúng originals: 1,508 GiB → 0,102 GiB;
+payload tiết kiệm 1,407 GiB, restore được byte/path gốc; không là đo physical free space.
+Full suite sau sửa fixture: 1.239 PASS / 0 skip, giữ 1.216 IDs, wall 13,437s.
+Smoke 10/10 <0,78s, max 0,680s; median 0,655s vượt mục tiêu 0,65s khoảng 4,6ms.
+Lượt smoke đầu lỗi corruption fixture trùng mtime trên Windows; giữ failed logs/probe.
+Fixture khai báo generation rõ, không sửa code tài chính/cache hoặc chọn lại streak.
+Cache checksum vẫn giả định input immutable; sửa nội dung giữ metadata có thể không phát hiện.
 Giữ mọi failed replay, nguồn/freezes, Trader pin và VI WIP; không broker/Astra.
 Private job `execution-v1/voltarget-shadow-v20-20261117`:
-`run-full.py`/`Full-supervisor.stdout` là writer tài chính; `finalize-v20-v2.py`
-chờ `Full-MC-processes.json`, không tạo writer trùng hoặc rerun benchmark lấy streak.
-PR99 để mở khi hoàn tất, chờ3CI đúng HEAD và downloaded test IDs.
+Không còn financial writer; test receipts hiện hành nằm trong `test-recovery-v2`.
+PR99 để mở; exact-head 3CI/downloaded IDs chốt tại `ci-exact-head-reconciliation.json`
+và `completion-receipt.json` sau push, không sửa HEAD chỉ để đóng dấu CI của nó.
+Bước tiếp có ích: xác minh tài khoản đích/feed/session/news bằng read-only rồi review shadow;
+không dùng dữ liệu MT5 mới để tự chứng nhận các khoảng trống lịch sử.
 
 ## V19 đã merge (lịch sử)
 
@@ -50,9 +60,9 @@ Smoke đúng 10 fresh processes: 7/10 <0,78s, max 0,827s; chưa đạt target,
 không retry lấy streak. Storage D +1,76MiB/E +1,52GiB, giữ evidence/nguồn.
 Private job `execution-v1/asymmetric-recovery-and-mt5-v19-20261116` giữ
 mọi attempts, source bindings, journals, benchmark và storage receipts.
-PR #98 để mở trên `codex/asymmetric-recovery-and-mt5-v19`; exact-head CI và
-downloaded IDs được chốt ở `ci-exact-head-reconciliation.json`/`completion-receipt.json`
-trong job sau push; không sửa HEAD chỉ để ghi chính CI SHA của nó.
+PR #98/head `75edaa0` đã merge `9fba6e0` trong V20; nhánh V19 local/remote đã xóa.
+Exact-head CI/downloaded IDs lịch sử giữ tại `ci-exact-head-reconciliation.json` /
+`completion-receipt.json` trong job V19.
 Không mua/reset account/broker orders/deploy; giữ VI WIP/Trader pin/nguồn.
 
 ## V18 đã merge (lịch sử)

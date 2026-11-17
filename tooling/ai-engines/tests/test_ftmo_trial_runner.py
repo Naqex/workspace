@@ -75,6 +75,11 @@ class ObserverRunnerTests(unittest.TestCase):
             result=runner.stream(b["events"],runner.ObserverPaper(p,p["from_msc"],p["to_msc"]),recorder,out,sleeper=waits.append)
             receipt=recorder.close();rows=pq.read_table(out/"quotes.parquet").to_pylist()
             self.assertEqual(receipt["rows"],4);self.assertEqual(len(rows),4)
+            original=[e for e in b["events"] if e["kind"]=="quote"]
+            for recorded,source in zip(rows,original):
+                for field in ("asset","time_msc","known_at_msc","bid","ask","flags"):
+                    self.assertEqual(recorded[field],source[field])
+                self.assertEqual(recorded["spread"],source["ask"]-source["bid"])
             self.assertEqual(result["account"]["entries"],1);self.assertEqual(result["account"]["closed_trades"],1)
             self.assertEqual(result["broker_orders_sent"],0)
             self.assertEqual(sum(waits),3.)

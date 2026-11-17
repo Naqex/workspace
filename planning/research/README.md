@@ -1,11 +1,16 @@
 # Tra cứu research đã có
 
-**V20 — đang chạy bootstrap sau Dev/full historical:**
-[Protocol](VOLTARGET-SHADOW-V20-PROTOCOL-20261117.md) /
+**V20 — hoàn tất phép đo; O2 scaling chưa thắng V16, chưa đủ điều kiện Challenge:**
+[Kết quả](VOLTARGET-SHADOW-V20-RESULTS-20261117.md) /
+[JSON](VOLTARGET-SHADOW-V20-RESULTS-20261117.json) /
+[protocol](VOLTARGET-SHADOW-V20-PROTOCOL-20261117.md) /
 [freeze](VOLTARGET-SHADOW-V20-FREEZE-20261117.json) /
 [observer quickstart](QUICKSTART-FTMO-FREE-TRIAL.md).
-k cuối1,006087× từ công thức, không ép1,34×; gap-localization16/16 theo hai giai đoạn.
-Trạng thái/writers/resume theo [current context](../CURRENT-CONTEXT.md).
+k cuối 1,006087×; 60.000 MC / 1.752 Dev / 1.908 historical ledgers audit đủ.
+32 lệnh thiếu giá vẫn còn; observer kiểm replay, chưa attach MT5 thật.
+Nén evidence V19 giảm payload 1,407 GiB. 1.239 tests / 0 skip trong 13,437s;
+smoke 10/10 <0,78s, median 0,655s chưa đạt trần median 0,65s; giữ lần lỗi fixture.
+Trạng thái và exact-head CI receipts theo [current context](../CURRENT-CONTEXT.md).
 
 **V19 — hoàn tất kiểm định; chưa đủ điều kiện Challenge:**
 [Kết quả](ASYMMETRIC-RECOVERY-V19-RESULTS-20261116.md) /

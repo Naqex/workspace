@@ -1,5 +1,6 @@
 import hashlib
 import json
+import os
 from pathlib import Path
 import sys
 import tempfile
@@ -37,7 +38,13 @@ class CoreTests(unittest.TestCase):
             # Release Windows mappings before the tamper write.
             for a in store.columns.values():
                 a._mmap.close()
-            (root / "o.bin").write_bytes(b"x" * 12)
+            changed = root / "o.bin"
+            previous = changed.stat()
+            changed.write_bytes(b"x" * 12)
+            # The cache key tracks file generations by size/mtime. Fast Windows
+            # writes can share a timestamp; declare the new fixture generation.
+            os.utime(changed, ns=(previous.st_atime_ns, previous.st_mtime_ns + 1_000_000_000))
+            self.assertNotEqual(changed.stat().st_mtime_ns, previous.st_mtime_ns)
             with self.assertRaisesRegex(ValueError, "checksum"):
                 MarketDataStore(root, checks)
 
