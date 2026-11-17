@@ -78,7 +78,7 @@ def collect():
         parent_historical=[v for v in parent["historical"] if v["version"]=="V16"],
         parent_monte=[v for v in parent["monte"] if v["version"]=="V16" and v["mode"]=="PRIMARY" and v["friction"]==100],
         gap_localization=read(JOB/"gap-localization.json"),observer=dict(
-            environment=read(JOB/"observer-environment-verified.json"),CLI=read(JOB/"observer-CLI-receipts.json"),
+            environment=read(JOB/"observer-environment-verified.json"),CLI=read(JOB/"observer-final-CLI-receipts.json"),
             generated_Development_replay=read(JOB/"Development-generated-replay-final-verification.json"),
             native_terminal_verified=False,MQL5_exporter_compiled_or_executed=False,
             spec_sessions_commission_and_native_news_not_verified=True,

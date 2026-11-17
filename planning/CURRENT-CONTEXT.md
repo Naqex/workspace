@@ -1,8 +1,30 @@
 # Current context — Naqex Workspace
 
-16/11/2026 · `RESEARCH: V19_COMPLETE · SYSTEM: OFFLINE_ADAPTER_VERIFIED · PROP: NOT_QUALIFIED`.
+17/11/2026 · `RESEARCH: V20_MC_RUNNING · SYSTEM: OFFLINE_OBSERVER_VERIFIED · PROP: NOT_QUALIFIED`.
 
 ## Việc hiện tại
+
+**V20: hoàn tất Dev/full historical, đang chạy sáu bootstrap cases.**
+[Protocol](research/VOLTARGET-SHADOW-V20-PROTOCOL-20261117.md) /
+[freeze](research/VOLTARGET-SHADOW-V20-FREEZE-20261117.json) /
+[quickstart](research/QUICKSTART-FTMO-FREE-TRIAL.md).
+PR98/head `75edaa0` merge `9fba6e0`; nhánh V19 local/remote đã xóa.
+Nhánh `codex/mt5-shadow-and-voltarget-v20`; protocol `1cee37d`, freeze `2dc7a1d`.
+Theo formula đã khóa, k_sigma1,342725 nhưng k_DD1,006087 giới hạn k cuối.
+1.752 Dev/1.908 historical ledgers audit đủ, unscaled O2 khớp V19.
+PRIMARY100: O2_UNSCALED9/105, VOL11/105, VOL_CUSHION10/105; chưa promote.
+32 unknown trades chia16/16 ở2018–21/2022–26; STRICT reference−8,96R/+3,91R.
+Observer runtime riêng có SDK/pyarrow/zstandard, chưa terminal MT5 đang chạy.
+Hai paced CLI replay và generated Development replay đã kiểm; chưa native acceptance.
+51 V19 files đã nén/roundtrip:1,509GiB→0,102GiB; originals còn nguyên khi MC đọc.
+Finalizer chỉ apply archive rồi benchmark/test/storage/report sau financial idle.
+Giữ mọi failed replay, nguồn/freezes, Trader pin và VI WIP; không broker/Astra.
+Private job `execution-v1/voltarget-shadow-v20-20261117`:
+`run-full.py`/`Full-supervisor.stdout` là writer tài chính; `finalize-v20-v2.py`
+chờ `Full-MC-processes.json`, không tạo writer trùng hoặc rerun benchmark lấy streak.
+PR99 để mở khi hoàn tất, chờ3CI đúng HEAD và downloaded test IDs.
+
+## V19 đã merge (lịch sử)
 
 **V19 hoàn tất phép đo; chưa có nâng cấp CPPI hoặc gap-immunization đủ chứng cứ.**
 [Kết quả](research/ASYMMETRIC-RECOVERY-V19-RESULTS-20261116.md) /

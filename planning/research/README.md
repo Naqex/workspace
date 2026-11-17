@@ -1,5 +1,12 @@
 # Tra cứu research đã có
 
+**V20 — đang chạy bootstrap sau Dev/full historical:**
+[Protocol](VOLTARGET-SHADOW-V20-PROTOCOL-20261117.md) /
+[freeze](VOLTARGET-SHADOW-V20-FREEZE-20261117.json) /
+[observer quickstart](QUICKSTART-FTMO-FREE-TRIAL.md).
+k cuối1,006087× từ công thức, không ép1,34×; gap-localization16/16 theo hai giai đoạn.
+Trạng thái/writers/resume theo [current context](../CURRENT-CONTEXT.md).
+
 **V19 — hoàn tất kiểm định; chưa đủ điều kiện Challenge:**
 [Kết quả](ASYMMETRIC-RECOVERY-V19-RESULTS-20261116.md) /
 [JSON](ASYMMETRIC-RECOVERY-V19-RESULTS-20261116.json) /
