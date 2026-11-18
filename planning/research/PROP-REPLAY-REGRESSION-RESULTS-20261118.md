@@ -57,6 +57,11 @@ Lần thử đầu và các lần sửa báo cáo được giữ lại.
 
 ## 3. Kiểm nguồn cho các khoảng thiếu
 
+**Đính chính đồng hồ.** Các tick ở bốn phút thiếu trong ngày 26/05 và
+14/07/2021 thực ra thuộc một giờ trước. Số ở mục này là kết quả theo cách
+đọc UTC−5 ban đầu. Ngày 03/01/2022 khớp UTC.
+[Đối chiếu tick và định giá lại](PROP-EUR-CLOCK-AND-TREASURY-AUCTION-RESULTS-20261118.md#1-lỗi-đồng-hồ-của-dữ-liệu-eurusd-dùng-cho-đối-chiếu-f5)
+
 Ba link FXCM công khai theo tài liệu thực tế chuyển sang cổng đăng nhập.
 Dukascopy trực tiếp trả 429. Chuyển sang ba archive EURUSD Generic ASCII
 Tick của HistData và dùng giờ EST cố định UTC−5 đúng đặc tả. Chỉ đọc

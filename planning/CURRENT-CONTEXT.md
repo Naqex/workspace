@@ -4,6 +4,12 @@
 
 ## Việc hiện tại
 
+Đã hiệu chỉnh đồng hồ HistData trong phép đo nhạy EURUSD F5. Thiếu
+trung vị sau 12 tháng là 4.873,10 USD PRIMARY và 4.926,57 USD STRICT.
+Luật EURUSD sau đấu giá Treasury có 438 tín hiệu, 152 qua phí và 0/6
+năm đạt sàn markout. BASE_GUARD vẫn `NOT_QUALIFIED`.
+[Kết quả](research/PROP-EUR-CLOCK-AND-TREASURY-AUCTION-RESULTS-20261118.md)
+
 Đã gỡ nút nguồn WTI → USD/CAD. Luật khóa trước đo tạo 498 tín hiệu
 thô trên 2018–2023 và trượt Stage‑0 vì lợi thế sau phí hụt sàn từng
 năm. Giữ BASE_GUARD làm đối chứng ở `NOT_QUALIFIED`.
@@ -21,14 +27,13 @@ So biên độ stop và phí tại 10:30–14:30 New York. Chỉ EURUSD đạt �
 nhất 40 ngày có một hướng qua phí mỗi năm. Ưu tiên role EURUSD phiên Mỹ.
 [Đối chiếu biên độ](research/PROP-SESSION-FEASIBILITY-RESULTS-20261118.md)
 
-Đã rà toàn bộ 43 khoảng thiếu Development. HistData có tick ở 26 khoảng
-và 18 lệnh được định giá trọn. Giữ lot cũ, số dư 12 tháng vẫn thiếu
-trung vị 4.712 USD (PRIMARY) và 4.745 USD (STRICT).
-[Báo cáo đối chiếu](research/PROP-GAP-FULL-DEV-RESULTS-20261118.md)
+Báo cáo đối chiếu 43 khoảng giữ số liệu của lần áp UTC−5 ban đầu.
+Phép độ nhạy số dư đã được cập nhật ở trên.
+[Báo cáo gốc](research/PROP-GAP-FULL-DEV-RESULTS-20261118.md)
 
 Đã sửa bộ chọn giá tại cutoff. Giữ entry và lot của 340 lệnh, thoát theo
-giờ cho +5,58R, PRIMARY +23,85R và STRICT −7,95R. HistData có tick ở
-8/14 khoảng đã rà và ba lệnh F5 tới deadline trên feed đó. Bộ quant
+giờ cho +5,58R, PRIMARY +23,85R và STRICT −7,95R. Phần so HistData
+có hiệu chỉnh đồng hồ ở báo cáo mới. Bộ quant
 1.400 pass. [Đợt hồi quy](research/PROP-REPLAY-REGRESSION-RESULTS-20261118.md)
 
 US500 VIX trượt Stage‑0 trên Development 2018–2023. Có 313 tín hiệu và

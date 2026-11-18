@@ -30,7 +30,7 @@ nguồn cùng biểu phí có xác minh đủ để đổi phép đo. Giá từ 
 hơn sau khi xem kết quả và stop nới thêm không giải quyết câu hỏi.
 
 Vòng 1 là ràng buộc thực tế của vai trò bổ sung. Ngay phép điều chỉnh
-tĩnh theo 18 lệnh khác nguồn vẫn để thiếu trung vị **4.712 USD** trên
+tĩnh sau sửa đồng hồ trên 17 lệnh vẫn để thiếu trung vị **4.873 USD** trên
 sổ 50.000 theo PRIMARY. Bằng chứng nguồn mới đáng làm khi có thể đổi
 một quyết định về stop, chi phí hoặc khả năng chấp nhận ứng viên.
-[Đối chiếu 43 khoảng](PROP-GAP-FULL-DEV-RESULTS-20261118.md)
+[Hiệu chỉnh phép đo độ nhạy](PROP-EUR-CLOCK-AND-TREASURY-AUCTION-RESULTS-20261118.md)

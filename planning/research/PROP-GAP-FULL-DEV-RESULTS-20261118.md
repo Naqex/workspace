@@ -5,6 +5,11 @@
 đối chiếu khác nguồn giá, chưa chứng nhận dữ liệu hoặc kết quả tài khoản
 đích. [Protocol](PROP-GAP-FULL-DEV-PROTOCOL-20261118.md)
 
+**Đính chính đồng hồ.** Có 11 lệnh EURUSD của phép tính cũ dùng tick
+lệch một giờ ở hai mốc khớp. Số thiếu trung vị cập nhật là 4.873,10 USD
+và 4.926,57 USD. Giữ số dưới đây để tái lập lần đo gốc theo UTC−5.
+[Bảng đã sửa](PROP-EUR-CLOCK-AND-TREASURY-AUCTION-RESULTS-20261118.md#số-dư-12-tháng-sau-hiệu-chỉnh)
+
 ## Các khoảng đã kiểm và lần phục hồi
 
 | Tài sản | Khoảng đã rà | Có tick trong khoảng | Chưa thấy tick | Lệnh đủ giá để so toàn lệnh |

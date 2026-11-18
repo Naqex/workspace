@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+**Đồng hồ EURUSD F5 và đấu giá Treasury.** Đã hiệu chỉnh phép đo nhạy
+12 tháng từ 18 xuống 17 lệnh. Luật Treasury trượt Stage‑0 với 152/438
+qua phí và 0/6 năm đạt sàn markout.
+[Kết quả](PROP-EUR-CLOCK-AND-TREASURY-AUCTION-RESULTS-20261118.md) · [Card](PROP-EUR-TREASURY-AUCTION-CARD-20261118.md).
+
 **Dầu/CAD và phần lệch FX.** Pilot tiếp nối lấy được tick USD/CAD.
 Luật WTI → USD/CAD khóa trước đo tạo 498 tín hiệu và trượt Stage‑0.
 [Card](PROP-OIL-CAD-STAGE0-CARD-20261118.md) ·
