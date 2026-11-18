@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+**Quyết định replay payout ở 50.000 USD.** V23 bỏ F3 đã được đo,
+V26 đã đổi trọng số và R043 hụt cổng để ghép. Báo riêng tháng trắng
+và thời gian nhận payout mô phỏng sau Challenge.
+[Kết quả](PROP-PAYOUT-REPLAY-DECISION-20261118.md) · [Tiêu chí khóa trước](PROP-PAYOUT-REPLAY-ADMISSION-20261118.md).
+
 **US500 ETF và EURUSD COT.** Hai công thức đã khóa trượt Stage‑0.
 US500 âm cả sáu năm, phần so cùng biến động phủ 78/751 tín hiệu có giá.
 EURUSD COT âm trung bình 2,83 pip/lệnh sau stress.

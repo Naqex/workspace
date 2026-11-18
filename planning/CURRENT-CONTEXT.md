@@ -1,8 +1,13 @@
 # Current context — Naqex Workspace
 
-18/11/2026 · `RESEARCH: US500 ETF VÀ EURUSD COT DỪNG Ở STAGE-0 · PORTFOLIO: BASE_GUARD · PROP: NOT_QUALIFIED`.
+18/11/2026 · `RESEARCH: CHƯA CÓ NHÁNH ĐỦ CƠ SỞ REPLAY PAYOUT · PORTFOLIO: BASE_GUARD · PROP: NOT_QUALIFIED`.
 
 ## Việc hiện tại
+
+Rà sổ Development ở vốn 50.000 USD. V23 bỏ F3 và BASE cùng 0/61
+qua hai vòng trong 12 tháng. Thay F3 bằng R043 giảm đóng góp tĩnh,
+nên giữ BASE_GUARD ở `NOT_QUALIFIED`.
+[Quyết định](research/PROP-PAYOUT-REPLAY-DECISION-20261118.md)
 
 US500 cuối phiên theo quy mô UPRO/SPXU âm 6/6 năm. Phép thử độc lập
 EURUSD theo vị thế hợp đồng EUR qua cổng markout ở 1/6 năm. Cả hai
