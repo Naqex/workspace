@@ -7,6 +7,11 @@ risk danh nghĩa 150 USD/lệnh, cần **+85,71 USD ròng/lệnh (+0,571R)**
 risk. Kho đã có nguồn tín hiệu và Bid H1 proxy, còn thiếu chứng từ định
 giá vị thế qua kỳ đổi hợp đồng và phí qua đêm của đúng CFD đích.
 
+Đã làm tiếp phép chẩn đoán settlement trên cùng hợp đồng futures.
+Kết quả hụt quy mô, trượt so với BUY ở cụm sau và củng cố quyết định
+gác tìm feed phí cho luật này.
+[Chẩn đoán futures](PROP-WTI-CURVE-FIXED-CONTRACT-RESULTS-20261118.md).
+
 ## Một giả thuyết, một khung thời gian
 
 Xét dấu `F1 − F4` ở settlement NYMEX đầu tiên của tháng: BUY khi
