@@ -4,6 +4,10 @@
 
 ## Việc hiện tại
 
+S01 GBPUSD giữ tới 20:30 giảm 2,68R so với 20:00 trên cùng 287
+lệnh tick. Cụm 2018–2020 vẫn thiếu đường để xác nhận; gác replay.
+[Kết quả](research/PROP-GBP-S01-EXIT-CLOCK-20261119.md).
+
 Tổ hợp tám đại diện ngoài BASE còn 1.074 cơ hội sau gộp. Phần có
 giá thêm 277–376 USD/năm, 135/767 lượt thiếu đường, không có cửa sổ
 mới chạm mốc cash 5.000 USD. Gác replay. [Kết quả](research/PROP-SCREEN-OVERLAP-20261119.md).

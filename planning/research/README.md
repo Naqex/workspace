@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**GBPUSD S01 so giờ thoát.** Cùng 287 lệnh tick, hạn gốc 20:30 mất
+2,68R so với 20:00. Cận 2018–2020 và kiểm nguồn củng cố quyết định gác.
+[Kết quả](PROP-GBP-S01-EXIT-CLOCK-20261119.md).
+
 **Độ trùng với BASE.** Tám đại diện có thêm cơ hội nhưng tiền trên
 phần đo được chỉ 277–376 USD/năm và chưa đưa cửa sổ nào tới mốc.
 [Kết quả](PROP-SCREEN-OVERLAP-20261119.md).
