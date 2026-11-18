@@ -4,6 +4,10 @@
 
 ## Việc hiện tại
 
+Lộ trình prop sau V26 dùng một kế hoạch tổng và các nhịp có cổng chuyển bước.
+Mở [lộ trình](research/PROP-SYSTEM-ROADMAP.md) và [task Nhịp 1](research/PROP-STAGE0-NEXT-SLEEVE-TASK.md).
+Nhịp 1 đã có đặc tả, chưa chạy. Baseline và kết quả đối chứng bên dưới.
+
 V26 kết luận giữ BASE_GUARD và đóng GBPUSD S01 với quyết định không promote.
 [Báo cáo](research/BATCH-EXACT-ISO-V26-RESULTS-20261118.md) /
 [JSON](research/BATCH-EXACT-ISO-V26-RESULTS-20261118.json) /
@@ -969,7 +973,7 @@ pricecomponent thành accountPnL. Dataset đã xem không tự thành cleanOOS.
 
 | Việc | Authority / đường đọc |
 |---|---|
-|Task nghiên cứu hiện tại|TaskSTRATEGY-E2E → đúngstage → protocol/results/artifacts; [workflow](../tooling/ai-engines/STRATEGY-WORKFLOW.md) giữ phương pháp|
+|Task nghiên cứu hiện tại|[Lộ trình prop sau V26](research/PROP-SYSTEM-ROADMAP.md) → nhịp hiện hành → protocol và kết quả. [Workflow](../tooling/ai-engines/STRATEGY-WORKFLOW.md) giữ phương pháp.|
 |Trader source/UI|[ProductPlan](trader/PRODUCT-COMPLETION-PLAN.md) → [entrypoint](trader/EXECUTION-ENTRYPOINT.md) → ledger; không thay bằng researchplan|
 |Runtime/MT5/Paperclip|[Operations](../tooling/ai-engines/OPERATIONS.md), đúngruntime skill/owner; reconcile jobs/unknown submissions trước restart|
 |Context/skills|[Lifecycle](CONTEXT-LIFECYCLE.md), [maintenance](../docs/development/SKILL-MAINTENANCE.md); không globalconfig/manager mới|
