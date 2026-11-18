@@ -4,6 +4,11 @@
 
 ## Việc hiện tại
 
+ORB 5 phút không RVOL trượt phép kiểm chuyển mã trên cùng mẫu 2022H2.
+KO âm cả hai thứ tự giá, TWTR chỉ dương ở một thứ tự, sổ chung âm
+3.085–4.732 USD sau phí notional. Gác cấp thêm ngân sách dữ liệu.
+[Kết quả](research/PROP-STOCK-ORB-SYMBOL-TRANSFER-RESULTS-20261118.md).
+
 R029 carry trên EURUSD/GBPUSD/AUDUSD đã gác. Năm vị thế trong sáu
 năm, +189 USD/năm dưới chênh lãi suất lý thuyết trước phụ phí tài
 trợ. Hụt cadence và quy mô, không replay.

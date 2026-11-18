@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**ORB 5 phút chuyển mã.** KO, TWTR và sổ chung trượt cả bốn tiêu chí
+ưu tiên dữ liệu kỳ mới. SPY là đối chứng, TSLA là case hậu chọn đã dùng.
+[Kết quả](PROP-STOCK-ORB-SYMBOL-TRANSFER-RESULTS-20261118.md).
+
 **R029 currency carry.** Chỉ 5 vị thế trong sáu năm, cần swap ròng
 11,50%/năm trên notional chịu swap để góp 1.000 USD/năm. Hai cụm
 đều hụt quy mô ở risk hiện hành.
