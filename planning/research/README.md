@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**BTCUSD funding · đổi delay +60 → +2 phút.** Raw stress trên cùng
+197 tín hiệu tăng +50,83 → +62,05 bp. Sổ 48 lệnh lỗ từ 171,97 lên
+1.217,13 USD. Đóng nhánh. [Kết quả](PROP-BTC-FUNDING-ENTRY-DELAY-RESULTS-20261119.md).
+
 **BTCUSD · BUY sau funding nhóm thấp.** Raw stress +50,37 bp trên 198
 tín hiệu 2021–2023. Sổ 48 lệnh sau cổng và overlap −171,97 USD.
 [Kết quả](PROP-BTC-FUNDING-LOW-TAIL-RESULTS-20261119.md).

@@ -4,6 +4,10 @@
 
 ## Việc hiện tại
 
+Đóng nhánh BTCUSD funding sau đối soát +2 phút. Markout thô tốt hơn,
+sổ 48 lệnh 2021–2023 lỗ 1.217,13 USD stress so với 171,97 USD.
+[Kết quả](research/PROP-BTC-FUNDING-ENTRY-DELAY-RESULTS-20261119.md).
+
 Gác BTCUSD BUY sau funding nhóm thấp. 2021–2023 có 198 tín hiệu, giữ
 48 lệnh và lỗ 171,97 USD stress. 2020 từ tháng 3 lãi 1.209,70 USD.
 [Kết quả](research/PROP-BTC-FUNDING-LOW-TAIL-RESULTS-20261119.md).
