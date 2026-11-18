@@ -33,6 +33,9 @@ giờ. Xét khả năng chi trả phí của cấu trúc stop/horizon trước k
 thêm luật chọn hướng.
 [Đối chiếu biên độ](PROP-SESSION-FEASIBILITY-RESULTS-20261118.md) ·
 [Kết quả Stage‑0](PROP-EURUSD-US-RATES-RESULTS-20261118.md)
+Đã rà các setup có sẵn sau DGS2. Gác lượt tìm setup hiện tại vì chưa
+có cơ chế mới với bằng chứng tự nhiên về stop, cadence và nguồn giá.
+[Quyết định và điều kiện mở lại](PROP-POST-DGS2-REOPEN-DECISION-20261118.md)
 Kế hoạch này tiếp nối kết quả V26. Chiến dịch STRATEGY-E2E cũ đã đóng theo
 quyết định của owner, với lịch sử thử nghiệm được lưu riêng.
 [Chiến dịch cũ](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)
