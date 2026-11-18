@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**EURUSD F2 · chẩn đoán hướng, phí và stop.** Đảo hướng raw lỗ sau
+phí cả sáu năm. Đối chiếu 65 đường thiếu bằng tick, còn 64 chưa rõ.
+[Kết quả](PROP-EURUSD-F2-DIRECTION-20261119.md).
+
 **Chọn nhánh F1–F4 tại cuối 2020.** 0/11 đại diện qua cổng fit.
 Không tăng PnL ở 2021–2023. Giữ BASE_GUARD và gác replay.
 [Kết quả](PROP-PAST-ONLY-SLEEVE-SELECTION-20261119.md).

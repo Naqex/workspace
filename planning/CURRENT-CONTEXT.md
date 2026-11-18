@@ -4,6 +4,11 @@
 
 ## Việc hiện tại
 
+Gác EURUSD F2 và phép đảo chiều. Trên cùng 300 lệnh có giá 2018–2020,
+stop giảm lỗ 5,58R nhờ tiết kiệm swap. Đảo chiều raw lỗ sau phí cả
+sáu năm. Tick định giá stop thêm 1/65 đường thiếu, vẫn gác replay.
+[Kết quả](research/PROP-EURUSD-F2-DIRECTION-20261119.md).
+
 Chọn 11 đại diện F1–F4 của EURUSD, XAUUSD và US500 tại mốc cuối 2020.
 Cả 11 âm sau phí trên phần định giá được, chỉ EURUSD F2 đủ nhịp.
 Danh mục bổ sung 2021–2023 rỗng. BASE không có cửa sổ cash 12 tháng
