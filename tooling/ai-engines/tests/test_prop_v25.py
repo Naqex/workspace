@@ -1,6 +1,9 @@
 import unittest
 from fractions import Fraction
 from prop_v25_risk import iso_weights, decide
+from prop_v25_gbp import exact_pass, H1ScenarioQuotes, scenario_trades
+from quant_core.market_data_store import BAR
+import numpy as np
 
 
 class RiskScreenTests(unittest.TestCase):
@@ -22,3 +25,18 @@ class RiskScreenTests(unittest.TestCase):
                        dict(cluster_R=[-1, 27]), dict(net_R=23),
                        dict(equity_R_DD=float("nan")), dict(net_R=True), dict(cluster_R=[1])):
             self.assertFalse(decide(dict(candidate, **change), base)["passed"])
+
+
+class GBPResolutionTests(unittest.TestCase):
+    def test_cost_boundary_uses_price_units(self):
+        self.assertGreater((9/100000+.00009)/(120/100000), .15)
+        self.assertTrue(exact_pass(9, 120, 15))
+        self.assertFalse(exact_pass(9, 119, 15))
+        self.assertTrue(exact_pass(9, 121, 15))
+
+    def test_hourly_extrema_are_not_disguised_as_minute_observations(self):
+        bars = np.array([(0,100,130,90,110,109,139,99,119)], dtype=BAR)
+        q = H1ScenarioQuotes(bars, "OLHC").points(0, 3599999)
+        self.assertEqual(q["t"].tolist(), [0,1200000,2400000,3599999])
+        self.assertEqual(q["b"].tolist(), [100,90,130,110])
+        self.assertEqual(len(H1ScenarioQuotes(bars, "OHLC").points(0, 0)), 1)
