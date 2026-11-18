@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**Phân rã EURUSD PreECB R056.** Sổ có SL lãi 39,89 / 56,26 USD/năm
+sau phí BASE. Phần tiền đo theo giờ cũng hụt 2% và đối chứng cùng
+SELL phiên liền sau âm. Gác cho mục tiêu payout. [Kết quả](PROP-PRE-ECB-R056-DEVELOPMENT-ATTRIBUTION-20261119.md).
+
 **Dư địa AUD/USD quanh fixing.** Chỉ 21/79 ngày có chiều qua trần phí.
 Cận biết trước trong mẫu 2019 chỉ +45,93 USD. Gác tìm thêm dữ liệu.
 [Kết quả](PROP-AUD-FIXING-WINDOW-PILOT-20261119.md).

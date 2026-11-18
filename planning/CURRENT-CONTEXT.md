@@ -4,6 +4,10 @@
 
 ## Việc hiện tại
 
+Gác EURUSD PreECB R056 cho mục tiêu payout. Sau phí BASE, luật cũ
+còn 39,89 / 56,26 USD/năm ở hai cụm Development. So cùng lot,
+phiên SELL liền sau lỗ ở cả hai cụm. [Kết quả](research/PROP-PRE-ECB-R056-DEVELOPMENT-ATTRIBUTION-20261119.md).
+
 Khung AUD/USD 01:20–02:00 UTC có 21/79 ngày mẫu qua trần phí theo ít
 nhất một chiều. Dù được chọn theo kết quả đã biết, mẫu 2019 chỉ còn +45,93 USD.
 Gác tìm thêm dữ liệu CFETS/CNH. [Kết quả](research/PROP-AUD-FIXING-WINDOW-PILOT-20261119.md).
