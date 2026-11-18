@@ -61,28 +61,27 @@ def source_counts(hourly):
             total += count
         assert total == body["ticks"]
         receipts.append(dict(year=year, cache_sha256=sha(path), source_sha256=expected, ticks=total))
-    coverage = [counts.get(row[0]) for row in hourly]
-    if any(count is None for count in coverage):
-        return None, dict(sources=receipts, missing_hours=sum(count is None for count in coverage))
-    mismatch = sum(tuple(r[1:5]) != count[1] for r, count in zip(hourly, coverage))
-    return (None if mismatch else np.asarray([count[0] for count in coverage]),
-            dict(sources=receipts, missing_hours=0, bid_ohlc_mismatches=mismatch, hours=len(hourly)))
+    missing = [row[0] for row in hourly if row[0] not in counts]
+    mismatch = [row[0] for row in hourly if row[0] in counts and tuple(row[1:5]) != counts[row[0]][1]]
+    # Keep volume and price from the same observed feed. Require a complete M1
+    # hour for inclusion, even though the candle itself comes from the tick cache.
+    admitted = [(row[0], counts[row[0]]) for row in hourly if row[0] in counts]
+    return [(at, *quote) for at, (_, quote) in admitted], np.asarray([v[0] for _, v in admitted]), dict(
+        sources=receipts, missing_hours=missing, bid_ohlc_mismatches=mismatch,
+        hours=len(hourly), observed_hours=len(admitted))
 
 
 def run():
     activate_runtime()
     card = read(CARD)
-    save("registration.json", dict(card_sha256=sha(CARD), source_sha256=sha(__file__),
+    save("registration-v2.json", dict(card_sha256=sha(CARD), source_sha256=sha(__file__),
         scope="Six EURUSD MFI cells blocked at original V26 Stage-0", validation_prices=False,
-        source_contract="Checksummed observed tick counts, exact hourly Bid OHLC agreement"))
+        source_contract="Native observed H1 OHLC and tick counts together, scoped to complete M1 hours. Frozen M1 quotes for pricing. Diagnostic if sources differ."))
     bars = bars_for("EURUSD", True)
     hourly = [row for row in aggregate(bars) if row[5] == 60]
-    volume, receipt = source_counts(hourly)
-    save("tick-count-admission.json", receipt)
-    if volume is None:
-        print(receipt, flush=True)
-        return
-    candles = frame(hourly, HOUR)
+    observed, volume, receipt = source_counts(hourly)
+    save("tick-count-admission-v2.json", receipt)
+    candles = frame(observed, HOUR)
     flats = np.asarray(gold_calendar(FIRST, DEV_END).times, dtype="int64")
     results = []
     for profile in card["profiles"][1:]:
@@ -132,12 +131,13 @@ def run():
                     reasons.append(f"{year}:ENDPOINT_INCOMPLETE")
             markout.append(dict(hours=horizon, annual=annual))
         results.append(dict(rank=profile["rank"], file=profile["file"], asset="EURUSD", oscillator="MFI",
-            pattern=profile["pattern"], resolution="M1", status="STAGE0_FAIL" if reasons else "STAGE0_PASS",
+            pattern=profile["pattern"], resolution="NATIVE_H1_SIGNAL_M1_PRICING",
+            status="STAGE0_FAIL" if reasons else "SOURCE_PARITY_REVIEW_REQUIRED",
             stage0_passed=not reasons, raw_signals=len(at), reasons=reasons, markout=markout,
             trades_per_year=[r["signals"] for r in markout[0]["annual"]],
             friction_pass_rate=retention, friction_SL=ratio, clusters_R=None, net_R=None,
             max_R_DD=None, daily_correlation=None, SL_active=False))
-    compressed("results", results)
+    compressed("results-v2", results)
     print([(r["rank"], r["status"], r["raw_signals"]) for r in results], flush=True)
 
 
