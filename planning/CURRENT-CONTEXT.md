@@ -4,6 +4,10 @@
 
 ## Việc hiện tại
 
+Gác BTCUSD BUY sau funding nhóm thấp. 2021–2023 có 198 tín hiệu, giữ
+48 lệnh và lỗ 171,97 USD stress. 2020 từ tháng 3 lãi 1.209,70 USD.
+[Kết quả](research/PROP-BTC-FUNDING-LOW-TAIL-RESULTS-20261119.md).
+
 Gác US500 intraday V16 sau kiểm độ nhạy phí. 0/98 đủ nhịp và dương cả
 hai cụm ngay ở trượt 0. Cụm yếu tốt nhất +109,91 USD/năm, so với cổng
 1.000 USD/năm. [Kết quả](research/PROP-US500-V16-SLIPPAGE-RESULTS-20261119.md).

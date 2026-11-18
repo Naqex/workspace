@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**BTCUSD · BUY sau funding nhóm thấp.** Raw stress +50,37 bp trên 198
+tín hiệu 2021–2023. Sổ 48 lệnh sau cổng và overlap −171,97 USD.
+[Kết quả](PROP-BTC-FUNDING-LOW-TAIL-RESULTS-20261119.md).
+
 **US500 V16 · tách riêng trượt giá.** Dương hai cụm tăng 4 → 14 khi bỏ
 trượt. 0/98 đủ nhịp và dương cả hai cụm. Cụm yếu tốt nhất +109,91 USD/năm.
 [Kết quả](PROP-US500-V16-SLIPPAGE-RESULTS-20261119.md).
