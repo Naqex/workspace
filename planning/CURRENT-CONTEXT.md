@@ -4,6 +4,11 @@
 
 ## Việc hiện tại
 
+Gác WTI chênh lệch kỳ hạn ở bước kiểm nguồn. Trần 35 cửa sổ tháng
+mỗi cụm ba năm, yêu cầu +0,571R/lệnh để góp 1.000 USD/năm và chưa
+định giá được đổi tháng/swap của CFD đích.
+[Kết quả](research/PROP-WTI-CURVE-CFD-ADMISSION-20261118.md).
+
 ORB 5 phút không RVOL trượt phép kiểm chuyển mã trên cùng mẫu 2022H2.
 KO âm cả hai thứ tự giá, TWTR chỉ dương ở một thứ tự, sổ chung âm
 3.085–4.732 USD sau phí notional. Gác cấp thêm ngân sách dữ liệu.

@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+**WTI chênh lệch kỳ hạn.** Tối đa 35 cửa sổ tháng trong mỗi cụm ba
+năm và cần +0,571R/lệnh để góp 1.000 USD/năm. Thiếu đường giá, phí
+và điều chỉnh đổi tháng của đúng CFD đích.
+[Kết quả kiểm nguồn](PROP-WTI-CURVE-CFD-ADMISSION-20261118.md).
+
 **ORB 5 phút chuyển mã.** KO, TWTR và sổ chung trượt cả bốn tiêu chí
 ưu tiên dữ liệu kỳ mới. SPY là đối chứng, TSLA là case hậu chọn đã dùng.
 [Kết quả](PROP-STOCK-ORB-SYMBOL-TRANSFER-RESULTS-20261118.md).
