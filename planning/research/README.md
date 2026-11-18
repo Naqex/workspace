@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**US500 V16 · tách riêng trượt giá.** Dương hai cụm tăng 4 → 14 khi bỏ
+trượt. 0/98 đủ nhịp và dương cả hai cụm. Cụm yếu tốt nhất +109,91 USD/năm.
+[Kết quả](PROP-US500-V16-SLIPPAGE-RESULTS-20261119.md).
+
 **US500 M15 · chuyển SPY S-Sign.** Đo phí stress bình quân 2,77 bp/phía
 trên 38.847/39.090 mốc. Chưa có nguồn forecast đúng bản, gác trước runner.
 [Kết quả](PROP-US500-SPY-S-SIGN-PREFLIGHT-20261119.md).

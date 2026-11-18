@@ -4,6 +4,10 @@
 
 ## Việc hiện tại
 
+Gác US500 intraday V16 sau kiểm độ nhạy phí. 0/98 đủ nhịp và dương cả
+hai cụm ngay ở trượt 0. Cụm yếu tốt nhất +109,91 USD/năm, so với cổng
+1.000 USD/năm. [Kết quả](research/PROP-US500-V16-SLIPPAGE-RESULTS-20261119.md).
+
 Gác chuyển SPY S-Sign sang US500 M15 ở bước nguồn. Phí stress bình quân
 2,77 bp/phía qua 38.847 mốc có giá. Chưa có forecast đúng bản và chưa đo
 PnL trên CFD. [Kết quả](research/PROP-US500-SPY-S-SIGN-PREFLIGHT-20261119.md).
