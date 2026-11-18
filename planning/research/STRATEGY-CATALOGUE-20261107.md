@@ -100,7 +100,7 @@ freeze trước outcomes; old quarter-mask failure và corrected attempt đều 
 |R026|Month-end relative-equity flow|fixing_flow / R020|Gác exactadaptation sau6years;stress−227,6pip/66resolved|0|[Continuationresults](R026-RELATIVE-EQUITY-CONTINUATION-RESULTS-20261108.md); giữ baseline2019/22, không bot/edge|
 |R027|News-surprise continuation|event|Historical source reviewed; intraday known-at/access chưa admitted|0|[Source review](FOMC-SURPRISE-SOURCE-RESULTS-20261109.md); chưa ownoutcome|
 |R028|News overreaction reversal|event / R027|Historical source reviewed; intraday known-at/access chưa admitted|0|[Source review](FOMC-SURPRISE-SOURCE-RESULTS-20261109.md); chưa ownoutcome|
-|R029|Currency carry|carry|long_history_or_multi_data|0|Chưa outcome riêng|
+|R029|Currency carry|carry|Gác: 5 vị thế/6 năm, hụt quy mô; swap FTMO lịch sử chưa xác minh|1|[Kết quả R029](PROP-FX-CARRY-R029-RESULTS-20261118.md)|
 |R030|Carry + trend|carry / R029|long_history_or_multi_data|0|Chưa outcome riêng|
 |R031|Long-horizon value / PPP|value|long_history_or_multi_data|0|Chưa outcome riêng|
 |R032|Value + momentum|value / R031|long_history_or_multi_data|0|Chưa outcome riêng|

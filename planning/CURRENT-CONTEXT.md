@@ -4,6 +4,11 @@
 
 ## Việc hiện tại
 
+R029 carry trên EURUSD/GBPUSD/AUDUSD đã gác. Năm vị thế trong sáu
+năm, +189 USD/năm dưới chênh lãi suất lý thuyết trước phụ phí tài
+trợ. Hụt cadence và quy mô, không replay.
+[Kết quả](research/PROP-FX-CARRY-R029-RESULTS-20261118.md)
+
 BTC/USD tiếp diễn 24h trượt Stage‑0 sau phí, dù 290/312 tín hiệu qua
 cap chi phí. US500 mua khi VIX 30 ngày vượt VIX 3 tháng cũng hụt
 tần suất và quy mô ở cả hai cụm. BASE_GUARD vẫn `NOT_QUALIFIED`.

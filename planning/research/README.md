@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+**R029 currency carry.** Chỉ 5 vị thế trong sáu năm, cần swap ròng
+11,50%/năm trên notional chịu swap để góp 1.000 USD/năm. Hai cụm
+đều hụt quy mô ở risk hiện hành.
+[Kết quả](PROP-FX-CARRY-R029-RESULTS-20261118.md).
+
 **BTC/USD ngày và đường cong VIX.** BTC đủ cadence và scale, hụt
 raw markout 6/6 năm. US500 đảo ngược kỳ hạn VIX hụt cadence 4/6 năm
 và không lặp đủ quy mô giữa hai cụm.
