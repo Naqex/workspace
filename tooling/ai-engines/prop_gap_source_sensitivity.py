@@ -67,7 +67,7 @@ def fetch(month, folder, asset='EURUSD'):
     return path, page
 
 
-def observed_ticks(path, month, start, end, *, wanted_minutes=None, asset='EURUSD'):
+def observed_ticks(path, month, start, end, *, wanted_minutes=None, asset='EURUSD', outside_order_exception=None):
     low, high = [datetime.fromtimestamp(t / 1000, EST).strftime('%Y%m%d %H%M%S') for t in (start, end)]
     wanted = {datetime.fromtimestamp(t / 1000, EST).strftime('%Y%m%d %H%M') for t in wanted_minutes} if wanted_minutes is not None else None
     rows = []
@@ -80,7 +80,9 @@ def observed_ticks(path, month, start, end, *, wanted_minutes=None, asset='EURUS
             for line in text:
                 fields = line.rstrip('\r\n').split(',')
                 date = fields[0]
-                if len(fields) != 4 or len(date) != 18 or date[:6] != month or date < previous:
+                if len(fields) != 4 or len(date) != 18 or date[:6] != month:
+                    raise ValueError('HISTDATA_TICK_SCHEMA_SCOPE_OR_ORDER')
+                if date < previous and ((previous, date) != outside_order_exception or date[:15] <= high):
                     raise ValueError('HISTDATA_TICK_SCHEMA_SCOPE_OR_ORDER')
                 previous = date
                 if not low <= date[:15] <= high or (wanted is not None and date[:13] not in wanted):
@@ -133,16 +135,24 @@ def assess(t, rows, gaps, strict):
         result['status'] = 'INTERTICK_GAP'
         return result
     original_entry = opening[2 if buy else 1]
-    gross = (Decimal(qty * (1 if gold else 1000) * (1 if buy else -1)) *
-             (exit_[exit_field] - original_entry)).quantize(CENT, rounding=ROUND_HALF_UP)
+    result.update(status='HORIZON' if crossing is None else 'SL', entry_at=opening[0], exit_at=exit_[0],
+                  entry_price=str(original_entry), exit_price=str(exit_[exit_field]),
+                  net_cents=quote_pnl_cents(t['asset'], t['side'], qty, original_entry, exit_[exit_field]))
+    return result
+
+
+def quote_pnl_cents(asset, side, qty, entry, exit_price):
+    if asset not in ('XAUUSD', 'EURUSD') or side not in ('BUY', 'SELL'):
+        raise ValueError('HISTDATA_QUANTITY_COST_SCOPE')
+    gold = asset == 'XAUUSD'
+    gross = (Decimal(qty * (1 if gold else 1000) * (1 if side == 'BUY' else -1)) *
+             (exit_price - entry)).quantize(CENT, rounding=ROUND_HALF_UP)
     if gold:
         fees = sum((price * qty * Decimal('.000007')).quantize(CENT, rounding=ROUND_HALF_UP)
-                   for price in (original_entry, exit_[exit_field])) + qty * Decimal('.40')
+                   for price in (entry, exit_price)) + qty * Decimal('.40')
     else:
         fees = 2 * (Decimal(qty) * Decimal('.035')).quantize(CENT, rounding=ROUND_HALF_UP) + qty * Decimal('.02')
-    result.update(status='HORIZON' if crossing is None else 'SL', entry_at=opening[0], exit_at=exit_[0],
-                  entry_price=str(original_entry), exit_price=str(exit_[exit_field]), net_cents=int((gross - fees) * 100))
-    return result
+    return int((gross - fees) * 100)
 
 
 def audit_cached_overlap():

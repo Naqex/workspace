@@ -29,3 +29,18 @@ giải mã giá trong khoảng cần so. Không có giá nào từ 2024–2026.
 - Đồng thời rà hồ sơ V13/V16/V26 và hai ca đối chứng F4/VIX trước khi
   chọn việc tiếp. Nếu không có nhánh đạt cổng, giữ nguyên verdict và
   chỉ ra việc nào còn đủ khả năng đổi quyết định.
+
+## Theo dõi sau lượt chạy đầu
+
+- Phục hồi duy nhất ca XAUUSD 02/10/2023 từ archive bất biến. Giữ lỗi
+  timestamp ngày 29/10, chỉ cho phép đúng cặp giảm timestamp đã quan
+  sát và nằm sau cửa sổ. Ghi hash và so phút kề để kiểm căn chỉnh. Không
+  chạy lại 18 kho đã qua hoặc áp ngoại lệ cho archive khác.
+- Kiểm tiếp khoảng hụt vòng 1 bằng các số lot ghi trong sổ V19, giữ
+  cohort chưa qua của từng kịch bản, đóng 12 tháng theo mốc cũ.
+  Điều chỉnh số dư giả định bằng chênh tiền của các lệnh P0 đã có giá
+  HistData. Giữ nguyên mọi quyết định vào lệnh, sizing và chuyển pha.
+  Chỉ báo phân bố khoảng cách tới 55.000 USD, không tính lại tỷ lệ pass,
+  drawdown hoặc payout. Đối chiếu lại cash ban đầu tới cent trước khi
+  cộng chênh giá. Kết quả dùng để xác định repair có giải quyết được
+  quy mô thiếu hụt hay chỉ giảm bất định của sổ.

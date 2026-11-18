@@ -47,7 +47,7 @@ def get_source(key, folder, cached):
     return path, sha(path), False
 
 
-def compare_month(key, gaps, path, base, strict, stops, bars):
+def compare_month(key, gaps, path, base, strict, stops, bars, *, outside_order_exception=None):
     asset, month = key
     minute_ids = {at for g in gaps for at in range(g['before'], g['after'] + MINUTE, MINUTE)}
     grouped = defaultdict(list)
@@ -60,7 +60,7 @@ def compare_month(key, gaps, path, base, strict, stops, bars):
         if t['mode'] == 'P0' and month_at(first) == month_at(end + MINUTE) == month:
             minute_ids.update(range(first // MINUTE * MINUTE, end + 2 * MINUTE, MINUTE))
     ticks = observed_ticks(path, month, min(minute_ids), max(minute_ids) + MINUTE,
-                           wanted_minutes=minute_ids, asset=asset)
+                           wanted_minutes=minute_ids, asset=asset, outside_order_exception=outside_order_exception)
     minutes = defaultdict(list)
     for tick in ticks:
         minutes[tick[0] // MINUTE * MINUTE].append(tick)
