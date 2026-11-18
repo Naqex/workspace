@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+**Dầu/CAD và phần lệch FX.** Dầu/CAD chặn ở nguồn, EURUSD rớt Stage‑0
+với 271/660 tín hiệu qua phí và 0/6 năm đạt markout.
+[Protocol](PROP-OIL-CAD-AND-FX-RESIDUAL-PROTOCOL-20261118.md) ·
+[Kết quả](PROP-OIL-CAD-AND-FX-RESIDUAL-RESULTS-20261118.md).
+
 **EURUSD và lợi suất Mỹ hai năm.** Trượt Stage‑0 với 342/988 tín hiệu
 qua cap phí. [Kết quả](PROP-EURUSD-US-RATES-RESULTS-20261118.md) ·
 [Protocol](PROP-EURUSD-US-RATES-PROTOCOL-20261118.md).

@@ -36,6 +36,11 @@ thêm luật chọn hướng.
 Đã rà các setup có sẵn sau DGS2. Gác lượt tìm setup hiện tại vì chưa
 có cơ chế mới với bằng chứng tự nhiên về stop, cadence và nguồn giá.
 [Quyết định và điều kiện mở lại](PROP-POST-DGS2-REOPEN-DECISION-20261118.md)
+
+Lượt hai đầu mối từ tài liệu gốc đã chốt. Dầu–CAD thiếu nguồn đồng
+bộ, còn EURUSD hồi quy phần lệch với rổ GBP/AUD trượt Stage‑0 trên
+660 tín hiệu. Mục tiêu tìm lợi thế mới vẫn tiếp tục.
+[Kết quả](PROP-OIL-CAD-AND-FX-RESIDUAL-RESULTS-20261118.md)
 Kế hoạch này tiếp nối kết quả V26. Chiến dịch STRATEGY-E2E cũ đã đóng theo
 quyết định của owner, với lịch sử thử nghiệm được lưu riêng.
 [Chiến dịch cũ](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)
