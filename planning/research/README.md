@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**43 khoảng thiếu Development.** Đã phục hồi ca thiếu do lỗi timestamp
+ngoài cửa sổ, tìm tick ở 26 khoảng, và kiểm số dư 12 tháng với lot cũ.
+[Kết quả](PROP-GAP-FULL-DEV-RESULTS-20261118.md).
+
 **Hồi quy BASE_GUARD và đối chiếu nguồn tick.** Đã sửa cutoff, đối
 chiếu 340 lệnh, tìm tick HistData ở 8/14 khoảng và giữ sổ gốc.
 [Protocol](PROP-REPLAY-REGRESSION-PROTOCOL-20261118.md) ·

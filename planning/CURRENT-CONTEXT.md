@@ -1,8 +1,13 @@
 # Current context — Naqex Workspace
 
-18/11/2026 · `RESEARCH: HỒI QUY VÀ ĐỐI CHIẾU TICK ĐÃ CHỐT · PORTFOLIO: BASE_GUARD · PROP: NOT_QUALIFIED`.
+18/11/2026 · `RESEARCH: ĐÃ RÀ 43 KHOẢNG GIÁ DEVELOPMENT · PORTFOLIO: BASE_GUARD · PROP: NOT_QUALIFIED`.
 
 ## Việc hiện tại
+
+Đã rà toàn bộ 43 khoảng thiếu Development. HistData có tick ở 26 khoảng
+và 18 lệnh được định giá trọn. Giữ lot cũ, số dư 12 tháng vẫn thiếu
+trung vị 4.712 USD (PRIMARY) và 4.745 USD (STRICT).
+[Báo cáo đối chiếu](research/PROP-GAP-FULL-DEV-RESULTS-20261118.md)
 
 Đã sửa bộ chọn giá tại cutoff. Giữ entry và lot của 340 lệnh, thoát theo
 giờ cho +5,58R, PRIMARY +23,85R và STRICT −7,95R. HistData có tick ở

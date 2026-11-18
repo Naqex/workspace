@@ -19,6 +19,11 @@ US500 VIX theo yêu cầu đó đã trượt Stage‑0. Giữ BASE_GUARD làm đ
 Development dưới STRICT, nhưng có 6–21 lệnh/năm. Dùng F4 làm đối
 chứng dương hẹp và US500 VIX làm đối chứng âm trong đợt sau.
 [Kết quả hồi quy và dữ liệu](PROP-REPLAY-REGRESSION-RESULTS-20261118.md)
+Đối chiếu mở rộng đủ 43 khoảng Development tìm tick ở 26 khoảng. Thử
+điều chỉnh số dư 12 tháng với lot cũ, mức thiếu trung vị còn gần 4.700
+USD ở cả hai kịch bản. Ưu tiên cơ chế tạo PnL mới. Giữ dữ liệu thiếu
+và số đo khác feed trong hồ sơ, chỉ mở tiếp khi có nguồn làm đổi quyết định.
+[Tiền thiếu sau đối chiếu giá](PROP-GAP-FULL-DEV-RESULTS-20261118.md)
 Kế hoạch này tiếp nối kết quả V26. Chiến dịch STRATEGY-E2E cũ đã đóng theo
 quyết định của owner, với lịch sử thử nghiệm được lưu riêng.
 [Chiến dịch cũ](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)
