@@ -4,6 +4,11 @@
 
 ## Việc hiện tại
 
+Gác premium Thượng Hải–London ở bước nguồn. Proxy có 1.181/1.182
+ngày 2018–2022. Batch SHAU PM năm 2023 thiếu cả 12 tháng.
+Giữ 10 phiên cho 3–23 lượt/năm theo lịch. Chưa tính PnL.
+[Kết quả](research/PROP-XAU-SHANGHAI-PREMIUM-PREFLIGHT-20261119.md).
+
 Gác chuẩn US500 BUY gần trọn phiên cash NYSE ở risk 125 USD. 1.502
 endpoint net −7.876,24 USD. Có đường stop 1.149/1.503; cả hai cụm
 âm và 0/61 cửa sổ cash chạm +5.000 USD. R120 chỉ có 11 lệnh ghép.

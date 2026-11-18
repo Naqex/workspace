@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**XAUUSD · premium Thượng Hải–London.** Ghép được 1.181 ngày, thiếu
+chuỗi SHAU PM 2023. Gác ở bước nguồn và nhịp, chưa tính PnL.
+[Kết quả](PROP-XAU-SHANGHAI-PREMIUM-PREFLIGHT-20261119.md).
+
 **US500 · chuẩn BUY gần trọn phiên cash NYSE.** Có giá 1.502 endpoint,
 gộp trước phí không đủ quy mô và net âm cả hai cụm. Gác replay.
 [Kết quả](PROP-US500-CASH-SESSION-20261119.md).
