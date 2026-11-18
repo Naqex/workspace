@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+**US500 bỏ commission theo biểu phí FTMO.** Đã tính cả cơ hội mới qua cổng
+và thay đổi lot ở VIX Curve. Tín hiệu đổi dấu nhưng hụt tiền và tần suất.
+Kho V12/V16 cũng không đạt mốc 1.000 USD/năm ở cả hai cụm Development.
+[Kết quả](PROP-US500-TARGET-FEE-RESULTS-20261119.md).
+
 **US500 Calendar 60/40.** Dùng IVV/IEF trước phiên US500 kế tiếp.
 Bỏ commission và tính phần giá trước 09:32 vẫn hụt mốc kinh tế.
 [Kết quả và đối chứng](PROP-US500-CALENDAR-REBALANCE-RESULTS-20261119.md).

@@ -4,6 +4,15 @@
 
 ## Việc hiện tại
 
+Đã kiểm phí US500 theo công bố FTMO trên Development 2018–2023.
+VIX Curve đổi dấu nhưng cụm yếu chỉ đạt 128,09 USD/năm. Không cấu hình
+nào qua mốc 1.000 USD/năm ở cả hai cụm. Gác tái dựng SL và replay.
+[Kết quả](research/PROP-US500-TARGET-FEE-RESULTS-20261119.md).
+
+Theo chỉ thị ngày 19/11, gửi kết quả mỗi mốc của chiến dịch prop trực
+tiếp vào [chat Astra](codex://threads/01a1d0df-fd23-79f3-a9d9-755f0b88b3b8)
+trước khi báo lại owner.
+
 Gác US500 Calendar 60/40. Hai cụm Development lỗ 256,78 và 78,06
 USD/năm trên 216/284 tín hiệu định giá được với SL. Bỏ commission
 còn −164,22 / +37,94 USD/năm. Phần giá trước entry cũng hụt mốc. [Kết quả](research/PROP-US500-CALENDAR-REBALANCE-RESULTS-20261119.md).
