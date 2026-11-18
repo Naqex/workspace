@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+**TSLA ORB không RVOL và Gold COMEX.** Sổ TSLA có dư địa phí trong mô
+hình khớp tại SL, nhưng thiếu quote và kỳ ngoài mẫu. Gold COMEX trượt
+cổng markout cả sáu năm.
+[Kết quả](PROP-TSLA-ORB-COST-AND-GOLD-COMEX-RESULTS-20261118.md).
+
 **Stocks in Play và Gold PM.** Pilot TSLA có 42 trigger cash và còn thiếu
 giá khớp CFD đích. Gold PM có 335 tín hiệu, 17 qua phí và trượt Stage‑0.
 [Kết quả nguồn và Gold](PROP-STOCKS-IN-PLAY-AND-GOLD-PM-RESULTS-20261118.md).

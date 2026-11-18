@@ -4,6 +4,10 @@
 
 ## Việc hiện tại
 
+TSLA ORB không RVOL chưa xác minh ngoài mẫu do thiếu nguồn. Gold COMEX
+đã kiểm Development, net stress âm gộp và trượt Stage‑0 ở cả sáu năm.
+[Kết quả](research/PROP-TSLA-ORB-COST-AND-GOLD-COMEX-RESULTS-20261118.md)
+
 Stocks in Play có 42 lần phá biên cash ở pilot TSLA, giá và phí CFD
 đích chưa đo. Nhánh độc lập Gold PM trượt Stage‑0 (17/335 qua phí,
 net âm 5/6 năm). Giữ BASE_GUARD ở `NOT_QUALIFIED`.
