@@ -44,7 +44,7 @@ chỉ tiêu không được hạ để gọi winner là đạt.
 | Q0 | Kế thừa và chọn thí nghiệm | S01 GBP đã khóa trước source/numeric mới | Một inherited SL recipe, giữ raw markout âm và 112-trial history; chưa mở trial phụ |
 | Q1 | Source/path confirmation | Correction v2 `SOURCE_RECONCILED`; giữ original admission `SOURCE_REVIEW_REQUIRED` | 25.537.048 ticks/3.576 giờ; không H1 mismatch/held gap sau correction hai giờ; cùng vendor, chưa FTMO parity |
 | Q2 | Alpha, portfolio, time-fit | S01 economics-v2/oracle v3 PASS; S02 shared replay PASS correctness nhưng `INCONCLUSIVE_PATH` | 108 accounts, 733 trades; candidate Net/DD tốt hơn baseline, DD tuyệt đối tăng; XAUUSD gaps; chưa Challenge |
-| Q3 | Robustness/validation | Chưa chạy | Freeze trước validation; exposed khác clean OOS; stress và unseen/prospective gap minh bạch |
+| Q3 | Robustness/validation | S03 protocol đã review; implementation đang làm, chưa release2024 | Conditional validation giữ unknownpath,104reported/108sentinels, exactDevprefix; không cleanOOS |
 | S5 | Bind chiến lược với engine/runtime | Chưa đủ candidate qualified | Same decision semantics, units/account/risk, no duplicate, exact artifact/code lineage |
 | D0 | Bàn giao vận hành cho owner | Chưa đủ | Runnable own setup, stop/recover/rollback, runbook và cách hiểu risk/results; quyền broker riêng |
 
@@ -152,7 +152,8 @@ Nguồn công khai18/11 xác nhận lịch Dukascopy hiện tại trùng17–18N
 hiệu lực2022–2023 nên giữ unknown. Lifecycle audit cho thấy tất cảP1candidate
 trong10/2023; P2còn68–88ngày, bestending+644/+854USD và7windows mỗi model âm.
 Không chỉ thiếu dữ liệu; độ đều/tốc độ lãi còn yếu dù354–374lệnh/năm.
-Lát tiếp đang thiết kế: conditional Historical Validation2024 giữ nguyên
-composition/risk, tiếp lifecycle2022–2023, kiểm prefixparity; không mở giá
-trước protocol/code/review freeze. Runtime seam chỉ khảo sát offline: consumer
+Lát tiếp [S03 conditional Historical Validation2024](SOLO-THREE-ASSET-VALIDATION-PROTOCOL-20261118.md)
+đã khóa thiết kế, giữ nguyên composition/risk, tiếp lifecycle2022–2023, kiểm
+prefix và internalstateparity; không mở giá trước protocol/code/reviewfreeze.
+Runtime seam chỉ khảo sát offline: consumer
 hiện tại chưa hỗ trợ portfolio tick/Prop, không gắn nhãn đã có bot từ S02.
