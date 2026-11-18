@@ -7,7 +7,10 @@
 Rà sổ Development ở vốn 50.000 USD. V23 bỏ F3 và BASE cùng 0/61
 qua hai vòng trong 12 tháng. Thay F3 bằng R043 giảm đóng góp tĩnh,
 nên giữ BASE_GUARD ở `NOT_QUALIFIED`.
-[Quyết định](research/PROP-PAYOUT-REPLAY-DECISION-20261118.md)
+[Quyết định](research/PROP-PAYOUT-REPLAY-DECISION-20261118.md).
+Gold sweep London DAY của V8 cũng dừng: đặt spread bằng 0 tại entry
+proxy vẫn chỉ giữ tối đa 25/56 tín hiệu năm 2023 ở cap 12%.
+[Kiểm chi phí](research/PROP-GOLD-V8-DAY-COST-CHECK-20261118.md)
 
 US500 cuối phiên theo quy mô UPRO/SPXU âm 6/6 năm. Phép thử độc lập
 EURUSD theo vị thế hợp đồng EUR qua cổng markout ở 1/6 năm. Cả hai

@@ -5,6 +5,11 @@ V26 đã đổi trọng số và R043 hụt cổng để ghép. Báo riêng thá
 và thời gian nhận payout mô phỏng sau Challenge.
 [Kết quả](PROP-PAYOUT-REPLAY-DECISION-20261118.md) · [Tiêu chí khóa trước](PROP-PAYOUT-REPLAY-ADMISSION-20261118.md).
 
+**Gold sweep London DAY của V8.** Ngay cả khi Ask proxy có spread 0,
+2023 chỉ giữ 25/56 tín hiệu ở cap 12%, dưới mức 28/56. Dừng ở kiểm
+chi phí, không mở replay.
+[Kết quả](PROP-GOLD-V8-DAY-COST-CHECK-20261118.md).
+
 **US500 ETF và EURUSD COT.** Hai công thức đã khóa trượt Stage‑0.
 US500 âm cả sáu năm, phần so cùng biến động phủ 78/751 tín hiệu có giá.
 EURUSD COT âm trung bình 2,83 pip/lệnh sau stress.
