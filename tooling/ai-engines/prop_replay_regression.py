@@ -82,7 +82,7 @@ def stats(rows):
 def main():
     verify_commit(PROTOCOL)
     verify_commit(__file__)
-    runtime = JobWorkspace(BASE / "exit-audit", WORKSPACE)
+    runtime = JobWorkspace(BASE / "exit-audit-v2", WORKSPACE)
     output = runtime.activate()
     try:
         primary = V19 / "Dev-OLHC-PRIMARY-trades.json"
@@ -97,9 +97,15 @@ def main():
             by_strict = {identity(t): t for t in adverse}
             def binding(rows):
                 return {identity(t): (t["entry_msc"], t["entry_price_units"], t["stop_units"], t["deadline_msc"],
-                                      t["exit_msc"], t["exit_price_units"], t["reason"]) for t in rows}
+                                      t["exit_msc"] // DAY, t["exit_price_units"], t["reason"],
+                                      net(t, exact_quantity(t, 150))) for t in rows}
             if binding(base) != binding(alt) or binding(adverse) != binding(alt_adverse):
-                raise ValueError("REGRESSION_V19_ORDERINGS_DIVERGE")
+                raise ValueError("REGRESSION_V19_ECONOMICS_DIVERGE_BY_ORDERING")
+            timestamp_deltas = {}
+            for label, olhc, ohlc in (("PRIMARY", base, alt), ("STRICT", adverse, alt_adverse)):
+                times = {identity(t): t["exit_msc"] for t in ohlc}
+                differences = [abs(t["exit_msc"] - times[identity(t)]) for t in olhc]
+                timestamp_deltas[label] = dict(changed=sum(d > 0 for d in differences), max_msc=max(differences))
             if set(by_strict) != {identity(t) for t in base} or len(by_strict) != len(base):
                 raise ValueError("REGRESSION_V19_COHORT_MISMATCH")
             bars = {asset: bars_for(asset, True) for asset in ("EURUSD", "XAUUSD")}
@@ -111,7 +117,8 @@ def main():
                 sleeves[name] = dict(total=stats(subset), annual=annual, gate_reasons=classify(annual),
                   clusters=[stats([r for r in subset if low <= r["year"] < high]) for low, high in ((2018, 2021), (2021, 2024))])
             compressed("exit-rows", rows)
-            save("exit-audit.json", dict(sleeves=sleeves, total=stats(rows), registration_sha256=sha(output / "registration.json")))
+            save("exit-audit.json", dict(sleeves=sleeves, total=stats(rows), exit_timestamp_deltas=timestamp_deltas,
+                 registration_sha256=sha(output / "registration.json")))
             print(output, flush=True)
     finally:
         runtime.close()

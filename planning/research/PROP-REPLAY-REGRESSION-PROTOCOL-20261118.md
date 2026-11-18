@@ -46,3 +46,18 @@ kiểm lại đường bị ảnh hưởng. Có giá nguồn độc lập thì t
 kiểm độ nhạy ba lệnh trong bước 3. Chỉ cân nhắc chạy lại toàn danh mục
 nếu có đủ dữ liệu và quy tắc admission để kết quả có thể dùng ra quyết
 định. Giữ baseline, sample split và lịch sử đã xem ở mốc bàn giao.
+
+## Điều chỉnh khi chạy
+
+- Cổng đối soát đầu tiên so bằng timestamp thoát đến mili giây và dừng
+  trước lúc đo markout. OHLC và OLHC mô phỏng thứ tự điểm giá khác nhau.
+  Vẫn lưu chênh timestamp. Yêu cầu trùng entry, stop, deadline, ngày
+  thoát, lý do, giá thoát và PnL trước khi gộp thống kê kinh tế.
+- Ba URL FXCM chuyển sang cổng đăng nhập Cloudflare Access. Dukascopy
+  HTTP 429. Dừng truy cập hai đầu mối đó. Thử đúng ba tháng tương ứng
+  trong mục tải miễn phí HistData Generic ASCII Tick (`2021-05`,
+  `2021-07`, `2022-01`). Giữ nguyên ba lệnh, 10 khoảng, các mốc có/không
+  có giá, ngưỡng ba phút, số lot và phí. Theo đặc tả của nguồn, đổi EST
+  cố định UTC−5 sang UTC, kể cả tháng dùng giờ mùa hè. HistData không
+  công bố đủ định danh feed để xác minh độc lập tuyệt đối. Kết quả nếu
+  có chỉ là sensitivity khác bộ dữ liệu. [Đặc tả HistData](https://www.histdata.com/f-a-q/data-files-detailed-specification/)

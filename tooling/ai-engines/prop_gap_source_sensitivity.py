@@ -1,0 +1,177 @@
+"""Bounded HistData sensitivity for the three ranked Development EURUSD trades."""
+from collections import defaultdict
+from datetime import datetime, timedelta, timezone
+from decimal import Decimal, ROUND_HALF_UP
+from html.parser import HTMLParser
+import io
+from pathlib import Path
+import subprocess
+from urllib.parse import urlencode
+import zipfile
+
+from prop_n1_screen import BASE as N1
+from prop_replay_regression import BASE, PROTOCOL, WORKSPACE, net, verify_commit
+from prop_v15_accounts import exact_quantity
+from prop_v21_common import compressed, unpack
+from prop_v26_common import FIRST, DEV_END, V19, read, sha
+from quant_core.job_workspace import JobWorkspace
+from quant_core.prop_lifecycle_and_parity import bindings
+import prop_v21_common as evidence
+
+EST = timezone(timedelta(hours=-5))
+MINUTE = 60_000
+MONTHS = ('202105', '202107', '202201')
+CENT = Decimal('.01')
+HOST = 'https://www.histdata.com'
+
+
+class DownloadForm(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.active = False
+        self.fields = {}
+
+    def handle_starttag(self, tag, attrs):
+        attrs = dict(attrs)
+        if tag == 'form':
+            self.active = attrs.get('id') == 'file_down' and attrs.get('action') == '/get.php'
+        if self.active and tag == 'input' and attrs.get('type') == 'hidden':
+            self.fields[attrs['name']] = attrs['value']
+
+    def handle_endtag(self, tag):
+        if tag == 'form':
+            self.active = False
+
+
+def fetch(month, folder):
+    year, number = month[:4], int(month[4:])
+    page = f'{HOST}/download-free-forex-historical-data/?/ascii/tick-data-quotes/eurusd/{year}/{number}'
+    curl = ['curl.exe', '-q', '--fail', '--silent', '--show-error', '--proto', '=https',
+            '--connect-timeout', '8', '--max-time', '40', '--max-filesize', '33554432']
+    form = DownloadForm()
+    form.feed(subprocess.check_output([*curl, page], timeout=45).decode('utf-8', 'replace'))
+    expected = dict(date=year, datemonth=month, platform='ASCII', timeframe='T', fxpair='EURUSD')
+    if {k: form.fields.get(k) for k in expected} != expected or not form.fields.get('tk'):
+        raise ValueError('HISTDATA_DOWNLOAD_FORM_NOT_AVAILABLE')
+    request = urlencode(dict(expected, tk=form.fields['tk'])).encode('ascii')
+    downloaded = subprocess.run([*curl, '--referer', page, '--data-binary', '@-', HOST + '/get.php'],
+                                input=request, capture_output=True, check=True, timeout=45).stdout
+    path = folder / f'HistData-EURUSD-{month}.zip'
+    with path.open('xb') as stream:
+        stream.write(downloaded)
+    if not zipfile.is_zipfile(path):
+        raise ValueError(f'HISTDATA_NOT_ZIP_{month}')
+    return path, page
+
+
+def observed_ticks(path, month, start, end):
+    low, high = [datetime.fromtimestamp(t / 1000, EST).strftime('%Y%m%d %H%M%S') for t in (start, end)]
+    rows = []
+    previous = ''
+    with zipfile.ZipFile(path) as archive:
+        member = archive.getinfo(f'DAT_ASCII_EURUSD_T_{month}.csv')
+        if member.file_size > 350_000_000:
+            raise ValueError('HISTDATA_MEMBER_TOO_LARGE')
+        with archive.open(member) as raw, io.TextIOWrapper(raw, encoding='ascii') as text:
+            for line in text:
+                fields = line.rstrip('\r\n').split(',')
+                date = fields[0]
+                if len(fields) != 4 or len(date) != 18 or date[:6] != month or date < previous:
+                    raise ValueError('HISTDATA_TICK_SCHEMA_SCOPE_OR_ORDER')
+                previous = date
+                if not low <= date[:15] <= high:
+                    continue
+                at = int(datetime.strptime(date, '%Y%m%d %H%M%S%f').replace(tzinfo=EST).timestamp() * 1000)
+                if not FIRST <= at < DEV_END:
+                    raise ValueError('HISTDATA_DEVELOPMENT_FENCE')
+                if not start <= at <= end:
+                    continue
+                bid, ask = map(Decimal, fields[1:3])
+                if not bid.is_finite() or not ask.is_finite() or not 0 < bid <= ask:
+                    raise ValueError('HISTDATA_INVALID_BID_ASK')
+                rows.append((at, bid, ask))
+    return rows
+
+
+def assess(t, rows, gaps, strict):
+    entry, deadline = t['entry_msc'], t['deadline_msc']
+    qty = exact_quantity(t, 150)
+    buy = t['side'] == 'BUY'
+    stop = Decimal(t['stop_units']) / 100000
+    exit_field = 1 if buy else 2
+    def hit(row):
+        return row[exit_field] <= stop if buy else row[exit_field] >= stop
+    observations = []
+    for g in gaps:
+        first, after = g['first_unknown'], g['after']
+        inside = [r for r in rows if first <= r[0] < after]
+        observations.append(dict(first_unknown=first, after=after, count=len(inside),
+                                 before_count=sum(g['before'] <= r[0] < first for r in rows),
+                                 after_count=sum(after <= r[0] < after + MINUTE for r in rows),
+                                 stop_crossings=sum(map(hit, inside)),
+                                 min_bid=str(min(r[1] for r in inside)) if inside else None,
+                                 max_ask=str(max(r[2] for r in inside)) if inside else None))
+    result = dict(entry=entry, gaps=observations, side=t['side'], stop=str(stop), qty=qty,
+                  original_primary_cents=net(t, qty), original_strict_cents=net(strict, qty),
+                  net_cents=None, status='ENDPOINT_UNAVAILABLE')
+    opening = next((r for r in rows if entry <= r[0] <= entry + MINUTE), None)
+    closing = next((r for r in rows if deadline <= r[0] <= deadline + MINUTE), None)
+    if opening is None or closing is None:
+        return result
+    span = [r for r in rows if opening[0] <= r[0] <= closing[0]]
+    crossing = next((r for r in span if hit(r)), None)
+    exit_ = closing if crossing is None else crossing
+    held = [r for r in span if r[0] <= exit_[0]]
+    max_gap = max((b[0] - a[0] for a, b in zip(held, held[1:])), default=0)
+    result['max_intertick_gap_ms'] = max_gap
+    if max_gap > 3 * MINUTE:
+        result['status'] = 'INTERTICK_GAP'
+        return result
+    original_entry = opening[2 if buy else 1]
+    gross = (Decimal(qty * 1000 * (1 if buy else -1)) * (exit_[exit_field] - original_entry)).quantize(CENT, rounding=ROUND_HALF_UP)
+    fees = 2 * (Decimal(qty) * Decimal('.035')).quantize(CENT, rounding=ROUND_HALF_UP) + Decimal(qty) * Decimal('.02')
+    result.update(status='HORIZON' if crossing is None else 'SL', entry_at=opening[0], exit_at=exit_[0],
+                  entry_price=str(original_entry), exit_price=str(exit_[exit_field]), net_cents=int((gross - fees) * 100))
+    return result
+
+
+def main():
+    verify_commit(PROTOCOL)
+    verify_commit(__file__)
+    runtime = JobWorkspace(BASE / 'histdata-gaps', WORKSPACE)
+    output = runtime.activate()
+    try:
+        rank_path = next(N1.glob('gaps/*/gap-ranking-manifest.json'))
+        with bindings(evidence, JOB=rank_path.parent):
+            ranked = unpack('gap-ranking')['gaps'][:10]
+        grouped = defaultdict(list)
+        for gap in ranked:
+            if gap['asset'] != 'EURUSD' or len(gap['trades']) != 1:
+                raise ValueError('HISTDATA_REGISTRATION_RANKING_CHANGED')
+            grouped[gap['trades'][0]['entry']].append(gap)
+        primary = {t['entry_msc']: t for t in read(V19 / 'Dev-OLHC-PRIMARY-trades.json') if t['asset'] == 'EURUSD'}
+        strict = {t['entry_msc']: t for t in read(V19 / 'Dev-OLHC-STRICT-trades.json') if t['asset'] == 'EURUSD'}
+        months = {datetime.fromtimestamp(t / 1000, EST).strftime('%Y%m'): t for t in grouped}
+        if len(grouped) != 3 or set(months) != set(MONTHS):
+            raise ValueError('HISTDATA_REGISTRATION_MONTH_SET')
+        results = []
+        for month, entry in sorted(months.items()):
+            t = primary[entry]
+            if t['mode'] != 'P0' or t['deadline_msc'] - entry >= 17 * 60 * MINUTE or t['deadline_msc'] % 86400000 >= 21 * 60 * MINUTE:
+                raise ValueError('HISTDATA_UNSUPPORTED_STRATEGY_OR_FUNDING')
+            path, page = fetch(month, output)
+            gaps = grouped[entry]
+            rows = observed_ticks(path, month, min(entry, *(g['before'] for g in gaps)),
+                                  max(t['deadline_msc'] + MINUTE, *(g['after'] + MINUTE for g in gaps)))
+            results.append(dict(month=month, page=page, sha256=sha(path), observed_ticks=len(rows),
+                                **assess(t, rows, gaps, strict[entry])))
+            print(month, len(rows), results[-1]['status'], flush=True)
+        with bindings(evidence, JOB=output):
+            compressed('tick-sensitivity', dict(results=results, ranking_manifest_sha256=sha(rank_path),
+                       protocol_sha256=sha(PROTOCOL), provider_independence_certified=False, source_backfilled=False))
+    finally:
+        runtime.close()
+
+
+if __name__ == '__main__':
+    main()
