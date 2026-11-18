@@ -118,11 +118,11 @@ exact arithmetic và independent review đã có consumer/guidance. Regression
 
 ## Bước tiếp và điều còn thiếu
 
-Sau oracle đầy đủ, tiếp [S02 shared-account replay](SOLO-THREE-ASSET-REPLAY-PROTOCOL-20261117.md):
-108accounts theo fixed150/75/75, baseline cùng policy, annual/continuous
-và monthly lifecycle, theo đúng thứ tự tick và quote age từng asset.
-Không quét sizing hay mở2024 trong S02. Implementation/test đang thực hiện,
-chưa có numerical S02; reuse Account/PortfolioAccount, không thay engine.
+Cập nhật18/11: [S02 shared-account replay](SOLO-THREE-ASSET-REPLAY-RESULTS-20261118.md)
+đã chạy108accounts theo fixed150/75/75, baseline cùng policy, annual/continuous
+và monthly lifecycle, theo thứ tự tick và quote age từng asset. Independent
+oracle đạt đúng scope; verdict `INCONCLUSIVE_PATH` do XAUUSD gaps, P2/payout0.
+Không quét sizing hay mở2024 trong S02; reuse Account/PortfolioAccount.
 
 FTMO public refresh ngày17/11 chưa thực hiện được: web trả rỗng, HTTPS CLI
 lỗi TLS, IAB không khả dụng. Báo cáo nguồn cũ giữ ngày kiểm10–15/11, không

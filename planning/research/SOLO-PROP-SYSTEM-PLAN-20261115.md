@@ -57,8 +57,10 @@ mới; không quét hoặc sửa tham số vô hạn chỉ để có PnL dương
 
 V3 có A gốc + EURUSD satellite, 15/36 mốc qua P1, chỉ 2/36 qua cả hai vòng
 ở ASYM và chung một funded path, payout0. Đây là baseline đã exposed, không
-qualification mới của chiến dịch này. GBP sweep có H1 screen đáng xác minh
-nhưng chưa đủ M1/tick; số screen không được gọi là execution-realistic profit.
+qualification mới của chiến dịch này. Khoảng trống nguồn GBP của checkpoint V3
+đã được S01 xử lý: source-v2 và economics-v2 có đối soát độc lập trên tick;
+S02 đã ghép ba tài sản vào cùng account. Cả hai vẫn dùng nguồn cùng vendor,
+không chứng minh execution FTMO hay edge ngoài mẫu.
 
 Trader shadow hiện là advisory EURUSD H4, không tự hỗ trợ A+EUR portfolio.
 Historical forex_forward, offline account replay và durable Demo client là
@@ -119,15 +121,13 @@ khôngadmit/retry. Xem [discrepancy protocol](SOLO-GBP-SOURCE-DISCREPANCY-202611
 V2 chỉ được tạo sau correctionproducer/protocol/tests/review; oldproof không
 sửa thànhPASS, không hạ tolerance hoặc bỏ4mismatches khỏioriginalbook.
 
-Read-only seam audit cho shared-account tiếp theo: reuse `PortfolioAccount`
-và policy hiện có, thêm assettuple với haiassetdefaults giữ nguyên, đồng thời
-giữ timestamp/age từngasset. `JOINT` hiện chỉ có chung`t`; reset của adapter
-không ghi stalequote như parent, nên thêmcộtGBP không đủ chứng minh DailyLoss.
-Oracle cần merge theo `(timestamp,asset_rank,source_ordinal)`, vì fixedleft/right
-search của haiasset không đúng cho EUR ở giữa Gold→EUR→GBP. Fixture phải giữ
-haiassetparity, đồngtimestamp, missing/stalequotes, totalcap/reserve, DST/funding,
-flatphase/reward và thiếumargin. Đây là thiết kế tối thiểu, chưa triểnkhai hay
-prop-qualification; chỉ làm sauGBPđạt cổngmarginal đãkhóa.
+Seam shared-account đã triển khai tại `6f6c2f8`: reuse `PortfolioAccount`, giữ
+hai-asset defaults, thêm assets/risk tường minh và timestamp/age từng asset.
+Ba stream merge theo `(timestamp,asset_rank,source_ordinal)`, nên EUR ở giữa
+Gold→EUR→GBP vẫn giữ đúng ordering. Fixtures kiểm two-asset parity, tied ticks,
+missing/stale quotes, cap/reserve/halt, DST/funding, phase/reward và cash bridges.
+S02 independent oracle kiểm108accounts,1.219.429fieldchecks và46.082coveragechecks.
+Đây là correctness của mô hình đã khai báo; margin/news/broker feed vẫn thiếu.
 
 Ngày17/11, independent economics oracle bắt false reject đúng15% tại
 BUY19/06/2023. [Repair](SOLO-GBP-COST-GATE-CORRECTION-20261117.md) đã chạy
@@ -137,7 +137,22 @@ GBPcurves. Lệnh thêm là−1,0834R, kết quảv2 giảm đúng, v1 giữ ngu
 concentration; chưa thể gọi M1 additive là account PnL.
 [S02 results](SOLO-THREE-ASSET-REPLAY-RESULTS-20261118.md) ghi runner
 `INCONCLUSIVE_PATH` sau independent oracle PASS đúng scope: candidate có
-Net/DD tốt hơn baseline ở hai cost models nhưng XAUUSD có maintenance gaps,
+Net/DD tốt hơn baseline ở hai cost models nhưng XAUUSD có khoảng thiếu báo giá,
 DD tuyệt đối tăng và không monthly account nào hoàn tất cả hai phase. Giữ
 2024 đóng cho tới calendar/path protocol mới; không gắn verdict này với
 Challenge readiness.
+
+Audit lịch nguồn18/11 đã kiểm148 khoảng duy nhất: median toàn gap60,0326 phút,
+phần unknown sau15 phút là45,0326 phút; tất cả khớp17:00–18:00 New York theo DST.
+Chưa có lịch Dukascopy lịch sử đủ để miễn trừ; không suy từ mẫu giờ thành proof.
+Continuous candidate unknown1,924739%, baseline2,178177%. Bằng chứng và đường
+đọc tiếp ở [S02 results](SOLO-THREE-ASSET-REPLAY-RESULTS-20261118.md).
+
+Nguồn công khai18/11 xác nhận lịch Dukascopy hiện tại trùng17–18NY; chưa có
+hiệu lực2022–2023 nên giữ unknown. Lifecycle audit cho thấy tất cảP1candidate
+trong10/2023; P2còn68–88ngày, bestending+644/+854USD và7windows mỗi model âm.
+Không chỉ thiếu dữ liệu; độ đều/tốc độ lãi còn yếu dù354–374lệnh/năm.
+Lát tiếp đang thiết kế: conditional Historical Validation2024 giữ nguyên
+composition/risk, tiếp lifecycle2022–2023, kiểm prefixparity; không mở giá
+trước protocol/code/review freeze. Runtime seam chỉ khảo sát offline: consumer
+hiện tại chưa hỗ trợ portfolio tick/Prop, không gắn nhãn đã có bot từ S02.

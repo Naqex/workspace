@@ -96,22 +96,66 @@ cost và policy đã đăng ký. Nó chưa chứng minh:
 
 - exact broker/FTMO feed, spread, slippage, margin, netting hoặc contract;
 - lịch selected news USD/EUR/GBP và quy tắc Standard funded;
-- đường giá XAUUSD trong gap bảo trì có thể được dùng cho daily/overall DD;
+- đường giá XAUUSD trong khoảng thiếu báo giá có thể được dùng cho daily/overall DD;
 - clean OOS, alpha ngoài mẫu, payout hoặc thu nhập chính.
+
+### Audit lịch nguồn ngày18/11
+
+Audit timestamp trên108sổ tìm thấy148 khoảng duy nhất,74 trong mỗi năm.
+Tất cả khớp17:00–18:00 `America/New_York` trong6giây (104DST/44standard).
+Median full gap60,0326phút; unknown tail45,0326phút. Continuous candidate
+unknown1,924739%, baseline2,178177%. Đây là khoảng thời gian quote cũ, không
+phải tỷ lệ lệnh bị mất hoặc tỷ lệ dữ liệu toàn thị trường bị thiếu.
+
+Lịch local chỉ có holiday/Friday guards; catalog QDM không ghi lịch phiên
+nguồn theo ngày hiệu lực. Vì vậy **không miễn trừ coverage**. Lịch FTMO2026
+khác nguồn/năm không chứng nhận lịch Dukascopy2022–2023. Dù lịch được chứng
+minh sau này, vẫn phải giữ kiểm tra reopen/gap/SL, swap và Prague reset;
+không tạo giá trong giờ đóng cửa hoặc gọi broker path đã xác minh.
+
+Report/JSON/receipt ở
+`E:/BACKUP-TRADINGWORKSPACE/solo-system-20261115-04e2/research/three-asset-preparation/xau-gap-calendar-audit-20261118/`.
+Report SHA256 `41dacc33a84385a57caa82e5ab68269b5561bcdaf486bed30131639830881ace`;
+JSON SHA256 `1fa88974a831c905f307f652495bca827ff5bad0a2a452c9c2877e16e80eb62d`.
+Audit chỉ dùng timestamps/evidence, không backtest hay mở2024–2026.
+
+### Đối chiếu nguồn chính thức và chẩn đoán vòng 2
+
+Ngày18/11 đã tải được [lịch Dukascopy hiện tại](https://wiki.dukascopy.com/en/manuals/jforex4-desktop/trading-sessions):
+XAU, `America/New_York`,18:00–17:00; tương ứng nghỉ17:00–18:00.
+Đây là bằng chứng củng cố148gaps, **chưa chứng nhận hiệu lực2022–2023**.
+Archive query bị429; FTMO FAQ tiếp tục lỗi TLS. Không miễn trừ gap hoặc chạy
+lại S02 chỉ để đổi diễn giải. Packet nguồn công khai ở sibling
+`historical-session-sources-20261118/`, report SHA256
+`c6ab15dd29d1e6bd27f75f17b36bc9e253d5d176a742067671193b9077fee607`.
+
+Chẩn đoán sau outcome chỉ đọc ledger cho thấy0P2 do cả thời gian còn ngắn và
+lợi nhuận cuối2023 yếu, không chỉ do cutoff. Candidate quaP1 đều trong10/2023;
+11/13windows còn68–88ngày nhưng chỉ4/3đườngP2khác nhau (SYM/ASYM).
+Median thời gianP1 chỉ trong nhóm hoàn tất là292,85/323,85ngày. BestP2net cuối
+kỳ+644,38/+853,68USD so target2.500USD;7windows mỗi model kết thúc âm.
+Không dùng số cửa sổ chồng lấn làm xác suấtpass, không có median hoàn tấtP2.
+
+Candidate có354/374lệnh năm2022/2023. Net2022 trừ3lệnh lớn nhất theoUSD còn
+−2.096,43/−1.846,98USD;2023 còn+615,63/+939,38USD. Phép trừ này mô tả mức
+tập trung, không là replay loại3lệnh rồi chạy lại admissions. Tần suất đã tăng;
+độ đều và tốc độ lợi nhuận vẫn chưa đạt mục tiêu Challenge nhanh.
+Diagnostic/JSON/script ở sibling `lifecycle-diagnosis-20261118/`, report SHA256
+`a32496950aa8dbfb22ac7ed60b40cc364f524dd442b4ca513fb5714a5261506e`.
 
 ## Quyết định tiếp theo
 
 Giữ composition Gold + EUR + GBP là ứng viên nghiên cứu tốt hơn baseline trong
-Development, nhưng **chưa mở 2024** và chưa đề xuất Challenge. Lát tiếp theo
-nhỏ nhất là calendar/path audit cho XAUUSD maintenance và target account:
+Development, nhưng **chưa mở 2024** và chưa đề xuất Challenge. Audit local và
+nguồn công khai đã hoàn thành trong giới hạn trên. Bước tiếp:
 
-1. Xác minh deterministic session-break/maintenance schedule đúng timestamp,
-   source và DST; không dùng kết quả PnL để chọn lịch.
+1. Giữ unknown lịch sử; không suy lịch đích từ lịch nguồn. Không chờ vô hạn
+   hoặc lặp request thất bại khi có thể kiểm câu hỏi validation có điều kiện.
 2. Chỉ khi coverage được admit hoặc vẫn giữ unknown có chủ đích, freeze một
    protocol riêng cho Historical Validation2024. Nếu mở, phải coi 2024 là
    exposed validation theo lịch cũ, không phải clean OOS.
 3. Cập nhật news/margin/contract/feed assumptions từ nguồn hiện hành khi truy
-   cập được; hiện refresh FTMO ngày18/11 vẫn chưa có bằng chứng web thành công.
+   cập được; refresh FTMO17/11 và18/11 thất bại, chưa có nguồn FTMO mới thay thế.
 4. Sau đó mới review owner handover, shadow/demo reconciliation và runbook;
    không gửi broker, không mua Challenge tự động.
 

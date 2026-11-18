@@ -1,6 +1,6 @@
 # Current context — independent solo system
 
-17/11/2026 · `SOLO_PROP_SYSTEM_ACTIVE · CHALLENGE_NOT_QUALIFIED`.
+18/11/2026 · `SOLO_PROP_SYSTEM_ACTIVE · CHALLENGE_NOT_QUALIFIED`.
 
 Owner yêu cầu chat này tự hoàn thành toàn bộ mục tiêu alpha/portfolio và
 hệ thống tự động cho một người, không phụ thuộc thread gốc. Nguồn trạng thái
@@ -29,10 +29,16 @@ commit `9ca78a6` sau protocol `1900d19`, giữ strategy/phí/risk. Economics-v2:
 concentration, rawmarkout âm và giới hạn same-vendor/M1 additive.
 [S02 shared-account](research/SOLO-THREE-ASSET-REPLAY-RESULTS-20261118.md)
 đã chạy 108 accounts trên733 trades và qua independent oracle đúng scope.
-Runner verdict `INCONCLUSIVE_PATH`: XAUUSD có gap bảo trì khoảng45 phút,
-unknown hơn2% thời gian giữ; EUR/GBP không có unknown >15 phút. Continuous
+Runner verdict `INCONCLUSIVE_PATH`: XAUUSD có148 khoảng nguồn không báo giá,
+trung vị60,03 phút; unknown45,03 phút là phần sau ngưỡng tuổi quote15 phút.
+Tất cả khớp17:00–18:00 New York và lịch XAU hiện tại của Dukascopy đã tải18/11,
+nhưng chưa có ngày hiệu lực lịch sử; không được miễn trừ gap. Candidate unknown
+1,924739%, baseline2,178177%; EUR/GBP không có unknown >15 phút. Continuous
 candidate Net/DD tốt hơn baseline ở cả hai cost models nhưng DD tuyệt đối tăng,
-P1/P2 lifecycle không hoàn tất P2. Chưa mở2024. Official FTMO refresh17/11
+P1 candidate11/24SYM và13/24ASYM, đều trong10/2023; P2/payout0, các sổP2 chỉ
+còn68–88ngày. Cuối2023 cũng yếu đi, không quy0P2chỉ cho cutoff. Tần suất354–374
+lệnh/năm đã đủ để chuyển trọng tâm sang độ bền/time-fit. Chưa mở2024; đang thiết
+kế protocol conditional validation giữ nguyên composition/risk. FTMO refresh17–18/11
 không truy cập được; giữ nguồn cũ đúng ngày kiểm, news/margin/feed/forward chưa đủ.
 Oracle đầu tiên fail vì trỏ original proof cũng giữ nguyên. Owner xác nhận tiếp tục
 độc lập với phạm vi rộng ngày 17/11; goal mới không thay quyền holdout/broker.
