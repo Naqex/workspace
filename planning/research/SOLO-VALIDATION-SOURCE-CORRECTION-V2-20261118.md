@@ -92,7 +92,10 @@ registration phải có hai artifact riêng và gate tuần tự:
    source bytes, correction release, protocol, source proof và oracle code.
    Cost rejects vẫn ở census. Nếu kiểm path giả định cho rejects thì ghi riêng
    `COUNTERFACTUAL`; tuyệt đối không gọi fill/trade, tính PnL hay dùng để
-   chọn cohort.
+   chọn cohort. **Path/first-barrier trace vẫn bắt buộc cho đủ138rows**; với
+   costreject chỉ trạng thái/field `COUNTERFACTUAL_ONLY` được phép, khônglệnh
+   producer nào được sinh. Entry/SL đã bị xuyên trước entry hoặc thiếu quote
+   phải ghi unknown/invalid và dừng, không bỏrow khỏi receipt.
 2. Producer chạy một **source-only preview** tạo 138-row event/funnel facts,
    chưa ghép Gold/EUR, chưa làm account replay, chưa financial registration.
    Independent comparator so từng field với artifact bước1. Chỉ exact equality
