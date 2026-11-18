@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**US500 M15 · chuyển SPY S-Sign.** Đo phí stress bình quân 2,77 bp/phía
+trên 38.847/39.090 mốc. Chưa có nguồn forecast đúng bản, gác trước runner.
+[Kết quả](PROP-US500-SPY-S-SIGN-PREFLIGHT-20261119.md).
+
 **V4_Harvest · chia đôi suất FX.** Thêm GBP bằng nửa suất EUR hạ
 peak DD, giảm mốc qua P1 và không tạo lượt qua P2 hay payout.
 [Kết quả](PROP-V4-HARVEST-FX-SPLIT-20261119.md).
