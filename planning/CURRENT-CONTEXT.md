@@ -1,26 +1,21 @@
 # Current context — Naqex Workspace
 
-18/11/2026 · `RESEARCH: V26_RUNNING · ISO_EXACT: DEV_PASS · CORPUS: NO_SURVIVOR · PROP: NOT_QUALIFIED`.
+18/11/2026 · `RESEARCH: V26_RESULTS · PORTFOLIO: BASE_GUARD · PROP: NOT_QUALIFIED`.
 
 ## Việc hiện tại
 
-V26 theo [protocol](research/BATCH-EXACT-ISO-V26-PROTOCOL-20261118.md), đăng ký170d854.
-PR104/head5509aa0 đã merge9ac2044, nhánhV25 đã xóa; nhánhhiệntại
-`codex/batch-24bots-and-exact-iso-v26`. GBP S01 đóng trongcampaign; không kết luận tick/M1 economics từ H1.
-ISO c=.824717/net26,3791R/DD12,1885R/maxopen257,52USD;11.001gridpoints/92lotvectors.
-[Freeze](research/BATCH-EXACT-ISO-V26-FREEZE-20261118.json) commit6bf0d85 trước later;
-không đổi weights hoặc financial kernels sau đó. Sáu historical cases đã hoàn tất.
-MC giữ prefixOLHC2304/OHLC839; hai worker cũ dừng có ownership check/journal nguyên.
-[Chunk card](research/V26-REPLAY-CHUNKS-20261118.json) commit9e7c1a2 chia18ranges còn lại,
-4workers độc lập; mỗiworker đối soát native-ledgerhash path0 rồi audit đủ từng ledger.
-Controller `.runtime/v26-chunks.stdout`; không chạy lại driverMC cũ hoặc tạo writer lêncùngjob.
-Privatebase `execution-v1/batch-exact-iso-v26-20261118`, worktreeID749687b9be70;
-namespaces corpus/companions/replay-control/chunk-* có owner/lease riêng.
-Batch [24source card](research/CORPUS-BATCH-V26-CARD-20261118.json) commit06d1541:
-115cells=85Stage0fail+30MFI blocked vì chưa admittedtickvolume;0SL-activechildren.
-Parser preset/nativeHTML/XML+16regressions đã có; companionv1 giữ false name associations/system
-traversal errors, v2 đang sửa scope/case-insensitive pruning; khôngsửaACL hoặcdata.
-Finalperformance/MCaggregate/results/PR105 chưa xong. GiữVI/source lane; khôngbroker/deploysharedAPI.
+V26 kết luận giữ BASE_GUARD và đóng GBPUSD S01 với quyết định không promote.
+[Báo cáo](research/BATCH-EXACT-ISO-V26-RESULTS-20261118.md) /
+[JSON](research/BATCH-EXACT-ISO-V26-RESULTS-20261118.json) /
+[Protocol](research/BATCH-EXACT-ISO-V26-PROTOCOL-20261118.md).
+PR #104 đã merge tại `9ac2044`. Nhánh V26 là `codex/batch-24bots-and-exact-iso-v26`.
+ISO c=0,824717 qua Development với +26,3791R và DD 12,1885R. Hai thứ tự giá
+đều cho 69/105 so với 71/105 baseline ở phí chuẩn. 5.000 chuỗi mỗi thứ tự,
+bootstrap 36 tháng 30,06% so với 33,56%. Miền phí +50% cải thiện 57 so với 15.
+[Danh mục 24 hồ sơ](research/CORPUS-BATCH-V26-CARD-20261118.json) có 91 ô rớt
+Stage-0 và 24 ô MFI thiếu dữ liệu đủ kỳ. Bộ đọc preset/report đã kiểm fixture.
+Job riêng `execution-v1/batch-exact-iso-v26-20261118` giữ journal, các lần thử, 43
+bảng Zstd và bằng chứng cách ly tiến trình. 1.400 pass, 0 skip, tốc độ chưa đạt.
 
 ## V25 đã merge (lịch sử)
 
