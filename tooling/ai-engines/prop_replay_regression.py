@@ -64,13 +64,9 @@ def measure(bars, primary, strict):
     return record
 
 
-def stats(rows):
+def cash_totals(rows):
     priced = [r for r in rows if r["markout_cents"] is not None]
-    return dict(raw=len(rows), priced=len(priced), coverage=len(priced) / len(rows) if rows else None,
-                mean_net=mean(r["markout_steps"] for r in priced) if priced else None,
-                mean_friction=mean(r["friction_steps"] for r in priced) if priced else None,
-                median_scale=(median(r["friction_steps"] for r in priced) / median(r["natural_steps"] for r in priced))
-                if priced else None, retention=sum(r["pass_cost"] for r in rows) / len(rows) if rows else None,
+    return dict(raw=len(rows), priced=len(priced),
                 primary_cents=sum(r["primary_net_cents"] for r in rows),
                 strict_cents=sum(r["strict_net_cents"] for r in rows),
                 primary_matched_cents=sum(r["primary_net_cents"] for r in priced),
@@ -79,10 +75,21 @@ def stats(rows):
                 source_uncertain=sum(r["source_uncertain"] for r in rows))
 
 
+def stats(rows):
+    priced = [r for r in rows if r["markout_cents"] is not None]
+    if len({r["id"].split("|")[0] for r in rows}) > 1:
+        raise ValueError("REGRESSION_PRICE_STATS_REQUIRE_ONE_ASSET")
+    return dict(**cash_totals(rows), coverage=len(priced) / len(rows) if rows else None,
+                mean_net=mean(r["markout_steps"] for r in priced) if priced else None,
+                mean_friction=mean(r["friction_steps"] for r in priced) if priced else None,
+                median_scale=(median(r["friction_steps"] for r in priced) / median(r["natural_steps"] for r in priced))
+                if priced else None, retention=sum(r["pass_cost"] for r in rows) / len(rows) if rows else None)
+
+
 def main():
     verify_commit(PROTOCOL)
     verify_commit(__file__)
-    runtime = JobWorkspace(BASE / "exit-audit-v2", WORKSPACE)
+    runtime = JobWorkspace(BASE / "exit-audit-v3", WORKSPACE)
     output = runtime.activate()
     try:
         primary = V19 / "Dev-OLHC-PRIMARY-trades.json"
@@ -117,7 +124,7 @@ def main():
                 sleeves[name] = dict(total=stats(subset), annual=annual, gate_reasons=classify(annual),
                   clusters=[stats([r for r in subset if low <= r["year"] < high]) for low, high in ((2018, 2021), (2021, 2024))])
             compressed("exit-rows", rows)
-            save("exit-audit.json", dict(sleeves=sleeves, total=stats(rows), exit_timestamp_deltas=timestamp_deltas,
+            save("exit-audit.json", dict(sleeves=sleeves, total=cash_totals(rows), exit_timestamp_deltas=timestamp_deltas,
                  registration_sha256=sha(output / "registration.json")))
             print(output, flush=True)
     finally:

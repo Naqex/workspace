@@ -61,3 +61,13 @@ nếu có đủ dữ liệu và quy tắc admission để kết quả có thể 
   cố định UTC−5 sang UTC, kể cả tháng dùng giờ mùa hè. HistData không
   công bố đủ định danh feed để xác minh độc lập tuyệt đối. Kết quả nếu
   có chỉ là sensitivity khác bộ dữ liệu. [Đặc tả HistData](https://www.histdata.com/f-a-q/data-files-detailed-specification/)
+
+## Kiểm tra tiếp trên archive đã tải
+
+Sau khi có tick cho một phần nhóm ưu tiên, đối soát mọi khoảng EURUSD
+Development khác trong đúng ba tháng EST đã tải. Giữ riêng kết quả nhóm
+10 trước đó và dùng nguyên ZIP có SHA đã lưu. So Bid Open/Close của các
+phút liền kề mà V14 và HistData đều có, mỗi phút một lần. Dùng pips để
+báo chênh lệch tuyệt đối. Mức đồng thuận không xác minh cùng feed hoặc
+cho phép điền giá vào V19. Chỉ gộp số đo tiền tệ toàn portfolio. Thống kê
+giá Stage‑0 đo riêng từng tài sản vì đơn vị giá XAUUSD và EURUSD khác nhau.

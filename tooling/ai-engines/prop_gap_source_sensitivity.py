@@ -1,10 +1,12 @@
-"""Bounded HistData sensitivity for the three ranked Development EURUSD trades."""
+"""Bounded HistData sensitivity and adjacent-minute comparison in Development."""
+import argparse
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal, ROUND_HALF_UP
 from html.parser import HTMLParser
 import io
 from pathlib import Path
+from statistics import median
 import subprocess
 from urllib.parse import urlencode
 import zipfile
@@ -12,6 +14,7 @@ import zipfile
 from prop_n1_screen import BASE as N1
 from prop_replay_regression import BASE, PROTOCOL, WORKSPACE, net, verify_commit
 from prop_v15_accounts import exact_quantity
+from prop_v15_evidence import bars_for
 from prop_v21_common import compressed, unpack
 from prop_v26_common import FIRST, DEV_END, V19, read, sha
 from quant_core.job_workspace import JobWorkspace
@@ -64,8 +67,9 @@ def fetch(month, folder):
     return path, page
 
 
-def observed_ticks(path, month, start, end):
+def observed_ticks(path, month, start, end, *, wanted_minutes=None):
     low, high = [datetime.fromtimestamp(t / 1000, EST).strftime('%Y%m%d %H%M%S') for t in (start, end)]
+    wanted = {datetime.fromtimestamp(t / 1000, EST).strftime('%Y%m%d %H%M') for t in wanted_minutes} if wanted_minutes is not None else None
     rows = []
     previous = ''
     with zipfile.ZipFile(path) as archive:
@@ -79,7 +83,7 @@ def observed_ticks(path, month, start, end):
                 if len(fields) != 4 or len(date) != 18 or date[:6] != month or date < previous:
                     raise ValueError('HISTDATA_TICK_SCHEMA_SCOPE_OR_ORDER')
                 previous = date
-                if not low <= date[:15] <= high:
+                if not low <= date[:15] <= high or (wanted is not None and date[:13] not in wanted):
                     continue
                 at = int(datetime.strptime(date, '%Y%m%d %H%M%S%f').replace(tzinfo=EST).timestamp() * 1000)
                 if not FIRST <= at < DEV_END:
@@ -135,6 +139,56 @@ def assess(t, rows, gaps, strict):
     return result
 
 
+def audit_cached_overlap():
+    verify_commit(PROTOCOL)
+    verify_commit(__file__)
+    parent = next(BASE.glob('histdata-gaps/*/tick-sensitivity-manifest.json'))
+    with bindings(evidence, JOB=parent.parent):
+        original = unpack('tick-sensitivity')
+    rank_path = next(N1.glob('gaps/*/gap-ranking-manifest.json'))
+    if sha(rank_path) != original['ranking_manifest_sha256']:
+        raise ValueError('HISTDATA_RANKING_MANIFEST_CHANGED')
+    with bindings(evidence, JOB=rank_path.parent):
+        ranked = unpack('gap-ranking')['gaps']
+    bars = bars_for('EURUSD', True)
+    result, adjacent = [], {}
+    for source in original['results']:
+        month = source['month']
+        if month not in MONTHS:
+            raise ValueError('HISTDATA_SCOPE_CHANGED')
+        file = parent.parent / f'HistData-EURUSD-{month}.zip'
+        if sha(file) != source['sha256']:
+            raise ValueError('HISTDATA_INPUT_HASH_CHANGED')
+        scope = [g for g in ranked if g['asset'] == 'EURUSD'
+                 and datetime.fromtimestamp(g['first_unknown'] / 1000, EST).strftime('%Y%m') == month]
+        needed = {t for g in scope for t in range(g['before'], g['after'] + MINUTE, MINUTE)}
+        rows = observed_ticks(file, month, min(needed), max(needed) + MINUTE, wanted_minutes=needed)
+        by_minute = defaultdict(list)
+        for row in rows:
+            by_minute[row[0] // MINUTE * MINUTE].append(row)
+        for gap in scope:
+            count = sum(len(by_minute[at]) for at in range(gap['first_unknown'], gap['after'], MINUTE))
+            result.append(dict(first_unknown=gap['first_unknown'], after=gap['after'], count=count))
+            for at in (gap['before'], gap['after']):
+                minute = by_minute[at]
+                index = int(bars['t'].searchsorted(at))
+                if minute and index < len(bars) and bars['t'][index] == at:
+                    adjacent[at] = [float(abs(Decimal(int(bars[field][index])) / 100000 - tick[1]) * 10000)
+                                    for field, tick in (('bo', minute[0]), ('bc', minute[-1]))]
+    differences = [value for pair in adjacent.values() for value in pair]
+    value = dict(gaps=result, adjacent=dict(pairs=len(adjacent), fields=len(differences),
+        exact=sum(value == 0 for value in differences), median_abs_pips=median(differences) if differences else None,
+        max_abs_pips=max(differences) if differences else None, by_minute=adjacent),
+        input_manifest_sha256=sha(parent), ranking_manifest_sha256=sha(rank_path), protocol_sha256=sha(PROTOCOL))
+    runtime = JobWorkspace(BASE / 'histdata-overlap', WORKSPACE)
+    try:
+        with bindings(evidence, JOB=runtime.activate()):
+            compressed('cached-month-overlap', value)
+        print(len(result), sum(g['count'] > 0 for g in result), value['adjacent']['fields'], flush=True)
+    finally:
+        runtime.close()
+
+
 def main():
     verify_commit(PROTOCOL)
     verify_commit(__file__)
@@ -174,4 +228,6 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--cached-overlap', action='store_true')
+    (audit_cached_overlap if parser.parse_args().cached_overlap else main)()
