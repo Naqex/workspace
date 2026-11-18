@@ -4,6 +4,11 @@
 
 ## Việc hiện tại
 
+Đã đo độ nhạy hai vòng trong 12 tháng trên 61 mốc Development.
+Lợi thế giả định +1.000 USD/năm chỉ thêm 1 cửa sổ qua hai vòng ở
+PRIMARY, 0 ở STRICT và 0 payout. Mốc thử đầu tiên cho đa số ở cả hai
+đường là +7.500 USD/năm quy chiếu. [Kết quả](research/PROP-TWO-PHASE-SENSITIVITY-20261119.md).
+
 Gác nguồn ATC 2011. Đã xác minh 12/12 định danh từ biểu đồ gốc.
 Có 1/12 hồ sơ mô tả luật cùng mùa, 0/12 nối được đúng bản thi với
 lịch sử từng lệnh. Chưa chạy Stage-0. [Kết quả](research/PROP-ATC-2011-COHORT-ADMISSION-20261119.md).

@@ -1,6 +1,6 @@
 # Lộ trình hệ thống giao dịch tự động dành cho một người vận hành
 
-Cập nhật 18/11/2026. Đích đến là hệ thống chủ dự án tự vận hành, có bằng chứng
+Cập nhật 19/11/2026. Đích đến là hệ thống chủ dự án tự vận hành, có bằng chứng
 đủ để quyết định thi hai vòng Challenge và đánh giá payout ròng có thể đều
 đến mức nào. Thu nhập chính là mục tiêu dài hạn. Mức thu nhập, ngân sách phí
 và mức lỗ chấp nhận được sẽ được chốt trước quyết định dùng tiền thật.
@@ -53,6 +53,13 @@ trung vị 48,06 tháng trong nhóm hoàn tất. Kịch bản giá thiếu bất
 khi phí tăng 50%. Vì thế có hai việc đáng ưu tiên: tìm thêm nguồn lợi
 nhuận sau phí và giảm bất định ở các khoảng thiếu giá có tác động lớn.
 [Kết quả V26](BATCH-EXACT-ISO-V26-RESULTS-20261118.md)
+
+Phép đo độ nhạy 61 cửa sổ đã xác nhận +1.000 USD/năm là mốc xét
+công nghiên cứu. Mốc đó chỉ thêm một sổ hoàn tất hai vòng ở PRIMARY
+và chưa có payout. Ở 40/60 lệnh/năm, thử nghiệm giả định lần đầu tạo
+đa số sổ hoàn tất và nhận payout ở cả hai đường tại +7.500 USD/năm
+quy chiếu. Dùng kết quả để ưu tiên cơ chế có đủ quy mô và tần suất bổ
+sung trước khi replay. [Bài đo](PROP-TWO-PHASE-SENSITIVITY-20261119.md).
 
 | Nhịp | Câu hỏi và bằng chứng cần có | Quyết định cuối nhịp |
 |---|---|---|

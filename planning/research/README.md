@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**Dư địa hoàn tất hai vòng trong 12 tháng.** Cùng risk BASE, mức giả
+định +1.000 USD/năm thêm đúng một cửa sổ PRIMARY và 0 payout. Kết quả
+giữ đủ cả 61 sổ, kể cả sổ chưa tới đích. [Độ nhạy](PROP-TWO-PHASE-SENSITIVITY-20261119.md).
+
 **ATC 2011.** Đã khóa 12 định danh từ biểu đồ gốc. Bản chạy và sổ
 lệnh đúng phiên bản chưa xác minh được cho cả nhóm.
 [Hồ sơ và quyết định](PROP-ATC-2011-COHORT-ADMISSION-20261119.md).
