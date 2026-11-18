@@ -1,0 +1,8 @@
+//@version=5
+strategy("Synthetic range rejection control")
+atr = ta.atr(14)
+priorHigh = ta.highest(high[1], 20)
+priorLow = ta.lowest(low[1], 20)
+if low < priorLow and close > priorLow
+    strategy.entry("Long", strategy.long)
+    strategy.exit("Risk", "Long", stop=low-atr*0.1, limit=close+atr*2)

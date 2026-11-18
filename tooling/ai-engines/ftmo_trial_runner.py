@@ -35,9 +35,9 @@ def terminal_inventory():
     return value if isinstance(value,list) else [value]
 
 
-def check_mt5_ready(*, terminal=None, sdk=None, inventory=None):
+def check_mt5_ready(*, terminal=None, sdk=None, inventory=None,expected_binding=None):
     """Inspect an existing FTMO demo IPC session; never login/select/send."""
-    started=time.perf_counter();initialized=False
+    started=time.perf_counter();initialized=False;native_clock=sdk is None
     r=dict(schema="MT5-readonly-preflight-v22",status="NOT_READY",read_only_ready=False,
         shadow_ready=False,actual_broker_orders=0,terminal_connected=False,
         last_reported_broker_ping_ms=None,ping_is_fresh_network_measurement=False,
@@ -68,6 +68,8 @@ def check_mt5_ready(*, terminal=None, sdk=None, inventory=None):
         r["account"]={k:a.get(k) for k in ("server","company","currency","trade_mode")}
         if type(a.get("login")) is int:
             r["binding"]=dict(server=a["server"],account_hash=adapter.account_hash(a["login"],a["server"]))
+        if expected_binding is not None and r.get('binding')!=expected_binding:
+            r['reason']='CONFIGURED_TRIAL_ACCOUNT_CHANGED';return r
         r["terminal_path"]=str(Path(terminal).resolve())
         r["terminal_connected"]=bool(ti.get("connected"))
         ping=ti.get("ping_last")
@@ -76,6 +78,9 @@ def check_mt5_ready(*, terminal=None, sdk=None, inventory=None):
         for asset in ASSETS:
             spec=sdk.symbol_info(asset);tick=sdk.symbol_info_tick(asset) if spec is not None else None
             quote=tick._asdict() if tick is not None else {}
+            if native_clock and quote.get('time_msc') is not None:
+                from ftmo_connection import quote_utc_msc
+                quote['time_msc']=quote_utc_msc(quote['time_msc'],a.get('server'))
             valid=(isinstance(quote.get("time_msc"),int) and quote["time_msc"]<=now and
                 all(isinstance(quote.get(k),(int,float)) and math.isfinite(quote[k]) for k in ("bid","ask")) and
                 quote["bid"]>0 and quote["ask"]>=quote["bid"])
@@ -332,7 +337,9 @@ def run(mode,output,*,manifest=None,bridge=None,replay=False,seconds=60,speed=1.
         if terminal is None:
             if len(inventory)!=1:raise adapter.AdapterError("MULTIPLE_TERMINALS_REQUIRE_EXPLICIT_PATH")
             terminal=inventory[0]["ExecutablePath"]
+        from ftmo_connection import ClockReader
         reader=adapter.NativeMT5Reader(terminal)
+        if hasattr(reader,'sdk'):reader=ClockReader(reader)
         try:
             now=int(time.time()*1000);snap=snapshot(reader,now)
             if expected_binding is not None and snap["binding"]!=expected_binding:
@@ -416,14 +423,16 @@ def run(mode,output,*,manifest=None,bridge=None,replay=False,seconds=60,speed=1.
         slippage_measured=False))
 
 
-def watch_mt5(output,*,timeout=300,poll_seconds=5,capture_seconds=60,terminal=None,manifest=None,
+def watch_mt5(output,*,timeout=300,poll_seconds=5,capture_seconds=60,terminal=None,manifest=None,expected_binding=None,
               probe=None,capture=None,clock=time.monotonic,sleeper=time.sleep):
     """Bounded foreground wait followed by native read-only capture, never paper/orders."""
     if not math.isfinite(timeout) or not 1<=timeout<=3600:raise ValueError("WATCH_TIMEOUT_1_TO_3600_SECONDS")
     if not math.isfinite(poll_seconds) or not .1<=poll_seconds<=30:raise ValueError("WATCH_POLL_01_TO_30_SECONDS")
     if not 1<=capture_seconds<=3600:raise ValueError("WATCH_CAPTURE_1_TO_3600_SECONDS")
     output=Path(output);output.mkdir(parents=True,exist_ok=False)
-    probe=probe or check_mt5_ready;capture=capture or run
+    if probe is None:
+        probe=lambda **kwargs:check_mt5_ready(**kwargs,expected_binding=expected_binding)
+    capture=capture or run
     start=clock();deadline=start+timeout;attempts=0
     result=dict(schema="MT5-watch-v23",status="WAITING",actual_broker_orders=0,native_capture_completed=False,
         wait_timeout_seconds=timeout,capture_seconds=capture_seconds,permanent_service_installed=False)
@@ -437,6 +446,7 @@ def watch_mt5(output,*,timeout=300,poll_seconds=5,capture_seconds=60,terminal=No
                     reason=r.get("reason"),terminals_seen=r.get("terminals_seen"),read_only_ready=r.get("read_only_ready",False)))+"\n");journal.flush()
                 if clock()>=deadline:break
                 if r.get("read_only_ready"):
+                    if expected_binding is not None and r.get('binding')!=expected_binding:raise adapter.AdapterError('CONFIGURED_TRIAL_ACCOUNT_CHANGED')
                     if not r.get("binding") or not r.get("terminal_path"):
                         raise adapter.AdapterError("WATCH_PROBE_ACCOUNT_OR_TERMINAL_BINDING_UNKNOWN")
                     write(output/"ready-probe.json",r)
@@ -472,27 +482,48 @@ def main():
     p.add_argument("--check-mt5-ready",action="store_true")
     p.add_argument("--watch-mt5",action="store_true");p.add_argument("--watch-timeout",type=float,default=300)
     p.add_argument("--watch-poll-seconds",type=float,default=5)
+    p.add_argument('--credentials-file',type=Path,help='Four-key private FTMO Trial env file; never a shell script')
     a=p.parse_args()
+    from ftmo_connection import credentials,trial_session
+    try:
+        values=credentials(a.credentials_file)
+        if values and (a.replay or a.bridge):p.error('credentials are separate from fixture/bridge replay')
+        with trial_session(values) as terminal:
+            a.credentials_active=values is not None
+            a.expected_binding=dict(server=values['FTMO_MT5_SERVER'],account_hash=adapter.account_hash(int(values['FTMO_MT5_LOGIN']),values['FTMO_MT5_SERVER'])) if values else None
+            if terminal:a.terminal=terminal
+            return dispatch(a,p)
+    except ValueError as exc:p.exit(2,'FTMO Trial setup stopped: '+str(exc)+'\n')
+
+
+def dispatch(a,p):
     if a.watch_mt5:
         if a.check_mt5_ready or a.replay or a.bridge or a.mode!="read-only":p.error("watch only supports native read-only capture")
         from prop_v23_common import JOB as watch_root
+        if a.credentials_active:
+            from prop_v24_common import JOB as watch_root
         out=a.output or watch_root/("watch-"+datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ"))
         try:r=watch_mt5(out,timeout=a.watch_timeout,poll_seconds=a.watch_poll_seconds,capture_seconds=a.seconds,
-            terminal=a.terminal,manifest=a.manifest)
+            terminal=a.terminal,manifest=a.manifest,expected_binding=a.expected_binding)
         except ValueError as exc:p.error(str(exc))
         print(json.dumps(dict(r,output=str(out))))
         return 0 if r["native_capture_completed"] else 130 if r["status"]=="INTERRUPTED" else 2
     if a.check_mt5_ready:
         if a.replay or a.bridge or a.manifest:p.error("readiness check is separate from replay/shadow manifests")
         from prop_v22_common import JOB as check_root
+        if a.credentials_active:
+            from prop_v24_common import JOB as check_root
         out=a.output or check_root/("preflight-"+datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ"))
         out.mkdir(parents=True,exist_ok=False)
-        result=check_mt5_ready(terminal=a.terminal);write(out/"MT5_PREFLIGHT.json",result)
+        result=check_mt5_ready(terminal=a.terminal,expected_binding=a.expected_binding);write(out/"MT5_PREFLIGHT.json",result)
         print(json.dumps(dict(result,output=str(out))))
         return 0 if result["read_only_ready"] else 2
     from prop_v20_common import JOB
+    if a.credentials_active:
+        from prop_v24_common import JOB
     out=a.output or JOB/("observer-"+datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ"))
-    try:run(a.mode,out,manifest=a.manifest,bridge=a.bridge,replay=a.replay,seconds=a.seconds,speed=a.speed,terminal=a.terminal)
+    try:run(a.mode,out,manifest=a.manifest,bridge=a.bridge,replay=a.replay,seconds=a.seconds,speed=a.speed,terminal=a.terminal,
+        require_native=a.credentials_active,expected_binding=a.expected_binding)
     except (adapter.AdapterError,ValueError,ModuleNotFoundError) as exc:
         if out.exists() and not (out/"failure.json").exists():write(out/"failure.json",dict(error=str(exc),actual_broker_orders=0))
         p.exit(2,"Read-only/shadow stopped: "+str(exc)+". See QUICKSTART-FTMO-FREE-TRIAL.md.\n")
