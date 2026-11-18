@@ -10,9 +10,10 @@ giá ưu tiên vẫn thiếu. Nhịp 2 cần ứng viên đã qua Stage‑0 ho�
 mới cho một khoảng giá có tác động. [Task](PROP-STAGE0-NEXT-SLEEVE-TASK.md) ·
 [Kết quả và quyết định](PROP-N1-RESULTS-20261118.md).
 Đã đo thiếu hụt vòng 1 trên sổ Development. PRIMARY qua 6/61 cửa sổ
-trong 12 tháng và thiếu trung vị 4.929,17 USD ở nhóm chưa qua. Dùng
-yêu cầu về độ bổ sung để đặt card cho một Stage‑0 kế tiếp.
-[Bài đo và yêu cầu ứng viên](PROP-PHASE1-SHORTFALL-20261118.md)
+trong 12 tháng và thiếu trung vị 4.929,17 USD ở nhóm chưa qua. Suất thử
+US500 VIX theo yêu cầu đó đã trượt Stage‑0. Giữ BASE_GUARD làm đối chứng.
+[Bài đo và yêu cầu ứng viên](PROP-PHASE1-SHORTFALL-20261118.md) ·
+[Kết quả US500 VIX](PROP-US500-VIX-DIVERGENCE-RESULTS-20261118.md).
 Kế hoạch này tiếp nối kết quả V26. Chiến dịch STRATEGY-E2E cũ đã đóng theo
 quyết định của owner, với lịch sử thử nghiệm được lưu riêng.
 [Chiến dịch cũ](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)

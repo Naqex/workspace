@@ -1,8 +1,12 @@
 # Current context — Naqex Workspace
 
-18/11/2026 · `RESEARCH: ĐÃ ĐO THIẾU HỤT VÒNG 1 · PORTFOLIO: BASE_GUARD · PROP: NOT_QUALIFIED`.
+18/11/2026 · `RESEARCH: US500 VIX ĐÃ CHỐT STAGE-0 · PORTFOLIO: BASE_GUARD · PROP: NOT_QUALIFIED`.
 
 ## Việc hiện tại
+
+US500 VIX trượt Stage‑0 trên Development 2018–2023. Có 313 tín hiệu và
+31 qua cap phí, với năm năm markout âm sau phí stress. Nhánh đã gác.
+[Báo cáo](research/PROP-US500-VIX-DIVERGENCE-RESULTS-20261118.md)
 
 Đối soát sổ V19 trên 61 cửa sổ Development đủ 12 tháng cho 6 qua vòng 1
 ở PRIMARY và 3 ở STRICT. Thiếu trung vị ở nhóm chưa qua lần lượt là

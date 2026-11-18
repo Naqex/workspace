@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**US500 VIX — gác tại Stage‑0.** 313 tín hiệu, 31 qua cap phí, 5/6 năm
+âm sau phí stress. [Protocol](PROP-US500-VIX-DIVERGENCE-PROTOCOL-20261118.md) ·
+[Kết quả](PROP-US500-VIX-DIVERGENCE-RESULTS-20261118.md).
+
 **Thiếu hụt vòng 1 sau 12 tháng.** PRIMARY qua 6/61 cửa sổ Development,
 thiếu trung vị 4.929,17 USD ở nhóm chưa qua. Có phân rã theo nhánh và
 yêu cầu cho một ứng viên Stage‑0. [Kết quả](PROP-PHASE1-SHORTFALL-20261118.md)
