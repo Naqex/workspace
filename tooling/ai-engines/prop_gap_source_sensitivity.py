@@ -46,20 +46,20 @@ class DownloadForm(HTMLParser):
             self.active = False
 
 
-def fetch(month, folder):
+def fetch(month, folder, asset='EURUSD'):
     year, number = month[:4], int(month[4:])
-    page = f'{HOST}/download-free-forex-historical-data/?/ascii/tick-data-quotes/eurusd/{year}/{number}'
+    page = f'{HOST}/download-free-forex-historical-data/?/ascii/tick-data-quotes/{asset.lower()}/{year}/{number}'
     curl = ['curl.exe', '-q', '--fail', '--silent', '--show-error', '--proto', '=https',
             '--connect-timeout', '8', '--max-time', '40', '--max-filesize', '33554432']
     form = DownloadForm()
     form.feed(subprocess.check_output([*curl, page], timeout=45).decode('utf-8', 'replace'))
-    expected = dict(date=year, datemonth=month, platform='ASCII', timeframe='T', fxpair='EURUSD')
+    expected = dict(date=year, datemonth=month, platform='ASCII', timeframe='T', fxpair=asset)
     if {k: form.fields.get(k) for k in expected} != expected or not form.fields.get('tk'):
         raise ValueError('HISTDATA_DOWNLOAD_FORM_NOT_AVAILABLE')
     request = urlencode(dict(expected, tk=form.fields['tk'])).encode('ascii')
     downloaded = subprocess.run([*curl, '--referer', page, '--data-binary', '@-', HOST + '/get.php'],
                                 input=request, capture_output=True, check=True, timeout=45).stdout
-    path = folder / f'HistData-EURUSD-{month}.zip'
+    path = folder / f'HistData-{asset}-{month}.zip'
     with path.open('xb') as stream:
         stream.write(downloaded)
     if not zipfile.is_zipfile(path):
@@ -67,13 +67,13 @@ def fetch(month, folder):
     return path, page
 
 
-def observed_ticks(path, month, start, end, *, wanted_minutes=None):
+def observed_ticks(path, month, start, end, *, wanted_minutes=None, asset='EURUSD'):
     low, high = [datetime.fromtimestamp(t / 1000, EST).strftime('%Y%m%d %H%M%S') for t in (start, end)]
     wanted = {datetime.fromtimestamp(t / 1000, EST).strftime('%Y%m%d %H%M') for t in wanted_minutes} if wanted_minutes is not None else None
     rows = []
     previous = ''
     with zipfile.ZipFile(path) as archive:
-        member = archive.getinfo(f'DAT_ASCII_EURUSD_T_{month}.csv')
+        member = archive.getinfo(f'DAT_ASCII_{asset}_T_{month}.csv')
         if member.file_size > 350_000_000:
             raise ValueError('HISTDATA_MEMBER_TOO_LARGE')
         with archive.open(member) as raw, io.TextIOWrapper(raw, encoding='ascii') as text:
@@ -101,7 +101,8 @@ def assess(t, rows, gaps, strict):
     entry, deadline = t['entry_msc'], t['deadline_msc']
     qty = exact_quantity(t, 150)
     buy = t['side'] == 'BUY'
-    stop = Decimal(t['stop_units']) / 100000
+    gold = t['asset'] == 'XAUUSD'
+    stop = Decimal(t['stop_units']) / (1000 if gold else 100000)
     exit_field = 1 if buy else 2
     def hit(row):
         return row[exit_field] <= stop if buy else row[exit_field] >= stop
@@ -132,8 +133,13 @@ def assess(t, rows, gaps, strict):
         result['status'] = 'INTERTICK_GAP'
         return result
     original_entry = opening[2 if buy else 1]
-    gross = (Decimal(qty * 1000 * (1 if buy else -1)) * (exit_[exit_field] - original_entry)).quantize(CENT, rounding=ROUND_HALF_UP)
-    fees = 2 * (Decimal(qty) * Decimal('.035')).quantize(CENT, rounding=ROUND_HALF_UP) + Decimal(qty) * Decimal('.02')
+    gross = (Decimal(qty * (1 if gold else 1000) * (1 if buy else -1)) *
+             (exit_[exit_field] - original_entry)).quantize(CENT, rounding=ROUND_HALF_UP)
+    if gold:
+        fees = sum((price * qty * Decimal('.000007')).quantize(CENT, rounding=ROUND_HALF_UP)
+                   for price in (original_entry, exit_[exit_field])) + qty * Decimal('.40')
+    else:
+        fees = 2 * (Decimal(qty) * Decimal('.035')).quantize(CENT, rounding=ROUND_HALF_UP) + qty * Decimal('.02')
     result.update(status='HORIZON' if crossing is None else 'SL', entry_at=opening[0], exit_at=exit_[0],
                   entry_price=str(original_entry), exit_price=str(exit_[exit_field]), net_cents=int((gross - fees) * 100))
     return result
