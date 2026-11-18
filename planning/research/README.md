@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+**CFETS → AUD/USD.** Quy tắc đã khóa, nguồn chưa chứng minh được giờ
+khả dụng của fixing hoặc đường Bid/Ask để vào 01:20. Chưa đo lợi nhuận.
+Báo cáo có quy đổi mục tiêu 2%/năm cho vốn 10k, 25k và 50k.
+[Kết quả kiểm nguồn](PROP-CFETS-AUD-SOURCE-PREFLIGHT-20261119.md).
+
 **Trần bật/tắt BASE theo quý.** PRIMARY 2018–2020 hụt mốc
 1.000 USD/năm ngay cả khi chọn đúng mọi quý âm.
 [Kết quả](PROP-QUARTER-SLEEVE-CEILING-20261119.md).

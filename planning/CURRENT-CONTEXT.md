@@ -4,6 +4,11 @@
 
 ## Việc hiện tại
 
+Kiểm nguồn CFETS → AUD/USD dừng ở `DATA_PATH_INCOMPLETE`. Kho fixing có
+ngày nhưng chưa có giờ công bố từng bản ghi. AUD/USD H1 đủ 1.561 ngày
+ở ba mốc đầu phiên nhưng chưa dựng được khớp 01:20. Chưa đo PnL.
+[Kết quả](research/PROP-CFETS-AUD-SOURCE-PREFLIGHT-20261119.md).
+
 Trần bật/tắt từng nhánh BASE theo quý chỉ thêm 942,80 USD/năm
 ở PRIMARY 2018–2020 ngay cả khi biết trước kết quả. Gác luật bốn
 quý và replay tài khoản. [Kết quả](research/PROP-QUARTER-SLEEVE-CEILING-20261119.md).
