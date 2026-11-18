@@ -27,6 +27,9 @@ def safe_line(text):
     if re.search(r'password|secret|token|api.?key',text,re.I):return '[REDACTED_SENSITIVE_LINE]'
     return text.strip()[:240]
 
+def indicators_in(code):
+    return sorted(set(re.findall(r'\b(?:iMA|iATR|iRSI|iBands|iADX|iCCI|iMFI|iStochastic|iMACD|iSAR|iCustom|SMA|EMA|ATR|RSI|CCI|MFI|MACD|Donchian|SimpleMovingAverage|ExponentialMovingAverage|AverageTrueRange|RelativeStrengthIndex|BollingerBands|ta\.\w+)\b',code,re.I)))
+
 def inspect_bytes(raw,suffix):
     if suffix not in SOURCE|BINARY:raise ValueError('UNSUPPORTED_BOT_FORMAT')
     if len(raw)>16*1024*1024:raise ValueError('BOT_SIZE_LIMIT_16MIB')
@@ -60,7 +63,7 @@ def inspect_bytes(raw,suffix):
         code=re.sub(r'/\*.*?\*/|//[^\n]*','',text,flags=re.S);lines=code.splitlines()
     def evidence(pattern):
         return [dict(line=i+1,text=safe_line(s)) for i,s in enumerate(lines) if re.search(pattern,s,re.I)][:32]
-    indicators=sorted(set(re.findall(r'\b(?:iMA|iATR|iRSI|iBands|iADX|iCustom|SMA|EMA|ATR|RSI|Donchian|SimpleMovingAverage|ExponentialMovingAverage|AverageTrueRange|RelativeStrengthIndex|BollingerBands|ta\.\w+)\b',code,re.I)))
+    indicators=indicators_in(code)
     timeframes=sorted(set(re.findall(r'\b(?:PERIOD_(?:M\d+|H\d+|D1|W1)|TimeFrame\.\w+|timeframe\.\w+)\b',code)))
     sizing=evidence(r'lot|volume|multiplier|qty|position_size')
     for row in sizing:

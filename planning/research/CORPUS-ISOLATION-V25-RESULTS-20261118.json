@@ -1,0 +1,1491 @@
+{
+  "schema": "V25-results-v1",
+  "date": "2026-11-18",
+  "protocol_sha256": "942bb521ea33cba95b7e2a80024efe250bb2ec842a058abea3870c7a95231f9a",
+  "verdict": "BASE_GUARD_RETAINED_NO_NEW_QUALIFIED_STRATEGY",
+  "prop_qualified": false,
+  "new_historical_start_children": 0,
+  "new_bootstrap_children": 0,
+  "financial_development": [
+    2018,
+    2023
+  ],
+  "later_price_cohorts_opened": false,
+  "job": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\corpus-isolation-v25-20261118",
+  "inventory": {
+    "files": 273378,
+    "signature_matches": 4875,
+    "bot_paths": 1017,
+    "new_bot_paths": 1,
+    "prior_bot_paths": 1016,
+    "unique_profiles": 1029,
+    "formats": {
+      ".py": 603,
+      ".mq5": 153,
+      ".pine": 1,
+      ".cs": 5,
+      ".ex5": 264,
+      ".mq4": 3
+    },
+    "prior_errors": {
+      "READABLE_NATIVE_PATH": 48425
+    },
+    "current_errors": {
+      "RG_TRAVERSAL_ERROR": 1
+    },
+    "skipped_large": 3832,
+    "seconds": 2301.0423149,
+    "manifest": {
+      "file": "inventory-and-profiles.json.zst",
+      "original_bytes": 55011517,
+      "compressed_bytes": 1809885,
+      "original_sha256": "97c7ce43f733f7b15e1cb9b700bdb43498da93bfa62ebd6b2e6e460e7a0b6ce6",
+      "compressed_sha256": "40072c0593e826619b2d753bf79cda179240efc22b79380175dce507865c29b7",
+      "roundtrip_verified": true
+    }
+  },
+  "enumeration": {
+    "roots": [
+      {
+        "root": "D:\\ANNAM\\TradingWorkspace",
+        "exit_code": 0,
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "root": "E:\\BACKUP-TRADINGWORKSPACE",
+        "exit_code": 0,
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "mode": "METADATA_ONLY_NO_CONTENT_RESCAN",
+    "content_scan_sha256": "40072c0593e826619b2d753bf79cda179240efc22b79380175dce507865c29b7",
+    "protected_coverage_exclusions": [
+      "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\pytest-p20",
+      "D:\\ANNAM\\TradingWorkspace\\projects\\vi-dubber\\work\\pytest-p20-final"
+    ],
+    "ACLs_or_contents_changed": false,
+    "previous_files": 273378,
+    "current_files": 273432,
+    "added_paths": 54,
+    "removed_paths": 0,
+    "seconds": 3.323711000000003,
+    "zero_traversal_errors": true,
+    "complete_tree_coverage": false
+  },
+  "corpus": {
+    "profiles": 1029,
+    "unique_sha256": 1029,
+    "formats": {
+      ".py": 603,
+      ".mq5": 153,
+      ".pine": 1,
+      ".cs": 5,
+      ".ex5": 264,
+      ".mq4": 3
+    },
+    "statuses": {
+      "UTILITY_OR_UNRESOLVED_ENTRY": 652,
+      "FLAGGED_REVIEW": 84,
+      "SL_OR_SIGNAL_BINDING_UNMEASURED": 2,
+      "SOURCE_UNAVAILABLE": 2,
+      "SYNTHETIC_CONTROL": 1,
+      "BINARY_LOGIC_UNKNOWN": 264,
+      "CLEAN_STRUCTURAL_CANDIDATE": 24
+    },
+    "overlapping_flags": {
+      "DYNAMIC_OR_EXTERNAL_BEHAVIOR": 68,
+      "HARDCODED_DATE_REVIEW": 8,
+      "NO_STOP_LOSS": 7,
+      "MARTINGALE_GRID": 2,
+      "ORPHAN_SIGNAL_BLOCK_REVIEW": 4
+    },
+    "clean_structural": 24,
+    "mechanism_count": 1,
+    "source_hash_drift_count": 2,
+    "binary_clean_claims": 0,
+    "ranking_uses_PnL": false,
+    "full_strategy_execution_or_broker_safety_certified": false
+  },
+  "top10": [
+    {
+      "rank": 1,
+      "file": "BullishBearish Engulfing RSI.mq5",
+      "source_path": "D:\\ANNAM\\TradingWorkspace\\projects\\mt5-tradingview-backtester\\foundation_v2\\.runtime\\mt5-broker\\296ea5e9-9842-48b0-ab5c-3d914202099f\\MQL5\\Experts\\Free Robots\\BullishBearish Engulfing RSI.mq5",
+      "aliases": 5,
+      "sha256": "f31d225aa34323541e4834c4f904d9b3a9d43c695afd04c319d4f3bcfed76313",
+      "actual_indicator_calls": [
+        "iMA",
+        "iRSI"
+      ],
+      "defaults": {
+        "InpAverBodyPeriod": 12.0,
+        "InpMAPeriod": 5.0,
+        "InpPeriodRSI": 37.0,
+        "InpDuration": 10.0,
+        "InpSL": 200.0,
+        "InpTP": 200.0,
+        "InpSlippage": 10.0,
+        "InpLot": 0.1
+      },
+      "asset": "chart-selected _Symbol",
+      "timeframe": "chart-selected _Period",
+      "structural_only": true,
+      "strategy_safety_proven": false
+    },
+    {
+      "rank": 2,
+      "file": "BullishBearish Harami RSI.mq5",
+      "source_path": "D:\\ANNAM\\TradingWorkspace\\projects\\mt5-tradingview-backtester\\foundation_v2\\.runtime\\mt5-broker\\296ea5e9-9842-48b0-ab5c-3d914202099f\\MQL5\\Experts\\Free Robots\\BullishBearish Harami RSI.mq5",
+      "aliases": 5,
+      "sha256": "9bbe08876d16a8947fb60b008e4ee632f10fcae1685a130fdc6cff5d7674447e",
+      "actual_indicator_calls": [
+        "iMA",
+        "iRSI"
+      ],
+      "defaults": {
+        "InpAverBodyPeriod": 12.0,
+        "InpMAPeriod": 5.0,
+        "InpPeriodRSI": 37.0,
+        "InpDuration": 10.0,
+        "InpSL": 200.0,
+        "InpTP": 200.0,
+        "InpSlippage": 10.0,
+        "InpLot": 0.1
+      },
+      "asset": "chart-selected _Symbol",
+      "timeframe": "chart-selected _Period",
+      "structural_only": true,
+      "strategy_safety_proven": false
+    },
+    {
+      "rank": 3,
+      "file": "HangingMan Hammer RSI.mq5",
+      "source_path": "D:\\ANNAM\\TradingWorkspace\\projects\\mt5-tradingview-backtester\\foundation_v2\\.runtime\\mt5-broker\\296ea5e9-9842-48b0-ab5c-3d914202099f\\MQL5\\Experts\\Free Robots\\HangingMan Hammer RSI.mq5",
+      "aliases": 5,
+      "sha256": "9f29007ab092e3fa1642d722467fe7d61f668367f19459613859a80315ef851b",
+      "actual_indicator_calls": [
+        "iMA",
+        "iRSI"
+      ],
+      "defaults": {
+        "InpAverBodyPeriod": 12.0,
+        "InpMAPeriod": 5.0,
+        "InpPeriodRSI": 37.0,
+        "InpDuration": 10.0,
+        "InpSL": 200.0,
+        "InpTP": 200.0,
+        "InpSlippage": 10.0,
+        "InpLot": 0.1
+      },
+      "asset": "chart-selected _Symbol",
+      "timeframe": "chart-selected _Period",
+      "structural_only": true,
+      "strategy_safety_proven": false
+    },
+    {
+      "rank": 4,
+      "file": "BlackCrows WhiteSoldiers RSI.mq5",
+      "source_path": "D:\\ANNAM\\TradingWorkspace\\projects\\mt5-tradingview-backtester\\foundation_v2\\.runtime\\mt5-broker\\296ea5e9-9842-48b0-ab5c-3d914202099f\\MQL5\\Experts\\Free Robots\\BlackCrows WhiteSoldiers RSI.mq5",
+      "aliases": 5,
+      "sha256": "a88720e2aca390107a147e58a1b3970a39ff11410557eab718c8c002efeb042f",
+      "actual_indicator_calls": [
+        "iRSI"
+      ],
+      "defaults": {
+        "InpAverBodyPeriod": 12.0,
+        "InpPeriodRSI": 37.0,
+        "InpDuration": 10.0,
+        "InpSL": 200.0,
+        "InpTP": 200.0,
+        "InpSlippage": 10.0,
+        "InpLot": 0.1
+      },
+      "asset": "chart-selected _Symbol",
+      "timeframe": "chart-selected _Period",
+      "structural_only": true,
+      "strategy_safety_proven": false
+    },
+    {
+      "rank": 5,
+      "file": "BullishBearish MeetingLines RSI.mq5",
+      "source_path": "D:\\ANNAM\\TradingWorkspace\\projects\\mt5-tradingview-backtester\\foundation_v2\\.runtime\\mt5-broker\\296ea5e9-9842-48b0-ab5c-3d914202099f\\MQL5\\Experts\\Free Robots\\BullishBearish MeetingLines RSI.mq5",
+      "aliases": 5,
+      "sha256": "d605137cf7161a9b3d57645b02a54ce68f5475a3dc940c872615922cf7cb20cd",
+      "actual_indicator_calls": [
+        "iRSI"
+      ],
+      "defaults": {
+        "InpAverBodyPeriod": 12.0,
+        "InpPeriodRSI": 37.0,
+        "InpDuration": 10.0,
+        "InpSL": 200.0,
+        "InpTP": 200.0,
+        "InpSlippage": 10.0,
+        "InpLot": 0.1
+      },
+      "asset": "chart-selected _Symbol",
+      "timeframe": "chart-selected _Period",
+      "structural_only": true,
+      "strategy_safety_proven": false
+    },
+    {
+      "rank": 6,
+      "file": "MorningEvening StarDoji RSI.mq5",
+      "source_path": "D:\\ANNAM\\TradingWorkspace\\projects\\mt5-tradingview-backtester\\foundation_v2\\.runtime\\mt5-broker\\296ea5e9-9842-48b0-ab5c-3d914202099f\\MQL5\\Experts\\Free Robots\\MorningEvening StarDoji RSI.mq5",
+      "aliases": 5,
+      "sha256": "a492b4e6c36a9532da62ba1ef38646be2afe966de3a51b23550645e23775ca4b",
+      "actual_indicator_calls": [
+        "iRSI"
+      ],
+      "defaults": {
+        "InpAverBodyPeriod": 12.0,
+        "InpPeriodRSI": 37.0,
+        "InpDuration": 10.0,
+        "InpSL": 200.0,
+        "InpTP": 200.0,
+        "InpSlippage": 10.0,
+        "InpLot": 0.1
+      },
+      "asset": "chart-selected _Symbol",
+      "timeframe": "chart-selected _Period",
+      "structural_only": true,
+      "strategy_safety_proven": false
+    },
+    {
+      "rank": 7,
+      "file": "BullishBearish Engulfing CCI.mq5",
+      "source_path": "D:\\ANNAM\\TradingWorkspace\\projects\\mt5-tradingview-backtester\\foundation_v2\\.runtime\\mt5-broker\\296ea5e9-9842-48b0-ab5c-3d914202099f\\MQL5\\Experts\\Free Robots\\BullishBearish Engulfing CCI.mq5",
+      "aliases": 5,
+      "sha256": "67dd47aa94469b57beeaa0766918db1ca8a82f164cb412f45f403849148be139",
+      "actual_indicator_calls": [
+        "iCCI",
+        "iMA"
+      ],
+      "defaults": {
+        "InpAverBodyPeriod": 12.0,
+        "InpMAPeriod": 5.0,
+        "InpPeriodCCI": 37.0,
+        "InpDuration": 10.0,
+        "InpSL": 200.0,
+        "InpTP": 200.0,
+        "InpSlippage": 10.0,
+        "InpLot": 0.1
+      },
+      "asset": "chart-selected _Symbol",
+      "timeframe": "chart-selected _Period",
+      "structural_only": true,
+      "strategy_safety_proven": false
+    },
+    {
+      "rank": 8,
+      "file": "BullishBearish Engulfing MFI.mq5",
+      "source_path": "D:\\ANNAM\\TradingWorkspace\\projects\\mt5-tradingview-backtester\\foundation_v2\\.runtime\\mt5-broker\\296ea5e9-9842-48b0-ab5c-3d914202099f\\MQL5\\Experts\\Free Robots\\BullishBearish Engulfing MFI.mq5",
+      "aliases": 5,
+      "sha256": "63a19a554694fa260150f0d0f83a3e7eb4be6ff988067af30d3db96fee34787b",
+      "actual_indicator_calls": [
+        "iMA",
+        "iMFI"
+      ],
+      "defaults": {
+        "InpAverBodyPeriod": 12.0,
+        "InpMAPeriod": 5.0,
+        "InpPeriodMFI": 37.0,
+        "InpDuration": 10.0,
+        "InpSL": 200.0,
+        "InpTP": 200.0,
+        "InpSlippage": 10.0,
+        "InpLot": 0.1
+      },
+      "asset": "chart-selected _Symbol",
+      "timeframe": "chart-selected _Period",
+      "structural_only": true,
+      "strategy_safety_proven": false
+    },
+    {
+      "rank": 9,
+      "file": "BullishBearish Harami CCI.mq5",
+      "source_path": "D:\\ANNAM\\TradingWorkspace\\projects\\mt5-tradingview-backtester\\foundation_v2\\.runtime\\mt5-broker\\296ea5e9-9842-48b0-ab5c-3d914202099f\\MQL5\\Experts\\Free Robots\\BullishBearish Harami CCI.mq5",
+      "aliases": 5,
+      "sha256": "6513ebf6226a5b8600728ed19e85badb26bc1ceb7298ccd318ed70091883c339",
+      "actual_indicator_calls": [
+        "iCCI",
+        "iMA"
+      ],
+      "defaults": {
+        "InpAverBodyPeriod": 12.0,
+        "InpMAPeriod": 5.0,
+        "InpPeriodCCI": 37.0,
+        "InpDuration": 10.0,
+        "InpSL": 200.0,
+        "InpTP": 200.0,
+        "InpSlippage": 10.0,
+        "InpLot": 0.1
+      },
+      "asset": "chart-selected _Symbol",
+      "timeframe": "chart-selected _Period",
+      "structural_only": true,
+      "strategy_safety_proven": false
+    },
+    {
+      "rank": 10,
+      "file": "BullishBearish Harami MFI.mq5",
+      "source_path": "D:\\ANNAM\\TradingWorkspace\\projects\\mt5-tradingview-backtester\\foundation_v2\\.runtime\\mt5-broker\\296ea5e9-9842-48b0-ab5c-3d914202099f\\MQL5\\Experts\\Free Robots\\BullishBearish Harami MFI.mq5",
+      "aliases": 5,
+      "sha256": "83b4f341557e18db80bd1e35bc177b788f1a1b7fbd7c98b72cdd5269536cc818",
+      "actual_indicator_calls": [
+        "iMA",
+        "iMFI"
+      ],
+      "defaults": {
+        "InpAverBodyPeriod": 12.0,
+        "InpMAPeriod": 5.0,
+        "InpPeriodMFI": 37.0,
+        "InpDuration": 10.0,
+        "InpSL": 200.0,
+        "InpTP": 200.0,
+        "InpSlippage": 10.0,
+        "InpLot": 0.1
+      },
+      "asset": "chart-selected _Symbol",
+      "timeframe": "chart-selected _Period",
+      "structural_only": true,
+      "strategy_safety_proven": false
+    }
+  ],
+  "ISO": {
+    "passed": false,
+    "cases": [
+      {
+        "order": "OLHC",
+        "passed": false,
+        "reasons": [
+          "EQUITY_R_DD_INCREASED"
+        ],
+        "candidate": {
+          "net_R": 26.75986666666666,
+          "equity_R_DD": 12.241933333333316,
+          "static_R_loss": 3.068,
+          "worst_daily_R": 1.545866666666651,
+          "max_open_risk_USD": 260.29999999999995,
+          "cluster_R": [
+            8.7722,
+            17.987666666666662
+          ],
+          "development_years": [
+            2018,
+            2023
+          ],
+          "trades": 340,
+          "SL_active_validated": true,
+          "signal_contract_status": "CAUSAL_FROZEN"
+        },
+        "baseline": {
+          "net_R": 23.85239999999999,
+          "equity_R_DD": 12.206533333333919,
+          "static_R_loss": 3.983866666666658,
+          "worst_daily_R": 2.0370666666666652,
+          "max_open_risk_USD": 312.8,
+          "cluster_R": [
+            9.338666666666665,
+            14.513733333333331
+          ],
+          "development_years": [
+            2018,
+            2023
+          ],
+          "trades": 340,
+          "SL_active_validated": true,
+          "signal_contract_status": "CAUSAL_FROZEN"
+        }
+      },
+      {
+        "order": "OHLC",
+        "passed": false,
+        "reasons": [
+          "EQUITY_R_DD_INCREASED"
+        ],
+        "candidate": {
+          "net_R": 26.75986666666666,
+          "equity_R_DD": 12.241933333333364,
+          "static_R_loss": 3.067999999999997,
+          "worst_daily_R": 1.5458666666666705,
+          "max_open_risk_USD": 260.29999999999995,
+          "cluster_R": [
+            8.7722,
+            17.987666666666662
+          ],
+          "development_years": [
+            2018,
+            2023
+          ],
+          "trades": 340,
+          "SL_active_validated": true,
+          "signal_contract_status": "CAUSAL_FROZEN"
+        },
+        "baseline": {
+          "net_R": 23.85239999999999,
+          "equity_R_DD": 12.2065333333328,
+          "static_R_loss": 3.9838666666666764,
+          "worst_daily_R": 2.0370666666666652,
+          "max_open_risk_USD": 312.8,
+          "cluster_R": [
+            9.338666666666665,
+            14.513733333333331
+          ],
+          "development_years": [
+            2018,
+            2023
+          ],
+          "trades": 340,
+          "SL_active_validated": true,
+          "signal_contract_status": "CAUSAL_FROZEN"
+        }
+      }
+    ],
+    "weights": {
+      "F5": 1.0814413317462606,
+      "F3": 0.5823145632479864,
+      "F4": 0.5823145632479864
+    },
+    "c_iso": "12206533333333919/14673466666666420",
+    "linear_guarantee": false,
+    "prices_2024_2026_read": false
+  },
+  "GBP": {
+    "cases": [
+      {
+        "order": "OLHC",
+        "standalone_scenario": {
+          "net_R": 9.1738,
+          "equity_R_DD": 50.33313333333335,
+          "static_R_loss": 35.423933333333345,
+          "worst_daily_R": 1.0800666666666654,
+          "max_open_risk_USD": 163.5,
+          "cluster_R": [
+            -30.204800000000013,
+            39.378600000000006
+          ],
+          "development_years": [
+            2018,
+            2023
+          ],
+          "trades": 830,
+          "SL_active_validated": true,
+          "signal_contract_status": "CAUSAL_FROZEN"
+        },
+        "annual": [
+          {
+            "year": 2018,
+            "trades": 134,
+            "net_R": 3.6434000000000006,
+            "ExTop5": -26.025466666666667,
+            "ExTop10": -42.714,
+            "winrate": 0.3656716417910448
+          },
+          {
+            "year": 2019,
+            "trades": 130,
+            "net_R": 4.959466666666666,
+            "ExTop5": -20.256999999999998,
+            "ExTop10": -36.43086666666667,
+            "winrate": 0.35384615384615387
+          },
+          {
+            "year": 2020,
+            "trades": 148,
+            "net_R": -38.80766666666667,
+            "ExTop5": -56.44706666666667,
+            "ExTop10": -68.2496,
+            "winrate": 0.28378378378378377
+          },
+          {
+            "year": 2021,
+            "trades": 131,
+            "net_R": 5.664799999999998,
+            "ExTop5": -13.469333333333337,
+            "ExTop10": -28.385333333333335,
+            "winrate": 0.3816793893129771
+          },
+          {
+            "year": 2022,
+            "trades": 142,
+            "net_R": 6.970133333333335,
+            "ExTop5": -18.1066,
+            "ExTop10": -36.92046666666666,
+            "winrate": 0.34507042253521125
+          },
+          {
+            "year": 2023,
+            "trades": 145,
+            "net_R": 26.743666666666666,
+            "ExTop5": -7.6724666666666685,
+            "ExTop10": -27.0868,
+            "winrate": 0.35172413793103446
+          }
+        ],
+        "satellites": [
+          {
+            "weight": 0.25,
+            "conditional_marked_book": {
+              "passed": false,
+              "reasons": [
+                "EQUITY_R_DD_INCREASED",
+                "MAX_OPEN_RISK_USD_INCREASED"
+              ],
+              "candidate": {
+                "net_R": 26.403666666666663,
+                "equity_R_DD": 15.56200000000087,
+                "static_R_loss": 2.367933333333335,
+                "worst_daily_R": 2.037066666666667,
+                "max_open_risk_USD": 340.6099999999999,
+                "cluster_R": [
+                  1.960333333333331,
+                  24.443333333333328
+                ],
+                "development_years": [
+                  2018,
+                  2023
+                ],
+                "trades": 1170,
+                "SL_active_validated": true,
+                "signal_contract_status": "CAUSAL_FROZEN"
+              },
+              "baseline": {
+                "net_R": 23.85239999999999,
+                "equity_R_DD": 12.206533333333919,
+                "static_R_loss": 3.983866666666658,
+                "worst_daily_R": 2.0370666666666652,
+                "max_open_risk_USD": 312.8,
+                "cluster_R": [
+                  9.338666666666665,
+                  14.513733333333331
+                ],
+                "development_years": [
+                  2018,
+                  2023
+                ],
+                "trades": 340,
+                "SL_active_validated": true,
+                "signal_contract_status": "CAUSAL_FROZEN"
+              }
+            },
+            "decision": "INCONCLUSIVE_PATH",
+            "gate_passed": false,
+            "reasons": [
+              "H1_INTRAHOUR_PATH_NOT_CERTIFIED"
+            ],
+            "tails": {
+              "trades": 830,
+              "net_R": 2.551266666666667,
+              "ExTop5": -7.414199999999999,
+              "ExTop10": -14.509999999999998,
+              "winrate": 0.3457831325301205
+            }
+          },
+          {
+            "weight": 0.5,
+            "conditional_marked_book": {
+              "passed": false,
+              "reasons": [
+                "EQUITY_R_DD_INCREASED",
+                "STATIC_R_LOSS_INCREASED",
+                "WORST_DAILY_R_INCREASED",
+                "MAX_OPEN_RISK_USD_INCREASED",
+                "DUAL_CLUSTER_FAIL"
+              ],
+              "candidate": {
+                "net_R": 28.27373333333333,
+                "equity_R_DD": 26.521066666666762,
+                "static_R_loss": 8.669466666666748,
+                "worst_daily_R": 2.2739333333333063,
+                "max_open_risk_USD": 380.40999999999997,
+                "cluster_R": [
+                  -5.801733333333335,
+                  34.07546666666667
+                ],
+                "development_years": [
+                  2018,
+                  2023
+                ],
+                "trades": 1170,
+                "SL_active_validated": true,
+                "signal_contract_status": "CAUSAL_FROZEN"
+              },
+              "baseline": {
+                "net_R": 23.85239999999999,
+                "equity_R_DD": 12.206533333333919,
+                "static_R_loss": 3.983866666666658,
+                "worst_daily_R": 2.0370666666666652,
+                "max_open_risk_USD": 312.8,
+                "cluster_R": [
+                  9.338666666666665,
+                  14.513733333333331
+                ],
+                "development_years": [
+                  2018,
+                  2023
+                ],
+                "trades": 340,
+                "SL_active_validated": true,
+                "signal_contract_status": "CAUSAL_FROZEN"
+              }
+            },
+            "decision": "INCONCLUSIVE_PATH",
+            "gate_passed": false,
+            "reasons": [
+              "H1_INTRAHOUR_PATH_NOT_CERTIFIED"
+            ],
+            "tails": {
+              "trades": 830,
+              "net_R": 4.421333333333332,
+              "ExTop5": -15.641200000000001,
+              "ExTop10": -29.894333333333332,
+              "winrate": 0.3457831325301205
+            }
+          }
+        ],
+        "float_vs_exact15_deltas": [
+          {
+            "at": 1556532000000,
+            "side": "SELL",
+            "distance": 100,
+            "spread": 6,
+            "float15": false,
+            "exact15": true,
+            "exact12": false
+          },
+          {
+            "at": 1687165200000,
+            "side": "BUY",
+            "distance": 120,
+            "spread": 9,
+            "float15": false,
+            "exact15": true,
+            "exact12": false
+          }
+        ],
+        "raw": 883,
+        "accepted": 830,
+        "rejected": 53,
+        "missing": 0
+      },
+      {
+        "order": "OHLC",
+        "standalone_scenario": {
+          "net_R": 9.1738,
+          "equity_R_DD": 50.333133333333386,
+          "static_R_loss": 35.42393333333339,
+          "worst_daily_R": 1.0800666666666672,
+          "max_open_risk_USD": 163.5,
+          "cluster_R": [
+            -30.204800000000013,
+            39.378600000000006
+          ],
+          "development_years": [
+            2018,
+            2023
+          ],
+          "trades": 830,
+          "SL_active_validated": true,
+          "signal_contract_status": "CAUSAL_FROZEN"
+        },
+        "annual": [
+          {
+            "year": 2018,
+            "trades": 134,
+            "net_R": 3.6434000000000006,
+            "ExTop5": -26.025466666666667,
+            "ExTop10": -42.714,
+            "winrate": 0.3656716417910448
+          },
+          {
+            "year": 2019,
+            "trades": 130,
+            "net_R": 4.959466666666666,
+            "ExTop5": -20.256999999999998,
+            "ExTop10": -36.43086666666667,
+            "winrate": 0.35384615384615387
+          },
+          {
+            "year": 2020,
+            "trades": 148,
+            "net_R": -38.80766666666667,
+            "ExTop5": -56.44706666666667,
+            "ExTop10": -68.2496,
+            "winrate": 0.28378378378378377
+          },
+          {
+            "year": 2021,
+            "trades": 131,
+            "net_R": 5.664799999999998,
+            "ExTop5": -13.469333333333337,
+            "ExTop10": -28.385333333333335,
+            "winrate": 0.3816793893129771
+          },
+          {
+            "year": 2022,
+            "trades": 142,
+            "net_R": 6.970133333333335,
+            "ExTop5": -18.1066,
+            "ExTop10": -36.92046666666666,
+            "winrate": 0.34507042253521125
+          },
+          {
+            "year": 2023,
+            "trades": 145,
+            "net_R": 26.743666666666666,
+            "ExTop5": -7.6724666666666685,
+            "ExTop10": -27.0868,
+            "winrate": 0.35172413793103446
+          }
+        ],
+        "satellites": [
+          {
+            "weight": 0.25,
+            "conditional_marked_book": {
+              "passed": false,
+              "reasons": [
+                "EQUITY_R_DD_INCREASED",
+                "MAX_OPEN_RISK_USD_INCREASED"
+              ],
+              "candidate": {
+                "net_R": 26.403666666666663,
+                "equity_R_DD": 15.561999999999362,
+                "static_R_loss": 2.367933333333328,
+                "worst_daily_R": 2.037066666666678,
+                "max_open_risk_USD": 340.6099999999999,
+                "cluster_R": [
+                  1.960333333333331,
+                  24.443333333333328
+                ],
+                "development_years": [
+                  2018,
+                  2023
+                ],
+                "trades": 1170,
+                "SL_active_validated": true,
+                "signal_contract_status": "CAUSAL_FROZEN"
+              },
+              "baseline": {
+                "net_R": 23.85239999999999,
+                "equity_R_DD": 12.2065333333328,
+                "static_R_loss": 3.9838666666666764,
+                "worst_daily_R": 2.0370666666666652,
+                "max_open_risk_USD": 312.8,
+                "cluster_R": [
+                  9.338666666666665,
+                  14.513733333333331
+                ],
+                "development_years": [
+                  2018,
+                  2023
+                ],
+                "trades": 340,
+                "SL_active_validated": true,
+                "signal_contract_status": "CAUSAL_FROZEN"
+              }
+            },
+            "decision": "INCONCLUSIVE_PATH",
+            "gate_passed": false,
+            "reasons": [
+              "H1_INTRAHOUR_PATH_NOT_CERTIFIED"
+            ],
+            "tails": {
+              "trades": 830,
+              "net_R": 2.551266666666667,
+              "ExTop5": -7.414199999999999,
+              "ExTop10": -14.509999999999998,
+              "winrate": 0.3457831325301205
+            }
+          },
+          {
+            "weight": 0.5,
+            "conditional_marked_book": {
+              "passed": false,
+              "reasons": [
+                "EQUITY_R_DD_INCREASED",
+                "STATIC_R_LOSS_INCREASED",
+                "WORST_DAILY_R_INCREASED",
+                "MAX_OPEN_RISK_USD_INCREASED",
+                "DUAL_CLUSTER_FAIL"
+              ],
+              "candidate": {
+                "net_R": 28.27373333333333,
+                "equity_R_DD": 26.521066666666552,
+                "static_R_loss": 8.669466666666548,
+                "worst_daily_R": 2.2739333333333605,
+                "max_open_risk_USD": 380.40999999999997,
+                "cluster_R": [
+                  -5.801733333333335,
+                  34.07546666666667
+                ],
+                "development_years": [
+                  2018,
+                  2023
+                ],
+                "trades": 1170,
+                "SL_active_validated": true,
+                "signal_contract_status": "CAUSAL_FROZEN"
+              },
+              "baseline": {
+                "net_R": 23.85239999999999,
+                "equity_R_DD": 12.2065333333328,
+                "static_R_loss": 3.9838666666666764,
+                "worst_daily_R": 2.0370666666666652,
+                "max_open_risk_USD": 312.8,
+                "cluster_R": [
+                  9.338666666666665,
+                  14.513733333333331
+                ],
+                "development_years": [
+                  2018,
+                  2023
+                ],
+                "trades": 340,
+                "SL_active_validated": true,
+                "signal_contract_status": "CAUSAL_FROZEN"
+              }
+            },
+            "decision": "INCONCLUSIVE_PATH",
+            "gate_passed": false,
+            "reasons": [
+              "H1_INTRAHOUR_PATH_NOT_CERTIFIED"
+            ],
+            "tails": {
+              "trades": 830,
+              "net_R": 4.421333333333332,
+              "ExTop5": -15.641200000000001,
+              "ExTop10": -29.894333333333332,
+              "winrate": 0.3457831325301205
+            }
+          }
+        ],
+        "float_vs_exact15_deltas": [
+          {
+            "at": 1556532000000,
+            "side": "SELL",
+            "distance": 100,
+            "spread": 6,
+            "float15": false,
+            "exact15": true,
+            "exact12": false
+          },
+          {
+            "at": 1687165200000,
+            "side": "BUY",
+            "distance": 120,
+            "spread": 9,
+            "float15": false,
+            "exact15": true,
+            "exact12": false
+          }
+        ],
+        "raw": 883,
+        "accepted": 830,
+        "rejected": 53,
+        "missing": 0
+      }
+    ],
+    "signal_parity2022_2023": {
+      "expected": 300,
+      "actual": 300,
+      "equal": true
+    },
+    "abstentions": {
+      "CALENDAR_DECISION": 33
+    },
+    "status": "INCONCLUSIVE_PATH",
+    "prop_qualified": false,
+    "target_calendar_certified": false,
+    "original20h30_replayed": false,
+    "new_price_rows_added": 0,
+    "prices2024_2026_read": false
+  },
+  "GBP_tails": [
+    {
+      "order": "OLHC",
+      "baseline": {
+        "trades": 340,
+        "net_R": 23.8524,
+        "ExTop5": -1.9713999999999992,
+        "ExTop10": -18.508666666666667,
+        "winrate": 0.4323529411764706
+      },
+      "satellites": [
+        {
+          "weight": 0.25,
+          "net_R": 26.403666666666666,
+          "ExTop5": 0.5798666666666676,
+          "ExTop10": -15.9574,
+          "scope": "combined portfolio, Development only",
+          "GBP_sleeve": {
+            "trades": 830,
+            "net_R": 2.551266666666667,
+            "ExTop5": -7.414199999999999,
+            "ExTop10": -14.509999999999998,
+            "winrate": 0.3457831325301205
+          }
+        },
+        {
+          "weight": 0.5,
+          "net_R": 28.273733333333332,
+          "ExTop5": 2.0107333333333344,
+          "ExTop10": -18.163800000000002,
+          "scope": "combined portfolio, Development only",
+          "GBP_sleeve": {
+            "trades": 830,
+            "net_R": 4.421333333333332,
+            "ExTop5": -15.641200000000001,
+            "ExTop10": -29.894333333333332,
+            "winrate": 0.3457831325301205
+          }
+        }
+      ],
+      "standalone": {
+        "trades": 830,
+        "net_R": 9.1738,
+        "ExTop5": -31.188533333333332,
+        "ExTop10": -59.84506666666667,
+        "winrate": 0.3457831325301205
+      }
+    },
+    {
+      "order": "OHLC",
+      "baseline": {
+        "trades": 340,
+        "net_R": 23.8524,
+        "ExTop5": -1.9713999999999992,
+        "ExTop10": -18.508666666666667,
+        "winrate": 0.4323529411764706
+      },
+      "satellites": [
+        {
+          "weight": 0.25,
+          "net_R": 26.403666666666666,
+          "ExTop5": 0.5798666666666676,
+          "ExTop10": -15.9574,
+          "scope": "combined portfolio, Development only",
+          "GBP_sleeve": {
+            "trades": 830,
+            "net_R": 2.551266666666667,
+            "ExTop5": -7.414199999999999,
+            "ExTop10": -14.509999999999998,
+            "winrate": 0.3457831325301205
+          }
+        },
+        {
+          "weight": 0.5,
+          "net_R": 28.273733333333332,
+          "ExTop5": 2.0107333333333344,
+          "ExTop10": -18.163800000000002,
+          "scope": "combined portfolio, Development only",
+          "GBP_sleeve": {
+            "trades": 830,
+            "net_R": 4.421333333333332,
+            "ExTop5": -15.641200000000001,
+            "ExTop10": -29.894333333333332,
+            "winrate": 0.3457831325301205
+          }
+        }
+      ],
+      "standalone": {
+        "trades": 830,
+        "net_R": 9.1738,
+        "ExTop5": -31.188533333333332,
+        "ExTop10": -59.84506666666667,
+        "winrate": 0.3457831325301205
+      }
+    }
+  ],
+  "exact_cost": {
+    "rows": [
+      {
+        "id": "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0",
+        "raw": 74,
+        "entry_known": 74,
+        "caps": {
+          "12": {
+            "restored": [],
+            "newly_rejected": []
+          },
+          "15": {
+            "restored": [],
+            "newly_rejected": []
+          }
+        },
+        "archive_sha256": "59b18ed5c9558ba5d094a49200d476adefa98fcef5124e99530286fc3479c590"
+      },
+      {
+        "id": "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1",
+        "raw": 95,
+        "entry_known": 95,
+        "caps": {
+          "12": {
+            "restored": [],
+            "newly_rejected": []
+          },
+          "15": {
+            "restored": [],
+            "newly_rejected": []
+          }
+        },
+        "archive_sha256": "59b18ed5c9558ba5d094a49200d476adefa98fcef5124e99530286fc3479c590"
+      },
+      {
+        "id": "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0",
+        "raw": 200,
+        "entry_known": 200,
+        "caps": {
+          "12": {
+            "restored": [],
+            "newly_rejected": []
+          },
+          "15": {
+            "restored": [],
+            "newly_rejected": []
+          }
+        },
+        "archive_sha256": "39a51ac037ef42ff90c4b3f323daa87f8f703a11ed2a1e51c34158ffa88d317a"
+      }
+    ],
+    "source_sha256": "6f3de58fba02933afc38912864c997609e7c0e5f7023894c1dda1a4b27cf97d7",
+    "candidate_freeze_sha256": "e0ffd2103d643c3718ddbe5ae39482e9e5c9f94a1c0e13a244d3123d930799dc",
+    "source_semantics": "same frozen spread + twice unrounded entry notional + market slippage; distinct from native money rounding",
+    "historical_producers_modified": false,
+    "prices2024_2026_read": false
+  },
+  "external_stage0": {
+    "cases": [
+      {
+        "horizon_hours": 8,
+        "selection_role": "PRIMARY",
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 14,
+            "priced": 14,
+            "mean_net_pips": -13.17142857142857,
+            "mean_friction_pips": 1.9000000000000001
+          },
+          {
+            "year": 2019,
+            "raw": 15,
+            "priced": 14,
+            "mean_net_pips": 3.1357142857142857,
+            "mean_friction_pips": 1.9000000000000001
+          },
+          {
+            "year": 2020,
+            "raw": 15,
+            "priced": 15,
+            "mean_net_pips": -5.96,
+            "mean_friction_pips": 1.9000000000000001
+          },
+          {
+            "year": 2021,
+            "raw": 13,
+            "priced": 13,
+            "mean_net_pips": -18.400000000000002,
+            "mean_friction_pips": 1.9000000000000001
+          },
+          {
+            "year": 2022,
+            "raw": 15,
+            "priced": 15,
+            "mean_net_pips": 5.486666666666667,
+            "mean_friction_pips": 1.9000000000000001
+          },
+          {
+            "year": 2023,
+            "raw": 13,
+            "priced": 13,
+            "mean_net_pips": 5.199999999999998,
+            "mean_friction_pips": 1.9000000000000001
+          }
+        ],
+        "raw": 85,
+        "natural_SL_median_pips": 20.0,
+        "friction_SL_ratio": 0.095,
+        "cost_retention": 1.0,
+        "passed": false,
+        "reasons": [
+          "2018:CADENCE_BELOW40",
+          "2018:MARKOUT_BELOW_FRICTION",
+          "2019:CADENCE_BELOW40",
+          "2020:CADENCE_BELOW40",
+          "2020:MARKOUT_BELOW_FRICTION",
+          "2021:CADENCE_BELOW40",
+          "2021:MARKOUT_BELOW_FRICTION",
+          "2022:CADENCE_BELOW40",
+          "2023:CADENCE_BELOW40",
+          "ENDPOINT_INCOMPLETE"
+        ]
+      },
+      {
+        "horizon_hours": 4,
+        "selection_role": "DIAGNOSTIC_ONLY",
+        "annual": [
+          {
+            "year": 2018,
+            "raw": 14,
+            "priced": 14,
+            "mean_net_pips": -2.7357142857142853,
+            "mean_friction_pips": 1.9000000000000001
+          },
+          {
+            "year": 2019,
+            "raw": 15,
+            "priced": 14,
+            "mean_net_pips": -0.5642857142857144,
+            "mean_friction_pips": 1.9000000000000001
+          },
+          {
+            "year": 2020,
+            "raw": 15,
+            "priced": 15,
+            "mean_net_pips": -4.4333333333333345,
+            "mean_friction_pips": 1.9000000000000001
+          },
+          {
+            "year": 2021,
+            "raw": 13,
+            "priced": 13,
+            "mean_net_pips": -5.276923076923077,
+            "mean_friction_pips": 1.9000000000000001
+          },
+          {
+            "year": 2022,
+            "raw": 15,
+            "priced": 15,
+            "mean_net_pips": 6.986666666666666,
+            "mean_friction_pips": 1.9000000000000001
+          },
+          {
+            "year": 2023,
+            "raw": 13,
+            "priced": 13,
+            "mean_net_pips": 4.938461538461539,
+            "mean_friction_pips": 1.9000000000000001
+          }
+        ],
+        "raw": 85,
+        "natural_SL_median_pips": 20.0,
+        "friction_SL_ratio": 0.095,
+        "cost_retention": 1.0,
+        "passed": false,
+        "reasons": [
+          "2018:CADENCE_BELOW40",
+          "2018:MARKOUT_BELOW_FRICTION",
+          "2019:CADENCE_BELOW40",
+          "2019:MARKOUT_BELOW_FRICTION",
+          "2020:CADENCE_BELOW40",
+          "2020:MARKOUT_BELOW_FRICTION",
+          "2021:CADENCE_BELOW40",
+          "2021:MARKOUT_BELOW_FRICTION",
+          "2022:CADENCE_BELOW40",
+          "2023:CADENCE_BELOW40",
+          "ENDPOINT_INCOMPLETE"
+        ]
+      }
+    ],
+    "trials": 1,
+    "selected_horizon_hours": 8,
+    "primary_passed": false,
+    "source_control_flow_reviewed": true,
+    "source_execution_performed": false,
+    "target_calendar": "declared inherited holiday/Friday scenario; not EURUSD broker certification",
+    "literal_MQL_binary_parity": false,
+    "external_source_distribution": false,
+    "prop_qualified": false
+  },
+  "performance": {
+    "tests": 1358,
+    "retained_prior": 1340,
+    "added": [
+      "test_corpus_funnel.CorpusFunnelTests.test_balanced_arguments_keep_nested_prices_and_quoted_commas",
+      "test_corpus_funnel.CorpusFunnelTests.test_binary_and_orphan_signal_block_cannot_enter_clean_bucket",
+      "test_corpus_funnel.CorpusFunnelTests.test_candidate_is_scoped_to_defaults_and_never_certifies_safety",
+      "test_corpus_funnel.CorpusFunnelTests.test_default_trade_without_sl_is_flagged_even_when_legacy_parser_missed_it",
+      "test_corpus_funnel.CorpusFunnelTests.test_no_flags_or_zero_sl_default_is_insufficient",
+      "test_corpus_funnel.CorpusFunnelTests.test_oscillator_calls_are_not_lost_by_the_source_fingerprint",
+      "test_corpus_funnel.CorpusFunnelTests.test_reviewed_engulfing_rule_is_symmetric_on_closed_bars",
+      "test_corpus_funnel.CorpusFunnelTests.test_rsi_monotone_flat_and_future_causality",
+      "test_native_paths.NativePathTests.test_junction_or_symlink_ancestor_is_never_followed",
+      "test_native_paths.NativePathTests.test_prefix_roundtrip_and_already_extended_path",
+      "test_native_paths.NativePathTests.test_real_deep_path_has_no_max_path_read_failure",
+      "test_native_paths.NativePathTests.test_size_missing_and_parent_paths_fail_without_partial_read",
+      "test_native_paths.NativePathTests.test_unc_is_not_probed",
+      "test_prop_v25.GBPResolutionTests.test_cost_boundary_uses_price_units",
+      "test_prop_v25.GBPResolutionTests.test_frozen_raw_admission_does_not_silently_adopt_native_fee_rounding",
+      "test_prop_v25.GBPResolutionTests.test_hourly_extrema_are_not_disguised_as_minute_observations",
+      "test_prop_v25.RiskScreenTests.test_exact_equal_dd_is_allowed_but_actual_increase_still_fails",
+      "test_prop_v25.RiskScreenTests.test_iso_uses_both_caps_and_preserves_relative_weights"
+    ],
+    "skips": 0,
+    "full_wall": 13.10078329999942,
+    "full_target_pass": true,
+    "full_receipt_sha256": "535e7c86ea771dcbe4772870074898c0da05b85aceffb2caf3ae36c735ca2920",
+    "smoke": [
+      {
+        "attempt": 1,
+        "wall": 0.639265499999965,
+        "tests": 78,
+        "receipt_sha256": "a9f2b442404371692e22e87784ace3157fe2eec81e5c937a87a15942c67ace0b"
+      },
+      {
+        "attempt": 2,
+        "wall": 0.6129521000002569,
+        "tests": 78,
+        "receipt_sha256": "f32849cb95d734123f20d72ff3eabf6975e1a06e968d56ffc3bebcdb5b7c564d"
+      },
+      {
+        "attempt": 3,
+        "wall": 0.6232135999998718,
+        "tests": 78,
+        "receipt_sha256": "8bc29f886402b783c5b5ed2f41f444d1435e3444b84efbedd4248221a8fdbb5d"
+      },
+      {
+        "attempt": 4,
+        "wall": 0.6845039999998335,
+        "tests": 78,
+        "receipt_sha256": "2bb924af9845a5124c062857d3cf13866c12edd9cdebb5d0069c3ed944bfbc61"
+      },
+      {
+        "attempt": 5,
+        "wall": 0.6383718000006411,
+        "tests": 78,
+        "receipt_sha256": "74d79b251e75105b2b980dab91b7cc11df9cd47be741cf4076e8cfb754231c7b"
+      },
+      {
+        "attempt": 6,
+        "wall": 0.6296116000003167,
+        "tests": 78,
+        "receipt_sha256": "a18da0f7e6ffdacf430e931b83042bdd3bd8bd5098ab97b4d7cc9d4f7972d2fd"
+      },
+      {
+        "attempt": 7,
+        "wall": 0.6527482999999847,
+        "tests": 78,
+        "receipt_sha256": "6be52568c685d1a5bcbc276c515ccf5278e7f8eb87dbb06f1c3f8fc5a963ec64"
+      },
+      {
+        "attempt": 8,
+        "wall": 0.6373771000007764,
+        "tests": 78,
+        "receipt_sha256": "af14908d6991b8cbc89164dfc959791e627936c696c3a6f8873e5796d48d8383"
+      },
+      {
+        "attempt": 9,
+        "wall": 0.6220139999995808,
+        "tests": 78,
+        "receipt_sha256": "9fc64a60d7241da22f96dac97c0786acab95281c15e3bd2df35005d9a1c0637b"
+      },
+      {
+        "attempt": 10,
+        "wall": 0.6716225999998642,
+        "tests": 78,
+        "receipt_sha256": "5fd72b837a2189a6acf875de48c92f443c37e75e5049ee66f26f02a69b478eca"
+      }
+    ],
+    "smoke_IDs": 78,
+    "below072": 10,
+    "median": 0.6378744500007087,
+    "maximum": 0.6845039999998335
+  },
+  "product_adoption": {
+    "pr": {
+      "headRefOid": "3df8d7dd46c43176e26b0a6c87f7729c60a379de",
+      "mergeCommit": {
+        "oid": "74dad35db2d507f7ada4bae64ffb21c09ad193e9"
+      },
+      "state": "MERGED",
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-18T03:48:28Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/Naqex/trader/actions/runs/44232949954/job/134562155816",
+          "name": "Hygiene and release contracts",
+          "startedAt": "2026-11-18T03:48:19Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-18T03:48:34Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/Naqex/trader/actions/runs/44232949954/job/134562155657",
+          "name": "Secret scan",
+          "startedAt": "2026-11-18T03:48:19Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-18T03:50:19Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/Naqex/trader/actions/runs/44232949954/job/134562155808",
+          "name": "Python contracts",
+          "startedAt": "2026-11-18T03:48:19Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-18T03:49:37Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/Naqex/trader/actions/runs/44232949954/job/134562156013",
+          "name": "Web build and browser smoke",
+          "startedAt": "2026-11-18T03:48:19Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-18T03:58:40Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/Naqex/trader/actions/runs/44232949954/job/134562155448",
+          "name": "Rust tests and lint",
+          "startedAt": "2026-11-18T03:48:18Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        }
+      ]
+    },
+    "focused_python_tests": 83,
+    "subtests": 53,
+    "skips": 0,
+    "actual_check_isolation_only": {
+      "linked": true,
+      "isolated": true,
+      "database_opened": false,
+      "process_started": false
+    },
+    "runtime_deployed": false,
+    "source_commits": [
+      "7241a8b0",
+      "a60db1e5"
+    ],
+    "broad_formatting_or_skill_files_imported": false
+  },
+  "integrity": {
+    "manifests": 10,
+    "all_decompressed_and_hash_verified": true,
+    "original_bytes": 77520660,
+    "compressed_bytes": 2684096,
+    "items": [
+      {
+        "name": "corpus-classification-manifest.json",
+        "manifest_sha256": "21f0f2738501e907292b837de0a5a24ef343a7cb6d77eb4b522536511c3ed0d6",
+        "file": "corpus-classification.json.zst",
+        "original_bytes": 1863878,
+        "compressed_bytes": 230054,
+        "original_sha256": "4440fe53ab51ca0bca744f6b3b24ad0c757875f23525c8e331ad0213f5ac3963",
+        "compressed_sha256": "cb7a8e995dd0415841685635199aa14049e9ca90112a79a8d9b7bf6cf2881653",
+        "roundtrip_verified": true
+      },
+      {
+        "name": "corpus-classification-v2-manifest.json",
+        "manifest_sha256": "14d354374d7cc0a628081feb0a57c6c6897f99991fb80b0acfab6314afa70cc3",
+        "file": "corpus-classification-v2.json.zst",
+        "original_bytes": 1866511,
+        "compressed_bytes": 230399,
+        "original_sha256": "c4cccd8c3c4c7979294ae8ae6f22153d7fba0fae906183ec21edadf0fae7a63a",
+        "compressed_sha256": "2451acc272e90d87c125eb4f26d39dcffa6af32339001a8bdfd80ca94d2d96f6",
+        "roundtrip_verified": true
+      },
+      {
+        "name": "external-raw-4h-manifest.json",
+        "manifest_sha256": "a7152c1a33045fe907f002dfabbacab4387fead915c970b139dc99b6378cdddd",
+        "file": "external-raw-4h.json.zst",
+        "original_bytes": 6838,
+        "compressed_bytes": 1660,
+        "original_sha256": "330a80c613765623b67380d5e05340e1ff27c584a23b9b21a30374571c86cafa",
+        "compressed_sha256": "721ffaf273a9a73b787eb99d2dfb64a42eba6378eb48b97825e17cd0e715e035",
+        "roundtrip_verified": true
+      },
+      {
+        "name": "external-raw-8h-manifest.json",
+        "manifest_sha256": "d2347fe9bb93b36b14a91ddfcc40c6e4dd4ad175fb11418b0f82bbf6e03c4a98",
+        "file": "external-raw-8h.json.zst",
+        "original_bytes": 7113,
+        "compressed_bytes": 1702,
+        "original_sha256": "5ca9e482b2741d53898142167e4a10ce73d78ae2f280261d48fd59aac87a48d2",
+        "compressed_sha256": "047649e6d3affc322e497e7c85442e67cf3dd7e282ac616b21115f63a98c5ce4",
+        "roundtrip_verified": true
+      },
+      {
+        "name": "final-test-timings-manifest.json",
+        "manifest_sha256": "00343094305fe932b65e0c25fed467d3aee563488cf60712997fd6047e2560d0",
+        "file": "final-test-timings.json.zst",
+        "original_bytes": 170752,
+        "compressed_bytes": 45704,
+        "original_sha256": "ec813d5f865066e94a47171ede98d1fff2d84be311965e6ea923355be1b6e47d",
+        "compressed_sha256": "a382426e96d44d65f8ad449b4ae89614b591ada32c3913804fa670c3dd200d7c",
+        "roundtrip_verified": true
+      },
+      {
+        "name": "GBP-OHLC-scenario-manifest.json",
+        "manifest_sha256": "940302db64e49068aad8e32615d2dac282077395d2ba9cdf2aa1d73978cc7dd3",
+        "file": "GBP-OHLC-scenario.json.zst",
+        "original_bytes": 414620,
+        "compressed_bytes": 33460,
+        "original_sha256": "0acf5ac7d0fbbb7af93a02bea9ca940a9b0948e11e82e0fdfe44ab4c371d906d",
+        "compressed_sha256": "e5f1900861f46adddb25f659d49ac08b1e072d9b7cff5a1f2edf094118256b8f",
+        "roundtrip_verified": true
+      },
+      {
+        "name": "GBP-OLHC-scenario-manifest.json",
+        "manifest_sha256": "c7dc8a4dfbea9958cdc1173547fd4f195a6018293c664a5c99a73cf845b43cda",
+        "file": "GBP-OLHC-scenario.json.zst",
+        "original_bytes": 414620,
+        "compressed_bytes": 33497,
+        "original_sha256": "e0a14f49d9fa034d79f86f9a68ff853feb3ed44e3db326c084f52de86190f635",
+        "compressed_sha256": "9c6d7c3c9d24bd8e3ae6d094c4dbca16bdd439801aee12779734d639aa230ee6",
+        "roundtrip_verified": true
+      },
+      {
+        "name": "inventory-and-profiles-manifest.json",
+        "manifest_sha256": "f795ea06992f8da6bc3b30561ee0dc00d647da36048a07510412c7bd464eba2b",
+        "file": "inventory-and-profiles.json.zst",
+        "original_bytes": 55011517,
+        "compressed_bytes": 1809885,
+        "original_sha256": "97c7ce43f733f7b15e1cb9b700bdb43498da93bfa62ebd6b2e6e460e7a0b6ce6",
+        "compressed_sha256": "40072c0593e826619b2d753bf79cda179240efc22b79380175dce507865c29b7",
+        "roundtrip_verified": true
+      },
+      {
+        "name": "inventory-enumeration-v2-manifest.json",
+        "manifest_sha256": "d010e54b69b279448203062b66e51caa03b58e85af7b74fbbc543e3dd76fc9e8",
+        "file": "inventory-enumeration-v2.json.zst",
+        "original_bytes": 8018,
+        "compressed_bytes": 1220,
+        "original_sha256": "f00c775606a10a4a9aeb83acfb39ebc2de523d9c14faaceb45ff5f991b2e15f2",
+        "compressed_sha256": "e31476ea40225687dca6158db4642da5eb09c1f1641d18bfb965c4ed5695c14b",
+        "roundtrip_verified": true
+      },
+      {
+        "name": "prior-error-reconciliation-manifest.json",
+        "manifest_sha256": "0f5409b1f0ef3a36e996428355ab5ef4a8c7e4793d77430c30c31425389f628e",
+        "file": "prior-error-reconciliation.json.zst",
+        "original_bytes": 17756793,
+        "compressed_bytes": 296515,
+        "original_sha256": "c3ffdc731cfedaec95d09bf5029f863df0a49ec3e05a751811d5c71056ba173c",
+        "compressed_sha256": "5842ff4501f2d920bcc74284f9bff1b25ccb752b3d78b51e8020de8b7984bad2",
+        "roundtrip_verified": true
+      }
+    ]
+  },
+  "evidence_receipt_sha256": "d616b892f2df53d99994d61a10c80ffa9c4586479b0fd44d66f65b5d16c9d027",
+  "limitations": [
+    "two protected VI fixture directories excluded; no full-tree coverage",
+    "3832 oversized source candidates not read",
+    "24 structural candidates are heuristic triage, not 24 proven safe bots",
+    "two changed internal Python profiles unavailable in corpus v2; E1 unchanged",
+    "GBP H1 20:00 is a declared scenario, not original 20:30 M1/tick replay",
+    "reported marked-book daily metrics use inherited UTC clock, not certified FTMO reset",
+    "no actual MT5 or broker deployment, account spec capture, orders or payouts"
+  ]
+}

@@ -1,8 +1,19 @@
 # Tra cứu research đã có
 
+**V25 — hạ tầng/hiệu năng đạt; chưa có chiến lược mới qua Development:**
+[Kết quả](CORPUS-ISOLATION-V25-RESULTS-20261118.md) /
+[JSON](CORPUS-ISOLATION-V25-RESULTS-20261118.json) /
+[protocol](CORPUS-ISOLATION-V25-PROTOCOL-20261118.md).
+48.425path cũ đọc lại được;0file-readerrors,2protectedVI fixture exclusions còn rõ.
+1.029profiles/24structural,Top10 gần ý tưởng;1Engulfing–RSItrial failStage0.
+ISO26,7599R nhưngDD12,2419>12,2065R;GBP20:00H1scenario tăngDD/thiếuintrahourcertification.
+0newlater/lifecycle/MCchildren,giữBASE_GUARD.1.358PASS/0skip/full13,1008s;
+smoke10/10<.72/max.6845s. TraderPR33merge74dad35d/5CI;chưadeploy.
+Privatejob`execution-v1/corpus-isolation-v25-20261118`;CI/PRfinal theo[currentcontext](../CURRENT-CONTEXT.md).
+
 **Tiếp nhận lane xingchiapi-astra (chốt 18/11):** [bảng đối chiếu và kiểm chứng](SOLO-LANE-ADOPTION-20261117.md).
 Đã sửa exact cost caps và quote source age trong Shadow/Gate1; 1.340 PASS/0skip.
-GBP/S02 chưa promote; runtime/artifact product đi qua PR32, chưa deploy.
+GBP/S02 chưa promote; runtime/artifact được port chọn lọc qua PR33 trong V25, chưa deploy.
 
 **V24 — P80 fail; connector reuse/static Bot Lab có implementation, speed targets chưa đạt:**
 [Kết quả](PARETO-MT5-BOT-LAB-V24-RESULTS-20261117.md) /
