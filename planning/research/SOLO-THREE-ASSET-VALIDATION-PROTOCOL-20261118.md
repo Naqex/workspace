@@ -163,3 +163,27 @@ Implementation map:
 dưới outputroot riêng, SHA256
 `6f23d12d869789e35dfe78a259b732b510e015c8de108136c0b27271078579fa`.
 Plan là tài liệu thiết kế; không receipt rằng các checks đã chạy.
+
+## Addendum trước release — nhận diện bytes và sự cố metadata
+
+18/11: worker đọc `xauusd-a-validation-20261114/attempt-2/result.json` để
+in tênkeys/holdoutflag; parser cũng nạp các phần kết quả2024 nhưng không in,
+trích xuất hay dùng số đó. Đây là vi phạm ranh giới metadata trước release;
+giữ incidentreceipt trong `three-asset-preparation/s03-design-20261118/`.
+Protocol/criteria đãcommit `9398978` trước sự cố, không đổi theo kết quả.
+Không coi2024unconsumed hoặc ghi rằng chưa từng đọc bytesoutcome2024.
+
+Các book Gold/EUR kế thừa không có dedicatedseal đủ để gọi là historical
+attestation. Trước release cho phép **hash SHA256 opaque** đúng path trong
+`inherited_validation_paths()` đãreview: chỉ streambytes vào hash, không
+JSONparse/giải mã giá/đọc PnL hoặc gọi source loader. Không dùngresult.json
+cóoutcome để tìmhash. Ghi receipt path/size/SHA/thời điểm và mục đích; đây là
+release-time identity, không bằng chứng seal từ trước hay sourceđãđúng.
+
+Source-release phảipin toànbộ hashes đó và source-onlyproofs trước parse
+eventbook2024. Sau release vẫn phải kiểm source-reviewsemantic/binarypins,
+Goldoriginalparenteventparity/twocostmodels, fullrawEURcostgate và firstSL/
+ordinalpath của từnglệnh. Hash không thay các cổngnày. Có thểhash parent
+`attempt-2/trades.json` cùngallowlist đểđốisoátGold; không tự mở cácfile khác.
+Mọi2025–2026pricefiles vẫn cấm, kể cả opaquehash. Không đổi composition,
+risk/phí/entry/exit/gates hoặc cho phép financialrun từaddendumnày.
