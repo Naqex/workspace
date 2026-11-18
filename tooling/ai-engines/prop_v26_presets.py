@@ -15,7 +15,8 @@ from quant_core.mt_report_parser import PRESETS,REPORTS,preset_bytes,report_byte
 
 LAB=JobWorkspace(ROOT/"batch-exact-iso-v26-20261118"/"companions",Path(__file__).resolve().parents[2])
 PRUNE={".git","node_modules",".venv","venv","target","dist","build","__pycache__",
-       ".next","$Recycle.Bin","System Volume Information","Windows","Recovery","$WINDOWS.~BT"}
+       ".next","$Recycle.Bin","System Volume Information","Windows","Recovery","$WINDOWS.~BT",
+       "Microsoft SQL Server"}
 CONTEXT=re.compile(r"(?:MQL[45]|MetaTrader|[\\/](?:Experts|Tester|Presets)[\\/])",re.I)
 REPORT_NAME=re.compile(r"report|tester|backtest|strategytest",re.I)
 
@@ -33,25 +34,31 @@ def associations(paths):
     return stems,folders
 
 
-def scan():
+def scan(version=1):
     inventory=unpack("inventory-and-profiles",V25)
-    stems,folders=associations(inventory["rows"])
+    # A Python utility named status/config is not evidence that a distant app's
+    # status.xml/config.ini belongs to a trading bot.
+    candidates=[r for r in inventory["rows"] if r["format"] in {".mq4",".mq5",".ex4",".ex5",".pine"}]
+    stems,folders=associations(candidates)
+    suffix="" if version==1 else "-v2"
     guard=PathGuard();records=[];metadata=[];errors=[];seen=set()
     started=time.perf_counter()
-    save("inventory-registration.json",dict(source_sha256=sha(__file__),
+    save("inventory-registration"+suffix+".json",dict(source_sha256=sha(__file__),
         parser_sha256=sha("tooling/ai-engines/quant_core/mt_report_parser.py"),
         roots=["D:/","E:/"],maxdepth=24,pruned=sorted(PRUNE),no_links=True,
         protected_VI_exclusions=["projects/vi-dubber/work/pytest-p20","projects/vi-dubber/work/pytest-p20-final"],
         content_admission="associated stem/folder or MQL/MT/tester context; report-name signature probe",
-        original_profiles_not_modified=True))
+        association_profile_scope="MQL/EX/Pine; generic Python/C# name matches do not admit unrelated configs",
+        case_insensitive_extensions_and_pruning=True,original_profiles_not_modified=True))
     for rank,root in enumerate((Path("D:/"),Path("E:/"))):
-        args=["rg","--files","--hidden","--no-ignore","--no-follow","--maxdepth","24",str(io_path(root))]
+        args=["rg","--files","--hidden","--no-ignore","--no-follow","--glob-case-insensitive",
+              "--maxdepth","24",str(io_path(root))]
         for suffix in sorted(PRESETS|REPORTS):args+=["-g","*"+suffix]
-        for name in sorted(PRUNE):args+=["-g","!**/"+name+"/**"]
+        for name in sorted(PRUNE):args+=["-g","!**/"+name,"-g","!**/"+name+"/**"]
         for fixture in ("pytest-p20","pytest-p20-final"):
             args+=["-g","!**/projects/vi-dubber/work/"+fixture,
                    "-g","!**/projects/vi-dubber/work/"+fixture+"/**"]
-        stderr=LAB.root/f"rg-{rank}-stderr.txt"
+        stderr=LAB.root/f"rg{suffix}-{rank}-stderr.txt"
         with stderr.open("x",encoding="utf-8") as out:
             proc=subprocess.Popen(args,stdout=subprocess.PIPE,stderr=out,text=True,encoding="utf-8")
             for line in proc.stdout:
@@ -86,8 +93,8 @@ def scan():
             code=proc.wait()
         if code not in (0,1):
             errors.append(dict(path=str(root),status="RG_TRAVERSAL_ERROR",stderr_sha256=sha(stderr)))
-    compressed("companion-profiles",records)
-    compressed("companion-metadata",dict(rows=metadata,errors=errors))
+    compressed("companion-profiles"+suffix,records)
+    compressed("companion-metadata"+suffix,dict(rows=metadata,errors=errors))
     extensions=defaultdict(list)
     for row in records:
         for profile in row["profiles"]:
@@ -95,7 +102,7 @@ def scan():
                 format=row["format"],association=row["association"],
                 parameters=len(row["parsed"].get("parameters",[])),trades=len(row["parsed"].get("trades",[])),
                 clone_ready=row["parsed"].get("clone_ready",False)))
-    compressed("profile-companion-overlay",dict(extensions))
+    compressed("profile-companion-overlay"+suffix,dict(extensions))
     summary=dict(metadata_files=len(seen),formats=dict(Counter(Path(p).suffix.casefold() for p in seen)),
         parsed=len(records),parsed_presets=sum(r["format"] in PRESETS for r in records),
         parsed_reports=sum(r["format"] in REPORTS for r in records),
@@ -105,11 +112,13 @@ def scan():
         metadata_statuses=dict(Counter(r["status"] for r in metadata)),
         errors=dict(Counter(r["status"] for r in errors)),seconds=time.perf_counter()-started,
         full_disk_coverage_claimed=False,credential_values_exported=False,execution_performed=False)
-    save("companion-summary.json",summary)
+    save("companion-summary"+suffix+".json",summary)
     print(summary,flush=True)
 
 
 if __name__=="__main__":
+    parser=argparse.ArgumentParser();parser.add_argument("--version",type=int,choices=(1,2),default=1)
+    args=parser.parse_args()
     with bindings(common,JOB=LAB.root,RUNTIME=LAB):
         activate_runtime()
-        scan()
+        scan(args.version)

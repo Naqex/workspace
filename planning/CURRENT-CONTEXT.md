@@ -1,8 +1,28 @@
 # Current context — Naqex Workspace
 
-18/11/2026 · `RESEARCH: V25_DELIVERY · ISO: DEV_GATE_FAIL · GBP: H1_SCENARIO_ONLY · PROP: NOT_QUALIFIED`.
+18/11/2026 · `RESEARCH: V26_RUNNING · ISO_EXACT: DEV_PASS · CORPUS: NO_SURVIVOR · PROP: NOT_QUALIFIED`.
 
 ## Việc hiện tại
+
+V26 theo [protocol](research/BATCH-EXACT-ISO-V26-PROTOCOL-20261118.md), đăng ký170d854.
+PR104/head5509aa0 đã merge9ac2044, nhánhV25 đã xóa; nhánhhiệntại
+`codex/batch-24bots-and-exact-iso-v26`. GBP S01 đóng trongcampaign; không kết luận tick/M1 economics từ H1.
+ISO c=.824717/net26,3791R/DD12,1885R/maxopen257,52USD;11.001gridpoints/92lotvectors.
+[Freeze](research/BATCH-EXACT-ISO-V26-FREEZE-20261118.json) commit6bf0d85 trước later;
+không đổi weights hoặc financial kernels sau đó. Sáu historical cases đã hoàn tất.
+MC giữ prefixOLHC2304/OHLC839; hai worker cũ dừng có ownership check/journal nguyên.
+[Chunk card](research/V26-REPLAY-CHUNKS-20261118.json) commit9e7c1a2 chia18ranges còn lại,
+4workers độc lập; mỗiworker đối soát native-ledgerhash path0 rồi audit đủ từng ledger.
+Controller `.runtime/v26-chunks.stdout`; không chạy lại driverMC cũ hoặc tạo writer lêncùngjob.
+Privatebase `execution-v1/batch-exact-iso-v26-20261118`, worktreeID749687b9be70;
+namespaces corpus/companions/replay-control/chunk-* có owner/lease riêng.
+Batch [24source card](research/CORPUS-BATCH-V26-CARD-20261118.json) commit06d1541:
+115cells=85Stage0fail+30MFI blocked vì chưa admittedtickvolume;0SL-activechildren.
+Parser preset/nativeHTML/XML+16regressions đã có; companionv1 giữ false name associations/system
+traversal errors, v2 đang sửa scope/case-insensitive pruning; khôngsửaACL hoặcdata.
+Finalperformance/MCaggregate/results/PR105 chưa xong. GiữVI/source lane; khôngbroker/deploysharedAPI.
+
+## V25 đã merge (lịch sử)
 
 V25 đã chốt theo [protocol](research/CORPUS-ISOLATION-V25-PROTOCOL-20261118.md), commit427b3b7 trước outcome.
 [Kết quả](research/CORPUS-ISOLATION-V25-RESULTS-20261118.md) /
