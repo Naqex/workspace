@@ -14,6 +14,53 @@ FORMATS = BOT_SOURCE | {".ex4", ".ex5"}
 ENTRY_SIGNATURES = (b"OrderSend", b"order_send(", b"strategy.entry", b"class Strategy",
                     b"def generate", b"def signals", b"def next(", b"OnTick(", b".Buy(",
                     b"ExecuteMarketOrder", b"ExecuteMarketRangeOrder")
+ROOTS = [Path("D:/ANNAM/TradingWorkspace"), Path("E:/BACKUP-TRADINGWORKSPACE")]
+PROTECTED_FIXTURES = ("projects/vi-dubber/work/pytest-p20",
+                      "projects/vi-dubber/work/pytest-p20-final")
+
+
+def enumeration_args(root, *, protected_exclusions=False):
+    args = ["rg", "--files", "--hidden", "--no-ignore", "--no-follow", "--maxdepth", "18", str(io_path(root))]
+    for extension in sorted(SOURCE | FORMATS):
+        args += ["-g", "*" + extension]
+    args += ["-g", ".env*", "-g", "*.env"]
+    for name in sorted(SKIP):
+        args += ["-g", "!**/" + name + "/**"]
+    if protected_exclusions and root == ROOTS[0]:
+        for relative in PROTECTED_FIXTURES:
+            args += ["-g", "!**/" + relative, "-g", "!**/" + relative + "/**"]
+    return args
+
+
+def reconcile_enumeration():
+    """Re-enumerate metadata only, preserving the original content scan and errors."""
+    old = unpack("inventory-and-profiles")
+    paths, roots = set(), []
+    started = time.perf_counter()
+    for rank, root in enumerate(ROOTS):
+        stderr = JOB / f"rg-v2-{rank}-stderr.txt"
+        args = enumeration_args(root, protected_exclusions=True)
+        with stderr.open("x", encoding="utf-8") as log:
+            proc = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=log, text=True, encoding="utf-8")
+            for line in proc.stdout:
+                paths.add(str(logical_path(line.rstrip("\r\n"))))
+            status = proc.wait()
+        roots.append(dict(root=str(root), exit_code=status, stderr_bytes=stderr.stat().st_size,
+                          stderr_sha256=sha(stderr)))
+    previous = set(old["paths"])
+    value = dict(roots=roots, mode="METADATA_ONLY_NO_CONTENT_RESCAN",
+        content_scan_sha256=sha(JOB / "inventory-and-profiles.json.zst"),
+        protected_coverage_exclusions=[str(ROOTS[0] / p) for p in PROTECTED_FIXTURES],
+        ACLs_or_contents_changed=False, previous_files=len(previous), current_files=len(paths),
+        added_paths=sorted(paths-previous), removed_paths=sorted(previous-paths),
+        seconds=time.perf_counter()-started,
+        zero_traversal_errors=all(r["exit_code"] in (0, 1) and r["stderr_bytes"] == 0 for r in roots),
+        complete_tree_coverage=False)
+    compressed("inventory-enumeration-v2", value)
+    summary = dict(value, added_paths=len(value["added_paths"]), removed_paths=len(value["removed_paths"]))
+    save("inventory-enumeration-v2-summary.json", summary)
+    event("enumeration_reconciliation_complete", **summary)
+    return summary
 
 
 def classify_error(error):
@@ -48,15 +95,10 @@ def run():
     event("old_errors_reconciled", counts=dict(Counter(r["status"] for r in audit)))
     paths, errors, hits, aliases, profiles, large = [], [], [], [], {}, 0
     started = time.perf_counter()
-    roots = [Path("D:/ANNAM/TradingWorkspace"), Path("E:/BACKUP-TRADINGWORKSPACE")]
+    roots = ROOTS
     for rank, root in enumerate(roots):
         stderr = JOB / f"rg-{rank}-stderr.txt"
-        args = ["rg", "--files", "--hidden", "--no-ignore", "--no-follow", "--maxdepth", "18", str(io_path(root))]
-        for extension in sorted(SOURCE | FORMATS):
-            args += ["-g", "*" + extension]
-        args += ["-g", ".env*", "-g", "*.env"]
-        for name in sorted(SKIP):
-            args += ["-g", "!**/" + name + "/**"]
+        args = enumeration_args(root)
         event("enumeration_start", root=str(root))
         with stderr.open("x", encoding="utf-8") as log:
             proc = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=log, text=True, encoding="utf-8")
@@ -110,4 +152,8 @@ def run():
 
 
 if __name__ == "__main__":
-    run()
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--reconcile-enumeration-only", action="store_true")
+    args = parser.parse_args()
+    reconcile_enumeration() if args.reconcile_enumeration_only else run()
