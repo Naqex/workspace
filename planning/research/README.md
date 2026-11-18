@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**US500 · chuẩn BUY gần trọn phiên cash NYSE.** Có giá 1.502 endpoint,
+gộp trước phí không đủ quy mô và net âm cả hai cụm. Gác replay.
+[Kết quả](PROP-US500-CASH-SESSION-20261119.md).
+
 **EURUSD F2 · chẩn đoán hướng, phí và stop.** Đảo hướng raw lỗ sau
 phí cả sáu năm. Đối chiếu 65 đường thiếu bằng tick, còn 64 chưa rõ.
 [Kết quả](PROP-EURUSD-F2-DIRECTION-20261119.md).

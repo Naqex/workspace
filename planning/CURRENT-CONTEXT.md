@@ -4,6 +4,11 @@
 
 ## Việc hiện tại
 
+Gác chuẩn US500 BUY gần trọn phiên cash NYSE ở risk 125 USD. 1.502
+endpoint net −7.876,24 USD. Có đường stop 1.149/1.503; cả hai cụm
+âm và 0/61 cửa sổ cash chạm +5.000 USD. R120 chỉ có 11 lệnh ghép.
+[Kết quả](research/PROP-US500-CASH-SESSION-20261119.md).
+
 Gác EURUSD F2 và phép đảo chiều. Trên cùng 300 lệnh có giá 2018–2020,
 stop giảm lỗ 5,58R nhờ tiết kiệm swap. Đảo chiều raw lỗ sau phí cả
 sáu năm. Tick định giá stop thêm 1/65 đường thiếu, vẫn gác replay.
