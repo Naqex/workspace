@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+**Hồi quy BASE_GUARD và đối chiếu nguồn tick.** Đã sửa cutoff, đối
+chiếu 340 lệnh, tìm tick HistData ở 8/14 khoảng và giữ sổ gốc.
+[Protocol](PROP-REPLAY-REGRESSION-PROTOCOL-20261118.md) ·
+[Kết quả](PROP-REPLAY-REGRESSION-RESULTS-20261118.md).
+
 **US500 VIX — gác tại Stage‑0.** 313 tín hiệu, 31 qua cap phí, 5/6 năm
 âm sau phí stress. [Protocol](PROP-US500-VIX-DIVERGENCE-PROTOCOL-20261118.md) ·
 [Kết quả](PROP-US500-VIX-DIVERGENCE-RESULTS-20261118.md).

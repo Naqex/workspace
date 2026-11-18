@@ -14,6 +14,11 @@ trong 12 tháng và thiếu trung vị 4.929,17 USD ở nhóm chưa qua. Suất 
 US500 VIX theo yêu cầu đó đã trượt Stage‑0. Giữ BASE_GUARD làm đối chứng.
 [Bài đo và yêu cầu ứng viên](PROP-PHASE1-SHORTFALL-20261118.md) ·
 [Kết quả US500 VIX](PROP-US500-VIX-DIVERGENCE-RESULTS-20261118.md).
+Đợt hồi quy đã sửa ranh giới định giá, kiểm 340 lệnh BASE_GUARD và
+đối chiếu tick HistData. F4 giữ lợi nhuận ròng dương trong hai cụm
+Development dưới STRICT, nhưng có 6–21 lệnh/năm. Dùng F4 làm đối
+chứng dương hẹp và US500 VIX làm đối chứng âm trong đợt sau.
+[Kết quả hồi quy và dữ liệu](PROP-REPLAY-REGRESSION-RESULTS-20261118.md)
 Kế hoạch này tiếp nối kết quả V26. Chiến dịch STRATEGY-E2E cũ đã đóng theo
 quyết định của owner, với lịch sử thử nghiệm được lưu riêng.
 [Chiến dịch cũ](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)
@@ -50,10 +55,18 @@ sửa hạ tầng khi nó ngăn một quyết định nghiên cứu hoặc vận
 
 ## Cập nhật sau mỗi nhịp
 
-Lưu kết quả, kể cả kết quả âm, bên cạnh protocol và số liệu của nhịp. Kế
-hoạch này chỉ cập nhật quyết định, lý do và nhịp đang ưu tiên. Nếu đổi tín
-hiệu, giờ, phí, exit hoặc tiêu chí sau khi đã xem kết quả, đăng ký phép thử
-mới và nối lại lịch sử. Agent xử lý lựa chọn nhỏ trong phạm vi đã giao.
+Mỗi đợt giao một mục tiêu lớn có các cổng chuyển bước. Lưu checkpoint và
+kết quả âm bên cạnh protocol. Sau mỗi checkpoint, agent tự chạy bước
+tiếp theo trong phạm vi đã giao. Khi kiểm tra hỏng, tái hiện, sửa nguyên
+nhân, chạy regression và kiểm lại phần chịu ảnh hưởng. Nếu công thức
+trượt kinh tế, giữ kết quả, quay lại câu hỏi hoặc nguồn đã định trước
+thay vì thay tham số sau khi xem PnL. Nếu nguồn bị chặn, thử phương án
+khả thi trong phạm vi rồi tiếp tục các bước độc lập.
+
+Báo cáo theo đợt khi có quyết định có bằng chứng hoặc hết bước có thể
+thực hiện trong phạm vi. Kế hoạch này ghi quyết định, lý do và nhịp
+đang ưu tiên. Đổi tín hiệu, giờ, phí, exit hoặc tiêu chí sau khi đã xem
+kết quả cần một phép thử có đăng ký và nối lại lịch sử.
 Chủ dự án chốt các quyết định thay đổi mục tiêu, dùng dữ liệu đã khóa,
 chi phí thật và quyền thực thi trên tài khoản.
 [Workflow chiến lược](../../tooling/ai-engines/STRATEGY-WORKFLOW.md)

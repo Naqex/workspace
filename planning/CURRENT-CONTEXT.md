@@ -1,8 +1,13 @@
 # Current context — Naqex Workspace
 
-18/11/2026 · `RESEARCH: US500 VIX ĐÃ CHỐT STAGE-0 · PORTFOLIO: BASE_GUARD · PROP: NOT_QUALIFIED`.
+18/11/2026 · `RESEARCH: HỒI QUY VÀ ĐỐI CHIẾU TICK ĐÃ CHỐT · PORTFOLIO: BASE_GUARD · PROP: NOT_QUALIFIED`.
 
 ## Việc hiện tại
+
+Đã sửa bộ chọn giá tại cutoff. Giữ entry và lot của 340 lệnh, thoát theo
+giờ cho +5,58R, PRIMARY +23,85R và STRICT −7,95R. HistData có tick ở
+8/14 khoảng đã rà và ba lệnh F5 tới deadline trên feed đó. Bộ quant
+1.400 pass. [Đợt hồi quy](research/PROP-REPLAY-REGRESSION-RESULTS-20261118.md)
 
 US500 VIX trượt Stage‑0 trên Development 2018–2023. Có 313 tín hiệu và
 31 qua cap phí, với năm năm markout âm sau phí stress. Nhánh đã gác.
