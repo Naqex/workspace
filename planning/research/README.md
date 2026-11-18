@@ -2,7 +2,10 @@
 
 **Stocks in Play và Gold PM.** Pilot TSLA có 42 trigger cash và còn thiếu
 giá khớp CFD đích. Gold PM có 335 tín hiệu, 17 qua phí và trượt Stage‑0.
-[Kết quả](PROP-STOCKS-IN-PLAY-AND-GOLD-PM-RESULTS-20261118.md).
+[Kết quả nguồn và Gold](PROP-STOCKS-IN-PLAY-AND-GOLD-PM-RESULTS-20261118.md).
+Theo dõi đúng 42 lệnh TSLA sau SL: −269,28 tới +991,97 USD theo thứ
+tự nến, stress khớp −2.355,15 USD. Gác pilot.
+[Đối soát lãi lỗ cash](PROP-TSLA-2022H2-CASH-PATH-RESULTS-20261118.md).
 
 **Quyết định replay payout ở 50.000 USD.** V23 bỏ F3 đã được đo,
 V26 đã đổi trọng số và R043 hụt cổng để ghép. Báo riêng tháng trắng

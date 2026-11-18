@@ -6,6 +6,11 @@ chưa đủ dữ liệu thực thi CFD. Nhánh độc lập Gold PM trượt Sta
 `BASE_GUARD` làm đối chứng ở `NOT_QUALIFIED`.
 [Bài đo khoảng thiếu](PROP-PAYOUT-REPLAY-DECISION-20261118.md)
 
+**Hậu kiểm TSLA ở lượt sau.** Đã đo lãi lỗ cash với SL trên đúng 42 lần
+phá biên. Chênh lệch thứ tự giá của một nến làm đổi dấu toàn mẫu, nên
+đã gác pilot trước khi mở thêm dữ liệu.
+[Đối soát lãi lỗ cash](PROP-TSLA-2022H2-CASH-PATH-RESULTS-20261118.md).
+
 ## 1. Stocks in Play — có tín hiệu thật, thiếu giá thực thi đích
 
 Zarattini, Barbon và Aziz lấy khối lượng 09:30–09:34 New York chia cho
