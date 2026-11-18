@@ -1,7 +1,8 @@
 # Tra cứu research đã có
 
-Sau V26, đọc [lộ trình hệ thống prop](PROP-SYSTEM-ROADMAP.md) và
-[task Nhịp 1 — sàng lọc ứng viên](PROP-STAGE0-NEXT-SLEEVE-TASK.md).
+**Nhịp 1 sau V26 — hai cơ chế liên thị trường trượt Stage‑0, giữ BASE_GUARD.**
+[Kết quả](PROP-N1-RESULTS-20261118.md) ·
+[Protocol](PROP-N1-PROTOCOL-20261118.md) · [Lộ trình hệ thống prop](PROP-SYSTEM-ROADMAP.md).
 
 **V26 — ISO qua Development, vòng đời giữ BASE_GUARD.** [Báo cáo](BATCH-EXACT-ISO-V26-RESULTS-20261118.md) · [Số liệu](BATCH-EXACT-ISO-V26-RESULTS-20261118.json) · [Danh mục bot](CORPUS-BATCH-V26-CARD-20261118.json).
 91 ô rớt Stage-0, 24 ô MFI thiếu dữ liệu. ISO qua 69/105 mốc phí chuẩn so với

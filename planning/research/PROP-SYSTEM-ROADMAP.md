@@ -5,7 +5,10 @@ Cập nhật 18/11/2026. Đích đến là hệ thống chủ dự án tự vậ
 đến mức nào. Thu nhập chính là mục tiêu dài hạn. Mức thu nhập, ngân sách phí
 và mức lỗ chấp nhận được sẽ được chốt trước quyết định dùng tiền thật.
 
-**Nhịp hiện hành: [Nhịp 1 — Tìm ứng viên bổ sung cho BASE_GUARD](PROP-STAGE0-NEXT-SLEEVE-TASK.md).**
+**Nhịp 1 đã chốt.** Hai cơ chế liên thị trường trượt Stage‑0. Mười khoảng
+giá ưu tiên vẫn thiếu. Nhịp 2 cần ứng viên đã qua Stage‑0 hoặc bằng chứng
+mới cho một khoảng giá có tác động. [Task](PROP-STAGE0-NEXT-SLEEVE-TASK.md) ·
+[Kết quả và quyết định](PROP-N1-RESULTS-20261118.md).
 Kế hoạch này tiếp nối kết quả V26. Chiến dịch STRATEGY-E2E cũ đã đóng theo
 quyết định của owner, với lịch sử thử nghiệm được lưu riêng.
 [Chiến dịch cũ](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)

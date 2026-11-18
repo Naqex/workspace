@@ -1,8 +1,9 @@
 # Nhịp 1 — Tìm ứng viên bổ sung cho BASE_GUARD
 
-**Trạng thái: đặc tả ngày 18/11/2026, chưa chạy.** Bàn giao một quyết định có
-số liệu: cơ chế nào đáng đầu tư replay và khoảng thiếu giá nào đáng đầu tư
-khôi phục. [Lộ trình tổng](PROP-SYSTEM-ROADMAP.md)
+**Trạng thái: đã chốt ngày 18/11/2026.** Gác cả hai cơ chế vì trượt cổng
+kinh tế. Mười khoảng ưu tiên chưa có nguồn giá mới đủ điều kiện.
+[Protocol đã khóa](PROP-N1-PROTOCOL-20261118.md) ·
+[Kết quả](PROP-N1-RESULTS-20261118.md) · [Lộ trình tổng](PROP-SYSTEM-ROADMAP.md)
 
 ## A. Sàng lọc cơ chế kiếm lời
 

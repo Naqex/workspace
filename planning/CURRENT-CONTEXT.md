@@ -1,12 +1,14 @@
 # Current context — Naqex Workspace
 
-18/11/2026 · `RESEARCH: V26_RESULTS · PORTFOLIO: BASE_GUARD · PROP: NOT_QUALIFIED`.
+18/11/2026 · `RESEARCH: NHỊP 1 ĐÃ CHỐT · PORTFOLIO: BASE_GUARD · PROP: NOT_QUALIFIED`.
 
 ## Việc hiện tại
 
-Lộ trình prop sau V26 dùng một kế hoạch tổng và các nhịp có cổng chuyển bước.
-Mở [lộ trình](research/PROP-SYSTEM-ROADMAP.md) và [task Nhịp 1](research/PROP-STAGE0-NEXT-SLEEVE-TASK.md).
-Nhịp 1 đã có đặc tả, chưa chạy. Baseline và kết quả đối chứng bên dưới.
+Nhịp 1 đã gác hai cơ chế liên thị trường sau khi cả hai trượt Stage‑0
+trên Development 2018–2023. Mười khoảng ưu tiên thuộc ba lệnh EURUSD F5
+vẫn thiếu nguồn xác minh. [Kết quả](research/PROP-N1-RESULTS-20261118.md) ·
+[Task Nhịp 1](research/PROP-STAGE0-NEXT-SLEEVE-TASK.md) ·
+[Lộ trình](research/PROP-SYSTEM-ROADMAP.md).
 
 V26 kết luận giữ BASE_GUARD và đóng GBPUSD S01 với quyết định không promote.
 [Báo cáo](research/BATCH-EXACT-ISO-V26-RESULTS-20261118.md) /
