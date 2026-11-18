@@ -39,8 +39,10 @@ P1 candidate11/24SYM và13/24ASYM, đều trong10/2023; P2/payout0, các sổP2 
 còn68–88ngày. Cuối2023 cũng yếu đi, không quy0P2chỉ cho cutoff. Tần suất354–374
 lệnh/năm đã đủ để chuyển trọng tâm sang độ bền/time-fit. [S03 protocol](research/SOLO-THREE-ASSET-VALIDATION-PROTOCOL-20261118.md)
 đã khóa; code `5ccdc6d` qua review41file. Source-release đã mở riêng2024 ngày18/11,
-GBPraw138signals/1.632heldhours, Devprefix300khớp; đang tải/admit nguồn, chưa
-tính financialS03.2025–2026giữ đóng. FTMO refresh17–18/11
+GBPraw138signals/1.632heldhours, Devprefix300khớp; downloadhoàntất7.287.413ticks,
+admitdừng26Bid/Askdifferences tại13hours30–31/12/2024. Khôngempty/heldgaps,
+nhưngsource `SOURCE_REVIEW_REQUIRED`; đangdiagnose, chưa financialS03.
+2025–2026giữ đóng. FTMO refresh17–18/11
 không truy cập được; giữ nguồn cũ đúng ngày kiểm, news/margin/feed/forward chưa đủ.
 Oracle đầu tiên fail vì trỏ original proof cũng giữ nguyên. Owner xác nhận tiếp tục
 độc lập với phạm vi rộng ngày 17/11; goal mới không thay quyền holdout/broker.

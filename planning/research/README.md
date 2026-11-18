@@ -20,7 +20,8 @@ chưa Challenge. S02 không mở2024; S03 có release riêng dưới đây.
 Không dùng software/oracle PASS thay edge/prop proof.
 S03 đã khóa thiết kế104sổ báo cáo và108sentinels, giữ composition/risk và
 unknownpath; source-release2024 đã tạo sau code/reviewfreeze, rawGBP138signals/
-1.632hours. Chưafinancialresult, nguồn đang thu/admit.2025–2026vẫnđóng.
+1.632hours/7.287.413ticks. Admitdừng13hoursH1mismatchcuối2024, đangdiagnose;
+khôngfinancialresult.2025–2026vẫnđóng.
 
 
 **V3 hoàn tất, danh mục có tiến bộ nhưng chưa đủ điều kiện Challenge:**

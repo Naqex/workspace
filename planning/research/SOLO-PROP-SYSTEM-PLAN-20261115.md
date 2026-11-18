@@ -44,7 +44,7 @@ chỉ tiêu không được hạ để gọi winner là đạt.
 | Q0 | Kế thừa và chọn thí nghiệm | S01 GBP đã khóa trước source/numeric mới | Một inherited SL recipe, giữ raw markout âm và 112-trial history; chưa mở trial phụ |
 | Q1 | Source/path confirmation | Correction v2 `SOURCE_RECONCILED`; giữ original admission `SOURCE_REVIEW_REQUIRED` | 25.537.048 ticks/3.576 giờ; không H1 mismatch/held gap sau correction hai giờ; cùng vendor, chưa FTMO parity |
 | Q2 | Alpha, portfolio, time-fit | S01 economics-v2/oracle v3 PASS; S02 shared replay PASS correctness nhưng `INCONCLUSIVE_PATH` | 108 accounts, 733 trades; candidate Net/DD tốt hơn baseline, DD tuyệt đối tăng; XAUUSD gaps; chưa Challenge |
-| Q3 | Robustness/validation | S03 đã release nguồn2024; GBPraw138/1.632heldhours, đangsourceadmission | Conditional validation giữ unknownpath,104reported/108sentinels, exactDevprefix; chưafinancialS03/cleanOOS |
+| Q3 | Robustness/validation | S03GBPsource138raw/7.287.413ticks dừng13hoursH1mismatch, đangdiagnose | SourceReviewRequired; khôngfinancialS03, khôngđổirules/hạtolerance; conditionalvalidation vẫnchờsource |
 | S5 | Bind chiến lược với engine/runtime | Chưa đủ candidate qualified | Same decision semantics, units/account/risk, no duplicate, exact artifact/code lineage |
 | D0 | Bàn giao vận hành cho owner | Chưa đủ | Runnable own setup, stop/recover/rollback, runbook và cách hiểu risk/results; quyền broker riêng |
 
