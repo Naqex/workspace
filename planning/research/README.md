@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**Stocks in Play và Gold PM.** Pilot TSLA có 42 trigger cash và còn thiếu
+giá khớp CFD đích. Gold PM có 335 tín hiệu, 17 qua phí và trượt Stage‑0.
+[Kết quả](PROP-STOCKS-IN-PLAY-AND-GOLD-PM-RESULTS-20261118.md).
+
 **Quyết định replay payout ở 50.000 USD.** V23 bỏ F3 đã được đo,
 V26 đã đổi trọng số và R043 hụt cổng để ghép. Báo riêng tháng trắng
 và thời gian nhận payout mô phỏng sau Challenge.

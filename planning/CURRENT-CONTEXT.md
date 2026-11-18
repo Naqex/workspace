@@ -4,6 +4,11 @@
 
 ## Việc hiện tại
 
+Stocks in Play có 42 lần phá biên cash ở pilot TSLA, giá và phí CFD
+đích chưa đo. Nhánh độc lập Gold PM trượt Stage‑0 (17/335 qua phí,
+net âm 5/6 năm). Giữ BASE_GUARD ở `NOT_QUALIFIED`.
+[Kết quả](research/PROP-STOCKS-IN-PLAY-AND-GOLD-PM-RESULTS-20261118.md)
+
 Rà sổ Development ở vốn 50.000 USD. V23 bỏ F3 và BASE cùng 0/61
 qua hai vòng trong 12 tháng. Thay F3 bằng R043 giảm đóng góp tĩnh,
 nên giữ BASE_GUARD ở `NOT_QUALIFIED`.
