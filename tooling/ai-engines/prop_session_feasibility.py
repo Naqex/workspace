@@ -16,7 +16,7 @@ from sealed_m1_review import cash_sessions
 import prop_v21_common as evidence
 
 PROTOCOL = WORKSPACE / 'planning/research/PROP-SESSION-FEASIBILITY-20261118.md'
-BASE = ROOT / 'prop-session-feasibility-20261118'
+BASE = ROOT / 'prop-session-feasibility-20261118' / 'attempt-2'
 
 
 def inspect(asset, bars, sessions):
@@ -36,8 +36,10 @@ def inspect(asset, bars, sessions):
         side = np.array([1, -1])
         stop = np.array([opening['bl'].min()-1, opening['ah'].max()+1])
         natural = side*(entry-stop)
-        friction = float((entry[0]-entry[1])/scale)-money(asset, 'SYM', side, entry, entry, start, start, 'MARKET')['net']
-        net = money(asset, 'SYM', side, entry, close, start, end, 'MARKET')['net']
+        entry_at = np.full(2, start, dtype='int64')
+        exit_at = np.full(2, end, dtype='int64')
+        friction = float((entry[0]-entry[1])/scale)-money(asset, 'SYM', side, entry, entry, entry_at, entry_at, 'MARKET')['net']
+        net = money(asset, 'SYM', side, entry, close, entry_at, exit_at, 'MARKET')['net']
         multiple = 10 if asset == 'XAUUSD' else 1  # Gold per-ounce commission has 4 decimal places.
         costs = np.rint(friction * scale * multiple).astype('int64')
         fits = (natural > 0) & (100 * costs <= 12 * natural * multiple)

@@ -24,3 +24,7 @@ biên độ, chưa dùng tín hiệu dự báo hoặc chọn bên giao dịch.
   hoặc verdict của ứng viên đã gác. Nếu một thị trường không đủ độ
   rộng/độ phủ, ghi giới hạn cho đúng cửa sổ. Nếu có thị trường đủ,
   giữ đó làm đầu vào chọn cơ chế trong đợt sàng lọc kế tiếp.
+
+Lần chạy đầu dừng ở phép tính phí EURUSD. Helper dùng mảng timestamp,
+trong khi lượt đầu truyền scalar. Sửa dạng tham số, giữ nguyên quy tắc
+và dữ liệu, chạy lần hai trong thư mục riêng.
