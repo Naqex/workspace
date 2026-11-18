@@ -1,6 +1,6 @@
 # Tiếp nhận cải tiến từ xingchiapi-astra
 
-Ngày kiểm: 17/11/2026. **Đã sửa cổng phí chính xác và tuổi báo giá trong
+Ngày chốt đối chiếu: 18/11/2026 (tiếp nhận đợt V24 ngày 17/11). **Đã sửa cổng phí chính xác và tuổi báo giá trong
 nhánh V24. Chưa nhận chiến lược GBPUSD hoặc thay engine tài khoản.**
 Đây là cải tiến correctness cho công cụ hiện tại, không phải một trial tìm alpha.
 
