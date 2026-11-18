@@ -1,6 +1,7 @@
 import unittest
 from quant_core.corpus_funnel import classify, arguments
 from quant_core.corpus_signals import engulfing_rsi, wilder_rsi
+from quant_core.bot_lab import inspect_bytes
 import numpy as np
 
 CODE = """input uint InpSL=200;
@@ -42,6 +43,15 @@ class CorpusFunnelTests(unittest.TestCase):
         self.assertEqual(len(values[0]),5)
         self.assertEqual(values[1][1],'"x,y"')
         self.assertEqual(values[1][3],"MathMax(1,2)")
+
+    def test_oscillator_calls_are_not_lost_by_the_source_fingerprint(self):
+        text="void OnTick(){ iCCI(); iMFI(); iStochastic(); iMACD(); iSAR(); }"
+        profile=inspect_bytes(text.encode(),".mq5")
+        self.assertTrue({"iCCI","iMFI","iStochastic","iMACD","iSAR"}<=set(profile["indicators"]))
+        old_profile=dict(format=".mq5",indicators=[],findings=[])
+        enriched=classify(old_profile,CODE+"\nvoid Init(){ iCCI(); }")
+        self.assertEqual(enriched["indicators"],["iCCI"])
+        self.assertEqual(enriched["status"],"CLEAN_STRUCTURAL_CANDIDATE")
 
     def test_rsi_monotone_flat_and_future_causality(self):
         self.assertEqual(wilder_rsi(np.arange(100),37)[-1],100)

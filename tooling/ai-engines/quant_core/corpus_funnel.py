@@ -1,5 +1,6 @@
 """Static structural triage; absence of flags never proves executable safety."""
 import re
+from quant_core.bot_lab import indicators_in
 
 RED = {"MARTINGALE_GRID_TOXICITY": "MARTINGALE_GRID",
        "NO_STOP_LOSS_TOXICITY": "NO_STOP_LOSS",
@@ -45,6 +46,7 @@ def classify(profile, text=None, path=""):
     if text is None:
         return dict(base, status="SOURCE_UNAVAILABLE")
     code = re.sub(r"/\*.*?\*/|//[^\n]*", "", text, flags=re.S)
+    base["indicators"] = sorted(set(base["indicators"]) | set(indicators_in(code)))
     if re.search(r"return\s*\(\s*true\s*\)\s*;\s*\{\s*ExtPatternDetected\s*=\s*true", code):
         flags.append("ORPHAN_SIGNAL_BLOCK_REVIEW")
     defaults = {m[0]:float(m[1]) for m in re.findall(
@@ -68,7 +70,7 @@ def classify(profile, text=None, path=""):
     executable = bool(re.search(r"\bOnTick\s*\(",code) and calls)
     if not executable:
         return dict(base, status="UTILITY_OR_UNRESOLVED_ENTRY")
-    if not positive_sl or not profile.get("indicators"):
+    if not positive_sl or not base["indicators"]:
         return dict(base, status="SL_OR_SIGNAL_BINDING_UNMEASURED")
     # A source/default-bound candidate, still requiring full rule/manual review.
     return dict(base, status="CLEAN_STRUCTURAL_CANDIDATE",

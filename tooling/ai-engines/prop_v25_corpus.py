@@ -8,7 +8,7 @@ from quant_core.bot_lab import SOURCE
 import hashlib
 
 
-def run():
+def run(version=1):
     inventory = unpack("inventory-and-profiles")
     aliases = defaultdict(list)
     for row in inventory["rows"]:
@@ -41,7 +41,9 @@ def run():
                              -len(r["indicators"]),Path(r["path"]).name.casefold(),r["sha256"]))
     top = clean[:10]
     selected = next((r for r in top if Path(r["path"]).name.casefold()=="bullishbearish engulfing rsi.mq5"),None)
-    compressed("corpus-classification",dict(rows=classified, source_hash_drifts=drifts,
+    suffix="" if version==1 else "-v2"
+    compressed("corpus-classification"+suffix,dict(rows=classified, source_hash_drifts=drifts,
+        source_sha256=sha(__file__),classifier_sha256=sha("tooling/ai-engines/quant_core/corpus_funnel.py"),
         scope="structural heuristics under declared defaults, not full control-flow proof"))
     summary = dict(profiles=len(classified), unique_sha256=len({r["sha256"] for r in classified}),
         formats=dict(Counter(r["format"] for r in classified)),
@@ -51,10 +53,13 @@ def run():
         mechanism_count=int(selected is not None), source_hash_drift_count=len(drifts),
         binary_clean_claims=0, ranking_uses_PnL=False,
         full_strategy_execution_or_broker_safety_certified=False)
-    save("corpus-funnel-summary.json",summary)
+    save("corpus-funnel-summary"+suffix+".json",summary)
     event("corpus_complete",profiles=len(classified),clean=len(clean),selected=Path(selected["path"]).name if selected else None)
     return summary
 
 
 if __name__=="__main__":
-    run()
+    import argparse
+    parser=argparse.ArgumentParser()
+    parser.add_argument("--version",type=int,choices=(1,2),default=1)
+    run(parser.parse_args().version)
