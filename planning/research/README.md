@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**V26 — ISO qua Development, vòng đời giữ BASE_GUARD.** [Báo cáo](BATCH-EXACT-ISO-V26-RESULTS-20261118.md) · [Số liệu](BATCH-EXACT-ISO-V26-RESULTS-20261118.json) · [Danh mục bot](CORPUS-BATCH-V26-CARD-20261118.json).
+91 ô rớt Stage-0, 24 ô MFI thiếu dữ liệu. ISO qua 69/105 mốc phí chuẩn so với
+71/105 baseline, bootstrap 36 tháng 30,06% so với 33,56%. GBPUSD S01 đã đóng.
+
 **V25 — hạ tầng/hiệu năng đạt; chưa có chiến lược mới qua Development:**
 [Kết quả](CORPUS-ISOLATION-V25-RESULTS-20261118.md) /
 [JSON](CORPUS-ISOLATION-V25-RESULTS-20261118.json) /

@@ -32,6 +32,7 @@ FAST = {
     "test_evidence_compaction", "test_ftmo_trial_runner", "test_trade_forensics", "test_prop_v22", "test_prop_v23",
     "test_bot_lab", "test_ftmo_connection", "test_research_fast_fail",
     "test_native_paths", "test_prop_v25", "test_corpus_funnel",
+    "test_prop_v26", "test_corpus_batch_signals", "test_corpus_batch_execution", "test_mt_report_parser",
 }
 SMOKE = {"test_quant_core", "test_vectorized_stage0", "test_workspace_maintenance",
          "test_deep_storage", "test_zero_tuning_ensemble", "test_sl_active_kernel",

@@ -18,6 +18,11 @@ Binary `.ex4/.ex5/.dll/.pyc`: ASCII/UTF16 strings; PE import names nếu có PE
 header hợp lệ. Không load DLL, không deserialize pyc, không execute mẫu.
 EX4/EX5 có thể không lộ strings; hồ sơ thiếu dữ liệu không có nghĩa bot sạch.
 
+Preset `.set/.ini/.chr` dùng cùng `--inspect`: giữ current/start/step/stop/flag,
+kể cả tuple MT5 và các dòng optimization riêng của MT4. Login/password/server/
+license values được che. Đơn vị SL/TP vẫn unknown nếu thiếu symbol/digits;
+preset không chứng minh code thực thi hoặc lợi thế của bot.
+
 Để kiểm thêm quy mô chi phí đã xác minh, dùng cùng đơn vị giá:
 
 ```powershell
@@ -39,7 +44,11 @@ Rủi ro SL quá5% cần equity/volume/contract thực, không thể suy từ kh
 
 Chuẩn hóa CSV/JSON/HTML table thành các cột `open_time,type,symbol,price,sl,tp,
 close_time,profit,volume`. JSON có thể là list hoặc `{"trades":[...]}`. HTML
-phải có header chuẩn; báo cáo MT5 nguyên bản cần map columns trước nếu tên khác.
+chuẩn được giữ tương thích. Native MT4 closed-trade tables và MT5 Deals/Orders
+được nhận diện từ `.htm/.html/.xml`; header Symbol/Period/Inputs/Bars/Ticks/
+Modelling quality được trích xuất. Chỉ closed table đầy đủ hoặc MT5 position-ID
+pairing không có partial/reversal mới vào cloner; thiếu identity không đoán bằng
+order ID. XML không cho phép DTD/entities. Locale hoặc số mơ hồ giữ review.
 
 ```powershell
 uv run --project tooling/strategy-engines/observer --no-sync python -m tooling.ai_engines.bot_reverse_engineer --clone-log research/bot_reverse_lab/inbox/trades.csv --log-timezone UTC
@@ -62,6 +71,16 @@ Asian00–06UTC. Nguồn Bid này không có Ask thực và không chứng nhậ
 Fingerprint **không khôi phục duy nhất thuật toán** hoặc tự tạo chiến lược có
 thể backtest9năm. Bước tiếp là viết contract cơ chế có thể bác bỏ, đăng ký trial,
 đối chiếu quyết định trước outcome, rồi chạy Stage-0/Dev đúng protocol.
+
+V26 companion inventory quét metadata D/E với exclusions/limits được khai báo,
+chỉ mở nội dung có association hoặc MT/tester context. Association theo tên/
+cùng folder là gợi ý, không chứng minh cùng bot. Overlay/hash và nội dung preset/
+report nằm trong private job; không sửa profiles V25 đã seal hoặc publish source.
+
+Nguồn định dạng: [MT5 tester reports](https://www.metatrader5.com/en/terminal/help/algotrading/testing_report)
+và [MT4 tester results](https://www.metatrader4.com/en/trading-platform/help/overview/strategy_tester/strategy_tester_results).
+Actual supported layouts được khóa bằng fixtures; không coi parser là compiler
+hoặc hỗ trợ mọi version/ngôn ngữ của terminal.
 
 ## Thay tài khoản Free Trial
 

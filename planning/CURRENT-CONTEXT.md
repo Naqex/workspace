@@ -1,8 +1,23 @@
 # Current context — Naqex Workspace
 
-18/11/2026 · `RESEARCH: V25_DELIVERY · ISO: DEV_GATE_FAIL · GBP: H1_SCENARIO_ONLY · PROP: NOT_QUALIFIED`.
+18/11/2026 · `RESEARCH: V26_RESULTS · PORTFOLIO: BASE_GUARD · PROP: NOT_QUALIFIED`.
 
 ## Việc hiện tại
+
+V26 kết luận giữ BASE_GUARD và đóng GBPUSD S01 với quyết định không promote.
+[Báo cáo](research/BATCH-EXACT-ISO-V26-RESULTS-20261118.md) /
+[JSON](research/BATCH-EXACT-ISO-V26-RESULTS-20261118.json) /
+[Protocol](research/BATCH-EXACT-ISO-V26-PROTOCOL-20261118.md).
+PR #104 đã merge tại `9ac2044`. Nhánh V26 là `codex/batch-24bots-and-exact-iso-v26`.
+ISO c=0,824717 qua Development với +26,3791R và DD 12,1885R. Hai thứ tự giá
+đều cho 69/105 so với 71/105 baseline ở phí chuẩn. 5.000 chuỗi mỗi thứ tự,
+bootstrap 36 tháng 30,06% so với 33,56%. Miền phí +50% cải thiện 57 so với 15.
+[Danh mục 24 hồ sơ](research/CORPUS-BATCH-V26-CARD-20261118.json) có 91 ô rớt
+Stage-0 và 24 ô MFI thiếu dữ liệu đủ kỳ. Bộ đọc preset/report đã kiểm fixture.
+Job riêng `execution-v1/batch-exact-iso-v26-20261118` giữ journal, các lần thử, 43
+bảng Zstd và bằng chứng cách ly tiến trình. 1.400 pass, 0 skip, tốc độ chưa đạt.
+
+## V25 đã merge (lịch sử)
 
 V25 đã chốt theo [protocol](research/CORPUS-ISOLATION-V25-PROTOCOL-20261118.md), commit427b3b7 trước outcome.
 [Kết quả](research/CORPUS-ISOLATION-V25-RESULTS-20261118.md) /
