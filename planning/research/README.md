@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**Chọn nhánh F1–F4 tại cuối 2020.** 0/11 đại diện qua cổng fit.
+Không tăng PnL ở 2021–2023. Giữ BASE_GUARD và gác replay.
+[Kết quả](PROP-PAST-ONLY-SLEEVE-SELECTION-20261119.md).
+
 **Japan200+ cuối phiên.** Đã đối chiếu benchmark Nikkei và đọc 485
 phiên cache. Phần định giá âm sau spread ở cả 2019 và 2022.
 [Kết quả và độ nhạy DAX](PROP-JPN-CLOSE-PROXY-RESULTS-20261119.md).

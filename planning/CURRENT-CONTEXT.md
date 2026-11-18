@@ -4,6 +4,12 @@
 
 ## Việc hiện tại
 
+Chọn 11 đại diện F1–F4 của EURUSD, XAUUSD và US500 tại mốc cuối 2020.
+Cả 11 âm sau phí trên phần định giá được, chỉ EURUSD F2 đủ nhịp.
+Danh mục bổ sung 2021–2023 rỗng. BASE không có cửa sổ cash 12 tháng
+nào chạm +5.000 USD ở cả hai view. Gác replay tài khoản mới.
+[Kết quả](research/PROP-PAST-ONLY-SLEEVE-SELECTION-20261119.md).
+
 Gác động lượng cuối phiên Japan200+ sau chẩn đoán cache 2019/2022.
 Giá CFD bám sát Nikkei quanh giờ cash. Phần có giá âm ngay sau spread
 và thua BUY cùng giờ. DAX giữ quyết định dừng.
