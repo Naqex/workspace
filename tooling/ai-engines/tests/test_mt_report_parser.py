@@ -1,5 +1,8 @@
 import json
 import unittest
+from pathlib import Path
+import tempfile
+from unittest.mock import patch
 from quant_core.mt_report_parser import preset_bytes,report_bytes,number
 from quant_core.bot_lab import inspect_bytes,log_rows,fingerprint
 
@@ -121,3 +124,31 @@ class TesterReportTests(unittest.TestCase):
     def test_oversize_inputs_fail_before_html_or_xml_parsing(self):
         with self.assertRaisesRegex(ValueError,"SIZE_LIMIT"):
             report_bytes(b"x"*(16*1024*1024+1),".html")
+
+
+class CompanionInventoryTests(unittest.TestCase):
+    def test_mixed_file_extensions_cannot_change_versioned_artifact_names(self):
+        import prop_v26_presets as inventory
+        import prop_v26_common as common
+        from quant_core.job_workspace import JobWorkspace
+        from quant_core.prop_lifecycle_and_parity import bindings
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory)
+            source=root/"MQL5";source.mkdir()
+            first=source/"example.set";first.write_text("SL=200")
+            second=source/"example.ini";second.write_text("TP=200")
+            runtime=JobWorkspace(root/"jobs",root)
+            runtime.activate()
+            class Process:
+                def __init__(self,path):self.stdout=iter([str(path)+"\n"])
+                def wait(self):return 0
+            try:
+                with bindings(common,JOB=runtime.root,RUNTIME=runtime),patch.object(inventory,"LAB",runtime),\
+                     patch.object(inventory,"unpack",return_value=dict(rows=[])),\
+                     patch.object(inventory.subprocess,"Popen",side_effect=[Process(first),Process(second)]):
+                    inventory.scan(3)
+                self.assertTrue((runtime.root/"companion-profiles-v3-manifest.json").exists())
+                self.assertTrue((runtime.root/"companion-summary-v3.json").exists())
+                self.assertFalse((runtime.root/"companion-summary.ini.json").exists())
+            finally:
+                runtime.close()

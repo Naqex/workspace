@@ -40,10 +40,10 @@ def scan(version=1):
     # status.xml/config.ini belongs to a trading bot.
     candidates=[r for r in inventory["rows"] if r["format"] in {".mq4",".mq5",".ex4",".ex5",".pine"}]
     stems,folders=associations(candidates)
-    suffix="" if version==1 else "-v2"
+    version_suffix="" if version==1 else f"-v{version}"
     guard=PathGuard();records=[];metadata=[];errors=[];seen=set()
     started=time.perf_counter()
-    save("inventory-registration"+suffix+".json",dict(source_sha256=sha(__file__),
+    save("inventory-registration"+version_suffix+".json",dict(source_sha256=sha(__file__),
         parser_sha256=sha("tooling/ai-engines/quant_core/mt_report_parser.py"),
         roots=["D:/","E:/"],maxdepth=24,pruned=sorted(PRUNE),no_links=True,
         protected_VI_exclusions=["projects/vi-dubber/work/pytest-p20","projects/vi-dubber/work/pytest-p20-final"],
@@ -58,7 +58,7 @@ def scan(version=1):
         for fixture in ("pytest-p20","pytest-p20-final"):
             args+=["-g","!**/projects/vi-dubber/work/"+fixture,
                    "-g","!**/projects/vi-dubber/work/"+fixture+"/**"]
-        stderr=LAB.root/f"rg{suffix}-{rank}-stderr.txt"
+        stderr=LAB.root/f"rg{version_suffix}-{rank}-stderr.txt"
         with stderr.open("x",encoding="utf-8") as out:
             proc=subprocess.Popen(args,stdout=subprocess.PIPE,stderr=out,text=True,encoding="utf-8")
             for line in proc.stdout:
@@ -93,8 +93,8 @@ def scan(version=1):
             code=proc.wait()
         if code not in (0,1):
             errors.append(dict(path=str(root),status="RG_TRAVERSAL_ERROR",stderr_sha256=sha(stderr)))
-    compressed("companion-profiles"+suffix,records)
-    compressed("companion-metadata"+suffix,dict(rows=metadata,errors=errors))
+    compressed("companion-profiles"+version_suffix,records)
+    compressed("companion-metadata"+version_suffix,dict(rows=metadata,errors=errors))
     extensions=defaultdict(list)
     for row in records:
         for profile in row["profiles"]:
@@ -102,7 +102,7 @@ def scan(version=1):
                 format=row["format"],association=row["association"],
                 parameters=len(row["parsed"].get("parameters",[])),trades=len(row["parsed"].get("trades",[])),
                 clone_ready=row["parsed"].get("clone_ready",False)))
-    compressed("profile-companion-overlay"+suffix,dict(extensions))
+    compressed("profile-companion-overlay"+version_suffix,dict(extensions))
     summary=dict(metadata_files=len(seen),formats=dict(Counter(Path(p).suffix.casefold() for p in seen)),
         parsed=len(records),parsed_presets=sum(r["format"] in PRESETS for r in records),
         parsed_reports=sum(r["format"] in REPORTS for r in records),
@@ -112,12 +112,12 @@ def scan(version=1):
         metadata_statuses=dict(Counter(r["status"] for r in metadata)),
         errors=dict(Counter(r["status"] for r in errors)),seconds=time.perf_counter()-started,
         full_disk_coverage_claimed=False,credential_values_exported=False,execution_performed=False)
-    save("companion-summary"+suffix+".json",summary)
+    save("companion-summary"+version_suffix+".json",summary)
     print(summary,flush=True)
 
 
 if __name__=="__main__":
-    parser=argparse.ArgumentParser();parser.add_argument("--version",type=int,choices=(1,2),default=1)
+    parser=argparse.ArgumentParser();parser.add_argument("--version",type=int,choices=(1,2,3),default=1)
     args=parser.parse_args()
     with bindings(common,JOB=LAB.root,RUNTIME=LAB):
         activate_runtime()
