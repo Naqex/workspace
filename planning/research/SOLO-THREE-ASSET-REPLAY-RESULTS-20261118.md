@@ -11,9 +11,12 @@ không được đọc. Mức risk cố định là Gold150USD, EURUSD75USD, GBP
 
 Phần kế toán/timeline đã được đối soát độc lập trong phạm vi đã khóa. Tuy
 nhiên, không được biến kết quả thành “không vi phạm” hoặc Challenge-ready vì
-đường XAUUSD có các khoảng thiếu khoảng45 phút khi đang giữ lệnh. Các khoảng
-này đều nằm ở phiên bảo trì buổi tối; engine giữ chúng là unknown vì lịch
-miễn trừ maintenance chưa được chứng minh trong source contract. EURUSD và
+đường XAUUSD có các khoảng thiếu vật lý gần60 phút khi đang giữ lệnh. Sau khi
+engine bỏ qua15 phút đầu của một khoảng thưa theo policy, phần được đánh dấu
+`unknown` có median khoảng45,03 phút. Các khoảng này tập trung ở buổi tối và
+lặp lại theo ngày trong source, phù hợp với giả thuyết daily maintenance nhưng
+chưa phải bằng chứng lịch bảo trì. Engine giữ chúng là unknown vì lịch miễn
+trừ maintenance chưa được chứng minh trong source contract. EURUSD và
 GBPUSD không có unknown >15 phút trong các khoảng giữ lệnh của lần chạy này.
 
 ## Kết quả account replay
@@ -70,10 +73,11 @@ S02 đã kiểm `733` trade books (Gold210, EUR236, GBP287), preflight
 
 Khoảng unknown chỉ xuất hiện ở XAUUSD. Trong continuous candidate ASYM có
 148 intervals, tổng khoảng111.07 giờ unknown trong phần thời gian đang giữ;
-median mỗi khoảng khoảng45.03 phút. Các mốc rơi quanh 21:00–23:00UTC tùy DST
-(104 interval bắt đầu theo giờ21UTC,44 theo giờ22UTC trong sample), từ thứ Hai
-đến thứ Năm. Đây là dấu hiệu mạnh của daily maintenance, nhưng chưa phải
-calendar/source proof đủ để tự động miễn trừ. Không sửa số liệu bằng cách
+phần unknown mỗi interval có median khoảng45,03 phút, còn khoảng source gap
+vật lý gần60 phút. Các mốc rơi quanh 21:00–23:00UTC tùy DST (104 interval
+bắt đầu theo giờ21UTC,44 theo giờ22UTC trong sample), từ thứ Hai đến thứ Năm.
+Đây là mẫu gap buổi tối lặp lại, phù hợp với giả thuyết daily maintenance,
+nhưng chưa phải calendar/source proof đủ để tự động miễn trừ. Không sửa số liệu bằng cách
 đặt gap thành giá phẳng hay bỏ lệnh.
 
 ## Independent review và giới hạn
