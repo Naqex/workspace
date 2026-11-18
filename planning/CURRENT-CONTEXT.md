@@ -1,8 +1,12 @@
 # Current context — Naqex Workspace
 
-18/11/2026 · `RESEARCH: CHƯA CÓ NHÁNH ĐỦ CƠ SỞ REPLAY PAYOUT · PORTFOLIO: BASE_GUARD · PROP: NOT_QUALIFIED`.
+19/11/2026 · `RESEARCH: CHƯA CÓ NHÁNH ĐỦ CƠ SỞ REPLAY PAYOUT · PORTFOLIO: BASE_GUARD · PROP: NOT_QUALIFIED`.
 
 ## Việc hiện tại
+
+Rà bốn họ F1–F4 trên Development. Có 2.104 cấu hình từng bị gác
+có phần giao để so, bốn cấu hình có trọn cohort. Chưa thấy ca đủ
+quy mô để replay 50.000 USD. [Kết quả](research/PROP-SCREEN-MISS-AUDIT-20261119.md).
 
 Gác WTI chênh lệch kỳ hạn sau phép đo settlement cùng hợp đồng.
 Hai cụm chỉ đạt khoảng 0,70 USD/thùng trước phí, cụm 2021–2023

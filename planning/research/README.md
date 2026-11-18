@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**Rà ứng viên bị bỏ sót.** Bốn họ F1–F4 có cặp markout/SL-active.
+Không cấu hình từng bị gác nào đạt 1.000 USD/năm ở cả hai cụm.
+[Kết quả](PROP-SCREEN-MISS-AUDIT-20261119.md).
+
 **WTI chênh lệch kỳ hạn.** Settlement cùng hợp đồng đạt khoảng
 +0,70 USD/thùng gross ở mỗi cụm. Tín hiệu thua luôn BUY ở 2021–2023
 và hụt quy mô. Gác truy feed phí cho luật này.
