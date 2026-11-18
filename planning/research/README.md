@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**EURUSD và lợi suất Mỹ hai năm.** Trượt Stage‑0 với 342/988 tín hiệu
+qua cap phí. [Kết quả](PROP-EURUSD-US-RATES-RESULTS-20261118.md) ·
+[Protocol](PROP-EURUSD-US-RATES-PROTOCOL-20261118.md).
+
 **Chọn tài sản trước khi viết tín hiệu.** Với phiên Mỹ đã khóa, EURUSD
 có 80–211 ngày/năm mà ít nhất một chiều qua cổng phí.
 [Phép đếm biên độ](PROP-SESSION-FEASIBILITY-RESULTS-20261118.md).

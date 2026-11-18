@@ -4,6 +4,10 @@
 
 ## Việc hiện tại
 
+EURUSD phiên Mỹ theo hướng lợi suất hai năm trượt Stage‑0. 988 tín
+hiệu thô, 342 qua cap phí, 2/6 năm đạt ngưỡng markout sau phí.
+[Kết quả](research/PROP-EURUSD-US-RATES-RESULTS-20261118.md)
+
 So biên độ stop và phí tại 10:30–14:30 New York. Chỉ EURUSD đạt ít
 nhất 40 ngày có một hướng qua phí mỗi năm. Ưu tiên role EURUSD phiên Mỹ.
 [Đối chiếu biên độ](research/PROP-SESSION-FEASIBILITY-RESULTS-20261118.md)
