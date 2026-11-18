@@ -1,0 +1,34 @@
+{
+  "schema": "V26-ISO-freeze-v1",
+  "selected": "P80_ISO_EXACT",
+  "profile": {
+    "name": "BASE_GUARD",
+    "gamma": null,
+    "weights": {
+      "EURUSD|F5:tf=H4:n=5:adx=25:buffer=0.1|DAY|P0": 1.0721321,
+      "XAUUSD|F3:compression=BB:n=60:quantile=0.1:multiple=1|48H|P0": 0.5773019,
+      "XAUUSD|F4:hour=15:impulse=1:timing=MONTH:multiple=1|24H|P1": 0.5773019
+    }
+  },
+  "weights": {
+    "F5": 1.0721321,
+    "F3": 0.5773019,
+    "F4": 0.5773019
+  },
+  "tick": 824717,
+  "sources": {
+    "planning\\research\\BATCH-EXACT-ISO-V26-PROTOCOL-20261118.md": "696d7aa8689f7a5735f2cf8aafe78cbbe8352745902fed514d26ac37a1267f22",
+    "D:\\ANNAM\\TradingWorkspace\\tooling\\ai-engines\\prop_v26_iso.py": "22d99ef6ded59e86c170f6a93ead952e173b231dff145de386fe3659d1d1a69c",
+    "tooling\\ai-engines\\quant_core\\discrete_sizing.py": "294c8e0d3d729cc74df07db4ed839096cd56f5d6c2c8c55239b63bf73ecb3f65",
+    "tooling\\ai-engines\\prop_v26_campaign.py": "b638ef03b16dfd5cdc2bb851a4a260b2fc378f1d6a5b7690ae4b64ef94baa213",
+    "tooling\\ai-engines\\prop_v24_pareto.py": "028f923ebcacd7efc9e76c8271e3cd67226cc736bc4887c7836629e8834af756",
+    "tooling\\ai-engines\\prop_v15_accounts.py": "4edb29264096a11502b1e7403f6cece358031a3d506d7387e26ea84394289bae",
+    "tooling\\ai-engines\\prop_v14_accounts.py": "9a4f3dfb8a9bbfb97e060cdf9fefb68c3349363d51ed6a9aa70f0538c5f91f60",
+    "tooling\\ai-engines\\prop_v26_common.py": "3757b1b5b8f734442f6a593ec21e94a3aa735cfd0be04434447bf3842c5b3a3b",
+    "tooling\\ai-engines\\quant_core\\job_workspace.py": "65a79cefb8ae76a33bdd4c0d9d7e4f41d51e56715051f80ae8679a92cd7a9cfa"
+  },
+  "decision_sha256": "c3164f50a2be0d34dffa59c29f392936898ad3d29bbd590e2e8402d8e850c1a9",
+  "later_history_already_exposed": true,
+  "later_prices_used_for_V26_selection": false,
+  "prop_qualified": false
+}
