@@ -7,7 +7,8 @@
 [Sửa false reject đúng15%](SOLO-GBP-COST-GATE-CORRECTION-20261117.md) /
 [S02 shared-account protocol](SOLO-THREE-ASSET-REPLAY-PROTOCOL-20261117.md) /
 [S02 kết quả và independent oracle](SOLO-THREE-ASSET-REPLAY-RESULTS-20261118.md) /
-[S03 Historical Validation có điều kiện](SOLO-THREE-ASSET-VALIDATION-PROTOCOL-20261118.md).
+[S03 Historical Validation có điều kiện](SOLO-THREE-ASSET-VALIDATION-PROTOCOL-20261118.md) /
+[S03 nguồn và kết quả đang thực thi](SOLO-THREE-ASSET-VALIDATION-RESULTS-20261118.md).
 Owner giao toàn bộ alpha/portfolio/system, không phụ thuộc V4 thread gốc.
 Checkout/outputs riêng; Dev2022–23, 2024exposed/validation theo freeze riêng,
 2025–26đóng. Các verdict cũ giữ nguyên; chưa có ứng viên Challenge-qualified.
@@ -15,9 +16,11 @@ Checkout/outputs riêng; Dev2022–23, 2024exposed/validation theo freeze riêng
 trade books. Composition Gold+EUR+GBP tốt hơn baseline theo Net/DD trong
 Development, nhưng148 khoảng XAUUSD thiếu báo giá gần60 phút làm verdict
 `INCONCLUSIVE_PATH`; trùng giờ17:00–18:00 New York chưa chứng minh lịch nghỉ nguồn;
-chưa Challenge, chưa mở2024. Không dùng software/oracle PASS thay edge/prop proof.
+chưa Challenge. S02 không mở2024; S03 có release riêng dưới đây.
+Không dùng software/oracle PASS thay edge/prop proof.
 S03 đã khóa thiết kế104sổ báo cáo và108sentinels, giữ composition/risk và
-unknownpath; đang triển khai/review, chưa release giá2024.
+unknownpath; source-release2024 đã tạo sau code/reviewfreeze, rawGBP138signals/
+1.632hours. Chưafinancialresult, nguồn đang thu/admit.2025–2026vẫnđóng.
 
 
 **V3 hoàn tất, danh mục có tiến bộ nhưng chưa đủ điều kiện Challenge:**

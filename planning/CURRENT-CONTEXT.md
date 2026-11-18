@@ -37,12 +37,20 @@ nhưng chưa có ngày hiệu lực lịch sử; không được miễn trừ ga
 candidate Net/DD tốt hơn baseline ở cả hai cost models nhưng DD tuyệt đối tăng,
 P1 candidate11/24SYM và13/24ASYM, đều trong10/2023; P2/payout0, các sổP2 chỉ
 còn68–88ngày. Cuối2023 cũng yếu đi, không quy0P2chỉ cho cutoff. Tần suất354–374
-lệnh/năm đã đủ để chuyển trọng tâm sang độ bền/time-fit. Chưa mở2024; đang thiết
-kế protocol conditional validation giữ nguyên composition/risk. FTMO refresh17–18/11
+lệnh/năm đã đủ để chuyển trọng tâm sang độ bền/time-fit. [S03 protocol](research/SOLO-THREE-ASSET-VALIDATION-PROTOCOL-20261118.md)
+đã khóa; code `5ccdc6d` qua review41file. Source-release đã mở riêng2024 ngày18/11,
+GBPraw138signals/1.632heldhours, Devprefix300khớp; đang tải/admit nguồn, chưa
+tính financialS03.2025–2026giữ đóng. FTMO refresh17–18/11
 không truy cập được; giữ nguồn cũ đúng ngày kiểm, news/margin/feed/forward chưa đủ.
 Oracle đầu tiên fail vì trỏ original proof cũng giữ nguyên. Owner xác nhận tiếp tục
 độc lập với phạm vi rộng ngày 17/11; goal mới không thay quyền holdout/broker.
 Chưa có candidate Challenge-qualified; các số software không thay edge proof.
+
+S03 source/checkpoints: [kết quả đang thực thi](research/SOLO-THREE-ASSET-VALIDATION-RESULTS-20261118.md).
+Source-release bind sự cố worker parse containerGold2024outcome trướcrelease
+(chỉ inkeys/flag); không tuyên bố2024unconsumed. Criterionfreeze trước sự cố
+giữ nguyên, opaqueSHAallowlist đăng ký riêng trướchash. CI head`bc79b9a`3/3đạt,
+PR84draftcònconflict; không merge/deploy/sourcechange nhánhgốc.
 
 Các phần dưới là checkpoint kế thừa, không là taskqueue hay hạn chế scope mới.
 

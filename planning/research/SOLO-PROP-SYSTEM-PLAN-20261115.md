@@ -44,7 +44,7 @@ chỉ tiêu không được hạ để gọi winner là đạt.
 | Q0 | Kế thừa và chọn thí nghiệm | S01 GBP đã khóa trước source/numeric mới | Một inherited SL recipe, giữ raw markout âm và 112-trial history; chưa mở trial phụ |
 | Q1 | Source/path confirmation | Correction v2 `SOURCE_RECONCILED`; giữ original admission `SOURCE_REVIEW_REQUIRED` | 25.537.048 ticks/3.576 giờ; không H1 mismatch/held gap sau correction hai giờ; cùng vendor, chưa FTMO parity |
 | Q2 | Alpha, portfolio, time-fit | S01 economics-v2/oracle v3 PASS; S02 shared replay PASS correctness nhưng `INCONCLUSIVE_PATH` | 108 accounts, 733 trades; candidate Net/DD tốt hơn baseline, DD tuyệt đối tăng; XAUUSD gaps; chưa Challenge |
-| Q3 | Robustness/validation | S03 protocol đã review; implementation đang làm, chưa release2024 | Conditional validation giữ unknownpath,104reported/108sentinels, exactDevprefix; không cleanOOS |
+| Q3 | Robustness/validation | S03 đã release nguồn2024; GBPraw138/1.632heldhours, đangsourceadmission | Conditional validation giữ unknownpath,104reported/108sentinels, exactDevprefix; chưafinancialS03/cleanOOS |
 | S5 | Bind chiến lược với engine/runtime | Chưa đủ candidate qualified | Same decision semantics, units/account/risk, no duplicate, exact artifact/code lineage |
 | D0 | Bàn giao vận hành cho owner | Chưa đủ | Runnable own setup, stop/recover/rollback, runbook và cách hiểu risk/results; quyền broker riêng |
 
@@ -157,3 +157,10 @@ Lát tiếp [S03 conditional Historical Validation2024](SOLO-THREE-ASSET-VALIDAT
 prefix và internalstateparity; không mở giá trước protocol/code/reviewfreeze.
 Runtime seam chỉ khảo sát offline: consumer
 hiện tại chưa hỗ trợ portfolio tick/Prop, không gắn nhãn đã có bot từ S02.
+
+Checkpoint18/11: S03 implementation `5ccdc6d`, independentpre-release41file;
+source13/harness27/downloader20syntheticsPASS, engine28 và oracle34 riêng.
+Sourcerelease2024 vàGBPregistration đã tạo saucommit/review; chi tiết trong
+[S03 results](SOLO-THREE-ASSET-VALIDATION-RESULTS-20261118.md). Codepolicy và
+thứ tự nguồn→proof→financial giữ nguyên. CI head`bc79b9a`3/3PASS sau xử lý
+đúng1secret-scanfalsepositive; chưamergePR84 hoặcrolloutTrader.
