@@ -1,8 +1,12 @@
 # Current context — Naqex Workspace
 
-18/11/2026 · `RESEARCH: NHỊP 1 ĐÃ CHỐT · PORTFOLIO: BASE_GUARD · PROP: NOT_QUALIFIED`.
+18/11/2026 · `RESEARCH: ĐÃ ĐO THIẾU HỤT VÒNG 1 · PORTFOLIO: BASE_GUARD · PROP: NOT_QUALIFIED`.
 
 ## Việc hiện tại
+
+Đối soát sổ V19 trên 61 cửa sổ Development đủ 12 tháng cho 6 qua vòng 1
+ở PRIMARY và 3 ở STRICT. Thiếu trung vị ở nhóm chưa qua lần lượt là
+4.929,17 và 5.870,60 USD. [Kết quả và yêu cầu ứng viên bổ sung](research/PROP-PHASE1-SHORTFALL-20261118.md)
 
 Nhịp 1 đã gác hai cơ chế liên thị trường sau khi cả hai trượt Stage‑0
 trên Development 2018–2023. Mười khoảng ưu tiên thuộc ba lệnh EURUSD F5

@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**Thiếu hụt vòng 1 sau 12 tháng.** PRIMARY qua 6/61 cửa sổ Development,
+thiếu trung vị 4.929,17 USD ở nhóm chưa qua. Có phân rã theo nhánh và
+yêu cầu cho một ứng viên Stage‑0. [Kết quả](PROP-PHASE1-SHORTFALL-20261118.md)
+
 **Nhịp 1 sau V26 — hai cơ chế liên thị trường trượt Stage‑0, giữ BASE_GUARD.**
 [Kết quả](PROP-N1-RESULTS-20261118.md) ·
 [Protocol](PROP-N1-PROTOCOL-20261118.md) · [Lộ trình hệ thống prop](PROP-SYSTEM-ROADMAP.md).
