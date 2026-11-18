@@ -43,7 +43,7 @@ chỉ tiêu không được hạ để gọi winner là đạt.
 | S4 | Recovery/reconciliation | 175 recovery tests; restore16/16 và Demo5/5 trên cụm riêng đạt | 47 bảng đối soát; hai grant race winners kiểm riêng; các cụm đã dừng; không broker acceptance |
 | Q0 | Kế thừa và chọn thí nghiệm | S01 GBP đã khóa trước source/numeric mới | Một inherited SL recipe, giữ raw markout âm và 112-trial history; chưa mở trial phụ |
 | Q1 | Source/path confirmation | Correction v2 `SOURCE_RECONCILED`; giữ original admission `SOURCE_REVIEW_REQUIRED` | 25.537.048 ticks/3.576 giờ; không H1 mismatch/held gap sau correction hai giờ; cùng vendor, chưa FTMO parity |
-| Q2 | Alpha, portfolio, time-fit | S01 economics-v2 và oracle v3 PASS đúng scope; S02 đang code/test | 287fills,+5,1173R/+24,3873R; sáuGBPcurves đối soát. Oldfalse-reject giữ; chưa exact shared-account/Challenge |
+| Q2 | Alpha, portfolio, time-fit | S01 economics-v2/oracle v3 PASS; S02 shared replay PASS correctness nhưng `INCONCLUSIVE_PATH` | 108 accounts, 733 trades; candidate Net/DD tốt hơn baseline, DD tuyệt đối tăng; XAUUSD gaps; chưa Challenge |
 | Q3 | Robustness/validation | Chưa chạy | Freeze trước validation; exposed khác clean OOS; stress và unseen/prospective gap minh bạch |
 | S5 | Bind chiến lược với engine/runtime | Chưa đủ candidate qualified | Same decision semantics, units/account/risk, no duplicate, exact artifact/code lineage |
 | D0 | Bàn giao vận hành cho owner | Chưa đủ | Runnable own setup, stop/recover/rollback, runbook và cách hiểu risk/results; quyền broker riêng |
@@ -135,5 +135,9 @@ v2 và review độc lập PASS đúng300raw/287fills/13rejects, tiền150/75 v�
 GBPcurves. Lệnh thêm là−1,0834R, kết quảv2 giảm đúng, v1 giữ nguyên.
 [Báo cáo S01](SOLO-GBP-CONFIRMATION-RESULTS-20261117.md) ghi giới hạn và
 concentration; chưa thể gọi M1 additive là account PnL.
-[S02](SOLO-THREE-ASSET-REPLAY-PROTOCOL-20261117.md) khóa108accounts,
-fixed150/75/75, source ages và common USD150R; đang code/test, chưa numeric.
+[S02 results](SOLO-THREE-ASSET-REPLAY-RESULTS-20261118.md) ghi runner
+`INCONCLUSIVE_PATH` sau independent oracle PASS đúng scope: candidate có
+Net/DD tốt hơn baseline ở hai cost models nhưng XAUUSD có maintenance gaps,
+DD tuyệt đối tăng và không monthly account nào hoàn tất cả hai phase. Giữ
+2024 đóng cho tới calendar/path protocol mới; không gắn verdict này với
+Challenge readiness.

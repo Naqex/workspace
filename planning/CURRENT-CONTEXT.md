@@ -27,10 +27,13 @@ commit `9ca78a6` sau protocol `1900d19`, giữ strategy/phí/risk. Economics-v2:
 287fills/13rejects, money150/75 và sáu M1 arrays; PASS đúng scope.
 [Báo cáo S01](research/SOLO-GBP-CONFIRMATION-RESULTS-20261117.md) giữ
 concentration, rawmarkout âm và giới hạn same-vendor/M1 additive.
-[S02 shared-account](research/SOLO-THREE-ASSET-REPLAY-PROTOCOL-20261117.md)
-đang triển khai/test, chưa chạy numerical. Fixed risk150/75/75 và108accounts;
-chưa mở2024. Official FTMO refresh17/11 không truy cập được; giữ nguồn cũ
-đúng ngày kiểm, news/margin/feed/forward chưa đủ.
+[S02 shared-account](research/SOLO-THREE-ASSET-REPLAY-RESULTS-20261118.md)
+đã chạy 108 accounts trên733 trades và qua independent oracle đúng scope.
+Runner verdict `INCONCLUSIVE_PATH`: XAUUSD có gap bảo trì khoảng45 phút,
+unknown hơn2% thời gian giữ; EUR/GBP không có unknown >15 phút. Continuous
+candidate Net/DD tốt hơn baseline ở cả hai cost models nhưng DD tuyệt đối tăng,
+P1/P2 lifecycle không hoàn tất P2. Chưa mở2024. Official FTMO refresh17/11
+không truy cập được; giữ nguồn cũ đúng ngày kiểm, news/margin/feed/forward chưa đủ.
 Oracle đầu tiên fail vì trỏ original proof cũng giữ nguyên. Owner xác nhận tiếp tục
 độc lập với phạm vi rộng ngày 17/11; goal mới không thay quyền holdout/broker.
 Chưa có candidate Challenge-qualified; các số software không thay edge proof.
