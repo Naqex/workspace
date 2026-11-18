@@ -1,29 +1,36 @@
 # Current context — Naqex Workspace
 
-18/11/2026 · `RESEARCH: V25_RUNNING · ISO: DEV_GATE_FAIL · GBP: H1_SCENARIO_ONLY · PROP: NOT_QUALIFIED`.
+18/11/2026 · `RESEARCH: V25_DELIVERY · ISO: DEV_GATE_FAIL · GBP: H1_SCENARIO_ONLY · PROP: NOT_QUALIFIED`.
 
 ## Việc hiện tại
 
-V25 đang chạy theo [protocol](research/CORPUS-ISOLATION-V25-PROTOCOL-20261118.md), commit427b3b7 trước outcome.
+V25 đã chốt theo [protocol](research/CORPUS-ISOLATION-V25-PROTOCOL-20261118.md), commit427b3b7 trước outcome.
+[Kết quả](research/CORPUS-ISOLATION-V25-RESULTS-20261118.md) /
+[JSON](research/CORPUS-ISOLATION-V25-RESULTS-20261118.json).
 Nhánh `codex/corpus-mining-and-isolation-v25`; PR103 đã merge0bb221e, nhánhV24 đã xóa.
 Trader PR33 đã merge74dad35d (5CI), gitlink cập nhật; 83Python PASS/0skip+53subtests,
 isolation-only actual không DB/process; chưa deploy/restart. Source PR32/lane solo giữ nguyên.
-Inventory extended paths đọc lại đủ48.425 lỗi cũ; full D/E scan đang chạy, private job
-`execution-v1/corpus-isolation-v25-20261118`, stdout `.runtime/v25-inventory.stdout`.
+Inventory đọc lại đủ48.425path cũ;273.378content candidates/0file-read errors.
+Rà metadata v2 hết traversal error với2VI protected fixture exclusions rõ; không full-tree coverage.
+1.029profiles gồm nhiều Python/C#;24structural, không phải24bot cóedge;1newMQL/Pinepath làcontrol.
+Private job `execution-v1/corpus-isolation-v25-20261118` giữ v1/v2/rawstderr/negative attempts.
 ISO c duy nhất: net26,7599R/DD12,2419R>baseline12,2065R, fail cảordering;0later/MC children.
 GBP nguyên entry/SL: parity300/300 Dev2022–23; [card H1 diagnostic](research/GBPUSD-V25-H1-DIAGNOSTIC-CARD-20261118.md)
 có883raw/830fill/0missingendpoint, .25/.50 markedDD15,562/26,521R, không thay tick/M1.
 Baseline exact-gate audit369raw/3recipes:0membership delta cả12/15; giữ initial
 audit failure do nhầm rounded-native với unrounded-Stage0 contract và bản sửa.
-Corpus/Top10/Stage0 E1 đang chuẩn bị theo [card](research/CORPUS-ENGULFING-RSI-CARD-20261118.md).
-Performance final chưa đo; không lấy correctness run hay concurrent scan làm speed acceptance.
+CorpusTop10 cùng họ mẫu nến/oscillator; chỉ1E1 theo [card](research/CORPUS-ENGULFING-RSI-CARD-20261118.md):
+85 tín hiệu,13–15 tín hiệu/năm;3năm meanmarkout âm;Stage0fail,0SL-activechild, không dùnghorizonphụ cứu.
+Final1.358PASS/0skip,giữ1.340IDs;full13,1008s<13,5;smoke78IDs10/10<.72,max.6845s.
+10Zstdtables77.520.660→2.684.096bytes;decompress/hash vàcodebindings đốisoát.
+Không mởgiá2024–26,0new105-start/5000-drawchildren. CI/PRfinal ởprivate completion-receipt saupublish.
 Giữ VI WIP, source/negative attempts, BASE_GUARD; không broker, no new authority.
 
 ## V24 và tiếp nhận solo lane (lịch sử đã merge)
 
 Tiếp nhận từ lane `xingchiapi-astra`: [adoption report](research/SOLO-LANE-ADOPTION-20261117.md).
 PR103 bổ sung exact cost caps/source quote age; 1.340 PASS/0skip, giữ đủ 1.335 IDs cũ.
-Không nhận GBP/S02 vào BASE_GUARD; Trader PR32 chưa merge/deploy; VI WIP nguyên vẹn.
+Không nhận GBP/S02 vào BASE_GUARD; V25 đã port chọn lọc quaTraderPR33, chưa deploy; VI WIP nguyên vẹn.
 
 **V24: connector reuse/Bot Lab có source và fixtures; P80 rớt, speed targets chưa đạt.**
 [Kết quả](research/PARETO-MT5-BOT-LAB-V24-RESULTS-20261117.md) /
@@ -48,7 +55,7 @@ Log buffering thử không cải thiện đã revert; giữ mọi attempts, thi�
 đo source mới sau exact-minute-grid fix; không retry chọn streak.
 Private job `execution-v1/pareto-mt5-bot-lab-v24-20261117` giữ source inventory/Zstd,
 reviews/corrections, P80 decision, performance samples, native process-tree smoke/CLI receipts.
-Không worker còn chạy. PR103 để mở; exact-head3CI/downloaded IDs/completion receipt chốt sau push.
+Không worker còn chạy. PR103 đã merge0bb221e trongV25; exact-head3CI/downloaded IDs/completion receipt lịch sử giữ ởjobV24.
 Giữ Trader pin930fa768 và VI WIP, không broker orders/deploy/payout thật.
 
 ## V23 đã merge (lịch sử)
