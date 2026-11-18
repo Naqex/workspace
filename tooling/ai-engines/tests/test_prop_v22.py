@@ -83,7 +83,11 @@ class V22Tests(unittest.TestCase):
         self.assertFalse(r['read_only_ready']);self.assertEqual(s.calls,[])
 
     def test_preflight_demo_account_and_reported_ping_units(self):
-        s=sdk_fixture();r=runner.check_mt5_ready(sdk=s,inventory=INVENTORY)
+        s=sdk_fixture()
+        # Model the terminal returning a fresher tick while the request is in flight.
+        wall = iter(1700000000 + i / 100 for i in range(100))
+        with patch.object(runner.time, "time", side_effect=lambda: next(wall)):
+            r=runner.check_mt5_ready(sdk=s,inventory=INVENTORY)
         self.assertTrue(r['read_only_ready']);self.assertEqual(r['last_reported_broker_ping_ms'],153)
         self.assertFalse(r['shadow_ready']);self.assertFalse(r['ping_is_fresh_network_measurement'])
         self.assertNotIn('login',r['account']);self.assertEqual(s.calls[-1],('shutdown',))

@@ -78,7 +78,7 @@ cùng folder là gợi ý, không chứng minh cùng bot. Overlay/hash và nội
 report nằm trong private job; không sửa profiles V25 đã seal hoặc publish source.
 
 Nguồn định dạng: [MT5 tester reports](https://www.metatrader5.com/en/terminal/help/algotrading/testing_report)
-và [MT4 tester report](https://www.metatrader4.com/en/trading-platform/help/autotrading/tester/tester_report).
+và [MT4 tester results](https://www.metatrader4.com/en/trading-platform/help/overview/strategy_tester/strategy_tester_results).
 Actual supported layouts được khóa bằng fixtures; không coi parser là compiler
 hoặc hỗ trợ mọi version/ngôn ngữ của terminal.
 

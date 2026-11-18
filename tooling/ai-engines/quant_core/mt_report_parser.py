@@ -1,6 +1,7 @@
 """Bounded MT presets and tester tables; never execute settings or infer a strategy."""
 from collections import defaultdict
-from decimal import Decimal,InvalidOperation
+from decimal import Decimal
+from datetime import datetime
 import hashlib
 import json
 import re
@@ -112,8 +113,11 @@ def canonical(row,header):
         raise ValueError("INVALID_REPORT_TRADE_GEOMETRY")
     net=number(row["net_profit"]) if row.get("net_profit") else (
         number(row["profit"])+sum(number(row.get(k) or "0") for k in ("commission","swap","fee","tax")))
-    return dict(symbol=symbol,side=side.upper(),open_time=timestamp(row["open_time"]),
-        close_time=timestamp(row["close_time"]),volume=float(volume),price=float(price),
+    open_time, close_time = timestamp(row["open_time"]), timestamp(row["close_time"])
+    if datetime.fromisoformat(close_time) < datetime.fromisoformat(open_time):
+        raise ValueError("REPORT_CLOSE_PRECEDES_ENTRY")
+    return dict(symbol=symbol,side=side.upper(),open_time=open_time,
+        close_time=close_time,volume=float(volume),price=float(price),
         sl=float(number(row.get("sl") or "0")),tp=float(number(row.get("tp") or "0")),
         profit=float(net),profit_scope="net from reported signed costs",timezone_inferred=False)
 
@@ -133,6 +137,40 @@ def table_records(headers,rows):
         value={name:safe_value(name,item) for name,item in zip(names,row) if name}
         if value:output.append(value)
     return output
+
+
+def mt4_operations(records, header, warnings):
+    """Pair an MT4 tester operation only with its own unambiguous order ticket."""
+    pending = defaultdict(list)
+    closed = []
+    entries = {"buy", "sell"}
+    exits = {"close", "s/l", "t/p", "close at stop", "stop loss", "take profit"}
+    for row in records:
+        side, ticket = row.get("side", "").casefold(), row.get("order")
+        if side not in entries | exits:
+            continue
+        if not ticket:
+            warnings.append("MT4_ORDER_TICKET_REQUIRED")
+            continue
+        if side in entries:
+            pending[ticket].append(row)
+            continue
+        candidates = pending.pop(ticket, [])
+        if len(candidates) != 1:
+            warnings.append("MT4_ORDER_PAIRING_INCOMPLETE")
+            continue
+        entry = candidates[0]
+        try:
+            if number(entry["volume"]) != number(row["volume"]):
+                raise ValueError("MT4_PARTIAL_CLOSE")
+            report = dict(entry, open_time=entry["time"], close_time=row["time"])
+            report.update({name: row[name] for name in ("profit", "net_profit", "commission", "swap", "tax", "fee") if row.get(name)})
+            closed.append(canonical(report, header))
+        except (KeyError, ValueError, TypeError):
+            warnings.append("MT4_ORDER_PAIRING_INCOMPLETE")
+    if pending:
+        warnings.append("MT4_OPEN_OR_PARTIAL_ORDERS")
+    return closed
 
 
 def extract_rows(raw,suffix):
@@ -187,21 +225,29 @@ def report_bytes(raw,suffix):
     orders=[];deals=[];closed=[];warnings=[];recognised=0
     for i,row in enumerate(rows):
         keys={ALIASES.get(key(x),"") for x in row}
-        kind=("closed" if {"open_time","close_time","volume","price"}<=keys else
+        columns = [ALIASES.get(key(x), "") for x in row]
+        positions_layout = columns.count("time") == 2 and {"side", "volume", "price", "profit"} <= keys
+        kind=("closed" if {"open_time","close_time","volume","price"}<=keys or positions_layout else
               "deals" if {"deal","direction","volume","price","time"}<=keys else
-              "orders" if {"order","state","volume"}<=keys else None)
+              "orders" if {"order","state","volume"}<=keys else
+              "mt4_operations" if {"order","side","time","volume","price","profit"}<=keys else None)
         if kind is None:continue
         recognised+=1
         records=table_records(row,rows[i+1:])
         if kind=="closed":
             for record in records:
                 if record.get("side","").casefold() not in ("buy","sell"):continue
+                if positions_layout:
+                    record.update(open_time=record.get("time"), close_time=record.get("end_time"))
                 try:closed.append(canonical(record,header))
-                except (ValueError,KeyError):warnings.append("CLOSED_ROW_INCOMPLETE")
+                except (ValueError,KeyError,TypeError):warnings.append("CLOSED_ROW_INCOMPLETE")
         elif kind=="deals":deals.extend(records)
+        elif kind=="mt4_operations":
+            orders.extend(records)
+            closed.extend(mt4_operations(records, header, warnings))
         else:orders.extend(records)
     positions=defaultdict(list)
-    for row in deals:
+    for row in deals if not closed else ():
         if row.get("side","").casefold() not in ("buy","sell"):continue
         if not row.get("position"):
             warnings.append("DEAL_POSITION_ID_REQUIRED");continue
@@ -212,12 +258,13 @@ def report_bytes(raw,suffix):
         entry=next(r for r in values if r["direction"].casefold()=="in")
         exit=next(r for r in values if r["direction"].casefold()=="out")
         try:
-            if number(entry["volume"])!=number(exit["volume"]) or entry["side"].casefold()==exit["side"].casefold():
+            if (number(entry["volume"])!=number(exit["volume"]) or entry["side"].casefold()==exit["side"].casefold()
+                    or entry.get("symbol") != exit.get("symbol")):
                 raise ValueError("DEAL_PAIR_MISMATCH")
             row=dict(entry,open_time=entry["time"],close_time=exit["time"],
                      net_profit=str(sum(number(r.get(k) or "0") for r in values for k in ("profit","commission","swap","fee"))))
             closed.append(canonical(row,header))
-        except (KeyError,ValueError):warnings.append("DEAL_PAIR_INCOMPLETE")
+        except (KeyError,ValueError,TypeError):warnings.append("DEAL_PAIR_INCOMPLETE")
     return dict(schema="MTTesterReport-v1",sha256=hashlib.sha256(raw).hexdigest(),format=suffix,
         header=header,orders=orders,deals=deals,trades=closed,recognized_tables=recognised,
         warnings=sorted(set(warnings)),clone_ready=bool(closed) and not warnings,

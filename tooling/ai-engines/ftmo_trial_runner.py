@@ -74,9 +74,10 @@ def check_mt5_ready(*, terminal=None, sdk=None, inventory=None,expected_binding=
         r["terminal_connected"]=bool(ti.get("connected"))
         ping=ti.get("ping_last")
         if isinstance(ping,(int,float)) and math.isfinite(ping) and ping>0:r["last_reported_broker_ping_ms"]=ping/1000
-        symbols={};now=int(time.time()*1000)
+        symbols={}
         for asset in ASSETS:
             spec=sdk.symbol_info(asset);tick=sdk.symbol_info_tick(asset) if spec is not None else None
+            now=int(time.time()*1000)
             quote=tick._asdict() if tick is not None else {}
             if native_clock and quote.get('time_msc') is not None:
                 from ftmo_connection import quote_utc_msc

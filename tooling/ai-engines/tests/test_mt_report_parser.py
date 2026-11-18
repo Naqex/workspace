@@ -63,6 +63,26 @@ class PresetTests(unittest.TestCase):
 
 
 class TesterReportTests(unittest.TestCase):
+    def test_mt4_native_operations_pair_by_ticket_and_keep_signed_pnl(self):
+        raw = table([["Symbol:", "EURUSD"],
+            ["#", "Time", "Type", "Order", "Size", "Price", "S/L", "T/P", "Profit", "Balance"],
+            [1, "2023.01.03 08:00:00", "buy", 7, "0.10", "1.06000", "1.05800", "1.06200", "", ""],
+            [2, "2023.01.03 10:00:00", "s/l", 7, "0.10", "1.05800", "1.05800", "1.06200", "-20.70", "4979.30"]])
+        result = report_bytes(raw, ".htm")
+        self.assertTrue(result["clone_ready"])
+        self.assertEqual(len(result["orders"]), 2)
+        self.assertEqual(result["trades"][0]["profit"], -20.7)
+
+    def test_positions_layout_uses_second_time_and_does_not_duplicate_deals(self):
+        raw = table([["Time", "Position", "Symbol", "Type", "Volume", "Price", "S/L", "T/P",
+                      "Time", "Price", "Commission", "Swap", "Profit"],
+                     ["2023.01.03 08:00:00", 42, "EURUSD", "buy", "0.10", "1.06000", "1.05800",
+                      "1.06200", "2023.01.03 10:00:00", "1.06200", "-0.70", "0", "20"]])
+        result = report_bytes(raw + mt5(), ".html")
+        self.assertTrue(result["clone_ready"])
+        self.assertEqual(len(result["trades"]), 1)
+        self.assertEqual(result["trades"][0]["close_time"], "2023-01-03 10:00:00")
+
     def test_mt4_closed_table_headers_costs_and_metadata(self):
         r=report_bytes(mt4(),".htm")
         self.assertTrue(r["clone_ready"])
