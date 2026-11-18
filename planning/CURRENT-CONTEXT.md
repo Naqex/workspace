@@ -4,6 +4,10 @@
 
 ## Việc hiện tại
 
+Trần bật/tắt từng nhánh BASE theo quý chỉ thêm 942,80 USD/năm
+ở PRIMARY 2018–2020 ngay cả khi biết trước kết quả. Gác luật bốn
+quý và replay tài khoản. [Kết quả](research/PROP-QUARTER-SLEEVE-CEILING-20261119.md).
+
 S01 GBPUSD giữ tới 20:30 giảm 2,68R so với 20:00 trên cùng 287
 lệnh tick. Cụm 2018–2020 vẫn thiếu đường để xác nhận; gác replay.
 [Kết quả](research/PROP-GBP-S01-EXIT-CLOCK-20261119.md).

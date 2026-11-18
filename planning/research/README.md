@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**Trần bật/tắt BASE theo quý.** PRIMARY 2018–2020 hụt mốc
+1.000 USD/năm ngay cả khi chọn đúng mọi quý âm.
+[Kết quả](PROP-QUARTER-SLEEVE-CEILING-20261119.md).
+
 **GBPUSD S01 so giờ thoát.** Cùng 287 lệnh tick, hạn gốc 20:30 mất
 2,68R so với 20:00. Cận 2018–2020 và kiểm nguồn củng cố quyết định gác.
 [Kết quả](PROP-GBP-S01-EXIT-CLOCK-20261119.md).
