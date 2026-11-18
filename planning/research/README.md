@@ -1,9 +1,11 @@
 # Tra cứu research đã có
 
-**Dầu/CAD và phần lệch FX.** Dầu/CAD chặn ở nguồn, EURUSD rớt Stage‑0
-với 271/660 tín hiệu qua phí và 0/6 năm đạt markout.
-[Protocol](PROP-OIL-CAD-AND-FX-RESIDUAL-PROTOCOL-20261118.md) ·
-[Kết quả](PROP-OIL-CAD-AND-FX-RESIDUAL-RESULTS-20261118.md).
+**Dầu/CAD và phần lệch FX.** Pilot tiếp nối lấy được tick USD/CAD.
+Luật WTI → USD/CAD khóa trước đo tạo 498 tín hiệu và trượt Stage‑0.
+[Card](PROP-OIL-CAD-STAGE0-CARD-20261118.md) ·
+[Kết quả](PROP-OIL-CAD-STAGE0-RESULTS-20261118.md).
+Luật EURUSD phần lệch FX giữ 271/660 tín hiệu qua phí và 0/6 năm đạt
+markout. [Kết quả EURUSD](PROP-OIL-CAD-AND-FX-RESIDUAL-RESULTS-20261118.md).
 
 **EURUSD và lợi suất Mỹ hai năm.** Trượt Stage‑0 với 342/988 tín hiệu
 qua cap phí. [Kết quả](PROP-EURUSD-US-RATES-RESULTS-20261118.md) ·

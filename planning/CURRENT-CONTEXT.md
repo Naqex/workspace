@@ -4,10 +4,14 @@
 
 ## Việc hiện tại
 
-Đã rà hai đầu mối từ tài liệu gốc. Dầu/CAD thiếu nguồn đồng bộ đủ
-kỳ. Luật EURUSD hồi quy phần lệch rổ FX tạo 660 tín hiệu, 271 qua
-phí và 0/6 năm đạt markout. Giữ BASE_GUARD làm đối chứng.
-[Kết quả](research/PROP-OIL-CAD-AND-FX-RESIDUAL-RESULTS-20261118.md)
+Đã gỡ nút nguồn WTI → USD/CAD. Luật khóa trước đo tạo 498 tín hiệu
+thô trên 2018–2023 và trượt Stage‑0 vì lợi thế sau phí hụt sàn từng
+năm. Giữ BASE_GUARD làm đối chứng ở `NOT_QUALIFIED`.
+[Kết quả WTI → USD/CAD](research/PROP-OIL-CAD-STAGE0-RESULTS-20261118.md)
+
+Luật EURUSD hồi quy phần lệch rổ FX tạo 660 tín hiệu, 271 qua phí và
+0/6 năm đạt markout.
+[Kết quả EURUSD](research/PROP-OIL-CAD-AND-FX-RESIDUAL-RESULTS-20261118.md)
 
 EURUSD phiên Mỹ theo hướng lợi suất hai năm trượt Stage‑0. 988 tín
 hiệu thô, 342 qua cap phí, 2/6 năm đạt ngưỡng markout sau phí.

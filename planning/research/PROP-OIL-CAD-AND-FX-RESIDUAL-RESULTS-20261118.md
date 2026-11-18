@@ -5,7 +5,10 @@ vướng nguồn. Luật hồi quy phần lệch EURUSD trượt Stage‑0. Gi�
 làm đối chứng ở `NOT_QUALIFIED` và tiếp tục mục tiêu tìm lợi thế mới.
 [Protocol khóa trước đo tại `2ad08ea`](PROP-OIL-CAD-AND-FX-RESIDUAL-PROTOCOL-20261118.md)
 
-## 1. Dầu dẫn USD/CAD — `SOURCE_BLOCKED`
+## 1. Dầu dẫn USD/CAD — `SOURCE_BLOCKED` tại checkpoint này
+
+Pilot tiếp nối đã lấy được nguồn chuẩn thời gian và chạy luật khóa
+trước đo. [Kết quả Stage‑0 mới](PROP-OIL-CAD-STAGE0-RESULTS-20261118.md)
 
 Ferraro–Rogoff–Rossi phân biệt tương quan đồng thời và dầu trễ một ngày.
 Kết quả dự báo với dầu trễ phụ thuộc khoảng ước lượng và thay đổi theo
