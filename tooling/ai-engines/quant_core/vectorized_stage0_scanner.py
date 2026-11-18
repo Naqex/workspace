@@ -65,9 +65,13 @@ def deadlines(entries, horizon, calendar):
 
 def endpoint_indices(bars, targets, cutoff):
     times = bars["t"]
-    indices = times.searchsorted(targets)
-    safe = np.minimum(indices, len(times) - 1)
-    ok = (targets < cutoff) & (indices < len(times)) & (times[safe] >= targets) & (times[safe] - targets <= 60000)
+    admitted = times[:times.searchsorted(cutoff)]
+    if not len(admitted) and np.size(targets):
+        raise ValueError("no_admitted_endpoint_prices")
+    indices = admitted.searchsorted(targets)
+    safe = np.minimum(indices, len(admitted) - 1)
+    observed = admitted[safe]
+    ok = (indices < len(admitted)) & (observed >= targets) & (observed - targets <= 60000)
     return safe, ok
 
 

@@ -61,10 +61,13 @@ class VectorTests(unittest.TestCase):
             self.assertLess(deadlines(at, h, cal)[0], stamp("2023-11-24T20:30"))
 
     def test_endpoint_never_fills_unknown_or_reads_past_cutoff(self):
-        bars = np.zeros(2, dtype=BAR)
-        bars["t"] = [60000, 180000]
-        _, ok = endpoint_indices(bars, np.array([0, 60001, 180000]), 180000)
-        self.assertEqual(ok.tolist(), [True, False, False])
+        bars = np.zeros(4, dtype=BAR)
+        bars["t"] = [60000, 120000, 240000, 300000]
+        selected, ok = endpoint_indices(bars, np.array([0, 60001, 120001, 180000, 239999, 240000, 360000]), 240000)
+        self.assertEqual(ok.tolist(), [True, True, False, False, False, False, False])
+        self.assertTrue((bars["t"][selected] < 240000).all())
+        with self.assertRaisesRegex(ValueError, "no_admitted_endpoint_prices"):
+            endpoint_indices(bars, np.array([0]), 60000)
 
     def test_late_day_and_post_friday_flat_never_price_a_backward_or_weekend_trade(self):
         first, end = stamp("2023-01-01"), stamp("2024-01-01")
