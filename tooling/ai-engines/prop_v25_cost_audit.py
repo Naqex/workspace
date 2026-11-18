@@ -7,6 +7,14 @@ from prop_v15_evidence import bars_for
 from evidence_compaction import EvidenceStore
 
 
+def frozen_entry_cost_units(asset, entry, spread):
+    if asset == "XAUUSD":
+        # Historical Stage-0 admission used unrounded entry notional. Native
+        # round-trip money rounds commissions separately; do not mix contracts.
+        return Fraction(spread + 400) + Fraction(14 * entry, 1000000), 1000
+    return Fraction(spread + 9), 100000
+
+
 def run():
     config = read(V14 / "candidate-freeze.json")
     rows = read(V14 / "development.json")["rows"]
@@ -29,11 +37,7 @@ def run():
                 p0, level = int(entry[n]), int(stop[n])
                 distance = abs(p0-level)
                 spread = int(bars["ao"][i[n]] - bars["bo"][i[n]])
-                if asset == "XAUUSD":
-                    cost = Fraction(spread + 400) + Fraction(2 * ((p0*7+50000)//100000), 10)
-                    scale = 1000
-                else:
-                    cost, scale = Fraction(spread + 9), 100000
+                cost, scale = frozen_entry_cost_units(asset, p0, spread)
                 if abs(float(cost)/scale-float(old_friction[n])) > 1e-10:
                     raise ValueError("FROZEN_FRICTION_MODEL_MISMATCH")
                 for cap in (12,15):
@@ -48,7 +52,7 @@ def run():
                 archive_sha256=store.canonical_sha(V14 / f"{asset}-Dev-paths.npz")))
     save("baseline-exact-cost-membership.json", dict(rows=output,
         source_sha256=sha(__file__), candidate_freeze_sha256=sha(V14/"candidate-freeze.json"),
-        source_semantics="same frozen spread + twice rounded entry commission + market slippage",
+        source_semantics="same frozen spread + twice unrounded entry notional + market slippage; distinct from native money rounding",
         historical_producers_modified=False, prices2024_2026_read=False))
     print([(r["id"], r["raw"], {k:len(v["restored"]) for k,v in r["caps"].items()}) for r in output])
 

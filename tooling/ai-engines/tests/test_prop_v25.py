@@ -3,6 +3,7 @@ from fractions import Fraction
 from prop_v25_risk import iso_weights, decide
 from prop_v25_gbp import exact_pass, H1ScenarioQuotes, scenario_trades
 from quant_core.market_data_store import BAR
+from prop_v25_cost_audit import frozen_entry_cost_units
 import numpy as np
 
 
@@ -40,3 +41,8 @@ class GBPResolutionTests(unittest.TestCase):
         self.assertEqual(q["t"].tolist(), [0,1200000,2400000,3599999])
         self.assertEqual(q["b"].tolist(), [100,90,130,110])
         self.assertEqual(len(H1ScenarioQuotes(bars, "OHLC").points(0, 0)), 1)
+
+    def test_frozen_raw_admission_does_not_silently_adopt_native_fee_rounding(self):
+        cost, scale = frozen_entry_cost_units("XAUUSD", 1340879, 338)
+        self.assertEqual(cost / scale, Fraction("0.756772306"))
+        self.assertNotEqual(cost / scale, Fraction("0.7568"))
