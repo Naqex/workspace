@@ -37,3 +37,7 @@ e42d0bca7690b3fff8f77b40724373c8bf5b79cf:planning/checkpoints/workspace-next-sta
 # Exact historical findings only; no path, rule or general hash exemption.
 6e1c254e88ce686d8ab39a543c4561390431a30f:planning/research/PROP-QUALIFICATION-CAMPAIGN-RESULTS-20261114.json:generic-api-key:3514
 6e1c254e88ce686d8ab39a543c4561390431a30f:planning/research/PROP-QUALIFICATION-CAMPAIGN-RESULTS-20261114.json:generic-api-key:3522
+
+# Reviewed 2026-11-18: a duplicate-signal guard error code, not a credential.
+# The local variable named key is the tuple (decision timestamp, side).
+5ccdc6d0690fd1f6efd5575460400985b807ec39:tooling/ai-engines/solo_validation_replay.py:generic-api-key:191
