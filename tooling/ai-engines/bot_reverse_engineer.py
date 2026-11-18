@@ -2,6 +2,7 @@
 import argparse,json,time
 from pathlib import Path
 from quant_core.bot_lab import inspect_bytes,log_rows,fingerprint
+from quant_core.native_paths import read_bounded
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);g=p.add_mutually_exclusive_group(required=True)
@@ -10,9 +11,7 @@ def main():
     p.add_argument('--friction',type=float);p.add_argument('--natural-sl',type=float);p.add_argument('--retention',type=float)
     a=p.parse_args();started=time.perf_counter();path=a.inspect or a.clone_log
     try:
-        if not path.is_file() or path.is_symlink():raise ValueError('REGULAR_SAMPLE_FILE_REQUIRED')
-        if path.stat().st_size>16*1024*1024:raise ValueError('INPUT_SIZE_LIMIT_16MIB')
-        raw=path.read_bytes()
+        raw=read_bounded(path,16*1024*1024)
         if a.inspect:
             r=inspect_bytes(raw,path.suffix.lower())
             from quant_core.research_fast_fail import toxicity_scale
