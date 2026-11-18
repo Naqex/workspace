@@ -1,8 +1,13 @@
 # Current context — Naqex Workspace
 
-18/11/2026 · `RESEARCH: ĐÃ RÀ 43 KHOẢNG GIÁ DEVELOPMENT · PORTFOLIO: BASE_GUARD · PROP: NOT_QUALIFIED`.
+18/11/2026 · `RESEARCH: US500 ETF VÀ EURUSD COT DỪNG Ở STAGE-0 · PORTFOLIO: BASE_GUARD · PROP: NOT_QUALIFIED`.
 
 ## Việc hiện tại
+
+US500 cuối phiên theo quy mô UPRO/SPXU âm 6/6 năm. Phép thử độc lập
+EURUSD theo vị thế hợp đồng EUR qua cổng markout ở 1/6 năm. Cả hai
+dừng ở Stage‑0 trên Development 2018–2023.
+[Kết quả](research/PROP-US500-LETF-AUM-AND-EUR-COT-RESULTS-20261118.md)
 
 Đã hiệu chỉnh đồng hồ HistData trong phép đo nhạy EURUSD F5. Thiếu
 trung vị sau 12 tháng là 4.873,10 USD PRIMARY và 4.926,57 USD STRICT.

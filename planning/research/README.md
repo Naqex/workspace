@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+**US500 ETF và EURUSD COT.** Hai công thức đã khóa trượt Stage‑0.
+US500 âm cả sáu năm, phần so cùng biến động phủ 78/751 tín hiệu có giá.
+EURUSD COT âm trung bình 2,83 pip/lệnh sau stress.
+[Kết quả](PROP-US500-LETF-AUM-AND-EUR-COT-RESULTS-20261118.md).
+
 **Đồng hồ EURUSD F5 và đấu giá Treasury.** Đã hiệu chỉnh phép đo nhạy
 12 tháng từ 18 xuống 17 lệnh. Luật Treasury trượt Stage‑0 với 152/438
 qua phí và 0/6 năm đạt sàn markout.
