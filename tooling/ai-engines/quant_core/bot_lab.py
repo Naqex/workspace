@@ -31,6 +31,9 @@ def indicators_in(code):
     return sorted(set(re.findall(r'\b(?:iMA|iATR|iRSI|iBands|iADX|iCCI|iMFI|iStochastic|iMACD|iSAR|iCustom|SMA|EMA|ATR|RSI|CCI|MFI|MACD|Donchian|SimpleMovingAverage|ExponentialMovingAverage|AverageTrueRange|RelativeStrengthIndex|BollingerBands|ta\.\w+)\b',code,re.I)))
 
 def inspect_bytes(raw,suffix):
+    if suffix in {".set",".ini",".chr",".htm",".html",".xml"}:
+        from quant_core.mt_report_parser import PRESETS,preset_bytes,report_bytes
+        return preset_bytes(raw,suffix) if suffix in PRESETS else report_bytes(raw,suffix)
     if suffix not in SOURCE|BINARY:raise ValueError('UNSUPPORTED_BOT_FORMAT')
     if len(raw)>16*1024*1024:raise ValueError('BOT_SIZE_LIMIT_16MIB')
     digest=hashlib.sha256(raw).hexdigest();findings=[]
@@ -109,14 +112,26 @@ class Tables(HTMLParser):
 
 def log_rows(raw,suffix):
     if len(raw)>16*1024*1024:raise ValueError('LOG_SIZE_LIMIT_16MIB')
-    s=raw.decode('utf-16' if raw.startswith((b'\xff\xfe',b'\xfe\xff')) else 'utf-8-sig')
+    if suffix in {'.htm','.html','.xml'}:
+        from quant_core.mt_report_parser import decode
+        s=decode(raw)
+    else:
+        s=raw.decode('utf-16' if raw.startswith((b'\xff\xfe',b'\xfe\xff')) else 'utf-8-sig')
     if suffix=='.json':
         v=json.loads(s);return v['trades'] if isinstance(v,dict) else v
     if suffix in ('.html','.htm'):
         p=Tables();p.feed(s)
         for i,row in enumerate(p.rows):
             if 'open_time' in row:return [dict(zip(row,r)) for r in p.rows[i+1:] if len(r)==len(row)]
-        raise ValueError('HTML_CANONICAL_TRADE_TABLE_REQUIRED')
+        from quant_core.mt_report_parser import report_bytes
+        result=report_bytes(raw,suffix)
+        if not result["clone_ready"]:raise ValueError("REPORT_PAIRING_OR_GEOMETRY_INCOMPLETE")
+        return result["trades"]
+    if suffix=='.xml':
+        from quant_core.mt_report_parser import report_bytes
+        result=report_bytes(raw,suffix)
+        if not result["clone_ready"]:raise ValueError("REPORT_PAIRING_OR_GEOMETRY_INCOMPLETE")
+        return result["trades"]
     if suffix!='.csv':raise ValueError('CSV_HTML_JSON_LOG_REQUIRED')
     dialect=csv.Sniffer().sniff(s[:4096],delimiters=',;\t');return list(csv.DictReader(io.StringIO(s),dialect=dialect))
 
