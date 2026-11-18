@@ -154,3 +154,95 @@ Bằng chứng tại
 | `series-receipt.json` | `80b6e720a87d6da655e454f64f60f2c9d3859233b25ae9a5deecafb368591604` |
 | `calendar-results.json.zst` | `e766c5bda2e4e8e0c116138deddcedb1a36a1c1037d7938e55553b5d8c668a84` |
 | `review.json` | `1da69681b46ef7853f31dccb218945e923c2e173678bb1e016df5391149e365f` |
+
+
+## Đối chiếu qua đêm và commission trên cùng 284 tín hiệu
+
+**Gác cả hướng kiểm tra vào sớm hơn.** Tính trọn chênh lệch
+từ close hôm trước đến 09:32 vẫn chỉ cho **+18,02 / +172,28
+USD/năm gross** ở hai cụm với lot tham chiếu đã khóa. Đây là
+biến động định giá. Kho giá chưa chứng minh thời điểm có thể
+biết đủ IVV/IEF và khớp được trong khoảng ngoài phiên. Kết quả
+dưới đây giữ nguyên ba chuỗi hướng mua/bán và toàn bộ 284 ngày.
+
+### Tách bốn phần trên cùng nguồn US500
+
+Dùng mid Bid/Ask CFD tại năm mốc: close nến cash cuối ngày
+tín hiệu, open phiên sau, open 09:32 New York, open phút thoát
+đã khóa và close nến cash cuối. Mỗi ngày dùng cùng close trước
+làm mẫu số bp. USD gross dùng 1 USD/point/lot và lot được tính
+tại close trước bằng khoảng stop theo biến động IVV đã biết,
+ngân sách 150 USD, phí dự phòng gốc, bước lot 0,01 và margin
+tham chiếu 1:15. Lot ở 09:32 của sổ cũ chỉ dùng cho phép bỏ
+commission bên dưới. Close là mốc định giá, còn lệnh ở mốc đó
+chưa được kiểm khả năng khớp hay điều kiện quỹ.
+
+| Phần giá — Calendar 60/40 | 2018–2020, 136 ngày | 2021–2023, 143 ngày |
+|---|---:|---:|
+| Close trước → cash open | −0,663 point · −1,82 bp · −108,95 USD/năm | +1,788 point · +4,31 bp · +241,71 USD/năm |
+| Cash open → 09:32 | +1,015 point · +3,50 bp · +126,97 USD/năm | −0,671 point · −1,59 bp · −69,42 USD/năm |
+| 09:32 → phút thoát | +0,441 point · +2,95 bp · −81,01 USD/năm | +2,080 point · +4,84 bp · +192,67 USD/năm |
+| Phút thoát → cash close | +0,277 point · +1,23 bp · +10,14 USD/năm | +0,302 point · +0,79 bp · +38,53 USD/năm |
+| **Close → close** | **+1,069 point · +5,86 bp · −52,85 USD/năm** | **+3,498 point · +8,34 bp · +403,48 USD/năm** |
+
+Point và bp là trung bình trên ngày có đủ cả năm mốc.
+Dấu tiền có thể khác dấu của point vì ngày có lãi/lỗ dùng lot
+khác nhau. Bốn phần cộng đúng close-to-close trước khi làm tròn.
+Trên đúng 279 ngày, phần 09:32 đến phút thoát sau spread và
+2,50 point stress còn **−2,446 / −0,872 point/lệnh**. Bỏ đúng
+1 point commission cho **−1,446 / +0,128**. Spread tại entry
+và exit chỉ trừ một lần khi chuyển từ mid sang Bid/Ask thực thi.
+
+| Gross USD/năm, cùng lot tham chiếu | Trước 09:32, 2018–2020 / 2021–2023 | Close-to-close, 2018–2020 / 2021–2023 |
+|---|---:|---:|
+| Calendar 60/40 | +18,02 / +172,28 | −52,85 / +403,48 |
+| Chỉ IVV | −199,18 / +122,86 | +141,99 / +71,12 |
+| Luôn BUY | +363,29 / +187,78 | +254,77 / +29,37 |
+
+Khoảng ngoài phiên đổi dấu giữa hai cụm. Ngay cả tổng trước
+09:32 gồm thêm hai phút đầu phiên cũng dưới mốc 1.000 USD/năm
+và kém luôn BUY ở cả hai cụm. Không cần định giá tiếp giả
+thuyết khớp sau giờ công bố dữ liệu, swap, cổ tức CFD hay đóng
+trước kỳ nghỉ. Phép đo này giới hạn ở CFD và lịch đã khóa.
+Kết quả paper dùng futures và hệ số ở tần suất ngày vẫn là
+phạm vi khác. [Nghiên cứu gốc §2.2 và §4.2](https://www.nber.org/system/files/working_papers/w33554/revisions/w33554.rev0.pdf).
+
+Có **279/284** ngày đủ cả năm mốc. Ngày vào 28/04/2020 và
+24/11/2020 thiếu mốc phiên mới. Ba ngày 29/04/2020, 25/11/2020
+và 27/11/2023 thiếu close trước. 282/284 có đủ đoạn 09:32
+đến phút thoát, trong đó 3 ngày chưa đủ để phân rã toàn phiên.
+Cả 284 vẫn ở hồ sơ tín hiệu, các mốc trống giữ là chưa đo.
+Không đổi mẫu của sổ 216 lệnh có stop.
+
+### Phần thay đổi khi commission về 0
+
+FTMO công bố chỉ số mô phỏng miễn commission. Trên đúng 216
+lệnh đã định giá, cộng **1 point × lot gốc** vào PnL mỗi lệnh,
+giữ trượt stress 1,50 point/vòng cùng spread, SL, giá khớp, lot
+và điều kiện chọn lệnh đã khóa. Đây là phép tính độ nhạy trên
+sổ cũ. [Commission chỉ số FTMO](https://ftmo.com/en/blog/zero-commissions-on-indices/).
+
+| Năm hoặc cụm | Lệnh | Tiền cộng lại cả kỳ (USD) | Net 60/40 mới (USD/năm) |
+|---|---:|---:|---:|
+| 2018 | 25 | 79,48 | +180,98 |
+| 2019 | 18 | 76,69 | −520,13 |
+| 2020 | 43 | 121,51 | −153,52 |
+| **2018–2020** | **86** | **277,68** | **−164,22** |
+| 2021 | 37 | 121,50 | −71,18 |
+| 2022 | 47 | 85,38 | +605,52 |
+| 2023 | 46 | 141,11 | −420,53 |
+| **2021–2023** | **130** | **347,99** | **+37,94** |
+
+Còn hụt 1.164,22 / 962,06 USD/năm so với mốc 2% trên sổ 50k.
+Cùng phép tính phí, chỉ IVV đạt +106,57 / −185,89 USD/năm,
+còn luôn BUY đạt −143,22 / −418,42 USD/năm. Cả ba chuỗi
+được cộng lại đúng lượng commission trên mẫu so chung, nên
+khoảng cách PnL giữa chúng giữ nguyên.
+
+Bộ tính Decimal riêng kiểm lại 284 hướng giữ nguyên, 279
+phép cộng đủ mốc và 216 chỉnh phí. Lưu trong thư mục bằng chứng
+ở trên. `session-attribution-registration.md` SHA256
+`25f692b5a1ffb63aa0a74c751a14f87b12a26600b072e11849563beb28e61911`,
+`session-attribution.json.zst` SHA256
+`d16f92e7420b31fd0e37097cbcfda30b5ab3648c41e3376f32d8634365a4077d`.
+Giữ `BASE_GUARD` ở `NOT_QUALIFIED`. Chỉ dùng giá 2018–2023.

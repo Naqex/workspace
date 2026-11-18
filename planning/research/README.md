@@ -1,7 +1,7 @@
 # Tra cứu research đã có
 
 **US500 Calendar 60/40.** Dùng IVV/IEF trước phiên US500 kế tiếp.
-Sổ SL stress âm cả hai cụm, 29 tín hiệu thiếu đường giá cho sổ SL.
+Bỏ commission và tính phần giá trước 09:32 vẫn hụt mốc kinh tế.
 [Kết quả và đối chứng](PROP-US500-CALENDAR-REBALANCE-RESULTS-20261119.md).
 
 **Phân rã EURUSD PreECB R056.** Sổ có SL lãi 39,89 / 56,26 USD/năm

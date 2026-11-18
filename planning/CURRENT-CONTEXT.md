@@ -5,8 +5,8 @@
 ## Việc hiện tại
 
 Gác US500 Calendar 60/40. Hai cụm Development lỗ 256,78 và 78,06
-USD/năm trên 216/284 tín hiệu định giá được với SL. Phần thêm từ
-trái phiếu đổi dấu giữa hai cụm. [Kết quả](research/PROP-US500-CALENDAR-REBALANCE-RESULTS-20261119.md).
+USD/năm trên 216/284 tín hiệu định giá được với SL. Bỏ commission
+còn −164,22 / +37,94 USD/năm. Phần giá trước entry cũng hụt mốc. [Kết quả](research/PROP-US500-CALENDAR-REBALANCE-RESULTS-20261119.md).
 
 Gác EURUSD PreECB R056 cho mục tiêu payout. Sau phí BASE, luật cũ
 còn 39,89 / 56,26 USD/năm ở hai cụm Development. So cùng lot,
