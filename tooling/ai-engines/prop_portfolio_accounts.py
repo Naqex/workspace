@@ -4,6 +4,7 @@ The existing Account owns lifecycle, resets, loss rules and rewards. This
 adapter supplies instrument units, paired quote valuation and shared budgets.
 """
 from collections import Counter, defaultdict
+from copy import copy, deepcopy
 from datetime import date, datetime, timedelta, timezone
 from decimal import Decimal
 import numpy as np
@@ -17,6 +18,7 @@ from xau_h1_stage0_scan import funding_events
 
 ASSETS = ("XAUUSD", "EURUSD")
 THREE_ASSETS = (*ASSETS, "GBPUSD")
+S03_REPLAY_SCOPE = "S03_HISTORICAL_VALIDATION_2024"
 FIELDS = {"XAUUSD": ("b0", "a0"), "EURUSD": ("b1", "a1")}
 VALUE = {"XAUUSD": 1, "EURUSD": 10, "GBPUSD": 10}  # milli-USD / price grid / quantity step
 SLIP = {"XAUUSD": 200, "EURUSD": 20, "GBPUSD": 20}
@@ -530,12 +532,33 @@ def prague_midnights(start, end):
         day += timedelta(days=1)
 
 
-def replay(trades, readers, accounts, end=FINAL, progress=None, *, assets=ASSETS):
+def replay(trades, readers, accounts, end=FINAL, progress=None, *, assets=ASSETS,
+           replay_scope=None, checkpoints=(), checkpoint_callback=None):
     assets = checked_assets(assets)
     if set(readers) != set(assets) or any(account.assets != assets for account in accounts):
         raise ValueError("account_reader_asset_mismatch")
-    if assets == THREE_ASSETS and (end > END or any(getattr(r, "cutoff", END) > END for r in readers.values())):
+    # This declares a model window; the calling harness owns the frozen release.
+    if replay_scope is not None:
+        if (replay_scope != S03_REPLAY_SCOPE or assets != THREE_ASSETS
+                or type(end) is not int or end != FINAL):
+            raise ValueError("unregistered_replay_scope")
+        if any(type(getattr(r, "cutoff", None)) is not int or r.cutoff != FINAL
+               for r in readers.values()):
+            raise ValueError("S03_reader_cutoff")
+        if any(type(hour) is not int or not START <= hour < FINAL or hour % HOUR
+               for reader in readers.values() for hour in reader.files):
+            raise ValueError("S03_manifest_hour_scope")
+        if any(type(a.start) is not int or type(a.end) is not int
+               or not START <= a.start < a.end <= FINAL for a in accounts):
+            raise ValueError("S03_account_window")
+    elif assets == THREE_ASSETS and (end > END or any(getattr(r, "cutoff", END) > END for r in readers.values())):
         raise ValueError("three_asset_Development_cutoff")
+    checkpoints = tuple(checkpoints)
+    if (checkpoints not in ((), (END,))
+            or bool(checkpoints) != (checkpoint_callback is not None)
+            or checkpoints and (assets != THREE_ASSETS or end < END
+                                or not callable(checkpoint_callback))):
+        raise ValueError("unregistered_replay_checkpoint")
     provenance = any(account.track_quote_age for account in accounts)
     coverage = QuoteAgeCoverage(assets) if provenance else None
     for account in accounts:
@@ -544,12 +567,18 @@ def replay(trades, readers, accounts, end=FINAL, progress=None, *, assets=ASSETS
         if coverage is not None:
             for account in accounts:
                 account.quote_age_coverage = coverage.account(account, trades)
+        if checkpoints:
+            checkpoint_callback(_checkpoint(END, accounts, trades, coverage, None, set(), 0, 0))
         return [dict(account.dump(), joint_tick_marks=0) for account in accounts]
     actions = defaultdict(list)
     for i, t in enumerate(trades):
         if (t["asset"] not in assets or not START <= t["decision_msc"] <= t["entry_msc"] <= t["exit_msc"] < end or
                 t["entry_quote_index"] < 0 or t["exit_quote_index"] < 0):
             raise ValueError("trade_outside_replay_scope")
+        if replay_scope is not None and (type(t.get("deadline_msc")) is not int
+                or not t["entry_msc"] <= t["deadline_msc"]
+                or t["deadline_msc"] + MINUTE >= FINAL):
+            raise ValueError("S03_deadline_outside_scope")
         a = assets.index(t["asset"])
         actions[(t["entry_msc"], a, t["entry_quote_index"])].append(("entry", i, 0))
         actions[(t["exit_msc"], a, t["exit_quote_index"])].append(("exit", i, 0))
@@ -579,7 +608,17 @@ def replay(trades, readers, accounts, end=FINAL, progress=None, *, assets=ASSETS
             ticks_seen += len(rows)
 
     first = min(t["entry_msc"] for t in trades) // HOUR * HOUR
+    if replay_scope == S03_REPLAY_SCOPE and first >= END:
+        # An empty Development replay emits no actions. Appending only future
+        # trades must not inject historical resets into its ended sentinels.
+        keys = [key for key in keys if key[0] >= END]
+        first = END
+    if checkpoints:
+        first = min(first, min(checkpoints))
     for hour in range(first, end, HOUR):
+        if hour in checkpoints:
+            checkpoint_callback(_checkpoint(hour, accounts, trades, coverage, last,
+                                            active, ticks_seen, cursor))
         for i in active:
             reader = readers[trades[i]["asset"]]
             if hour not in reader.files:
@@ -624,9 +663,43 @@ def replay(trades, readers, accounts, end=FINAL, progress=None, *, assets=ASSETS
             progress("joint_tick_replay", hour=utc(hour).isoformat(), ticks=ticks_seen)
     if active:
         raise ValueError("joint_tick_replay_not_flat")
+    if end in checkpoints:
+        checkpoint_callback(_checkpoint(end, accounts, trades, coverage, last,
+                                        active, ticks_seen, cursor))
     if coverage is not None:
         coverage.finish(end)
         for account in accounts:
             if account.track_quote_age:
                 account.quote_age_coverage = coverage.account(account, trades)
     return [dict(account.dump(), joint_tick_marks=ticks_seen) for account in accounts]
+
+
+def _checkpoint(at, accounts, trades, coverage, last, active, ticks_seen, cursor):
+    """Detached boundary evidence, not a resumable account/stream checkpoint."""
+    def plain(value):
+        if isinstance(value, np.void):
+            return {name: plain(value[name]) for name in value.dtype.names}
+        if isinstance(value, np.generic):
+            return value.item()
+        if isinstance(value, dict):
+            return {key: plain(item) for key, item in value.items()}
+        if isinstance(value, (list, tuple, set)):
+            return [plain(item) for item in (sorted(value) if isinstance(value, set) else value)]
+        return deepcopy(value)
+
+    clipped = deepcopy(coverage)
+    if clipped is not None:
+        clipped.finish(at)
+    states = []
+    for account in accounts:
+        state = plain({key: value for key, value in vars(account).items()
+                       if key not in ("_trades", "end")})
+        if account.track_quote_age and clipped is not None:
+            boundary_account = copy(account)
+            boundary_account.end = min(account.end, at)
+            state["quote_age_coverage"] = clipped.account(boundary_account, trades)
+        states.append(state)
+    return dict(at_msc=at, accounts=states,
+                stream=dict(active_trade_indices=sorted(active), last_quote=plain(last),
+                            ticks_seen=ticks_seen, action_cursor=cursor),
+                coverage=plain(vars(clipped)) if clipped is not None else None)

@@ -5,10 +5,10 @@ import unittest
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from prop_campaign_source import DTYPE, END, HOUR, stamp
+from prop_campaign_source import DTYPE, START, END, FINAL, HOUR, stamp
 from prop_portfolio_accounts import (
     ASSETS, THREE_ASSETS, JOINT, PortfolioAccount, QuoteAgeCoverage,
-    entry_exit_fee, joint_dtype, joint_hour, prague_midnights, replay,
+    S03_REPLAY_SCOPE, entry_exit_fee, joint_dtype, joint_hour, prague_midnights, replay,
 )
 
 MINUTE = 60000
@@ -328,6 +328,182 @@ class CoverageTests(unittest.TestCase):
         c.finish(20 * MINUTE)
         self.assertEqual(len(c.gaps["GBPUSD"]), 1)
         self.assertEqual(c.gaps["GBPUSD"][0]["source_ordinal"], 1)
+
+
+class HistoricalValidationScopeTests(unittest.TestCase):
+    def readers(self, rows=None, cutoff=FINAL):
+        result = {asset: Reader((rows or {}).get(asset, {})) for asset in THREE_ASSETS}
+        for reader in result.values():
+            reader.cutoff = cutoff
+            reader.calls = []
+            original = reader.hour
+            reader.hour = lambda at, r=reader, read=original: (r.calls.append(at), read(at))[1]
+        return result
+
+    def run_account(self, start=START, end=FINAL, **extra):
+        return PortfolioAccount(start, end, "ASYM_FLAT", assets=THREE_ASSETS,
+                                fixed_asset_risk=RISK, track_quote_age=True, **extra)
+
+    def test_explicit_scope_accepts_2024_and_keeps_development_default(self):
+        readers = self.readers()
+        with self.assertRaisesRegex(ValueError, "Development_cutoff"):
+            replay([], readers, [self.run_account()], end=FINAL, assets=THREE_ASSETS)
+        result = replay([], readers, [self.run_account()], end=FINAL,
+                        assets=THREE_ASSETS, replay_scope=S03_REPLAY_SCOPE)
+        self.assertEqual(result[0]["entries"], 0)
+        self.assertTrue(all(not r.calls for r in readers.values()))
+
+    def test_scope_denials_precede_quote_reads(self):
+        for mutation, message in (
+            (lambda kw, rs, a: kw.update(replay_scope="S03"), "unregistered_replay_scope"),
+            (lambda kw, rs, a: kw.update(end=FINAL + HOUR), "unregistered_replay_scope"),
+            (lambda kw, rs, a: kw.update(end=END), "unregistered_replay_scope"),
+            (lambda kw, rs, a: kw.update(end=True), "unregistered_replay_scope"),
+            (lambda kw, rs, a: setattr(rs["GBPUSD"], "cutoff", END), "S03_reader_cutoff"),
+            (lambda kw, rs, a: setattr(rs["GBPUSD"], "cutoff", FINAL + HOUR), "S03_reader_cutoff"),
+            (lambda kw, rs, a: setattr(rs["GBPUSD"], "cutoff", None), "S03_reader_cutoff"),
+            (lambda kw, rs, a: rs["GBPUSD"].files.add(FINAL), "S03_manifest_hour_scope"),
+            (lambda kw, rs, a: rs["GBPUSD"].files.add(END + 1), "S03_manifest_hour_scope"),
+            (lambda kw, rs, a: rs["GBPUSD"].files.add(START - HOUR), "S03_manifest_hour_scope"),
+            (lambda kw, rs, a: setattr(a, "end", FINAL + HOUR), "S03_account_window"),
+            (lambda kw, rs, a: setattr(a, "start", a.end), "S03_account_window"),
+        ):
+            with self.subTest(message=message):
+                readers = self.readers()
+                a = self.run_account()
+                kwargs = dict(end=FINAL, assets=THREE_ASSETS, replay_scope=S03_REPLAY_SCOPE)
+                mutation(kwargs, readers, a)
+                with self.assertRaisesRegex(ValueError, message):
+                    replay([], readers, [a], **kwargs)
+                self.assertTrue(all(not r.calls for r in readers.values()))
+        with self.assertRaisesRegex(ValueError, "unregistered_replay_scope"):
+            replay([], {a: Reader({}) for a in ASSETS}, [],
+                   end=FINAL, replay_scope=S03_REPLAY_SCOPE)
+
+    def test_deadline_outside_closed_window_rejected_even_if_stop_earlier(self):
+        readers = self.readers()
+        trade = record(deadline_msc=FINAL - MINUTE)
+        with self.assertRaisesRegex(ValueError, "S03_deadline_outside_scope"):
+            replay([trade], readers, [self.run_account()], end=FINAL,
+                   assets=THREE_ASSETS, replay_scope=S03_REPLAY_SCOPE)
+        self.assertTrue(all(not r.calls for r in readers.values()))
+
+    def fixture(self, future_exit=120110):
+        rows = {asset: {} for asset in THREE_ASSETS}
+        trades = []
+        for day in (26, 27, 28, 29):
+            at = stamp(f"2023-12-{day}T08:00:00")
+            end = at + 20 * MINUTE
+            rows["XAUUSD"][at] = np.array(
+                [(at, 1999900, 2000000), (end, 2100000, 2100100)], dtype=DTYPE)
+            trades.append(record(decision_msc=at, entry_msc=at, exit_msc=end,
+                deadline_msc=end, exit_quote_index=1, exit_price_units=2100000,
+                signal_id=f"gold-{day}"))
+        at = stamp("2024-01-02T08:00:00")
+        end = at + 20 * MINUTE
+        rows["GBPUSD"][at] = np.array(
+            [(at, 120000, 120010), (end, future_exit, future_exit + 10)], dtype=DTYPE)
+        trades.append(record("GBPUSD", decision_msc=at, entry_msc=at,
+            exit_msc=end, deadline_msc=end, exit_quote_index=1,
+            exit_price_units=future_exit, signal_id="gbp-2024"))
+        return rows, trades
+
+    def test_boundary_full_state_and_sentinels_ignore_future_prices(self):
+        rows, trades = self.fixture()
+        dev_rows = {asset: {h: a for h, a in hours.items() if h < END}
+                    for asset, hours in rows.items()}
+        old_accounts = [self.run_account(end=stamp("2023-01-01")),
+                        self.run_account(end=END, rolling=True)]
+        before = []
+        expected = replay(trades[:-1], self.readers(dev_rows, END), old_accounts,
+                          end=END, assets=THREE_ASSETS, checkpoints=(END,),
+                          checkpoint_callback=before.append)
+        self.assertEqual(before[0]["accounts"][1]["phase"], 2)
+        self.assertEqual(before[0]["accounts"][1]["balance"], 50000000)
+        self.assertIn("anchor", before[0]["accounts"][1])
+        self.assertIn("phase_days", before[0]["accounts"][1])
+        self.assertEqual(len(before[0]["accounts"][1]["passes"]), 1)
+        self.assertIn(stamp("2023-12-31T23:00:00"),
+                      [r[0] for r in before[0]["accounts"][1]["daily_marks"]])
+        for future_exit in (120110, 119010):
+            rows, trades = self.fixture(future_exit)
+            continued = self.run_account(rolling=True)
+            sentinels = [self.run_account(end=stamp("2023-01-01")),
+                         self.run_account(end=END, rolling=True)]
+            snapshots = []
+            got = replay(trades, self.readers(rows), [*sentinels, continued],
+                         end=FINAL, assets=THREE_ASSETS, replay_scope=S03_REPLAY_SCOPE,
+                         checkpoints=(END,), checkpoint_callback=snapshots.append)
+            self.assertEqual(snapshots[0]["accounts"][:2], before[0]["accounts"])
+            self.assertEqual(snapshots[0]["accounts"][2], before[0]["accounts"][1])
+            self.assertEqual(snapshots[0]["stream"], before[0]["stream"])
+            self.assertEqual(snapshots[0]["coverage"], before[0]["coverage"])
+            for actual, old in zip(got[:2], expected):
+                actual.pop("joint_tick_marks")
+                self.assertEqual(actual, {k: v for k, v in old.items() if k != "joint_tick_marks"})
+            self.assertEqual(continued.phase, 2)
+            self.assertEqual(len(continued.accepted), 5)
+            self.assertFalse(continued.active)
+            snapshots[0]["accounts"][2]["accepted"].clear()
+            self.assertEqual(len(continued.accepted), 5)
+
+    def test_checkpoint_configuration_rejects_unregistered_times(self):
+        for points, callback in (((END + HOUR,), lambda _: None), ((END,), None),
+                                 ((), lambda _: None), ((END,), "not-callable")):
+            with self.assertRaisesRegex(ValueError, "unregistered_replay_checkpoint"):
+                replay([], self.readers(), [self.run_account()], end=FINAL,
+                       assets=THREE_ASSETS, replay_scope=S03_REPLAY_SCOPE,
+                       checkpoints=points, checkpoint_callback=callback)
+
+    def test_only_future_trades_do_not_inject_resets_into_empty_development(self):
+        snapshots = []
+        before = replay([], self.readers(cutoff=END), [self.run_account(end=END)],
+                        end=END, assets=THREE_ASSETS, checkpoints=(END,),
+                        checkpoint_callback=snapshots.append)[0]
+        rows, trades = self.fixture()
+        rows = {asset: {h: data for h, data in hours.items() if h >= END}
+                for asset, hours in rows.items()}
+        after_snapshots = []
+        sentinel = self.run_account(end=END)
+        after = replay(trades[-1:], self.readers(rows), [sentinel, self.run_account()],
+                       end=FINAL, assets=THREE_ASSETS, replay_scope=S03_REPLAY_SCOPE,
+                       checkpoints=iter([END]), checkpoint_callback=after_snapshots.append)[0]
+        self.assertEqual(snapshots[0]["accounts"][0], after_snapshots[0]["accounts"][0])
+        self.assertEqual(snapshots[0]["stream"], after_snapshots[0]["stream"])
+        self.assertEqual(snapshots[0]["coverage"], after_snapshots[0]["coverage"])
+        self.assertEqual({k: v for k, v in before.items() if k != "joint_tick_marks"},
+                         {k: v for k, v in after.items() if k != "joint_tick_marks"})
+        self.assertEqual(sentinel.daily_marks, [])
+
+    def test_expanded_run_supports_104_accounts_and_108_sentinels(self):
+        rows, trades = self.fixture()
+        accounts = [self.run_account(rolling=True) for _ in range(104)]
+        accounts += [self.run_account(end=END, rolling=True) for _ in range(108)]
+        result = replay(trades, self.readers(rows), accounts, end=FINAL,
+                        assets=THREE_ASSETS, replay_scope=S03_REPLAY_SCOPE)
+        self.assertEqual(len(result), 212)
+        self.assertTrue(all(r["entries"] == 5 for r in result[:104]))
+        self.assertTrue(all(r["entries"] == 4 for r in result[104:]))
+        self.assertTrue(all(r["cash_bridge_verified"] for r in result))
+
+    def test_terminal_gap_and_breach_coverage_match_after_future_quote(self):
+        prior = END - 20 * MINUTE
+        old = QuoteAgeCoverage(THREE_ASSETS)
+        old.observe("XAUUSD", prior // HOUR * HOUR,
+                    np.array([(prior, 100, 101)], dtype=DTYPE))
+        old.finish(END)
+        expanded = QuoteAgeCoverage(THREE_ASSETS)
+        expanded.observe("XAUUSD", prior // HOUR * HOUR,
+                         np.array([(prior, 100, 101)], dtype=DTYPE))
+        expanded.observe("XAUUSD", END + HOUR,
+                         np.array([(END + HOUR, 100, 101)], dtype=DTYPE))
+        expanded.finish(FINAL)
+        sentinel = self.run_account(end=END)
+        sentinel.accepted = [dict(trade=0, at=prior)]
+        trade = dict(asset="XAUUSD", exit_msc=END + HOUR)
+        for breach in (None, dict(at=END - MINUTE)):
+            sentinel.breach = breach
+            self.assertEqual(old.account(sentinel, [trade]), expanded.account(sentinel, [trade]))
 
 
 if __name__ == "__main__":
