@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**V4_Harvest · chia đôi suất FX.** Thêm GBP bằng nửa suất EUR hạ
+peak DD, giảm mốc qua P1 và không tạo lượt qua P2 hay payout.
+[Kết quả](PROP-V4-HARVEST-FX-SPLIT-20261119.md).
+
 **XAUUSD · premium Thượng Hải–London.** Ghép được 1.181 ngày, thiếu
 chuỗi SHAU PM 2023. Gác ở bước nguồn và nhịp, chưa tính PnL.
 [Kết quả](PROP-XAU-SHANGHAI-PREMIUM-PREFLIGHT-20261119.md).

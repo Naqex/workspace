@@ -4,6 +4,11 @@
 
 ## Việc hiện tại
 
+Gác chia đôi suất FX V4_Harvest cho EUR/GBP. B giảm DD đỉnh–đáy,
+nhưng chỉ qua P1 2/13 so với 4/13 SYM và 6/13 ASYM ở A. Cả hai
+0/13 qua P2, 0 payout, 13/13 mốc vướng gap XAU mỗi cấu hình.
+[Kết quả](research/PROP-V4-HARVEST-FX-SPLIT-20261119.md).
+
 Gác premium Thượng Hải–London ở bước nguồn. Proxy có 1.181/1.182
 ngày 2018–2022. Batch SHAU PM năm 2023 thiếu cả 12 tháng.
 Giữ 10 phiên cho 3–23 lượt/năm theo lịch. Chưa tính PnL.
