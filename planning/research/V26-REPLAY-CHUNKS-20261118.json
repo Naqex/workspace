@@ -1,0 +1,127 @@
+{
+  "schema": "V26-replay-chunks-v1",
+  "sources": {
+    "D:\\ANNAM\\TradingWorkspace\\tooling\\ai-engines\\prop_v26_chunks.py": "689d52f96173cae3f4c8c04b2ffac1a69d9fcebff37e3c65e7ed126f97c3e134",
+    "tooling\\ai-engines\\prop_v19_stress.py": "a9949ce6892b6440935d9c2d5a11480e43abc56681487d72df43b4b94080adb0",
+    "tooling\\ai-engines\\prop_v19_accounts.py": "c248965bf227522113a9b0eb682690330fc2272c01b7015c4c4fa7e5ecd16ec5"
+  },
+  "ISO_freeze_sha256": "99fc8835fb579a9aa139d0f03bbeee68218bd5732e8f3865a77ce9ad38aabc9d",
+  "original": {
+    "OLHC": {
+      "root": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\batch-exact-iso-v26-20261118\\749687b9be70",
+      "journal_sha256": "50b956aa725404c46f2814feadc4ca5a683f17d79380dd1f0932deed530a3068",
+      "completed_prefix": 2304,
+      "first_native_hashes": [
+        "7d81589847ad28155c07a7ae1f6abad02fe4f9a89981f00beb3560c76e521032",
+        "c6e6686a5b7ce94d27d24594eb47c74116eab6ba53cac46fdfa4f120a5198ec1"
+      ]
+    },
+    "OHLC": {
+      "root": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\challenge-discovery4-20261108\\execution-v1\\batch-exact-iso-v26-20261118\\monte-OHLC\\749687b9be70",
+      "journal_sha256": "cd11645cf2d69b5d721ef08418ce690ddcc717bad4ae20f9767725d0dfd2ed2d",
+      "completed_prefix": 839,
+      "first_native_hashes": [
+        "cff0e7b9d91acd1a9a5950c7ea24d21773c437ca49212e00e9ccc090c6fe6515",
+        "f6072a9c9a95dae70abe07abc7216345341862f9fd28e03e73cca35cbecdac5e"
+      ]
+    }
+  },
+  "ranges": [
+    {
+      "tag": "OLHC",
+      "first": 2304,
+      "end": 2704
+    },
+    {
+      "tag": "OLHC",
+      "first": 2704,
+      "end": 3104
+    },
+    {
+      "tag": "OLHC",
+      "first": 3104,
+      "end": 3504
+    },
+    {
+      "tag": "OLHC",
+      "first": 3504,
+      "end": 3904
+    },
+    {
+      "tag": "OLHC",
+      "first": 3904,
+      "end": 4304
+    },
+    {
+      "tag": "OLHC",
+      "first": 4304,
+      "end": 4704
+    },
+    {
+      "tag": "OLHC",
+      "first": 4704,
+      "end": 5000
+    },
+    {
+      "tag": "OHLC",
+      "first": 839,
+      "end": 1239
+    },
+    {
+      "tag": "OHLC",
+      "first": 1239,
+      "end": 1639
+    },
+    {
+      "tag": "OHLC",
+      "first": 1639,
+      "end": 2039
+    },
+    {
+      "tag": "OHLC",
+      "first": 2039,
+      "end": 2439
+    },
+    {
+      "tag": "OHLC",
+      "first": 2439,
+      "end": 2839
+    },
+    {
+      "tag": "OHLC",
+      "first": 2839,
+      "end": 3239
+    },
+    {
+      "tag": "OHLC",
+      "first": 3239,
+      "end": 3639
+    },
+    {
+      "tag": "OHLC",
+      "first": 3639,
+      "end": 4039
+    },
+    {
+      "tag": "OHLC",
+      "first": 4039,
+      "end": 4439
+    },
+    {
+      "tag": "OHLC",
+      "first": 4439,
+      "end": 4839
+    },
+    {
+      "tag": "OHLC",
+      "first": 4839,
+      "end": 5000
+    }
+  ],
+  "workers": 4,
+  "draw_count": 5000,
+  "ordering_count": 2,
+  "same_draw_indices": true,
+  "strategy_or_native_account_semantics_changed": false,
+  "reason": "reuse existing scalar oracle after full-ledger parity; isolated remaining ranges"
+}

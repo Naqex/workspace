@@ -6,6 +6,7 @@ import numpy as np
 from quant_core.discrete_sizing import quantity_grid, largest_feasible
 from prop_v26_iso import cents
 from quant_core.job_workspace import JobWorkspace
+from prop_v26_chunks import prefix
 
 
 class ExactSizingTests(unittest.TestCase):
@@ -97,3 +98,20 @@ class JobIsolationTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,"MUST_BE_LOCAL"):
                 job.activate()
             self.assertFalse((Path(directory)/"missing").exists())
+
+
+class ReplayResumeTests(unittest.TestCase):
+    def test_missing_draw_index_cannot_be_resumed(self):
+        with tempfile.TemporaryDirectory() as directory:
+            (Path(directory)/"MC-OLHC-paths.jsonl").write_text('{"path":0}\n{"path":2}\n')
+            with self.assertRaisesRegex(ValueError,"JOURNAL_INDEX"):
+                prefix(Path(directory),"OLHC")
+
+    def test_interrupted_tail_is_preserved_for_reconciliation(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path=Path(directory)/"MC-OLHC-paths.jsonl"
+            text='{"path":0}\n{"path":'
+            path.write_text(text)
+            with self.assertRaisesRegex(ValueError,"TAIL_REQUIRES"):
+                prefix(Path(directory),"OLHC")
+            self.assertEqual(path.read_text(),text)
