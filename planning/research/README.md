@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**DAX / Nikkei 225 cuối phiên.** DAX không qua quy mô stop so với phí
+ở cụm 2021–2023. Chuỗi Japan200+ thiếu đối chiếu hợp đồng Nikkei.
+[Mẫu và quyết định](PROP-DAX-NIKKEI-CLOSE-PILOT-20261119.md).
+
 **Dư địa hoàn tất hai vòng trong 12 tháng.** Cùng risk BASE, mức giả
 định +1.000 USD/năm thêm đúng một cửa sổ PRIMARY và 0 payout. Kết quả
 giữ đủ cả 61 sổ, kể cả sổ chưa tới đích. [Độ nhạy](PROP-TWO-PHASE-SENSITIVITY-20261119.md).

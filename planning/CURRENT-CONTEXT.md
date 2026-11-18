@@ -4,6 +4,10 @@
 
 ## Việc hiện tại
 
+Gác động lượng cuối phiên DAX sau pilot. 12/12 ngày đủ giá, chỉ 3/6
+và 1/6 qua phí. Nikkei 225 thiếu nguồn đúng hợp đồng. Chưa đo PnL.
+[Kết quả](research/PROP-DAX-NIKKEI-CLOSE-PILOT-20261119.md).
+
 Đã đo độ nhạy hai vòng trong 12 tháng trên 61 mốc Development.
 Lợi thế giả định +1.000 USD/năm chỉ thêm 1 cửa sổ qua hai vòng ở
 PRIMARY, 0 ở STRICT và 0 payout. Mốc thử đầu tiên cho đa số ở cả hai
