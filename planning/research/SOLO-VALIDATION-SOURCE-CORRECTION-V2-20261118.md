@@ -76,3 +76,37 @@ Nếu có thêm mismatch/unknown hoặc thaycohort: giữnewfailure, không tạ
 correctionv3 tự động trongscope này. Báo nguyênnhân và bước hữu hạn kếtiếp.
 Mọi failedv1 vàdiagnostic giữ nguyên, selectionhistory112trials/rawGBPmarkout
 âm vẫn giữ. Sourcecontinuationkhôngreset lịch sử chiến lược.
+
+## Addendum G1 — first-touch và producer-event parity trước financial registration
+
+Reviewcode đã nhận diện thêm một ranh giới cần khóa rõ. Một báo cáo independent
+first-touch **không tự chứng minh producer đã tạo cùng event book**; không cho
+financialprepare gọi chữ ký reviewer như thể parity đã so. Trước financial
+registration phải có hai artifact riêng và gate tuần tự:
+
+1. Independent, không import producer, tái tạo đủ138 raw opportunities và
+   1.632heldhours. So decision/known-at/side/Asia range/trigger/naturalSL/
+   deadline, first executable entry quote Bid/Ask/time/ordinal, exact15% cost
+   gate và accepted/rejected disposition. Với accepted, so first natural-SL
+   touch hoặc deadline close: exit quote/time/ordinal/price/reason. Bind all
+   source bytes, correction release, protocol, source proof và oracle code.
+   Cost rejects vẫn ở census. Nếu kiểm path giả định cho rejects thì ghi riêng
+   `COUNTERFACTUAL`; tuyệt đối không gọi fill/trade, tính PnL hay dùng để
+   chọn cohort.
+2. Producer chạy một **source-only preview** tạo 138-row event/funnel facts,
+   chưa ghép Gold/EUR, chưa làm account replay, chưa financial registration.
+   Independent comparator so từng field với artifact bước1. Chỉ exact equality
+   cho toàn cohort (kể cả rejects/order/census) mới tạo parity receipt.
+
+Correction facade chỉ nhận independent source-review receipt cho bước1; nó
+không tự nhận parity đã đạt. Financial harness phải đòi cả source-review và
+producer-parity receipts, pin chúng cùng corrected release/sourceproof vào
+financial closure. Bất kỳ mismatch/thiếu field/unknown/gap nào đều dừng trước
+registration; giữ cả hai artifacts và không tính tiền. Một cổng PASS áp dụng
+cho execution facts, không là financial outcome hoặc edge proof.
+
+Phép này không đổi composition, signal rules, risk, cost gate, exit, hay
+economic/time-fit criteria đã freeze; chỉ nêu rõ điều kiện correctness trước
+financial step. Full first-touch independent review và source correction code
+vẫn phải qua review/test riêng trước khi chạy nguồn/admission. 2025–2026 vẫn
+đóng, không refetch/network hoặc broker.
