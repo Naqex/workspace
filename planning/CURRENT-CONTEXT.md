@@ -4,6 +4,10 @@
 
 ## Việc hiện tại
 
+Tổ hợp tám đại diện ngoài BASE còn 1.074 cơ hội sau gộp. Phần có
+giá thêm 277–376 USD/năm, 135/767 lượt thiếu đường, không có cửa sổ
+mới chạm mốc cash 5.000 USD. Gác replay. [Kết quả](research/PROP-SCREEN-OVERLAP-20261119.md).
+
 Rà bốn họ F1–F4 trên Development. Có 2.104 cấu hình từng bị gác
 có phần giao để so, bốn cấu hình có trọn cohort. Chưa thấy ca đủ
 quy mô để replay 50.000 USD. [Kết quả](research/PROP-SCREEN-MISS-AUDIT-20261119.md).

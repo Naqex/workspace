@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**Độ trùng với BASE.** Tám đại diện có thêm cơ hội nhưng tiền trên
+phần đo được chỉ 277–376 USD/năm và chưa đưa cửa sổ nào tới mốc.
+[Kết quả](PROP-SCREEN-OVERLAP-20261119.md).
+
 **Rà ứng viên bị bỏ sót.** Bốn họ F1–F4 có cặp markout/SL-active.
 Không cấu hình từng bị gác nào đạt 1.000 USD/năm ở cả hai cụm.
 [Kết quả](PROP-SCREEN-MISS-AUDIT-20261119.md).
