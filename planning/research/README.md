@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**ATC 2011.** Đã khóa 12 định danh từ biểu đồ gốc. Bản chạy và sổ
+lệnh đúng phiên bản chưa xác minh được cho cả nhóm.
+[Hồ sơ và quyết định](PROP-ATC-2011-COHORT-ADMISSION-20261119.md).
+
 **US500 bỏ commission theo biểu phí FTMO.** Đã tính cả cơ hội mới qua cổng
 và thay đổi lot ở VIX Curve. Tín hiệu đổi dấu nhưng hụt tiền và tần suất.
 Kho V12/V16 cũng không đạt mốc 1.000 USD/năm ở cả hai cụm Development.

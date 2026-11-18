@@ -4,6 +4,10 @@
 
 ## Việc hiện tại
 
+Gác nguồn ATC 2011. Đã xác minh 12/12 định danh từ biểu đồ gốc.
+Có 1/12 hồ sơ mô tả luật cùng mùa, 0/12 nối được đúng bản thi với
+lịch sử từng lệnh. Chưa chạy Stage-0. [Kết quả](research/PROP-ATC-2011-COHORT-ADMISSION-20261119.md).
+
 Đã kiểm phí US500 theo công bố FTMO trên Development 2018–2023.
 VIX Curve đổi dấu nhưng cụm yếu chỉ đạt 128,09 USD/năm. Không cấu hình
 nào qua mốc 1.000 USD/năm ở cả hai cụm. Gác tái dựng SL và replay.
