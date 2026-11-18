@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**Dư địa AUD/USD quanh fixing.** Chỉ 21/79 ngày có chiều qua trần phí.
+Cận biết trước trong mẫu 2019 chỉ +45,93 USD. Gác tìm thêm dữ liệu.
+[Kết quả](PROP-AUD-FIXING-WINDOW-PILOT-20261119.md).
+
 **CFETS → AUD/USD.** Quy tắc đã khóa, nguồn chưa chứng minh được giờ
 khả dụng của fixing hoặc đường Bid/Ask để vào 01:20. Chưa đo lợi nhuận.
 Báo cáo có quy đổi mục tiêu 2%/năm cho vốn 10k, 25k và 50k.

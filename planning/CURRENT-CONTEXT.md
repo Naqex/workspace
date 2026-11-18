@@ -4,6 +4,10 @@
 
 ## Việc hiện tại
 
+Khung AUD/USD 01:20–02:00 UTC có 21/79 ngày mẫu qua trần phí theo ít
+nhất một chiều. Dù được chọn theo kết quả đã biết, mẫu 2019 chỉ còn +45,93 USD.
+Gác tìm thêm dữ liệu CFETS/CNH. [Kết quả](research/PROP-AUD-FIXING-WINDOW-PILOT-20261119.md).
+
 Kiểm nguồn CFETS → AUD/USD dừng ở `DATA_PATH_INCOMPLETE`. Kho fixing có
 ngày nhưng chưa có giờ công bố từng bản ghi. AUD/USD H1 đủ 1.561 ngày
 ở ba mốc đầu phiên nhưng chưa dựng được khớp 01:20. Chưa đo PnL.
