@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**V4 Harvest · Swing 10k/25k.** Cùng luật 50k, 0/13 qua P2 ở mọi
+size và swap. Sổ đã Funded có kỳ rút, nhưng 5–8 tháng 0/năm ở 10k/25k.
+[Kết quả](PROP-V4-HARVEST-SWING-CAPITAL-RESULTS-20261119.md).
+
 **BTCUSD funding · đổi delay +60 → +2 phút.** Raw stress trên cùng
 197 tín hiệu tăng +50,83 → +62,05 bp. Sổ 48 lệnh lỗ từ 171,97 lên
 1.217,13 USD. Đóng nhánh. [Kết quả](PROP-BTC-FUNDING-ENTRY-DELAY-RESULTS-20261119.md).
