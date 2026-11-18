@@ -4,6 +4,11 @@
 
 ## Việc hiện tại
 
+Gác động lượng cuối phiên Japan200+ sau chẩn đoán cache 2019/2022.
+Giá CFD bám sát Nikkei quanh giờ cash. Phần có giá âm ngay sau spread
+và thua BUY cùng giờ. DAX giữ quyết định dừng.
+[Hậu kiểm](research/PROP-JPN-CLOSE-PROXY-RESULTS-20261119.md).
+
 Gác động lượng cuối phiên DAX sau pilot. 12/12 ngày đủ giá, chỉ 3/6
 và 1/6 qua phí. Nikkei 225 thiếu nguồn đúng hợp đồng. Chưa đo PnL.
 [Kết quả](research/PROP-DAX-NIKKEI-CLOSE-PILOT-20261119.md).

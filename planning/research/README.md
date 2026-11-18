@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**Japan200+ cuối phiên.** Đã đối chiếu benchmark Nikkei và đọc 485
+phiên cache. Phần định giá âm sau spread ở cả 2019 và 2022.
+[Kết quả và độ nhạy DAX](PROP-JPN-CLOSE-PROXY-RESULTS-20261119.md).
+
 **DAX / Nikkei 225 cuối phiên.** DAX không qua quy mô stop so với phí
 ở cụm 2021–2023. Chuỗi Japan200+ thiếu đối chiếu hợp đồng Nikkei.
 [Mẫu và quyết định](PROP-DAX-NIKKEI-CLOSE-PILOT-20261119.md).

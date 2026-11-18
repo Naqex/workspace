@@ -1,5 +1,9 @@
 # Động lượng 30 phút cuối phiên DAX và Nikkei 225
 
+Đã có [hậu kiểm CFD Nhật 2019/2022](PROP-JPN-CLOSE-PROXY-RESULTS-20261119.md).
+Nguồn bám sát benchmark quanh giờ đóng cửa. Lệnh định giá được âm
+sau spread ở cả hai năm. Kết quả pilot gốc bên dưới được giữ.
+
 **Gác DAX sau mẫu kiểm chi phí.** Đủ giá hai chiều ở cả 12 ngày mẫu.
 Cụm 2021–2023 chỉ giữ **1/6** cơ hội khi ma sát phải nằm trong 12% stop
 tự nhiên. Cụm 2018–2020 giữ **3/6**. **Nikkei 225 dừng ở bước xác minh
