@@ -4,6 +4,11 @@
 
 ## Việc hiện tại
 
+BTC/USD tiếp diễn 24h trượt Stage‑0 sau phí, dù 290/312 tín hiệu qua
+cap chi phí. US500 mua khi VIX 30 ngày vượt VIX 3 tháng cũng hụt
+tần suất và quy mô ở cả hai cụm. BASE_GUARD vẫn `NOT_QUALIFIED`.
+[Kết quả](research/PROP-BTC-DAILY-MOMENTUM-AND-VIX-CURVE-RESULTS-20261118.md)
+
 TSLA ORB không RVOL chưa xác minh ngoài mẫu do thiếu nguồn. Gold COMEX
 đã kiểm Development, net stress âm gộp và trượt Stage‑0 ở cả sáu năm.
 [Kết quả](research/PROP-TSLA-ORB-COST-AND-GOLD-COMEX-RESULTS-20261118.md)

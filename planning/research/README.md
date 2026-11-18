@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+**BTC/USD ngày và đường cong VIX.** BTC đủ cadence và scale, hụt
+raw markout 6/6 năm. US500 đảo ngược kỳ hạn VIX hụt cadence 4/6 năm
+và không lặp đủ quy mô giữa hai cụm.
+[Kết quả](PROP-BTC-DAILY-MOMENTUM-AND-VIX-CURVE-RESULTS-20261118.md).
+
 **TSLA ORB không RVOL và Gold COMEX.** Sổ TSLA có dư địa phí trong mô
 hình khớp tại SL, nhưng thiếu quote và kỳ ngoài mẫu. Gold COMEX trượt
 cổng markout cả sáu năm.
