@@ -1,8 +1,25 @@
 # Current context — Naqex Workspace
 
-17/11/2026 · `RESEARCH: V24_P80_REJECTED · LAB: STATIC_INSPECTION · PERF: TARGET_NOT_MET · SYSTEM: TRIAL_LOGIN_UNVERIFIED · PROP: NOT_QUALIFIED`.
+18/11/2026 · `RESEARCH: V25_RUNNING · ISO: DEV_GATE_FAIL · GBP: H1_SCENARIO_ONLY · PROP: NOT_QUALIFIED`.
 
 ## Việc hiện tại
+
+V25 đang chạy theo [protocol](research/CORPUS-ISOLATION-V25-PROTOCOL-20261118.md), commit427b3b7 trước outcome.
+Nhánh `codex/corpus-mining-and-isolation-v25`; PR103 đã merge0bb221e, nhánhV24 đã xóa.
+Trader PR33 đã merge74dad35d (5CI), gitlink cập nhật; 83Python PASS/0skip+53subtests,
+isolation-only actual không DB/process; chưa deploy/restart. Source PR32/lane solo giữ nguyên.
+Inventory extended paths đọc lại đủ48.425 lỗi cũ; full D/E scan đang chạy, private job
+`execution-v1/corpus-isolation-v25-20261118`, stdout `.runtime/v25-inventory.stdout`.
+ISO c duy nhất: net26,7599R/DD12,2419R>baseline12,2065R, fail cảordering;0later/MC children.
+GBP nguyên entry/SL: parity300/300 Dev2022–23; [card H1 diagnostic](research/GBPUSD-V25-H1-DIAGNOSTIC-CARD-20261118.md)
+có883raw/830fill/0missingendpoint, .25/.50 markedDD15,562/26,521R, không thay tick/M1.
+Baseline exact-gate audit369raw/3recipes:0membership delta cả12/15; giữ initial
+audit failure do nhầm rounded-native với unrounded-Stage0 contract và bản sửa.
+Corpus/Top10/Stage0 E1 đang chuẩn bị theo [card](research/CORPUS-ENGULFING-RSI-CARD-20261118.md).
+Performance final chưa đo; không lấy correctness run hay concurrent scan làm speed acceptance.
+Giữ VI WIP, source/negative attempts, BASE_GUARD; không broker, no new authority.
+
+## V24 và tiếp nhận solo lane (lịch sử đã merge)
 
 Tiếp nhận từ lane `xingchiapi-astra`: [adoption report](research/SOLO-LANE-ADOPTION-20261117.md).
 PR103 bổ sung exact cost caps/source quote age; 1.340 PASS/0skip, giữ đủ 1.335 IDs cũ.
