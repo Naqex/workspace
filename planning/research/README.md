@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**Chọn tài sản trước khi viết tín hiệu.** Với phiên Mỹ đã khóa, EURUSD
+có 80–211 ngày/năm mà ít nhất một chiều qua cổng phí.
+[Phép đếm biên độ](PROP-SESSION-FEASIBILITY-RESULTS-20261118.md).
+
 **43 khoảng thiếu Development.** Đã phục hồi ca thiếu do lỗi timestamp
 ngoài cửa sổ, tìm tick ở 26 khoảng, và kiểm số dư 12 tháng với lot cũ.
 [Kết quả](PROP-GAP-FULL-DEV-RESULTS-20261118.md).

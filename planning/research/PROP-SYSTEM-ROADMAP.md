@@ -24,6 +24,11 @@ chứng dương hẹp và US500 VIX làm đối chứng âm trong đợt sau.
 USD ở cả hai kịch bản. Ưu tiên cơ chế tạo PnL mới. Giữ dữ liệu thiếu
 và số đo khác feed trong hồ sơ, chỉ mở tiếp khi có nguồn làm đổi quyết định.
 [Tiền thiếu sau đối chiếu giá](PROP-GAP-FULL-DEV-RESULTS-20261118.md)
+Đã chuyển sang lọc biên độ trước khi chọn tín hiệu. Trong cửa sổ
+10:30–14:30 New York, EURUSD là tài sản duy nhất trong ba tài sản có
+≥40 ngày mỗi năm mà ít nhất một phía đáp ứng quy mô stop/chi phí.
+Định hướng nghiên cứu tiếp theo là tín hiệu EURUSD phiên Mỹ.
+[Đối chiếu biên độ](PROP-SESSION-FEASIBILITY-RESULTS-20261118.md)
 Kế hoạch này tiếp nối kết quả V26. Chiến dịch STRATEGY-E2E cũ đã đóng theo
 quyết định của owner, với lịch sử thử nghiệm được lưu riêng.
 [Chiến dịch cũ](CHALLENGE-CANDIDATE-CAMPAIGN-V2-20261108.md)

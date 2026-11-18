@@ -4,6 +4,10 @@
 
 ## Việc hiện tại
 
+So biên độ stop và phí tại 10:30–14:30 New York. Chỉ EURUSD đạt ít
+nhất 40 ngày có một hướng qua phí mỗi năm. Ưu tiên role EURUSD phiên Mỹ.
+[Đối chiếu biên độ](research/PROP-SESSION-FEASIBILITY-RESULTS-20261118.md)
+
 Đã rà toàn bộ 43 khoảng thiếu Development. HistData có tick ở 26 khoảng
 và 18 lệnh được định giá trọn. Giữ lot cũ, số dư 12 tháng vẫn thiếu
 trung vị 4.712 USD (PRIMARY) và 4.745 USD (STRICT).
