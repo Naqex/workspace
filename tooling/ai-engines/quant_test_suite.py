@@ -93,7 +93,7 @@ def run(group, tier, output, selected=None, indexed_imports=False):
     # search roots add filesystem probes to every import on Windows.
     candidates = [str(Path(__file__).parent), str(Path(__file__).with_name("tests")),
                   str(Path(__file__).resolve().parents[2]), *sys.path]
-    sys.path = list(dict.fromkeys(str(Path(p).resolve()) for p in candidates))
+    sys.path = list(dict.fromkeys(str(Path(p).resolve()) for p in dict.fromkeys(candidates)))
     start = time.perf_counter()
     finder = RepoModuleFinder() if indexed_imports else None
     if finder is not None:
