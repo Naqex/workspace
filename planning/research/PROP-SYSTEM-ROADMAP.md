@@ -95,6 +95,9 @@ thời gian hồi vốn. Hạ tầng phục vụ những phép kiểm này: ngu�
 truy vết được, job có thể resume và một nơi đối soát trạng thái. Ưu tiên
 sửa hạ tầng khi nó ngăn một quyết định nghiên cứu hoặc vận hành cụ thể.
 
+Nếu cần giao hoặc đọc lại một phép thử, dùng mẫu một thay đổi và cách
+đối soát khi tới forward trong [workflow từ trạng thái thị trường đến vận hành](../../tooling/ai-engines/STRATEGY-WORKFLOW.md#từ-trạng-thái-thị-trường-đến-vận-hành).
+
 ## Cập nhật sau mỗi nhịp
 
 Mỗi đợt giao một mục tiêu lớn có các cổng chuyển bước. Lưu checkpoint và
