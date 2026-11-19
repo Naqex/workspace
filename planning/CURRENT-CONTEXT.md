@@ -4,14 +4,13 @@
 
 ## Việc hiện tại
 
-V4 Harvest 10k/25k trên lịch sử 2018–2021 chỉ qua P1 ở 1–2/37 mốc
-đủ 12 tháng, 0 P2 và 0 Reward ở cả hai giả định đường giá vàng M1.
-Giữ V4 làm đối chứng nghiên cứu. BASE_GUARD giữ `NOT_QUALIFIED`.
-[Kết quả](research/PROP-V4-HARVEST-BACKWARD-RESULTS-20261119.md).
-
-V4 Harvest 10k/25k có đường qua cả P1 và P2 từ mốc 02–03/2023, tất
-cả cùng đợt tháng 10/2023. Chưa có Reward đến cutoff; 11 mốc mới
-chưa đủ theo dõi 12 tháng. [Kết quả](research/PROP-V4-HARVEST-SWING-CAPITAL-RESULTS-20261119.md).
+V4 Harvest 10k/25k đã kiểm đủ 61 mốc theo dõi 12 tháng. Chỉ 4–10
+mốc qua P1 tùy vốn và swap, 0 P2 và 0 Reward. Trong 11 mốc ngắn
+hơn bắt đầu muộn năm 2023, các lượt qua P2 cùng hội tụ một đợt
+tháng 10/2023 và chưa có Reward. Đóng nghiên cứu V4 cho mục tiêu thu
+nhập và giữ làm đối chứng. BASE_GUARD giữ `NOT_QUALIFIED`.
+[Kết quả 61 mốc](research/PROP-V4-HARVEST-BACKWARD-RESULTS-20261119.md#khép-61-mốc-đủ-12-tháng--nối-2021-sang-2022)
+· [Đợt 2023](research/PROP-V4-HARVEST-SWING-CAPITAL-RESULTS-20261119.md).
 
 Đóng nhánh BTCUSD funding sau đối soát +2 phút. Markout thô tốt hơn,
 sổ 48 lệnh 2021–2023 lỗ 1.217,13 USD stress so với 171,97 USD.

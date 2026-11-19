@@ -135,3 +135,76 @@ bất định về đường giá vàng và độ phủ EUR. Giữ V4 Harvest A 
 và trạng thái BASE_GUARD `NOT_QUALIFIED`. Phép đo bổ sung dùng đúng
 policy cũ để trả lời câu hỏi lịch sử, với mức xác nhận giới hạn ở hai
 đường giả định M1.
+
+## Khép 61 mốc đủ 12 tháng · nối 2021 sang 2022
+
+Bổ sung đúng 11 đầu tháng từ 02/2021 đến 12/2021, mỗi sổ dừng trước
+ngày kỷ niệm 12 tháng. Tái sử dụng kết quả của 37 mốc cũ và 13 mốc
+01/2022–01/2023. Các sổ bắt đầu từ 02/2023 trở đi vẫn có thời gian
+theo dõi ngắn hơn một năm và được báo riêng.
+
+| Vốn / swap | P1 / P2 / Reward trên 11 mốc nối | P1 / P2 / Reward trên 61 mốc đủ năm | P1 / P2 / Reward quan sát trong 11 mốc muộn 2023 |
+| --- | ---: | ---: | ---: |
+| 10k SYM | 1 / 0 / 0 | 6 / 0 / 0 | 6 / 2 / 0 |
+| 10k ASYM | 3 / 0 / 0 | 10 / 0 / 0 | 7 / 2 / 0 |
+| 25k SYM | 0 / 0 / 0 | 4 / 0 / 0 | 6 / 2 / 0 |
+| 25k ASYM | 1 / 0 / 0 | 9 / 0 / 0 | 7 / 3 / 0 |
+
+Mọi lượt qua P1 mới cùng xuất hiện vào **29/09/2022 20:30:00,115 UTC**.
+Mốc 11/2021 qua P1 ở 10k SYM và 25k ASYM. 10k ASYM qua P1 ở các mốc
+10–12/2021. Cả hai thứ tự M1 cho cùng số lượt, giờ qua pha và equity
+khi kết thúc theo dõi. Số lượt vào Funded mới bằng **0**. Những sổ
+bắt đầu muộn năm 2023 cùng qua P2 vào 20/10/2023 và dùng chung 40 định
+danh lệnh sau reset sang Funded. Tính theo đợt thị trường có **một đợt
+vào Funded, không có đợt nhận Reward**. Trader nhận **0 USD** và hoàn
+phí **0 USD** đến cutoff ở từng đường đã quan sát. Mô hình không trừ
+tiền mua Challenge khỏi equity giao dịch. Các mốc chồng lấn nên số đếm
+không dùng để suy xác suất hoặc cộng tiền như một tài khoản.
+[Giờ qua pha và trạng thái khi đủ hạn rút của đợt 2023](PROP-V4-HARVEST-SWING-CAPITAL-RESULTS-20261119.md#đường-funded-đã-quan-sát-và-lý-do-chưa-có-reward).
+
+### Đối soát tại chỗ nối
+
+- Dùng EUR tick thật và Gold M1/Ask proxy trong 2021, rồi dùng đúng tick
+  đã khóa của phép đo cũ trong 2022. Vị thế Gold ngày 31/12/2021 đủ điều
+  kiện thoát theo lịch cũ lúc 16:58 UTC. Cả 88 sổ đều đã flat tại
+  00:00 UTC ngày 01/01/2022. Equity, trạng thái tài khoản và đồng hồ
+  từng pha được giữ trong cùng replay, không ghi lệnh đóng tại chỗ đổi
+  nguồn. Các vị thế còn mở ở hạn 12 tháng được giữ trong sổ.
+- Mang toàn bộ lịch sử H1 2018–2021 vào bộ tạo tín hiệu năm 2022.
+  Giờ H1 dùng khởi tạo trong 11–12/2021 khớp nguồn cũ 1.003/1.003 ở
+  Gold và 1.077/1.077 ở EUR. Cả 9 lệnh tháng 01/2022, gồm 6 Gold
+  và 3 EUR, khớp danh tính, stop, giá và giờ vào/ra, lý do và hạn
+  thoát. Kiểm tới hết cửa sổ cần dùng có 101/101 Gold và 97/97 EUR
+  khớp tape gốc. Sáu tín hiệu EUR khác bị cổng phí cũ loại.
+- Kiểm trạng thái ngay trước khi đọc tick đầu tiên ở phía 2022.
+  44/44 sổ theo mỗi thứ tự M1 khớp sổ cũ ở các trường có thể so sánh,
+  gồm sổ lệnh đã vào/đóng, tiền, pha, drawdown và vị thế. Giữ nguyên
+  cash, cap, sizing, swap, reset Prague, ngày giao dịch và Reward.
+  Kiểm cash bridge, risk theo pha và lot trên cả 88 sổ. Mỗi thứ tự
+  xử lý 41.590.423 cập nhật báo giá. Hai sổ nén Zstandard và bảng
+  tổng hợp khớp SHA-256 trong manifest.
+
+| Vốn / swap | Lỗ ngày tối đa | Sụt dưới vốn đầu tối đa | Sụt đỉnh–đáy tối đa | Sổ nối có gap vàng khi giữ lệnh |
+| --- | ---: | ---: | ---: | ---: |
+| 10k SYM | 1,2360% | 8,0033% | 10,6890% | 6/11 |
+| 10k ASYM | 1,1835% | 7,9502% | 10,8475% | 7/11 |
+| 25k SYM | 1,3036% | 7,9912% | 11,0135% | 7/11 |
+| 25k ASYM | 1,2448% | 8,0024% | 11,1688% | 7/11 |
+
+Cực trị của nhóm nối khớp giữa hai thứ tự trong nến. Bốn cặp sổ có
+chênh lệch sụt đỉnh–đáy tối đa 0,0032 điểm phần trăm ở cấp từng sổ.
+Có 73 khoảng thiếu Gold đã biết trong các vị thế, tính theo hợp của
+các sổ ở mỗi cấu hình. Giới hạn Gold M1/Ask proxy và điểm thiếu giá
+EUR năm 2021 của báo cáo trên vẫn áp dụng. Các kiểm tra tại chỗ nối
+cho thấy không có vị thế bị định giá bằng hai nguồn trong cùng lượt
+giữ. Chưa biết thứ tự tick thật trong nến vàng hoặc equity trong các
+khoảng thiếu. Số breach quan sát trong mô hình bằng 0.
+
+**Đóng nghiên cứu V4 Harvest cho mục tiêu thu nhập.** Mở đủ 11 phần
+theo dõi còn thiếu có thêm bằng chứng qua P1 trong 2022, nhưng chưa
+tìm được đợt mới qua P2 hay đường nào nhận Reward. Giữ V4 làm đối
+chứng và giữ BASE_GUARD `NOT_QUALIFIED`. Lượt này kết thúc theo
+ngân sách đã khóa khi đủ 61 mốc. Artifact ở
+`E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/prop-v4-harvest-cross-boundary-20261119/`.
+SHA-256 của `summary.json` là
+`56418b0cbd5010468792da5b0e812efbf6c42458d26b8f00facd63e6931e87a5`.

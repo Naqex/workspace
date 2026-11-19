@@ -1,8 +1,9 @@
 # Tra cứu research đã có
 
-**V4 Harvest · kiểm tra lặp lại 2018–2021.** Gold A0 + EURUSD SAT1 ở
-10k/25k chỉ qua P1 ở 1–2/37 mốc đủ 12 tháng. Cả hai đường vàng M1 cho
-0 P2 và 0 Reward. [Kết quả](PROP-V4-HARVEST-BACKWARD-RESULTS-20261119.md).
+**V4 Harvest · khép 61 mốc đủ 12 tháng.** Gold A0 + EURUSD SAT1 ở
+10k/25k chỉ qua P1 ở 4–10/61 mốc tùy vốn và swap. Sau khi nối đủ 11
+mốc 2021 qua 2022, vẫn 0 P2 và 0 Reward trong nhóm đủ năm. Giữ V4
+làm đối chứng. [Kết quả](PROP-V4-HARVEST-BACKWARD-RESULTS-20261119.md#khép-61-mốc-đủ-12-tháng--nối-2021-sang-2022).
 
 **V4 Harvest · Swing 10k/25k.** Mốc 02–03/2023 qua P2 trong cùng
 một đợt. Chưa thấy Reward tới hết 2023. Phép đo có mẫu số 3/6/12 tháng.
