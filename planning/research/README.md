@@ -1,5 +1,14 @@
 # Tra cứu research đã có
 
+## Tra dữ liệu, phép thử và lý do gác
+
+Phần `evidence_inventory` trong [catalogue JSON](STRATEGY-CATALOGUE-20261107.json)
+nối phân vùng dữ liệu với lần đo, kết quả và quyết định. Xem [câu lệnh
+tra cứu và phạm vi đã kiểm](STRATEGY-CATALOGUE-20261107.md#tra-bằng-chứng-đã-gắn-nhãn).
+Từ workspace root, chạy `python -X utf8 tooling/ai-engines/research_inventory.py`
+để xem mức gắn nhãn. Thêm `--all` để lấy từng đường dẫn và lý do còn thiếu
+thông tin.
+
 **US500.cash Swing · mua trước NFP, ISM Manufacturing và GDP.** Gác ở
 preflight. Lịch có điều kiện cho 31–36 cửa sổ/năm và phép chuyển gross từ
 futures cho bình quân 378,70 USD/năm trước phí ở risk 125 USD, stop 1%.

@@ -13,6 +13,62 @@ thêm1relatedhypothesis và2constantcontrols trong `registered_component_studies
 không accountpolicy/independentedge.673signals/2022–24,endpointstressâm3năm,
 park exactrecipe;không2025–26/grid. Historical123/88/53 vànegativeIDs giữ.
 
+## Tra bằng chứng đã gắn nhãn
+
+Mở [catalogue JSON](STRATEGY-CATALOGUE-20261107.json), mục
+`evidence_inventory`, hoặc chạy từ workspace root. ID chiến lược cũ
+vẫn tra được. ID recipe phân biệt từng bộ luật. Khóa study cho biết
+phép đo dùng dữ liệu và giả định nào.
+
+~~~powershell
+python -X utf8 tooling/ai-engines/research_inventory.py --key us500-preannouncement-ordinary-range
+python -X utf8 tooling/ai-engines/research_inventory.py --key R094
+python -X utf8 tooling/ai-engines/research_inventory.py --key v15-sizing-12m
+python -X utf8 tooling/ai-engines/research_inventory.py --key h1-post-london16-16ny-atr14x1p5
+python -X utf8 tooling/ai-engines/research_inventory.py --key h1-london-postfix16-20-atr14x1p5
+python -X utf8 tooling/ai-engines/research_inventory.py --key h4-sma20-80-atr14
+python -X utf8 tooling/ai-engines/research_inventory.py --key us500-v16-slippage-endpoint-funnel
+~~~
+
+- **US500 trước tin.** Census lịch có 204 cửa sổ. Biên độ đêm thường
+  có đủ đối chứng cho 19/100 và 98/104. Pilot giá đêm tin mang trạng thái
+  `not_run`. [Hồ sơ](PROP-US500-PREANNOUNCEMENT-PREFLIGHT-20261119.md).
+- **EURUSD.** Tra đủ 24 recipe theo lớp hụt đầu tiên trong sổ stress.
+  Có 9 đã yếu sau spread, 13 đổi dấu khi tính commission và slippage,
+  2 đổi dấu khi tính financing. Midpoint trước spread còn unknown.
+  R022 định danh chính London postfix. Post-London 16NY có ID recipe
+  riêng và liên kết như biến thể cùng họ. Hậu kiểm rollover giữ nguyên
+  swap của hai recipe H4 trong lát 2018–2022. Bản thử lọc spread mới
+  dừng ở đăng ký. [Bảng gốc](GOLD-M1-PATH-AND-EURUSD-POSTMORTEM-20261113.md) ·
+  [Hậu kiểm rollover](PROP-EUR-FX-ROLLOVER-AUDIT-20261119.md).
+- **US500 V16.** Trong 98 cấu hình endpoint, 24 dương cả hai cụm ở
+  midpoint, 14 sau spread và 4 sau stress. Phép đo chỉ có giá hai mốc,
+  chưa xác nhận đường giữ lệnh hoặc stop. [Bảng gốc](PROP-US500-V16-SLIPPAGE-RESULTS-20261119.md).
+
+| Phạm vi kiểm ngày 19/11/2026 | Độ phủ |
+| --- | --- |
+| Git tại `5a2072a`, dưới `planning/research` và `planning/trader/research` | **968** đường dẫn. Có **27** gắn nhãn sâu, **84** được catalogue cũ dẫn có vai trò, **131** có vai trò ghi rõ trong index, **240** có link điều hướng đơn thuần và **486** chưa có binding. |
+| Nhãn loại artifact trên cùng 968 đường dẫn | **341** nhãn tạm theo quy ước tên, **23** unknown. Xem `artifact_role_counts`, `role_basis_counts` và danh sách `unknown_tracked_roles` qua `--all`. Nhãn loại file tách khỏi trạng thái liên kết bằng chứng. |
+| Đơn vị có nhãn sâu | **7** nhóm nguồn, **61** phân vùng có seal, **11** mục study/trạng thái, **24** recipe có nhãn phí và **24** profile corpus V26 theo hash trong card. Giữ nguyên **123** hồ sơ legacy. |
+| Kho private trên máy này | **405** thư mục cấp một thuộc `prop-*` hoặc campaign `execution-v1`. **13** có binding hoặc locator cụ thể trong catalogue, **90** nữa có locator trong tài liệu tracked và **302** mới kiểm kê theo tên. **38** tệp metadata kiểm SHA256, **79** locator payload chỉ kiểm sự tồn tại. |
+
+`--all` trả từng đường dẫn, căn cứ gán nhãn và phần chưa rõ. Thêm
+`--private-root E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs` để kiểm metadata
+trên máy hiện tại. Mẫu số giới hạn trong hai cây Git và hai nhóm thư mục
+đã nêu, ngoài phạm vi còn có các repo, kho raw, thư mục khác và lịch sử
+chưa lưu. Cột thay đổi so với mốc Git giúp nhận ra file mới hoặc đã dời.
+Chỉ nâng nhãn provisional khi có tài liệu hoặc seal làm căn cứ.
+
+**Việc còn thiếu có thể đổi quyết định.** Trước hết cần đối soát exposure
+theo partition để biết tập nào còn dùng được cho OOS. Sau đó kiểm lịch và
+phí tài khoản đích cùng những đoạn giá thiếu có thể đổi stop hoặc equity
+drawdown. Khi chọn tái sử dụng hồ sơ legacy, bổ sung liên kết về nguồn và
+lần đo cho đúng hồ sơ đó. Chi tiết nằm ở `gaps` trong catalogue. Cách nối
+nguồn, lần chạy và kết quả, cùng phép đo chất lượng có mẫu số, tham khảo
+các tài liệu sau. [W3C PROV](https://www.w3.org/TR/prov-overview/) ·
+[OpenLineage](https://openlineage.io/docs/spec/object-model/) ·
+[W3C DQV](https://www.w3.org/TR/vocab-dqv/).
+
 ## Rà lại ứng viên từng được giữ — 12/11/2026
 
 Owner nhắc phải kế thừa shortlist cũ trước khi đề xuất cơ chế mới. Đây là

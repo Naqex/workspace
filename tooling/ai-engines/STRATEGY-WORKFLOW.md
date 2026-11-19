@@ -275,6 +275,15 @@ Thẻ hypothesis là nội dung trong protocol/dossier hiện có, chưa phải 
 tự động mới. Độ tin cậy đến từ test đúng câu hỏi và đối chứng độc lập; tốc độ đến
 từ reuse dữ liệu/core/kết quả và chỉ chạy phần bị thay đổi, không từ việc bỏ gates.
 
+Khi đóng hoặc tái sử dụng study, cập nhật hồ sơ gốc và bổ sung liên kết
+cần tra trong `evidence_inventory` của
+[catalogue](../../planning/research/STRATEGY-CATALOGUE-20261107.md#tra-bằng-chứng-đã-gắn-nhãn).
+Giữ ID phiên bản, dataset và partition, nguồn và tài khoản đích, phạm vi
+giá đã dùng, mẫu số chất lượng, mô hình phí, đơn vị và điều kiện mở lại.
+Ghi `unknown` kèm lý do khi thiếu căn cứ. Chạy
+`python -X utf8 tooling/ai-engines/research_inventory.py` để kiểm liên kết
+và thay đổi phạm vi. Công cụ đọc metadata theo scope đã đăng ký.
+
 ### Nhật ký quyết định để kiểm lại việc tối ưu và chọn chiến lược
 
 Trước discovery numeric mới, ghi original→project trong protocol owner:
