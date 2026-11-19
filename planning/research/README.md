@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+**EURUSD · audit giờ rollover.** Đối chiếu 22:00 UTC với 17:00 New York.
+Catalogue13 không đổi tiền swap, F2 và RSI37 vẫn âm. Tape Reward V15,
+V4 và BASE_GUARD trong Development không cắt qua rollover EURUSD.
+[Kết quả](PROP-EUR-FX-ROLLOVER-AUDIT-20261119.md).
+
 **EURUSD · trước tin Mỹ sau ngày đấu giá Treasury.** 190 cơ hội trong
 2018–2023, 177 đủ giá. Theo đồng hồ rollover FX, cả hai cụm âm sau
 stress. Dừng Stage-0. [Kết quả](PROP-EUR-TREASURY-PRENEWS-STAGE0-RESULTS-20261119.md).

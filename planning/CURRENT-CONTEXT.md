@@ -4,6 +4,11 @@
 
 ## Việc hiện tại
 
+Hậu kiểm rollover EURUSD giữ kết luận gác Catalogue13 H4, F2 và RSI37.
+Kiểm mọi khoảng giữ và dự phòng trên tape V15, V4 và BASE_GUARD đã dùng
+cho Reward Development, không có sự kiện EURUSD ở cả hai đồng hồ.
+[Kết quả](research/PROP-EUR-FX-ROLLOVER-AUDIT-20261119.md).
+
 Gác EURUSD BUY trước tin Mỹ sau ngày đấu giá Treasury. 190 cơ hội theo
 lịch, 177 có giá. Dùng rollover FX 17:00 New York, hai cụm đều âm
 sau phí ở mức risk tham chiếu. [Kết quả](research/PROP-EUR-TREASURY-PRENEWS-STAGE0-RESULTS-20261119.md).
