@@ -73,6 +73,7 @@ trong hai cụm Development trước khi chạy một pilot.
 [Sàn và sổ đối chứng](./PROP-US500-12M-VIABILITY-20261119.md).
 Đã gác lượt kéo exit R094 tới 15:59. Stress +16,57R năm 2022 và
 −6,31R năm 2023. [Đối chiếu A/B](PROP-US500-R094-AFTERNOON-RESULTS-20261119.md).
+[Phạm vi kiểm ngoài mẫu của R094, RS01 và RS07](STRATEGY-CATALOGUE-20261107.md#us500-m15--phạm-vi-kiểm-ngoài-mẫu-của-r094-rs01-và-rs07).
 
 | Nhịp | Câu hỏi và bằng chứng cần có | Quyết định cuối nhịp |
 |---|---|---|

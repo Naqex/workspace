@@ -92,6 +92,35 @@ các tài liệu sau. [W3C PROV](https://www.w3.org/TR/prov-overview/) ·
 [OpenLineage](https://openlineage.io/docs/spec/object-model/) ·
 [W3C DQV](https://www.w3.org/TR/vocab-dqv/).
 
+### US500 M15 — phạm vi kiểm ngoài mẫu của R094, RS01 và RS07
+
+Rà metadata ngày 19/11/2026. **Chưa xác nhận được cửa sổ nào trong
+2018–2026 đủ căn cứ làm holdout chưa dùng cho quyết định về ba bộ luật
+này.** Kết luận theo phiên bản và mục đích đã ghi, với phần chưa xác minh
+để `unknown`.
+
+| Khoảng US500 | Đã dùng vào việc gì và giới hạn của bằng chứng |
+| --- | --- |
+| 2018–2019 | Chưa thấy sổ theo đúng ba bộ luật. FP07, tiền thân của RS01, đã đếm cơ hội trên phiên cash. Nguồn M1 Bid/Ask US500 cũng đã dùng cho đối chứng cash 2018–2023. Các phép đo này ghi nhận exposure liên quan, chưa xác định được mọi phân vùng hay ảnh hưởng tới từng quyết định. [Đếm FP07](US500-CHANNEL-HISTORY-RESULTS-20261112.md) · [Đối chứng cash](PROP-US500-CASH-SESSION-20261119.md). |
+| 2020–2021 | RS01 và RS07 đã dùng hai năm này cùng 2016 để chẩn đoán độ bền trên lịch sử. FP07 cũng đã đếm cơ hội. Báo cáo A/B của R094 dừng trước khi mở thêm 2018–2021. Điều đó chỉ xác định phạm vi của A/B. [Kiểm lịch sử RS01/RS07](US500-RECENT-SCREEN-RESULTS-20261112.md) · [R094 A/B](PROP-US500-R094-AFTERNOON-RESULTS-20261119.md). |
+| 2022–2024 | Sàng lọc Development cho R094 gốc (thoát 12:01 New York), RS01 phá kênh FP07 và RS07 quay lại Bollinger (liên quan R003). R094 B (thoát 15:59) chỉ so với A trên 2022–2023 và đã gác. RS04 là đối chứng đếm cơ hội với trigger liên quan R094 và giả định thực thi khác. [R094 gốc](US500-M15-OPENING-SCREEN-RESULTS-20261111.md) · [Protocol RS](US500-RECENT-SCREEN-PROTOCOL-20261112.md). |
+| 2025 | Dùng để lựa chọn trong study recent, gồm sổ kinh tế RS01/RS07 và đếm RS04. Sổ stress thiếu đường giá khiến không có recipe đủ điều kiện chọn, nên dùng RS01/RS07 theo phương án dự phòng đã khóa. [Kết quả chọn](US500-RECENT-SCREEN-RESULTS-20261112.md). |
+| 01/01–11/11/2026 (phiên New York) | RS01/RS07 đã chạy chẩn đoán sau khi khóa lựa chọn. Tình trạng từng sử dụng trước lần đó chưa được xác minh đầy đủ. Phần sau mốc 11/11 và các partition chưa truy được theo phiên bản vẫn `unknown`; chưa có bằng chứng để dùng làm holdout. [Phạm vi và giới hạn](US500-RECENT-SCREEN-RESULTS-20261112.md). |
+
+Các nguồn trên chủ yếu xác nhận theo năm hoặc cửa sổ công bố. Việc nguồn
+đã được nhập hay có quote đúng lúc quyết định là kiểm tra dữ liệu, còn
+holdout cần chứng minh kết quả chưa được dùng để thiết kế, chọn hay sửa
+luật. Vắng log hoặc ghi đóng trong một study chưa đủ để xác nhận điều đó.
+Quyền mở dữ liệu cần được cấp riêng.
+
+Nếu được giao kiểm tiếp, dùng phần lịch sử đã dùng cho hồi quy, chẩn đoán
+hoặc kiểm độ bền có ghi exposure. Chỉ dùng lịch sử để kiểm ngoài mẫu khi
+truy được đúng nguồn, phân vùng và lịch sử quyết định, khóa luật cùng tiêu
+chí trước khi xem và có quyền mở. Để chuyển sang quan sát forward, trước
+hết cần ứng viên có bằng chứng sau phí, rồi khóa cấu hình và tiêu chí,
+xin quyền phù hợp và chỉ thu dữ liệu phát sinh sau mốc khóa. Chưa khởi
+động quan sát. [Cửa kiểm định](../../.agents/skills/strategy-qualification/references/validation-gates.md).
+
 ## Rà lại ứng viên từng được giữ — 12/11/2026
 
 Owner nhắc phải kế thừa shortlist cũ trước khi đề xuất cơ chế mới. Đây là
