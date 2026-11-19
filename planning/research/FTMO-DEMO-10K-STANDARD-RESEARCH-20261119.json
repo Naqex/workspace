@@ -1,0 +1,3743 @@
+{
+  "schema": "ftmo-demo-ground-truth-research-v1",
+  "date": "2026-11-19",
+  "account": "FTMO-Demo USD 10k Standard",
+  "observed_account_leverage": 100,
+  "environment": "DEMO",
+  "scope": "current private target; 50k, 100k and 200k scenario only",
+  "clock": {
+    "observed_utc": "2026-11-19T10:02:11+00:00",
+    "server_time": "2026-11-19T12:02:11+02:00",
+    "offset_seconds": 7200,
+    "offset_scope": "Verified at MQL5 export only; fixed timezone used only for this observed standard-week conversion.",
+    "prague_time": "2026-11-19T11:02:11+01:00"
+  },
+  "read_only_capture": {
+    "requested_seconds": 120,
+    "elapsed_seconds": 120.01600000000326,
+    "polls": 480,
+    "samples": 1314,
+    "broker_timestamp_span_seconds": 112.94,
+    "first_poll_utc": "2026-11-19T10:17:02.648000+00:00",
+    "last_poll_utc": "2026-11-19T10:19:02.651000+00:00",
+    "source": "NATIVE_MT5_SYMBOL_INFO_TICK",
+    "complete_tick_feed_claim": false
+  },
+  "previous_read_only_tick_span_seconds": 7.958,
+  "atr_method": "Bid OHLC Wilder ATR(14); for M1, UTC H1 with >=45 observed minutes; UTC H4 requires 4 accepted H1; UTC D1 needs >=20 accepted H1. Observed gaps preserved; previous accepted close used.",
+  "atr_window": "2023 UTC",
+  "holdout_read": false,
+  "signal_backtests": 0,
+  "micro_probe": {
+    "reconciled_round_trips": 4,
+    "send_calls": 8.0,
+    "positions_total": 0,
+    "orders_total": 0,
+    "account_balance_delta_usd": -0.5900000000001455,
+    "trade_results": {
+      "XAUUSD": {
+        "status": "RECONCILED",
+        "hold_fill_to_fill_ms": 2600,
+        "commission_usd_per_lot_roundtrip": 6.0,
+        "fee_usd_per_lot_roundtrip": -0.0,
+        "commission_price_units_roundtrip": 0.06,
+        "unit": "price_points",
+        "slippage_price_units_roundtrip": -0.01999999999998181,
+        "net_cashflow_usd": -0.37,
+        "open": {
+          "side": "BUY",
+          "requested_price": 3726.81,
+          "quote_time_utc_msc": 1795084300654,
+          "request_started_utc_msc": 1795084306922,
+          "local_round_trip_ms": 338.6186,
+          "execution_mode": 2,
+          "fill_price": 3726.81,
+          "adverse_slippage_price": 0.0,
+          "adverse_slippage_points": 0.0,
+          "fill_utc_msc": 1795084302681,
+          "server_order_setup_to_done_ms": 139,
+          "commission": -0.03,
+          "fee": 0.0,
+          "profit": 0.0,
+          "swap": 0.0
+        },
+        "close": {
+          "side": "SELL",
+          "requested_price": 3726.48,
+          "quote_time_utc_msc": 1795084304708,
+          "request_started_utc_msc": 1795084309519,
+          "local_round_trip_ms": 396.3324,
+          "execution_mode": 2,
+          "fill_price": 3726.5,
+          "adverse_slippage_price": -0.01999999999998181,
+          "adverse_slippage_points": -1.999999999998181,
+          "fill_utc_msc": 1795084305281,
+          "server_order_setup_to_done_ms": 145,
+          "commission": -0.03,
+          "fee": 0.0,
+          "profit": -0.31,
+          "swap": 0.0
+        }
+      },
+      "EURUSD": {
+        "status": "RECONCILED",
+        "hold_fill_to_fill_ms": 2609,
+        "commission_usd_per_lot_roundtrip": 6.0,
+        "fee_usd_per_lot_roundtrip": -0.0,
+        "commission_price_units_roundtrip": 0.6,
+        "unit": "pips",
+        "slippage_price_units_roundtrip": 0.10000000000065512,
+        "net_cashflow_usd": -0.07,
+        "open": {
+          "side": "BUY",
+          "requested_price": 1.09994,
+          "quote_time_utc_msc": 1795083691060,
+          "request_started_utc_msc": 1795083696261,
+          "local_round_trip_ms": 353.5992,
+          "execution_mode": 2,
+          "fill_price": 1.09995,
+          "adverse_slippage_price": 1.0000000000065512e-05,
+          "adverse_slippage_points": 1.0000000000065512,
+          "fill_utc_msc": 1795083692025,
+          "server_order_setup_to_done_ms": null,
+          "commission": -0.03,
+          "fee": 0.0,
+          "profit": 0.0,
+          "swap": 0.0
+        },
+        "close": {
+          "side": "SELL",
+          "requested_price": 1.09994,
+          "quote_time_utc_msc": 1795083691804,
+          "request_started_utc_msc": 1795083698870,
+          "local_round_trip_ms": 350.3799,
+          "execution_mode": 2,
+          "fill_price": 1.09994,
+          "adverse_slippage_price": -0.0,
+          "adverse_slippage_points": -0.0,
+          "fill_utc_msc": 1795083694634,
+          "server_order_setup_to_done_ms": null,
+          "commission": -0.03,
+          "fee": 0.0,
+          "profit": -0.01,
+          "swap": 0.0
+        }
+      },
+      "GBPJPY": {
+        "status": "RECONCILED",
+        "hold_fill_to_fill_ms": 2623,
+        "commission_usd_per_lot_roundtrip": 6.0,
+        "fee_usd_per_lot_roundtrip": -0.0,
+        "commission_price_units_roundtrip": 0.9595679999999999,
+        "unit": "pips",
+        "slippage_price_units_roundtrip": -0.30000000000143245,
+        "net_cashflow_usd": -0.14,
+        "open": {
+          "side": "BUY",
+          "requested_price": 210.407,
+          "quote_time_utc_msc": 1795084126211,
+          "request_started_utc_msc": 1795084131242,
+          "local_round_trip_ms": 342.9173,
+          "execution_mode": 2,
+          "fill_price": 210.407,
+          "adverse_slippage_price": 0.0,
+          "adverse_slippage_points": 0.0,
+          "fill_utc_msc": 1795084126993,
+          "server_order_setup_to_done_ms": 135,
+          "commission": -0.03,
+          "fee": 0.0,
+          "profit": 0.0,
+          "swap": 0.0
+        },
+        "close": {
+          "side": "SELL",
+          "requested_price": 210.392,
+          "quote_time_utc_msc": 1795084129060,
+          "request_started_utc_msc": 1795084133837,
+          "local_round_trip_ms": 407.1417,
+          "execution_mode": 2,
+          "fill_price": 210.395,
+          "adverse_slippage_price": -0.0030000000000143245,
+          "adverse_slippage_points": -3.0000000000143245,
+          "fill_utc_msc": 1795084129616,
+          "server_order_setup_to_done_ms": 148,
+          "commission": -0.03,
+          "fee": 0.0,
+          "profit": -0.08,
+          "swap": 0.0
+        }
+      },
+      "US500.cash": {
+        "status": "RECONCILED",
+        "hold_fill_to_fill_ms": 2826,
+        "commission_usd_per_lot_roundtrip": -0.0,
+        "fee_usd_per_lot_roundtrip": -0.0,
+        "commission_price_units_roundtrip": -0.0,
+        "unit": "price_points",
+        "slippage_price_units_roundtrip": -0.1000000000003638,
+        "net_cashflow_usd": -0.01,
+        "open": {
+          "side": "BUY",
+          "requested_price": 7405.55,
+          "quote_time_utc_msc": 1795084305410,
+          "request_started_utc_msc": 1795084310629,
+          "local_round_trip_ms": 563.4768,
+          "execution_mode": 2,
+          "fill_price": 7405.45,
+          "adverse_slippage_price": -0.1000000000003638,
+          "adverse_slippage_points": -10.00000000003638,
+          "fill_utc_msc": 1795084306405,
+          "server_order_setup_to_done_ms": 157,
+          "commission": 0.0,
+          "fee": 0.0,
+          "profit": 0.0,
+          "swap": 0.0
+        },
+        "close": {
+          "side": "SELL",
+          "requested_price": 7404.65,
+          "quote_time_utc_msc": 1795084308711,
+          "request_started_utc_msc": 1795084313449,
+          "local_round_trip_ms": 408.0682,
+          "execution_mode": 2,
+          "fill_price": 7404.65,
+          "adverse_slippage_price": -0.0,
+          "adverse_slippage_points": -0.0,
+          "fill_utc_msc": 1795084309231,
+          "server_order_setup_to_done_ms": 143,
+          "commission": 0.0,
+          "fee": 0.0,
+          "profit": -0.01,
+          "swap": 0.0
+        }
+      }
+    }
+  },
+  "symbols": {
+    "XAUUSD": {
+      "actual_symbol": "XAUUSD",
+      "broker": {
+        "contract_size": 100.0,
+        "volume_min": 0.01,
+        "volume_step": 0.01,
+        "tick_size": 0.01,
+        "stops_level_points": 0,
+        "spread": {
+          "n": 204,
+          "median": 0.35,
+          "p95": 0.39,
+          "max": 0.4,
+          "timestamp_span_seconds": 110.997
+        },
+        "price_unit": "USD/oz",
+        "notional_usd_per_lot_reference": 372753.0,
+        "effective_leverage_at_price": 50.0,
+        "margin_usd_buy": [
+          74.55,
+          7455.06
+        ],
+        "margin_usd_sell": [
+          74.54,
+          7454.3
+        ],
+        "swap_mode": "points",
+        "swap_buy_sell_points": [
+          -56.56,
+          -4.2
+        ],
+        "triple_swap_weekday_server": 3,
+        "swap_1x_usd_buy_sell": [
+          -56.56,
+          -4.2
+        ],
+        "nominal_trade_sessions_server": [
+          {
+            "weekday": 1,
+            "index": 0,
+            "from_server_seconds": 3900,
+            "to_server_seconds": 85800
+          },
+          {
+            "weekday": 2,
+            "index": 0,
+            "from_server_seconds": 3900,
+            "to_server_seconds": 85800
+          },
+          {
+            "weekday": 3,
+            "index": 0,
+            "from_server_seconds": 3900,
+            "to_server_seconds": 85800
+          },
+          {
+            "weekday": 4,
+            "index": 0,
+            "from_server_seconds": 3900,
+            "to_server_seconds": 85800
+          },
+          {
+            "weekday": 5,
+            "index": 0,
+            "from_server_seconds": 3900,
+            "to_server_seconds": 85800
+          }
+        ],
+        "nominal_weekly_trade_normalized": [
+          {
+            "weekday_server": 1,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-16T01:05+02:00",
+              "2026-11-16T23:50+02:00"
+            ],
+            "utc": [
+              "2026-11-15T23:05+00:00",
+              "2026-11-16T21:50+00:00"
+            ],
+            "prague": [
+              "2026-11-16T00:05+01:00",
+              "2026-11-16T22:50+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 80.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-17T00:00+01:00",
+              "utc": "2026-11-16T23:00+00:00",
+              "server": "2026-11-17T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-16T23:05+00:00",
+              "nominal_next_session_opened_by_reset": false
+            }
+          },
+          {
+            "weekday_server": 2,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-17T01:05+02:00",
+              "2026-11-17T23:50+02:00"
+            ],
+            "utc": [
+              "2026-11-16T23:05+00:00",
+              "2026-11-17T21:50+00:00"
+            ],
+            "prague": [
+              "2026-11-17T00:05+01:00",
+              "2026-11-17T22:50+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 80.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-18T00:00+01:00",
+              "utc": "2026-11-17T23:00+00:00",
+              "server": "2026-11-18T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-17T23:05+00:00",
+              "nominal_next_session_opened_by_reset": false
+            }
+          },
+          {
+            "weekday_server": 3,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-18T01:05+02:00",
+              "2026-11-18T23:50+02:00"
+            ],
+            "utc": [
+              "2026-11-17T23:05+00:00",
+              "2026-11-18T21:50+00:00"
+            ],
+            "prague": [
+              "2026-11-18T00:05+01:00",
+              "2026-11-18T22:50+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 80.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-19T00:00+01:00",
+              "utc": "2026-11-18T23:00+00:00",
+              "server": "2026-11-19T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-18T23:05+00:00",
+              "nominal_next_session_opened_by_reset": false
+            }
+          },
+          {
+            "weekday_server": 4,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-19T01:05+02:00",
+              "2026-11-19T23:50+02:00"
+            ],
+            "utc": [
+              "2026-11-18T23:05+00:00",
+              "2026-11-19T21:50+00:00"
+            ],
+            "prague": [
+              "2026-11-19T00:05+01:00",
+              "2026-11-19T22:50+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 80.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-20T00:00+01:00",
+              "utc": "2026-11-19T23:00+00:00",
+              "server": "2026-11-20T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-19T23:05+00:00",
+              "nominal_next_session_opened_by_reset": false
+            }
+          },
+          {
+            "weekday_server": 5,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-20T01:05+02:00",
+              "2026-11-20T23:50+02:00"
+            ],
+            "utc": [
+              "2026-11-19T23:05+00:00",
+              "2026-11-20T21:50+00:00"
+            ],
+            "prague": [
+              "2026-11-20T00:05+01:00",
+              "2026-11-20T22:50+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 80.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-21T00:00+01:00",
+              "utc": "2026-11-20T23:00+00:00",
+              "server": "2026-11-21T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-22T23:05+00:00",
+              "nominal_next_session_opened_by_reset": false
+            }
+          }
+        ],
+        "commission_usd_per_lot_roundtrip": 6.0,
+        "commission_status": "measured_0.01_demo_scaled",
+        "fee_usd_per_lot_roundtrip": 0.0,
+        "spread_plus_commission_median": 0.41,
+        "spread_plus_commission_plus_fee": 0.41,
+        "spread_lower_bound_usd_per_lot": 35.0
+      },
+      "history": {
+        "grain": "M1 BID, Ask proxy irrelevant for ATR",
+        "admitted_start_utc": "2017-11-01T00:00:00+00:00",
+        "admitted_end_utc": "2023-12-29T21:58:00+00:00",
+        "metadata_range": "QDM metadata 2003–2026, 2024+ payload unopened",
+        "hash": "06055437ff660dd55b7703c3954975c313bcbd89c6dad917328c1343ec481a19",
+        "locator": "XAUUSD-M1.bin",
+        "h1_partial_dropped_2023": 7,
+        "source_minutes_2023": 352969,
+        "selected_first_utc": "2022-12-01T00:00:00+00:00",
+        "selected_last_utc": "2023-12-29T21:58:00+00:00",
+        "bars_2023": 352969,
+        "h1_usable_2023": 5883
+      },
+      "atr14": {
+        "H1": {
+          "median_price": 4.134161778773274,
+          "observations": 5883,
+          "first_bar_open_utc": "2023-01-02T23:00:00+00:00",
+          "last_bar_open_utc": "2023-12-29T21:00:00+00:00",
+          "median_in_display_units": 4.134161778773274
+        },
+        "H4": {
+          "median_price": 9.401976476747478,
+          "observations": 1277,
+          "first_bar_open_utc": "2023-01-03T00:00:00+00:00",
+          "last_bar_open_utc": "2023-12-29T16:00:00+00:00",
+          "median_in_display_units": 9.401976476747478
+        },
+        "D1": {
+          "median_price": 23.862631003236153,
+          "observations": 254,
+          "first_bar_open_utc": "2023-01-03T00:00:00+00:00",
+          "last_bar_open_utc": "2023-12-29T00:00:00+00:00",
+          "median_in_display_units": 23.862631003236153
+        }
+      },
+      "friction": {
+        "H1": {
+          "spread_plus_commission_pct_atr": 9.91736709736741,
+          "spread_only_pct_atr": 8.466045083118521
+        },
+        "H4": {
+          "spread_plus_commission_pct_atr": 4.360785213768536,
+          "spread_only_pct_atr": 3.722621523948751
+        },
+        "D1": {
+          "spread_plus_commission_pct_atr": 1.7181676234460375,
+          "spread_only_pct_atr": 1.4667284590393006
+        }
+      },
+      "swap_1x_pct_d1_atr": [
+        2.3702331898075095,
+        0.1760074150847161
+      ],
+      "swap_3x_pct_d1_atr": [
+        7.110699569422529,
+        0.5280222452541483
+      ],
+      "sizing": {
+        "H4": {
+          "10000": {
+            "risk_budget_usd": 50.0,
+            "ideal_lots": 0.050958132766105294,
+            "rounded_lots": 0.05,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 9.811976476747478,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 49.05988238373739,
+            "margin_usd": 372.753,
+            "margin_pct_of_account": 3.72753,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          },
+          "50000": {
+            "risk_budget_usd": 250.0,
+            "ideal_lots": 0.25479066383052645,
+            "rounded_lots": 0.25,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 9.811976476747478,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 245.29941191868696,
+            "margin_usd": 1863.765,
+            "margin_pct_of_account": 3.72753,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          },
+          "100000": {
+            "risk_budget_usd": 500.0,
+            "ideal_lots": 0.5095813276610529,
+            "rounded_lots": 0.5,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 9.811976476747478,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 490.5988238373739,
+            "margin_usd": 3727.53,
+            "margin_pct_of_account": 3.72753,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          },
+          "200000": {
+            "risk_budget_usd": 1000.0,
+            "ideal_lots": 1.0191626553221058,
+            "rounded_lots": 1.01,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 9.811976476747478,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 991.0096241514952,
+            "margin_usd": 7529.6106,
+            "margin_pct_of_account": 3.7648053,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          }
+        },
+        "D1": {
+          "10000": {
+            "risk_budget_usd": 50.0,
+            "ideal_lots": 0.02059933263655421,
+            "rounded_lots": 0.02,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 24.27263100323615,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 48.5452620064723,
+            "margin_usd": 149.1012,
+            "margin_pct_of_account": 1.491012,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          },
+          "50000": {
+            "risk_budget_usd": 250.0,
+            "ideal_lots": 0.10299666318277105,
+            "rounded_lots": 0.1,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 24.27263100323615,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 242.7263100323615,
+            "margin_usd": 745.506,
+            "margin_pct_of_account": 1.491012,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          },
+          "100000": {
+            "risk_budget_usd": 500.0,
+            "ideal_lots": 0.2059933263655421,
+            "rounded_lots": 0.2,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 24.27263100323615,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 485.452620064723,
+            "margin_usd": 1491.012,
+            "margin_pct_of_account": 1.491012,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          },
+          "200000": {
+            "risk_budget_usd": 1000.0,
+            "ideal_lots": 0.4119866527310842,
+            "rounded_lots": 0.41,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 24.27263100323615,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 995.1778711326822,
+            "margin_usd": 3056.5746,
+            "margin_pct_of_account": 1.5282873,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          }
+        }
+      }
+    },
+    "EURUSD": {
+      "actual_symbol": "EURUSD",
+      "broker": {
+        "contract_size": 100000.0,
+        "volume_min": 0.01,
+        "volume_step": 0.01,
+        "tick_size": 1e-05,
+        "stops_level_points": 0,
+        "spread": {
+          "n": 139,
+          "median": 0.1,
+          "p95": 0.3,
+          "max": 0.3,
+          "timestamp_span_seconds": 111.748
+        },
+        "price_unit": "pips",
+        "notional_usd_per_lot_reference": 109925.99999999999,
+        "effective_leverage_at_price": 99.99999999999999,
+        "margin_usd_buy": [
+          10.99,
+          1099.26
+        ],
+        "margin_usd_sell": [
+          10.99,
+          1099.25
+        ],
+        "swap_mode": "points",
+        "swap_buy_sell_points": [
+          -8.47,
+          0.29
+        ],
+        "triple_swap_weekday_server": 3,
+        "swap_1x_usd_buy_sell": [
+          -8.47,
+          0.29
+        ],
+        "nominal_trade_sessions_server": [
+          {
+            "weekday": 1,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 2,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 3,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 4,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 5,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          }
+        ],
+        "nominal_weekly_trade_normalized": [
+          {
+            "weekday_server": 1,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-16T00:05+02:00",
+              "2026-11-16T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-15T22:05+00:00",
+              "2026-11-16T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-15T23:05+01:00",
+              "2026-11-16T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-17T00:00+01:00",
+              "utc": "2026-11-16T23:00+00:00",
+              "server": "2026-11-17T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-16T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 2,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-17T00:05+02:00",
+              "2026-11-17T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-16T22:05+00:00",
+              "2026-11-17T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-16T23:05+01:00",
+              "2026-11-17T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-18T00:00+01:00",
+              "utc": "2026-11-17T23:00+00:00",
+              "server": "2026-11-18T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-17T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 3,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-18T00:05+02:00",
+              "2026-11-18T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-17T22:05+00:00",
+              "2026-11-18T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-17T23:05+01:00",
+              "2026-11-18T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-19T00:00+01:00",
+              "utc": "2026-11-18T23:00+00:00",
+              "server": "2026-11-19T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-18T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 4,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-19T00:05+02:00",
+              "2026-11-19T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-18T22:05+00:00",
+              "2026-11-19T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-18T23:05+01:00",
+              "2026-11-19T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-20T00:00+01:00",
+              "utc": "2026-11-19T23:00+00:00",
+              "server": "2026-11-20T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-19T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 5,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-20T00:05+02:00",
+              "2026-11-20T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-19T22:05+00:00",
+              "2026-11-20T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-19T23:05+01:00",
+              "2026-11-20T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-21T00:00+01:00",
+              "utc": "2026-11-20T23:00+00:00",
+              "server": "2026-11-21T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-22T22:05+00:00",
+              "nominal_next_session_opened_by_reset": false
+            }
+          }
+        ],
+        "commission_usd_per_lot_roundtrip": 6.0,
+        "commission_status": "measured_0.01_demo_scaled",
+        "fee_usd_per_lot_roundtrip": 0.0,
+        "spread_plus_commission_median": 0.7000000000000001,
+        "spread_plus_commission_plus_fee": 0.7000000000000001,
+        "spread_lower_bound_usd_per_lot": 0.9999999999999999
+      },
+      "history": {
+        "grain": "M1 BID, Ask proxy irrelevant for ATR",
+        "admitted_start_utc": "2017-11-01T00:00:00+00:00",
+        "admitted_end_utc": "2023-12-29T21:59:00+00:00",
+        "metadata_range": "QDM metadata 2003–2026, 2024+ payload unopened",
+        "hash": "8a65a5ddb7880abfa90115f4508cb2bc44a454f09a9fb254da86f6b012529ab5",
+        "locator": "EURUSD-M1.bin",
+        "h1_partial_dropped_2023": 28,
+        "source_minutes_2023": 371125,
+        "selected_first_utc": "2022-12-01T00:00:00+00:00",
+        "selected_last_utc": "2023-12-29T21:59:00+00:00",
+        "bars_2023": 371125,
+        "h1_usable_2023": 6197
+      },
+      "atr14": {
+        "H1": {
+          "median_price": 0.0013063511130832546,
+          "observations": 6197,
+          "first_bar_open_utc": "2023-01-01T23:00:00+00:00",
+          "last_bar_open_utc": "2023-12-29T21:00:00+00:00",
+          "median_in_display_units": 13.063511130832547
+        },
+        "H4": {
+          "median_price": 0.0027696400050257995,
+          "observations": 1483,
+          "first_bar_open_utc": "2023-01-02T00:00:00+00:00",
+          "last_bar_open_utc": "2023-12-29T16:00:00+00:00",
+          "median_in_display_units": 27.696400050257992
+        },
+        "D1": {
+          "median_price": 0.007478283792275502,
+          "observations": 259,
+          "first_bar_open_utc": "2023-01-02T00:00:00+00:00",
+          "last_bar_open_utc": "2023-12-29T00:00:00+00:00",
+          "median_in_display_units": 74.78283792275501
+        }
+      },
+      "friction": {
+        "H1": {
+          "spread_plus_commission_pct_atr": 5.358436893339169,
+          "spread_only_pct_atr": 0.7654909847627385
+        },
+        "H4": {
+          "spread_plus_commission_pct_atr": 2.527404279002966,
+          "spread_only_pct_atr": 0.3610577541432808
+        },
+        "D1": {
+          "spread_plus_commission_pct_atr": 0.9360436424237428,
+          "spread_only_pct_atr": 0.13372052034624896
+        }
+      },
+      "swap_1x_pct_d1_atr": [
+        1.1326128073327288,
+        -0.038778950900412196
+      ],
+      "swap_3x_pct_d1_atr": [
+        3.3978384219981868,
+        -0.11633685270123659
+      ],
+      "sizing": {
+        "H4": {
+          "10000": {
+            "risk_budget_usd": 50.0,
+            "ideal_lots": 0.17607865754640167,
+            "rounded_lots": 0.17,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 2.839640005025799,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 48.273880085438584,
+            "margin_usd": 186.8742,
+            "margin_pct_of_account": 1.868742,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          },
+          "50000": {
+            "risk_budget_usd": 250.0,
+            "ideal_lots": 0.8803932877320084,
+            "rounded_lots": 0.88,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 2.839640005025799,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 249.8883204422703,
+            "margin_usd": 967.3488,
+            "margin_pct_of_account": 1.9346976,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          },
+          "100000": {
+            "risk_budget_usd": 500.0,
+            "ideal_lots": 1.7607865754640168,
+            "rounded_lots": 1.76,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 2.839640005025799,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 499.7766408845406,
+            "margin_usd": 1934.6976,
+            "margin_pct_of_account": 1.9346976,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          },
+          "200000": {
+            "risk_budget_usd": 1000.0,
+            "ideal_lots": 3.5215731509280337,
+            "rounded_lots": 3.52,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 2.839640005025799,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 999.5532817690812,
+            "margin_usd": 3869.3952,
+            "margin_pct_of_account": 1.9346976,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          }
+        },
+        "D1": {
+          "10000": {
+            "risk_budget_usd": 50.0,
+            "ideal_lots": 0.06624022277907365,
+            "rounded_lots": 0.06,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 7.5482837922755,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 45.289702753653,
+            "margin_usd": 65.9556,
+            "margin_pct_of_account": 0.659556,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          },
+          "50000": {
+            "risk_budget_usd": 250.0,
+            "ideal_lots": 0.3312011138953682,
+            "rounded_lots": 0.33,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 7.5482837922755,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 249.0933651450915,
+            "margin_usd": 362.7558,
+            "margin_pct_of_account": 0.7255116,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          },
+          "100000": {
+            "risk_budget_usd": 500.0,
+            "ideal_lots": 0.6624022277907364,
+            "rounded_lots": 0.66,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 7.5482837922755,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 498.186730290183,
+            "margin_usd": 725.5116,
+            "margin_pct_of_account": 0.7255116,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          },
+          "200000": {
+            "risk_budget_usd": 1000.0,
+            "ideal_lots": 1.3248044555814729,
+            "rounded_lots": 1.32,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 7.5482837922755,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 996.373460580366,
+            "margin_usd": 1451.0232,
+            "margin_pct_of_account": 0.7255116,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          }
+        }
+      }
+    },
+    "GBPUSD": {
+      "actual_symbol": "GBPUSD",
+      "broker": {
+        "contract_size": 100000.0,
+        "volume_min": 0.01,
+        "volume_step": 0.01,
+        "tick_size": 1e-05,
+        "stops_level_points": 0,
+        "spread": {
+          "n": 91,
+          "median": 0.7,
+          "p95": 0.8,
+          "max": 0.8,
+          "timestamp_span_seconds": 111.453
+        },
+        "price_unit": "pips",
+        "notional_usd_per_lot_reference": 131466.0,
+        "effective_leverage_at_price": 100.0,
+        "margin_usd_buy": [
+          13.15,
+          1314.66
+        ],
+        "margin_usd_sell": [
+          13.15,
+          1314.63
+        ],
+        "swap_mode": "points",
+        "swap_buy_sell_points": [
+          -4.58,
+          -5.33
+        ],
+        "triple_swap_weekday_server": 3,
+        "swap_1x_usd_buy_sell": [
+          -4.58,
+          -5.33
+        ],
+        "nominal_trade_sessions_server": [
+          {
+            "weekday": 1,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 2,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 3,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 4,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 5,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          }
+        ],
+        "nominal_weekly_trade_normalized": [
+          {
+            "weekday_server": 1,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-16T00:05+02:00",
+              "2026-11-16T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-15T22:05+00:00",
+              "2026-11-16T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-15T23:05+01:00",
+              "2026-11-16T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-17T00:00+01:00",
+              "utc": "2026-11-16T23:00+00:00",
+              "server": "2026-11-17T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-16T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 2,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-17T00:05+02:00",
+              "2026-11-17T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-16T22:05+00:00",
+              "2026-11-17T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-16T23:05+01:00",
+              "2026-11-17T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-18T00:00+01:00",
+              "utc": "2026-11-17T23:00+00:00",
+              "server": "2026-11-18T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-17T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 3,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-18T00:05+02:00",
+              "2026-11-18T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-17T22:05+00:00",
+              "2026-11-18T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-17T23:05+01:00",
+              "2026-11-18T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-19T00:00+01:00",
+              "utc": "2026-11-18T23:00+00:00",
+              "server": "2026-11-19T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-18T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 4,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-19T00:05+02:00",
+              "2026-11-19T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-18T22:05+00:00",
+              "2026-11-19T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-18T23:05+01:00",
+              "2026-11-19T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-20T00:00+01:00",
+              "utc": "2026-11-19T23:00+00:00",
+              "server": "2026-11-20T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-19T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 5,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-20T00:05+02:00",
+              "2026-11-20T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-19T22:05+00:00",
+              "2026-11-20T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-19T23:05+01:00",
+              "2026-11-20T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-21T00:00+01:00",
+              "utc": "2026-11-20T23:00+00:00",
+              "server": "2026-11-21T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-22T22:05+00:00",
+              "nominal_next_session_opened_by_reset": false
+            }
+          }
+        ],
+        "commission_usd_per_lot_roundtrip": 6.0,
+        "commission_status": "inferred_from_group:EURUSD",
+        "fee_usd_per_lot_roundtrip": null,
+        "spread_plus_commission_median": 1.3,
+        "spread_plus_commission_plus_fee": 1.3,
+        "spread_lower_bound_usd_per_lot": 6.999999999999998
+      },
+      "history": {
+        "grain": "Paired bid/ask H1 only",
+        "resolution_scope": "2017–2023 admitted, no admitted continuous M1",
+        "unpaired_selected_hours": 0,
+        "selected_source_hashes": [
+          "108dd84ee766b8aaa0b57669ed757a1b08f5b0840f4c420e28928e2e76e2dd0e",
+          "e2c5d2a718b836c248a04b1a25964b60eb6bcf2860bb52652c309f6f309c4dd9",
+          "a276061aaf6fd9f3767205d2bcf328c6eef22fbeba86a0ebb31e24dd06caef37",
+          "d1f91d65f6627c1bf8dd7c79f9592207ff064dc62cb5ead0926a6a1c1e295fda"
+        ],
+        "selected_first_utc": "2022-12-01T00:00:00+00:00",
+        "selected_last_utc": "2023-12-29T21:00:00+00:00",
+        "bars_2023": 6223,
+        "h1_usable_2023": 6223
+      },
+      "atr14": {
+        "H1": {
+          "median_price": 0.001737916873046428,
+          "observations": 6223,
+          "first_bar_open_utc": "2023-01-01T23:00:00+00:00",
+          "last_bar_open_utc": "2023-12-29T21:00:00+00:00",
+          "median_in_display_units": 17.37916873046428
+        },
+        "H4": {
+          "median_price": 0.003644095191407433,
+          "observations": 1504,
+          "first_bar_open_utc": "2023-01-02T00:00:00+00:00",
+          "last_bar_open_utc": "2023-12-29T16:00:00+00:00",
+          "median_in_display_units": 36.440951914074326
+        },
+        "D1": {
+          "median_price": 0.009616323572880916,
+          "observations": 259,
+          "first_bar_open_utc": "2023-01-02T00:00:00+00:00",
+          "last_bar_open_utc": "2023-12-29T00:00:00+00:00",
+          "median_in_display_units": 96.16323572880916
+        }
+      },
+      "friction": {
+        "H1": {
+          "spread_plus_commission_pct_atr": 7.480219682321197,
+          "spread_only_pct_atr": 4.027810598172952
+        },
+        "H4": {
+          "spread_plus_commission_pct_atr": 3.5674150419158246,
+          "spread_only_pct_atr": 1.9209157918008282
+        },
+        "D1": {
+          "spread_plus_commission_pct_atr": 1.351867987955545,
+          "spread_only_pct_atr": 0.7279289165914471
+        }
+      },
+      "swap_1x_pct_d1_atr": [
+        0.4762734911412612,
+        0.5542658750617735
+      ],
+      "swap_3x_pct_d1_atr": [
+        1.4288204734237837,
+        1.6627976251853205
+      ],
+      "sizing": {
+        "H4": {
+          "10000": {
+            "risk_budget_usd": 50.0,
+            "ideal_lots": 0.13248208501427344,
+            "rounded_lots": 0.13,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 3.774095191407432,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 49.063237488296615,
+            "margin_usd": 170.9058,
+            "margin_pct_of_account": 1.709058,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          },
+          "50000": {
+            "risk_budget_usd": 250.0,
+            "ideal_lots": 0.6624104250713672,
+            "rounded_lots": 0.66,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 3.774095191407432,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 249.0902826328905,
+            "margin_usd": 867.6756,
+            "margin_pct_of_account": 1.7353512,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          },
+          "100000": {
+            "risk_budget_usd": 500.0,
+            "ideal_lots": 1.3248208501427343,
+            "rounded_lots": 1.32,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 3.774095191407432,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 498.180565265781,
+            "margin_usd": 1735.3512,
+            "margin_pct_of_account": 1.7353512,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          },
+          "200000": {
+            "risk_budget_usd": 1000.0,
+            "ideal_lots": 2.6496417002854686,
+            "rounded_lots": 2.64,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 3.774095191407432,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 996.361130531562,
+            "margin_usd": 3470.7024,
+            "margin_pct_of_account": 1.7353512,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          }
+        },
+        "D1": {
+          "10000": {
+            "risk_budget_usd": 50.0,
+            "ideal_lots": 0.051301395470928844,
+            "rounded_lots": 0.05,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 9.746323572880915,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 48.731617864404576,
+            "margin_usd": 65.733,
+            "margin_pct_of_account": 0.65733,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          },
+          "50000": {
+            "risk_budget_usd": 250.0,
+            "ideal_lots": 0.25650697735464423,
+            "rounded_lots": 0.25,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 9.746323572880915,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 243.65808932202287,
+            "margin_usd": 328.665,
+            "margin_pct_of_account": 0.65733,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          },
+          "100000": {
+            "risk_budget_usd": 500.0,
+            "ideal_lots": 0.5130139547092885,
+            "rounded_lots": 0.51,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 9.746323572880915,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 497.06250221692665,
+            "margin_usd": 670.4766,
+            "margin_pct_of_account": 0.6704766,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          },
+          "200000": {
+            "risk_budget_usd": 1000.0,
+            "ideal_lots": 1.026027909418577,
+            "rounded_lots": 1.02,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 9.746323572880915,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 994.1250044338533,
+            "margin_usd": 1340.9532,
+            "margin_pct_of_account": 0.6704766,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          }
+        }
+      }
+    },
+    "AUDUSD": {
+      "actual_symbol": "AUDUSD",
+      "broker": {
+        "contract_size": 100000.0,
+        "volume_min": 0.01,
+        "volume_step": 0.01,
+        "tick_size": 1e-05,
+        "stops_level_points": 0,
+        "spread": {
+          "n": 77,
+          "median": 0.4,
+          "p95": 0.4,
+          "max": 0.4,
+          "timestamp_span_seconds": 110.551
+        },
+        "price_unit": "pips",
+        "notional_usd_per_lot_reference": 67057.0,
+        "effective_leverage_at_price": 99.99999999999999,
+        "margin_usd_buy": [
+          6.71,
+          670.57
+        ],
+        "margin_usd_sell": [
+          6.71,
+          670.53
+        ],
+        "swap_mode": "points",
+        "swap_buy_sell_points": [
+          -2.45,
+          -7.05
+        ],
+        "triple_swap_weekday_server": 3,
+        "swap_1x_usd_buy_sell": [
+          -2.45,
+          -7.05
+        ],
+        "nominal_trade_sessions_server": [
+          {
+            "weekday": 1,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 2,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 3,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 4,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 5,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          }
+        ],
+        "nominal_weekly_trade_normalized": [
+          {
+            "weekday_server": 1,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-16T00:05+02:00",
+              "2026-11-16T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-15T22:05+00:00",
+              "2026-11-16T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-15T23:05+01:00",
+              "2026-11-16T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-17T00:00+01:00",
+              "utc": "2026-11-16T23:00+00:00",
+              "server": "2026-11-17T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-16T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 2,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-17T00:05+02:00",
+              "2026-11-17T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-16T22:05+00:00",
+              "2026-11-17T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-16T23:05+01:00",
+              "2026-11-17T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-18T00:00+01:00",
+              "utc": "2026-11-17T23:00+00:00",
+              "server": "2026-11-18T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-17T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 3,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-18T00:05+02:00",
+              "2026-11-18T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-17T22:05+00:00",
+              "2026-11-18T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-17T23:05+01:00",
+              "2026-11-18T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-19T00:00+01:00",
+              "utc": "2026-11-18T23:00+00:00",
+              "server": "2026-11-19T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-18T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 4,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-19T00:05+02:00",
+              "2026-11-19T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-18T22:05+00:00",
+              "2026-11-19T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-18T23:05+01:00",
+              "2026-11-19T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-20T00:00+01:00",
+              "utc": "2026-11-19T23:00+00:00",
+              "server": "2026-11-20T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-19T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 5,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-20T00:05+02:00",
+              "2026-11-20T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-19T22:05+00:00",
+              "2026-11-20T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-19T23:05+01:00",
+              "2026-11-20T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-21T00:00+01:00",
+              "utc": "2026-11-20T23:00+00:00",
+              "server": "2026-11-21T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-22T22:05+00:00",
+              "nominal_next_session_opened_by_reset": false
+            }
+          }
+        ],
+        "commission_usd_per_lot_roundtrip": 6.0,
+        "commission_status": "inferred_from_group:EURUSD",
+        "fee_usd_per_lot_roundtrip": null,
+        "spread_plus_commission_median": 1.0,
+        "spread_plus_commission_plus_fee": 1.0,
+        "spread_lower_bound_usd_per_lot": 3.9999999999999996
+      },
+      "history": {
+        "grain": "Paired bid/ask H1 only",
+        "resolution_scope": "2017–2023 admitted, no admitted continuous M1",
+        "unpaired_selected_hours": 0,
+        "selected_source_hashes": [
+          "923e18a990f5536d7ef91da5737b9496427821305b40afb33991dac88f7a1033",
+          "62351b856e8a4bd7ab4978d5d1dbeed8a9a2ae43c79bc6f9cb36615b126db90f",
+          "98f274b065587dfc1b71dbfe95fd2844a541a48dba49539d4de104e3748e91c5",
+          "d0f872306e42600ccf6a24ab4cacd41b1856ed22d6d8b3d8f38d07140c927d73"
+        ],
+        "selected_first_utc": "2022-12-01T00:00:00+00:00",
+        "selected_last_utc": "2023-12-29T21:00:00+00:00",
+        "bars_2023": 6225,
+        "h1_usable_2023": 6225
+      },
+      "atr14": {
+        "H1": {
+          "median_price": 0.0012695752590779926,
+          "observations": 6225,
+          "first_bar_open_utc": "2023-01-01T22:00:00+00:00",
+          "last_bar_open_utc": "2023-12-29T21:00:00+00:00",
+          "median_in_display_units": 12.695752590779925
+        },
+        "H4": {
+          "median_price": 0.002664291767565723,
+          "observations": 1504,
+          "first_bar_open_utc": "2023-01-02T00:00:00+00:00",
+          "last_bar_open_utc": "2023-12-29T16:00:00+00:00",
+          "median_in_display_units": 26.642917675657227
+        },
+        "D1": {
+          "median_price": 0.006775999710959442,
+          "observations": 259,
+          "first_bar_open_utc": "2023-01-02T00:00:00+00:00",
+          "last_bar_open_utc": "2023-12-29T00:00:00+00:00",
+          "median_in_display_units": 67.75999710959442
+        }
+      },
+      "friction": {
+        "H1": {
+          "spread_plus_commission_pct_atr": 7.876650028027744,
+          "spread_only_pct_atr": 3.1506600112110976
+        },
+        "H4": {
+          "spread_plus_commission_pct_atr": 3.7533426788075377,
+          "spread_only_pct_atr": 1.501337071523015
+        },
+        "D1": {
+          "spread_plus_commission_pct_atr": 1.4757969932947443,
+          "spread_only_pct_atr": 0.5903187973178977
+        }
+      },
+      "swap_1x_pct_d1_atr": [
+        0.36157026335721243,
+        1.0404368802727948
+      ],
+      "swap_3x_pct_d1_atr": [
+        1.0847107900716373,
+        3.1213106408183844
+      ],
+      "sizing": {
+        "H4": {
+          "10000": {
+            "risk_budget_usd": 50.0,
+            "ideal_lots": 0.180878156881503,
+            "rounded_lots": 0.18,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 2.7642917675657226,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 49.75725181618301,
+            "margin_usd": 120.7026,
+            "margin_pct_of_account": 1.207026,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          },
+          "50000": {
+            "risk_budget_usd": 250.0,
+            "ideal_lots": 0.9043907844075151,
+            "rounded_lots": 0.9,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 2.7642917675657226,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 248.78625908091502,
+            "margin_usd": 603.513,
+            "margin_pct_of_account": 1.207026,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          },
+          "100000": {
+            "risk_budget_usd": 500.0,
+            "ideal_lots": 1.8087815688150302,
+            "rounded_lots": 1.8,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 2.7642917675657226,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 497.57251816183003,
+            "margin_usd": 1207.026,
+            "margin_pct_of_account": 1.207026,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          },
+          "200000": {
+            "risk_budget_usd": 1000.0,
+            "ideal_lots": 3.6175631376300603,
+            "rounded_lots": 3.61,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 2.7642917675657226,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 997.9093280912258,
+            "margin_usd": 2420.7577,
+            "margin_pct_of_account": 1.21037885,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          }
+        },
+        "D1": {
+          "10000": {
+            "risk_budget_usd": 50.0,
+            "ideal_lots": 0.07271669881007495,
+            "rounded_lots": 0.07,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 6.87599971095944,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 48.13199797671608,
+            "margin_usd": 46.9399,
+            "margin_pct_of_account": 0.469399,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          },
+          "50000": {
+            "risk_budget_usd": 250.0,
+            "ideal_lots": 0.36358349405037477,
+            "rounded_lots": 0.36,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 6.87599971095944,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 247.53598959453984,
+            "margin_usd": 241.4052,
+            "margin_pct_of_account": 0.4828104,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          },
+          "100000": {
+            "risk_budget_usd": 500.0,
+            "ideal_lots": 0.7271669881007495,
+            "rounded_lots": 0.72,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 6.87599971095944,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 495.0719791890797,
+            "margin_usd": 482.8104,
+            "margin_pct_of_account": 0.4828104,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          },
+          "200000": {
+            "risk_budget_usd": 1000.0,
+            "ideal_lots": 1.454333976201499,
+            "rounded_lots": 1.45,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 6.87599971095944,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 997.0199580891187,
+            "margin_usd": 972.3265,
+            "margin_pct_of_account": 0.48616325,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          }
+        }
+      }
+    },
+    "USDJPY": {
+      "actual_symbol": "USDJPY",
+      "broker": {
+        "contract_size": 100000.0,
+        "volume_min": 0.01,
+        "volume_step": 0.01,
+        "tick_size": 0.001,
+        "stops_level_points": 0,
+        "spread": {
+          "n": 44,
+          "median": 0.3,
+          "p95": 0.8,
+          "max": 0.9,
+          "timestamp_span_seconds": 110.995
+        },
+        "price_unit": "pips",
+        "notional_usd_per_lot_reference": 100000.0,
+        "effective_leverage_at_price": 100.0,
+        "margin_usd_buy": [
+          10.0,
+          1000.0
+        ],
+        "margin_usd_sell": [
+          10.0,
+          1000.0
+        ],
+        "swap_mode": "points",
+        "swap_buy_sell_points": [
+          2.64,
+          -19.33
+        ],
+        "triple_swap_weekday_server": 3,
+        "swap_1x_usd_buy_sell": [
+          1.65125,
+          -12.09039
+        ],
+        "nominal_trade_sessions_server": [
+          {
+            "weekday": 1,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 2,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 3,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 4,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 5,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          }
+        ],
+        "nominal_weekly_trade_normalized": [
+          {
+            "weekday_server": 1,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-16T00:05+02:00",
+              "2026-11-16T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-15T22:05+00:00",
+              "2026-11-16T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-15T23:05+01:00",
+              "2026-11-16T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-17T00:00+01:00",
+              "utc": "2026-11-16T23:00+00:00",
+              "server": "2026-11-17T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-16T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 2,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-17T00:05+02:00",
+              "2026-11-17T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-16T22:05+00:00",
+              "2026-11-17T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-16T23:05+01:00",
+              "2026-11-17T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-18T00:00+01:00",
+              "utc": "2026-11-17T23:00+00:00",
+              "server": "2026-11-18T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-17T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 3,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-18T00:05+02:00",
+              "2026-11-18T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-17T22:05+00:00",
+              "2026-11-18T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-17T23:05+01:00",
+              "2026-11-18T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-19T00:00+01:00",
+              "utc": "2026-11-18T23:00+00:00",
+              "server": "2026-11-19T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-18T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 4,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-19T00:05+02:00",
+              "2026-11-19T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-18T22:05+00:00",
+              "2026-11-19T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-18T23:05+01:00",
+              "2026-11-19T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-20T00:00+01:00",
+              "utc": "2026-11-19T23:00+00:00",
+              "server": "2026-11-20T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-19T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 5,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-20T00:05+02:00",
+              "2026-11-20T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-19T22:05+00:00",
+              "2026-11-20T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-19T23:05+01:00",
+              "2026-11-20T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-21T00:00+01:00",
+              "utc": "2026-11-20T23:00+00:00",
+              "server": "2026-11-21T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-22T22:05+00:00",
+              "nominal_next_session_opened_by_reset": false
+            }
+          }
+        ],
+        "commission_usd_per_lot_roundtrip": 6.0,
+        "commission_status": "inferred_from_group:EURUSD",
+        "fee_usd_per_lot_roundtrip": null,
+        "spread_plus_commission_median": 1.2592739999999998,
+        "spread_plus_commission_plus_fee": 1.2592739999999998,
+        "spread_lower_bound_usd_per_lot": 1.8764190419004374
+      },
+      "history": {
+        "status": "TARGETED_PARTITIONS_ONLY",
+        "note": "M1 Bid/Ask ngày mục tiêu, 2010–2023 có theo báo cáo R085; chưa xác nhận H1/M1 liên tục đại diện"
+      },
+      "atr14": null
+    },
+    "USDCHF": {
+      "actual_symbol": "USDCHF",
+      "broker": {
+        "contract_size": 100000.0,
+        "volume_min": 0.01,
+        "volume_step": 0.01,
+        "tick_size": 1e-05,
+        "stops_level_points": 0,
+        "spread": {
+          "n": 72,
+          "median": 0.5,
+          "p95": 0.6,
+          "max": 0.6,
+          "timestamp_span_seconds": 112.649
+        },
+        "price_unit": "pips",
+        "notional_usd_per_lot_reference": 100000.0,
+        "effective_leverage_at_price": 100.0,
+        "margin_usd_buy": [
+          10.0,
+          1000.0
+        ],
+        "margin_usd_sell": [
+          10.0,
+          1000.0
+        ],
+        "swap_mode": "points",
+        "swap_buy_sell_points": [
+          1.95,
+          -13.52
+        ],
+        "triple_swap_weekday_server": 3,
+        "swap_1x_usd_buy_sell": [
+          2.31407,
+          -16.04424
+        ],
+        "nominal_trade_sessions_server": [
+          {
+            "weekday": 1,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 2,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 3,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 4,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 5,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          }
+        ],
+        "nominal_weekly_trade_normalized": [
+          {
+            "weekday_server": 1,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-16T00:05+02:00",
+              "2026-11-16T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-15T22:05+00:00",
+              "2026-11-16T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-15T23:05+01:00",
+              "2026-11-16T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-17T00:00+01:00",
+              "utc": "2026-11-16T23:00+00:00",
+              "server": "2026-11-17T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-16T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 2,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-17T00:05+02:00",
+              "2026-11-17T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-16T22:05+00:00",
+              "2026-11-17T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-16T23:05+01:00",
+              "2026-11-17T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-18T00:00+01:00",
+              "utc": "2026-11-17T23:00+00:00",
+              "server": "2026-11-18T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-17T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 3,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-18T00:05+02:00",
+              "2026-11-18T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-17T22:05+00:00",
+              "2026-11-18T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-17T23:05+01:00",
+              "2026-11-18T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-19T00:00+01:00",
+              "utc": "2026-11-18T23:00+00:00",
+              "server": "2026-11-19T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-18T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 4,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-19T00:05+02:00",
+              "2026-11-19T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-18T22:05+00:00",
+              "2026-11-19T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-18T23:05+01:00",
+              "2026-11-19T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-20T00:00+01:00",
+              "utc": "2026-11-19T23:00+00:00",
+              "server": "2026-11-20T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-19T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 5,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-20T00:05+02:00",
+              "2026-11-20T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-19T22:05+00:00",
+              "2026-11-20T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-19T23:05+01:00",
+              "2026-11-20T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-21T00:00+01:00",
+              "utc": "2026-11-20T23:00+00:00",
+              "server": "2026-11-21T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-22T22:05+00:00",
+              "nominal_next_session_opened_by_reset": false
+            }
+          }
+        ],
+        "commission_usd_per_lot_roundtrip": 6.0,
+        "commission_status": "inferred_from_group:EURUSD",
+        "fee_usd_per_lot_roundtrip": null,
+        "spread_plus_commission_median": 1.005602,
+        "spread_plus_commission_plus_fee": 1.005602,
+        "spread_lower_bound_usd_per_lot": 5.933520832591643
+      },
+      "history": {
+        "status": "NO_ADMITTED_HISTORY_FOUND",
+        "note": "Chưa tìm thấy M1/H1 liên tục đã admission trong inventory/QDM được rà"
+      },
+      "atr14": null
+    },
+    "USDCAD": {
+      "actual_symbol": "USDCAD",
+      "broker": {
+        "contract_size": 100000.0,
+        "volume_min": 0.01,
+        "volume_step": 0.01,
+        "tick_size": 1e-05,
+        "stops_level_points": 0,
+        "spread": {
+          "n": 71,
+          "median": 0.4,
+          "p95": 0.6,
+          "max": 0.6,
+          "timestamp_span_seconds": 111.465
+        },
+        "price_unit": "pips",
+        "notional_usd_per_lot_reference": 100000.0,
+        "effective_leverage_at_price": 100.0,
+        "margin_usd_buy": [
+          10.0,
+          1000.0
+        ],
+        "margin_usd_sell": [
+          10.0,
+          1000.0
+        ],
+        "swap_mode": "points",
+        "swap_buy_sell_points": [
+          0.71,
+          -10.82
+        ],
+        "triple_swap_weekday_server": 3,
+        "swap_1x_usd_buy_sell": [
+          0.49616,
+          -7.56125
+        ],
+        "nominal_trade_sessions_server": [
+          {
+            "weekday": 1,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 2,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 3,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 4,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 5,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          }
+        ],
+        "nominal_weekly_trade_normalized": [
+          {
+            "weekday_server": 1,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-16T00:05+02:00",
+              "2026-11-16T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-15T22:05+00:00",
+              "2026-11-16T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-15T23:05+01:00",
+              "2026-11-16T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-17T00:00+01:00",
+              "utc": "2026-11-16T23:00+00:00",
+              "server": "2026-11-17T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-16T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 2,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-17T00:05+02:00",
+              "2026-11-17T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-16T22:05+00:00",
+              "2026-11-17T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-16T23:05+01:00",
+              "2026-11-17T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-18T00:00+01:00",
+              "utc": "2026-11-17T23:00+00:00",
+              "server": "2026-11-18T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-17T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 3,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-18T00:05+02:00",
+              "2026-11-18T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-17T22:05+00:00",
+              "2026-11-18T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-17T23:05+01:00",
+              "2026-11-18T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-19T00:00+01:00",
+              "utc": "2026-11-18T23:00+00:00",
+              "server": "2026-11-19T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-18T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 4,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-19T00:05+02:00",
+              "2026-11-19T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-18T22:05+00:00",
+              "2026-11-19T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-18T23:05+01:00",
+              "2026-11-19T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-20T00:00+01:00",
+              "utc": "2026-11-19T23:00+00:00",
+              "server": "2026-11-20T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-19T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 5,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-20T00:05+02:00",
+              "2026-11-20T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-19T22:05+00:00",
+              "2026-11-20T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-19T23:05+01:00",
+              "2026-11-20T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-21T00:00+01:00",
+              "utc": "2026-11-20T23:00+00:00",
+              "server": "2026-11-21T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-22T22:05+00:00",
+              "nominal_next_session_opened_by_reset": false
+            }
+          }
+        ],
+        "commission_usd_per_lot_roundtrip": 6.0,
+        "commission_status": "inferred_from_group:EURUSD",
+        "fee_usd_per_lot_roundtrip": null,
+        "spread_plus_commission_median": 1.2585879999999998,
+        "spread_plus_commission_plus_fee": 1.2585879999999998,
+        "spread_lower_bound_usd_per_lot": 2.7952871458720603
+      },
+      "history": {
+        "status": "NO_ADMITTED_HISTORY_FOUND",
+        "note": "Chưa tìm thấy M1/H1 liên tục đã admission trong inventory/QDM được rà"
+      },
+      "atr14": null
+    },
+    "NZDUSD": {
+      "actual_symbol": "NZDUSD",
+      "broker": {
+        "contract_size": 100000.0,
+        "volume_min": 0.01,
+        "volume_step": 0.01,
+        "tick_size": 1e-05,
+        "stops_level_points": 0,
+        "spread": {
+          "n": 55,
+          "median": 0.6,
+          "p95": 0.6,
+          "max": 0.6,
+          "timestamp_span_seconds": 111.151
+        },
+        "price_unit": "pips",
+        "notional_usd_per_lot_reference": 55223.0,
+        "effective_leverage_at_price": 100.0,
+        "margin_usd_buy": [
+          5.52,
+          552.23
+        ],
+        "margin_usd_sell": [
+          5.52,
+          552.2
+        ],
+        "swap_mode": "points",
+        "swap_buy_sell_points": [
+          -4.8,
+          0.0
+        ],
+        "triple_swap_weekday_server": 3,
+        "swap_1x_usd_buy_sell": [
+          -4.8,
+          0.0
+        ],
+        "nominal_trade_sessions_server": [
+          {
+            "weekday": 1,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 2,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 3,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 4,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 5,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          }
+        ],
+        "nominal_weekly_trade_normalized": [
+          {
+            "weekday_server": 1,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-16T00:05+02:00",
+              "2026-11-16T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-15T22:05+00:00",
+              "2026-11-16T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-15T23:05+01:00",
+              "2026-11-16T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-17T00:00+01:00",
+              "utc": "2026-11-16T23:00+00:00",
+              "server": "2026-11-17T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-16T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 2,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-17T00:05+02:00",
+              "2026-11-17T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-16T22:05+00:00",
+              "2026-11-17T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-16T23:05+01:00",
+              "2026-11-17T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-18T00:00+01:00",
+              "utc": "2026-11-17T23:00+00:00",
+              "server": "2026-11-18T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-17T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 3,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-18T00:05+02:00",
+              "2026-11-18T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-17T22:05+00:00",
+              "2026-11-18T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-17T23:05+01:00",
+              "2026-11-18T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-19T00:00+01:00",
+              "utc": "2026-11-18T23:00+00:00",
+              "server": "2026-11-19T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-18T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 4,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-19T00:05+02:00",
+              "2026-11-19T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-18T22:05+00:00",
+              "2026-11-19T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-18T23:05+01:00",
+              "2026-11-19T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-20T00:00+01:00",
+              "utc": "2026-11-19T23:00+00:00",
+              "server": "2026-11-20T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-19T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 5,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-20T00:05+02:00",
+              "2026-11-20T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-19T22:05+00:00",
+              "2026-11-20T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-19T23:05+01:00",
+              "2026-11-20T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-21T00:00+01:00",
+              "utc": "2026-11-20T23:00+00:00",
+              "server": "2026-11-21T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-22T22:05+00:00",
+              "nominal_next_session_opened_by_reset": false
+            }
+          }
+        ],
+        "commission_usd_per_lot_roundtrip": 6.0,
+        "commission_status": "inferred_from_group:EURUSD",
+        "fee_usd_per_lot_roundtrip": null,
+        "spread_plus_commission_median": 1.2000000000000002,
+        "spread_plus_commission_plus_fee": 1.2000000000000002,
+        "spread_lower_bound_usd_per_lot": 5.999999999999999
+      },
+      "history": {
+        "status": "NO_ADMITTED_HISTORY_FOUND",
+        "note": "Chưa tìm thấy M1/H1 liên tục đã admission trong inventory/QDM được rà"
+      },
+      "atr14": null
+    },
+    "EURGBP": {
+      "actual_symbol": "EURGBP",
+      "broker": {
+        "contract_size": 100000.0,
+        "volume_min": 0.01,
+        "volume_step": 0.01,
+        "tick_size": 1e-05,
+        "stops_level_points": 0,
+        "spread": {
+          "n": 84,
+          "median": 0.5,
+          "p95": 0.6,
+          "max": 0.6,
+          "timestamp_span_seconds": 111.287
+        },
+        "price_unit": "pips",
+        "notional_usd_per_lot_reference": 109925.99999999999,
+        "effective_leverage_at_price": 99.99999999999999,
+        "margin_usd_buy": [
+          10.99,
+          1099.26
+        ],
+        "margin_usd_sell": [
+          10.99,
+          1099.25
+        ],
+        "swap_mode": "points",
+        "swap_buy_sell_points": [
+          -6.8,
+          0.15
+        ],
+        "triple_swap_weekday_server": 3,
+        "swap_1x_usd_buy_sell": [
+          -8.93867,
+          0.19718
+        ],
+        "nominal_trade_sessions_server": [
+          {
+            "weekday": 1,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 2,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 3,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 4,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 5,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          }
+        ],
+        "nominal_weekly_trade_normalized": [
+          {
+            "weekday_server": 1,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-16T00:05+02:00",
+              "2026-11-16T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-15T22:05+00:00",
+              "2026-11-16T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-15T23:05+01:00",
+              "2026-11-16T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-17T00:00+01:00",
+              "utc": "2026-11-16T23:00+00:00",
+              "server": "2026-11-17T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-16T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 2,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-17T00:05+02:00",
+              "2026-11-17T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-16T22:05+00:00",
+              "2026-11-17T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-16T23:05+01:00",
+              "2026-11-17T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-18T00:00+01:00",
+              "utc": "2026-11-17T23:00+00:00",
+              "server": "2026-11-18T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-17T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 3,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-18T00:05+02:00",
+              "2026-11-18T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-17T22:05+00:00",
+              "2026-11-18T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-17T23:05+01:00",
+              "2026-11-18T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-19T00:00+01:00",
+              "utc": "2026-11-18T23:00+00:00",
+              "server": "2026-11-19T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-18T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 4,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-19T00:05+02:00",
+              "2026-11-19T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-18T22:05+00:00",
+              "2026-11-19T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-18T23:05+01:00",
+              "2026-11-19T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-20T00:00+01:00",
+              "utc": "2026-11-19T23:00+00:00",
+              "server": "2026-11-20T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-19T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 5,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-20T00:05+02:00",
+              "2026-11-20T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-19T22:05+00:00",
+              "2026-11-20T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-19T23:05+01:00",
+              "2026-11-20T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-21T00:00+01:00",
+              "utc": "2026-11-20T23:00+00:00",
+              "server": "2026-11-21T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-22T22:05+00:00",
+              "nominal_next_session_opened_by_reset": false
+            }
+          }
+        ],
+        "commission_usd_per_lot_roundtrip": 6.0,
+        "commission_status": "inferred_from_group:GBPJPY",
+        "fee_usd_per_lot_roundtrip": null,
+        "spread_plus_commission_median": 0.9564438459958462,
+        "spread_plus_commission_plus_fee": 0.9564438459958462,
+        "spread_lower_bound_usd_per_lot": 6.5725500000000014
+      },
+      "history": {
+        "status": "NO_ADMITTED_HISTORY_FOUND",
+        "note": "Chưa tìm thấy M1/H1 liên tục đã admission trong inventory/QDM được rà"
+      },
+      "atr14": null
+    },
+    "EURJPY": {
+      "actual_symbol": "EURJPY",
+      "broker": {
+        "contract_size": 100000.0,
+        "volume_min": 0.01,
+        "volume_step": 0.01,
+        "tick_size": 0.001,
+        "stops_level_points": 0,
+        "spread": {
+          "n": 163,
+          "median": 0.9,
+          "p95": 1.1,
+          "max": 1.1,
+          "timestamp_span_seconds": 112.498
+        },
+        "price_unit": "pips",
+        "notional_usd_per_lot_reference": 109925.99999999999,
+        "effective_leverage_at_price": 99.99999999999999,
+        "margin_usd_buy": [
+          10.99,
+          1099.26
+        ],
+        "margin_usd_sell": [
+          10.99,
+          1099.25
+        ],
+        "swap_mode": "points",
+        "swap_buy_sell_points": [
+          2.11,
+          -11.15
+        ],
+        "triple_swap_weekday_server": 3,
+        "swap_1x_usd_buy_sell": [
+          1.31975,
+          -6.97402
+        ],
+        "nominal_trade_sessions_server": [
+          {
+            "weekday": 1,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 2,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 3,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 4,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 5,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          }
+        ],
+        "nominal_weekly_trade_normalized": [
+          {
+            "weekday_server": 1,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-16T00:05+02:00",
+              "2026-11-16T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-15T22:05+00:00",
+              "2026-11-16T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-15T23:05+01:00",
+              "2026-11-16T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-17T00:00+01:00",
+              "utc": "2026-11-16T23:00+00:00",
+              "server": "2026-11-17T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-16T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 2,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-17T00:05+02:00",
+              "2026-11-17T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-16T22:05+00:00",
+              "2026-11-17T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-16T23:05+01:00",
+              "2026-11-17T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-18T00:00+01:00",
+              "utc": "2026-11-17T23:00+00:00",
+              "server": "2026-11-18T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-17T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 3,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-18T00:05+02:00",
+              "2026-11-18T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-17T22:05+00:00",
+              "2026-11-18T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-17T23:05+01:00",
+              "2026-11-18T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-19T00:00+01:00",
+              "utc": "2026-11-18T23:00+00:00",
+              "server": "2026-11-19T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-18T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 4,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-19T00:05+02:00",
+              "2026-11-19T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-18T22:05+00:00",
+              "2026-11-19T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-18T23:05+01:00",
+              "2026-11-19T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-20T00:00+01:00",
+              "utc": "2026-11-19T23:00+00:00",
+              "server": "2026-11-20T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-19T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 5,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-20T00:05+02:00",
+              "2026-11-20T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-19T22:05+00:00",
+              "2026-11-20T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-19T23:05+01:00",
+              "2026-11-20T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-21T00:00+01:00",
+              "utc": "2026-11-20T23:00+00:00",
+              "server": "2026-11-21T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-22T22:05+00:00",
+              "nominal_next_session_opened_by_reset": false
+            }
+          }
+        ],
+        "commission_usd_per_lot_roundtrip": 6.0,
+        "commission_status": "inferred_from_group:GBPJPY",
+        "fee_usd_per_lot_roundtrip": null,
+        "spread_plus_commission_median": 1.8592739999999999,
+        "spread_plus_commission_plus_fee": 1.8592739999999999,
+        "spread_lower_bound_usd_per_lot": 5.629257125701312
+      },
+      "history": {
+        "status": "NO_ADMITTED_HISTORY_FOUND",
+        "note": "Chưa tìm thấy M1/H1 liên tục đã admission trong inventory/QDM được rà"
+      },
+      "atr14": null
+    },
+    "GBPJPY": {
+      "actual_symbol": "GBPJPY",
+      "broker": {
+        "contract_size": 100000.0,
+        "volume_min": 0.01,
+        "volume_step": 0.01,
+        "tick_size": 0.001,
+        "stops_level_points": 0,
+        "spread": {
+          "n": 117,
+          "median": 2.4,
+          "p95": 2.8,
+          "max": 3.1,
+          "timestamp_span_seconds": 110.998
+        },
+        "price_unit": "pips",
+        "notional_usd_per_lot_reference": 131466.0,
+        "effective_leverage_at_price": 100.0,
+        "margin_usd_buy": [
+          13.15,
+          1314.66
+        ],
+        "margin_usd_sell": [
+          13.15,
+          1314.63
+        ],
+        "swap_mode": "points",
+        "swap_buy_sell_points": [
+          5.87,
+          -25.15
+        ],
+        "triple_swap_weekday_server": 3,
+        "swap_1x_usd_buy_sell": [
+          3.67153,
+          -15.73065
+        ],
+        "nominal_trade_sessions_server": [
+          {
+            "weekday": 1,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 2,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 3,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 4,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 5,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          }
+        ],
+        "nominal_weekly_trade_normalized": [
+          {
+            "weekday_server": 1,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-16T00:05+02:00",
+              "2026-11-16T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-15T22:05+00:00",
+              "2026-11-16T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-15T23:05+01:00",
+              "2026-11-16T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-17T00:00+01:00",
+              "utc": "2026-11-16T23:00+00:00",
+              "server": "2026-11-17T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-16T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 2,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-17T00:05+02:00",
+              "2026-11-17T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-16T22:05+00:00",
+              "2026-11-17T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-16T23:05+01:00",
+              "2026-11-17T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-18T00:00+01:00",
+              "utc": "2026-11-17T23:00+00:00",
+              "server": "2026-11-18T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-17T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 3,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-18T00:05+02:00",
+              "2026-11-18T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-17T22:05+00:00",
+              "2026-11-18T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-17T23:05+01:00",
+              "2026-11-18T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-19T00:00+01:00",
+              "utc": "2026-11-18T23:00+00:00",
+              "server": "2026-11-19T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-18T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 4,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-19T00:05+02:00",
+              "2026-11-19T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-18T22:05+00:00",
+              "2026-11-19T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-18T23:05+01:00",
+              "2026-11-19T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-20T00:00+01:00",
+              "utc": "2026-11-19T23:00+00:00",
+              "server": "2026-11-20T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-19T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 5,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-20T00:05+02:00",
+              "2026-11-20T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-19T22:05+00:00",
+              "2026-11-20T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-19T23:05+01:00",
+              "2026-11-20T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-21T00:00+01:00",
+              "utc": "2026-11-20T23:00+00:00",
+              "server": "2026-11-21T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-22T22:05+00:00",
+              "nominal_next_session_opened_by_reset": false
+            }
+          }
+        ],
+        "commission_usd_per_lot_roundtrip": 6.0,
+        "commission_status": "measured_0.01_demo_scaled",
+        "fee_usd_per_lot_roundtrip": 0.0,
+        "spread_plus_commission_median": 3.3592739999999996,
+        "spread_plus_commission_plus_fee": 3.3592739999999996,
+        "spread_lower_bound_usd_per_lot": 15.0113523352035
+      },
+      "history": {
+        "status": "NO_ADMITTED_HISTORY_FOUND",
+        "note": "Chưa tìm thấy M1/H1 liên tục đã admission trong inventory/QDM được rà"
+      },
+      "atr14": null
+    },
+    "AUDJPY": {
+      "actual_symbol": "AUDJPY",
+      "broker": {
+        "contract_size": 100000.0,
+        "volume_min": 0.01,
+        "volume_step": 0.01,
+        "tick_size": 0.001,
+        "stops_level_points": 0,
+        "spread": {
+          "n": 89,
+          "median": 1.0,
+          "p95": 1.2,
+          "max": 1.3,
+          "timestamp_span_seconds": 110.678
+        },
+        "price_unit": "pips",
+        "notional_usd_per_lot_reference": 67057.0,
+        "effective_leverage_at_price": 99.99999999999999,
+        "margin_usd_buy": [
+          6.71,
+          670.57
+        ],
+        "margin_usd_sell": [
+          6.71,
+          670.53
+        ],
+        "swap_mode": "points",
+        "swap_buy_sell_points": [
+          3.77,
+          -15.25
+        ],
+        "triple_swap_weekday_server": 3,
+        "swap_1x_usd_buy_sell": [
+          2.35803,
+          -9.53846
+        ],
+        "nominal_trade_sessions_server": [
+          {
+            "weekday": 1,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 2,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 3,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 4,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          },
+          {
+            "weekday": 5,
+            "index": 0,
+            "from_server_seconds": 300,
+            "to_server_seconds": 86100
+          }
+        ],
+        "nominal_weekly_trade_normalized": [
+          {
+            "weekday_server": 1,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-16T00:05+02:00",
+              "2026-11-16T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-15T22:05+00:00",
+              "2026-11-16T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-15T23:05+01:00",
+              "2026-11-16T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-17T00:00+01:00",
+              "utc": "2026-11-16T23:00+00:00",
+              "server": "2026-11-17T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-16T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 2,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-17T00:05+02:00",
+              "2026-11-17T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-16T22:05+00:00",
+              "2026-11-17T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-16T23:05+01:00",
+              "2026-11-17T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-18T00:00+01:00",
+              "utc": "2026-11-17T23:00+00:00",
+              "server": "2026-11-18T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-17T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 3,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-18T00:05+02:00",
+              "2026-11-18T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-17T22:05+00:00",
+              "2026-11-18T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-17T23:05+01:00",
+              "2026-11-18T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-19T00:00+01:00",
+              "utc": "2026-11-18T23:00+00:00",
+              "server": "2026-11-19T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-18T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 4,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-19T00:05+02:00",
+              "2026-11-19T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-18T22:05+00:00",
+              "2026-11-19T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-18T23:05+01:00",
+              "2026-11-19T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-20T00:00+01:00",
+              "utc": "2026-11-19T23:00+00:00",
+              "server": "2026-11-20T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-19T22:05+00:00",
+              "nominal_next_session_opened_by_reset": true
+            }
+          },
+          {
+            "weekday_server": 5,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-20T00:05+02:00",
+              "2026-11-20T23:55+02:00"
+            ],
+            "utc": [
+              "2026-11-19T22:05+00:00",
+              "2026-11-20T21:55+00:00"
+            ],
+            "prague": [
+              "2026-11-19T23:05+01:00",
+              "2026-11-20T22:55+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 85.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-21T00:00+01:00",
+              "utc": "2026-11-20T23:00+00:00",
+              "server": "2026-11-21T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-22T22:05+00:00",
+              "nominal_next_session_opened_by_reset": false
+            }
+          }
+        ],
+        "commission_usd_per_lot_roundtrip": 6.0,
+        "commission_status": "inferred_from_group:GBPJPY",
+        "fee_usd_per_lot_roundtrip": null,
+        "spread_plus_commission_median": 1.9592739999999997,
+        "spread_plus_commission_plus_fee": 1.9592739999999997,
+        "spread_lower_bound_usd_per_lot": 6.2547301396681245
+      },
+      "history": {
+        "status": "NO_ADMITTED_HISTORY_FOUND",
+        "note": "Chưa tìm thấy M1/H1 liên tục đã admission trong inventory/QDM được rà"
+      },
+      "atr14": null
+    },
+    "US500": {
+      "actual_symbol": "US500.cash",
+      "broker": {
+        "contract_size": 1.0,
+        "volume_min": 0.01,
+        "volume_step": 0.01,
+        "tick_size": 0.01,
+        "stops_level_points": 0,
+        "spread": {
+          "n": 108,
+          "median": 0.6,
+          "p95": 0.6,
+          "max": 0.6,
+          "timestamp_span_seconds": 110.313
+        },
+        "price_unit": "index_points",
+        "notional_usd_per_lot_reference": 7396.55,
+        "effective_leverage_at_price": 50.000337997701614,
+        "margin_usd_buy": [
+          1.48,
+          147.93
+        ],
+        "margin_usd_sell": [
+          1.48,
+          147.92
+        ],
+        "swap_mode": "points",
+        "swap_buy_sell_points": [
+          -87.25,
+          -88.78
+        ],
+        "triple_swap_weekday_server": 5,
+        "swap_1x_usd_buy_sell": [
+          -0.8725,
+          -0.8878
+        ],
+        "nominal_trade_sessions_server": [
+          {
+            "weekday": 1,
+            "index": 0,
+            "from_server_seconds": 3900,
+            "to_server_seconds": 85800
+          },
+          {
+            "weekday": 2,
+            "index": 0,
+            "from_server_seconds": 3900,
+            "to_server_seconds": 85800
+          },
+          {
+            "weekday": 3,
+            "index": 0,
+            "from_server_seconds": 3900,
+            "to_server_seconds": 85800
+          },
+          {
+            "weekday": 4,
+            "index": 0,
+            "from_server_seconds": 3900,
+            "to_server_seconds": 85800
+          },
+          {
+            "weekday": 5,
+            "index": 0,
+            "from_server_seconds": 3900,
+            "to_server_seconds": 85800
+          }
+        ],
+        "nominal_weekly_trade_normalized": [
+          {
+            "weekday_server": 1,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-16T01:05+02:00",
+              "2026-11-16T23:50+02:00"
+            ],
+            "utc": [
+              "2026-11-15T23:05+00:00",
+              "2026-11-16T21:50+00:00"
+            ],
+            "prague": [
+              "2026-11-16T00:05+01:00",
+              "2026-11-16T22:50+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 80.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-17T00:00+01:00",
+              "utc": "2026-11-16T23:00+00:00",
+              "server": "2026-11-17T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-16T23:05+00:00",
+              "nominal_next_session_opened_by_reset": false
+            }
+          },
+          {
+            "weekday_server": 2,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-17T01:05+02:00",
+              "2026-11-17T23:50+02:00"
+            ],
+            "utc": [
+              "2026-11-16T23:05+00:00",
+              "2026-11-17T21:50+00:00"
+            ],
+            "prague": [
+              "2026-11-17T00:05+01:00",
+              "2026-11-17T22:50+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 80.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-18T00:00+01:00",
+              "utc": "2026-11-17T23:00+00:00",
+              "server": "2026-11-18T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-17T23:05+00:00",
+              "nominal_next_session_opened_by_reset": false
+            }
+          },
+          {
+            "weekday_server": 3,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-18T01:05+02:00",
+              "2026-11-18T23:50+02:00"
+            ],
+            "utc": [
+              "2026-11-17T23:05+00:00",
+              "2026-11-18T21:50+00:00"
+            ],
+            "prague": [
+              "2026-11-18T00:05+01:00",
+              "2026-11-18T22:50+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 80.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-19T00:00+01:00",
+              "utc": "2026-11-18T23:00+00:00",
+              "server": "2026-11-19T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-18T23:05+00:00",
+              "nominal_next_session_opened_by_reset": false
+            }
+          },
+          {
+            "weekday_server": 4,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-19T01:05+02:00",
+              "2026-11-19T23:50+02:00"
+            ],
+            "utc": [
+              "2026-11-18T23:05+00:00",
+              "2026-11-19T21:50+00:00"
+            ],
+            "prague": [
+              "2026-11-19T00:05+01:00",
+              "2026-11-19T22:50+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 80.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-20T00:00+01:00",
+              "utc": "2026-11-19T23:00+00:00",
+              "server": "2026-11-20T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-19T23:05+00:00",
+              "nominal_next_session_opened_by_reset": false
+            }
+          },
+          {
+            "weekday_server": 5,
+            "session_interval_convention": "start_inclusive_end_exclusive",
+            "server": [
+              "2026-11-20T01:05+02:00",
+              "2026-11-20T23:50+02:00"
+            ],
+            "utc": [
+              "2026-11-19T23:05+00:00",
+              "2026-11-20T21:50+00:00"
+            ],
+            "prague": [
+              "2026-11-20T00:05+01:00",
+              "2026-11-20T22:50+01:00"
+            ],
+            "cutoff_20_30_utc_inside_trade_session": true,
+            "cutoff_headroom_minutes": 80.0,
+            "prague_midnight_after_session": {
+              "prague": "2026-11-21T00:00+01:00",
+              "utc": "2026-11-20T23:00+00:00",
+              "server": "2026-11-21T01:00+02:00",
+              "next_weekly_rule_session_opens_utc": "2026-11-22T23:05+00:00",
+              "nominal_next_session_opened_by_reset": false
+            }
+          }
+        ],
+        "commission_usd_per_lot_roundtrip": 0.0,
+        "commission_status": "measured_0.01_demo_scaled",
+        "fee_usd_per_lot_roundtrip": 0.0,
+        "spread_plus_commission_median": 0.6,
+        "spread_plus_commission_plus_fee": 0.6,
+        "spread_lower_bound_usd_per_lot": 0.6
+      },
+      "history": {
+        "grain": "Paired bid/ask M1 (research index feed)",
+        "resolution_scope": "2017–2023 admitted from quarterly books",
+        "source_years": [
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023
+        ],
+        "known_unavailable_requests": [
+          {
+            "pathname": "/v1/candles/minute/USA500.IDX-USD/ASK/2020/4/28",
+            "errorType": "TimeoutError",
+            "reason": "transport_unavailable",
+            "quoteRowsInvented": 0
+          },
+          {
+            "pathname": "/v1/candles/minute/USA500.IDX-USD/ASK/2020/11/24",
+            "errorType": "TimeoutError",
+            "reason": "transport_unavailable",
+            "quoteRowsInvented": 0
+          },
+          {
+            "pathname": "/v1/candles/minute/USA500.IDX-USD/ASK/2020/12/21",
+            "errorType": "TimeoutError",
+            "reason": "transport_unavailable",
+            "quoteRowsInvented": 0
+          }
+        ],
+        "selected_year_manifest_hashes": [
+          "7a41f021c86a04345ce2591b90efa72112792ef5479c16ff6d1167f7064dc840",
+          "61d46d061a870e98a97b696b95d8efab2d28abe190d94f2fc04c1b2255b1909c"
+        ],
+        "h1_partial_dropped_2023": 356,
+        "source_minutes_2023": 332236,
+        "selected_first_utc": "2022-12-01T00:00:00+00:00",
+        "selected_last_utc": "2023-12-29T21:13:00+00:00",
+        "bars_2023": 332236,
+        "h1_usable_2023": 5516
+      },
+      "atr14": {
+        "H1": {
+          "median_price": 9.033910574106521,
+          "observations": 5516,
+          "first_bar_open_utc": "2023-01-02T23:00:00+00:00",
+          "last_bar_open_utc": "2023-12-29T20:00:00+00:00",
+          "median_in_display_units": 9.033910574106521
+        },
+        "H4": {
+          "median_price": 20.625477124942133,
+          "observations": 1213,
+          "first_bar_open_utc": "2023-01-03T00:00:00+00:00",
+          "last_bar_open_utc": "2023-12-29T16:00:00+00:00",
+          "median_in_display_units": 20.625477124942133
+        },
+        "D1": {
+          "median_price": 52.85799643210696,
+          "observations": 234,
+          "first_bar_open_utc": "2023-01-03T00:00:00+00:00",
+          "last_bar_open_utc": "2023-12-28T00:00:00+00:00",
+          "median_in_display_units": 52.85799643210696
+        }
+      },
+      "friction": {
+        "H1": {
+          "spread_plus_commission_pct_atr": 6.641642011818803,
+          "spread_only_pct_atr": 6.641642011818803
+        },
+        "H4": {
+          "spread_plus_commission_pct_atr": 2.909023613686141,
+          "spread_only_pct_atr": 2.909023613686141
+        },
+        "D1": {
+          "spread_plus_commission_pct_atr": 1.1351168044567586,
+          "spread_only_pct_atr": 1.1351168044567586
+        }
+      },
+      "swap_1x_pct_d1_atr": [
+        1.6506490198142032,
+        1.6795944983278508
+      ],
+      "swap_3x_pct_d1_atr": [
+        4.95194705944261,
+        5.038783494983552
+      ],
+      "sizing": {
+        "H4": {
+          "10000": {
+            "risk_budget_usd": 50.0,
+            "ideal_lots": 2.3556596492827397,
+            "rounded_lots": 2.35,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 0.21225477124942133,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 49.87987124361401,
+            "margin_usd": 347.6355,
+            "margin_pct_of_account": 3.476355,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          },
+          "50000": {
+            "risk_budget_usd": 250.0,
+            "ideal_lots": 11.778298246413698,
+            "rounded_lots": 11.77,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 0.21225477124942133,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 249.8238657605689,
+            "margin_usd": 1741.1361,
+            "margin_pct_of_account": 3.4822722,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          },
+          "100000": {
+            "risk_budget_usd": 500.0,
+            "ideal_lots": 23.556596492827396,
+            "rounded_lots": 23.55,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 0.21225477124942133,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 499.85998629238725,
+            "margin_usd": 3483.7515,
+            "margin_pct_of_account": 3.4837515,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          },
+          "200000": {
+            "risk_budget_usd": 1000.0,
+            "ideal_lots": 47.11319298565479,
+            "rounded_lots": 47.11,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 0.21225477124942133,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 999.9322273560239,
+            "margin_usd": 6968.9823,
+            "margin_pct_of_account": 3.48449115,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          }
+        },
+        "D1": {
+          "10000": {
+            "risk_budget_usd": 50.0,
+            "ideal_lots": 0.9353137666410917,
+            "rounded_lots": 0.93,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 0.5345799643210696,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 49.715936681859475,
+            "margin_usd": 137.5749,
+            "margin_pct_of_account": 1.375749,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          },
+          "50000": {
+            "risk_budget_usd": 250.0,
+            "ideal_lots": 4.676568833205458,
+            "rounded_lots": 4.67,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 0.5345799643210696,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 249.6488433379395,
+            "margin_usd": 690.8331,
+            "margin_pct_of_account": 1.3816662,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          },
+          "100000": {
+            "risk_budget_usd": 500.0,
+            "ideal_lots": 9.353137666410916,
+            "rounded_lots": 9.35,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 0.5345799643210696,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 499.8322666402001,
+            "margin_usd": 1383.1455,
+            "margin_pct_of_account": 1.3831455,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          },
+          "200000": {
+            "risk_budget_usd": 1000.0,
+            "ideal_lots": 18.706275332821832,
+            "rounded_lots": 18.7,
+            "margin_limited": false,
+            "floor_lot_risk_usd": 0.5345799643210696,
+            "floor_exceeds_risk": false,
+            "rounded_risk_usd": 999.6645332804002,
+            "margin_usd": 2766.291,
+            "margin_pct_of_account": 1.3831455,
+            "confidence": "PROXY_MARGIN_AND_SINGLE_POSITION"
+          }
+        }
+      }
+    }
+  },
+  "private_manifest": {
+    "path": "ftmo-demo-10k-standard-20261119/manifest.json",
+    "sha256": "5a188b25ef5087c00ecfc5e11b585a19838f6c1871451ce1b0291eb7a9c9423f"
+  },
+  "limitations": [
+    "No comparison to paid/funded accounts or their own contract settings.",
+    "One micro round trip per measured symbol. 1.00-lot commission estimate scales a cent-rounded 0.01-lot observation.",
+    "ATR is a descriptive 2023 median from admitted sources. Intraday spread and swaps observed on 2026-11-19.",
+    "Liquidity, turnover, high-news impact, and full DST/holiday parity remain open. No claim of profitability."
+  ]
+}

@@ -9,6 +9,12 @@ Từ workspace root, chạy `python -X utf8 tooling/ai-engines/research_inventor
 để xem mức gắn nhãn. Thêm `--all` để lấy từng đường dẫn và lý do còn thiếu
 thông tin.
 
+**FTMO Demo 10k Standard · thông số 13 mã và chi phí khớp.** Đã đối soát bốn
+vòng 0,01 lot và runner quote native 120 giây. Có bảng Cost/ATR cho năm mã
+có nguồn Development đại diện, cùng kịch bản lot và margin từ 10k đến 200k.
+Tra bằng `--key ftmo-demo-10k-standard-20261119`.
+[Kết quả](FTMO-DEMO-10K-STANDARD-RESEARCH-20261119.md).
+
 **US500.cash Swing · mua trước NFP, ISM Manufacturing và GDP.** Gác ở
 preflight. Lịch có điều kiện cho 31–36 cửa sổ/năm và phép chuyển gross từ
 futures cho bình quân 378,70 USD/năm trước phí ở risk 125 USD, stop 1%.

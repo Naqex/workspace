@@ -627,6 +627,22 @@ def inspect(private_root=None):
     require(inventory["legacy_corpus_meta"]["dataset"] in datasets, "legacy corpus dataset orphan")
     corpus = legacy_corpus(inventory, snapshot)
     costs = fee_recipes(inventory, snapshot, records, studies)
+    broker_observations = by_key(inventory.get("broker_observations", []), "id")
+    for row in broker_observations.values():
+        require(all((ROOT / RESEARCH / relative(row[field])).is_file() for field in ("report", "summary")),
+                f"broker observation report locator missing: {row['id']}")
+        manifest = relative(row["private_manifest"])
+        require(manifest.name == "manifest.json" and HASH.fullmatch(row["private_manifest_sha256"]),
+                f"invalid broker observation manifest: {row['id']}")
+        row["private_manifest_status"] = "not_checked"
+        if private_root is not None:
+            file = safe_path(private_root, row["private_manifest"])
+            row["private_manifest_status"] = "unavailable"
+            if file.is_file():
+                require(file.stat().st_size <= 1024 * 1024, f"broker observation manifest too large: {row['id']}")
+                require(sha256(file.read_bytes()).hexdigest() == row["private_manifest_sha256"],
+                        f"broker observation manifest hash differs: {row['id']}")
+                row["private_manifest_status"] = "metadata_hash_verified"
     return {
         "tracked_base": base, "tracked_paths": tracked,
         "tracked_coverage": dict(Counter(row["status"] for row in tracked)),
@@ -638,7 +654,7 @@ def inspect(private_root=None):
         "legacy_corpus": corpus, "legacy_exposure": inventory["legacy_exposure"],
         "eurusd_catalogue13_recipes": costs,
         "legacy_source_locator_review": legacy_missing,
-        "datasets": datasets, "studies": studies,
+        "datasets": datasets, "studies": studies, "broker_observations": broker_observations,
         "private": private, "gaps": inventory["gaps"],
         "price_or_private_outcome_payload_opened": False,
     }
@@ -670,6 +686,7 @@ def main():
         related_keys = {args.key, *matching_candidates, *(row["id"] for row in linked)}
         result = {
             "key": args.key, "dataset": result["datasets"].get(args.key), "studies": linked,
+            "broker_observation": result["broker_observations"].get(args.key),
             "legacy_candidates": [result["legacy_records"][key] for key in sorted(matching_candidates)],
             "tracked_evidence": [row for row in result["tracked_paths"]
                                  if any(link["key"] in related_keys for link in row["links"])],
@@ -678,7 +695,7 @@ def main():
             "legacy_corpus": result["legacy_corpus"] if args.key == result["legacy_corpus"]["dataset"] else None,
             "fee_attribution": ({**fee_table, "recipes": matching_recipes} if matching_recipes else None),
         }
-        if not (result["dataset"] or linked or matching_candidates or matching_recipes):
+        if not (result["dataset"] or result["broker_observation"] or linked or matching_candidates or matching_recipes):
             parser.exit(1, f"No inventory binding for {args.key}. Use --all to inspect other locators.\n")
     elif args.path:
         path = relative(args.path.replace("\\", "/")).as_posix()
@@ -701,6 +718,7 @@ def main():
             "legacy_catalogue_records": result["legacy_catalogue_records"],
             "legacy_locator_review": len(result["legacy_source_locator_review"]),
             "datasets": len(result["datasets"]), "studies": len(result["studies"]),
+            "broker_observations": len(result["broker_observations"]),
             "legacy_corpus_profiles": result["legacy_corpus"]["profile_count"],
             "eurusd_catalogue13_recipe_labels": result["eurusd_catalogue13_recipes"]["counts_by_first_negative_layer"],
             "private_directory_coverage": private["coverage"],

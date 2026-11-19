@@ -65,6 +65,12 @@ fixture. Nhiều terminal cần đường dẫn chỉ định; terminal ngoài F
 thật không được nhận. Đây là thu thập read-only, chưa xác nhận quyền shadow,
 biểu phí commission hoặc lịch giao dịch đầy đủ.
 
+Capture `READ_ONLY` native lấy Bid/Ask mới nhất mỗi 250 ms và ghi cửa sổ quan
+sát từng mã trong `report.json`. So `first_msc` và `last_msc` với thời lượng
+chạy để phát hiện đoạn báo giá ngắn, kể cả khi runner trả thành công. Đây là
+mẫu báo giá đã thấy. Đường đọc lịch sử theo thời điểm vẫn dùng riêng cho replay
+và shadow. [Kết quả đối soát](FTMO-DEMO-10K-STANDARD-RESEARCH-20261119.md).
+
 `WATCH_REPORT.json` giữ kết quả timeout/interrupt/failure; exit `2` là chưa thu
 thành công, `130` là đã ngắt. Poll/IPC có thể kết thúc muộn hơn deadline một
 probe đang chạy. Không cài daemon/service, không tự đăng nhập và không gửi lệnh.

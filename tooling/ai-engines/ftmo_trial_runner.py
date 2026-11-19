@@ -104,7 +104,7 @@ def check_mt5_ready(*, terminal=None, sdk=None, inventory=None,expected_binding=
         r["probe_under_one_second"]=r["probe_wall_ms"]<1000
 
 
-def snapshot(reader, now, *, replay=False):
+def snapshot(reader, now, *, replay=False, assets=ASSETS):
     account=reader.account()
     if type(account.get("trade_mode")) is not int or account["trade_mode"] != 0:
         raise adapter.AdapterError("FTMO_DEMO_TRIAL_REQUIRED_REAL_ACCOUNT_REJECTED")
@@ -115,7 +115,7 @@ def snapshot(reader, now, *, replay=False):
     binding=dict(server=account["server"],account_hash=adapter.account_hash(account["login"],account["server"]))
     adapter.verify_account(account,binding)
     specs={}
-    for asset in ASSETS:
+    for asset in assets:
         try:
             raw=reader.spec(asset)
         except (adapter.AdapterError,KeyError):
@@ -318,10 +318,49 @@ def builtin_fixture():
     return dict(account=account,specs=specs,events=events),p
 
 
+def sample_live_quotes(reader, binding, symbols, recorder, seconds, *, poll_interval=.25):
+    """Observe the latest native quote each poll. A history read can lag live quotes."""
+    started = time.monotonic()
+    first = int(time.time() * 1000)
+    previous = {}
+    windows = {asset: dict(rows=0, first_msc=None, last_msc=None) for asset in symbols}
+    polls = 0
+    while time.monotonic() - started < seconds:
+        adapter.verify_account(reader.account(), binding)
+        for asset in windows:
+            row = reader.latest_quote(asset)
+            known_at = int(time.time() * 1000)
+            if row is None or not first <= row["time_msc"] <= known_at:
+                continue
+            if not (math.isfinite(row["bid"]) and math.isfinite(row["ask"]) and 0 < row["bid"] <= row["ask"]):
+                continue
+            key = (row["time_msc"], row["bid"], row["ask"], row["flags"])
+            old = previous.get(asset)
+            if old is not None and (key == old or key[0] < old[0]):
+                continue
+            recorder.accept(dict(row, kind="quote", known_at_msc=known_at))
+            previous[asset] = key
+            stats = windows[asset]
+            if stats["first_msc"] is None:
+                stats["first_msc"] = key[0]
+            stats["last_msc"] = key[0]
+            stats["rows"] += 1
+        polls += 1
+        left = min(started + seconds, started + polls * poll_interval) - time.monotonic()
+        if left > 0:
+            time.sleep(left)
+    return dict(source="NATIVE_MT5_SYMBOL_INFO_TICK", complete_tick_feed_claim=False,
+                requested_seconds=seconds, elapsed_seconds=time.monotonic()-started,
+                started_utc_msc=first, ended_utc_msc=int(time.time() * 1000),
+                poll_interval_seconds=poll_interval, polls=polls, symbols=windows)
+
+
 def run(mode,output,*,manifest=None,bridge=None,replay=False,seconds=60,speed=1.,terminal=None,
-        require_native=False,expected_binding=None):
+        require_native=False,expected_binding=None,symbols=None):
     if not 1<=seconds<=3600:raise ValueError("bounded_duration_1_to_3600_seconds")
     if not math.isfinite(speed) or speed<=0:raise ValueError("positive_replay_speed_required")
+    if symbols is not None and (not symbols or mode != "read-only" or not require_native):
+        raise ValueError("custom_symbols_require_owned_native_read_only")
     inventory=terminal_inventory() if not replay else []
     output=Path(output);output.mkdir(parents=True,exist_ok=False)
     write(output/"environment.json",dict(terminals=inventory,SDK_available=bool(importlib.util.find_spec("MetaTrader5")),
@@ -342,7 +381,7 @@ def run(mode,output,*,manifest=None,bridge=None,replay=False,seconds=60,speed=1.
         reader=adapter.NativeMT5Reader(terminal)
         if hasattr(reader,'sdk'):reader=ClockReader(reader)
         try:
-            now=int(time.time()*1000);snap=snapshot(reader,now)
+            now=int(time.time()*1000);snap=snapshot(reader,now,assets=ASSETS if symbols is None else symbols)
             if expected_binding is not None and snap["binding"]!=expected_binding:
                 raise adapter.AdapterError("WATCH_ACCOUNT_CHANGED_AFTER_PROBE")
             if manifest:
@@ -383,20 +422,14 @@ def run(mode,output,*,manifest=None,bridge=None,replay=False,seconds=60,speed=1.
                         paper_factory=ObserverPaper,event_sink=with_path.accept)
                     write(output/"shadow_paper_ledger.json",result)
                 else:
-                    previous={};deadline=time.monotonic()+seconds
-                    while time.monotonic()<deadline:
-                        adapter.verify_account(reader.account(),snap["binding"]);end=int(time.time()*1000)
-                        for asset,spec in snap["specs"].items():
-                            if spec["status"]=="SYMBOL_UNAVAILABLE":continue
-                            first=previous[asset][0] if asset in previous else now
-                            rows=reader.ticks(asset,first,end+1);received=int(time.time()*1000)
-                            fresh=adapter.new_live_ticks(rows,previous.get(asset))
-                            for row in fresh:with_path.accept(dict(row,kind="quote",known_at_msc=received))
-                            if rows:
-                                boundary=rows[-1]["time_msc"]
-                                previous[asset]=(boundary,[(r["time_msc"],r["bid"],r["ask"],r.get("flags",0)) for r in rows if r["time_msc"]==boundary])
-                        time.sleep(1)
-                    result=dict(mode="READ_ONLY",actual_broker_orders=0,slippage_measured=False)
+                    active = [asset for asset, spec in snap["specs"].items() if spec["status"] != "SYMBOL_UNAVAILABLE"]
+                    if symbols is not None:
+                        for asset in active:
+                            info = reader.sdk.symbol_info(asset)
+                            if info is None or (not info.select and not reader.sdk.symbol_select(asset, True)):
+                                raise adapter.AdapterError("OWNED_TERMINAL_QUOTE_SUBSCRIPTION_FAILED")
+                    capture = sample_live_quotes(reader, snap["binding"], active, with_path, seconds)
+                    result=dict(mode="READ_ONLY",actual_broker_orders=0,slippage_measured=False,quote_window=capture)
             finally:write(output/"quote_capture.json",with_path.close())
             write(output/"report.json",dict(result,native_terminal_verified=True,source="NATIVE_MT5"));return
         finally:reader.close()
