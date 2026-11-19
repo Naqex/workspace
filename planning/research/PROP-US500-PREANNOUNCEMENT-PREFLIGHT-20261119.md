@@ -117,3 +117,45 @@ Dựng lại và kiểm tra kết quả từ workspace bằng `python E:/BACKUP-
 (so từng byte với receipt đã lưu nếu tệp tồn tại). Receipt `calendar-and-arithmetic.json.zst`
 giữ các dòng lịch và SHA256 của lịch BLS/NYSE.
 SHA256 receipt `1f91354e48de9002b9c615771b216225694fc0e6f2a65aee613f130b1ec3c2ec`.
+
+## Hậu kiểm stop quy chiếu bằng đêm thường · 19/11/2026
+
+**Giữ quyết định gác.** Biên độ đo được 2,13% và 1,42% ở hai cụm,
+lớn hơn stop 1% mượn từ phép đo ban ngày. Ở risk 0,50%, phần có đủ đầu
+vào quy đổi được 65,34 và 514,36 USD/năm trước phí. Độ phủ thấp, nhất là
+2018–2020, nên kết quả chỉ áp dụng cho phần đo được. Chưa có cơ sở để
+mở pilot giá quanh tin.
+
+| Cụm | Cửa sổ đủ 20 đêm quá khứ / lịch | Median range | Risk/lệnh | USD/năm ở phí 0 / 3 / 6 bp |
+| --- | ---: | ---: | ---: | ---: |
+| 2018–2020 | 19/100 | 2,13% | 0,25% | 32,64 / 21,48 / 10,32 |
+| | | | 0,40% | 52,23 / 34,38 / 16,52 |
+| | | | 0,50% | 65,34 / 43,00 / 20,67 |
+| 2021–2023 | 98/104 | 1,42% | 0,25% | 256,91 / 169,96 / 83,01 |
+| | | | 0,40% | 411,45 / 272,20 / 132,94 |
+| | | | 0,50% | 514,36 / 340,28 / 166,20 |
+
+Dùng một thước đo đã khóa trước khi đọc giá. Từ M1 Bid/Ask Dukascopy V11
+2018–2023, lấy Bid high–low chia midpoint entry của từng đêm thường.
+Median lấy từ 20 đêm đủ dữ liệu đã kết thúc **trước** entry, cùng giờ
+thoát và cùng loại giữ qua cuối tuần. Loại ngày tin và ngoại lệ theo
+protocol. Sizing dùng giá đêm thường gần nhất, lot làm tròn xuống 0,01
+theo giả định và giới hạn danh nghĩa 15× vốn. Max lot, phí và giờ
+khớp lịch sử của FTMO chưa xác minh. Quy đổi vẫn dùng gross futures
+giả định, chưa tính tác động stop chạm lên lợi nhuận.
+
+Có 6 cửa sổ thiếu tích lũy đầu mẫu và 81 thiếu đêm đối chứng đủ đường
+giá. Qua cuối tuần đo được 0/15 và 7/13 ở hai cụm. Thiếu dữ liệu không
+đều theo thời gian. Trên hai giờ thoát gộp lại, đủ 2/340 cửa sổ thường
+năm 2018, 2/350 năm 2019, 120/336 năm 2022 và 6/340 năm 2023. Trong
+2023, đêm đủ gần nhất cách entry trung vị 102 ngày. Giờ nghỉ định kỳ
+được tách riêng theo lịch nguồn hiện hành, còn phần thiếu ngoài lịch
+đó chưa xác định được là do giờ lịch sử hay thiếu bản ghi. Chưa giải mã
+OHLC đêm tin và chưa mở phân vùng 2024 trở đi.
+[Lịch phiên tham chiếu của Dukascopy](https://www.dukascopy.com/wiki/en/manuals/jforex4-desktop/trading-sessions-logic/).
+
+Protocol, mã kiểm và hai receipt nén ở thư mục private nêu trên.
+SHA256 `ordinary-range-receipt.json.zst` là
+`65546b164cc213a6f851f27b6c4561996415d3af0c7b78d7ec155d504ac72a17`.
+SHA256 `ordinary-range-gaps.json.zst` là
+`1c73408c4099d5d2e885181209b03bf2999bffca5a1600ab62a789222b7d897e`.
