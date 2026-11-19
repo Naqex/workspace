@@ -4,9 +4,9 @@
 
 ## Việc hiện tại
 
-V4 Harvest ở đúng quy mô Swing 10k/25k vẫn 0/13 qua P2 và 0 payout,
-ở cả hai swap. Đổi quy mô đổi lot và lịch P1. Sổ bắt đầu đã Funded
-có kỳ rút mô phỏng. [Kết quả](research/PROP-V4-HARVEST-SWING-CAPITAL-RESULTS-20261119.md).
+V4 Harvest 10k/25k có đường qua cả P1 và P2 từ mốc 02–03/2023, tất
+cả cùng đợt tháng 10/2023. Chưa có Reward đến cutoff; 11 mốc mới
+chưa đủ theo dõi 12 tháng. [Kết quả](research/PROP-V4-HARVEST-SWING-CAPITAL-RESULTS-20261119.md).
 
 Đóng nhánh BTCUSD funding sau đối soát +2 phút. Markout thô tốt hơn,
 sổ 48 lệnh 2021–2023 lỗ 1.217,13 USD stress so với 171,97 USD.

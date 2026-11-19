@@ -1,7 +1,7 @@
 # Tra cứu research đã có
 
-**V4 Harvest · Swing 10k/25k.** Cùng luật 50k, 0/13 qua P2 ở mọi
-size và swap. Sổ đã Funded có kỳ rút, nhưng 5–8 tháng 0/năm ở 10k/25k.
+**V4 Harvest · Swing 10k/25k.** Mốc 02–03/2023 qua P2 trong cùng
+một đợt. Chưa thấy Reward tới hết 2023. Phép đo có mẫu số 3/6/12 tháng.
 [Kết quả](PROP-V4-HARVEST-SWING-CAPITAL-RESULTS-20261119.md).
 
 **BTCUSD funding · đổi delay +60 → +2 phút.** Raw stress trên cùng
