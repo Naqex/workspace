@@ -5451,6 +5451,60 @@
       {"path": "planning/research/US500-NOISE-STUDY-20261108.md", "role": "protocol_or_freeze", "source": "planning/research/US500-NOISE-STUDY-20261108.md", "note": "Vai trò nêu trực tiếp trong tiêu đề tài liệu."},
       {"path": "planning/research/US500-PRECLOSE-SENTINEL-LONG-20261108.md", "role": "evidence_report_or_sidecar", "source": "planning/research/US500-PRECLOSE-SENTINEL-LONG-20261108.md", "note": "Vai trò nêu trực tiếp trong tiêu đề tài liệu."},
       {"path": "planning/trader/research/fxreplay-advanced-charts-20261004.md", "role": "decision_record", "source": "planning/trader/research/fxreplay-advanced-charts-20261004.md", "note": "Vai trò nêu trực tiếp trong tiêu đề tài liệu."}
+    ],
+    "document_manifest_bindings": [
+      {
+        "path": "prop-eur-auction-prenews-20261119/manifest.json",
+        "document": "planning/research/PROP-EUR-TREASURY-PRENEWS-STAGE0-RESULTS-20261119.md",
+        "sha256": "d2b3aabcd0e67d63e6d29466c4332581e238e8b640460058ce6dad0c491f50ff",
+        "entries": {
+          "run_input": [
+            "registration.md",
+            "measure.py",
+            "census.py",
+            "census.json"
+          ],
+          "output": [
+            "rows.json.zst",
+            "summary.json"
+          ]
+        }
+      },
+      {
+        "path": "prop-xau-real-yield-london-20261119/manifest.json",
+        "document": "planning/research/PROP-XAU-REAL-YIELD-LONDON-STAGE0-RESULTS-20261119.md",
+        "sha256": "972813420cba3abb4239aa2ec2dd094cfde3e0eb7179f2eaec928077efa294db",
+        "entries": {
+          "run_input": [
+            "registration.md",
+            "stage0.py"
+          ],
+          "output": [
+            "rows.json.zst",
+            "summary.json"
+          ]
+        }
+      },
+      {
+        "path": "prop-eur-fx-rollover-audit-20261119/manifest.json",
+        "document": "planning/research/PROP-EUR-FX-ROLLOVER-AUDIT-20261119.md",
+        "sha256": "c08cc8c831a7ddd1e3b72f915a48409fa56923251bb20445be06773723e579a3",
+        "entries": {
+          "run_input": [
+            "registration.md",
+            "economics.py",
+            "reward-census.py",
+            "verify.py"
+          ],
+          "output": [
+            "summary.json",
+            "economics-manifest.json",
+            "ledgers.json.zst",
+            "reward-clock-census.json.zst",
+            "verification.json"
+          ]
+        }
+      }
     ]
   }
 }

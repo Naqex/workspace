@@ -6,6 +6,7 @@ from decimal import Decimal
 from hashlib import sha256
 import json
 from pathlib import Path, PurePosixPath
+import posixpath
 import re
 import subprocess
 from urllib.parse import unquote
@@ -210,30 +211,160 @@ def classify_tracked(catalogue, inventory, paths):
     return result, [{"key": key, "locator": name} for key, name in sorted(missing_legacy)]
 
 
-def documented_private_dirs(revision):
-    """Index literal private locators in tracked Markdown without opening private data."""
+ARTIFACT_LOCATORS = ("manifest.json", "protocol.md", "README.md")
+CAMPAIGN = "challenge-discovery4-20261108/execution-v1"
+TOKEN = re.compile(r"(?<![\w./-])(?:[A-Za-z]:/)?[\w.-]+(?:/[\w.-]+)*/?(?![\w/-])")
+LOCAL_LINK = re.compile(r"\[([^\]\n]+)\]\(([^\s)]+)\)")
+REFERENCE_ROLE = re.compile(r"\b(protocol|manifest|registration|freeze|đăng ký|giao thức|lịch đã khóa)\b", re.I)
+LOCATOR_CUE = re.compile(r"\b(job|artifact|receipt|private|root|folder|manifest|lưu|thư mục|kho)\b", re.I)
+
+
+def tracked_markdown_lines(revision):
+    """Read only lines in tracked Markdown that can contain a locator."""
     process = subprocess.run(
-        ["git", "grep", "-n", "-I", "--no-color", "-E", r"(ai-engine-jobs|execution-v1)[/\\]", revision,
+        ["git", "grep", "-n", "-I", "--no-color", "-E", r"[-_/]|protocol|manifest|registration", revision,
          "--", ":(glob)planning/research/**/*.md", ":(glob)planning/trader/research/**/*.md"],
         cwd=ROOT, capture_output=True, check=False,
     )
     require(process.returncode in (0, 1), process.stderr.decode("utf-8", errors="replace"))
-    result = defaultdict(set)
-    for line in process.stdout.decode("utf-8").splitlines():
-        context = re.match(r"^[0-9a-f]{40}:([^:]+):(\d+):(.*)$", line)
-        if not context:
-            continue
-        document, line_number, value = context.groups()
-        value = value.replace("\\", "/")
-        where = f"{document}:{line_number}"
-        for name in re.findall(r"(?:^|/)execution-v1/([A-Za-z0-9_-]+)(?=[/`\s.],?|$)", value):
-            result["challenge-discovery4-20261108/execution-v1/" + name].add(where)
-        for name in re.findall(r"ai-engine-jobs/(prop-[A-Za-z0-9_-]+)(?=[/`\s.],?|$)", value):
-            result[name].add(where)
-    return result
+    for line in process.stdout.decode("utf-8", errors="replace").splitlines():
+        match = re.match(r"^[0-9a-f]{40}:([^:]+):(\d+):(.*)$", line)
+        if match:
+            document, line_number, value = match.groups()
+            yield document, int(line_number), value
 
 
-def verify_private(inventory, private_root, datasets, studies):
+def private_reference(token, known, by_name, allow_bare=False):
+    """Resolve exact components. A shortened name must have one scoped match."""
+    parts = token.rstrip("/.").split("/")
+    if "." in parts or ".." in parts:
+        return None
+    root_named = "ai-engine-jobs" in parts
+    if root_named:
+        parts = parts[parts.index("ai-engine-jobs") + 1:]
+    if not parts or parts[0].lower() in {"http:", "https:"}:
+        return None
+    if parts[:2] == CAMPAIGN.split("/") and len(parts) >= 3:
+        return "/".join(parts[:3]), "scoped_path", ()
+    if root_named:
+        # Do not resolve another job's execution-v1 to the campaign above.
+        if parts[0].startswith("prop-"):
+            return parts[0], "scoped_path", ()
+        return None
+    if parts[0] == "execution-v1" and len(parts) >= 2:
+        candidates = tuple(by_name.get(parts[1], ()))
+        expected = CAMPAIGN + "/" + parts[1]
+        if len(candidates) > 1:
+            return parts[1], "ambiguous_short_locator", candidates
+        return (expected, "short_execution_path", ()) if expected in known else None
+
+    first = parts[0]
+    path_like = len(parts) > 1 or token.endswith("/")
+    if not allow_bare and (not path_like or "-" not in first):
+        return None
+    candidates = tuple(by_name.get(first, ()))
+    if len(candidates) > 1:
+        return first, "ambiguous_short_locator", candidates
+    return (candidates[0], "unique_short_locator", ()) if candidates else None
+
+
+def document_relations(revision, paths, private_paths):
+    by_name = defaultdict(list)
+    for path in sorted(private_paths):
+        by_name[PurePosixPath(path).name].append(path)
+    private_links = defaultdict(set)
+    missing = defaultdict(set)
+    ambiguous = set()
+    relations = set()
+    for document, line, text in tracked_markdown_lines(revision):
+        value = text.replace("\\", "/")
+        where = f"{document}:{line}"
+        code_spans = [(match.start(1), match.end(1)) for match in re.finditer(r"\x60([^\x60]+)\x60", value)]
+        for match in TOKEN.finditer(value):
+            token = match.group()
+            if value[max(0, match.start() - 3):match.start()] == "://":
+                continue
+            quoted = any(start == match.start() and match.end() == end for start, end in code_spans)
+            found = private_reference(token, private_paths, by_name,
+                                      allow_bare=quoted and bool(LOCATOR_CUE.search(value[:match.start()])))
+            if found is None:
+                continue
+            name, basis, candidates = found
+            if candidates:
+                ambiguous.add((name, where, candidates))
+            elif name in private_paths:
+                private_links[name].add((where, basis))
+            elif basis == "scoped_path":
+                missing[name].add(where)
+
+        for label, target in LOCAL_LINK.findall(value):
+            relation = REFERENCE_ROLE.search(label)
+            if relation is None:
+                continue
+            target = unquote(target.split("#", 1)[0])
+            if not target or ":" in target or target.startswith("/"):
+                continue
+            candidate = posixpath.normpath(posixpath.join(posixpath.dirname(document), target))
+            if candidate in paths and candidate != document and candidate.endswith((".md", ".json")):
+                relations.add((document, candidate, relation[0].lower(), line))
+        # Some reports use plain code spans rather than Markdown links.
+        for match in re.finditer(r"(protocol|manifest|registration|freeze)\s*:?\s*\x60([A-Za-z0-9_.-]+\.(?:md|json))\x60", value, re.I):
+            candidate = posixpath.join(posixpath.dirname(document), match[2])
+            if candidate in paths and candidate != document:
+                relations.add((document, candidate, match[1].lower(), line))
+
+    return (
+        private_links, missing,
+        [{"basename": name, "document": where, "candidates": list(candidates)}
+         for name, where, candidates in sorted(ambiguous)],
+        [{"source": source, "target": target, "label": label, "line": line,
+          "binding": "document_reference_only"} for source, target, label, line in sorted(relations)],
+    )
+
+
+def verify_document_manifests(inventory, private_root, tracked_paths):
+    """Read only exact hash-pinned manifests with a reviewed flat digest-map producer."""
+    manifests = {}
+    for row in by_key(inventory.get("document_manifest_bindings", []), "path").values():
+        path = relative(row["path"])
+        doc = relative(row["document"])
+        require(path.name == "manifest.json" and doc.as_posix() in tracked_paths and doc.suffix == ".md"
+                and HASH.fullmatch(row["sha256"]), f"invalid documented metadata pin: {path}")
+        require(row["sha256"] in (ROOT / doc).read_text(encoding="utf-8-sig"),
+                f"manifest hash is not cited in its tracked report: {path}")
+        entries = row["entries"]
+        require(set(entries) == {"run_input", "output"} and all(entries.values()), f"invalid manifest roles: {path}")
+        names = [name for group in entries.values() for name in group]
+        require(len(names) == len(set(names)) and all(relative(name).name == name for name in names),
+                f"invalid manifest projection: {path}")
+        state = "not_checked"
+        locators = []
+        if private_root is not None:
+            file = safe_path(private_root, row["path"])
+            if file.is_file():
+                require(file.stat().st_size <= 65536, f"documented metadata size limit: {path}")
+                wire = file.read_bytes()
+                require(sha256(wire).hexdigest() == row["sha256"], f"documented metadata SHA256 mismatch: {path}")
+                value = json.loads(wire)
+                require(isinstance(value, dict) and set(value) == set(names)
+                        and all(isinstance(digest, str) and HASH.fullmatch(digest)
+                                                       for digest in value.values()),
+                        f"unexpected documented manifest schema: {path}")
+                state = "metadata_hash_verified"
+                for role, group in entries.items():
+                    for name in group:
+                        relative_file = (path.parent / name).as_posix()
+                        locators.append({"role": role, "path": relative_file, "declared_sha256": value[name],
+                                         "present": safe_path(private_root, relative_file).is_file(),
+                                         "content_verified": False})
+            else:
+                state = "metadata_unavailable"
+        manifests[path.parent.as_posix()] = {"path": row["path"], "document": row["document"],
+                                            "status": state, "declared_artifact_bindings": locators}
+    return manifests
+
+
+def verify_private(inventory, private_root, datasets, studies, tracked_paths):
     bindings = by_key(inventory["metadata_bindings"], "key")
     partition_rows = by_key(inventory["partitions"], "id")
     by_key(inventory["payload_refs"], "path")
@@ -303,8 +434,7 @@ def verify_private(inventory, private_root, datasets, studies):
         if "private_dir" in row:
             private_links[relative(row["private_dir"]).as_posix()].add(row["id"])
 
-    documented = documented_private_dirs(inventory["tracked_base"])
-    directories = {}
+    directory_paths = set()
     unavailable_scopes = []
     for entry in inventory["private_directory_scope"]:
         if private_root is None:
@@ -318,37 +448,85 @@ def verify_private(inventory, private_root, datasets, studies):
             if not child.name.startswith(entry["name_prefix"]) or not child.is_dir():
                 continue
             path = child.relative_to(private_root).as_posix()
-            require(path not in directories, f"duplicate private directory in scopes: {path}")
-            owners = private_links[path].copy()
-            for binding in bindings.values():
-                if binding["path"].startswith(path + "/"):
-                    owners.add(binding["owner"])
-            documents = sorted(documented.get(path, ()))
-            state = "bound_metadata_or_locator" if owners else "documented_locator" if documents else "directory_only"
-            if owners:
-                role = "study_or_evidence_folder" if owners & studies.keys() else "source_data_folder"
-                basis = "catalogue_relation"
-            elif documents:
-                role, basis = "documented_private_artifacts", "tracked_document_locator"
-            else:
-                role, basis = "unknown_directory_contents", "directory_entry_only"
-            directories[path] = {"path": path, "keys": sorted(owners), "documents": documents,
-                                 "status": state, "artifact_role": role, "role_basis": basis}
+            require(path not in directory_paths, f"duplicate private directory in scopes: {path}")
+            directory_paths.add(path)
+
+    documented, missing, ambiguous, relations = document_relations(
+        inventory["tracked_base"], tracked_paths, directory_paths
+    )
+    document_manifests = verify_document_manifests(inventory, private_root, tracked_paths)
+    directories = []
+    for path in sorted(directory_paths):
+        refs = sorted(documented.get(path, ()))
+        manifest = document_manifests.get(path)
+        owners = private_links[path].copy()
+        own_bindings = [row for row in bindings.values() if row["path"].startswith(path + "/")]
+        owners.update(row["owner"] for row in own_bindings)
+        local_locators = [name for name in ARTIFACT_LOCATORS
+                          if safe_path(private_root, f"{path}/{name}").is_file()]
+        verified = [row["path"] for row in own_bindings
+                    if checked[row["key"]][0] == "metadata_hash_verified"]
+        if manifest and manifest["status"] == "metadata_hash_verified":
+            verified.append(manifest["path"])
+
+        binding_basis = set()
+        if any(checked.get(row["key"], (None,))[0] == "metadata_hash_verified"
+               for row in partition_rows.values() if row["path"].startswith(path + "/")):
+            binding_basis.add("sealed_source_partition_locators")
+        if any(checked.get(row.get("metadata_key"), (None,))[0] == "metadata_hash_verified"
+               for row in inventory["payload_refs"] if row["path"].startswith(path + "/")):
+            binding_basis.add("sealed_annual_output_locators")
+        if manifest and manifest["declared_artifact_bindings"]:
+            binding_basis.add("manifest_declared_run_input_output_locators")
+        documents = {where for where, _ in refs}
+        if manifest:
+            documents.add(manifest["document"])
+        if owners:
+            state = "bound_metadata_or_locator"
+            role = "study_or_evidence_folder" if owners & studies.keys() else "source_data_folder"
+            basis = "catalogue_relation"
+        elif documents:
+            state, role, basis = "documented_locator", "documented_private_artifacts", "tracked_document_locator"
+        elif local_locators:
+            state = "artifact_locator_present"
+            role, basis = "unverified_private_artifact_locator", "exact_root_filename_stat"
+        else:
+            state, role, basis = "directory_only", "unknown_directory_contents", "directory_entry_only"
+
+        directories.append({
+            "path": path, "keys": sorted(owners), "documents": sorted(documents),
+            "status": state, "artifact_role": role, "role_basis": basis,
+            "root_artifact_locators": local_locators,
+            "document_references": [{"source": where, "basis": ref_basis} for where, ref_basis in refs],
+            "verified_metadata": sorted(verified), "source_run_binding_basis": sorted(binding_basis),
+            "run_manifest": manifest,
+        })
 
     return {
-        "coverage": dict(Counter(row["status"] for row in directories.values())),
-        "directories": sorted(directories.values(), key=lambda row: row["path"]),
+        "coverage": dict(Counter(row["status"] for row in directories)),
+        "coverage_axes": {
+            "root_manifest_present": sum("manifest.json" in row["root_artifact_locators"] for row in directories),
+            "root_protocol_present": sum("protocol.md" in row["root_artifact_locators"] for row in directories),
+            "root_readme_present": sum("README.md" in row["root_artifact_locators"] for row in directories),
+            "document_linked": sum(bool(row["documents"]) for row in directories),
+            "metadata_hash_verified": sum(bool(row["verified_metadata"]) for row in directories),
+            "source_run_locator_bound": sum(bool(row["source_run_binding_basis"]) for row in directories),
+        },
+        "directories": directories,
         "unavailable_scopes": unavailable_scopes,
         "documented_locators_not_in_directory_inventory": {
-            path: sorted(locators) for path, locators in sorted(documented.items()) if path not in directories
+            path: sorted(locators) for path, locators in sorted(missing.items())
         },
+        "ambiguous_short_locators": ambiguous,
+        "document_relations": relations,
+        "document_manifests": list(document_manifests.values()),
         "metadata": [{"key": key, "path": row["path"], "status": checked.get(key, ("not_checked", None))[0]}
                      for key, row in bindings.items()],
         "opaque_refs": availability,
         "study_directory_refs": [{"path": path, "keys": sorted(keys),
                                   "status": ("not_checked" if private_root is None else
-                                             "directory_present" if path in directories else "directory_unavailable")}
-                                 for path, keys in sorted(private_links.items())],
+                                             "directory_present" if path in directory_paths else "directory_unavailable")}
+                                 for path, keys in sorted(private_links.items()) if keys],
     }
 
 
@@ -445,7 +623,7 @@ def inspect(private_root=None):
     current = git_paths("HEAD", inventory["tracked_scope"])
     require(bool(snapshot), "empty tracked snapshot")
     tracked, legacy_missing = classify_tracked(catalogue, inventory, snapshot)
-    private = verify_private(inventory, private_root, datasets, studies)
+    private = verify_private(inventory, private_root, datasets, studies, snapshot)
     require(inventory["legacy_corpus_meta"]["dataset"] in datasets, "legacy corpus dataset orphan")
     corpus = legacy_corpus(inventory, snapshot)
     costs = fee_recipes(inventory, snapshot, records, studies)
@@ -469,8 +647,10 @@ def inspect(private_root=None):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--private-root", type=Path, help="Explicit ai-engine-jobs root for metadata-only checks")
-    parser.add_argument("--key", help="Show a dataset or study by ID, or studies linked to a catalogue ID")
-    parser.add_argument("--all", action="store_true", help="Emit every scoped path and its evidence links")
+    view = parser.add_mutually_exclusive_group()
+    view.add_argument("--key", help="Show a dataset or study by ID, or studies linked to a catalogue ID")
+    view.add_argument("--path", help="Show a tracked or scoped private path and its documentary links")
+    view.add_argument("--all", action="store_true", help="Emit every scoped path and its evidence links")
     args = parser.parse_args()
     result = inspect(args.private_root.resolve() if args.private_root else None)
     if args.key:
@@ -500,6 +680,18 @@ def main():
         }
         if not (result["dataset"] or linked or matching_candidates or matching_recipes):
             parser.exit(1, f"No inventory binding for {args.key}. Use --all to inspect other locators.\n")
+    elif args.path:
+        path = relative(args.path.replace("\\", "/")).as_posix()
+        row = next((row for row in result["tracked_paths"] + result["private"]["directories"]
+                    if row["path"] == path), None)
+        if row is None:
+            parser.exit(1, f"No exact inventory match for {path}. Use --all to list paths.\n")
+        result = {"entry": row, "document_relations": [
+            edge for edge in result["private"]["document_relations"] if path in (edge["source"], edge["target"])
+        ], "documented_private_directories": [
+            directory["path"] for directory in result["private"]["directories"]
+            if any(doc == path or doc.rpartition(":")[0] == path for doc in directory["documents"])
+        ]}
     elif not args.all:
         private = result["private"]
         result = {
@@ -512,6 +704,11 @@ def main():
             "legacy_corpus_profiles": result["legacy_corpus"]["profile_count"],
             "eurusd_catalogue13_recipe_labels": result["eurusd_catalogue13_recipes"]["counts_by_first_negative_layer"],
             "private_directory_coverage": private["coverage"],
+            "private_coverage_axes": private["coverage_axes"],
+            "document_relations": len(private["document_relations"]),
+            "documents_with_direct_relations": len({row["source"] for row in private["document_relations"]}),
+            "ambiguous_short_locators": len(private["ambiguous_short_locators"]),
+            "document_manifest_checks": dict(Counter(row["status"] for row in private["document_manifests"])),
             "private_unavailable_scopes": private["unavailable_scopes"],
             "metadata_checks": dict(Counter(row["status"] for row in private["metadata"])),
             "opaque_refs": dict(Counter(row["status"] for row in private["opaque_refs"])),

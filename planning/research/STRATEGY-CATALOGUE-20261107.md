@@ -50,7 +50,9 @@ python -X utf8 tooling/ai-engines/research_inventory.py --key us500-v16-slippage
 | Git tại `5a2072a`, dưới `planning/research` và `planning/trader/research` | **968** đường dẫn. Có **27** gắn nhãn sâu, **84** được catalogue cũ dẫn có vai trò, **131** có vai trò ghi rõ trong index, **240** có link điều hướng đơn thuần và **486** chưa có binding. |
 | Nhãn loại artifact trên cùng 968 đường dẫn | **23** sidecar được nhận diện qua tài liệu hoặc code đã dẫn, **12** Markdown qua tiêu đề. Còn **341** nhãn tạm theo tên và **99** tài liệu chỉ rõ định dạng. Xem `artifact_role_counts`, `role_basis_counts` và `role_evidence` qua `--all`. Nhãn loại file tách khỏi trạng thái liên kết bằng chứng. |
 | Đơn vị có nhãn sâu | **7** nhóm nguồn, **61** phân vùng có seal, **11** mục study/trạng thái, **24** recipe có nhãn phí và **24** profile corpus V26 theo hash trong card. Giữ nguyên **123** hồ sơ legacy. |
-| Kho private trên máy này | **405** thư mục cấp một thuộc `prop-*` hoặc campaign `execution-v1`. **13** có binding hoặc locator cụ thể trong catalogue, **90** nữa có locator trong tài liệu tracked và **302** mới kiểm kê theo tên. **38** tệp metadata kiểm SHA256, **79** locator payload chỉ kiểm sự tồn tại. |
+| Kho private trên máy này | **405** thư mục cấp một thuộc `prop-*` hoặc campaign `execution-v1`, cùng phạm vi lần trước. **13** có khóa catalogue, **313** có locator trong tài liệu nhưng chưa có khóa catalogue, **50** có tệp ở gốc nhưng chưa có tài liệu dẫn, **29** chỉ biết thư mục. So với lần trước, **223/302** thư mục chỉ biết tên đã nối được tài liệu. |
+| Các phép kiểm riêng trên 405 thư mục | **235** có `manifest.json`, **17** có `protocol.md`, **2** có `README.md`. **324** thư mục có dẫn chiếu tài liệu, **12** có metadata kiểm SHA256 và **7** có locator nguồn hoặc run ràng buộc bằng metadata đã kiểm. Các số này có thể chồng lên nhau. |
+| Quan hệ giữa tài liệu | **281** lượt dẫn chiếu trực tiếp từ **170** tài liệu, trong đó **166** nằm ngoài nguồn được dẫn trực tiếp ở 11 hồ sơ ưu tiên. Mỗi quan hệ có đường dẫn và số dòng. |
 
 `--all` trả từng đường dẫn, căn cứ gán nhãn và phần chưa rõ. Thêm
 `--private-root E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs` để kiểm metadata
@@ -58,6 +60,27 @@ trên máy hiện tại. Mẫu số giới hạn trong hai cây Git và hai nhó
 đã nêu, ngoài phạm vi còn có các repo, kho raw, thư mục khác và lịch sử
 chưa lưu. Cột thay đổi so với mốc Git giúp nhận ra file mới hoặc đã dời.
 Chỉ nâng nhãn provisional khi có tài liệu hoặc seal làm căn cứ.
+
+`--path` tra chính xác một đường dẫn trong inventory. Ví dụ sau trả
+protocol được báo cáo dẫn và các thư mục private có locator trong báo cáo.
+
+~~~powershell
+python -X utf8 tooling/ai-engines/research_inventory.py --private-root E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs --path planning/research/EURUSD-FUNNEL-AUDIT-RESULTS-20261113.md
+~~~
+
+Với thư mục private, `root_artifact_locators` xác nhận tệp hiện diện,
+`document_references` cho biết tài liệu và căn cứ khớp.
+`verified_metadata` ghi tệp đã kiểm hash. `source_run_binding_basis`
+ghi rõ loại liên kết đã kiểm, gồm seal phân vùng, sổ năm hoặc manifest
+khai báo đầu vào và đầu ra. Hai tên ngắn trùng nhau được giữ ở
+`ambiguous_short_locators` để đối chiếu. `document_relations` chỉ phản ánh
+quan hệ được tài liệu ghi rõ.
+
+Đợt này kiểm thêm **3** manifest có SHA256 công bố và đã biết định dạng.
+Chúng khai báo **19** locator đầu vào và đầu ra. Công cụ chỉ kiểm tệp
+được khai báo có mặt. Kết quả không xác nhận hash, dữ liệu giá hay nội dung
+của các tệp được trỏ tới. **38** metadata đã kiểm và **79** locator đã
+đăng ký từ trước vẫn giữ trong phạm vi kiểm.
 
 **Việc còn thiếu có thể đổi quyết định.** Trước hết cần đối soát exposure
 theo partition để biết tập nào còn dùng được cho OOS. Sau đó kiểm lịch và
