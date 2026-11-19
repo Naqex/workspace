@@ -117,6 +117,81 @@ sáu năm là **6.916,91–7.401,11 USD**, trước chi phí ngoài giao dịch.
 khác nhau giữa hai điểm xuất phát.
 [Quy tắc và sổ Funded của V15](BRIDGE-AND-VELOCITY-V15-RESULTS-20261115.md).
 
+## Hậu kiểm sizing V15 trên đúng 61 cửa sổ đủ 12 tháng
+
+**Chưa có chính sách risk thấp cho thấy tốc độ hai pha lặp lại với
+khoảng đệm đã chọn.** D1.25 từng qua hai vòng và nhận Reward trong
+cửa sổ bắt đầu 01/2023. Trên các cửa sổ khác của cùng policy, static
+equity loss có lúc vượt 6,5%. D3 có hai đợt khác nhau nhưng xin tới
+1,20% vốn đầu cho một lệnh ở Vòng 1 và vượt cả hai ngưỡng drawdown.
+Chưa chọn chính sách để kiểm ở vốn 10k/25k.
+
+Đọc lại cùng tape 340 tín hiệu, sổ **50.000 USD**, hai thứ tự giá
+OHLC/OLHC và hai biểu swap PRIMARY đã khóa. Đếm sự kiện trước ngày
+tròn 12 tháng, tính từ cửa sổ mở theo tháng. Có 61 cửa sổ đủ quan sát và
+11 cửa sổ cuối chỉ biết đến cutoff 01/01/2024 UTC. Bảng ghi khoảng
+giữa hai biểu swap với cùng số đếm qua hai thứ tự giá. Các cột lỗ
+equity là số xấu nhất từ đầu mỗi sổ tới cutoff Development qua 72
+mốc, gồm cả floating. Chúng có thể bao gồm diễn biến sau tháng thứ 12.
+
+| Policy | Risk yêu cầu P1 / P2 / Funded, % của 50k | P1 / P2 / Reward trong 12 tháng, trên 61 | Đợt qua P2 / Reward không chồng lấn | Worst daily / static |
+| --- | ---: | ---: | ---: | ---: |
+| V14 gốc | 0,40 / 0,35 / 0,25 | 2 / 0 / 0 | 0 / 0 | 0,91% / 6,56% |
+| D1 | 0,40 / 0,35 / 0,25 | 2 / 0 / 0 | 0 / 0 | 0,91% / 6,85% |
+| D1.25 | 0,50 / 0,4375 / 0,3125 | 6 / 1 / 1 | 1 / 1 | 1,15% / 7,70% |
+| D1.5 Calibrated | 0,60 / 0,525 / 0,375 | 8–9 / 2 / 1 | 1 / 1 | 1,37% / 8,13% |
+| Cushion | 0,60, có thể lên 1,10 / 0,525 / 0,375 | 16–19 / 2 / 1 | 1 / 1 | 2,03% / 8,13% |
+| D2 | 0,80 / 0,70 / 0,50 | 17–18 / 2–3 / 1–2 | 1 / 1 | 1,82% / 8,37% |
+| D2.5 | 1,00 / 0,875 / 0,625 | 25 / 4 / 4 | 1 / 1 | 2,18% / 8,39% |
+| D3 | 1,20 / 1,05 / 0,75 | 26 / 10–11 / 8 | 2 / 2 | 2,62% / 8,40% |
+
+- **So sizing đúng chỗ.** D1→D1.25→D1.5 giữ cùng V15 guard, phí,
+  tín hiệu và lịch, thay hệ số ngân sách theo pha. V14→D1 có đổi guard
+  dù trùng mức risk danh nghĩa. Cushion mở thêm tối đa 250 USD risk
+  khi đủ lãi đã đóng ở P1. D1/D1.25/D1.5 có risk giá tới stop P1
+  trung vị **197,83 / 247,94 / 297,66–297,67 USD** trong các cửa sổ
+  đủ năm, sau throttle và lot floor. D1.25 trải từ **144,33 đến
+  250 USD**. Cushion trung vị **298,32–298,35 USD**, tối đa **550 USD**.
+  Các số trên là tiền tới mức stop giá trong sổ, tách phí và khả năng
+  gap xuyên stop. Mức **0,25% ở V14/D1 chỉ nằm ở Funded**. Ba mức
+  0,25/0,40/0,50% cố định xuyên cả pha trên 10k chưa từng so theo
+  hợp đồng này. [Sizing V15 gốc](BRIDGE-AND-VELOCITY-V15-RESULTS-20261115.md).
+- **Đợt thuận lợi 01/2023.** Với D1.25, qua P2 ngày 29/11 hoặc 01/12,
+  Reward ngày 15/12 hoặc 22/12, **430,53 hoặc 52,53 USD mô phỏng**.
+  Sổ này có equity daily 1,01% và static 1,36–1,37% đến hết
+  Development, nên đủ đệm trong mô hình ở lần đó. Có **12 lệnh nguồn
+  bất định trước P2**. Cả 36 mốc bắt đầu 2018–2020 có **0 P2 và
+  0 Reward** trong 12 tháng ở D1, D1.25, Calibrated, Cushion, D2
+  và D2.5. Cửa sổ D1.25 bắt đầu muộn trong 2023 có thêm một Reward
+  quan sát được, nhưng còn thiếu phần theo dõi và chồng lấn với đợt trên.
+  Cushion nhận 7 lần Reward trong chính một sổ 01/2023. Đây là lặp
+  Reward sau Funded, còn số đợt qua hai vòng không chồng lấn
+  vẫn là một.
+- **D3 là đối chiếu mức risk cao.** Hai đợt 2020 và 2023 có bằng chứng
+  giữ daily dưới 2,5% và static dưới 6,5% tới P2 trong mô hình.
+  Daily qua P2 lấy trực tiếp từ sổ từng pha. Static tới P2 được chặn
+  trên bằng giá trị nhỏ hơn giữa static cả sổ và peak-to-valley lớn
+  nhất của hai pha, vì mỗi pha bắt đầu ở 50k. Khoảng đệm qua Reward
+  chưa xác minh riêng cho đợt 2020. Mức daily/static xấu nhất của
+  policy trên bộ mốc đầy đủ là 2,62%/8,40%. Tất cả sổ PRIMARY trong
+  bảng ghi 0 breach theo luật quỹ mô phỏng. Hai ngưỡng đệm nội bộ
+  chặt hơn ngưỡng breach trong sổ.
+- **Chứng cứ còn thiếu.** PRIMARY có mô hình M1 và Ask, gaps còn tồn
+  tại. Sổ V15 Cushion STRICT đúng policy được lưu ở V17 theo phạm
+  vi Full. Sổ STRICT theo risk V14 dùng chính sách khác. Lượt này
+  chỉ mở Dev 2018–2023 đã tách, nên chưa có mẫu adverse đúng cùng
+  policy, cùng 61 mốc để xác nhận. Chưa có lý do chọn một sizing
+  để chuyển sang vốn đích. Giữ D1.25 làm mốc đọc lịch sử vì là mức
+  thấp nhất trong grid có Reward, với bằng chứng chỉ từ một đợt.
+  [V17 và cách dựng sổ STRICT](ADAPTIVE-VELOCITY-V17-RESULTS-20261116.md).
+
+Hậu kiểm đọc **2.336 dòng sổ đã audit**, đối chiếu **2.304 sổ từ Challenge** và 32 tổ hợp
+policy/order/phí trên đúng cutoff. So lại các mốc đã lưu của V14,
+Calibrated và Cushion. Không replay tín hiệu hay đọc giá 2024+.
+Artifact `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/prop-v15-sizing-evidence-20261119/`,
+manifest SHA256 `cf56d1ff091060f6d2cf8265f412f31f5ed185a22c7c18a846245617a52d8141`.
+Lượt đọc và tổng hợp 25,49 giây.
+
 ## Nguồn đối soát và phán quyết
 
 Dùng 20 file sổ Development và audit kèm theo. Đối chiếu 36 tổ hợp
