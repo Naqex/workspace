@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+**US500.cash Swing · mua trước NFP, ISM Manufacturing và GDP.** Gác ở
+preflight. Lịch có điều kiện cho 31–36 cửa sổ/năm và phép chuyển gross từ
+futures cho bình quân 378,70 USD/năm trước phí ở risk 125 USD, stop 1%.
+[Kết quả](PROP-US500-PREANNOUNCEMENT-PREFLIGHT-20261119.md).
+
 **EURUSD · audit giờ rollover.** Đối chiếu 22:00 UTC với 17:00 New York.
 Catalogue13 không đổi tiền swap, F2 và RSI37 vẫn âm. Tape Reward V15,
 V4 và BASE_GUARD trong Development không cắt qua rollover EURUSD.
