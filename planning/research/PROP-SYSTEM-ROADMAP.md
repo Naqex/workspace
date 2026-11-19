@@ -61,6 +61,15 @@ và chưa có payout. Ở 40/60 lệnh/năm, thử nghiệm giả định lần 
 quy chiếu. Dùng kết quả để ưu tiên cơ chế có đủ quy mô và tần suất bổ
 sung trước khi replay. [Bài đo](PROP-TWO-PHASE-SENSITIVITY-20261119.md).
 
+**US500 M15, Swing 10k/25k · sàn tiến độ 12 tháng.**
+
+Với risk 0,25% vốn đầu và một vị thế, hai sổ reset đòi **40R + 20R**.
+Dành 48 tuần cho hai vòng, **144–240 fills thực nhận** cần
+**+0,417 đến +0,250R net mỗi lệnh**. R094 đủ nhịp nhưng âm sau phí
+stress ở cả 2022 và 2023. Chỉ xét một tín hiệu US500 có nguồn sẵn, biết
+trước entry và đủ quy mô trong hai cụm Development.
+[Sàn và sổ đối chứng](./PROP-US500-12M-VIABILITY-20261119.md).
+
 | Nhịp | Câu hỏi và bằng chứng cần có | Quyết định cuối nhịp |
 |---|---|---|
 | **1. Sàng lọc lợi thế sau phí** | So cơ chế với lịch sử thử, kiểm tần suất và nguồn, khóa công thức rồi đo markout sau phí stress và quy mô SL tự nhiên. Song song rà các khoảng thiếu giá có giá trị quyết định. | Chọn ứng viên có lý do để replay, gác vì kinh tế/tần suất, hoặc ghi đúng đầu vào đang thiếu. |
