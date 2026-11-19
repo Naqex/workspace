@@ -4663,6 +4663,14 @@
     "version": 1,
     "broker_observations": [
       {
+        "id": "bottleneck2-monfri-20261119",
+        "scope": "Offline Development screen on sealed FTMO-Demo bars for six symbols, three fixed families and a paired exit-time comparison",
+        "report": "BOTTLENECK2-MULTI-ASSET-MONFRI-SCREEN-20261119.md",
+        "summary": "BOTTLENECK2-MULTI-ASSET-MONFRI-SCREEN-20261119.json",
+        "private_manifest": "bottleneck2-monfri-20261119/manifest.json",
+        "private_manifest_sha256": "ea4a22aa4af11131e266b785a7f9dd820f12f8b1d7f1b56cfa30f8c496fd6275"
+      },
+      {
         "id": "ftmo-demo-full13-20261119",
         "scope": "FTMO-Demo 10k Standard, 39 native closed-bar series and commission/slippage from 16 Demo round trips",
         "report": "FTMO-DEMO-10K-STANDARD-FULL13-AND-EXECUTION-20261119.md",

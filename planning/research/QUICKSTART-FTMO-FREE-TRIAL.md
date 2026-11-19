@@ -129,6 +129,19 @@ capture spread không tự đo được slippage. Kết thúc process có thể 
 paper: journal/report giữ trạng thái, cần replay/reconciliation trước resume,
 không xóa ledger để coi như đã flat. Vị thế broker không bị tác động.
 
+### Checklist trước shadow hoặc gửi lệnh
+
+- Audit Demo ngày 19/11/2026 có một vòng XAUUSD còn mở **90,839 giây**
+  sau khi bộ đọc gặp trạng thái lệnh trung gian. Phiên riêng được khôi phục
+  để đóng đúng ticket. [Biên nhận và chi phí](FTMO-DEMO-10K-STANDARD-FULL13-AND-EXECUTION-20261119.md#1-commission-và-trượt-giá-có-đối-soát).
+- Diễn tập mất IPC, `DONE` thiếu deal và trạng thái lệnh chưa đồng bộ. Chặn
+  entry mới khi chưa xác định trạng thái. Sau khi kết nối lại, kiểm account
+  binding rồi đối chiếu order → position → deal. Cần bằng chứng vị thế và
+  lệnh chờ đã về 0 trước khi ghi nhận flat. Ghi thời gian hồi phục, ticket,
+  nguyên nhân và cách bàn giao người vận hành nếu vượt thời hạn xử lý.
+- Kiểm trong môi trường demo có quyền riêng trước khi dùng execution. Shadow
+  áp cùng trình tự đối soát lên sổ paper, giữ phân biệt với tình trạng broker.
+
 ## Đọc lại evidence V19 đã nén
 
 `evidence_compaction.EvidenceStore` đọc trực tiếp archive và kiểm cả SHA256

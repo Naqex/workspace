@@ -1,0 +1,623 @@
+{
+  "schema": "native-ftmo-partition-lock-v1",
+  "sealed_at_utc": "2026-11-19T11:38:34.104584+00:00",
+  "status": "LOCKED_HOLDOUT",
+  "cutoff_server": "2025-01-01",
+  "dev_years": [
+    2018,
+    2024
+  ],
+  "clusters": [
+    [
+      2018,
+      2020
+    ],
+    [
+      2021,
+      2024
+    ]
+  ],
+  "archive_manifest_sha256": "958efae21180c0dfc2654de3ecc447effb88e0ddc12eb63e30aca894c6980f1c",
+  "audit_sha256": "09d1a66b5bbb46032ca8dfd7294b40a7d98424a3dd155ac9561cc5fe9c25dc32",
+  "protocol_sha256": "d61bb6bd92c0e2b6355262427f7078319f8b709aba6fa91cc165e189007b6462",
+  "census_sha256": "d8b4a17c1d570a70fe8b01c10212ef2188615710b8ac46aaf24d9bb1c31ce883",
+  "series": {
+    "EURUSD": {
+      "H1": {
+        "total": 99998,
+        "first": "2010-10-13T22:00:00",
+        "last": "2026-11-19T11:00:00",
+        "source_sha256": "353c1f85f92a7714e3c146a4be490620cfc722054a3371f6e1008ad93c91075e",
+        "gap_threshold_hours": 3.0,
+        "locked_holdout_rows": 11724,
+        "locked_interval_indices": [
+          88274,
+          99998
+        ],
+        "locked_first": "2025-01-02T00:00:00",
+        "development_file": "EURUSD-H1.parquet",
+        "development_sha256": "a7a1b2ad66a0f99d0febfacfdf48163f4b408c6a54b169326ade96842d268345",
+        "development_rows": 88274
+      },
+      "H4": {
+        "total": 41490,
+        "first": "2000-03-29T12:00:00",
+        "last": "2026-11-19T08:00:00",
+        "source_sha256": "8243817be5072e75dac5c60ef842bb2fec92c76cc485052a41e93e13b1c9fc8f",
+        "gap_threshold_hours": 12.0,
+        "locked_holdout_rows": 2931,
+        "locked_interval_indices": [
+          38559,
+          41490
+        ],
+        "locked_first": "2025-01-02T00:00:00",
+        "development_file": "EURUSD-H4.parquet",
+        "development_sha256": "6bb4e551ca37d087ec8473b33da15e201ab2853e9a62cad52eb30248188ee49c",
+        "development_rows": 38559
+      },
+      "D1": {
+        "total": 6924,
+        "first": "2000-03-29T00:00:00",
+        "last": "2026-11-18T00:00:00",
+        "source_sha256": "e7d88c0152ce07909ab9a02aa5f360b41f7ab175819359de7965d171ba235184",
+        "gap_threshold_hours": 36.0,
+        "locked_holdout_rows": 488,
+        "locked_interval_indices": [
+          6436,
+          6924
+        ],
+        "locked_first": "2025-01-02T00:00:00",
+        "development_file": "EURUSD-D1.parquet",
+        "development_sha256": "4260360be820bba6ba9ec6b6d9fb69176b5fa704abc188edf2d88aa2565f9927",
+        "development_rows": 6436
+      }
+    },
+    "GBPUSD": {
+      "H1": {
+        "total": 99998,
+        "first": "2010-10-04T12:00:00",
+        "last": "2026-11-19T12:00:00",
+        "source_sha256": "1d1d5cc043a7749d89c93a44cfdf47ce9e3b36f20d379340605df6403738876f",
+        "gap_threshold_hours": 3.0,
+        "locked_holdout_rows": 11725,
+        "locked_interval_indices": [
+          88273,
+          99998
+        ],
+        "locked_first": "2025-01-02T00:00:00",
+        "development_file": "GBPUSD-H1.parquet",
+        "development_sha256": "00f405dbd117f747a1648e4137a3139c4d26637aaab4c00ca8e1e6e9cd37b741",
+        "development_rows": 88273
+      },
+      "H4": {
+        "total": 41454,
+        "first": "2000-03-29T12:00:00",
+        "last": "2026-11-19T08:00:00",
+        "source_sha256": "f67a7e611748293c4893ef7dd99e6488214fa34e50f2ceec31f46ff19522dbee",
+        "gap_threshold_hours": 12.0,
+        "locked_holdout_rows": 2931,
+        "locked_interval_indices": [
+          38523,
+          41454
+        ],
+        "locked_first": "2025-01-02T00:00:00",
+        "development_file": "GBPUSD-H4.parquet",
+        "development_sha256": "7c5351dbcf0681e9745a94a3a257a04933962b9e36d05592fb3c584b593c8025",
+        "development_rows": 38523
+      },
+      "D1": {
+        "total": 6923,
+        "first": "2000-03-29T00:00:00",
+        "last": "2026-11-18T00:00:00",
+        "source_sha256": "eac30cb2326abfdaf6318d2da2646e3ee8ca532151d9fba9f2b0653b76eaa3b1",
+        "gap_threshold_hours": 36.0,
+        "locked_holdout_rows": 488,
+        "locked_interval_indices": [
+          6435,
+          6923
+        ],
+        "locked_first": "2025-01-02T00:00:00",
+        "development_file": "GBPUSD-D1.parquet",
+        "development_sha256": "37371bf3031f9e4cfb93bd4a1fe97e2109e4c00ddc919e3070ec80589748f2cc",
+        "development_rows": 6435
+      }
+    },
+    "AUDUSD": {
+      "H1": {
+        "total": 99998,
+        "first": "2010-10-14T09:00:00",
+        "last": "2026-11-19T12:00:00",
+        "source_sha256": "d44b5dcc2a3943afe639259674e7149ea86e8d552f85ed52504a190493305e8d",
+        "gap_threshold_hours": 3.0,
+        "locked_holdout_rows": 11725,
+        "locked_interval_indices": [
+          88273,
+          99998
+        ],
+        "locked_first": "2025-01-02T00:00:00"
+      },
+      "H4": {
+        "total": 41480,
+        "first": "2000-03-29T12:00:00",
+        "last": "2026-11-19T08:00:00",
+        "source_sha256": "f7ee7a31991ab7f54dc1dbd4ae4ff5ef067f2c35267444a4025ad481305c9270",
+        "gap_threshold_hours": 12.0,
+        "locked_holdout_rows": 2931,
+        "locked_interval_indices": [
+          38549,
+          41480
+        ],
+        "locked_first": "2025-01-02T00:00:00"
+      },
+      "D1": {
+        "total": 6923,
+        "first": "2000-03-29T00:00:00",
+        "last": "2026-11-18T00:00:00",
+        "source_sha256": "cf4220baa5354f72e4275c0240c1288e94b9548405d39c686a5c578f8cce9e8f",
+        "gap_threshold_hours": 36.0,
+        "locked_holdout_rows": 488,
+        "locked_interval_indices": [
+          6435,
+          6923
+        ],
+        "locked_first": "2025-01-02T00:00:00"
+      }
+    },
+    "USDJPY": {
+      "H1": {
+        "total": 99998,
+        "first": "2010-10-14T13:00:00",
+        "last": "2026-11-19T12:00:00",
+        "source_sha256": "a71f134ee74460de322d1ff62636b49960ff2a1d32d85e814b1a7253ce7629fb",
+        "gap_threshold_hours": 3.0,
+        "locked_holdout_rows": 11725,
+        "locked_interval_indices": [
+          88273,
+          99998
+        ],
+        "locked_first": "2025-01-02T00:00:00",
+        "development_file": "USDJPY-H1.parquet",
+        "development_sha256": "a4a4b3fbf5e56779ab2d959b7bd628ffcbfa14decfbb47969e4fff17d94d6f7e",
+        "development_rows": 88273
+      },
+      "H4": {
+        "total": 41478,
+        "first": "2000-03-29T12:00:00",
+        "last": "2026-11-19T08:00:00",
+        "source_sha256": "bf89db9572d626a2f2d9f431f65d22489b9157d7e765f5f0892e8192081e7e76",
+        "gap_threshold_hours": 12.0,
+        "locked_holdout_rows": 2931,
+        "locked_interval_indices": [
+          38547,
+          41478
+        ],
+        "locked_first": "2025-01-02T00:00:00",
+        "development_file": "USDJPY-H4.parquet",
+        "development_sha256": "ffd0a04d3ace88005a2658fb715628bc66e819c55f42534f63390faddc14011f",
+        "development_rows": 38547
+      },
+      "D1": {
+        "total": 6923,
+        "first": "2000-03-29T00:00:00",
+        "last": "2026-11-18T00:00:00",
+        "source_sha256": "c50ea6f6828e039168ed6e60a17a19d6ce87346a3f99508cfa2b9b30678cdeae",
+        "gap_threshold_hours": 36.0,
+        "locked_holdout_rows": 488,
+        "locked_interval_indices": [
+          6435,
+          6923
+        ],
+        "locked_first": "2025-01-02T00:00:00",
+        "development_file": "USDJPY-D1.parquet",
+        "development_sha256": "7dde7d8265f79056d94290fe5051d61c4951cae61eedbeb0d534ad18ca9c3bb1",
+        "development_rows": 6435
+      }
+    },
+    "USDCHF": {
+      "H1": {
+        "total": 99998,
+        "first": "2010-10-13T14:00:00",
+        "last": "2026-11-19T12:00:00",
+        "source_sha256": "6774f01f1c0659d6a5b0dd7dba0f266b159d0699271ef994bd4ea5adcacc16d3",
+        "gap_threshold_hours": 3.0,
+        "locked_holdout_rows": 11725,
+        "locked_interval_indices": [
+          88273,
+          99998
+        ],
+        "locked_first": "2025-01-02T00:00:00"
+      },
+      "H4": {
+        "total": 41480,
+        "first": "2000-03-29T12:00:00",
+        "last": "2026-11-19T08:00:00",
+        "source_sha256": "f27c3618abaa406402944bdae1bcf14bcb9d54cff3be45ffd15e5f170a0d686a",
+        "gap_threshold_hours": 12.0,
+        "locked_holdout_rows": 2931,
+        "locked_interval_indices": [
+          38549,
+          41480
+        ],
+        "locked_first": "2025-01-02T00:00:00"
+      },
+      "D1": {
+        "total": 6923,
+        "first": "2000-03-29T00:00:00",
+        "last": "2026-11-18T00:00:00",
+        "source_sha256": "a68bf598031286d2d4c45bda74bcfd7a3a52e1e7f7409689febfe038c6178318",
+        "gap_threshold_hours": 36.0,
+        "locked_holdout_rows": 488,
+        "locked_interval_indices": [
+          6435,
+          6923
+        ],
+        "locked_first": "2025-01-02T00:00:00"
+      }
+    },
+    "USDCAD": {
+      "H1": {
+        "total": 75062,
+        "first": "2014-10-23T01:00:00",
+        "last": "2026-11-19T12:00:00",
+        "source_sha256": "f5380b4f8afb60a5eb7cde53d1da8ad9cf821c6bc2270ae6e250e9df05c611bb",
+        "gap_threshold_hours": 3.0,
+        "locked_holdout_rows": 11725,
+        "locked_interval_indices": [
+          63337,
+          75062
+        ],
+        "locked_first": "2025-01-02T00:00:00"
+      },
+      "H4": {
+        "total": 41486,
+        "first": "2000-03-29T12:00:00",
+        "last": "2026-11-19T08:00:00",
+        "source_sha256": "7f4259593d4ab6a4d2c1ad355412f889adc6da7c38f337bc9b67906e7fb4beec",
+        "gap_threshold_hours": 12.0,
+        "locked_holdout_rows": 2931,
+        "locked_interval_indices": [
+          38555,
+          41486
+        ],
+        "locked_first": "2025-01-02T00:00:00"
+      },
+      "D1": {
+        "total": 6925,
+        "first": "2000-03-29T00:00:00",
+        "last": "2026-11-18T00:00:00",
+        "source_sha256": "ff806b3dab13c8b49cfc5216acc3e10332f7cd33b3c87a2883d3aa3cdf1dd525",
+        "gap_threshold_hours": 36.0,
+        "locked_holdout_rows": 488,
+        "locked_interval_indices": [
+          6437,
+          6925
+        ],
+        "locked_first": "2025-01-02T00:00:00"
+      }
+    },
+    "NZDUSD": {
+      "H1": {
+        "total": 99998,
+        "first": "2010-10-13T16:00:00",
+        "last": "2026-11-19T12:00:00",
+        "source_sha256": "9f9e8449d58462a2aa513e6e9e53e2341137e393cc52b4fe05526e0db8c2fb52",
+        "gap_threshold_hours": 3.0,
+        "locked_holdout_rows": 11725,
+        "locked_interval_indices": [
+          88273,
+          99998
+        ],
+        "locked_first": "2025-01-02T00:00:00"
+      },
+      "H4": {
+        "total": 41475,
+        "first": "2000-03-29T12:00:00",
+        "last": "2026-11-19T08:00:00",
+        "source_sha256": "40640e834b0bb8402507b99d49ceb5dfb260f9cf61d83cbd664f896e3c7d6f21",
+        "gap_threshold_hours": 12.0,
+        "locked_holdout_rows": 2931,
+        "locked_interval_indices": [
+          38544,
+          41475
+        ],
+        "locked_first": "2025-01-02T00:00:00"
+      },
+      "D1": {
+        "total": 6923,
+        "first": "2000-03-29T00:00:00",
+        "last": "2026-11-18T00:00:00",
+        "source_sha256": "0859f5e8bc4f0f574b446d1d2f576b14c0eb49bf63967edaa3a67410e4909176",
+        "gap_threshold_hours": 36.0,
+        "locked_holdout_rows": 488,
+        "locked_interval_indices": [
+          6435,
+          6923
+        ],
+        "locked_first": "2025-01-02T00:00:00"
+      }
+    },
+    "EURGBP": {
+      "H1": {
+        "total": 99998,
+        "first": "2010-10-14T10:00:00",
+        "last": "2026-11-19T12:00:00",
+        "source_sha256": "3fbc67fc900bc8e29d28a192d54be084730e78ada8a90ad2a17e69f8a6e8f8ae",
+        "gap_threshold_hours": 3.0,
+        "locked_holdout_rows": 11725,
+        "locked_interval_indices": [
+          88273,
+          99998
+        ],
+        "locked_first": "2025-01-02T00:00:00"
+      },
+      "H4": {
+        "total": 41457,
+        "first": "2000-03-29T12:00:00",
+        "last": "2026-11-19T08:00:00",
+        "source_sha256": "7316126fca69b31ed98eae060b3d2d94440bbedc4b90da401fbe47e6e47ece51",
+        "gap_threshold_hours": 12.0,
+        "locked_holdout_rows": 2931,
+        "locked_interval_indices": [
+          38526,
+          41457
+        ],
+        "locked_first": "2025-01-02T00:00:00"
+      },
+      "D1": {
+        "total": 6919,
+        "first": "2000-03-29T00:00:00",
+        "last": "2026-11-18T00:00:00",
+        "source_sha256": "7549ecd52c1b5d79059c934989faed81a49ffccc71331f848b2ac909b77693ec",
+        "gap_threshold_hours": 36.0,
+        "locked_holdout_rows": 488,
+        "locked_interval_indices": [
+          6431,
+          6919
+        ],
+        "locked_first": "2025-01-02T00:00:00"
+      }
+    },
+    "EURJPY": {
+      "H1": {
+        "total": 75062,
+        "first": "2014-10-22T23:00:00",
+        "last": "2026-11-19T12:00:00",
+        "source_sha256": "7055f49ee2f8ad27488f8bebaf6e08446c15aa13966fc7d091ab04430638bc6a",
+        "gap_threshold_hours": 3.0,
+        "locked_holdout_rows": 11725,
+        "locked_interval_indices": [
+          63337,
+          75062
+        ],
+        "locked_first": "2025-01-02T00:00:00",
+        "development_file": "EURJPY-H1.parquet",
+        "development_sha256": "c6bf1eca9a0c72e5a70eabb8bff62d7a6bf0c3b357295281a4820bbbfd0151f3",
+        "development_rows": 63337
+      },
+      "H4": {
+        "total": 37658,
+        "first": "2002-09-10T12:00:00",
+        "last": "2026-11-19T08:00:00",
+        "source_sha256": "1238a172796cfa197df42ff34c6f903bbac2d52b5b0c4c21e5e51961e5aea023",
+        "gap_threshold_hours": 12.0,
+        "locked_holdout_rows": 2931,
+        "locked_interval_indices": [
+          34727,
+          37658
+        ],
+        "locked_first": "2025-01-02T00:00:00",
+        "development_file": "EURJPY-H4.parquet",
+        "development_sha256": "a3419d7599a1d12b3f3760e72414300f571fd065951e383d0b0a03182e0681c6",
+        "development_rows": 34727
+      },
+      "D1": {
+        "total": 6797,
+        "first": "2000-03-29T00:00:00",
+        "last": "2026-11-18T00:00:00",
+        "source_sha256": "ceecbcbd3cc83683594c7fe921acd729d990d77d366c559353b8a3cf00848d26",
+        "gap_threshold_hours": 36.0,
+        "locked_holdout_rows": 488,
+        "locked_interval_indices": [
+          6309,
+          6797
+        ],
+        "locked_first": "2025-01-02T00:00:00",
+        "development_file": "EURJPY-D1.parquet",
+        "development_sha256": "6a078c3744cad7c90d10a9e0274ed696fcb24281a59ef74b3627d74a502055b1",
+        "development_rows": 6309
+      }
+    },
+    "GBPJPY": {
+      "H1": {
+        "total": 75062,
+        "first": "2014-10-22T11:00:00",
+        "last": "2026-11-19T12:00:00",
+        "source_sha256": "eb12a13ab164e3db74e5f3cfece59b3d791b054c7ae929aa62743c7a3a1a4dc8",
+        "gap_threshold_hours": 3.0,
+        "locked_holdout_rows": 11725,
+        "locked_interval_indices": [
+          63337,
+          75062
+        ],
+        "locked_first": "2025-01-02T00:00:00"
+      },
+      "H4": {
+        "total": 41480,
+        "first": "2000-03-29T12:00:00",
+        "last": "2026-11-19T08:00:00",
+        "source_sha256": "c520cdb5d53c71c84167cec4d87c1e7a1b2166d80b0a42ce5086e5156f708ce6",
+        "gap_threshold_hours": 12.0,
+        "locked_holdout_rows": 2931,
+        "locked_interval_indices": [
+          38549,
+          41480
+        ],
+        "locked_first": "2025-01-02T00:00:00"
+      },
+      "D1": {
+        "total": 6925,
+        "first": "2000-03-29T00:00:00",
+        "last": "2026-11-18T00:00:00",
+        "source_sha256": "84cb1f3695310a92c814b6c340eab7ae7d20602df647ed69d1aa2947378501b2",
+        "gap_threshold_hours": 36.0,
+        "locked_holdout_rows": 488,
+        "locked_interval_indices": [
+          6437,
+          6925
+        ],
+        "locked_first": "2025-01-02T00:00:00"
+      }
+    },
+    "AUDJPY": {
+      "H1": {
+        "total": 99998,
+        "first": "2010-10-14T01:00:00",
+        "last": "2026-11-19T12:00:00",
+        "source_sha256": "973b3fd1d67ae5d28f6277224787c61e14d7065e75da0f0a281a64447da0e77f",
+        "gap_threshold_hours": 3.0,
+        "locked_holdout_rows": 11725,
+        "locked_interval_indices": [
+          88273,
+          99998
+        ],
+        "locked_first": "2025-01-02T00:00:00"
+      },
+      "H4": {
+        "total": 41124,
+        "first": "2000-03-29T12:00:00",
+        "last": "2026-11-19T08:00:00",
+        "source_sha256": "5f55f9291602f8e5b23af47f06e8da69fd6e6ab7d893abf507c31d9f7bd49754",
+        "gap_threshold_hours": 12.0,
+        "locked_holdout_rows": 2931,
+        "locked_interval_indices": [
+          38193,
+          41124
+        ],
+        "locked_first": "2025-01-02T00:00:00"
+      },
+      "D1": {
+        "total": 6865,
+        "first": "2000-03-29T00:00:00",
+        "last": "2026-11-18T00:00:00",
+        "source_sha256": "819c7b0e1a2bb0d593e6b8700211dd9d5292dac7ffc2f891ee45a5f4e2411481",
+        "gap_threshold_hours": 36.0,
+        "locked_holdout_rows": 488,
+        "locked_interval_indices": [
+          6377,
+          6865
+        ],
+        "locked_first": "2025-01-02T00:00:00"
+      }
+    },
+    "XAUUSD": {
+      "H1": {
+        "total": 99998,
+        "first": "2010-03-19T14:00:00",
+        "last": "2026-11-19T12:00:00",
+        "source_sha256": "e30f00f703ffd170532d4b3e41d557c0b618a47378246b7adb9eb60bbc9b7763",
+        "gap_threshold_hours": 3.0,
+        "locked_holdout_rows": 11153,
+        "locked_interval_indices": [
+          88845,
+          99998
+        ],
+        "locked_first": "2025-01-02T01:00:00",
+        "development_file": "XAUUSD-H1.parquet",
+        "development_sha256": "f392aa5fc84fc6ec09d8f13ac79753e286ae1b5ceb994a3c81732ee3fc4d3606",
+        "development_rows": 88845
+      },
+      "H4": {
+        "total": 34406,
+        "first": "2004-06-11T04:00:00",
+        "last": "2026-11-19T08:00:00",
+        "source_sha256": "51a2a2c7da6ce314d025f6337662f2bebd9c574e3b435764178e4ed7357b5132",
+        "gap_threshold_hours": 12.0,
+        "locked_holdout_rows": 2916,
+        "locked_interval_indices": [
+          31490,
+          34406
+        ],
+        "locked_first": "2025-01-02T00:00:00",
+        "development_file": "XAUUSD-H4.parquet",
+        "development_sha256": "8fbec77c41a715945b1333185a1268fb5c59a987701d364f20f364485edb197b",
+        "development_rows": 31490
+      },
+      "D1": {
+        "total": 5774,
+        "first": "2004-06-11T00:00:00",
+        "last": "2026-11-18T00:00:00",
+        "source_sha256": "fbf9891b9fa89d8ab7fc406175b2bbd3e93d7e41d7f67d557780675c0e3044b5",
+        "gap_threshold_hours": 36.0,
+        "locked_holdout_rows": 486,
+        "locked_interval_indices": [
+          5288,
+          5774
+        ],
+        "locked_first": "2025-01-02T00:00:00",
+        "development_file": "XAUUSD-D1.parquet",
+        "development_sha256": "177ee379b69d01677f2d56200f88e120117ef066dc5e82d4f7bcfc2bc1aae0c9",
+        "development_rows": 5288
+      }
+    },
+    "US500.cash": {
+      "H1": {
+        "total": 35235,
+        "first": "2017-12-29T00:00:00",
+        "last": "2026-11-19T12:00:00",
+        "source_sha256": "4dcb9b3bea74eacae48f19bc9884d3c888e68642833b3515ab3a89673dffabda",
+        "gap_threshold_hours": 3.0,
+        "locked_holdout_rows": 11131,
+        "locked_interval_indices": [
+          24104,
+          35235
+        ],
+        "locked_first": "2025-01-02T01:00:00",
+        "development_file": "US500.cash-H1.parquet",
+        "development_sha256": "6a340c69ee6bf42e6fe3b0330e0fe52ec856a0614a33c1b4e07637075b36e82f",
+        "development_rows": 24104
+      },
+      "H4": {
+        "total": 9794,
+        "first": "2017-12-29T00:00:00",
+        "last": "2026-11-19T08:00:00",
+        "source_sha256": "a04a64337b7bb1e6765b667df4a78aeae19f3de24de82cb01960060d151863bd",
+        "gap_threshold_hours": 12.0,
+        "locked_holdout_rows": 2910,
+        "locked_interval_indices": [
+          6884,
+          9794
+        ],
+        "locked_first": "2025-01-02T00:00:00",
+        "development_file": "US500.cash-H4.parquet",
+        "development_sha256": "4a57d88fc660ef8cdf0b51ca1d327f2ab727ddda4481a67fb538e4f31c8efd56",
+        "development_rows": 6884
+      },
+      "D1": {
+        "total": 2298,
+        "first": "2017-12-29T00:00:00",
+        "last": "2026-11-18T00:00:00",
+        "source_sha256": "5edab58d484c30f8394c0b459ae32ff6ac3e1a6cfefd29c67aa27ca676201374",
+        "gap_threshold_hours": 36.0,
+        "locked_holdout_rows": 487,
+        "locked_interval_indices": [
+          1811,
+          2298
+        ],
+        "locked_first": "2025-01-02T00:00:00",
+        "development_file": "US500.cash-D1.parquet",
+        "development_sha256": "631d9e800d24455b5c813dc3c4a77309f07a333e3ad9ebd1980cf464a2f7f94d",
+        "development_rows": 1811
+      }
+    }
+  },
+  "exposure": {
+    "EURUSD": "Previously exposed in research, including later-period research. Native ATR also previously viewed.",
+    "US500.cash": "US500 research and later-period exposure recorded. Native ATR also previously viewed.",
+    "XAUUSD": "Gold research and later-period exposure recorded. Native ATR also previously viewed.",
+    "GBPUSD": "Prior S01/F5/FX research. Exact native holdout strategy PnL not established. Native ATR previously viewed.",
+    "USDJPY": "Prior R084/R085 Tokyo research. This new native PnL path is sealed. Native ATR previously viewed.",
+    "EURJPY": "No previous strategy result found in research index. Native ATR previously viewed."
+  },
+  "previous_exposure": "All 13 native symbols had aggregate ATR exposure at 36f1535. Access lock is prospective, with no fresh blind OOS claim.",
+  "pre_seal_scope": "clock-only census across full dataset, immutable source file hashes, price-only Development copies"
+}

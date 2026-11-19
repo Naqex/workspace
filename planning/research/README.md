@@ -9,6 +9,11 @@ Từ workspace root, chạy `python -X utf8 tooling/ai-engines/research_inventor
 để xem mức gắn nhãn. Thêm `--all` để lấy từng đường dẫn và lý do còn thiếu
 thông tin.
 
+**FTMO native · sáu mã H4/D1 Mon–Fri.** Khóa giá từ 2025. Cả ba họ âm
+trên cả hai cụm Development; kéo dài thời gian giữ làm kết quả xấu thêm.
+US500.cash thiếu độ sâu H1/H4 trước 2021. Tra bằng `--key bottleneck2-monfri-20261119`.
+[Kết quả](BOTTLENECK2-MULTI-ASSET-MONFRI-SCREEN-20261119.md) · [Niêm phong](NATIVE_FTMO_HOLDOUT_LOCK.json).
+
 **FTMO Demo 10k Standard · ATR đủ 13 mã, commission và trượt SL.** Có 39
 chuỗi H1/H4/D1 từ MT5, 16 vòng Demo, ba deal thoát do SL và ma trận 10k–50k.
 Tra bằng `--key ftmo-demo-full13-20261119`.
