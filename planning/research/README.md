@@ -9,6 +9,12 @@ Từ workspace root, chạy `python -X utf8 tooling/ai-engines/research_inventor
 để xem mức gắn nhãn. Thêm `--all` để lấy từng đường dẫn và lý do còn thiếu
 thông tin.
 
+**FTMO native · ba cơ chế bất đối xứng.** 0/3 cơ chế và 0 nhánh theo mã qua
+cổng Development. Kích hoạt trạng thái OHLC_STANDARD_SEARCH_EXHAUSTED cho
+chiến dịch Standard đã đăng ký. Giá từ 2025 giữ niêm phong. Tra bằng
+`--key bottleneck2-asymmetric-pivot-20261119`.
+[Kết quả](BOTTLENECK2-ASYMMETRIC-PIVOT-20261119.md) · [JSON](BOTTLENECK2-ASYMMETRIC-PIVOT-20261119.json).
+
 **FTMO native · sáu mã H4/D1 Mon–Fri.** Khóa giá từ 2025. Cả ba họ âm
 trên cả hai cụm Development; kéo dài thời gian giữ làm kết quả xấu thêm.
 US500.cash thiếu độ sâu H1/H4 trước 2021. Tra bằng `--key bottleneck2-monfri-20261119`.

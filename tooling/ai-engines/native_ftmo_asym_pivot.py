@@ -218,7 +218,7 @@ def top2(rows, budget):
     winners = sorted([r['net']*r['lots']/(budget*.005) for r in rows if r['net']>0],reverse=True)
     total=sum(r['net']*r['lots']/(budget*.005) for r in rows)
     return dict(top2_gross_winner_share=sum(winners[:2])/sum(winners) if winners else None,
-                net_R_without_top2=total-sum(winners))
+                net_R_without_top2=total-sum(winners[:2]))
 
 
 def gates(value, minimum):

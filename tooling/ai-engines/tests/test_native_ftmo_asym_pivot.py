@@ -3,7 +3,7 @@ import unittest
 
 import numpy as np
 
-from native_ftmo_asym_pivot import path, rsi_two, wall_to_utc
+from native_ftmo_asym_pivot import path, rsi_two, top2, wall_to_utc
 from native_ftmo_monfri_screen import DAY, Intent, Market
 
 
@@ -32,3 +32,9 @@ class NativeFtmoAsymTests(unittest.TestCase):
         self.assertEqual(row['exit'],thursday+DAY)
         self.assertAlmostEqual(row['swap'],-.1)
         self.assertAlmostEqual(row['net'],1.3)
+
+    def test_concentration_subtracts_only_the_two_largest_winners(self):
+        rows = [{'net': value, 'lots': 1.} for value in (40., 120., -50., 90.)]
+        result = top2(rows, 10000)
+        self.assertAlmostEqual(result['top2_gross_winner_share'], 210. / 250.)
+        self.assertAlmostEqual(result['net_R_without_top2'], -0.2)

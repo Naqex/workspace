@@ -4,6 +4,11 @@
 
 ## Việc hiện tại
 
+Chốt `OHLC_STANDARD_SEARCH_EXHAUSTED` cho chiến dịch FTMO Standard đã đăng ký.
+0/3 cơ chế và 0 nhánh theo mã qua toàn bộ cổng Development 2018–2024.
+Niêm phong giá từ 01/01/2025 tiếp tục khóa.
+[Giải phẫu và kết quả](research/BOTTLENECK2-ASYMMETRIC-PIVOT-20261119.md).
+
 Hậu kiểm rollover EURUSD giữ kết luận gác Catalogue13 H4, F2 và RSI37.
 Kiểm mọi khoảng giữ và dự phòng trên tape V15, V4 và BASE_GUARD đã dùng
 cho Reward Development, không có sự kiện EURUSD ở cả hai đồng hồ.

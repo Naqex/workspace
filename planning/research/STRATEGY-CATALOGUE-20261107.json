@@ -4663,6 +4663,14 @@
     "version": 1,
     "broker_observations": [
       {
+        "id": "bottleneck2-asymmetric-pivot-20261119",
+        "scope": "Offline 2018\u20132024 Development: parent ledger attribution, three preregistered asymmetry mechanisms, holdout locked and OHLC Standard kill switch",
+        "report": "BOTTLENECK2-ASYMMETRIC-PIVOT-20261119.md",
+        "summary": "BOTTLENECK2-ASYMMETRIC-PIVOT-20261119.json",
+        "private_manifest": "bottleneck2-asymmetric-pivot-20261119/manifest.json",
+        "private_manifest_sha256": "be77daf84d9d73671e8423804e711f30d348917740b041c7968acc1d508ebf52"
+      },
+      {
         "id": "bottleneck2-monfri-20261119",
         "scope": "Offline Development screen on sealed FTMO-Demo bars for six symbols, three fixed families and a paired exit-time comparison",
         "report": "BOTTLENECK2-MULTI-ASSET-MONFRI-SCREEN-20261119.md",
