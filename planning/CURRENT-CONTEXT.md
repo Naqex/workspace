@@ -4,6 +4,11 @@
 
 ## Việc hiện tại
 
+V4 Harvest 10k/25k trên lịch sử 2018–2021 chỉ qua P1 ở 1–2/37 mốc
+đủ 12 tháng, 0 P2 và 0 Reward ở cả hai giả định đường giá vàng M1.
+Giữ V4 làm đối chứng nghiên cứu. BASE_GUARD giữ `NOT_QUALIFIED`.
+[Kết quả](research/PROP-V4-HARVEST-BACKWARD-RESULTS-20261119.md).
+
 V4 Harvest 10k/25k có đường qua cả P1 và P2 từ mốc 02–03/2023, tất
 cả cùng đợt tháng 10/2023. Chưa có Reward đến cutoff; 11 mốc mới
 chưa đủ theo dõi 12 tháng. [Kết quả](research/PROP-V4-HARVEST-SWING-CAPITAL-RESULTS-20261119.md).
