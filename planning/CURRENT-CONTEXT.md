@@ -4,6 +4,11 @@
 
 ## Việc hiện tại
 
+Gác EURUSD H1 gộp sáu mẫu RSI37. Thoát theo source lỗ ở cả hai cụm
+Development và kém +8h trên 433 cơ hội tick ghép cặp. Chưa có bằng
+chứng Stage-0 bỏ sót cấu hình này.
+[Kết quả](research/PROP-EURUSD-RSI37-POOL-EXIT-RESULTS-20261119.md).
+
 Gác WTI đảo chiều sau 5 phút tin EIA ở Stage-0. Đủ 88 ngày, net stress
 âm cả hai năm và chỉ giữ 0/43 và 1/44 tín hiệu dưới cổng phí 12%.
 [Kết quả](research/PROP-WTI-EIA-FADE-STAGE0-RESULTS-20261119.md).

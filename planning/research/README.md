@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**EURUSD H1 · sáu mẫu RSI37.** Gộp 455 tín hiệu còn 446 cơ hội. Trên
+433 cặp tick, luật thoát source lỗ hơn +8h. Sổ một vị thế âm cả hai
+cụm, dừng trước replay tài khoản. [Kết quả](PROP-EURUSD-RSI37-POOL-EXIT-RESULTS-20261119.md).
+
 **WTI · đảo chiều sau 5 phút tin EIA.** Trên 88 thứ Tư 2019/2022,
 gross và net đều âm từng năm. Cổng phí stress giữ 0/43 và 1/44 tín
 hiệu. Gác ở Stage-0. [Kết quả](PROP-WTI-EIA-FADE-STAGE0-RESULTS-20261119.md).
