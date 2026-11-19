@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**EURUSD RSI37 · đối soát hard-flat.** Giữ 446 cơ hội thô.
+Chặn năm mốc, bỏ ba lệnh có quote, cải thiện 250,71 USD trên tick
+và vẫn âm hai cụm. [Kết quả](PROP-EURUSD-RSI37-ENTRY-CALENDAR-RESULTS-20261119.md).
+
 **EURUSD H1 · sáu mẫu RSI37.** Gộp 455 tín hiệu còn 446 cơ hội. Trên
 433 cặp tick, luật thoát source lỗ hơn +8h. Sổ một vị thế âm cả hai
 cụm, dừng trước replay tài khoản. [Kết quả](PROP-EURUSD-RSI37-POOL-EXIT-RESULTS-20261119.md).

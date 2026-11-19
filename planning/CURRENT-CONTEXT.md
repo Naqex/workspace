@@ -4,6 +4,10 @@
 
 ## Việc hiện tại
 
+Đối soát hard-flat của RSI37. Bản cửa chặn thực thi mới bỏ ba lệnh
+sau giờ đóng, giảm lỗ 250,71 USD trên tick. Hai cụm vẫn âm.
+[Kết quả](research/PROP-EURUSD-RSI37-ENTRY-CALENDAR-RESULTS-20261119.md).
+
 Gác EURUSD H1 gộp sáu mẫu RSI37. Thoát theo source lỗ ở cả hai cụm
 Development và kém +8h trên 433 cơ hội tick ghép cặp. Chưa có bằng
 chứng Stage-0 bỏ sót cấu hình này.

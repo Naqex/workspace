@@ -1,5 +1,9 @@
 # EURUSD H1 · gộp sáu mẫu nến RSI37 và kiểm luật thoát
 
+**Đối soát sau báo cáo.** Khi áp chính sách đứng ngoài đã khai báo
+từ hard-flat đến reopen, ba lệnh bị bỏ. Hai cụm vẫn âm.
+[Xem sổ đối chiếu](PROP-EURUSD-RSI37-ENTRY-CALENDAR-RESULTS-20261119.md).
+
 **Gác cấu hình gộp.** Cơ chế thoát theo source làm kết quả kém hơn phép
 đo +8 giờ trên cùng 433 cơ hội có đủ hai mức giá thoát. Khi chỉ cho
 phép một vị thế tại một thời điểm, cơ chế thoát mới vẫn âm cả hai cụm
