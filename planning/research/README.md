@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**XAUUSD · lợi suất thực Mỹ 10 năm và London kế tiếp.** 454 cơ hội qua
+cổng giá và chi phí. Net stress âm 4/6 năm và âm cả hai cụm khi quy đổi
+khối lượng. Dừng Stage-0. [Kết quả](PROP-XAU-REAL-YIELD-LONDON-STAGE0-RESULTS-20261119.md).
+
 **EURUSD RSI37 · đối soát hard-flat.** Giữ 446 cơ hội thô.
 Chặn năm mốc, bỏ ba lệnh có quote, cải thiện 250,71 USD trên tick
 và vẫn âm hai cụm. [Kết quả](PROP-EURUSD-RSI37-ENTRY-CALENDAR-RESULTS-20261119.md).

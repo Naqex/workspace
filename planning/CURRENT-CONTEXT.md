@@ -4,6 +4,11 @@
 
 ## Việc hiện tại
 
+Gác Stage-0 vàng theo cú sốc lợi suất thực Mỹ 10 năm. 454/454 cặp giá
+London kế tiếp, qua cổng phí cả 454, nhưng chỉ 2/6 năm dương dưới stress.
+Hai cụm Development đều âm sau quy đổi khối lượng.
+[Kết quả](research/PROP-XAU-REAL-YIELD-LONDON-STAGE0-RESULTS-20261119.md).
+
 Đối soát hard-flat của RSI37. Bản cửa chặn thực thi mới bỏ ba lệnh
 sau giờ đóng, giảm lỗ 250,71 USD trên tick. Hai cụm vẫn âm.
 [Kết quả](research/PROP-EURUSD-RSI37-ENTRY-CALENDAR-RESULTS-20261119.md).
