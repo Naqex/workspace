@@ -4,6 +4,10 @@
 
 ## Việc hiện tại
 
+Gác WTI đảo chiều sau 5 phút tin EIA ở Stage-0. Đủ 88 ngày, net stress
+âm cả hai năm và chỉ giữ 0/43 và 1/44 tín hiệu dưới cổng phí 12%.
+[Kết quả](research/PROP-WTI-EIA-FADE-STAGE0-RESULTS-20261119.md).
+
 Audit Reward từ Challenge trên 61 mốc đủ năm ghi nhận V15 Calibrated
 và Cushion mỗi bản có 1 mốc nhận Reward mô phỏng ở 50k. Các đường
 12 tháng còn lại đều chồng lấn năm 2023 và chưa xác nhận ở đường

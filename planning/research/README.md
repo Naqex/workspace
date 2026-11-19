@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**WTI · đảo chiều sau 5 phút tin EIA.** Trên 88 thứ Tư 2019/2022,
+gross và net đều âm từng năm. Cổng phí stress giữ 0/43 và 1/44 tín
+hiệu. Gác ở Stage-0. [Kết quả](PROP-WTI-EIA-FADE-STAGE0-RESULTS-20261119.md).
+
 **Reward từ Challenge · 12/24/36 tháng.** Hai cấu hình V15 có Reward
 trong năm đầu ở 50k, mỗi bản chỉ có một mốc trên 61 mốc đủ năm.
 Chưa có hai đợt không chồng lấn trong 12 tháng có xác nhận bất lợi.
