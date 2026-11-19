@@ -4,6 +4,10 @@
 
 ## Việc hiện tại
 
+Gác EURUSD BUY trước tin Mỹ sau ngày đấu giá Treasury. 190 cơ hội theo
+lịch, 177 có giá. Dùng rollover FX 17:00 New York, hai cụm đều âm
+sau phí ở mức risk tham chiếu. [Kết quả](research/PROP-EUR-TREASURY-PRENEWS-STAGE0-RESULTS-20261119.md).
+
 Gác Stage-0 vàng theo cú sốc lợi suất thực Mỹ 10 năm. 454/454 cặp giá
 London kế tiếp, qua cổng phí cả 454, nhưng chỉ 2/6 năm dương dưới stress.
 Hai cụm Development đều âm sau quy đổi khối lượng.

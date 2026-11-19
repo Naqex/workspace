@@ -1,5 +1,9 @@
 # Tra cứu research đã có
 
+**EURUSD · trước tin Mỹ sau ngày đấu giá Treasury.** 190 cơ hội trong
+2018–2023, 177 đủ giá. Theo đồng hồ rollover FX, cả hai cụm âm sau
+stress. Dừng Stage-0. [Kết quả](PROP-EUR-TREASURY-PRENEWS-STAGE0-RESULTS-20261119.md).
+
 **XAUUSD · lợi suất thực Mỹ 10 năm và London kế tiếp.** 454 cơ hội qua
 cổng giá và chi phí. Net stress âm 4/6 năm và âm cả hai cụm khi quy đổi
 khối lượng. Dừng Stage-0. [Kết quả](PROP-XAU-REAL-YIELD-LONDON-STAGE0-RESULTS-20261119.md).
