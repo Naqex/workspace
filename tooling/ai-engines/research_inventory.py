@@ -142,6 +142,14 @@ def tracked_role(path, links):
 def classify_tracked(catalogue, inventory, paths):
     linked = defaultdict(list)
     missing_legacy = set()
+    annotations = by_key(inventory.get("artifact_role_annotations", []), "path")
+    require(annotations.keys() <= paths, "artifact role annotation target is outside the inventory")
+    sources = {row["source"] for row in annotations.values()}
+    require(all(relative(source).suffix in {".md", ".py"} for source in sources),
+            "artifact role annotation must cite a document or source consumer")
+    require(sources <= git_paths(inventory["tracked_base"], sorted(sources)),
+            "artifact role annotation source is not tracked")
+    require(all(row["role"] and row["note"] for row in annotations.values()), "incomplete artifact role annotation")
 
     def link(path, owner, role, depth):
         linked[path].append({"key": owner, "role": role, "depth": depth})
@@ -186,10 +194,19 @@ def classify_tracked(catalogue, inventory, paths):
         links = sorted(linked[path], key=lambda row: (row["depth"], row["key"], row["role"]))
         depths = {row["depth"] for row in links}
         depth = next((d for d in ("semantic", "legacy_catalogue", "index_role", "navigation") if d in depths), "unbound")
-        role, basis = tracked_role(path, links)
-        result.append({"path": path, "status": depth, "links": links, "artifact_role": role, "role_basis": basis,
-                       "unknown": ("Content role and lineage unreviewed" if depth in ("navigation", "unbound")
-                                   else "Dataset/run contract incomplete" if depth in ("legacy_catalogue", "index_role") else None)})
+        annotation = annotations.get(path)
+        if annotation is None:
+            role, basis = tracked_role(path, links)
+        else:
+            role = annotation["role"]
+            basis = "document_heading" if annotation["source"] == path else "documented_role_annotation"
+        row = {"path": path, "status": depth, "links": links, "artifact_role": role, "role_basis": basis}
+        if annotation is not None:
+            row["role_evidence"] = {"source": annotation["source"], "note": annotation["note"]}
+        row["unknown"] = ("Dataset/run contract incomplete" if depth != "semantic" else None)
+        if role == "unknown":
+            row["unknown"] = "Insufficient evidence for artifact role and dataset/run lineage"
+        result.append(row)
     return result, [{"key": key, "locator": name} for key, name in sorted(missing_legacy)]
 
 

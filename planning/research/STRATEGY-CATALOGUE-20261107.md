@@ -48,7 +48,7 @@ python -X utf8 tooling/ai-engines/research_inventory.py --key us500-v16-slippage
 | Phạm vi kiểm ngày 19/11/2026 | Độ phủ |
 | --- | --- |
 | Git tại `5a2072a`, dưới `planning/research` và `planning/trader/research` | **968** đường dẫn. Có **27** gắn nhãn sâu, **84** được catalogue cũ dẫn có vai trò, **131** có vai trò ghi rõ trong index, **240** có link điều hướng đơn thuần và **486** chưa có binding. |
-| Nhãn loại artifact trên cùng 968 đường dẫn | **341** nhãn tạm theo quy ước tên, **23** unknown. Xem `artifact_role_counts`, `role_basis_counts` và danh sách `unknown_tracked_roles` qua `--all`. Nhãn loại file tách khỏi trạng thái liên kết bằng chứng. |
+| Nhãn loại artifact trên cùng 968 đường dẫn | **23** sidecar được nhận diện qua tài liệu hoặc code đã dẫn, **12** Markdown qua tiêu đề. Còn **341** nhãn tạm theo tên và **99** tài liệu chỉ rõ định dạng. Xem `artifact_role_counts`, `role_basis_counts` và `role_evidence` qua `--all`. Nhãn loại file tách khỏi trạng thái liên kết bằng chứng. |
 | Đơn vị có nhãn sâu | **7** nhóm nguồn, **61** phân vùng có seal, **11** mục study/trạng thái, **24** recipe có nhãn phí và **24** profile corpus V26 theo hash trong card. Giữ nguyên **123** hồ sơ legacy. |
 | Kho private trên máy này | **405** thư mục cấp một thuộc `prop-*` hoặc campaign `execution-v1`. **13** có binding hoặc locator cụ thể trong catalogue, **90** nữa có locator trong tài liệu tracked và **302** mới kiểm kê theo tên. **38** tệp metadata kiểm SHA256, **79** locator payload chỉ kiểm sự tồn tại. |
 
