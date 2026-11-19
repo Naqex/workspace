@@ -118,14 +118,17 @@ Quy mô trước phí đã hụt **56R**. Gác ví dụ này ngay trên giấy.
 
 Một tài sản **US500**, một tín hiệu biết trước entry, một cửa sổ giữ,
 một stop tự nhiên, một vị thế, dữ liệu Bid/Ask sẵn và cô lập 2018–2023.
-Đếm fill sau lịch, nguồn, spread, lot và overlap trước. Mốc để xem xét
-**144–240 fills/48 tuần và net stress ≥60R/năm quy đổi trong mỗi cụm
-2018–2020 và 2021–2023**. Dùng **+0,417R đến +0,250R mỗi fill** tùy
-tần suất thực nhận và ghi tuần/tháng trống. Giữ cổng phí/stop 12%–15%
-đã đăng ký, ≥50% tín hiệu tự nhiên đi qua, stress markout dương ở từng
-năm và đủ lớn so với phí. Nếu qua sàng, giữ luật cố định và chứng minh
-trình tự 40R rồi 20R theo giới hạn equity, độ phủ và khung thời gian.
-Chưa cấp suất chạy cho một tín hiệu cụ thể trong lượt này.
+Đếm fill sau lịch, nguồn, spread, lot và overlap trước. **144–240
+fills/48 tuần** là kịch bản công suất theo nhịp 3–5 lệnh/tuần của chủ
+dự án. Yêu cầu thử nghiệm tính theo số fill thực nhận, kể cả ngoài
+khoảng này. Đo lợi nhuận stress và độ đều trong hai cụm 2018–2020
+và 2021–2023 khi đã có kết quả pilot. **60R** là đích danh nghĩa
+40R + 20R cho chiến lược tự gánh hai vòng. Với nhánh bổ sung, đo
+phần đóng góp sau overlap và chi phí trên cùng danh mục và ngân sách
+risk. Giữ cổng Stage-0 đã đăng ký. Khi đủ cơ sở replay, kiểm trình
+tự chuyển pha trên đường equity, ngày giao dịch, độ phủ, giới hạn lỗ
+và thời gian cho Funded/Reward riêng. Cả số lệnh và 60R đều là số dùng
+để tính quy mô, có thể dùng trước khi có PnL pilot.
 
 Private receipt `E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs/prop-us500-12m-viability-20261119/`.
 Đã kiểm **31 SHA nguồn**, **906 dòng giao dịch** (453 fill × 2 phí),

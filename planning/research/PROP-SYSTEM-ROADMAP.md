@@ -64,11 +64,15 @@ sung trước khi replay. [Bài đo](PROP-TWO-PHASE-SENSITIVITY-20261119.md).
 **US500 M15, Swing 10k/25k · sàn tiến độ 12 tháng.**
 
 Với risk 0,25% vốn đầu và một vị thế, hai sổ reset đòi **40R + 20R**.
-Dành 48 tuần cho hai vòng, **144–240 fills thực nhận** cần
-**+0,417 đến +0,250R net mỗi lệnh**. R094 đủ nhịp nhưng âm sau phí
-stress ở cả 2022 và 2023. Chỉ xét một tín hiệu US500 có nguồn sẵn, biết
-trước entry và đủ quy mô trong hai cụm Development.
+Ở kịch bản công suất 3–5 lệnh thực nhận/tuần trong 48 tuần, **144–240
+lệnh** tương ứng **+0,417 đến +0,250R net/lệnh** để tự gánh hai vòng.
+Đó là giả định lập kế hoạch, số lệnh thực nhận có thể nằm ngoài khoảng.
+R094 đủ nhịp nhưng âm sau phí stress ở cả 2022 và 2023. Với tín hiệu
+US500 có nguồn sẵn và biết trước entry, khóa cách đo đóng góp ròng
+trong hai cụm Development trước khi chạy một pilot.
 [Sàn và sổ đối chứng](./PROP-US500-12M-VIABILITY-20261119.md).
+Đã gác lượt kéo exit R094 tới 15:59. Stress +16,57R năm 2022 và
+−6,31R năm 2023. [Đối chiếu A/B](PROP-US500-R094-AFTERNOON-RESULTS-20261119.md).
 
 | Nhịp | Câu hỏi và bằng chứng cần có | Quyết định cuối nhịp |
 |---|---|---|
