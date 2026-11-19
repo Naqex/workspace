@@ -1,5 +1,10 @@
 # Tra cứu research đã có
 
+**Reward từ Challenge · 12/24/36 tháng.** Hai cấu hình V15 có Reward
+trong năm đầu ở 50k, mỗi bản chỉ có một mốc trên 61 mốc đủ năm.
+Chưa có hai đợt không chồng lấn trong 12 tháng có xác nhận bất lợi.
+[Kết quả](PROP-CHALLENGE-REWARD-MILESTONES-20261119.md).
+
 **V4 Harvest · khép 61 mốc đủ 12 tháng.** Gold A0 + EURUSD SAT1 ở
 10k/25k chỉ qua P1 ở 4–10/61 mốc tùy vốn và swap. Sau khi nối đủ 11
 mốc 2021 qua 2022, vẫn 0 P2 và 0 Reward trong nhóm đủ năm. Giữ V4

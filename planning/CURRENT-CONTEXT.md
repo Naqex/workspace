@@ -4,6 +4,11 @@
 
 ## Việc hiện tại
 
+Audit Reward từ Challenge trên 61 mốc đủ năm ghi nhận V15 Calibrated
+và Cushion mỗi bản có 1 mốc nhận Reward mô phỏng ở 50k. Các đường
+12 tháng còn lại đều chồng lấn năm 2023 và chưa xác nhận ở đường
+giá bất lợi. Giữ BASE_GUARD `NOT_QUALIFIED`. [Kết quả](research/PROP-CHALLENGE-REWARD-MILESTONES-20261119.md).
+
 V4 Harvest 10k/25k đã kiểm đủ 61 mốc theo dõi 12 tháng. Chỉ 4–10
 mốc qua P1 tùy vốn và swap, 0 P2 và 0 Reward. Trong 11 mốc ngắn
 hơn bắt đầu muộn năm 2023, các lượt qua P2 cùng hội tụ một đợt
