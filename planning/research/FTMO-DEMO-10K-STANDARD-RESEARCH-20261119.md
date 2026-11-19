@@ -1,5 +1,8 @@
 # FTMO Demo 10k Standard · phí khớp, ATR và khả năng tăng quy mô
 
+Phép đo sau ở quy mô 0,10–1,00 lot xác nhận commission FX 5,00 USD/lot khứ hồi
+và mở rộng ATR từ 5 lên 13 mã. Xem [bản đối soát mới](FTMO-DEMO-10K-STANDARD-FULL13-AND-EXECUTION-20261119.md).
+
 Ngày 19/11/2026. Đã xác nhận **13 mã** trên FTMO-Demo USD 10k, đòn bẩy tài khoản **1:100**. Bốn phép thử 0,01 lot khớp đủ mở và đóng. Kết thúc với **0 vị thế, 0 lệnh chờ** và đối chiếu số dư khớp đến cent. EURUSD và US500.cash có chi phí H4 thấp nhất trong năm mã có dữ liệu đại diện. XAUUSD vẫn đáng nghiên cứu ở H4 nếu kiểm soát thời gian giữ BUY.
 
 Phép so dùng phí Demo quan sát ngày 19/11/2026 và ATR mô tả Development 2023. Các quy mô 50k, 100k và 200k dùng điều kiện 10k làm giả định. Cả ba quy mô có trong 2-Step. Biểu phí và bậc margin của từng tài khoản lớn hơn cần xác nhận riêng. [Mức vốn 2-Step](https://ftmo.com/en/2-step-challenge/) · [Scaling Plan](https://ftmo.com/en/reward-growth-and-scaling-plan/).

@@ -4663,6 +4663,14 @@
     "version": 1,
     "broker_observations": [
       {
+        "id": "ftmo-demo-full13-20261119",
+        "scope": "FTMO-Demo 10k Standard, 39 native closed-bar series and commission/slippage from 16 Demo round trips",
+        "report": "FTMO-DEMO-10K-STANDARD-FULL13-AND-EXECUTION-20261119.md",
+        "summary": "FTMO-DEMO-10K-STANDARD-FULL13-AND-EXECUTION-20261119.json",
+        "private_manifest": "ftmo-demo-full13-20261119/manifest.json",
+        "private_manifest_sha256": "958efae21180c0dfc2654de3ecc447effb88e0ddc12eb63e30aca894c6980f1c"
+      },
+      {
         "id": "ftmo-demo-10k-standard-20261119",
         "scope": "FTMO-Demo 10k Standard, 13 symbol specs and quote samples, four 0.01-lot round trips",
         "report": "FTMO-DEMO-10K-STANDARD-RESEARCH-20261119.md",

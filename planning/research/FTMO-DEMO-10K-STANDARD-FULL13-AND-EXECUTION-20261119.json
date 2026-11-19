@@ -1,0 +1,3798 @@
+{
+  "schema": "FTMO-demo-full13-execution-v1",
+  "date": "2026-11-19",
+  "native_history_symbols": 13,
+  "native_series": 39,
+  "native_bars": 1740707,
+  "history_basis": "broker wall labels; native H1/H4/D1 closed bars; retained actual observed limits",
+  "all_series_requested_to_chart_limit": true,
+  "recent_cutoff_server_wall": "2026-08-21 00:00:00",
+  "atr_method": "Wilder ATR(14), median full and median latest 90 calendar days, recent used for ranking",
+  "spreads": "same prior native London sample for fair cross-symbol comparison",
+  "execution": {
+    "positions_total": 0,
+    "orders_total": 0,
+    "rounds": [
+      {
+        "run_id": "market-EURUSD-1",
+        "symbol": "EURUSD",
+        "volume": 0.1,
+        "phase": "market",
+        "exit_reason": "MARKET",
+        "margin_usd": 110.08,
+        "sl_requested_price": null,
+        "hold_fill_to_fill_ms": 2685,
+        "profit": -0.2,
+        "commission": -0.5,
+        "fee": 0.0,
+        "swap": 0.0,
+        "open": {
+          "volume": 0.1,
+          "price": 1.10075,
+          "commission": -0.25,
+          "fee": 0.0,
+          "profit": 0.0,
+          "swap": 0.0,
+          "reason": 3,
+          "entry": 0,
+          "fill_utc_msc": 1795085425399,
+          "server_order_setup_to_done_ms": 133,
+          "requested_price": 1.10076,
+          "adverse_slippage_price": -1.0000000000065512e-05,
+          "sdk_ack_ms": 364.7822,
+          "request_to_fill_cross_clock_ms": -4242
+        },
+        "close": {
+          "volume": 0.1,
+          "price": 1.10073,
+          "commission": -0.25,
+          "fee": 0.0,
+          "profit": -0.2,
+          "swap": 0.0,
+          "reason": 3,
+          "entry": 1,
+          "fill_utc_msc": 1795085428084,
+          "server_order_setup_to_done_ms": 148,
+          "requested_price": 1.10072,
+          "adverse_slippage_price": -1.0000000000065512e-05,
+          "sdk_ack_ms": 368.1666,
+          "request_to_fill_cross_clock_ms": -4235
+        }
+      },
+      {
+        "run_id": "market-EURUSD-2",
+        "symbol": "EURUSD",
+        "volume": 0.1,
+        "phase": "market",
+        "exit_reason": "MARKET",
+        "margin_usd": 110.06,
+        "sl_requested_price": null,
+        "hold_fill_to_fill_ms": 2678,
+        "profit": 0.1,
+        "commission": -0.5,
+        "fee": 0.0,
+        "swap": 0.0,
+        "open": {
+          "volume": 0.1,
+          "price": 1.10059,
+          "commission": -0.25,
+          "fee": 0.0,
+          "profit": 0.0,
+          "swap": 0.0,
+          "reason": 3,
+          "entry": 0,
+          "fill_utc_msc": 1795085935894,
+          "server_order_setup_to_done_ms": 131,
+          "requested_price": 1.10059,
+          "adverse_slippage_price": 0.0,
+          "sdk_ack_ms": 341.923,
+          "request_to_fill_cross_clock_ms": -4273
+        },
+        "close": {
+          "volume": 0.1,
+          "price": 1.1006,
+          "commission": -0.25,
+          "fee": 0.0,
+          "profit": 0.1,
+          "swap": 0.0,
+          "reason": 3,
+          "entry": 1,
+          "fill_utc_msc": 1795085938572,
+          "server_order_setup_to_done_ms": 148,
+          "requested_price": 1.1006,
+          "adverse_slippage_price": -0.0,
+          "sdk_ack_ms": 360.4097,
+          "request_to_fill_cross_clock_ms": -4253
+        }
+      },
+      {
+        "run_id": "market-EURUSD-3",
+        "symbol": "EURUSD",
+        "volume": 0.1,
+        "phase": "market",
+        "exit_reason": "MARKET",
+        "margin_usd": 110.06,
+        "sl_requested_price": null,
+        "hold_fill_to_fill_ms": 2811,
+        "profit": 0.1,
+        "commission": -0.5,
+        "fee": 0.0,
+        "swap": 0.0,
+        "open": {
+          "volume": 0.1,
+          "price": 1.10063,
+          "commission": -0.25,
+          "fee": 0.0,
+          "profit": 0.0,
+          "swap": 0.0,
+          "reason": 3,
+          "entry": 0,
+          "fill_utc_msc": 1795085941936,
+          "server_order_setup_to_done_ms": 148,
+          "requested_price": 1.10063,
+          "adverse_slippage_price": 0.0,
+          "sdk_ack_ms": 357.1458,
+          "request_to_fill_cross_clock_ms": -4260
+        },
+        "close": {
+          "volume": 0.1,
+          "price": 1.10064,
+          "commission": -0.25,
+          "fee": 0.0,
+          "profit": 0.1,
+          "swap": 0.0,
+          "reason": 3,
+          "entry": 1,
+          "fill_utc_msc": 1795085944747,
+          "server_order_setup_to_done_ms": 154,
+          "requested_price": 1.10061,
+          "adverse_slippage_price": -2.999999999997449e-05,
+          "sdk_ack_ms": 544.4586,
+          "request_to_fill_cross_clock_ms": -4121
+        }
+      },
+      {
+        "run_id": "market-GBPJPY-1",
+        "symbol": "GBPJPY",
+        "volume": 0.1,
+        "phase": "market",
+        "exit_reason": "MARKET",
+        "margin_usd": 131.68,
+        "sl_requested_price": null,
+        "hold_fill_to_fill_ms": 2697,
+        "profit": -0.95,
+        "commission": -0.5,
+        "fee": 0.0,
+        "swap": 0.0,
+        "open": {
+          "volume": 0.1,
+          "price": 210.594,
+          "commission": -0.25,
+          "fee": 0.0,
+          "profit": 0.0,
+          "swap": 0.0,
+          "reason": 3,
+          "entry": 0,
+          "fill_utc_msc": 1795085948154,
+          "server_order_setup_to_done_ms": 133,
+          "requested_price": 210.595,
+          "adverse_slippage_price": -0.0010000000000047748,
+          "sdk_ack_ms": 347.9178,
+          "request_to_fill_cross_clock_ms": -4268
+        },
+        "close": {
+          "volume": 0.1,
+          "price": 210.579,
+          "commission": -0.25,
+          "fee": 0.0,
+          "profit": -0.95,
+          "swap": 0.0,
+          "reason": 3,
+          "entry": 1,
+          "fill_utc_msc": 1795085950851,
+          "server_order_setup_to_done_ms": 153,
+          "requested_price": 210.579,
+          "adverse_slippage_price": -0.0,
+          "sdk_ack_ms": 434.6837,
+          "request_to_fill_cross_clock_ms": -4231
+        }
+      },
+      {
+        "run_id": "market-GBPJPY-2",
+        "symbol": "GBPJPY",
+        "volume": 0.1,
+        "phase": "market",
+        "exit_reason": "MARKET",
+        "margin_usd": 131.67,
+        "sl_requested_price": null,
+        "hold_fill_to_fill_ms": 2713,
+        "profit": -1.26,
+        "commission": -0.5,
+        "fee": 0.0,
+        "swap": 0.0,
+        "open": {
+          "volume": 0.1,
+          "price": 210.593,
+          "commission": -0.25,
+          "fee": 0.0,
+          "profit": 0.0,
+          "swap": 0.0,
+          "reason": 3,
+          "entry": 0,
+          "fill_utc_msc": 1795085954334,
+          "server_order_setup_to_done_ms": 165,
+          "requested_price": 210.593,
+          "adverse_slippage_price": 0.0,
+          "sdk_ack_ms": 463.8414,
+          "request_to_fill_cross_clock_ms": -4189
+        },
+        "close": {
+          "volume": 0.1,
+          "price": 210.573,
+          "commission": -0.25,
+          "fee": 0.0,
+          "profit": -1.26,
+          "swap": 0.0,
+          "reason": 3,
+          "entry": 1,
+          "fill_utc_msc": 1795085957047,
+          "server_order_setup_to_done_ms": 143,
+          "requested_price": 210.573,
+          "adverse_slippage_price": -0.0,
+          "sdk_ack_ms": 412.7427,
+          "request_to_fill_cross_clock_ms": -4257
+        }
+      },
+      {
+        "run_id": "market-GBPJPY-3",
+        "symbol": "GBPJPY",
+        "volume": 0.1,
+        "phase": "market",
+        "exit_reason": "MARKET",
+        "margin_usd": 131.67,
+        "sl_requested_price": null,
+        "hold_fill_to_fill_ms": 2684,
+        "profit": -0.89,
+        "commission": -0.5,
+        "fee": 0.0,
+        "swap": 0.0,
+        "open": {
+          "volume": 0.1,
+          "price": 210.59,
+          "commission": -0.25,
+          "fee": 0.0,
+          "profit": 0.0,
+          "swap": 0.0,
+          "reason": 3,
+          "entry": 0,
+          "fill_utc_msc": 1795085960492,
+          "server_order_setup_to_done_ms": 147,
+          "requested_price": 210.59,
+          "adverse_slippage_price": 0.0,
+          "sdk_ack_ms": 381.0668,
+          "request_to_fill_cross_clock_ms": -4231
+        },
+        "close": {
+          "volume": 0.1,
+          "price": 210.576,
+          "commission": -0.25,
+          "fee": 0.0,
+          "profit": -0.89,
+          "swap": 0.0,
+          "reason": 3,
+          "entry": 1,
+          "fill_utc_msc": 1795085963176,
+          "server_order_setup_to_done_ms": 146,
+          "requested_price": 210.576,
+          "adverse_slippage_price": -0.0,
+          "sdk_ack_ms": 367.1548,
+          "request_to_fill_cross_clock_ms": -4249
+        }
+      },
+      {
+        "run_id": "market-XAUUSD-1",
+        "symbol": "XAUUSD",
+        "volume": 0.1,
+        "phase": "market",
+        "exit_reason": "MARKET",
+        "margin_usd": 747.12,
+        "sl_requested_price": null,
+        "hold_fill_to_fill_ms": 2674,
+        "profit": -0.4,
+        "commission": -0.52,
+        "fee": 0.0,
+        "swap": 0.0,
+        "open": {
+          "volume": 0.1,
+          "price": 3735.62,
+          "commission": -0.26,
+          "fee": 0.0,
+          "profit": 0.0,
+          "swap": 0.0,
+          "reason": 3,
+          "entry": 0,
+          "fill_utc_msc": 1795085966524,
+          "server_order_setup_to_done_ms": 132,
+          "requested_price": 3735.62,
+          "adverse_slippage_price": 0.0,
+          "sdk_ack_ms": 340.8419,
+          "request_to_fill_cross_clock_ms": -4272
+        },
+        "close": {
+          "volume": 0.1,
+          "price": 3735.58,
+          "commission": -0.26,
+          "fee": 0.0,
+          "profit": -0.4,
+          "swap": 0.0,
+          "reason": 3,
+          "entry": 1,
+          "fill_utc_msc": 1795085969198,
+          "server_order_setup_to_done_ms": 152,
+          "requested_price": 3735.59,
+          "adverse_slippage_price": 0.010000000000218279,
+          "sdk_ack_ms": 361.1137,
+          "request_to_fill_cross_clock_ms": -4253
+        }
+      },
+      {
+        "run_id": "market-XAUUSD-2",
+        "symbol": "XAUUSD",
+        "volume": 0.1,
+        "phase": "market",
+        "exit_reason": "MARKET",
+        "margin_usd": 747.2,
+        "sl_requested_price": null,
+        "hold_fill_to_fill_ms": 2678,
+        "profit": -2.8,
+        "commission": -0.52,
+        "fee": 0.0,
+        "swap": 0.0,
+        "open": {
+          "volume": 0.1,
+          "price": 3736.01,
+          "commission": -0.26,
+          "fee": 0.0,
+          "profit": 0.0,
+          "swap": 0.0,
+          "reason": 3,
+          "entry": 0,
+          "fill_utc_msc": 1795085972624,
+          "server_order_setup_to_done_ms": 151,
+          "requested_price": 3735.99,
+          "adverse_slippage_price": 0.020000000000436557,
+          "sdk_ack_ms": 418.1476,
+          "request_to_fill_cross_clock_ms": -4195
+        },
+        "close": {
+          "volume": 0.1,
+          "price": 3735.73,
+          "commission": -0.26,
+          "fee": 0.0,
+          "profit": -2.8,
+          "swap": 0.0,
+          "reason": 3,
+          "entry": 1,
+          "fill_utc_msc": 1795085975302,
+          "server_order_setup_to_done_ms": 154,
+          "requested_price": 3735.73,
+          "adverse_slippage_price": -0.0,
+          "sdk_ack_ms": 404.745,
+          "request_to_fill_cross_clock_ms": -4252
+        }
+      },
+      {
+        "run_id": "market-XAUUSD-3",
+        "symbol": "XAUUSD",
+        "volume": 0.1,
+        "phase": "market",
+        "exit_reason": "MARKET_RECOVERY",
+        "margin_usd": 747.28,
+        "sl_requested_price": null,
+        "hold_fill_to_fill_ms": 90839,
+        "commission": -0.52,
+        "fee": 0.0,
+        "profit": -2.7,
+        "swap": 0.0,
+        "open": {
+          "volume": 0.1,
+          "price": 3736.4,
+          "commission": -0.26,
+          "fee": 0.0,
+          "profit": 0.0,
+          "swap": 0.0,
+          "reason": 3,
+          "entry": 0,
+          "fill_utc_msc": 1795085978710,
+          "server_order_setup_to_done_ms": 135,
+          "requested_price": 3736.4,
+          "adverse_slippage_price": 0.0,
+          "sdk_ack_ms": 370.0713,
+          "request_to_fill_cross_clock_ms": -4256
+        },
+        "close": {
+          "volume": 0.1,
+          "price": 3736.13,
+          "commission": -0.26,
+          "fee": 0.0,
+          "profit": -2.7,
+          "swap": 0.0,
+          "reason": 3,
+          "entry": 1,
+          "fill_utc_msc": 1795086069549,
+          "server_order_setup_to_done_ms": 150,
+          "requested_price": 3736.39,
+          "adverse_slippage_price": 0.25999999999976353,
+          "sdk_ack_ms": 427.6587,
+          "request_to_fill_cross_clock_ms": -4230
+        }
+      },
+      {
+        "run_id": "market-US500.cash-1",
+        "symbol": "US500.cash",
+        "volume": 1.0,
+        "phase": "market",
+        "exit_reason": "MARKET",
+        "margin_usd": 148.22,
+        "sl_requested_price": null,
+        "hold_fill_to_fill_ms": 2672,
+        "profit": -1.2,
+        "commission": 0.0,
+        "fee": 0.0,
+        "swap": 0.0,
+        "open": {
+          "volume": 1.0,
+          "price": 7411.25,
+          "commission": 0.0,
+          "fee": 0.0,
+          "profit": 0.0,
+          "swap": 0.0,
+          "reason": 3,
+          "entry": 0,
+          "fill_utc_msc": 1795086129358,
+          "server_order_setup_to_done_ms": 161,
+          "requested_price": 7411.15,
+          "adverse_slippage_price": 0.1000000000003638,
+          "sdk_ack_ms": 401.1234,
+          "request_to_fill_cross_clock_ms": -4219
+        },
+        "close": {
+          "volume": 1.0,
+          "price": 7410.05,
+          "commission": 0.0,
+          "fee": 0.0,
+          "profit": -1.2,
+          "swap": 0.0,
+          "reason": 3,
+          "entry": 1,
+          "fill_utc_msc": 1795086132030,
+          "server_order_setup_to_done_ms": 145,
+          "requested_price": 7410.05,
+          "adverse_slippage_price": -0.0,
+          "sdk_ack_ms": 354.3851,
+          "request_to_fill_cross_clock_ms": -4261
+        }
+      },
+      {
+        "run_id": "market-US500.cash-2",
+        "symbol": "US500.cash",
+        "volume": 1.0,
+        "phase": "market",
+        "exit_reason": "MARKET",
+        "margin_usd": 148.21,
+        "sl_requested_price": null,
+        "hold_fill_to_fill_ms": 2667,
+        "profit": -0.7,
+        "commission": 0.0,
+        "fee": 0.0,
+        "swap": 0.0,
+        "open": {
+          "volume": 1.0,
+          "price": 7410.65,
+          "commission": 0.0,
+          "fee": 0.0,
+          "profit": 0.0,
+          "swap": 0.0,
+          "reason": 3,
+          "entry": 0,
+          "fill_utc_msc": 1795086135389,
+          "server_order_setup_to_done_ms": 143,
+          "requested_price": 7410.65,
+          "adverse_slippage_price": 0.0,
+          "sdk_ack_ms": 351.9516,
+          "request_to_fill_cross_clock_ms": -4263
+        },
+        "close": {
+          "volume": 1.0,
+          "price": 7409.95,
+          "commission": 0.0,
+          "fee": 0.0,
+          "profit": -0.7,
+          "swap": 0.0,
+          "reason": 3,
+          "entry": 1,
+          "fill_utc_msc": 1795086138056,
+          "server_order_setup_to_done_ms": 137,
+          "requested_price": 7409.95,
+          "adverse_slippage_price": -0.0,
+          "sdk_ack_ms": 415.7606,
+          "request_to_fill_cross_clock_ms": -4264
+        }
+      },
+      {
+        "run_id": "market-US500.cash-3",
+        "symbol": "US500.cash",
+        "volume": 1.0,
+        "phase": "market",
+        "exit_reason": "MARKET",
+        "margin_usd": 148.21,
+        "sl_requested_price": null,
+        "hold_fill_to_fill_ms": 2681,
+        "profit": -0.1,
+        "commission": 0.0,
+        "fee": 0.0,
+        "swap": 0.0,
+        "open": {
+          "volume": 1.0,
+          "price": 7410.55,
+          "commission": 0.0,
+          "fee": 0.0,
+          "profit": 0.0,
+          "swap": 0.0,
+          "reason": 3,
+          "entry": 0,
+          "fill_utc_msc": 1795086141511,
+          "server_order_setup_to_done_ms": 165,
+          "requested_price": 7410.55,
+          "adverse_slippage_price": 0.0,
+          "sdk_ack_ms": 384.3939,
+          "request_to_fill_cross_clock_ms": -4235
+        },
+        "close": {
+          "volume": 1.0,
+          "price": 7410.45,
+          "commission": 0.0,
+          "fee": 0.0,
+          "profit": -0.1,
+          "swap": 0.0,
+          "reason": 3,
+          "entry": 1,
+          "fill_utc_msc": 1795086144192,
+          "server_order_setup_to_done_ms": 152,
+          "requested_price": 7410.55,
+          "adverse_slippage_price": 0.1000000000003638,
+          "sdk_ack_ms": 415.115,
+          "request_to_fill_cross_clock_ms": -4252
+        }
+      },
+      {
+        "run_id": "stop-EURUSD-1",
+        "symbol": "EURUSD",
+        "volume": 0.05,
+        "phase": "stop",
+        "exit_reason": "BROKER_SL",
+        "margin_usd": 55.04,
+        "sl_requested_price": 1.10075,
+        "hold_fill_to_fill_ms": 16191,
+        "profit": -0.15,
+        "commission": -0.26,
+        "fee": 0.0,
+        "swap": 0.0,
+        "open": {
+          "volume": 0.05,
+          "price": 1.10079,
+          "commission": -0.13,
+          "fee": 0.0,
+          "profit": 0.0,
+          "swap": 0.0,
+          "reason": 3,
+          "entry": 0,
+          "fill_utc_msc": 1795086147627,
+          "server_order_setup_to_done_ms": 157,
+          "requested_price": 1.10077,
+          "adverse_slippage_price": 1.999999999990898e-05,
+          "sdk_ack_ms": 377.9044,
+          "request_to_fill_cross_clock_ms": -4241
+        },
+        "close": {
+          "volume": 0.05,
+          "price": 1.10076,
+          "commission": -0.13,
+          "fee": 0.0,
+          "profit": -0.15,
+          "swap": 0.0,
+          "reason": 4,
+          "entry": 1,
+          "fill_utc_msc": 1795086163818,
+          "server_order_setup_to_done_ms": 158,
+          "sl_requested_price": 1.10075,
+          "sl_adverse_slippage_price": -1.0000000000065512e-05
+        }
+      },
+      {
+        "run_id": "stop-XAUUSD-1",
+        "symbol": "XAUUSD",
+        "volume": 0.05,
+        "phase": "stop",
+        "exit_reason": "BROKER_SL",
+        "margin_usd": 373.65,
+        "sl_requested_price": 3736.08,
+        "hold_fill_to_fill_ms": 1941,
+        "profit": -2.2,
+        "commission": -0.26,
+        "fee": 0.0,
+        "swap": 0.0,
+        "open": {
+          "volume": 0.05,
+          "price": 3736.5,
+          "commission": -0.13,
+          "fee": 0.0,
+          "profit": 0.0,
+          "swap": 0.0,
+          "reason": 3,
+          "entry": 0,
+          "fill_utc_msc": 1795086167288,
+          "server_order_setup_to_done_ms": 156,
+          "requested_price": 3736.54,
+          "adverse_slippage_price": -0.03999999999996362,
+          "sdk_ack_ms": 432.9539,
+          "request_to_fill_cross_clock_ms": -4234
+        },
+        "close": {
+          "volume": 0.05,
+          "price": 3736.06,
+          "commission": -0.13,
+          "fee": 0.0,
+          "profit": -2.2,
+          "swap": 0.0,
+          "reason": 4,
+          "entry": 1,
+          "fill_utc_msc": 1795086169229,
+          "server_order_setup_to_done_ms": 157,
+          "sl_requested_price": 3736.08,
+          "sl_adverse_slippage_price": 0.01999999999998181
+        }
+      },
+      {
+        "run_id": "stop-US500.cash-1",
+        "symbol": "US500.cash",
+        "volume": 0.5,
+        "phase": "stop",
+        "exit_reason": "BROKER_SL",
+        "margin_usd": 74.11,
+        "sl_requested_price": 7410.29,
+        "hold_fill_to_fill_ms": 2772,
+        "profit": -0.35,
+        "commission": 0.0,
+        "fee": 0.0,
+        "swap": 0.0,
+        "open": {
+          "volume": 0.5,
+          "price": 7411.15,
+          "commission": 0.0,
+          "fee": 0.0,
+          "profit": 0.0,
+          "swap": 0.0,
+          "reason": 3,
+          "entry": 0,
+          "fill_utc_msc": 1795086172602,
+          "server_order_setup_to_done_ms": 137,
+          "requested_price": 7411.05,
+          "adverse_slippage_price": 0.0999999999994543,
+          "sdk_ack_ms": 551.4097,
+          "request_to_fill_cross_clock_ms": -4269
+        },
+        "close": {
+          "volume": 0.5,
+          "price": 7410.45,
+          "commission": 0.0,
+          "fee": 0.0,
+          "profit": -0.35,
+          "swap": 0.0,
+          "reason": 4,
+          "entry": 1,
+          "fill_utc_msc": 1795086175374,
+          "server_order_setup_to_done_ms": 148,
+          "sl_requested_price": 7410.29,
+          "sl_adverse_slippage_price": -0.15999999999985448
+        }
+      },
+      {
+        "run_id": "stop-EURUSD-2",
+        "symbol": "EURUSD",
+        "volume": 0.05,
+        "phase": "stop",
+        "exit_reason": "TIMEOUT_MARKET",
+        "margin_usd": 55.04,
+        "sl_requested_price": 1.10068,
+        "hold_fill_to_fill_ms": 59347,
+        "profit": 0.45,
+        "commission": -0.26,
+        "fee": 0.0,
+        "swap": 0.0,
+        "open": {
+          "volume": 0.05,
+          "price": 1.10073,
+          "commission": -0.13,
+          "fee": 0.0,
+          "profit": 0.0,
+          "swap": 0.0,
+          "reason": 3,
+          "entry": 0,
+          "fill_utc_msc": 1795086178776,
+          "server_order_setup_to_done_ms": 140,
+          "requested_price": 1.10073,
+          "adverse_slippage_price": 0.0,
+          "sdk_ack_ms": 348.6779,
+          "request_to_fill_cross_clock_ms": -4267
+        },
+        "close": {
+          "volume": 0.05,
+          "price": 1.10082,
+          "commission": -0.13,
+          "fee": 0.0,
+          "profit": 0.45,
+          "swap": 0.0,
+          "reason": 3,
+          "entry": 1,
+          "fill_utc_msc": 1795086238123,
+          "server_order_setup_to_done_ms": 154,
+          "requested_price": 1.10081,
+          "adverse_slippage_price": -9.999999999843467e-06,
+          "sdk_ack_ms": 363.0534,
+          "request_to_fill_cross_clock_ms": -4255
+        }
+      }
+    ],
+    "market": {
+      "EURUSD": {
+        "commission_per_lot_roundtrip": {
+          "n": 3,
+          "minimum": 5.0,
+          "median": 5.0,
+          "maximum": 5.0,
+          "p95": 5.0,
+          "mean": 5.0
+        },
+        "fee_per_lot_roundtrip": {
+          "n": 3,
+          "minimum": -0.0,
+          "median": -0.0,
+          "maximum": -0.0,
+          "p95": -0.0,
+          "mean": 0.0
+        },
+        "commission_per_side_usd_observed": {
+          "n": 6,
+          "minimum": 0.25,
+          "median": 0.25,
+          "maximum": 0.25,
+          "p95": 0.25,
+          "mean": 0.25
+        },
+        "commission_per_side_usd_per_lot": {
+          "n": 6,
+          "minimum": 2.5,
+          "median": 2.5,
+          "maximum": 2.5,
+          "p95": 2.5,
+          "mean": 2.5
+        },
+        "official_rate_predictions_per_side_usd": {
+          "n": 6,
+          "minimum": 0.25,
+          "median": 0.25,
+          "maximum": 0.25,
+          "p95": 0.25,
+          "mean": 0.25
+        },
+        "all_legs_match_official_rate_to_cent": true,
+        "market_slippage_by_leg": {
+          "open": {
+            "n": 3,
+            "minimum": -1.0000000000065512e-05,
+            "median": 0.0,
+            "maximum": 0.0,
+            "p95": 0.0,
+            "mean": -3.3333333333551707e-06
+          },
+          "close": {
+            "n": 3,
+            "minimum": -2.999999999997449e-05,
+            "median": -1.0000000000065512e-05,
+            "maximum": -0.0,
+            "p95": -1.0000000000065522e-06,
+            "mean": -1.3333333333346667e-05
+          }
+        },
+        "market_slippage_roundtrip": {
+          "n": 3,
+          "minimum": -2.999999999997449e-05,
+          "median": -2.0000000000131024e-05,
+          "maximum": 0.0,
+          "p95": -2.0000000000131044e-06,
+          "mean": -1.666666666670184e-05
+        },
+        "market_ack_ms": {
+          "n": 6,
+          "minimum": 341.923,
+          "median": 362.59595,
+          "maximum": 544.4586,
+          "p95": 500.38560000000007,
+          "mean": 389.4809833333333
+        },
+        "market_roundtrips": 3,
+        "market_normal_timing_roundtrips": 3
+      },
+      "GBPJPY": {
+        "commission_per_lot_roundtrip": {
+          "n": 3,
+          "minimum": 5.0,
+          "median": 5.0,
+          "maximum": 5.0,
+          "p95": 5.0,
+          "mean": 5.0
+        },
+        "fee_per_lot_roundtrip": {
+          "n": 3,
+          "minimum": -0.0,
+          "median": -0.0,
+          "maximum": -0.0,
+          "p95": -0.0,
+          "mean": 0.0
+        },
+        "commission_per_side_usd_observed": {
+          "n": 6,
+          "minimum": 0.25,
+          "median": 0.25,
+          "maximum": 0.25,
+          "p95": 0.25,
+          "mean": 0.25
+        },
+        "commission_per_side_usd_per_lot": {
+          "n": 6,
+          "minimum": 2.5,
+          "median": 2.5,
+          "maximum": 2.5,
+          "p95": 2.5,
+          "mean": 2.5
+        },
+        "official_rate_predictions_per_side_usd": {
+          "n": 6,
+          "minimum": 0.25,
+          "median": 0.25,
+          "maximum": 0.25,
+          "p95": 0.25,
+          "mean": 0.25
+        },
+        "all_legs_match_official_rate_to_cent": true,
+        "market_slippage_by_leg": {
+          "open": {
+            "n": 3,
+            "minimum": -0.0010000000000047748,
+            "median": 0.0,
+            "maximum": 0.0,
+            "p95": 0.0,
+            "mean": -0.00033333333333492493
+          },
+          "close": {
+            "n": 3,
+            "minimum": -0.0,
+            "median": -0.0,
+            "maximum": -0.0,
+            "p95": -0.0,
+            "mean": 0.0
+          }
+        },
+        "market_slippage_roundtrip": {
+          "n": 3,
+          "minimum": -0.0010000000000047748,
+          "median": 0.0,
+          "maximum": 0.0,
+          "p95": 0.0,
+          "mean": -0.00033333333333492493
+        },
+        "market_ack_ms": {
+          "n": 6,
+          "minimum": 347.9178,
+          "median": 396.90475000000004,
+          "maximum": 463.8414,
+          "p95": 456.551975,
+          "mean": 401.23453333333333
+        },
+        "market_roundtrips": 3,
+        "market_normal_timing_roundtrips": 3
+      },
+      "XAUUSD": {
+        "commission_per_lot_roundtrip": {
+          "n": 3,
+          "minimum": 5.2,
+          "median": 5.2,
+          "maximum": 5.2,
+          "p95": 5.2,
+          "mean": 5.2
+        },
+        "fee_per_lot_roundtrip": {
+          "n": 3,
+          "minimum": -0.0,
+          "median": -0.0,
+          "maximum": -0.0,
+          "p95": -0.0,
+          "mean": 0.0
+        },
+        "commission_per_side_usd_observed": {
+          "n": 6,
+          "minimum": 0.26,
+          "median": 0.26,
+          "maximum": 0.26,
+          "p95": 0.26,
+          "mean": 0.26
+        },
+        "commission_per_side_usd_per_lot": {
+          "n": 6,
+          "minimum": 2.6,
+          "median": 2.6,
+          "maximum": 2.6,
+          "p95": 2.6,
+          "mean": 2.6
+        },
+        "official_rate_predictions_per_side_usd": {
+          "n": 6,
+          "minimum": 0.2614906,
+          "median": 0.2615109,
+          "maximum": 0.261548,
+          "p95": 0.261543275,
+          "mean": 0.2615138166666667
+        },
+        "all_legs_match_official_rate_to_cent": true,
+        "market_slippage_by_leg": {
+          "open": {
+            "n": 2,
+            "minimum": 0.0,
+            "median": 0.010000000000218279,
+            "maximum": 0.020000000000436557,
+            "p95": 0.01900000000041473,
+            "mean": 0.010000000000218279
+          },
+          "close": {
+            "n": 2,
+            "minimum": -0.0,
+            "median": 0.005000000000109139,
+            "maximum": 0.010000000000218279,
+            "p95": 0.009500000000207365,
+            "mean": 0.005000000000109139
+          }
+        },
+        "market_slippage_roundtrip": {
+          "n": 2,
+          "minimum": 0.010000000000218279,
+          "median": 0.015000000000327418,
+          "maximum": 0.020000000000436557,
+          "p95": 0.019500000000425642,
+          "mean": 0.015000000000327418
+        },
+        "market_ack_ms": {
+          "n": 4,
+          "minimum": 340.8419,
+          "median": 382.92935,
+          "maximum": 418.1476,
+          "p95": 416.13721,
+          "mean": 381.21205
+        },
+        "market_roundtrips": 3,
+        "market_normal_timing_roundtrips": 2
+      },
+      "US500.cash": {
+        "commission_per_lot_roundtrip": {
+          "n": 3,
+          "minimum": -0.0,
+          "median": -0.0,
+          "maximum": -0.0,
+          "p95": -0.0,
+          "mean": 0.0
+        },
+        "fee_per_lot_roundtrip": {
+          "n": 3,
+          "minimum": -0.0,
+          "median": -0.0,
+          "maximum": -0.0,
+          "p95": -0.0,
+          "mean": 0.0
+        },
+        "commission_per_side_usd_observed": {
+          "n": 6,
+          "minimum": -0.0,
+          "median": -0.0,
+          "maximum": -0.0,
+          "p95": -0.0,
+          "mean": 0.0
+        },
+        "commission_per_side_usd_per_lot": {
+          "n": 6,
+          "minimum": -0.0,
+          "median": -0.0,
+          "maximum": -0.0,
+          "p95": -0.0,
+          "mean": 0.0
+        },
+        "official_rate_predictions_per_side_usd": {
+          "n": 6,
+          "minimum": 0.0,
+          "median": 0.0,
+          "maximum": 0.0,
+          "p95": 0.0,
+          "mean": 0.0
+        },
+        "all_legs_match_official_rate_to_cent": true,
+        "market_slippage_by_leg": {
+          "open": {
+            "n": 3,
+            "minimum": 0.0,
+            "median": 0.0,
+            "maximum": 0.1000000000003638,
+            "p95": 0.0900000000003274,
+            "mean": 0.0333333333334546
+          },
+          "close": {
+            "n": 3,
+            "minimum": -0.0,
+            "median": -0.0,
+            "maximum": 0.1000000000003638,
+            "p95": 0.0900000000003274,
+            "mean": 0.0333333333334546
+          }
+        },
+        "market_slippage_roundtrip": {
+          "n": 3,
+          "minimum": 0.0,
+          "median": 0.1000000000003638,
+          "maximum": 0.1000000000003638,
+          "p95": 0.1000000000003638,
+          "mean": 0.0666666666669092
+        },
+        "market_ack_ms": {
+          "n": 6,
+          "minimum": 351.9516,
+          "median": 392.75865,
+          "maximum": 415.7606,
+          "p95": 415.5992,
+          "mean": 387.1216
+        },
+        "market_roundtrips": 3,
+        "market_normal_timing_roundtrips": 3
+      }
+    },
+    "stop": {
+      "EURUSD": {
+        "attempts": 2,
+        "triggers": [
+          {
+            "run_id": "stop-EURUSD-1",
+            "sl": 1.10075,
+            "fill": 1.10076,
+            "adverse_price": -1.0000000000065512e-05,
+            "fill_time_utc": "2026-11-19T11:02:43.818000+00:00",
+            "server_order_setup_to_done_ms": 158
+          }
+        ],
+        "timeouts": [
+          "stop-EURUSD-2"
+        ]
+      },
+      "XAUUSD": {
+        "attempts": 1,
+        "triggers": [
+          {
+            "run_id": "stop-XAUUSD-1",
+            "sl": 3736.08,
+            "fill": 3736.06,
+            "adverse_price": 0.01999999999998181,
+            "fill_time_utc": "2026-11-19T11:02:49.229000+00:00",
+            "server_order_setup_to_done_ms": 157
+          }
+        ],
+        "timeouts": []
+      },
+      "US500.cash": {
+        "attempts": 1,
+        "triggers": [
+          {
+            "run_id": "stop-US500.cash-1",
+            "sl": 7410.29,
+            "fill": 7410.45,
+            "adverse_price": -0.15999999999985448,
+            "fill_time_utc": "2026-11-19T11:02:55.374000+00:00",
+            "server_order_setup_to_done_ms": 148
+          }
+        ],
+        "timeouts": []
+      }
+    },
+    "order_send_calls": 29.0,
+    "balance_delta_usd": -18.59
+  },
+  "rank_heuristic": "H4 cost <=5%, D1 <=2.5%, max cost 3× swap <=6% ATR D1, 252 D1 bars and feasible lots at 10k for Tier 1; Tier 3 if H4 cost >10%, D1 >5%, or both stops infeasible. Tier 2 otherwise.",
+  "symbols": {
+    "EURUSD": {
+      "actual_symbol": "EURUSD",
+      "price_unit": "pips",
+      "spec": {
+        "trade_contract_size": 100000.0,
+        "volume_min": 0.01,
+        "volume_step": 0.01,
+        "volume_max": 50.0,
+        "point": 1e-05,
+        "trade_tick_size": 1e-05,
+        "trade_tick_value": 1.0,
+        "trade_stops_level": 0,
+        "trade_freeze_level": 0,
+        "swap_long": -8.47,
+        "swap_short": 0.29,
+        "swap_mode": 1,
+        "swap_rollover3days": 3,
+        "trade_mode": 4,
+        "currency_profit": "USD",
+        "currency_margin": "EUR",
+        "margin_estimates_usd": {
+          "0.01": [
+            11.01,
+            11.01
+          ],
+          "1.0": [
+            1100.63,
+            1100.62
+          ]
+        },
+        "bid": 1.10062,
+        "ask": 1.10063,
+        "quote_utc_msc": 1795086009908
+      },
+      "spread": {
+        "n": 139,
+        "median": 0.1,
+        "p95": 0.3,
+        "max": 0.3,
+        "timestamp_span_seconds": 111.748
+      },
+      "spread_origin": "prior native 120s London sample",
+      "commission_usd_per_lot_roundtrip": 5.0,
+      "commission_origin": "same_account_direct_observation_and_published_rate",
+      "fee_usd_per_lot_roundtrip": -0.0,
+      "entry_exit_cost_usd_per_lot": 6.0,
+      "entry_exit_cost_display_units": 0.6000000000000001,
+      "scenario_slippage_included": false,
+      "history": {
+        "H1": {
+          "status": "OBSERVED",
+          "bars": 99998,
+          "first_server": "2010-10-13 22:00:00",
+          "last_server": "2026-11-19 11:00:00",
+          "requested": 99999,
+          "cap": 99999,
+          "file": "EURUSD-H1.parquet",
+          "sha256": "353c1f85f92a7714e3c146a4be490620cfc722054a3371f6e1008ad93c91075e",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch",
+          "gaps_longer_than_bar": 867,
+          "provenance": "Actual maximum-request EURUSD completed in original read-only collector. Matched emitted return count and endpoints.",
+          "source_manifest": "receipts/history/native-bars.EURUSD-completed-prefix.json",
+          "parquet": "bars/EURUSD-H1.parquet"
+        },
+        "H4": {
+          "status": "OBSERVED",
+          "bars": 41490,
+          "first_server": "2000-03-29 12:00:00",
+          "last_server": "2026-11-19 08:00:00",
+          "requested": 99999,
+          "cap": 99999,
+          "file": "EURUSD-H4.parquet",
+          "sha256": "8243817be5072e75dac5c60ef842bb2fec92c76cc485052a41e93e13b1c9fc8f",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch",
+          "gaps_longer_than_bar": 1412,
+          "provenance": "Actual maximum-request EURUSD completed in original read-only collector. Matched emitted return count and endpoints.",
+          "source_manifest": "receipts/history/native-bars.EURUSD-completed-prefix.json",
+          "parquet": "bars/EURUSD-H4.parquet"
+        },
+        "D1": {
+          "status": "OBSERVED",
+          "bars": 6924,
+          "first_server": "2000-03-29 00:00:00",
+          "last_server": "2026-11-18 00:00:00",
+          "requested": 99999,
+          "cap": 99999,
+          "file": "EURUSD-D1.parquet",
+          "sha256": "e7d88c0152ce07909ab9a02aa5f360b41f7ab175819359de7965d171ba235184",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch",
+          "gaps_longer_than_bar": 1406,
+          "provenance": "Actual maximum-request EURUSD completed in original read-only collector. Matched emitted return count and endpoints.",
+          "source_manifest": "receipts/history/native-bars.EURUSD-completed-prefix.json",
+          "parquet": "bars/EURUSD-D1.parquet"
+        }
+      },
+      "atr14": {
+        "H1": {
+          "median_full": 0.0014672744332977568,
+          "median_recent90d": 0.0010147709985091143,
+          "n_full": 99985,
+          "n_recent90d": 1548
+        },
+        "H4": {
+          "median_full": 0.0036445259099107097,
+          "median_recent90d": 0.0021520457500961722,
+          "n_full": 41477,
+          "n_recent90d": 387
+        },
+        "D1": {
+          "median_full": 0.009572943721537611,
+          "median_recent90d": 0.005893083121960157,
+          "n_full": 6911,
+          "n_recent90d": 64
+        }
+      },
+      "atr_display_units": {
+        "H1": 10.147709985091142,
+        "H4": 21.520457500961722,
+        "D1": 58.930831219601565
+      },
+      "friction_atr_pct": {
+        "H1": 5.91266404815974,
+        "H4": 2.788044817231171,
+        "D1": 1.018142774474269
+      },
+      "swap_1x_pct_atr_d1": [
+        1.437278216632843,
+        -0.04921023409958966
+      ],
+      "swap_3x_pct_atr_d1": [
+        4.311834649898529,
+        -0.14763070229876898
+      ],
+      "swap_usd_per_lot_1x": [
+        -8.47,
+        0.29
+      ],
+      "sizing": {
+        "H4": {
+          "10000": {
+            "budget_usd": 50.0,
+            "lots": 0.22,
+            "risk_at_floor_usd": 2.212045750096172,
+            "margin_at_floor_usd": 11.0063,
+            "risk_used_usd": 48.66500650211579,
+            "margin_usd": 242.1386,
+            "margin_pct": 2.421386,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 242.15,
+            "native_margin_buy_sell_usd": {
+              "buy": 242.15,
+              "sell": 242.15
+            }
+          },
+          "50000": {
+            "budget_usd": 250.0,
+            "lots": 1.13,
+            "risk_at_floor_usd": 2.212045750096172,
+            "margin_at_floor_usd": 11.0063,
+            "risk_used_usd": 249.96116976086745,
+            "margin_usd": 1243.7119,
+            "margin_pct": 2.4874238,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 1243.77,
+            "native_margin_buy_sell_usd": {
+              "buy": 1243.77,
+              "sell": 1243.77
+            }
+          }
+        },
+        "D1": {
+          "10000": {
+            "budget_usd": 50.0,
+            "lots": 0.08,
+            "risk_at_floor_usd": 5.953083121960155,
+            "margin_at_floor_usd": 11.0063,
+            "risk_used_usd": 47.62466497568124,
+            "margin_usd": 88.0504,
+            "margin_pct": 0.880504,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 88.05,
+            "native_margin_buy_sell_usd": {
+              "buy": 88.05,
+              "sell": 88.05
+            }
+          },
+          "50000": {
+            "budget_usd": 250.0,
+            "lots": 0.41,
+            "risk_at_floor_usd": 5.953083121960155,
+            "margin_at_floor_usd": 11.0063,
+            "risk_used_usd": 244.07640800036634,
+            "margin_usd": 451.2583,
+            "margin_pct": 0.9025166,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 451.28,
+            "native_margin_buy_sell_usd": {
+              "buy": 451.28,
+              "sell": 451.28
+            }
+          }
+        }
+      },
+      "tier": 1,
+      "reason": "lower friction, both ATR-based sizes feasible, and worst 3× swap at most 6% of D1 ATR"
+    },
+    "GBPUSD": {
+      "actual_symbol": "GBPUSD",
+      "price_unit": "pips",
+      "spec": {
+        "trade_contract_size": 100000.0,
+        "volume_min": 0.01,
+        "volume_step": 0.01,
+        "volume_max": 50.0,
+        "point": 1e-05,
+        "trade_tick_size": 1e-05,
+        "trade_tick_value": 1.0,
+        "trade_stops_level": 0,
+        "trade_freeze_level": 0,
+        "swap_long": -4.58,
+        "swap_short": -5.33,
+        "swap_mode": 1,
+        "swap_rollover3days": 3,
+        "trade_mode": 4,
+        "currency_profit": "USD",
+        "currency_margin": "GBP",
+        "margin_estimates_usd": {
+          "0.01": [
+            13.17,
+            13.17
+          ],
+          "1.0": [
+            1317.06,
+            1317.03
+          ]
+        },
+        "bid": 1.31703,
+        "ask": 1.3170600000000001,
+        "quote_utc_msc": 1795086049657
+      },
+      "spread": {
+        "n": 91,
+        "median": 0.7,
+        "p95": 0.8,
+        "max": 0.8,
+        "timestamp_span_seconds": 111.453
+      },
+      "spread_origin": "prior native 120s London sample",
+      "commission_usd_per_lot_roundtrip": 5.0,
+      "commission_origin": "published_FX_rate_no_per_symbol_demo_fill",
+      "fee_usd_per_lot_roundtrip": 0,
+      "entry_exit_cost_usd_per_lot": 11.999999999999998,
+      "entry_exit_cost_display_units": 1.2,
+      "scenario_slippage_included": false,
+      "history": {
+        "H1": {
+          "status": "OBSERVED",
+          "bars": 99998,
+          "requested": 99998,
+          "cap": 99999,
+          "file": "GBPUSD-H1.parquet",
+          "sha256": "1d1d5cc043a7749d89c93a44cfdf47ce9e3b36f20d379340605df6403738876f",
+          "first_server": "2010-10-04 12:00:00",
+          "last_server": "2026-11-19 12:00:00",
+          "excluded_bar_zero_server": "2026-11-19 13:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 887,
+          "source_manifest": "receipts/history/native-deep-0.GBPUSD-receipt.json",
+          "parquet": "bars/GBPUSD-H1.parquet"
+        },
+        "H4": {
+          "status": "OBSERVED",
+          "bars": 41454,
+          "requested": 43893,
+          "cap": 99999,
+          "file": "GBPUSD-H4.parquet",
+          "sha256": "f67a7e611748293c4893ef7dd99e6488214fa34e50f2ceec31f46ff19522dbee",
+          "first_server": "2000-03-29 12:00:00",
+          "last_server": "2026-11-19 08:00:00",
+          "excluded_bar_zero_server": "2026-11-19 12:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 1421,
+          "source_manifest": "receipts/history/native-deep-0.GBPUSD-receipt.json",
+          "parquet": "bars/GBPUSD-H4.parquet"
+        },
+        "D1": {
+          "status": "OBSERVED",
+          "bars": 6923,
+          "requested": 99999,
+          "cap": 99999,
+          "file": "GBPUSD-D1.parquet",
+          "sha256": "eac30cb2326abfdaf6318d2da2646e3ee8ca532151d9fba9f2b0653b76eaa3b1",
+          "first_server": "2000-03-29 00:00:00",
+          "last_server": "2026-11-18 00:00:00",
+          "excluded_bar_zero_server": "2026-11-19 00:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 1406,
+          "source_manifest": "receipts/history/native-deep-0.GBPUSD-receipt.json",
+          "parquet": "bars/GBPUSD-D1.parquet"
+        }
+      },
+      "atr14": {
+        "H1": {
+          "median_full": 0.0018543836112153227,
+          "median_recent90d": 0.001233462227233097,
+          "n_full": 99985,
+          "n_recent90d": 1549
+        },
+        "H4": {
+          "median_full": 0.0045460239779793995,
+          "median_recent90d": 0.002619914671138541,
+          "n_full": 41441,
+          "n_recent90d": 387
+        },
+        "D1": {
+          "median_full": 0.011952378212958994,
+          "median_recent90d": 0.006619334347460013,
+          "n_full": 6910,
+          "n_recent90d": 64
+        }
+      },
+      "atr_display_units": {
+        "H1": 12.33462227233097,
+        "H4": 26.19914671138541,
+        "D1": 66.19334347460013
+      },
+      "friction_atr_pct": {
+        "H1": 9.728712995872119,
+        "H4": 4.580301844252483,
+        "D1": 1.8128711091024836
+      },
+      "swap_1x_pct_atr_d1": [
+        0.6919124733074481,
+        0.8052169176263533
+      ],
+      "swap_3x_pct_atr_d1": [
+        2.075737419922344,
+        2.41565075287906
+      ],
+      "swap_usd_per_lot_1x": [
+        -4.579999999999999,
+        -5.33
+      ],
+      "sizing": {
+        "H4": {
+          "10000": {
+            "budget_usd": 50.0,
+            "lots": 0.18,
+            "risk_at_floor_usd": 2.7399146711385405,
+            "margin_at_floor_usd": 13.1706,
+            "risk_used_usd": 49.31846408049373,
+            "margin_usd": 237.0708,
+            "margin_pct": 2.370708,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 237.08,
+            "native_margin_buy_sell_usd": {
+              "buy": 237.08,
+              "sell": 237.08
+            }
+          },
+          "50000": {
+            "budget_usd": 250.0,
+            "lots": 0.91,
+            "risk_at_floor_usd": 2.7399146711385405,
+            "margin_at_floor_usd": 13.1706,
+            "risk_used_usd": 249.3322350736072,
+            "margin_usd": 1198.5246,
+            "margin_pct": 2.3970492,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 1198.59,
+            "native_margin_buy_sell_usd": {
+              "buy": 1198.59,
+              "sell": 1198.56
+            }
+          }
+        },
+        "D1": {
+          "10000": {
+            "budget_usd": 50.0,
+            "lots": 0.07,
+            "risk_at_floor_usd": 6.739334347460012,
+            "margin_at_floor_usd": 13.1706,
+            "risk_used_usd": 47.17534043222008,
+            "margin_usd": 92.1942,
+            "margin_pct": 0.921942,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 92.2,
+            "native_margin_buy_sell_usd": {
+              "buy": 92.2,
+              "sell": 92.2
+            }
+          },
+          "50000": {
+            "budget_usd": 250.0,
+            "lots": 0.37,
+            "risk_at_floor_usd": 6.739334347460012,
+            "margin_at_floor_usd": 13.1706,
+            "risk_used_usd": 249.35537085602044,
+            "margin_usd": 487.3122,
+            "margin_pct": 0.9746244,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 487.34,
+            "native_margin_buy_sell_usd": {
+              "buy": 487.34,
+              "sell": 487.33
+            }
+          }
+        }
+      },
+      "tier": 1,
+      "reason": "lower friction, both ATR-based sizes feasible, and worst 3× swap at most 6% of D1 ATR"
+    },
+    "AUDUSD": {
+      "actual_symbol": "AUDUSD",
+      "price_unit": "pips",
+      "spec": {
+        "trade_contract_size": 100000.0,
+        "volume_min": 0.01,
+        "volume_step": 0.01,
+        "volume_max": 50.0,
+        "point": 1e-05,
+        "trade_tick_size": 1e-05,
+        "trade_tick_value": 1.0,
+        "trade_stops_level": 0,
+        "trade_freeze_level": 0,
+        "swap_long": -2.45,
+        "swap_short": -7.05,
+        "swap_mode": 1,
+        "swap_rollover3days": 3,
+        "trade_mode": 4,
+        "currency_profit": "USD",
+        "currency_margin": "AUD",
+        "margin_estimates_usd": {
+          "0.01": [
+            6.71,
+            6.71
+          ],
+          "1.0": [
+            671.45,
+            671.41
+          ]
+        },
+        "bid": 0.67141,
+        "ask": 0.67145,
+        "quote_utc_msc": 1795086089411
+      },
+      "spread": {
+        "n": 77,
+        "median": 0.4,
+        "p95": 0.4,
+        "max": 0.4,
+        "timestamp_span_seconds": 110.551
+      },
+      "spread_origin": "prior native 120s London sample",
+      "commission_usd_per_lot_roundtrip": 5.0,
+      "commission_origin": "published_FX_rate_no_per_symbol_demo_fill",
+      "fee_usd_per_lot_roundtrip": 0,
+      "entry_exit_cost_usd_per_lot": 9.0,
+      "entry_exit_cost_display_units": 0.9000000000000001,
+      "scenario_slippage_included": false,
+      "history": {
+        "H1": {
+          "status": "OBSERVED",
+          "bars": 99998,
+          "requested": 99998,
+          "cap": 99999,
+          "file": "AUDUSD-H1.parquet",
+          "sha256": "d44b5dcc2a3943afe639259674e7149ea86e8d552f85ed52504a190493305e8d",
+          "first_server": "2010-10-14 09:00:00",
+          "last_server": "2026-11-19 12:00:00",
+          "excluded_bar_zero_server": "2026-11-19 13:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 867,
+          "source_manifest": "receipts/history/native-deep-4.manifest.json",
+          "parquet": "bars/AUDUSD-H1.parquet"
+        },
+        "H4": {
+          "status": "OBSERVED",
+          "bars": 41480,
+          "requested": 43893,
+          "cap": 99999,
+          "file": "AUDUSD-H4.parquet",
+          "sha256": "f7ee7a31991ab7f54dc1dbd4ae4ff5ef067f2c35267444a4025ad481305c9270",
+          "first_server": "2000-03-29 12:00:00",
+          "last_server": "2026-11-19 08:00:00",
+          "excluded_bar_zero_server": "2026-11-19 12:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 1414,
+          "source_manifest": "receipts/history/native-deep-4.manifest.json",
+          "parquet": "bars/AUDUSD-H4.parquet"
+        },
+        "D1": {
+          "status": "OBSERVED",
+          "bars": 6923,
+          "requested": 99999,
+          "cap": 99999,
+          "file": "AUDUSD-D1.parquet",
+          "sha256": "cf4220baa5354f72e4275c0240c1288e94b9548405d39c686a5c578f8cce9e8f",
+          "first_server": "2000-03-29 00:00:00",
+          "last_server": "2026-11-18 00:00:00",
+          "excluded_bar_zero_server": "2026-11-19 00:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 1406,
+          "source_manifest": "receipts/history/native-deep-4.manifest.json",
+          "parquet": "bars/AUDUSD-D1.parquet"
+        }
+      },
+      "atr14": {
+        "H1": {
+          "median_full": 0.0013194266594480709,
+          "median_recent90d": 0.0008537193643587724,
+          "n_full": 99985,
+          "n_recent90d": 1549
+        },
+        "H4": {
+          "median_full": 0.0029706409424409166,
+          "median_recent90d": 0.001755747764025754,
+          "n_full": 41467,
+          "n_recent90d": 387
+        },
+        "D1": {
+          "median_full": 0.007337880704129484,
+          "median_recent90d": 0.0044406689550547315,
+          "n_full": 6910,
+          "n_recent90d": 64
+        }
+      },
+      "atr_display_units": {
+        "H1": 8.537193643587724,
+        "H4": 17.557477640257538,
+        "D1": 44.40668955054731
+      },
+      "friction_atr_pct": {
+        "H1": 10.542105960967502,
+        "H4": 5.126021051773349,
+        "D1": 2.0267216698861255
+      },
+      "swap_1x_pct_atr_d1": [
+        0.5517186768023341,
+        1.5875986414107983
+      ],
+      "swap_3x_pct_atr_d1": [
+        1.6551560304070023,
+        4.762795924232395
+      ],
+      "swap_usd_per_lot_1x": [
+        -2.4499999999999997,
+        -7.05
+      ],
+      "sizing": {
+        "H4": {
+          "10000": {
+            "budget_usd": 50.0,
+            "lots": 0.27,
+            "risk_at_floor_usd": 1.8457477640257538,
+            "margin_at_floor_usd": 6.7145,
+            "risk_used_usd": 49.83518962869535,
+            "margin_usd": 181.2915,
+            "margin_pct": 1.812915,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 181.24,
+            "native_margin_buy_sell_usd": {
+              "buy": 181.24,
+              "sell": 181.23
+            }
+          },
+          "50000": {
+            "budget_usd": 250.0,
+            "lots": 1.35,
+            "risk_at_floor_usd": 1.8457477640257538,
+            "margin_at_floor_usd": 6.7145,
+            "risk_used_usd": 249.17594814347675,
+            "margin_usd": 906.4575,
+            "margin_pct": 1.812915,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 906.19,
+            "native_margin_buy_sell_usd": {
+              "buy": 906.19,
+              "sell": 906.16
+            }
+          }
+        },
+        "D1": {
+          "10000": {
+            "budget_usd": 50.0,
+            "lots": 0.11,
+            "risk_at_floor_usd": 4.530668955054731,
+            "margin_at_floor_usd": 6.7145,
+            "risk_used_usd": 49.83735850560204,
+            "margin_usd": 73.8595,
+            "margin_pct": 0.738595,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 73.84,
+            "native_margin_buy_sell_usd": {
+              "buy": 73.84,
+              "sell": 73.84
+            }
+          },
+          "50000": {
+            "budget_usd": 250.0,
+            "lots": 0.55,
+            "risk_at_floor_usd": 4.530668955054731,
+            "margin_at_floor_usd": 6.7145,
+            "risk_used_usd": 249.18679252801022,
+            "margin_usd": 369.2975,
+            "margin_pct": 0.738595,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 369.19,
+            "native_margin_buy_sell_usd": {
+              "buy": 369.19,
+              "sell": 369.18
+            }
+          }
+        }
+      },
+      "tier": 2,
+      "reason": "moderate friction, heavy one-side swap, constrained lot/margin or short D1 history"
+    },
+    "USDJPY": {
+      "actual_symbol": "USDJPY",
+      "price_unit": "pips",
+      "spec": {
+        "trade_contract_size": 100000.0,
+        "volume_min": 0.01,
+        "volume_step": 0.01,
+        "volume_max": 50.0,
+        "point": 0.001,
+        "trade_tick_size": 0.001,
+        "trade_tick_value": 0.6253517603652055,
+        "trade_stops_level": 0,
+        "trade_freeze_level": 0,
+        "swap_long": 2.64,
+        "swap_short": -19.33,
+        "swap_mode": 1,
+        "swap_rollover3days": 3,
+        "trade_mode": 4,
+        "currency_profit": "JPY",
+        "currency_margin": "USD",
+        "margin_estimates_usd": {
+          "0.01": [
+            10.0,
+            10.0
+          ],
+          "1.0": [
+            1000.0,
+            1000.0
+          ]
+        },
+        "bid": 159.904,
+        "ask": 159.91,
+        "quote_utc_msc": 1795086127060
+      },
+      "spread": {
+        "n": 44,
+        "median": 0.3,
+        "p95": 0.8,
+        "max": 0.9,
+        "timestamp_span_seconds": 110.995
+      },
+      "spread_origin": "prior native 120s London sample",
+      "commission_usd_per_lot_roundtrip": 5.0,
+      "commission_origin": "published_FX_rate_no_per_symbol_demo_fill",
+      "fee_usd_per_lot_roundtrip": 0,
+      "entry_exit_cost_usd_per_lot": 6.876055281095616,
+      "entry_exit_cost_display_units": 1.09955,
+      "scenario_slippage_included": false,
+      "history": {
+        "H1": {
+          "status": "OBSERVED",
+          "bars": 99998,
+          "requested": 99998,
+          "cap": 99999,
+          "file": "USDJPY-H1.parquet",
+          "sha256": "a71f134ee74460de322d1ff62636b49960ff2a1d32d85e814b1a7253ce7629fb",
+          "first_server": "2010-10-14 13:00:00",
+          "last_server": "2026-11-19 12:00:00",
+          "excluded_bar_zero_server": "2026-11-19 13:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 865,
+          "source_manifest": "receipts/history/native-deep-5.manifest.json",
+          "parquet": "bars/USDJPY-H1.parquet"
+        },
+        "H4": {
+          "status": "OBSERVED",
+          "bars": 41478,
+          "requested": 43893,
+          "cap": 99999,
+          "file": "USDJPY-H4.parquet",
+          "sha256": "bf89db9572d626a2f2d9f431f65d22489b9157d7e765f5f0892e8192081e7e76",
+          "first_server": "2000-03-29 12:00:00",
+          "last_server": "2026-11-19 08:00:00",
+          "excluded_bar_zero_server": "2026-11-19 12:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 1413,
+          "source_manifest": "receipts/history/native-deep-5.manifest.json",
+          "parquet": "bars/USDJPY-H4.parquet"
+        },
+        "D1": {
+          "status": "OBSERVED",
+          "bars": 6923,
+          "requested": 99999,
+          "cap": 99999,
+          "file": "USDJPY-D1.parquet",
+          "sha256": "c50ea6f6828e039168ed6e60a17a19d6ce87346a3f99508cfa2b9b30678cdeae",
+          "first_server": "2000-03-29 00:00:00",
+          "last_server": "2026-11-18 00:00:00",
+          "excluded_bar_zero_server": "2026-11-19 00:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 1406,
+          "source_manifest": "receipts/history/native-deep-5.manifest.json",
+          "parquet": "bars/USDJPY-D1.parquet"
+        }
+      },
+      "atr14": {
+        "H1": {
+          "median_full": 0.1531762206633683,
+          "median_recent90d": 0.1848994336487765,
+          "n_full": 99985,
+          "n_recent90d": 1549
+        },
+        "H4": {
+          "median_full": 0.37897747910035495,
+          "median_recent90d": 0.3917570262501443,
+          "n_full": 41465,
+          "n_recent90d": 387
+        },
+        "D1": {
+          "median_full": 0.9826957764125066,
+          "median_recent90d": 1.032821669292892,
+          "n_full": 6910,
+          "n_recent90d": 64
+        }
+      },
+      "atr_display_units": {
+        "H1": 18.48994336487765,
+        "H4": 39.17570262501443,
+        "D1": 103.28216692928919
+      },
+      "friction_atr_pct": {
+        "H1": 5.94674617602473,
+        "H4": 2.8067141782363754,
+        "D1": 1.0646077950250528
+      },
+      "swap_1x_pct_atr_d1": [
+        -0.2556104387127588,
+        1.8715718864839497
+      ],
+      "swap_3x_pct_atr_d1": [
+        -0.7668313161382764,
+        5.614715659451849
+      ],
+      "swap_usd_per_lot_1x": [
+        1.6509286473641425,
+        -12.088049527859422
+      ],
+      "sizing": {
+        "H4": {
+          "10000": {
+            "budget_usd": 50.0,
+            "lots": 0.19,
+            "risk_at_floor_usd": 2.5186200128206138,
+            "margin_at_floor_usd": 10.0,
+            "risk_used_usd": 47.85378024359166,
+            "margin_usd": 190.0,
+            "margin_pct": 1.9,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 190.0,
+            "native_margin_buy_sell_usd": {
+              "buy": 190.0,
+              "sell": 190.0
+            }
+          },
+          "50000": {
+            "budget_usd": 250.0,
+            "lots": 0.99,
+            "risk_at_floor_usd": 2.5186200128206138,
+            "margin_at_floor_usd": 10.0,
+            "risk_used_usd": 249.34338126924075,
+            "margin_usd": 990.0,
+            "margin_pct": 1.98,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 990.0,
+            "native_margin_buy_sell_usd": {
+              "buy": 990.0,
+              "sell": 990.0
+            }
+          }
+        },
+        "D1": {
+          "10000": {
+            "budget_usd": 50.0,
+            "lots": 0.07,
+            "risk_at_floor_usd": 6.527529043167357,
+            "margin_at_floor_usd": 10.0,
+            "risk_used_usd": 45.6927033021715,
+            "margin_usd": 70.0,
+            "margin_pct": 0.7,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 70.0,
+            "native_margin_buy_sell_usd": {
+              "buy": 70.0,
+              "sell": 70.0
+            }
+          },
+          "50000": {
+            "budget_usd": 250.0,
+            "lots": 0.38,
+            "risk_at_floor_usd": 6.527529043167357,
+            "margin_at_floor_usd": 10.0,
+            "risk_used_usd": 248.04610364035958,
+            "margin_usd": 380.0,
+            "margin_pct": 0.76,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 380.0,
+            "native_margin_buy_sell_usd": {
+              "buy": 380.0,
+              "sell": 380.0
+            }
+          }
+        }
+      },
+      "tier": 1,
+      "reason": "lower friction, both ATR-based sizes feasible, and worst 3× swap at most 6% of D1 ATR"
+    },
+    "USDCHF": {
+      "actual_symbol": "USDCHF",
+      "price_unit": "pips",
+      "spec": {
+        "trade_contract_size": 100000.0,
+        "volume_min": 0.01,
+        "volume_step": 0.01,
+        "volume_max": 50.0,
+        "point": 1e-05,
+        "trade_tick_size": 1e-05,
+        "trade_tick_value": 1.1874369174137624,
+        "trade_stops_level": 0,
+        "trade_freeze_level": 0,
+        "swap_long": 1.95,
+        "swap_short": -13.52,
+        "swap_mode": 1,
+        "swap_rollover3days": 3,
+        "trade_mode": 4,
+        "currency_profit": "CHF",
+        "currency_margin": "USD",
+        "margin_estimates_usd": {
+          "0.01": [
+            10.0,
+            10.0
+          ],
+          "1.0": [
+            1000.0,
+            1000.0
+          ]
+        },
+        "bid": 0.84209,
+        "ask": 0.84215,
+        "quote_utc_msc": 1795086006006
+      },
+      "spread": {
+        "n": 72,
+        "median": 0.5,
+        "p95": 0.6,
+        "max": 0.6,
+        "timestamp_span_seconds": 112.649
+      },
+      "spread_origin": "prior native 120s London sample",
+      "commission_usd_per_lot_roundtrip": 5.0,
+      "commission_origin": "published_FX_rate_no_per_symbol_demo_fill",
+      "fee_usd_per_lot_roundtrip": 0,
+      "entry_exit_cost_usd_per_lot": 10.937184587068813,
+      "entry_exit_cost_display_units": 0.9210750000000001,
+      "scenario_slippage_included": false,
+      "history": {
+        "H1": {
+          "status": "OBSERVED",
+          "bars": 99998,
+          "requested": 99998,
+          "cap": 99999,
+          "file": "USDCHF-H1.parquet",
+          "sha256": "6774f01f1c0659d6a5b0dd7dba0f266b159d0699271ef994bd4ea5adcacc16d3",
+          "first_server": "2010-10-13 14:00:00",
+          "last_server": "2026-11-19 12:00:00",
+          "excluded_bar_zero_server": "2026-11-19 13:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 866,
+          "source_manifest": "receipts/history/native-deep-1.USDCHF-receipt.json",
+          "parquet": "bars/USDCHF-H1.parquet"
+        },
+        "H4": {
+          "status": "OBSERVED",
+          "bars": 41480,
+          "requested": 43893,
+          "cap": 99999,
+          "file": "USDCHF-H4.parquet",
+          "sha256": "f27c3618abaa406402944bdae1bcf14bcb9d54cff3be45ffd15e5f170a0d686a",
+          "first_server": "2000-03-29 12:00:00",
+          "last_server": "2026-11-19 08:00:00",
+          "excluded_bar_zero_server": "2026-11-19 12:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 1413,
+          "source_manifest": "receipts/history/native-deep-1.USDCHF-receipt.json",
+          "parquet": "bars/USDCHF-H4.parquet"
+        },
+        "D1": {
+          "status": "OBSERVED",
+          "bars": 6923,
+          "requested": 99999,
+          "cap": 99999,
+          "file": "USDCHF-D1.parquet",
+          "sha256": "a68bf598031286d2d4c45bda74bcfd7a3a52e1e7f7409689febfe038c6178318",
+          "first_server": "2000-03-29 00:00:00",
+          "last_server": "2026-11-18 00:00:00",
+          "excluded_bar_zero_server": "2026-11-19 00:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 1406,
+          "source_manifest": "receipts/history/native-deep-1.USDCHF-receipt.json",
+          "parquet": "bars/USDCHF-D1.parquet"
+        }
+      },
+      "atr14": {
+        "H1": {
+          "median_full": 0.001239485903419037,
+          "median_recent90d": 0.0009889570823077448,
+          "n_full": 99985,
+          "n_recent90d": 1549
+        },
+        "H4": {
+          "median_full": 0.0033482953385548203,
+          "median_recent90d": 0.0021227207600534015,
+          "n_full": 41467,
+          "n_recent90d": 387
+        },
+        "D1": {
+          "median_full": 0.008860263242441713,
+          "median_recent90d": 0.005284351384321761,
+          "n_full": 6910,
+          "n_recent90d": 64
+        }
+      },
+      "atr_display_units": {
+        "H1": 9.889570823077447,
+        "H4": 21.227207600534015,
+        "D1": 52.84351384321761
+      },
+      "friction_atr_pct": {
+        "H1": 9.313599310605664,
+        "H4": 4.339124661770532,
+        "D1": 1.7430237563927986
+      },
+      "swap_1x_pct_atr_d1": [
+        -0.36901406779751456,
+        2.5584975367294343
+      ],
+      "swap_3x_pct_atr_d1": [
+        -1.1070422033925436,
+        7.675492610188303
+      ],
+      "swap_usd_per_lot_1x": [
+        2.3155019889568367,
+        -16.05414712343407
+      ],
+      "sizing": {
+        "H4": {
+          "10000": {
+            "budget_usd": 50.0,
+            "lots": 0.19,
+            "risk_at_floor_usd": 2.629968841718698,
+            "margin_at_floor_usd": 10.0,
+            "risk_used_usd": 49.96940799265526,
+            "margin_usd": 190.0,
+            "margin_pct": 1.9,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 190.0,
+            "native_margin_buy_sell_usd": {
+              "buy": 190.0,
+              "sell": 190.0
+            }
+          },
+          "50000": {
+            "budget_usd": 250.0,
+            "lots": 0.95,
+            "risk_at_floor_usd": 2.629968841718698,
+            "margin_at_floor_usd": 10.0,
+            "risk_used_usd": 249.8470399632763,
+            "margin_usd": 950.0,
+            "margin_pct": 1.9,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 950.0,
+            "native_margin_buy_sell_usd": {
+              "buy": 950.0,
+              "sell": 950.0
+            }
+          }
+        },
+        "D1": {
+          "10000": {
+            "budget_usd": 50.0,
+            "lots": 0.07,
+            "risk_at_floor_usd": 6.384205764200868,
+            "margin_at_floor_usd": 10.0,
+            "risk_used_usd": 44.68944034940608,
+            "margin_usd": 70.0,
+            "margin_pct": 0.7,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 70.0,
+            "native_margin_buy_sell_usd": {
+              "buy": 70.0,
+              "sell": 70.0
+            }
+          },
+          "50000": {
+            "budget_usd": 250.0,
+            "lots": 0.39,
+            "risk_at_floor_usd": 6.384205764200868,
+            "margin_at_floor_usd": 10.0,
+            "risk_used_usd": 248.98402480383385,
+            "margin_usd": 390.0,
+            "margin_pct": 0.78,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 390.0,
+            "native_margin_buy_sell_usd": {
+              "buy": 390.0,
+              "sell": 390.0
+            }
+          }
+        }
+      },
+      "tier": 2,
+      "reason": "moderate friction, heavy one-side swap, constrained lot/margin or short D1 history"
+    },
+    "USDCAD": {
+      "actual_symbol": "USDCAD",
+      "price_unit": "pips",
+      "spec": {
+        "trade_contract_size": 100000.0,
+        "volume_min": 0.01,
+        "volume_step": 0.01,
+        "volume_max": 50.0,
+        "point": 1e-05,
+        "trade_tick_size": 1e-05,
+        "trade_tick_value": 0.6990709347277467,
+        "trade_stops_level": 0,
+        "trade_freeze_level": 0,
+        "swap_long": 0.71,
+        "swap_short": -10.82,
+        "swap_mode": 1,
+        "swap_rollover3days": 3,
+        "trade_mode": 4,
+        "currency_profit": "CAD",
+        "currency_margin": "USD",
+        "margin_estimates_usd": {
+          "0.01": [
+            10.0,
+            10.0
+          ],
+          "1.0": [
+            1000.0,
+            1000.0
+          ]
+        },
+        "bid": 1.4304299999999999,
+        "ask": 1.4304700000000001,
+        "quote_utc_msc": 1795086032859
+      },
+      "spread": {
+        "n": 71,
+        "median": 0.4,
+        "p95": 0.6,
+        "max": 0.6,
+        "timestamp_span_seconds": 111.465
+      },
+      "spread_origin": "prior native 120s London sample",
+      "commission_usd_per_lot_roundtrip": 5.0,
+      "commission_origin": "published_FX_rate_no_per_symbol_demo_fill",
+      "fee_usd_per_lot_roundtrip": 0,
+      "entry_exit_cost_usd_per_lot": 7.7962837389109865,
+      "entry_exit_cost_display_units": 1.1152350000000002,
+      "scenario_slippage_included": false,
+      "history": {
+        "H1": {
+          "status": "OBSERVED",
+          "bars": 75062,
+          "requested": 75062,
+          "cap": 99999,
+          "file": "USDCAD-H1.parquet",
+          "sha256": "f5380b4f8afb60a5eb7cde53d1da8ad9cf821c6bc2270ae6e250e9df05c611bb",
+          "first_server": "2014-10-23 01:00:00",
+          "last_server": "2026-11-19 12:00:00",
+          "excluded_bar_zero_server": "2026-11-19 13:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 649,
+          "source_manifest": "receipts/history/native-deep-6.manifest.json",
+          "parquet": "bars/USDCAD-H1.parquet"
+        },
+        "H4": {
+          "status": "OBSERVED",
+          "bars": 41486,
+          "requested": 43893,
+          "cap": 99999,
+          "file": "USDCAD-H4.parquet",
+          "sha256": "7f4259593d4ab6a4d2c1ad355412f889adc6da7c38f337bc9b67906e7fb4beec",
+          "first_server": "2000-03-29 12:00:00",
+          "last_server": "2026-11-19 08:00:00",
+          "excluded_bar_zero_server": "2026-11-19 12:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 1414,
+          "source_manifest": "receipts/history/native-deep-6.manifest.json",
+          "parquet": "bars/USDCAD-H4.parquet"
+        },
+        "D1": {
+          "status": "OBSERVED",
+          "bars": 6925,
+          "requested": 99999,
+          "cap": 99999,
+          "file": "USDCAD-D1.parquet",
+          "sha256": "ff806b3dab13c8b49cfc5216acc3e10332f7cd33b3c87a2883d3aa3cdf1dd525",
+          "first_server": "2000-03-29 00:00:00",
+          "last_server": "2026-11-18 00:00:00",
+          "excluded_bar_zero_server": "2026-11-19 00:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 1406,
+          "source_manifest": "receipts/history/native-deep-6.manifest.json",
+          "parquet": "bars/USDCAD-D1.parquet"
+        }
+      },
+      "atr14": {
+        "H1": {
+          "median_full": 0.001517588342600394,
+          "median_recent90d": 0.0010212332283732108,
+          "n_full": 75049,
+          "n_recent90d": 1549
+        },
+        "H4": {
+          "median_full": 0.0034385397964120067,
+          "median_recent90d": 0.0022016502526093617,
+          "n_full": 41473,
+          "n_recent90d": 387
+        },
+        "D1": {
+          "median_full": 0.008852925694637408,
+          "median_recent90d": 0.006031011473298885,
+          "n_full": 6912,
+          "n_recent90d": 64
+        }
+      },
+      "atr_display_units": {
+        "H1": 10.212332283732108,
+        "H4": 22.016502526093618,
+        "D1": 60.31011473298884
+      },
+      "friction_atr_pct": {
+        "H1": 10.920473100709138,
+        "H4": 5.06545033062468,
+        "D1": 1.8491674322582263
+      },
+      "swap_1x_pct_atr_d1": [
+        -0.11772486309193494,
+        1.794060589654558
+      ],
+      "swap_3x_pct_atr_d1": [
+        -0.3531745892758048,
+        5.382181768963674
+      ],
+      "swap_usd_per_lot_1x": [
+        0.49634036365670015,
+        -7.563947513754219
+      ],
+      "sizing": {
+        "H4": {
+          "10000": {
+            "budget_usd": 50.0,
+            "lots": 0.3,
+            "risk_at_floor_usd": 1.617072537424316,
+            "margin_at_floor_usd": 10.0,
+            "risk_used_usd": 48.51217612272948,
+            "margin_usd": 300.0,
+            "margin_pct": 3.0,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 300.0,
+            "native_margin_buy_sell_usd": {
+              "buy": 300.0,
+              "sell": 300.0
+            }
+          },
+          "50000": {
+            "budget_usd": 250.0,
+            "lots": 1.54,
+            "risk_at_floor_usd": 1.617072537424316,
+            "margin_at_floor_usd": 10.0,
+            "risk_used_usd": 249.02917076334467,
+            "margin_usd": 1540.0,
+            "margin_pct": 3.08,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 1540.0,
+            "native_margin_buy_sell_usd": {
+              "buy": 1540.0,
+              "sell": 1540.0
+            }
+          }
+        },
+        "D1": {
+          "10000": {
+            "budget_usd": 50.0,
+            "lots": 0.11,
+            "risk_at_floor_usd": 4.294067665381925,
+            "margin_at_floor_usd": 10.0,
+            "risk_used_usd": 47.23474431920118,
+            "margin_usd": 110.0,
+            "margin_pct": 1.1,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 110.0,
+            "native_margin_buy_sell_usd": {
+              "buy": 110.0,
+              "sell": 110.0
+            }
+          },
+          "50000": {
+            "budget_usd": 250.0,
+            "lots": 0.58,
+            "risk_at_floor_usd": 4.294067665381925,
+            "margin_at_floor_usd": 10.0,
+            "risk_used_usd": 249.05592459215165,
+            "margin_usd": 580.0,
+            "margin_pct": 1.16,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 580.0,
+            "native_margin_buy_sell_usd": {
+              "buy": 580.0,
+              "sell": 580.0
+            }
+          }
+        }
+      },
+      "tier": 2,
+      "reason": "moderate friction, heavy one-side swap, constrained lot/margin or short D1 history"
+    },
+    "NZDUSD": {
+      "actual_symbol": "NZDUSD",
+      "price_unit": "pips",
+      "spec": {
+        "trade_contract_size": 100000.0,
+        "volume_min": 0.01,
+        "volume_step": 0.01,
+        "volume_max": 50.0,
+        "point": 1e-05,
+        "trade_tick_size": 1e-05,
+        "trade_tick_value": 1.0,
+        "trade_stops_level": 0,
+        "trade_freeze_level": 0,
+        "swap_long": -4.8,
+        "swap_short": 0.0,
+        "swap_mode": 1,
+        "swap_rollover3days": 3,
+        "trade_mode": 4,
+        "currency_profit": "USD",
+        "currency_margin": "NZD",
+        "margin_estimates_usd": {
+          "0.01": [
+            5.53,
+            5.53
+          ],
+          "1.0": [
+            552.83,
+            552.79
+          ]
+        },
+        "bid": 0.55279,
+        "ask": 0.55283,
+        "quote_utc_msc": 1795086058057
+      },
+      "spread": {
+        "n": 55,
+        "median": 0.6,
+        "p95": 0.6,
+        "max": 0.6,
+        "timestamp_span_seconds": 111.151
+      },
+      "spread_origin": "prior native 120s London sample",
+      "commission_usd_per_lot_roundtrip": 5.0,
+      "commission_origin": "published_FX_rate_no_per_symbol_demo_fill",
+      "fee_usd_per_lot_roundtrip": 0,
+      "entry_exit_cost_usd_per_lot": 11.0,
+      "entry_exit_cost_display_units": 1.1,
+      "scenario_slippage_included": false,
+      "history": {
+        "H1": {
+          "status": "OBSERVED",
+          "bars": 99998,
+          "requested": 99998,
+          "cap": 99999,
+          "file": "NZDUSD-H1.parquet",
+          "sha256": "9f9e8449d58462a2aa513e6e9e53e2341137e393cc52b4fe05526e0db8c2fb52",
+          "first_server": "2010-10-13 16:00:00",
+          "last_server": "2026-11-19 12:00:00",
+          "excluded_bar_zero_server": "2026-11-19 13:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 867,
+          "source_manifest": "receipts/history/native-deep-7.manifest.json",
+          "parquet": "bars/NZDUSD-H1.parquet"
+        },
+        "H4": {
+          "status": "OBSERVED",
+          "bars": 41475,
+          "requested": 50127,
+          "cap": 99999,
+          "file": "NZDUSD-H4.parquet",
+          "sha256": "40640e834b0bb8402507b99d49ceb5dfb260f9cf61d83cbd664f896e3c7d6f21",
+          "first_server": "2000-03-29 12:00:00",
+          "last_server": "2026-11-19 08:00:00",
+          "excluded_bar_zero_server": "2026-11-19 12:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 1424,
+          "source_manifest": "receipts/history/native-deep-7.manifest.json",
+          "parquet": "bars/NZDUSD-H4.parquet"
+        },
+        "D1": {
+          "status": "OBSERVED",
+          "bars": 6923,
+          "requested": 99999,
+          "cap": 99999,
+          "file": "NZDUSD-D1.parquet",
+          "sha256": "0859f5e8bc4f0f574b446d1d2f576b14c0eb49bf63967edaa3a67410e4909176",
+          "first_server": "2000-03-29 00:00:00",
+          "last_server": "2026-11-18 00:00:00",
+          "excluded_bar_zero_server": "2026-11-19 00:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 1406,
+          "source_manifest": "receipts/history/native-deep-7.manifest.json",
+          "parquet": "bars/NZDUSD-D1.parquet"
+        }
+      },
+      "atr14": {
+        "H1": {
+          "median_full": 0.0012785432908001472,
+          "median_recent90d": 0.0008213436573641582,
+          "n_full": 99985,
+          "n_recent90d": 1549
+        },
+        "H4": {
+          "median_full": 0.003076394748880264,
+          "median_recent90d": 0.0017836479888741503,
+          "n_full": 41462,
+          "n_recent90d": 387
+        },
+        "D1": {
+          "median_full": 0.007123273821273597,
+          "median_recent90d": 0.004490963338129955,
+          "n_full": 6910,
+          "n_recent90d": 64
+        }
+      },
+      "atr_display_units": {
+        "H1": 8.213436573641582,
+        "H4": 17.8364798887415,
+        "D1": 44.90963338129955
+      },
+      "friction_atr_pct": {
+        "H1": 13.392688798865276,
+        "H4": 6.167136155011882,
+        "D1": 2.4493631258589654
+      },
+      "swap_1x_pct_atr_d1": [
+        1.0688130003748213,
+        -0.0
+      ],
+      "swap_3x_pct_atr_d1": [
+        3.2064390011244637,
+        -0.0
+      ],
+      "swap_usd_per_lot_1x": [
+        -4.8,
+        0.0
+      ],
+      "sizing": {
+        "H4": {
+          "10000": {
+            "budget_usd": 50.0,
+            "lots": 0.26,
+            "risk_at_floor_usd": 1.89364798887415,
+            "margin_at_floor_usd": 5.5283,
+            "risk_used_usd": 49.2348477107279,
+            "margin_usd": 143.7358,
+            "margin_pct": 1.437358,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 143.75,
+            "native_margin_buy_sell_usd": {
+              "buy": 143.75,
+              "sell": 143.73
+            }
+          },
+          "50000": {
+            "budget_usd": 250.0,
+            "lots": 1.32,
+            "risk_at_floor_usd": 1.89364798887415,
+            "margin_at_floor_usd": 5.5283,
+            "risk_used_usd": 249.9615345313878,
+            "margin_usd": 729.7356,
+            "margin_pct": 1.4594712,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 729.8,
+            "native_margin_buy_sell_usd": {
+              "buy": 729.8,
+              "sell": 729.72
+            }
+          }
+        },
+        "D1": {
+          "10000": {
+            "budget_usd": 50.0,
+            "lots": 0.1,
+            "risk_at_floor_usd": 4.600963338129954,
+            "margin_at_floor_usd": 5.5283,
+            "risk_used_usd": 46.009633381299544,
+            "margin_usd": 55.283,
+            "margin_pct": 0.55283,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 55.29,
+            "native_margin_buy_sell_usd": {
+              "buy": 55.29,
+              "sell": 55.28
+            }
+          },
+          "50000": {
+            "budget_usd": 250.0,
+            "lots": 0.54,
+            "risk_at_floor_usd": 4.600963338129954,
+            "margin_at_floor_usd": 5.5283,
+            "risk_used_usd": 248.45202025901753,
+            "margin_usd": 298.5282,
+            "margin_pct": 0.5970564,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 298.56,
+            "native_margin_buy_sell_usd": {
+              "buy": 298.56,
+              "sell": 298.52
+            }
+          }
+        }
+      },
+      "tier": 2,
+      "reason": "moderate friction, heavy one-side swap, constrained lot/margin or short D1 history"
+    },
+    "EURGBP": {
+      "actual_symbol": "EURGBP",
+      "price_unit": "pips",
+      "spec": {
+        "trade_contract_size": 100000.0,
+        "volume_min": 0.01,
+        "volume_step": 0.01,
+        "volume_max": 50.0,
+        "point": 1e-05,
+        "trade_tick_size": 1e-05,
+        "trade_tick_value": 1.3168900000000001,
+        "trade_stops_level": 0,
+        "trade_freeze_level": 0,
+        "swap_long": -6.8,
+        "swap_short": 0.15,
+        "swap_mode": 1,
+        "swap_rollover3days": 3,
+        "trade_mode": 4,
+        "currency_profit": "GBP",
+        "currency_margin": "EUR",
+        "margin_estimates_usd": {
+          "0.01": [
+            11.01,
+            11.01
+          ],
+          "1.0": [
+            1100.64,
+            1100.64
+          ]
+        },
+        "bid": 0.83574,
+        "ask": 0.8358,
+        "quote_utc_msc": 1795086006457
+      },
+      "spread": {
+        "n": 84,
+        "median": 0.5,
+        "p95": 0.6,
+        "max": 0.6,
+        "timestamp_span_seconds": 111.287
+      },
+      "spread_origin": "prior native 120s London sample",
+      "commission_usd_per_lot_roundtrip": 5.0,
+      "commission_origin": "published_FX_rate_no_per_symbol_demo_fill",
+      "fee_usd_per_lot_roundtrip": 0,
+      "entry_exit_cost_usd_per_lot": 11.58445,
+      "entry_exit_cost_display_units": 0.8796824336125265,
+      "scenario_slippage_included": false,
+      "history": {
+        "H1": {
+          "status": "OBSERVED",
+          "bars": 99998,
+          "requested": 99998,
+          "cap": 99999,
+          "file": "EURGBP-H1.parquet",
+          "sha256": "3fbc67fc900bc8e29d28a192d54be084730e78ada8a90ad2a17e69f8a6e8f8ae",
+          "first_server": "2010-10-14 10:00:00",
+          "last_server": "2026-11-19 12:00:00",
+          "excluded_bar_zero_server": "2026-11-19 13:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 865,
+          "source_manifest": "receipts/history/native-deep-2.EURGBP-receipt.json",
+          "parquet": "bars/EURGBP-H1.parquet"
+        },
+        "H4": {
+          "status": "OBSERVED",
+          "bars": 41457,
+          "requested": 43893,
+          "cap": 99999,
+          "file": "EURGBP-H4.parquet",
+          "sha256": "7316126fca69b31ed98eae060b3d2d94440bbedc4b90da401fbe47e6e47ece51",
+          "first_server": "2000-03-29 12:00:00",
+          "last_server": "2026-11-19 08:00:00",
+          "excluded_bar_zero_server": "2026-11-19 12:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 1408,
+          "source_manifest": "receipts/history/native-deep-2.EURGBP-receipt.json",
+          "parquet": "bars/EURGBP-H4.parquet"
+        },
+        "D1": {
+          "status": "OBSERVED",
+          "bars": 6919,
+          "requested": 99999,
+          "cap": 99999,
+          "file": "EURGBP-D1.parquet",
+          "sha256": "7549ecd52c1b5d79059c934989faed81a49ffccc71331f848b2ac909b77693ec",
+          "first_server": "2000-03-29 00:00:00",
+          "last_server": "2026-11-18 00:00:00",
+          "excluded_bar_zero_server": "2026-11-19 00:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 1406,
+          "source_manifest": "receipts/history/native-deep-2.EURGBP-receipt.json",
+          "parquet": "bars/EURGBP-D1.parquet"
+        }
+      },
+      "atr14": {
+        "H1": {
+          "median_full": 0.0009921658051722374,
+          "median_recent90d": 0.0004923033175144511,
+          "n_full": 99985,
+          "n_recent90d": 1549
+        },
+        "H4": {
+          "median_full": 0.002176329107530785,
+          "median_recent90d": 0.0009987038605007077,
+          "n_full": 41444,
+          "n_recent90d": 387
+        },
+        "D1": {
+          "median_full": 0.0054261284737492504,
+          "median_recent90d": 0.0025621910128021145,
+          "n_full": 6906,
+          "n_recent90d": 64
+        }
+      },
+      "atr_display_units": {
+        "H1": 4.923033175144511,
+        "H4": 9.987038605007076,
+        "D1": 25.621910128021145
+      },
+      "friction_atr_pct": {
+        "H1": 17.868708219434335,
+        "H4": 8.808241045263317,
+        "D1": 3.4333210491222137
+      },
+      "swap_1x_pct_atr_d1": [
+        2.6539785543011676,
+        -0.05854364458017282
+      ],
+      "swap_3x_pct_atr_d1": [
+        7.961935662903503,
+        -0.17563093374051847
+      ],
+      "swap_usd_per_lot_1x": [
+        -8.954852,
+        0.1975335
+      ],
+      "sizing": {
+        "H4": {
+          "10000": {
+            "budget_usd": 50.0,
+            "lots": 0.34,
+            "risk_at_floor_usd": 1.431027626854777,
+            "margin_at_floor_usd": 11.0064,
+            "risk_used_usd": 48.65493931306242,
+            "margin_usd": 374.2176,
+            "margin_pct": 3.742176,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 374.23,
+            "native_margin_buy_sell_usd": {
+              "buy": 374.23,
+              "sell": 374.23
+            }
+          },
+          "50000": {
+            "budget_usd": 250.0,
+            "lots": 1.74,
+            "risk_at_floor_usd": 1.431027626854777,
+            "margin_at_floor_usd": 11.0064,
+            "risk_used_usd": 248.9988070727312,
+            "margin_usd": 1915.1136,
+            "margin_pct": 3.8302272,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 1915.18,
+            "native_margin_buy_sell_usd": {
+              "buy": 1915.18,
+              "sell": 1915.18
+            }
+          }
+        },
+        "D1": {
+          "10000": {
+            "budget_usd": 50.0,
+            "lots": 0.14,
+            "risk_at_floor_usd": 3.489968222848977,
+            "margin_at_floor_usd": 11.0064,
+            "risk_used_usd": 48.85955511988568,
+            "margin_usd": 154.0896,
+            "margin_pct": 1.540896,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 154.1,
+            "native_margin_buy_sell_usd": {
+              "buy": 154.1,
+              "sell": 154.1
+            }
+          },
+          "50000": {
+            "budget_usd": 250.0,
+            "lots": 0.71,
+            "risk_at_floor_usd": 3.489968222848977,
+            "margin_at_floor_usd": 11.0064,
+            "risk_used_usd": 247.78774382227738,
+            "margin_usd": 781.4544,
+            "margin_pct": 1.5629088,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 781.48,
+            "native_margin_buy_sell_usd": {
+              "buy": 781.48,
+              "sell": 781.48
+            }
+          }
+        }
+      },
+      "tier": 2,
+      "reason": "moderate friction, heavy one-side swap, constrained lot/margin or short D1 history"
+    },
+    "EURJPY": {
+      "actual_symbol": "EURJPY",
+      "price_unit": "pips",
+      "spec": {
+        "trade_contract_size": 100000.0,
+        "volume_min": 0.01,
+        "volume_step": 0.01,
+        "volume_max": 50.0,
+        "point": 0.001,
+        "trade_tick_size": 0.001,
+        "trade_tick_value": 0.6253048361076025,
+        "trade_stops_level": 0,
+        "trade_freeze_level": 0,
+        "swap_long": 2.11,
+        "swap_short": -11.15,
+        "swap_mode": 1,
+        "swap_rollover3days": 3,
+        "trade_mode": 4,
+        "currency_profit": "JPY",
+        "currency_margin": "EUR",
+        "margin_estimates_usd": {
+          "0.01": [
+            11.01,
+            11.01
+          ],
+          "1.0": [
+            1100.63,
+            1100.62
+          ]
+        },
+        "bid": 176.016,
+        "ask": 176.025,
+        "quote_utc_msc": 1795086037059
+      },
+      "spread": {
+        "n": 163,
+        "median": 0.9,
+        "p95": 1.1,
+        "max": 1.1,
+        "timestamp_span_seconds": 112.498
+      },
+      "spread_origin": "prior native 120s London sample",
+      "commission_usd_per_lot_roundtrip": 5.0,
+      "commission_origin": "published_FX_rate_no_per_symbol_demo_fill",
+      "fee_usd_per_lot_roundtrip": 0,
+      "entry_exit_cost_usd_per_lot": 10.627743524968423,
+      "entry_exit_cost_display_units": 1.69961,
+      "scenario_slippage_included": false,
+      "history": {
+        "H1": {
+          "status": "OBSERVED",
+          "bars": 75062,
+          "requested": 75062,
+          "cap": 99999,
+          "file": "EURJPY-H1.parquet",
+          "sha256": "7055f49ee2f8ad27488f8bebaf6e08446c15aa13966fc7d091ab04430638bc6a",
+          "first_server": "2014-10-22 23:00:00",
+          "last_server": "2026-11-19 12:00:00",
+          "excluded_bar_zero_server": "2026-11-19 13:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 649,
+          "source_manifest": "receipts/history/native-deep-8.manifest.json",
+          "parquet": "bars/EURJPY-H1.parquet"
+        },
+        "H4": {
+          "status": "OBSERVED",
+          "bars": 37658,
+          "requested": 37658,
+          "cap": 99999,
+          "file": "EURJPY-H4.parquet",
+          "sha256": "1238a172796cfa197df42ff34c6f903bbac2d52b5b0c4c21e5e51961e5aea023",
+          "first_server": "2002-09-10 12:00:00",
+          "last_server": "2026-11-19 08:00:00",
+          "excluded_bar_zero_server": "2026-11-19 12:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 1281,
+          "source_manifest": "receipts/history/native-deep-8.manifest.json",
+          "parquet": "bars/EURJPY-H4.parquet"
+        },
+        "D1": {
+          "status": "OBSERVED",
+          "bars": 6797,
+          "requested": 99999,
+          "cap": 99999,
+          "file": "EURJPY-D1.parquet",
+          "sha256": "ceecbcbd3cc83683594c7fe921acd729d990d77d366c559353b8a3cf00848d26",
+          "first_server": "2000-03-29 00:00:00",
+          "last_server": "2026-11-18 00:00:00",
+          "excluded_bar_zero_server": "2026-11-19 00:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 1387,
+          "source_manifest": "receipts/history/native-deep-8.manifest.json",
+          "parquet": "bars/EURJPY-D1.parquet"
+        }
+      },
+      "atr14": {
+        "H1": {
+          "median_full": 0.20085911043121554,
+          "median_recent90d": 0.20222152385191164,
+          "n_full": 75049,
+          "n_recent90d": 1549
+        },
+        "H4": {
+          "median_full": 0.4625311286620633,
+          "median_recent90d": 0.4265115264016336,
+          "n_full": 37645,
+          "n_recent90d": 387
+        },
+        "D1": {
+          "median_full": 1.1781817980135738,
+          "median_recent90d": 1.1813573363211036,
+          "n_full": 6784,
+          "n_recent90d": 64
+        }
+      },
+      "atr_display_units": {
+        "H1": 20.222152385191162,
+        "H4": 42.65115264016336,
+        "D1": 118.13573363211036
+      },
+      "friction_atr_pct": {
+        "H1": 8.404693860603274,
+        "H4": 3.9849098905700533,
+        "D1": 1.4386925511402002
+      },
+      "swap_1x_pct_atr_d1": [
+        -0.1786081090900749,
+        0.9438295812105855
+      ],
+      "swap_3x_pct_atr_d1": [
+        -0.5358243272702248,
+        2.8314887436317564
+      ],
+      "swap_usd_per_lot_1x": [
+        1.319393204187041,
+        -6.972148922599768
+      ],
+      "sizing": {
+        "H4": {
+          "10000": {
+            "budget_usd": 50.0,
+            "lots": 0.18,
+            "risk_at_floor_usd": 2.773274636395453,
+            "margin_at_floor_usd": 11.0063,
+            "risk_used_usd": 49.91894345511815,
+            "margin_usd": 198.1134,
+            "margin_pct": 1.981134,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 198.12,
+            "native_margin_buy_sell_usd": {
+              "buy": 198.12,
+              "sell": 198.12
+            }
+          },
+          "50000": {
+            "budget_usd": 250.0,
+            "lots": 0.9,
+            "risk_at_floor_usd": 2.773274636395453,
+            "margin_at_floor_usd": 11.0063,
+            "risk_used_usd": 249.59471727559077,
+            "margin_usd": 990.567,
+            "margin_pct": 1.981134,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 990.61,
+            "native_margin_buy_sell_usd": {
+              "buy": 990.61,
+              "sell": 990.61
+            }
+          }
+        },
+        "D1": {
+          "10000": {
+            "budget_usd": 50.0,
+            "lots": 0.06,
+            "risk_at_floor_usd": 7.4933619909775,
+            "margin_at_floor_usd": 11.0063,
+            "risk_used_usd": 44.960171945865,
+            "margin_usd": 66.0378,
+            "margin_pct": 0.660378,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 66.04,
+            "native_margin_buy_sell_usd": {
+              "buy": 66.04,
+              "sell": 66.04
+            }
+          },
+          "50000": {
+            "budget_usd": 250.0,
+            "lots": 0.33,
+            "risk_at_floor_usd": 7.4933619909775,
+            "margin_at_floor_usd": 11.0063,
+            "risk_used_usd": 247.2809457022575,
+            "margin_usd": 363.2079,
+            "margin_pct": 0.7264158,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 363.22,
+            "native_margin_buy_sell_usd": {
+              "buy": 363.22,
+              "sell": 363.22
+            }
+          }
+        }
+      },
+      "tier": 1,
+      "reason": "lower friction, both ATR-based sizes feasible, and worst 3× swap at most 6% of D1 ATR"
+    },
+    "GBPJPY": {
+      "actual_symbol": "GBPJPY",
+      "price_unit": "pips",
+      "spec": {
+        "trade_contract_size": 100000.0,
+        "volume_min": 0.01,
+        "volume_step": 0.01,
+        "volume_max": 50.0,
+        "point": 0.001,
+        "trade_tick_size": 0.001,
+        "trade_tick_value": 0.6253439391665416,
+        "trade_stops_level": 0,
+        "trade_freeze_level": 0,
+        "swap_long": 5.87,
+        "swap_short": -25.15,
+        "swap_mode": 1,
+        "swap_rollover3days": 3,
+        "trade_mode": 4,
+        "currency_profit": "JPY",
+        "currency_margin": "GBP",
+        "margin_estimates_usd": {
+          "0.01": [
+            13.17,
+            13.17
+          ],
+          "1.0": [
+            1317.03,
+            1317.0
+          ]
+        },
+        "bid": 210.589,
+        "ask": 210.614,
+        "quote_utc_msc": 1795086072759
+      },
+      "spread": {
+        "n": 117,
+        "median": 2.4,
+        "p95": 2.8,
+        "max": 3.1,
+        "timestamp_span_seconds": 110.998
+      },
+      "spread_origin": "prior native 120s London sample",
+      "commission_usd_per_lot_roundtrip": 5.0,
+      "commission_origin": "same_account_direct_observation_and_published_rate",
+      "fee_usd_per_lot_roundtrip": -0.0,
+      "entry_exit_cost_usd_per_lot": 20.008254539996997,
+      "entry_exit_cost_display_units": 3.19956,
+      "scenario_slippage_included": false,
+      "history": {
+        "H1": {
+          "status": "OBSERVED",
+          "bars": 75062,
+          "requested": 75062,
+          "cap": 99999,
+          "file": "GBPJPY-H1.parquet",
+          "sha256": "eb12a13ab164e3db74e5f3cfece59b3d791b054c7ae929aa62743c7a3a1a4dc8",
+          "first_server": "2014-10-22 11:00:00",
+          "last_server": "2026-11-19 12:00:00",
+          "excluded_bar_zero_server": "2026-11-19 13:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 651,
+          "source_manifest": "receipts/history/native-deep-9.manifest.json",
+          "parquet": "bars/GBPJPY-H1.parquet"
+        },
+        "H4": {
+          "status": "OBSERVED",
+          "bars": 41480,
+          "requested": 43893,
+          "cap": 99999,
+          "file": "GBPJPY-H4.parquet",
+          "sha256": "c520cdb5d53c71c84167cec4d87c1e7a1b2166d80b0a42ce5086e5156f708ce6",
+          "first_server": "2000-03-29 12:00:00",
+          "last_server": "2026-11-19 08:00:00",
+          "excluded_bar_zero_server": "2026-11-19 12:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 1415,
+          "source_manifest": "receipts/history/native-deep-9.manifest.json",
+          "parquet": "bars/GBPJPY-H4.parquet"
+        },
+        "D1": {
+          "status": "OBSERVED",
+          "bars": 6925,
+          "requested": 99999,
+          "cap": 99999,
+          "file": "GBPJPY-D1.parquet",
+          "sha256": "84cb1f3695310a92c814b6c340eab7ae7d20602df647ed69d1aa2947378501b2",
+          "first_server": "2000-03-29 00:00:00",
+          "last_server": "2026-11-18 00:00:00",
+          "excluded_bar_zero_server": "2026-11-19 00:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 1406,
+          "source_manifest": "receipts/history/native-deep-9.manifest.json",
+          "parquet": "bars/GBPJPY-D1.parquet"
+        }
+      },
+      "atr14": {
+        "H1": {
+          "median_full": 0.2700444639469342,
+          "median_recent90d": 0.242788124641146,
+          "n_full": 75049,
+          "n_recent90d": 1549
+        },
+        "H4": {
+          "median_full": 0.6433654218749084,
+          "median_recent90d": 0.51964238338555,
+          "n_full": 41467,
+          "n_recent90d": 387
+        },
+        "D1": {
+          "median_full": 1.6257973266596233,
+          "median_recent90d": 1.4024038208300817,
+          "n_full": 6912,
+          "n_recent90d": 64
+        }
+      },
+      "atr_display_units": {
+        "H1": 24.278812464114598,
+        "H4": 51.964238338555,
+        "D1": 140.24038208300817
+      },
+      "friction_atr_pct": {
+        "H1": 13.178404029147316,
+        "H4": 6.15723447951719,
+        "D1": 2.2814826603268825
+      },
+      "swap_1x_pct_atr_d1": [
+        -0.41856702847012717,
+        1.793349363888194
+      ],
+      "swap_3x_pct_atr_d1": [
+        -1.2557010854103816,
+        5.380048091664582
+      ],
+      "swap_usd_per_lot_1x": [
+        3.6707689229075995,
+        -15.727400070038522
+      ],
+      "sizing": {
+        "H4": {
+          "10000": {
+            "budget_usd": 50.0,
+            "lots": 0.14,
+            "risk_at_floor_usd": 3.449634695242071,
+            "margin_at_floor_usd": 13.1703,
+            "risk_used_usd": 48.294885733388995,
+            "margin_usd": 184.3842,
+            "margin_pct": 1.843842,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 184.4,
+            "native_margin_buy_sell_usd": {
+              "buy": 184.4,
+              "sell": 184.39
+            }
+          },
+          "50000": {
+            "budget_usd": 250.0,
+            "lots": 0.72,
+            "risk_at_floor_usd": 3.449634695242071,
+            "margin_at_floor_usd": 13.1703,
+            "risk_used_usd": 248.37369805742912,
+            "margin_usd": 948.2616,
+            "margin_pct": 1.8965232,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 948.33,
+            "native_margin_buy_sell_usd": {
+              "buy": 948.33,
+              "sell": 948.31
+            }
+          }
+        },
+        "D1": {
+          "10000": {
+            "budget_usd": 50.0,
+            "lots": 0.05,
+            "risk_at_floor_usd": 8.969929841600893,
+            "margin_at_floor_usd": 13.1703,
+            "risk_used_usd": 44.84964920800446,
+            "margin_usd": 65.8515,
+            "margin_pct": 0.658515,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 65.86,
+            "native_margin_buy_sell_usd": {
+              "buy": 65.86,
+              "sell": 65.86
+            }
+          },
+          "50000": {
+            "budget_usd": 250.0,
+            "lots": 0.27,
+            "risk_at_floor_usd": 8.969929841600893,
+            "margin_at_floor_usd": 13.1703,
+            "risk_used_usd": 242.18810572322408,
+            "margin_usd": 355.5981,
+            "margin_pct": 0.7111962,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 355.63,
+            "native_margin_buy_sell_usd": {
+              "buy": 355.63,
+              "sell": 355.62
+            }
+          }
+        }
+      },
+      "tier": 2,
+      "reason": "moderate friction, heavy one-side swap, constrained lot/margin or short D1 history"
+    },
+    "AUDJPY": {
+      "actual_symbol": "AUDJPY",
+      "price_unit": "pips",
+      "spec": {
+        "trade_contract_size": 100000.0,
+        "volume_min": 0.01,
+        "volume_step": 0.01,
+        "volume_max": 50.0,
+        "point": 0.001,
+        "trade_tick_size": 0.001,
+        "trade_tick_value": 0.6253048361076025,
+        "trade_stops_level": 0,
+        "trade_freeze_level": 0,
+        "swap_long": 3.77,
+        "swap_short": -15.25,
+        "swap_mode": 1,
+        "swap_rollover3days": 3,
+        "trade_mode": 4,
+        "currency_profit": "JPY",
+        "currency_margin": "AUD",
+        "margin_estimates_usd": {
+          "0.01": [
+            6.71,
+            6.71
+          ],
+          "1.0": [
+            671.41,
+            671.38
+          ]
+        },
+        "bid": 107.363,
+        "ask": 107.373,
+        "quote_utc_msc": 1795086029573
+      },
+      "spread": {
+        "n": 89,
+        "median": 1.0,
+        "p95": 1.2,
+        "max": 1.3,
+        "timestamp_span_seconds": 110.678
+      },
+      "spread_origin": "prior native 120s London sample",
+      "commission_usd_per_lot_roundtrip": 5.0,
+      "commission_origin": "published_FX_rate_no_per_symbol_demo_fill",
+      "fee_usd_per_lot_roundtrip": 0,
+      "entry_exit_cost_usd_per_lot": 11.253048361076026,
+      "entry_exit_cost_display_units": 1.7996100000000002,
+      "scenario_slippage_included": false,
+      "history": {
+        "H1": {
+          "status": "OBSERVED",
+          "bars": 99998,
+          "requested": 99998,
+          "cap": 99999,
+          "file": "AUDJPY-H1.parquet",
+          "sha256": "973b3fd1d67ae5d28f6277224787c61e14d7065e75da0f0a281a64447da0e77f",
+          "first_server": "2010-10-14 01:00:00",
+          "last_server": "2026-11-19 12:00:00",
+          "excluded_bar_zero_server": "2026-11-19 13:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 868,
+          "source_manifest": "receipts/history/native-deep-3.AUDJPY-receipt.json",
+          "parquet": "bars/AUDJPY-H1.parquet"
+        },
+        "H4": {
+          "status": "OBSERVED",
+          "bars": 41124,
+          "requested": 43893,
+          "cap": 99999,
+          "file": "AUDJPY-H4.parquet",
+          "sha256": "5f55f9291602f8e5b23af47f06e8da69fd6e6ab7d893abf507c31d9f7bd49754",
+          "first_server": "2000-03-29 12:00:00",
+          "last_server": "2026-11-19 08:00:00",
+          "excluded_bar_zero_server": "2026-11-19 12:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 1400,
+          "source_manifest": "receipts/history/native-deep-3.AUDJPY-receipt.json",
+          "parquet": "bars/AUDJPY-H4.parquet"
+        },
+        "D1": {
+          "status": "OBSERVED",
+          "bars": 6865,
+          "requested": 99999,
+          "cap": 99999,
+          "file": "AUDJPY-D1.parquet",
+          "sha256": "819c7b0e1a2bb0d593e6b8700211dd9d5292dac7ffc2f891ee45a5f4e2411481",
+          "first_server": "2000-03-29 00:00:00",
+          "last_server": "2026-11-18 00:00:00",
+          "excluded_bar_zero_server": "2026-11-19 00:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 1395,
+          "source_manifest": "receipts/history/native-deep-3.AUDJPY-receipt.json",
+          "parquet": "bars/AUDJPY-D1.parquet"
+        }
+      },
+      "atr14": {
+        "H1": {
+          "median_full": 0.1701128880179204,
+          "median_recent90d": 0.1633880068210282,
+          "n_full": 99985,
+          "n_recent90d": 1549
+        },
+        "H4": {
+          "median_full": 0.370913734165157,
+          "median_recent90d": 0.35388419366527096,
+          "n_full": 41111,
+          "n_recent90d": 387
+        },
+        "D1": {
+          "median_full": 0.9242437817933804,
+          "median_recent90d": 0.8694099653895893,
+          "n_full": 6852,
+          "n_recent90d": 64
+        }
+      },
+      "atr_display_units": {
+        "H1": 16.338800682102818,
+        "H4": 35.388419366527096,
+        "D1": 86.94099653895893
+      },
+      "friction_atr_pct": {
+        "H1": 11.014333518195466,
+        "H4": 5.085307657742409,
+        "D1": 2.0699210632967393
+      },
+      "swap_1x_pct_atr_d1": [
+        -0.4336274197536526,
+        1.7540631700910352
+      ],
+      "swap_3x_pct_atr_d1": [
+        -1.3008822592609577,
+        5.262189510273106
+      ],
+      "swap_usd_per_lot_1x": [
+        2.3573992321256614,
+        -9.535898750640937
+      ],
+      "sizing": {
+        "H4": {
+          "10000": {
+            "budget_usd": 50.0,
+            "lots": 0.21,
+            "risk_at_floor_usd": 2.3253854608200935,
+            "margin_at_floor_usd": 6.7141,
+            "risk_used_usd": 48.83309467722196,
+            "margin_usd": 140.9961,
+            "margin_pct": 1.409961,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 140.96,
+            "native_margin_buy_sell_usd": {
+              "buy": 140.96,
+              "sell": 140.96
+            }
+          },
+          "50000": {
+            "budget_usd": 250.0,
+            "lots": 1.07,
+            "risk_at_floor_usd": 2.3253854608200935,
+            "margin_at_floor_usd": 6.7141,
+            "risk_used_usd": 248.81624430775,
+            "margin_usd": 718.4087,
+            "margin_pct": 1.4368174,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 718.24,
+            "native_margin_buy_sell_usd": {
+              "buy": 718.24,
+              "sell": 718.22
+            }
+          }
+        },
+        "D1": {
+          "10000": {
+            "budget_usd": 50.0,
+            "lots": 0.09,
+            "risk_at_floor_usd": 5.548993042793295,
+            "margin_at_floor_usd": 6.7141,
+            "risk_used_usd": 49.940937385139655,
+            "margin_usd": 60.4269,
+            "margin_pct": 0.604269,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 60.41,
+            "native_margin_buy_sell_usd": {
+              "buy": 60.41,
+              "sell": 60.41
+            }
+          },
+          "50000": {
+            "budget_usd": 250.0,
+            "lots": 0.45,
+            "risk_at_floor_usd": 5.548993042793295,
+            "margin_at_floor_usd": 6.7141,
+            "risk_used_usd": 249.70468692569827,
+            "margin_usd": 302.1345,
+            "margin_pct": 0.604269,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 302.06,
+            "native_margin_buy_sell_usd": {
+              "buy": 302.06,
+              "sell": 302.05
+            }
+          }
+        }
+      },
+      "tier": 2,
+      "reason": "moderate friction, heavy one-side swap, constrained lot/margin or short D1 history"
+    },
+    "XAUUSD": {
+      "actual_symbol": "XAUUSD",
+      "price_unit": "USD/oz",
+      "spec": {
+        "trade_contract_size": 100.0,
+        "volume_min": 0.01,
+        "volume_step": 0.01,
+        "volume_max": 100.0,
+        "point": 0.01,
+        "trade_tick_size": 0.01,
+        "trade_tick_value": 1.0,
+        "trade_stops_level": 0,
+        "trade_freeze_level": 0,
+        "swap_long": -56.56,
+        "swap_short": -4.2,
+        "swap_mode": 1,
+        "swap_rollover3days": 3,
+        "trade_mode": 4,
+        "currency_profit": "USD",
+        "currency_margin": "USD",
+        "margin_estimates_usd": {
+          "0.01": [
+            74.71,
+            74.7
+          ],
+          "1.0": [
+            7471.08,
+            7470.3
+          ]
+        },
+        "bid": 3735.15,
+        "ask": 3735.54,
+        "quote_utc_msc": 1795086077558
+      },
+      "spread": {
+        "n": 204,
+        "median": 0.35,
+        "p95": 0.39,
+        "max": 0.4,
+        "timestamp_span_seconds": 110.997
+      },
+      "spread_origin": "prior native 120s London sample",
+      "commission_usd_per_lot_roundtrip": 5.229483,
+      "commission_origin": "official_percent_at_current_mid, Demo micro checked",
+      "fee_usd_per_lot_roundtrip": -0.0,
+      "entry_exit_cost_usd_per_lot": 40.229483,
+      "entry_exit_cost_display_units": 0.40229483,
+      "scenario_slippage_included": false,
+      "history": {
+        "H1": {
+          "status": "OBSERVED",
+          "bars": 99998,
+          "requested": 99998,
+          "cap": 99999,
+          "file": "XAUUSD-H1.parquet",
+          "sha256": "e30f00f703ffd170532d4b3e41d557c0b618a47378246b7adb9eb60bbc9b7763",
+          "first_server": "2010-03-19 14:00:00",
+          "last_server": "2026-11-19 12:00:00",
+          "excluded_bar_zero_server": "2026-11-19 13:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 2731,
+          "source_manifest": "receipts/history/native-deep-10.manifest.json",
+          "parquet": "bars/XAUUSD-H1.parquet"
+        },
+        "H4": {
+          "status": "OBSERVED",
+          "bars": 34406,
+          "requested": 99999,
+          "cap": 99999,
+          "file": "XAUUSD-H4.parquet",
+          "sha256": "51a2a2c7da6ce314d025f6337662f2bebd9c574e3b435764178e4ed7357b5132",
+          "first_server": "2004-06-11 04:00:00",
+          "last_server": "2026-11-19 08:00:00",
+          "excluded_bar_zero_server": "2026-11-19 12:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 1271,
+          "source_manifest": "receipts/history/native-deep-10.manifest.json",
+          "parquet": "bars/XAUUSD-H4.parquet"
+        },
+        "D1": {
+          "status": "OBSERVED",
+          "bars": 5774,
+          "requested": 99999,
+          "cap": 99999,
+          "file": "XAUUSD-D1.parquet",
+          "sha256": "fbf9891b9fa89d8ab7fc406175b2bbd3e93d7e41d7f67d557780675c0e3044b5",
+          "first_server": "2004-06-11 00:00:00",
+          "last_server": "2026-11-18 00:00:00",
+          "excluded_bar_zero_server": "2026-11-19 00:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 1198,
+          "source_manifest": "receipts/history/native-deep-10.manifest.json",
+          "parquet": "bars/XAUUSD-D1.parquet"
+        }
+      },
+      "atr14": {
+        "H1": {
+          "median_full": 4.317509187646702,
+          "median_recent90d": 16.422253277668375,
+          "n_full": 99985,
+          "n_recent90d": 1482
+        },
+        "H4": {
+          "median_full": 8.024355057527712,
+          "median_recent90d": 34.92870274317316,
+          "n_full": 34393,
+          "n_recent90d": 387
+        },
+        "D1": {
+          "median_full": 19.56690653944661,
+          "median_recent90d": 90.83494696833932,
+          "n_full": 5761,
+          "n_recent90d": 64
+        }
+      },
+      "atr_display_units": {
+        "H1": 16.422253277668375,
+        "H4": 34.92870274317316,
+        "D1": 90.83494696833932
+      },
+      "friction_atr_pct": {
+        "H1": 2.449693249750668,
+        "H4": 1.1517600094055276,
+        "D1": 0.44288552305779466
+      },
+      "swap_1x_pct_atr_d1": [
+        0.6226678375197828,
+        0.04623771070691457
+      ],
+      "swap_3x_pct_atr_d1": [
+        1.8680035125593486,
+        0.1387131321207437
+      ],
+      "swap_usd_per_lot_1x": [
+        -56.56,
+        -4.2
+      ],
+      "sizing": {
+        "H4": {
+          "10000": {
+            "budget_usd": 50.0,
+            "lots": 0.01,
+            "risk_at_floor_usd": 35.330997573173164,
+            "margin_at_floor_usd": 74.7108,
+            "risk_used_usd": 35.330997573173164,
+            "margin_usd": 74.7108,
+            "margin_pct": 0.747108,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 74.63,
+            "native_margin_buy_sell_usd": {
+              "buy": 74.63,
+              "sell": 74.62
+            }
+          },
+          "50000": {
+            "budget_usd": 250.0,
+            "lots": 0.07,
+            "risk_at_floor_usd": 35.330997573173164,
+            "margin_at_floor_usd": 74.7108,
+            "risk_used_usd": 247.31698301221215,
+            "margin_usd": 522.9756,
+            "margin_pct": 1.0459512,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 522.38,
+            "native_margin_buy_sell_usd": {
+              "buy": 522.38,
+              "sell": 522.33
+            }
+          }
+        },
+        "D1": {
+          "10000": {
+            "budget_usd": 50.0,
+            "lots": 0.0,
+            "risk_at_floor_usd": 91.23724179833931,
+            "margin_at_floor_usd": 74.7108,
+            "risk_used_usd": 0.0,
+            "margin_usd": 0.0,
+            "margin_pct": 0.0,
+            "min_lot_exceeds_risk": true,
+            "native_margin_at_sized_lot_usd": 0
+          },
+          "50000": {
+            "budget_usd": 250.0,
+            "lots": 0.02,
+            "risk_at_floor_usd": 91.23724179833931,
+            "margin_at_floor_usd": 74.7108,
+            "risk_used_usd": 182.47448359667862,
+            "margin_usd": 149.4216,
+            "margin_pct": 0.2988432,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 149.25,
+            "native_margin_buy_sell_usd": {
+              "buy": 149.25,
+              "sell": 149.24
+            }
+          }
+        }
+      },
+      "tier": 2,
+      "reason": "moderate friction, heavy one-side swap, constrained lot/margin or short D1 history"
+    },
+    "US500.cash": {
+      "actual_symbol": "US500.cash",
+      "price_unit": "index points",
+      "spec": {
+        "trade_contract_size": 1.0,
+        "volume_min": 0.01,
+        "volume_step": 0.01,
+        "volume_max": 1000.0,
+        "point": 0.01,
+        "trade_tick_size": 0.01,
+        "trade_tick_value": 0.01,
+        "trade_stops_level": 0,
+        "trade_freeze_level": 0,
+        "swap_long": -87.25,
+        "swap_short": -88.78,
+        "swap_mode": 1,
+        "swap_rollover3days": 5,
+        "trade_mode": 4,
+        "currency_profit": "USD",
+        "currency_margin": "USD",
+        "margin_estimates_usd": {
+          "0.01": [
+            1.48,
+            1.48
+          ],
+          "1.0": [
+            148.22,
+            148.2
+          ]
+        },
+        "bid": 7410.15,
+        "ask": 7410.75,
+        "quote_utc_msc": 1795086130214
+      },
+      "spread": {
+        "n": 108,
+        "median": 0.6,
+        "p95": 0.6,
+        "max": 0.6,
+        "timestamp_span_seconds": 110.313
+      },
+      "spread_origin": "prior native 120s London sample",
+      "commission_usd_per_lot_roundtrip": 0.0,
+      "commission_origin": "same_account_direct_observation_and_published_rate",
+      "fee_usd_per_lot_roundtrip": -0.0,
+      "entry_exit_cost_usd_per_lot": 0.6,
+      "entry_exit_cost_display_units": 0.6,
+      "scenario_slippage_included": false,
+      "history": {
+        "H1": {
+          "status": "OBSERVED",
+          "bars": 35235,
+          "requested": 99999,
+          "cap": 99999,
+          "file": "US500.cash-H1.parquet",
+          "sha256": "4dcb9b3bea74eacae48f19bc9884d3c888e68642833b3515ab3a89673dffabda",
+          "first_server": "2017-12-29 00:00:00",
+          "last_server": "2026-11-19 12:00:00",
+          "excluded_bar_zero_server": "2026-11-19 13:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 2303,
+          "source_manifest": "receipts/history/native-deep-11.manifest.json",
+          "parquet": "bars/US500.cash-H1.parquet"
+        },
+        "H4": {
+          "status": "OBSERVED",
+          "bars": 9794,
+          "requested": 99999,
+          "cap": 99999,
+          "file": "US500.cash-H4.parquet",
+          "sha256": "a04a64337b7bb1e6765b667df4a78aeae19f3de24de82cb01960060d151863bd",
+          "first_server": "2017-12-29 00:00:00",
+          "last_server": "2026-11-19 08:00:00",
+          "excluded_bar_zero_server": "2026-11-19 12:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 1135,
+          "source_manifest": "receipts/history/native-deep-11.manifest.json",
+          "parquet": "bars/US500.cash-H4.parquet"
+        },
+        "D1": {
+          "status": "OBSERVED",
+          "bars": 2298,
+          "requested": 99999,
+          "cap": 99999,
+          "file": "US500.cash-D1.parquet",
+          "sha256": "5edab58d484c30f8394c0b459ae32ff6ac3e1a6cfefd29c67aa27ca676201374",
+          "first_server": "2017-12-29 00:00:00",
+          "last_server": "2026-11-18 00:00:00",
+          "excluded_bar_zero_server": "2026-11-19 00:00:00",
+          "timestamp_basis": "FTMO platform wall clock encoded as epoch; no old-offset assumption",
+          "gaps_longer_than_bar": 471,
+          "source_manifest": "receipts/history/native-deep-11.manifest.json",
+          "parquet": "bars/US500.cash-D1.parquet"
+        }
+      },
+      "atr14": {
+        "H1": {
+          "median_full": 11.597442801150049,
+          "median_recent90d": 14.836262133390349,
+          "n_full": 35222,
+          "n_recent90d": 1480
+        },
+        "H4": {
+          "median_full": 24.943403650680562,
+          "median_recent90d": 28.900238134840702,
+          "n_full": 9781,
+          "n_recent90d": 386
+        },
+        "D1": {
+          "median_full": 59.58973290584762,
+          "median_recent90d": 74.58682702228617,
+          "n_full": 2285,
+          "n_recent90d": 64
+        }
+      },
+      "atr_display_units": {
+        "H1": 14.836262133390349,
+        "H4": 28.900238134840702,
+        "D1": 74.58682702228617
+      },
+      "friction_atr_pct": {
+        "H1": 4.044145315076671,
+        "H4": 2.0761074604318557,
+        "D1": 0.8044315919495046
+      },
+      "swap_1x_pct_atr_d1": [
+        1.1697776066265715,
+        1.1902906122212837
+      ],
+      "swap_3x_pct_atr_d1": [
+        3.5093328198797145,
+        3.5708718366638514
+      ],
+      "swap_usd_per_lot_1x": [
+        -0.8725,
+        -0.8878
+      ],
+      "sizing": {
+        "H4": {
+          "10000": {
+            "budget_usd": 50.0,
+            "lots": 1.69,
+            "risk_at_floor_usd": 0.295002381348407,
+            "margin_at_floor_usd": 1.4822,
+            "risk_used_usd": 49.855402447880785,
+            "margin_usd": 250.4918,
+            "margin_pct": 2.504918,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 250.58,
+            "native_margin_buy_sell_usd": {
+              "buy": 250.58,
+              "sell": 250.56
+            }
+          },
+          "50000": {
+            "budget_usd": 250.0,
+            "lots": 8.47,
+            "risk_at_floor_usd": 0.295002381348407,
+            "margin_at_floor_usd": 1.4822,
+            "risk_used_usd": 249.86701700210077,
+            "margin_usd": 1255.4234,
+            "margin_pct": 2.5108468,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 1255.89,
+            "native_margin_buy_sell_usd": {
+              "buy": 1255.89,
+              "sell": 1255.79
+            }
+          }
+        },
+        "D1": {
+          "10000": {
+            "budget_usd": 50.0,
+            "lots": 0.66,
+            "risk_at_floor_usd": 0.7518682702228617,
+            "margin_at_floor_usd": 1.4822,
+            "risk_used_usd": 49.62330583470887,
+            "margin_usd": 97.8252,
+            "margin_pct": 0.978252,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 97.86,
+            "native_margin_buy_sell_usd": {
+              "buy": 97.86,
+              "sell": 97.85
+            }
+          },
+          "50000": {
+            "budget_usd": 250.0,
+            "lots": 3.32,
+            "risk_at_floor_usd": 0.7518682702228617,
+            "margin_at_floor_usd": 1.4822,
+            "risk_used_usd": 249.62026571399008,
+            "margin_usd": 492.0904,
+            "margin_pct": 0.9841808,
+            "min_lot_exceeds_risk": false,
+            "native_margin_at_sized_lot_usd": 492.27,
+            "native_margin_buy_sell_usd": {
+              "buy": 492.27,
+              "sell": 492.23
+            }
+          }
+        }
+      },
+      "tier": 1,
+      "reason": "lower friction, both ATR-based sizes feasible, and worst 3× swap at most 6% of D1 ATR"
+    }
+  },
+  "private_manifest": {
+    "path": "ftmo-demo-full13-20261119/manifest.json",
+    "sha256": "958efae21180c0dfc2654de3ecc447effb88e0ddc12eb63e30aca894c6980f1c"
+  },
+  "session_capture_smoke": true,
+  "no_holdout_repository_opened": true,
+  "strategy_signals_evaluated": 0
+}

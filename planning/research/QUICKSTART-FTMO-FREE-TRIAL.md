@@ -71,6 +71,33 @@ chạy để phát hiện đoạn báo giá ngắn, kể cả khi runner trả t
 mẫu báo giá đã thấy. Đường đọc lịch sử theo thời điểm vẫn dùng riêng cho replay
 và shadow. [Kết quả đối soát](FTMO-DEMO-10K-STANDARD-RESEARCH-20261119.md).
 
+### Lấy mẫu spread theo phiên
+
+Từ workspace root, gọi một lần trong cửa sổ đang mở. Chọn đường dẫn output
+riêng cho mỗi lượt. Với file credential local, runner mở terminal cô lập
+và chọn đăng ký báo giá 13 mã trong terminal đó.
+
+```powershell
+uv run --project tooling/strategy-engines/observer --no-sync python -m tooling.ai_engines.ftmo_trial_runner --credentials-file config/ftmo_free_trial.env --session-tag london --duration 180 --output .runtime/spreads/london-01
+```
+
+Các mốc lấy mẫu theo giờ địa phương, tự chuyển DST. `asia` dùng 09:00–15:00
+Tokyo. `london` dùng 08:00–12:00 London. `ny` dùng 09:30–15:00 New York.
+`rollover` dùng 16:55–18:15 New York từ thứ Hai tới thứ Năm để có thể đo
+hai phía của giờ nghỉ. Các nhãn là cửa sổ lấy mẫu, còn giờ mở từng mã theo
+spec và lịch ngoại lệ của broker. Runner yêu cầu cả lượt thu nằm trong cửa
+sổ, dùng MT5 native và ghi rõ mã thiếu quote.
+
+Gộp các lượt đã có bằng cách đọc lại Parquet theo tag, không lấy trung bình
+các percentile. Tệp tổng hợp đếm số mẫu và tính p50/p90/p95/p99/max theo mã.
+
+```powershell
+uv run --project tooling/strategy-engines/observer --no-sync python -m tooling.ai_engines.ftmo_trial_runner --combine-spread .runtime/spreads/london-01 .runtime/spreads/ny-01 --output .runtime/spreads/combined-01.json
+```
+
+Chỉ gộp cùng account binding với các cửa sổ không trùng nhau. Giữ kết quả
+private cùng Parquet Zstd và SHA256 của từng lượt.
+
 `WATCH_REPORT.json` giữ kết quả timeout/interrupt/failure; exit `2` là chưa thu
 thành công, `130` là đã ngắt. Poll/IPC có thể kết thúc muộn hơn deadline một
 probe đang chạy. Không cài daemon/service, không tự đăng nhập và không gửi lệnh.
