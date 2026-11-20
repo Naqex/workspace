@@ -74,6 +74,61 @@ class NormalizerTests(unittest.TestCase):
         self.assertFalse(trade.has_execution_clock)
         self.assertEqual([trade.sl, trade.tp, trade.swap, trade.net_profit], [None] * 4)
 
+    def test_real_mql5_history_keeps_grouped_prices_and_excludes_pending_rows(self):
+        raw = (
+            'Time;Type;Volume;Symbol;Price;S/L;T/P;Time;Price;Commission;Swap;Profit;Comment\n'
+            '2024.05.01 15:23:00;Buy;0.10;XAUUSD.pro;2 300.20;;2 305.00;'
+            '2024.05.02 09:00:00;2 304.10;;-0.50;1 234.00;"note;value"\n'
+            '2024.05.01 15:20:00;Buy Stop;0.10;US500c;5 000.00;;;'
+            '2024.05.01 15:22:00;5 000.00;;;;cancelled\n'
+            '2024.05.01 00:00:00;Balance;;;;;;;;;;500;Deposit\n'
+        ).encode('utf-8-sig')
+        rows, meta = normalize(raw, '.csv')
+        t = rows[0]
+        self.assertEqual((meta['layout'], len(rows)), ('MQL5_SIGNALS_HISTORY', 1))
+        self.assertEqual(meta['rejected'], {'NON_TRADE_PENDING_ORDER': 1, 'NON_TRADE_OR_CASH_FLOW': 1})
+        self.assertEqual((t.symbol, t.open_price, t.close_price, t.tp, t.profit),
+                         ('XAUUSD', 2300.2, 2304.1, 2305., 1234.))
+        self.assertEqual((t.lots, t.swap), (.1, -.5))
+        self.assertEqual((t.open_wall_ms, t.close_wall_ms), (ms('2024-05-01T15:23'), ms('2024-05-02T09:00')))
+        self.assertIsNone(t.open_time)
+        self.assertIsNone(t.net_profit)
+        self.assertIsNone(t.initial_sl)
+
+    def test_real_mql5_positions_reconcile_two_volumes_and_map_only_known_aliases(self):
+        raw = (
+            'Time;Type;Volume;Symbol;Price;Volume;Time;Price;Commission;Swap;Profit\n'
+            '2024.05.01 15:00:00;Sell;0.30;EURUSD.m;1.1100;0.30;2024.05.01 16:00:00;1.1000;-1;0;300\n'
+            '2024.05.01 15:00:00;Buy;0.30;AUDCAD.m;0.9000;0.15;2024.05.01 16:00:00;0.9003;-1;0;4.50\n'
+            '2024.05.01 15:00:00;Buy;0.10;US500c;5 000;0.10;2024.05.01 16:00:00;5 007;0;0;7\n'
+            '2024.05.01 15:00:00;Buy;0.10;AUDCAD;0.9000;0.10;2024.05.01 16:00:00;0.9003;-1;0;3\n'
+        ).encode('utf-16')
+        r = audit(raw, '.csv')
+        self.assertEqual(r['normalization']['layout'], 'MQL5_SIGNALS_POSITIONS')
+        self.assertEqual(r['normalization']['rejected'], {'MQL5_UNRECONCILED_POSITION_VOLUME': 1})
+        self.assertEqual(r['out_of_ftmo_13_universe'], {'AUDCAD': 1})
+        self.assertEqual(r['observed']['assets'], {'EURUSD': 1, 'US500.cash': 1, 'AUDCAD': 1})
+        rows, _ = normalize(raw, '.csv', timezone_name='UTC')
+        self.assertEqual((rows[0].lots, rows[0].net_profit), (.3, 299.))
+        self.assertTrue(all(t.sl is None and t.tp is None and t.initial_sl is None for t in rows))
+
+    def test_mql5_wall_clock_grid_proxy_never_requests_market_data(self):
+        class NoMarket(Market):
+            def bid(self, *args):
+                raise AssertionError('Unverified logger clock must not reach price data')
+
+        raw = (
+            b'Time;Type;Volume;Symbol;Price;S/L;T/P;Time;Price;Commission;Swap;Profit;Comment\n'
+            b'2024.05.01 15:00:00;Buy;0.10;EURUSD+;1.1000;;;2024.05.01 18:00:00;1.1001;-1;0;1;\n'
+            b'2024.05.01 16:00:00;Buy;0.10;EURUSD+;1.0900;;;2024.05.01 17:00:00;1.0901;-1;0;1;\n'
+        )
+        r = audit(raw, '.csv', market=NoMarket())
+        g = r['behavioral_toxicity']['HIDDEN_GRID_AVERAGING_DOWN']
+        self.assertEqual(g['clock_basis'], 'SOURCE_WALL_CLOCK_ORDER_ONLY')
+        self.assertEqual((g['max_same_side_at_entry'], g['max_adverse_priors_at_entry']), (2,1))
+        self.assertEqual([x['evidence_basis'] for x in g['evidence']], ['LOG_FILL_PRICE_PROXY'])
+        self.assertEqual(r['path_scope_counts'], {'bar_path_unknown_trade_clock': 2})
+
     def test_named_generic_volume_is_not_assumed_to_be_lots(self):
         raw=b'Opening timestamp;Closing timestamp;Instrument;Side;Volume;Net Profit\n2024-06-01T12:00Z;2024-06-01T12:01Z;GBP/USD;Long;1000;3,00\n'
         a=normalize(raw,'.csv',decimal_mark=',')[0][0]

@@ -3,7 +3,7 @@
 import argparse
 from bisect import bisect_left
 from collections import Counter, defaultdict
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from decimal import Decimal
 from hashlib import sha256
 import json
@@ -66,7 +66,10 @@ def metrics(rows):
 
 
 def behavior(trades, sources, market, specs):
-    dated=sorted((t for t in trades if t.time_basis=='reported_fill' and t.open_time is not None),
+    wall_clock = bool(trades) and all(t.open_wall_ms is not None and t.close_wall_ms is not None for t in trades)
+    clock_trades = (replace(t, open_time=t.open_wall_ms, close_time=t.close_wall_ms)
+                    for t in trades) if wall_clock else trades
+    dated=sorted((t for t in clock_trades if t.time_basis=='reported_fill' and t.open_time is not None),
                  key=lambda t:(t.open_time,t.row))
     sleeves=defaultdict(list)
     for t in dated:
@@ -77,6 +80,8 @@ def behavior(trades, sources, market, specs):
     grid_unknown=0
     grid_log_only=0
     overlap_checks=0
+    max_same_side_at_entry=0
+    max_adverse_priors_at_entry=0
     for symbol,rows in sleeves.items():
         closed=sorted((t for t in rows if t.has_execution_clock and t.open_time<t.close_time),
                       key=lambda t:(t.close_time,t.row))
@@ -94,16 +99,21 @@ def behavior(trades, sources, market, specs):
                     if x<0 and y<0 and t.lots>=1.5*b.lots:
                         escalations.append(dict(row=t.row,previous=b.row,lot_multiple=t.lots/b.lots))
             active=[x for x in active if x.close_time is None or x.close_time>t.open_time]
-            for p in active:
-                if t.direction is None or p.direction!=t.direction or p.open_time==t.open_time:
+            same_side=[x for x in active if t.direction and x.direction==t.direction]
+            if t.direction:
+                max_same_side_at_entry=max(max_same_side_at_entry,len(same_side)+1)
+            evidence_before_entry=len(grid)
+            for p in same_side:
+                if p.open_time==t.open_time:
                     continue
                 if p.close_time is None or p.open_price is None:
                     grid_unknown+=1
                     continue
-                if any(bar_path_scope(x)=='bar_path_skipped_holdout_lock' for x in (t,p)):
-                    grid_log_only+=1
-                    if t.open_price is not None and (t.open_price-p.open_price)*(1 if t.direction=='BUY' else -1)<0:
-                        grid.append(dict(row=t.row,prior_open_row=p.row,evidence_basis='LOG_FILL_PRICE_PROXY'))
+                if wall_clock or any(bar_path_scope(x)=='bar_path_skipped_holdout_lock' for x in (t,p)):
+                    if t.open_price is not None:
+                        grid_log_only+=1
+                        if (t.open_price-p.open_price)*(1 if t.direction=='BUY' else -1)<0:
+                            grid.append(dict(row=t.row,prior_open_row=p.row,evidence_basis='LOG_FILL_PRICE_PROXY'))
                     else:
                         grid_unknown+=1
                     continue
@@ -118,6 +128,7 @@ def behavior(trades, sources, market, specs):
                 exit_mark=mark if p.direction=='BUY' else mark+specs[symbol]['spread_price_proxy']
                 if (exit_mark-p.open_price)*(1 if p.direction=='BUY' else -1)<0:
                     grid.append(dict(row=t.row,prior_open_row=p.row,estimated_liquidation_price=exit_mark,evidence_basis='M1_BID_ASK_PROXY'))
+            max_adverse_priors_at_entry=max(max_adverse_priors_at_entry,len(grid)-evidence_before_entry)
             active.append(t)
     stops=[t.sl for t in trades if t.sl is not None]
     explicit_zero=sum(x==0 for x in stops)
@@ -135,7 +146,10 @@ def behavior(trades, sources, market, specs):
             rule='Two strictly settled losses in same symbol and current lot >=1.5x last loss lot'),
         'HIDDEN_GRID_AVERAGING_DOWN':dict(status=('FLAG_AT_FILL_PROXY' if any(r['evidence_basis']=='LOG_FILL_PRICE_PROXY' for r in grid) else 'FLAG_AT_BID_PROXY') if grid else
             'NO_FLAG_IN_OBSERVED_CONTEXT' if overlap_checks and not grid_unknown else 'UNKNOWN',
-            evidence=grid,assessed=overlap_checks,overlaps_without_mark_or_clock=grid_unknown, log_only_overlap_checks=grid_log_only),
+            evidence=grid,assessed=overlap_checks,overlaps_without_mark_or_clock=grid_unknown,
+            log_only_overlap_checks=grid_log_only, max_same_side_at_entry=max_same_side_at_entry or None,
+            max_adverse_priors_at_entry=max_adverse_priors_at_entry if dated else None,
+            clock_basis='SOURCE_WALL_CLOCK_ORDER_ONLY' if wall_clock else 'UTC_WHEN_KNOWN'),
         'NO_HARD_SL_OR_WIDE_STOP_GAMBLING':dict(status='FLAG' if no_sl else
             'NO_FLAG_IN_OBSERVED_CONTEXT' if stops and len(stops)==len(trades) and ratio is not None else 'UNKNOWN',
             observed_sl=len(stops),missing_sl=len(trades)-len(stops),explicit_no_sl=explicit_zero,
@@ -316,9 +330,11 @@ def audit(raw,suffix,*,market=None,calendar=None,pair_payload=None,include_rows=
     by_asset=defaultdict(list)
     for t,v in sources['reported_R'].get('R',[]):
         by_asset[t.symbol].append((t,v))
+    assets=Counter(t.symbol for t in trades)
     report=dict(schema='BotLabLiveTrackAudit-v1',input_sha256=input_sha,normalization=meta,order_send_count=0,
+            out_of_ftmo_13_universe={k:v for k,v in assets.items() if k not in specs['Swing']},
             path_scope_counts=dict(Counter(bar_path_scope(t) for t in trades)),
-            observed=dict(assets=dict(Counter(t.symbol for t in trades)),direction=dict(Counter(t.direction or 'UNKNOWN' for t in trades)),
+            observed=dict(assets=dict(assets),direction=dict(Counter(t.direction or 'UNKNOWN' for t in trades)),
                 journal_labels=dict(Counter(t.outcome or 'UNKNOWN' for t in trades)),metrics=derived,
                 reported_R_by_asset={k:metrics(v) for k,v in by_asset.items()},
                 observed_date_min=min((t.open_date for t in trades if t.open_date),default=None),

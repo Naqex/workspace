@@ -4663,6 +4663,14 @@
     "version": 1,
     "broker_observations": [
       {
+        "id": "bot-lab-mql5-pass3-20261120",
+        "scope": "First real MT4/MT5 MQL5 log batch, toxicity, cost sensitivity, no admitted FTMO portfolio",
+        "report": "BOT-LAB-FIRST-REAL-MQL5-AUDIT-20261120.md",
+        "summary": "BOT-LAB-FIRST-REAL-MQL5-AUDIT-20261120.json",
+        "private_manifest": "bot-lab-mql5-pass3-20261120/manifest.json",
+        "private_manifest_sha256": "d57e90a9ba09ca8d7ffd24679deee24789d1d2d1682b0ddc3427c53627147e92"
+      },
+      {
         "id": "mql5-sourcing-pass2-20261120",
         "scope": "Public MQL5 MT4/MT5 signal stats and guest history access; eight Real leads; no trade log or FTMO qualification",
         "report": "BOT-LAB-MQL5-SOURCING-PASS2-20261120.md",

@@ -49,6 +49,22 @@ MQL5_SIGNALS_HEADERS = (
     'time', 'type', 'volume', 'symbol', 'price', 'sl', 'tp',
     'time', 'price', 'commission', 'swap', 'profit',
 )
+MQL5_SIGNALS_POSITIONS_HEADERS = (
+    'time', 'type', 'volume', 'symbol', 'price', 'volume',
+    'time', 'price', 'commission', 'swap', 'profit',
+)
+MQL5_LAYOUTS = {
+    MQL5_SIGNALS_HEADERS: 'MQL5_SIGNALS_HISTORY',
+    (*MQL5_SIGNALS_HEADERS, 'comment'): 'MQL5_SIGNALS_HISTORY',
+    MQL5_SIGNALS_POSITIONS_HEADERS: 'MQL5_SIGNALS_POSITIONS',
+}
+MQL5_PENDING_TYPES = {
+    'buy limit', 'sell limit', 'buy stop', 'sell stop', 'buy stop limit', 'sell stop limit',
+}
+FTMO_SYMBOL_STEMS = frozenset({
+    'EURUSD', 'GBPUSD', 'AUDUSD', 'USDJPY', 'USDCHF', 'USDCAD', 'NZDUSD',
+    'EURGBP', 'EURJPY', 'GBPJPY', 'AUDJPY', 'XAUUSD',
+})
 
 
 @dataclass(frozen=True)
@@ -79,17 +95,21 @@ class Trade:
     reported_r: float | None = None
     outcome: str | None = None
     exit_reason: str | None = None
+    open_wall_ms: int | None = None
+    close_wall_ms: int | None = None
 
     @property
     def has_execution_clock(self):
         return self.time_basis == 'reported_fill' and self.open_time is not None and self.close_time is not None
 
 
-def numeric(value, decimal_mark):
+def numeric(value, decimal_mark, *, grouped=False):
     value = str(value or '').strip().replace('\N{MINUS SIGN}','-') if value != 0 else '0'
     if value.lower() in UNKNOWN:
         return None
     sep = re.escape(decimal_mark)
+    if grouped and re.fullmatch(rf'[+-]?\d{{1,3}}(?:[ \u00a0\u202f]\d{{3}})+(?:{sep}\d+)?', value):
+        value = re.sub(r'[ \u00a0\u202f]', '', value)
     if not re.fullmatch(rf'[+-]?(?:\d+(?:{sep}\d+)?|{sep}\d+)', value):
         return None
     number = float(value.replace(decimal_mark,'.'))
@@ -201,9 +221,12 @@ def normalize(raw, suffix, *, timezone_name=None, date_order=None, decimal_mark=
     if len(raw_rows)>RECORD_LIMIT:
         raise ValueError('TRADE_LOG_ROW_LIMIT_50000')
     names=header_keys(headers)
-    mql5_signals = tuple(map(key, headers)) == MQL5_SIGNALS_HEADERS
-    if mql5_signals:
-        layout = 'MQL5_SIGNALS_HISTORY'
+    signals_layout = MQL5_LAYOUTS.get(tuple(map(key, headers)))
+    if signals_layout:
+        layout = signals_layout
+    if layout == 'MQL5_SIGNALS_POSITIONS':
+        names[5] = 'close_volume'
+    mql5_signals = signals_layout is not None
     journal={'journal_time','reported_r','outcome'}<=set(names) and 'open_time' not in names
     if journal:
         date_order=date_order or 'dmy'
@@ -232,11 +255,23 @@ def normalize(raw, suffix, *, timezone_name=None, date_order=None, decimal_mark=
         if side in NON_TRADES:
             rejects['NON_TRADE_OR_CASH_FLOW']+=1
             continue
+        if mql5_signals and side in MQL5_PENDING_TYPES:
+            if not str(data.get('profit') or '').strip():
+                rejects['NON_TRADE_PENDING_ORDER']+=1
+            else:
+                rejects['MQL5_UNRECONCILED_PENDING_ORDER']+=1
+            continue
         raw_sym=str(data.get('symbol') or '').strip()
         compact=raw_sym.upper().replace('/','').replace(' ','')
         if not compact or compact in ('TOTAL','SUMMARY'):
             rejects['NO_TRADE_SYMBOL']+=1
             continue
+        if mql5_signals:
+            stem = re.sub(r'(?:[+]|\.(?:fx|m|pro))$', '', compact, flags=re.IGNORECASE)
+            if stem in FTMO_SYMBOL_STEMS:
+                compact = stem
+            elif compact == 'US500C':
+                compact = 'US500'
         symbol=SYMBOL_ALIASES.get(compact,compact)
         if not re.fullmatch(r'[\w.+#-]{1,32}',symbol):
             rejects['UNSUPPORTED_SYMBOL_TEXT']+=1
@@ -244,11 +279,22 @@ def normalize(raw, suffix, *, timezone_name=None, date_order=None, decimal_mark=
         direction={'buy':'BUY','long':'BUY','sell':'SELL','short':'SELL'}.get(side)
         at,ad,ap=timestamp(data.get('journal_time' if journal else 'open_time'),timezone_name,date_order)
         end,ed,ep=timestamp(data.get('close_time'),timezone_name,date_order)
-        if at is not None and end is not None and end<at:
+        wall_open = wall_close = None
+        if mql5_signals and ap and ep and ap.startswith('local_') and ep.startswith('local_'):
+            # Relative order within the export, never used as an observed UTC fill time.
+            wall_open = timestamp(data.get('open_time'), 'UTC', date_order)[0]
+            wall_close = timestamp(data.get('close_time'), 'UTC', date_order)[0]
+        order_open, order_close = (wall_open, wall_close) if wall_open is not None else (at,end)
+        if order_open is not None and order_close is not None and order_close<order_open:
             rejects['CLOSE_PRECEDES_OPEN']+=1
             continue
-        nums={f:numeric(data.get(f),decimal_mark) for f in ('lots','volume','open_price','sl','initial_sl','tp',
-                 'close_price','commission','swap','fee','profit','net_profit','pips','reported_r')}
+        nums={f:numeric(data.get(f),decimal_mark,grouped=mql5_signals) for f in (
+            'lots','volume','close_volume','open_price','sl','initial_sl','tp','close_price','commission','swap',
+            'fee','profit','net_profit','pips','reported_r')}
+        if layout == 'MQL5_SIGNALS_POSITIONS' and (
+                nums['volume'] is None or nums['volume'] != nums['close_volume']):
+            rejects['MQL5_UNRECONCILED_POSITION_VOLUME']+=1
+            continue
         lots=nums['lots'] if nums['lots'] is not None else nums['volume'] if volume_lots or mt or mql5_signals else None
         if lots is not None and lots<=0:
             lots=None
@@ -270,7 +316,8 @@ def normalize(raw, suffix, *, timezone_name=None, date_order=None, decimal_mark=
             nums['close_price'] if nums['close_price'] and nums['close_price']>0 else None,
             nums['commission'],nums['swap'],nums['fee'],pnl,net,cur,nums['pips'],nums['reported_r'],out,
             'CALENDAR_CUTOFF' if key(data.get('exit_reason') or '') in {
-               'calendarcutoff','fridaycutoff','holidaycutoff','sessionclose','hardflat'} else None)
+               'calendarcutoff','fridaycutoff','holidaycutoff','sessionclose','hardflat'} else None,
+            open_wall_ms=wall_open, close_wall_ms=wall_close)
         trades.append(trade)
     unknown={k:sum(getattr(t,k) is None for t in trades) for k in (
         'open_time','close_time','direction','lots','open_price','sl','initial_sl','tp','close_price',

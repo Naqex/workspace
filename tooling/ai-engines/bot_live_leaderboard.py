@@ -95,7 +95,8 @@ def decision(report, news=None):
     if overlap:
         missing.append(dict(code='GRID_PRICE_OR_POSITION_OVERLAP_UNRESOLVED',overlap_checks=overlap))
     norm=report['normalization']
-    if not n or norm['warnings'] or any(k!='NON_TRADE_OR_CASH_FLOW' for k in norm['rejected']):
+    expected_exclusions = {'NON_TRADE_OR_CASH_FLOW', 'NON_TRADE_PENDING_ORDER'}
+    if not n or norm['warnings'] or norm['rejected'].keys() - expected_exclusions:
         missing.append(dict(code='PARTIAL_OR_UNRECONCILED_LOG',warnings=norm['warnings'],rejected=norm['rejected']))
     gaps={k:norm['unknown_counts'][k] for k in BASE_FIELDS if norm['unknown_counts'][k]}
     if gaps:
@@ -242,6 +243,7 @@ def audit_batch(files, market, calendar=None, news=None, **options):
             d=decision(r,news)
             leaders.append(dict(file=file.name,sha256=digest,**d,
                 trades=r['normalization']['accepted'],source=r['normalization']['layout'],
+                normalization=r['normalization'], out_of_ftmo_13_universe=r['out_of_ftmo_13_universe'],
                 path_scope=r['path_scope_counts'], log_geometry=log_geometry(r['normalized_trades']),
                 log_only_after_lock=log_geometry([t for t in r['normalized_trades']
                     if t['bar_path_status']=='bar_path_skipped_holdout_lock']),
