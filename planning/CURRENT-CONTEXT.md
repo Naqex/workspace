@@ -1,14 +1,17 @@
 # Current context — Naqex Workspace
 
-19/11/2026 · `RESEARCH: CHƯA CÓ NHÁNH ĐỦ CƠ SỞ REPLAY PAYOUT · PORTFOLIO: BASE_GUARD · PROP: NOT_QUALIFIED`.
+20/11/2026 · `RESEARCH: CHƯA CÓ NHÁNH ĐỦ CƠ SỞ REPLAY PAYOUT · PORTFOLIO: BASE_GUARD · PROP: NOT_QUALIFIED`.
 
 ## Việc hiện tại
 
-Bot Lab Pass 8 · 6 hồ sơ MQL5 qua sàng lọc anti-grid công khai, cần
-CSV hợp lệ để kiểm cơ chế. Đối chứng USDJPY nhận thêm 230 ngày thiếu
-phút nhỏ, Stress +0,50 pip giảm từ +11,74 xuống +10,92R/năm.
-Risk 0,30% có peak DD 9,08–9,34% trong đối chứng. Giữ
-ENGINE_1_NEEDS_PARTNER. Holdout từ 2025 vẫn khóa.
+Bot Lab Pass 9 · Audit sáu CSV MQL5 Round 2, 0/6 đủ căn cứ chuyển
+sang Clean-Room Pass 10. ALocalLevels thiếu SL ban đầu và lãi tập
+trung. Giữ ENGINE_1_NEEDS_PARTNER. Holdout từ 2025 vẫn khóa.
+[Pass 9](research/PASS9-ENGINE2-ROUND2-AUDIT-AND-DNA-20261120.md).
+
+Đối chứng Pass 8 cho USDJPY nhận thêm 230 ngày thiếu phút nhỏ.
+Stress +0,50 pip giảm từ +11,74 xuống +10,92R/năm. Risk 0,30% có
+peak DD 9,08–9,34% trong đối chứng.
 [Pass 8](research/PASS8-ANTIGRID-ENGINE2-SOURCING-AND-M1-GAP-AUDIT-20261120.md) ·
 [Baseline Pass 7B](research/PASS7B-USDJPY-FULL-M1-FLOATING-EQUITY-20261120.md).
 

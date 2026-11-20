@@ -4663,6 +4663,14 @@
     "version": 1,
     "broker_observations": [
       {
+        "id": "pass9-engine2-round2-20261120",
+        "scope": "Six new real MQL5 CSV exports, log-only toxicity and FTMO 13-symbol repricing; no Engine #2 admission",
+        "report": "PASS9-ENGINE2-ROUND2-AUDIT-AND-DNA-20261120.md",
+        "summary": "PASS9-ENGINE2-ROUND2-AUDIT-AND-DNA-20261120.json",
+        "private_manifest": "pass9-engine2-round2-20261120/manifest.json",
+        "private_manifest_sha256": "3435477f9d32412af52ef0f8eb58e423528e2f3cf23030e3095796431dafb254"
+      },
+      {
         "id": "pass8-engine2-and-m1-gaps-20261120",
         "scope": "Public anti-grid MQL5 review and frozen USDJPY 2018\u20132024 M1 sparse-path sensitivity",
         "report": "PASS8-ANTIGRID-ENGINE2-SOURCING-AND-M1-GAP-AUDIT-20261120.md",
