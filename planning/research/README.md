@@ -9,6 +9,11 @@ Từ workspace root, chạy `python -X utf8 tooling/ai-engines/research_inventor
 để xem mức gắn nhãn. Thêm `--all` để lấy từng đường dẫn và lý do còn thiếu
 thông tin.
 
+**Bot Lab · Pass 8 anti-grid và khoảng trống M1.** 6 hồ sơ qua hai tầng
+MQL5 công khai trong 63 detail đã đọc. USDJPY nhận thêm 230 ngày trong
+đối chứng, Stress +0,50 pip giảm từ +11,74 xuống +10,92R/năm.
+[Báo cáo, shortlist và khoảng trống](PASS8-ANTIGRID-ENGINE2-SOURCING-AND-M1-GAP-AUDIT-20261120.md).
+
 **Bot Lab · Pass 7B USDJPY QDM và floating equity.** 203,60 triệu tick
 2018–2024, 1.334 ngày đủ đường tới hard flat. Stress +0,50 pip còn
 +11,74R/năm nhưng không đạt ngưỡng solo Challenge ở 36 sổ. Giữ

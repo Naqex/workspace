@@ -21,13 +21,35 @@
    khoảng thời gian đã lọc. Nếu CSV thiếu SL ban đầu, lấy broker statement
    và lịch sử lệnh từ người có quyền. Giữ file nguồn riêng.
 
+## MQL5 · Sàng lọc anti-grid từ Statistics công khai
+
+- **Tầng 1.** Real, ít nhất 364 ngày MQL5 theo dõi, ≥150 giao dịch và
+  giao dịch gần nhất trong 30 ngày. Algo ≥80%. Lấy DD chi tiết lớn nhất
+  từ Balance, Equity và Relative/Maximal DD có % hiển thị, trần 20%.
+  Tách số tuần của tài khoản khỏi thời gian MQL5 đã theo dõi.
+- **Tầng 2.** Avg Profit / |Avg Loss| ≥0,85, ưu tiên ≥1,0. Khi Profit
+  Trades >72%, tỷ lệ bắt buộc ≥1,0. Tối đa 20 lệnh/tuần, ưu tiên 2–12.
+  Lấy max giữa cadence MQL5 công bố và số lệnh/tuần tuổi tài khoản
+  khi so được phạm vi. Max Deposit Load ≤20% nếu có. Equity relative DD
+  ≤1,5 lần Balance relative DD. Loại cơ chế grid, martingale, nhồi lệnh
+  khi tác giả mô tả rõ việc dùng chúng.
+- **Tìm Engine #2.** Dùng Distribution và Avg Holding Time để ưu tiên
+  cơ chế khác USDJPY Tokyo-box. Cột Deals dùng để nhận diện các mã chính.
+  Thiếu chỉ số bắt buộc giữ trạng thái chưa xác minh. Sàng lọc công khai
+  chỉ dẫn tới bước xin log, chưa xác minh grid-free, SL, tương quan hoặc
+  đủ điều kiện thi quỹ.
+- **Quyền truy cập.** Ưu tiên MT5 và mở rộng MT4, gộp theo Signal ID,
+  giãn request ít nhất hai giây. Dừng khi gặp 403, 429 hoặc challenge.
+  Dùng tính năng Export to CSV chính thức nếu có quyền. Ghi rõ số
+  hồ sơ chưa review. [Kết quả Pass 8](PASS8-ANTIGRID-ENGINE2-SOURCING-AND-M1-GAP-AUDIT-20261120.md).
+
 ## Mẻ đầu trong 5 phút
 
 | Phút | Myfxbook | MQL5 Signals |
 | --- | --- | --- |
 | 1 | Mở [Systems](https://www.myfxbook.com/systems). Chọn Real và Automated nếu bộ lọc có sẵn. | Mở [MT5 dạng bảng](https://www.mql5.com/en/signals/mt5/list) hoặc [MT4 dạng bảng](https://www.mql5.com/en/signals/mt4/list). Dùng Weeks, Trades và Drawdown để lọc tay nếu danh sách không có mọi bộ lọc. |
-| 2 | Giữ ≥12 tháng, ≥150 lệnh, DD ≤20%. Kiểm 2 dấu xác minh trên hồ sơ. | Giữ ≥52 tuần, ≥150 lệnh và DD ≤20%. Trong Statistics kiểm DD balance/equity và nguồn là Real. |
-| 3 | Mở History, bỏ hồ sơ giấu lot, giá hoặc giờ. So lot và holding của thắng/thua. | Mở Trading history và Risks. Bỏ hồ sơ có biến động lot, lệnh chồng hoặc lời dồn vài ngày. |
+| 2 | Giữ ≥12 tháng, ≥150 lệnh, DD ≤20%. Kiểm 2 dấu xác minh trên hồ sơ. | Giữ Real, ≥364 ngày theo dõi, ≥150 lệnh, Algo ≥80% và DD chi tiết ≤20%. Kiểm tầng anti-grid trong Statistics. |
+| 3 | Mở History, bỏ hồ sơ giấu lot, giá hoặc giờ. So lot và holding của thắng/thua. | Dùng Statistics và Distribution để kiểm hình học lãi/lỗ, cadence, load và cặp DD. So lot/lệnh chồng khi đã có lịch sử hợp lệ. |
 | 4–5 | Dùng export chính thức của tài khoản mình được phép truy cập. Nếu tài khoản công khai thiếu nút tải, xin chủ khoản xuất thay. | Tải bằng Export to CSV → History khi UI hiện nút và quyền truy cập cho phép. Bỏ hồ sơ nếu không lấy được export đúng quyền. |
 
 Đây là link vào bảng và preset áp tay. Môi trường hiện tại không xác minh được

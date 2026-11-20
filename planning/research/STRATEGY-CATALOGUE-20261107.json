@@ -4663,6 +4663,14 @@
     "version": 1,
     "broker_observations": [
       {
+        "id": "pass8-engine2-and-m1-gaps-20261120",
+        "scope": "Public anti-grid MQL5 review and frozen USDJPY 2018\u20132024 M1 sparse-path sensitivity",
+        "report": "PASS8-ANTIGRID-ENGINE2-SOURCING-AND-M1-GAP-AUDIT-20261120.md",
+        "summary": "PASS8-ANTIGRID-ENGINE2-SOURCING-AND-M1-GAP-AUDIT-20261120.json",
+        "private_manifest": "pass8-engine2-and-m1-gaps-20261120/manifest.json",
+        "private_manifest_sha256": "eade3a1e50c3b25537934b5bcd09cfbddba08a5b096e65dc6624bfc6e9654e4e"
+      },
+      {
         "id": "pass7b-usdjpy-qdm-equity-20261120",
         "scope": "QDM-only USDJPY 2018\u20132024, unchanged Tokyo-box, 36 offline floating equity scenarios",
         "report": "PASS7B-USDJPY-FULL-M1-FLOATING-EQUITY-20261120.md",

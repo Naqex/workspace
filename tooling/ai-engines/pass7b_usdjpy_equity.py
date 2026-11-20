@@ -40,22 +40,34 @@ class Trade:
     execution: Exit
     grid: np.ndarray
     dual_entry: bool
+    offsets: np.ndarray | None = None
+
+    def second_at(self, index):
+        minute = index if self.offsets is None else int(self.offsets[index])
+        return self.day+minute*MINUTE
 
     @property
     def entry_second(self):
-        return self.day+self.entry*MINUTE
+        return self.second_at(self.entry)
 
 
-def select(day, quotes):
+def box_edges(quotes):
     # The box uses mean(Bid/Ask extrema), matching Pass 6's M1 convention.
-    top=float(((quotes[:180,1]+quotes[:180,5])/2).max())
-    bottom=float(((quotes[:180,2]+quotes[:180,6])/2).min())
-    up=quotes[180:600,5]>=top-1e-10
-    down=quotes[180:600,2]<=bottom+1e-10
+    return float(((quotes[:,1]+quotes[:,5])/2).max()),float(((quotes[:,2]+quotes[:,6])/2).min())
+
+
+def select(day, quotes, *, offsets=None):
+    if offsets is not None and (len(offsets)!=len(quotes) or offsets[0]!=0
+            or np.any(np.diff(offsets)<=0)):
+        raise ValueError('Invalid observed M1 offsets')
+    box_end, window_end = (180,600) if offsets is None else np.searchsorted(offsets,[180,600])
+    top,bottom=box_edges(quotes[:box_end])
+    up=quotes[box_end:window_end,5]>=top-1e-10
+    down=quotes[box_end:window_end,2]<=bottom+1e-10
     hits=np.flatnonzero(up|down)
     if not len(hits):
         return None,int(np.count_nonzero(up&down))
-    at=180+int(hits[0])
+    at=int(box_end)+int(hits[0])
     choices=list(entries(base.Bar(*quotes[at,:4]),base.Bar(*quotes[at,4:]),top,bottom))
     out=[]
     for side,price,edge in choices:
@@ -78,7 +90,7 @@ def select(day, quotes):
         if risk<=0:
             raise ValueError('Zero structural risk')
         out.append(Trade(day,at,side,price,half,edge,risk,close,
-                         quotes[at:close.index+1],len(choices)>1))
+                         quotes[at:close.index+1],len(choices)>1,offsets))
     return min(out,key=lambda r:closed(r,0.)['net']/r.structural_risk),int(np.count_nonzero(up&down))
 
 
@@ -136,12 +148,13 @@ def record(trade, addon):
     rate=prices+side*half[:,None]
     past=(side*(prices-trade.entry_price)-(.004+addon))*CONTRACT/rate-COMMISSION
     extrema=np.r_[start,cash['net'],past.ravel()]
+    exit_second=trade.second_at(end.index)+int(not end.at_open)*MINUTE
     post=dict(net_R=cash['net']/risk, swap_R=0., paired_net_R=None,
               mfe_R=max(0.,float(extrema.max())/risk),mae_R=max(0.,-float(extrema.min())/risk),
-              holding_hours=max(0.,(end.index-trade.entry-int(end.at_open))/60),
+              holding_hours=max(0.,(exit_second-trade.entry_second-MINUTE)/base.HOUR),
               calendar_exit=end.reason=='HARD_FLAT')
     return dict(day=base.date(trade.day).date().isoformat(),year=base.date(trade.day).year,
-        entry=trade.entry_second,exit=trade.day+(end.index+int(not end.at_open))*MINUTE,
+        entry=trade.entry_second,exit=exit_second,
         side=side,reason=end.reason,entry_bar_forced_stop=end.index==trade.entry,
         dual_entry=trade.dual_entry,entry_price=trade.entry_price,stop=trade.edge,
         initial_risk_usd=risk,stop_risk_with_cost_usd=-stop_net,
@@ -243,7 +256,7 @@ class EquityMetrics:
             self.max_age=max(self.max_age,(max_seconds,int(counts[calendar==max_seconds].max())))
 
 
-def account_replay(spec, risk, rows, marks, trading_days):
+def account_replay(spec, risk, rows, marks, trading_days, *, observed_times=None):
     initial=spec.initial
     balance=float(initial)
     budget=initial*risk
@@ -258,7 +271,8 @@ def account_replay(spec, risk, rows, marks, trading_days):
     uneven=0
     round_changed=0
     last_ts=base.START
-    for row, curve in zip(rows,marks,strict=True):
+    clocks=observed_times if observed_times is not None else [None]*len(rows)
+    for row, curve, clock in zip(rows,marks,clocks,strict=True):
         entry=row['entry']
         current_day=prague_day(entry)
         if prague_day(row['exit'])!=current_day:
@@ -279,7 +293,10 @@ def account_replay(spec, risk, rows, marks, trading_days):
         round_changed+=int(realized_risk<budget-1e-7)
         uneven+=int(realized_risk < budget*.9-1e-7)
         eq=balance+lot*curve
-        intra_time=entry+np.arange(len(curve))*MINUTE
+        intra_time=entry+np.arange(len(curve))*MINUTE if clock is None else clock
+        if (len(intra_time)!=len(curve) or intra_time[0]!=entry or intra_time[-1]>row['exit']
+                or np.any(np.diff(intra_time)<=0)):
+            raise ValueError('Equity curve timestamps do not match observed path')
         stamps=np.repeat(intra_time,4)
         # Insert the pre-entry equity snapshot to measure flat intervals between trades.
         times=np.r_[entry,stamps,row['exit']]

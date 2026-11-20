@@ -4,13 +4,13 @@
 
 ## Việc hiện tại
 
-Bot Lab Pass 7B · USDJPY đã có M1 Bid/Ask QDM 2018–2024. Trong
-1.334 ngày đủ đường giá, Stress +0,50 pip còn +11,74R/năm, dương cả
-hai cụm. Risk 0,30% đạt 3,23–3,35%/năm với DD nổi 6,50–6,92%.
-Giữ ENGINE_1_NEEDS_PARTNER. Pass 7 scout EURJPY/EURUSD/GBPUSD đã rớt.
-Cache QDM thô cách ly. Holdout từ 2025 vẫn khóa.
-[Pass 7B](research/PASS7B-USDJPY-FULL-M1-FLOATING-EQUITY-20261120.md) ·
-[Pass 7 scout](research/PASS7-USDJPY-FULL-M1-EQUITY-AND-FX-SCOUT-20261120.md).
+Bot Lab Pass 8 · 6 hồ sơ MQL5 qua sàng lọc anti-grid công khai, cần
+CSV hợp lệ để kiểm cơ chế. Đối chứng USDJPY nhận thêm 230 ngày thiếu
+phút nhỏ, Stress +0,50 pip giảm từ +11,74 xuống +10,92R/năm.
+Risk 0,30% có peak DD 9,08–9,34% trong đối chứng. Giữ
+ENGINE_1_NEEDS_PARTNER. Holdout từ 2025 vẫn khóa.
+[Pass 8](research/PASS8-ANTIGRID-ENGINE2-SOURCING-AND-M1-GAP-AUDIT-20261120.md) ·
+[Baseline Pass 7B](research/PASS7B-USDJPY-FULL-M1-FLOATING-EQUITY-20261120.md).
 
 Bot Lab có scorecard Swing/Standard chạy offline. Trên sổ Swing, markout
 thô âm và có giveback. Performance journal 199 dòng thiếu fills, lot và
