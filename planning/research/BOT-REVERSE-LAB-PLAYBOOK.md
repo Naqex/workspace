@@ -135,6 +135,30 @@ inbox được Git bỏ qua. Giữ source hash và scope cùng kết quả.
 Performance CSV có sẵn. Giữ khác biệt giữa một journal tự ghi và deal history
 broker. Phần trả lại từ đỉnh lời không đủ để kết luận đổi exit cứu được edge.
 
+### Batch leaderboard và blueprint
+
+Dùng lệnh ở [inbox](../../research/bot_reverse_lab/inbox/live_signals/README.md).
+Quét CSV/HTML/HTM, bỏ qua README và template, giữ một bản theo SHA cho file
+trùng byte. Leaderboard ghi rõ cờ loại và điểm thiếu theo từng file. Cổng
+Swing kiểm cả 10k/25k tại 0,50% và 1,00%. Standard kiểm thêm 10k/50k,
+giờ nghỉ >2 giờ và cửa tin cấm. Điểm là 80% lợi suất Swing tháng chuẩn hóa
+ở risk 0,50% trên sổ yếu hơn, cộng 20% tương ứng Standard khi Standard qua.
+Tháng tính theo tháng lịch tính cả đầu/cuối. Unknown và hồ sơ bị loại
+không có điểm hoặc thứ hạng.
+
+Batch dùng cùng market store Development ở trên. Có thể cung cấp lịch nghỉ
+với --calendar và lịch tin --news-calendar. JSON tin có source, valid_from_utc_msc,
+valid_to_utc_msc và restricted_news_by_symbol ánh xạ từng mã tới timestamp
+tin FTMO hạn chế theo UTC ms. Danh sách rỗng mang nghĩa người cung cấp xác
+nhận mã đó đã được phủ trong khoảng khai báo. Lịch phải kèm nguồn và đủ phủ
+cả cửa ±2 phút quanh entry/exit. Hồ sơ lệnh qua mốc khoá dùng cash, lot,
+holding, phiên và cờ từ file nguồn. Cash-only giữ riêng khỏi equity và
+không lấp mark thiếu ở vị thế đang mở. Mã không có spec/FX conversion
+được trả thiếu bằng chứng. Các PASS chỉ để shortlist nghiên cứu.
+
+[Playbook tìm nguồn](LIVE-SIGNAL-SOURCING-PLAYBOOK.md) có preset ≥12 tháng,
+≥150 lệnh, DD ≤20% và quyền export. [Báo cáo batch và dry run](BOT-LAB-BATCH-BLUEPRINT-AND-SOURCING-20261120.md).
+
 ## Thay tài khoản Free Trial
 
 Connector hiện có:

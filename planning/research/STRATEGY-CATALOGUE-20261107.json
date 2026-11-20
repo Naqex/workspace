@@ -4663,6 +4663,14 @@
     "version": 1,
     "broker_observations": [
       {
+        "id": "bot-lab-batch-20261120",
+        "scope": "Offline trade-log batch leaderboard, synthetic acceptance controls and public-source admission checks",
+        "report": "BOT-LAB-BATCH-BLUEPRINT-AND-SOURCING-20261120.md",
+        "summary": "BOT-LAB-BATCH-BLUEPRINT-AND-SOURCING-20261120.json",
+        "private_manifest": "bot-lab-batch-20261120/manifest.json",
+        "private_manifest_sha256": "cba79571e1cb321dbf48c873d1d02ce0476ad7a22cf9a054888faaf2ff1ef57f"
+      },
+      {
         "id": "bot-lab-live-20261120",
         "scope": "Offline FTMO trade-log auditor, sealed Development excursion diagnosis and Performance journal benchmark",
         "report": "BOT-LAB-LIVE-AUDITOR-AND-LEAKAGE-DIAGNOSIS-20261120.md",

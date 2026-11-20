@@ -12,7 +12,7 @@ from math import isclose, isfinite
 from statistics import mean, median
 
 from forex_screen_diagnostics import adverse_budget
-from quant_core.ftmo_track_replay import (BALANCES, STOP, Market, calendar_warnings, observe_path,
+from quant_core.ftmo_track_replay import (BALANCES, STOP, LogOnlyMarket, Market, bar_path_scope, calendar_warnings, observe_path,
                                          position, profiles, read_json_file, replay, sessions)
 from quant_core.live_trade_log import SUFFIXES, normalize
 from quant_core.native_paths import read_bounded
@@ -75,6 +75,7 @@ def behavior(trades, sources, market, specs):
     streak_checks=0
     grid=[]
     grid_unknown=0
+    grid_log_only=0
     overlap_checks=0
     for symbol,rows in sleeves.items():
         closed=sorted((t for t in rows if t.has_execution_clock and t.open_time<t.close_time),
@@ -96,7 +97,17 @@ def behavior(trades, sources, market, specs):
             for p in active:
                 if t.direction is None or p.direction!=t.direction or p.open_time==t.open_time:
                     continue
-                if p.close_time is None or p.open_price is None or symbol not in specs or t.open_time%60000:
+                if p.close_time is None or p.open_price is None:
+                    grid_unknown+=1
+                    continue
+                if any(bar_path_scope(x)=='bar_path_skipped_holdout_lock' for x in (t,p)):
+                    grid_log_only+=1
+                    if t.open_price is not None and (t.open_price-p.open_price)*(1 if t.direction=='BUY' else -1)<0:
+                        grid.append(dict(row=t.row,prior_open_row=p.row,evidence_basis='LOG_FILL_PRICE_PROXY'))
+                    else:
+                        grid_unknown+=1
+                    continue
+                if symbol not in specs or t.open_time%60000:
                     grid_unknown+=1
                     continue
                 mark=market.bid(symbol,t.open_time)
@@ -106,7 +117,7 @@ def behavior(trades, sources, market, specs):
                 overlap_checks+=1
                 exit_mark=mark if p.direction=='BUY' else mark+specs[symbol]['spread_price_proxy']
                 if (exit_mark-p.open_price)*(1 if p.direction=='BUY' else -1)<0:
-                    grid.append(dict(row=t.row,prior_open_row=p.row,estimated_liquidation_price=exit_mark))
+                    grid.append(dict(row=t.row,prior_open_row=p.row,estimated_liquidation_price=exit_mark,evidence_basis='M1_BID_ASK_PROXY'))
             active.append(t)
     stops=[t.sl for t in trades if t.sl is not None]
     explicit_zero=sum(x==0 for x in stops)
@@ -122,9 +133,9 @@ def behavior(trades, sources, market, specs):
         'HIDDEN_MARTINGALE_LOT_ESCALATION': dict(status='FLAG' if escalations else
             'NO_FLAG_IN_OBSERVED_CONTEXT' if streak_checks else 'UNKNOWN',evidence=escalations,assessed=streak_checks,
             rule='Two strictly settled losses in same symbol and current lot >=1.5x last loss lot'),
-        'HIDDEN_GRID_AVERAGING_DOWN':dict(status='FLAG_AT_BID_PROXY' if grid else
+        'HIDDEN_GRID_AVERAGING_DOWN':dict(status=('FLAG_AT_FILL_PROXY' if any(r['evidence_basis']=='LOG_FILL_PRICE_PROXY' for r in grid) else 'FLAG_AT_BID_PROXY') if grid else
             'NO_FLAG_IN_OBSERVED_CONTEXT' if overlap_checks and not grid_unknown else 'UNKNOWN',
-            evidence=grid,assessed=overlap_checks,overlaps_without_mark_or_clock=grid_unknown),
+            evidence=grid,assessed=overlap_checks,overlaps_without_mark_or_clock=grid_unknown, log_only_overlap_checks=grid_log_only),
         'NO_HARD_SL_OR_WIDE_STOP_GAMBLING':dict(status='FLAG' if no_sl else
             'NO_FLAG_IN_OBSERVED_CONTEXT' if stops and len(stops)==len(trades) and ratio is not None else 'UNKNOWN',
             observed_sl=len(stops),missing_sl=len(trades)-len(stops),explicit_no_sl=explicit_zero,
@@ -201,17 +212,26 @@ def profile_report(trades,specs,market,name,calendar,pairs=None):
     winners=Counter({k:0 for k in (*LABELS,UNKNOWN)})
     winner_profit=Counter({k:0. for k in (*LABELS,UNKNOWN)})
     original=defaultdict(float)
+    by_symbol=defaultdict(lambda:defaultdict(float))
     original_count=0
+    target_results=[]
+    log_market=LogOnlyMarket()
     for t in trades:
         sp=specs.get(t.symbol)
-        p=position(t,sp,market)
-        path=observe_path(t,sp,market,p) if p else None
+        scope=bar_path_scope(t)
+        locked=scope=='bar_path_skipped_holdout_lock'
+        p=position(t,sp,log_market if locked else market)
+        path=observe_path(t,sp,market,p,calendar) if p and not locked else None
         prepared[t.row]=(p,path)
         if p is not None and t.lots is not None:
             original_count+=1
+            target_results.append(p['net']*t.lots)
             for k in ('gross','swap','net'):
                 original[k]+=p[k]*t.lots
             original['commission']+=(p['open_commission']+p['close_commission'])*t.lots
+            by_symbol[t.symbol]['trades']+=1
+            by_symbol[t.symbol]['net_usd']+=p['net']*t.lots
+            by_symbol[t.symbol]['positive_price_pnl_usd']+=max(0.,p['gross']*t.lots)
         label=None
         realized_R=None
         if p is not None and p['risk'] is not None:
@@ -231,14 +251,14 @@ def profile_report(trades,specs,market,name,calendar,pairs=None):
             # interior-M1 paths can certify a path-dependent winner label.
             if not path or not path['complete']:
                 item['mfe_R']=item['mae_R']=None
-            label=classify(item)
+            label=UNKNOWN if locked and realized_R>0 else classify(item) if not locked else None
             rows.append(dict(row=t.row,**item,peak_hours=path['peak_hours'] if path else None,
                              capture_efficiency=item['net_R']/item['mfe_R'] if item['net_R']>0 and item['mfe_R'] else None,
-                             winner_label=label, path_basis='POST_ENTRY_PROXY_M1_DEV'))
+                             winner_label=label, path_basis=scope if locked else 'POST_ENTRY_PROXY_M1_DEV'))
         elif (t.net_profit is not None and t.net_profit>0) or (t.reported_r is not None and t.reported_r>0) or (
                 t.outcome=='WIN' and t.net_profit is None and t.reported_r is None):
             label=UNKNOWN
-            rows.append(dict(row=t.row,winner_label=label,path_basis='UNKNOWN_REALIZED_TRADE_RISK_OR_PATH'))
+            rows.append(dict(row=t.row,winner_label=label,path_basis=scope if locked else 'UNKNOWN_REALIZED_TRADE_RISK_OR_PATH'))
         if label:
             winners[label]+=1
             if realized_R is not None:
@@ -248,9 +268,15 @@ def profile_report(trades,specs,market,name,calendar,pairs=None):
     mfes=[x['mae_R'] for x in valued if x['mae_R'] is not None]
     wins=[x['net_R'] for x in valued if x['net_R']>0]
     tail_ratio=max(mfes)/mean(wins) if mfes and wins else None
+    positive=[r for r in target_results if r>0]
+    negative=[-r for r in target_results if r<0]
     report=dict(spec_symbols=len(specs),supported_trades=sum(t.symbol in specs for t in trades),
+            target_trade_expectancy=dict(winrate=len(positive)/len(target_results) if target_results else None,
+                avg_win_over_avg_loss=mean(positive)/mean(negative) if positive and negative else None,
+                mean_net_usd=mean(target_results) if target_results else None),
             target_reprice=dict(status='REPRICED_FILL_SUBSET' if original_count else 'UNKNOWN_MISSING_FILLS_LOTS_OR_CONVERSION',
                 trades=original_count,totals_usd=dict(original) if original_count else None,
+                by_symbol={k:dict(v) for k,v in by_symbol.items()},
                 basis='fill-to-fill price PnL with embedded spread; apply target commission and snapshot swap once'),
             winner_diagnosis=dict(counts=dict(winners),valued_positive_R=dict(winner_profit),rows=rows),
             loss_diagnosis=loss_diagnosis(trades,prepared),entry_exit_decomposition=overall,
@@ -291,6 +317,7 @@ def audit(raw,suffix,*,market=None,calendar=None,pair_payload=None,include_rows=
     for t,v in sources['reported_R'].get('R',[]):
         by_asset[t.symbol].append((t,v))
     report=dict(schema='BotLabLiveTrackAudit-v1',input_sha256=input_sha,normalization=meta,order_send_count=0,
+            path_scope_counts=dict(Counter(bar_path_scope(t) for t in trades)),
             observed=dict(assets=dict(Counter(t.symbol for t in trades)),direction=dict(Counter(t.direction or 'UNKNOWN' for t in trades)),
                 journal_labels=dict(Counter(t.outcome or 'UNKNOWN' for t in trades)),metrics=derived,
                 reported_R_by_asset={k:metrics(v) for k,v in by_asset.items()},
@@ -312,7 +339,7 @@ def audit(raw,suffix,*,market=None,calendar=None,pair_payload=None,include_rows=
     if any(v['adverse_excursion']['flag'] for v in report['profiles'].values()):
         report['behavioral_toxicity']['NO_HARD_SL_OR_WIDE_STOP_GAMBLING']['status']='FLAG'
     if include_rows:
-        report['normalized_trades']=[asdict(t) for t in trades]
+        report['normalized_trades']=[asdict(t)|{'bar_path_status':bar_path_scope(t)} for t in trades]
     return report
 
 
@@ -320,6 +347,8 @@ def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('source',type=Path,nargs='?',default=INBOX,help='CSV/HTML/XML or an inbox directory')
     p.add_argument('--output',type=Path)
+    p.add_argument('--leaderboard-dir',type=Path)
+    p.add_argument('--news-calendar',type=Path)
     p.add_argument('--timezone')
     p.add_argument('--date-order',choices=('dmy','mdy'))
     p.add_argument('--decimal-mark',choices=('.',','),default='.')
@@ -332,6 +361,10 @@ def main():
     p.add_argument('--paired-continuation',type=Path)
     p.add_argument('--include-rows',action='store_true',help='Only for private JSON output')
     a=p.parse_args()
+    if a.output and a.leaderboard_dir:
+        p.error('Choose --output or --leaderboard-dir')
+    if a.news_calendar and not a.leaderboard_dir:
+        p.error('--news-calendar requires --leaderboard-dir')
     if a.include_rows and a.output is None:
         p.error('Use private --output for --include-rows')
     if a.output is not None and a.output.suffix.lower()!='.json':
@@ -340,6 +373,9 @@ def main():
         if a.timezone:
             from zoneinfo import ZoneInfo
             ZoneInfo(a.timezone)
+        if a.leaderboard_dir:
+            from bot_live_leaderboard import run_batch
+            return run_batch(a)
         paths=sorted(q for q in a.source.iterdir() if q.suffix.lower() in SUFFIXES and q.is_file()) if a.source.is_dir() else [a.source]
         market=Market(a.market_store)
         calendar=sessions(a.calendar)

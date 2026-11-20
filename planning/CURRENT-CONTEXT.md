@@ -4,6 +4,11 @@
 
 ## Việc hiện tại
 
+Batch Bot Lab đã kiểm 5 fixture và xuất leaderboard/blueprint. Inbox thật
+còn trống. Có preset lọc MQL5/Myfxbook. Lệnh sau 01/01/2025 chỉ dùng log,
+các trường equity cần đường nổi giữ unknown nếu thiếu.
+[Kết quả và đường lấy log](research/BOT-LAB-BATCH-BLUEPRINT-AND-SOURCING-20261120.md).
+
 Bot Lab có scorecard Swing/Standard chạy offline. Trên sổ Swing, markout
 thô âm và có giveback. Performance journal 199 dòng thiếu fills, lot và
 close time để dựng equity. Niêm phong từ 01/01/2025 giữ nguyên.

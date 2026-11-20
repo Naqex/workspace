@@ -9,6 +9,10 @@ Từ workspace root, chạy `python -X utf8 tooling/ai-engines/research_inventor
 để xem mức gắn nhãn. Thêm `--all` để lấy từng đường dẫn và lý do còn thiếu
 thông tin.
 
+**Bot Lab · Batch leaderboard.** Quét inbox, chấm Swing/Standard và xuất
+blueprint cho ứng viên. Năm fixture đủ phán quyết. Inbox thật 0 file.
+[Kết quả](BOT-LAB-BATCH-BLUEPRINT-AND-SOURCING-20261120.md) · [Lọc nguồn live](LIVE-SIGNAL-SOURCING-PLAYBOOK.md).
+
 **Bot Lab · Audit trade log FTMO.** CLI offline Swing/Standard, phân rã cả
 lệnh thắng/thua ở sổ Swing đã khóa và audit 199 dòng Performance journal.
 [Kết quả và giới hạn](BOT-LAB-LIVE-AUDITOR-AND-LEAKAGE-DIAGNOSIS-20261120.md) · [JSON](BOT-LAB-LIVE-AUDITOR-AND-LEAKAGE-DIAGNOSIS-20261120.json).

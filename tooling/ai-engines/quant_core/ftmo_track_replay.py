@@ -34,6 +34,13 @@ def utc_time(ms):
     return datetime.fromtimestamp(ms/1000,timezone.utc)
 
 
+def bar_path_scope(trade):
+    for at, date in ((trade.open_time, trade.open_date), (trade.close_time, trade.close_date)):
+        if (at is not None and at >= STOP) or (at is None and date and date >= '2025-01-01'):
+            return 'bar_path_skipped_holdout_lock'
+    return 'bar_path_development_eligible' if trade.has_execution_clock else 'bar_path_unknown_trade_clock'
+
+
 def check_lock():
     b = (RESEARCH/'NATIVE_FTMO_HOLDOUT_LOCK.json').read_bytes()
     if sha256(b).hexdigest()!=LOCK_SHA:
@@ -95,6 +102,10 @@ class Market:
         self.checks=Checksums()
         self.guard=PathGuard()
 
+    def close(self):
+        self.stores.clear()
+        Market.bid.cache_clear()
+
     def store(self, symbol):
         spec=self.items.get(symbol)
         if not spec:
@@ -130,6 +141,8 @@ class Market:
 
     @lru_cache(maxsize=32768)
     def bid(self,symbol,at):
+        if not 0<=at<STOP:
+            return None
         first=at//MINUTE*MINUTE
         obs=self.bars(symbol,first,first+MINUTE)
         if obs is None or not len(obs[0]):
@@ -144,6 +157,11 @@ class Market:
         pair,invert=FX[currency]
         ref=price if symbol==pair else self.bid(pair,at)
         return (1/ref if invert else ref) if ref else None
+
+
+class LogOnlyMarket(Market):
+    def bid(self, symbol, at):
+        return None
 
 
 def commission(symbol,spec,price):
@@ -217,7 +235,12 @@ def mark_pnl(t,spec,market,side,at,bid):
     return side*(price-t.open_price)*spec['trade_contract_size']*usd
 
 
-def observe_path(t,spec,market,p):
+def calendar_covers(calendar, trade, field='breaks_by_symbol'):
+    return bool(calendar and trade.has_execution_clock and trade.symbol in calendar[field] and
+                calendar['valid_from_utc_msc']<=trade.open_time<=trade.close_time<=calendar['valid_to_utc_msc'])
+
+
+def observe_path(t,spec,market,p,calendar=None):
     if p is None or not t.has_execution_clock or not 0<=t.open_time<t.close_time<STOP:
         return None
     first=(t.open_time//MINUTE+1)*MINUTE
@@ -226,7 +249,19 @@ def observe_path(t,spec,market,p):
     if source is None:
         return None
     rows,scale=source
+    if calendar_covers(calendar,t):
+        for start,end in calendar['breaks_by_symbol'][t.symbol]:
+            # Treat only fully closed minutes as covered by a known break.
+            begin=max(first, (start+MINUTE-1)//MINUTE*MINUTE)
+            finish=min(edge, end//MINUTE*MINUTE)
+            if begin<finish:
+                rows=rows[(rows['t']<begin)|(rows['t']>=finish)]
     expected=(edge-first)//MINUTE
+    if calendar_covers(calendar,t):
+        for start,end in calendar['breaks_by_symbol'][t.symbol]:
+            begin=max(first,(start+MINUTE-1)//MINUTE*MINUTE)
+            finish=min(edge,end//MINUTE*MINUTE)
+            expected-=max(0,(finish-begin)//MINUTE)
     complete=len(rows)==expected
     all_marks={}
     favourable=[]
@@ -274,8 +309,7 @@ def calendar_warnings(trades, calendar, supported):
     for t in trades:
         if not t.has_execution_clock or t.open_time>=t.close_time or t.symbol not in supported:
             continue
-        if (calendar and t.symbol in calendar['breaks_by_symbol'] and
-                calendar['valid_from_utc_msc']<=t.open_time<=t.close_time<=calendar['valid_to_utc_msc']):
+        if calendar_covers(calendar,t):
             assessed+=1
             for a,b in calendar['breaks_by_symbol'][t.symbol]:
                 if b-a>2*3600000 and t.open_time<a<t.close_time:
@@ -338,6 +372,7 @@ def replay(trades, prepared, specs, balance, fraction):
     day=None
     equity_points=0
     daily=overall=peak_margin=0.
+    cash_daily=cash_overall=0.
     margin_points=0
     unvalued=0
     worst_day_at=worst_overall_at=None
@@ -356,6 +391,8 @@ def replay(trades, prepared, specs, balance, fraction):
             else:
                 active[t.row]=x
                 cash-=p['open_commission']*l
+        cash_daily=max(cash_daily,(anchor-cash)/balance)
+        cash_overall=max(cash_overall,(balance-cash)/balance)
         market_marks=dict(marks[at])
         # At entry the fill price gives exactly zero fill-to-fill unrealized
         # PnL before the quoted liquidation spread, which remains unknown.
@@ -391,7 +428,11 @@ def replay(trades, prepared, specs, balance, fraction):
         'NO_BREACH_AT_SAMPLED_MARKS' if complete else 'UNKNOWN_INTRADAY_COVERAGE_OR_RISK')
     return dict(status=status,capital_usd=balance,risk_per_trade_pct=fraction*100,normalized_trades=targets,
                 excluded=dict(missing),equity_mark_points=equity_points,unvalued_event_points=unvalued,
+                closed_balance_observations=sum(1 for _, xs in events.items() if any(action=='close' for action,_,_ in xs)),
+                known_entry_margin_trades=sum(x.position['margin'] is not None for x in sized),
                 daily_loss_pct=max(0.,daily)*100 if observed else None,maximum_loss_pct=max(0.,overall)*100 if observed else None,
+                cash_only_daily_loss_pct=100*cash_daily if targets else None,
+                cash_only_static_loss_pct=100*cash_overall if targets else None,
                 daily_breach_observed=bool(day_breach),overall_breach_observed=bool(overall_breach),
                 worst_daily_at_msc=worst_day_at,worst_overall_at_msc=worst_overall_at,
                 net_usd=cash-balance if targets else None, peak_margin_usd=peak_req if req_events else None,
