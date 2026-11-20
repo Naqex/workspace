@@ -152,7 +152,7 @@ def execution(start, offsets, values):
     touched = np.flatnonzero(up | down)
     if not len(touched):
         return None
-    idx = prefix + int(touched[0])
+    idx = int(prefix) + int(touched[0])
     quote = values[idx]
     side_candidates = []
     if up[touched[0]]:
@@ -174,7 +174,7 @@ def execution(start, offsets, values):
             stop = len(liq) - 1
             end = equity.Exit(stop, float(liq[-1, 0]), True, "HARD_FLAT")
         margin_quote = float((quote[0] + quote[4]) / 2)
-        risk = side * (entry - edge) * CONTRACT
+        risk = float(side * (entry - edge) * CONTRACT)
         if risk <= 0:
             raise ValueError("Nonpositive stop distance")
         possible.append((side, float(entry), edge, risk, end, margin_quote))

@@ -4663,6 +4663,14 @@
     "version": 1,
     "broker_observations": [
       {
+        "id": "pass11-gbpusd-m1-20261120",
+        "scope": "GBPUSD London ORB M1 truth check on QDM Development 2018\u20132024. Rejected before portfolio",
+        "report": "PASS11-GBPUSD-M1-TRUTH-AND-TWO-ENGINE-PORTFOLIO-20261120.md",
+        "summary": "PASS11-GBPUSD-M1-TRUTH-AND-TWO-ENGINE-PORTFOLIO-20261120.json",
+        "private_manifest": "pass11-gbpusd-m1-20261120/manifest.json",
+        "private_manifest_sha256": "b5ffd157fd8d972b0eb0340004f4720b032145d7dd6a7bc841e1db4bc435879b"
+      },
+      {
         "id": "pass10-engine2-institutional-flow-20261120",
         "scope": "Sealed Development 2018\u20132024. London FX OCO, US500 month turn, NY ORB blocked; GBPUSD H1 survivor needs M1",
         "report": "PASS10-ENGINE2-INSTITUTIONAL-FLOW-STAGE0-20261120.md",
@@ -4814,6 +4822,32 @@
       }
     ],
     "datasets": [
+      {
+        "id": "pass11-gbpusd-m1-20261120",
+        "asset": "GBPUSD",
+        "source": "Dukascopy via QDM CLI 125.2692, bounded UTC Bid/Ask tick export",
+        "target": "FTMO Swing/Standard cost snapshot; QDM historical prices",
+        "grain": "M1 joint Bid/Ask and observed midpoint OHLC, year partitions, Parquet/Zstd",
+        "window": "2018\u20132024 UTC, holdout-exclusive 2025-01-01",
+        "clock": "UTC Unix minute; trading window 08:00\u201317:00 Europe/London",
+        "availability": "204491282 ticks and 2608982 M1 observations in seven private partitions",
+        "exposure": "Development used by Pass 11; QDM raw cache quarantined and outside research",
+        "quality": "1787/1827 weekday windows have all 541 minutes. Five isolated-gap days were admitted for sensitivity, 35 excluded.",
+        "locator": "README.md",
+        "kind": "derived_data",
+        "quality_counts": [
+          {
+            "metric": "strict_london_days",
+            "numerator": 1787,
+            "denominator": 1827
+          },
+          {
+            "metric": "expanded_london_days",
+            "numerator": 1792,
+            "denominator": 1827
+          }
+        ]
+      },
       {
         "id": "pass7b-usdjpy-qdm-equity-20261120",
         "asset": "USDJPY",
@@ -5403,6 +5437,7 @@
       }
     ],
     "metadata_bindings": [
+      {"key": "pass11-gbpusd-m1-20261120/m1-seal", "owner": "pass11-gbpusd-m1-20261120", "path": "pass11-gbpusd-m1-20261120/development-m1/manifest.json", "sha256": "4224f3ec2744f8ba85dfd977e5473565619ea74179c4adcab0522bee137900c4"},
       {"key": "pass7b-usdjpy-qdm-equity-20261120/m1-seal", "owner": "pass7b-usdjpy-qdm-equity-20261120", "path": "pass7b-usdjpy-qdm-equity-20261120/development-m1/manifest.json", "sha256": "94ad33ad4e47622d96aa24da68c4451fb87fcaa1e528b17e261ae15bb9b869f1"},
       {"key": "r094-afternoon-manifest", "owner": "r094-afternoon-ab", "path": "prop-us500-r094-afternoon-20261119/manifest.json", "sha256": "b08cb2b4642efc84dbd03d6c3497bd05b2cb1b1332374bb04ba7a43b5a73fb04"},
       {"key": "v15-sizing-manifest", "owner": "v15-sizing-12m", "path": "prop-v15-sizing-evidence-20261119/manifest.json", "sha256": "cf56d1ff091060f6d2cf8265f412f31f5ed185a22c7c18a846245617a52d8141"},
@@ -5444,6 +5479,13 @@
       {"key": "eurusd-catalogue13-complete-2022", "owner": "eurusd-catalogue13-v1", "path": "challenge-discovery4-20261108/execution-v1/eurusd-catalogue13-v1/2022/completed.json", "sha256": "4fea9a411ea2695947df108d655c13df7e73b3c5d7b62ed191c89da355fbfe38"}
     ],
     "payload_refs": [
+      {"owner": "pass11-gbpusd-m1-20261120", "path": "pass11-gbpusd-m1-20261120/development-m1/GBPUSD-M1-BIDASK-2018.parquet", "sha256": "4a3f26dbd1e279a682f8647fb58ed7c775c8e0ba1ef23c21e9373c748808a2a4", "kind": "derived_m1_bid_ask_ohlc", "year": 2018, "rows": 373306},
+      {"owner": "pass11-gbpusd-m1-20261120", "path": "pass11-gbpusd-m1-20261120/development-m1/GBPUSD-M1-BIDASK-2019.parquet", "sha256": "613f878432e57a5e8f0c61c28e1fac65f85e994eac8a8bc142de6ecd6855eefd", "kind": "derived_m1_bid_ask_ohlc", "year": 2019, "rows": 372936},
+      {"owner": "pass11-gbpusd-m1-20261120", "path": "pass11-gbpusd-m1-20261120/development-m1/GBPUSD-M1-BIDASK-2020.parquet", "sha256": "9fbf06d7ed4ba0fff23e2be9b4da07b4b63c52a2fcf7cef7a41d6ab7b27126ba", "kind": "derived_m1_bid_ask_ohlc", "year": 2020, "rows": 374198},
+      {"owner": "pass11-gbpusd-m1-20261120", "path": "pass11-gbpusd-m1-20261120/development-m1/GBPUSD-M1-BIDASK-2021.parquet", "sha256": "61b6bacd75112aa97ef585d31763f502e596261d280d4c93073d74c46f9d2ce2", "kind": "derived_m1_bid_ask_ohlc", "year": 2021, "rows": 371585},
+      {"owner": "pass11-gbpusd-m1-20261120", "path": "pass11-gbpusd-m1-20261120/development-m1/GBPUSD-M1-BIDASK-2022.parquet", "sha256": "7a1bafcad6332a9ef3ff0ebc5a7712d6a9314f09614bf7f4c18635fe83ae7b61", "kind": "derived_m1_bid_ask_ohlc", "year": 2022, "rows": 372615},
+      {"owner": "pass11-gbpusd-m1-20261120", "path": "pass11-gbpusd-m1-20261120/development-m1/GBPUSD-M1-BIDASK-2023.parquet", "sha256": "4990edc7870c20dce055b6448df5e23fe8b7a43ca6e640aa3a5a2ef46a7be750", "kind": "derived_m1_bid_ask_ohlc", "year": 2023, "rows": 371874},
+      {"owner": "pass11-gbpusd-m1-20261120", "path": "pass11-gbpusd-m1-20261120/development-m1/GBPUSD-M1-BIDASK-2024.parquet", "sha256": "0bfea0ca9190c0e30019c1c54425f79999bee28c0e5e1350d34cd713de6ca677", "kind": "derived_m1_bid_ask_ohlc", "year": 2024, "rows": 372468},
       {"owner": "pass7b-usdjpy-qdm-equity-20261120", "path": "pass7b-usdjpy-qdm-equity-20261120/development-m1/USDJPY-M1-BIDASK-2018.parquet", "sha256": "30f19b23514e6b6e4edb42564579ac522540f9c7736ef587b98266dfe459aefa", "kind": "derived_m1_bid_ask_ohlc", "year": 2018, "rows": 372794},
       {"owner": "pass7b-usdjpy-qdm-equity-20261120", "path": "pass7b-usdjpy-qdm-equity-20261120/development-m1/USDJPY-M1-BIDASK-2019.parquet", "sha256": "fc82c1b79f107db1a0bcfeb07e75fdbb711040e9dc95f5daa9f109248f98d4db", "kind": "derived_m1_bid_ask_ohlc", "year": 2019, "rows": 372700},
       {"owner": "pass7b-usdjpy-qdm-equity-20261120", "path": "pass7b-usdjpy-qdm-equity-20261120/development-m1/USDJPY-M1-BIDASK-2020.parquet", "sha256": "afa86499e30f71b255f4cb2fd757cb62ef64aa9e4b5bc38ada64f4e1d9a73bb3", "kind": "derived_m1_bid_ask_ohlc", "year": 2020, "rows": 373333},

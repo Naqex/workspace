@@ -9,8 +9,12 @@ Từ workspace root, chạy `python -X utf8 tooling/ai-engines/research_inventor
 để xem mức gắn nhãn. Thêm `--all` để lấy từng đường dẫn và lý do còn thiếu
 thông tin.
 
+**Pass 11 · GBPUSD London ORB rớt M1 Bid/Ask.** QDM Development có
+204,49 triệu tick. Stress +0,50 pip âm ở Cụm B trong cả hai mẫu.
+Track 3 giữ đóng. [Báo cáo](PASS11-GBPUSD-M1-TRUTH-AND-TWO-ENGINE-PORTFOLIO-20261120.md).
+
 **Pass 10 · Stage‑0 dòng tiền phiên và đầu tháng.** GBPUSD London ORB
-qua cửa H1 và lát SL, còn chờ M1 Bid/Ask. EURUSD London và US500 TOM
+qua cửa H1 và lát SL, sau đó rớt kiểm M1 ở Pass 11. EURUSD London và US500 TOM
 rớt Stage‑0. US500 NY ORB thiếu chuỗi QDM đủ hai cụm.
 [Báo cáo và quyết định](PASS10-ENGINE2-INSTITUTIONAL-FLOW-STAGE0-20261120.md).
 

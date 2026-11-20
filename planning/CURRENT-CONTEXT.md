@@ -4,11 +4,12 @@
 
 ## Việc hiện tại
 
-Engine #2 Pass 10 · GBPUSD London ORB qua Stage‑0 H1 và lát SL.
-Trên 1.324 ngày ghép với USDJPY, chuỗi tiền đóng giảm thời gian
-dưới đỉnh từ 20,93 xuống 16,95 tháng và DD tăng từ 612 lên 941 USD.
-Chờ xác minh M1 và đường vốn với ngân sách rủi ro chung.
-[Pass 10](research/PASS10-ENGINE2-INSTITUTIONAL-FLOW-STAGE0-20261120.md).
+Engine #2 Pass 11 · GBPUSD London ORB rớt kiểm M1. Stress +0,50 pip
+trên mẫu mở rộng đạt +39,85R ở Cụm A và −47,30R ở Cụm B. Có
+172 ngày H1 hai cạnh được replay, tổng −158,17R. Giữ
+ENGINE_1_NEEDS_PARTNER, chưa mở danh mục hoặc Challenge.
+[Pass 11](research/PASS11-GBPUSD-M1-TRUTH-AND-TWO-ENGINE-PORTFOLIO-20261120.md) ·
+[Mốc H1 Pass 10](research/PASS10-ENGINE2-INSTITUTIONAL-FLOW-STAGE0-20261120.md).
 
 Bot Lab Pass 9 · Audit sáu CSV MQL5 Round 2, 0/6 đủ căn cứ chuyển
 sang Clean-Room Pass 10. ALocalLevels thiếu SL ban đầu và lãi tập

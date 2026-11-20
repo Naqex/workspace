@@ -1,4 +1,5 @@
 from datetime import date
+import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest import TestCase
@@ -49,7 +50,10 @@ class M1TruthTests(TestCase):
         stress, _, _ = gbp.valued(trade, offsets, values, .00005)
         self.assertAlmostEqual(first["net_usd_per_lot"] - stress["net_usd_per_lot"], 5.)
         self.assertEqual(len(times), 1)
+        self.assertTrue(json.loads(json.dumps(first))["entry_sl_same_minute"])
         self.assertAlmostEqual(marks[0, 0], first["net_usd_per_lot"])
+        summary = gbp.stats([(first, times, marks)], {first["day"]})
+        self.assertEqual(json.loads(json.dumps(summary))["positive"], 0)
 
     def test_sparse_group_excludes_barrier_and_boundary_cases(self):
         offsets = np.delete(np.arange(541), [90])
