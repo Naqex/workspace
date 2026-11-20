@@ -7,16 +7,24 @@ Giữ nguyên native holdout lock và pins. Offline, không MT5, OrderSend 0.
 
 ## Nguồn và replay
 
-Nguồn chính Dukascopy M1 Bid/Ask theo ngày UTC. Tái dùng raw packet
-R084/R085 có SHA. Tải hai side còn thiếu trong đúng 2.557 ngày lịch, kể
-cả dữ liệu mở lại Chủ Nhật nếu có. Chuỗi lưu Parquet/Zstd theo năm, outer
-join timestamp hai side, thiếu bên nào giữ null, SHA256 raw và Parquet.
-Cấm forward-fill. Giới hạn tốc độ toàn job, retry hữu hạn 5xx/timeout,
-dừng khi 403/429 và giữ checkpoint. Phân biệt ngày lịch trống, ngày FTMO
-có hộp/cửa H1, và ngày đủ từng phút từ 00:00 đến hard-flat inclusive.
-Ngày có thiếu phút bị loại cả khỏi phép đo execution/equity. Báo độ phủ
-theo năm/cụm, nguồn gap và thiên lệch khi ghép ngày. Nếu nguồn không đủ,
-chạy phần đầy đủ đã xác minh và đánh dấu kết luận toàn kỳ chưa đủ dữ liệu.
+USDJPY chỉ nhận giá qua QuantDataManager CLI (QDM), upstream Dukascopy.
+Chỉ duyệt cache theo metadata. Export UTC có khóa ngày từ 01/01/2018 đến
+31/12/2024. Nếu cache có tick, dùng format Bid/Ask millisecond đã xác minh
+và tổng hợp OHLC từng side từ bản ghi thực. M1 Bid-only không đủ cho replay.
+Chỉ được tải mới nếu lệnh CLI có bằng chứng khóa cả ngày bắt đầu và ngày
+cuối trước khi tải. `action=update` hiện bỏ qua `dateto`, nên bị loại khỏi
+Pass 7. Không dùng HTTP trực tiếp, dukascopy-node, BI5 hay cache raw từ các
+lần tải trực tiếp trước đó làm input. Nếu cache QDM thiếu hoặc không có
+export Bid/Ask hợp lệ, khóa phép đo M1 và equity ở scope thiếu nguồn.
+Kết quả Pass 6 vẫn là baseline lịch sử gắn với input gốc.
+
+Chuỗi đủ điều kiện lưu Parquet/Zstd theo năm và SHA256 cho source/export.
+Cấm forward-fill và Ask proxy cho M1 replay. Phân biệt ngày lịch trống,
+ngày FTMO có hộp/cửa H1 và ngày đủ phút đến hard-flat. Báo độ phủ theo
+năm/cụm, gap và thiên lệch mẫu. Nếu chỉ có một phần chuỗi QDM hợp lệ,
+chạy phần đủ phút đã xác minh, ghi phạm vi chưa đủ để kết luận toàn kỳ.
+Phần scout giữ dữ liệu native FTMO đã seal vì là nguồn broker độc lập.
+[StrategyQuant về date cap của update](https://strategyquant.com/forum/topic/qdmcli-exe-update-resume-ohne-uberschreiben/).
 
 Giữ đúng Pass 5: hộp mid từ 00:00 đến 03:00 UTC, OCO 03:00–10:00 UTC
 exclusive, lần phá đầu/ngày, stop đối diện hộp, flat 18:00 Europe/Helsinki.
