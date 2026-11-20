@@ -4663,6 +4663,14 @@
     "version": 1,
     "broker_observations": [
       {
+        "id": "swing-10k-20261120",
+        "scope": "FTMO 10k Swing read-only 13-symbol specs, native sizing, frozen Development 2018\u20132024 paired cutoff screen and winner diagnosis",
+        "report": "SWING-10K-AUDIT-MULTIWEEK-AND-WIN-TAXONOMY-20261120.md",
+        "summary": "SWING-10K-AUDIT-MULTIWEEK-AND-WIN-TAXONOMY-20261120.json",
+        "private_manifest": "swing-10k-20261120/manifest.json",
+        "private_manifest_sha256": "0d9d87ef808613b6b8f35b0412ef4dde428ed7379cad532f881884c28fc41e41"
+      },
+      {
         "id": "bottleneck2-asymmetric-pivot-20261119",
         "scope": "Offline 2018\u20132024 Development: parent ledger attribution, three preregistered asymmetry mechanisms, holdout locked and OHLC Standard kill switch",
         "report": "BOTTLENECK2-ASYMMETRIC-PIVOT-20261119.md",

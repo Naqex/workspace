@@ -4,6 +4,12 @@
 
 ## Việc hiện tại
 
+Owner phân trọng tâm nghiên cứu 80% Swing 10k/25k, 20% đối chứng Standard.
+Audit chỉ đọc có đủ spec Swing 13 mã. Cả ba nhánh Swing D1 và sổ ghép
+rớt cửa Development 2018–2024. Đề xuất Bot Lab để phân biệt lỗi thực thi
+và thiếu edge. Giá từ 01/01/2025 vẫn khóa.
+[Audit, kiểm định và chẩn đoán lệnh thắng](research/SWING-10K-AUDIT-MULTIWEEK-AND-WIN-TAXONOMY-20261120.md).
+
 Chốt `OHLC_STANDARD_SEARCH_EXHAUSTED` cho chiến dịch FTMO Standard đã đăng ký.
 0/3 cơ chế và 0 nhánh theo mã qua toàn bộ cổng Development 2018–2024.
 Niêm phong giá từ 01/01/2025 tiếp tục khóa.

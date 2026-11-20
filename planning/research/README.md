@@ -9,6 +9,11 @@ Từ workspace root, chạy `python -X utf8 tooling/ai-engines/research_inventor
 để xem mức gắn nhãn. Thêm `--all` để lấy từng đường dẫn và lý do còn thiếu
 thông tin.
 
+**FTMO Swing 10k/25k · giữ xuyên tuần.** Audit chỉ đọc đủ 13 mã. Ba nhánh
+và sổ equal-risk rớt cổng Development. Giữ Standard làm đối chứng
+Friday open. Tra bằng `--key swing-10k-20261120`.
+[Kết quả và chẩn đoán lệnh thắng](SWING-10K-AUDIT-MULTIWEEK-AND-WIN-TAXONOMY-20261120.md) · [JSON](SWING-10K-AUDIT-MULTIWEEK-AND-WIN-TAXONOMY-20261120.json).
+
 **FTMO native · ba cơ chế bất đối xứng.** 0/3 cơ chế và 0 nhánh theo mã qua
 cổng Development. Kích hoạt trạng thái OHLC_STANDARD_SEARCH_EXHAUSTED cho
 chiến dịch Standard đã đăng ký. Giá từ 2025 giữ niêm phong. Tra bằng
