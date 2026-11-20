@@ -24,6 +24,23 @@ chiến lược hiện tại. Không thêm tracker/UI riêng.
 Không cần agent/task riêng mỗi hàng. Fixed process worker không tự nhận câu hỏi
 mới từ Markdown; coding agent chạy study riêng, lead delegate theo capability.
 
+## Lấy dữ liệu lịch sử Dukascopy qua QDM CLI
+
+Với lượt nghiên cứu mới, dùng [QuantDataManager CLI](../../projects/trader/docs/quantdatamanager.md)
+cho toàn bộ dữ liệu upstream Dukascopy. Kiểm cache bằng danh sách symbol
+trước, xuất đúng khoảng ngày UTC, lưu riêng `data_source=Dukascopy`
+và `download_engine=QuantDataManager`. Dùng tick export có cả Bid/Ask
+khi cần đo execution hoặc floating equity. Giữ khoảng trống và SHA256.
+Các file native broker đã niêm phong giữ provenance broker của chúng.
+
+Mỗi lượt có khóa holdout phải chứng minh giới hạn ở cả bước tải lẫn bước
+xuất. QDM `action=update` bỏ qua `dateto`. Khi cache thiếu và phiên bản
+CLI chưa có lệnh tải khóa ngày cuối, ghi blocker nguồn và tiếp tục phần
+phép đo độc lập. HTTP Dukascopy trực tiếp, dukascopy-node và BI5 trực tiếp
+chỉ còn là đường tái tạo artifact lịch sử từ cache đã gắn hash. Mọi lượt
+tải mới đi qua QDM CLI.
+[Kiểm tra phiên bản và cache tại Pass 7](../../planning/research/PASS7-USDJPY-FULL-M1-EQUITY-AND-FX-SCOUT-20261120.md).
+
 ## Từ ý tưởng đến payout — cách hiểu và vai trò
 
 **Ý tưởng → quy tắc rõ → thử quá khứ → kiểm chéo/ngoài mẫu → demo → challenge

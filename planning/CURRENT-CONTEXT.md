@@ -4,12 +4,13 @@
 
 ## Việc hiện tại
 
-Bot Lab Pass 6 · USDJPY Tokyo box giữ đúng luật Pass 5. Stress H1 mạnh
-nhất còn +9,38R/năm và DD đóng 37,65R. M1 Bid/Ask cùng ngày kiểm được
-339 cặp; chưa có chuỗi liên tục 2018–2024. XAUUSD rớt Stage‑0, ghép rổ
-dừng tại cổng đầu vào, Swing và Standard chưa đo prop. Pass 7 ưu tiên
-xác minh nguồn USDJPY liên tục trước 2025. Holdout vẫn khóa.
-[Kết quả](research/PASS6-USDJPY-HIRES-AND-XAUUSD-PORTFOLIO-20261120.md).
+Bot Lab Pass 7 · QDM CLI là kênh lấy giá Dukascopy. Cache local chưa
+có USDJPY và QDM update không khóa được ngày cuối, nên M1 và equity
+đang chờ dữ liệu 2018–2024. EURJPY, EURUSD, GBPUSD rớt Stage-0 từ
+native FTMO H1. Ưu tiên nguồn USDJPY Bid/Ask qua QDM, giữ nguyên luật
+Pass 5 và khóa holdout.
+[Pass 7](research/PASS7-USDJPY-FULL-M1-EQUITY-AND-FX-SCOUT-20261120.md) ·
+[Baseline Pass 6](research/PASS6-USDJPY-HIRES-AND-XAUUSD-PORTFOLIO-20261120.md).
 
 Bot Lab có scorecard Swing/Standard chạy offline. Trên sổ Swing, markout
 thô âm và có giveback. Performance journal 199 dòng thiếu fills, lot và

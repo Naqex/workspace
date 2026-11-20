@@ -4663,6 +4663,14 @@
     "version": 1,
     "broker_observations": [
       {
+        "id": "pass7-usdjpy-qdm-and-fx-scout-20261120",
+        "scope": "QDM-only USDJPY acquisition blocked; three sealed native H1 FX Stage-0 screens rejected; 2018\u20132024 only",
+        "report": "PASS7-USDJPY-FULL-M1-EQUITY-AND-FX-SCOUT-20261120.md",
+        "summary": "PASS7-USDJPY-FULL-M1-EQUITY-AND-FX-SCOUT-20261120.json",
+        "private_manifest": "pass7-usdjpy-qdm-and-fx-scout-20261120/manifest.json",
+        "private_manifest_sha256": "6ed0a2411df7e22097cf8807f31fa29befcd2689c968269f60999c0d9d3acefd"
+      },
+      {
         "id": "pass6-breakout-execution-20261120",
         "scope": "2018\u20132024 only; USDJPY paired M1 and adverse H1 stress; XAUUSD Stage-0 rejected; no portfolio admission",
         "report": "PASS6-USDJPY-HIRES-AND-XAUUSD-PORTFOLIO-20261120.md",

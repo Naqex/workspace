@@ -9,6 +9,11 @@ Từ workspace root, chạy `python -X utf8 tooling/ai-engines/research_inventor
 để xem mức gắn nhãn. Thêm `--all` để lấy từng đường dẫn và lý do còn thiếu
 thông tin.
 
+**Bot Lab · Pass 7 QDM và FX Tokyo-box.** Cache QDM chưa có USDJPY
+Bid/Ask nên M1 và equity chờ dữ liệu. EURJPY, EURUSD và GBPUSD rớt
+Stage-0 trên H1 native FTMO 2018–2024.
+[Báo cáo](PASS7-USDJPY-FULL-M1-EQUITY-AND-FX-SCOUT-20261120.md) · [Protocol](PASS7-USDJPY-FULL-M1-EQUITY-AND-FX-SCOUT-PROTOCOL-20261120.md).
+
 **Bot Lab · Pass 6 USDJPY/XAUUSD.** USDJPY dương cả hai cụm dưới H1
 stress mạnh nhất (+9,38R/năm, DD đóng 37,65R), đối chiếu M1 rời rạc.
 XAUUSD rớt Stage‑0, chưa đo prop cho hai cấu hình.

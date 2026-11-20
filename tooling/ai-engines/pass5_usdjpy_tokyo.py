@@ -58,9 +58,11 @@ def hard_flat(day):
     return int(wall.timestamp())
 
 
-def load_sealed(folder, frame, binding):
+def load_sealed(folder, frame, binding, *, asset='USDJPY'):
     path = folder / binding['development_file']
-    if path.name != f'USDJPY-{frame}.parquet' or sha(path) != binding['development_sha256']:
+    if (asset not in ('USDJPY','EURJPY','EURUSD','GBPUSD')
+            or path.name != f'{asset}-{frame}.parquet'
+            or sha(path) != binding['development_sha256']):
         raise ValueError(f'Development SHA mismatch: {frame}')
     clocks = pq.read_table(path, columns=[CLOCK])[CLOCK].to_numpy()
     if (len(clocks) != binding['development_rows'] or not len(clocks) or clocks[-1] >= STOP
@@ -126,7 +128,7 @@ def valid_exit(entry, exit_, day):
     return entry <= exit_ < (day+DAY) and date(exit_).astimezone(NEW_YORK).hour < 17
 
 
-def run_day(day, hourly, daily_clock, daily_atr, costs):
+def run_day(day, hourly, daily_clock, daily_atr, costs, *, pip=PIP, value_at=None):
     stamps = list(range(day, day+10*HOUR, HOUR))
     if any(t not in hourly for t in stamps[:3]):
         return 'missing_box', None, None
@@ -153,17 +155,21 @@ def run_day(day, hourly, daily_clock, daily_atr, costs):
     ratio = width/atr if atr else None
     natural_stop = mid+side*costs.spread/2
     natural_stop = abs(natural_stop - (bottom if side==1 else top))
+    value = value_at if value_at is not None else lambda _, start, end, side: pnl(start,end,side,costs)
     marks = {}
-    for name, t in zip(HORIZONS,endpoints):
-        exit_mid = hourly[t].o+costs.spread/2
-        marks[name] = dict(exit_at=date(t).isoformat(),
-                           Breakout=pnl(mid,exit_mid,side,costs), Fade=pnl(mid,exit_mid,-side,costs))
+    try:
+        for name, t in zip(HORIZONS,endpoints):
+            exit_mid = hourly[t].o+costs.spread/2
+            marks[name] = dict(exit_at=date(t).isoformat(),
+                               Breakout=value(t,mid,exit_mid,side), Fade=value(t,mid,exit_mid,-side))
+    except KeyError:
+        return 'missing_conversion_quote', dual, None
     return 'valued', dual, dict(day=date(day).date().isoformat(), year=date(day).year, side=side,
         trigger_bar_open=date(stamp).isoformat(), entry_proxy_utc=date(entry).isoformat(),
         entry_proxy_london=date(entry).astimezone(LONDON).isoformat(),
         entry_proxy_new_york=date(entry).astimezone(NEW_YORK).isoformat(),
-        width_pips=width/PIP, atr_d1_pips=atr/PIP if atr else None, width_over_atr=ratio,
-        natural_stop_pips=natural_stop/PIP, entry_mid_proxy=mid,
+        width_pips=width/pip, atr_d1_pips=atr/pip if atr else None, width_over_atr=ratio,
+        natural_stop_pips=natural_stop/pip, entry_mid_proxy=mid,
         stop_opposite_edge=bottom if side==1 else top, markouts=marks)
 
 
@@ -228,16 +234,18 @@ def stop_mid(bar, side, edge, spread):
     return None
 
 
-def sl_trade(event, hourly, costs):
+def sl_trade(event, hourly, costs, *, stop_risk_usd=None, value_at=None):
     side = event['side']
     entry = int(datetime.fromisoformat(event['entry_proxy_utc']).timestamp())
     flat = int(datetime.fromisoformat(event['markouts']['hard_flat']['exit_at']).timestamp())
     mid = event['entry_mid_proxy']
     edge = event['stop_opposite_edge']
-    risk = event['natural_stop_pips']*PIP*costs.contract/mid
+    risk = (event['natural_stop_pips']*PIP*costs.contract/mid if stop_risk_usd is None
+            else stop_risk_usd(entry,event))
+    value = value_at if value_at is not None else lambda _, start, end, side: pnl(start,end,side,costs)
     if risk <= 0.:
         raise ValueError('Non-positive structural risk')
-    marks_R = [pnl(mid,mid,side,costs)['net']/risk]
+    marks_R = [value(entry,mid,mid,side)['net']/risk]
     reason = 'HARD_FLAT'
     for at in range(entry,flat,HOUR):
         bar = hourly[at]
@@ -249,11 +257,11 @@ def sl_trade(event, hourly, costs):
             open_mid = bar.o+costs.spread/2
             when = at if abs(out-open_mid) <= 1e-10 else at+HOUR
             break
-        marks_R.extend(pnl(mid,q+costs.spread/2,side,costs)['net']/risk for q in (bar.h,bar.l))
+        marks_R.extend(value(at,mid,q+costs.spread/2,side)['net']/risk for q in (bar.h,bar.l))
     else:
         out = hourly[flat].o+costs.spread/2
-        when = flat
-    repriced = pnl(mid,out,side,costs)
+        at = when = flat
+    repriced = value(at,mid,out,side)
     net = repriced['net']/risk
     marks_R.append(net)
     post = dict(net_R=net,swap_R=0.,mfe_R=max(0.,max(marks_R)),mae_R=max(0.,-min(marks_R)),
