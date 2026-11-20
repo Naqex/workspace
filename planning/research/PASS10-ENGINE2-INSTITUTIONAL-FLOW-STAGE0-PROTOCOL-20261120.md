@@ -97,3 +97,14 @@ Không trộn ngày Pass 7B thiếu đường với ngày no-trade. Báo paired
 coverage, Pearson chung/theo ngày hoặc tuần Engine #1 lỗ,
 double-loss, thời gian dưới đỉnh (kể cả cuối mẫu), Net / Max DD
 trước/sau. Không có survivor thì không chạy SL hoặc ghép danh mục.
+
+## Đính chính đối chứng Standard sau lần chạy đầu
+
+Protocol gốc trước outcome ở `99b3051`. Bản đo đầu phát hiện 5 rollover
+thứ Sáu 3× ở TOM Standard. Khi thứ Sáu là ngày NYSE nghỉ, lịch cash
+bỏ ngày đó và điều kiện chỉ tìm thứ Sáu đã để cửa giữ qua cuối tuần.
+Áp lại đúng ràng buộc hard-flat bằng cách đóng tại close D1 của phiên
+cash cuối cùng trước đứt tuần đầu tiên trong cửa. Bình thường là thứ
+Sáu, còn thứ Sáu nghỉ thì là phiên cash liền trước. Lưu riêng số cũ
+và số đã sửa. Tín hiệu, đầu vào, phí và tiêu chí của TOM Swing và ORB
+giữ nguyên. Đối chứng tiếp tục dùng D1 close proxy.
