@@ -4663,6 +4663,14 @@
     "version": 1,
     "broker_observations": [
       {
+        "id": "pass10-engine2-institutional-flow-20261120",
+        "scope": "Sealed Development 2018\u20132024. London FX OCO, US500 month turn, NY ORB blocked; GBPUSD H1 survivor needs M1",
+        "report": "PASS10-ENGINE2-INSTITUTIONAL-FLOW-STAGE0-20261120.md",
+        "summary": "PASS10-ENGINE2-INSTITUTIONAL-FLOW-STAGE0-20261120.json",
+        "private_manifest": "pass10-engine2-institutional-flow-20261120/manifest.json",
+        "private_manifest_sha256": "3d328531bf647b35e7ef0ed32b9b78f9378bd899b7352a0f395eba5e6d98f341"
+      },
+      {
         "id": "pass9-engine2-round2-20261120",
         "scope": "Six new real MQL5 CSV exports, log-only toxicity and FTMO 13-symbol repricing; no Engine #2 admission",
         "report": "PASS9-ENGINE2-ROUND2-AUDIT-AND-DNA-20261120.md",

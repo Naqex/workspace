@@ -9,6 +9,11 @@ Từ workspace root, chạy `python -X utf8 tooling/ai-engines/research_inventor
 để xem mức gắn nhãn. Thêm `--all` để lấy từng đường dẫn và lý do còn thiếu
 thông tin.
 
+**Pass 10 · Stage‑0 dòng tiền phiên và đầu tháng.** GBPUSD London ORB
+qua cửa H1 và lát SL, còn chờ M1 Bid/Ask. EURUSD London và US500 TOM
+rớt Stage‑0. US500 NY ORB thiếu chuỗi QDM đủ hai cụm.
+[Báo cáo và quyết định](PASS10-ENGINE2-INSTITUTIONAL-FLOW-STAGE0-20261120.md).
+
 **Bot Lab · Pass 9 audit MQL5 Round 2.** Sáu CSV, 3.304 lệnh đóng,
 năm hồ sơ có dấu hiệu thêm vị thế bất lợi và 0/6 đủ căn cứ chuyển
 sang Clean-Room Pass 10. ALocalLevels thiếu SL ban đầu và lãi tập trung.
