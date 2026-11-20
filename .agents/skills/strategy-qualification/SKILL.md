@@ -25,6 +25,7 @@ chưa kiểm hoặc thiếu evidence. Artifact integrity không thay validation 
    [chẩn đoán có chọn lọc](references/selective-loss-diagnosis.md): đọc nhanh
    sổ đã có trước, chỉ phân tích sâu ứng viên có cơ sở; lỗi material vẫn sửa
    bất kể ứng viên có lời hay không.
+   Khi giải phẫu nguồn lãi hoặc cutoff, dùng [chẩn đoán lệnh thắng](references/selective-win-diagnosis.md).
 3. Xem net return cùng drawdown, tail losses, losing streak, recovery, trade
    count, exposure/turnover và contribution của ít trade. Unrealized equity
    không là tiền rút. Không lấy một ngưỡng Sharpe/số trade làm chứng nhận.
