@@ -17,7 +17,9 @@ So ghép cặp cùng intent, entry, lot và chi phí Swing. Cột Standard mô p
 riêng cutoff tại **D1 open thứ Sáu** cho đủ 13 mã. Mốc này giữ đối chiếu
 ASYM_A và tránh dùng extrema của một bar chạy qua cutoff. Số đo chỉ áp
 cho quy ước Friday open. Lệnh vào đúng mốc cutoff bị veto trong sổ
-Standard và tách khỏi cặp định lượng price/swap delta. Không dùng margin
+Standard và tách khỏi cặp định lượng price/swap delta. Nếu thiếu D1 open
+thứ Sáu và vị thế tới cuối tuần, ghi cutoff chưa định giá và loại khỏi cặp.
+Không dùng margin
 1:100 trong phép cô lập exit. Snapshot Standard giữ vai trò audit riêng.
 
 Nến D1 được biết vào cuối bar trước khi dùng open mới. FX/trend vào ở
@@ -41,7 +43,9 @@ dùng FX D1 cùng mốc hợp lệ. Phí từ 36f1535: spread median London đã
 Stress mỗi phía 0,20 pip FX, 0,20 USD/oz vàng, 0,75 điểm US500. Hạch toán
 swap điểm theo chiều và 3× theo snapshot Swing, qua các rollover thứ
 Hai–Sáu trong thời gian giữ, gồm qua cuối tuần. Dùng snapshot hiện tại
-làm proxy cho 2018–2024, chưa có lịch phí lịch sử.
+làm proxy cho 2018–2024, chưa có lịch phí lịch sử. Nhánh Carry và rổ có
+Carry thiếu dấu carry point-in-time nên chỉ làm đối chứng kinh tế, chưa
+được đề cử chỉ từ snapshot chiếu ngược lịch sử.
 
 Stage‑0 thô trước SL: +5 bar giao dịch cho Trend/Carry, D1 open sau entry
 cho Index. Báo gross/ma sát/swap và net từng năm ở fixed risk lot liên tục.
