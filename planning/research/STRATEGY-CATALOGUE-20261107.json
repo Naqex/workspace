@@ -4663,6 +4663,14 @@
     "version": 1,
     "broker_observations": [
       {
+        "id": "pass7b-usdjpy-qdm-equity-20261120",
+        "scope": "QDM-only USDJPY 2018\u20132024, unchanged Tokyo-box, 36 offline floating equity scenarios",
+        "report": "PASS7B-USDJPY-FULL-M1-FLOATING-EQUITY-20261120.md",
+        "summary": "PASS7B-USDJPY-FULL-M1-FLOATING-EQUITY-20261120.json",
+        "private_manifest": "pass7b-usdjpy-qdm-equity-20261120/manifest.json",
+        "private_manifest_sha256": "d91ec9b8e3c2362a95e84b11aab747dbb0bf69ce67df042dd91b854392677ccf"
+      },
+      {
         "id": "pass7-usdjpy-qdm-and-fx-scout-20261120",
         "scope": "QDM-only USDJPY acquisition blocked; three sealed native H1 FX Stage-0 screens rejected; 2018\u20132024 only",
         "report": "PASS7-USDJPY-FULL-M1-EQUITY-AND-FX-SCOUT-20261120.md",
@@ -4782,6 +4790,32 @@
       }
     ],
     "datasets": [
+      {
+        "id": "pass7b-usdjpy-qdm-equity-20261120",
+        "asset": "USDJPY",
+        "source": "Dukascopy via QDM CLI 125.2692, bounded UTC Bid/Ask tick export",
+        "target": "FTMO Swing/Standard cost and margin snapshot; historical prices are QDM",
+        "grain": "M1 joint Bid/Ask OHLC and observed mid OHLC, year partitions, Parquet/Zstd",
+        "window": "2018\u20132024 UTC, holdout-exclusive 2025-01-01",
+        "clock": "UTC timestamp as Unix minute; mark at M1, baseline Prague Daily Loss",
+        "availability": "203603414 observed ticks in bounded exports, 2607454 M1 bars saved in seven private partitions",
+        "exposure": "Development used by Pass 7B; QDM raw cache quarantined and no 2025+ price exported or analyzed",
+        "quality": "1332/1813 native H1 active days have complete M1 paths; 481 remain incomplete. 84/84 months represented.",
+        "locator": "README.md",
+        "kind": "derived_data",
+        "quality_counts": [
+          {
+            "metric": "native_active_complete_m1_days",
+            "numerator": 1332,
+            "denominator": 1813
+          },
+          {
+            "metric": "pass6_same_clock_minutes",
+            "numerator": 313541,
+            "denominator": 313599
+          }
+        ]
+      },
       {
         "id": "us500-v11-m1",
         "asset": "US500",
@@ -5345,6 +5379,7 @@
       }
     ],
     "metadata_bindings": [
+      {"key": "pass7b-usdjpy-qdm-equity-20261120/m1-seal", "owner": "pass7b-usdjpy-qdm-equity-20261120", "path": "pass7b-usdjpy-qdm-equity-20261120/development-m1/manifest.json", "sha256": "94ad33ad4e47622d96aa24da68c4451fb87fcaa1e528b17e261ae15bb9b869f1"},
       {"key": "r094-afternoon-manifest", "owner": "r094-afternoon-ab", "path": "prop-us500-r094-afternoon-20261119/manifest.json", "sha256": "b08cb2b4642efc84dbd03d6c3497bd05b2cb1b1332374bb04ba7a43b5a73fb04"},
       {"key": "v15-sizing-manifest", "owner": "v15-sizing-12m", "path": "prop-v15-sizing-evidence-20261119/manifest.json", "sha256": "cf56d1ff091060f6d2cf8265f412f31f5ed185a22c7c18a846245617a52d8141"},
       {"key": "us500-v11-admission", "owner": "us500-v11-m1", "path": "challenge-discovery4-20261108/execution-v1/ensemble-and-storage-v11-20261115/source-admission-v11.json", "sha256": "0ce5dfb80807d21b4f07b3b7238c5f237d604b85d971bac27454b7e4ffa3270a"},
@@ -5385,6 +5420,13 @@
       {"key": "eurusd-catalogue13-complete-2022", "owner": "eurusd-catalogue13-v1", "path": "challenge-discovery4-20261108/execution-v1/eurusd-catalogue13-v1/2022/completed.json", "sha256": "4fea9a411ea2695947df108d655c13df7e73b3c5d7b62ed191c89da355fbfe38"}
     ],
     "payload_refs": [
+      {"owner": "pass7b-usdjpy-qdm-equity-20261120", "path": "pass7b-usdjpy-qdm-equity-20261120/development-m1/USDJPY-M1-BIDASK-2018.parquet", "sha256": "30f19b23514e6b6e4edb42564579ac522540f9c7736ef587b98266dfe459aefa", "kind": "derived_m1_bid_ask_ohlc", "year": 2018, "rows": 372794},
+      {"owner": "pass7b-usdjpy-qdm-equity-20261120", "path": "pass7b-usdjpy-qdm-equity-20261120/development-m1/USDJPY-M1-BIDASK-2019.parquet", "sha256": "fc82c1b79f107db1a0bcfeb07e75fdbb711040e9dc95f5daa9f109248f98d4db", "kind": "derived_m1_bid_ask_ohlc", "year": 2019, "rows": 372700},
+      {"owner": "pass7b-usdjpy-qdm-equity-20261120", "path": "pass7b-usdjpy-qdm-equity-20261120/development-m1/USDJPY-M1-BIDASK-2020.parquet", "sha256": "afa86499e30f71b255f4cb2fd757cb62ef64aa9e4b5bc38ada64f4e1d9a73bb3", "kind": "derived_m1_bid_ask_ohlc", "year": 2020, "rows": 373333},
+      {"owner": "pass7b-usdjpy-qdm-equity-20261120", "path": "pass7b-usdjpy-qdm-equity-20261120/development-m1/USDJPY-M1-BIDASK-2021.parquet", "sha256": "bbf2c8d5f6f874ea9b1ae3969460d6a1abf7d8170e2e6545d08e7bf4fe08f6d4", "kind": "derived_m1_bid_ask_ohlc", "year": 2021, "rows": 370563},
+      {"owner": "pass7b-usdjpy-qdm-equity-20261120", "path": "pass7b-usdjpy-qdm-equity-20261120/development-m1/USDJPY-M1-BIDASK-2022.parquet", "sha256": "853f868e465e79c8ad50f78011bdb34fac266016c24792e59c7d46269ea1ea9b", "kind": "derived_m1_bid_ask_ohlc", "year": 2022, "rows": 372717},
+      {"owner": "pass7b-usdjpy-qdm-equity-20261120", "path": "pass7b-usdjpy-qdm-equity-20261120/development-m1/USDJPY-M1-BIDASK-2023.parquet", "sha256": "9c51f9911f7c1ce0430090becc97a73e3ea68d8d20c41d1cb60ccca054c3ce56", "kind": "derived_m1_bid_ask_ohlc", "year": 2023, "rows": 371964},
+      {"owner": "pass7b-usdjpy-qdm-equity-20261120", "path": "pass7b-usdjpy-qdm-equity-20261120/development-m1/USDJPY-M1-BIDASK-2024.parquet", "sha256": "455a6fa78a0ea018e1536ec0005e0604e5b49e9ceca6e1e7acca680e3501659d", "kind": "derived_m1_bid_ask_ohlc", "year": 2024, "rows": 373383},
       {"owner": "us500-preannouncement-calendar-preflight", "path": "prop-us500-preannouncement-20261119/calendar-and-arithmetic.json.zst", "sha256": "1f91354e48de9002b9c615771b216225694fc0e6f2a65aee613f130b1ec3c2ec", "kind": "measurement_and_counterfactual"},
       {"owner": "us500-preannouncement-ordinary-range", "path": "prop-us500-preannouncement-20261119/ordinary-range-receipt.json.zst", "sha256": "65546b164cc213a6f851f27b6c4561996415d3af0c7b78d7ec155d504ac72a17", "kind": "measurement_and_counterfactual"},
       {"owner": "us500-preannouncement-ordinary-range", "path": "prop-us500-preannouncement-20261119/ordinary-range-gaps.json.zst", "sha256": "1c73408c4099d5d2e885181209b03bf2999bffca5a1600ab62a789222b7d897e", "kind": "measurement"},

@@ -9,6 +9,12 @@ Từ workspace root, chạy `python -X utf8 tooling/ai-engines/research_inventor
 để xem mức gắn nhãn. Thêm `--all` để lấy từng đường dẫn và lý do còn thiếu
 thông tin.
 
+**Bot Lab · Pass 7B USDJPY QDM và floating equity.** 203,60 triệu tick
+2018–2024, 1.334 ngày đủ đường tới hard flat. Stress +0,50 pip còn
++11,74R/năm nhưng không đạt ngưỡng solo Challenge ở 36 sổ. Giữ
+ENGINE_1_NEEDS_PARTNER trong phạm vi mẫu đủ đường.
+[Báo cáo](PASS7B-USDJPY-FULL-M1-FLOATING-EQUITY-20261120.md).
+
 **Bot Lab · Pass 7 QDM và FX Tokyo-box.** Cache QDM chưa có USDJPY
 Bid/Ask nên M1 và equity chờ dữ liệu. EURJPY, EURUSD và GBPUSD rớt
 Stage-0 trên H1 native FTMO 2018–2024.
