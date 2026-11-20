@@ -4,10 +4,11 @@
 
 ## Việc hiện tại
 
-Bot Lab đã audit 8 CSV MQL5 thật. Không có hồ sơ đủ bằng chứng FTMO.
-Breakout EA là đối chứng với 776 lệnh log-only sau 01/01/2025. Đề xuất
-Pass 5 chỉ kiểm Stage‑0 hộp Tokyo trên USDJPY với giá trước năm 2025.
-[DNA và đặc tả](research/BOT-LAB-BREAKOUT-EA-FORENSIC-DNA-20261120.md).
+Bot Lab Pass 5 · USDJPY hộp Tokyo qua Stage‑0 +4h và +8h trên H1
+Development trước 2025. Một lát SL đạt +29,09R/năm và DD đóng 23,82R.
+Cụm A nhạy với ngày thắng lớn. Prop vẫn chưa đo. Pass 6 chỉ đề xuất
+kiểm XAUUSD riêng, holdout vẫn khóa.
+[Kết quả](research/PASS5-USDJPY-TOKYO-BOX-STAGE0-20261120.md).
 
 Bot Lab có scorecard Swing/Standard chạy offline. Trên sổ Swing, markout
 thô âm và có giveback. Performance journal 199 dòng thiếu fills, lot và
