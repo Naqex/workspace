@@ -4663,6 +4663,14 @@
     "version": 1,
     "broker_observations": [
       {
+        "id": "mql5-sourcing-pass2-20261120",
+        "scope": "Public MQL5 MT4/MT5 signal stats and guest history access; eight Real leads; no trade log or FTMO qualification",
+        "report": "BOT-LAB-MQL5-SOURCING-PASS2-20261120.md",
+        "summary": "BOT-LAB-MQL5-SOURCING-PASS2-20261120.json",
+        "private_manifest": "mql5-sourcing-pass2-20261120/manifest.json",
+        "private_manifest_sha256": "9c1c5bcee57f59f0df12754957286ae09f6211d2623129a1b4e7c0851ac1cd9e"
+      },
+      {
         "id": "bot-lab-batch-20261120",
         "scope": "Offline trade-log batch leaderboard, synthetic acceptance controls and public-source admission checks",
         "report": "BOT-LAB-BATCH-BLUEPRINT-AND-SOURCING-20261120.md",

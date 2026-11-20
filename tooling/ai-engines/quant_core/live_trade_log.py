@@ -45,6 +45,10 @@ SYMBOL_ALIASES = {'US500':'US500.cash','SPX500':'US500.cash','US100':'USTEC','NA
 UNKNOWN = {'','-','—','n/a','na','null','none','unknown','hidden','***'}
 NON_TRADES = {'balance','credit','deposit','withdrawal','transfer','bonus','total','summary','adjustment'}
 RECORD_LIMIT = 50_000
+MQL5_SIGNALS_HEADERS = (
+    'time', 'type', 'volume', 'symbol', 'price', 'sl', 'tp',
+    'time', 'price', 'commission', 'swap', 'profit',
+)
 
 
 @dataclass(frozen=True)
@@ -197,6 +201,9 @@ def normalize(raw, suffix, *, timezone_name=None, date_order=None, decimal_mark=
     if len(raw_rows)>RECORD_LIMIT:
         raise ValueError('TRADE_LOG_ROW_LIMIT_50000')
     names=header_keys(headers)
+    mql5_signals = tuple(map(key, headers)) == MQL5_SIGNALS_HEADERS
+    if mql5_signals:
+        layout = 'MQL5_SIGNALS_HISTORY'
     journal={'journal_time','reported_r','outcome'}<=set(names) and 'open_time' not in names
     if journal:
         date_order=date_order or 'dmy'
@@ -242,7 +249,7 @@ def normalize(raw, suffix, *, timezone_name=None, date_order=None, decimal_mark=
             continue
         nums={f:numeric(data.get(f),decimal_mark) for f in ('lots','volume','open_price','sl','initial_sl','tp',
                  'close_price','commission','swap','fee','profit','net_profit','pips','reported_r')}
-        lots=nums['lots'] if nums['lots'] is not None else nums['volume'] if volume_lots or mt else None
+        lots=nums['lots'] if nums['lots'] is not None else nums['volume'] if volume_lots or mt or mql5_signals else None
         if lots is not None and lots<=0:
             lots=None
         sl=nums['sl'] if nums['sl'] is not None else nums['initial_sl']
@@ -251,7 +258,7 @@ def normalize(raw, suffix, *, timezone_name=None, date_order=None, decimal_mark=
         net=nums['net_profit']
         if net is None and profit_basis=='net':
             net=pnl
-        if (net is None and (mt or profit_basis=='gross') and
+        if (net is None and (mt or mql5_signals or profit_basis=='gross') and
                 all(nums[k] is not None for k in ('profit','commission','swap'))):
             net=pnl+nums['commission']+nums['swap']+(nums['fee'] or 0.)
         cur=str(data.get('currency') or currency or inferred_currency or '').strip().upper()

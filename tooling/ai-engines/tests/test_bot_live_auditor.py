@@ -41,6 +41,39 @@ class NormalizerTests(unittest.TestCase):
         self.assertEqual((t.direction,t.close_precision,t.close_time),('SELL','day',None))
         self.assertEqual(t.close_date,'2024-05-02')
 
+    def test_mql5_signals_csv_duplicate_columns_and_signed_costs(self):
+        raw = (
+            b'Time,Type,Volume,Symbol,Price,S/L,T/P,Time,Price,Commission,Swap,Profit\n'
+            b'2024.05.01 15:23:00,sell,0.10,EURUSD,1.1000,1.1100,1.0800,'
+            b'2024.05.02 09:00:00,1.0900,-0.50,0.25,100.00\n'
+        )
+        trades, meta = normalize(raw, '.csv', timezone_name='UTC')
+        trade = trades[0]
+        self.assertEqual(meta['layout'], 'MQL5_SIGNALS_HISTORY')
+        self.assertEqual((trade.open_time, trade.close_time),
+                         (ms('2024-05-01T15:23'), ms('2024-05-02T09:00')))
+        self.assertEqual((trade.symbol, trade.direction, trade.lots), ('EURUSD', 'SELL', .1))
+        self.assertEqual((trade.open_price, trade.close_price, trade.sl, trade.tp),
+                         (1.1, 1.09, 1.11, 1.08))
+        self.assertEqual((trade.commission, trade.swap, trade.profit, trade.net_profit),
+                         (-.5, .25, 100., 99.75))
+        self.assertIsNone(trade.initial_sl)
+        self.assertIsNone(trade.profit_currency)
+
+    def test_mql5_signals_semicolon_export_does_not_fill_masked_values(self):
+        raw = (
+            b'Time;Type;Volume;Symbol;Price;S/L;T/P;Time;Price;Commission;Swap;Profit\n'
+            b'2024.05.01 15:23:00;buy;0,20;XAUUSD;2300,20;hidden;***;'
+            b'2024.05.02 09:00:00;2304,10;-0,50;;78,00\n'
+        )
+        trades, meta = normalize(raw, '.csv', decimal_mark=',')
+        trade = trades[0]
+        self.assertEqual(meta['layout'], 'MQL5_SIGNALS_HISTORY')
+        self.assertEqual((trade.lots, trade.open_price, trade.close_price, trade.profit),
+                         (.2, 2300.2, 2304.1, 78.))
+        self.assertFalse(trade.has_execution_clock)
+        self.assertEqual([trade.sl, trade.tp, trade.swap, trade.net_profit], [None] * 4)
+
     def test_named_generic_volume_is_not_assumed_to_be_lots(self):
         raw=b'Opening timestamp;Closing timestamp;Instrument;Side;Volume;Net Profit\n2024-06-01T12:00Z;2024-06-01T12:01Z;GBP/USD;Long;1000;3,00\n'
         a=normalize(raw,'.csv',decimal_mark=',')[0][0]
