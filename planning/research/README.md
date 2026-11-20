@@ -9,6 +9,11 @@ Từ workspace root, chạy `python -X utf8 tooling/ai-engines/research_inventor
 để xem mức gắn nhãn. Thêm `--all` để lấy từng đường dẫn và lý do còn thiếu
 thông tin.
 
+**Bot Lab · Pass 6 USDJPY/XAUUSD.** USDJPY dương cả hai cụm dưới H1
+stress mạnh nhất (+9,38R/năm, DD đóng 37,65R), đối chiếu M1 rời rạc.
+XAUUSD rớt Stage‑0, chưa đo prop cho hai cấu hình.
+[Báo cáo](PASS6-USDJPY-HIRES-AND-XAUUSD-PORTFOLIO-20261120.md) · [Protocol](PASS6-USDJPY-HIRES-AND-XAUUSD-PROTOCOL-20261120.md).
+
 **Bot Lab · Pass 5 USDJPY Tokyo box.** +4h/+8h qua Stage‑0 trên H1
 Development. Một lát stop cạnh hộp đạt +29,09R/năm, prop chưa đo.
 [Báo cáo](PASS5-USDJPY-TOKYO-BOX-STAGE0-20261120.md) · [Protocol](PASS5-USDJPY-TOKYO-BOX-PROTOCOL-20261120.md).

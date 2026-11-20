@@ -4,11 +4,12 @@
 
 ## Việc hiện tại
 
-Bot Lab Pass 5 · USDJPY hộp Tokyo qua Stage‑0 +4h và +8h trên H1
-Development trước 2025. Một lát SL đạt +29,09R/năm và DD đóng 23,82R.
-Cụm A nhạy với ngày thắng lớn. Prop vẫn chưa đo. Pass 6 chỉ đề xuất
-kiểm XAUUSD riêng, holdout vẫn khóa.
-[Kết quả](research/PASS5-USDJPY-TOKYO-BOX-STAGE0-20261120.md).
+Bot Lab Pass 6 · USDJPY Tokyo box giữ đúng luật Pass 5. Stress H1 mạnh
+nhất còn +9,38R/năm và DD đóng 37,65R. M1 Bid/Ask cùng ngày kiểm được
+339 cặp; chưa có chuỗi liên tục 2018–2024. XAUUSD rớt Stage‑0, ghép rổ
+dừng tại cổng đầu vào, Swing và Standard chưa đo prop. Pass 7 ưu tiên
+xác minh nguồn USDJPY liên tục trước 2025. Holdout vẫn khóa.
+[Kết quả](research/PASS6-USDJPY-HIRES-AND-XAUUSD-PORTFOLIO-20261120.md).
 
 Bot Lab có scorecard Swing/Standard chạy offline. Trên sổ Swing, markout
 thô âm và có giveback. Performance journal 199 dòng thiếu fills, lot và

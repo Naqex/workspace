@@ -4663,6 +4663,14 @@
     "version": 1,
     "broker_observations": [
       {
+        "id": "pass6-breakout-execution-20261120",
+        "scope": "2018\u20132024 only; USDJPY paired M1 and adverse H1 stress; XAUUSD Stage-0 rejected; no portfolio admission",
+        "report": "PASS6-USDJPY-HIRES-AND-XAUUSD-PORTFOLIO-20261120.md",
+        "summary": "PASS6-USDJPY-HIRES-AND-XAUUSD-PORTFOLIO-20261120.json",
+        "private_manifest": "pass6-breakout-execution-20261120/manifest.json",
+        "private_manifest_sha256": "27384e3646dc4469d808f304616d80f8ec8e2dd7489b42ccd8aaa1730ae50002"
+      },
+      {
         "id": "pass5-usdjpy-tokyo-box-20261120",
         "scope": "Sealed USDJPY H1 Development 2018\u20132024; fixed first-touch horizons and one SL-active follow-up",
         "report": "PASS5-USDJPY-TOKYO-BOX-STAGE0-20261120.md",
