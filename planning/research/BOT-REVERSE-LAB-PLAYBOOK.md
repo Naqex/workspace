@@ -82,6 +82,59 @@ và [MT4 tester results](https://www.metatrader4.com/en/trading-platform/help/ov
 Actual supported layouts được khóa bằng fixtures; không coi parser là compiler
 hoặc hỗ trợ mọi version/ngôn ngữ của terminal.
 
+## Scorecard FTMO từ log thực chiến
+
+Dùng [inbox live_signals](../../research/bot_reverse_lab/inbox/live_signals/README.md)
+và lệnh duy nhất trong hướng dẫn inbox. Có thể truyền thêm một file CSV/HTML/XML
+để audit riêng. Kết quả mặc định là JSON theo file. Thêm `--include-rows`
+với output private nếu cần schema chuẩn hóa từng dòng. Tệp người dùng đặt vào
+inbox được Git bỏ qua. Giữ source hash và scope cùng kết quả.
+
+- Hỗ trợ bảng CSV/HTML một dòng một lệnh với header Myfxbook, MQL5 Signals,
+  Darwinex/cTrader dạng lịch sử phẳng và bảng tổng quát. MT4/MT5 History dùng
+  parser đã có để nhận closed Positions hoặc ghép Deals theo position ID.
+  Partial, reversal, thiếu ID hay layout không nhận diện trả warning/unknown.
+  Bảng độc quyền cần xuất cột chuẩn trước khi nạp.
+- Khai `--timezone` theo nguồn nếu timestamp thiếu offset. Ngày mơ hồ cần
+  `--date-order dmy|mdy`. Ngày thiếu giờ giữ độ phân giải ngày. Số thập phân khác
+  dấu chấm khai `--decimal-mark`. Chỉ dùng `--volume-lots` hoặc
+  `--stop-is-initial` khi source bảo đảm đơn vị hoặc phiên bản của SL.
+  `--profit-basis net|gross` và `--currency USD` dùng khi source xác nhận.
+  Mặt bằng R tự ghi không quy đổi thành PnL USD.
+- Nếu có giá đã được phép đọc, `--market-store` nhận JSON mapping theo mã
+  với `path`, `scale`, `time_basis: UTC`, `bar_seconds: 60` và
+  `scope: DEVELOPMENT`. Loader kiểm hash cột clock và mốc cuối trước khi
+  mở OHLC. Bid M1 dùng proxy spread cho Ask, chỉ lấy cả phút đã giữ đầy đủ
+  cho MAE/MFE. Risk sizing cần **SL ban đầu**, giá và timestamp đủ để tính
+  PnL. Đường vốn chỉ xác nhận được tại mốc có đủ giá cho mọi vị thế đang mở.
+- Với Standard funded, `--calendar` nhận JSON có `source`,
+  `valid_from_utc_msc`, `valid_to_utc_msc`, và `breaks_by_symbol`
+  chứa cặp mốc bắt đầu/kết thúc đã xác minh, sắp xếp theo thời gian. Khi
+  thiếu lịch, nắm giữ xuyên giữa thứ Bảy chỉ là cờ kiểm lại. Swing được
+  miễn quy tắc đóng qua kỳ nghỉ áp dụng cho funded Standard.
+- Nhãn theo [Selective Win Diagnosis](../../.agents/skills/strategy-qualification/references/selective-win-diagnosis.md).
+  Nhãn bị cắt bởi lịch cần lệnh có exit reason lịch và cặp giữ tiếp cùng entry,
+  risk và target costs. `--paired-continuation` nhận JSON khóa hash input và
+  profile, với `source`, `input_sha256`, `profile_sha256_lf` hai profile,
+  `basis: SAME_ENTRY_INITIAL_RISK_AND_TARGET_COSTS` và `profiles` ánh xạ
+  profile → số dòng → `entry_utc_msc`, `exit_utc_msc`, `risk_per_lot_usd`,
+  `net_R`. Cặp cần provenance từ phép so sánh giữ nguyên cơ chế. Thiếu
+  bằng chứng ưu tiên giữ unknown. MAE/MFE hậu nghiệm không dùng làm entry filter.
+- Profile phí bám snapshot [Standard](FTMO-DEMO-10K-STANDARD-FULL13-AND-EXECUTION-20261119.md)
+  và [Swing](SWING-10K-AUDIT-MULTIWEEK-AND-WIN-TAXONOMY-20261120.md).
+  Giá khớp đã chứa spread. Auditor hạch toán commission và swap đích một lần.
+  Đây là reprice trên fills quan sát, chưa dự đoán giá khớp/slippage ở broker đích.
+  FTMO 2-Step kiểm equity với 5% ở mốc 00:00 CE(S)T và 10% static. Báo
+  riêng margin quan sát và độ phủ. Score 80/20 thể hiện trọng tâm Swing và
+  Standard, không cộng điểm cho dữ liệu thiếu hoặc cấp quyền giao dịch.
+  [FTMO Trading Objectives](https://ftmo.com/en/trading-objectives/) ·
+  [FTMO weekend policy](https://ftmo.com/en/faq/can-i-hold-positions-overnight-or-over-the-weekend/).
+
+[Bằng chứng Bot Lab](BOT-LAB-LIVE-AUDITOR-AND-LEAKAGE-DIAGNOSIS-20261120.md)
+đối chiếu cả lệnh thắng và thua từ sổ đã seal, rồi chạy pipeline trên
+Performance CSV có sẵn. Giữ khác biệt giữa một journal tự ghi và deal history
+broker. Phần trả lại từ đỉnh lời không đủ để kết luận đổi exit cứu được edge.
+
 ## Thay tài khoản Free Trial
 
 Connector hiện có:

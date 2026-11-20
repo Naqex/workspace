@@ -14,7 +14,7 @@ SENSITIVE=re.compile(r"password|passwd|secret|token|api.?key|login|account|serve
 ALIASES={
  "opentime":"open_time","closetime":"close_time","symbol":"symbol","type":"side",
  "size":"volume","volume":"volume","price":"price","openprice":"price","closeprice":"close_price",
- "sl":"sl","stoploss":"sl","tp":"tp","takeprofit":"tp","profit":"profit","netprofit":"net_profit",
+ "sl":"sl","stoploss":"sl","initialsl":"initial_sl","initialstoploss":"initial_sl","tp":"tp","takeprofit":"tp","profit":"profit","netprofit":"net_profit",
  "commission":"commission","swap":"swap","fee":"fee","taxes":"tax","tax":"tax",
  "time":"time","deal":"deal","order":"order","ticket":"ticket","direction":"direction",
  "position":"position","positionid":"position","state":"state"}
@@ -116,10 +116,25 @@ def canonical(row,header):
     open_time, close_time = timestamp(row["open_time"]), timestamp(row["close_time"])
     if datetime.fromisoformat(close_time) < datetime.fromisoformat(open_time):
         raise ValueError("REPORT_CLOSE_PRECEDES_ENTRY")
+    def observed(name):
+        if row.get(name) in (None, ""):
+            return None
+        try:
+            return float(number(row[name]))
+        except ValueError:
+            return None
+
+    audit_net = float(net) if row.get("net_profit") or all(
+        row.get(k) not in (None, "") for k in ("profit", "commission", "swap")
+    ) else None
     return dict(symbol=symbol,side=side.upper(),open_time=open_time,
         close_time=close_time,volume=float(volume),price=float(price),
         sl=float(number(row.get("sl") or "0")),tp=float(number(row.get("tp") or "0")),
-        profit=float(net),profit_scope="net from reported signed costs",timezone_inferred=False)
+        profit=float(net),profit_scope="net from reported signed costs",timezone_inferred=False,
+        close_price=observed("close_price"), audit_sl=observed("sl"), audit_tp=observed("tp"),
+        audit_initial_sl=observed("initial_sl"), gross_profit=observed("profit"),
+        commission=observed("commission"), swap=observed("swap"), fee=observed("fee"),
+        audit_net_profit=audit_net if row.get("audit_costs_complete", True) else None)
 
 
 def table_records(headers,rows):
@@ -163,7 +178,7 @@ def mt4_operations(records, header, warnings):
         try:
             if number(entry["volume"]) != number(row["volume"]):
                 raise ValueError("MT4_PARTIAL_CLOSE")
-            report = dict(entry, open_time=entry["time"], close_time=row["time"])
+            report = dict(entry, open_time=entry["time"], close_time=row["time"], close_price=row.get("price"))
             report.update({name: row[name] for name in ("profit", "net_profit", "commission", "swap", "tax", "fee") if row.get(name)})
             closed.append(canonical(report, header))
         except (KeyError, ValueError, TypeError):
@@ -261,8 +276,13 @@ def report_bytes(raw,suffix):
             if (number(entry["volume"])!=number(exit["volume"]) or entry["side"].casefold()==exit["side"].casefold()
                     or entry.get("symbol") != exit.get("symbol")):
                 raise ValueError("DEAL_PAIR_MISMATCH")
-            row=dict(entry,open_time=entry["time"],close_time=exit["time"],
-                     net_profit=str(sum(number(r.get(k) or "0") for r in values for k in ("profit","commission","swap","fee"))))
+            components={k:str(sum(number(r[k]) for r in values))
+                        for k in ("profit","commission","swap","fee")
+                        if all(r.get(k) not in (None,"") for r in values)}
+            row=dict(entry,open_time=entry["time"],close_time=exit["time"],close_price=exit["price"],
+                     net_profit=str(sum(number(r.get(k) or "0") for r in values for k in ("profit","commission","swap","fee"))),
+                     audit_costs_complete=all(k in components for k in ("profit","commission","swap")))
+            row.update({k:components.get(k) for k in ("profit","commission","swap","fee")})
             closed.append(canonical(row,header))
         except (KeyError,ValueError,TypeError):warnings.append("DEAL_PAIR_INCOMPLETE")
     return dict(schema="MTTesterReport-v1",sha256=hashlib.sha256(raw).hexdigest(),format=suffix,

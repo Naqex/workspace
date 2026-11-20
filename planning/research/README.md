@@ -9,6 +9,10 @@ Từ workspace root, chạy `python -X utf8 tooling/ai-engines/research_inventor
 để xem mức gắn nhãn. Thêm `--all` để lấy từng đường dẫn và lý do còn thiếu
 thông tin.
 
+**Bot Lab · Audit trade log FTMO.** CLI offline Swing/Standard, phân rã cả
+lệnh thắng/thua ở sổ Swing đã khóa và audit 199 dòng Performance journal.
+[Kết quả và giới hạn](BOT-LAB-LIVE-AUDITOR-AND-LEAKAGE-DIAGNOSIS-20261120.md) · [JSON](BOT-LAB-LIVE-AUDITOR-AND-LEAKAGE-DIAGNOSIS-20261120.json).
+
 **FTMO Swing 10k/25k · giữ xuyên tuần.** Audit chỉ đọc đủ 13 mã. Ba nhánh
 và sổ equal-risk rớt cổng Development. Giữ Standard làm đối chứng
 Friday open. Tra bằng `--key swing-10k-20261120`.

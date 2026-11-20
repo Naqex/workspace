@@ -4,6 +4,11 @@
 
 ## Việc hiện tại
 
+Bot Lab có scorecard Swing/Standard chạy offline. Trên sổ Swing, markout
+thô âm và có giveback. Performance journal 199 dòng thiếu fills, lot và
+close time để dựng equity. Niêm phong từ 01/01/2025 giữ nguyên.
+[Audit và đường nạp log](research/BOT-LAB-LIVE-AUDITOR-AND-LEAKAGE-DIAGNOSIS-20261120.md).
+
 Owner phân trọng tâm nghiên cứu 80% Swing 10k/25k, 20% đối chứng Standard.
 Audit chỉ đọc có đủ spec Swing 13 mã. Cả ba nhánh Swing D1 và sổ ghép
 rớt cửa Development 2018–2024. Đề xuất Bot Lab để phân biệt lỗi thực thi

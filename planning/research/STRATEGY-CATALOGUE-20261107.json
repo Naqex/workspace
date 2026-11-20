@@ -4663,6 +4663,14 @@
     "version": 1,
     "broker_observations": [
       {
+        "id": "bot-lab-live-20261120",
+        "scope": "Offline FTMO trade-log auditor, sealed Development excursion diagnosis and Performance journal benchmark",
+        "report": "BOT-LAB-LIVE-AUDITOR-AND-LEAKAGE-DIAGNOSIS-20261120.md",
+        "summary": "BOT-LAB-LIVE-AUDITOR-AND-LEAKAGE-DIAGNOSIS-20261120.json",
+        "private_manifest": "bot-lab-live-20261120/manifest.json",
+        "private_manifest_sha256": "b4e2b66903266f97a34106a0afe6feb5465f82b1e4923c567508614b668772f4"
+      },
+      {
         "id": "swing-10k-20261120",
         "scope": "FTMO 10k Swing read-only 13-symbol specs, native sizing, frozen Development 2018\u20132024 paired cutoff screen and winner diagnosis",
         "report": "SWING-10K-AUDIT-MULTIWEEK-AND-WIN-TAXONOMY-20261120.md",
