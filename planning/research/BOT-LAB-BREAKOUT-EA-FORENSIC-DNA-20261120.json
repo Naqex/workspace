@@ -1,0 +1,6064 @@
+{
+  "schema": "bot-lab-breakout-forensic-dna-v1",
+  "input_sha256": "90ec2dbbab27388a5db8cdf39a552dc1ae637897ccde059a7467e5382da18c00",
+  "normalization": {
+    "layout": "MQL5_SIGNALS_HISTORY",
+    "columns": [
+      "Time",
+      "Type",
+      "Volume",
+      "Symbol",
+      "Price",
+      "S/L",
+      "T/P",
+      "Time",
+      "Price",
+      "Commission",
+      "Swap",
+      "Profit",
+      "Comment"
+    ],
+    "source_rows": 1781,
+    "accepted": 776,
+    "rejected": {
+      "NON_TRADE_PENDING_ORDER": 1002,
+      "NON_TRADE_OR_CASH_FLOW": 3
+    },
+    "unknown_counts": {
+      "open_time": 776,
+      "close_time": 776,
+      "direction": 0,
+      "lots": 0,
+      "open_price": 0,
+      "sl": 0,
+      "initial_sl": 776,
+      "tp": 773,
+      "close_price": 0,
+      "commission": 776,
+      "swap": 776,
+      "profit": 0,
+      "net_profit": 776,
+      "profit_currency": 776,
+      "pips": 776,
+      "reported_r": 776
+    },
+    "warnings": [],
+    "row_data_scope": "OBSERVED_LOG_ONLY"
+  },
+  "scope": {
+    "first_open_source_clock": "2025-01-13T08:04:52",
+    "last_close_source_clock": "2026-11-18T18:55:00",
+    "time_cohorts": {
+      "pre_2025": 0,
+      "post_2025": 776,
+      "straddles_2025": 0
+    },
+    "bar_path_scope": {
+      "bar_path_skipped_holdout_lock": 776
+    },
+    "timezone_status": "SOURCE_WALL_CLOCK_OFFSET_UNRESOLVED",
+    "initial_stop_verified": 0,
+    "market_store_opened": false,
+    "backtests_run": 0,
+    "order_send_count": 0
+  },
+  "price_spec_bindings": {
+    "Standard": {
+      "commit": "36f1535",
+      "sha256_lf": "09d1a66b5bbb46032ca8dfd7294b40a7d98424a3dd155ac9561cc5fe9c25dc32",
+      "reference": "FTMO-DEMO-10K-STANDARD-FULL13-AND-EXECUTION-20261119.json"
+    },
+    "Swing": {
+      "commit": "8fd77ef",
+      "sha256_lf": "803352fbf00d7af15719033c9b0aa5b3140bca0d0cfa7235d01caa2e7b95f4a3",
+      "reference": "SWING-10K-AUDIT-MULTIWEEK-AND-WIN-TAXONOMY-20261120.json"
+    }
+  },
+  "assets": {
+    "USDJPY": {
+      "trades": 610,
+      "first_open": "2025-01-13",
+      "last_close": "2026-11-18",
+      "clock": {
+        "entry_minute": {
+          "0": 26,
+          "1": 63,
+          "2": 22,
+          "3": 19,
+          "4": 14,
+          "5": 16,
+          "6": 13,
+          "7": 13,
+          "8": 14,
+          "9": 10,
+          "10": 13,
+          "11": 9,
+          "12": 8,
+          "13": 4,
+          "14": 7,
+          "15": 11,
+          "16": 8,
+          "17": 8,
+          "18": 5,
+          "19": 4,
+          "20": 13,
+          "21": 11,
+          "22": 13,
+          "23": 4,
+          "24": 8,
+          "25": 10,
+          "26": 10,
+          "27": 4,
+          "28": 6,
+          "29": 4,
+          "30": 20,
+          "31": 12,
+          "32": 8,
+          "33": 8,
+          "34": 8,
+          "35": 6,
+          "36": 2,
+          "37": 4,
+          "38": 5,
+          "39": 5,
+          "40": 8,
+          "41": 9,
+          "42": 5,
+          "43": 6,
+          "44": 6,
+          "45": 17,
+          "46": 7,
+          "47": 7,
+          "48": 7,
+          "49": 6,
+          "50": 5,
+          "51": 5,
+          "52": 9,
+          "53": 4,
+          "54": 11,
+          "55": 12,
+          "56": 9,
+          "57": 13,
+          "58": 7,
+          "59": 9
+        },
+        "entry_hour_source": {
+          "5": 205,
+          "6": 74,
+          "7": 51,
+          "8": 60,
+          "9": 45,
+          "10": 43,
+          "11": 27,
+          "12": 12,
+          "13": 14,
+          "14": 18,
+          "15": 31,
+          "16": 9,
+          "17": 21
+        },
+        "entry_weekday_source": {
+          "0": 113,
+          "1": 124,
+          "2": 127,
+          "3": 127,
+          "4": 119
+        },
+        "entry_minute_grid": {
+          "5": 157,
+          "15": 74,
+          "30": 46,
+          "60": 26
+        },
+        "entry_exact_second_grid": {
+          "5": 5,
+          "15": 4,
+          "30": 3,
+          "60": 2
+        },
+        "pending_count": 824,
+        "pending_open_clock": {
+          "05:01": 534,
+          "06:35": 2,
+          "05:14": 2,
+          "07:05": 2,
+          "11:59": 1,
+          "11:00": 1,
+          "08:59": 2,
+          "08:44": 4,
+          "06:06": 1,
+          "05:11": 5,
+          "14:04": 1,
+          "07:54": 3,
+          "10:40": 1,
+          "05:13": 2,
+          "05:29": 2,
+          "06:02": 1,
+          "05:56": 2,
+          "16:54": 1,
+          "10:00": 4,
+          "08:52": 2,
+          "05:46": 3,
+          "11:03": 1,
+          "05:57": 2,
+          "05:55": 2,
+          "07:32": 1,
+          "10:55": 1,
+          "05:16": 3,
+          "08:45": 2,
+          "05:10": 3,
+          "08:43": 2,
+          "09:57": 2,
+          "05:03": 4,
+          "05:18": 2,
+          "08:12": 1,
+          "08:58": 2,
+          "06:33": 2,
+          "05:21": 3,
+          "05:08": 1,
+          "05:25": 1,
+          "05:05": 6,
+          "07:49": 2,
+          "05:17": 2,
+          "06:22": 1,
+          "05:24": 2,
+          "07:58": 1,
+          "15:30": 1,
+          "07:52": 2,
+          "11:26": 2,
+          "10:03": 1,
+          "10:01": 1,
+          "10:30": 1,
+          "08:20": 2,
+          "09:56": 1,
+          "10:22": 1,
+          "06:39": 1,
+          "05:06": 5,
+          "08:33": 1,
+          "07:40": 1,
+          "09:33": 1,
+          "06:56": 1,
+          "09:10": 1,
+          "07:00": 2,
+          "06:12": 2,
+          "08:51": 1,
+          "09:00": 1,
+          "07:09": 1,
+          "08:54": 1,
+          "11:58": 1,
+          "09:03": 3,
+          "07:34": 1,
+          "05:41": 1,
+          "05:02": 6,
+          "08:36": 1,
+          "07:57": 1,
+          "10:06": 1,
+          "08:56": 2,
+          "05:26": 2,
+          "09:50": 1,
+          "11:46": 1,
+          "07:27": 1,
+          "06:55": 1,
+          "08:09": 1,
+          "06:04": 1,
+          "10:21": 1,
+          "06:41": 1,
+          "14:59": 1,
+          "08:16": 1,
+          "10:20": 1,
+          "10:50": 1,
+          "09:28": 1,
+          "05:45": 4,
+          "09:07": 1,
+          "09:02": 2,
+          "05:49": 1,
+          "07:37": 1,
+          "05:59": 1,
+          "13:32": 2,
+          "09:48": 1,
+          "06:38": 1,
+          "15:09": 1,
+          "11:02": 1,
+          "17:07": 1,
+          "06:15": 4,
+          "15:52": 1,
+          "10:05": 1,
+          "06:00": 2,
+          "05:33": 1,
+          "06:16": 2,
+          "09:55": 1,
+          "14:20": 1,
+          "05:04": 5,
+          "15:10": 1,
+          "06:17": 1,
+          "07:07": 1,
+          "08:22": 1,
+          "08:21": 1,
+          "09:25": 1,
+          "09:31": 2,
+          "09:43": 2,
+          "06:01": 1,
+          "07:03": 1,
+          "06:09": 2,
+          "15:25": 1,
+          "07:13": 1,
+          "05:53": 1,
+          "12:08": 1,
+          "07:48": 1,
+          "06:45": 1,
+          "10:14": 2,
+          "11:54": 1,
+          "09:08": 1,
+          "05:09": 3,
+          "07:45": 1,
+          "07:22": 1,
+          "09:12": 1,
+          "06:27": 1,
+          "07:26": 1,
+          "06:08": 1,
+          "05:07": 2,
+          "07:30": 1,
+          "09:51": 1,
+          "05:40": 1,
+          "05:58": 1,
+          "09:45": 1,
+          "08:24": 1,
+          "08:42": 2,
+          "08:46": 1,
+          "15:00": 1,
+          "06:47": 1,
+          "06:48": 1,
+          "11:55": 1,
+          "07:18": 1,
+          "14:29": 1,
+          "05:22": 1,
+          "05:48": 1,
+          "07:02": 1,
+          "14:30": 1,
+          "05:20": 2,
+          "16:20": 1,
+          "06:31": 1,
+          "08:53": 1,
+          "05:19": 1,
+          "12:30": 1,
+          "15:17": 1,
+          "08:00": 1,
+          "07:31": 1,
+          "10:34": 1,
+          "06:26": 1,
+          "07:28": 1,
+          "06:49": 1,
+          "08:10": 1,
+          "07:56": 2,
+          "10:25": 1,
+          "05:35": 1,
+          "06:37": 1,
+          "06:03": 2,
+          "06:23": 1,
+          "05:30": 2,
+          "10:33": 1,
+          "07:04": 1,
+          "08:31": 1,
+          "15:45": 1,
+          "12:10": 1,
+          "08:30": 1,
+          "09:42": 1,
+          "08:01": 1,
+          "05:50": 1,
+          "08:15": 1,
+          "06:52": 1,
+          "08:07": 1,
+          "09:59": 1,
+          "05:42": 1,
+          "05:31": 1,
+          "13:28": 1,
+          "07:01": 1,
+          "14:38": 1,
+          "05:15": 1,
+          "06:21": 1,
+          "11:40": 1,
+          "08:04": 1
+        },
+        "pending_days": 482,
+        "pending_days_with_both_stop_sides": 9,
+        "pending_expiry_at_asset_cutoff": 349,
+        "earliest_monday_fill": "05:01:01",
+        "earliest_monday_pending": "05:01:00",
+        "latest_friday_close": "18:00:02",
+        "sunday_entries": 0,
+        "calendar_midnight_nights_buckets": {
+          "0": 610
+        },
+        "holding_hours": {
+          "p10": 1.6044444444444446,
+          "p25": 4.480138888888889,
+          "median": 8.556527777777777,
+          "p75": 11.794444444444444,
+          "p90": 12.90238888888889,
+          "max": 12.983611111111111
+        },
+        "utc_assumption_sensitivity": {
+          "UTC": {
+            "entry_hour_utc": {
+              "5": 205,
+              "6": 74,
+              "7": 51,
+              "8": 60,
+              "9": 45,
+              "10": 43,
+              "11": 27,
+              "12": 12,
+              "13": 14,
+              "14": 18,
+              "15": 31,
+              "16": 9,
+              "17": 21
+            },
+            "sunday_utc_entries": 0,
+            "earliest_monday_open_utc": "05:01:01",
+            "latest_friday_close_utc": "18:00:02",
+            "positions_crossing_saturday_utc": 0,
+            "ny_17_rollover_nights_buckets": {
+              "0": 610
+            }
+          },
+          "Europe/Helsinki": {
+            "entry_hour_utc": {
+              "2": 132,
+              "3": 119,
+              "4": 59,
+              "5": 55,
+              "6": 53,
+              "7": 45,
+              "8": 33,
+              "9": 16,
+              "10": 8,
+              "11": 24,
+              "12": 23,
+              "13": 21,
+              "14": 11,
+              "15": 11
+            },
+            "sunday_utc_entries": 0,
+            "earliest_monday_open_utc": "02:01:01",
+            "latest_friday_close_utc": "16:00:01",
+            "positions_crossing_saturday_utc": 0,
+            "ny_17_rollover_nights_buckets": {
+              "0": 610
+            }
+          }
+        },
+        "dst_14_day_window_checks": [
+          {
+            "model": "Europe/Helsinki",
+            "day": "2025-03-30",
+            "pending_before": {
+              "n": 16,
+              "modes": [
+                [
+                  "05:01",
+                  11
+                ],
+                [
+                  "08:31",
+                  1
+                ],
+                [
+                  "06:12",
+                  1
+                ]
+              ]
+            },
+            "pending_after": {
+              "n": 17,
+              "modes": [
+                [
+                  "05:01",
+                  10
+                ],
+                [
+                  "10:33",
+                  1
+                ],
+                [
+                  "05:57",
+                  1
+                ]
+              ]
+            },
+            "exit_before": {
+              "n": 14,
+              "modes": [
+                [
+                  "18:00",
+                  8
+                ],
+                [
+                  "13:05",
+                  1
+                ],
+                [
+                  "14:40",
+                  1
+                ]
+              ]
+            },
+            "exit_after": {
+              "n": 13,
+              "modes": [
+                [
+                  "18:00",
+                  9
+                ],
+                [
+                  "17:22",
+                  1
+                ],
+                [
+                  "11:24",
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "model": "Europe/Helsinki",
+            "day": "2025-10-26",
+            "pending_before": {
+              "n": 18,
+              "modes": [
+                [
+                  "05:01",
+                  13
+                ],
+                [
+                  "09:03",
+                  1
+                ],
+                [
+                  "12:08",
+                  1
+                ]
+              ]
+            },
+            "pending_after": {
+              "n": 17,
+              "modes": [
+                [
+                  "05:01",
+                  11
+                ],
+                [
+                  "08:44",
+                  2
+                ],
+                [
+                  "07:54",
+                  1
+                ]
+              ]
+            },
+            "exit_before": {
+              "n": 12,
+              "modes": [
+                [
+                  "18:00",
+                  9
+                ],
+                [
+                  "15:07",
+                  1
+                ],
+                [
+                  "15:30",
+                  1
+                ]
+              ]
+            },
+            "exit_after": {
+              "n": 13,
+              "modes": [
+                [
+                  "18:00",
+                  9
+                ],
+                [
+                  "13:23",
+                  1
+                ],
+                [
+                  "15:44",
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "model": "Europe/Helsinki",
+            "day": "2026-03-29",
+            "pending_before": {
+              "n": 16,
+              "modes": [
+                [
+                  "05:01",
+                  11
+                ],
+                [
+                  "08:59",
+                  1
+                ],
+                [
+                  "05:02",
+                  1
+                ]
+              ]
+            },
+            "pending_after": {
+              "n": 19,
+              "modes": [
+                [
+                  "05:01",
+                  12
+                ],
+                [
+                  "08:16",
+                  1
+                ],
+                [
+                  "10:20",
+                  1
+                ]
+              ]
+            },
+            "exit_before": {
+              "n": 14,
+              "modes": [
+                [
+                  "18:00",
+                  9
+                ],
+                [
+                  "13:25",
+                  1
+                ],
+                [
+                  "14:08",
+                  1
+                ]
+              ]
+            },
+            "exit_after": {
+              "n": 11,
+              "modes": [
+                [
+                  "18:00",
+                  9
+                ],
+                [
+                  "11:58",
+                  1
+                ],
+                [
+                  "17:02",
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "model": "Europe/Helsinki",
+            "day": "2026-10-25",
+            "pending_before": {
+              "n": 19,
+              "modes": [
+                [
+                  "05:01",
+                  12
+                ],
+                [
+                  "05:13",
+                  1
+                ],
+                [
+                  "07:05",
+                  1
+                ]
+              ]
+            },
+            "pending_after": {
+              "n": 17,
+              "modes": [
+                [
+                  "05:01",
+                  10
+                ],
+                [
+                  "08:44",
+                  1
+                ],
+                [
+                  "06:06",
+                  1
+                ]
+              ]
+            },
+            "exit_before": {
+              "n": 11,
+              "modes": [
+                [
+                  "18:00",
+                  10
+                ],
+                [
+                  "15:30",
+                  1
+                ]
+              ]
+            },
+            "exit_after": {
+              "n": 13,
+              "modes": [
+                [
+                  "18:00",
+                  9
+                ],
+                [
+                  "15:31",
+                  1
+                ],
+                [
+                  "10:28",
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "model": "America/New_York",
+            "day": "2025-03-09",
+            "pending_before": {
+              "n": 18,
+              "modes": [
+                [
+                  "05:01",
+                  12
+                ],
+                [
+                  "08:30",
+                  1
+                ],
+                [
+                  "13:32",
+                  1
+                ]
+              ]
+            },
+            "pending_after": {
+              "n": 16,
+              "modes": [
+                [
+                  "05:01",
+                  10
+                ],
+                [
+                  "06:15",
+                  2
+                ],
+                [
+                  "05:45",
+                  1
+                ]
+              ]
+            },
+            "exit_before": {
+              "n": 12,
+              "modes": [
+                [
+                  "18:00",
+                  9
+                ],
+                [
+                  "13:52",
+                  1
+                ],
+                [
+                  "17:06",
+                  1
+                ]
+              ]
+            },
+            "exit_after": {
+              "n": 14,
+              "modes": [
+                [
+                  "18:00",
+                  6
+                ],
+                [
+                  "15:57",
+                  1
+                ],
+                [
+                  "15:10",
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "model": "America/New_York",
+            "day": "2025-11-02",
+            "pending_before": {
+              "n": 17,
+              "modes": [
+                [
+                  "05:01",
+                  12
+                ],
+                [
+                  "08:44",
+                  1
+                ],
+                [
+                  "07:13",
+                  1
+                ]
+              ]
+            },
+            "pending_after": {
+              "n": 17,
+              "modes": [
+                [
+                  "05:01",
+                  11
+                ],
+                [
+                  "06:09",
+                  1
+                ],
+                [
+                  "15:25",
+                  1
+                ]
+              ]
+            },
+            "exit_before": {
+              "n": 13,
+              "modes": [
+                [
+                  "18:00",
+                  8
+                ],
+                [
+                  "15:30",
+                  1
+                ],
+                [
+                  "16:45",
+                  1
+                ]
+              ]
+            },
+            "exit_after": {
+              "n": 13,
+              "modes": [
+                [
+                  "18:00",
+                  9
+                ],
+                [
+                  "17:00",
+                  1
+                ],
+                [
+                  "10:32",
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "model": "America/New_York",
+            "day": "2026-03-08",
+            "pending_before": {
+              "n": 16,
+              "modes": [
+                [
+                  "05:01",
+                  10
+                ],
+                [
+                  "05:55",
+                  1
+                ],
+                [
+                  "05:49",
+                  1
+                ]
+              ]
+            },
+            "pending_after": {
+              "n": 13,
+              "modes": [
+                [
+                  "05:01",
+                  10
+                ],
+                [
+                  "05:05",
+                  1
+                ],
+                [
+                  "09:07",
+                  1
+                ]
+              ]
+            },
+            "exit_before": {
+              "n": 14,
+              "modes": [
+                [
+                  "18:00",
+                  9
+                ],
+                [
+                  "15:30",
+                  2
+                ],
+                [
+                  "05:26",
+                  1
+                ]
+              ]
+            },
+            "exit_after": {
+              "n": 17,
+              "modes": [
+                [
+                  "18:00",
+                  9
+                ],
+                [
+                  "17:54",
+                  1
+                ],
+                [
+                  "14:15",
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "model": "America/New_York",
+            "day": "2026-11-01",
+            "pending_before": {
+              "n": 19,
+              "modes": [
+                [
+                  "05:01",
+                  11
+                ],
+                [
+                  "05:11",
+                  1
+                ],
+                [
+                  "14:04",
+                  1
+                ]
+              ]
+            },
+            "pending_after": {
+              "n": 17,
+              "modes": [
+                [
+                  "05:01",
+                  11
+                ],
+                [
+                  "11:59",
+                  1
+                ],
+                [
+                  "11:00",
+                  1
+                ]
+              ]
+            },
+            "exit_before": {
+              "n": 11,
+              "modes": [
+                [
+                  "18:00",
+                  10
+                ],
+                [
+                  "15:31",
+                  1
+                ]
+              ]
+            },
+            "exit_after": {
+              "n": 13,
+              "modes": [
+                [
+                  "18:00",
+                  8
+                ],
+                [
+                  "10:28",
+                  1
+                ],
+                [
+                  "13:51",
+                  1
+                ]
+              ]
+            }
+          }
+        ]
+      },
+      "total": {
+        "gross": {
+          "n": 610,
+          "wins": 278,
+          "losses": 330,
+          "breakeven": 2,
+          "winrate": 0.4557377049180328,
+          "sum": 8413.79,
+          "mean": 13.793098360655737,
+          "median": -10.395,
+          "avg_win": 117.34269784172662,
+          "avg_loss": 73.356,
+          "avg_loss_over_avg_win": 0.6251432884127441,
+          "top2_profit_share": 0.07019622473312659,
+          "top5_profit_share": 0.135820279222728,
+          "top10_profit_share": 0.21460476554101052,
+          "ex_top2": 6123.900000000001,
+          "ex_top5": 3983.1600000000008,
+          "largest_month_profit_share": 0.09959759383984744,
+          "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+          "months_observed": 23
+        },
+        "source_net_coverage": 0,
+        "source_net_metrics": null,
+        "modeled_costs": {
+          "Swing/UTC": {
+            "n": 610,
+            "base": 7213.411813511813,
+            "stress": 6594.7495594084785,
+            "swap": 0.0
+          },
+          "Swing/Europe/Helsinki": {
+            "n": 610,
+            "base": 7213.411813511813,
+            "stress": 6594.7495594084785,
+            "swap": 0.0
+          },
+          "Standard/UTC": {
+            "n": 610,
+            "base": 7213.411813511813,
+            "stress": 6594.7495594084785,
+            "swap": 0.0
+          },
+          "Standard/Europe/Helsinki": {
+            "n": 610,
+            "base": 7213.411813511813,
+            "stress": 6594.7495594084785,
+            "swap": 0.0
+          }
+        }
+      },
+      "directions": {
+        "BUY": {
+          "gross": {
+            "n": 318,
+            "wins": 155,
+            "losses": 162,
+            "breakeven": 1,
+            "winrate": 0.48742138364779874,
+            "sum": 3807.77,
+            "mean": 11.974119496855346,
+            "median": -1.3250000000000002,
+            "avg_win": 103.22645161290322,
+            "avg_loss": 75.2612962962963,
+            "avg_loss_over_avg_win": 0.7290892510625513,
+            "top2_profit_share": 0.07086518209261192,
+            "top5_profit_share": 0.14343722851732174,
+            "top10_profit_share": 0.23314979281379491,
+            "ex_top2": 2673.92,
+            "ex_top5": 1512.7600000000002,
+            "largest_month_profit_share": 0.11082493234417284,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 23
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 318,
+              "base": 3170.0198183961206,
+              "stress": 2842.0305870838574,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 318,
+              "base": 3170.0198183961206,
+              "stress": 2842.0305870838574,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 318,
+              "base": 3170.0198183961206,
+              "stress": 2842.0305870838574,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 318,
+              "base": 3170.0198183961206,
+              "stress": 2842.0305870838574,
+              "swap": 0.0
+            }
+          }
+        },
+        "SELL": {
+          "gross": {
+            "n": 292,
+            "wins": 123,
+            "losses": 168,
+            "breakeven": 1,
+            "winrate": 0.4212328767123288,
+            "sum": 4606.02,
+            "mean": 15.77404109589041,
+            "median": -14.815,
+            "avg_win": 135.13146341463414,
+            "avg_loss": 71.51875,
+            "avg_loss_over_avg_win": 0.5292531301948058,
+            "top2_profit_share": 0.13776948313506213,
+            "top5_profit_share": 0.2665654704211557,
+            "top10_profit_share": 0.39425443575873426,
+            "ex_top2": 2316.13,
+            "ex_top5": 175.39000000000033,
+            "largest_month_profit_share": 0.1277725936260805,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 23
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 292,
+              "base": 4043.391995115692,
+              "stress": 3752.7189723246215,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 292,
+              "base": 4043.391995115692,
+              "stress": 3752.7189723246215,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 292,
+              "base": 4043.391995115692,
+              "stress": 3752.7189723246215,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 292,
+              "base": 4043.391995115692,
+              "stress": 3752.7189723246215,
+              "swap": 0.0
+            }
+          }
+        }
+      },
+      "exit": {
+        "labels": {
+          "TIME_OR_SIGNAL_EXIT": 424,
+          "HIT_EXACT_SL": 111,
+          "SL_TAG_OUTSIDE_ONE_TICK": 75
+        },
+        "mechanisms": {
+          "TIME_OR_SIGNAL": 424,
+          "SL": 186
+        },
+        "positive_gross_by_label": {
+          "TIME_OR_SIGNAL_EXIT": 278
+        },
+        "source_swap_known": 0,
+        "cutoff_proximity_5s": 418,
+        "cutoff_gross_winners": 272,
+        "cutoff_gross_usd": 26153.18,
+        "time_or_signal_gross_usd": 27786.07,
+        "tagged_stop_distance_ticks": {
+          "p10": 0.0,
+          "p25": 0.0,
+          "median": 0.0,
+          "p75": 6.000000000000227,
+          "p90": 24.500000000003297,
+          "max": 217.00000000001296
+        },
+        "other_time_or_signal_clock": {
+          "15:57": 1,
+          "14:16": 1,
+          "17:06": 1,
+          "07:15": 1,
+          "16:43": 1,
+          "13:04": 1
+        }
+      },
+      "stop_distance": {
+        "p10": 23.379999999998233,
+        "p25": 32.99999999999912,
+        "median": 45.700000000000784,
+        "p75": 62.89999999999978,
+        "p90": 85.2999999999983,
+        "max": 181.20000000000118
+      },
+      "stop_unit": "pip",
+      "target_distance": null,
+      "target_over_stop": null,
+      "target_rows": 0,
+      "display_r_multiple": {
+        "p10": -1.0066545048217423,
+        "p25": -0.9973452186902086,
+        "median": -0.10304991552568861,
+        "p75": 0.7123693546490028,
+        "p90": 1.6500720125738422,
+        "max": 12.323654550702893
+      },
+      "display_r_total": 84.31340879086146,
+      "actual_initial_r_multiple": null,
+      "risk": {
+        "rows": 610,
+        "source_balance_is_fee_incomplete": true,
+        "dollar_stop_risk": {
+          "p10": 98.78484952128389,
+          "p25": 99.44127050437692,
+          "median": 100.21465761579647,
+          "p75": 101.37344133123092,
+          "p90": 102.72431214128947,
+          "max": 167.1137520180193
+        },
+        "percentage_of_reconstructed_balance": {
+          "p10": 0.8732257393009337,
+          "p25": 0.9161272131276413,
+          "median": 0.9609714016730877,
+          "p75": 1.0331573178128108,
+          "p90": 1.191592488134762,
+          "max": 1.6626175531217178
+        },
+        "correlation_balance_to_stop_risk": 0.07614339312404135
+      },
+      "concurrency": {
+        "peak": 2,
+        "peak_same_symbol_and_side": 1,
+        "overlap_ms": 8000,
+        "minimum_inter_entry_seconds": 268.0,
+        "minimum_same_symbol_prior_close_to_next_entry_seconds": -1.0
+      },
+      "drawdown": {
+        "gross_cash": {
+          "peak_to_valley": 2697.5100000000007,
+          "static_below_initial": 47.16
+        },
+        "longest_gross_losing_streak": 8,
+        "display_risk_r_rows": 610,
+        "closed_R_proxy": {
+          "peak_to_valley": 26.50391162937061,
+          "static_below_initial": 0.46080576468954065
+        },
+        "closed_only_rule_scale_sensitivity": {
+          "UTC": {
+            "0.5": {
+              "closed_daily_pct": 1.2322877686179503,
+              "closed_static_pct": 0.23040288234477033,
+              "closed_peak_to_valley_pct": 13.251955814685305
+            },
+            "0.75": {
+              "closed_daily_pct": 1.8484316529269256,
+              "closed_static_pct": 0.3456043235171555,
+              "closed_peak_to_valley_pct": 19.877933722027958
+            }
+          },
+          "Europe/Helsinki": {
+            "0.5": {
+              "closed_daily_pct": 1.2322877686179503,
+              "closed_static_pct": 0.23040288234477033,
+              "closed_peak_to_valley_pct": 13.251955814685305
+            },
+            "0.75": {
+              "closed_daily_pct": 1.8484316529269256,
+              "closed_static_pct": 0.3456043235171555,
+              "closed_peak_to_valley_pct": 19.877933722027958
+            }
+          }
+        },
+        "true_initial_R_drawdown": null
+      },
+      "monthly": {
+        "2025-01": {
+          "gross": {
+            "n": 17,
+            "wins": 9,
+            "losses": 8,
+            "breakeven": 0,
+            "winrate": 0.5294117647058824,
+            "sum": 631.65,
+            "mean": 37.15588235294118,
+            "median": 4.09,
+            "avg_win": 134.5011111111111,
+            "avg_loss": 72.3575,
+            "avg_loss_over_avg_win": 0.5379695335024082,
+            "top2_profit_share": 0.6324937423069615,
+            "top5_profit_share": 0.9243376758556312,
+            "top10_profit_share": 1.0,
+            "ex_top2": -133.99,
+            "ex_top5": -487.2700000000001,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 17,
+              "base": 606.0276543362563,
+              "stress": 592.8937436405777,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 17,
+              "base": 606.0276543362563,
+              "stress": 592.8937436405777,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 17,
+              "base": 606.0276543362563,
+              "stress": 592.8937436405777,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 17,
+              "base": 606.0276543362563,
+              "stress": 592.8937436405777,
+              "swap": 0.0
+            }
+          }
+        },
+        "2025-02": {
+          "gross": {
+            "n": 22,
+            "wins": 12,
+            "losses": 10,
+            "breakeven": 0,
+            "winrate": 0.5454545454545454,
+            "sum": 172.22000000000003,
+            "mean": 7.828181818181819,
+            "median": 5.75,
+            "avg_win": 62.4225,
+            "avg_loss": 57.685,
+            "avg_loss_over_avg_win": 0.9241058913052185,
+            "top2_profit_share": 0.355948042239043,
+            "top5_profit_share": 0.6762118360099857,
+            "top10_profit_share": 0.9846476297275288,
+            "ex_top2": -94.40999999999997,
+            "ex_top5": -334.30999999999995,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 22,
+              "base": 149.14965786366832,
+              "stress": 136.99611699401245,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 22,
+              "base": 149.14965786366832,
+              "stress": 136.99611699401245,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 22,
+              "base": 149.14965786366832,
+              "stress": 136.99611699401245,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 22,
+              "base": 149.14965786366832,
+              "stress": 136.99611699401245,
+              "swap": 0.0
+            }
+          }
+        },
+        "2025-03": {
+          "gross": {
+            "n": 29,
+            "wins": 11,
+            "losses": 18,
+            "breakeven": 0,
+            "winrate": 0.3793103448275862,
+            "sum": -366.18,
+            "mean": -12.626896551724139,
+            "median": -34.47,
+            "avg_win": 87.62636363636364,
+            "avg_loss": 73.89277777777778,
+            "avg_loss_over_avg_win": 0.8432710740391077,
+            "top2_profit_share": 0.36996960234051607,
+            "top5_profit_share": 0.6862505057631058,
+            "top10_profit_share": 0.9876749421614499,
+            "ex_top2": -722.79,
+            "ex_top5": -1027.65,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 29,
+              "base": -406.1038533796577,
+              "stress": -427.5029961008876,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 29,
+              "base": -406.1038533796577,
+              "stress": -427.5029961008876,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 29,
+              "base": -406.1038533796577,
+              "stress": -427.5029961008876,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 29,
+              "base": -406.1038533796577,
+              "stress": -427.5029961008876,
+              "swap": 0.0
+            }
+          }
+        },
+        "2025-04": {
+          "gross": {
+            "n": 24,
+            "wins": 12,
+            "losses": 12,
+            "breakeven": 0,
+            "winrate": 0.5,
+            "sum": -47.58,
+            "mean": -1.9825,
+            "median": -6.404999999999999,
+            "avg_win": 63.681666666666665,
+            "avg_loss": 67.64666666666666,
+            "avg_loss_over_avg_win": 1.0622628176607605,
+            "top2_profit_share": 0.44655709387840564,
+            "top5_profit_share": 0.8087099897929808,
+            "top10_profit_share": 0.9914025491376378,
+            "ex_top2": -388.83,
+            "ex_top5": -665.58,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 24,
+              "base": -71.95241607959659,
+              "stress": -85.4118474751147,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 24,
+              "base": -71.95241607959659,
+              "stress": -85.4118474751147,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 24,
+              "base": -71.95241607959659,
+              "stress": -85.4118474751147,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 24,
+              "base": -71.95241607959659,
+              "stress": -85.4118474751147,
+              "swap": 0.0
+            }
+          }
+        },
+        "2025-05": {
+          "gross": {
+            "n": 23,
+            "wins": 17,
+            "losses": 6,
+            "breakeven": 0,
+            "winrate": 0.7391304347826086,
+            "sum": 1961.6,
+            "mean": 85.28695652173913,
+            "median": 35.05,
+            "avg_win": 129.66294117647058,
+            "avg_loss": 40.445,
+            "avg_loss_over_avg_win": 0.3119241290767465,
+            "top2_profit_share": 0.40160234454036936,
+            "top5_profit_share": 0.6641064842328752,
+            "top10_profit_share": 0.9286702627173622,
+            "ex_top2": 1076.36,
+            "ex_top5": 497.73,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 23,
+              "base": 1937.2476432435508,
+              "stress": 1923.796359246618,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 23,
+              "base": 1937.2476432435508,
+              "stress": 1923.796359246618,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 23,
+              "base": 1937.2476432435508,
+              "stress": 1923.796359246618,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 23,
+              "base": 1937.2476432435508,
+              "stress": 1923.796359246618,
+              "swap": 0.0
+            }
+          }
+        },
+        "2025-06": {
+          "gross": {
+            "n": 26,
+            "wins": 14,
+            "losses": 12,
+            "breakeven": 0,
+            "winrate": 0.5384615384615384,
+            "sum": 549.73,
+            "mean": 21.143461538461537,
+            "median": 12.745000000000001,
+            "avg_win": 95.465,
+            "avg_loss": 65.565,
+            "avg_loss_over_avg_win": 0.6867962080343581,
+            "top2_profit_share": 0.3236563886540318,
+            "top5_profit_share": 0.576591271296137,
+            "top10_profit_share": 0.9011679673178652,
+            "ex_top2": 117.15999999999997,
+            "ex_top5": -220.89,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 26,
+              "base": 515.2157871968925,
+              "stress": 496.143148684166,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 26,
+              "base": 515.2157871968925,
+              "stress": 496.143148684166,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 26,
+              "base": 515.2157871968925,
+              "stress": 496.143148684166,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 26,
+              "base": 515.2157871968925,
+              "stress": 496.143148684166,
+              "swap": 0.0
+            }
+          }
+        },
+        "2025-07": {
+          "gross": {
+            "n": 32,
+            "wins": 16,
+            "losses": 16,
+            "breakeven": 0,
+            "winrate": 0.5,
+            "sum": 747.39,
+            "mean": 23.3559375,
+            "median": 0.7399999999999999,
+            "avg_win": 128.301875,
+            "avg_loss": 81.59,
+            "avg_loss_over_avg_win": 0.6359221172722535,
+            "top2_profit_share": 0.4127472805833898,
+            "top5_profit_share": 0.6954204683290871,
+            "top10_profit_share": 0.8956270124657181,
+            "ex_top2": -99.90999999999997,
+            "ex_top5": -680.1899999999999,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 32,
+              "base": 695.4642339538368,
+              "stress": 667.2839670110811,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 32,
+              "base": 695.4642339538368,
+              "stress": 667.2839670110811,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 32,
+              "base": 695.4642339538368,
+              "stress": 667.2839670110811,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 32,
+              "base": 695.4642339538368,
+              "stress": 667.2839670110811,
+              "swap": 0.0
+            }
+          }
+        },
+        "2025-08": {
+          "gross": {
+            "n": 29,
+            "wins": 13,
+            "losses": 16,
+            "breakeven": 0,
+            "winrate": 0.4482758620689655,
+            "sum": 767.0400000000001,
+            "mean": 26.449655172413795,
+            "median": -24.77,
+            "avg_win": 157.57,
+            "avg_loss": 80.085625,
+            "avg_loss_over_avg_win": 0.5082542679444056,
+            "top2_profit_share": 0.5159074599323377,
+            "top5_profit_share": 0.7614930604712923,
+            "top10_profit_share": 0.9410030218559761,
+            "ex_top2": -289.7499999999999,
+            "ex_top5": -792.8100000000001,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 29,
+              "base": 718.9744883823292,
+              "stress": 692.9284142291544,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 29,
+              "base": 718.9744883823292,
+              "stress": 692.9284142291544,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 29,
+              "base": 718.9744883823292,
+              "stress": 692.9284142291544,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 29,
+              "base": 718.9744883823292,
+              "stress": 692.9284142291544,
+              "swap": 0.0
+            }
+          }
+        },
+        "2025-09": {
+          "gross": {
+            "n": 30,
+            "wins": 16,
+            "losses": 14,
+            "breakeven": 0,
+            "winrate": 0.5333333333333333,
+            "sum": 875.29,
+            "mean": 29.176333333333332,
+            "median": 10.67,
+            "avg_win": 132.805625,
+            "avg_loss": 89.25714285714285,
+            "avg_loss_over_avg_win": 0.6720885719798605,
+            "top2_profit_share": 0.25067650560734916,
+            "top5_profit_share": 0.5807453562302048,
+            "top10_profit_share": 0.9218736028688544,
+            "ex_top2": 342.6299999999999,
+            "ex_top5": -358.73,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 30,
+              "base": 808.7941129917491,
+              "stress": 772.7939976150058,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 30,
+              "base": 808.7941129917491,
+              "stress": 772.7939976150058,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 30,
+              "base": 808.7941129917491,
+              "stress": 772.7939976150058,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 30,
+              "base": 808.7941129917491,
+              "stress": 772.7939976150058,
+              "swap": 0.0
+            }
+          }
+        },
+        "2025-10": {
+          "gross": {
+            "n": 30,
+            "wins": 10,
+            "losses": 20,
+            "breakeven": 0,
+            "winrate": 0.3333333333333333,
+            "sum": -565.39,
+            "mean": -18.846333333333334,
+            "median": -29.625,
+            "avg_win": 85.711,
+            "avg_loss": 71.125,
+            "avg_loss_over_avg_win": 0.8298234765666017,
+            "top2_profit_share": 0.42892977564139956,
+            "top5_profit_share": 0.8539744023520902,
+            "top10_profit_share": 1.0,
+            "ex_top2": -933.03,
+            "ex_top5": -1297.3400000000001,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 30,
+              "base": -609.6342156613217,
+              "stress": -633.0488199201778,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 30,
+              "base": -609.6342156613217,
+              "stress": -633.0488199201778,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 30,
+              "base": -609.6342156613217,
+              "stress": -633.0488199201778,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 30,
+              "base": -609.6342156613217,
+              "stress": -633.0488199201778,
+              "swap": 0.0
+            }
+          }
+        },
+        "2025-11": {
+          "gross": {
+            "n": 24,
+            "wins": 12,
+            "losses": 12,
+            "breakeven": 0,
+            "winrate": 0.5,
+            "sum": 419.78999999999996,
+            "mean": 17.49125,
+            "median": 2.31,
+            "avg_win": 108.52916666666667,
+            "avg_loss": 73.54666666666667,
+            "avg_loss_over_avg_win": 0.6776672937382424,
+            "top2_profit_share": 0.4253925596037932,
+            "top5_profit_share": 0.7716896379621454,
+            "top10_profit_share": 0.9880600453027221,
+            "ex_top2": -134.22000000000003,
+            "ex_top5": -585.22,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 24,
+              "base": 374.0133171452808,
+              "stress": 350.4002028096525,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 24,
+              "base": 374.0133171452808,
+              "stress": 350.4002028096525,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 24,
+              "base": 374.0133171452808,
+              "stress": 350.4002028096525,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 24,
+              "base": 374.0133171452808,
+              "stress": 350.4002028096525,
+              "swap": 0.0
+            }
+          }
+        },
+        "2025-12": {
+          "gross": {
+            "n": 26,
+            "wins": 16,
+            "losses": 10,
+            "breakeven": 0,
+            "winrate": 0.6153846153846154,
+            "sum": 612.99,
+            "mean": 23.576538461538462,
+            "median": 28.919999999999998,
+            "avg_win": 80.536875,
+            "avg_loss": 67.56,
+            "avg_loss_over_avg_win": 0.838870393220497,
+            "top2_profit_share": 0.3638085038685695,
+            "top5_profit_share": 0.6311782646148116,
+            "top10_profit_share": 0.8727834299505662,
+            "ex_top2": 144.19000000000005,
+            "ex_top5": -200.34000000000003,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 26,
+              "base": 564.2954865277175,
+              "stress": 539.2891726494065,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 26,
+              "base": 564.2954865277175,
+              "stress": 539.2891726494065,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 26,
+              "base": 564.2954865277175,
+              "stress": 539.2891726494065,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 26,
+              "base": 564.2954865277175,
+              "stress": 539.2891726494065,
+              "swap": 0.0
+            }
+          }
+        },
+        "2026-01": {
+          "gross": {
+            "n": 27,
+            "wins": 10,
+            "losses": 17,
+            "breakeven": 0,
+            "winrate": 0.37037037037037035,
+            "sum": -415.66,
+            "mean": -15.394814814814815,
+            "median": -15.54,
+            "avg_win": 68.544,
+            "avg_loss": 64.77058823529411,
+            "avg_loss_over_avg_win": 0.9449490580545944,
+            "top2_profit_share": 0.6055818160597572,
+            "top5_profit_share": 0.8673406862745098,
+            "top10_profit_share": 1.0,
+            "ex_top2": -830.75,
+            "ex_top5": -1010.1700000000001,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 27,
+              "base": -459.96455153171524,
+              "stress": -482.561077084717,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 27,
+              "base": -459.96455153171524,
+              "stress": -482.561077084717,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 27,
+              "base": -459.96455153171524,
+              "stress": -482.561077084717,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 27,
+              "base": -459.96455153171524,
+              "stress": -482.561077084717,
+              "swap": 0.0
+            }
+          }
+        },
+        "2026-02": {
+          "gross": {
+            "n": 30,
+            "wins": 10,
+            "losses": 20,
+            "breakeven": 0,
+            "winrate": 0.3333333333333333,
+            "sum": -1023.89,
+            "mean": -34.129666666666665,
+            "median": -50.195,
+            "avg_win": 57.37,
+            "avg_loss": 79.87950000000001,
+            "avg_loss_over_avg_win": 1.3923566323862648,
+            "top2_profit_share": 0.4073034687118703,
+            "top5_profit_share": 0.7699843123583754,
+            "top10_profit_share": 1.0,
+            "ex_top2": -1257.56,
+            "ex_top5": -1465.63,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 30,
+              "base": -1067.3280516556974,
+              "stress": -1089.6766430246557,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 30,
+              "base": -1067.3280516556974,
+              "stress": -1089.6766430246557,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 30,
+              "base": -1067.3280516556974,
+              "stress": -1089.6766430246557,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 30,
+              "base": -1067.3280516556974,
+              "stress": -1089.6766430246557,
+              "swap": 0.0
+            }
+          }
+        },
+        "2026-03": {
+          "gross": {
+            "n": 33,
+            "wins": 14,
+            "losses": 19,
+            "breakeven": 0,
+            "winrate": 0.42424242424242425,
+            "sum": 77.00999999999999,
+            "mean": 2.3336363636363635,
+            "median": -11.56,
+            "avg_win": 116.83071428571428,
+            "avg_loss": 82.03263157894737,
+            "avg_loss_over_avg_win": 0.7021495338831296,
+            "top2_profit_share": 0.35931720499134895,
+            "top5_profit_share": 0.5960088773133289,
+            "top10_profit_share": 0.8782426343366165,
+            "ex_top2": -510.70000000000005,
+            "ex_top5": -897.84,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 33,
+              "base": 10.708049457273287,
+              "stress": -22.716234849951086,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 33,
+              "base": 10.708049457273287,
+              "stress": -22.716234849951086,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 33,
+              "base": 10.708049457273287,
+              "stress": -22.716234849951086,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 33,
+              "base": 10.708049457273287,
+              "stress": -22.716234849951086,
+              "swap": 0.0
+            }
+          }
+        },
+        "2026-04": {
+          "gross": {
+            "n": 29,
+            "wins": 11,
+            "losses": 18,
+            "breakeven": 0,
+            "winrate": 0.3793103448275862,
+            "sum": 467.82,
+            "mean": 16.131724137931034,
+            "median": -35.02,
+            "avg_win": 171.65727272727273,
+            "avg_loss": 78.91166666666666,
+            "avg_loss_over_avg_win": 0.45970476760422896,
+            "top2_profit_share": 0.6821626602691409,
+            "top5_profit_share": 0.9181137891040816,
+            "top10_profit_share": 0.9997722735048167,
+            "ex_top2": -820.26,
+            "ex_top5": -1265.79,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 29,
+              "base": 401.78015490313385,
+              "stress": 368.59279397648965,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 29,
+              "base": 401.78015490313385,
+              "stress": 368.59279397648965,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 29,
+              "base": 401.78015490313385,
+              "stress": 368.59279397648965,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 29,
+              "base": 401.78015490313385,
+              "stress": 368.59279397648965,
+              "swap": 0.0
+            }
+          }
+        },
+        "2026-05": {
+          "gross": {
+            "n": 27,
+            "wins": 9,
+            "losses": 18,
+            "breakeven": 0,
+            "winrate": 0.3333333333333333,
+            "sum": -374.95,
+            "mean": -13.887037037037038,
+            "median": -27.69,
+            "avg_win": 120.74666666666667,
+            "avg_loss": 81.20388888888888,
+            "avg_loss_over_avg_win": 0.672514539163722,
+            "top2_profit_share": 0.45650213486454655,
+            "top5_profit_share": 0.8596510600706714,
+            "top10_profit_share": 1.0,
+            "ex_top2": -871.04,
+            "ex_top5": -1309.15,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 27,
+              "base": -454.34466242394126,
+              "stress": -494.4106038034884,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 27,
+              "base": -454.34466242394126,
+              "stress": -494.4106038034884,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 27,
+              "base": -454.34466242394126,
+              "stress": -494.4106038034884,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 27,
+              "base": -454.34466242394126,
+              "stress": -494.4106038034884,
+              "swap": 0.0
+            }
+          }
+        },
+        "2026-06": {
+          "gross": {
+            "n": 29,
+            "wins": 8,
+            "losses": 21,
+            "breakeven": 0,
+            "winrate": 0.27586206896551724,
+            "sum": -1180.5,
+            "mean": -40.706896551724135,
+            "median": -58.08,
+            "avg_win": 64.3925,
+            "avg_loss": 80.7447619047619,
+            "avg_loss_over_avg_win": 1.25394668485867,
+            "top2_profit_share": 0.384943898745972,
+            "top5_profit_share": 0.886710408820903,
+            "top10_profit_share": 1.0,
+            "ex_top2": -1378.8,
+            "ex_top5": -1637.28,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 29,
+              "base": -1300.7859169045607,
+              "stress": -1360.6626355845049,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 29,
+              "base": -1300.7859169045607,
+              "stress": -1360.6626355845049,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 29,
+              "base": -1300.7859169045607,
+              "stress": -1360.6626355845049,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 29,
+              "base": -1300.7859169045607,
+              "stress": -1360.6626355845049,
+              "swap": 0.0
+            }
+          }
+        },
+        "2026-07": {
+          "gross": {
+            "n": 30,
+            "wins": 11,
+            "losses": 18,
+            "breakeven": 1,
+            "winrate": 0.36666666666666664,
+            "sum": 2092.3,
+            "mean": 69.74333333333334,
+            "median": -9.06,
+            "avg_win": 295.3636363636364,
+            "avg_loss": 64.2611111111111,
+            "avg_loss_over_avg_win": 0.21756608871105637,
+            "top2_profit_share": 0.6174176669744538,
+            "top5_profit_share": 0.9088273314866113,
+            "top10_profit_share": 0.9975869498307173,
+            "ex_top2": 86.30999999999995,
+            "ex_top5": -860.48,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 30,
+              "base": 2005.045792998313,
+              "stress": 1962.1440031752225,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 30,
+              "base": 2005.045792998313,
+              "stress": 1962.1440031752225,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 30,
+              "base": 2005.045792998313,
+              "stress": 1962.1440031752225,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 30,
+              "base": 2005.045792998313,
+              "stress": 1962.1440031752225,
+              "swap": 0.0
+            }
+          }
+        },
+        "2026-08": {
+          "gross": {
+            "n": 24,
+            "wins": 12,
+            "losses": 12,
+            "breakeven": 0,
+            "winrate": 0.5,
+            "sum": 550.8,
+            "mean": 22.95,
+            "median": -5.574999999999999,
+            "avg_win": 115.49583333333334,
+            "avg_loss": 69.59583333333333,
+            "avg_loss_over_avg_win": 0.6025830657671633,
+            "top2_profit_share": 0.5119232295537357,
+            "top5_profit_share": 0.8654569068148201,
+            "top10_profit_share": 0.9929290378440782,
+            "ex_top2": -158.70000000000005,
+            "ex_top5": -648.6800000000001,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 24,
+              "base": 478.6993834719527,
+              "stress": 442.42853672789784,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 24,
+              "base": 478.6993834719527,
+              "stress": 442.42853672789784,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 24,
+              "base": 478.6993834719527,
+              "stress": 442.42853672789784,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 24,
+              "base": 478.6993834719527,
+              "stress": 442.42853672789784,
+              "swap": 0.0
+            }
+          }
+        },
+        "2026-09": {
+          "gross": {
+            "n": 28,
+            "wins": 15,
+            "losses": 13,
+            "breakeven": 0,
+            "winrate": 0.5357142857142857,
+            "sum": 1669.28,
+            "mean": 59.61714285714286,
+            "median": 17.235,
+            "avg_win": 179.85933333333332,
+            "avg_loss": 79.12384615384616,
+            "avg_loss_over_avg_win": 0.4399207129674273,
+            "top2_profit_share": 0.3309586380467699,
+            "top5_profit_share": 0.6800017791681647,
+            "top10_profit_share": 0.9295708868782642,
+            "ex_top2": 776.39,
+            "ex_top5": -165.28999999999996,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 28,
+              "base": 1619.9557880287814,
+              "stress": 1594.80751009346,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 28,
+              "base": 1619.9557880287814,
+              "stress": 1594.80751009346,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 28,
+              "base": 1619.9557880287814,
+              "stress": 1594.80751009346,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 28,
+              "base": 1619.9557880287814,
+              "stress": 1594.80751009346,
+              "swap": 0.0
+            }
+          }
+        },
+        "2026-10": {
+          "gross": {
+            "n": 25,
+            "wins": 13,
+            "losses": 12,
+            "breakeven": 0,
+            "winrate": 0.52,
+            "sum": 598.9399999999999,
+            "mean": 23.9576,
+            "median": 5.32,
+            "avg_win": 92.50538461538461,
+            "avg_loss": 50.3025,
+            "avg_loss_over_avg_win": 0.5437791563069094,
+            "top2_profit_share": 0.49110654681224375,
+            "top5_profit_share": 0.7379362531910825,
+            "top10_profit_share": 0.9582311216810664,
+            "ex_top2": 8.350000000000023,
+            "ex_top5": -288.48,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 25,
+              "base": 544.9470821381244,
+              "stress": 517.6142939628437,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 25,
+              "base": 544.9470821381244,
+              "stress": 517.6142939628437,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 25,
+              "base": 544.9470821381244,
+              "stress": 517.6142939628437,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 25,
+              "base": 544.9470821381244,
+              "stress": 517.6142939628437,
+              "swap": 0.0
+            }
+          }
+        },
+        "2026-11": {
+          "gross": {
+            "n": 16,
+            "wins": 7,
+            "losses": 8,
+            "breakeven": 1,
+            "winrate": 0.4375,
+            "sum": 194.08999999999995,
+            "mean": 12.130624999999997,
+            "median": -2.455,
+            "avg_win": 114.05571428571427,
+            "avg_loss": 75.5375,
+            "avg_loss_over_avg_win": 0.6622859755257455,
+            "top2_profit_share": 0.7037412793246407,
+            "top5_profit_share": 0.9789451270682247,
+            "top10_profit_share": 1.0,
+            "ex_top2": -367.77,
+            "ex_top5": -587.49,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 16,
+              "base": 153.20684850944411,
+              "stress": 132.62815643638805,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 16,
+              "base": 153.20684850944411,
+              "stress": 132.62815643638805,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 16,
+              "base": 153.20684850944411,
+              "stress": 132.62815643638805,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 16,
+              "base": 153.20684850944411,
+              "stress": 132.62815643638805,
+              "swap": 0.0
+            }
+          }
+        }
+      },
+      "quarterly": {
+        "2025-Q1": {
+          "gross": {
+            "n": 68,
+            "wins": 32,
+            "losses": 36,
+            "breakeven": 0,
+            "winrate": 0.47058823529411764,
+            "sum": 437.68999999999994,
+            "mean": 6.4366176470588226,
+            "median": -3.185,
+            "avg_win": 91.3584375,
+            "avg_loss": 69.04944444444445,
+            "avg_loss_over_avg_win": 0.7558080713064347,
+            "top2_profit_share": 0.28096063924035475,
+            "top5_profit_share": 0.44371927880224526,
+            "top10_profit_share": 0.6383544212870322,
+            "ex_top2": -383.68999999999994,
+            "ex_top5": -859.5099999999999,
+            "largest_month_profit_share": 0.41406616110307276,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 3
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 68,
+              "base": 349.0734588202669,
+              "stress": 302.3868645337026,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 68,
+              "base": 349.0734588202669,
+              "stress": 302.3868645337026,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 68,
+              "base": 349.0734588202669,
+              "stress": 302.3868645337026,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 68,
+              "base": 349.0734588202669,
+              "stress": 302.3868645337026,
+              "swap": 0.0
+            }
+          }
+        },
+        "2025-Q2": {
+          "gross": {
+            "n": 73,
+            "wins": 43,
+            "losses": 30,
+            "breakeven": 0,
+            "winrate": 0.589041095890411,
+            "sum": 2463.75,
+            "mean": 33.75,
+            "median": 13.71,
+            "avg_win": 100.1153488372093,
+            "avg_loss": 61.373666666666665,
+            "avg_loss_over_avg_win": 0.6130295442156645,
+            "top2_profit_share": 0.20563257266037316,
+            "top5_profit_share": 0.3621380918754181,
+            "top10_profit_share": 0.5602003270645952,
+            "ex_top2": 1578.51,
+            "ex_top5": 904.76,
+            "largest_month_profit_share": 0.5120303092247083,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 3
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 73,
+              "base": 2380.5110143608467,
+              "stress": 2334.5276604556693,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 73,
+              "base": 2380.5110143608467,
+              "stress": 2334.5276604556693,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 73,
+              "base": 2380.5110143608467,
+              "stress": 2334.5276604556693,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 73,
+              "base": 2380.5110143608467,
+              "stress": 2334.5276604556693,
+              "swap": 0.0
+            }
+          }
+        },
+        "2025-Q3": {
+          "gross": {
+            "n": 91,
+            "wins": 45,
+            "losses": 46,
+            "breakeven": 0,
+            "winrate": 0.4945054945054945,
+            "sum": 2389.7200000000003,
+            "mean": 26.26065934065934,
+            "median": -1.28,
+            "avg_win": 138.35844444444444,
+            "avg_loss": 83.40021739130435,
+            "avg_loss_over_avg_win": 0.6027837167885501,
+            "top2_profit_share": 0.2184535176747032,
+            "top5_profit_share": 0.34998787368718615,
+            "top10_profit_share": 0.5450239554908105,
+            "ex_top2": 1029.6000000000004,
+            "ex_top5": 210.6500000000001,
+            "largest_month_profit_share": 0.3412858388758346,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 3
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 91,
+              "base": 2223.2328353279154,
+              "stress": 2133.0063788552416,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 91,
+              "base": 2223.2328353279154,
+              "stress": 2133.0063788552416,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 91,
+              "base": 2223.2328353279154,
+              "stress": 2133.0063788552416,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 91,
+              "base": 2223.2328353279154,
+              "stress": 2133.0063788552416,
+              "swap": 0.0
+            }
+          }
+        },
+        "2025-Q4": {
+          "gross": {
+            "n": 80,
+            "wins": 38,
+            "losses": 42,
+            "breakeven": 0,
+            "winrate": 0.475,
+            "sum": 467.39,
+            "mean": 5.8423750000000005,
+            "median": -5.8149999999999995,
+            "avg_win": 90.73815789473684,
+            "avg_loss": 70.96809523809524,
+            "avg_loss_over_avg_win": 0.7821196383601222,
+            "top2_profit_share": 0.1761604385087223,
+            "top5_profit_share": 0.352251272458346,
+            "top10_profit_share": 0.5901654558373574,
+            "ex_top2": -140.01999999999998,
+            "ex_top5": -747.1899999999999,
+            "largest_month_profit_share": 0.37770623975870427,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 3
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 80,
+              "base": 328.6745880116766,
+              "stress": 256.6405555388812,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 80,
+              "base": 328.6745880116766,
+              "stress": 256.6405555388812,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 80,
+              "base": 328.6745880116766,
+              "stress": 256.6405555388812,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 80,
+              "base": 328.6745880116766,
+              "stress": 256.6405555388812,
+              "swap": 0.0
+            }
+          }
+        },
+        "2026-Q1": {
+          "gross": {
+            "n": 90,
+            "wins": 34,
+            "losses": 56,
+            "breakeven": 0,
+            "winrate": 0.37777777777777777,
+            "sum": -1362.54,
+            "mean": -15.139333333333333,
+            "median": -23.505000000000003,
+            "avg_win": 85.14029411764706,
+            "avg_loss": 76.02339285714285,
+            "avg_loss_over_avg_win": 0.892919077212648,
+            "top2_profit_share": 0.22470524428538366,
+            "top5_profit_share": 0.39212096297806043,
+            "top10_profit_share": 0.6034469059718043,
+            "ex_top2": -2013.01,
+            "ex_top5": -2497.64,
+            "largest_month_profit_share": 0.565029346027491,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 3
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 90,
+              "base": -1516.5845537301393,
+              "stress": -1594.9539549593237,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 90,
+              "base": -1516.5845537301393,
+              "stress": -1594.9539549593237,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 90,
+              "base": -1516.5845537301393,
+              "stress": -1594.9539549593237,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 90,
+              "base": -1516.5845537301393,
+              "stress": -1594.9539549593237,
+              "swap": 0.0
+            }
+          }
+        },
+        "2026-Q2": {
+          "gross": {
+            "n": 85,
+            "wins": 28,
+            "losses": 57,
+            "breakeven": 0,
+            "winrate": 0.32941176470588235,
+            "sum": -1087.63,
+            "mean": -12.79564705882353,
+            "median": -49.5,
+            "avg_win": 124.64607142857143,
+            "avg_loss": 80.31087719298246,
+            "avg_loss_over_avg_win": 0.6443113390782211,
+            "top2_profit_share": 0.3876518943637557,
+            "top5_profit_share": 0.5838044291121433,
+            "top10_profit_share": 0.7722179084206997,
+            "ex_top2": -2440.57,
+            "ex_top5": -3125.16,
+            "largest_month_profit_share": 0.5410261626491008,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 3
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 85,
+              "base": -1353.3504244253681,
+              "stress": -1486.4804454115038,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 85,
+              "base": -1353.3504244253681,
+              "stress": -1486.4804454115038,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 85,
+              "base": -1353.3504244253681,
+              "stress": -1486.4804454115038,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 85,
+              "base": -1353.3504244253681,
+              "stress": -1486.4804454115038,
+              "swap": 0.0
+            }
+          }
+        },
+        "2026-Q3": {
+          "gross": {
+            "n": 82,
+            "wins": 38,
+            "losses": 43,
+            "breakeven": 1,
+            "winrate": 0.4634146341463415,
+            "sum": 4312.38,
+            "mean": 52.59,
+            "median": -5.48,
+            "avg_win": 192.96947368421053,
+            "avg_loss": 70.24325581395348,
+            "avg_loss_over_avg_win": 0.3640122682248941,
+            "top2_profit_share": 0.27356249420415557,
+            "top5_profit_share": 0.4651171987933734,
+            "top10_profit_share": 0.6938021285068268,
+            "ex_top2": 2306.39,
+            "ex_top5": 901.75,
+            "largest_month_profit_share": 0.4430752614266778,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 3
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 82,
+              "base": 4103.700964499047,
+              "stress": 3999.38004999658,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 82,
+              "base": 4103.700964499047,
+              "stress": 3999.38004999658,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 82,
+              "base": 4103.700964499047,
+              "stress": 3999.38004999658,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 82,
+              "base": 4103.700964499047,
+              "stress": 3999.38004999658,
+              "swap": 0.0
+            }
+          }
+        },
+        "2026-Q4": {
+          "gross": {
+            "n": 41,
+            "wins": 20,
+            "losses": 20,
+            "breakeven": 1,
+            "winrate": 0.4878048780487805,
+            "sum": 793.0299999999999,
+            "mean": 19.342195121951217,
+            "median": 0.0,
+            "avg_win": 100.048,
+            "avg_loss": 60.3965,
+            "avg_loss_over_avg_win": 0.6036752358867744,
+            "top2_profit_share": 0.3227100991524069,
+            "top5_profit_share": 0.6619572605149528,
+            "top10_profit_share": 0.8843305213497522,
+            "ex_top2": 147.29999999999984,
+            "ex_top5": -531.5200000000001,
+            "largest_month_profit_share": 0.6009965216695986,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 2
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 41,
+              "base": 698.1539306475685,
+              "stress": 650.2424503992318,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 41,
+              "base": 698.1539306475685,
+              "stress": 650.2424503992318,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 41,
+              "base": 698.1539306475685,
+              "stress": 650.2424503992318,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 41,
+              "base": 698.1539306475685,
+              "stress": 650.2424503992318,
+              "swap": 0.0
+            }
+          }
+        }
+      }
+    },
+    "XAUUSD": {
+      "trades": 166,
+      "first_open": "2026-03-30",
+      "last_close": "2026-11-18",
+      "clock": {
+        "entry_minute": {
+          "0": 5,
+          "2": 4,
+          "3": 1,
+          "4": 1,
+          "5": 13,
+          "6": 10,
+          "7": 6,
+          "8": 4,
+          "9": 6,
+          "10": 1,
+          "11": 1,
+          "12": 2,
+          "13": 4,
+          "14": 3,
+          "15": 5,
+          "17": 1,
+          "18": 3,
+          "19": 1,
+          "20": 2,
+          "21": 3,
+          "22": 5,
+          "23": 3,
+          "26": 2,
+          "27": 4,
+          "28": 2,
+          "29": 1,
+          "30": 8,
+          "31": 3,
+          "32": 4,
+          "33": 3,
+          "34": 4,
+          "35": 3,
+          "36": 2,
+          "37": 3,
+          "38": 1,
+          "39": 1,
+          "41": 2,
+          "42": 4,
+          "43": 3,
+          "44": 4,
+          "45": 2,
+          "46": 1,
+          "47": 2,
+          "48": 4,
+          "49": 1,
+          "52": 2,
+          "53": 1,
+          "54": 1,
+          "55": 3,
+          "56": 4,
+          "57": 4,
+          "58": 1,
+          "59": 2
+        },
+        "entry_hour_source": {
+          "6": 78,
+          "7": 18,
+          "8": 24,
+          "9": 12,
+          "10": 8,
+          "11": 7,
+          "12": 3,
+          "13": 2,
+          "14": 4,
+          "15": 4,
+          "16": 3,
+          "17": 3
+        },
+        "entry_weekday_source": {
+          "0": 33,
+          "1": 34,
+          "2": 37,
+          "3": 31,
+          "4": 31
+        },
+        "entry_minute_grid": {
+          "5": 42,
+          "15": 20,
+          "30": 13,
+          "60": 5
+        },
+        "entry_exact_second_grid": {
+          "5": 2,
+          "15": 0,
+          "30": 0,
+          "60": 0
+        },
+        "pending_count": 178,
+        "pending_open_clock": {
+          "06:05": 157,
+          "15:55": 1,
+          "13:23": 1,
+          "06:00": 13,
+          "06:22": 1,
+          "06:01": 2,
+          "06:15": 1,
+          "06:03": 1,
+          "07:27": 1
+        },
+        "pending_days": 166,
+        "pending_days_with_both_stop_sides": 8,
+        "pending_expiry_at_asset_cutoff": 10,
+        "earliest_monday_fill": "06:05:45",
+        "earliest_monday_pending": "06:00:00",
+        "latest_friday_close": "18:55:01",
+        "sunday_entries": 0,
+        "calendar_midnight_nights_buckets": {
+          "0": 166
+        },
+        "holding_hours": {
+          "p10": 3.162777777777778,
+          "p25": 7.877777777777778,
+          "median": 10.149722222222223,
+          "p75": 12.366736111111113,
+          "p90": 12.796527777777778,
+          "max": 13.00361111111111
+        },
+        "utc_assumption_sensitivity": {
+          "UTC": {
+            "entry_hour_utc": {
+              "6": 78,
+              "7": 18,
+              "8": 24,
+              "9": 12,
+              "10": 8,
+              "11": 7,
+              "12": 3,
+              "13": 2,
+              "14": 4,
+              "15": 4,
+              "16": 3,
+              "17": 3
+            },
+            "sunday_utc_entries": 0,
+            "earliest_monday_open_utc": "06:05:45",
+            "latest_friday_close_utc": "18:55:01",
+            "positions_crossing_saturday_utc": 0,
+            "ny_17_rollover_nights_buckets": {
+              "0": 166
+            }
+          },
+          "Europe/Helsinki": {
+            "entry_hour_utc": {
+              "3": 69,
+              "4": 22,
+              "5": 29,
+              "6": 11,
+              "7": 9,
+              "8": 6,
+              "9": 4,
+              "10": 2,
+              "11": 3,
+              "12": 5,
+              "13": 3,
+              "14": 2,
+              "15": 1
+            },
+            "sunday_utc_entries": 0,
+            "earliest_monday_open_utc": "03:05:45",
+            "latest_friday_close_utc": "16:55:00",
+            "positions_crossing_saturday_utc": 0,
+            "ny_17_rollover_nights_buckets": {
+              "0": 166
+            }
+          }
+        },
+        "dst_14_day_window_checks": [
+          {
+            "model": "Europe/Helsinki",
+            "day": "2026-10-25",
+            "pending_before": {
+              "n": 10,
+              "modes": [
+                [
+                  "06:05",
+                  10
+                ]
+              ]
+            },
+            "pending_after": {
+              "n": 10,
+              "modes": [
+                [
+                  "06:05",
+                  10
+                ]
+              ]
+            },
+            "exit_before": {
+              "n": 10,
+              "modes": [
+                [
+                  "18:55",
+                  7
+                ],
+                [
+                  "15:30",
+                  1
+                ],
+                [
+                  "16:47",
+                  1
+                ]
+              ]
+            },
+            "exit_after": {
+              "n": 10,
+              "modes": [
+                [
+                  "18:55",
+                  8
+                ],
+                [
+                  "15:30",
+                  1
+                ],
+                [
+                  "11:03",
+                  1
+                ]
+              ]
+            }
+          },
+          {
+            "model": "America/New_York",
+            "day": "2026-11-01",
+            "pending_before": {
+              "n": 10,
+              "modes": [
+                [
+                  "06:05",
+                  10
+                ]
+              ]
+            },
+            "pending_after": {
+              "n": 10,
+              "modes": [
+                [
+                  "06:05",
+                  10
+                ]
+              ]
+            },
+            "exit_before": {
+              "n": 10,
+              "modes": [
+                [
+                  "18:55",
+                  8
+                ],
+                [
+                  "16:47",
+                  1
+                ],
+                [
+                  "17:20",
+                  1
+                ]
+              ]
+            },
+            "exit_after": {
+              "n": 10,
+              "modes": [
+                [
+                  "18:55",
+                  7
+                ],
+                [
+                  "15:30",
+                  1
+                ],
+                [
+                  "11:03",
+                  1
+                ]
+              ]
+            }
+          }
+        ]
+      },
+      "total": {
+        "gross": {
+          "n": 166,
+          "wins": 97,
+          "losses": 68,
+          "breakeven": 1,
+          "winrate": 0.5843373493975904,
+          "sum": 2677.63,
+          "mean": 16.13030120481928,
+          "median": 20.1,
+          "avg_win": 73.99257731958762,
+          "avg_loss": 66.17132352941177,
+          "avg_loss_over_avg_win": 0.8942967784944912,
+          "top2_profit_share": 0.07639802264924875,
+          "top5_profit_share": 0.15971092112889562,
+          "top10_profit_share": 0.27632612911855187,
+          "ex_top2": 2129.3,
+          "ex_top5": 1531.3400000000001,
+          "largest_month_profit_share": 0.16627468901868117,
+          "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+          "months_observed": 9
+        },
+        "source_net_coverage": 0,
+        "source_net_metrics": null,
+        "modeled_costs": {
+          "Swing/UTC": {
+            "n": 166,
+            "base": 2657.0623239900146,
+            "stress": 2521.0623239900146,
+            "swap": 0.0
+          },
+          "Swing/Europe/Helsinki": {
+            "n": 166,
+            "base": 2657.0623239900146,
+            "stress": 2521.0623239900146,
+            "swap": 0.0
+          },
+          "Standard/UTC": {
+            "n": 166,
+            "base": 2657.0623239900146,
+            "stress": 2521.0623239900146,
+            "swap": 0.0
+          },
+          "Standard/Europe/Helsinki": {
+            "n": 166,
+            "base": 2657.0623239900146,
+            "stress": 2521.0623239900146,
+            "swap": 0.0
+          }
+        }
+      },
+      "directions": {
+        "BUY": {
+          "gross": {
+            "n": 75,
+            "wins": 46,
+            "losses": 28,
+            "breakeven": 1,
+            "winrate": 0.6133333333333333,
+            "sum": 1673.64,
+            "mean": 22.3152,
+            "median": 20.18,
+            "avg_win": 73.65891304347826,
+            "avg_loss": 61.238214285714285,
+            "avg_loss_over_avg_win": 0.8313754813292931,
+            "top2_profit_share": 0.1618299388190573,
+            "top5_profit_share": 0.3190469585132411,
+            "top10_profit_share": 0.510097954437463,
+            "ex_top2": 1125.31,
+            "ex_top5": 592.6100000000001,
+            "largest_month_profit_share": 0.2695680147330085,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 9
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 75,
+              "base": 1664.3167653800003,
+              "stress": 1602.7167653800004,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 75,
+              "base": 1664.3167653800003,
+              "stress": 1602.7167653800004,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 75,
+              "base": 1664.3167653800003,
+              "stress": 1602.7167653800004,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 75,
+              "base": 1664.3167653800003,
+              "stress": 1602.7167653800004,
+              "swap": 0.0
+            }
+          }
+        },
+        "SELL": {
+          "gross": {
+            "n": 91,
+            "wins": 51,
+            "losses": 40,
+            "breakeven": 0,
+            "winrate": 0.5604395604395604,
+            "sum": 1003.99,
+            "mean": 11.032857142857143,
+            "median": 17.64,
+            "avg_win": 74.29352941176471,
+            "avg_loss": 69.6245,
+            "avg_loss_over_avg_win": 0.9371542925913902,
+            "top2_profit_share": 0.10086118391013917,
+            "top5_profit_share": 0.23812276159483978,
+            "top10_profit_share": 0.41817169309865215,
+            "ex_top2": 621.83,
+            "ex_top5": 101.75,
+            "largest_month_profit_share": 0.1697400612831456,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 8
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 91,
+              "base": 992.7455586100143,
+              "stress": 918.3455586100143,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 91,
+              "base": 992.7455586100143,
+              "stress": 918.3455586100143,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 91,
+              "base": 992.7455586100143,
+              "stress": 918.3455586100143,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 91,
+              "base": 992.7455586100143,
+              "stress": 918.3455586100143,
+              "swap": 0.0
+            }
+          }
+        }
+      },
+      "exit": {
+        "labels": {
+          "TIME_OR_SIGNAL_EXIT": 122,
+          "HIT_EXACT_SL": 14,
+          "SL_TAG_OUTSIDE_ONE_TICK": 28,
+          "HIT_EXACT_TP": 2
+        },
+        "mechanisms": {
+          "TIME_OR_SIGNAL": 122,
+          "SL": 42,
+          "TP": 2
+        },
+        "positive_gross_by_label": {
+          "TIME_OR_SIGNAL_EXIT": 97
+        },
+        "source_swap_known": 0,
+        "cutoff_proximity_5s": 119,
+        "cutoff_gross_winners": 95,
+        "cutoff_gross_usd": 6384.36,
+        "time_or_signal_gross_usd": 6419.38,
+        "tagged_stop_distance_ticks": {
+          "p10": 0.0,
+          "p25": 0.0,
+          "median": 27.500000000009095,
+          "p75": 59.75000000003092,
+          "p90": 131.19999999997162,
+          "max": 309.99999999994543
+        },
+        "other_time_or_signal_clock": {
+          "19:20": 1,
+          "16:18": 1,
+          "19:28": 1
+        }
+      },
+      "stop_distance": {
+        "p10": 40.38499999999999,
+        "p25": 41.28749999999968,
+        "median": 43.39000000000033,
+        "p75": 45.91750000000002,
+        "p90": 47.49000000000024,
+        "max": 106.85000000000036
+      },
+      "stop_unit": "USD/oz",
+      "target_distance": {
+        "p10": 0.013999999999941793,
+        "p25": 0.03499999999985448,
+        "median": 0.06999999999970896,
+        "p75": 620.0450000000001,
+        "p90": 992.0300000000003,
+        "max": 1240.0200000000004
+      },
+      "target_over_stop": {
+        "p10": 0.0002852485737559457,
+        "p25": 0.0007131214343898642,
+        "median": 0.0014262428687797284,
+        "p75": 12.651396655406998,
+        "p90": 20.24137890292993,
+        "max": 25.301367067945215
+      },
+      "target_rows": 3,
+      "display_r_multiple": {
+        "p10": -1.0083066168665695,
+        "p25": -0.9694216413965231,
+        "median": 0.22151334884632537,
+        "p75": 0.723280247305043,
+        "p90": 1.384101476664165,
+        "max": 2.969967904630849
+      },
+      "display_r_total": 29.215329876715135,
+      "actual_initial_r_multiple": null,
+      "risk": {
+        "rows": 166,
+        "source_balance_is_fee_incomplete": true,
+        "dollar_stop_risk": {
+          "p10": 81.05000000000018,
+          "p25": 83.19500000000016,
+          "median": 87.57999999999993,
+          "p75": 92.84499999999889,
+          "p90": 96.26000000000022,
+          "max": 213.70000000000073
+        },
+        "percentage_of_reconstructed_balance": {
+          "p10": 0.6910369978916416,
+          "p25": 0.777544752736979,
+          "median": 0.8401061071465514,
+          "p75": 0.919288352058595,
+          "p90": 0.9735513305254173,
+          "max": 2.421485842749605
+        },
+        "correlation_balance_to_stop_risk": -0.034257133683400616
+      },
+      "concurrency": {
+        "peak": 2,
+        "peak_same_symbol_and_side": 1,
+        "overlap_ms": 4950000,
+        "minimum_inter_entry_seconds": 27.0,
+        "minimum_same_symbol_prior_close_to_next_entry_seconds": -6464.0
+      },
+      "drawdown": {
+        "gross_cash": {
+          "peak_to_valley": 366.2999999999998,
+          "static_below_initial": 96.13999999999993
+        },
+        "longest_gross_losing_streak": 6,
+        "display_risk_r_rows": 166,
+        "closed_R_proxy": {
+          "peak_to_valley": 4.433371966200988,
+          "static_below_initial": 1.0448345590955044
+        },
+        "closed_only_rule_scale_sensitivity": {
+          "UTC": {
+            "0.5": {
+              "closed_daily_pct": 0.5316714344094755,
+              "closed_static_pct": 0.5224172795477522,
+              "closed_peak_to_valley_pct": 2.216685983100494
+            },
+            "0.75": {
+              "closed_daily_pct": 0.7975071516142133,
+              "closed_static_pct": 0.7836259193216283,
+              "closed_peak_to_valley_pct": 3.325028974650741
+            }
+          },
+          "Europe/Helsinki": {
+            "0.5": {
+              "closed_daily_pct": 0.5316714344094755,
+              "closed_static_pct": 0.5224172795477522,
+              "closed_peak_to_valley_pct": 2.216685983100494
+            },
+            "0.75": {
+              "closed_daily_pct": 0.7975071516142133,
+              "closed_static_pct": 0.7836259193216283,
+              "closed_peak_to_valley_pct": 3.325028974650741
+            }
+          }
+        },
+        "true_initial_R_drawdown": null
+      },
+      "monthly": {
+        "2026-03": {
+          "gross": {
+            "n": 2,
+            "wins": 1,
+            "losses": 1,
+            "breakeven": 0,
+            "winrate": 0.5,
+            "sum": 99.04,
+            "mean": 49.52,
+            "median": 49.52,
+            "avg_win": 109.54,
+            "avg_loss": 10.5,
+            "avg_loss_over_avg_win": 0.09585539528939199,
+            "top2_profit_share": 1.0,
+            "top5_profit_share": 1.0,
+            "top10_profit_share": 1.0,
+            "ex_top2": -10.5,
+            "ex_top5": -10.5,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 2,
+              "base": 98.78385376000087,
+              "stress": 97.18385376000086,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 2,
+              "base": 98.78385376000087,
+              "stress": 97.18385376000086,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 2,
+              "base": 98.78385376000087,
+              "stress": 97.18385376000086,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 2,
+              "base": 98.78385376000087,
+              "stress": 97.18385376000086,
+              "swap": 0.0
+            }
+          }
+        },
+        "2026-04": {
+          "gross": {
+            "n": 24,
+            "wins": 10,
+            "losses": 13,
+            "breakeven": 1,
+            "winrate": 0.4166666666666667,
+            "sum": -67.83999999999999,
+            "mean": -2.8266666666666658,
+            "median": -16.98,
+            "avg_win": 87.628,
+            "avg_loss": 72.62461538461538,
+            "avg_loss_over_avg_win": 0.8287832129526564,
+            "top2_profit_share": 0.3386588761583056,
+            "top5_profit_share": 0.7414296800109554,
+            "top10_profit_share": 1.0,
+            "ex_top2": -364.59999999999997,
+            "ex_top5": -717.5400000000001,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 24,
+              "base": -71.01695252000015,
+              "stress": -90.21695252000012,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 24,
+              "base": -71.01695252000015,
+              "stress": -90.21695252000012,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 24,
+              "base": -71.01695252000015,
+              "stress": -90.21695252000012,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 24,
+              "base": -71.01695252000015,
+              "stress": -90.21695252000012,
+              "swap": 0.0
+            }
+          }
+        },
+        "2026-05": {
+          "gross": {
+            "n": 21,
+            "wins": 12,
+            "losses": 9,
+            "breakeven": 0,
+            "winrate": 0.5714285714285714,
+            "sum": 438.6,
+            "mean": 20.885714285714286,
+            "median": 21.32,
+            "avg_win": 75.72333333333333,
+            "avg_loss": 52.23111111111111,
+            "avg_loss_over_avg_win": 0.6897624392892254,
+            "top2_profit_share": 0.28786811638860765,
+            "top5_profit_share": 0.6469384161641062,
+            "top10_profit_share": 0.9741823304133469,
+            "ex_top2": 177.02000000000004,
+            "ex_top5": -149.26,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 21,
+              "base": 435.90380048000225,
+              "stress": 419.1038004800022,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 21,
+              "base": 435.90380048000225,
+              "stress": 419.1038004800022,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 21,
+              "base": 435.90380048000225,
+              "stress": 419.1038004800022,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 21,
+              "base": 435.90380048000225,
+              "stress": 419.1038004800022,
+              "swap": 0.0
+            }
+          }
+        },
+        "2026-06": {
+          "gross": {
+            "n": 21,
+            "wins": 14,
+            "losses": 7,
+            "breakeven": 0,
+            "winrate": 0.6666666666666666,
+            "sum": 236.16,
+            "mean": 11.245714285714286,
+            "median": 22.14,
+            "avg_win": 57.22857142857143,
+            "avg_loss": 80.72,
+            "avg_loss_over_avg_win": 1.4104842735896155,
+            "top2_profit_share": 0.4039690464303544,
+            "top5_profit_share": 0.7190963554667997,
+            "top10_profit_share": 0.945381927109336,
+            "ex_top2": -87.49999999999997,
+            "ex_top5": -339.98,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 21,
+              "base": 233.6624585200062,
+              "stress": 216.86245852000616,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 21,
+              "base": 233.6624585200062,
+              "stress": 216.86245852000616,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 21,
+              "base": 233.6624585200062,
+              "stress": 216.86245852000616,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 21,
+              "base": 233.6624585200062,
+              "stress": 216.86245852000616,
+              "swap": 0.0
+            }
+          }
+        },
+        "2026-07": {
+          "gross": {
+            "n": 22,
+            "wins": 12,
+            "losses": 10,
+            "breakeven": 0,
+            "winrate": 0.5454545454545454,
+            "sum": 113.30000000000001,
+            "mean": 5.15,
+            "median": 27.28,
+            "avg_win": 67.695,
+            "avg_loss": 69.904,
+            "avg_loss_over_avg_win": 1.0326316566954723,
+            "top2_profit_share": 0.30039146170322767,
+            "top5_profit_share": 0.6160474678090454,
+            "top10_profit_share": 0.9328360046286037,
+            "ex_top2": -130.71999999999997,
+            "ex_top5": -387.14,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 22,
+              "base": 110.73794540000245,
+              "stress": 92.73794540000245,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 22,
+              "base": 110.73794540000245,
+              "stress": 92.73794540000245,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 22,
+              "base": 110.73794540000245,
+              "stress": 92.73794540000245,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 22,
+              "base": 110.73794540000245,
+              "stress": 92.73794540000245,
+              "swap": 0.0
+            }
+          }
+        },
+        "2026-08": {
+          "gross": {
+            "n": 20,
+            "wins": 15,
+            "losses": 5,
+            "breakeven": 0,
+            "winrate": 0.75,
+            "sum": 911.38,
+            "mean": 45.569,
+            "median": 28.16,
+            "avg_win": 79.56,
+            "avg_loss": 56.403999999999996,
+            "avg_loss_over_avg_win": 0.7089492207139265,
+            "top2_profit_share": 0.39793866264454497,
+            "top5_profit_share": 0.7051617228087816,
+            "top10_profit_share": 0.9289089994972347,
+            "ex_top2": 436.47999999999996,
+            "ex_top5": 69.83999999999992,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 20,
+              "base": 908.9106028600002,
+              "stress": 892.9106028600002,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 20,
+              "base": 908.9106028600002,
+              "stress": 892.9106028600002,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 20,
+              "base": 908.9106028600002,
+              "stress": 892.9106028600002,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 20,
+              "base": 908.9106028600002,
+              "stress": 892.9106028600002,
+              "swap": 0.0
+            }
+          }
+        },
+        "2026-09": {
+          "gross": {
+            "n": 22,
+            "wins": 14,
+            "losses": 8,
+            "breakeven": 0,
+            "winrate": 0.6363636363636364,
+            "sum": 316.2,
+            "mean": 14.372727272727271,
+            "median": 24.47,
+            "avg_win": 64.75285714285714,
+            "avg_loss": 73.7925,
+            "avg_loss_over_avg_win": 1.1396022238400954,
+            "top2_profit_share": 0.30524852736779406,
+            "top5_profit_share": 0.6467888896242858,
+            "top10_profit_share": 0.9080459770114943,
+            "ex_top2": 39.47999999999996,
+            "ex_top5": -270.14000000000004,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 22,
+              "base": 313.5335661600026,
+              "stress": 295.93356616000256,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 22,
+              "base": 313.5335661600026,
+              "stress": 295.93356616000256,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 22,
+              "base": 313.5335661600026,
+              "stress": 295.93356616000256,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 22,
+              "base": 313.5335661600026,
+              "stress": 295.93356616000256,
+              "swap": 0.0
+            }
+          }
+        },
+        "2026-10": {
+          "gross": {
+            "n": 21,
+            "wins": 12,
+            "losses": 9,
+            "breakeven": 0,
+            "winrate": 0.5714285714285714,
+            "sum": 142.38,
+            "mean": 6.779999999999999,
+            "median": 2.04,
+            "avg_win": 49.515,
+            "avg_loss": 50.2,
+            "avg_loss_over_avg_win": 1.0138341916590932,
+            "top2_profit_share": 0.5015315224342792,
+            "top5_profit_share": 0.8152748325423274,
+            "top10_profit_share": 0.9937729307617221,
+            "ex_top2": -155.62,
+            "ex_top5": -342.04,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 21,
+              "base": 139.96241097999922,
+              "stress": 123.1624109799992,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 21,
+              "base": 139.96241097999922,
+              "stress": 123.1624109799992,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 21,
+              "base": 139.96241097999922,
+              "stress": 123.1624109799992,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 21,
+              "base": 139.96241097999922,
+              "stress": 123.1624109799992,
+              "swap": 0.0
+            }
+          }
+        },
+        "2026-11": {
+          "gross": {
+            "n": 13,
+            "wins": 7,
+            "losses": 6,
+            "breakeven": 0,
+            "winrate": 0.5384615384615384,
+            "sum": 488.41,
+            "mean": 37.57,
+            "median": 11.34,
+            "avg_win": 139.30285714285714,
+            "avg_loss": 81.11833333333333,
+            "avg_loss_over_avg_win": 0.5823163644816364,
+            "top2_profit_share": 0.4827816063663959,
+            "top5_profit_share": 0.9667425547624908,
+            "top10_profit_share": 1.0,
+            "ex_top2": 17.640000000000043,
+            "ex_top5": -454.28000000000003,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 13,
+              "base": 486.5846383500011,
+              "stress": 473.3846383500012,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 13,
+              "base": 486.5846383500011,
+              "stress": 473.3846383500012,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 13,
+              "base": 486.5846383500011,
+              "stress": 473.3846383500012,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 13,
+              "base": 486.5846383500011,
+              "stress": 473.3846383500012,
+              "swap": 0.0
+            }
+          }
+        }
+      },
+      "quarterly": {
+        "2026-Q1": {
+          "gross": {
+            "n": 2,
+            "wins": 1,
+            "losses": 1,
+            "breakeven": 0,
+            "winrate": 0.5,
+            "sum": 99.04,
+            "mean": 49.52,
+            "median": 49.52,
+            "avg_win": 109.54,
+            "avg_loss": 10.5,
+            "avg_loss_over_avg_win": 0.09585539528939199,
+            "top2_profit_share": 1.0,
+            "top5_profit_share": 1.0,
+            "top10_profit_share": 1.0,
+            "ex_top2": -10.5,
+            "ex_top5": -10.5,
+            "largest_month_profit_share": null,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 1
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 2,
+              "base": 98.78385376000087,
+              "stress": 97.18385376000086,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 2,
+              "base": 98.78385376000087,
+              "stress": 97.18385376000086,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 2,
+              "base": 98.78385376000087,
+              "stress": 97.18385376000086,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 2,
+              "base": 98.78385376000087,
+              "stress": 97.18385376000086,
+              "swap": 0.0
+            }
+          }
+        },
+        "2026-Q2": {
+          "gross": {
+            "n": 66,
+            "wins": 36,
+            "losses": 29,
+            "breakeven": 1,
+            "winrate": 0.5454545454545454,
+            "sum": 606.9200000000001,
+            "mean": 9.195757575757575,
+            "median": 8.47,
+            "avg_win": 71.83777777777777,
+            "avg_loss": 68.2496551724138,
+            "avg_loss_over_avg_win": 0.9500524276173542,
+            "top2_profit_share": 0.13629473814458504,
+            "top5_profit_share": 0.29292077829677976,
+            "top10_profit_share": 0.5256441983481301,
+            "ex_top2": 254.44000000000005,
+            "ex_top5": -150.6199999999999,
+            "largest_month_profit_share": 0.3513626380425032,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 3
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 66,
+              "base": 598.5493064800082,
+              "stress": 545.7493064800083,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 66,
+              "base": 598.5493064800082,
+              "stress": 545.7493064800083,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 66,
+              "base": 598.5493064800082,
+              "stress": 545.7493064800083,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 66,
+              "base": 598.5493064800082,
+              "stress": 545.7493064800083,
+              "swap": 0.0
+            }
+          }
+        },
+        "2026-Q3": {
+          "gross": {
+            "n": 64,
+            "wins": 41,
+            "losses": 23,
+            "breakeven": 0,
+            "winrate": 0.640625,
+            "sum": 1340.88,
+            "mean": 20.95125,
+            "median": 26.66,
+            "avg_win": 71.03121951219512,
+            "avg_loss": 68.32173913043478,
+            "avg_loss_over_avg_win": 0.9618550772411396,
+            "top2_profit_share": 0.16306811158267748,
+            "top5_profit_share": 0.3171673053415194,
+            "top10_profit_share": 0.5192769925968657,
+            "ex_top2": 865.98,
+            "ex_top5": 417.20000000000005,
+            "largest_month_profit_share": 0.40978202645350026,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 3
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 64,
+              "base": 1333.182114420005,
+              "stress": 1281.5821144200052,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 64,
+              "base": 1333.182114420005,
+              "stress": 1281.5821144200052,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 64,
+              "base": 1333.182114420005,
+              "stress": 1281.5821144200052,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 64,
+              "base": 1333.182114420005,
+              "stress": 1281.5821144200052,
+              "swap": 0.0
+            }
+          }
+        },
+        "2026-Q4": {
+          "gross": {
+            "n": 34,
+            "wins": 19,
+            "losses": 15,
+            "breakeven": 0,
+            "winrate": 0.5588235294117647,
+            "sum": 630.79,
+            "mean": 18.552647058823528,
+            "median": 2.55,
+            "avg_win": 82.59473684210526,
+            "avg_loss": 62.56733333333333,
+            "avg_loss_over_avg_win": 0.7575220374264534,
+            "top2_profit_share": 0.30644873510482384,
+            "top5_profit_share": 0.6331549098324094,
+            "top10_profit_share": 0.9093927228700694,
+            "ex_top2": 149.87999999999994,
+            "ex_top5": -362.82000000000005,
+            "largest_month_profit_share": 0.6213725865035367,
+            "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+            "months_observed": 2
+          },
+          "source_net_coverage": 0,
+          "source_net_metrics": null,
+          "modeled_costs": {
+            "Swing/UTC": {
+              "n": 34,
+              "base": 626.5470493300003,
+              "stress": 596.5470493300004,
+              "swap": 0.0
+            },
+            "Swing/Europe/Helsinki": {
+              "n": 34,
+              "base": 626.5470493300003,
+              "stress": 596.5470493300004,
+              "swap": 0.0
+            },
+            "Standard/UTC": {
+              "n": 34,
+              "base": 626.5470493300003,
+              "stress": 596.5470493300004,
+              "swap": 0.0
+            },
+            "Standard/Europe/Helsinki": {
+              "n": 34,
+              "base": 626.5470493300003,
+              "stress": 596.5470493300004,
+              "swap": 0.0
+            }
+          }
+        }
+      }
+    }
+  },
+  "aggregate": {
+    "gross": {
+      "n": 776,
+      "wins": 375,
+      "losses": 398,
+      "breakeven": 3,
+      "winrate": 0.4832474226804124,
+      "sum": 11091.42,
+      "mean": 14.293067010309278,
+      "median": -3.745,
+      "avg_win": 106.12946666666667,
+      "avg_loss": 72.12846733668341,
+      "avg_loss_over_avg_win": 0.6796271535333895,
+      "top2_profit_share": 0.05753702082111032,
+      "top5_profit_share": 0.11132641767099555,
+      "top10_profit_share": 0.1759028909344687,
+      "ex_top2": 8801.529999999999,
+      "ex_top5": 6660.79,
+      "largest_month_profit_share": 0.10204743640157744,
+      "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+      "months_observed": 23
+    },
+    "source_net_coverage": 0,
+    "source_net_metrics": null,
+    "modeled_costs": {
+      "Swing/UTC": {
+        "n": 776,
+        "base": 9870.474137501827,
+        "stress": 9115.811883398494,
+        "swap": 0.0
+      },
+      "Swing/Europe/Helsinki": {
+        "n": 776,
+        "base": 9870.474137501827,
+        "stress": 9115.811883398494,
+        "swap": 0.0
+      },
+      "Standard/UTC": {
+        "n": 776,
+        "base": 9870.474137501827,
+        "stress": 9115.811883398494,
+        "swap": 0.0
+      },
+      "Standard/Europe/Helsinki": {
+        "n": 776,
+        "base": 9870.474137501827,
+        "stress": 9115.811883398494,
+        "swap": 0.0
+      }
+    }
+  },
+  "monthly": {
+    "2025-01": {
+      "gross": {
+        "n": 17,
+        "wins": 9,
+        "losses": 8,
+        "breakeven": 0,
+        "winrate": 0.5294117647058824,
+        "sum": 631.65,
+        "mean": 37.15588235294118,
+        "median": 4.09,
+        "avg_win": 134.5011111111111,
+        "avg_loss": 72.3575,
+        "avg_loss_over_avg_win": 0.5379695335024082,
+        "top2_profit_share": 0.6324937423069615,
+        "top5_profit_share": 0.9243376758556312,
+        "top10_profit_share": 1.0,
+        "ex_top2": -133.99,
+        "ex_top5": -487.2700000000001,
+        "largest_month_profit_share": null,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 1
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 17,
+          "base": 606.0276543362563,
+          "stress": 592.8937436405777,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 17,
+          "base": 606.0276543362563,
+          "stress": 592.8937436405777,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 17,
+          "base": 606.0276543362563,
+          "stress": 592.8937436405777,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 17,
+          "base": 606.0276543362563,
+          "stress": 592.8937436405777,
+          "swap": 0.0
+        }
+      }
+    },
+    "2025-02": {
+      "gross": {
+        "n": 22,
+        "wins": 12,
+        "losses": 10,
+        "breakeven": 0,
+        "winrate": 0.5454545454545454,
+        "sum": 172.22000000000003,
+        "mean": 7.828181818181819,
+        "median": 5.75,
+        "avg_win": 62.4225,
+        "avg_loss": 57.685,
+        "avg_loss_over_avg_win": 0.9241058913052185,
+        "top2_profit_share": 0.355948042239043,
+        "top5_profit_share": 0.6762118360099857,
+        "top10_profit_share": 0.9846476297275288,
+        "ex_top2": -94.40999999999997,
+        "ex_top5": -334.30999999999995,
+        "largest_month_profit_share": null,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 1
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 22,
+          "base": 149.14965786366832,
+          "stress": 136.99611699401245,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 22,
+          "base": 149.14965786366832,
+          "stress": 136.99611699401245,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 22,
+          "base": 149.14965786366832,
+          "stress": 136.99611699401245,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 22,
+          "base": 149.14965786366832,
+          "stress": 136.99611699401245,
+          "swap": 0.0
+        }
+      }
+    },
+    "2025-03": {
+      "gross": {
+        "n": 29,
+        "wins": 11,
+        "losses": 18,
+        "breakeven": 0,
+        "winrate": 0.3793103448275862,
+        "sum": -366.18,
+        "mean": -12.626896551724139,
+        "median": -34.47,
+        "avg_win": 87.62636363636364,
+        "avg_loss": 73.89277777777778,
+        "avg_loss_over_avg_win": 0.8432710740391077,
+        "top2_profit_share": 0.36996960234051607,
+        "top5_profit_share": 0.6862505057631058,
+        "top10_profit_share": 0.9876749421614499,
+        "ex_top2": -722.79,
+        "ex_top5": -1027.65,
+        "largest_month_profit_share": null,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 1
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 29,
+          "base": -406.1038533796577,
+          "stress": -427.5029961008876,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 29,
+          "base": -406.1038533796577,
+          "stress": -427.5029961008876,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 29,
+          "base": -406.1038533796577,
+          "stress": -427.5029961008876,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 29,
+          "base": -406.1038533796577,
+          "stress": -427.5029961008876,
+          "swap": 0.0
+        }
+      }
+    },
+    "2025-04": {
+      "gross": {
+        "n": 24,
+        "wins": 12,
+        "losses": 12,
+        "breakeven": 0,
+        "winrate": 0.5,
+        "sum": -47.58,
+        "mean": -1.9825,
+        "median": -6.404999999999999,
+        "avg_win": 63.681666666666665,
+        "avg_loss": 67.64666666666666,
+        "avg_loss_over_avg_win": 1.0622628176607605,
+        "top2_profit_share": 0.44655709387840564,
+        "top5_profit_share": 0.8087099897929808,
+        "top10_profit_share": 0.9914025491376378,
+        "ex_top2": -388.83,
+        "ex_top5": -665.58,
+        "largest_month_profit_share": null,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 1
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 24,
+          "base": -71.95241607959659,
+          "stress": -85.4118474751147,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 24,
+          "base": -71.95241607959659,
+          "stress": -85.4118474751147,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 24,
+          "base": -71.95241607959659,
+          "stress": -85.4118474751147,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 24,
+          "base": -71.95241607959659,
+          "stress": -85.4118474751147,
+          "swap": 0.0
+        }
+      }
+    },
+    "2025-05": {
+      "gross": {
+        "n": 23,
+        "wins": 17,
+        "losses": 6,
+        "breakeven": 0,
+        "winrate": 0.7391304347826086,
+        "sum": 1961.6,
+        "mean": 85.28695652173913,
+        "median": 35.05,
+        "avg_win": 129.66294117647058,
+        "avg_loss": 40.445,
+        "avg_loss_over_avg_win": 0.3119241290767465,
+        "top2_profit_share": 0.40160234454036936,
+        "top5_profit_share": 0.6641064842328752,
+        "top10_profit_share": 0.9286702627173622,
+        "ex_top2": 1076.36,
+        "ex_top5": 497.73,
+        "largest_month_profit_share": null,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 1
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 23,
+          "base": 1937.2476432435508,
+          "stress": 1923.796359246618,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 23,
+          "base": 1937.2476432435508,
+          "stress": 1923.796359246618,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 23,
+          "base": 1937.2476432435508,
+          "stress": 1923.796359246618,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 23,
+          "base": 1937.2476432435508,
+          "stress": 1923.796359246618,
+          "swap": 0.0
+        }
+      }
+    },
+    "2025-06": {
+      "gross": {
+        "n": 26,
+        "wins": 14,
+        "losses": 12,
+        "breakeven": 0,
+        "winrate": 0.5384615384615384,
+        "sum": 549.73,
+        "mean": 21.143461538461537,
+        "median": 12.745000000000001,
+        "avg_win": 95.465,
+        "avg_loss": 65.565,
+        "avg_loss_over_avg_win": 0.6867962080343581,
+        "top2_profit_share": 0.3236563886540318,
+        "top5_profit_share": 0.576591271296137,
+        "top10_profit_share": 0.9011679673178652,
+        "ex_top2": 117.15999999999997,
+        "ex_top5": -220.89,
+        "largest_month_profit_share": null,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 1
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 26,
+          "base": 515.2157871968925,
+          "stress": 496.143148684166,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 26,
+          "base": 515.2157871968925,
+          "stress": 496.143148684166,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 26,
+          "base": 515.2157871968925,
+          "stress": 496.143148684166,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 26,
+          "base": 515.2157871968925,
+          "stress": 496.143148684166,
+          "swap": 0.0
+        }
+      }
+    },
+    "2025-07": {
+      "gross": {
+        "n": 32,
+        "wins": 16,
+        "losses": 16,
+        "breakeven": 0,
+        "winrate": 0.5,
+        "sum": 747.39,
+        "mean": 23.3559375,
+        "median": 0.7399999999999999,
+        "avg_win": 128.301875,
+        "avg_loss": 81.59,
+        "avg_loss_over_avg_win": 0.6359221172722535,
+        "top2_profit_share": 0.4127472805833898,
+        "top5_profit_share": 0.6954204683290871,
+        "top10_profit_share": 0.8956270124657181,
+        "ex_top2": -99.90999999999997,
+        "ex_top5": -680.1899999999999,
+        "largest_month_profit_share": null,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 1
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 32,
+          "base": 695.4642339538368,
+          "stress": 667.2839670110811,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 32,
+          "base": 695.4642339538368,
+          "stress": 667.2839670110811,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 32,
+          "base": 695.4642339538368,
+          "stress": 667.2839670110811,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 32,
+          "base": 695.4642339538368,
+          "stress": 667.2839670110811,
+          "swap": 0.0
+        }
+      }
+    },
+    "2025-08": {
+      "gross": {
+        "n": 29,
+        "wins": 13,
+        "losses": 16,
+        "breakeven": 0,
+        "winrate": 0.4482758620689655,
+        "sum": 767.0400000000001,
+        "mean": 26.449655172413795,
+        "median": -24.77,
+        "avg_win": 157.57,
+        "avg_loss": 80.085625,
+        "avg_loss_over_avg_win": 0.5082542679444056,
+        "top2_profit_share": 0.5159074599323377,
+        "top5_profit_share": 0.7614930604712923,
+        "top10_profit_share": 0.9410030218559761,
+        "ex_top2": -289.7499999999999,
+        "ex_top5": -792.8100000000001,
+        "largest_month_profit_share": null,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 1
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 29,
+          "base": 718.9744883823292,
+          "stress": 692.9284142291544,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 29,
+          "base": 718.9744883823292,
+          "stress": 692.9284142291544,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 29,
+          "base": 718.9744883823292,
+          "stress": 692.9284142291544,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 29,
+          "base": 718.9744883823292,
+          "stress": 692.9284142291544,
+          "swap": 0.0
+        }
+      }
+    },
+    "2025-09": {
+      "gross": {
+        "n": 30,
+        "wins": 16,
+        "losses": 14,
+        "breakeven": 0,
+        "winrate": 0.5333333333333333,
+        "sum": 875.29,
+        "mean": 29.176333333333332,
+        "median": 10.67,
+        "avg_win": 132.805625,
+        "avg_loss": 89.25714285714285,
+        "avg_loss_over_avg_win": 0.6720885719798605,
+        "top2_profit_share": 0.25067650560734916,
+        "top5_profit_share": 0.5807453562302048,
+        "top10_profit_share": 0.9218736028688544,
+        "ex_top2": 342.6299999999999,
+        "ex_top5": -358.73,
+        "largest_month_profit_share": null,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 1
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 30,
+          "base": 808.7941129917491,
+          "stress": 772.7939976150058,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 30,
+          "base": 808.7941129917491,
+          "stress": 772.7939976150058,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 30,
+          "base": 808.7941129917491,
+          "stress": 772.7939976150058,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 30,
+          "base": 808.7941129917491,
+          "stress": 772.7939976150058,
+          "swap": 0.0
+        }
+      }
+    },
+    "2025-10": {
+      "gross": {
+        "n": 30,
+        "wins": 10,
+        "losses": 20,
+        "breakeven": 0,
+        "winrate": 0.3333333333333333,
+        "sum": -565.39,
+        "mean": -18.846333333333334,
+        "median": -29.625,
+        "avg_win": 85.711,
+        "avg_loss": 71.125,
+        "avg_loss_over_avg_win": 0.8298234765666017,
+        "top2_profit_share": 0.42892977564139956,
+        "top5_profit_share": 0.8539744023520902,
+        "top10_profit_share": 1.0,
+        "ex_top2": -933.03,
+        "ex_top5": -1297.3400000000001,
+        "largest_month_profit_share": null,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 1
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 30,
+          "base": -609.6342156613217,
+          "stress": -633.0488199201778,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 30,
+          "base": -609.6342156613217,
+          "stress": -633.0488199201778,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 30,
+          "base": -609.6342156613217,
+          "stress": -633.0488199201778,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 30,
+          "base": -609.6342156613217,
+          "stress": -633.0488199201778,
+          "swap": 0.0
+        }
+      }
+    },
+    "2025-11": {
+      "gross": {
+        "n": 24,
+        "wins": 12,
+        "losses": 12,
+        "breakeven": 0,
+        "winrate": 0.5,
+        "sum": 419.78999999999996,
+        "mean": 17.49125,
+        "median": 2.31,
+        "avg_win": 108.52916666666667,
+        "avg_loss": 73.54666666666667,
+        "avg_loss_over_avg_win": 0.6776672937382424,
+        "top2_profit_share": 0.4253925596037932,
+        "top5_profit_share": 0.7716896379621454,
+        "top10_profit_share": 0.9880600453027221,
+        "ex_top2": -134.22000000000003,
+        "ex_top5": -585.22,
+        "largest_month_profit_share": null,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 1
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 24,
+          "base": 374.0133171452808,
+          "stress": 350.4002028096525,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 24,
+          "base": 374.0133171452808,
+          "stress": 350.4002028096525,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 24,
+          "base": 374.0133171452808,
+          "stress": 350.4002028096525,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 24,
+          "base": 374.0133171452808,
+          "stress": 350.4002028096525,
+          "swap": 0.0
+        }
+      }
+    },
+    "2025-12": {
+      "gross": {
+        "n": 26,
+        "wins": 16,
+        "losses": 10,
+        "breakeven": 0,
+        "winrate": 0.6153846153846154,
+        "sum": 612.99,
+        "mean": 23.576538461538462,
+        "median": 28.919999999999998,
+        "avg_win": 80.536875,
+        "avg_loss": 67.56,
+        "avg_loss_over_avg_win": 0.838870393220497,
+        "top2_profit_share": 0.3638085038685695,
+        "top5_profit_share": 0.6311782646148116,
+        "top10_profit_share": 0.8727834299505662,
+        "ex_top2": 144.19000000000005,
+        "ex_top5": -200.34000000000003,
+        "largest_month_profit_share": null,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 1
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 26,
+          "base": 564.2954865277175,
+          "stress": 539.2891726494065,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 26,
+          "base": 564.2954865277175,
+          "stress": 539.2891726494065,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 26,
+          "base": 564.2954865277175,
+          "stress": 539.2891726494065,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 26,
+          "base": 564.2954865277175,
+          "stress": 539.2891726494065,
+          "swap": 0.0
+        }
+      }
+    },
+    "2026-01": {
+      "gross": {
+        "n": 27,
+        "wins": 10,
+        "losses": 17,
+        "breakeven": 0,
+        "winrate": 0.37037037037037035,
+        "sum": -415.66,
+        "mean": -15.394814814814815,
+        "median": -15.54,
+        "avg_win": 68.544,
+        "avg_loss": 64.77058823529411,
+        "avg_loss_over_avg_win": 0.9449490580545944,
+        "top2_profit_share": 0.6055818160597572,
+        "top5_profit_share": 0.8673406862745098,
+        "top10_profit_share": 1.0,
+        "ex_top2": -830.75,
+        "ex_top5": -1010.1700000000001,
+        "largest_month_profit_share": null,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 1
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 27,
+          "base": -459.96455153171524,
+          "stress": -482.561077084717,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 27,
+          "base": -459.96455153171524,
+          "stress": -482.561077084717,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 27,
+          "base": -459.96455153171524,
+          "stress": -482.561077084717,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 27,
+          "base": -459.96455153171524,
+          "stress": -482.561077084717,
+          "swap": 0.0
+        }
+      }
+    },
+    "2026-02": {
+      "gross": {
+        "n": 30,
+        "wins": 10,
+        "losses": 20,
+        "breakeven": 0,
+        "winrate": 0.3333333333333333,
+        "sum": -1023.89,
+        "mean": -34.129666666666665,
+        "median": -50.195,
+        "avg_win": 57.37,
+        "avg_loss": 79.87950000000001,
+        "avg_loss_over_avg_win": 1.3923566323862648,
+        "top2_profit_share": 0.4073034687118703,
+        "top5_profit_share": 0.7699843123583754,
+        "top10_profit_share": 1.0,
+        "ex_top2": -1257.56,
+        "ex_top5": -1465.63,
+        "largest_month_profit_share": null,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 1
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 30,
+          "base": -1067.3280516556974,
+          "stress": -1089.6766430246557,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 30,
+          "base": -1067.3280516556974,
+          "stress": -1089.6766430246557,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 30,
+          "base": -1067.3280516556974,
+          "stress": -1089.6766430246557,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 30,
+          "base": -1067.3280516556974,
+          "stress": -1089.6766430246557,
+          "swap": 0.0
+        }
+      }
+    },
+    "2026-03": {
+      "gross": {
+        "n": 35,
+        "wins": 15,
+        "losses": 20,
+        "breakeven": 0,
+        "winrate": 0.42857142857142855,
+        "sum": 176.05,
+        "mean": 5.03,
+        "median": -10.5,
+        "avg_win": 116.34466666666667,
+        "avg_loss": 78.456,
+        "avg_loss_over_avg_win": 0.6743411816613855,
+        "top2_profit_share": 0.3367637536744271,
+        "top5_profit_share": 0.5585988757542245,
+        "top10_profit_share": 0.8419580900428038,
+        "ex_top2": -411.66,
+        "ex_top5": -798.8,
+        "largest_month_profit_share": null,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 1
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 35,
+          "base": 109.49190321727414,
+          "stress": 74.46761891004978,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 35,
+          "base": 109.49190321727414,
+          "stress": 74.46761891004978,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 35,
+          "base": 109.49190321727414,
+          "stress": 74.46761891004978,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 35,
+          "base": 109.49190321727414,
+          "stress": 74.46761891004978,
+          "swap": 0.0
+        }
+      }
+    },
+    "2026-04": {
+      "gross": {
+        "n": 53,
+        "wins": 21,
+        "losses": 31,
+        "breakeven": 1,
+        "winrate": 0.39622641509433965,
+        "sum": 399.98,
+        "mean": 7.546792452830188,
+        "median": -33.82,
+        "avg_win": 131.64333333333335,
+        "avg_loss": 76.27516129032259,
+        "avg_loss_over_avg_win": 0.5794077023041241,
+        "top2_profit_share": 0.46593428853576224,
+        "top5_profit_share": 0.6649279619173019,
+        "top10_profit_share": 0.8621093792389972,
+        "ex_top2": -888.0999999999999,
+        "ex_top5": -1438.22,
+        "largest_month_profit_share": null,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 1
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 53,
+          "base": 330.7632023831337,
+          "stress": 278.37584145648947,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 53,
+          "base": 330.7632023831337,
+          "stress": 278.37584145648947,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 53,
+          "base": 330.7632023831337,
+          "stress": 278.37584145648947,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 53,
+          "base": 330.7632023831337,
+          "stress": 278.37584145648947,
+          "swap": 0.0
+        }
+      }
+    },
+    "2026-05": {
+      "gross": {
+        "n": 48,
+        "wins": 21,
+        "losses": 27,
+        "breakeven": 0,
+        "winrate": 0.4375,
+        "sum": 63.65,
+        "mean": 1.3260416666666666,
+        "median": -13.78,
+        "avg_win": 95.01904761904763,
+        "avg_loss": 71.54629629629629,
+        "avg_loss_over_avg_win": 0.7529679373670553,
+        "top2_profit_share": 0.24861681868297084,
+        "top5_profit_share": 0.47242658113661423,
+        "top10_profit_share": 0.7721158664929337,
+        "ex_top2": -432.44000000000005,
+        "ex_top5": -879.0300000000001,
+        "largest_month_profit_share": null,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 1
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 48,
+          "base": -18.44086194393905,
+          "stress": -75.30680332348622,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 48,
+          "base": -18.44086194393905,
+          "stress": -75.30680332348622,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 48,
+          "base": -18.44086194393905,
+          "stress": -75.30680332348622,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 48,
+          "base": -18.44086194393905,
+          "stress": -75.30680332348622,
+          "swap": 0.0
+        }
+      }
+    },
+    "2026-06": {
+      "gross": {
+        "n": 50,
+        "wins": 22,
+        "losses": 28,
+        "breakeven": 0,
+        "winrate": 0.44,
+        "sum": -944.34,
+        "mean": -18.8868,
+        "median": -17.07,
+        "avg_win": 59.833636363636366,
+        "avg_loss": 80.73857142857143,
+        "avg_loss_over_avg_win": 1.3493843318812553,
+        "top2_profit_share": 0.2458787243417354,
+        "top5_profit_share": 0.4828919580047708,
+        "top10_profit_share": 0.7846908853335766,
+        "ex_top2": -1268.0,
+        "ex_top5": -1579.99,
+        "largest_month_profit_share": null,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 1
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 50,
+          "base": -1067.1234583845546,
+          "stress": -1143.8001770644987,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 50,
+          "base": -1067.1234583845546,
+          "stress": -1143.8001770644987,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 50,
+          "base": -1067.1234583845546,
+          "stress": -1143.8001770644987,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 50,
+          "base": -1067.1234583845546,
+          "stress": -1143.8001770644987,
+          "swap": 0.0
+        }
+      }
+    },
+    "2026-07": {
+      "gross": {
+        "n": 52,
+        "wins": 23,
+        "losses": 28,
+        "breakeven": 1,
+        "winrate": 0.4423076923076923,
+        "sum": 2205.6000000000004,
+        "mean": 42.41538461538462,
+        "median": -6.315,
+        "avg_win": 176.58,
+        "avg_loss": 66.27642857142857,
+        "avg_loss_over_avg_win": 0.37533372166399687,
+        "top2_profit_share": 0.4939231879133488,
+        "top5_profit_share": 0.7270457533720398,
+        "top10_profit_share": 0.8598664480196191,
+        "ex_top2": 199.61000000000013,
+        "ex_top5": -747.1799999999998,
+        "largest_month_profit_share": null,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 1
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 52,
+          "base": 2115.783738398315,
+          "stress": 2054.8819485752247,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 52,
+          "base": 2115.783738398315,
+          "stress": 2054.8819485752247,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 52,
+          "base": 2115.783738398315,
+          "stress": 2054.8819485752247,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 52,
+          "base": 2115.783738398315,
+          "stress": 2054.8819485752247,
+          "swap": 0.0
+        }
+      }
+    },
+    "2026-08": {
+      "gross": {
+        "n": 44,
+        "wins": 27,
+        "losses": 17,
+        "breakeven": 0,
+        "winrate": 0.6136363636363636,
+        "sum": 1462.18,
+        "mean": 33.23136363636364,
+        "median": 18.83,
+        "avg_win": 95.53148148148148,
+        "avg_loss": 65.71588235294118,
+        "avg_loss_over_avg_win": 0.6878976577546327,
+        "top2_profit_share": 0.2750693004051408,
+        "top5_profit_share": 0.5434818849710198,
+        "top10_profit_share": 0.7912923798631438,
+        "ex_top2": 752.6800000000001,
+        "ex_top5": 60.350000000000136,
+        "largest_month_profit_share": null,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 1
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 44,
+          "base": 1387.6099863319528,
+          "stress": 1335.339139587898,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 44,
+          "base": 1387.6099863319528,
+          "stress": 1335.339139587898,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 44,
+          "base": 1387.6099863319528,
+          "stress": 1335.339139587898,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 44,
+          "base": 1387.6099863319528,
+          "stress": 1335.339139587898,
+          "swap": 0.0
+        }
+      }
+    },
+    "2026-09": {
+      "gross": {
+        "n": 50,
+        "wins": 29,
+        "losses": 21,
+        "breakeven": 0,
+        "winrate": 0.58,
+        "sum": 1985.48,
+        "mean": 39.7096,
+        "median": 24.47,
+        "avg_win": 124.29068965517241,
+        "avg_loss": 77.09285714285714,
+        "avg_loss_over_avg_win": 0.6202625261533328,
+        "top2_profit_share": 0.2477201665728007,
+        "top5_profit_share": 0.5089764539746923,
+        "top10_profit_share": 0.7145679067147926,
+        "ex_top2": 1092.5900000000001,
+        "ex_top5": 150.91000000000008,
+        "largest_month_profit_share": null,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 1
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 50,
+          "base": 1933.4893541887839,
+          "stress": 1890.7410762534626,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 50,
+          "base": 1933.4893541887839,
+          "stress": 1890.7410762534626,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 50,
+          "base": 1933.4893541887839,
+          "stress": 1890.7410762534626,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 50,
+          "base": 1933.4893541887839,
+          "stress": 1890.7410762534626,
+          "swap": 0.0
+        }
+      }
+    },
+    "2026-10": {
+      "gross": {
+        "n": 46,
+        "wins": 25,
+        "losses": 21,
+        "breakeven": 0,
+        "winrate": 0.5434782608695652,
+        "sum": 741.3199999999999,
+        "mean": 16.11565217391304,
+        "median": 2.55,
+        "avg_win": 71.87,
+        "avg_loss": 50.25857142857143,
+        "avg_loss_over_avg_win": 0.6992983362817786,
+        "top2_profit_share": 0.3286990399332127,
+        "top5_profit_share": 0.5564769723111173,
+        "top10_profit_share": 0.7843884791985529,
+        "ex_top2": 150.73000000000002,
+        "ex_top5": -258.5300000000001,
+        "largest_month_profit_share": null,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 1
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 46,
+          "base": 684.9094931181236,
+          "stress": 640.7767049428429,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 46,
+          "base": 684.9094931181236,
+          "stress": 640.7767049428429,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 46,
+          "base": 684.9094931181236,
+          "stress": 640.7767049428429,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 46,
+          "base": 684.9094931181236,
+          "stress": 640.7767049428429,
+          "swap": 0.0
+        }
+      }
+    },
+    "2026-11": {
+      "gross": {
+        "n": 29,
+        "wins": 14,
+        "losses": 14,
+        "breakeven": 1,
+        "winrate": 0.4827586206896552,
+        "sum": 682.5,
+        "mean": 23.534482758620687,
+        "median": 0.0,
+        "avg_win": 126.67928571428571,
+        "avg_loss": 77.92928571428571,
+        "avg_loss_over_avg_win": 0.6151699172826767,
+        "top2_profit_share": 0.3264374037924794,
+        "top5_profit_share": 0.6817948587828656,
+        "top10_profit_share": 0.9750833093695552,
+        "ex_top2": 103.55999999999995,
+        "ex_top5": -526.6700000000001,
+        "largest_month_profit_share": null,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 1
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 29,
+          "base": 639.7914868594453,
+          "stress": 606.0127947863892,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 29,
+          "base": 639.7914868594453,
+          "stress": 606.0127947863892,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 29,
+          "base": 639.7914868594453,
+          "stress": 606.0127947863892,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 29,
+          "base": 639.7914868594453,
+          "stress": 606.0127947863892,
+          "swap": 0.0
+        }
+      }
+    }
+  },
+  "quarterly": {
+    "2025-Q1": {
+      "gross": {
+        "n": 68,
+        "wins": 32,
+        "losses": 36,
+        "breakeven": 0,
+        "winrate": 0.47058823529411764,
+        "sum": 437.68999999999994,
+        "mean": 6.4366176470588226,
+        "median": -3.185,
+        "avg_win": 91.3584375,
+        "avg_loss": 69.04944444444445,
+        "avg_loss_over_avg_win": 0.7558080713064347,
+        "top2_profit_share": 0.28096063924035475,
+        "top5_profit_share": 0.44371927880224526,
+        "top10_profit_share": 0.6383544212870322,
+        "ex_top2": -383.68999999999994,
+        "ex_top5": -859.5099999999999,
+        "largest_month_profit_share": 0.41406616110307276,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 3
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 68,
+          "base": 349.0734588202669,
+          "stress": 302.3868645337026,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 68,
+          "base": 349.0734588202669,
+          "stress": 302.3868645337026,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 68,
+          "base": 349.0734588202669,
+          "stress": 302.3868645337026,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 68,
+          "base": 349.0734588202669,
+          "stress": 302.3868645337026,
+          "swap": 0.0
+        }
+      }
+    },
+    "2025-Q2": {
+      "gross": {
+        "n": 73,
+        "wins": 43,
+        "losses": 30,
+        "breakeven": 0,
+        "winrate": 0.589041095890411,
+        "sum": 2463.75,
+        "mean": 33.75,
+        "median": 13.71,
+        "avg_win": 100.1153488372093,
+        "avg_loss": 61.373666666666665,
+        "avg_loss_over_avg_win": 0.6130295442156645,
+        "top2_profit_share": 0.20563257266037316,
+        "top5_profit_share": 0.3621380918754181,
+        "top10_profit_share": 0.5602003270645952,
+        "ex_top2": 1578.51,
+        "ex_top5": 904.76,
+        "largest_month_profit_share": 0.5120303092247083,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 3
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 73,
+          "base": 2380.5110143608467,
+          "stress": 2334.5276604556693,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 73,
+          "base": 2380.5110143608467,
+          "stress": 2334.5276604556693,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 73,
+          "base": 2380.5110143608467,
+          "stress": 2334.5276604556693,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 73,
+          "base": 2380.5110143608467,
+          "stress": 2334.5276604556693,
+          "swap": 0.0
+        }
+      }
+    },
+    "2025-Q3": {
+      "gross": {
+        "n": 91,
+        "wins": 45,
+        "losses": 46,
+        "breakeven": 0,
+        "winrate": 0.4945054945054945,
+        "sum": 2389.7200000000003,
+        "mean": 26.26065934065934,
+        "median": -1.28,
+        "avg_win": 138.35844444444444,
+        "avg_loss": 83.40021739130435,
+        "avg_loss_over_avg_win": 0.6027837167885501,
+        "top2_profit_share": 0.2184535176747032,
+        "top5_profit_share": 0.34998787368718615,
+        "top10_profit_share": 0.5450239554908105,
+        "ex_top2": 1029.6000000000004,
+        "ex_top5": 210.6500000000001,
+        "largest_month_profit_share": 0.3412858388758346,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 3
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 91,
+          "base": 2223.2328353279154,
+          "stress": 2133.0063788552416,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 91,
+          "base": 2223.2328353279154,
+          "stress": 2133.0063788552416,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 91,
+          "base": 2223.2328353279154,
+          "stress": 2133.0063788552416,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 91,
+          "base": 2223.2328353279154,
+          "stress": 2133.0063788552416,
+          "swap": 0.0
+        }
+      }
+    },
+    "2025-Q4": {
+      "gross": {
+        "n": 80,
+        "wins": 38,
+        "losses": 42,
+        "breakeven": 0,
+        "winrate": 0.475,
+        "sum": 467.39,
+        "mean": 5.8423750000000005,
+        "median": -5.8149999999999995,
+        "avg_win": 90.73815789473684,
+        "avg_loss": 70.96809523809524,
+        "avg_loss_over_avg_win": 0.7821196383601222,
+        "top2_profit_share": 0.1761604385087223,
+        "top5_profit_share": 0.352251272458346,
+        "top10_profit_share": 0.5901654558373574,
+        "ex_top2": -140.01999999999998,
+        "ex_top5": -747.1899999999999,
+        "largest_month_profit_share": 0.37770623975870427,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 3
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 80,
+          "base": 328.6745880116766,
+          "stress": 256.6405555388812,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 80,
+          "base": 328.6745880116766,
+          "stress": 256.6405555388812,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 80,
+          "base": 328.6745880116766,
+          "stress": 256.6405555388812,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 80,
+          "base": 328.6745880116766,
+          "stress": 256.6405555388812,
+          "swap": 0.0
+        }
+      }
+    },
+    "2026-Q1": {
+      "gross": {
+        "n": 92,
+        "wins": 35,
+        "losses": 57,
+        "breakeven": 0,
+        "winrate": 0.3804347826086957,
+        "sum": -1263.5,
+        "mean": -13.733695652173914,
+        "median": -17.57,
+        "avg_win": 85.83742857142857,
+        "avg_loss": 74.8738596491228,
+        "avg_loss_over_avg_win": 0.8722751938778948,
+        "top2_profit_share": 0.21651227736152395,
+        "top5_profit_share": 0.3778238597215334,
+        "top10_profit_share": 0.5814446578415676,
+        "ex_top2": -1913.97,
+        "ex_top5": -2398.6,
+        "largest_month_profit_share": 0.5808887897720275,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 3
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 92,
+          "base": -1417.8006999701386,
+          "stress": -1497.7701011993229,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 92,
+          "base": -1417.8006999701386,
+          "stress": -1497.7701011993229,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 92,
+          "base": -1417.8006999701386,
+          "stress": -1497.7701011993229,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 92,
+          "base": -1417.8006999701386,
+          "stress": -1497.7701011993229,
+          "swap": 0.0
+        }
+      }
+    },
+    "2026-Q2": {
+      "gross": {
+        "n": 151,
+        "wins": 64,
+        "losses": 86,
+        "breakeven": 1,
+        "winrate": 0.423841059602649,
+        "sum": -480.71,
+        "mean": -3.1835099337748343,
+        "median": -18.08,
+        "avg_win": 94.94140625,
+        "avg_loss": 76.24372093023256,
+        "avg_loss_over_avg_win": 0.8030607923529947,
+        "top2_profit_share": 0.2226603579510389,
+        "top5_profit_share": 0.33743674141123225,
+        "top10_profit_share": 0.4668339847767949,
+        "ex_top2": -1833.65,
+        "ex_top5": -2531.06,
+        "largest_month_profit_share": 0.45496975930878425,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 3
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 151,
+          "base": -754.80111794536,
+          "stress": -940.7311389314955,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 151,
+          "base": -754.80111794536,
+          "stress": -940.7311389314955,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 151,
+          "base": -754.80111794536,
+          "stress": -940.7311389314955,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 151,
+          "base": -754.80111794536,
+          "stress": -940.7311389314955,
+          "swap": 0.0
+        }
+      }
+    },
+    "2026-Q3": {
+      "gross": {
+        "n": 146,
+        "wins": 79,
+        "losses": 66,
+        "breakeven": 1,
+        "winrate": 0.541095890410959,
+        "sum": 5653.26,
+        "mean": 38.720958904109594,
+        "median": 12.325,
+        "avg_win": 129.68506329113924,
+        "avg_loss": 69.57363636363637,
+        "avg_loss_over_avg_win": 0.5364814929183136,
+        "top2_profit_share": 0.19579956115692154,
+        "top5_profit_share": 0.33290288449525235,
+        "top10_profit_share": 0.49658178723138424,
+        "ex_top2": 3647.27,
+        "ex_top5": 2242.63,
+        "largest_month_profit_share": 0.39641702586206895,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 3
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 146,
+          "base": 5436.8830789190515,
+          "stress": 5280.962164416585,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 146,
+          "base": 5436.8830789190515,
+          "stress": 5280.962164416585,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 146,
+          "base": 5436.8830789190515,
+          "stress": 5280.962164416585,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 146,
+          "base": 5436.8830789190515,
+          "stress": 5280.962164416585,
+          "swap": 0.0
+        }
+      }
+    },
+    "2026-Q4": {
+      "gross": {
+        "n": 75,
+        "wins": 39,
+        "losses": 35,
+        "breakeven": 1,
+        "winrate": 0.52,
+        "sum": 1423.82,
+        "mean": 18.984266666666667,
+        "median": 2.04,
+        "avg_win": 91.54512820512821,
+        "avg_loss": 61.32685714285714,
+        "avg_loss_over_avg_win": 0.66990847405271,
+        "top2_profit_share": 0.1808635785629058,
+        "top5_profit_share": 0.4038025241859136,
+        "top10_profit_share": 0.6492972500602197,
+        "ex_top2": 778.0899999999999,
+        "ex_top5": -17.8599999999999,
+        "largest_month_profit_share": 0.5032546649263638,
+        "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+        "months_observed": 2
+      },
+      "source_net_coverage": 0,
+      "source_net_metrics": null,
+      "modeled_costs": {
+        "Swing/UTC": {
+          "n": 75,
+          "base": 1324.7009799775687,
+          "stress": 1246.7894997292321,
+          "swap": 0.0
+        },
+        "Swing/Europe/Helsinki": {
+          "n": 75,
+          "base": 1324.7009799775687,
+          "stress": 1246.7894997292321,
+          "swap": 0.0
+        },
+        "Standard/UTC": {
+          "n": 75,
+          "base": 1324.7009799775687,
+          "stress": 1246.7894997292321,
+          "swap": 0.0
+        },
+        "Standard/Europe/Helsinki": {
+          "n": 75,
+          "base": 1324.7009799775687,
+          "stress": 1246.7894997292321,
+          "swap": 0.0
+        }
+      }
+    }
+  },
+  "cash_flows_and_risk_periods": [
+    {
+      "from_source_clock": "2025-01-10T17:30:44",
+      "flow_usd": 10000.0,
+      "assets": {
+        "USDJPY": {
+          "rows": 61,
+          "source_balance_is_fee_incomplete": true,
+          "dollar_stop_risk": {
+            "p10": 98.20964618073769,
+            "p25": 98.93453094338207,
+            "median": 100.07948161819456,
+            "p75": 101.34132207318488,
+            "p90": 102.02957112682432,
+            "max": 103.56871269271741
+          },
+          "percentage_of_reconstructed_balance": {
+            "p10": 0.9242275256180897,
+            "p25": 0.9338798930476987,
+            "median": 0.9515213955639276,
+            "p75": 0.9634690267734664,
+            "p90": 0.9724953983503715,
+            "max": 1.0257471277003343
+          },
+          "correlation_balance_to_stop_risk": -0.010472595497270398
+        },
+        "XAUUSD": {
+          "rows": 0,
+          "source_balance_is_fee_incomplete": true,
+          "dollar_stop_risk": null,
+          "percentage_of_reconstructed_balance": null,
+          "correlation_balance_to_stop_risk": null
+        }
+      }
+    },
+    {
+      "from_source_clock": "2025-03-25T03:12:44",
+      "flow_usd": -4000.0,
+      "assets": {
+        "USDJPY": {
+          "rows": 484,
+          "source_balance_is_fee_incomplete": true,
+          "dollar_stop_risk": {
+            "p10": 98.89031939613221,
+            "p25": 99.51075733812067,
+            "median": 100.25260588472017,
+            "p75": 101.37882860811682,
+            "p90": 102.83483793110236,
+            "max": 167.1137520180193
+          },
+          "percentage_of_reconstructed_balance": {
+            "p10": 0.8637707485389633,
+            "p25": 0.9047130481236094,
+            "median": 0.9580457650265746,
+            "p75": 1.0286441637372103,
+            "p90": 1.2360480557538243,
+            "max": 1.6626175531217178
+          },
+          "correlation_balance_to_stop_risk": 0.09186961971948762
+        },
+        "XAUUSD": {
+          "rows": 113,
+          "source_balance_is_fee_incomplete": true,
+          "dollar_stop_risk": {
+            "p10": 81.26799999999984,
+            "p25": 83.3799999999992,
+            "median": 90.42000000000007,
+            "p75": 93.60000000000036,
+            "p90": 95.76000000000022,
+            "max": 119.91000000000076
+          },
+          "percentage_of_reconstructed_balance": {
+            "p10": 0.6817530251760273,
+            "p25": 0.725330590576594,
+            "median": 0.8258280721702045,
+            "p75": 0.8767778320395375,
+            "p90": 0.9419726682961435,
+            "max": 1.124072647096881
+          },
+          "correlation_balance_to_stop_risk": -0.067628966302457
+        }
+      }
+    },
+    {
+      "from_source_clock": "2026-09-03T06:32:45",
+      "flow_usd": -6000.0,
+      "assets": {
+        "USDJPY": {
+          "rows": 65,
+          "source_balance_is_fee_incomplete": true,
+          "dollar_stop_risk": {
+            "p10": 98.523299801699,
+            "p25": 99.40567115515046,
+            "median": 100.05568140114843,
+            "p75": 101.33506338212118,
+            "p90": 102.77444486807148,
+            "max": 142.1616358325181
+          },
+          "percentage_of_reconstructed_balance": {
+            "p10": 0.9214790470071152,
+            "p25": 0.9705710222782008,
+            "median": 1.0430519534800426,
+            "p75": 1.0689136458623094,
+            "p90": 1.1216612822295449,
+            "max": 1.5045501729590307
+          },
+          "correlation_balance_to_stop_risk": 0.014942778444870583
+        },
+        "XAUUSD": {
+          "rows": 53,
+          "source_balance_is_fee_incomplete": true,
+          "dollar_stop_risk": {
+            "p10": 80.75199999999987,
+            "p25": 83.04000000000087,
+            "median": 83.79999999999927,
+            "p75": 87.73999999999978,
+            "p90": 116.30399999999928,
+            "max": 213.70000000000073
+          },
+          "percentage_of_reconstructed_balance": {
+            "p10": 0.7808306168058591,
+            "p25": 0.8406164930306953,
+            "median": 0.877191129214574,
+            "p75": 0.9852295281898258,
+            "p90": 1.0522165875350857,
+            "max": 2.421485842749605
+          },
+          "correlation_balance_to_stop_risk": 0.058990517312701496
+        }
+      }
+    }
+  ],
+  "concurrency": {
+    "peak": 3,
+    "peak_same_symbol_and_side": 1,
+    "overlap_ms": 4389035000,
+    "minimum_inter_entry_seconds": 1.0,
+    "minimum_same_symbol_prior_close_to_next_entry_seconds": -6464.0
+  },
+  "drawdown": {
+    "gross_cash": {
+      "peak_to_valley": 2360.109999999997,
+      "static_below_initial": 47.16
+    },
+    "longest_gross_losing_streak": 8,
+    "display_risk_r_rows": 776,
+    "closed_R_proxy": {
+      "peak_to_valley": 23.23241159306226,
+      "static_below_initial": 0.46080576468954065
+    },
+    "closed_only_rule_scale_sensitivity": {
+      "UTC": {
+        "0.5": {
+          "closed_daily_pct": 1.5329296977984934,
+          "closed_static_pct": 0.23040288234477033,
+          "closed_peak_to_valley_pct": 11.61620579653113
+        },
+        "0.75": {
+          "closed_daily_pct": 2.29939454669774,
+          "closed_static_pct": 0.3456043235171555,
+          "closed_peak_to_valley_pct": 17.424308694796693
+        }
+      },
+      "Europe/Helsinki": {
+        "0.5": {
+          "closed_daily_pct": 1.5329296977984934,
+          "closed_static_pct": 0.23040288234477033,
+          "closed_peak_to_valley_pct": 11.61620579653113
+        },
+        "0.75": {
+          "closed_daily_pct": 2.29939454669774,
+          "closed_static_pct": 0.3456043235171555,
+          "closed_peak_to_valley_pct": 17.424308694796693
+        }
+      }
+    },
+    "true_initial_R_drawdown": null
+  },
+  "cross_asset_correlation": {
+    "common_start": "2026-03-30",
+    "common_end": "2026-11-18",
+    "day": {
+      "union_active": {
+        "n": 168,
+        "pearson": -0.01729048480146838
+      },
+      "both_active": {
+        "n": 160,
+        "pearson": -0.02033891387019288
+      }
+    },
+    "week": {
+      "union_active": {
+        "n": 34,
+        "pearson": -0.01552604110405967
+      },
+      "both_active": {
+        "n": 34,
+        "pearson": -0.01552604110405967
+      }
+    }
+  },
+  "selective_win_diagnosis": {
+    "path_labeled": 0,
+    "unknown_winners": 375,
+    "winner_basis": "REPORTED_GROSS_SIGN_ONLY",
+    "swap_share": null
+  },
+  "prop_status": "PROP_UNMEASURED",
+  "parent_commit": "7b9913b",
+  "source_signal_id": 2283078,
+  "tests": {
+    "passed": 80,
+    "skipped": 0,
+    "modules": [
+      "test_bot_breakout_forensic",
+      "test_bot_live_leaderboard",
+      "test_bot_live_auditor",
+      "test_bot_lab",
+      "test_mt_report_parser",
+      "test_corpus_funnel",
+      "test_research_inventory_documents"
+    ]
+  },
+  "constraints": {
+    "lock_sha256": "f0a6b43cb205535b0a959456455dc1d857a0936c06c2e51b8614fd7d772a8486",
+    "local_bar_or_tick_files_read": 0,
+    "mt5_started": false,
+    "order_send_count": 0,
+    "credential_files_read": false,
+    "backtests_run": 0,
+    "git_submodule_pins": {
+      "projects/trader": "74dad35db2d507f7ada4bae64ffb21c09ad193e9",
+      "projects/vi-dubber": "eeebe1ba9bc9f0615743e4c3067cf2cefb5a54b3"
+    },
+    "vi_dubber_wip_preserved": true,
+    "push": false,
+    "merge": false
+  },
+  "source_clock_evidence": {
+    "status": "BROKER_SCHEDULE_CORROBORATED_NO_TRADE_LEVEL_UTC",
+    "server": "Headway-Real",
+    "preferred_mapping": "Europe/Helsinki",
+    "alternative": "UTC",
+    "verified_against_pre2025_bars": false,
+    "source_profile": {
+      "url": "https://www.mql5.com/en/signals/2283078",
+      "sha256": "a5ba40b9d3c72fe3a9e9b3610471fa414b67d0d47d2b8f946837248e60f02a3d",
+      "bytes": 203835
+    },
+    "broker_sources": [
+      "https://help.headway-online.care/hc/en-us/articles/11876815463837-Can-t-find-the-Broker-or-Server-on-Meta-Trader",
+      "https://hw.online/company-news/metatrader-server-time-changes-due-to-the-wintertime-shift/",
+      "https://hw.online/company-news/trading-hours-change-from-march-10/"
+    ]
+  },
+  "pass5_proposal": {
+    "status": "PROPOSED_NOT_EXECUTED",
+    "scope": "USDJPY only, one symmetry-preserving Tokyo-box breakout",
+    "zone": "09:00-12:00 Asia/Tokyo; three completed H1 mid candles",
+    "entry": "first executable 1-tick outward cross until 08:00 Europe/London; 1 event/day",
+    "markout_hours": 4,
+    "comparison": "same event/time reversed direction with executable bid and ask",
+    "development_years": [
+      2018,
+      2024
+    ],
+    "development_clusters": [
+      [
+        2018,
+        2020
+      ],
+      [
+        2021,
+        2024
+      ]
+    ],
+    "minimum_opportunities_per_year": 40,
+    "friction_to_natural_stop_max_pct": 12,
+    "minimum_pass_share": 0.5,
+    "pnl_gate": "mean stress net positive each year and >= mean stress friction; beat reverse in both clusters",
+    "later_only": {
+      "natural_stop": "opposite box edge",
+      "hard_tp": null,
+      "max_positions_per_symbol": 1,
+      "flat": "16:00 Europe/London or 60 minutes before verified closure >2h, whichever is earlier",
+      "risk_pcts": [
+        0.5,
+        0.75
+      ]
+    }
+  },
+  "private_manifest": "bot-lab-breakout-pass4-20261120/manifest.json"
+}

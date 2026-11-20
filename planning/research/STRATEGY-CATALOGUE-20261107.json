@@ -4663,6 +4663,14 @@
     "version": 1,
     "broker_observations": [
       {
+        "id": "bot-lab-breakout-pass4-20261120",
+        "scope": "776 USDJPY and XAUUSD trade logs; clock, exits and sizing forensics; proposed independent Stage-0",
+        "report": "BOT-LAB-BREAKOUT-EA-FORENSIC-DNA-20261120.md",
+        "summary": "BOT-LAB-BREAKOUT-EA-FORENSIC-DNA-20261120.json",
+        "private_manifest": "bot-lab-breakout-pass4-20261120/manifest.json",
+        "private_manifest_sha256": "b3dde9f7bc3e3bf797a1c98d8d20c216aa727ee12a383d3dff1d39b93e6d649e"
+      },
+      {
         "id": "bot-lab-mql5-pass3-20261120",
         "scope": "First real MT4/MT5 MQL5 log batch, toxicity, cost sensitivity, no admitted FTMO portfolio",
         "report": "BOT-LAB-FIRST-REAL-MQL5-AUDIT-20261120.md",

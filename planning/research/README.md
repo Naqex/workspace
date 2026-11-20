@@ -9,6 +9,10 @@ Từ workspace root, chạy `python -X utf8 tooling/ai-engines/research_inventor
 để xem mức gắn nhãn. Thêm `--all` để lấy từng đường dẫn và lý do còn thiếu
 thông tin.
 
+**Bot Lab · MQL5 Pass 4.** Giải phẫu 776 lệnh Breakout EA chỉ từ CSV.
+Mốc đóng theo từng mã và đề xuất Stage‑0 độc lập cho USDJPY.
+[Kết quả và đặc tả](BOT-LAB-BREAKOUT-EA-FORENSIC-DNA-20261120.md) · [JSON](BOT-LAB-BREAKOUT-EA-FORENSIC-DNA-20261120.json).
+
 **Bot Lab · MQL5 Pass 3.** 8 CSV thật, 24.725 lệnh, 7 hồ sơ bị cờ hành vi,
 0 hồ sơ đủ bằng chứng FTMO. Breakout giữ làm đối chứng.
 [Kết quả và giới hạn](BOT-LAB-FIRST-REAL-MQL5-AUDIT-20261120.md) · [JSON](BOT-LAB-FIRST-REAL-MQL5-AUDIT-20261120.json).
