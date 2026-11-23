@@ -9,6 +9,11 @@ Từ workspace root, chạy `python -X utf8 tooling/ai-engines/research_inventor
 để xem mức gắn nhãn. Thêm `--all` để lấy từng đường dẫn và lý do còn thiếu
 thông tin.
 
+**Pass 20 · Pháp y H4/M1 Positive-Swap Carry-Trend (8 cặp) & Ghép Danh Mục 3 Động Cơ (Prague Reset).**
+Kiểm định toàn bộ 8 cặp FX Swap dương trên FTMO Swing (`USDCAD/USDCHF/USDJPY/EURJPY/GBPJPY/AUDJPY` Long + `EURUSD/EURGBP` Short; `holdout_rows = 0`, `network_calls = 0`, `OrderSend = 0`, `1531/1531` tests PASS). Đối chứng H4 vs Native M1 trên `USDJPY` (`+14,68R` vs `+15,18R`) và `EURUSD` (`-1,58R` vs `-0,06R`) khớp chặt. Tuy nhiên nhánh Donchian Carry-Trend bị **bác bỏ dứt điểm**: **`0/12` ô 2D** (`NON_JPY_4`) và **`0/12` ô 2D** (`ALL_8_JPYCAP1`) dương cả hai cụm A&B, trượt bài kiểm định thời điểm ngẫu nhiên (`p_timing = 0,14–0,97`), và khi ghép lỗ nổi Prague-reset vào lõi 2 động cơ `USDJPY` Pass 17 (`BASE_2E_INVDD_075`: Calmar `0.65`) không nâng được hiệu quả rủi ro/lợi nhuận (tốt nhất `PORT3E_075_NJ4_025`: `+3.57%/năm`, DD `6.29%`, Calmar `0.57`). Giữ nguyên lõi 2 động cơ Pass 17.
+[Báo cáo](PASS20-POS-SWAP-CARRY-TREND-3ENGINE-20261123.md) ·
+[Protocol](PASS20-POS-SWAP-CARRY-TREND-3ENGINE-PROTOCOL-20261123.md).
+
 **Pass 19 · `US500` Overnight M1 (FTMO Swap) · Clean-Room `SuperTrend(10,3)` · Stage-0 Cặp Chéo Yên & Positive-Carry.**
 Chạy 3 nhánh zero-network (`holdout_rows = 0`, `OrderSend = 0`, `network_calls = 0`, `1528/1528` tests PASS): (1) `US500` Overnight/Short-Swing (`m = 6`, đúng FTMO Swing `swapL = -138,03`, `3×` T6): `0/6` qua FTMO vì Swap ăn `-596` đến `-2.003 USD` (`US500_IBS_OVERNIGHT_LONG` FTMO `-6,42R`, nhưng trên Exness Swap-Free đảo sang `+9,40R`; `OVERNIGHT_DRIFT` `+8,02R`); (2) Clean-Room `SuperTrend(10, 3.0)` Retracement + Step-Trailing (`swap = 0`, `m = 5`): rớt cả `5/5` tài sản (`-41,1R` đến `-76,7R`); (3) Stage-0 H4/D1 Scout (`swing-10k-20261120/development/`, hiệu chuẩn đúng trên `CONTROL_USDJPY` `+24,85R`): **`GBPJPY`** là cặp duy nhất qua `EXP080_H4` (`+9,28R`, `5/7` năm, `rJPY = 0,23`); ở nhánh **Positive-Swap Carry-Trend (`DON20_POS`)**, **`USDCAD`** đạt `+8,07R` (`6/7` năm dương, A `+3,4` / B `+4,7`, DD `3,4R`, `+590 USD` Swap dương, `rJPY = -0,003`), và cả rổ 6 cặp thu `+10.435 USD` Swap dương / `+28,7R` (`177` lệnh) — cần kiểm chứng M1/H1 & floating equity ở Pass 20.
 [Báo cáo](PASS19-US500-OVERNIGHT-SUPERTREND-YENCROSS-20261123.md) ·

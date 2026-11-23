@@ -4787,6 +4787,14 @@
     "version": 1,
     "broker_observations": [
       {
+        "id": "pass20-pos-swap-carry-3engine-20261123",
+        "scope": "Pass 20 Development 2018-2024 zero-network H4/M1 forensic audit of 8-pair Positive-Swap Carry-Trend & Prague-reset 3-engine portfolio integration: H4 vs Native M1 parity confirmed on USDJPY (+14.68R vs +15.18R) & EURUSD (-1.58R vs -0.06R), but Donchian Carry-Trend REJECTED (0/12 2D surface cells positive in both A&B for NON_JPY_4 and ALL_8_JPYCAP1, fails matched-hold timing null p=0.14-0.97, degrades/does not beat Pass 17 2-engine core). Keep Pass 17 2-engine core.",
+        "report": "PASS20-POS-SWAP-CARRY-TREND-3ENGINE-20261123.md",
+        "summary": "PASS20-POS-SWAP-CARRY-TREND-3ENGINE-20261123.json",
+        "private_manifest": "pass20-pos-swap-carry-3engine-20261123/manifest.json",
+        "private_manifest_sha256": "10ec5a3b82f8a6565af02833d8e8775f64edd821e9cede23158f879177b748e8"
+      },
+      {
         "id": "pass19-us500-supertrend-yencross-20261123",
         "scope": "Pass 19 Development 2018-2024 zero-network 3-track screen: (1) US500 overnight/short-swing (0/6 FTMO due to -$1.38/night swap headwind, though IBS +9.40R & Overnight +8.02R on Exness Swap-Free); (2) Clean-room SuperTrend(10,3) retracement + step-trailing rejected 0/5 (-41R..-77R); (3) Calibrated Stage-0 H4/D1 scout identifies GBPJPY (+9.28R, 5/7 yr, rJPY=0.23) for EXP080 M1 check and USDCAD (+8.07R, 6/7 yr, DD 3.4R, rJPY=-0.003) + 6-pair Positive-Swap Donchian-20 basket (+28.7R, +$10,435 positive FTMO swap) for Pass 20 deep verification.",
         "report": "PASS19-US500-OVERNIGHT-SUPERTREND-YENCROSS-20261123.md",
