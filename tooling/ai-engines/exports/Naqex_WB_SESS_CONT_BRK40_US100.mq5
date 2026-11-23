@@ -1,6 +1,6 @@
 //+------------------------------------------------------------------+
 //| Naqex White-Box Prop EA: SESS_CONT_BRK_40 (US100.cash)
-//| Provenance: protocol=52a53cb785a6 | spec_sha=4234835bcf7f1678 | tier=PROVISIONAL_ENGINE4_UNMEASURED_DEMO
+//| Provenance: protocol=262d0e221e84 | spec_sha=1530f16f0c7c6fd0 | tier=TIER_1_FTMO_DEMO_SPEC_BOUND
 //| Rules: NYSE Morning [09:30..11:30 ET) Drive -> Afternoon Breakout [11:30..15:55 ET)
 //|        Hard Server SL, Hard Flat 15:55 ET (swap=0), Zero-Grid, DryRun Default ON
 //+------------------------------------------------------------------+
