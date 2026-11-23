@@ -30,11 +30,11 @@ SLIP = .2 * PIP
 WINDOW = 540
 
 
-def bound_export(job, entry):
+def bound_export(job, entry, *, symbol=SYMBOL):
     year = entry["year"]
     qdm.year_limits(year)
     folder = (job / "export" / str(year)).resolve()
-    args = ["-data", "action=export", f"symbols={SYMBOL}", "timeframe=TICK", "timezone=UTC",
+    args = ["-data", "action=export", f"symbols={symbol}", "timeframe=TICK", "timezone=UTC",
             f"datefrom={year}.01.01", f"dateto={year}.12.31", f"outputdir={folder.as_posix()}",
             "format=Generic tick format (comma delimited)"]
     path = (job / entry["path"]).resolve()
@@ -45,17 +45,17 @@ def bound_export(job, entry):
     return path
 
 
-def grid(values):
-    prices = values.to_numpy() * GRID
+def grid(values, scale=GRID):
+    prices = values.to_numpy() * scale
     rounded = np.rint(prices)
     if (not np.isfinite(prices).all() or (prices <= 0).any()
             or (rounded >= np.iinfo(np.int32).max // 2).any()
             or (np.abs(prices - rounded) > 1e-6).any()):
-        raise ValueError("Invalid GBPUSD price or precision")
+        raise ValueError("Invalid export price or registered precision")
     return rounded.astype(np.int32)
 
 
-def aggregate(path, year, admission):
+def aggregate(path, year, admission, *, scale=GRID, inspect_ticks=None):
     count, previous, blocks = 0, None, []
     carry = tuple(np.empty(0, dtype=np.int64) for _ in range(3))
     for batch in qdm.batches(path, prices=True):
@@ -66,9 +66,11 @@ def aggregate(path, year, admission):
             raise ValueError("QDM first clock changed after admission")
         previous = int(stamps[-1])
         count += len(stamps)
-        bid, ask = grid(batch.column(1)), grid(batch.column(2))
+        bid, ask = grid(batch.column(1), scale), grid(batch.column(2), scale)
         if (ask < bid).any():
             raise ValueError("Crossed QDM quote")
+        if inspect_ticks is not None:
+            inspect_ticks(stamps, bid, ask)
         minute, bid, ask = (np.concatenate((prev, new)) for prev, new in
                             zip(carry, (stamps // qdm.MINUTE_MS, bid, ask)))
         split = minute.searchsorted(minute[-1])
@@ -124,17 +126,17 @@ def seal_source(job, out):
                                   "export_receipt_sha256": sha(receipt), "years": records})
 
 
-def load_m1(folder, year, binding):
-    path = folder / f"GBPUSD-M1-BIDASK-{year}.parquet"
+def load_m1(folder, year, binding, *, asset="GBPUSD", scale=GRID):
+    path = folder / f"{asset}-M1-BIDASK-{year}.parquet"
     if path.name != binding["parquet"] or sha(path) != binding["parquet_sha256"]:
-        raise ValueError("GBPUSD M1 partition SHA mismatch")
+        raise ValueError("M1 partition SHA mismatch")
     first, last = (n // qdm.MINUTE_MS for n in qdm.year_limits(year))
     stamps = pq.read_table(path, columns=["minute"])["minute"].to_numpy()
     if (not len(stamps) or len(stamps) != binding["minutes"] or stamps[0] < first
             or stamps[-1] >= last or (np.diff(stamps) <= 0).any()):
-        raise ValueError("GBPUSD M1 clock outside year")
+        raise ValueError("M1 clock outside year")
     values = pq.read_table(path, columns=qdm.COLUMNS[2:])
-    return stamps * 60, np.column_stack([values[k].to_numpy() for k in values.column_names]) / GRID
+    return stamps * 60, np.column_stack([values[k].to_numpy() for k in values.column_names]) / scale
 
 
 def box_edges(offsets, values):

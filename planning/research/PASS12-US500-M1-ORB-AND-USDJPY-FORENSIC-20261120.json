@@ -1,0 +1,3037 @@
+{
+  "schema": "pass12-us500-usdjpy-v1",
+  "us500": {
+    "verdict": "US500_M1_DATA_UNAVAILABLE",
+    "protocol_commit": "fdef13d5a30dd1299ff47a1edf1126919303191b",
+    "qdm_cli_version": "125.2692",
+    "raw_symbol": "USA500IDXUSD_PASS12_QUARANTINE",
+    "upstream_symbol": "USA500IDXUSD",
+    "holdout_rows": 0,
+    "order_send_count": 0,
+    "orb_search": null,
+    "attempts": [
+      {
+        "attempt": 1,
+        "utc": "2026-11-20T19:32:20Z",
+        "log": "update.private.log",
+        "outcome": "HTTP 429 on 2011.09.25 and 2011.09.26; stopped owned process after repeated 429 (qdm-first-attempt-cancel.json)."
+      },
+      {
+        "attempt": 2,
+        "utc": "2026-11-20T19:45:12Z",
+        "log": "update-retry.private.log",
+        "outcome": "12 HTTP 429 errors between 2011.10.01 and 2011.10.19; interrupted before 2018-2024; 0 records committed."
+      },
+      {
+        "attempt": 3,
+        "utc": "2026-11-23T07:35:08Z",
+        "log": "update-recovery-20261123.private.log",
+        "outcome": "3 HTTP 429 errors on 2011.09.19-2011.09.21 and only 2 days written (2011.09.22-23) in 10 minutes (~2 min/day rate; ~160h projected to reach 2024); stopped cleanly with 0 records in QDM symbol list."
+      }
+    ],
+    "evidence": "QDM CLI 125.2692 cho mã cách ly USA500IDXUSD_PASS12_QUARANTINE bị chặn tốc độ HTTP 429 liên tục trên cdn.strategyquantcdn.com ở cả ba lượt thử (20/11 lượt 1: 429 tại 2011.09.25–26; 20/11 lượt 2: 12 lỗi 429 đến 2011.10.19; 23/11 lượt khôi phục: 3 lỗi 429 tại 2011.09.19–21, chỉ ghi được 2 ngày năm 2011 sau 10 phút). Vì action=update của QDM 125.2692 tải từ 2011 và bỏ qua datefrom, kho QDM vẫn còn 0 bản ghi cho giai đoạn Development 2018–2024 (không đọc cache thô, 0 bản ghi holdout >= 01/01/2025). Ghi chú cho Pass sau: ổ E hiện đã có kho Dukascopy M1 Bid/Ask đã niêm phong từ kênh cũ (us500-long-explicit-source-v1, 2013–2024) nhưng nằm ngoài phạm vi QDM đã khóa ở Protocol fdef13d nên không tự thay thế."
+  },
+  "usdjpy": {
+    "protocol_commit": "fdef13d5a30dd1299ff47a1edf1126919303191b",
+    "baseline": "67d1a42",
+    "holdout_rows": 0,
+    "order_send_count": 0,
+    "sample_results": {
+      "strict": {
+        "days": 1334,
+        "comparisons": {
+          "baseline": {
+            "trades": 1228,
+            "net_R_years": {
+              "2018": 20.220981716454627,
+              "2019": -15.758520206516144,
+              "2020": 17.729498511265735,
+              "2021": -5.7667937867290835,
+              "2022": 40.83687663864316,
+              "2023": 4.582513706346472,
+              "2024": 20.350179133919603
+            },
+            "net_R_clusters": {
+              "A": 22.191960021204217,
+              "B": 60.00277569218015
+            },
+            "net_R_annual": {
+              "A": 7.397320007068072,
+              "B": 15.000693923045038,
+              "all": 11.742105101912054
+            },
+            "total": {
+              "n": 1228,
+              "net_R": 82.19473571338438,
+              "win_rate": 0.4552117263843648,
+              "losing_R": 580.0463998320338,
+              "winning_R": 662.2411355454182,
+              "top10_R": 69.54968823581136,
+              "winner_label_coverage": 0.0,
+              "floating_dd_R": 24.316818366937362
+            },
+            "accounts": {
+              "Swing 10k": {
+                "0.30%": {
+                  "account": "Swing 10k",
+                  "initial": 10000,
+                  "risk_pct": 0.3,
+                  "executed": 1228,
+                  "attempted": 1228,
+                  "skip": {},
+                  "rounded_trade_count": 1228,
+                  "under_90pct_budget_count": 162,
+                  "net_usd": 2261.4059807145386,
+                  "years_net_usd": {
+                    "2018": 558.7652754026445,
+                    "2019": -421.242265224705,
+                    "2020": 482.7045434121052,
+                    "2021": -153.3077022384036,
+                    "2022": 1095.2413813535702,
+                    "2023": 166.53526925611087,
+                    "2024": 532.7094787532262
+                  },
+                  "cluster_net_usd": {
+                    "A": 620.2275535900446,
+                    "B": 1641.1784271245037
+                  },
+                  "annual_usd": {
+                    "A": 206.7425178633482,
+                    "B": 410.29460678112594,
+                    "all": 323.0579972449355
+                  },
+                  "annual_pct": {
+                    "A": 2.0674251786334823,
+                    "B": 4.102946067811259,
+                    "all": 3.230579972449355
+                  },
+                  "positive_years": 5,
+                  "worst_daily_loss_pct": 0.29998297903966886,
+                  "peak_floating_dd_pct": 6.502932412674727,
+                  "open_close_dd_pct": 6.488932535396507,
+                  "peak_floating_dd_pct_of_peak": 5.571362394485792,
+                  "static_loss_pct": 0.6642440740860366,
+                  "max_underwater_calendar_days": 642.9569444444444,
+                  "max_underwater_trading_days": 223,
+                  "max_underwater_months": 21.12427588063638,
+                  "margin_peak_usd": 1266.6654,
+                  "margin_peak_pct_initial": 12.666654000000001,
+                  "margin_peak_pct_equity": 11.140565132906394,
+                  "minimum_free_margin_usd": 9208.494284562255,
+                  "hard_daily_breached": false,
+                  "hard_static_breached": false,
+                  "daily_buffer_2_5": true,
+                  "peak_buffer_7_5": true,
+                  "peak_buffer_8": true
+                },
+                "0.40%": {
+                  "account": "Swing 10k",
+                  "initial": 10000,
+                  "risk_pct": 0.4,
+                  "executed": 1228,
+                  "attempted": 1228,
+                  "skip": {},
+                  "rounded_trade_count": 1228,
+                  "under_90pct_budget_count": 60,
+                  "net_usd": 3041.6809324966052,
+                  "years_net_usd": {
+                    "2018": 735.737413668075,
+                    "2019": -565.7836012177594,
+                    "2020": 656.5651050889087,
+                    "2021": -194.0699534953359,
+                    "2022": 1469.1981574159233,
+                    "2023": 218.52901462739268,
+                    "2024": 721.504796409421
+                  },
+                  "cluster_net_usd": {
+                    "A": 826.5189175392243,
+                    "B": 2215.162014957401
+                  },
+                  "annual_usd": {
+                    "A": 275.5063058464081,
+                    "B": 553.7905037393502,
+                    "all": 434.5258474995179
+                  },
+                  "annual_pct": {
+                    "A": 2.755063058464081,
+                    "B": 5.537905037393503,
+                    "all": 4.3452584749951795
+                  },
+                  "positive_years": 5,
+                  "worst_daily_loss_pct": 0.40003222500567065,
+                  "peak_floating_dd_pct": 8.898934392331757,
+                  "open_close_dd_pct": 8.87967276935622,
+                  "peak_floating_dd_pct_of_peak": 7.240741960653126,
+                  "static_loss_pct": 0.9006714142458259,
+                  "max_underwater_calendar_days": 641.2694444444444,
+                  "max_underwater_trading_days": 221,
+                  "max_underwater_months": 21.06883326374486,
+                  "margin_peak_usd": 1666.665,
+                  "margin_peak_pct_initial": 16.66665,
+                  "margin_peak_pct_equity": 14.513941835128099,
+                  "minimum_free_margin_usd": 8953.234132596806,
+                  "hard_daily_breached": false,
+                  "hard_static_breached": false,
+                  "daily_buffer_2_5": true,
+                  "peak_buffer_7_5": false,
+                  "peak_buffer_8": false
+                }
+              },
+              "Swing 25k": {
+                "0.30%": {
+                  "account": "Swing 25k",
+                  "initial": 25000,
+                  "risk_pct": 0.3,
+                  "executed": 1228,
+                  "attempted": 1228,
+                  "skip": {},
+                  "rounded_trade_count": 1228,
+                  "under_90pct_budget_count": 12,
+                  "net_usd": 5855.2150000119145,
+                  "years_net_usd": {
+                    "2018": 1394.9943896332984,
+                    "2019": -1084.962273406622,
+                    "2020": 1258.09649974163,
+                    "2021": -383.33600495210715,
+                    "2022": 2881.3718881589584,
+                    "2023": 372.0033146973291,
+                    "2024": 1417.0471861393842
+                  },
+                  "cluster_net_usd": {
+                    "A": 1568.1286159683063,
+                    "B": 4287.086384043565
+                  },
+                  "annual_usd": {
+                    "A": 522.7095386561022,
+                    "B": 1071.7715960108912,
+                    "all": 836.4592857159815
+                  },
+                  "annual_pct": {
+                    "A": 2.0908381546244086,
+                    "B": 4.287086384043565,
+                    "all": 3.345837142863926
+                  },
+                  "positive_years": 5,
+                  "worst_daily_loss_pct": 0.2999592209131515,
+                  "peak_floating_dd_pct": 6.799901855996169,
+                  "open_close_dd_pct": 6.785544906755211,
+                  "peak_floating_dd_pct_of_peak": 5.786976555755944,
+                  "static_loss_pct": 0.6867515511549281,
+                  "max_underwater_calendar_days": 641.96875,
+                  "max_underwater_trading_days": 222,
+                  "max_underwater_months": 21.09180886671184,
+                  "margin_peak_usd": 3166.6634999999997,
+                  "margin_peak_pct_initial": 12.666654,
+                  "margin_peak_pct_equity": 11.133309585154588,
+                  "minimum_free_margin_usd": 23036.300249540953,
+                  "hard_daily_breached": false,
+                  "hard_static_breached": false,
+                  "daily_buffer_2_5": true,
+                  "peak_buffer_7_5": true,
+                  "peak_buffer_8": true
+                },
+                "0.40%": {
+                  "account": "Swing 25k",
+                  "initial": 25000,
+                  "risk_pct": 0.4,
+                  "executed": 1228,
+                  "attempted": 1228,
+                  "skip": {},
+                  "rounded_trade_count": 1228,
+                  "under_90pct_budget_count": 3,
+                  "net_usd": 7809.987589951183,
+                  "years_net_usd": {
+                    "2018": 1862.1761968625403,
+                    "2019": -1446.0133684563912,
+                    "2020": 1652.5447151985488,
+                    "2021": -518.8113500401591,
+                    "2022": 3891.118231159134,
+                    "2023": 468.4460299740599,
+                    "2024": 1900.5271352535196
+                  },
+                  "cluster_net_usd": {
+                    "A": 2068.707543604698,
+                    "B": 5741.280046346555
+                  },
+                  "annual_usd": {
+                    "A": 689.569181201566,
+                    "B": 1435.3200115866387,
+                    "all": 1115.7125128501789
+                  },
+                  "annual_pct": {
+                    "A": 2.7582767248062643,
+                    "B": 5.741280046346554,
+                    "all": 4.462850051400715
+                  },
+                  "positive_years": 5,
+                  "worst_daily_loss_pct": 0.3999694406260096,
+                  "peak_floating_dd_pct": 9.207609691773687,
+                  "open_close_dd_pct": 9.188229044810578,
+                  "peak_floating_dd_pct_of_peak": 7.459326066258473,
+                  "static_loss_pct": 0.9338246582348801,
+                  "max_underwater_calendar_days": 641.96875,
+                  "max_underwater_trading_days": 222,
+                  "max_underwater_months": 21.09180886671184,
+                  "margin_peak_usd": 4233.3291,
+                  "margin_peak_pct_initial": 16.9333164,
+                  "margin_peak_pct_equity": 14.623563097407322,
+                  "minimum_free_margin_usd": 22368.585414209458,
+                  "hard_daily_breached": false,
+                  "hard_static_breached": false,
+                  "daily_buffer_2_5": true,
+                  "peak_buffer_7_5": false,
+                  "peak_buffer_8": false
+                }
+              },
+              "Standard 50k": {
+                "0.30%": {
+                  "account": "Standard 50k",
+                  "initial": 50000,
+                  "risk_pct": 0.3,
+                  "executed": 1228,
+                  "attempted": 1228,
+                  "skip": {},
+                  "rounded_trade_count": 1228,
+                  "under_90pct_budget_count": 2,
+                  "net_usd": 11713.710188536854,
+                  "years_net_usd": {
+                    "2018": 2820.6930861861506,
+                    "2019": -2185.192299704856,
+                    "2020": 2509.575338300407,
+                    "2021": -779.0239253994445,
+                    "2022": 5813.219878442565,
+                    "2023": 689.5723647228926,
+                    "2024": 2844.865745989096
+                  },
+                  "cluster_net_usd": {
+                    "A": 3145.0761247817018,
+                    "B": 8568.63406375511
+                  },
+                  "annual_usd": {
+                    "A": 1048.3587082605673,
+                    "B": 2142.1585159387773,
+                    "all": 1673.3871697909728
+                  },
+                  "annual_pct": {
+                    "A": 2.0967174165211344,
+                    "B": 4.2843170318775545,
+                    "all": 3.3467743395819456
+                  },
+                  "positive_years": 5,
+                  "worst_daily_loss_pct": 0.29998297903967613,
+                  "peak_floating_dd_pct": 6.916449986440931,
+                  "open_close_dd_pct": 6.901974013212384,
+                  "peak_floating_dd_pct_of_peak": 5.884499764462159,
+                  "static_loss_pct": 0.6928172272194352,
+                  "max_underwater_calendar_days": 642.2694444444444,
+                  "max_underwater_trading_days": 222,
+                  "max_underwater_months": 21.101688147828725,
+                  "margin_peak_usd": 1910.0,
+                  "margin_peak_pct_initial": 3.82,
+                  "margin_peak_pct_equity": 3.3574997759479133,
+                  "minimum_free_margin_usd": 48796.61524409721,
+                  "hard_daily_breached": false,
+                  "hard_static_breached": false,
+                  "daily_buffer_2_5": true,
+                  "peak_buffer_7_5": true,
+                  "peak_buffer_8": true
+                },
+                "0.40%": {
+                  "account": "Standard 50k",
+                  "initial": 50000,
+                  "risk_pct": 0.4,
+                  "executed": 1228,
+                  "attempted": 1228,
+                  "skip": {},
+                  "rounded_trade_count": 1228,
+                  "under_90pct_budget_count": 0,
+                  "net_usd": 15726.130006157357,
+                  "years_net_usd": {
+                    "2018": 3774.8870837463005,
+                    "2019": -2929.8717106620998,
+                    "2020": 3363.922647403538,
+                    "2021": -1051.834568369941,
+                    "2022": 7837.71663756295,
+                    "2023": 909.0200928617394,
+                    "2024": 3822.289823614971
+                  },
+                  "cluster_net_usd": {
+                    "A": 4208.938020487739,
+                    "B": 11517.19198566972
+                  },
+                  "annual_usd": {
+                    "A": 1402.9793401625795,
+                    "B": 2879.29799641743,
+                    "all": 2246.590000879637
+                  },
+                  "annual_pct": {
+                    "A": 2.8059586803251593,
+                    "B": 5.75859599283486,
+                    "all": 4.493180001759274
+                  },
+                  "positive_years": 5,
+                  "worst_daily_loss_pct": 0.4000322250056633,
+                  "peak_floating_dd_pct": 9.24945465976448,
+                  "open_close_dd_pct": 9.229904910194396,
+                  "peak_floating_dd_pct_of_peak": 7.48466061780335,
+                  "static_loss_pct": 0.9245719447970332,
+                  "max_underwater_calendar_days": 641.96875,
+                  "max_underwater_trading_days": 222,
+                  "max_underwater_months": 21.09180886671184,
+                  "margin_peak_usd": 2540.0,
+                  "margin_peak_pct_initial": 5.08,
+                  "margin_peak_pct_equity": 4.3817743603109465,
+                  "minimum_free_margin_usd": 48398.975063885846,
+                  "hard_daily_breached": false,
+                  "hard_static_breached": false,
+                  "daily_buffer_2_5": true,
+                  "peak_buffer_7_5": false,
+                  "peak_buffer_8": false
+                }
+              }
+            },
+            "cluster_trades": {
+              "A": 482,
+              "B": 746
+            }
+          },
+          "cost12": {
+            "trades": 1139,
+            "net_R_years": {
+              "2018": 15.150596229626451,
+              "2019": -10.854647154148092,
+              "2020": 22.798100280318973,
+              "2021": -7.060480709162887,
+              "2022": 42.88000278958382,
+              "2023": 9.771180175597932,
+              "2024": 18.535194330674813
+            },
+            "net_R_clusters": {
+              "A": 27.09404935579733,
+              "B": 64.12589658669367
+            },
+            "net_R_annual": {
+              "A": 9.031349785265776,
+              "B": 16.031474146673418,
+              "all": 13.031420848927286
+            },
+            "total": {
+              "n": 1139,
+              "net_R": 91.21994594249101,
+              "win_rate": 0.4679543459174715,
+              "losing_R": 515.7086899544548,
+              "winning_R": 606.9286358969458,
+              "top10_R": 64.67291205329711,
+              "winner_label_coverage": 0.0,
+              "floating_dd_R": 24.316818366937376
+            },
+            "accounts": {
+              "Swing 10k": {
+                "0.30%": {
+                  "account": "Swing 10k",
+                  "initial": 10000,
+                  "risk_pct": 0.3,
+                  "executed": 1139,
+                  "attempted": 1139,
+                  "skip": {},
+                  "rounded_trade_count": 1139,
+                  "under_90pct_budget_count": 162,
+                  "net_usd": 2497.1848606169497,
+                  "years_net_usd": {
+                    "2018": 416.75604416278486,
+                    "2019": -290.2251919886079,
+                    "2020": 611.0368369855348,
+                    "2021": -190.02404402881467,
+                    "2022": 1150.226377270957,
+                    "2023": 303.3305828960839,
+                    "2024": 496.0842553190237
+                  },
+                  "cluster_net_usd": {
+                    "A": 737.5676891597118,
+                    "B": 1759.6171714572502
+                  },
+                  "annual_usd": {
+                    "A": 245.8558963865706,
+                    "B": 439.90429286431254,
+                    "all": 356.7406943738517
+                  },
+                  "annual_pct": {
+                    "A": 2.458558963865706,
+                    "B": 4.399042928643126,
+                    "all": 3.5674069437385167
+                  },
+                  "positive_years": 5,
+                  "worst_daily_loss_pct": 0.2999592209131515,
+                  "peak_floating_dd_pct": 6.502932412674727,
+                  "open_close_dd_pct": 6.488932535396507,
+                  "peak_floating_dd_pct_of_peak": 5.507376422848809,
+                  "static_loss_pct": 1.377223671843476,
+                  "max_underwater_calendar_days": 695.8597222222222,
+                  "max_underwater_trading_days": 245,
+                  "max_underwater_months": 22.862390512239585,
+                  "margin_peak_usd": 766.6659,
+                  "margin_peak_pct_initial": 7.666658999999999,
+                  "margin_peak_pct_equity": 7.398287069109497,
+                  "minimum_free_margin_usd": 9178.861846494605,
+                  "hard_daily_breached": false,
+                  "hard_static_breached": false,
+                  "daily_buffer_2_5": true,
+                  "peak_buffer_7_5": true,
+                  "peak_buffer_8": true
+                },
+                "0.40%": {
+                  "account": "Swing 10k",
+                  "initial": 10000,
+                  "risk_pct": 0.4,
+                  "executed": 1139,
+                  "attempted": 1139,
+                  "skip": {},
+                  "rounded_trade_count": 1139,
+                  "under_90pct_budget_count": 60,
+                  "net_usd": 3363.7660005763664,
+                  "years_net_usd": {
+                    "2018": 555.8510597272674,
+                    "2019": -392.3889546699918,
+                    "2020": 829.2161742297889,
+                    "2021": -247.26973386784525,
+                    "2022": 1543.0471311355934,
+                    "2023": 401.69077146659913,
+                    "2024": 673.6195525549693
+                  },
+                  "cluster_net_usd": {
+                    "A": 992.6782792870645,
+                    "B": 2371.0877212893165
+                  },
+                  "annual_usd": {
+                    "A": 330.89275976235484,
+                    "B": 592.7719303223291,
+                    "all": 480.53800008234015
+                  },
+                  "annual_pct": {
+                    "A": 3.308927597623548,
+                    "B": 5.9277193032232915,
+                    "all": 4.805380000823401
+                  },
+                  "positive_years": 5,
+                  "worst_daily_loss_pct": 0.40003222500567065,
+                  "peak_floating_dd_pct": 8.898934392331757,
+                  "open_close_dd_pct": 8.87967276935622,
+                  "peak_floating_dd_pct_of_peak": 7.132330969461688,
+                  "static_loss_pct": 1.8259507430604025,
+                  "max_underwater_calendar_days": 695.7826388888889,
+                  "max_underwater_trading_days": 245,
+                  "max_underwater_months": 22.85985794825812,
+                  "margin_peak_usd": 1033.3323,
+                  "margin_peak_pct_initial": 10.333323000000002,
+                  "margin_peak_pct_equity": 9.778543700617265,
+                  "minimum_free_margin_usd": 8918.913682735487,
+                  "hard_daily_breached": false,
+                  "hard_static_breached": false,
+                  "daily_buffer_2_5": true,
+                  "peak_buffer_7_5": false,
+                  "peak_buffer_8": false
+                }
+              },
+              "Swing 25k": {
+                "0.30%": {
+                  "account": "Swing 25k",
+                  "initial": 25000,
+                  "risk_pct": 0.3,
+                  "executed": 1139,
+                  "attempted": 1139,
+                  "skip": {},
+                  "rounded_trade_count": 1139,
+                  "under_90pct_budget_count": 12,
+                  "net_usd": 6461.4836076855245,
+                  "years_net_usd": {
+                    "2018": 1049.010233936629,
+                    "2019": -754.5694286632593,
+                    "2020": 1586.3026691108284,
+                    "2021": -482.6507109730198,
+                    "2022": 3019.681961939675,
+                    "2023": 718.4724195843654,
+                    "2024": 1325.2364627502723
+                  },
+                  "cluster_net_usd": {
+                    "A": 1880.7434743841982,
+                    "B": 4580.740133301293
+                  },
+                  "annual_usd": {
+                    "A": 626.9144914613994,
+                    "B": 1145.1850333253233,
+                    "all": 923.069086812213
+                  },
+                  "annual_pct": {
+                    "A": 2.5076579658455973,
+                    "B": 4.580740133301293,
+                    "all": 3.6922763472488516
+                  },
+                  "positive_years": 5,
+                  "worst_daily_loss_pct": 0.2999592209131515,
+                  "peak_floating_dd_pct": 6.799901855996169,
+                  "open_close_dd_pct": 6.785544906755211,
+                  "peak_floating_dd_pct_of_peak": 5.718529474863506,
+                  "static_loss_pct": 1.3933227014536242,
+                  "max_underwater_calendar_days": 695.8472222222222,
+                  "max_underwater_trading_days": 245,
+                  "max_underwater_months": 22.861979826188534,
+                  "margin_peak_usd": 1966.6646999999998,
+                  "margin_peak_pct_initial": 7.866658799999999,
+                  "margin_peak_pct_equity": 7.395673602941092,
+                  "minimum_free_margin_usd": 22955.91148756134,
+                  "hard_daily_breached": false,
+                  "hard_static_breached": false,
+                  "daily_buffer_2_5": true,
+                  "peak_buffer_7_5": true,
+                  "peak_buffer_8": true
+                },
+                "0.40%": {
+                  "account": "Swing 25k",
+                  "initial": 25000,
+                  "risk_pct": 0.4,
+                  "executed": 1139,
+                  "attempted": 1139,
+                  "skip": {},
+                  "rounded_trade_count": 1139,
+                  "under_90pct_budget_count": 3,
+                  "net_usd": 8614.281793453054,
+                  "years_net_usd": {
+                    "2018": 1401.2372333593507,
+                    "2019": -1005.9548661836554,
+                    "2020": 2089.4722859074373,
+                    "2021": -649.4494793078977,
+                    "2022": 4072.9483160763443,
+                    "2023": 930.6761717504751,
+                    "2024": 1775.3521318510677
+                  },
+                  "cluster_net_usd": {
+                    "A": 2484.7546530831323,
+                    "B": 6129.52714036999
+                  },
+                  "annual_usd": {
+                    "A": 828.2515510277108,
+                    "B": 1532.3817850924975,
+                    "all": 1230.6116847790174
+                  },
+                  "annual_pct": {
+                    "A": 3.3130062041108435,
+                    "B": 6.129527140369991,
+                    "all": 4.92244673911607
+                  },
+                  "positive_years": 5,
+                  "worst_daily_loss_pct": 0.3999254029404692,
+                  "peak_floating_dd_pct": 9.207609691773687,
+                  "open_close_dd_pct": 9.188229044810578,
+                  "peak_floating_dd_pct_of_peak": 7.3480696435384685,
+                  "static_loss_pct": 1.8743200679666625,
+                  "max_underwater_calendar_days": 695.8513888888889,
+                  "max_underwater_trading_days": 245,
+                  "max_underwater_months": 22.862116721538886,
+                  "margin_peak_usd": 2633.3307,
+                  "margin_peak_pct_initial": 10.5333228,
+                  "margin_peak_pct_equity": 9.845150006659205,
+                  "minimum_free_margin_usd": 22282.705913599675,
+                  "hard_daily_breached": false,
+                  "hard_static_breached": false,
+                  "daily_buffer_2_5": true,
+                  "peak_buffer_7_5": false,
+                  "peak_buffer_8": false
+                }
+              },
+              "Standard 50k": {
+                "0.30%": {
+                  "account": "Standard 50k",
+                  "initial": 50000,
+                  "risk_pct": 0.3,
+                  "executed": 1139,
+                  "attempted": 1139,
+                  "skip": {},
+                  "rounded_trade_count": 1139,
+                  "under_90pct_budget_count": 2,
+                  "net_usd": 12922.915298268337,
+                  "years_net_usd": {
+                    "2018": 2119.1544009247937,
+                    "2019": -1520.7980008069494,
+                    "2020": 3171.949241247733,
+                    "2021": -977.0302267952347,
+                    "2022": 6088.577481219087,
+                    "2023": 1384.2341203805267,
+                    "2024": 2656.8282820983427
+                  },
+                  "cluster_net_usd": {
+                    "A": 3770.3056413655772,
+                    "B": 9152.609656902721
+                  },
+                  "annual_usd": {
+                    "A": 1256.768547121859,
+                    "B": 2288.1524142256803,
+                    "all": 1846.1307568954712
+                  },
+                  "annual_pct": {
+                    "A": 2.513537094243718,
+                    "B": 4.576304828451361,
+                    "all": 3.6922615137909425
+                  },
+                  "positive_years": 5,
+                  "worst_daily_loss_pct": 0.2999592209131515,
+                  "peak_floating_dd_pct": 6.916449986440931,
+                  "open_close_dd_pct": 6.901974013212384,
+                  "peak_floating_dd_pct_of_peak": 5.814981182203067,
+                  "static_loss_pct": 1.40579682497686,
+                  "max_underwater_calendar_days": 695.8472222222222,
+                  "max_underwater_trading_days": 245,
+                  "max_underwater_months": 22.861979826188534,
+                  "margin_peak_usd": 1190.0,
+                  "margin_peak_pct_initial": 2.38,
+                  "margin_peak_pct_equity": 2.219180673224809,
+                  "minimum_free_margin_usd": 48467.84336092526,
+                  "hard_daily_breached": false,
+                  "hard_static_breached": false,
+                  "daily_buffer_2_5": true,
+                  "peak_buffer_7_5": true,
+                  "peak_buffer_8": true
+                },
+                "0.40%": {
+                  "account": "Standard 50k",
+                  "initial": 50000,
+                  "risk_pct": 0.4,
+                  "executed": 1139,
+                  "attempted": 1139,
+                  "skip": {},
+                  "rounded_trade_count": 1139,
+                  "under_90pct_budget_count": 0,
+                  "net_usd": 17346.163206492827,
+                  "years_net_usd": {
+                    "2018": 2843.893927458395,
+                    "2019": -2044.7043205704047,
+                    "2020": 4245.285472995816,
+                    "2021": -1311.954505250018,
+                    "2022": 8205.280154313168,
+                    "2023": 1836.2386276542609,
+                    "2024": 3572.123849891685
+                  },
+                  "cluster_net_usd": {
+                    "A": 5044.475079883807,
+                    "B": 12301.688126609097
+                  },
+                  "annual_usd": {
+                    "A": 1681.4916932946023,
+                    "B": 3075.422031652274,
+                    "all": 2478.023315213272
+                  },
+                  "annual_pct": {
+                    "A": 3.362983386589205,
+                    "B": 6.1508440633045485,
+                    "all": 4.956046630426544
+                  },
+                  "positive_years": 5,
+                  "worst_daily_loss_pct": 0.4000322250056633,
+                  "peak_floating_dd_pct": 9.24945465976448,
+                  "open_close_dd_pct": 9.229904910194396,
+                  "peak_floating_dd_pct_of_peak": 7.372152702153079,
+                  "static_loss_pct": 1.8738749879872776,
+                  "max_underwater_calendar_days": 695.7833333333333,
+                  "max_underwater_trading_days": 245,
+                  "max_underwater_months": 22.859880764149842,
+                  "margin_peak_usd": 1590.0,
+                  "margin_peak_pct_initial": 3.18,
+                  "margin_peak_pct_equity": 2.9732509443185378,
+                  "minimum_free_margin_usd": 47970.831854740085,
+                  "hard_daily_breached": false,
+                  "hard_static_breached": false,
+                  "daily_buffer_2_5": true,
+                  "peak_buffer_7_5": false,
+                  "peak_buffer_8": false
+                }
+              }
+            },
+            "cluster_trades": {
+              "A": 437,
+              "B": 702
+            }
+          }
+        },
+        "baseline_axes": {
+          "A": {
+            "cost_bucket": {
+              ">12%": {
+                "n": 45,
+                "net_R": -4.9020893345931125,
+                "win_rate": 0.3111111111111111,
+                "losing_R": 31.500120758484332,
+                "winning_R": 26.59803142389122,
+                "top10_R": 24.608751447033224,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 16.734124070023363
+              },
+              "6–12%": {
+                "n": 270,
+                "net_R": 15.407673641015215,
+                "win_rate": 0.45925925925925926,
+                "losing_R": 127.3680041415432,
+                "winning_R": 142.7756777825584,
+                "top10_R": 40.02080629187676,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 17.561358206106647
+              },
+              "<6%": {
+                "n": 167,
+                "net_R": 11.686375714782114,
+                "win_rate": 0.5449101796407185,
+                "losing_R": 52.79297997875445,
+                "winning_R": 64.47935569353656,
+                "top10_R": 20.252971873753367,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 9.392161004478886
+              }
+            },
+            "atr_bucket": {
+              "unknown": {
+                "n": 11,
+                "net_R": -0.4315539177736404,
+                "win_rate": 0.45454545454545453,
+                "losing_R": 6.430441633263726,
+                "winning_R": 5.998887715490085,
+                "top10_R": 5.998887715490085,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 5.962768924540559
+              },
+              "0.25–<0.50": {
+                "n": 277,
+                "net_R": 9.849877263513601,
+                "win_rate": 0.4657039711191336,
+                "losing_R": 126.59793179741969,
+                "winning_R": 136.44780906093328,
+                "top10_R": 35.41770564498933,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 18.078041376640634
+              },
+              "<0.25": {
+                "n": 91,
+                "net_R": -0.8950164191670691,
+                "win_rate": 0.38461538461538464,
+                "losing_R": 52.943619735565825,
+                "winning_R": 52.048603316398754,
+                "top10_R": 32.522213674409514,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 16.2350715430621
+              },
+              "≥0.50": {
+                "n": 103,
+                "net_R": 13.668653094631326,
+                "win_rate": 0.5825242718446602,
+                "losing_R": 25.68911171253274,
+                "winning_R": 39.35776480716407,
+                "top10_R": 16.556674260710185,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 5.951296549338163
+              }
+            },
+            "direction": {
+              "SELL": {
+                "n": 245,
+                "net_R": 13.919497075574446,
+                "win_rate": 0.45714285714285713,
+                "losing_R": 114.06370227353229,
+                "winning_R": 127.98319934910673,
+                "top10_R": 39.43586271201141,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 13.540616826153974
+              },
+              "BUY": {
+                "n": 237,
+                "net_R": 8.272462945629773,
+                "win_rate": 0.4936708860759494,
+                "losing_R": 97.59740260524968,
+                "winning_R": 105.86986555087947,
+                "top10_R": 30.490500350898515,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 14.644942739746345
+              }
+            },
+            "entry_window": {
+              "03:00–06:59": {
+                "n": 394,
+                "net_R": 5.441235377013041,
+                "win_rate": 0.46446700507614214,
+                "losing_R": 180.19392179401444,
+                "winning_R": 185.6351571710275,
+                "top10_R": 41.469707395502795,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 24.502079030467396
+              },
+              "07:00–09:59": {
+                "n": 88,
+                "net_R": 16.750724644191177,
+                "win_rate": 0.5227272727272727,
+                "losing_R": 31.467183084767537,
+                "winning_R": 48.217907728958714,
+                "top10_R": 22.60387821665443,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 5.913932105951182
+              }
+            }
+          },
+          "B": {
+            "cost_bucket": {
+              "<6%": {
+                "n": 425,
+                "net_R": 47.01989399166651,
+                "win_rate": 0.4894117647058824,
+                "losing_R": 174.25927129761595,
+                "winning_R": 221.27916528928247,
+                "top10_R": 44.913433386678506,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 19.07997574717018
+              },
+              ">12%": {
+                "n": 44,
+                "net_R": -4.123120894513524,
+                "win_rate": 0.2727272727272727,
+                "losing_R": 32.83758911909465,
+                "winning_R": 28.714468224581125,
+                "top10_R": 28.246346778748727,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 25.973427641854876
+              },
+              "6–12%": {
+                "n": 277,
+                "net_R": 17.10600259502717,
+                "win_rate": 0.3971119133574007,
+                "losing_R": 161.28843453654116,
+                "winning_R": 178.39443713156834,
+                "top10_R": 50.51749668914316,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 15.810682925820156
+              }
+            },
+            "atr_bucket": {
+              "≥0.50": {
+                "n": 123,
+                "net_R": 19.304834312763496,
+                "win_rate": 0.5772357723577236,
+                "losing_R": 35.38440187939255,
+                "winning_R": 54.689236192156045,
+                "top10_R": 24.757582205769722,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 5.229796836339931
+              },
+              "<0.25": {
+                "n": 190,
+                "net_R": 12.049823330116729,
+                "win_rate": 0.35789473684210527,
+                "losing_R": 124.58014915687156,
+                "winning_R": 136.6299724869883,
+                "top10_R": 54.145865893449695,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 19.391215956708635
+              },
+              "0.25–<0.50": {
+                "n": 433,
+                "net_R": 28.648118049299928,
+                "win_rate": 0.44110854503464203,
+                "losing_R": 208.42074391698767,
+                "winning_R": 237.0688619662876,
+                "top10_R": 47.59084699848747,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 22.040083270824987
+              }
+            },
+            "direction": {
+              "SELL": {
+                "n": 347,
+                "net_R": 5.015187921476725,
+                "win_rate": 0.4034582132564842,
+                "losing_R": 182.73071213972807,
+                "winning_R": 187.7459000612048,
+                "top10_R": 53.52806915372387,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 26.433602462606558
+              },
+              "BUY": {
+                "n": 399,
+                "net_R": 54.98758777070343,
+                "win_rate": 0.47619047619047616,
+                "losing_R": 185.65458281352372,
+                "winning_R": 240.64217058422713,
+                "top10_R": 49.51658400303645,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 17.89503969542881
+              }
+            },
+            "entry_window": {
+              "03:00–06:59": {
+                "n": 629,
+                "net_R": 48.1221784221842,
+                "win_rate": 0.424483306836248,
+                "losing_R": 326.1589604146945,
+                "winning_R": 374.28113883687865,
+                "top10_R": 65.78984978361515,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 24.620646068718813
+              },
+              "07:00–09:59": {
+                "n": 117,
+                "net_R": 11.880597269995953,
+                "win_rate": 0.5384615384615384,
+                "losing_R": 42.22633453855731,
+                "winning_R": 54.10693180855326,
+                "top10_R": 21.496700770022276,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 6.949211900740568
+              }
+            }
+          }
+        },
+        "baseline_episodes": {
+          "peak_dd": {
+            "start": 1677672480,
+            "end": 1687271580,
+            "start_equity": 12290.086348456285,
+            "end_equity": 11400.19290922311,
+            "drawdown": 889.8934392331757,
+            "trades_overlapping": 74,
+            "realized_cash_usd_inside": -730.4749868237172,
+            "quarters": {
+              "2023-Q1": {
+                "n": 19,
+                "net_R": -2.4144974936680756,
+                "win_rate": 0.47368421052631576,
+                "losing_R": 9.904507284738758,
+                "winning_R": 7.4900097910706815,
+                "top10_R": 7.4900097910706815,
+                "winner_label_coverage": 0.0
+              },
+              "2023-Q2": {
+                "n": 55,
+                "net_R": -17.2630454154204,
+                "win_rate": 0.2909090909090909,
+                "losing_R": 38.583101357294815,
+                "winning_R": 21.32005594187441,
+                "top10_R": 19.001433887152462,
+                "winner_label_coverage": 0.0
+              }
+            },
+            "years": {
+              "2023": {
+                "n": 74,
+                "net_R": -19.677542909088476,
+                "win_rate": 0.33783783783783783,
+                "losing_R": 48.48760864203357,
+                "winning_R": 28.81006573294509,
+                "top10_R": 21.092852117893017,
+                "winner_label_coverage": 0.0
+              }
+            },
+            "axes": {
+              "cost_bucket": {
+                "6–12%": {
+                  "n": 25,
+                  "net_R": -8.088366823536598,
+                  "win_rate": 0.24,
+                  "losing_R": 20.121196052525313,
+                  "winning_R": 12.032829228988717,
+                  "top10_R": 12.032829228988717,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 12.838367202374553
+                },
+                "<6%": {
+                  "n": 49,
+                  "net_R": -11.58917608555188,
+                  "win_rate": 0.3877551020408163,
+                  "losing_R": 28.366412589508254,
+                  "winning_R": 16.777236503956374,
+                  "top10_R": 13.100348227067226,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 17.264311772266424
+                }
+              },
+              "atr_bucket": {
+                "<0.25": {
+                  "n": 21,
+                  "net_R": -6.470131370043119,
+                  "win_rate": 0.23809523809523808,
+                  "losing_R": 16.98045981814819,
+                  "winning_R": 10.510328448105072,
+                  "top10_R": 10.510328448105072,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 13.176520622281586
+                },
+                "0.25–<0.50": {
+                  "n": 46,
+                  "net_R": -14.27351940678772,
+                  "win_rate": 0.32608695652173914,
+                  "losing_R": 29.91819494875234,
+                  "winning_R": 15.64467554196462,
+                  "top10_R": 13.765198974411428,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 15.886680147516131
+                },
+                "≥0.50": {
+                  "n": 7,
+                  "net_R": 1.0661078677423625,
+                  "win_rate": 0.7142857142857143,
+                  "losing_R": 1.5889538751330368,
+                  "winning_R": 2.6550617428753993,
+                  "top10_R": 2.6550617428753993,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 2.0605030406764566
+                }
+              },
+              "direction": {
+                "SELL": {
+                  "n": 40,
+                  "net_R": -17.051576443274993,
+                  "win_rate": 0.275,
+                  "losing_R": 29.006609785664953,
+                  "winning_R": 11.955033342389962,
+                  "top10_R": 11.789357366732055,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 22.026759495680224
+                },
+                "BUY": {
+                  "n": 34,
+                  "net_R": -2.6259664658134843,
+                  "win_rate": 0.4117647058823529,
+                  "losing_R": 19.480998856368615,
+                  "winning_R": 16.85503239055513,
+                  "top10_R": 15.321083097060672,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 11.244280843671568
+                }
+              },
+              "entry_window": {
+                "03:00–06:59": {
+                  "n": 70,
+                  "net_R": -16.90194094245078,
+                  "win_rate": 0.34285714285714286,
+                  "losing_R": 45.36601684961099,
+                  "winning_R": 28.46407590716022,
+                  "top10_R": 21.092852117893017,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 22.230760022529992
+                },
+                "07:00–09:59": {
+                  "n": 4,
+                  "net_R": -2.775601966637699,
+                  "win_rate": 0.25,
+                  "losing_R": 3.1215917924225742,
+                  "winning_R": 0.3459898257848748,
+                  "top10_R": 0.3459898257848748,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 4.196153439150197
+                }
+              }
+            }
+          },
+          "underwater": {
+            "start": 1597996980,
+            "end": 1653402660,
+            "start_equity": 11149.475702663478,
+            "end_equity": 11150.298180829752,
+            "censored": false,
+            "months": 21.068833263744864,
+            "trades_overlapping": 210,
+            "realized_cash_usd_inside": -52.69935779581186,
+            "quarters": {
+              "2020-Q3": {
+                "n": 14,
+                "net_R": -3.1327772865212467,
+                "win_rate": 0.5,
+                "losing_R": 7.596291016387512,
+                "winning_R": 4.463513729866265,
+                "top10_R": 4.463513729866265,
+                "winner_label_coverage": 0.0
+              },
+              "2020-Q4": {
+                "n": 17,
+                "net_R": -4.7016031621610335,
+                "win_rate": 0.35294117647058826,
+                "losing_R": 9.11959372971427,
+                "winning_R": 4.417990567553237,
+                "top10_R": 4.417990567553237,
+                "winner_label_coverage": 0.0
+              },
+              "2021-Q1": {
+                "n": 24,
+                "net_R": 5.063617846160394,
+                "win_rate": 0.5,
+                "losing_R": 9.043853414618914,
+                "winning_R": 14.107471260779308,
+                "top10_R": 13.645638454693193,
+                "winner_label_coverage": 0.0
+              },
+              "2021-Q2": {
+                "n": 13,
+                "net_R": -6.672261857861876,
+                "win_rate": 0.23076923076923078,
+                "losing_R": 9.347640535857407,
+                "winning_R": 2.6753786779955293,
+                "top10_R": 2.6753786779955293,
+                "winner_label_coverage": 0.0
+              },
+              "2021-Q3": {
+                "n": 23,
+                "net_R": 1.3628541840247075,
+                "win_rate": 0.43478260869565216,
+                "losing_R": 12.68425508273879,
+                "winning_R": 14.047109266763497,
+                "top10_R": 14.047109266763497,
+                "winner_label_coverage": 0.0
+              },
+              "2021-Q4": {
+                "n": 44,
+                "net_R": -5.521003959052308,
+                "win_rate": 0.4090909090909091,
+                "losing_R": 22.67338403240598,
+                "winning_R": 17.152380073353672,
+                "top10_R": 14.387526387477944,
+                "winner_label_coverage": 0.0
+              },
+              "2022-Q1": {
+                "n": 45,
+                "net_R": 3.136240959645907,
+                "win_rate": 0.4888888888888889,
+                "losing_R": 19.41041832742007,
+                "winning_R": 22.546659287065978,
+                "top10_R": 16.97031058788494,
+                "winner_label_coverage": 0.0
+              },
+              "2022-Q2": {
+                "n": 30,
+                "net_R": 10.403790764790893,
+                "win_rate": 0.5333333333333333,
+                "losing_R": 10.24718326428887,
+                "winning_R": 20.650974029079762,
+                "top10_R": 18.438236080720635,
+                "winner_label_coverage": 0.0
+              }
+            },
+            "years": {
+              "2020": {
+                "n": 31,
+                "net_R": -7.83438044868228,
+                "win_rate": 0.41935483870967744,
+                "losing_R": 16.715884746101782,
+                "winning_R": 8.881504297419502,
+                "top10_R": 8.444630521038272,
+                "winner_label_coverage": 0.0
+              },
+              "2021": {
+                "n": 104,
+                "net_R": -5.7667937867290835,
+                "win_rate": 0.41346153846153844,
+                "losing_R": 53.74913306562109,
+                "winning_R": 47.982339278892006,
+                "top10_R": 24.640980253209644,
+                "winner_label_coverage": 0.0
+              },
+              "2022": {
+                "n": 75,
+                "net_R": 13.540031724436801,
+                "win_rate": 0.5066666666666667,
+                "losing_R": 29.65760159170894,
+                "winning_R": 43.19763331614574,
+                "top10_R": 23.873827919590983,
+                "winner_label_coverage": 0.0
+              }
+            },
+            "axes": {
+              "cost_bucket": {
+                ">12%": {
+                  "n": 23,
+                  "net_R": -4.143934952598652,
+                  "win_rate": 0.30434782608695654,
+                  "losing_R": 15.807526947943273,
+                  "winning_R": 11.663591995344621,
+                  "top10_R": 11.663591995344621,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 7.9052391927223695
+                },
+                "6–12%": {
+                  "n": 113,
+                  "net_R": -12.210679030263309,
+                  "win_rate": 0.4247787610619469,
+                  "losing_R": 60.19422801444048,
+                  "winning_R": 47.983548984177176,
+                  "top10_R": 22.856679609193144,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 18.311310665922704
+                },
+                "<6%": {
+                  "n": 74,
+                  "net_R": 16.293471471887397,
+                  "win_rate": 0.527027027027027,
+                  "losing_R": 24.120864441048056,
+                  "winning_R": 40.41433591293546,
+                  "top10_R": 23.285747440835465,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 7.307324566908671
+                }
+              },
+              "atr_bucket": {
+                "<0.25": {
+                  "n": 30,
+                  "net_R": -8.919588328854152,
+                  "win_rate": 0.3,
+                  "losing_R": 21.267625914546297,
+                  "winning_R": 12.348037585692145,
+                  "top10_R": 12.348037585692145,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 10.593408865399777
+                },
+                "0.25–<0.50": {
+                  "n": 131,
+                  "net_R": 7.745120811879222,
+                  "win_rate": 0.46564885496183206,
+                  "losing_R": 60.845265792968675,
+                  "winning_R": 68.5903866048479,
+                  "top10_R": 26.58128421920901,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 14.702715020900246
+                },
+                "≥0.50": {
+                  "n": 49,
+                  "net_R": 1.1133250060003677,
+                  "win_rate": 0.4897959183673469,
+                  "losing_R": 18.009727695916837,
+                  "winning_R": 19.123052701917203,
+                  "top10_R": 14.59861805681806,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 4.584020788613313
+                }
+              },
+              "direction": {
+                "SELL": {
+                  "n": 96,
+                  "net_R": -6.183817042394074,
+                  "win_rate": 0.4166666666666667,
+                  "losing_R": 49.25586976545836,
+                  "winning_R": 43.07205272306429,
+                  "top10_R": 24.204646172999286,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 17.927056647536972
+                },
+                "BUY": {
+                  "n": 114,
+                  "net_R": 6.122674531419511,
+                  "win_rate": 0.47368421052631576,
+                  "losing_R": 50.86674963797345,
+                  "winning_R": 56.98942416939296,
+                  "top10_R": 24.120711801076773,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 17.895039695428814
+                }
+              },
+              "entry_window": {
+                "03:00–06:59": {
+                  "n": 174,
+                  "net_R": -2.9282910186452056,
+                  "win_rate": 0.43103448275862066,
+                  "losing_R": 87.08862408267679,
+                  "winning_R": 84.16033306403159,
+                  "top10_R": 29.13527881125666,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 24.62064606871881
+                },
+                "07:00–09:59": {
+                  "n": 36,
+                  "net_R": 2.8671485076706427,
+                  "win_rate": 0.5277777777777778,
+                  "losing_R": 13.03399532075502,
+                  "winning_R": 15.901143828425663,
+                  "top10_R": 12.716827719158863,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 4.868360128703011
+                }
+              }
+            }
+          }
+        },
+        "baseline_paths": {
+          "Swing 10k 0.30%": {
+            "peak_dd": {
+              "start": 1677672480,
+              "end": 1687271580,
+              "start_equity": 11672.068611280694,
+              "end_equity": 11021.775370013222,
+              "drawdown": 650.2932412674727
+            },
+            "underwater": {
+              "start": 1597996980,
+              "end": 1653548460,
+              "start_equity": 10866.892493074656,
+              "end_equity": 10869.24892348399,
+              "censored": false,
+              "months": 21.124275880636382
+            }
+          },
+          "Swing 10k 0.40%": {
+            "peak_dd": {
+              "start": 1677672480,
+              "end": 1687271580,
+              "start_equity": 12290.086348456285,
+              "end_equity": 11400.19290922311,
+              "drawdown": 889.8934392331757
+            },
+            "underwater": {
+              "start": 1597996980,
+              "end": 1653402660,
+              "start_equity": 11149.475702663478,
+              "end_equity": 11150.298180829752,
+              "censored": false,
+              "months": 21.068833263744864
+            }
+          },
+          "Swing 25k 0.30%": {
+            "peak_dd": {
+              "start": 1677672480,
+              "end": 1687271580,
+              "start_equity": 29375.883030114976,
+              "end_equity": 27675.907566115933,
+              "drawdown": 1699.9754639990424
+            },
+            "underwater": {
+              "start": 1597996980,
+              "end": 1653463080,
+              "start_equity": 27184.296793203644,
+              "end_equity": 27189.499830771336,
+              "censored": false,
+              "months": 21.09180886671184
+            }
+          },
+          "Swing 25k 0.40%": {
+            "peak_dd": {
+              "start": 1677672480,
+              "end": 1687271580,
+              "start_equity": 30859.388669920874,
+              "end_equity": 28557.486246977453,
+              "drawdown": 2301.9024229434217
+            },
+            "underwater": {
+              "start": 1597996980,
+              "end": 1653463080,
+              "start_equity": 27899.835162488114,
+              "end_equity": 27901.734814255607,
+              "censored": false,
+              "months": 21.09180886671184
+            }
+          },
+          "Standard 50k 0.30%": {
+            "peak_dd": {
+              "start": 1677672480,
+              "end": 1687271580,
+              "start_equity": 58768.37678039308,
+              "end_equity": 55310.15178717262,
+              "drawdown": 3458.224993220465
+            },
+            "underwater": {
+              "start": 1597996980,
+              "end": 1653489060,
+              "start_equity": 54389.50836476146,
+              "end_equity": 54429.64344572822,
+              "censored": false,
+              "months": 21.101688147828725
+            }
+          },
+          "Standard 50k 0.40%": {
+            "peak_dd": {
+              "start": 1677672480,
+              "end": 1687271580,
+              "start_equity": 61789.40590681769,
+              "end_equity": 57164.67857693545,
+              "drawdown": 4624.72732988224
+            },
+            "underwater": {
+              "start": 1597996980,
+              "end": 1653463080,
+              "start_equity": 55865.30192655998,
+              "end_equity": 55885.79273346262,
+              "censored": false,
+              "months": 21.09180886671184
+            }
+          }
+        },
+        "retain": false
+      },
+      "extended": {
+        "days": 1564,
+        "comparisons": {
+          "baseline": {
+            "trades": 1437,
+            "net_R_years": {
+              "2018": 25.326465540438562,
+              "2019": -23.978016690929042,
+              "2020": 18.140612837894405,
+              "2021": -6.2347737734359665,
+              "2022": 44.56434502690735,
+              "2023": 1.2845473831244514,
+              "2024": 17.343006951662915
+            },
+            "net_R_clusters": {
+              "A": 19.489061687403925,
+              "B": 56.95712558825875
+            },
+            "net_R_annual": {
+              "A": 6.496353895801309,
+              "B": 14.239281397064687,
+              "all": 10.920883896523238
+            },
+            "total": {
+              "n": 1437,
+              "net_R": 76.44618727566267,
+              "win_rate": 0.44676409185803756,
+              "losing_R": 688.818213058281,
+              "winning_R": 765.2644003339436,
+              "top10_R": 73.60082261808084,
+              "winner_label_coverage": 0.0,
+              "floating_dd_R": 33.1377707694885
+            },
+            "accounts": {
+              "Swing 10k": {
+                "0.30%": {
+                  "account": "Swing 10k",
+                  "initial": 10000,
+                  "risk_pct": 0.3,
+                  "executed": 1437,
+                  "attempted": 1437,
+                  "skip": {},
+                  "rounded_trade_count": 1437,
+                  "under_90pct_budget_count": 167,
+                  "net_usd": 2051.99178057021,
+                  "years_net_usd": {
+                    "2018": 691.5685548466589,
+                    "2019": -662.6003917649901,
+                    "2020": 470.67915505256457,
+                    "2021": -165.37692420723346,
+                    "2022": 1189.3215791535954,
+                    "2023": 78.01183193285179,
+                    "2024": 450.38797555676825
+                  },
+                  "cluster_net_usd": {
+                    "A": 499.64731813423333,
+                    "B": 1552.344462435982
+                  },
+                  "annual_usd": {
+                    "A": 166.54910604474443,
+                    "B": 388.0861156089955,
+                    "all": 293.1416829386022
+                  },
+                  "annual_pct": {
+                    "A": 1.6654910604474444,
+                    "B": 3.8808611560899555,
+                    "all": 2.9314168293860217
+                  },
+                  "positive_years": 5,
+                  "worst_daily_loss_pct": 0.29998297903966886,
+                  "peak_floating_dd_pct": 9.0756935419209,
+                  "open_close_dd_pct": 9.018103161285216,
+                  "peak_floating_dd_pct_of_peak": 8.381393397127624,
+                  "static_loss_pct": 0.7918663559637571,
+                  "max_underwater_calendar_days": 1252.6722222222222,
+                  "max_underwater_trading_days": 696,
+                  "max_underwater_months": 41.15640065618504,
+                  "margin_peak_usd": 1433.3319,
+                  "margin_peak_pct_initial": 14.333319,
+                  "margin_peak_pct_equity": 13.926939768869387,
+                  "minimum_free_margin_usd": 8858.461730097393,
+                  "hard_daily_breached": false,
+                  "hard_static_breached": false,
+                  "daily_buffer_2_5": true,
+                  "peak_buffer_7_5": false,
+                  "peak_buffer_8": false
+                },
+                "0.40%": {
+                  "account": "Swing 10k",
+                  "initial": 10000,
+                  "risk_pct": 0.4,
+                  "executed": 1437,
+                  "attempted": 1437,
+                  "skip": {},
+                  "rounded_trade_count": 1437,
+                  "under_90pct_budget_count": 60,
+                  "net_usd": 2761.575009203256,
+                  "years_net_usd": {
+                    "2018": 917.0676870698059,
+                    "2019": -886.376685915689,
+                    "2020": 637.3724025382634,
+                    "2021": -215.24643174285123,
+                    "2022": 1598.7693923095844,
+                    "2023": 97.97596467698162,
+                    "2024": 612.012680267195
+                  },
+                  "cluster_net_usd": {
+                    "A": 668.0634036923802,
+                    "B": 2093.5116055109097
+                  },
+                  "annual_usd": {
+                    "A": 222.6878012307934,
+                    "B": 523.3779013777274,
+                    "all": 394.51071560047
+                  },
+                  "annual_pct": {
+                    "A": 2.226878012307934,
+                    "B": 5.233779013777274,
+                    "all": 3.9451071560047
+                  },
+                  "positive_years": 5,
+                  "worst_daily_loss_pct": 0.40003222500567065,
+                  "peak_floating_dd_pct": 12.149675867750084,
+                  "open_close_dd_pct": 12.073997398307728,
+                  "peak_floating_dd_pct_of_peak": 10.942989827115387,
+                  "static_loss_pct": 1.122652543240747,
+                  "max_underwater_calendar_days": 1251.6840277777778,
+                  "max_underwater_trading_days": 695,
+                  "max_underwater_months": 41.12393364226051,
+                  "margin_peak_usd": 1899.9980999999998,
+                  "margin_peak_pct_initial": 18.999981,
+                  "margin_peak_pct_equity": 18.288678737238754,
+                  "minimum_free_margin_usd": 8488.932272161284,
+                  "hard_daily_breached": false,
+                  "hard_static_breached": false,
+                  "daily_buffer_2_5": true,
+                  "peak_buffer_7_5": false,
+                  "peak_buffer_8": false
+                }
+              },
+              "Swing 25k": {
+                "0.30%": {
+                  "account": "Swing 25k",
+                  "initial": 25000,
+                  "risk_pct": 0.3,
+                  "executed": 1437,
+                  "attempted": 1437,
+                  "skip": {},
+                  "rounded_trade_count": 1437,
+                  "under_90pct_budget_count": 12,
+                  "net_usd": 5317.301600972209,
+                  "years_net_usd": {
+                    "2018": 1736.0948339030879,
+                    "2019": -1693.5866663434858,
+                    "2020": 1222.1651927976177,
+                    "2021": -426.3459414045691,
+                    "2022": 3129.1082979848056,
+                    "2023": 142.7638952672359,
+                    "2024": 1207.101988767484
+                  },
+                  "cluster_net_usd": {
+                    "A": 1264.6733603572197,
+                    "B": 4052.6282406149567
+                  },
+                  "annual_usd": {
+                    "A": 421.5577867857399,
+                    "B": 1013.1570601537392,
+                    "all": 759.6145144245966
+                  },
+                  "annual_pct": {
+                    "A": 1.6862311471429596,
+                    "B": 4.052628240614957,
+                    "all": 3.0384580576983864
+                  },
+                  "positive_years": 5,
+                  "worst_daily_loss_pct": 0.2999858137408883,
+                  "peak_floating_dd_pct": 9.271264216475494,
+                  "open_close_dd_pct": 9.213789273855422,
+                  "peak_floating_dd_pct_of_peak": 8.556329544134584,
+                  "static_loss_pct": 0.9156408308498066,
+                  "max_underwater_calendar_days": 1251.6840277777778,
+                  "max_underwater_trading_days": 695,
+                  "max_underwater_months": 41.12393364226051,
+                  "margin_peak_usd": 3599.9964,
+                  "margin_peak_pct_initial": 14.3999856,
+                  "margin_peak_pct_equity": 13.99366970544359,
+                  "minimum_free_margin_usd": 22125.895919722167,
+                  "hard_daily_breached": false,
+                  "hard_static_breached": false,
+                  "daily_buffer_2_5": true,
+                  "peak_buffer_7_5": false,
+                  "peak_buffer_8": false
+                },
+                "0.40%": {
+                  "account": "Swing 25k",
+                  "initial": 25000,
+                  "risk_pct": 0.4,
+                  "executed": 1437,
+                  "attempted": 1437,
+                  "skip": {},
+                  "rounded_trade_count": 1437,
+                  "under_90pct_budget_count": 3,
+                  "net_usd": 7087.452529845039,
+                  "years_net_usd": {
+                    "2018": 2320.8906193250577,
+                    "2019": -2263.625535285085,
+                    "2020": 1607.1960038330874,
+                    "2021": -578.6003448048147,
+                    "2022": 4219.838277102536,
+                    "2023": 162.47955176191158,
+                    "2024": 1619.27395791239
+                  },
+                  "cluster_net_usd": {
+                    "A": 1664.4610878730603,
+                    "B": 5422.9914419720235
+                  },
+                  "annual_usd": {
+                    "A": 554.8203626243534,
+                    "B": 1355.7478604930059,
+                    "all": 1012.4932185492977
+                  },
+                  "annual_pct": {
+                    "A": 2.2192814504974137,
+                    "B": 5.422991441972024,
+                    "all": 4.0499728741971905
+                  },
+                  "positive_years": 5,
+                  "worst_daily_loss_pct": 0.3999694406260096,
+                  "peak_floating_dd_pct": 12.39740578940208,
+                  "open_close_dd_pct": 12.319672962920302,
+                  "peak_floating_dd_pct_of_peak": 11.151140639760856,
+                  "static_loss_pct": 1.2212831854282558,
+                  "max_underwater_calendar_days": 1251.986111111111,
+                  "max_underwater_trading_days": 695,
+                  "max_underwater_months": 41.13385855516084,
+                  "margin_peak_usd": 4799.995199999999,
+                  "margin_peak_pct_initial": 19.1999808,
+                  "margin_peak_pct_equity": 18.483766226971955,
+                  "minimum_free_margin_usd": 21168.71237322029,
+                  "hard_daily_breached": false,
+                  "hard_static_breached": false,
+                  "daily_buffer_2_5": true,
+                  "peak_buffer_7_5": false,
+                  "peak_buffer_8": false
+                }
+              },
+              "Standard 50k": {
+                "0.30%": {
+                  "account": "Standard 50k",
+                  "initial": 50000,
+                  "risk_pct": 0.3,
+                  "executed": 1437,
+                  "attempted": 1437,
+                  "skip": {},
+                  "rounded_trade_count": 1437,
+                  "under_90pct_budget_count": 2,
+                  "net_usd": 10608.060878662654,
+                  "years_net_usd": {
+                    "2018": 3507.0351151484065,
+                    "2019": -3411.7220241269256,
+                    "2020": 2433.3038266811413,
+                    "2021": -873.4990779772111,
+                    "2022": 6306.6738123238,
+                    "2023": 227.56339736967746,
+                    "2024": 2418.7058292436795
+                  },
+                  "cluster_net_usd": {
+                    "A": 2528.6169177026222,
+                    "B": 8079.443960959946
+                  },
+                  "annual_usd": {
+                    "A": 842.872305900874,
+                    "B": 2019.8609902399864,
+                    "all": 1515.437268380367
+                  },
+                  "annual_pct": {
+                    "A": 1.685744611801748,
+                    "B": 4.039721980479973,
+                    "all": 3.030874536760734
+                  },
+                  "positive_years": 5,
+                  "worst_daily_loss_pct": 0.2999858137408883,
+                  "peak_floating_dd_pct": 9.344327073544875,
+                  "open_close_dd_pct": 9.28615756382668,
+                  "peak_floating_dd_pct_of_peak": 8.617055271861686,
+                  "static_loss_pct": 0.9044160048757621,
+                  "max_underwater_calendar_days": 1251.986111111111,
+                  "max_underwater_trading_days": 695,
+                  "max_underwater_months": 41.13385855516084,
+                  "margin_peak_usd": 2170.0,
+                  "margin_peak_pct_initial": 4.34,
+                  "margin_peak_pct_equity": 4.21572304589046,
+                  "minimum_free_margin_usd": 48319.85093519147,
+                  "hard_daily_breached": false,
+                  "hard_static_breached": false,
+                  "daily_buffer_2_5": true,
+                  "peak_buffer_7_5": false,
+                  "peak_buffer_8": false
+                },
+                "0.40%": {
+                  "account": "Standard 50k",
+                  "initial": 50000,
+                  "risk_pct": 0.4,
+                  "executed": 1437,
+                  "attempted": 1437,
+                  "skip": {},
+                  "rounded_trade_count": 1437,
+                  "under_90pct_budget_count": 0,
+                  "net_usd": 14241.509251240866,
+                  "years_net_usd": {
+                    "2018": 4693.335953582653,
+                    "2019": -4576.147251301391,
+                    "2020": 3266.6689052217116,
+                    "2021": -1187.1806195216398,
+                    "2022": 8496.861118339406,
+                    "2023": 292.94302529910976,
+                    "2024": 3255.0281196210894
+                  },
+                  "cluster_net_usd": {
+                    "A": 3383.857607502973,
+                    "B": 10857.651643737965
+                  },
+                  "annual_usd": {
+                    "A": 1127.9525358343244,
+                    "B": 2714.4129109344913,
+                    "all": 2034.5013216058485
+                  },
+                  "annual_pct": {
+                    "A": 2.2559050716686486,
+                    "B": 5.428825821868982,
+                    "all": 4.069002643211697
+                  },
+                  "positive_years": 5,
+                  "worst_daily_loss_pct": 0.4000322250056633,
+                  "peak_floating_dd_pct": 12.520519442647535,
+                  "open_close_dd_pct": 12.442641833895133,
+                  "peak_floating_dd_pct_of_peak": 11.250339520302926,
+                  "static_loss_pct": 1.2303719759654923,
+                  "max_underwater_calendar_days": 1251.986111111111,
+                  "max_underwater_trading_days": 695,
+                  "max_underwater_months": 41.13385855516084,
+                  "margin_peak_usd": 2890.0,
+                  "margin_peak_pct_initial": 5.78,
+                  "margin_peak_pct_equity": 5.560662782143483,
+                  "minimum_free_margin_usd": 47742.38684650803,
+                  "hard_daily_breached": false,
+                  "hard_static_breached": false,
+                  "daily_buffer_2_5": true,
+                  "peak_buffer_7_5": false,
+                  "peak_buffer_8": false
+                }
+              }
+            },
+            "cluster_trades": {
+              "A": 601,
+              "B": 836
+            }
+          },
+          "cost12": {
+            "trades": 1288,
+            "net_R_years": {
+              "2018": 15.015136043920023,
+              "2019": -27.61485058428027,
+              "2020": 17.01019701731125,
+              "2021": -3.770790499677841,
+              "2022": 42.863778261481535,
+              "2023": 7.5689766269807714,
+              "2024": 15.528022148418124
+            },
+            "net_R_clusters": {
+              "A": 4.410482476951003,
+              "B": 62.189986537202586
+            },
+            "net_R_annual": {
+              "A": 1.4701608256503345,
+              "B": 15.547496634300646,
+              "all": 9.514352716307656
+            },
+            "total": {
+              "n": 1288,
+              "net_R": 66.60046901415359,
+              "win_rate": 0.45729813664596275,
+              "losing_R": 592.3394191211372,
+              "winning_R": 658.9398881352907,
+              "top10_R": 64.67291205329711,
+              "winner_label_coverage": 0.0,
+              "floating_dd_R": 34.22828673311988
+            },
+            "accounts": {
+              "Swing 10k": {
+                "0.30%": {
+                  "account": "Swing 10k",
+                  "initial": 10000,
+                  "risk_pct": 0.3,
+                  "executed": 1288,
+                  "attempted": 1288,
+                  "skip": {},
+                  "rounded_trade_count": 1288,
+                  "under_90pct_budget_count": 167,
+                  "net_usd": 1834.5628589653916,
+                  "years_net_usd": {
+                    "2018": 411.5668261209067,
+                    "2019": -742.7708022745643,
+                    "2020": 456.8674738989097,
+                    "2021": -96.8210750041833,
+                    "2022": 1147.9418087964348,
+                    "2023": 244.01587530533592,
+                    "2024": 413.76275212256576
+                  },
+                  "cluster_net_usd": {
+                    "A": 125.66349774525207,
+                    "B": 1708.8993612201532
+                  },
+                  "annual_usd": {
+                    "A": 41.88783258175069,
+                    "B": 427.2248403050383,
+                    "all": 262.0804084236293
+                  },
+                  "annual_pct": {
+                    "A": 0.4188783258175069,
+                    "B": 4.272248403050383,
+                    "all": 2.620804084236293
+                  },
+                  "positive_years": 5,
+                  "worst_daily_loss_pct": 0.2999592209131515,
+                  "peak_floating_dd_pct": 9.219359007134335,
+                  "open_close_dd_pct": 9.161768626498652,
+                  "peak_floating_dd_pct_of_peak": 8.764266871455938,
+                  "static_loss_pct": 4.0267725380872434,
+                  "max_underwater_calendar_days": 1266.6875,
+                  "max_underwater_trading_days": 706,
+                  "max_underwater_months": 41.61687098297706,
+                  "margin_peak_usd": 766.6659,
+                  "margin_peak_pct_initial": 7.666658999999999,
+                  "margin_peak_pct_equity": 7.376635496353451,
+                  "minimum_free_margin_usd": 8972.17790297808,
+                  "hard_daily_breached": false,
+                  "hard_static_breached": false,
+                  "daily_buffer_2_5": true,
+                  "peak_buffer_7_5": false,
+                  "peak_buffer_8": false
+                },
+                "0.40%": {
+                  "account": "Swing 10k",
+                  "initial": 10000,
+                  "risk_pct": 0.4,
+                  "executed": 1288,
+                  "attempted": 1288,
+                  "skip": {},
+                  "rounded_trade_count": 1288,
+                  "under_90pct_budget_count": 60,
+                  "net_usd": 2471.008689348224,
+                  "years_net_usd": {
+                    "2018": 553.7154196376939,
+                    "2019": -998.715622474025,
+                    "2020": 617.427239130851,
+                    "2021": -126.50610950427908,
+                    "2022": 1540.454316728725,
+                    "2023": 320.50600941652914,
+                    "2024": 564.1274364127432
+                  },
+                  "cluster_net_usd": {
+                    "A": 172.4270362945199,
+                    "B": 2298.581653053718
+                  },
+                  "annual_usd": {
+                    "A": 57.47567876483996,
+                    "B": 574.6454132634295,
+                    "all": 353.00124133546257
+                  },
+                  "annual_pct": {
+                    "A": 0.5747567876483995,
+                    "B": 5.7464541326342955,
+                    "all": 3.5300124133546253
+                  },
+                  "positive_years": 5,
+                  "worst_daily_loss_pct": 0.40003222500567065,
+                  "peak_floating_dd_pct": 12.386630691666925,
+                  "open_close_dd_pct": 12.31095222222457,
+                  "peak_floating_dd_pct_of_peak": 11.576184112407612,
+                  "static_loss_pct": 5.385648577097254,
+                  "max_underwater_calendar_days": 1265.8965277777777,
+                  "max_underwater_trading_days": 705,
+                  "max_underwater_months": 41.59088368230239,
+                  "margin_peak_usd": 1033.3323,
+                  "margin_peak_pct_initial": 10.333323000000002,
+                  "margin_peak_pct_equity": 9.917802819781194,
+                  "minimum_free_margin_usd": 8627.754333995874,
+                  "hard_daily_breached": false,
+                  "hard_static_breached": false,
+                  "daily_buffer_2_5": true,
+                  "peak_buffer_7_5": false,
+                  "peak_buffer_8": false
+                }
+              },
+              "Swing 25k": {
+                "0.30%": {
+                  "account": "Swing 25k",
+                  "initial": 25000,
+                  "risk_pct": 0.3,
+                  "executed": 1288,
+                  "attempted": 1288,
+                  "skip": {},
+                  "rounded_trade_count": 1288,
+                  "under_90pct_budget_count": 12,
+                  "net_usd": 4766.987639391045,
+                  "years_net_usd": {
+                    "2018": 1046.1811728848752,
+                    "2019": -1905.763624613107,
+                    "2020": 1190.386839180623,
+                    "2021": -261.8188149329193,
+                    "2022": 3018.551059851158,
+                    "2023": 564.1597416420182,
+                    "2024": 1115.2912653783721
+                  },
+                  "cluster_net_usd": {
+                    "A": 330.8043874523912,
+                    "B": 4436.183251938629
+                  },
+                  "annual_usd": {
+                    "A": 110.26812915079707,
+                    "B": 1109.0458129846572,
+                    "all": 680.9982341987171
+                  },
+                  "annual_pct": {
+                    "A": 0.44107251660318825,
+                    "B": 4.436183251938629,
+                    "all": 2.7239929367948683
+                  },
+                  "positive_years": 5,
+                  "worst_daily_loss_pct": 0.2999858137408883,
+                  "peak_floating_dd_pct": 9.4478846459942,
+                  "open_close_dd_pct": 9.390409703374129,
+                  "peak_floating_dd_pct_of_peak": 8.972593094294904,
+                  "static_loss_pct": 4.150736467041294,
+                  "max_underwater_calendar_days": 1265.8965277777777,
+                  "max_underwater_trading_days": 705,
+                  "max_underwater_months": 41.59088368230239,
+                  "margin_peak_usd": 1966.6646999999998,
+                  "margin_peak_pct_initial": 7.866658799999999,
+                  "margin_peak_pct_equity": 7.5561051904436525,
+                  "minimum_free_margin_usd": 22350.918871267444,
+                  "hard_daily_breached": false,
+                  "hard_static_breached": false,
+                  "daily_buffer_2_5": true,
+                  "peak_buffer_7_5": false,
+                  "peak_buffer_8": false
+                },
+                "0.40%": {
+                  "account": "Swing 25k",
+                  "initial": 25000,
+                  "risk_pct": 0.4,
+                  "executed": 1288,
+                  "attempted": 1288,
+                  "skip": {},
+                  "rounded_trade_count": 1288,
+                  "under_90pct_budget_count": 3,
+                  "net_usd": 6345.588957651264,
+                  "years_net_usd": {
+                    "2018": 1395.5236515964843,
+                    "2019": -2545.4861035932267,
+                    "2020": 1561.6125779098147,
+                    "2021": -352.74489238846786,
+                    "2022": 4068.819383942126,
+                    "2023": 723.7653856746688,
+                    "2024": 1494.0989545099378
+                  },
+                  "cluster_net_usd": {
+                    "A": 411.6501259130723,
+                    "B": 5933.9388317382645
+                  },
+                  "annual_usd": {
+                    "A": 137.21670863769077,
+                    "B": 1483.4847079345661,
+                    "all": 906.5127082359053
+                  },
+                  "annual_pct": {
+                    "A": 0.5488668345507631,
+                    "B": 5.933938831738265,
+                    "all": 3.6260508329436214
+                  },
+                  "positive_years": 5,
+                  "worst_daily_loss_pct": 0.3999254029404692,
+                  "peak_floating_dd_pct": 12.62718883698444,
+                  "open_close_dd_pct": 12.549456010502661,
+                  "peak_floating_dd_pct_of_peak": 11.792338023808153,
+                  "static_loss_pct": 5.547585017192629,
+                  "max_underwater_calendar_days": 1265.9090277777777,
+                  "max_underwater_trading_days": 705,
+                  "max_underwater_months": 41.591294368353445,
+                  "margin_peak_usd": 2633.3307,
+                  "margin_peak_pct_initial": 10.5333228,
+                  "margin_peak_pct_equity": 10.07004802161044,
+                  "minimum_free_margin_usd": 21465.555079243804,
+                  "hard_daily_breached": false,
+                  "hard_static_breached": false,
+                  "daily_buffer_2_5": true,
+                  "peak_buffer_7_5": false,
+                  "peak_buffer_8": false
+                }
+              },
+              "Standard 50k": {
+                "0.30%": {
+                  "account": "Standard 50k",
+                  "initial": 50000,
+                  "risk_pct": 0.3,
+                  "executed": 1288,
+                  "attempted": 1288,
+                  "skip": {},
+                  "rounded_trade_count": 1288,
+                  "under_90pct_budget_count": 2,
+                  "net_usd": 9502.81577013497,
+                  "years_net_usd": {
+                    "2018": 2109.7132089451943,
+                    "2019": -3833.7871460244105,
+                    "2020": 2375.534053120659,
+                    "2021": -535.6881385338773,
+                    "2022": 6084.296791271592,
+                    "2023": 1072.0786360028035,
+                    "2024": 2230.6683653529262
+                  },
+                  "cluster_net_usd": {
+                    "A": 651.4601160414427,
+                    "B": 8851.355654093444
+                  },
+                  "annual_usd": {
+                    "A": 217.15337201381422,
+                    "B": 2212.838913523361,
+                    "all": 1357.5451100192695
+                  },
+                  "annual_pct": {
+                    "A": 0.4343067440276284,
+                    "B": 4.425677827046722,
+                    "all": 2.7150902200385394
+                  },
+                  "positive_years": 5,
+                  "worst_daily_loss_pct": 0.2999858137408883,
+                  "peak_floating_dd_pct": 9.513472478335185,
+                  "open_close_dd_pct": 9.45530296861699,
+                  "peak_floating_dd_pct_of_peak": 9.030653407797834,
+                  "static_loss_pct": 4.167025784672427,
+                  "max_underwater_calendar_days": 1265.9048611111111,
+                  "max_underwater_trading_days": 705,
+                  "max_underwater_months": 41.59115747300309,
+                  "margin_peak_usd": 1190.0,
+                  "margin_peak_pct_initial": 2.38,
+                  "margin_peak_pct_equity": 2.2681127938774304,
+                  "minimum_free_margin_usd": 47066.48710766379,
+                  "hard_daily_breached": false,
+                  "hard_static_breached": false,
+                  "daily_buffer_2_5": true,
+                  "peak_buffer_7_5": false,
+                  "peak_buffer_8": false
+                },
+                "0.40%": {
+                  "account": "Standard 50k",
+                  "initial": 50000,
+                  "risk_pct": 0.4,
+                  "executed": 1288,
+                  "attempted": 1288,
+                  "skip": {},
+                  "rounded_trade_count": 1288,
+                  "under_90pct_budget_count": 0,
+                  "net_usd": 12771.51276712869,
+                  "years_net_usd": {
+                    "2018": 2834.9057315610535,
+                    "2019": -5140.305387725755,
+                    "2020": 3185.7486027909827,
+                    "2021": -731.9678934650044,
+                    "2022": 8198.726678934383,
+                    "2023": 1419.5428891352942,
+                    "2024": 3004.8621458978037
+                  },
+                  "cluster_net_usd": {
+                    "A": 880.3489466262808,
+                    "B": 11891.163820502476
+                  },
+                  "annual_usd": {
+                    "A": 293.44964887542693,
+                    "B": 2972.790955125619,
+                    "all": 1824.5018238755367
+                  },
+                  "annual_pct": {
+                    "A": 0.5868992977508539,
+                    "B": 5.945581910251238,
+                    "all": 3.6490036477510737
+                  },
+                  "positive_years": 5,
+                  "worst_daily_loss_pct": 0.4000322250056633,
+                  "peak_floating_dd_pct": 12.74798735235662,
+                  "open_close_dd_pct": 12.670109743604218,
+                  "peak_floating_dd_pct_of_peak": 11.894475061499838,
+                  "static_loss_pct": 5.572283620634654,
+                  "max_underwater_calendar_days": 1265.9048611111111,
+                  "max_underwater_trading_days": 705,
+                  "max_underwater_months": 41.59115747300309,
+                  "margin_peak_usd": 1590.0,
+                  "margin_peak_pct_initial": 3.18,
+                  "margin_peak_pct_equity": 3.018365267912398,
+                  "minimum_free_margin_usd": 46073.85818968267,
+                  "hard_daily_breached": false,
+                  "hard_static_breached": false,
+                  "daily_buffer_2_5": true,
+                  "peak_buffer_7_5": false,
+                  "peak_buffer_8": false
+                }
+              }
+            },
+            "cluster_trades": {
+              "A": 523,
+              "B": 765
+            }
+          }
+        },
+        "baseline_axes": {
+          "A": {
+            "cost_bucket": {
+              ">12%": {
+                "n": 78,
+                "net_R": 15.078579210452924,
+                "win_rate": 0.38461538461538464,
+                "losing_R": 47.917414384285436,
+                "winning_R": 62.99599359473836,
+                "top10_R": 41.19334914069616,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 16.381927435932404
+              },
+              "6–12%": {
+                "n": 342,
+                "net_R": -5.152413734056558,
+                "win_rate": 0.4327485380116959,
+                "losing_R": 168.3597367558437,
+                "winning_R": 163.20732302178715,
+                "top10_R": 40.478676696165884,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 29.658278524678316
+              },
+              "<6%": {
+                "n": 181,
+                "net_R": 9.56289621100756,
+                "win_rate": 0.5248618784530387,
+                "losing_R": 57.27342941468475,
+                "winning_R": 66.83632562569231,
+                "top10_R": 20.252971873753367,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 9.723045246066084
+              }
+            },
+            "atr_bucket": {
+              "unknown": {
+                "n": 11,
+                "net_R": -0.4315539177736404,
+                "win_rate": 0.45454545454545453,
+                "losing_R": 6.430441633263726,
+                "winning_R": 5.998887715490085,
+                "top10_R": 5.998887715490085,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 5.962768924540559
+              },
+              "0.25–<0.50": {
+                "n": 347,
+                "net_R": -12.10896854175889,
+                "win_rate": 0.42939481268011526,
+                "losing_R": 168.30557595187602,
+                "winning_R": 156.19660741011714,
+                "top10_R": 35.555739658268074,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 29.57462599471672
+              },
+              "<0.25": {
+                "n": 127,
+                "net_R": 19.22197217062196,
+                "win_rate": 0.4330708661417323,
+                "losing_R": 67.91554978784048,
+                "winning_R": 87.13752195846244,
+                "top10_R": 44.78436487807345,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 16.276240746721804
+              },
+              "≥0.50": {
+                "n": 116,
+                "net_R": 12.807611976314494,
+                "win_rate": 0.5517241379310345,
+                "losing_R": 30.899013181833663,
+                "winning_R": 43.70662515814816,
+                "top10_R": 18.80548636863354,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 6.8866547053294696
+              }
+            },
+            "direction": {
+              "SELL": {
+                "n": 308,
+                "net_R": 1.0609707787509968,
+                "win_rate": 0.42857142857142855,
+                "losing_R": 149.46670237843898,
+                "winning_R": 150.52767315718998,
+                "top10_R": 42.953112994049796,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 24.68414254523933
+              },
+              "BUY": {
+                "n": 293,
+                "net_R": 18.42809090865293,
+                "win_rate": 0.4812286689419795,
+                "losing_R": 124.08387817637491,
+                "winning_R": 142.51196908502783,
+                "top10_R": 39.34919430656757,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 16.115822339612325
+              }
+            },
+            "entry_window": {
+              "03:00–06:59": {
+                "n": 485,
+                "net_R": 5.546043035892519,
+                "win_rate": 0.44329896907216493,
+                "losing_R": 228.6921675987059,
+                "winning_R": 234.2382106345984,
+                "top10_R": 49.54573548709216,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 29.43921130751582
+              },
+              "07:00–09:59": {
+                "n": 116,
+                "net_R": 13.943018651511407,
+                "win_rate": 0.5,
+                "losing_R": 44.858412956108,
+                "winning_R": 58.801431607619406,
+                "top10_R": 24.421165110444363,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 9.93214757104655
+              }
+            }
+          },
+          "B": {
+            "cost_bucket": {
+              "<6%": {
+                "n": 434,
+                "net_R": 44.53896679454099,
+                "win_rate": 0.4861751152073733,
+                "losing_R": 179.5675872368779,
+                "winning_R": 224.10655403141888,
+                "top10_R": 44.913433386678506,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 19.07997574717018
+              },
+              ">12%": {
+                "n": 71,
+                "net_R": -5.232860948943841,
+                "win_rate": 0.323943661971831,
+                "losing_R": 48.56137955285837,
+                "winning_R": 43.328518603914524,
+                "top10_R": 33.30010123300542,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 27.06919041645974
+              },
+              "6–12%": {
+                "n": 331,
+                "net_R": 17.651019742661596,
+                "win_rate": 0.4078549848942598,
+                "losing_R": 187.13866571373083,
+                "winning_R": 204.78968545639245,
+                "top10_R": 50.51749668914316,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 19.472365390172026
+              }
+            },
+            "atr_bucket": {
+              "≥0.50": {
+                "n": 131,
+                "net_R": 17.11407997233841,
+                "win_rate": 0.5648854961832062,
+                "losing_R": 39.662403790473796,
+                "winning_R": 56.776483762812205,
+                "top10_R": 24.850974545841108,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 6.944587869137013
+              },
+              "<0.25": {
+                "n": 221,
+                "net_R": 11.348342689849563,
+                "win_rate": 0.3574660633484163,
+                "losing_R": 143.86124756693542,
+                "winning_R": 155.209590256785,
+                "top10_R": 54.145865893449695,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 21.77128386068737
+              },
+              "0.25–<0.50": {
+                "n": 484,
+                "net_R": 28.494702926070776,
+                "win_rate": 0.4462809917355372,
+                "losing_R": 231.74398114605788,
+                "winning_R": 260.23868407212865,
+                "top10_R": 47.59084699848747,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 22.040083270824987
+              }
+            },
+            "direction": {
+              "SELL": {
+                "n": 390,
+                "net_R": -2.3158494600512727,
+                "win_rate": 0.4,
+                "losing_R": 207.6861758602775,
+                "winning_R": 205.37032640022622,
+                "top10_R": 53.52806915372387,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 26.433602462606558
+              },
+              "BUY": {
+                "n": 446,
+                "net_R": 59.272975048310016,
+                "win_rate": 0.47757847533632286,
+                "losing_R": 207.5814566431896,
+                "winning_R": 266.8544316914996,
+                "top10_R": 49.51658400303645,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 21.008809807013236
+              }
+            },
+            "entry_window": {
+              "03:00–06:59": {
+                "n": 701,
+                "net_R": 42.02096409883038,
+                "win_rate": 0.4194008559201141,
+                "losing_R": 367.1192894707539,
+                "winning_R": 409.1402535695843,
+                "top10_R": 65.78984978361515,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 22.931643586328526
+              },
+              "07:00–09:59": {
+                "n": 135,
+                "net_R": 14.93616148942836,
+                "win_rate": 0.5555555555555556,
+                "losing_R": 48.14834303271319,
+                "winning_R": 63.08450452214155,
+                "top10_R": 22.77092166495606,
+                "winner_label_coverage": 0.0,
+                "floating_dd_R": 6.796841320896032
+              }
+            }
+          }
+        },
+        "baseline_episodes": {
+          "peak_dd": {
+            "start": 1545317580,
+            "end": 1580394960,
+            "start_equity": 11102.702332450934,
+            "end_equity": 9887.734745675925,
+            "drawdown": 1214.9675867750084,
+            "trades_overlapping": 211,
+            "realized_cash_usd_inside": -1011.1024358529007,
+            "quarters": {
+              "2018-Q4": {
+                "n": 6,
+                "net_R": -0.4419930513243139,
+                "win_rate": 0.3333333333333333,
+                "losing_R": 4.262826163742599,
+                "winning_R": 3.820833112418285,
+                "top10_R": 3.820833112418285,
+                "winner_label_coverage": 0.0
+              },
+              "2019-Q1": {
+                "n": 49,
+                "net_R": -12.501077478273363,
+                "win_rate": 0.32653061224489793,
+                "losing_R": 27.025347843254654,
+                "winning_R": 14.524270364981291,
+                "top10_R": 13.695238681323302,
+                "winner_label_coverage": 0.0
+              },
+              "2019-Q2": {
+                "n": 50,
+                "net_R": 1.8761724608295653,
+                "win_rate": 0.46,
+                "losing_R": 20.09608724152927,
+                "winning_R": 21.972259702358837,
+                "top10_R": 15.99957673836974,
+                "winner_label_coverage": 0.0
+              },
+              "2019-Q3": {
+                "n": 55,
+                "net_R": 1.918399520205982,
+                "win_rate": 0.4727272727272727,
+                "losing_R": 21.152111725576926,
+                "winning_R": 23.07051124578291,
+                "top10_R": 18.359319181333834,
+                "winner_label_coverage": 0.0
+              },
+              "2019-Q4": {
+                "n": 37,
+                "net_R": -15.271511193691225,
+                "win_rate": 0.2702702702702703,
+                "losing_R": 24.97515427995861,
+                "winning_R": 9.703643086267386,
+                "top10_R": 9.703643086267386,
+                "winner_label_coverage": 0.0
+              },
+              "2020-Q1": {
+                "n": 14,
+                "net_R": -2.157832258351607,
+                "win_rate": 0.2857142857142857,
+                "losing_R": 5.472995439653936,
+                "winning_R": 3.3151631813023292,
+                "top10_R": 3.3151631813023292,
+                "winner_label_coverage": 0.0
+              }
+            },
+            "years": {
+              "2018": {
+                "n": 6,
+                "net_R": -0.4419930513243139,
+                "win_rate": 0.3333333333333333,
+                "losing_R": 4.262826163742599,
+                "winning_R": 3.820833112418285,
+                "top10_R": 3.820833112418285,
+                "winner_label_coverage": 0.0
+              },
+              "2019": {
+                "n": 191,
+                "net_R": -23.978016690929042,
+                "win_rate": 0.39267015706806285,
+                "losing_R": 93.24870109031946,
+                "winning_R": 69.27068439939042,
+                "top10_R": 29.43265154472184,
+                "winner_label_coverage": 0.0
+              },
+              "2020": {
+                "n": 14,
+                "net_R": -2.157832258351607,
+                "win_rate": 0.2857142857142857,
+                "losing_R": 5.472995439653936,
+                "winning_R": 3.3151631813023292,
+                "top10_R": 3.3151631813023292,
+                "winner_label_coverage": 0.0
+              }
+            },
+            "axes": {
+              "cost_bucket": {
+                "6–12%": {
+                  "n": 128,
+                  "net_R": -23.098349755794768,
+                  "win_rate": 0.3828125,
+                  "losing_R": 66.39768550030723,
+                  "winning_R": 43.29933574451247,
+                  "top10_R": 22.113132486604815,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 29.65827852467831
+                },
+                ">12%": {
+                  "n": 32,
+                  "net_R": 1.090515963631374,
+                  "win_rate": 0.34375,
+                  "losing_R": 19.37657577735271,
+                  "winning_R": 20.467091740984085,
+                  "top10_R": 20.41994315228984,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 10.314214997941528
+                },
+                "<6%": {
+                  "n": 51,
+                  "net_R": -4.5700082084415685,
+                  "win_rate": 0.4117647058823529,
+                  "losing_R": 17.21026141605605,
+                  "winning_R": 12.640253207614482,
+                  "top10_R": 10.09743968496569,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 9.723045246066086
+                }
+              },
+              "atr_bucket": {
+                "0.25–<0.50": {
+                  "n": 124,
+                  "net_R": -23.014697225833174,
+                  "win_rate": 0.3548387096774194,
+                  "losing_R": 67.0520213513775,
+                  "winning_R": 44.03732412554434,
+                  "top10_R": 22.783352813190326,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 29.57462599471672
+                },
+                "<0.25": {
+                  "n": 46,
+                  "net_R": 0.30163118896602176,
+                  "win_rate": 0.41304347826086957,
+                  "losing_R": 23.73432079482896,
+                  "winning_R": 24.03595198379498,
+                  "top10_R": 21.94869852815453,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 12.897005881696034
+                },
+                "≥0.50": {
+                  "n": 41,
+                  "net_R": -3.8647759637378094,
+                  "win_rate": 0.43902439024390244,
+                  "losing_R": 12.198180547509528,
+                  "winning_R": 8.333404583771719,
+                  "top10_R": 7.0435111943962205,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 6.886654705329471
+                }
+              },
+              "direction": {
+                "SELL": {
+                  "n": 114,
+                  "net_R": -17.739072982160604,
+                  "win_rate": 0.3684210526315789,
+                  "losing_R": 57.70341599184666,
+                  "winning_R": 39.964343009686054,
+                  "top10_R": 21.72655381694882,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 24.684142545239332
+                },
+                "BUY": {
+                  "n": 97,
+                  "net_R": -8.838769018444356,
+                  "win_rate": 0.4020618556701031,
+                  "losing_R": 45.28110670186934,
+                  "winning_R": 36.44233768342498,
+                  "top10_R": 24.586593163814694,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 11.451413112555302
+                }
+              },
+              "entry_window": {
+                "03:00–06:59": {
+                  "n": 164,
+                  "net_R": -22.87928253863227,
+                  "win_rate": 0.3780487804878049,
+                  "losing_R": 81.54287464444008,
+                  "winning_R": 58.66359210580781,
+                  "top10_R": 28.794975243469306,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 29.43921130751581
+                },
+                "07:00–09:59": {
+                  "n": 47,
+                  "net_R": -3.6985594619726903,
+                  "win_rate": 0.40425531914893614,
+                  "losing_R": 21.441648049275916,
+                  "winning_R": 17.743088587303227,
+                  "top10_R": 14.807576627192923,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 7.922671023585562
+                }
+              }
+            }
+          },
+          "underwater": {
+            "start": 1545317580,
+            "end": 1653463080,
+            "start_equity": 11102.702332450934,
+            "end_equity": 11106.037463495952,
+            "censored": false,
+            "months": 41.12393364226051,
+            "trades_overlapping": 637,
+            "realized_cash_usd_inside": 157.95980138696936,
+            "quarters": {
+              "2018-Q4": {
+                "n": 6,
+                "net_R": -0.4419930513243139,
+                "win_rate": 0.3333333333333333,
+                "losing_R": 4.262826163742599,
+                "winning_R": 3.820833112418285,
+                "top10_R": 3.820833112418285,
+                "winner_label_coverage": 0.0
+              },
+              "2019-Q1": {
+                "n": 49,
+                "net_R": -12.501077478273363,
+                "win_rate": 0.32653061224489793,
+                "losing_R": 27.025347843254654,
+                "winning_R": 14.524270364981291,
+                "top10_R": 13.695238681323302,
+                "winner_label_coverage": 0.0
+              },
+              "2019-Q2": {
+                "n": 50,
+                "net_R": 1.8761724608295653,
+                "win_rate": 0.46,
+                "losing_R": 20.09608724152927,
+                "winning_R": 21.972259702358837,
+                "top10_R": 15.99957673836974,
+                "winner_label_coverage": 0.0
+              },
+              "2019-Q3": {
+                "n": 55,
+                "net_R": 1.918399520205982,
+                "win_rate": 0.4727272727272727,
+                "losing_R": 21.152111725576926,
+                "winning_R": 23.07051124578291,
+                "top10_R": 18.359319181333834,
+                "winner_label_coverage": 0.0
+              },
+              "2019-Q4": {
+                "n": 37,
+                "net_R": -15.271511193691225,
+                "win_rate": 0.2702702702702703,
+                "losing_R": 24.97515427995861,
+                "winning_R": 9.703643086267386,
+                "top10_R": 9.703643086267386,
+                "winner_label_coverage": 0.0
+              },
+              "2020-Q1": {
+                "n": 47,
+                "net_R": 15.621152542467053,
+                "win_rate": 0.5106382978723404,
+                "losing_R": 16.665338940359852,
+                "winning_R": 32.286491482826904,
+                "top10_R": 24.621592104054187,
+                "winner_label_coverage": 0.0
+              },
+              "2020-Q2": {
+                "n": 55,
+                "net_R": 2.1269833312246025,
+                "win_rate": 0.45454545454545453,
+                "losing_R": 25.991122767489177,
+                "winning_R": 28.11810609871378,
+                "top10_R": 20.317018421600306,
+                "winner_label_coverage": 0.0
+              },
+              "2020-Q3": {
+                "n": 53,
+                "net_R": 6.764080883506446,
+                "win_rate": 0.5094339622641509,
+                "losing_R": 27.041864164431185,
+                "winning_R": 33.80594504793763,
+                "top10_R": 25.72873017355002,
+                "winner_label_coverage": 0.0
+              },
+              "2020-Q4": {
+                "n": 34,
+                "net_R": -6.371603919303697,
+                "win_rate": 0.35294117647058826,
+                "losing_R": 17.24615529377757,
+                "winning_R": 10.874551374473873,
+                "top10_R": 10.636585825781358,
+                "winner_label_coverage": 0.0
+              },
+              "2021-Q1": {
+                "n": 40,
+                "net_R": 7.903299596415592,
+                "win_rate": 0.525,
+                "losing_R": 14.731153225315351,
+                "winning_R": 22.634452821730942,
+                "top10_R": 17.840175246830672,
+                "winner_label_coverage": 0.0
+              },
+              "2021-Q2": {
+                "n": 29,
+                "net_R": -5.27564865680109,
+                "win_rate": 0.3793103448275862,
+                "losing_R": 16.817123367990238,
+                "winning_R": 11.54147471118915,
+                "top10_R": 11.533728351159896,
+                "winner_label_coverage": 0.0
+              },
+              "2021-Q3": {
+                "n": 38,
+                "net_R": -2.837043393548562,
+                "win_rate": 0.42105263157894735,
+                "losing_R": 22.216895042253,
+                "winning_R": 19.379851648704438,
+                "top10_R": 18.379241368705877,
+                "winner_label_coverage": 0.0
+              },
+              "2021-Q4": {
+                "n": 60,
+                "net_R": -6.025381319501906,
+                "win_rate": 0.4,
+                "losing_R": 31.722254226121716,
+                "winning_R": 25.69687290661981,
+                "top10_R": 18.35678474871556,
+                "winner_label_coverage": 0.0
+              },
+              "2022-Q1": {
+                "n": 52,
+                "net_R": 6.413435305942485,
+                "win_rate": 0.5,
+                "losing_R": 22.09971751707573,
+                "winning_R": 28.513152823018217,
+                "top10_R": 20.003805471670287,
+                "winner_label_coverage": 0.0
+              },
+              "2022-Q2": {
+                "n": 32,
+                "net_R": 11.544949064253997,
+                "win_rate": 0.5625,
+                "losing_R": 10.24718326428887,
+                "winning_R": 21.792132328542866,
+                "top10_R": 18.438236080720635,
+                "winner_label_coverage": 0.0
+              }
+            },
+            "years": {
+              "2018": {
+                "n": 6,
+                "net_R": -0.4419930513243139,
+                "win_rate": 0.3333333333333333,
+                "losing_R": 4.262826163742599,
+                "winning_R": 3.820833112418285,
+                "top10_R": 3.820833112418285,
+                "winner_label_coverage": 0.0
+              },
+              "2019": {
+                "n": 191,
+                "net_R": -23.978016690929042,
+                "win_rate": 0.39267015706806285,
+                "losing_R": 93.24870109031946,
+                "winning_R": 69.27068439939042,
+                "top10_R": 29.43265154472184,
+                "winner_label_coverage": 0.0
+              },
+              "2020": {
+                "n": 189,
+                "net_R": 18.140612837894405,
+                "win_rate": 0.4656084656084656,
+                "losing_R": 86.94448116605778,
+                "winning_R": 105.0850940039522,
+                "top10_R": 38.77237567706404,
+                "winner_label_coverage": 0.0
+              },
+              "2021": {
+                "n": 167,
+                "net_R": -6.2347737734359665,
+                "win_rate": 0.4311377245508982,
+                "losing_R": 85.48742586168031,
+                "winning_R": 79.25265208824435,
+                "top10_R": 27.08074010637913,
+                "winner_label_coverage": 0.0
+              },
+              "2022": {
+                "n": 84,
+                "net_R": 17.958384370196484,
+                "win_rate": 0.5238095238095238,
+                "losing_R": 32.3469007813646,
+                "winning_R": 50.30528515156108,
+                "top10_R": 25.792272602086918,
+                "winner_label_coverage": 0.0
+              }
+            },
+            "axes": {
+              "cost_bucket": {
+                "6–12%": {
+                  "n": 362,
+                  "net_R": -17.157221388843634,
+                  "win_rate": 0.430939226519337,
+                  "losing_R": 180.20641141522108,
+                  "winning_R": 163.04919002637743,
+                  "top10_R": 34.230882269145944,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 29.65827852467831
+                },
+                ">12%": {
+                  "n": 102,
+                  "net_R": 3.556127650569334,
+                  "win_rate": 0.3627450980392157,
+                  "losing_R": 63.48741601371615,
+                  "winning_R": 67.04354366428548,
+                  "top10_R": 39.609082889302066,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 16.381927435932404
+                },
+                "<6%": {
+                  "n": 173,
+                  "net_R": 19.045307430675866,
+                  "win_rate": 0.5086705202312138,
+                  "losing_R": 58.59650763422752,
+                  "winning_R": 77.64181506490338,
+                  "top10_R": 27.171103911310773,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 9.723045246066086
+                }
+              },
+              "atr_bucket": {
+                "0.25–<0.50": {
+                  "n": 382,
+                  "net_R": -5.203038643096166,
+                  "win_rate": 0.43717277486910994,
+                  "losing_R": 186.6689530170648,
+                  "winning_R": 181.46591437396862,
+                  "top10_R": 35.29311187920201,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 30.09598779231547
+                },
+                "<0.25": {
+                  "n": 134,
+                  "net_R": 5.701883360841285,
+                  "win_rate": 0.40298507462686567,
+                  "losing_R": 75.09458833361721,
+                  "winning_R": 80.7964716944585,
+                  "top10_R": 39.992950344397215,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 16.276240746721804
+                },
+                "≥0.50": {
+                  "n": 121,
+                  "net_R": 4.945368974656445,
+                  "win_rate": 0.49586776859504134,
+                  "losing_R": 40.52679371248274,
+                  "winning_R": 45.47216268713919,
+                  "top10_R": 22.547173694919383,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 6.944587869137011
+                }
+              },
+              "direction": {
+                "SELL": {
+                  "n": 325,
+                  "net_R": -11.871460739826793,
+                  "win_rate": 0.4276923076923077,
+                  "losing_R": 160.63296837219707,
+                  "winning_R": 148.76150763237027,
+                  "top10_R": 36.691744331698466,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 27.42838741886866
+                },
+                "BUY": {
+                  "n": 312,
+                  "net_R": 17.315674432228356,
+                  "win_rate": 0.4551282051282051,
+                  "losing_R": 141.6573666909677,
+                  "winning_R": 158.97304112319605,
+                  "top10_R": 39.70863173457073,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 21.008809807013236
+                }
+              },
+              "entry_window": {
+                "03:00–06:59": {
+                  "n": 510,
+                  "net_R": -8.270027178574457,
+                  "win_rate": 0.4215686274509804,
+                  "losing_R": 254.5721290274336,
+                  "winning_R": 246.30210184885914,
+                  "top10_R": 44.80954299491795,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 31.02758564593715
+                },
+                "07:00–09:59": {
+                  "n": 127,
+                  "net_R": 13.71424087097602,
+                  "win_rate": 0.5196850393700787,
+                  "losing_R": 47.71820603573115,
+                  "winning_R": 61.43244690670717,
+                  "top10_R": 23.277790631911984,
+                  "winner_label_coverage": 0.0,
+                  "floating_dd_R": 9.93214757104655
+                }
+              }
+            }
+          }
+        },
+        "baseline_paths": {
+          "Swing 10k 0.30%": {
+            "peak_dd": {
+              "start": 1545317580,
+              "end": 1580394960,
+              "start_equity": 10828.382718595714,
+              "end_equity": 9920.813364403624,
+              "drawdown": 907.56935419209
+            },
+            "underwater": {
+              "start": 1545317580,
+              "end": 1653548460,
+              "start_equity": 10828.382718595714,
+              "end_equity": 10830.679663859375,
+              "censored": false,
+              "months": 41.15640065618505
+            }
+          },
+          "Swing 10k 0.40%": {
+            "peak_dd": {
+              "start": 1545317580,
+              "end": 1580394960,
+              "start_equity": 11102.702332450934,
+              "end_equity": 9887.734745675925,
+              "drawdown": 1214.9675867750084
+            },
+            "underwater": {
+              "start": 1545317580,
+              "end": 1653463080,
+              "start_equity": 11102.702332450934,
+              "end_equity": 11106.037463495952,
+              "censored": false,
+              "months": 41.12393364226051
+            }
+          },
+          "Swing 25k 0.30%": {
+            "peak_dd": {
+              "start": 1545317580,
+              "end": 1580394960,
+              "start_equity": 27088.905846406422,
+              "end_equity": 24771.08979228755,
+              "drawdown": 2317.8160541188736
+            },
+            "underwater": {
+              "start": 1545317580,
+              "end": 1653463080,
+              "start_equity": 27088.905846406422,
+              "end_equity": 27090.771048533636,
+              "censored": false,
+              "months": 41.12393364226051
+            }
+          },
+          "Swing 25k 0.40%": {
+            "peak_dd": {
+              "start": 1545317580,
+              "end": 1580394960,
+              "start_equity": 27794.030650993456,
+              "end_equity": 24694.679203642936,
+              "drawdown": 3099.35144735052
+            },
+            "underwater": {
+              "start": 1545317580,
+              "end": 1653489180,
+              "start_equity": 27794.030650993456,
+              "end_equity": 27800.0382152239,
+              "censored": false,
+              "months": 41.13385855516084
+            }
+          },
+          "Standard 50k 0.30%": {
+            "peak_dd": {
+              "start": 1545317580,
+              "end": 1580394960,
+              "start_equity": 54219.95553433456,
+              "end_equity": 49547.79199756212,
+              "drawdown": 4672.1635367724375
+            },
+            "underwater": {
+              "start": 1545317580,
+              "end": 1653489180,
+              "start_equity": 54219.95553433456,
+              "end_equity": 54222.491034549166,
+              "censored": false,
+              "months": 41.13385855516084
+            }
+          },
+          "Standard 50k 0.40%": {
+            "peak_dd": {
+              "start": 1545317580,
+              "end": 1580394960,
+              "start_equity": 55645.07373334102,
+              "end_equity": 49384.814012017254,
+              "drawdown": 6260.259721323768
+            },
+            "underwater": {
+              "start": 1545317580,
+              "end": 1653489180,
+              "start_equity": 55645.07373334102,
+              "end_equity": 55652.90763030091,
+              "censored": false,
+              "months": 41.13385855516084
+            }
+          }
+        },
+        "retain": false
+      }
+    },
+    "swing_spec_bindings": {
+      "TARGET_ACCOUNT_SPEC_SNAPSHOT.json": "cac216575ac65dd15ad0f696169d9f7ba7fd5e764b0f83bc7fc3e483911444a1",
+      "NATIVE_MARGIN_MATRIX.json": "d6b1bccbc3ba79490da24bc990590feeeca5455c93569e58938e1a156cd869c2"
+    },
+    "parent_hashes": {
+      "pass7b_result": "3062085665db30e6dc662727af27352f8b5d17afbb6901555dd742d831fd198c",
+      "pass8_gap_summary": "965ca24c4088dabe360179f47a6dd3f6b5b6bb7c88365cc38c03ffbf3ce0e8c5",
+      "usd_d1": "7dde7d8265f79056d94290fe5051d61c4951cae61eedbeb0d534ad18ca9c3bb1"
+    },
+    "verdict": "USDJPY_COST_HYGIENE_NOT_RETAINED"
+  },
+  "test_receipt": {
+    "n": 1511,
+    "sha256": "df8503d68e9d367ad46761ceceb0411eb4f7832e52e68ecadcb9948bbec8fd9c"
+  },
+  "order_send_count": 0,
+  "holdout_rows": 0
+}

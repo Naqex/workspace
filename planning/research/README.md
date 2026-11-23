@@ -9,6 +9,14 @@ Từ workspace root, chạy `python -X utf8 tooling/ai-engines/research_inventor
 để xem mức gắn nhãn. Thêm `--all` để lấy từng đường dẫn và lý do còn thiếu
 thông tin.
 
+**Pass 12 · US500 NY ORB M1 bị chặn nguồn QDM & pháp y USDJPY.** QDM
+`USA500IDXUSD_PASS12_QUARANTINE` gặp HTTP 429 ở 2011 qua 3 lượt (`US500_M1_DATA_UNAVAILABLE`,
+0 giá holdout). USDJPY tái lập đủ 1.228/1.437 lệnh; cổng phí/hộp ≤12% tăng mẫu chặt
+nhưng kéo Cụm A mẫu mở rộng từ +6,50 về +1,47R/năm và tăng DD (`USDJPY_COST_HYGIENE_NOT_RETAINED`).
+Giữ USDJPY gốc làm Engine #1 baseline và `ENGINE_1_NEEDS_PARTNER`.
+[Báo cáo](PASS12-US500-M1-ORB-AND-USDJPY-FORENSIC-20261120.md) ·
+[Protocol](PASS12-US500-M1-ORB-AND-USDJPY-FORENSIC-PROTOCOL-20261120.md).
+
 **Pass 11 · GBPUSD London ORB rớt M1 Bid/Ask.** QDM Development có
 204,49 triệu tick. Stress +0,50 pip âm ở Cụm B trong cả hai mẫu.
 Track 3 giữ đóng. [Báo cáo](PASS11-GBPUSD-M1-TRUTH-AND-TWO-ENGINE-PORTFOLIO-20261120.md).

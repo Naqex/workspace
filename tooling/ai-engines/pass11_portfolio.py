@@ -12,7 +12,7 @@ import pass7b_usdjpy_equity as core
 from pass7b_usdjpy_research import load_m1
 from pass8_usdjpy_gaps import replayable, shape
 from native_ftmo_monfri_seal import ROOT, START, STOP, read, sha, write
-from quant_core.ftmo_track_replay import profiles
+from quant_core.ftmo_track_replay import commission, profiles
 
 PROTECTED_DD = 8.
 STRESS = "M1_Real_Stress_05"
@@ -59,7 +59,7 @@ def manifest_files(jobs, key, relatives):
     return paths
 
 
-def frozen_usdjpy(jobs):
+def frozen_usdjpy(jobs, *, entry_features=None):
     parent = "pass7b-usdjpy-qdm-equity-20261120"
     relatives = ["development-m1/manifest.json", "verified/result.json",
                  "verified/m1-coverage-gaps.json"]
@@ -100,6 +100,8 @@ def frozen_usdjpy(jobs):
                 continue
             addon = core.PROFILE[STRESS]
             row = core.record(trade, addon)
+            if entry_features is not None:
+                row.update(entry_features(day, offsets, prices, trade))
             stamps = np.array([trade.second_at(i) for i in range(trade.entry, trade.execution.index + 1)])
             assert START <= stamps[0] <= stamps[-1] < STOP
             trades[day_key] = ({**row, "at_open": trade.execution.at_open}, stamps, core.path(trade, addon))
@@ -124,7 +126,7 @@ def size_day(day_trades, risks, initial, balance, specs):
             continue
         spec = specs[symbol]
         budget = initial * risks[symbol]
-        margin = spec["margin_per_reference"] * (row["margin_quote"] if symbol == GBPUSD else 1.)
+        margin = spec["margin_per_reference"] * (row.get("margin_quote", 1.))
         account = core.Account(symbol, initial, margin, spec["volume_min"], spec["volume_step"], spec["volume_max"])
         lot = core.floor_lot(budget, row["stop_risk_with_cost_usd"], account)
         stamp = int(stamps[0])
@@ -133,7 +135,7 @@ def size_day(day_trades, risks, initial, balance, specs):
         status = "SIZED"
         if lot < spec["volume_min"]:
             status = "MIN_LOT"
-        elif lot * (margin + 2.5) > available:
+        elif lot * (margin + commission(symbol, spec, row["entry_price"])) > available:
             status = "MARGIN"
         ledger.append({"engine": symbol, "entry": stamp, "lots": lot if status == "SIZED" else 0.,
                        "entry_free_margin": available, "status": status,
