@@ -29,6 +29,7 @@
 - **Lớp vận hành sống đầy đủ (Full-Stack Layer):**
   - MQL5 Production Suite: `tooling/ai-engines/exports/` gồm `Include/Naqex_PropGuard.mqh` v2.0, `Naqex_AccountOrchestrator.mq5` (AMBER/RED + Global Kill-Switch + Orphan detector + `naqex_heartbeat.json`), **`8/8` EA `.mq5` đã nối `PropGuard` với `8` Magic Number duy nhất (`20261122..20261129`)**, và `Files/naqex_red_news_utc.csv` (`2018–2026`).
   - Python Ops & Verification: `quant_factory/` (`data_store`, `eval_pipeline`, `prop_engine`, `report_gen`, **`tca_reconcile`**, **`live_decay_monitor`** tái dùng `CUSUM` của `projects/quant-trading`, **`ops_monitor`**, `holdout_eval_2025_2026`, `crypto_sleeve_study`) + `system_doctor.py --mode fast|full` + skill `quant-factory-ops`.
+  - Personal Knowledge Vault & Research Stack: [knowledge/README.md](../knowledge/README.md) (`owner/{PROFILE,CURIOSITY-LOG,DECISIONS-JOURNAL}.md`, `topics/*.md`, gitignored `inbox/`) + `tooling/knowledge/{brain_cli,research_cli}.py` (`.runtime/research-tools`, SQLite FTS5 tiếng Việt không dấu + Vector RRF `< 40 ms`) + CLI `rg`/`fd`/`jq` + skill `research-and-memory-ops`.
 
 ## 4. Bước thực thi tiếp theo (chuyển giao Demo / Live có kiểm soát)
 

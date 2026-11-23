@@ -33,6 +33,9 @@ def _subproc_env() -> dict[str, str]:
     parts = [str(AI_ENGINES), str(FOUNDATION_SRC)] + ([existing] if existing else [])
     env["PYTHONPATH"] = os.pathsep.join(parts)
     env["PYTHONUTF8"] = "1"
+    winget_links = Path(os.environ.get("LOCALAPPDATA", "")) / "Microsoft/WinGet/Links"
+    if winget_links.is_dir() and str(winget_links).lower() not in env.get("PATH", "").lower():
+        env["PATH"] = f"{winget_links}{os.pathsep}{env.get('PATH', '')}"
     return env
 
 
@@ -128,13 +131,13 @@ def check_exports_static_audit() -> dict:
 
 
 def check_derived_cache() -> dict:
+    """Fast cryptographic SHA-256 verification of derived NPZ tape cache without importing heavy scientific libs."""
     t0 = time.perf_counter()
-    from quant_factory.data_store import DERIVED_CACHE_DIR, _load_tapes_safe_npz, assert_holdout_locked, compute_registry_engines_sha
-    lock_sha = assert_holdout_locked()
-    reg_sha = compute_registry_engines_sha()
-    binding = hashlib.sha256(f"{lock_sha}|{reg_sha}|v1".encode()).hexdigest()
-    meta_path = DERIVED_CACHE_DIR / "frozen_9e_tapes_v1.json"
-    npz_path = DERIVED_CACHE_DIR / "frozen_9e_tapes_v1.npz"
+    lock_path = ROOT / "planning/research/NATIVE_FTMO_HOLDOUT_LOCK.json"
+    reg_path = ROOT / "planning/research/PORTFOLIO-REGISTRY.json"
+    derived_dir = ROOT / ".runtime/hot-m1-cache/_derived"
+    meta_path = derived_dir / "frozen_9e_tapes_v1.json"
+    npz_path = derived_dir / "frozen_9e_tapes_v1.npz"
     if not (meta_path.exists() and npz_path.exists()):
         return {
             "name": "derived_cache",
@@ -142,14 +145,52 @@ def check_derived_cache() -> dict:
             "seconds": round(time.perf_counter() - t0, 3),
             "detail": "COLD (not yet warmed; run quant_factory.build_or_load_frozen_tapes() once)",
         }
-    hit = _load_tapes_safe_npz(DERIVED_CACHE_DIR, "frozen_9e_tapes_v1", binding)
-    ok = hit is not None
+    lock_sha = hashlib.sha256(lock_path.read_bytes()).hexdigest()
+    reg = json.loads(reg_path.read_text(encoding="utf-8"))
+    reg_sha = hashlib.sha256(json.dumps(reg.get("engines", []), sort_keys=True).encode("utf-8")).hexdigest()
+    binding = hashlib.sha256(f"{lock_sha}|{reg_sha}|v1".encode()).hexdigest()
+    meta = json.loads(meta_path.read_text(encoding="utf-8"))
+    with npz_path.open("rb") as fh:
+        npz_sha = hashlib.file_digest(fh, "sha256").hexdigest()
+    n_eng = len(meta.get("tapes", {}))
+    ok = (
+        meta.get("binding_sha256") == binding
+        and meta.get("npz_sha256") == npz_sha
+        and n_eng == 9
+    )
     sz_mb = round((npz_path.stat().st_size + meta_path.stat().st_size) / (1024 * 1024), 2)
     return {
         "name": "derived_cache",
         "ok": ok,
         "seconds": round(time.perf_counter() - t0, 3),
-        "detail": f"WARM HIT ({sz_mb} MB, 9 engines, sha-verified)" if ok else "STALE/INVALID binding SHA",
+        "detail": f"WARM HIT ({sz_mb} MB, {n_eng} engines, sha-verified)" if ok else "STALE/INVALID binding or npz SHA",
+    }
+
+
+def check_brain_index() -> dict:
+    """Verify Owner Knowledge Vault & local SQLite/Vector Brain index health (<0.05s)."""
+    t0 = time.perf_counter()
+    import sqlite3
+    profile = ROOT / "knowledge/owner/PROFILE.md"
+    db_path = ROOT / ".runtime/knowledge/brain.sqlite3"
+    vec_path = ROOT / ".runtime/knowledge/brain_vec.npz"
+    if not profile.exists():
+        return {"name": "knowledge_brain", "ok": False, "seconds": round(time.perf_counter() - t0, 3), "detail": "Missing knowledge/owner/PROFILE.md"}
+    if not (db_path.exists() and vec_path.exists()):
+        return {"name": "knowledge_brain", "ok": True, "seconds": round(time.perf_counter() - t0, 3), "detail": "COLD (run tooling/knowledge/brain_cli.py index)"}
+    con = sqlite3.connect(str(db_path))
+    try:
+        n_files = con.execute("SELECT COUNT(*) FROM files").fetchone()[0]
+        n_chunks = con.execute("SELECT COUNT(*) FROM chunks").fetchone()[0]
+    finally:
+        con.close()
+    sz_mb = round((db_path.stat().st_size + vec_path.stat().st_size) / (1024 * 1024), 2)
+    ok = n_files > 0 and n_chunks > 0
+    return {
+        "name": "knowledge_brain",
+        "ok": ok,
+        "seconds": round(time.perf_counter() - t0, 3),
+        "detail": f"READY ({n_files} files, {n_chunks} chunks, {sz_mb} MB)" if ok else "EMPTY index",
     }
 
 
@@ -225,6 +266,7 @@ def main() -> int:
         check_index_bloat(),
         check_exports_static_audit(),
         check_derived_cache(),
+        check_brain_index(),
         check_workspace_contracts(),
         check_skill_links(),
     ]

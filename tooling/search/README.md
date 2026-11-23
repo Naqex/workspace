@@ -4,8 +4,10 @@ Chọn công cụ theo câu hỏi, không gọi mọi công cụ cho mỗi task:
 
 | Cần tìm | Công cụ |
 |---|---|
-| Tên/file/text đã biết | `rg` trước |
-| Passage hoặc symbol khi chưa biết file | Xerj |
+| Tên/file/text đã biết | `rg` (`ripgrep`) / `fd` trước |
+| Kiến thức tổng hợp, hồ sơ owner, nghiên cứu tiếng Việt không dấu/lai ngữ nghĩa | `brain_cli.py` ([Knowledge Vault](../../knowledge/README.md)) |
+| Research đa nguồn ngoài web (arXiv, OpenAlex, GitHub, HN, QuantSE, Habr RU, CN/VI, PDF/YouTube) | `research_cli.py` + native `search_web` |
+| Passage hoặc symbol code khi chưa biết file | Xerj |
 | Hàm nào gọi hàm nào, ảnh hưởng thay đổi | CodeGraph CLI |
 | API/cách dùng thư viện công khai | Context7 MCP khi cần docs |
 
@@ -87,9 +89,9 @@ python tooling/search/xerj.py query "local session primary stress 2019 2022"
 python tooling/search/xerj.py query "owner handover strategy challenge"
 ```
 
-Xerj nhận thêm `planning/CURRENT-CONTEXT.md`, `planning/CONTEXT-LIFECYCLE.md`
-và Markdown được Git track trong `planning/research/`, cùng ba tài liệu
-`tooling/ai-engines/{STRATEGY-WORKFLOW,OBSERVABILITY,OPERATIONS}.md`; không nhận archive,
+Xerj nhận thêm `planning/CURRENT-CONTEXT.md`, `planning/CONTEXT-LIFECYCLE.md`,
+Markdown được Git track trong `planning/research/` và `knowledge/` (trừ `knowledge/inbox/`),
+cùng ba tài liệu `tooling/ai-engines/{STRATEGY-WORKFLOW,OBSERVABILITY,OPERATIONS}.md`; không nhận archive,
 file tên chứa `holdout`, receipt/checkpoint, raw CSV/Parquet hoặc result JSON.
 Đây là local lexical retrieval để agent lấy đúng tài liệu, chưa dùng semantic
 embeddings hoặc vector DB. Search chỉ tìm passage; state/quyền/số liệu phải
