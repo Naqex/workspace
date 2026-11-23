@@ -1,0 +1,1239 @@
+{
+  "pass": "Pass 18",
+  "protocol_commit": "467a0286d53f7ae5743bb3241cf2c458c7c8d137",
+  "holdout_lock_sha256": "f0a6b43cb205535b0a959456455dc1d857a0936c06c2e51b8614fd7d772a8486",
+  "holdout_rows": 0,
+  "order_send_count": 0,
+  "network_calls": 0,
+  "spec_bindings": {
+    "Standard": {
+      "commit": "36f1535",
+      "sha256_lf": "09d1a66b5bbb46032ca8dfd7294b40a7d98424a3dd155ac9561cc5fe9c25dc32",
+      "reference": "FTMO-DEMO-10K-STANDARD-FULL13-AND-EXECUTION-20261119.json"
+    },
+    "Swing": {
+      "commit": "8fd77ef",
+      "sha256_lf": "803352fbf00d7af15719033c9b0aa5b3140bca0d0cfa7235d01caa2e7b95f4a3",
+      "reference": "SWING-10K-AUDIT-MULTIWEEK-AND-WIN-TAXONOMY-20261120.json"
+    }
+  },
+  "elapsed_seconds": 10.45,
+  "m_hypotheses": 14,
+  "tier_counts": {
+    "TIER_3_DEAD_NO_EDGE": 14
+  },
+  "rows": [
+    {
+      "strategy": "US500_GHLZ_LAST30",
+      "asset": "US500",
+      "native_Ask": true,
+      "n": 1009,
+      "win_rate_ftmo": 0.39544103072348863,
+      "ftmo_net_R": -55.23532213632107,
+      "ftmo_annual_R": -7.890760305188723,
+      "ftmo_top10_R": 9.781016583982598,
+      "ftmo_closed_dd_R": 58.62131828721738,
+      "ftmo_clusters_R": {
+        "A": -28.536966288882585,
+        "B": -26.698355847438485
+      },
+      "ftmo_years_R": {
+        "2018": -11.502739146255054,
+        "2019": -12.020468485493701,
+        "2020": -5.013758657133829,
+        "2021": -8.742632636866553,
+        "2022": -6.023580893657192,
+        "2023": -5.763135559362135,
+        "2024": -6.169006757552605
+      },
+      "ftmo_pos_years": 0,
+      "gross_usd_sum": -244.5180342643862,
+      "ftmo_exec_cost_usd_sum": 1513.5,
+      "ftmo_swap_usd_sum": 0.0,
+      "ftmo_net_usd_sum": -1758.0180342643862,
+      "exness_normal_R": -26.21698175327949,
+      "exness_normal_clusters_R": {
+        "A": -12.926570008646301,
+        "B": -13.29041174463319
+      },
+      "exness_swapfree_R": -26.21698175327949,
+      "exness_swapfree_clusters_R": {
+        "A": -12.926570008646301,
+        "B": -13.29041174463319
+      },
+      "exness_swapfree_pos_years": 0,
+      "mc_null": {
+        "n_days": 1009,
+        "draws": 1000,
+        "seed": 20261123,
+        "obs_gross_usd": -244.5180342643862,
+        "null_gross_mean": -446.9992950000079,
+        "null_gross_p95": 863.5010999999969,
+        "gross_p_value": 0.4155844155844156,
+        "obs_ftmo_net_usd": -1758.0180342643862,
+        "null_net_mean": -1960.4992950000078,
+        "null_net_p95": -649.9989000000031,
+        "ftmo_net_p_value": 0.4155844155844156,
+        "random_entry_gross_p": 0.4155844155844156,
+        "random_entry_ftmo_p": 0.4155844155844156,
+        "sign_flip_gross_p": 0.3096903096903097,
+        "sign_flip_ftmo_p": 0.3096903096903097
+      },
+      "exit_counts": {
+        "HARD_FLAT": 1003,
+        "SL_GAP_OR_TOUCH": 6
+      },
+      "tier": "TIER_3_DEAD_NO_EDGE",
+      "source": "Gao-Han-Li-Zhou (2018 JFE) Intraday Momentum Last30",
+      "fade_ftmo_R": -58.69,
+      "ftmo_base_R": -26.22,
+      "us500_mid_R": -40.98,
+      "direction": {
+        "BUY": {
+          "n": 588,
+          "ftmo_R": -36.15,
+          "base_R": -19.33
+        },
+        "SELL": {
+          "n": 421,
+          "ftmo_R": -19.09,
+          "base_R": -6.88
+        }
+      },
+      "corr_usdjpy_core": {
+        "union_corr": -0.0266,
+        "overlap_corr": -0.0348,
+        "overlap_days": 886
+      },
+      "fdr_gross_q": 0.8311688311688312,
+      "fdr_ftmo_q": 0.8311688311688312
+    },
+    {
+      "strategy": "US500_GHLZ_AFTERNOON",
+      "asset": "US500",
+      "native_Ask": true,
+      "n": 355,
+      "win_rate_ftmo": 0.4619718309859155,
+      "ftmo_net_R": -14.222986158692752,
+      "ftmo_annual_R": -2.031855165527536,
+      "ftmo_top10_R": 14.241542330176518,
+      "ftmo_closed_dd_R": 17.762017784676544,
+      "ftmo_clusters_R": {
+        "A": -6.1120327227697215,
+        "B": -8.11095343592303
+      },
+      "ftmo_years_R": {
+        "2018": -3.835218007202679,
+        "2019": -5.078767055955217,
+        "2020": 2.801952340388175,
+        "2021": -7.541785691755727,
+        "2022": 3.7642634778496036,
+        "2023": 2.6667900646589264,
+        "2024": -7.000221286675833
+      },
+      "ftmo_pos_years": 3,
+      "gross_usd_sum": 310.53976977002867,
+      "ftmo_exec_cost_usd_sum": 532.5,
+      "ftmo_swap_usd_sum": 0.0,
+      "ftmo_net_usd_sum": -221.96023022997133,
+      "exness_normal_R": -3.3935569960652687,
+      "exness_normal_clusters_R": {
+        "A": -0.6573423884613333,
+        "B": -2.7362146076039355
+      },
+      "exness_swapfree_R": -3.3935569960652687,
+      "exness_swapfree_clusters_R": {
+        "A": -0.6573423884613333,
+        "B": -2.7362146076039355
+      },
+      "exness_swapfree_pos_years": 3,
+      "mc_null": {
+        "n_days": 355,
+        "draws": 1000,
+        "seed": 20261123,
+        "obs_gross_usd": 310.53976977002867,
+        "null_gross_mean": -160.48048700000714,
+        "null_gross_p95": 658.8329499999887,
+        "gross_p_value": 0.16683316683316685,
+        "obs_ftmo_net_usd": -221.96023022997133,
+        "null_net_mean": -692.9804870000072,
+        "null_net_p95": 126.33294999998873,
+        "ftmo_net_p_value": 0.16683316683316685,
+        "random_entry_gross_p": 0.16683316683316685,
+        "random_entry_ftmo_p": 0.16683316683316685,
+        "sign_flip_gross_p": 0.14985014985014986,
+        "sign_flip_ftmo_p": 0.14985014985014986
+      },
+      "exit_counts": {
+        "HARD_FLAT": 332,
+        "SL_GAP_OR_TOUCH": 23
+      },
+      "tier": "TIER_3_DEAD_NO_EDGE",
+      "source": "Gao-Han-Li-Zhou (2018 JFE) First-Hour->Afternoon",
+      "fade_ftmo_R": -23.34,
+      "ftmo_base_R": -3.39,
+      "us500_mid_R": -8.91,
+      "direction": {
+        "BUY": {
+          "n": 184,
+          "ftmo_R": -10.56,
+          "base_R": -5.17
+        },
+        "SELL": {
+          "n": 171,
+          "ftmo_R": -3.66,
+          "base_R": 1.78
+        }
+      },
+      "corr_usdjpy_core": {
+        "union_corr": 0.0258,
+        "overlap_corr": 0.0548,
+        "overlap_days": 316
+      },
+      "fdr_gross_q": 0.6853146853146853,
+      "fdr_ftmo_q": 0.6853146853146853
+    },
+    {
+      "strategy": "US500_GAP_FADE_NY",
+      "asset": "US500",
+      "native_Ask": true,
+      "n": 691,
+      "win_rate_ftmo": 0.5195369030390738,
+      "ftmo_net_R": -76.55203399935658,
+      "ftmo_annual_R": -10.936004857050941,
+      "ftmo_top10_R": 11.969921389940739,
+      "ftmo_closed_dd_R": 77.58181286384453,
+      "ftmo_clusters_R": {
+        "A": -32.5508246945148,
+        "B": -44.00120930484177
+      },
+      "ftmo_years_R": {
+        "2018": -8.411278531296844,
+        "2019": -8.382101003440772,
+        "2020": -15.757445159777186,
+        "2021": -17.603623990393615,
+        "2022": -9.849291952318687,
+        "2023": -4.197952383084412,
+        "2024": -12.35034097904506
+      },
+      "ftmo_pos_years": 0,
+      "gross_usd_sum": -1934.8711993393254,
+      "ftmo_exec_cost_usd_sum": 1036.5,
+      "ftmo_swap_usd_sum": 0.0,
+      "ftmo_net_usd_sum": -2971.3711993393254,
+      "exness_normal_R": -57.43026801122842,
+      "exness_normal_clusters_R": {
+        "A": -21.951079498216675,
+        "B": -35.47918851301174
+      },
+      "exness_swapfree_R": -57.43026801122842,
+      "exness_swapfree_clusters_R": {
+        "A": -21.951079498216675,
+        "B": -35.47918851301174
+      },
+      "exness_swapfree_pos_years": 0,
+      "mc_null": {
+        "n_days": 691,
+        "draws": 1000,
+        "seed": 20261123,
+        "obs_gross_usd": -1934.8711993393254,
+        "null_gross_mean": -318.50105600000916,
+        "null_gross_p95": 751.6996,
+        "gross_p_value": 0.997002997002997,
+        "obs_ftmo_net_usd": -2971.3711993393254,
+        "null_net_mean": -1355.0010560000092,
+        "null_net_p95": -284.8003999999999,
+        "ftmo_net_p_value": 0.997002997002997,
+        "random_entry_gross_p": 0.997002997002997,
+        "random_entry_ftmo_p": 0.997002997002997,
+        "sign_flip_gross_p": 0.9820179820179821,
+        "sign_flip_ftmo_p": 0.9820179820179821
+      },
+      "exit_counts": {
+        "TP_GAP_OR_TOUCH": 312,
+        "SL_GAP_OR_TOUCH": 131,
+        "HARD_FLAT": 248
+      },
+      "tier": "TIER_3_DEAD_NO_EDGE",
+      "source": "Lou-Polk-Skouras (2019 JFE) Overnight Gap Fade",
+      "fade_ftmo_R": -23.22,
+      "ftmo_base_R": -57.43,
+      "us500_mid_R": -67.17,
+      "direction": {
+        "BUY": {
+          "n": 298,
+          "ftmo_R": -36.16,
+          "base_R": -27.96
+        },
+        "SELL": {
+          "n": 393,
+          "ftmo_R": -40.39,
+          "base_R": -29.47
+        }
+      },
+      "corr_usdjpy_core": {
+        "union_corr": -0.026,
+        "overlap_corr": -0.0355,
+        "overlap_days": 595
+      },
+      "fdr_gross_q": 0.997002997002997,
+      "fdr_ftmo_q": 0.997002997002997
+    },
+    {
+      "strategy": "US500_IBS_INTRADAY",
+      "asset": "US500",
+      "native_Ask": true,
+      "n": 829,
+      "win_rate_ftmo": 0.4571773220747889,
+      "ftmo_net_R": -49.738594090473725,
+      "ftmo_annual_R": -7.105513441496247,
+      "ftmo_top10_R": 23.651080686994295,
+      "ftmo_closed_dd_R": 55.61248426093717,
+      "ftmo_clusters_R": {
+        "A": -16.563059539296745,
+        "B": -33.17553455117697
+      },
+      "ftmo_years_R": {
+        "2018": -10.272999375658758,
+        "2019": -18.16946067014017,
+        "2020": 11.879400506502183,
+        "2021": -15.377860397741406,
+        "2022": 0.7116445244711127,
+        "2023": -14.628108349388064,
+        "2024": -3.881210328518619
+      },
+      "ftmo_pos_years": 2,
+      "gross_usd_sum": -382.48794828886685,
+      "ftmo_exec_cost_usd_sum": 1243.5,
+      "ftmo_swap_usd_sum": 0.0,
+      "ftmo_net_usd_sum": -1625.9879482888668,
+      "exness_normal_R": -27.036594832786466,
+      "exness_normal_clusters_R": {
+        "A": -5.829363830994688,
+        "B": -21.20723100179178
+      },
+      "exness_swapfree_R": -27.036594832786466,
+      "exness_swapfree_clusters_R": {
+        "A": -5.829363830994688,
+        "B": -21.20723100179178
+      },
+      "exness_swapfree_pos_years": 2,
+      "mc_null": {
+        "n_days": 829,
+        "draws": 1000,
+        "seed": 20261123,
+        "obs_gross_usd": -382.48794828886685,
+        "null_gross_mean": -335.0079190000067,
+        "null_gross_p95": 770.528749999998,
+        "gross_p_value": 0.5254745254745254,
+        "obs_ftmo_net_usd": -1625.9879482888668,
+        "null_net_mean": -1578.5079190000067,
+        "null_net_p95": -472.97125000000193,
+        "ftmo_net_p_value": 0.5254745254745254,
+        "random_entry_gross_p": 0.5254745254745254,
+        "random_entry_ftmo_p": 0.5254745254745254,
+        "sign_flip_gross_p": 0.3836163836163836,
+        "sign_flip_ftmo_p": 0.3836163836163836
+      },
+      "exit_counts": {
+        "HARD_FLAT": 684,
+        "SL_GAP_OR_TOUCH": 145
+      },
+      "tier": "TIER_3_DEAD_NO_EDGE",
+      "source": "Quantpedia / Connors IBS Intraday",
+      "fade_ftmo_R": -50.72,
+      "ftmo_base_R": -27.04,
+      "us500_mid_R": -38.58,
+      "direction": {
+        "BUY": {
+          "n": 319,
+          "ftmo_R": -14.68,
+          "base_R": -6.03
+        },
+        "SELL": {
+          "n": 510,
+          "ftmo_R": -35.05,
+          "base_R": -21.0
+        }
+      },
+      "corr_usdjpy_core": {
+        "union_corr": -0.0194,
+        "overlap_corr": -0.0322,
+        "overlap_days": 717
+      },
+      "fdr_gross_q": 0.8515928515928516,
+      "fdr_ftmo_q": 0.8515928515928516
+    },
+    {
+      "strategy": "FX_WMR_PRE_FIX",
+      "asset": "EURUSD",
+      "native_Ask": true,
+      "n": 1817,
+      "win_rate_ftmo": 0.4925701706108971,
+      "ftmo_net_R": -46.01322841555371,
+      "ftmo_annual_R": -6.573318345079102,
+      "ftmo_top10_R": 18.72083392627114,
+      "ftmo_closed_dd_R": 55.811426448363605,
+      "ftmo_clusters_R": {
+        "A": -24.934411648832942,
+        "B": -21.07881676672077
+      },
+      "ftmo_years_R": {
+        "2018": -6.910898741424981,
+        "2019": -11.147531224124124,
+        "2020": -6.875981683283835,
+        "2021": -7.271606072269432,
+        "2022": -11.015667365803298,
+        "2023": 0.7954715257659273,
+        "2024": -3.5870148544139675
+      },
+      "ftmo_pos_years": 1,
+      "gross_usd_sum": -536.5939670617045,
+      "ftmo_exec_cost_usd_sum": 25438.0,
+      "ftmo_swap_usd_sum": 0.0,
+      "ftmo_net_usd_sum": -25974.593967061704,
+      "exness_normal_R": -29.59607726951298,
+      "exness_normal_clusters_R": {
+        "A": -17.860128318846982,
+        "B": -11.735948950665996
+      },
+      "exness_swapfree_R": -29.59607726951298,
+      "exness_swapfree_clusters_R": {
+        "A": -17.860128318846982,
+        "B": -11.735948950665996
+      },
+      "exness_swapfree_pos_years": 1,
+      "mc_null": {
+        "hold_hours_matched": 3,
+        "n_buy": 0,
+        "n_sell": 1817,
+        "draws": 1000,
+        "seed": 20261123,
+        "obs_gross_usd": -536.5939670617045,
+        "null_gross_mean": -7293.929000000093,
+        "null_gross_p95": 4626.300000000051,
+        "gross_p_value": 0.3776223776223776,
+        "obs_ftmo_net_usd": -25974.593967061704,
+        "null_net_mean": -32731.92900000009,
+        "null_net_p95": -20811.69999999995,
+        "ftmo_net_p_value": 0.3776223776223776,
+        "random_entry_gross_p": 0.1838161838161838,
+        "random_entry_ftmo_p": 0.1838161838161838,
+        "sign_flip_gross_p": 0.3776223776223776,
+        "sign_flip_ftmo_p": 0.3776223776223776
+      },
+      "exit_counts": {
+        "TIME_FLAT": 1712,
+        "SL_GAP_OR_TOUCH": 105
+      },
+      "tier": "TIER_3_DEAD_NO_EDGE",
+      "source": "Krohn-Mueller-Whelan (2024 JoF) Pre-16:00 London Fix SELL",
+      "fade_ftmo_R": -59.44,
+      "ftmo_base_R": -29.6,
+      "direction": {
+        "BUY": {
+          "n": 0,
+          "ftmo_R": 0.0,
+          "base_R": 0.0
+        },
+        "SELL": {
+          "n": 1817,
+          "ftmo_R": -46.01,
+          "base_R": -29.6
+        }
+      },
+      "corr_usdjpy_core": {
+        "union_corr": 0.0142,
+        "overlap_corr": 0.0148,
+        "overlap_days": 1541
+      },
+      "fdr_gross_q": 0.8311688311688312,
+      "fdr_ftmo_q": 0.8311688311688312
+    },
+    {
+      "strategy": "FX_WMR_POST_FIX",
+      "asset": "EURUSD",
+      "native_Ask": true,
+      "n": 1817,
+      "win_rate_ftmo": 0.45789763346175016,
+      "ftmo_net_R": -49.71529325462118,
+      "ftmo_annual_R": -7.102184750660169,
+      "ftmo_top10_R": 14.711184158770624,
+      "ftmo_closed_dd_R": 53.89500922485834,
+      "ftmo_clusters_R": {
+        "A": -24.99033473929267,
+        "B": -24.72495851532851
+      },
+      "ftmo_years_R": {
+        "2018": -7.100633769286062,
+        "2019": -12.749084901194157,
+        "2020": -5.1406160688124505,
+        "2021": -5.61028319718932,
+        "2022": -11.934012791929662,
+        "2023": -1.0187552755519993,
+        "2024": -6.161907250657526
+      },
+      "ftmo_pos_years": 0,
+      "gross_usd_sum": -199.8897074131146,
+      "ftmo_exec_cost_usd_sum": 25438.0,
+      "ftmo_swap_usd_sum": 0.0,
+      "ftmo_net_usd_sum": -25637.889707413116,
+      "exness_normal_R": -33.34169830092043,
+      "exness_normal_clusters_R": {
+        "A": -17.91846150732496,
+        "B": -15.423236793595468
+      },
+      "exness_swapfree_R": -33.34169830092043,
+      "exness_swapfree_clusters_R": {
+        "A": -17.91846150732496,
+        "B": -15.423236793595468
+      },
+      "exness_swapfree_pos_years": 1,
+      "mc_null": {
+        "hold_hours_matched": 5,
+        "n_buy": 1817,
+        "n_sell": 0,
+        "draws": 1000,
+        "seed": 20261123,
+        "obs_gross_usd": -199.8897074131146,
+        "null_gross_mean": -11084.087999999925,
+        "null_gross_p95": 4354.500000000498,
+        "gross_p_value": 0.22577422577422576,
+        "obs_ftmo_net_usd": -25637.889707413116,
+        "null_net_mean": -36522.08799999992,
+        "null_net_p95": -21083.499999999505,
+        "ftmo_net_p_value": 0.22577422577422576,
+        "random_entry_gross_p": 0.12187812187812187,
+        "random_entry_ftmo_p": 0.12187812187812187,
+        "sign_flip_gross_p": 0.22577422577422576,
+        "sign_flip_ftmo_p": 0.22577422577422576
+      },
+      "exit_counts": {
+        "TIME_FLAT": 1785,
+        "SL_GAP_OR_TOUCH": 32
+      },
+      "tier": "TIER_3_DEAD_NO_EDGE",
+      "source": "Krohn-Mueller-Whelan (2024 JoF) Post-16:00 London Fix BUY",
+      "fade_ftmo_R": -66.71,
+      "ftmo_base_R": -33.34,
+      "direction": {
+        "BUY": {
+          "n": 1817,
+          "ftmo_R": -49.72,
+          "base_R": -33.34
+        },
+        "SELL": {
+          "n": 0,
+          "ftmo_R": 0.0,
+          "base_R": 0.0
+        }
+      },
+      "corr_usdjpy_core": {
+        "union_corr": 0.0241,
+        "overlap_corr": 0.0262,
+        "overlap_days": 1541
+      },
+      "fdr_gross_q": 0.6853146853146853,
+      "fdr_ftmo_q": 0.6853146853146853
+    },
+    {
+      "strategy": "FX_WMR_MORNING_FADE",
+      "asset": "EURUSD",
+      "native_Ask": true,
+      "n": 585,
+      "win_rate_ftmo": 0.4478632478632479,
+      "ftmo_net_R": -25.54382022659367,
+      "ftmo_annual_R": -3.649117175227667,
+      "ftmo_top10_R": 12.266792951872915,
+      "ftmo_closed_dd_R": 31.689203133799285,
+      "ftmo_clusters_R": {
+        "A": -10.081565458740007,
+        "B": -15.462254767853663
+      },
+      "ftmo_years_R": {
+        "2018": -6.11245310517362,
+        "2019": -7.702581082692729,
+        "2020": 3.733468729126342,
+        "2021": -8.843260918356146,
+        "2022": -3.513963933248455,
+        "2023": -7.608151904632713,
+        "2024": 4.503121988383651
+      },
+      "ftmo_pos_years": 2,
+      "gross_usd_sum": -5073.348142590162,
+      "ftmo_exec_cost_usd_sum": 8190.0,
+      "ftmo_swap_usd_sum": 0.0,
+      "ftmo_net_usd_sum": -13263.348142590161,
+      "exness_normal_R": -20.375872746155522,
+      "exness_normal_clusters_R": {
+        "A": -7.986872894117893,
+        "B": -12.38899985203763
+      },
+      "exness_swapfree_R": -20.375872746155522,
+      "exness_swapfree_clusters_R": {
+        "A": -7.986872894117893,
+        "B": -12.38899985203763
+      },
+      "exness_swapfree_pos_years": 2,
+      "mc_null": {
+        "hold_hours_matched": 5,
+        "n_buy": 310,
+        "n_sell": 275,
+        "draws": 1000,
+        "seed": 20261123,
+        "obs_gross_usd": -5073.348142590162,
+        "null_gross_mean": -2710.8189999999863,
+        "null_gross_p95": 6211.099999999969,
+        "gross_p_value": 0.7202797202797203,
+        "obs_ftmo_net_usd": -13263.348142590161,
+        "null_net_mean": -10900.818999999985,
+        "null_net_p95": -1978.90000000003,
+        "ftmo_net_p_value": 0.7202797202797203,
+        "random_entry_gross_p": 0.6573426573426573,
+        "random_entry_ftmo_p": 0.6573426573426573,
+        "sign_flip_gross_p": 0.7202797202797203,
+        "sign_flip_ftmo_p": 0.7202797202797203
+      },
+      "exit_counts": {
+        "TIME_FLAT": 572,
+        "SL_GAP_OR_TOUCH": 13
+      },
+      "tier": "TIER_3_DEAD_NO_EDGE",
+      "source": "Krohn-Mueller-Whelan (2024 JoF) Post-Fix Inventory Reversal",
+      "fade_ftmo_R": -9.75,
+      "ftmo_base_R": -20.38,
+      "direction": {
+        "BUY": {
+          "n": 310,
+          "ftmo_R": -7.96,
+          "base_R": -5.16
+        },
+        "SELL": {
+          "n": 275,
+          "ftmo_R": -17.59,
+          "base_R": -15.22
+        }
+      },
+      "corr_usdjpy_core": {
+        "union_corr": -0.0153,
+        "overlap_corr": -0.0194,
+        "overlap_days": 496
+      },
+      "fdr_gross_q": 0.9167196439923714,
+      "fdr_ftmo_q": 0.9167196439923714
+    },
+    {
+      "strategy": "EURUSD_NR4_EXPANSION",
+      "asset": "EURUSD",
+      "native_Ask": true,
+      "n": 237,
+      "win_rate_ftmo": 0.4810126582278481,
+      "ftmo_net_R": -9.665236731889708,
+      "ftmo_annual_R": -1.3807481045556727,
+      "ftmo_top10_R": 14.765559125156718,
+      "ftmo_closed_dd_R": 11.826425329868414,
+      "ftmo_clusters_R": {
+        "A": -5.239304163760869,
+        "B": -4.4259325681288395
+      },
+      "ftmo_years_R": {
+        "2018": -1.1550237014123659,
+        "2019": -0.53158938471601,
+        "2020": -3.5526910776324927,
+        "2021": 3.6038569978530566,
+        "2022": 0.5794799831796327,
+        "2023": -1.6063801178040262,
+        "2024": -7.002889431357502
+      },
+      "ftmo_pos_years": 2,
+      "gross_usd_sum": -5950.016803393055,
+      "ftmo_exec_cost_usd_sum": 3318.0,
+      "ftmo_swap_usd_sum": 0.0,
+      "ftmo_net_usd_sum": -9268.016803393055,
+      "exness_normal_R": -7.524138601202264,
+      "exness_normal_clusters_R": {
+        "A": -4.242999285055292,
+        "B": -3.2811393161469726
+      },
+      "exness_swapfree_R": -7.524138601202264,
+      "exness_swapfree_clusters_R": {
+        "A": -4.242999285055292,
+        "B": -3.2811393161469726
+      },
+      "exness_swapfree_pos_years": 2,
+      "mc_null": {
+        "hold_hours_matched": 8,
+        "n_buy": 109,
+        "n_sell": 128,
+        "draws": 1000,
+        "seed": 20261123,
+        "obs_gross_usd": -5950.016803393055,
+        "null_gross_mean": -1126.9310000000116,
+        "null_gross_p95": 6058.099999999953,
+        "gross_p_value": 0.8591408591408591,
+        "obs_ftmo_net_usd": -9268.016803393055,
+        "null_net_mean": -4444.931000000011,
+        "null_net_p95": 2740.099999999953,
+        "ftmo_net_p_value": 0.8591408591408591,
+        "random_entry_gross_p": 0.8591408591408591,
+        "random_entry_ftmo_p": 0.8591408591408591,
+        "sign_flip_gross_p": 0.3826173826173826,
+        "sign_flip_ftmo_p": 0.3826173826173826
+      },
+      "exit_counts": {
+        "TIME_FLAT": 206,
+        "SL_GAP_OR_TOUCH": 31
+      },
+      "tier": "TIER_3_DEAD_NO_EDGE",
+      "source": "Toby Crabel (1990) / MQL5 CodeBase NR4 Breakout",
+      "fade_ftmo_R": -27.03,
+      "ftmo_base_R": -7.52,
+      "direction": {
+        "BUY": {
+          "n": 109,
+          "ftmo_R": -9.2,
+          "base_R": -8.29
+        },
+        "SELL": {
+          "n": 128,
+          "ftmo_R": -0.46,
+          "base_R": 0.77
+        }
+      },
+      "corr_usdjpy_core": {
+        "union_corr": 0.0472,
+        "overlap_corr": 0.1118,
+        "overlap_days": 200
+      },
+      "fdr_gross_q": 0.997002997002997,
+      "fdr_ftmo_q": 0.997002997002997
+    },
+    {
+      "strategy": "FX_WMR_PRE_FIX",
+      "asset": "GBPUSD",
+      "native_Ask": true,
+      "n": 1817,
+      "win_rate_ftmo": 0.4661529994496423,
+      "ftmo_net_R": -59.30448535444474,
+      "ftmo_annual_R": -8.472069336349248,
+      "ftmo_top10_R": 17.89994252970062,
+      "ftmo_closed_dd_R": 63.240201666944124,
+      "ftmo_clusters_R": {
+        "A": -37.05073691255257,
+        "B": -22.25374844189217
+      },
+      "ftmo_years_R": {
+        "2018": -9.624179684603634,
+        "2019": -16.936045794164936,
+        "2020": -10.490511433784,
+        "2021": -2.1150084705209267,
+        "2022": -3.7794451779604126,
+        "2023": -5.045435819715294,
+        "2024": -11.313858973695536
+      },
+      "ftmo_pos_years": 0,
+      "gross_usd_sum": -22894.755819987302,
+      "ftmo_exec_cost_usd_sum": 25438.0,
+      "ftmo_swap_usd_sum": 0.0,
+      "ftmo_net_usd_sum": -48332.7558199873,
+      "exness_normal_R": -47.7402368883957,
+      "exness_normal_clusters_R": {
+        "A": -32.53799540562603,
+        "B": -15.202241482769672
+      },
+      "exness_swapfree_R": -47.7402368883957,
+      "exness_swapfree_clusters_R": {
+        "A": -32.53799540562603,
+        "B": -15.202241482769672
+      },
+      "exness_swapfree_pos_years": 0,
+      "mc_null": {
+        "hold_hours_matched": 3,
+        "n_buy": 0,
+        "n_sell": 1817,
+        "draws": 1000,
+        "seed": 20261123,
+        "obs_gross_usd": -22894.755819987302,
+        "null_gross_mean": -24653.911000000124,
+        "null_gross_p95": -7354.300000000068,
+        "gross_p_value": 0.6583416583416584,
+        "obs_ftmo_net_usd": -48332.7558199873,
+        "null_net_mean": -50091.91100000012,
+        "null_net_p95": -32792.30000000007,
+        "ftmo_net_p_value": 0.6583416583416584,
+        "random_entry_gross_p": 0.43756243756243757,
+        "random_entry_ftmo_p": 0.43756243756243757,
+        "sign_flip_gross_p": 0.6583416583416584,
+        "sign_flip_ftmo_p": 0.6583416583416584
+      },
+      "exit_counts": {
+        "TIME_FLAT": 1728,
+        "SL_GAP_OR_TOUCH": 89
+      },
+      "tier": "TIER_3_DEAD_NO_EDGE",
+      "source": "Krohn-Mueller-Whelan (2024 JoF) Pre-16:00 London Fix SELL",
+      "fade_ftmo_R": -45.83,
+      "ftmo_base_R": -47.74,
+      "direction": {
+        "BUY": {
+          "n": 0,
+          "ftmo_R": 0.0,
+          "base_R": 0.0
+        },
+        "SELL": {
+          "n": 1817,
+          "ftmo_R": -59.3,
+          "base_R": -47.74
+        }
+      },
+      "corr_usdjpy_core": {
+        "union_corr": 0.0273,
+        "overlap_corr": 0.0285,
+        "overlap_days": 1541
+      },
+      "fdr_gross_q": 0.9167196439923714,
+      "fdr_ftmo_q": 0.9167196439923714
+    },
+    {
+      "strategy": "FX_WMR_POST_FIX",
+      "asset": "GBPUSD",
+      "native_Ask": true,
+      "n": 1817,
+      "win_rate_ftmo": 0.472757292239956,
+      "ftmo_net_R": -48.2192317262388,
+      "ftmo_annual_R": -6.888461675176972,
+      "ftmo_top10_R": 14.471380713022665,
+      "ftmo_closed_dd_R": 51.173820227361446,
+      "ftmo_clusters_R": {
+        "A": -28.74045544103238,
+        "B": -19.47877628520642
+      },
+      "ftmo_years_R": {
+        "2018": -14.1255325742417,
+        "2019": -8.076658154171714,
+        "2020": -6.538264712618968,
+        "2021": -2.684051405126361,
+        "2022": -10.884417505358657,
+        "2023": 1.4999350238531195,
+        "2024": -7.41024239857452
+      },
+      "ftmo_pos_years": 1,
+      "gross_usd_sum": -10067.2506871754,
+      "ftmo_exec_cost_usd_sum": 25438.0,
+      "ftmo_swap_usd_sum": 0.0,
+      "ftmo_net_usd_sum": -35505.2506871754,
+      "exness_normal_R": -36.58721829629672,
+      "exness_normal_clusters_R": {
+        "A": -24.170121160156302,
+        "B": -12.417097136140418
+      },
+      "exness_swapfree_R": -36.58721829629672,
+      "exness_swapfree_clusters_R": {
+        "A": -24.170121160156302,
+        "B": -12.417097136140418
+      },
+      "exness_swapfree_pos_years": 1,
+      "mc_null": {
+        "hold_hours_matched": 5,
+        "n_buy": 1817,
+        "n_sell": 0,
+        "draws": 1000,
+        "seed": 20261123,
+        "obs_gross_usd": -10067.2506871754,
+        "null_gross_mean": -23069.98699999991,
+        "null_gross_p95": -357.69999999920407,
+        "gross_p_value": 0.24475524475524477,
+        "obs_ftmo_net_usd": -35505.2506871754,
+        "null_net_mean": -48507.986999999914,
+        "null_net_p95": -25795.699999999208,
+        "ftmo_net_p_value": 0.24475524475524477,
+        "random_entry_gross_p": 0.16883116883116883,
+        "random_entry_ftmo_p": 0.16883116883116883,
+        "sign_flip_gross_p": 0.24475524475524477,
+        "sign_flip_ftmo_p": 0.24475524475524477
+      },
+      "exit_counts": {
+        "TIME_FLAT": 1781,
+        "SL_GAP_OR_TOUCH": 36
+      },
+      "tier": "TIER_3_DEAD_NO_EDGE",
+      "source": "Krohn-Mueller-Whelan (2024 JoF) Post-16:00 London Fix BUY",
+      "fade_ftmo_R": -64.69,
+      "ftmo_base_R": -36.59,
+      "direction": {
+        "BUY": {
+          "n": 1817,
+          "ftmo_R": -48.22,
+          "base_R": -36.59
+        },
+        "SELL": {
+          "n": 0,
+          "ftmo_R": 0.0,
+          "base_R": 0.0
+        }
+      },
+      "corr_usdjpy_core": {
+        "union_corr": 0.0144,
+        "overlap_corr": 0.0157,
+        "overlap_days": 1541
+      },
+      "fdr_gross_q": 0.6853146853146853,
+      "fdr_ftmo_q": 0.6853146853146853
+    },
+    {
+      "strategy": "FX_WMR_MORNING_FADE",
+      "asset": "GBPUSD",
+      "native_Ask": true,
+      "n": 588,
+      "win_rate_ftmo": 0.46258503401360546,
+      "ftmo_net_R": -23.222508951725725,
+      "ftmo_annual_R": -3.3175012788179608,
+      "ftmo_top10_R": 10.531704004888617,
+      "ftmo_closed_dd_R": 24.023574608391854,
+      "ftmo_clusters_R": {
+        "A": -13.559406507957025,
+        "B": -9.6631024437687
+      },
+      "ftmo_years_R": {
+        "2018": -7.622180871920169,
+        "2019": -6.854209416353987,
+        "2020": 0.91698378031713,
+        "2021": -7.340557852359995,
+        "2022": 3.787321244796841,
+        "2023": -4.642774503853445,
+        "2024": -1.4670913323521009
+      },
+      "ftmo_pos_years": 2,
+      "gross_usd_sum": -7770.56892714807,
+      "ftmo_exec_cost_usd_sum": 8232.0,
+      "ftmo_swap_usd_sum": 0.0,
+      "ftmo_net_usd_sum": -16002.56892714807,
+      "exness_normal_R": -19.480095345473515,
+      "exness_normal_clusters_R": {
+        "A": -12.011852914788804,
+        "B": -7.468242430684713
+      },
+      "exness_swapfree_R": -19.480095345473515,
+      "exness_swapfree_clusters_R": {
+        "A": -12.011852914788804,
+        "B": -7.468242430684713
+      },
+      "exness_swapfree_pos_years": 2,
+      "mc_null": {
+        "hold_hours_matched": 5,
+        "n_buy": 306,
+        "n_sell": 282,
+        "draws": 1000,
+        "seed": 20261123,
+        "obs_gross_usd": -7770.56892714807,
+        "null_gross_mean": -7224.740000000005,
+        "null_gross_p95": 5954.100000000015,
+        "gross_p_value": 0.5474525474525475,
+        "obs_ftmo_net_usd": -16002.56892714807,
+        "null_net_mean": -15456.740000000005,
+        "null_net_p95": -2277.8999999999846,
+        "ftmo_net_p_value": 0.5474525474525475,
+        "random_entry_gross_p": 0.5304695304695305,
+        "random_entry_ftmo_p": 0.5304695304695305,
+        "sign_flip_gross_p": 0.5474525474525475,
+        "sign_flip_ftmo_p": 0.5474525474525475
+      },
+      "exit_counts": {
+        "TIME_FLAT": 567,
+        "SL_GAP_OR_TOUCH": 21
+      },
+      "tier": "TIER_3_DEAD_NO_EDGE",
+      "source": "Krohn-Mueller-Whelan (2024 JoF) Post-Fix Inventory Reversal",
+      "fade_ftmo_R": -17.82,
+      "ftmo_base_R": -19.48,
+      "direction": {
+        "BUY": {
+          "n": 306,
+          "ftmo_R": -14.29,
+          "base_R": -12.36
+        },
+        "SELL": {
+          "n": 282,
+          "ftmo_R": -8.94,
+          "base_R": -7.12
+        }
+      },
+      "corr_usdjpy_core": {
+        "union_corr": -0.0217,
+        "overlap_corr": -0.0308,
+        "overlap_days": 508
+      },
+      "fdr_gross_q": 0.8515928515928516,
+      "fdr_ftmo_q": 0.8515928515928516
+    },
+    {
+      "strategy": "GBPUSD_NR4_EXPANSION",
+      "asset": "GBPUSD",
+      "native_Ask": true,
+      "n": 221,
+      "win_rate_ftmo": 0.4660633484162896,
+      "ftmo_net_R": -16.493809129392098,
+      "ftmo_annual_R": -2.356258447056014,
+      "ftmo_top10_R": 13.855764801131315,
+      "ftmo_closed_dd_R": 19.053410462673178,
+      "ftmo_clusters_R": {
+        "A": -6.678311941657525,
+        "B": -9.815497187734572
+      },
+      "ftmo_years_R": {
+        "2018": -5.036702907073396,
+        "2019": 0.03006758194975114,
+        "2020": -1.6716766165338806,
+        "2021": -1.8282164037712079,
+        "2022": -3.4825468175944794,
+        "2023": -3.1199294190584967,
+        "2024": -1.3848045473103885
+      },
+      "ftmo_pos_years": 1,
+      "gross_usd_sum": -11728.325044154975,
+      "ftmo_exec_cost_usd_sum": 3094.0,
+      "ftmo_swap_usd_sum": 0.0,
+      "ftmo_net_usd_sum": -14822.325044154975,
+      "exness_normal_R": -15.118635133705153,
+      "exness_normal_clusters_R": {
+        "A": -6.131456808776738,
+        "B": -8.987178324928415
+      },
+      "exness_swapfree_R": -15.118635133705153,
+      "exness_swapfree_clusters_R": {
+        "A": -6.131456808776738,
+        "B": -8.987178324928415
+      },
+      "exness_swapfree_pos_years": 1,
+      "mc_null": {
+        "hold_hours_matched": 8,
+        "n_buy": 104,
+        "n_sell": 117,
+        "draws": 1000,
+        "seed": 20261123,
+        "obs_gross_usd": -11728.325044154975,
+        "null_gross_mean": -2725.472000000003,
+        "null_gross_p95": 7525.899999999981,
+        "gross_p_value": 0.929070929070929,
+        "obs_ftmo_net_usd": -14822.325044154975,
+        "null_net_mean": -5819.472000000003,
+        "null_net_p95": 4431.899999999982,
+        "ftmo_net_p_value": 0.929070929070929,
+        "random_entry_gross_p": 0.929070929070929,
+        "random_entry_ftmo_p": 0.929070929070929,
+        "sign_flip_gross_p": 0.6753246753246753,
+        "sign_flip_ftmo_p": 0.6753246753246753
+      },
+      "exit_counts": {
+        "SL_GAP_OR_TOUCH": 31,
+        "TIME_FLAT": 190
+      },
+      "tier": "TIER_3_DEAD_NO_EDGE",
+      "source": "Toby Crabel (1990) / MQL5 CodeBase NR4 Breakout",
+      "fade_ftmo_R": -12.41,
+      "ftmo_base_R": -15.12,
+      "direction": {
+        "BUY": {
+          "n": 104,
+          "ftmo_R": -6.49,
+          "base_R": -5.84
+        },
+        "SELL": {
+          "n": 117,
+          "ftmo_R": -10.0,
+          "base_R": -9.28
+        }
+      },
+      "corr_usdjpy_core": {
+        "union_corr": 0.0132,
+        "overlap_corr": 0.0366,
+        "overlap_days": 191
+      },
+      "fdr_gross_q": 0.997002997002997,
+      "fdr_ftmo_q": 0.997002997002997
+    },
+    {
+      "strategy": "XAU_NR4_EXPANSION",
+      "asset": "XAUUSD",
+      "native_Ask": false,
+      "n": 244,
+      "win_rate_ftmo": 0.4139344262295082,
+      "ftmo_net_R": -19.176727472522284,
+      "ftmo_annual_R": -2.739532496074612,
+      "ftmo_top10_R": 19.39493095269998,
+      "ftmo_closed_dd_R": 23.224239647895757,
+      "ftmo_clusters_R": {
+        "A": -4.090755475846549,
+        "B": -15.085971996675733
+      },
+      "ftmo_years_R": {
+        "2018": -6.557689190810148,
+        "2019": -8.595335582343246,
+        "2020": 11.062269297306845,
+        "2021": -8.679620084335005,
+        "2022": 4.122756864741943,
+        "2023": -9.868269534114791,
+        "2024": -0.6608392429678799
+      },
+      "ftmo_pos_years": 2,
+      "gross_usd_sum": -961.0854631060647,
+      "ftmo_exec_cost_usd_sum": 12803.087799454097,
+      "ftmo_swap_usd_sum": 0.0,
+      "ftmo_net_usd_sum": -13764.173262560162,
+      "exness_normal_R": -13.01085742679745,
+      "exness_normal_clusters_R": {
+        "A": -0.5913432878135155,
+        "B": -12.419514138983935
+      },
+      "exness_swapfree_R": -13.01085742679745,
+      "exness_swapfree_clusters_R": {
+        "A": -0.5913432878135155,
+        "B": -12.419514138983935
+      },
+      "exness_swapfree_pos_years": 3,
+      "mc_null": {
+        "hold_hours_matched": 8,
+        "n_buy": 123,
+        "n_sell": 121,
+        "draws": 1000,
+        "seed": 20261123,
+        "obs_gross_usd": -961.0854631060647,
+        "null_gross_mean": -11879.582999999997,
+        "null_gross_p95": 12658.99999999992,
+        "gross_p_value": 0.23576423576423577,
+        "obs_ftmo_net_usd": -13764.173262560162,
+        "null_net_mean": -24682.956923564994,
+        "null_net_p95": -144.46219990008228,
+        "ftmo_net_p_value": 0.23576423576423577,
+        "random_entry_gross_p": 0.23576423576423577,
+        "random_entry_ftmo_p": 0.23576423576423577,
+        "sign_flip_gross_p": 0.11988011988011989,
+        "sign_flip_ftmo_p": 0.11988011988011989
+      },
+      "exit_counts": {
+        "TIME_FLAT": 206,
+        "SL_GAP_OR_TOUCH": 38
+      },
+      "tier": "TIER_3_DEAD_NO_EDGE",
+      "source": "Toby Crabel (1990) / MQL5 CodeBase NR4 Breakout",
+      "fade_ftmo_R": -28.45,
+      "ftmo_base_R": -16.37,
+      "direction": {
+        "BUY": {
+          "n": 123,
+          "ftmo_R": -10.65,
+          "base_R": -9.27
+        },
+        "SELL": {
+          "n": 121,
+          "ftmo_R": -8.53,
+          "base_R": -7.1
+        }
+      },
+      "corr_usdjpy_core": {
+        "union_corr": 0.129,
+        "overlap_corr": 0.2993,
+        "overlap_days": 212
+      },
+      "fdr_gross_q": 0.6853146853146853,
+      "fdr_ftmo_q": 0.6853146853146853
+    },
+    {
+      "strategy": "XAU_LBMA_PM_DRIFT",
+      "asset": "XAUUSD",
+      "native_Ask": false,
+      "n": 269,
+      "win_rate_ftmo": 0.46096654275092935,
+      "ftmo_net_R": -3.502516545133151,
+      "ftmo_annual_R": -0.500359506447593,
+      "ftmo_top10_R": 20.867646042418663,
+      "ftmo_closed_dd_R": 13.414657746040566,
+      "ftmo_clusters_R": {
+        "A": -2.1094901038778375,
+        "B": -1.3930264412553137
+      },
+      "ftmo_years_R": {
+        "2018": -5.523277243027228,
+        "2019": -3.6722464551141356,
+        "2020": 7.086033594263527,
+        "2021": -2.7543519697661374,
+        "2022": -0.948914952249601,
+        "2023": -0.8201357301400328,
+        "2024": 3.1303762109004576
+      },
+      "ftmo_pos_years": 2,
+      "gross_usd_sum": 19710.831389809595,
+      "ftmo_exec_cost_usd_sum": 14101.934126226884,
+      "ftmo_swap_usd_sum": 0.0,
+      "ftmo_net_usd_sum": 5608.897263582713,
+      "exness_normal_R": 3.681412462754026,
+      "exness_normal_clusters_R": {
+        "A": 2.2031944957175518,
+        "B": 1.4782179670364741
+      },
+      "exness_swapfree_R": 3.681412462754026,
+      "exness_swapfree_clusters_R": {
+        "A": 2.2031944957175518,
+        "B": 1.4782179670364741
+      },
+      "exness_swapfree_pos_years": 3,
+      "mc_null": {
+        "hold_hours_matched": 9,
+        "n_buy": 130,
+        "n_sell": 139,
+        "draws": 1000,
+        "seed": 20261123,
+        "obs_gross_usd": 19710.831389809595,
+        "null_gross_mean": -13770.541000000008,
+        "null_gross_p95": 14035.699999999999,
+        "gross_p_value": 0.15484515484515485,
+        "obs_ftmo_net_usd": 5608.897263582713,
+        "null_net_mean": -27885.895851623005,
+        "null_net_p95": -90.44297869999434,
+        "ftmo_net_p_value": 0.15484515484515485,
+        "random_entry_gross_p": 0.025974025974025976,
+        "random_entry_ftmo_p": 0.025974025974025976,
+        "sign_flip_gross_p": 0.15484515484515485,
+        "sign_flip_ftmo_p": 0.15484515484515485
+      },
+      "exit_counts": {
+        "TIME_FLAT": 231,
+        "SL_GAP_OR_TOUCH": 38
+      },
+      "tier": "TIER_3_DEAD_NO_EDGE",
+      "source": "Caminschi-Heaney (2014 JFM) London/COMEX PM Drift",
+      "fade_ftmo_R": -21.43,
+      "ftmo_base_R": -0.01,
+      "direction": {
+        "BUY": {
+          "n": 130,
+          "ftmo_R": -7.3,
+          "base_R": -5.64
+        },
+        "SELL": {
+          "n": 139,
+          "ftmo_R": 3.79,
+          "base_R": 5.63
+        }
+      },
+      "corr_usdjpy_core": {
+        "union_corr": 0.0621,
+        "overlap_corr": 0.1532,
+        "overlap_days": 239
+      },
+      "fdr_gross_q": 0.6853146853146853,
+      "fdr_ftmo_q": 0.6853146853146853
+    }
+  ],
+  "quant_test_suite": {
+    "tests": 1524,
+    "passed": true,
+    "skipped": 0,
+    "errors": 0,
+    "failures": 0,
+    "seconds": 19.43
+  },
+  "private_manifest": "pass18-opensource-non-usdjpy-20261123/manifest.json",
+  "private_manifest_sha256": "2afcad69605c68affcc62eb42d3d247a0d2b9efb8ff6fd3f5f4f1c0fb21dac3b",
+  "verdict": "ALL_14_OPENSOURCE_INTRADAY_NON_USDJPY_REJECTED_BY_CFD_SPREAD_OR_NO_EDGE"
+}

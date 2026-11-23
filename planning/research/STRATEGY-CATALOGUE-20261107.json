@@ -4787,6 +4787,14 @@
     "version": 1,
     "broker_observations": [
       {
+        "id": "pass18-opensource-non-usdjpy-20261123",
+        "scope": "Pass 18 Development 2018-2024 zero-network screen of 14 peer-reviewed & open-source intraday (swap=0) strategies on non-USDJPY assets (US500 JFE/Quantpedia, EURUSD/GBPUSD JoF 2024 WMR Fix & Crabel NR4, XAUUSD NR4 & JFM LBMA PM Drift): 0/14 Tier 1, 0/14 Tier 2, 14/14 TIER_3_DEAD_NO_EDGE (thin academic edges eaten by retail CFD spread/comm or decayed post-publication).",
+        "report": "PASS18-OPENSOURCE-NON-USDJPY-ENGINE3-20261123.md",
+        "summary": "PASS18-OPENSOURCE-NON-USDJPY-ENGINE3-20261123.json",
+        "private_manifest": "pass18-opensource-non-usdjpy-20261123/manifest.json",
+        "private_manifest_sha256": "2afcad69605c68affcc62eb42d3d247a0d2b9efb8ff6fd3f5f4f1c0fb21dac3b"
+      },
+      {
         "id": "pass17-usdjpy-forensic-cross-asset-20261123",
         "scope": "Pass 17 Development 2018-2024 zero-network M1 floating equity forensic audit of EXP_DAILY_OPEN_080 USDJPY (survives all 3 cost tiers through +1.00 pip stress, 12/12 2D surface cells positive in both Cluster A & B, cuts Engine #1 portfolio DD from 9.08% to 5.45% and underwater from 41.2m to 20.6m, doubles Calmar 0.32->0.64; directional asymmetry BUY +37.28R vs SELL -2.53R; pace 3.5-3.7%/yr still needs non-JPY Engine #3) & cross-asset GBPUSD/US500 check.",
         "report": "PASS17-USDJPY-EXPANSION-FORENSIC-AND-CROSS-ASSET-20261123.md",
