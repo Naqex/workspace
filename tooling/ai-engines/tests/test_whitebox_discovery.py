@@ -1,7 +1,10 @@
 """Unit tests for White-Box Prop-First Discovery Engine & FTMO-safe .mq5 exporter/intake auditor."""
 
+from pathlib import Path
+import tempfile
 import unittest
 
+import inbox_intake_scanner as intake
 import mq5_whitebox_exporter as mq5
 import whitebox_discovery as wb
 
@@ -54,6 +57,21 @@ class TestWhiteBoxDiscoveryAndExporter(unittest.TestCase):
         self.assertAlmostEqual(mA["pf"], 2.0)
         self.assertEqual(mB["n"], 1)
         self.assertAlmostEqual(mB["net_R"], -5.0)
+
+    def test_inbox_scanner_quarantines_binaries_and_flags_utf16_martingale_set(self):
+        """Verify read-only inbox scanner quarantines .ex5/.rar and detects Martingale/Rollover in UTF-16 .set."""
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "bot.ex5").write_bytes(b"FAKE_EX5")
+            (root / "crack.rar").write_bytes(b"Rar!")
+            (root / "mart.set").write_bytes("MartingaleMultiplier=1.8\r\nST_Period=10\r\n".encode("utf-16"))
+            (root / "clean.mq5").write_text("input double InpSlAtr = 0.75;\nvoid OnTick(){}\n", encoding="utf-8")
+            rep = intake.scan_inbox(root, run_defender=False)
+            self.assertEqual(rep["summary"]["quarantined_binaries_no_exec"], 2)
+            self.assertEqual(rep["summary"]["set_flagged_anti_prop"], 1)
+            self.assertEqual(rep["summary"]["open_source_clean"], 1)
+            self.assertIn("MARTINGALE_SET", rep["set_and_text"][0]["red_flags"])
+            self.assertIn("SuperTrend", rep["set_and_text"][0]["public_indicator_hints"])
 
 
 if __name__ == "__main__":

@@ -27,7 +27,7 @@ def audit_open_source_mq5(source_text: str, *, filename: str = "unknown.mq5") ->
         for m in INPUT_RE.finditer(code_only)
     ]
     flags = [name for name, rx in RED_FLAG_PATTERNS.items() if rx.search(code_only)]
-    has_sl = bool(re.search(r"\b(sl|stoploss|stop_loss)\b", code_only, re.I))
+    has_sl = bool(re.search(r"(stoploss|stop_loss|\bsl\b|sl_?atr|inpsl)", code_only, re.I))
     if not has_sl:
         flags.append("NO_EXPLICIT_SL_TOKEN")
     verdict = "REJECT_PROP_RED_FLAGS" if flags else "CLEAN_FOR_PYTHON_REPLICATION"
