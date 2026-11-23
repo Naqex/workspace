@@ -4787,6 +4787,14 @@
     "version": 1,
     "broker_observations": [
       {
+        "id": "pass19-us500-supertrend-yencross-20261123",
+        "scope": "Pass 19 Development 2018-2024 zero-network 3-track screen: (1) US500 overnight/short-swing (0/6 FTMO due to -$1.38/night swap headwind, though IBS +9.40R & Overnight +8.02R on Exness Swap-Free); (2) Clean-room SuperTrend(10,3) retracement + step-trailing rejected 0/5 (-41R..-77R); (3) Calibrated Stage-0 H4/D1 scout identifies GBPJPY (+9.28R, 5/7 yr, rJPY=0.23) for EXP080 M1 check and USDCAD (+8.07R, 6/7 yr, DD 3.4R, rJPY=-0.003) + 6-pair Positive-Swap Donchian-20 basket (+28.7R, +$10,435 positive FTMO swap) for Pass 20 deep verification.",
+        "report": "PASS19-US500-OVERNIGHT-SUPERTREND-YENCROSS-20261123.md",
+        "summary": "PASS19-US500-OVERNIGHT-SUPERTREND-YENCROSS-20261123.json",
+        "private_manifest": "pass19-us500-supertrend-yencross-20261123-cal/manifest.json",
+        "private_manifest_sha256": "a6ea0937ee4f50dc80a58a095bcdb4626ddcdad0fcd1665f034d1a01f83bcabc"
+      },
+      {
         "id": "pass18-opensource-non-usdjpy-20261123",
         "scope": "Pass 18 Development 2018-2024 zero-network screen of 14 peer-reviewed & open-source intraday (swap=0) strategies on non-USDJPY assets (US500 JFE/Quantpedia, EURUSD/GBPUSD JoF 2024 WMR Fix & Crabel NR4, XAUUSD NR4 & JFM LBMA PM Drift): 0/14 Tier 1, 0/14 Tier 2, 14/14 TIER_3_DEAD_NO_EDGE (thin academic edges eaten by retail CFD spread/comm or decayed post-publication).",
         "report": "PASS18-OPENSOURCE-NON-USDJPY-ENGINE3-20261123.md",

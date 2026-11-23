@@ -9,6 +9,11 @@ Từ workspace root, chạy `python -X utf8 tooling/ai-engines/research_inventor
 để xem mức gắn nhãn. Thêm `--all` để lấy từng đường dẫn và lý do còn thiếu
 thông tin.
 
+**Pass 19 · `US500` Overnight M1 (FTMO Swap) · Clean-Room `SuperTrend(10,3)` · Stage-0 Cặp Chéo Yên & Positive-Carry.**
+Chạy 3 nhánh zero-network (`holdout_rows = 0`, `OrderSend = 0`, `network_calls = 0`, `1528/1528` tests PASS): (1) `US500` Overnight/Short-Swing (`m = 6`, đúng FTMO Swing `swapL = -138,03`, `3×` T6): `0/6` qua FTMO vì Swap ăn `-596` đến `-2.003 USD` (`US500_IBS_OVERNIGHT_LONG` FTMO `-6,42R`, nhưng trên Exness Swap-Free đảo sang `+9,40R`; `OVERNIGHT_DRIFT` `+8,02R`); (2) Clean-Room `SuperTrend(10, 3.0)` Retracement + Step-Trailing (`swap = 0`, `m = 5`): rớt cả `5/5` tài sản (`-41,1R` đến `-76,7R`); (3) Stage-0 H4/D1 Scout (`swing-10k-20261120/development/`, hiệu chuẩn đúng trên `CONTROL_USDJPY` `+24,85R`): **`GBPJPY`** là cặp duy nhất qua `EXP080_H4` (`+9,28R`, `5/7` năm, `rJPY = 0,23`); ở nhánh **Positive-Swap Carry-Trend (`DON20_POS`)**, **`USDCAD`** đạt `+8,07R` (`6/7` năm dương, A `+3,4` / B `+4,7`, DD `3,4R`, `+590 USD` Swap dương, `rJPY = -0,003`), và cả rổ 6 cặp thu `+10.435 USD` Swap dương / `+28,7R` (`177` lệnh) — cần kiểm chứng M1/H1 & floating equity ở Pass 20.
+[Báo cáo](PASS19-US500-OVERNIGHT-SUPERTREND-YENCROSS-20261123.md) ·
+[Protocol](PASS19-US500-OVERNIGHT-SUPERTREND-YENCROSS-PROTOCOL-20261123.md).
+
 **Pass 18 · Sàng lọc 14 chiến lược mã nguồn mở & học thuật ngoài `USDJPY` (`swap = 0`).**
 Kiểm định 14 giả thuyết chính thống từ *JFE*, *Journal of Finance*, *JFM*, Quantpedia và MQL5 CodeBase NR4 trên 4 tài sản ngoài đồng Yên (`US500`, `EURUSD`, `GBPUSD`, `XAUUSD`, `holdout_rows = 0`, `network_calls = 0`, `OrderSend = 0`, `1.524/1.524` tests PASS, BH FDR `m = 14`). Kết quả: **`0/14` Tier 1, `0/14` Tier 2, `14/14` `TIER_3_DEAD_NO_EDGE`** (`ALL_14_OPENSOURCE_INTRADAY_NON_USDJPY_REJECTED_BY_CFD_SPREAD_OR_NO_EDGE`). Hiệu ứng tần suất cao học thuật (`FX_WMR_POST_FIX` +17R so với Fade nhưng biên lãi quá mỏng bị spread/comm FTMO kéo xuống `-48R..-50R`; `US500_GHLZ_LAST30` suy giảm `-55,2R`; `US500_GAP_FADE_NY` `-76,6R`; `IBS` trong ngày `-49,7R`; `NR4` âm cả 3 mã; `XAU_LBMA_PM_DRIFT` hòa vốn Base `-0,01R` nhưng Stress `-3,50R`). Giữ lõi 2 động cơ `USDJPY` Pass 17.
 [Báo cáo](PASS18-OPENSOURCE-NON-USDJPY-ENGINE3-20261123.md) ·
