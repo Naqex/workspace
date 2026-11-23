@@ -1,0 +1,644 @@
+{
+  "schema": "naqex-mt5-deployment-kit-manifest-v1",
+  "generated_utc": "2026-11-23T16:42:18+00:00",
+  "order_send_count": 0,
+  "profile_count": 10,
+  "profiles": {
+    "FTMO_FreeTrial_DryRun": {
+      "firm": "FTMO",
+      "capital_usd": 10000.0,
+      "ea_risk_scale": 1.0,
+      "base_phase_mult": 1.0,
+      "effective_mult": 1.0,
+      "dry_run_preset": true,
+      "arm_locked": true,
+      "enable_red_news": true,
+      "max_symbol_risk_pct": 1.0,
+      "active_engine_count": 8,
+      "calibration_tag": "M2_2_SEED20261124_SYNCED"
+    },
+    "FTMO_FreeTrial_Demo": {
+      "firm": "FTMO",
+      "capital_usd": 10000.0,
+      "ea_risk_scale": 1.0,
+      "base_phase_mult": 1.0,
+      "effective_mult": 1.0,
+      "dry_run_preset": false,
+      "arm_locked": false,
+      "enable_red_news": true,
+      "max_symbol_risk_pct": 1.0,
+      "active_engine_count": 8,
+      "calibration_tag": "M2_2_SEED20261124_SYNCED"
+    },
+    "FTMO_P1_Balanced_3to6m": {
+      "firm": "FTMO",
+      "capital_usd": 10000.0,
+      "ea_risk_scale": 1.5,
+      "base_phase_mult": 2.67,
+      "effective_mult": 4.0,
+      "dry_run_preset": true,
+      "arm_locked": true,
+      "enable_red_news": true,
+      "max_symbol_risk_pct": 3.0,
+      "active_engine_count": 8,
+      "calibration_tag": "M2_2_SEED20261124_SYNCED"
+    },
+    "FTMO_P1_Sprint_1to3m": {
+      "firm": "FTMO",
+      "capital_usd": 10000.0,
+      "ea_risk_scale": 1.5,
+      "base_phase_mult": 3.17,
+      "effective_mult": 4.75,
+      "dry_run_preset": true,
+      "arm_locked": true,
+      "enable_red_news": true,
+      "max_symbol_risk_pct": 3.5,
+      "active_engine_count": 8,
+      "calibration_tag": "M2_2_SEED20261124_SYNCED"
+    },
+    "FTMO_P2_Verify": {
+      "firm": "FTMO",
+      "capital_usd": 10000.0,
+      "ea_risk_scale": 1.0,
+      "base_phase_mult": 2.5,
+      "effective_mult": 2.5,
+      "dry_run_preset": true,
+      "arm_locked": true,
+      "enable_red_news": true,
+      "max_symbol_risk_pct": 2.5,
+      "active_engine_count": 7,
+      "calibration_tag": "M2_2_SEED20261124_SYNCED"
+    },
+    "FTMO_Funded_Swing_Safe": {
+      "firm": "FTMO",
+      "capital_usd": 10000.0,
+      "ea_risk_scale": 1.0,
+      "base_phase_mult": 1.0,
+      "effective_mult": 1.0,
+      "dry_run_preset": true,
+      "arm_locked": true,
+      "enable_red_news": false,
+      "max_symbol_risk_pct": 1.0,
+      "active_engine_count": 7,
+      "calibration_tag": "M2_2_SEED20261124_SYNCED"
+    },
+    "FTMO_Funded_Std_RedNews": {
+      "firm": "FTMO",
+      "capital_usd": 10000.0,
+      "ea_risk_scale": 1.0,
+      "base_phase_mult": 1.0,
+      "effective_mult": 1.0,
+      "dry_run_preset": true,
+      "arm_locked": true,
+      "enable_red_news": true,
+      "max_symbol_risk_pct": 1.0,
+      "active_engine_count": 7,
+      "calibration_tag": "M2_2_SEED20261124_SYNCED"
+    },
+    "The5ers_HighStakes_P1_Balanced": {
+      "firm": "The5ers",
+      "capital_usd": 5000.0,
+      "ea_risk_scale": 1.5,
+      "base_phase_mult": 2.67,
+      "effective_mult": 4.0,
+      "dry_run_preset": true,
+      "arm_locked": true,
+      "enable_red_news": true,
+      "max_symbol_risk_pct": 3.0,
+      "active_engine_count": 8,
+      "calibration_tag": "M2_2_SEED20261124_SYNCED"
+    },
+    "The5ers_HighStakes_P1_Sprint": {
+      "firm": "The5ers",
+      "capital_usd": 5000.0,
+      "ea_risk_scale": 1.5,
+      "base_phase_mult": 3.17,
+      "effective_mult": 4.75,
+      "dry_run_preset": true,
+      "arm_locked": true,
+      "enable_red_news": true,
+      "max_symbol_risk_pct": 3.5,
+      "active_engine_count": 8,
+      "calibration_tag": "M2_2_SEED20261124_SYNCED"
+    },
+    "The5ers_HighStakes_Funded": {
+      "firm": "The5ers",
+      "capital_usd": 5000.0,
+      "ea_risk_scale": 1.0,
+      "base_phase_mult": 1.0,
+      "effective_mult": 1.0,
+      "dry_run_preset": true,
+      "arm_locked": true,
+      "enable_red_news": true,
+      "max_symbol_risk_pct": 1.0,
+      "active_engine_count": 7,
+      "calibration_tag": "M2_2_SEED20261124_SYNCED"
+    }
+  },
+  "tracked_files_count": 114,
+  "tracked_files": {
+    "tooling/ai-engines/exports/Naqex_AccountOrchestrator.mq5": {
+      "sha256": "b1d8c9502ce89495d25749642854e4d077ff57b83adb2dac27f574c6919354ac",
+      "bytes": 6369
+    },
+    "tooling/ai-engines/exports/Naqex_WB_EXP080_USDJPY.mq5": {
+      "sha256": "4ba2f0e17203e1a97f0b1ceff70b5375e64fe321e028d54064e28aca31b939c8",
+      "bytes": 4752
+    },
+    "tooling/ai-engines/exports/Naqex_WB_EXP080_VOLHIGH_GBPUSD.mq5": {
+      "sha256": "a117bde8a408ccc11f1a652f0d4cd704aec1b9d256f57ef9b6941417f1424df8",
+      "bytes": 5050
+    },
+    "tooling/ai-engines/exports/Naqex_WB_FX_USD_BASKET_12U_Z35.mq5": {
+      "sha256": "46b87166ba6a74cc619414541fedd0f103b982537e37f67f2be7515f3266a370",
+      "bytes": 6687
+    },
+    "tooling/ai-engines/exports/Naqex_WB_IDX_RS_US100_LEAD_1130.mq5": {
+      "sha256": "b24e5707ec7b3a65e40154535cb787d655876366aa9ddbda66f1869b14946e2b",
+      "bytes": 6507
+    },
+    "tooling/ai-engines/exports/Naqex_WB_NY_RISK_FLOW_10ET_USDJPY.mq5": {
+      "sha256": "6efb457f3dc3d68589ffdef6f28fdf37058c49071666bdbb2afc9c5ec2a253d8",
+      "bytes": 7187
+    },
+    "tooling/ai-engines/exports/Naqex_WB_SESS_CONT_BRK40_US100.mq5": {
+      "sha256": "677160ab1a96d09bce31aa3b6fd5ef2d1001bef7ce0f337b6b715fa25e4026f4",
+      "bytes": 6264
+    },
+    "tooling/ai-engines/exports/Naqex_WB_TOKYO_BOX_USDJPY.mq5": {
+      "sha256": "cf6ac4e606d5346b6fb4cca44c37eff82f938bf387d9e3f41bbe6753de158603",
+      "bytes": 6209
+    },
+    "tooling/ai-engines/exports/Naqex_WB_VOLCOMP_EXP75_EURJPY.mq5": {
+      "sha256": "a82e0f0bc65a4e9739602036c254f248494045db115ad9c295440d0615102ba2",
+      "bytes": 5246
+    },
+    "tooling/ai-engines/exports/Include/Naqex_PropGuard.mqh": {
+      "sha256": "2e4528ea942c0baed693a0e9e0032706edc070af0336410fef56e09dc98504e2",
+      "bytes": 18746
+    },
+    "tooling/ai-engines/exports/mql5_parity_checker.py": {
+      "sha256": "baf39c8122d34ec29c7912a758134a25bd9df211ba4e624ab70d531468cdc88a",
+      "bytes": 31746
+    },
+    "tooling/ai-engines/exports/verify_deployment_kit.py": {
+      "sha256": "8ae8314d58b61ae8a490d864d15c87e001dd978a3ae9a8e50ed11126c8290cec",
+      "bytes": 34268
+    },
+    "tooling/ai-engines/exports/deployment_kit/ACTIVATION-CARD-LOCAL-MT5.md": {
+      "sha256": "551ad13e786c9e12b8ed1b227c8aef072c723da4297afbda59d7b15c58fc92ae",
+      "bytes": 9776
+    },
+    "tooling/ai-engines/exports/deployment_kit/ops_watchdog/naqex_mt5_watchdog.ps1": {
+      "sha256": "28d35cca517002e22c6707227c12dbbbe5ae41208bab66578ae6e275e7436335",
+      "bytes": 9461
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_FreeTrial_Demo/Naqex_AccountOrchestrator.set": {
+      "sha256": "6e7404a8b29c02e3588b540af32bc1393d3fcd1960d3e371ebca01f01364102e",
+      "bytes": 1013
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_FreeTrial_Demo/Naqex_WB_EXP080_USDJPY.set": {
+      "sha256": "9d8425732ad8e27a8d3f05ba0f0e40477e76738d378970c7c909f3da812d1aad",
+      "bytes": 927
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_FreeTrial_Demo/Naqex_WB_EXP080_VOLHIGH_GBPUSD.set": {
+      "sha256": "82f93d329271b88f41b3175d1c91e16e799f081189f1fcca8b4ed97378d3159d",
+      "bytes": 948
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_FreeTrial_Demo/Naqex_WB_FX_USD_BASKET_12U_Z35.set": {
+      "sha256": "09be0caedc66f4f9e238121ee7abc3996953ebd255ef12221cfa203bc5367d57",
+      "bytes": 920
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_FreeTrial_Demo/Naqex_WB_IDX_RS_US100_LEAD_1130.set": {
+      "sha256": "084fc3631f2160585271e2cb2c3872df6510193d7c4e11652a4b8702f1884f8c",
+      "bytes": 883
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_FreeTrial_Demo/Naqex_WB_NY_RISK_FLOW_10ET_USDJPY.set": {
+      "sha256": "43183e4c13c97ad693cb66e16fa38c5af0039b76d73ac225c8d48d4fc47a169a",
+      "bytes": 936
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_FreeTrial_Demo/Naqex_WB_SESS_CONT_BRK40_US100.set": {
+      "sha256": "747c7eb093cb3b2b941f7028ccf2e88444481e37e5b2adf14ea7c674bd0f6a91",
+      "bytes": 880
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_FreeTrial_Demo/Naqex_WB_TOKYO_BOX_USDJPY.set": {
+      "sha256": "d81a5c18f269c6c6b2f876ff5295d75da626eaa308ade0ba608310deb8c58bcc",
+      "bytes": 874
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_FreeTrial_Demo/Naqex_WB_VOLCOMP_EXP75_EURJPY.set": {
+      "sha256": "38cd568b7c8c62153af9cbc5f37d5fc9dd9670bb47dfa920671671738cd5b0d4",
+      "bytes": 953
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_FreeTrial_DryRun/Naqex_AccountOrchestrator.set": {
+      "sha256": "506ef2a2d20a72e1cb097ac1d1edcaac33520b6ca4408811f317688282bb3dc7",
+      "bytes": 1031
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_FreeTrial_DryRun/Naqex_WB_EXP080_USDJPY.set": {
+      "sha256": "74e69dccf183fb5c1a012fc2dcb9482a8f9b11a164c9b7855d6476a96849e244",
+      "bytes": 943
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_FreeTrial_DryRun/Naqex_WB_EXP080_VOLHIGH_GBPUSD.set": {
+      "sha256": "289698d92d1a85582b3abdf0217d0b6f784b51fe12acfe452e7357434077c2a4",
+      "bytes": 964
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_FreeTrial_DryRun/Naqex_WB_FX_USD_BASKET_12U_Z35.set": {
+      "sha256": "82035dd7e78af07453f7a4b07379bf1f5ea105c66e2a418966e1f4a026af0d26",
+      "bytes": 936
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_FreeTrial_DryRun/Naqex_WB_IDX_RS_US100_LEAD_1130.set": {
+      "sha256": "05e6f1ddc1e9a232dd51b5c373e459e6409cc218d8fa927a73e0bc4c2fe80d45",
+      "bytes": 899
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_FreeTrial_DryRun/Naqex_WB_NY_RISK_FLOW_10ET_USDJPY.set": {
+      "sha256": "55eb7a75226927855a2dfe521986b98e04bf095b201a7bfcfe626de18c961dea",
+      "bytes": 952
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_FreeTrial_DryRun/Naqex_WB_SESS_CONT_BRK40_US100.set": {
+      "sha256": "4307492ec1406dcbab579b20f114c86569d0c46d1c865a5f6a5ed4820925ebd4",
+      "bytes": 896
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_FreeTrial_DryRun/Naqex_WB_TOKYO_BOX_USDJPY.set": {
+      "sha256": "ddbd461295257cc0f58e3aa04b626ac957312b81171a785374ac3be7e3727fc2",
+      "bytes": 890
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_FreeTrial_DryRun/Naqex_WB_VOLCOMP_EXP75_EURJPY.set": {
+      "sha256": "7e658d0f3450dba61924cb66d4b03f206e82e9ba36751381b2efb386d17a95e2",
+      "bytes": 969
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_Funded_Std_RedNews/Naqex_AccountOrchestrator.set": {
+      "sha256": "98553802e1ae27f65955cbaa86117f238caacdeee140f07dc7b5afa59c84dd44",
+      "bytes": 1032
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_Funded_Std_RedNews/Naqex_WB_EXP080_USDJPY.set": {
+      "sha256": "ded1e454c84f58747474c2b62bc5a1bfabb40130b107738e3f819e373096a00e",
+      "bytes": 945
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_Funded_Std_RedNews/Naqex_WB_EXP080_VOLHIGH_GBPUSD.set": {
+      "sha256": "f4e676028809b6d215330dba7d761bad6974f698501ce7385b33442cab59c1ce",
+      "bytes": 966
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_Funded_Std_RedNews/Naqex_WB_FX_USD_BASKET_12U_Z35.set": {
+      "sha256": "1e33f077470809f544b966b62a180a305e1f498b17c2d56e07103c5302ad3920",
+      "bytes": 969
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_Funded_Std_RedNews/Naqex_WB_IDX_RS_US100_LEAD_1130.set": {
+      "sha256": "3bfce55fa7f1e181b485d55e818cf4f1c1612ffb3971158afcf18e95f1343371",
+      "bytes": 901
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_Funded_Std_RedNews/Naqex_WB_NY_RISK_FLOW_10ET_USDJPY.set": {
+      "sha256": "ea9758245dce43ba4e0dfcc090e4b344a145d945153b1cef5d067017d6094aac",
+      "bytes": 954
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_Funded_Std_RedNews/Naqex_WB_SESS_CONT_BRK40_US100.set": {
+      "sha256": "01abd0591e3704925ef15ccca977ac1aef612a2b33f5d012e8c5929c68588407",
+      "bytes": 898
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_Funded_Std_RedNews/Naqex_WB_TOKYO_BOX_USDJPY.set": {
+      "sha256": "120c2419c0c0350475c0a5d027d6e2485469f66c299e365c2f3170606f57351f",
+      "bytes": 892
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_Funded_Std_RedNews/Naqex_WB_VOLCOMP_EXP75_EURJPY.set": {
+      "sha256": "2db69deb46b6b20d80953931a9dd02794bfc8a9810474703df4bf01fa2a9fc83",
+      "bytes": 971
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_Funded_Swing_Safe/Naqex_AccountOrchestrator.set": {
+      "sha256": "4ac29bd2ee24c16b23e22447312afe5872b18ce7a493865c728ae407ea4ebec8",
+      "bytes": 1029
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_Funded_Swing_Safe/Naqex_WB_EXP080_USDJPY.set": {
+      "sha256": "dd95aed07b4800a656b0eee5ace8c71c85d4e36510764940f0d0674fdc79be0b",
+      "bytes": 945
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_Funded_Swing_Safe/Naqex_WB_EXP080_VOLHIGH_GBPUSD.set": {
+      "sha256": "70f5b99366aba72ad8b60298f35f119bfb041c869b75631b391250f4c27f45d3",
+      "bytes": 966
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_Funded_Swing_Safe/Naqex_WB_FX_USD_BASKET_12U_Z35.set": {
+      "sha256": "6a761f3e0c6ac79053cf2c9b2d464212a267a67067da5616444fb1cc47722ac8",
+      "bytes": 969
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_Funded_Swing_Safe/Naqex_WB_IDX_RS_US100_LEAD_1130.set": {
+      "sha256": "353f61815f1561230395d782a133d490ea7f5f74968c7ca98d5d08b246b2b942",
+      "bytes": 901
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_Funded_Swing_Safe/Naqex_WB_NY_RISK_FLOW_10ET_USDJPY.set": {
+      "sha256": "ef820f34811913b22d614a4f7741bccf98d03b53dc48f179a9a141cafc290fe4",
+      "bytes": 954
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_Funded_Swing_Safe/Naqex_WB_SESS_CONT_BRK40_US100.set": {
+      "sha256": "ab495ff58dadb454357990f11c156f0333dce9b2f645b6f26fe9f36e32afdb9f",
+      "bytes": 898
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_Funded_Swing_Safe/Naqex_WB_TOKYO_BOX_USDJPY.set": {
+      "sha256": "b605b274998a0f4eb2a7ae544f87994e671cd1efdcb8b5e6c9b259effffc59f1",
+      "bytes": 892
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_Funded_Swing_Safe/Naqex_WB_VOLCOMP_EXP75_EURJPY.set": {
+      "sha256": "65bb7cd1d1a799bbc39ac32fc14959821581638591a0242e11d66619199fe7e5",
+      "bytes": 971
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_P1_Balanced_3to6m/Naqex_AccountOrchestrator.set": {
+      "sha256": "8a08c19e8f300472a5310257c57652baa9a3e9e867c8189875eee81335646bea",
+      "bytes": 1037
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_P1_Balanced_3to6m/Naqex_WB_EXP080_USDJPY.set": {
+      "sha256": "d18036d8885052c1df4acab56f7fa7be376bd0271cd30d45e965e129a8a58474",
+      "bytes": 944
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_P1_Balanced_3to6m/Naqex_WB_EXP080_VOLHIGH_GBPUSD.set": {
+      "sha256": "f737cd0e420ba69e16d45f5a9dcc56d43227969940b23835d3d740a6a9c7d4f4",
+      "bytes": 965
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_P1_Balanced_3to6m/Naqex_WB_FX_USD_BASKET_12U_Z35.set": {
+      "sha256": "ff37c804174acdc7c69c4412c5e37b5abbd7a2cf7c0c174b864353530a605741",
+      "bytes": 937
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_P1_Balanced_3to6m/Naqex_WB_IDX_RS_US100_LEAD_1130.set": {
+      "sha256": "a156257a8827279c5b78205d665ca71e7a0623b602c320ed2ec8ba0b9ce43dcb",
+      "bytes": 900
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_P1_Balanced_3to6m/Naqex_WB_NY_RISK_FLOW_10ET_USDJPY.set": {
+      "sha256": "6a6b913c8d349e1ba24593581db09d0d89c5d849b6889082337bdb0b3a1ea349",
+      "bytes": 953
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_P1_Balanced_3to6m/Naqex_WB_SESS_CONT_BRK40_US100.set": {
+      "sha256": "85d6ef6118310d66190729a53103de85fce38efe809046e9b933373aa447d08f",
+      "bytes": 897
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_P1_Balanced_3to6m/Naqex_WB_TOKYO_BOX_USDJPY.set": {
+      "sha256": "555fbb6323d0934ff56e00b41601128c731da96daa50732f256fd4b7981ebe12",
+      "bytes": 891
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_P1_Balanced_3to6m/Naqex_WB_VOLCOMP_EXP75_EURJPY.set": {
+      "sha256": "a86617fd6abb72a0c48e158f572572dc91a866066d324e46079cceea3f266ddf",
+      "bytes": 970
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_P1_Sprint_1to3m/Naqex_AccountOrchestrator.set": {
+      "sha256": "83f48f123dd9f4cff30a61efb567f37876c8118fa1ffe23eca7c3392751c5f0a",
+      "bytes": 1033
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_P1_Sprint_1to3m/Naqex_WB_EXP080_USDJPY.set": {
+      "sha256": "b453363dcf01475113589fbba22c7d322514d851df66f33d0919b3e8bda97024",
+      "bytes": 942
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_P1_Sprint_1to3m/Naqex_WB_EXP080_VOLHIGH_GBPUSD.set": {
+      "sha256": "61b65c8e8890ca1c35287d582abc7b36aebf5e0ad726362d074e510160469af6",
+      "bytes": 963
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_P1_Sprint_1to3m/Naqex_WB_FX_USD_BASKET_12U_Z35.set": {
+      "sha256": "15e30e058b818003ae400f63039a98da646bf18ba092054b7827326605684cab",
+      "bytes": 935
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_P1_Sprint_1to3m/Naqex_WB_IDX_RS_US100_LEAD_1130.set": {
+      "sha256": "9f8126ea4c8a266dc53d3d06e1c0a6f63b1aedb2401b10aa324c7f628f70f83b",
+      "bytes": 898
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_P1_Sprint_1to3m/Naqex_WB_NY_RISK_FLOW_10ET_USDJPY.set": {
+      "sha256": "9c59b6f68220df035083aaf858985c668ec30e6952e5e47c27964c493a61db90",
+      "bytes": 951
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_P1_Sprint_1to3m/Naqex_WB_SESS_CONT_BRK40_US100.set": {
+      "sha256": "77850415023090a41942808fb952ec2fa73c06febb680b0653bbebe5530c0856",
+      "bytes": 895
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_P1_Sprint_1to3m/Naqex_WB_TOKYO_BOX_USDJPY.set": {
+      "sha256": "e0893eb662a0d364ab488479e9cb449f941ffac9958cb122410542101c6e9142",
+      "bytes": 889
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_P1_Sprint_1to3m/Naqex_WB_VOLCOMP_EXP75_EURJPY.set": {
+      "sha256": "37d1ea7fabd272d3b2e8b1deafaa866fff8ab8e42aa9ddf8421368f8adaaa73f",
+      "bytes": 968
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_P2_Verify/Naqex_AccountOrchestrator.set": {
+      "sha256": "2e185620dad07ca24a3e33d29f1c0316cb65bda8851b9f11f52e89bc45430b40",
+      "bytes": 1023
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_P2_Verify/Naqex_WB_EXP080_USDJPY.set": {
+      "sha256": "0479d3a6d485b119d7f71f6793dce62a84f4bf6b2eee839ce043fd6093a21d79",
+      "bytes": 936
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_P2_Verify/Naqex_WB_EXP080_VOLHIGH_GBPUSD.set": {
+      "sha256": "5b39c17db20dfb640a8cc8b418a52cb463b3ef6a2bb3c8fef31d6544c762fa84",
+      "bytes": 957
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_P2_Verify/Naqex_WB_FX_USD_BASKET_12U_Z35.set": {
+      "sha256": "faf939b8c2d3e28be5f49fd8d6d420c260890bf0e3e12a8b7d2606756642eee3",
+      "bytes": 960
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_P2_Verify/Naqex_WB_IDX_RS_US100_LEAD_1130.set": {
+      "sha256": "4fd95489042795d2009de26c4824abc750ea0afd57903f2ce261035b4f94ef73",
+      "bytes": 892
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_P2_Verify/Naqex_WB_NY_RISK_FLOW_10ET_USDJPY.set": {
+      "sha256": "b189d765d945239e5e435e46ee49ebd65f85645c6070ce988734c77749343aee",
+      "bytes": 945
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_P2_Verify/Naqex_WB_SESS_CONT_BRK40_US100.set": {
+      "sha256": "85deaf27e3a2a687143f48456252901e29b11e2bf509dd6a1e26a0d2e4350ee4",
+      "bytes": 889
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_P2_Verify/Naqex_WB_TOKYO_BOX_USDJPY.set": {
+      "sha256": "c6e96a2b9bfd32de54bb70ddf2b94c7af85a70dd2ed6c3eb84c32a47233352e2",
+      "bytes": 883
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_P2_Verify/Naqex_WB_VOLCOMP_EXP75_EURJPY.set": {
+      "sha256": "a6d84f6c04b17173edb42bab3bab7bc7b639a7221f0c062ea3b33c7242360030",
+      "bytes": 962
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/The5ers_HighStakes_Funded/Naqex_AccountOrchestrator.set": {
+      "sha256": "73decfe239e3bf2b20798a30b4890354b757ed396453fae0cfd03ca43ac593d4",
+      "bytes": 1036
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/The5ers_HighStakes_Funded/Naqex_WB_EXP080_USDJPY.set": {
+      "sha256": "d66d0c6a528445037229d5d06dd12ccdd03c541c035f544aedd4f1439ddf5e95",
+      "bytes": 947
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/The5ers_HighStakes_Funded/Naqex_WB_EXP080_VOLHIGH_GBPUSD.set": {
+      "sha256": "a42667197827ffb6edc2877ac42644e3447c2b5df57d9b97ddedbb436646c3ae",
+      "bytes": 968
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/The5ers_HighStakes_Funded/Naqex_WB_FX_USD_BASKET_12U_Z35.set": {
+      "sha256": "79b97b7a77f771ebad2822e31ee411baf2905393cf4793821b3342eef18c91b3",
+      "bytes": 971
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/The5ers_HighStakes_Funded/Naqex_WB_IDX_RS_US100_LEAD_1130.set": {
+      "sha256": "3c001370289f99d604a5734bba53f70361fc69452db90f310c26b94b629bfc76",
+      "bytes": 903
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/The5ers_HighStakes_Funded/Naqex_WB_NY_RISK_FLOW_10ET_USDJPY.set": {
+      "sha256": "d4027df01a953f5977d5a171d3e21eb77f68d1185c7b45d349e0e70eb877d1bf",
+      "bytes": 956
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/The5ers_HighStakes_Funded/Naqex_WB_SESS_CONT_BRK40_US100.set": {
+      "sha256": "54f3ff38857135a66f6c44ab65649fd81dcaf4ed1db7f64624bda76a0760c2fa",
+      "bytes": 900
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/The5ers_HighStakes_Funded/Naqex_WB_TOKYO_BOX_USDJPY.set": {
+      "sha256": "b422589c48e9db639c679e35a10f36ac697cea4c40b94cb79f3a7105cfd108bb",
+      "bytes": 894
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/The5ers_HighStakes_Funded/Naqex_WB_VOLCOMP_EXP75_EURJPY.set": {
+      "sha256": "a0bef7e1f1c0d349615c6109a8a718be7af7c26dd620b7ed8e6dfb9d43ea785f",
+      "bytes": 973
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/The5ers_HighStakes_P1_Balanced/Naqex_AccountOrchestrator.set": {
+      "sha256": "5dd63f967aa33fece7187982232c2d5c7524f6a50b2c021edcde26722c32dd84",
+      "bytes": 1046
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/The5ers_HighStakes_P1_Balanced/Naqex_WB_EXP080_USDJPY.set": {
+      "sha256": "9311e6ee6e3b89761ee59b1853ddef8d3bab1b5ce808af7c0a178154cd054479",
+      "bytes": 952
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/The5ers_HighStakes_P1_Balanced/Naqex_WB_EXP080_VOLHIGH_GBPUSD.set": {
+      "sha256": "712679d75d14f54fb960a1713eae0cb174e1cf7d1b467f026cb1eaa6cd473331",
+      "bytes": 973
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/The5ers_HighStakes_P1_Balanced/Naqex_WB_FX_USD_BASKET_12U_Z35.set": {
+      "sha256": "9010bb8711ad50233289d4cc7c8890e8760913227e614c7aab18c59dc1bb199d",
+      "bytes": 945
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/The5ers_HighStakes_P1_Balanced/Naqex_WB_IDX_RS_US100_LEAD_1130.set": {
+      "sha256": "efb9e0467a42cc5126c89b54cf59b90055f36756ee0651c2f756cf5a600e3e23",
+      "bytes": 908
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/The5ers_HighStakes_P1_Balanced/Naqex_WB_NY_RISK_FLOW_10ET_USDJPY.set": {
+      "sha256": "33d679085f3e6353b445ae5bc6ca513c399580790921f70804cdff8d89139a06",
+      "bytes": 961
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/The5ers_HighStakes_P1_Balanced/Naqex_WB_SESS_CONT_BRK40_US100.set": {
+      "sha256": "03a4f2bcc7102ed27425bb984714d803b6fe7aad2794b16f3315ed280a2d6ac2",
+      "bytes": 905
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/The5ers_HighStakes_P1_Balanced/Naqex_WB_TOKYO_BOX_USDJPY.set": {
+      "sha256": "3d3d39919ed18e9bd9fd08e49f046904c9d91b377aabaa55303d2943fa993354",
+      "bytes": 899
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/The5ers_HighStakes_P1_Balanced/Naqex_WB_VOLCOMP_EXP75_EURJPY.set": {
+      "sha256": "3ec504a14bb64255a74b406ddad2360bfa61681ae6055e9f21ef49c17a810a4d",
+      "bytes": 978
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/The5ers_HighStakes_P1_Sprint/Naqex_AccountOrchestrator.set": {
+      "sha256": "272eb21743c8eabef6ae76db4d260e55417e07094e30603caf092066ce722574",
+      "bytes": 1042
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/The5ers_HighStakes_P1_Sprint/Naqex_WB_EXP080_USDJPY.set": {
+      "sha256": "efb0f1e4eeb5e5113307fb5643dbe1428541fe47c5ba94e59bac3db91f44eb77",
+      "bytes": 950
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/The5ers_HighStakes_P1_Sprint/Naqex_WB_EXP080_VOLHIGH_GBPUSD.set": {
+      "sha256": "ce9ce3b3f9a718c0e1044afe95e6c1fdf4b84b83c00f19dfad13138c26b591c3",
+      "bytes": 971
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/The5ers_HighStakes_P1_Sprint/Naqex_WB_FX_USD_BASKET_12U_Z35.set": {
+      "sha256": "3a544a888fef806d3a3f4be054989a8c07408968232d9cfe3011e9a00414b006",
+      "bytes": 943
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/The5ers_HighStakes_P1_Sprint/Naqex_WB_IDX_RS_US100_LEAD_1130.set": {
+      "sha256": "8c8a31ff9a76227192b1593b4152b1e9c2ffe6460c495299c0500f2234c8f87c",
+      "bytes": 906
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/The5ers_HighStakes_P1_Sprint/Naqex_WB_NY_RISK_FLOW_10ET_USDJPY.set": {
+      "sha256": "64934affe11368d60c2fe33e1b0181ec3c070f33297508cec2da8628d90e0ee5",
+      "bytes": 959
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/The5ers_HighStakes_P1_Sprint/Naqex_WB_SESS_CONT_BRK40_US100.set": {
+      "sha256": "c6cf541a96c56fd94a36133fb2a43125b98a116257088f52ddacff31ac1f24a2",
+      "bytes": 903
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/The5ers_HighStakes_P1_Sprint/Naqex_WB_TOKYO_BOX_USDJPY.set": {
+      "sha256": "1614789d919694b165baeb8ddff2447cc966fbbecbe03dea3ca15b80b875798e",
+      "bytes": 897
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/The5ers_HighStakes_P1_Sprint/Naqex_WB_VOLCOMP_EXP75_EURJPY.set": {
+      "sha256": "e0560a09963b2e8d7c403ad9e121c93972217f16ded32923a14ef04a7ca765de",
+      "bytes": 976
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_FreeTrial_Demo/profile_meta.json": {
+      "sha256": "4d38208ac9ba47dc940f1c6b638e796331169ff8a82f5788e33c3416b9b8b0cd",
+      "bytes": 1911
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_FreeTrial_DryRun/profile_meta.json": {
+      "sha256": "eb690a61ff00fd3b089201f09ce7a34c6e152a77a8a12e6227d4aac8deda9552",
+      "bytes": 1909
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_Funded_Std_RedNews/profile_meta.json": {
+      "sha256": "a65f2ce6e4fee013afbeed89b9165c493c3e68078f07cf084becf46dd022e8d9",
+      "bytes": 1922
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_Funded_Swing_Safe/profile_meta.json": {
+      "sha256": "60ef64bcbb795e92dcab853f670f89ffa52e193c18e857a834708b49ac4ce468",
+      "bytes": 1898
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_P1_Balanced_3to6m/profile_meta.json": {
+      "sha256": "c505bfa7915962b61532d4205ae519a8b7cc121bff65344dda878f6097d124a9",
+      "bytes": 1934
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_P1_Sprint_1to3m/profile_meta.json": {
+      "sha256": "bbd59dfda93b5263322b82ec76a9dc6b987b25ce6905f23ba3e712c360ab082b",
+      "bytes": 1930
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_P2_Verify/profile_meta.json": {
+      "sha256": "07d776bcd2987a7924ac64ae1e56087a477731fca4304fe786c8dd1633e6aff2",
+      "bytes": 1898
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/The5ers_HighStakes_Funded/profile_meta.json": {
+      "sha256": "80091ca499cfb282d93b8a0394295d7f137591872b07144d3c1d4ba29ebf0694",
+      "bytes": 1946
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/The5ers_HighStakes_P1_Balanced/profile_meta.json": {
+      "sha256": "59e8c2c46b26a140e796afd1b2ea4d9e452030fe0c0b8f85331681d430ca84ce",
+      "bytes": 1996
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/The5ers_HighStakes_P1_Sprint/profile_meta.json": {
+      "sha256": "7f965c3c5f050330dc1578f92a5d7fa7920dca4b089064b326573deebeca1b87",
+      "bytes": 1992
+    }
+  },
+  "compiled_ex5_count": 9,
+  "compiled_ex5_dir": ".runtime/mt5-compiled-ex5",
+  "compiled_ex5_files": {
+    ".runtime/mt5-compiled-ex5/Naqex_AccountOrchestrator.ex5": {
+      "sha256": "710e22554f45c91d066d781daba75efd7476318e4a637e9ad5687a7513083045",
+      "bytes": 35242
+    },
+    ".runtime/mt5-compiled-ex5/Naqex_WB_EXP080_USDJPY.ex5": {
+      "sha256": "7ca57e2e436bbe929889a448a6ee0e602a29a9ec6d0781a405b75166a296c4c5",
+      "bytes": 47800
+    },
+    ".runtime/mt5-compiled-ex5/Naqex_WB_EXP080_VOLHIGH_GBPUSD.ex5": {
+      "sha256": "d662b636219b7a31721d1f551c508744576567dd5f0499e27245f8b16b28917c",
+      "bytes": 47992
+    },
+    ".runtime/mt5-compiled-ex5/Naqex_WB_FX_USD_BASKET_12U_Z35.ex5": {
+      "sha256": "85fc4dfe5114910cb69243191a93f6cc5f9507a2c2831840bcd0a2480edaf902",
+      "bytes": 50616
+    },
+    ".runtime/mt5-compiled-ex5/Naqex_WB_IDX_RS_US100_LEAD_1130.ex5": {
+      "sha256": "88ef1ae7ff787d9d7c8063ac5a967fb326c9f8b68e912c9166fc1cf03a7059b4",
+      "bytes": 48240
+    },
+    ".runtime/mt5-compiled-ex5/Naqex_WB_NY_RISK_FLOW_10ET_USDJPY.ex5": {
+      "sha256": "3205297820f11013ac31bafb7270dc2ab63a4100cdf240276c8f333c31f91f5c",
+      "bytes": 50706
+    },
+    ".runtime/mt5-compiled-ex5/Naqex_WB_SESS_CONT_BRK40_US100.ex5": {
+      "sha256": "179ba92061d7b8ad21e9d35cea74a3ba50153d681c8c03e9cf040e19d4141e55",
+      "bytes": 48196
+    },
+    ".runtime/mt5-compiled-ex5/Naqex_WB_TOKYO_BOX_USDJPY.ex5": {
+      "sha256": "44834074b46ca76f895d277bee8ac256c4c9f13d737250b1ecdaa4a35df9e98c",
+      "bytes": 48960
+    },
+    ".runtime/mt5-compiled-ex5/Naqex_WB_VOLCOMP_EXP75_EURJPY.ex5": {
+      "sha256": "ab0be926d0117d3897820da719627bf5607bb043137e5595ef2174be5a2f34cf",
+      "bytes": 49366
+    }
+  },
+  "external_dependencies": {
+    "tooling/ai-engines/exports/Files/naqex_red_news_utc.csv": {
+      "owner": "lane-b-risk-auditor",
+      "rows_at_build": 343,
+      "snapshot_sha256": "5b151169e19c1a55e11699fe980142c7ae453671c9b9cd23614475e3e5e219fa"
+    }
+  }
+}

@@ -30,7 +30,17 @@ double   g_boxBottom = 0.0;
 
 int OnInit()
 {
-   g_guard.Init(trade, _Symbol, InpMagicNumber);
+   g_guard.Init(trade, _Symbol, InpMagicNumber, InpMaxDailyLossPct);
+   string kDay = StringFormat("NQXG_%I64d_%s_BOXDAY", InpMagicNumber, _Symbol);
+   string kTop = StringFormat("NQXG_%I64d_%s_BOXTOP", InpMagicNumber, _Symbol);
+   string kBot = StringFormat("NQXG_%I64d_%s_BOXBOT", InpMagicNumber, _Symbol);
+   if(GlobalVariableCheck(kDay) && GlobalVariableCheck(kTop) && GlobalVariableCheck(kBot))
+   {
+      g_boxDay    = (datetime)GlobalVariableGet(kDay);
+      g_boxTop    = GlobalVariableGet(kTop);
+      g_boxBottom = GlobalVariableGet(kBot);
+      g_boxReady  = (g_boxTop > 0.0 && g_boxBottom > 0.0);
+   }
    return INIT_SUCCEEDED;
 }
 
@@ -110,8 +120,15 @@ void OnTick()
    }
    if(utc.hour >= InpBoxStartHourUTC && utc.hour < InpBoxEndHourUTC)
    {
-      if(!g_boxReady) { g_boxTop = mid; g_boxBottom = mid; g_boxReady = true; }
-      else { if(mid > g_boxTop) g_boxTop = mid; if(mid < g_boxBottom) g_boxBottom = mid; }
+      bool changed = false;
+      if(!g_boxReady) { g_boxTop = mid; g_boxBottom = mid; g_boxReady = true; changed = true; }
+      else { if(mid > g_boxTop) { g_boxTop = mid; changed = true; } if(mid < g_boxBottom) { g_boxBottom = mid; changed = true; } }
+      if(changed)
+      {
+         GlobalVariableSet(StringFormat("NQXG_%I64d_%s_BOXDAY", InpMagicNumber, _Symbol), (double)g_boxDay);
+         GlobalVariableSet(StringFormat("NQXG_%I64d_%s_BOXTOP", InpMagicNumber, _Symbol), g_boxTop);
+         GlobalVariableSet(StringFormat("NQXG_%I64d_%s_BOXBOT", InpMagicNumber, _Symbol), g_boxBottom);
+      }
       return;
    }
 

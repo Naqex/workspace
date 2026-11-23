@@ -1,0 +1,31 @@
+; Naqex MT5 Preset | Profile: The5ers_HighStakes_P1_Sprint | Target: Naqex_AccountOrchestrator.ex5
+; Firm: The5ers | AccountType: HighStakes_5k_P1_Sprint | CapitalUSD: 5000
+; ARM-LOCKED SAFETY: set InpDryRunLogOnly=false & InpGuardDryRunLogOnly=false ONLY after Free Trial PASS & TCA GREEN
+InpDryRunLogOnly=true
+InpInitialBalanceUSD=5000.00
+InpBasePhaseMult=3.17
+InpAmberDdPct=9.90
+InpAmberMult=1.00
+InpRedDdPct=9.90
+InpRedMult=1.00
+InpKillDailyDdPct=4.30
+InpKillStaticDdPct=9.50
+InpHeartbeatSec=15
+InpHeartbeatFile=naqex_heartbeat.json
+InpMagicRangeMin=20261120
+InpMagicRangeMax=20261199
+InpGuardDryRunLogOnly=true
+InpGuardMaxDailyLossPct=4.30
+InpGuardMaxSymbolRiskPct=3.50
+InpGuardUseOrchestrator=true
+InpGuardMaxSpreadPoints=35.00
+InpGuardRolloverStartUTC=21
+InpGuardRolloverEndUTC=0
+InpGuardEarlyCloseMin=10
+InpGuardTesterUtcOffsetH=2
+InpGuardEnableRedNews=true
+InpGuardRedNewsCsvFile=naqex_red_news_utc.csv
+InpGuardNewsPadSec=300
+InpGuardTcaAuditCsvFile=naqex_exec_audit.csv
+InpGuardMagicRangeMin=20261120
+InpGuardMagicRangeMax=20261199

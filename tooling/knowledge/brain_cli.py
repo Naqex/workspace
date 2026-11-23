@@ -17,6 +17,7 @@ from __future__ import annotations
 import argparse
 from collections import Counter
 from datetime import datetime, timezone
+from difflib import SequenceMatcher
 import hashlib
 import json
 import math
@@ -26,6 +27,7 @@ import re
 import sqlite3
 import time
 import unicodedata
+from urllib.parse import unquote
 
 import numpy as np
 
@@ -35,6 +37,13 @@ DB_PATH = BRAIN_DIR / "brain.sqlite3"
 VEC_PATH = BRAIN_DIR / "brain_vec.npz"
 
 HEADING_RE = re.compile(r"^(#{1,4})\s+(.+?)\s*$")
+MD_LINK_RE = re.compile(r"\[[^\]]*\]\(([^)]+)\)")
+INLINE_CODE_RE = re.compile(r"`[^`]*`")
+LEADING_SECTION_NUM_RE = re.compile(r"^(?:[0-9]+(?:\.[0-9]+)*\.?|[a-z]\.)\s+")
+HEADING_STOPWORDS = frozenset({
+    "va", "cua", "cho", "voi", "cac", "trong", "khi", "tu", "den", "la", "tai",
+    "the", "and", "for", "of", "in", "on", "to", "vs", "with", "from", "by",
+})
 TOKEN_RE = re.compile(r"[0-9a-zA-Z\u00C0-\u024F\u1E00-\u1EFF\u4E00-\u9FFF\u0400-\u04FF_]{2,}")
 VEC_DIM = 512  # Compact hashed feature space (zero-pickle float32 matrix -> < 5 MB, < 10 ms dot product)
 
@@ -414,6 +423,140 @@ def _dir_size_and_count(path: Path) -> tuple[int, int]:
     return total_bytes, count
 
 
+def _iter_non_code_lines(text: str):
+    """Yield (line_no, line) skipping YAML frontmatter and fenced code blocks."""
+    lines = text.splitlines()
+    in_fence = False
+    in_frontmatter = False
+    for idx, line in enumerate(lines, start=1):
+        stripped = line.strip()
+        if idx == 1 and stripped == "---":
+            in_frontmatter = True
+            continue
+        if in_frontmatter:
+            if stripped == "---":
+                in_frontmatter = False
+            continue
+        if stripped.startswith("```") or stripped.startswith("~~~"):
+            in_fence = not in_fence
+            continue
+        if not in_fence:
+            yield idx, line
+
+
+def _clean_link_target(raw_target: str) -> str:
+    target = raw_target.strip()
+    if target.startswith("<") and ">" in target:
+        target = target[1:target.index(">")].strip()
+    else:
+        # Drop optional Markdown title suffix e.g. path.md "Title"
+        target = re.split(r'\s+(?=["\'])', target, maxsplit=1)[0].strip()
+    return target
+
+
+def find_broken_knowledge_links(root: Path | None = None) -> list[dict]:
+    """Detect broken relative Markdown links inside maintained `knowledge/` docs (excluding gitignored `inbox/`)."""
+    base = root if root is not None else ROOT
+    kb_dir = base / "knowledge"
+    if not kb_dir.is_dir():
+        return []
+    broken: list[dict] = []
+    for md_file in sorted(kb_dir.rglob("*.md")):
+        rel_parts = md_file.relative_to(kb_dir).parts
+        if rel_parts and rel_parts[0] == "inbox":
+            continue
+        text = md_file.read_text(encoding="utf-8", errors="replace")
+        for line_no, line in _iter_non_code_lines(text):
+            cleaned_line = INLINE_CODE_RE.sub("", line)
+            for m in MD_LINK_RE.finditer(cleaned_line):
+                raw_target = _clean_link_target(m.group(1))
+                if not raw_target or raw_target.startswith("#"):
+                    continue
+                low = raw_target.lower()
+                if low.startswith(("http://", "https://", "mailto:", "file://", "conversation://", "tel:", "data:")):
+                    continue
+                path_only = raw_target.split("#", 1)[0].split("?", 1)[0].strip()
+                if not path_only:
+                    continue
+                path_only = unquote(path_only)
+                resolved = (md_file.parent / path_only).resolve()
+                if not resolved.exists():
+                    broken.append({
+                        "file": md_file.relative_to(base).as_posix(),
+                        "line": line_no,
+                        "target": raw_target,
+                    })
+    return broken
+
+
+def _normalize_heading_tokens(heading: str) -> tuple[str, set[str]]:
+    norm = _strip_accents(heading)
+    norm = re.sub(r"[`*_~]", "", norm)
+    norm = LEADING_SECTION_NUM_RE.sub("", norm).strip()
+    norm = re.sub(r"\s+", " ", norm)
+    raw_toks = TOKEN_RE.findall(norm)
+    filtered = {t for t in raw_toks if t not in HEADING_STOPWORDS}
+    toks = filtered if len(filtered) >= 2 else set(raw_toks)
+    return norm, toks
+
+
+def find_near_duplicate_topic_headings(
+    root: Path | None = None,
+    *,
+    similarity_threshold: float = 0.70,
+) -> list[dict]:
+    """Detect exact or near-duplicate headings across `knowledge/topics/*.md` using diacritic-free token Jaccard & sequence similarity."""
+    base = root if root is not None else ROOT
+    topics_dir = base / "knowledge/topics"
+    if not topics_dir.is_dir():
+        return []
+
+    records: list[tuple[str, int, str, str, set[str]]] = []
+    for md_file in sorted(topics_dir.glob("*.md")):
+        rel = md_file.relative_to(base).as_posix()
+        text = md_file.read_text(encoding="utf-8", errors="replace")
+        for line_no, line in _iter_non_code_lines(text):
+            m = HEADING_RE.match(line)
+            if not m:
+                continue
+            heading_txt = m.group(2).strip()
+            norm, toks = _normalize_heading_tokens(heading_txt)
+            if not norm:
+                continue
+            records.append((rel, line_no, heading_txt, norm, toks))
+
+    dups: list[dict] = []
+    for i in range(len(records)):
+        rel_a, line_a, h_a, norm_a, toks_a = records[i]
+        for j in range(i + 1, len(records)):
+            rel_b, line_b, h_b, norm_b, toks_b = records[j]
+            sim = 0.0
+            if norm_a == norm_b:
+                sim = 1.0
+            else:
+                union = toks_a | toks_b
+                jaccard = (len(toks_a & toks_b) / len(union)) if union else 0.0
+                seq_ratio = (
+                    SequenceMatcher(None, norm_a, norm_b).ratio()
+                    if min(len(norm_a), len(norm_b)) >= 12
+                    else 0.0
+                )
+                if jaccard >= similarity_threshold or seq_ratio >= 0.85:
+                    sim = max(jaccard, seq_ratio)
+            if sim >= similarity_threshold:
+                dups.append({
+                    "file_a": rel_a,
+                    "line_a": line_a,
+                    "heading_a": h_a,
+                    "file_b": rel_b,
+                    "line_b": line_b,
+                    "heading_b": h_b,
+                    "similarity": round(sim, 3),
+                })
+    dups.sort(key=lambda x: (-x["similarity"], x["file_a"], x["line_a"]))
+    return dups
+
+
 def audit_data() -> dict:
     """Read-only workspace data hygiene & knowledge index health audit."""
     rt = ROOT / ".runtime"
@@ -435,6 +578,8 @@ def audit_data() -> dict:
     kb_count = len(list((ROOT / "knowledge").rglob("*.md"))) if (ROOT / "knowledge").is_dir() else 0
     db_ok = DB_PATH.exists() and VEC_PATH.exists()
     db_kb = round((DB_PATH.stat().st_size + VEC_PATH.stat().st_size) / 1024.0, 1) if db_ok else 0.0
+    broken_links = find_broken_knowledge_links(ROOT)
+    near_dup_headings = find_near_duplicate_topic_headings(ROOT)
     return {
         "brain_index_ready": db_ok,
         "brain_index_kb": db_kb,
@@ -442,6 +587,10 @@ def audit_data() -> dict:
         "planning_research_files": pr_count,
         "dead_empty_runtime_dirs": empty_tmp_dirs,
         "heavy_runtime_dirs_ge_200mb": heavy_rt_dirs,
+        "broken_knowledge_links_count": len(broken_links),
+        "broken_knowledge_links": broken_links,
+        "near_duplicate_topic_headings_count": len(near_dup_headings),
+        "near_duplicate_topic_headings": near_dup_headings,
     }
 
 

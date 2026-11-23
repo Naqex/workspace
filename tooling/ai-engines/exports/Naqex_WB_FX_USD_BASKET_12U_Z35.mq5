@@ -39,7 +39,7 @@ int OnInit()
       g_atrHandles[i] = iATR(g_usdBasketSyms[i], PERIOD_D1, InpAtrPeriodD1);
       if(g_atrHandles[i] == INVALID_HANDLE) return INIT_FAILED;
    }
-   g_guard.Init(trade, _Symbol, InpMagicNumber);
+   g_guard.Init(trade, _Symbol, InpMagicNumber, InpMaxDailyLossPct);
    return INIT_SUCCEEDED;
 }
 
@@ -64,12 +64,30 @@ void CloseOwnPositions(const string reason)
       ulong ticket = PositionGetTicket(i);
       if(ticket > 0 && PositionGetInteger(POSITION_MAGIC) == InpMagicNumber)
       {
+         string psym = PositionGetString(POSITION_SYMBOL);
          if(InpDryRunLogOnly || InpGuardDryRunLogOnly)
-            PrintFormat("[DRYRUN] Would close ticket=%I64u reason=%s", ticket, reason);
+            PrintFormat("[DRYRUN] Would close ticket=%I64u sym=%s reason=%s", ticket, psym, reason);
          else
+         {
+            CNaqexPropGuard::ConfigureFillingMode(trade, psym);
             trade.PositionClose(ticket);
+         }
       }
    }
+}
+
+bool HasOwnPositionInRedNews()
+{
+   for(int i = PositionsTotal() - 1; i >= 0; i--)
+   {
+      ulong ticket = PositionGetTicket(i);
+      if(ticket > 0 && PositionGetInteger(POSITION_MAGIC) == InpMagicNumber)
+      {
+         if(g_guard.IsInsideRedNewsWindowFor(PositionGetString(POSITION_SYMBOL)))
+            return true;
+      }
+   }
+   return false;
 }
 
 bool CausalZReturn(const string sym, const int atrHandle, const int lookbackHours, double &outZ, double &outAtr)
@@ -98,7 +116,7 @@ void OnTick()
       if(HasAnyOwnPosition()) CloseOwnPositions("HARD_FLAT_SWAP0");
       return;
    }
-   if(g_guard.IsInsideRedNewsWindow())
+   if(g_guard.IsInsideRedNewsWindow() || HasOwnPositionInRedNews())
    {
       if(HasAnyOwnPosition()) CloseOwnPositions("NEWS_PRE_FLATTEN");
       return;
@@ -137,6 +155,7 @@ void OnTick()
    if(bestPool < 0 || bestScore <= 0.0) return;
 
    string sym = g_tradePool[bestPool];
+   if(g_guard.IsInsideRedNewsWindowFor(sym) || !g_guard.IsSpreadAndSessionSafeFor(sym)) return;
    double atrD1 = atrVals[mapIdx[bestPool]];
    double ask = SymbolInfoDouble(sym, SYMBOL_ASK);
    double bid = SymbolInfoDouble(sym, SYMBOL_BID);

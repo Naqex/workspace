@@ -67,7 +67,10 @@ void FlattenAllNaqexPositions(const string reason)
       if(InpDryRunLogOnly || InpGuardDryRunLogOnly)
          PrintFormat("[ORCH-DRYRUN] Would flatten ticket=%I64u sym=%s magic=%I64d reason=%s", ticket, sym, pm, reason);
       else
+      {
+         CNaqexPropGuard::ConfigureFillingMode(g_orchTrade, sym);
          g_orchTrade.PositionClose(ticket);
+      }
    }
 }
 

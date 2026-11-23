@@ -48,6 +48,7 @@ class CNaqexPropGuard
 private:
    string            m_symbol;
    long              m_magic;
+   double            m_eaMaxDailyLossPct;
    NaqexRedNewsEvent m_events[];
    int               m_eventCount;
    double            m_dayStartEquity;
@@ -66,19 +67,26 @@ private:
       return dt.year * 1000 + dt.day_of_year;
    }
 
-   bool CurrencyMatchesSymbol(const string evCcy) const
+   bool CurrencyMatchesSymbolFor(const string sym, const string evCcy) const
    {
       if(evCcy == "ALL" || evCcy == "") return true;
-      if(StringFind(m_symbol, evCcy) >= 0) return true;
-      if(evCcy == "USD" && (StringFind(m_symbol, "US100") >= 0 ||
-                            StringFind(m_symbol, "US500") >= 0 ||
-                            StringFind(m_symbol, "XAU")   >= 0))
+      if(StringFind(sym, evCcy) >= 0) return true;
+      if(evCcy == "USD" && (StringFind(sym, "US100") >= 0 ||
+                            StringFind(sym, "US500") >= 0 ||
+                            StringFind(sym, "XAU")   >= 0))
+         return true;
+      if(evCcy == "EUR" && StringFind(sym, "GER40") >= 0)
          return true;
       return false;
    }
 
+   bool CurrencyMatchesSymbol(const string evCcy) const
+   {
+      return CurrencyMatchesSymbolFor(m_symbol, evCcy);
+   }
+
 public:
-   CNaqexPropGuard() : m_symbol(""), m_magic(0), m_eventCount(0), m_dayStartEquity(0.0), m_dayKey(-1), m_lastTradedDay(0) {}
+   CNaqexPropGuard() : m_symbol(""), m_magic(0), m_eaMaxDailyLossPct(0.0), m_eventCount(0), m_dayStartEquity(0.0), m_dayKey(-1), m_lastTradedDay(0) {}
 
    // 1. Auto-configure broker-supported filling mode (prevents retcode 10030)
    static bool ConfigureFillingMode(CTrade &tr, const string sym)
@@ -99,10 +107,11 @@ public:
    }
 
    // 2. Initialize guard, configure filling, load CSV news calendar & restore VPS-restart state
-   bool Init(CTrade &tr, const string sym, const long magic)
+   bool Init(CTrade &tr, const string sym, const long magic, const double eaMaxDailyLossPct = 0.0)
    {
-      m_symbol = sym;
-      m_magic  = magic;
+      m_symbol            = sym;
+      m_magic             = magic;
+      m_eaMaxDailyLossPct = eaMaxDailyLossPct;
       tr.SetExpertMagicNumber(magic);
       ConfigureFillingMode(tr, sym);
       LoadPersistedState();
@@ -191,18 +200,22 @@ public:
       GlobalVariableSet(StateKey("LASTTRD"), (double)todayBarOpen);
    }
 
-   // 6. Internal daily equity circuit breaker (local OR global Kill-Switch)
+   // 6. Internal daily equity circuit breaker (local OR global Kill-Switch; strictest of EA vs Guard limit)
    bool IsDailyLossBreached() const
    {
       if(IsGlobalKillSwitchActive()) return true;
       if(m_dayStartEquity <= 0.0) return false;
+      double effLimit = InpGuardMaxDailyLossPct;
+      if(m_eaMaxDailyLossPct > 0.0 && (effLimit <= 0.0 || m_eaMaxDailyLossPct < effLimit))
+         effLimit = m_eaMaxDailyLossPct;
+      if(effLimit <= 0.0) return false;
       double curEq = AccountInfoDouble(ACCOUNT_EQUITY);
       double ddPct = ((m_dayStartEquity - curEq) / m_dayStartEquity) * 100.0;
-      return (ddPct >= InpGuardMaxDailyLossPct);
+      return (ddPct >= effLimit);
    }
 
-   // 7. Rollover blackout & spread spike filter
-   bool IsSpreadAndSessionSafe() const
+   // 7. Rollover blackout & spread spike filter (supports wrap-around and same-day windows)
+   bool IsSpreadAndSessionSafeFor(const string sym) const
    {
       MqlDateTime utc;
       TimeToStruct(NowUTC(), utc);
@@ -212,13 +225,23 @@ public:
          if(utc.hour >= InpGuardRolloverStartUTC || utc.hour < InpGuardRolloverEndUTC)
             return false;
       }
+      else if(InpGuardRolloverStartUTC < InpGuardRolloverEndUTC)
+      {
+         if(utc.hour >= InpGuardRolloverStartUTC && utc.hour < InpGuardRolloverEndUTC)
+            return false;
+      }
       if(InpGuardMaxSpreadPoints > 0.0)
       {
-         double spreadPts = (double)SymbolInfoInteger(m_symbol, SYMBOL_SPREAD);
+         double spreadPts = (double)SymbolInfoInteger(sym, SYMBOL_SPREAD);
          if(spreadPts > InpGuardMaxSpreadPoints)
             return false;
       }
       return true;
+   }
+
+   bool IsSpreadAndSessionSafe() const
+   {
+      return IsSpreadAndSessionSafeFor(m_symbol);
    }
 
    // 8. Broker session early-close detector (prevents holding through US holiday half-days!)
@@ -258,8 +281,10 @@ public:
       while(!FileIsEnding(fh))
       {
          string colTs  = FileReadString(fh);
-         string colCcy = FileReadString(fh);
-         string colEv  = FileReadString(fh);
+         string colCcy = FileIsLineEnding(fh) ? "" : FileReadString(fh);
+         string colEv  = FileIsLineEnding(fh) ? "" : FileReadString(fh);
+         while(!FileIsLineEnding(fh) && !FileIsEnding(fh))
+            FileReadString(fh);
          if(colTs == "" || colTs == "utc_ts") continue;
          long ts = StringToInteger(colTs);
          if(ts <= 0) continue;
@@ -272,18 +297,23 @@ public:
       return m_eventCount;
    }
 
-   bool IsInsideRedNewsWindow() const
+   bool IsInsideRedNewsWindowFor(const string sym) const
    {
       if(!InpGuardEnableRedNews || m_eventCount == 0) return false;
       datetime nowUtc = NowUTC();
       for(int i = 0; i < m_eventCount; i++)
       {
-         if(!CurrencyMatchesSymbol(m_events[i].ccy)) continue;
+         if(!CurrencyMatchesSymbolFor(sym, m_events[i].ccy)) continue;
          long diff = (long)m_events[i].utc_ts - (long)nowUtc;
          if(MathAbs(diff) <= InpGuardNewsPadSec)
             return true;
       }
       return false;
+   }
+
+   bool IsInsideRedNewsWindow() const
+   {
+      return IsInsideRedNewsWindowFor(m_symbol);
    }
 
    // 10. Per-symbol open SL risk % across ALL Naqex EAs on same symbol (guards FTMO 1% trade-idea bundle)

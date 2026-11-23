@@ -35,7 +35,7 @@ int OnInit()
    g_atrMainHandle  = iATR(_Symbol, PERIOD_D1, InpAtrPeriodD1);
    g_atrBenchHandle = iATR(InpBenchmarkSymbol, PERIOD_D1, InpAtrPeriodD1);
    if(g_atrMainHandle == INVALID_HANDLE || g_atrBenchHandle == INVALID_HANDLE) return INIT_FAILED;
-   g_guard.Init(trade, _Symbol, InpMagicNumber);
+   g_guard.Init(trade, _Symbol, InpMagicNumber, InpMaxDailyLossPct);
    return INIT_SUCCEEDED;
 }
 

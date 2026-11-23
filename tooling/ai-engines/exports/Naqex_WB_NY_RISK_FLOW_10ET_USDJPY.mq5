@@ -44,7 +44,7 @@ int OnInit()
       g_usdAtr[i] = iATR(g_usdSyms[i], PERIOD_D1, InpAtrPeriodD1);
       if(g_usdAtr[i] == INVALID_HANDLE) return INIT_FAILED;
    }
-   g_guard.Init(trade, _Symbol, InpMagicNumber);
+   g_guard.Init(trade, _Symbol, InpMagicNumber, InpMaxDailyLossPct);
    return INIT_SUCCEEDED;
 }
 
