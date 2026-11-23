@@ -2,7 +2,7 @@
 
 `23/11/2026` · `WORK: ACTIVE/PARTIAL | REVIEW: REVIEWED-PARTIAL | DOC: COMPACTED-RESUMABLE`
 
-`RESEARCH: 3_ENGINE_CORE_CALMAR_084_NEEDS_PACE_PARTNER · BASELINE: PASS 22 (USDJPY Tokyo + USDJPY EXP080 + GBPUSD VOL_HIGH) · HOLDOUT >= 01/01/2025 LOCKED · PROP: NOT_QUALIFIED`
+`RESEARCH: 4_ENGINE_PROVISIONAL_CALMAR_108_NEEDS_ENGINE5 · BASELINE: PASS 24 (USDJPY Tokyo + USDJPY EXP080 + GBPUSD VOL_HIGH + US100 SESS_CONT_BRK_40*) · HOLDOUT >= 01/01/2025 LOCKED · PROP: NOT_QUALIFIED`
 
 ## 1. Mục tiêu chính & Khung vận hành
 
@@ -11,8 +11,9 @@
 - **Ràng buộc an toàn bất biến:** Khóa cứng Holdout từ `01/01/2025` (`NATIVE_FTMO_HOLDOUT_LOCK.json`), `OrderSend = 0`, không mở MT5/đọc `.env`, không tự sửa global config, không đụng pin `projects/trader` hay WIP `projects/vi-dubber`.
 - **Điều phối thống nhất:** Antigravity tiếp quản cả vai trò điều phối lẫn thực thi trên `Naqex/workspace` (thay thế quy trình copy-paste giữa Gemini Web / Codex / chat Astra cũ). Kho săn ý tưởng bên ngoài `D:\ANNAM\strategy-intel` giữ **Air-Gap tuyệt đối** (chỉ chuyển giao đặc tả toán học thuần túy, không import file hay trộn số liệu `>= 2025`).
 
-## 2. Trạng thái nghiên cứu hiện hành (Pass 5 → Pass 23)
+## 2. Trạng thái nghiên cứu hiện hành (Pass 5 → Pass 24)
 
+- **Pass 24 (23/11/2026) — Khám phá đa khung `M15/H1/D1` 6 họ mới (`m = 128` / 8 tài sản) · Phát hiện Động cơ #4 dự kiến ngoài FX (`US100 SESS_CONT_BRK_40`, `Calmar 0,89 → 1,08`):** Chạy 100% nhân quả (`protocol 52a53cb`, `holdout_rows = 0`, `OrderSend = 0`). **`US100 SESS_CONT_BRK_40`** (tiếp diễn phiên sáng→chiều NYSE, `swap = 0`, `n = 414`) đạt Cụm A `+4,28R` → **Cụm B mù `+9,86R` (`4/4` năm mù dương)**, qua cả 3 bậc phí (`Base +21,5R`, `Stress +14,14R`, `Double +7,09R`), dương cả **`BUY +4,23R` & `SELL +9,91R`**, **`9/12` ở cả 2 mặt phẳng 2D**, loại 2 khủng hoảng còn **`+17,29R`**, **`r3E = -0,0037`**. Ghép `0,50%` vào lõi 3E nâng lãi `+5,07% → +5,99%/năm`, **giảm Peak DD `5,68% → 5,53%`**, lần đầu vượt **`Calmar 1,08`** (`2Layer_Mod_2.0_Dyn`: đỗ 24m `74,9%`, `Br1 = 5,4%`, CF24 `+$399` FTMO 10k / `+$164` The5ers 5k). Đã xuất `.mq5` sạch `Naqex_WB_SESS_CONT_BRK40_US100.mq5` (`PROVISIONAL_SPEC_UNMEASURED_DEMO`). [Báo cáo Pass 24](research/PASS24-MTF-NEW-ARCHETYPES-RESULTS-20261123.md) · [Hồ sơ The5ers](research/THE5ERS-PARALLEL-PROFILE-AND-SPEC-PLAN-20261123.md).
 - **Pass 23 (23/11/2026) — Chạy song song 4 làn: Niêm phong `XAUUSD` Native Ask + `US100`/`GER40` · Nhịp 3 Vòng đời FTMO 2-Step · Xuất `.mq5` Engine #1 · Khám phá Động cơ #4 (`1.542/1.542` tests PASS):**
   - **Làn A:** Nâng cấp **`XAUUSD`** lên Native M1 Bid/Ask (`2,48M` phút, spread `0,23–0,40 USD/oz`, gỡ hoàn toàn `PROVISIONAL_XAU`) + niêm phong **`US100`** (`2,36M` phút) và **`GER40`** (`2,29M` phút) vào Hot Cache SSD (`433,0 MB` / **8 tài sản 100% `native_Ask = true`**).
   - **Làn B (Nhịp 3 — Vòng đời FTMO 2-Step, `N = 2.000` block bootstrap + rolling windows):** `PORT3E_075_GBP075` siêu bền (`Breach24 = 0,6%–0,8%`, vẫn lãi `+4,01%–4,27%/năm` dưới `STRESS10`), nhưng tốc độ `+5,1%–5,3%/năm` chỉ cho `Boot12 = 4,7%–6,0%` / `Boot24 = 37,6%–41,8%` (dòng tiền 24m trung vị `-1×` phí); nhân rủi ro `1,50×` đẩy `Roll24 = 89,8%–93,2%` và trung vị dương (`+$222..+$1.513`) nhưng Peak DD chạm `9,43%–9,70%` sát trần `10%` (`Breach24 = 7,7%–8,4%`). **Giữ khóa cứng Holdout `>= 2025`** cho tới khi có Động cơ #4 nâng Calmar lên `>= 1,2`.
