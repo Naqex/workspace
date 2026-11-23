@@ -18,6 +18,10 @@ ASSET_SPECS = {
     "XAUUSD": {"prefix": "xauusd", "scale": 100, "job_sub": "pass23-xauusd-m1-20261123", "unit": "USD/oz"},
     "US100": {"prefix": "us100", "scale": 1000, "job_sub": "pass23-us100-m1-20261123", "unit": "pts"},
     "GER40": {"prefix": "ger40", "scale": 1000, "job_sub": "pass23-ger40-m1-20261123", "unit": "pts"},
+    "AUDUSD": {"prefix": "audusd", "scale": 100000, "job_sub": "pass25-audusd-m1-20261123", "unit": "px"},
+    "USDCAD": {"prefix": "usdcad", "scale": 100000, "job_sub": "pass25-usdcad-m1-20261123", "unit": "px"},
+    "EURJPY": {"prefix": "eurjpy", "scale": 1000, "job_sub": "pass25-eurjpy-m1-20261123", "unit": "px"},
+    "BTCUSD": {"prefix": "btcusd", "scale": 100, "job_sub": "pass25-btcusd-m1-20261123", "unit": "USD"},
 }
 
 

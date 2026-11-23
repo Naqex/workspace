@@ -30,16 +30,19 @@ MC_DRAWS = 1000
 
 def asset_cost_tiers(asset: str) -> dict:
     """Exact 3-tier round-turn slippage + commission schedule on top of Native M1 Bid/Ask spreads."""
-    if asset in ("USDJPY", "GBPJPY"):
-        return {"comm_usd": 5.0, "base": 0.004, "stress": 0.009, "double": 0.014, "is_index": False}
-    if asset in ("GBPUSD", "EURUSD"):
-        return {"comm_usd": 5.0, "base": 0.00004, "stress": 0.00009, "double": 0.00014, "is_index": False}
+    if asset in ("USDJPY", "GBPJPY", "EURJPY"):
+        return {"comm_usd": 5.0, "base": 0.004, "stress": 0.009, "double": 0.014, "is_index": False, "is_crypto": False}
+    if asset in ("GBPUSD", "EURUSD", "AUDUSD", "USDCAD", "USDCHF"):
+        return {"comm_usd": 5.0, "base": 0.00004, "stress": 0.00009, "double": 0.00014, "is_index": False, "is_crypto": False}
     if asset == "XAUUSD":
-        return {"comm_usd": 0.0, "base": 0.20, "stress": 0.50, "double": 1.00, "is_index": False}
+        return {"comm_usd": 0.0, "base": 0.20, "stress": 0.50, "double": 1.00, "is_index": False, "is_crypto": False}
     if asset == "US500":
-        return {"comm_usd": 0.0, "base": 0.50, "stress": 1.50, "double": 2.50, "is_index": True}
+        return {"comm_usd": 0.0, "base": 0.50, "stress": 1.50, "double": 2.50, "is_index": True, "is_crypto": False}
     if asset in ("US100", "GER40"):
-        return {"comm_usd": 0.0, "base": 2.00, "stress": 4.00, "double": 6.00, "is_index": True}
+        return {"comm_usd": 0.0, "base": 2.00, "stress": 4.00, "double": 6.00, "is_index": True, "is_crypto": False}
+    if asset == "BTCUSD":
+        # Conservative % RT slippage on top of real M1 Bid/Ask spread (0.05% Base, 0.15% Stress, 0.30% Double)
+        return {"comm_usd": 0.0, "base_pct": 0.0005, "stress_pct": 0.0015, "double_pct": 0.0030, "is_index": False, "is_crypto": True}
     raise ValueError(f"Unsupported asset: {asset}")
 
 
@@ -94,7 +97,23 @@ def replay_causal_intraday(
     assert START <= e_ts <= x_ts < STOP
 
     c = asset_cost_tiers(asset)
-    if c["is_index"]:
+    if c.get("is_crypto"):
+        gross = side * (ex_p - entry_p)
+        def _cry_r(pct_rt: float) -> tuple[float, float]:
+            slip_px = entry_p * pct_rt
+            net = gross - slip_px
+            rsk = risk_p + slip_px
+            return net, net / rsk
+        net_b, r_b = _cry_r(c["base_pct"])
+        net_s, r_s = _cry_r(c["stress_pct"])
+        net_d, r_d = _cry_r(c["double_pct"])
+        worst_px = float(liq[:rel + 1, 2].min()) if side == 1 else float(liq[:rel + 1, 1].max())
+        mae_p = max(0.0, side * (entry_p - worst_px))
+        s_px = entry_p * c["stress_pct"]
+        mae_r = min(1.5, (mae_p + s_px) / (risk_p + s_px))
+        gross_usd = gross
+        ftmo_cs = s_px
+    elif c["is_index"]:
         gross = side * (ex_p - entry_p)
         def _idx_r(slip_rt: float) -> tuple[float, float]:
             net = gross - slip_rt
@@ -116,6 +135,8 @@ def replay_causal_intraday(
         elif spec["currency_profit"] == "JPY":
             d_ex = datetime.fromtimestamp(x_ts, timezone.utc).date()
             conv = 1.0 / (usdjpy_close_map.get(d_ex, ex_p) if (asset != "USDJPY" and usdjpy_close_map) else ex_p)
+        elif spec["currency_profit"] in ("CAD", "CHF"):
+            conv = 1.0 / ex_p
         else:
             conv = 1.0
         gross_usd = side * (ex_p - entry_p) * cs * conv
