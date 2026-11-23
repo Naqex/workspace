@@ -2,16 +2,17 @@
 doc_type: evergreen
 domain: knowledge
 topic: alpha-hypothesis-ledger
-updated_utc: 2026-11-23
+updated_utc: 2026-11-24
 sources:
   - "T1 (Nội bộ): planning/research/README.md (Pass 23-28, Holdout 2025-2026, Crypto Sleeve #2)"
   - "T1 (Nội bộ): planning/research/ARCHIVE-INDEX-202611.md (Pass 1-22 & Chiến dịch V1-V26)"
   - "T1 (Nội bộ): planning/research/PORTFOLIO-REGISTRY.json (9 động cơ đóng băng)"
+  - "T1 (Nội bộ 2026-11-24): CRYPTO-SLEEVE2-SURVIVORSHIP-FREE-20261124.md, SLEEVE3A-FUNDING-RATE-CARRY-20261124.md, SLEEVE3B-MACRO-ETF-TREND-18YR-20261124.md, PASS29..32-*-20261124.md"
 ---
 
-# Sổ cái Giả thuyết Alpha (`Pass 1 → Pass 32+` — Structured Experience Memory)
+# Sổ cái Giả thuyết Alpha (`Pass 1 → Pass 32` — Structured Experience Memory)
 
-> Tài liệu này đóng vai trò **Bộ nhớ Kinh nghiệm có Cấu trúc (Experience Memory theo mẫu `FactorMiner` / `RD-Agent-Q`)** cho toàn bộ hệ thống Naqex: lưu lại **cả động cơ chiến thắng lẫn toàn bộ giả thuyết đã bị bác bỏ** từ chiến dịch V1–V26, Pass 1 → Pass 28, Holdout `2025–2026`, Nhánh #2 Crypto Spot và khung sẵn sàng cho Pass 29–32.
+> Tài liệu này đóng vai trò **Bộ nhớ Kinh nghiệm có Cấu trúc (Experience Memory theo mẫu `FactorMiner` / `RD-Agent-Q`)** cho toàn bộ hệ thống Naqex: lưu lại **cả động cơ chiến thắng lẫn toàn bộ giả thuyết đã bị bác bỏ** từ chiến dịch V1–V26, Pass 1 → Pass 32, Holdout `2025–2026`, và các nhánh đa tài sản mới (`Sleeve #2` không survivorship bias, `Sleeve #3A` Funding Carry, `Sleeve #3B` Macro ETF 18 năm).
 > **Luật bắt buộc trước mọi lượt R&D mới:** Mọi AI Agent phải tra sổ này trước khi đề xuất chiến lược mới để **tuyệt đối không lặp lại các họ giả thuyết đã chết**, tránh phình số phép thử `M` làm phạt nặng `DSR`.
 
 ---
@@ -31,8 +32,8 @@ Toàn bộ `9` động cơ Nhánh #1 đều tuân thủ **`swap = 0` intraday**,
 | **`E7_USDJPY_NY10ET`** | `CORE` | `USDJPY` (`US100`+USD) | Pass `28` | Đồng thuận liên thị trường `US100 + rổ USD` lúc `10:00 ET` (né hoàn toàn tin `08:30 ET`) | `+7,3R` (`6/7` năm, **`9/9` ô 2D**, `r5E=-0,003`) | **`+2,61R`**, **`PF 1,70`**, `n=32` | `GO / FTMO_DEMO_SPEC_BOUND` |
 | **`S6_FX_USD_BSK`** | `SATELLITE_P1` | `MULTI_FX` | Pass `26` | Rổ USD vĩ mô lúc `12:00 UTC` chọn cặp mạnh nhất ngoài Yên (`min_z 0,35`) | `+9,99R` Stress (`5/7` năm, lệch chiều SELL) | **`+1,60R`**, `PF 1,11`, `n=51` | `GO (Bật P1, tắt ở Funded)` |
 | **`S7_XAU_EXP120`** | `SATELLITE_P1` | `XAUUSD` | Pass `15/16/23` | Mở rộng biến động `1,20 ATR` trên Vàng (`swap = 0`, `07:00–17:00 UTC`) | `+11,83R` Stress (`r3E=0,092`, lot sàn hạn ở 10k) | **`+11,48R`**, **`PF 2,58`**, `n=52` | `GO (Vệ tinh P1 / Personal)` |
-| **`C1_TSMOM_VOL20`** | `SLEEVE_2` | Crypto Spot (`5` coin) | Study `23/11` | Xu hướng chuỗi thời gian đa coin + Vol-Target `15%` (`t → t+1`, `0` đòn bẩy) | `CAGR +14,98%`, `MaxDD 11,04%`, `Sharpe 1,66` | **OOS `2025–2026`: `+5,98%/năm`**, `MaxDD 6,46%` | `CONDITIONAL` *(chờ bỏ survivorship bias)* |
-| **`C2_XSEC_TOP2_TREND`** | `SLEEVE_2` | Crypto Spot (`5` coin) | Study `23/11` | Top-2 coin dẫn dắt + lọc xu hướng `BTC SMA100` (`t → t+1`, `0` đòn bẩy) | `CAGR +20,34%`, `MaxDD 13,87%`, `Sharpe 1,67` | **OOS `2025–2026`: `+8,98%/năm`**, `MaxDD 8,21%` | `CONDITIONAL` *(chờ bỏ survivorship bias)* |
+| **`C1_TSMOM_VOL20`** | `SLEEVE_2` *(v1 5-coin)* | Crypto Spot (`5` coin) | Study `23/11` | Xu hướng chuỗi thời gian đa coin + Vol-Target `15%` (`t → t+1`, `0` đòn bẩy) | `CAGR +14,98%`, `MaxDD 11,04%`, `Sharpe 1,66` | **OOS `2025–2026`: `+5,98%/năm`**, `MaxDD 6,46%` | `SUPERSEDED` *(đã khử survivorship ở mục 5: `F4_4H_EMA_24_120_BTC`)* |
+| **`C2_XSEC_TOP2_TREND`** | `SLEEVE_2` *(v1 5-coin)* | Crypto Spot (`5` coin) | Study `23/11` | Top-2 coin dẫn dắt + lọc xu hướng `BTC SMA100` (`t → t+1`, `0` đòn bẩy) | `CAGR +20,34%`, `MaxDD 13,87%`, `Sharpe 1,67` | **OOS `2025–2026`: `+8,98%/năm`**, `MaxDD 8,21%` | `SUPERSEDED` *(bản 50-coin turnover `20–25×`, xem mục 5)* |
 
 **Tổng hợp cấp Danh mục đã xác minh:**
 - **`PORT_7E + SYMCAP_100 + Red-News ±5m`:** Holdout `2025–2026` đạt **`+12,70%/năm`, `PeakDD 6,55%`, `DailyDD 1,48%`, `Calmar 1,94`** (`GO`).
@@ -95,35 +96,27 @@ Bảng tổng hợp đầy đủ toàn bộ các họ giả thuyết đã bị k
 
 ---
 
-## 5. Vùng Chờ Cập nhật: Nhánh Alpha Tier 3–4 & Chiến dịch `Pass 29 → Pass 32` (`@quant-rnd`)
+## 5. Kết quả Đã Kiểm chứng: Nhánh Alpha Tier 3–4 & Chiến dịch `Pass 29 → Pass 32` (`2026-11-24`)
 
-> **Lưu ý tính toàn vẹn:** Các mục dưới đây là khung đăng ký sẵn khớp đúng phạm vi làn `@quant-rnd` (tách biệt hoàn toàn với Holdout FX/Gold/Index `2025+` đã niêm phong `NATIVE_FTMO_HOLDOUT_LOCK.json`). **Chưa ghi số liệu cho tới khi hoàn tất biên nhận kiểm chứng và có phê duyệt của `@verifier`.**
+> **Xác minh toàn vẹn (`@quant-rnd` + `@verifier` + `@risk-auditor`, `2026-11-24`):** Toàn bộ `7` báo cáo bên dưới đã vượt qua kiểm toán độc lập với `OrderSend = 0`, **`holdout_rows_analysed = 0`** (khóa `NATIVE_FTMO_HOLDOUT_LOCK.json` giữ nguyên bất biến cho mọi đợt khám phá FX/Gold/Index `Pass 29–32`), `PORTFOLIO-REGISTRY.json` và `projects/quant-trading` giữ sạch `100%`.
 
-### Tier 3 & Tier 4 — Các Nhánh Alpha Đa Tài Sản Mới (`Sleeve #2`, `Sleeve #3A`, `Sleeve #3B`)
-- **`Sleeve #2` — Crypto Spot Không Survivorship Bias (`M3.1–M3.2`):**
-  - **Trạng thái:** `PENDING_VERIFICATION`
-  - **Phạm vi:** Rổ `40–50` đồng lịch sử Binance Spot (`D1` & `4H`, `2019–2026`, gồm cả coin từng lớn sau suy giảm) với bộ lọc thanh khoản trượt `30` ngày Top-N 100% nhân quả (`<= t` → `t+1`), kiểm `5` họ chiến lược (`TSMOM Vol-Targeted`, `Cross-Sectional Top-K + BTC Regime`, `Donchian Vol Breakout`, `4H Trend`, `Liquidity-Filtered Panic Reversion`) theo Cụm A (`2019–2023`) → Cụm B mù (`2024–2026`), phí `1×/2×`, `BH-FDR` & `DSR`.
-  - **Biên nhận đích:** `CRYPTO-SLEEVE2-SURVIVORSHIP-FREE-20261124.md` *(chờ `@verifier` duyệt)*.
-- **`Sleeve #3A` — Crypto Delta-Neutral Funding-Rate Carry (`M3.3`):**
-  - **Trạng thái:** `PENDING_VERIFICATION`
-  - **Phạm vi:** `Spot Long + 1× Perp Short` trên top `15–20` perpetual thanh khoản cao (`2020–2026`), trừ đủ phí vào/ra + turnover + luật thoát funding âm + đệm ký quỹ `2×` chống thanh lý, stress qua cú sốc `2021` & `2022 FTX`.
-  - **Biên nhận đích:** `SLEEVE3A-FUNDING-RATE-CARRY-20261124.md` *(chờ `@verifier` duyệt)*.
-- **`Sleeve #3B` — Macro ETF Trend & Risk Parity `18` Năm (`M4.3`):**
-  - **Trạng thái:** `PENDING_VERIFICATION`
-  - **Phạm vi:** `12` ETF vĩ mô toàn cầu (`SPY, QQQ, IWM, TLT, IEF, GLD, SLV, USO, UUP, EFA, EEM, DBC`, `2007–2026`) kiểm `TSMOM`, `Dual Momentum` và `Volatility-Parity All-Weather` theo Cụm A (`2007–2018`) → Cụm B mù (`2019–2026`), đo crisis alpha `2020` & `2022`.
-  - **Biên nhận đích:** `SLEEVE3B-MACRO-ETF-TREND-18YR-20261124.md` *(chờ `@verifier` duyệt)*.
+### 5.1. Ba Nhánh Alpha Đa Tài Sản Đã Kiểm chứng (Tier 3–4 — Nguồn Tăng trưởng Chính của Quant Pod)
 
-### Pass 29 (`M4.1`) — Khám phá Trực giao Vàng (`XAUUSD`) & Chỉ số Toàn cầu (`US500`, `US100`, `GER40`)
-- **Trạng thái:** `PENDING` *(nghiêm ngặt chỉ trên Development `< 2025-01-01`, Holdout `2025+` SEALED)*
-- **Phạm vi:** Kiểm `4` giả thuyết kinh tế intraday `swap = 0` (`London/NY Fix Drift`, `Opening-Range Vol Squeeze`, `Gold Asian->London Reversion`, `Index Auction Momentum`) trên Cụm A (`2018–2021`) → Cụm B mù (`2022–2024`), `BH-FDR` trên tổng `m_total`, Matched-Hold Timing Null, mục tiêu tương quan `r < 0,15` vs `PORT_7E`.
-- **Biên nhận đích:** `PASS29-GOLD-INDEX-ORTHOGONAL-DEV-20261124.md` *(giữ nguyên cả kết quả âm nếu `0` ứng viên đạt)*.
+| Nhánh / Milestone | Chiến lược Chọn Chính (Cụm A) & Dự phòng | Quy mô Dữ liệu & Kỷ luật Nhân quả | Hiệu suất Cụm A | **Hiệu suất Cụm B Mù (`1× / 2×` phí)** | Kết quả Âm Đã Khai tử / Rủi ro Trung thực | Trạng thái & Biên nhận |
+|---|---|---|---|---|---|---|
+| **`Sleeve #2` (`M3.1–M3.2`)** Crypto Spot Không Survivorship Bias | **`F4_4H_EMA_24_120_BTC`** *(chọn chính Cl.A #1)*; dự phòng `F3_DONCHIAN_4H_120_60` (`turnover 3,23×`, DD `6,67%`) & `F1_TSMOM_D1_L60_VT15` (DD `6,04%`) | `50` coin Binance Spot (`1d` & `4h`, `2019–2026`, gồm coin hủy niêm yết `EOS/MKR/WAVES`), rổ Top-15 thanh khoản trượt `30d` (`<= t → t+1`), `15/30 bps` + `100 bps` delist haircut, `m = 15` | `CAGR +16,30%` (`15,67%` @ `2×`), `Sharpe 1,823`, `MaxDD 8,53%`, `Calmar 1,911` | **`+5,69% / +4,94%`**, `Sharpe 0,776`, `MaxDD 9,72%`, `Calmar 0,586`, `DSR_Full = 0,991` *(trong khi rổ đều `BM_CAUSAL_EQW15` giảm `-38,99%`, `MaxDD 69,23%`!)* | Đo rõ **thuế survivorship bias** của bản 5-coin cũ = **`-6,61` đến `-11,21` điểm %/năm** trên Cl.A; **`LIQUIDITY_PANIC_REVERSION` BỊ KHAI TỬ VĨNH VIỄN** (âm Cl.B `-1,92%`, `skew -7,96..-12,06`, `kurt 208–307`); `XSEC` turnover `20–25×` nhạy phí `2×`. | `VERIFIED_GO_OFFLINE` · [CRYPTO-SLEEVE2-SURVIVORSHIP-FREE-20261124.md](../../planning/research/CRYPTO-SLEEVE2-SURVIVORSHIP-FREE-20261124.md) |
+| **`Sleeve #3A` (`M3.3`)** Crypto Delta-Neutral Funding-Rate Carry | **`CARRY_BTC_ETH_CONS_2XBUF`** (`Spot Long + 1× Perp Short`, đệm vốn `2,0×`, cắt funding âm 7d) | `20` Binance USD-M Perps (`2020–2026`) + đối soát `533` ngày Bybit v5, phí cặp `23/46 bps`, hạch toán thật basis `r_spot - r_perp` & kiểm thanh lý Mark Price | `CAGR +7,69% / +6,73%`, `Sharpe 7,825`, `MaxDD 0,95%`, `0` liq | **`+2,99% / +2,46%`**, `Sharpe 9,061`, `MaxDD 0,29%`, `turnover 2,24×`, `BH q = 0,0000`, `DSR = 1,000`; **FTX 11/2022 chỉ `-0,07%`** *(vs `-4,70%` bản tĩnh)* | **Cảnh báo nén lợi suất & rủi ro CEX:** Dòng vốn Ethena `2024–2026` nén carry về `~2,5%–3,0%/năm` trên tổng vốn đệm `2×`; biến thể xoay vòng altcoin (`ALL20`, `TOP5_HYST`) gãy ở `2×` phí (`-0,07%..-1,80%`) và altcoin short-squeeze `1×` (`DOGE +405%`) cháy Isolated Margin. **Khóa trần `<= 15%–20%` Pod**, chỉ bật khi carry vượt lãi suất phi rủi ro. | `VERIFIED_REGIME_SLEEVE` · [SLEEVE3A-FUNDING-RATE-CARRY-20261124.md](../../planning/research/SLEEVE3A-FUNDING-RATE-CARRY-20261124.md) |
+| **`Sleeve #3B` (`M4.3`)** Macro ETF Trend & Risk Parity `18` Năm | **`M5_VOL_PARITY_TREND_GUARD`** *(chọn chính Cl.A, `1×` Long + `SMA200`)*; bảo hiểm đuôi `M1_AHL_TSMOM_LS_VOL10` (`r_SPY = -0,138`) | `12` ETF toàn cầu (`adjclose`, `2007–2026`, `18,9` năm), `5/10 bps` + `50/100 bps` short borrow, tiền mặt tính `0%` lãi, Cl.A `2008–2018` → Cl.B `2019–2026` (`m = 5`) | `CAGR +3,64% / +3,56%`, `Sharpe 0,605`, `MaxDD 10,45%` | **`+7,58% / +7,47%`**, **`Sharpe 1,063`**, **`MaxDD 7,77%`**, **`Calmar 0,975`**, `turnover 1,90×/năm`, **`BH q = 0,0062`**, **`DSR = 0,958`**; **GFC 2008 `-0,02%`, Lạm phát 2022 `-2,67%`** *(vs `60/40` `-20,7%`)* | `M1_AHL_TSMOM_LS` đơn lẻ có `turnover 20×`, `Sharpe 0,361`, không vượt `BH-FDR` riêng (`q = 0,137`), nhưng tạo **Crisis Alpha cực mạnh** (`+15,9%` GFC 2008, `+4,75%` COVID crash, `+12,2%` 2022) → chỉ dùng làm lớp phối trộn bảo hiểm đuôi (`50% M1 + 50% M5`). | `VERIFIED_GO_OFFLINE` · [SLEEVE3B-MACRO-ETF-TREND-18YR-20261124.md](../../planning/research/SLEEVE3B-MACRO-ETF-TREND-18YR-20261124.md) |
 
-### Pass 30 (`M4.2`) — Khám phá Mở rộng FX Intraday (`AUDUSD`, `USDCAD`, `EURJPY`, `GBPJPY`)
-- **Trạng thái:** `PENDING` *(nghiêm ngặt chỉ trên Development `< 2025-01-01`, Holdout `2025+` SEALED)*
-- **Phạm vi:** Kiểm `3` họ kinh tế (`Overnight Gap Fade`, `London Open Range Breakout + Vol Filter`, `Cross-Currency Relative-Strength Intraday`) trên Cụm A (`2018–2021`) → Cụm B mù (`2022–2024`), `BH-FDR`, Matched-Hold Timing Null, đo tác động lên thời gian đậu P1 & Calmar Cụm B.
-- **Biên nhận đích:** `PASS30-FX-EXTENDED-ORTHOGONAL-DEV-20261124.md` *(giữ nguyên toàn bộ kết quả âm trung thực)*.
+### 5.2. Bốn Đợt Kiểm định Intraday Prop & Danh mục (`Pass 29 → Pass 32` — Chỉ Dev `< 2025-01-01`, Holdout `2025+` SEALED)
 
-### Pass 31–32 (Tier 8) — Khám phá Chuyên sâu Tiếp nối Sau Tier 1–7
-- **Trạng thái:** `PENDING`
-- **Phạm vi:** Các đợt đào sâu kế tiếp được kích hoạt sau khi toàn bộ Tier 1–7 đã hạ cánh và được kiểm toán; kết quả dương lẫn kết quả âm sẽ được chưng cất thẳng vào mục 1–3 của sổ này và lập lại chỉ mục qua `brain_cli.py index`.
-- **Biên nhận & Phán quyết:** *(Chờ hoàn tất Tier 1–7 & phê duyệt `@verifier`)*.
+| Pass / Milestone | Phạm vi & Số giả thuyết (`m_total`) | Kết quả Chính thức | Phát hiện / Bẫy Kinh điển Đã Chứng minh & Giữ lại (Honest Negatives + v2 Candidate) | Biên nhận |
+|---|---|---|---|---|
+| **Pass 29 (`M4.1`)** Gold & Global Indices Orthogonal Dev | `m = 24` trên `XAUUSD, US500, US100, GER40` (`H1 Fix Drift`, `H2 OR Vol Squeeze`, `H3 Gold Asia→London Rev`, `H4 Index Auction 15m/30m`), `swap = 0`, Cl.A `2018–2021` → Cl.B `2022–2024` | **`0 / 24` ĐẠT** (`COMPLETE_ZERO_PASS_HONEST_NEGATIVE`) | **Khai tử toàn bộ 4 họ:** `H1` biên lãi mỏng hơn spread/stress `2×`; `H2` lộ bẫy đảo chế độ (`US100/XAU` dương `+15,2R/+21,6R` trên `2022–2024` nhưng âm `-12,3R/-56,8R` trên `2018–2021`!); `H3` Gold Asia→London Rev thua cả 2 cụm (`PF 0,55–0,92`); `H4` Auction dương Cl.A (`+6,23R` US100) nhưng sập ngay trên Cl.B mù (`-5,63R`). Xác nhận lõi `E4/E5/S7` đã khai thác đúng cấu trúc bền vững nhất. | [PASS29-GOLD-INDEX-ORTHOGONAL-DEV-20261124.md](../../planning/research/PASS29-GOLD-INDEX-ORTHOGONAL-DEV-20261124.md) |
+| **Pass 30 (`M4.2`)** Extended FX Intraday Dev | `m = 24` trên `AUDUSD, USDCAD, EURJPY, GBPJPY` (`F1 Overnight Gap Fade`, `F2 London ORB + Vol`, `F3 Cross-Ccy RS 10/13 UTC`), Cl.A `2018–2021` → Cl.B `2022–2024` | **`0 / 24` ĐẠT** (`COMPLETE_ZERO_PASS_HONEST_NEGATIVE`) | **0/24 dương trên Cl.A, 0/24 dương `2×` phí, `BH q >= 0,575`, `Matched-Hold p >= 0,118`.** Phép thử phản chứng ghép ứng viên ít âm nhất (`P30_F1_EURJPY_ON_GAP_FADE`) vào `PORT_7E` kéo tụt **Cl.B Calmar `-0,46` (`1,44 → 0,98`)**, làm chậm vượt P1 (`6,1m → 6,3m`) và bốc hơi **`-146,2 USD` `CF24`**! **Đóng dứt điểm việc pha loãng `PORT_7E` bằng các cặp FX phụ.** | [PASS30-FX-EXTENDED-ORTHOGONAL-DEV-20261124.md](../../planning/research/PASS30-FX-EXTENDED-ORTHOGONAL-DEV-20261124.md) |
+| **Pass 31 (`M8.1`)** Red-Team Guarded Discovery | `m = 18 <= 20` (trần cứng) qua `research_council.py` (`HypothesisCard` + `SkepticalRedTeamCritic` 6 cổng + Matched-Hold Null) trên 3 họ mới (`FA Cross-Sess Vol Comp P30`, `FB Liquidity Sweep Reversal 15–30m`, `FC NY Open Spillover`) | **`0 / 18` ĐẠT** (`18/18 REJECT_KILLED`) | **Hội đồng Red-Team chặn đứng 3 bẫy kinh điển:** (1) **`P31_FB_US100_OR30_SWEEP_15M`** thắng `+13,17R` Cl.A nhưng **sập `-18,02R` trên Cl.B mù** (củng cố lần 3 việc khai tử SMC/Liquidity Sweep reversal trên CFD); (2) **`P31_FA_USDJPY_ASIA_P30_LDN_BRK`** thắng `+23,33R` Cl.B (`BE 4,23×`, `q 0,072`, `MH 0,020`) nhưng bị loại cứng do lỗ `-8,61R` Cl.A, trùng `PORT_7E` (`r = +0,229 > 0,15`) và `DSR = 0,491 < 0,50`; (3) `6/6` truyền dẫn đơn cặp `FC_SPILLOVER` âm nặng (`-5,4R..-56,9R` @ `2×`). | [PASS31-REDTEAM-GUARDED-DISCOVERY-20261124.md](../../planning/research/PASS31-REDTEAM-GUARDED-DISCOVERY-20261124.md) |
+| **Pass 32 (`M8.2`)** LOO Pruning & Causal Allocation / Vol-Throttle | `m = 12 <= 20` biến thể phân bổ (`Inv-DD`, `HRP`, `ERC`), cắt tỉa LOO (`Top-6`, `Top-7`) và `Vol-Regime Throttle 20d` khớp 100% trên Cl.A (`2018–2021`), kiểm mù trên Cl.B (`2022–2024`, M1 Prague `SYMCAP 1%`, `2.000` MC FTMO Swing) | **Giữ nguyên Đương kim `PORT_7E` (`V01`); Ghi nhận 1 Ứng viên Nghiên cứu v2 (`V08_PORT9E_CAUSAL_ERC`)** (`registry_mutated = false`) | **(1) Bẫy Cắt Tỉa LOO (`V09_PRUNED_TOP6`):** Cắt 3 động cơ chậm Cl.A (`E1, E6, S7`) đẩy `Calmar Cl.A = 2,045` nhưng **sập thảm trên Cl.B mù xuống `Calmar = 0,387` (`CF24 = +88,4 USD`)** vì đúng 3 động cơ đó đảo thành Top-3 Cl.B (`LOO ΔCalmar +0,54 / +0,32 / +0,31`) trong khi ngôi sao Cl.A `S6` đảo thành `-0,39`! **CẤM cắt tỉa động cơ theo hiệu suất 3–4 năm gần nhất.**<br>**(2) Đương kim Sản xuất (`V01 PORT_7E`):** Cl.B `Calmar 1,463`, vượt P1+P2 nhanh nhất (`4,9m`), `CF24 +764,4 USD` → giữ nguyên 100% cho Free Trial/Challenge (`Vol-Throttle 20d` `V11` không cải thiện `V01`).<br>**(3) Ứng viên v2 Nghiên cứu (`V08_PORT9E_CAUSAL_ERC`):** Giữ đủ 9 động cơ + trọng số ERC nhân quả Cl.A đạt **Cl.B mù `Calmar 1,596`, `Sharpe 1,518`, `PeakDD 5,20%`, `BR1 3,3%`, `CF24 +759,2 USD`**, Dev All `Calmar 1,315`. *Lưu ý kiểm toán `@risk-auditor`:* ERC theo phương sai ngày có xu hướng phóng to động cơ thưa lệnh (`E7 = 0,979%` base vs `E1 = 0,099%`), nên bất kỳ đánh giá v2 nào sau `90` ngày Demo/Live phải kẹp thêm trần rủi ro cơ sở `<= 0,75%`/động cơ. | [PASS32-PORTFOLIO-PRUNING-AND-REGIME-DEV-20261124.md](../../planning/research/PASS32-PORTFOLIO-PRUNING-AND-REGIME-DEV-20261124.md) |
+
+**Kết luận tổng hợp `Pass 29 → Pass 32` (`0/66` tín hiệu intraday mới qua cổng trên Pass 29–31):**
+- Dữ liệu `66` thử nghiệm có kỷ luật Red-Team (`24 + 24 + 18`) xác nhận một cách thuyết phục rằng **biên lợi nhuận intraday trên FX/Gold/Index CFD đã chạm vùng bão hòa tự nhiên với lõi `PORT_7E` / `PORT_9E` hiện hữu**.
+- Đòn bẩy nâng cấp lớn nhất tiếp theo cho **One-Person Quant Pod** KHÔNG phải cày thêm Pass `33+` trên cùng kho FX cũ, mà là: **(a)** Đưa `PORT_7E` vào thực chiến Free Trial / Live TCA ngay, **(b)** Triển khai dần các nhánh đa tài sản đã kiểm chứng ở trên (`Sleeve #2` Crypto Spot `F4_4H_EMA_24_120_BTC`, `Sleeve #3B` Macro ETF `M5_VOL_PARITY_TREND_GUARD`, và `Sleeve #3A` Funding Carry theo chế độ), và **(c)** Bảo lưu `V08_PORT9E_CAUSAL_ERC` (có trần `<= 0,75%`/động cơ) cho kỳ review v2 sau `90` ngày dữ liệu forward thật.
