@@ -326,6 +326,10 @@ def margin_per_lot_usd(asset: str, entry_price: float, profile_mode: str = "Swin
     lev = 100.0 if is_std else 30.0
     if asset in ("USDJPY", "USDCAD", "USDCHF"):
         notional_usd = 100000.0
+    elif asset.startswith("EUR") and not asset.endswith("USD"):
+        notional_usd = 100000.0 * 1.15  # conservative EUR/USD upper bound for EUR crosses
+    elif asset.startswith("GBP") and not asset.endswith("USD"):
+        notional_usd = 100000.0 * 1.35  # conservative GBP/USD upper bound for GBP crosses
     else:
         # GBPUSD, EURUSD, AUDUSD: entry_price is base/USD
         notional_usd = 100000.0 * entry_price

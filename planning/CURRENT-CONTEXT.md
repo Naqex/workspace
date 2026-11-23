@@ -2,7 +2,7 @@
 
 `23/11/2026` · `WORK: ACTIVE/PARTIAL | REVIEW: REVIEWED-PARTIAL | DOC: COMPACTED-RESUMABLE`
 
-`RESEARCH: 5E_CORE_AND_7E_P1_TURBO_DEMO_SPEC_BOUND_M1_VERIFIED (CALMAR 1,03–1,04 EXACT M1 FLOATING) · BASELINE: PASS 27 (USDJPY Tokyo + USDJPY EXP080 + GBPUSD VOL_HIGH + US100 SESS_CONT_BRK_40 + US100_RS_1130 + P1 Satellites USD_BASKET & XAU_EXP120) · 6/6 MQ5 CLEAN · HOLDOUT >= 01/01/2025 LOCKED · PROP: PRE_HOLDOUT_GATE`
+`RESEARCH: FROZEN_PRE_HOLDOUT_PORT7E_CALMAR_121_PORT9E_CALMAR_139_NEWS_GUARD_VERIFIED (93.3% RETENTION) · BASELINE: PASS 28 (+EURJPY_VOLCOMP_EXP75 +USDJPY_NY_RISK_FLOW_10ET) · 8/8 MQ5 CLEAN · HOLDOUT >= 01/01/2025 LOCKED · PROP: READY_FOR_ONE_SHOT_HOLDOUT`
 
 ## 1. Mục tiêu chính & Khung vận hành
 
@@ -11,8 +11,13 @@
 - **Ràng buộc an toàn bất biến:** Khóa cứng Holdout từ `01/01/2025` (`NATIVE_FTMO_HOLDOUT_LOCK.json`), `OrderSend = 0`, không mở MT5/đọc `.env`, không tự sửa global config, không đụng pin `projects/trader` hay WIP `projects/vi-dubber`.
 - **Điều phối thống nhất:** Antigravity tiếp quản cả vai trò điều phối lẫn thực thi trên `Naqex/workspace` (thay thế quy trình copy-paste giữa Gemini Web / Codex / chat Astra cũ). Kho săn ý tưởng bên ngoài `D:\ANNAM\strategy-intel` giữ **Air-Gap tuyệt đối** (chỉ chuyển giao đặc tả toán học thuần túy, không import file hay trộn số liệu `>= 2025`).
 
-## 2. Trạng thái nghiên cứu hiện hành (Pass 5 → Pass 27)
+## 2. Trạng thái nghiên cứu hiện hành (Pass 5 → Pass 28 · ĐÓNG BĂNG KHÁM PHÁ CHỜ HOLDOUT)
 
+- **Pass 28 (23/11/2026) — Đợt khám phá cuối trước Holdout (`Calmar 1,04 → 1,39`), Kiểm toán khóa tin đỏ `±5 phút` & Biên giới `3–6` tháng (`8/8` `.mq5` sạch, `1.558` full suite + `7/7` focused tests PASS):**
+  - **2 động cơ mới qua 100% pháp y (`swap = 0`, spec FTMO Demo FX):** **Engine #6 `EURJPY_VOLCOMP_EXP75`** (`n = 138`, A `+6,0R` → B mù `+7,2R`, DD `3,6R`, `6/9` ô 2D, `r5E = +0,085`) và **Engine #7 `USDJPY_NY_RISK_FLOW_10ET`** (lúc `10:00 ET` né tin đỏ `08:30`/`10:00 ET`, `n = 105`, A `+2,2R` → B mù `+5,1R`, `6/7` năm, DD `2,3R`, **`9/9` ô 2D**, `r5E = -0,003`).
+  - **Exact M1 Floating Equity:** **`PORT_7E_P28_CORE`** đạt **`+7,73%/năm`, `FloatDD 6,36%`, `Calmar = 1,21`**; **`PORT_9E_P28_TURBO`** (+ `FX_USD_BASKET` + `XAU_EXP_120`) đạt kỷ lục **`+8,83%/năm`, `FloatDD 6,37%`, `Calmar = 1,39`**.
+  - **Khóa tin đỏ `±5 phút` (`224` FOMC+CPI+NFP chính thức & `364` US+UK):** `PORT_9E` giữ **`93,3%` lãi (`Calmar 1,02`)** trên US và **`90,4%` (`Calmar 1,08`)** trên US+UK → chạy bền trên cả FTMO Standard Funded & The5ers High Stakes.
+  - **Biên giới `3–6` tháng:** 2-Step `PORT_9E @ 2,5×–3,0×` đạt **`Med = 6,8–7,6m`**, `Br1 0,8–1,7%`, **`CF12 +$172..+$185`, `CF24 +$736..+$756` FTMO / `+$372..+$379` The5ers** (`3,5×–4,0×` đạt `5,4–6,0m`); 1-Step Hyper Growth `HG 2,0×` (`1tr <= 1%`) đạt **`Med = 4,8m` (`51,6%` đậu trong 6m)** nhưng phí `$260` không hoàn lại (`CF24 +$60`). Đủ **`8/8` `.mq5` sạch**; **chốt đóng băng danh mục chờ lệnh mở Holdout `2025–2026` đúng 1 lần duy nhất**. [Báo cáo Pass 28](research/PASS28-FINAL-DISCOVERY-REDNEWS-AND-SHORT-HORIZON-RESULTS-20261123.md) · [Protocol `a9de160`](research/PASS28-FINAL-DISCOVERY-REDNEWS-AND-SHORT-HORIZON-PROTOCOL-20261123.md).
 - **Pass 27 (23/11/2026) — Đo spec FTMO Demo thật `US100.cash` · Kiểm toán M1 Floating Equity 5/6/7 động cơ · Kiến trúc hồ sơ thi quỹ theo pha (`6/6` `.mq5` sạch, `1.555/1.555` tests PASS):**
   - **FTMO-Demo Read-Only Probe (`sha256 220b916e60a7`, `OrderSend = 0`):** `US100.cash` khớp 1:1 (`1 pt × 1 lot = $1,00`, `vol 0,01`, `stops = 0`, `margin 1 lot = $517,05`, **spread live `1,95 pts`**) → thăng hạng Engine #4 & #5 lên **`FTMO_DEMO_SPEC_BOUND`**.
   - **Exact M1 Floating Equity (Prague Reset, `0` lỗi margin Swing/Standard):** `US100` E4 vs E5 trùng `94` ngày (`94/94` cùng chiều, chỉ `4` ngày double-SL/7 năm, lãi gộp `+22,29R`); **`PORT_5E_RAW`** đạt **`+6,89%/năm`, `DailyDD 1,95%`, `FloatPeakDD 6,69%`, `Calmar 1,03`**; **`PORT_7E_P1_TURBO`** (+ `FX_USD_BASKET` + `XAU_EXP_120`, đều `swap = 0`) đạt **`+7,70%/năm`, `FloatPeakDD 7,38%`, `Calmar 1,04`**.
