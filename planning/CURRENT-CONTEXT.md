@@ -11,8 +11,13 @@
 - **Ràng buộc an toàn bất biến:** Khóa cứng Holdout từ `01/01/2025` (`NATIVE_FTMO_HOLDOUT_LOCK.json`), `OrderSend = 0`, không mở MT5/đọc `.env`, không tự sửa global config, không đụng pin `projects/trader` hay WIP `projects/vi-dubber`.
 - **Điều phối thống nhất:** Antigravity tiếp quản cả vai trò điều phối lẫn thực thi trên `Naqex/workspace` (thay thế quy trình copy-paste giữa Gemini Web / Codex / chat Astra cũ). Kho săn ý tưởng bên ngoài `D:\ANNAM\strategy-intel` giữ **Air-Gap tuyệt đối** (chỉ chuyển giao đặc tả toán học thuần túy, không import file hay trộn số liệu `>= 2025`).
 
-## 2. Trạng thái nghiên cứu hiện hành (Pass 5 → Pass 14)
+## 2. Trạng thái nghiên cứu hiện hành (Pass 5 → Pass 15)
 
+- **Pass 15 (23/11/2026) — Engine #2 đo ni đóng giày cho FTMO (`XAUUSD` Intraday `swap = 0` & FX Positive-Carry, `7` giả thuyết, `14,61s`):**
+  - `0/7` đạt Tier 1 / Tier 2 (`TIER_3_DEAD_NO_EDGE = 7/7`), nhưng lộ ra **2 quy luật chi phí/cơ chế cực kỳ rõ**:
+    1. `XAU_DAILY_OPEN_ATR` (`n=1.235`, `swap=0`) có **động lượng thật (`gross +$29.484`, `p=0,004`, `FDR q=0,028`, đè bẹp Fade `-38,2R vs -182,7R`)**, nhưng tần suất quá dày làm phí thực thi (`-$64.803`) nuốt hết lãi → bài học: đánh `XAUUSD` trong ngày chỉ sống nếu lọc **tần suất thấp / biên độ lớn** (`cost/ATR` nhỏ).
+    2. `CARRY_USDJPY_LONG` (`Donchian20` `+11,28R`, `Pullback H4` `+12,18R`) hưởng **Swap FTMO dương `+$1.677..+$1.826`**, nhưng âm Cụm A (`2018–2020`) và trượt Null Test (`p=0,37–0,70`, chỉ ăn sóng tăng JPY `2021–2024`).
+  - [Báo cáo Pass 15](research/PASS15-FTMO-NATIVE-ENGINE2-20261123.md) · [Protocol `b2e5803`](research/PASS15-FTMO-NATIVE-ENGINE2-PROTOCOL-20261123.md).
 - **Pass 14 (23/11/2026) — Sàng lọc đồng loạt 13 chiến lược `"CHẤT"` còn lại từ `strategy-intel` (Hoàn tất 15/15 Top Leads · Phân loại 3 tầng):**
   - Chạy toàn bộ **52 cặp** (`13` chiến lược × `XAUUSD`/`EURUSD`/`GBPUSD`/`USDJPY`, ~10,3 triệu nến M1, `52.000` lượt MC Null + FDR) trong **`35,47s`** trên Hot M1 Cache SSD (`249,3 MB`).
   - **`TIER_1_FTMO_READY`: `0 / 52`** (chưa có ứng viên Top 15 nào đủ chuẩn ghép thi FTMO ngay).

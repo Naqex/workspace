@@ -9,6 +9,13 @@ Từ workspace root, chạy `python -X utf8 tooling/ai-engines/research_inventor
 để xem mức gắn nhãn. Thêm `--all` để lấy từng đường dẫn và lý do còn thiếu
 thông tin.
 
+**Pass 15 · Engine #2 đo ni đóng giày cho FTMO (`XAUUSD` Intraday `swap = 0` & FX Positive-Carry Trend).**
+Chạy 7 giả thuyết trực giao (`4` nhánh `XAUUSD` intraday `swap = 0` + `3` nhánh FX thuận chiều Swap dương FTMO `USDJPY` Long / `EURUSD` Short) trong `14,61s` trên Hot M1 Cache SSD (`holdout_rows = 0`, `network_calls = 0`, `OrderSend = 0`, BH FDR `m = 7`).
+Kết quả: `0/7` đạt Tier 1 hoặc Tier 2 (`TIER_3_DEAD_NO_EDGE = 7/7`). Phát hiện chẩn đoán quan trọng: `XAU_DAILY_OPEN_ATR` có tín hiệu động lượng thật (`gross +$29.484`, thắng 99,6% ngẫu nhiên `p = 0,004`, `FDR q = 0,028`, thắng Fade `+144,5R`) nhưng bị ma sát `1.235` lệnh (`-$64.803` phí) kéo xuống `-38,2R`; còn `USDJPY` Carry Long nhận dương `+$1.677..+$1.826` Swap FTMO và lãi `+11,3R..+12,2R` nhưng âm Cụm A (`2018–2020`) và trượt Null Test (`p = 0,37–0,70`, chỉ ăn theo sóng USDJPY 2021–2024).
+Giữ Engine #1 `USDJPY` Pass 7B/8 và `ENGINE_1_NEEDS_PARTNER`.
+[Báo cáo](PASS15-FTMO-NATIVE-ENGINE2-20261123.md) ·
+[Protocol](PASS15-FTMO-NATIVE-ENGINE2-PROTOCOL-20261123.md).
+
 **Pass 14 · Sàng lọc đồng loạt 13 chiến lược `"CHẤT"` còn lại từ `strategy-intel` (hoàn tất 15/15 Top Leads).**
 Chạy toàn bộ 52 cặp (`13` chiến lược × `4` tài sản: `XAUUSD`, `EURUSD`, `GBPUSD`, `USDJPY`) trong `35,47s` trên Hot M1 Cache SSD (`249,3 MB`, `network_calls = 0`, `holdout_rows = 0`, `OrderSend = 0`, `52.000` lượt MC Null + FDR).
 Kết quả phân loại 3 tầng: `TIER_1_FTMO_READY = 0/52`, `TIER_2_PERSONAL_VAULT_PROVISIONAL_XAU = 2/52` (`NEN006 XAUUSD`: FTMO `+14,89R` / ExSF `+30,30R`, `p_g=0,016`, 4/4 ô ±30% dương cả A&B; `IND026 XAUUSD`: FTMO `+10,49R` / ExSF `+19,70R`, `p_g=0,014`, 3/3 ô ±30% dương cả A&B — cần xác nhận Tick Bid/Ask thật & lưu ý `FDR q=0,416`), `TIER_3_DEAD_NO_EDGE = 50/52`.

@@ -4787,6 +4787,14 @@
     "version": 1,
     "broker_observations": [
       {
+        "id": "pass15-ftmo-native-engine2-20261123",
+        "scope": "Pass 15 Development 2018-2024 zero-network FTMO-native Engine #2 screen (4 XAUUSD intraday zero-swap + 3 FX positive-carry trend, BH FDR m=7): 0/7 Tier 1/2 (all TIER_3_DEAD_NO_EDGE); diagnostic finding: XAU_DAILY_OPEN_ATR showed genuine gross momentum (p=0.004, FDR q=0.028, +144.5R vs Fade) overwhelmed by 1,235-trade execution drag (-$64.8k).",
+        "report": "PASS15-FTMO-NATIVE-ENGINE2-20261123.md",
+        "summary": "PASS15-FTMO-NATIVE-ENGINE2-20261123.json",
+        "private_manifest": "pass15-ftmo-native-engine2-20261123/manifest.json",
+        "private_manifest_sha256": "efe947bf3ec13cddeafa0c22ee37ffd424edeb20f76460ec7dc4538e9914dd93"
+      },
+      {
         "id": "pass14-intel-top15-batch-20261123",
         "scope": "Pass 14 Development 2018-2024 zero-network batch screen of all 13 remaining 'CHAT' leads from strategy-intel x 4 assets (52 pairs, M1 path + FTMO Swap 3x + Exness Ref + MC Null + BH FDR): 0/52 TIER_1_FTMO_READY, 2/52 TIER_2_PERSONAL_VAULT_PROVISIONAL_XAU (NEN006 XAUUSD, IND026 XAUUSD), 50/52 TIER_3_DEAD_NO_EDGE.",
         "report": "PASS14-STRATEGY-INTEL-TOP15-BATCH-20261123.md",
