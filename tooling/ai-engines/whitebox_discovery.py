@@ -303,6 +303,13 @@ def eval_us500_grammar(times: np.ndarray, quotes: np.ndarray, sessions: list[dic
             raw_side = 1 if up[j] else -1
             side = -raw_side if rev else raw_side
             rel_i = a_i + j
+            spr_i = max(0.0, float(q[rel_i, 4] - q[rel_i, 0]))
+            if not rev:
+                ep = max(top, float(q[rel_i, 4])) if side == 1 else min(bot, float(q[rel_i, 0]))
+                fep = (ep - spr_i) if side == 1 else (ep + spr_i)
+            else:
+                ep = max(top, float(q[rel_i, 0])) if side == -1 else min(bot, float(q[rel_i, 4]))
+                fep = (ep + spr_i) if side == -1 else (ep - spr_i)
         elif arch == "WB_IMPULSE_PULLBACK":
             i0, i1, i2 = int(offs.searchsorted(0)), int(offs.searchsorted(60)), int(offs.searchsorted(300))
             if i1 <= i0 + 30 or i2 <= i1:
@@ -318,12 +325,30 @@ def eval_us500_grammar(times: np.ndarray, quotes: np.ndarray, sessions: list[dic
             if not len(hits):
                 continue
             rel_i = i1 + int(hits[0])
+            spr_i = max(0.0, float(q[rel_i, 4] - q[rel_i, 0]))
+            ep = min(target, float(q[rel_i, 4])) if side == 1 else max(target, float(q[rel_i, 0]))
+            fep = (ep - spr_i) if side == 1 else (ep + spr_i)
         else:
             continue
 
+        # Causal stop/limit fill via exact entry price adjustment
+        q_orig = q[rel_i].copy()
         tr = p18.sim_us500_trade(times, quotes, s, rel_i, side, sl_pts, slip_side=0.75)
         fd = p18.sim_us500_trade(times, quotes, s, rel_i, -side, sl_pts, slip_side=0.75)
         if tr and fd:
+            # Adjust gross/net for causal trigger price vs bar open (removes intraminute lookahead)
+            def _rebase(rec, sdir, true_ep):
+                open_ep = float(q_orig[4] if sdir == 1 else q_orig[0])
+                diff = sdir * (open_ep - true_ep)
+                if abs(diff) > 1e-12:
+                    r_str = sl_pts + 1.50
+                    r_bas = sl_pts + 0.50
+                    rec["gross_usd"] += diff
+                    rec["ftmo_net"] += diff
+                    rec["ftmo_R"] = rec["ftmo_net"] / r_str
+                    rec["base_R"] = (rec["gross_usd"] - 0.50) / r_bas
+            _rebase(tr, side, ep)
+            _rebase(fd, -side, fep)
             trades.append(tr)
             fades.append(fd)
     return trades, fades
