@@ -9,6 +9,9 @@ Từ workspace root, chạy `python -X utf8 tooling/ai-engines/research_inventor
 để xem mức gắn nhãn. Thêm `--all` để lấy từng đường dẫn và lý do còn thiếu
 thông tin.
 
+**The5ers Parallel Profile (`23/11/2026`) · Hồ sơ luật lệ, rủi ro cấm/ban, cơ chế payout & lộ trình lấy thông số MT5 thật song song FTMO.**
+Tổng hợp cập nhật từ nguồn chính thức `the5ers.com` nối tiếp [PROP-FIRM-FIT-20261102.md](PROP-FIRM-FIT-20261102.md) và [PROP-TERMS-SNAPSHOT-20261106.md](PROP-TERMS-SNAPSHOT-20261106.md): phân tích rõ lợi thế song song (phí `$19–$39`, comm FX `$4/lot`, đòn bẩy `1:100`, nhánh 1-Step `Hyper Growth` có `3%` Daily Pause không cháy) và 4 ràng buộc phải thiết kế phòng ngừa (`3` ngày lãi `>= 0,5%`/vòng, cấm khớp lệnh/SL/TP `±2 phút` quanh tin đỏ, hoàn phí dạng `10%/20%` Hub Credit + `70%` tiền mặt, và cần email xác nhận EA tự viết với Support theo Terms §11). Lộ trình 3 bậc lấy thông số MT5 thật (đặc biệt cách `0 USD` qua **The5ers Free Trading Competition** vì hãng không có Free Trial công khai như FTMO). [Hồ sơ The5ers](THE5ERS-PARALLEL-PROFILE-AND-SPEC-PLAN-20261123.md).
+
 **Pass 23 · Chạy song song 4 làn: Niêm phong `XAUUSD` Native Ask + `US100`/`GER40` · Nhịp 3 Vòng đời FTMO 2-Step · Xuất `.mq5` Engine #1 · Khám phá Động cơ #4 (`1.542/1.542` tests PASS).**
 Thực thi đồng thời 4 làn (`protocol 5eb0506`, `holdout_rows = 0`, `OrderSend = 0`):
 - **Làn A (Dữ liệu M1 Bid/Ask):** Nâng cấp **`XAUUSD`** lên Native M1 Bid/Ask thật (`2,48M` phút, spread trung vị `0,234–0,397 USD/oz`, gỡ hoàn toàn `PROVISIONAL_XAU`) và niêm phong **`US100`** (`2,36M` phút, `2,88–3,41 pts`) + **`GER40`** (`2,29M` phút, `1,84–2,62 pts`) vào D: SSD Hot Cache (**`433,0 MB` / 8 tài sản, 100% `native_Ask = true`**).
