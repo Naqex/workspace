@@ -129,10 +129,9 @@ def check_exports_static_audit() -> dict:
 
 def check_derived_cache() -> dict:
     t0 = time.perf_counter()
-    from quant_factory.data_store import DERIVED_CACHE_DIR, REGISTRY_PATH, _load_tapes_safe_npz, assert_holdout_locked
-    from native_ftmo_monfri_seal import sha
+    from quant_factory.data_store import DERIVED_CACHE_DIR, _load_tapes_safe_npz, assert_holdout_locked, compute_registry_engines_sha
     lock_sha = assert_holdout_locked()
-    reg_sha = sha(REGISTRY_PATH) if REGISTRY_PATH.exists() else "NO_REG"
+    reg_sha = compute_registry_engines_sha()
     binding = hashlib.sha256(f"{lock_sha}|{reg_sha}|v1".encode()).hexdigest()
     meta_path = DERIVED_CACHE_DIR / "frozen_9e_tapes_v1.json"
     npz_path = DERIVED_CACHE_DIR / "frozen_9e_tapes_v1.npz"

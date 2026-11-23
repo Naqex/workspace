@@ -1,28 +1,29 @@
 //+------------------------------------------------------------------+
-//| Naqex_PropGuard.mqh                                              |
-//| Shared Production Safety & Prop-Firm Compliance Guard (MQL5)     |
+//| Naqex_PropGuard.mqh (v2.0 — Full-Stack Prop & TCA Guard)         |
+//| Shared Production Safety, Orchestrator Sync & TCA Logger (MQL5)  |
 //|                                                                  |
-//| Solves critical MT5 Backtest-to-Live & Prop Payout Review traps: |
+//| Capabilities:                                                    |
 //|   1. Auto-detected ORDER_FILLING_* (FOK/IOC/RETURN) in OnInit()  |
 //|   2. Conservative lot sizing using SYMBOL_TRADE_TICK_VALUE_LOSS  |
 //|   3. Per-symbol concurrent risk cap (guards FTMO 1% idea bundle) |
-//|   4. Strategy-Tester-safe UTC clock (TimeGMT() tester shift fix) |
-//|   5. SymbolInfoSessionTrade() holiday early-close auto-flatten   |
-//|   6. Rollover blackout & spread-spike guard                      |
-//|   7. CSV-driven causal +/-5m red-news entry block & pre-flatten  |
-//|   8. GlobalVariable VPS-restart-safe daily equity & trade state  |
-//|   9. Explicit TRADE_RETCODE_DONE execution check & DryRun gate   |
+//|   4. Account Orchestrator GlobalVariable sync (AMBER/RED/KILL)   |
+//|   5. Strategy-Tester-safe UTC clock (TimeGMT() tester shift fix) |
+//|   6. SymbolInfoSessionTrade() holiday early-close auto-flatten   |
+//|   7. Rollover blackout & spread-spike guard                      |
+//|   8. CSV-driven causal +/-5m red-news entry block & pre-flatten  |
+//|   9. GlobalVariable VPS-restart-safe daily equity & trade state  |
+//|  10. Checked execution (TRADE_RETCODE_DONE) + TCA CSV audit log  |
 //+------------------------------------------------------------------+
 #ifndef NAQEX_PROPGUARD_MQH
 #define NAQEX_PROPGUARD_MQH
 
 #include <Trade/Trade.mqh>
 
-// Default safety inputs (can be overridden by host EA before #include if needed)
 #ifndef NAQEX_CUSTOM_GUARD_INPUTS
 input bool   InpGuardDryRunLogOnly     = true;    // SAFETY: true = log only, NO live OrderSend
 input double InpGuardMaxDailyLossPct   = 2.50;    // Internal daily equity stop (< 5% prop limit)
 input double InpGuardMaxSymbolRiskPct  = 1.00;    // Max concurrent open SL risk % per symbol (FTMO 1% idea guard)
+input bool   InpGuardUseOrchestrator   = true;    // Sync risk mult & Kill-Switch from Naqex_AccountOrchestrator
 input double InpGuardMaxSpreadPoints   = 35.0;    // Reject entry if spread exceeds this (points; 0 = disabled)
 input int    InpGuardRolloverStartUTC  = 21;      // Rollover blackout start hour (UTC)
 input int    InpGuardRolloverEndUTC    = 0;       // Rollover blackout end hour (UTC, exclusive; 0 = midnight)
@@ -31,6 +32,7 @@ input int    InpGuardTesterUtcOffsetH  = 2;       // Server UTC offset used ONLY
 input bool   InpGuardEnableRedNews     = true;    // Enable +/-PadSec red-news guard from MQL5/Files CSV
 input string InpGuardRedNewsCsvFile    = "naqex_red_news_utc.csv";
 input int    InpGuardNewsPadSec        = 300;     // 300s = +/-5m (covers FTMO +/-2m and The5ers +/-2m)
+input string InpGuardTcaAuditCsvFile   = "naqex_exec_audit.csv";
 input long   InpGuardMagicRangeMin     = 20261120;
 input long   InpGuardMagicRangeMax     = 20261199;
 #endif
@@ -68,7 +70,6 @@ private:
    {
       if(evCcy == "ALL" || evCcy == "") return true;
       if(StringFind(m_symbol, evCcy) >= 0) return true;
-      // US equity indices and gold react directly to USD macro events
       if(evCcy == "USD" && (StringFind(m_symbol, "US100") >= 0 ||
                             StringFind(m_symbol, "US500") >= 0 ||
                             StringFind(m_symbol, "XAU")   >= 0))
@@ -118,7 +119,27 @@ public:
       return TimeGMT();
    }
 
-   // 4. VPS-restart-safe GlobalVariable persistence for daily equity & last traded day
+   // 4. Account Orchestrator GlobalVariable sync (Kill-Switch & AMBER/RED dynamic multiplier)
+   bool IsGlobalKillSwitchActive() const
+   {
+      if(!InpGuardUseOrchestrator) return false;
+      if(GlobalVariableCheck("NQXG_GLOBAL_KILLSWITCH"))
+         return (GlobalVariableGet("NQXG_GLOBAL_KILLSWITCH") >= 1.0);
+      return false;
+   }
+
+   double GetGlobalRiskMultiplier() const
+   {
+      if(!InpGuardUseOrchestrator) return 1.0;
+      if(GlobalVariableCheck("NQXG_GLOBAL_RISK_MULT"))
+      {
+         double m = GlobalVariableGet("NQXG_GLOBAL_RISK_MULT");
+         if(m >= 0.20 && m <= 3.50) return m;
+      }
+      return 1.0;
+   }
+
+   // 5. VPS-restart-safe GlobalVariable persistence for daily equity & last traded day
    void LoadPersistedState()
    {
       datetime nowUtc = NowUTC();
@@ -170,16 +191,17 @@ public:
       GlobalVariableSet(StateKey("LASTTRD"), (double)todayBarOpen);
    }
 
-   // 5. Internal daily equity circuit breaker
+   // 6. Internal daily equity circuit breaker (local OR global Kill-Switch)
    bool IsDailyLossBreached() const
    {
+      if(IsGlobalKillSwitchActive()) return true;
       if(m_dayStartEquity <= 0.0) return false;
       double curEq = AccountInfoDouble(ACCOUNT_EQUITY);
       double ddPct = ((m_dayStartEquity - curEq) / m_dayStartEquity) * 100.0;
       return (ddPct >= InpGuardMaxDailyLossPct);
    }
 
-   // 6. Rollover blackout & spread spike filter
+   // 7. Rollover blackout & spread spike filter
    bool IsSpreadAndSessionSafe() const
    {
       MqlDateTime utc;
@@ -199,7 +221,7 @@ public:
       return true;
    }
 
-   // 7. Broker session early-close detector (prevents holding through US holiday half-days!)
+   // 8. Broker session early-close detector (prevents holding through US holiday half-days!)
    bool IsNearBrokerSessionClose() const
    {
       if(InpGuardEarlyCloseMin <= 0) return false;
@@ -207,8 +229,6 @@ public:
       MqlDateTime srv;
       TimeToStruct(srvNow, srv);
       ENUM_DAY_OF_WEEK dow = (ENUM_DAY_OF_WEEK)srv.day_of_week;
-
-      datetime dayStart = srvNow - (srv.hour * 3600 + srv.min * 60 + srv.sec);
       int secOfDay = srv.hour * 3600 + srv.min * 60 + srv.sec;
 
       datetime sFrom = 0, sTo = 0;
@@ -226,7 +246,7 @@ public:
       return (remainSec >= 0 && remainSec <= InpGuardEarlyCloseMin * 60);
    }
 
-   // 8. CSV-driven +/-PadSec red-news guard (format: utc_ts,ccy,event)
+   // 9. CSV-driven +/-PadSec red-news guard (format: utc_ts,ccy,event)
    int LoadRedNewsCsv(const string fileName)
    {
       m_eventCount = 0;
@@ -266,14 +286,14 @@ public:
       return false;
    }
 
-   // 9. Per-symbol open SL risk % across ALL Naqex EAs on same symbol (guards FTMO 1% trade-idea bundle)
-   double GetOpenSymbolRiskPct() const
+   // 10. Per-symbol open SL risk % across ALL Naqex EAs on same symbol (guards FTMO 1% trade-idea bundle)
+   double GetOpenSymbolRiskPctFor(const string sym) const
    {
       double bal = AccountInfoDouble(ACCOUNT_BALANCE);
       if(bal <= 0.0) return 0.0;
-      double tickSize = SymbolInfoDouble(m_symbol, SYMBOL_TRADE_TICK_SIZE);
-      double tickVal  = SymbolInfoDouble(m_symbol, SYMBOL_TRADE_TICK_VALUE_LOSS);
-      if(tickVal <= 0.0) tickVal = SymbolInfoDouble(m_symbol, SYMBOL_TRADE_TICK_VALUE);
+      double tickSize = SymbolInfoDouble(sym, SYMBOL_TRADE_TICK_SIZE);
+      double tickVal  = SymbolInfoDouble(sym, SYMBOL_TRADE_TICK_VALUE_LOSS);
+      if(tickVal <= 0.0) tickVal = SymbolInfoDouble(sym, SYMBOL_TRADE_TICK_VALUE);
       if(tickSize <= 0.0 || tickVal <= 0.0) return 0.0;
 
       double totalRiskMoney = 0.0;
@@ -281,7 +301,7 @@ public:
       {
          ulong ticket = PositionGetTicket(i);
          if(ticket == 0) continue;
-         if(PositionGetString(POSITION_SYMBOL) != m_symbol) continue;
+         if(PositionGetString(POSITION_SYMBOL) != sym) continue;
          long pmagic = PositionGetInteger(POSITION_MAGIC);
          if(pmagic < InpGuardMagicRangeMin || pmagic > InpGuardMagicRangeMax) continue;
 
@@ -295,14 +315,21 @@ public:
       return (totalRiskMoney / bal) * 100.0;
    }
 
-   // 10. Conservative lot sizing with SYMBOL_TRADE_TICK_VALUE_LOSS + per-symbol concurrent risk cap
-   double ComputeSafeLots(const double requestedRiskPct, const double slDistancePrice) const
+   double GetOpenSymbolRiskPct() const
+   {
+      return GetOpenSymbolRiskPctFor(m_symbol);
+   }
+
+   // 11. Conservative lot sizing with Orchestrator mult + SYMBOL_TRADE_TICK_VALUE_LOSS + per-symbol cap
+   double ComputeSafeLotsFor(const string sym, const double requestedRiskPct, const double slDistancePrice) const
    {
       if(slDistancePrice <= 0.0 || requestedRiskPct <= 0.0) return 0.0;
-      double effRiskPct = requestedRiskPct;
+      if(IsGlobalKillSwitchActive()) return 0.0;
+
+      double effRiskPct = requestedRiskPct * GetGlobalRiskMultiplier();
       if(InpGuardMaxSymbolRiskPct > 0.0)
       {
-         double usedPct = GetOpenSymbolRiskPct();
+         double usedPct = GetOpenSymbolRiskPctFor(sym);
          double remPct  = MathMax(0.0, InpGuardMaxSymbolRiskPct - usedPct);
          effRiskPct = MathMin(effRiskPct, remPct);
       }
@@ -310,13 +337,13 @@ public:
 
       double bal       = AccountInfoDouble(ACCOUNT_BALANCE);
       double riskMoney = bal * (effRiskPct / 100.0);
-      double tickSize  = SymbolInfoDouble(m_symbol, SYMBOL_TRADE_TICK_SIZE);
-      double tickValue = SymbolInfoDouble(m_symbol, SYMBOL_TRADE_TICK_VALUE_LOSS);
-      if(tickValue <= 0.0) tickValue = SymbolInfoDouble(m_symbol, SYMBOL_TRADE_TICK_VALUE);
+      double tickSize  = SymbolInfoDouble(sym, SYMBOL_TRADE_TICK_SIZE);
+      double tickValue = SymbolInfoDouble(sym, SYMBOL_TRADE_TICK_VALUE_LOSS);
+      if(tickValue <= 0.0) tickValue = SymbolInfoDouble(sym, SYMBOL_TRADE_TICK_VALUE);
 
-      double volMin  = SymbolInfoDouble(m_symbol, SYMBOL_VOLUME_MIN);
-      double volMax  = SymbolInfoDouble(m_symbol, SYMBOL_VOLUME_MAX);
-      double volStep = SymbolInfoDouble(m_symbol, SYMBOL_VOLUME_STEP);
+      double volMin  = SymbolInfoDouble(sym, SYMBOL_VOLUME_MIN);
+      double volMax  = SymbolInfoDouble(sym, SYMBOL_VOLUME_MAX);
+      double volStep = SymbolInfoDouble(sym, SYMBOL_VOLUME_STEP);
       if(tickSize <= 0.0 || tickValue <= 0.0 || volStep <= 0.0) return 0.0;
 
       double lossPerLot = (slDistancePrice / tickSize) * tickValue;
@@ -327,26 +354,70 @@ public:
       return MathMin(rawLots, volMax);
    }
 
-   // 11. Checked execution wrapper (DryRun default ON + TRADE_RETCODE_DONE verification)
-   bool ExecuteChecked(CTrade &tr, const bool isBuy, const double lots, const double entryPrice, const double slPrice, const string comment) const
+   double ComputeSafeLots(const double requestedRiskPct, const double slDistancePrice) const
+   {
+      return ComputeSafeLotsFor(m_symbol, requestedRiskPct, slDistancePrice);
+   }
+
+   // 12. Structured CSV execution audit logger (feeds Python quant_factory.tca_reconcile)
+   void LogExecAuditFor(const string sym, const string side, const string evType, const double sigPx, const double fillPx,
+                        const double slPx, const double lots, const double latencyMs, const uint retcode, const string note) const
+   {
+      if(MQLInfoInteger(MQL_TESTER)) return;
+      bool needHeader = !FileIsExist(InpGuardTcaAuditCsvFile);
+      int fh = FileOpen(InpGuardTcaAuditCsvFile, FILE_READ | FILE_WRITE | FILE_CSV | FILE_ANSI | FILE_SHARE_READ, ',');
+      if(fh == INVALID_HANDLE) return;
+      FileSeek(fh, 0, SEEK_END);
+      if(needHeader)
+         FileWrite(fh, "utc_ts", "magic", "symbol", "side", "event_type", "signal_price", "fill_price", "sl_price", "lots", "spread_pts", "latency_ms", "retcode", "comment");
+      double spPts = (double)SymbolInfoInteger(sym, SYMBOL_SPREAD);
+      FileWrite(fh, (long)NowUTC(), m_magic, sym, side, evType,
+                DoubleToString(sigPx, 6), DoubleToString(fillPx, 6), DoubleToString(slPx, 6),
+                DoubleToString(lots, 2), DoubleToString(spPts, 1), DoubleToString(latencyMs, 2),
+                (long)retcode, note);
+      FileClose(fh);
+   }
+
+   void LogExecAudit(const string side, const string evType, const double sigPx, const double fillPx,
+                     const double slPx, const double lots, const double latencyMs, const uint retcode, const string note) const
+   {
+      LogExecAuditFor(m_symbol, side, evType, sigPx, fillPx, slPx, lots, latencyMs, retcode, note);
+   }
+
+   // 13. Checked execution wrapper (DryRun default ON + TRADE_RETCODE_DONE + TCA latency logging)
+   bool ExecuteCheckedFor(CTrade &tr, const string sym, const bool isBuy, const double lots, const double entryPrice, const double slPrice,
+                          const string comment, const bool eaDryRun = true) const
    {
       if(lots <= 0.0 || slPrice <= 0.0) return false;
-      if(InpGuardDryRunLogOnly)
+      ConfigureFillingMode(tr, sym);
+      string sideStr = isBuy ? "BUY" : "SELL";
+      if(eaDryRun || InpGuardDryRunLogOnly)
       {
-         PrintFormat("[DRYRUN-GUARD] %s %s lots=%.2f price=%.5f sl=%.5f tag=%s",
-                     isBuy ? "BUY" : "SELL", m_symbol, lots, entryPrice, slPrice, comment);
+         PrintFormat("[DRYRUN-GUARD] %s %s lots=%.2f price=%.5f sl=%.5f mult=%.2f tag=%s",
+                     sideStr, sym, lots, entryPrice, slPrice, GetGlobalRiskMultiplier(), comment);
+         LogExecAuditFor(sym, sideStr, "DRYRUN_SIGNAL", entryPrice, entryPrice, slPrice, lots, 0.0, 0, comment);
          return true;
       }
-      bool ok = isBuy ? tr.Buy(lots, m_symbol, entryPrice, slPrice, 0.0, comment)
-                      : tr.Sell(lots, m_symbol, entryPrice, slPrice, 0.0, comment);
+      ulong t0 = GetMicrosecondCount();
+      bool ok = isBuy ? tr.Buy(lots, sym, entryPrice, slPrice, 0.0, comment)
+                      : tr.Sell(lots, sym, entryPrice, slPrice, 0.0, comment);
+      double latMs = (double)(GetMicrosecondCount() - t0) / 1000.0;
       uint ret = tr.ResultRetcode();
+      double fillPx = tr.ResultPrice();
       if(!ok || (ret != TRADE_RETCODE_DONE && ret != TRADE_RETCODE_DONE_PARTIAL))
       {
-         PrintFormat("[PROPGUARD-ERR] %s %s failed retcode=%u desc=%s",
-                     isBuy ? "BUY" : "SELL", m_symbol, ret, tr.ResultRetcodeDescription());
+         PrintFormat("[PROPGUARD-ERR] %s %s failed retcode=%u desc=%s", sideStr, sym, ret, tr.ResultRetcodeDescription());
+         LogExecAuditFor(sym, sideStr, "ORDER_REJECT", entryPrice, fillPx, slPrice, lots, latMs, ret, tr.ResultRetcodeDescription());
          return false;
       }
+      LogExecAuditFor(sym, sideStr, "ORDER_FILL", entryPrice, fillPx, slPrice, lots, latMs, ret, comment);
       return true;
+   }
+
+   bool ExecuteChecked(CTrade &tr, const bool isBuy, const double lots, const double entryPrice, const double slPrice,
+                       const string comment, const bool eaDryRun = true) const
+   {
+      return ExecuteCheckedFor(tr, m_symbol, isBuy, lots, entryPrice, slPrice, comment, eaDryRun);
    }
 };
 

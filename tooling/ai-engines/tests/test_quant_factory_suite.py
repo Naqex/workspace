@@ -177,8 +177,84 @@ class QuantFactorySuiteTests(unittest.TestCase):
             "GlobalVariableSet",
             "TRADE_RETCODE_DONE",
             "MQL_TESTER",
+            "NQXG_GLOBAL_KILLSWITCH",
+            "NQXG_GLOBAL_RISK_MULT",
+            "LogExecAuditFor",
         ):
             self.assertIn(required, src)
+
+    def test_all_8_eas_and_orchestrator_use_propguard_and_unique_magics(self):
+        import re
+        import mq5_whitebox_exporter as exp
+        exp_dir = AI_ENGINES / "exports"
+        eas = sorted(p for p in exp_dir.glob("Naqex_WB_*.mq5"))
+        self.assertEqual(len(eas), 8)
+        magics = []
+        for f in eas:
+            src = f.read_text(encoding="utf-8")
+            aud = exp.audit_open_source_mq5(src, filename=f.name)
+            self.assertEqual(aud["red_flags"], [], f"{f.name} had red flags")
+            self.assertIn('#include "Include/Naqex_PropGuard.mqh"', src)
+            self.assertIn("InpDryRunLogOnly", src)
+            m = re.search(r"InpMagicNumber\s*=\s*(\d+)\s*;", src)
+            self.assertIsNotNone(m, f"Missing magic in {f.name}")
+            magics.append(int(m.group(1)))
+        # All 8 EAs must have strictly unique Magic Numbers inside Orchestrator range 20261120..20261199
+        self.assertEqual(len(set(magics)), 8, f"Duplicate magic numbers found: {magics}")
+        for mg in magics:
+            self.assertTrue(20261120 <= mg <= 20261199, f"Magic {mg} outside orchestrator range")
+
+        orch = (exp_dir / "Naqex_AccountOrchestrator.mq5").read_text(encoding="utf-8")
+        self.assertIn("InpDryRunLogOnly", orch)
+        self.assertIn("NQXG_GLOBAL_KILLSWITCH", orch)
+        self.assertIn("NQXG_GLOBAL_RISK_MULT", orch)
+        self.assertIn("naqex_heartbeat.json", orch)
+        self.assertTrue((exp_dir / "Files/naqex_red_news_utc.csv").exists())
+
+    def test_tca_reconcile_live_decay_cusum_and_ops_monitor(self):
+        import json
+        from quant_factory.tca_reconcile import compute_tca_report
+        from quant_factory.live_decay_monitor import evaluate_live_decay
+        from quant_factory.ops_monitor import dispatch_alert, inspect_heartbeat
+
+        # 1. TCA: clean fills -> GREEN; high slippage + swap violation -> RED
+        clean = [
+            {"symbol": "US100.cash", "side": "BUY", "event_type": "ORDER_FILL", "signal_price": 20000.0, "fill_price": 20001.0, "sl_price": 19900.0, "spread_pts": 18.0, "latency_ms": 95.0, "swap_usd": 0.0},
+            {"symbol": "USDJPY", "side": "SELL", "event_type": "ORDER_FILL", "signal_price": 150.000, "fill_price": 149.995, "sl_price": 150.800, "spread_pts": 6.0, "latency_ms": 110.0, "swap_usd": 0.0},
+        ]
+        r_ok = compute_tca_report(clean)
+        self.assertEqual(r_ok["verdict"], "GREEN")
+        bad = [{**clean[0], "fill_price": 20035.0, "swap_usd": -4.5}]
+        r_bad = compute_tca_report(bad)
+        self.assertEqual(r_bad["verdict"], "RED_SWAP_VIOLATION")
+        self.assertEqual(r_bad["swap_violations"], 1)
+
+        # 2. Live Decay Monitor: healthy stream -> GREEN; severe negative drift -> RED_HALT_ALPHA_DECAY
+        rng = np.random.default_rng(7)
+        dev = rng.normal(loc=0.05, scale=0.40, size=600)
+        live_ok = rng.normal(loc=0.06, scale=0.40, size=120)
+        live_dead = rng.normal(loc=-0.18, scale=0.40, size=120)
+        d_ok = evaluate_live_decay(dev, live_ok)
+        d_dead = evaluate_live_decay(dev, live_dead)
+        self.assertEqual(d_ok["verdict"], "GREEN_WITHIN_EXPECTATION")
+        self.assertEqual(d_dead["verdict"], "RED_HALT_ALPHA_DECAY")
+        self.assertTrue(d_dead["cusum"]["active_breach"])
+
+        # 3. Ops Monitor: fresh OK heartbeat vs stale/killswitch/orphan alerts (always dry_run safe)
+        with tempfile.TemporaryDirectory() as td:
+            hb = Path(td) / "naqex_heartbeat.json"
+            hb.write_text(json.dumps({
+                "utc_ts": 1700000000, "balance": 10000.0, "equity": 10020.0,
+                "daily_dd_pct": 0.1, "static_dd_pct": 0.0, "regime": "NORMAL",
+                "risk_mult": 1.0, "kill_switch": False, "open_positions": 1, "orphan_no_sl": 0, "dry_run": True,
+            }), encoding="utf-8")
+            rep_ok = inspect_heartbeat(hb, now_utc_ts=1700000030)
+            self.assertEqual(rep_ok["status"], "OK")
+            rep_stale = inspect_heartbeat(hb, now_utc_ts=1700000500)
+            self.assertEqual(rep_stale["status"], "CRITICAL")
+            res_alert = dispatch_alert(rep_stale, dry_run=True)
+            self.assertFalse(res_alert["sent"])
+            self.assertIn("HEARTBEAT_STALE", res_alert["message"])
 
 
 if __name__ == "__main__":

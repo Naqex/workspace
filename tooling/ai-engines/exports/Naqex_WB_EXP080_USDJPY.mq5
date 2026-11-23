@@ -1,17 +1,21 @@
 //+------------------------------------------------------------------+
-//| Naqex White-Box Prop EA: EXP_DAILY_OPEN_080 (USDJPY)
-//| Provenance: protocol=9bbf69c83241 | spec_sha=68dd7d42aa04e617 | tier=TIER_1_FTMO_READY
-//| Rules: Zero-Grid, Zero-Martingale, Hard-SL, Intraday swap=0, DryRun default ON
+//| Naqex White-Box Prop EA: EXP_DAILY_OPEN_080 (USDJPY)             |
+//| Provenance: protocol=9bbf69c83241 | holdout=47b1b17cc1ef | GO    |
+//| Rules: Daily-Open Expansion 0.80 ATR, SL 0.75 ATR, swap=0        |
+//|        Full Naqex_PropGuard.mqh + Orchestrator + TCA CSV Logging |
 //+------------------------------------------------------------------+
 #property strict
-#property version   "1.00"
+#property version   "2.00"
 
 #include <Trade/Trade.mqh>
-CTrade trade;
+#include "Include/Naqex_PropGuard.mqh"
+
+CTrade          trade;
+CNaqexPropGuard g_guard;
 
 input bool   InpDryRunLogOnly     = true;       // SAFETY: true = log only, NO OrderSend
-input double InpRiskPercent       = 0.50;       // Fixed fractional risk % per trade
-input double InpMaxDailyLossPct   = 2.50;       // Internal circuit breaker (< 5% FTMO daily limit)
+input double InpRiskPercent       = 0.59;       // Registry Cluster-A Inverse-DD base risk %
+input double InpMaxDailyLossPct   = 2.50;       // Internal circuit breaker (< 5% prop daily limit)
 input double InpTrigAtrMult       = 0.80;       // Expansion trigger from D1 open (x ATR14_D1)
 input double InpSlAtrMult         = 0.75;       // Hard SL distance (x ATR14_D1)
 input int    InpAtrPeriodD1       = 14;         // Prior completed D1 Wilder ATR period
@@ -19,19 +23,15 @@ input int    InpEntryStartHourUTC = 7;          // Entry window start (UTC)
 input int    InpEntryEndHourUTC   = 17;         // Entry window end (UTC)
 input int    InpFlatHourUTC       = 20;         // Intraday forced flat hour (UTC, swap=0)
 input int    InpFlatMinUTC        = 55;         // Intraday forced flat minute (UTC)
-input long   InpMagicNumber       = 20261123;   // Unique magic number
+input long   InpMagicNumber       = 20261123;   // Unique magic number (Registry E2)
 
-int      g_atrHandle = INVALID_HANDLE;
-datetime g_lastTradedDay = 0;
-double   g_dayStartEquity = 0.0;
-int      g_lastEquityDay = -1;
+int g_atrHandle = INVALID_HANDLE;
 
 int OnInit()
 {
    g_atrHandle = iATR(_Symbol, PERIOD_D1, InpAtrPeriodD1);
    if(g_atrHandle == INVALID_HANDLE) return INIT_FAILED;
-   trade.SetExpertMagicNumber(InpMagicNumber);
-   g_dayStartEquity = AccountInfoDouble(ACCOUNT_EQUITY);
+   g_guard.Init(trade, _Symbol, InpMagicNumber);
    return INIT_SUCCEEDED;
 }
 
@@ -43,12 +43,8 @@ void OnDeinit(const int reason)
 bool HasOpenPosition()
 {
    for(int i = PositionsTotal() - 1; i >= 0; i--)
-   {
-      if(PositionGetTicket(i) > 0 &&
-         PositionGetString(POSITION_SYMBOL) == _Symbol &&
-         PositionGetInteger(POSITION_MAGIC) == InpMagicNumber)
+      if(PositionGetTicket(i) > 0 && PositionGetString(POSITION_SYMBOL) == _Symbol && PositionGetInteger(POSITION_MAGIC) == InpMagicNumber)
          return true;
-   }
    return false;
 }
 
@@ -57,11 +53,9 @@ void CloseOwnPositions(const string reason)
    for(int i = PositionsTotal() - 1; i >= 0; i--)
    {
       ulong ticket = PositionGetTicket(i);
-      if(ticket > 0 &&
-         PositionGetString(POSITION_SYMBOL) == _Symbol &&
-         PositionGetInteger(POSITION_MAGIC) == InpMagicNumber)
+      if(ticket > 0 && PositionGetString(POSITION_SYMBOL) == _Symbol && PositionGetInteger(POSITION_MAGIC) == InpMagicNumber)
       {
-         if(InpDryRunLogOnly)
+         if(InpDryRunLogOnly || InpGuardDryRunLogOnly)
             PrintFormat("[DRYRUN] Would close ticket=%I64u reason=%s", ticket, reason);
          else
             trade.PositionClose(ticket);
@@ -69,55 +63,34 @@ void CloseOwnPositions(const string reason)
    }
 }
 
-double ComputeLots(const double slDistancePrice)
-{
-   if(slDistancePrice <= 0.0) return 0.0;
-   double balance    = AccountInfoDouble(ACCOUNT_BALANCE);
-   double riskMoney  = balance * (InpRiskPercent / 100.0);
-   double tickSize   = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
-   double tickValue  = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_VALUE);
-   double volMin     = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MIN);
-   double volMax     = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MAX);
-   double volStep    = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP);
-   if(tickSize <= 0.0 || tickValue <= 0.0 || volStep <= 0.0) return 0.0;
-   double lossPerLot = (slDistancePrice / tickSize) * tickValue;
-   if(lossPerLot <= 0.0) return 0.0;
-   double rawLots = MathFloor((riskMoney / lossPerLot) / volStep) * volStep;
-   if(rawLots < volMin) return 0.0;
-   return MathMin(rawLots, volMax);
-}
-
 void OnTick()
 {
+   g_guard.OnNewTickHousekeeping();
    MqlDateTime utc;
-   TimeToStruct(TimeGMT(), utc);
-   if(utc.day_of_year != g_lastEquityDay)
-   {
-      g_lastEquityDay = utc.day_of_year;
-      g_dayStartEquity = MathMax(AccountInfoDouble(ACCOUNT_BALANCE), AccountInfoDouble(ACCOUNT_EQUITY));
-   }
+   TimeToStruct(g_guard.NowUTC(), utc);
+   if(utc.day_of_week == 0 || utc.day_of_week == 6) return;
 
-   // Hard intraday flat (swap = 0)
-   if(utc.hour > InpFlatHourUTC || (utc.hour == InpFlatHourUTC && utc.min >= InpFlatMinUTC))
+   if(utc.hour > InpFlatHourUTC || (utc.hour == InpFlatHourUTC && utc.min >= InpFlatMinUTC) || g_guard.IsNearBrokerSessionClose())
    {
       if(HasOpenPosition()) CloseOwnPositions("HARD_FLAT_SWAP0");
       return;
    }
-
-   // Internal daily loss circuit breaker
-   double curEq = AccountInfoDouble(ACCOUNT_EQUITY);
-   if(g_dayStartEquity > 0.0 && ((g_dayStartEquity - curEq) / g_dayStartEquity) * 100.0 >= InpMaxDailyLossPct)
+   if(g_guard.IsInsideRedNewsWindow())
    {
-      if(HasOpenPosition()) CloseOwnPositions("DAILY_LOSS_CIRCUIT_BREAKER");
+      if(HasOpenPosition()) CloseOwnPositions("NEWS_PRE_FLATTEN");
+      return;
+   }
+   if(g_guard.IsDailyLossBreached())
+   {
+      if(HasOpenPosition()) CloseOwnPositions("DAILY_LOSS_OR_KILLSWITCH");
       return;
    }
 
-   // One trade max per UTC day, strictly within liquidity window
    datetime todayStart = iTime(_Symbol, PERIOD_D1, 0);
-   if(todayStart == g_lastTradedDay || HasOpenPosition()) return;
+   if(g_guard.AlreadyTradedToday(todayStart) || HasOpenPosition()) return;
    if(utc.hour < InpEntryStartHourUTC || utc.hour >= InpEntryEndHourUTC) return;
+   if(!g_guard.IsSpreadAndSessionSafe()) return;
 
-   // Causal prior completed D1 ATR14 (shift = 1)
    double atrBuf[1];
    if(CopyBuffer(g_atrHandle, 0, 1, 1, atrBuf) != 1 || atrBuf[0] <= 0.0) return;
    double atrD1 = atrBuf[0];
@@ -134,27 +107,15 @@ void OnTick()
    if(ask >= top)
    {
       double sl = NormalizeDouble(ask - slDist, digits);
-      double lots = ComputeLots(ask - sl);
-      if(lots > 0.0)
-      {
-         g_lastTradedDay = todayStart;
-         if(InpDryRunLogOnly)
-            PrintFormat("[DRYRUN] BUY %s lots=%.2f ask=%.5f sl=%.5f atr=%.5f", _Symbol, lots, ask, sl, atrD1);
-         else
-            trade.Buy(lots, _Symbol, ask, sl, 0.0, "Naqex_WB_EXP_BUY");
-      }
+      double lots = g_guard.ComputeSafeLots(InpRiskPercent, ask - sl);
+      if(lots > 0.0 && g_guard.ExecuteChecked(trade, true, lots, ask, sl, "Naqex_WB_EXP_BUY", InpDryRunLogOnly))
+         g_guard.MarkTradedToday(todayStart);
    }
    else if(bid <= bot)
    {
       double sl = NormalizeDouble(bid + slDist, digits);
-      double lots = ComputeLots(sl - bid);
-      if(lots > 0.0)
-      {
-         g_lastTradedDay = todayStart;
-         if(InpDryRunLogOnly)
-            PrintFormat("[DRYRUN] SELL %s lots=%.2f bid=%.5f sl=%.5f atr=%.5f", _Symbol, lots, bid, sl, atrD1);
-         else
-            trade.Sell(lots, _Symbol, bid, sl, 0.0, "Naqex_WB_EXP_SELL");
-      }
+      double lots = g_guard.ComputeSafeLots(InpRiskPercent, sl - bid);
+      if(lots > 0.0 && g_guard.ExecuteChecked(trade, false, lots, bid, sl, "Naqex_WB_EXP_SELL", InpDryRunLogOnly))
+         g_guard.MarkTradedToday(todayStart);
    }
 }

@@ -24,7 +24,10 @@ from .prop_engine import (
     make_block_bootstrap_indices,
     replay_portfolio_m1,
 )
+from .live_decay_monitor import calibrate_baseline, evaluate_live_decay
+from .ops_monitor import dispatch_alert, format_alert_message, inspect_heartbeat
 from .report_gen import format_markdown_table, write_verified_receipt
+from .tca_reconcile import compute_tca_report, load_exec_audit_csv
 
 __all__ = [
     "CONFIGS_DIR",
@@ -47,4 +50,11 @@ __all__ = [
     "replay_portfolio_m1",
     "format_markdown_table",
     "write_verified_receipt",
+    "compute_tca_report",
+    "load_exec_audit_csv",
+    "calibrate_baseline",
+    "evaluate_live_decay",
+    "inspect_heartbeat",
+    "format_alert_message",
+    "dispatch_alert",
 ]

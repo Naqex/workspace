@@ -1,13 +1,24 @@
 {
   "schema": "naqex-portfolio-registry-v1",
   "updated_utc": "2026-11-23T14:40:00+00:00",
-  "status": "FROZEN_PRE_HOLDOUT_DISCOVERY_COMPLETE",
+  "status": "HOLDOUT_2025_2026_EVALUATED_GO_CORE7E_AND_INVDD9E",
   "holdout_lock": {
     "cutoff_utc": "2025-01-01T00:00:00Z",
     "lock_file": "planning/research/NATIVE_FTMO_HOLDOUT_LOCK.json",
     "lock_sha256": "f0a6b43cb205535b0a959456455dc1d857a0936c06c2e51b8614fd7d772a8486",
     "holdout_rows_analysed": 0,
-    "order_send_count": 0
+    "order_send_count": 0,
+    "note": "Development .runtime/hot-m1-cache/ remains uncontaminated (0 holdout rows). Separate one-time Holdout 2025-2026 evaluation recorded below."
+  },
+  "one_time_holdout_2025_2026": {
+    "protocol_commit": "521926f",
+    "receipt": "planning/research/HOLDOUT-2025-2026-ONE-TIME-VERDICT-20261123.json",
+    "holdout_cache_dir": ".runtime/holdout-m1-cache",
+    "window": "2025-01-02..2026-11-20",
+    "engines_positive": "9/9",
+    "PORT_7E_verdict": "GO (ann=+12.10%, DD=6.92%, Calmar=1.75; +SYMCAP100+REDNEWS ann=+12.70%, DD=6.55%, Calmar=1.94)",
+    "PORT_9E_INVDD_SYMCAP_verdict": "GO (ann=+12.28%, DD=7.46%, Daily=1.18%, Calmar=1.65)",
+    "PORT_9E_UNCAPPED_verdict": "CONDITIONAL (ann=+12.42%, DD=8.34% > 7.5%)"
   },
   "data_store": {
     "hot_m1_cache_dir": ".runtime/hot-m1-cache",

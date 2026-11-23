@@ -115,6 +115,13 @@ def _load_tapes_safe_npz(cache_dir: Path, stem: str, expected_binding: str) -> t
     return meta, tapes
 
 
+def compute_registry_engines_sha() -> str:
+    if not REGISTRY_PATH.exists():
+        return "NO_REG"
+    reg = json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
+    return hashlib.sha256(json.dumps(reg.get("engines", []), sort_keys=True).encode("utf-8")).hexdigest()
+
+
 def build_or_load_frozen_tapes(
     *,
     jobs_root: Path = hcache.DEFAULT_JOBS,
@@ -125,7 +132,7 @@ def build_or_load_frozen_tapes(
     """Load exact M1 minute-by-minute tapes for all 9 frozen engines (<0.35s cache hit, ~15s cold rebuild)."""
     t0 = time.perf_counter()
     lock_sha = assert_holdout_locked()
-    reg_sha = sha(REGISTRY_PATH) if REGISTRY_PATH.exists() else "NO_REG"
+    reg_sha = compute_registry_engines_sha()
     binding = hashlib.sha256(f"{lock_sha}|{reg_sha}|v1".encode()).hexdigest()
     stem = "frozen_9e_tapes_v1"
 
