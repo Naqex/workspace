@@ -4787,6 +4787,14 @@
     "version": 1,
     "broker_observations": [
       {
+        "id": "pass17-usdjpy-forensic-cross-asset-20261123",
+        "scope": "Pass 17 Development 2018-2024 zero-network M1 floating equity forensic audit of EXP_DAILY_OPEN_080 USDJPY (survives all 3 cost tiers through +1.00 pip stress, 12/12 2D surface cells positive in both Cluster A & B, cuts Engine #1 portfolio DD from 9.08% to 5.45% and underwater from 41.2m to 20.6m, doubles Calmar 0.32->0.64; directional asymmetry BUY +37.28R vs SELL -2.53R; pace 3.5-3.7%/yr still needs non-JPY Engine #3) & cross-asset GBPUSD/US500 check.",
+        "report": "PASS17-USDJPY-EXPANSION-FORENSIC-AND-CROSS-ASSET-20261123.md",
+        "summary": "PASS17-USDJPY-EXPANSION-FORENSIC-AND-CROSS-ASSET-20261123.json",
+        "private_manifest": "pass17-usdjpy-forensic-cross-asset-20261123/manifest.json",
+        "private_manifest_sha256": "935c09b490aecdc44641821c933fa54a4088c0b598a8cfeaa1a9780fd771415a"
+      },
+      {
         "id": "pass16-dual-track-20261123",
         "scope": "Pass 16 Development 2018-2024 zero-network dual-track screen: Track 1 Wide-Expansion Daily-Open ATR (swap=0) produced FIRST TIER_1_FTMO_READY breakthrough on native USDJPY M1 (EXP_DAILY_OPEN_080: +35.24R, 7/7 years positive, 6.36R DD, MC p=0.002, FDR q=0.0048; EXP_DAILY_OPEN_080_TREND: +24.74R, 6/7 years) plus TIER_2 XAUUSD 1.20 ATR (+10.43R, q=0.004); Track 2 closed remaining 8 H1 context leads from strategy-intel (23/24 TIER_3, 1 TIER_2 VIR024 USDJPY).",
         "report": "PASS16-DUAL-TRACK-EXPANSION-AND-H1-CONTEXT-20261123.md",

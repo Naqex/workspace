@@ -1,0 +1,4209 @@
+{
+  "pass": "Pass 17",
+  "date_utc": "2026-11-23T10:23:19.227306+00:00",
+  "protocol_file": "planning/research/PASS17-USDJPY-EXPANSION-FORENSIC-AND-CROSS-ASSET-PROTOCOL-20261123.md",
+  "protocol_commit": "92808a44b785b82f900318906b99529dbbec8654",
+  "holdout_lock_sha256": "f0a6b43cb205535b0a959456455dc1d857a0936c06c2e51b8614fd7d772a8486",
+  "holdout_rows": 0,
+  "order_send_count": 0,
+  "network_calls": 0,
+  "overall_verdict": "EXP080_USDJPY_ROBUST_LOW_DD_CORE_NEEDS_ORTHOGONAL_PARTNER_FOR_PACE",
+  "qualifying_internal_envelope_cases": [],
+  "quant_test_suite": {
+    "passed": true,
+    "tests": 1520,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 41.79816820000269
+  },
+  "track1": {
+    "track": "Track1_USDJPY_EXP080_M1_Forensic",
+    "protocol_commit": "92808a44b785b82f900318906b99529dbbec8654",
+    "elapsed_seconds": 106.34,
+    "cost_matrix": {
+      "M1_Real_Base": {
+        "strict": {
+          "n": 447,
+          "net_R": 32.64990421882064,
+          "win_rate": 0.5503355704697986,
+          "losing_R": 92.61076808936737,
+          "winning_R": 125.26067230818799,
+          "top10_R": 21.584728663768523,
+          "winner_label_coverage": 0.0,
+          "floating_dd_R": 7.617608189600283,
+          "net_R_annual": 4.664272031260091,
+          "years": {
+            "2018": 7.006,
+            "2019": 5.12,
+            "2020": 8.074,
+            "2021": 4.658,
+            "2022": 3.165,
+            "2023": 4.347,
+            "2024": 0.28
+          },
+          "clusters": {
+            "A": 20.2,
+            "B": 12.449
+          },
+          "pos_years": 7,
+          "underwater_months": 12.82,
+          "underwater_censored": true,
+          "exit_counts": {
+            "HARD_FLAT": 399,
+            "SL_GAP_OR_TOUCH": 48
+          },
+          "median_cost_over_stop_pct": 2.27
+        },
+        "extended": {
+          "n": 498,
+          "net_R": 29.435036599660474,
+          "win_rate": 0.5321285140562249,
+          "losing_R": 106.3159286806887,
+          "winning_R": 135.75096528034916,
+          "top10_R": 23.174502141591628,
+          "winner_label_coverage": 0.0,
+          "floating_dd_R": 7.450633253932821,
+          "net_R_annual": 4.205005228522925,
+          "years": {
+            "2018": 6.871,
+            "2019": 3.604,
+            "2020": 8.982,
+            "2021": 1.863,
+            "2022": 3.716,
+            "2023": 3.955,
+            "2024": 0.444
+          },
+          "clusters": {
+            "A": 19.456,
+            "B": 9.979
+          },
+          "pos_years": 7,
+          "underwater_months": 24.5,
+          "underwater_censored": false,
+          "exit_counts": {
+            "HARD_FLAT": 444,
+            "SL_GAP_OR_TOUCH": 54
+          },
+          "median_cost_over_stop_pct": 2.36
+        },
+        "all_dev": {
+          "n": 569,
+          "net_R": 40.05079577657014,
+          "win_rate": 0.5377855887521968,
+          "losing_R": 116.43246635266044,
+          "winning_R": 156.48326212923058,
+          "top10_R": 25.25000231817979,
+          "winner_label_coverage": 0.0,
+          "floating_dd_R": 7.4107990542874305,
+          "net_R_annual": 5.721542253795734,
+          "years": {
+            "2018": 6.715,
+            "2019": 5.724,
+            "2020": 12.516,
+            "2021": 5.71,
+            "2022": 2.754,
+            "2023": 5.626,
+            "2024": 1.007
+          },
+          "clusters": {
+            "A": 24.954,
+            "B": 15.096
+          },
+          "pos_years": 7,
+          "underwater_months": 11.03,
+          "underwater_censored": false,
+          "exit_counts": {
+            "HARD_FLAT": 514,
+            "SL_GAP_OR_TOUCH": 55
+          },
+          "median_cost_over_stop_pct": 2.47
+        }
+      },
+      "M1_Real_Stress_05": {
+        "strict": {
+          "n": 447,
+          "net_R": 28.827641606244196,
+          "win_rate": 0.5436241610738255,
+          "losing_R": 93.46162166957616,
+          "winning_R": 122.28926327582036,
+          "top10_R": 21.287670976626362,
+          "winner_label_coverage": 0.0,
+          "floating_dd_R": 7.955535395057002,
+          "net_R_annual": 4.118234515177742,
+          "years": {
+            "2018": 6.228,
+            "2019": 4.512,
+            "2020": 7.432,
+            "2021": 4.178,
+            "2022": 2.651,
+            "2023": 3.939,
+            "2024": -0.112
+          },
+          "clusters": {
+            "A": 18.172,
+            "B": 10.656
+          },
+          "pos_years": 6,
+          "underwater_months": 12.82,
+          "underwater_censored": true,
+          "exit_counts": {
+            "HARD_FLAT": 399,
+            "SL_GAP_OR_TOUCH": 48
+          },
+          "median_cost_over_stop_pct": 3.11
+        },
+        "extended": {
+          "n": 498,
+          "net_R": 25.057485880755216,
+          "win_rate": 0.5261044176706827,
+          "losing_R": 107.37402097502,
+          "winning_R": 132.4315068557752,
+          "top10_R": 22.84092198044363,
+          "winner_label_coverage": 0.0,
+          "floating_dd_R": 7.802609143104981,
+          "net_R_annual": 3.579640840107888,
+          "years": {
+            "2018": 6.047,
+            "2019": 2.906,
+            "2020": 8.202,
+            "2021": 1.147,
+            "2022": 3.175,
+            "2023": 3.543,
+            "2024": 0.038
+          },
+          "clusters": {
+            "A": 17.155,
+            "B": 7.903
+          },
+          "pos_years": 7,
+          "underwater_months": 24.6,
+          "underwater_censored": false,
+          "exit_counts": {
+            "HARD_FLAT": 444,
+            "SL_GAP_OR_TOUCH": 54
+          },
+          "median_cost_over_stop_pct": 3.27
+        },
+        "all_dev": {
+          "n": 569,
+          "net_R": 34.745025510428555,
+          "win_rate": 0.5307557117750439,
+          "losing_R": 117.7292623342877,
+          "winning_R": 152.47428784471626,
+          "top10_R": 24.89001347738629,
+          "winner_label_coverage": 0.0,
+          "floating_dd_R": 7.540219350726726,
+          "net_R_annual": 4.963575072918365,
+          "years": {
+            "2018": 5.843,
+            "2019": 4.864,
+            "2020": 11.506,
+            "2021": 4.61,
+            "2022": 2.169,
+            "2023": 5.172,
+            "2024": 0.581
+          },
+          "clusters": {
+            "A": 22.213,
+            "B": 12.532
+          },
+          "pos_years": 7,
+          "underwater_months": 11.04,
+          "underwater_censored": false,
+          "exit_counts": {
+            "HARD_FLAT": 514,
+            "SL_GAP_OR_TOUCH": 55
+          },
+          "median_cost_over_stop_pct": 3.41
+        }
+      },
+      "M1_Real_Stress_10": {
+        "strict": {
+          "n": 447,
+          "net_R": 25.075128251618118,
+          "win_rate": 0.5302013422818792,
+          "losing_R": 94.34461161571011,
+          "winning_R": 119.41973986732823,
+          "top10_R": 20.99657750441359,
+          "winner_label_coverage": 0.0,
+          "floating_dd_R": 8.293462600513749,
+          "net_R_annual": 3.5821611788025884,
+          "years": {
+            "2018": 5.466,
+            "2019": 3.917,
+            "2020": 6.802,
+            "2021": 3.709,
+            "2022": 2.144,
+            "2023": 3.535,
+            "2024": -0.5
+          },
+          "clusters": {
+            "A": 16.186,
+            "B": 8.89
+          },
+          "pos_years": 6,
+          "underwater_months": 12.82,
+          "underwater_censored": true,
+          "exit_counts": {
+            "HARD_FLAT": 399,
+            "SL_GAP_OR_TOUCH": 48
+          },
+          "median_cost_over_stop_pct": 3.95
+        },
+        "extended": {
+          "n": 498,
+          "net_R": 20.76291229732698,
+          "win_rate": 0.5140562248995983,
+          "losing_R": 108.45946526990795,
+          "winning_R": 129.22237756723493,
+          "top10_R": 22.514682084335536,
+          "winner_label_coverage": 0.0,
+          "floating_dd_R": 8.44195091097799,
+          "net_R_annual": 2.9661303281895686,
+          "years": {
+            "2018": 5.239,
+            "2019": 2.224,
+            "2020": 7.439,
+            "2021": 0.448,
+            "2022": 2.641,
+            "2023": 3.135,
+            "2024": -0.364
+          },
+          "clusters": {
+            "A": 14.902,
+            "B": 5.861
+          },
+          "pos_years": 6,
+          "underwater_months": 29.96,
+          "underwater_censored": false,
+          "exit_counts": {
+            "HARD_FLAT": 444,
+            "SL_GAP_OR_TOUCH": 54
+          },
+          "median_cost_over_stop_pct": 4.18
+        },
+        "all_dev": {
+          "n": 569,
+          "net_R": 29.544077674565845,
+          "win_rate": 0.5184534270650264,
+          "losing_R": 119.06760735326966,
+          "winning_R": 148.6116850278355,
+          "top10_R": 24.538018302014365,
+          "winner_label_coverage": 0.0,
+          "floating_dd_R": 7.669639647166065,
+          "net_R_annual": 4.220582524937978,
+          "years": {
+            "2018": 4.989,
+            "2019": 4.024,
+            "2020": 10.52,
+            "2021": 3.536,
+            "2022": 1.592,
+            "2023": 4.724,
+            "2024": 0.16
+          },
+          "clusters": {
+            "A": 19.533,
+            "B": 10.011
+          },
+          "pos_years": 7,
+          "underwater_months": 12.55,
+          "underwater_censored": false,
+          "exit_counts": {
+            "HARD_FLAT": 514,
+            "SL_GAP_OR_TOUCH": 55
+          },
+          "median_cost_over_stop_pct": 4.37
+        }
+      }
+    },
+    "surface_2d_stress05": {
+      "trig0.65_sl0.55": {
+        "all_dev": {
+          "n": 849,
+          "net_R": 21.98,
+          "A": 10.544,
+          "B": 11.432,
+          "pos_years": 5,
+          "dd_R": 16.03
+        },
+        "extended": {
+          "n": 741,
+          "net_R": 6.56,
+          "A": 1.787,
+          "B": 4.774,
+          "pos_years": 4,
+          "dd_R": 21.41
+        }
+      },
+      "trig0.65_sl0.75": {
+        "all_dev": {
+          "n": 849,
+          "net_R": 27.66,
+          "A": 13.689,
+          "B": 13.966,
+          "pos_years": 6,
+          "dd_R": 10.7
+        },
+        "extended": {
+          "n": 741,
+          "net_R": 15.93,
+          "A": 6.667,
+          "B": 9.262,
+          "pos_years": 5,
+          "dd_R": 14.69
+        }
+      },
+      "trig0.65_sl0.95": {
+        "all_dev": {
+          "n": 849,
+          "net_R": 16.03,
+          "A": 9.617,
+          "B": 6.408,
+          "pos_years": 5,
+          "dd_R": 8.9
+        },
+        "extended": {
+          "n": 741,
+          "net_R": 6.47,
+          "A": 4.105,
+          "B": 2.364,
+          "pos_years": 3,
+          "dd_R": 11.76
+        }
+      },
+      "trig0.80_sl0.55": {
+        "all_dev": {
+          "n": 569,
+          "net_R": 31.59,
+          "A": 18.552,
+          "B": 13.034,
+          "pos_years": 6,
+          "dd_R": 10.6
+        },
+        "extended": {
+          "n": 498,
+          "net_R": 19.99,
+          "A": 11.837,
+          "B": 8.15,
+          "pos_years": 6,
+          "dd_R": 11.98
+        }
+      },
+      "trig0.80_sl0.75": {
+        "all_dev": {
+          "n": 569,
+          "net_R": 34.75,
+          "A": 22.213,
+          "B": 12.532,
+          "pos_years": 7,
+          "dd_R": 7.54
+        },
+        "extended": {
+          "n": 498,
+          "net_R": 25.06,
+          "A": 17.155,
+          "B": 7.903,
+          "pos_years": 7,
+          "dd_R": 7.8
+        }
+      },
+      "trig0.80_sl0.95": {
+        "all_dev": {
+          "n": 569,
+          "net_R": 32.15,
+          "A": 17.026,
+          "B": 15.129,
+          "pos_years": 7,
+          "dd_R": 5.2
+        },
+        "extended": {
+          "n": 498,
+          "net_R": 24.66,
+          "A": 13.204,
+          "B": 11.451,
+          "pos_years": 7,
+          "dd_R": 5.82
+        }
+      },
+      "trig0.95_sl0.55": {
+        "all_dev": {
+          "n": 389,
+          "net_R": 31.78,
+          "A": 21.855,
+          "B": 9.927,
+          "pos_years": 6,
+          "dd_R": 10.4
+        },
+        "extended": {
+          "n": 339,
+          "net_R": 26.02,
+          "A": 16.52,
+          "B": 9.5,
+          "pos_years": 5,
+          "dd_R": 10.46
+        }
+      },
+      "trig0.95_sl0.75": {
+        "all_dev": {
+          "n": 389,
+          "net_R": 27.33,
+          "A": 18.829,
+          "B": 8.497,
+          "pos_years": 6,
+          "dd_R": 6.92
+        },
+        "extended": {
+          "n": 339,
+          "net_R": 21.32,
+          "A": 14.313,
+          "B": 7.007,
+          "pos_years": 6,
+          "dd_R": 6.77
+        }
+      },
+      "trig0.95_sl0.95": {
+        "all_dev": {
+          "n": 389,
+          "net_R": 22.57,
+          "A": 14.239,
+          "B": 8.332,
+          "pos_years": 6,
+          "dd_R": 4.87
+        },
+        "extended": {
+          "n": 339,
+          "net_R": 17.66,
+          "A": 10.648,
+          "B": 7.012,
+          "pos_years": 7,
+          "dd_R": 4.9
+        }
+      },
+      "trig1.10_sl0.55": {
+        "all_dev": {
+          "n": 262,
+          "net_R": 23.16,
+          "A": 22.321,
+          "B": 0.841,
+          "pos_years": 4,
+          "dd_R": 13.91
+        },
+        "extended": {
+          "n": 228,
+          "net_R": 22.0,
+          "A": 17.08,
+          "B": 4.923,
+          "pos_years": 5,
+          "dd_R": 10.59
+        }
+      },
+      "trig1.10_sl0.75": {
+        "all_dev": {
+          "n": 262,
+          "net_R": 17.89,
+          "A": 15.777,
+          "B": 2.108,
+          "pos_years": 5,
+          "dd_R": 10.26
+        },
+        "extended": {
+          "n": 228,
+          "net_R": 16.29,
+          "A": 11.91,
+          "B": 4.38,
+          "pos_years": 4,
+          "dd_R": 7.73
+        }
+      },
+      "trig1.10_sl0.95": {
+        "all_dev": {
+          "n": 262,
+          "net_R": 14.16,
+          "A": 13.765,
+          "B": 0.398,
+          "pos_years": 5,
+          "dd_R": 8.6
+        },
+        "extended": {
+          "n": 228,
+          "net_R": 12.56,
+          "A": 10.69,
+          "B": 1.87,
+          "pos_years": 5,
+          "dd_R": 7.09
+        }
+      }
+    },
+    "surface_both_clusters_positive_count": 12,
+    "decomposition_stress05": {
+      "all_dev": {
+        "direction": {
+          "BUY": {
+            "n": 266,
+            "win_rate": 0.594,
+            "net_R": 37.28,
+            "floating_dd_R": 3.8
+          },
+          "SELL": {
+            "n": 303,
+            "win_rate": 0.475,
+            "net_R": -2.53,
+            "floating_dd_R": 14.83
+          }
+        },
+        "entry_window": {
+          "07:00–11:59_London": {
+            "n": 245,
+            "win_rate": 0.543,
+            "net_R": 23.87,
+            "floating_dd_R": 6.89
+          },
+          "12:00–16:59_NY": {
+            "n": 324,
+            "win_rate": 0.522,
+            "net_R": 10.88,
+            "floating_dd_R": 6.37
+          }
+        },
+        "cost_bucket": {
+          "4–8%": {
+            "n": 141,
+            "win_rate": 0.511,
+            "net_R": 18.07,
+            "floating_dd_R": 5.54
+          },
+          "<4%": {
+            "n": 422,
+            "win_rate": 0.533,
+            "net_R": 15.16,
+            "floating_dd_R": 7.42
+          },
+          ">8%": {
+            "n": 6,
+            "win_rate": 0.833,
+            "net_R": 1.52,
+            "floating_dd_R": 2.44
+          }
+        }
+      },
+      "extended": {
+        "direction": {
+          "BUY": {
+            "n": 236,
+            "win_rate": 0.589,
+            "net_R": 30.02,
+            "floating_dd_R": 4.72
+          },
+          "SELL": {
+            "n": 262,
+            "win_rate": 0.469,
+            "net_R": -4.96,
+            "floating_dd_R": 17.32
+          }
+        },
+        "entry_window": {
+          "07:00–11:59_London": {
+            "n": 224,
+            "win_rate": 0.54,
+            "net_R": 20.2,
+            "floating_dd_R": 7.29
+          },
+          "12:00–16:59_NY": {
+            "n": 274,
+            "win_rate": 0.515,
+            "net_R": 4.86,
+            "floating_dd_R": 7.15
+          }
+        },
+        "cost_bucket": {
+          "4–8%": {
+            "n": 105,
+            "win_rate": 0.495,
+            "net_R": 9.73,
+            "floating_dd_R": 6.93
+          },
+          "<4%": {
+            "n": 387,
+            "win_rate": 0.53,
+            "net_R": 13.81,
+            "floating_dd_R": 7.97
+          },
+          ">8%": {
+            "n": 6,
+            "win_rate": 0.833,
+            "net_R": 1.52,
+            "floating_dd_R": 2.44
+          }
+        }
+      }
+    },
+    "cluster_a_dd_pct": {
+      "USDJPY": 5.5832908770992615,
+      "USDJPY_EXP": 1.5175612285318676
+    },
+    "inverse_dd_weights": {
+      "USDJPY": 0.21371536907921357,
+      "USDJPY_EXP": 0.7862846309207865
+    },
+    "books": {
+      "Swing_10000": {
+        "strict": {
+          "SOLO_EXP080_030": {
+            "risk": {
+              "USDJPY_EXP": 0.003
+            },
+            "net_usd": 819.2199535484233,
+            "annual_usd": {
+              "A": 171.0626297518119,
+              "B": 76.50801607324648,
+              "all": 117.03142193548904
+            },
+            "annual_pct": {
+              "A": 1.710626297518119,
+              "B": 0.7650801607324648,
+              "all": 1.1703142193548903
+            },
+            "daily_loss_pct": 0.300211355240117,
+            "peak_dd_pct": 2.187147240241411,
+            "static_loss_pct": 0.07356447427895546,
+            "net_over_dd": 3.7456095249353223,
+            "underwater_months": 12.821914740054742,
+            "double_sl_days": 0,
+            "peak_margin_pct": 3.666663,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 447,
+            "stale_marks_group_a": 150
+          },
+          "SOLO_EXP080_040": {
+            "risk": {
+              "USDJPY_EXP": 0.004
+            },
+            "net_usd": 1047.8833584153072,
+            "annual_usd": {
+              "A": 220.0265224361855,
+              "B": 96.95094777668176,
+              "all": 149.69762263075816
+            },
+            "annual_pct": {
+              "A": 2.2002652243618552,
+              "B": 0.9695094777668175,
+              "all": 1.4969762263075816
+            },
+            "daily_loss_pct": 0.39578007949334276,
+            "peak_dd_pct": 2.8055515866826135,
+            "static_loss_pct": 0.17284109783393434,
+            "net_over_dd": 3.7350350761304756,
+            "underwater_months": 12.821914740054742,
+            "double_sl_days": 0,
+            "peak_margin_pct": 4.6666620000000005,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 447,
+            "stale_marks_group_a": 150
+          },
+          "SOLO_EXP080_050": {
+            "risk": {
+              "USDJPY_EXP": 0.005
+            },
+            "net_usd": 1379.6067080744651,
+            "annual_usd": {
+              "A": 288.6802378693523,
+              "B": 128.39149861660454,
+              "all": 197.08667258206646
+            },
+            "annual_pct": {
+              "A": 2.886802378693523,
+              "B": 1.2839149861660453,
+              "all": 1.9708667258206647
+            },
+            "daily_loss_pct": 0.5025999016097376,
+            "peak_dd_pct": 3.586313215919854,
+            "static_loss_pct": 0.13540130548326487,
+            "net_over_dd": 3.846866196600761,
+            "underwater_months": 12.821914740054742,
+            "double_sl_days": 0,
+            "peak_margin_pct": 5.999993999999999,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 447,
+            "stale_marks_group_a": 150
+          },
+          "SOLO_EXP080_075": {
+            "risk": {
+              "USDJPY_EXP": 0.0075
+            },
+            "net_usd": 2105.9877379657482,
+            "annual_usd": {
+              "A": 451.6959309161989,
+              "B": 187.72498630429,
+              "all": 300.85539113796403
+            },
+            "annual_pct": {
+              "A": 4.516959309161989,
+              "B": 1.8772498630429,
+              "all": 3.0085539113796402
+            },
+            "daily_loss_pct": 0.7507676794066902,
+            "peak_dd_pct": 5.623948738539894,
+            "static_loss_pct": 0.2733085613761614,
+            "net_over_dd": 3.7446780471767087,
+            "underwater_months": 12.821914740054742,
+            "double_sl_days": 0,
+            "peak_margin_pct": 8.999991,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 447,
+            "stale_marks_group_a": 150
+          },
+          "SOLO_EXP080_100": {
+            "risk": {
+              "USDJPY_EXP": 0.01
+            },
+            "net_usd": 2816.896717865531,
+            "annual_usd": {
+              "A": 594.0010176562101,
+              "B": 258.7234162242193,
+              "all": 402.41381683793304
+            },
+            "annual_pct": {
+              "A": 5.940010176562102,
+              "B": 2.587234162242193,
+              "all": 4.024138168379331
+            },
+            "daily_loss_pct": 1.005199803219475,
+            "peak_dd_pct": 7.435559814203334,
+            "static_loss_pct": 0.35952188497696624,
+            "net_over_dd": 3.7884124238832997,
+            "underwater_months": 12.821914740054742,
+            "double_sl_days": 0,
+            "peak_margin_pct": 11.999987999999998,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 447,
+            "stale_marks_group_a": 150
+          },
+          "SOLO_TOKYO_030": {
+            "risk": {
+              "USDJPY": 0.003
+            },
+            "net_usd": 2261.4059807145386,
+            "annual_usd": {
+              "A": 206.7425178633482,
+              "B": 410.29460678112594,
+              "all": 323.0579972449341
+            },
+            "annual_pct": {
+              "A": 2.0674251786334823,
+              "B": 4.102946067811259,
+              "all": 3.2305799724493407
+            },
+            "daily_loss_pct": 0.29998297903966886,
+            "peak_dd_pct": 6.502932412674727,
+            "static_loss_pct": 0.6642440740860366,
+            "net_over_dd": 3.4775172756015125,
+            "underwater_months": 21.12427588063638,
+            "double_sl_days": 0,
+            "peak_margin_pct": 12.666654000000001,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1228,
+            "stale_marks_group_a": 0
+          },
+          "PORT_EQUAL_030": {
+            "risk": {
+              "USDJPY": 0.0015,
+              "USDJPY_EXP": 0.0015
+            },
+            "net_usd": 1424.5497636438758,
+            "annual_usd": {
+              "A": 176.99048974963748,
+              "B": 223.39457359875365,
+              "all": 203.50710909198227
+            },
+            "annual_pct": {
+              "A": 1.769904897496375,
+              "B": 2.2339457359875365,
+              "all": 2.0350710909198226
+            },
+            "daily_loss_pct": 0.29595864076689393,
+            "peak_dd_pct": 3.109604247510833,
+            "static_loss_pct": 0.28250207509394387,
+            "net_over_dd": 4.581128819798195,
+            "underwater_months": 14.254045828000118,
+            "double_sl_days": 23,
+            "peak_margin_pct": 7.666659000000001,
+            "simultaneous_margin_pct": 7.666659000000001,
+            "simultaneous_margin_09_16_utc_pct": 7.666659000000001,
+            "overlap_days": 302,
+            "margin_failures": 0,
+            "min_lot_rejections": 4,
+            "sized": 1671,
+            "stale_marks_group_a": 150
+          },
+          "PORT_EQUAL_040": {
+            "risk": {
+              "USDJPY": 0.002,
+              "USDJPY_EXP": 0.002
+            },
+            "net_usd": 1999.6600227431609,
+            "annual_usd": {
+              "A": 243.42009779988499,
+              "B": 317.34993233588057,
+              "all": 285.66571753473727
+            },
+            "annual_pct": {
+              "A": 2.4342009779988496,
+              "B": 3.173499323358806,
+              "all": 2.856657175347373
+            },
+            "daily_loss_pct": 0.3856940153184587,
+            "peak_dd_pct": 3.9777407861349277,
+            "static_loss_pct": 0.2647147857424534,
+            "net_over_dd": 5.027125019592293,
+            "underwater_months": 14.277842803069195,
+            "double_sl_days": 23,
+            "peak_margin_pct": 9.99999,
+            "simultaneous_margin_pct": 9.99999,
+            "simultaneous_margin_09_16_utc_pct": 9.99999,
+            "overlap_days": 304,
+            "margin_failures": 0,
+            "min_lot_rejections": 2,
+            "sized": 1673,
+            "stale_marks_group_a": 150
+          },
+          "PORT_EQUAL_050": {
+            "risk": {
+              "USDJPY": 0.0025,
+              "USDJPY_EXP": 0.0025
+            },
+            "net_usd": 2567.2372151947075,
+            "annual_usd": {
+              "A": 313.39064203050737,
+              "B": 406.7663222757924,
+              "all": 366.7481735992439
+            },
+            "annual_pct": {
+              "A": 3.1339064203050735,
+              "B": 4.067663222757924,
+              "all": 3.667481735992439
+            },
+            "daily_loss_pct": 0.4927179191025243,
+            "peak_dd_pct": 5.173200726075229,
+            "static_loss_pct": 0.13746338561213634,
+            "net_over_dd": 4.962570275409365,
+            "underwater_months": 14.27852727982094,
+            "double_sl_days": 24,
+            "peak_margin_pct": 12.333321,
+            "simultaneous_margin_pct": 12.333321,
+            "simultaneous_margin_09_16_utc_pct": 12.333321,
+            "overlap_days": 306,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1675,
+            "stale_marks_group_a": 150
+          },
+          "PORT_INV_DD_040": {
+            "risk": {
+              "USDJPY": 0.0008548614763168543,
+              "USDJPY_EXP": 0.003145138523683146
+            },
+            "net_usd": 1392.3817679362946,
+            "annual_usd": {
+              "A": 230.10415146917714,
+              "B": 175.51732838218447,
+              "all": 198.9116811337564
+            },
+            "annual_pct": {
+              "A": 2.301041514691771,
+              "B": 1.7551732838218446,
+              "all": 1.989116811337564
+            },
+            "daily_loss_pct": 0.3960334665213122,
+            "peak_dd_pct": 2.2761930457666675,
+            "static_loss_pct": 0.027852916123192697,
+            "net_over_dd": 6.117151489087836,
+            "underwater_months": 8.60640533344285,
+            "double_sl_days": 20,
+            "peak_margin_pct": 5.999994,
+            "simultaneous_margin_pct": 5.999994,
+            "simultaneous_margin_09_16_utc_pct": 5.999994,
+            "overlap_days": 287,
+            "margin_failures": 0,
+            "min_lot_rejections": 25,
+            "sized": 1650,
+            "stale_marks_group_a": 150
+          },
+          "PORT_INV_DD_050": {
+            "risk": {
+              "USDJPY": 0.001068576845396068,
+              "USDJPY_EXP": 0.003931423154603933
+            },
+            "net_usd": 1736.8876472885895,
+            "annual_usd": {
+              "A": 282.3896238098099,
+              "B": 222.42969396478952,
+              "all": 248.12680675551277
+            },
+            "annual_pct": {
+              "A": 2.823896238098099,
+              "B": 2.2242969396478953,
+              "all": 2.4812680675551277
+            },
+            "daily_loss_pct": 0.4920400860355403,
+            "peak_dd_pct": 2.8406681318730627,
+            "static_loss_pct": 0.03713722149759633,
+            "net_over_dd": 6.114363123943419,
+            "underwater_months": 8.172355809268272,
+            "double_sl_days": 21,
+            "peak_margin_pct": 7.666658999999999,
+            "simultaneous_margin_pct": 7.666658999999999,
+            "simultaneous_margin_09_16_utc_pct": 7.666658999999999,
+            "overlap_days": 295,
+            "margin_failures": 0,
+            "min_lot_rejections": 12,
+            "sized": 1663,
+            "stale_marks_group_a": 150
+          },
+          "PORT_INV_DD_075": {
+            "risk": {
+              "USDJPY": 0.0016028652680941018,
+              "USDJPY_EXP": 0.005897134731905899
+            },
+            "net_usd": 2773.072054180875,
+            "annual_usd": {
+              "A": 448.38135946058156,
+              "B": 356.98199394978855,
+              "all": 396.1531505972679
+            },
+            "annual_pct": {
+              "A": 4.483813594605816,
+              "B": 3.569819939497885,
+              "all": 3.961531505972679
+            },
+            "daily_loss_pct": 0.7440756057269027,
+            "peak_dd_pct": 4.309899959216,
+            "static_loss_pct": 0.05570583224640359,
+            "net_over_dd": 6.434191235114691,
+            "underwater_months": 8.172355809268272,
+            "double_sl_days": 23,
+            "peak_margin_pct": 11.666655,
+            "simultaneous_margin_pct": 11.666655,
+            "simultaneous_margin_09_16_utc_pct": 11.666655,
+            "overlap_days": 302,
+            "margin_failures": 0,
+            "min_lot_rejections": 4,
+            "sized": 1671,
+            "stale_marks_group_a": 150
+          },
+          "MUTEX_EQUAL_050": {
+            "risk": {
+              "USDJPY": 0.0025,
+              "USDJPY_EXP": 0.0025
+            },
+            "net_usd": 1931.3089448711853,
+            "annual_usd": {
+              "A": 198.8359412759277,
+              "B": 333.7002802608467,
+              "all": 275.9012778387408
+            },
+            "annual_pct": {
+              "A": 1.988359412759277,
+              "B": 3.337002802608467,
+              "all": 2.759012778387408
+            },
+            "daily_loss_pct": 0.24995337683780236,
+            "peak_dd_pct": 5.387384314715964,
+            "static_loss_pct": 0.5014545205167087,
+            "net_over_dd": 3.5848731630221717,
+            "underwater_months": 21.984161207964572,
+            "double_sl_days": 0,
+            "peak_margin_pct": 10.333323000000002,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1259,
+            "stale_marks_group_a": 5
+          },
+          "MUTEX_INV_DD_075": {
+            "risk": {
+              "USDJPY": 0.0016028652680941018,
+              "USDJPY_EXP": 0.005897134731905899
+            },
+            "net_usd": 1274.9608072968167,
+            "annual_usd": {
+              "A": 193.7148586860718,
+              "B": 173.4540578096635,
+              "all": 182.13725818525953
+            },
+            "annual_pct": {
+              "A": 1.9371485868607181,
+              "B": 1.734540578096635,
+              "all": 1.8213725818525952
+            },
+            "daily_loss_pct": 0.579822470248273,
+            "peak_dd_pct": 3.934453554246029,
+            "static_loss_pct": 0.2838536534029481,
+            "net_over_dd": 3.2405028797986186,
+            "underwater_months": 23.628753499387393,
+            "double_sl_days": 0,
+            "peak_margin_pct": 6.66666,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 3,
+            "sized": 1256,
+            "stale_marks_group_a": 5
+          }
+        },
+        "extended": {
+          "SOLO_EXP080_030": {
+            "risk": {
+              "USDJPY_EXP": 0.003
+            },
+            "net_usd": 719.394884285135,
+            "annual_usd": {
+              "A": 163.6038291499381,
+              "B": 57.14584920882894,
+              "all": 102.7706977550193
+            },
+            "annual_pct": {
+              "A": 1.636038291499381,
+              "B": 0.5714584920882894,
+              "all": 1.027706977550193
+            },
+            "daily_loss_pct": 0.300211355240117,
+            "peak_dd_pct": 2.136404154261709,
+            "static_loss_pct": 0.168505373327298,
+            "net_over_dd": 3.3673164454866034,
+            "underwater_months": 29.04209760182162,
+            "double_sl_days": 0,
+            "peak_margin_pct": 3.666663,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 498,
+            "stale_marks_group_a": 239
+          },
+          "SOLO_EXP080_040": {
+            "risk": {
+              "USDJPY_EXP": 0.004
+            },
+            "net_usd": 895.7173259415413,
+            "annual_usd": {
+              "A": 205.91624600973083,
+              "B": 69.49214697808215,
+              "all": 127.95961799164876
+            },
+            "annual_pct": {
+              "A": 2.0591624600973084,
+              "B": 0.6949214697808215,
+              "all": 1.2795961799164877
+            },
+            "daily_loss_pct": 0.3977374352806146,
+            "peak_dd_pct": 2.8729530485908437,
+            "static_loss_pct": 0.3152524464064481,
+            "net_over_dd": 3.117758316241479,
+            "underwater_months": 29.04209760182162,
+            "double_sl_days": 0,
+            "peak_margin_pct": 4.6666620000000005,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 498,
+            "stale_marks_group_a": 239
+          },
+          "SOLO_EXP080_050": {
+            "risk": {
+              "USDJPY_EXP": 0.005
+            },
+            "net_usd": 1206.6271122952967,
+            "annual_usd": {
+              "A": 273.98181810134514,
+              "B": 96.17041449781955,
+              "all": 172.37530175647095
+            },
+            "annual_pct": {
+              "A": 2.7398181810134514,
+              "B": 0.9617041449781955,
+              "all": 1.7237530175647093
+            },
+            "daily_loss_pct": 0.5025999016097376,
+            "peak_dd_pct": 3.512097041735742,
+            "static_loss_pct": 0.3015478788178552,
+            "net_over_dd": 3.4356314701912667,
+            "underwater_months": 24.60166875432076,
+            "double_sl_days": 0,
+            "peak_margin_pct": 5.999993999999999,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 498,
+            "stale_marks_group_a": 239
+          },
+          "SOLO_EXP080_075": {
+            "risk": {
+              "USDJPY_EXP": 0.0075
+            },
+            "net_usd": 1831.8179324593038,
+            "annual_usd": {
+              "A": 427.0469984597699,
+              "B": 137.66923426999932,
+              "all": 261.68827606561484
+            },
+            "annual_pct": {
+              "A": 4.270469984597699,
+              "B": 1.3766923426999933,
+              "all": 2.6168827606561487
+            },
+            "daily_loss_pct": 0.7512212514807288,
+            "peak_dd_pct": 5.507446659372708,
+            "static_loss_pct": 0.5343960337590943,
+            "net_over_dd": 3.3260747597834124,
+            "underwater_months": 24.601600306645583,
+            "double_sl_days": 0,
+            "peak_margin_pct": 8.999991,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 498,
+            "stale_marks_group_a": 239
+          },
+          "SOLO_EXP080_100": {
+            "risk": {
+              "USDJPY_EXP": 0.01
+            },
+            "net_usd": 2450.1552881182342,
+            "annual_usd": {
+              "A": 562.2052981622489,
+              "B": 190.88484840786597,
+              "all": 350.0221840168906
+            },
+            "annual_pct": {
+              "A": 5.622052981622489,
+              "B": 1.9088484840786597,
+              "all": 3.5002218401689063
+            },
+            "daily_loss_pct": 1.005199803219475,
+            "peak_dd_pct": 7.28712746583511,
+            "static_loss_pct": 0.7155502564082417,
+            "net_over_dd": 3.362306065875087,
+            "underwater_months": 24.601645938429034,
+            "double_sl_days": 0,
+            "peak_margin_pct": 11.999987999999998,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 498,
+            "stale_marks_group_a": 239
+          },
+          "SOLO_TOKYO_030": {
+            "risk": {
+              "USDJPY": 0.003
+            },
+            "net_usd": 2051.99178057021,
+            "annual_usd": {
+              "A": 166.54910604474443,
+              "B": 388.0861156089955,
+              "all": 293.1416829386014
+            },
+            "annual_pct": {
+              "A": 1.6654910604474444,
+              "B": 3.8808611560899555,
+              "all": 2.9314168293860137
+            },
+            "daily_loss_pct": 0.29998297903966886,
+            "peak_dd_pct": 9.0756935419209,
+            "static_loss_pct": 0.7918663559637571,
+            "net_over_dd": 2.2609751762683463,
+            "underwater_months": 41.15640065618504,
+            "double_sl_days": 0,
+            "peak_margin_pct": 14.333319,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1437,
+            "stale_marks_group_a": 111
+          },
+          "PORT_EQUAL_030": {
+            "risk": {
+              "USDJPY": 0.0015,
+              "USDJPY_EXP": 0.0015
+            },
+            "net_usd": 1306.1814181404734,
+            "annual_usd": {
+              "A": 159.10372827404098,
+              "B": 207.21755832959792,
+              "all": 186.59734544863906
+            },
+            "annual_pct": {
+              "A": 1.5910372827404098,
+              "B": 2.072175583295979,
+              "all": 1.8659734544863906
+            },
+            "daily_loss_pct": 0.29595864076689393,
+            "peak_dd_pct": 3.6297597969345405,
+            "static_loss_pct": 0.28250207509394387,
+            "net_over_dd": 3.5985340386534377,
+            "underwater_months": 19.653997001991826,
+            "double_sl_days": 26,
+            "peak_margin_pct": 7.666659000000001,
+            "simultaneous_margin_pct": 7.666659000000001,
+            "simultaneous_margin_09_16_utc_pct": 7.666659000000001,
+            "overlap_days": 336,
+            "margin_failures": 0,
+            "min_lot_rejections": 4,
+            "sized": 1931,
+            "stale_marks_group_a": 350
+          },
+          "PORT_EQUAL_040": {
+            "risk": {
+              "USDJPY": 0.002,
+              "USDJPY_EXP": 0.002
+            },
+            "net_usd": 1783.438673443692,
+            "annual_usd": {
+              "A": 210.26155831837596,
+              "B": 288.1634996221433,
+              "all": 254.77695334909887
+            },
+            "annual_pct": {
+              "A": 2.1026155831837596,
+              "B": 2.8816349962214334,
+              "all": 2.547769533490989
+            },
+            "daily_loss_pct": 0.38972456510520714,
+            "peak_dd_pct": 4.946342952380182,
+            "static_loss_pct": 0.2647147857424534,
+            "net_over_dd": 3.6055701972413794,
+            "underwater_months": 19.654088265558727,
+            "double_sl_days": 26,
+            "peak_margin_pct": 9.99999,
+            "simultaneous_margin_pct": 9.99999,
+            "simultaneous_margin_09_16_utc_pct": 9.99999,
+            "overlap_days": 338,
+            "margin_failures": 0,
+            "min_lot_rejections": 2,
+            "sized": 1933,
+            "stale_marks_group_a": 350
+          },
+          "PORT_EQUAL_050": {
+            "risk": {
+              "USDJPY": 0.0025,
+              "USDJPY_EXP": 0.0025
+            },
+            "net_usd": 2319.4650825767603,
+            "annual_usd": {
+              "A": 274.3171242331587,
+              "B": 374.12842746931557,
+              "all": 331.3521546538229
+            },
+            "annual_pct": {
+              "A": 2.743171242331587,
+              "B": 3.7412842746931556,
+              "all": 3.3135215465382286
+            },
+            "daily_loss_pct": 0.4927179191025243,
+            "peak_dd_pct": 6.448799277457056,
+            "static_loss_pct": 0.13746338561213634,
+            "net_over_dd": 3.5967394592119963,
+            "underwater_months": 20.105021549609734,
+            "double_sl_days": 27,
+            "peak_margin_pct": 12.666654000000001,
+            "simultaneous_margin_pct": 12.666654000000001,
+            "simultaneous_margin_09_16_utc_pct": 12.666654000000001,
+            "overlap_days": 340,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1935,
+            "stale_marks_group_a": 350
+          },
+          "PORT_INV_DD_040": {
+            "risk": {
+              "USDJPY": 0.0008548614763168543,
+              "USDJPY_EXP": 0.003145138523683146
+            },
+            "net_usd": 1238.5005378537498,
+            "annual_usd": {
+              "A": 210.23585944191362,
+              "B": 151.94823988199445,
+              "all": 176.92864826482142
+            },
+            "annual_pct": {
+              "A": 2.1023585944191363,
+              "B": 1.5194823988199444,
+              "all": 1.7692864826482142
+            },
+            "daily_loss_pct": 0.3960334665213122,
+            "peak_dd_pct": 2.771933595935279,
+            "static_loss_pct": 0.027852916123192697,
+            "net_over_dd": 4.4680021904921094,
+            "underwater_months": 20.761526018102128,
+            "double_sl_days": 23,
+            "peak_margin_pct": 6.333326999999999,
+            "simultaneous_margin_pct": 6.333326999999999,
+            "simultaneous_margin_09_16_utc_pct": 6.333326999999999,
+            "overlap_days": 321,
+            "margin_failures": 0,
+            "min_lot_rejections": 25,
+            "sized": 1910,
+            "stale_marks_group_a": 350
+          },
+          "PORT_INV_DD_050": {
+            "risk": {
+              "USDJPY": 0.001068576845396068,
+              "USDJPY_EXP": 0.003931423154603933
+            },
+            "net_usd": 1541.0774450424196,
+            "annual_usd": {
+              "A": 259.48455301569476,
+              "B": 190.65594649883116,
+              "all": 220.15392072034567
+            },
+            "annual_pct": {
+              "A": 2.5948455301569475,
+              "B": 1.9065594649883115,
+              "all": 2.2015392072034565
+            },
+            "daily_loss_pct": 0.4920400860355403,
+            "peak_dd_pct": 3.5229724353569507,
+            "static_loss_pct": 0.03713722149759633,
+            "net_over_dd": 4.374367024777122,
+            "underwater_months": 20.597639467842143,
+            "double_sl_days": 24,
+            "peak_margin_pct": 7.666658999999999,
+            "simultaneous_margin_pct": 7.666658999999999,
+            "simultaneous_margin_09_16_utc_pct": 7.666658999999999,
+            "overlap_days": 329,
+            "margin_failures": 0,
+            "min_lot_rejections": 12,
+            "sized": 1923,
+            "stale_marks_group_a": 350
+          },
+          "PORT_INV_DD_075": {
+            "risk": {
+              "USDJPY": 0.0016028652680941018,
+              "USDJPY_EXP": 0.005897134731905899
+            },
+            "net_usd": 2455.9342051343556,
+            "annual_usd": {
+              "A": 411.7408333346541,
+              "B": 305.1779262826014,
+              "all": 350.8477435906222
+            },
+            "annual_pct": {
+              "A": 4.117408333346541,
+              "B": 3.051779262826014,
+              "all": 3.508477435906222
+            },
+            "daily_loss_pct": 0.7440756057269027,
+            "peak_dd_pct": 5.4495805083917,
+            "static_loss_pct": 0.05570583224640359,
+            "net_over_dd": 4.5066481747586105,
+            "underwater_months": 20.597616651950418,
+            "double_sl_days": 26,
+            "peak_margin_pct": 11.666655,
+            "simultaneous_margin_pct": 11.666655,
+            "simultaneous_margin_09_16_utc_pct": 11.666655,
+            "overlap_days": 336,
+            "margin_failures": 0,
+            "min_lot_rejections": 4,
+            "sized": 1931,
+            "stale_marks_group_a": 350
+          },
+          "MUTEX_EQUAL_050": {
+            "risk": {
+              "USDJPY": 0.0025,
+              "USDJPY_EXP": 0.0025
+            },
+            "net_usd": 1751.0166891559275,
+            "annual_usd": {
+              "A": 169.83617765555425,
+              "B": 310.3770390473129,
+              "all": 250.14524130798964
+            },
+            "annual_pct": {
+              "A": 1.6983617765555423,
+              "B": 3.103770390473129,
+              "all": 2.5014524130798965
+            },
+            "daily_loss_pct": 0.24995337683780236,
+            "peak_dd_pct": 6.5292394187697935,
+            "static_loss_pct": 0.5014545205167087,
+            "net_over_dd": 2.681808058871649,
+            "underwater_months": 20.965500090122774,
+            "double_sl_days": 0,
+            "peak_margin_pct": 11.999987999999998,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1470,
+            "stale_marks_group_a": 116
+          },
+          "MUTEX_INV_DD_075": {
+            "risk": {
+              "USDJPY": 0.0016028652680941018,
+              "USDJPY_EXP": 0.005897134731905899
+            },
+            "net_usd": 1138.8172363926496,
+            "annual_usd": {
+              "A": 183.56816391354212,
+              "B": 147.02818616301255,
+              "all": 162.6881766275214
+            },
+            "annual_pct": {
+              "A": 1.8356816391354212,
+              "B": 1.4702818616301254,
+              "all": 1.626881766275214
+            },
+            "daily_loss_pct": 0.579822470248273,
+            "peak_dd_pct": 4.432586437775463,
+            "static_loss_pct": 0.2838536534029481,
+            "net_over_dd": 2.5691935225163403,
+            "underwater_months": 22.60952198425247,
+            "double_sl_days": 0,
+            "peak_margin_pct": 7.666658999999999,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 3,
+            "sized": 1467,
+            "stale_marks_group_a": 116
+          }
+        },
+        "all_dev": {
+          "SOLO_EXP080_030": {
+            "risk": {
+              "USDJPY_EXP": 0.003
+            },
+            "net_usd": 998.0566286663907,
+            "annual_usd": {
+              "A": 212.96917233713168,
+              "B": 89.78727791374709,
+              "all": 142.57951838091296
+            },
+            "annual_pct": {
+              "A": 2.129691723371317,
+              "B": 0.897872779137471,
+              "all": 1.4257951838091296
+            },
+            "daily_loss_pct": 0.300211355240117,
+            "peak_dd_pct": 1.996147706524298,
+            "static_loss_pct": 0.4144787112513586,
+            "net_over_dd": 4.999913710815577,
+            "underwater_months": 12.821914740054742,
+            "double_sl_days": 0,
+            "peak_margin_pct": 3.666663,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 569,
+            "stale_marks_group_a": 446
+          },
+          "SOLO_EXP080_040": {
+            "risk": {
+              "USDJPY_EXP": 0.004
+            },
+            "net_usd": 1262.0919101051495,
+            "annual_usd": {
+              "A": 271.25371200823264,
+              "B": 112.08269352010774,
+              "all": 180.29884430073565
+            },
+            "annual_pct": {
+              "A": 2.7125371200823265,
+              "B": 1.1208269352010773,
+              "all": 1.8029884430073566
+            },
+            "daily_loss_pct": 0.3977374352806146,
+            "peak_dd_pct": 2.764619370577784,
+            "static_loss_pct": 0.6773486449052325,
+            "net_over_dd": 4.565156142421812,
+            "underwater_months": 11.036776935871373,
+            "double_sl_days": 0,
+            "peak_margin_pct": 4.6666620000000005,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 569,
+            "stale_marks_group_a": 446
+          },
+          "SOLO_EXP080_050": {
+            "risk": {
+              "USDJPY_EXP": 0.005
+            },
+            "net_usd": 1651.6186268144047,
+            "annual_usd": {
+              "A": 351.39127797269447,
+              "B": 149.36119822408529,
+              "all": 235.94551811634352
+            },
+            "annual_pct": {
+              "A": 3.5139127797269443,
+              "B": 1.493611982240853,
+              "all": 2.359455181163435
+            },
+            "daily_loss_pct": 0.5025999016097376,
+            "peak_dd_pct": 3.371397475736594,
+            "static_loss_pct": 0.7660393211167866,
+            "net_over_dd": 4.898913992493732,
+            "underwater_months": 11.036776935871373,
+            "double_sl_days": 0,
+            "peak_margin_pct": 5.999993999999999,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 569,
+            "stale_marks_group_a": 446
+          },
+          "SOLO_EXP080_075": {
+            "risk": {
+              "USDJPY_EXP": 0.0075
+            },
+            "net_usd": 2532.4034394514074,
+            "annual_usd": {
+              "A": 548.3506048128714,
+              "B": 221.83790625319847,
+              "all": 361.7719199216296
+            },
+            "annual_pct": {
+              "A": 5.483506048128715,
+              "B": 2.2183790625319846,
+              "all": 3.617719199216296
+            },
+            "daily_loss_pct": 0.7512212514807288,
+            "peak_dd_pct": 5.343151703091298,
+            "static_loss_pct": 1.2311331972074913,
+            "net_over_dd": 4.73953123581776,
+            "underwater_months": 11.036776935871373,
+            "double_sl_days": 0,
+            "peak_margin_pct": 8.999991,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 569,
+            "stale_marks_group_a": 446
+          },
+          "SOLO_EXP080_100": {
+            "risk": {
+              "USDJPY_EXP": 0.01
+            },
+            "net_usd": 3388.085397826111,
+            "annual_usd": {
+              "A": 726.3684422332768,
+              "B": 302.24501778156554,
+              "all": 484.01219968944446
+            },
+            "annual_pct": {
+              "A": 7.263684422332768,
+              "B": 3.0224501778156556,
+              "all": 4.840121996894444
+            },
+            "daily_loss_pct": 1.005199803219475,
+            "peak_dd_pct": 7.065834720445654,
+            "static_loss_pct": 1.6582607577806812,
+            "net_over_dd": 4.79502497846768,
+            "underwater_months": 11.036799751763098,
+            "double_sl_days": 0,
+            "peak_margin_pct": 11.999987999999998,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 569,
+            "stale_marks_group_a": 446
+          }
+        }
+      },
+      "Swing_25000": {
+        "strict": {
+          "SOLO_EXP080_030": {
+            "risk": {
+              "USDJPY_EXP": 0.003
+            },
+            "net_usd": 2105.9877379658064,
+            "annual_usd": {
+              "A": 451.6959309161989,
+              "B": 187.72498630429,
+              "all": 300.85539113797233
+            },
+            "annual_pct": {
+              "A": 1.8067837236647957,
+              "B": 0.75089994521716,
+              "all": 1.2034215645518893
+            },
+            "daily_loss_pct": 0.30030707176268334,
+            "peak_dd_pct": 2.2495794954159503,
+            "static_loss_pct": 0.10932342455045728,
+            "net_over_dd": 3.744678047176824,
+            "underwater_months": 12.821914740054742,
+            "double_sl_days": 0,
+            "peak_margin_pct": 3.5999964,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 447,
+            "stale_marks_group_a": 150
+          },
+          "SOLO_EXP080_040": {
+            "risk": {
+              "USDJPY_EXP": 0.004
+            },
+            "net_usd": 2816.896717865504,
+            "annual_usd": {
+              "A": 594.0010176562101,
+              "B": 258.7234162242193,
+              "all": 402.4138168379291
+            },
+            "annual_pct": {
+              "A": 2.3760040706248406,
+              "B": 1.0348936648968772,
+              "all": 1.6096552673517164
+            },
+            "daily_loss_pct": 0.4020799212877901,
+            "peak_dd_pct": 2.974223925681377,
+            "static_loss_pct": 0.1438087539907574,
+            "net_over_dd": 3.7884124238832078,
+            "underwater_months": 12.821914740054742,
+            "double_sl_days": 0,
+            "peak_margin_pct": 4.7999952,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 447,
+            "stale_marks_group_a": 150
+          },
+          "SOLO_EXP080_050": {
+            "risk": {
+              "USDJPY_EXP": 0.005
+            },
+            "net_usd": 3526.738720615591,
+            "annual_usd": {
+              "A": 751.0720150744228,
+              "B": 318.38066884807733,
+              "all": 503.8198172307987
+            },
+            "annual_pct": {
+              "A": 3.004288060297691,
+              "B": 1.2735226753923092,
+              "all": 2.015279268923195
+            },
+            "daily_loss_pct": 0.5035223056854738,
+            "peak_dd_pct": 3.842018191156443,
+            "static_loss_pct": 0.21173535383609124,
+            "net_over_dd": 3.6717564000435368,
+            "underwater_months": 12.821914740054742,
+            "double_sl_days": 0,
+            "peak_margin_pct": 6.1333272,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 447,
+            "stale_marks_group_a": 150
+          },
+          "SOLO_EXP080_075": {
+            "risk": {
+              "USDJPY_EXP": 0.0075
+            },
+            "net_usd": 5400.641310975541,
+            "annual_usd": {
+              "A": 1131.5357555086682,
+              "B": 501.5085111123789,
+              "all": 771.5201872822201
+            },
+            "annual_pct": {
+              "A": 4.526143022034673,
+              "B": 2.0060340444495157,
+              "all": 3.0860807491288806
+            },
+            "daily_loss_pct": 0.7505283881003124,
+            "peak_dd_pct": 5.775290443259379,
+            "static_loss_pct": 0.28384532039611077,
+            "net_over_dd": 3.7405158158089806,
+            "underwater_months": 12.821914740054742,
+            "double_sl_days": 0,
+            "peak_margin_pct": 9.1999908,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 447,
+            "stale_marks_group_a": 150
+          },
+          "SOLO_EXP080_100": {
+            "risk": {
+              "USDJPY_EXP": 0.01
+            },
+            "net_usd": 7167.773455435385,
+            "annual_usd": {
+              "A": 1507.7851093833724,
+              "B": 661.1045318213255,
+              "all": 1023.9676364907692
+            },
+            "annual_pct": {
+              "A": 6.03114043753349,
+              "B": 2.6444181272853022,
+              "all": 4.095870545963077
+            },
+            "daily_loss_pct": 1.0070446113709477,
+            "peak_dd_pct": 7.764376417527746,
+            "static_loss_pct": 0.3807427852037072,
+            "net_over_dd": 3.6926460387749587,
+            "underwater_months": 12.821914740054742,
+            "double_sl_days": 0,
+            "peak_margin_pct": 12.2666544,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 447,
+            "stale_marks_group_a": 150
+          },
+          "SOLO_TOKYO_030": {
+            "risk": {
+              "USDJPY": 0.003
+            },
+            "net_usd": 5855.2150000119145,
+            "annual_usd": {
+              "A": 522.7095386561022,
+              "B": 1071.7715960108912,
+              "all": 836.4592857159878
+            },
+            "annual_pct": {
+              "A": 2.0908381546244086,
+              "B": 4.287086384043565,
+              "all": 3.3458371428639513
+            },
+            "daily_loss_pct": 0.2999592209131515,
+            "peak_dd_pct": 6.799901855996169,
+            "static_loss_pct": 0.6867515511549281,
+            "net_over_dd": 3.4442938289462353,
+            "underwater_months": 21.09180886671184,
+            "double_sl_days": 0,
+            "peak_margin_pct": 12.666654,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1228,
+            "stale_marks_group_a": 0
+          },
+          "PORT_EQUAL_030": {
+            "risk": {
+              "USDJPY": 0.0015,
+              "USDJPY_EXP": 0.0015
+            },
+            "net_usd": 3825.306626595793,
+            "annual_usd": {
+              "A": 472.90979448012854,
+              "B": 601.6443107888662,
+              "all": 546.4723752279705
+            },
+            "annual_pct": {
+              "A": 1.8916391779205142,
+              "B": 2.4065772431554646,
+              "all": 2.1858895009118817
+            },
+            "daily_loss_pct": 0.29784881566157856,
+            "peak_dd_pct": 3.22215679179765,
+            "static_loss_pct": 0.12840852362585428,
+            "net_over_dd": 4.748752930128697,
+            "underwater_months": 14.278641359279565,
+            "double_sl_days": 24,
+            "peak_margin_pct": 7.5999924,
+            "simultaneous_margin_pct": 7.5999924,
+            "simultaneous_margin_09_16_utc_pct": 7.5999924,
+            "overlap_days": 306,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1675,
+            "stale_marks_group_a": 150
+          },
+          "PORT_EQUAL_040": {
+            "risk": {
+              "USDJPY": 0.002,
+              "USDJPY_EXP": 0.002
+            },
+            "net_usd": 5245.388502508151,
+            "annual_usd": {
+              "A": 627.7011145723355,
+              "B": 840.5712896977818,
+              "all": 749.3412146440215
+            },
+            "annual_pct": {
+              "A": 2.5108044582893423,
+              "B": 3.362285158791127,
+              "all": 2.997364858576086
+            },
+            "daily_loss_pct": 0.39776636529633835,
+            "peak_dd_pct": 4.340377948929934,
+            "static_loss_pct": 0.22135679721187626,
+            "net_over_dd": 4.834038477042153,
+            "underwater_months": 14.27852727982094,
+            "double_sl_days": 24,
+            "peak_margin_pct": 10.133323199999998,
+            "simultaneous_margin_pct": 10.133323199999998,
+            "simultaneous_margin_09_16_utc_pct": 10.133323199999998,
+            "overlap_days": 306,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1675,
+            "stale_marks_group_a": 150
+          },
+          "PORT_EQUAL_050": {
+            "risk": {
+              "USDJPY": 0.0025,
+              "USDJPY_EXP": 0.0025
+            },
+            "net_usd": 6506.397707330965,
+            "annual_usd": {
+              "A": 805.5433168551295,
+              "B": 1022.441939191407,
+              "all": 929.4853867615665
+            },
+            "annual_pct": {
+              "A": 3.222173267420518,
+              "B": 4.089767756765628,
+              "all": 3.717941547046266
+            },
+            "daily_loss_pct": 0.49540812265657586,
+            "peak_dd_pct": 5.522490633770241,
+            "static_loss_pct": 0.22308601913724851,
+            "net_over_dd": 4.712654589249347,
+            "underwater_months": 14.278641359279565,
+            "double_sl_days": 24,
+            "peak_margin_pct": 12.666654000000001,
+            "simultaneous_margin_pct": 12.666654000000001,
+            "simultaneous_margin_09_16_utc_pct": 12.666654000000001,
+            "overlap_days": 306,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1675,
+            "stale_marks_group_a": 150
+          },
+          "PORT_INV_DD_040": {
+            "risk": {
+              "USDJPY": 0.0008548614763168543,
+              "USDJPY_EXP": 0.003145138523683146
+            },
+            "net_usd": 3740.724530904339,
+            "annual_usd": {
+              "A": 604.5240648762127,
+              "B": 481.78808406891795,
+              "all": 534.3892187006198
+            },
+            "annual_pct": {
+              "A": 2.4180962595048507,
+              "B": 1.927152336275672,
+              "all": 2.1375568748024794
+            },
+            "daily_loss_pct": 0.39722409884276566,
+            "peak_dd_pct": 2.4432518311397,
+            "static_loss_pct": 0.02970977719807706,
+            "net_over_dd": 6.124173502261384,
+            "underwater_months": 8.172355809268272,
+            "double_sl_days": 24,
+            "peak_margin_pct": 6.2666604,
+            "simultaneous_margin_pct": 6.2666604,
+            "simultaneous_margin_09_16_utc_pct": 6.2666604,
+            "overlap_days": 306,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1675,
+            "stale_marks_group_a": 150
+          },
+          "PORT_INV_DD_050": {
+            "risk": {
+              "USDJPY": 0.001068576845396068,
+              "USDJPY_EXP": 0.003931423154603933
+            },
+            "net_usd": 4767.0655224481525,
+            "annual_usd": {
+              "A": 765.3070365242894,
+              "B": 617.786103218824,
+              "all": 681.0093603497361
+            },
+            "annual_pct": {
+              "A": 3.0612281460971578,
+              "B": 2.471144412875296,
+              "all": 2.7240374413989445
+            },
+            "daily_loss_pct": 0.4934400610370649,
+            "peak_dd_pct": 3.15961084071394,
+            "static_loss_pct": 0.037137221497599966,
+            "net_over_dd": 6.0350033757587624,
+            "underwater_months": 10.24057076234739,
+            "double_sl_days": 24,
+            "peak_margin_pct": 7.999992000000001,
+            "simultaneous_margin_pct": 7.999992000000001,
+            "simultaneous_margin_09_16_utc_pct": 7.999992000000001,
+            "overlap_days": 306,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1675,
+            "stale_marks_group_a": 150
+          },
+          "PORT_INV_DD_075": {
+            "risk": {
+              "USDJPY": 0.0016028652680941018,
+              "USDJPY_EXP": 0.005897134731905899
+            },
+            "net_usd": 7225.470159906585,
+            "annual_usd": {
+              "A": 1156.1560727219987,
+              "B": 939.250485435145,
+              "all": 1032.2100228437978
+            },
+            "annual_pct": {
+              "A": 4.624624290887995,
+              "B": 3.7570019417405804,
+              "all": 4.128840091375191
+            },
+            "daily_loss_pct": 0.7451905730295112,
+            "peak_dd_pct": 4.73661401994167,
+            "static_loss_pct": 0.05570583224639995,
+            "net_over_dd": 6.101801945006754,
+            "underwater_months": 8.172355809268272,
+            "double_sl_days": 24,
+            "peak_margin_pct": 11.999988,
+            "simultaneous_margin_pct": 11.999988,
+            "simultaneous_margin_09_16_utc_pct": 11.999988,
+            "overlap_days": 306,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1675,
+            "stale_marks_group_a": 150
+          },
+          "MUTEX_EQUAL_050": {
+            "risk": {
+              "USDJPY": 0.0025,
+              "USDJPY_EXP": 0.0025
+            },
+            "net_usd": 4896.142196364781,
+            "annual_usd": {
+              "A": 525.3686838415066,
+              "B": 830.0090362100715,
+              "all": 699.4488851949687
+            },
+            "annual_pct": {
+              "A": 2.1014747353660264,
+              "B": 3.320036144840286,
+              "all": 2.797795540779875
+            },
+            "daily_loss_pct": 0.24999178386747373,
+            "peak_dd_pct": 5.618569716840749,
+            "static_loss_pct": 0.5293060554782569,
+            "net_over_dd": 3.4856858190719895,
+            "underwater_months": 21.558872986212357,
+            "double_sl_days": 0,
+            "peak_margin_pct": 10.5333228,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1259,
+            "stale_marks_group_a": 5
+          },
+          "MUTEX_INV_DD_075": {
+            "risk": {
+              "USDJPY": 0.0016028652680941018,
+              "USDJPY_EXP": 0.005897134731905899
+            },
+            "net_usd": 3437.1622714686164,
+            "annual_usd": {
+              "A": 510.4671830080808,
+              "B": 476.4401806110859,
+              "all": 491.0231816383738
+            },
+            "annual_pct": {
+              "A": 2.041868732032323,
+              "B": 1.9057607224443436,
+              "all": 1.964092726553495
+            },
+            "daily_loss_pct": 0.583497869286628,
+            "peak_dd_pct": 4.110993148868307,
+            "static_loss_pct": 0.29878873318577825,
+            "net_over_dd": 3.3443619553730604,
+            "underwater_months": 23.628753499387393,
+            "double_sl_days": 0,
+            "peak_margin_pct": 6.799993199999999,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1259,
+            "stale_marks_group_a": 5
+          }
+        },
+        "extended": {
+          "SOLO_EXP080_030": {
+            "risk": {
+              "USDJPY_EXP": 0.003
+            },
+            "net_usd": 1831.8179324593511,
+            "annual_usd": {
+              "A": 427.0469984597699,
+              "B": 137.66923426999932,
+              "all": 261.6882760656216
+            },
+            "annual_pct": {
+              "A": 1.7081879938390796,
+              "B": 0.5506769370799973,
+              "all": 1.0467531042624865
+            },
+            "daily_loss_pct": 0.30048850059228427,
+            "peak_dd_pct": 2.202978663749076,
+            "static_loss_pct": 0.21375841350363042,
+            "net_over_dd": 3.326074759783509,
+            "underwater_months": 24.601600306645583,
+            "double_sl_days": 0,
+            "peak_margin_pct": 3.5999964,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 498,
+            "stale_marks_group_a": 239
+          },
+          "SOLO_EXP080_040": {
+            "risk": {
+              "USDJPY_EXP": 0.004
+            },
+            "net_usd": 2450.1552881181997,
+            "annual_usd": {
+              "A": 562.2052981622489,
+              "B": 190.88484840786597,
+              "all": 350.02218401688566
+            },
+            "annual_pct": {
+              "A": 2.248821192648996,
+              "B": 0.763539393631464,
+              "all": 1.4000887360675427
+            },
+            "daily_loss_pct": 0.4020799212877901,
+            "peak_dd_pct": 2.9148509863340877,
+            "static_loss_pct": 0.2862201025632676,
+            "net_over_dd": 3.3623060658749893,
+            "underwater_months": 24.601645938429034,
+            "double_sl_days": 0,
+            "peak_margin_pct": 4.7999952,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 498,
+            "stale_marks_group_a": 239
+          },
+          "SOLO_EXP080_050": {
+            "risk": {
+              "USDJPY_EXP": 0.005
+            },
+            "net_usd": 3071.5861382929143,
+            "annual_usd": {
+              "A": 711.2121006636213,
+              "B": 234.48745907550827,
+              "all": 438.7980197561306
+            },
+            "annual_pct": {
+              "A": 2.844848402654485,
+              "B": 0.9379498363020331,
+              "all": 1.7551920790245223
+            },
+            "daily_loss_pct": 0.5035223056854738,
+            "peak_dd_pct": 3.7657308898159245,
+            "static_loss_pct": 0.38262897212310054,
+            "net_over_dd": 3.2626719520502525,
+            "underwater_months": 24.601645938429034,
+            "double_sl_days": 0,
+            "peak_margin_pct": 6.1333272,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 498,
+            "stale_marks_group_a": 239
+          },
+          "SOLO_EXP080_075": {
+            "risk": {
+              "USDJPY_EXP": 0.0075
+            },
+            "net_usd": 4705.440630387362,
+            "annual_usd": {
+              "A": 1069.3197680681963,
+              "B": 374.37033154568843,
+              "all": 672.2058043410517
+            },
+            "annual_pct": {
+              "A": 4.277279072272785,
+              "B": 1.4974813261827538,
+              "all": 2.688823217364207
+            },
+            "daily_loss_pct": 0.7520178621398809,
+            "peak_dd_pct": 5.666693181760754,
+            "static_loss_pct": 0.5496798377314553,
+            "net_over_dd": 3.3214719621896225,
+            "underwater_months": 24.601645938429034,
+            "double_sl_days": 0,
+            "peak_margin_pct": 9.1999908,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 498,
+            "stale_marks_group_a": 239
+          },
+          "SOLO_EXP080_100": {
+            "risk": {
+              "USDJPY_EXP": 0.01
+            },
+            "net_usd": 6235.89149795569,
+            "annual_usd": {
+              "A": 1425.3629228304053,
+              "B": 489.950682366132,
+              "all": 890.8416425650986
+            },
+            "annual_pct": {
+              "A": 5.701451691321621,
+              "B": 1.9598027294645282,
+              "all": 3.5633665702603943
+            },
+            "daily_loss_pct": 1.0070446113709477,
+            "peak_dd_pct": 7.615944069159522,
+            "static_loss_pct": 0.7320241116825636,
+            "net_over_dd": 3.275177150109438,
+            "underwater_months": 24.601645938429034,
+            "double_sl_days": 0,
+            "peak_margin_pct": 12.2666544,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 498,
+            "stale_marks_group_a": 239
+          },
+          "SOLO_TOKYO_030": {
+            "risk": {
+              "USDJPY": 0.003
+            },
+            "net_usd": 5317.301600972209,
+            "annual_usd": {
+              "A": 421.5577867857399,
+              "B": 1013.1570601537392,
+              "all": 759.6145144246012
+            },
+            "annual_pct": {
+              "A": 1.6862311471429596,
+              "B": 4.052628240614957,
+              "all": 3.038458057698405
+            },
+            "daily_loss_pct": 0.2999858137408883,
+            "peak_dd_pct": 9.271264216475494,
+            "static_loss_pct": 0.9156408308498066,
+            "net_over_dd": 2.2940999099230077,
+            "underwater_months": 41.12393364226051,
+            "double_sl_days": 0,
+            "peak_margin_pct": 14.3999856,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1437,
+            "stale_marks_group_a": 111
+          },
+          "PORT_EQUAL_030": {
+            "risk": {
+              "USDJPY": 0.0015,
+              "USDJPY_EXP": 0.0015
+            },
+            "net_usd": 3434.785875081514,
+            "annual_usd": {
+              "A": 412.26433253990075,
+              "B": 549.4982193654728,
+              "all": 490.6836964402163
+            },
+            "annual_pct": {
+              "A": 1.6490573301596028,
+              "B": 2.197992877461891,
+              "all": 1.9627347857608652
+            },
+            "daily_loss_pct": 0.29784881566157856,
+            "peak_dd_pct": 3.8654550411973467,
+            "static_loss_pct": 0.12840852362585428,
+            "net_over_dd": 3.55434052495674,
+            "underwater_months": 20.048620665265773,
+            "double_sl_days": 27,
+            "peak_margin_pct": 7.5999924,
+            "simultaneous_margin_pct": 7.5999924,
+            "simultaneous_margin_09_16_utc_pct": 7.5999924,
+            "overlap_days": 340,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1935,
+            "stale_marks_group_a": 350
+          },
+          "PORT_EQUAL_040": {
+            "risk": {
+              "USDJPY": 0.002,
+              "USDJPY_EXP": 0.002
+            },
+            "net_usd": 4720.481179774684,
+            "annual_usd": {
+              "A": 548.3725835398676,
+              "B": 768.8408572887695,
+              "all": 674.3544542535263
+            },
+            "annual_pct": {
+              "A": 2.1934903341594705,
+              "B": 3.075363429155078,
+              "all": 2.6974178170141054
+            },
+            "daily_loss_pct": 0.39776636529633835,
+            "peak_dd_pct": 5.2253673103102045,
+            "static_loss_pct": 0.22135679721187626,
+            "net_over_dd": 3.613511471594101,
+            "underwater_months": 20.105021549609734,
+            "double_sl_days": 27,
+            "peak_margin_pct": 10.2666564,
+            "simultaneous_margin_pct": 10.2666564,
+            "simultaneous_margin_09_16_utc_pct": 10.2666564,
+            "overlap_days": 340,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1935,
+            "stale_marks_group_a": 350
+          },
+          "PORT_EQUAL_050": {
+            "risk": {
+              "USDJPY": 0.0025,
+              "USDJPY_EXP": 0.0025
+            },
+            "net_usd": 5829.418331774792,
+            "annual_usd": {
+              "A": 700.8586588470049,
+              "B": 931.7105888084549,
+              "all": 832.7740473963988
+            },
+            "annual_pct": {
+              "A": 2.8034346353880193,
+              "B": 3.7268423552338197,
+              "all": 3.3310961895855953
+            },
+            "daily_loss_pct": 0.4962255579203775,
+            "peak_dd_pct": 6.646329785731694,
+            "static_loss_pct": 0.22308601913724851,
+            "net_over_dd": 3.5083533436991687,
+            "underwater_months": 19.654088265558727,
+            "double_sl_days": 27,
+            "peak_margin_pct": 12.799987200000002,
+            "simultaneous_margin_pct": 12.799987200000002,
+            "simultaneous_margin_09_16_utc_pct": 12.799987200000002,
+            "overlap_days": 340,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1935,
+            "stale_marks_group_a": 350
+          },
+          "PORT_INV_DD_040": {
+            "risk": {
+              "USDJPY": 0.0008548614763168543,
+              "USDJPY_EXP": 0.003145138523683146
+            },
+            "net_usd": 3321.736456052309,
+            "annual_usd": {
+              "A": 554.1824722785937,
+              "B": 414.79725980411797,
+              "all": 474.5337794360442
+            },
+            "annual_pct": {
+              "A": 2.2167298891143745,
+              "B": 1.659189039216472,
+              "all": 1.8981351177441768
+            },
+            "daily_loss_pct": 0.39722409884276566,
+            "peak_dd_pct": 2.953322010435062,
+            "static_loss_pct": 0.02970977719807706,
+            "net_over_dd": 4.498983103522768,
+            "underwater_months": 20.597593836058692,
+            "double_sl_days": 27,
+            "peak_margin_pct": 6.2666604,
+            "simultaneous_margin_pct": 6.2666604,
+            "simultaneous_margin_09_16_utc_pct": 6.2666604,
+            "overlap_days": 340,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1935,
+            "stale_marks_group_a": 350
+          },
+          "PORT_INV_DD_050": {
+            "risk": {
+              "USDJPY": 0.001068576845396068,
+              "USDJPY_EXP": 0.003931423154603933
+            },
+            "net_usd": 4218.113617370804,
+            "annual_usd": {
+              "A": 698.5999855103942,
+              "B": 530.5784152099112,
+              "all": 602.5876596244005
+            },
+            "annual_pct": {
+              "A": 2.7943999420415766,
+              "B": 2.122313660839645,
+              "all": 2.410350638497602
+            },
+            "daily_loss_pct": 0.4935248457072448,
+            "peak_dd_pct": 3.6424975425734303,
+            "static_loss_pct": 0.037137221497599966,
+            "net_over_dd": 4.632111421429484,
+            "underwater_months": 19.876041260258592,
+            "double_sl_days": 27,
+            "peak_margin_pct": 7.999992000000001,
+            "simultaneous_margin_pct": 7.999992000000001,
+            "simultaneous_margin_09_16_utc_pct": 7.999992000000001,
+            "overlap_days": 340,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1935,
+            "stale_marks_group_a": 350
+          },
+          "PORT_INV_DD_075": {
+            "risk": {
+              "USDJPY": 0.0016028652680941018,
+              "USDJPY_EXP": 0.005897134731905899
+            },
+            "net_usd": 6404.342910640484,
+            "annual_usd": {
+              "A": 1053.9103163983607,
+              "B": 810.6529903613514,
+              "all": 914.9061300914976
+            },
+            "annual_pct": {
+              "A": 4.215641265593443,
+              "B": 3.2426119614454056,
+              "all": 3.6596245203659903
+            },
+            "daily_loss_pct": 0.7487179102477676,
+            "peak_dd_pct": 5.618731125033824,
+            "static_loss_pct": 0.05570583224639995,
+            "net_over_dd": 4.559280569313186,
+            "underwater_months": 19.87610970793377,
+            "double_sl_days": 27,
+            "peak_margin_pct": 11.999988,
+            "simultaneous_margin_pct": 11.999988,
+            "simultaneous_margin_09_16_utc_pct": 11.999988,
+            "overlap_days": 340,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1935,
+            "stale_marks_group_a": 350
+          },
+          "MUTEX_EQUAL_050": {
+            "risk": {
+              "USDJPY": 0.0025,
+              "USDJPY_EXP": 0.0025
+            },
+            "net_usd": 4414.7638200830515,
+            "annual_usd": {
+              "A": 450.6686906542315,
+              "B": 765.6894370300929,
+              "all": 630.6805457261502
+            },
+            "annual_pct": {
+              "A": 1.8026747626169262,
+              "B": 3.062757748120372,
+              "all": 2.5227221829046007
+            },
+            "daily_loss_pct": 0.24999178386747373,
+            "peak_dd_pct": 6.640120556262335,
+            "static_loss_pct": 0.5293060554782569,
+            "net_over_dd": 2.6594479920515672,
+            "underwater_months": 20.565856930669348,
+            "double_sl_days": 0,
+            "peak_margin_pct": 11.999988,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1470,
+            "stale_marks_group_a": 116
+          },
+          "MUTEX_INV_DD_075": {
+            "risk": {
+              "USDJPY": 0.0016028652680941018,
+              "USDJPY_EXP": 0.005897134731905899
+            },
+            "net_usd": 3077.5523221134863,
+            "annual_usd": {
+              "A": 477.0241570269493,
+              "B": 411.61996275815056,
+              "all": 439.65033173049807
+            },
+            "annual_pct": {
+              "A": 1.9080966281077973,
+              "B": 1.6464798510326024,
+              "all": 1.7586013269219922
+            },
+            "daily_loss_pct": 0.583497869286628,
+            "peak_dd_pct": 4.5264232002576605,
+            "static_loss_pct": 0.29878873318577825,
+            "net_over_dd": 2.7196328632623663,
+            "underwater_months": 22.609499168360745,
+            "double_sl_days": 0,
+            "peak_margin_pct": 7.7333256,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1470,
+            "stale_marks_group_a": 116
+          }
+        },
+        "all_dev": {
+          "SOLO_EXP080_030": {
+            "risk": {
+              "USDJPY_EXP": 0.003
+            },
+            "net_usd": 2532.4034394514456,
+            "annual_usd": {
+              "A": 548.3506048128714,
+              "B": 221.83790625319847,
+              "all": 361.77191992163506
+            },
+            "annual_pct": {
+              "A": 2.193402419251486,
+              "B": 0.8873516250127939,
+              "all": 1.4470876796865402
+            },
+            "daily_loss_pct": 0.30048850059228427,
+            "peak_dd_pct": 2.137260681236512,
+            "static_loss_pct": 0.49245327888298196,
+            "net_over_dd": 4.739531235817848,
+            "underwater_months": 11.036776935871373,
+            "double_sl_days": 0,
+            "peak_margin_pct": 3.5999964,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 569,
+            "stale_marks_group_a": 446
+          },
+          "SOLO_EXP080_040": {
+            "risk": {
+              "USDJPY_EXP": 0.004
+            },
+            "net_usd": 3388.085397826071,
+            "annual_usd": {
+              "A": 726.3684422332768,
+              "B": 302.24501778156554,
+              "all": 484.0121996894387
+            },
+            "annual_pct": {
+              "A": 2.9054737689331076,
+              "B": 1.2089800711262622,
+              "all": 1.9360487987577548
+            },
+            "daily_loss_pct": 0.4020799212877901,
+            "peak_dd_pct": 2.826333888178269,
+            "static_loss_pct": 0.6633043031122506,
+            "net_over_dd": 4.795024978467611,
+            "underwater_months": 11.036799751763098,
+            "double_sl_days": 0,
+            "peak_margin_pct": 4.7999952,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 569,
+            "stale_marks_group_a": 446
+          },
+          "SOLO_EXP080_050": {
+            "risk": {
+              "USDJPY_EXP": 0.005
+            },
+            "net_usd": 4259.684832221374,
+            "annual_usd": {
+              "A": 917.4094616330375,
+              "B": 376.86411183055645,
+              "all": 608.5264046030534
+            },
+            "annual_pct": {
+              "A": 3.6696378465321495,
+              "B": 1.5074564473222256,
+              "all": 2.4341056184122136
+            },
+            "daily_loss_pct": 0.5035223056854738,
+            "peak_dd_pct": 3.622229095027462,
+            "static_loss_pct": 0.8526114611318626,
+            "net_over_dd": 4.7039375152377865,
+            "underwater_months": 11.036776935871373,
+            "double_sl_days": 0,
+            "peak_margin_pct": 6.1333272,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 569,
+            "stale_marks_group_a": 446
+          },
+          "SOLO_EXP080_075": {
+            "risk": {
+              "USDJPY_EXP": 0.0075
+            },
+            "net_usd": 6502.4140851858065,
+            "annual_usd": {
+              "A": 1381.9839398516933,
+              "B": 589.1155664076778,
+              "all": 928.9162978836866
+            },
+            "annual_pct": {
+              "A": 5.527935759406773,
+              "B": 2.3564622656307113,
+              "all": 3.7156651915347467
+            },
+            "daily_loss_pct": 0.7520178621398809,
+            "peak_dd_pct": 5.486968164378442,
+            "static_loss_pct": 1.2573990945995175,
+            "net_over_dd": 4.740260114793206,
+            "underwater_months": 11.036776935871373,
+            "double_sl_days": 0,
+            "peak_margin_pct": 9.1999908,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 569,
+            "stale_marks_group_a": 446
+          },
+          "SOLO_EXP080_100": {
+            "risk": {
+              "USDJPY_EXP": 0.01
+            },
+            "net_usd": 8644.615799619067,
+            "annual_usd": {
+              "A": 1845.297729679012,
+              "B": 777.1806526455119,
+              "all": 1234.9451142312953
+            },
+            "annual_pct": {
+              "A": 7.381190918716048,
+              "B": 3.1087226105820474,
+              "all": 4.939780456925181
+            },
+            "daily_loss_pct": 1.0070446113709477,
+            "peak_dd_pct": 7.338389745463138,
+            "static_loss_pct": 1.6719890897000877,
+            "net_over_dd": 4.711996009731419,
+            "underwater_months": 11.036776935871373,
+            "double_sl_days": 0,
+            "peak_margin_pct": 12.2666544,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 569,
+            "stale_marks_group_a": 446
+          }
+        }
+      },
+      "Standard_50000": {
+        "strict": {
+          "SOLO_EXP080_030": {
+            "risk": {
+              "USDJPY_EXP": 0.003
+            },
+            "net_usd": 4283.630967755482,
+            "annual_usd": {
+              "A": 903.9459459145443,
+              "B": 392.9482825029456,
+              "all": 611.947281107926
+            },
+            "annual_pct": {
+              "A": 1.8078918918290885,
+              "B": 0.7858965650058912,
+              "all": 1.223894562215852
+            },
+            "daily_loss_pct": 0.3015599409658462,
+            "peak_dd_pct": 2.296095298474567,
+            "static_loss_pct": 0.10914006538265676,
+            "net_over_dd": 3.7312309908054364,
+            "underwater_months": 12.821914740054742,
+            "double_sl_days": 0,
+            "peak_margin_pct": 1.1,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 447,
+            "stale_marks_group_a": 150
+          },
+          "SOLO_EXP080_040": {
+            "risk": {
+              "USDJPY_EXP": 0.004
+            },
+            "net_usd": 5673.845161554789,
+            "annual_usd": {
+              "A": 1196.5851823455016,
+              "B": 521.0224036295729,
+              "all": 810.5493087935413
+            },
+            "annual_pct": {
+              "A": 2.393170364691003,
+              "B": 1.0420448072591457,
+              "all": 1.6210986175870825
+            },
+            "daily_loss_pct": 0.40359344528168734,
+            "peak_dd_pct": 3.0711462658123345,
+            "static_loss_pct": 0.1597027504281723,
+            "net_over_dd": 3.694936463766259,
+            "underwater_months": 12.821914740054742,
+            "double_sl_days": 0,
+            "peak_margin_pct": 1.46,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 447,
+            "stale_marks_group_a": 150
+          },
+          "SOLO_EXP080_050": {
+            "risk": {
+              "USDJPY_EXP": 0.005
+            },
+            "net_usd": 7167.773455435468,
+            "annual_usd": {
+              "A": 1507.7851093833724,
+              "B": 661.1045318213255,
+              "all": 1023.9676364907812
+            },
+            "annual_pct": {
+              "A": 3.015570218766745,
+              "B": 1.3222090636426511,
+              "all": 2.047935272981562
+            },
+            "daily_loss_pct": 0.5035223056854738,
+            "peak_dd_pct": 3.8821882087638078,
+            "static_loss_pct": 0.19037139260183902,
+            "net_over_dd": 3.6926460387750644,
+            "underwater_months": 12.821914740054742,
+            "double_sl_days": 0,
+            "peak_margin_pct": 1.84,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 447,
+            "stale_marks_group_a": 150
+          },
+          "SOLO_EXP080_075": {
+            "risk": {
+              "USDJPY_EXP": 0.0075
+            },
+            "net_usd": 10755.797300567647,
+            "annual_usd": {
+              "A": 2265.563740498897,
+              "B": 989.7765197677323,
+              "all": 1536.5424715096638
+            },
+            "annual_pct": {
+              "A": 4.531127480997794,
+              "B": 1.9795530395354648,
+              "all": 3.0730849430193277
+            },
+            "daily_loss_pct": 0.7552834585282108,
+            "peak_dd_pct": 5.8225386592828725,
+            "static_loss_pct": 0.2970282921521866,
+            "net_over_dd": 3.6945387330042645,
+            "underwater_months": 12.821914740054742,
+            "double_sl_days": 0,
+            "peak_margin_pct": 2.76,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 447,
+            "stale_marks_group_a": 150
+          },
+          "SOLO_EXP080_100": {
+            "risk": {
+              "USDJPY_EXP": 0.01
+            },
+            "net_usd": 14379.61608903922,
+            "annual_usd": {
+              "A": 3025.801757174082,
+              "B": 1325.5527043792463,
+              "all": 2054.2308698627457
+            },
+            "annual_pct": {
+              "A": 6.051603514348164,
+              "B": 2.6511054087584927,
+              "all": 4.108461739725492
+            },
+            "daily_loss_pct": 1.0070446113709477,
+            "peak_dd_pct": 7.796617675172689,
+            "static_loss_pct": 0.39160373312076263,
+            "net_over_dd": 3.6886805761501504,
+            "underwater_months": 12.821914740054742,
+            "double_sl_days": 0,
+            "peak_margin_pct": 3.68,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 447,
+            "stale_marks_group_a": 150
+          },
+          "SOLO_TOKYO_030": {
+            "risk": {
+              "USDJPY": 0.003
+            },
+            "net_usd": 11713.710188536854,
+            "annual_usd": {
+              "A": 1048.3587082605673,
+              "B": 2142.1585159387773,
+              "all": 1673.3871697909792
+            },
+            "annual_pct": {
+              "A": 2.0967174165211344,
+              "B": 4.2843170318775545,
+              "all": 3.3467743395819585
+            },
+            "daily_loss_pct": 0.29998297903967613,
+            "peak_dd_pct": 6.916449986440931,
+            "static_loss_pct": 0.6928172272194352,
+            "net_over_dd": 3.38720303378193,
+            "underwater_months": 21.101688147828725,
+            "double_sl_days": 0,
+            "peak_margin_pct": 3.82,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1228,
+            "stale_marks_group_a": 0
+          },
+          "PORT_EQUAL_030": {
+            "risk": {
+              "USDJPY": 0.0015,
+              "USDJPY_EXP": 0.0015
+            },
+            "net_usd": 7961.202737977575,
+            "annual_usd": {
+              "A": 974.4054695723008,
+              "B": 1259.4965823151813,
+              "all": 1137.3146768539393
+            },
+            "annual_pct": {
+              "A": 1.9488109391446016,
+              "B": 2.5189931646303627,
+              "all": 2.2746293537078786
+            },
+            "daily_loss_pct": 0.2992227814758371,
+            "peak_dd_pct": 3.2796534336841288,
+            "static_loss_pct": 0.13989433880012075,
+            "net_over_dd": 4.854904884894822,
+            "underwater_months": 14.27852727982094,
+            "double_sl_days": 24,
+            "peak_margin_pct": 2.3,
+            "simultaneous_margin_pct": 2.3,
+            "simultaneous_margin_09_16_utc_pct": 2.3,
+            "overlap_days": 306,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1675,
+            "stale_marks_group_a": 150
+          },
+          "PORT_EQUAL_040": {
+            "risk": {
+              "USDJPY": 0.002,
+              "USDJPY_EXP": 0.002
+            },
+            "net_usd": 10626.884307816756,
+            "annual_usd": {
+              "A": 1283.5701988577764,
+              "B": 1694.043427810858,
+              "all": 1518.126329688108
+            },
+            "annual_pct": {
+              "A": 2.5671403977155527,
+              "B": 3.388086855621716,
+              "all": 3.036252659376216
+            },
+            "daily_loss_pct": 0.3995623803034978,
+            "peak_dd_pct": 4.462965377064276,
+            "static_loss_pct": 0.215453642310531,
+            "net_over_dd": 4.762252632489425,
+            "underwater_months": 14.278618543387841,
+            "double_sl_days": 24,
+            "peak_margin_pct": 3.06,
+            "simultaneous_margin_pct": 3.06,
+            "simultaneous_margin_09_16_utc_pct": 3.06,
+            "overlap_days": 306,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1675,
+            "stale_marks_group_a": 150
+          },
+          "PORT_EQUAL_050": {
+            "risk": {
+              "USDJPY": 0.0025,
+              "USDJPY_EXP": 0.0025
+            },
+            "net_usd": 13290.477251179647,
+            "annual_usd": {
+              "A": 1621.2216009932115,
+              "B": 2106.7031120500324,
+              "all": 1898.639607311378
+            },
+            "annual_pct": {
+              "A": 3.2424432019864233,
+              "B": 4.213406224100065,
+              "all": 3.797279214622756
+            },
+            "daily_loss_pct": 0.499901979131173,
+            "peak_dd_pct": 5.573422090420165,
+            "static_loss_pct": 0.2602938400626299,
+            "net_over_dd": 4.769234066812878,
+            "underwater_months": 14.278618543387841,
+            "double_sl_days": 24,
+            "peak_margin_pct": 3.84,
+            "simultaneous_margin_pct": 3.84,
+            "simultaneous_margin_09_16_utc_pct": 3.84,
+            "overlap_days": 306,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1675,
+            "stale_marks_group_a": 150
+          },
+          "PORT_INV_DD_040": {
+            "risk": {
+              "USDJPY": 0.0008548614763168543,
+              "USDJPY_EXP": 0.003145138523683146
+            },
+            "net_usd": 7721.094954312321,
+            "annual_usd": {
+              "A": 1232.0142729862425,
+              "B": 1006.2630338383802,
+              "all": 1103.01356490176
+            },
+            "annual_pct": {
+              "A": 2.4640285459724853,
+              "B": 2.0125260676767605,
+              "all": 2.20602712980352
+            },
+            "daily_loss_pct": 0.3990201138499251,
+            "peak_dd_pct": 2.5136848796030535,
+            "static_loss_pct": 0.02970977719807706,
+            "net_over_dd": 6.143248119097244,
+            "underwater_months": 8.172355809268272,
+            "double_sl_days": 24,
+            "peak_margin_pct": 1.9,
+            "simultaneous_margin_pct": 1.9,
+            "simultaneous_margin_09_16_utc_pct": 1.9,
+            "overlap_days": 306,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1675,
+            "stale_marks_group_a": 150
+          },
+          "PORT_INV_DD_050": {
+            "risk": {
+              "USDJPY": 0.001068576845396068,
+              "USDJPY_EXP": 0.003931423154603933
+            },
+            "net_usd": 9645.554989589458,
+            "annual_usd": {
+              "A": 1545.585689918016,
+              "B": 1252.19947995883,
+              "all": 1377.9364270842084
+            },
+            "annual_pct": {
+              "A": 3.0911713798360316,
+              "B": 2.5043989599176597,
+              "all": 2.755872854168417
+            },
+            "daily_loss_pct": 0.49982178151785045,
+            "peak_dd_pct": 3.2202855324048576,
+            "static_loss_pct": 0.03806565203503123,
+            "net_over_dd": 5.990496738583496,
+            "underwater_months": 8.172355809268272,
+            "double_sl_days": 24,
+            "peak_margin_pct": 2.4,
+            "simultaneous_margin_pct": 2.4,
+            "simultaneous_margin_09_16_utc_pct": 2.4,
+            "overlap_days": 306,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1675,
+            "stale_marks_group_a": 150
+          },
+          "PORT_INV_DD_075": {
+            "risk": {
+              "USDJPY": 0.0016028652680941018,
+              "USDJPY_EXP": 0.005897134731905899
+            },
+            "net_usd": 14634.555434753602,
+            "annual_usd": {
+              "A": 2327.0148472224705,
+              "B": 1913.377723271573,
+              "all": 2090.650776393372
+            },
+            "annual_pct": {
+              "A": 4.654029694444941,
+              "B": 3.826755446543146,
+              "all": 4.181301552786744
+            },
+            "daily_loss_pct": 0.7461591424122161,
+            "peak_dd_pct": 4.766284303164823,
+            "static_loss_pct": 0.05663426278383122,
+            "net_over_dd": 6.140865506086671,
+            "underwater_months": 8.172355809268272,
+            "double_sl_days": 24,
+            "peak_margin_pct": 3.6,
+            "simultaneous_margin_pct": 3.6,
+            "simultaneous_margin_09_16_utc_pct": 3.6,
+            "overlap_days": 306,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1675,
+            "stale_marks_group_a": 150
+          },
+          "MUTEX_EQUAL_050": {
+            "risk": {
+              "USDJPY": 0.0025,
+              "USDJPY_EXP": 0.0025
+            },
+            "net_usd": 9995.243331538171,
+            "annual_usd": {
+              "A": 1048.760184184736,
+              "B": 1712.2406947460236,
+              "all": 1427.891904505453
+            },
+            "annual_pct": {
+              "A": 2.097520368369472,
+              "B": 3.424481389492047,
+              "all": 2.8557838090109064
+            },
+            "daily_loss_pct": 0.24999178386747373,
+            "peak_dd_pct": 5.6380573791140485,
+            "static_loss_pct": 0.5413126845788356,
+            "net_over_dd": 3.545633773989296,
+            "underwater_months": 21.558872986212357,
+            "double_sl_days": 0,
+            "peak_margin_pct": 3.18,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1259,
+            "stale_marks_group_a": 5
+          },
+          "MUTEX_INV_DD_075": {
+            "risk": {
+              "USDJPY": 0.0016028652680941018,
+              "USDJPY_EXP": 0.005897134731905899
+            },
+            "net_usd": 6995.036583726454,
+            "annual_usd": {
+              "A": 1029.9476421269135,
+              "B": 976.298414336438,
+              "all": 999.2909405323506
+            },
+            "annual_pct": {
+              "A": 2.0598952842538267,
+              "B": 1.952596828672876,
+              "all": 1.9985818810647014
+            },
+            "daily_loss_pct": 0.5873432452800771,
+            "peak_dd_pct": 4.181156532564433,
+            "static_loss_pct": 0.29661080084274,
+            "net_over_dd": 3.3459816819803114,
+            "underwater_months": 23.565051529691463,
+            "double_sl_days": 0,
+            "peak_margin_pct": 2.04,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1259,
+            "stale_marks_group_a": 5
+          }
+        },
+        "extended": {
+          "SOLO_EXP080_030": {
+            "risk": {
+              "USDJPY_EXP": 0.003
+            },
+            "net_usd": 3728.271235529348,
+            "annual_usd": {
+              "A": 854.5584527465547,
+              "B": 291.1489693224109,
+              "all": 532.6101765041925
+            },
+            "annual_pct": {
+              "A": 1.7091169054931095,
+              "B": 0.5822979386448218,
+              "all": 1.065220353008385
+            },
+            "daily_loss_pct": 0.3015599409658462,
+            "peak_dd_pct": 2.2515655939641,
+            "static_loss_pct": 0.2135750543358299,
+            "net_over_dd": 3.311714520353248,
+            "underwater_months": 24.601645938429034,
+            "double_sl_days": 0,
+            "peak_margin_pct": 1.1,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 498,
+            "stale_marks_group_a": 239
+          },
+          "SOLO_EXP080_040": {
+            "risk": {
+              "USDJPY_EXP": 0.004
+            },
+            "net_usd": 4923.5378537337965,
+            "annual_usd": {
+              "A": 1129.1689647963067,
+              "B": 384.00773983622827,
+              "all": 703.3625505333995
+            },
+            "annual_pct": {
+              "A": 2.258337929592613,
+              "B": 0.7680154796724565,
+              "all": 1.406725101066799
+            },
+            "daily_loss_pct": 0.40359344528168734,
+            "peak_dd_pct": 3.011773326465045,
+            "static_loss_pct": 0.3021140990006825,
+            "net_over_dd": 3.2695274976172346,
+            "underwater_months": 24.601645938429034,
+            "double_sl_days": 0,
+            "peak_margin_pct": 1.46,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 498,
+            "stale_marks_group_a": 239
+          },
+          "SOLO_EXP080_050": {
+            "risk": {
+              "USDJPY_EXP": 0.005
+            },
+            "net_usd": 6235.891497955825,
+            "annual_usd": {
+              "A": 1425.3629228304053,
+              "B": 489.950682366132,
+              "all": 890.8416425651178
+            },
+            "annual_pct": {
+              "A": 2.8507258456608104,
+              "B": 0.9799013647322641,
+              "all": 1.7816832851302356
+            },
+            "daily_loss_pct": 0.5035223056854738,
+            "peak_dd_pct": 3.807972034579696,
+            "static_loss_pct": 0.36601205584126,
+            "net_over_dd": 3.275177150109565,
+            "underwater_months": 24.601645938429034,
+            "double_sl_days": 0,
+            "peak_margin_pct": 1.84,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 498,
+            "stale_marks_group_a": 239
+          },
+          "SOLO_EXP080_075": {
+            "risk": {
+              "USDJPY_EXP": 0.0075
+            },
+            "net_usd": 9355.510402490261,
+            "annual_usd": {
+              "A": 2141.8691630571066,
+              "B": 732.4757283297398,
+              "all": 1336.5014860700373
+            },
+            "annual_pct": {
+              "A": 4.283738326114213,
+              "B": 1.4649514566594797,
+              "all": 2.6730029721400745
+            },
+            "daily_loss_pct": 0.7552834585282108,
+            "peak_dd_pct": 5.7122499615849085,
+            "static_loss_pct": 0.5628628094875312,
+            "net_over_dd": 3.275595593822544,
+            "underwater_months": 24.601645938429034,
+            "double_sl_days": 0,
+            "peak_margin_pct": 2.76,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 498,
+            "stale_marks_group_a": 239
+          },
+          "SOLO_EXP080_100": {
+            "risk": {
+              "USDJPY_EXP": 0.01
+            },
+            "net_usd": 12505.173028538906,
+            "annual_usd": {
+              "A": 2857.7883376807126,
+              "B": 982.9520038742108,
+              "all": 1786.4532897912723
+            },
+            "annual_pct": {
+              "A": 5.715576675361425,
+              "B": 1.9659040077484216,
+              "all": 3.5729065795825443
+            },
+            "daily_loss_pct": 1.0070446113709477,
+            "peak_dd_pct": 7.646493890605169,
+            "static_loss_pct": 0.7476321045520308,
+            "net_over_dd": 3.2708253501394493,
+            "underwater_months": 24.601645938429034,
+            "double_sl_days": 0,
+            "peak_margin_pct": 3.68,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 498,
+            "stale_marks_group_a": 239
+          },
+          "SOLO_TOKYO_030": {
+            "risk": {
+              "USDJPY": 0.003
+            },
+            "net_usd": 10608.060878662654,
+            "annual_usd": {
+              "A": 842.872305900874,
+              "B": 2019.8609902399864,
+              "all": 1515.4372683803792
+            },
+            "annual_pct": {
+              "A": 1.685744611801748,
+              "B": 4.039721980479973,
+              "all": 3.0308745367607584
+            },
+            "daily_loss_pct": 0.2999858137408883,
+            "peak_dd_pct": 9.344327073544875,
+            "static_loss_pct": 0.9044160048757621,
+            "net_over_dd": 2.2704815007376165,
+            "underwater_months": 41.13385855516084,
+            "double_sl_days": 0,
+            "peak_margin_pct": 4.34,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1437,
+            "stale_marks_group_a": 111
+          },
+          "PORT_EQUAL_030": {
+            "risk": {
+              "USDJPY": 0.0015,
+              "USDJPY_EXP": 0.0015
+            },
+            "net_usd": 7149.119533431469,
+            "annual_usd": {
+              "A": 848.6047852455099,
+              "B": 1150.8262944237383,
+              "all": 1021.3027904902099
+            },
+            "annual_pct": {
+              "A": 1.6972095704910197,
+              "B": 2.3016525888474764,
+              "all": 2.0426055809804198
+            },
+            "daily_loss_pct": 0.2992227814758371,
+            "peak_dd_pct": 3.9504214152414208,
+            "static_loss_pct": 0.13989433880012075,
+            "net_over_dd": 3.6194212120503946,
+            "underwater_months": 19.654088265558727,
+            "double_sl_days": 27,
+            "peak_margin_pct": 2.3,
+            "simultaneous_margin_pct": 2.3,
+            "simultaneous_margin_09_16_utc_pct": 2.3,
+            "overlap_days": 340,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1935,
+            "stale_marks_group_a": 350
+          },
+          "PORT_EQUAL_040": {
+            "risk": {
+              "USDJPY": 0.002,
+              "USDJPY_EXP": 0.002
+            },
+            "net_usd": 9537.60781796329,
+            "annual_usd": {
+              "A": 1117.0256607866024,
+              "B": 1546.6327089008719,
+              "all": 1362.5154025661843
+            },
+            "annual_pct": {
+              "A": 2.234051321573205,
+              "B": 3.0932654178017436,
+              "all": 2.7250308051323686
+            },
+            "daily_loss_pct": 0.3995623803034978,
+            "peak_dd_pct": 5.319112369138645,
+            "static_loss_pct": 0.215453642310531,
+            "net_over_dd": 3.586165193012371,
+            "underwater_months": 19.654088265558727,
+            "double_sl_days": 27,
+            "peak_margin_pct": 3.1,
+            "simultaneous_margin_pct": 3.1,
+            "simultaneous_margin_09_16_utc_pct": 3.1,
+            "overlap_days": 340,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1935,
+            "stale_marks_group_a": 350
+          },
+          "PORT_EQUAL_050": {
+            "risk": {
+              "USDJPY": 0.0025,
+              "USDJPY_EXP": 0.0025
+            },
+            "net_usd": 11919.268062019233,
+            "annual_usd": {
+              "A": 1409.5148474286786,
+              "B": 1922.6808799333214,
+              "all": 1702.7525802884618
+            },
+            "annual_pct": {
+              "A": 2.8190296948573574,
+              "B": 3.845361759866643,
+              "all": 3.4055051605769235
+            },
+            "daily_loss_pct": 0.499901979131173,
+            "peak_dd_pct": 6.690369300274425,
+            "static_loss_pct": 0.2602938400626299,
+            "net_over_dd": 3.5631121473459855,
+            "underwater_months": 19.654088265558727,
+            "double_sl_days": 27,
+            "peak_margin_pct": 3.86,
+            "simultaneous_margin_pct": 3.86,
+            "simultaneous_margin_09_16_utc_pct": 3.86,
+            "overlap_days": 340,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1935,
+            "stale_marks_group_a": 350
+          },
+          "PORT_INV_DD_040": {
+            "risk": {
+              "USDJPY": 0.0008548614763168543,
+              "USDJPY_EXP": 0.003145138523683146
+            },
+            "net_usd": 6846.096741513335,
+            "annual_usd": {
+              "A": 1126.0835076388937,
+              "B": 866.9615546491387,
+              "all": 978.0138202161907
+            },
+            "annual_pct": {
+              "A": 2.252167015277787,
+              "B": 1.7339231092982774,
+              "all": 1.9560276404323813
+            },
+            "daily_loss_pct": 0.3990201138499251,
+            "peak_dd_pct": 2.977023646557922,
+            "static_loss_pct": 0.02970977719807706,
+            "net_over_dd": 4.599289461089025,
+            "underwater_months": 19.87610970793377,
+            "double_sl_days": 27,
+            "peak_margin_pct": 1.9,
+            "simultaneous_margin_pct": 1.9,
+            "simultaneous_margin_09_16_utc_pct": 1.9,
+            "overlap_days": 340,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1935,
+            "stale_marks_group_a": 350
+          },
+          "PORT_INV_DD_050": {
+            "risk": {
+              "USDJPY": 0.001068576845396068,
+              "USDJPY_EXP": 0.003931423154603933
+            },
+            "net_usd": 8533.719699122077,
+            "annual_usd": {
+              "A": 1410.1350081683559,
+              "B": 1075.8286686542472,
+              "all": 1219.1028141602967
+            },
+            "annual_pct": {
+              "A": 2.820270016336712,
+              "B": 2.151657337308494,
+              "all": 2.4382056283205933
+            },
+            "daily_loss_pct": 0.49982178151785045,
+            "peak_dd_pct": 3.734200003861246,
+            "static_loss_pct": 0.03806565203503123,
+            "net_over_dd": 4.570574522145584,
+            "underwater_months": 19.87610970793377,
+            "double_sl_days": 27,
+            "peak_margin_pct": 2.4,
+            "simultaneous_margin_pct": 2.4,
+            "simultaneous_margin_09_16_utc_pct": 2.4,
+            "overlap_days": 340,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1935,
+            "stale_marks_group_a": 350
+          },
+          "PORT_INV_DD_075": {
+            "risk": {
+              "USDJPY": 0.0016028652680941018,
+              "USDJPY_EXP": 0.005897134731905899
+            },
+            "net_usd": 12942.814322738988,
+            "annual_usd": {
+              "A": 2118.274041963845,
+              "B": 1646.9980492118855,
+              "all": 1848.9734746769984
+            },
+            "annual_pct": {
+              "A": 4.23654808392769,
+              "B": 3.293996098423771,
+              "all": 3.6979469493539967
+            },
+            "daily_loss_pct": 0.7487179102477676,
+            "peak_dd_pct": 5.6584561026762685,
+            "static_loss_pct": 0.05663426278383122,
+            "net_over_dd": 4.5746804739255476,
+            "underwater_months": 19.87610970793377,
+            "double_sl_days": 27,
+            "peak_margin_pct": 3.6,
+            "simultaneous_margin_pct": 3.6,
+            "simultaneous_margin_09_16_utc_pct": 3.6,
+            "overlap_days": 340,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1935,
+            "stale_marks_group_a": 350
+          },
+          "MUTEX_EQUAL_050": {
+            "risk": {
+              "USDJPY": 0.0025,
+              "USDJPY_EXP": 0.0025
+            },
+            "net_usd": 9004.358094949828,
+            "annual_usd": {
+              "A": 893.0700034264618,
+              "B": 1581.287021167635,
+              "all": 1286.3368707071184
+            },
+            "annual_pct": {
+              "A": 1.7861400068529236,
+              "B": 3.16257404233527,
+              "all": 2.5726737414142367
+            },
+            "daily_loss_pct": 0.24999178386747373,
+            "peak_dd_pct": 6.713395081673094,
+            "static_loss_pct": 0.5413126845788356,
+            "net_over_dd": 2.6825050471201486,
+            "underwater_months": 20.569256498536358,
+            "double_sl_days": 0,
+            "peak_margin_pct": 3.6,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1470,
+            "stale_marks_group_a": 116
+          },
+          "MUTEX_INV_DD_075": {
+            "risk": {
+              "USDJPY": 0.0016028652680941018,
+              "USDJPY_EXP": 0.005897134731905899
+            },
+            "net_usd": 6223.42142311325,
+            "annual_usd": {
+              "A": 957.7637748684582,
+              "B": 837.532524626982,
+              "all": 889.0602033018929
+            },
+            "annual_pct": {
+              "A": 1.9155275497369162,
+              "B": 1.6750650492539638,
+              "all": 1.778120406603786
+            },
+            "daily_loss_pct": 0.5873432452800771,
+            "peak_dd_pct": 4.645679625915509,
+            "static_loss_pct": 0.29661080084274,
+            "net_over_dd": 2.679229703398594,
+            "underwater_months": 22.609499168360745,
+            "double_sl_days": 0,
+            "peak_margin_pct": 2.32,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 1470,
+            "stale_marks_group_a": 116
+          }
+        },
+        "all_dev": {
+          "SOLO_EXP080_030": {
+            "risk": {
+              "USDJPY_EXP": 0.003
+            },
+            "net_usd": 5158.128100332215,
+            "annual_usd": {
+              "A": 1103.2515260197472,
+              "B": 462.09338056823356,
+              "all": 736.8754429046021
+            },
+            "annual_pct": {
+              "A": 2.2065030520394946,
+              "B": 0.9241867611364671,
+              "all": 1.473750885809204
+            },
+            "daily_loss_pct": 0.3015599409658462,
+            "peak_dd_pct": 2.1783778361602164,
+            "static_loss_pct": 0.4950154430701077,
+            "net_over_dd": 4.7357515438408475,
+            "underwater_months": 11.036776935871373,
+            "double_sl_days": 0,
+            "peak_margin_pct": 1.1,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 569,
+            "stale_marks_group_a": 446
+          },
+          "SOLO_EXP080_040": {
+            "risk": {
+              "USDJPY_EXP": 0.004
+            },
+            "net_usd": 6843.541241115599,
+            "annual_usd": {
+              "A": 1464.7961609956812,
+              "B": 612.288189532148,
+              "all": 977.6487487307999
+            },
+            "annual_pct": {
+              "A": 2.9295923219913624,
+              "B": 1.2245763790642958,
+              "all": 1.9552974974615998
+            },
+            "daily_loss_pct": 0.40359344528168734,
+            "peak_dd_pct": 2.8981847649963455,
+            "static_loss_pct": 0.6791982995496655,
+            "net_over_dd": 4.722639718330194,
+            "underwater_months": 11.036776935871373,
+            "double_sl_days": 0,
+            "peak_margin_pct": 1.46,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 569,
+            "stale_marks_group_a": 446
+          },
+          "SOLO_EXP080_050": {
+            "risk": {
+              "USDJPY_EXP": 0.005
+            },
+            "net_usd": 8644.615799619147,
+            "annual_usd": {
+              "A": 1845.297729679012,
+              "B": 777.1806526455119,
+              "all": 1234.9451142313067
+            },
+            "annual_pct": {
+              "A": 3.690595459358024,
+              "B": 1.5543613052910237,
+              "all": 2.469890228462613
+            },
+            "daily_loss_pct": 0.5035223056854738,
+            "peak_dd_pct": 3.6691948727315613,
+            "static_loss_pct": 0.8359945448500221,
+            "net_over_dd": 4.711996009731473,
+            "underwater_months": 11.036776935871373,
+            "double_sl_days": 0,
+            "peak_margin_pct": 1.84,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 569,
+            "stale_marks_group_a": 446
+          },
+          "SOLO_EXP080_075": {
+            "risk": {
+              "USDJPY_EXP": 0.0075
+            },
+            "net_usd": 12972.022442661822,
+            "annual_usd": {
+              "A": 2772.875567699644,
+              "B": 1163.3489348907328,
+              "all": 1853.1460632374033
+            },
+            "annual_pct": {
+              "A": 5.545751135399288,
+              "B": 2.3266978697814658,
+              "all": 3.7062921264748065
+            },
+            "daily_loss_pct": 0.7552834585282108,
+            "peak_dd_pct": 5.527011740139757,
+            "static_loss_pct": 1.27807606738068,
+            "net_over_dd": 4.694045553930308,
+            "underwater_months": 11.036776935871373,
+            "double_sl_days": 0,
+            "peak_margin_pct": 2.76,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 569,
+            "stale_marks_group_a": 446
+          },
+          "SOLO_EXP080_100": {
+            "risk": {
+              "USDJPY_EXP": 0.01
+            },
+            "net_usd": 17320.350212749618,
+            "annual_usd": {
+              "A": 3695.9288872664038,
+              "B": 1558.1408877376077,
+              "all": 2474.3357446785167
+            },
+            "annual_pct": {
+              "A": 7.391857774532808,
+              "B": 3.1162817754752155,
+              "all": 4.948671489357033
+            },
+            "daily_loss_pct": 1.0070446113709477,
+            "peak_dd_pct": 7.376615149666468,
+            "static_loss_pct": 1.6978366069495678,
+            "net_over_dd": 4.696015682350666,
+            "underwater_months": 11.036776935871373,
+            "double_sl_days": 0,
+            "peak_margin_pct": 3.68,
+            "simultaneous_margin_pct": 0.0,
+            "simultaneous_margin_09_16_utc_pct": 0.0,
+            "overlap_days": 0,
+            "margin_failures": 0,
+            "min_lot_rejections": 0,
+            "sized": 569,
+            "stale_marks_group_a": 446
+          }
+        }
+      }
+    }
+  },
+  "track2": {
+    "track": "Track2_CrossAsset_GBPUSD_US500_Expansion",
+    "protocol_commit": "92808a44b785b82f900318906b99529dbbec8654",
+    "elapsed_seconds": 10.91,
+    "tier_counts": {
+      "TIER_3_DEAD_NO_EDGE": 7,
+      "TIER_2_PERSONAL_VAULT": 1
+    },
+    "rows": [
+      {
+        "strategy": "EXP_DAILY_OPEN_080",
+        "asset": "GBPUSD",
+        "native_Ask": true,
+        "n": 589,
+        "win_rate_ftmo": 0.4838709677419355,
+        "ftmo_net_R": -2.3234064100621965,
+        "ftmo_annual_R": -0.3319152014374566,
+        "ftmo_top10_R": 20.67594650808071,
+        "ftmo_closed_dd_R": 14.75105132246274,
+        "ftmo_clusters_R": {
+          "A": 2.0244157413832213,
+          "B": -4.347822151445418
+        },
+        "ftmo_years_R": {
+          "2018": 0.9015273990324969,
+          "2019": 3.556870457725777,
+          "2020": -2.433982115375052,
+          "2021": 0.7043309347590424,
+          "2022": 5.984752317895529,
+          "2023": -4.267577604108534,
+          "2024": -6.769327799991455
+        },
+        "ftmo_pos_years": 4,
+        "gross_usd_sum": 6314.542642568433,
+        "ftmo_exec_cost_usd_sum": 8246.0,
+        "ftmo_swap_usd_sum": 0.0,
+        "ftmo_net_usd_sum": -1931.4573574315673,
+        "exness_normal_R": 1.6265047653976967,
+        "exness_normal_clusters_R": {
+          "A": 3.635823058012514,
+          "B": -2.009318292614817
+        },
+        "exness_swapfree_R": 1.6265047653976967,
+        "exness_swapfree_clusters_R": {
+          "A": 3.635823058012514,
+          "B": -2.009318292614817
+        },
+        "exness_swapfree_pos_years": 4,
+        "mc_null": {
+          "hold_hours_matched": 7,
+          "n_buy": 280,
+          "n_sell": 309,
+          "draws": 1000,
+          "seed": 20261123,
+          "obs_gross_usd": 6314.542642568433,
+          "null_gross_mean": -7970.206000000009,
+          "null_gross_p95": 8623.950000000283,
+          "gross_p_value": 0.07792207792207792,
+          "obs_ftmo_net_usd": -1931.4573574315673,
+          "null_net_mean": -16216.20600000001,
+          "null_net_p95": 377.9500000002842,
+          "ftmo_net_p_value": 0.07792207792207792
+        },
+        "exit_counts": {
+          "TIME_FLAT": 519,
+          "SL_GAP_OR_TOUCH": 70
+        },
+        "tier": "TIER_3_DEAD_NO_EDGE",
+        "fade_ftmo_R": -86.27580483488704,
+        "fdr_gross_q": 0.20779220779220778,
+        "fdr_ftmo_q": 0.20779220779220778
+      },
+      {
+        "strategy": "EXP_DAILY_OPEN_100",
+        "asset": "GBPUSD",
+        "native_Ask": true,
+        "n": 331,
+        "win_rate_ftmo": 0.4169184290030212,
+        "ftmo_net_R": -13.75064648896808,
+        "ftmo_annual_R": -1.9643780698525828,
+        "ftmo_top10_R": 18.612717934089765,
+        "ftmo_closed_dd_R": 16.145254825672076,
+        "ftmo_clusters_R": {
+          "A": -5.283303647576826,
+          "B": -8.467342841391254
+        },
+        "ftmo_years_R": {
+          "2018": -5.879458502516667,
+          "2019": 1.9190469678734503,
+          "2020": -1.3228921129336095,
+          "2021": -2.9816255451974127,
+          "2022": 4.903495882104401,
+          "2023": -0.7259597628477141,
+          "2024": -9.663253415450528
+        },
+        "ftmo_pos_years": 2,
+        "gross_usd_sum": -5088.790862852699,
+        "ftmo_exec_cost_usd_sum": 4634.0,
+        "ftmo_swap_usd_sum": 0.0,
+        "ftmo_net_usd_sum": -9722.790862852698,
+        "exness_normal_R": -11.61769230383438,
+        "exness_normal_clusters_R": {
+          "A": -4.4401611586579826,
+          "B": -7.177531145176397
+        },
+        "exness_swapfree_R": -11.61769230383438,
+        "exness_swapfree_clusters_R": {
+          "A": -4.4401611586579826,
+          "B": -7.177531145176397
+        },
+        "exness_swapfree_pos_years": 2,
+        "mc_null": {
+          "hold_hours_matched": 7,
+          "n_buy": 154,
+          "n_sell": 177,
+          "draws": 1000,
+          "seed": 20261123,
+          "obs_gross_usd": -5088.790862852699,
+          "null_gross_mean": -4398.1440000000075,
+          "null_gross_p95": 8162.150000000215,
+          "gross_p_value": 0.5314685314685315,
+          "obs_ftmo_net_usd": -9722.790862852698,
+          "null_net_mean": -9032.144000000008,
+          "null_net_p95": 3528.150000000214,
+          "ftmo_net_p_value": 0.5314685314685315
+        },
+        "exit_counts": {
+          "TIME_FLAT": 287,
+          "SL_GAP_OR_TOUCH": 44
+        },
+        "tier": "TIER_3_DEAD_NO_EDGE",
+        "fade_ftmo_R": -36.893873920005866,
+        "fdr_gross_q": 0.7392607392607392,
+        "fdr_ftmo_q": 0.7392607392607392
+      },
+      {
+        "strategy": "EXP_DAILY_OPEN_120",
+        "asset": "GBPUSD",
+        "native_Ask": true,
+        "n": 173,
+        "win_rate_ftmo": 0.5086705202312138,
+        "ftmo_net_R": 4.950674075861908,
+        "ftmo_annual_R": 0.7072391536945583,
+        "ftmo_top10_R": 15.99355197229234,
+        "ftmo_closed_dd_R": 7.54979967299955,
+        "ftmo_clusters_R": {
+          "A": 4.90313960130267,
+          "B": 0.04753447455923833
+        },
+        "ftmo_years_R": {
+          "2018": -0.4440443367888033,
+          "2019": 5.127667319465824,
+          "2020": 0.21951661862564928,
+          "2021": 0.894982872515087,
+          "2022": 3.843757080701843,
+          "2023": 0.36053219117167207,
+          "2024": -5.051737669829364
+        },
+        "ftmo_pos_years": 5,
+        "gross_usd_sum": 6611.6763486017135,
+        "ftmo_exec_cost_usd_sum": 2422.0,
+        "ftmo_swap_usd_sum": 0.0,
+        "ftmo_net_usd_sum": 4189.6763486017135,
+        "exness_normal_R": 6.129892468221673,
+        "exness_normal_clusters_R": {
+          "A": 5.4055502591295275,
+          "B": 0.7243422090921458
+        },
+        "exness_swapfree_R": 6.129892468221673,
+        "exness_swapfree_clusters_R": {
+          "A": 5.4055502591295275,
+          "B": 0.7243422090921458
+        },
+        "exness_swapfree_pos_years": 5,
+        "mc_null": {
+          "hold_hours_matched": 7,
+          "n_buy": 82,
+          "n_sell": 91,
+          "draws": 1000,
+          "seed": 20261123,
+          "obs_gross_usd": 6611.6763486017135,
+          "null_gross_mean": -2380.557,
+          "null_gross_p95": 5766.549999999932,
+          "gross_p_value": 0.03696303696303696,
+          "obs_ftmo_net_usd": 4189.6763486017135,
+          "null_net_mean": -4802.557,
+          "null_net_p95": 3344.5499999999324,
+          "ftmo_net_p_value": 0.03696303696303696
+        },
+        "exit_counts": {
+          "TIME_FLAT": 150,
+          "SL_GAP_OR_TOUCH": 23
+        },
+        "tier": "TIER_2_PERSONAL_VAULT",
+        "fade_ftmo_R": -32.1975606530749,
+        "fdr_gross_q": 0.1798201798201798,
+        "fdr_ftmo_q": 0.1798201798201798
+      },
+      {
+        "strategy": "EXP_DAILY_OPEN_080_TREND",
+        "asset": "GBPUSD",
+        "native_Ask": true,
+        "n": 296,
+        "win_rate_ftmo": 0.47635135135135137,
+        "ftmo_net_R": 4.23468208269863,
+        "ftmo_annual_R": 0.6049545832426614,
+        "ftmo_top10_R": 20.158867401859474,
+        "ftmo_closed_dd_R": 8.917941981512465,
+        "ftmo_clusters_R": {
+          "A": 6.9926630001195145,
+          "B": -2.757980917420885
+        },
+        "ftmo_years_R": {
+          "2018": -0.05029810871091629,
+          "2019": 5.241171077472232,
+          "2020": 1.8017900313581994,
+          "2021": 0.4418355293097522,
+          "2022": 1.6991903533400985,
+          "2023": -1.7040365494266254,
+          "2024": -3.1949702506441104
+        },
+        "ftmo_pos_years": 4,
+        "gross_usd_sum": 7487.555837794169,
+        "ftmo_exec_cost_usd_sum": 4144.0,
+        "ftmo_swap_usd_sum": 0.0,
+        "ftmo_net_usd_sum": 3343.555837794169,
+        "exness_normal_R": 6.2698026338467425,
+        "exness_normal_clusters_R": {
+          "A": 7.837426564669286,
+          "B": -1.567623930822544
+        },
+        "exness_swapfree_R": 6.2698026338467425,
+        "exness_swapfree_clusters_R": {
+          "A": 7.837426564669286,
+          "B": -1.567623930822544
+        },
+        "exness_swapfree_pos_years": 5,
+        "mc_null": {
+          "hold_hours_matched": 7,
+          "n_buy": 138,
+          "n_sell": 158,
+          "draws": 1000,
+          "seed": 20261123,
+          "obs_gross_usd": 7487.555837794169,
+          "null_gross_mean": -3632.4160000000056,
+          "null_gross_p95": 7151.200000000011,
+          "gross_p_value": 0.04495504495504495,
+          "obs_ftmo_net_usd": 3343.555837794169,
+          "null_net_mean": -7776.416000000006,
+          "null_net_p95": 3007.20000000001,
+          "ftmo_net_p_value": 0.04495504495504495
+        },
+        "exit_counts": {
+          "TIME_FLAT": 256,
+          "SL_GAP_OR_TOUCH": 40
+        },
+        "tier": "TIER_3_DEAD_NO_EDGE",
+        "fade_ftmo_R": -38.287798840735285,
+        "fdr_gross_q": 0.1798201798201798,
+        "fdr_ftmo_q": 0.1798201798201798
+      },
+      {
+        "strategy": "EXP_DAILY_OPEN_080",
+        "asset": "US500",
+        "native_Ask": true,
+        "n": 386,
+        "win_rate_ftmo": 0.4378238341968912,
+        "ftmo_net_R": -17.22786127031772,
+        "ftmo_annual_R": -2.4611230386168175,
+        "ftmo_top10_R": 21.835783358186006,
+        "ftmo_closed_dd_R": 20.466687389734126,
+        "ftmo_clusters_R": {
+          "A": -14.631138287228687,
+          "B": -2.5967229830890353
+        },
+        "ftmo_years_R": {
+          "2018": -5.255933549330032,
+          "2019": -4.92731611115089,
+          "2020": -4.447888626747765,
+          "2021": -1.8293682514429217,
+          "2022": 3.4947271144416643,
+          "2023": -5.6773748594216995,
+          "2024": 1.4152930133339219
+        },
+        "ftmo_pos_years": 2,
+        "gross_usd_sum": -228.32100738764666,
+        "ftmo_exec_cost_usd_sum": 579.0,
+        "ftmo_swap_usd_sum": 0.0,
+        "ftmo_net_usd_sum": -807.3210073876467,
+        "exness_normal_R": -11.519304212506167,
+        "exness_normal_clusters_R": {
+          "A": -11.793176918146486,
+          "B": 0.2738727056403174
+        },
+        "exness_swapfree_R": -11.519304212506167,
+        "exness_swapfree_clusters_R": {
+          "A": -11.793176918146486,
+          "B": 0.2738727056403174
+        },
+        "exness_swapfree_pos_years": 2,
+        "mc_null": {
+          "n_days": 386,
+          "draws": 1000,
+          "seed": 20261123,
+          "obs_gross_usd": -228.32100738764666,
+          "null_gross_mean": -179.54072400000774,
+          "null_gross_p95": 892.2526499999882,
+          "gross_p_value": 0.5254745254745254,
+          "obs_ftmo_net_usd": -807.3210073876467,
+          "null_net_mean": -758.5407240000077,
+          "null_net_p95": 313.2526499999882,
+          "ftmo_net_p_value": 0.5254745254745254
+        },
+        "exit_counts": {
+          "HARD_FLAT": 322,
+          "SL_GAP_OR_TOUCH": 64
+        },
+        "tier": "TIER_3_DEAD_NO_EDGE",
+        "fade_ftmo_R": -47.740410027869,
+        "us500_stress_mid_R": -11.52,
+        "us500_base_R": -5.6,
+        "fdr_gross_q": 0.7392607392607392,
+        "fdr_ftmo_q": 0.7392607392607392
+      },
+      {
+        "strategy": "EXP_DAILY_OPEN_100",
+        "asset": "US500",
+        "native_Ask": true,
+        "n": 216,
+        "win_rate_ftmo": 0.4166666666666667,
+        "ftmo_net_R": -17.99701862807457,
+        "ftmo_annual_R": -2.57100266115351,
+        "ftmo_top10_R": 18.113121917029744,
+        "ftmo_closed_dd_R": 19.168809624505947,
+        "ftmo_clusters_R": {
+          "A": -10.389654051337919,
+          "B": -7.607364576736651
+        },
+        "ftmo_years_R": {
+          "2018": -2.9558390430684502,
+          "2019": -1.7980517027722938,
+          "2020": -5.635763305497176,
+          "2021": -6.609190769765884,
+          "2022": 4.12925028466046,
+          "2023": -2.9924952811349024,
+          "2024": -2.134928810496324
+        },
+        "ftmo_pos_years": 1,
+        "gross_usd_sum": -465.98437147919685,
+        "ftmo_exec_cost_usd_sum": 324.0,
+        "ftmo_swap_usd_sum": 0.0,
+        "ftmo_net_usd_sum": -789.9843714791969,
+        "exness_normal_R": -14.777951696858514,
+        "exness_normal_clusters_R": {
+          "A": -8.741317431182472,
+          "B": -6.036634265676042
+        },
+        "exness_swapfree_R": -14.777951696858514,
+        "exness_swapfree_clusters_R": {
+          "A": -8.741317431182472,
+          "B": -6.036634265676042
+        },
+        "exness_swapfree_pos_years": 1,
+        "mc_null": {
+          "n_days": 216,
+          "draws": 1000,
+          "seed": 20261123,
+          "obs_gross_usd": -465.98437147919685,
+          "null_gross_mean": -132.92165200000454,
+          "null_gross_p95": 821.8550499999947,
+          "gross_p_value": 0.7172827172827173,
+          "obs_ftmo_net_usd": -789.9843714791969,
+          "null_net_mean": -456.92165200000454,
+          "null_net_p95": 497.8550499999947,
+          "ftmo_net_p_value": 0.7172827172827173
+        },
+        "exit_counts": {
+          "SL_GAP_OR_TOUCH": 45,
+          "HARD_FLAT": 171
+        },
+        "tier": "TIER_3_DEAD_NO_EDGE",
+        "fade_ftmo_R": -22.032324284155223,
+        "us500_stress_mid_R": -14.78,
+        "us500_base_R": -11.44,
+        "fdr_gross_q": 0.8197516768945341,
+        "fdr_ftmo_q": 0.8197516768945341
+      },
+      {
+        "strategy": "EXP_DAILY_OPEN_120",
+        "asset": "US500",
+        "native_Ask": true,
+        "n": 120,
+        "win_rate_ftmo": 0.4,
+        "ftmo_net_R": -15.83737273478712,
+        "ftmo_annual_R": -2.262481819255303,
+        "ftmo_top10_R": 15.339477564805,
+        "ftmo_closed_dd_R": 17.353210193709234,
+        "ftmo_clusters_R": {
+          "A": -3.243087220764812,
+          "B": -12.594285514022308
+        },
+        "ftmo_years_R": {
+          "2018": -1.1175837707630234,
+          "2019": -1.1723460333522375,
+          "2020": -0.953157416649551,
+          "2021": -10.387300073952188,
+          "2022": 0.7915181652203483,
+          "2023": 0.43365507626269484,
+          "2024": -3.432158681553164
+        },
+        "ftmo_pos_years": 2,
+        "gross_usd_sum": -521.4297527213098,
+        "ftmo_exec_cost_usd_sum": 180.0,
+        "ftmo_swap_usd_sum": 0.0,
+        "ftmo_net_usd_sum": -701.4297527213098,
+        "exness_normal_R": -14.050771815085955,
+        "exness_normal_clusters_R": {
+          "A": -2.20554732001124,
+          "B": -11.845224495074715
+        },
+        "exness_swapfree_R": -14.050771815085955,
+        "exness_swapfree_clusters_R": {
+          "A": -2.20554732001124,
+          "B": -11.845224495074715
+        },
+        "exness_swapfree_pos_years": 2,
+        "mc_null": {
+          "n_days": 120,
+          "draws": 1000,
+          "seed": 20261123,
+          "obs_gross_usd": -521.4297527213098,
+          "null_gross_mean": -57.057167000003496,
+          "null_gross_p95": 583.9806000000013,
+          "gross_p_value": 0.8771228771228772,
+          "obs_ftmo_net_usd": -701.4297527213098,
+          "null_net_mean": -237.0571670000035,
+          "null_net_p95": 403.98060000000135,
+          "ftmo_net_p_value": 0.8771228771228772
+        },
+        "exit_counts": {
+          "HARD_FLAT": 92,
+          "SL_GAP_OR_TOUCH": 28
+        },
+        "tier": "TIER_3_DEAD_NO_EDGE",
+        "fade_ftmo_R": -9.486511493558947,
+        "us500_stress_mid_R": -14.05,
+        "us500_base_R": -12.19,
+        "fdr_gross_q": 0.8771228771228772,
+        "fdr_ftmo_q": 0.8771228771228772
+      },
+      {
+        "strategy": "EXP_DAILY_OPEN_080_TREND",
+        "asset": "US500",
+        "native_Ask": true,
+        "n": 159,
+        "win_rate_ftmo": 0.4716981132075472,
+        "ftmo_net_R": -10.118491438509656,
+        "ftmo_annual_R": -1.4454987769299508,
+        "ftmo_top10_R": 12.316148300521258,
+        "ftmo_closed_dd_R": 13.570621555366834,
+        "ftmo_clusters_R": {
+          "A": -10.000242282464763,
+          "B": -0.11824915604489282
+        },
+        "ftmo_years_R": {
+          "2018": -6.99775294022673,
+          "2019": -0.5565139464867201,
+          "2020": -2.4459753957513133,
+          "2021": 2.0787578903643427,
+          "2022": 0.27103778158940506,
+          "2023": -4.270199277004493,
+          "2024": 1.8021544490058528
+        },
+        "ftmo_pos_years": 3,
+        "gross_usd_sum": -161.88762902118106,
+        "ftmo_exec_cost_usd_sum": 238.5,
+        "ftmo_swap_usd_sum": 0.0,
+        "ftmo_net_usd_sum": -400.38762902118106,
+        "exness_normal_R": -7.842298046766319,
+        "exness_normal_clusters_R": {
+          "A": -9.010480076920626,
+          "B": 1.1681820301543073
+        },
+        "exness_swapfree_R": -7.842298046766319,
+        "exness_swapfree_clusters_R": {
+          "A": -9.010480076920626,
+          "B": 1.1681820301543073
+        },
+        "exness_swapfree_pos_years": 3,
+        "mc_null": {
+          "n_days": 159,
+          "draws": 1000,
+          "seed": 20261123,
+          "obs_gross_usd": -161.88762902118106,
+          "null_gross_mean": -74.42939900000408,
+          "null_gross_p95": 665.9890999999938,
+          "gross_p_value": 0.5544455544455544,
+          "obs_ftmo_net_usd": -400.38762902118106,
+          "null_net_mean": -312.9293990000041,
+          "null_net_p95": 427.48909999999375,
+          "ftmo_net_p_value": 0.5544455544455544
+        },
+        "exit_counts": {
+          "HARD_FLAT": 130,
+          "SL_GAP_OR_TOUCH": 29
+        },
+        "tier": "TIER_3_DEAD_NO_EDGE",
+        "fade_ftmo_R": -18.58057780679638,
+        "us500_stress_mid_R": -7.84,
+        "us500_base_R": -5.48,
+        "fdr_gross_q": 0.7392607392607392,
+        "fdr_ftmo_q": 0.7392607392607392
+      }
+    ]
+  }
+}

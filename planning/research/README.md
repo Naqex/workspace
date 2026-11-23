@@ -9,6 +9,12 @@ Từ workspace root, chạy `python -X utf8 tooling/ai-engines/research_inventor
 để xem mức gắn nhãn. Thêm `--all` để lấy từng đường dẫn và lý do còn thiếu
 thông tin.
 
+**Pass 17 · Pháp y M1 Floating Equity `EXP_DAILY_OPEN_080 USDJPY` & kiểm chéo `GBPUSD` / `US500`.**
+- **Nhánh 1 (`EXP_DAILY_OPEN_080 USDJPY`, Native Tick M1 Bid/Ask, `swap = 0`):** Sống sót qua **cả 3 bậc phí** kể cả Stress cực đoan `+1,00 pip` (`all_dev`: Base `+40,05R`, Stress05 `+34,75R`, Stress10 `+29,54R`, DD nổi chỉ `7,4–7,7R`), và đạt **`12 / 12` ô mặt phẳng tham số 2 chiều** dương đồng thời ở cả Cụm A (`2018–2020`) và Cụm B (`2021–2024`). Khi ghép với Engine #1 `USDJPY` Tokyo-box (`PORT_INV_DD_075`, Stress `+0,50 pip`, Prague reset): nâng lãi từ `+2,93% → +3,51%/năm` (Swing 10k) / `+3,70%/năm` (Standard 50k), **kéo Peak DD nổi giảm 40% (`9,08% → 5,45%`), cắt một nửa thời gian đi ngang (`41,2 → 20,6` tháng), Daily Loss chỉ `0,74%`, `0` lỗi margin**, tăng gấp đôi Calmar (`0,32 → 0,64`). Lưu ý trung thực: lãi tập trung mạnh ở chiều `BUY` (`+37,28R`, DD `3,8R`) trong khi `SELL` `-2,53R`, và tốc độ `3,5–3,7%/năm` vẫn dưới mục tiêu `8–12%/năm` của FTMO Challenge → cần Engine #3 trên tài sản khác đồng Yên.
+- **Nhánh 2 (kiểm chéo `GBPUSD` & `US500`, `swap = 0`, BH FDR `m = 8`):** `US500` trượt cả 4 cấu hình (`-10,1R..-18,0R`, `TIER_3`); `GBPUSD` có 1 cấu hình vào `TIER_2_PERSONAL_VAULT` (`EXP_DAILY_OPEN_120`, `+4,95R`, `5/7` năm, `p = 0,037`), 3 cấu hình còn lại `TIER_3`.
+[Báo cáo](PASS17-USDJPY-EXPANSION-FORENSIC-AND-CROSS-ASSET-20261123.md) ·
+[Protocol](PASS17-USDJPY-EXPANSION-FORENSIC-AND-CROSS-ASSET-PROTOCOL-20261123.md).
+
 **Pass 16 · Động lượng mở rộng tần suất thấp (`swap = 0`) & 8 mã `H1` còn lại của `strategy-intel`.**
 Chạy song song 2 nhánh (`36` cặp M1 thực `2018–2024`, `holdout_rows = 0`, `network_calls = 0`, `OrderSend = 0`).
 - **Đột phá Nhánh 1 (`TIER_1_FTMO_READY` trên Native Tick M1 Bid/Ask `USDJPY`, `swap = 0`):**
