@@ -4787,6 +4787,14 @@
     "version": 1,
     "broker_observations": [
       {
+        "id": "pass13-triple-track-20261123",
+        "scope": "Pass 13 Development 2018-2024 zero-network triple-track Engine #2 screen: Track 1 GBPUSD/EURUSD Liquidity Sweep (FAILED), Track 2 Clean-Room NEN022 Fakey H4 & SEA003 XAUUSD TOM Swap-3x/MC Null (FAILED), Track 3 US500 NY ORB Sealed Explicit M1 (FAILED, ORB_ENGINE2_SEARCH_EXHAUSTED).",
+        "report": "PASS13-TRIPLE-TRACK-ENGINE2-20261123.md",
+        "summary": "PASS13-TRIPLE-TRACK-ENGINE2-20261123.json",
+        "private_manifest": "pass13-triple-track-20261123/manifest.json",
+        "private_manifest_sha256": "d0335588f448006feb6271e54e0c3c28b25c910d1dddbabae373cf02df1ab660"
+      },
+      {
         "id": "pass12-us500-m1-usdjpy-forensic-20261120",
         "scope": "Pass 12 Development 2018–2024: US500 NY ORB QDM acquisition blocked by HTTP 429 (US500_M1_DATA_UNAVAILABLE); USDJPY Tokyo-box 4-axis known-at-entry forensic audit and 12% cost gate (USDJPY_COST_HYGIENE_NOT_RETAINED).",
         "report": "PASS12-US500-M1-ORB-AND-USDJPY-FORENSIC-20261120.md",

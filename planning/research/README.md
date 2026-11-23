@@ -9,6 +9,15 @@ Từ workspace root, chạy `python -X utf8 tooling/ai-engines/research_inventor
 để xem mức gắn nhãn. Thêm `--all` để lấy từng đường dẫn và lý do còn thiếu
 thông tin.
 
+**Pass 13 · 3 nhánh song song tìm Engine #2 (FX Sweep · Clean-Room Intel · US500 Explicit M1).**
+Chạy 100% cục bộ (`network_calls = 0`, `holdout_rows = 0`, `OrderSend = 0`, `1.514/1.514` tests PASS).
+Nhánh 1 (`GBPUSD`/`EURUSD` Liquidity Sweep M1 Bid/Ask): rớt toàn bộ ở Stress `+0,50 pip` (`-275R..-511R`, `MC p = 0,42–0,78`).
+Nhánh 2 (`NEN022` Fakey H4 trên `EURUSD`/`GBPUSD`/`XAUUSD`: `-25,6R..-74,9R`, `p = 0,52–0,79`; `SEA003` XAUUSD Turn-of-Month: Swap 3× FTMO ăn `-$25.270 / $42.023 = 60,1%`, Cụm B âm `-$69`, `MC p = 0,279` — bác bỏ như drift illusion).
+Nhánh 3 (`US500 NY ORB` trên Explicit M1 Bid/Ask đã niêm phong `2018–2024`, `1.316/1.351` lệnh): rớt `M1_Stress_High` (`-46,66R / -58,89R`, chỉ 1/7 năm dương, `p = 0,072`, Fade `-238,6R`), chính thức đóng dòng ORB (`ORB_ENGINE2_SEARCH_EXHAUSTED`).
+Giữ Engine #1 `USDJPY` Pass 7B/8 và `ENGINE_1_NEEDS_PARTNER`.
+[Báo cáo](PASS13-TRIPLE-TRACK-ENGINE2-20261123.md) ·
+[Protocol](PASS13-TRIPLE-TRACK-ENGINE2-PROTOCOL-20261123.md).
+
 **Pass 12 · US500 NY ORB M1 bị chặn nguồn QDM & pháp y USDJPY.** QDM
 `USA500IDXUSD_PASS12_QUARANTINE` gặp HTTP 429 ở 2011 qua 3 lượt (`US500_M1_DATA_UNAVAILABLE`,
 0 giá holdout). USDJPY tái lập đủ 1.228/1.437 lệnh; cổng phí/hộp ≤12% tăng mẫu chặt
