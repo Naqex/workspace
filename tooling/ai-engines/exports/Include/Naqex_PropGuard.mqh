@@ -121,10 +121,58 @@ public:
    }
 
    // 3. Strategy-Tester-safe UTC timestamp (TimeGMT() equals TimeCurrent() inside MT5 Tester!)
+   //    Auto-applies NY+7 US DST (+1h during 2nd Sun Mar -> 1st Sun Nov) for standard NY-close brokers (FTMO/The5ers)
+   static int NthSundayOfMonth(const int year, const int month, const int nth)
+   {
+      MqlDateTime d;
+      ZeroMemory(d);
+      d.year = year; d.mon = month; d.day = 1;
+      TimeToStruct(StructToTime(d), d);
+      return 1 + ((7 - d.day_of_week) % 7) + (nth - 1) * 7;
+   }
+
+   static bool IsUsDstUtc(const datetime utcTs)
+   {
+      MqlDateTime utc;
+      TimeToStruct(utcTs, utc);
+      if(utc.mon < 3 || utc.mon > 11) return false;
+      if(utc.mon > 3 && utc.mon < 11) return true;
+      if(utc.mon == 3)
+      {
+         int s2 = NthSundayOfMonth(utc.year, 3, 2);
+         return (utc.day > s2 || (utc.day == s2 && utc.hour >= 7));
+      }
+      int s1 = NthSundayOfMonth(utc.year, 11, 1);
+      return (utc.day < s1 || (utc.day == s1 && utc.hour < 6));
+   }
+
+   static bool IsUsEquityHalfDayNY(const MqlDateTime &ny)
+   {
+      // NYSE 13:00 ET early-close holiday half-days (prevents holding US100/US500 across holiday rollover!)
+      if(ny.mon == 7 && ny.day == 3 && ny.day_of_week >= 1 && ny.day_of_week <= 4)
+         return true; // Independence Day Eve
+      if(ny.mon == 11 && ny.day_of_week == 5 && ny.day >= 23 && ny.day <= 29)
+         return true; // Black Friday (Friday after 4th Thursday of November)
+      if(ny.mon == 12 && ny.day == 24 && ny.day_of_week >= 1 && ny.day_of_week <= 5)
+         return true; // Christmas Eve
+      return false;
+   }
+
    datetime NowUTC() const
    {
       if(MQLInfoInteger(MQL_TESTER))
-         return (TimeCurrent() - (datetime)(InpGuardTesterUtcOffsetH * 3600));
+      {
+         datetime srvNow = TimeCurrent();
+         int offH = InpGuardTesterUtcOffsetH;
+         if(offH == 2)
+         {
+            // NY-close broker convention (FTMO/The5ers): UTC+3 during US EDT, UTC+2 during US EST
+            datetime candEdt = srvNow - (datetime)(3 * 3600);
+            if(IsUsDstUtc(candEdt))
+               return candEdt;
+         }
+         return (srvNow - (datetime)(offH * 3600));
+      }
       return TimeGMT();
    }
 

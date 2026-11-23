@@ -96,9 +96,15 @@ void OnTick()
    datetime nyDay = nowNy - (nowNy % 86400);
    int nyMins = ny.hour * 60 + ny.min;
 
-   if(nyMins >= 15 * 60 + 55 || g_guard.IsNearBrokerSessionClose())
+   bool isUsHalfDay = CNaqexPropGuard::IsUsEquityHalfDayNY(ny);
+   if(isUsHalfDay || nyMins >= 15 * 60 + 55 || g_guard.IsNearBrokerSessionClose())
    {
-      if(HasOpenPosition()) CloseOwnPositions("HARD_FLAT_1555_ET_SWAP0");
+      if(HasOpenPosition()) CloseOwnPositions(isUsHalfDay ? "HARD_FLAT_US_HALF_DAY_SWAP0" : "HARD_FLAT_1555_ET_SWAP0");
+      return;
+   }
+   if(nyMins < 9 * 60 + 30 && HasOpenPosition())
+   {
+      CloseOwnPositions("OVERNIGHT_FAILSAFE_SWAP0");
       return;
    }
    if(g_guard.IsInsideRedNewsWindow())
