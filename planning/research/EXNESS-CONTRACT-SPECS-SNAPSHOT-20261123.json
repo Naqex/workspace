@@ -1,0 +1,95 @@
+{
+  "schema": "naqex-broker-reference-snapshot-v1",
+  "broker": "Exness",
+  "captured_date": "2026-11-23",
+  "evidence_status": "EXNESS_WEBSITE_SNAPSHOT_UNMEASURED_DEMO",
+  "source_note": "Transcribed verbatim from 6 official Exness personal-area / contract-specifications screenshots supplied by workspace owner on 2026-11-23. Not yet reconciled against live/demo MT5 Execution ticks.",
+  "api_access_note": "Exness retail accounts execute via MT4/MT5 terminals (and MT5 Python bridge locally); no public retail REST execution API is exposed for Standard/Raw accounts. Update this reference from an Exness MT5 Demo snapshot when preparing personal-capital deployment.",
+  "swap_free_caveat": "Extended Swap-Free ('Miễn phí phí qua đêm khả dụng') is conditional under Exness client policy and may be revoked if an account systematically abuses overnight holding; always verify robustness under both normal swap and conditional swap-free.",
+  "account_types": {
+    "Standard": {
+      "min_deposit_usd": 10,
+      "min_spread_pips": 0.2,
+      "max_leverage": "1:Unlimited",
+      "commission_per_lot_side_usd": 0.0,
+      "execution": "market",
+      "majors": {
+        "AUDUSDm": {"avg_spread_pips": 0.9, "comm_side_usd": 0.0, "swap_long_pips": 0.0, "swap_short_pips": -0.24, "swap_free_available": true},
+        "DXYm": {"avg_spread_pips": 1.3, "comm_side_usd": 0.0, "swap_long_pips": -0.35, "swap_short_pips": -0.57, "swap_free_available": true},
+        "EURUSDm": {"avg_spread_pips": 0.8, "comm_side_usd": 0.0, "swap_long_pips": -0.55, "swap_short_pips": 0.0, "swap_free_available": true},
+        "GBPUSDm": {"avg_spread_pips": 1.0, "comm_side_usd": 0.0, "swap_long_pips": -0.14, "swap_short_pips": -0.14, "swap_free_available": true},
+        "NZDUSDm": {"avg_spread_pips": 1.4, "comm_side_usd": 0.0, "swap_long_pips": -0.36, "swap_short_pips": 0.0, "swap_free_available": true},
+        "USDCADm": {"avg_spread_pips": 1.6, "comm_side_usd": 0.0, "swap_long_pips": 0.0, "swap_short_pips": -0.78, "swap_free_available": true},
+        "USDCHFm": {"avg_spread_pips": 1.3, "comm_side_usd": 0.0, "swap_long_pips": 0.0, "swap_short_pips": -1.05, "swap_free_available": true},
+        "USDJPYm": {"avg_spread_pips": 1.0, "comm_side_usd": 0.0, "swap_long_pips": 0.0, "swap_short_pips": 0.0, "swap_free_available": true}
+      }
+    },
+    "Standard_Cent": {
+      "min_deposit_usd": 10,
+      "min_spread_pips": 0.3,
+      "max_leverage": "1:Unlimited",
+      "commission_per_lot_side_usd": 0.0,
+      "execution": "market",
+      "majors": {
+        "AUDUSDc": {"avg_spread_pips": 0.9, "comm_side_usd": 0.0, "swap_long_pips": 0.0, "swap_short_pips": -0.25, "swap_free_available": true},
+        "EURUSDc": {"avg_spread_pips": 0.8, "comm_side_usd": 0.0, "swap_long_pips": -0.55, "swap_short_pips": 0.0, "swap_free_available": true},
+        "GBPUSDc": {"avg_spread_pips": 1.0, "comm_side_usd": 0.0, "swap_long_pips": -0.14, "swap_short_pips": -0.14, "swap_free_available": true},
+        "NZDUSDc": {"avg_spread_pips": 1.4, "comm_side_usd": 0.0, "swap_long_pips": -0.36, "swap_short_pips": 0.0, "swap_free_available": true},
+        "USDCADc": {"avg_spread_pips": 1.6, "comm_side_usd": 0.0, "swap_long_pips": 0.0, "swap_short_pips": -0.84, "swap_free_available": true},
+        "USDCHFc": {"avg_spread_pips": 1.3, "comm_side_usd": 0.0, "swap_long_pips": 0.0, "swap_short_pips": -1.04, "swap_free_available": true},
+        "USDJPYc": {"avg_spread_pips": 1.0, "comm_side_usd": 0.0, "swap_long_pips": 0.0, "swap_short_pips": 0.0, "swap_free_available": true}
+      }
+    },
+    "Pro": {
+      "min_deposit_usd": 200,
+      "min_spread_pips": 0.1,
+      "max_leverage": "1:Unlimited",
+      "commission_per_lot_side_usd": 0.0,
+      "execution": "instant",
+      "majors": {
+        "AUDUSD": {"avg_spread_pips": 0.6, "comm_side_usd": 0.0, "swap_long_pips": 0.0, "swap_short_pips": -0.24, "swap_free_available": true},
+        "DXY": {"avg_spread_pips": 0.9, "comm_side_usd": 0.0, "swap_long_pips": -0.35, "swap_short_pips": -0.57, "swap_free_available": true},
+        "EURUSD": {"avg_spread_pips": 0.6, "comm_side_usd": 0.0, "swap_long_pips": -0.55, "swap_short_pips": 0.0, "swap_free_available": true},
+        "GBPUSD": {"avg_spread_pips": 0.7, "comm_side_usd": 0.0, "swap_long_pips": -0.14, "swap_short_pips": -0.14, "swap_free_available": true},
+        "NZDUSD": {"avg_spread_pips": 1.0, "comm_side_usd": 0.0, "swap_long_pips": -0.36, "swap_short_pips": 0.0, "swap_free_available": true},
+        "USDCAD": {"avg_spread_pips": 1.1, "comm_side_usd": 0.0, "swap_long_pips": 0.0, "swap_short_pips": -0.78, "swap_free_available": true},
+        "USDCHF": {"avg_spread_pips": 0.9, "comm_side_usd": 0.0, "swap_long_pips": 0.0, "swap_short_pips": -1.05, "swap_free_available": true},
+        "USDJPY": {"avg_spread_pips": 0.7, "comm_side_usd": 0.0, "swap_long_pips": 0.0, "swap_short_pips": 0.0, "swap_free_available": true}
+      }
+    },
+    "Zero": {
+      "min_deposit_usd": 200,
+      "min_spread_pips": 0.0,
+      "max_leverage": "1:Unlimited",
+      "commission_note": "From $0.05/lot/side (instrument-specific)",
+      "execution": "market",
+      "majors": {
+        "AUDUSDz": {"avg_spread_pips": 0.0, "comm_side_usd": 3.0, "swap_long_pips": 0.0, "swap_short_pips": -0.25, "swap_free_available": true},
+        "DXYz": {"avg_spread_pips": 0.0, "comm_side_usd": 4.125, "swap_long_pips": -0.35, "swap_short_pips": -0.57, "swap_free_available": true},
+        "EURUSDz": {"avg_spread_pips": 0.0, "comm_side_usd": 2.5, "swap_long_pips": -0.55, "swap_short_pips": 0.0, "swap_free_available": true},
+        "GBPUSDz": {"avg_spread_pips": 0.0, "comm_side_usd": 3.125, "swap_long_pips": -0.14, "swap_short_pips": -0.14, "swap_free_available": true},
+        "NZDUSDz": {"avg_spread_pips": 0.0, "comm_side_usd": 4.5, "swap_long_pips": -0.36, "swap_short_pips": 0.0, "swap_free_available": true},
+        "USDCADz": {"avg_spread_pips": 0.0, "comm_side_usd": 3.5, "swap_long_pips": 0.0, "swap_short_pips": -0.84, "swap_free_available": true},
+        "USDCHFz": {"avg_spread_pips": 0.0, "comm_side_usd": 5.25, "swap_long_pips": 0.0, "swap_short_pips": -1.04, "swap_free_available": true},
+        "USDJPYz": {"avg_spread_pips": 0.0, "comm_side_usd": 2.5, "swap_long_pips": 0.0, "swap_short_pips": 0.0, "swap_free_available": true}
+      }
+    },
+    "Raw_Spread": {
+      "min_deposit_usd": 200,
+      "min_spread_pips": 0.0,
+      "max_leverage": "1:Unlimited",
+      "commission_note": "Up to $3.50/lot/side",
+      "execution": "market",
+      "majors": {
+        "AUDUSD": {"avg_spread_pips": 0.1, "comm_side_usd": 2.5, "swap_long_pips": 0.0, "swap_short_pips": -0.25, "swap_free_available": true},
+        "DXY": {"avg_spread_pips": 0.1, "comm_side_usd": 3.5, "swap_long_pips": -0.35, "swap_short_pips": -0.57, "swap_free_available": true},
+        "EURUSD": {"avg_spread_pips": 0.0, "comm_side_usd": 2.5, "swap_long_pips": -0.55, "swap_short_pips": 0.0, "swap_free_available": true},
+        "GBPUSD": {"avg_spread_pips": 0.1, "comm_side_usd": 2.5, "swap_long_pips": -0.14, "swap_short_pips": -0.14, "swap_free_available": true},
+        "NZDUSD": {"avg_spread_pips": 0.2, "comm_side_usd": 3.5, "swap_long_pips": -0.36, "swap_short_pips": 0.0, "swap_free_available": true},
+        "USDCAD": {"avg_spread_pips": 0.0, "comm_side_usd": 3.5, "swap_long_pips": 0.0, "swap_short_pips": -0.84, "swap_free_available": true},
+        "USDCHF": {"avg_spread_pips": 0.2, "comm_side_usd": 3.5, "swap_long_pips": 0.0, "swap_short_pips": -1.04, "swap_free_available": true},
+        "USDJPY": {"avg_spread_pips": 0.0, "comm_side_usd": 2.5, "swap_long_pips": 0.0, "swap_short_pips": 0.0, "swap_free_available": true}
+      }
+    }
+  }
+}
