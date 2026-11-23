@@ -18,6 +18,7 @@ provenance: verified_from_workspace_and_owner_explicit_statements
   - *Điểm rất mạnh:* **Chuyên gia sử dụng & điều phối AI Agents** (orchestration, workflow đa tác nhân, hệ thống hóa dây chuyền) + **ngân sách AI Agents dư dả**.
   - *Khoảng trống thật cần bù:* Hoạt động độc lập (solo), **kiến thức trading ở mức cơ bản–khá**, **chưa từng trade tay thật** và **chưa có lịch sử lợi nhuận live (chưa profitable)**. Do đó hệ thống phải ưu tiên khóa cứng rủi ro, tách biệt nghiên cứu với thực thi, và nhanh chóng bước qua thực chiến Demo/Free Trial/vốn nhỏ để tích lũy dữ liệu khớp lệnh thật thay vì chỉ hoàn thiện backtest trên giấy.
 - **Ngôn ngữ giao tiếp:** Tiếng Việt tự nhiên, súc tích, đi thẳng vào kết quả và quyết định có ích; giữ thuật ngữ tiếng Anh chuẩn ngành kèm giải thích ngắn lần đầu.
+- **Kỳ vọng quy mô cho phiên tự chủ dài hạn (xác nhận `2026-11-24`):** Khi giao phiên tự chủ xuyên đêm nhiều giờ với budget AI dư dả, kỳ vọng kế hoạch phải được hiệu chuẩn theo đúng tốc độ thực tế của đội `swarm` (`~25–35` mốc/giờ) theo mô hình **nhà máy chạy chu kỳ liên tục** (mở rộng chiến lược trên dữ liệu/thị trường mới, tối ưu sâu hệ thống, đối soát thực chiến theo giờ tới sát giờ thức dậy), không muốn kế hoạch tĩnh quá nhỏ làm xong trong 1 giờ rồi bỏ trống phần lớn đêm.
 
 ## 2. Mục tiêu dài hạn (North Star)
 

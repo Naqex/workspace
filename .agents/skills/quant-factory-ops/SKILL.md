@@ -61,6 +61,17 @@ Only install a local Python speedup/testing package when a profiled bottleneck w
 3. Smoke-test parity + measured speedup immediately and run `system_doctor.py --mode full`.
 4. Ask the owner first before any paid tool, OAuth/secret, global config change, or persistent daemon.
 
+### 4. Throughput-Calibrated Long-Horizon / Overnight Factory Sizing
+
+When the owner authorizes a long autonomous window (e.g., `6–12h` overnight) with multi-lane `swarm` execution, NEVER size the plan as a small static `20–30` milestone list (measured 4-lane XHigh throughput is `~25–35` milestones/hour -> a static list finishes in `< 2h`):
+
+1. **Calibrate to measured velocity:** Budget `~20–30` concrete work units per active parallel hour, split into **Core Production Waves + Continuous Fresh-Data R&D Cycles + Scheduled Live-Execution Feedback Loops** (`schedule` checkpoints every `2h` to inspect live demo/shadow TCA logs, fix runtime issues, and launch the next orthogonal wave).
+2. **Expand ONLY across genuinely new value axes (Anti-Overfit & Anti-Busywork):** Never re-mine an already-exhausted dataset or invent cosmetic refactors to fill hours. Extra overnight cycles MUST use:
+   - **Fresh datasets / asset classes / timeframes** (e.g., new commodities/indices/FX pairs, `15m/1H` crypto, multi-day swing with live-measured broker swaps, macro ETFs, CME futures), each with its own strict `m_total` budget cap through `research_council.py`;
+   - **Real-world execution compute** (MT5 Real-Tick Strategy Tester latency/spread sweeps, live demo/shadow microstructure capture & TCA reconciliation);
+   - **Measured system/portfolio optimization** (pytest/Numba speedups, NCO/Ledoit-Wolf/Meta-Labeling, interactive ops cockpit, multi-prop & own-book execution kits).
+3. **Clean halt still applies when ALL high-value cycles & scheduled live-capture checkpoints finish:** Never degrade passing tests or fabricate fake work after the final scheduled checkpoint.
+
 ## Negative triggers
 
 - Do not use for strategy hypothesis design (use [strategy-research](../strategy-research/SKILL.md)), white-box discovery (use [whitebox-prop-discovery](../whitebox-prop-discovery/SKILL.md)), or strategy qualification verdicts (use [strategy-qualification](../strategy-qualification/SKILL.md)).
