@@ -8,15 +8,24 @@
     S2_CRYPTO_SPOT: "#f59e0b",
     S3A_FUND_CARRY: "#16c784",
     S3B_MACRO_ETF: "#06b6d4",
-    S4_EXTRA: "#a855f7",
-    S5_EXTRA: "#ec4899",
+    S4_ETF40_MULTIFACTOR: "#a855f7",
+    S5_CME_FUTURES_PROP: "#ec4899",
   };
 
   const state = {
     summary: null,
     alloc: null,
     telemetry: null,
-    activeSeries: new Set(["POD_COMPOSITE", "S1_PROP_FX_IDX", "S2_CRYPTO_SPOT", "S3A_FUND_CARRY", "S3B_MACRO_ETF"]),
+    stress: null,
+    activeSeries: new Set([
+      "POD_COMPOSITE",
+      "S1_PROP_FX_IDX",
+      "S2_CRYPTO_SPOT",
+      "S3A_FUND_CARRY",
+      "S3B_MACRO_ETF",
+      "S4_ETF40_MULTIFACTOR",
+      "S5_CME_FUTURES_PROP",
+    ]),
   };
 
   const $ = (id) => document.getElementById(id);
@@ -247,23 +256,106 @@
   function renderTelemetry() {
     const t = state.telemetry;
     if (!t) return;
-    $("tel-hb-status").textContent = t.mt5_heartbeat.status;
-    $("tel-hb-detail").textContent = t.mt5_heartbeat.source || "Awaiting naqex_heartbeat.json";
 
-    $("tel-sp-status").textContent = `${t.mt5_live_spreads.status} (${t.mt5_live_spreads.count})`;
-    $("tel-sp-detail").textContent = t.mt5_live_spreads.latest
-      ? JSON.stringify(t.mt5_live_spreads.latest).slice(0, 72)
-      : "No mt5_live_spread_log.jsonl rows yet";
+    // 1. Crypto Shadow Runner (Live L2 TCA)
+    const cs = t.crypto_shadow || {};
+    if (cs.status === "ACTIVE") {
+      const tca = cs.tca_summary || {};
+      const ok = tca.within_budget_10k !== false;
+      $("tel-cr-status").textContent = `ACTIVE · Cycle #${cs.cycle_num || cs.count}`;
+      $("tel-cr-status").className = `mini-val mono ${ok ? "pos" : "warn"}`;
+      $("tel-cr-detail").textContent = `10k slip ${Number(tca.median_slip_10k_bps || 0).toFixed(2)}/${tca.budget_10k_bps || 5.0} bps · Med spread ${Number(tca.median_spread_bps || 0).toFixed(2)} bps · F4 ${cs.sleeve2_regime_bull ? "BULL" : "FLAT"}`;
+    } else {
+      $("tel-cr-status").textContent = "PENDING";
+      $("tel-cr-status").className = "mini-val mono warn";
+      $("tel-cr-detail").textContent = "Awaiting crypto_shadow_latest.json";
+    }
 
-    $("tel-cr-status").textContent = `${t.crypto_shadow.status} (${t.crypto_shadow.count})`;
-    $("tel-cr-detail").textContent = t.crypto_shadow.latest
-      ? JSON.stringify(t.crypto_shadow.latest).slice(0, 72)
-      : "No crypto_shadow_log.jsonl rows yet";
+    // 2. Crypto Maker Shadow Probe (M2B)
+    const mk = t.crypto_maker_shadow || {};
+    if (mk.status === "ACTIVE" && mk.latest) {
+      const ml = mk.latest;
+      $("tel-mk-status").textContent = `ACTIVE · Cycle #${mk.cycle_num || mk.count}`;
+      $("tel-mk-status").className = "mini-val mono pos";
+      const eff = ml.effective_cost_bps ?? ml.eff_cost_bps;
+      const fr = ml.fill_rate_pct ?? ml.touch_through_fill_rate_pct;
+      $("tel-mk-detail").textContent = (eff != null || fr != null)
+        ? `Fill ${fr != null ? `${Number(fr).toFixed(1)}%` : "—"} · Eff Cost ${eff != null ? `${Number(eff).toFixed(2)} bps` : "—"} vs 6.15 bps M2`
+        : `Captured at ${mk.timestamp_utc || "—"}`;
+    } else {
+      $("tel-mk-status").textContent = "PENDING";
+      $("tel-mk-status").className = "mini-val mono warn";
+      $("tel-mk-detail").textContent = "Awaiting crypto_maker_shadow_latest.json (M2B probe)";
+    }
 
-    $("tel-rt-status").textContent = t.mt5_realtick_tca.status;
-    $("tel-rt-detail").textContent = t.ftmo_live_specs_available
-      ? "FTMO Live Specs JSON loaded"
-      : "FTMO Live Specs pending capture";
+    // 3. MT5 Demo Account & Live Spread Monitor
+    const sp = t.mt5_live_spreads || {};
+    const acct = sp.demo_account || null;
+    if (sp.status === "ACTIVE" && sp.latest) {
+      $("tel-sp-status").textContent = `ACTIVE (${sp.count} rows)`;
+      $("tel-sp-status").className = "mini-val mono pos";
+      const bal = acct && acct.balance != null ? `Bal ${fmtUSD(acct.balance)}` : "";
+      const eq = acct && acct.equity != null ? `Eq ${fmtUSD(acct.equity)}` : "";
+      $("tel-sp-detail").textContent = `${acct && acct.server ? `${acct.server} #${acct.login}` : "MT5 Live"} · ${bal} ${eq}`.trim();
+    } else if (acct) {
+      $("tel-sp-status").textContent = `DEMO ${acct.login || ""} · SPREAD PENDING`;
+      $("tel-sp-status").className = "mini-val mono accent";
+      $("tel-sp-detail").textContent = `${acct.server || "FTMO-Demo"} · Bal ${fmtUSD(acct.balance)} · Eq ${fmtUSD(acct.equity)} · 1:${acct.leverage || 30}`;
+    } else {
+      $("tel-sp-status").textContent = "PENDING";
+      $("tel-sp-status").className = "mini-val mono warn";
+      $("tel-sp-detail").textContent = "Awaiting mt5_live_spread_log.jsonl";
+    }
+
+    // 4. MT5 Real-Tick Model=4 Matrix
+    const rt = t.mt5_realtick_tca || {};
+    if (rt.status === "AVAILABLE") {
+      const lats = (rt.latencies_ms || []).map((x) => `${x}ms`).join("/");
+      $("tel-rt-status").textContent = `Model=${rt.model ?? 4} · ${rt.engines_run || 0} EA(s)`;
+      $("tel-rt-status").className = "mini-val mono accent";
+      $("tel-rt-detail").textContent = `${rt.window || "—"} · Lat [${lats || "—"}] · ${t.ftmo_live_specs_available ? "Live Specs OK" : "Specs pending"}`;
+    } else {
+      $("tel-rt-status").textContent = "PENDING";
+      $("tel-rt-status").className = "mini-val mono warn";
+      $("tel-rt-detail").textContent = "Awaiting realtick_matrix_summary.json";
+    }
+
+    // Majors L2 Strip (BTC/ETH/SOL)
+    const majors = cs.majors_l2 || {};
+    const mParts = ["BTCUSDT", "ETHUSDT", "SOLUSDT"].filter((k) => majors[k]).map((k) => {
+      const m = majors[k];
+      return `${k.replace("USDT", "")} mid=${m.mid} sp=${Number(m.spread_bps || 0).toFixed(3)}bps slip10k=${Number(m.slip_10k_bps || 0).toFixed(2)}bps`;
+    });
+    const fundStr = cs.sleeve3a_funding_btc_ann_pct != null
+      ? ` · Perp Ann Fund BTC ${fmtPct(cs.sleeve3a_funding_btc_ann_pct)} / ETH ${fmtPct(cs.sleeve3a_funding_eth_ann_pct)}`
+      : "";
+    $("tel-majors-strip").textContent = mParts.length
+      ? `LIVE L2: ${mParts.join("  |  ")}${fundStr}`
+      : "LIVE L2: pending crypto_shadow_latest.json";
+
+    // Real-Tick Reconciliation Table
+    const rtBody = $("tbl-realtick").querySelector("tbody");
+    rtBody.innerHTML = "";
+    const rtEngines = rt.engines || [];
+    if (!rtEngines.length) {
+      rtBody.innerHTML = `<tr><td colspan="5" class="mono warn">Pending MT5 Real-Tick Model=4 matrix rows...</td></tr>`;
+    } else {
+      rtEngines.forEach((e) => {
+        const vCls = e.verdict === "MATCH" || e.verdict === "PASS" ? "tag-green" : e.verdict === "NEEDS_REVIEW" ? "tag-amber" : "tag-red";
+        const latKeys = Object.keys(e.latency_curve || {}).join("/") || "—";
+        const drag = e.latency_drag_50_to_250ms_usd != null ? fmtUSD(e.latency_drag_50_to_250ms_usd) : "—";
+        const pyRef = e.python_ref_trades != null ? `${e.python_ref_trades} tr / ${fmtUSD(e.python_ref_net_usd)}` : "—";
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td class="mono strong">${e.engine_id}</td>
+          <td><span class="tag ${vCls}">${e.verdict}</span></td>
+          <td class="num mono">${latKeys}</td>
+          <td class="num mono">${drag}</td>
+          <td class="num mono">${pyRef}</td>
+        `;
+        rtBody.appendChild(tr);
+      });
+    }
 
     const tbody = $("tbl-news").querySelector("tbody");
     tbody.innerHTML = "";
@@ -272,6 +364,56 @@
       tr.innerHTML = `<td class="mono">${ev.utc_iso}</td><td class="num mono">+${ev.hours_away}h</td><td class="mono strong">${ev.ccy}</td><td>${ev.event}</td>`;
       tbody.appendChild(tr);
     });
+  }
+
+  async function refreshStress() {
+    const capVnd = Number($("inp-cap-vnd").value || 1275000000);
+    const fx = Number($("inp-fx").value || 25500);
+    const capUsd = Math.max(1000, capVnd / Math.max(1000, fx));
+    const st = await fetchJson(`/api/stress?capital_usd=${encodeURIComponent(capUsd.toFixed(2))}&usd_vnd=${encodeURIComponent(fx)}`);
+    state.stress = st;
+
+    $("stress-cap-echo").textContent = `${Math.round(capUsd).toLocaleString("en-US")} USD · ${(capVnd / 1e6).toFixed(1)} tr VND`;
+
+    const bsBody = $("tbl-blackswan").querySelector("tbody");
+    const mpBody = $("tbl-multiprop").querySelector("tbody");
+    if (!st.available) {
+      bsBody.innerHTML = `<tr><td colspan="6" class="mono warn">Black-Swan stress report pending...</td></tr>`;
+      mpBody.innerHTML = `<tr><td colspan="7" class="mono warn">Multi-Prop budget matrix pending...</td></tr>`;
+      return;
+    }
+
+    if (st.cex_group_cap_recommendation) {
+      const rec = st.cex_group_cap_recommendation;
+      $("stress-cex-cap-note").textContent = `CEX Group Cap <= ${rec.max_combined_cex_pct}% -> -50% CEX còn -${rec.capped_cex50_loss.usd.toLocaleString("en-US", { maximumFractionDigits: 0 })} USD (-${rec.capped_cex50_loss.vnd_m} tr)`;
+    }
+
+    bsBody.innerHTML = (st.black_swan_matrix || []).map((r) => {
+      const vCls = r.verdict === "COMFORT_GREEN" ? "tag-green" : r.verdict === "CAUTION_AMBER" ? "tag-amber" : "tag-red";
+      const fmtHit = (h) => `-${Math.round(h.usd).toLocaleString("en-US")} USD / -${h.vnd_m} tr`;
+      return `
+        <tr>
+          <td class="mono strong">${r.allocator}</td>
+          <td class="num mono ${r.cex_weight_pct > 50 ? "neg" : r.cex_weight_pct > 25 ? "warn" : "pos"}">${r.cex_weight_pct.toFixed(1)}%</td>
+          <td class="num mono warn">${fmtHit(r.cex_30)}</td>
+          <td class="num mono neg strong">${fmtHit(r.cex_50)}</td>
+          <td class="num mono">${fmtHit(r.corr085_p99)}</td>
+          <td><span class="tag ${vCls}">${r.verdict}</span></td>
+        </tr>
+      `;
+    }).join("");
+
+    mpBody.innerHTML = (st.multi_prop_highlights || []).map((m) => `
+      <tr>
+        <td class="mono strong">${m.budget_usd.toLocaleString("en-US")} USD</td>
+        <td class="mono">${m.architecture}</td>
+        <td class="mono">${m.profile}</td>
+        <td class="num mono ${m.wipeout_pct <= 0.5 ? "pos" : m.wipeout_pct <= 1.5 ? "warn" : "neg"}">${m.wipeout_pct.toFixed(1)}%</td>
+        <td class="num mono ${m.double_fail_pct <= 5.0 ? "pos" : "neg"}">${m.double_fail_pct.toFixed(1)}%</td>
+        <td class="num mono pos">+${m.ev_per_fee.toFixed(2)}x</td>
+        <td class="num mono">${m.ob_60m_raw}</td>
+      </tr>
+    `).join("");
   }
 
   async function refreshCalculator() {
@@ -387,13 +529,44 @@
     renderEquityAndDDCharts();
     renderCorrelationHeatmap();
     renderTelemetry();
-    await Promise.all([refreshCalculator(), refreshRebalancer()]);
+    await Promise.all([refreshCalculator(), refreshStress(), refreshRebalancer()]);
+  }
+
+  function syncCapitalFromUsd(usd) {
+    const fx = Number($("inp-fx").value || 25500);
+    const vnd = Math.round(usd * fx);
+    $("inp-cap-vnd").value = vnd;
+    $("slider-cap-usd").value = Math.min(200000, Math.max(10000, usd));
+    $("cap-slider-lbl").textContent = `${Math.round(usd).toLocaleString("en-US")} USD`;
+    document.querySelectorAll(".js-tier-btn").forEach((b) => {
+      b.classList.toggle("active", Number(b.dataset.usd) === Math.round(usd));
+    });
   }
 
   window.addEventListener("DOMContentLoaded", () => {
     $("btn-refresh").addEventListener("click", () => refreshAll());
+    $("slider-cap-usd").addEventListener("input", () => {
+      syncCapitalFromUsd(Number($("slider-cap-usd").value || 50000));
+      refreshCalculator();
+      refreshStress();
+    });
+    document.querySelectorAll(".js-tier-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        syncCapitalFromUsd(Number(btn.dataset.usd || 50000));
+        refreshCalculator();
+        refreshStress();
+      });
+    });
     ["inp-cap-vnd", "inp-fx", "inp-prop-usd", "inp-profile", "slider-stress"].forEach((id) => {
-      $(id).addEventListener("input", () => refreshCalculator());
+      $(id).addEventListener("input", () => {
+        const capVnd = Number($("inp-cap-vnd").value || 1275000000);
+        const fx = Number($("inp-fx").value || 25500);
+        const capUsd = capVnd / Math.max(1000, fx);
+        $("cap-slider-lbl").textContent = `${Math.round(capUsd).toLocaleString("en-US")} USD`;
+        $("slider-cap-usd").value = Math.min(200000, Math.max(10000, Math.round(capUsd / 5000) * 5000));
+        refreshCalculator();
+        refreshStress();
+      });
     });
     $("inp-rebal-mode").addEventListener("change", () => refreshRebalancer());
     refreshAll().catch((err) => {

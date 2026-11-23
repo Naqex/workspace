@@ -477,6 +477,182 @@ def weights_nco_capped35(mat: np.ndarray) -> np.ndarray:
     return weights_nco(mat, use_ledoit_wolf=True, max_weight=0.35)
 
 
+DEFAULT_CEX_GROUP_CAPS: dict[str, tuple[list[str], float]] = {
+    "CEX": (["S2_CRYPTO_SPOT", "S3A_FUND_CARRY"], 0.25),
+}
+
+
+def apply_group_weight_cap(
+    weights: np.ndarray,
+    sleeve_ids: list[str] | tuple[str, ...],
+    *,
+    group_caps: dict[str, tuple[list[str] | tuple[str, ...], float]] | None = None,
+    single_cap: float = 0.35,
+    strict: bool = False,
+) -> np.ndarray:
+    """Deterministic projected-simplex weight cap enforcing BOTH single-sleeve & group-level counterparty caps.
+
+    Enforces:
+      - `w_i >= 0` for all `i`
+      - `sum(w) == 1.0` (exact to < 1e-12)
+      - `w_i <= eff_single_cap` (`single_cap` whenever feasible; if `n_free * single_cap < 1 - sum(group_caps)`,
+        raises `ValueError` when `strict=True`, or relaxes non-group single_cap minimally while keeping group cap hard!)
+      - `sum(w[i] for i in group) <= group_cap` for every group in `group_caps`.
+    """
+    k = len(weights)
+    if k == 0 or len(sleeve_ids) != k:
+        raise ValueError(f"weights length ({k}) must match sleeve_ids length ({len(sleeve_ids)})")
+
+    caps_cfg = DEFAULT_CEX_GROUP_CAPS if group_caps is None else group_caps
+    id_to_idx = {str(sid): i for i, sid in enumerate(sleeve_ids)}
+
+    # Resolve active groups present in `sleeve_ids`
+    active_groups: list[tuple[list[int], float]] = []
+    grouped_mask = np.zeros(k, dtype=bool)
+    for _gname, (members, gcap) in caps_cfg.items():
+        idxs = [id_to_idx[str(m)] for m in members if str(m) in id_to_idx]
+        if idxs:
+            cap_val = float(gcap)
+            if cap_val < 0.0:
+                raise ValueError(f"Negative group cap {cap_val} for {_gname}")
+            active_groups.append((idxs, cap_val))
+            for idx in idxs:
+                grouped_mask[idx] = True
+
+    # Feasibility check on maximum total capacity
+    n_free = int(np.sum(~grouped_mask))
+    max_grouped_cap = sum(min(cap_val, len(idxs) * float(single_cap)) for idxs, cap_val in active_groups)
+    eff_single_cap = float(single_cap)
+    if max_grouped_cap + n_free * eff_single_cap < 1.0 - 1e-12:
+        if strict or n_free == 0:
+            raise ValueError(
+                f"Infeasible caps: max_grouped={max_grouped_cap:.4f} + {n_free}*{eff_single_cap:.4f} < 1.0"
+            )
+        # Keep hard counterparty group cap strictly intact; relax free-sleeve single cap minimally to achieve feasibility
+        eff_single_cap = (1.0 - max_grouped_cap) / float(n_free) + 1e-9
+
+    x = np.maximum(np.asarray(weights, dtype=np.float64).copy(), 0.0)
+    s0 = float(np.sum(x))
+    x = (x / s0) if s0 > 1e-12 else np.full(k, 1.0 / k, dtype=np.float64)
+
+    # Exact iterative water-filling projection onto {x>=0, sum=1, x_i<=single_cap_i, sum(x[g])<=cap_g}
+    for _ in range(60):
+        # Step 1: Enforce per-sleeve upper bounds
+        for i in range(k):
+            cap_i = float(single_cap) if grouped_mask[i] else eff_single_cap
+            if x[i] > cap_i:
+                x[i] = cap_i
+
+        # Step 2: Enforce group upper bounds proportionally (preserving intra-group relative weights)
+        for idxs, gcap in active_groups:
+            gsum = float(np.sum(x[idxs]))
+            if gsum > gcap + 1e-15:
+                scale = gcap / gsum
+                for idx in idxs:
+                    x[idx] *= scale
+
+        # Step 3: Check simplex sum
+        total = float(np.sum(x))
+        deficit = 1.0 - total
+        if abs(deficit) <= 1e-13:
+            break
+        if deficit < 0.0:
+            x /= total
+            continue
+
+        # Compute exact remaining headroom per sleeve (respecting BOTH single_cap and group_cap!)
+        group_rem = np.full(k, np.inf, dtype=np.float64)
+        for idxs, gcap in active_groups:
+            rem_g = max(0.0, gcap - float(np.sum(x[idxs])))
+            for idx in idxs:
+                if rem_g < group_rem[idx]:
+                    group_rem[idx] = rem_g
+
+        headroom = np.zeros(k, dtype=np.float64)
+        for i in range(k):
+            cap_i = float(single_cap) if grouped_mask[i] else eff_single_cap
+            headroom[i] = max(0.0, min(cap_i - x[i], group_rem[i]))
+
+        elig = headroom > 1e-14
+        if not np.any(elig):
+            break
+
+        # Prefer proportional redistribution among positive eligible weights; uniform fallback if all 0
+        base_w = np.where(elig, x, 0.0)
+        b_sum = float(np.sum(base_w))
+        if b_sum > 1e-12:
+            share = base_w / b_sum
+        else:
+            share = np.where(elig, 1.0 / float(np.sum(elig)), 0.0)
+
+        # Distribute deficit safely (capped by headroom on this step; next iteration handles any remainder)
+        add = np.minimum(deficit * share, headroom)
+        # Ensure we don't overshoot any group cap in a single step when multiple members are eligible
+        for idxs, gcap in active_groups:
+            add_g = float(np.sum(add[idxs]))
+            rem_g = max(0.0, gcap - float(np.sum(x[idxs])))
+            if add_g > rem_g + 1e-15 and add_g > 0.0:
+                sc = rem_g / add_g
+                for idx in idxs:
+                    add[idx] *= sc
+        if float(np.sum(add)) <= 1e-15:
+            break
+        x += add
+
+    return x
+
+
+def _infer_default_sleeve_ids(k: int) -> list[str]:
+    base = [
+        "S1_PROP_FX_IDX",
+        "S2_CRYPTO_SPOT",
+        "S3A_FUND_CARRY",
+        "S3B_MACRO_ETF",
+        "S4_ETF40_MULTIFACTOR",
+        "S5_CME_FUTURES_PROP",
+    ]
+    return base[:k] if k <= len(base) else base + [f"S{i + 1}_EXTRA" for i in range(len(base), k)]
+
+
+def weights_erc_lw_cexcap25(
+    mat: np.ndarray,
+    sleeve_ids: list[str] | tuple[str, ...] | None = None,
+    *,
+    group_caps: dict[str, tuple[list[str] | tuple[str, ...], float]] | None = None,
+    single_cap: float = 0.35,
+) -> np.ndarray:
+    """Ledoit-Wolf ERC Risk Parity with hard <= 35% single-sleeve cap AND <= 25% combined CEX group cap."""
+    cov, _ = ledoit_wolf_covariance(mat)
+    k = cov.shape[0]
+    target = np.full(k, 1.0 / k, dtype=np.float64)
+    w0 = weights_inverse_vol(mat)
+    res = minimize(
+        lambda w: float(np.sum((compute_risk_contributions(cov, w) - target) ** 2)),
+        w0,
+        method="SLSQP",
+        bounds=[(1e-4, 1.0)] * k,
+        constraints=[{"type": "eq", "fun": lambda w: float(np.sum(w)) - 1.0}],
+        options={"ftol": 1e-12, "maxiter": 500},
+    )
+    w_raw = np.maximum(res.x if res.success else w0, 0.0)
+    w_raw = w_raw / float(np.sum(w_raw))
+    sids = list(sleeve_ids) if sleeve_ids is not None else _infer_default_sleeve_ids(k)
+    return apply_group_weight_cap(w_raw, sids, group_caps=group_caps, single_cap=single_cap)
+
+
+def weights_nco_cexcap25(
+    mat: np.ndarray,
+    sleeve_ids: list[str] | tuple[str, ...] | None = None,
+    *,
+    group_caps: dict[str, tuple[list[str] | tuple[str, ...], float]] | None = None,
+    single_cap: float = 0.35,
+) -> np.ndarray:
+    """Lopez de Prado NCO (Ledoit-Wolf) with hard <= 35% single-sleeve cap AND <= 25% combined CEX group cap."""
+    w_raw = weights_nco(mat, use_ledoit_wolf=True, max_weight=None)
+    sids = list(sleeve_ids) if sleeve_ids is not None else _infer_default_sleeve_ids(mat.shape[1])
+    return apply_group_weight_cap(w_raw, sids, group_caps=group_caps, single_cap=single_cap)
+
+
 _NUMBA_GARCH_NLL = None
 
 
@@ -850,8 +1026,12 @@ def run_multi_sleeve_nco_audit(
     alloc_weights_full: dict[str, np.ndarray] = {}
     methods_out: dict[str, dict] = {}
     for mname, fn in ALLOCATORS.items():
-        w_tr = fn(mat_tr)
-        w_full = fn(mat)
+        if mname in ("ERC_LW_CexCap25", "NCO_CexCap25"):
+            w_tr = fn(mat_tr, sleeve_ids=names)
+            w_full = fn(mat, sleeve_ids=names)
+        else:
+            w_tr = fn(mat_tr)
+            w_full = fn(mat)
         rc_full = compute_risk_contributions(cov_lw_full, w_full)
         alloc_weights_full[mname] = w_full
         methods_out[mname] = {
@@ -881,6 +1061,9 @@ def run_multi_sleeve_nco_audit(
     }
 
 
+run_allocation_study = run_multi_sleeve_nco_audit
+
+
 ALLOCATORS = {
     "Equal_Weight": weights_equal,
     "Inverse_Vol": weights_inverse_vol,
@@ -892,6 +1075,8 @@ ALLOCATORS = {
     "ERC_LW_Capped35": weights_erc_lw_capped35,
     "NCO": weights_nco,
     "NCO_Capped35": weights_nco_capped35,
+    "ERC_LW_CexCap25": weights_erc_lw_cexcap25,
+    "NCO_CexCap25": weights_nco_cexcap25,
 }
 
 

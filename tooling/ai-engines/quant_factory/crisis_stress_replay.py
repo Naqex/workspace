@@ -50,7 +50,15 @@ from quant_factory.report_gen import format_markdown_table
 ORDER_SEND_COUNT = 0
 CEX_EXPOSED_PREFIXES = ("S2_CRYPTO", "S3A_FUND_CARRY", "SLEEVE_CRYPTO")
 INTRADAY_SLIPPAGE_SLEEVES = ("S1_PROP_FX_IDX", "S5_CME_FUTURES_PROP", "S2_CRYPTO_SPOT")
-FOCUS_ALLOCATORS = ("Equal_Weight", "ERC_Capped35", "ERC_LW_Capped35", "NCO_Capped35", "HRP")
+FOCUS_ALLOCATORS = (
+    "Equal_Weight",
+    "ERC_Capped35",
+    "ERC_LW_Capped35",
+    "NCO_Capped35",
+    "ERC_LW_CexCap25",
+    "NCO_CexCap25",
+    "HRP",
+)
 
 
 def _max_drawdown_window(rets: np.ndarray, dates: list[str], win: int) -> dict:
@@ -145,7 +153,12 @@ def run_crisis_stress_replay(
     # Fit allocator weights causally on 2020-2022 training window (matches portfolio_allocator.py discipline!)
     tr_idx = np.array([i for i, d in enumerate(dates) if d < "2023-01-01"], dtype=np.int64)
     mat_tr = mat[tr_idx]
-    weights: dict[str, np.ndarray] = {aname: ALLOCATORS[aname](mat_tr) for aname in FOCUS_ALLOCATORS}
+    weights: dict[str, np.ndarray] = {}
+    for aname in FOCUS_ALLOCATORS:
+        if aname in ("ERC_LW_CexCap25", "NCO_CexCap25"):
+            weights[aname] = ALLOCATORS[aname](mat_tr, sleeve_ids=names)
+        else:
+            weights[aname] = ALLOCATORS[aname](mat_tr)
 
     # --- Scenario 1: Historical Worst Rolling 20-day & 60-day Crisis Windows ---
     sc1_hist = {}

@@ -8,8 +8,10 @@ Live JSON API endpoints:
   - GET  /static/<asset>      -> Static CSS/JS (`styles.css`, `app.js`) with path-traversal guard
   - GET  /api/health          -> Lightweight readiness check
   - GET  /api/summary         -> Safety seal, registry, pod snapshot, FTMO specs, Red-Team stress curve
+  - GET  /api/overview        -> Unified summary + live-telemetry + Black-Swan/Multi-Prop stress snapshot
   - GET  /api/allocations     -> Multi-sleeve equity/underwater curves (4-6+ sleeves), N×N corr matrix & metrics
-  - GET  /api/live-telemetry  -> Live MT5 heartbeat/spreads, Crypto shadow, Real-Tick TCA, Red-News countdown
+  - GET  /api/live-telemetry  -> Live Crypto L2 shadow, Maker probe, MT5 demo/spreads, Real-Tick Matrix, Red-News
+  - GET  /api/stress          -> Black-Swan VND/USD loss matrix (-30%/-50% CEX, Corr=0.85) & Multi-Prop budget audit
   - GET|POST /api/vnd-calculator -> PROFILE.md-calibrated VND/USD absolute risk, stress & crossover calculator
   - GET  /api/rebalancer      -> Dry-run Sleeve #3B IBKR Macro ETF weights & order tickets (`OrderSend = 0`)
 """
@@ -54,6 +56,8 @@ DEFAULT_PORT = 8787
 
 _SLEEVE1_LOCK = threading.Lock()
 _SLEEVE1_CACHE: tuple[dict[str, float], dict[str, Any]] | None = None
+_STRESS_CACHE_LOCK = threading.Lock()
+_STRESS_MD_CACHE: dict[str, tuple[float, dict[str, Any]]] = {}
 
 MIME_TYPES = {
     ".html": "text/html; charset=utf-8",
@@ -321,6 +325,10 @@ def build_allocations_payload(root: Path = ROOT) -> dict[str, Any]:
                 sid = "S3A_FUND_CARRY"
             elif "sleeve3b" in jf.name:
                 sid = "S3B_MACRO_ETF"
+            elif "sleeve4" in jf.name:
+                sid = "S4_ETF40_MULTIFACTOR"
+            elif "sleeve5" in jf.name:
+                sid = "S5_CME_FUTURES_PROP"
             sleeve_maps[sid] = rmap
             sleeve_meta[sid] = meta
 
@@ -341,12 +349,14 @@ def build_allocations_payload(root: Path = ROOT) -> dict[str, Any]:
     end_cap = "2024-12-31" if "S1_PROP_FX_IDX" in sleeve_maps else None
     biz_days, mat, names = align_sleeves_business_days(sleeve_maps, end_day=end_cap)
 
-    # Default ERC-inspired cap weights (or equal weight if dynamic sleeve count != 4)
+    # Default ERC/NCO-inspired weights across 4-6+ discovered sleeves
     default_w_map = {
-        "S1_PROP_FX_IDX": 0.24,
-        "S2_CRYPTO_SPOT": 0.166,
-        "S3A_FUND_CARRY": 0.35,
-        "S3B_MACRO_ETF": 0.244,
+        "S1_PROP_FX_IDX": 0.173,
+        "S2_CRYPTO_SPOT": 0.065,
+        "S3A_FUND_CARRY": 0.250,
+        "S3B_MACRO_ETF": 0.141,
+        "S4_ETF40_MULTIFACTOR": 0.120,
+        "S5_CME_FUTURES_PROP": 0.251,
     }
     raw_w = np.array([default_w_map.get(nm, 1.0 / len(names)) for nm in names], dtype=np.float64)
     w_sum = float(np.sum(raw_w))
@@ -415,9 +425,150 @@ def build_live_telemetry_payload(root: Path = ROOT) -> dict[str, Any]:
     realtick_dir = root / ".runtime/mt5-realtick-results"
 
     mt5_spreads = _read_jsonl_tail(overnight_dir / "mt5_live_spread_log.jsonl", limit=20)
-    crypto_shadow = _read_jsonl_tail(overnight_dir / "crypto_shadow_log.jsonl", limit=20)
+    crypto_shadow_rows = _read_jsonl_tail(overnight_dir / "crypto_shadow_log.jsonl", limit=20)
+    crypto_shadow_latest = _safe_read_json(overnight_dir / "crypto_shadow_latest.json")
+    crypto_maker_latest = _safe_read_json(overnight_dir / "crypto_maker_shadow_latest.json")
+    crypto_maker_rows = _read_jsonl_tail(overnight_dir / "crypto_maker_shadow.jsonl", limit=20)
 
-    # Discover any heartbeat JSONs (runtime overnight or deployment kit)
+    # Parse structured Crypto Shadow L2 telemetry (BTC/ETH/SOL spreads, 10k slip vs 5bps budget, cycle count)
+    cs_obj = crypto_shadow_latest if isinstance(crypto_shadow_latest, dict) else (crypto_shadow_rows[-1] if crypto_shadow_rows else None)
+    if isinstance(cs_obj, dict):
+        tca = cs_obj.get("tca_summary_top15") or {}
+        depth = cs_obj.get("orderbook_depth_top15") or {}
+        majors = {}
+        for sym in ("BTCUSDT", "ETHUSDT", "SOLUSDT"):
+            if sym in depth and isinstance(depth[sym], dict):
+                majors[sym] = {
+                    "mid": depth[sym].get("mid"),
+                    "spread_bps": depth[sym].get("spread_bps"),
+                    "slip_10k_bps": depth[sym].get("slip_10k_bps"),
+                    "slip_50k_bps": depth[sym].get("slip_50k_bps"),
+                    "depth_50k_ok": depth[sym].get("depth_50k_ok"),
+                }
+        s2_live = cs_obj.get("sleeve2_f4_4h_ema") or {}
+        s3a_live = cs_obj.get("sleeve3a_carry_btc_eth") or {}
+        crypto_shadow_block: dict[str, Any] = {
+            "status": "ACTIVE",
+            "source": ".runtime/live-overnight/crypto_shadow_latest.json" if isinstance(crypto_shadow_latest, dict) else ".runtime/live-overnight/crypto_shadow_log.jsonl",
+            "cycle_num": cs_obj.get("cycle_num", len(crypto_shadow_rows)),
+            "timestamp_utc": cs_obj.get("timestamp_utc"),
+            "order_send_count": int(cs_obj.get("order_send_count", 0)),
+            "count": max(len(crypto_shadow_rows), int(cs_obj.get("cycle_num") or 0)),
+            "tca_summary": {
+                "median_spread_bps": tca.get("median_spread_bps"),
+                "median_slip_10k_bps": tca.get("median_slip_10k_bps"),
+                "max_slip_10k_bps": tca.get("max_slip_10k_bps"),
+                "median_slip_50k_bps": tca.get("median_slip_50k_bps"),
+                "budget_10k_bps": tca.get("backtest_assumed_oneway_slip_bps", 5.0),
+                "within_budget_10k": tca.get("tca_within_budget_10k"),
+            },
+            "majors_l2": majors,
+            "sleeve2_regime_bull": s2_live.get("btc_regime_bull"),
+            "sleeve2_active_count": s2_live.get("active_count"),
+            "sleeve3a_funding_btc_ann_pct": ((s3a_live.get("perp_live_basis") or {}).get("BTCUSDT") or {}).get("next_funding_ann_pct"),
+            "sleeve3a_funding_eth_ann_pct": ((s3a_live.get("perp_live_basis") or {}).get("ETHUSDT") or {}).get("next_funding_ann_pct"),
+            "latest": cs_obj,
+            "recent": crypto_shadow_rows[-8:],
+        }
+    else:
+        crypto_shadow_block = {
+            "status": "pending",
+            "source": None,
+            "cycle_num": 0,
+            "timestamp_utc": None,
+            "order_send_count": 0,
+            "count": 0,
+            "tca_summary": None,
+            "majors_l2": {},
+            "latest": None,
+            "recent": [],
+        }
+
+    # Parse Crypto Maker Shadow Probe (`.runtime/live-overnight/crypto_maker_shadow_latest.json`)
+    cm_obj = crypto_maker_latest if isinstance(crypto_maker_latest, dict) else (crypto_maker_rows[-1] if crypto_maker_rows else None)
+    if isinstance(cm_obj, dict):
+        crypto_maker_block: dict[str, Any] = {
+            "status": "ACTIVE",
+            "source": ".runtime/live-overnight/crypto_maker_shadow_latest.json" if isinstance(crypto_maker_latest, dict) else ".runtime/live-overnight/crypto_maker_shadow.jsonl",
+            "cycle_num": cm_obj.get("cycle_num", len(crypto_maker_rows)),
+            "timestamp_utc": cm_obj.get("timestamp_utc") or cm_obj.get("generated_utc"),
+            "count": max(len(crypto_maker_rows), int(cm_obj.get("cycle_num") or 1)),
+            "latest": cm_obj,
+        }
+    else:
+        crypto_maker_block = {
+            "status": "pending",
+            "source": None,
+            "cycle_num": 0,
+            "timestamp_utc": None,
+            "count": 0,
+            "latest": None,
+        }
+
+    # Discover MT5 Real-Tick `Model=4` Matrix & Python Reconciliation (prioritize realtick_matrix_summary.json!)
+    realtick_summary = None
+    realtick_source = None
+    if realtick_dir.is_dir():
+        for name in ("realtick_matrix_summary.json", "mt5_vs_python_reconcile.json", "realtick_summary.json", "summary.json"):
+            obj = _safe_read_json(realtick_dir / name)
+            if isinstance(obj, dict):
+                realtick_summary = obj
+                realtick_source = f".runtime/mt5-realtick-results/{name}"
+                break
+
+    if isinstance(realtick_summary, dict):
+        rec_map = realtick_summary.get("reconciliation") if isinstance(realtick_summary.get("reconciliation"), dict) else {}
+        engines_compact = []
+        for eng_id, rec in rec_map.items():
+            if not isinstance(rec, dict):
+                continue
+            lc = rec.get("latency_curve") if isinstance(rec.get("latency_curve"), dict) else {}
+            lat_rows = {
+                lat_k: {
+                    "ok": v.get("ok"),
+                    "trades": v.get("trades"),
+                    "net_profit": v.get("net_profit"),
+                    "profit_factor": v.get("profit_factor"),
+                    "swap_zero_ok": v.get("swap_zero_ok"),
+                }
+                for lat_k, v in lc.items()
+                if isinstance(v, dict)
+            }
+            engines_compact.append({
+                "engine_id": eng_id,
+                "verdict": rec.get("verdict", "UNKNOWN"),
+                "latency_drag_50_to_250ms_usd": rec.get("latency_drag_50_to_250ms_usd"),
+                "latency_curve": lat_rows,
+                "python_ref_trades": (rec.get("python_dev_reference") or {}).get("trades"),
+                "python_ref_net_usd": (rec.get("python_dev_reference") or {}).get("net_profit_usd"),
+            })
+        realtick_block: dict[str, Any] = {
+            "status": "AVAILABLE",
+            "source": realtick_source,
+            "generated_utc": realtick_summary.get("generated_utc"),
+            "model": realtick_summary.get("model"),
+            "window": realtick_summary.get("window"),
+            "latencies_ms": realtick_summary.get("latencies_ms", []),
+            "engines_run": realtick_summary.get("engines_run", len(engines_compact)),
+            "account": realtick_summary.get("account"),
+            "engines": engines_compact,
+            "data": realtick_summary,
+        }
+    else:
+        realtick_block = {
+            "status": "pending",
+            "source": None,
+            "generated_utc": None,
+            "model": None,
+            "window": None,
+            "latencies_ms": [],
+            "engines_run": 0,
+            "account": None,
+            "engines": [],
+            "data": None,
+        }
+
+    # Discover MT5 heartbeat JSON (or fall back gracefully to FTMO-Demo account telemetry if present)
     heartbeat_data = None
     heartbeat_src = None
     for cand in (
@@ -430,49 +581,270 @@ def build_live_telemetry_payload(root: Path = ROOT) -> dict[str, Any]:
             heartbeat_src = cand.relative_to(root).as_posix()
             break
 
-    # Check MT5 Real-Tick vs Python TCA summary if Lane A has produced it
-    realtick_summary = None
-    if realtick_dir.is_dir():
-        for name in ("mt5_vs_python_reconcile.json", "realtick_summary.json", "summary.json"):
-            obj = _safe_read_json(realtick_dir / name)
-            if obj is not None:
-                realtick_summary = obj
-                break
-        if realtick_summary is None:
-            files = sorted([p.name for p in realtick_dir.iterdir()])[:25]
-            if files:
-                realtick_summary = {"files_detected": files}
+    # Extract MT5 live spread tail + FTMO-Demo balance/equity
+    mt5_latest = mt5_spreads[-1] if mt5_spreads else None
+    demo_acct = realtick_block.get("account") if isinstance(realtick_block.get("account"), dict) else None
+    mt5_spread_block: dict[str, Any] = {
+        "status": "ACTIVE" if mt5_latest else "pending",
+        "count": len(mt5_spreads),
+        "latest": mt5_latest,
+        "recent": mt5_spreads[-8:],
+        "demo_account": {
+            "login": (mt5_latest or {}).get("login") or (demo_acct or {}).get("login"),
+            "server": (mt5_latest or {}).get("server") or (demo_acct or {}).get("server"),
+            "balance": (mt5_latest or {}).get("balance") if (mt5_latest and "balance" in mt5_latest) else (demo_acct or {}).get("balance"),
+            "equity": (mt5_latest or {}).get("equity") if (mt5_latest and "equity" in mt5_latest) else (demo_acct or {}).get("equity"),
+            "leverage": (demo_acct or {}).get("leverage"),
+            "terminal_connected": (demo_acct or {}).get("terminal_connected"),
+        } if (mt5_latest or demo_acct) else None,
+    }
 
     ftmo_specs = _safe_read_json(root / "planning/research/FTMO-LIVE-SPECS-ALL-SYMBOLS-20261124.json")
     upcoming_news = _load_upcoming_red_news(root, limit=10)
 
     return {
-        "schema": "naqex-cockpit-live-telemetry-v1",
+        "schema": "naqex-cockpit-live-telemetry-v2",
         "generated_utc": datetime.now(timezone.utc).isoformat(),
         "order_send_count": ORDER_SEND_COUNT,
         "mt5_heartbeat": {
-            "status": "LIVE_HEARTBEAT" if heartbeat_data else "STANDBY_DRYRUN",
-            "source": heartbeat_src,
-            "data": heartbeat_data,
+            "status": "LIVE_HEARTBEAT" if heartbeat_data else ("DEMO_VERIFIED" if demo_acct else "pending"),
+            "source": heartbeat_src or (realtick_source if demo_acct else None),
+            "data": heartbeat_data or demo_acct,
         },
-        "mt5_live_spreads": {
-            "status": "ACTIVE" if mt5_spreads else "STANDBY_AWAITING_MONITOR",
-            "count": len(mt5_spreads),
-            "latest": mt5_spreads[-1] if mt5_spreads else None,
-            "recent": mt5_spreads[-8:],
-        },
-        "crypto_shadow": {
-            "status": "ACTIVE" if crypto_shadow else "STANDBY_AWAITING_SHADOW_RUNNER",
-            "count": len(crypto_shadow),
-            "latest": crypto_shadow[-1] if crypto_shadow else None,
-            "recent": crypto_shadow[-8:],
-        },
-        "mt5_realtick_tca": {
-            "status": "AVAILABLE" if realtick_summary else "STANDBY_PENDING_REALTICK",
-            "data": realtick_summary,
-        },
+        "mt5_live_spreads": mt5_spread_block,
+        "crypto_shadow": crypto_shadow_block,
+        "crypto_maker_shadow": crypto_maker_block,
+        "mt5_realtick_tca": realtick_block,
         "ftmo_live_specs_available": ftmo_specs is not None,
         "upcoming_red_news": upcoming_news,
+    }
+
+
+def _parse_float_token(tok: str) -> float | None:
+    m = re.search(r"[-+]?\d+(?:,\d{3})*(?:\.\d+)?", tok or "")
+    if not m:
+        return None
+    try:
+        return float(m.group(0).replace(",", ""))
+    except ValueError:
+        return None
+
+
+def _parse_stress_and_multiprop_md(md_path: Path) -> dict[str, Any] | None:
+    """Parse verified Wave-2 Cycle 3B Black-Swan & Multi-Prop report tables (cached by mtime)."""
+    if not md_path.is_file():
+        return None
+    mtime = md_path.stat().st_mtime
+    cache_key = str(md_path.resolve())
+    with _STRESS_CACHE_LOCK:
+        cached = _STRESS_MD_CACHE.get(cache_key)
+        if cached is not None and cached[0] == mtime:
+            return cached[1]
+
+    txt = md_path.read_text(encoding="utf-8", errors="replace")
+    gen_m = re.search(r"\*\*Generated UTC:\*\*\s*`([^`]+)`", txt)
+    generated_utc = gen_m.group(1) if gen_m else None
+
+    # Parse 1A/1B/1C Multi-Prop budget tables (500 / 1,500 / 3,000 USD)
+    budgets: dict[int, list[dict[str, Any]]] = {500: [], 1500: [], 3000: []}
+    alloc_stress: dict[str, dict[str, Any]] = {}
+    section = ""
+
+    for raw_ln in txt.splitlines():
+        ln = raw_ln.strip()
+        if ln.startswith("### 1A."):
+            section = "b500"
+            continue
+        if ln.startswith("### 1B."):
+            section = "b1500"
+            continue
+        if ln.startswith("### 1C."):
+            section = "b3000"
+            continue
+        if ln.startswith("### 1D."):
+            section = "b1d"
+            continue
+        if ln.startswith("### 2A."):
+            section = "s2a"
+            continue
+        if ln.startswith("### 2B."):
+            section = "s2b"
+            continue
+        if ln.startswith("## 3."):
+            section = "done"
+            continue
+
+        if not ln.startswith("|") or ln.startswith("|---") or ln.startswith("| Architecture") or ln.startswith("| Allocator"):
+            continue
+        cols = [c.strip() for c in ln.strip("|").split("|")]
+
+        if section in ("b500", "b1500", "b3000") and len(cols) >= 10:
+            bkey = {"b500": 500, "b1500": 1500, "b3000": 3000}[section]
+            budgets[bkey].append({
+                "architecture": cols[0],
+                "profile": cols[1],
+                "wipeout_pct": _parse_float_token(cols[2]) or 0.0,
+                "sustain_pct": _parse_float_token(cols[3]) or 0.0,
+                "double_fail_pct": _parse_float_token(cols[4]) or 0.0,
+                "p95_corr_dd_pct": _parse_float_token(cols[5]) or 0.0,
+                "fees_24m_usd": _parse_float_token(cols[6]) or 0.0,
+                "wealth_24m_med_usd": _parse_float_token(cols[7]) or 0.0,
+                "ev_per_fee": _parse_float_token(cols[8]) or 0.0,
+                "ob_60m_raw": cols[9],
+            })
+        elif section == "s2a" and len(cols) >= 8:
+            aname = cols[0]
+            h30_50 = [x.strip() for x in cols[4].split("/")]
+            c95_99 = [x.strip() for x in cols[5].split("/")]
+            w20_60 = [x.strip() for x in cols[1].split("/")]
+            alloc_stress[aname] = {
+                "allocator": aname,
+                "hist_20d_dd_pct": _parse_float_token(w20_60[0]) or 0.0,
+                "hist_60d_dd_pct": _parse_float_token(w20_60[1]) if len(w20_60) > 1 else 0.0,
+                "rate2022_ftx_dd_pct": _parse_float_token(cols[2]) or 0.0,
+                "cex_weight_pct": _parse_float_token(cols[3]) or 0.0,
+                "cex_haircut_30_pct": _parse_float_token(h30_50[0]) or 0.0,
+                "cex_haircut_50_pct": _parse_float_token(h30_50[1]) if len(h30_50) > 1 else 0.0,
+                "corr085_p95_dd_pct": _parse_float_token(c95_99[0]) or 0.0,
+                "corr085_p99_dd_pct": _parse_float_token(c95_99[1]) if len(c95_99) > 1 else 0.0,
+                "worst_1d_p99_pct": _parse_float_token(cols[6]) or 0.0,
+                "slip_3x_cagr_raw": cols[7],
+            }
+        elif section == "s2b" and len(cols) >= 3:
+            aname = cols[0]
+            if aname in alloc_stress:
+                alloc_stress[aname]["worst_case_dd_pct"] = _parse_float_token(cols[1]) or 0.0
+                alloc_stress[aname]["dominant_shock"] = cols[2]
+
+    if not alloc_stress and not any(budgets.values()):
+        return None
+
+    parsed = {
+        "source": "planning/research/MULTI-PROP-SCALING-AND-BLACKSWAN-STRESS-20261124.md",
+        "generated_utc": generated_utc,
+        "multi_prop_budgets": budgets,
+        "black_swan_allocators": list(alloc_stress.values()),
+    }
+    with _STRESS_CACHE_LOCK:
+        _STRESS_MD_CACHE[cache_key] = (mtime, parsed)
+    return parsed
+
+
+def build_stress_payload(
+    root: Path = ROOT,
+    *,
+    capital_usd: float = 50_000.0,
+    usd_vnd_rate: float = DEFAULT_USD_VND_RATE,
+) -> dict[str, Any]:
+    """Build Black-Swan VND/USD loss matrix & Multi-Prop budget wipeout comparison scaled to any capital tier."""
+    cap_usd = max(1_000.0, float(capital_usd))
+    fx = max(1_000.0, float(usd_vnd_rate))
+    cap_vnd = cap_usd * fx
+
+    md_path = root / "planning/research/MULTI-PROP-SCALING-AND-BLACKSWAN-STRESS-20261124.md"
+    parsed = _parse_stress_and_multiprop_md(md_path)
+    if parsed is None:
+        return {
+            "schema": "naqex-cockpit-stress-v1",
+            "generated_utc": datetime.now(timezone.utc).isoformat(),
+            "order_send_count": ORDER_SEND_COUNT,
+            "status": "pending",
+            "available": False,
+            "capital_usd": round(cap_usd, 2),
+            "capital_vnd": round(cap_vnd, 0),
+            "usd_vnd_rate": fx,
+            "black_swan_matrix": [],
+            "multi_prop_budgets": {},
+        }
+
+    # Owner PROFILE.md comfort thresholds by VND tier
+    if cap_vnd >= 1_000_000_000.0:
+        green_cap, amber_cap = 5.5, 10.0
+    elif cap_vnd >= 100_000_000.0:
+        green_cap, amber_cap = 10.0, 15.0
+    else:
+        green_cap, amber_cap = 15.0, 20.0
+
+    def _scaled_loss(pct: float) -> dict[str, float]:
+        usd = cap_usd * (pct / 100.0)
+        return {
+            "pct": round(pct, 2),
+            "usd": round(usd, 2),
+            "vnd_m": round((usd * fx) / 1_000_000.0, 1),
+        }
+
+    matrix: list[dict[str, Any]] = []
+    for row in parsed["black_swan_allocators"]:
+        wc_pct = float(row.get("worst_case_dd_pct") or max(row["cex_haircut_50_pct"], row["corr085_p99_dd_pct"]))
+        if wc_pct <= green_cap:
+            verdict = "COMFORT_GREEN"
+        elif wc_pct <= amber_cap:
+            verdict = "CAUTION_AMBER"
+        else:
+            verdict = "BREACH_RED"
+        matrix.append({
+            "allocator": row["allocator"],
+            "cex_weight_pct": row["cex_weight_pct"],
+            "dominant_shock": row.get("dominant_shock", "CEX_-50%_Haircut"),
+            "verdict": verdict,
+            "cex_30": _scaled_loss(row["cex_haircut_30_pct"]),
+            "cex_50": _scaled_loss(row["cex_haircut_50_pct"]),
+            "corr085_p99": _scaled_loss(row["corr085_p99_dd_pct"]),
+            "rate2022_ftx": _scaled_loss(row["rate2022_ftx_dd_pct"]),
+            "worst_case": _scaled_loss(wc_pct),
+            "worst_1d_p99_pct": row["worst_1d_p99_pct"],
+            "slip_3x_cagr_raw": row["slip_3x_cagr_raw"],
+        })
+
+    # Compact headline highlights for 500 / 1,500 / 3,000 USD Multi-Prop comparison
+    mp_highlights: list[dict[str, Any]] = []
+    for b_usd in (500, 1500, 3000):
+        rows_b = parsed["multi_prop_budgets"].get(b_usd, [])
+        for r in rows_b:
+            if (r["architecture"] in ("DUAL_2FIRM_STAGGER_42D", "DUAL_2FIRM_SYNC", "LADDER_STAGGER_SCALE")) and (
+                (r["architecture"] == "DUAL_2FIRM_STAGGER_42D" and r["profile"] == "Balanced")
+                or (r["architecture"] == "DUAL_2FIRM_SYNC" and r["profile"] == "Sprint")
+                or (r["architecture"] == "LADDER_STAGGER_SCALE" and r["profile"] == "Balanced")
+            ):
+                mp_highlights.append({"budget_usd": b_usd, **r})
+
+    return {
+        "schema": "naqex-cockpit-stress-v1",
+        "generated_utc": datetime.now(timezone.utc).isoformat(),
+        "report_generated_utc": parsed["generated_utc"],
+        "source": parsed["source"],
+        "order_send_count": ORDER_SEND_COUNT,
+        "status": "AVAILABLE",
+        "available": True,
+        "capital_usd": round(cap_usd, 2),
+        "capital_vnd": round(cap_vnd, 0),
+        "capital_vnd_m": round(cap_vnd / 1_000_000.0, 1),
+        "usd_vnd_rate": fx,
+        "cex_group_cap_recommendation": {
+            "max_combined_cex_pct": 25.0,
+            "capped_cex50_loss": _scaled_loss(12.5),
+            "capped_cex30_loss": _scaled_loss(7.5),
+        },
+        "black_swan_matrix": matrix,
+        "multi_prop_highlights": mp_highlights,
+        "multi_prop_budgets": {str(k): v for k, v in parsed["multi_prop_budgets"].items()},
+    }
+
+
+def build_overview_payload(
+    root: Path = ROOT,
+    *,
+    capital_usd: float = 50_000.0,
+    usd_vnd_rate: float = DEFAULT_USD_VND_RATE,
+) -> dict[str, Any]:
+    """Unified Control Room overview aggregating summary, live overnight telemetry & Black-Swan stress."""
+    return {
+        "schema": "naqex-cockpit-overview-v1",
+        "generated_utc": datetime.now(timezone.utc).isoformat(),
+        "order_send_count": ORDER_SEND_COUNT,
+        "summary": build_summary_payload(root),
+        "live_telemetry": build_live_telemetry_payload(root),
+        "stress": build_stress_payload(root, capital_usd=capital_usd, usd_vnd_rate=usd_vnd_rate),
     }
 
 
@@ -672,11 +1044,33 @@ def make_handler(root: Path = ROOT, static_dir: Path = STATIC_DIR):
             if path == "/api/summary":
                 self._send_json(HTTPStatus.OK, build_summary_payload(root))
                 return
+            if path == "/api/overview":
+                try:
+                    cap_u = float(qs.get("capital_usd", [50_000.0])[0])
+                except (ValueError, TypeError):
+                    cap_u = 50_000.0
+                try:
+                    fx_r = float(qs.get("usd_vnd", [DEFAULT_USD_VND_RATE])[0])
+                except (ValueError, TypeError):
+                    fx_r = DEFAULT_USD_VND_RATE
+                self._send_json(HTTPStatus.OK, build_overview_payload(root, capital_usd=cap_u, usd_vnd_rate=fx_r))
+                return
             if path == "/api/allocations":
                 self._send_json(HTTPStatus.OK, build_allocations_payload(root))
                 return
             if path == "/api/live-telemetry":
                 self._send_json(HTTPStatus.OK, build_live_telemetry_payload(root))
+                return
+            if path == "/api/stress":
+                try:
+                    cap_u = float(qs.get("capital_usd", [50_000.0])[0])
+                except (ValueError, TypeError):
+                    cap_u = 50_000.0
+                try:
+                    fx_r = float(qs.get("usd_vnd", [DEFAULT_USD_VND_RATE])[0])
+                except (ValueError, TypeError):
+                    fx_r = DEFAULT_USD_VND_RATE
+                self._send_json(HTTPStatus.OK, build_stress_payload(root, capital_usd=cap_u, usd_vnd_rate=fx_r))
                 return
             if path == "/api/vnd-calculator":
                 def _qfloat(k: str, default: float) -> float:

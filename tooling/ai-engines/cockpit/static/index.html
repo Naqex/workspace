@@ -127,13 +127,22 @@
           <h2>Máy tính Rủi ro Tuyệt đối VND / USD &amp; Điểm Giao cắt Prop → Vốn Riêng</h2>
           <div class="sub">Hiệu chuẩn trực tiếp theo <code>knowledge/owner/PROFILE.md</code> (luôn quy đổi song song % và tiền VND/USD + kiểm soát profit giveback)</div>
         </div>
-        <span class="tag" id="calc-verdict-badge">—</span>
+        <div class="tier-pills">
+          <button type="button" class="pill js-tier-btn" data-usd="10000">10k USD</button>
+          <button type="button" class="pill js-tier-btn active" data-usd="50000">50k USD</button>
+          <button type="button" class="pill js-tier-btn" data-usd="200000">200k USD</button>
+          <span class="tag" id="calc-verdict-badge">—</span>
+        </div>
       </div>
       <div class="calc-grid">
         <div class="calc-controls">
           <label class="field">
+            <span>Thanh trượt Vốn Sổ Riêng (USD): <strong class="mono accent" id="cap-slider-lbl">50,000 USD</strong></span>
+            <input id="slider-cap-usd" class="slider" type="range" min="10000" max="200000" step="5000" value="50000">
+          </label>
+          <label class="field">
             <span>Vốn cá nhân dự kiến (VND)</span>
-            <input id="inp-cap-vnd" type="number" step="10000000" min="10000000" value="250000000" class="input mono">
+            <input id="inp-cap-vnd" type="number" step="10000000" min="10000000" value="1275000000" class="input mono">
           </label>
           <label class="field">
             <span>Tỷ giá quy đổi (VND / 1 USD)</span>
@@ -181,38 +190,88 @@
           </table>
         </div>
       </div>
+
+      <div class="divider"></div>
+      <div class="panel-hdr">
+        <div>
+          <h2>Black-Swan VND/USD Stress &amp; Khả năng Sống sót Ngân sách Đa Quỹ Prop</h2>
+          <div class="sub">Đồng bộ tức thì theo thanh trượt vốn (<strong class="mono" id="stress-cap-echo">50,000 USD · 1,275.0 tr VND</strong>) từ <code>MULTI-PROP-SCALING-AND-BLACKSWAN-STRESS-20261124.md</code></div>
+        </div>
+        <span class="tag tag-amber" id="stress-cex-cap-note">Khuyến nghị trần nhóm CEX &lt;= 25%</span>
+      </div>
+      <div class="grid-2">
+        <div class="table-scroll">
+          <table class="data-table" id="tbl-blackswan">
+            <thead>
+              <tr>
+                <th>Bộ phân bổ (6 Sleeves)</th>
+                <th class="num">CEX%</th>
+                <th class="num">-30% CEX (USD / tr VND)</th>
+                <th class="num">-50% CEX (USD / tr VND)</th>
+                <th class="num">Corr=0.85 P99 (USD / tr VND)</th>
+                <th>Đánh giá</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="table-scroll">
+          <table class="data-table" id="tbl-multiprop">
+            <thead>
+              <tr>
+                <th>Ngân sách Phí</th>
+                <th>Kiến trúc Prop</th>
+                <th>Hồ sơ</th>
+                <th class="num">Cháy quỹ %</th>
+                <th class="num">Dbl-Fail %</th>
+                <th class="num">EV/Phí</th>
+                <th class="num">OB 60m</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
     </section>
 
-    <!-- Row 3: Live MT5 Heartbeat + Crypto Shadow + MT5 Real-Tick TCA + Red-News + IBKR Dry-Run Tickets -->
+    <!-- Row 3: Live Overnight Telemetry Strip + Red-News + IBKR Dry-Run Tickets -->
     <div class="grid-2">
       <section class="panel">
         <div class="panel-hdr">
           <div>
-            <h2>Giám sát Thực chiến: MT5 Heartbeat, Crypto Shadow &amp; Real-Tick TCA</h2>
-            <div class="sub">Trạng thái thật từ <code>.runtime/live-overnight/</code> &amp; <code>.runtime/mt5-realtick-results/</code> (không dùng số giả)</div>
+            <h2>Giám sát Qua Đêm Thực chiến: Crypto L2, Maker Probe, MT5 Demo &amp; Real-Tick</h2>
+            <div class="sub">Đọc trực tiếp từ <code>.runtime/live-overnight/</code> &amp; <code>.runtime/mt5-realtick-results/</code> (tự hạ cấp <code>pending</code> khi file chưa tạo)</div>
           </div>
+          <span class="tag" id="tel-live-badge">LIVE TELEMETRY</span>
         </div>
         <div class="telemetry-grid">
           <div class="mini-card">
-            <div class="mini-lbl">MT5 Heartbeat</div>
-            <div class="mini-val mono" id="tel-hb-status">—</div>
-            <div class="mini-sub mono" id="tel-hb-detail">—</div>
-          </div>
-          <div class="mini-card">
-            <div class="mini-lbl">MT5 Live Spread Monitor</div>
-            <div class="mini-val mono" id="tel-sp-status">—</div>
-            <div class="mini-sub mono" id="tel-sp-detail">—</div>
-          </div>
-          <div class="mini-card">
-            <div class="mini-lbl">Crypto Shadow Runner</div>
+            <div class="mini-lbl">Crypto Shadow Runner (L2 TCA)</div>
             <div class="mini-val mono" id="tel-cr-status">—</div>
             <div class="mini-sub mono" id="tel-cr-detail">—</div>
           </div>
           <div class="mini-card">
-            <div class="mini-lbl">MT5 Real-Tick vs Python TCA</div>
+            <div class="mini-lbl">Crypto Maker Shadow Probe (M2B)</div>
+            <div class="mini-val mono" id="tel-mk-status">—</div>
+            <div class="mini-sub mono" id="tel-mk-detail">—</div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-lbl">MT5 Demo &amp; Live Spread Log</div>
+            <div class="mini-val mono" id="tel-sp-status">—</div>
+            <div class="mini-sub mono" id="tel-sp-detail">—</div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-lbl">MT5 Real-Tick Model=4 Matrix</div>
             <div class="mini-val mono" id="tel-rt-status">—</div>
             <div class="mini-sub mono" id="tel-rt-detail">—</div>
           </div>
+        </div>
+        <div class="telemetry-strip mono" id="tel-majors-strip">BTC/ETH/SOL L2: đang tải...</div>
+        <div class="table-scroll" id="realtick-wrap">
+          <table class="data-table" id="tbl-realtick">
+            <thead><tr><th>EA (Model=4)</th><th>Verdict</th><th class="num">Latencies</th><th class="num">Drag 50→250ms</th><th class="num">Py Dev Ref</th></tr></thead>
+            <tbody></tbody>
+          </table>
         </div>
         <h3 class="sec-subhdr">Lịch Khóa Tin Đỏ Chính Thức 2026–2027 (±5m Guard)</h3>
         <div class="table-scroll">

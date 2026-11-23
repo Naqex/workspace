@@ -208,12 +208,14 @@ def test_cockpit_http_server_live_endpoints_and_clean_shutdown():
                 body = resp.read().decode("utf-8")
                 assert expected_snippet in body
 
-        # 2. Live JSON API endpoints
+        # 2. Live JSON API endpoints (including upgraded /api/overview, /api/live-telemetry & /api/stress)
         for ep, required_keys in (
             ("/api/health", {"ok", "order_send_count"}),
             ("/api/summary", {"schema", "safety_seal", "registry", "pod_snapshot", "red_team_stress"}),
+            ("/api/overview?capital_usd=50000&usd_vnd=25500", {"schema", "summary", "live_telemetry", "stress"}),
             ("/api/allocations", {"schema", "available", "sleeve_order", "equity_curves", "underwater_dd_pct", "correlation_matrix"}),
-            ("/api/live-telemetry", {"schema", "mt5_heartbeat", "mt5_live_spreads", "crypto_shadow", "upcoming_red_news"}),
+            ("/api/live-telemetry", {"schema", "mt5_heartbeat", "mt5_live_spreads", "crypto_shadow", "crypto_maker_shadow", "mt5_realtick_tca", "upcoming_red_news"}),
+            ("/api/stress?capital_usd=50000&usd_vnd=25500", {"schema", "status", "available", "capital_usd", "black_swan_matrix", "multi_prop_highlights", "cex_group_cap_recommendation"}),
             ("/api/vnd-calculator?capital_vnd=300000000&usd_vnd=25500&prop_nominal_usd=10000&risk_profile=balanced&cost_mult=1.5",
              {"schema", "absolute_pain_table", "owner_profile_assessment", "red_team_stress", "crossover", "own_book_sleeve_allocation"}),
             ("/api/rebalancer?mode=M5_VOL_PARITY_TREND_GUARD&equity_usd=25000", {"schema", "order_send_count", "dry_run_only"}),
@@ -223,6 +225,31 @@ def test_cockpit_http_server_live_endpoints_and_clean_shutdown():
                 payload = json.loads(resp.read().decode("utf-8"))
                 assert required_keys.issubset(payload.keys()), f"Missing keys in {ep}: {required_keys - set(payload.keys())}"
                 assert payload.get("order_send_count", 0) == 0
+
+        # 2b. Verify live stress scaling proportionality (200k == 4x of 50k) & real parsed figures
+        with urllib.request.urlopen(f"{base}/api/stress?capital_usd=50000&usd_vnd=25500", timeout=10) as r50:
+            st50 = json.loads(r50.read().decode("utf-8"))
+        with urllib.request.urlopen(f"{base}/api/stress?capital_usd=200000&usd_vnd=25500", timeout=10) as r200:
+            st200 = json.loads(r200.read().decode("utf-8"))
+        assert st50["available"] is True and st50["status"] == "AVAILABLE"
+        nco50 = next(x for x in st50["black_swan_matrix"] if x["allocator"] == "NCO_Capped35")
+        nco200 = next(x for x in st200["black_swan_matrix"] if x["allocator"] == "NCO_Capped35")
+        hrp50 = next(x for x in st50["black_swan_matrix"] if x["allocator"] == "HRP")
+        assert abs(nco200["cex_50"]["usd"] - 4.0 * nco50["cex_50"]["usd"]) <= 1.0
+        assert hrp50["cex_50"]["pct"] > nco50["cex_50"]["pct"] > 0.0
+        assert len(st50["multi_prop_highlights"]) >= 6
+
+        # 2c. Verify live-telemetry reads active Crypto Shadow L2 & Real-Tick summary when present
+        with urllib.request.urlopen(f"{base}/api/live-telemetry", timeout=10) as rtel:
+            tel = json.loads(rtel.read().decode("utf-8"))
+        assert tel["schema"] == "naqex-cockpit-live-telemetry-v2"
+        if (ROOT / ".runtime/live-overnight/crypto_shadow_latest.json").is_file():
+            assert tel["crypto_shadow"]["status"] == "ACTIVE"
+            assert "BTCUSDT" in tel["crypto_shadow"]["majors_l2"]
+            assert tel["crypto_shadow"]["tca_summary"]["budget_10k_bps"] == 5.0
+        if (ROOT / ".runtime/mt5-realtick-results/realtick_matrix_summary.json").is_file():
+            assert tel["mt5_realtick_tca"]["status"] == "AVAILABLE"
+            assert tel["mt5_realtick_tca"]["model"] == 4
 
         # 3. Verify POST /api/vnd-calculator
         req = urllib.request.Request(
@@ -250,6 +277,55 @@ def test_cockpit_http_server_live_endpoints_and_clean_shutdown():
         th.join(timeout=5)
 
 
+def test_cockpit_graceful_missing_file_fallback_and_synthetic_live_pickup(tmp_path: Path):
+    """Missing runtime telemetry / stress files must NEVER 500 — must return HTTP 200 with status='pending'."""
+    srv = cockpit_server.create_server(host="127.0.0.1", port=0, root=tmp_path)
+    port = srv.server_address[1]
+    th = threading.Thread(target=srv.serve_forever, daemon=True)
+    th.start()
+    base = f"http://127.0.0.1:{port}"
+    try:
+        # Empty root: every endpoint returns 200 with clean pending degradation
+        for ep in ("/api/overview", "/api/live-telemetry", "/api/stress?capital_usd=10000", "/api/allocations", "/api/summary", "/api/rebalancer"):
+            with urllib.request.urlopen(f"{base}{ep}", timeout=10) as resp:
+                assert resp.status == 200
+                data = json.loads(resp.read().decode("utf-8"))
+                assert data.get("order_send_count", 0) == 0
+
+        with urllib.request.urlopen(f"{base}/api/live-telemetry", timeout=10) as resp:
+            tel0 = json.loads(resp.read().decode("utf-8"))
+        assert tel0["crypto_shadow"]["status"] == "pending"
+        assert tel0["crypto_maker_shadow"]["status"] == "pending"
+        assert tel0["mt5_live_spreads"]["status"] == "pending"
+        assert tel0["mt5_realtick_tca"]["status"] == "pending"
+
+        with urllib.request.urlopen(f"{base}/api/stress?capital_usd=10000", timeout=10) as resp:
+            st0 = json.loads(resp.read().decode("utf-8"))
+        assert st0["status"] == "pending" and st0["available"] is False
+
+        # Drop synthetic maker shadow + MT5 spread tail -> verify instant ACTIVE pickup!
+        live_dir = tmp_path / ".runtime/live-overnight"
+        live_dir.mkdir(parents=True, exist_ok=True)
+        (live_dir / "crypto_maker_shadow_latest.json").write_text(
+            json.dumps({"cycle_num": 3, "fill_rate_pct": 78.5, "effective_cost_bps": 4.92, "timestamp_utc": "2026-11-24T01:25:00Z"}),
+            encoding="utf-8",
+        )
+        (live_dir / "mt5_live_spread_log.jsonl").write_text(
+            json.dumps({"login": 1515343166, "server": "FTMO-Demo", "balance": 10000.0, "equity": 10012.5, "usdjpy_spread_pts": 8}) + "\n",
+            encoding="utf-8",
+        )
+        with urllib.request.urlopen(f"{base}/api/live-telemetry", timeout=10) as resp:
+            tel1 = json.loads(resp.read().decode("utf-8"))
+        assert tel1["crypto_maker_shadow"]["status"] == "ACTIVE"
+        assert tel1["crypto_maker_shadow"]["cycle_num"] == 3
+        assert tel1["mt5_live_spreads"]["status"] == "ACTIVE"
+        assert tel1["mt5_live_spreads"]["demo_account"]["equity"] == 10012.5
+    finally:
+        srv.shutdown()
+        srv.server_close()
+        th.join(timeout=5)
+
+
 # ---------------------------------------------------------------------------
 # 4. Docs Integrity: The5ers Launch Kit, Quarterly Governance & Knowledge Vault
 # ---------------------------------------------------------------------------
@@ -257,14 +333,16 @@ def test_cockpit_http_server_live_endpoints_and_clean_shutdown():
 def test_wave2_docs_frontmatter_links_and_zero_bare_dollar():
     the5ers_doc = ROOT / "tooling/ai-engines/exports/deployment_kit/the5ers_kit/THE5ERS-LAUNCH-AND-TERMS11-EMAIL.md"
     gov_doc = ROOT / "knowledge/topics/quarterly-quant-governance-playbook.md"
+    ledger_doc = ROOT / "knowledge/topics/alpha-hypothesis-ledger.md"
     launcher_ps1 = ROOT / "tooling/ai-engines/cockpit/launch_cockpit.ps1"
 
     assert the5ers_doc.is_file()
     assert gov_doc.is_file()
+    assert ledger_doc.is_file()
     assert launcher_ps1.is_file()
 
-    # Check zero bare `$` in prose of both Markdown files
-    for doc in (the5ers_doc, gov_doc):
+    # Check zero bare `$` in prose & valid links across all Wave-2 docs + updated alpha ledger
+    for doc in (the5ers_doc, gov_doc, ledger_doc):
         txt = doc.read_text(encoding="utf-8")
         assert txt.startswith("---\n"), f"Missing YAML frontmatter in {doc.name}"
         for line_no, line in brain_cli._iter_non_code_lines(txt):
