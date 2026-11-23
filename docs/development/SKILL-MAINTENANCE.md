@@ -7,6 +7,31 @@ daemon/scheduler hay hứa background tự chỉnh khi không có agent làm vi�
 
 ## Trigger và hành động
 
+23/11 (Pass 21–22 · `/learn` sau nâng hạng danh mục 3 động cơ): Tạo mới repo
+skill `whitebox-prop-discovery` (Pass 21) và sau Pass 22 cập nhật có chọn lọc
+theo đề xuất `/learn` đã được owner duyệt: (a) thêm mục 6–8 vào
+`strategy-qualification/references/validation-gates.md` (mẫu đối chứng
+`CONTROL` & bắt buộc xác nhận M1 Bid/Ask cho ứng viên H4/D1 từ bài học
+`GBPJPY` Pass 19/21; kỷ luật Cụm A → Cụm B mù + BH FDR toàn `m_total` +
+Matched-Hold Timing Permutation Null từ Pass 20–22; Outlier/Crisis Stress &
+mặt phẳng 2D kép trước khi xuất `.mq5` từ Pass 22); (b) bổ sung runbook vận
+hành vào `whitebox-prop-discovery/SKILL.md` (runtime `.runtime/quant-audit-v24`,
+đường ống `dukascopy-node` M1 Bid+Ask `< 2025-01-01`, lưu ý pin
+`rea-agents@6.7.0` trên `Node v24.19.0`, lệnh `inbox_intake_scanner.py` và
+chuẩn hóa negative trigger `do not use`); (c) đồng bộ trạng thái 3 động cơ tại
+`planning/CURRENT-CONTEXT.md`. Không tạo rule toàn cục hay sửa `AGENTS.md`.
+Positive walkthrough: săn Động cơ #4 trên `XAUUSD`/`US100`/`GER40` bắt buộc
+seal M1 Bid+Ask trước, chạy Cụm A → Cụm B mù, BH FDR toàn không gian, Outlier
+Stress và 2D kép trước khi xuất `.mq5`. Negative: chỉ hỏi tiến độ, học trading,
+sửa UI hoặc thả `.ex4/.ex5/.dll` vào `strategy-intel/inbox/` thì chỉ cách ly
+đọc-không-chạy, không thực thi binary và không mở Holdout. Đây là manual
+semantic walkthrough bởi cùng agent, chưa forward-test routing bằng model độc
+lập. `quick_validate.py` (`Skill is valid!` cho cả `whitebox-prop-discovery` và
+`strategy-qualification`), `check_skill_links.py --skills-dir .agents/skills --review-triggers`
+(`14 skills; 0 errors; 0 advisory warnings`), `check_workspace.py` (`9 guides, 8 pinned submodules`)
+và `audit-ai-environment.ps1 -Force` (`0 errors/0 warnings`; global `12.279 B`,
+project `10.298/65.536 B`, reserve `55.238 B`, combined `22.577 B`) đều đạt.
+
 23/11 — Tiếp quản toàn diện sau Pass 11/12 & audit `strategy-intel`: cập nhật
 `strategy-qualification/references/validation-gates.md` (thêm 4 luật thực thi:
 Straight-to-M1 Bid/Ask cho lệnh chờ nội ngày, FTMO Swap-3× pre-mortem, Monte

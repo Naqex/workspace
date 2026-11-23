@@ -95,6 +95,14 @@ chồng lấn, không là account PnL hay chứng minh edge/OOS/prop. G0–G6 v�
      đãi có điều kiện có thể bị sàn thu hồi nếu bot lạm dụng giữ qua đêm).
    - `TIER_3_DEAD_NO_EDGE`: Không thắng nổi chọn ngẫu nhiên (`p >= 0,05`) hoặc
      lỗ ngay từ tín hiệu giá trước Swap. Xóa sổ vĩnh viễn cho mọi sàn.
+6. **Hiệu chuẩn Control & Bắt buộc xác nhận M1 Bid/Ask cho mọi ứng viên H4/D1 (từ Pass 19 & 21):**
+   - Mọi lượt sàng lọc nhanh trên H4/D1 phải chạy kèm ít nhất **1 mẫu đối chứng dương đã có kết quả M1 thật** (ví dụ `CONTROL_USDJPY`) để phát hiện sớm lỗi thứ tự giá trên chính cây nến vào lệnh (pre-trigger false-SL).
+   - Kết quả dương trên H4/D1 chỉ có giá trị **đề xuất tải dữ liệu M1**, **không bao giờ** là bằng chứng lên `TIER_1` hay ghép danh mục (bài học Pass 21: `GBPJPY EXP080` đạt `+9,28R` trên H4 nhưng rơi về `-9,52R` trên M1 Bid/Ask thật do spread `1,4–2,4 pip` và quét SL nội nến).
+7. **Kỷ luật Discovery Cụm A → Blind OOS Cụm B & BH FDR toàn không gian (từ Pass 20–22):**
+   - Khi quét hệ thống nhiều biến thể (`m_total > 1`), chỉ được chọn ứng viên dựa trên **Cụm A (`2018–2020`)**; **Cụm B (`2021–2024`)** giữ mù hoàn toàn để đánh giá OOS và tính **BH FDR trên toàn bộ `m_total` đã quét** (không chỉ trên nhóm sống sót).
+   - Ứng viên giữ lệnh dài ngày hoặc ăn Carry dương phải qua thêm **Matched-Hold Timing Permutation Null** để tách alpha thời điểm vào lệnh khỏi drift/carry chung (bài học Pass 20: `DON20_POS` trượt timing null `p = 0,14–0,97` và `0/12` ô 2D).
+8. **Outlier/Crisis Stress & Mặt phẳng 2D kép trước khi thăng hạng động cơ (từ Pass 22):**
+   - Trước khi thăng hạng động cơ vào danh mục cốt lõi hoặc xuất `.mq5`, phải qua: (a) **Outlier Stress** — vẫn dương ròng sau khi bỏ Top-3/Top-5 lệnh thắng lớn nhất và loại đồng thời các giai đoạn sốc cực đoan liên quan (như COVID 03/2020, UK Gilt 09–10/2022); (b) **Mặt phẳng 2D kép** — kiểm cả lưới cốt lõi (`trigger × SL`) lẫn lưới bộ lọc phụ (`trigger × filter`), ghi nhận trung thực vùng nhạy nếu có thay vì ẩn sau một lưới đẹp.
 
 ## Cách báo cáo
 

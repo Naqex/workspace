@@ -2,7 +2,7 @@
 
 `23/11/2026` · `WORK: ACTIVE/PARTIAL | REVIEW: REVIEWED-PARTIAL | DOC: COMPACTED-RESUMABLE`
 
-`RESEARCH: ENGINE_1_NEEDS_PARTNER · BASELINE: USDJPY PASS 7B/8 · HOLDOUT >= 01/01/2025 LOCKED · PROP: NOT_QUALIFIED`
+`RESEARCH: 3_ENGINE_CORE_CALMAR_084_NEEDS_PACE_PARTNER · BASELINE: PASS 22 (USDJPY Tokyo + USDJPY EXP080 + GBPUSD VOL_HIGH) · HOLDOUT >= 01/01/2025 LOCKED · PROP: NOT_QUALIFIED`
 
 ## 1. Mục tiêu chính & Khung vận hành
 
@@ -41,12 +41,12 @@
 - **D: SSD Hot M1 Parquet Cache (`.runtime/hot-m1-cache/`, `292,4 MB` (6 tài sản: thêm `GBPJPY`), đọc 12,56M nến trong `2,47s`, ổ D trống `151,4 GB`):** `USDJPY`, `GBPUSD`, `EURUSD`, `US500` (Native Bid/Ask `2018–2024`, SHA-verified) và `XAUUSD` (M1 Bid `2018–2024`, `native_Ask = false`). Đã dời `8,36 GB` CSV QDM cũ sang `E:\BACKUP-TRADINGWORKSPACE\qdm-legacy-exports\`.
 - **E: HDD Cold Archive (`510 GB` trống):** Toàn bộ tick CSV gốc, log, kết quả cũ và D1 warm-up `2000–2017` (`swing-10k-20261120/development/`).
 
-## 4. Hạ tầng, Phân loại 3 tầng & Hướng mở Pass 15
+## 4. Hạ tầng, Phân loại 3 tầng & Hướng mở sau Pass 22
 
-- **Chuẩn kiểm định mới (`validation-gates.md`):** Mọi lượt sàng lọc tự động gắn 3 tầng (`TIER_1_FTMO_READY` · `TIER_2_PERSONAL_VAULT` · `TIER_3_DEAD_NO_EDGE`) kèm MC Null + FDR + ±30% stability. Nợ CI duy nhất trước khi merge lên `main`: file lịch sử `SWING-10K-...20261120.json` (`8fd77ef`, `1,28 MiB > 1 MiB` trần `check_anti_bloat.py`).
-- **Đề xuất Pass 15 (tận dụng băng chuyền 35 giây trên Hot Cache SSD):**
-  1. **Quét tiếp kho `strategy-intel`:** Lọc và chạy đồng loạt nhóm **`27` EA có luật rõ ràng (`REPLICABLE_RULE_SET`)** trong `ea-directory-2026` (35/45 EA là Trend-Following) + các mã **`M15/H1` đánh trong ngày (`swap = 0`)** trong 39 mã `"TÌNH HUỐNG"` của Source 1.
-  2. **Thiết kế Engine #2 tối ưu riêng cho cấu trúc phí FTMO:** `XAUUSD` đánh sóng London–NY **đóng trong ngày (`swap = 0`)** và/hoặc FX **thuận chiều Swap dương FTMO** (`USDJPY` Long `swap_long = +2,61` / `EURUSD` Short `swap_short = +0,28`).
+- **Chuẩn kiểm định & Khám phá White-Box (`validation-gates.md` · `whitebox-prop-discovery`):** Mọi lượt sàng lọc tự động gắn 3 tầng (`TIER_1_FTMO_READY` · `TIER_2_PERSONAL_VAULT` · `TIER_3_DEAD_NO_EDGE`), áp dụng chặt Cụm A (`2018–2020`) → Cụm B mù (`2021–2024`), BH FDR toàn không gian, Outlier/Crisis Stress và Mặt phẳng 2D kép. Đã vận hành **Hộp thư đầu mối 4 làn** tại `D:\ANNAM\strategy-intel\inbox\` + `inbox_intake_scanner.py` (cách ly chỉ-đọc `.ex4/.ex5/.dll`). Nợ CI duy nhất trước khi merge lên `main`: file lịch sử `SWING-10K-...20261120.json` (`8fd77ef`, `1,28 MiB > 1 MiB` trần `check_anti_bloat.py`).
+- **Khoảng trống còn lại hướng tới FTMO 2-Step & Hướng mở Pass 23:**
+  1. **Lấp khoảng trống dữ liệu & săn Động cơ #4 ngoài FX (`Pace +5,3% → 8–12%/năm`, `Calmar >= 1,2`):** Niêm phong M1 Bid+Ask (`< 2025-01-01`) cho **`XAUUSD`** (gỡ nhãn `PROVISIONAL_XAU`), **`US100.cash`** (`usatechidxusd`) và **`GER40`** (`deuidxeur`) qua `dukascopy-node`, rồi chạy `whitebox_discovery.py` + xuất nốt `.mq5` sạch cho Engine #1 (`USDJPY Tokyo-box`).
+  2. **Nhịp 3 → Nhịp 4 trước Holdout duy nhất (`>= 2025`):** Sau khi chốt đủ động cơ, chạy mô phỏng vòng đời FTMO 2-Step (cửa sổ trượt 6/12/18/24 tháng + bootstrap + dòng tiền Reward ròng) và kiểm parity Python vs MT5 trước khi mở Holdout và sang 1–2 tháng FTMO Demo/Shadow (`G5/G6`).
 
 ## 5. Đường đọc theo phạm vi & Quyền hạn
 

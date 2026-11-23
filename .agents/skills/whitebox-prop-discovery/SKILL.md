@@ -1,6 +1,6 @@
 ---
 name: whitebox-prop-discovery
-description: Discover, intake-audit, and validate prop-first white-box trading strategies (FTMO Swing/Standard, swap=0, zero-grid/martingale) on sealed M1 Bid/Ask caches using strict Cluster A discovery and blind Cluster B validation, then export auditable .mq5 templates for verified candidates. Use for systematic prop strategy discovery or auditing open-source .mq5 leads; never use to crack, run, or black-box-clone closed-source commercial .ex4/.ex5 binaries.
+description: Discover, intake-audit, and validate prop-first white-box trading strategies (FTMO Swing/Standard, swap=0, zero-grid/martingale) on sealed M1 Bid/Ask caches using strict Cluster A discovery and blind Cluster B validation, then export auditable .mq5 templates for verified candidates. Use for systematic prop strategy discovery or auditing open-source .mq5 leads; do not use to crack, run, or black-box-clone closed-source commercial .ex4/.ex5 binaries.
 ---
 
 # White-Box Prop-First Strategy Discovery
@@ -22,14 +22,23 @@ Discover and qualify FTMO-compatible white-box strategies without black-box `.ex
    - **Discovery split (Cluster A ONLY, `2018–2020`):** Screen grammar candidates strictly on Cluster A (`n_A >= 60`, `FTMO Stress > 0`, `PF_A > 1.05`).
    - **Blind OOS split (Cluster B, `2021–2024`):** Evaluate Cluster A survivors blind on Cluster B, applying **Benjamini–Hochberg FDR over the entire search space `m_total`**, paired sign-flip + random-entry MC Null (`N = 1,000`), Fade superiority, and daily correlation `r(USDJPY)` against the frozen core.
    - **3-Tier output:** Classify every candidate into `TIER_1_FTMO_READY`, `TIER_2_PERSONAL_VAULT` (with `PROVISIONAL_XAU` whenever native Ask is absent), or `TIER_3_DEAD_NO_EDGE`.
-4. **Forensic gate before `.mq5` export:** Any `TIER_1` candidate MUST pass 3 cost tiers (`Base`, `Stress +0.5`, `Stress +1.0`), 12-cell 2D parameter plateau, 4-axis decomposition, and Prague-reset M1 floating-equity portfolio audit before exporting an `.mq5` template via `export_exp_daily_open_mq5`.
+   - **Data sealing (M1 Bid+Ask fast path):** When an asset is missing native Bid or Ask in `.runtime/hot-m1-cache/` (e.g., `xauusd` missing native Ask, or new CFD indices `usatechidxusd` / `deuidxeur`), reuse the pinned `dukascopy-node` paired M1 `bid`+`ask` fetch-and-seal pattern ([fetch_gbpjpy_m1_seal.mjs](../../../tooling/ai-engines/fetch_gbpjpy_m1_seal.mjs) + [seal_gbpjpy_m1.py](../../../tooling/ai-engines/seal_gbpjpy_m1.py)): hard-capped `< 2025-01-01T00:00:00Z` (`holdout_rows = 0`), ~2–3 min per 7-year symbol (~40–50 MB Parquet), avoiding 10 GB raw tick CSV exports.
+4. **Forensic gate before `.mq5` export:** Any `TIER_1` candidate MUST pass:
+   - 3 cost tiers (`Base`, `Stress +0.5`, `Stress +1.0`),
+   - **Dual 2D parameter surfaces** (`trigger × SL` AND `trigger × secondary filter`, reporting boundary sensitivity transparently),
+   - **Outlier & Crisis Stress** (`-Top3`, `-Top5`, excluding major shock months such as Mar-2020 COVID and Sep–Oct 2022 UK Gilt),
+   - 4-axis decomposition & Prague-reset M1 floating-equity portfolio audit before exporting an `.mq5` template via `export_exp_daily_open_mq5` (`audit_open_source_mq5` strips `//` and `/* */` comments before scanning so doc headers do not trigger false positives).
 
-## Commands
+## Runtime & Commands
+
+- **Required Python runtime:** Always use `D:\ANNAM\TradingWorkspace\.runtime\quant-audit-v24\Scripts\python.exe` (includes `pyarrow` + `numpy`; system Python and product venvs lack `pyarrow`).
+- **Node MCP note (troubleshooting):** Local `Node v24.19.0` requires `rea-agents` pinned to `6.7.0 --mcp` (do not bump to `6.10.x` until Node >= `24.22.1`); if `naqex_search` reports stale index, rebuild via `uv run --no-project --python 3.12 tooling/search/xerj.py index`.
 
 ```powershell
 $py = 'D:\ANNAM\TradingWorkspace\.runtime\quant-audit-v24\Scripts\python.exe'
 $env:PYTHONPATH = 'D:\ANNAM\TradingWorkspace\tooling\ai-engines;D:\ANNAM\TradingWorkspace\projects\trader\foundation_v2\src'
 & $py tooling/ai-engines/whitebox_discovery.py --output 'E:\BACKUP-TRADINGWORKSPACE\ai-engine-jobs\whitebox-discovery-run'
+& $py tooling/ai-engines/inbox_intake_scanner.py --defender
 ```
 
 ## Negative triggers
