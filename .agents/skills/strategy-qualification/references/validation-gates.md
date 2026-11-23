@@ -79,6 +79,22 @@ chồng lấn, không là account PnL hay chứng minh edge/OOS/prop. G0–G6 v�
    số liệu từ `01/01/2025` trở đi để chọn ứng viên. Mọi nguồn ngoài luôn ở mức
    `SOURCE_CLAIM_ONLY` cho đến khi tái lập trên M1 Bid/Ask + phí thật trong
    workspace.
+5. **Phân loại 3 tầng song hành (ưu tiên tuyệt đối FTMO, không vứt nhầm edge cho tài khoản riêng):**
+   Trong cùng một lượt kiểm định (không thêm chi phí tính toán và không hạ chuẩn
+   FTMO Challenge), gắn thêm nhãn mục đích sử dụng cho mọi ứng viên đã test:
+   - `TIER_1_FTMO_READY`: Có lợi thế thống kê thật (`MC Null p < 0,05`, qua kiểm
+     chỉnh đa kiểm định khi sàng lọc hàng loạt, dương cả 2 cụm thời gian), sống
+     khỏe dưới phí + Swap 3× FTMO thực tế (`36f1535`/`8fd77ef`) và đáp ứng rào
+     rủi ro/DD của mục tiêu FTMO Challenge hiện hành.
+   - `TIER_2_PERSONAL_VAULT`: Có **lợi thế giá thật đã chứng minh** (`MC Null
+     p < 0,05`, dương bền vững cả 2 cụm, chịu được spread/commission thực tế
+     kiểu Exness Raw/Pro — `EXNESS_WEBSITE_SNAPSHOT_UNMEASURED_DEMO`), nhưng
+     trượt FTMO chỉ vì Swap 3× FTMO quá nặng hoặc tốc độ/underwater chậm hơn
+     khung thi Challenge. Cất riêng làm kho dự trữ dài hạn cho tài khoản vốn
+     riêng; **không** dựa mù quáng vào Exness Extended Swap-Free (vì đây là ưu
+     đãi có điều kiện có thể bị sàn thu hồi nếu bot lạm dụng giữ qua đêm).
+   - `TIER_3_DEAD_NO_EDGE`: Không thắng nổi chọn ngẫu nhiên (`p >= 0,05`) hoặc
+     lỗ ngay từ tín hiệu giá trước Swap. Xóa sổ vĩnh viễn cho mọi sàn.
 
 ## Cách báo cáo
 
