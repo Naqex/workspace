@@ -27,9 +27,10 @@ import sys
 import time
 
 import numpy as np
-from scipy.cluster.hierarchy import leaves_list, linkage
+from scipy.cluster.hierarchy import fcluster, leaves_list, linkage
 from scipy.optimize import minimize
 from scipy.spatial.distance import squareform
+from scipy.stats import genpareto, norm, t as student_t
 
 AI_ENGINES = Path(__file__).resolve().parents[1]
 if str(AI_ENGINES) not in sys.path:
@@ -281,18 +282,25 @@ def apply_weight_cap(w: np.ndarray, *, max_weight: float = 0.35) -> np.ndarray:
     """Water-filling iterative cap so no single sleeve exceeds `max_weight` (counterparty / exchange risk cap)."""
     out = np.asarray(w, dtype=np.float64).copy()
     out = np.maximum(out, 0.0)
-    out = out / float(np.sum(out))
-    for _ in range(20):
-        over = out > max_weight + 1e-12
+    s = float(np.sum(out))
+    if s <= 1e-12:
+        return np.full(len(out), 1.0 / max(1, len(out)), dtype=np.float64)
+    out = out / s
+    eff_cap = max(float(max_weight), 1.0 / max(1, len(out)))
+    for _ in range(30):
+        over = out > eff_cap + 1e-12
         if not np.any(over):
             break
-        excess = float(np.sum(out[over] - max_weight))
-        out[over] = max_weight
-        under = ~over
+        excess = float(np.sum(out[over] - eff_cap))
+        out[over] = eff_cap
+        under = out < eff_cap - 1e-12
+        if not np.any(under):
+            break
         u_sum = float(np.sum(out[under]))
         if u_sum <= 1e-12:
-            break
-        out[under] += excess * (out[under] / u_sum)
+            out[under] += excess / float(np.sum(under))
+        else:
+            out[under] += excess * (out[under] / u_sum)
     return out / float(np.sum(out))
 
 
@@ -306,6 +314,573 @@ def weights_hrp_capped35(mat: np.ndarray) -> np.ndarray:
     return apply_weight_cap(weights_hrp(mat), max_weight=0.35)
 
 
+def ledoit_wolf_covariance(mat: np.ndarray) -> tuple[np.ndarray, dict]:
+    """Ledoit & Wolf (2004) analytical oracle shrinkage covariance toward constant-variance identity target."""
+    x = np.asarray(mat, dtype=np.float64)
+    t, n = x.shape
+    if t < 5 or n < 1:
+        s = np.eye(max(1, n), dtype=np.float64) * 1e-6
+        return s, {"shrinkage": 1.0, "cond_sample": 1.0, "cond_shrunk": 1.0}
+    xc = x - np.mean(x, axis=0, keepdims=True)
+    s = (xc.T @ xc) / float(t)
+    mu = float(np.trace(s)) / float(n)
+    target = mu * np.eye(n, dtype=np.float64)
+    delta2 = float(np.sum((s - target) ** 2))
+
+    # Vectorized exact pi_hat = (1/T^2) * sum_t ||x_t x_t^T - S||_F^2
+    # Note: ||x_t x_t^T - S||_F^2 = (x_t^T x_t)^2 - 2 x_t^T S x_t + ||S||_F^2
+    row_norm2 = np.sum(xc * xc, axis=1)
+    quad_s = np.einsum("ti,ij,tj->t", xc, s, xc)
+    s_frob2 = float(np.sum(s * s))
+    pi_hat = float(np.sum(row_norm2 ** 2 - 2.0 * quad_s + s_frob2)) / float(t * t)
+    shrinkage = float(np.clip(pi_hat / max(delta2, 1e-18), 0.0, 1.0)) if delta2 > 1e-18 else 1.0
+
+    cov_lw = (1.0 - shrinkage) * s + shrinkage * target
+    cov_lw = 0.5 * (cov_lw + cov_lw.T) + np.eye(n, dtype=np.float64) * 1e-12
+    eigs_s = np.linalg.eigvalsh(0.5 * (s + s.T))
+    eigs_lw = np.linalg.eigvalsh(cov_lw)
+    cond_s = float(np.max(eigs_s) / max(1e-12, float(np.min(eigs_s))))
+    cond_lw = float(np.max(eigs_lw) / max(1e-12, float(np.min(eigs_lw))))
+    return cov_lw, {
+        "shrinkage": round(shrinkage, 4),
+        "cond_sample": round(cond_s, 2),
+        "cond_shrunk": round(cond_lw, 2),
+    }
+
+
+def _min_var_long_only(cov: np.ndarray) -> np.ndarray:
+    """Long-only minimum-variance allocation on well-conditioned sub-covariance matrix."""
+    k = cov.shape[0]
+    if k <= 1:
+        return np.ones(k, dtype=np.float64)
+    diag = np.maximum(np.diag(cov), 1e-12)
+    w0 = (1.0 / diag) / float(np.sum(1.0 / diag))
+    res = minimize(
+        lambda w: float(w @ cov @ w),
+        w0,
+        method="SLSQP",
+        bounds=[(0.0, 1.0)] * k,
+        constraints=[{"type": "eq", "fun": lambda w: float(np.sum(w)) - 1.0}],
+        options={"ftol": 1e-12, "maxiter": 300},
+    )
+    w = np.maximum(res.x if res.success else w0, 0.0)
+    s = float(np.sum(w))
+    return (w / s) if s > 1e-12 else w0
+
+
+def _silhouette_score_dist(dist: np.ndarray, labels: np.ndarray) -> float:
+    """Pure-NumPy Silhouette score on precomputed distance matrix (zero sklearn dependency)."""
+    n = len(labels)
+    uniq = np.unique(labels)
+    if len(uniq) < 2 or len(uniq) >= n:
+        return -1.0
+    scores = []
+    for i in range(n):
+        same = (labels == labels[i])
+        same[i] = False
+        a_i = float(np.mean(dist[i, same])) if np.any(same) else 0.0
+        b_i = float("inf")
+        for c in uniq:
+            if c == labels[i]:
+                continue
+            other = (labels == c)
+            if np.any(other):
+                b_i = min(b_i, float(np.mean(dist[i, other])))
+        denom = max(a_i, b_i)
+        scores.append((b_i - a_i) / denom if denom > 1e-12 else 0.0)
+    return float(np.mean(scores))
+
+
+def weights_nco(
+    mat: np.ndarray,
+    *,
+    use_ledoit_wolf: bool = True,
+    max_clusters: int | None = None,
+    max_weight: float | None = None,
+) -> np.ndarray:
+    """Nested Clustered Optimization (Lopez de Prado 2019) with Ledoit-Wolf shrinkage (4 to 8+ sleeves)."""
+    x = np.asarray(mat, dtype=np.float64)
+    k = x.shape[1]
+    if k <= 1:
+        return np.ones(k, dtype=np.float64)
+    if k == 2:
+        cov, _ = ledoit_wolf_covariance(x) if use_ledoit_wolf else (np.cov(x, rowvar=False), {})
+        w = _min_var_long_only(cov)
+        return apply_weight_cap(w, max_weight=max_weight) if max_weight is not None else w
+
+    cov, _ = ledoit_wolf_covariance(x) if use_ledoit_wolf else (np.cov(x, rowvar=False) + np.eye(k) * 1e-10, {})
+    sd = np.sqrt(np.maximum(np.diag(cov), 1e-12))
+    corr = np.clip(cov / np.outer(sd, sd), -1.0, 1.0)
+    np.fill_diagonal(corr, 1.0)
+    dist = np.sqrt(np.maximum(0.0, 0.5 * (1.0 - corr)))
+    np.fill_diagonal(dist, 0.0)
+
+    link = linkage(squareform(dist, checks=False), method="ward")
+    k_max = min(max_clusters or max(2, k - 1), k - 1)
+    best_labels = fcluster(link, t=2, criterion="maxclust")
+    best_sil = -2.0
+    for n_cl in range(2, k_max + 1):
+        lab = fcluster(link, t=n_cl, criterion="maxclust")
+        if len(np.unique(lab)) < 2:
+            continue
+        sil = _silhouette_score_dist(dist, lab)
+        if sil > best_sil + 1e-9:
+            best_sil = sil
+            best_labels = lab
+
+    clusters = {}
+    for idx, cid in enumerate(best_labels):
+        clusters.setdefault(int(cid), []).append(idx)
+    cl_keys = sorted(clusters.keys())
+    n_cl_eff = len(cl_keys)
+
+    # Stage 2: Intra-cluster long-only min-variance weights
+    w_intra = np.zeros((k, n_cl_eff), dtype=np.float64)
+    for j, cid in enumerate(cl_keys):
+        members = clusters[cid]
+        sub_cov = cov[np.ix_(members, members)]
+        w_intra[members, j] = _min_var_long_only(sub_cov)
+
+    # Stage 3: Reduced inter-cluster covariance -> inter-cluster optimal allocation
+    cov_red = w_intra.T @ cov @ w_intra
+    cov_red = 0.5 * (cov_red + cov_red.T) + np.eye(n_cl_eff, dtype=np.float64) * 1e-12
+    w_inter = _min_var_long_only(cov_red)
+    w_nco = w_intra @ w_inter
+    w_nco = np.maximum(w_nco, 0.0)
+    w_nco = w_nco / float(np.sum(w_nco))
+    if max_weight is not None:
+        w_nco = apply_weight_cap(w_nco, max_weight=max_weight)
+    return w_nco
+
+
+def weights_erc_lw_capped35(mat: np.ndarray) -> np.ndarray:
+    """Ledoit-Wolf shrunk ERC Risk Parity with hard <= 35% counterparty/exchange cap."""
+    cov, _ = ledoit_wolf_covariance(mat)
+    k = cov.shape[0]
+    target = np.full(k, 1.0 / k, dtype=np.float64)
+    w0 = weights_inverse_vol(mat)
+    res = minimize(
+        lambda w: float(np.sum((compute_risk_contributions(cov, w) - target) ** 2)),
+        w0,
+        method="SLSQP",
+        bounds=[(1e-4, 1.0)] * k,
+        constraints=[{"type": "eq", "fun": lambda w: float(np.sum(w)) - 1.0}],
+        options={"ftol": 1e-12, "maxiter": 500},
+    )
+    w = np.maximum(res.x if res.success else w0, 0.0)
+    w = w / float(np.sum(w))
+    return apply_weight_cap(w, max_weight=0.35)
+
+
+def weights_nco_capped35(mat: np.ndarray) -> np.ndarray:
+    """NCO with Ledoit-Wolf shrinkage + hard <= 35% single-sleeve counterparty cap."""
+    return weights_nco(mat, use_ledoit_wolf=True, max_weight=0.35)
+
+
+_NUMBA_GARCH_NLL = None
+
+
+def _get_garch_nll_kernel():
+    """Lazily compile Numba-JIT GARCH(1,1) negative log-likelihood (~60x faster than Python loop)."""
+    global _NUMBA_GARCH_NLL
+    if _NUMBA_GARCH_NLL is not None:
+        return _NUMBA_GARCH_NLL
+    from numba import njit
+
+    @njit(cache=True)
+    def _garch_nll_numba(eps: np.ndarray, var0: float, omega: float, alpha: float, beta: float) -> float:
+        if omega <= 1e-12 or alpha < 0.0 or beta < 0.0 or (alpha + beta) >= 0.995:
+            return 1e12
+        h = var0
+        nll = 0.0
+        n = len(eps)
+        for i in range(n):
+            if i > 0:
+                h = omega + alpha * (eps[i - 1] * eps[i - 1]) + beta * h
+            if h <= 1e-14:
+                return 1e12
+            nll += 0.5 * (math.log(h) + (eps[i] * eps[i]) / h)
+        return nll
+
+    _NUMBA_GARCH_NLL = _garch_nll_numba
+    return _NUMBA_GARCH_NLL
+
+
+def fit_garch11_evt(returns: np.ndarray, *, tail_quantile: float = 0.10, use_numba: bool = True) -> dict:
+    """Fit causal GARCH(1,1) conditional volatility + EVT-GPD left-tail model on a sleeve return series."""
+    r = np.asarray(returns, dtype=np.float64)
+    r = r[np.isfinite(r)]
+    mu = float(np.mean(r))
+    eps = np.ascontiguousarray(r - mu, dtype=np.float64)
+    var0 = max(float(np.var(eps, ddof=1)), 1e-10)
+    n = len(eps)
+
+    if use_numba:
+        nll_jit = _get_garch_nll_kernel()
+
+        def _garch_nll(params: np.ndarray) -> float:
+            return float(nll_jit(eps, var0, float(params[0]), float(params[1]), float(params[2])))
+    else:
+        def _garch_nll(params: np.ndarray) -> float:
+            omega, alpha, beta = float(params[0]), float(params[1]), float(params[2])
+            if omega <= 1e-12 or alpha < 0.0 or beta < 0.0 or (alpha + beta) >= 0.995:
+                return 1e12
+            h = var0
+            nll = 0.0
+            for i in range(n):
+                if i > 0:
+                    h = omega + alpha * (eps[i - 1] ** 2) + beta * h
+                if h <= 1e-14:
+                    return 1e12
+                nll += 0.5 * (math.log(h) + (eps[i] ** 2) / h)
+            return nll
+
+    init = np.array([var0 * 0.05, 0.08, 0.87], dtype=np.float64)
+    res = minimize(
+        _garch_nll,
+        init,
+        method="Nelder-Mead",
+        options={"maxiter": 350, "xatol": 1e-5, "fatol": 1e-4},
+    )
+    omega, alpha, beta = (float(res.x[0]), float(res.x[1]), float(res.x[2])) if (res.success and (res.x[1] + res.x[2]) < 0.995 and res.x[0] > 0 and res.x[1] >= 0 and res.x[2] >= 0) else (var0 * 0.05, 0.08, 0.87)
+
+    # Compute conditional variance series and standardized residuals
+    sig2 = np.empty(n, dtype=np.float64)
+    h = var0
+    for i in range(n):
+        if i > 0:
+            h = omega + alpha * (eps[i - 1] ** 2) + beta * h
+        sig2[i] = max(h, 1e-12)
+    z = eps / np.sqrt(sig2)
+
+    # Fit EVT Generalized Pareto Distribution (GPD) on left-tail exceedances (below `tail_quantile`)
+    u_thresh = float(np.quantile(z, tail_quantile))
+    exceed = -(z[z < u_thresh] - u_thresh)  # positive magnitudes beyond threshold
+    if len(exceed) >= 15 and float(np.std(exceed)) > 1e-8:
+        try:
+            xi, _loc, scale = genpareto.fit(exceed, floc=0.0)
+            xi = float(np.clip(xi, -0.20, 0.45))
+            scale = max(float(scale), 1e-4)
+        except Exception:
+            xi, scale = 0.12, max(float(np.mean(exceed)), 0.25)
+    else:
+        xi, scale = 0.12, 0.40
+
+    return {
+        "mu": mu,
+        "omega": omega,
+        "alpha": alpha,
+        "beta": beta,
+        "persistence": round(alpha + beta, 4),
+        "sigma_last": float(math.sqrt(sig2[-1])),
+        "sigma_uncond": float(math.sqrt(var0)),
+        "u_thresh": u_thresh,
+        "tail_quantile": float(tail_quantile),
+        "evt_xi": round(xi, 4),
+        "evt_scale": round(scale, 4),
+        "z_sorted": np.sort(z),
+    }
+
+
+_NUMBA_GARCH_KERNEL = None
+
+
+def _get_garch_evt_kernel():
+    """Lazily compile Numba-JIT GARCH-EVT Student-t Copula simulator (avoids import overhead in pod_dashboard)."""
+    global _NUMBA_GARCH_KERNEL
+    if _NUMBA_GARCH_KERNEL is not None:
+        return _NUMBA_GARCH_KERNEL
+    from numba import njit
+
+    @njit(cache=True)
+    def _sim_garch_evt_paths(
+        u_copula: np.ndarray,
+        mu: np.ndarray,
+        omega: np.ndarray,
+        alpha: np.ndarray,
+        beta: np.ndarray,
+        h0: np.ndarray,
+        u_thresh: np.ndarray,
+        tail_q: float,
+        evt_xi: np.ndarray,
+        evt_scale: np.ndarray,
+        z_sorted: np.ndarray,
+        weights_mat: np.ndarray,
+    ):
+        """Numba-JIT 10,000-path x 252-day multi-sleeve GARCH(1,1)-EVT portfolio stress simulator."""
+        n_paths, horizon, k = u_copula.shape
+        n_alloc = weights_mat.shape[0]
+        n_z = z_sorted.shape[1]
+        max_dds = np.zeros((n_alloc, n_paths), dtype=np.float64)
+        min_daily = np.zeros((n_alloc, n_paths), dtype=np.float64)
+        sample_daily = np.zeros((n_alloc, n_paths), dtype=np.float64)
+
+        for p in range(n_paths):
+            h = h0.copy()
+            eq = np.ones(n_alloc, dtype=np.float64)
+            pk = np.ones(n_alloc, dtype=np.float64)
+            mdd = np.zeros(n_alloc, dtype=np.float64)
+            worst_d = np.zeros(n_alloc, dtype=np.float64)
+            r_vec = np.zeros(k, dtype=np.float64)
+
+            for t in range(horizon):
+                for j in range(k):
+                    u = u_copula[p, t, j]
+                    if u < tail_q:
+                        # EVT-GPD inverse CDF in extreme left tail
+                        p_exc = 1.0 - (u / tail_q)
+                        if p_exc > 0.9999:
+                            p_exc = 0.9999
+                        xi = evt_xi[j]
+                        sc = evt_scale[j]
+                        if abs(xi) > 1e-5:
+                            exc = (sc / xi) * ((1.0 - p_exc) ** (-xi) - 1.0)
+                        else:
+                            exc = -sc * math.log(1.0 - p_exc)
+                        z_val = u_thresh[j] - exc
+                    else:
+                        idx = int(u * (n_z - 1))
+                        if idx < 0:
+                            idx = 0
+                        elif idx >= n_z:
+                            idx = n_z - 1
+                        z_val = z_sorted[j, idx]
+                    sig = math.sqrt(h[j])
+                    eps = sig * z_val
+                    r_j = mu[j] + eps
+                    if r_j < -0.50:
+                        r_j = -0.50
+                    r_vec[j] = r_j
+                    h_next = omega[j] + alpha[j] * (eps * eps) + beta[j] * h[j]
+                    if h_next < 1e-12:
+                        h_next = 1e-12
+                    h[j] = h_next
+
+                for a in range(n_alloc):
+                    rp = 0.0
+                    for j in range(k):
+                        rp += weights_mat[a, j] * r_vec[j]
+                    if t == 0:
+                        sample_daily[a, p] = rp
+                    if rp < worst_d[a]:
+                        worst_d[a] = rp
+                    eq[a] *= (1.0 + rp)
+                    if eq[a] > pk[a]:
+                        pk[a] = eq[a]
+                    dd_now = (pk[a] - eq[a]) / pk[a]
+                    if dd_now > mdd[a]:
+                        mdd[a] = dd_now
+
+            for a in range(n_alloc):
+                max_dds[a, p] = mdd[a]
+                min_daily[a, p] = worst_d[a]
+
+        return max_dds, min_daily, sample_daily
+
+    _NUMBA_GARCH_KERNEL = _sim_garch_evt_paths
+    return _NUMBA_GARCH_KERNEL
+
+
+def garch_evt_tail_stress(
+    mat: np.ndarray,
+    names: list[str],
+    alloc_weights: dict[str, np.ndarray],
+    *,
+    n_paths: int = 4000,
+    horizon: int = 252,
+    copula_df: float = 4.0,
+    stress_corr_floor: float = 0.45,
+    seed: int = 20261124,
+) -> dict:
+    """Simulate joint GARCH(1,1)-EVT Student-t Copula systemic crash stress across multiple allocators."""
+    t0 = time.perf_counter()
+    x = np.asarray(mat, dtype=np.float64)
+    k = x.shape[1]
+    fits = [fit_garch11_evt(x[:, j], tail_quantile=0.10) for j in range(k)]
+
+    cov_lw, lw_meta = ledoit_wolf_covariance(x)
+    sd = np.sqrt(np.maximum(np.diag(cov_lw), 1e-12))
+    corr_lw = np.clip(cov_lw / np.outer(sd, sd), -0.99, 0.99)
+    np.fill_diagonal(corr_lw, 1.0)
+    # Systemic crisis correlation shock: blend empirical LW correlation with stress contagion floor
+    corr_stress = np.maximum(corr_lw, stress_corr_floor)
+    np.fill_diagonal(corr_stress, 1.0)
+    # Ensure positive definiteness via eigenvalue floor
+    eigvals, eigvecs = np.linalg.eigh(corr_stress)
+    eigvals = np.maximum(eigvals, 1e-4)
+    corr_pd = eigvecs @ np.diag(eigvals) @ eigvecs.T
+    d_inv = 1.0 / np.sqrt(np.diag(corr_pd))
+    corr_pd = corr_pd * np.outer(d_inv, d_inv)
+    np.fill_diagonal(corr_pd, 1.0)
+    chol = np.linalg.cholesky(corr_pd)
+
+    # Generate correlated Student-t copula uniforms U in (0, 1) deterministically
+    rng = np.random.default_rng(seed)
+    z_norm = rng.standard_normal(size=(n_paths, horizon, k))
+    z_corr = z_norm @ chol.T
+    chi2 = rng.chisquare(df=copula_df, size=(n_paths, horizon, 1))
+    t_draws = z_corr / np.sqrt(chi2 / copula_df)
+    u_copula = np.clip(student_t.cdf(t_draws, df=copula_df), 1e-6, 1.0 - 1e-6).astype(np.float64)
+
+    mu = np.array([f["mu"] for f in fits], dtype=np.float64)
+    omega = np.array([f["omega"] for f in fits], dtype=np.float64)
+    alpha = np.array([f["alpha"] for f in fits], dtype=np.float64)
+    beta = np.array([f["beta"] for f in fits], dtype=np.float64)
+    h0 = np.array([f["sigma_uncond"] ** 2 for f in fits], dtype=np.float64)
+    u_thresh = np.array([f["u_thresh"] for f in fits], dtype=np.float64)
+    evt_xi = np.array([f["evt_xi"] for f in fits], dtype=np.float64)
+    evt_scale = np.array([f["evt_scale"] for f in fits], dtype=np.float64)
+    z_sorted = np.vstack([f["z_sorted"] for f in fits]).astype(np.float64)
+
+    alloc_keys = list(alloc_weights.keys())
+    w_mat = np.vstack([np.asarray(alloc_weights[ak], dtype=np.float64) for ak in alloc_keys])
+
+    kernel = _get_garch_evt_kernel()
+    max_dds, min_daily, sample_daily = kernel(
+        u_copula, mu, omega, alpha, beta, h0, u_thresh, 0.10, evt_xi, evt_scale, z_sorted, w_mat
+    )
+
+    per_allocator = {}
+    for a, ak in enumerate(alloc_keys):
+        d1 = sample_daily[a]
+        mdd = max_dds[a]
+        var99 = float(-np.percentile(d1, 1.0))
+        tail_d = d1[d1 <= -var99]
+        cvar99 = float(-np.mean(tail_d)) if len(tail_d) else var99
+        per_allocator[ak] = {
+            "var99_daily_pct": round(100.0 * var99, 3),
+            "cvar99_daily_pct": round(100.0 * cvar99, 3),
+            "worst_1d_p99_pct": round(100.0 * float(-np.percentile(min_daily[a], 1.0)), 2),
+            "stress_dd_p50_pct": round(100.0 * float(np.percentile(mdd, 50.0)), 2),
+            "stress_dd_p95_pct": round(100.0 * float(np.percentile(mdd, 95.0)), 2),
+            "stress_dd_p99_pct": round(100.0 * float(np.percentile(mdd, 99.0)), 2),
+            "prob_dd_gt_10pct": round(100.0 * float(np.mean(mdd >= 0.10)), 2),
+        }
+
+    return {
+        "n_paths": int(n_paths),
+        "horizon_days": int(horizon),
+        "copula_df": float(copula_df),
+        "stress_corr_floor": float(stress_corr_floor),
+        "seed": int(seed),
+        "ledoit_wolf": lw_meta,
+        "runtime_seconds": round(time.perf_counter() - t0, 3),
+        "sleeve_garch_evt": {
+            names[j]: {
+                "alpha": round(fits[j]["alpha"], 4),
+                "beta": round(fits[j]["beta"], 4),
+                "persistence": fits[j]["persistence"],
+                "evt_xi": fits[j]["evt_xi"],
+                "evt_scale": fits[j]["evt_scale"],
+            }
+            for j in range(k)
+        },
+        "per_allocator": per_allocator,
+    }
+
+
+def discover_available_sleeves(
+    returns_dir: Path = DEFAULT_RETURNS_DIR,
+    *,
+    max_sleeves: int = 8,
+) -> tuple[dict[str, dict[str, float]], dict[str, dict]]:
+    """Auto-discover Sleeve #1 (Dev) + up to 7 external `naqex-sleeve-daily-returns-v1` JSONs (4 to 8 sleeves)."""
+    s1_map, s1_meta = load_sleeve1_dev_daily_returns()
+    sleeve_maps = {"S1_PROP_FX_IDX": s1_map}
+    sleeve_metas = {"S1_PROP_FX_IDX": s1_meta}
+
+    canonical_files = [
+        ("S2_CRYPTO_SPOT", "sleeve2_crypto_spot.json"),
+        ("S3A_FUND_CARRY", "sleeve3a_funding_carry.json"),
+        ("S3B_MACRO_ETF", "sleeve3b_macro_etf.json"),
+    ]
+    seen_files = set()
+    for sid, fname in canonical_files:
+        p = returns_dir / fname
+        if p.exists():
+            rmap, rmeta = load_external_sleeve_json(p)
+            sleeve_maps[sid] = rmap
+            sleeve_metas[sid] = rmeta
+            seen_files.add(p.name)
+
+    # Ingest any additional Lab #1-#5 surviving sleeve JSONs cleanly up to `max_sleeves`
+    if returns_dir.exists():
+        for p in sorted(returns_dir.glob("*.json")):
+            if len(sleeve_maps) >= max_sleeves:
+                break
+            if p.name in seen_files:
+                continue
+            try:
+                raw = json.loads(p.read_text(encoding="utf-8"))
+            except Exception:
+                continue
+            if raw.get("schema") != "naqex-sleeve-daily-returns-v1" or not raw.get("daily_returns"):
+                continue
+            sid = str(raw.get("sleeve_id") or p.stem).upper()[:20]
+            if sid in sleeve_maps:
+                continue
+            rmap, rmeta = load_external_sleeve_json(p)
+            sleeve_maps[sid] = rmap
+            sleeve_metas[sid] = rmeta
+    return sleeve_maps, sleeve_metas
+
+
+def run_multi_sleeve_nco_audit(
+    *,
+    returns_dir: Path = DEFAULT_RETURNS_DIR,
+    train_end: str = "2022-12-31",
+    end_day: str = "2024-12-31",
+    n_stress_paths: int = 4000,
+    seed: int = 20261124,
+) -> dict:
+    """Run full Ledoit-Wolf + NCO + GARCH-EVT Extreme Tail Copula study across all 4-8 available sleeves."""
+    t0 = time.perf_counter()
+    if end_day >= "2025-01-01":
+        raise AssertionError("Overlap with Sleeve #1 must stay strictly < 2025-01-01 (Holdout sealed)")
+    sleeve_maps, sleeve_metas = discover_available_sleeves(returns_dir, max_sleeves=8)
+    days, mat, names = align_sleeves_business_days(sleeve_maps, end_day=end_day)
+    train_mask = np.array([d <= train_end for d in days])
+    oos_mask = ~train_mask
+    mat_tr = mat[train_mask]
+    mat_oos = mat[oos_mask]
+
+    cov_lw_full, lw_meta_full = ledoit_wolf_covariance(mat)
+    _, lw_meta_tr = ledoit_wolf_covariance(mat_tr)
+
+    alloc_weights_full: dict[str, np.ndarray] = {}
+    methods_out: dict[str, dict] = {}
+    for mname, fn in ALLOCATORS.items():
+        w_tr = fn(mat_tr)
+        w_full = fn(mat)
+        rc_full = compute_risk_contributions(cov_lw_full, w_full)
+        alloc_weights_full[mname] = w_full
+        methods_out[mname] = {
+            "weights_full_pct": {nm: round(100.0 * float(w_full[j]), 2) for j, nm in enumerate(names)},
+            "risk_contrib_lw_pct": {nm: round(100.0 * float(rc_full[j]), 2) for j, nm in enumerate(names)},
+            "blind_oos_metrics": compute_series_metrics(mat_oos @ w_tr, ann_days=252.0),
+            "full_causal_metrics": compute_series_metrics(mat @ w_tr, ann_days=252.0),
+        }
+
+    tail_stress = garch_evt_tail_stress(
+        mat, names, alloc_weights_full, n_paths=n_stress_paths, horizon=252, copula_df=4.0, stress_corr_floor=0.45, seed=seed
+    )
+    return {
+        "schema": "naqex-allocator-v2-nco-garch-evt-v1",
+        "generated_utc": datetime.now(timezone.utc).isoformat(),
+        "holdout_lock_sha256": sleeve_metas["S1_PROP_FX_IDX"]["holdout_lock_sha256"],
+        "holdout_rows_analysed": 0,
+        "order_send_count": 0,
+        "n_sleeves": len(names),
+        "sleeve_names": names,
+        "overlap_window": f"{days[0]}..{days[-1]} ({len(days)} Mon-Fri biz days)",
+        "ledoit_wolf_train": lw_meta_tr,
+        "ledoit_wolf_full": lw_meta_full,
+        "methods": methods_out,
+        "garch_evt_stress": tail_stress,
+        "runtime_seconds": round(time.perf_counter() - t0, 3),
+    }
+
+
 ALLOCATORS = {
     "Equal_Weight": weights_equal,
     "Inverse_Vol": weights_inverse_vol,
@@ -314,6 +889,9 @@ ALLOCATORS = {
     "HRP": weights_hrp,
     "ERC_Capped35": weights_erc_capped35,
     "HRP_Capped35": weights_hrp_capped35,
+    "ERC_LW_Capped35": weights_erc_lw_capped35,
+    "NCO": weights_nco,
+    "NCO_Capped35": weights_nco_capped35,
 }
 
 
