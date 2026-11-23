@@ -11,31 +11,31 @@
 - **Ràng buộc an toàn bất biến:** Khóa cứng Holdout từ `01/01/2025` (`NATIVE_FTMO_HOLDOUT_LOCK.json`), `OrderSend = 0`, không mở MT5/đọc `.env`, không tự sửa global config, không đụng pin `projects/trader` hay WIP `projects/vi-dubber`.
 - **Điều phối thống nhất:** Antigravity tiếp quản cả vai trò điều phối lẫn thực thi trên `Naqex/workspace` (thay thế quy trình copy-paste giữa Gemini Web / Codex / chat Astra cũ). Kho săn ý tưởng bên ngoài `D:\ANNAM\strategy-intel` giữ **Air-Gap tuyệt đối** (chỉ chuyển giao đặc tả toán học thuần túy, không import file hay trộn số liệu `>= 2025`).
 
-## 2. Trạng thái nghiên cứu hiện hành (Pass 5 → Pass 13)
+## 2. Trạng thái nghiên cứu hiện hành (Pass 5 → Pass 14)
 
-- **Pass 13 (23/11/2026) — 3 nhánh song song tìm Engine #2 (`ALL_THREE_TRACKS_REJECTED` · `ORB_ENGINE2_SEARCH_EXHAUSTED`):**
-  - **Nhánh 1 (`GBPUSD` & `EURUSD` Intraday Liquidity Sweep & Reversal, M1 Bid/Ask cục bộ, `swap = 0`):** Cả 2 cặp rớt toàn diện ở `M1_Real_Stress_05` (`GBPUSD`: Stage-0 `-$37.302`, SL Flat `-275,5R / -335,1R`, `MC p = 0,705–0,778`; `EURUSD`: Stage-0 `-$15.751`, SL Flat `-275,4R / -352,1R`, `MC p = 0,418–0,442`; 6/6 ô lưới ổn định đều âm `-242R..-539R`).
-  - **Nhánh 2 (Clean-Room Air-Gap từ `strategy-intel`):**
-    - `NEN022` (Fakey H4 2 chiều): Rớt cả 3 tài sản ở mọi `RR ∈ {1,5; 2,0; 3,0}` và cả phí Base (`EURUSD -25,61R`, `GBPUSD -42,29R`, `XAUUSD -74,91R` ở `Swing RR2 Stress_Mid`, `MC p = 0,52–0,79`).
-    - `SEA003` (`XAUUSD` Turn-of-Month, 83 chu kỳ `2018-01..2024-11`): Gross `+$42.023/lot` nhưng **FTMO Swap 3× thứ Tư (`53` đêm) ăn `-$25.270` (`60,1%`)**, cộng phí thực thi còn `+$8.248` (`Cụm B 2021–2024` âm `-$69`, MAE `-5,39%`, DD `$20.448`), và **Monte Carlo Null (`N=1000`) cho `gross p = 0,291 / net p = 0,279`** → bác bỏ (`SEA003_FAILED_RANDOM_ENTRY_NULL_DRIFT_ILLUSION`).
-  - **Nhánh 3 (`US500 NY ORB` trên Sealed Explicit M1 Bid/Ask `2018–2024`, `1.316/1.351` lệnh):** Rớt dứt điểm ở `M1_Stress_High` (`-1.186/-1.246 pts`, SL `-46,66R / -58,89R`, chỉ 1/7 năm dương, `MC p = 0,072`, Fade `-238,6R`) → khép toàn bộ họ ORB (`ORB_ENGINE2_SEARCH_EXHAUSTED`).
-  - [Báo cáo Pass 13](research/PASS13-TRIPLE-TRACK-ENGINE2-20261123.md) · [Protocol `62ef313`](research/PASS13-TRIPLE-TRACK-ENGINE2-PROTOCOL-20261123.md).
-- **Pass 12 (23/11/2026) — Pháp y `USDJPY` & QDM `US500`:** QDM `USA500IDXUSD` bị HTTP 429 (`US500_M1_DATA_UNAVAILABLE`); `USDJPY` tái dựng đủ `1.228/1.437` lệnh, loại lọc `Cost/Box <= 12%` (`USDJPY_COST_HYGIENE_NOT_RETAINED`), xác định đoạn underwater `41,12` tháng (`2018–2022`) tập trung ở `cost 6–12%`, `SELL` và khung `03:00–06:59 UTC`. [Báo cáo Pass 12](research/PASS12-US500-M1-ORB-AND-USDJPY-FORENSIC-20261120.md).
-- **Engine #1 hiện có (`USDJPY` Tokyo-box OCO, Pass 5→8):** Edge thật trên 7 năm M1 Bid/Ask (`+10,92R/năm` Stress `+0,50 pip` mẫu mở rộng; `+11,74R/năm` mẫu chặt), chạy đơn lẻ chậm (`~3,0%/năm` tại 0,30% risk, DD `9,08%`, underwater `21–41 tháng`). **Giữ làm baseline `ENGINE_1_NEEDS_PARTNER`.** [Pass 8](research/PASS8-ANTIGRID-ENGINE2-SOURCING-AND-M1-GAP-AUDIT-20261120.md) · [Pass 7B](research/PASS7B-USDJPY-FULL-M1-FLOATING-EQUITY-20261120.md).
-- **Nhánh đã đóng dứt điểm (không lặp lại):** Toàn bộ họ ORB (`GBPUSD` Pass 11, `EURUSD`/`US500 TOM` Pass 10, `US500 NY ORB` Pass 13), `GBPUSD`/`EURUSD` M1 static-box sweep (Pass 13), `NEN022` Fakey H4 & `SEA003` XAUUSD TOM (Pass 13), `EURJPY/EURUSD/GBPUSD` Tokyo-box (Pass 7), `XAUUSD` Asia breakout (Pass 6), MQL5 Round 1–2 (Pass 9), kho 1.029 EA cũ (V24–V26), OHLC Standard campaign (`OHLC_STANDARD_SEARCH_EXHAUSTED`).
+- **Pass 14 (23/11/2026) — Sàng lọc đồng loạt 13 chiến lược `"CHẤT"` còn lại từ `strategy-intel` (Hoàn tất 15/15 Top Leads · Phân loại 3 tầng):**
+  - Chạy toàn bộ **52 cặp** (`13` chiến lược × `XAUUSD`/`EURUSD`/`GBPUSD`/`USDJPY`, ~10,3 triệu nến M1, `52.000` lượt MC Null + FDR) trong **`35,47s`** trên Hot M1 Cache SSD (`249,3 MB`).
+  - **`TIER_1_FTMO_READY`: `0 / 52`** (chưa có ứng viên Top 15 nào đủ chuẩn ghép thi FTMO ngay).
+  - **`TIER_2_PERSONAL_VAULT_PROVISIONAL_XAU`: `2 / 52`** (cất kho tài khoản riêng/Exness, cần xác nhận Tick Bid/Ask thật và lưu ý `FDR q = 0,416`):
+    - `NEN006 XAUUSD` *(Inside bar + EMA200 D1, n=161)*: FTMO `+14,89R` (`A +4,5 / B +10,4`, `5/7` năm, DD `9,8R`) → Exness Swap-Free **`+30,30R`**; `p_g=0,016`, `4/4` ô ±30% dương cả A&B.
+    - `IND026 XAUUSD` *(Ichimoku Chikou D1 Long, n=43)*: FTMO `+10,49R` (`A +5,8 / B +4,7`, `5/7` năm, DD `3,3R`) → Exness Swap-Free **`+19,70R`**; `p_g=0,014`, `3/3` ô ±30% dương cả A&B.
+  - **`TIER_3_DEAD_NO_EDGE`: `50 / 52`** (cộng `NEN022`, `SEA003` từ Pass 13). [Báo cáo Pass 14](research/PASS14-STRATEGY-INTEL-TOP15-BATCH-20261123.md) · [Protocol `079ea0a`](research/PASS14-STRATEGY-INTEL-TOP15-BATCH-PROTOCOL-20261123.md).
+- **Pass 13 (23/11/2026) — 3 nhánh song song (`ALL_THREE_TRACKS_REJECTED` · `ORB_ENGINE2_SEARCH_EXHAUSTED`):** `GBPUSD`/`EURUSD` M1 Sweep (`-275R..-511R`), `NEN022` Fakey H4 (`-25R..-75R`), `SEA003` XAUUSD TOM (Swap 3× ăn `60,1%`, `MC p=0,279` drift illusion), `US500 NY ORB` Explicit M1 (`-46,7R / -58,9R`, 1/7 năm dương → đóng dứt điểm họ ORB). [Báo cáo Pass 13](research/PASS13-TRIPLE-TRACK-ENGINE2-20261123.md).
+- **Pass 12 (23/11/2026) — Pháp y `USDJPY`:** Loại lọc `Cost/Box <= 12%` (`USDJPY_COST_HYGIENE_NOT_RETAINED`); đoạn underwater `41,12` tháng (`2018–2022`) dồn ở `cost 6–12%`, `SELL`, khung `03:00–06:59 UTC`. [Báo cáo Pass 12](research/PASS12-US500-M1-ORB-AND-USDJPY-FORENSIC-20261120.md).
+- **Engine #1 hiện có (`USDJPY` Tokyo-box OCO, Pass 5→8):** Edge thật trên 7 năm M1 Bid/Ask (`+10,92R/năm` Stress `+0,50 pip` mẫu mở rộng; `+11,74R/năm` mẫu chặt; đã đủ chuẩn `TIER_2_PERSONAL_VAULT` chạy solo, đang ở `ENGINE_1_NEEDS_PARTNER` để lên `TIER_1_FTMO_READY`). [Pass 8](research/PASS8-ANTIGRID-ENGINE2-SOURCING-AND-M1-GAP-AUDIT-20261120.md) · [Pass 7B](research/PASS7B-USDJPY-FULL-M1-FLOATING-EQUITY-20261120.md).
+- **Nhánh đã đóng dứt điểm (không lặp lại):** Toàn bộ họ ORB (`GBPUSD` Pass 11, `EURUSD`/`US500 TOM` Pass 10, `US500 NY ORB` Pass 13), `GBPUSD`/`EURUSD` M1 static-box sweep (Pass 13), `13/15` mã `"CHẤT"` của `strategy-intel` vào `TIER_3_DEAD_NO_EDGE` (Pass 13–14), `EURJPY/EURUSD/GBPUSD` Tokyo-box (Pass 7), `XAUUSD` Asia breakout (Pass 6), MQL5 Round 1–2 (Pass 9), kho 1.029 EA cũ (V24–V26), OHLC Standard campaign (`OHLC_STANDARD_SEARCH_EXHAUSTED`).
 
-## 3. Tài nguyên dữ liệu M1 đã niêm phong sẵn trên ổ E (Zero-Network cho Pass 14)
+## 3. Tài nguyên dữ liệu & Hạ tầng SSD/HDD (Zero-Network)
 
-- **Native Tick-derived M1 Bid/Ask (`2018–2024`, SHA-verified, `holdout_rows = 0`):** `USDJPY` (`pass7b`), `GBPUSD` (`pass11`), **`EURUSD` (`pass13`, 190M ticks → 2,61M nến M1)**, **`US500` Explicit M1 (`challenge-discovery4`, 2013–2024)**.
-- **QDM M1 Bid (`2018–2024`, proxy spread, `native_Ask = false`):** **`XAUUSD` (`pass13`, 2,48M nến M1)**; kèm FTMO Demo H1/H4/D1 đủ 13 mã (`swing-10k-20261120`).
+- **D: SSD Hot M1 Parquet Cache (`.runtime/hot-m1-cache/`, `249,3 MB`, đọc 12,56M nến trong `2,47s`, ổ D trống `151,4 GB`):** `USDJPY`, `GBPUSD`, `EURUSD`, `US500` (Native Bid/Ask `2018–2024`, SHA-verified) và `XAUUSD` (M1 Bid `2018–2024`, `native_Ask = false`). Đã dời `8,36 GB` CSV QDM cũ sang `E:\BACKUP-TRADINGWORKSPACE\qdm-legacy-exports\`.
+- **E: HDD Cold Archive (`510 GB` trống):** Toàn bộ tick CSV gốc, log, kết quả cũ và D1 warm-up `2000–2017` (`swing-10k-20261120/development/`).
 
-## 4. Hạ tầng, Hiệu năng & Hướng mở Pass 14
+## 4. Hạ tầng, Phân loại 3 tầng & Hướng mở Pass 15
 
-- **Hiệu năng & AI Env (23/11/2026):** `quant_test_suite.py` chạy **`1.514/1.514 PASS (0 skip)` trong `16,11s`** (`--workers 4`, lệch shard `1,07×`). Luật M1/Swap-3×/Null-Test/Air-Gap đã mã hóa vào `validation-gates.md` và chứng minh hiệu quả ngay tại Pass 13. Nợ CI duy nhất trước khi merge lên `main`: file lịch sử `SWING-10K-...20261120.json` (`8fd77ef`, `1,28 MiB > 1 MiB` trần `check_anti_bloat.py`).
-- **Đề xuất Pass 14 (3 cơ chế thực sự trực giao với ORB & tránh bẫy Swap âm):**
-  1. **`XAUUSD` Intraday Volatility-Breakout / London–NY Trend Continuation (`swap = 0`):** Tận dụng biên độ vàng lớn nhất sàn (tỷ lệ `cost/ATR` thấp) mà triệt tiêu 100% swap `-$56,56/đêm`.
-  2. **FX Carry-Aligned Swing (`EURUSD` Short / `USDJPY`–`GBPJPY`–`AUDJPY` Long):** Dùng chính chiều **swap dương/trung tính** trên FTMO để tài trợ lệnh đa ngày thay vì bị swap ăn mòn.
-  3. **Intraday Extreme-Deviation Mean-Reversion (`Z-score >= 2,0–2,5σ` / VWAP-Session) trên `US500` hoặc `EURUSD`/`GBPUSD`:** Tần suất thấp (`30–60` lệnh/năm, `cost/stop < 8%`) thay cho sweep nhiễu 90% số ngày.
+- **Chuẩn kiểm định mới (`validation-gates.md`):** Mọi lượt sàng lọc tự động gắn 3 tầng (`TIER_1_FTMO_READY` · `TIER_2_PERSONAL_VAULT` · `TIER_3_DEAD_NO_EDGE`) kèm MC Null + FDR + ±30% stability. Nợ CI duy nhất trước khi merge lên `main`: file lịch sử `SWING-10K-...20261120.json` (`8fd77ef`, `1,28 MiB > 1 MiB` trần `check_anti_bloat.py`).
+- **Đề xuất Pass 15 (tận dụng băng chuyền 35 giây trên Hot Cache SSD):**
+  1. **Quét tiếp kho `strategy-intel`:** Lọc và chạy đồng loạt nhóm **`27` EA có luật rõ ràng (`REPLICABLE_RULE_SET`)** trong `ea-directory-2026` (35/45 EA là Trend-Following) + các mã **`M15/H1` đánh trong ngày (`swap = 0`)** trong 39 mã `"TÌNH HUỐNG"` của Source 1.
+  2. **Thiết kế Engine #2 tối ưu riêng cho cấu trúc phí FTMO:** `XAUUSD` đánh sóng London–NY **đóng trong ngày (`swap = 0`)** và/hoặc FX **thuận chiều Swap dương FTMO** (`USDJPY` Long `swap_long = +2,61` / `EURUSD` Short `swap_short = +0,28`).
 
 ## 5. Đường đọc theo phạm vi & Quyền hạn
 

@@ -9,6 +9,13 @@ Từ workspace root, chạy `python -X utf8 tooling/ai-engines/research_inventor
 để xem mức gắn nhãn. Thêm `--all` để lấy từng đường dẫn và lý do còn thiếu
 thông tin.
 
+**Pass 14 · Sàng lọc đồng loạt 13 chiến lược `"CHẤT"` còn lại từ `strategy-intel` (hoàn tất 15/15 Top Leads).**
+Chạy toàn bộ 52 cặp (`13` chiến lược × `4` tài sản: `XAUUSD`, `EURUSD`, `GBPUSD`, `USDJPY`) trong `35,47s` trên Hot M1 Cache SSD (`249,3 MB`, `network_calls = 0`, `holdout_rows = 0`, `OrderSend = 0`, `52.000` lượt MC Null + FDR).
+Kết quả phân loại 3 tầng: `TIER_1_FTMO_READY = 0/52`, `TIER_2_PERSONAL_VAULT_PROVISIONAL_XAU = 2/52` (`NEN006 XAUUSD`: FTMO `+14,89R` / ExSF `+30,30R`, `p_g=0,016`, 4/4 ô ±30% dương cả A&B; `IND026 XAUUSD`: FTMO `+10,49R` / ExSF `+19,70R`, `p_g=0,014`, 3/3 ô ±30% dương cả A&B — cần xác nhận Tick Bid/Ask thật & lưu ý `FDR q=0,416`), `TIER_3_DEAD_NO_EDGE = 50/52`.
+Giữ Engine #1 `USDJPY` Pass 7B/8 và `ENGINE_1_NEEDS_PARTNER`.
+[Báo cáo](PASS14-STRATEGY-INTEL-TOP15-BATCH-20261123.md) ·
+[Protocol](PASS14-STRATEGY-INTEL-TOP15-BATCH-PROTOCOL-20261123.md).
+
 **Pass 13 · 3 nhánh song song tìm Engine #2 (FX Sweep · Clean-Room Intel · US500 Explicit M1).**
 Chạy 100% cục bộ (`network_calls = 0`, `holdout_rows = 0`, `OrderSend = 0`, `1.514/1.514` tests PASS).
 Nhánh 1 (`GBPUSD`/`EURUSD` Liquidity Sweep M1 Bid/Ask): rớt toàn bộ ở Stress `+0,50 pip` (`-275R..-511R`, `MC p = 0,42–0,78`).

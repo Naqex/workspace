@@ -4787,6 +4787,14 @@
     "version": 1,
     "broker_observations": [
       {
+        "id": "pass14-intel-top15-batch-20261123",
+        "scope": "Pass 14 Development 2018-2024 zero-network batch screen of all 13 remaining 'CHAT' leads from strategy-intel x 4 assets (52 pairs, M1 path + FTMO Swap 3x + Exness Ref + MC Null + BH FDR): 0/52 TIER_1_FTMO_READY, 2/52 TIER_2_PERSONAL_VAULT_PROVISIONAL_XAU (NEN006 XAUUSD, IND026 XAUUSD), 50/52 TIER_3_DEAD_NO_EDGE.",
+        "report": "PASS14-STRATEGY-INTEL-TOP15-BATCH-20261123.md",
+        "summary": "PASS14-STRATEGY-INTEL-TOP15-BATCH-20261123.json",
+        "private_manifest": "pass14-intel-top15-batch-20261123/manifest.json",
+        "private_manifest_sha256": "d435b5db878f395e378be136d420afac5218bc0e1de581f98961c84c5095ba48"
+      },
+      {
         "id": "pass13-triple-track-20261123",
         "scope": "Pass 13 Development 2018-2024 zero-network triple-track Engine #2 screen: Track 1 GBPUSD/EURUSD Liquidity Sweep (FAILED), Track 2 Clean-Room NEN022 Fakey H4 & SEA003 XAUUSD TOM Swap-3x/MC Null (FAILED), Track 3 US500 NY ORB Sealed Explicit M1 (FAILED, ORB_ENGINE2_SEARCH_EXHAUSTED).",
         "report": "PASS13-TRIPLE-TRACK-ENGINE2-20261123.md",
