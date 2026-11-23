@@ -103,6 +103,11 @@ chồng lấn, không là account PnL hay chứng minh edge/OOS/prop. G0–G6 v�
    - Ứng viên giữ lệnh dài ngày hoặc ăn Carry dương phải qua thêm **Matched-Hold Timing Permutation Null** để tách alpha thời điểm vào lệnh khỏi drift/carry chung (bài học Pass 20: `DON20_POS` trượt timing null `p = 0,14–0,97` và `0/12` ô 2D).
 8. **Outlier/Crisis Stress & Mặt phẳng 2D kép trước khi thăng hạng động cơ (từ Pass 22):**
    - Trước khi thăng hạng động cơ vào danh mục cốt lõi hoặc xuất `.mq5`, phải qua: (a) **Outlier Stress** — vẫn dương ròng sau khi bỏ Top-3/Top-5 lệnh thắng lớn nhất và loại đồng thời các giai đoạn sốc cực đoan liên quan (như COVID 03/2020, UK Gilt 09–10/2022); (b) **Mặt phẳng 2D kép** — kiểm cả lưới cốt lõi (`trigger × SL`) lẫn lưới bộ lọc phụ (`trigger × filter`), ghi nhận trung thực vùng nhạy nếu có thay vì ẩn sau một lưới đẹp.
+9. **Kiểm định tích lũy trước Holdout — Cumulative DSR & Tail Correlation (từ Pass 28 / Pre-Holdout Audit):**
+   - Trước khi mở khóa Holdout (`>= 2025-01-01`), bắt buộc đo **Deflated Sharpe Ratio (DSR / PSR)** theo tổng ngân sách thử nghiệm tích lũy toàn chiến dịch (`M = 1, 40, 250, 600`) và **Worst-5% Tail Correlation** giữa các động cơ trên những ngày lỗ sâu nhất của danh mục (via `quant_factory.eval_pipeline`), kèm kiểm tra xu hướng suy giảm theo từng năm (`2018 → 2024`).
+10. **Ràng buộc vận hành Prop Payout & MT5 Backtest-to-Live Parity (từ Pre-Holdout Audit):**
+   - Với danh mục nhiều động cơ trên cùng một mã (như `US100` E4+E5, `USDJPY` E1+E2+E7), phải đo tác động của **Per-Symbol Concurrent Risk Cap** (`<= 1,00%–1,25%` mỗi mã) để phòng luật gộp *"trade idea bundle"* khi FTMO/The5ers duyệt payout, đồng thời kiểm **khóa tin đỏ `±5 phút` chính thức (`224` sự kiện FOMC/CPI/NFP)**.
+   - Mọi bản EA đưa lên Demo/Live phải thừa kế/khớp hợp đồng an toàn của `Naqex_PropGuard.mqh`: tự nhận `ORDER_FILLING_*`, sizing theo `SYMBOL_TRADE_TICK_VALUE_LOSS`, xử lý lệch `TimeGMT()` trong Strategy Tester, tự đóng trước giờ đóng sớm ngày lễ Mỹ (`SymbolInfoSessionTrade`), lưu trạng thái qua `GlobalVariable` chống VPS restart, và xác minh `TRADE_RETCODE_DONE`.
 
 ## Cách báo cáo
 

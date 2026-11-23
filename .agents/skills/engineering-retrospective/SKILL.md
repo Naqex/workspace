@@ -64,5 +64,6 @@ Với strategy research, đọc [hậu kiểm lượt nghiên cứu](references/
   skill không chứng minh native Paperclip/Hermes loader đã nhận hoặc dùng nó.
 
 Khởi đầu thực tế: [review Q1](../../../planning/research/ENGINEERING-REVIEW-Q1-20261105.md).
+Với bảo trì định kỳ Quant Factory (chạy `system_doctor.py --mode fast|full`, `pytest -n 6`, kiểm cache `.npz` zero-pickle, anti-bloat `README <= 150 dòng` / `CURRENT-CONTEXT <= 12 KB` / JSON `< 900 KB`), dùng [quant-factory-ops](../quant-factory-ops/SKILL.md).
 Risk/edge/prop qualification vẫn thuộc
 [strategy qualification](../strategy-qualification/SKILL.md), không thuộc speed review.

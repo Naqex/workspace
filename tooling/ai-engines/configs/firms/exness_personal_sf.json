@@ -1,0 +1,18 @@
+{
+  "id": "EXNESS_PERSONAL_SF",
+  "firm": "Exness",
+  "account_type": "PersonalSwapFree",
+  "steps": 0,
+  "capital_usd": 10000.0,
+  "fee_usd": 0.0,
+  "fee_refund_ratio": 0.0,
+  "daily_loss_pct": 1.0,
+  "static_loss_pct": 1.0,
+  "payout_split": 1.0,
+  "news_restriction_funded": false,
+  "overnight_allowed": true,
+  "swap_free": true,
+  "leverage_fx": 200,
+  "leverage_idx": 100,
+  "fx_comm_usd_lot": 7.0
+}

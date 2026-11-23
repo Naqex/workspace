@@ -1,0 +1,152 @@
+{
+  "schema": "naqex-portfolio-registry-v1",
+  "updated_utc": "2026-11-23T14:40:00+00:00",
+  "status": "FROZEN_PRE_HOLDOUT_DISCOVERY_COMPLETE",
+  "holdout_lock": {
+    "cutoff_utc": "2025-01-01T00:00:00Z",
+    "lock_file": "planning/research/NATIVE_FTMO_HOLDOUT_LOCK.json",
+    "lock_sha256": "f0a6b43cb205535b0a959456455dc1d857a0936c06c2e51b8614fd7d772a8486",
+    "holdout_rows_analysed": 0,
+    "order_send_count": 0
+  },
+  "data_store": {
+    "hot_m1_cache_dir": ".runtime/hot-m1-cache",
+    "derived_cache_dir": ".runtime/hot-m1-cache/_derived",
+    "cold_archive_dir": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs",
+    "assets_sealed_native_bid_ask": [
+      "USDJPY", "GBPUSD", "EURUSD", "GBPJPY", "AUDUSD", "USDCAD",
+      "EURJPY", "XAUUSD", "US500", "US100", "GER40", "BTCUSD"
+    ]
+  },
+  "demo_spec_bindings": {
+    "ftmo_standard_full13": "planning/research/FTMO-DEMO-10K-STANDARD-FULL13-AND-EXECUTION-20261119.json",
+    "ftmo_swing_compact": "planning/research/SWING-10K-AUDIT-MULTIWEEK-AND-WIN-TAXONOMY-20261120.json",
+    "ftmo_indices_crypto_snapshot": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\ftmo-demo-indices-spec-20261123\\ftmo_indices_spec_snapshot.json",
+    "ftmo_indices_sha256": "220b916e60a7",
+    "the5ers_mt5_spec": "UNMEASURED_PENDING_FREE_COMPETITION"
+  },
+  "engines": [
+    {
+      "id": "E1_USDJPY_TOKYO",
+      "role": "CORE",
+      "asset": "USDJPY",
+      "origin_pass": "Pass 6/7B",
+      "swap_mode": "INTRADAY_SWAP_0",
+      "spec_status": "FTMO_DEMO_SPEC_BOUND",
+      "base_risk_pct": 0.1606,
+      "magic": 20261122,
+      "mq5_export": "tooling/ai-engines/exports/Naqex_WB_TOKYO_BOX_USDJPY.mq5",
+      "params": {"box_utc": "00:00-03:00", "win_utc": "03:00-10:00", "flat_tz": "Europe/Helsinki 18:00"}
+    },
+    {
+      "id": "E2_USDJPY_EXP80",
+      "role": "CORE",
+      "asset": "USDJPY",
+      "origin_pass": "Pass 16/17",
+      "swap_mode": "INTRADAY_SWAP_0",
+      "spec_status": "FTMO_DEMO_SPEC_BOUND",
+      "base_risk_pct": 0.5894,
+      "magic": 20261123,
+      "mq5_export": "tooling/ai-engines/exports/Naqex_WB_EXP080_USDJPY.mq5",
+      "params": {"trig_atr": 0.80, "sl_atr": 0.75, "win_utc": "07:00-17:00", "flat_utc": "20:55"}
+    },
+    {
+      "id": "E3_GBPUSD_VH",
+      "role": "CORE",
+      "asset": "GBPUSD",
+      "origin_pass": "Pass 21/22",
+      "swap_mode": "INTRADAY_SWAP_0",
+      "spec_status": "FTMO_DEMO_SPEC_BOUND",
+      "base_risk_pct": 0.75,
+      "magic": 20261125,
+      "mq5_export": "tooling/ai-engines/exports/Naqex_WB_EXP080_VOLHIGH_GBPUSD.mq5",
+      "params": {"trig_atr": 0.80, "sl_atr": 0.75, "min_prev_range_atr": 1.10, "win_utc": "07:00-17:00", "flat_utc": "20:55"}
+    },
+    {
+      "id": "E4_US100_SESS40",
+      "role": "CORE",
+      "asset": "US100",
+      "broker_symbol": "US100.cash",
+      "origin_pass": "Pass 24",
+      "swap_mode": "INTRADAY_SWAP_0",
+      "spec_status": "FTMO_DEMO_SPEC_BOUND",
+      "base_risk_pct": 0.50,
+      "magic": 20261124,
+      "mq5_export": "tooling/ai-engines/exports/Naqex_WB_SESS_CONT_BRK40_US100.mq5",
+      "params": {"min_move_atr": 0.40, "close_pct": 0.70, "sl_atr": 0.65, "morn_et": "09:30-11:30", "flat_et": "15:55"}
+    },
+    {
+      "id": "E5_US100_RS1130",
+      "role": "CORE",
+      "asset": "US100",
+      "broker_symbol": "US100.cash",
+      "benchmark_symbol": "US500.cash",
+      "origin_pass": "Pass 26",
+      "swap_mode": "INTRADAY_SWAP_0",
+      "spec_status": "FTMO_DEMO_SPEC_BOUND",
+      "base_risk_pct": 0.50,
+      "magic": 20261126,
+      "mq5_export": "tooling/ai-engines/exports/Naqex_WB_IDX_RS_US100_LEAD_1130.mq5",
+      "params": {"thr": 0.25, "sl_atr": 0.75, "entry_et": "11:30", "flat_et": "15:55"}
+    },
+    {
+      "id": "E6_EURJPY_VOLCOMP",
+      "role": "CORE",
+      "asset": "EURJPY",
+      "origin_pass": "Pass 28",
+      "swap_mode": "INTRADAY_SWAP_0",
+      "spec_status": "FTMO_DEMO_SPEC_BOUND",
+      "base_risk_pct": 0.50,
+      "magic": 20261128,
+      "mq5_export": "tooling/ai-engines/exports/Naqex_WB_VOLCOMP_EXP75_EURJPY.mq5",
+      "params": {"max_vol_ratio_5_20": 0.85, "trig_atr": 0.75, "sl_atr": 0.75, "win_utc": "07:00-17:00", "flat_utc": "20:55"}
+    },
+    {
+      "id": "E7_USDJPY_NY10ET",
+      "role": "CORE",
+      "asset": "USDJPY",
+      "benchmark_symbol": "US100.cash",
+      "origin_pass": "Pass 28",
+      "swap_mode": "INTRADAY_SWAP_0",
+      "spec_status": "FTMO_DEMO_SPEC_BOUND",
+      "base_risk_pct": 0.50,
+      "magic": 20261129,
+      "mq5_export": "tooling/ai-engines/exports/Naqex_WB_NY_RISK_FLOW_10ET_USDJPY.mq5",
+      "params": {"eq_thr": 0.25, "usd_thr": 0.25, "sl_atr": 0.75, "entry_et": "10:00", "flat_utc": "20:55"}
+    },
+    {
+      "id": "S6_FX_USD_BSK",
+      "role": "SATELLITE_P1",
+      "asset": "MULTI_FX",
+      "origin_pass": "Pass 26",
+      "swap_mode": "INTRADAY_SWAP_0",
+      "spec_status": "FTMO_DEMO_SPEC_BOUND",
+      "base_risk_pct": 0.50,
+      "magic": 20261127,
+      "mq5_export": "tooling/ai-engines/exports/Naqex_WB_FX_USD_BASKET_12U_Z35.mq5",
+      "params": {"entry_utc": 12, "lb_h": 5, "min_z": 0.35, "sl_atr": 0.75, "flat_utc": "20:55"}
+    },
+    {
+      "id": "S7_XAU_EXP120",
+      "role": "SATELLITE_P1",
+      "asset": "XAUUSD",
+      "origin_pass": "Pass 15/23",
+      "swap_mode": "INTRADAY_SWAP_0",
+      "spec_status": "FTMO_DEMO_SPEC_BOUND",
+      "base_risk_pct": 0.50,
+      "magic": 20261130,
+      "mq5_export": null,
+      "params": {"trig_atr": 1.20, "sl_atr": 0.75, "win_utc": "07:00-17:00", "flat_utc": "20:55"}
+    }
+  ],
+  "frozen_portfolios": {
+    "PORT_7E_P28_CORE": {
+      "engines": ["E1_USDJPY_TOKYO", "E2_USDJPY_EXP80", "E3_GBPUSD_VH", "E4_US100_SESS40", "E5_US100_RS1130", "E6_EURJPY_VOLCOMP", "E7_USDJPY_NY10ET"],
+      "dev_m1_floating": {"ann_pct": 7.73, "peak_dd_pct": 6.36, "calmar": 1.21, "red_news_us_retained_pct": 91.7}
+    },
+    "PORT_9E_P28_TURBO": {
+      "engines": ["E1_USDJPY_TOKYO", "E2_USDJPY_EXP80", "E3_GBPUSD_VH", "E4_US100_SESS40", "E5_US100_RS1130", "E6_EURJPY_VOLCOMP", "E7_USDJPY_NY10ET", "S6_FX_USD_BSK", "S7_XAU_EXP120"],
+      "dev_m1_floating": {"ann_pct": 8.83, "peak_dd_pct": 6.37, "calmar": 1.39, "red_news_us_retained_pct": 93.3}
+    }
+  }
+}

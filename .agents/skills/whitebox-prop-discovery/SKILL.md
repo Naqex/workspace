@@ -28,10 +28,11 @@ Discover and qualify FTMO-compatible white-box strategies without black-box `.ex
    - **Dual 2D parameter surfaces** (`trigger × SL` AND `trigger × secondary filter`, reporting boundary sensitivity transparently),
    - **Outlier & Crisis Stress** (`-Top3`, `-Top5`, excluding major shock months such as Mar-2020 COVID and Sep–Oct 2022 UK Gilt),
    - 4-axis decomposition & Prague-reset M1 floating-equity portfolio audit before exporting an `.mq5` template via `export_exp_daily_open_mq5` (`audit_open_source_mq5` strips `//` and `/* */` comments before scanning so doc headers do not trigger false positives).
+5. **Quant Factory Reuse (Pass 29+):** For portfolio replays, firm/profile sweeps, DSR/tail correlation, or MQL5 guard logic, reuse [quant_factory/](../../../tooling/ai-engines/quant_factory/__init__.py), declarative JSON configs in `tooling/ai-engines/configs/`, [Naqex_PropGuard.mqh](../../../tooling/ai-engines/exports/Include/Naqex_PropGuard.mqh), and run [system_doctor.py](../../../tooling/ai-engines/system_doctor.py) instead of duplicating loops in new monolithic scripts. See [quant-factory-ops](../quant-factory-ops/SKILL.md).
 
 ## Runtime & Commands
 
-- **Required Python runtime:** Always use `D:\ANNAM\TradingWorkspace\.runtime\quant-audit-v24\Scripts\python.exe` (includes `pyarrow` + `numpy`; system Python and product venvs lack `pyarrow`).
+- **Required Python runtime:** Always use `D:\ANNAM\TradingWorkspace\.runtime\quant-audit-v24\Scripts\python.exe` (includes `pyarrow`, `numpy`, `numba`, `pytest`, `pytest-xdist`; system Python and product venvs lack them).
 - **Node MCP note (troubleshooting):** Local `Node v24.19.0` requires `rea-agents` pinned to `6.7.0 --mcp` (do not bump to `6.10.x` until Node >= `24.22.1`); if `naqex_search` reports stale index, rebuild via `uv run --no-project --python 3.12 tooling/search/xerj.py index`.
 
 ```powershell

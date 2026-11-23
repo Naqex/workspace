@@ -1,0 +1,31 @@
+{
+  "id": "THE5ERS_HG_5K",
+  "firm": "The5ers",
+  "account_type": "HyperGrowth",
+  "steps": 1,
+  "capital_usd": 5000.0,
+  "fee_usd": 260.0,
+  "fee_refund_ratio": 0.0,
+  "p1_target_pct": 0.1,
+  "p2_target_pct": 0.0,
+  "daily_loss_pct": 0.03,
+  "static_loss_pct": 0.06,
+  "daily_pause_non_breaching": true,
+  "min_days": 0,
+  "min_profitable_day_pct": 0.0,
+  "funded_capital_multiplier": 2.0,
+  "payout_split": 0.6,
+  "payout_cycle_days": 10,
+  "max_retries": 2,
+  "retry_discounts": [
+    1.0,
+    1.0
+  ],
+  "news_restriction_funded": true,
+  "news_pad_sec": 300,
+  "leverage_fx": 30,
+  "leverage_idx": 15,
+  "fx_comm_usd_lot": 4.0,
+  "reset_tz": "UTC+2",
+  "requires_ea_written_clearance": true
+}
