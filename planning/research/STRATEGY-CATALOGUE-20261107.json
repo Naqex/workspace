@@ -4787,6 +4787,14 @@
     "version": 1,
     "broker_observations": [
       {
+        "id": "pass22-gbpusd-volhigh-3engine-20261123",
+        "scope": "Pass 22 Development 2018-2024 zero-network M1 forensic & Prague-reset 3-engine audit of GBPUSD WB_EXP_80_VOL_HIGH: PROMOTED as orthogonal Engine #3 (survives all 3 cost tiers through +1.00 pip stress, 8/9 trig x sl_atr surface cells positive in both A&B, positive BUY +4.72R & SELL +9.47R, survives excluding both Mar-2020 COVID & Sep-Oct 2022 UK Gilt at +4.66R, rJPY=0.0174; upgrades 3-engine portfolio to +4.23-5.33%/yr at 5.18-6.46% Peak DD and Calmar 0.82-0.84 across Swing 10k/25k & Standard 50k with 0 margin failures; exported clean Naqex_WB_EXP080_VOLHIGH_GBPUSD.mq5).",
+        "report": "PASS22-GBPUSD-VOLHIGH-FORENSIC-3ENGINE-20261123.md",
+        "summary": "PASS22-GBPUSD-VOLHIGH-FORENSIC-3ENGINE-20261123.json",
+        "private_manifest": "pass22-gbpusd-volhigh-3engine-20261123/manifest.json",
+        "private_manifest_sha256": "22ad68662f68fd3420c87a762adf78301d82983a7fc4622e58d913d8c1238e3b"
+      },
+      {
         "id": "pass21-gbpjpy-and-whitebox-discovery-20261123",
         "scope": "Pass 21 Development 2018-2024 parallel execution: Lane A sealed 2.61M GBPJPY Native M1 Bid/Ask bars on D: SSD Hot Cache and rejected GBPJPY EXP_DAILY_OPEN (-9.52R Stress, 0/12 2D surface, H4 illusion exposed); Lane B deployed Prop-First White-Box Discovery System (whitebox_discovery.py, mq5_whitebox_exporter.py, whitebox-prop-discovery skill, clean Naqex_WB_EXP080_USDJPY.mq5 export) and discovered orthogonal non-JPY candidate WB_EXP_80_VOL_HIGH GBPUSD (A +5.72R -> Blind B +8.61R, 4/4 blind years positive, BUY +5.03R & SELL +9.30R, DD 5.43R, p=0.006, FDR q=0.0915 across 144 specs, rJPY=0.0168).",
         "report": "PASS21-GBPJPY-M1-AND-WHITEBOX-PROP-DISCOVERY-20261123.md",

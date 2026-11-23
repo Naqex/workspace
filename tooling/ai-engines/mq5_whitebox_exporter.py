@@ -55,6 +55,7 @@ def export_exp_daily_open_mq5(spec: dict) -> str:
     symbol = str(spec["asset"])
     trig_atr = float(spec.get("trig_atr", 0.80))
     sl_atr = float(spec.get("sl_atr", 0.75))
+    min_prev_rng_atr = float(spec.get("min_prev_range_atr", 0.0))
     risk_pct = float(spec.get("risk_pct", 0.50))
     start_h = int(spec.get("entry_start_utc_hour", 7))
     end_h = int(spec.get("entry_end_utc_hour", 17))
@@ -81,6 +82,7 @@ input double InpRiskPercent       = {risk_pct:.2f};       // Fixed fractional ri
 input double InpMaxDailyLossPct   = 2.50;       // Internal circuit breaker (< 5% FTMO daily limit)
 input double InpTrigAtrMult       = {trig_atr:.2f};       // Expansion trigger from D1 open (x ATR14_D1)
 input double InpSlAtrMult         = {sl_atr:.2f};       // Hard SL distance (x ATR14_D1)
+input double InpMinPrevRangeAtr   = {min_prev_rng_atr:.2f};       // Causal prior-day range/ATR filter (0 = disabled)
 input int    InpAtrPeriodD1       = 14;         // Prior completed D1 Wilder ATR period
 input int    InpEntryStartHourUTC = {start_h};          // Entry window start (UTC)
 input int    InpEntryEndHourUTC   = {end_h};         // Entry window end (UTC)
@@ -188,6 +190,11 @@ void OnTick()
    double atrBuf[1];
    if(CopyBuffer(g_atrHandle, 0, 1, 1, atrBuf) != 1 || atrBuf[0] <= 0.0) return;
    double atrD1 = atrBuf[0];
+   if(InpMinPrevRangeAtr > 0.0)
+   {{
+      double prevRng = iHigh(_Symbol, PERIOD_D1, 1) - iLow(_Symbol, PERIOD_D1, 1);
+      if(prevRng < InpMinPrevRangeAtr * atrD1) return;
+   }}
    double dayOpen = iOpen(_Symbol, PERIOD_D1, 0);
    if(dayOpen <= 0.0) return;
 
