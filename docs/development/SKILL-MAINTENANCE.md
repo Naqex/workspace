@@ -7,6 +7,25 @@ daemon/scheduler hay hứa background tự chỉnh khi không có agent làm vi�
 
 ## Trigger và hành động
 
+23/11 — Tiếp quản toàn diện sau Pass 11/12 & audit `strategy-intel`: cập nhật
+`strategy-qualification/references/validation-gates.md` (thêm 4 luật thực thi:
+Straight-to-M1 Bid/Ask cho lệnh chờ nội ngày, FTMO Swap-3× pre-mortem, Monte
+Carlo Random-Entry Null Test + độ bền tham số ±30% cho nhánh một chiều, và quy
+tắc Air-Gap với kho intel bên ngoài) và trỏ 1 lần từ `strategy-research/SKILL.md`.
+Không tạo skill mới hoặc sửa global config. Đồng thời compact `CURRENT-CONTEXT.md`
+(88,2 KiB / 1.261 dòng → ~8,5 KiB, giữ byte-exact gzip + `MANIFEST.json` ở
+`planning/archive/2026-11-23-pass12-takeover/`) và gỡ tiến độ V22 cũ khỏi `README.md`.
+Positive walkthrough: đề xuất pending stop trong ngày (VD US500/GBPUSD ORB)
+bắt buộc chạy thẳng M1 Bid/Ask; ý tưởng Long-only trên Vàng từ `strategy-intel`
+chỉ nhận đặc tả toán học (Air-Gap) và chạy Random-Entry Null Test + Swap 3×.
+Negative: hỏi tiến độ hoặc chạy lại regression không kích hoạt thu thập intel
+hay mở Holdout. Đây là manual semantic walkthrough, chưa forward-test routing
+bằng model độc lập. `check_skill_links.py --review-triggers` (13 repo skills,
+0 errors/0 warnings), `check_workspace.py` (9 guides, 8 pinned submodules) và
+`ai-environment-maintainer -Force` (0 errors/0 warnings; lưu ý script global
+dùng `rg` nên trong shell không có `rg` trên PATH chỉ quét 4 global skills,
+chưa sửa global script).
+
 13/11 — owner đóng chiến dịch sau PR74, yêu cầu Stage-0 trước SL/TP/sizing.
 Thêm policy tại `strategy-qualification/references/validation-gates.md`, route
 một lần từ `strategy-research`; không tạo skill/script mới hoặc runtime gate.

@@ -54,6 +54,32 @@ phổ quát. Bài học: US500 BR01/RS02, EURUSD Catalogue13/B0 và
 Qua Stage-0 chỉ cho phép xét đầu tư tiếp đúng protocol; raw markout có thể
 chồng lấn, không là account PnL hay chứng minh edge/OOS/prop. G0–G6 vẫn áp dụng.
 
+### Luật thực thi & chống ảo giác bổ sung (23/11/2026 · từ Pass 10–12 & Clean-Room Intel)
+
+1. **Straight-to-M1 Bid/Ask cho lệnh chờ/SL trong ngày:** Mọi chiến lược dùng
+   `Pending Stop`/`Limit` nội phiên hoặc SL hẹp **bắt buộc** đo trực tiếp trên
+   M1/Tick Bid–Ask với quy tắc bảo thủ `SL hit first` khi trùng phút. Không dùng
+   H1 làm bước lọc trung gian cho intraday pending stop (bài học Pass 11: GBPUSD
+   London ORB đạt +181,24R trên H1 nhưng rơi về −7,45R trên M1 do 172 ngày quét
+   hai biên).
+2. **FTMO Real-Cost & Swap-3× Pre-Mortem:** Mọi chiến lược giữ qua đêm hoặc qua
+   cuối tuần phải trừ swap có dấu và triple-swap đúng ngày theo snapshot tài
+   khoản đích (`36f1535` Standard / `8fd77ef` Swing) ngay tại Stage-0 (bài học
+   Pass 10: US500 TOM lãi gộp +521 USD nhưng swap ăn −545 USD).
+3. **Alpha vs Beta Null Test & Độ bền tham số:**
+   - Chiến lược 2 chiều: giữ đối chứng `Fade` cùng timestamp/quote thực thi.
+   - Chiến lược 1 chiều (Long-only/Short-only trên tài sản có drift dài hạn như
+     XAUUSD/US500): bổ sung **Monte Carlo Random-Entry Null Test** (300–1.000 lần
+     xáo trộn cùng số lệnh & luật thoát, $p < 0,05$) để tách Alpha khỏi Beta.
+   - Sau Stage-0: kiểm độ bền tham số ±30% và xét hiệu chỉnh đa thử nghiệm
+     (FDR/DSR) theo tổng lịch sử trial của chiến dịch.
+4. **Air-Gap với kho intel bên ngoài (`strategy-intel`):** Kho thu thập ý tưởng
+   bên ngoài chỉ bàn giao **đặc tả toán học thuần túy** (`external_concept_ref`)
+   vào protocol preregister; **cấm** đọc file/import code xuyên repo hoặc dùng
+   số liệu từ `01/01/2025` trở đi để chọn ứng viên. Mọi nguồn ngoài luôn ở mức
+   `SOURCE_CLAIM_ONLY` cho đến khi tái lập trên M1 Bid/Ask + phí thật trong
+   workspace.
+
 ## Cách báo cáo
 
 ### Nhãn nguyên nhân dừng và phạm vi bằng chứng
