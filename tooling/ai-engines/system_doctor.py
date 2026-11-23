@@ -177,7 +177,7 @@ def check_anti_bloat() -> dict:
     try:
         j = json.loads(out)
         passed = bool(j.get("passed"))
-        detail = f"passed={passed}, checked_files={j.get('checked_files')}, violations={len(j.get('violations', []))}"
+        detail = f"passed={passed}, raw_files={j.get('raw_files')}, failures={len(j.get('failures', []))}"
     except Exception:
         passed = (rc == 0)
     return {"name": "anti_bloat", "ok": passed, "seconds": sec, "detail": detail}
