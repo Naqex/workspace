@@ -14,6 +14,9 @@ provenance: verified_from_workspace_and_owner_explicit_statements
 - **Phong cách làm việc với AI Agents:** Đóng vai **Chủ sở hữu / Giám đốc Hệ thống & Rủi ro**, giao quyền tự chủ cao cho AI trong lập kế hoạch, nghiên cứu, tối ưu quy trình, xây code/UI và kiểm chứng offline; giữ quyền quyết định cuối (fail-closed) với tiền thật, lệnh sàn, mở khóa dữ liệu mật (Holdout), mật khẩu/API key và hạ tầng production.
 - **Khẩu vị kỹ thuật & chất lượng:** Ưu tiên giải pháp **hệ thống hóa như dây chuyền sản xuất (factory, linh hoạt theo cấu hình, song song, tái sử dụng lâu dài)** thay vì chắp vá thủ công từng lượt. Ghét gắn cứng (*hardcoding*), ghét báo cáo dài dòng sáo rỗng, ưu tiên số liệu đo thật, tốc độ nhanh và có lớp kiểm định hồi quy bảo vệ tương lai.
 - **Năng lực nền & tư duy tiếp cận:** IQ tự đánh giá mức tốt (`115–120`), tiếp thu nhanh các khái niệm định lượng/hệ thống khi được giải thích trực diện bằng tiếng Việt tự nhiên kèm lý do thật và số liệu cụ thể; tò mò sâu về bản chất (*first principles* — luôn hỏi *"đây đã là giới hạn/đẳng cấp cao nhất chưa, còn thiếu gì, cộng đồng thực tế làm ra sao?"*).
+- **Vị thế năng lực thực tế hiện tại (owner tự xác nhận `2026-11-23`):**
+  - *Điểm rất mạnh:* **Chuyên gia sử dụng & điều phối AI Agents** (orchestration, workflow đa tác nhân, hệ thống hóa dây chuyền) + **ngân sách AI Agents dư dả**.
+  - *Khoảng trống thật cần bù:* Hoạt động độc lập (solo), **kiến thức trading ở mức cơ bản–khá**, **chưa từng trade tay thật** và **chưa có lịch sử lợi nhuận live (chưa profitable)**. Do đó hệ thống phải ưu tiên khóa cứng rủi ro, tách biệt nghiên cứu với thực thi, và nhanh chóng bước qua thực chiến Demo/Free Trial/vốn nhỏ để tích lũy dữ liệu khớp lệnh thật thay vì chỉ hoàn thiện backtest trên giấy.
 - **Ngôn ngữ giao tiếp:** Tiếng Việt tự nhiên, súc tích, đi thẳng vào kết quả và quyết định có ích; giữ thuật ngữ tiếng Anh chuẩn ngành kèm giải thích ngắn lần đầu.
 
 ## 2. Mục tiêu dài hạn (North Star)
