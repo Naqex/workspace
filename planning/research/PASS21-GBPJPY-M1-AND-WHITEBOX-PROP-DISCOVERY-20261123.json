@@ -1,0 +1,2373 @@
+{
+  "pass": "Pass 21",
+  "protocol_commit": "9bbf69c83241d2b1084d21bd3a23f057414a5677",
+  "holdout_lock_sha256": "f0a6b43cb205535b0a959456455dc1d857a0936c06c2e51b8614fd7d772a8486",
+  "holdout_rows": 0,
+  "order_send_count": 0,
+  "verdict": "GBPJPY_M1_REJECTED_WHITEBOX_DISCOVERY_DEPLOYED_AND_FOUND_ORTHOGONAL_GBPUSD_VOL_HIGH_CANDIDATE",
+  "quant_test_suite": {
+    "tests": 1534,
+    "passed": true,
+    "skipped": 0,
+    "errors": 0,
+    "failures": 0,
+    "seconds": 15.43
+  },
+  "private_manifest": "pass21-gbpjpy-m1-20261123/manifest.json",
+  "private_manifest_sha256": "64da49a5eaa8d8134af3d9f80c0d8b88b8f7b13e7084ced33717b23696a1d7f6",
+  "lane_a_gbpjpy_m1": {
+    "pass": "Pass 21 Lane A",
+    "protocol_commit": "9bbf69c83241d2b1084d21bd3a23f057414a5677",
+    "holdout_lock_sha256": "f0a6b43cb205535b0a959456455dc1d857a0936c06c2e51b8614fd7d772a8486",
+    "holdout_rows": 0,
+    "order_send_count": 0,
+    "elapsed_seconds": 20.72,
+    "screen_rows": [
+      {
+        "strategy": "EXP_DAILY_OPEN_080",
+        "asset": "GBPJPY",
+        "n": 605,
+        "base_R": -6.55,
+        "stress05_R": -9.52,
+        "stress10_R": -12.46,
+        "clusters_s05": {
+          "A": -5.044,
+          "B": -4.477
+        },
+        "years_s05": {
+          "2018": -4.222,
+          "2019": 2.756,
+          "2020": -3.578,
+          "2021": 3.029,
+          "2022": -1.568,
+          "2023": 0.506,
+          "2024": -6.445
+        },
+        "pos_years_s05": 3,
+        "floating_dd_R_s05": 16.08,
+        "underwater_m_s05": 83.27,
+        "fade_R_s05": -88.28,
+        "p_sign_flip": 0.012,
+        "p_gross": 0.012,
+        "corr_usdjpy_core": {
+          "union_corr": 0.1825,
+          "overlap_corr": 0.2426,
+          "overlap_days": 546
+        },
+        "decomp": {
+          "direction": {
+            "BUY": {
+              "n": 288,
+              "win_rate": 0.507,
+              "net_R": 10.03,
+              "floating_dd_R": 9.23
+            },
+            "SELL": {
+              "n": 317,
+              "win_rate": 0.41,
+              "net_R": -19.55,
+              "floating_dd_R": 23.82
+            }
+          },
+          "entry_window": {
+            "07:00–11:59_London": {
+              "n": 311,
+              "win_rate": 0.444,
+              "net_R": -4.12,
+              "floating_dd_R": 9.96
+            },
+            "12:00–16:59_NY": {
+              "n": 294,
+              "win_rate": 0.469,
+              "net_R": -5.4,
+              "floating_dd_R": 10.92
+            }
+          },
+          "cost_bucket": {
+            "4–8%": {
+              "n": 78,
+              "win_rate": 0.474,
+              "net_R": -0.68,
+              "floating_dd_R": 5.46
+            },
+            "<4%": {
+              "n": 522,
+              "win_rate": 0.454,
+              "net_R": -8.16,
+              "floating_dd_R": 14.71
+            },
+            ">8%": {
+              "n": 5,
+              "win_rate": 0.4,
+              "net_R": -0.69,
+              "floating_dd_R": 1.8
+            }
+          }
+        },
+        "fdr_q": 0.048,
+        "tier": "TIER_3_DEAD_NO_EDGE"
+      },
+      {
+        "strategy": "EXP_DAILY_OPEN_100",
+        "asset": "GBPJPY",
+        "n": 372,
+        "base_R": -15.61,
+        "stress05_R": -17.37,
+        "stress10_R": -19.12,
+        "clusters_s05": {
+          "A": -7.261,
+          "B": -10.114
+        },
+        "years_s05": {
+          "2018": -3.17,
+          "2019": -0.155,
+          "2020": -3.936,
+          "2021": 2.582,
+          "2022": -2.099,
+          "2023": -5.228,
+          "2024": -5.37
+        },
+        "pos_years_s05": 1,
+        "floating_dd_R_s05": 20.33,
+        "underwater_m_s05": 83.27,
+        "fade_R_s05": -49.36,
+        "p_sign_flip": 0.2577,
+        "p_gross": 0.2577,
+        "corr_usdjpy_core": {
+          "union_corr": 0.1922,
+          "overlap_corr": 0.3098,
+          "overlap_days": 343
+        },
+        "decomp": {
+          "direction": {
+            "BUY": {
+              "n": 175,
+              "win_rate": 0.463,
+              "net_R": -1.88,
+              "floating_dd_R": 7.59
+            },
+            "SELL": {
+              "n": 197,
+              "win_rate": 0.386,
+              "net_R": -15.49,
+              "floating_dd_R": 19.04
+            }
+          },
+          "entry_window": {
+            "07:00–11:59_London": {
+              "n": 167,
+              "win_rate": 0.437,
+              "net_R": -8.79,
+              "floating_dd_R": 14.91
+            },
+            "12:00–16:59_NY": {
+              "n": 205,
+              "win_rate": 0.41,
+              "net_R": -8.59,
+              "floating_dd_R": 10.09
+            }
+          },
+          "cost_bucket": {
+            "4–8%": {
+              "n": 43,
+              "win_rate": 0.465,
+              "net_R": -0.75,
+              "floating_dd_R": 5.91
+            },
+            "<4%": {
+              "n": 319,
+              "win_rate": 0.42,
+              "net_R": -15.11,
+              "floating_dd_R": 17.81
+            },
+            ">8%": {
+              "n": 10,
+              "win_rate": 0.3,
+              "net_R": -1.51,
+              "floating_dd_R": 3.49
+            }
+          }
+        },
+        "fdr_q": 0.3436,
+        "tier": "TIER_3_DEAD_NO_EDGE"
+      },
+      {
+        "strategy": "EXP_DAILY_OPEN_120",
+        "asset": "GBPJPY",
+        "n": 214,
+        "base_R": -8.18,
+        "stress05_R": -9.22,
+        "stress10_R": -10.25,
+        "clusters_s05": {
+          "A": -8.531,
+          "B": -0.689
+        },
+        "years_s05": {
+          "2018": -2.234,
+          "2019": 0.639,
+          "2020": -6.936,
+          "2021": 2.951,
+          "2022": -3.495,
+          "2023": -0.16,
+          "2024": 0.014
+        },
+        "pos_years_s05": 3,
+        "floating_dd_R_s05": 15.08,
+        "underwater_m_s05": 57.77,
+        "fade_R_s05": -30.62,
+        "p_sign_flip": 0.3966,
+        "p_gross": 0.3966,
+        "corr_usdjpy_core": {
+          "union_corr": 0.1542,
+          "overlap_corr": 0.2941,
+          "overlap_days": 203
+        },
+        "decomp": {
+          "direction": {
+            "BUY": {
+              "n": 94,
+              "win_rate": 0.457,
+              "net_R": -2.01,
+              "floating_dd_R": 7.86
+            },
+            "SELL": {
+              "n": 120,
+              "win_rate": 0.417,
+              "net_R": -7.21,
+              "floating_dd_R": 13.13
+            }
+          },
+          "entry_window": {
+            "07:00–11:59_London": {
+              "n": 94,
+              "win_rate": 0.489,
+              "net_R": -2.65,
+              "floating_dd_R": 10.58
+            },
+            "12:00–16:59_NY": {
+              "n": 120,
+              "win_rate": 0.392,
+              "net_R": -6.57,
+              "floating_dd_R": 9.27
+            }
+          },
+          "cost_bucket": {
+            "4–8%": {
+              "n": 28,
+              "win_rate": 0.464,
+              "net_R": -2.06,
+              "floating_dd_R": 6.18
+            },
+            "<4%": {
+              "n": 183,
+              "win_rate": 0.432,
+              "net_R": -7.33,
+              "floating_dd_R": 16.89
+            },
+            ">8%": {
+              "n": 3,
+              "win_rate": 0.333,
+              "net_R": 0.17,
+              "floating_dd_R": 2.05
+            }
+          }
+        },
+        "fdr_q": 0.3966,
+        "tier": "TIER_3_DEAD_NO_EDGE"
+      },
+      {
+        "strategy": "EXP_DAILY_OPEN_080_TREND",
+        "asset": "GBPJPY",
+        "n": 295,
+        "base_R": -3.54,
+        "stress05_R": -5.03,
+        "stress10_R": -6.51,
+        "clusters_s05": {
+          "A": -6.318,
+          "B": 1.285
+        },
+        "years_s05": {
+          "2018": -6.486,
+          "2019": 1.877,
+          "2020": -1.708,
+          "2021": 3.798,
+          "2022": 2.162,
+          "2023": -1.528,
+          "2024": -3.147
+        },
+        "pos_years_s05": 3,
+        "floating_dd_R_s05": 8.82,
+        "underwater_m_s05": 83.23,
+        "fade_R_s05": -38.81,
+        "p_sign_flip": 0.1419,
+        "p_gross": 0.1419,
+        "corr_usdjpy_core": {
+          "union_corr": 0.1096,
+          "overlap_corr": 0.218,
+          "overlap_days": 262
+        },
+        "decomp": {
+          "direction": {
+            "BUY": {
+              "n": 164,
+              "win_rate": 0.512,
+              "net_R": 4.87,
+              "floating_dd_R": 6.8
+            },
+            "SELL": {
+              "n": 131,
+              "win_rate": 0.366,
+              "net_R": -9.9,
+              "floating_dd_R": 10.87
+            }
+          },
+          "entry_window": {
+            "07:00–11:59_London": {
+              "n": 152,
+              "win_rate": 0.441,
+              "net_R": -2.6,
+              "floating_dd_R": 6.72
+            },
+            "12:00–16:59_NY": {
+              "n": 143,
+              "win_rate": 0.455,
+              "net_R": -2.44,
+              "floating_dd_R": 6.5
+            }
+          },
+          "cost_bucket": {
+            "4–8%": {
+              "n": 42,
+              "win_rate": 0.595,
+              "net_R": 7.07,
+              "floating_dd_R": 3.12
+            },
+            "<4%": {
+              "n": 251,
+              "win_rate": 0.422,
+              "net_R": -12.33,
+              "floating_dd_R": 14.37
+            },
+            ">8%": {
+              "n": 2,
+              "win_rate": 0.5,
+              "net_R": 0.22,
+              "floating_dd_R": 1.46
+            }
+          }
+        },
+        "fdr_q": 0.2838,
+        "tier": "TIER_3_DEAD_NO_EDGE"
+      }
+    ],
+    "surface_2d_stress05": {
+      "trig0.65_sl0.55": {
+        "n": 875,
+        "net_R": -29.91,
+        "A": -5.694,
+        "B": -24.216,
+        "pos_years": 1,
+        "dd_R": 40.58
+      },
+      "trig0.65_sl0.75": {
+        "n": 875,
+        "net_R": -20.73,
+        "A": -3.363,
+        "B": -17.366,
+        "pos_years": 2,
+        "dd_R": 29.11
+      },
+      "trig0.65_sl0.95": {
+        "n": 875,
+        "net_R": -14.61,
+        "A": -2.258,
+        "B": -12.353,
+        "pos_years": 2,
+        "dd_R": 20.93
+      },
+      "trig0.80_sl0.55": {
+        "n": 605,
+        "net_R": -9.15,
+        "A": -6.215,
+        "B": -2.934,
+        "pos_years": 3,
+        "dd_R": 18.24
+      },
+      "trig0.80_sl0.75": {
+        "n": 605,
+        "net_R": -9.52,
+        "A": -5.044,
+        "B": -4.477,
+        "pos_years": 3,
+        "dd_R": 16.08
+      },
+      "trig0.80_sl0.95": {
+        "n": 605,
+        "net_R": -5.76,
+        "A": -5.183,
+        "B": -0.572,
+        "pos_years": 3,
+        "dd_R": 12.39
+      },
+      "trig0.95_sl0.55": {
+        "n": 417,
+        "net_R": -12.53,
+        "A": -5.275,
+        "B": -7.255,
+        "pos_years": 2,
+        "dd_R": 18.17
+      },
+      "trig0.95_sl0.75": {
+        "n": 417,
+        "net_R": -16.23,
+        "A": -7.029,
+        "B": -9.2,
+        "pos_years": 2,
+        "dd_R": 19.65
+      },
+      "trig0.95_sl0.95": {
+        "n": 417,
+        "net_R": -11.58,
+        "A": -4.022,
+        "B": -7.561,
+        "pos_years": 2,
+        "dd_R": 14.97
+      },
+      "trig1.10_sl0.55": {
+        "n": 274,
+        "net_R": -4.01,
+        "A": -7.581,
+        "B": 3.575,
+        "pos_years": 3,
+        "dd_R": 16.95
+      },
+      "trig1.10_sl0.75": {
+        "n": 274,
+        "net_R": -6.51,
+        "A": -5.083,
+        "B": -1.424,
+        "pos_years": 2,
+        "dd_R": 15.32
+      },
+      "trig1.10_sl0.95": {
+        "n": 274,
+        "net_R": -6.55,
+        "A": -5.179,
+        "B": -1.374,
+        "pos_years": 2,
+        "dd_R": 12.54
+      }
+    },
+    "surface_both_clusters_positive_count": 0,
+    "books": {
+      "Swing_10000": {
+        "BASE_2E_USDJPY_075": {
+          "risk": {
+            "USDJPY": 0.0016028652680941018,
+            "USDJPY_EXP": 0.005897134731905899
+          },
+          "net_usd": 2455.9342051343556,
+          "annual_usd": {
+            "A": 411.7408333346541,
+            "B": 305.1779262826014,
+            "all": 350.8477435906222
+          },
+          "annual_pct": {
+            "A": 4.117408333346541,
+            "B": 3.051779262826014,
+            "all": 3.508477435906222
+          },
+          "daily_loss_pct": 0.7440756057269027,
+          "peak_dd_pct": 5.4495805083917,
+          "static_loss_pct": 0.05570583224640359,
+          "net_over_dd": 4.5066481747586105,
+          "underwater_months": 20.597616651950418,
+          "double_sl_days": 26,
+          "peak_margin_pct": 11.666655,
+          "simultaneous_margin_pct": 11.666655,
+          "simultaneous_margin_09_16_utc_pct": 11.666655,
+          "overlap_days": 336,
+          "margin_failures": 0,
+          "min_lot_rejections": 4,
+          "sized": 1931,
+          "stale_marks_group_a": 350,
+          "calmar": 0.64
+        },
+        "SOLO_GBPJPY_050": {
+          "risk": {
+            "GBPJPY_EXP": 0.005
+          },
+          "net_usd": -600.8602106772141,
+          "annual_usd": {
+            "A": -57.612344851937955,
+            "B": -107.00579403034826,
+            "all": -85.83717295388773
+          },
+          "annual_pct": {
+            "A": -0.5761234485193795,
+            "B": -1.0700579403034827,
+            "all": -0.8583717295388773
+          },
+          "daily_loss_pct": 0.7058347299947126,
+          "peak_dd_pct": 8.904765111782018,
+          "static_loss_pct": 7.052426265820922,
+          "net_over_dd": -0.6747625604208333,
+          "underwater_months": 83.26992758996496,
+          "double_sl_days": 0,
+          "peak_margin_pct": 4.142300605693865,
+          "simultaneous_margin_pct": 0.0,
+          "simultaneous_margin_09_16_utc_pct": 0.0,
+          "overlap_days": 0,
+          "margin_failures": 0,
+          "min_lot_rejections": 0,
+          "sized": 540,
+          "stale_marks_group_a": 13,
+          "calmar": -0.1
+        },
+        "SOLO_GBPJPY_075": {
+          "risk": {
+            "GBPJPY_EXP": 0.0075
+          },
+          "net_usd": -947.5954020390564,
+          "annual_usd": {
+            "A": -91.78252768414968,
+            "B": -168.06195474665614,
+            "all": -135.3707717198652
+          },
+          "annual_pct": {
+            "A": -0.9178252768414968,
+            "B": -1.6806195474665615,
+            "all": -1.3537077171986518
+          },
+          "daily_loss_pct": 1.1242369887978567,
+          "peak_dd_pct": 13.918054007099109,
+          "static_loss_pct": 11.026694031069491,
+          "net_over_dd": -0.6808390034668075,
+          "underwater_months": 83.26992758996496,
+          "double_sl_days": 0,
+          "peak_margin_pct": 5.993376553267846,
+          "simultaneous_margin_pct": 0.0,
+          "simultaneous_margin_09_16_utc_pct": 0.0,
+          "overlap_days": 0,
+          "margin_failures": 0,
+          "min_lot_rejections": 0,
+          "sized": 540,
+          "stale_marks_group_a": 13,
+          "calmar": -0.1
+        },
+        "PORT3E_075_GBP025": {
+          "risk": {
+            "USDJPY": 0.0016028652680941018,
+            "USDJPY_EXP": 0.005897134731905899,
+            "GBPJPY_EXP": 0.0025
+          },
+          "net_usd": 2146.2740469526616,
+          "annual_usd": {
+            "A": 382.5699626906265,
+            "B": 249.64103972019893,
+            "all": 306.6105781360945
+          },
+          "annual_pct": {
+            "A": 3.825699626906265,
+            "B": 2.4964103972019895,
+            "all": 3.0661057813609447
+          },
+          "daily_loss_pct": 1.0271753442021327,
+          "peak_dd_pct": 6.655424094027968,
+          "static_loss_pct": 0.05570583224640359,
+          "net_over_dd": 3.224849410991784,
+          "underwater_months": 20.758925006445487,
+          "double_sl_days": 22,
+          "peak_margin_pct": 13.338648759761158,
+          "simultaneous_margin_pct": 11.666655,
+          "simultaneous_margin_09_16_utc_pct": 11.666655,
+          "overlap_days": 565,
+          "margin_failures": 0,
+          "min_lot_rejections": 4,
+          "sized": 2471,
+          "stale_marks_group_a": 363,
+          "calmar": 0.46
+        },
+        "PORT3E_075_GBP040": {
+          "risk": {
+            "USDJPY": 0.0016028652680941018,
+            "USDJPY_EXP": 0.005897134731905899,
+            "GBPJPY_EXP": 0.004
+          },
+          "net_usd": 1870.8079015661442,
+          "annual_usd": {
+            "A": 340.53690804379136,
+            "B": 212.29929435869497,
+            "all": 267.2582716523063
+          },
+          "annual_pct": {
+            "A": 3.4053690804379135,
+            "B": 2.12299294358695,
+            "all": 2.672582716523063
+          },
+          "daily_loss_pct": 1.3296759427712823,
+          "peak_dd_pct": 7.954788491016989,
+          "static_loss_pct": 0.05570583224640359,
+          "net_over_dd": 2.351800935598438,
+          "underwater_months": 20.761936704153175,
+          "double_sl_days": 22,
+          "peak_margin_pct": 14.59264407958203,
+          "simultaneous_margin_pct": 11.666655,
+          "simultaneous_margin_09_16_utc_pct": 11.666655,
+          "overlap_days": 565,
+          "margin_failures": 0,
+          "min_lot_rejections": 4,
+          "sized": 2471,
+          "stale_marks_group_a": 363,
+          "calmar": 0.34
+        },
+        "PORT3E_075_GBP050": {
+          "risk": {
+            "USDJPY": 0.0016028652680941018,
+            "USDJPY_EXP": 0.005897134731905899,
+            "GBPJPY_EXP": 0.005
+          },
+          "net_usd": 1855.0739944571505,
+          "annual_usd": {
+            "A": 354.12848848271614,
+            "B": 198.1721322522532,
+            "all": 265.0105706367358
+          },
+          "annual_pct": {
+            "A": 3.5412848848271614,
+            "B": 1.9817213225225319,
+            "all": 2.650105706367358
+          },
+          "daily_loss_pct": 1.4305094756276775,
+          "peak_dd_pct": 8.583653937683158,
+          "static_loss_pct": 0.05570583224640359,
+          "net_over_dd": 2.16117053171631,
+          "underwater_months": 20.761526018102128,
+          "double_sl_days": 22,
+          "peak_margin_pct": 15.428640959462605,
+          "simultaneous_margin_pct": 11.666655,
+          "simultaneous_margin_09_16_utc_pct": 11.666655,
+          "overlap_days": 565,
+          "margin_failures": 0,
+          "min_lot_rejections": 4,
+          "sized": 2471,
+          "stale_marks_group_a": 363,
+          "calmar": 0.31
+        },
+        "PORT3E_100_GBP050": {
+          "risk": {
+            "USDJPY": 0.002137153690792136,
+            "USDJPY_EXP": 0.007862846309207866,
+            "GBPJPY_EXP": 0.005
+          },
+          "net_usd": 2720.8762453750733,
+          "annual_usd": {
+            "A": 496.57012742665574,
+            "B": 307.7914657737697,
+            "all": 388.6966064821533
+          },
+          "annual_pct": {
+            "A": 4.965701274266557,
+            "B": 3.0779146577376966,
+            "all": 3.8869660648215327
+          },
+          "daily_loss_pct": 1.6988949771016086,
+          "peak_dd_pct": 10.43513217744734,
+          "static_loss_pct": 0.07427444299519266,
+          "net_over_dd": 2.6074190523963816,
+          "underwater_months": 20.759312876604813,
+          "double_sl_days": 21,
+          "peak_margin_pct": 19.428636959462608,
+          "simultaneous_margin_pct": 15.666651000000002,
+          "simultaneous_margin_09_16_utc_pct": 15.666651000000002,
+          "overlap_days": 564,
+          "margin_failures": 0,
+          "min_lot_rejections": 0,
+          "sized": 2475,
+          "stale_marks_group_a": 363,
+          "calmar": 0.37
+        }
+      },
+      "Swing_25000": {
+        "BASE_2E_USDJPY_075": {
+          "risk": {
+            "USDJPY": 0.0016028652680941018,
+            "USDJPY_EXP": 0.005897134731905899
+          },
+          "net_usd": 6404.342910640484,
+          "annual_usd": {
+            "A": 1053.9103163983607,
+            "B": 810.6529903613514,
+            "all": 914.9061300914976
+          },
+          "annual_pct": {
+            "A": 4.215641265593443,
+            "B": 3.2426119614454056,
+            "all": 3.6596245203659903
+          },
+          "daily_loss_pct": 0.7487179102477676,
+          "peak_dd_pct": 5.618731125033824,
+          "static_loss_pct": 0.05570583224639995,
+          "net_over_dd": 4.559280569313186,
+          "underwater_months": 19.87610970793377,
+          "double_sl_days": 27,
+          "peak_margin_pct": 11.999988,
+          "simultaneous_margin_pct": 11.999988,
+          "simultaneous_margin_09_16_utc_pct": 11.999988,
+          "overlap_days": 340,
+          "margin_failures": 0,
+          "min_lot_rejections": 0,
+          "sized": 1935,
+          "stale_marks_group_a": 350,
+          "calmar": 0.65
+        },
+        "SOLO_GBPJPY_050": {
+          "risk": {
+            "GBPJPY_EXP": 0.005
+          },
+          "net_usd": -1539.3853131864053,
+          "annual_usd": {
+            "A": -139.3954746197388,
+            "B": -280.2997223318018,
+            "all": -219.9121875980579
+          },
+          "annual_pct": {
+            "A": -0.5575818984789552,
+            "B": -1.1211988893272071,
+            "all": -0.8796487503922316
+          },
+          "daily_loss_pct": 0.7663348497085389,
+          "peak_dd_pct": 9.224380957598333,
+          "static_loss_pct": 7.3056566551762225,
+          "net_over_dd": -0.6675289410801615,
+          "underwater_months": 83.26992758996496,
+          "double_sl_days": 0,
+          "peak_margin_pct": 4.050249481122891,
+          "simultaneous_margin_pct": 0.0,
+          "simultaneous_margin_09_16_utc_pct": 0.0,
+          "overlap_days": 0,
+          "margin_failures": 0,
+          "min_lot_rejections": 0,
+          "sized": 540,
+          "stale_marks_group_a": 13,
+          "calmar": -0.1
+        },
+        "SOLO_GBPJPY_075": {
+          "risk": {
+            "GBPJPY_EXP": 0.0075
+          },
+          "net_usd": -2407.3792331420736,
+          "annual_usd": {
+            "A": -226.9127480432877,
+            "B": -431.6602472530604,
+            "all": -343.9113190202962
+          },
+          "annual_pct": {
+            "A": -0.9076509921731509,
+            "B": -1.7266409890122414,
+            "all": -1.3756452760811848
+          },
+          "daily_loss_pct": 1.1293355679915258,
+          "peak_dd_pct": 14.311130004447097,
+          "static_loss_pct": 11.355693061411875,
+          "net_over_dd": -0.6728690836835372,
+          "underwater_months": 83.26992758996496,
+          "double_sl_days": 0,
+          "peak_margin_pct": 6.075374221684337,
+          "simultaneous_margin_pct": 0.0,
+          "simultaneous_margin_09_16_utc_pct": 0.0,
+          "overlap_days": 0,
+          "margin_failures": 0,
+          "min_lot_rejections": 0,
+          "sized": 540,
+          "stale_marks_group_a": 13,
+          "calmar": -0.1
+        },
+        "PORT3E_075_GBP025": {
+          "risk": {
+            "USDJPY": 0.0016028652680941018,
+            "USDJPY_EXP": 0.005897134731905899,
+            "GBPJPY_EXP": 0.0025
+          },
+          "net_usd": 5726.950787383703,
+          "annual_usd": {
+            "A": 991.7707527641551,
+            "B": 687.9096322728067,
+            "all": 818.1358267691004
+          },
+          "annual_pct": {
+            "A": 3.96708301105662,
+            "B": 2.7516385290912266,
+            "all": 3.2725433070764014
+          },
+          "daily_loss_pct": 1.1073638456880581,
+          "peak_dd_pct": 6.925448127904339,
+          "static_loss_pct": 0.05570583224639995,
+          "net_over_dd": 3.3077719631215805,
+          "underwater_months": 20.270984346016686,
+          "double_sl_days": 21,
+          "peak_margin_pct": 13.839181135737274,
+          "simultaneous_margin_pct": 11.999988,
+          "simultaneous_margin_09_16_utc_pct": 11.999988,
+          "overlap_days": 564,
+          "margin_failures": 0,
+          "min_lot_rejections": 0,
+          "sized": 2475,
+          "stale_marks_group_a": 363,
+          "calmar": 0.47
+        },
+        "PORT3E_075_GBP040": {
+          "risk": {
+            "USDJPY": 0.0016028652680941018,
+            "USDJPY_EXP": 0.005897134731905899,
+            "GBPJPY_EXP": 0.004
+          },
+          "net_usd": 5111.898739095053,
+          "annual_usd": {
+            "A": 933.7958968979691,
+            "B": 577.6277621002821,
+            "all": 730.2712484421505
+          },
+          "annual_pct": {
+            "A": 3.735183587591876,
+            "B": 2.3105110484011284,
+            "all": 2.921084993768602
+          },
+          "daily_loss_pct": 1.3493643245433777,
+          "peak_dd_pct": 8.099076576181643,
+          "static_loss_pct": 0.05570583224639995,
+          "net_over_dd": 2.524682260260879,
+          "underwater_months": 20.70407560273882,
+          "double_sl_days": 21,
+          "peak_margin_pct": 15.009576767570085,
+          "simultaneous_margin_pct": 11.999988,
+          "simultaneous_margin_09_16_utc_pct": 11.999988,
+          "overlap_days": 564,
+          "margin_failures": 0,
+          "min_lot_rejections": 0,
+          "sized": 2475,
+          "stale_marks_group_a": 363,
+          "calmar": 0.36
+        },
+        "PORT3E_075_GBP050": {
+          "risk": {
+            "USDJPY": 0.0016028652680941018,
+            "USDJPY_EXP": 0.005897134731905899,
+            "GBPJPY_EXP": 0.005
+          },
+          "net_usd": 4864.957597454046,
+          "annual_usd": {
+            "A": 914.5148417786219,
+            "B": 530.3532680295497,
+            "all": 694.9939424934352
+          },
+          "annual_pct": {
+            "A": 3.658059367114488,
+            "B": 2.1214130721181985,
+            "all": 2.7799757699737406
+          },
+          "daily_loss_pct": 1.5106979771135958,
+          "peak_dd_pct": 8.963350091713771,
+          "static_loss_pct": 0.05570583224639995,
+          "net_over_dd": 2.171044329486355,
+          "underwater_months": 20.704098418630547,
+          "double_sl_days": 21,
+          "peak_margin_pct": 15.845573647450665,
+          "simultaneous_margin_pct": 11.999988,
+          "simultaneous_margin_09_16_utc_pct": 11.999988,
+          "overlap_days": 564,
+          "margin_failures": 0,
+          "min_lot_rejections": 0,
+          "sized": 2475,
+          "stale_marks_group_a": 363,
+          "calmar": 0.31
+        },
+        "PORT3E_100_GBP050": {
+          "risk": {
+            "USDJPY": 0.002137153690792136,
+            "USDJPY_EXP": 0.007862846309207866,
+            "GBPJPY_EXP": 0.005
+          },
+          "net_usd": 6994.3343859356355,
+          "annual_usd": {
+            "A": 1270.7395335486171,
+            "B": 795.5289463224454,
+            "all": 999.1906265622337
+          },
+          "annual_pct": {
+            "A": 5.0829581341944685,
+            "B": 3.1821157852897817,
+            "all": 3.9967625062489347
+          },
+          "daily_loss_pct": 1.7647831418369315,
+          "peak_dd_pct": 10.61774546386108,
+          "static_loss_pct": 0.07613130407007702,
+          "net_over_dd": 2.6349602784288964,
+          "underwater_months": 20.602020119053325,
+          "double_sl_days": 21,
+          "peak_margin_pct": 19.84556964745066,
+          "simultaneous_margin_pct": 15.999984000000001,
+          "simultaneous_margin_09_16_utc_pct": 15.999984000000001,
+          "overlap_days": 564,
+          "margin_failures": 0,
+          "min_lot_rejections": 0,
+          "sized": 2475,
+          "stale_marks_group_a": 363,
+          "calmar": 0.38
+        }
+      },
+      "Standard_50000": {
+        "BASE_2E_USDJPY_075": {
+          "risk": {
+            "USDJPY": 0.0016028652680941018,
+            "USDJPY_EXP": 0.005897134731905899
+          },
+          "net_usd": 12942.814322738988,
+          "annual_usd": {
+            "A": 2118.274041963845,
+            "B": 1646.9980492118855,
+            "all": 1848.9734746769984
+          },
+          "annual_pct": {
+            "A": 4.23654808392769,
+            "B": 3.293996098423771,
+            "all": 3.6979469493539967
+          },
+          "daily_loss_pct": 0.7487179102477676,
+          "peak_dd_pct": 5.6584561026762685,
+          "static_loss_pct": 0.05663426278383122,
+          "net_over_dd": 4.5746804739255476,
+          "underwater_months": 19.87610970793377,
+          "double_sl_days": 27,
+          "peak_margin_pct": 3.6,
+          "simultaneous_margin_pct": 3.6,
+          "simultaneous_margin_09_16_utc_pct": 3.6,
+          "overlap_days": 340,
+          "margin_failures": 0,
+          "min_lot_rejections": 0,
+          "sized": 1935,
+          "stale_marks_group_a": 350,
+          "calmar": 0.65
+        },
+        "SOLO_GBPJPY_050": {
+          "risk": {
+            "GBPJPY_EXP": 0.005
+          },
+          "net_usd": -3200.606544025475,
+          "annual_usd": {
+            "A": -301.32136149566844,
+            "B": -574.1606148846331,
+            "all": -457.2295062893536
+          },
+          "annual_pct": {
+            "A": -0.6026427229913368,
+            "B": -1.1483212297692662,
+            "all": -0.9144590125787072
+          },
+          "daily_loss_pct": 0.7663348497085389,
+          "peak_dd_pct": 9.568814719561967,
+          "static_loss_pct": 7.5949850512337145,
+          "net_over_dd": -0.6689661442565772,
+          "underwater_months": 83.26992758996496,
+          "double_sl_days": 0,
+          "peak_margin_pct": 1.242660847009783,
+          "simultaneous_margin_pct": 0.0,
+          "simultaneous_margin_09_16_utc_pct": 0.0,
+          "overlap_days": 0,
+          "margin_failures": 0,
+          "min_lot_rejections": 0,
+          "sized": 540,
+          "stale_marks_group_a": 13,
+          "calmar": -0.1
+        },
+        "SOLO_GBPJPY_075": {
+          "risk": {
+            "GBPJPY_EXP": 0.0075
+          },
+          "net_usd": -4893.788380469545,
+          "annual_usd": {
+            "A": -474.0514114541943,
+            "B": -867.9085365267543,
+            "all": -699.1126257813636
+          },
+          "annual_pct": {
+            "A": -0.9481028229083887,
+            "B": -1.7358170730535087,
+            "all": -1.3982252515627271
+          },
+          "daily_loss_pct": 1.1523429135178158,
+          "peak_dd_pct": 14.532507847424974,
+          "static_loss_pct": 11.554410500884275,
+          "net_over_dd": -0.6734953707713536,
+          "underwater_months": 83.26992758996496,
+          "double_sl_days": 0,
+          "peak_margin_pct": 1.8501839277701218,
+          "simultaneous_margin_pct": 0.0,
+          "simultaneous_margin_09_16_utc_pct": 0.0,
+          "overlap_days": 0,
+          "margin_failures": 0,
+          "min_lot_rejections": 0,
+          "sized": 540,
+          "stale_marks_group_a": 13,
+          "calmar": -0.1
+        },
+        "PORT3E_075_GBP025": {
+          "risk": {
+            "USDJPY": 0.0016028652680941018,
+            "USDJPY_EXP": 0.005897134731905899,
+            "GBPJPY_EXP": 0.0025
+          },
+          "net_usd": 11403.429009552601,
+          "annual_usd": {
+            "A": 1978.8785673441062,
+            "B": 1366.6983268800839,
+            "all": 1629.061287078943
+          },
+          "annual_pct": {
+            "A": 3.9577571346882126,
+            "B": 2.7333966537601677,
+            "all": 3.258122574157886
+          },
+          "daily_loss_pct": 1.1293265672664856,
+          "peak_dd_pct": 7.059575810867012,
+          "static_loss_pct": 0.05663426278383122,
+          "net_over_dd": 3.2306272544021604,
+          "underwater_months": 20.59754820427524,
+          "double_sl_days": 21,
+          "peak_margin_pct": 4.176824230397595,
+          "simultaneous_margin_pct": 3.6,
+          "simultaneous_margin_09_16_utc_pct": 3.6,
+          "overlap_days": 564,
+          "margin_failures": 0,
+          "min_lot_rejections": 0,
+          "sized": 2475,
+          "stale_marks_group_a": 363,
+          "calmar": 0.46
+        },
+        "PORT3E_075_GBP040": {
+          "risk": {
+            "USDJPY": 0.0016028652680941018,
+            "USDJPY_EXP": 0.005897134731905899,
+            "GBPJPY_EXP": 0.004
+          },
+          "net_usd": 10371.723678922528,
+          "annual_usd": {
+            "A": 1873.9862127334898,
+            "B": 1187.4412601805093,
+            "all": 1481.6748112746468
+          },
+          "annual_pct": {
+            "A": 3.7479724254669797,
+            "B": 2.3748825203610187,
+            "all": 2.9633496225492935
+          },
+          "daily_loss_pct": 1.3511603395505372,
+          "peak_dd_pct": 8.223499274838671,
+          "static_loss_pct": 0.05663426278383122,
+          "net_over_dd": 2.5224599242458132,
+          "underwater_months": 20.70407560273882,
+          "double_sl_days": 21,
+          "peak_margin_pct": 4.502855317144061,
+          "simultaneous_margin_pct": 3.6,
+          "simultaneous_margin_09_16_utc_pct": 3.6,
+          "overlap_days": 564,
+          "margin_failures": 0,
+          "min_lot_rejections": 0,
+          "sized": 2475,
+          "stale_marks_group_a": 363,
+          "calmar": 0.36
+        },
+        "PORT3E_075_GBP050": {
+          "risk": {
+            "USDJPY": 0.0016028652680941018,
+            "USDJPY_EXP": 0.005897134731905899,
+            "GBPJPY_EXP": 0.005
+          },
+          "net_usd": 9742.207778713513,
+          "annual_usd": {
+            "A": 1816.9526804681764,
+            "B": 1072.8374343272526,
+            "all": 1391.7439683876448
+          },
+          "annual_pct": {
+            "A": 3.6339053609363523,
+            "B": 2.1456748686545053,
+            "all": 2.78348793677529
+          },
+          "daily_loss_pct": 1.5124939921207552,
+          "peak_dd_pct": 9.078656976951416,
+          "static_loss_pct": 0.05663426278383122,
+          "net_over_dd": 2.146178185484196,
+          "underwater_months": 20.704463472898144,
+          "double_sl_days": 21,
+          "peak_margin_pct": 4.753648460795189,
+          "simultaneous_margin_pct": 3.6,
+          "simultaneous_margin_09_16_utc_pct": 3.6,
+          "overlap_days": 564,
+          "margin_failures": 0,
+          "min_lot_rejections": 0,
+          "sized": 2475,
+          "stale_marks_group_a": 363,
+          "calmar": 0.31
+        },
+        "PORT3E_100_GBP050": {
+          "risk": {
+            "USDJPY": 0.002137153690792136,
+            "USDJPY_EXP": 0.007862846309207866,
+            "GBPJPY_EXP": 0.005
+          },
+          "net_usd": 14105.78044906255,
+          "annual_usd": {
+            "A": 2540.3941753425074,
+            "B": 1621.1494807587485,
+            "all": 2015.1114927232213
+          },
+          "annual_pct": {
+            "A": 5.080788350685014,
+            "B": 3.242298961517497,
+            "all": 4.030222985446443
+          },
+          "daily_loss_pct": 1.7647831418369315,
+          "peak_dd_pct": 10.749939058270146,
+          "static_loss_pct": 0.07613130407007702,
+          "net_over_dd": 2.624346123750476,
+          "underwater_months": 20.602020119053325,
+          "double_sl_days": 21,
+          "peak_margin_pct": 5.953648460795189,
+          "simultaneous_margin_pct": 4.8,
+          "simultaneous_margin_09_16_utc_pct": 4.8,
+          "overlap_days": 564,
+          "margin_failures": 0,
+          "min_lot_rejections": 0,
+          "sized": 2475,
+          "stale_marks_group_a": 363,
+          "calmar": 0.37
+        }
+      }
+    }
+  },
+  "lane_b_whitebox_5assets": {
+    "m_total_search_space": 144,
+    "cluster_a_survivors": 18,
+    "tier_counts": {
+      "TIER_1_FTMO_READY": 3,
+      "TIER_2_PERSONAL_VAULT": 7,
+      "TIER_3_DEAD_NO_EDGE": 8,
+      "STAGE1_FILTERED_OUT_ON_CLUSTER_A": 126
+    },
+    "elapsed_seconds": 16.05,
+    "survivors": [
+      {
+        "strategy": "WB_EXP_80_NONE",
+        "arch": "WB_OPEN_EXPANSION",
+        "asset": "USDJPY",
+        "native_Ask": true,
+        "n_total": 569,
+        "cluster_A": {
+          "n": 231,
+          "net_R": 22.18,
+          "pf": 1.476,
+          "dd_R": 4.27
+        },
+        "cluster_B_blind": {
+          "n": 338,
+          "net_R": 12.91,
+          "pf": 1.181,
+          "dd_R": 6.41
+        },
+        "ftmo_net_R": 35.08,
+        "ftmo_base_R": 40.39,
+        "fade_ftmo_R": -113.52,
+        "pos_years": 7,
+        "years_R": {
+          "2018": 5.97,
+          "2019": 4.48,
+          "2020": 11.73,
+          "2021": 4.79,
+          "2022": 2.22,
+          "2023": 5.25,
+          "2024": 0.64
+        },
+        "closed_dd_R": 6.41,
+        "top10_R": 24.82,
+        "p_sign_flip": 0.001,
+        "fdr_q_full_space": 0.048,
+        "corr_usdjpy_core": 0.6697,
+        "direction": {
+          "BUY": {
+            "n": 266,
+            "ftmo_R": 38.47,
+            "base_R": 41.14
+          },
+          "SELL": {
+            "n": 303,
+            "ftmo_R": -3.39,
+            "base_R": -0.75
+          }
+        },
+        "tier": "TIER_1_FTMO_READY",
+        "spec": {
+          "id": "WB_EXP_80_NONE",
+          "arch": "WB_OPEN_EXPANSION",
+          "trig_atr": 0.8,
+          "sl_atr": 0.75,
+          "regime": "NONE"
+        }
+      },
+      {
+        "strategy": "WB_EXP_65_NONE",
+        "arch": "WB_OPEN_EXPANSION",
+        "asset": "USDJPY",
+        "native_Ask": true,
+        "n_total": 849,
+        "cluster_A": {
+          "n": 353,
+          "net_R": 13.67,
+          "pf": 1.175,
+          "dd_R": 7.69
+        },
+        "cluster_B_blind": {
+          "n": 496,
+          "net_R": 14.22,
+          "pf": 1.124,
+          "dd_R": 6.22
+        },
+        "ftmo_net_R": 27.89,
+        "ftmo_base_R": 35.51,
+        "fade_ftmo_R": -131.24,
+        "pos_years": 6,
+        "years_R": {
+          "2018": 5.4,
+          "2019": -2.78,
+          "2020": 11.05,
+          "2021": 2.24,
+          "2022": 7.52,
+          "2023": 2.72,
+          "2024": 1.75
+        },
+        "closed_dd_R": 8.9,
+        "top10_R": 27.4,
+        "p_sign_flip": 0.001,
+        "fdr_q_full_space": 0.048,
+        "corr_usdjpy_core": 0.5903,
+        "direction": {
+          "BUY": {
+            "n": 426,
+            "ftmo_R": 31.25,
+            "base_R": 35.23
+          },
+          "SELL": {
+            "n": 423,
+            "ftmo_R": -3.36,
+            "base_R": 0.28
+          }
+        },
+        "tier": "TIER_1_FTMO_READY",
+        "spec": {
+          "id": "WB_EXP_65_NONE",
+          "arch": "WB_OPEN_EXPANSION",
+          "trig_atr": 0.65,
+          "sl_atr": 0.75,
+          "regime": "NONE"
+        }
+      },
+      {
+        "strategy": "WB_EXP_80_EMA50_TREND",
+        "arch": "WB_OPEN_EXPANSION",
+        "asset": "USDJPY",
+        "native_Ask": true,
+        "n_total": 276,
+        "cluster_A": {
+          "n": 112,
+          "net_R": 8.7,
+          "pf": 1.361,
+          "dd_R": 4.87
+        },
+        "cluster_B_blind": {
+          "n": 164,
+          "net_R": 15.95,
+          "pf": 1.524,
+          "dd_R": 4.21
+        },
+        "ftmo_net_R": 24.65,
+        "ftmo_base_R": 27.27,
+        "fade_ftmo_R": -53.65,
+        "pos_years": 6,
+        "years_R": {
+          "2018": 4.9,
+          "2019": -0.92,
+          "2020": 4.72,
+          "2021": 0.82,
+          "2022": 7.16,
+          "2023": 5.17,
+          "2024": 2.8
+        },
+        "closed_dd_R": 6.85,
+        "top10_R": 19.26,
+        "p_sign_flip": 0.001,
+        "fdr_q_full_space": 0.048,
+        "corr_usdjpy_core": 0.5007,
+        "direction": {
+          "BUY": {
+            "n": 153,
+            "ftmo_R": 28.52,
+            "base_R": 30.12
+          },
+          "SELL": {
+            "n": 123,
+            "ftmo_R": -3.87,
+            "base_R": -2.85
+          }
+        },
+        "tier": "TIER_1_FTMO_READY",
+        "spec": {
+          "id": "WB_EXP_80_EMA50_TREND",
+          "arch": "WB_OPEN_EXPANSION",
+          "trig_atr": 0.8,
+          "sl_atr": 0.75,
+          "regime": "EMA50_TREND"
+        }
+      },
+      {
+        "strategy": "WB_EXP_100_NONE",
+        "arch": "WB_OPEN_EXPANSION",
+        "asset": "USDJPY",
+        "native_Ask": true,
+        "n_total": 344,
+        "cluster_A": {
+          "n": 143,
+          "net_R": 15.56,
+          "pf": 1.516,
+          "dd_R": 3.03
+        },
+        "cluster_B_blind": {
+          "n": 201,
+          "net_R": 6.06,
+          "pf": 1.125,
+          "dd_R": 5.57
+        },
+        "ftmo_net_R": 21.61,
+        "ftmo_base_R": 24.86,
+        "fade_ftmo_R": -63.81,
+        "pos_years": 6,
+        "years_R": {
+          "2018": 3.4,
+          "2019": 0.51,
+          "2020": 11.64,
+          "2021": 1.57,
+          "2022": -1.77,
+          "2023": 3.51,
+          "2024": 2.75
+        },
+        "closed_dd_R": 5.57,
+        "top10_R": 24.91,
+        "p_sign_flip": 0.007,
+        "fdr_q_full_space": 0.0915,
+        "corr_usdjpy_core": 0.4656,
+        "direction": {
+          "BUY": {
+            "n": 158,
+            "ftmo_R": 21.78,
+            "base_R": 23.37
+          },
+          "SELL": {
+            "n": 186,
+            "ftmo_R": -0.16,
+            "base_R": 1.5
+          }
+        },
+        "tier": "TIER_2_PERSONAL_VAULT",
+        "spec": {
+          "id": "WB_EXP_100_NONE",
+          "arch": "WB_OPEN_EXPANSION",
+          "trig_atr": 1.0,
+          "sl_atr": 0.75,
+          "regime": "NONE"
+        }
+      },
+      {
+        "strategy": "WB_EXP_100_EMA50_TREND",
+        "arch": "WB_OPEN_EXPANSION",
+        "asset": "USDJPY",
+        "native_Ask": true,
+        "n_total": 164,
+        "cluster_A": {
+          "n": 71,
+          "net_R": 7.8,
+          "pf": 1.55,
+          "dd_R": 3.89
+        },
+        "cluster_B_blind": {
+          "n": 93,
+          "net_R": 8.72,
+          "pf": 1.431,
+          "dd_R": 3.94
+        },
+        "ftmo_net_R": 16.52,
+        "ftmo_base_R": 18.14,
+        "fade_ftmo_R": -30.43,
+        "pos_years": 6,
+        "years_R": {
+          "2018": 3.74,
+          "2019": -2.33,
+          "2020": 6.39,
+          "2021": 0.97,
+          "2022": 1.22,
+          "2023": 3.65,
+          "2024": 2.87
+        },
+        "closed_dd_R": 3.94,
+        "top10_R": 17.34,
+        "p_sign_flip": 0.02,
+        "fdr_q_full_space": 0.2398,
+        "corr_usdjpy_core": 0.4135,
+        "direction": {
+          "BUY": {
+            "n": 94,
+            "ftmo_R": 16.81,
+            "base_R": 17.81
+          },
+          "SELL": {
+            "n": 70,
+            "ftmo_R": -0.29,
+            "base_R": 0.33
+          }
+        },
+        "tier": "TIER_2_PERSONAL_VAULT",
+        "spec": {
+          "id": "WB_EXP_100_EMA50_TREND",
+          "arch": "WB_OPEN_EXPANSION",
+          "trig_atr": 1.0,
+          "sl_atr": 0.75,
+          "regime": "EMA50_TREND"
+        }
+      },
+      {
+        "strategy": "WB_EXP_65_EMA50_TREND",
+        "arch": "WB_OPEN_EXPANSION",
+        "asset": "USDJPY",
+        "native_Ask": true,
+        "n_total": 406,
+        "cluster_A": {
+          "n": 166,
+          "net_R": 3.77,
+          "pf": 1.092,
+          "dd_R": 7.76
+        },
+        "cluster_B_blind": {
+          "n": 240,
+          "net_R": 11.83,
+          "pf": 1.224,
+          "dd_R": 5.31
+        },
+        "ftmo_net_R": 15.6,
+        "ftmo_base_R": 19.25,
+        "fade_ftmo_R": -57.78,
+        "pos_years": 6,
+        "years_R": {
+          "2018": 6.59,
+          "2019": -5.5,
+          "2020": 2.67,
+          "2021": 1.34,
+          "2022": 7.56,
+          "2023": 2.26,
+          "2024": 0.67
+        },
+        "closed_dd_R": 10.51,
+        "top10_R": 20.4,
+        "p_sign_flip": 0.003,
+        "fdr_q_full_space": 0.0719,
+        "corr_usdjpy_core": 0.4694,
+        "direction": {
+          "BUY": {
+            "n": 238,
+            "ftmo_R": 24.34,
+            "base_R": 26.65
+          },
+          "SELL": {
+            "n": 168,
+            "ftmo_R": -8.75,
+            "base_R": -7.4
+          }
+        },
+        "tier": "TIER_2_PERSONAL_VAULT",
+        "spec": {
+          "id": "WB_EXP_65_EMA50_TREND",
+          "arch": "WB_OPEN_EXPANSION",
+          "trig_atr": 0.65,
+          "sl_atr": 0.75,
+          "regime": "EMA50_TREND"
+        }
+      },
+      {
+        "strategy": "WB_EXP_80_VOL_HIGH",
+        "arch": "WB_OPEN_EXPANSION",
+        "asset": "GBPUSD",
+        "native_Ask": true,
+        "n_total": 198,
+        "cluster_A": {
+          "n": 89,
+          "net_R": 5.72,
+          "pf": 1.255,
+          "dd_R": 5.43
+        },
+        "cluster_B_blind": {
+          "n": 109,
+          "net_R": 8.61,
+          "pf": 1.421,
+          "dd_R": 3.53
+        },
+        "ftmo_net_R": 14.33,
+        "ftmo_base_R": 15.68,
+        "fade_ftmo_R": -38.45,
+        "pos_years": 5,
+        "years_R": {
+          "2018": -1.12,
+          "2019": -0.4,
+          "2020": 7.24,
+          "2021": 1.18,
+          "2022": 6.04,
+          "2023": 1.3,
+          "2024": 0.09
+        },
+        "closed_dd_R": 5.43,
+        "top10_R": 19.18,
+        "p_sign_flip": 0.006,
+        "fdr_q_full_space": 0.0915,
+        "corr_usdjpy_core": 0.0168,
+        "direction": {
+          "BUY": {
+            "n": 95,
+            "ftmo_R": 5.03,
+            "base_R": 5.67
+          },
+          "SELL": {
+            "n": 103,
+            "ftmo_R": 9.3,
+            "base_R": 10.01
+          }
+        },
+        "tier": "TIER_2_PERSONAL_VAULT",
+        "spec": {
+          "id": "WB_EXP_80_VOL_HIGH",
+          "arch": "WB_OPEN_EXPANSION",
+          "trig_atr": 0.8,
+          "sl_atr": 0.75,
+          "regime": "VOL_HIGH"
+        }
+      },
+      {
+        "strategy": "WB_EXP_65_VOL_LOW",
+        "arch": "WB_OPEN_EXPANSION",
+        "asset": "USDJPY",
+        "native_Ask": true,
+        "n_total": 273,
+        "cluster_A": {
+          "n": 119,
+          "net_R": 3.95,
+          "pf": 1.168,
+          "dd_R": 3.62
+        },
+        "cluster_B_blind": {
+          "n": 154,
+          "net_R": 9.17,
+          "pf": 1.25,
+          "dd_R": 5.9
+        },
+        "ftmo_net_R": 13.11,
+        "ftmo_base_R": 15.62,
+        "fade_ftmo_R": -47.25,
+        "pos_years": 6,
+        "years_R": {
+          "2018": 3.49,
+          "2019": 0.31,
+          "2020": 0.15,
+          "2021": -0.17,
+          "2022": 3.45,
+          "2023": 0.16,
+          "2024": 5.72
+        },
+        "closed_dd_R": 5.9,
+        "top10_R": 21.1,
+        "p_sign_flip": 0.002,
+        "fdr_q_full_space": 0.0719,
+        "corr_usdjpy_core": 0.4215,
+        "direction": {
+          "BUY": {
+            "n": 137,
+            "ftmo_R": 16.6,
+            "base_R": 17.95
+          },
+          "SELL": {
+            "n": 136,
+            "ftmo_R": -3.49,
+            "base_R": -2.33
+          }
+        },
+        "tier": "TIER_2_PERSONAL_VAULT",
+        "spec": {
+          "id": "WB_EXP_65_VOL_LOW",
+          "arch": "WB_OPEN_EXPANSION",
+          "trig_atr": 0.65,
+          "sl_atr": 0.75,
+          "regime": "VOL_LOW"
+        }
+      },
+      {
+        "strategy": "WB_EXP_80_VOL_HIGH",
+        "arch": "WB_OPEN_EXPANSION",
+        "asset": "USDJPY",
+        "native_Ask": true,
+        "n_total": 201,
+        "cluster_A": {
+          "n": 88,
+          "net_R": 9.24,
+          "pf": 1.481,
+          "dd_R": 5.1
+        },
+        "cluster_B_blind": {
+          "n": 113,
+          "net_R": 2.45,
+          "pf": 1.1,
+          "dd_R": 5.05
+        },
+        "ftmo_net_R": 11.69,
+        "ftmo_base_R": 13.52,
+        "fade_ftmo_R": -45.25,
+        "pos_years": 5,
+        "years_R": {
+          "2018": -1.87,
+          "2019": 1.9,
+          "2020": 9.21,
+          "2021": 2.74,
+          "2022": -1.79,
+          "2023": 0.84,
+          "2024": 0.67
+        },
+        "closed_dd_R": 5.1,
+        "top10_R": 16.59,
+        "p_sign_flip": 0.005,
+        "fdr_q_full_space": 0.0915,
+        "corr_usdjpy_core": 0.3687,
+        "direction": {
+          "BUY": {
+            "n": 80,
+            "ftmo_R": 6.0,
+            "base_R": 6.75
+          },
+          "SELL": {
+            "n": 121,
+            "ftmo_R": 5.68,
+            "base_R": 6.78
+          }
+        },
+        "tier": "TIER_2_PERSONAL_VAULT",
+        "spec": {
+          "id": "WB_EXP_80_VOL_HIGH",
+          "arch": "WB_OPEN_EXPANSION",
+          "trig_atr": 0.8,
+          "sl_atr": 0.75,
+          "regime": "VOL_HIGH"
+        }
+      },
+      {
+        "strategy": "WB_EXP_80_VOL_LOW",
+        "arch": "WB_OPEN_EXPANSION",
+        "asset": "USDJPY",
+        "native_Ask": true,
+        "n_total": 189,
+        "cluster_A": {
+          "n": 74,
+          "net_R": 3.38,
+          "pf": 1.21,
+          "dd_R": 3.61
+        },
+        "cluster_B_blind": {
+          "n": 115,
+          "net_R": 3.04,
+          "pf": 1.111,
+          "dd_R": 5.3
+        },
+        "ftmo_net_R": 6.42,
+        "ftmo_base_R": 8.12,
+        "fade_ftmo_R": -33.61,
+        "pos_years": 4,
+        "years_R": {
+          "2018": 3.22,
+          "2019": 1.09,
+          "2020": -0.93,
+          "2021": -0.13,
+          "2022": 3.33,
+          "2023": -0.44,
+          "2024": 0.28
+        },
+        "closed_dd_R": 6.48,
+        "top10_R": 17.84,
+        "p_sign_flip": 0.007,
+        "fdr_q_full_space": 0.0915,
+        "corr_usdjpy_core": 0.4614,
+        "direction": {
+          "BUY": {
+            "n": 89,
+            "ftmo_R": 14.12,
+            "base_R": 15.03
+          },
+          "SELL": {
+            "n": 100,
+            "ftmo_R": -7.71,
+            "base_R": -6.91
+          }
+        },
+        "tier": "TIER_2_PERSONAL_VAULT",
+        "spec": {
+          "id": "WB_EXP_80_VOL_LOW",
+          "arch": "WB_OPEN_EXPANSION",
+          "trig_atr": 0.8,
+          "sl_atr": 0.75,
+          "regime": "VOL_LOW"
+        }
+      },
+      {
+        "strategy": "WB_EXP_80_EMA50_TREND",
+        "arch": "WB_OPEN_EXPANSION",
+        "asset": "GBPUSD",
+        "native_Ask": true,
+        "n_total": 296,
+        "cluster_A": {
+          "n": 126,
+          "net_R": 6.99,
+          "pf": 1.243,
+          "dd_R": 4.4
+        },
+        "cluster_B_blind": {
+          "n": 170,
+          "net_R": -2.76,
+          "pf": 0.938,
+          "dd_R": 8.92
+        },
+        "ftmo_net_R": 4.23,
+        "ftmo_base_R": 6.27,
+        "fade_ftmo_R": -38.29,
+        "pos_years": 4,
+        "years_R": {
+          "2018": -0.05,
+          "2019": 5.24,
+          "2020": 1.8,
+          "2021": 0.44,
+          "2022": 1.7,
+          "2023": -1.7,
+          "2024": -3.19
+        },
+        "closed_dd_R": 8.92,
+        "top10_R": 20.16,
+        "p_sign_flip": 0.045,
+        "fdr_q_full_space": 0.4727,
+        "corr_usdjpy_core": 0.0063,
+        "direction": {
+          "BUY": {
+            "n": 138,
+            "ftmo_R": -3.32,
+            "base_R": -2.39
+          },
+          "SELL": {
+            "n": 158,
+            "ftmo_R": 7.56,
+            "base_R": 8.66
+          }
+        },
+        "tier": "TIER_3_DEAD_NO_EDGE",
+        "spec": {
+          "id": "WB_EXP_80_EMA50_TREND",
+          "arch": "WB_OPEN_EXPANSION",
+          "trig_atr": 0.8,
+          "sl_atr": 0.75,
+          "regime": "EMA50_TREND"
+        }
+      },
+      {
+        "strategy": "WB_IMP_35_R35",
+        "arch": "WB_IMPULSE_PULLBACK",
+        "asset": "GBPUSD",
+        "native_Ask": true,
+        "n_total": 231,
+        "cluster_A": {
+          "n": 97,
+          "net_R": 4.12,
+          "pf": 1.185,
+          "dd_R": 4.28
+        },
+        "cluster_B_blind": {
+          "n": 134,
+          "net_R": -0.64,
+          "pf": 0.978,
+          "dd_R": 4.59
+        },
+        "ftmo_net_R": 3.48,
+        "ftmo_base_R": 5.06,
+        "fade_ftmo_R": -10.84,
+        "pos_years": 3,
+        "years_R": {
+          "2018": 3.05,
+          "2019": 3.68,
+          "2020": -2.61,
+          "2021": -1.65,
+          "2022": 4.36,
+          "2023": -0.4,
+          "2024": -2.95
+        },
+        "closed_dd_R": 6.59,
+        "top10_R": 14.51,
+        "p_sign_flip": 0.2418,
+        "fdr_q_full_space": 1.0,
+        "corr_usdjpy_core": -0.0103,
+        "direction": {
+          "BUY": {
+            "n": 114,
+            "ftmo_R": 3.72,
+            "base_R": 4.52
+          },
+          "SELL": {
+            "n": 117,
+            "ftmo_R": -0.25,
+            "base_R": 0.54
+          }
+        },
+        "tier": "TIER_3_DEAD_NO_EDGE",
+        "spec": {
+          "id": "WB_IMP_35_R35",
+          "arch": "WB_IMPULSE_PULLBACK",
+          "imp_atr": 0.35,
+          "retrace_frac": 0.35,
+          "sl_atr": 0.75
+        }
+      },
+      {
+        "strategy": "WB_EXP_65_VOL_HIGH",
+        "arch": "WB_OPEN_EXPANSION",
+        "asset": "USDJPY",
+        "native_Ask": true,
+        "n_total": 307,
+        "cluster_A": {
+          "n": 125,
+          "net_R": 7.76,
+          "pf": 1.263,
+          "dd_R": 7.94
+        },
+        "cluster_B_blind": {
+          "n": 182,
+          "net_R": -4.83,
+          "pf": 0.897,
+          "dd_R": 7.48
+        },
+        "ftmo_net_R": 2.93,
+        "ftmo_base_R": 5.57,
+        "fade_ftmo_R": -48.44,
+        "pos_years": 2,
+        "years_R": {
+          "2018": -2.24,
+          "2019": -0.76,
+          "2020": 10.76,
+          "2021": 0.92,
+          "2022": -1.94,
+          "2023": -0.39,
+          "2024": -3.42
+        },
+        "closed_dd_R": 7.94,
+        "top10_R": 17.41,
+        "p_sign_flip": 0.046,
+        "fdr_q_full_space": 0.4727,
+        "corr_usdjpy_core": 0.338,
+        "direction": {
+          "BUY": {
+            "n": 138,
+            "ftmo_R": 0.16,
+            "base_R": 1.35
+          },
+          "SELL": {
+            "n": 169,
+            "ftmo_R": 2.76,
+            "base_R": 4.21
+          }
+        },
+        "tier": "TIER_3_DEAD_NO_EDGE",
+        "spec": {
+          "id": "WB_EXP_65_VOL_HIGH",
+          "arch": "WB_OPEN_EXPANSION",
+          "trig_atr": 0.65,
+          "sl_atr": 0.75,
+          "regime": "VOL_HIGH"
+        }
+      },
+      {
+        "strategy": "WB_IMP_35_R50",
+        "arch": "WB_IMPULSE_PULLBACK",
+        "asset": "GBPUSD",
+        "native_Ask": true,
+        "n_total": 183,
+        "cluster_A": {
+          "n": 74,
+          "net_R": 2.41,
+          "pf": 1.146,
+          "dd_R": 4.51
+        },
+        "cluster_B_blind": {
+          "n": 109,
+          "net_R": -0.34,
+          "pf": 0.986,
+          "dd_R": 4.69
+        },
+        "ftmo_net_R": 2.07,
+        "ftmo_base_R": 3.3,
+        "fade_ftmo_R": -3.62,
+        "pos_years": 3,
+        "years_R": {
+          "2018": 2.22,
+          "2019": 3.31,
+          "2020": -3.12,
+          "2021": -1.36,
+          "2022": 3.93,
+          "2023": -0.41,
+          "2024": -2.5
+        },
+        "closed_dd_R": 5.62,
+        "top10_R": 13.92,
+        "p_sign_flip": 0.3506,
+        "fdr_q_full_space": 1.0,
+        "corr_usdjpy_core": -0.0109,
+        "direction": {
+          "BUY": {
+            "n": 91,
+            "ftmo_R": -0.29,
+            "base_R": 0.32
+          },
+          "SELL": {
+            "n": 92,
+            "ftmo_R": 2.36,
+            "base_R": 2.98
+          }
+        },
+        "tier": "TIER_3_DEAD_NO_EDGE",
+        "spec": {
+          "id": "WB_IMP_35_R50",
+          "arch": "WB_IMPULSE_PULLBACK",
+          "imp_atr": 0.35,
+          "retrace_frac": 0.5,
+          "sl_atr": 0.75
+        }
+      },
+      {
+        "strategy": "WB_EXP_100_EMA50_TREND",
+        "arch": "WB_OPEN_EXPANSION",
+        "asset": "GBPUSD",
+        "native_Ask": true,
+        "n_total": 171,
+        "cluster_A": {
+          "n": 73,
+          "net_R": 2.42,
+          "pf": 1.117,
+          "dd_R": 6.31
+        },
+        "cluster_B_blind": {
+          "n": 98,
+          "net_R": -1.94,
+          "pf": 0.925,
+          "dd_R": 8.46
+        },
+        "ftmo_net_R": 0.48,
+        "ftmo_base_R": 1.63,
+        "fade_ftmo_R": -19.48,
+        "pos_years": 4,
+        "years_R": {
+          "2018": -2.17,
+          "2019": 3.61,
+          "2020": 0.98,
+          "2021": 0.31,
+          "2022": 2.52,
+          "2023": -0.42,
+          "2024": -4.35
+        },
+        "closed_dd_R": 8.46,
+        "top10_R": 17.54,
+        "p_sign_flip": 0.2567,
+        "fdr_q_full_space": 1.0,
+        "corr_usdjpy_core": -0.0064,
+        "direction": {
+          "BUY": {
+            "n": 74,
+            "ftmo_R": -8.31,
+            "base_R": -7.86
+          },
+          "SELL": {
+            "n": 97,
+            "ftmo_R": 8.79,
+            "base_R": 9.49
+          }
+        },
+        "tier": "TIER_3_DEAD_NO_EDGE",
+        "spec": {
+          "id": "WB_EXP_100_EMA50_TREND",
+          "arch": "WB_OPEN_EXPANSION",
+          "trig_atr": 1.0,
+          "sl_atr": 0.75,
+          "regime": "EMA50_TREND"
+        }
+      },
+      {
+        "strategy": "WB_IMP_35_R35",
+        "arch": "WB_IMPULSE_PULLBACK",
+        "asset": "EURUSD",
+        "native_Ask": true,
+        "n_total": 193,
+        "cluster_A": {
+          "n": 66,
+          "net_R": 2.36,
+          "pf": 1.182,
+          "dd_R": 2.86
+        },
+        "cluster_B_blind": {
+          "n": 127,
+          "net_R": -2.31,
+          "pf": 0.924,
+          "dd_R": 9.08
+        },
+        "ftmo_net_R": 0.05,
+        "ftmo_base_R": 1.82,
+        "fade_ftmo_R": -4.7,
+        "pos_years": 4,
+        "years_R": {
+          "2018": 0.49,
+          "2019": 0.58,
+          "2020": 1.29,
+          "2021": 3.11,
+          "2022": -0.49,
+          "2023": -0.15,
+          "2024": -4.78
+        },
+        "closed_dd_R": 9.08,
+        "top10_R": 13.42,
+        "p_sign_flip": 0.4096,
+        "fdr_q_full_space": 1.0,
+        "corr_usdjpy_core": -0.0073,
+        "direction": {
+          "BUY": {
+            "n": 105,
+            "ftmo_R": -7.77,
+            "base_R": -6.89
+          },
+          "SELL": {
+            "n": 88,
+            "ftmo_R": 7.82,
+            "base_R": 8.71
+          }
+        },
+        "tier": "TIER_3_DEAD_NO_EDGE",
+        "spec": {
+          "id": "WB_IMP_35_R35",
+          "arch": "WB_IMPULSE_PULLBACK",
+          "imp_atr": 0.35,
+          "retrace_frac": 0.35,
+          "sl_atr": 0.75
+        }
+      },
+      {
+        "strategy": "WB_BOX_0007_M100",
+        "arch": "WB_SESSION_BOX",
+        "asset": "GBPUSD",
+        "native_Ask": true,
+        "n_total": 1742,
+        "cluster_A": {
+          "n": 732,
+          "net_R": 23.41,
+          "pf": 1.118,
+          "dd_R": 21.62
+        },
+        "cluster_B_blind": {
+          "n": 1010,
+          "net_R": -28.77,
+          "pf": 0.905,
+          "dd_R": 41.07
+        },
+        "ftmo_net_R": -5.36,
+        "ftmo_base_R": 6.05,
+        "fade_ftmo_R": -157.42,
+        "pos_years": 3,
+        "years_R": {
+          "2018": -8.79,
+          "2019": 17.53,
+          "2020": 14.66,
+          "2021": -8.36,
+          "2022": 3.55,
+          "2023": -16.12,
+          "2024": -7.83
+        },
+        "closed_dd_R": 41.07,
+        "top10_R": 27.28,
+        "p_sign_flip": 0.003,
+        "fdr_q_full_space": 0.0719,
+        "corr_usdjpy_core": 0.0198,
+        "direction": {
+          "BUY": {
+            "n": 899,
+            "ftmo_R": -20.81,
+            "base_R": -15.05
+          },
+          "SELL": {
+            "n": 843,
+            "ftmo_R": 15.45,
+            "base_R": 21.1
+          }
+        },
+        "tier": "TIER_3_DEAD_NO_EDGE",
+        "spec": {
+          "id": "WB_BOX_0007_M100",
+          "arch": "WB_SESSION_BOX",
+          "box_start_h": 0,
+          "box_end_h": 7,
+          "max_box_atr": 1.0,
+          "sl_atr": 0.75
+        }
+      },
+      {
+        "strategy": "WB_BOX_0007_M70",
+        "arch": "WB_SESSION_BOX",
+        "asset": "GBPUSD",
+        "native_Ask": true,
+        "n_total": 1711,
+        "cluster_A": {
+          "n": 719,
+          "net_R": 21.68,
+          "pf": 1.111,
+          "dd_R": 20.32
+        },
+        "cluster_B_blind": {
+          "n": 992,
+          "net_R": -35.79,
+          "pf": 0.88,
+          "dd_R": 45.44
+        },
+        "ftmo_net_R": -14.11,
+        "ftmo_base_R": -2.97,
+        "fade_ftmo_R": -147.48,
+        "pos_years": 2,
+        "years_R": {
+          "2018": -7.21,
+          "2019": 14.92,
+          "2020": 13.96,
+          "2021": -10.26,
+          "2022": -1.56,
+          "2023": -14.42,
+          "2024": -9.55
+        },
+        "closed_dd_R": 45.44,
+        "top10_R": 27.28,
+        "p_sign_flip": 0.007,
+        "fdr_q_full_space": 0.0915,
+        "corr_usdjpy_core": 0.0213,
+        "direction": {
+          "BUY": {
+            "n": 884,
+            "ftmo_R": -20.74,
+            "base_R": -15.06
+          },
+          "SELL": {
+            "n": 827,
+            "ftmo_R": 6.63,
+            "base_R": 12.09
+          }
+        },
+        "tier": "TIER_3_DEAD_NO_EDGE",
+        "spec": {
+          "id": "WB_BOX_0007_M70",
+          "arch": "WB_SESSION_BOX",
+          "box_start_h": 0,
+          "box_end_h": 7,
+          "max_box_atr": 0.7,
+          "sl_atr": 0.75
+        }
+      }
+    ]
+  },
+  "lane_b_whitebox_gbpjpy": {
+    "m_total_search_space": 30,
+    "cluster_a_survivors": 3,
+    "tier_counts": {
+      "TIER_3_DEAD_NO_EDGE": 3,
+      "STAGE1_FILTERED_OUT_ON_CLUSTER_A": 27
+    },
+    "survivors": [
+      {
+        "strategy": "WB_BOX_0208_M75",
+        "arch": "WB_SESSION_BOX",
+        "asset": "GBPJPY",
+        "native_Ask": true,
+        "n_total": 1624,
+        "cluster_A": {
+          "n": 713,
+          "net_R": 12.29,
+          "pf": 1.071,
+          "dd_R": 16.07
+        },
+        "cluster_B_blind": {
+          "n": 911,
+          "net_R": -16.93,
+          "pf": 0.926,
+          "dd_R": 21.57
+        },
+        "ftmo_net_R": -4.64,
+        "ftmo_base_R": 3.22,
+        "fade_ftmo_R": -178.11,
+        "pos_years": 3,
+        "years_R": {
+          "2018": -0.13,
+          "2019": 11.56,
+          "2020": 0.86,
+          "2021": -14.81,
+          "2022": 5.21,
+          "2023": -2.22,
+          "2024": -5.11
+        },
+        "closed_dd_R": 25.04,
+        "top10_R": 23.66,
+        "p_sign_flip": 0.001,
+        "fdr_q_full_space": 0.015,
+        "corr_usdjpy_core": 0.04,
+        "direction": {
+          "BUY": {
+            "n": 891,
+            "ftmo_R": 15.22,
+            "base_R": 19.6
+          },
+          "SELL": {
+            "n": 733,
+            "ftmo_R": -19.86,
+            "base_R": -16.38
+          }
+        },
+        "tier": "TIER_3_DEAD_NO_EDGE",
+        "spec": {
+          "id": "WB_BOX_0208_M75",
+          "arch": "WB_SESSION_BOX",
+          "box_start_h": 2,
+          "box_end_h": 8,
+          "max_box_atr": 0.75,
+          "sl_atr": 0.75
+        }
+      },
+      {
+        "strategy": "WB_EXP_65_VOL_HIGH",
+        "arch": "WB_OPEN_EXPANSION",
+        "asset": "GBPJPY",
+        "native_Ask": true,
+        "n_total": 317,
+        "cluster_A": {
+          "n": 144,
+          "net_R": 2.59,
+          "pf": 1.07,
+          "dd_R": 7.65
+        },
+        "cluster_B_blind": {
+          "n": 173,
+          "net_R": -18.03,
+          "pf": 0.658,
+          "dd_R": 18.03
+        },
+        "ftmo_net_R": -15.44,
+        "ftmo_base_R": -13.99,
+        "fade_ftmo_R": -35.39,
+        "pos_years": 3,
+        "years_R": {
+          "2018": -3.63,
+          "2019": 4.38,
+          "2020": 1.84,
+          "2021": -4.31,
+          "2022": 2.22,
+          "2023": -5.42,
+          "2024": -10.53
+        },
+        "closed_dd_R": 21.87,
+        "top10_R": 18.75,
+        "p_sign_flip": 0.1279,
+        "fdr_q_full_space": 1.0,
+        "corr_usdjpy_core": 0.1494,
+        "direction": {
+          "BUY": {
+            "n": 153,
+            "ftmo_R": -3.08,
+            "base_R": -2.38
+          },
+          "SELL": {
+            "n": 164,
+            "ftmo_R": -12.35,
+            "base_R": -11.62
+          }
+        },
+        "tier": "TIER_3_DEAD_NO_EDGE",
+        "spec": {
+          "id": "WB_EXP_65_VOL_HIGH",
+          "arch": "WB_OPEN_EXPANSION",
+          "trig_atr": 0.65,
+          "sl_atr": 0.75,
+          "regime": "VOL_HIGH"
+        }
+      },
+      {
+        "strategy": "WB_BOX_0007_M100",
+        "arch": "WB_SESSION_BOX",
+        "asset": "GBPJPY",
+        "native_Ask": true,
+        "n_total": 1713,
+        "cluster_A": {
+          "n": 740,
+          "net_R": 11.07,
+          "pf": 1.059,
+          "dd_R": 11.6
+        },
+        "cluster_B_blind": {
+          "n": 973,
+          "net_R": -27.78,
+          "pf": 0.895,
+          "dd_R": 42.32
+        },
+        "ftmo_net_R": -16.71,
+        "ftmo_base_R": -8.49,
+        "fade_ftmo_R": -176.36,
+        "pos_years": 3,
+        "years_R": {
+          "2018": 2.32,
+          "2019": -3.73,
+          "2020": 12.48,
+          "2021": -11.46,
+          "2022": -12.73,
+          "2023": -6.56,
+          "2024": 2.97
+        },
+        "closed_dd_R": 43.22,
+        "top10_R": 26.1,
+        "p_sign_flip": 0.001,
+        "fdr_q_full_space": 0.015,
+        "corr_usdjpy_core": 0.122,
+        "direction": {
+          "BUY": {
+            "n": 934,
+            "ftmo_R": 3.44,
+            "base_R": 7.94
+          },
+          "SELL": {
+            "n": 779,
+            "ftmo_R": -20.15,
+            "base_R": -16.43
+          }
+        },
+        "tier": "TIER_3_DEAD_NO_EDGE",
+        "spec": {
+          "id": "WB_BOX_0007_M100",
+          "arch": "WB_SESSION_BOX",
+          "box_start_h": 0,
+          "box_end_h": 7,
+          "max_box_atr": 1.0,
+          "sl_atr": 0.75
+        }
+      }
+    ]
+  }
+}

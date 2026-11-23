@@ -4787,6 +4787,14 @@
     "version": 1,
     "broker_observations": [
       {
+        "id": "pass21-gbpjpy-and-whitebox-discovery-20261123",
+        "scope": "Pass 21 Development 2018-2024 parallel execution: Lane A sealed 2.61M GBPJPY Native M1 Bid/Ask bars on D: SSD Hot Cache and rejected GBPJPY EXP_DAILY_OPEN (-9.52R Stress, 0/12 2D surface, H4 illusion exposed); Lane B deployed Prop-First White-Box Discovery System (whitebox_discovery.py, mq5_whitebox_exporter.py, whitebox-prop-discovery skill, clean Naqex_WB_EXP080_USDJPY.mq5 export) and discovered orthogonal non-JPY candidate WB_EXP_80_VOL_HIGH GBPUSD (A +5.72R -> Blind B +8.61R, 4/4 blind years positive, BUY +5.03R & SELL +9.30R, DD 5.43R, p=0.006, FDR q=0.0915 across 144 specs, rJPY=0.0168).",
+        "report": "PASS21-GBPJPY-M1-AND-WHITEBOX-PROP-DISCOVERY-20261123.md",
+        "summary": "PASS21-GBPJPY-M1-AND-WHITEBOX-PROP-DISCOVERY-20261123.json",
+        "private_manifest": "pass21-gbpjpy-m1-20261123/manifest.json",
+        "private_manifest_sha256": "64da49a5eaa8d8134af3d9f80c0d8b88b8f7b13e7084ced33717b23696a1d7f6"
+      },
+      {
         "id": "pass20-pos-swap-carry-3engine-20261123",
         "scope": "Pass 20 Development 2018-2024 zero-network H4/M1 forensic audit of 8-pair Positive-Swap Carry-Trend & Prague-reset 3-engine portfolio integration: H4 vs Native M1 parity confirmed on USDJPY (+14.68R vs +15.18R) & EURUSD (-1.58R vs -0.06R), but Donchian Carry-Trend REJECTED (0/12 2D surface cells positive in both A&B for NON_JPY_4 and ALL_8_JPYCAP1, fails matched-hold timing null p=0.14-0.97, degrades/does not beat Pass 17 2-engine core). Keep Pass 17 2-engine core.",
         "report": "PASS20-POS-SWAP-CARRY-TREND-3ENGINE-20261123.md",
