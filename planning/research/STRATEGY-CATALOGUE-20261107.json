@@ -4787,6 +4787,14 @@
     "version": 1,
     "broker_observations": [
       {
+        "id": "pass16-dual-track-20261123",
+        "scope": "Pass 16 Development 2018-2024 zero-network dual-track screen: Track 1 Wide-Expansion Daily-Open ATR (swap=0) produced FIRST TIER_1_FTMO_READY breakthrough on native USDJPY M1 (EXP_DAILY_OPEN_080: +35.24R, 7/7 years positive, 6.36R DD, MC p=0.002, FDR q=0.0048; EXP_DAILY_OPEN_080_TREND: +24.74R, 6/7 years) plus TIER_2 XAUUSD 1.20 ATR (+10.43R, q=0.004); Track 2 closed remaining 8 H1 context leads from strategy-intel (23/24 TIER_3, 1 TIER_2 VIR024 USDJPY).",
+        "report": "PASS16-DUAL-TRACK-EXPANSION-AND-H1-CONTEXT-20261123.md",
+        "summary": "PASS16-DUAL-TRACK-EXPANSION-AND-H1-CONTEXT-20261123.json",
+        "private_manifest": "pass16-dual-track-20261123/manifest.json",
+        "private_manifest_sha256": "438154843a164bb1d1171daf3d47aa8abe631c4cd6b872f379d0d51a5ed4f03d"
+      },
+      {
         "id": "pass15-ftmo-native-engine2-20261123",
         "scope": "Pass 15 Development 2018-2024 zero-network FTMO-native Engine #2 screen (4 XAUUSD intraday zero-swap + 3 FX positive-carry trend, BH FDR m=7): 0/7 Tier 1/2 (all TIER_3_DEAD_NO_EDGE); diagnostic finding: XAU_DAILY_OPEN_ATR showed genuine gross momentum (p=0.004, FDR q=0.028, +144.5R vs Fade) overwhelmed by 1,235-trade execution drag (-$64.8k).",
         "report": "PASS15-FTMO-NATIVE-ENGINE2-20261123.md",

@@ -11,13 +11,15 @@
 - **Ràng buộc an toàn bất biến:** Khóa cứng Holdout từ `01/01/2025` (`NATIVE_FTMO_HOLDOUT_LOCK.json`), `OrderSend = 0`, không mở MT5/đọc `.env`, không tự sửa global config, không đụng pin `projects/trader` hay WIP `projects/vi-dubber`.
 - **Điều phối thống nhất:** Antigravity tiếp quản cả vai trò điều phối lẫn thực thi trên `Naqex/workspace` (thay thế quy trình copy-paste giữa Gemini Web / Codex / chat Astra cũ). Kho săn ý tưởng bên ngoài `D:\ANNAM\strategy-intel` giữ **Air-Gap tuyệt đối** (chỉ chuyển giao đặc tả toán học thuần túy, không import file hay trộn số liệu `>= 2025`).
 
-## 2. Trạng thái nghiên cứu hiện hành (Pass 5 → Pass 15)
+## 2. Trạng thái nghiên cứu hiện hành (Pass 5 → Pass 16)
 
-- **Pass 15 (23/11/2026) — Engine #2 đo ni đóng giày cho FTMO (`XAUUSD` Intraday `swap = 0` & FX Positive-Carry, `7` giả thuyết, `14,61s`):**
-  - `0/7` đạt Tier 1 / Tier 2 (`TIER_3_DEAD_NO_EDGE = 7/7`), nhưng lộ ra **2 quy luật chi phí/cơ chế cực kỳ rõ**:
-    1. `XAU_DAILY_OPEN_ATR` (`n=1.235`, `swap=0`) có **động lượng thật (`gross +$29.484`, `p=0,004`, `FDR q=0,028`, đè bẹp Fade `-38,2R vs -182,7R`)**, nhưng tần suất quá dày làm phí thực thi (`-$64.803`) nuốt hết lãi → bài học: đánh `XAUUSD` trong ngày chỉ sống nếu lọc **tần suất thấp / biên độ lớn** (`cost/ATR` nhỏ).
-    2. `CARRY_USDJPY_LONG` (`Donchian20` `+11,28R`, `Pullback H4` `+12,18R`) hưởng **Swap FTMO dương `+$1.677..+$1.826`**, nhưng âm Cụm A (`2018–2020`) và trượt Null Test (`p=0,37–0,70`, chỉ ăn sóng tăng JPY `2021–2024`).
-  - [Báo cáo Pass 15](research/PASS15-FTMO-NATIVE-ENGINE2-20261123.md) · [Protocol `b2e5803`](research/PASS15-FTMO-NATIVE-ENGINE2-PROTOCOL-20261123.md).
+- **Pass 16 (23/11/2026) — ĐỘT PHÁ `TIER_1_FTMO_READY` (`EXP_DAILY_OPEN_080 USDJPY`) & đóng sổ Source 1 `strategy-intel`:**
+  - **Nhánh 1 (`EXP_DAILY_OPEN` tần suất thấp, `swap = 0`, BH FDR `m=12`):**
+    - **`EXP_DAILY_OPEN_080 USDJPY` (`TIER_1_FTMO_READY`, Native Tick M1 Bid/Ask):** `n=569` (WR `53,4%`), **`FTMO Stress = +35,24R`** (`A +22,2 / B +13,1`, **`7/7` năm dương**, `DD đóng chỉ 6,36R`, `Top10 24,80R`, đè bẹp Fade `-113,7R`, **`MC p=0,002`, `FDR q=0,0048`**; Exness `+40,55R`). Tương quan ngày với Engine #1 Tokyo-box chỉ `0,294` — và lãi dương `+4,53R` (2019), `+4,81R` (2021) đúng lúc Engine #1 lỗ nặng! *(Cần Pass 17 kiểm M1 floating equity + Prague reset + giới hạn đồng thời trước khi promote).*
+    - **`EXP_DAILY_OPEN_080_TREND USDJPY` (`TIER_1_FTMO_READY`):** `n=276`, `+24,74R` (`6/7` năm, DD `6,83R`, `q=0,0048`). Lân cận `1,00 ATR USDJPY` (`+21,81R`, `6/7`, `TIER_2`) và `1,20 ATR XAUUSD` (`+10,43R`, `5/7`, DD `4,60R`, `q=0,004`, `TIER_2_PROVISIONAL_XAU`, corr `0,051` với Engine #1).
+  - **Nhánh 2 (8 mã `H1` còn lại của ô `39 TÌNH HUỐNG`, `m=24`):** `23/24` vào `TIER_3`, `1/24` vào `TIER_2` (`VIR024 USDJPY`, `+16,27R`, `p_f=0,049`). Chính thức **đóng sổ Source 1 `strategy-intel`**.
+  - Lưu bảng phí tham chiếu [EXNESS-CONTRACT-SPECS-SNAPSHOT-20261123.json](research/EXNESS-CONTRACT-SPECS-SNAPSHOT-20261123.json) (`EXNESS_WEBSITE_SNAPSHOT_UNMEASURED_DEMO`). [Báo cáo Pass 16](research/PASS16-DUAL-TRACK-EXPANSION-AND-H1-CONTEXT-20261123.md) · [Protocol `8e590ca`](research/PASS16-DUAL-TRACK-EXPANSION-AND-H1-CONTEXT-PROTOCOL-20261123.md).
+- **Pass 15 (23/11/2026) — FTMO-Native Screen:** `0/7` Tier 1/2, nhưng phát hiện tín hiệu gốc `XAU_DAILY_OPEN_ATR` (`p=0,004`, `q=0,028`) dẫn thẳng tới đột phá Pass 16. [Báo cáo Pass 15](research/PASS15-FTMO-NATIVE-ENGINE2-20261123.md).
 - **Pass 14 (23/11/2026) — Sàng lọc đồng loạt 13 chiến lược `"CHẤT"` còn lại từ `strategy-intel` (Hoàn tất 15/15 Top Leads · Phân loại 3 tầng):**
   - Chạy toàn bộ **52 cặp** (`13` chiến lược × `XAUUSD`/`EURUSD`/`GBPUSD`/`USDJPY`, ~10,3 triệu nến M1, `52.000` lượt MC Null + FDR) trong **`35,47s`** trên Hot M1 Cache SSD (`249,3 MB`).
   - **`TIER_1_FTMO_READY`: `0 / 52`** (chưa có ứng viên Top 15 nào đủ chuẩn ghép thi FTMO ngay).

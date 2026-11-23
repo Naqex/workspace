@@ -9,6 +9,18 @@ Từ workspace root, chạy `python -X utf8 tooling/ai-engines/research_inventor
 để xem mức gắn nhãn. Thêm `--all` để lấy từng đường dẫn và lý do còn thiếu
 thông tin.
 
+**Pass 16 · Động lượng mở rộng tần suất thấp (`swap = 0`) & 8 mã `H1` còn lại của `strategy-intel`.**
+Chạy song song 2 nhánh (`36` cặp M1 thực `2018–2024`, `holdout_rows = 0`, `network_calls = 0`, `OrderSend = 0`).
+- **Đột phá Nhánh 1 (`TIER_1_FTMO_READY` trên Native Tick M1 Bid/Ask `USDJPY`, `swap = 0`):**
+  - `EXP_DAILY_OPEN_080 USDJPY`: `n=569`, **`FTMO_Stress = +35,24R`** (`Cụm A +22,2R / Cụm B +13,1R`, **`7/7` năm dương**, `DD đóng chỉ 6,36R`, `Top10 24,80R`, đè bẹp Fade `-113,7R`, **`MC p = 0,002`, `BH FDR q = 0,0048`**; Exness `+40,55R`, tương quan ngày với Engine #1 Tokyo-box chỉ `0,294` — và dương `+4,53R` năm 2019, `+4,81R` năm 2021 khi Engine #1 thua nặng!).
+  - `EXP_DAILY_OPEN_080_TREND USDJPY`: `n=276`, **`+24,74R`** (`6/7` năm, `DD 6,83R`, `FDR q = 0,0048`, `TIER_1_FTMO_READY`).
+  - Lân cận `1,00 ATR USDJPY` (`+21,81R`, `6/7`, `FDR q = 0,026`, `TIER_2`) và `1,20 ATR XAUUSD` (`+10,43R`, `5/7`, `DD 4,60R`, `FDR q = 0,004`, `TIER_2_PROVISIONAL_XAU`, corr `0,051` với Engine #1, kéo underwater Engine #1 từ `41,2 → 20,8` tháng).
+- **Nhánh 2 (đóng sổ hoàn toàn Source 1 `strategy-intel`):** `23/24` cặp vào `TIER_3_DEAD_NO_EDGE`, `1/24` vào `TIER_2_PERSONAL_VAULT` (`VIR024 USDJPY`, `+16,27R`, `p_f=0,049`).
+- **Tiếp theo (Pass 17):** Pháp y M1 floating equity + Prague reset + kiểm trùng lặp & ghép danh mục chính thức cho `EXP_DAILY_OPEN_080 USDJPY` (và kiểm mở rộng sang `GBPUSD`/`AUDUSD`/`EURJPY`/`GBPJPY` nếu cần).
+[Báo cáo](PASS16-DUAL-TRACK-EXPANSION-AND-H1-CONTEXT-20261123.md) ·
+[Protocol](PASS16-DUAL-TRACK-EXPANSION-AND-H1-CONTEXT-PROTOCOL-20261123.md) ·
+[Exness Specs](EXNESS-CONTRACT-SPECS-SNAPSHOT-20261123.json).
+
 **Pass 15 · Engine #2 đo ni đóng giày cho FTMO (`XAUUSD` Intraday `swap = 0` & FX Positive-Carry Trend).**
 Chạy 7 giả thuyết trực giao (`4` nhánh `XAUUSD` intraday `swap = 0` + `3` nhánh FX thuận chiều Swap dương FTMO `USDJPY` Long / `EURUSD` Short) trong `14,61s` trên Hot M1 Cache SSD (`holdout_rows = 0`, `network_calls = 0`, `OrderSend = 0`, BH FDR `m = 7`).
 Kết quả: `0/7` đạt Tier 1 hoặc Tier 2 (`TIER_3_DEAD_NO_EDGE = 7/7`). Phát hiện chẩn đoán quan trọng: `XAU_DAILY_OPEN_ATR` có tín hiệu động lượng thật (`gross +$29.484`, thắng 99,6% ngẫu nhiên `p = 0,004`, `FDR q = 0,028`, thắng Fade `+144,5R`) nhưng bị ma sát `1.235` lệnh (`-$64.803` phí) kéo xuống `-38,2R`; còn `USDJPY` Carry Long nhận dương `+$1.677..+$1.826` Swap FTMO và lãi `+11,3R..+12,2R` nhưng âm Cụm A (`2018–2020`) và trượt Null Test (`p = 0,37–0,70`, chỉ ăn theo sóng USDJPY 2021–2024).
