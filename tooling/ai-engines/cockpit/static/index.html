@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Naqex Quant Pod — Local Control Room</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="dot"></span>
+      <h1>Naqex Quant Pod Control Room</h1>
+      <span class="tag tag-lock" id="seal-badge">HOLDOUT 2025+ SEALED · OrderSend=0</span>
+    </div>
+    <div class="top-meta">
+      <span class="meta-item">Policy: <strong class="mono" id="top-policy">—</strong></span>
+      <span class="meta-item">MT5: <strong class="mono" id="top-mt5">—</strong></span>
+      <span class="meta-item">Next Red-News: <strong class="mono" id="top-news">—</strong></span>
+      <button id="btn-refresh" class="btn" type="button">Làm mới dữ liệu</button>
+    </div>
+  </header>
+
+  <main class="shell">
+    <!-- KPI Strip -->
+    <section class="kpi-strip" aria-label="Pod Key Metrics">
+      <div class="kpi">
+        <div class="kpi-lbl">Pod Composite CAGR (Dev)</div>
+        <div class="kpi-val mono pos" id="kpi-cagr">—</div>
+        <div class="kpi-sub" id="kpi-window">Window: —</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-lbl">Pod Sharpe / Calmar</div>
+        <div class="kpi-val mono" id="kpi-sharpe">—</div>
+        <div class="kpi-sub" id="kpi-dd">MaxDD: —</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-lbl">Holdout 2025–2026 Verdict</div>
+        <div class="kpi-val mono pos" id="kpi-holdout">—</div>
+        <div class="kpi-sub" id="kpi-engines">9/9 Engines</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-lbl">Red-Team Cost Breakeven</div>
+        <div class="kpi-val mono" id="kpi-be">—</div>
+        <div class="kpi-sub">PORT_7E / PORT_9E Stress</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-lbl">Live Overnight Status</div>
+        <div class="kpi-val mono" id="kpi-live">—</div>
+        <div class="kpi-sub" id="kpi-shadow">Crypto Shadow: —</div>
+      </div>
+    </section>
+
+    <!-- Row 1: Equity & Underwater DD Chart + Correlation Heatmap -->
+    <div class="grid-2-wide">
+      <section class="panel">
+        <div class="panel-hdr">
+          <div>
+            <h2>Đường Cong Vốn &amp; Drawdown Đa Nhánh (Equity &amp; Underwater DD)</h2>
+            <div class="sub">Dữ liệu thực từ <code>.runtime/quant-pod-returns/</code> (Dev niêm phong &lt; 2025-01-01) · Rê chuột để soi từng ngày</div>
+          </div>
+          <div class="toggle-group" id="sleeve-toggles"></div>
+        </div>
+        <div class="chart-wrap">
+          <div class="chart-tooltip mono" id="chart-tooltip">Rê chuột lên biểu đồ để xem chi tiết ngày</div>
+          <svg id="svg-equity" viewBox="0 0 820 230" preserveAspectRatio="none" role="img" aria-label="Equity curves"></svg>
+          <svg id="svg-dd" viewBox="0 0 820 120" preserveAspectRatio="none" role="img" aria-label="Underwater drawdown curves"></svg>
+        </div>
+        <div class="table-scroll">
+          <table class="data-table" id="tbl-sleeves">
+            <thead>
+              <tr>
+                <th>Nhánh (Sleeve)</th>
+                <th>Chiến lược</th>
+                <th class="num">Tỷ trọng</th>
+                <th class="num">CAGR%</th>
+                <th class="num">Vol%</th>
+                <th class="num">Sharpe</th>
+                <th class="num">MaxDD%</th>
+                <th class="num">Calmar</th>
+                <th>Đèn CUSUM/SPRT</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-hdr">
+          <div>
+            <h2>Ma trận Tương quan Đồng bộ (N×N Correlation)</h2>
+            <div class="sub">Kiểm chứng tính trực giao giữa 4–6 nhánh trong cửa sổ giao nhau</div>
+          </div>
+        </div>
+        <div id="corr-heatmap" class="heatmap-wrap"></div>
+
+        <div class="divider"></div>
+        <div class="panel-hdr">
+          <div>
+            <h2>Mô phỏng Red-Team Stress Chi phí (Interactive Multiplier)</h2>
+            <div class="sub">Kéo thanh trượt để kiểm tra độ bền <code>PORT_7E</code> / <code>PORT_9E</code> và từng động cơ</div>
+          </div>
+          <span class="mono strong accent" id="stress-mult-label">1.00×</span>
+        </div>
+        <input id="slider-stress" class="slider" type="range" min="0.50" max="3.00" step="0.05" value="1.00">
+        <div class="stress-cards">
+          <div class="mini-card">
+            <div class="mini-lbl">PORT_7E @ <span class="js-mult">1.00×</span></div>
+            <div class="mini-val mono" id="stress-p7-ann">—</div>
+            <div class="mini-sub mono" id="stress-p7-meta">DD: — · Calmar: —</div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-lbl">PORT_9E @ <span class="js-mult">1.00×</span></div>
+            <div class="mini-val mono" id="stress-p9-ann">—</div>
+            <div class="mini-sub mono" id="stress-p9-meta">DD: — · Calmar: —</div>
+          </div>
+        </div>
+        <div id="engine-stress-bars" class="bar-list"></div>
+      </section>
+    </div>
+
+    <!-- Row 2: VND/USD Absolute Risk & Capital Allocation Calculator (PROFILE.md) -->
+    <section class="panel">
+      <div class="panel-hdr">
+        <div>
+          <h2>Máy tính Rủi ro Tuyệt đối VND / USD &amp; Điểm Giao cắt Prop → Vốn Riêng</h2>
+          <div class="sub">Hiệu chuẩn trực tiếp theo <code>knowledge/owner/PROFILE.md</code> (luôn quy đổi song song % và tiền VND/USD + kiểm soát profit giveback)</div>
+        </div>
+        <span class="tag" id="calc-verdict-badge">—</span>
+      </div>
+      <div class="calc-grid">
+        <div class="calc-controls">
+          <label class="field">
+            <span>Vốn cá nhân dự kiến (VND)</span>
+            <input id="inp-cap-vnd" type="number" step="10000000" min="10000000" value="250000000" class="input mono">
+          </label>
+          <label class="field">
+            <span>Tỷ giá quy đổi (VND / 1 USD)</span>
+            <input id="inp-fx" type="number" step="100" min="20000" value="25500" class="input mono">
+          </label>
+          <label class="field">
+            <span>Tổng danh nghĩa Prop đang Funded (USD)</span>
+            <input id="inp-prop-usd" type="number" step="5000" min="0" value="10000" class="input mono">
+          </label>
+          <label class="field">
+            <span>Hồ sơ rủi ro mục tiêu</span>
+            <select id="inp-profile" class="input">
+              <option value="conservative">Funded Safe (1.0× — DD ~6.5%)</option>
+              <option value="balanced" selected>Quant Pod Balanced 4-Sleeve (DD ~8.0%)</option>
+              <option value="p1_balanced">Prop P1 Balanced (4.0× — DD ~9.2%)</option>
+              <option value="p1_sprint">Prop P1 Sprint (4.75× — DD ~9.5%)</option>
+            </select>
+          </label>
+          <div class="comfort-note" id="calc-tier-note">—</div>
+        </div>
+
+        <div class="calc-output">
+          <table class="data-table">
+            <thead>
+              <tr><th>Ngưỡng chịu đau tuyệt đối</th><th class="num">USD</th><th class="num">VND</th></tr>
+            </thead>
+            <tbody id="tbl-pain"></tbody>
+          </table>
+          <div class="crossover-box">
+            <div class="xo-hdr">
+              <span>Tiến độ Sổ Vốn Riêng vượt Prop Firm (<span id="xo-phase" class="mono">—</span>)</span>
+              <strong class="mono" id="xo-pct">—</strong>
+            </div>
+            <div class="progress-track"><div class="progress-fill" id="xo-bar"></div></div>
+            <div class="xo-meta mono" id="xo-meta">—</div>
+          </div>
+        </div>
+
+        <div class="calc-alloc">
+          <table class="data-table">
+            <thead>
+              <tr><th>Phân bổ Sổ Vốn Riêng (4 Nhánh)</th><th class="num">%</th><th class="num">USD</th><th class="num">VND</th></tr>
+            </thead>
+            <tbody id="tbl-own-alloc"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Row 3: Live MT5 Heartbeat + Crypto Shadow + MT5 Real-Tick TCA + Red-News + IBKR Dry-Run Tickets -->
+    <div class="grid-2">
+      <section class="panel">
+        <div class="panel-hdr">
+          <div>
+            <h2>Giám sát Thực chiến: MT5 Heartbeat, Crypto Shadow &amp; Real-Tick TCA</h2>
+            <div class="sub">Trạng thái thật từ <code>.runtime/live-overnight/</code> &amp; <code>.runtime/mt5-realtick-results/</code> (không dùng số giả)</div>
+          </div>
+        </div>
+        <div class="telemetry-grid">
+          <div class="mini-card">
+            <div class="mini-lbl">MT5 Heartbeat</div>
+            <div class="mini-val mono" id="tel-hb-status">—</div>
+            <div class="mini-sub mono" id="tel-hb-detail">—</div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-lbl">MT5 Live Spread Monitor</div>
+            <div class="mini-val mono" id="tel-sp-status">—</div>
+            <div class="mini-sub mono" id="tel-sp-detail">—</div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-lbl">Crypto Shadow Runner</div>
+            <div class="mini-val mono" id="tel-cr-status">—</div>
+            <div class="mini-sub mono" id="tel-cr-detail">—</div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-lbl">MT5 Real-Tick vs Python TCA</div>
+            <div class="mini-val mono" id="tel-rt-status">—</div>
+            <div class="mini-sub mono" id="tel-rt-detail">—</div>
+          </div>
+        </div>
+        <h3 class="sec-subhdr">Lịch Khóa Tin Đỏ Chính Thức 2026–2027 (±5m Guard)</h3>
+        <div class="table-scroll">
+          <table class="data-table" id="tbl-news">
+            <thead><tr><th>Thời gian UTC</th><th class="num">Còn lại</th><th>CCY</th><th>Sự kiện</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-hdr">
+          <div>
+            <h2>Sleeve #3B — IBKR Macro ETF Dry-Run Rebalancer (OrderSend=0)</h2>
+            <div class="sub">Tính trực tiếp từ <code>.runtime/macro-etf-cache/</code> (12 ETF toàn cầu, 100% nhân quả)</div>
+          </div>
+          <select id="inp-rebal-mode" class="input input-sm">
+            <option value="M5_VOL_PARITY_TREND_GUARD" selected>M5 Vol-Parity + SMA200</option>
+            <option value="M1_AHL_TSMOM_LS_VOL10">M1 AHL TSMOM L/S</option>
+            <option value="BLEND_50_M5_50_M1">Blend 50/50 M5+M1</option>
+          </select>
+        </div>
+        <div class="rebal-meta mono" id="rebal-meta">—</div>
+        <div class="table-scroll">
+          <table class="data-table" id="tbl-rebal">
+            <thead>
+              <tr>
+                <th>ETF</th>
+                <th>Nhóm</th>
+                <th class="num">Giá</th>
+                <th>Trend Guard</th>
+                <th class="num">Tỷ trọng</th>
+                <th class="num">Target Sh</th>
+                <th>Lệnh Dry-Run</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer mono">
+    Naqex Quant Pod Local Cockpit · Bound strictly to 127.0.0.1 · Zero External CDNs · OrderSend=0 · Holdout 2025+ SEALED
+  </footer>
+  <script src="/static/app.js"></script>
+</body>
+</html>
