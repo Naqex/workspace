@@ -43,13 +43,42 @@ from quant_factory.macro_etf_trend import (
 
 ORDER_SEND_COUNT = 0
 DRY_RUN_ONLY = True
-VALID_MODES = (
+LEGACY_MODES = (
     "M5_VOL_PARITY_TREND_GUARD",
     "M1_AHL_TSMOM_LS_VOL10",
     "BLEND_50_M5_50_M1",
 )
+ETF40_MODES = (
+    "l7_top2",
+    "s4_lab4_eqw",
+    "super_etf_6eng",
+)
+VALID_MODES = LEGACY_MODES + ("s3b_macro",) + ETF40_MODES
 IBKR_EXCHANGE_DEFAULT = "SMART"
 IBKR_CURRENCY_DEFAULT = "USD"
+IBKR_COMM_PER_SHARE = 0.0035
+IBKR_MIN_ORDER_USD = 0.35
+IBKR_MAX_ORDER_PCT = 0.01
+MIN_ORDER_FEE_WARN_BPS_YR = 25.0
+
+MODE_ANNUAL_REBAL_EVENTS: dict[str, float] = {
+    "M5_VOL_PARITY_TREND_GUARD": 12.0,
+    "s3b_macro": 12.0,
+    "M1_AHL_TSMOM_LS_VOL10": 26.0,
+    "BLEND_50_M5_50_M1": 24.0,
+    "l7_top2": 12.0,
+    "s4_lab4_eqw": 18.0,
+    "super_etf_6eng": 18.0,
+}
+
+
+def compute_ibkr_tiered_commission(shares: float, price_usd: float) -> float:
+    """Exact IBKR US Tiered ETF commission: $0.0035/share, $0.35 min per order, capped at 1.0% notional."""
+    sh = abs(float(shares))
+    notional = sh * max(float(price_usd), 0.0)
+    if sh <= 1e-9 or notional <= 1e-9:
+        return 0.0
+    return min(max(IBKR_MIN_ORDER_USD, IBKR_COMM_PER_SHARE * sh), IBKR_MAX_ORDER_PCT * notional)
 
 
 def _compute_causal_diagnostics(panel: dict[str, Any], idx: int) -> dict[str, dict[str, Any]]:
@@ -90,6 +119,71 @@ def _compute_causal_diagnostics(panel: dict[str, Any], idx: int) -> dict[str, di
     return diag
 
 
+def _resolve_etf40_weights_and_panel(
+    mode: str,
+    as_of_date: str | None,
+    etf40_cache_dir: Path | None = None,
+) -> tuple[dict[str, Any], np.ndarray, int, str, str]:
+    """Load strictly causal <= as_of_date 40-ETF weights for `l7_top2`, `s4_lab4_eqw`, or `super_etf_6eng`."""
+    from quant_factory.etf40_multifactor_vrp_lab import ETF40_CACHE_DIR, load_etf40_panel
+    from quant_factory.lab7_overnight_macro_rd_loop import load_etf40_ohlc_panel
+    from quant_factory.ownbook_etf_super_sleeve import (
+        LAB4_APPROVED_IDS,
+        SUPER_6_IDS,
+        build_all_9_approved_engine_weights,
+    )
+
+    cdir = etf40_cache_dir if etf40_cache_dir is not None else ETF40_CACHE_DIR
+    p4_full = load_etf40_panel(cache_dir=cdir)
+    p7_full = load_etf40_ohlc_panel(cache_dir=cdir)
+    dates: list[str] = list(p4_full["dates"])
+    if len(dates) < 253:
+        raise ValueError(f"Need at least 253 trading days in ETF40 panel, got {len(dates)}")
+
+    if as_of_date is not None:
+        elig = [i for i, d in enumerate(dates) if d <= as_of_date]
+        if not elig or elig[-1] < 252:
+            raise ValueError(f"Insufficient causal history <= {as_of_date}")
+        idx = elig[-1]
+    else:
+        idx = len(dates) - 1
+
+    # Strictly truncate BOTH panels to <= idx so zero future bars can ever enter signal calculation
+    p4_sub = {
+        "dates": dates[: idx + 1],
+        "symbols": list(p4_full["symbols"]),
+        "adjclose": p4_full["adjclose"][: idx + 1],
+    }
+    p7_sub = {
+        "dates": dates[: idx + 1],
+        "tickers": list(p7_full["tickers"]),
+        "tradable_mask": p7_full["tradable_mask"],
+        "adj_open": p7_full["adj_open"][: idx + 1],
+        "adj_close": p7_full["adj_close"][: idx + 1],
+        "r_cc": p7_full["r_cc"][: idx + 1],
+        "r_ov": p7_full["r_ov"][: idx + 1],
+        "r_id": p7_full["r_id"][: idx + 1],
+    }
+    eng_w = build_all_9_approved_engine_weights(p4_sub, p7_sub)
+    if mode == "l7_top2":
+        w_vec = 0.50 * eng_w["L7_B1_MACRO_QUAD_REGIME"][-1] + 0.50 * eng_w["L7_C3_MM17_VAR_MACRO_CORE"][-1]
+        cadence = "MONTHLY_MACRO_REGIME_PLUS_VAR_SCALE"
+    elif mode == "s4_lab4_eqw":
+        w_vec = sum(eng_w[s][-1] for s in LAB4_APPROVED_IDS) / float(len(LAB4_APPROVED_IDS))
+        cadence = "WEEKLY_PLUS_RSI2_PULLBACK_40ETF"
+    elif mode == "super_etf_6eng":
+        w_vec = sum(eng_w[s][-1] for s in SUPER_6_IDS) / float(len(SUPER_6_IDS))
+        cadence = "MULTI_ENGINE_6ENG_NETTED_40ETF"
+    else:
+        raise ValueError(f"Unknown ETF40 mode: {mode}")
+
+    # Hard-zero non-tradable signal-only indices (^VIX, ^VIX3M)
+    w_vec = np.where(p7_sub["tradable_mask"], w_vec, 0.0)
+    m_path = cdir / "manifest.sha256.json"
+    m_sha = hashlib.sha256(m_path.read_bytes()).hexdigest()[:16] if m_path.is_file() else "ETF40_PARQUET_CACHE"
+    return p4_sub, w_vec, idx, cadence, m_sha
+
+
 def generate_rebalance_plan(
     *,
     mode: str = "M5_VOL_PARITY_TREND_GUARD",
@@ -101,6 +195,7 @@ def generate_rebalance_plan(
     est_cost_bps_oneway: float = 5.0,
     cache_dir: Path = MACRO_CACHE_DIR,
     panel: dict[str, Any] | None = None,
+    etf40_cache_dir: Path | None = None,
 ) -> dict[str, Any]:
     """Compute strictly causal target weights & dry-run IBKR order tickets (`OrderSend = 0`)."""
     if mode not in VALID_MODES:
@@ -108,52 +203,62 @@ def generate_rebalance_plan(
     if equity_usd <= 0:
         raise ValueError(f"equity_usd must be positive, got {equity_usd}")
 
-    data_panel = panel if panel is not None else load_etf_panel(symbols=ETF_UNIVERSE_12, cache_dir=cache_dir)
-    dates: list[str] = data_panel["dates"]
-    syms: list[str] = data_panel["symbols"]
-    px: np.ndarray = data_panel["adjclose"]
-    if len(dates) < 253:
-        raise ValueError(f"Need at least 253 trading days in ETF panel, got {len(dates)}")
+    eff_mode = "M5_VOL_PARITY_TREND_GUARD" if mode == "s3b_macro" else mode
 
-    if as_of_date is not None:
-        eligible_indices = [i for i, d in enumerate(dates) if d <= as_of_date]
-        if not eligible_indices or eligible_indices[-1] < 252:
-            raise ValueError(f"Insufficient causal history <= {as_of_date}")
-        idx = eligible_indices[-1]
-    else:
-        idx = len(dates) - 1
-
-    # Strictly truncate panel to <= idx so zero future bars can ever enter strategy computation
-    sub_panel = {
-        "dates": dates[:idx + 1],
-        "symbols": syms,
-        "adjclose": px[:idx + 1],
-    }
-    strategies = build_macro_strategies(sub_panel)
-    if mode == "M5_VOL_PARITY_TREND_GUARD":
-        w_vec = strategies["M5_VOL_PARITY_TREND_GUARD"][2][-1]
-        rebalance_cadence = "MONTHLY_END_OF_MONTH"
+    if eff_mode in ETF40_MODES:
+        sub_panel, w_vec, idx, rebalance_cadence, manifest_sha = _resolve_etf40_weights_and_panel(
+            eff_mode, as_of_date, etf40_cache_dir=etf40_cache_dir
+        )
+        dates = sub_panel["dates"]
+        syms = sub_panel["symbols"]
         allow_short = False
-    elif mode == "M1_AHL_TSMOM_LS_VOL10":
-        w_vec = strategies["M1_AHL_TSMOM_LS_VOL10"][2][-1]
-        rebalance_cadence = "WEEKLY_5D_OR_MONTH_END"
-        allow_short = True
     else:
-        w_m5 = strategies["M5_VOL_PARITY_TREND_GUARD"][2][-1]
-        w_m1 = strategies["M1_AHL_TSMOM_LS_VOL10"][2][-1]
-        w_vec = 0.50 * w_m5 + 0.50 * w_m1
-        rebalance_cadence = "WEEKLY_M1_PLUS_MONTHLY_M5"
-        allow_short = True
+        data_panel = panel if panel is not None else load_etf_panel(symbols=ETF_UNIVERSE_12, cache_dir=cache_dir)
+        dates = data_panel["dates"]
+        syms = data_panel["symbols"]
+        px: np.ndarray = data_panel["adjclose"]
+        if len(dates) < 253:
+            raise ValueError(f"Need at least 253 trading days in ETF panel, got {len(dates)}")
+
+        if as_of_date is not None:
+            eligible_indices = [i for i, d in enumerate(dates) if d <= as_of_date]
+            if not eligible_indices or eligible_indices[-1] < 252:
+                raise ValueError(f"Insufficient causal history <= {as_of_date}")
+            idx = eligible_indices[-1]
+        else:
+            idx = len(dates) - 1
+
+        # Strictly truncate panel to <= idx so zero future bars can ever enter strategy computation
+        sub_panel = {
+            "dates": dates[:idx + 1],
+            "symbols": syms,
+            "adjclose": px[:idx + 1],
+        }
+        strategies = build_macro_strategies(sub_panel)
+        if eff_mode == "M5_VOL_PARITY_TREND_GUARD":
+            w_vec = strategies["M5_VOL_PARITY_TREND_GUARD"][2][-1]
+            rebalance_cadence = "MONTHLY_END_OF_MONTH"
+            allow_short = False
+        elif eff_mode == "M1_AHL_TSMOM_LS_VOL10":
+            w_vec = strategies["M1_AHL_TSMOM_LS_VOL10"][2][-1]
+            rebalance_cadence = "WEEKLY_5D_OR_MONTH_END"
+            allow_short = True
+        else:
+            w_m5 = strategies["M5_VOL_PARITY_TREND_GUARD"][2][-1]
+            w_m1 = strategies["M1_AHL_TSMOM_LS_VOL10"][2][-1]
+            w_vec = 0.50 * w_m5 + 0.50 * w_m1
+            rebalance_cadence = "WEEKLY_M1_PLUS_MONTHLY_M5"
+            allow_short = True
+
+        manifest_path = cache_dir / "manifest.sha256.json"
+        manifest_sha = (
+            hashlib.sha256(manifest_path.read_bytes()).hexdigest()[:16]
+            if manifest_path.is_file()
+            else "SYNTHETIC_IN_MEMORY"
+        )
 
     held_map = {str(k).upper(): float(v) for k, v in (current_shares or {}).items()}
     diag = _compute_causal_diagnostics(sub_panel, idx)
-
-    manifest_path = cache_dir / "manifest.sha256.json"
-    manifest_sha = (
-        hashlib.sha256(manifest_path.read_bytes()).hexdigest()[:16]
-        if manifest_path.is_file()
-        else "SYNTHETIC_IN_MEMORY"
-    )
 
     allocations: list[dict[str, Any]] = []
     tickets: list[dict[str, Any]] = []
@@ -161,8 +266,11 @@ def generate_rebalance_plan(
     total_gross_exposure = 0.0
     total_net_exposure = 0.0
     total_turnover_usd = 0.0
+    total_ibkr_comm_usd = 0.0
 
     for j, sym in enumerate(syms):
+        if sym.startswith("^"):
+            continue
         w = float(w_vec[j]) if np.isfinite(w_vec[j]) else 0.0
         if not allow_short and w < 0.0:
             w = 0.0
@@ -216,6 +324,8 @@ def generate_rebalance_plan(
             ibkr_action = "BUY" if delta_sh > 0 else "SELL"
             # Limit collar +-0.30% around reference close for safe dry-run IBKR basket ticket
             lmt_px = round(price * (1.003 if ibkr_action == "BUY" else 0.997), 2)
+            order_comm = compute_ibkr_tiered_commission(qty, price)
+            total_ibkr_comm_usd += order_comm
             total_turnover_usd += abs(delta_notional)
             tickets.append({
                 "Action": ibkr_action,
@@ -228,13 +338,26 @@ def generate_rebalance_plan(
                 "LmtPrice": lmt_px,
                 "TimeInForce": "DAY",
                 "OrderRef": f"NAQEX_{mode}_{dates[idx]}",
+                "BasketTag": f"DRYRUN_ONLY_{mode}_{dates[idx]}",
                 "DryRunOnly": "TRUE",
                 "Intent": action,
                 "EstNotionalUSD": round(abs(delta_notional), 2),
+                "EstIbkrCommUSD": round(order_comm, 4),
             })
 
     idle_cash_usd = max(0.0, equity_usd - sum(max(0.0, a["target_shares"] * a["price_usd"]) for a in allocations))
     est_friction_usd = total_turnover_usd * (est_cost_bps_oneway / 10_000.0)
+    rebal_events_yr = MODE_ANNUAL_REBAL_EVENTS.get(mode, 12.0)
+    est_annual_comm_usd = total_ibkr_comm_usd * rebal_events_yr
+    est_annual_comm_drag_bps = round(1e4 * est_annual_comm_usd / equity_usd, 2)
+    min_order_fee_warning = bool(est_annual_comm_drag_bps > MIN_ORDER_FEE_WARN_BPS_YR)
+    fee_warning_detail = (
+        f"WARNING: Estimated IBKR Tiered commission drag is {est_annual_comm_drag_bps:.1f} bps/yr "
+        f"(> {MIN_ORDER_FEE_WARN_BPS_YR:.0f} bps/yr threshold at {equity_usd:,.0f} USD due to 0.35 USD min/order). "
+        "Recommend switching to low-turnover `l7_top2` or `s3b_macro` with `--fractional on` until capital >= 25k-50k USD."
+        if min_order_fee_warning
+        else "OK: Estimated IBKR Tiered commission drag within <= 25 bps/yr budget."
+    )
 
     return {
         "schema": "naqex-ibkr-macro-rebalance-v1",
@@ -244,6 +367,7 @@ def generate_rebalance_plan(
         "mode": mode,
         "rebalance_cadence": rebalance_cadence,
         "allow_short": allow_short,
+        "allow_fractional_shares": bool(allow_fractional_shares),
         "as_of_date": dates[idx],
         "cache_manifest_sha16": manifest_sha,
         "equity_usd": round(equity_usd, 2),
@@ -253,6 +377,11 @@ def generate_rebalance_plan(
         "idle_cash_pct": round(100.0 * idle_cash_usd / equity_usd, 2),
         "turnover_notional_usd": round(total_turnover_usd, 2),
         "est_oneway_cost_usd": round(est_friction_usd, 2),
+        "est_ibkr_comm_usd": round(total_ibkr_comm_usd, 2),
+        "est_annual_rebal_events": rebal_events_yr,
+        "est_annual_comm_drag_bps": est_annual_comm_drag_bps,
+        "min_order_fee_warning": min_order_fee_warning,
+        "fee_warning_detail": fee_warning_detail,
         "ticket_count": len(tickets),
         "allocations": allocations,
         "tickets": tickets,
@@ -260,7 +389,7 @@ def generate_rebalance_plan(
 
 
 def tickets_to_ibkr_csv(plan: dict[str, Any]) -> str:
-    """Serialize dry-run order tickets into an IBKR BasketTrader-compatible CSV with explicit DryRunOnly column."""
+    """Serialize dry-run order tickets into legacy IBKR dry-run CSV with explicit DryRunOnly column."""
     cols = [
         "Action", "Quantity", "Symbol", "SecType", "Exchange", "Currency",
         "OrderType", "LmtPrice", "TimeInForce", "OrderRef", "DryRunOnly",
@@ -273,21 +402,40 @@ def tickets_to_ibkr_csv(plan: dict[str, Any]) -> str:
     return buf.getvalue()
 
 
+def tickets_to_ibkr_basket_csv(plan: dict[str, Any]) -> str:
+    """Serialize dry-run tickets into IBKR TWS BasketTrader-compatible CSV (`OrderSend = 0`)."""
+    cols = [
+        "Action", "Quantity", "Symbol", "SecType", "Exchange", "Currency",
+        "TimeInForce", "OrderType", "BasketTag",
+    ]
+    buf = io.StringIO()
+    writer = csv.DictWriter(buf, fieldnames=cols, lineterminator="\n")
+    writer.writeheader()
+    for t in plan.get("tickets", []):
+        writer.writerow({k: t[k] for k in cols})
+    return buf.getvalue()
+
+
 def main() -> int:
-    ap = argparse.ArgumentParser(description="Naqex IBKR Macro ETF Dry-Run Rebalancer (OrderSend = 0)")
+    ap = argparse.ArgumentParser(description="Naqex Multi-Mode IBKR BasketTrader Dry-Run Rebalancer (OrderSend = 0)")
     ap.add_argument("--mode", default="M5_VOL_PARITY_TREND_GUARD", choices=VALID_MODES)
-    ap.add_argument("--equity", type=float, default=25_000.0)
+    ap.add_argument("--equity", type=float, default=25_000.0, help="Legacy alias for --capital-usd")
+    ap.add_argument("--capital-usd", type=float, default=None, help="Account capital in USD (overrides --equity)")
+    ap.add_argument("--fractional", choices=("on", "off"), default="off", help="Allow IBKR fractional shares (default off)")
     ap.add_argument("--as-of", default=None, help="Optional YYYY-MM-DD cutoff (default latest cached date)")
     ap.add_argument("--min-trade-usd", type=float, default=100.0)
     ap.add_argument("--out-json", type=Path, default=None)
     ap.add_argument("--out-csv", type=Path, default=None)
+    ap.add_argument("--out-basket-csv", type=Path, default=None, help="Write IBKR TWS BasketTrader-compatible CSV")
     args = ap.parse_args()
 
+    cap = float(args.capital_usd) if args.capital_usd is not None else float(args.equity)
     plan = generate_rebalance_plan(
         mode=args.mode,
-        equity_usd=args.equity,
+        equity_usd=cap,
         as_of_date=args.as_of,
         min_trade_notional_usd=args.min_trade_usd,
+        allow_fractional_shares=(args.fractional == "on"),
     )
     if args.out_json:
         args.out_json.parent.mkdir(parents=True, exist_ok=True)
@@ -295,6 +443,9 @@ def main() -> int:
     if args.out_csv:
         args.out_csv.parent.mkdir(parents=True, exist_ok=True)
         args.out_csv.write_text(tickets_to_ibkr_csv(plan), encoding="utf-8", newline="\n")
+    if args.out_basket_csv:
+        args.out_basket_csv.parent.mkdir(parents=True, exist_ok=True)
+        args.out_basket_csv.write_text(tickets_to_ibkr_basket_csv(plan), encoding="utf-8", newline="\n")
     print(json.dumps({k: v for k, v in plan.items() if k != "allocations"}, indent=2, ensure_ascii=False))
     return 0
 
