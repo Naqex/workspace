@@ -76,3 +76,12 @@ Unlike FTMO (which offers renewable 14-day Free Trial MT5 Demo accounts), **The5
 1. Capture real MT5 `SymbolInfo` snapshot (Stage 2 Free Competition or Stage 3 small account) — especially `XAUUSD` percentage commission, exact `swap_long`/`swap_short`/`swap_rollover3days`, and exact `00:00` MT5 server timezone/DST offset.
 2. Add **The5ers High Stakes Evaluator** alongside FTMO in `pass23_ftmo_lifecycle_sim.py` (modeling `>= 3` profitable days `>= +0.5%` per phase, `10% + 20%` Hub Credit vs `70%` refund, `$150` min payout after split, and `±2 min` Forex Factory red-news execution filter).
 3. Obtain written support confirmation from The5ers for custom white-box MQL5 EAs (resolving Terms §11 ambiguity) before any paid evaluation.
+
+## 6. Official The5ers MCP Server Audit (`https://mcp.the5ers.com/mcp`, `23/11/2026`)
+
+- **Inspection method:** Read-only unauthenticated JSON-RPC `initialize` + `tools/list` + `resources/read` (`skill://the5ers-mcp/SKILL.md`), zero credentials, zero persistent MCP config changes.
+- **Verified status:** Official The5ers read-only MCP gateway (`serverInfo.name = mcp-gw`, protocol `2025-03-26`), exposes **`12` read-only tools** (`the5ers_catalogue`, `the5ers_account`, `the5ers_positions`, `the5ers_program`, `the5ers_consistency`, `the5ers_payout`, `the5ers_wallet`, `the5ers_achievements`, `the5ers_alerts`, `the5ers_contest`, `the5ers_purchase`, `the5ers_affiliate`). Cannot place/modify trades or request payouts.
+- **What it adds (requires OAuth sign-in with your The5ers Hub account, even for `the5ers_catalogue`):**
+  1. Authoritative live `the5ers_catalogue.programs` (exact current prices, leverage, `minTradeDurationSeconds`, `inactivityDays`, payout splits).
+  2. Exact frozen rule snapshot bound to your live/evaluation account (`the5ers_program.rules`), `midnight_history`, `the5ers_consistency`, `the5ers_payout.eligibility`, and `the5ers_contest` monitoring once active.
+- **What it does NOT replace:** Exposes **zero** MT5 broker symbol specs (`spread`, `commission/lot`, `swap_long/short`, `trade_contract_size`, `stops_level`, M1 ticks). Stage 2 MT5 capture (via the `$0` Free Monthly Competition) is still mandatory for exact cost modeling.
