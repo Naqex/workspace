@@ -1,35 +1,32 @@
 # Current context — Naqex Workspace
 
-`24/11/2026` · `WORK: OVERNIGHT-8TIER-COMPLETE (26/26) | REVIEW: VERIFIER-APPROVED-ALL-LANES | DOC: COMPACTED-RESUMABLE`
+`24/11/2026` · `WORK: WAVE1(26/26)+WAVE2(CP1-CP12)-COMPLETE | REVIEW: VERIFIER-APPROVED-ALL-LANES | LIVE-OPS: 100/100 GREEN`
 
-`RESEARCH: 9/9 EX5 (0 ERR/0 WARN) + 90 PRESETS · RED-TEAM BE 2.26x · DUAL-P1 EV (THE5ERS +7.17x / FTMO +3.25x..+4.08x) · 4-SLEEVE POD OOS SHARPE 2.25 CALMAR 2.43 · PASS29-32 HONEST 0/66 + LOO TRAP · ORDERSEND=0`
+`RESEARCH: 9/9 EX5 (24/24 MODEL=4 REAL-TICK PASS, SWAP=0) · 11 NEW WAVE-2 LABS (LAB4 4/4 ETF + LAB7 5/10 RD-LOOP + LAB2B MAKER LIVE 97.4%/3.11bps) · POD V2 NCO_CEXCAP25 (-50% CEX -12.89%) · MULTI-PROP STAGGER 0.4% WIPEOUT · HOLDOUT 2025+ SEALED`
 
 ## 1. Mục tiêu & Ràng buộc bất biến
 
-- **North Star:** Hệ thống **One-Person Quant Pod 4 nhánh trực giao** — (1) **Intraday FX/Index Prop** (`PORT_7E`, `swap = 0`, Holdout mù `2025–2026` GO), (2) **Crypto Spot sạch survivorship bias** (`50` coin nhân quả), (3) **Crypto Delta-Neutral Funding Carry** (`2×` buffer, `0` thanh lý), và (4) **Cross-Asset Macro ETF 18 năm** cho vốn tự có — vận hành trên dây chuyền **Quant Factory 4 lớp** ([Bản tin sáng 24/11](MORNING-BRIEFING-20261124.md) · [Lộ trình prop](research/PROP-SYSTEM-ROADMAP.md)).
-- **Ràng buộc an toàn bất biến:** Kho Development `.runtime/hot-m1-cache/` (`2018–2024`) và [NATIVE_FTMO_HOLDOUT_LOCK.json](research/NATIVE_FTMO_HOLDOUT_LOCK.json) khóa cứng (`holdout_rows_analysed = 0`); `OrderSend = 0` (`InpDryRunLogOnly = true` trên mọi `.mq5`); không sửa global config, `projects/vi-dubber` hay git của `projects/quant-trading`; không xóa dữ liệu ổ đĩa tự động.
+- **North Star:** Hệ thống **One-Person Quant Pod v2 (`NCO_CexCap25`, trần nhóm CEX `<= 25%`, tái cân bằng `Monthly_1st`)** kết hợp (1) **Prop FX/Index Intraday** (`PORT_7E`, `swap = 0`, Holdout `2025–2026` GO, `24/24` Real-Tick `Model=4` PASS), (2) **Crypto Spot sạch** (`feat/causal-top15-sleeve2`), (3) **Funding Carry `BTC+ETH`** (`KEEP_S3A_V1`), và (4) **Own-Book Zero-Swap ETF** (`S3B + S4 Lab #4` & `L7_TOP2` cho bậc `< 25k USD`, `SUPER_ETF_6ENG` lô nguyên từ `50k USD`) — vận hành qua Control Room cục bộ `127.0.0.1:8787` và [Bản tin sáng Wave-2](MORNING-BRIEFING-WAVE2-20261124.md).
+- **Ràng buộc an toàn bất biến:** [NATIVE_FTMO_HOLDOUT_LOCK.json](research/NATIVE_FTMO_HOLDOUT_LOCK.json) khóa cứng (`holdout_rows_analysed = 0`); `OrderSend = 0` trên mọi công cụ nghiên cứu & mã nguồn `.mq5` (`InpDryRunLogOnly = true`); chỉ chạy thử nghiệm MT5 trong sandbox Demo cô lập `.runtime/ftmo-demo-portable-1515343166/` (`FTMO-Demo 1515343166`, `ACCOUNT_TRADE_MODE_DEMO`), tuyệt đối không chạm `C:\Program Files\MetaTrader 5` (Exness Real), `projects/vi-dubber` hay global config; `0` mật khẩu/bí mật lưu trong Git/log/báo cáo.
 
-## 2. Trạng thái Danh mục & Kiểm định Độc lập (Single Source: [PORTFOLIO-REGISTRY.json](research/PORTFOLIO-REGISTRY.json))
+## 2. Kết Quả Đã Xác Minh (`Wave-1 + Wave-2`, Single Source: [PORTFOLIO-REGISTRY.json](research/PORTFOLIO-REGISTRY.json))
 
-| Danh mục / Nhánh | Kiểm định Dev / Cl.A | Kiểm định Mù (Cl.B / Holdout) | Kết luận Hiện hành |
-|---|---|---|---|
-| **Nhánh #1 `PORT_7E + SYMCAP_100 + Red-News`** | Dev `+7,73% / DD 6,36%`, Red-Team BE **`2,26×`**, `5/5` khủng hoảng dương | **Holdout `2025–2026`:** **`+12,70% / DD 6,55% / Cal 1,94`** (`9/9` động cơ dương) | **GO — Sản xuất #1** (`9/9 .ex5` + `90 .set` sẵn sàng) |
-| **Nhánh #2 Crypto Spot sạch (`F4_4H_EMA`, 50 coin)** | Cl.A `2019–2023`: `+16,30% / Sh 1,82 / DD 8,53%` | Cl.B mù `2024–2026`: **`+5,69% / Sh 0,78 / DD 9,72%`** (`BM -38,99%`, `DSR 0,991`) | **PASS** (đã tách `-6,6..-11,2 pp/năm` survivorship bias) |
-| **Nhánh #3A Funding Carry (`CARRY_BTC_ETH_2XBUF`)** | Cl.A: `+7,69% / DD 0,95%` (`0` thanh lý FTX `-0,07%`) | Cl.B mù: **`+2,99% / DD 0,29% / Sh 9,06`** | **PASS** (trần `<= 15–35%` CEX counterparty cap) |
-| **Nhánh #3B Macro ETF 18 năm (`M5_VOL_PARITY_TG`)** | Cl.A `2008–2018`: `+3,64% / Sh 0,61 / DD 10,45%` | Cl.B mù `2019–2026`: **`+7,58% / Sh 1,06 / DD 7,77%`** (`BH q=0,0062`, `DSR 0,958`) | **PASS** (`M1_TSMOM` dương cả GFC/COVID/2022) |
-| **Pod 4 Nhánh (`ERC_Capped35`, `<= 35%` CEX)** | Overlap `2020–2024`, `r = -0,035..+0,149` | **OOS `2023–2024`:** **`+5,95% / Sh 2,25 / DD 2,45% / Cal 2,43`** | **GO** (Dashboard: `.runtime/pod_dashboard.html`) |
+| Hạng mục / Nhánh | Bằng chứng đã xác minh | Quyết định Hiện hành |
+|---|---|---|
+| **MT5 `9/9` `.ex5` & Real-Tick `Model=4`** | `24/24` (`8` EA × `50/150/250ms`) trên tick thật `FTMO-Demo 1515343166`: **`8/8 PASS`**, **`24/24 swap == 0,00 USD`** sau khi vá lỗi ngày lễ nửa buổi NYSE (`IsUsEquityHalfDayNY` — Black Friday & Xmas Eve) + NY+7 US DST (`E4` lật `-36,83 -> +40,15..+69,47 USD`, Jaccard `94,7%`) | **GO** ([Real-Tick Audit](research/MT5-REALTICK-RECONCILIATION-20261124.md)) |
+| **Live Overnight Shadow (`~8,5–10,8h`)** | `FTMO-Demo 1515343166` (`509` chu kỳ, `100%` HB OK, `0` orphan, sống sót rollover); Binance L2 (`130` chu kỳ, `10k` slip `1,825 <= 5,0 bps`); Maker Probe `M2B` (`120` chu kỳ, `15m` fill `97,44%`, chi phí ròng `3,106 <= 6,15 bps`) | **100/100 GREEN** ([Overnight TCA](research/LIVE-OVERNIGHT-SHADOW-TCA-20261124.md)) |
+| **Own-Book ETF (`Labs #4, #7` & IBKR Audit)** | Lab #4 `4/4 APPROVE` (`E40_EQW` Cl.B `+7,72%`, Sh `0,992`, `r(S1) = -0,0155`); Lab #7 `5/10` (`L7_B1 +12,74%`, `L7_C3` dương cả GFC/COVID, `2022 -0,62%`); IBKR `< 25k USD` dùng `L7_TOP2`/`S3B` + fractional (né bẫy phí `0,35 USD`), `>= 50k USD` lô nguyên `SUPER_ETF_6ENG` | **GO — Own-Book Core** ([Lab #4](research/LAB4-40ETF-MULTIFACTOR-VRP-20261124.md) · [ETF Super-Sleeve](research/OWNBOOK-ETF-SUPER-SLEEVE-AND-IBKR-LOT-AUDIT-20261124.md)) |
+| **Crypto & Futures (`Labs #1, #2, #2B, #5, #8, #9`)** | `S2` promoted sạch trên nhánh local `projects/quant-trading:feat/causal-top15-sleeve2` (`264/264 PASS`); `KEEP_S3A_V1` BTC+ETH (Lab #9); `M2B` đang chạy 30d Maker shadow; CME Micros (`Lab #5/#8`) chỉ mở IBKR từ `>= 100k USD` (Topstep `15:10 CT` cấm swing) | **Disciplined Gating** ([Lab #2B](research/LAB2B-CRYPTO-MAKER-STATARB-20261124.md) · [Lab #8](research/LAB8-CME-NATIVE-FUTURES-STRATEGY-LAB-20261124.md)) |
+| **Pod v2 `NCO_CexCap25` & Multi-Prop Scaling** | Trần nhóm **CEX `<= 25%`** kéo sốc `-50%` CEX từ `-41,58%` (`HRP`) xuống **`-12,89%`** (`-164,3 tr VND` @ `50k USD`), `Monthly_1st` (`0,45–0,60 bps/năm`, `ERC_LW_CexCap25` OOS Sh `2,07` / Cal `2,48`); `DUAL_2FIRM_STAGGER_42D + P1_Balanced` hạ cháy quỹ còn **`0,4%`** (double-fail `3,0%`) | **GO** ([Pod v2](research/QUANT-POD-V2-NCO-CEXCAP-AND-REBALANCE-20261124.md) · [Multi-Prop](research/MULTI-PROP-SCALING-AND-BLACKSWAN-STRESS-20261124.md)) |
 
-- **Dual-P1 EV Frontier (`10k` nhánh `seed=20261124`):** `P1_Balanced_3to6m` (`4,00×` → `2,50×` → `1,00×`, trượt `22,6%–23,8%`, EV/USD phí `+3,25×` FTMO Swing / `+4,08×` FTMO BF-25% / **`+7,17×` The5ers HS**); `P1_Sprint_1to3m` (`4,75×` → `2,75×` → `1,00×`, trượt `30%–33%`, P1 `1,6–2,0` tháng, CF24 `+738 USD` Swing).
-- **Kỷ luật Pass 29–32 (Dev `< 2025`):** `0/66` false positives (`29: 0/24`, `30: 0/24`, `31: 0/18` bị `research_council` chặn sạch); **Pass 32** chứng minh cắt tỉa LOO in-sample làm sập OOS (`2,045 → 0,387`), giữ nguyên `PORT_7E` sản xuất và lưu `V08_PORT9E_CAUSAL_ERC` (`Cl.B Cal 1,596`, cần trần `<= 0,75%`/mã thưa lệnh) làm ứng viên v2.
+## 3. Hạ tầng, Công Cụ Vận Hành & Tri Thức Đã Nâng Cấp
 
-## 3. Hạ tầng Full-Stack Quant Factory, MT5 Deployment Kit & Knowledge Vault
+- **Control Room & Treasury (`OrderSend = 0`):** `tooling/ai-engines/cockpit/` (`127.0.0.1:8787`, `0` CDN, tích hợp live 3 daemon + thanh trượt VND Black-Swan), `treasury_ledger.py` (3-Bucket + GIPS-lite), `ibkr_macro_rebalancer.py` (4 chế độ + xuất TWS BasketTrader CSV), `daily_ops_briefing.py`, `prop_challenge_tracker.py`, `auto_research_loop.py`.
+- **MT5 Production Kit & Test Suite:** `9/9 .ex5` + `90 .set` (`10` hồ sơ) + lịch tin đỏ `2018–2027` + `Naqex_FreeTrial` 9-chart profile + `mt5_realtick_runner.py` + `mt5_live_monitor.py`; `conftest.py` tối ưu `xdist worksteal`.
+- **Knowledge Vault (`knowledge/`):** `alpha-hypothesis-ledger.md` (14 mục Wave-2), [Lộ trình 2026–2027](../knowledge/playbooks/naqex-master-roadmap-2026-2027.md), [SOP FTMO/The5ers](../knowledge/playbooks/ftmo-the5ers-live-launch-sop.md), `brain_cli.py audit-data` (`0` broken links).
 
-- **MT5 Production Kit (`tooling/ai-engines/exports/`):** `9/9` file `.ex5` đã biên dịch thật tại `.runtime/mt5-compiled-ex5/` (`0 errors, 0 warnings`), `mql5_parity_checker.py`, `verify_deployment_kit.py`, `10` cấu hình / `90` `.set` trong `exports/deployment_kit/`, lịch tin đỏ `2018–2027` (`343` dòng UTC), Watchdog gọn local/VPS `ops_watchdog/naqex_mt5_watchdog.ps1`.
-- **Python Quant Factory (`tooling/ai-engines/quant_factory/`):** `red_team_auditor`, `prop_ev_frontier`, `postmortem_gen`, `research_council`, `portfolio_allocator`, `pod_dashboard`, `crypto_causal_universe`, `funding_rate_carry`, `macro_etf_trend`, `pass29..32`, `tca_reconcile`, `live_decay_monitor`, `ops_monitor` + `system_doctor.py --mode fast|full`.
-- **Personal Knowledge Vault (`knowledge/`):** `PROFILE.md`, `CURIOSITY-LOG.md`, `DECISIONS-JOURNAL.md`, `6` cẩm nang Super-Indie mới + `alpha-hypothesis-ledger.md` (`0 PENDING`), `brain_cli.py` (SQLite FTS5 không dấu + Vector RRF `< 40 ms`, kiểm broken links & duplicates), `research_cli.py` + skill `research-and-memory-ops`.
+## 4. Bước Kế Tiếp Cho Chủ Nhân
 
-## 4. Bước thực thi tiếp theo (trưa 24/11 khi Owner thức dậy)
-
-1. Mở [MORNING-BRIEFING-20261124.md](MORNING-BRIEFING-20261124.md) và `.runtime/pod_dashboard.html` để xem toàn cảnh kết quả 8 tầng và 3 quyết định ngắn.
-2. Kéo `9` file `.ex5` (`.runtime/mt5-compiled-ex5/`) + preset `FTMO_FreeTrial_DryRun` / `FTMO_FreeTrial_Demo` theo `ACTIVATION-CARD-LOCAL-MT5.md` để khởi động **FTMO Free Trial `14` ngày (`0 USD`)** trên máy Windows hiện tại và chạy `postmortem_gen.py` sau tuần 1.
-3. Quyết định có chạy lệnh `robocopy` 1 dòng trong [STORAGE-HYGIENE-AUDIT-20261124.md](research/STORAGE-HYGIENE-AUDIT-20261124.md) để giải phóng `16,64 GB` sang `E:` và có mở nhánh promotion cho `projects/quant-trading` theo [CRYPTO-PROMOTION-SPEC-20261124.md](research/CRYPTO-PROMOTION-SPEC-20261124.md) hay chưa.
+1. Mở [MORNING-BRIEFING-WAVE2-20261124.md](MORNING-BRIEFING-WAVE2-20261124.md) và chạy `.\tooling\ai-engines\cockpit\launch_cockpit.ps1` (`http://127.0.0.1:8787`).
+2. Theo dõi `FTMO-Demo 1515343166` đủ `14` ngày Free Trial qua phiên Âu/Mỹ và chạy `daily_ops_briefing.py` + `prop_challenge_tracker.py` hằng ngày.
+3. Gửi email xác nhận `The5ers Terms §11` ([THE5ERS-LAUNCH-AND-TERMS11-EMAIL.md](research/THE5ERS-LAUNCH-AND-TERMS11-EMAIL.md)) và xem xét merge/push nhánh `feat/causal-top15-sleeve2` trong `projects/quant-trading`.
