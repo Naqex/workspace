@@ -90,13 +90,13 @@ def test_deadman_auth_alerts_stale_recovery_and_mobile_dashboard():
         st, _ = _req(f"{base}/")
         assert st == 401
         st, html_doc = _req(f"{base}/?token=view-secret-456")
-        assert st == 200 and "FTMO_HOME_PC" in html_doc and "10004.5" in html_doc
+        assert st == 200 and "FTMO_HOME_PC" in html_doc and "10,004.50" in html_doc
 
-        # 5. Simulate PC power loss (> 180s without heartbeat) -> STALE alert fires ONCE (cooldown blocks spam!)
+        # 5. Simulate PC power loss (> 180s without heartbeat) -> STALE HTML alert fires ONCE (cooldown blocks spam!)
         now_box[0] += 210.0
         staled = mon.check_stale_nodes()
         assert len(staled) == 1
-        assert len(emitted) == 1 and "[PC_OFFLINE]" in emitted[-1]
+        assert len(emitted) == 1 and "MẤT KẾT NỐI" in emitted[-1] and "3m 30s" in emitted[-1]
         # Second check 30s later within cooldown -> no duplicate spam
         now_box[0] += 30.0
         mon.check_stale_nodes()
@@ -114,7 +114,7 @@ def test_deadman_auth_alerts_stale_recovery_and_mobile_dashboard():
             },
         )
         assert st == 200
-        assert len(emitted) == 2 and "[RECOVERED]" in emitted[-1]
+        assert len(emitted) == 2 and "ĐÃ PHỤC HỒI" in emitted[-1]
 
         # 7. Orphan no-SL position -> CRITICAL alert fires immediately!
         st, raw = _req(
@@ -128,10 +128,38 @@ def test_deadman_auth_alerts_stale_recovery_and_mobile_dashboard():
             },
         )
         assert st == 200 and json.loads(raw)["status"] == "CRITICAL"
-        assert len(emitted) == 3 and "ORPHAN_NO_SL=1" in emitted[-1]
+        assert len(emitted) == 3 and "ORPHAN_NO_SL=1" in emitted[-1] and "CẢNH BÁO KHẨN" in emitted[-1]
+
+        # 8. DELETE /api/nodes/<label> requires Bearer ingest token and prunes stale test nodes cleanly
+        st, _ = _req(f"{base}/api/nodes/FTMO_HOME_PC", method="DELETE")
+        assert st == 401
+        st, raw = _req(
+            f"{base}/api/nodes/FTMO_HOME_PC",
+            method="DELETE",
+            headers={"Authorization": "Bearer secret-test-token-123"},
+        )
+        assert st == 200 and json.loads(raw)["ok"] is True
+        st, raw = _req(f"{base}/api/status?token=view-secret-456")
+        assert st == 200 and json.loads(raw)["nodes"] == []
     finally:
         srv.shutdown()
         srv.server_close()
+
+
+def test_format_duration_vi_and_html_escaping():
+    assert deadman_app.format_duration_vi(45) == "45s"
+    assert deadman_app.format_duration_vi(210) == "3m 30s"
+    assert deadman_app.format_duration_vi(6497) == "1h 48m"
+    html_msg, plain_msg = deadman_app.format_alert_message(
+        kind="CRITICAL",
+        label="NODE<1>&TEST",
+        now_ts=1_795_510_560.0,
+        hb={"balance": 10000.0, "equity": 10012.5, "open_positions": 1, "orphan_no_sl": 0, "daily_dd_pct": 0.0, "regime": "NORMAL"},
+        reasons=["MT5_PROCESS_DOWN"],
+    )
+    assert "NODE&lt;1&gt;&amp;TEST" in html_msg
+    assert "<b>CẢNH BÁO KHẨN</b>" in html_msg
+    assert "NODE<1>&TEST" in plain_msg
 
 
 def test_deadman_fails_closed_when_ingest_token_unset():

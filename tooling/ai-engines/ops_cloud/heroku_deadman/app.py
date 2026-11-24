@@ -20,7 +20,7 @@ from __future__ import annotations
 
 from collections import deque
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 import hmac
 import html
 from http import HTTPStatus
@@ -30,7 +30,7 @@ import os
 import threading
 import time
 from typing import Any, Callable
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import parse_qs, unquote, urlparse
 import urllib.request
 
 try:
@@ -44,6 +44,142 @@ DEFAULT_CHECK_INTERVAL_SEC: int = 15
 DEFAULT_ALERT_COOLDOWN_SEC: int = 900
 MAX_HISTORY_PER_NODE: int = 200
 MAX_PG_HEARTBEAT_ROWS: int = 10_000
+VN_TZ = timezone(timedelta(hours=7))
+
+
+def format_duration_vi(seconds: float) -> str:
+    """Format seconds into concise human-readable duration (e.g. 45s, 3m 15s, 1h 48m)."""
+    sec = max(0, int(round(seconds)))
+    if sec < 60:
+        return f"{sec}s"
+    mins, rem_s = divmod(sec, 60)
+    if mins < 60:
+        return f"{mins}m {rem_s:02d}s" if rem_s else f"{mins}m"
+    hrs, rem_m = divmod(mins, 60)
+    if hrs < 24:
+        return f"{hrs}h {rem_m:02d}m" if rem_m else f"{hrs}h"
+    days, rem_h = divmod(hrs, 24)
+    return f"{days}d {rem_h}h" if rem_h else f"{days}d"
+
+
+def format_reason_vi(code: str) -> str:
+    """Translate machine health codes into clear Vietnamese SRE descriptions."""
+    c = str(code or "").strip()
+    if c == "MT5_PROCESS_DOWN":
+        return "Tiến trình MT5 (terminal64.exe) đã dừng"
+    if c == "KILL_SWITCH_ACTIVE":
+        return "Kill-Switch bảo vệ tài khoản đã kích hoạt"
+    if c.startswith("ORPHAN_NO_SL="):
+        cnt = c.split("=", 1)[1]
+        return f"Phát hiện {cnt} lệnh mở KHÔNG CÓ Stop Loss"
+    if c.startswith("DAILY_DD="):
+        val = c.split("=", 1)[1]
+        return f"Drawdown ngày đã chạm {val}"
+    if c.startswith("REGIME="):
+        reg = c.split("=", 1)[1]
+        return f"Chế độ quản trị rủi ro chuyển sang {reg}"
+    if c.startswith("NO_HEARTBEAT_"):
+        return "Mất tín hiệu nhịp tim từ máy chủ"
+    return c
+
+
+def _fmt_money(val: Any) -> str:
+    try:
+        return f"{float(val):,.2f} USD"
+    except Exception:
+        return "—"
+
+
+def format_alert_message(
+    *,
+    kind: str,
+    label: str,
+    now_ts: float,
+    hb: dict[str, Any] | None = None,
+    reasons: list[str] | None = None,
+    age_sec: float | None = None,
+    stale_after_sec: int = DEFAULT_STALE_AFTER_SEC,
+) -> tuple[str, str]:
+    """Build clean, scannable SRE alerts as (telegram_html, plain_text)."""
+    hb = hb or {}
+    reasons = reasons or []
+    dt_utc = datetime.fromtimestamp(now_ts, timezone.utc)
+    dt_vn = dt_utc.astimezone(VN_TZ)
+    ts_str = f"{dt_vn.strftime('%H:%M:%S')} ICT ({dt_utc.strftime('%H:%M')} UTC)"
+
+    eq = hb.get("equity")
+    bal = hb.get("balance")
+    pnl_part = ""
+    try:
+        if eq is not None and bal is not None:
+            pnl = float(eq) - float(bal)
+            pnl_part = f" · PnL {pnl:+.2f} USD"
+    except Exception:
+        pnl_part = ""
+
+    open_pos = hb.get("open_positions")
+    orphan = hb.get("orphan_no_sl")
+    regime = str(hb.get("regime") or "NORMAL").upper()
+    dd_day = hb.get("daily_dd_pct")
+
+    header_map = {
+        "STALE": ("🔴", "MẤT KẾT NỐI", "PC_OFFLINE"),
+        "CRITICAL": ("🚨", "CẢNH BÁO KHẨN", "CRITICAL"),
+        "WARNING": ("🟡", "LƯU Ý RỦI RO", "WARNING"),
+        "RECOVERED": ("🟢", "ĐÃ PHỤC HỒI", "RECOVERED"),
+    }
+    icon, title_vi, tag = header_map.get(kind, ("ℹ️", kind, kind))
+    esc_label = html.escape(label)
+
+    html_lines = [f"{icon} <b>{title_vi}</b> · <code>{esc_label}</code>", ""]
+    plain_lines = [f"[{tag}] {label}"]
+
+    if kind == "STALE":
+        dur = format_duration_vi(age_sec or 0.0)
+        thr = format_duration_vi(stale_after_sec)
+        html_lines.append(f"<b>Trạng thái:</b> Mất nhịp tim <code>{html.escape(dur)}</code> (ngưỡng <code>{html.escape(thr)}</code>)")
+        plain_lines.append(f"Trạng thái: Mất nhịp tim {dur} (ngưỡng {thr})")
+    elif kind == "RECOVERED":
+        html_lines.append("<b>Trạng thái:</b> Hệ thống đã kết nối &amp; hoạt động bình thường (<code>OK</code>)")
+        plain_lines.append("Trạng thái: Hệ thống đã kết nối & hoạt động bình thường (OK)")
+    else:
+        html_lines.append("<b>Nguyên nhân:</b>")
+        plain_lines.append("Nguyên nhân:")
+        for r in reasons:
+            desc = format_reason_vi(r)
+            html_lines.append(f"• {html.escape(desc)} (<code>{html.escape(r)}</code>)")
+            plain_lines.append(f"- {desc} ({r})")
+
+    if eq is not None or bal is not None or open_pos is not None:
+        html_lines.append("")
+        html_lines.append("<b>Tài khoản gần nhất:</b>")
+        eq_txt = _fmt_money(eq)
+        bal_txt = _fmt_money(bal)
+        html_lines.append(f"• Equity: <code>{html.escape(eq_txt)}</code> (Bal <code>{html.escape(bal_txt)}</code>{html.escape(pnl_part)})")
+        plain_lines.append(f"Equity: {eq_txt} | Bal: {bal_txt}{pnl_part}")
+
+        dd_txt = f"{float(dd_day):.2f}%" if dd_day is not None else "—"
+        pos_txt = str(open_pos) if open_pos is not None else "—"
+        orp_txt = str(orphan) if orphan is not None else "—"
+        html_lines.append(
+            f"• Lệnh mở: <code>{html.escape(pos_txt)}</code> · Thiếu SL: <code>{html.escape(orp_txt)}</code> "
+            f"· DD ngày: <code>{html.escape(dd_txt)}</code> · <code>{html.escape(regime)}</code>"
+        )
+        plain_lines.append(f"Lệnh mở: {pos_txt} | Thiếu SL: {orp_txt} | DD ngày: {dd_txt} | {regime}")
+
+    html_lines.append(f"<b>Thời điểm:</b> <code>{html.escape(ts_str)}</code>")
+    plain_lines.append(f"Thời điểm: {ts_str}")
+
+    if kind == "STALE":
+        html_lines.append("")
+        html_lines.append("👉 <i>Kiểm tra nguồn điện, mạng nhà hoặc mở RDP <code>100.72.70.18</code></i>")
+        plain_lines.append("Hành động: Kiểm tra nguồn điện, mạng nhà hoặc mở RDP 100.72.70.18")
+    elif kind in ("CRITICAL", "WARNING"):
+        html_lines.append("")
+        html_lines.append("👉 <i>Kiểm tra ngay trên RDP <code>100.72.70.18</code> hoặc bảng điều khiển</i>")
+        plain_lines.append("Hành động: Kiểm tra ngay trên RDP 100.72.70.18 hoặc bảng điều khiển")
+
+    return "\n".join(html_lines), " | ".join(plain_lines)
 
 
 @dataclass
@@ -242,22 +378,35 @@ class PostgresStore:
             r = cur.fetchone()
             return int(r[0]) if r else 0
 
+    def delete_node(self, account_label: str) -> bool:
+        with self._connect() as conn, conn.cursor() as cur:
+            cur.execute("DELETE FROM naqex_nodes WHERE account_label = %s", (account_label,))
+            return bool(cur.rowcount and cur.rowcount > 0)
+
 
 def dispatch_alert_message(
     text: str,
     *,
+    html_text: str = "",
     telegram_bot_token: str = "",
     telegram_chat_id: str = "",
     webhook_url: str = "",
     timeout_sec: float = 10.0,
 ) -> dict[str, Any]:
-    """Send alert via Telegram Bot API and/or Discord/Slack generic JSON webhook (pure stdlib)."""
+    """Send alert via Telegram Bot API (HTML format) and/or Discord/Slack webhook (pure stdlib)."""
     sent: list[str] = []
     errors: list[str] = []
 
     if telegram_bot_token and telegram_chat_id:
         url = f"https://api.telegram.org/bot{telegram_bot_token}/sendMessage"
-        payload = json.dumps({"chat_id": telegram_chat_id, "text": text}).encode("utf-8")
+        tg_body: dict[str, Any] = {
+            "chat_id": telegram_chat_id,
+            "text": html_text or text,
+            "disable_web_page_preview": True,
+        }
+        if html_text:
+            tg_body["parse_mode"] = "HTML"
+        payload = json.dumps(tg_body, ensure_ascii=False).encode("utf-8")
         req = urllib.request.Request(url, data=payload, headers={"Content-Type": "application/json"}, method="POST")
         try:
             with urllib.request.urlopen(req, timeout=timeout_sec) as resp:
@@ -269,11 +418,11 @@ def dispatch_alert_message(
             errors.append(f"telegram:{exc}")
 
     if webhook_url:
-        payload = json.dumps({"text": text, "content": text}).encode("utf-8")
+        payload = json.dumps({"text": text, "content": text}, ensure_ascii=False).encode("utf-8")
         req = urllib.request.Request(
             webhook_url,
             data=payload,
-            headers={"Content-Type": "application/json", "User-Agent": "Naqex-Deadman/1.1"},
+            headers={"Content-Type": "application/json", "User-Agent": "Naqex-Deadman/1.2"},
             method="POST",
         )
         try:
@@ -322,9 +471,10 @@ class DeadmanMonitor:
             except Exception as exc:
                 print(f"[WARN] Postgres load_state failed, continuing in-memory: {exc}", flush=True)
 
-    def _default_alert_sender(self, text: str) -> dict[str, Any]:
+    def _default_alert_sender(self, text: str, html_text: str = "") -> dict[str, Any]:
         return dispatch_alert_message(
             text,
+            html_text=html_text,
             telegram_bot_token=os.environ.get("TELEGRAM_BOT_TOKEN", "").strip(),
             telegram_chat_id=os.environ.get("TELEGRAM_CHAT_ID", "").strip(),
             webhook_url=os.environ.get("ALERT_WEBHOOK_URL", "").strip(),
@@ -373,10 +523,13 @@ class DeadmanMonitor:
             reasons.append(f"REGIME={regime}")
         return status, reasons
 
-    def _emit_alert(self, node: NodeState, event_key: str, text: str, now: float) -> None:
+    def _emit_alert(self, node: NodeState, event_key: str, text: str, now: float, *, html_text: str = "") -> None:
         if node.last_alert_key == event_key and (now - node.last_alert_ts) < self.alert_cooldown_sec:
             return
-        res = self._alert_sender(text)
+        if self._alert_sender == self._default_alert_sender:
+            res = self._default_alert_sender(text, html_text=html_text)
+        else:
+            res = self._alert_sender(html_text or text)
         node.last_alert_key = event_key
         node.last_alert_ts = now
         rec = {
@@ -393,6 +546,21 @@ class DeadmanMonitor:
             except Exception:
                 pass
 
+    def delete_node(self, label: str) -> bool:
+        key = str(label or "").strip()
+        if not key:
+            return False
+        with self._lock:
+            existed_mem = key in self._nodes
+            self._nodes.pop(key, None)
+            existed_db = False
+            if self._store is not None:
+                try:
+                    existed_db = self._store.delete_node(key)
+                except Exception as exc:
+                    print(f"[WARN] Postgres delete_node error: {exc}", flush=True)
+            return bool(existed_mem or existed_db)
+
     def ingest_heartbeat(self, body: dict[str, Any]) -> dict[str, Any]:
         now = float(self._clock())
         label = str(body.get("account_label") or "NAQEX_HOME_PC").strip()[:64] or "NAQEX_HOME_PC"
@@ -400,7 +568,7 @@ class DeadmanMonitor:
 
         with self._lock:
             prev = self._nodes.get(label)
-            was_stale = (prev is not None and prev.status == "STALE")
+            prev_status = prev.status if prev is not None else "OK"
             if prev is None:
                 node = NodeState(account_label=label, first_seen_ts=now, last_seen_ts=now)
                 self._nodes[label] = node
@@ -429,21 +597,26 @@ class DeadmanMonitor:
                 except Exception as exc:
                     print(f"[WARN] Postgres save_node_and_heartbeat error: {exc}", flush=True)
 
-            if was_stale:
-                self._emit_alert(
-                    node,
-                    "RECOVERED",
-                    f"[RECOVERED] {label} da ket noi lai! Eq={hb.get('equity')} Open={hb.get('open_positions')} Status={status}",
-                    now,
+            if prev_status in ("STALE", "CRITICAL", "WARNING") and status == "OK":
+                html_msg, plain_msg = format_alert_message(
+                    kind="RECOVERED",
+                    label=label,
+                    now_ts=now,
+                    hb=hb,
+                    stale_after_sec=self.stale_after_sec,
                 )
-            if status in ("CRITICAL", "WARNING"):
+                self._emit_alert(node, "RECOVERED", plain_msg, now, html_text=html_msg)
+            elif status in ("CRITICAL", "WARNING"):
                 key = f"{status}:{'|'.join(reasons)}"
-                self._emit_alert(
-                    node,
-                    key,
-                    f"[{status}] {label}: {', '.join(reasons)} | Eq={hb.get('equity')} Bal={hb.get('balance')} Open={hb.get('open_positions')}",
-                    now,
+                html_msg, plain_msg = format_alert_message(
+                    kind=status,
+                    label=label,
+                    now_ts=now,
+                    hb=hb,
+                    reasons=reasons,
+                    stale_after_sec=self.stale_after_sec,
                 )
+                self._emit_alert(node, key, plain_msg, now, html_text=html_msg)
 
             return {
                 "ok": True,
@@ -464,11 +637,16 @@ class DeadmanMonitor:
                 if age > self.stale_after_sec:
                     node.status = "STALE"
                     node.active_reasons = [f"NO_HEARTBEAT_{int(age)}s_GT_{self.stale_after_sec}s"]
-                    msg = (
-                        f"[PC_OFFLINE] {node.account_label}: Mat tin hieu {int(age)}s (> {self.stale_after_sec}s)! "
-                        f"Kiem tra cup dien / rot mang / MT5 tren PC nha ngay!"
+                    hb = node.last_payload.get("heartbeat") if isinstance(node.last_payload.get("heartbeat"), dict) else node.last_payload
+                    html_msg, plain_msg = format_alert_message(
+                        kind="STALE",
+                        label=node.account_label,
+                        now_ts=now,
+                        hb=hb,
+                        age_sec=age,
+                        stale_after_sec=self.stale_after_sec,
                     )
-                    self._emit_alert(node, "STALE_OFFLINE", msg, now)
+                    self._emit_alert(node, "STALE_OFFLINE", plain_msg, now, html_text=html_msg)
                     staled.append({"account_label": node.account_label, "age_s": int(age)})
         return staled
 
@@ -522,22 +700,24 @@ def render_mobile_html(snap: dict[str, Any]) -> str:
     for n in snap["nodes"]:
         st = str(n["status"])
         cls = "ok" if st == "OK" else ("warn" if st == "WARNING" else "crit")
+        age_txt = format_duration_vi(n["age_sec"])
+        eq_txt = f"{float(n['equity']):,.2f}" if n["equity"] is not None else "—"
         rows.append(
             f"<tr>"
             f"<td><strong>{html.escape(str(n['account_label']))}</strong></td>"
             f"<td><span class='badge {cls}'>{html.escape(st)}</span></td>"
-            f"<td class='num'>{n['age_sec']}s</td>"
-            f"<td class='num'>{html.escape(str(n['equity'] if n['equity'] is not None else '—'))}</td>"
+            f"<td class='num'>{html.escape(age_txt)}</td>"
+            f"<td class='num'>{html.escape(eq_txt)}</td>"
             f"<td class='num'>{html.escape(str(n['open_positions'] if n['open_positions'] is not None else '—'))}</td>"
             f"<td class='num'>{html.escape(str(n['orphan_no_sl'] if n['orphan_no_sl'] is not None else '—'))}</td>"
             f"<td>{html.escape(str(n['regime'] or '—'))}</td>"
             f"</tr>"
         )
-    table_body = "".join(rows) if rows else "<tr><td colspan='7'>Chua nhan duoc heartbeat nao tu PC nha.</td></tr>"
+    table_body = "".join(rows) if rows else "<tr><td colspan='7'>Chưa nhận được nhịp tim nào từ máy chủ.</td></tr>"
     alerts = "".join(
         f"<li><code>{html.escape(a['utc'])}</code> — {html.escape(a['text'])}</li>"
         for a in reversed(snap["recent_alerts"])
-    ) or "<li>Chua co canh bao nao.</li>"
+    ) or "<li>Chưa có cảnh báo nào.</li>"
     db_info = f"Postgres ({snap['pg_heartbeat_rows']} rows)" if snap.get("persistence") == "postgres" else "Memory"
 
     return f"""<!DOCTYPE html>
@@ -564,10 +744,10 @@ ul{{padding-left:18px;font-size:12.5px;line-height:1.6}}
 </head>
 <body><div class="wrap">
 <h1>Naqex Cloud Dead-Man's-Switch</h1>
-<div class="meta">UTC: {html.escape(snap['utc'])} · Storage: {html.escape(db_info)} · Stale Guard: {snap['stale_after_sec']}s · OrderSend=0 · Credit Exp: {html.escape(str(snap.get('credit_expires_utc','—')))}</div>
-<table><thead><tr><th>May / Tai khoan</th><th>Trang thai</th><th class="num">Tuoi nhip</th><th class="num">Equity</th><th class="num">Lenh mo</th><th class="num">Orphan</th><th>Regime</th></tr></thead>
+<div class="meta">UTC: {html.escape(snap['utc'])} · Lưu trữ: {html.escape(db_info)} · Ngưỡng mất tín hiệu: {html.escape(format_duration_vi(snap['stale_after_sec']))} · OrderSend=0 · Hạn Credit: {html.escape(str(snap.get('credit_expires_utc','—')))}</div>
+<table><thead><tr><th>Máy / Tài khoản</th><th>Trạng thái</th><th class="num">Tuổi nhịp</th><th class="num">Equity</th><th class="num">Lệnh mở</th><th class="num">Thiếu SL</th><th>Chế độ</th></tr></thead>
 <tbody>{table_body}</tbody></table>
-<h2 style="font-size:14px;margin:0 0 8px">Canh bao gan nhat</h2>
+<h2 style="font-size:14px;margin:0 0 8px">Cảnh báo gần nhất</h2>
 <ul>{alerts}</ul>
 </div></body></html>"""
 
@@ -636,6 +816,23 @@ def make_handler(monitor: DeadmanMonitor):
                 return
             res = monitor.ingest_heartbeat(body)
             self._send_json(HTTPStatus.OK, res)
+
+        def do_DELETE(self) -> None:
+            parsed = urlparse(self.path)
+            if not parsed.path.startswith("/api/nodes/"):
+                self._send_json(HTTPStatus.NOT_FOUND, {"ok": False, "error": "NOT_FOUND"})
+                return
+            ok_auth, auth_err = monitor.verify_ingest_token(self.headers.get("Authorization", ""))
+            if not ok_auth:
+                code = HTTPStatus.SERVICE_UNAVAILABLE if auth_err == "INGEST_TOKEN_NOT_CONFIGURED" else HTTPStatus.UNAUTHORIZED
+                self._send_json(code, {"ok": False, "error": auth_err, "order_send_count": ORDER_SEND_COUNT})
+                return
+            label = unquote(parsed.path[len("/api/nodes/"):]).strip()
+            deleted = monitor.delete_node(label)
+            self._send_json(
+                HTTPStatus.OK if deleted else HTTPStatus.NOT_FOUND,
+                {"ok": deleted, "deleted_label": label, "order_send_count": ORDER_SEND_COUNT},
+            )
 
     return DeadmanHandler
 
