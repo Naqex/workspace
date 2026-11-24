@@ -23,6 +23,8 @@ input double InpKillDailyDdPct     = 3.00;       // Daily DD % triggering GLOBAL
 input double InpKillStaticDdPct    = 7.50;       // Static DD % triggering GLOBAL KILL-SWITCH (< 10% prop limit)
 input int    InpHeartbeatSec       = 15;         // Heartbeat JSON write interval (seconds)
 input string InpHeartbeatFile      = "naqex_heartbeat.json";
+input bool   InpAllowManualHaltFile = false;      // Opt-in bridge for 2-step covered Cockpit halt flag
+input string InpManualHaltFile     = "naqex_manual_halt.flag";
 input long   InpMagicRangeMin      = 20261120;
 input long   InpMagicRangeMax      = 20261199;
 
@@ -100,12 +102,30 @@ void EvaluatePortfolioState()
    }
    GlobalVariableSet("NQXG_GLOBAL_RISK_MULT", riskMult);
 
-   // Global Kill-Switch check
-   bool killNow = (dailyDdPct >= InpKillDailyDdPct) || (staticDdPct >= InpKillStaticDdPct);
+   // Global Kill-Switch check (automatic DD limits + optional manual covered-button flag)
+   bool manualHalt = false;
+   bool manualFlatten = false;
+   if(InpAllowManualHaltFile && !MQLInfoInteger(MQL_TESTER) && FileIsExist(InpManualHaltFile))
+   {
+      int mf = FileOpen(InpManualHaltFile, FILE_READ | FILE_TXT | FILE_ANSI | FILE_SHARE_READ | FILE_SHARE_WRITE);
+      if(mf != INVALID_HANDLE)
+      {
+         string payload = FileReadString(mf);
+         FileClose(mf);
+         manualHalt = true;
+         if(StringFind(payload, "FLATTEN_ALL") >= 0)
+            manualFlatten = true;
+      }
+   }
+
+   bool killNow = (dailyDdPct >= InpKillDailyDdPct) || (staticDdPct >= InpKillStaticDdPct) || manualHalt;
+   if(manualHalt)
+      regime = manualFlatten ? "MANUAL_FLATTEN" : "MANUAL_HALT";
    if(killNow)
    {
       GlobalVariableSet("NQXG_GLOBAL_KILLSWITCH", 1.0);
-      FlattenAllNaqexPositions(dailyDdPct >= InpKillDailyDdPct ? "ORCH_KILL_DAILY_DD" : "ORCH_KILL_STATIC_DD");
+      if(!manualHalt || manualFlatten)
+         FlattenAllNaqexPositions(manualFlatten ? "MANUAL_COVERED_FLATTEN" : (dailyDdPct >= InpKillDailyDdPct ? "ORCH_KILL_DAILY_DD" : "ORCH_KILL_STATIC_DD"));
    }
 
    // Count open Naqex positions & detect orphans (missing SL)

@@ -462,6 +462,30 @@ public:
       LogExecAuditFor(m_symbol, side, evType, sigPx, fillPx, slPx, lots, latencyMs, retcode, note);
    }
 
+   // 12b. Resolve actual broker-executed fill price (handles ECN/Market Execution where ResultPrice()==0)
+   double ResolveExecutedFillPrice(CTrade &tr, const string sym, const double fallbackPx) const
+   {
+      double px = tr.ResultPrice();
+      if(px > 0.0) return px;
+      ulong deal = tr.ResultDeal();
+      if(deal > 0 && HistoryDealSelect(deal))
+      {
+         double dpx = HistoryDealGetDouble(deal, DEAL_PRICE);
+         if(dpx > 0.0) return dpx;
+      }
+      for(int i = PositionsTotal() - 1; i >= 0; i--)
+      {
+         ulong tk = PositionGetTicket(i);
+         if(tk == 0) continue;
+         if(PositionGetInteger(POSITION_MAGIC) == m_magic && PositionGetString(POSITION_SYMBOL) == sym)
+         {
+            double opx = PositionGetDouble(POSITION_PRICE_OPEN);
+            if(opx > 0.0) return opx;
+         }
+      }
+      return fallbackPx;
+   }
+
    // 13. Checked execution wrapper (DryRun default ON + TRADE_RETCODE_DONE + TCA latency logging)
    bool ExecuteCheckedFor(CTrade &tr, const string sym, const bool isBuy, const double lots, const double entryPrice, const double slPrice,
                           const string comment, const bool eaDryRun = true) const
@@ -481,13 +505,14 @@ public:
                       : tr.Sell(lots, sym, entryPrice, slPrice, 0.0, comment);
       double latMs = (double)(GetMicrosecondCount() - t0) / 1000.0;
       uint ret = tr.ResultRetcode();
-      double fillPx = tr.ResultPrice();
       if(!ok || (ret != TRADE_RETCODE_DONE && ret != TRADE_RETCODE_DONE_PARTIAL))
       {
+         double rejPx = tr.ResultPrice();
          PrintFormat("[PROPGUARD-ERR] %s %s failed retcode=%u desc=%s", sideStr, sym, ret, tr.ResultRetcodeDescription());
-         LogExecAuditFor(sym, sideStr, "ORDER_REJECT", entryPrice, fillPx, slPrice, lots, latMs, ret, tr.ResultRetcodeDescription());
+         LogExecAuditFor(sym, sideStr, "ORDER_REJECT", entryPrice, rejPx, slPrice, lots, latMs, ret, tr.ResultRetcodeDescription());
          return false;
       }
+      double fillPx = ResolveExecutedFillPrice(tr, sym, entryPrice);
       LogExecAuditFor(sym, sideStr, "ORDER_FILL", entryPrice, fillPx, slPrice, lots, latMs, ret, comment);
       return true;
    }

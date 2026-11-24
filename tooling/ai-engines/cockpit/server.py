@@ -48,6 +48,7 @@ from quant_factory.portfolio_allocator import (
     compute_series_metrics,
     load_external_sleeve_json,
 )
+from quant_factory.prop_terms_auditor import FIRM_BASELINES, audit_prop_terms_text
 from quant_factory.treasury_ledger import DEFAULT_USD_VND_RATE, compute_prop_own_crossover
 
 ORDER_SEND_COUNT = 0
@@ -568,10 +569,11 @@ def build_live_telemetry_payload(root: Path = ROOT) -> dict[str, Any]:
             "data": None,
         }
 
-    # Discover MT5 heartbeat JSON (or fall back gracefully to FTMO-Demo account telemetry if present)
+    # Discover MT5 heartbeat JSON (prioritize live sandbox heartbeat -> latest telemetry -> fallback)
     heartbeat_data = None
     heartbeat_src = None
     for cand in (
+        root / ".runtime/ftmo-demo-portable-1515343166/MQL5/Files/naqex_heartbeat.json",
         overnight_dir / "naqex_heartbeat.json",
         root / ".runtime/naqex_heartbeat.json",
     ):
@@ -581,24 +583,45 @@ def build_live_telemetry_payload(root: Path = ROOT) -> dict[str, Any]:
             heartbeat_src = cand.relative_to(root).as_posix()
             break
 
-    # Extract MT5 live spread tail + FTMO-Demo balance/equity
+    # Extract MT5 live spread tail + FTMO-Demo live account, open positions & recent execution audit CSV
     mt5_latest = mt5_spreads[-1] if mt5_spreads else None
+    mt5_acct_live = mt5_latest.get("account") if (isinstance(mt5_latest, dict) and isinstance(mt5_latest.get("account"), dict)) else {}
+    if heartbeat_data is None and isinstance(mt5_latest, dict) and isinstance(mt5_latest.get("heartbeat"), dict):
+        hb_pay = mt5_latest["heartbeat"].get("payload")
+        if isinstance(hb_pay, dict):
+            heartbeat_data = hb_pay
+            heartbeat_src = ".runtime/live-overnight/mt5_live_spread_log.jsonl"
+
+    live_positions = list(mt5_latest.get("naqex_positions") or []) if isinstance(mt5_latest, dict) else []
+    exec_audit_recent: list[dict[str, str]] = []
+    exec_csv = root / ".runtime/ftmo-demo-portable-1515343166/MQL5/Files/naqex_exec_audit.csv"
+    if exec_csv.is_file():
+        try:
+            with exec_csv.open("r", encoding="utf-8", errors="replace", newline="") as f:
+                exec_audit_recent = list(csv.DictReader(f))[-15:]
+        except OSError:
+            exec_audit_recent = []
+
     demo_acct = realtick_block.get("account") if isinstance(realtick_block.get("account"), dict) else None
     mt5_spread_block: dict[str, Any] = {
         "status": "ACTIVE" if mt5_latest else "pending",
         "count": len(mt5_spreads),
         "latest": mt5_latest,
         "recent": mt5_spreads[-8:],
+        "open_positions": live_positions,
+        "exec_audit_recent": exec_audit_recent,
         "demo_account": {
-            "login": (mt5_latest or {}).get("login") or (demo_acct or {}).get("login"),
-            "server": (mt5_latest or {}).get("server") or (demo_acct or {}).get("server"),
-            "balance": (mt5_latest or {}).get("balance") if (mt5_latest and "balance" in mt5_latest) else (demo_acct or {}).get("balance"),
-            "equity": (mt5_latest or {}).get("equity") if (mt5_latest and "equity" in mt5_latest) else (demo_acct or {}).get("equity"),
-            "leverage": (demo_acct or {}).get("leverage"),
-            "terminal_connected": (demo_acct or {}).get("terminal_connected"),
+            "login": mt5_acct_live.get("login") or (mt5_latest or {}).get("login") or (demo_acct or {}).get("login"),
+            "server": mt5_acct_live.get("server") or (mt5_latest or {}).get("server") or (demo_acct or {}).get("server"),
+            "balance": mt5_acct_live.get("balance") if "balance" in mt5_acct_live else ((mt5_latest or {}).get("balance") if (mt5_latest and "balance" in mt5_latest) else (demo_acct or {}).get("balance")),
+            "equity": mt5_acct_live.get("equity") if "equity" in mt5_acct_live else ((mt5_latest or {}).get("equity") if (mt5_latest and "equity" in mt5_latest) else (demo_acct or {}).get("equity")),
+            "profit": mt5_acct_live.get("profit"),
+            "leverage": mt5_acct_live.get("leverage") or (demo_acct or {}).get("leverage"),
+            "terminal_connected": (mt5_latest or {}).get("terminal_connected") if (mt5_latest and "terminal_connected" in mt5_latest) else (demo_acct or {}).get("terminal_connected"),
         } if (mt5_latest or demo_acct) else None,
     }
 
+    emergency_state = read_emergency_cover_state(root)
     ftmo_specs = _safe_read_json(root / "planning/research/FTMO-LIVE-SPECS-ALL-SYMBOLS-20261124.json")
     upcoming_news = _load_upcoming_red_news(root, limit=10)
 
@@ -612,12 +635,141 @@ def build_live_telemetry_payload(root: Path = ROOT) -> dict[str, Any]:
             "data": heartbeat_data or demo_acct,
         },
         "mt5_live_spreads": mt5_spread_block,
+        "emergency_cover": emergency_state,
         "crypto_shadow": crypto_shadow_block,
         "crypto_maker_shadow": crypto_maker_block,
         "mt5_realtick_tca": realtick_block,
         "ftmo_live_specs_available": ftmo_specs is not None,
         "upcoming_red_news": upcoming_news,
     }
+
+
+EMERGENCY_CONFIRM_CODES = {
+    "HALT_NEW_ENTRIES": "HALT",
+    "FLATTEN_ALL": "FLATTEN",
+    "RESET_NORMAL": "RESET",
+}
+
+
+def read_emergency_cover_state(root: Path = ROOT) -> dict[str, Any]:
+    state_path = root / ".runtime/live-overnight/naqex_emergency_cover_state.json"
+    obj = _safe_read_json(state_path)
+    if isinstance(obj, dict):
+        return obj
+    return {
+        "schema": "naqex-emergency-cover-v1",
+        "order_send_count": ORDER_SEND_COUNT,
+        "state": "NORMAL_COVER_CLOSED",
+        "action": "NONE",
+        "updated_utc": None,
+        "reason": "Safety cover closed; zero emergency flags active.",
+    }
+
+
+def apply_emergency_cover_action(
+    root: Path,
+    body: dict[str, Any],
+    *,
+    bridge_dir: Path | None = None,
+) -> tuple[HTTPStatus, dict[str, Any]]:
+    """Fail-closed 2-step safety-covered emergency flag handler (OrderSend=0)."""
+    cover_opened = bool(body.get("cover_opened", False))
+    action = str(body.get("action", "")).strip().upper()
+    confirm_code = str(body.get("confirm_code", "")).strip().upper()
+    reason = str(body.get("reason", "")).strip()[:240] or "operator_triggered"
+
+    if not cover_opened:
+        return HTTPStatus.BAD_REQUEST, {
+            "ok": False,
+            "order_send_count": ORDER_SEND_COUNT,
+            "error": "SAFETY_COVER_CLOSED: must flip safety cover first (cover_opened=true).",
+        }
+    expected_code = EMERGENCY_CONFIRM_CODES.get(action)
+    if expected_code is None:
+        return HTTPStatus.BAD_REQUEST, {
+            "ok": False,
+            "order_send_count": ORDER_SEND_COUNT,
+            "error": f"INVALID_ACTION: allowed={sorted(EMERGENCY_CONFIRM_CODES.keys())}",
+        }
+    if confirm_code != expected_code:
+        return HTTPStatus.BAD_REQUEST, {
+            "ok": False,
+            "order_send_count": ORDER_SEND_COUNT,
+            "error": f"CONFIRM_CODE_MISMATCH: expected '{expected_code}' for action '{action}'.",
+        }
+
+    now_iso = datetime.now(timezone.utc).isoformat()
+    new_state = "NORMAL_COVER_CLOSED" if action == "RESET_NORMAL" else f"ARMED_{action}"
+    record = {
+        "schema": "naqex-emergency-cover-v1",
+        "order_send_count": ORDER_SEND_COUNT,
+        "state": new_state,
+        "action": action,
+        "reason": reason,
+        "updated_utc": now_iso,
+        "mt5_bridge_written": False,
+        "note": "Control Room strictly keeps OrderSend=0; flag recorded for Orchestrator/VPS operator audit.",
+    }
+
+    state_path = root / ".runtime/live-overnight/naqex_emergency_cover_state.json"
+    state_path.parent.mkdir(parents=True, exist_ok=True)
+    state_path.write_text(json.dumps(record, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
+
+    if bridge_dir is not None:
+        flag_path = bridge_dir / "naqex_manual_halt.flag"
+        bridge_dir.mkdir(parents=True, exist_ok=True)
+        if action == "RESET_NORMAL":
+            if flag_path.exists():
+                flag_path.unlink()
+        else:
+            flag_path.write_text(f"{action}|{now_iso}|{reason}\n", encoding="utf-8", newline="\n")
+        record["mt5_bridge_written"] = True
+
+    return HTTPStatus.OK, {"ok": True, **record}
+
+
+def handle_prop_terms_audit_request(body: dict[str, Any]) -> tuple[HTTPStatus, dict[str, Any]]:
+    """Offline baseline preview by default; opt-in TypeSafe jev-1.14.0 drift audit when requested."""
+    firm = str(body.get("firm", "the5ers_high_stakes")).strip()
+    terms_text = str(body.get("terms_text", "")).strip()
+    use_typesafe = bool(body.get("use_typesafe", False))
+
+    if firm not in FIRM_BASELINES:
+        return HTTPStatus.BAD_REQUEST, {
+            "ok": False,
+            "order_send_count": ORDER_SEND_COUNT,
+            "error": f"Unknown firm '{firm}'. Allowed: {sorted(FIRM_BASELINES.keys())}",
+        }
+
+    baseline = FIRM_BASELINES[firm]
+    if not use_typesafe:
+        return HTTPStatus.OK, {
+            "ok": True,
+            "order_send_count": ORDER_SEND_COUNT,
+            "mode": "offline_baseline_preview",
+            "firm": firm,
+            "baseline": baseline,
+            "verdict": "BASELINE_PREVIEW_ONLY",
+            "note": "Tích chọn 'Bật AI TypeSafe (jev-1.14.0)' và dán văn bản điều khoản để kiểm toán drift trực tiếp.",
+        }
+
+    if len(terms_text) < 20:
+        return HTTPStatus.BAD_REQUEST, {
+            "ok": False,
+            "order_send_count": ORDER_SEND_COUNT,
+            "error": "Văn bản điều khoản quá ngắn (< 20 ký tự) để kiểm toán.",
+        }
+
+    try:
+        res = audit_prop_terms_text(terms_text, firm_id=firm)
+        return HTTPStatus.OK, {"ok": True, "order_send_count": ORDER_SEND_COUNT, "mode": "typesafe_jev114", **res}
+    except Exception as exc:
+        return HTTPStatus.SERVICE_UNAVAILABLE, {
+            "ok": False,
+            "order_send_count": ORDER_SEND_COUNT,
+            "mode": "typesafe_jev114_fail_closed",
+            "error": f"Fail-closed TypeSafe error: {exc}",
+        }
 
 
 def _parse_float_token(tok: str) -> float | None:
@@ -1061,6 +1213,9 @@ def make_handler(root: Path = ROOT, static_dir: Path = STATIC_DIR):
             if path == "/api/live-telemetry":
                 self._send_json(HTTPStatus.OK, build_live_telemetry_payload(root))
                 return
+            if path == "/api/emergency-cover":
+                self._send_json(HTTPStatus.OK, read_emergency_cover_state(root))
+                return
             if path == "/api/stress":
                 try:
                     cap_u = float(qs.get("capital_usd", [50_000.0])[0])
@@ -1118,7 +1273,7 @@ def make_handler(root: Path = ROOT, static_dir: Path = STATIC_DIR):
 
         def do_POST(self) -> None:
             parsed = urlparse(self.path)
-            if parsed.path != "/api/vnd-calculator":
+            if parsed.path not in ("/api/vnd-calculator", "/api/emergency-cover", "/api/prop-terms-audit"):
                 self._send_json(HTTPStatus.NOT_FOUND, {"error": "not_found"})
                 return
             try:
@@ -1127,6 +1282,14 @@ def make_handler(root: Path = ROOT, static_dir: Path = STATIC_DIR):
                 body = json.loads(raw.decode("utf-8")) if raw else {}
             except Exception:
                 self._send_json(HTTPStatus.BAD_REQUEST, {"error": "invalid_json"})
+                return
+            if parsed.path == "/api/emergency-cover":
+                status_c, payload = apply_emergency_cover_action(root, body)
+                self._send_json(status_c, payload)
+                return
+            if parsed.path == "/api/prop-terms-audit":
+                status_c, payload = handle_prop_terms_audit_request(body)
+                self._send_json(status_c, payload)
                 return
             res = compute_vnd_risk_calculator(
                 capital_vnd=float(body.get("capital_vnd", 250_000_000.0)),

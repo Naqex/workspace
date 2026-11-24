@@ -313,6 +313,91 @@
         </div>
       </section>
     </div>
+
+    <!-- Row 4: Live MT5 Open Positions + 2-Step Safety-Covered Emergency Control + Prop Terms Auditor -->
+    <div class="grid-2">
+      <section class="panel">
+        <div class="panel-hdr">
+          <div>
+            <h2>Vị Thế MT5 Trực Tiếp &amp; Công Tắc Khẩn Cấp Có Nắp Đậy 2 Bước</h2>
+            <div class="sub">Theo dõi lệnh thực tế trên <code>FTMO-Demo</code> và cơ chế nắp đậy chống bấm nhầm (<code>OrderSend=0</code> — chỉ ghi cờ kiểm toán)</div>
+          </div>
+          <span class="tag tag-green" id="emg-state-badge">NORMAL</span>
+        </div>
+
+        <div class="table-scroll">
+          <table class="data-table" id="tbl-live-pos">
+            <thead>
+              <tr><th>Ticket</th><th>Symbol</th><th>Chiều</th><th class="num">Lot</th><th class="num">Mở</th><th class="num">SL</th><th class="num">Swap</th><th class="num">PnL USD</th></tr>
+            </thead>
+            <tbody><tr><td colspan="8" class="mono">Chưa có vị thế mở</td></tr></tbody>
+          </table>
+        </div>
+
+        <h3 class="sec-subhdr">Biên Nhận Khớp Lệnh Gần Nhất (`naqex_exec_audit.csv`)</h3>
+        <div class="table-scroll">
+          <table class="data-table" id="tbl-exec-audit">
+            <thead>
+              <tr><th>Sự kiện</th><th>Symbol</th><th>Chiều</th><th class="num">Lot</th><th class="num">Tín hiệu</th><th class="num">Khớp</th><th class="num">SL</th><th class="num">Lat(ms)</th></tr>
+            </thead>
+            <tbody><tr><td colspan="8" class="mono">Chưa có biên nhận lệnh</td></tr></tbody>
+          </table>
+        </div>
+
+        <div class="divider"></div>
+        <div class="safety-cover-box" id="safety-cover-box">
+          <div class="panel-hdr">
+            <div>
+              <strong class="mono">Nút Khẩn Cấp Có Nắp Đậy (2-Step Arm -&gt; Confirm)</strong>
+              <div class="sub">Bước 1: Lật nắp bảo vệ · Bước 2: Chọn hành động &amp; nhập mã xác nhận (<code>HALT</code> / <code>FLATTEN</code> / <code>RESET</code>)</div>
+            </div>
+            <button type="button" id="btn-toggle-cover" class="btn btn-hazard">Lật nắp bảo vệ</button>
+          </div>
+          <div id="emg-controls" class="emg-controls hidden">
+            <div class="emg-row">
+              <select id="inp-emg-action" class="input">
+                <option value="HALT_NEW_ENTRIES">HALT_NEW_ENTRIES (Khóa vào lệnh mới)</option>
+                <option value="FLATTEN_ALL">FLATTEN_ALL (Ghi cờ yêu cầu đóng toàn bộ)</option>
+                <option value="RESET_NORMAL">RESET_NORMAL (Gỡ cờ khẩn cấp)</option>
+              </select>
+              <input id="inp-emg-code" type="text" class="input mono" placeholder="Nhập mã: HALT / FLATTEN / RESET">
+            </div>
+            <div class="emg-row">
+              <input id="inp-emg-reason" type="text" class="input" placeholder="Lý do (tùy chọn, lưu kiểm toán)">
+              <button type="button" id="btn-emg-confirm" class="btn btn-danger">Xác nhận ghi cờ</button>
+            </div>
+          </div>
+          <div class="comfort-note mono" id="emg-status-note">Trạng thái: nắp bảo vệ đang đóng · OrderSend=0.</div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-hdr">
+          <div>
+            <h2>Kiểm Toán Điều Khoản Prop Firm (Prop Terms Drift Auditor)</h2>
+            <div class="sub">Đối chiếu điều khoản mới nhất với chuẩn đóng băng FTMO / The5ers / Topstep (opt-in TypeSafe <code>jev-1.14.0</code>)</div>
+          </div>
+          <span class="tag" id="pta-badge">OFFLINE BASELINE</span>
+        </div>
+        <div class="calc-controls">
+          <div class="emg-row">
+            <select id="inp-pta-firm" class="input">
+              <option value="the5ers_high_stakes" selected>The5ers High Stakes</option>
+              <option value="ftmo_swing">FTMO Swing</option>
+              <option value="ftmo_standard">FTMO Standard</option>
+              <option value="topstep_50k">Topstep 50K</option>
+            </select>
+            <label class="chk-inline">
+              <input id="inp-pta-typesafe" type="checkbox">
+              <span>Bật AI TypeSafe (<code>jev-1.14.0</code>)</span>
+            </label>
+          </div>
+          <textarea id="inp-pta-text" class="input mono" rows="6" placeholder="Dán đoạn điều khoản EA / Tin đỏ / Giữ lệnh qua đêm / Nhất quán của hãng Prop vào đây..."></textarea>
+          <button type="button" id="btn-pta-run" class="btn">Kiểm toán điều khoản</button>
+          <pre id="pta-output" class="comfort-note mono pta-pre">Chọn hãng Prop rồi bấm Kiểm toán để xem chuẩn baseline hoặc quét drift bằng TypeSafe.</pre>
+        </div>
+      </section>
+    </div>
   </main>
 
   <footer class="footer mono">

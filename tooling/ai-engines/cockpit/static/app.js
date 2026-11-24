@@ -364,6 +364,106 @@
       tr.innerHTML = `<td class="mono">${ev.utc_iso}</td><td class="num mono">+${ev.hours_away}h</td><td class="mono strong">${ev.ccy}</td><td>${ev.event}</td>`;
       tbody.appendChild(tr);
     });
+
+    // Render Live MT5 Open Positions
+    const posBody = $("tbl-live-pos").querySelector("tbody");
+    const openPos = (t.mt5_live_spreads && t.mt5_live_spreads.open_positions) || [];
+    if (!openPos.length) {
+      posBody.innerHTML = `<tr><td colspan="8" class="mono">0 vị thế mở (flat)</td></tr>`;
+    } else {
+      posBody.innerHTML = openPos.map((p) => `
+        <tr>
+          <td class="mono">${p.ticket}</td>
+          <td class="mono strong">${p.symbol}</td>
+          <td class="mono ${p.type === "BUY" ? "pos" : "neg"}">${p.type}</td>
+          <td class="num mono">${Number(p.volume).toFixed(2)}</td>
+          <td class="num mono">${Number(p.price_open).toFixed(3)}</td>
+          <td class="num mono">${Number(p.sl).toFixed(3)}</td>
+          <td class="num mono">${Number(p.swap || 0).toFixed(2)}</td>
+          <td class="num mono ${Number(p.profit) >= 0 ? "pos" : "neg"}">${Number(p.profit) >= 0 ? "+" : ""}${Number(p.profit).toFixed(2)}</td>
+        </tr>
+      `).join("");
+    }
+
+    // Render Recent Execution Audit CSV rows
+    const audBody = $("tbl-exec-audit").querySelector("tbody");
+    const audRows = (t.mt5_live_spreads && t.mt5_live_spreads.exec_audit_recent) || [];
+    if (!audRows.length) {
+      audBody.innerHTML = `<tr><td colspan="8" class="mono">Chưa có dòng khớp lệnh nào</td></tr>`;
+    } else {
+      audBody.innerHTML = audRows.slice(-8).reverse().map((r) => `
+        <tr>
+          <td class="mono">${r.event_type || "—"}</td>
+          <td class="mono strong">${r.symbol || "—"}</td>
+          <td class="mono">${r.side || "—"}</td>
+          <td class="num mono">${r.lots || "—"}</td>
+          <td class="num mono">${r.signal_price || "—"}</td>
+          <td class="num mono">${r.fill_price || "—"}</td>
+          <td class="num mono">${r.sl_price || "—"}</td>
+          <td class="num mono">${r.latency_ms || "—"}</td>
+        </tr>
+      `).join("");
+    }
+
+    // Render 2-step emergency cover status
+    if (t.emergency_cover) {
+      renderEmergencyState(t.emergency_cover);
+    }
+  }
+
+  let coverOpened = false;
+
+  function renderEmergencyState(st) {
+    const badge = $("emg-state-badge");
+    const note = $("emg-status-note");
+    const stateStr = st.state || "NORMAL_COVER_CLOSED";
+    badge.textContent = stateStr;
+    badge.className = `tag ${stateStr.startsWith("ARMED_") ? "tag-red" : "tag-green"}`;
+    note.textContent = `Trạng thái: ${stateStr} · Action: ${st.action || "NONE"} · Updated: ${st.updated_utc || "—"} · Lý do: ${st.reason || "—"}`;
+  }
+
+  async function submitEmergencyCover() {
+    const action = $("inp-emg-action").value;
+    const code = ($("inp-emg-code").value || "").trim().toUpperCase();
+    const reason = ($("inp-emg-reason").value || "").trim();
+    const res = await fetch("/api/emergency-cover", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cover_opened: coverOpened, action, confirm_code: code, reason }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      $("emg-status-note").textContent = `Bị chặn (fail-closed): ${data.error || "invalid request"}`;
+      return;
+    }
+    renderEmergencyState(data);
+    $("inp-emg-code").value = "";
+    coverOpened = false;
+    $("emg-controls").classList.add("hidden");
+    $("btn-toggle-cover").textContent = "Lật nắp bảo vệ";
+  }
+
+  async function runPropTermsAudit() {
+    const firm = $("inp-pta-firm").value;
+    const termsText = $("inp-pta-text").value || "";
+    const useTypesafe = Boolean($("inp-pta-typesafe").checked);
+    $("pta-output").textContent = useTypesafe ? "Đang gọi TypeSafe jev-1.14.0 kiểm toán..." : "Đang đọc chuẩn baseline...";
+    const res = await fetch("/api/prop-terms-audit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ firm, terms_text: termsText, use_typesafe: useTypesafe }),
+    });
+    const data = await res.json();
+    const b = $("pta-badge");
+    if (!res.ok) {
+      b.textContent = "FAIL_CLOSED";
+      b.className = "tag tag-red";
+      $("pta-output").textContent = JSON.stringify(data, null, 2);
+      return;
+    }
+    b.textContent = data.verdict || data.mode || "OK";
+    b.className = `tag ${data.verdict === "DRIFT_DETECTED_REVIEW_REQUIRED" ? "tag-red" : "tag-green"}`;
+    $("pta-output").textContent = JSON.stringify(data, null, 2);
   }
 
   async function refreshStress() {
@@ -569,6 +669,13 @@
       });
     });
     $("inp-rebal-mode").addEventListener("change", () => refreshRebalancer());
+    $("btn-toggle-cover").addEventListener("click", () => {
+      coverOpened = !coverOpened;
+      $("emg-controls").classList.toggle("hidden", !coverOpened);
+      $("btn-toggle-cover").textContent = coverOpened ? "Đóng nắp bảo vệ" : "Lật nắp bảo vệ";
+    });
+    $("btn-emg-confirm").addEventListener("click", () => submitEmergencyCover());
+    $("btn-pta-run").addEventListener("click", () => runPropTermsAudit());
     refreshAll().catch((err) => {
       $("chart-tooltip").textContent = `Load error: ${err.message}`;
     });
