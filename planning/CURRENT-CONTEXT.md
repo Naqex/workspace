@@ -1,8 +1,8 @@
 # Current context — Naqex Workspace
 
-`25/11/2026 02:50 ICT` · `WORK: ASTRA-REDTEAM-F01-F20-CLOSED | REVIEW: VERIFIED | LIVE-NODE1: UNTOUCHED-HEALTHY`
+`25/11/2026 03:17 ICT` · `WORK: NODE1-V301-AND-HEROKU-V3-DEPLOYED | REVIEW: VERIFIED | LIVE-NODE1: FLAT-AWAITING-1X-GUI-LOGIN`
 
-`NODE1: FTMO-DEMO 1515343166 + CRYPTO SHADOW + MAKER PROBE + HEROKU EU OK | DEV: 9/9 EX5 v3.0 + 436-ROW 6-CCY CSV + HARDENED OPS/SIMS READY FOR FLAT SYNC | HOLDOUT 2025+ SEALED`
+`NODE1: 9/9 EX5 v3.01 + 436-ROW CSV + DISKIDLE=0 + KEEPPRIVATE=1 + HEROKU EU v3 LIVE (TELEGRAM VERIFIED) | HOLDOUT 2025+ SEALED`
 
 ## 1. Mục tiêu & Ràng buộc bất biến
 
@@ -13,8 +13,8 @@
 
 | Hạng mục / Nhánh | Bằng chứng đã xác minh (Wave-3 + Đợt vá Astra `F01–F20`) | Quyết định Hiện hành |
 |---|---|---|
-| **Home-VPS `naqex-node1` & Bảo mật** | Giữ nguyên vận hành không gián đoạn: `FTMO-Demo 1515343166`, **Windows Defender BẬT (`RealTime=True, excl C:\Naqex`, Firewall `3/3`)**, NTP `< 0,1s`, `C:` trống `103,88 GB`, sao lưu `D:`, Heroku EU `OK` | **LIVE 24/7 — CHỜ PHẲNG ĐỂ ĐỒNG BỘ** ([Live Audit](research/LIVE-NODE1-TELEMETRY-AND-SHADOW-AUDIT-20261124.md)) |
-| **MQL5 v3.0 (`9/9 .ex5`) & Lịch `436` Dòng `6` Đồng Tiền** | Biên dịch sạch `9/9 .ex5` (`0` lỗi/cảnh báo) + `90` preset SHA-256: tách GV theo `ACCOUNT_LOGIN`, khóa đặt chỗ `SYMCAP` nguyên tử, `OrderCalcMargin <= 85%`, đệm `5%`, `STOPS_LEVEL`, fail-closed tin đỏ `436` dòng **`USD/GBP/EUR/JPY/AUD/CAD`** (đã sửa 4 ngày BLS 2026 + thêm RBA/BoC), `ClosePositionChecked` + `OnTimer(15s)` cả 8 EA, `S6` mark-traded sau khớp, FTMO Prague `Balance` vs The5ers `max(Bal,Eq)`, The5ers ProfitLock `+4%` + `SPX500` | **READY FOR FLAT SYNC** ([Astra Audit](research/ASTRA-INDEPENDENT-REDTEAM-AUDIT-20261125.md) · [Tier & SYMCAP](research/PROP-TIER-SCALING-AND-SYMCAP-AUDIT-20261124.md)) |
+| **Home-VPS `naqex-node1` & Bảo mật** | Đã bảo trì lúc phẳng (`open_positions = 0`, `E1` đóng phẳng `9.998,88 USD`, `0` swap): **đồng bộ xong `9/9 .ex5` v3.01 + CSV `436` dòng `6` đồng tiền + Watchdog/Sync mới + `DISKIDLE = 0` + `KeepPrivate = 1` + Heroku EU v3 (Telegram alert đã kiểm chứng sống!)**; Defender `RealTime=True` (`excl C:\Naqex`), NTP `< 0,1s`, `C:` trống `103,86 GB`, Crypto Shadow `318` / Maker `307` chu kỳ | **DEPLOYED — CHỜ ĐĂNG NHẬP 1 LẦN `FTMO-Demo` (Save password)** ([Live Audit](research/LIVE-NODE1-TELEMETRY-AND-SHADOW-AUDIT-20261124.md)) |
+| **MQL5 v3.01 (`9/9 .ex5`) & Lịch `436` Dòng `6` Đồng Tiền** | Biên dịch sạch `9/9 .ex5` (`0` lỗi/cảnh báo) + `90` preset SHA-256: toàn bộ bản vá Astra `F01–F06` + `3` bản vá thực địa VPS (`FILE_SHARE_READ` + retry mở CSV tin đỏ khi `9` bot chạy song song, `IsAccountSynced` chặn khóa nhầm `kill_switch` lúc chưa đăng nhập, `Get-AncestorPath` sửa script sync trên đường dẫn nông) | **LIVE ON NODE1 (9/9 SHA MATCH)** ([Astra Audit](research/ASTRA-INDEPENDENT-REDTEAM-AUDIT-20261125.md) · [Tier & SYMCAP](research/PROP-TIER-SCALING-AND-SYMCAP-AUDIT-20261124.md)) |
 | **Vận Hành & Giám Sát Hardened (`F13, F17–F20`)** | Watchdog bắt clock skew tương lai & `terminal_connected=false`; `sync_updated_ex5_when_flat.ps1` chặn heartbeat cũ/lệch giờ + kiểm manifest + rollback; Heroku Deadman khóa `VIEW_TOKEN` fail-closed + retry Telegram khi lỗi + kiểm stale inner `utc_ts`; Control Room sửa `equity==0.0` & rõ trạng thái cầu nối; TCA Tracker đo adverse-only/`P90` + chặn `FILL_UNRESOLVED`/thiếu `swap_usd` | **VERIFIED IN PYTEST** ([Launch SOP](../knowledge/playbooks/ftmo-the5ers-live-launch-sop.md)) |
 | **Prop (`A1_V1_LIVE8`) & Own-Book 4 Nhánh Thuần** | `A1_V1_LIVE8` biên Pareto của `36` biến thể CFD intraday đã thử; Vốn Riêng thuần `4` nhánh `NCO_CexCap25` (`S2+S3A+S3B+S4`, `0` trùng Prop, `0` lookahead, đủ 2 chiều phí) đạt `2020–2024` `CAGR +5,62%`, `Sharpe 1,18` (`OOS 2023–2024` `Sharpe 1,47`, `MaxDD 3,27%`); ghi nhận 2 ứng viên Own-Book `F15/F16` (`Cash Merger Arb`, `CME Corn Spread`) vào sổ cái | **Gate-Driven / GO** ([Quỹ đạo 60m](research/TOP1-UNIFIED-PROP-TO-OWNBOOK-TRAJECTORY-20261124.md) · [Alpha Ledger](../knowledge/topics/alpha-hypothesis-ledger.md)) |
 
@@ -25,6 +25,6 @@
 
 ## 4. Bước Kế Tiếp Ngay Cho Chủ Sở Hữu (`Mốc 0`)
 
-1. **Chờ tài khoản trên `naqex-node1` phẳng (`open_positions == 0`):** Chạy `sync_updated_ex5_when_flat.ps1` đẩy `9/9 .ex5` v3.0 + lịch tin đỏ `436` dòng `6` đồng tiền (đã tự kiểm nhịp tim tươi `<= 180s`, manifest & rollback).
+1. **Đăng nhập lại `1` lần duy nhất vào `FTMO-Demo 1515343166` trên `naqex-node1` (RDP `192.168.1.28` / `100.72.70.18`) và tích `Save password`:** Bản `connector.ini` cũ đặt `KeepPrivate=0` nên chưa lưu mật khẩu sau khi khởi động lại; giờ đã sửa thành `KeepPrivate=1` nên sau 1 lần đăng nhập này mọi lần cúp điện/reboot về sau sẽ tự kết nối lại 100% tự động (và Heroku + Watchdog sẽ lập tức chuyển xanh `OK`).
 2. **Gửi 2 email xin xác nhận chạy EA độc quyền** tới `support@ftmo.com` (FTMO Swing 2-Step) và `help@the5ers.com` (Terms §11 High Stakes `5K/20K`) từ [FTMO-THE5ERS-WRITTEN-CLEARANCE-EMAILS.md](../tooling/ai-engines/exports/deployment_kit/FTMO-THE5ERS-WRITTEN-CLEARANCE-EMAILS.md).
-3. **Cập nhật Heroku config `NAQEX_VIEW_TOKEN` (bắt buộc sau bản vá `F20`)** khi triển khai bản Deadman mới, diễn tập mất kết nối `3` phút kiểm tra `@naqex_guard_bot`, rồi tích lũy đủ `10–15` lệnh đóng Free Trial `14` ngày & `30` ngày Crypto Maker `M2B` trước khi mở vé `The5ers High Stakes 5K`.
+3. **Tiếp tục gom đủ `10–15` lệnh đóng Free Trial `14` ngày & `30` ngày Crypto Maker `M2B`** *(Heroku EU v3 + `NAQEX_VIEW_TOKEN` + cảnh báo Telegram `@naqex_guard_bot` đã kiểm chứng hoạt động thật!)* trước khi mở vé `The5ers High Stakes 5K`.

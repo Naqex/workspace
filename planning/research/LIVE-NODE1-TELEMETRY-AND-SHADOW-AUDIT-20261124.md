@@ -107,3 +107,22 @@ Toàn bộ bộ gom dữ liệu chạy hoàn toàn **chỉ đọc (`OrderSend = 
 3. **Gửi ngay 2 email xin xác nhận chạy EA độc quyền:** Dùng đúng mẫu sẵn sàng copy-paste tại [FTMO-THE5ERS-WRITTEN-CLEARANCE-EMAILS.md](../../tooling/ai-engines/exports/deployment_kit/FTMO-THE5ERS-WRITTEN-CLEARANCE-EMAILS.md) gửi `support@ftmo.com` và `help@the5ers.com`.
 4. **Diễn tập cảnh báo mất kết nối `3` phút khi tài khoản phẳng:** Kiểm tra điện thoại nhận đúng tin nhắn đỏ `🔴 MẤT KẾT NỐI` từ `@naqex_guard_bot` (xem hướng dẫn 5 bước trong tài liệu trên).
 5. **Tiếp tục tích lũy đủ `10–15` lệnh đóng Free Trial (`14` ngày) và `30` ngày Crypto Maker** — chỉ mở mua vé `The5ers High Stakes 5K` sau khi toàn bộ bảng cổng Mục 1 chuyển sang **`PASS`**.
+
+---
+
+## 5. Nhật Ký Bảo Trì & Nâng Cấp Thực Địa `naqex-node1` + Heroku EU (`2026-11-25 02:57–03:17 ICT`)
+
+Sau khi lệnh `E1_USDJPY_TOKYO` (`#591010790`) tự đóng phẳng sạch lúc `23:00:00.714 ICT` (`16:00:00 UTC`, `0 USD` swap, số dư chốt `9.998,88 USD`, `open_positions = 0`), cửa sổ bảo trì phẳng đã mở và hoàn tất toàn bộ các hạng mục nâng cấp sau:
+
+1. **Đã xử lý `7` điểm lệch trực tiếp trên `naqex-node1` và `naqex-deadman-eu`:**
+   - **Tắt ngủ ổ cứng (`DISKIDLE`):** Chỉnh `powercfg /change disk-timeout-ac 0` (từ `900s` về `0`), khóa `STANDBY = 0`, `HIBERNATE = 0`.
+   - **Nâng cấp Heroku Dead-Man's-Switch (`naqex-deadman-eu`, build `7513a106` `v3-astra-f17-f20-hardened`):** Triển khai thành công bản vá `F17/F20` (`GET /health` `200`, `GET /` chưa xác thực trả `401`, giữ nguyên ngân sách `12 USD/tháng <= 13 USD/tháng` và Postgres `709` dòng). Đã **kiểm chứng sống** luồng cảnh báo Telegram `@naqex_guard_bot` khi trạm tự phát hiện `INNER_HEARTBEAT_STALE` và gửi tin nhắn thành công (`sent: ["telegram"], errors: []`).
+   - **Đồng bộ sạch `9/9 .ex5` MQL5 v3.01 + lịch tin đỏ `436` dòng `6` đồng tiền (`AUD/CAD/EUR/GBP/JPY/USD`, `sha=419b005e...`)** + cập nhật `naqex_mt5_watchdog.ps1`, `sync_updated_ex5_when_flat.ps1`, `ex5_expected_sha256.json`, `manifest.sha256.json` và bộ preset The5ers (`ProfitLock +4%`, `SPX500`) sang `C:\Naqex\ops\` và `C:\Naqex\mt5\`. Khớp SHA-256 tuyệt đối `9/9`.
+   - **Cập nhật bộ gom Crypto Shadow (`OrderSend = 0`):** Đạt **`318` chu kỳ** Crypto Shadow và **`307` chu kỳ** Crypto Maker (`LastRes = 0`).
+2. **3 lỗi thực chiến nghiêm trọng phát hiện trực tiếp khi vận hành trên VPS và đã vá dứt điểm + biên dịch lại `9/9 .ex5` (`0` lỗi/cảnh báo):**
+   - **Lỗi `sync_updated_ex5_when_flat.ps1` sập trên đường dẫn nông VPS (`C:\Naqex\ops\vps_kit`):** 5 lần `Split-Path -Parent` lồng nhau vọt quá gốc `C:\` thành chuỗi rỗng -> đã thay bằng `Get-AncestorPath` an toàn và kiểm chứng chạy thành công (`SYNC RC: 0`) ngay trên `naqex-node1`.
+   - **Lỗi tranh chấp mở tệp lịch tin đỏ khi `9` bot khởi động song song (`Naqex_PropGuard.mqh`):** `LoadRedNewsCsv` thiếu cờ `FILE_SHARE_READ | FILE_SHARE_WRITE`, khiến `E1` và `E2` mở cùng mili-giây bị từ chối và tự khóa fail-closed (`loaded=0`) -> đã thêm `FILE_SHARE_READ | FILE_SHARE_WRITE` + thử lại `10` lần (`LoadRedNewsCsv`) & `8` lần (`LogExecAuditFor`).
+   - **Lỗi `Naqex_AccountOrchestrator` khóa nhầm `kill_switch` cả ngày trước lúc đăng nhập (`v2.01`):** Khi MT5 mới khởi động chưa kết nối sàn (`equity = 0`), bản cũ tính nhầm `static_dd_pct = 100%` và khóa cứng `g_autoKillActive` -> đã thêm `IsAccountSynced(bal, eq)` chuyển tạm sang `regime = "DISCONNECTED"` không chốt khóa cứng.
+   - **Lỗi `KeepPrivate=0` trong `C:\Naqex\mt5\connector.ini`:** Là nguyên nhân khiến MT5 không lưu mật khẩu phiên cũ khi khởi động lại (nếu cúp điện sau này cũng sẽ mất kết nối). Đã đổi sang **`KeepPrivate=1`** (không chứa mật khẩu trần).
+3. **1 bước thủ công 30 giây duy nhất còn lại cho chủ sở hữu:**
+   - Truy cập RDP vào `naqex-node1` (`192.168.1.28` hoặc Tailscale `100.72.70.18`), đăng nhập lại `1` lần duy nhất vào tài khoản `FTMO-Demo 1515343166` trong cửa sổ MT5 đang mở và **tích chọn `Save password`** — từ đó về sau nhờ `KeepPrivate=1`, mọi lần khởi động lại hoặc cúp điện MT5 sẽ tự đăng nhập lại hoàn toàn tự động.

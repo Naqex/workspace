@@ -636,6 +636,23 @@ class Mql5ParityAndDeploymentKitTests(unittest.TestCase):
             self.assertIn("InpGuardNewsHardBanSec=135", c5_t5)
             self.assertIn("symbol=NAS100", c5_t5)
 
+    def test_vps_live_regressions_share_read_disconnected_guard_and_shallow_sync_path(self):
+        exp_dir = Path(__file__).resolve().parents[1] / "exports"
+        pg = (exp_dir / "Include" / "Naqex_PropGuard.mqh").read_text(encoding="utf-8")
+        orch = (exp_dir / "Naqex_AccountOrchestrator.mq5").read_text(encoding="utf-8")
+        sync_ps = (exp_dir / "deployment_kit" / "vps_kit" / "sync_updated_ex5_when_flat.ps1").read_text(encoding="utf-8")
+
+        # 1. Multi-EA parallel startup must open red-news CSV with FILE_SHARE_READ | FILE_SHARE_WRITE + retry
+        self.assertIn("FILE_READ | FILE_CSV | FILE_ANSI | FILE_SHARE_READ | FILE_SHARE_WRITE", pg)
+        self.assertIn("[PROPGUARD-OK] Loaded %d red-news events", pg)
+        # 2. Orchestrator must never latch sticky g_autoKillActive or fake 100% DD before broker login
+        self.assertIn("bool IsAccountSynced(", orch)
+        self.assertIn('"DISCONNECTED"', orch)
+        self.assertIn("[ORCH-INIT]", orch)
+        # 3. Flat-sync script must safely handle shallow VPS paths (e.g. C:\Naqex\ops\vps_kit)
+        self.assertIn("function Get-AncestorPath", sync_ps)
+        self.assertNotIn("Split-Path -Parent (Split-Path -Parent (Split-Path -Parent", sync_ps)
+
 
 if __name__ == "__main__":
     unittest.main()

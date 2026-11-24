@@ -39,21 +39,36 @@ $RequiredEx5Names = @(
     "Naqex_WB_VOLCOMP_EXP75_EURJPY.ex5"
 )
 
-$KitRoot = Split-Path -Parent $PSScriptRoot
-$ExportsDir = Split-Path -Parent $KitRoot
-$RepoRoot = Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $ExportsDir))
-$ManifestPath = Join-Path $KitRoot "manifest.sha256.json"
+function Get-AncestorPath {
+    param([string]$StartPath, [int]$Levels)
+    $cur = $StartPath
+    for ($i = 0; $i -lt $Levels; $i++) {
+        if ([string]::IsNullOrWhiteSpace($cur)) { return "" }
+        $next = Split-Path -Parent $cur
+        if ([string]::IsNullOrWhiteSpace($next) -or $next -eq $cur) { return "" }
+        $cur = $next
+    }
+    return $cur
+}
+
+$KitRoot = Get-AncestorPath -StartPath $PSScriptRoot -Levels 1
+$ExportsDir = Get-AncestorPath -StartPath $PSScriptRoot -Levels 2
+$RepoRoot = Get-AncestorPath -StartPath $PSScriptRoot -Levels 5
+$ManifestPath = if ($KitRoot) { Join-Path $KitRoot "manifest.sha256.json" } else { "" }
+$DefaultCompiledDir = if ($RepoRoot) { Join-Path $RepoRoot ".runtime\mt5-compiled-ex5" } else { "" }
 $ResolvedEx5Dir = if (-not [string]::IsNullOrWhiteSpace($Ex5SourceDir)) {
     $Ex5SourceDir
-} elseif (Test-Path -LiteralPath (Join-Path $RepoRoot ".runtime\mt5-compiled-ex5")) {
-    Join-Path $RepoRoot ".runtime\mt5-compiled-ex5"
+} elseif ($DefaultCompiledDir -and (Test-Path -LiteralPath $DefaultCompiledDir)) {
+    $DefaultCompiledDir
 } else {
     $ExportsDir
 }
 $ResolvedCsvPath = if (-not [string]::IsNullOrWhiteSpace($RedNewsCsvPath)) {
     $RedNewsCsvPath
-} else {
+} elseif ($ExportsDir) {
     Join-Path $ExportsDir "Files\naqex_red_news_utc.csv"
+} else {
+    ""
 }
 $HbPath = Join-Path $TargetMt5Root "MQL5\Files\naqex_heartbeat.json"
 $NowUtcTs = if ($NowUtcOverride -gt 0) { $NowUtcOverride } else { [DateTimeOffset]::UtcNow.ToUnixTimeSeconds() }
@@ -125,7 +140,7 @@ foreach ($reqName in $RequiredEx5Names) {
 
 # Cross-verify source .ex5 hashes against kit manifest when using default compiled dir
 $ManifestHashes = @{}
-if ([string]::IsNullOrWhiteSpace($Ex5SourceDir) -and (Test-Path -LiteralPath $ManifestPath)) {
+if ([string]::IsNullOrWhiteSpace($Ex5SourceDir) -and -not [string]::IsNullOrWhiteSpace($ManifestPath) -and (Test-Path -LiteralPath $ManifestPath)) {
     $mObj = Get-Content -LiteralPath $ManifestPath -Raw -Encoding UTF8 | ConvertFrom-Json
     if ($mObj.compiled_ex5_files) {
         foreach ($prop in $mObj.compiled_ex5_files.PSObject.Properties) {

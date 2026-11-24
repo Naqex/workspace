@@ -211,7 +211,9 @@ public:
       {
          int loaded = LoadRedNewsCsv(InpGuardRedNewsCsvFile);
          if(loaded <= 0)
-            PrintFormat("[PROPGUARD-WARN] Red-news CSV '%s' missing or empty (loaded=%d) — entries FAIL-CLOSED blocked!", InpGuardRedNewsCsvFile, loaded);
+            PrintFormat("[PROPGUARD-WARN] Red-news CSV '%s' missing or empty (loaded=%d err=%d) — entries FAIL-CLOSED blocked!", InpGuardRedNewsCsvFile, loaded, GetLastError());
+         else
+            PrintFormat("[PROPGUARD-OK] Loaded %d red-news events from '%s' (max_ts=%I64d)", loaded, InpGuardRedNewsCsvFile, (long)m_maxEventTs);
       }
       return true;
    }
@@ -442,7 +444,13 @@ public:
       m_eventCount = 0;
       m_maxEventTs = 0;
       ArrayResize(m_events, 0);
-      int fh = FileOpen(fileName, FILE_READ | FILE_CSV | FILE_ANSI, ',');
+      int fh = INVALID_HANDLE;
+      for(int attempt = 0; attempt < 10; attempt++)
+      {
+         fh = FileOpen(fileName, FILE_READ | FILE_CSV | FILE_ANSI | FILE_SHARE_READ | FILE_SHARE_WRITE, ',');
+         if(fh != INVALID_HANDLE) break;
+         Sleep(25);
+      }
       if(fh == INVALID_HANDLE)
          return 0;
 
@@ -649,7 +657,13 @@ public:
    {
       if(MQLInfoInteger(MQL_TESTER)) return;
       bool needHeader = !FileIsExist(InpGuardTcaAuditCsvFile);
-      int fh = FileOpen(InpGuardTcaAuditCsvFile, FILE_READ | FILE_WRITE | FILE_CSV | FILE_ANSI | FILE_SHARE_READ, ',');
+      int fh = INVALID_HANDLE;
+      for(int attempt = 0; attempt < 8; attempt++)
+      {
+         fh = FileOpen(InpGuardTcaAuditCsvFile, FILE_READ | FILE_WRITE | FILE_CSV | FILE_ANSI | FILE_SHARE_READ, ',');
+         if(fh != INVALID_HANDLE) break;
+         Sleep(20);
+      }
       if(fh == INVALID_HANDLE)
       {
          PrintFormat("[PROPGUARD-AUDIT-ERR] Failed to open '%s' err=%d ev=%s sym=%s", InpGuardTcaAuditCsvFile, GetLastError(), evType, sym);
