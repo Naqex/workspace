@@ -27,6 +27,15 @@ from .prop_engine import (
 from .live_decay_monitor import calibrate_baseline, evaluate_live_decay
 from .ops_monitor import dispatch_alert, format_alert_message, inspect_heartbeat
 from .report_gen import format_markdown_table, write_verified_receipt
+from .robustness_gate import (
+    RobustnessThresholds,
+    buy_sell_symmetry_audit,
+    evaluate_robustness_gate,
+    random_entry_mc_on_bars,
+    random_entry_mc_on_closes,
+    top_outlier_trim_audit,
+    worst_year_stability_audit,
+)
 from .tca_reconcile import compute_tca_report, load_exec_audit_csv
 
 __all__ = [
@@ -50,6 +59,13 @@ __all__ = [
     "replay_portfolio_m1",
     "format_markdown_table",
     "write_verified_receipt",
+    "RobustnessThresholds",
+    "buy_sell_symmetry_audit",
+    "evaluate_robustness_gate",
+    "random_entry_mc_on_bars",
+    "random_entry_mc_on_closes",
+    "top_outlier_trim_audit",
+    "worst_year_stability_audit",
     "compute_tca_report",
     "load_exec_audit_csv",
     "calibrate_baseline",

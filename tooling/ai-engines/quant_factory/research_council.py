@@ -93,6 +93,7 @@ class EvidenceBundle:
     incumbent_daily_returns: np.ndarray | None = None
     annualization_days: float = 252.0
     holdout_rows_analysed: int = 0
+    robustness_report: dict | None = None
 
 
 def propose_hypothesis(
@@ -197,6 +198,20 @@ def critique_proposal(card: HypothesisCard, evidence: EvidenceBundle) -> dict:
         "G5_sample_and_sign": {"passed": g5_pass, "n_trades_b": int(evidence.n_trades_cluster_b), "min_trades_b": kc.min_trades_cluster_b, "mean_a_pos": mean_a > 0.0, "mean_b_pos": mean_b > 0.0},
     }
 
+    # Optional Gate 6: 4-Pillar Robustness Gate (Random-Entry MC >= 90%, Buy/Sell symmetry, Top-5% trim, Worst-Year)
+    g6_hard_fail = False
+    if evidence.robustness_report is not None:
+        rb = evidence.robustness_report
+        g6_verdict = str(rb.get("verdict", "FAIL_FRAGILE"))
+        g6_pass = bool(rb.get("passed", False)) and g6_verdict == "PASS_ROBUST"
+        g6_hard_fail = g6_verdict == "FAIL_FRAGILE"
+        gates["G6_robustness_gate"] = {
+            "passed": g6_pass,
+            "verdict": g6_verdict,
+            "failed_pillars": list(rb.get("failed_pillars", [])),
+            "ranking_score_worst_year_p10_r": rb.get("ranking_score_worst_year_p10_r"),
+        }
+
     failed = [k for k, v in gates.items() if not v["passed"]]
     objections = []
     if not g0_pass:
@@ -211,15 +226,20 @@ def critique_proposal(card: HypothesisCard, evidence: EvidenceBundle) -> dict:
         objections.append(f"Redundant alpha: corr_all={corr_all:.3f}, tail_corr={corr_tail:.3f} exceeds orthogonality budget")
     if not g5_pass:
         objections.append(f"Sample/sign fail: n_trades_B={evidence.n_trades_cluster_b}, mean_A={mean_a:.6f}, mean_B={mean_b:.6f}")
+    if "G6_robustness_gate" in failed:
+        g6 = gates["G6_robustness_gate"]
+        objections.append(f"Robustness gate fail ({g6['verdict']}): pillars={g6['failed_pillars']}")
 
     # Hard fail-closed decision rule
     hard_kill_gates = {"G0_seal_and_card", "G1_bh_fdr", "G3_cost_stress", "G5_sample_and_sign"}
+    if g6_hard_fail:
+        hard_kill_gates.add("G6_robustness_gate")
     if not failed:
         verdict = "APPROVE_FOR_INCUBATION"
     elif (set(failed) & hard_kill_gates) or len(failed) >= 2:
         verdict = "REJECT_KILLED"
     else:
-        # Only 1 soft gate failed (e.g., marginal DSR or borderline correlation while FDR + Cost + Sign passed)
+        # Only 1 soft gate failed (e.g., marginal DSR, borderline corr, or single asymmetry/year warning while MC + Trim passed)
         verdict = "CONDITIONAL_RETEST"
 
     payload = {
