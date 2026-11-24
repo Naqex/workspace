@@ -6,76 +6,83 @@ updated_utc: 2026-11-24
 order_send_count: 0
 holdout_rows_analysed: 0
 sources:
+  - "planning/TOP1-SOLO-QUANT-MASTER-PLAN.md"
   - "tooling/ai-engines/exports/deployment_kit/ACTIVATION-CARD-LOCAL-MT5.md"
   - "tooling/ai-engines/exports/deployment_kit/the5ers_kit/THE5ERS-LAUNCH-AND-TERMS11-EMAIL.md"
   - "tooling/ai-engines/exports/deployment_kit/ops_watchdog/naqex_mt5_watchdog.ps1"
+  - "tooling/ai-engines/quant_factory/build_red_news_calendar.py"
+  - "tooling/ai-engines/configs/calendars/red_news_official_2026_2027_multi_ccy.json"
   - "tooling/ai-engines/quant_factory/prop_challenge_tracker.py"
   - "tooling/ai-engines/quant_factory/daily_ops_briefing.py"
   - "knowledge/topics/mt5-live-execution-gaps-and-tca.md"
   - "knowledge/playbooks/naqex-master-roadmap-2026-2027.md"
   - "planning/research/MULTI-PROP-SCALING-AND-BLACKSWAN-STRESS-20261124.md"
+  - ".agents/skills/naqex-node-ops/SKILL.md"
 ---
 
-# Quy Trình Khai Trương Thực Chiến FTMO & The5ers (`Pre-Flight → Day-1 → Day-14` & Emergency Runbook)
+# Quy Trình Khai Trương Thực Chiến FTMO & The5ers (`Pre-Flight -> Day-1 -> Day-14` & Emergency Runbook)
 
-> **Mục tiêu SOP:** Biến việc triển khai từ **`FTMO-Demo 1515343166` (14 ngày Free Trial)** sang **tài khoản trả phí `FTMO Standard BF-25%` + `The5ers High Stakes`** thành một quy trình cơ học, kiểm chứng được bằng số liệu và không phụ thuộc cảm xúc. Mọi bước đều giữ nguyên tắc **fail-closed**: chưa qua đủ 5 quy tắc trong [prop_challenge_tracker.py](../../tooling/ai-engines/quant_factory/prop_challenge_tracker.py) thì tuyệt đối **KHÔNG** nâng sang tài khoản trả phí.
-
----
-
-## 1. Danh Mục Kiểm Tra Trước Chuyến Bay (`Pre-Flight Checklist` — Trước Giờ G)
-
-1. **Xác minh Sandbox MT5 Portable (`FTMO-Demo 1515343166`):**
-   - Dùng đúng thư mục portable độc lập `.runtime/ftmo-demo-portable-1515343166` (tuyệt đối không mở chung terminal cá nhân khác), tuân theo [ACTIVATION-CARD-LOCAL-MT5.md](../../tooling/ai-engines/exports/deployment_kit/ACTIVATION-CARD-LOCAL-MT5.md).
-   - Kiểm tra `9` biểu đồ trong profile `Naqex_FreeTrial`: `7` EA lõi (`E1..E7` magic `20261122..20261129`, trừ `20261127`), `1` EA vệ tinh `S6` (`20261127`), và `1` `Naqex_AccountOrchestrator` giám sát chung (`20261120..20261199`).
-   - Đảm bảo `KeepPrivate = 0`, `Leverage = 1:30`, `AutoTrading` bật **CHỈ** khi chủ sở hữu sẵn sàng mở Free Trial (mặc định triển khai mới bắt đầu bằng `InpDryRunLogOnly = true` trong 24h đầu để kiểm tra tín hiệu mà không gửi lệnh!).
-2. **Kiểm tra Hạ tầng VPS & Watchdog Uptime:**
-   - Chọn VPS độ trễ thấp (`<= 15 ms` tới máy chủ `FTMO-Demo` / `The5ers` London/Frankfurt, RAM `>= 4 GB`, tắt Windows Update tự khởi động lại trong giờ phiên Á–Âu–Mỹ từ `23:00 UTC` Chủ nhật đến `21:55 UTC` Thứ Sáu).
-   - Cài tác vụ định kỳ mỗi `5` phút cho [naqex_mt5_watchdog.ps1](../../tooling/ai-engines/exports/deployment_kit/ops_watchdog/naqex_mt5_watchdog.ps1) để tự giám sát `terminal64.exe`, đọc `naqex_heartbeat.json`, và báo động ngay nếu nhịp tim cũ quá `180` giây (`-StaleAfterSec 180`) hoặc `orphan_no_sl > 0`.
-3. **Đồng bộ & Làm mới Lịch Tin Đỏ Hằng Quý (`naqex_red_news_utc.csv`):**
-   - Kiểm tra tệp [naqex_red_news_utc.csv](../../tooling/ai-engines/exports/Files/naqex_red_news_utc.csv) đã chép đúng vào `MQL5\Files\` của terminal và có đủ các sự kiện NFP, CPI, FOMC, BoE, ECB, BoJ trong quý hiện tại (`InpGuardEnableRedNews = true`, `InpGuardNewsPadSec = 300`).
-   - **Lịch làm mới bắt buộc:** Ngày `25` của tháng cuối mỗi quý (`Tháng 3, 6, 9, 12`), cập nhật lịch quý tới, chạy đối soát kiểm thử, và chép đè đồng loạt lên mọi VPS đang hoạt động.
-4. **Cổng Tiền Khai Trương `The5ers Terms §11`:**
-   - Gửi email xác nhận quyền vận hành EA độc quyền trước khi mua vé `39 USD` theo mẫu chuẩn trong [THE5ERS-LAUNCH-AND-TERMS11-EMAIL.md](../../tooling/ai-engines/exports/deployment_kit/the5ers_kit/THE5ERS-LAUNCH-AND-TERMS11-EMAIL.md) (cam kết sở hữu mã nguồn white-box riêng, không dùng chung tín hiệu bên thứ ba, giữ đệm tin đỏ `±5` phút chặt hơn mức `±2` phút của hãng). Lưu email phản hồi chấp thuận vào hồ sơ lưu trữ cá nhân.
+> **Mục tiêu SOP:** Chuẩn hóa chuyển đổi từ **`FTMO-Demo 1515343166` (14 ngày Free Trial trên `naqex-node1`)** sang **tài khoản trả phí `The5ers High Stakes` + `FTMO Swing`** theo [TOP1-SOLO-QUANT-MASTER-PLAN.md](../../planning/TOP1-SOLO-QUANT-MASTER-PLAN.md), tuyệt đối **fail-closed**: chưa xong đủ 4 bản vá kỹ thuật, chưa có thư chấp thuận từ quỹ, hoặc chưa đạt `PASS_TO_PAID` trong [prop_challenge_tracker.py](../../tooling/ai-engines/quant_factory/prop_challenge_tracker.py) thì **KHÔNG** mua vé thật.
 
 ---
 
-## 2. Lịch Trình Giám Sát 14 Ngày Free Trial (`Day-1 → Day-14`)
+## 1. Kiểm Tra Trước Giờ G (`Pre-Flight Checklist`)
 
-- **Ngày 1 (24 giờ Dry-Run kiểm tra khớp nối):**
-  - Chạy toàn bộ `9` biểu đồ ở chế độ `DryRun` hoặc tài khoản Free Trial `1515343166`, xác nhận `naqex_heartbeat.json` cập nhật mỗi `<= 60` giây, `kill_switch = false`, `orphan_no_sl = 0`, và không có lỗi `4756 / 10018 / 10019` trong tab `Experts`.
-- **Ngày 2 → Ngày 13 (Kiểm tra 5 phút/ngày — Cấm nhìn bảng giá theo phút):**
-  - Mỗi tối sau `21:55 UTC` (khi mọi vị thế intraday đã đóng sạch trước giờ rollover `21:55–22:15 UTC`), chạy đúng **2 lệnh kiểm toán cục bộ**:
-    1. [daily_ops_briefing.py](../../tooling/ai-engines/quant_factory/daily_ops_briefing.py) để chấm điểm sức khỏe vận hành (`0–100`).
-    2. [prop_challenge_tracker.py](../../tooling/ai-engines/quant_factory/prop_challenge_tracker.py) với `--profile ftmo_swing_10k` để đọc `naqex_exec_audit.csv`, kiểm tra `swap == 0`, khóa tin đỏ `±300s`, và trượt giá trung bình từng động cơ.
-  - Nếu gặp sai lệch khớp lệnh, tra ngay bảng phân tách *lỗi sàn vs lỗi bot* trong [mt5-live-execution-gaps-and-tca.md](../topics/mt5-live-execution-gaps-and-tca.md). **Tuyệt đối không đóng lệnh tay giữa phiên** (trừ tình huống khẩn cấp ở Mục 4).
-- **Ngày 14 (Phán quyết Chuyển đổi Sang Trả Phí — `PASS_TO_PAID` vs `EXTEND_SHADOW` vs `HALT_AND_FIX`):**
-  - Chỉ được nâng cấp sang tài khoản trả phí khi `prop_challenge_tracker.py` trả về **`PASS_TO_PAID`** đồng thời thỏa:
-    - `>= 4` ngày giao dịch hợp lệ (FTMO) và `0` vi phạm Daily Loss (`< 3,5%` Amber brake) / Max Loss (`< 7,0%` Red brake).
-    - `nonzero_swap_count == 0`, `overnight_hold_count == 0`, `rollover_blackout_count == 0`, `red_news_guard_violations == 0`.
-    - `0` động cơ (`E1..E7, S6`) có trượt giá trung bình 14 ngày vượt `1,5×` ngân sách M1 backtest.
-
----
-
-## 3. Quy Trình Nâng Cấp Lên Trả Phí (`DUAL_2FIRM_STAGGER_42D + P1_Balanced`)
-
-Tuân thủ chính xác kiến trúc tối ưu đã chứng minh trên 5.000 đường mô phỏng tại [MULTI-PROP-SCALING-AND-BLACKSWAN-STRESS-20261124.md](../../planning/research/MULTI-PROP-SCALING-AND-BLACKSWAN-STRESS-20261124.md) và lộ trình [naqex-master-roadmap-2026-2027.md](naqex-master-roadmap-2026-2027.md):
-
-1. **Ngày `T = 0` — Khai Trương Tài Khoản #1 (`The5ers High Stakes 5K`, phí `39 USD`):**
-   - Áp hồ sơ **`P1_Balanced`** (`4,0×` ở Step 1, `2,5×` ở Step 2, hạ cứng về `1,0×` ngay khi lên Funded; `SYMCAP_100 = 1,0%`, khóa tin đỏ `±300s`).
-   - Theo dõi bằng `--profile the5ers_hs_5k`: nhớ quy tắc đặc thù của The5ers là cần tối thiểu **`3` ngày lãi riêng biệt, mỗi ngày `>= +0,50%` số dư đầu (`>= +25,0 USD` trên tài khoản `5k USD`)**.
-2. **Ngày `T + 42` Phiên Giao Dịch (~2 Tháng Sau) — Khai Trương Tài Khoản #2 (`FTMO Standard 10K BF-25%` hoặc `FTMO Swing 10K`):**
-   - **Tại sao bắt buộc giữ độ trễ `+42` phiên?** Mở cùng ngày với `P1_Sprint` đẩy xác suất cháy kép đồng thời (`Double-Fail`) lên **`24,1%`** (nguy cơ cháy quỹ phí `1,8%` ở ngân sách `500 USD`); giữ độ trễ **`+42` ngày + `P1_Balanced`** cắt **Double-Fail xuống chỉ còn `3,0%`** và nguy cơ cháy quỹ phí xuống **`0,4%`** (`0,0%` ở ngân sách `1.500 USD`).
-   - Ngay khi tài khoản #1 lên Funded và rút payout đầu tiên, chuyển dòng tiền vào sổ kế toán 3-Bucket ([treasury_ledger.py](../../tooling/ai-engines/quant_factory/treasury_ledger.py)): `30%` quỹ dự phòng phí (trần `5×` vé -> tràn `100%` sang Own-Book), `50%` Sổ Vốn Riêng, `20%` VPS & dự phòng thuế.
+1. **Hạ tầng Cấp 1 — `naqex-node1` 24/7 + Heroku EU + Telegram `@naqex_guard_bot`:**
+   - **Hiện tại (`~0 USD/tháng` tiền túi):** MT5 chạy riêng trên **`naqex-node1`** (`Windows 10 LTSC`, 3 ổ tách biệt, sao lưu `05:30`, đồng bộ NTP `< 1s`), đẩy nhịp tim lên **Heroku EU** (gói Student miễn phí tới `2028-09-30` — nhắc kiểm tra ngày `2028-09-25`) và cảnh báo tức thì qua **`@naqex_guard_bot`**.
+   - **Khóa an toàn trước tiền thật:** Bật lại **Windows Defender** (chỉ đặt đúng 1 ngoại lệ `C:\Naqex`), giữ tường lửa BẬT, `0` mật khẩu trần trên ổ cứng; diễn tập ngắt mạng/MT5 `3` phút xác nhận nhận tin nhắn đỏ `🔴 MẤT KẾT NỐI` từ `@naqex_guard_bot`; duy trì tác vụ `5` phút [naqex_mt5_watchdog.ps1](../../tooling/ai-engines/exports/deployment_kit/ops_watchdog/naqex_mt5_watchdog.ps1) (`-StaleAfterSec 180`, báo động ngay nếu `HbAge > 180s` hoặc `orphan_no_sl > 0`). Bảo trì máy tuân theo [naqex-node-ops](../../.agents/skills/naqex-node-ops/SKILL.md).
+   - **Hạ tầng Cấp 2 (VPS sát sàn LD4/NY4, `25–40 USD/tháng`):** **CHỈ** thuê khi đã rút lãi ròng đều **`>= 300 USD/tháng`** từ Prop (trích từ Ngăn 3, không móc tiền túi).
+2. **Sandbox Portable & Đủ 4 Bản Vá Kỹ Thuật Bắt Buộc:**
+   - Dùng đúng thư mục portable `.runtime/ftmo-demo-portable-1515343166`, profile **`Naqex_FreeTrial`** gồm `9` biểu đồ (`E1..E7`, `S6`, `Naqex_AccountOrchestrator`), `KeepPrivate = 0`, `Leverage = 1:30`, tuân thủ [ACTIVATION-CARD-LOCAL-MT5.md](../../tooling/ai-engines/exports/deployment_kit/ACTIVATION-CARD-LOCAL-MT5.md) (mặc định nguồn `.mq5` luôn `InpDryRunLogOnly = true`).
+   - **Vá #1 (`NAS100` & broker alias):** `Naqex_PropGuard.mqh` nhận đủ `US100/NAS100/NDX/USTEC/US500/SPX/US30/XAU/BTC` (`USD`), `GER40/DE40/DAX` (`EUR`), `UK100/FTSE` (`GBP`); preset The5ers gắn đúng `NAS100`.
+   - **Vá #2 (Lịch tin đỏ 4 đồng tiền & tách vùng đóng trước tin):** [naqex_red_news_utc.csv](../../tooling/ai-engines/exports/Files/naqex_red_news_utc.csv) được dựng xác định bằng [build_red_news_calendar.py](../../tooling/ai-engines/quant_factory/build_red_news_calendar.py) từ [red_news_official_2026_2027_multi_ccy.json](../../tooling/ai-engines/configs/calendars/red_news_official_2026_2027_multi_ccy.json) (`418` dòng đến hết `2027`, phủ đủ **`USD, GBP, EUR, JPY`**: `FOMC + Press Conf`, `US NFP`, `US CPI`, `US PPI`, `US Retail Sales`, `US Core PCE/GDP`, `BoE Rate`, `UK CPI`, `ECB Rate + Press Conf`, `BoJ Rate ~03:00 UTC _EST03UTC`). Bộ lọc tách rõ vùng **đóng trước tin** (`-5p` tới `-2p15s`) với **vùng cấm cứng `±2p15s`** (`InpGuardNewsHardBanSec = 135`) để khởi động lại giữa tin không tự bấm đóng vi phạm luật `±2p`. *Bảo trì quý:* ngày `25` các tháng `3, 6, 9, 12`, chạy `--verify` và đồng bộ lên `naqex-node1` khi tài khoản phẳng.
+   - **Vá #3 (Siết `SYMCAP` Vòng 1/2):** `P1_Balanced <= 1,75%`, `P1_Sprint <= 2,00%`, `P2_Verify <= 1,50%`, `FreeTrial / Funded = 1,00%` (`SYMCAP_100`).
+   - **Vá #4 (`Dyn_ProfitLock`, giờ reset ngày & đếm `3` ngày lãi):** Bật `Dyn_ProfitLock` (`+5%` P1 / `+3%` P2), đặt `InpDailyResetMode = 1` (`Europe/Prague`) cho FTMO và `0` (`MT5 Server Midnight`) cho The5ers, đếm đúng **`3` ngày lãi `>= +0,50%`** trên Control Room.
+3. **Cổng Pháp Lý Văn Bản (FTMO & The5ers Terms §11):**
+   - Gửi email xin xác nhận chạy EA white-box độc quyền tới `support@ftmo.com` và `help@the5ers.com` theo mẫu [THE5ERS-LAUNCH-AND-TERMS11-EMAIL.md](../../tooling/ai-engines/exports/deployment_kit/the5ers_kit/THE5ERS-LAUNCH-AND-TERMS11-EMAIL.md) và lưu thư chấp thuận trước khi trả phí.
 
 ---
 
-## 4. Sổ Tay Ứng Cứu Khẩn Cấp (`Emergency Runbook` — Fail-Closed)
+## 2. Giám Sát 14 Ngày Free Trial (`Day-1 -> Day-14`)
 
-Chỉ được phép can thiệp tay khi xảy ra **1 trong 4 sự cố kỹ thuật cấp độ ĐỎ** sau đây:
+- **Ngày 1:** Xác nhận `9` biểu đồ `Naqex_FreeTrial` trên `naqex-node1` đẩy nhịp tim `<= 60s` lên Heroku EU, `kill_switch = false`, `orphan_no_sl = 0`, không lỗi `4756 / 10018 / 10019`.
+- **Ngày 2 -> 13 (5 phút/ngày — cấm canh từng nến):** Xem Control Room tối đa `1–2` lần/ngày; sau `21:55 UTC` chạy [daily_ops_briefing.py](../../tooling/ai-engines/quant_factory/daily_ops_briefing.py) và [prop_challenge_tracker.py](../../tooling/ai-engines/quant_factory/prop_challenge_tracker.py) (`--profile ftmo_swing_10k`). Lệch khớp lệnh tra [mt5-live-execution-gaps-and-tca.md](../topics/mt5-live-execution-gaps-and-tca.md); **cấm bấm đóng tay vì xót lãi** (*profit giveback*).
+- **Ngày 14 (Cổng Quyết Định `PASS_TO_PAID` vs `HALT_AND_FIX`):** Chỉ nâng sang trả phí khi đạt đồng thời: `10–15` lệnh đóng khớp MetriX, `>= 4` ngày giao dịch, `0` vi phạm Daily (`< 3,5%`) / Max Loss (`< 7,0%`), `swap == 0`, `0` giữ qua đêm / vi phạm tin đỏ / thiếu SL, trượt giá mọi động cơ `<= 1,5×` M1, đủ 4 bản vá + diễn tập Telegram + thư xác nhận quỹ.
 
-| Sự cố Khẩn cấp | Dấu hiệu Nhận diện | Thao tác Ứng cứu Tức thì (Đúng Thứ tự) | Điều kiện Mở lại Hệ thống |
+---
+
+## 3. Nâng Cấp Trả Phí (`DUAL_2FIRM_STAGGER_42D`), Ưu Tiên `FTMO Swing` & Nhảy Bậc `25K/50K/100K`
+
+Bám sát kết quả mô phỏng [MULTI-PROP-SCALING-AND-BLACKSWAN-STRESS-20261124.md](../../planning/research/MULTI-PROP-SCALING-AND-BLACKSWAN-STRESS-20261124.md) và [naqex-master-roadmap-2026-2027.md](naqex-master-roadmap-2026-2027.md):
+
+1. **Ngày `T = 0` — Vé Chứng Minh #1 (`The5ers High Stakes 5K`, `~39–52 USD`):**
+   - Kiểm tra rõ trên dashboard là gói `8%+5%` hay `10%+5%`. Dùng **`The5ers_HighStakes_P1_Balanced`** (`SYMCAP <= 1,75%`, `Dyn_ProfitLock +5%`, `InpDailyResetMode = 0`), hạ cứng về **`1,0×` Funded** ngay khi đậu; theo dõi đủ **`3` ngày lãi `>= +0,50%`** (`>= +25 USD` trên `5k USD`).
+2. **Ngày `T + 42` Phiên (~2 Tháng Sau) — Mở Tài Khoản #2 Ưu Tiên **`FTMO Swing`** Hơn `FTMO Standard`:**
+   - **Ưu tiên `FTMO Swing`:** Trên **`FTMO Standard` (Funded)**, giá giật tin đỏ quét trúng **SL/TP trong khung `±2 phút`** vẫn có thể bị xử vi phạm luật tin đỏ và khóa tài khoản (`R4`). **`FTMO Swing` (2-Step)** miễn hoàn toàn luật cấm tin đỏ cả lúc thi lẫn Funded, đòn bẩy `1:30` dư sức cho bộ 8 bot. Chỉ chọn Standard khi có mã giảm giá sâu *và* bật đủ 4 bản vá.
+   - **Tại sao bắt buộc `DUAL_2FIRM_STAGGER_42D + P1_Balanced`?** Mở cùng ngày bằng `Sprint` đẩy cháy kép (`Double-Fail`) lên **`24,1%`** (`1,8%` cháy quỹ phí ở `500 USD`); giữ lệch pha **`+42` phiên + `P1_Balanced`** cắt Double-Fail còn **`3,0%`** và cháy quỹ phí còn **`0,4%`** (`0,0%` ở `1.500 USD`).
+3. **Nhảy Bậc `25K / 50K / 100K` Sau Khi Chứng Minh Trên `5K` (Né Phí Đắt Vé `10K`):**
+   - Vé **`FTMO 10K`** tốn `~168–192 USD` (`~1,7%–1,9%` vốn — đắt nhất bảng giá, trừ khi săn khuyến mãi `~95 USD`), trong khi **`25K`** (`~1,1%`), **`50K`** (`~0,75%`), **`100K`** (`~0,55%`, rẻ hơn `3,1×` mỗi USD vốn). Vì vậy **KHÔNG mua lặp nhiều vé `10K`**: sau khi `The5ers 5K` chứng minh rút lãi thật và Ngăn 1 (`30%` quỹ dự phòng trong [treasury_ledger.py](../../tooling/ai-engines/quant_factory/treasury_ledger.py)) đủ `3–5×` vé, **nhảy bậc sang `FTMO Swing 25K -> 50K -> 100K`** (và `The5ers 20K`). Khi Ngăn 1 đầy trần `5×`, `100%` phần thừa tràn sang Ngăn 2 (Own-Book lên `80%`).
+4. **CẢNH BÁO ĐỎ — Bậc `The5ers 50K / 100K` Trần Lỗ Chặt Hơn (`4%` Ngày / `8%` Tổng):**
+   - **TUYỆT ĐỐI KHÔNG bê nguyên preset `5K` (`5%/10%`) sang `The5ers 50K / 100K`!** Phải xác nhận điều khoản trên dashboard và hạ cứng `InpMaxDailyLossPct <= 2,0%`, `SYMCAP <= 1,25%–1,50%` (P1) / `<= 0,80%` (Funded), và kéo phanh `AMBER/RED` theo tỷ lệ `4/5` trước khi chạy.
+
+---
+
+## 4. Chẩn Đoán Ngược `R4 -> R3 -> R2 -> R1` & Sổ Tay Ứng Cứu Khẩn Cấp
+
+Khi gặp lỗ hoặc lệch số, **KHÔNG vội sửa bot** — luôn kiểm tra đúng thứ tự ngược **`R4 -> R3 -> R2 -> R1`**:
+
+| Thứ tự | Nhãn | Bản chất | Hành động đúng tầng |
 | :--- | :--- | :--- | :--- |
-| **1. Vị thế Mồ côi Không SL (`orphan_no_sl > 0`)** | Báo động `[ORCH-ALERT]` / `daily_ops_briefing` `FAIL` (`score <= 40`) | (1) Tắt nút `Algo Trading` trên MT5; (2) Kiểm tra vé lệnh mồ côi trên tab `Trade`; (3) Gắn ngay SL bằng `0,75 ATR` (hoặc đóng thị trường nếu đã vượt lỗ `1,0R`); (4) Lưu log `Experts` & `Journal`. | Tìm ra nguyên nhân gốc (lỗi kết nối/giới hạn `STOPLEVEL`), sửa và test lại trên Demo trước khi bật lại. |
-| **2. Mất Kết nối Sàn / Treo VPS (`HbAge > 180s`)** | Watchdog gửi cảnh báo mất nhịp tim (`-StaleAfterSec 180`) hoặc `terminal_connected = false` | (1) Đăng nhập MT5 Mobile (chỉ dùng xem & đóng khẩn cấp, không vào lệnh tay); (2) Kiểm tra xem có vị thế mở sắp chạm rollover `21:55 UTC` không; (3) Nếu sát rollover mà VPS chưa hồi phục, đóng phẳng vị thế mở qua Mobile để bảo toàn `swap = 0`. | Khởi động lại VPS/terminal, xác nhận `naqex_heartbeat.json` nhảy nhịp đều và `GlobalVariable` `DAYEQ` khôi phục đúng. |
-| **3. Kích hoạt Global Kill-Switch (`kill_switch = true`)** | Lỗ ngày chạm giới hạn nội bộ (`2,5%–3,5%`) hoặc lỗ tổng chạm phanh Đỏ (`7,0%`) | **KHÔNG ĐƯỢC tắt Kill-Switch để đánh gỡ!** Kiểm tra `prop_challenge_tracker.py` xác nhận toàn bộ vị thế đã đóng phẳng; dừng giao dịch phần còn lại của ngày (hoặc cả tuần nếu chạm phanh Đỏ `7,0%`). | Chờ sang ngày giao dịch mới sau khi hoàn tất rà soát nhật ký lỗi; tuyệt đối không nâng lot để gỡ lỗ. |
-| **4. Vi phạm Swap != 0 hoặc Trượt Giá `> 1,5×` M1** | `prop_challenge_tracker.py` trả về **`HALT_AND_FIX`** (Rule 4 hoặc Rule 5) | (1) Tắt riêng EA bị gắn cờ (không cần tắt các EA xanh còn lại nếu lỗi cục bộ); (2) Đối chiếu giờ đóng lệnh với múi giờ DST máy chủ sàn (`UTC+2` vs `UTC+3`); (3) So sánh spread log tại thời điểm khớp. | Vá lệch múi giờ / bộ lọc spread tối đa (`InpGuardMaxSpreadPts`), xác minh `0` vi phạm trên Demo rồi mới kích hoạt lại. |
+| **1** | **`R4`** | Luật quỹ, Sàn & Con người | Soi luật tin đỏ `±2p/±5p`, loại tài khoản (`Swing` vs `Standard`), IP cố định `naqex-node1`, thư xác nhận EA, dấu hiệu bấm tay can thiệp. **Không đụng code bot.** |
+| **2** | **`R3`** | Khớp lệnh, Trượt giá & Máy móc | Đối chiếu `naqex_exec_audit.csv` với MetriX, NTP `< 1s`, `HbAge <= 180s`, cảnh báo `@naqex_guard_bot`, `swap == 0`, trượt giá `<= 1,5×`. **Không sửa logic vào lệnh.** |
+| **3** | **`R2`** | Trùng lặp Danh mục & Tập trung | Soi `SYMCAP` trên 1 mã (`<= 1,75%` P1 / `<= 1,00%` Funded), tránh mở 2 quỹ cùng ngày `Sprint`, giữ tổng CEX `<= 25%` (`NCO_CexCap25`) ở Own-Book. **Không sửa từng bot lẻ.** |
+| **4** | **`R1`** | Suy giảm lợi thế THẬT | Chỉ khi `R4/R3/R2` đều sạch mới để `CUSUM/SPRT` và `AccountOrchestrator` tự hạ ga / tạm dừng nhánh hỏng đưa về nghiên cứu. |
+
+### 4 Sự Cố ĐỎ Được Phép Can Thiệp Tay Ngay (`Emergency Runbook` — Fail-Closed)
+
+| Sự cố (Nhãn) | Dấu hiệu | Thao tác tức thì | Điều kiện mở lại |
+| :--- | :--- | :--- | :--- |
+| **1. Vị thế Mồ côi Không SL (`R3` — `orphan_no_sl > 0`)** | `@naqex_guard_bot` / `[ORCH-ALERT]` / `daily_ops_briefing` `FAIL` | (1) Tắt `Algo Trading`; (2) Gắn SL `0,75 ATR` (hoặc đóng ngay nếu lỗ `> 1,0R`); (3) Lưu log `Experts`/`Journal`. | Rõ nguyên nhân gốc, vá & test sạch trên Demo. |
+| **2. Mất Kết nối `naqex-node1` (`R3` — `HbAge > 180s`)** | Tin nhắn đỏ `🔴 MẤT KẾT NỐI` từ `@naqex_guard_bot` (Heroku EU) / watchdog `-StaleAfterSec 180` | (1) Mở MT5 Mobile (chỉ xem/đóng, **cấm vào lệnh**); (2) Đóng phẳng trước rollover `21:55 UTC` hoặc tin đỏ nếu `naqex-node1` chưa hồi phục. | Khởi động lại MT5, xác nhận nhịp tim nhảy đều, NTP `< 1s`, `DAYEQ` đúng. |
+| **3. Global Kill-Switch (`R2/R1` — `kill_switch = true`)** | Chạm phanh ngày `2,5%–3,5%` hoặc phanh Đỏ `7,0%` | **CẤM tắt Kill-Switch đánh gỡ!** Xác nhận phẳng toàn bộ qua `prop_challenge_tracker.py`; nghỉ hết phiên/tuần và kiểm toán `R4 -> R3 -> R2 -> R1`. | Sang phiên mới sau biên bản kiểm toán; không nâng lot gỡ lỗ. |
+| **4. Vi phạm Swap, Tin Đỏ hoặc Trượt Giá `> 1,5×` (`R4/R3`)** | `prop_challenge_tracker.py` trả về **`HALT_AND_FIX`** | (1) Tắt riêng EA lỗi; (2) Kiểm tra `naqex_red_news_utc.csv`, mã `NAS100`, DST máy chủ & half-day Mỹ; (3) Soi spread lúc khớp. | Vá đúng tầng, chạy `build_red_news_calendar.py --verify`, test `0` lỗi trên Demo. |

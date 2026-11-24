@@ -1,0 +1,2820 @@
+{
+  "schema": "naqex-lab11-orthogonal-prop-v2-v1",
+  "generated_utc": "2026-11-24T10:54:57.319916+00:00",
+  "runtime_seconds": 27.51,
+  "order_send_capable": false,
+  "holdout_rows_analysed": 0,
+  "holdout_lock_sha256": "f0a6b43cb205535b0a959456455dc1d857a0936c06c2e51b8614fd7d772a8486",
+  "dev_window": [
+    "2018-01-02",
+    "2024-12-31"
+  ],
+  "cluster_a_years": [
+    2018,
+    2019,
+    2020
+  ],
+  "cluster_b_years": [
+    2021,
+    2022,
+    2023,
+    2024
+  ],
+  "m_total": 20,
+  "mc_paths": 10000,
+  "mc_seed": 20261124,
+  "funded_symcap_pct": 1.0,
+  "p1_symcap_tight_pct": 1.75,
+  "red_news_filter": "red_news_official_2018_2024 FLATTEN_5M (+-300s)",
+  "n_approved": 0,
+  "approved_ids": [],
+  "executive_decision": "ZERO_APPROVED_KEEP_A1_V1_LIVE8",
+  "family_summary": {
+    "A_INTRADAY_MR_FADE": {
+      "tested": 5,
+      "approved": 0,
+      "g1_pass": 0,
+      "g2_pass": 1,
+      "g3_pass": 5,
+      "g4_pass": 1
+    },
+    "B_GOLD_STRUCTURAL": {
+      "tested": 5,
+      "approved": 0,
+      "g1_pass": 0,
+      "g2_pass": 0,
+      "g3_pass": 5,
+      "g4_pass": 0
+    },
+    "C_GER40_AND_LEADLAG": {
+      "tested": 5,
+      "approved": 0,
+      "g1_pass": 1,
+      "g2_pass": 1,
+      "g3_pass": 5,
+      "g4_pass": 0
+    },
+    "D_BTC_AND_GBPJPY_MR": {
+      "tested": 5,
+      "approved": 0,
+      "g1_pass": 0,
+      "g2_pass": 2,
+      "g3_pass": 5,
+      "g4_pass": 1
+    }
+  },
+  "candidates": [
+    {
+      "id": "L11_A1_EURUSD_LDN_STRETCH_FADE",
+      "family": "A_INTRADAY_MR_FADE",
+      "asset": "EURUSD",
+      "kind": "SESSION_STRETCH_FADE",
+      "rationale": "EURUSD London morning spikes >= 0.70 ATR exhaust dealer flow and revert toward open into NY afternoon.",
+      "swap_usd_total": 0.0,
+      "news_guard_stats": {
+        "total_in": 90,
+        "kept_untouched": 83,
+        "blocked_entry": 0,
+        "flattened_pre_news": 7,
+        "skipped_day": 0
+      },
+      "cluster_a_1x": {
+        "n": 43,
+        "net_R": -6.63,
+        "ann_R": -2.21,
+        "pf": 0.514,
+        "win_pct": 41.9,
+        "dd_R": 7.27,
+        "mean_R": -0.1543
+      },
+      "cluster_b_1x": {
+        "n": 47,
+        "net_R": -3.51,
+        "ann_R": -0.88,
+        "pf": 0.747,
+        "win_pct": 38.3,
+        "dd_R": 6.93,
+        "mean_R": -0.0747
+      },
+      "cluster_b_15x": {
+        "n": 47,
+        "net_R": -4.14,
+        "ann_R": -1.03,
+        "pf": 0.706,
+        "win_pct": 36.2,
+        "dd_R": 7.11,
+        "mean_R": -0.0881
+      },
+      "full_1x": {
+        "n": 90,
+        "net_R": -10.14,
+        "ann_R": -1.45,
+        "pf": 0.631,
+        "win_pct": 40.0,
+        "dd_R": 12.72,
+        "mean_R": -0.1127
+      },
+      "full_15x": {
+        "n": 90,
+        "net_R": -11.33,
+        "ann_R": -1.62,
+        "pf": 0.594,
+        "win_pct": 37.8,
+        "dd_R": 13.5,
+        "mean_R": -0.1259
+      },
+      "yearly_R": {
+        "2018": -0.93,
+        "2019": -1.75,
+        "2020": -3.95,
+        "2021": -2.11,
+        "2022": -1.06,
+        "2023": 2.23,
+        "2024": -2.57
+      },
+      "pos_years": 1,
+      "max_yr_share_pct": 100.0,
+      "corr_vs_live8": -0.0504,
+      "max_single_inc_engine": "S6_FX_USD_BSK",
+      "max_single_inc_corr": -0.2493,
+      "p_signflip_b": 0.69331,
+      "p_bonf_b": 1.0,
+      "dsr_b": {
+        "sr_ann": -0.395,
+        "skew": 0.529,
+        "kurtosis": 51.695,
+        "psr_gt0": 0.22,
+        "dsr": 0.004,
+        "sr0_ann_haircut": 0.961,
+        "n_days": 986,
+        "n_trials": 20
+      },
+      "gates": {
+        "G1_clb_pf_n": false,
+        "G2_stress_15x": false,
+        "G3_orthogonality": true,
+        "G4_year_stability": false
+      },
+      "failed_gates": [
+        "G1_CLB_PF_OR_N",
+        "G2_STRESS_15X",
+        "G4_YEAR_STABILITY"
+      ],
+      "bh_q_b": 1.0,
+      "verdict": "REJECT_KILLED"
+    },
+    {
+      "id": "L11_A2_AUDUSD_ASIA_LDN_FADE",
+      "family": "A_INTRADAY_MR_FADE",
+      "asset": "AUDUSD",
+      "kind": "SESSION_STRETCH_FADE",
+      "rationale": "AUDUSD thin-liquidity Asian extension >= 0.60 ATR mean-reverts as London liquidity absorbs retail chase.",
+      "swap_usd_total": 0.0,
+      "news_guard_stats": {
+        "total_in": 152,
+        "kept_untouched": 146,
+        "blocked_entry": 0,
+        "flattened_pre_news": 6,
+        "skipped_day": 0
+      },
+      "cluster_a_1x": {
+        "n": 71,
+        "net_R": -7.0,
+        "ann_R": -2.33,
+        "pf": 0.668,
+        "win_pct": 42.3,
+        "dd_R": 8.89,
+        "mean_R": -0.0986
+      },
+      "cluster_b_1x": {
+        "n": 81,
+        "net_R": -3.42,
+        "ann_R": -0.85,
+        "pf": 0.86,
+        "win_pct": 45.7,
+        "dd_R": 8.27,
+        "mean_R": -0.0422
+      },
+      "cluster_b_15x": {
+        "n": 81,
+        "net_R": -4.69,
+        "ann_R": -1.17,
+        "pf": 0.81,
+        "win_pct": 44.4,
+        "dd_R": 9.35,
+        "mean_R": -0.0579
+      },
+      "full_1x": {
+        "n": 152,
+        "net_R": -10.42,
+        "ann_R": -1.49,
+        "pf": 0.771,
+        "win_pct": 44.1,
+        "dd_R": 12.33,
+        "mean_R": -0.0685
+      },
+      "full_15x": {
+        "n": 152,
+        "net_R": -12.88,
+        "ann_R": -1.84,
+        "pf": 0.721,
+        "win_pct": 42.1,
+        "dd_R": 14.67,
+        "mean_R": -0.0847
+      },
+      "yearly_R": {
+        "2018": -2.13,
+        "2019": -0.44,
+        "2020": -4.43,
+        "2021": 1.7,
+        "2022": -2.22,
+        "2023": -1.75,
+        "2024": -1.14
+      },
+      "pos_years": 1,
+      "max_yr_share_pct": 100.0,
+      "corr_vs_live8": -0.0595,
+      "max_single_inc_engine": "E3_GBPUSD_VH",
+      "max_single_inc_corr": -0.0602,
+      "p_signflip_b": 0.40859,
+      "p_bonf_b": 1.0,
+      "dsr_b": {
+        "sr_ann": -0.325,
+        "skew": -0.06,
+        "kurtosis": 24.696,
+        "psr_gt0": 0.2603,
+        "dsr": 0.0055,
+        "sr0_ann_haircut": 0.961,
+        "n_days": 986,
+        "n_trials": 20
+      },
+      "gates": {
+        "G1_clb_pf_n": false,
+        "G2_stress_15x": false,
+        "G3_orthogonality": true,
+        "G4_year_stability": false
+      },
+      "failed_gates": [
+        "G1_CLB_PF_OR_N",
+        "G2_STRESS_15X",
+        "G4_YEAR_STABILITY"
+      ],
+      "bh_q_b": 1.0,
+      "verdict": "REJECT_KILLED"
+    },
+    {
+      "id": "L11_A3_USDCAD_NY_VWAP_FADE",
+      "family": "A_INTRADAY_MR_FADE",
+      "asset": "USDCAD",
+      "kind": "VWAP_STRETCH_FADE",
+      "rationale": "USDCAD pre-NY deviation >= 0.45 ATR from intraday VWAP reverts during North American liquidity balance.",
+      "swap_usd_total": 0.0,
+      "news_guard_stats": {
+        "total_in": 112,
+        "kept_untouched": 106,
+        "blocked_entry": 2,
+        "flattened_pre_news": 4,
+        "skipped_day": 0
+      },
+      "cluster_a_1x": {
+        "n": 51,
+        "net_R": 1.53,
+        "ann_R": 0.51,
+        "pf": 1.122,
+        "win_pct": 49.0,
+        "dd_R": 2.43,
+        "mean_R": 0.03
+      },
+      "cluster_b_1x": {
+        "n": 59,
+        "net_R": 4.47,
+        "ann_R": 1.12,
+        "pf": 1.271,
+        "win_pct": 52.5,
+        "dd_R": 3.78,
+        "mean_R": 0.0758
+      },
+      "cluster_b_15x": {
+        "n": 59,
+        "net_R": 3.51,
+        "ann_R": 0.88,
+        "pf": 1.21,
+        "win_pct": 52.5,
+        "dd_R": 3.89,
+        "mean_R": 0.0594
+      },
+      "full_1x": {
+        "n": 110,
+        "net_R": 6.0,
+        "ann_R": 0.86,
+        "pf": 1.207,
+        "win_pct": 50.9,
+        "dd_R": 3.78,
+        "mean_R": 0.0546
+      },
+      "full_15x": {
+        "n": 110,
+        "net_R": 4.23,
+        "ann_R": 0.6,
+        "pf": 1.144,
+        "win_pct": 50.9,
+        "dd_R": 3.89,
+        "mean_R": 0.0385
+      },
+      "yearly_R": {
+        "2018": -1.11,
+        "2019": 0.5,
+        "2020": 2.14,
+        "2021": 2.62,
+        "2022": -1.75,
+        "2023": 1.55,
+        "2024": 2.06
+      },
+      "pos_years": 5,
+      "max_yr_share_pct": 43.6,
+      "corr_vs_live8": -0.0232,
+      "max_single_inc_engine": "S6_FX_USD_BSK",
+      "max_single_inc_corr": -0.092,
+      "p_signflip_b": 0.07892,
+      "p_bonf_b": 1.0,
+      "dsr_b": {
+        "sr_ann": 0.342,
+        "skew": 1.379,
+        "kurtosis": 30.811,
+        "psr_gt0": 0.7535,
+        "dsr": 0.1074,
+        "sr0_ann_haircut": 0.961,
+        "n_days": 986,
+        "n_trials": 20
+      },
+      "gates": {
+        "G1_clb_pf_n": false,
+        "G2_stress_15x": true,
+        "G3_orthogonality": true,
+        "G4_year_stability": true
+      },
+      "failed_gates": [
+        "G1_CLB_PF_OR_N"
+      ],
+      "bh_q_b": 0.7043,
+      "verdict": "REJECT_KILLED"
+    },
+    {
+      "id": "L11_A4_US500_OPEN_STRETCH_FADE",
+      "family": "A_INTRADAY_MR_FADE",
+      "asset": "US500",
+      "kind": "SESSION_STRETCH_FADE",
+      "rationale": "S&P 500 first-hour cash impulse >= 0.55 ATR overshoots fair value and mean-reverts through NY midday.",
+      "swap_usd_total": 0.0,
+      "news_guard_stats": {
+        "total_in": 102,
+        "kept_untouched": 102,
+        "blocked_entry": 0,
+        "flattened_pre_news": 0,
+        "skipped_day": 0
+      },
+      "cluster_a_1x": {
+        "n": 41,
+        "net_R": -9.0,
+        "ann_R": -3.0,
+        "pf": 0.492,
+        "win_pct": 41.5,
+        "dd_R": 9.47,
+        "mean_R": -0.2194
+      },
+      "cluster_b_1x": {
+        "n": 61,
+        "net_R": -7.19,
+        "ann_R": -1.8,
+        "pf": 0.705,
+        "win_pct": 34.4,
+        "dd_R": 12.54,
+        "mean_R": -0.1179
+      },
+      "cluster_b_15x": {
+        "n": 61,
+        "net_R": -8.26,
+        "ann_R": -2.07,
+        "pf": 0.666,
+        "win_pct": 34.4,
+        "dd_R": 13.07,
+        "mean_R": -0.1354
+      },
+      "full_1x": {
+        "n": 102,
+        "net_R": -16.19,
+        "ann_R": -2.31,
+        "pf": 0.615,
+        "win_pct": 37.3,
+        "dd_R": 21.81,
+        "mean_R": -0.1587
+      },
+      "full_15x": {
+        "n": 102,
+        "net_R": -18.3,
+        "ann_R": -2.61,
+        "pf": 0.571,
+        "win_pct": 36.3,
+        "dd_R": 23.39,
+        "mean_R": -0.1794
+      },
+      "yearly_R": {
+        "2018": -4.98,
+        "2019": -1.43,
+        "2020": -2.59,
+        "2021": -7.69,
+        "2022": -3.27,
+        "2023": -1.39,
+        "2024": 5.16
+      },
+      "pos_years": 1,
+      "max_yr_share_pct": 100.0,
+      "corr_vs_live8": -0.0052,
+      "max_single_inc_engine": "E4_US100_SESS40",
+      "max_single_inc_corr": -0.1274,
+      "p_signflip_b": 0.78222,
+      "p_bonf_b": 1.0,
+      "dsr_b": {
+        "sr_ann": -0.559,
+        "skew": 0.393,
+        "kurtosis": 27.816,
+        "psr_gt0": 0.137,
+        "dsr": 0.0015,
+        "sr0_ann_haircut": 0.961,
+        "n_days": 986,
+        "n_trials": 20
+      },
+      "gates": {
+        "G1_clb_pf_n": false,
+        "G2_stress_15x": false,
+        "G3_orthogonality": true,
+        "G4_year_stability": false
+      },
+      "failed_gates": [
+        "G1_CLB_PF_OR_N",
+        "G2_STRESS_15X",
+        "G4_YEAR_STABILITY"
+      ],
+      "bh_q_b": 1.0,
+      "verdict": "REJECT_KILLED"
+    },
+    {
+      "id": "L11_A5_GER40_MIDDAY_VWAP_FADE",
+      "family": "A_INTRADAY_MR_FADE",
+      "asset": "GER40",
+      "kind": "VWAP_STRETCH_FADE",
+      "rationale": "DAX morning stretch >= 0.50 ATR from Frankfurt-session VWAP reverts into midday European consolidation.",
+      "swap_usd_total": 0.0,
+      "news_guard_stats": {
+        "total_in": 37,
+        "kept_untouched": 37,
+        "blocked_entry": 0,
+        "flattened_pre_news": 0,
+        "skipped_day": 0
+      },
+      "cluster_a_1x": {
+        "n": 20,
+        "net_R": -2.44,
+        "ann_R": -0.81,
+        "pf": 0.683,
+        "win_pct": 45.0,
+        "dd_R": 4.29,
+        "mean_R": -0.1222
+      },
+      "cluster_b_1x": {
+        "n": 17,
+        "net_R": -3.71,
+        "ann_R": -0.93,
+        "pf": 0.514,
+        "win_pct": 41.2,
+        "dd_R": 5.09,
+        "mean_R": -0.218
+      },
+      "cluster_b_15x": {
+        "n": 17,
+        "net_R": -3.91,
+        "ann_R": -0.98,
+        "pf": 0.489,
+        "win_pct": 41.2,
+        "dd_R": 5.23,
+        "mean_R": -0.2303
+      },
+      "full_1x": {
+        "n": 37,
+        "net_R": -6.15,
+        "ann_R": -0.88,
+        "pf": 0.599,
+        "win_pct": 43.2,
+        "dd_R": 6.4,
+        "mean_R": -0.1662
+      },
+      "full_15x": {
+        "n": 37,
+        "net_R": -6.67,
+        "ann_R": -0.95,
+        "pf": 0.568,
+        "win_pct": 43.2,
+        "dd_R": 6.89,
+        "mean_R": -0.1803
+      },
+      "yearly_R": {
+        "2018": -0.75,
+        "2019": -0.7,
+        "2020": -1.0,
+        "2021": -1.13,
+        "2022": -1.18,
+        "2023": -0.65,
+        "2024": -0.75
+      },
+      "pos_years": 0,
+      "max_yr_share_pct": 100.0,
+      "corr_vs_live8": 0.0103,
+      "max_single_inc_engine": "E7_USDJPY_NY10ET",
+      "max_single_inc_corr": 0.0311,
+      "p_signflip_b": 0.83417,
+      "p_bonf_b": 1.0,
+      "dsr_b": {
+        "sr_ann": -0.581,
+        "skew": -2.128,
+        "kurtosis": 95.108,
+        "psr_gt0": 0.1199,
+        "dsr": 0.0009,
+        "sr0_ann_haircut": 0.961,
+        "n_days": 986,
+        "n_trials": 20
+      },
+      "gates": {
+        "G1_clb_pf_n": false,
+        "G2_stress_15x": false,
+        "G3_orthogonality": true,
+        "G4_year_stability": false
+      },
+      "failed_gates": [
+        "G1_CLB_PF_OR_N",
+        "G2_STRESS_15X",
+        "G4_YEAR_STABILITY"
+      ],
+      "bh_q_b": 1.0,
+      "verdict": "REJECT_KILLED"
+    },
+    {
+      "id": "L11_B1_XAU_ASIA_SWEEP_LDN_REV",
+      "family": "B_GOLD_STRUCTURAL",
+      "asset": "XAUUSD",
+      "kind": "SESSION_STRETCH_FADE",
+      "rationale": "Gold Asian-session liquidity sweep >= 0.55 ATR fades as London bullion desks re-anchor spot price.",
+      "swap_usd_total": 0.0,
+      "news_guard_stats": {
+        "total_in": 74,
+        "kept_untouched": 71,
+        "blocked_entry": 0,
+        "flattened_pre_news": 3,
+        "skipped_day": 0
+      },
+      "cluster_a_1x": {
+        "n": 39,
+        "net_R": -1.28,
+        "ann_R": -0.43,
+        "pf": 0.873,
+        "win_pct": 59.0,
+        "dd_R": 4.69,
+        "mean_R": -0.0328
+      },
+      "cluster_b_1x": {
+        "n": 35,
+        "net_R": -2.84,
+        "ann_R": -0.71,
+        "pf": 0.65,
+        "win_pct": 54.3,
+        "dd_R": 4.47,
+        "mean_R": -0.0812
+      },
+      "cluster_b_15x": {
+        "n": 35,
+        "net_R": -3.27,
+        "ann_R": -0.82,
+        "pf": 0.603,
+        "win_pct": 54.3,
+        "dd_R": 4.8,
+        "mean_R": -0.0935
+      },
+      "full_1x": {
+        "n": 74,
+        "net_R": -4.12,
+        "ann_R": -0.59,
+        "pf": 0.773,
+        "win_pct": 56.8,
+        "dd_R": 6.56,
+        "mean_R": -0.0557
+      },
+      "full_15x": {
+        "n": 74,
+        "net_R": -5.35,
+        "ann_R": -0.76,
+        "pf": 0.709,
+        "win_pct": 55.4,
+        "dd_R": 7.53,
+        "mean_R": -0.0724
+      },
+      "yearly_R": {
+        "2018": -0.56,
+        "2019": -0.52,
+        "2020": -0.2,
+        "2021": 0.69,
+        "2022": -2.37,
+        "2023": -0.17,
+        "2024": -1.0
+      },
+      "pos_years": 1,
+      "max_yr_share_pct": 100.0,
+      "corr_vs_live8": -0.0232,
+      "max_single_inc_engine": "E5_US100_RS1130",
+      "max_single_inc_corr": -0.0609,
+      "p_signflip_b": 0.60539,
+      "p_bonf_b": 1.0,
+      "dsr_b": {
+        "sr_ann": -0.621,
+        "skew": -5.513,
+        "kurtosis": 81.309,
+        "psr_gt0": 0.087,
+        "dsr": 0.0003,
+        "sr0_ann_haircut": 0.961,
+        "n_days": 986,
+        "n_trials": 20
+      },
+      "gates": {
+        "G1_clb_pf_n": false,
+        "G2_stress_15x": false,
+        "G3_orthogonality": true,
+        "G4_year_stability": false
+      },
+      "failed_gates": [
+        "G1_CLB_PF_OR_N",
+        "G2_STRESS_15X",
+        "G4_YEAR_STABILITY"
+      ],
+      "bh_q_b": 1.0,
+      "verdict": "REJECT_KILLED"
+    },
+    {
+      "id": "L11_B2_XAU_LDN_AM_FIX_DRIFT",
+      "family": "B_GOLD_STRUCTURAL",
+      "asset": "XAUUSD",
+      "kind": "FIX_DRIFT_MOM",
+      "rationale": "LBMA 10:30 AM London Gold Fix institutional order imbalance persists into COMEX liquidity overlap.",
+      "swap_usd_total": 0.0,
+      "news_guard_stats": {
+        "total_in": 330,
+        "kept_untouched": 309,
+        "blocked_entry": 0,
+        "flattened_pre_news": 21,
+        "skipped_day": 0
+      },
+      "cluster_a_1x": {
+        "n": 159,
+        "net_R": -13.14,
+        "ann_R": -4.38,
+        "pf": 0.63,
+        "win_pct": 40.9,
+        "dd_R": 15.55,
+        "mean_R": -0.0827
+      },
+      "cluster_b_1x": {
+        "n": 171,
+        "net_R": -6.61,
+        "ann_R": -1.65,
+        "pf": 0.82,
+        "win_pct": 47.4,
+        "dd_R": 11.06,
+        "mean_R": -0.0387
+      },
+      "cluster_b_15x": {
+        "n": 171,
+        "net_R": -8.89,
+        "ann_R": -2.22,
+        "pf": 0.763,
+        "win_pct": 45.6,
+        "dd_R": 12.28,
+        "mean_R": -0.052
+      },
+      "full_1x": {
+        "n": 330,
+        "net_R": -19.75,
+        "ann_R": -2.82,
+        "pf": 0.726,
+        "win_pct": 44.2,
+        "dd_R": 24.76,
+        "mean_R": -0.0599
+      },
+      "full_15x": {
+        "n": 330,
+        "net_R": -25.33,
+        "ann_R": -3.62,
+        "pf": 0.659,
+        "win_pct": 42.4,
+        "dd_R": 28.95,
+        "mean_R": -0.0768
+      },
+      "yearly_R": {
+        "2018": -3.61,
+        "2019": -3.86,
+        "2020": -5.66,
+        "2021": -4.6,
+        "2022": -2.43,
+        "2023": 5.02,
+        "2024": -4.61
+      },
+      "pos_years": 1,
+      "max_yr_share_pct": 100.0,
+      "corr_vs_live8": 0.0324,
+      "max_single_inc_engine": "S6_FX_USD_BSK",
+      "max_single_inc_corr": 0.0747,
+      "p_signflip_b": 0.53746,
+      "p_bonf_b": 1.0,
+      "dsr_b": {
+        "sr_ann": -0.458,
+        "skew": 0.86,
+        "kurtosis": 25.204,
+        "psr_gt0": 0.1863,
+        "dsr": 0.0028,
+        "sr0_ann_haircut": 0.961,
+        "n_days": 986,
+        "n_trials": 20
+      },
+      "gates": {
+        "G1_clb_pf_n": false,
+        "G2_stress_15x": false,
+        "G3_orthogonality": true,
+        "G4_year_stability": false
+      },
+      "failed_gates": [
+        "G1_CLB_PF_OR_N",
+        "G2_STRESS_15X",
+        "G4_YEAR_STABILITY"
+      ],
+      "bh_q_b": 1.0,
+      "verdict": "REJECT_KILLED"
+    },
+    {
+      "id": "L11_B3_XAU_COMEX_OPEN_MR",
+      "family": "B_GOLD_STRUCTURAL",
+      "asset": "XAUUSD",
+      "kind": "SESSION_STRETCH_FADE",
+      "rationale": "COMEX Gold open (08:20-09:20 ET) initial volatility burst >= 0.45 ATR fades into settlement window.",
+      "swap_usd_total": 0.0,
+      "news_guard_stats": {
+        "total_in": 133,
+        "kept_untouched": 133,
+        "blocked_entry": 0,
+        "flattened_pre_news": 0,
+        "skipped_day": 0
+      },
+      "cluster_a_1x": {
+        "n": 43,
+        "net_R": -8.04,
+        "ann_R": -2.68,
+        "pf": 0.475,
+        "win_pct": 30.2,
+        "dd_R": 8.44,
+        "mean_R": -0.187
+      },
+      "cluster_b_1x": {
+        "n": 90,
+        "net_R": -11.0,
+        "ann_R": -2.75,
+        "pf": 0.66,
+        "win_pct": 46.7,
+        "dd_R": 12.47,
+        "mean_R": -0.1222
+      },
+      "cluster_b_15x": {
+        "n": 90,
+        "net_R": -12.26,
+        "ann_R": -3.06,
+        "pf": 0.624,
+        "win_pct": 46.7,
+        "dd_R": 13.59,
+        "mean_R": -0.1362
+      },
+      "full_1x": {
+        "n": 133,
+        "net_R": -19.04,
+        "ann_R": -2.72,
+        "pf": 0.601,
+        "win_pct": 41.4,
+        "dd_R": 19.04,
+        "mean_R": -0.1432
+      },
+      "full_15x": {
+        "n": 133,
+        "net_R": -21.19,
+        "ann_R": -3.03,
+        "pf": 0.562,
+        "win_pct": 41.4,
+        "dd_R": 21.19,
+        "mean_R": -0.1593
+      },
+      "yearly_R": {
+        "2018": -3.53,
+        "2019": -2.99,
+        "2020": -1.52,
+        "2021": -1.7,
+        "2022": -0.54,
+        "2023": -6.02,
+        "2024": -2.73
+      },
+      "pos_years": 0,
+      "max_yr_share_pct": 100.0,
+      "corr_vs_live8": -0.046,
+      "max_single_inc_engine": "E6_EURJPY_VOLCOMP",
+      "max_single_inc_corr": -0.0454,
+      "p_signflip_b": 0.84915,
+      "p_bonf_b": 1.0,
+      "dsr_b": {
+        "sr_ann": -0.844,
+        "skew": -0.532,
+        "kurtosis": 20.534,
+        "psr_gt0": 0.0463,
+        "dsr": 0.0002,
+        "sr0_ann_haircut": 0.961,
+        "n_days": 986,
+        "n_trials": 20
+      },
+      "gates": {
+        "G1_clb_pf_n": false,
+        "G2_stress_15x": false,
+        "G3_orthogonality": true,
+        "G4_year_stability": false
+      },
+      "failed_gates": [
+        "G1_CLB_PF_OR_N",
+        "G2_STRESS_15X",
+        "G4_YEAR_STABILITY"
+      ],
+      "bh_q_b": 1.0,
+      "verdict": "REJECT_KILLED"
+    },
+    {
+      "id": "L11_B4_XAU_COMEX_CLOSE_MOM",
+      "family": "B_GOLD_STRUCTURAL",
+      "asset": "XAUUSD",
+      "kind": "COMEX_TREND_ALIGN",
+      "rationale": "COMEX morning drift aligned with prior-day gold trend persists into 13:30 ET futures settlement.",
+      "swap_usd_total": 0.0,
+      "news_guard_stats": {
+        "total_in": 307,
+        "kept_untouched": 307,
+        "blocked_entry": 0,
+        "flattened_pre_news": 0,
+        "skipped_day": 0
+      },
+      "cluster_a_1x": {
+        "n": 106,
+        "net_R": -7.9,
+        "ann_R": -2.63,
+        "pf": 0.643,
+        "win_pct": 40.6,
+        "dd_R": 11.27,
+        "mean_R": -0.0745
+      },
+      "cluster_b_1x": {
+        "n": 201,
+        "net_R": -10.59,
+        "ann_R": -2.65,
+        "pf": 0.73,
+        "win_pct": 40.8,
+        "dd_R": 11.96,
+        "mean_R": -0.0527
+      },
+      "cluster_b_15x": {
+        "n": 201,
+        "net_R": -13.4,
+        "ann_R": -3.35,
+        "pf": 0.668,
+        "win_pct": 40.8,
+        "dd_R": 14.57,
+        "mean_R": -0.0667
+      },
+      "full_1x": {
+        "n": 307,
+        "net_R": -18.49,
+        "ann_R": -2.64,
+        "pf": 0.698,
+        "win_pct": 40.7,
+        "dd_R": 22.17,
+        "mean_R": -0.0602
+      },
+      "full_15x": {
+        "n": 307,
+        "net_R": -23.54,
+        "ann_R": -3.36,
+        "pf": 0.629,
+        "win_pct": 39.4,
+        "dd_R": 26.16,
+        "mean_R": -0.0767
+      },
+      "yearly_R": {
+        "2018": 2.53,
+        "2019": -6.62,
+        "2020": -3.81,
+        "2021": -4.22,
+        "2022": -1.8,
+        "2023": -1.24,
+        "2024": -3.33
+      },
+      "pos_years": 1,
+      "max_yr_share_pct": 100.0,
+      "corr_vs_live8": 0.0545,
+      "max_single_inc_engine": "E2_USDJPY_EXP80",
+      "max_single_inc_corr": 0.0726,
+      "p_signflip_b": 0.62238,
+      "p_bonf_b": 1.0,
+      "dsr_b": {
+        "sr_ann": -0.942,
+        "skew": 0.047,
+        "kurtosis": 21.124,
+        "psr_gt0": 0.0326,
+        "dsr": 0.0001,
+        "sr0_ann_haircut": 0.961,
+        "n_days": 986,
+        "n_trials": 20
+      },
+      "gates": {
+        "G1_clb_pf_n": false,
+        "G2_stress_15x": false,
+        "G3_orthogonality": true,
+        "G4_year_stability": false
+      },
+      "failed_gates": [
+        "G1_CLB_PF_OR_N",
+        "G2_STRESS_15X",
+        "G4_YEAR_STABILITY"
+      ],
+      "bh_q_b": 1.0,
+      "verdict": "REJECT_KILLED"
+    },
+    {
+      "id": "L11_B5_XAU_PM_FIX_REVERT",
+      "family": "B_GOLD_STRUCTURAL",
+      "asset": "XAUUSD",
+      "kind": "SESSION_STRETCH_FADE",
+      "rationale": "LBMA 15:00 PM London Fix hedging spike >= 0.40 ATR mean-reverts once benchmark execution clears.",
+      "swap_usd_total": 0.0,
+      "news_guard_stats": {
+        "total_in": 349,
+        "kept_untouched": 343,
+        "blocked_entry": 0,
+        "flattened_pre_news": 6,
+        "skipped_day": 0
+      },
+      "cluster_a_1x": {
+        "n": 128,
+        "net_R": -14.83,
+        "ann_R": -4.94,
+        "pf": 0.598,
+        "win_pct": 43.0,
+        "dd_R": 16.13,
+        "mean_R": -0.1158
+      },
+      "cluster_b_1x": {
+        "n": 221,
+        "net_R": -18.77,
+        "ann_R": -4.69,
+        "pf": 0.688,
+        "win_pct": 45.2,
+        "dd_R": 21.24,
+        "mean_R": -0.0849
+      },
+      "cluster_b_15x": {
+        "n": 221,
+        "net_R": -21.95,
+        "ann_R": -5.49,
+        "pf": 0.64,
+        "win_pct": 45.2,
+        "dd_R": 23.69,
+        "mean_R": -0.0993
+      },
+      "full_1x": {
+        "n": 349,
+        "net_R": -33.6,
+        "ann_R": -4.8,
+        "pf": 0.654,
+        "win_pct": 44.4,
+        "dd_R": 34.19,
+        "mean_R": -0.0963
+      },
+      "full_15x": {
+        "n": 349,
+        "net_R": -39.41,
+        "ann_R": -5.63,
+        "pf": 0.601,
+        "win_pct": 44.1,
+        "dd_R": 39.92,
+        "mean_R": -0.1129
+      },
+      "yearly_R": {
+        "2018": -4.93,
+        "2019": -3.72,
+        "2020": -6.18,
+        "2021": 1.3,
+        "2022": -5.62,
+        "2023": -12.11,
+        "2024": -2.35
+      },
+      "pos_years": 1,
+      "max_yr_share_pct": 100.0,
+      "corr_vs_live8": -0.0627,
+      "max_single_inc_engine": "E2_USDJPY_EXP80",
+      "max_single_inc_corr": -0.0853,
+      "p_signflip_b": 0.80619,
+      "p_bonf_b": 1.0,
+      "dsr_b": {
+        "sr_ann": -1.15,
+        "skew": -0.429,
+        "kurtosis": 11.026,
+        "psr_gt0": 0.0109,
+        "dsr": 0.0,
+        "sr0_ann_haircut": 0.961,
+        "n_days": 986,
+        "n_trials": 20
+      },
+      "gates": {
+        "G1_clb_pf_n": false,
+        "G2_stress_15x": false,
+        "G3_orthogonality": true,
+        "G4_year_stability": false
+      },
+      "failed_gates": [
+        "G1_CLB_PF_OR_N",
+        "G2_STRESS_15X",
+        "G4_YEAR_STABILITY"
+      ],
+      "bh_q_b": 1.0,
+      "verdict": "REJECT_KILLED"
+    },
+    {
+      "id": "L11_C1_GER40_CASH_OR30_MOM",
+      "family": "C_GER40_AND_LEADLAG",
+      "asset": "GER40",
+      "kind": "GER40_OR30_MOM",
+      "rationale": "Frankfurt Xetra cash open (09:00-09:30 CET) strong directional auction persists through European session.",
+      "swap_usd_total": 0.0,
+      "news_guard_stats": {
+        "total_in": 413,
+        "kept_untouched": 413,
+        "blocked_entry": 0,
+        "flattened_pre_news": 0,
+        "skipped_day": 0
+      },
+      "cluster_a_1x": {
+        "n": 159,
+        "net_R": 3.04,
+        "ann_R": 1.01,
+        "pf": 1.062,
+        "win_pct": 50.3,
+        "dd_R": 8.85,
+        "mean_R": 0.0191
+      },
+      "cluster_b_1x": {
+        "n": 254,
+        "net_R": -24.96,
+        "ann_R": -6.24,
+        "pf": 0.688,
+        "win_pct": 44.1,
+        "dd_R": 28.3,
+        "mean_R": -0.0982
+      },
+      "cluster_b_15x": {
+        "n": 254,
+        "net_R": -28.01,
+        "ann_R": -7.0,
+        "pf": 0.654,
+        "win_pct": 42.9,
+        "dd_R": 30.85,
+        "mean_R": -0.1103
+      },
+      "full_1x": {
+        "n": 413,
+        "net_R": -21.92,
+        "ann_R": -3.13,
+        "pf": 0.83,
+        "win_pct": 46.5,
+        "dd_R": 28.3,
+        "mean_R": -0.0531
+      },
+      "full_15x": {
+        "n": 413,
+        "net_R": -27.41,
+        "ann_R": -3.92,
+        "pf": 0.79,
+        "win_pct": 45.3,
+        "dd_R": 30.85,
+        "mean_R": -0.0664
+      },
+      "yearly_R": {
+        "2018": -0.61,
+        "2019": -4.26,
+        "2020": 7.9,
+        "2021": -4.66,
+        "2022": -4.64,
+        "2023": -9.55,
+        "2024": -6.11
+      },
+      "pos_years": 1,
+      "max_yr_share_pct": 100.0,
+      "corr_vs_live8": -0.04,
+      "max_single_inc_engine": "E7_USDJPY_NY10ET",
+      "max_single_inc_corr": -0.0673,
+      "p_signflip_b": 0.8971,
+      "p_bonf_b": 1.0,
+      "dsr_b": {
+        "sr_ann": -1.322,
+        "skew": 0.054,
+        "kurtosis": 11.056,
+        "psr_gt0": 0.0048,
+        "dsr": 0.0,
+        "sr0_ann_haircut": 0.961,
+        "n_days": 986,
+        "n_trials": 20
+      },
+      "gates": {
+        "G1_clb_pf_n": false,
+        "G2_stress_15x": false,
+        "G3_orthogonality": true,
+        "G4_year_stability": false
+      },
+      "failed_gates": [
+        "G1_CLB_PF_OR_N",
+        "G2_STRESS_15X",
+        "G4_YEAR_STABILITY"
+      ],
+      "bh_q_b": 1.0,
+      "verdict": "REJECT_KILLED"
+    },
+    {
+      "id": "L11_C2_GER40_CASH_OR30_FADE",
+      "family": "C_GER40_AND_LEADLAG",
+      "asset": "GER40",
+      "kind": "SESSION_STRETCH_FADE",
+      "rationale": "Extreme >= 0.40 ATR Frankfurt cash-open auction gap overshoots institutional liquidity and reverts intraday.",
+      "swap_usd_total": 0.0,
+      "news_guard_stats": {
+        "total_in": 123,
+        "kept_untouched": 123,
+        "blocked_entry": 0,
+        "flattened_pre_news": 0,
+        "skipped_day": 0
+      },
+      "cluster_a_1x": {
+        "n": 49,
+        "net_R": -5.64,
+        "ann_R": -1.88,
+        "pf": 0.707,
+        "win_pct": 44.9,
+        "dd_R": 9.39,
+        "mean_R": -0.1151
+      },
+      "cluster_b_1x": {
+        "n": 74,
+        "net_R": 9.07,
+        "ann_R": 2.27,
+        "pf": 1.55,
+        "win_pct": 58.1,
+        "dd_R": 3.29,
+        "mean_R": 0.1225
+      },
+      "cluster_b_15x": {
+        "n": 74,
+        "net_R": 7.77,
+        "ann_R": 1.94,
+        "pf": 1.465,
+        "win_pct": 58.1,
+        "dd_R": 3.48,
+        "mean_R": 0.1049
+      },
+      "full_1x": {
+        "n": 123,
+        "net_R": 3.42,
+        "ann_R": 0.49,
+        "pf": 1.096,
+        "win_pct": 52.8,
+        "dd_R": 9.63,
+        "mean_R": 0.0278
+      },
+      "full_15x": {
+        "n": 123,
+        "net_R": 1.31,
+        "ann_R": 0.19,
+        "pf": 1.036,
+        "win_pct": 52.8,
+        "dd_R": 10.27,
+        "mean_R": 0.0106
+      },
+      "yearly_R": {
+        "2018": 0.39,
+        "2019": 2.65,
+        "2020": -8.69,
+        "2021": 3.26,
+        "2022": 1.59,
+        "2023": -0.28,
+        "2024": 4.5
+      },
+      "pos_years": 5,
+      "max_yr_share_pct": 131.6,
+      "corr_vs_live8": 0.0379,
+      "max_single_inc_engine": "E7_USDJPY_NY10ET",
+      "max_single_inc_corr": 0.0734,
+      "p_signflip_b": 0.01598,
+      "p_bonf_b": 0.31968,
+      "dsr_b": {
+        "sr_ann": 0.778,
+        "skew": 1.689,
+        "kurtosis": 28.702,
+        "psr_gt0": 0.9442,
+        "dsr": 0.3536,
+        "sr0_ann_haircut": 0.961,
+        "n_days": 986,
+        "n_trials": 20
+      },
+      "gates": {
+        "G1_clb_pf_n": true,
+        "G2_stress_15x": true,
+        "G3_orthogonality": true,
+        "G4_year_stability": false
+      },
+      "failed_gates": [
+        "G4_YEAR_STABILITY"
+      ],
+      "bh_q_b": 0.31968,
+      "verdict": "NEAR_MISS_REJECTED"
+    },
+    {
+      "id": "L11_C3_GER40_VS_US500_REL_MR",
+      "family": "C_GER40_AND_LEADLAG",
+      "asset": "GER40",
+      "kind": "CROSS_INDEX_REL_MR",
+      "rationale": "Intraday GER40 vs US500 ATR-normalized divergence >= 0.65 reverts as US cash open re-prices global beta.",
+      "swap_usd_total": 0.0,
+      "news_guard_stats": {
+        "total_in": 97,
+        "kept_untouched": 97,
+        "blocked_entry": 0,
+        "flattened_pre_news": 0,
+        "skipped_day": 0
+      },
+      "cluster_a_1x": {
+        "n": 34,
+        "net_R": -0.85,
+        "ann_R": -0.28,
+        "pf": 0.859,
+        "win_pct": 55.9,
+        "dd_R": 2.57,
+        "mean_R": -0.025
+      },
+      "cluster_b_1x": {
+        "n": 63,
+        "net_R": -4.26,
+        "ann_R": -1.06,
+        "pf": 0.634,
+        "win_pct": 42.9,
+        "dd_R": 6.24,
+        "mean_R": -0.0676
+      },
+      "cluster_b_15x": {
+        "n": 63,
+        "net_R": -5.23,
+        "ann_R": -1.31,
+        "pf": 0.565,
+        "win_pct": 42.9,
+        "dd_R": 6.47,
+        "mean_R": -0.0831
+      },
+      "full_1x": {
+        "n": 97,
+        "net_R": -5.11,
+        "ann_R": -0.73,
+        "pf": 0.71,
+        "win_pct": 47.4,
+        "dd_R": 6.37,
+        "mean_R": -0.0527
+      },
+      "full_15x": {
+        "n": 97,
+        "net_R": -6.71,
+        "ann_R": -0.96,
+        "pf": 0.632,
+        "win_pct": 47.4,
+        "dd_R": 7.59,
+        "mean_R": -0.0692
+      },
+      "yearly_R": {
+        "2018": -1.21,
+        "2019": -0.19,
+        "2020": 0.55,
+        "2021": -0.28,
+        "2022": -2.34,
+        "2023": -1.84,
+        "2024": 0.19
+      },
+      "pos_years": 2,
+      "max_yr_share_pct": 100.0,
+      "corr_vs_live8": -0.041,
+      "max_single_inc_engine": "E2_USDJPY_EXP80",
+      "max_single_inc_corr": -0.0365,
+      "p_signflip_b": 0.74226,
+      "p_bonf_b": 1.0,
+      "dsr_b": {
+        "sr_ann": -0.798,
+        "skew": -2.458,
+        "kurtosis": 72.898,
+        "psr_gt0": 0.0501,
+        "dsr": 0.0001,
+        "sr0_ann_haircut": 0.961,
+        "n_days": 986,
+        "n_trials": 20
+      },
+      "gates": {
+        "G1_clb_pf_n": false,
+        "G2_stress_15x": false,
+        "G3_orthogonality": true,
+        "G4_year_stability": false
+      },
+      "failed_gates": [
+        "G1_CLB_PF_OR_N",
+        "G2_STRESS_15X",
+        "G4_YEAR_STABILITY"
+      ],
+      "bh_q_b": 1.0,
+      "verdict": "REJECT_KILLED"
+    },
+    {
+      "id": "L11_C4_GER40_VS_US500_LEADLAG",
+      "family": "C_GER40_AND_LEADLAG",
+      "asset": "GER40",
+      "kind": "US500_TO_GER40_LEAD",
+      "rationale": "Overnight US500 futures impulse from prior NY close to EU open leads Xetra cash catch-up at 09:00 CET.",
+      "swap_usd_total": 0.0,
+      "news_guard_stats": {
+        "total_in": 151,
+        "kept_untouched": 151,
+        "blocked_entry": 0,
+        "flattened_pre_news": 0,
+        "skipped_day": 0
+      },
+      "cluster_a_1x": {
+        "n": 84,
+        "net_R": -5.27,
+        "ann_R": -1.76,
+        "pf": 0.772,
+        "win_pct": 44.0,
+        "dd_R": 9.93,
+        "mean_R": -0.0628
+      },
+      "cluster_b_1x": {
+        "n": 67,
+        "net_R": -18.02,
+        "ann_R": -4.5,
+        "pf": 0.314,
+        "win_pct": 28.4,
+        "dd_R": 18.56,
+        "mean_R": -0.2689
+      },
+      "cluster_b_15x": {
+        "n": 67,
+        "net_R": -18.69,
+        "ann_R": -4.67,
+        "pf": 0.296,
+        "win_pct": 28.4,
+        "dd_R": 19.1,
+        "mean_R": -0.2789
+      },
+      "full_1x": {
+        "n": 151,
+        "net_R": -23.29,
+        "ann_R": -3.33,
+        "pf": 0.528,
+        "win_pct": 37.1,
+        "dd_R": 23.56,
+        "mean_R": -0.1542
+      },
+      "full_15x": {
+        "n": 151,
+        "net_R": -25.11,
+        "ann_R": -3.59,
+        "pf": 0.498,
+        "win_pct": 36.4,
+        "dd_R": 25.33,
+        "mean_R": -0.1663
+      },
+      "yearly_R": {
+        "2018": -4.55,
+        "2019": -5.08,
+        "2020": 4.35,
+        "2021": -7.59,
+        "2022": -4.46,
+        "2023": -2.61,
+        "2024": -3.35
+      },
+      "pos_years": 1,
+      "max_yr_share_pct": 100.0,
+      "corr_vs_live8": 0.0563,
+      "max_single_inc_engine": "E2_USDJPY_EXP80",
+      "max_single_inc_corr": 0.1415,
+      "p_signflip_b": 0.997,
+      "p_bonf_b": 1.0,
+      "dsr_b": {
+        "sr_ann": -1.702,
+        "skew": -2.366,
+        "kurtosis": 35.979,
+        "psr_gt0": 0.0001,
+        "dsr": 0.0,
+        "sr0_ann_haircut": 0.961,
+        "n_days": 986,
+        "n_trials": 20
+      },
+      "gates": {
+        "G1_clb_pf_n": false,
+        "G2_stress_15x": false,
+        "G3_orthogonality": true,
+        "G4_year_stability": false
+      },
+      "failed_gates": [
+        "G1_CLB_PF_OR_N",
+        "G2_STRESS_15X",
+        "G4_YEAR_STABILITY"
+      ],
+      "bh_q_b": 1.0,
+      "verdict": "REJECT_KILLED"
+    },
+    {
+      "id": "L11_C5_GER40_PRE_US_DRIFT",
+      "family": "C_GER40_AND_LEADLAG",
+      "asset": "GER40",
+      "kind": "GER40_AFTERNOON_CONT",
+      "rationale": "DAX strong morning trend closing near session extreme continues through European cash closing auction.",
+      "swap_usd_total": 0.0,
+      "news_guard_stats": {
+        "total_in": 490,
+        "kept_untouched": 490,
+        "blocked_entry": 0,
+        "flattened_pre_news": 0,
+        "skipped_day": 0
+      },
+      "cluster_a_1x": {
+        "n": 205,
+        "net_R": -5.43,
+        "ann_R": -1.81,
+        "pf": 0.885,
+        "win_pct": 43.4,
+        "dd_R": 9.5,
+        "mean_R": -0.0265
+      },
+      "cluster_b_1x": {
+        "n": 285,
+        "net_R": -0.39,
+        "ann_R": -0.1,
+        "pf": 0.994,
+        "win_pct": 45.6,
+        "dd_R": 8.64,
+        "mean_R": -0.0014
+      },
+      "cluster_b_15x": {
+        "n": 285,
+        "net_R": -4.31,
+        "ann_R": -1.08,
+        "pf": 0.93,
+        "win_pct": 42.5,
+        "dd_R": 10.92,
+        "mean_R": -0.0151
+      },
+      "full_1x": {
+        "n": 490,
+        "net_R": -5.82,
+        "ann_R": -0.83,
+        "pf": 0.946,
+        "win_pct": 44.7,
+        "dd_R": 9.5,
+        "mean_R": -0.0119
+      },
+      "full_15x": {
+        "n": 490,
+        "net_R": -12.79,
+        "ann_R": -1.83,
+        "pf": 0.883,
+        "win_pct": 42.2,
+        "dd_R": 14.88,
+        "mean_R": -0.0261
+      },
+      "yearly_R": {
+        "2018": 0.3,
+        "2019": -0.75,
+        "2020": -4.98,
+        "2021": 3.3,
+        "2022": 1.98,
+        "2023": -2.3,
+        "2024": -3.37
+      },
+      "pos_years": 3,
+      "max_yr_share_pct": 100.0,
+      "corr_vs_live8": 0.003,
+      "max_single_inc_engine": "E7_USDJPY_NY10ET",
+      "max_single_inc_corr": 0.0773,
+      "p_signflip_b": 0.11489,
+      "p_bonf_b": 1.0,
+      "dsr_b": {
+        "sr_ann": -0.053,
+        "skew": 1.394,
+        "kurtosis": 15.475,
+        "psr_gt0": 0.4582,
+        "dsr": 0.0227,
+        "sr0_ann_haircut": 0.961,
+        "n_days": 986,
+        "n_trials": 20
+      },
+      "gates": {
+        "G1_clb_pf_n": false,
+        "G2_stress_15x": false,
+        "G3_orthogonality": true,
+        "G4_year_stability": false
+      },
+      "failed_gates": [
+        "G1_CLB_PF_OR_N",
+        "G2_STRESS_15X",
+        "G4_YEAR_STABILITY"
+      ],
+      "bh_q_b": 0.7043,
+      "verdict": "REJECT_KILLED"
+    },
+    {
+      "id": "L11_D1_BTC_WEEKEND_MR_FADE",
+      "family": "D_BTC_AND_GBPJPY_MR",
+      "asset": "BTCUSD",
+      "kind": "BTC_WEEKEND_FADE",
+      "rationale": "Weekend BTCUSD low-depth retail stop-runs >= 0.55 ATR revert intraday before UTC close (0% FX overlap!).",
+      "swap_usd_total": 0.0,
+      "news_guard_stats": {
+        "total_in": 24,
+        "kept_untouched": 24,
+        "blocked_entry": 0,
+        "flattened_pre_news": 0,
+        "skipped_day": 0
+      },
+      "cluster_a_1x": {
+        "n": 12,
+        "net_R": -2.36,
+        "ann_R": -0.79,
+        "pf": 0.542,
+        "win_pct": 25.0,
+        "dd_R": 2.99,
+        "mean_R": -0.1965
+      },
+      "cluster_b_1x": {
+        "n": 12,
+        "net_R": 2.93,
+        "ann_R": 0.73,
+        "pf": 1.865,
+        "win_pct": 66.7,
+        "dd_R": 1.39,
+        "mean_R": 0.2443
+      },
+      "cluster_b_15x": {
+        "n": 12,
+        "net_R": 2.62,
+        "ann_R": 0.65,
+        "pf": 1.764,
+        "win_pct": 58.3,
+        "dd_R": 1.41,
+        "mean_R": 0.2181
+      },
+      "full_1x": {
+        "n": 24,
+        "net_R": 0.57,
+        "ann_R": 0.08,
+        "pf": 1.067,
+        "win_pct": 45.8,
+        "dd_R": 2.99,
+        "mean_R": 0.0239
+      },
+      "full_15x": {
+        "n": 24,
+        "net_R": 0.04,
+        "ann_R": 0.01,
+        "pf": 1.005,
+        "win_pct": 41.7,
+        "dd_R": 3.18,
+        "mean_R": 0.0017
+      },
+      "yearly_R": {
+        "2018": 0.0,
+        "2019": -0.22,
+        "2020": -2.14,
+        "2021": 4.21,
+        "2022": -1.39,
+        "2023": 1.11,
+        "2024": -1.0
+      },
+      "pos_years": 2,
+      "max_yr_share_pct": 738.6,
+      "corr_vs_live8": 0.0,
+      "max_single_inc_engine": "E1_USDJPY_TOKYO",
+      "max_single_inc_corr": 0.0,
+      "p_signflip_b": 0.14086,
+      "p_bonf_b": 1.0,
+      "dsr_b": {
+        "sr_ann": 0.469,
+        "skew": 4.547,
+        "kurtosis": 120.892,
+        "psr_gt0": 0.8382,
+        "dsr": 0.1526,
+        "sr0_ann_haircut": 0.956,
+        "n_days": 998,
+        "n_trials": 20
+      },
+      "gates": {
+        "G1_clb_pf_n": false,
+        "G2_stress_15x": true,
+        "G3_orthogonality": true,
+        "G4_year_stability": false
+      },
+      "failed_gates": [
+        "G1_CLB_PF_OR_N",
+        "G4_YEAR_STABILITY"
+      ],
+      "bh_q_b": 0.7043,
+      "verdict": "REJECT_KILLED"
+    },
+    {
+      "id": "L11_D2_BTC_US_OPEN_MOM",
+      "family": "D_BTC_AND_GBPJPY_MR",
+      "asset": "BTCUSD",
+      "kind": "BTC_US_TREND_MOM",
+      "rationale": "Weekday BTCUSD US institutional cash/CME open impulse aligned with prior-day trend persists into NY close.",
+      "swap_usd_total": 0.0,
+      "news_guard_stats": {
+        "total_in": 98,
+        "kept_untouched": 96,
+        "blocked_entry": 0,
+        "flattened_pre_news": 2,
+        "skipped_day": 0
+      },
+      "cluster_a_1x": {
+        "n": 33,
+        "net_R": -9.84,
+        "ann_R": -3.28,
+        "pf": 0.222,
+        "win_pct": 21.2,
+        "dd_R": 10.09,
+        "mean_R": -0.2981
+      },
+      "cluster_b_1x": {
+        "n": 65,
+        "net_R": -6.5,
+        "ann_R": -1.62,
+        "pf": 0.668,
+        "win_pct": 44.6,
+        "dd_R": 9.08,
+        "mean_R": -0.1
+      },
+      "cluster_b_15x": {
+        "n": 65,
+        "net_R": -8.01,
+        "ann_R": -2.0,
+        "pf": 0.6,
+        "win_pct": 43.1,
+        "dd_R": 9.95,
+        "mean_R": -0.1232
+      },
+      "full_1x": {
+        "n": 98,
+        "net_R": -16.33,
+        "ann_R": -2.33,
+        "pf": 0.493,
+        "win_pct": 36.7,
+        "dd_R": 19.0,
+        "mean_R": -0.1667
+      },
+      "full_15x": {
+        "n": 98,
+        "net_R": -18.32,
+        "ann_R": -2.62,
+        "pf": 0.443,
+        "win_pct": 35.7,
+        "dd_R": 20.48,
+        "mean_R": -0.187
+      },
+      "yearly_R": {
+        "2018": -2.2,
+        "2019": -0.16,
+        "2020": -7.48,
+        "2021": -0.32,
+        "2022": -6.64,
+        "2023": -0.96,
+        "2024": 1.42
+      },
+      "pos_years": 1,
+      "max_yr_share_pct": 100.0,
+      "corr_vs_live8": 0.0194,
+      "max_single_inc_engine": "E4_US100_SESS40",
+      "max_single_inc_corr": 0.0643,
+      "p_signflip_b": 0.5045,
+      "p_bonf_b": 1.0,
+      "dsr_b": {
+        "sr_ann": -0.648,
+        "skew": -0.321,
+        "kurtosis": 42.24,
+        "psr_gt0": 0.1003,
+        "dsr": 0.0007,
+        "sr0_ann_haircut": 0.961,
+        "n_days": 987,
+        "n_trials": 20
+      },
+      "gates": {
+        "G1_clb_pf_n": false,
+        "G2_stress_15x": false,
+        "G3_orthogonality": true,
+        "G4_year_stability": false
+      },
+      "failed_gates": [
+        "G1_CLB_PF_OR_N",
+        "G2_STRESS_15X",
+        "G4_YEAR_STABILITY"
+      ],
+      "bh_q_b": 1.0,
+      "verdict": "REJECT_KILLED"
+    },
+    {
+      "id": "L11_D3_BTC_ASIA_STRETCH_FADE",
+      "family": "D_BTC_AND_GBPJPY_MR",
+      "asset": "BTCUSD",
+      "kind": "SESSION_STRETCH_FADE",
+      "rationale": "BTCUSD Asian leverage spike >= 0.65 ATR mean-reverts during European/US institutional trading hours.",
+      "swap_usd_total": 0.0,
+      "news_guard_stats": {
+        "total_in": 140,
+        "kept_untouched": 131,
+        "blocked_entry": 0,
+        "flattened_pre_news": 9,
+        "skipped_day": 0
+      },
+      "cluster_a_1x": {
+        "n": 57,
+        "net_R": -29.28,
+        "ann_R": -9.76,
+        "pf": 0.276,
+        "win_pct": 21.1,
+        "dd_R": 29.91,
+        "mean_R": -0.5136
+      },
+      "cluster_b_1x": {
+        "n": 83,
+        "net_R": -22.54,
+        "ann_R": -5.64,
+        "pf": 0.451,
+        "win_pct": 32.5,
+        "dd_R": 25.16,
+        "mean_R": -0.2716
+      },
+      "cluster_b_15x": {
+        "n": 83,
+        "net_R": -23.82,
+        "ann_R": -5.96,
+        "pf": 0.424,
+        "win_pct": 31.3,
+        "dd_R": 26.34,
+        "mean_R": -0.287
+      },
+      "full_1x": {
+        "n": 140,
+        "net_R": -51.82,
+        "ann_R": -7.4,
+        "pf": 0.364,
+        "win_pct": 27.9,
+        "dd_R": 53.02,
+        "mean_R": -0.3702
+      },
+      "full_15x": {
+        "n": 140,
+        "net_R": -53.63,
+        "ann_R": -7.66,
+        "pf": 0.345,
+        "win_pct": 27.1,
+        "dd_R": 54.77,
+        "mean_R": -0.3831
+      },
+      "yearly_R": {
+        "2018": -8.23,
+        "2019": -8.46,
+        "2020": -12.59,
+        "2021": -5.5,
+        "2022": 0.91,
+        "2023": -9.76,
+        "2024": -8.19
+      },
+      "pos_years": 1,
+      "max_yr_share_pct": 100.0,
+      "corr_vs_live8": 0.0159,
+      "max_single_inc_engine": "E4_US100_SESS40",
+      "max_single_inc_corr": 0.0495,
+      "p_signflip_b": 0.97702,
+      "p_bonf_b": 1.0,
+      "dsr_b": {
+        "sr_ann": -1.526,
+        "skew": -0.84,
+        "kurtosis": 18.956,
+        "psr_gt0": 0.001,
+        "dsr": 0.0,
+        "sr0_ann_haircut": 0.955,
+        "n_days": 999,
+        "n_trials": 20
+      },
+      "gates": {
+        "G1_clb_pf_n": false,
+        "G2_stress_15x": false,
+        "G3_orthogonality": true,
+        "G4_year_stability": false
+      },
+      "failed_gates": [
+        "G1_CLB_PF_OR_N",
+        "G2_STRESS_15X",
+        "G4_YEAR_STABILITY"
+      ],
+      "bh_q_b": 1.0,
+      "verdict": "REJECT_KILLED"
+    },
+    {
+      "id": "L11_D4_GBPJPY_LDN_OVEREXT_FADE",
+      "family": "D_BTC_AND_GBPJPY_MR",
+      "asset": "GBPJPY",
+      "kind": "VWAP_STRETCH_FADE",
+      "rationale": "GBPJPY non-breakout fade of extreme London morning deviation >= 0.55 ATR from session VWAP.",
+      "swap_usd_total": 0.0,
+      "news_guard_stats": {
+        "total_in": 19,
+        "kept_untouched": 19,
+        "blocked_entry": 0,
+        "flattened_pre_news": 0,
+        "skipped_day": 0
+      },
+      "cluster_a_1x": {
+        "n": 10,
+        "net_R": 3.79,
+        "ann_R": 1.26,
+        "pf": 4.733,
+        "win_pct": 70.0,
+        "dd_R": 0.47,
+        "mean_R": 0.379
+      },
+      "cluster_b_1x": {
+        "n": 9,
+        "net_R": 1.69,
+        "ann_R": 0.42,
+        "pf": 1.55,
+        "win_pct": 55.6,
+        "dd_R": 1.0,
+        "mean_R": 0.188
+      },
+      "cluster_b_15x": {
+        "n": 9,
+        "net_R": 1.61,
+        "ann_R": 0.4,
+        "pf": 1.523,
+        "win_pct": 55.6,
+        "dd_R": 1.0,
+        "mean_R": 0.1794
+      },
+      "full_1x": {
+        "n": 19,
+        "net_R": 5.48,
+        "ann_R": 0.78,
+        "pf": 2.339,
+        "win_pct": 63.2,
+        "dd_R": 1.0,
+        "mean_R": 0.2885
+      },
+      "full_15x": {
+        "n": 19,
+        "net_R": 5.29,
+        "ann_R": 0.76,
+        "pf": 2.286,
+        "win_pct": 63.2,
+        "dd_R": 1.0,
+        "mean_R": 0.2786
+      },
+      "yearly_R": {
+        "2018": 1.23,
+        "2019": 1.2,
+        "2020": 1.36,
+        "2021": -1.0,
+        "2022": 1.51,
+        "2023": 1.18,
+        "2024": 0.0
+      },
+      "pos_years": 5,
+      "max_yr_share_pct": 27.6,
+      "corr_vs_live8": -0.0085,
+      "max_single_inc_engine": "S6_FX_USD_BSK",
+      "max_single_inc_corr": -0.1079,
+      "p_signflip_b": 1.0,
+      "p_bonf_b": 1.0,
+      "dsr_b": {
+        "sr_ann": 0.297,
+        "skew": 4.2,
+        "kurtosis": 152.518,
+        "psr_gt0": 0.7285,
+        "dsr": 0.0873,
+        "sr0_ann_haircut": 0.961,
+        "n_days": 986,
+        "n_trials": 20
+      },
+      "gates": {
+        "G1_clb_pf_n": false,
+        "G2_stress_15x": true,
+        "G3_orthogonality": true,
+        "G4_year_stability": true
+      },
+      "failed_gates": [
+        "G1_CLB_PF_OR_N"
+      ],
+      "bh_q_b": 1.0,
+      "verdict": "REJECT_KILLED"
+    },
+    {
+      "id": "L11_D5_GBPJPY_PRIOR_DAY_REV",
+      "family": "D_BTC_AND_GBPJPY_MR",
+      "asset": "GBPJPY",
+      "kind": "PRIOR_DAY_EXHAUST_FADE",
+      "rationale": "After an extreme prior-day GBPJPY move >= 1.10 ATR without Asian continuation, fade into London liquidity.",
+      "swap_usd_total": 0.0,
+      "news_guard_stats": {
+        "total_in": 106,
+        "kept_untouched": 106,
+        "blocked_entry": 0,
+        "flattened_pre_news": 0,
+        "skipped_day": 0
+      },
+      "cluster_a_1x": {
+        "n": 48,
+        "net_R": 11.36,
+        "ann_R": 3.79,
+        "pf": 2.107,
+        "win_pct": 60.4,
+        "dd_R": 2.34,
+        "mean_R": 0.2367
+      },
+      "cluster_b_1x": {
+        "n": 58,
+        "net_R": -13.12,
+        "ann_R": -3.28,
+        "pf": 0.476,
+        "win_pct": 34.5,
+        "dd_R": 15.13,
+        "mean_R": -0.2262
+      },
+      "cluster_b_15x": {
+        "n": 58,
+        "net_R": -13.46,
+        "ann_R": -3.36,
+        "pf": 0.465,
+        "win_pct": 34.5,
+        "dd_R": 15.32,
+        "mean_R": -0.232
+      },
+      "full_1x": {
+        "n": 106,
+        "net_R": -1.76,
+        "ann_R": -0.25,
+        "pf": 0.95,
+        "win_pct": 46.2,
+        "dd_R": 16.13,
+        "mean_R": -0.0166
+      },
+      "full_15x": {
+        "n": 106,
+        "net_R": -2.54,
+        "ann_R": -0.36,
+        "pf": 0.928,
+        "win_pct": 46.2,
+        "dd_R": 16.32,
+        "mean_R": -0.024
+      },
+      "yearly_R": {
+        "2018": 5.78,
+        "2019": 4.35,
+        "2020": 1.23,
+        "2021": -7.72,
+        "2022": -3.99,
+        "2023": -1.48,
+        "2024": 0.07
+      },
+      "pos_years": 4,
+      "max_yr_share_pct": 100.0,
+      "corr_vs_live8": 0.0508,
+      "max_single_inc_engine": "E6_EURJPY_VOLCOMP",
+      "max_single_inc_corr": 0.0579,
+      "p_signflip_b": 0.95305,
+      "p_bonf_b": 1.0,
+      "dsr_b": {
+        "sr_ann": -0.944,
+        "skew": -0.967,
+        "kurtosis": 35.969,
+        "psr_gt0": 0.0292,
+        "dsr": 0.0001,
+        "sr0_ann_haircut": 0.961,
+        "n_days": 986,
+        "n_trials": 20
+      },
+      "gates": {
+        "G1_clb_pf_n": false,
+        "G2_stress_15x": false,
+        "G3_orthogonality": true,
+        "G4_year_stability": false
+      },
+      "failed_gates": [
+        "G1_CLB_PF_OR_N",
+        "G2_STRESS_15X",
+        "G4_YEAR_STABILITY"
+      ],
+      "bh_q_b": 1.0,
+      "verdict": "REJECT_KILLED"
+    }
+  ],
+  "accretion_comparison": [
+    {
+      "portfolio_id": "A1_V1_LIVE8_BASE",
+      "description": "Incumbent 8 live engines (E1..E7 + S6)",
+      "n_engines": 8,
+      "risk_weights_pct": {
+        "E1_USDJPY_TOKYO": 0.1606,
+        "E2_USDJPY_EXP80": 0.5894,
+        "E3_GBPUSD_VH": 0.75,
+        "E4_US100_SESS40": 0.5,
+        "E5_US100_RS1130": 0.5,
+        "E6_EURJPY_VOLCOMP": 0.5,
+        "E7_USDJPY_NY10ET": 0.5,
+        "S6_FX_USD_BSK": 0.5
+      },
+      "m1_1x": {
+        "net_usd": 6042.23,
+        "ann_pct": {
+          "all": 8.63,
+          "A": 10.83,
+          "B": 6.98
+        },
+        "sharpe_1x": 1.33,
+        "daily_loss_pct": 2.24,
+        "peak_dd_pct": 9.52,
+        "calmar": 0.91,
+        "peak_margin_pct": 21.19,
+        "max_concurrent_positions": 6,
+        "sym_cap_hits": 60,
+        "margin_failures": 0,
+        "years_pct": {
+          "2018": 14.54,
+          "2019": 3.0,
+          "2020": 14.94,
+          "2021": 5.31,
+          "2022": 16.59,
+          "2023": 1.29,
+          "2024": 4.75
+        },
+        "news_stats": {
+          "E1_USDJPY_TOKYO": {
+            "total_in": 1437,
+            "kept_untouched": 1339,
+            "blocked_entry": 0,
+            "flattened_pre_news": 98,
+            "skipped_day": 0
+          },
+          "E2_USDJPY_EXP80": {
+            "total_in": 569,
+            "kept_untouched": 514,
+            "blocked_entry": 27,
+            "flattened_pre_news": 28,
+            "skipped_day": 0
+          },
+          "E3_GBPUSD_VH": {
+            "total_in": 198,
+            "kept_untouched": 179,
+            "blocked_entry": 8,
+            "flattened_pre_news": 11,
+            "skipped_day": 0
+          },
+          "E4_US100_SESS40": {
+            "total_in": 414,
+            "kept_untouched": 408,
+            "blocked_entry": 0,
+            "flattened_pre_news": 6,
+            "skipped_day": 0
+          },
+          "E5_US100_RS1130": {
+            "total_in": 261,
+            "kept_untouched": 256,
+            "blocked_entry": 0,
+            "flattened_pre_news": 5,
+            "skipped_day": 0
+          },
+          "E6_EURJPY_VOLCOMP": {
+            "total_in": 138,
+            "kept_untouched": 138,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "E7_USDJPY_NY10ET": {
+            "total_in": 105,
+            "kept_untouched": 105,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "S6_FX_USD_BSK": {
+            "total_in": 195,
+            "kept_untouched": 180,
+            "blocked_entry": 0,
+            "flattened_pre_news": 15,
+            "skipped_day": 0
+          }
+        }
+      },
+      "m1_15x": {
+        "net_usd": 3571.81,
+        "ann_pct": {
+          "all": 5.1,
+          "A": 6.5,
+          "B": 4.05
+        },
+        "sharpe_1x": 0.81,
+        "daily_loss_pct": 2.19,
+        "peak_dd_pct": 10.95,
+        "calmar": 0.47,
+        "peak_margin_pct": 21.1,
+        "max_concurrent_positions": 6,
+        "sym_cap_hits": 60,
+        "margin_failures": 0,
+        "years_pct": {
+          "2018": 10.19,
+          "2019": -0.97,
+          "2020": 10.3,
+          "2021": 1.13,
+          "2022": 13.72,
+          "2023": -0.97,
+          "2024": 2.34
+        },
+        "news_stats": {
+          "E1_USDJPY_TOKYO": {
+            "total_in": 1437,
+            "kept_untouched": 1339,
+            "blocked_entry": 0,
+            "flattened_pre_news": 98,
+            "skipped_day": 0
+          },
+          "E2_USDJPY_EXP80": {
+            "total_in": 569,
+            "kept_untouched": 514,
+            "blocked_entry": 27,
+            "flattened_pre_news": 28,
+            "skipped_day": 0
+          },
+          "E3_GBPUSD_VH": {
+            "total_in": 198,
+            "kept_untouched": 179,
+            "blocked_entry": 8,
+            "flattened_pre_news": 11,
+            "skipped_day": 0
+          },
+          "E4_US100_SESS40": {
+            "total_in": 414,
+            "kept_untouched": 408,
+            "blocked_entry": 0,
+            "flattened_pre_news": 6,
+            "skipped_day": 0
+          },
+          "E5_US100_RS1130": {
+            "total_in": 261,
+            "kept_untouched": 256,
+            "blocked_entry": 0,
+            "flattened_pre_news": 5,
+            "skipped_day": 0
+          },
+          "E6_EURJPY_VOLCOMP": {
+            "total_in": 138,
+            "kept_untouched": 138,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "E7_USDJPY_NY10ET": {
+            "total_in": 105,
+            "kept_untouched": 105,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "S6_FX_USD_BSK": {
+            "total_in": 195,
+            "kept_untouched": 180,
+            "blocked_entry": 0,
+            "flattened_pre_news": 15,
+            "skipped_day": 0
+          }
+        }
+      },
+      "p1_symcap175_hits": 1851,
+      "prop_mc_10k": {
+        "FTMO_SWING_10K": {
+          "P1_Balanced_SymCap175": {
+            "pass_3m_pct": 11.7,
+            "pass_6m_pct": 33.5,
+            "pass_12m_pct": 53.6,
+            "pass_24m_pct": 72.0,
+            "med_days_pass": 137,
+            "med_days_pay1": 164,
+            "breach_pct": 0.6,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 168.0,
+            "ev_24m_usd": 646.5,
+            "ev_per_fee": 3.85,
+            "avg_tickets": 1.01
+          },
+          "Dyn_ProfitLock_SymCap175": {
+            "pass_3m_pct": 12.7,
+            "pass_6m_pct": 33.8,
+            "pass_12m_pct": 51.9,
+            "pass_24m_pct": 69.2,
+            "med_days_pass": 130,
+            "med_days_pay1": 157,
+            "breach_pct": 1.0,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 168.0,
+            "ev_24m_usd": 626.4,
+            "ev_per_fee": 3.73,
+            "avg_tickets": 1.01
+          }
+        },
+        "THE5ERS_HS_5K": {
+          "P1_Balanced_SymCap175": {
+            "pass_3m_pct": 11.6,
+            "pass_6m_pct": 33.3,
+            "pass_12m_pct": 53.5,
+            "pass_24m_pct": 72.0,
+            "med_days_pass": 137,
+            "med_days_pay1": 164,
+            "breach_pct": 0.6,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 39.0,
+            "ev_24m_usd": 328.7,
+            "ev_per_fee": 8.43,
+            "avg_tickets": 1.01
+          },
+          "Dyn_ProfitLock_SymCap175": {
+            "pass_3m_pct": 12.2,
+            "pass_6m_pct": 33.5,
+            "pass_12m_pct": 51.8,
+            "pass_24m_pct": 69.1,
+            "med_days_pass": 131,
+            "med_days_pay1": 158,
+            "breach_pct": 1.0,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 39.0,
+            "ev_24m_usd": 319.9,
+            "ev_per_fee": 8.2,
+            "avg_tickets": 1.01
+          }
+        }
+      }
+    },
+    {
+      "portfolio_id": "DIAG_COUNTERFACTUAL_TOP1_UNAPPROVED",
+      "description": "Diagnostic ONLY (NOT promoted): live8 + top non-approved L11_C2_GER40_CASH_OR30_FADE",
+      "n_engines": 9,
+      "risk_weights_pct": {
+        "E1_USDJPY_TOKYO": 0.1606,
+        "E2_USDJPY_EXP80": 0.5894,
+        "E3_GBPUSD_VH": 0.75,
+        "E4_US100_SESS40": 0.5,
+        "E5_US100_RS1130": 0.5,
+        "E6_EURJPY_VOLCOMP": 0.5,
+        "E7_USDJPY_NY10ET": 0.5,
+        "S6_FX_USD_BSK": 0.5,
+        "L11_C2_GER40_CASH_OR30_FADE": 0.45
+      },
+      "m1_1x": {
+        "net_usd": 6193.71,
+        "ann_pct": {
+          "all": 8.85,
+          "A": 10.0,
+          "B": 7.99
+        },
+        "sharpe_1x": 1.32,
+        "daily_loss_pct": 2.24,
+        "peak_dd_pct": 9.21,
+        "calmar": 0.96,
+        "peak_margin_pct": 21.19,
+        "max_concurrent_positions": 6,
+        "sym_cap_hits": 60,
+        "margin_failures": 0,
+        "years_pct": {
+          "2018": 14.72,
+          "2019": 4.17,
+          "2020": 11.1,
+          "2021": 6.76,
+          "2022": 17.28,
+          "2023": 1.16,
+          "2024": 6.74
+        },
+        "news_stats": {
+          "E1_USDJPY_TOKYO": {
+            "total_in": 1437,
+            "kept_untouched": 1339,
+            "blocked_entry": 0,
+            "flattened_pre_news": 98,
+            "skipped_day": 0
+          },
+          "E2_USDJPY_EXP80": {
+            "total_in": 569,
+            "kept_untouched": 514,
+            "blocked_entry": 27,
+            "flattened_pre_news": 28,
+            "skipped_day": 0
+          },
+          "E3_GBPUSD_VH": {
+            "total_in": 198,
+            "kept_untouched": 179,
+            "blocked_entry": 8,
+            "flattened_pre_news": 11,
+            "skipped_day": 0
+          },
+          "E4_US100_SESS40": {
+            "total_in": 414,
+            "kept_untouched": 408,
+            "blocked_entry": 0,
+            "flattened_pre_news": 6,
+            "skipped_day": 0
+          },
+          "E5_US100_RS1130": {
+            "total_in": 261,
+            "kept_untouched": 256,
+            "blocked_entry": 0,
+            "flattened_pre_news": 5,
+            "skipped_day": 0
+          },
+          "E6_EURJPY_VOLCOMP": {
+            "total_in": 138,
+            "kept_untouched": 138,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "E7_USDJPY_NY10ET": {
+            "total_in": 105,
+            "kept_untouched": 105,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "S6_FX_USD_BSK": {
+            "total_in": 195,
+            "kept_untouched": 180,
+            "blocked_entry": 0,
+            "flattened_pre_news": 15,
+            "skipped_day": 0
+          },
+          "L11_C2_GER40_CASH_OR30_FADE": {
+            "total_in": 123,
+            "kept_untouched": 123,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          }
+        }
+      },
+      "m1_15x": {
+        "net_usd": 3632.15,
+        "ann_pct": {
+          "all": 5.19,
+          "A": 5.55,
+          "B": 4.92
+        },
+        "sharpe_1x": 0.8,
+        "daily_loss_pct": 2.19,
+        "peak_dd_pct": 10.73,
+        "calmar": 0.48,
+        "peak_margin_pct": 21.1,
+        "max_concurrent_positions": 6,
+        "sym_cap_hits": 60,
+        "margin_failures": 0,
+        "years_pct": {
+          "2018": 10.25,
+          "2019": 0.04,
+          "2020": 6.36,
+          "2021": 2.33,
+          "2022": 14.32,
+          "2023": -1.2,
+          "2024": 4.22
+        },
+        "news_stats": {
+          "E1_USDJPY_TOKYO": {
+            "total_in": 1437,
+            "kept_untouched": 1339,
+            "blocked_entry": 0,
+            "flattened_pre_news": 98,
+            "skipped_day": 0
+          },
+          "E2_USDJPY_EXP80": {
+            "total_in": 569,
+            "kept_untouched": 514,
+            "blocked_entry": 27,
+            "flattened_pre_news": 28,
+            "skipped_day": 0
+          },
+          "E3_GBPUSD_VH": {
+            "total_in": 198,
+            "kept_untouched": 179,
+            "blocked_entry": 8,
+            "flattened_pre_news": 11,
+            "skipped_day": 0
+          },
+          "E4_US100_SESS40": {
+            "total_in": 414,
+            "kept_untouched": 408,
+            "blocked_entry": 0,
+            "flattened_pre_news": 6,
+            "skipped_day": 0
+          },
+          "E5_US100_RS1130": {
+            "total_in": 261,
+            "kept_untouched": 256,
+            "blocked_entry": 0,
+            "flattened_pre_news": 5,
+            "skipped_day": 0
+          },
+          "E6_EURJPY_VOLCOMP": {
+            "total_in": 138,
+            "kept_untouched": 138,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "E7_USDJPY_NY10ET": {
+            "total_in": 105,
+            "kept_untouched": 105,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "S6_FX_USD_BSK": {
+            "total_in": 195,
+            "kept_untouched": 180,
+            "blocked_entry": 0,
+            "flattened_pre_news": 15,
+            "skipped_day": 0
+          },
+          "L11_C2_GER40_CASH_OR30_FADE": {
+            "total_in": 123,
+            "kept_untouched": 123,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          }
+        }
+      },
+      "p1_symcap175_hits": 1974,
+      "prop_mc_10k": {
+        "FTMO_SWING_10K": {
+          "P1_Balanced_SymCap175": {
+            "pass_3m_pct": 12.6,
+            "pass_6m_pct": 33.1,
+            "pass_12m_pct": 51.6,
+            "pass_24m_pct": 70.7,
+            "med_days_pass": 136,
+            "med_days_pay1": 162,
+            "breach_pct": 0.8,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 168.0,
+            "ev_24m_usd": 641.3,
+            "ev_per_fee": 3.82,
+            "avg_tickets": 1.01
+          },
+          "Dyn_ProfitLock_SymCap175": {
+            "pass_3m_pct": 13.7,
+            "pass_6m_pct": 34.2,
+            "pass_12m_pct": 50.9,
+            "pass_24m_pct": 69.1,
+            "med_days_pass": 128,
+            "med_days_pay1": 153,
+            "breach_pct": 1.1,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 168.0,
+            "ev_24m_usd": 635.2,
+            "ev_per_fee": 3.78,
+            "avg_tickets": 1.01
+          }
+        },
+        "THE5ERS_HS_5K": {
+          "P1_Balanced_SymCap175": {
+            "pass_3m_pct": 12.4,
+            "pass_6m_pct": 33.0,
+            "pass_12m_pct": 51.5,
+            "pass_24m_pct": 70.6,
+            "med_days_pass": 137,
+            "med_days_pay1": 163,
+            "breach_pct": 0.8,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 39.0,
+            "ev_24m_usd": 327.0,
+            "ev_per_fee": 8.38,
+            "avg_tickets": 1.01
+          },
+          "Dyn_ProfitLock_SymCap175": {
+            "pass_3m_pct": 13.4,
+            "pass_6m_pct": 34.1,
+            "pass_12m_pct": 50.9,
+            "pass_24m_pct": 69.0,
+            "med_days_pass": 129,
+            "med_days_pay1": 154,
+            "breach_pct": 1.1,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 39.0,
+            "ev_24m_usd": 324.6,
+            "ev_per_fee": 8.32,
+            "avg_tickets": 1.01
+          }
+        }
+      }
+    },
+    {
+      "portfolio_id": "DIAG_COUNTERFACTUAL_TOP2_UNAPPROVED",
+      "description": "Diagnostic ONLY (NOT promoted): live8 + top-2 non-approved (L11_C2_GER40_CASH_OR30_FADE + L11_A3_USDCAD_NY_VWAP_FADE)",
+      "n_engines": 10,
+      "risk_weights_pct": {
+        "E1_USDJPY_TOKYO": 0.1606,
+        "E2_USDJPY_EXP80": 0.5894,
+        "E3_GBPUSD_VH": 0.75,
+        "E4_US100_SESS40": 0.5,
+        "E5_US100_RS1130": 0.5,
+        "E6_EURJPY_VOLCOMP": 0.5,
+        "E7_USDJPY_NY10ET": 0.5,
+        "S6_FX_USD_BSK": 0.5,
+        "L11_C2_GER40_CASH_OR30_FADE": 0.45,
+        "L11_A3_USDCAD_NY_VWAP_FADE": 0.45
+      },
+      "m1_1x": {
+        "net_usd": 6451.09,
+        "ann_pct": {
+          "all": 9.22,
+          "A": 10.24,
+          "B": 8.45
+        },
+        "sharpe_1x": 1.37,
+        "daily_loss_pct": 2.24,
+        "peak_dd_pct": 8.32,
+        "calmar": 1.11,
+        "peak_margin_pct": 21.97,
+        "max_concurrent_positions": 7,
+        "sym_cap_hits": 60,
+        "margin_failures": 0,
+        "years_pct": {
+          "2018": 14.29,
+          "2019": 4.4,
+          "2020": 12.02,
+          "2021": 7.85,
+          "2022": 16.49,
+          "2023": 1.81,
+          "2024": 7.65
+        },
+        "news_stats": {
+          "E1_USDJPY_TOKYO": {
+            "total_in": 1437,
+            "kept_untouched": 1339,
+            "blocked_entry": 0,
+            "flattened_pre_news": 98,
+            "skipped_day": 0
+          },
+          "E2_USDJPY_EXP80": {
+            "total_in": 569,
+            "kept_untouched": 514,
+            "blocked_entry": 27,
+            "flattened_pre_news": 28,
+            "skipped_day": 0
+          },
+          "E3_GBPUSD_VH": {
+            "total_in": 198,
+            "kept_untouched": 179,
+            "blocked_entry": 8,
+            "flattened_pre_news": 11,
+            "skipped_day": 0
+          },
+          "E4_US100_SESS40": {
+            "total_in": 414,
+            "kept_untouched": 408,
+            "blocked_entry": 0,
+            "flattened_pre_news": 6,
+            "skipped_day": 0
+          },
+          "E5_US100_RS1130": {
+            "total_in": 261,
+            "kept_untouched": 256,
+            "blocked_entry": 0,
+            "flattened_pre_news": 5,
+            "skipped_day": 0
+          },
+          "E6_EURJPY_VOLCOMP": {
+            "total_in": 138,
+            "kept_untouched": 138,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "E7_USDJPY_NY10ET": {
+            "total_in": 105,
+            "kept_untouched": 105,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "S6_FX_USD_BSK": {
+            "total_in": 195,
+            "kept_untouched": 180,
+            "blocked_entry": 0,
+            "flattened_pre_news": 15,
+            "skipped_day": 0
+          },
+          "L11_C2_GER40_CASH_OR30_FADE": {
+            "total_in": 123,
+            "kept_untouched": 123,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "L11_A3_USDCAD_NY_VWAP_FADE": {
+            "total_in": 110,
+            "kept_untouched": 106,
+            "blocked_entry": 0,
+            "flattened_pre_news": 4,
+            "skipped_day": 0
+          }
+        }
+      },
+      "m1_15x": {
+        "net_usd": 3806.13,
+        "ann_pct": {
+          "all": 5.44,
+          "A": 5.65,
+          "B": 5.28
+        },
+        "sharpe_1x": 0.83,
+        "daily_loss_pct": 2.19,
+        "peak_dd_pct": 9.87,
+        "calmar": 0.55,
+        "peak_margin_pct": 21.97,
+        "max_concurrent_positions": 7,
+        "sym_cap_hits": 60,
+        "margin_failures": 0,
+        "years_pct": {
+          "2018": 9.7,
+          "2019": 0.13,
+          "2020": 7.11,
+          "2021": 3.34,
+          "2022": 13.49,
+          "2023": -0.59,
+          "2024": 4.88
+        },
+        "news_stats": {
+          "E1_USDJPY_TOKYO": {
+            "total_in": 1437,
+            "kept_untouched": 1339,
+            "blocked_entry": 0,
+            "flattened_pre_news": 98,
+            "skipped_day": 0
+          },
+          "E2_USDJPY_EXP80": {
+            "total_in": 569,
+            "kept_untouched": 514,
+            "blocked_entry": 27,
+            "flattened_pre_news": 28,
+            "skipped_day": 0
+          },
+          "E3_GBPUSD_VH": {
+            "total_in": 198,
+            "kept_untouched": 179,
+            "blocked_entry": 8,
+            "flattened_pre_news": 11,
+            "skipped_day": 0
+          },
+          "E4_US100_SESS40": {
+            "total_in": 414,
+            "kept_untouched": 408,
+            "blocked_entry": 0,
+            "flattened_pre_news": 6,
+            "skipped_day": 0
+          },
+          "E5_US100_RS1130": {
+            "total_in": 261,
+            "kept_untouched": 256,
+            "blocked_entry": 0,
+            "flattened_pre_news": 5,
+            "skipped_day": 0
+          },
+          "E6_EURJPY_VOLCOMP": {
+            "total_in": 138,
+            "kept_untouched": 138,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "E7_USDJPY_NY10ET": {
+            "total_in": 105,
+            "kept_untouched": 105,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "S6_FX_USD_BSK": {
+            "total_in": 195,
+            "kept_untouched": 180,
+            "blocked_entry": 0,
+            "flattened_pre_news": 15,
+            "skipped_day": 0
+          },
+          "L11_C2_GER40_CASH_OR30_FADE": {
+            "total_in": 123,
+            "kept_untouched": 123,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "L11_A3_USDCAD_NY_VWAP_FADE": {
+            "total_in": 110,
+            "kept_untouched": 106,
+            "blocked_entry": 0,
+            "flattened_pre_news": 4,
+            "skipped_day": 0
+          }
+        }
+      },
+      "p1_symcap175_hits": 2084,
+      "prop_mc_10k": {
+        "FTMO_SWING_10K": {
+          "P1_Balanced_SymCap175": {
+            "pass_3m_pct": 13.5,
+            "pass_6m_pct": 33.0,
+            "pass_12m_pct": 51.6,
+            "pass_24m_pct": 70.5,
+            "med_days_pass": 137,
+            "med_days_pay1": 162,
+            "breach_pct": 0.9,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 168.0,
+            "ev_24m_usd": 669.7,
+            "ev_per_fee": 3.99,
+            "avg_tickets": 1.01
+          },
+          "Dyn_ProfitLock_SymCap175": {
+            "pass_3m_pct": 14.3,
+            "pass_6m_pct": 34.6,
+            "pass_12m_pct": 51.4,
+            "pass_24m_pct": 69.4,
+            "med_days_pass": 127,
+            "med_days_pay1": 152,
+            "breach_pct": 1.1,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 168.0,
+            "ev_24m_usd": 669.0,
+            "ev_per_fee": 3.98,
+            "avg_tickets": 1.01
+          }
+        },
+        "THE5ERS_HS_5K": {
+          "P1_Balanced_SymCap175": {
+            "pass_3m_pct": 13.3,
+            "pass_6m_pct": 32.9,
+            "pass_12m_pct": 51.5,
+            "pass_24m_pct": 70.5,
+            "med_days_pass": 138,
+            "med_days_pay1": 162,
+            "breach_pct": 0.9,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 39.0,
+            "ev_24m_usd": 341.2,
+            "ev_per_fee": 8.75,
+            "avg_tickets": 1.01
+          },
+          "Dyn_ProfitLock_SymCap175": {
+            "pass_3m_pct": 14.0,
+            "pass_6m_pct": 34.4,
+            "pass_12m_pct": 51.3,
+            "pass_24m_pct": 69.4,
+            "med_days_pass": 127,
+            "med_days_pay1": 152,
+            "breach_pct": 1.1,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 39.0,
+            "ev_24m_usd": 341.2,
+            "ev_per_fee": 8.75,
+            "avg_tickets": 1.01
+          }
+        }
+      }
+    }
+  ]
+}
