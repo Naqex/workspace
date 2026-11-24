@@ -7,11 +7,13 @@ order_send_count: 0
 holdout_rows_analysed: 0
 sources:
   - "knowledge/owner/PROFILE.md"
+  - "planning/TOP1-SOLO-QUANT-MASTER-PLAN.md"
   - "knowledge/topics/alpha-hypothesis-ledger.md"
   - "knowledge/topics/capital-scaling-prop-to-own-book.md"
   - "knowledge/topics/quarterly-quant-governance-playbook.md"
   - "planning/research/PROP-EV-FRONTIER-BALANCED-VS-SPRINT-20261124.md"
   - "planning/research/MULTI-PROP-SCALING-AND-BLACKSWAN-STRESS-20261124.md"
+  - "planning/research/PORTFOLIO-V1-VS-V2-ARCHITECTURE-STUDY-20261124.md"
   - "planning/research/QUANT-POD-V2-NCO-CEXCAP-AND-REBALANCE-20261124.md"
   - "planning/research/LAB4-40ETF-MULTIFACTOR-VRP-20261124.md"
   - "planning/research/LAB5-CME-FUTURES-PROP-STUDY-20261124.md"
@@ -21,7 +23,7 @@ sources:
 
 # Lộ Trình Tăng Trưởng Tổng Thể Naqex Quant Pod (`2026–2027`: `Phase 0 → Phase 5`)
 
-> **Tuyên ngôn Vận hành (Calibrated to [PROFILE.md](../owner/PROFILE.md)):** Tài liệu này là bản đồ thực chiến duy nhất kết nối toàn bộ bằng chứng định lượng đã kiểm chứng qua **Wave-1 (Tier 1–8)** và **Wave-2 (Labs #1–#6, Pod v2 `NCO_CexCap25`, Multi-Prop Scaling & Black-Swan Stress)** thành **6 pha chuyển tiếp có cổng khóa định lượng (`Gate-Driven`)** — đi từ `0` lịch sử live hôm nay tới quỹ định lượng cá nhân đa nhánh `100k–200k+ USD` (`2,55–5,10 tỷ VND` @ `25.500 VND/USD`) với nguyên tắc bất di bất dịch: **fail-closed thực thi (`OrderSend = 0` khi chưa qua cổng), tách biệt tuyệt đối tâm lý giữa lệnh, và mọi rủi ro luôn quy đổi song song `%`, `USD` và `triệu VND`**.
+> **Tuyên ngôn Vận hành (Đồng bộ với [PROFILE.md](../owner/PROFILE.md) & [TOP1-SOLO-QUANT-MASTER-PLAN.md](../../planning/TOP1-SOLO-QUANT-MASTER-PLAN.md)):** Bản lộ trình kỹ thuật này triển khai chi tiết các nhánh vốn và cổng định lượng cho mục tiêu **Chuyên gia độc lập bậc nhất (Top 1%)** đã chốt ngày `2026-11-24` (tối ưu tiền lời ròng kỳ vọng EV ở vùng rớt vé thi `22%–35%` / cháy Funded `< 1%`, chẩn đoán rủi ro bắt buộc theo thứ tự `R4 -> R3 -> R2 -> R1`, và lấy lãi thật tự nuôi hạ tầng). Toàn bộ bằng chứng Wave-1 & Wave-2 kết nối thành **6 pha có cổng khóa (`Gate-Driven`)** với nguyên tắc bất di bất dịch: **fail-closed thực thi (`OrderSend = 0` khi chưa qua cổng), tách biệt tuyệt đối tâm lý giữa lệnh, và mọi rủi ro luôn quy đổi song song `%`, `USD` và `triệu VND`**.
 
 ---
 
@@ -40,13 +42,13 @@ sources:
 
 ## Phase 0 — Khởi Chạy Kiểm Chứng Thực Địa & Tiền Khai Trương (Ngày `1–14`)
 
-1. **Vận hành `FTMO-Demo 1515343166` (9 biểu đồ live & `Model=4` Real-Tick):**
-   - Chạy đủ `14` ngày Free Trial với bộ 7 động cơ lõi `PORT_7E` (`E1..E7`) + vệ tinh `S6/S7` và `Naqex_AccountOrchestrator.mq5` (đã tích hợp `Naqex_PropGuard.mqh`: khóa tin đỏ `±5m`, `SYMCAP_100`, `swap = 0`, tự phát hiện vị thế mồ côi `orphan_no_sl`).
-   - Đối soát hằng ngày bằng 1 lệnh [daily_ops_briefing.py](../../tooling/ai-engines/quant_factory/daily_ops_briefing.py) và Control Room cục bộ `127.0.0.1:8787` ([server.py](../../tooling/ai-engines/cockpit/server.py)): kiểm tra `naqex_heartbeat.json`, `naqex_exec_audit.csv`, và phân tách dứt khoát *lỗi sàn* vs *lỗi bot* theo [mt5-live-execution-gaps-and-tca.md](../topics/mt5-live-execution-gaps-and-tca.md).
-2. **Thu thập Shadow Live Crypto (`OrderSend = 0`, 0 API key):**
-   - Duy trì `crypto_shadow_runner.py` (đã đo live `10k USD` L2 slip `2,09 bps <= 5,0 bps` ngân sách backtest) và chạy `crypto_maker_shadow_probe.py` xuyên `30` ngày để kiểm chứng thực địa điều kiện mở khóa của `M2B_BLEND_50_FUND_50_MOM` ([LAB2B-CRYPTO-MAKER-STATARB-20261124.md](../../planning/research/LAB2B-CRYPTO-MAKER-STATARB-20261124.md)).
-3. **Hoàn tất thủ tục `The5ers Terms §11` trước khi mua vé:**
-   - Gửi đúng mẫu email xác nhận quyền chạy EA độc quyền (không copy-trade/HFT) và quy tắc tin đỏ `±2m` (bot giữ khóa chặt hơn là `±5m`) từ [THE5ERS-LAUNCH-AND-TERMS11-EMAIL.md](../../tooling/ai-engines/exports/deployment_kit/the5ers_kit/THE5ERS-LAUNCH-AND-TERMS11-EMAIL.md). Lưu thư phản hồi bằng chứng trước khi nạp `39 USD`.
+1. **Vận hành `FTMO-Demo 1515343166` 24/7 trên Home-VPS `naqex-node1` (9 biểu đồ live & `Model=4` Real-Tick):**
+   - Chạy đủ `14` ngày Free Trial với bộ máy chủ lực **`A1_V1_LIVE8`** (đã chốt làm Production #1 qua [PORTFOLIO-V1-VS-V2-ARCHITECTURE-STUDY-20261124.md](../../planning/research/PORTFOLIO-V1-VS-V2-ARCHITECTURE-STUDY-20261124.md); giữ `A5_V2_ROBUST_TIER_9E_EUR` làm dự phòng khi trượt giá `>= 1,5×`) và `Naqex_AccountOrchestrator.mq5` (khóa tin đỏ `±5m`, `SYMCAP_100`, `swap = 0`, tự phát hiện vị thế mồ côi `orphan_no_sl`). Giám sát tự động qua Heroku EU + Telegram `@naqex_guard_bot`.
+   - Đối soát hằng ngày bằng 1 lệnh [daily_ops_briefing.py](../../tooling/ai-engines/quant_factory/daily_ops_briefing.py) và Control Room cục bộ `127.0.0.1:8787` ([server.py](../../tooling/ai-engines/cockpit/server.py), đã có bảng Prop MetriX live kéo từ `NAQEX_NODE1`): kiểm tra `naqex_heartbeat.json`, `naqex_exec_audit.csv`, và phân loại sự cố theo thứ tự **`R4 -> R3 -> R2 -> R1`** kết hợp [mt5-live-execution-gaps-and-tca.md](../topics/mt5-live-execution-gaps-and-tca.md).
+2. **Thu thập Shadow Live Crypto 24/7 trên `naqex-node1` (`OrderSend = 0`, 0 API key):**
+   - Duy trì `Naqex_Crypto_Shadow_5m` (đã đo live `10k USD` L2 slip `2,09 bps <= 5,0 bps` ngân sách backtest) và `Naqex_Crypto_Maker_Probe_5m` xuyên `30` ngày để kiểm chứng thực địa điều kiện mở khóa của `M2B_BLEND_50_FUND_50_MOM` ([LAB2B-CRYPTO-MAKER-STATARB-20261124.md](../../planning/research/LAB2B-CRYPTO-MAKER-STATARB-20261124.md)).
+3. **Hoàn tất thủ tục xác nhận EA bằng văn bản (FTMO & The5ers Terms §11) + bảo mật `naqex-node1` trước khi mua vé:**
+   - Gửi đúng mẫu email xác nhận quyền chạy EA độc quyền (không copy-trade/HFT) và quy tắc tin đỏ `±2m` (bot giữ khóa chặt hơn là `±5m`) từ [THE5ERS-LAUNCH-AND-TERMS11-EMAIL.md](../../tooling/ai-engines/exports/deployment_kit/the5ers_kit/THE5ERS-LAUNCH-AND-TERMS11-EMAIL.md). Lưu thư phản hồi bằng chứng và bật lại Windows Defender (`excl C:\Naqex`) trên `naqex-node1` trước khi nạp `39 USD`.
 
 ---
 

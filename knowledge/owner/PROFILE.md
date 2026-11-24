@@ -21,9 +21,19 @@ provenance: verified_from_workspace_and_owner_explicit_statements
 - **Kỳ vọng quy mô cho phiên tự chủ dài hạn (xác nhận `2026-11-24`):** Khi giao phiên tự chủ xuyên đêm nhiều giờ với budget AI dư dả, kỳ vọng kế hoạch phải được hiệu chuẩn theo đúng tốc độ thực tế của đội `swarm` (`~25–35` mốc/giờ) theo mô hình **nhà máy chạy chu kỳ liên tục** (mở rộng chiến lược trên dữ liệu/thị trường mới, tối ưu sâu hệ thống, đối soát thực chiến theo giờ tới sát giờ thức dậy), không muốn kế hoạch tĩnh quá nhỏ làm xong trong 1 giờ rồi bỏ trống phần lớn đêm.
 - **Ưu tiên nén thời gian thông minh (xác nhận `2026-11-24`):** Không thích lộ trình cứng nhắc bắt chờ hàng chục ngày lịch khi có thể đạt hiệu suất và độ an toàn tương đương nhanh hơn; ưu tiên cổng dựa trên bằng chứng sự kiện thực tế + thử nghiệm vốn siêu nhỏ giới hạn lỗ (*micro-canary*) và luôn tận dụng thời gian chờ bằng cách chạy song song các nhánh độc lập có giá trị thật.
 
-## 2. Mục tiêu dài hạn (North Star)
+## 2. Mục tiêu dài hạn (North Star — Đã chốt `2026-11-24`)
 
-1. **Tự do hóa bằng hệ thống định lượng (One-Person Quant Pod):** Xây dựng hệ thống đa nguồn lợi thế độc lập (trước mắt: **Nhánh #1 Intraday FX/Index Prop** cho FTMO/The5ers + **Nhánh #2 Crypto Spot Quant** không đòn bẩy; dài hạn: tài khoản vốn riêng thoát phụ thuộc luật quỹ), hướng tới mục tiêu thực tế `Sharpe live 1.5–2.2+`, `Calmar 1.5–2.5+`.
+> Bản kế hoạch thực thi đầy đủ mọi khía cạnh đặt tại [TOP1-SOLO-QUANT-MASTER-PLAN.md](../../planning/TOP1-SOLO-QUANT-MASTER-PLAN.md).
+
+1. **Tiệm cận cảnh giới "Chuyên gia độc lập bậc nhất (Top 1% Solo Quant)" thực tế, có tính chi phí (không ảo tưởng):**
+   - **Thước đo cốt lõi:** Tối ưu theo **Tiền lời ròng kỳ vọng (EV)** và **Hiệu quả trên mỗi đồng phí bỏ ra** (`EV / 1 USD phí`), không chạy theo cực đoan "rớt ít nhất" (lỗ thời gian) hay "đậu nhanh nhất" (tiền vé ăn ngược vào lãi).
+   - **Đích đến chỉ số thực chiến (sau mọi chi phí, tự vận hành 1 người + AI):**
+     - **Độ đều lợi nhuận thực chiến:** **`2,0 – 3,0`** *(hiện tại riêng FX là `~1,1–1,5`; bản vẽ ghép 4 nhánh đã đạt `~2,25` trên giấy)*.
+     - **Lãi năm / Mức sụt giảm tối đa (ở mức an toàn `1×`):** **`+18%..+30%/năm`**, sụt giảm tối đa **`6%–8%`** *(hiện tại riêng bộ 8 bot FX là `+8,3%..+12,7%/năm`, sụt `~6,5%–9,1%`)*.
+     - **Tốc độ đậu quỹ 2 vòng (an toàn):** Rút từ mức nền `4,5–5,9 tháng` hiện tại xuống **`1,5–3,0 tháng`** *(xác suất đậu trong 6 tháng đạt `85%–95%`)* bằng cách ghép thêm chiến lược không trùng kiểu phá vỡ và chạy song song nhiều gói quỹ lệch pha.
+     - **Vùng rớt vé thi tối ưu toán học:** Chấp nhận vùng rớt vé đầu **`22%–35%`** ở vòng thi để tối đa hóa tiền lời ròng (`EV/phí >= +2,5×`, hiện đạt `+3,25×..+7,17×`), sau đó **vừa sang tài khoản thật (Funded) lập tức hạ ga về `1,0×`** để giữ nguy cơ cháy tài khoản thật **`< 1%`**.
+     - **Đa dạng nguồn kiếm tiền:** Vận hành **`4–6` nhánh độc lập không dính nhau** (Prop FX/Chỉ số trong ngày + Nhánh Prop mới khác kiểu phá vỡ + Crypto Spot không đòn bẩy + Crypto ăn phí Funding + Crypto Maker có điều kiện + ETF toàn cầu 0 phí qua đêm trên IBKR) để tiến tới sổ vốn tự có thoát phụ thuộc luật quỹ.
+     - **Kỷ luật chi phí hạ tầng & dữ liệu:** Giai đoạn đầu duy trì gần như **`0 USD/tháng`** (`naqex-node1` + Heroku Student); chỉ nâng lên **`30–150 USD/tháng`** (VPS đặt sát sàn + dữ liệu sạch) khi **được chi trả hoàn toàn từ tiền lời thật đã rút**.
 2. **Làm chủ hệ sinh thái sản phẩm Naqex:** Duy trì workspace đa dự án gọn gàng (`projects/trader`, `projects/quant-trading`, `projects/vi-dubber`, `projects/integrations`, `education`) có tính kế thừa cao giữa các phiên AI.
 3. **Bộ não nghiên cứu & học hỏi liên tục (Personal Research & Memory Engine):** Biến mọi lượt tự nghiên cứu (agent chủ động) và nghiên cứu theo chỉ đạo (EN/VI/CN/RU/Reddit/Docs/Papers) thành tài sản tri thức có cấu trúc, tra cứu tức thời, giúp AI hiểu sâu owner hơn qua thời gian.
 
@@ -31,6 +41,11 @@ provenance: verified_from_workspace_and_owner_explicit_statements
 
 - **Cơ cấu tài sản:** Đã có lớp phòng thủ riêng (chứng chỉ quỹ và tiền gửi), nên nhánh quant được định vị hướng tới tỷ suất lợi nhuận/rủi ro cao hơn — nhưng **không** tự động cho phép đòn bẩy mù quáng hay bỏ giới hạn lỗ.
 - **Độ chịu lỗ theo quy mô vốn (tuyệt đối bằng VND/USD):** Vốn thử nghiệm nhỏ chấp nhận rủi ro cao hơn; vốn lớn coi drawdown `15%–20%` là quá cao; vốn rất lớn coi `5%` đã đáng kể. Khi bàn vốn thật, luôn quy đổi song song `%` và số tiền tuyệt đối.
+- **Khung phân loại & gắn nhãn rủi ro 4 tầng (`R4 -> R3 -> R2 -> R1`, chốt `2026-11-24`):** Khi có thua lỗ hoặc sai lệch, **luôn kiểm tra ngược từ ngoài vào trong** trước khi đụng vào mã nguồn chiến lược:
+  - **`R4` — Luật quỹ, sàn & Con người:** Dính luật tin đỏ, IP dùng chung, quỹ đổi luật, hoặc tự tay can thiệp giữa lệnh.
+  - **`R3` — Khớp lệnh, Trượt giá & Hạ tầng:** Chênh giá mua/bán giãn rộng, trượt giá thực cao hơn giả định, lỗi mạng/máy chủ, lệch đồng hồ.
+  - **`R2` — Trùng lặp danh mục & Dồn tiền một chỗ:** Nhiều bot cùng đánh 1 đồng tiền (khóa trần `<= 1,0%`/mã) hoặc dồn quá nhiều tiền trên sàn Crypto tập trung (khóa tổng CEX `<= 25%`).
+  - **`R1` — Rủi ro THẬT của chiến lược:** Chỉ kết luận chiến lược mất lợi thế khi đã loại trừ sạch `R4`, `R3`, `R2` và bộ giám sát thống kê (`CUSUM/SPRT`) báo vượt ngưỡng.
 - **Điểm mạnh hành vi:** Ít FOMO, có thể kiên nhẫn chờ hoặc chịu chuỗi lỗ nếu hiểu rõ nguyên nhân gốc và thấy số liệu/cơ chế minh bạch; phản xạ tự nhiên khi có bất thường là điều tra trước khi hành động.
 - **Rủi ro hành vi chính cần hệ thống bảo vệ:** Khó chịu khi lợi nhuận đã có bị trả lại (*profit giveback*) và có xu hướng muốn can thiệp theo tình huống thay vì để luật cứng chạy hết lệnh. **Biện pháp thiết kế:** Tách biệt tuyệt đối giữa *nghiên cứu* (được mổ xẻ mọi lúc) và *thực thi* (khóa luật cứng, có bộ giám sát `CUSUM/SPRT` và `AccountOrchestrator` tự hạ rủi ro thay vì sửa lệnh giữa chừng bằng cảm tính).
 - **Công sức bảo trì:** Sẵn sàng đầu tư thời gian tỷ lệ thuận với bằng chứng lợi nhuận thực tế; ưu tiên quy trình ít phải canh thủ công, có cảnh báo tự động khi bất thường.
