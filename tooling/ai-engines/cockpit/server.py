@@ -19,8 +19,9 @@ Live JSON API endpoints:
 from __future__ import annotations
 
 import argparse
+import calendar
 import csv
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
@@ -29,8 +30,10 @@ from pathlib import Path
 import re
 import sys
 import threading
+import time
 from typing import Any
 from urllib.parse import parse_qs, urlparse
+import urllib.request
 
 import numpy as np
 
@@ -59,6 +62,57 @@ _SLEEVE1_LOCK = threading.Lock()
 _SLEEVE1_CACHE: tuple[dict[str, float], dict[str, Any]] | None = None
 _STRESS_CACHE_LOCK = threading.Lock()
 _STRESS_MD_CACHE: dict[str, tuple[float, dict[str, Any]]] = {}
+_HEROKU_CACHE_LOCK = threading.Lock()
+_HEROKU_STATUS_CACHE: tuple[float, dict[str, Any] | None] = (0.0, None)
+VN_TZ = timezone(timedelta(hours=7))
+
+PROP_METRIX_PROGRAMS: dict[str, dict[str, Any]] = {
+    "ftmo_free_trial_10k": {
+        "id": "ftmo_free_trial_10k",
+        "label": "FTMO Free Trial 10K (Swing)",
+        "initial_usd": 10_000.0,
+        "daily_loss_usd": 500.0,
+        "max_loss_usd": 1_000.0,
+        "profit_target_usd": 500.0,
+        "min_trading_days": 2,
+    },
+    "ftmo_swing_10k_p1": {
+        "id": "ftmo_swing_10k_p1",
+        "label": "FTMO Swing 10K — Phase 1",
+        "initial_usd": 10_000.0,
+        "daily_loss_usd": 500.0,
+        "max_loss_usd": 1_000.0,
+        "profit_target_usd": 1_000.0,
+        "min_trading_days": 4,
+    },
+    "ftmo_swing_10k_p2": {
+        "id": "ftmo_swing_10k_p2",
+        "label": "FTMO Swing 10K — Phase 2",
+        "initial_usd": 10_000.0,
+        "daily_loss_usd": 500.0,
+        "max_loss_usd": 1_000.0,
+        "profit_target_usd": 500.0,
+        "min_trading_days": 4,
+    },
+    "ftmo_funded_10k": {
+        "id": "ftmo_funded_10k",
+        "label": "FTMO Funded 10K",
+        "initial_usd": 10_000.0,
+        "daily_loss_usd": 500.0,
+        "max_loss_usd": 1_000.0,
+        "profit_target_usd": None,
+        "min_trading_days": 0,
+    },
+    "the5ers_hs_5k_p1": {
+        "id": "the5ers_hs_5k_p1",
+        "label": "The5ers High Stakes 5K — Step 1",
+        "initial_usd": 5_000.0,
+        "daily_loss_usd": 250.0,
+        "max_loss_usd": 500.0,
+        "profit_target_usd": 400.0,
+        "min_trading_days": 3,
+    },
+}
 
 MIME_TYPES = {
     ".html": "text/html; charset=utf-8",
@@ -148,6 +202,21 @@ def _parse_pod_snapshot_md(path: Path) -> dict[str, Any]:
     }
 
 
+def _format_countdown_vi(delta_sec: float) -> str:
+    if abs(delta_sec) <= 300.0:
+        return "CẤM ±5m"
+    if delta_sec < 0:
+        return f"Đã qua {int(abs(delta_sec) // 60)}m"
+    mins = int(delta_sec // 60)
+    if mins < 60:
+        return f"+{mins}m"
+    hrs, rem_m = divmod(mins, 60)
+    if hrs < 24:
+        return f"+{hrs}h {rem_m:02d}m" if rem_m else f"+{hrs}h"
+    days, rem_h = divmod(hrs, 24)
+    return f"+{days}d {rem_h}h"
+
+
 def _load_upcoming_red_news(root: Path, limit: int = 10) -> list[dict[str, Any]]:
     csv_path = root / "tooling/ai-engines/exports/Files/naqex_red_news_utc.csv"
     if not csv_path.is_file():
@@ -159,11 +228,16 @@ def _load_upcoming_red_news(root: Path, limit: int = 10) -> list[dict[str, Any]]
             for r in csv.DictReader(f):
                 ts = float(r.get("utc_ts") or 0.0)
                 if ts >= now_ts - 3600.0:
-                    dt_str = datetime.fromtimestamp(ts, timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+                    dt_utc = datetime.fromtimestamp(ts, timezone.utc)
+                    dt_vn = dt_utc.astimezone(VN_TZ)
+                    delta_s = ts - now_ts
                     upcoming.append({
                         "utc_ts": int(ts),
-                        "utc_iso": dt_str,
-                        "hours_away": round((ts - now_ts) / 3600.0, 1),
+                        "utc_iso": dt_utc.strftime("%Y-%m-%d %H:%M UTC"),
+                        "vn_iso": dt_vn.strftime("%d/%m %H:%M ICT"),
+                        "hours_away": round(delta_s / 3600.0, 1),
+                        "countdown_vi": _format_countdown_vi(delta_s),
+                        "in_blackout_window": abs(delta_s) <= 300.0,
                         "ccy": str(r.get("ccy", "")).strip(),
                         "event": str(r.get("event", "")).strip(),
                     })
@@ -171,6 +245,391 @@ def _load_upcoming_red_news(root: Path, limit: int = 10) -> list[dict[str, Any]]
         return []
     upcoming.sort(key=lambda x: x["utc_ts"])
     return upcoming[:limit]
+
+
+def _pip_size_for_symbol(symbol: str) -> float:
+    s = str(symbol or "").upper()
+    if "JPY" in s:
+        return 0.01
+    if "US100" in s or "US500" in s or "GER40" in s or "XAU" in s:
+        return 1.0
+    return 0.0001
+
+
+def _compute_positions_mae_mfe(snapshots: list[dict[str, Any]]) -> dict[int, dict[str, Any]]:
+    """Compute observed MAE/MFE (pips & USD) per ticket from real telemetry snapshots (never fabricated)."""
+    stats: dict[int, dict[str, Any]] = {}
+    for snap in snapshots:
+        quotes = snap.get("quotes") if isinstance(snap.get("quotes"), dict) else {}
+        cap_utc = str(snap.get("captured_utc") or "")
+        for p in snap.get("naqex_positions") or []:
+            if not isinstance(p, dict) or p.get("ticket") is None:
+                continue
+            tid = int(p["ticket"])
+            sym = str(p.get("symbol") or "")
+            side = 1 if str(p.get("type", "")).upper() == "BUY" else -1
+            ep = float(p.get("price_open") or 0.0)
+            pnl = float(p.get("profit") or 0.0)
+            q = quotes.get(sym) if isinstance(quotes.get(sym), dict) else None
+            pip_sz = _pip_size_for_symbol(sym)
+            pips: float | None = None
+            if q and ep > 0.0:
+                mkt_px = float(q.get("bid") or 0.0) if side == 1 else float(q.get("ask") or 0.0)
+                if mkt_px > 0.0:
+                    pips = (mkt_px - ep) * side / pip_sz
+
+            rec = stats.get(tid)
+            if rec is None:
+                rec = {
+                    "samples": 0,
+                    "mae_usd": pnl,
+                    "mfe_usd": pnl,
+                    "mae_pips": pips,
+                    "mfe_pips": pips,
+                    "first_seen_utc": cap_utc,
+                    "last_seen_utc": cap_utc,
+                }
+                stats[tid] = rec
+            rec["samples"] += 1
+            rec["last_seen_utc"] = cap_utc
+            if pnl < rec["mae_usd"]:
+                rec["mae_usd"] = pnl
+            if pnl > rec["mfe_usd"]:
+                rec["mfe_usd"] = pnl
+            if pips is not None:
+                if rec["mae_pips"] is None or pips < rec["mae_pips"]:
+                    rec["mae_pips"] = pips
+                if rec["mfe_pips"] is None or pips > rec["mfe_pips"]:
+                    rec["mfe_pips"] = pips
+    for rec in stats.values():
+        rec["mae_usd"] = round(float(rec["mae_usd"]), 2)
+        rec["mfe_usd"] = round(float(rec["mfe_usd"]), 2)
+        if rec["mae_pips"] is not None:
+            rec["mae_pips"] = round(float(rec["mae_pips"]), 1)
+        if rec["mfe_pips"] is not None:
+            rec["mfe_pips"] = round(float(rec["mfe_pips"]), 1)
+    return stats
+
+
+def _fetch_heroku_node1_cached(root: Path, *, ttl_sec: float = 8.0) -> dict[str, Any] | None:
+    """Read live NAQEX_NODE1 telemetry from Heroku EU (read-only, cached, never leaks tokens)."""
+    global _HEROKU_STATUS_CACHE
+    cfg_path = root / ".runtime/ops-cloud/heroku_connection_local.json"
+    if not cfg_path.is_file():
+        return None
+    now = time.monotonic()
+    with _HEROKU_CACHE_LOCK:
+        ts_c, val_c = _HEROKU_STATUS_CACHE
+        if (now - ts_c) < ttl_sec:
+            return val_c
+
+    cfg = _safe_read_json(cfg_path)
+    if not isinstance(cfg, dict):
+        return None
+    web_url = str(cfg.get("web_url") or "").rstrip("/")
+    dash_url = str(cfg.get("mobile_dashboard_url") or "")
+    if not web_url or "?" not in dash_url:
+        return None
+    q_part = dash_url.split("?", 1)[1]
+    result: dict[str, Any] | None = None
+    try:
+        req = urllib.request.Request(f"{web_url}/api/status?{q_part}", headers={"User-Agent": "Naqex-Cockpit/1.0"})
+        with urllib.request.urlopen(req, timeout=2.5) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+        nodes = data.get("nodes") or []
+        preferred = next((n for n in nodes if n.get("account_label") == "NAQEX_NODE1"), None) or (nodes[0] if nodes else None)
+        if isinstance(preferred, dict):
+            result = {
+                "source": "HEROKU_EU_LIVE",
+                "account_label": preferred.get("account_label"),
+                "status": preferred.get("status"),
+                "age_sec": preferred.get("age_sec"),
+                "mt5_running": preferred.get("mt5_running"),
+                "balance": preferred.get("balance"),
+                "equity": preferred.get("equity"),
+                "daily_dd_pct": preferred.get("daily_dd_pct"),
+                "static_dd_pct": preferred.get("static_dd_pct"),
+                "open_positions": preferred.get("open_positions"),
+                "orphan_no_sl": preferred.get("orphan_no_sl"),
+                "regime": preferred.get("regime"),
+                "kill_switch": preferred.get("kill_switch"),
+                "last_seen_utc": preferred.get("last_seen_utc"),
+            }
+    except Exception:
+        result = None
+
+    with _HEROKU_CACHE_LOCK:
+        _HEROKU_STATUS_CACHE = (now, result)
+    return result
+
+
+def build_prop_metrix_payload(
+    root: Path = ROOT,
+    *,
+    program: str = "ftmo_free_trial_10k",
+    allow_cloud_fetch: bool = True,
+) -> dict[str, Any]:
+    """Build FTMO-MetriX-style Prop Account buffers, rule checklist, MAE/MFE & daily calendar (OrderSend=0)."""
+    prog = PROP_METRIX_PROGRAMS.get(program, PROP_METRIX_PROGRAMS["ftmo_free_trial_10k"])
+    init_usd = float(prog["initial_usd"])
+    daily_lim = float(prog["daily_loss_usd"])
+    max_lim = float(prog["max_loss_usd"])
+    target_usd = prog["profit_target_usd"]
+    min_days = int(prog["min_trading_days"])
+
+    live_dir = root / ".runtime/live-overnight"
+    spread_rows = _read_jsonl_tail(live_dir / "mt5_live_spread_log.jsonl", limit=1500)
+    mae_mfe_map = _compute_positions_mae_mfe(spread_rows)
+
+    # Read local heartbeat fallback
+    local_hb: dict[str, Any] = {}
+    for cand in (
+        root / ".runtime/ftmo-demo-portable-1515343166/MQL5/Files/naqex_heartbeat.json",
+        live_dir / "naqex_heartbeat.json",
+    ):
+        obj = _safe_read_json(cand)
+        if isinstance(obj, dict) and float(obj.get("balance") or 0.0) > 0.0:
+            local_hb = obj
+            break
+
+    cloud_node = _fetch_heroku_node1_cached(root) if (allow_cloud_fetch and root == ROOT) else None
+
+    # Resolve live account numbers (Heroku EU live node1 preferred when healthy; local snapshots fallback)
+    latest_snap = spread_rows[-1] if spread_rows else {}
+    snap_acct = latest_snap.get("account") if isinstance(latest_snap.get("account"), dict) else {}
+    if cloud_node and cloud_node.get("equity") is not None:
+        source_label = f"{cloud_node.get('account_label') or 'NAQEX_NODE1'} · HEROKU LIVE"
+        source_status = str(cloud_node.get("status") or "OK")
+        balance = float(cloud_node.get("balance") or init_usd)
+        equity = float(cloud_node.get("equity") or balance)
+        open_pos_cnt = int(cloud_node.get("open_positions") or 0)
+        orphan_cnt = int(cloud_node.get("orphan_no_sl") or 0)
+        regime = str(cloud_node.get("regime") or "NORMAL")
+        kill_sw = bool(cloud_node.get("kill_switch") or False)
+        age_sec = cloud_node.get("age_sec")
+        daily_dd_pct_hb = float(cloud_node.get("daily_dd_pct") or 0.0)
+    elif snap_acct and snap_acct.get("equity") is not None:
+        source_label = "LOCAL MT5 TELEMETRY LOG"
+        source_status = "CACHED"
+        balance = float(snap_acct.get("balance") or init_usd)
+        equity = float(snap_acct.get("equity") or balance)
+        open_pos_cnt = int(latest_snap.get("naqex_positions_count") or 0)
+        orphan_cnt = int(latest_snap.get("orphan_no_sl") or 0)
+        hb_s = latest_snap.get("heartbeat") if isinstance(latest_snap.get("heartbeat"), dict) else {}
+        regime = str(hb_s.get("regime") or local_hb.get("regime") or "NORMAL")
+        kill_sw = bool(hb_s.get("kill_switch") or local_hb.get("kill_switch") or False)
+        age_sec = None
+        daily_dd_pct_hb = float(local_hb.get("daily_dd_pct") or 0.0)
+    elif local_hb:
+        source_label = "LOCAL HEARTBEAT JSON"
+        source_status = "CACHED"
+        balance = float(local_hb.get("balance") or init_usd)
+        equity = float(local_hb.get("equity") or balance)
+        open_pos_cnt = int(local_hb.get("open_positions") or 0)
+        orphan_cnt = int(local_hb.get("orphan_no_sl") or 0)
+        regime = str(local_hb.get("regime") or "NORMAL")
+        kill_sw = bool(local_hb.get("kill_switch") or False)
+        age_sec = None
+        daily_dd_pct_hb = float(local_hb.get("daily_dd_pct") or 0.0)
+    else:
+        source_label = "STANDBY (NO TELEMETRY)"
+        source_status = "PENDING"
+        balance = init_usd
+        equity = init_usd
+        open_pos_cnt = 0
+        orphan_cnt = 0
+        regime = "NORMAL"
+        kill_sw = False
+        age_sec = None
+        daily_dd_pct_hb = 0.0
+
+    # Aggregate daily equity & calendar cells from real telemetry snapshots
+    daily_map: dict[str, dict[str, Any]] = {}
+    for s in spread_rows:
+        utc_s = str(s.get("captured_utc") or "")
+        if len(utc_s) < 10:
+            continue
+        dk = utc_s[:10]
+        ac = s.get("account") if isinstance(s.get("account"), dict) else {}
+        eq_s = ac.get("equity")
+        bal_s = ac.get("balance")
+        if eq_s is None:
+            continue
+        eq_f = float(eq_s)
+        bal_f = float(bal_s) if bal_s is not None else eq_f
+        pos_c = int(s.get("naqex_positions_count") or 0)
+        cur = daily_map.get(dk)
+        if cur is None:
+            daily_map[dk] = {
+                "day": dk,
+                "start_eq": bal_f if abs(bal_f - init_usd) < init_usd * 0.5 else eq_f,
+                "end_eq": eq_f,
+                "min_eq": eq_f,
+                "max_eq": eq_f,
+                "max_open_pos": pos_c,
+                "samples": 1,
+                "has_trade": pos_c > 0 or abs(eq_f - bal_f) > 1e-6,
+            }
+        else:
+            cur["end_eq"] = eq_f
+            cur["min_eq"] = min(cur["min_eq"], eq_f)
+            cur["max_eq"] = max(cur["max_eq"], eq_f)
+            cur["max_open_pos"] = max(cur["max_open_pos"], pos_c)
+            cur["samples"] += 1
+            if pos_c > 0 or abs(eq_f - bal_f) > 1e-6:
+                cur["has_trade"] = True
+
+    today_utc = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    if source_status != "PENDING":
+        cur_today = daily_map.get(today_utc)
+        if cur_today is None:
+            daily_map[today_utc] = {
+                "day": today_utc,
+                "start_eq": init_usd if len(daily_map) == 0 else balance,
+                "end_eq": equity,
+                "min_eq": equity,
+                "max_eq": equity,
+                "max_open_pos": open_pos_cnt,
+                "samples": 1,
+                "has_trade": open_pos_cnt > 0 or abs(equity - init_usd) > 1e-6,
+            }
+        else:
+            cur_today["end_eq"] = equity
+            cur_today["min_eq"] = min(cur_today["min_eq"], equity)
+            cur_today["max_eq"] = max(cur_today["max_eq"], equity)
+            cur_today["max_open_pos"] = max(cur_today["max_open_pos"], open_pos_cnt)
+            if open_pos_cnt > 0:
+                cur_today["has_trade"] = True
+
+    # Day anchor for FTMO daily buffer = start-of-day baseline (initial on day 1, or previous day end)
+    sorted_days = sorted(daily_map.keys())
+    if today_utc in daily_map:
+        day_anchor_eq = float(daily_map[today_utc]["start_eq"])
+    elif local_hb.get("day_anchor_eq"):
+        day_anchor_eq = float(local_hb["day_anchor_eq"])
+    else:
+        day_anchor_eq = init_usd
+
+    today_pnl_usd = round(equity - day_anchor_eq, 2)
+    total_pnl_usd = round(equity - init_usd, 2)
+    permitted_daily_loss_usd = round(max(0.0, daily_lim + today_pnl_usd), 2)
+    permitted_max_loss_usd = round(max(0.0, max_lim + total_pnl_usd), 2)
+
+    # Worst observed daily & static DD in USD
+    obs_today_min = float(daily_map[today_utc]["min_eq"]) if today_utc in daily_map else equity
+    worst_daily_usd = round(min(0.0, obs_today_min - day_anchor_eq, -(daily_dd_pct_hb / 100.0) * init_usd), 2)
+    obs_all_min = min((float(v["min_eq"]) for v in daily_map.values()), default=equity)
+    worst_static_usd = round(min(0.0, obs_all_min - init_usd, total_pnl_usd), 2)
+
+    days_traded = sum(1 for v in daily_map.values() if v["has_trade"])
+    target_progress_pct = round(max(0.0, min(100.0, 100.0 * total_pnl_usd / float(target_usd))), 1) if target_usd else None
+
+    rules = [
+        {
+            "id": "min_trading_days",
+            "label": f"Ngày giao dịch tối thiểu ({min_days} ngày)" if min_days > 0 else "Ngày giao dịch tối thiểu (Không yêu cầu)",
+            "value_text": f"{days_traded} / {min_days} ngày" if min_days > 0 else f"{days_traded} ngày",
+            "status": "PASS" if days_traded >= min_days else "PENDING",
+        },
+        {
+            "id": "max_daily_loss",
+            "label": f"Mức lỗ tối đa hàng ngày (-{daily_lim:,.0f} USD)",
+            "value_text": f"{worst_daily_usd:+,.2f} USD ({abs(worst_daily_usd) / max(1.0, init_usd) * 100.0:.2f}%)",
+            "status": "BREACH" if abs(worst_daily_usd) >= daily_lim else "PASS",
+        },
+        {
+            "id": "max_total_loss",
+            "label": f"Mức lỗ tối đa tổng (-{max_lim:,.0f} USD)",
+            "value_text": f"{worst_static_usd:+,.2f} USD ({abs(worst_static_usd) / max(1.0, init_usd) * 100.0:.2f}%)",
+            "status": "BREACH" if abs(worst_static_usd) >= max_lim else "PASS",
+        },
+        {
+            "id": "profit_target",
+            "label": f"Mục tiêu lợi nhuận (+{target_usd:,.0f} USD)" if target_usd else "Mục tiêu lợi nhuận (Tài khoản Funded)",
+            "value_text": (
+                f"{total_pnl_usd:+,.2f} USD ({total_pnl_usd / max(1.0, init_usd) * 100.0:+.2f}%)"
+                if target_usd else f"{total_pnl_usd:+,.2f} USD"
+            ),
+            "status": (
+                "FUNDED" if target_usd is None
+                else ("PASS" if total_pnl_usd >= float(target_usd) else "IN_PROGRESS")
+            ),
+            "progress_pct": target_progress_pct,
+        },
+        {
+            "id": "safety_guard",
+            "label": "Bảo vệ cứng SL & Kill-Switch",
+            "value_text": f"Thiếu SL: {orphan_cnt} · Chế độ: {regime}",
+            "status": "PASS" if (orphan_cnt == 0 and not kill_sw) else "BREACH",
+        },
+    ]
+
+    # Build active month calendar matrix (Mon..Sun cells)
+    ref_day = sorted_days[-1] if sorted_days else today_utc
+    yr_i, mo_i = int(ref_day[:4]), int(ref_day[5:7])
+    first_wd, n_days_mo = calendar.monthrange(yr_i, mo_i)
+    cal_cells: list[dict[str, Any]] = []
+    for _ in range(first_wd):
+        cal_cells.append({"empty": True})
+    for dnum in range(1, n_days_mo + 1):
+        dk = f"{yr_i:04d}-{mo_i:02d}-{dnum:02d}"
+        info = daily_map.get(dk)
+        if info and info["has_trade"]:
+            dpnl = round(float(info["end_eq"]) - float(info["start_eq"]), 2)
+            state_lbl = "LIVE_OPEN" if (dk == today_utc and open_pos_cnt > 0) else "RECORDED"
+            cal_cells.append({
+                "empty": False,
+                "day_num": dnum,
+                "day": dk,
+                "has_trade": True,
+                "pnl_usd": dpnl,
+                "max_open_pos": info["max_open_pos"],
+                "state": state_lbl,
+            })
+        else:
+            cal_cells.append({"empty": False, "day_num": dnum, "day": dk, "has_trade": False, "pnl_usd": None, "state": "IDLE"})
+
+    return {
+        "schema": "naqex-prop-metrix-v1",
+        "generated_utc": datetime.now(timezone.utc).isoformat(),
+        "order_send_count": ORDER_SEND_COUNT,
+        "program": prog,
+        "available_programs": [{"id": k, "label": v["label"]} for k, v in PROP_METRIX_PROGRAMS.items()],
+        "source": {
+            "label": source_label,
+            "status": source_status,
+            "age_sec": age_sec,
+            "mt5_running": cloud_node.get("mt5_running") if cloud_node else None,
+        },
+        "account": {
+            "initial_usd": init_usd,
+            "balance_usd": round(balance, 2),
+            "equity_usd": round(equity, 2),
+            "day_anchor_usd": round(day_anchor_eq, 2),
+            "today_pnl_usd": today_pnl_usd,
+            "today_pnl_pct": round(100.0 * today_pnl_usd / max(1.0, init_usd), 2),
+            "total_pnl_usd": total_pnl_usd,
+            "total_pnl_pct": round(100.0 * total_pnl_usd / max(1.0, init_usd), 2),
+            "open_positions": open_pos_cnt,
+            "orphan_no_sl": orphan_cnt,
+            "regime": regime,
+        },
+        "buffers": {
+            "permitted_daily_loss_usd": permitted_daily_loss_usd,
+            "daily_limit_usd": daily_lim,
+            "permitted_max_loss_usd": permitted_max_loss_usd,
+            "max_limit_usd": max_lim,
+            "today_pnl_usd": today_pnl_usd,
+        },
+        "rules": rules,
+        "calendar": {
+            "year": yr_i,
+            "month": mo_i,
+            "month_label": f"Tháng {mo_i:02d}/{yr_i}",
+            "cells": cal_cells,
+        },
+        "positions_mae_mfe": {str(k): v for k, v in mae_mfe_map.items()},
+    }
 
 
 def _get_sleeve1_cached(root: Path) -> tuple[dict[str, float], dict[str, Any]] | None:
@@ -592,7 +1051,20 @@ def build_live_telemetry_payload(root: Path = ROOT) -> dict[str, Any]:
             heartbeat_data = hb_pay
             heartbeat_src = ".runtime/live-overnight/mt5_live_spread_log.jsonl"
 
-    live_positions = list(mt5_latest.get("naqex_positions") or []) if isinstance(mt5_latest, dict) else []
+    raw_positions = list(mt5_latest.get("naqex_positions") or []) if isinstance(mt5_latest, dict) else []
+    mae_mfe_lookup = _compute_positions_mae_mfe(_read_jsonl_tail(overnight_dir / "mt5_live_spread_log.jsonl", limit=1500)) if raw_positions else {}
+    live_positions = []
+    for p in raw_positions:
+        if not isinstance(p, dict):
+            continue
+        mm = mae_mfe_lookup.get(int(p["ticket"])) if p.get("ticket") is not None else None
+        live_positions.append({
+            **p,
+            "mae_pips": mm.get("mae_pips") if mm else None,
+            "mfe_pips": mm.get("mfe_pips") if mm else None,
+            "mae_usd": mm.get("mae_usd") if mm else None,
+            "mfe_usd": mm.get("mfe_usd") if mm else None,
+        })
     exec_audit_recent: list[dict[str, str]] = []
     exec_csv = root / ".runtime/ftmo-demo-portable-1515343166/MQL5/Files/naqex_exec_audit.csv"
     if exec_csv.is_file():
@@ -1212,6 +1684,11 @@ def make_handler(root: Path = ROOT, static_dir: Path = STATIC_DIR):
                 return
             if path == "/api/live-telemetry":
                 self._send_json(HTTPStatus.OK, build_live_telemetry_payload(root))
+                return
+            if path == "/api/prop-metrix":
+                prog = str(qs.get("program", ["ftmo_free_trial_10k"])[0])
+                offline = str(qs.get("offline", ["0"])[0]) in ("1", "true", "yes")
+                self._send_json(HTTPStatus.OK, build_prop_metrix_payload(root, program=prog, allow_cloud_fetch=not offline))
                 return
             if path == "/api/emergency-cover":
                 self._send_json(HTTPStatus.OK, read_emergency_cover_state(root))

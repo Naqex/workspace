@@ -51,6 +51,75 @@
       </div>
     </section>
 
+    <!-- Row 0.5: Prop Account MetriX (Permitted Loss Buffers, Objective Checklist & Daily PnL Calendar) -->
+    <section class="panel" id="panel-prop-metrix" aria-label="Prop Account MetriX">
+      <div class="panel-hdr">
+        <div>
+          <h2>Prop Account MetriX — Khoảng Đệm Sống Còn, Mục Tiêu Quỹ &amp; Lịch PnL</h2>
+          <div class="sub mono" id="mx-acct-line">Số dư: — · Equity: — · Lệnh mở: —</div>
+        </div>
+        <div class="tier-pills">
+          <select id="inp-mx-program" class="input input-sm" aria-label="Chọn chương trình Prop">
+            <option value="ftmo_free_trial_10k" selected>FTMO Free Trial 10K (Swing)</option>
+            <option value="ftmo_swing_10k_p1">FTMO Swing 10K — Phase 1</option>
+            <option value="ftmo_swing_10k_p2">FTMO Swing 10K — Phase 2</option>
+            <option value="ftmo_funded_10k">FTMO Funded 10K</option>
+            <option value="the5ers_hs_5k_p1">The5ers High Stakes 5K — Step 1</option>
+          </select>
+          <span class="tag" id="mx-source-badge">—</span>
+        </div>
+      </div>
+
+      <div class="mx-buffers">
+        <div class="mini-card">
+          <div class="mini-lbl">Khoản lỗ cho phép hôm nay</div>
+          <div class="mini-val mono pos" id="mx-buf-daily">—</div>
+          <div class="mini-sub mono" id="mx-buf-daily-sub">Ngưỡng ngày: —</div>
+        </div>
+        <div class="mini-card">
+          <div class="mini-lbl">Khoản lỗ tối đa cho phép</div>
+          <div class="mini-val mono pos" id="mx-buf-max">—</div>
+          <div class="mini-sub mono" id="mx-buf-max-sub">Ngưỡng tổng: —</div>
+        </div>
+        <div class="mini-card">
+          <div class="mini-lbl">Lãi / Lỗ hôm nay</div>
+          <div class="mini-val mono" id="mx-buf-today">—</div>
+          <div class="mini-sub mono" id="mx-buf-today-sub">Tổng PnL: —</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <div class="table-scroll">
+            <table class="data-table" id="tbl-mx-rules">
+              <thead>
+                <tr><th>Quy tắc / Mục tiêu</th><th class="num">Kết quả</th><th>Trạng thái</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="crossover-box" id="mx-target-box">
+            <div class="xo-hdr">
+              <span>Tiến độ mục tiêu lợi nhuận</span>
+              <strong class="mono" id="mx-target-pct">—</strong>
+            </div>
+            <div class="progress-track"><div class="progress-fill" id="mx-target-bar"></div></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="mx-cal-hdr">
+            <span class="sec-subhdr" style="margin:0">Nhật Ký PnL Theo Ngày</span>
+            <span class="mono" id="mx-cal-month">—</span>
+          </div>
+          <div class="mx-cal-dow mono">
+            <span>T2</span><span>T3</span><span>T4</span><span>T5</span><span>T6</span><span>T7</span><span>CN</span>
+          </div>
+          <div class="mx-cal-grid mono" id="mx-cal-grid"></div>
+        </div>
+      </div>
+    </section>
+
     <!-- Row 1: Equity & Underwater DD Chart + Correlation Heatmap -->
     <div class="grid-2-wide">
       <section class="panel">
@@ -276,7 +345,7 @@
         <h3 class="sec-subhdr">Lịch Khóa Tin Đỏ Chính Thức 2026–2027 (±5m Guard)</h3>
         <div class="table-scroll">
           <table class="data-table" id="tbl-news">
-            <thead><tr><th>Thời gian UTC</th><th class="num">Còn lại</th><th>CCY</th><th>Sự kiện</th></tr></thead>
+            <thead><tr><th>Giờ VN (ICT)</th><th>UTC</th><th class="num">Đếm ngược</th><th>CCY</th><th>Sự kiện</th></tr></thead>
             <tbody></tbody>
           </table>
         </div>
@@ -328,9 +397,9 @@
         <div class="table-scroll">
           <table class="data-table" id="tbl-live-pos">
             <thead>
-              <tr><th>Ticket</th><th>Symbol</th><th>Chiều</th><th class="num">Lot</th><th class="num">Mở</th><th class="num">SL</th><th class="num">Swap</th><th class="num">PnL USD</th></tr>
+              <tr><th>Ticket</th><th>Symbol</th><th>Chiều</th><th class="num">Lot</th><th class="num">Mở</th><th class="num">SL</th><th class="num">MAE/MFE (pip)</th><th class="num">Swap</th><th class="num">PnL USD</th></tr>
             </thead>
-            <tbody><tr><td colspan="8" class="mono">Chưa có vị thế mở</td></tr></tbody>
+            <tbody><tr><td colspan="9" class="mono">Chưa có vị thế mở</td></tr></tbody>
           </table>
         </div>
 

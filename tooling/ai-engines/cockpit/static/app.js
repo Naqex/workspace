@@ -361,17 +361,25 @@
     tbody.innerHTML = "";
     (t.upcoming_red_news || []).forEach((ev) => {
       const tr = document.createElement("tr");
-      tr.innerHTML = `<td class="mono">${ev.utc_iso}</td><td class="num mono">+${ev.hours_away}h</td><td class="mono strong">${ev.ccy}</td><td>${ev.event}</td>`;
+      const cd = ev.countdown_vi || `+${ev.hours_away}h`;
+      const cdCls = ev.in_blackout_window ? "tag tag-red" : (ev.hours_away <= 2 ? "warn strong" : "");
+      tr.innerHTML = `<td class="mono strong">${ev.vn_iso || ev.utc_iso}</td><td class="mono">${ev.utc_iso}</td><td class="num mono"><span class="${cdCls}">${cd}</span></td><td class="mono strong">${ev.ccy}</td><td>${ev.event}</td>`;
       tbody.appendChild(tr);
     });
 
-    // Render Live MT5 Open Positions
+    // Render Live MT5 Open Positions (with real MAE / MFE pips when observed)
     const posBody = $("tbl-live-pos").querySelector("tbody");
     const openPos = (t.mt5_live_spreads && t.mt5_live_spreads.open_positions) || [];
     if (!openPos.length) {
-      posBody.innerHTML = `<tr><td colspan="8" class="mono">0 vị thế mở (flat)</td></tr>`;
+      posBody.innerHTML = `<tr><td colspan="9" class="mono">0 vị thế mở (flat)</td></tr>`;
     } else {
-      posBody.innerHTML = openPos.map((p) => `
+      posBody.innerHTML = openPos.map((p) => {
+        const maeTxt = p.mae_pips != null ? `${Number(p.mae_pips).toFixed(1)}` : "—";
+        const mfeTxt = p.mfe_pips != null ? `+${Number(p.mfe_pips).toFixed(1)}` : "—";
+        const mmCell = (p.mae_pips != null || p.mfe_pips != null)
+          ? `<span class="neg">${maeTxt}</span> / <span class="pos">${mfeTxt}</span>`
+          : "—";
+        return `
         <tr>
           <td class="mono">${p.ticket}</td>
           <td class="mono strong">${p.symbol}</td>
@@ -379,10 +387,11 @@
           <td class="num mono">${Number(p.volume).toFixed(2)}</td>
           <td class="num mono">${Number(p.price_open).toFixed(3)}</td>
           <td class="num mono">${Number(p.sl).toFixed(3)}</td>
+          <td class="num mono">${mmCell}</td>
           <td class="num mono">${Number(p.swap || 0).toFixed(2)}</td>
           <td class="num mono ${Number(p.profit) >= 0 ? "pos" : "neg"}">${Number(p.profit) >= 0 ? "+" : ""}${Number(p.profit).toFixed(2)}</td>
-        </tr>
-      `).join("");
+        </tr>`;
+      }).join("");
     }
 
     // Render Recent Execution Audit CSV rows
@@ -615,6 +624,73 @@
     }).join("");
   }
 
+  async function refreshPropMetrix() {
+    const sel = $("inp-mx-program");
+    if (!sel) return;
+    const prog = sel.value || "ftmo_free_trial_10k";
+    const d = await fetchJson(`/api/prop-metrix?program=${encodeURIComponent(prog)}`);
+    const src = d.source || {};
+    const ac = d.account || {};
+    const buf = d.buffers || {};
+
+    const srcBadge = $("mx-source-badge");
+    const ageTxt = src.age_sec != null ? ` · ${src.age_sec}s` : "";
+    srcBadge.textContent = `${src.label || "STANDBY"}${ageTxt}`;
+    srcBadge.className = `tag ${src.status === "OK" ? "tag-green" : src.status === "CACHED" ? "tag-amber" : "tag-red"}`;
+
+    $("mx-acct-line").textContent = `Số dư: ${fmtUSD(ac.balance_usd)} · Equity: ${fmtUSD(ac.equity_usd)} · Lệnh mở: ${ac.open_positions} · Thiếu SL: ${ac.orphan_no_sl} · Chế độ: ${ac.regime}`;
+
+    $("mx-buf-daily").textContent = fmtUSD(buf.permitted_daily_loss_usd);
+    $("mx-buf-daily").className = `mini-val mono ${buf.permitted_daily_loss_usd <= buf.daily_limit_usd * 0.25 ? "neg" : "pos"}`;
+    $("mx-buf-daily-sub").textContent = `Ngưỡng ngày: -${fmtUSD(buf.daily_limit_usd)} · Mốc ngày: ${fmtUSD(ac.day_anchor_usd)}`;
+
+    $("mx-buf-max").textContent = fmtUSD(buf.permitted_max_loss_usd);
+    $("mx-buf-max").className = `mini-val mono ${buf.permitted_max_loss_usd <= buf.max_limit_usd * 0.25 ? "neg" : "pos"}`;
+    $("mx-buf-max-sub").textContent = `Ngưỡng tổng: -${fmtUSD(buf.max_limit_usd)} · Vốn đầu: ${fmtUSD(ac.initial_usd)}`;
+
+    const tPnl = Number(ac.today_pnl_usd || 0);
+    $("mx-buf-today").textContent = `${tPnl >= 0 ? "+" : ""}${fmtUSD(tPnl)} (${ac.today_pnl_pct >= 0 ? "+" : ""}${ac.today_pnl_pct}%)`;
+    $("mx-buf-today").className = `mini-val mono ${tPnl >= 0 ? "pos" : "neg"}`;
+    const totPnl = Number(ac.total_pnl_usd || 0);
+    $("mx-buf-today-sub").textContent = `Tổng PnL: ${totPnl >= 0 ? "+" : ""}${fmtUSD(totPnl)} (${ac.total_pnl_pct >= 0 ? "+" : ""}${ac.total_pnl_pct}%)`;
+
+    const stLabel = { PASS: "ĐẠT", PENDING: "CHỜ", IN_PROGRESS: "ĐANG CHẠY", FUNDED: "FUNDED", BREACH: "VI PHẠM" };
+    const stCls = { PASS: "tag-green", PENDING: "tag-amber", IN_PROGRESS: "tag-amber", FUNDED: "tag-green", BREACH: "tag-red" };
+    const rBody = $("tbl-mx-rules").querySelector("tbody");
+    rBody.innerHTML = (d.rules || []).map((r) => `
+      <tr>
+        <td>${r.label}</td>
+        <td class="num mono">${r.value_text}</td>
+        <td><span class="tag ${stCls[r.status] || ""}">${stLabel[r.status] || r.status}</span></td>
+      </tr>
+    `).join("");
+
+    const tRule = (d.rules || []).find((r) => r.id === "profit_target");
+    const tBox = $("mx-target-box");
+    if (tRule && tRule.progress_pct != null) {
+      tBox.classList.remove("hidden");
+      $("mx-target-pct").textContent = `${tRule.progress_pct}%`;
+      $("mx-target-bar").style.width = `${Math.min(100, Math.max(0, tRule.progress_pct))}%`;
+    } else {
+      tBox.classList.add("hidden");
+    }
+
+    const cal = d.calendar || {};
+    $("mx-cal-month").textContent = cal.month_label || "—";
+    const grid = $("mx-cal-grid");
+    grid.innerHTML = (cal.cells || []).map((c) => {
+      if (c.empty) return `<div class="mx-cell empty"></div>`;
+      if (!c.has_trade) return `<div class="mx-cell"><span class="mx-cell-day">${c.day_num}</span><span class="mx-cell-pnl"></span></div>`;
+      const p = Number(c.pnl_usd || 0);
+      const cls = `mx-cell ${p >= 0 ? "win" : "loss"} ${c.state === "LIVE_OPEN" ? "live" : ""}`;
+      const tag = c.state === "LIVE_OPEN" ? "mở" : "";
+      return `<div class="${cls}" title="${c.day}: ${p >= 0 ? "+" : ""}${p.toFixed(2)} USD (${c.state})">
+        <span class="mx-cell-day">${c.day_num} ${tag}</span>
+        <span class="mx-cell-pnl ${p >= 0 ? "pos" : "neg"}">${p >= 0 ? "+" : ""}$${Math.abs(p).toFixed(1)}</span>
+      </div>`;
+    }).join("");
+  }
+
   async function refreshAll() {
     const [summary, alloc, telemetry] = await Promise.all([
       fetchJson("/api/summary"),
@@ -629,7 +705,7 @@
     renderEquityAndDDCharts();
     renderCorrelationHeatmap();
     renderTelemetry();
-    await Promise.all([refreshCalculator(), refreshStress(), refreshRebalancer()]);
+    await Promise.all([refreshPropMetrix(), refreshCalculator(), refreshStress(), refreshRebalancer()]);
   }
 
   function syncCapitalFromUsd(usd) {
@@ -668,6 +744,17 @@
         refreshStress();
       });
     });
+    const mxSel = $("inp-mx-program");
+    if (mxSel) {
+      const savedProg = window.localStorage && window.localStorage.getItem("naqex_mx_program");
+      if (savedProg && Array.from(mxSel.options).some((o) => o.value === savedProg)) {
+        mxSel.value = savedProg;
+      }
+      mxSel.addEventListener("change", () => {
+        if (window.localStorage) window.localStorage.setItem("naqex_mx_program", mxSel.value);
+        refreshPropMetrix();
+      });
+    }
     $("inp-rebal-mode").addEventListener("change", () => refreshRebalancer());
     $("btn-toggle-cover").addEventListener("click", () => {
       coverOpened = !coverOpened;

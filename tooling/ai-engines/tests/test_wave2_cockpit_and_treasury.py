@@ -369,3 +369,61 @@ def test_wave2_docs_frontmatter_links_and_zero_bare_dollar():
     # Verify full knowledge vault remains 0 broken links & 0 near-duplicate headings
     assert brain_cli.find_broken_knowledge_links(ROOT) == []
     assert brain_cli.find_near_duplicate_topic_headings(ROOT) == []
+
+
+def test_prop_metrix_buffers_rules_mae_mfe_and_calendar(tmp_path: Path):
+    live_dir = tmp_path / ".runtime/live-overnight"
+    live_dir.mkdir(parents=True, exist_ok=True)
+    snaps = [
+        {
+            "captured_utc": "2026-11-24T05:25:00+00:00",
+            "account": {"balance": 9999.82, "equity": 9998.72},
+            "naqex_positions_count": 1,
+            "orphan_no_sl": 0,
+            "quotes": {"USDJPY": {"bid": 159.070, "ask": 159.073}},
+            "naqex_positions": [{"ticket": 591010790, "symbol": "USDJPY", "type": "BUY", "volume": 0.07, "price_open": 159.095, "sl": 158.753, "profit": -1.10, "swap": 0.0}],
+        },
+        {
+            "captured_utc": "2026-11-24T08:17:00+00:00",
+            "account": {"balance": 9999.82, "equity": 10011.15},
+            "naqex_positions_count": 1,
+            "orphan_no_sl": 0,
+            "quotes": {"USDJPY": {"bid": 159.403, "ask": 159.406}},
+            "naqex_positions": [{"ticket": 591010790, "symbol": "USDJPY", "type": "BUY", "volume": 0.07, "price_open": 159.095, "sl": 158.753, "profit": 11.33, "swap": 0.0}],
+        },
+    ]
+    (live_dir / "mt5_live_spread_log.jsonl").write_text(
+        "\n".join(json.dumps(s) for s in snaps) + "\n", encoding="utf-8"
+    )
+
+    mx = cockpit_server.build_prop_metrix_payload(tmp_path, program="ftmo_free_trial_10k", allow_cloud_fetch=False)
+    assert mx["order_send_count"] == 0
+    assert abs(mx["buffers"]["permitted_daily_loss_usd"] - 511.15) < 0.25
+    assert abs(mx["buffers"]["permitted_max_loss_usd"] - 1011.15) < 0.05
+    mm = mx["positions_mae_mfe"]["591010790"]
+    assert mm["mae_pips"] == -2.5
+    assert mm["mfe_pips"] == 30.8
+    rules_by_id = {r["id"]: r for r in mx["rules"]}
+    assert rules_by_id["max_daily_loss"]["status"] == "PASS"
+    assert rules_by_id["safety_guard"]["status"] == "PASS"
+    assert any(c.get("has_trade") and c.get("day") == "2026-11-24" for c in mx["calendar"]["cells"])
+
+    # Also verify HTTP endpoint + updated HTML panel markers
+    srv = cockpit_server.create_server(host="127.0.0.1", port=0, root=tmp_path)
+    port = srv.server_address[1]
+    th = threading.Thread(target=srv.serve_forever, daemon=True)
+    th.start()
+    try:
+        with urllib.request.urlopen(f"http://127.0.0.1:{port}/api/prop-metrix?program=the5ers_hs_5k_p1&offline=1", timeout=5) as r:
+            body = json.loads(r.read().decode("utf-8"))
+        assert body["program"]["id"] == "the5ers_hs_5k_p1"
+        assert body["buffers"]["daily_limit_usd"] == 250.0
+        with urllib.request.urlopen(f"http://127.0.0.1:{port}/", timeout=5) as r:
+            html_txt = r.read().decode("utf-8")
+        assert 'id="panel-prop-metrix"' in html_txt
+        assert "MAE/MFE (pip)" in html_txt
+    finally:
+        srv.shutdown()
+        srv.server_close()
+        th.join(timeout=5)
+
