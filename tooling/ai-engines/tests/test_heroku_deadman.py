@@ -166,3 +166,24 @@ def test_pc_heartbeat_sender_dry_run_and_heroku_manifest(tmp_path: Path):
     assert (HEROKU_DIR / "Procfile").read_text(encoding="utf-8").strip() == "web: python app.py"
     app_json = json.loads((HEROKU_DIR / "app.json").read_text(encoding="utf-8"))
     assert app_json["formation"]["web"]["size"] == "basic"
+    assert "heroku-postgresql:essential-0" in app_json["addons"]
+
+
+def test_win10_home_vps_bootstrap_script_dry_run():
+    ps_script = ROOT / "tooling/ai-engines/exports/deployment_kit/vps_kit/setup_win10_home_vps.ps1"
+    assert ps_script.is_file()
+    proc = subprocess.run(
+        [
+            "powershell", "-NoProfile", "-ExecutionPolicy", "Bypass",
+            "-File", str(ps_script),
+            "-HeartbeatJsonPath", "C:\\NaqexMT5\\MQL5\\Files\\naqex_heartbeat.json",
+            "-AccountLabel", "FTMO_HOME_PC",
+            "-RegisterHerokuHeartbeatTask", "-DryRun",
+        ],
+        capture_output=True, text=True, check=False,
+    )
+    assert proc.returncode == 0, proc.stderr
+    out = json.loads(proc.stdout)
+    assert out["dry_run"] is True and out["order_send"] == 0
+    assert any("DRYRUN_OPENSSH" in a for a in out["actions"])
+    assert any("DRYRUN_REGISTER_SCHTASK" in a for a in out["actions"])

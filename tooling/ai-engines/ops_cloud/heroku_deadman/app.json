@@ -1,6 +1,6 @@
 {
   "name": "Naqex Cloud Dead-Man's-Switch",
-  "description": "Zero-dependency 24/7 Heroku monitor for a Windows 10 home PC running MT5. Alerts Telegram/Discord if PC loses power/internet >3m or MT5 triggers orphan/kill-switch (OrderSend=0).",
+  "description": "24/7 Heroku EU monitor (Basic Dyno $7 + Postgres Essential-0 $5 = $12/mo <= $13 Student cap) for Windows 10 home PC running MT5 (OrderSend=0).",
   "stack": "heroku-24",
   "formation": {
     "web": {
@@ -8,14 +8,17 @@
       "size": "basic"
     }
   },
+  "addons": [
+    "heroku-postgresql:essential-0"
+  ],
   "env": {
     "NAQEX_INGEST_TOKEN": {
       "description": "Secret Bearer token shared with pc_heartbeat_sender.py on your Windows 10 PC",
       "generator": "secret"
     },
     "NAQEX_VIEW_TOKEN": {
-      "description": "Optional token to protect the mobile status page (leave blank to allow link-only view)",
-      "required": false
+      "description": "Secret token protecting the mobile status dashboard",
+      "generator": "secret"
     },
     "TELEGRAM_BOT_TOKEN": {
       "description": "Telegram Bot token from @BotFather (optional if using ALERT_WEBHOOK_URL)",

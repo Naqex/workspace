@@ -1,10 +1,9 @@
-# Hướng Dẫn Deploy Trạm Canh Heroku Dead-Man's-Switch (`7 USD/tháng` từ Credit Student)
+# Hướng Dẫn Vận Hành Trạm Canh Heroku Dead-Man's-Switch (`12 USD/tháng` <= Trần `13 USD` Student)
 
-App thuần Python chuẩn (`0` thư viện ngoài, build mất ~15 giây, `OrderSend = 0`), chạy 24/7 trên **1 Basic Dyno** (`7 USD/tháng`, không ngủ, dùng được ~`44` tháng từ `312 USD` Platform Credits) để canh PC Windows 10 (`i3-7100`) ở nhà:
-- Mất nhịp quá `3` phút (`180s` do cúp điện / rớt mạng / treo MT5) -> **hú Telegram/Discord ngay lập tức**.
-- PC có điện nối lại -> tự báo `[RECOVERED]`.
-- MT5 báo `orphan_no_sl > 0`, `kill_switch = true`, `AMBER/RED_BRAKE` hoặc `daily_dd >= 2,5%` -> báo ngay.
-- Mở `https://<ten-app>.herokuapp.com` trên điện thoại xem trực tiếp trạng thái Equity / lệnh mở / tuổi nhịp mọi lúc.
+App đã hiệu chuẩn đúng gói **GitHub Student Heroku Credits (`312 USD`, hiệu lực `2026-10-01 -> 2028-09-30`)**:
+- **`1 × Basic Dyno` (`7 USD/tháng`, 24/7 không ngủ)** + **`1 × Heroku Postgres Essential-0` (`5 USD/tháng`, lưu vĩnh viễn lịch sử heartbeat & cảnh báo qua mọi đợt restart dyno 24h)** = **`12 USD/tháng <= 13 USD/tháng`** hạn mức gói Student (`~264 USD / 312 USD` cho 22 tháng còn lại -> **`0 USD` trừ thẻ** tới `30/09/2028`).
+- **Nhắc lịch quan trọng:** đặt lịch ngày **`25/09/2028`** để tắt dyno/database hoặc chuyển gói trước khi credit hết hạn ngày `30/09/2028`.
+- **Chức năng (`OrderSend = 0`):** mất nhịp `> 180s` (cúp điện/rớt mạng/treo MT5) -> hú Telegram/Discord ngay (`[PC_OFFLINE]`), nối lại -> báo `[RECOVERED]`, có `orphan_no_sl > 0` / `kill_switch` / `AMBER-RED` -> báo khẩn; xem trực tiếp trên điện thoại tại `GET /`.
 
 ---
 

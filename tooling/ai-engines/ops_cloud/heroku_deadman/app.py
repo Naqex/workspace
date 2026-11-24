@@ -1,23 +1,19 @@
-"""Naqex Heroku Cloud Dead-Man's-Switch & Remote Telemetry Monitor (Pure Python Stdlib).
+"""Naqex Heroku Cloud Dead-Man's-Switch & Remote Telemetry Monitor.
 
-Designed to run 24/7 on a single Heroku Basic Dyno (`7 USD/month` — zero sleep, zero add-ons,
-~44 months covered by `312 USD` GitHub Student Heroku credits) to cross-monitor a Windows 10
-home PC or VPS running MetaTrader 5:
+Budget-calibrated for GitHub Student Heroku Credits (`312 USD`, `2026-10-01 -> 2028-09-30`):
+  - `1 × Basic Dyno` (`7 USD/mo`, 24/7 no sleep)
+  - `1 × Heroku Postgres Essential-0` (`5 USD/mo`, durable state surviving 24h dyno restarts)
+  - Total: `12 USD/mo <= 13 USD/mo` Student cap (~264 USD / 312 USD over 22 months = 0 USD billed to card)
 
+Endpoints:
   - `POST /api/heartbeat`  (Bearer `NAQEX_INGEST_TOKEN` required; fail-closed if unset)
   - `GET  /health`         (Lightweight readiness endpoint, zero secrets)
-  - `GET  /`               (Mobile-friendly flat-dark status dashboard; optional `NAQEX_VIEW_TOKEN`)
-
-Automatic Alerts (Telegram Bot API and/or Discord/Generic Webhook via env vars):
-  1. `PC_OFFLINE_STALE`   : No heartbeat received within `STALE_AFTER_SEC` (default 180s = 3m)
-  2. `PC_RECOVERED`       : Node resumes sending heartbeats after an outage
-  3. `ORPHAN_NO_SL`       : MT5 reports any open Naqex position without hard Stop-Loss
-  4. `KILL_SWITCH_ACTIVE` : AccountOrchestrator triggered Global Kill-Switch
-  5. `RISK_BRAKE_REGIME`  : Regime entered `AMBER_BRAKE` / `RED_BRAKE` / `MANUAL_HALT`
+  - `GET  /api/status`     (JSON telemetry snapshot; protected by `NAQEX_VIEW_TOKEN` if set)
+  - `GET  /`               (Mobile-friendly flat-dark status dashboard; auto-refresh 30s)
 
 Hard Safety Invariants:
-  - `ORDER_SEND_COUNT = 0` (100% read-only remote monitor; NEVER holds broker passwords or API keys)
-  - Zero third-party Python dependencies (pure stdlib -> ~15s Heroku slug build)
+  - `ORDER_SEND_COUNT = 0` (100% read-only monitor; NEVER holds broker passwords or places orders)
+  - Auto-prunes `naqex_heartbeat_log` to `10,000` rows so Postgres Essential-0 never fills over 24 months
 """
 
 from __future__ import annotations
@@ -37,11 +33,17 @@ from typing import Any, Callable
 from urllib.parse import parse_qs, urlparse
 import urllib.request
 
+try:
+    import psycopg  # type: ignore[import-not-found]
+except Exception:
+    psycopg = None
+
 ORDER_SEND_COUNT: int = 0
 DEFAULT_STALE_AFTER_SEC: int = 180
 DEFAULT_CHECK_INTERVAL_SEC: int = 15
 DEFAULT_ALERT_COOLDOWN_SEC: int = 900
 MAX_HISTORY_PER_NODE: int = 200
+MAX_PG_HEARTBEAT_ROWS: int = 10_000
 
 
 @dataclass
@@ -55,6 +57,190 @@ class NodeState:
     last_alert_key: str = ""
     last_alert_ts: float = 0.0
     history: deque[dict[str, Any]] = field(default_factory=lambda: deque(maxlen=MAX_HISTORY_PER_NODE))
+
+
+class PostgresStore:
+    """Lightweight durable persistence over Heroku Postgres Essential-0 (`DATABASE_URL`)."""
+
+    def __init__(self, database_url: str) -> None:
+        if psycopg is None:
+            raise RuntimeError("psycopg is required when DATABASE_URL is configured")
+        # Heroku exports postgres://; psycopg3 accepts postgresql://
+        self.dsn = database_url.replace("postgres://", "postgresql://", 1) if database_url.startswith("postgres://") else database_url
+        self._init_schema()
+
+    def _connect(self):
+        return psycopg.connect(self.dsn, autocommit=True, connect_timeout=8)
+
+    def _init_schema(self) -> None:
+        with self._connect() as conn, conn.cursor() as cur:
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS naqex_nodes (
+                    account_label TEXT PRIMARY KEY,
+                    first_seen_ts DOUBLE PRECISION NOT NULL,
+                    last_seen_ts DOUBLE PRECISION NOT NULL,
+                    status TEXT NOT NULL,
+                    active_reasons_json TEXT NOT NULL,
+                    last_payload_json TEXT NOT NULL,
+                    last_alert_key TEXT NOT NULL DEFAULT '',
+                    last_alert_ts DOUBLE PRECISION NOT NULL DEFAULT 0.0
+                );
+            """)
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS naqex_heartbeat_log (
+                    id BIGSERIAL PRIMARY KEY,
+                    ts DOUBLE PRECISION NOT NULL,
+                    account_label TEXT NOT NULL,
+                    status TEXT NOT NULL,
+                    equity DOUBLE PRECISION,
+                    balance DOUBLE PRECISION,
+                    open_positions INTEGER,
+                    orphan_no_sl INTEGER,
+                    regime TEXT
+                );
+            """)
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS naqex_alert_log (
+                    id BIGSERIAL PRIMARY KEY,
+                    ts DOUBLE PRECISION NOT NULL,
+                    utc TEXT NOT NULL,
+                    account_label TEXT NOT NULL,
+                    event_key TEXT NOT NULL,
+                    text TEXT NOT NULL,
+                    dispatch_json TEXT NOT NULL
+                );
+            """)
+
+    def load_state(self) -> tuple[dict[str, NodeState], list[dict[str, Any]]]:
+        nodes: dict[str, NodeState] = {}
+        alerts: list[dict[str, Any]] = []
+        with self._connect() as conn, conn.cursor() as cur:
+            cur.execute(
+                "SELECT account_label, first_seen_ts, last_seen_ts, status, active_reasons_json, "
+                "last_payload_json, last_alert_key, last_alert_ts FROM naqex_nodes"
+            )
+            for row in cur.fetchall():
+                label, f_ts, l_ts, st, reasons_j, pay_j, a_key, a_ts = row
+                try:
+                    reasons = json.loads(reasons_j)
+                except Exception:
+                    reasons = []
+                try:
+                    payload = json.loads(pay_j)
+                except Exception:
+                    payload = {}
+                nodes[label] = NodeState(
+                    account_label=label,
+                    first_seen_ts=float(f_ts),
+                    last_seen_ts=float(l_ts),
+                    last_payload=payload,
+                    status=str(st),
+                    active_reasons=list(reasons),
+                    last_alert_key=str(a_key or ""),
+                    last_alert_ts=float(a_ts or 0.0),
+                )
+            cur.execute(
+                "SELECT utc, account_label, event_key, text, dispatch_json "
+                "FROM naqex_alert_log ORDER BY id DESC LIMIT 50"
+            )
+            for utc_s, label, ev_k, txt, disp_j in reversed(cur.fetchall()):
+                try:
+                    disp = json.loads(disp_j)
+                except Exception:
+                    disp = {}
+                alerts.append({
+                    "utc": utc_s,
+                    "account_label": label,
+                    "event_key": ev_k,
+                    "text": txt,
+                    "dispatch": disp,
+                })
+        return nodes, alerts
+
+    def save_node_and_heartbeat(self, node: NodeState, hb_entry: dict[str, Any]) -> None:
+        with self._connect() as conn, conn.cursor() as cur:
+            cur.execute(
+                """
+                INSERT INTO naqex_nodes (
+                    account_label, first_seen_ts, last_seen_ts, status,
+                    active_reasons_json, last_payload_json, last_alert_key, last_alert_ts
+                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                ON CONFLICT (account_label) DO UPDATE SET
+                    last_seen_ts = EXCLUDED.last_seen_ts,
+                    status = EXCLUDED.status,
+                    active_reasons_json = EXCLUDED.active_reasons_json,
+                    last_payload_json = EXCLUDED.last_payload_json,
+                    last_alert_key = EXCLUDED.last_alert_key,
+                    last_alert_ts = EXCLUDED.last_alert_ts
+                """,
+                (
+                    node.account_label,
+                    node.first_seen_ts,
+                    node.last_seen_ts,
+                    node.status,
+                    json.dumps(node.active_reasons, ensure_ascii=False),
+                    json.dumps(node.last_payload, ensure_ascii=False),
+                    node.last_alert_key,
+                    node.last_alert_ts,
+                ),
+            )
+            cur.execute(
+                """
+                INSERT INTO naqex_heartbeat_log (
+                    ts, account_label, status, equity, balance, open_positions, orphan_no_sl, regime
+                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                """,
+                (
+                    float(hb_entry["ts"]),
+                    node.account_label,
+                    str(hb_entry["status"]),
+                    hb_entry.get("equity"),
+                    hb_entry.get("balance"),
+                    hb_entry.get("open_positions"),
+                    hb_entry.get("orphan_no_sl"),
+                    hb_entry.get("regime"),
+                ),
+            )
+            # Periodic rolling cap so Essential-0 1GB storage never overflows over 24 months
+            if int(hb_entry["ts"]) % 10 == 0:
+                cur.execute(
+                    "DELETE FROM naqex_heartbeat_log WHERE id NOT IN "
+                    f"(SELECT id FROM naqex_heartbeat_log ORDER BY id DESC LIMIT {MAX_PG_HEARTBEAT_ROWS})"
+                )
+
+    def save_alert(self, node: NodeState, alert_rec: dict[str, Any], ts: float) -> None:
+        with self._connect() as conn, conn.cursor() as cur:
+            cur.execute(
+                """
+                INSERT INTO naqex_alert_log (ts, utc, account_label, event_key, text, dispatch_json)
+                VALUES (%s, %s, %s, %s, %s, %s)
+                """,
+                (
+                    float(ts),
+                    alert_rec["utc"],
+                    alert_rec["account_label"],
+                    alert_rec["event_key"],
+                    alert_rec["text"],
+                    json.dumps(alert_rec["dispatch"], ensure_ascii=False),
+                ),
+            )
+            cur.execute(
+                "UPDATE naqex_nodes SET status=%s, active_reasons_json=%s, last_alert_key=%s, last_alert_ts=%s "
+                "WHERE account_label=%s",
+                (
+                    node.status,
+                    json.dumps(node.active_reasons, ensure_ascii=False),
+                    node.last_alert_key,
+                    node.last_alert_ts,
+                    node.account_label,
+                ),
+            )
+
+    def heartbeat_row_count(self) -> int:
+        with self._connect() as conn, conn.cursor() as cur:
+            cur.execute("SELECT COUNT(*) FROM naqex_heartbeat_log")
+            r = cur.fetchone()
+            return int(r[0]) if r else 0
 
 
 def dispatch_alert_message(
@@ -87,7 +273,7 @@ def dispatch_alert_message(
         req = urllib.request.Request(
             webhook_url,
             data=payload,
-            headers={"Content-Type": "application/json", "User-Agent": "Naqex-Deadman/1.0"},
+            headers={"Content-Type": "application/json", "User-Agent": "Naqex-Deadman/1.1"},
             method="POST",
         )
         try:
@@ -103,7 +289,7 @@ def dispatch_alert_message(
 
 
 class DeadmanMonitor:
-    """Thread-safe in-memory state tracker + Dead-Man's-Switch alert evaluator."""
+    """Thread-safe state tracker + Dead-Man's-Switch alert evaluator with optional Postgres persistence."""
 
     def __init__(
         self,
@@ -114,6 +300,7 @@ class DeadmanMonitor:
         alert_cooldown_sec: int = DEFAULT_ALERT_COOLDOWN_SEC,
         alert_sender: Callable[[str], dict[str, Any]] | None = None,
         clock_fn: Callable[[], float] = time.time,
+        pg_store: PostgresStore | None = None,
     ) -> None:
         self.ingest_token = ingest_token.strip()
         self.view_token = view_token.strip()
@@ -121,9 +308,19 @@ class DeadmanMonitor:
         self.alert_cooldown_sec = max(30, int(alert_cooldown_sec))
         self._clock = clock_fn
         self._alert_sender = alert_sender or self._default_alert_sender
+        self._store = pg_store
         self._lock = threading.Lock()
         self._nodes: dict[str, NodeState] = {}
         self.alerts_emitted: deque[dict[str, Any]] = deque(maxlen=100)
+
+        if self._store is not None:
+            try:
+                loaded_nodes, loaded_alerts = self._store.load_state()
+                self._nodes.update(loaded_nodes)
+                for a in loaded_alerts:
+                    self.alerts_emitted.append(a)
+            except Exception as exc:
+                print(f"[WARN] Postgres load_state failed, continuing in-memory: {exc}", flush=True)
 
     def _default_alert_sender(self, text: str) -> dict[str, Any]:
         return dispatch_alert_message(
@@ -182,13 +379,19 @@ class DeadmanMonitor:
         res = self._alert_sender(text)
         node.last_alert_key = event_key
         node.last_alert_ts = now
-        self.alerts_emitted.append({
+        rec = {
             "utc": datetime.fromtimestamp(now, timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "account_label": node.account_label,
             "event_key": event_key,
             "text": text,
             "dispatch": res,
-        })
+        }
+        self.alerts_emitted.append(rec)
+        if self._store is not None:
+            try:
+                self._store.save_alert(node, rec, now)
+            except Exception:
+                pass
 
     def ingest_heartbeat(self, body: dict[str, Any]) -> dict[str, Any]:
         now = float(self._clock())
@@ -209,7 +412,7 @@ class DeadmanMonitor:
             node.status = status
             node.active_reasons = reasons
             hb = body.get("heartbeat") if isinstance(body.get("heartbeat"), dict) else body
-            node.history.append({
+            hb_entry = {
                 "ts": int(now),
                 "status": status,
                 "equity": hb.get("equity"),
@@ -217,7 +420,14 @@ class DeadmanMonitor:
                 "open_positions": hb.get("open_positions"),
                 "orphan_no_sl": hb.get("orphan_no_sl"),
                 "regime": hb.get("regime"),
-            })
+            }
+            node.history.append(hb_entry)
+
+            if self._store is not None:
+                try:
+                    self._store.save_node_and_heartbeat(node, hb_entry)
+                except Exception as exc:
+                    print(f"[WARN] Postgres save_node_and_heartbeat error: {exc}", flush=True)
 
             if was_stale:
                 self._emit_alert(
@@ -238,6 +448,7 @@ class DeadmanMonitor:
             return {
                 "ok": True,
                 "order_send_count": ORDER_SEND_COUNT,
+                "persistence": "postgres" if self._store is not None else "memory",
                 "account_label": label,
                 "status": status,
                 "reasons": reasons,
@@ -263,6 +474,13 @@ class DeadmanMonitor:
 
     def snapshot(self) -> dict[str, Any]:
         now = float(self._clock())
+        pg_rows = None
+        if self._store is not None:
+            try:
+                pg_rows = self._store.heartbeat_row_count()
+            except Exception:
+                pg_rows = None
+
         with self._lock:
             nodes_out = []
             for label in sorted(self._nodes.keys()):
@@ -287,8 +505,11 @@ class DeadmanMonitor:
                     "history_count": len(n.history),
                 })
             return {
-                "schema": "naqex-heroku-deadman-v1",
+                "schema": "naqex-heroku-deadman-v2",
                 "order_send_count": ORDER_SEND_COUNT,
+                "persistence": "postgres" if self._store is not None else "memory",
+                "pg_heartbeat_rows": pg_rows,
+                "credit_expires_utc": "2028-09-30",
                 "utc": datetime.fromtimestamp(now, timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
                 "stale_after_sec": self.stale_after_sec,
                 "nodes": nodes_out,
@@ -317,6 +538,7 @@ def render_mobile_html(snap: dict[str, Any]) -> str:
         f"<li><code>{html.escape(a['utc'])}</code> — {html.escape(a['text'])}</li>"
         for a in reversed(snap["recent_alerts"])
     ) or "<li>Chua co canh bao nao.</li>"
+    db_info = f"Postgres ({snap['pg_heartbeat_rows']} rows)" if snap.get("persistence") == "postgres" else "Memory"
 
     return f"""<!DOCTYPE html>
 <html lang="vi">
@@ -342,7 +564,7 @@ ul{{padding-left:18px;font-size:12.5px;line-height:1.6}}
 </head>
 <body><div class="wrap">
 <h1>Naqex Cloud Dead-Man's-Switch</h1>
-<div class="meta">UTC: {html.escape(snap['utc'])} · Stale Guard: {snap['stale_after_sec']}s · OrderSend=0 · Tu dong lam moi 30s</div>
+<div class="meta">UTC: {html.escape(snap['utc'])} · Storage: {html.escape(db_info)} · Stale Guard: {snap['stale_after_sec']}s · OrderSend=0 · Credit Exp: {html.escape(str(snap.get('credit_expires_utc','—')))}</div>
 <table><thead><tr><th>May / Tai khoan</th><th>Trang thai</th><th class="num">Tuoi nhip</th><th class="num">Equity</th><th class="num">Lenh mo</th><th class="num">Orphan</th><th>Regime</th></tr></thead>
 <tbody>{table_body}</tbody></table>
 <h2 style="font-size:14px;margin:0 0 8px">Canh bao gan nhat</h2>
@@ -352,7 +574,7 @@ ul{{padding-left:18px;font-size:12.5px;line-height:1.6}}
 
 def make_handler(monitor: DeadmanMonitor):
     class DeadmanHandler(BaseHTTPRequestHandler):
-        def log_message(self, fmt: str, *args: Any) -> None:  # quiet structured logs
+        def log_message(self, fmt: str, *args: Any) -> None:
             return
 
         def _send_json(self, status: HTTPStatus, payload: dict[str, Any]) -> None:
@@ -367,7 +589,12 @@ def make_handler(monitor: DeadmanMonitor):
             parsed = urlparse(self.path)
             qs = parse_qs(parsed.query)
             if parsed.path == "/health":
-                self._send_json(HTTPStatus.OK, {"ok": True, "service": "naqex-heroku-deadman", "order_send_count": ORDER_SEND_COUNT})
+                self._send_json(HTTPStatus.OK, {
+                    "ok": True,
+                    "service": "naqex-heroku-deadman",
+                    "persistence": "postgres" if monitor._store is not None else "memory",
+                    "order_send_count": ORDER_SEND_COUNT,
+                })
                 return
             q_tok = (qs.get("token") or [""])[0]
             h_tok = self.headers.get("X-Naqex-View-Token", "")
@@ -390,6 +617,8 @@ def make_handler(monitor: DeadmanMonitor):
 
         def do_POST(self) -> None:
             parsed = urlparse(self.path)
+            length = min(max(0, int(self.headers.get("Content-Length", "0") or 0)), 65_536)
+            raw = self.rfile.read(length) if length > 0 else b""
             if parsed.path != "/api/heartbeat":
                 self._send_json(HTTPStatus.NOT_FOUND, {"ok": False, "error": "NOT_FOUND"})
                 return
@@ -399,8 +628,6 @@ def make_handler(monitor: DeadmanMonitor):
                 self._send_json(code, {"ok": False, "error": auth_err, "order_send_count": ORDER_SEND_COUNT})
                 return
             try:
-                length = int(self.headers.get("Content-Length", "0"))
-                raw = self.rfile.read(min(max(0, length), 65_536))
                 body = json.loads(raw.decode("utf-8")) if raw else {}
                 if not isinstance(body, dict):
                     raise ValueError("JSON body must be an object")
@@ -425,11 +652,21 @@ def create_server(
 def main() -> int:
     port = int(os.environ.get("PORT", "8000"))
     host = os.environ.get("HOST", "0.0.0.0")
+    db_url = os.environ.get("DATABASE_URL", "").strip()
+    pg_store: PostgresStore | None = None
+    if db_url:
+        try:
+            pg_store = PostgresStore(db_url)
+            print("[OK] Connected to Heroku Postgres Essential-0 durable store.", flush=True)
+        except Exception as exc:
+            print(f"[WARN] Postgres init failed ({exc}); falling back to in-memory ring buffer.", flush=True)
+
     monitor = DeadmanMonitor(
         ingest_token=os.environ.get("NAQEX_INGEST_TOKEN", ""),
         view_token=os.environ.get("NAQEX_VIEW_TOKEN", ""),
         stale_after_sec=int(os.environ.get("STALE_AFTER_SEC", str(DEFAULT_STALE_AFTER_SEC))),
         alert_cooldown_sec=int(os.environ.get("ALERT_COOLDOWN_SEC", str(DEFAULT_ALERT_COOLDOWN_SEC))),
+        pg_store=pg_store,
     )
     stop_ev = threading.Event()
 
@@ -444,7 +681,7 @@ def main() -> int:
     th = threading.Thread(target=_watch_loop, daemon=True)
     th.start()
     srv = create_server(monitor, host=host, port=port)
-    print(f"Naqex Heroku Dead-Man's-Switch listening on {host}:{port} (OrderSend=0)", flush=True)
+    print(f"Naqex Heroku Dead-Man's-Switch listening on {host}:{port} (OrderSend=0, store={'postgres' if pg_store else 'memory'})", flush=True)
     try:
         srv.serve_forever()
     except KeyboardInterrupt:

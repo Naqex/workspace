@@ -1,1 +1,1 @@
-# Pure Python stdlib — zero external dependencies for fast, reliable Heroku slug builds
+psycopg[binary]>=3.2,<4
