@@ -44,6 +44,16 @@ HEADING_STOPWORDS = frozenset({
     "va", "cua", "cho", "voi", "cac", "trong", "khi", "tu", "den", "la", "tai",
     "the", "and", "for", "of", "in", "on", "to", "vs", "with", "from", "by",
 })
+QUERY_STOPWORDS = HEADING_STOPWORDS | frozenset({
+    "lam", "sao", "de", "do", "bi", "chi", "nao", "nhung", "nhu", "the", "thi",
+    "co", "khong", "duoc", "nen", "can", "phai", "neu", "mot", "nhieu", "it",
+    "gi", "bao", "nhieu", "cung", "luc", "truoc", "sau", "ve", "vao", "ra",
+    "len", "xuong", "nay", "kia", "day", "roi", "ma", "hay", "hoac", "nhung",
+    "se", "da", "dang", "con", "hon", "nhat", "rat", "qua", "tai", "sao",
+    "what", "how", "why", "when", "where", "which", "who", "does", "should",
+    "can", "could", "would", "this", "that", "these", "those", "about", "into",
+    "are", "was", "were", "have", "has", "had", "not", "but", "all", "any",
+})
 TOKEN_RE = re.compile(r"[0-9a-zA-Z\u00C0-\u024F\u1E00-\u1EFF\u4E00-\u9FFF\u0400-\u04FF_]{2,}")
 VEC_DIM = 512  # Compact hashed feature space (zero-pickle float32 matrix -> < 5 MB, < 10 ms dot product)
 
@@ -86,17 +96,23 @@ def iter_knowledge_docs(*, include_archive: bool = False) -> list[tuple[str, Pat
         rel = p.relative_to(ROOT).as_posix()
         found[rel] = (p, domain, evergreen)
 
-    # 1. Owner profile, curiosity journal, decisions & synthesized topics
+    # 1. Owner profile, curiosity journal, decisions, synthesized topics & playbooks
     for p in sorted((ROOT / "knowledge/owner").glob("*.md")):
         is_ev = p.name != "CURIOSITY-LOG.md"
         _add(p, "owner", is_ev)
     for p in sorted((ROOT / "knowledge/topics").glob("*.md")):
         _add(p, "knowledge", True)
+    pb_dir = ROOT / "knowledge/playbooks"
+    if pb_dir.is_dir():
+        for p in sorted(pb_dir.glob("*.md")):
+            _add(p, "knowledge", True)
     _add(ROOT / "knowledge/README.md", "knowledge", True)
 
-    # 2. Workspace routing & lifecycle
+    # 2. Workspace routing, lifecycle & morning briefings
     for name in ("planning/CURRENT-CONTEXT.md", "planning/CONTEXT-LIFECYCLE.md", "README.md"):
         _add(ROOT / name, "workspace", True)
+    for p in sorted((ROOT / "planning").glob("MORNING-BRIEFING*.md")):
+        _add(p, "workspace", False)
 
     # 3. Trading research reports (excluding archive index unless requested)
     pr = ROOT / "planning/research"
@@ -257,19 +273,159 @@ def index_brain(*, force: bool = False, include_archive: bool = False) -> dict:
     }
 
 
-def query_brain(query: str, *, domain: str = "all", top_k: int = 8) -> dict:
-    """Hybrid RRF retrieval combining SQLite FTS5 BM25 + Multilingual Hashed Vector Cosine + Evergreen Boost."""
+def _extract_query_tokens(query: str) -> list[str]:
+    """Extract informative, deduplicated bilingual query tokens (filtering VI+EN filler stopwords)."""
+    raw_toks = [t for t in TOKEN_RE.findall(_strip_accents(query)) if len(t) >= 2]
+    filtered = [t for t in raw_toks if t not in QUERY_STOPWORDS]
+    chosen = filtered if filtered else raw_toks
+    # Deduplicate preserving order, preferring informative domain tokens (digits/uppercase/longer words)
+    seen: set[str] = set()
+    uniq: list[str] = []
+    for t in chosen:
+        if t not in seen:
+            seen.add(t)
+            uniq.append(t)
+    # Prioritize tokens containing digits or length >= 4 so domain terms (ftmo, the5ers, ibkr, us100, 500, cex) never get truncated
+    uniq.sort(key=lambda t: (not any(ch.isdigit() for ch in t), len(t) < 4))
+    return uniq[:18]
+
+
+def rerank_hits_typesafe(
+    query: str,
+    hits: list[dict],
+    *,
+    top_k: int = 8,
+    model: str = "jev-1.14.0",
+    no_match_threshold: float = 0.30,
+    transport=None,
+) -> dict:
+    """Rerank a Stage-1 shortlist using ONE batched TypeSafe (`jev-1.14.0`) request.
+
+    Follows TypeSafe `rerank_typesafe` + `classifying_rag_passages` + companion Noul pattern:
+      - One companion Noul (`has_relevant_doc`) detects absent/off-topic queries (`< 0.30 -> no_match`).
+      - One per-candidate relevance Noul (`rel_doc_i`) scores every passage in parallel.
+      - One Choice (`best_doc`) selects the single best passage for Top-1 boost.
+    Raises `TypeSafeUnavailableError` / `TypeSafeAPIError` fail-closed if API fails.
+    """
+    if not hits:
+        return {
+            "enabled": True,
+            "model": model,
+            "has_relevant_doc_noul": 0.0,
+            "no_match": True,
+            "best_choice": None,
+            "hits": [],
+            "latency_ms": 0.0,
+            "est_cost_usd": 0.0,
+        }
+    import sys as _sys
+    qf_dir = ROOT / "tooling/ai-engines/quant_factory"
+    if str(qf_dir) not in _sys.path:
+        _sys.path.insert(0, str(qf_dir))
+    import typesafe_client as ts  # noqa: WPS433
+
+    shortlist = hits[:12]
+    cand_map: dict[str, dict[str, str]] = {}
+    choice_criteria: dict[str, str] = {}
+    questions: dict[str, dict] = {
+        "has_relevant_doc": {
+            "type": "noul",
+            "instructions": "Does at least one passage in `candidates` directly contain factual information that answers `user_query`?",
+            "criteria": {
+                "true": "One or more passages in `candidates` directly address the exact topic asked in `user_query`.",
+                "false": "All passages in `candidates` are about unrelated topics and do not answer `user_query`.",
+            },
+        },
+    }
+    for idx, h in enumerate(shortlist, start=1):
+        cid = f"doc_{idx}"
+        cand_map[cid] = {
+            "path": h["path"],
+            "heading": h["heading"],
+            "snippet": str(h.get("snippet", ""))[:500],
+        }
+        choice_criteria[cid] = f"Candidate `{cid}` ({h['path']} — {h['heading']}) best answers `user_query`."
+        questions[f"rel_{cid}"] = {
+            "type": "noul",
+            "instructions": f"Does candidate `{cid}` in `candidates` directly answer or provide key facts for `user_query`?",
+            "criteria": {
+                "true": f"Candidate `{cid}` directly addresses the specific topic in `user_query`.",
+                "false": f"Candidate `{cid}` is tangential or unrelated to `user_query`.",
+            },
+        }
+    questions["best_doc"] = {
+        "type": "choice",
+        "instructions": "Which single candidate in `candidates` best answers `user_query`?",
+        "criteria": choice_criteria,
+    }
+
+    res = ts.call_system_one(
+        {"user_query": query, "candidates": cand_map},
+        questions,
+        model=model,
+        transport=transport,
+    )
+    answers = res["answers"]
+    has_rel = ts.extract_noul(answers, "has_relevant_doc")
+    best_cid = (answers.get("best_doc") or {}).get("choice")
+    best_conf = (answers.get("best_doc") or {}).get("confidence")
+    no_match = has_rel < no_match_threshold
+
+    reranked: list[dict] = []
+    for idx, h in enumerate(shortlist, start=1):
+        cid = f"doc_{idx}"
+        rel_p = ts.extract_noul(answers, f"rel_{cid}")
+        is_best = (cid == best_cid) and (not no_match)
+        # Rank strictly by calibrated relevance probability (with small tie-break for Choice #1 & Stage-1 RRF)
+        combined = round(rel_p + (0.08 if is_best else 0.0) + 0.02 * float(h["score"]), 5)
+        item = dict(h)
+        item["stage1_score"] = h["score"]
+        item["typesafe_relevance_noul"] = round(rel_p, 4)
+        item["typesafe_is_best_choice"] = is_best
+        item["score"] = combined
+        reranked.append(item)
+    reranked.sort(key=lambda x: -x["score"])
+
+    return {
+        "enabled": True,
+        "model": res["model"],
+        "has_relevant_doc_noul": round(has_rel, 4),
+        "no_match": no_match,
+        "best_choice": best_cid,
+        "best_choice_confidence": round(float(best_conf), 4) if best_conf is not None else None,
+        "latency_ms": res["latency_ms"],
+        "usage": res["usage"],
+        "est_cost_usd": res["est_cost_usd"],
+        "hits": [] if no_match else reranked[:top_k],
+        "rejected_shortlist_count": len(reranked) if no_match else 0,
+    }
+
+
+def query_brain(
+    query: str,
+    *,
+    domain: str = "all",
+    top_k: int = 8,
+    rerank: str = "none",
+    typesafe_model: str = "jev-1.14.0",
+    typesafe_transport=None,
+) -> dict:
+    """Hybrid RRF retrieval combining SQLite FTS5 BM25 + Multilingual Hashed Vector Cosine + Evergreen Boost.
+
+    Pass `rerank="typesafe"` (opt-in) to semantically rerank the Stage-1 Top-12 shortlist via
+    TypeSafe `jev-1.14.0` with explicit `no_match` abstention. Default `rerank="none"` is 100% offline.
+    """
     t0 = time.perf_counter()
     if not DB_PATH.exists() or not VEC_PATH.exists():
         index_brain()
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
 
-    # 1. FTS5 BM25 search (OR-joined clean tokens for recall + exact phrase match)
-    toks = [t for t in TOKEN_RE.findall(_strip_accents(query)) if len(t) >= 2]
+    # 1. FTS5 BM25 search with VI+EN stopword removal so informative domain tokens never get truncated
+    toks = _extract_query_tokens(query)
     fts_ranks: dict[int, int] = {}
     if toks:
-        fts_expr = " OR ".join(f'"{t}"' for t in toks[:12])
+        fts_expr = " OR ".join(f'"{t}"' for t in toks)
         sql = """
             SELECT c.id, bm25(chunks_fts, 2.0, 1.0) AS score
             FROM chunks_fts
@@ -280,7 +436,7 @@ def query_brain(query: str, *, domain: str = "all", top_k: int = 8) -> dict:
         if domain != "all":
             sql += " AND c.domain = ?"
             params.append(domain)
-        sql += " ORDER BY score LIMIT 40"
+        sql += " ORDER BY score LIMIT 80"
         for rank, row in enumerate(conn.execute(sql, params).fetchall(), start=1):
             fts_ranks[int(row["id"])] = rank
 
@@ -290,9 +446,10 @@ def query_brain(query: str, *, domain: str = "all", top_k: int = 8) -> dict:
     vecs = z["vecs"]
     vec_ranks: dict[int, int] = {}
     if len(ids) > 0:
-        qv = _hash_vector(query)
+        clean_q = " ".join(toks) if toks else query
+        qv = _hash_vector(clean_q)
         sims = vecs @ qv
-        order = np.argsort(-sims)[:60]
+        order = np.argsort(-sims)[:80]
         if domain != "all":
             allowed_ids = {int(r[0]) for r in conn.execute("SELECT id FROM chunks WHERE domain = ?", (domain,))}
         else:
@@ -306,14 +463,14 @@ def query_brain(query: str, *, domain: str = "all", top_k: int = 8) -> dict:
                 break
             rank_i += 1
             vec_ranks[cid] = rank_i
-            if rank_i >= 40:
+            if rank_i >= 60:
                 break
 
     # 3. Reciprocal Rank Fusion (RRF) + Evergreen protection & mild temporal decay
     cand_ids = set(fts_ranks) | set(vec_ranks)
     if not cand_ids:
         conn.close()
-        return {"query": query, "domain": domain, "elapsed_ms": round((time.perf_counter() - t0) * 1000.0, 1), "hits": []}
+        return {"query": query, "domain": domain, "rerank": rerank, "elapsed_ms": round((time.perf_counter() - t0) * 1000.0, 1), "hits": []}
 
     placeholders = ",".join("?" for _ in cand_ids)
     meta_rows = {
@@ -328,7 +485,7 @@ def query_brain(query: str, *, domain: str = "all", top_k: int = 8) -> dict:
         m = meta_rows[cid]
         rrf = 0.0
         if cid in fts_ranks:
-            rrf += 1.2 / (40.0 + fts_ranks[cid])
+            rrf += 1.35 / (35.0 + fts_ranks[cid])
         if cid in vec_ranks:
             rrf += 1.0 / (40.0 + vec_ranks[cid])
         if m["evergreen"]:
@@ -336,7 +493,7 @@ def query_brain(query: str, *, domain: str = "all", top_k: int = 8) -> dict:
         else:
             age_days = max(0.0, (now_ts - float(m["updated_ts"])) / 86400.0)
             rrf *= (0.80 + 0.20 * math.exp(-age_days / 180.0))
-        snippet = re.sub(r"\s+", " ", m["body"]).strip()[:280]
+        snippet = re.sub(r"\s+", " ", m["body"]).strip()[:420]
         scored.append({
             "score": round(rrf, 5),
             "path": m["path"],
@@ -349,9 +506,29 @@ def query_brain(query: str, *, domain: str = "all", top_k: int = 8) -> dict:
             "snippet": snippet,
         })
     scored.sort(key=lambda x: -x["score"])
+
+    if rerank == "typesafe":
+        rr = rerank_hits_typesafe(
+            query,
+            scored[:max(12, top_k * 2)],
+            top_k=top_k,
+            model=typesafe_model,
+            transport=typesafe_transport,
+        )
+        return {
+            "query": query,
+            "domain": domain,
+            "rerank": "typesafe",
+            "no_match": rr["no_match"],
+            "typesafe_rerank": {k: v for k, v in rr.items() if k != "hits"},
+            "elapsed_ms": round((time.perf_counter() - t0) * 1000.0, 1),
+            "hits": rr["hits"],
+        }
+
     return {
         "query": query,
         "domain": domain,
+        "rerank": "none",
         "elapsed_ms": round((time.perf_counter() - t0) * 1000.0, 1),
         "hits": scored[:top_k],
     }
@@ -606,6 +783,8 @@ def main() -> int:
     p_q.add_argument("text")
     p_q.add_argument("--domain", default="all", choices=("all", "owner", "knowledge", "workspace", "trading_research", "docs", "skill"))
     p_q.add_argument("--top", type=int, default=8)
+    p_q.add_argument("--rerank", default="none", choices=("none", "typesafe"), help="Optional Stage-2 semantic reranker (default: none/offline).")
+    p_q.add_argument("--model", default="jev-1.14.0", help="Pinned TypeSafe model ID when --rerank typesafe.")
     p_q.add_argument("--json", action="store_true", dest="as_json")
 
     sub.add_parser("owner-brief")
@@ -627,14 +806,21 @@ def main() -> int:
     if args.cmd == "index":
         print(json.dumps(index_brain(force=args.force, include_archive=args.include_archive), indent=2, ensure_ascii=False))
     elif args.cmd == "query":
-        res = query_brain(args.text, domain=args.domain, top_k=args.top)
+        res = query_brain(args.text, domain=args.domain, top_k=args.top, rerank=args.rerank, typesafe_model=args.model)
         if args.as_json:
             print(json.dumps(res, indent=2, ensure_ascii=False))
         else:
-            print(f"Brain Query ({res['elapsed_ms']}ms, domain={res['domain']}): {res['query']}")
+            extra = f", rerank={res.get('rerank', 'none')}"
+            if res.get("no_match"):
+                extra += ", NO_MATCH"
+            print(f"Brain Query ({res['elapsed_ms']}ms, domain={res['domain']}{extra}): {res['query']}")
+            if res.get("no_match"):
+                rr = res.get("typesafe_rerank", {})
+                print(f"  [NO MATCH] has_relevant_doc={rr.get('has_relevant_doc_noul')} (< 0.30) — rejected {rr.get('rejected_shortlist_count', 0)} unrelated candidates.")
             for i, h in enumerate(res["hits"], 1):
                 tag = "EVERGREEN" if h["evergreen"] else "DATED"
-                print(f"  {i}. [{h['domain']}|{tag}|score={h['score']:.4f}] {h['path']}#{h['lines']} — {h['heading']}")
+                rel_s = f"|jev={h['typesafe_relevance_noul']:.2f}" if "typesafe_relevance_noul" in h else ""
+                print(f"  {i}. [{h['domain']}|{tag}|score={h['score']:.4f}{rel_s}] {h['path']}#{h['lines']} — {h['heading']}")
                 print(f"     {h['snippet'][:200]}")
     elif args.cmd == "owner-brief":
         print(owner_brief())

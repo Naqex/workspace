@@ -94,3 +94,31 @@ Chưa sửa code sản phẩm trong lượt research này (giữ sạch 100% nh�
 1. **Lát 1 (Nhanh nhất, rủi ro = 0, lợi ích ngay lập tức):** Nâng cấp `audit_open_source_mq5` (`--semantic-audit` tùy chọn, pin `jev-1.14.0`, mặc định vẫn chạy offline regex không cần key) + tạo CLI nhỏ `prop_terms_auditor.py` kiểm toán điều khoản FTMO/The5ers/Topstep trước mỗi đợt mua gói thi.
 2. **Lát 2 (Cải thiện tìm kiếm kho tri thức tiếng Việt):** Sửa Stage-1 recall của `tooling/knowledge/brain_cli.py` (FTS5 OR-relaxation + tăng shortlist `top_k=20`), rồi thêm tùy chọn opt-in `--rerank typesafe` (có `Noul` `no-match`).
 3. **Lát 3 (Gắn vào sản phẩm `projects/trader`):** Hiện thực hóa `TypeSafeProvider` sau `AIService` (`semantics/ai_provider.py`, mặc định tắt — chỉ bật khi cấu hình tường minh, pin `jev-1.14.0`, giữ nguyên hợp đồng `chart_ai_contract.py` với `broker_actions = False`).
+
+---
+
+## 6. Triển Khai Hoàn Tất Cả 3 Lát & Kiểm Chứng Live (`2026-11-24`)
+
+Đã triển khai đủ **Shared Client + Lát 1 + Lát 2 + Lát 3** theo nguyên tắc opt-in mặc định tắt, fail-closed, pin `jev-1.14.0`, zero dependency ngoài và `ORDER_SEND_CAPABLE = False` / `broker_actions = False`:
+
+1. **Shared client (`tooling/ai-engines/quant_factory/typesafe_client.py`):**
+   - Pure-stdlib (`urllib.request`), pin `jev-1.14.0`, tự đọc `TYPESAFE_API_KEY`, chặn các key cấm (`secret`, `password`, `holdout`, `broker`, `order_send`, `mt5_login`, ...), lỗi transport/timeout/4xx/5xx luôn fail-closed (`TypeSafeClientError`), không bao giờ ép lỗi thành `"no"`.
+2. **Lát 1 — MQL5 Intake Layer-2 & Prop Terms Drift Auditor:**
+   - `tooling/ai-engines/mq5_whitebox_exporter.py`: thêm `semantic_audit: bool = False` vào `audit_open_source_mq5()` và CLI `--audit <file.mq5> [--semantic-audit]`. Strip comment MQL5 trước khi gửi 1 call 4-Noul song song (`loss_scaling`, `averaging_down`, `missing_nonzero_sl`, `external_dll_or_web`) rồi gộp bằng Truth Table tất định.
+   - `tooling/ai-engines/quant_factory/prop_terms_auditor.py`: kiểm toán 1 call 6-Noul chống drift điều khoản so với baseline đóng băng cho `ftmo_swing`, `ftmo_standard`, `the5ers_high_stakes`, `topstep_50k`.
+3. **Lát 2 — Nâng cấp `tooling/knowledge/brain_cli.py`:**
+   - Vá Stage-1 recall tiếng Việt: lọc `QUERY_STOPWORDS` (Anh–Việt) + ưu tiên token số/miền trước khi cắt `toks[:18]`, mở rộng index thêm `knowledge/playbooks/*.md` & `planning/MORNING-BRIEFING*.md` (`699 -> 703` files, `4,604` chunks), mở rộng FTS5 `LIMIT 80`.
+   - Thêm `--rerank {none,typesafe}` (mặc định `none`) với Companion Noul `has_relevant_doc` (`< 0.30 -> no_match: True`) + Noul chấm từng ứng viên + Choice Top-1 boost.
+4. **Lát 3 — `TypeSafeProvider` trong `projects/trader` (nhánh nội bộ `feat/typesafe-jev114-provider`):**
+   - `projects/trader/foundation_v2/trading_workspace_v2/semantics/ai_provider.py`: thêm `TypeSafeProvider` (mặc định `enabled=False`, `broker_actions=False`, giữ nguyên `OfflineProvider` và `FakeProvider`), guard song ngữ Anh–Việt 3-Noul (prompt-injection / đặt lệnh trái phép / đòi secret-holdout) + hỗ trợ `playbook_search`, `research_rule_draft`, `journal_review`, `chart_overlay`.
+
+### Kết quả kiểm chứng (Offline + Live `jev-1.14.0`)
+
+- **Superproject offline tests:** `pytest -vv tooling/ai-engines/tests/test_typesafe_integration.py test_knowledge_audit_upgrade.py test_mql5_parity_and_kit.py test_wave2_mt5_realtick.py` -> **`23 passed in 5.38s`**.
+- **Trader `foundation_v2` offline tests:** `pytest -vv tests/test_typesafe_provider.py tests/test_chart_ai_contract.py tests/test_journal_context.py` -> **`22 passed, 8 subtests passed`**.
+- **4 bài Live Smoke trên API thật `jev-1.14.0` (`ALL_4_LIVE_SMOKES_PASSED=True`):**
+  - `brain_cli.py` (8 câu hỏi tiếng Việt): Stage-1 Top-1 tăng từ **`1/6 -> 2/6`**, bật `--rerank typesafe` tăng lên **`4/6` (`66.7%`)** (2 câu còn lại vẫn trả về tài liệu governance/prop liên quan), giữ **`2/2` (`100%`) negative abstention** (`no_match=True`, `noul=0.02`, độ trễ trung vị `~325 ms`).
+  - `mq5_whitebox_exporter.py --semantic-audit` trên EA sạch `E2`: `CLEAN_FOR_PYTHON_REPLICATION`, `flags=[]`, xác suất rủi ro thấp (`0.04–0.13`).
+  - `prop_terms_auditor.py` trên baseline The5ers: `PASS_MATCHES_BASELINE`, `drift=[]`, `296.99 ms`.
+  - `projects/trader` `TypeSafeProvider` qua `AIService` với prompt-injection tiếng Việt: chặn fail-closed (`status=invalid_context`, `blocked=True`, `tries_override_rules=0.97`, `asks_live_trade_action=0.97`, `advisory_only=True`).
+- **Sức khỏe hệ thống:** `brain_cli.py audit-data` (`0` broken links), `system_doctor.py --mode fast` **`PASS (9/9)`**, `Holdout 2025+ SEALED`, `0` secret leaks.

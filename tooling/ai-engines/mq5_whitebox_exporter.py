@@ -1,9 +1,12 @@
 """White-Box MQL5 (.mq5) exporter (FTMO-safe, zero-grid, hard-SL) and static open-source .mq5 intake auditor."""
 
+import argparse
 import hashlib
 import json
 import re
+import sys
 from pathlib import Path
+from typing import Any, Callable
 
 RED_FLAG_PATTERNS = {
     "DLL_IMPORT": re.compile(r"#import\s+[\"'][^\"']+\.dll[\"']", re.I),
@@ -12,13 +15,68 @@ RED_FLAG_PATTERNS = {
     "GRID_HINT": re.compile(r"(grid_?step|grid_?size|max_?grid|averaging|pyramid)", re.I),
     "ROLLOVER_SCALP_HINT": re.compile(r"(23:00|23:30).*(00:30|01:00)", re.I),
 }
+HARD_SECURITY_REGEX_FLAGS = frozenset({"DLL_IMPORT", "WEB_REQUEST", "ROLLOVER_SCALP_HINT"})
 INPUT_RE = re.compile(r"^\s*(?:input|sinput)\s+([A-Za-z0-9_]+)\s+([A-Za-z0-9_]+)\s*=\s*([^;]+);", re.M)
 
+SEMANTIC_MQ5_QUESTIONS: dict[str, dict[str, Any]] = {
+    "loss_scaling": {
+        "type": "noul",
+        "instructions": "Does the executable MQL5 code in `mq5_source` increase the order lot/volume size after a previous losing trade (such as multiplying previous volume when prior deal profit is negative)?",
+        "criteria": {
+            "true": "The code logic multiplies or increases lot size conditioned on a prior loss or negative PnL.",
+            "false": "Lot size is fixed or risk-based and never increases specifically because a prior trade lost money.",
+        },
+    },
+    "averaging_down": {
+        "type": "noul",
+        "instructions": "Does the executable MQL5 code in `mq5_source` open additional same-direction positions while an existing position is already open at a worse price (grid or averaging-down stacking)?",
+        "criteria": {
+            "true": "The code checks existing open positions and adds another layer/order in the same direction when price moves adversely.",
+            "false": "The code permits at most one open position per signal/symbol or never adds losing layers.",
+        },
+    },
+    "missing_nonzero_sl": {
+        "type": "noul",
+        "instructions": "Does any `Buy`, `Sell`, or `OrderSend` call in `mq5_source` submit a disabled or zero stop-loss (such as passing `0`, `0.0`, or a variable hardcoded to `0.0` as the SL parameter)?",
+        "criteria": {
+            "true": "An order execution call passes zero (`0` or `0.0`) or omits a protective stop-loss price.",
+            "false": "Every order execution call computes and attaches a strictly positive, non-zero protective stop-loss price.",
+        },
+    },
+    "external_dll_or_web": {
+        "type": "noul",
+        "instructions": "Does `mq5_source` import an external DLL (`#import \"...dll\"`) or invoke network calls (`WebRequest`, `SocketConnect`, `wininet`)?",
+        "criteria": {
+            "true": "The code declares a DLL import or network call.",
+            "false": "The code contains no DLL imports and no network calls.",
+        },
+    },
+}
 
-def audit_open_source_mq5(source_text: str, *, filename: str = "unknown.mq5") -> dict:
+_SEMANTIC_FLAG_MAP = {
+    "loss_scaling": "SEMANTIC_LOSS_SCALING_MARTINGALE",
+    "averaging_down": "SEMANTIC_AVERAGING_GRID",
+    "missing_nonzero_sl": "SEMANTIC_MISSING_NONZERO_SL",
+    "external_dll_or_web": "SEMANTIC_EXTERNAL_DLL_OR_WEB",
+}
+
+
+def audit_open_source_mq5(
+    source_text: str,
+    *,
+    filename: str = "unknown.mq5",
+    semantic_audit: bool = False,
+    typesafe_transport: Callable[..., dict[str, Any]] | None = None,
+    typesafe_model: str = "jev-1.14.0",
+    yes_threshold: float = 0.70,
+    no_threshold: float = 0.30,
+) -> dict:
     """Statically audit a plain-text open-source .mq5 file for FTMO red flags & extract input parameters.
 
     Strictly read-only static inspection; never executes or compiles untrusted source.
+    When `semantic_audit=True` (opt-in), runs a Layer-2 TypeSafe (`jev-1.14.0`) 4-Noul parallel
+    audit over comment-stripped MQL5 code to catch obfuscated martingale/grid/SL=0 logic and
+    resolve keyword false positives (`InpForbidMartingale`). API failures raise fail-closed.
     """
     code_only = re.sub(r"/\*.*?\*/", "", source_text, flags=re.S)
     code_only = re.sub(r"//[^\n]*", "", code_only)
@@ -26,18 +84,79 @@ def audit_open_source_mq5(source_text: str, *, filename: str = "unknown.mq5") ->
         {"type": m.group(1), "name": m.group(2), "default": m.group(3).strip()}
         for m in INPUT_RE.finditer(code_only)
     ]
-    flags = [name for name, rx in RED_FLAG_PATTERNS.items() if rx.search(code_only)]
+    regex_flags = [name for name, rx in RED_FLAG_PATTERNS.items() if rx.search(code_only)]
     has_sl = bool(re.search(r"(stoploss|stop_loss|\bsl\b|sl_?atr|inpsl)", code_only, re.I))
     if not has_sl:
-        flags.append("NO_EXPLICIT_SL_TOKEN")
-    verdict = "REJECT_PROP_RED_FLAGS" if flags else "CLEAN_FOR_PYTHON_REPLICATION"
+        regex_flags.append("NO_EXPLICIT_SL_TOKEN")
+
+    if not semantic_audit:
+        verdict = "REJECT_PROP_RED_FLAGS" if regex_flags else "CLEAN_FOR_PYTHON_REPLICATION"
+        return {
+            "filename": filename,
+            "sha256": hashlib.sha256(source_text.encode("utf-8")).hexdigest()[:16],
+            "lines": len(source_text.splitlines()),
+            "input_count": len(inputs),
+            "inputs": inputs[:40],
+            "red_flags": regex_flags,
+            "intake_verdict": verdict,
+        }
+
+    # Layer-2 opt-in TypeSafe semantic audit over comment-stripped source (defense vs comment injection)
+    qf_dir = Path(__file__).resolve().parent / "quant_factory"
+    if str(qf_dir) not in sys.path:
+        sys.path.insert(0, str(qf_dir))
+    import typesafe_client as ts  # noqa: WPS433
+
+    res = ts.call_system_one(
+        {"mq5_source": code_only[:24_000]},
+        SEMANTIC_MQ5_QUESTIONS,
+        model=typesafe_model,
+        transport=typesafe_transport,
+    )
+    answers = res["answers"]
+    sem_probs: dict[str, float] = {}
+    sem_flags: list[str] = []
+    uncertain_flags: list[str] = []
+    for qid, flag_name in _SEMANTIC_FLAG_MAP.items():
+        p = ts.extract_noul(answers, qid)
+        sem_probs[qid] = round(p, 4)
+        label = ts.classify_noul(p, yes_threshold=yes_threshold, no_threshold=no_threshold)
+        if label == "YES":
+            sem_flags.append(flag_name)
+        elif label == "UNCERTAIN":
+            uncertain_flags.append(f"UNCERTAIN_{flag_name}")
+
+    # Deterministic Hybrid Truth Table:
+    # - Hard security regexes (DLL_IMPORT, WEB_REQUEST, ROLLOVER_SCALP_HINT) always block.
+    # - Semantic Nouls supersede noisy keyword hints (MARTINGALE_HINT/GRID_HINT/NO_EXPLICIT_SL_TOKEN)
+    #   for both obfuscated attacks AND false-positive variable names like `InpForbidMartingale`.
+    hard_flags = [f for f in regex_flags if f in HARD_SECURITY_REGEX_FLAGS]
+    combined_flags = list(dict.fromkeys(hard_flags + sem_flags))
+    if combined_flags:
+        verdict = "REJECT_PROP_RED_FLAGS"
+    elif uncertain_flags:
+        verdict = "MANUAL_REVIEW_UNCERTAIN"
+    else:
+        verdict = "CLEAN_FOR_PYTHON_REPLICATION"
+
     return {
         "filename": filename,
         "sha256": hashlib.sha256(source_text.encode("utf-8")).hexdigest()[:16],
         "lines": len(source_text.splitlines()),
         "input_count": len(inputs),
         "inputs": inputs[:40],
-        "red_flags": flags,
+        "red_flags": combined_flags,
+        "regex_raw_flags": regex_flags,
+        "semantic_audit": {
+            "enabled": True,
+            "model": res["model"],
+            "probabilities": sem_probs,
+            "semantic_flags": sem_flags,
+            "uncertain_flags": uncertain_flags,
+            "latency_ms": res["latency_ms"],
+            "usage": res["usage"],
+            "est_cost_usd": res["est_cost_usd"],
+        },
         "intake_verdict": verdict,
     }
 
@@ -233,6 +352,7 @@ void OnTick()
    }}
 }}
 """
+
 
 
 def export_tokyo_box_oco_mq5(spec: dict) -> str:
@@ -458,6 +578,7 @@ void OnTick()
    }}
 }}
 """
+
 
 
 def export_sess_cont_mq5(spec: dict) -> str:
@@ -710,6 +831,7 @@ void OnTick()
 """
 
 
+
 def export_idx_rs_lead_mq5(spec: dict) -> str:
     """Generate clean, auditable, FTMO-safe MQL5 (.mq5) EA source for Engine #5 (IDX_RS_US100_LEAD_1130, Pass 26).
 
@@ -958,6 +1080,7 @@ void OnTick()
 """
 
 
+
 def export_fx_usd_basket_mq5(spec: dict) -> str:
     """Generate clean, auditable, FTMO-safe MQL5 (.mq5) EA source for Satellite #6 (FX_USD_BASKET_12U_Z35, Pass 26).
 
@@ -1186,6 +1309,7 @@ void OnTick()
 """
 
 
+
 def export_volcomp_exp_mq5(spec: dict) -> str:
     """Generate clean, auditable, FTMO-safe MQL5 (.mq5) EA source for Engine #6 (EURJPY_VOLCOMP_EXP75, Pass 28).
 
@@ -1367,6 +1491,7 @@ void OnTick()
    }}
 }}
 """
+
 
 
 def export_ny_risk_flow_10et_mq5(spec: dict) -> str:
@@ -1595,5 +1720,28 @@ void OnTick()
    }}
 }}
 """
+
+
+def _cli_main(argv: list[str] | None = None) -> int:
+    ap = argparse.ArgumentParser(description="Static & optional TypeSafe semantic intake auditor for .mq5 files.")
+    ap.add_argument("--audit", type=Path, required=True, help="Path to plain-text .mq5 source file.")
+    ap.add_argument("--semantic-audit", action="store_true", help="Enable opt-in Layer-2 TypeSafe jev-1.14.0 semantic audit.")
+    ap.add_argument("--model", default="jev-1.14.0")
+    args = ap.parse_args(argv)
+    src = args.audit.read_text(encoding="utf-8", errors="ignore")
+    rep = audit_open_source_mq5(
+        src,
+        filename=args.audit.name,
+        semantic_audit=args.semantic_audit,
+        typesafe_model=args.model,
+    )
+    print(json.dumps(rep, indent=2, ensure_ascii=False))
+    return 0 if rep["intake_verdict"] == "CLEAN_FOR_PYTHON_REPLICATION" else 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(_cli_main())
+
+
 
 
