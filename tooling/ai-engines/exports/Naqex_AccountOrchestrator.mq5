@@ -1,20 +1,21 @@
 //+------------------------------------------------------------------+
 //| Naqex_AccountOrchestrator.mq5                                    |
-//| Account-Wide Risk Orchestrator, AMBER/RED Phase Brake,           |
+//| Account-Wide Risk Orchestrator, AMBER/RED/PROFIT_LOCK Brake,     |
 //| Global Kill-Switch, Orphan Detector & JSON Heartbeat Writer      |
 //| Attach to ONE chart on the MT5 terminal running the 8 Naqex EAs. |
 //+------------------------------------------------------------------+
 #property strict
-#property version   "1.00"
+#property version   "2.00"
 
 #include <Trade/Trade.mqh>
 #include "Include/Naqex_PropGuard.mqh"
 
-CTrade g_orchTrade;
+CTrade          g_orchTrade;
+CNaqexPropGuard g_orchGuard;
 
 input bool   InpDryRunLogOnly      = true;       // SAFETY: true = monitor & log only, NO live flatten
 input double InpInitialBalanceUSD  = 10000.0;    // Account initial size (e.g., 10000 FTMO / 5000 The5ers)
-input double InpBasePhaseMult      = 1.00;       // Phase base risk mult (1.00 Funded / 2.50 P1 Sprint)
+input double InpBasePhaseMult      = 1.00;       // Phase base risk mult (1.00 Funded / 2.67 P1 Balanced)
 input double InpAmberDdPct         = 3.50;       // Overall DD % triggering AMBER brake
 input double InpAmberMult          = 0.65;       // Risk mult under AMBER brake
 input double InpRedDdPct           = 6.00;       // Overall DD % triggering RED brake
@@ -31,9 +32,11 @@ input string InpManualHaltFile     = "naqex_manual_halt.flag";
 input long   InpMagicRangeMin      = 20261120;
 input long   InpMagicRangeMax      = 20261199;
 
-int      g_dayKey       = -1;
-double   g_dayAnchorEq  = 0.0;
-datetime g_lastHbWrite  = 0;
+int      g_dayKey         = -1;
+double   g_dayAnchorEq    = 0.0;
+double   g_dayAnchorBal   = 0.0;
+bool     g_autoKillActive = false;
+datetime g_lastHbWrite    = 0;
 
 int LastSundayOfMonth(const int year, const int month)
 {
@@ -67,16 +70,16 @@ int CurrentResetDayKey()
    }
    else if(InpDailyResetMode == 1)
    {
-      // FTMO: Europe/Prague midnight (CET/CEST)
-      datetime nowUtc = TimeGMT();
+      // FTMO: Europe/Prague midnight (CET/CEST), using tester-safe NowUTC()
+      datetime nowUtc = g_orchGuard.NowUTC();
       MqlDateTime utc;
       TimeToStruct(nowUtc, utc);
       refTs = nowUtc + (datetime)(PragueUtcOffsetHours(utc) * 3600);
    }
    else
    {
-      // Legacy mode 2: UTC midnight
-      refTs = TimeGMT();
+      // Legacy mode 2: UTC midnight (tester-safe)
+      refTs = g_orchGuard.NowUTC();
    }
    MqlDateTime dt;
    TimeToStruct(refTs, dt);
@@ -86,18 +89,30 @@ int CurrentResetDayKey()
 void RestoreOrInitDayAnchor()
 {
    int today = CurrentResetDayKey();
-   if(GlobalVariableCheck("NQXG_ACCT_DAYKEY") && (int)GlobalVariableGet("NQXG_ACCT_DAYKEY") == today && GlobalVariableCheck("NQXG_ACCT_DAYEQ"))
+   string kDay  = CNaqexPropGuard::AcctDayKeyName();
+   string kEq   = CNaqexPropGuard::AcctDayEqKeyName();
+   string kBal  = CNaqexPropGuard::AcctDayBalKeyName();
+   string kAuto = CNaqexPropGuard::AcctAutoKillKey();
+   if(GlobalVariableCheck(kDay) && (int)GlobalVariableGet(kDay) == today && GlobalVariableCheck(kEq))
    {
-      g_dayKey = today;
-      g_dayAnchorEq = GlobalVariableGet("NQXG_ACCT_DAYEQ");
+      g_dayKey         = today;
+      g_dayAnchorEq    = GlobalVariableGet(kEq);
+      g_dayAnchorBal   = GlobalVariableCheck(kBal) ? GlobalVariableGet(kBal) : g_dayAnchorEq;
+      g_autoKillActive = GlobalVariableCheck(kAuto) && (GlobalVariableGet(kAuto) >= 1.0);
    }
    else
    {
-      g_dayKey = today;
-      g_dayAnchorEq = MathMax(AccountInfoDouble(ACCOUNT_BALANCE), AccountInfoDouble(ACCOUNT_EQUITY));
-      GlobalVariableSet("NQXG_ACCT_DAYKEY", (double)g_dayKey);
-      GlobalVariableSet("NQXG_ACCT_DAYEQ", g_dayAnchorEq);
-      GlobalVariableSet("NQXG_GLOBAL_KILLSWITCH", 0.0);
+      double bal = AccountInfoDouble(ACCOUNT_BALANCE);
+      double eq  = AccountInfoDouble(ACCOUNT_EQUITY);
+      g_dayKey         = today;
+      g_dayAnchorBal   = bal;
+      g_dayAnchorEq    = (InpDailyResetMode == 1) ? bal : MathMax(bal, eq);
+      g_autoKillActive = false;
+      GlobalVariableSet(kDay, (double)g_dayKey);
+      GlobalVariableSet(kEq, g_dayAnchorEq);
+      GlobalVariableSet(kBal, g_dayAnchorBal);
+      GlobalVariableSet(kAuto, 0.0);
+      GlobalVariableSet(CNaqexPropGuard::GlobalKillKey(), 0.0);
    }
 }
 
@@ -109,14 +124,7 @@ void FlattenAllNaqexPositions(const string reason)
       if(ticket == 0) continue;
       long pm = PositionGetInteger(POSITION_MAGIC);
       if(pm < InpMagicRangeMin || pm > InpMagicRangeMax) continue;
-      string sym = PositionGetString(POSITION_SYMBOL);
-      if(InpDryRunLogOnly || InpGuardDryRunLogOnly)
-         PrintFormat("[ORCH-DRYRUN] Would flatten ticket=%I64u sym=%s magic=%I64d reason=%s", ticket, sym, pm, reason);
-      else
-      {
-         CNaqexPropGuard::ConfigureFillingMode(g_orchTrade, sym);
-         g_orchTrade.PositionClose(ticket);
-      }
+      g_orchGuard.ClosePositionChecked(g_orchTrade, ticket, reason, InpDryRunLogOnly);
    }
 }
 
@@ -126,9 +134,21 @@ void EvaluatePortfolioState()
    if(today != g_dayKey)
       RestoreOrInitDayAnchor();
 
+   datetime nowUtc = g_orchGuard.NowUTC();
+   GlobalVariableSet(CNaqexPropGuard::OrchTsKey(), (double)nowUtc);
+
    double bal = AccountInfoDouble(ACCOUNT_BALANCE);
    double eq  = AccountInfoDouble(ACCOUNT_EQUITY);
-   double dailyDdPct  = (g_dayAnchorEq > 0.0) ? MathMax(0.0, ((g_dayAnchorEq - eq) / g_dayAnchorEq) * 100.0) : 0.0;
+
+   // Exact firm-specific daily drawdown formula:
+   //   Mode 1 (FTMO Prague): (Midnight Prague Balance - Equity) / InitialBalance
+   //   Mode 0 (The5ers Server): (Max(Bal, Eq) at 00:00 Server - Equity) / Max(Bal, Eq)
+   double dailyDdPct = 0.0;
+   if(InpDailyResetMode == 1)
+      dailyDdPct = (InpInitialBalanceUSD > 0.0) ? MathMax(0.0, ((g_dayAnchorBal - eq) / InpInitialBalanceUSD) * 100.0) : 0.0;
+   else
+      dailyDdPct = (g_dayAnchorEq > 0.0) ? MathMax(0.0, ((g_dayAnchorEq - eq) / g_dayAnchorEq) * 100.0) : 0.0;
+
    double staticDdPct = (InpInitialBalanceUSD > 0.0) ? MathMax(0.0, ((InpInitialBalanceUSD - eq) / InpInitialBalanceUSD) * 100.0) : 0.0;
    double profitPct   = (InpInitialBalanceUSD > 0.0) ? MathMax(0.0, ((eq - InpInitialBalanceUSD) / InpInitialBalanceUSD) * 100.0) : 0.0;
 
@@ -150,9 +170,9 @@ void EvaluatePortfolioState()
       riskMult = MathMin(riskMult, InpProfitLockMult);
       regime   = "PROFIT_LOCK";
    }
-   GlobalVariableSet("NQXG_GLOBAL_RISK_MULT", riskMult);
+   GlobalVariableSet(CNaqexPropGuard::GlobalMultKey(), riskMult);
 
-   // Global Kill-Switch check (automatic DD limits + optional manual covered-button flag)
+   // Separate sticky auto-kill (latched until daily reset) vs reversible manual halt flag
    bool manualHalt = false;
    bool manualFlatten = false;
    if(InpAllowManualHaltFile && !MQLInfoInteger(MQL_TESTER) && FileIsExist(InpManualHaltFile))
@@ -168,15 +188,22 @@ void EvaluatePortfolioState()
       }
    }
 
-   bool killNow = (dailyDdPct >= InpKillDailyDdPct) || (staticDdPct >= InpKillStaticDdPct) || manualHalt;
+   bool autoKillNow = (dailyDdPct >= InpKillDailyDdPct) || (staticDdPct >= InpKillStaticDdPct);
+   if(autoKillNow)
+   {
+      g_autoKillActive = true;
+      GlobalVariableSet(CNaqexPropGuard::AcctAutoKillKey(), 1.0);
+   }
+
+   bool effectiveKill = g_autoKillActive || manualHalt;
+   GlobalVariableSet(CNaqexPropGuard::GlobalKillKey(), effectiveKill ? 1.0 : 0.0);
+
    if(manualHalt)
       regime = manualFlatten ? "MANUAL_FLATTEN" : "MANUAL_HALT";
-   if(killNow)
-   {
-      GlobalVariableSet("NQXG_GLOBAL_KILLSWITCH", 1.0);
-      if(!manualHalt || manualFlatten)
-         FlattenAllNaqexPositions(manualFlatten ? "MANUAL_COVERED_FLATTEN" : (dailyDdPct >= InpKillDailyDdPct ? "ORCH_KILL_DAILY_DD" : "ORCH_KILL_STATIC_DD"));
-   }
+   if(g_autoKillActive)
+      FlattenAllNaqexPositions((dailyDdPct >= InpKillDailyDdPct) ? "ORCH_KILL_DAILY_DD" : "ORCH_KILL_STATIC_DD");
+   else if(manualFlatten)
+      FlattenAllNaqexPositions("MANUAL_COVERED_FLATTEN");
 
    // Count open Naqex positions & detect orphans (missing SL)
    int openCount = 0;
@@ -196,22 +223,28 @@ void EvaluatePortfolioState()
       }
    }
 
-   // Write structured JSON heartbeat for Python ops_monitor & Telegram alert bridge
-   datetime nowUtc = TimeGMT();
+   // Write structured JSON heartbeat (includes broker connectivity, quote_ts, login & persistent kill_switch)
    if(!MQLInfoInteger(MQL_TESTER) && (nowUtc - g_lastHbWrite) >= InpHeartbeatSec)
    {
       g_lastHbWrite = nowUtc;
+      bool termConnected = (TerminalInfoInteger(TERMINAL_CONNECTED) != 0);
+      long quoteTs = (long)SymbolInfoInteger(_Symbol, SYMBOL_TIME);
+      long acctLogin = CNaqexPropGuard::CurrentAccountLogin();
       int fh = FileOpen(InpHeartbeatFile, FILE_WRITE | FILE_TXT | FILE_ANSI | FILE_SHARE_READ);
       if(fh != INVALID_HANDLE)
       {
          string js = StringFormat(
-            "{\"utc_ts\":%I64d,\"balance\":%.2f,\"equity\":%.2f,\"day_anchor_eq\":%.2f,"
+            "{\"utc_ts\":%I64d,\"account_login\":%I64d,\"terminal_connected\":%s,\"quote_ts\":%I64d,"
+            "\"balance\":%.2f,\"equity\":%.2f,\"day_anchor_eq\":%.2f,\"day_anchor_bal\":%.2f,"
             "\"daily_dd_pct\":%.3f,\"static_dd_pct\":%.3f,\"profit_pct\":%.3f,\"reset_mode\":%d,"
             "\"regime\":\"%s\",\"risk_mult\":%.3f,"
-            "\"kill_switch\":%s,\"open_positions\":%d,\"orphan_no_sl\":%d,\"dry_run\":%s}\n",
-            (long)nowUtc, bal, eq, g_dayAnchorEq, dailyDdPct, staticDdPct, profitPct, InpDailyResetMode,
+            "\"kill_switch\":%s,\"manual_halt\":%s,\"open_positions\":%d,\"orphan_no_sl\":%d,\"dry_run\":%s}\n",
+            (long)nowUtc, acctLogin, termConnected ? "true" : "false", quoteTs,
+            bal, eq, g_dayAnchorEq, g_dayAnchorBal,
+            dailyDdPct, staticDdPct, profitPct, InpDailyResetMode,
             regime, riskMult,
-            killNow ? "true" : "false", openCount, orphanCount,
+            effectiveKill ? "true" : "false", manualHalt ? "true" : "false",
+            openCount, orphanCount,
             (InpDryRunLogOnly || InpGuardDryRunLogOnly) ? "true" : "false"
          );
          FileWriteString(fh, js);
@@ -222,8 +255,10 @@ void EvaluatePortfolioState()
 
 int OnInit()
 {
+   g_orchGuard.Init(g_orchTrade, _Symbol, InpMagicRangeMin, InpKillDailyDdPct);
    RestoreOrInitDayAnchor();
-   GlobalVariableSet("NQXG_GLOBAL_RISK_MULT", InpBasePhaseMult);
+   GlobalVariableSet(CNaqexPropGuard::GlobalMultKey(), InpBasePhaseMult);
+   GlobalVariableSet(CNaqexPropGuard::OrchTsKey(), (double)g_orchGuard.NowUTC());
    EventSetTimer(5);
    EvaluatePortfolioState();
    return INIT_SUCCEEDED;

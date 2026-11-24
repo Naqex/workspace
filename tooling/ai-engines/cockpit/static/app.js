@@ -428,7 +428,10 @@
     const stateStr = st.state || "NORMAL_COVER_CLOSED";
     badge.textContent = stateStr;
     badge.className = `tag ${stateStr.startsWith("ARMED_") ? "tag-red" : "tag-green"}`;
-    note.textContent = `Trạng thái: ${stateStr} · Action: ${st.action || "NONE"} · Updated: ${st.updated_utc || "—"} · Lý do: ${st.reason || "—"}`;
+    const localOnlyWarn = (stateStr.startsWith("ARMED_") && st.mt5_bridge_written === false)
+      ? " · ⚠️ CHỈ GHI NHẬT KÝ CỤC BỘ (CHƯA GỬI SANG MT5/VPS — mở RDP nếu cần đóng lệnh thật!)"
+      : (st.mt5_bridge_written === true ? " · Đã ghi cờ cầu nối MT5 (chờ Orchestrator xác nhận)" : "");
+    note.textContent = `Trạng thái: ${stateStr} · Action: ${st.action || "NONE"} · Updated: ${st.updated_utc || "—"} · Lý do: ${st.reason || "—"}${localOnlyWarn}`;
   }
 
   async function submitEmergencyCover() {

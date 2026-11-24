@@ -15,7 +15,7 @@
   "amber_mult": 1.0,
   "red_dd_pct": 9.0,
   "red_mult": 0.75,
-  "profit_lock_pct": 5.0,
+  "profit_lock_pct": 4.0,
   "profit_lock_mult": 1.34,
   "daily_reset_mode": 0,
   "kill_daily_dd_pct": 4.2,
@@ -26,7 +26,7 @@
   "news_pad_sec": 300,
   "news_hard_ban_sec": 135,
   "requires_ea_written_clearance": true,
-  "notes": "The5ers HS 5k P1 Balanced (eff 4.00x; SYMCAP 1.75%, ProfitLock >=+5% -> 2.01x, Server midnight reset, NAS100 mapping; written EA clearance req). ARM-LOCKED.",
+  "notes": "The5ers HS 5k P1 Balanced (eff 4.00x; SYMCAP 1.75%, ProfitLock >=+4% [50% of 8% target] -> 2.01x, Server midnight reset, NAS100/SPX500 mapping; written EA clearance req). ARM-LOCKED.",
   "active_engines": [
     "E1_USDJPY_TOKYO",
     "E2_USDJPY_EXP80",

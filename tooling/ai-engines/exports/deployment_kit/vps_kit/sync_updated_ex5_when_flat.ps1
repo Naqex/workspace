@@ -18,6 +18,8 @@ param(
 
     [string]$Ex5SourceDir = "",
     [string]$RedNewsCsvPath = "",
+    [int]$MaxHeartbeatAgeSec = 180,
+    [long]$NowUtcOverride = 0,
     [switch]$DryRun,
     [switch]$ForceWhenHeartbeatMissing
 )
@@ -25,9 +27,22 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
+$RequiredEx5Names = @(
+    "Naqex_AccountOrchestrator.ex5",
+    "Naqex_WB_EXP080_USDJPY.ex5",
+    "Naqex_WB_EXP080_VOLHIGH_GBPUSD.ex5",
+    "Naqex_WB_FX_USD_BASKET_12U_Z35.ex5",
+    "Naqex_WB_IDX_RS_US100_LEAD_1130.ex5",
+    "Naqex_WB_NY_RISK_FLOW_10ET_USDJPY.ex5",
+    "Naqex_WB_SESS_CONT_BRK40_US100.ex5",
+    "Naqex_WB_TOKYO_BOX_USDJPY.ex5",
+    "Naqex_WB_VOLCOMP_EXP75_EURJPY.ex5"
+)
+
 $KitRoot = Split-Path -Parent $PSScriptRoot
 $ExportsDir = Split-Path -Parent $KitRoot
 $RepoRoot = Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $ExportsDir))
+$ManifestPath = Join-Path $KitRoot "manifest.sha256.json"
 $ResolvedEx5Dir = if (-not [string]::IsNullOrWhiteSpace($Ex5SourceDir)) {
     $Ex5SourceDir
 } elseif (Test-Path -LiteralPath (Join-Path $RepoRoot ".runtime\mt5-compiled-ex5")) {
@@ -41,32 +56,83 @@ $ResolvedCsvPath = if (-not [string]::IsNullOrWhiteSpace($RedNewsCsvPath)) {
     Join-Path $ExportsDir "Files\naqex_red_news_utc.csv"
 }
 $HbPath = Join-Path $TargetMt5Root "MQL5\Files\naqex_heartbeat.json"
+$NowUtcTs = if ($NowUtcOverride -gt 0) { $NowUtcOverride } else { [DateTimeOffset]::UtcNow.ToUnixTimeSeconds() }
 
-$OpenPos = 0
-$HbFound = Test-Path -LiteralPath $HbPath
-if ($HbFound) {
-    $hb = Get-Content -LiteralPath $HbPath -Raw -Encoding UTF8 | ConvertFrom-Json
-    $OpenPos = [int]$hb.open_positions
-    if ($OpenPos -gt 0) {
+function Assert-FlatAndFreshHeartbeat {
+    param([string]$Path, [long]$NowTs, [int]$MaxAgeSec, [bool]$AllowMissing, [bool]$IsDryRun)
+    if (-not (Test-Path -LiteralPath $Path)) {
+        if ($AllowMissing) { return 0 }
+        throw "HEARTBEAT_MISSING_FAIL_CLOSED: $Path not found. Pass -ForceWhenHeartbeatMissing only if terminal is verified offline."
+    }
+    $hb = Get-Content -LiteralPath $Path -Raw -Encoding UTF8 | ConvertFrom-Json
+    $hbProps = $hb.PSObject.Properties.Name
+    $openPos = [int]$hb.open_positions
+    if ($openPos -gt 0) {
         $blocked = [ordered]@{
             schema         = "naqex-ex5-flat-sync-v1"
             status         = "BLOCKED_OPEN_POSITIONS"
-            open_positions = $OpenPos
-            heartbeat_path = $HbPath
-            dry_run        = [bool]$DryRun
+            open_positions = $openPos
+            heartbeat_path = $Path
+            dry_run        = $IsDryRun
             order_send     = 0
-            message        = "Refused fail-closed: terminal currently has $OpenPos open position(s). Retry once flat (open_positions == 0)."
+            message        = "Refused fail-closed: terminal currently has $openPos open position(s). Retry once flat (open_positions == 0)."
         }
         Write-Output ($blocked | ConvertTo-Json -Depth 4)
         exit 2
     }
-} elseif (-not $ForceWhenHeartbeatMissing) {
-    throw "HEARTBEAT_MISSING_FAIL_CLOSED: $HbPath not found. Pass -ForceWhenHeartbeatMissing only if terminal is verified offline."
+    if (-not $AllowMissing) {
+        if (-not ($hbProps -contains "utc_ts") -or [long]$hb.utc_ts -le 0) {
+            $blocked = [ordered]@{
+                schema         = "naqex-ex5-flat-sync-v1"
+                status         = "BLOCKED_STALE_HEARTBEAT"
+                heartbeat_path = $Path
+                dry_run        = $IsDryRun
+                order_send     = 0
+                message        = "Refused fail-closed: heartbeat missing valid utc_ts."
+            }
+            Write-Output ($blocked | ConvertTo-Json -Depth 4)
+            exit 2
+        }
+        $ageSec = $NowTs - [long]$hb.utc_ts
+        if ($ageSec -gt $MaxAgeSec -or $ageSec -lt -60) {
+            $blocked = [ordered]@{
+                schema          = "naqex-ex5-flat-sync-v1"
+                status          = "BLOCKED_STALE_HEARTBEAT"
+                heartbeat_age_s = $ageSec
+                max_age_s       = $MaxAgeSec
+                heartbeat_path  = $Path
+                dry_run         = $IsDryRun
+                order_send      = 0
+                message         = "Refused fail-closed: heartbeat age=${ageSec}s outside [-60, ${MaxAgeSec}]s."
+            }
+            Write-Output ($blocked | ConvertTo-Json -Depth 4)
+            exit 2
+        }
+    }
+    return $openPos
 }
 
-$Ex5Files = Get-ChildItem -LiteralPath $ResolvedEx5Dir -Filter "*.ex5" | Sort-Object Name
-if ($Ex5Files.Count -lt 9) {
-    throw "INCOMPLETE_EXPORTS: expected >= 9 .ex5 in $ResolvedEx5Dir, found $($Ex5Files.Count)"
+$OpenPos = Assert-FlatAndFreshHeartbeat -Path $HbPath -NowTs $NowUtcTs -MaxAgeSec $MaxHeartbeatAgeSec -AllowMissing:$ForceWhenHeartbeatMissing -IsDryRun:$DryRun
+
+$Ex5Files = @()
+foreach ($reqName in $RequiredEx5Names) {
+    $fp = Join-Path $ResolvedEx5Dir $reqName
+    if (-not (Test-Path -LiteralPath $fp)) {
+        throw "MISSING_REQUIRED_EX5: $reqName not found in $ResolvedEx5Dir"
+    }
+    $Ex5Files += Get-Item -LiteralPath $fp
+}
+
+# Cross-verify source .ex5 hashes against kit manifest when using default compiled dir
+$ManifestHashes = @{}
+if ([string]::IsNullOrWhiteSpace($Ex5SourceDir) -and (Test-Path -LiteralPath $ManifestPath)) {
+    $mObj = Get-Content -LiteralPath $ManifestPath -Raw -Encoding UTF8 | ConvertFrom-Json
+    if ($mObj.compiled_ex5_files) {
+        foreach ($prop in $mObj.compiled_ex5_files.PSObject.Properties) {
+            $leaf = Split-Path -Leaf $prop.Name
+            $ManifestHashes[$leaf] = ([string]$prop.Value.sha256).ToLowerInvariant()
+        }
+    }
 }
 
 if (-not (Test-Path -LiteralPath $ResolvedCsvPath)) {
@@ -85,29 +151,64 @@ $DestDir = if (Test-Path -LiteralPath $SubDir) { $SubDir } else { Join-Path $Tar
 $DestFilesDir = Join-Path $TargetMt5Root "MQL5\Files"
 $DestCsvPath = Join-Path $DestFilesDir "naqex_red_news_utc.csv"
 
-$Updated = New-Object System.Collections.Generic.List[string]
+# Pre-validate source hashes against manifest before touching destination
 $Ex5Hashes = [ordered]@{}
+$Updated = New-Object System.Collections.Generic.List[string]
 foreach ($f in $Ex5Files) {
     $srcHash = (Get-FileHash -LiteralPath $f.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
-    $dst = Join-Path $DestDir $f.Name
-    if (-not $DryRun) {
-        New-Item -ItemType Directory -Force -Path $DestDir | Out-Null
-        Copy-Item -LiteralPath $f.FullName -Destination $dst -Force
-        $dstHash = (Get-FileHash -LiteralPath $dst -Algorithm SHA256).Hash.ToLowerInvariant()
-        if ($dstHash -ne $srcHash) {
-            throw "SHA256_MISMATCH_AFTER_COPY: $($f.Name) src=$srcHash dst=$dstHash"
-        }
+    if ($ManifestHashes.ContainsKey($f.Name) -and $ManifestHashes[$f.Name] -ne $srcHash) {
+        throw "MANIFEST_SHA256_MISMATCH: $($f.Name) disk=$srcHash != manifest=$($ManifestHashes[$f.Name])"
     }
     $Ex5Hashes[$f.Name] = $srcHash
     $Updated.Add($f.Name)
 }
 
 if (-not $DryRun) {
+    # Re-check flat + fresh right before writing (reduces TOCTOU window)
+    $NowCheckTs = if ($NowUtcOverride -gt 0) { $NowUtcOverride } else { [DateTimeOffset]::UtcNow.ToUnixTimeSeconds() }
+    $null = Assert-FlatAndFreshHeartbeat -Path $HbPath -NowTs $NowCheckTs -MaxAgeSec $MaxHeartbeatAgeSec -AllowMissing:$ForceWhenHeartbeatMissing -IsDryRun:$false
+
+    New-Item -ItemType Directory -Force -Path $DestDir | Out-Null
     New-Item -ItemType Directory -Force -Path $DestFilesDir | Out-Null
-    Copy-Item -LiteralPath $ResolvedCsvPath -Destination $DestCsvPath -Force
-    $dstCsvSha = (Get-FileHash -LiteralPath $DestCsvPath -Algorithm SHA256).Hash.ToLowerInvariant()
-    if ($dstCsvSha -ne $SrcCsvSha) {
-        throw "SHA256_MISMATCH_AFTER_COPY: naqex_red_news_utc.csv src=$SrcCsvSha dst=$dstCsvSha"
+    $Stamp = [DateTimeOffset]::UtcNow.ToString("yyyyMMddTHHmmssZ")
+    $RollbackDir = Join-Path $TargetMt5Root ".naqex_sync_rollback_$Stamp"
+    $BackedUp = @()
+    try {
+        foreach ($f in $Ex5Files) {
+            $dst = Join-Path $DestDir $f.Name
+            if (Test-Path -LiteralPath $dst) {
+                New-Item -ItemType Directory -Force -Path $RollbackDir | Out-Null
+                $bak = Join-Path $RollbackDir $f.Name
+                Copy-Item -LiteralPath $dst -Destination $bak -Force
+                $BackedUp += @{ Src = $bak; Dst = $dst }
+            }
+            Copy-Item -LiteralPath $f.FullName -Destination $dst -Force
+            $dstHash = (Get-FileHash -LiteralPath $dst -Algorithm SHA256).Hash.ToLowerInvariant()
+            if ($dstHash -ne $Ex5Hashes[$f.Name]) {
+                throw "SHA256_MISMATCH_AFTER_COPY: $($f.Name) src=$($Ex5Hashes[$f.Name]) dst=$dstHash"
+            }
+        }
+        if (Test-Path -LiteralPath $DestCsvPath) {
+            New-Item -ItemType Directory -Force -Path $RollbackDir | Out-Null
+            $bakCsv = Join-Path $RollbackDir "naqex_red_news_utc.csv"
+            Copy-Item -LiteralPath $DestCsvPath -Destination $bakCsv -Force
+            $BackedUp += @{ Src = $bakCsv; Dst = $DestCsvPath }
+        }
+        Copy-Item -LiteralPath $ResolvedCsvPath -Destination $DestCsvPath -Force
+        $dstCsvSha = (Get-FileHash -LiteralPath $DestCsvPath -Algorithm SHA256).Hash.ToLowerInvariant()
+        if ($dstCsvSha -ne $SrcCsvSha) {
+            throw "SHA256_MISMATCH_AFTER_COPY: naqex_red_news_utc.csv src=$SrcCsvSha dst=$dstCsvSha"
+        }
+        if (Test-Path -LiteralPath $RollbackDir) {
+            Remove-Item -Recurse -Force -LiteralPath $RollbackDir -ErrorAction SilentlyContinue
+        }
+    } catch {
+        foreach ($item in $BackedUp) {
+            if (Test-Path -LiteralPath $item.Src) {
+                Copy-Item -LiteralPath $item.Src -Destination $item.Dst -Force -ErrorAction SilentlyContinue
+            }
+        }
+        throw
     }
 }
 
@@ -119,6 +220,7 @@ $res = [ordered]@{
     files_count     = $Updated.Count
     files           = @($Updated)
     ex5_sha256      = $Ex5Hashes
+    manifest_checked = ($ManifestHashes.Count -gt 0)
     red_news_csv    = [ordered]@{
         source          = $ResolvedCsvPath
         dest            = $DestCsvPath

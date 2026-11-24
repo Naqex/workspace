@@ -3,7 +3,7 @@
 ; Broker Symbol Check (The5ers G1): Attach to NAS100 M5 and verify exact S&P500 symbol (SPX500 vs US500) in InpBenchmarkSymbol against Market Watch before disarming
 ; ARM-LOCKED SAFETY: set InpDryRunLogOnly=false & InpGuardDryRunLogOnly=false ONLY after Free Trial PASS & TCA GREEN
 InpDryRunLogOnly=true
-InpBenchmarkSymbol=US500.cash
+InpBenchmarkSymbol=SPX500
 InpRiskPercent=0.50
 InpMaxDailyLossPct=2.50
 InpMinRsDiffAtr=0.25

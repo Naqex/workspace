@@ -1,88 +1,121 @@
 {
   "schema": "naqex-top1-unified-trajectory-v1",
-  "generated_utc": "2026-11-24T11:12:41.748807+00:00",
+  "generated_utc": "2026-11-24T19:48:16.023573+00:00",
   "order_send_capable": false,
   "order_send_count": 0,
   "holdout_lock_sha256": "f0a6b43cb205535b0a959456455dc1d857a0936c06c2e51b8614fd7d772a8486",
   "holdout_rows_analysed": 0,
-  "dev_window": "2018-01-02..2024-12-31",
-  "dev_days_count": 1564,
+  "dev_window": "2020-01-03..2024-12-31",
+  "dev_days_count": 1107,
   "mc_paths": 5000,
   "mc_horizon_months": 60,
   "mc_block_len": 5,
   "mc_seed": 20261124,
   "usd_vnd_rate": 25500.0,
-  "elapsed_sec": 31.12,
+  "elapsed_sec": 46.49,
   "own_book_pod": {
     "overlap_window": "2020-01-01..2024-12-31 (1305 biz days)",
+    "investable_own_book_only": true,
     "sleeve_names": [
-      "S1_PROP_FX_IDX",
       "S2_CRYPTO_SPOT",
       "S3A_FUND_CARRY",
       "S3B_MACRO_ETF",
-      "S4_ETF40_MULTIFACTOR",
-      "S5_CME_FUTURES_PROP"
+      "S4_ETF40_MULTIFACTOR"
     ],
     "weights_pct": {
-      "S1_PROP_FX_IDX": 22.75,
-      "S2_CRYPTO_SPOT": 2.01,
-      "S3A_FUND_CARRY": 22.99,
-      "S3B_MACRO_ETF": 13.29,
-      "S4_ETF40_MULTIFACTOR": 3.95,
-      "S5_CME_FUTURES_PROP": 35.0
+      "S2_CRYPTO_SPOT": 1.34,
+      "S3A_FUND_CARRY": 23.66,
+      "S3B_MACRO_ETF": 37.5,
+      "S4_ETF40_MULTIFACTOR": 37.5
     },
     "total_cex_weight_pct": 25.0,
     "rebalance_schedule": "Monthly_1st",
     "rebalance_count": 59,
-    "annual_turnover_pct": 4.33,
+    "annual_turnover_pct": 5.69,
     "metrics_full_dev": {
       "n_days": 1305,
-      "cagr_pct": 5.64,
-      "ann_vol_pct": 2.43,
-      "sharpe": 2.27,
-      "sortino": 2.47,
-      "max_dd_pct": 2.23,
-      "calmar": 2.53
+      "cagr_pct": 5.62,
+      "ann_vol_pct": 4.72,
+      "sharpe": 1.18,
+      "sortino": 1.1,
+      "max_dd_pct": 9.28,
+      "calmar": 0.61
     },
     "metrics_blind_oos_2023_2024": {
       "n_days": 522,
-      "cagr_pct": 4.93,
-      "ann_vol_pct": 2.57,
-      "sharpe": 1.89,
-      "sortino": 2.03,
-      "max_dd_pct": 2.23,
-      "calmar": 2.21
+      "cagr_pct": 6.63,
+      "ann_vol_pct": 4.44,
+      "sharpe": 1.47,
+      "sortino": 1.42,
+      "max_dd_pct": 3.27,
+      "calmar": 2.03
     },
-    "expected_monthly_net_ret": 0.0045941654077237375
+    "expected_monthly_net_ret": 0.004652513833274841,
+    "full_6sleeve_pod_reference": {
+      "sleeve_names": [
+        "S1_PROP_FX_IDX",
+        "S2_CRYPTO_SPOT",
+        "S3A_FUND_CARRY",
+        "S3B_MACRO_ETF",
+        "S4_ETF40_MULTIFACTOR",
+        "S5_CME_FUTURES_PROP"
+      ],
+      "weights_pct": {
+        "S1_PROP_FX_IDX": 22.75,
+        "S2_CRYPTO_SPOT": 2.01,
+        "S3A_FUND_CARRY": 22.99,
+        "S3B_MACRO_ETF": 13.29,
+        "S4_ETF40_MULTIFACTOR": 3.95,
+        "S5_CME_FUTURES_PROP": 35.0
+      },
+      "metrics_full_dev": {
+        "n_days": 1305,
+        "cagr_pct": 5.63,
+        "ann_vol_pct": 2.43,
+        "sharpe": 2.27,
+        "sortino": 2.47,
+        "max_dd_pct": 2.23,
+        "calmar": 2.53
+      },
+      "metrics_blind_oos_2023_2024": {
+        "n_days": 522,
+        "cagr_pct": 4.93,
+        "ann_vol_pct": 2.57,
+        "sharpe": 1.89,
+        "sortino": 2.03,
+        "max_dd_pct": 2.23,
+        "calmar": 2.21
+      }
+    }
   },
   "highlights": {
     "smart_vs_old_b1500_ob60m_usd": [
-      11085.0,
-      27956.0
+      9597.0,
+      49113.0
     ],
-    "smart_vs_old_b1500_ob60m_ratio": 2.52,
+    "smart_vs_old_b1500_ob60m_ratio": 5.12,
     "smart_vs_old_b1500_wipeout_pct": [
       0.02,
-      0.0
+      0.78
     ],
     "smart_vs_old_b1500_15x_ob60m_usd": [
-      1803.0,
-      2271.0
+      1761.0,
+      13346.0
     ],
-    "smart_b1500_vps_med_month": 20,
-    "smart_b1500_data_active50k_med_month": 30,
-    "smart_b1500_ob50k_p60m_pct": 31.3,
-    "smart_b3000_ob50k_p60m_pct": 45.1,
-    "smart_b3000_ob25k_ob100k_p60m_pct": 32.1,
-    "smart_b3000_ob25k_crossover_p60m_pct": 2.2,
+    "smart_b1500_vps_med_month": 16,
+    "smart_b1500_data_active50k_med_month": 26,
+    "smart_b1500_ob50k_p60m_pct": 49.4,
+    "smart_b3000_ob50k_p60m_pct": 66.3,
+    "smart_b3000_ob25k_ob100k_p60m_pct": 45.0,
+    "smart_b3000_ob25k_crossover_p60m_pct": 4.4,
     "nco_cexcap25_total_cex_pct": 25.0,
     "analytical_crossover": {
-      "ob_net_monthly_1x_pct": 0.451,
-      "prop_funded_net_monthly_1x_pct": 0.574,
-      "ob_needed_to_beat_100k_prop_1x_usd": 127356.0,
-      "ob_needed_to_beat_360k_prop_1x_usd": 458481.0,
-      "ob_needed_to_beat_100k_prop_2x_vol_usd": 63678.0,
-      "ob_needed_to_beat_360k_prop_2x_vol_usd": 229241.0
+      "ob_net_monthly_1x_pct": 0.457,
+      "prop_funded_net_monthly_1x_pct": 0.555,
+      "ob_needed_to_beat_100k_prop_1x_usd": 121470.0,
+      "ob_needed_to_beat_360k_prop_1x_usd": 437292.0,
+      "ob_needed_to_beat_100k_prop_2x_vol_usd": 60735.0,
+      "ob_needed_to_beat_360k_prop_2x_vol_usd": 218646.0
     }
   },
   "scenarios": [
@@ -94,38 +127,38 @@
       "init_fee_budget_usd": 500.0,
       "init_own_book_usd": 0.0,
       "max_prop_nominal_cap_usd": 100000.0,
-      "wipeout_pct": 0.08,
-      "dbl_fail_pct": 33.6,
-      "peak_funded_med_usd": 60000.0,
-      "mean_fees_24m_usd": 739.4,
-      "mean_payouts_24m_usd": 1823.7,
-      "ev_per_fee_24m": 1.47,
-      "ev_per_fee_60m": 6.31,
-      "ob_24m_med_usd": 518.0,
-      "ob_36m_med_usd": 1264.0,
-      "ob_60m_med_usd": 4592.0,
-      "ob_60m_med_vnd_tr": 117.1,
-      "ops_60m_med_usd": 469.0,
-      "infra_self_funded_60m_med_usd": 1015.0,
-      "net_wealth_24m_med_usd": 426.0,
-      "net_wealth_60m_med_usd": 5541.0,
-      "net_wealth_60m_med_vnd_tr": 141.3,
-      "comb_ann_ret_med_pct": 64.6,
-      "comb_sharpe_med": 1.01,
-      "comb_peak_dd_p95_pct": 89.04,
+      "wipeout_pct": 0.12,
+      "dbl_fail_pct": 36.5,
+      "peak_funded_med_usd": 50000.0,
+      "mean_fees_24m_usd": 677.7,
+      "mean_payouts_24m_usd": 1489.6,
+      "ev_per_fee_24m": 1.2,
+      "ev_per_fee_60m": 5.19,
+      "ob_24m_med_usd": 405.0,
+      "ob_36m_med_usd": 1008.0,
+      "ob_60m_med_usd": 3328.0,
+      "ob_60m_med_vnd_tr": 84.9,
+      "ops_60m_med_usd": 415.0,
+      "infra_self_funded_60m_med_usd": 770.0,
+      "net_wealth_24m_med_usd": 293.0,
+      "net_wealth_60m_med_usd": 3767.0,
+      "net_wealth_60m_med_vnd_tr": 96.0,
+      "comb_ann_ret_med_pct": 53.5,
+      "comb_sharpe_med": 0.85,
+      "comb_peak_dd_p95_pct": 89.82,
       "prop_corr_dd_p95_pct": 10.0,
       "milestones": {
         "A_vps_self_funded": {
-          "p_24m_pct": 29.9,
-          "p_36m_pct": 50.0,
-          "p_60m_pct": 76.0,
-          "med_month": 29
+          "p_24m_pct": 24.4,
+          "p_36m_pct": 44.1,
+          "p_60m_pct": 71.7,
+          "med_month": 31
         },
         "B1_data_active50k": {
-          "p_24m_pct": 3.4,
-          "p_36m_pct": 14.6,
-          "p_60m_pct": 42.8,
-          "med_month": 42
+          "p_24m_pct": 2.1,
+          "p_36m_pct": 10.4,
+          "p_60m_pct": 35.3,
+          "med_month": 44
         },
         "B2_data_ob50k": {
           "p_24m_pct": 0.0,
@@ -136,7 +169,7 @@
         "C1_ob_25k": {
           "p_24m_pct": 0.0,
           "p_36m_pct": 0.0,
-          "p_60m_pct": 3.7,
+          "p_60m_pct": 1.8,
           "med_month": 55
         },
         "C2_ob_50k": {
@@ -174,37 +207,37 @@
       "init_own_book_usd": 0.0,
       "max_prop_nominal_cap_usd": 100000.0,
       "wipeout_pct": 0.02,
-      "dbl_fail_pct": 39.0,
-      "peak_funded_med_usd": 90000.0,
-      "mean_fees_24m_usd": 1361.6,
-      "mean_payouts_24m_usd": 2969.6,
-      "ev_per_fee_24m": 1.18,
-      "ev_per_fee_60m": 7.61,
-      "ob_24m_med_usd": 1087.0,
-      "ob_36m_med_usd": 3115.0,
-      "ob_60m_med_usd": 11085.0,
-      "ob_60m_med_vnd_tr": 282.7,
-      "ops_60m_med_usd": 554.0,
-      "infra_self_funded_60m_med_usd": 2105.0,
-      "net_wealth_24m_med_usd": 169.0,
-      "net_wealth_60m_med_usd": 11046.0,
-      "net_wealth_60m_med_vnd_tr": 281.7,
-      "comb_ann_ret_med_pct": 52.9,
-      "comb_sharpe_med": 0.89,
-      "comb_peak_dd_p95_pct": 88.28,
+      "dbl_fail_pct": 44.0,
+      "peak_funded_med_usd": 85000.0,
+      "mean_fees_24m_usd": 1364.0,
+      "mean_payouts_24m_usd": 2612.7,
+      "ev_per_fee_24m": 0.92,
+      "ev_per_fee_60m": 6.54,
+      "ob_24m_med_usd": 861.0,
+      "ob_36m_med_usd": 2469.0,
+      "ob_60m_med_usd": 9597.0,
+      "ob_60m_med_vnd_tr": 244.7,
+      "ops_60m_med_usd": 504.0,
+      "infra_self_funded_60m_med_usd": 1820.0,
+      "net_wealth_24m_med_usd": -134.0,
+      "net_wealth_60m_med_usd": 9572.0,
+      "net_wealth_60m_med_vnd_tr": 244.1,
+      "comb_ann_ret_med_pct": 49.2,
+      "comb_sharpe_med": 0.83,
+      "comb_peak_dd_p95_pct": 94.8,
       "prop_corr_dd_p95_pct": 10.0,
       "milestones": {
         "A_vps_self_funded": {
-          "p_24m_pct": 49.7,
-          "p_36m_pct": 68.3,
-          "p_60m_pct": 86.8,
-          "med_month": 22
+          "p_24m_pct": 45.2,
+          "p_36m_pct": 64.2,
+          "p_60m_pct": 83.9,
+          "med_month": 23
         },
         "B1_data_active50k": {
-          "p_24m_pct": 10.9,
-          "p_36m_pct": 32.5,
-          "p_60m_pct": 62.9,
-          "med_month": 36
+          "p_24m_pct": 8.2,
+          "p_36m_pct": 28.1,
+          "p_60m_pct": 58.6,
+          "med_month": 37
         },
         "B2_data_ob50k": {
           "p_24m_pct": 0.0,
@@ -215,7 +248,7 @@
         "C1_ob_25k": {
           "p_24m_pct": 0.0,
           "p_36m_pct": 0.0,
-          "p_60m_pct": 10.9,
+          "p_60m_pct": 6.4,
           "med_month": 54
         },
         "C2_ob_50k": {
@@ -252,56 +285,56 @@
       "init_fee_budget_usd": 3000.0,
       "init_own_book_usd": 0.0,
       "max_prop_nominal_cap_usd": 100000.0,
-      "wipeout_pct": 0.0,
-      "dbl_fail_pct": 38.8,
+      "wipeout_pct": 0.04,
+      "dbl_fail_pct": 43.5,
       "peak_funded_med_usd": 90000.0,
-      "mean_fees_24m_usd": 1477.8,
-      "mean_payouts_24m_usd": 3098.7,
-      "ev_per_fee_24m": 1.1,
-      "ev_per_fee_60m": 7.8,
-      "ob_24m_med_usd": 1681.0,
-      "ob_36m_med_usd": 4655.0,
-      "ob_60m_med_usd": 13341.0,
-      "ob_60m_med_vnd_tr": 340.2,
-      "ops_60m_med_usd": 578.0,
-      "infra_self_funded_60m_med_usd": 2360.0,
-      "net_wealth_24m_med_usd": 229.0,
-      "net_wealth_60m_med_usd": 12217.0,
-      "net_wealth_60m_med_vnd_tr": 311.5,
-      "comb_ann_ret_med_pct": 38.4,
-      "comb_sharpe_med": 1.02,
-      "comb_peak_dd_p95_pct": 73.72,
+      "mean_fees_24m_usd": 1526.4,
+      "mean_payouts_24m_usd": 2779.2,
+      "ev_per_fee_24m": 0.82,
+      "ev_per_fee_60m": 6.73,
+      "ob_24m_med_usd": 1424.0,
+      "ob_36m_med_usd": 4091.0,
+      "ob_60m_med_usd": 12066.0,
+      "ob_60m_med_vnd_tr": 307.7,
+      "ops_60m_med_usd": 524.0,
+      "infra_self_funded_60m_med_usd": 2160.0,
+      "net_wealth_24m_med_usd": -76.0,
+      "net_wealth_60m_med_usd": 10931.0,
+      "net_wealth_60m_med_vnd_tr": 278.7,
+      "comb_ann_ret_med_pct": 35.9,
+      "comb_sharpe_med": 0.95,
+      "comb_peak_dd_p95_pct": 82.74,
       "prop_corr_dd_p95_pct": 10.0,
       "milestones": {
         "A_vps_self_funded": {
-          "p_24m_pct": 52.0,
-          "p_36m_pct": 70.9,
-          "p_60m_pct": 87.9,
-          "med_month": 21
+          "p_24m_pct": 48.8,
+          "p_36m_pct": 68.0,
+          "p_60m_pct": 86.1,
+          "med_month": 22
         },
         "B1_data_active50k": {
-          "p_24m_pct": 11.7,
-          "p_36m_pct": 35.6,
-          "p_60m_pct": 67.1,
-          "med_month": 35
+          "p_24m_pct": 9.2,
+          "p_36m_pct": 31.7,
+          "p_60m_pct": 64.3,
+          "med_month": 37
         },
         "B2_data_ob50k": {
           "p_24m_pct": 0.0,
           "p_36m_pct": 0.0,
           "p_60m_pct": 0.0,
-          "med_month": 59
+          "med_month": -1
         },
         "C1_ob_25k": {
           "p_24m_pct": 0.0,
           "p_36m_pct": 0.1,
-          "p_60m_pct": 14.0,
+          "p_60m_pct": 8.9,
           "med_month": 54
         },
         "C2_ob_50k": {
           "p_24m_pct": 0.0,
           "p_36m_pct": 0.0,
           "p_60m_pct": 0.0,
-          "med_month": 59
+          "med_month": -1
         },
         "C3_ob_100k": {
           "p_24m_pct": 0.0,
@@ -320,6 +353,85 @@
           "p_36m_pct": 0.0,
           "p_60m_pct": 0.0,
           "med_month": -1
+        }
+      }
+    },
+    {
+      "friction": "1.0x",
+      "scenario_id": "SMART_B1500_CAP100K",
+      "label": "Smart-Tier (Matched Cap 100k)",
+      "architecture": "SMART_CAP100K",
+      "init_fee_budget_usd": 1500.0,
+      "init_own_book_usd": 0.0,
+      "max_prop_nominal_cap_usd": 100000.0,
+      "wipeout_pct": 0.58,
+      "dbl_fail_pct": 27.8,
+      "peak_funded_med_usd": 100000.0,
+      "mean_fees_24m_usd": 1134.6,
+      "mean_payouts_24m_usd": 6526.6,
+      "ev_per_fee_24m": 4.75,
+      "ev_per_fee_60m": 18.82,
+      "ob_24m_med_usd": 2937.0,
+      "ob_36m_med_usd": 7724.0,
+      "ob_60m_med_usd": 19397.0,
+      "ob_60m_med_vnd_tr": 494.6,
+      "ops_60m_med_usd": 908.0,
+      "infra_self_funded_60m_med_usd": 4162.0,
+      "net_wealth_24m_med_usd": 4360.0,
+      "net_wealth_60m_med_usd": 21523.0,
+      "net_wealth_60m_med_vnd_tr": 548.8,
+      "comb_ann_ret_med_pct": 72.7,
+      "comb_sharpe_med": 0.95,
+      "comb_peak_dd_p95_pct": 92.54,
+      "prop_corr_dd_p95_pct": 10.0,
+      "milestones": {
+        "A_vps_self_funded": {
+          "p_24m_pct": 78.0,
+          "p_36m_pct": 92.6,
+          "p_60m_pct": 98.0,
+          "med_month": 16
+        },
+        "B1_data_active50k": {
+          "p_24m_pct": 39.1,
+          "p_36m_pct": 69.3,
+          "p_60m_pct": 90.7,
+          "med_month": 27
+        },
+        "B2_data_ob50k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": 60
+        },
+        "C1_ob_25k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.6,
+          "p_60m_pct": 28.9,
+          "med_month": 53
+        },
+        "C2_ob_50k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": 60
+        },
+        "C3_ob_100k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "C4_ob_200k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "D_crossover": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": 51
         }
       }
     },
@@ -330,63 +442,63 @@
       "architecture": "SMART_TIER",
       "init_fee_budget_usd": 500.0,
       "init_own_book_usd": 0.0,
-      "max_prop_nominal_cap_usd": 360000.0,
-      "wipeout_pct": 0.0,
-      "dbl_fail_pct": 6.9,
-      "peak_funded_med_usd": 160000.0,
-      "mean_fees_24m_usd": 818.6,
-      "mean_payouts_24m_usd": 2878.0,
-      "ev_per_fee_24m": 2.52,
-      "ev_per_fee_60m": 13.39,
-      "ob_24m_med_usd": 755.0,
-      "ob_36m_med_usd": 1828.0,
-      "ob_60m_med_usd": 7482.0,
-      "ob_60m_med_vnd_tr": 190.8,
-      "ops_60m_med_usd": 935.0,
-      "infra_self_funded_60m_med_usd": 1645.0,
-      "net_wealth_24m_med_usd": 948.0,
-      "net_wealth_60m_med_usd": 10177.0,
-      "net_wealth_60m_med_vnd_tr": 259.5,
-      "comb_ann_ret_med_pct": 84.5,
-      "comb_sharpe_med": 0.93,
-      "comb_peak_dd_p95_pct": 68.82,
-      "prop_corr_dd_p95_pct": 9.67,
+      "max_prop_nominal_cap_usd": 350000.0,
+      "wipeout_pct": 0.74,
+      "dbl_fail_pct": 10.5,
+      "peak_funded_med_usd": 350000.0,
+      "mean_fees_24m_usd": 783.3,
+      "mean_payouts_24m_usd": 2111.6,
+      "ev_per_fee_24m": 1.7,
+      "ev_per_fee_60m": 11.29,
+      "ob_24m_med_usd": 719.0,
+      "ob_36m_med_usd": 1896.0,
+      "ob_60m_med_usd": 13489.0,
+      "ob_60m_med_vnd_tr": 344.0,
+      "ops_60m_med_usd": 2048.0,
+      "infra_self_funded_60m_med_usd": 2220.0,
+      "net_wealth_24m_med_usd": 822.0,
+      "net_wealth_60m_med_usd": 17667.0,
+      "net_wealth_60m_med_vnd_tr": 450.5,
+      "comb_ann_ret_med_pct": 105.1,
+      "comb_sharpe_med": 1.1,
+      "comb_peak_dd_p95_pct": 86.64,
+      "prop_corr_dd_p95_pct": 10.0,
       "milestones": {
         "A_vps_self_funded": {
-          "p_24m_pct": 43.8,
-          "p_36m_pct": 62.6,
-          "p_60m_pct": 83.8,
-          "med_month": 23
+          "p_24m_pct": 38.5,
+          "p_36m_pct": 70.5,
+          "p_60m_pct": 93.0,
+          "med_month": 27
         },
         "B1_data_active50k": {
-          "p_24m_pct": 8.5,
+          "p_24m_pct": 4.4,
           "p_36m_pct": 24.9,
-          "p_60m_pct": 56.8,
-          "med_month": 39
+          "p_60m_pct": 69.2,
+          "med_month": 41
         },
         "B2_data_ob50k": {
           "p_24m_pct": 0.0,
-          "p_36m_pct": 0.4,
-          "p_60m_pct": 13.5,
-          "med_month": 52
+          "p_36m_pct": 0.2,
+          "p_60m_pct": 14.8,
+          "med_month": 54
         },
         "C1_ob_25k": {
-          "p_24m_pct": 0.2,
-          "p_36m_pct": 4.2,
-          "p_60m_pct": 29.2,
-          "med_month": 48
+          "p_24m_pct": 0.1,
+          "p_36m_pct": 2.6,
+          "p_60m_pct": 36.6,
+          "med_month": 50
         },
         "C2_ob_50k": {
           "p_24m_pct": 0.0,
-          "p_36m_pct": 0.4,
-          "p_60m_pct": 13.5,
-          "med_month": 52
+          "p_36m_pct": 0.2,
+          "p_60m_pct": 14.8,
+          "med_month": 54
         },
         "C3_ob_100k": {
           "p_24m_pct": 0.0,
           "p_36m_pct": 0.0,
-          "p_60m_pct": 1.8,
-          "med_month": 57
+          "p_60m_pct": 0.5,
+          "med_month": 58
         },
         "C4_ob_200k": {
           "p_24m_pct": 0.0,
@@ -397,8 +509,8 @@
         "D_crossover": {
           "p_24m_pct": 0.0,
           "p_36m_pct": 0.0,
-          "p_60m_pct": 0.0,
-          "med_month": -1
+          "p_60m_pct": 0.1,
+          "med_month": 60
         }
       }
     },
@@ -409,62 +521,62 @@
       "architecture": "SMART_TIER",
       "init_fee_budget_usd": 1500.0,
       "init_own_book_usd": 0.0,
-      "max_prop_nominal_cap_usd": 360000.0,
-      "wipeout_pct": 0.0,
-      "dbl_fail_pct": 11.1,
-      "peak_funded_med_usd": 360000.0,
-      "mean_fees_24m_usd": 1547.4,
-      "mean_payouts_24m_usd": 6508.1,
-      "ev_per_fee_24m": 3.21,
-      "ev_per_fee_60m": 19.15,
-      "ob_24m_med_usd": 1195.0,
-      "ob_36m_med_usd": 4181.0,
-      "ob_60m_med_usd": 27956.0,
-      "ob_60m_med_vnd_tr": 712.9,
-      "ops_60m_med_usd": 3708.0,
-      "infra_self_funded_60m_med_usd": 3435.0,
-      "net_wealth_24m_med_usd": 868.0,
-      "net_wealth_60m_med_usd": 32748.0,
-      "net_wealth_60m_med_vnd_tr": 835.1,
-      "comb_ann_ret_med_pct": 86.9,
-      "comb_sharpe_med": 1.04,
-      "comb_peak_dd_p95_pct": 76.97,
-      "prop_corr_dd_p95_pct": 9.51,
+      "max_prop_nominal_cap_usd": 350000.0,
+      "wipeout_pct": 0.78,
+      "dbl_fail_pct": 32.2,
+      "peak_funded_med_usd": 350000.0,
+      "mean_fees_24m_usd": 2217.9,
+      "mean_payouts_24m_usd": 9373.2,
+      "ev_per_fee_24m": 3.23,
+      "ev_per_fee_60m": 19.08,
+      "ob_24m_med_usd": 2957.0,
+      "ob_36m_med_usd": 11221.0,
+      "ob_60m_med_usd": 49113.0,
+      "ob_60m_med_vnd_tr": 1252.4,
+      "ops_60m_med_usd": 7775.0,
+      "infra_self_funded_60m_med_usd": 4765.0,
+      "net_wealth_24m_med_usd": 2940.0,
+      "net_wealth_60m_med_usd": 58409.0,
+      "net_wealth_60m_med_vnd_tr": 1489.4,
+      "comb_ann_ret_med_pct": 109.1,
+      "comb_sharpe_med": 1.11,
+      "comb_peak_dd_p95_pct": 92.54,
+      "prop_corr_dd_p95_pct": 10.0,
       "milestones": {
         "A_vps_self_funded": {
-          "p_24m_pct": 54.2,
-          "p_36m_pct": 72.0,
-          "p_60m_pct": 90.1,
-          "med_month": 20
+          "p_24m_pct": 77.6,
+          "p_36m_pct": 92.2,
+          "p_60m_pct": 97.9,
+          "med_month": 16
         },
         "B1_data_active50k": {
-          "p_24m_pct": 27.6,
-          "p_36m_pct": 50.3,
-          "p_60m_pct": 77.8,
-          "med_month": 30
+          "p_24m_pct": 41.8,
+          "p_36m_pct": 72.1,
+          "p_60m_pct": 91.6,
+          "med_month": 26
         },
         "B2_data_ob50k": {
           "p_24m_pct": 0.1,
-          "p_36m_pct": 3.8,
-          "p_60m_pct": 31.3,
+          "p_36m_pct": 5.1,
+          "p_60m_pct": 49.4,
           "med_month": 48
         },
         "C1_ob_25k": {
-          "p_24m_pct": 3.1,
-          "p_36m_pct": 17.5,
-          "p_60m_pct": 52.7,
-          "med_month": 42
+          "p_24m_pct": 3.5,
+          "p_36m_pct": 28.1,
+          "p_60m_pct": 75.4,
+          "med_month": 40
         },
         "C2_ob_50k": {
           "p_24m_pct": 0.1,
-          "p_36m_pct": 3.8,
-          "p_60m_pct": 31.3,
+          "p_36m_pct": 5.1,
+          "p_60m_pct": 49.4,
           "med_month": 48
         },
         "C3_ob_100k": {
           "p_24m_pct": 0.0,
           "p_36m_pct": 0.0,
-          "p_60m_pct": 5.9,
+          "p_60m_pct": 7.0,
           "med_month": 55
         },
         "C4_ob_200k": {
@@ -476,8 +588,8 @@
         "D_crossover": {
           "p_24m_pct": 0.0,
           "p_36m_pct": 0.0,
-          "p_60m_pct": 0.0,
-          "med_month": -1
+          "p_60m_pct": 0.6,
+          "med_month": 55
         }
       }
     },
@@ -488,75 +600,75 @@
       "architecture": "SMART_TIER",
       "init_fee_budget_usd": 3000.0,
       "init_own_book_usd": 0.0,
-      "max_prop_nominal_cap_usd": 360000.0,
-      "wipeout_pct": 0.0,
-      "dbl_fail_pct": 10.6,
-      "peak_funded_med_usd": 360000.0,
-      "mean_fees_24m_usd": 2013.9,
-      "mean_payouts_24m_usd": 9669.7,
-      "ev_per_fee_24m": 3.8,
-      "ev_per_fee_60m": 22.81,
-      "ob_24m_med_usd": 1872.0,
-      "ob_36m_med_usd": 10549.0,
-      "ob_60m_med_usd": 44553.0,
-      "ob_60m_med_vnd_tr": 1136.1,
-      "ops_60m_med_usd": 6508.0,
-      "infra_self_funded_60m_med_usd": 4288.0,
-      "net_wealth_24m_med_usd": 1052.0,
-      "net_wealth_60m_med_usd": 50441.0,
-      "net_wealth_60m_med_vnd_tr": 1286.3,
-      "comb_ann_ret_med_pct": 77.9,
-      "comb_sharpe_med": 0.93,
-      "comb_peak_dd_p95_pct": 76.9,
-      "prop_corr_dd_p95_pct": 9.53,
+      "max_prop_nominal_cap_usd": 350000.0,
+      "wipeout_pct": 0.44,
+      "dbl_fail_pct": 38.8,
+      "peak_funded_med_usd": 350000.0,
+      "mean_fees_24m_usd": 2815.1,
+      "mean_payouts_24m_usd": 14393.2,
+      "ev_per_fee_24m": 4.11,
+      "ev_per_fee_60m": 22.07,
+      "ob_24m_med_usd": 6405.0,
+      "ob_36m_med_usd": 23904.0,
+      "ob_60m_med_usd": 63634.0,
+      "ob_60m_med_vnd_tr": 1622.7,
+      "ops_60m_med_usd": 9975.0,
+      "infra_self_funded_60m_med_usd": 5415.0,
+      "net_wealth_24m_med_usd": 7477.0,
+      "net_wealth_60m_med_usd": 73415.0,
+      "net_wealth_60m_med_vnd_tr": 1872.1,
+      "comb_ann_ret_med_pct": 91.1,
+      "comb_sharpe_med": 0.99,
+      "comb_peak_dd_p95_pct": 94.57,
+      "prop_corr_dd_p95_pct": 10.0,
       "milestones": {
         "A_vps_self_funded": {
-          "p_24m_pct": 58.3,
-          "p_36m_pct": 74.7,
-          "p_60m_pct": 90.9,
-          "med_month": 19
+          "p_24m_pct": 81.4,
+          "p_36m_pct": 94.3,
+          "p_60m_pct": 98.7,
+          "med_month": 16
         },
         "B1_data_active50k": {
-          "p_24m_pct": 39.8,
-          "p_36m_pct": 61.1,
-          "p_60m_pct": 83.1,
-          "med_month": 25
+          "p_24m_pct": 61.4,
+          "p_36m_pct": 85.3,
+          "p_60m_pct": 95.8,
+          "med_month": 21
         },
         "B2_data_ob50k": {
           "p_24m_pct": 0.3,
-          "p_36m_pct": 9.0,
-          "p_60m_pct": 45.1,
+          "p_36m_pct": 11.9,
+          "p_60m_pct": 66.3,
           "med_month": 46
         },
         "C1_ob_25k": {
-          "p_24m_pct": 7.2,
-          "p_36m_pct": 30.4,
-          "p_60m_pct": 66.7,
-          "med_month": 38
+          "p_24m_pct": 10.0,
+          "p_36m_pct": 47.9,
+          "p_60m_pct": 87.3,
+          "med_month": 35
         },
         "C2_ob_50k": {
           "p_24m_pct": 0.3,
-          "p_36m_pct": 9.0,
-          "p_60m_pct": 45.1,
+          "p_36m_pct": 11.9,
+          "p_60m_pct": 66.3,
           "med_month": 46
         },
         "C3_ob_100k": {
           "p_24m_pct": 0.0,
-          "p_36m_pct": 0.0,
-          "p_60m_pct": 11.2,
-          "med_month": 54
+          "p_36m_pct": 0.1,
+          "p_60m_pct": 13.3,
+          "med_month": 55
         },
         "C4_ob_200k": {
           "p_24m_pct": 0.0,
           "p_36m_pct": 0.0,
           "p_60m_pct": 0.0,
-          "med_month": 60
+          "med_month": -1
         },
         "D_crossover": {
           "p_24m_pct": 0.0,
           "p_36m_pct": 0.0,
-          "p_60m_pct": 0.0,
-          "med_month": -1
+          "p_60m_pct": 0.8,
+          "med_month": 53
         }
       }
     },
@@ -567,75 +679,75 @@
       "architecture": "SMART_TIER",
       "init_fee_budget_usd": 1500.0,
       "init_own_book_usd": 10000.0,
-      "max_prop_nominal_cap_usd": 360000.0,
-      "wipeout_pct": 0.0,
-      "dbl_fail_pct": 11.1,
-      "peak_funded_med_usd": 360000.0,
-      "mean_fees_24m_usd": 1547.4,
-      "mean_payouts_24m_usd": 6508.1,
-      "ev_per_fee_24m": 3.21,
-      "ev_per_fee_60m": 19.15,
-      "ob_24m_med_usd": 12449.0,
-      "ob_36m_med_usd": 16116.0,
-      "ob_60m_med_usd": 41152.0,
-      "ob_60m_med_vnd_tr": 1049.4,
-      "ops_60m_med_usd": 3708.0,
-      "infra_self_funded_60m_med_usd": 3435.0,
-      "net_wealth_24m_med_usd": 2083.0,
-      "net_wealth_60m_med_usd": 36115.0,
-      "net_wealth_60m_med_vnd_tr": 920.9,
-      "comb_ann_ret_med_pct": 32.9,
-      "comb_sharpe_med": 1.58,
-      "comb_peak_dd_p95_pct": 8.4,
-      "prop_corr_dd_p95_pct": 9.51,
+      "max_prop_nominal_cap_usd": 350000.0,
+      "wipeout_pct": 0.78,
+      "dbl_fail_pct": 32.2,
+      "peak_funded_med_usd": 350000.0,
+      "mean_fees_24m_usd": 2217.9,
+      "mean_payouts_24m_usd": 9373.2,
+      "ev_per_fee_24m": 3.23,
+      "ev_per_fee_60m": 19.08,
+      "ob_24m_med_usd": 13906.0,
+      "ob_36m_med_usd": 22617.0,
+      "ob_60m_med_usd": 61582.0,
+      "ob_60m_med_vnd_tr": 1570.3,
+      "ops_60m_med_usd": 7775.0,
+      "infra_self_funded_60m_med_usd": 4765.0,
+      "net_wealth_24m_med_usd": 3904.0,
+      "net_wealth_60m_med_usd": 60869.0,
+      "net_wealth_60m_med_vnd_tr": 1552.1,
+      "comb_ann_ret_med_pct": 44.5,
+      "comb_sharpe_med": 1.64,
+      "comb_peak_dd_p95_pct": 14.79,
+      "prop_corr_dd_p95_pct": 10.0,
       "milestones": {
         "A_vps_self_funded": {
-          "p_24m_pct": 54.2,
-          "p_36m_pct": 72.0,
-          "p_60m_pct": 90.1,
-          "med_month": 20
+          "p_24m_pct": 77.6,
+          "p_36m_pct": 92.2,
+          "p_60m_pct": 97.9,
+          "med_month": 16
         },
         "B1_data_active50k": {
-          "p_24m_pct": 27.6,
-          "p_36m_pct": 50.3,
-          "p_60m_pct": 77.8,
-          "med_month": 30
+          "p_24m_pct": 41.8,
+          "p_36m_pct": 72.1,
+          "p_60m_pct": 91.6,
+          "med_month": 26
         },
         "B2_data_ob50k": {
-          "p_24m_pct": 0.5,
-          "p_36m_pct": 9.0,
-          "p_60m_pct": 42.7,
-          "med_month": 46
+          "p_24m_pct": 0.6,
+          "p_36m_pct": 13.0,
+          "p_60m_pct": 63.0,
+          "med_month": 45
         },
         "C1_ob_25k": {
-          "p_24m_pct": 8.6,
-          "p_36m_pct": 29.7,
-          "p_60m_pct": 66.7,
-          "med_month": 39
+          "p_24m_pct": 12.0,
+          "p_36m_pct": 45.4,
+          "p_60m_pct": 84.5,
+          "med_month": 35
         },
         "C2_ob_50k": {
-          "p_24m_pct": 0.5,
-          "p_36m_pct": 9.0,
-          "p_60m_pct": 42.7,
-          "med_month": 46
+          "p_24m_pct": 0.6,
+          "p_36m_pct": 13.0,
+          "p_60m_pct": 63.0,
+          "med_month": 45
         },
         "C3_ob_100k": {
           "p_24m_pct": 0.0,
           "p_36m_pct": 0.1,
-          "p_60m_pct": 10.3,
-          "med_month": 53
+          "p_60m_pct": 13.7,
+          "med_month": 55
         },
         "C4_ob_200k": {
           "p_24m_pct": 0.0,
           "p_36m_pct": 0.0,
           "p_60m_pct": 0.0,
-          "med_month": 60
+          "med_month": -1
         },
         "D_crossover": {
           "p_24m_pct": 0.0,
           "p_36m_pct": 0.0,
-          "p_60m_pct": 0.0,
-          "med_month": -1
+          "p_60m_pct": 1.0,
+          "med_month": 55
         }
       }
     },
@@ -646,75 +758,75 @@
       "architecture": "SMART_TIER",
       "init_fee_budget_usd": 3000.0,
       "init_own_book_usd": 10000.0,
-      "max_prop_nominal_cap_usd": 360000.0,
-      "wipeout_pct": 0.0,
-      "dbl_fail_pct": 10.6,
-      "peak_funded_med_usd": 360000.0,
-      "mean_fees_24m_usd": 2013.9,
-      "mean_payouts_24m_usd": 9669.7,
-      "ev_per_fee_24m": 3.8,
-      "ev_per_fee_60m": 22.81,
-      "ob_24m_med_usd": 13108.0,
-      "ob_36m_med_usd": 22532.0,
-      "ob_60m_med_usd": 57880.0,
-      "ob_60m_med_vnd_tr": 1475.9,
-      "ops_60m_med_usd": 6508.0,
-      "infra_self_funded_60m_med_usd": 4288.0,
-      "net_wealth_24m_med_usd": 2209.0,
-      "net_wealth_60m_med_usd": 53789.0,
-      "net_wealth_60m_med_vnd_tr": 1371.6,
-      "comb_ann_ret_med_pct": 38.7,
-      "comb_sharpe_med": 1.42,
-      "comb_peak_dd_p95_pct": 15.5,
-      "prop_corr_dd_p95_pct": 9.53,
+      "max_prop_nominal_cap_usd": 350000.0,
+      "wipeout_pct": 0.44,
+      "dbl_fail_pct": 38.8,
+      "peak_funded_med_usd": 350000.0,
+      "mean_fees_24m_usd": 2815.1,
+      "mean_payouts_24m_usd": 14393.2,
+      "ev_per_fee_24m": 4.11,
+      "ev_per_fee_60m": 22.07,
+      "ob_24m_med_usd": 17264.0,
+      "ob_36m_med_usd": 35168.0,
+      "ob_60m_med_usd": 76030.0,
+      "ob_60m_med_vnd_tr": 1938.8,
+      "ops_60m_med_usd": 9975.0,
+      "infra_self_funded_60m_med_usd": 5415.0,
+      "net_wealth_24m_med_usd": 8375.0,
+      "net_wealth_60m_med_usd": 76178.0,
+      "net_wealth_60m_med_vnd_tr": 1942.5,
+      "comb_ann_ret_med_pct": 47.0,
+      "comb_sharpe_med": 1.53,
+      "comb_peak_dd_p95_pct": 21.71,
+      "prop_corr_dd_p95_pct": 10.0,
       "milestones": {
         "A_vps_self_funded": {
-          "p_24m_pct": 58.3,
-          "p_36m_pct": 74.7,
-          "p_60m_pct": 90.9,
-          "med_month": 19
+          "p_24m_pct": 81.4,
+          "p_36m_pct": 94.3,
+          "p_60m_pct": 98.7,
+          "med_month": 16
         },
         "B1_data_active50k": {
-          "p_24m_pct": 39.8,
-          "p_36m_pct": 61.1,
-          "p_60m_pct": 83.1,
-          "med_month": 25
+          "p_24m_pct": 61.4,
+          "p_36m_pct": 85.3,
+          "p_60m_pct": 95.8,
+          "med_month": 21
         },
         "B2_data_ob50k": {
           "p_24m_pct": 1.7,
-          "p_36m_pct": 17.0,
-          "p_60m_pct": 56.9,
-          "med_month": 43
+          "p_36m_pct": 25.0,
+          "p_60m_pct": 78.6,
+          "med_month": 41
         },
         "C1_ob_25k": {
-          "p_24m_pct": 19.1,
-          "p_36m_pct": 46.0,
-          "p_60m_pct": 77.0,
-          "med_month": 33
+          "p_24m_pct": 28.3,
+          "p_36m_pct": 69.3,
+          "p_60m_pct": 92.7,
+          "med_month": 29
         },
         "C2_ob_50k": {
           "p_24m_pct": 1.7,
-          "p_36m_pct": 17.0,
-          "p_60m_pct": 56.9,
-          "med_month": 43
+          "p_36m_pct": 25.0,
+          "p_60m_pct": 78.6,
+          "med_month": 41
         },
         "C3_ob_100k": {
           "p_24m_pct": 0.0,
-          "p_36m_pct": 0.3,
-          "p_60m_pct": 17.6,
-          "med_month": 53
+          "p_36m_pct": 0.2,
+          "p_60m_pct": 23.8,
+          "med_month": 54
         },
         "C4_ob_200k": {
           "p_24m_pct": 0.0,
           "p_36m_pct": 0.0,
           "p_60m_pct": 0.0,
-          "med_month": 58
+          "med_month": -1
         },
         "D_crossover": {
           "p_24m_pct": 0.0,
           "p_36m_pct": 0.0,
-          "p_60m_pct": 0.0,
-          "med_month": -1
+          "p_60m_pct": 1.5,
+          "med_month": 52
         }
       }
     },
@@ -725,75 +837,75 @@
       "architecture": "SMART_TIER",
       "init_fee_budget_usd": 1500.0,
       "init_own_book_usd": 25000.0,
-      "max_prop_nominal_cap_usd": 360000.0,
-      "wipeout_pct": 0.0,
-      "dbl_fail_pct": 11.1,
-      "peak_funded_med_usd": 360000.0,
-      "mean_fees_24m_usd": 1547.4,
-      "mean_payouts_24m_usd": 6508.1,
-      "ev_per_fee_24m": 3.21,
-      "ev_per_fee_60m": 19.15,
-      "ob_24m_med_usd": 29605.0,
-      "ob_36m_med_usd": 34334.0,
-      "ob_60m_med_usd": 61708.0,
-      "ob_60m_med_vnd_tr": 1573.6,
-      "ops_60m_med_usd": 3708.0,
-      "infra_self_funded_60m_med_usd": 3435.0,
-      "net_wealth_24m_med_usd": 4222.0,
-      "net_wealth_60m_med_usd": 41870.0,
-      "net_wealth_60m_med_vnd_tr": 1067.7,
-      "comb_ann_ret_med_pct": 20.9,
-      "comb_sharpe_med": 1.89,
-      "comb_peak_dd_p95_pct": 4.07,
-      "prop_corr_dd_p95_pct": 9.51,
+      "max_prop_nominal_cap_usd": 350000.0,
+      "wipeout_pct": 0.78,
+      "dbl_fail_pct": 32.2,
+      "peak_funded_med_usd": 350000.0,
+      "mean_fees_24m_usd": 2217.9,
+      "mean_payouts_24m_usd": 9373.2,
+      "ev_per_fee_24m": 3.23,
+      "ev_per_fee_60m": 19.08,
+      "ob_24m_med_usd": 30678.0,
+      "ob_36m_med_usd": 40053.0,
+      "ob_60m_med_usd": 80781.0,
+      "ob_60m_med_vnd_tr": 2059.9,
+      "ops_60m_med_usd": 7775.0,
+      "infra_self_funded_60m_med_usd": 4765.0,
+      "net_wealth_24m_med_usd": 5574.0,
+      "net_wealth_60m_med_usd": 64848.0,
+      "net_wealth_60m_med_vnd_tr": 1653.6,
+      "comb_ann_ret_med_pct": 28.1,
+      "comb_sharpe_med": 1.77,
+      "comb_peak_dd_p95_pct": 9.92,
+      "prop_corr_dd_p95_pct": 10.0,
       "milestones": {
         "A_vps_self_funded": {
-          "p_24m_pct": 54.2,
-          "p_36m_pct": 72.0,
-          "p_60m_pct": 90.1,
-          "med_month": 20
+          "p_24m_pct": 77.6,
+          "p_36m_pct": 92.2,
+          "p_60m_pct": 97.9,
+          "med_month": 16
         },
         "B1_data_active50k": {
-          "p_24m_pct": 27.6,
-          "p_36m_pct": 50.3,
-          "p_60m_pct": 77.8,
-          "med_month": 30
+          "p_24m_pct": 41.8,
+          "p_36m_pct": 72.1,
+          "p_60m_pct": 91.6,
+          "med_month": 26
         },
         "B2_data_ob50k": {
-          "p_24m_pct": 4.3,
-          "p_36m_pct": 22.3,
-          "p_60m_pct": 60.8,
-          "med_month": 41
+          "p_24m_pct": 4.7,
+          "p_36m_pct": 33.4,
+          "p_60m_pct": 80.1,
+          "med_month": 39
         },
         "C1_ob_25k": {
-          "p_24m_pct": 100.0,
-          "p_36m_pct": 100.0,
+          "p_24m_pct": 99.7,
+          "p_36m_pct": 99.9,
           "p_60m_pct": 100.0,
           "med_month": 1
         },
         "C2_ob_50k": {
-          "p_24m_pct": 4.3,
-          "p_36m_pct": 22.3,
-          "p_60m_pct": 61.5,
-          "med_month": 41
+          "p_24m_pct": 4.7,
+          "p_36m_pct": 33.4,
+          "p_60m_pct": 80.4,
+          "med_month": 39
         },
         "C3_ob_100k": {
           "p_24m_pct": 0.0,
-          "p_36m_pct": 0.7,
-          "p_60m_pct": 21.1,
-          "med_month": 52
+          "p_36m_pct": 0.6,
+          "p_60m_pct": 29.6,
+          "med_month": 53
         },
         "C4_ob_200k": {
           "p_24m_pct": 0.0,
           "p_36m_pct": 0.0,
-          "p_60m_pct": 0.1,
-          "med_month": 58
+          "p_60m_pct": 0.0,
+          "med_month": -1
         },
         "D_crossover": {
-          "p_24m_pct": 0.0,
-          "p_36m_pct": 0.1,
-          "p_60m_pct": 2.3,
-          "med_month": 50
+          "p_24m_pct": 0.1,
+          "p_36m_pct": 0.7,
+          "p_60m_pct": 4.3,
+          "med_month": 48
         }
       }
     },
@@ -804,117 +916,117 @@
       "architecture": "SMART_TIER",
       "init_fee_budget_usd": 3000.0,
       "init_own_book_usd": 25000.0,
-      "max_prop_nominal_cap_usd": 360000.0,
-      "wipeout_pct": 0.0,
-      "dbl_fail_pct": 10.6,
-      "peak_funded_med_usd": 360000.0,
-      "mean_fees_24m_usd": 2013.9,
-      "mean_payouts_24m_usd": 9669.7,
-      "ev_per_fee_24m": 3.8,
-      "ev_per_fee_60m": 22.81,
-      "ob_24m_med_usd": 30277.0,
-      "ob_36m_med_usd": 40686.0,
-      "ob_60m_med_usd": 78326.0,
-      "ob_60m_med_vnd_tr": 1997.3,
-      "ops_60m_med_usd": 6508.0,
-      "infra_self_funded_60m_med_usd": 4288.0,
-      "net_wealth_24m_med_usd": 4495.0,
-      "net_wealth_60m_med_usd": 59261.0,
-      "net_wealth_60m_med_vnd_tr": 1511.1,
-      "comb_ann_ret_med_pct": 25.5,
-      "comb_sharpe_med": 1.7,
-      "comb_peak_dd_p95_pct": 7.16,
-      "prop_corr_dd_p95_pct": 9.53,
+      "max_prop_nominal_cap_usd": 350000.0,
+      "wipeout_pct": 0.44,
+      "dbl_fail_pct": 38.8,
+      "peak_funded_med_usd": 350000.0,
+      "mean_fees_24m_usd": 2815.1,
+      "mean_payouts_24m_usd": 14393.2,
+      "ev_per_fee_24m": 4.11,
+      "ev_per_fee_60m": 22.07,
+      "ob_24m_med_usd": 33910.0,
+      "ob_36m_med_usd": 52411.0,
+      "ob_60m_med_usd": 95332.0,
+      "ob_60m_med_vnd_tr": 2431.0,
+      "ops_60m_med_usd": 9975.0,
+      "infra_self_funded_60m_med_usd": 5415.0,
+      "net_wealth_24m_med_usd": 9876.0,
+      "net_wealth_60m_med_usd": 80139.0,
+      "net_wealth_60m_med_vnd_tr": 2043.6,
+      "comb_ann_ret_med_pct": 31.0,
+      "comb_sharpe_med": 1.74,
+      "comb_peak_dd_p95_pct": 12.62,
+      "prop_corr_dd_p95_pct": 10.0,
       "milestones": {
         "A_vps_self_funded": {
-          "p_24m_pct": 58.3,
-          "p_36m_pct": 74.7,
-          "p_60m_pct": 90.9,
-          "med_month": 19
+          "p_24m_pct": 81.4,
+          "p_36m_pct": 94.3,
+          "p_60m_pct": 98.7,
+          "med_month": 16
         },
         "B1_data_active50k": {
-          "p_24m_pct": 39.8,
-          "p_36m_pct": 61.1,
-          "p_60m_pct": 83.1,
-          "med_month": 25
+          "p_24m_pct": 61.4,
+          "p_36m_pct": 85.3,
+          "p_60m_pct": 95.8,
+          "med_month": 21
         },
         "B2_data_ob50k": {
-          "p_24m_pct": 9.9,
-          "p_36m_pct": 36.6,
-          "p_60m_pct": 72.8,
-          "med_month": 36
+          "p_24m_pct": 12.7,
+          "p_36m_pct": 54.9,
+          "p_60m_pct": 90.2,
+          "med_month": 33
         },
         "C1_ob_25k": {
-          "p_24m_pct": 100.0,
+          "p_24m_pct": 99.8,
           "p_36m_pct": 100.0,
           "p_60m_pct": 100.0,
           "med_month": 1
         },
         "C2_ob_50k": {
-          "p_24m_pct": 9.9,
-          "p_36m_pct": 36.6,
-          "p_60m_pct": 73.5,
-          "med_month": 37
+          "p_24m_pct": 12.7,
+          "p_36m_pct": 54.9,
+          "p_60m_pct": 90.7,
+          "med_month": 33
         },
         "C3_ob_100k": {
           "p_24m_pct": 0.0,
-          "p_36m_pct": 2.0,
-          "p_60m_pct": 32.1,
-          "med_month": 50
+          "p_36m_pct": 1.7,
+          "p_60m_pct": 45.0,
+          "med_month": 51
         },
         "C4_ob_200k": {
           "p_24m_pct": 0.0,
           "p_36m_pct": 0.0,
-          "p_60m_pct": 0.3,
-          "med_month": 57
+          "p_60m_pct": 0.1,
+          "med_month": 58
         },
         "D_crossover": {
           "p_24m_pct": 0.0,
-          "p_36m_pct": 0.1,
-          "p_60m_pct": 2.2,
+          "p_36m_pct": 0.6,
+          "p_60m_pct": 4.4,
           "med_month": 50
         }
       }
     },
     {
-      "friction": "1.5x",
+      "friction": "1.25x",
       "scenario_id": "OLD_10K_B500_OB0",
       "label": "Old Repeated-10K (SYMCAP 3.0%)",
       "architecture": "OLD_10K",
       "init_fee_budget_usd": 500.0,
       "init_own_book_usd": 0.0,
       "max_prop_nominal_cap_usd": 100000.0,
-      "wipeout_pct": 0.76,
-      "dbl_fail_pct": 29.9,
-      "peak_funded_med_usd": 20000.0,
-      "mean_fees_24m_usd": 502.3,
-      "mean_payouts_24m_usd": 761.8,
-      "ev_per_fee_24m": 0.52,
-      "ev_per_fee_60m": 2.52,
-      "ob_24m_med_usd": 117.0,
-      "ob_36m_med_usd": 311.0,
-      "ob_60m_med_usd": 874.0,
-      "ob_60m_med_vnd_tr": 22.3,
-      "ops_60m_med_usd": 168.0,
-      "infra_self_funded_60m_med_usd": 0.0,
-      "net_wealth_24m_med_usd": -118.0,
-      "net_wealth_60m_med_usd": 839.0,
-      "net_wealth_60m_med_vnd_tr": 21.4,
-      "comb_ann_ret_med_pct": 21.8,
-      "comb_sharpe_med": 0.56,
+      "wipeout_pct": 0.22,
+      "dbl_fail_pct": 33.8,
+      "peak_funded_med_usd": 30000.0,
+      "mean_fees_24m_usd": 571.5,
+      "mean_payouts_24m_usd": 1048.5,
+      "ev_per_fee_24m": 0.83,
+      "ev_per_fee_60m": 3.74,
+      "ob_24m_med_usd": 229.0,
+      "ob_36m_med_usd": 566.0,
+      "ob_60m_med_usd": 1738.0,
+      "ob_60m_med_vnd_tr": 44.3,
+      "ops_60m_med_usd": 296.0,
+      "infra_self_funded_60m_med_usd": 245.0,
+      "net_wealth_24m_med_usd": 18.0,
+      "net_wealth_60m_med_usd": 1826.0,
+      "net_wealth_60m_med_vnd_tr": 46.6,
+      "comb_ann_ret_med_pct": 36.0,
+      "comb_sharpe_med": 0.68,
       "comb_peak_dd_p95_pct": 89.82,
       "prop_corr_dd_p95_pct": 10.0,
       "milestones": {
         "A_vps_self_funded": {
-          "p_24m_pct": 11.4,
-          "p_36m_pct": 20.3,
-          "p_60m_pct": 37.6,
-          "med_month": 35
+          "p_24m_pct": 16.2,
+          "p_36m_pct": 30.5,
+          "p_60m_pct": 55.0,
+          "med_month": 34
         },
         "B1_data_active50k": {
-          "p_24m_pct": 0.4,
-          "p_36m_pct": 2.4,
-          "p_60m_pct": 9.2,
+          "p_24m_pct": 1.2,
+          "p_36m_pct": 5.5,
+          "p_60m_pct": 20.3,
           "med_month": 45
         },
         "B2_data_ob50k": {
@@ -926,8 +1038,877 @@
         "C1_ob_25k": {
           "p_24m_pct": 0.0,
           "p_36m_pct": 0.0,
-          "p_60m_pct": 0.1,
+          "p_60m_pct": 0.5,
+          "med_month": 57
+        },
+        "C2_ob_50k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "C3_ob_100k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "C4_ob_200k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "D_crossover": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        }
+      }
+    },
+    {
+      "friction": "1.25x",
+      "scenario_id": "OLD_10K_B1500_OB0",
+      "label": "Old Repeated-10K (SYMCAP 3.0%)",
+      "architecture": "OLD_10K",
+      "init_fee_budget_usd": 1500.0,
+      "init_own_book_usd": 0.0,
+      "max_prop_nominal_cap_usd": 100000.0,
+      "wipeout_pct": 0.08,
+      "dbl_fail_pct": 44.8,
+      "peak_funded_med_usd": 70000.0,
+      "mean_fees_24m_usd": 1237.8,
+      "mean_payouts_24m_usd": 1869.5,
+      "ev_per_fee_24m": 0.51,
+      "ev_per_fee_60m": 4.49,
+      "ob_24m_med_usd": 416.0,
+      "ob_36m_med_usd": 1175.0,
+      "ob_60m_med_usd": 4847.0,
+      "ob_60m_med_vnd_tr": 123.6,
+      "ops_60m_med_usd": 333.0,
+      "infra_self_funded_60m_med_usd": 945.0,
+      "net_wealth_24m_med_usd": -207.0,
+      "net_wealth_60m_med_usd": 4727.0,
+      "net_wealth_60m_med_vnd_tr": 120.5,
+      "comb_ann_ret_med_pct": 32.9,
+      "comb_sharpe_med": 0.67,
+      "comb_peak_dd_p95_pct": 97.14,
+      "prop_corr_dd_p95_pct": 10.0,
+      "milestones": {
+        "A_vps_self_funded": {
+          "p_24m_pct": 33.9,
+          "p_36m_pct": 50.3,
+          "p_60m_pct": 71.9,
+          "med_month": 26
+        },
+        "B1_data_active50k": {
+          "p_24m_pct": 4.3,
+          "p_36m_pct": 17.2,
+          "p_60m_pct": 40.3,
+          "med_month": 39
+        },
+        "B2_data_ob50k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "C1_ob_25k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 2.4,
+          "med_month": 56
+        },
+        "C2_ob_50k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "C3_ob_100k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "C4_ob_200k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "D_crossover": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        }
+      }
+    },
+    {
+      "friction": "1.25x",
+      "scenario_id": "OLD_10K_B3000_OB0",
+      "label": "Old Repeated-10K (SYMCAP 3.0%)",
+      "architecture": "OLD_10K",
+      "init_fee_budget_usd": 3000.0,
+      "init_own_book_usd": 0.0,
+      "max_prop_nominal_cap_usd": 100000.0,
+      "wipeout_pct": 0.04,
+      "dbl_fail_pct": 44.9,
+      "peak_funded_med_usd": 80000.0,
+      "mean_fees_24m_usd": 1411.1,
+      "mean_payouts_24m_usd": 1999.1,
+      "ev_per_fee_24m": 0.42,
+      "ev_per_fee_60m": 4.58,
+      "ob_24m_med_usd": 664.0,
+      "ob_36m_med_usd": 2121.0,
+      "ob_60m_med_usd": 7411.0,
+      "ob_60m_med_vnd_tr": 189.0,
+      "ops_60m_med_usd": 344.0,
+      "infra_self_funded_60m_med_usd": 1208.0,
+      "net_wealth_24m_med_usd": -207.0,
+      "net_wealth_60m_med_usd": 6106.0,
+      "net_wealth_60m_med_vnd_tr": 155.7,
+      "comb_ann_ret_med_pct": 24.9,
+      "comb_sharpe_med": 0.73,
+      "comb_peak_dd_p95_pct": 87.11,
+      "prop_corr_dd_p95_pct": 10.0,
+      "milestones": {
+        "A_vps_self_funded": {
+          "p_24m_pct": 37.0,
+          "p_36m_pct": 54.6,
+          "p_60m_pct": 75.2,
+          "med_month": 25
+        },
+        "B1_data_active50k": {
+          "p_24m_pct": 4.8,
+          "p_36m_pct": 20.4,
+          "p_60m_pct": 46.9,
+          "med_month": 39
+        },
+        "B2_data_ob50k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "C1_ob_25k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 3.6,
           "med_month": 55
+        },
+        "C2_ob_50k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "C3_ob_100k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "C4_ob_200k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "D_crossover": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        }
+      }
+    },
+    {
+      "friction": "1.25x",
+      "scenario_id": "SMART_B1500_CAP100K",
+      "label": "Smart-Tier (Matched Cap 100k)",
+      "architecture": "SMART_CAP100K",
+      "init_fee_budget_usd": 1500.0,
+      "init_own_book_usd": 0.0,
+      "max_prop_nominal_cap_usd": 100000.0,
+      "wipeout_pct": 1.36,
+      "dbl_fail_pct": 35.2,
+      "peak_funded_med_usd": 100000.0,
+      "mean_fees_24m_usd": 1183.2,
+      "mean_payouts_24m_usd": 5061.5,
+      "ev_per_fee_24m": 3.28,
+      "ev_per_fee_60m": 13.25,
+      "ob_24m_med_usd": 1993.0,
+      "ob_36m_med_usd": 5055.0,
+      "ob_60m_med_usd": 14691.0,
+      "ob_60m_med_vnd_tr": 374.6,
+      "ops_60m_med_usd": 606.0,
+      "infra_self_funded_60m_med_usd": 3345.0,
+      "net_wealth_24m_med_usd": 2509.0,
+      "net_wealth_60m_med_usd": 16625.0,
+      "net_wealth_60m_med_vnd_tr": 423.9,
+      "comb_ann_ret_med_pct": 64.6,
+      "comb_sharpe_med": 0.87,
+      "comb_peak_dd_p95_pct": 94.88,
+      "prop_corr_dd_p95_pct": 10.0,
+      "milestones": {
+        "A_vps_self_funded": {
+          "p_24m_pct": 68.1,
+          "p_36m_pct": 86.4,
+          "p_60m_pct": 95.1,
+          "med_month": 18
+        },
+        "B1_data_active50k": {
+          "p_24m_pct": 27.6,
+          "p_36m_pct": 54.9,
+          "p_60m_pct": 80.3,
+          "med_month": 30
+        },
+        "B2_data_ob50k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "C1_ob_25k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.3,
+          "p_60m_pct": 14.1,
+          "med_month": 54
+        },
+        "C2_ob_50k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "C3_ob_100k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "C4_ob_200k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "D_crossover": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": 53
+        }
+      }
+    },
+    {
+      "friction": "1.25x",
+      "scenario_id": "SMART_B500_OB0",
+      "label": "Smart-Tier Ladder (OB Seed 0)",
+      "architecture": "SMART_TIER",
+      "init_fee_budget_usd": 500.0,
+      "init_own_book_usd": 0.0,
+      "max_prop_nominal_cap_usd": 350000.0,
+      "wipeout_pct": 1.66,
+      "dbl_fail_pct": 11.4,
+      "peak_funded_med_usd": 150000.0,
+      "mean_fees_24m_usd": 652.1,
+      "mean_payouts_24m_usd": 1480.4,
+      "ev_per_fee_24m": 1.27,
+      "ev_per_fee_60m": 7.53,
+      "ob_24m_med_usd": 487.0,
+      "ob_36m_med_usd": 1259.0,
+      "ob_60m_med_usd": 5321.0,
+      "ob_60m_med_vnd_tr": 135.7,
+      "ops_60m_med_usd": 753.0,
+      "infra_self_funded_60m_med_usd": 1190.0,
+      "net_wealth_24m_med_usd": 502.0,
+      "net_wealth_60m_med_usd": 6091.0,
+      "net_wealth_60m_med_vnd_tr": 155.3,
+      "comb_ann_ret_med_pct": 67.5,
+      "comb_sharpe_med": 0.9,
+      "comb_peak_dd_p95_pct": 86.64,
+      "prop_corr_dd_p95_pct": 10.0,
+      "milestones": {
+        "A_vps_self_funded": {
+          "p_24m_pct": 27.5,
+          "p_36m_pct": 57.4,
+          "p_60m_pct": 84.8,
+          "med_month": 30
+        },
+        "B1_data_active50k": {
+          "p_24m_pct": 2.0,
+          "p_36m_pct": 14.4,
+          "p_60m_pct": 51.0,
+          "med_month": 44
+        },
+        "B2_data_ob50k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 5.7,
+          "med_month": 55
+        },
+        "C1_ob_25k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.9,
+          "p_60m_pct": 20.0,
+          "med_month": 52
+        },
+        "C2_ob_50k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 5.7,
+          "med_month": 55
+        },
+        "C3_ob_100k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.1,
+          "med_month": 59
+        },
+        "C4_ob_200k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "D_crossover": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.1,
+          "med_month": 57
+        }
+      }
+    },
+    {
+      "friction": "1.25x",
+      "scenario_id": "SMART_B1500_OB0",
+      "label": "Smart-Tier Ladder (OB Seed 0)",
+      "architecture": "SMART_TIER",
+      "init_fee_budget_usd": 1500.0,
+      "init_own_book_usd": 0.0,
+      "max_prop_nominal_cap_usd": 350000.0,
+      "wipeout_pct": 1.74,
+      "dbl_fail_pct": 40.1,
+      "peak_funded_med_usd": 350000.0,
+      "mean_fees_24m_usd": 2074.0,
+      "mean_payouts_24m_usd": 6727.8,
+      "ev_per_fee_24m": 2.24,
+      "ev_per_fee_60m": 13.06,
+      "ob_24m_med_usd": 1966.0,
+      "ob_36m_med_usd": 5435.0,
+      "ob_60m_med_usd": 31636.0,
+      "ob_60m_med_vnd_tr": 806.7,
+      "ops_60m_med_usd": 4413.0,
+      "infra_self_funded_60m_med_usd": 3990.0,
+      "net_wealth_24m_med_usd": 1621.0,
+      "net_wealth_60m_med_usd": 37270.0,
+      "net_wealth_60m_med_vnd_tr": 950.4,
+      "comb_ann_ret_med_pct": 91.6,
+      "comb_sharpe_med": 0.98,
+      "comb_peak_dd_p95_pct": 94.88,
+      "prop_corr_dd_p95_pct": 10.0,
+      "milestones": {
+        "A_vps_self_funded": {
+          "p_24m_pct": 67.7,
+          "p_36m_pct": 85.8,
+          "p_60m_pct": 94.8,
+          "med_month": 18
+        },
+        "B1_data_active50k": {
+          "p_24m_pct": 29.9,
+          "p_36m_pct": 57.4,
+          "p_60m_pct": 82.1,
+          "med_month": 29
+        },
+        "B2_data_ob50k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 2.0,
+          "p_60m_pct": 29.9,
+          "med_month": 51
+        },
+        "C1_ob_25k": {
+          "p_24m_pct": 2.0,
+          "p_36m_pct": 16.4,
+          "p_60m_pct": 57.7,
+          "med_month": 43
+        },
+        "C2_ob_50k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 2.0,
+          "p_60m_pct": 29.9,
+          "med_month": 51
+        },
+        "C3_ob_100k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 2.7,
+          "med_month": 57
+        },
+        "C4_ob_200k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "D_crossover": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.6,
+          "med_month": 55
+        }
+      }
+    },
+    {
+      "friction": "1.25x",
+      "scenario_id": "SMART_B3000_OB0",
+      "label": "Smart-Tier Ladder (OB Seed 0)",
+      "architecture": "SMART_TIER",
+      "init_fee_budget_usd": 3000.0,
+      "init_own_book_usd": 0.0,
+      "max_prop_nominal_cap_usd": 350000.0,
+      "wipeout_pct": 0.96,
+      "dbl_fail_pct": 48.6,
+      "peak_funded_med_usd": 350000.0,
+      "mean_fees_24m_usd": 2844.0,
+      "mean_payouts_24m_usd": 10752.6,
+      "ev_per_fee_24m": 2.78,
+      "ev_per_fee_60m": 15.54,
+      "ob_24m_med_usd": 3531.0,
+      "ob_36m_med_usd": 15492.0,
+      "ob_60m_med_usd": 47690.0,
+      "ob_60m_med_vnd_tr": 1216.1,
+      "ops_60m_med_usd": 6783.0,
+      "infra_self_funded_60m_med_usd": 4935.0,
+      "net_wealth_24m_med_usd": 3388.0,
+      "net_wealth_60m_med_usd": 54034.0,
+      "net_wealth_60m_med_vnd_tr": 1377.9,
+      "comb_ann_ret_med_pct": 80.2,
+      "comb_sharpe_med": 0.9,
+      "comb_peak_dd_p95_pct": 95.74,
+      "prop_corr_dd_p95_pct": 10.0,
+      "milestones": {
+        "A_vps_self_funded": {
+          "p_24m_pct": 71.8,
+          "p_36m_pct": 89.6,
+          "p_60m_pct": 96.4,
+          "med_month": 18
+        },
+        "B1_data_active50k": {
+          "p_24m_pct": 49.4,
+          "p_36m_pct": 75.8,
+          "p_60m_pct": 90.5,
+          "med_month": 23
+        },
+        "B2_data_ob50k": {
+          "p_24m_pct": 0.1,
+          "p_36m_pct": 5.8,
+          "p_60m_pct": 47.4,
+          "med_month": 48
+        },
+        "C1_ob_25k": {
+          "p_24m_pct": 5.5,
+          "p_36m_pct": 32.9,
+          "p_60m_pct": 74.9,
+          "med_month": 38
+        },
+        "C2_ob_50k": {
+          "p_24m_pct": 0.1,
+          "p_36m_pct": 5.8,
+          "p_60m_pct": 47.4,
+          "med_month": 48
+        },
+        "C3_ob_100k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 5.4,
+          "med_month": 55
+        },
+        "C4_ob_200k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "D_crossover": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 1.4,
+          "med_month": 54
+        }
+      }
+    },
+    {
+      "friction": "1.25x",
+      "scenario_id": "SMART_B1500_OB10K",
+      "label": "Smart-Tier + Hybrid OB 10k",
+      "architecture": "SMART_TIER",
+      "init_fee_budget_usd": 1500.0,
+      "init_own_book_usd": 10000.0,
+      "max_prop_nominal_cap_usd": 350000.0,
+      "wipeout_pct": 1.74,
+      "dbl_fail_pct": 40.1,
+      "peak_funded_med_usd": 350000.0,
+      "mean_fees_24m_usd": 2074.0,
+      "mean_payouts_24m_usd": 6727.8,
+      "ev_per_fee_24m": 2.24,
+      "ev_per_fee_60m": 13.06,
+      "ob_24m_med_usd": 12942.0,
+      "ob_36m_med_usd": 16932.0,
+      "ob_60m_med_usd": 44142.0,
+      "ob_60m_med_vnd_tr": 1125.6,
+      "ops_60m_med_usd": 4413.0,
+      "infra_self_funded_60m_med_usd": 3990.0,
+      "net_wealth_24m_med_usd": 2537.0,
+      "net_wealth_60m_med_usd": 39822.0,
+      "net_wealth_60m_med_vnd_tr": 1015.5,
+      "comb_ann_ret_med_pct": 34.9,
+      "comb_sharpe_med": 1.48,
+      "comb_peak_dd_p95_pct": 15.3,
+      "prop_corr_dd_p95_pct": 10.0,
+      "milestones": {
+        "A_vps_self_funded": {
+          "p_24m_pct": 67.7,
+          "p_36m_pct": 85.8,
+          "p_60m_pct": 94.8,
+          "med_month": 18
+        },
+        "B1_data_active50k": {
+          "p_24m_pct": 29.9,
+          "p_36m_pct": 57.4,
+          "p_60m_pct": 82.1,
+          "med_month": 29
+        },
+        "B2_data_ob50k": {
+          "p_24m_pct": 0.2,
+          "p_36m_pct": 5.9,
+          "p_60m_pct": 43.9,
+          "med_month": 48
+        },
+        "C1_ob_25k": {
+          "p_24m_pct": 6.4,
+          "p_36m_pct": 30.6,
+          "p_60m_pct": 70.5,
+          "med_month": 39
+        },
+        "C2_ob_50k": {
+          "p_24m_pct": 0.2,
+          "p_36m_pct": 5.9,
+          "p_60m_pct": 43.9,
+          "med_month": 48
+        },
+        "C3_ob_100k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 5.3,
+          "med_month": 55
+        },
+        "C4_ob_200k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "D_crossover": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 1.3,
+          "med_month": 53
+        }
+      }
+    },
+    {
+      "friction": "1.25x",
+      "scenario_id": "SMART_B3000_OB10K",
+      "label": "Smart-Tier + Hybrid OB 10k",
+      "architecture": "SMART_TIER",
+      "init_fee_budget_usd": 3000.0,
+      "init_own_book_usd": 10000.0,
+      "max_prop_nominal_cap_usd": 350000.0,
+      "wipeout_pct": 0.96,
+      "dbl_fail_pct": 48.6,
+      "peak_funded_med_usd": 350000.0,
+      "mean_fees_24m_usd": 2844.0,
+      "mean_payouts_24m_usd": 10752.6,
+      "ev_per_fee_24m": 2.78,
+      "ev_per_fee_60m": 15.54,
+      "ob_24m_med_usd": 14473.0,
+      "ob_36m_med_usd": 26711.0,
+      "ob_60m_med_usd": 60226.0,
+      "ob_60m_med_vnd_tr": 1535.8,
+      "ops_60m_med_usd": 6783.0,
+      "infra_self_funded_60m_med_usd": 4935.0,
+      "net_wealth_24m_med_usd": 4301.0,
+      "net_wealth_60m_med_usd": 56847.0,
+      "net_wealth_60m_med_vnd_tr": 1449.6,
+      "comb_ann_ret_med_pct": 40.0,
+      "comb_sharpe_med": 1.38,
+      "comb_peak_dd_p95_pct": 22.21,
+      "prop_corr_dd_p95_pct": 10.0,
+      "milestones": {
+        "A_vps_self_funded": {
+          "p_24m_pct": 71.8,
+          "p_36m_pct": 89.6,
+          "p_60m_pct": 96.4,
+          "med_month": 18
+        },
+        "B1_data_active50k": {
+          "p_24m_pct": 49.4,
+          "p_36m_pct": 75.8,
+          "p_60m_pct": 90.5,
+          "med_month": 23
+        },
+        "B2_data_ob50k": {
+          "p_24m_pct": 0.6,
+          "p_36m_pct": 14.5,
+          "p_60m_pct": 61.9,
+          "med_month": 44
+        },
+        "C1_ob_25k": {
+          "p_24m_pct": 18.8,
+          "p_36m_pct": 53.9,
+          "p_60m_pct": 84.1,
+          "med_month": 32
+        },
+        "C2_ob_50k": {
+          "p_24m_pct": 0.6,
+          "p_36m_pct": 14.5,
+          "p_60m_pct": 61.9,
+          "med_month": 44
+        },
+        "C3_ob_100k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.1,
+          "p_60m_pct": 11.0,
+          "med_month": 54
+        },
+        "C4_ob_200k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "D_crossover": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.1,
+          "p_60m_pct": 2.4,
+          "med_month": 52
+        }
+      }
+    },
+    {
+      "friction": "1.25x",
+      "scenario_id": "SMART_B1500_OB25K",
+      "label": "Smart-Tier + Hybrid OB 25k",
+      "architecture": "SMART_TIER",
+      "init_fee_budget_usd": 1500.0,
+      "init_own_book_usd": 25000.0,
+      "max_prop_nominal_cap_usd": 350000.0,
+      "wipeout_pct": 1.74,
+      "dbl_fail_pct": 40.1,
+      "peak_funded_med_usd": 350000.0,
+      "mean_fees_24m_usd": 2074.0,
+      "mean_payouts_24m_usd": 6727.8,
+      "ev_per_fee_24m": 2.24,
+      "ev_per_fee_60m": 13.06,
+      "ob_24m_med_usd": 29730.0,
+      "ob_36m_med_usd": 34701.0,
+      "ob_60m_med_usd": 63306.0,
+      "ob_60m_med_vnd_tr": 1614.3,
+      "ops_60m_med_usd": 4413.0,
+      "infra_self_funded_60m_med_usd": 3990.0,
+      "net_wealth_24m_med_usd": 4287.0,
+      "net_wealth_60m_med_usd": 43930.0,
+      "net_wealth_60m_med_vnd_tr": 1120.2,
+      "comb_ann_ret_med_pct": 21.6,
+      "comb_sharpe_med": 1.6,
+      "comb_peak_dd_p95_pct": 10.48,
+      "prop_corr_dd_p95_pct": 10.0,
+      "milestones": {
+        "A_vps_self_funded": {
+          "p_24m_pct": 67.7,
+          "p_36m_pct": 85.8,
+          "p_60m_pct": 94.8,
+          "med_month": 18
+        },
+        "B1_data_active50k": {
+          "p_24m_pct": 29.9,
+          "p_36m_pct": 57.4,
+          "p_60m_pct": 82.1,
+          "med_month": 29
+        },
+        "B2_data_ob50k": {
+          "p_24m_pct": 2.5,
+          "p_36m_pct": 20.2,
+          "p_60m_pct": 64.1,
+          "med_month": 42
+        },
+        "C1_ob_25k": {
+          "p_24m_pct": 99.7,
+          "p_36m_pct": 99.9,
+          "p_60m_pct": 100.0,
+          "med_month": 1
+        },
+        "C2_ob_50k": {
+          "p_24m_pct": 2.5,
+          "p_36m_pct": 20.2,
+          "p_60m_pct": 64.4,
+          "med_month": 42
+        },
+        "C3_ob_100k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.2,
+          "p_60m_pct": 14.5,
+          "med_month": 54
+        },
+        "C4_ob_200k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "D_crossover": {
+          "p_24m_pct": 8.6,
+          "p_36m_pct": 12.5,
+          "p_60m_pct": 18.8,
+          "med_month": 26
+        }
+      }
+    },
+    {
+      "friction": "1.25x",
+      "scenario_id": "SMART_B3000_OB25K",
+      "label": "Smart-Tier + Hybrid OB 25k",
+      "architecture": "SMART_TIER",
+      "init_fee_budget_usd": 3000.0,
+      "init_own_book_usd": 25000.0,
+      "max_prop_nominal_cap_usd": 350000.0,
+      "wipeout_pct": 0.96,
+      "dbl_fail_pct": 48.6,
+      "peak_funded_med_usd": 350000.0,
+      "mean_fees_24m_usd": 2844.0,
+      "mean_payouts_24m_usd": 10752.6,
+      "ev_per_fee_24m": 2.78,
+      "ev_per_fee_60m": 15.54,
+      "ob_24m_med_usd": 31305.0,
+      "ob_36m_med_usd": 44006.0,
+      "ob_60m_med_usd": 79149.0,
+      "ob_60m_med_vnd_tr": 2018.3,
+      "ops_60m_med_usd": 6783.0,
+      "infra_self_funded_60m_med_usd": 4935.0,
+      "net_wealth_24m_med_usd": 5874.0,
+      "net_wealth_60m_med_usd": 60765.0,
+      "net_wealth_60m_med_vnd_tr": 1549.5,
+      "comb_ann_ret_med_pct": 26.0,
+      "comb_sharpe_med": 1.57,
+      "comb_peak_dd_p95_pct": 13.21,
+      "prop_corr_dd_p95_pct": 10.0,
+      "milestones": {
+        "A_vps_self_funded": {
+          "p_24m_pct": 71.8,
+          "p_36m_pct": 89.6,
+          "p_60m_pct": 96.4,
+          "med_month": 18
+        },
+        "B1_data_active50k": {
+          "p_24m_pct": 49.4,
+          "p_36m_pct": 75.8,
+          "p_60m_pct": 90.5,
+          "med_month": 23
+        },
+        "B2_data_ob50k": {
+          "p_24m_pct": 7.6,
+          "p_36m_pct": 39.2,
+          "p_60m_pct": 79.6,
+          "med_month": 37
+        },
+        "C1_ob_25k": {
+          "p_24m_pct": 99.7,
+          "p_36m_pct": 99.9,
+          "p_60m_pct": 100.0,
+          "med_month": 1
+        },
+        "C2_ob_50k": {
+          "p_24m_pct": 7.6,
+          "p_36m_pct": 39.2,
+          "p_60m_pct": 80.2,
+          "med_month": 37
+        },
+        "C3_ob_100k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.5,
+          "p_60m_pct": 26.7,
+          "med_month": 53
+        },
+        "C4_ob_200k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "D_crossover": {
+          "p_24m_pct": 7.8,
+          "p_36m_pct": 11.1,
+          "p_60m_pct": 17.6,
+          "med_month": 28
+        }
+      }
+    },
+    {
+      "friction": "1.5x",
+      "scenario_id": "OLD_10K_B500_OB0",
+      "label": "Old Repeated-10K (SYMCAP 3.0%)",
+      "architecture": "OLD_10K",
+      "init_fee_budget_usd": 500.0,
+      "init_own_book_usd": 0.0,
+      "max_prop_nominal_cap_usd": 100000.0,
+      "wipeout_pct": 0.72,
+      "dbl_fail_pct": 31.4,
+      "peak_funded_med_usd": 20000.0,
+      "mean_fees_24m_usd": 489.5,
+      "mean_payouts_24m_usd": 696.6,
+      "ev_per_fee_24m": 0.42,
+      "ev_per_fee_60m": 2.38,
+      "ob_24m_med_usd": 94.0,
+      "ob_36m_med_usd": 277.0,
+      "ob_60m_med_usd": 826.0,
+      "ob_60m_med_vnd_tr": 21.1,
+      "ops_60m_med_usd": 175.0,
+      "infra_self_funded_60m_med_usd": 0.0,
+      "net_wealth_24m_med_usd": -190.0,
+      "net_wealth_60m_med_usd": 799.0,
+      "net_wealth_60m_med_vnd_tr": 20.4,
+      "comb_ann_ret_med_pct": 21.0,
+      "comb_sharpe_med": 0.51,
+      "comb_peak_dd_p95_pct": 89.82,
+      "prop_corr_dd_p95_pct": 10.0,
+      "milestones": {
+        "A_vps_self_funded": {
+          "p_24m_pct": 9.8,
+          "p_36m_pct": 18.6,
+          "p_60m_pct": 35.8,
+          "med_month": 35
+        },
+        "B1_data_active50k": {
+          "p_24m_pct": 0.4,
+          "p_36m_pct": 2.1,
+          "p_60m_pct": 9.1,
+          "med_month": 46
+        },
+        "B2_data_ob50k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "C1_ob_25k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.1,
+          "med_month": 53
         },
         "C2_ob_50k": {
           "p_24m_pct": 0.0,
@@ -963,37 +1944,116 @@
       "init_fee_budget_usd": 1500.0,
       "init_own_book_usd": 0.0,
       "max_prop_nominal_cap_usd": 100000.0,
-      "wipeout_pct": 0.42,
-      "dbl_fail_pct": 44.2,
+      "wipeout_pct": 0.32,
+      "dbl_fail_pct": 47.3,
       "peak_funded_med_usd": 40000.0,
-      "mean_fees_24m_usd": 1097.6,
-      "mean_payouts_24m_usd": 1324.9,
-      "ev_per_fee_24m": 0.21,
-      "ev_per_fee_60m": 2.72,
-      "ob_24m_med_usd": 183.0,
-      "ob_36m_med_usd": 514.0,
-      "ob_60m_med_usd": 1803.0,
-      "ob_60m_med_vnd_tr": 46.0,
-      "ops_60m_med_usd": 179.0,
+      "mean_fees_24m_usd": 1119.9,
+      "mean_payouts_24m_usd": 1251.8,
+      "ev_per_fee_24m": 0.12,
+      "ev_per_fee_60m": 2.59,
+      "ob_24m_med_usd": 169.0,
+      "ob_36m_med_usd": 476.0,
+      "ob_60m_med_usd": 1761.0,
+      "ob_60m_med_vnd_tr": 44.9,
+      "ops_60m_med_usd": 186.0,
       "infra_self_funded_60m_med_usd": 280.0,
-      "net_wealth_24m_med_usd": -207.0,
-      "net_wealth_60m_med_usd": 945.0,
-      "net_wealth_60m_med_vnd_tr": 24.1,
-      "comb_ann_ret_med_pct": 10.3,
+      "net_wealth_24m_med_usd": -242.0,
+      "net_wealth_60m_med_usd": 874.0,
+      "net_wealth_60m_med_vnd_tr": 22.3,
+      "comb_ann_ret_med_pct": 9.6,
       "comb_sharpe_med": 0.46,
-      "comb_peak_dd_p95_pct": 94.8,
+      "comb_peak_dd_p95_pct": 97.14,
       "prop_corr_dd_p95_pct": 10.0,
       "milestones": {
         "A_vps_self_funded": {
-          "p_24m_pct": 24.7,
-          "p_36m_pct": 37.2,
-          "p_60m_pct": 54.6,
+          "p_24m_pct": 23.7,
+          "p_36m_pct": 36.4,
+          "p_60m_pct": 55.1,
+          "med_month": 28
+        },
+        "B1_data_active50k": {
+          "p_24m_pct": 2.1,
+          "p_36m_pct": 8.9,
+          "p_60m_pct": 23.1,
+          "med_month": 41
+        },
+        "B2_data_ob50k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "C1_ob_25k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.4,
+          "med_month": 56
+        },
+        "C2_ob_50k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "C3_ob_100k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "C4_ob_200k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "D_crossover": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        }
+      }
+    },
+    {
+      "friction": "1.5x",
+      "scenario_id": "OLD_10K_B3000_OB0",
+      "label": "Old Repeated-10K (SYMCAP 3.0%)",
+      "architecture": "OLD_10K",
+      "init_fee_budget_usd": 3000.0,
+      "init_own_book_usd": 0.0,
+      "max_prop_nominal_cap_usd": 100000.0,
+      "wipeout_pct": 0.12,
+      "dbl_fail_pct": 47.5,
+      "peak_funded_med_usd": 60000.0,
+      "mean_fees_24m_usd": 1318.0,
+      "mean_payouts_24m_usd": 1359.7,
+      "ev_per_fee_24m": 0.03,
+      "ev_per_fee_60m": 2.6,
+      "ob_24m_med_usd": 283.0,
+      "ob_36m_med_usd": 829.0,
+      "ob_60m_med_usd": 3469.0,
+      "ob_60m_med_vnd_tr": 88.5,
+      "ops_60m_med_usd": 204.0,
+      "infra_self_funded_60m_med_usd": 490.0,
+      "net_wealth_24m_med_usd": -242.0,
+      "net_wealth_60m_med_usd": 1793.0,
+      "net_wealth_60m_med_vnd_tr": 45.7,
+      "comb_ann_ret_med_pct": 9.8,
+      "comb_sharpe_med": 0.45,
+      "comb_peak_dd_p95_pct": 88.94,
+      "prop_corr_dd_p95_pct": 10.0,
+      "milestones": {
+        "A_vps_self_funded": {
+          "p_24m_pct": 26.4,
+          "p_36m_pct": 40.5,
+          "p_60m_pct": 59.5,
           "med_month": 27
         },
         "B1_data_active50k": {
-          "p_24m_pct": 2.7,
-          "p_36m_pct": 9.3,
-          "p_60m_pct": 23.4,
+          "p_24m_pct": 2.4,
+          "p_36m_pct": 11.0,
+          "p_60m_pct": 28.9,
           "med_month": 41
         },
         "B2_data_ob50k": {
@@ -1006,7 +2066,7 @@
           "p_24m_pct": 0.0,
           "p_36m_pct": 0.0,
           "p_60m_pct": 0.9,
-          "med_month": 57
+          "med_month": 56
         },
         "C2_ob_50k": {
           "p_24m_pct": 0.0,
@@ -1036,44 +2096,44 @@
     },
     {
       "friction": "1.5x",
-      "scenario_id": "OLD_10K_B3000_OB0",
-      "label": "Old Repeated-10K (SYMCAP 3.0%)",
-      "architecture": "OLD_10K",
-      "init_fee_budget_usd": 3000.0,
+      "scenario_id": "SMART_B1500_CAP100K",
+      "label": "Smart-Tier (Matched Cap 100k)",
+      "architecture": "SMART_CAP100K",
+      "init_fee_budget_usd": 1500.0,
       "init_own_book_usd": 0.0,
       "max_prop_nominal_cap_usd": 100000.0,
-      "wipeout_pct": 0.18,
-      "dbl_fail_pct": 44.4,
-      "peak_funded_med_usd": 60000.0,
-      "mean_fees_24m_usd": 1252.3,
-      "mean_payouts_24m_usd": 1411.0,
-      "ev_per_fee_24m": 0.13,
-      "ev_per_fee_60m": 2.66,
-      "ob_24m_med_usd": 280.0,
-      "ob_36m_med_usd": 872.0,
-      "ob_60m_med_usd": 3288.0,
-      "ob_60m_med_vnd_tr": 83.8,
-      "ops_60m_med_usd": 197.0,
-      "infra_self_funded_60m_med_usd": 455.0,
-      "net_wealth_24m_med_usd": -208.0,
-      "net_wealth_60m_med_usd": 1694.0,
-      "net_wealth_60m_med_vnd_tr": 43.2,
-      "comb_ann_ret_med_pct": 9.4,
-      "comb_sharpe_med": 0.44,
-      "comb_peak_dd_p95_pct": 87.77,
+      "wipeout_pct": 3.06,
+      "dbl_fail_pct": 44.1,
+      "peak_funded_med_usd": 100000.0,
+      "mean_fees_24m_usd": 1230.0,
+      "mean_payouts_24m_usd": 3705.5,
+      "ev_per_fee_24m": 2.01,
+      "ev_per_fee_60m": 8.48,
+      "ob_24m_med_usd": 1183.0,
+      "ob_36m_med_usd": 3075.0,
+      "ob_60m_med_usd": 9316.0,
+      "ob_60m_med_vnd_tr": 237.6,
+      "ops_60m_med_usd": 385.0,
+      "infra_self_funded_60m_med_usd": 2310.0,
+      "net_wealth_24m_med_usd": 860.0,
+      "net_wealth_60m_med_usd": 11136.0,
+      "net_wealth_60m_med_vnd_tr": 284.0,
+      "comb_ann_ret_med_pct": 53.1,
+      "comb_sharpe_med": 0.76,
+      "comb_peak_dd_p95_pct": 97.88,
       "prop_corr_dd_p95_pct": 10.0,
       "milestones": {
         "A_vps_self_funded": {
-          "p_24m_pct": 26.7,
-          "p_36m_pct": 40.4,
-          "p_60m_pct": 58.7,
-          "med_month": 26
+          "p_24m_pct": 56.0,
+          "p_36m_pct": 76.6,
+          "p_60m_pct": 89.0,
+          "med_month": 20
         },
         "B1_data_active50k": {
-          "p_24m_pct": 3.0,
-          "p_36m_pct": 10.9,
-          "p_60m_pct": 27.8,
-          "med_month": 40
+          "p_24m_pct": 17.4,
+          "p_36m_pct": 37.9,
+          "p_60m_pct": 63.4,
+          "med_month": 33
         },
         "B2_data_ob50k": {
           "p_24m_pct": 0.0,
@@ -1083,9 +2143,9 @@
         },
         "C1_ob_25k": {
           "p_24m_pct": 0.0,
-          "p_36m_pct": 0.0,
-          "p_60m_pct": 1.4,
-          "med_month": 55
+          "p_36m_pct": 0.1,
+          "p_60m_pct": 4.9,
+          "med_month": 54
         },
         "C2_ob_50k": {
           "p_24m_pct": 0.0,
@@ -1109,7 +2169,7 @@
           "p_24m_pct": 0.0,
           "p_36m_pct": 0.0,
           "p_60m_pct": 0.0,
-          "med_month": -1
+          "med_month": 59
         }
       }
     },
@@ -1120,379 +2180,63 @@
       "architecture": "SMART_TIER",
       "init_fee_budget_usd": 500.0,
       "init_own_book_usd": 0.0,
-      "max_prop_nominal_cap_usd": 360000.0,
-      "wipeout_pct": 0.02,
-      "dbl_fail_pct": 8.0,
-      "peak_funded_med_usd": 30000.0,
-      "mean_fees_24m_usd": 518.6,
-      "mean_payouts_24m_usd": 1095.0,
-      "ev_per_fee_24m": 1.11,
-      "ev_per_fee_60m": 5.05,
-      "ob_24m_med_usd": 89.0,
-      "ob_36m_med_usd": 291.0,
-      "ob_60m_med_usd": 1155.0,
-      "ob_60m_med_vnd_tr": 29.5,
-      "ops_60m_med_usd": 120.0,
-      "infra_self_funded_60m_med_usd": 0.0,
-      "net_wealth_24m_med_usd": -148.0,
-      "net_wealth_60m_med_usd": 1315.0,
-      "net_wealth_60m_med_vnd_tr": 33.5,
-      "comb_ann_ret_med_pct": 29.4,
-      "comb_sharpe_med": 0.56,
-      "comb_peak_dd_p95_pct": 68.82,
+      "max_prop_nominal_cap_usd": 350000.0,
+      "wipeout_pct": 3.58,
+      "dbl_fail_pct": 11.3,
+      "peak_funded_med_usd": 50000.0,
+      "mean_fees_24m_usd": 545.0,
+      "mean_payouts_24m_usd": 986.2,
+      "ev_per_fee_24m": 0.81,
+      "ev_per_fee_60m": 4.72,
+      "ob_24m_med_usd": 235.0,
+      "ob_36m_med_usd": 820.0,
+      "ob_60m_med_usd": 2560.0,
+      "ob_60m_med_vnd_tr": 65.3,
+      "ops_60m_med_usd": 390.0,
+      "infra_self_funded_60m_med_usd": 630.0,
+      "net_wealth_24m_med_usd": 151.0,
+      "net_wealth_60m_med_usd": 2817.0,
+      "net_wealth_60m_med_vnd_tr": 71.8,
+      "comb_ann_ret_med_pct": 46.0,
+      "comb_sharpe_med": 0.72,
+      "comb_peak_dd_p95_pct": 93.66,
       "prop_corr_dd_p95_pct": 10.0,
       "milestones": {
         "A_vps_self_funded": {
-          "p_24m_pct": 20.7,
-          "p_36m_pct": 32.0,
-          "p_60m_pct": 48.8,
-          "med_month": 28
+          "p_24m_pct": 17.6,
+          "p_36m_pct": 40.4,
+          "p_60m_pct": 70.1,
+          "med_month": 34
         },
         "B1_data_active50k": {
-          "p_24m_pct": 1.4,
-          "p_36m_pct": 5.9,
-          "p_60m_pct": 17.0,
-          "med_month": 43
+          "p_24m_pct": 0.7,
+          "p_36m_pct": 6.6,
+          "p_60m_pct": 30.2,
+          "med_month": 46
         },
         "B2_data_ob50k": {
           "p_24m_pct": 0.0,
           "p_36m_pct": 0.0,
-          "p_60m_pct": 1.2,
-          "med_month": 54
-        },
-        "C1_ob_25k": {
-          "p_24m_pct": 0.0,
-          "p_36m_pct": 0.2,
-          "p_60m_pct": 4.4,
-          "med_month": 51
-        },
-        "C2_ob_50k": {
-          "p_24m_pct": 0.0,
-          "p_36m_pct": 0.0,
-          "p_60m_pct": 1.2,
-          "med_month": 54
-        },
-        "C3_ob_100k": {
-          "p_24m_pct": 0.0,
-          "p_36m_pct": 0.0,
-          "p_60m_pct": 0.0,
-          "med_month": -1
-        },
-        "C4_ob_200k": {
-          "p_24m_pct": 0.0,
-          "p_36m_pct": 0.0,
-          "p_60m_pct": 0.0,
-          "med_month": -1
-        },
-        "D_crossover": {
-          "p_24m_pct": 0.0,
-          "p_36m_pct": 0.0,
-          "p_60m_pct": 0.0,
-          "med_month": -1
-        }
-      }
-    },
-    {
-      "friction": "1.5x",
-      "scenario_id": "SMART_B1500_OB0",
-      "label": "Smart-Tier Ladder (OB Seed 0)",
-      "architecture": "SMART_TIER",
-      "init_fee_budget_usd": 1500.0,
-      "init_own_book_usd": 0.0,
-      "max_prop_nominal_cap_usd": 360000.0,
-      "wipeout_pct": 0.06,
-      "dbl_fail_pct": 16.0,
-      "peak_funded_med_usd": 90000.0,
-      "mean_fees_24m_usd": 1096.5,
-      "mean_payouts_24m_usd": 2281.6,
-      "ev_per_fee_24m": 1.08,
-      "ev_per_fee_60m": 6.77,
-      "ob_24m_med_usd": 114.0,
-      "ob_36m_med_usd": 541.0,
-      "ob_60m_med_usd": 2271.0,
-      "ob_60m_med_vnd_tr": 57.9,
-      "ops_60m_med_usd": 253.0,
-      "infra_self_funded_60m_med_usd": 490.0,
-      "net_wealth_24m_med_usd": -309.0,
-      "net_wealth_60m_med_usd": 1815.0,
-      "net_wealth_60m_med_vnd_tr": 46.3,
-      "comb_ann_ret_med_pct": 17.2,
-      "comb_sharpe_med": 0.51,
-      "comb_peak_dd_p95_pct": 79.67,
-      "prop_corr_dd_p95_pct": 10.0,
-      "milestones": {
-        "A_vps_self_funded": {
-          "p_24m_pct": 27.7,
-          "p_36m_pct": 41.1,
-          "p_60m_pct": 60.7,
-          "med_month": 27
-        },
-        "B1_data_active50k": {
-          "p_24m_pct": 8.9,
-          "p_36m_pct": 19.5,
-          "p_60m_pct": 37.2,
-          "med_month": 35
-        },
-        "B2_data_ob50k": {
-          "p_24m_pct": 0.0,
-          "p_36m_pct": 0.2,
-          "p_60m_pct": 4.6,
-          "med_month": 51
-        },
-        "C1_ob_25k": {
-          "p_24m_pct": 0.3,
-          "p_36m_pct": 2.7,
-          "p_60m_pct": 14.1,
-          "med_month": 47
-        },
-        "C2_ob_50k": {
-          "p_24m_pct": 0.0,
-          "p_36m_pct": 0.2,
-          "p_60m_pct": 4.6,
-          "med_month": 51
-        },
-        "C3_ob_100k": {
-          "p_24m_pct": 0.0,
-          "p_36m_pct": 0.0,
-          "p_60m_pct": 0.3,
-          "med_month": 57
-        },
-        "C4_ob_200k": {
-          "p_24m_pct": 0.0,
-          "p_36m_pct": 0.0,
-          "p_60m_pct": 0.0,
-          "med_month": -1
-        },
-        "D_crossover": {
-          "p_24m_pct": 0.0,
-          "p_36m_pct": 0.0,
-          "p_60m_pct": 0.0,
-          "med_month": -1
-        }
-      }
-    },
-    {
-      "friction": "1.5x",
-      "scenario_id": "SMART_B3000_OB0",
-      "label": "Smart-Tier Ladder (OB Seed 0)",
-      "architecture": "SMART_TIER",
-      "init_fee_budget_usd": 3000.0,
-      "init_own_book_usd": 0.0,
-      "max_prop_nominal_cap_usd": 360000.0,
-      "wipeout_pct": 0.0,
-      "dbl_fail_pct": 17.4,
-      "peak_funded_med_usd": 180000.0,
-      "mean_fees_24m_usd": 1617.6,
-      "mean_payouts_24m_usd": 3746.0,
-      "ev_per_fee_24m": 1.32,
-      "ev_per_fee_60m": 8.3,
-      "ob_24m_med_usd": 135.0,
-      "ob_36m_med_usd": 677.0,
-      "ob_60m_med_usd": 4051.0,
-      "ob_60m_med_vnd_tr": 103.3,
-      "ops_60m_med_usd": 330.0,
-      "infra_self_funded_60m_med_usd": 875.0,
-      "net_wealth_24m_med_usd": -309.0,
-      "net_wealth_60m_med_usd": 4089.0,
-      "net_wealth_60m_med_vnd_tr": 104.3,
-      "comb_ann_ret_med_pct": 18.8,
-      "comb_sharpe_med": 0.51,
-      "comb_peak_dd_p95_pct": 83.85,
-      "prop_corr_dd_p95_pct": 10.0,
-      "milestones": {
-        "A_vps_self_funded": {
-          "p_24m_pct": 32.7,
-          "p_36m_pct": 45.7,
-          "p_60m_pct": 64.2,
-          "med_month": 24
-        },
-        "B1_data_active50k": {
-          "p_24m_pct": 17.1,
-          "p_36m_pct": 30.2,
-          "p_60m_pct": 48.4,
-          "med_month": 30
-        },
-        "B2_data_ob50k": {
-          "p_24m_pct": 0.0,
-          "p_36m_pct": 0.8,
-          "p_60m_pct": 10.8,
-          "med_month": 50
-        },
-        "C1_ob_25k": {
-          "p_24m_pct": 1.4,
-          "p_36m_pct": 8.2,
-          "p_60m_pct": 26.3,
-          "med_month": 43
-        },
-        "C2_ob_50k": {
-          "p_24m_pct": 0.0,
-          "p_36m_pct": 0.8,
-          "p_60m_pct": 10.8,
-          "med_month": 50
-        },
-        "C3_ob_100k": {
-          "p_24m_pct": 0.0,
-          "p_36m_pct": 0.0,
-          "p_60m_pct": 0.8,
-          "med_month": 55
-        },
-        "C4_ob_200k": {
-          "p_24m_pct": 0.0,
-          "p_36m_pct": 0.0,
-          "p_60m_pct": 0.0,
-          "med_month": -1
-        },
-        "D_crossover": {
-          "p_24m_pct": 0.0,
-          "p_36m_pct": 0.0,
-          "p_60m_pct": 0.0,
-          "med_month": -1
-        }
-      }
-    },
-    {
-      "friction": "1.5x",
-      "scenario_id": "SMART_B1500_OB10K",
-      "label": "Smart-Tier + Hybrid OB 10k",
-      "architecture": "SMART_TIER",
-      "init_fee_budget_usd": 1500.0,
-      "init_own_book_usd": 10000.0,
-      "max_prop_nominal_cap_usd": 360000.0,
-      "wipeout_pct": 0.06,
-      "dbl_fail_pct": 16.0,
-      "peak_funded_med_usd": 90000.0,
-      "mean_fees_24m_usd": 1096.5,
-      "mean_payouts_24m_usd": 2281.6,
-      "ev_per_fee_24m": 1.08,
-      "ev_per_fee_60m": 6.77,
-      "ob_24m_med_usd": 11504.0,
-      "ob_36m_med_usd": 12490.0,
-      "ob_60m_med_usd": 15588.0,
-      "ob_60m_med_vnd_tr": 397.5,
-      "ops_60m_med_usd": 253.0,
-      "infra_self_funded_60m_med_usd": 490.0,
-      "net_wealth_24m_med_usd": 948.0,
-      "net_wealth_60m_med_usd": 5149.0,
-      "net_wealth_60m_med_vnd_tr": 131.3,
-      "comb_ann_ret_med_pct": 7.7,
-      "comb_sharpe_med": 1.36,
-      "comb_peak_dd_p95_pct": 8.2,
-      "prop_corr_dd_p95_pct": 10.0,
-      "milestones": {
-        "A_vps_self_funded": {
-          "p_24m_pct": 27.7,
-          "p_36m_pct": 41.1,
-          "p_60m_pct": 60.7,
-          "med_month": 27
-        },
-        "B1_data_active50k": {
-          "p_24m_pct": 8.9,
-          "p_36m_pct": 19.5,
-          "p_60m_pct": 37.2,
-          "med_month": 35
-        },
-        "B2_data_ob50k": {
-          "p_24m_pct": 0.1,
-          "p_36m_pct": 0.7,
-          "p_60m_pct": 9.4,
-          "med_month": 51
-        },
-        "C1_ob_25k": {
-          "p_24m_pct": 1.5,
-          "p_36m_pct": 7.9,
-          "p_60m_pct": 25.1,
-          "med_month": 43
-        },
-        "C2_ob_50k": {
-          "p_24m_pct": 0.1,
-          "p_36m_pct": 0.7,
-          "p_60m_pct": 9.4,
-          "med_month": 51
-        },
-        "C3_ob_100k": {
-          "p_24m_pct": 0.0,
-          "p_36m_pct": 0.0,
-          "p_60m_pct": 0.7,
+          "p_60m_pct": 1.6,
           "med_month": 56
         },
-        "C4_ob_200k": {
-          "p_24m_pct": 0.0,
-          "p_36m_pct": 0.0,
-          "p_60m_pct": 0.0,
-          "med_month": -1
-        },
-        "D_crossover": {
-          "p_24m_pct": 0.0,
-          "p_36m_pct": 0.0,
-          "p_60m_pct": 0.0,
-          "med_month": 56
-        }
-      }
-    },
-    {
-      "friction": "1.5x",
-      "scenario_id": "SMART_B3000_OB10K",
-      "label": "Smart-Tier + Hybrid OB 10k",
-      "architecture": "SMART_TIER",
-      "init_fee_budget_usd": 3000.0,
-      "init_own_book_usd": 10000.0,
-      "max_prop_nominal_cap_usd": 360000.0,
-      "wipeout_pct": 0.0,
-      "dbl_fail_pct": 17.4,
-      "peak_funded_med_usd": 180000.0,
-      "mean_fees_24m_usd": 1617.6,
-      "mean_payouts_24m_usd": 3746.0,
-      "ev_per_fee_24m": 1.32,
-      "ev_per_fee_60m": 8.3,
-      "ob_24m_med_usd": 11549.0,
-      "ob_36m_med_usd": 12679.0,
-      "ob_60m_med_usd": 17417.0,
-      "ob_60m_med_vnd_tr": 444.1,
-      "ops_60m_med_usd": 330.0,
-      "infra_self_funded_60m_med_usd": 875.0,
-      "net_wealth_24m_med_usd": 794.0,
-      "net_wealth_60m_med_usd": 7347.0,
-      "net_wealth_60m_med_vnd_tr": 187.4,
-      "comb_ann_ret_med_pct": 9.4,
-      "comb_sharpe_med": 1.08,
-      "comb_peak_dd_p95_pct": 15.61,
-      "prop_corr_dd_p95_pct": 10.0,
-      "milestones": {
-        "A_vps_self_funded": {
-          "p_24m_pct": 32.7,
-          "p_36m_pct": 45.7,
-          "p_60m_pct": 64.2,
-          "med_month": 24
-        },
-        "B1_data_active50k": {
-          "p_24m_pct": 17.1,
-          "p_36m_pct": 30.2,
-          "p_60m_pct": 48.4,
-          "med_month": 30
-        },
-        "B2_data_ob50k": {
-          "p_24m_pct": 0.2,
-          "p_36m_pct": 3.0,
-          "p_60m_pct": 18.0,
-          "med_month": 47
-        },
         "C1_ob_25k": {
-          "p_24m_pct": 5.7,
-          "p_36m_pct": 17.6,
-          "p_60m_pct": 39.4,
-          "med_month": 39
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.3,
+          "p_60m_pct": 7.6,
+          "med_month": 52
         },
         "C2_ob_50k": {
-          "p_24m_pct": 0.2,
-          "p_36m_pct": 3.0,
-          "p_60m_pct": 18.0,
-          "med_month": 47
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 1.6,
+          "med_month": 56
         },
         "C3_ob_100k": {
           "p_24m_pct": 0.0,
           "p_36m_pct": 0.0,
-          "p_60m_pct": 1.9,
-          "med_month": 55
+          "p_60m_pct": 0.0,
+          "med_month": -1
         },
         "C4_ob_200k": {
           "p_24m_pct": 0.0,
@@ -1504,7 +2248,323 @@
           "p_24m_pct": 0.0,
           "p_36m_pct": 0.0,
           "p_60m_pct": 0.1,
+          "med_month": 59
+        }
+      }
+    },
+    {
+      "friction": "1.5x",
+      "scenario_id": "SMART_B1500_OB0",
+      "label": "Smart-Tier Ladder (OB Seed 0)",
+      "architecture": "SMART_TIER",
+      "init_fee_budget_usd": 1500.0,
+      "init_own_book_usd": 0.0,
+      "max_prop_nominal_cap_usd": 350000.0,
+      "wipeout_pct": 3.74,
+      "dbl_fail_pct": 48.7,
+      "peak_funded_med_usd": 300000.0,
+      "mean_fees_24m_usd": 1923.0,
+      "mean_payouts_24m_usd": 4557.3,
+      "ev_per_fee_24m": 1.37,
+      "ev_per_fee_60m": 8.2,
+      "ob_24m_med_usd": 1166.0,
+      "ob_36m_med_usd": 3071.0,
+      "ob_60m_med_usd": 13346.0,
+      "ob_60m_med_vnd_tr": 340.3,
+      "ops_60m_med_usd": 1367.0,
+      "infra_self_funded_60m_med_usd": 2680.0,
+      "net_wealth_24m_med_usd": 439.0,
+      "net_wealth_60m_med_usd": 15785.0,
+      "net_wealth_60m_med_vnd_tr": 402.5,
+      "comb_ann_ret_med_pct": 63.0,
+      "comb_sharpe_med": 0.79,
+      "comb_peak_dd_p95_pct": 97.88,
+      "prop_corr_dd_p95_pct": 10.0,
+      "milestones": {
+        "A_vps_self_funded": {
+          "p_24m_pct": 55.6,
+          "p_36m_pct": 76.1,
+          "p_60m_pct": 88.6,
+          "med_month": 20
+        },
+        "B1_data_active50k": {
+          "p_24m_pct": 19.0,
+          "p_36m_pct": 40.3,
+          "p_60m_pct": 66.3,
+          "med_month": 32
+        },
+        "B2_data_ob50k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.7,
+          "p_60m_pct": 13.9,
+          "med_month": 52
+        },
+        "C1_ob_25k": {
+          "p_24m_pct": 0.7,
+          "p_36m_pct": 8.1,
+          "p_60m_pct": 36.5,
           "med_month": 46
+        },
+        "C2_ob_50k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.7,
+          "p_60m_pct": 13.9,
+          "med_month": 52
+        },
+        "C3_ob_100k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.5,
+          "med_month": 56
+        },
+        "C4_ob_200k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "D_crossover": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.9,
+          "med_month": 55
+        }
+      }
+    },
+    {
+      "friction": "1.5x",
+      "scenario_id": "SMART_B3000_OB0",
+      "label": "Smart-Tier Ladder (OB Seed 0)",
+      "architecture": "SMART_TIER",
+      "init_fee_budget_usd": 3000.0,
+      "init_own_book_usd": 0.0,
+      "max_prop_nominal_cap_usd": 350000.0,
+      "wipeout_pct": 2.22,
+      "dbl_fail_pct": 59.7,
+      "peak_funded_med_usd": 350000.0,
+      "mean_fees_24m_usd": 2836.9,
+      "mean_payouts_24m_usd": 7580.2,
+      "ev_per_fee_24m": 1.67,
+      "ev_per_fee_60m": 9.93,
+      "ob_24m_med_usd": 1835.0,
+      "ob_36m_med_usd": 7116.0,
+      "ob_60m_med_usd": 29962.0,
+      "ob_60m_med_vnd_tr": 764.0,
+      "ops_60m_med_usd": 3581.0,
+      "infra_self_funded_60m_med_usd": 4095.0,
+      "net_wealth_24m_med_usd": 147.0,
+      "net_wealth_60m_med_usd": 33308.0,
+      "net_wealth_60m_med_vnd_tr": 849.4,
+      "comb_ann_ret_med_pct": 64.7,
+      "comb_sharpe_med": 0.79,
+      "comb_peak_dd_p95_pct": 96.91,
+      "prop_corr_dd_p95_pct": 10.0,
+      "milestones": {
+        "A_vps_self_funded": {
+          "p_24m_pct": 60.7,
+          "p_36m_pct": 81.6,
+          "p_60m_pct": 92.1,
+          "med_month": 20
+        },
+        "B1_data_active50k": {
+          "p_24m_pct": 36.1,
+          "p_36m_pct": 61.8,
+          "p_60m_pct": 80.0,
+          "med_month": 26
+        },
+        "B2_data_ob50k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 2.0,
+          "p_60m_pct": 27.0,
+          "med_month": 50
+        },
+        "C1_ob_25k": {
+          "p_24m_pct": 2.7,
+          "p_36m_pct": 19.7,
+          "p_60m_pct": 56.3,
+          "med_month": 41
+        },
+        "C2_ob_50k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 2.0,
+          "p_60m_pct": 27.0,
+          "med_month": 50
+        },
+        "C3_ob_100k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 1.5,
+          "med_month": 56
+        },
+        "C4_ob_200k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "D_crossover": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.1,
+          "p_60m_pct": 2.0,
+          "med_month": 53
+        }
+      }
+    },
+    {
+      "friction": "1.5x",
+      "scenario_id": "SMART_B1500_OB10K",
+      "label": "Smart-Tier + Hybrid OB 10k",
+      "architecture": "SMART_TIER",
+      "init_fee_budget_usd": 1500.0,
+      "init_own_book_usd": 10000.0,
+      "max_prop_nominal_cap_usd": 350000.0,
+      "wipeout_pct": 3.74,
+      "dbl_fail_pct": 48.7,
+      "peak_funded_med_usd": 300000.0,
+      "mean_fees_24m_usd": 1923.0,
+      "mean_payouts_24m_usd": 4557.3,
+      "ev_per_fee_24m": 1.37,
+      "ev_per_fee_60m": 8.2,
+      "ob_24m_med_usd": 12166.0,
+      "ob_36m_med_usd": 14496.0,
+      "ob_60m_med_usd": 25541.0,
+      "ob_60m_med_vnd_tr": 651.3,
+      "ops_60m_med_usd": 1367.0,
+      "infra_self_funded_60m_med_usd": 2680.0,
+      "net_wealth_24m_med_usd": 1437.0,
+      "net_wealth_60m_med_usd": 18165.0,
+      "net_wealth_60m_med_vnd_tr": 463.2,
+      "comb_ann_ret_med_pct": 20.9,
+      "comb_sharpe_med": 1.24,
+      "comb_peak_dd_p95_pct": 15.9,
+      "prop_corr_dd_p95_pct": 10.0,
+      "milestones": {
+        "A_vps_self_funded": {
+          "p_24m_pct": 55.6,
+          "p_36m_pct": 76.1,
+          "p_60m_pct": 88.6,
+          "med_month": 20
+        },
+        "B1_data_active50k": {
+          "p_24m_pct": 19.0,
+          "p_36m_pct": 40.3,
+          "p_60m_pct": 66.3,
+          "med_month": 32
+        },
+        "B2_data_ob50k": {
+          "p_24m_pct": 0.1,
+          "p_36m_pct": 2.1,
+          "p_60m_pct": 23.6,
+          "med_month": 50
+        },
+        "C1_ob_25k": {
+          "p_24m_pct": 2.9,
+          "p_36m_pct": 17.7,
+          "p_60m_pct": 51.2,
+          "med_month": 42
+        },
+        "C2_ob_50k": {
+          "p_24m_pct": 0.1,
+          "p_36m_pct": 2.1,
+          "p_60m_pct": 23.6,
+          "med_month": 50
+        },
+        "C3_ob_100k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 1.5,
+          "med_month": 56
+        },
+        "C4_ob_200k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "D_crossover": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 1.8,
+          "med_month": 53
+        }
+      }
+    },
+    {
+      "friction": "1.5x",
+      "scenario_id": "SMART_B3000_OB10K",
+      "label": "Smart-Tier + Hybrid OB 10k",
+      "architecture": "SMART_TIER",
+      "init_fee_budget_usd": 3000.0,
+      "init_own_book_usd": 10000.0,
+      "max_prop_nominal_cap_usd": 350000.0,
+      "wipeout_pct": 2.22,
+      "dbl_fail_pct": 59.7,
+      "peak_funded_med_usd": 350000.0,
+      "mean_fees_24m_usd": 2836.9,
+      "mean_payouts_24m_usd": 7580.2,
+      "ev_per_fee_24m": 1.67,
+      "ev_per_fee_60m": 9.93,
+      "ob_24m_med_usd": 12809.0,
+      "ob_36m_med_usd": 18468.0,
+      "ob_60m_med_usd": 42234.0,
+      "ob_60m_med_vnd_tr": 1077.0,
+      "ops_60m_med_usd": 3581.0,
+      "infra_self_funded_60m_med_usd": 4095.0,
+      "net_wealth_24m_med_usd": 1152.0,
+      "net_wealth_60m_med_usd": 35560.0,
+      "net_wealth_60m_med_vnd_tr": 906.8,
+      "comb_ann_ret_med_pct": 30.2,
+      "comb_sharpe_med": 1.18,
+      "comb_peak_dd_p95_pct": 23.17,
+      "prop_corr_dd_p95_pct": 10.0,
+      "milestones": {
+        "A_vps_self_funded": {
+          "p_24m_pct": 60.7,
+          "p_36m_pct": 81.6,
+          "p_60m_pct": 92.1,
+          "med_month": 20
+        },
+        "B1_data_active50k": {
+          "p_24m_pct": 36.1,
+          "p_36m_pct": 61.8,
+          "p_60m_pct": 80.0,
+          "med_month": 26
+        },
+        "B2_data_ob50k": {
+          "p_24m_pct": 0.2,
+          "p_36m_pct": 7.1,
+          "p_60m_pct": 41.1,
+          "med_month": 47
+        },
+        "C1_ob_25k": {
+          "p_24m_pct": 11.4,
+          "p_36m_pct": 37.3,
+          "p_60m_pct": 70.4,
+          "med_month": 35
+        },
+        "C2_ob_50k": {
+          "p_24m_pct": 0.2,
+          "p_36m_pct": 7.1,
+          "p_60m_pct": 41.2,
+          "med_month": 47
+        },
+        "C3_ob_100k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 3.8,
+          "med_month": 55
+        },
+        "C4_ob_200k": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.0,
+          "p_60m_pct": 0.0,
+          "med_month": -1
+        },
+        "D_crossover": {
+          "p_24m_pct": 0.0,
+          "p_36m_pct": 0.2,
+          "p_60m_pct": 3.7,
+          "med_month": 52
         }
       }
     },
@@ -1515,62 +2575,62 @@
       "architecture": "SMART_TIER",
       "init_fee_budget_usd": 1500.0,
       "init_own_book_usd": 25000.0,
-      "max_prop_nominal_cap_usd": 360000.0,
-      "wipeout_pct": 0.06,
-      "dbl_fail_pct": 16.0,
-      "peak_funded_med_usd": 90000.0,
-      "mean_fees_24m_usd": 1096.5,
-      "mean_payouts_24m_usd": 2281.6,
-      "ev_per_fee_24m": 1.08,
-      "ev_per_fee_60m": 6.77,
-      "ob_24m_med_usd": 28647.0,
-      "ob_36m_med_usd": 30870.0,
-      "ob_60m_med_usd": 36480.0,
-      "ob_60m_med_vnd_tr": 930.2,
-      "ops_60m_med_usd": 253.0,
-      "infra_self_funded_60m_med_usd": 490.0,
-      "net_wealth_24m_med_usd": 3056.0,
-      "net_wealth_60m_med_usd": 11079.0,
-      "net_wealth_60m_med_vnd_tr": 282.5,
-      "comb_ann_ret_med_pct": 7.2,
-      "comb_sharpe_med": 1.88,
-      "comb_peak_dd_p95_pct": 4.01,
+      "max_prop_nominal_cap_usd": 350000.0,
+      "wipeout_pct": 3.74,
+      "dbl_fail_pct": 48.7,
+      "peak_funded_med_usd": 300000.0,
+      "mean_fees_24m_usd": 1923.0,
+      "mean_payouts_24m_usd": 4557.3,
+      "ev_per_fee_24m": 1.37,
+      "ev_per_fee_60m": 8.2,
+      "ob_24m_med_usd": 28962.0,
+      "ob_36m_med_usd": 32202.0,
+      "ob_60m_med_usd": 44613.0,
+      "ob_60m_med_vnd_tr": 1137.6,
+      "ops_60m_med_usd": 1367.0,
+      "infra_self_funded_60m_med_usd": 2680.0,
+      "net_wealth_24m_med_usd": 3260.0,
+      "net_wealth_60m_med_usd": 22085.0,
+      "net_wealth_60m_med_vnd_tr": 563.2,
+      "comb_ann_ret_med_pct": 12.9,
+      "comb_sharpe_med": 1.39,
+      "comb_peak_dd_p95_pct": 10.96,
       "prop_corr_dd_p95_pct": 10.0,
       "milestones": {
         "A_vps_self_funded": {
-          "p_24m_pct": 27.7,
-          "p_36m_pct": 41.1,
-          "p_60m_pct": 60.7,
-          "med_month": 27
+          "p_24m_pct": 55.6,
+          "p_36m_pct": 76.1,
+          "p_60m_pct": 88.6,
+          "med_month": 20
         },
         "B1_data_active50k": {
-          "p_24m_pct": 8.9,
-          "p_36m_pct": 19.5,
-          "p_60m_pct": 37.2,
-          "med_month": 35
+          "p_24m_pct": 19.0,
+          "p_36m_pct": 40.3,
+          "p_60m_pct": 66.3,
+          "med_month": 32
         },
         "B2_data_ob50k": {
-          "p_24m_pct": 0.6,
-          "p_36m_pct": 4.3,
-          "p_60m_pct": 20.6,
-          "med_month": 46
+          "p_24m_pct": 1.0,
+          "p_36m_pct": 11.1,
+          "p_60m_pct": 43.2,
+          "med_month": 45
         },
         "C1_ob_25k": {
-          "p_24m_pct": 100.0,
-          "p_36m_pct": 100.0,
+          "p_24m_pct": 99.5,
+          "p_36m_pct": 99.9,
           "p_60m_pct": 100.0,
           "med_month": 1
         },
         "C2_ob_50k": {
-          "p_24m_pct": 0.6,
-          "p_36m_pct": 4.3,
-          "p_60m_pct": 21.6,
-          "med_month": 46
+          "p_24m_pct": 1.0,
+          "p_36m_pct": 11.1,
+          "p_60m_pct": 43.8,
+          "med_month": 45
         },
         "C3_ob_100k": {
           "p_24m_pct": 0.0,
-          "p_36m_pct": 0.0,
-          "p_60m_pct": 2.6,
+          "p_36m_pct": 0.1,
+          "p_60m_pct": 5.1,
           "med_month": 54
         },
         "C4_ob_200k": {
@@ -1580,10 +2640,10 @@
           "med_month": -1
         },
         "D_crossover": {
-          "p_24m_pct": 42.0,
-          "p_36m_pct": 50.1,
-          "p_60m_pct": 61.9,
-          "med_month": 14
+          "p_24m_pct": 68.6,
+          "p_36m_pct": 74.7,
+          "p_60m_pct": 79.0,
+          "med_month": 12
         }
       }
     },
@@ -1594,62 +2654,62 @@
       "architecture": "SMART_TIER",
       "init_fee_budget_usd": 3000.0,
       "init_own_book_usd": 25000.0,
-      "max_prop_nominal_cap_usd": 360000.0,
-      "wipeout_pct": 0.0,
-      "dbl_fail_pct": 17.4,
-      "peak_funded_med_usd": 180000.0,
-      "mean_fees_24m_usd": 1617.6,
-      "mean_payouts_24m_usd": 3746.0,
-      "ev_per_fee_24m": 1.32,
-      "ev_per_fee_60m": 8.3,
-      "ob_24m_med_usd": 28748.0,
-      "ob_36m_med_usd": 31164.0,
-      "ob_60m_med_usd": 38291.0,
-      "ob_60m_med_vnd_tr": 976.4,
-      "ops_60m_med_usd": 330.0,
-      "infra_self_funded_60m_med_usd": 875.0,
-      "net_wealth_24m_med_usd": 2746.0,
-      "net_wealth_60m_med_usd": 12943.0,
-      "net_wealth_60m_med_vnd_tr": 330.0,
-      "comb_ann_ret_med_pct": 7.9,
-      "comb_sharpe_med": 1.53,
-      "comb_peak_dd_p95_pct": 7.08,
+      "max_prop_nominal_cap_usd": 350000.0,
+      "wipeout_pct": 2.22,
+      "dbl_fail_pct": 59.7,
+      "peak_funded_med_usd": 350000.0,
+      "mean_fees_24m_usd": 2836.9,
+      "mean_payouts_24m_usd": 7580.2,
+      "ev_per_fee_24m": 1.67,
+      "ev_per_fee_60m": 9.93,
+      "ob_24m_med_usd": 29774.0,
+      "ob_36m_med_usd": 36255.0,
+      "ob_60m_med_usd": 61279.0,
+      "ob_60m_med_vnd_tr": 1562.6,
+      "ops_60m_med_usd": 3581.0,
+      "infra_self_funded_60m_med_usd": 4095.0,
+      "net_wealth_24m_med_usd": 3220.0,
+      "net_wealth_60m_med_usd": 39435.0,
+      "net_wealth_60m_med_vnd_tr": 1005.6,
+      "comb_ann_ret_med_pct": 19.2,
+      "comb_sharpe_med": 1.37,
+      "comb_peak_dd_p95_pct": 13.92,
       "prop_corr_dd_p95_pct": 10.0,
       "milestones": {
         "A_vps_self_funded": {
-          "p_24m_pct": 32.7,
-          "p_36m_pct": 45.7,
-          "p_60m_pct": 64.2,
-          "med_month": 24
+          "p_24m_pct": 60.7,
+          "p_36m_pct": 81.6,
+          "p_60m_pct": 92.1,
+          "med_month": 20
         },
         "B1_data_active50k": {
-          "p_24m_pct": 17.1,
-          "p_36m_pct": 30.2,
-          "p_60m_pct": 48.4,
-          "med_month": 30
+          "p_24m_pct": 36.1,
+          "p_36m_pct": 61.8,
+          "p_60m_pct": 80.0,
+          "med_month": 26
         },
         "B2_data_ob50k": {
-          "p_24m_pct": 2.3,
-          "p_36m_pct": 11.7,
-          "p_60m_pct": 33.5,
-          "med_month": 42
+          "p_24m_pct": 3.5,
+          "p_36m_pct": 25.0,
+          "p_60m_pct": 63.0,
+          "med_month": 40
         },
         "C1_ob_25k": {
-          "p_24m_pct": 100.0,
-          "p_36m_pct": 100.0,
+          "p_24m_pct": 99.6,
+          "p_36m_pct": 99.9,
           "p_60m_pct": 100.0,
           "med_month": 1
         },
         "C2_ob_50k": {
-          "p_24m_pct": 2.3,
-          "p_36m_pct": 11.7,
-          "p_60m_pct": 35.0,
-          "med_month": 42
+          "p_24m_pct": 3.5,
+          "p_36m_pct": 25.0,
+          "p_60m_pct": 64.1,
+          "med_month": 40
         },
         "C3_ob_100k": {
           "p_24m_pct": 0.0,
           "p_36m_pct": 0.1,
-          "p_60m_pct": 5.8,
+          "p_60m_pct": 11.7,
           "med_month": 53
         },
         "C4_ob_200k": {
@@ -1659,10 +2719,10 @@
           "med_month": -1
         },
         "D_crossover": {
-          "p_24m_pct": 40.7,
-          "p_36m_pct": 48.1,
-          "p_60m_pct": 59.3,
-          "med_month": 13
+          "p_24m_pct": 67.8,
+          "p_36m_pct": 73.5,
+          "p_60m_pct": 77.4,
+          "med_month": 12
         }
       }
     }
@@ -1670,63 +2730,63 @@
   "scorecard_and_pain": {
     "ob_full_dev_metrics": {
       "n_days": 1305,
-      "cagr_pct": 5.64,
-      "ann_vol_pct": 2.43,
-      "sharpe": 2.27,
-      "sortino": 2.47,
-      "max_dd_pct": 2.23,
-      "calmar": 2.53
+      "cagr_pct": 5.62,
+      "ann_vol_pct": 4.72,
+      "sharpe": 1.18,
+      "sortino": 1.1,
+      "max_dd_pct": 9.28,
+      "calmar": 0.61
     },
     "ob_blind_oos_metrics": {
       "n_days": 522,
-      "cagr_pct": 4.93,
-      "ann_vol_pct": 2.57,
-      "sharpe": 1.89,
-      "sortino": 2.03,
-      "max_dd_pct": 2.23,
-      "calmar": 2.21
+      "cagr_pct": 6.63,
+      "ann_vol_pct": 4.44,
+      "sharpe": 1.47,
+      "sortino": 1.42,
+      "max_dd_pct": 3.27,
+      "calmar": 2.03
     },
-    "prop_funded_1x_ann_pct": 7.64,
-    "prop_funded_15x_ann_pct": 4.5,
+    "prop_funded_1x_ann_pct": 7.31,
+    "prop_funded_15x_ann_pct": 4.7,
     "scorecard": [
       {
         "profile": "Baseline Cũ (Repeated 10K · SYMCAP 3.0% · Budget 1.5k, OB 0k)",
-        "prop_funded_ann_1x_pct": 7.64,
-        "ob_cagr_1x_pct": 5.64,
-        "ob_sharpe_full": 2.27,
-        "ob_calmar_full": 2.53,
-        "ob_max_dd_pct": 2.23,
+        "prop_funded_ann_1x_pct": 7.31,
+        "ob_cagr_1x_pct": 5.62,
+        "ob_sharpe_full": 1.18,
+        "ob_calmar_full": 0.61,
+        "ob_max_dd_pct": 9.28,
         "cex50_shock_pct": 41.58,
         "prop_wipeout_pct": 0.02,
-        "ev_per_fee_24m": 1.18,
-        "ob_60m_med_usd": 11085.0,
-        "comb_sharpe_med": 0.89
+        "ev_per_fee_24m": 0.92,
+        "ob_60m_med_usd": 9597.0,
+        "comb_sharpe_med": 0.83
       },
       {
         "profile": "Nâng Cấp Smart-Tier (SYMCAP 1.75% + DynPL + 4/8 Safe · Budget 1.5k, OB 0k)",
-        "prop_funded_ann_1x_pct": 7.64,
-        "ob_cagr_1x_pct": 5.64,
-        "ob_sharpe_full": 2.27,
-        "ob_calmar_full": 2.53,
-        "ob_max_dd_pct": 2.23,
+        "prop_funded_ann_1x_pct": 7.31,
+        "ob_cagr_1x_pct": 5.62,
+        "ob_sharpe_full": 1.18,
+        "ob_calmar_full": 0.61,
+        "ob_max_dd_pct": 9.28,
         "cex50_shock_pct": 12.89,
-        "prop_wipeout_pct": 0.0,
-        "ev_per_fee_24m": 3.21,
-        "ob_60m_med_usd": 27956.0,
-        "comb_sharpe_med": 1.04
+        "prop_wipeout_pct": 0.78,
+        "ev_per_fee_24m": 3.23,
+        "ob_60m_med_usd": 49113.0,
+        "comb_sharpe_med": 1.11
       },
       {
         "profile": "Top-1% Hybrid Full Pod (Smart-Tier + NCO_CexCap25 · Budget 3k, OB 25k)",
-        "prop_funded_ann_1x_pct": 7.64,
-        "ob_cagr_1x_pct": 5.64,
-        "ob_sharpe_full": 2.27,
-        "ob_calmar_full": 2.53,
-        "ob_max_dd_pct": 2.23,
+        "prop_funded_ann_1x_pct": 7.31,
+        "ob_cagr_1x_pct": 5.62,
+        "ob_sharpe_full": 1.18,
+        "ob_calmar_full": 0.61,
+        "ob_max_dd_pct": 9.28,
         "cex50_shock_pct": 12.89,
-        "prop_wipeout_pct": 0.0,
-        "ev_per_fee_24m": 3.8,
-        "ob_60m_med_usd": 78326.0,
-        "comb_sharpe_med": 1.7
+        "prop_wipeout_pct": 0.44,
+        "ev_per_fee_24m": 4.11,
+        "ob_60m_med_usd": 95332.0,
+        "comb_sharpe_med": 1.74
       }
     ],
     "vnd_pain_table": [
@@ -1734,12 +2794,12 @@
         "tier_usd": 10000,
         "tier_vnd_tr": 255.0,
         "ibkr_drag_pct": 0.65,
-        "ob_net_cagr_pct": 4.99,
-        "ob_net_annual_usd": 499.0,
+        "ob_net_cagr_pct": 4.97,
+        "ob_net_annual_usd": 497.0,
         "ob_net_annual_vnd_tr": 12.7,
-        "hist_dd_pct": 2.23,
-        "hist_dd_usd": 223.0,
-        "hist_dd_vnd_tr": 5.7,
+        "hist_dd_pct": 9.28,
+        "hist_dd_usd": 928.0,
+        "hist_dd_vnd_tr": 23.7,
         "corr85_dd_pct": 8.81,
         "corr85_dd_usd": 881.0,
         "corr85_dd_vnd_tr": 22.5,
@@ -1752,12 +2812,12 @@
         "tier_usd": 50000,
         "tier_vnd_tr": 1275.0,
         "ibkr_drag_pct": 0.1,
-        "ob_net_cagr_pct": 5.54,
-        "ob_net_annual_usd": 2770.0,
-        "ob_net_annual_vnd_tr": 70.6,
-        "hist_dd_pct": 2.23,
-        "hist_dd_usd": 1115.0,
-        "hist_dd_vnd_tr": 28.4,
+        "ob_net_cagr_pct": 5.52,
+        "ob_net_annual_usd": 2760.0,
+        "ob_net_annual_vnd_tr": 70.4,
+        "hist_dd_pct": 9.28,
+        "hist_dd_usd": 4640.0,
+        "hist_dd_vnd_tr": 118.3,
         "corr85_dd_pct": 8.81,
         "corr85_dd_usd": 4405.0,
         "corr85_dd_vnd_tr": 112.3,
@@ -1770,12 +2830,12 @@
         "tier_usd": 100000,
         "tier_vnd_tr": 2550.0,
         "ibkr_drag_pct": 0.1,
-        "ob_net_cagr_pct": 5.54,
-        "ob_net_annual_usd": 5540.0,
-        "ob_net_annual_vnd_tr": 141.3,
-        "hist_dd_pct": 2.23,
-        "hist_dd_usd": 2230.0,
-        "hist_dd_vnd_tr": 56.9,
+        "ob_net_cagr_pct": 5.52,
+        "ob_net_annual_usd": 5520.0,
+        "ob_net_annual_vnd_tr": 140.8,
+        "hist_dd_pct": 9.28,
+        "hist_dd_usd": 9280.0,
+        "hist_dd_vnd_tr": 236.6,
         "corr85_dd_pct": 8.81,
         "corr85_dd_usd": 8810.0,
         "corr85_dd_vnd_tr": 224.7,
@@ -1788,12 +2848,12 @@
         "tier_usd": 200000,
         "tier_vnd_tr": 5100.0,
         "ibkr_drag_pct": 0.1,
-        "ob_net_cagr_pct": 5.54,
-        "ob_net_annual_usd": 11080.0,
-        "ob_net_annual_vnd_tr": 282.5,
-        "hist_dd_pct": 2.23,
-        "hist_dd_usd": 4460.0,
-        "hist_dd_vnd_tr": 113.7,
+        "ob_net_cagr_pct": 5.52,
+        "ob_net_annual_usd": 11040.0,
+        "ob_net_annual_vnd_tr": 281.5,
+        "hist_dd_pct": 9.28,
+        "hist_dd_usd": 18560.0,
+        "hist_dd_vnd_tr": 473.3,
         "corr85_dd_pct": 8.81,
         "corr85_dd_usd": 17620.0,
         "corr85_dd_vnd_tr": 449.3,

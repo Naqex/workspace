@@ -571,3 +571,39 @@ def test_prop_tier_scaling_and_symcap_audit_receipt_and_seal():
         assert "$" not in cleaned, f"Bare '$' in {md_p.name}:{line_no}: {line}"
 
 
+def test_astra_f18_cockpit_zero_equity_preserved_and_emergency_delivery_status(tmp_path: Path):
+    """Astra F18: equity==0.0 must NEVER fall back to balance; emergency cover must state delivery_status."""
+    live_dir = tmp_path / ".runtime/live-overnight"
+    live_dir.mkdir(parents=True, exist_ok=True)
+    snap_zero = {
+        "captured_utc": "2026-11-24T10:00:00+00:00",
+        "account": {"balance": 10000.0, "equity": 0.0},
+        "naqex_positions_count": 0,
+        "orphan_no_sl": 0,
+    }
+    (live_dir / "mt5_live_spread_log.jsonl").write_text(json.dumps(snap_zero) + "\n", encoding="utf-8")
+    mx = cockpit_server.build_prop_metrix_payload(tmp_path, program="ftmo_swing_10k_p1", allow_cloud_fetch=False)
+    assert mx["account"]["equity_usd"] == 0.0
+    assert mx["buffers"]["permitted_max_loss_usd"] == 0.0
+
+    # Emergency cover without bridge_dir -> explicit LOCAL_AUDIT_ONLY_NOT_DELIVERED_TO_MT5
+    st1, res1 = cockpit_server.apply_emergency_cover_action(
+        tmp_path,
+        {"cover_opened": True, "action": "HALT_NEW_ENTRIES", "confirm_code": "HALT", "reason": "f18_test"},
+        bridge_dir=None,
+    )
+    assert st1 == 200 and res1["mt5_bridge_written"] is False
+    assert res1["delivery_status"] == "LOCAL_AUDIT_ONLY_NOT_DELIVERED_TO_MT5"
+
+    # Emergency cover with bridge_dir -> explicit WRITTEN_TO_MT5_BRIDGE_AWAITING_ORCH_ACK
+    bridge = tmp_path / "mt5_files"
+    st2, res2 = cockpit_server.apply_emergency_cover_action(
+        tmp_path,
+        {"cover_opened": True, "action": "HALT_NEW_ENTRIES", "confirm_code": "HALT", "reason": "f18_bridge"},
+        bridge_dir=bridge,
+    )
+    assert st2 == 200 and res2["mt5_bridge_written"] is True
+    assert res2["delivery_status"] == "WRITTEN_TO_MT5_BRIDGE_AWAITING_ORCH_ACK"
+    assert (bridge / "naqex_manual_halt.flag").is_file()
+
+

@@ -356,3 +356,45 @@ def test_symbol_aliases_red_news_and_r4_r1_triage_tagging(tmp_path: Path) -> Non
     assert "R4 -> R3 -> R2 -> R1" in md_out
     assert "$" not in md_out
 
+
+def test_astra_f13_unresolved_fill_adverse_masking_and_missing_swap_fail_closed(tmp_path: Path) -> None:
+    """Astra F13: unresolved fills, missing swap on EXIT, and signed-slippage masking must NOT pass silently."""
+    d0 = 1_795_428_000
+    news_csv = tmp_path / "news.csv"
+    _write_news(news_csv, [(1_700_000_000, "USD", "OLD")])
+    audit_csv = tmp_path / "audit.csv"
+
+    # 1. Unresolved fill (fill_price=-1.0 / FILL_UNRESOLVED) blocks PASS_TO_PAID even with 4 clean trading days!
+    rows_unres = []
+    for i in range(4):
+        t_in = d0 + i * 86_400
+        rows_unres.append({"utc_ts": t_in, "magic": 20261122, "symbol": "USDJPY", "side": "BUY", "event_type": "ORDER_FILL", "signal_price": 150.0, "fill_price": -1.0 if i == 0 else 150.005, "pnl_usd": 0.0, "swap_usd": 0.0, "comment": "FILL_UNRESOLVED" if i == 0 else ""})
+        rows_unres.append({"utc_ts": t_in + 3600, "magic": 20261122, "symbol": "USDJPY", "side": "BUY", "event_type": "EXIT", "signal_price": 150.2, "fill_price": 150.2, "pnl_usd": 30.0, "swap_usd": 0.0})
+    _write_audit(audit_csv, rows_unres)
+    res_u = pct.evaluate_prop_challenge(profile_id="ftmo_swing_10k", exec_audit_csv=audit_csv, news_csv=news_csv, spread_log_jsonl=None, heartbeat_json=None)
+    assert res_u["rules"]["R5_engine_slippage_tca"]["unresolved_fill_count"] == 1
+    assert res_u["gate_decision"] == "EXTEND_SHADOW"
+
+    # 2. Signed slippage masking: one -5.0 bps lucky fill CANNOT hide one +5.0 bps adverse fill (budget 1.30 bps)!
+    _write_audit(audit_csv, [
+        {"utc_ts": d0, "magic": 20261122, "symbol": "USDJPY", "side": "BUY", "event_type": "ORDER_FILL", "signal_price": 150.000, "fill_price": 149.925, "pnl_usd": 0.0, "swap_usd": 0.0},
+        {"utc_ts": d0 + 86_400, "magic": 20261122, "symbol": "USDJPY", "side": "BUY", "event_type": "ORDER_FILL", "signal_price": 150.000, "fill_price": 150.075, "pnl_usd": 0.0, "swap_usd": 0.0},
+    ])
+    res_mask = pct.evaluate_prop_challenge(profile_id="ftmo_swing_10k", exec_audit_csv=audit_csv, news_csv=news_csv, spread_log_jsonl=None, heartbeat_json=None)
+    e1 = res_mask["rules"]["R5_engine_slippage_tca"]["per_engine"]["E1_USDJPY_TOKYO"]
+    assert abs(e1["mean_adverse_slip_bps"]) < 0.05
+    assert e1["mean_positive_adverse_slip_bps"] >= 2.4
+    assert e1["breached"] is True
+    assert res_mask["gate_decision"] == "HALT_AND_FIX"
+
+    # 3. Missing swap_usd on EXIT row blocks PASS_TO_PAID
+    rows_msw = []
+    for i in range(4):
+        t_in = d0 + i * 86_400
+        rows_msw.append({"utc_ts": t_in, "magic": 20261122, "symbol": "USDJPY", "side": "BUY", "event_type": "ENTRY", "signal_price": 150.0, "fill_price": 150.005, "pnl_usd": 0.0, "swap_usd": 0.0})
+        rows_msw.append({"utc_ts": t_in + 3600, "magic": 20261122, "symbol": "USDJPY", "side": "BUY", "event_type": "EXIT", "signal_price": 150.2, "fill_price": 150.2, "pnl_usd": 30.0, "swap_usd": ""})
+    _write_audit(audit_csv, rows_msw)
+    res_msw = pct.evaluate_prop_challenge(profile_id="ftmo_swing_10k", exec_audit_csv=audit_csv, news_csv=news_csv, spread_log_jsonl=None, heartbeat_json=None)
+    assert res_msw["rules"]["R4_zero_swap_and_red_news"]["missing_swap_count"] == 4
+    assert res_msw["gate_decision"] == "EXTEND_SHADOW"
+

@@ -642,8 +642,8 @@ def build_prop_metrix_payload(
     if cloud_node and cloud_node.get("equity") is not None:
         source_label = f"{cloud_node.get('account_label') or 'NAQEX_NODE1'} · HEROKU LIVE"
         source_status = str(cloud_node.get("status") or "OK")
-        balance = float(cloud_node.get("balance") or init_usd)
-        equity = float(cloud_node.get("equity") or balance)
+        balance = float(cloud_node["balance"]) if cloud_node.get("balance") is not None else init_usd
+        equity = float(cloud_node["equity"])
         open_pos_cnt = int(cloud_node.get("open_positions") or 0)
         orphan_cnt = int(cloud_node.get("orphan_no_sl") or 0)
         regime = str(cloud_node.get("regime") or "NORMAL")
@@ -653,8 +653,8 @@ def build_prop_metrix_payload(
     elif snap_acct and snap_acct.get("equity") is not None:
         source_label = "LOCAL MT5 TELEMETRY LOG"
         source_status = "CACHED"
-        balance = float(snap_acct.get("balance") or init_usd)
-        equity = float(snap_acct.get("equity") or balance)
+        balance = float(snap_acct["balance"]) if snap_acct.get("balance") is not None else init_usd
+        equity = float(snap_acct["equity"])
         open_pos_cnt = int(latest_snap.get("naqex_positions_count") or 0)
         orphan_cnt = int(latest_snap.get("orphan_no_sl") or 0)
         hb_s = latest_snap.get("heartbeat") if isinstance(latest_snap.get("heartbeat"), dict) else {}
@@ -665,8 +665,8 @@ def build_prop_metrix_payload(
     elif local_hb:
         source_label = "LOCAL HEARTBEAT JSON"
         source_status = "CACHED"
-        balance = float(local_hb.get("balance") or init_usd)
-        equity = float(local_hb.get("equity") or balance)
+        balance = float(local_hb["balance"]) if local_hb.get("balance") is not None else init_usd
+        equity = float(local_hb["equity"]) if local_hb.get("equity") is not None else balance
         open_pos_cnt = int(local_hb.get("open_positions") or 0)
         orphan_cnt = int(local_hb.get("orphan_no_sl") or 0)
         regime = str(local_hb.get("regime") or "NORMAL")
@@ -1481,21 +1481,7 @@ def apply_emergency_cover_action(
 
     now_iso = datetime.now(timezone.utc).isoformat()
     new_state = "NORMAL_COVER_CLOSED" if action == "RESET_NORMAL" else f"ARMED_{action}"
-    record = {
-        "schema": "naqex-emergency-cover-v1",
-        "order_send_count": ORDER_SEND_COUNT,
-        "state": new_state,
-        "action": action,
-        "reason": reason,
-        "updated_utc": now_iso,
-        "mt5_bridge_written": False,
-        "note": "Control Room strictly keeps OrderSend=0; flag recorded for Orchestrator/VPS operator audit.",
-    }
-
-    state_path = root / ".runtime/live-overnight/naqex_emergency_cover_state.json"
-    state_path.parent.mkdir(parents=True, exist_ok=True)
-    state_path.write_text(json.dumps(record, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
-
+    bridge_written = False
     if bridge_dir is not None:
         flag_path = bridge_dir / "naqex_manual_halt.flag"
         bridge_dir.mkdir(parents=True, exist_ok=True)
@@ -1504,7 +1490,32 @@ def apply_emergency_cover_action(
                 flag_path.unlink()
         else:
             flag_path.write_text(f"{action}|{now_iso}|{reason}\n", encoding="utf-8", newline="\n")
-        record["mt5_bridge_written"] = True
+        bridge_written = True
+
+    delivery_status = (
+        "WRITTEN_TO_MT5_BRIDGE_AWAITING_ORCH_ACK"
+        if bridge_written
+        else "LOCAL_AUDIT_ONLY_NOT_DELIVERED_TO_MT5"
+    )
+    record = {
+        "schema": "naqex-emergency-cover-v1",
+        "order_send_count": ORDER_SEND_COUNT,
+        "state": new_state,
+        "action": action,
+        "reason": reason,
+        "updated_utc": now_iso,
+        "mt5_bridge_written": bridge_written,
+        "delivery_status": delivery_status,
+        "note": (
+            "Bridge flag written to MT5 MQL5/Files; requires InpAllowManualHaltFile=true on Orchestrator for live effect."
+            if bridge_written
+            else "LOCAL AUDIT ONLY: NOT delivered to remote MT5/VPS! Open RDP/MT5 directly to halt or flatten live positions."
+        ),
+    }
+
+    state_path = root / ".runtime/live-overnight/naqex_emergency_cover_state.json"
+    state_path.parent.mkdir(parents=True, exist_ok=True)
+    state_path.write_text(json.dumps(record, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
 
     return HTTPStatus.OK, {"ok": True, **record}
 

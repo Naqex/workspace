@@ -194,10 +194,28 @@ if ([string]::IsNullOrWhiteSpace($HeartbeatPath)) {
         $rawHb = Get-Content -LiteralPath $HeartbeatPath -Raw -Encoding UTF8
         $hbData = $rawHb | ConvertFrom-Json
         $hbTs = [long]$hbData.utc_ts
-        $hbAgeSec = [Math]::Max(0, $nowUtcTs - $hbTs)
-        if ($hbAgeSec -gt $StaleAfterSec) {
+        $rawAgeSec = $nowUtcTs - $hbTs
+        $hbAgeSec = $rawAgeSec
+        if ($rawAgeSec -lt -60) {
             $status = "CRITICAL"
-            $alerts.Add("HEARTBEAT_STALE: age=${hbAgeSec}s > ${StaleAfterSec}s")
+            $alerts.Add("HEARTBEAT_FUTURE_TIMESTAMP: age=${rawAgeSec}s (clock skew > 60s)")
+        } elseif ($rawAgeSec -gt $StaleAfterSec) {
+            $status = "CRITICAL"
+            $alerts.Add("HEARTBEAT_STALE: age=${rawAgeSec}s > ${StaleAfterSec}s")
+        }
+        $hbProps = $hbData.PSObject.Properties.Name
+        if (($hbProps -contains "terminal_connected") -and (-not [bool]$hbData.terminal_connected)) {
+            $status = "CRITICAL"
+            $alerts.Add("BROKER_DISCONNECTED: terminal_connected=false")
+        }
+        if ($hbProps -contains "quote_ts") {
+            $qTs = [long]$hbData.quote_ts
+            $nowDt = [DateTimeOffset]::FromUnixTimeSeconds($nowUtcTs).UtcDateTime
+            $isActiveMarket = ($nowDt.DayOfWeek -ge [System.DayOfWeek]::Monday -and $nowDt.DayOfWeek -le [System.DayOfWeek]::Friday -and $nowDt.Hour -ge 1 -and $nowDt.Hour -lt 20)
+            if ($isActiveMarket -and $qTs -gt 0 -and ($nowUtcTs - $qTs) -gt ($StaleAfterSec * 2)) {
+                if ($status -eq "OK") { $status = "WARNING" }
+                $alerts.Add("QUOTE_FEED_STALE: quote_age=$($nowUtcTs - $qTs)s > $($StaleAfterSec * 2)s")
+            }
         }
         if ([bool]$hbData.kill_switch) {
             $status = "CRITICAL"

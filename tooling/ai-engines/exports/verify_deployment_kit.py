@@ -274,7 +274,7 @@ OPERATIONAL_PROFILES: dict[str, dict[str, Any]] = {
         "amber_mult": 1.00,
         "red_dd_pct": 9.00,
         "red_mult": 0.75,
-        "profit_lock_pct": 5.00,
+        "profit_lock_pct": 4.00,
         "profit_lock_mult": 1.34,
         "daily_reset_mode": 0,
         "kill_daily_dd_pct": 4.20,
@@ -285,7 +285,7 @@ OPERATIONAL_PROFILES: dict[str, dict[str, Any]] = {
         "news_pad_sec": 300,
         "news_hard_ban_sec": 135,
         "requires_ea_written_clearance": True,
-        "notes": "The5ers HS 5k P1 Balanced (eff 4.00x; SYMCAP 1.75%, ProfitLock >=+5% -> 2.01x, Server midnight reset, NAS100 mapping; written EA clearance req). ARM-LOCKED.",
+        "notes": "The5ers HS 5k P1 Balanced (eff 4.00x; SYMCAP 1.75%, ProfitLock >=+4% [50% of 8% target] -> 2.01x, Server midnight reset, NAS100/SPX500 mapping; written EA clearance req). ARM-LOCKED.",
     },
     "The5ers_HighStakes_P1_Sprint": {
         "firm": "The5ers",
@@ -303,7 +303,7 @@ OPERATIONAL_PROFILES: dict[str, dict[str, Any]] = {
         "amber_mult": 1.00,
         "red_dd_pct": 9.90,
         "red_mult": 1.00,
-        "profit_lock_pct": 5.00,
+        "profit_lock_pct": 4.00,
         "profit_lock_mult": 1.34,
         "daily_reset_mode": 0,
         "kill_daily_dd_pct": 4.30,
@@ -314,7 +314,7 @@ OPERATIONAL_PROFILES: dict[str, dict[str, Any]] = {
         "news_pad_sec": 300,
         "news_hard_ban_sec": 135,
         "requires_ea_written_clearance": True,
-        "notes": "The5ers HS 5k P1 Sprint (eff 4.75x; SYMCAP 2.00%, ProfitLock >=+5% -> 2.01x, Server midnight reset, NAS100 mapping; written EA clearance req). ARM-LOCKED.",
+        "notes": "The5ers HS 5k P1 Sprint (eff 4.75x; SYMCAP 2.00%, ProfitLock >=+4% [50% of 8% target] -> 2.01x, Server midnight reset, NAS100/SPX500 mapping; written EA clearance req). ARM-LOCKED.",
     },
     "The5ers_HighStakes_Funded": {
         "firm": "The5ers",
@@ -407,7 +407,7 @@ THE5ERS_4_8_CALIBRATED_P1: dict[str, Any] = {
     "amber_mult": 0.80,
     "red_dd_pct": 6.00,
     "red_mult": 0.50,
-    "profit_lock_pct": 5.00,
+    "profit_lock_pct": 4.00,
     "profit_lock_mult": 1.50,
     "max_symbol_risk_pct": 1.15,
     "kill_daily_dd_pct": 2.80,
@@ -753,6 +753,8 @@ def build_presets_and_manifest(
 
             ea_kv["InpDryRunLogOnly"] = ea_dry
             ea_kv["InpMaxDailyLossPct"] = float(cfg["ea_daily_stop_pct"])
+            if cfg["firm"] == "The5ers" and eid == "E5_US100_RS1130":
+                ea_kv["InpBenchmarkSymbol"] = "SPX500"
             if cfg["firm"] == "The5ers" and eid == "E7_USDJPY_NY10ET":
                 ea_kv["InpEquitySymbol"] = "NAS100"
             ea_scale = float(cfg.get("ea_risk_scale", 1.00))
@@ -997,8 +999,9 @@ def verify_kit(
             pl_pct = float(kv.get("InpProfitLockPct", "-1"))
             pl_mult = float(kv.get("InpProfitLockMult", "-1"))
             if "_P1_" in pname:
-                if abs(pl_pct - 5.00) > 1e-6 or abs(pl_mult - 1.34) > 1e-6:
-                    errors.append(f"{pname}: P1 ProfitLock mismatch (pct={pl_pct}, mult={pl_mult})")
+                exp_pl_pct = 4.00 if cfg["firm"] == "The5ers" else 5.00
+                if abs(pl_pct - exp_pl_pct) > 1e-6 or abs(pl_mult - 1.34) > 1e-6:
+                    errors.append(f"{pname}: P1 ProfitLock mismatch (pct={pl_pct}, expected={exp_pl_pct}, mult={pl_mult})")
             elif "_P2_" in pname:
                 if abs(pl_pct - 3.00) > 1e-6 or not (0.20 <= pl_mult <= 2.00):
                     errors.append(f"{pname}: P2 ProfitLock mismatch (pct={pl_pct}, mult={pl_mult})")

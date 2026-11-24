@@ -348,23 +348,25 @@ class TestRedTeamAndOps(unittest.TestCase):
         # Frozen 2018-2024 Dev (224) and 2025 (31) rows must remain 100% untouched
         self.assertEqual(len(in_1824), 224, "Frozen 2018-2024 Dev rows must remain untouched")
         self.assertEqual(len(in_2025), 31, "Frozen 2025 rows must remain untouched")
-        # Expanded late-2026 & full-2027 must cover all 4 currencies (USD, EUR, GBP, JPY)
-        self.assertGreaterEqual(len(in_2026), 46, "2026 must include 32 USD + expanded late-2026 4-ccy events")
-        self.assertEqual({r[1] for r in in_2026}, {"USD", "EUR", "GBP", "JPY"})
-        self.assertGreaterEqual(len(in_2027), 115, "2027 must include all 56 original anchors + expanded multi-ccy macro/CB events")
-        self.assertEqual({r[1] for r in in_2027}, {"USD", "EUR", "GBP", "JPY"})
+        # Expanded late-2026 & full-2027 must cover all 6 currencies (USD, EUR, GBP, JPY, AUD, CAD)
+        self.assertGreaterEqual(len(in_2026), 48, "2026 must include 32 USD + expanded late-2026 6-ccy events")
+        self.assertEqual({r[1] for r in in_2026}, {"USD", "EUR", "GBP", "JPY", "AUD", "CAD"})
+        self.assertGreaterEqual(len(in_2027), 130, "2027 must include all 6-ccy macro/CB events (incl. RBA/BoC)")
+        self.assertEqual({r[1] for r in in_2027}, {"USD", "EUR", "GBP", "JPY", "AUD", "CAD"})
 
         ev_counts = {}
         for _, ccy, ev in in_2027:
             ev_counts[ev] = ev_counts.get(ev, 0) + 1
-            self.assertIn(ccy, {"USD", "EUR", "GBP", "JPY"})
-        # All 56 original 2027 anchor events preserved verbatim
+            self.assertIn(ccy, {"USD", "EUR", "GBP", "JPY", "AUD", "CAD"})
+        # All 56 original 2027 anchor events preserved verbatim + RBA/BoC 2027 (8 each)
         self.assertEqual(ev_counts["US_NFP_BLS2027"], 12)
         self.assertEqual(ev_counts["US_CPI_BLS2027"], 12)
         self.assertEqual(ev_counts["FOMC_FED2027_TENTATIVE"] + ev_counts["FOMC_STRATEGY_FED2027_TENTATIVE"], 8)
         self.assertEqual(ev_counts["ECB_RATE_ECB2027"], 8)
         self.assertEqual(ev_counts["BOE_RATE_BOE2027"], 8)
         self.assertEqual(ev_counts["BOJ_RATE_BOJ2027_EST03UTC"], 8)
+        self.assertEqual(ev_counts["RBA_RATE_RBA2027"], 8)
+        self.assertEqual(ev_counts["BOC_RATE_BOC2027"], 8)
         # Newly added 2027 multi-ccy red folders (PPI, Retail Sales, Core PCE/GDP, UK CPI, ECB Press Conf, FOMC Press Conf)
         self.assertEqual(ev_counts["UK_CPI_ONS2027"], 12)
         self.assertEqual(ev_counts["ECB_PRESS_CONF_ECB2027"], 8)
@@ -373,10 +375,21 @@ class TestRedTeamAndOps(unittest.TestCase):
         self.assertEqual(sum(n for ev, n in ev_counts.items() if "US_PPI_BLS2027" in ev), 12)
         self.assertEqual(sum(n for ev, n in ev_counts.items() if "US_RETAIL_SALES_CENSUS2027" in ev), 12)
 
-        # Spot-check exact DST UTC timestamps (EST/EDT, CET/CEST, GMT/BST, JST) across 2026 & 2027
+        # Spot-check exact DST UTC timestamps (incl. Astra F04 corrected 2026 BLS dates & RBA/BoC!)
         by_triple = {(t, c, e) for t, c, e in (in_2026 + in_2027)}
+        by_ts_ccy = {(t, c) for t, c, _ in (in_2026 + in_2027)}
+        # F04: Corrected 2026 BLS dates (Jan 9 NOT Jan 2; Feb 11 NFP & Feb 13 CPI; May 8 NOT May 1; Jul 2 NOT Jul 3)
+        self.assertIn((int(datetime(2026, 1, 9, 13, 30, tzinfo=timezone.utc).timestamp()), "USD"), by_ts_ccy)
+        self.assertNotIn((int(datetime(2026, 1, 2, 13, 30, tzinfo=timezone.utc).timestamp()), "USD"), by_ts_ccy)
+        self.assertIn((int(datetime(2026, 2, 11, 13, 30, tzinfo=timezone.utc).timestamp()), "USD"), by_ts_ccy)
+        self.assertIn((int(datetime(2026, 2, 13, 13, 30, tzinfo=timezone.utc).timestamp()), "USD"), by_ts_ccy)
+        self.assertIn((int(datetime(2026, 5, 8, 12, 30, tzinfo=timezone.utc).timestamp()), "USD"), by_ts_ccy)
+        self.assertIn((int(datetime(2026, 7, 2, 12, 30, tzinfo=timezone.utc).timestamp()), "USD"), by_ts_ccy)
+        self.assertNotIn((int(datetime(2026, 7, 3, 12, 30, tzinfo=timezone.utc).timestamp()), "USD"), by_ts_ccy)
         expected_checks = [
             (datetime(2026, 11, 25, 13, 30, tzinfo=timezone.utc), "USD", "US_GDP_AND_CORE_PCE_BEA2026"),
+            (datetime(2026, 12, 8, 3, 30, tzinfo=timezone.utc), "AUD", "RBA_RATE_RBA2026"),
+            (datetime(2026, 12, 9, 14, 45, tzinfo=timezone.utc), "CAD", "BOC_RATE_BOC2026"),
             (datetime(2026, 12, 16, 7, 0, tzinfo=timezone.utc), "GBP", "UK_CPI_ONS2026"),
             (datetime(2026, 12, 17, 12, 0, tzinfo=timezone.utc), "GBP", "BOE_RATE_BOE2026"),
             (datetime(2026, 12, 17, 13, 15, tzinfo=timezone.utc), "EUR", "ECB_RATE_ECB2026"),

@@ -205,9 +205,11 @@ class QuantFactorySuiteTests(unittest.TestCase):
             self.assertTrue(20261120 <= mg <= 20261199, f"Magic {mg} outside orchestrator range")
 
         orch = (exp_dir / "Naqex_AccountOrchestrator.mq5").read_text(encoding="utf-8")
+        self.assertIn('#include "Include/Naqex_PropGuard.mqh"', orch)
         self.assertIn("InpDryRunLogOnly", orch)
-        self.assertIn("NQXG_GLOBAL_KILLSWITCH", orch)
-        self.assertIn("NQXG_GLOBAL_RISK_MULT", orch)
+        self.assertIn("GlobalKillKey()", orch)
+        self.assertIn("GlobalMultKey()", orch)
+        self.assertIn("OrchTsKey()", orch)
         self.assertIn("naqex_heartbeat.json", orch)
         self.assertTrue((exp_dir / "Files/naqex_red_news_utc.csv").exists())
 

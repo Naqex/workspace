@@ -166,6 +166,55 @@ def test_deadman_fails_closed_when_ingest_token_unset():
     mon = deadman_app.DeadmanMonitor(ingest_token="")
     ok, err = mon.verify_ingest_token("Bearer anything")
     assert ok is False and err == "INGEST_TOKEN_NOT_CONFIGURED"
+    # Astra F20: view token fails closed by default when NAQEX_VIEW_TOKEN is empty!
+    assert mon.verify_view_token("", "") is False
+
+
+def test_deadman_f17_retry_failed_alert_broker_disconnect_and_stale_inner_ts():
+    now_box = [1_795_500_000.0]
+    calls = [0]
+
+    def flaky_send(msg: str) -> dict:
+        calls[0] += 1
+        if calls[0] == 1:
+            return {"sent": [], "errors": ["telegram:timeout"], "configured": True}
+        return {"sent": ["telegram"], "errors": [], "configured": True}
+
+    mon = deadman_app.DeadmanMonitor(
+        ingest_token="tok",
+        view_token="vtok",
+        stale_after_sec=180,
+        alert_cooldown_sec=900,
+        alert_sender=flaky_send,
+        clock_fn=lambda: now_box[0],
+    )
+    # 1. Broker disconnected + replayed stale inner utc_ts -> CRITICAL & tries alert
+    r1 = mon.ingest_heartbeat({
+        "account_label": "NODE1",
+        "mt5_running": True,
+        "heartbeat": {"utc_ts": now_box[0] - 400, "terminal_connected": False, "balance": 10000.0, "equity": 10000.0},
+    })
+    assert r1["status"] == "CRITICAL"
+    assert "BROKER_DISCONNECTED" in r1["reasons"]
+    assert any(x.startswith("INNER_HEARTBEAT_STALE=") for x in r1["reasons"])
+    assert calls[0] == 1
+
+    # 2. First delivery FAILED -> cooldown must NOT be armed -> retries cleanly 15s later!
+    now_box[0] += 15.0
+    mon.ingest_heartbeat({
+        "account_label": "NODE1",
+        "mt5_running": True,
+        "heartbeat": {"utc_ts": now_box[0] - 415, "terminal_connected": False, "balance": 10000.0, "equity": 10000.0},
+    })
+    assert calls[0] == 2
+    # 3. Second delivery SUCCEEDED -> cooldown IS now armed -> 3rd call 15s later is suppressed!
+    now_box[0] += 15.0
+    mon.ingest_heartbeat({
+        "account_label": "NODE1",
+        "mt5_running": True,
+        "heartbeat": {"utc_ts": now_box[0] - 430, "terminal_connected": False, "balance": 10000.0, "equity": 10000.0},
+    })
+    assert calls[0] == 2
 
 
 def test_pc_heartbeat_sender_dry_run_and_heroku_manifest(tmp_path: Path):

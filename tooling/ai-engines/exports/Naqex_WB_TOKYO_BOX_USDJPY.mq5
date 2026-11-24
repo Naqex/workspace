@@ -31,9 +31,10 @@ double   g_boxBottom = 0.0;
 int OnInit()
 {
    g_guard.Init(trade, _Symbol, InpMagicNumber, InpMaxDailyLossPct);
-   string kDay = StringFormat("NQXG_%I64d_%s_BOXDAY", InpMagicNumber, _Symbol);
-   string kTop = StringFormat("NQXG_%I64d_%s_BOXTOP", InpMagicNumber, _Symbol);
-   string kBot = StringFormat("NQXG_%I64d_%s_BOXBOT", InpMagicNumber, _Symbol);
+   long login = CNaqexPropGuard::CurrentAccountLogin();
+   string kDay = StringFormat("NQXG_%I64d_%I64d_%s_BOXDAY", login, InpMagicNumber, _Symbol);
+   string kTop = StringFormat("NQXG_%I64d_%I64d_%s_BOXTOP", login, InpMagicNumber, _Symbol);
+   string kBot = StringFormat("NQXG_%I64d_%I64d_%s_BOXBOT", login, InpMagicNumber, _Symbol);
    if(GlobalVariableCheck(kDay) && GlobalVariableCheck(kTop) && GlobalVariableCheck(kBot))
    {
       g_boxDay    = (datetime)GlobalVariableGet(kDay);
@@ -41,7 +42,13 @@ int OnInit()
       g_boxBottom = GlobalVariableGet(kBot);
       g_boxReady  = (g_boxTop > 0.0 && g_boxBottom > 0.0);
    }
+   EventSetTimer(15);
    return INIT_SUCCEEDED;
+}
+
+void OnDeinit(const int reason)
+{
+   EventKillTimer();
 }
 
 int LastSundayOfMonth(const int year, const int month)
@@ -74,12 +81,7 @@ void CloseOwnPositions(const string reason)
    {
       ulong ticket = PositionGetTicket(i);
       if(ticket > 0 && PositionGetString(POSITION_SYMBOL) == _Symbol && PositionGetInteger(POSITION_MAGIC) == InpMagicNumber)
-      {
-         if(InpDryRunLogOnly || InpGuardDryRunLogOnly)
-            PrintFormat("[DRYRUN] Would close ticket=%I64u reason=%s", ticket, reason);
-         else
-            trade.PositionClose(ticket);
-      }
+         g_guard.ClosePositionChecked(trade, ticket, reason, InpDryRunLogOnly);
    }
 }
 
@@ -126,9 +128,10 @@ void OnTick()
       else { if(mid > g_boxTop) { g_boxTop = mid; changed = true; } if(mid < g_boxBottom) { g_boxBottom = mid; changed = true; } }
       if(changed)
       {
-         GlobalVariableSet(StringFormat("NQXG_%I64d_%s_BOXDAY", InpMagicNumber, _Symbol), (double)g_boxDay);
-         GlobalVariableSet(StringFormat("NQXG_%I64d_%s_BOXTOP", InpMagicNumber, _Symbol), g_boxTop);
-         GlobalVariableSet(StringFormat("NQXG_%I64d_%s_BOXBOT", InpMagicNumber, _Symbol), g_boxBottom);
+         long login = CNaqexPropGuard::CurrentAccountLogin();
+         GlobalVariableSet(StringFormat("NQXG_%I64d_%I64d_%s_BOXDAY", login, InpMagicNumber, _Symbol), (double)g_boxDay);
+         GlobalVariableSet(StringFormat("NQXG_%I64d_%I64d_%s_BOXTOP", login, InpMagicNumber, _Symbol), g_boxTop);
+         GlobalVariableSet(StringFormat("NQXG_%I64d_%I64d_%s_BOXBOT", login, InpMagicNumber, _Symbol), g_boxBottom);
       }
       return;
    }
@@ -149,8 +152,22 @@ void OnTick()
    else if(bid <= g_boxBottom)
    {
       double sl = NormalizeDouble(g_boxTop, digits);
-      double lots = g_guard.ComputeSafeLots(InpRiskPercent, sl - bid);
+      double lots = g_guard.ComputeSafeLots(InpRiskPercent, sl - bid, false);
       if(lots > 0.0 && g_guard.ExecuteChecked(trade, false, lots, bid, sl, "Naqex_WB_TOKYO_SELL", InpDryRunLogOnly))
          g_guard.MarkTradedToday(utcDay);
    }
+}
+
+void OnTimer()
+{
+   datetime nowUtc = g_guard.NowUTC();
+   MqlDateTime utc; TimeToStruct(nowUtc, utc);
+   if(utc.day_of_week == 0 || utc.day_of_week == 6 || !HasOpenPosition()) return;
+   int flatUtcHour = InpFlatHourHelsinki - HelsinkiUtcOffsetHours(utc);
+   if(utc.hour >= flatUtcHour || g_guard.IsNearBrokerSessionClose())
+      CloseOwnPositions("HARD_FLAT_TIMER_18H_HELSINKI_SWAP0");
+   else if(g_guard.IsInRedNewsPreFlattenWindow())
+      CloseOwnPositions("NEWS_PRE_FLATTEN_TIMER");
+   else if(g_guard.IsDailyLossBreached())
+      CloseOwnPositions("DAILY_LOSS_TIMER");
 }

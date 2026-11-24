@@ -1,12 +1,14 @@
 {
   "schema": "naqex-red-news-multi-ccy-2026-2027-v1",
   "generated_utc": "2026-11-24T11:00:00Z",
-  "coverage": "Late-2026 (Nov-Dec 2026) + Full-Year 2027 across USD, GBP, EUR, JPY",
+  "coverage": "Late-2026 (Nov-Dec 2026) + Full-Year 2027 across USD, GBP, EUR, JPY, AUD, CAD",
   "currencies": [
     "USD",
     "GBP",
     "EUR",
-    "JPY"
+    "JPY",
+    "AUD",
+    "CAD"
   ],
   "sources": [
     "federalreserve.gov — FOMC 2026 confirmed & 2027 tentative rate decisions (14:00 ET) + Press Conferences (14:30 ET)",
@@ -16,7 +18,9 @@
     "bankofengland.co.uk — BoE MPC Bank Rate 2026-2027 official schedule (12:00 London)",
     "ons.gov.uk — UK Consumer Price Inflation (CPI) 2026-2027 official release calendar (07:00 London)",
     "ecb.europa.eu — ECB Governing Council Monetary Policy Decisions (14:15 Frankfurt) + Press Conferences (14:45 Frankfurt) 2026-2027",
-    "boj.or.jp — BoJ Monetary Policy Meetings 2026-2027 official dates (release time unfixed ~11:30-12:30 JST; anchored 12:00 JST / 03:00 UTC EST03UTC)"
+    "boj.or.jp — BoJ Monetary Policy Meetings 2026-2027 official dates (release time unfixed ~11:30-12:30 JST; anchored 12:00 JST / 03:00 UTC EST03UTC)",
+    "rba.gov.au — RBA Monetary Policy Board cash rate decisions 2026-2027 official schedule (14:30 Australia/Sydney)",
+    "bankofcanada.ca — Bank of Canada policy interest rate announcements 2026-2027 official schedule (09:45 America/Toronto)"
   ],
   "notes": [
     "Frozen red_news_official_2018_2024.json (224 Dev rows) and red_news_official_2025_2026.json (31 2025 + 32 2026 USD rows) remain untouched.",
@@ -24,7 +28,7 @@
     "BoJ MPM dates are official, but announcement minute varies (~11:30-12:30 JST / 02:30-03:30 UTC), so tagged _EST03UTC.",
     "BEA co-releases monthly Personal Income & Outlays (Core PCE) and GDP estimates at 08:30 ET; simultaneous BLS PPI + Census Retail Sales (2027-10-15, 2027-12-15) are deduplicated per (utc_ts, ccy) by build_red_news_calendar.py."
   ],
-  "event_count": 133,
+  "event_count": 151,
   "events": [
     {
       "local_date": "2026-11-05",
@@ -79,6 +83,28 @@
       "ccy": "USD",
       "event": "US_GDP_AND_CORE_PCE_BEA2026",
       "source": "bea.gov",
+      "confidence": "OFFICIAL_CONFIRMED"
+    },
+    {
+      "local_date": "2026-12-08",
+      "local_time": "14:30",
+      "tz_name": "Australia/Sydney",
+      "utc_ts": 1796700600,
+      "utc_iso": "2026-12-08T03:30:00Z",
+      "ccy": "AUD",
+      "event": "RBA_RATE_RBA2026",
+      "source": "rba.gov.au",
+      "confidence": "OFFICIAL_CONFIRMED"
+    },
+    {
+      "local_date": "2026-12-09",
+      "local_time": "09:45",
+      "tz_name": "America/Toronto",
+      "utc_ts": 1796827500,
+      "utc_iso": "2026-12-09T14:45:00Z",
+      "ccy": "CAD",
+      "event": "BOC_RATE_BOC2026",
+      "source": "bankofcanada.ca",
       "confidence": "OFFICIAL_CONFIRMED"
     },
     {
@@ -248,6 +274,17 @@
     },
     {
       "local_date": "2027-01-27",
+      "local_time": "09:45",
+      "tz_name": "America/Toronto",
+      "utc_ts": 1801061100,
+      "utc_iso": "2027-01-27T14:45:00Z",
+      "ccy": "CAD",
+      "event": "BOC_RATE_BOC2027",
+      "source": "bankofcanada.ca",
+      "confidence": "OFFICIAL_CONFIRMED"
+    },
+    {
+      "local_date": "2027-01-27",
       "local_time": "14:00",
       "tz_name": "America/New_York",
       "utc_ts": 1801076400,
@@ -324,6 +361,17 @@
       "confidence": "OFFICIAL_CONFIRMED"
     },
     {
+      "local_date": "2027-02-09",
+      "local_time": "14:30",
+      "tz_name": "Australia/Sydney",
+      "utc_ts": 1802143800,
+      "utc_iso": "2027-02-09T03:30:00Z",
+      "ccy": "AUD",
+      "event": "RBA_RATE_RBA2027",
+      "source": "rba.gov.au",
+      "confidence": "OFFICIAL_CONFIRMED"
+    },
+    {
       "local_date": "2027-02-11",
       "local_time": "08:30",
       "tz_name": "America/New_York",
@@ -376,6 +424,17 @@
       "ccy": "USD",
       "event": "US_GDP_AND_CORE_PCE_BEA2027",
       "source": "bea.gov",
+      "confidence": "OFFICIAL_CONFIRMED"
+    },
+    {
+      "local_date": "2027-03-03",
+      "local_time": "09:45",
+      "tz_name": "America/Toronto",
+      "utc_ts": 1804085100,
+      "utc_iso": "2027-03-03T14:45:00Z",
+      "ccy": "CAD",
+      "event": "BOC_RATE_BOC2027",
+      "source": "bankofcanada.ca",
       "confidence": "OFFICIAL_CONFIRMED"
     },
     {
@@ -489,6 +548,17 @@
       "confidence": "OFFICIAL_CONFIRMED"
     },
     {
+      "local_date": "2027-03-23",
+      "local_time": "14:30",
+      "tz_name": "Australia/Sydney",
+      "utc_ts": 1805772600,
+      "utc_iso": "2027-03-23T03:30:00Z",
+      "ccy": "AUD",
+      "event": "RBA_RATE_RBA2027",
+      "source": "rba.gov.au",
+      "confidence": "OFFICIAL_CONFIRMED"
+    },
+    {
       "local_date": "2027-03-24",
       "local_time": "07:00",
       "tz_name": "Europe/London",
@@ -578,6 +648,17 @@
     },
     {
       "local_date": "2027-04-28",
+      "local_time": "09:45",
+      "tz_name": "America/Toronto",
+      "utc_ts": 1808919900,
+      "utc_iso": "2027-04-28T13:45:00Z",
+      "ccy": "CAD",
+      "event": "BOC_RATE_BOC2027",
+      "source": "bankofcanada.ca",
+      "confidence": "OFFICIAL_CONFIRMED"
+    },
+    {
+      "local_date": "2027-04-28",
       "local_time": "14:00",
       "tz_name": "America/New_York",
       "utc_ts": 1808935200,
@@ -640,6 +721,17 @@
       "ccy": "EUR",
       "event": "ECB_PRESS_CONF_ECB2027",
       "source": "ecb.europa.eu",
+      "confidence": "OFFICIAL_CONFIRMED"
+    },
+    {
+      "local_date": "2027-05-04",
+      "local_time": "14:30",
+      "tz_name": "Australia/Sydney",
+      "utc_ts": 1809405000,
+      "utc_iso": "2027-05-04T04:30:00Z",
+      "ccy": "AUD",
+      "event": "RBA_RATE_RBA2027",
+      "source": "rba.gov.au",
       "confidence": "OFFICIAL_CONFIRMED"
     },
     {
@@ -706,6 +798,17 @@
       "ccy": "USD",
       "event": "US_GDP_AND_CORE_PCE_BEA2027",
       "source": "bea.gov",
+      "confidence": "OFFICIAL_CONFIRMED"
+    },
+    {
+      "local_date": "2027-06-02",
+      "local_time": "09:45",
+      "tz_name": "America/Toronto",
+      "utc_ts": 1811943900,
+      "utc_iso": "2027-06-02T13:45:00Z",
+      "ccy": "CAD",
+      "event": "BOC_RATE_BOC2027",
+      "source": "bankofcanada.ca",
       "confidence": "OFFICIAL_CONFIRMED"
     },
     {
@@ -830,6 +933,17 @@
       "confidence": "OFFICIAL_CONFIRMED"
     },
     {
+      "local_date": "2027-06-22",
+      "local_time": "14:30",
+      "tz_name": "Australia/Sydney",
+      "utc_ts": 1813638600,
+      "utc_iso": "2027-06-22T04:30:00Z",
+      "ccy": "AUD",
+      "event": "RBA_RATE_RBA2027",
+      "source": "rba.gov.au",
+      "confidence": "OFFICIAL_CONFIRMED"
+    },
+    {
       "local_date": "2027-06-25",
       "local_time": "08:30",
       "tz_name": "America/New_York",
@@ -893,6 +1007,17 @@
       "ccy": "GBP",
       "event": "UK_CPI_ONS2027",
       "source": "ons.gov.uk",
+      "confidence": "OFFICIAL_CONFIRMED"
+    },
+    {
+      "local_date": "2027-07-21",
+      "local_time": "09:45",
+      "tz_name": "America/Toronto",
+      "utc_ts": 1816177500,
+      "utc_iso": "2027-07-21T13:45:00Z",
+      "ccy": "CAD",
+      "event": "BOC_RATE_BOC2027",
+      "source": "bankofcanada.ca",
       "confidence": "OFFICIAL_CONFIRMED"
     },
     {
@@ -985,6 +1110,17 @@
     },
     {
       "local_date": "2027-08-10",
+      "local_time": "14:30",
+      "tz_name": "Australia/Sydney",
+      "utc_ts": 1817872200,
+      "utc_iso": "2027-08-10T04:30:00Z",
+      "ccy": "AUD",
+      "event": "RBA_RATE_RBA2027",
+      "source": "rba.gov.au",
+      "confidence": "OFFICIAL_CONFIRMED"
+    },
+    {
+      "local_date": "2027-08-10",
       "local_time": "08:30",
       "tz_name": "America/New_York",
       "utc_ts": 1817901000,
@@ -1047,6 +1183,17 @@
       "ccy": "USD",
       "event": "US_NFP_BLS2027",
       "source": "bls.gov",
+      "confidence": "OFFICIAL_CONFIRMED"
+    },
+    {
+      "local_date": "2027-09-08",
+      "local_time": "09:45",
+      "tz_name": "America/Toronto",
+      "utc_ts": 1820411100,
+      "utc_iso": "2027-09-08T13:45:00Z",
+      "ccy": "CAD",
+      "event": "BOC_RATE_BOC2027",
+      "source": "bankofcanada.ca",
       "confidence": "OFFICIAL_CONFIRMED"
     },
     {
@@ -1160,6 +1307,17 @@
       "confidence": "TIME_ESTIMATED"
     },
     {
+      "local_date": "2027-09-28",
+      "local_time": "14:30",
+      "tz_name": "Australia/Sydney",
+      "utc_ts": 1822105800,
+      "utc_iso": "2027-09-28T04:30:00Z",
+      "ccy": "AUD",
+      "event": "RBA_RATE_RBA2027",
+      "source": "rba.gov.au",
+      "confidence": "OFFICIAL_CONFIRMED"
+    },
+    {
       "local_date": "2027-09-30",
       "local_time": "08:30",
       "tz_name": "America/New_York",
@@ -1227,6 +1385,17 @@
     },
     {
       "local_date": "2027-10-27",
+      "local_time": "09:45",
+      "tz_name": "America/Toronto",
+      "utc_ts": 1824644700,
+      "utc_iso": "2027-10-27T13:45:00Z",
+      "ccy": "CAD",
+      "event": "BOC_RATE_BOC2027",
+      "source": "bankofcanada.ca",
+      "confidence": "OFFICIAL_CONFIRMED"
+    },
+    {
+      "local_date": "2027-10-27",
       "local_time": "14:00",
       "tz_name": "America/New_York",
       "utc_ts": 1824660000,
@@ -1279,6 +1448,17 @@
       "event": "BOJ_RATE_BOJ2027_EST03UTC",
       "source": "boj.or.jp",
       "confidence": "TIME_ESTIMATED"
+    },
+    {
+      "local_date": "2027-11-02",
+      "local_time": "14:30",
+      "tz_name": "Australia/Sydney",
+      "utc_ts": 1825126200,
+      "utc_iso": "2027-11-02T03:30:00Z",
+      "ccy": "AUD",
+      "event": "RBA_RATE_RBA2027",
+      "source": "rba.gov.au",
+      "confidence": "OFFICIAL_CONFIRMED"
     },
     {
       "local_date": "2027-11-04",
@@ -1391,6 +1571,17 @@
       "confidence": "OFFICIAL_CONFIRMED"
     },
     {
+      "local_date": "2027-12-08",
+      "local_time": "09:45",
+      "tz_name": "America/Toronto",
+      "utc_ts": 1828277100,
+      "utc_iso": "2027-12-08T14:45:00Z",
+      "ccy": "CAD",
+      "event": "BOC_RATE_BOC2027",
+      "source": "bankofcanada.ca",
+      "confidence": "OFFICIAL_CONFIRMED"
+    },
+    {
       "local_date": "2027-12-10",
       "local_time": "08:30",
       "tz_name": "America/New_York",
@@ -1399,6 +1590,17 @@
       "ccy": "USD",
       "event": "US_CPI_BLS2027",
       "source": "bls.gov",
+      "confidence": "OFFICIAL_CONFIRMED"
+    },
+    {
+      "local_date": "2027-12-14",
+      "local_time": "14:30",
+      "tz_name": "Australia/Sydney",
+      "utc_ts": 1828755000,
+      "utc_iso": "2027-12-14T03:30:00Z",
+      "ccy": "AUD",
+      "event": "RBA_RATE_RBA2027",
+      "source": "rba.gov.au",
       "confidence": "OFFICIAL_CONFIRMED"
     },
     {

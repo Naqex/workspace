@@ -171,6 +171,7 @@ def test_vps_24x5_install_and_flat_only_sync_scripts(tmp_path: Path):
             "powershell", "-NoProfile", "-ExecutionPolicy", "Bypass",
             "-File", str(sync_ps),
             "-TargetMt5Root", str(mt5_target),
+            "-NowUtcOverride", "1795498015",
             "-DryRun",
         ],
         capture_output=True, text=True, check=False,
@@ -178,13 +179,28 @@ def test_vps_24x5_install_and_flat_only_sync_scripts(tmp_path: Path):
     assert p2.returncode == 2
     assert json.loads(p2.stdout)["status"] == "BLOCKED_OPEN_POSITIONS"
 
-    # 3. Succeeds cleanly in DryRun when open_positions == 0!
+    # 2b. Fail-closed on stale heartbeat (> 180s) even when open_positions == 0!
     (files_dir / "naqex_heartbeat.json").write_text(json.dumps({"open_positions": 0, "utc_ts": 1795498000}), encoding="utf-8")
+    p2b = subprocess.run(
+        [
+            "powershell", "-NoProfile", "-ExecutionPolicy", "Bypass",
+            "-File", str(sync_ps),
+            "-TargetMt5Root", str(mt5_target),
+            "-NowUtcOverride", "1795498500",
+            "-DryRun",
+        ],
+        capture_output=True, text=True, check=False,
+    )
+    assert p2b.returncode == 2
+    assert json.loads(p2b.stdout)["status"] == "BLOCKED_STALE_HEARTBEAT"
+
+    # 3. Succeeds cleanly in DryRun when open_positions == 0 and heartbeat is fresh!
     p3 = subprocess.run(
         [
             "powershell", "-NoProfile", "-ExecutionPolicy", "Bypass",
             "-File", str(sync_ps),
             "-TargetMt5Root", str(mt5_target),
+            "-NowUtcOverride", "1795498015",
             "-DryRun",
         ],
         capture_output=True, text=True, check=False,

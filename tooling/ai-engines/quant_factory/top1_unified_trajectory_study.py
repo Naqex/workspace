@@ -72,6 +72,13 @@ LIVE8_IDS: tuple[str, ...] = (
     "E7_USDJPY_NY10ET",
     "S6_FX_USD_BSK",
 )
+CORE7_IDS: tuple[str, ...] = tuple(e for e in LIVE8_IDS if e != "S6_FX_USD_BSK")
+INVESTABLE_OB_SLEEVES: tuple[str, ...] = (
+    "S2_CRYPTO_SPOT",
+    "S3A_FUND_CARRY",
+    "S3B_MACRO_ETF",
+    "S4_ETF40_MULTIFACTOR",
+)
 
 # Sleeve one-way rebalance cost assumptions (bps) matching QUANT-POD-V2-NCO-CEXCAP-AND-REBALANCE-20261124.md
 SLEEVE_REBAL_COST_BPS: dict[str, float] = {
@@ -101,30 +108,22 @@ OUT_JSON = ROOT / "planning/research/TOP1-UNIFIED-PROP-TO-OWNBOOK-TRAJECTORY-202
 # Own-Book NCO_CexCap25 (Monthly_1st) Real Dev Series Loader
 # ---------------------------------------------------------------------------
 
-def build_own_book_nco_cexcap25_series(
-    prop_days: list[str],
-    *,
-    returns_dir: Path = DEFAULT_RETURNS_DIR,
-    train_end: str = "2022-12-31",
-    end_day: str = "2024-12-31",
+def _simulate_monthly_nco_portfolio(
+    ob_days: list[str],
+    mat: np.ndarray,
+    names: list[str],
+    train_end: str,
 ) -> dict[str, Any]:
-    """Compute real sealed Dev Own-Book `NCO_CexCap25` (`Monthly_1st`, CEX <= 25%) daily returns aligned to `prop_days`."""
-    if end_day >= "2025-01-01":
-        raise AssertionError(f"HOLDOUT_CONTAMINATION:{end_day}")
-
-    sleeve_maps, sleeve_metas = discover_available_sleeves(returns_dir, max_sleeves=6)
-    ob_days, mat, names = align_sleeves_business_days(sleeve_maps, end_day=end_day)
-    assert max(ob_days) < "2025-01-01"
-
+    """Run causal Monthly_1st NCO_CexCap25 simulation with EXACT 2-leg rebalance cost (`sum(|Δw_i| * c_i)`)."""
     train_mask = np.array([d <= train_end for d in ob_days])
     mat_tr = mat[train_mask]
     w_target = weights_nco_cexcap25(mat_tr, sleeve_ids=names)
 
-    # Verify strict CEX group cap <= 25%
     cex_weight = sum(float(w_target[j]) for j, nm in enumerate(names) if nm in ("S2_CRYPTO_SPOT", "S3A_FUND_CARRY"))
     assert cex_weight <= 0.250001, f"CEX cap violated: {cex_weight:.4f}"
 
-    # Simulate exact Monthly_1st drift & rebalance transaction cost
+    # Exact 2-leg rebalance cost (Astra F10 fix): diff = |w_target - w_cur| sums BOTH sells and buys;
+    # each leg pays one-way cost `costs_frac[i]`, so total rebalance fee = sum(diff * costs_frac) (NO * 0.5!).
     costs_frac = np.array([SLEEVE_REBAL_COST_BPS.get(nm, 5.0) / 10_000.0 for nm in names], dtype=np.float64)
     w_cur = w_target.copy()
     ob_ret_monthly = np.zeros(len(ob_days), dtype=np.float64)
@@ -138,7 +137,7 @@ def build_own_book_nco_cexcap25_series(
         if t > 0 and ym != prev_ym:
             diff = np.abs(w_target - w_cur)
             turnover = 0.5 * float(np.sum(diff))
-            tc = float(np.sum(diff * costs_frac)) * 0.5
+            tc = float(np.sum(diff * costs_frac))
             total_turnover += turnover
             n_rebals += 1
             w_cur = w_target.copy()
@@ -147,40 +146,86 @@ def build_own_book_nco_cexcap25_series(
         r_vec = mat[t]
         port_r = float(np.dot(w_cur, r_vec)) - tc
         ob_ret_monthly[t] = port_r
-        # Drift weights causally into next day
         grown = w_cur * (1.0 + r_vec)
         gs = float(np.sum(grown))
         if gs > 1e-12:
             w_cur = grown / gs
 
-    # Align date-for-date onto `prop_days` (2020-2024 exact same calendar day; 2018-2019 mapped deterministically)
-    ob_by_day = {ob_days[t]: float(ob_ret_monthly[t]) for t in range(len(ob_days))}
-    aligned_ob = np.zeros(len(prop_days), dtype=np.float64)
-    n_ob = len(ob_days)
-    for i, dk in enumerate(prop_days):
-        if dk in ob_by_day:
-            aligned_ob[i] = ob_by_day[dk]
-        else:
-            aligned_ob[i] = float(ob_ret_monthly[i % n_ob])
-
     metrics_full = compute_series_metrics(ob_ret_monthly, ann_days=252.0)
     oos_mask = ~train_mask
     metrics_oos = compute_series_metrics(ob_ret_monthly[oos_mask], ann_days=252.0)
     yrs = max(1.0, len(ob_days) / 252.0)
-
     return {
-        "aligned_daily_returns": aligned_ob,
-        "raw_overlap_returns": ob_ret_monthly,
-        "overlap_window": f"{ob_days[0]}..{ob_days[-1]} ({len(ob_days)} biz days)",
+        "returns": ob_ret_monthly,
         "sleeve_names": names,
         "weights_pct": {nm: round(100.0 * float(w_target[j]), 2) for j, nm in enumerate(names)},
         "total_cex_weight_pct": round(100.0 * cex_weight, 2),
-        "rebalance_schedule": "Monthly_1st",
         "rebalance_count": n_rebals,
         "annual_turnover_pct": round(100.0 * total_turnover / yrs, 2),
         "metrics_full_dev": metrics_full,
         "metrics_blind_oos_2023_2024": metrics_oos,
         "expected_monthly_net_ret": float(np.mean(ob_ret_monthly)) * DAYS_PER_MONTH,
+    }
+
+
+def build_own_book_nco_cexcap25_series(
+    prop_days: list[str],
+    *,
+    returns_dir: Path = DEFAULT_RETURNS_DIR,
+    train_end: str = "2022-12-31",
+    end_day: str = "2024-12-31",
+    investable_only: bool = True,
+) -> dict[str, Any]:
+    """Compute real sealed Dev Own-Book `NCO_CexCap25` (`Monthly_1st`, CEX <= 25%) daily returns aligned cleanly to `prop_days`.
+
+    Astra F10 fixes:
+      1. Exact 2-leg rebalance cost (`sum(|Δw_i| * c_i)`, removed erroneous `* 0.5`).
+      2. ZERO future-date modulo wrapping (`i % n_ob` removed!): dates outside the true overlap window
+         receive `0.0` (cash, zero lookahead) and `overlap_days` is exposed for exact contemporaneous coupling.
+      3. Defaults to `investable_only=True` (`S2 + S3A + S3B + S4`, excluding Prop sleeves S1/S5 to eliminate
+         double-counting Prop returns inside Own-Book), while also reporting the 6-sleeve pod reference!
+    """
+    if end_day >= "2025-01-01":
+        raise AssertionError(f"HOLDOUT_CONTAMINATION:{end_day}")
+
+    sleeve_maps_all, _ = discover_available_sleeves(returns_dir, max_sleeves=6)
+    ob_days_6, mat_6, names_6 = align_sleeves_business_days(sleeve_maps_all, end_day=end_day)
+    assert max(ob_days_6) < "2025-01-01"
+    ref_6 = _simulate_monthly_nco_portfolio(ob_days_6, mat_6, names_6, train_end)
+
+    if investable_only:
+        inv_maps = {k: v for k, v in sleeve_maps_all.items() if k in INVESTABLE_OB_SLEEVES}
+        ob_days, mat, names = align_sleeves_business_days(inv_maps, end_day=end_day)
+        primary = _simulate_monthly_nco_portfolio(ob_days, mat, names, train_end)
+    else:
+        ob_days = ob_days_6
+        primary = ref_6
+
+    # Strict zero-lookahead date alignment: EXACT calendar-day match only; unmatched pre-2020 dates -> 0.0 cash!
+    ob_by_day = {ob_days[t]: float(primary["returns"][t]) for t in range(len(ob_days))}
+    aligned_ob = np.array([ob_by_day.get(dk, 0.0) for dk in prop_days], dtype=np.float64)
+
+    return {
+        "aligned_daily_returns": aligned_ob,
+        "raw_overlap_returns": primary["returns"],
+        "overlap_days": ob_days,
+        "overlap_window": f"{ob_days[0]}..{ob_days[-1]} ({len(ob_days)} biz days)",
+        "investable_own_book_only": bool(investable_only),
+        "sleeve_names": primary["sleeve_names"],
+        "weights_pct": primary["weights_pct"],
+        "total_cex_weight_pct": primary["total_cex_weight_pct"],
+        "rebalance_schedule": "Monthly_1st",
+        "rebalance_count": primary["rebalance_count"],
+        "annual_turnover_pct": primary["annual_turnover_pct"],
+        "metrics_full_dev": primary["metrics_full_dev"],
+        "metrics_blind_oos_2023_2024": primary["metrics_blind_oos_2023_2024"],
+        "expected_monthly_net_ret": primary["expected_monthly_net_ret"],
+        "full_6sleeve_pod_reference": {
+            "sleeve_names": ref_6["sleeve_names"],
+            "weights_pct": ref_6["weights_pct"],
+            "metrics_full_dev": ref_6["metrics_full_dev"],
+            "metrics_blind_oos_2023_2024": ref_6["metrics_blind_oos_2023_2024"],
+        },
     }
 
 
@@ -233,6 +278,7 @@ def _simulate_unified_trajectory_numba(
     slot_red_dd: np.ndarray,
     slot_red_scale: np.ndarray,
     slot_ea_stop: np.ndarray,
+    slot_min_payout: np.ndarray,
     # Capital, Treasury & Crossover calibration
     init_fee_budget: float,
     init_own_book: float,
@@ -474,15 +520,15 @@ def _simulate_unified_trajectory_numba(
                 static_floor = cap_s * (1.0 - slot_static_lim[s])
                 ea_cut = cap_s * slot_ea_stop[s]
 
-                # Realistic broker continuous tick-monitor physics (identical to Cycle 1 audit!)
+                # Realistic broker continuous tick-monitor physics (Astra F09 fix):
+                # Check raw daily_cap AND raw static_floor FIRST; charge full 0.20% exit slip on ea_cut!
                 daily_hit = dd >= daily_cap - 1e-9
-                if (not daily_hit) and (dd > ea_cut):
+                static_hit = (bal[s] - dd) <= static_floor + 1e-9
+                if (not daily_hit) and (not static_hit) and (dd > ea_cut):
                     dd_eff = min(dd, ea_cut + cap_s * 0.0020)
-                    net = min(net, -ea_cut)
+                    net = min(net, -dd_eff)
                     daily_hit = dd_eff >= daily_cap - 1e-9
                     static_hit = (bal[s] - dd_eff) <= static_floor + 1e-9
-                else:
-                    static_hit = (bal[s] - dd) <= static_floor + 1e-9
 
                 if daily_hit or static_hit:
                     fails_today += 1
@@ -521,6 +567,8 @@ def _simulate_unified_trajectory_numba(
                         prof = bal[s] - cap_s
                         if prof > 0.0:
                             net_pay = prof * slot_split[s]
+                            if net_pay < slot_min_payout[s] - 1e-9:
+                                continue
                             bal[s] = cap_s
                             if refunded[s] == 0:
                                 refunded[s] = 1
@@ -759,6 +807,7 @@ def _pack_unified_slots(slots: list[dict[str, Any]]) -> tuple[np.ndarray, ...]:
         np.array([float(s["red_dd"]) for s in slots], dtype=np.float64),
         np.array([float(s["red_scale"]) for s in slots], dtype=np.float64),
         np.array([float(s["ea_stop"]) for s in slots], dtype=np.float64),
+        np.array([float(s.get("min_payout_usd", 150.0 if int(s["refund_is_hub"]) == 1 else 0.0)) for s in slots], dtype=np.float64),
     )
 
 
@@ -800,63 +849,70 @@ def build_old_repeated_10k_slots() -> list[dict[str, Any]]:
 
 
 def build_smart_tier_ladder_slots() -> list[dict[str, Any]]:
-    """Upgraded Cycle-1 Smart-Tier Ladder (SYMCAP 1.75% + Dyn_ProfitLock + Calibrated 4%/8% 60K, <= 360k cap)."""
+    """Upgraded Cycle-1 Smart-Tier Ladder (EXACT deployed 4.0x/7E presets + Gate-42 cushion + Calibrated 4%/8% 50K, <= 350k cap)."""
     return [
-        # Slot 0 (Day 0): The5ers HS 5K starter (39 USD, 5%/10% DD, SYMCAP 1.75%)
+        # Slot 0 (Day 0): The5ers HS 5K starter (39 USD, 5%/10% DD, SYMCAP 1.75%, min payout 150 USD)
         {
             "book_id": 0, "cap": 5_000.0, "fee": 39.0, "refund_ratio": 0.70, "refund_is_hub": 1,
             "p1_target": 0.08, "p2_target": 0.05, "daily_lim": 0.05, "static_lim": 0.10,
             "min_days": 3, "min_prof_day": 0.005, "split": 0.80, "payout_cycle": 10,
             "start_day": 0, "retry_disc": 0.90, "req_funded_first": 0, "cushion_mult": 1.0,
-            "amber_dd": 0.035, "amber_scale": 0.65, "red_dd": 0.060, "red_scale": 0.40, "ea_stop": 0.038,
+            "amber_dd": 0.075, "amber_scale": 1.50, "red_dd": 0.090, "red_scale": 1.125, "ea_stop": 0.042,
+            "min_payout_usd": 150.0,
         },
-        # Slot 1 (Day 42): FTMO Swing 25K (270 USD, skips expensive 10K fee drag!)
+        # Slot 1 (Day 42 Gate): FTMO Swing 25K (270 USD) — Astra F12 cashflow discipline: requires >= 2.0x fee cushion (540 USD)!
         {
             "book_id": 0, "cap": 25_000.0, "fee": 270.0, "refund_ratio": 1.00, "refund_is_hub": 0,
             "p1_target": 0.10, "p2_target": 0.05, "daily_lim": 0.05, "static_lim": 0.10,
             "min_days": 4, "min_prof_day": 0.0, "split": 0.80, "payout_cycle": 10,
-            "start_day": 42, "retry_disc": 1.00, "req_funded_first": 0, "cushion_mult": 1.15,
-            "amber_dd": 0.035, "amber_scale": 0.65, "red_dd": 0.060, "red_scale": 0.40, "ea_stop": 0.038,
+            "start_day": 42, "retry_disc": 1.00, "req_funded_first": 0, "cushion_mult": 2.0,
+            "amber_dd": 0.075, "amber_scale": 1.50, "red_dd": 0.090, "red_scale": 1.125, "ea_stop": 0.042,
+            "min_payout_usd": 0.0,
         },
-        # Slot 2 (Day 84): The5ers HS 20K (189 USD, 5%/10% DD, SYMCAP 1.75%)
+        # Slot 2 (Day 84): The5ers HS 20K (189 USD, 5%/10% DD, SYMCAP 1.75%, funded-first gate!)
         {
             "book_id": 0, "cap": 20_000.0, "fee": 189.0, "refund_ratio": 0.70, "refund_is_hub": 1,
             "p1_target": 0.08, "p2_target": 0.05, "daily_lim": 0.05, "static_lim": 0.10,
             "min_days": 3, "min_prof_day": 0.005, "split": 0.80, "payout_cycle": 10,
             "start_day": 84, "retry_disc": 0.90, "req_funded_first": 1, "cushion_mult": 1.75,
-            "amber_dd": 0.035, "amber_scale": 0.65, "red_dd": 0.060, "red_scale": 0.40, "ea_stop": 0.038,
+            "amber_dd": 0.075, "amber_scale": 1.50, "red_dd": 0.090, "red_scale": 1.125, "ea_stop": 0.042,
+            "min_payout_usd": 150.0,
         },
-        # Slot 3 (Day 126): FTMO Swing 50K (360 USD, EV/Fee 8.93x!)
+        # Slot 3 (Day 126): FTMO Swing 50K (360 USD)
         {
             "book_id": 0, "cap": 50_000.0, "fee": 360.0, "refund_ratio": 1.00, "refund_is_hub": 0,
             "p1_target": 0.10, "p2_target": 0.05, "daily_lim": 0.05, "static_lim": 0.10,
             "min_days": 4, "min_prof_day": 0.0, "split": 0.80, "payout_cycle": 10,
             "start_day": 126, "retry_disc": 1.00, "req_funded_first": 1, "cushion_mult": 2.0,
-            "amber_dd": 0.035, "amber_scale": 0.65, "red_dd": 0.060, "red_scale": 0.40, "ea_stop": 0.038,
+            "amber_dd": 0.075, "amber_scale": 1.50, "red_dd": 0.090, "red_scale": 1.125, "ea_stop": 0.042,
+            "min_payout_usd": 0.0,
         },
-        # Slot 4 (Day 168): The5ers HS 60K (329 USD, strict 4%/8% DD w/ CALIBRATED 2.75x / SYMCAP 1.15% / EA 2.8%!)
+        # Slot 4 (Day 168): The5ers HS 50K (329 USD, checkout-verified tier; strict 4%/8% DD calibrated 2.75x / SYMCAP 1.15% / EA 2.8%!)
         {
-            "book_id": 1, "cap": 60_000.0, "fee": 329.0, "refund_ratio": 0.70, "refund_is_hub": 1,
+            "book_id": 1, "cap": 50_000.0, "fee": 329.0, "refund_ratio": 0.70, "refund_is_hub": 1,
             "p1_target": 0.08, "p2_target": 0.05, "daily_lim": 0.04, "static_lim": 0.08,
             "min_days": 3, "min_prof_day": 0.005, "split": 0.80, "payout_cycle": 10,
             "start_day": 168, "retry_disc": 0.90, "req_funded_first": 1, "cushion_mult": 2.0,
             "amber_dd": 0.024, "amber_scale": 0.60, "red_dd": 0.048, "red_scale": 0.35, "ea_stop": 0.028,
+            "min_payout_usd": 150.0,
         },
-        # Slot 5 (Day 210): FTMO Swing 100K #1 (560 USD, EV/Fee 11.60x!)
+        # Slot 5 (Day 210): FTMO Swing 100K #1 (560 USD)
         {
             "book_id": 0, "cap": 100_000.0, "fee": 560.0, "refund_ratio": 1.00, "refund_is_hub": 0,
             "p1_target": 0.10, "p2_target": 0.05, "daily_lim": 0.05, "static_lim": 0.10,
             "min_days": 4, "min_prof_day": 0.0, "split": 0.80, "payout_cycle": 10,
             "start_day": 210, "retry_disc": 1.00, "req_funded_first": 1, "cushion_mult": 2.0,
-            "amber_dd": 0.035, "amber_scale": 0.65, "red_dd": 0.060, "red_scale": 0.40, "ea_stop": 0.038,
+            "amber_dd": 0.075, "amber_scale": 1.50, "red_dd": 0.090, "red_scale": 1.125, "ea_stop": 0.042,
+            "min_payout_usd": 0.0,
         },
-        # Slot 6 (Day 252): FTMO Swing 100K #2 (560 USD -> Total max nominal 360k USD across 2 firms!)
+        # Slot 6 (Day 252): FTMO Swing 100K #2 (560 USD -> Total max nominal 350k USD across 2 firms!)
         {
             "book_id": 0, "cap": 100_000.0, "fee": 560.0, "refund_ratio": 1.00, "refund_is_hub": 0,
             "p1_target": 0.10, "p2_target": 0.05, "daily_lim": 0.05, "static_lim": 0.10,
             "min_days": 4, "min_prof_day": 0.0, "split": 0.80, "payout_cycle": 10,
             "start_day": 252, "retry_disc": 1.00, "req_funded_first": 1, "cushion_mult": 2.0,
-            "amber_dd": 0.035, "amber_scale": 0.65, "red_dd": 0.060, "red_scale": 0.40, "ea_stop": 0.038,
+            "amber_dd": 0.075, "amber_scale": 1.50, "red_dd": 0.090, "red_scale": 1.125, "ea_stop": 0.042,
+            "min_payout_usd": 0.0,
         },
     ]
 
@@ -1031,7 +1087,7 @@ def build_top1_scorecard_and_pain_table(
     }
 
 
-def run_study(*, n_paths: int = DEFAULT_N_PATHS, write_report: bool = True) -> dict[str, Any]:
+def run_study(*, n_paths: int = DEFAULT_N_PATHS, write_report: bool = True, overwrite: bool = False) -> dict[str, Any]:
     t0 = time.perf_counter()
     lock_sha = assert_holdout_locked()
 
@@ -1042,46 +1098,52 @@ def run_study(*, n_paths: int = DEFAULT_N_PATHS, write_report: bool = True) -> d
     ext_days = sorted(warm["ext_days"])
     assert max(ext_days) < "2025-01-01", f"HOLDOUT_CONTAMINATION:{max(ext_days)}"
 
+    tapes_125x = apply_cost_stress_to_tapes(tapes_1x, 1.25)
     tapes_15x = apply_cost_stress_to_tapes(tapes_1x, 1.5)
     base_r = {e["id"]: float(e["base_risk_pct"]) / 100.0 for e in reg["engines"]}
 
-    # Build date-coupled Own-Book NCO_CexCap25 (Monthly_1st) series
-    ob_info = build_own_book_nco_cexcap25_series(ext_days)
+    # Build pure investable Own-Book NCO_CexCap25 (S2+S3A+S3B+S4, zero Prop double-counting, zero modulo lookahead!)
+    ob_probe = build_own_book_nco_cexcap25_series(ext_days, investable_only=True)
+    ob_day_set = set(ob_probe["overlap_days"])
+    # Strict contemporaneous date intersection (2020-01-02..2024-12-31) — ZERO future-date recycling!
+    coupled_days = [d for d in ext_days if d in ob_day_set]
+    assert len(coupled_days) >= 1_000 and max(coupled_days) < "2025-01-01"
+    ob_info = build_own_book_nco_cexcap25_series(coupled_days, investable_only=True)
     ob_daily_ret = ob_info["aligned_daily_returns"]
 
-    # Helper to replay & extract exact M1 staged arrays for each friction regime
+    # Helper to replay & extract exact M1 staged arrays on exact deployed presets (7E Core on P2/Funded!)
     def _build_books_for_friction(tapes_use: dict[str, dict]) -> tuple[dict[str, Any], float]:
-        def _rep(mult: float, symcap_pct: float):
-            risks = {k: base_r[k] * mult for k in LIVE8_IDS}
+        def _rep(mult: float, symcap_pct: float, *, use_core7: bool = False, use_red_news: bool = True):
+            eng_ids = CORE7_IDS if use_core7 else LIVE8_IDS
+            risks = {k: base_r[k] * mult for k in eng_ids}
             met, ex = replay_portfolio_m1(
-                ext_days, tapes_use, risks, 10_000.0,
+                coupled_days, tapes_use, risks, 10_000.0,
                 profile_mode="Swing",
                 max_symbol_concurrent_risk=symcap_pct / 100.0,
-                red_news_cal=red_news,
+                red_news_cal=(red_news if use_red_news else None),
             )
-            n, d, f = exits_to_daily_arrays(ext_days, ex)
+            n, d, f = exits_to_daily_arrays(coupled_days, ex)
             return met, n, d, f
 
-        # Book 0: Upgraded 5%/10% (`SYMCAP 1.75%`, Dyn_ProfitLock 4.5->2.0 / 2.5->1.5 / 1.0)
-        m_fn, b0_fn_n, b0_fn_d, b0_fn_f = _rep(1.00, 1.75)
-        _, b0_p1s_n, b0_p1s_d, b0_p1s_f = _rep(4.50, 1.75)
-        _, b0_p1l_n, b0_p1l_d, b0_p1l_f = _rep(2.00, 1.75)
-        _, b0_p2s_n, b0_p2s_d, b0_p2s_f = _rep(2.50, 1.75)
-        _, b0_p2l_n, b0_p2l_d, b0_p2l_f = _rep(1.50, 1.75)
+        # Book 0: Exact Deployed 5%/10% (`SYMCAP 1.75%` P1 4.00x->2.01x LIVE8; P2 2.50->1.50 7E SYMCAP 1.50%; Funded 1.0x 7E SYMCAP 1.00%)
+        m_fn, b0_fn_n, b0_fn_d, b0_fn_f = _rep(1.00, 1.00, use_core7=True, use_red_news=True)
+        _, b0_p1s_n, b0_p1s_d, b0_p1s_f = _rep(4.00, 1.75, use_core7=False, use_red_news=True)
+        _, b0_p1l_n, b0_p1l_d, b0_p1l_f = _rep(2.01, 1.75, use_core7=False, use_red_news=True)
+        _, b0_p2s_n, b0_p2s_d, b0_p2s_f = _rep(2.50, 1.50, use_core7=True, use_red_news=True)
+        _, b0_p2l_n, b0_p2l_d, b0_p2l_f = _rep(1.50, 1.50, use_core7=True, use_red_news=True)
 
-        # Book 1: Calibrated 4%/8% Safe (`SYMCAP 1.15%`, 2.75->1.50 / 2.00->1.25 / 1.0)
-        _, b1_fn_n, b1_fn_d, b1_fn_f = _rep(1.00, 1.15)
-        _, b1_p1s_n, b1_p1s_d, b1_p1s_f = _rep(2.75, 1.15)
-        _, b1_p1l_n, b1_p1l_d, b1_p1l_f = _rep(1.50, 1.15)
-        _, b1_p2s_n, b1_p2s_d, b1_p2s_f = _rep(2.00, 1.15)
-        _, b1_p2l_n, b1_p2l_d, b1_p2l_f = _rep(1.25, 1.15)
+        # Book 1: Calibrated 4%/8% Safe (`SYMCAP 1.15%`, 2.75->1.50 LIVE8; P2 2.00->1.25 7E; Funded 1.0x 7E SYMCAP 1.00%)
+        _, b1_fn_n, b1_fn_d, b1_fn_f = _rep(1.00, 1.00, use_core7=True, use_red_news=True)
+        _, b1_p1s_n, b1_p1s_d, b1_p1s_f = _rep(2.75, 1.15, use_core7=False, use_red_news=True)
+        _, b1_p1l_n, b1_p1l_d, b1_p1l_f = _rep(1.50, 1.15, use_core7=False, use_red_news=True)
+        _, b1_p2s_n, b1_p2s_d, b1_p2s_f = _rep(2.00, 1.15, use_core7=True, use_red_news=True)
+        _, b1_p2l_n, b1_p2l_d, b1_p2l_f = _rep(1.25, 1.15, use_core7=True, use_red_news=True)
 
-        # Book 2: Old Legacy Repeated-10K (`SYMCAP 3.00%`, Static P1 4.00x / P2 2.00x / Funded 1.0x)
-        _, b2_fn_n, b2_fn_d, b2_fn_f = _rep(1.00, 3.00)
-        _, b2_p1s_n, b2_p1s_d, b2_p1s_f = _rep(4.00, 3.00)
-        _, b2_p2s_n, b2_p2s_d, b2_p2s_f = _rep(2.00, 3.00)
+        # Book 2: Old Legacy Repeated-10K (`SYMCAP 3.00%`, Static P1 4.00x / P2 2.00x / Funded 1.0x 7E)
+        _, b2_fn_n, b2_fn_d, b2_fn_f = _rep(1.00, 1.00, use_core7=True, use_red_news=True)
+        _, b2_p1s_n, b2_p1s_d, b2_p1s_f = _rep(4.00, 3.00, use_core7=False, use_red_news=True)
+        _, b2_p2s_n, b2_p2s_d, b2_p2s_f = _rep(2.00, 3.00, use_core7=True, use_red_news=True)
 
-        # Expected Funded monthly net return after 80% split (for Crossover Milestone D)
         exp_prop_mo = float(np.mean(b0_fn_n) / 10_000.0) * DAYS_PER_MONTH * 0.80
         books = {
             "arrays": (
@@ -1105,33 +1167,36 @@ def run_study(*, n_paths: int = DEFAULT_N_PATHS, write_report: bool = True) -> d
         return books, float(m_fn["ann_pct"]["all"])
 
     books_1x, prop_1x_ann = _build_books_for_friction(tapes_1x)
+    books_125x, prop_125x_ann = _build_books_for_friction(tapes_125x)
     books_15x, prop_15x_ann = _build_books_for_friction(tapes_15x)
 
     idx_mat = make_block_bootstrap_indices(
-        len(ext_days), horizon=HORIZON_DAYS, n_paths=n_paths, block_len=BLOCK_LEN, seed=SEED,
+        len(coupled_days), horizon=HORIZON_DAYS, n_paths=n_paths, block_len=BLOCK_LEN, seed=SEED,
     )
 
     old_slots_packed = _pack_unified_slots(build_old_repeated_10k_slots())
     smart_slots_packed = _pack_unified_slots(build_smart_tier_ladder_slots())
 
     scenario_defs = [
-        # Old Repeated-10K baseline (3 fee budgets, 0 OB seed)
+        # Old Repeated-10K baseline (3 fee budgets, 0 OB seed, cap 100k)
         ("OLD_10K_B500_OB0",    "Old Repeated-10K (SYMCAP 3.0%)",    "OLD_10K",    500.0,     0.0, old_slots_packed,   100_000.0),
         ("OLD_10K_B1500_OB0",   "Old Repeated-10K (SYMCAP 3.0%)",    "OLD_10K",  1_500.0,     0.0, old_slots_packed,   100_000.0),
         ("OLD_10K_B3000_OB0",   "Old Repeated-10K (SYMCAP 3.0%)",    "OLD_10K",  3_000.0,     0.0, old_slots_packed,   100_000.0),
-        # New Smart-Tier Ladder (pure Prop -> Own-Book, 3 fee budgets)
-        ("SMART_B500_OB0",      "Smart-Tier Ladder (OB Seed 0)",     "SMART_TIER",  500.0,    0.0, smart_slots_packed, 360_000.0),
-        ("SMART_B1500_OB0",     "Smart-Tier Ladder (OB Seed 0)",     "SMART_TIER", 1_500.0,   0.0, smart_slots_packed, 360_000.0),
-        ("SMART_B3000_OB0",     "Smart-Tier Ladder (OB Seed 0)",     "SMART_TIER", 3_000.0,   0.0, smart_slots_packed, 360_000.0),
+        # Matched-cap attribution (Smart-Tier capped at EXACT SAME 100k nominal as Old-10K — isolates pure Fee+SYMCAP edge!)
+        ("SMART_B1500_CAP100K", "Smart-Tier (Matched Cap 100k)",     "SMART_CAP100K", 1_500.0, 0.0, smart_slots_packed, 100_000.0),
+        # New Smart-Tier Ladder (pure Prop -> Own-Book, 3 fee budgets, cap 350k)
+        ("SMART_B500_OB0",      "Smart-Tier Ladder (OB Seed 0)",     "SMART_TIER",  500.0,    0.0, smart_slots_packed, 350_000.0),
+        ("SMART_B1500_OB0",     "Smart-Tier Ladder (OB Seed 0)",     "SMART_TIER", 1_500.0,   0.0, smart_slots_packed, 350_000.0),
+        ("SMART_B3000_OB0",     "Smart-Tier Ladder (OB Seed 0)",     "SMART_TIER", 3_000.0,   0.0, smart_slots_packed, 350_000.0),
         # Hybrid Own-Book Seeds (10k & 25k USD)
-        ("SMART_B1500_OB10K",   "Smart-Tier + Hybrid OB 10k",        "SMART_TIER", 1_500.0, 10_000.0, smart_slots_packed, 360_000.0),
-        ("SMART_B3000_OB10K",   "Smart-Tier + Hybrid OB 10k",        "SMART_TIER", 3_000.0, 10_000.0, smart_slots_packed, 360_000.0),
-        ("SMART_B1500_OB25K",   "Smart-Tier + Hybrid OB 25k",        "SMART_TIER", 1_500.0, 25_000.0, smart_slots_packed, 360_000.0),
-        ("SMART_B3000_OB25K",   "Smart-Tier + Hybrid OB 25k",        "SMART_TIER", 3_000.0, 25_000.0, smart_slots_packed, 360_000.0),
+        ("SMART_B1500_OB10K",   "Smart-Tier + Hybrid OB 10k",        "SMART_TIER", 1_500.0, 10_000.0, smart_slots_packed, 350_000.0),
+        ("SMART_B3000_OB10K",   "Smart-Tier + Hybrid OB 10k",        "SMART_TIER", 3_000.0, 10_000.0, smart_slots_packed, 350_000.0),
+        ("SMART_B1500_OB25K",   "Smart-Tier + Hybrid OB 25k",        "SMART_TIER", 1_500.0, 25_000.0, smart_slots_packed, 350_000.0),
+        ("SMART_B3000_OB25K",   "Smart-Tier + Hybrid OB 25k",        "SMART_TIER", 3_000.0, 25_000.0, smart_slots_packed, 350_000.0),
     ]
 
     scenarios_out: list[dict[str, Any]] = []
-    for fric, bk_obj in (("1.0x", books_1x), ("1.5x", books_15x)):
+    for fric, bk_obj in (("1.0x", books_1x), ("1.25x", books_125x), ("1.5x", books_15x)):
         for sc_id, label, arch, fee_b, ob_seed, spacked, max_nom in scenario_defs:
             sim_res = _simulate_unified_trajectory_numba(
                 idx_mat,
@@ -1209,8 +1274,8 @@ def run_study(*, n_paths: int = DEFAULT_N_PATHS, write_report: bool = True) -> d
         "order_send_count": ORDER_SEND_COUNT,
         "holdout_lock_sha256": lock_sha,
         "holdout_rows_analysed": 0,
-        "dev_window": f"{ext_days[0]}..{ext_days[-1]}",
-        "dev_days_count": len(ext_days),
+        "dev_window": f"{coupled_days[0]}..{coupled_days[-1]}",
+        "dev_days_count": len(coupled_days),
         "mc_paths": n_paths,
         "mc_horizon_months": HORIZON_DAYS // DAYS_PER_MONTH,
         "mc_block_len": BLOCK_LEN,
@@ -1218,7 +1283,7 @@ def run_study(*, n_paths: int = DEFAULT_N_PATHS, write_report: bool = True) -> d
         "usd_vnd_rate": USD_VND_RATE,
         "elapsed_sec": elapsed,
         "own_book_pod": {
-            k: v for k, v in ob_info.items() if k not in ("aligned_daily_returns", "raw_overlap_returns")
+            k: v for k, v in ob_info.items() if k not in ("aligned_daily_returns", "raw_overlap_returns", "overlap_days")
         },
         "highlights": highlights,
         "scenarios": scenarios_out,
@@ -1227,7 +1292,7 @@ def run_study(*, n_paths: int = DEFAULT_N_PATHS, write_report: bool = True) -> d
 
     if write_report:
         OUT_JSON.parent.mkdir(parents=True, exist_ok=True)
-        sha_hex = write_verified_receipt(OUT_JSON, payload)
+        sha_hex = write_verified_receipt(OUT_JSON, payload, overwrite=overwrite)
         payload["receipt_sha256"] = sha_hex
         md_txt = render_trajectory_markdown(payload, sha_hex)
         assert "$" not in md_txt, "Bare '$' detected in trajectory Markdown!"
@@ -1330,9 +1395,13 @@ def render_trajectory_markdown(payload: dict[str, Any], sha_hex: str) -> str:
         f"receipt_sha256: {sha_hex}",
         "---",
         "",
-        "# Mô Phỏng Hợp Nhất 60 Tháng: Lộ Trình Top-1% Quỹ Cấp Vốn -> Vốn Riêng & Tự Nuôi Hạ Tầng (Dev 2018–2024)",
+        "# Mô Phỏng Hợp Nhất 60 Tháng: Lộ Trình Top-1% Quỹ Cấp Vốn -> Vốn Riêng & Tự Nuôi Hạ Tầng (Dev "
+        + payload["dev_window"]
+        + ")",
         "",
-        "> **Niêm phong dữ liệu & Trung thực toán học:** Chạy 100% trên dữ liệu Phát triển niêm phong `2018-2024` (`holdout_rows_analysed = 0`, khóa Holdout `2025+` nguyên vẹn SHA `"
+        "> **Niêm phong dữ liệu & Trung thực toán học:** Chạy 100% trên giao điểm ngày thật của dữ liệu Phát triển niêm phong `"
+        + payload["dev_window"]
+        + "` (`holdout_rows_analysed = 0`, khóa Holdout `2025+` nguyên vẹn SHA `"
         + payload["holdout_lock_sha256"][:16]
         + "...`), `OrderSend = 0`, **5.000 kịch bản Monte Carlo ghép đồng bộ 60 tháng** (`1.260` phiên, `Circular Block-Bootstrap`, độ dài khối `5` ngày, `seed = 20261124`). Tỷ giá quy đổi `1 USD = 25.500 VND`. Sổ Vốn Riêng chạy đúng cấu hình **`NCO_CexCap25`** tái cân bằng `Monthly_1st` (tổng sàn CEX khóa cứng **`"
         + f"{ob['total_cex_weight_pct']:.1f}%"
@@ -1342,7 +1411,7 @@ def render_trajectory_markdown(payload: dict[str, Any], sha_hex: str) -> str:
         "",
         "## 1. Kết Luận Trọng Tâm Dễ Hiểu (Không Tô Hồng)",
         "",
-        "1. **Thang Leo Thông Minh (`Smart-Tier`: `5K -> 25K -> 20K -> 50K -> 60K 4%/8% -> 100K x2`) áp đảo hoàn toàn cách mua lặp lại vé `10K` cũ:**",
+        "1. **Thang Leo Thông Minh (`Smart-Tier`: `5K -> 25K -> 20K -> 50K -> 50K 4%/8% -> 100K x2`, trần `350k USD`, Gate-42 có đệm `2x` phí) áp đảo hoàn toàn cách mua lặp lại vé `10K` cũ:**",
         f"   - Cùng một mức ngân sách vé khởi điểm **`1.500 USD` (`38,2 tr VND`, Vốn Riêng mồi `0 USD`)** ở chi phí chuẩn `1,0x`: sau `60` tháng, trung vị Sổ Vốn Riêng của thang mới đạt **`{int(hl['smart_vs_old_b1500_ob60m_usd'][1]):,} USD`** so với **`{int(hl['smart_vs_old_b1500_ob60m_usd'][0]):,} USD`** của thang `10K` cũ (**gấp `{hl['smart_vs_old_b1500_ob60m_ratio']:.2f}x`**!), đồng thời tỷ lệ cháy sạch quỹ phí giữ ở mức **`{hl['smart_vs_old_b1500_wipeout_pct'][1]:.2f}%`** (so với `{hl['smart_vs_old_b1500_wipeout_pct'][0]:.2f}%` của thang cũ).",
         f"   - Ngay cả khi trượt giá thực tế tăng nặng **`1,5x`**, trung vị Vốn Riêng sau 60 tháng vẫn tăng mạnh từ `{int(hl['smart_vs_old_b1500_15x_ob60m_usd'][0]):,} USD` (cũ) lên **`{int(hl['smart_vs_old_b1500_15x_ob60m_usd'][1]):,} USD`** (mới).",
         "2. **Hạ tầng chuyên nghiệp tự nuôi 100% từ tiền lãi (không bao giờ bỏ tiền túi):**",
@@ -1350,7 +1419,7 @@ def render_trajectory_markdown(payload: dict[str, Any], sha_hex: str) -> str:
         "3. **Sự thật toán học về các mốc Vốn Riêng `50k / 100k / 200k USD` và Điểm Giao Cắt (`Crossover`):**",
         f"   - Đi tay trắng (`OB Seed = 0 USD`), xác suất tự tích lũy Vốn Riêng vượt **`50.000 USD` (`1,275 tỷ VND`)** trong `60` tháng đạt **`{hl['smart_b1500_ob50k_p60m_pct']:.1f}%`** (`Budget 1.500 USD`) và **`{hl['smart_b3000_ob50k_p60m_pct']:.1f}%`** (`Budget 3.000 USD`).",
         f"   - Khi kết hợp **vốn mồi Vốn Riêng `25.000 USD` + `Budget 3.000 USD`**, xác suất vượt **`100.000 USD` (`2,55 tỷ VND`)** đạt **`{hl['smart_b3000_ob25k_ob100k_p60m_pct']:.1f}%`** trong `60` tháng, và xác suất chạm **Điểm Giao Cắt Thật (`Crossover` — sau khi Prop đã Funded >= `25k USD`, lãi ròng tháng Vốn Riêng `1,0x` >= lãi ròng tháng Prop)** trong `60` tháng là **`{hl['smart_b3000_ob25k_crossover_p60m_pct']:.1f}%`**.",
-        f"   - *Ngưỡng Giao Cắt Giải Tích (minh bạch):* Vì Sổ Vốn Riêng `NCO_CexCap25` (`1,0x`, `MaxDD 2,23%`) sinh lãi kỳ vọng `{hl['analytical_crossover']['ob_net_monthly_1x_pct']:.2f}%/tháng` còn Prop Funded `1,0x` sau chia `80%` sinh `{hl['analytical_crossover']['prop_funded_net_monthly_1x_pct']:.2f}%/tháng` trên vốn danh nghĩa, để Vốn Riêng `1,0x` vượt `100k` Prop cần khoảng **`{int(hl['analytical_crossover']['ob_needed_to_beat_100k_prop_1x_usd']):,} USD`** (và vượt `360k` Prop cần **`{int(hl['analytical_crossover']['ob_needed_to_beat_360k_prop_1x_usd']):,} USD`**); nếu nâng Own-Book lên `2,0x` vol (`MaxDD ~4,5%` vẫn rất an toàn), ngưỡng vượt `100k` Prop hạ ngay xuống **`{int(hl['analytical_crossover']['ob_needed_to_beat_100k_prop_2x_vol_usd']):,} USD`**!",
+        f"   - *Ngưỡng Giao Cắt Giải Tích (minh bạch):* Vì Sổ Vốn Riêng thuần 4 nhánh `NCO_CexCap25` (`1,0x`, `MaxDD {ob['metrics_full_dev']['max_dd_pct']:.2f}%`) sinh lãi kỳ vọng `{hl['analytical_crossover']['ob_net_monthly_1x_pct']:.2f}%/tháng` còn Prop Funded `1,0x` (`7E`) sau chia `80%` sinh `{hl['analytical_crossover']['prop_funded_net_monthly_1x_pct']:.2f}%/tháng` trên vốn danh nghĩa, để Vốn Riêng `1,0x` vượt `100k` Prop cần khoảng **`{int(hl['analytical_crossover']['ob_needed_to_beat_100k_prop_1x_usd']):,} USD`** (và vượt `350k` Prop cần **`{int(hl['analytical_crossover']['ob_needed_to_beat_360k_prop_1x_usd']):,} USD`**); nếu nâng Own-Book lên `2,0x` vol, ngưỡng vượt `100k` Prop hạ xuống **`{int(hl['analytical_crossover']['ob_needed_to_beat_100k_prop_2x_vol_usd']):,} USD`**!",
         f"4. **Giá trị kinh tế cực lớn của việc kiểm soát trượt giá (`1,0x` vs `1,5x`) bằng VPS sát sàn tự nuôi:** So sánh bảng `1,0x` (`{int(hl['smart_vs_old_b1500_ob60m_usd'][1]):,} USD`) với `1,5x` (`{int(hl['smart_vs_old_b1500_15x_ob60m_usd'][1]):,} USD`) cho thấy để trượt giá phình lên `1,5x` làm bay hơn `{int(hl['smart_vs_old_b1500_ob60m_usd'][1] - hl['smart_vs_old_b1500_15x_ob60m_usd'][1]):,} USD` tích lũy 5 năm — chứng minh việc trích `35 USD/tháng` từ lãi để chuyển MT5 sang VPS LD4/NY4 ngay khi chạm Mốc A là khoản đầu tư có ROI cao nhất toàn hệ thống.",
         "",
         "## 2. Phần 1 — So Sánh Thang `10K` Cũ vs Thang `Smart-Tier` Mới (`5.000` Kịch Bản × `60` Tháng)",
@@ -1364,7 +1433,14 @@ def render_trajectory_markdown(payload: dict[str, Any], sha_hex: str) -> str:
             _traj_rows("1.0x"),
         ),
         "",
-        "### 2.2. Kịch Bản Stress Trượt Giá Nặng (`1,5x` Chi Phí M1)",
+        "### 2.2. Kịch Bản Stress Trượt Giá Trung Bình (`1,25x` Chi Phí M1)",
+        "",
+        format_markdown_table(
+            ["Kịch Bản (Ngân sách vé B, Vốn mồi OB)", "Cháy Quỹ Vé", "Rớt Đôi", "Vốn Prop Đỉnh (TV)", "EV/Phí 24T", "Vốn Riêng 24T (TV)", "Vốn Riêng 60T (TV / VND)", "Hạ tầng tự trả 60T"],
+            _traj_rows("1.25x"),
+        ),
+        "",
+        "### 2.3. Kịch Bản Stress Trượt Giá Nặng (`1,5x` Chi Phí M1)",
         "",
         format_markdown_table(
             ["Kịch Bản (Ngân sách vé B, Vốn mồi OB)", "Cháy Quỹ Vé", "Rớt Đôi", "Vốn Prop Đỉnh (TV)", "EV/Phí 24T", "Vốn Riêng 24T (TV)", "Vốn Riêng 60T (TV / VND)", "Hạ tầng tự trả 60T"],
@@ -1398,7 +1474,7 @@ def render_trajectory_markdown(payload: dict[str, Any], sha_hex: str) -> str:
             score_rows,
         ),
         "",
-        "- *Ghi chú minh bạch về lợi suất Sổ Vốn Riêng (`NCO_CexCap25`, `1,0x` không đòn bẩy):* Trên tập `2020–2024`, Pod `6` nhánh đạt `CAGR +"
+        "- *Ghi chú minh bạch về lợi suất Sổ Vốn Riêng (`NCO_CexCap25`, `1,0x` không đòn bẩy, **chỉ gồm 4 nhánh Vốn Riêng thuần đầu tư `S2+S3A+S3B+S4` — đã loại bỏ `S1/S5` Prop để không tính trùng**):* Trên tập `2020–2024` khớp ngày trực tiếp (không quay vòng ngày tương lai, tính đủ phí tái cân bằng 2 chiều `sum(|Δw|*c)`), Vốn Riêng thuần 4 nhánh đạt `CAGR +"
         + f"{ob['metrics_full_dev']['cagr_pct']:.2f}%"
         + "`, `MaxDD "
         + f"{ob['metrics_full_dev']['max_dd_pct']:.2f}%"
@@ -1410,7 +1486,9 @@ def render_trajectory_markdown(payload: dict[str, Any], sha_hex: str) -> str:
         + f"{ob['metrics_blind_oos_2023_2024']['sharpe']:.2f}"
         + "`, `MaxDD "
         + f"{ob['metrics_blind_oos_2023_2024']['max_dd_pct']:.2f}%"
-        + "`). Khi tài sản Vốn Riêng đạt chuẩn tổ chức (`>= 100k USD`) và nếu chủ sở hữu muốn tăng tốc đạt chuẩn `+15%..+20%/năm` của Top-1%, chỉ cần nâng biên độ rủi ro mục tiêu của Own-Book từ `1,0x` (`Vol ~3%`) lên `2,0x` (`Vol ~6%`, `MaxDD ~5%` vẫn an toàn dưới trần `8%`) — toàn bộ bảng trên cố tình giữ nguyên `1,0x` không đòn bẩy để phản ánh đường đáy an toàn nhất.",
+        + "`; tham chiếu Pod gộp đủ 6 nhánh gồm Prop đạt `Sharpe "
+        + f"{ob['full_6sleeve_pod_reference']['metrics_full_dev']['sharpe']:.2f}"
+        + "`). Toàn bộ bảng trên giữ nguyên `1,0x` không đòn bẩy để phản ánh đường đáy an toàn nhất.",
         "",
         "### 4.2. Ma Trận Nỗi Đau Tuyệt Đối Theo Mốc Vốn Riêng (`NCO_CexCap25`, `25.500 VND/USD`)",
         "",
@@ -1421,7 +1499,7 @@ def render_trajectory_markdown(payload: dict[str, Any], sha_hex: str) -> str:
         "",
         "## 5. Khuyến Nghị Hành Động Gọn Cho Chủ Quỹ",
         "",
-        "1. **Chốt lộ trình vé Smart-Tier (`5K -> 25K -> 20K -> 50K -> 60K 4%/8% -> 100K`):** Tuyệt đối không đốt tiền mua lặp lại nhiều vé `10K` phí đắt — dùng `The5ers 5K` (`39 USD`) làm bàn đạp rồi nhảy thẳng `FTMO Swing 25K/50K/100K` từ tiền lãi, giúp tăng tài sản Vốn Riêng sau 5 năm gấp nhiều lần trong cùng một ngân sách ban đầu.",
+        "1. **Chốt lộ trình vé Smart-Tier (`5K -> 25K -> 20K -> 50K -> 50K 4%/8% -> 100K`, chỉ mở vé 2 khi đã có payout hoặc đệm >= `2x` phí):** Không đốt tiền mua lặp lại nhiều vé `10K` phí đắt — dùng `The5ers 5K` (`39 USD`) làm bàn đạp rồi nhảy bậc `FTMO Swing 25K/50K/100K` từ tiền lãi.",
         "2. **Khóa cứng nguyên tắc hạ tầng tự nuôi:** Giữ `naqex-node1` (`0 USD/tháng`) tới khi vượt Mốc A (`Ops >= 300 USD/tháng` bền vững hoặc dự phòng Ops `>= 1.200 USD`) mới trích `35 USD/tháng` thuê VPS LD4/NY4; chỉ mua gói dữ liệu sạch `100 USD/tháng` khi tổng vốn quản lý vượt `50.000 USD` và quỹ Ops đủ dày.",
         "3. **Giữ cứng trần sàn CEX `<= 25%` (`NCO_CexCap25`):** Nhìn vào bảng nỗi đau VND — ở mốc `100.000 USD` (`2,55 tỷ VND`), ngay cả kịch bản cực đoan sàn Crypto sập mất trắng `50%`, tổng thiệt hại bị khóa tối đa ở `-328,7 triệu VND` (`-12,89%`) thay vì mất trắng `-1.060 triệu VND` (`-41,58%`) như danh mục không trần.",
         "",
@@ -1435,9 +1513,10 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="Naqex Top-1% Unified Prop-to-OwnBook 60-Month Trajectory Study (OrderSend=0)")
     ap.add_argument("--n-paths", type=int, default=DEFAULT_N_PATHS)
     ap.add_argument("--no-write", action="store_true")
+    ap.add_argument("--overwrite", action="store_true")
     args = ap.parse_args(argv)
 
-    res = run_study(n_paths=args.n_paths, write_report=not args.no_write)
+    res = run_study(n_paths=args.n_paths, write_report=not args.no_write, overwrite=args.overwrite)
     print(f"DONE elapsed={res['elapsed_sec']}s paths={res['mc_paths']} holdout_rows={res['holdout_rows_analysed']}")
     for k, v in res["highlights"].items():
         print(f"  {k}: {v}")

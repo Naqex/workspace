@@ -401,6 +401,7 @@ def load_exec_audit_rows(audit_csv: Path | None) -> list[dict[str, Any]]:
                 continue
             magic = _to_int(r.get("magic"), 0)
             eng = str(r.get("engine_id") or "").strip() or MAGIC_TO_ENGINE.get(magic, f"MAGIC_{magic}")
+            has_swap = ("swap_usd" in r and str(r.get("swap_usd") or "").strip() != "")
             rows.append({
                 "utc_ts": ts,
                 "magic": magic,
@@ -409,14 +410,14 @@ def load_exec_audit_rows(audit_csv: Path | None) -> list[dict[str, Any]]:
                 "side": str(r.get("side") or "").strip().upper(),
                 "event_type": str(r.get("event_type") or "ENTRY").strip().upper(),
                 "signal_price": _to_float(r.get("signal_price"), 0.0),
-                "fill_price": _to_float(r.get("fill_price"), 0.0),
+                "fill_price": _to_float(r.get("fill_price"), -1.0),
                 "sl_price": _to_float(r.get("sl_price"), 0.0),
                 "lots": _to_float(r.get("lots"), 0.0),
                 "spread_pts": _to_float(r.get("spread_pts"), 0.0),
                 "latency_ms": _to_float(r.get("latency_ms"), 0.0),
                 "retcode": _to_int(r.get("retcode"), 0),
                 "pnl_usd": _to_float(r.get("pnl_usd"), 0.0) if "pnl_usd" in r and r.get("pnl_usd") != "" else None,
-                "swap_usd": _to_float(r.get("swap_usd"), 0.0) if "swap_usd" in r and r.get("swap_usd") != "" else 0.0,
+                "swap_usd": _to_float(r.get("swap_usd"), 0.0) if has_swap else None,
                 "comment": str(r.get("comment") or "").strip(),
             })
     rows.sort(key=lambda x: x["utc_ts"])
@@ -534,6 +535,8 @@ def evaluate_prop_challenge(
     running_eq = init_bal
 
     nonzero_swap_count = 0
+    missing_swap_count = 0
+    unresolved_fill_count = 0
     overnight_hold_count = 0
     rollover_blackout_count = 0
     news_guard_violations: list[dict[str, Any]] = []
@@ -557,8 +560,12 @@ def evaluate_prop_challenge(
         if is_entry and norm_sym:
             symbol_day_entries[(dk, norm_sym)] = symbol_day_entries.get((dk, norm_sym), 0) + 1
 
-        # Rule 4a: Swap == 0.0 & Rollover flat audit
-        if abs(d["swap_usd"]) > 1e-6:
+        # Rule 4a: Swap == 0.0 & Rollover flat audit (fail-closed if EXIT row lacks swap_usd!)
+        sw_val = d["swap_usd"]
+        if sw_val is None:
+            if is_exit:
+                missing_swap_count += 1
+        elif abs(sw_val) > 1e-6:
             nonzero_swap_count += 1
         if _in_rollover_blackout(d["utc_ts"]):
             rollover_blackout_count += 1
@@ -591,10 +598,12 @@ def evaluate_prop_challenge(
                     news_firm_violations.append(rec_v)
                 break
 
-        # Rule 5: Realized adverse slippage (bps) vs signal_price
+        # Rule 5: Realized adverse slippage (bps) vs signal_price — NEVER treat unresolved fill as 0 slip!
         sig_px = d["signal_price"]
         fill_px = d["fill_price"]
-        if sig_px > 0.0 and fill_px > 0.0:
+        if ev == "FILL_UNRESOLVED" or "FILL_UNRESOLVED" in d["comment"].upper() or fill_px <= 0.0:
+            unresolved_fill_count += 1
+        elif sig_px > 0.0 and fill_px > 0.0:
             side = d["side"]
             # BUY entry (ENTRY/ORDER_FILL) or SELL exit (EXIT/CLOSE) pays Ask -> adverse when fill > signal
             if (is_entry and side == "BUY") or (is_exit and side == "SELL"):
@@ -662,28 +671,42 @@ def evaluate_prop_challenge(
     )
     r4_status = "FAIL" if r4_fail else "PASS"
 
-    # Rule 5: Per-engine realized slippage vs 1.5x backtest M1 budget
+    # Rule 5: Per-engine realized slippage vs 1.5x backtest M1 budget (adverse-only + P50/P90, no masking!)
     per_engine_tca: dict[str, dict[str, Any]] = {}
     flagged_engines: list[str] = []
     for eng, slips in sorted(per_engine_slips.items()):
         budget = ENGINE_BACKTEST_SLIP_BUDGET_BPS.get(eng, DEFAULT_ENGINE_BUDGET_BPS)
         limit = round(budget * SLIPPAGE_BREACH_MULT, 3)
-        mean_bps = round(sum(slips) / len(slips), 3)
-        max_bps = round(max(slips), 3)
-        breached = mean_bps > limit
+        pos_slips = sorted(max(0.0, s) for s in slips)
+        n_s = len(pos_slips)
+        mean_bps = round(sum(slips) / n_s, 3)
+        mean_pos_bps = round(sum(pos_slips) / n_s, 3)
+        p50_bps = round(pos_slips[min(n_s - 1, int(0.50 * (n_s - 1)))], 3)
+        p90_bps = round(pos_slips[min(n_s - 1, int(0.90 * (n_s - 1)))], 3)
+        max_bps = round(max(pos_slips), 3)
+        breached = (mean_bps > limit) or (mean_pos_bps > limit) or (p90_bps > round(budget * 2.5, 3))
         if breached:
             flagged_engines.append(eng)
         per_engine_tca[eng] = {
-            "fills_measured": len(slips),
+            "fills_measured": n_s,
             "entries": per_engine_trades.get(eng, 0),
             "mean_adverse_slip_bps": mean_bps,
+            "mean_positive_adverse_slip_bps": mean_pos_bps,
+            "p50_adverse_slip_bps": p50_bps,
+            "p90_adverse_slip_bps": p90_bps,
             "max_adverse_slip_bps": max_bps,
             "backtest_budget_bps": budget,
             "limit_1_5x_bps": limit,
-            "ratio_vs_budget": round(mean_bps / max(1e-6, budget), 2),
+            "ratio_vs_budget": round(mean_pos_bps / max(1e-6, budget), 2),
             "breached": breached,
         }
-    r5_status = "FAIL" if flagged_engines else "PASS"
+    unmeasured_engines = sorted(e for e, cnt in per_engine_trades.items() if cnt > 0 and e not in per_engine_tca)
+    if flagged_engines:
+        r5_status = "FAIL"
+    elif unresolved_fill_count > 0 or unmeasured_engines:
+        r5_status = "WARN"
+    else:
+        r5_status = "PASS"
 
     # Fail-closed Gate Decision + Structured R4 -> R3 -> R2 -> R1 triage tagging
     hard_reasons: list[str] = []
@@ -756,12 +779,29 @@ def evaluate_prop_challenge(
     r4_risk_label = "R4" if "R4" in r4_labels else ("R3" if r4_labels else "OK")
 
     if flagged_engines:
-        msg = f"Rule 5 Realized slippage > 1.5x backtest M1 budget on: {', '.join(flagged_engines)}"
+        msg = f"Rule 5 Realized slippage > 1.5x backtest M1 budget (or P90 > 2.5x) on: {', '.join(flagged_engines)}"
         hard_reasons.append(msg)
         alerts.append({"rule_id": "R5_engine_slippage_tca", "severity": "FAIL", "risk_label": "R3", "message": msg})
         r5_risk_label = "R3"
+    elif unresolved_fill_count > 0 or unmeasured_engines:
+        parts = []
+        if unresolved_fill_count > 0:
+            parts.append(f"unresolved_fill_count={unresolved_fill_count}")
+        if unmeasured_engines:
+            parts.append(f"unmeasured_engines={','.join(unmeasured_engines)}")
+        msg = f"Rule 5 Incomplete TCA telemetry ({'; '.join(parts)}) — cannot mark PASS_TO_PAID"
+        warn_reasons.append(msg)
+        alerts.append({"rule_id": "R5_engine_slippage_tca", "severity": "WARN", "risk_label": "R3", "message": msg})
+        r5_risk_label = "R3"
     else:
         r5_risk_label = "OK"
+
+    if missing_swap_count > 0:
+        msg = f"Rule 4 Missing swap_usd column/value on {missing_swap_count} closed deal(s) — verify swap=0 before paid"
+        warn_reasons.append(msg)
+        alerts.append({"rule_id": "R4_zero_swap_and_red_news", "severity": "WARN", "risk_label": "R3", "message": msg})
+        if r4_risk_label == "OK":
+            r4_risk_label = "R3"
 
     if not r3_ok:
         msg = (
@@ -868,6 +908,7 @@ def evaluate_prop_challenge(
                 "status": r4_status,
                 "risk_label": r4_risk_label,
                 "nonzero_swap_count": nonzero_swap_count,
+                "missing_swap_count": missing_swap_count,
                 "overnight_hold_count": overnight_hold_count,
                 "rollover_blackout_count": rollover_blackout_count,
                 "red_news_guard_violations": len(news_guard_violations),
@@ -878,6 +919,12 @@ def evaluate_prop_challenge(
                 "status": r5_status,
                 "risk_label": r5_risk_label,
                 "flagged_engines": flagged_engines,
+                "unresolved_fill_count": unresolved_fill_count,
+                "unmeasured_engines": unmeasured_engines,
+                "tca_statistical_note": (
+                    "14-day Free Trial validates technical execution pipeline and flags gross adverse slippage (>1.5x M1 budget or P90 >2.5x), "
+                    "not full tail slippage distribution; keep live TCA monitoring active across first 100+ paid trades."
+                ),
                 "per_engine": per_engine_tca,
             },
         },

@@ -34,7 +34,7 @@ DEFAULT_CAL_2526 = CALENDARS_DIR / "red_news_official_2025_2026.json"
 DEFAULT_CAL_2627 = CALENDARS_DIR / "red_news_official_2026_2027_multi_ccy.json"
 DEFAULT_OUT_CSV = EXPORTS_DIR / "Files/naqex_red_news_utc.csv"
 
-ALLOWED_CCYS = {"USD", "GBP", "EUR", "JPY"}
+ALLOWED_CCYS = {"USD", "GBP", "EUR", "JPY", "AUD", "CAD"}
 ALLOWED_CONFIDENCE = {"OFFICIAL_CONFIRMED", "OFFICIAL_TENTATIVE", "TIME_ESTIMATED"}
 MAX_CSV_BYTES = 200_000
 
@@ -55,17 +55,22 @@ def _last_weekday_of_month(year: int, month: int, weekday: int) -> date:
 
 
 def local_to_utc_offset_hours(tz_name: str, local_dt: datetime) -> int:
-    """Deterministic UTC offset (hours) for America/New_York, Europe/London, Europe/Berlin, Asia/Tokyo."""
+    """Deterministic UTC offset (hours) for NY/Toronto, London, Berlin, Tokyo, and Sydney."""
     y = local_dt.year
     if tz_name == "UTC":
         return 0
     if tz_name == "Asia/Tokyo":
         return 9
-    if tz_name == "America/New_York":
-        # US DST: 2nd Sunday of March 02:00 local -> 1st Sunday of November 02:00 local
+    if tz_name in ("America/New_York", "America/Toronto"):
+        # US/Canada Eastern DST: 2nd Sunday of March 02:00 local -> 1st Sunday of November 02:00 local
         dst_start = datetime.combine(_nth_weekday_of_month(y, 3, 6, 2), datetime.min.time()).replace(hour=2)
         dst_end = datetime.combine(_nth_weekday_of_month(y, 11, 6, 1), datetime.min.time()).replace(hour=2)
         return -4 if dst_start <= local_dt < dst_end else -5
+    if tz_name == "Australia/Sydney":
+        # NSW Southern-Hemisphere DST: 1st Sunday of October 02:00 AEST -> 1st Sunday of April 03:00 AEDT
+        dst_end_apr = datetime.combine(_nth_weekday_of_month(y, 4, 6, 1), datetime.min.time()).replace(hour=3)
+        dst_start_oct = datetime.combine(_nth_weekday_of_month(y, 10, 6, 1), datetime.min.time()).replace(hour=2)
+        return 10 if dst_end_apr <= local_dt < dst_start_oct else 11
     if tz_name in ("Europe/London", "Europe/Berlin"):
         base_off = 0 if tz_name == "Europe/London" else 1
         # EU/UK DST: last Sunday of March 01:00 UTC -> last Sunday of October 01:00 UTC

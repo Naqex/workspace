@@ -45,11 +45,13 @@ int OnInit()
       if(g_usdAtr[i] == INVALID_HANDLE) return INIT_FAILED;
    }
    g_guard.Init(trade, _Symbol, InpMagicNumber, InpMaxDailyLossPct);
+   EventSetTimer(15);
    return INIT_SUCCEEDED;
 }
 
 void OnDeinit(const int reason)
 {
+   EventKillTimer();
    if(g_eqAtrHandle != INVALID_HANDLE) IndicatorRelease(g_eqAtrHandle);
    for(int i = 0; i < 5; i++)
       if(g_usdAtr[i] != INVALID_HANDLE) IndicatorRelease(g_usdAtr[i]);
@@ -85,12 +87,7 @@ void CloseOwnPositions(const string reason)
    {
       ulong ticket = PositionGetTicket(i);
       if(ticket > 0 && PositionGetString(POSITION_SYMBOL) == _Symbol && PositionGetInteger(POSITION_MAGIC) == InpMagicNumber)
-      {
-         if(InpDryRunLogOnly || InpGuardDryRunLogOnly)
-            PrintFormat("[DRYRUN] Would close ticket=%I64u reason=%s", ticket, reason);
-         else
-            trade.PositionClose(ticket);
-      }
+         g_guard.ClosePositionChecked(trade, ticket, reason, InpDryRunLogOnly);
    }
 }
 
@@ -154,9 +151,11 @@ void OnTick()
       usdSum += g_usdSigns[i] * ((p1 - p0) / ab[0]);
    }
    double usdFac = usdSum / 5.0;
-   g_guard.MarkTradedToday(nyDay);
-
-   if(MathAbs(zEq) < InpMinEquityMoveAtr || MathAbs(usdFac) < InpMinUsdBasketZ || (zEq * usdFac) <= 0.0) return;
+   if(MathAbs(zEq) < InpMinEquityMoveAtr || MathAbs(usdFac) < InpMinUsdBasketZ || (zEq * usdFac) <= 0.0)
+   {
+      g_guard.MarkTradedToday(nyDay);
+      return;
+   }
    int side = (usdFac > 0.0) ? 1 : -1;
    double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
    double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
@@ -168,12 +167,27 @@ void OnTick()
    {
       double sl = NormalizeDouble(ask - slDist, digits);
       double lots = g_guard.ComputeSafeLots(InpRiskPercent, ask - sl);
-      if(lots > 0.0) g_guard.ExecuteChecked(trade, true, lots, ask, sl, "Naqex_WB_NY10ET_BUY", InpDryRunLogOnly);
+      if(lots > 0.0 && g_guard.ExecuteChecked(trade, true, lots, ask, sl, "Naqex_WB_NY10ET_BUY", InpDryRunLogOnly))
+         g_guard.MarkTradedToday(nyDay);
    }
    else
    {
       double sl = NormalizeDouble(bid + slDist, digits);
-      double lots = g_guard.ComputeSafeLots(InpRiskPercent, sl - bid);
-      if(lots > 0.0) g_guard.ExecuteChecked(trade, false, lots, bid, sl, "Naqex_WB_NY10ET_SELL", InpDryRunLogOnly);
+      double lots = g_guard.ComputeSafeLots(InpRiskPercent, sl - bid, false);
+      if(lots > 0.0 && g_guard.ExecuteChecked(trade, false, lots, bid, sl, "Naqex_WB_NY10ET_SELL", InpDryRunLogOnly))
+         g_guard.MarkTradedToday(nyDay);
    }
+}
+
+void OnTimer()
+{
+   MqlDateTime utc;
+   TimeToStruct(g_guard.NowUTC(), utc);
+   if(utc.day_of_week == 0 || utc.day_of_week == 6 || !HasOpenPosition()) return;
+   if(utc.hour > InpFlatHourUTC || (utc.hour == InpFlatHourUTC && utc.min >= InpFlatMinUTC) || g_guard.IsNearBrokerSessionClose())
+      CloseOwnPositions("HARD_FLAT_TIMER_SWAP0");
+   else if(g_guard.IsInRedNewsPreFlattenWindow())
+      CloseOwnPositions("NEWS_PRE_FLATTEN_TIMER");
+   else if(g_guard.IsDailyLossBreached())
+      CloseOwnPositions("DAILY_LOSS_TIMER");
 }

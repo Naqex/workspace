@@ -67,6 +67,14 @@ def format_reason_vi(code: str) -> str:
     c = str(code or "").strip()
     if c == "MT5_PROCESS_DOWN":
         return "Tiến trình MT5 (terminal64.exe) đã dừng"
+    if c == "BROKER_DISCONNECTED":
+        return "MT5 mất kết nối máy chủ sàn (terminal_connected=false)"
+    if c.startswith("INNER_HEARTBEAT_STALE="):
+        age = c.split("=", 1)[1]
+        return f"Dữ liệu nhịp tim bên trong MT5 đã cũ ({age}) — nghi treo EA hoặc phát lại snapshot cũ"
+    if c.startswith("INNER_HEARTBEAT_FUTURE="):
+        skew = c.split("=", 1)[1]
+        return f"Đồng hồ MT5 lệch về tương lai ({skew}) — cần kiểm tra NTP"
     if c == "KILL_SWITCH_ACTIVE":
         return "Kill-Switch bảo vệ tài khoản đã kích hoạt"
     if c.startswith("ORPHAN_NO_SL="):
@@ -445,6 +453,7 @@ class DeadmanMonitor:
         *,
         ingest_token: str,
         view_token: str = "",
+        require_view_token: bool = True,
         stale_after_sec: int = DEFAULT_STALE_AFTER_SEC,
         alert_cooldown_sec: int = DEFAULT_ALERT_COOLDOWN_SEC,
         alert_sender: Callable[[str], dict[str, Any]] | None = None,
@@ -453,6 +462,7 @@ class DeadmanMonitor:
     ) -> None:
         self.ingest_token = ingest_token.strip()
         self.view_token = view_token.strip()
+        self.require_view_token = bool(require_view_token)
         self.stale_after_sec = max(30, int(stale_after_sec))
         self.alert_cooldown_sec = max(30, int(alert_cooldown_sec))
         self._clock = clock_fn
@@ -493,11 +503,11 @@ class DeadmanMonitor:
 
     def verify_view_token(self, query_token: str, header_token: str) -> bool:
         if not self.view_token:
-            return True
+            return not self.require_view_token
         supplied = (query_token or header_token or "").strip()
         return bool(supplied) and hmac.compare_digest(supplied, self.view_token)
 
-    def _evaluate_heartbeat_health(self, payload: dict[str, Any]) -> tuple[str, list[str]]:
+    def _evaluate_heartbeat_health(self, payload: dict[str, Any], now_ts: float | None = None) -> tuple[str, list[str]]:
         status = "OK"
         reasons: list[str] = []
 
@@ -505,6 +515,23 @@ class DeadmanMonitor:
         if payload.get("mt5_running") is False:
             status = "CRITICAL"
             reasons.append("MT5_PROCESS_DOWN")
+        if hb.get("terminal_connected") is False:
+            status = "CRITICAL"
+            reasons.append("BROKER_DISCONNECTED")
+        if now_ts is not None and hb.get("utc_ts") is not None:
+            try:
+                inner_ts = float(hb["utc_ts"])
+                if inner_ts > 0.0:
+                    inner_age = now_ts - inner_ts
+                    if inner_age > self.stale_after_sec:
+                        status = "CRITICAL"
+                        reasons.append(f"INNER_HEARTBEAT_STALE={int(inner_age)}s")
+                    elif inner_age < -60.0:
+                        status = "CRITICAL"
+                        reasons.append(f"INNER_HEARTBEAT_FUTURE={int(-inner_age)}s")
+            except (TypeError, ValueError):
+                status = "CRITICAL"
+                reasons.append("INNER_HEARTBEAT_INVALID_TS")
         if bool(hb.get("kill_switch", False)):
             status = "CRITICAL"
             reasons.append("KILL_SWITCH_ACTIVE")
@@ -530,8 +557,13 @@ class DeadmanMonitor:
             res = self._default_alert_sender(text, html_text=html_text)
         else:
             res = self._alert_sender(html_text or text)
-        node.last_alert_key = event_key
-        node.last_alert_ts = now
+        # Only arm cooldown when delivery succeeded (or no external sink configured); failed sends retry next cycle!
+        has_errors = bool(res.get("errors")) if isinstance(res, dict) else False
+        was_sent = bool(res.get("sent")) if isinstance(res, dict) else True
+        is_configured = bool(res.get("configured", True)) if isinstance(res, dict) else True
+        if (not has_errors and was_sent) or (not is_configured):
+            node.last_alert_key = event_key
+            node.last_alert_ts = now
         rec = {
             "utc": datetime.fromtimestamp(now, timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "account_label": node.account_label,
@@ -564,7 +596,7 @@ class DeadmanMonitor:
     def ingest_heartbeat(self, body: dict[str, Any]) -> dict[str, Any]:
         now = float(self._clock())
         label = str(body.get("account_label") or "NAQEX_HOME_PC").strip()[:64] or "NAQEX_HOME_PC"
-        status, reasons = self._evaluate_heartbeat_health(body)
+        status, reasons = self._evaluate_heartbeat_health(body, now_ts=now)
 
         with self._lock:
             prev = self._nodes.get(label)
@@ -607,7 +639,11 @@ class DeadmanMonitor:
                 )
                 self._emit_alert(node, "RECOVERED", plain_msg, now, html_text=html_msg)
             elif status in ("CRITICAL", "WARNING"):
-                key = f"{status}:{'|'.join(reasons)}"
+                stable_keys = [
+                    r.split("=", 1)[0] if r.startswith(("INNER_HEARTBEAT_STALE=", "INNER_HEARTBEAT_FUTURE=", "DAILY_DD=")) else r
+                    for r in reasons
+                ]
+                key = f"{status}:{'|'.join(stable_keys)}"
                 html_msg, plain_msg = format_alert_message(
                     kind=status,
                     label=label,
@@ -858,9 +894,11 @@ def main() -> int:
         except Exception as exc:
             print(f"[WARN] Postgres init failed ({exc}); falling back to in-memory ring buffer.", flush=True)
 
+    req_view = os.environ.get("NAQEX_REQUIRE_VIEW_TOKEN", "true").strip().lower() not in ("0", "false", "no")
     monitor = DeadmanMonitor(
         ingest_token=os.environ.get("NAQEX_INGEST_TOKEN", ""),
         view_token=os.environ.get("NAQEX_VIEW_TOKEN", ""),
+        require_view_token=req_view,
         stale_after_sec=int(os.environ.get("STALE_AFTER_SEC", str(DEFAULT_STALE_AFTER_SEC))),
         alert_cooldown_sec=int(os.environ.get("ALERT_COOLDOWN_SEC", str(DEFAULT_ALERT_COOLDOWN_SEC))),
         pg_store=pg_store,

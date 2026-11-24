@@ -300,8 +300,44 @@ class Mql5ParityAndDeploymentKitTests(unittest.TestCase):
             )
             self.assertEqual(p_rot.returncode, 0, p_rot.stderr)
             out_rot = json.loads(p_rot.stdout)
+            self.assertEqual(out_rot["status"], "OK")
             self.assertTrue(out_rot["log_rotations"][0]["rotated"])
             self.assertTrue(list(state.glob("naqex_watchdog.log.*.bak")))
+
+            # 4. Astra F17 regression: future clock skew (>60s) & terminal_connected=false -> CRITICAL exit 2!
+            hb.write_text(
+                json.dumps(
+                    {
+                        "utc_ts": now_ts + 200,
+                        "terminal_connected": False,
+                        "balance": 10000.0,
+                        "equity": 10000.0,
+                        "daily_dd_pct": 0.0,
+                        "static_dd_pct": 0.0,
+                        "regime": "NORMAL",
+                        "risk_mult": 1.0,
+                        "kill_switch": False,
+                        "open_positions": 0,
+                        "orphan_no_sl": 0,
+                        "dry_run": True,
+                    }
+                ),
+                encoding="utf-8",
+            )
+            p_f17 = subprocess.run(
+                [
+                    "powershell", "-NoProfile", "-ExecutionPolicy", "Bypass",
+                    "-File", str(ps_script), "-SkipProcessCheck",
+                    "-HeartbeatPath", str(hb), "-StateDir", str(state),
+                    "-NowUtcOverride", str(now_ts),
+                ],
+                capture_output=True, text=True, check=False, timeout=30,
+            )
+            self.assertEqual(p_f17.returncode, 2, p_f17.stderr)
+            out_f17 = json.loads(p_f17.stdout)
+            joined_f17 = " | ".join(out_f17["alerts"])
+            self.assertIn("HEARTBEAT_FUTURE_TIMESTAMP", joined_f17)
+            self.assertIn("BROKER_DISCONNECTED", joined_f17)
 
     def test_activation_card_and_holdout_lock_invariants(self):
         # Holdout 2025+ lock remains strictly untouched
@@ -336,6 +372,8 @@ class Mql5ParityAndDeploymentKitTests(unittest.TestCase):
                 e5_set_txt = (KIT_DIR / "presets" / pname / "Naqex_WB_IDX_RS_US100_LEAD_1130.set").read_text(encoding="utf-8")
                 self.assertIn("Attach: NAS100 M5", e5_set_txt)
                 self.assertIn("SPX500 vs US500", e5_set_txt)
+                e5_set = kit.parse_set_file(KIT_DIR / "presets" / pname / "Naqex_WB_IDX_RS_US100_LEAD_1130.set")
+                self.assertEqual(e5_set["InpBenchmarkSymbol"], "SPX500")
                 e7_set = kit.parse_set_file(KIT_DIR / "presets" / pname / "Naqex_WB_NY_RISK_FLOW_10ET_USDJPY.set")
                 self.assertEqual(e7_set["InpEquitySymbol"], "NAS100")
             else:
@@ -424,7 +462,8 @@ class Mql5ParityAndDeploymentKitTests(unittest.TestCase):
             self.assertEqual(kv["InpDailyResetMode"], exp_reset, f"{pname} reset mode")
             self.assertEqual(kv["InpAllowManualHaltFile"], "false", f"{pname} manual halt must default false")
             if "_P1_" in pname:
-                self.assertAlmostEqual(float(kv["InpProfitLockPct"]), 5.00, places=2)
+                exp_pl = 4.00 if cfg["firm"] == "The5ers" else 5.00
+                self.assertAlmostEqual(float(kv["InpProfitLockPct"]), exp_pl, places=2)
                 self.assertAlmostEqual(float(kv["InpProfitLockMult"]), 1.34, places=2)
                 self.assertAlmostEqual(float(cfg["ea_risk_scale"]) * float(kv["InpProfitLockMult"]), 2.01, places=2)
             elif "_P2_" in pname:
@@ -433,14 +472,14 @@ class Mql5ParityAndDeploymentKitTests(unittest.TestCase):
             else:
                 self.assertAlmostEqual(float(kv["InpProfitLockPct"]), 0.00, places=2)
 
-        # Verify manifest snapshots the expanded 4-currency red-news CSV
+        # Verify manifest snapshots the expanded 6-currency red-news CSV (USD/EUR/GBP/JPY/AUD/CAD)
         manifest = json.loads((KIT_DIR / "manifest.sha256.json").read_text(encoding="utf-8"))
         csv_dep = manifest["external_dependencies"]["tooling/ai-engines/exports/Files/naqex_red_news_utc.csv"]
-        self.assertGreaterEqual(csv_dep["rows_at_build"], 400)
+        self.assertGreaterEqual(csv_dep["rows_at_build"], 430)
         self.assertEqual(len(csv_dep["snapshot_sha256"]), 64)
         csv_rep = parity.verify_red_news_csv(EXPORTS_DIR / "Files/naqex_red_news_utc.csv")
         self.assertEqual(csv_dep["snapshot_sha256"], csv_rep["sha256"])
-        self.assertEqual(csv_rep["currencies"], ["EUR", "GBP", "JPY", "USD"])
+        self.assertEqual(csv_rep["currencies"], ["AUD", "CAD", "EUR", "GBP", "JPY", "USD"])
 
     def test_cycle2_scaled_tier_config_and_the5ers_4_8_fail_closed(self):
         # 1. FTMO Swing 10K / 25K / 50K / 100K (5%/10% DD, Prague reset, SYMCAP 1.75 / 1.50 / 1.00)
@@ -485,7 +524,7 @@ class Mql5ParityAndDeploymentKitTests(unittest.TestCase):
             self.assertEqual(c48["daily_reset_mode"], 0)
             self.assertAlmostEqual(c48["ea_risk_scale"], 1.00, places=2)
             self.assertAlmostEqual(c48["base_phase_mult"], 2.75, places=2)
-            self.assertAlmostEqual(c48["profit_lock_pct"], 5.00, places=2)
+            self.assertAlmostEqual(c48["profit_lock_pct"], 4.00, places=2)
             self.assertAlmostEqual(c48["profit_lock_mult"], 1.50, places=2)
             self.assertAlmostEqual(c48["max_symbol_risk_pct"], 1.15, places=2)
             self.assertAlmostEqual(c48["kill_daily_dd_pct"], 2.80, places=2)
@@ -535,10 +574,11 @@ class Mql5ParityAndDeploymentKitTests(unittest.TestCase):
             files_dir.mkdir(parents=True)
             experts_dir.mkdir(parents=True)
 
+            now_ts = 1_795_500_000
             # 1. Fail-closed when open_positions == 1: exit 2, zero files copied
-            (files_dir / "naqex_heartbeat.json").write_text(json.dumps({"open_positions": 1}), encoding="utf-8")
+            (files_dir / "naqex_heartbeat.json").write_text(json.dumps({"open_positions": 1, "utc_ts": now_ts - 10}), encoding="utf-8")
             p_blk = subprocess.run(
-                ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", str(sync_ps), "-TargetMt5Root", str(mt5_root)],
+                ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", str(sync_ps), "-TargetMt5Root", str(mt5_root), "-NowUtcOverride", str(now_ts)],
                 capture_output=True, text=True, check=False, timeout=30,
             )
             self.assertEqual(p_blk.returncode, 2)
@@ -546,10 +586,20 @@ class Mql5ParityAndDeploymentKitTests(unittest.TestCase):
             self.assertEqual(list(experts_dir.glob("*.ex5")), [])
             self.assertFalse((files_dir / "naqex_red_news_utc.csv").exists())
 
-            # 2. Live sync when flat (open_positions == 0): copies all 9 .ex5 + 418-row CSV with SHA-256 verification
-            (files_dir / "naqex_heartbeat.json").write_text(json.dumps({"open_positions": 0}), encoding="utf-8")
+            # 1b. Astra F19 regression: stale heartbeat (> 180s) MUST fail closed (exit 2) even when open_positions == 0!
+            (files_dir / "naqex_heartbeat.json").write_text(json.dumps({"open_positions": 0, "utc_ts": now_ts - 600}), encoding="utf-8")
+            p_stale = subprocess.run(
+                ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", str(sync_ps), "-TargetMt5Root", str(mt5_root), "-NowUtcOverride", str(now_ts)],
+                capture_output=True, text=True, check=False, timeout=30,
+            )
+            self.assertEqual(p_stale.returncode, 2)
+            self.assertEqual(json.loads(p_stale.stdout)["status"], "BLOCKED_STALE_HEARTBEAT")
+            self.assertEqual(list(experts_dir.glob("*.ex5")), [])
+
+            # 2. Live sync when flat & fresh (open_positions == 0): copies all 9 .ex5 + 6-ccy CSV with SHA-256 & manifest verification
+            (files_dir / "naqex_heartbeat.json").write_text(json.dumps({"open_positions": 0, "utc_ts": now_ts - 10}), encoding="utf-8")
             p_sync = subprocess.run(
-                ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", str(sync_ps), "-TargetMt5Root", str(mt5_root)],
+                ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", str(sync_ps), "-TargetMt5Root", str(mt5_root), "-NowUtcOverride", str(now_ts)],
                 capture_output=True, text=True, check=False, timeout=30,
             )
             self.assertEqual(p_sync.returncode, 0, p_sync.stderr)
@@ -557,8 +607,9 @@ class Mql5ParityAndDeploymentKitTests(unittest.TestCase):
             self.assertEqual(out["status"], "SYNCED_CLEAN_FLAT")
             self.assertEqual(out["files_count"], 9)
             self.assertTrue(out["sha256_verified"])
+            self.assertTrue(out["manifest_checked"])
             self.assertEqual(out["order_send"], 0)
-            self.assertGreaterEqual(out["red_news_csv"]["rows"], 400)
+            self.assertGreaterEqual(out["red_news_csv"]["rows"], 430)
             self.assertEqual(out["red_news_csv"]["sha256"], exp_csv_sha)
             self.assertTrue(out["red_news_csv"]["synced"])
             self.assertEqual(len(list(experts_dir.glob("*.ex5"))), 9)
@@ -581,7 +632,7 @@ class Mql5ParityAndDeploymentKitTests(unittest.TestCase):
             c1_t5 = (Path(res_t5["profile_dir"]) / "chart01.chr").read_bytes().decode("utf-16")
             c5_t5 = (Path(res_t5["profile_dir"]) / "chart05.chr").read_bytes().decode("utf-16")
             self.assertIn("InpDailyResetMode=0", c1_t5)
-            self.assertIn("InpProfitLockPct=5.00", c1_t5)
+            self.assertIn("InpProfitLockPct=4.00", c1_t5)
             self.assertIn("InpGuardNewsHardBanSec=135", c5_t5)
             self.assertIn("symbol=NAS100", c5_t5)
 
