@@ -108,6 +108,9 @@ chồng lấn, không là account PnL hay chứng minh edge/OOS/prop. G0–G6 v�
 10. **Ràng buộc vận hành Prop Payout & MT5 Backtest-to-Live Parity (từ Pre-Holdout Audit):**
    - Với danh mục nhiều động cơ trên cùng một mã (như `US100` E4+E5, `USDJPY` E1+E2+E7), phải đo tác động của **Per-Symbol Concurrent Risk Cap** (`<= 1,00%–1,25%` mỗi mã) để phòng luật gộp *"trade idea bundle"* khi FTMO/The5ers duyệt payout, đồng thời kiểm **khóa tin đỏ `±5 phút` chính thức (`224` sự kiện FOMC/CPI/NFP)**.
    - Mọi bản EA đưa lên Demo/Live phải thừa kế/khớp hợp đồng an toàn của `Naqex_PropGuard.mqh`: tự nhận `ORDER_FILLING_*`, sizing theo `SYMBOL_TRADE_TICK_VALUE_LOSS`, xử lý lệch `TimeGMT()` trong Strategy Tester, tự đóng trước giờ đóng sớm ngày lễ Mỹ (`SymbolInfoSessionTrade`), lưu trạng thái qua `GlobalVariable` chống VPS restart, và xác minh `TRADE_RETCODE_DONE`.
+11. **Cổng theo Sự kiện/Mẫu thực & Tách Nhánh Song song (Fast-Path không hạ chuẩn an toàn):**
+   - Khi đề xuất lộ trình hoặc xét chuyển pha `G5/G6`, tách rạch ròi **ràng buộc bất biến** (niêm phong Holdout, `0` lỗi khớp/SL/swap, không sửa tham số v1 đang chạy live) khỏi **đệm ngày lịch tùy ý**.
+   - Ưu tiên định nghĩa cổng theo **sự kiện/mẫu thực tế tối thiểu** (số lệnh đóng sạch qua đủ phiên, rollover và tin đỏ) kèm phương án **micro-canary giới hạn lỗ nhỏ** (khi được hãng chấp thuận bằng văn bản) để rút ngắn thời gian chờ mà vẫn giữ nguyên biên an toàn; không buộc các nhánh độc lập về kỹ thuật (Own-Book, R&D v2 trên Dev, hạ tầng VPS/Cockpit) phải chờ tuần tự cổng forward của nhánh khác.
 
 ## Cách báo cáo
 

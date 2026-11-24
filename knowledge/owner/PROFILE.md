@@ -1,7 +1,7 @@
 ---
 doc_type: evergreen
 domain: owner
-updated_utc: 2026-11-23
+updated_utc: 2026-11-24
 provenance: verified_from_workspace_and_owner_explicit_statements
 ---
 
@@ -19,6 +19,7 @@ provenance: verified_from_workspace_and_owner_explicit_statements
   - *Khoảng trống thật cần bù:* Hoạt động độc lập (solo), **kiến thức trading ở mức cơ bản–khá**, **chưa từng trade tay thật** và **chưa có lịch sử lợi nhuận live (chưa profitable)**. Do đó hệ thống phải ưu tiên khóa cứng rủi ro, tách biệt nghiên cứu với thực thi, và nhanh chóng bước qua thực chiến Demo/Free Trial/vốn nhỏ để tích lũy dữ liệu khớp lệnh thật thay vì chỉ hoàn thiện backtest trên giấy.
 - **Ngôn ngữ giao tiếp:** Tiếng Việt tự nhiên, súc tích, đi thẳng vào kết quả và quyết định có ích; giữ thuật ngữ tiếng Anh chuẩn ngành kèm giải thích ngắn lần đầu.
 - **Kỳ vọng quy mô cho phiên tự chủ dài hạn (xác nhận `2026-11-24`):** Khi giao phiên tự chủ xuyên đêm nhiều giờ với budget AI dư dả, kỳ vọng kế hoạch phải được hiệu chuẩn theo đúng tốc độ thực tế của đội `swarm` (`~25–35` mốc/giờ) theo mô hình **nhà máy chạy chu kỳ liên tục** (mở rộng chiến lược trên dữ liệu/thị trường mới, tối ưu sâu hệ thống, đối soát thực chiến theo giờ tới sát giờ thức dậy), không muốn kế hoạch tĩnh quá nhỏ làm xong trong 1 giờ rồi bỏ trống phần lớn đêm.
+- **Ưu tiên nén thời gian thông minh (xác nhận `2026-11-24`):** Không thích lộ trình cứng nhắc bắt chờ hàng chục ngày lịch khi có thể đạt hiệu suất và độ an toàn tương đương nhanh hơn; ưu tiên cổng dựa trên bằng chứng sự kiện thực tế + thử nghiệm vốn siêu nhỏ giới hạn lỗ (*micro-canary*) và luôn tận dụng thời gian chờ bằng cách chạy song song các nhánh độc lập có giá trị thật.
 
 ## 2. Mục tiêu dài hạn (North Star)
 

@@ -72,6 +72,14 @@ When the owner authorizes a long autonomous window (e.g., `6–12h` overnight) w
    - **Measured system/portfolio optimization** (pytest/Numba speedups, NCO/Ledoit-Wolf/Meta-Labeling, interactive ops cockpit, multi-prop & own-book execution kits).
 3. **Clean halt still applies when ALL high-value cycles & scheduled live-capture checkpoints finish:** Never degrade passing tests or fabricate fake work after the final scheduled checkpoint.
 
+### 5. Event-Driven Time Compression & Parallel Execution Discipline
+
+Minimize wall-clock waste without weakening hard safety or statistical boundaries (`Holdout 2025+ SEALED`, `OrderSend = 0` default, zero mid-run parameter edits on live v1 EAs):
+
+1. **Event/Sample Gates over Arbitrary Calendar Waits:** Prefer minimum-sufficient event criteria (e.g., `>= 10–15` clean closed fills spanning Asia/London/NY sessions, rollover, and red-news with `0` technical defects) over rigid calendar padding (`14d / 30d / months`). When a bounded-loss micro-canary (e.g., a small `39 USD` ticket after written firm clearance) produces higher-fidelity real-world evidence faster than prolonged demo waiting, present **both** the fast-path and conservative-path trade-off explicitly.
+2. **Parallelize Independent Lanes instead of Serializing:** Never pause an active owner behind a passive telemetry wait. Keep dependent capital-scaling gates fail-closed while immediately executing technically independent lanes in parallel (Dev v2 R&D, VPS/Control Room ops, independent Own-Book sleeves, product apps).
+3. **Local-First Fast Falsification:** Default to local SSD caches (`.runtime/hot-m1-cache`, `.npz` derived tapes, Numba JIT) with zero dependency on external drives, run compute jobs asynchronously alongside disjoint code/ops edits, and run cheap kill-tests (`robustness_gate`, Walk-Forward vs Fixed baseline) first to kill weak ideas in seconds instead of days.
+
 ## Negative triggers
 
 - Do not use for strategy hypothesis design (use [strategy-research](../strategy-research/SKILL.md)), white-box discovery (use [whitebox-prop-discovery](../whitebox-prop-discovery/SKILL.md)), or strategy qualification verdicts (use [strategy-qualification](../strategy-qualification/SKILL.md)).
