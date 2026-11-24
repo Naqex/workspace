@@ -1,0 +1,2151 @@
+{
+  "schema": "naqex-portfolio-v1-vs-v2-architecture-study-v1",
+  "generated_utc": "2026-11-24T09:16:22Z",
+  "holdout_lock_sha256": "f0a6b43cb205535b0a959456455dc1d857a0936c06c2e51b8614fd7d772a8486",
+  "holdout_rows_analysed": 0,
+  "order_send_count": 0,
+  "dev_window": "2018-01-02..2024-12-31",
+  "m_total_architectures": 6,
+  "max_symbol_concurrent_risk_pct": 1.0,
+  "red_news_guard": "FLATTEN_5M_OFFICIAL_2018_2024",
+  "mc_paths": 5000,
+  "elapsed_sec": 21.84,
+  "architectures": [
+    {
+      "arch_id": "A0_V1_CORE7_INCUMBENT",
+      "description": "Frozen PORT_7E (E1..E7)",
+      "n_engines": 7,
+      "risk_weights_pct": {
+        "E1_USDJPY_TOKYO": 0.1606,
+        "E2_USDJPY_EXP80": 0.5894,
+        "E3_GBPUSD_VH": 0.75,
+        "E4_US100_SESS40": 0.5,
+        "E5_US100_RS1130": 0.5,
+        "E6_EURJPY_VOLCOMP": 0.5,
+        "E7_USDJPY_NY10ET": 0.5
+      },
+      "m1_1x": {
+        "net_usd": 5498.34,
+        "ann_pct": {
+          "all": 7.85,
+          "A": 9.41,
+          "B": 6.69
+        },
+        "daily_loss_pct": 1.95,
+        "peak_dd_pct": 8.19,
+        "calmar": 0.96,
+        "underwater_months": 9.6,
+        "peak_margin_pct": 18.71,
+        "max_concurrent_positions": 5,
+        "sym_cap_hits": 38,
+        "margin_failures": 0,
+        "years_pct": {
+          "2018": 13.79,
+          "2019": 1.22,
+          "2020": 13.21,
+          "2021": 3.87,
+          "2022": 16.35,
+          "2023": 1.5,
+          "2024": 5.05
+        },
+        "news_stats": {
+          "E1_USDJPY_TOKYO": {
+            "total_in": 1437,
+            "kept_untouched": 1339,
+            "blocked_entry": 0,
+            "flattened_pre_news": 98,
+            "skipped_day": 0
+          },
+          "E2_USDJPY_EXP80": {
+            "total_in": 569,
+            "kept_untouched": 514,
+            "blocked_entry": 27,
+            "flattened_pre_news": 28,
+            "skipped_day": 0
+          },
+          "E3_GBPUSD_VH": {
+            "total_in": 198,
+            "kept_untouched": 179,
+            "blocked_entry": 8,
+            "flattened_pre_news": 11,
+            "skipped_day": 0
+          },
+          "E4_US100_SESS40": {
+            "total_in": 414,
+            "kept_untouched": 408,
+            "blocked_entry": 0,
+            "flattened_pre_news": 6,
+            "skipped_day": 0
+          },
+          "E5_US100_RS1130": {
+            "total_in": 261,
+            "kept_untouched": 256,
+            "blocked_entry": 0,
+            "flattened_pre_news": 5,
+            "skipped_day": 0
+          },
+          "E6_EURJPY_VOLCOMP": {
+            "total_in": 138,
+            "kept_untouched": 138,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "E7_USDJPY_NY10ET": {
+            "total_in": 105,
+            "kept_untouched": 105,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          }
+        }
+      },
+      "m1_15x": {
+        "net_usd": 3420.72,
+        "ann_pct": {
+          "all": 4.89,
+          "A": 5.73,
+          "B": 4.26
+        },
+        "daily_loss_pct": 1.95,
+        "peak_dd_pct": 9.06,
+        "calmar": 0.54,
+        "underwater_months": 19.55,
+        "peak_margin_pct": 18.59,
+        "max_concurrent_positions": 5,
+        "sym_cap_hits": 38,
+        "margin_failures": 0,
+        "years_pct": {
+          "2018": 9.85,
+          "2019": -2.22,
+          "2020": 9.56,
+          "2021": 0.83,
+          "2022": 13.86,
+          "2023": -0.47,
+          "2024": 2.81
+        },
+        "news_stats": {
+          "E1_USDJPY_TOKYO": {
+            "total_in": 1437,
+            "kept_untouched": 1339,
+            "blocked_entry": 0,
+            "flattened_pre_news": 98,
+            "skipped_day": 0
+          },
+          "E2_USDJPY_EXP80": {
+            "total_in": 569,
+            "kept_untouched": 514,
+            "blocked_entry": 27,
+            "flattened_pre_news": 28,
+            "skipped_day": 0
+          },
+          "E3_GBPUSD_VH": {
+            "total_in": 198,
+            "kept_untouched": 179,
+            "blocked_entry": 8,
+            "flattened_pre_news": 11,
+            "skipped_day": 0
+          },
+          "E4_US100_SESS40": {
+            "total_in": 414,
+            "kept_untouched": 408,
+            "blocked_entry": 0,
+            "flattened_pre_news": 6,
+            "skipped_day": 0
+          },
+          "E5_US100_RS1130": {
+            "total_in": 261,
+            "kept_untouched": 256,
+            "blocked_entry": 0,
+            "flattened_pre_news": 5,
+            "skipped_day": 0
+          },
+          "E6_EURJPY_VOLCOMP": {
+            "total_in": 138,
+            "kept_untouched": 138,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "E7_USDJPY_NY10ET": {
+            "total_in": 105,
+            "kept_untouched": 105,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          }
+        }
+      },
+      "m1_20x": {
+        "net_usd": 1567.28,
+        "ann_pct": {
+          "all": 2.24,
+          "A": 2.43,
+          "B": 2.09
+        },
+        "daily_loss_pct": 1.93,
+        "peak_dd_pct": 10.76,
+        "calmar": 0.21,
+        "underwater_months": 26.67,
+        "peak_margin_pct": 18.48,
+        "max_concurrent_positions": 5,
+        "sym_cap_hits": 38,
+        "margin_failures": 0,
+        "years_pct": {
+          "2018": 6.34,
+          "2019": -5.45,
+          "2020": 6.4,
+          "2021": -1.92,
+          "2022": 12.03,
+          "2023": -2.7,
+          "2024": 0.96
+        },
+        "news_stats": {
+          "E1_USDJPY_TOKYO": {
+            "total_in": 1437,
+            "kept_untouched": 1339,
+            "blocked_entry": 0,
+            "flattened_pre_news": 98,
+            "skipped_day": 0
+          },
+          "E2_USDJPY_EXP80": {
+            "total_in": 569,
+            "kept_untouched": 514,
+            "blocked_entry": 27,
+            "flattened_pre_news": 28,
+            "skipped_day": 0
+          },
+          "E3_GBPUSD_VH": {
+            "total_in": 198,
+            "kept_untouched": 179,
+            "blocked_entry": 8,
+            "flattened_pre_news": 11,
+            "skipped_day": 0
+          },
+          "E4_US100_SESS40": {
+            "total_in": 414,
+            "kept_untouched": 408,
+            "blocked_entry": 0,
+            "flattened_pre_news": 6,
+            "skipped_day": 0
+          },
+          "E5_US100_RS1130": {
+            "total_in": 261,
+            "kept_untouched": 256,
+            "blocked_entry": 0,
+            "flattened_pre_news": 5,
+            "skipped_day": 0
+          },
+          "E6_EURJPY_VOLCOMP": {
+            "total_in": 138,
+            "kept_untouched": 138,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "E7_USDJPY_NY10ET": {
+            "total_in": 105,
+            "kept_untouched": 105,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          }
+        }
+      },
+      "yearly": {
+        "yearly_pct": {
+          "2018": 13.79,
+          "2019": 1.22,
+          "2020": 13.21,
+          "2021": 3.87,
+          "2022": 16.35,
+          "2023": 1.5,
+          "2024": 5.05
+        },
+        "worst_year": "2019",
+        "worst_year_pct": 1.22,
+        "positive_years": 7,
+        "trades_total": 2900,
+        "trades_per_year": 414.3
+      },
+      "prop_mc_1x": {
+        "FTMO_SWING_10K": {
+          "P1_Balanced_Static": {
+            "pass_24m_pct": 66.0,
+            "med_days_pass": 126,
+            "med_days_pay1": 152,
+            "breach_pct": 1.9,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 168.0,
+            "ev_24m_usd": 575.8,
+            "ev_per_fee": 3.43
+          },
+          "Dyn_ProfitLock_45x": {
+            "pass_24m_pct": 64.9,
+            "med_days_pass": 115,
+            "med_days_pay1": 144,
+            "breach_pct": 2.5,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 168.0,
+            "ev_24m_usd": 575.5,
+            "ev_per_fee": 3.43
+          }
+        },
+        "THE5ERS_HS_5K": {
+          "P1_Balanced_Static": {
+            "pass_24m_pct": 66.1,
+            "med_days_pass": 127,
+            "med_days_pay1": 154,
+            "breach_pct": 1.9,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 39.0,
+            "ev_24m_usd": 297.0,
+            "ev_per_fee": 7.61
+          },
+          "Dyn_ProfitLock_45x": {
+            "pass_24m_pct": 64.9,
+            "med_days_pass": 115,
+            "med_days_pay1": 145,
+            "breach_pct": 2.5,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 39.0,
+            "ev_24m_usd": 297.9,
+            "ev_per_fee": 7.64
+          }
+        }
+      },
+      "prop_mc_15x": {
+        "FTMO_SWING_10K": {
+          "P1_Balanced_Static": {
+            "pass_24m_pct": 45.9,
+            "med_days_pass": 132,
+            "med_days_pay1": 161,
+            "breach_pct": 3.8,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 168.0,
+            "ev_24m_usd": 208.9,
+            "ev_per_fee": 1.24
+          },
+          "Dyn_ProfitLock_45x": {
+            "pass_24m_pct": 44.6,
+            "med_days_pass": 114,
+            "med_days_pay1": 149,
+            "breach_pct": 5.1,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 168.0,
+            "ev_24m_usd": 206.9,
+            "ev_per_fee": 1.23
+          }
+        },
+        "THE5ERS_HS_5K": {
+          "P1_Balanced_Static": {
+            "pass_24m_pct": 45.8,
+            "med_days_pass": 133,
+            "med_days_pay1": 162,
+            "breach_pct": 3.8,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 39.0,
+            "ev_24m_usd": 126.5,
+            "ev_per_fee": 3.24
+          },
+          "Dyn_ProfitLock_45x": {
+            "pass_24m_pct": 44.6,
+            "med_days_pass": 114,
+            "med_days_pay1": 150,
+            "breach_pct": 5.1,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 41.0,
+            "ev_24m_usd": 127.0,
+            "ev_per_fee": 3.26
+          }
+        }
+      },
+      "verdict_vs_v1": "INCUMBENT_BASELINE",
+      "gates_won": 0
+    },
+    {
+      "arch_id": "A1_V1_LIVE8_INCUMBENT",
+      "description": "Live 8 EA on naqex-node1 (E1..E7 + S6)",
+      "n_engines": 8,
+      "risk_weights_pct": {
+        "E1_USDJPY_TOKYO": 0.1606,
+        "E2_USDJPY_EXP80": 0.5894,
+        "E3_GBPUSD_VH": 0.75,
+        "E4_US100_SESS40": 0.5,
+        "E5_US100_RS1130": 0.5,
+        "E6_EURJPY_VOLCOMP": 0.5,
+        "E7_USDJPY_NY10ET": 0.5,
+        "S6_FX_USD_BSK": 0.5
+      },
+      "m1_1x": {
+        "net_usd": 5795.42,
+        "ann_pct": {
+          "all": 8.28,
+          "A": 10.49,
+          "B": 6.62
+        },
+        "daily_loss_pct": 2.24,
+        "peak_dd_pct": 9.12,
+        "calmar": 0.91,
+        "underwater_months": 9.96,
+        "peak_margin_pct": 21.19,
+        "max_concurrent_positions": 6,
+        "sym_cap_hits": 56,
+        "margin_failures": 0,
+        "years_pct": {
+          "2018": 13.12,
+          "2019": 2.58,
+          "2020": 15.77,
+          "2021": 5.3,
+          "2022": 16.16,
+          "2023": 0.82,
+          "2024": 4.21
+        },
+        "news_stats": {
+          "E1_USDJPY_TOKYO": {
+            "total_in": 1437,
+            "kept_untouched": 1339,
+            "blocked_entry": 0,
+            "flattened_pre_news": 98,
+            "skipped_day": 0
+          },
+          "E2_USDJPY_EXP80": {
+            "total_in": 569,
+            "kept_untouched": 514,
+            "blocked_entry": 27,
+            "flattened_pre_news": 28,
+            "skipped_day": 0
+          },
+          "E3_GBPUSD_VH": {
+            "total_in": 198,
+            "kept_untouched": 179,
+            "blocked_entry": 8,
+            "flattened_pre_news": 11,
+            "skipped_day": 0
+          },
+          "E4_US100_SESS40": {
+            "total_in": 414,
+            "kept_untouched": 408,
+            "blocked_entry": 0,
+            "flattened_pre_news": 6,
+            "skipped_day": 0
+          },
+          "E5_US100_RS1130": {
+            "total_in": 261,
+            "kept_untouched": 256,
+            "blocked_entry": 0,
+            "flattened_pre_news": 5,
+            "skipped_day": 0
+          },
+          "E6_EURJPY_VOLCOMP": {
+            "total_in": 138,
+            "kept_untouched": 138,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "E7_USDJPY_NY10ET": {
+            "total_in": 105,
+            "kept_untouched": 105,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "S6_FX_USD_BSK": {
+            "total_in": 195,
+            "kept_untouched": 180,
+            "blocked_entry": 0,
+            "flattened_pre_news": 15,
+            "skipped_day": 0
+          }
+        }
+      },
+      "m1_15x": {
+        "net_usd": 3553.34,
+        "ann_pct": {
+          "all": 5.08,
+          "A": 6.49,
+          "B": 4.01
+        },
+        "daily_loss_pct": 2.19,
+        "peak_dd_pct": 10.54,
+        "calmar": 0.48,
+        "underwater_months": 21.67,
+        "peak_margin_pct": 21.1,
+        "max_concurrent_positions": 6,
+        "sym_cap_hits": 56,
+        "margin_failures": 0,
+        "years_pct": {
+          "2018": 9.0,
+          "2019": -1.03,
+          "2020": 11.51,
+          "2021": 2.07,
+          "2022": 13.4,
+          "2023": -1.34,
+          "2024": 1.93
+        },
+        "news_stats": {
+          "E1_USDJPY_TOKYO": {
+            "total_in": 1437,
+            "kept_untouched": 1339,
+            "blocked_entry": 0,
+            "flattened_pre_news": 98,
+            "skipped_day": 0
+          },
+          "E2_USDJPY_EXP80": {
+            "total_in": 569,
+            "kept_untouched": 514,
+            "blocked_entry": 27,
+            "flattened_pre_news": 28,
+            "skipped_day": 0
+          },
+          "E3_GBPUSD_VH": {
+            "total_in": 198,
+            "kept_untouched": 179,
+            "blocked_entry": 8,
+            "flattened_pre_news": 11,
+            "skipped_day": 0
+          },
+          "E4_US100_SESS40": {
+            "total_in": 414,
+            "kept_untouched": 408,
+            "blocked_entry": 0,
+            "flattened_pre_news": 6,
+            "skipped_day": 0
+          },
+          "E5_US100_RS1130": {
+            "total_in": 261,
+            "kept_untouched": 256,
+            "blocked_entry": 0,
+            "flattened_pre_news": 5,
+            "skipped_day": 0
+          },
+          "E6_EURJPY_VOLCOMP": {
+            "total_in": 138,
+            "kept_untouched": 138,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "E7_USDJPY_NY10ET": {
+            "total_in": 105,
+            "kept_untouched": 105,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "S6_FX_USD_BSK": {
+            "total_in": 195,
+            "kept_untouched": 180,
+            "blocked_entry": 0,
+            "flattened_pre_news": 15,
+            "skipped_day": 0
+          }
+        }
+      },
+      "m1_20x": {
+        "net_usd": 1609.32,
+        "ann_pct": {
+          "all": 2.3,
+          "A": 3.08,
+          "B": 1.72
+        },
+        "daily_loss_pct": 2.21,
+        "peak_dd_pct": 12.01,
+        "calmar": 0.19,
+        "underwater_months": 21.67,
+        "peak_margin_pct": 21.01,
+        "max_concurrent_positions": 6,
+        "sym_cap_hits": 56,
+        "margin_failures": 0,
+        "years_pct": {
+          "2018": 5.34,
+          "2019": -4.36,
+          "2020": 8.25,
+          "2021": -0.8,
+          "2022": 11.38,
+          "2023": -3.67,
+          "2024": -0.03
+        },
+        "news_stats": {
+          "E1_USDJPY_TOKYO": {
+            "total_in": 1437,
+            "kept_untouched": 1339,
+            "blocked_entry": 0,
+            "flattened_pre_news": 98,
+            "skipped_day": 0
+          },
+          "E2_USDJPY_EXP80": {
+            "total_in": 569,
+            "kept_untouched": 514,
+            "blocked_entry": 27,
+            "flattened_pre_news": 28,
+            "skipped_day": 0
+          },
+          "E3_GBPUSD_VH": {
+            "total_in": 198,
+            "kept_untouched": 179,
+            "blocked_entry": 8,
+            "flattened_pre_news": 11,
+            "skipped_day": 0
+          },
+          "E4_US100_SESS40": {
+            "total_in": 414,
+            "kept_untouched": 408,
+            "blocked_entry": 0,
+            "flattened_pre_news": 6,
+            "skipped_day": 0
+          },
+          "E5_US100_RS1130": {
+            "total_in": 261,
+            "kept_untouched": 256,
+            "blocked_entry": 0,
+            "flattened_pre_news": 5,
+            "skipped_day": 0
+          },
+          "E6_EURJPY_VOLCOMP": {
+            "total_in": 138,
+            "kept_untouched": 138,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "E7_USDJPY_NY10ET": {
+            "total_in": 105,
+            "kept_untouched": 105,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "S6_FX_USD_BSK": {
+            "total_in": 195,
+            "kept_untouched": 180,
+            "blocked_entry": 0,
+            "flattened_pre_news": 15,
+            "skipped_day": 0
+          }
+        }
+      },
+      "yearly": {
+        "yearly_pct": {
+          "2018": 13.12,
+          "2019": 2.58,
+          "2020": 15.77,
+          "2021": 5.3,
+          "2022": 16.16,
+          "2023": 0.82,
+          "2024": 4.21
+        },
+        "worst_year": "2023",
+        "worst_year_pct": 0.82,
+        "positive_years": 7,
+        "trades_total": 3069,
+        "trades_per_year": 438.4
+      },
+      "prop_mc_1x": {
+        "FTMO_SWING_10K": {
+          "P1_Balanced_Static": {
+            "pass_24m_pct": 66.7,
+            "med_days_pass": 127,
+            "med_days_pay1": 153,
+            "breach_pct": 2.8,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 168.0,
+            "ev_24m_usd": 610.1,
+            "ev_per_fee": 3.63
+          },
+          "Dyn_ProfitLock_45x": {
+            "pass_24m_pct": 65.1,
+            "med_days_pass": 113,
+            "med_days_pay1": 142,
+            "breach_pct": 3.2,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 168.0,
+            "ev_24m_usd": 606.9,
+            "ev_per_fee": 3.61
+          }
+        },
+        "THE5ERS_HS_5K": {
+          "P1_Balanced_Static": {
+            "pass_24m_pct": 66.6,
+            "med_days_pass": 127,
+            "med_days_pay1": 154,
+            "breach_pct": 2.8,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 39.0,
+            "ev_24m_usd": 314.3,
+            "ev_per_fee": 8.06
+          },
+          "Dyn_ProfitLock_45x": {
+            "pass_24m_pct": 65.0,
+            "med_days_pass": 113,
+            "med_days_pay1": 142,
+            "breach_pct": 3.2,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 39.0,
+            "ev_24m_usd": 313.6,
+            "ev_per_fee": 8.04
+          }
+        }
+      },
+      "prop_mc_15x": {
+        "FTMO_SWING_10K": {
+          "P1_Balanced_Static": {
+            "pass_24m_pct": 45.7,
+            "med_days_pass": 132,
+            "med_days_pay1": 166,
+            "breach_pct": 5.7,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 336.0,
+            "ev_24m_usd": 214.5,
+            "ev_per_fee": 1.28
+          },
+          "Dyn_ProfitLock_45x": {
+            "pass_24m_pct": 46.1,
+            "med_days_pass": 115,
+            "med_days_pay1": 146,
+            "breach_pct": 6.7,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 336.0,
+            "ev_24m_usd": 225.4,
+            "ev_per_fee": 1.34
+          }
+        },
+        "THE5ERS_HS_5K": {
+          "P1_Balanced_Static": {
+            "pass_24m_pct": 45.6,
+            "med_days_pass": 132,
+            "med_days_pay1": 167,
+            "breach_pct": 5.7,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 78.0,
+            "ev_24m_usd": 130.0,
+            "ev_per_fee": 3.33
+          },
+          "Dyn_ProfitLock_45x": {
+            "pass_24m_pct": 46.2,
+            "med_days_pass": 116,
+            "med_days_pay1": 148,
+            "breach_pct": 6.7,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 78.0,
+            "ev_24m_usd": 135.9,
+            "ev_per_fee": 3.48
+          }
+        }
+      },
+      "verdict_vs_v1": "INCUMBENT_BASELINE",
+      "gates_won": 0
+    },
+    {
+      "arch_id": "A2_V2_ROBUST_TIER_8E",
+      "description": "Live 8 EA tilted by Robustness Gate (PASS 1x / WARN 0.75x / FAIL 0.5x)",
+      "n_engines": 8,
+      "risk_weights_pct": {
+        "E1_USDJPY_TOKYO": 0.0945,
+        "E2_USDJPY_EXP80": 0.5205,
+        "E3_GBPUSD_VH": 0.883,
+        "E4_US100_SESS40": 0.2943,
+        "E5_US100_RS1130": 0.5887,
+        "E6_EURJPY_VOLCOMP": 0.5887,
+        "E7_USDJPY_NY10ET": 0.5887,
+        "S6_FX_USD_BSK": 0.4415
+      },
+      "m1_1x": {
+        "net_usd": 5286.07,
+        "ann_pct": {
+          "all": 7.55,
+          "A": 9.82,
+          "B": 5.85
+        },
+        "daily_loss_pct": 2.25,
+        "peak_dd_pct": 8.96,
+        "calmar": 0.84,
+        "underwater_months": 10.04,
+        "peak_margin_pct": 21.83,
+        "max_concurrent_positions": 6,
+        "sym_cap_hits": 56,
+        "margin_failures": 0,
+        "years_pct": {
+          "2018": 10.14,
+          "2019": 5.24,
+          "2020": 14.08,
+          "2021": 4.71,
+          "2022": 14.03,
+          "2023": 1.1,
+          "2024": 3.56
+        },
+        "news_stats": {
+          "E1_USDJPY_TOKYO": {
+            "total_in": 1437,
+            "kept_untouched": 1339,
+            "blocked_entry": 0,
+            "flattened_pre_news": 98,
+            "skipped_day": 0
+          },
+          "E2_USDJPY_EXP80": {
+            "total_in": 569,
+            "kept_untouched": 514,
+            "blocked_entry": 27,
+            "flattened_pre_news": 28,
+            "skipped_day": 0
+          },
+          "E3_GBPUSD_VH": {
+            "total_in": 198,
+            "kept_untouched": 179,
+            "blocked_entry": 8,
+            "flattened_pre_news": 11,
+            "skipped_day": 0
+          },
+          "E4_US100_SESS40": {
+            "total_in": 414,
+            "kept_untouched": 408,
+            "blocked_entry": 0,
+            "flattened_pre_news": 6,
+            "skipped_day": 0
+          },
+          "E5_US100_RS1130": {
+            "total_in": 261,
+            "kept_untouched": 256,
+            "blocked_entry": 0,
+            "flattened_pre_news": 5,
+            "skipped_day": 0
+          },
+          "E6_EURJPY_VOLCOMP": {
+            "total_in": 138,
+            "kept_untouched": 138,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "E7_USDJPY_NY10ET": {
+            "total_in": 105,
+            "kept_untouched": 105,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "S6_FX_USD_BSK": {
+            "total_in": 195,
+            "kept_untouched": 180,
+            "blocked_entry": 0,
+            "flattened_pre_news": 15,
+            "skipped_day": 0
+          }
+        }
+      },
+      "m1_15x": {
+        "net_usd": 3434.71,
+        "ann_pct": {
+          "all": 4.91,
+          "A": 6.39,
+          "B": 3.79
+        },
+        "daily_loss_pct": 2.28,
+        "peak_dd_pct": 9.49,
+        "calmar": 0.52,
+        "underwater_months": 18.15,
+        "peak_margin_pct": 21.4,
+        "max_concurrent_positions": 6,
+        "sym_cap_hits": 56,
+        "margin_failures": 0,
+        "years_pct": {
+          "2018": 6.74,
+          "2019": 1.76,
+          "2020": 10.69,
+          "2021": 1.93,
+          "2022": 12.02,
+          "2023": -0.69,
+          "2024": 1.9
+        },
+        "news_stats": {
+          "E1_USDJPY_TOKYO": {
+            "total_in": 1437,
+            "kept_untouched": 1339,
+            "blocked_entry": 0,
+            "flattened_pre_news": 98,
+            "skipped_day": 0
+          },
+          "E2_USDJPY_EXP80": {
+            "total_in": 569,
+            "kept_untouched": 514,
+            "blocked_entry": 27,
+            "flattened_pre_news": 28,
+            "skipped_day": 0
+          },
+          "E3_GBPUSD_VH": {
+            "total_in": 198,
+            "kept_untouched": 179,
+            "blocked_entry": 8,
+            "flattened_pre_news": 11,
+            "skipped_day": 0
+          },
+          "E4_US100_SESS40": {
+            "total_in": 414,
+            "kept_untouched": 408,
+            "blocked_entry": 0,
+            "flattened_pre_news": 6,
+            "skipped_day": 0
+          },
+          "E5_US100_RS1130": {
+            "total_in": 261,
+            "kept_untouched": 256,
+            "blocked_entry": 0,
+            "flattened_pre_news": 5,
+            "skipped_day": 0
+          },
+          "E6_EURJPY_VOLCOMP": {
+            "total_in": 138,
+            "kept_untouched": 138,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "E7_USDJPY_NY10ET": {
+            "total_in": 105,
+            "kept_untouched": 105,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "S6_FX_USD_BSK": {
+            "total_in": 195,
+            "kept_untouched": 180,
+            "blocked_entry": 0,
+            "flattened_pre_news": 15,
+            "skipped_day": 0
+          }
+        }
+      },
+      "m1_20x": {
+        "net_usd": 1663.96,
+        "ann_pct": {
+          "all": 2.38,
+          "A": 3.32,
+          "B": 1.67
+        },
+        "daily_loss_pct": 2.22,
+        "peak_dd_pct": 10.2,
+        "calmar": 0.23,
+        "underwater_months": 25.79,
+        "peak_margin_pct": 20.82,
+        "max_concurrent_positions": 6,
+        "sym_cap_hits": 56,
+        "margin_failures": 0,
+        "years_pct": {
+          "2018": 3.48,
+          "2019": -1.21,
+          "2020": 7.67,
+          "2021": -0.66,
+          "2022": 9.76,
+          "2023": -2.52,
+          "2024": 0.11
+        },
+        "news_stats": {
+          "E1_USDJPY_TOKYO": {
+            "total_in": 1437,
+            "kept_untouched": 1339,
+            "blocked_entry": 0,
+            "flattened_pre_news": 98,
+            "skipped_day": 0
+          },
+          "E2_USDJPY_EXP80": {
+            "total_in": 569,
+            "kept_untouched": 514,
+            "blocked_entry": 27,
+            "flattened_pre_news": 28,
+            "skipped_day": 0
+          },
+          "E3_GBPUSD_VH": {
+            "total_in": 198,
+            "kept_untouched": 179,
+            "blocked_entry": 8,
+            "flattened_pre_news": 11,
+            "skipped_day": 0
+          },
+          "E4_US100_SESS40": {
+            "total_in": 414,
+            "kept_untouched": 408,
+            "blocked_entry": 0,
+            "flattened_pre_news": 6,
+            "skipped_day": 0
+          },
+          "E5_US100_RS1130": {
+            "total_in": 261,
+            "kept_untouched": 256,
+            "blocked_entry": 0,
+            "flattened_pre_news": 5,
+            "skipped_day": 0
+          },
+          "E6_EURJPY_VOLCOMP": {
+            "total_in": 138,
+            "kept_untouched": 138,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "E7_USDJPY_NY10ET": {
+            "total_in": 105,
+            "kept_untouched": 105,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "S6_FX_USD_BSK": {
+            "total_in": 195,
+            "kept_untouched": 180,
+            "blocked_entry": 0,
+            "flattened_pre_news": 15,
+            "skipped_day": 0
+          }
+        }
+      },
+      "yearly": {
+        "yearly_pct": {
+          "2018": 10.14,
+          "2019": 5.24,
+          "2020": 14.08,
+          "2021": 4.71,
+          "2022": 14.03,
+          "2023": 1.1,
+          "2024": 3.56
+        },
+        "worst_year": "2023",
+        "worst_year_pct": 1.1,
+        "positive_years": 7,
+        "trades_total": 3054,
+        "trades_per_year": 436.3
+      },
+      "prop_mc_1x": {
+        "FTMO_SWING_10K": {
+          "P1_Balanced_Static": {
+            "pass_24m_pct": 69.0,
+            "med_days_pass": 135,
+            "med_days_pay1": 162,
+            "breach_pct": 1.8,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 168.0,
+            "ev_24m_usd": 577.6,
+            "ev_per_fee": 3.44
+          },
+          "Dyn_ProfitLock_45x": {
+            "pass_24m_pct": 66.8,
+            "med_days_pass": 127,
+            "med_days_pay1": 156,
+            "breach_pct": 2.5,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 168.0,
+            "ev_24m_usd": 556.3,
+            "ev_per_fee": 3.31
+          }
+        },
+        "THE5ERS_HS_5K": {
+          "P1_Balanced_Static": {
+            "pass_24m_pct": 68.9,
+            "med_days_pass": 135,
+            "med_days_pay1": 162,
+            "breach_pct": 1.8,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 39.0,
+            "ev_24m_usd": 296.0,
+            "ev_per_fee": 7.59
+          },
+          "Dyn_ProfitLock_45x": {
+            "pass_24m_pct": 66.7,
+            "med_days_pass": 128,
+            "med_days_pay1": 157,
+            "breach_pct": 2.5,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 39.0,
+            "ev_24m_usd": 286.4,
+            "ev_per_fee": 7.34
+          }
+        }
+      },
+      "prop_mc_15x": {
+        "FTMO_SWING_10K": {
+          "P1_Balanced_Static": {
+            "pass_24m_pct": 49.7,
+            "med_days_pass": 141,
+            "med_days_pay1": 171,
+            "breach_pct": 3.1,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 168.0,
+            "ev_24m_usd": 229.0,
+            "ev_per_fee": 1.36
+          },
+          "Dyn_ProfitLock_45x": {
+            "pass_24m_pct": 48.0,
+            "med_days_pass": 130,
+            "med_days_pay1": 157,
+            "breach_pct": 4.2,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 168.0,
+            "ev_24m_usd": 222.5,
+            "ev_per_fee": 1.32
+          }
+        },
+        "THE5ERS_HS_5K": {
+          "P1_Balanced_Static": {
+            "pass_24m_pct": 49.7,
+            "med_days_pass": 141,
+            "med_days_pay1": 171,
+            "breach_pct": 3.1,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 39.0,
+            "ev_24m_usd": 134.1,
+            "ev_per_fee": 3.44
+          },
+          "Dyn_ProfitLock_45x": {
+            "pass_24m_pct": 48.0,
+            "med_days_pass": 130,
+            "med_days_pay1": 158,
+            "breach_pct": 4.2,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 39.0,
+            "ev_24m_usd": 131.8,
+            "ev_per_fee": 3.38
+          }
+        }
+      },
+      "gates_detail": {
+        "calmar_15x_beats_v1": true,
+        "worst_yr_beats_v1": true,
+        "cluster_b_non_degraded": false,
+        "prop_ev_or_speed_beats_v1": false
+      },
+      "gates_won": 2,
+      "verdict_vs_v1": "MIXED_TRADEOFF_KEEP_V1_DEFAULT"
+    },
+    {
+      "arch_id": "A3_V2_PRUNE_FRAGILE_6E",
+      "description": "Drop FAIL_FRAGILE (E1, E4); keep 6 robust/warn engines",
+      "n_engines": 6,
+      "risk_weights_pct": {
+        "E2_USDJPY_EXP80": 0.5765,
+        "E3_GBPUSD_VH": 0.9781,
+        "E5_US100_RS1130": 0.6521,
+        "E6_EURJPY_VOLCOMP": 0.6521,
+        "E7_USDJPY_NY10ET": 0.6521,
+        "S6_FX_USD_BSK": 0.4891
+      },
+      "m1_1x": {
+        "net_usd": 4710.72,
+        "ann_pct": {
+          "all": 6.73,
+          "A": 9.72,
+          "B": 4.49
+        },
+        "daily_loss_pct": 2.48,
+        "peak_dd_pct": 9.58,
+        "calmar": 0.7,
+        "underwater_months": 12.45,
+        "peak_margin_pct": 21.42,
+        "max_concurrent_positions": 5,
+        "sym_cap_hits": 56,
+        "margin_failures": 0,
+        "years_pct": {
+          "2018": 6.33,
+          "2019": 8.32,
+          "2020": 14.51,
+          "2021": 4.35,
+          "2022": 10.53,
+          "2023": 1.47,
+          "2024": 1.61
+        },
+        "news_stats": {
+          "E2_USDJPY_EXP80": {
+            "total_in": 569,
+            "kept_untouched": 514,
+            "blocked_entry": 27,
+            "flattened_pre_news": 28,
+            "skipped_day": 0
+          },
+          "E3_GBPUSD_VH": {
+            "total_in": 198,
+            "kept_untouched": 179,
+            "blocked_entry": 8,
+            "flattened_pre_news": 11,
+            "skipped_day": 0
+          },
+          "E5_US100_RS1130": {
+            "total_in": 261,
+            "kept_untouched": 256,
+            "blocked_entry": 0,
+            "flattened_pre_news": 5,
+            "skipped_day": 0
+          },
+          "E6_EURJPY_VOLCOMP": {
+            "total_in": 138,
+            "kept_untouched": 138,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "E7_USDJPY_NY10ET": {
+            "total_in": 105,
+            "kept_untouched": 105,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "S6_FX_USD_BSK": {
+            "total_in": 195,
+            "kept_untouched": 180,
+            "blocked_entry": 0,
+            "flattened_pre_news": 15,
+            "skipped_day": 0
+          }
+        }
+      },
+      "m1_15x": {
+        "net_usd": 3260.06,
+        "ann_pct": {
+          "all": 4.66,
+          "A": 7.08,
+          "B": 2.84
+        },
+        "daily_loss_pct": 2.51,
+        "peak_dd_pct": 9.93,
+        "calmar": 0.47,
+        "underwater_months": 18.15,
+        "peak_margin_pct": 20.99,
+        "max_concurrent_positions": 5,
+        "sym_cap_hits": 56,
+        "margin_failures": 0,
+        "years_pct": {
+          "2018": 3.82,
+          "2019": 5.54,
+          "2020": 11.88,
+          "2021": 1.91,
+          "2022": 8.98,
+          "2023": -0.06,
+          "2024": 0.53
+        },
+        "news_stats": {
+          "E2_USDJPY_EXP80": {
+            "total_in": 569,
+            "kept_untouched": 514,
+            "blocked_entry": 27,
+            "flattened_pre_news": 28,
+            "skipped_day": 0
+          },
+          "E3_GBPUSD_VH": {
+            "total_in": 198,
+            "kept_untouched": 179,
+            "blocked_entry": 8,
+            "flattened_pre_news": 11,
+            "skipped_day": 0
+          },
+          "E5_US100_RS1130": {
+            "total_in": 261,
+            "kept_untouched": 256,
+            "blocked_entry": 0,
+            "flattened_pre_news": 5,
+            "skipped_day": 0
+          },
+          "E6_EURJPY_VOLCOMP": {
+            "total_in": 138,
+            "kept_untouched": 138,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "E7_USDJPY_NY10ET": {
+            "total_in": 105,
+            "kept_untouched": 105,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "S6_FX_USD_BSK": {
+            "total_in": 195,
+            "kept_untouched": 180,
+            "blocked_entry": 0,
+            "flattened_pre_news": 15,
+            "skipped_day": 0
+          }
+        }
+      },
+      "m1_20x": {
+        "net_usd": 1899.81,
+        "ann_pct": {
+          "all": 2.71,
+          "A": 4.68,
+          "B": 1.24
+        },
+        "daily_loss_pct": 2.54,
+        "peak_dd_pct": 10.32,
+        "calmar": 0.26,
+        "underwater_months": 25.99,
+        "peak_margin_pct": 20.64,
+        "max_concurrent_positions": 5,
+        "sym_cap_hits": 56,
+        "margin_failures": 0,
+        "years_pct": {
+          "2018": 1.63,
+          "2019": 2.97,
+          "2020": 9.45,
+          "2021": -0.23,
+          "2022": 7.5,
+          "2023": -1.5,
+          "2024": -0.82
+        },
+        "news_stats": {
+          "E2_USDJPY_EXP80": {
+            "total_in": 569,
+            "kept_untouched": 514,
+            "blocked_entry": 27,
+            "flattened_pre_news": 28,
+            "skipped_day": 0
+          },
+          "E3_GBPUSD_VH": {
+            "total_in": 198,
+            "kept_untouched": 179,
+            "blocked_entry": 8,
+            "flattened_pre_news": 11,
+            "skipped_day": 0
+          },
+          "E5_US100_RS1130": {
+            "total_in": 261,
+            "kept_untouched": 256,
+            "blocked_entry": 0,
+            "flattened_pre_news": 5,
+            "skipped_day": 0
+          },
+          "E6_EURJPY_VOLCOMP": {
+            "total_in": 138,
+            "kept_untouched": 138,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "E7_USDJPY_NY10ET": {
+            "total_in": 105,
+            "kept_untouched": 105,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "S6_FX_USD_BSK": {
+            "total_in": 195,
+            "kept_untouched": 180,
+            "blocked_entry": 0,
+            "flattened_pre_news": 15,
+            "skipped_day": 0
+          }
+        }
+      },
+      "yearly": {
+        "yearly_pct": {
+          "2018": 6.33,
+          "2019": 8.32,
+          "2020": 14.51,
+          "2021": 4.35,
+          "2022": 10.53,
+          "2023": 1.47,
+          "2024": 1.61
+        },
+        "worst_year": "2023",
+        "worst_year_pct": 1.47,
+        "positive_years": 7,
+        "trades_total": 1252,
+        "trades_per_year": 178.9
+      },
+      "prop_mc_1x": {
+        "FTMO_SWING_10K": {
+          "P1_Balanced_Static": {
+            "pass_24m_pct": 62.1,
+            "med_days_pass": 138,
+            "med_days_pay1": 167,
+            "breach_pct": 3.1,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 168.0,
+            "ev_24m_usd": 445.6,
+            "ev_per_fee": 2.65
+          },
+          "Dyn_ProfitLock_45x": {
+            "pass_24m_pct": 61.3,
+            "med_days_pass": 127,
+            "med_days_pay1": 157,
+            "breach_pct": 4.2,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 168.0,
+            "ev_24m_usd": 444.4,
+            "ev_per_fee": 2.65
+          }
+        },
+        "THE5ERS_HS_5K": {
+          "P1_Balanced_Static": {
+            "pass_24m_pct": 62.0,
+            "med_days_pass": 139,
+            "med_days_pay1": 167,
+            "breach_pct": 3.1,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 39.0,
+            "ev_24m_usd": 234.4,
+            "ev_per_fee": 6.01
+          },
+          "Dyn_ProfitLock_45x": {
+            "pass_24m_pct": 61.3,
+            "med_days_pass": 129,
+            "med_days_pay1": 158,
+            "breach_pct": 4.2,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 39.0,
+            "ev_24m_usd": 235.2,
+            "ev_per_fee": 6.03
+          }
+        }
+      },
+      "prop_mc_15x": {
+        "FTMO_SWING_10K": {
+          "P1_Balanced_Static": {
+            "pass_24m_pct": 46.6,
+            "med_days_pass": 147,
+            "med_days_pay1": 178,
+            "breach_pct": 4.7,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 168.0,
+            "ev_24m_usd": 191.5,
+            "ev_per_fee": 1.14
+          },
+          "Dyn_ProfitLock_45x": {
+            "pass_24m_pct": 45.4,
+            "med_days_pass": 134,
+            "med_days_pay1": 165,
+            "breach_pct": 6.3,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 336.0,
+            "ev_24m_usd": 187.2,
+            "ev_per_fee": 1.11
+          }
+        },
+        "THE5ERS_HS_5K": {
+          "P1_Balanced_Static": {
+            "pass_24m_pct": 46.5,
+            "med_days_pass": 147,
+            "med_days_pay1": 178,
+            "breach_pct": 4.7,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 39.0,
+            "ev_24m_usd": 117.6,
+            "ev_per_fee": 3.01
+          },
+          "Dyn_ProfitLock_45x": {
+            "pass_24m_pct": 45.3,
+            "med_days_pass": 134,
+            "med_days_pay1": 165,
+            "breach_pct": 6.3,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 78.0,
+            "ev_24m_usd": 117.1,
+            "ev_per_fee": 3.0
+          }
+        }
+      },
+      "gates_detail": {
+        "calmar_15x_beats_v1": false,
+        "worst_yr_beats_v1": true,
+        "cluster_b_non_degraded": false,
+        "prop_ev_or_speed_beats_v1": false
+      },
+      "gates_won": 1,
+      "verdict_vs_v1": "REJECT_INFERIOR_TO_V1"
+    },
+    {
+      "arch_id": "A4_V2_PURE_PASS_4E",
+      "description": "Pure 4/4 PASS_ROBUST only (E3, E5, E6, E7)",
+      "n_engines": 4,
+      "risk_weights_pct": {
+        "E3_GBPUSD_VH": 1.3333,
+        "E5_US100_RS1130": 0.8889,
+        "E6_EURJPY_VOLCOMP": 0.8889,
+        "E7_USDJPY_NY10ET": 0.8889
+      },
+      "m1_1x": {
+        "net_usd": 4323.17,
+        "ann_pct": {
+          "all": 6.18,
+          "A": 6.95,
+          "B": 5.59
+        },
+        "daily_loss_pct": 1.77,
+        "peak_dd_pct": 7.86,
+        "calmar": 0.79,
+        "underwater_months": 13.04,
+        "peak_margin_pct": 21.08,
+        "max_concurrent_positions": 3,
+        "sym_cap_hits": 166,
+        "margin_failures": 0,
+        "years_pct": {
+          "2018": 4.54,
+          "2019": 7.73,
+          "2020": 8.59,
+          "2021": 2.85,
+          "2022": 13.07,
+          "2023": 1.69,
+          "2024": 4.75
+        },
+        "news_stats": {
+          "E3_GBPUSD_VH": {
+            "total_in": 198,
+            "kept_untouched": 179,
+            "blocked_entry": 8,
+            "flattened_pre_news": 11,
+            "skipped_day": 0
+          },
+          "E5_US100_RS1130": {
+            "total_in": 261,
+            "kept_untouched": 256,
+            "blocked_entry": 0,
+            "flattened_pre_news": 5,
+            "skipped_day": 0
+          },
+          "E6_EURJPY_VOLCOMP": {
+            "total_in": 138,
+            "kept_untouched": 138,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "E7_USDJPY_NY10ET": {
+            "total_in": 105,
+            "kept_untouched": 105,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          }
+        }
+      },
+      "m1_15x": {
+        "net_usd": 2956.09,
+        "ann_pct": {
+          "all": 4.22,
+          "A": 4.34,
+          "B": 4.14
+        },
+        "daily_loss_pct": 1.79,
+        "peak_dd_pct": 8.48,
+        "calmar": 0.5,
+        "underwater_months": 18.15,
+        "peak_margin_pct": 20.85,
+        "max_concurrent_positions": 3,
+        "sym_cap_hits": 166,
+        "margin_failures": 0,
+        "years_pct": {
+          "2018": 2.19,
+          "2019": 4.8,
+          "2020": 6.03,
+          "2021": 0.71,
+          "2022": 11.61,
+          "2023": 0.72,
+          "2024": 3.51
+        },
+        "news_stats": {
+          "E3_GBPUSD_VH": {
+            "total_in": 198,
+            "kept_untouched": 179,
+            "blocked_entry": 8,
+            "flattened_pre_news": 11,
+            "skipped_day": 0
+          },
+          "E5_US100_RS1130": {
+            "total_in": 261,
+            "kept_untouched": 256,
+            "blocked_entry": 0,
+            "flattened_pre_news": 5,
+            "skipped_day": 0
+          },
+          "E6_EURJPY_VOLCOMP": {
+            "total_in": 138,
+            "kept_untouched": 138,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "E7_USDJPY_NY10ET": {
+            "total_in": 105,
+            "kept_untouched": 105,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          }
+        }
+      },
+      "m1_20x": {
+        "net_usd": 1721.64,
+        "ann_pct": {
+          "all": 2.46,
+          "A": 2.06,
+          "B": 2.76
+        },
+        "daily_loss_pct": 1.81,
+        "peak_dd_pct": 9.29,
+        "calmar": 0.26,
+        "underwater_months": 25.99,
+        "peak_margin_pct": 20.29,
+        "max_concurrent_positions": 3,
+        "sym_cap_hits": 166,
+        "margin_failures": 0,
+        "years_pct": {
+          "2018": 0.06,
+          "2019": 2.3,
+          "2020": 3.82,
+          "2021": -1.07,
+          "2022": 10.25,
+          "2023": -0.5,
+          "2024": 2.36
+        },
+        "news_stats": {
+          "E3_GBPUSD_VH": {
+            "total_in": 198,
+            "kept_untouched": 179,
+            "blocked_entry": 8,
+            "flattened_pre_news": 11,
+            "skipped_day": 0
+          },
+          "E5_US100_RS1130": {
+            "total_in": 261,
+            "kept_untouched": 256,
+            "blocked_entry": 0,
+            "flattened_pre_news": 5,
+            "skipped_day": 0
+          },
+          "E6_EURJPY_VOLCOMP": {
+            "total_in": 138,
+            "kept_untouched": 138,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "E7_USDJPY_NY10ET": {
+            "total_in": 105,
+            "kept_untouched": 105,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          }
+        }
+      },
+      "yearly": {
+        "yearly_pct": {
+          "2018": 4.54,
+          "2019": 7.73,
+          "2020": 8.59,
+          "2021": 2.85,
+          "2022": 13.07,
+          "2023": 1.69,
+          "2024": 4.75
+        },
+        "worst_year": "2023",
+        "worst_year_pct": 1.69,
+        "positive_years": 7,
+        "trades_total": 614,
+        "trades_per_year": 87.7
+      },
+      "prop_mc_1x": {
+        "FTMO_SWING_10K": {
+          "P1_Balanced_Static": {
+            "pass_24m_pct": 59.5,
+            "med_days_pass": 156,
+            "med_days_pay1": 185,
+            "breach_pct": 1.2,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 168.0,
+            "ev_24m_usd": 365.2,
+            "ev_per_fee": 2.17
+          },
+          "Dyn_ProfitLock_45x": {
+            "pass_24m_pct": 57.0,
+            "med_days_pass": 142,
+            "med_days_pay1": 172,
+            "breach_pct": 1.9,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 168.0,
+            "ev_24m_usd": 352.2,
+            "ev_per_fee": 2.1
+          }
+        },
+        "THE5ERS_HS_5K": {
+          "P1_Balanced_Static": {
+            "pass_24m_pct": 59.4,
+            "med_days_pass": 156,
+            "med_days_pay1": 186,
+            "breach_pct": 1.2,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 39.0,
+            "ev_24m_usd": 195.3,
+            "ev_per_fee": 5.01
+          },
+          "Dyn_ProfitLock_45x": {
+            "pass_24m_pct": 56.9,
+            "med_days_pass": 144,
+            "med_days_pay1": 174,
+            "breach_pct": 1.9,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 39.0,
+            "ev_24m_usd": 190.0,
+            "ev_per_fee": 4.87
+          }
+        }
+      },
+      "prop_mc_15x": {
+        "FTMO_SWING_10K": {
+          "P1_Balanced_Static": {
+            "pass_24m_pct": 43.0,
+            "med_days_pass": 159,
+            "med_days_pay1": 189,
+            "breach_pct": 2.4,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 168.0,
+            "ev_24m_usd": 139.1,
+            "ev_per_fee": 0.83
+          },
+          "Dyn_ProfitLock_45x": {
+            "pass_24m_pct": 42.2,
+            "med_days_pass": 145,
+            "med_days_pay1": 175,
+            "breach_pct": 3.6,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 168.0,
+            "ev_24m_usd": 137.4,
+            "ev_per_fee": 0.82
+          }
+        },
+        "THE5ERS_HS_5K": {
+          "P1_Balanced_Static": {
+            "pass_24m_pct": 43.0,
+            "med_days_pass": 158,
+            "med_days_pay1": 191,
+            "breach_pct": 2.4,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 39.0,
+            "ev_24m_usd": 92.6,
+            "ev_per_fee": 2.37
+          },
+          "Dyn_ProfitLock_45x": {
+            "pass_24m_pct": 42.1,
+            "med_days_pass": 146,
+            "med_days_pay1": 179,
+            "breach_pct": 3.6,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 39.0,
+            "ev_24m_usd": 91.8,
+            "ev_per_fee": 2.36
+          }
+        }
+      },
+      "gates_detail": {
+        "calmar_15x_beats_v1": true,
+        "worst_yr_beats_v1": true,
+        "cluster_b_non_degraded": false,
+        "prop_ev_or_speed_beats_v1": false
+      },
+      "gates_won": 2,
+      "verdict_vs_v1": "MIXED_TRADEOFF_KEEP_V1_DEFAULT"
+    },
+    {
+      "arch_id": "A5_V2_ROBUST_TIER_9E_EUR",
+      "description": "A2 Robust-Tier + L10_B2_EURUSD_VOLCOMP75 (r=+0.02)",
+      "n_engines": 9,
+      "risk_weights_pct": {
+        "E1_USDJPY_TOKYO": 0.0824,
+        "E2_USDJPY_EXP80": 0.4537,
+        "E3_GBPUSD_VH": 0.7698,
+        "E4_US100_SESS40": 0.2566,
+        "E5_US100_RS1130": 0.5132,
+        "E6_EURJPY_VOLCOMP": 0.5132,
+        "E7_USDJPY_NY10ET": 0.5132,
+        "S6_FX_USD_BSK": 0.3849,
+        "L10_B2_EURUSD_VOLCOMP75": 0.5132
+      },
+      "m1_1x": {
+        "net_usd": 4934.55,
+        "ann_pct": {
+          "all": 7.05,
+          "A": 9.65,
+          "B": 5.1
+        },
+        "daily_loss_pct": 1.95,
+        "peak_dd_pct": 7.54,
+        "calmar": 0.94,
+        "underwater_months": 7.16,
+        "peak_margin_pct": 21.84,
+        "max_concurrent_positions": 6,
+        "sym_cap_hits": 40,
+        "margin_failures": 0,
+        "years_pct": {
+          "2018": 8.62,
+          "2019": 7.0,
+          "2020": 13.33,
+          "2021": 4.67,
+          "2022": 12.26,
+          "2023": 2.6,
+          "2024": 0.87
+        },
+        "news_stats": {
+          "E1_USDJPY_TOKYO": {
+            "total_in": 1437,
+            "kept_untouched": 1339,
+            "blocked_entry": 0,
+            "flattened_pre_news": 98,
+            "skipped_day": 0
+          },
+          "E2_USDJPY_EXP80": {
+            "total_in": 569,
+            "kept_untouched": 514,
+            "blocked_entry": 27,
+            "flattened_pre_news": 28,
+            "skipped_day": 0
+          },
+          "E3_GBPUSD_VH": {
+            "total_in": 198,
+            "kept_untouched": 179,
+            "blocked_entry": 8,
+            "flattened_pre_news": 11,
+            "skipped_day": 0
+          },
+          "E4_US100_SESS40": {
+            "total_in": 414,
+            "kept_untouched": 408,
+            "blocked_entry": 0,
+            "flattened_pre_news": 6,
+            "skipped_day": 0
+          },
+          "E5_US100_RS1130": {
+            "total_in": 261,
+            "kept_untouched": 256,
+            "blocked_entry": 0,
+            "flattened_pre_news": 5,
+            "skipped_day": 0
+          },
+          "E6_EURJPY_VOLCOMP": {
+            "total_in": 138,
+            "kept_untouched": 138,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "E7_USDJPY_NY10ET": {
+            "total_in": 105,
+            "kept_untouched": 105,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "S6_FX_USD_BSK": {
+            "total_in": 195,
+            "kept_untouched": 180,
+            "blocked_entry": 0,
+            "flattened_pre_news": 15,
+            "skipped_day": 0
+          },
+          "L10_B2_EURUSD_VOLCOMP75": {
+            "total_in": 117,
+            "kept_untouched": 106,
+            "blocked_entry": 8,
+            "flattened_pre_news": 3,
+            "skipped_day": 0
+          }
+        }
+      },
+      "m1_15x": {
+        "net_usd": 3236.23,
+        "ann_pct": {
+          "all": 4.62,
+          "A": 6.67,
+          "B": 3.09
+        },
+        "daily_loss_pct": 1.97,
+        "peak_dd_pct": 8.05,
+        "calmar": 0.57,
+        "underwater_months": 18.32,
+        "peak_margin_pct": 21.78,
+        "max_concurrent_positions": 6,
+        "sym_cap_hits": 40,
+        "margin_failures": 0,
+        "years_pct": {
+          "2018": 5.88,
+          "2019": 3.54,
+          "2020": 10.58,
+          "2021": 2.11,
+          "2022": 10.44,
+          "2023": 0.69,
+          "2024": -0.89
+        },
+        "news_stats": {
+          "E1_USDJPY_TOKYO": {
+            "total_in": 1437,
+            "kept_untouched": 1339,
+            "blocked_entry": 0,
+            "flattened_pre_news": 98,
+            "skipped_day": 0
+          },
+          "E2_USDJPY_EXP80": {
+            "total_in": 569,
+            "kept_untouched": 514,
+            "blocked_entry": 27,
+            "flattened_pre_news": 28,
+            "skipped_day": 0
+          },
+          "E3_GBPUSD_VH": {
+            "total_in": 198,
+            "kept_untouched": 179,
+            "blocked_entry": 8,
+            "flattened_pre_news": 11,
+            "skipped_day": 0
+          },
+          "E4_US100_SESS40": {
+            "total_in": 414,
+            "kept_untouched": 408,
+            "blocked_entry": 0,
+            "flattened_pre_news": 6,
+            "skipped_day": 0
+          },
+          "E5_US100_RS1130": {
+            "total_in": 261,
+            "kept_untouched": 256,
+            "blocked_entry": 0,
+            "flattened_pre_news": 5,
+            "skipped_day": 0
+          },
+          "E6_EURJPY_VOLCOMP": {
+            "total_in": 138,
+            "kept_untouched": 138,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "E7_USDJPY_NY10ET": {
+            "total_in": 105,
+            "kept_untouched": 105,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "S6_FX_USD_BSK": {
+            "total_in": 195,
+            "kept_untouched": 180,
+            "blocked_entry": 0,
+            "flattened_pre_news": 15,
+            "skipped_day": 0
+          },
+          "L10_B2_EURUSD_VOLCOMP75": {
+            "total_in": 117,
+            "kept_untouched": 106,
+            "blocked_entry": 8,
+            "flattened_pre_news": 3,
+            "skipped_day": 0
+          }
+        }
+      },
+      "m1_20x": {
+        "net_usd": 1635.48,
+        "ann_pct": {
+          "all": 2.34,
+          "A": 3.92,
+          "B": 1.15
+        },
+        "daily_loss_pct": 2.0,
+        "peak_dd_pct": 8.56,
+        "calmar": 0.27,
+        "underwater_months": 25.79,
+        "peak_margin_pct": 21.35,
+        "max_concurrent_positions": 6,
+        "sym_cap_hits": 40,
+        "margin_failures": 0,
+        "years_pct": {
+          "2018": 2.99,
+          "2019": 0.65,
+          "2020": 8.13,
+          "2021": -0.2,
+          "2022": 8.3,
+          "2023": -1.01,
+          "2024": -2.5
+        },
+        "news_stats": {
+          "E1_USDJPY_TOKYO": {
+            "total_in": 1437,
+            "kept_untouched": 1339,
+            "blocked_entry": 0,
+            "flattened_pre_news": 98,
+            "skipped_day": 0
+          },
+          "E2_USDJPY_EXP80": {
+            "total_in": 569,
+            "kept_untouched": 514,
+            "blocked_entry": 27,
+            "flattened_pre_news": 28,
+            "skipped_day": 0
+          },
+          "E3_GBPUSD_VH": {
+            "total_in": 198,
+            "kept_untouched": 179,
+            "blocked_entry": 8,
+            "flattened_pre_news": 11,
+            "skipped_day": 0
+          },
+          "E4_US100_SESS40": {
+            "total_in": 414,
+            "kept_untouched": 408,
+            "blocked_entry": 0,
+            "flattened_pre_news": 6,
+            "skipped_day": 0
+          },
+          "E5_US100_RS1130": {
+            "total_in": 261,
+            "kept_untouched": 256,
+            "blocked_entry": 0,
+            "flattened_pre_news": 5,
+            "skipped_day": 0
+          },
+          "E6_EURJPY_VOLCOMP": {
+            "total_in": 138,
+            "kept_untouched": 138,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "E7_USDJPY_NY10ET": {
+            "total_in": 105,
+            "kept_untouched": 105,
+            "blocked_entry": 0,
+            "flattened_pre_news": 0,
+            "skipped_day": 0
+          },
+          "S6_FX_USD_BSK": {
+            "total_in": 195,
+            "kept_untouched": 180,
+            "blocked_entry": 0,
+            "flattened_pre_news": 15,
+            "skipped_day": 0
+          },
+          "L10_B2_EURUSD_VOLCOMP75": {
+            "total_in": 117,
+            "kept_untouched": 106,
+            "blocked_entry": 8,
+            "flattened_pre_news": 3,
+            "skipped_day": 0
+          }
+        }
+      },
+      "yearly": {
+        "yearly_pct": {
+          "2018": 8.62,
+          "2019": 7.0,
+          "2020": 13.33,
+          "2021": 4.67,
+          "2022": 12.26,
+          "2023": 2.6,
+          "2024": 0.87
+        },
+        "worst_year": "2024",
+        "worst_year_pct": 0.87,
+        "positive_years": 7,
+        "trades_total": 3155,
+        "trades_per_year": 450.7
+      },
+      "prop_mc_1x": {
+        "FTMO_SWING_10K": {
+          "P1_Balanced_Static": {
+            "pass_24m_pct": 70.4,
+            "med_days_pass": 142,
+            "med_days_pay1": 167,
+            "breach_pct": 1.1,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 168.0,
+            "ev_24m_usd": 542.9,
+            "ev_per_fee": 3.23
+          },
+          "Dyn_ProfitLock_45x": {
+            "pass_24m_pct": 70.2,
+            "med_days_pass": 130,
+            "med_days_pay1": 156,
+            "breach_pct": 1.4,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 168.0,
+            "ev_24m_usd": 556.7,
+            "ev_per_fee": 3.31
+          }
+        },
+        "THE5ERS_HS_5K": {
+          "P1_Balanced_Static": {
+            "pass_24m_pct": 70.3,
+            "med_days_pass": 142,
+            "med_days_pay1": 168,
+            "breach_pct": 1.1,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 39.0,
+            "ev_24m_usd": 277.8,
+            "ev_per_fee": 7.12
+          },
+          "Dyn_ProfitLock_45x": {
+            "pass_24m_pct": 70.2,
+            "med_days_pass": 131,
+            "med_days_pay1": 157,
+            "breach_pct": 1.4,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 39.0,
+            "ev_24m_usd": 284.3,
+            "ev_per_fee": 7.29
+          }
+        }
+      },
+      "prop_mc_15x": {
+        "FTMO_SWING_10K": {
+          "P1_Balanced_Static": {
+            "pass_24m_pct": 50.6,
+            "med_days_pass": 150,
+            "med_days_pay1": 178,
+            "breach_pct": 1.6,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 168.0,
+            "ev_24m_usd": 215.2,
+            "ev_per_fee": 1.28
+          },
+          "Dyn_ProfitLock_45x": {
+            "pass_24m_pct": 51.5,
+            "med_days_pass": 138,
+            "med_days_pay1": 167,
+            "breach_pct": 2.6,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 168.0,
+            "ev_24m_usd": 231.5,
+            "ev_per_fee": 1.38
+          }
+        },
+        "THE5ERS_HS_5K": {
+          "P1_Balanced_Static": {
+            "pass_24m_pct": 50.6,
+            "med_days_pass": 149,
+            "med_days_pay1": 178,
+            "breach_pct": 1.6,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 39.0,
+            "ev_24m_usd": 125.9,
+            "ev_per_fee": 3.23
+          },
+          "Dyn_ProfitLock_45x": {
+            "pass_24m_pct": 51.5,
+            "med_days_pass": 139,
+            "med_days_pay1": 169,
+            "breach_pct": 2.6,
+            "wipeout_pct": 0.0,
+            "oop95_usd": 39.0,
+            "ev_24m_usd": 133.8,
+            "ev_per_fee": 3.43
+          }
+        }
+      },
+      "gates_detail": {
+        "calmar_15x_beats_v1": true,
+        "worst_yr_beats_v1": true,
+        "cluster_b_non_degraded": false,
+        "prop_ev_or_speed_beats_v1": false
+      },
+      "gates_won": 2,
+      "verdict_vs_v1": "MIXED_TRADEOFF_KEEP_V1_DEFAULT"
+    }
+  ]
+}
