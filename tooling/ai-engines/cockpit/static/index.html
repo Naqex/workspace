@@ -62,9 +62,13 @@
           <select id="inp-mx-program" class="input input-sm" aria-label="Chọn chương trình Prop">
             <option value="ftmo_free_trial_10k" selected>FTMO Free Trial 10K (Swing)</option>
             <option value="ftmo_swing_10k_p1">FTMO Swing 10K — Phase 1</option>
+            <option value="ftmo_swing_25k_p1">FTMO Swing 25K — Phase 1</option>
+            <option value="ftmo_swing_50k_p1">FTMO Swing 50K — Phase 1</option>
+            <option value="ftmo_swing_100k_p1">FTMO Swing 100K — Phase 1</option>
             <option value="ftmo_swing_10k_p2">FTMO Swing 10K — Phase 2</option>
             <option value="ftmo_funded_10k">FTMO Funded 10K</option>
             <option value="the5ers_hs_5k_p1">The5ers High Stakes 5K — Step 1</option>
+            <option value="the5ers_hs_20k_p1">The5ers High Stakes 20K — Step 1</option>
           </select>
           <span class="tag" id="mx-source-badge">—</span>
         </div>
@@ -86,6 +90,15 @@
           <div class="mini-val mono" id="mx-buf-today">—</div>
           <div class="mini-sub mono" id="mx-buf-today-sub">Tổng PnL: —</div>
         </div>
+      </div>
+
+      <div class="mx-risk-strip" id="prop-risk-strip" aria-label="Phân tầng chẩn đoán rủi ro R4 đến R1">
+        <div class="mx-risk-hdr">
+          <span class="mx-risk-title">Phân Tầng Lỗi 4 Lớp (R4 → R3 → R2 → R1)</span>
+          <span class="tag tag-green" id="mx-risk-active">OK</span>
+          <span class="mx-risk-headline" id="mx-risk-headline">—</span>
+        </div>
+        <div class="mx-risk-grid" id="mx-risk-layers"></div>
       </div>
 
       <div class="grid-2">

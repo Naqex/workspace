@@ -32,6 +32,7 @@ input int    InpGuardTesterUtcOffsetH  = 2;       // Server UTC offset used ONLY
 input bool   InpGuardEnableRedNews     = true;    // Enable +/-PadSec red-news guard from MQL5/Files CSV
 input string InpGuardRedNewsCsvFile    = "naqex_red_news_utc.csv";
 input int    InpGuardNewsPadSec        = 300;     // 300s = +/-5m (covers FTMO +/-2m and The5ers +/-2m)
+input int    InpGuardNewsHardBanSec    = 135;     // 135s = +/-2m15s hard no-execution zone (protects +/-2m FTMO/The5ers ban)
 input string InpGuardTcaAuditCsvFile   = "naqex_exec_audit.csv";
 input long   InpGuardMagicRangeMin     = 20261120;
 input long   InpGuardMagicRangeMax     = 20261199;
@@ -69,13 +70,28 @@ private:
 
    bool CurrencyMatchesSymbolFor(const string sym, const string evCcy) const
    {
-      if(evCcy == "ALL" || evCcy == "") return true;
-      if(StringFind(sym, evCcy) >= 0) return true;
-      if(evCcy == "USD" && (StringFind(sym, "US100") >= 0 ||
-                            StringFind(sym, "US500") >= 0 ||
-                            StringFind(sym, "XAU")   >= 0))
+      string uSym = sym;
+      string uCcy = evCcy;
+      StringToUpper(uSym);
+      StringToUpper(uCcy);
+      if(uCcy == "ALL" || uCcy == "") return true;
+      if(StringFind(uSym, uCcy) >= 0) return true;
+      if(uCcy == "USD" && (StringFind(uSym, "US100")  >= 0 ||
+                           StringFind(uSym, "NAS100") >= 0 ||
+                           StringFind(uSym, "NDX")    >= 0 ||
+                           StringFind(uSym, "USTEC")  >= 0 ||
+                           StringFind(uSym, "US500")  >= 0 ||
+                           StringFind(uSym, "SPX")    >= 0 ||
+                           StringFind(uSym, "US30")   >= 0 ||
+                           StringFind(uSym, "XAU")    >= 0 ||
+                           StringFind(uSym, "BTC")    >= 0))
          return true;
-      if(evCcy == "EUR" && StringFind(sym, "GER40") >= 0)
+      if(uCcy == "EUR" && (StringFind(uSym, "GER40") >= 0 ||
+                           StringFind(uSym, "DE40")  >= 0 ||
+                           StringFind(uSym, "DAX")   >= 0))
+         return true;
+      if(uCcy == "GBP" && (StringFind(uSym, "UK100") >= 0 ||
+                           StringFind(uSym, "FTSE")  >= 0))
          return true;
       return false;
    }
@@ -362,6 +378,31 @@ public:
    bool IsInsideRedNewsWindow() const
    {
       return IsInsideRedNewsWindowFor(m_symbol);
+   }
+
+   // Safe pre-flatten window strictly BEFORE hard +/-2m15s no-execution ban (-5m .. -2m15s).
+   // Returns false inside ANY matching event's +/-InpGuardNewsHardBanSec zone so a terminal
+   // restart inside +/-2m will NEVER illegally market-close during FTMO/The5ers restricted window.
+   bool IsInRedNewsPreFlattenWindowFor(const string sym) const
+   {
+      if(!InpGuardEnableRedNews || m_eventCount == 0) return false;
+      datetime nowUtc = NowUTC();
+      bool inPreFlatten = false;
+      for(int i = 0; i < m_eventCount; i++)
+      {
+         if(!CurrencyMatchesSymbolFor(sym, m_events[i].ccy)) continue;
+         long diff = (long)m_events[i].utc_ts - (long)nowUtc;
+         if(MathAbs(diff) <= InpGuardNewsHardBanSec)
+            return false;
+         if(diff > InpGuardNewsHardBanSec && diff <= InpGuardNewsPadSec)
+            inPreFlatten = true;
+      }
+      return inPreFlatten;
+   }
+
+   bool IsInRedNewsPreFlattenWindow() const
+   {
+      return IsInRedNewsPreFlattenWindowFor(m_symbol);
    }
 
    // 10. Per-symbol open SL risk % across ALL Naqex EAs on same symbol (guards FTMO 1% trade-idea bundle)

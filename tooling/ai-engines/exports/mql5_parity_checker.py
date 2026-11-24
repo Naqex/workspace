@@ -63,6 +63,7 @@ ENGINE_PARITY_CONTRACTS: dict[str, dict[str, Any]] = {
             "g_boxBottom",
             "g_guard.Init(trade, _Symbol, InpMagicNumber, InpMaxDailyLossPct)",
             "g_guard.IsInsideRedNewsWindow()",
+            "g_guard.IsInRedNewsPreFlattenWindow()",
             "g_guard.IsDailyLossBreached()",
             "g_guard.IsNearBrokerSessionClose()",
             "g_guard.IsSpreadAndSessionSafe()",
@@ -97,6 +98,7 @@ ENGINE_PARITY_CONTRACTS: dict[str, dict[str, Any]] = {
             "iOpen(_Symbol, PERIOD_D1, 0)",
             "g_guard.Init(trade, _Symbol, InpMagicNumber, InpMaxDailyLossPct)",
             "g_guard.IsInsideRedNewsWindow()",
+            "g_guard.IsInRedNewsPreFlattenWindow()",
             "g_guard.IsDailyLossBreached()",
             "g_guard.IsNearBrokerSessionClose()",
             "g_guard.IsSpreadAndSessionSafe()",
@@ -131,6 +133,7 @@ ENGINE_PARITY_CONTRACTS: dict[str, dict[str, Any]] = {
             "iHigh(_Symbol, PERIOD_D1, 1) - iLow(_Symbol, PERIOD_D1, 1)",
             "g_guard.Init(trade, _Symbol, InpMagicNumber, InpMaxDailyLossPct)",
             "g_guard.IsInsideRedNewsWindow()",
+            "g_guard.IsInRedNewsPreFlattenWindow()",
             "g_guard.IsDailyLossBreached()",
             "g_guard.IsNearBrokerSessionClose()",
             "g_guard.IsSpreadAndSessionSafe()",
@@ -163,6 +166,7 @@ ENGINE_PARITY_CONTRACTS: dict[str, dict[str, Any]] = {
             "CopyBuffer(g_atrHandle, 0, 1, 1, atrBuf)",
             "g_guard.Init(trade, _Symbol, InpMagicNumber, InpMaxDailyLossPct)",
             "g_guard.IsInsideRedNewsWindow()",
+            "g_guard.IsInRedNewsPreFlattenWindow()",
             "g_guard.IsDailyLossBreached()",
             "g_guard.IsNearBrokerSessionClose()",
             "g_guard.IsSpreadAndSessionSafe()",
@@ -197,6 +201,7 @@ ENGINE_PARITY_CONTRACTS: dict[str, dict[str, Any]] = {
             "CopyBuffer(g_atrBenchHandle, 0, 1, 1, atrBench)",
             "g_guard.Init(trade, _Symbol, InpMagicNumber, InpMaxDailyLossPct)",
             "g_guard.IsInsideRedNewsWindow()",
+            "g_guard.IsInRedNewsPreFlattenWindow()",
             "g_guard.IsDailyLossBreached()",
             "g_guard.IsSpreadAndSessionSafe()",
             "g_guard.ComputeSafeLots(",
@@ -229,6 +234,7 @@ ENGINE_PARITY_CONTRACTS: dict[str, dict[str, Any]] = {
             "CopyBuffer(g_atrHandle, 0, 1, 1, atrBuf)",
             "g_guard.Init(trade, _Symbol, InpMagicNumber, InpMaxDailyLossPct)",
             "g_guard.IsInsideRedNewsWindow()",
+            "g_guard.IsInRedNewsPreFlattenWindow()",
             "g_guard.IsDailyLossBreached()",
             "g_guard.IsNearBrokerSessionClose()",
             "g_guard.IsSpreadAndSessionSafe()",
@@ -264,6 +270,7 @@ ENGINE_PARITY_CONTRACTS: dict[str, dict[str, Any]] = {
             "CopyBuffer(g_eqAtrHandle, 0, 1, 1, eqAtr)",
             "g_guard.Init(trade, _Symbol, InpMagicNumber, InpMaxDailyLossPct)",
             "g_guard.IsInsideRedNewsWindow()",
+            "g_guard.IsInRedNewsPreFlattenWindow()",
             "g_guard.IsDailyLossBreached()",
             "g_guard.IsSpreadAndSessionSafe()",
             "g_guard.ComputeSafeLots(",
@@ -298,6 +305,8 @@ ENGINE_PARITY_CONTRACTS: dict[str, dict[str, Any]] = {
             "iClose(sym, PERIOD_M1, 1)",
             "g_guard.Init(trade, _Symbol, InpMagicNumber, InpMaxDailyLossPct)",
             "g_guard.IsInsideRedNewsWindowFor(sym)",
+            "HasOwnPositionInPreFlattenWindow()",
+            "g_guard.IsInRedNewsPreFlattenWindowFor(",
             "g_guard.IsSpreadAndSessionSafeFor(sym)",
             "g_guard.IsDailyLossBreached()",
             "g_guard.ComputeSafeLotsFor(",
@@ -496,6 +505,7 @@ def run_parity_audit(
             "InpGuardEnableRedNews": True,
             "InpGuardRedNewsCsvFile": "naqex_red_news_utc.csv",
             "InpGuardNewsPadSec": 300,
+            "InpGuardNewsHardBanSec": 135,
             "InpGuardMagicRangeMin": 20261120,
             "InpGuardMagicRangeMax": 20261199,
         }
@@ -512,12 +522,24 @@ def run_parity_audit(
             "SymbolInfoSessionTrade",
             "GetOpenSymbolRiskPctFor",
             "IsInsideRedNewsWindowFor",
+            "IsInRedNewsPreFlattenWindowFor",
+            "IsInRedNewsPreFlattenWindow",
             "IsSpreadAndSessionSafeFor",
             "NQXG_GLOBAL_KILLSWITCH",
             "NQXG_GLOBAL_RISK_MULT",
             "TRADE_RETCODE_DONE",
             "LogExecAuditFor",
             "MQL_TESTER",
+            "NAS100",
+            "NDX",
+            "USTEC",
+            "SPX",
+            "US30",
+            "BTC",
+            "DE40",
+            "DAX",
+            "UK100",
+            "FTSE",
         ):
             if tok not in mqh_parsed["code"]:
                 mqh_errors.append(f"PropGuard missing required token: {tok}")
@@ -536,19 +558,31 @@ def run_parity_audit(
             orch_errors.append("Orchestrator missing #include Include/Naqex_PropGuard.mqh")
         expected_orch = {
             "InpDryRunLogOnly": True,
+            "InpAllowManualHaltFile": False,
+            "InpProfitLockPct": 0.00,
+            "InpProfitLockMult": 2.00,
+            "InpDailyResetMode": 1,
             "InpMagicRangeMin": 20261120,
             "InpMagicRangeMax": 20261199,
             "InpHeartbeatFile": "naqex_heartbeat.json",
         }
         for k, exp_v in expected_orch.items():
             got = orch_parsed["inputs"].get(k, {}).get("value")
-            if got != exp_v:
+            if isinstance(exp_v, float):
+                if not isinstance(got, (int, float)) or abs(float(got) - exp_v) > 1e-9:
+                    orch_errors.append(f"Orchestrator {k}={got!r} != {exp_v!r}")
+            elif got != exp_v:
                 orch_errors.append(f"Orchestrator {k}={got!r} != {exp_v!r}")
         for tok in (
             "NQXG_GLOBAL_KILLSWITCH",
             "NQXG_GLOBAL_RISK_MULT",
             "ConfigureFillingMode",
             "orphan_no_sl",
+            "PragueUtcOffsetHours",
+            "CurrentResetDayKey",
+            "PROFIT_LOCK",
+            "profit_pct",
+            "reset_mode",
         ):
             if tok not in orch_parsed["code"]:
                 orch_errors.append(f"Orchestrator missing token: {tok}")

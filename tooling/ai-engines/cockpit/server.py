@@ -75,6 +75,7 @@ PROP_METRIX_PROGRAMS: dict[str, dict[str, Any]] = {
         "max_loss_usd": 1_000.0,
         "profit_target_usd": 500.0,
         "min_trading_days": 2,
+        "min_profitable_day_pct": 0.0,
     },
     "ftmo_swing_10k_p1": {
         "id": "ftmo_swing_10k_p1",
@@ -84,6 +85,37 @@ PROP_METRIX_PROGRAMS: dict[str, dict[str, Any]] = {
         "max_loss_usd": 1_000.0,
         "profit_target_usd": 1_000.0,
         "min_trading_days": 4,
+        "min_profitable_day_pct": 0.0,
+    },
+    "ftmo_swing_25k_p1": {
+        "id": "ftmo_swing_25k_p1",
+        "label": "FTMO Swing 25K — Phase 1",
+        "initial_usd": 25_000.0,
+        "daily_loss_usd": 1_250.0,
+        "max_loss_usd": 2_500.0,
+        "profit_target_usd": 2_500.0,
+        "min_trading_days": 4,
+        "min_profitable_day_pct": 0.0,
+    },
+    "ftmo_swing_50k_p1": {
+        "id": "ftmo_swing_50k_p1",
+        "label": "FTMO Swing 50K — Phase 1",
+        "initial_usd": 50_000.0,
+        "daily_loss_usd": 2_500.0,
+        "max_loss_usd": 5_000.0,
+        "profit_target_usd": 5_000.0,
+        "min_trading_days": 4,
+        "min_profitable_day_pct": 0.0,
+    },
+    "ftmo_swing_100k_p1": {
+        "id": "ftmo_swing_100k_p1",
+        "label": "FTMO Swing 100K — Phase 1",
+        "initial_usd": 100_000.0,
+        "daily_loss_usd": 5_000.0,
+        "max_loss_usd": 10_000.0,
+        "profit_target_usd": 10_000.0,
+        "min_trading_days": 4,
+        "min_profitable_day_pct": 0.0,
     },
     "ftmo_swing_10k_p2": {
         "id": "ftmo_swing_10k_p2",
@@ -93,6 +125,7 @@ PROP_METRIX_PROGRAMS: dict[str, dict[str, Any]] = {
         "max_loss_usd": 1_000.0,
         "profit_target_usd": 500.0,
         "min_trading_days": 4,
+        "min_profitable_day_pct": 0.0,
     },
     "ftmo_funded_10k": {
         "id": "ftmo_funded_10k",
@@ -102,6 +135,7 @@ PROP_METRIX_PROGRAMS: dict[str, dict[str, Any]] = {
         "max_loss_usd": 1_000.0,
         "profit_target_usd": None,
         "min_trading_days": 0,
+        "min_profitable_day_pct": 0.0,
     },
     "the5ers_hs_5k_p1": {
         "id": "the5ers_hs_5k_p1",
@@ -111,8 +145,20 @@ PROP_METRIX_PROGRAMS: dict[str, dict[str, Any]] = {
         "max_loss_usd": 500.0,
         "profit_target_usd": 400.0,
         "min_trading_days": 3,
+        "min_profitable_day_pct": 0.5,
+    },
+    "the5ers_hs_20k_p1": {
+        "id": "the5ers_hs_20k_p1",
+        "label": "The5ers High Stakes 20K — Step 1",
+        "initial_usd": 20_000.0,
+        "daily_loss_usd": 1_000.0,
+        "max_loss_usd": 2_000.0,
+        "profit_target_usd": 1_600.0,
+        "min_trading_days": 3,
+        "min_profitable_day_pct": 0.5,
     },
 }
+PROP_PROGRAMS = PROP_METRIX_PROGRAMS
 
 MIME_TYPES = {
     ".html": "text/html; charset=utf-8",
@@ -251,9 +297,205 @@ def _pip_size_for_symbol(symbol: str) -> float:
     s = str(symbol or "").upper()
     if "JPY" in s:
         return 0.01
-    if "US100" in s or "US500" in s or "GER40" in s or "XAU" in s:
+    if any(tok in s for tok in ("US100", "NAS100", "NDX", "USTEC", "US500", "SPX", "US30", "GER40", "DE40", "DAX", "UK100", "FTSE", "XAU", "GOLD", "BTC")):
         return 1.0
     return 0.0001
+
+
+def _build_prop_risk_attribution(
+    *,
+    kill_sw: bool,
+    orphan_cnt: int,
+    age_sec: int | None,
+    mt5_running: bool | None,
+    source_status: str,
+    regime: str,
+    init_usd: float,
+    daily_lim: float,
+    max_lim: float,
+    worst_daily_usd: float,
+    worst_static_usd: float,
+    today_pnl_usd: float,
+    total_pnl_usd: float,
+    latest_snap: dict[str, Any],
+    upcoming_news: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Build 4-layer R4 -> R3 -> R2 -> R1 diagnostic attribution (plain Vietnamese, fail-closed)."""
+    in_blackout = [ev for ev in upcoming_news if bool(ev.get("in_blackout_window"))]
+    soon_news = [ev for ev in upcoming_news if (not ev.get("in_blackout_window")) and 0.0 <= float(ev.get("hours_away", 99.0)) <= 1.0]
+
+    hard_daily = abs(worst_daily_usd) >= daily_lim - 1e-9
+    hard_static = abs(worst_static_usd) >= max_lim - 1e-9
+    daily_dd_ratio = abs(worst_daily_usd) / max(1.0, daily_lim)
+    static_dd_ratio = abs(worst_static_usd) / max(1.0, max_lim)
+
+    # Inspect latest snapshot quotes for spread spikes & open positions for swap/concentration
+    quotes = latest_snap.get("quotes") if isinstance(latest_snap.get("quotes"), dict) else {}
+    spread_alerts: list[str] = []
+    spread_warns: list[str] = []
+    for sym, q in quotes.items():
+        if not isinstance(q, dict):
+            continue
+        bid = float(q.get("bid") or 0.0)
+        ask = float(q.get("ask") or 0.0)
+        if bid > 0.0 and ask >= bid:
+            pip_sz = _pip_size_for_symbol(sym)
+            sp_pips = (ask - bid) / pip_sz
+            is_idx = any(tok in sym.upper() for tok in ("US100", "NAS100", "NDX", "USTEC", "US500", "SPX", "US30", "GER40", "DE40", "DAX", "XAU", "BTC"))
+            hi_lim = 6.0 if is_idx else 3.5
+            warn_lim = 3.5 if is_idx else 2.2
+            if sp_pips >= hi_lim:
+                spread_alerts.append(f"{sym} ({sp_pips:.1f} pip)")
+            elif sp_pips >= warn_lim:
+                spread_warns.append(f"{sym} ({sp_pips:.1f} pip)")
+
+    open_pos = latest_snap.get("naqex_positions") if isinstance(latest_snap.get("naqex_positions"), list) else []
+    sym_counts: dict[str, int] = {}
+    nonzero_swap_syms: list[str] = []
+    for p in open_pos:
+        if not isinstance(p, dict):
+            continue
+        sym_k = str(p.get("symbol") or "").upper().split(".")[0]
+        if sym_k:
+            sym_counts[sym_k] = sym_counts.get(sym_k, 0) + 1
+        if abs(float(p.get("swap") or 0.0)) > 1e-6:
+            nonzero_swap_syms.append(sym_k or "POS")
+    max_sym_cnt = max(sym_counts.values(), default=0)
+    top_sym = max(sym_counts, key=sym_counts.get) if sym_counts else ""
+
+    # --- R4: Luật quỹ, Tin đỏ & Kill-Switch (kiểm đầu tiên) ---
+    r4_alerts: list[str] = []
+    r4_warns: list[str] = []
+    if kill_sw:
+        r4_alerts.append("Kill-Switch đang BẬT")
+    if hard_daily:
+        r4_alerts.append(f"Chạm ngưỡng lỗ ngày (-{daily_lim:,.0f} USD)")
+    if hard_static:
+        r4_alerts.append(f"Chạm ngưỡng lỗ tổng (-{max_lim:,.0f} USD)")
+    if in_blackout:
+        ev0 = in_blackout[0]
+        r4_alerts.append(f"Đang trong vùng khóa tin đỏ ±5 phút ({ev0.get('ccy')} {ev0.get('event')})")
+    elif soon_news:
+        ev0 = soon_news[0]
+        r4_warns.append(f"Sắp có tin đỏ trong < 60 phút ({ev0.get('ccy')} {ev0.get('event')} · {ev0.get('countdown_vi')})")
+
+    if r4_alerts:
+        r4 = {"code": "R4", "title": "Luật quỹ & Tin đỏ", "status": "ALERT", "detail": "; ".join(r4_alerts)}
+    elif r4_warns:
+        r4 = {"code": "R4", "title": "Luật quỹ & Tin đỏ", "status": "WARN", "detail": "; ".join(r4_warns)}
+    else:
+        r4 = {"code": "R4", "title": "Luật quỹ & Tin đỏ", "status": "OK", "detail": "An toàn — không vi phạm luật quỹ, ngoài vùng tin đỏ, Kill-Switch TẮT."}
+
+    # --- R3: Khớp lệnh, Thiếu SL, Heartbeat & Spread ---
+    r3_alerts: list[str] = []
+    r3_warns: list[str] = []
+    if orphan_cnt > 0:
+        r3_alerts.append(f"Có {orphan_cnt} lệnh mở thiếu Stop Loss")
+    if mt5_running is False:
+        r3_alerts.append("Tiến trình MT5 trên node đang DỪNG")
+    if age_sec is not None and age_sec > 180:
+        r3_alerts.append(f"Heartbeat trễ {age_sec} giây (> 180s)")
+    elif age_sec is not None and age_sec > 90:
+        r3_warns.append(f"Heartbeat hơi chậm ({age_sec} giây)")
+    if nonzero_swap_syms:
+        r3_alerts.append(f"Phát hiện phí qua đêm swap != 0 ({', '.join(nonzero_swap_syms[:3])})")
+    if spread_alerts:
+        r3_alerts.append(f"Spread giãn mạnh: {', '.join(spread_alerts[:3])}")
+    elif spread_warns:
+        r3_warns.append(f"Spread hơi cao: {', '.join(spread_warns[:3])}")
+
+    if r3_alerts:
+        r3 = {"code": "R3", "title": "Khớp lệnh & Máy chủ", "status": "ALERT", "detail": "; ".join(r3_alerts)}
+    elif r3_warns:
+        r3 = {"code": "R3", "title": "Khớp lệnh & Máy chủ", "status": "WARN", "detail": "; ".join(r3_warns)}
+    elif source_status == "PENDING":
+        r3 = {"code": "R3", "title": "Khớp lệnh & Máy chủ", "status": "OK", "detail": "Chế độ chờ (chưa có dữ liệu live); chưa ghi nhận lỗi máy chủ hay thiếu SL."}
+    else:
+        r3 = {"code": "R3", "title": "Khớp lệnh & Máy chủ", "status": "OK", "detail": "Sạch — 0 lệnh thiếu SL, heartbeat ổn định, spread & swap trong ngưỡng."}
+
+    # --- R2: Dồn lệnh cùng mã (SYMCAP) & Phanh danh mục ---
+    r2_alerts: list[str] = []
+    r2_warns: list[str] = []
+    reg_u = str(regime or "NORMAL").upper()
+    if daily_dd_ratio >= 0.70:
+        r2_alerts.append(f"Lỗ ngày đạt {daily_dd_ratio * 100.0:.0f}% ngưỡng quỹ (chạm phanh Amber)")
+    if static_dd_ratio >= 0.70:
+        r2_alerts.append(f"Lỗ tổng đạt {static_dd_ratio * 100.0:.0f}% ngưỡng quỹ (chạm phanh Red)")
+    if reg_u in ("RED", "HALT", "FLATTEN"):
+        r2_alerts.append(f"Chế độ phanh danh mục đang là {reg_u}")
+    elif reg_u == "AMBER":
+        r2_warns.append("Chế độ phanh danh mục đang ở mức AMBER (giảm nửa cỡ lệnh)")
+    if max_sym_cnt >= 3:
+        r2_alerts.append(f"Dồn {max_sym_cnt} lệnh mở cùng mã {top_sym} (cần kiểm SYMCAP)")
+    elif max_sym_cnt == 2:
+        r2_warns.append(f"Đang mở song song 2 lệnh cùng mã {top_sym} (theo dõi SYMCAP)")
+
+    if r2_alerts:
+        r2 = {"code": "R2", "title": "Dồn lệnh & Danh mục", "status": "ALERT", "detail": "; ".join(r2_alerts)}
+    elif r2_warns:
+        r2 = {"code": "R2", "title": "Dồn lệnh & Danh mục", "status": "WARN", "detail": "; ".join(r2_warns)}
+    else:
+        r2 = {"code": "R2", "title": "Dồn lệnh & Danh mục", "status": "OK", "detail": "Cân bằng — không dồn lệnh cùng mã, chưa chạm phanh Amber/Red danh mục."}
+
+    # --- R1: Lợi thế thật của chiến lược (chỉ soi khi R4/R3/R2 không ALERT) ---
+    upstream_alert = any(layer["status"] == "ALERT" for layer in (r4, r3, r2))
+    tot_dd_pct = -100.0 * total_pnl_usd / max(1.0, init_usd) if total_pnl_usd < 0.0 else 0.0
+    day_dd_pct = -100.0 * today_pnl_usd / max(1.0, init_usd) if today_pnl_usd < 0.0 else 0.0
+    if upstream_alert:
+        r1 = {
+            "code": "R1",
+            "title": "Lợi thế chiến lược",
+            "status": "OK",
+            "detail": "Tạm giữ nguyên chiến lược — ưu tiên xử lý cảnh báo ở tầng R4/R3/R2 trước.",
+        }
+    elif tot_dd_pct >= 2.5:
+        r1 = {
+            "code": "R1",
+            "title": "Lợi thế chiến lược",
+            "status": "ALERT",
+            "detail": f"Rút vốn thực tế -{tot_dd_pct:.2f}% khi R4/R3/R2 đều sạch — cần đối soát drift / CUSUM.",
+        }
+    elif tot_dd_pct >= 1.5 or day_dd_pct >= 1.5:
+        r1 = {
+            "code": "R1",
+            "title": "Lợi thế chiến lược",
+            "status": "WARN",
+            "detail": f"Biến động âm nhẹ (tổng -{tot_dd_pct:.2f}%, hôm nay -{day_dd_pct:.2f}%) — trong biên độ bình thường.",
+        }
+    else:
+        r1 = {
+            "code": "R1",
+            "title": "Lợi thế chiến lược",
+            "status": "OK",
+            "detail": "Bình thường — chưa ghi nhận suy giảm lợi thế chiến lược.",
+        }
+
+    layers = {"R4": r4, "R3": r3, "R2": r2, "R1": r1}
+    order = ["R4", "R3", "R2", "R1"]
+    active_label = "OK"
+    for code in order:
+        if layers[code]["status"] == "ALERT":
+            active_label = code
+            break
+    if active_label == "OK":
+        for code in order:
+            if layers[code]["status"] == "WARN":
+                active_label = code
+                break
+
+    if active_label == "OK":
+        headline_vi = "Tất cả 4 tầng R4 → R3 → R2 → R1 đều XANH — tài khoản vận hành sạch."
+    else:
+        act_obj = layers[active_label]
+        sev_vi = "CẢNH BÁO ĐỎ" if act_obj["status"] == "ALERT" else "LƯU Ý"
+        headline_vi = f"{sev_vi} tại {active_label} ({act_obj['title']}): {act_obj['detail']}"
+
+    return {
+        "active_label": active_label,
+        "check_order": order,
+        "headline_vi": headline_vi,
+        "layers": layers,
+    }
 
 
 def _compute_positions_mae_mfe(snapshots: list[dict[str, Any]]) -> dict[int, dict[str, Any]]:
@@ -445,6 +687,7 @@ def build_prop_metrix_payload(
 
     # Aggregate daily equity & calendar cells from real telemetry snapshots
     daily_map: dict[str, dict[str, Any]] = {}
+    prev_day_end_eq: float | None = None
     for s in spread_rows:
         utc_s = str(s.get("captured_utc") or "")
         if len(utc_s) < 10:
@@ -460,15 +703,25 @@ def build_prop_metrix_payload(
         pos_c = int(s.get("naqex_positions_count") or 0)
         cur = daily_map.get(dk)
         if cur is None:
+            # Anchor start-of-day to prior day's EOD equity (or initial capital on day 1 when already closed flat)
+            if pos_c == 0 and abs(eq_f - bal_f) <= 1e-6:
+                if prev_day_end_eq is not None:
+                    start_anchor = prev_day_end_eq
+                elif len(daily_map) == 0 and abs(eq_f - init_usd) < init_usd * 0.5:
+                    start_anchor = init_usd
+                else:
+                    start_anchor = bal_f
+            else:
+                start_anchor = bal_f if abs(bal_f - init_usd) < init_usd * 0.5 else eq_f
             daily_map[dk] = {
                 "day": dk,
-                "start_eq": bal_f if abs(bal_f - init_usd) < init_usd * 0.5 else eq_f,
+                "start_eq": start_anchor,
                 "end_eq": eq_f,
                 "min_eq": eq_f,
                 "max_eq": eq_f,
                 "max_open_pos": pos_c,
                 "samples": 1,
-                "has_trade": pos_c > 0 or abs(eq_f - bal_f) > 1e-6,
+                "has_trade": pos_c > 0 or abs(eq_f - bal_f) > 1e-6 or abs(eq_f - start_anchor) > 1e-6,
             }
         else:
             cur["end_eq"] = eq_f
@@ -476,8 +729,9 @@ def build_prop_metrix_payload(
             cur["max_eq"] = max(cur["max_eq"], eq_f)
             cur["max_open_pos"] = max(cur["max_open_pos"], pos_c)
             cur["samples"] += 1
-            if pos_c > 0 or abs(eq_f - bal_f) > 1e-6:
+            if pos_c > 0 or abs(eq_f - bal_f) > 1e-6 or abs(eq_f - cur["start_eq"]) > 1e-6 or abs(bal_f - cur["start_eq"]) > 1e-6:
                 cur["has_trade"] = True
+        prev_day_end_eq = eq_f
 
     today_utc = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     if source_status != "PENDING":
@@ -522,15 +776,45 @@ def build_prop_metrix_payload(
     worst_static_usd = round(min(0.0, obs_all_min - init_usd, total_pnl_usd), 2)
 
     days_traded = sum(1 for v in daily_map.values() if v["has_trade"])
+    min_prof_pct = float(prog.get("min_profitable_day_pct") or 0.0)
+    min_prof_usd = round(init_usd * min_prof_pct / 100.0, 2)
+    profitable_days_count = 0
+    for v in daily_map.values():
+        if not v["has_trade"]:
+            continue
+        dpnl = round(float(v["end_eq"]) - float(v["start_eq"]), 2)
+        if min_prof_pct > 0.0:
+            if dpnl >= min_prof_usd - 1e-9:
+                profitable_days_count += 1
+        elif dpnl > 0.0:
+            profitable_days_count += 1
+
     target_progress_pct = round(max(0.0, min(100.0, 100.0 * total_pnl_usd / float(target_usd))), 1) if target_usd else None
 
-    rules = [
-        {
+    if min_prof_pct > 0.0:
+        pct_vi = f"{min_prof_pct:g}".replace(".", ",")
+        min_days_rule = {
+            "id": "min_trading_days",
+            "label": f"Ngày lãi tối thiểu >= +{pct_vi}% ({min_days} ngày)",
+            "value_text": f"{profitable_days_count} / {min_days} ngày lãi (GD: {days_traded} ngày · >= +{min_prof_usd:,.2f} USD)",
+            "status": "PASS" if profitable_days_count >= min_days else "PENDING",
+            "profitable_days_count": profitable_days_count,
+            "min_profitable_day_usd": min_prof_usd,
+            "days_traded": days_traded,
+        }
+    else:
+        min_days_rule = {
             "id": "min_trading_days",
             "label": f"Ngày giao dịch tối thiểu ({min_days} ngày)" if min_days > 0 else "Ngày giao dịch tối thiểu (Không yêu cầu)",
             "value_text": f"{days_traded} / {min_days} ngày" if min_days > 0 else f"{days_traded} ngày",
             "status": "PASS" if days_traded >= min_days else "PENDING",
-        },
+            "profitable_days_count": profitable_days_count,
+            "min_profitable_day_usd": min_prof_usd,
+            "days_traded": days_traded,
+        }
+
+    rules = [
+        min_days_rule,
         {
             "id": "max_daily_loss",
             "label": f"Mức lỗ tối đa hàng ngày (-{daily_lim:,.0f} USD)",
@@ -563,6 +847,25 @@ def build_prop_metrix_payload(
             "status": "PASS" if (orphan_cnt == 0 and not kill_sw) else "BREACH",
         },
     ]
+
+    upcoming_news = _load_upcoming_red_news(root, limit=6)
+    risk_attribution = _build_prop_risk_attribution(
+        kill_sw=kill_sw,
+        orphan_cnt=orphan_cnt,
+        age_sec=age_sec,
+        mt5_running=cloud_node.get("mt5_running") if cloud_node else None,
+        source_status=source_status,
+        regime=regime,
+        init_usd=init_usd,
+        daily_lim=daily_lim,
+        max_lim=max_lim,
+        worst_daily_usd=worst_daily_usd,
+        worst_static_usd=worst_static_usd,
+        today_pnl_usd=today_pnl_usd,
+        total_pnl_usd=total_pnl_usd,
+        latest_snap=latest_snap,
+        upcoming_news=upcoming_news,
+    )
 
     # Build active month calendar matrix (Mon..Sun cells)
     ref_day = sorted_days[-1] if sorted_days else today_utc
@@ -613,7 +916,12 @@ def build_prop_metrix_payload(
             "open_positions": open_pos_cnt,
             "orphan_no_sl": orphan_cnt,
             "regime": regime,
+            "days_traded": days_traded,
+            "profitable_days_count": profitable_days_count,
+            "min_profitable_day_usd": min_prof_usd,
         },
+        "profitable_days_count": profitable_days_count,
+        "min_profitable_day_usd": min_prof_usd,
         "buffers": {
             "permitted_daily_loss_usd": permitted_daily_loss_usd,
             "daily_limit_usd": daily_lim,
@@ -622,6 +930,7 @@ def build_prop_metrix_payload(
             "today_pnl_usd": today_pnl_usd,
         },
         "rules": rules,
+        "risk_attribution": risk_attribution,
         "calendar": {
             "year": yr_i,
             "month": mo_i,

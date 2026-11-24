@@ -1,5 +1,5 @@
 ; Naqex MT5 Preset | Profile: FTMO_FreeTrial_Demo | Target: Naqex_AccountOrchestrator.ex5
-; Firm: FTMO | AccountType: FreeTrial_10k_Demo | CapitalUSD: 10000
+; Firm: FTMO | AccountType: FreeTrial_10k_Demo | CapitalUSD: 10000 | Reset: Europe_Prague_CET_CEST
 ; FREE TRIAL DEMO ONLY: Demo paper execution enabled (never attach to paid account without re-audit)
 InpDryRunLogOnly=false
 InpInitialBalanceUSD=10000.00
@@ -8,10 +8,15 @@ InpAmberDdPct=3.50
 InpAmberMult=0.65
 InpRedDdPct=6.00
 InpRedMult=0.40
+InpProfitLockPct=0.00
+InpProfitLockMult=1.00
 InpKillDailyDdPct=2.50
 InpKillStaticDdPct=7.50
+InpDailyResetMode=1
 InpHeartbeatSec=15
 InpHeartbeatFile=naqex_heartbeat.json
+InpAllowManualHaltFile=false
+InpManualHaltFile=naqex_manual_halt.flag
 InpMagicRangeMin=20261120
 InpMagicRangeMax=20261199
 InpGuardDryRunLogOnly=false
@@ -26,6 +31,7 @@ InpGuardTesterUtcOffsetH=2
 InpGuardEnableRedNews=true
 InpGuardRedNewsCsvFile=naqex_red_news_utc.csv
 InpGuardNewsPadSec=300
+InpGuardNewsHardBanSec=135
 InpGuardTcaAuditCsvFile=naqex_exec_audit.csv
 InpGuardMagicRangeMin=20261120
 InpGuardMagicRangeMax=20261199

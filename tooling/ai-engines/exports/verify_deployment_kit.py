@@ -78,13 +78,17 @@ OPERATIONAL_PROFILES: dict[str, dict[str, Any]] = {
         "amber_mult": 0.65,
         "red_dd_pct": 6.00,
         "red_mult": 0.40,
+        "profit_lock_pct": 0.00,
+        "profit_lock_mult": 1.00,
+        "daily_reset_mode": 1,
         "kill_daily_dd_pct": 2.50,
         "kill_static_dd_pct": 7.50,
         "ea_daily_stop_pct": 2.50,
         "max_symbol_risk_pct": 1.00,
         "enable_red_news": True,
         "news_pad_sec": 300,
-        "notes": "Day 1-2 local PC Free Trial shadow dry-run. Logs signals & heartbeat with OrderSend=0.",
+        "news_hard_ban_sec": 135,
+        "notes": "Day 1-2 local PC Free Trial shadow dry-run. Logs signals & heartbeat with OrderSend=0 (Prague reset).",
     },
     "FTMO_FreeTrial_Demo": {
         "firm": "FTMO",
@@ -102,13 +106,17 @@ OPERATIONAL_PROFILES: dict[str, dict[str, Any]] = {
         "amber_mult": 0.65,
         "red_dd_pct": 6.00,
         "red_mult": 0.40,
+        "profit_lock_pct": 0.00,
+        "profit_lock_mult": 1.00,
+        "daily_reset_mode": 1,
         "kill_daily_dd_pct": 2.50,
         "kill_static_dd_pct": 7.50,
         "ea_daily_stop_pct": 2.50,
         "max_symbol_risk_pct": 1.00,
         "enable_red_news": True,
         "news_pad_sec": 300,
-        "notes": "Day 3-14 FTMO Free Trial Demo paper execution (real demo fills + naqex_exec_audit.csv TCA check).",
+        "news_hard_ban_sec": 135,
+        "notes": "Day 3-14 FTMO Free Trial Demo paper execution (real demo fills + naqex_exec_audit.csv TCA check, Prague reset).",
     },
     "FTMO_P1_Balanced_3to6m": {
         "firm": "FTMO",
@@ -126,13 +134,17 @@ OPERATIONAL_PROFILES: dict[str, dict[str, Any]] = {
         "amber_mult": 1.00,
         "red_dd_pct": 9.00,
         "red_mult": 0.75,
+        "profit_lock_pct": 5.00,
+        "profit_lock_mult": 1.34,
+        "daily_reset_mode": 1,
         "kill_daily_dd_pct": 4.20,
         "kill_static_dd_pct": 9.20,
         "ea_daily_stop_pct": 4.20,
-        "max_symbol_risk_pct": 3.00,
+        "max_symbol_risk_pct": 1.75,
         "enable_red_news": True,
         "news_pad_sec": 300,
-        "notes": "FTMO P1 Balanced (eff 4.00x = 1.50x EA * 2.67x Orch; 1-try fail 23.8%, med P1 2.6m, EV/fee +3.25x). ARM-LOCKED.",
+        "news_hard_ban_sec": 135,
+        "notes": "FTMO P1 Balanced (eff 4.00x = 1.50x EA * 2.67x Orch; SYMCAP 1.75%, ProfitLock >=+5% -> 2.01x, Prague reset). ARM-LOCKED.",
     },
     "FTMO_P1_Sprint_1to3m": {
         "firm": "FTMO",
@@ -150,13 +162,17 @@ OPERATIONAL_PROFILES: dict[str, dict[str, Any]] = {
         "amber_mult": 1.00,
         "red_dd_pct": 9.90,
         "red_mult": 1.00,
+        "profit_lock_pct": 5.00,
+        "profit_lock_mult": 1.34,
+        "daily_reset_mode": 1,
         "kill_daily_dd_pct": 4.30,
         "kill_static_dd_pct": 9.50,
         "ea_daily_stop_pct": 4.30,
-        "max_symbol_risk_pct": 3.50,
+        "max_symbol_risk_pct": 2.00,
         "enable_red_news": True,
         "news_pad_sec": 300,
-        "notes": "FTMO P1 Sprint (eff 4.75x = 1.50x EA * 3.17x Orch; 1-try fail 33.4%, med P1 2.0m, 24m CF +738 USD). ARM-LOCKED.",
+        "news_hard_ban_sec": 135,
+        "notes": "FTMO P1 Sprint (eff 4.75x = 1.50x EA * 3.17x Orch; SYMCAP 2.00%, ProfitLock >=+5% -> 2.01x, Prague reset). ARM-LOCKED.",
     },
     "FTMO_P2_Verify": {
         "firm": "FTMO",
@@ -174,13 +190,17 @@ OPERATIONAL_PROFILES: dict[str, dict[str, Any]] = {
         "amber_mult": 0.65,
         "red_dd_pct": 6.00,
         "red_mult": 0.40,
+        "profit_lock_pct": 3.00,
+        "profit_lock_mult": 1.50,
+        "daily_reset_mode": 1,
         "kill_daily_dd_pct": 3.50,
         "kill_static_dd_pct": 7.50,
         "ea_daily_stop_pct": 3.50,
-        "max_symbol_risk_pct": 2.50,
+        "max_symbol_risk_pct": 1.50,
         "enable_red_news": True,
         "news_pad_sec": 300,
-        "notes": "FTMO Phase 2 Verification (eff 2.50x, 5% target, Core 7 EAs only, S6 disabled). ARM-LOCKED.",
+        "news_hard_ban_sec": 135,
+        "notes": "FTMO Phase 2 Verification (eff 2.50x, 5% target, Core 7 EAs, SYMCAP 1.50%, ProfitLock >=+3% -> 1.50x, Prague reset). ARM-LOCKED.",
     },
     "FTMO_Funded_Swing_Safe": {
         "firm": "FTMO",
@@ -198,13 +218,17 @@ OPERATIONAL_PROFILES: dict[str, dict[str, Any]] = {
         "amber_mult": 0.65,
         "red_dd_pct": 6.00,
         "red_mult": 0.40,
+        "profit_lock_pct": 0.00,
+        "profit_lock_mult": 1.00,
+        "daily_reset_mode": 1,
         "kill_daily_dd_pct": 2.50,
         "kill_static_dd_pct": 7.50,
         "ea_daily_stop_pct": 2.50,
         "max_symbol_risk_pct": 1.00,
         "enable_red_news": False,
         "news_pad_sec": 300,
-        "notes": "FTMO Funded Swing (1.00x, 1:30 FX, news allowed, Core 7 EAs, SYMCAP_100). ARM-LOCKED.",
+        "news_hard_ban_sec": 135,
+        "notes": "FTMO Funded Swing (1.00x, 1:30 FX, news allowed, Core 7 EAs, SYMCAP_100, Prague reset). ARM-LOCKED.",
     },
     "FTMO_Funded_Std_RedNews": {
         "firm": "FTMO",
@@ -222,13 +246,17 @@ OPERATIONAL_PROFILES: dict[str, dict[str, Any]] = {
         "amber_mult": 0.65,
         "red_dd_pct": 6.00,
         "red_mult": 0.40,
+        "profit_lock_pct": 0.00,
+        "profit_lock_mult": 1.00,
+        "daily_reset_mode": 1,
         "kill_daily_dd_pct": 2.50,
         "kill_static_dd_pct": 7.50,
         "ea_daily_stop_pct": 2.50,
         "max_symbol_risk_pct": 1.00,
         "enable_red_news": True,
         "news_pad_sec": 300,
-        "notes": "FTMO Funded Standard (1.00x, 1:100 FX, +/-5m Red-News pre-flatten ON, Core 7 EAs, SYMCAP_100). ARM-LOCKED.",
+        "news_hard_ban_sec": 135,
+        "notes": "FTMO Funded Standard (1.00x, 1:100 FX, safe -5m..-2m15s Red-News pre-flatten ON, Core 7 EAs, SYMCAP_100, Prague reset). ARM-LOCKED.",
     },
     "The5ers_HighStakes_P1_Balanced": {
         "firm": "The5ers",
@@ -246,14 +274,18 @@ OPERATIONAL_PROFILES: dict[str, dict[str, Any]] = {
         "amber_mult": 1.00,
         "red_dd_pct": 9.00,
         "red_mult": 0.75,
+        "profit_lock_pct": 5.00,
+        "profit_lock_mult": 1.34,
+        "daily_reset_mode": 0,
         "kill_daily_dd_pct": 4.20,
         "kill_static_dd_pct": 9.20,
         "ea_daily_stop_pct": 4.20,
-        "max_symbol_risk_pct": 3.00,
+        "max_symbol_risk_pct": 1.75,
         "enable_red_news": True,
         "news_pad_sec": 300,
+        "news_hard_ban_sec": 135,
         "requires_ea_written_clearance": True,
-        "notes": "The5ers HS 5k P1 Balanced (eff 4.00x; 1-try fail 22.6%, med P1 2.0m, EV/fee +7.17x; written EA clearance req). ARM-LOCKED.",
+        "notes": "The5ers HS 5k P1 Balanced (eff 4.00x; SYMCAP 1.75%, ProfitLock >=+5% -> 2.01x, Server midnight reset, NAS100 mapping; written EA clearance req). ARM-LOCKED.",
     },
     "The5ers_HighStakes_P1_Sprint": {
         "firm": "The5ers",
@@ -271,14 +303,18 @@ OPERATIONAL_PROFILES: dict[str, dict[str, Any]] = {
         "amber_mult": 1.00,
         "red_dd_pct": 9.90,
         "red_mult": 1.00,
+        "profit_lock_pct": 5.00,
+        "profit_lock_mult": 1.34,
+        "daily_reset_mode": 0,
         "kill_daily_dd_pct": 4.30,
         "kill_static_dd_pct": 9.50,
         "ea_daily_stop_pct": 4.30,
-        "max_symbol_risk_pct": 3.50,
+        "max_symbol_risk_pct": 2.00,
         "enable_red_news": True,
         "news_pad_sec": 300,
+        "news_hard_ban_sec": 135,
         "requires_ea_written_clearance": True,
-        "notes": "The5ers HS 5k P1 Sprint (eff 4.75x; 1-try fail 30.0%, med P1 1.6m, 24m CF +368 USD; written EA clearance req). ARM-LOCKED.",
+        "notes": "The5ers HS 5k P1 Sprint (eff 4.75x; SYMCAP 2.00%, ProfitLock >=+5% -> 2.01x, Server midnight reset, NAS100 mapping; written EA clearance req). ARM-LOCKED.",
     },
     "The5ers_HighStakes_Funded": {
         "firm": "The5ers",
@@ -296,14 +332,18 @@ OPERATIONAL_PROFILES: dict[str, dict[str, Any]] = {
         "amber_mult": 0.65,
         "red_dd_pct": 6.00,
         "red_mult": 0.40,
+        "profit_lock_pct": 0.00,
+        "profit_lock_mult": 1.00,
+        "daily_reset_mode": 0,
         "kill_daily_dd_pct": 2.50,
         "kill_static_dd_pct": 7.50,
         "ea_daily_stop_pct": 2.50,
         "max_symbol_risk_pct": 1.00,
         "enable_red_news": True,
         "news_pad_sec": 300,
+        "news_hard_ban_sec": 135,
         "requires_ea_written_clearance": True,
-        "notes": "The5ers HS 5k Funded (1.00x, Core 7 EAs, SYMCAP_100, +/-5m Red-News ON). ARM-LOCKED.",
+        "notes": "The5ers HS 5k Funded (1.00x, Core 7 EAs, SYMCAP_100, safe -5m..-2m15s Red-News ON, Server midnight reset, NAS100 mapping). ARM-LOCKED.",
     },
 }
 
@@ -319,7 +359,7 @@ SPREAD_CAP_BY_ENGINE: dict[str, float] = {
     "S6_FX_USD_BSK": 35.0,
 }
 
-# Recommended chart symbol to attach each EA on MT5
+# Recommended chart symbol to attach each EA on MT5 (default = FTMO)
 CHART_ATTACH_BY_ENGINE: dict[str, dict[str, str]] = {
     "E1_USDJPY_TOKYO": {"symbol": "USDJPY", "timeframe": "M15"},
     "E2_USDJPY_EXP80": {"symbol": "USDJPY", "timeframe": "M15"},
@@ -330,6 +370,242 @@ CHART_ATTACH_BY_ENGINE: dict[str, dict[str, str]] = {
     "E7_USDJPY_NY10ET": {"symbol": "USDJPY", "timeframe": "M5"},
     "S6_FX_USD_BSK": {"symbol": "EURUSD", "timeframe": "M15"},
 }
+
+# Per-firm chart attachment mapping (FTMO uses US100.cash; The5ers uses NAS100)
+CHART_ATTACH_BY_FIRM: dict[str, dict[str, dict[str, str]]] = {
+    "FTMO": CHART_ATTACH_BY_ENGINE,
+    "The5ers": {
+        "E1_USDJPY_TOKYO": {"symbol": "USDJPY", "timeframe": "M15"},
+        "E2_USDJPY_EXP80": {"symbol": "USDJPY", "timeframe": "M15"},
+        "E3_GBPUSD_VH": {"symbol": "GBPUSD", "timeframe": "M15"},
+        "E4_US100_SESS40": {"symbol": "NAS100", "timeframe": "M5"},
+        "E5_US100_RS1130": {"symbol": "NAS100", "timeframe": "M5"},
+        "E6_EURJPY_VOLCOMP": {"symbol": "EURJPY", "timeframe": "M15"},
+        "E7_USDJPY_NY10ET": {"symbol": "USDJPY", "timeframe": "M5"},
+        "S6_FX_USD_BSK": {"symbol": "EURUSD", "timeframe": "M15"},
+    },
+}
+
+THE5ERS_BENCHMARK_VERIFICATION_NOTE = (
+    "The5ers chart mapping uses NAS100 for E4/E5 and E7 InpEquitySymbol; verify exact S&P500 benchmark "
+    "symbol (SPX500 vs US500) in E5 InpBenchmarkSymbol against The5ers Market Watch (G1 snapshot) before disarming."
+)
+
+
+def get_chart_attach_for_firm(firm: str) -> dict[str, dict[str, str]]:
+    return CHART_ATTACH_BY_FIRM.get(firm, CHART_ATTACH_BY_ENGINE)
+
+
+# Calibrated strict 4% daily / 8% static DD envelope for The5ers High Stakes 50K/60K/100K
+# (empirically verified in Cycle-1 PROP-TIER-SCALING-AND-SYMCAP-AUDIT-20261124: slashes 1st-try
+# Daily Breach from 34.7% -> 6.1%, EV/Fee 8.25x on 50K / 10.02x on 60K).
+THE5ERS_4_8_CALIBRATED_P1: dict[str, Any] = {
+    "ea_risk_scale": 1.00,
+    "base_phase_mult": 2.75,
+    "effective_mult": 2.75,
+    "amber_dd_pct": 5.00,
+    "amber_mult": 0.80,
+    "red_dd_pct": 6.00,
+    "red_mult": 0.50,
+    "profit_lock_pct": 5.00,
+    "profit_lock_mult": 1.50,
+    "max_symbol_risk_pct": 1.15,
+    "kill_daily_dd_pct": 2.80,
+    "kill_static_dd_pct": 6.50,
+    "ea_daily_stop_pct": 2.80,
+    "calibration_tag": "CYCLE1_SYMCAP_4_8_CALIBRATED",
+}
+
+
+def build_scaled_tier_config(
+    firm: str,
+    capital_usd: float,
+    phase: str = "P1_Balanced",
+    dd_mode: str = "5_10",
+    *,
+    allow_unsafe_5_10_override: bool = False,
+    enable_red_news: bool | None = None,
+) -> dict[str, Any]:
+    """Build a deterministic, ARM-LOCKED scaled tier config (FTMO 10K-100K, The5ers 5K-100K).
+
+    Fail-closed guards:
+      - Refuses `dd_mode="5_10"` on The5ers High Stakes >= 50,000 USD unless
+        `allow_unsafe_5_10_override=True` (protects against deploying a 4.2% daily kill
+        preset onto a strict 4.0% daily-limit account).
+      - Refuses `enable_red_news=False` on The5ers (High Stakes enforces +/-2m news ban).
+      - Always returns ARM-LOCKED (`dry_run_preset=True`, `arm_locked=True`, `order_send_count=0`).
+    """
+    cap = float(capital_usd)
+    if cap <= 0.0:
+        raise ValueError(f"capital_usd must be positive, got {capital_usd!r}")
+
+    firm_raw = firm.strip()
+    firm_low = firm_raw.lower().replace("-", "_").replace(" ", "_")
+    if firm_low in ("ftmo", "ftmo_swing", "ftmo_std", "ftmo_standard"):
+        firm_norm = "FTMO"
+        is_ftmo_swing = firm_low == "ftmo_swing"
+    elif firm_low in ("the5ers", "the5ers_highstakes", "the5ers_high_stakes", "5ers"):
+        firm_norm = "The5ers"
+        is_ftmo_swing = False
+    else:
+        raise ValueError(f"Unsupported firm {firm!r}; expected FTMO, FTMO_Swing, or The5ers.")
+
+    dd_norm = dd_mode.strip().replace("/", "_")
+    if dd_norm not in ("5_10", "4_8"):
+        raise ValueError(f"Unsupported dd_mode {dd_mode!r}; expected '5_10' or '4_8'.")
+
+    if firm_norm == "The5ers" and cap >= 50000.0 and dd_norm == "5_10" and not allow_unsafe_5_10_override:
+        raise ValueError(
+            f"SAFETY ABORT: The5ers High Stakes >= 50,000 USD ({cap:.0f} USD) enforces strict 4% daily / 8% static DD. "
+            "Refusing dd_mode='5_10' (4.2% Kill Daily exceeds 4.0% prop limit!). "
+            "Use dd_mode='4_8' (calibrated 2.75x->1.50x, SYMCAP 1.15%, Kill Daily 2.80%) "
+            "or explicitly pass allow_unsafe_5_10_override=True."
+        )
+
+    phase_raw = phase.strip()
+    phase_key = phase_raw.lower().replace("-", "_")
+    if phase_key in ("p1_balanced", "p1_balanced_3to6m", "p1"):
+        phase_norm = "P1_Balanced"
+        base_profile = "FTMO_P1_Balanced_3to6m" if firm_norm == "FTMO" else "The5ers_HighStakes_P1_Balanced"
+    elif phase_key in ("p1_sprint", "p1_sprint_1to3m"):
+        phase_norm = "P1_Sprint"
+        base_profile = "FTMO_P1_Sprint_1to3m" if firm_norm == "FTMO" else "The5ers_HighStakes_P1_Sprint"
+    elif phase_key in ("p2_verify", "p2"):
+        phase_norm = "P2_Verify"
+        base_profile = "FTMO_P2_Verify"
+    elif phase_key in ("funded", "funded_safe", "funded_swing", "funded_swing_safe"):
+        phase_norm = "Funded_Swing_Safe" if firm_norm == "FTMO" else "Funded"
+        base_profile = "FTMO_Funded_Swing_Safe" if firm_norm == "FTMO" else "The5ers_HighStakes_Funded"
+    elif phase_key in ("funded_std", "funded_std_rednews"):
+        phase_norm = "Funded_Std_RedNews" if firm_norm == "FTMO" else "Funded"
+        base_profile = "FTMO_Funded_Std_RedNews" if firm_norm == "FTMO" else "The5ers_HighStakes_Funded"
+    else:
+        raise ValueError(
+            f"Unsupported phase {phase!r}; expected P1_Balanced, P1_Sprint, P2_Verify, Funded, Funded_Swing_Safe, or Funded_Std_RedNews."
+        )
+
+    cfg: dict[str, Any] = dict(OPERATIONAL_PROFILES[base_profile])
+    cfg["firm"] = firm_norm
+    cfg["capital_usd"] = cap
+    cfg["daily_reset_mode"] = 1 if firm_norm == "FTMO" else 0
+    cfg["dry_run_preset"] = True
+    cfg["arm_locked"] = True
+    cfg["dd_mode"] = dd_norm
+    cfg["daily_dd_limit_pct"] = 4.0 if dd_norm == "4_8" else 5.0
+    cfg["static_dd_limit_pct"] = 8.0 if dd_norm == "4_8" else 10.0
+    cfg["phase"] = phase_norm
+    cfg["base_profile_template"] = base_profile
+
+    if firm_norm == "The5ers":
+        cfg["enable_red_news"] = True
+        cfg["requires_ea_written_clearance"] = True
+
+    if dd_norm == "4_8":
+        if phase_norm in ("P1_Balanced", "P1_Sprint"):
+            cfg.update(THE5ERS_4_8_CALIBRATED_P1)
+            if phase_norm == "P1_Sprint":
+                cfg["notes"] = (
+                    f"{firm_norm} {cap/1000:.0f}K P1_Sprint capped to calibrated 4%/8% safe envelope "
+                    "(2.75x->1.50x ProfitLock >=+5%, SYMCAP 1.15%, Kill Daily 2.80%). ARM-LOCKED."
+                )
+            else:
+                cfg["notes"] = (
+                    f"{firm_norm} {cap/1000:.0f}K P1_Balanced strict 4%/8% calibrated envelope "
+                    "(2.75x->1.50x ProfitLock >=+5%, SYMCAP 1.15%, Kill Daily 2.80%, Kill Static 6.50%). ARM-LOCKED."
+                )
+        elif phase_norm == "P2_Verify":
+            cfg.update(
+                {
+                    "ea_risk_scale": 1.00,
+                    "base_phase_mult": 2.00,
+                    "effective_mult": 2.00,
+                    "amber_dd_pct": 3.50,
+                    "amber_mult": 0.65,
+                    "red_dd_pct": 5.50,
+                    "red_mult": 0.40,
+                    "profit_lock_pct": 3.00,
+                    "profit_lock_mult": 1.25,
+                    "max_symbol_risk_pct": 1.15,
+                    "kill_daily_dd_pct": 2.80,
+                    "kill_static_dd_pct": 6.50,
+                    "ea_daily_stop_pct": 2.80,
+                    "calibration_tag": "CYCLE1_SYMCAP_4_8_CALIBRATED",
+                }
+            )
+        else:
+            cfg.update(
+                {
+                    "ea_risk_scale": 1.00,
+                    "base_phase_mult": 1.00,
+                    "effective_mult": 1.00,
+                    "profit_lock_pct": 0.00,
+                    "profit_lock_mult": 1.00,
+                    "max_symbol_risk_pct": 1.00,
+                    "kill_daily_dd_pct": 2.50,
+                    "kill_static_dd_pct": 6.50,
+                    "ea_daily_stop_pct": 2.50,
+                    "calibration_tag": "CYCLE1_SYMCAP_4_8_CALIBRATED",
+                }
+            )
+
+    if enable_red_news is not None:
+        if firm_norm == "The5ers" and not enable_red_news:
+            raise ValueError("SAFETY ABORT: The5ers High Stakes enforces +/-2m news ban; enable_red_news cannot be False.")
+        cfg["enable_red_news"] = bool(enable_red_news)
+    elif is_ftmo_swing and phase_norm == "Funded_Swing_Safe":
+        cfg["enable_red_news"] = False
+
+    # Fail-closed safety invariants
+    assert cfg["kill_daily_dd_pct"] < cfg["daily_dd_limit_pct"], "kill_daily_dd_pct must stay strictly below prop daily limit"
+    assert cfg["kill_static_dd_pct"] < cfg["static_dd_limit_pct"], "kill_static_dd_pct must stay strictly below prop static limit"
+    assert 0.20 <= float(cfg["base_phase_mult"]) <= 3.50, "base_phase_mult outside PropGuard clamp [0.20, 3.50]"
+    assert cfg["dry_run_preset"] is True and cfg["arm_locked"] is True, "Scaled tier config must remain ARM-LOCKED"
+
+    tier_label = f"{firm_norm}_{'Swing_' if is_ftmo_swing else ''}{int(cap // 1000)}K_{phase_norm}_{dd_norm}"
+    cfg["tier_id"] = tier_label
+    cfg["account_type"] = tier_label
+    cfg["order_send_count"] = 0
+    cfg["chart_attachments"] = get_chart_attach_for_firm(firm_norm)
+    if firm_norm == "The5ers":
+        cfg["broker_symbol_verification_note"] = THE5ERS_BENCHMARK_VERIFICATION_NOTE
+    cfg["orchestrator_inputs"] = {
+        "InpDryRunLogOnly": True,
+        "InpGuardDryRunLogOnly": True,
+        "InpInitialBalanceUSD": cap,
+        "InpBasePhaseMult": float(cfg["base_phase_mult"]),
+        "InpAmberDdPct": float(cfg["amber_dd_pct"]),
+        "InpAmberMult": float(cfg["amber_mult"]),
+        "InpRedDdPct": float(cfg["red_dd_pct"]),
+        "InpRedMult": float(cfg["red_mult"]),
+        "InpProfitLockPct": float(cfg["profit_lock_pct"]),
+        "InpProfitLockMult": float(cfg["profit_lock_mult"]),
+        "InpKillDailyDdPct": float(cfg["kill_daily_dd_pct"]),
+        "InpKillStaticDdPct": float(cfg["kill_static_dd_pct"]),
+        "InpDailyResetMode": int(cfg["daily_reset_mode"]),
+        "InpAllowManualHaltFile": False,
+        "InpGuardMaxDailyLossPct": float(cfg["ea_daily_stop_pct"]),
+        "InpGuardMaxSymbolRiskPct": float(cfg["max_symbol_risk_pct"]),
+        "InpGuardEnableRedNews": bool(cfg["enable_red_news"]),
+        "InpGuardNewsPadSec": int(cfg["news_pad_sec"]),
+        "InpGuardNewsHardBanSec": int(cfg["news_hard_ban_sec"]),
+    }
+    return cfg
+
+
+def parse_preview_tier_spec(spec: str) -> dict[str, Any]:
+    """Parse CLI `<firm>:<capital>:<phase>:<dd_mode>` spec into `build_scaled_tier_config()`."""
+    parts = [p.strip() for p in spec.split(":")]
+    if len(parts) < 2 or len(parts) > 4:
+        raise ValueError(f"Expected <firm>:<capital>[:<phase>[:<dd_mode>]], got {spec!r}")
+    firm = parts[0]
+    cap_raw = parts[1].upper().replace(",", "")
+    if cap_raw.endswith("K"):
+        capital = float(cap_raw[:-1]) * 1000.0
+    else:
+        capital = float(cap_raw)
+    phase = parts[2] if len(parts) >= 3 and parts[2] else "P1_Balanced"
+    dd_mode = parts[3] if len(parts) >= 4 and parts[3] else "5_10"
+    return build_scaled_tier_config(firm=firm, capital_usd=capital, phase=phase, dd_mode=dd_mode)
 
 
 def sha256_file(path: Path) -> str:
@@ -410,10 +686,15 @@ def build_presets_and_manifest(
             "InpAmberMult": float(cfg["amber_mult"]),
             "InpRedDdPct": float(cfg["red_dd_pct"]),
             "InpRedMult": float(cfg["red_mult"]),
+            "InpProfitLockPct": float(cfg["profit_lock_pct"]),
+            "InpProfitLockMult": float(cfg["profit_lock_mult"]),
             "InpKillDailyDdPct": float(cfg["kill_daily_dd_pct"]),
             "InpKillStaticDdPct": float(cfg["kill_static_dd_pct"]),
+            "InpDailyResetMode": int(cfg["daily_reset_mode"]),
             "InpHeartbeatSec": 15,
             "InpHeartbeatFile": "naqex_heartbeat.json",
+            "InpAllowManualHaltFile": False,
+            "InpManualHaltFile": "naqex_manual_halt.flag",
             "InpMagicRangeMin": 20261120,
             "InpMagicRangeMax": 20261199,
             # PropGuard inputs inherited by Orchestrator
@@ -429,6 +710,7 @@ def build_presets_and_manifest(
             "InpGuardEnableRedNews": bool(cfg["enable_red_news"]),
             "InpGuardRedNewsCsvFile": "naqex_red_news_utc.csv",
             "InpGuardNewsPadSec": int(cfg["news_pad_sec"]),
+            "InpGuardNewsHardBanSec": int(cfg["news_hard_ban_sec"]),
             "InpGuardTcaAuditCsvFile": "naqex_exec_audit.csv",
             "InpGuardMagicRangeMin": 20261120,
             "InpGuardMagicRangeMax": 20261199,
@@ -437,12 +719,15 @@ def build_presets_and_manifest(
         valid_orch_keys = set(orch_parsed["inputs"]) | set(mqh_parsed["inputs"])
         assert set(orch_kv).issubset(valid_orch_keys), f"Unknown orch keys: {set(orch_kv) - valid_orch_keys}"
 
+        reset_desc = {0: "MT5_Server_Midnight", 1: "Europe_Prague_CET_CEST", 2: "UTC_Legacy"}.get(
+            int(cfg["daily_reset_mode"]), str(cfg["daily_reset_mode"])
+        )
         orch_set_path = pdir / "Naqex_AccountOrchestrator.set"
         orch_set_path.write_text(
             _render_set_file(
                 [
                     f"Naqex MT5 Preset | Profile: {pname} | Target: Naqex_AccountOrchestrator.ex5",
-                    f"Firm: {cfg['firm']} | AccountType: {cfg['account_type']} | CapitalUSD: {cfg['capital_usd']:.0f}",
+                    f"Firm: {cfg['firm']} | AccountType: {cfg['account_type']} | CapitalUSD: {cfg['capital_usd']:.0f} | Reset: {reset_desc}",
                     arm_note,
                 ],
                 orch_kv,
@@ -453,6 +738,7 @@ def build_presets_and_manifest(
         generated_set_files.append(orch_set_path)
 
         # 2. All 8 EA .set files
+        firm_attach_map = get_chart_attach_for_firm(str(cfg["firm"]))
         active_eas: list[str] = []
         standby_eas: list[str] = []
         for eid, contract in parity.ENGINE_PARITY_CONTRACTS.items():
@@ -467,6 +753,8 @@ def build_presets_and_manifest(
 
             ea_kv["InpDryRunLogOnly"] = ea_dry
             ea_kv["InpMaxDailyLossPct"] = float(cfg["ea_daily_stop_pct"])
+            if cfg["firm"] == "The5ers" and eid == "E7_USDJPY_NY10ET":
+                ea_kv["InpEquitySymbol"] = "NAS100"
             ea_scale = float(cfg.get("ea_risk_scale", 1.00))
             if is_s6_disabled:
                 ea_kv["InpRiskPercent"] = 0.00
@@ -489,6 +777,7 @@ def build_presets_and_manifest(
                 "InpGuardEnableRedNews": bool(cfg["enable_red_news"]),
                 "InpGuardRedNewsCsvFile": "naqex_red_news_utc.csv",
                 "InpGuardNewsPadSec": int(cfg["news_pad_sec"]),
+                "InpGuardNewsHardBanSec": int(cfg["news_hard_ban_sec"]),
                 "InpGuardTcaAuditCsvFile": "naqex_exec_audit.csv",
                 "InpGuardMagicRangeMin": 20261120,
                 "InpGuardMagicRangeMax": 20261199,
@@ -497,31 +786,39 @@ def build_presets_and_manifest(
             valid_ea_keys = set(ep["inputs"]) | set(mqh_parsed["inputs"])
             assert set(full_kv).issubset(valid_ea_keys), f"Unknown EA keys for {eid}: {set(full_kv) - valid_ea_keys}"
 
-            attach = CHART_ATTACH_BY_ENGINE[eid]
+            attach = firm_attach_map[eid]
             status_tag = "STANDBY_DISABLED_IN_CORE_ONLY_PROFILE" if is_s6_disabled else "ACTIVE"
+            header_lines = [
+                f"Naqex MT5 Preset | Profile: {pname} | Engine: {eid} ({status_tag})",
+                f"Attach: {attach['symbol']} {attach['timeframe']} | Magic: {ea_kv['InpMagicNumber']} | MaxSpreadPts: {guard_kv['InpGuardMaxSpreadPoints']:.1f}",
+            ]
+            if cfg["firm"] == "The5ers" and eid == "E5_US100_RS1130":
+                header_lines.append(
+                    "Broker Symbol Check (The5ers G1): Attach to NAS100 M5 and verify exact S&P500 symbol (SPX500 vs US500) in InpBenchmarkSymbol against Market Watch before disarming"
+                )
+            elif cfg["firm"] == "The5ers" and eid == "E7_USDJPY_NY10ET":
+                header_lines.append(
+                    "Broker Symbol Check (The5ers G1): InpEquitySymbol set to NAS100; confirm exact NASDAQ symbol in The5ers Market Watch before disarming"
+                )
+            header_lines.append(arm_note)
             set_path = pdir / f"{stem}.set"
             set_path.write_text(
-                _render_set_file(
-                    [
-                        f"Naqex MT5 Preset | Profile: {pname} | Engine: {eid} ({status_tag})",
-                        f"Attach: {attach['symbol']} {attach['timeframe']} | Magic: {ea_kv['InpMagicNumber']} | MaxSpreadPts: {guard_kv['InpGuardMaxSpreadPoints']:.1f}",
-                        arm_note,
-                    ],
-                    full_kv,
-                ),
+                _render_set_file(header_lines, full_kv),
                 encoding="utf-8",
                 newline="\n",
             )
             generated_set_files.append(set_path)
 
-        meta_obj = {
+        meta_obj: dict[str, Any] = {
             "profile": pname,
             **cfg,
             "active_engines": active_eas,
             "standby_engines": standby_eas,
-            "chart_attachments": CHART_ATTACH_BY_ENGINE,
+            "chart_attachments": firm_attach_map,
             "spread_caps_points": SPREAD_CAP_BY_ENGINE,
         }
+        if cfg["firm"] == "The5ers":
+            meta_obj["broker_symbol_verification_note"] = THE5ERS_BENCHMARK_VERIFICATION_NOTE
         meta_path = pdir / "profile_meta.json"
         meta_path.write_text(json.dumps(meta_obj, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
         profiles_summary[pname] = {
@@ -530,9 +827,13 @@ def build_presets_and_manifest(
             "ea_risk_scale": float(cfg.get("ea_risk_scale", 1.00)),
             "base_phase_mult": float(cfg["base_phase_mult"]),
             "effective_mult": float(cfg.get("effective_mult", cfg["base_phase_mult"])),
+            "profit_lock_pct": float(cfg["profit_lock_pct"]),
+            "profit_lock_mult": float(cfg["profit_lock_mult"]),
+            "daily_reset_mode": int(cfg["daily_reset_mode"]),
             "dry_run_preset": dry,
             "arm_locked": cfg["arm_locked"],
             "enable_red_news": cfg["enable_red_news"],
+            "news_hard_ban_sec": int(cfg["news_hard_ban_sec"]),
             "max_symbol_risk_pct": cfg["max_symbol_risk_pct"],
             "active_engine_count": len(active_eas),
             "calibration_tag": cfg.get("calibration_tag", "FROZEN_BASE"),
@@ -547,6 +848,7 @@ def build_presets_and_manifest(
     for rel_kit in (
         "ACTIVATION-CARD-LOCAL-MT5.md",
         "ops_watchdog/naqex_mt5_watchdog.ps1",
+        "vps_kit/sync_updated_ex5_when_flat.ps1",
     ):
         p = kit_dir / rel_kit
         if p.exists():
@@ -685,7 +987,53 @@ def verify_kit(
                 errors.append(f"{pname}/Naqex_AccountOrchestrator.set dry-run mismatch (expected {expected_dry})")
             if cfg["arm_locked"] and kv.get("InpDryRunLogOnly") != "true":
                 errors.append(f"{pname}: ARM-LOCKED profile must keep InpDryRunLogOnly=true")
+            if kv.get("InpAllowManualHaltFile") != "false":
+                errors.append(f"{pname}/Naqex_AccountOrchestrator.set must keep InpAllowManualHaltFile=false")
+            exp_reset = "1" if cfg["firm"] == "FTMO" else "0"
+            if kv.get("InpDailyResetMode") != exp_reset:
+                errors.append(
+                    f"{pname}/Naqex_AccountOrchestrator.set InpDailyResetMode={kv.get('InpDailyResetMode')} != {exp_reset}"
+                )
+            pl_pct = float(kv.get("InpProfitLockPct", "-1"))
+            pl_mult = float(kv.get("InpProfitLockMult", "-1"))
+            if "_P1_" in pname:
+                if abs(pl_pct - 5.00) > 1e-6 or abs(pl_mult - 1.34) > 1e-6:
+                    errors.append(f"{pname}: P1 ProfitLock mismatch (pct={pl_pct}, mult={pl_mult})")
+            elif "_P2_" in pname:
+                if abs(pl_pct - 3.00) > 1e-6 or not (0.20 <= pl_mult <= 2.00):
+                    errors.append(f"{pname}: P2 ProfitLock mismatch (pct={pl_pct}, mult={pl_mult})")
+            elif any(tag in pname for tag in ("FreeTrial", "Funded")):
+                if abs(pl_pct) > 1e-6:
+                    errors.append(f"{pname}: FreeTrial/Funded must keep InpProfitLockPct=0.00 (got {pl_pct})")
+            hb_sec = int(kv.get("InpGuardNewsHardBanSec", "0"))
+            pad_sec = int(kv.get("InpGuardNewsPadSec", "0"))
+            if hb_sec != 135 or hb_sec >= pad_sec:
+                errors.append(
+                    f"{pname}/Naqex_AccountOrchestrator.set invalid hard ban/pad ({hb_sec}/{pad_sec})"
+                )
+            orch_symcap = float(kv.get("InpGuardMaxSymbolRiskPct", "99"))
+            if any(tag in pname for tag in ("FreeTrial", "Funded")) and orch_symcap > 1.00 + 1e-9:
+                errors.append(f"{pname}/Naqex_AccountOrchestrator.set SYMCAP > 1.00 ({orch_symcap})")
+            elif "_P2_" in pname and orch_symcap > 1.50 + 1e-9:
+                errors.append(f"{pname}/Naqex_AccountOrchestrator.set P2 SYMCAP > 1.50 ({orch_symcap})")
+            elif "_P1_" in pname and orch_symcap > 2.00 + 1e-9:
+                errors.append(f"{pname}/Naqex_AccountOrchestrator.set P1 SYMCAP > 2.00 ({orch_symcap})")
             presets_checked += 1
+
+        # Check profile_meta.json firm-specific chart attachment mapping
+        meta_path = pdir / "profile_meta.json"
+        if not meta_path.exists():
+            errors.append(f"{pname}: missing profile_meta.json")
+        else:
+            meta_data = json.loads(meta_path.read_text(encoding="utf-8"))
+            att = meta_data.get("chart_attachments", {})
+            exp_idx_sym = "NAS100" if cfg["firm"] == "The5ers" else "US100.cash"
+            for idx_eid in ("E4_US100_SESS40", "E5_US100_RS1130"):
+                got_sym = att.get(idx_eid, {}).get("symbol")
+                if got_sym != exp_idx_sym:
+                    errors.append(f"{pname}/profile_meta.json {idx_eid} symbol={got_sym!r} != {exp_idx_sym!r}")
+            if cfg["firm"] == "The5ers" and not meta_data.get("broker_symbol_verification_note"):
+                errors.append(f"{pname}/profile_meta.json missing broker_symbol_verification_note")
 
         # Check all 8 EA .set files
         for stem, valid_keys in ea_keys_by_stem.items():
@@ -703,27 +1051,37 @@ def verify_kit(
             if kv.get("InpMagicNumber") != exp_magic:
                 errors.append(f"{pname}/{stem}.set magic={kv.get('InpMagicNumber')} != {exp_magic}")
 
-            # US100.cash spread guard sanity (FTMO Demo measured spread = 195 pts)
+            # US100.cash / NAS100 spread guard sanity (FTMO Demo measured spread = 195 pts)
             if eid in ("E4_US100_SESS40", "E5_US100_RS1130"):
                 sp_cap = float(kv.get("InpGuardMaxSpreadPoints", "0"))
                 if sp_cap < 350.0:
                     errors.append(f"{pname}/{stem}.set US100 InpGuardMaxSpreadPoints={sp_cap} < 350.0")
 
-            # Red-news enforcement check
+            # Red-news enforcement & safe pre-flatten hard ban window check
             exp_news = "true" if cfg["enable_red_news"] else "false"
             if kv.get("InpGuardEnableRedNews") != exp_news:
                 errors.append(f"{pname}/{stem}.set InpGuardEnableRedNews={kv.get('InpGuardEnableRedNews')} != {exp_news}")
+            ea_hb = int(kv.get("InpGuardNewsHardBanSec", "0"))
+            ea_pad = int(kv.get("InpGuardNewsPadSec", "0"))
+            if ea_hb != 135 or ea_hb >= ea_pad:
+                errors.append(f"{pname}/{stem}.set invalid hard ban/pad ({ea_hb}/{ea_pad})")
 
             # Arm-lock safety check
             if cfg["arm_locked"]:
                 if kv.get("InpDryRunLogOnly") != "true" or kv.get("InpGuardDryRunLogOnly") != "true":
                     errors.append(f"{pname}/{stem}.set violates ARM-LOCKED InpDryRunLogOnly=true")
 
-            # SYMCAP_100 check for 1.00x FreeTrial and Funded profiles
+            # Tightened SYMCAP invariants: FreeTrial/Funded <= 1.00, P2 <= 1.50, P1 <= 2.00
+            symcap = float(kv.get("InpGuardMaxSymbolRiskPct", "99"))
             if any(tag in pname for tag in ("FreeTrial", "Funded")):
-                symcap = float(kv.get("InpGuardMaxSymbolRiskPct", "99"))
                 if symcap > 1.00 + 1e-9:
                     errors.append(f"{pname}/{stem}.set SYMCAP_100 violated: {symcap} > 1.00")
+            elif "_P2_" in pname:
+                if symcap > 1.50 + 1e-9:
+                    errors.append(f"{pname}/{stem}.set P2 SYMCAP violated: {symcap} > 1.50")
+            elif "_P1_" in pname:
+                if symcap > 2.00 + 1e-9:
+                    errors.append(f"{pname}/{stem}.set P1 SYMCAP violated: {symcap} > 2.00")
 
             # Verify Orchestrator base_phase_mult stays inside Naqex_PropGuard.mqh [0.20, 3.50] clamp
             if not (0.20 <= float(cfg["base_phase_mult"]) <= 3.50):
@@ -731,10 +1089,11 @@ def verify_kit(
 
             presets_checked += 1
 
-    # 4. Check Activation Card and Watchdog existence & anti-bloat across exports/
+    # 4. Check Activation Card, Watchdog & Flat-Only Sync script existence & anti-bloat across exports/
     for req_file in (
         kit_dir / "ACTIVATION-CARD-LOCAL-MT5.md",
         kit_dir / "ops_watchdog/naqex_mt5_watchdog.ps1",
+        kit_dir / "vps_kit/sync_updated_ex5_when_flat.ps1",
     ):
         if not req_file.exists():
             errors.append(f"Missing required kit artifact: {req_file.relative_to(REPO_ROOT)}")
@@ -766,7 +1125,22 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--p1-balanced-mult", type=float, default=None, help="Optional override for P1 Balanced multiplier.")
     ap.add_argument("--p1-sprint-mult", type=float, default=None, help="Optional override for P1 Sprint multiplier.")
     ap.add_argument("--calibration-tag", type=str, default=None, help="Calibration provenance tag for P1 overrides.")
+    ap.add_argument(
+        "--preview-tier-json",
+        type=str,
+        default=None,
+        help="Read-only JSON preview of a scaled tier config: <firm>:<capital>:<phase>:<dd_mode> (e.g. The5ers:50000:P1_Balanced:4_8).",
+    )
     args = ap.parse_args(argv)
+
+    if args.preview_tier_json:
+        try:
+            preview = parse_preview_tier_spec(args.preview_tier_json)
+        except ValueError as exc:
+            print(json.dumps({"ok": False, "order_send_count": 0, "error": str(exc)}, indent=2), file=sys.stderr)
+            return 2
+        print(json.dumps(preview, indent=2, ensure_ascii=False))
+        return 0
 
     if args.build:
         overrides: dict[str, dict[str, Any]] = {}

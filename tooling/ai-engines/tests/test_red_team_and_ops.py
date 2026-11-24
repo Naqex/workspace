@@ -317,9 +317,12 @@ class TestRedTeamAndOps(unittest.TestCase):
         self.assertIn("G4_orthogonality", v_bad["failed_gates"])
 
     def test_06_red_news_csv_extended_through_2027(self):
+        from quant_factory.build_red_news_calendar import build_or_verify_calendar, merge_and_deduplicate_events
+
         csv_path = AI_ENGINES / "exports/Files/naqex_red_news_utc.csv"
         raw_lines = csv_path.read_text(encoding="utf-8").splitlines()
         self.assertEqual(raw_lines[0], "utc_ts,ccy,event")
+        self.assertLess(csv_path.stat().st_size, 200_000, "Red-news CSV must remain well under 200 KB")
 
         rows = []
         for idx, line in enumerate(raw_lines[1:], start=2):
@@ -327,44 +330,86 @@ class TestRedTeamAndOps(unittest.TestCase):
             self.assertEqual(len(parts), 3, f"MQL5 3-col contract broken on line {idx}: {line}")
             rows.append((int(parts[0]), parts[1], parts[2]))
 
-        # Strictly sorted non-decreasing, zero duplicate triples
+        # Strictly sorted non-decreasing, zero duplicate (utc_ts, ccy) pairs
         tss = [r[0] for r in rows]
         self.assertEqual(tss, sorted(tss), "CSV timestamps must be sorted ascending")
-        self.assertEqual(len(rows), len(set(rows)), "Duplicate red-news rows found")
+        ts_ccy_keys = [(r[0], r[1]) for r in rows]
+        self.assertEqual(len(ts_ccy_keys), len(set(ts_ccy_keys)), "Duplicate (utc_ts, ccy) pairs found")
 
+        t2025_start = int(datetime(2025, 1, 1, tzinfo=timezone.utc).timestamp())
+        t2026_start = int(datetime(2026, 1, 1, tzinfo=timezone.utc).timestamp())
         t2027_start = int(datetime(2027, 1, 1, tzinfo=timezone.utc).timestamp())
         t2028_start = int(datetime(2028, 1, 1, tzinfo=timezone.utc).timestamp())
-        pre_2027 = [r for r in rows if r[0] < t2027_start]
+        in_1824 = [r for r in rows if r[0] < t2025_start]
+        in_2025 = [r for r in rows if t2025_start <= r[0] < t2026_start]
+        in_2026 = [r for r in rows if t2026_start <= r[0] < t2027_start]
         in_2027 = [r for r in rows if t2027_start <= r[0] < t2028_start]
-        self.assertEqual(len(pre_2027), 287, "Original 2018-2026 rows must remain untouched")
-        self.assertEqual(len(in_2027), 56, "Expected 56 official 2027 events (8 FOMC + 12 NFP + 12 CPI + 8 ECB + 8 BoE + 8 BoJ)")
+
+        # Frozen 2018-2024 Dev (224) and 2025 (31) rows must remain 100% untouched
+        self.assertEqual(len(in_1824), 224, "Frozen 2018-2024 Dev rows must remain untouched")
+        self.assertEqual(len(in_2025), 31, "Frozen 2025 rows must remain untouched")
+        # Expanded late-2026 & full-2027 must cover all 4 currencies (USD, EUR, GBP, JPY)
+        self.assertGreaterEqual(len(in_2026), 46, "2026 must include 32 USD + expanded late-2026 4-ccy events")
+        self.assertEqual({r[1] for r in in_2026}, {"USD", "EUR", "GBP", "JPY"})
+        self.assertGreaterEqual(len(in_2027), 115, "2027 must include all 56 original anchors + expanded multi-ccy macro/CB events")
+        self.assertEqual({r[1] for r in in_2027}, {"USD", "EUR", "GBP", "JPY"})
 
         ev_counts = {}
         for _, ccy, ev in in_2027:
             ev_counts[ev] = ev_counts.get(ev, 0) + 1
             self.assertIn(ccy, {"USD", "EUR", "GBP", "JPY"})
+        # All 56 original 2027 anchor events preserved verbatim
         self.assertEqual(ev_counts["US_NFP_BLS2027"], 12)
         self.assertEqual(ev_counts["US_CPI_BLS2027"], 12)
         self.assertEqual(ev_counts["FOMC_FED2027_TENTATIVE"] + ev_counts["FOMC_STRATEGY_FED2027_TENTATIVE"], 8)
         self.assertEqual(ev_counts["ECB_RATE_ECB2027"], 8)
         self.assertEqual(ev_counts["BOE_RATE_BOE2027"], 8)
         self.assertEqual(ev_counts["BOJ_RATE_BOJ2027_EST03UTC"], 8)
+        # Newly added 2027 multi-ccy red folders (PPI, Retail Sales, Core PCE/GDP, UK CPI, ECB Press Conf, FOMC Press Conf)
+        self.assertEqual(ev_counts["UK_CPI_ONS2027"], 12)
+        self.assertEqual(ev_counts["ECB_PRESS_CONF_ECB2027"], 8)
+        self.assertEqual(ev_counts["FOMC_PRESS_CONF_FED2027_TENTATIVE"], 7)
+        self.assertEqual(ev_counts["US_GDP_ADV_AND_CORE_PCE_BEA2027"] + ev_counts["US_GDP_AND_CORE_PCE_BEA2027"], 12)
+        self.assertEqual(sum(n for ev, n in ev_counts.items() if "US_PPI_BLS2027" in ev), 12)
+        self.assertEqual(sum(n for ev, n in ev_counts.items() if "US_RETAIL_SALES_CENSUS2027" in ev), 12)
 
-        # Spot-check exact DST UTC timestamps (EST/EDT, CET/CEST, GMT/BST, JST)
-        by_triple = {(t, c, e) for t, c, e in in_2027}
+        # Spot-check exact DST UTC timestamps (EST/EDT, CET/CEST, GMT/BST, JST) across 2026 & 2027
+        by_triple = {(t, c, e) for t, c, e in (in_2026 + in_2027)}
         expected_checks = [
+            (datetime(2026, 11, 25, 13, 30, tzinfo=timezone.utc), "USD", "US_GDP_AND_CORE_PCE_BEA2026"),
+            (datetime(2026, 12, 16, 7, 0, tzinfo=timezone.utc), "GBP", "UK_CPI_ONS2026"),
+            (datetime(2026, 12, 17, 12, 0, tzinfo=timezone.utc), "GBP", "BOE_RATE_BOE2026"),
+            (datetime(2026, 12, 17, 13, 15, tzinfo=timezone.utc), "EUR", "ECB_RATE_ECB2026"),
+            (datetime(2026, 12, 17, 13, 45, tzinfo=timezone.utc), "EUR", "ECB_PRESS_CONF_ECB2026"),
+            (datetime(2026, 12, 18, 3, 0, tzinfo=timezone.utc), "JPY", "BOJ_RATE_BOJ2026_EST03UTC"),
             (datetime(2027, 1, 8, 13, 30, tzinfo=timezone.utc), "USD", "US_NFP_BLS2027"),           # EST UTC-5
             (datetime(2027, 6, 4, 12, 30, tzinfo=timezone.utc), "USD", "US_NFP_BLS2027"),           # EDT UTC-4
             (datetime(2027, 1, 27, 19, 0, tzinfo=timezone.utc), "USD", "FOMC_FED2027_TENTATIVE"),   # EST 14:00 -> 19:00 UTC
             (datetime(2027, 6, 9, 18, 0, tzinfo=timezone.utc), "USD", "FOMC_FED2027_TENTATIVE"),    # EDT 14:00 -> 18:00 UTC
             (datetime(2027, 2, 4, 13, 15, tzinfo=timezone.utc), "EUR", "ECB_RATE_ECB2027"),         # CET 14:15 -> 13:15 UTC
             (datetime(2027, 6, 10, 12, 15, tzinfo=timezone.utc), "EUR", "ECB_RATE_ECB2027"),        # CEST 14:15 -> 12:15 UTC
+            (datetime(2027, 6, 10, 12, 45, tzinfo=timezone.utc), "EUR", "ECB_PRESS_CONF_ECB2027"),  # CEST 14:45 -> 12:45 UTC
             (datetime(2027, 2, 4, 12, 0, tzinfo=timezone.utc), "GBP", "BOE_RATE_BOE2027"),          # GMT 12:00 -> 12:00 UTC
             (datetime(2027, 6, 17, 11, 0, tzinfo=timezone.utc), "GBP", "BOE_RATE_BOE2027"),         # BST 12:00 -> 11:00 UTC
+            (datetime(2027, 6, 16, 6, 0, tzinfo=timezone.utc), "GBP", "UK_CPI_ONS2027"),            # BST 07:00 -> 06:00 UTC
             (datetime(2027, 1, 22, 3, 0, tzinfo=timezone.utc), "JPY", "BOJ_RATE_BOJ2027_EST03UTC"), # JST 12:00 -> 03:00 UTC
+            (datetime(2027, 10, 15, 12, 30, tzinfo=timezone.utc), "USD", "US_PPI_BLS2027+US_RETAIL_SALES_CENSUS2027"),
         ]
         for dt_utc, ccy, ev in expected_checks:
             self.assertIn((int(dt_utc.timestamp()), ccy, ev), by_triple, f"Missing/wrong UTC timestamp for {dt_utc} {ccy} {ev}")
+
+        # Deterministic builder verification & deduplication check
+        rep = build_or_verify_calendar(write=False)
+        self.assertTrue(rep["ok"], f"build_red_news_calendar verification failed: {rep['errors']}")
+        self.assertTrue(rep["disk_matches_deterministic_build"])
+        self.assertTrue(rep["parity_check"]["ok"])
+        dedup_rows, merges = merge_and_deduplicate_events(
+            [(1700000000, "USD", "EV_A")],
+            [(1700000000, "USD", "EV_A"), (1700000000, "USD", "EV_B")],
+            [(1700000000, "GBP", "EV_C")],
+        )
+        self.assertEqual(dedup_rows, [(1700000000, "GBP", "EV_C"), (1700000000, "USD", "EV_A+EV_B")])
+        self.assertEqual(len(merges), 1)
 
         upcoming = load_upcoming_red_news(csv_path, now_utc_ts=int(datetime(2027, 1, 1, tzinfo=timezone.utc).timestamp()), limit=5)
         self.assertEqual(len(upcoming), 5)

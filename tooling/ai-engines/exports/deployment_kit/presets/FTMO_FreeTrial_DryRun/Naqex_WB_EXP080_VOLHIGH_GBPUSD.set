@@ -25,6 +25,7 @@ InpGuardTesterUtcOffsetH=2
 InpGuardEnableRedNews=true
 InpGuardRedNewsCsvFile=naqex_red_news_utc.csv
 InpGuardNewsPadSec=300
+InpGuardNewsHardBanSec=135
 InpGuardTcaAuditCsvFile=naqex_exec_audit.csv
 InpGuardMagicRangeMin=20261120
 InpGuardMagicRangeMax=20261199

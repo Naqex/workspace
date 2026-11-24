@@ -665,6 +665,37 @@
       </tr>
     `).join("");
 
+    // Render compact 4-layer R4 -> R3 -> R2 -> R1 risk attribution strip
+    const ra = d.risk_attribution || null;
+    const raLayersEl = $("mx-risk-layers");
+    if (ra && raLayersEl) {
+      const act = ra.active_label || "OK";
+      const actLayer = ra.layers && ra.layers[act];
+      const actStatus = act === "OK" ? "OK" : ((actLayer && actLayer.status) || "WARN");
+      const actBadge = $("mx-risk-active");
+      if (actBadge) {
+        actBadge.textContent = act === "OK" ? "OK · 4/4 SẠCH" : `${act} · ${actStatus === "ALERT" ? "CẢNH BÁO" : "LƯU Ý"}`;
+        actBadge.className = `tag ${act === "OK" ? "tag-green" : actStatus === "ALERT" ? "tag-red" : "tag-amber"}`;
+      }
+      const hl = $("mx-risk-headline");
+      if (hl) hl.textContent = ra.headline_vi || "";
+      const order = ra.check_order || ["R4", "R3", "R2", "R1"];
+      const layerTag = { OK: "tag-green", WARN: "tag-amber", ALERT: "tag-red" };
+      const layerTxt = { OK: "XANH", WARN: "LƯU Ý", ALERT: "ĐỎ" };
+      raLayersEl.innerHTML = order.map((code) => {
+        const item = (ra.layers && ra.layers[code]) || { code, title: code, status: "OK", detail: "—" };
+        const st = item.status || "OK";
+        const cellCls = st === "ALERT" ? "is-alert" : st === "WARN" ? "is-warn" : "";
+        return `<div class="mx-risk-cell ${cellCls}">
+          <div class="mx-risk-cell-top">
+            <strong class="mono">${item.code} · ${item.title}</strong>
+            <span class="tag ${layerTag[st] || "tag-green"}">${layerTxt[st] || st}</span>
+          </div>
+          <div class="mx-risk-cell-detail">${item.detail || ""}</div>
+        </div>`;
+      }).join("");
+    }
+
     const tRule = (d.rules || []).find((r) => r.id === "profit_target");
     const tBox = $("mx-target-box");
     if (tRule && tRule.progress_pct != null) {

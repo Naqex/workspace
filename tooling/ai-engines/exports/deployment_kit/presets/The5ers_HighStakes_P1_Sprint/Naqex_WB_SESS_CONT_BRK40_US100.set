@@ -1,5 +1,5 @@
 ; Naqex MT5 Preset | Profile: The5ers_HighStakes_P1_Sprint | Engine: E4_US100_SESS40 (ACTIVE)
-; Attach: US100.cash M5 | Magic: 20261124 | MaxSpreadPts: 450.0
+; Attach: NAS100 M5 | Magic: 20261124 | MaxSpreadPts: 450.0
 ; ARM-LOCKED SAFETY: set InpDryRunLogOnly=false & InpGuardDryRunLogOnly=false ONLY after Free Trial PASS & TCA GREEN
 InpDryRunLogOnly=true
 InpRiskPercent=0.75
@@ -11,7 +11,7 @@ InpAtrPeriodD1=14
 InpMagicNumber=20261124
 InpGuardDryRunLogOnly=true
 InpGuardMaxDailyLossPct=4.30
-InpGuardMaxSymbolRiskPct=3.50
+InpGuardMaxSymbolRiskPct=2.00
 InpGuardUseOrchestrator=true
 InpGuardMaxSpreadPoints=450.00
 InpGuardRolloverStartUTC=21
@@ -21,6 +21,7 @@ InpGuardTesterUtcOffsetH=2
 InpGuardEnableRedNews=true
 InpGuardRedNewsCsvFile=naqex_red_news_utc.csv
 InpGuardNewsPadSec=300
+InpGuardNewsHardBanSec=135
 InpGuardTcaAuditCsvFile=naqex_exec_audit.csv
 InpGuardMagicRangeMin=20261120
 InpGuardMagicRangeMax=20261199

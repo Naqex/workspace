@@ -1,8 +1,9 @@
 ; Naqex MT5 Preset | Profile: The5ers_HighStakes_Funded | Engine: E7_USDJPY_NY10ET (ACTIVE)
 ; Attach: USDJPY M5 | Magic: 20261129 | MaxSpreadPts: 35.0
+; Broker Symbol Check (The5ers G1): InpEquitySymbol set to NAS100; confirm exact NASDAQ symbol in The5ers Market Watch before disarming
 ; ARM-LOCKED SAFETY: set InpDryRunLogOnly=false & InpGuardDryRunLogOnly=false ONLY after Free Trial PASS & TCA GREEN
 InpDryRunLogOnly=true
-InpEquitySymbol=US100.cash
+InpEquitySymbol=NAS100
 InpRiskPercent=0.50
 InpMaxDailyLossPct=2.50
 InpMinEquityMoveAtr=0.25
@@ -24,6 +25,7 @@ InpGuardTesterUtcOffsetH=2
 InpGuardEnableRedNews=true
 InpGuardRedNewsCsvFile=naqex_red_news_utc.csv
 InpGuardNewsPadSec=300
+InpGuardNewsHardBanSec=135
 InpGuardTcaAuditCsvFile=naqex_exec_audit.csv
 InpGuardMagicRangeMin=20261120
 InpGuardMagicRangeMax=20261199

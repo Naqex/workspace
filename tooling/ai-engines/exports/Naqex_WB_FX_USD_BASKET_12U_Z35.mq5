@@ -90,6 +90,40 @@ bool HasOwnPositionInRedNews()
    return false;
 }
 
+bool HasOwnPositionInPreFlattenWindow()
+{
+   for(int i = PositionsTotal() - 1; i >= 0; i--)
+   {
+      ulong ticket = PositionGetTicket(i);
+      if(ticket > 0 && PositionGetInteger(POSITION_MAGIC) == InpMagicNumber)
+      {
+         if(g_guard.IsInRedNewsPreFlattenWindowFor(PositionGetString(POSITION_SYMBOL)))
+            return true;
+      }
+   }
+   return false;
+}
+
+void CloseOwnPositionsInPreFlatten(const string reason)
+{
+   for(int i = PositionsTotal() - 1; i >= 0; i--)
+   {
+      ulong ticket = PositionGetTicket(i);
+      if(ticket > 0 && PositionGetInteger(POSITION_MAGIC) == InpMagicNumber)
+      {
+         string psym = PositionGetString(POSITION_SYMBOL);
+         if(!g_guard.IsInRedNewsPreFlattenWindowFor(psym)) continue;
+         if(InpDryRunLogOnly || InpGuardDryRunLogOnly)
+            PrintFormat("[DRYRUN] Would close ticket=%I64u sym=%s reason=%s", ticket, psym, reason);
+         else
+         {
+            CNaqexPropGuard::ConfigureFillingMode(trade, psym);
+            trade.PositionClose(ticket);
+         }
+      }
+   }
+}
+
 bool CausalZReturn(const string sym, const int atrHandle, const int lookbackHours, double &outZ, double &outAtr)
 {
    double atrBuf[1];
@@ -118,7 +152,7 @@ void OnTick()
    }
    if(g_guard.IsInsideRedNewsWindow() || HasOwnPositionInRedNews())
    {
-      if(HasAnyOwnPosition()) CloseOwnPositions("NEWS_PRE_FLATTEN");
+      if(HasOwnPositionInPreFlattenWindow()) CloseOwnPositionsInPreFlatten("NEWS_PRE_FLATTEN");
       return;
    }
    if(g_guard.IsDailyLossBreached())

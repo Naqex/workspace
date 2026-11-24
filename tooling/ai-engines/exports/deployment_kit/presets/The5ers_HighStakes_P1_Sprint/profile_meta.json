@@ -15,14 +15,18 @@
   "amber_mult": 1.0,
   "red_dd_pct": 9.9,
   "red_mult": 1.0,
+  "profit_lock_pct": 5.0,
+  "profit_lock_mult": 1.34,
+  "daily_reset_mode": 0,
   "kill_daily_dd_pct": 4.3,
   "kill_static_dd_pct": 9.5,
   "ea_daily_stop_pct": 4.3,
-  "max_symbol_risk_pct": 3.5,
+  "max_symbol_risk_pct": 2.0,
   "enable_red_news": true,
   "news_pad_sec": 300,
+  "news_hard_ban_sec": 135,
   "requires_ea_written_clearance": true,
-  "notes": "The5ers HS 5k P1 Sprint (eff 4.75x; 1-try fail 30.0%, med P1 1.6m, 24m CF +368 USD; written EA clearance req). ARM-LOCKED.",
+  "notes": "The5ers HS 5k P1 Sprint (eff 4.75x; SYMCAP 2.00%, ProfitLock >=+5% -> 2.01x, Server midnight reset, NAS100 mapping; written EA clearance req). ARM-LOCKED.",
   "active_engines": [
     "E1_USDJPY_TOKYO",
     "E2_USDJPY_EXP80",
@@ -48,11 +52,11 @@
       "timeframe": "M15"
     },
     "E4_US100_SESS40": {
-      "symbol": "US100.cash",
+      "symbol": "NAS100",
       "timeframe": "M5"
     },
     "E5_US100_RS1130": {
-      "symbol": "US100.cash",
+      "symbol": "NAS100",
       "timeframe": "M5"
     },
     "E6_EURJPY_VOLCOMP": {
@@ -77,5 +81,6 @@
     "E6_EURJPY_VOLCOMP": 45.0,
     "E7_USDJPY_NY10ET": 35.0,
     "S6_FX_USD_BSK": 35.0
-  }
+  },
+  "broker_symbol_verification_note": "The5ers chart mapping uses NAS100 for E4/E5 and E7 InpEquitySymbol; verify exact S&P500 benchmark symbol (SPX500 vs US500) in E5 InpBenchmarkSymbol against The5ers Market Watch (G1 snapshot) before disarming."
 }

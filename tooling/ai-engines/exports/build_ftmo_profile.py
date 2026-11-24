@@ -269,13 +269,23 @@ def build_mt5_chart_profile(
     if not preset_dir.exists():
         raise FileNotFoundError(f"Preset profile folder missing: {preset_dir}")
 
+    meta_path = preset_dir / "profile_meta.json"
+    meta_attachments: dict[str, dict[str, str]] = {}
+    if meta_path.exists():
+        meta_obj = json.loads(meta_path.read_text(encoding="utf-8"))
+        meta_attachments = meta_obj.get("chart_attachments", {}) or {}
+
     out_dir = data_dir / "MQL5/Profiles/Charts" / mt5_profile_name
     out_dir.mkdir(parents=True, exist_ok=True)
 
     charts_written: list[dict[str, Any]] = []
     order_lines: list[str] = []
 
-    for spec in CHART_PLAN:
+    for base_spec in CHART_PLAN:
+        spec = dict(base_spec)
+        eid = spec["engine_id"]
+        if eid in meta_attachments and meta_attachments[eid].get("symbol"):
+            spec["symbol"] = str(meta_attachments[eid]["symbol"])
         stem = spec["expert_stem"]
         set_path = preset_dir / f"{stem}.set"
         if not set_path.exists():
@@ -284,23 +294,36 @@ def build_mt5_chart_profile(
         if extra_input_overrides and stem in extra_input_overrides:
             inputs.update(extra_input_overrides[stem])
 
+        # Fail-closed guard: verify Cycle-1 mandatory news & orchestrator inputs are present
+        required_keys = ["InpGuardNewsHardBanSec"]
+        if stem == "Naqex_AccountOrchestrator":
+            required_keys.extend(["InpProfitLockPct", "InpProfitLockMult", "InpDailyResetMode"])
+        missing = [k for k in required_keys if k not in inputs]
+        if missing:
+            raise ValueError(f"Stale preset {set_path.name} missing required Cycle-1 inputs: {missing}")
+
         chr_text = render_chr_content(spec, inputs, allow_algo=True)
         chr_path = out_dir / spec["chart_file"]
         chr_path.write_bytes(chr_text.encode("utf-16"))  # UTF-16LE with BOM, exact MT5 format
         order_lines.append(spec["chart_file"])
-        charts_written.append(
-            {
-                "chart_file": spec["chart_file"],
-                "engine_id": spec["engine_id"],
-                "expert": f"Experts\\Naqex\\{stem}.ex5",
-                "symbol": spec["symbol"],
-                "timeframe": spec["timeframe"],
-                "dry_run": inputs.get("InpDryRunLogOnly"),
-                "guard_dry_run": inputs.get("InpGuardDryRunLogOnly"),
-                "max_spread_pts": inputs.get("InpGuardMaxSpreadPoints"),
-                "magic": inputs.get("InpMagicNumber", "RANGE_20261120_20261199"),
-            }
-        )
+        chart_rec: dict[str, Any] = {
+            "chart_file": spec["chart_file"],
+            "engine_id": eid,
+            "expert": f"Experts\\Naqex\\{stem}.ex5",
+            "symbol": spec["symbol"],
+            "timeframe": spec["timeframe"],
+            "dry_run": inputs.get("InpDryRunLogOnly"),
+            "guard_dry_run": inputs.get("InpGuardDryRunLogOnly"),
+            "max_spread_pts": inputs.get("InpGuardMaxSpreadPoints"),
+            "max_symbol_risk_pct": inputs.get("InpGuardMaxSymbolRiskPct"),
+            "news_hard_ban_sec": inputs.get("InpGuardNewsHardBanSec"),
+            "magic": inputs.get("InpMagicNumber", "RANGE_20261120_20261199"),
+        }
+        if stem == "Naqex_AccountOrchestrator":
+            chart_rec["profit_lock_pct"] = inputs.get("InpProfitLockPct")
+            chart_rec["profit_lock_mult"] = inputs.get("InpProfitLockMult")
+            chart_rec["daily_reset_mode"] = inputs.get("InpDailyResetMode")
+        charts_written.append(chart_rec)
 
     order_path = out_dir / "order.wnd"
     order_path.write_bytes(("\r\n".join(order_lines) + "\r\n").encode("utf-16"))

@@ -15,14 +15,18 @@
   "amber_mult": 0.65,
   "red_dd_pct": 6.0,
   "red_mult": 0.4,
+  "profit_lock_pct": 0.0,
+  "profit_lock_mult": 1.0,
+  "daily_reset_mode": 0,
   "kill_daily_dd_pct": 2.5,
   "kill_static_dd_pct": 7.5,
   "ea_daily_stop_pct": 2.5,
   "max_symbol_risk_pct": 1.0,
   "enable_red_news": true,
   "news_pad_sec": 300,
+  "news_hard_ban_sec": 135,
   "requires_ea_written_clearance": true,
-  "notes": "The5ers HS 5k Funded (1.00x, Core 7 EAs, SYMCAP_100, +/-5m Red-News ON). ARM-LOCKED.",
+  "notes": "The5ers HS 5k Funded (1.00x, Core 7 EAs, SYMCAP_100, safe -5m..-2m15s Red-News ON, Server midnight reset, NAS100 mapping). ARM-LOCKED.",
   "active_engines": [
     "E1_USDJPY_TOKYO",
     "E2_USDJPY_EXP80",
@@ -49,11 +53,11 @@
       "timeframe": "M15"
     },
     "E4_US100_SESS40": {
-      "symbol": "US100.cash",
+      "symbol": "NAS100",
       "timeframe": "M5"
     },
     "E5_US100_RS1130": {
-      "symbol": "US100.cash",
+      "symbol": "NAS100",
       "timeframe": "M5"
     },
     "E6_EURJPY_VOLCOMP": {
@@ -78,5 +82,6 @@
     "E6_EURJPY_VOLCOMP": 45.0,
     "E7_USDJPY_NY10ET": 35.0,
     "S6_FX_USD_BSK": 35.0
-  }
+  },
+  "broker_symbol_verification_note": "The5ers chart mapping uses NAS100 for E4/E5 and E7 InpEquitySymbol; verify exact S&P500 benchmark symbol (SPX500 vs US500) in E5 InpBenchmarkSymbol against The5ers Market Watch (G1 snapshot) before disarming."
 }

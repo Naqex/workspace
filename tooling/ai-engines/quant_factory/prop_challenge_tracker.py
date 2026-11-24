@@ -20,6 +20,7 @@ from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 import json
 from pathlib import Path
+import re
 from typing import Any
 
 AI_ENGINES = Path(__file__).resolve().parents[1]
@@ -111,6 +112,66 @@ PROP_PROFILES: dict[str, PropProfileSpec] = {
         red_news_firm_sec=120,
         red_news_guard_sec=300,
     ),
+    "ftmo_swing_25k": PropProfileSpec(
+        profile_id="ftmo_swing_25k",
+        firm_name="FTMO Swing 25K",
+        initial_balance_usd=25_000.0,
+        profit_target_pct=10.0,
+        hard_daily_loss_pct=5.0,
+        amber_daily_brake_pct=3.5,
+        hard_max_loss_pct=10.0,
+        red_total_brake_pct=7.0,
+        min_trading_days=4,
+        min_profitable_days=0,
+        profitable_day_threshold_pct=0.0,
+        red_news_firm_sec=0,
+        red_news_guard_sec=300,
+    ),
+    "ftmo_swing_50k": PropProfileSpec(
+        profile_id="ftmo_swing_50k",
+        firm_name="FTMO Swing 50K",
+        initial_balance_usd=50_000.0,
+        profit_target_pct=10.0,
+        hard_daily_loss_pct=5.0,
+        amber_daily_brake_pct=3.5,
+        hard_max_loss_pct=10.0,
+        red_total_brake_pct=7.0,
+        min_trading_days=4,
+        min_profitable_days=0,
+        profitable_day_threshold_pct=0.0,
+        red_news_firm_sec=0,
+        red_news_guard_sec=300,
+    ),
+    "ftmo_swing_100k": PropProfileSpec(
+        profile_id="ftmo_swing_100k",
+        firm_name="FTMO Swing 100K",
+        initial_balance_usd=100_000.0,
+        profit_target_pct=10.0,
+        hard_daily_loss_pct=5.0,
+        amber_daily_brake_pct=3.5,
+        hard_max_loss_pct=10.0,
+        red_total_brake_pct=7.0,
+        min_trading_days=4,
+        min_profitable_days=0,
+        profitable_day_threshold_pct=0.0,
+        red_news_firm_sec=0,
+        red_news_guard_sec=300,
+    ),
+    "the5ers_hs_50k": PropProfileSpec(
+        profile_id="the5ers_hs_50k",
+        firm_name="The5ers High Stakes 50K/60K (Strict 4%/8% DD)",
+        initial_balance_usd=50_000.0,
+        profit_target_pct=8.0,
+        hard_daily_loss_pct=4.0,
+        amber_daily_brake_pct=2.8,
+        hard_max_loss_pct=8.0,
+        red_total_brake_pct=5.6,
+        min_trading_days=3,
+        min_profitable_days=3,
+        profitable_day_threshold_pct=0.50,
+        red_news_firm_sec=120,
+        red_news_guard_sec=300,
+    ),
 }
 
 # Verified MQL5 export magic numbers (`tooling/ai-engines/exports/Naqex_WB_*.mq5`)
@@ -174,19 +235,142 @@ def _in_rollover_blackout(utc_ts: int) -> bool:
     return (21 * 60 + 55) <= mins <= (22 * 60 + 15)
 
 
-def _symbol_currencies(symbol: str) -> set[str]:
-    s = (symbol or "").upper().replace(".CASH", "").replace(".PRO", "")
-    if any(k in s for k in ("US100", "US500", "US30", "NAS", "SPX")):
-        return {"USD"}
-    if any(k in s for k in ("GER40", "DE40", "DAX")):
-        return {"EUR"}
+_SYMBOL_SUFFIX_RE = re.compile(r"(?:\.(?:CASH|PRO|RAW|ECN|STD|MINI|MICRO|M|I|C)|[-_](?:CASH|PRO|RAW|C))$")
+
+
+def _normalize_symbol(symbol: str) -> str:
+    """Normalize broker alias symbols (NAS100/NDX/USTEC -> US100, SPX -> US500, DE40/DAX -> GER40, etc.)."""
+    s = _SYMBOL_SUFFIX_RE.sub("", (symbol or "").strip().upper())
+    if any(k in s for k in ("US100", "NAS100", "USTEC", "NDX", "NAS")):
+        return "US100"
+    if any(k in s for k in ("US500", "SPX500", "SPX", "SP500")):
+        return "US500"
+    if any(k in s for k in ("US30", "DJ30", "WS30")):
+        return "US30"
+    if any(k in s for k in ("GER40", "DE40", "GER30", "DAX")):
+        return "GER40"
+    if any(k in s for k in ("UK100", "FTSE")):
+        return "UK100"
     if "XAU" in s or "GOLD" in s:
+        return "XAUUSD"
+    if "BTC" in s:
+        return "BTCUSD"
+    return s
+
+
+def _symbol_currencies(symbol: str) -> set[str]:
+    """Map FX pairs, US/EU/UK equity indices (NAS100/NDX/USTEC/SPX/US30/DE40/DAX/UK100), gold & BTC to news currencies."""
+    s = _SYMBOL_SUFFIX_RE.sub("", (symbol or "").strip().upper())
+    if any(k in s for k in ("US100", "NAS100", "USTEC", "NDX", "NAS", "US500", "SPX", "SP500", "US30", "DJ30", "WS30")):
+        return {"USD"}
+    if any(k in s for k in ("GER40", "DE40", "GER30", "DAX")):
+        return {"EUR"}
+    if any(k in s for k in ("UK100", "FTSE")):
+        return {"GBP"}
+    if "XAU" in s or "GOLD" in s or "BTC" in s:
         return {"USD"}
     ccys: set[str] = set()
     for c in ("USD", "EUR", "GBP", "JPY", "AUD", "CAD", "CHF", "NZD"):
         if c in s:
             ccys.add(c)
     return ccys or {"USD"}
+
+
+def _build_tracker_risk_attribution(
+    *,
+    alerts: list[dict[str, Any]],
+    net_pnl_pct: float,
+    losing_days: int,
+    total_trading_days: int,
+) -> dict[str, Any]:
+    """Aggregate structured R4 -> R3 -> R2 -> R1 triage from rule alerts (fail-closed priority)."""
+    order = ["R4", "R3", "R2", "R1"]
+    titles = {
+        "R4": "Luật quỹ, Tin đỏ & Kill-Switch",
+        "R3": "Khớp lệnh, Trượt giá, Swap & Thiếu SL",
+        "R2": "Tập trung mã (SYMCAP) & Phanh danh mục",
+        "R1": "Lợi thế thật của chiến lược",
+    }
+    by_layer: dict[str, list[dict[str, Any]]] = {k: [] for k in order}
+    for a in alerts:
+        lbl = str(a.get("risk_label") or "R4")
+        if lbl in by_layer:
+            by_layer[lbl].append(a)
+
+    layers: dict[str, dict[str, Any]] = {}
+    for code in ("R4", "R3", "R2"):
+        items = by_layer[code]
+        has_fail = any(x.get("severity") == "FAIL" for x in items)
+        has_warn = any(x.get("severity") in ("WARN", "IN_PROGRESS") for x in items)
+        if has_fail:
+            st = "ALERT"
+            detail = "; ".join(str(x["message"]) for x in items if x.get("severity") == "FAIL")
+        elif has_warn:
+            st = "WARN"
+            detail = "; ".join(str(x["message"]) for x in items)
+        else:
+            st = "OK"
+            detail = "Sạch — không có vi phạm ở tầng này."
+        layers[code] = {"code": code, "title": titles[code], "status": st, "detail": detail, "count": len(items)}
+
+    upstream_alert = any(layers[c]["status"] == "ALERT" for c in ("R4", "R3", "R2"))
+    if by_layer["R1"]:
+        has_fail = any(x.get("severity") == "FAIL" for x in by_layer["R1"])
+        layers["R1"] = {
+            "code": "R1",
+            "title": titles["R1"],
+            "status": "ALERT" if has_fail else "WARN",
+            "detail": "; ".join(str(x["message"]) for x in by_layer["R1"]),
+            "count": len(by_layer["R1"]),
+        }
+    elif upstream_alert:
+        layers["R1"] = {
+            "code": "R1",
+            "title": titles["R1"],
+            "status": "OK",
+            "detail": "Tạm chưa quy lỗi cho chiến lược — xử lý tầng R4/R3/R2 trước.",
+            "count": 0,
+        }
+    elif net_pnl_pct <= -2.5 or (total_trading_days >= 4 and losing_days >= 4 and net_pnl_pct < -1.0):
+        layers["R1"] = {
+            "code": "R1",
+            "title": titles["R1"],
+            "status": "ALERT",
+            "detail": f"Lỗ ròng {net_pnl_pct:+.2f}% ({losing_days}/{total_trading_days} ngày âm) khi R4/R3/R2 đều sạch — cần kiểm tra suy giảm lợi thế.",
+            "count": 1,
+        }
+    else:
+        layers["R1"] = {
+            "code": "R1",
+            "title": titles["R1"],
+            "status": "OK",
+            "detail": "Bình thường — chưa có dấu hiệu suy giảm lợi thế chiến lược.",
+            "count": 0,
+        }
+
+    active_label = "OK"
+    for code in order:
+        if layers[code]["status"] == "ALERT":
+            active_label = code
+            break
+    if active_label == "OK":
+        for code in order:
+            if layers[code]["status"] == "WARN":
+                active_label = code
+                break
+
+    if active_label == "OK":
+        headline_vi = "Cả 4 tầng R4 → R3 → R2 → R1 đều XANH."
+    else:
+        act = layers[active_label]
+        headline_vi = f"{active_label} ({act['title']}) [{act['status']}]: {act['detail']}"
+
+    return {
+        "active_label": active_label,
+        "check_order": order,
+        "headline_vi": headline_vi,
+        "layers": layers,
+    }
 
 
 def load_red_news_events(news_csv: Path | None) -> list[dict[str, Any]]:
@@ -298,6 +482,14 @@ def evaluate_prop_challenge(
     if not deals and orphan_no_sl == 0 and not kill_switch:
         hb_daily_dd = float((hb or {}).get("daily_dd_pct", 0.0)) if isinstance(hb, dict) else 0.0
         hb_static_dd = float((hb or {}).get("static_dd_pct", 0.0)) if isinstance(hb, dict) else 0.0
+        pre_alerts = [
+            {
+                "rule_id": "R3_min_days",
+                "severity": "IN_PROGRESS",
+                "risk_label": "R4",
+                "message": "Zero executed deals recorded yet (pre-trade standby); keep Free Trial / Shadow running.",
+            }
+        ]
         return {
             "schema": "naqex-prop-challenge-tracker-v1",
             "generated_utc": ts_now.isoformat(),
@@ -306,6 +498,10 @@ def evaluate_prop_challenge(
             "status": "PRE_TRADE_READY",
             "gate_decision": "EXTEND_SHADOW",
             "gate_reasons": ["Zero executed deals recorded yet (pre-trade standby); keep Free Trial / Shadow running."],
+            "alerts": pre_alerts,
+            "risk_attribution": _build_tracker_risk_attribution(
+                alerts=pre_alerts, net_pnl_pct=0.0, losing_days=0, total_trading_days=0,
+            ),
             "summary": {
                 "deals_total": 0,
                 "dryrun_signals": dryrun_signals,
@@ -320,13 +516,14 @@ def evaluate_prop_challenge(
                 "kill_switch": kill_switch,
                 "spread_log_rows": len(spreads),
                 "news_events_loaded": len(news_events),
+                "symbol_concentration": {},
             },
             "rules": {
-                "R1_daily_loss": {"status": "PASS", "worst_daily_dd_pct": round(hb_daily_dd, 3), "amber_buffer_pct": round(spec.amber_daily_brake_pct - hb_daily_dd, 3), "hard_buffer_pct": round(spec.hard_daily_loss_pct - hb_daily_dd, 3)},
-                "R2_max_total_loss": {"status": "PASS", "max_total_dd_pct": round(hb_static_dd, 3), "red_buffer_pct": round(spec.red_total_brake_pct - hb_static_dd, 3), "hard_buffer_pct": round(spec.hard_max_loss_pct - hb_static_dd, 3)},
-                "R3_min_days": {"status": "IN_PROGRESS", "trading_days": 0, "required_trading_days": spec.min_trading_days, "profitable_days": 0, "required_profitable_days": spec.min_profitable_days, "profitable_day_threshold_usd": round(init_bal * spec.profitable_day_threshold_pct / 100.0, 2)},
-                "R4_zero_swap_and_red_news": {"status": "PASS", "nonzero_swap_count": 0, "overnight_hold_count": 0, "rollover_blackout_count": 0, "red_news_guard_violations": 0, "red_news_firm_violations": 0, "violations": []},
-                "R5_engine_slippage_tca": {"status": "PASS", "flagged_engines": [], "per_engine": {}},
+                "R1_daily_loss": {"status": "PASS", "risk_label": "OK", "worst_daily_dd_pct": round(hb_daily_dd, 3), "amber_buffer_pct": round(spec.amber_daily_brake_pct - hb_daily_dd, 3), "hard_buffer_pct": round(spec.hard_daily_loss_pct - hb_daily_dd, 3)},
+                "R2_max_total_loss": {"status": "PASS", "risk_label": "OK", "max_total_dd_pct": round(hb_static_dd, 3), "red_buffer_pct": round(spec.red_total_brake_pct - hb_static_dd, 3), "hard_buffer_pct": round(spec.hard_max_loss_pct - hb_static_dd, 3)},
+                "R3_min_days": {"status": "IN_PROGRESS", "risk_label": "R4", "trading_days": 0, "required_trading_days": spec.min_trading_days, "profitable_days": 0, "required_profitable_days": spec.min_profitable_days, "profitable_day_threshold_usd": round(init_bal * spec.profitable_day_threshold_pct / 100.0, 2)},
+                "R4_zero_swap_and_red_news": {"status": "PASS", "risk_label": "OK", "nonzero_swap_count": 0, "overnight_hold_count": 0, "rollover_blackout_count": 0, "red_news_guard_violations": 0, "red_news_firm_violations": 0, "violations": []},
+                "R5_engine_slippage_tca": {"status": "PASS", "risk_label": "OK", "flagged_engines": [], "per_engine": {}},
             },
         }
 
@@ -345,6 +542,8 @@ def evaluate_prop_challenge(
 
     per_engine_slips: dict[str, list[float]] = {}
     per_engine_trades: dict[str, int] = {}
+    symbol_pnl_usd: dict[str, float] = {}
+    symbol_day_entries: dict[tuple[str, str], int] = {}
 
     for d in deals:
         dk = _server_day(d["utc_ts"], spec.server_utc_offset_h)
@@ -353,7 +552,10 @@ def evaluate_prop_challenge(
         is_entry = ev in ENTRY_EVENT_TYPES
         is_exit = ev in EXIT_EVENT_TYPES
         eng = d["engine_id"]
+        norm_sym = _normalize_symbol(d["symbol"])
         per_engine_trades[eng] = per_engine_trades.get(eng, 0) + (1 if is_entry else 0)
+        if is_entry and norm_sym:
+            symbol_day_entries[(dk, norm_sym)] = symbol_day_entries.get((dk, norm_sym), 0) + 1
 
         # Rule 4a: Swap == 0.0 & Rollover flat audit
         if abs(d["swap_usd"]) > 1e-6:
@@ -404,6 +606,8 @@ def evaluate_prop_challenge(
         # Daily PnL & cumulative equity
         if d["pnl_usd"] is not None:
             daily_pnl_usd[dk] = daily_pnl_usd.get(dk, 0.0) + d["pnl_usd"]
+            if norm_sym:
+                symbol_pnl_usd[norm_sym] = symbol_pnl_usd.get(norm_sym, 0.0) + d["pnl_usd"]
             running_eq += d["pnl_usd"]
             equity_curve.append(running_eq)
 
@@ -481,43 +685,110 @@ def evaluate_prop_challenge(
         }
     r5_status = "FAIL" if flagged_engines else "PASS"
 
-    # Fail-closed Gate Decision
+    # Fail-closed Gate Decision + Structured R4 -> R3 -> R2 -> R1 triage tagging
     hard_reasons: list[str] = []
     warn_reasons: list[str] = []
+    alerts: list[dict[str, Any]] = []
+
     if r1_status == "FAIL":
-        hard_reasons.append(f"Rule 1 Daily Loss breach: {worst_daily_dd_pct:.2f}% >= {spec.hard_daily_loss_pct:.1f}%")
+        msg = f"Rule 1 Daily Loss breach: {worst_daily_dd_pct:.2f}% >= {spec.hard_daily_loss_pct:.1f}%"
+        hard_reasons.append(msg)
+        alerts.append({"rule_id": "R1_daily_loss", "severity": "FAIL", "risk_label": "R4", "message": msg})
+        r1_risk_label = "R4"
     elif r1_status == "WARN":
-        warn_reasons.append(f"Rule 1 Naqex Amber brake touched: {worst_daily_dd_pct:.2f}% >= {spec.amber_daily_brake_pct:.1f}%")
+        msg = f"Rule 1 Naqex Amber brake touched: {worst_daily_dd_pct:.2f}% >= {spec.amber_daily_brake_pct:.1f}%"
+        warn_reasons.append(msg)
+        alerts.append({"rule_id": "R1_daily_loss", "severity": "WARN", "risk_label": "R2", "message": msg})
+        r1_risk_label = "R2"
+    else:
+        r1_risk_label = "OK"
 
     if r2_status == "FAIL":
+        r2_labels: list[str] = []
         if orphan_no_sl > 0:
-            hard_reasons.append(f"Rule 2 Orphan position without SL detected: orphan_no_sl={orphan_no_sl}")
+            msg = f"Rule 2 Orphan position without SL detected: orphan_no_sl={orphan_no_sl}"
+            hard_reasons.append(msg)
+            alerts.append({"rule_id": "R2_max_total_loss", "severity": "FAIL", "risk_label": "R3", "message": msg})
+            r2_labels.append("R3")
         if kill_switch:
-            hard_reasons.append("Rule 2 Orchestrator global kill_switch active")
+            msg = "Rule 2 Orchestrator global kill_switch active"
+            hard_reasons.append(msg)
+            alerts.append({"rule_id": "R2_max_total_loss", "severity": "FAIL", "risk_label": "R4", "message": msg})
+            r2_labels.append("R4")
         if max_total_dd_pct >= spec.hard_max_loss_pct:
-            hard_reasons.append(f"Rule 2 Max Total Loss breach: {max_total_dd_pct:.2f}% >= {spec.hard_max_loss_pct:.1f}%")
+            msg = f"Rule 2 Max Total Loss breach: {max_total_dd_pct:.2f}% >= {spec.hard_max_loss_pct:.1f}%"
+            hard_reasons.append(msg)
+            alerts.append({"rule_id": "R2_max_total_loss", "severity": "FAIL", "risk_label": "R4", "message": msg})
+            r2_labels.append("R4")
+        r2_risk_label = "R4" if "R4" in r2_labels else (r2_labels[0] if r2_labels else "R4")
     elif r2_status == "WARN":
-        warn_reasons.append(f"Rule 2 Naqex Red brake touched: {max_total_dd_pct:.2f}% >= {spec.red_total_brake_pct:.1f}%")
+        msg = f"Rule 2 Naqex Red brake touched: {max_total_dd_pct:.2f}% >= {spec.red_total_brake_pct:.1f}%"
+        warn_reasons.append(msg)
+        alerts.append({"rule_id": "R2_max_total_loss", "severity": "WARN", "risk_label": "R2", "message": msg})
+        r2_risk_label = "R2"
+    else:
+        r2_risk_label = "OK"
 
+    r4_labels: list[str] = []
     if nonzero_swap_count > 0:
-        hard_reasons.append(f"Rule 4 Nonzero overnight swap detected on {nonzero_swap_count} deal(s)")
+        msg = f"Rule 4 Nonzero overnight swap detected on {nonzero_swap_count} deal(s)"
+        hard_reasons.append(msg)
+        alerts.append({"rule_id": "R4_zero_swap_and_red_news", "severity": "FAIL", "risk_label": "R3", "message": msg})
+        r4_labels.append("R3")
     if overnight_hold_count > 0:
-        hard_reasons.append(f"Rule 4 Overnight hold across server midnight detected on {overnight_hold_count} trade(s)")
+        msg = f"Rule 4 Overnight hold across server midnight detected on {overnight_hold_count} trade(s)"
+        hard_reasons.append(msg)
+        alerts.append({"rule_id": "R4_zero_swap_and_red_news", "severity": "FAIL", "risk_label": "R3", "message": msg})
+        r4_labels.append("R3")
     if rollover_blackout_count > 0:
-        hard_reasons.append(f"Rule 4 Deal executed inside 21:55-22:15 UTC rollover window ({rollover_blackout_count})")
+        msg = f"Rule 4 Deal executed inside 21:55-22:15 UTC rollover window ({rollover_blackout_count})"
+        hard_reasons.append(msg)
+        alerts.append({"rule_id": "R4_zero_swap_and_red_news", "severity": "FAIL", "risk_label": "R3", "message": msg})
+        r4_labels.append("R3")
     if news_guard_violations:
-        hard_reasons.append(
+        msg = (
             f"Rule 4 Red-News violation: {len(news_guard_violations)} deal(s) inside +-{spec.red_news_guard_sec}s "
             f"(firm window +-{spec.red_news_firm_sec}s: {len(news_firm_violations)})"
         )
+        hard_reasons.append(msg)
+        alerts.append({"rule_id": "R4_zero_swap_and_red_news", "severity": "FAIL", "risk_label": "R4", "message": msg})
+        r4_labels.append("R4")
+    r4_risk_label = "R4" if "R4" in r4_labels else ("R3" if r4_labels else "OK")
+
     if flagged_engines:
-        hard_reasons.append(f"Rule 5 Realized slippage > 1.5x backtest M1 budget on: {', '.join(flagged_engines)}")
+        msg = f"Rule 5 Realized slippage > 1.5x backtest M1 budget on: {', '.join(flagged_engines)}"
+        hard_reasons.append(msg)
+        alerts.append({"rule_id": "R5_engine_slippage_tca", "severity": "FAIL", "risk_label": "R3", "message": msg})
+        r5_risk_label = "R3"
+    else:
+        r5_risk_label = "OK"
 
     if not r3_ok:
-        warn_reasons.append(
+        msg = (
             f"Rule 3 Min days incomplete: trading={n_tdays}/{spec.min_trading_days}, "
             f"profitable(>={spec.profitable_day_threshold_pct:.2f}%)={n_pdays}/{spec.min_profitable_days}"
         )
+        warn_reasons.append(msg)
+        alerts.append({"rule_id": "R3_min_days", "severity": "IN_PROGRESS", "risk_label": "R4", "message": msg})
+        r3_risk_label = "R4"
+    else:
+        r3_risk_label = "OK"
+
+    # R2 Symbol Concentration diagnostic (non-blocking informational alert if >= 3 entries on same canonical symbol in 1 day)
+    symbol_concentration: dict[str, dict[str, Any]] = {}
+    for sym_k, pnl_v in sorted(symbol_pnl_usd.items()):
+        max_day_e = max((cnt for (dk, sk), cnt in symbol_day_entries.items() if sk == sym_k), default=0)
+        symbol_concentration[sym_k] = {
+            "net_pnl_usd": round(pnl_v, 2),
+            "max_same_day_entries": max_day_e,
+        }
+        if max_day_e >= 3 and pnl_v < 0.0:
+            alerts.append({
+                "rule_id": "R2_symbol_concentration",
+                "severity": "WARN",
+                "risk_label": "R2",
+                "message": f"Symbol concentration on {sym_k}: {max_day_e} entries in 1 day (PnL {pnl_v:+.2f} USD) — verify SYMCAP.",
+            })
 
     if hard_reasons:
         gate_decision = "HALT_AND_FIX"
@@ -533,6 +804,15 @@ def evaluate_prop_challenge(
         reasons = ["All 5 compliance & realized TCA rules PASSED with zero violations."]
 
     net_pnl_usd = round(sum(daily_pnl_usd.values()), 2)
+    net_pnl_pct = round((net_pnl_usd / init_bal) * 100.0, 2)
+    losing_days = sum(1 for v in daily_pnl_usd.values() if v < 0.0)
+    risk_attribution = _build_tracker_risk_attribution(
+        alerts=alerts,
+        net_pnl_pct=net_pnl_pct,
+        losing_days=losing_days,
+        total_trading_days=n_tdays,
+    )
+
     return {
         "schema": "naqex-prop-challenge-tracker-v1",
         "generated_utc": ts_now.isoformat(),
@@ -541,6 +821,8 @@ def evaluate_prop_challenge(
         "status": overall_status,
         "gate_decision": gate_decision,
         "gate_reasons": reasons,
+        "alerts": alerts,
+        "risk_attribution": risk_attribution,
         "summary": {
             "deals_total": len(deals),
             "dryrun_signals": dryrun_signals,
@@ -548,29 +830,33 @@ def evaluate_prop_challenge(
             "trading_days": n_tdays,
             "profitable_days": n_pdays,
             "net_pnl_usd": net_pnl_usd,
-            "net_pnl_pct": round((net_pnl_usd / init_bal) * 100.0, 2),
+            "net_pnl_pct": net_pnl_pct,
             "worst_daily_dd_pct": round(worst_daily_dd_pct, 3),
             "max_total_dd_pct": round(max_total_dd_pct, 3),
             "orphan_no_sl": orphan_no_sl,
             "kill_switch": kill_switch,
             "spread_log_rows": len(spreads),
             "news_events_loaded": len(news_events),
+            "symbol_concentration": symbol_concentration,
         },
         "rules": {
             "R1_daily_loss": {
                 "status": r1_status,
+                "risk_label": r1_risk_label,
                 "worst_daily_dd_pct": round(worst_daily_dd_pct, 3),
                 "amber_buffer_pct": round(spec.amber_daily_brake_pct - worst_daily_dd_pct, 3),
                 "hard_buffer_pct": round(spec.hard_daily_loss_pct - worst_daily_dd_pct, 3),
             },
             "R2_max_total_loss": {
                 "status": r2_status,
+                "risk_label": r2_risk_label,
                 "max_total_dd_pct": round(max_total_dd_pct, 3),
                 "red_buffer_pct": round(spec.red_total_brake_pct - max_total_dd_pct, 3),
                 "hard_buffer_pct": round(spec.hard_max_loss_pct - max_total_dd_pct, 3),
             },
             "R3_min_days": {
                 "status": r3_status,
+                "risk_label": r3_risk_label,
                 "trading_days": n_tdays,
                 "required_trading_days": spec.min_trading_days,
                 "profitable_days": n_pdays,
@@ -580,6 +866,7 @@ def evaluate_prop_challenge(
             },
             "R4_zero_swap_and_red_news": {
                 "status": r4_status,
+                "risk_label": r4_risk_label,
                 "nonzero_swap_count": nonzero_swap_count,
                 "overnight_hold_count": overnight_hold_count,
                 "rollover_blackout_count": rollover_blackout_count,
@@ -589,6 +876,7 @@ def evaluate_prop_challenge(
             },
             "R5_engine_slippage_tca": {
                 "status": r5_status,
+                "risk_label": r5_risk_label,
                 "flagged_engines": flagged_engines,
                 "per_engine": per_engine_tca,
             },
@@ -609,12 +897,17 @@ def render_prop_tracker_md(payload: dict[str, Any]) -> str:
         rules["R5_engine_slippage_tca"],
     )
 
+    ra = payload.get("risk_attribution") or {}
+    ra_active = ra.get("active_label", "OK")
+    ra_headline = ra.get("headline_vi", "")
+
     lines = [
         "---",
         "doc_type: prop-compliance-scoreboard",
         f"generated_utc: {payload['generated_utc']}",
         f"profile_id: {prof['profile_id']}",
         f"gate_decision: {payload['gate_decision']}",
+        f"risk_triage_active: {ra_active}",
         f"order_send_count: {payload['order_send_count']}",
         "---",
         "",
@@ -622,17 +915,18 @@ def render_prop_tracker_md(payload: dict[str, Any]) -> str:
         "",
         f"- **Thời điểm UTC:** `{payload['generated_utc']}` · **Trạng thái:** `{payload['status']}`",
         f"- **Phán quyết Cổng Chuyển (Fail-Closed Gate):** **`{payload['gate_decision']}`**",
+        f"- **Phân Tầng Lỗi 4 Lớp (`R4 -> R3 -> R2 -> R1`):** **`{ra_active}`** — {ra_headline}",
         f"- **Số dư khởi điểm:** `{prof['initial_balance_usd']:,.0f} USD` · **Lãi ròng:** `{summ['net_pnl_usd']:+,.2f} USD` (`{summ['net_pnl_pct']:+.2f}%`) · **Tổng lệnh:** `{summ['deals_total']}`",
         "",
         "## 1. Kiểm Toán 5 Quy Tắc Bắt Buộc",
         "",
-        "| Quy tắc | Trạng thái | Giá trị thực đo | Ngưỡng cứng / Đệm an toàn |",
-        "| --- | :---: | --- | --- |",
-        f"| **R1 — Daily Loss & Amber Brake** | `{r1['status']}` | Worst Daily DD `{r1['worst_daily_dd_pct']:.2f}%` | Amber `{prof['amber_daily_brake_pct']:.1f}%` (đệm `{r1['amber_buffer_pct']:+.2f}%`) · Hard `{prof['hard_daily_loss_pct']:.1f}%` |",
-        f"| **R2 — Max Total Loss & Red Brake** | `{r2['status']}` | Max Total DD `{r2['max_total_dd_pct']:.2f}%` · Orphan `{summ['orphan_no_sl']}` | Red `{prof['red_total_brake_pct']:.1f}%` (đệm `{r2['red_buffer_pct']:+.2f}%`) · Hard `{prof['hard_max_loss_pct']:.1f}%` |",
-        f"| **R3 — Số Ngày Giao Dịch / Ngày Lãi** | `{r3['status']}` | Trading `{r3['trading_days']}/{r3['required_trading_days']}` · Profitable `{r3['profitable_days']}/{r3['required_profitable_days']}` | Ngưỡng ngày lãi `>= +{prof['profitable_day_threshold_pct']:.2f}%` (`>= {r3['profitable_day_threshold_usd']:,.2f} USD`) |",
-        f"| **R4 — Zero Swap & Khóa Tin Đỏ** | `{r4['status']}` | Swap!=0: `{r4['nonzero_swap_count']}` · Overnight: `{r4['overnight_hold_count']}` · Rollover: `{r4['rollover_blackout_count']}` | Vi phạm Tin Đỏ (`+-{prof['red_news_guard_sec']}s`): `{r4['red_news_guard_violations']}` (Hãng `+-{prof['red_news_firm_sec']}s`: `{r4['red_news_firm_violations']}`) |",
-        f"| **R5 — Trượt Giá Thực Tế (`<= 1.5x` M1)** | `{r5['status']}` | Động cơ vượt ngưỡng: `{len(r5['flagged_engines'])}` | Danh sách cờ đỏ: `{', '.join(r5['flagged_engines']) if r5['flagged_engines'] else 'NONE'}` |",
+        "| Quy tắc | Trạng thái | Tầng lỗi | Giá trị thực đo | Ngưỡng cứng / Đệm an toàn |",
+        "| --- | :---: | :---: | --- | --- |",
+        f"| **R1 — Daily Loss & Amber Brake** | `{r1['status']}` | `{r1.get('risk_label', 'OK')}` | Worst Daily DD `{r1['worst_daily_dd_pct']:.2f}%` | Amber `{prof['amber_daily_brake_pct']:.1f}%` (đệm `{r1['amber_buffer_pct']:+.2f}%`) · Hard `{prof['hard_daily_loss_pct']:.1f}%` |",
+        f"| **R2 — Max Total Loss & Red Brake** | `{r2['status']}` | `{r2.get('risk_label', 'OK')}` | Max Total DD `{r2['max_total_dd_pct']:.2f}%` · Orphan `{summ['orphan_no_sl']}` | Red `{prof['red_total_brake_pct']:.1f}%` (đệm `{r2['red_buffer_pct']:+.2f}%`) · Hard `{prof['hard_max_loss_pct']:.1f}%` |",
+        f"| **R3 — Số Ngày Giao Dịch / Ngày Lãi** | `{r3['status']}` | `{r3.get('risk_label', 'OK')}` | Trading `{r3['trading_days']}/{r3['required_trading_days']}` · Profitable `{r3['profitable_days']}/{r3['required_profitable_days']}` | Ngưỡng ngày lãi `>= +{prof['profitable_day_threshold_pct']:.2f}%` (`>= {r3['profitable_day_threshold_usd']:,.2f} USD`) |",
+        f"| **R4 — Zero Swap & Khóa Tin Đỏ** | `{r4['status']}` | `{r4.get('risk_label', 'OK')}` | Swap!=0: `{r4['nonzero_swap_count']}` · Overnight: `{r4['overnight_hold_count']}` · Rollover: `{r4['rollover_blackout_count']}` | Vi phạm Tin Đỏ (`+-{prof['red_news_guard_sec']}s`): `{r4['red_news_guard_violations']}` (Hãng `+-{prof['red_news_firm_sec']}s`: `{r4['red_news_firm_violations']}`) |",
+        f"| **R5 — Trượt Giá Thực Tế (`<= 1.5x` M1)** | `{r5['status']}` | `{r5.get('risk_label', 'OK')}` | Động cơ vượt ngưỡng: `{len(r5['flagged_engines'])}` | Danh sách cờ đỏ: `{', '.join(r5['flagged_engines']) if r5['flagged_engines'] else 'NONE'}` |",
         "",
     ]
 

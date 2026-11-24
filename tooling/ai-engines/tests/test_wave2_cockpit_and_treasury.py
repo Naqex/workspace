@@ -427,3 +427,147 @@ def test_prop_metrix_buffers_rules_mae_mfe_and_calendar(tmp_path: Path):
         srv.server_close()
         th.join(timeout=5)
 
+
+def test_prop_metrix_tiers_the5ers_profitable_days_and_r4_r1_attribution(tmp_path: Path):
+    """Verify Patch #4b: new FTMO/The5ers tiers, >= +0.5% profitable-day rule, and R4->R3->R2->R1 attribution."""
+    for req_id in (
+        "ftmo_free_trial_10k", "ftmo_swing_10k_p1", "ftmo_swing_25k_p1",
+        "ftmo_swing_50k_p1", "ftmo_swing_100k_p1", "the5ers_hs_5k_p1", "the5ers_hs_20k_p1",
+    ):
+        assert req_id in cockpit_server.PROP_METRIX_PROGRAMS
+    assert cockpit_server.PROP_METRIX_PROGRAMS["the5ers_hs_5k_p1"]["min_profitable_day_pct"] == 0.5
+    assert cockpit_server.PROP_METRIX_PROGRAMS["the5ers_hs_20k_p1"]["min_profitable_day_pct"] == 0.5
+    assert cockpit_server.PROP_METRIX_PROGRAMS["ftmo_swing_50k_p1"]["min_profitable_day_pct"] == 0.0
+
+    # 1. The5ers 5K (+0.5% = +25 USD/day): 2 days >= +25 USD & 1 day = +20 USD -> 2/3 PENDING
+    live_dir = tmp_path / ".runtime/live-overnight"
+    live_dir.mkdir(parents=True, exist_ok=True)
+    snaps_2of3 = [
+        {"captured_utc": "2026-11-20T09:00:00+00:00", "account": {"balance": 5000.0, "equity": 5000.0}, "naqex_positions_count": 0, "orphan_no_sl": 0},
+        {"captured_utc": "2026-11-20T18:00:00+00:00", "account": {"balance": 5030.0, "equity": 5030.0}, "naqex_positions_count": 0, "orphan_no_sl": 0},
+        {"captured_utc": "2026-11-21T09:00:00+00:00", "account": {"balance": 5030.0, "equity": 5030.0}, "naqex_positions_count": 0, "orphan_no_sl": 0},
+        {"captured_utc": "2026-11-21T18:00:00+00:00", "account": {"balance": 5056.0, "equity": 5056.0}, "naqex_positions_count": 0, "orphan_no_sl": 0},
+        {"captured_utc": "2026-11-22T09:00:00+00:00", "account": {"balance": 5056.0, "equity": 5056.0}, "naqex_positions_count": 0, "orphan_no_sl": 0},
+        {"captured_utc": "2026-11-22T18:00:00+00:00", "account": {"balance": 5076.0, "equity": 5076.0}, "naqex_positions_count": 0, "orphan_no_sl": 0},
+    ]
+    log_p = live_dir / "mt5_live_spread_log.jsonl"
+    log_p.write_text("\n".join(json.dumps(s) for s in snaps_2of3) + "\n", encoding="utf-8")
+
+    mx2 = cockpit_server.build_prop_metrix_payload(tmp_path, program="the5ers_hs_5k_p1", allow_cloud_fetch=False)
+    assert mx2["profitable_days_count"] == 2
+    assert mx2["min_profitable_day_usd"] == 25.0
+    r_days = next(r for r in mx2["rules"] if r["id"] == "min_trading_days")
+    assert r_days["label"] == "Ngày lãi tối thiểu >= +0,5% (3 ngày)"
+    assert r_days["status"] == "PENDING"
+    assert mx2["risk_attribution"]["active_label"] == "OK"
+
+    # Bump Day 3 to +25.0 USD (5056 -> 5081) -> 3/3 PASS!
+    snaps_2of3[-1]["account"] = {"balance": 5081.0, "equity": 5081.0}
+    log_p.write_text("\n".join(json.dumps(s) for s in snaps_2of3) + "\n", encoding="utf-8")
+    mx3 = cockpit_server.build_prop_metrix_payload(tmp_path, program="the5ers_hs_5k_p1", allow_cloud_fetch=False)
+    assert mx3["profitable_days_count"] == 3
+    r_days3 = next(r for r in mx3["rules"] if r["id"] == "min_trading_days")
+    assert r_days3["status"] == "PASS"
+
+    # 2. R4 -> R3 -> R2 -> R1 strict priority checks
+    # 2a. R3 fault (orphan_no_sl = 1) -> active_label == "R3"
+    snap_r3 = [{"captured_utc": "2026-11-24T10:00:00+00:00", "account": {"balance": 10000.0, "equity": 9990.0}, "naqex_positions_count": 1, "orphan_no_sl": 1}]
+    log_p.write_text(json.dumps(snap_r3[0]) + "\n", encoding="utf-8")
+    mx_r3 = cockpit_server.build_prop_metrix_payload(tmp_path, program="ftmo_swing_10k_p1", allow_cloud_fetch=False)
+    assert mx_r3["risk_attribution"]["active_label"] == "R3"
+    assert mx_r3["risk_attribution"]["layers"]["R3"]["status"] == "ALERT"
+    assert mx_r3["risk_attribution"]["layers"]["R1"]["status"] == "OK"
+
+    # 2b. R4 overrides R3 (kill_switch=True AND orphan_no_sl=1) -> active_label == "R4"
+    snap_r4 = [{
+        "captured_utc": "2026-11-24T10:00:00+00:00",
+        "account": {"balance": 10000.0, "equity": 9990.0},
+        "naqex_positions_count": 1,
+        "orphan_no_sl": 1,
+        "heartbeat": {"kill_switch": True, "regime": "HALT"},
+    }]
+    log_p.write_text(json.dumps(snap_r4[0]) + "\n", encoding="utf-8")
+    mx_r4 = cockpit_server.build_prop_metrix_payload(tmp_path, program="ftmo_swing_10k_p1", allow_cloud_fetch=False)
+    assert mx_r4["risk_attribution"]["active_label"] == "R4"
+    assert mx_r4["risk_attribution"]["layers"]["R4"]["status"] == "ALERT"
+
+    # 2c. R2 alert (Amber daily DD >= 70% of daily limit, clean R4/R3) -> active_label == "R2"
+    snap_r2 = [
+        {"captured_utc": "2026-11-24T09:00:00+00:00", "account": {"balance": 10000.0, "equity": 10000.0}, "naqex_positions_count": 1, "orphan_no_sl": 0},
+        {"captured_utc": "2026-11-24T11:00:00+00:00", "account": {"balance": 10000.0, "equity": 9620.0}, "naqex_positions_count": 1, "orphan_no_sl": 0, "heartbeat": {"regime": "AMBER"}},
+    ]
+    log_p.write_text("\n".join(json.dumps(s) for s in snap_r2) + "\n", encoding="utf-8")
+    mx_r2 = cockpit_server.build_prop_metrix_payload(tmp_path, program="ftmo_swing_10k_p1", allow_cloud_fetch=False)
+    assert mx_r2["risk_attribution"]["active_label"] == "R2"
+    assert mx_r2["risk_attribution"]["layers"]["R2"]["status"] == "ALERT"
+
+    # 2d. R1 pure strategy drawdown (-2.8% over 3 clean days, daily DD < Amber, clean R4/R3/R2) -> active_label == "R1"
+    snap_r1 = [
+        {"captured_utc": "2026-11-21T18:00:00+00:00", "account": {"balance": 9900.0, "equity": 9900.0}, "naqex_positions_count": 0, "orphan_no_sl": 0},
+        {"captured_utc": "2026-11-22T18:00:00+00:00", "account": {"balance": 9800.0, "equity": 9800.0}, "naqex_positions_count": 0, "orphan_no_sl": 0},
+        {"captured_utc": "2026-11-23T18:00:00+00:00", "account": {"balance": 9720.0, "equity": 9720.0}, "naqex_positions_count": 0, "orphan_no_sl": 0},
+    ]
+    log_p.write_text("\n".join(json.dumps(s) for s in snap_r1) + "\n", encoding="utf-8")
+    mx_r1 = cockpit_server.build_prop_metrix_payload(tmp_path, program="ftmo_swing_10k_p1", allow_cloud_fetch=False)
+    assert mx_r1["risk_attribution"]["active_label"] == "R1"
+    assert mx_r1["risk_attribution"]["layers"]["R1"]["status"] == "ALERT"
+
+    # 3. Verify static HTML DOM markers & zero external CDNs
+    html_txt = (ROOT / "tooling/ai-engines/cockpit/static/index.html").read_text(encoding="utf-8")
+    for marker in (
+        'id="prop-risk-strip"',
+        'id="mx-risk-active"',
+        'id="mx-risk-headline"',
+        'id="mx-risk-layers"',
+        'value="ftmo_swing_25k_p1"',
+        'value="ftmo_swing_50k_p1"',
+        'value="ftmo_swing_100k_p1"',
+        'value="the5ers_hs_20k_p1"',
+    ):
+        assert marker in html_txt, f"Missing HTML marker {marker}"
+    assert "http://" not in html_txt and "https://" not in html_txt
+
+
+def test_prop_tier_scaling_and_symcap_audit_receipt_and_seal():
+    """Verify verified quantitative receipt PROP-TIER-SCALING-AND-SYMCAP-AUDIT-20261124.{md,json,sha256}."""
+    import hashlib
+
+    base = ROOT / "planning/research/PROP-TIER-SCALING-AND-SYMCAP-AUDIT-20261124"
+    md_p = base.with_suffix(".md")
+    js_p = base.with_suffix(".json")
+    sha_p = base.with_suffix(".sha256")
+    for p in (md_p, js_p, sha_p):
+        assert p.is_file(), f"Missing audit artifact: {p}"
+        assert p.stat().st_size < 900 * 1024, f"Artifact exceeds 900 KB: {p}"
+
+    # Verify SHA-256 matches exact JSON bytes
+    raw_js = js_p.read_bytes()
+    actual_sha = hashlib.sha256(raw_js).hexdigest()
+    expected_sha = sha_p.read_text(encoding="utf-8").strip().split()[0]
+    assert actual_sha == expected_sha
+
+    # Verify Holdout seal & quantitative findings
+    data = json.loads(raw_js.decode("utf-8"))
+    assert data["order_send_count"] == 0
+    assert data["order_send_capable"] is False
+    assert data["holdout_rows_analysed"] == 0
+    assert data["mc_paths"] == 10_000
+    assert data["mc_seed"] == 20261124
+    assert data["dev_window"].split("..")[1] < "2025-01-01"
+
+    hl = data["highlights"]
+    # Tightening SYMCAP 3.50% -> 1.75% must strictly lower 1st-try daily breach rate
+    assert hl["ftmo_10k_daily_breach_1try_350_to_175_pct"][1] < hl["ftmo_10k_daily_breach_1try_350_to_175_pct"][0]
+    # Scaling 10K -> 100K must multiply EV/Fee by >= 2.0x
+    assert hl["ftmo_ev_per_fee_multiplier_10k_to_100k"] >= 2.0
+    # Calibrating The5ers 50K for strict 4%/8% DD must slash daily breach vs naive 5K preset
+    assert hl["the5ers_50k_naive_vs_calibrated_daily_breach_1try_pct"][2] < hl["the5ers_50k_naive_vs_calibrated_daily_breach_1try_pct"][0]
+
+    # Verify Markdown prose hygiene (YAML frontmatter + zero bare '$')
+    md_txt = md_p.read_text(encoding="utf-8")
+    assert md_txt.startswith("---\n")
+    for line_no, line in brain_cli._iter_non_code_lines(md_txt):
+        cleaned = brain_cli.INLINE_CODE_RE.sub("", line)
+        assert "$" not in cleaned, f"Bare '$' in {md_p.name}:{line_no}: {line}"
+
+

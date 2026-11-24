@@ -272,3 +272,87 @@ def test_launch_sop_playbook_hygiene_links_and_vault_audit() -> None:
 
     assert brain_cli.find_broken_knowledge_links(ROOT) == []
     assert brain_cli.find_near_duplicate_topic_headings(ROOT) == []
+
+
+def test_symbol_aliases_red_news_and_r4_r1_triage_tagging(tmp_path: Path) -> None:
+    """Verify NAS100/NDX/USTEC/SPX aliases, R4->R3->R2->R1 triage labels, and The5ers 50K 4%/8% DD."""
+    # 1. Symbol alias normalization & currency mapping
+    for alias in ("NAS100", "NDX", "USTEC", "US100.cash"):
+        assert pct._normalize_symbol(alias) == "US100"
+        assert pct._symbol_currencies(alias) == {"USD"}
+    for alias in ("SPX", "SPX500", "US500.pro"):
+        assert pct._normalize_symbol(alias) == "US500"
+        assert pct._symbol_currencies(alias) == {"USD"}
+    assert pct._symbol_currencies("DE40.cash") == {"EUR"}
+    assert pct._symbol_currencies("UK100") == {"GBP"}
+    assert pct._symbol_currencies("BTCUSD") == {"USD"}
+
+    d0 = 1_795_428_000  # 2026-11-24 10:00:00 UTC
+    news_csv = tmp_path / "news.csv"
+    audit_csv = tmp_path / "audit.csv"
+    _write_news(news_csv, [(d0 + 90, "USD", "US_CPI")])
+
+    # 2. NAS100 / NDX / USTEC inside USD red-news window -> R4 alert!
+    for sym in ("NAS100", "NDX", "USTEC", "SPX"):
+        _write_audit(audit_csv, [
+            {"utc_ts": d0, "magic": 20261124, "symbol": sym, "side": "BUY", "event_type": "ORDER_FILL", "signal_price": 20000.0, "fill_price": 20000.5, "pnl_usd": 15.0, "swap_usd": 0.0},
+        ])
+        res = pct.evaluate_prop_challenge(profile_id="the5ers_hs_5k", exec_audit_csv=audit_csv, news_csv=news_csv, spread_log_jsonl=None, heartbeat_json=None)
+        assert res["rules"]["R4_zero_swap_and_red_news"]["red_news_guard_violations"] == 1
+        assert res["rules"]["R4_zero_swap_and_red_news"]["red_news_firm_violations"] == 1
+        assert res["rules"]["R4_zero_swap_and_red_news"]["risk_label"] == "R4"
+        assert res["risk_attribution"]["active_label"] == "R4"
+        assert any(a["risk_label"] == "R4" and a["severity"] == "FAIL" for a in res["alerts"])
+
+    # 3. Slippage breach (> 1.5x M1 budget) with clean news/swap -> R3 alert!
+    _write_news(news_csv, [(1_700_000_000, "USD", "OLD")])
+    _write_audit(audit_csv, [
+        {"utc_ts": d0, "magic": 20261122, "symbol": "USDJPY", "side": "BUY", "event_type": "ORDER_FILL", "signal_price": 150.000, "fill_price": 150.060, "pnl_usd": 30.0, "swap_usd": 0.0},
+        {"utc_ts": d0 + 86_400, "magic": 20261122, "symbol": "USDJPY", "side": "BUY", "event_type": "ORDER_FILL", "signal_price": 150.000, "fill_price": 150.060, "pnl_usd": 30.0, "swap_usd": 0.0},
+        {"utc_ts": d0 + 2 * 86_400, "magic": 20261122, "symbol": "USDJPY", "side": "BUY", "event_type": "ORDER_FILL", "signal_price": 150.000, "fill_price": 150.060, "pnl_usd": 30.0, "swap_usd": 0.0},
+    ])
+    res_slip = pct.evaluate_prop_challenge(profile_id="the5ers_hs_5k", exec_audit_csv=audit_csv, news_csv=news_csv, spread_log_jsonl=None, heartbeat_json=None)
+    assert res_slip["rules"]["R5_engine_slippage_tca"]["risk_label"] == "R3"
+    assert res_slip["risk_attribution"]["active_label"] == "R3"
+
+    # 4. Nonzero swap (without red news) -> R3 alert!
+    _write_audit(audit_csv, [
+        {"utc_ts": d0, "magic": 20261122, "symbol": "USDJPY", "side": "BUY", "event_type": "EXIT", "signal_price": 150.0, "fill_price": 150.0, "pnl_usd": 30.0, "swap_usd": -2.0},
+        {"utc_ts": d0 + 86_400, "magic": 20261122, "symbol": "USDJPY", "side": "BUY", "event_type": "EXIT", "signal_price": 150.0, "fill_price": 150.0, "pnl_usd": 30.0, "swap_usd": 0.0},
+        {"utc_ts": d0 + 2 * 86_400, "magic": 20261122, "symbol": "USDJPY", "side": "BUY", "event_type": "EXIT", "signal_price": 150.0, "fill_price": 150.0, "pnl_usd": 30.0, "swap_usd": 0.0},
+    ])
+    res_sw = pct.evaluate_prop_challenge(profile_id="the5ers_hs_5k", exec_audit_csv=audit_csv, news_csv=news_csv, spread_log_jsonl=None, heartbeat_json=None)
+    assert res_sw["rules"]["R4_zero_swap_and_red_news"]["risk_label"] == "R3"
+    assert res_sw["risk_attribution"]["active_label"] == "R3"
+
+    # 5. Pure R2 Amber daily DD brake across 4 clean trading days -> active_label == "R2"
+    _write_audit(audit_csv, [
+        {"utc_ts": d0 + i * 86_400, "magic": 20261122, "symbol": "USDJPY", "side": "BUY", "event_type": "EXIT", "signal_price": 150.0, "fill_price": 150.0, "pnl_usd": pnl, "swap_usd": 0.0}
+        for i, pnl in enumerate((-380.0, 50.0, 50.0, 50.0))
+    ])
+    res_r2 = pct.evaluate_prop_challenge(profile_id="ftmo_swing_10k", exec_audit_csv=audit_csv, news_csv=news_csv, spread_log_jsonl=None, heartbeat_json=None)
+    assert res_r2["rules"]["R1_daily_loss"]["risk_label"] == "R2"
+    assert res_r2["risk_attribution"]["active_label"] == "R2"
+
+    # 6. Pure R1 strategy edge decay (-3.2% spread across 4 losing days < Amber daily limit, clean R4/R3/R2) -> active_label == "R1"
+    _write_audit(audit_csv, [
+        {"utc_ts": d0 + i * 86_400, "magic": 20261122, "symbol": "USDJPY", "side": "BUY", "event_type": "EXIT", "signal_price": 150.0, "fill_price": 150.0, "pnl_usd": -80.0, "swap_usd": 0.0}
+        for i in range(4)
+    ])
+    res_r1 = pct.evaluate_prop_challenge(profile_id="ftmo_swing_10k", exec_audit_csv=audit_csv, news_csv=news_csv, spread_log_jsonl=None, heartbeat_json=None)
+    assert res_r1["risk_attribution"]["active_label"] == "R1"
+    assert res_r1["risk_attribution"]["layers"]["R1"]["status"] == "ALERT"
+
+    # 7. The5ers 50K strict 4%/8% DD boundary: -4.2% daily loss (-2100 USD) MUST FAIL (R4), while -4.2% on 5K (-210 USD) is WARN (R2)
+    _write_audit(audit_csv, [
+        {"utc_ts": d0, "magic": 20261122, "symbol": "USDJPY", "side": "BUY", "event_type": "EXIT", "signal_price": 150.0, "fill_price": 150.0, "pnl_usd": -2100.0, "swap_usd": 0.0},
+    ])
+    res_50k = pct.evaluate_prop_challenge(profile_id="the5ers_hs_50k", exec_audit_csv=audit_csv, news_csv=news_csv, spread_log_jsonl=None, heartbeat_json=None)
+    assert res_50k["rules"]["R1_daily_loss"]["status"] == "FAIL"
+    assert res_50k["rules"]["R1_daily_loss"]["risk_label"] == "R4"
+    assert res_50k["gate_decision"] == "HALT_AND_FIX"
+
+    md_out = pct.render_prop_tracker_md(res_50k)
+    assert "R4 -> R3 -> R2 -> R1" in md_out
+    assert "$" not in md_out
+

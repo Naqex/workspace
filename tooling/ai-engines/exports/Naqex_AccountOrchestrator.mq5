@@ -19,8 +19,11 @@ input double InpAmberDdPct         = 3.50;       // Overall DD % triggering AMBE
 input double InpAmberMult          = 0.65;       // Risk mult under AMBER brake
 input double InpRedDdPct           = 6.00;       // Overall DD % triggering RED brake
 input double InpRedMult            = 0.40;       // Risk mult under RED brake
+input double InpProfitLockPct      = 0.00;       // Profit % above initial balance to lock/de-risk (0.00 = disabled)
+input double InpProfitLockMult     = 2.00;       // Risk mult cap when PROFIT_LOCK triggers
 input double InpKillDailyDdPct     = 3.00;       // Daily DD % triggering GLOBAL KILL-SWITCH (< 5% prop limit)
 input double InpKillStaticDdPct    = 7.50;       // Static DD % triggering GLOBAL KILL-SWITCH (< 10% prop limit)
+input int    InpDailyResetMode     = 1;          // Daily anchor reset: 0=MT5 Server Midnight (The5ers), 1=Europe/Prague CET/CEST (FTMO), 2=UTC
 input int    InpHeartbeatSec       = 15;         // Heartbeat JSON write interval (seconds)
 input string InpHeartbeatFile      = "naqex_heartbeat.json";
 input bool   InpAllowManualHaltFile = false;      // Opt-in bridge for 2-step covered Cockpit halt flag
@@ -32,16 +35,57 @@ int      g_dayKey       = -1;
 double   g_dayAnchorEq  = 0.0;
 datetime g_lastHbWrite  = 0;
 
-int CurrentUtcDayKey()
+int LastSundayOfMonth(const int year, const int month)
 {
+   MqlDateTime d;
+   ZeroMemory(d);
+   d.year = year;
+   d.mon  = month;
+   d.day  = 31;
+   TimeToStruct(StructToTime(d), d);
+   return 31 - d.day_of_week;
+}
+
+int PragueUtcOffsetHours(const MqlDateTime &utc)
+{
+   // EU DST (Europe/Prague): CEST (UTC+2) from last Sun Mar 01:00 UTC to last Sun Oct 01:00 UTC, else CET (UTC+1)
+   if(utc.mon < 3 || utc.mon > 10) return 1;
+   if(utc.mon > 3 && utc.mon < 10) return 2;
+   int lastSun = LastSundayOfMonth(utc.year, utc.mon);
+   if(utc.mon == 3)
+      return (utc.day > lastSun || (utc.day == lastSun && utc.hour >= 1)) ? 2 : 1;
+   return (utc.day < lastSun || (utc.day == lastSun && utc.hour < 1)) ? 2 : 1;
+}
+
+int CurrentResetDayKey()
+{
+   datetime refTs = 0;
+   if(InpDailyResetMode == 0)
+   {
+      // The5ers: MT5 broker server midnight
+      refTs = TimeCurrent();
+   }
+   else if(InpDailyResetMode == 1)
+   {
+      // FTMO: Europe/Prague midnight (CET/CEST)
+      datetime nowUtc = TimeGMT();
+      MqlDateTime utc;
+      TimeToStruct(nowUtc, utc);
+      refTs = nowUtc + (datetime)(PragueUtcOffsetHours(utc) * 3600);
+   }
+   else
+   {
+      // Legacy mode 2: UTC midnight
+      refTs = TimeGMT();
+   }
    MqlDateTime dt;
-   TimeToStruct(TimeGMT(), dt);
+   TimeToStruct(refTs, dt);
    return dt.year * 1000 + dt.day_of_year;
 }
 
 void RestoreOrInitDayAnchor()
 {
-   int today = CurrentUtcDayKey();
+   int today = CurrentResetDayKey();
    if(GlobalVariableCheck("NQXG_ACCT_DAYKEY") && (int)GlobalVariableGet("NQXG_ACCT_DAYKEY") == today && GlobalVariableCheck("NQXG_ACCT_DAYEQ"))
    {
       g_dayKey = today;
@@ -78,7 +122,7 @@ void FlattenAllNaqexPositions(const string reason)
 
 void EvaluatePortfolioState()
 {
-   int today = CurrentUtcDayKey();
+   int today = CurrentResetDayKey();
    if(today != g_dayKey)
       RestoreOrInitDayAnchor();
 
@@ -86,8 +130,9 @@ void EvaluatePortfolioState()
    double eq  = AccountInfoDouble(ACCOUNT_EQUITY);
    double dailyDdPct  = (g_dayAnchorEq > 0.0) ? MathMax(0.0, ((g_dayAnchorEq - eq) / g_dayAnchorEq) * 100.0) : 0.0;
    double staticDdPct = (InpInitialBalanceUSD > 0.0) ? MathMax(0.0, ((InpInitialBalanceUSD - eq) / InpInitialBalanceUSD) * 100.0) : 0.0;
+   double profitPct   = (InpInitialBalanceUSD > 0.0) ? MathMax(0.0, ((eq - InpInitialBalanceUSD) / InpInitialBalanceUSD) * 100.0) : 0.0;
 
-   // Compute AMBER / RED dynamic risk multiplier
+   // Compute AMBER / RED / PROFIT_LOCK dynamic risk multiplier
    double riskMult = InpBasePhaseMult;
    string regime   = "NORMAL";
    if(staticDdPct >= InpRedDdPct)
@@ -99,6 +144,11 @@ void EvaluatePortfolioState()
    {
       riskMult = MathMin(riskMult, InpAmberMult);
       regime   = "AMBER_BRAKE";
+   }
+   else if(InpProfitLockPct > 0.0 && profitPct >= InpProfitLockPct && staticDdPct < InpAmberDdPct)
+   {
+      riskMult = MathMin(riskMult, InpProfitLockMult);
+      regime   = "PROFIT_LOCK";
    }
    GlobalVariableSet("NQXG_GLOBAL_RISK_MULT", riskMult);
 
@@ -156,9 +206,11 @@ void EvaluatePortfolioState()
       {
          string js = StringFormat(
             "{\"utc_ts\":%I64d,\"balance\":%.2f,\"equity\":%.2f,\"day_anchor_eq\":%.2f,"
-            "\"daily_dd_pct\":%.3f,\"static_dd_pct\":%.3f,\"regime\":\"%s\",\"risk_mult\":%.3f,"
+            "\"daily_dd_pct\":%.3f,\"static_dd_pct\":%.3f,\"profit_pct\":%.3f,\"reset_mode\":%d,"
+            "\"regime\":\"%s\",\"risk_mult\":%.3f,"
             "\"kill_switch\":%s,\"open_positions\":%d,\"orphan_no_sl\":%d,\"dry_run\":%s}\n",
-            (long)nowUtc, bal, eq, g_dayAnchorEq, dailyDdPct, staticDdPct, regime, riskMult,
+            (long)nowUtc, bal, eq, g_dayAnchorEq, dailyDdPct, staticDdPct, profitPct, InpDailyResetMode,
+            regime, riskMult,
             killNow ? "true" : "false", openCount, orphanCount,
             (InpDryRunLogOnly || InpGuardDryRunLogOnly) ? "true" : "false"
          );

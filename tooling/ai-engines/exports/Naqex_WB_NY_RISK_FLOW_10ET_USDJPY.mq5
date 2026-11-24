@@ -108,7 +108,8 @@ void OnTick()
    }
    if(g_guard.IsInsideRedNewsWindow())
    {
-      if(HasOpenPosition()) CloseOwnPositions("NEWS_PRE_FLATTEN");
+      if(g_guard.IsInRedNewsPreFlattenWindow() && HasOpenPosition())
+         CloseOwnPositions("NEWS_PRE_FLATTEN");
       return;
    }
    if(g_guard.IsDailyLossBreached())
