@@ -258,3 +258,9 @@ validator, scoped skill links và maintainer audit đều đạt: 0 errors/warni
 global 12.279 B, project 10.133/65.536 B, reserve 55.403 B, combined 22.412 B.
 Repo skill đã sửa; chưa publish/assign package Paperclip, không suy worker
 đang chạy đã nhận nội dung này. Không thay global config hoặc service nền.
+
+## 25/11: quy tắc chống "thời gian chết" khi chờ cổng dữ liệu thực địa (`/learn`)
+
+Theo phê duyệt owner qua `/learn`, bổ sung quy tắc luôn tải tại `.agents/rules/trading-workspace.md` (`1.157 B / 24.000 B`) và `AGENTS.md` (mục `Personal operating profile và frontier research`): giữ khóa chặt hành động thuộc cổng (tiền thật, bot đang chạy thử, `Holdout 2025+`), nhưng không bao giờ xem thời gian lịch chờ dữ liệu thực địa (ví dụ `2–4` tuần gom lệnh Demo/Trial) là thời gian chết mà luôn ghép kèm các làn việc song song có giá trị thật. Không tạo skill/rule mới, không chạm global config.
+
+Kiểm định sau sửa: `audit-ai-environment.ps1 -Force` đạt **`0` errors** (`global 12.279 B`, `project 10.901 / 65.536 B`, `project_reserve 54.635 B`, `combined 23.180 B`, giữ nguyên 4 advisory warnings mô tả skill cũ); `system_doctor.py --mode fast` đạt **PASS `9/9`** (`workspace_contracts`, `skill_links` `0` errors / `0` warnings, `pytest_fast` `15 passed`).
