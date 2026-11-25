@@ -33,10 +33,12 @@ DEFAULT_CAL_1824 = CALENDARS_DIR / "red_news_official_2018_2024.json"
 DEFAULT_CAL_2526 = CALENDARS_DIR / "red_news_official_2025_2026.json"
 DEFAULT_CAL_2627 = CALENDARS_DIR / "red_news_official_2026_2027_multi_ccy.json"
 DEFAULT_OUT_CSV = EXPORTS_DIR / "Files/naqex_red_news_utc.csv"
+DEFAULT_OUT_META = EXPORTS_DIR / "Files/naqex_red_news_meta.json"
 
 ALLOWED_CCYS = {"USD", "GBP", "EUR", "JPY", "AUD", "CAD"}
 ALLOWED_CONFIDENCE = {"OFFICIAL_CONFIRMED", "OFFICIAL_TENTATIVE", "TIME_ESTIMATED"}
 MAX_CSV_BYTES = 200_000
+MIN_2026_EVENTS_PER_CCY = {"USD": 32, "GBP": 8, "EUR": 8, "JPY": 8, "AUD": 8, "CAD": 8}
 
 
 def _nth_weekday_of_month(year: int, month: int, weekday: int, nth: int) -> date:
@@ -232,9 +234,10 @@ def build_or_verify_calendar(
     cal_2526: Path = DEFAULT_CAL_2526,
     cal_2627: Path = DEFAULT_CAL_2627,
     out_csv: Path = DEFAULT_OUT_CSV,
+    out_meta: Path | None = DEFAULT_OUT_META,
     write: bool = False,
 ) -> dict[str, Any]:
-    """Validate sources, merge deterministically, optionally write CSV, and run full parity checks."""
+    """Validate sources, merge deterministically, optionally write CSV + metadata sidecar, and verify parity."""
     errors: list[str] = []
     rows_1824 = _load_frozen_1824(cal_1824)
     rows_2526 = _load_frozen_2526(cal_2526)
@@ -247,6 +250,7 @@ def build_or_verify_calendar(
     merged_rows, merges_log = merge_and_deduplicate_events(rows_1824, rows_2526, rows_2627)
     csv_text = render_csv_text(merged_rows)
     csv_bytes = csv_text.encode("utf-8")
+    csv_sha = hashlib.sha256(csv_bytes).hexdigest()
 
     if len(csv_bytes) >= MAX_CSV_BYTES:
         errors.append(f"Rendered CSV exceeds {MAX_CSV_BYTES} byte limit: {len(csv_bytes)}")
@@ -259,9 +263,43 @@ def build_or_verify_calendar(
     if tss != sorted(tss):
         errors.append("Merged CSV timestamps are not sorted ascending")
 
+    max_utc_ts_by_ccy: dict[str, int] = {}
+    for ts, ccy, _ in merged_rows:
+        if ts > max_utc_ts_by_ccy.get(ccy, 0):
+            max_utc_ts_by_ccy[ccy] = ts
+
+    summary = summarize_rows(merged_rows)
+    # Enforce 6-ccy full-year official coverage in both 2026 and 2027 (Astra R2-05)
+    for yr in ("2026", "2027"):
+        yc = summary["by_year_ccy"].get(yr, {})
+        missing = sorted(ALLOWED_CCYS - set(yc.keys()))
+        if missing:
+            errors.append(f"Year {yr} missing required currencies: {missing}")
+        for ccy, min_cnt in MIN_2026_EVENTS_PER_CCY.items():
+            got_cnt = int(yc.get(ccy, 0))
+            if got_cnt < min_cnt:
+                errors.append(f"Year {yr} currency {ccy} has only {got_cnt} events (< {min_cnt} full-year minimum)")
+
+    meta_payload = {
+        "schema": "naqex-red-news-meta-v2",
+        "csv_sha256": csv_sha,
+        "csv_bytes": len(csv_bytes),
+        "total_rows": len(merged_rows),
+        "currencies": sorted(ALLOWED_CCYS),
+        "min_utc_ts": merged_rows[0][0] if merged_rows else 0,
+        "max_utc_ts": merged_rows[-1][0] if merged_rows else 0,
+        "max_utc_ts_by_ccy": dict(sorted(max_utc_ts_by_ccy.items())),
+        "by_year_ccy": summary["by_year_ccy"],
+        "boj_estimated_window_sec": 3600,
+    }
+    meta_bytes = (json.dumps(meta_payload, indent=2, ensure_ascii=False) + "\n").encode("utf-8")
+
     if write and not errors:
         out_csv.parent.mkdir(parents=True, exist_ok=True)
         out_csv.write_bytes(csv_bytes)
+        if out_meta is not None:
+            out_meta.parent.mkdir(parents=True, exist_ok=True)
+            out_meta.write_bytes(meta_bytes)
 
     disk_matches = False
     if out_csv.exists():
@@ -271,6 +309,14 @@ def build_or_verify_calendar(
             errors.append(f"On-disk {out_csv} does not match deterministic build output (re-run with --build)")
     else:
         errors.append(f"Output CSV missing: {out_csv}")
+
+    if out_meta is not None and out_csv == DEFAULT_OUT_CSV:
+        if out_meta.exists():
+            disk_meta = out_meta.read_bytes().replace(b"\r\n", b"\n")
+            if disk_meta != meta_bytes:
+                errors.append(f"On-disk {out_meta} does not match deterministic metadata sidecar (re-run with --build)")
+        else:
+            errors.append(f"Output metadata sidecar missing: {out_meta}")
 
     # Cross-check with mql5_parity_checker.verify_red_news_csv()
     parity_res: dict[str, Any] = {}
@@ -283,14 +329,6 @@ def build_or_verify_calendar(
         if not parity_res.get("ok"):
             errors.extend(parity_res.get("errors", ["mql5_parity_checker.verify_red_news_csv failed"]))
 
-    summary = summarize_rows(merged_rows)
-    # Enforce 4-ccy presence in both 2026 and 2027
-    for yr in ("2026", "2027"):
-        ccys_in_yr = set(summary["by_year_ccy"].get(yr, {}).keys())
-        missing = sorted(ALLOWED_CCYS - ccys_in_yr)
-        if missing:
-            errors.append(f"Year {yr} missing required currencies: {missing}")
-
     return {
         "schema": "naqex-red-news-build-report-v1",
         "ok": len(errors) == 0,
@@ -298,7 +336,8 @@ def build_or_verify_calendar(
         "disk_matches_deterministic_build": disk_matches,
         "out_csv": str(out_csv),
         "csv_bytes": len(csv_bytes),
-        "csv_sha256": hashlib.sha256(csv_bytes).hexdigest(),
+        "csv_sha256": csv_sha,
+        "max_utc_ts_by_ccy": meta_payload["max_utc_ts_by_ccy"],
         "summary": summary,
         "simultaneous_merges": merges_log,
         "parity_check": parity_res,

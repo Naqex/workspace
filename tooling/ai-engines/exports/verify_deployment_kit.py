@@ -841,10 +841,162 @@ def build_presets_and_manifest(
             "calibration_tag": cfg.get("calibration_tag", "FROZEN_BASE"),
         }
 
+    # 2b. Generate streamlined Round-3 single-spec Master_Prop7E presets (FTMO Swing 10K 3-phase + The5ers 5K shadow)
+    master_v2_dir = kit_dir / "master_v2"
+    master_v2_dir.mkdir(parents=True, exist_ok=True)
+    master_presets_spec = {
+        "FTMO_Swing_10K_Shadow_Demo_Master7E.set": {
+            "InpDryRunLogOnly": "true",
+            "InpShadowCompareMode": "true",
+            "InpEnableS6Shadow": "true",
+            "InpWritePrimaryHeartbeat": "false",
+            "InpContractSku": "FTMO_SWING_10K_SHADOW_DEMO",
+            "InpInitialBalanceUSD": "10000.00",
+            "InpTargetProfitPct": "10.00",
+            "InpHardDailyDdPct": "5.00",
+            "InpHardStaticDdPct": "10.00",
+            "InpDailyResetMode": "1",
+            "InpSizingMode": "0",
+            "InpBasePhaseMult": "1.00",
+            "InpProfitLockPct": "0.00",
+            "InpProfitLockMult": "1.00",
+            "InpMaxSymbolRiskPct": "1.00",
+            "InpMaxUsdClusterPct": "1.50",
+            "InpMaxJpyClusterPct": "1.25",
+            "InpMaxIdxClusterPct": "1.00",
+            "InpMaxAccountOpenRiskPct": "2.00",
+            "InpSymUS100": "US100.cash",
+            "InpSymUS500": "US500.cash",
+            "InpGuardDryRunLogOnly": "true",
+            "InpGuardEnableRedNews": "true",
+            "InpGuardNewsPadSec": "300",
+            "InpGuardNewsHardBanSec": "135",
+            "InpAllowManualHaltFile": "false",
+        },
+        "FTMO_Swing_10K_P1_Master7E.set": {
+            "InpDryRunLogOnly": "true",
+            "InpShadowCompareMode": "true",
+            "InpEnableS6Shadow": "true",
+            "InpWritePrimaryHeartbeat": "true",
+            "InpContractSku": "FTMO_SWING_10K_P1",
+            "InpInitialBalanceUSD": "10000.00",
+            "InpTargetProfitPct": "10.00",
+            "InpHardDailyDdPct": "5.00",
+            "InpHardStaticDdPct": "10.00",
+            "InpDailyResetMode": "1",
+            "InpSizingMode": "1",
+            "InpBasePhaseMult": "4.00",
+            "InpProfitLockPct": "5.00",
+            "InpProfitLockMult": "2.01",
+            "InpMaxSymbolRiskPct": "1.75",
+            "InpMaxUsdClusterPct": "2.25",
+            "InpMaxJpyClusterPct": "2.00",
+            "InpMaxIdxClusterPct": "1.75",
+            "InpMaxAccountOpenRiskPct": "3.00",
+            "InpSymUS100": "US100.cash",
+            "InpSymUS500": "US500.cash",
+            "InpGuardDryRunLogOnly": "true",
+            "InpGuardEnableRedNews": "true",
+            "InpGuardNewsPadSec": "300",
+            "InpGuardNewsHardBanSec": "135",
+            "InpAllowManualHaltFile": "false",
+        },
+        "FTMO_Swing_10K_P2_Master7E.set": {
+            "InpDryRunLogOnly": "true",
+            "InpShadowCompareMode": "true",
+            "InpEnableS6Shadow": "true",
+            "InpWritePrimaryHeartbeat": "true",
+            "InpContractSku": "FTMO_SWING_10K_P2",
+            "InpInitialBalanceUSD": "10000.00",
+            "InpTargetProfitPct": "5.00",
+            "InpHardDailyDdPct": "5.00",
+            "InpHardStaticDdPct": "10.00",
+            "InpDailyResetMode": "1",
+            "InpSizingMode": "1",
+            "InpBasePhaseMult": "2.00",
+            "InpProfitLockPct": "3.00",
+            "InpProfitLockMult": "1.00",
+            "InpMaxSymbolRiskPct": "1.50",
+            "InpMaxUsdClusterPct": "2.00",
+            "InpMaxJpyClusterPct": "1.75",
+            "InpMaxIdxClusterPct": "1.50",
+            "InpMaxAccountOpenRiskPct": "2.50",
+            "InpSymUS100": "US100.cash",
+            "InpSymUS500": "US500.cash",
+            "InpGuardDryRunLogOnly": "true",
+            "InpGuardEnableRedNews": "true",
+            "InpGuardNewsPadSec": "300",
+            "InpGuardNewsHardBanSec": "135",
+            "InpAllowManualHaltFile": "false",
+        },
+        "FTMO_Swing_10K_Funded_Master7E.set": {
+            "InpDryRunLogOnly": "true",
+            "InpShadowCompareMode": "true",
+            "InpEnableS6Shadow": "true",
+            "InpWritePrimaryHeartbeat": "true",
+            "InpContractSku": "FTMO_SWING_10K_FUNDED",
+            "InpInitialBalanceUSD": "10000.00",
+            "InpTargetProfitPct": "0.00",
+            "InpHardDailyDdPct": "5.00",
+            "InpHardStaticDdPct": "10.00",
+            "InpDailyResetMode": "1",
+            "InpSizingMode": "1",
+            "InpBasePhaseMult": "1.00",
+            "InpProfitLockPct": "0.00",
+            "InpProfitLockMult": "1.00",
+            "InpMaxSymbolRiskPct": "1.00",
+            "InpMaxUsdClusterPct": "1.50",
+            "InpMaxJpyClusterPct": "1.25",
+            "InpMaxIdxClusterPct": "1.00",
+            "InpMaxAccountOpenRiskPct": "2.00",
+            "InpSymUS100": "US100.cash",
+            "InpSymUS500": "US500.cash",
+            "InpGuardDryRunLogOnly": "true",
+            "InpGuardEnableRedNews": "true",
+            "InpGuardNewsPadSec": "300",
+            "InpGuardNewsHardBanSec": "135",
+            "InpAllowManualHaltFile": "false",
+        },
+        "The5ers_HS_5K_Shadow_Master7E.set": {
+            "InpDryRunLogOnly": "true",
+            "InpShadowCompareMode": "true",
+            "InpEnableS6Shadow": "true",
+            "InpWritePrimaryHeartbeat": "false",
+            "InpContractSku": "THE5ERS_HS_5K_P1_SHADOW",
+            "InpInitialBalanceUSD": "5000.00",
+            "InpTargetProfitPct": "8.00",
+            "InpHardDailyDdPct": "5.00",
+            "InpHardStaticDdPct": "10.00",
+            "InpDailyResetMode": "0",
+            "InpSizingMode": "1",
+            "InpBasePhaseMult": "4.00",
+            "InpProfitLockPct": "4.00",
+            "InpProfitLockMult": "2.01",
+            "InpMaxSymbolRiskPct": "1.75",
+            "InpMaxUsdClusterPct": "2.25",
+            "InpMaxJpyClusterPct": "2.00",
+            "InpMaxIdxClusterPct": "1.75",
+            "InpMaxAccountOpenRiskPct": "3.00",
+            "InpSymUS100": "NAS100",
+            "InpSymUS500": "SPX500",
+            "InpGuardDryRunLogOnly": "true",
+            "InpGuardEnableRedNews": "true",
+            "InpGuardNewsPadSec": "300",
+            "InpGuardNewsHardBanSec": "135",
+            "InpAllowManualHaltFile": "false",
+        },
+    }
+    for fname, kv in master_presets_spec.items():
+        lines = [f"; Naqex Round-3 Single-Authority Master_Prop7E Preset ({fname}) — FAIL-CLOSED DRYRUN=TRUE"]
+        for k, v in kv.items():
+            lines.append(f"{k}={v}")
+        (master_v2_dir / fname).write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
+
     # 3. Build cryptographic SHA-256 manifest
     tracked_files: list[Path] = []
     tracked_files.extend(sorted(exports_dir.glob("*.mq5")))
     tracked_files.append(exports_dir / "Include/Naqex_PropGuard.mqh")
+    tracked_files.append(exports_dir / "Include/Naqex_Signals_7E.mqh")
     tracked_files.append(exports_dir / "mql5_parity_checker.py")
     tracked_files.append(exports_dir / "verify_deployment_kit.py")
     for rel_kit in (
@@ -857,6 +1009,7 @@ def build_presets_and_manifest(
             tracked_files.append(p)
     tracked_files.extend(sorted(presets_dir.rglob("*.set")))
     tracked_files.extend(sorted(presets_dir.rglob("profile_meta.json")))
+    tracked_files.extend(sorted(master_v2_dir.rglob("*.set")))
 
     tracked_entries: dict[str, dict[str, Any]] = {}
     for f in tracked_files:
@@ -944,8 +1097,8 @@ def verify_kit(
                 verified_tracked += 1
 
         ex5_map = manifest.get("compiled_ex5_files", {})
-        if require_ex5 and len(ex5_map) != 9:
-            errors.append(f"Manifest expected 9 compiled .ex5 files, found {len(ex5_map)}")
+        if require_ex5 and len(ex5_map) != 10:
+            errors.append(f"Manifest expected 10 compiled .ex5 files (9 baseline + Master_Prop7E), found {len(ex5_map)}")
         for rel, info in ex5_map.items():
             fp = REPO_ROOT / rel
             if not fp.exists():

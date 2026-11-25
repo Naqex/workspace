@@ -126,3 +126,22 @@ Sau khi lệnh `E1_USDJPY_TOKYO` (`#591010790`) tự đóng phẳng sạch lúc 
    - **Lỗi `KeepPrivate=0` trong `C:\Naqex\mt5\connector.ini`:** Là nguyên nhân khiến MT5 không lưu mật khẩu phiên cũ khi khởi động lại (nếu cúp điện sau này cũng sẽ mất kết nối). Đã đổi sang **`KeepPrivate=1`** (không chứa mật khẩu trần).
 3. **1 bước thủ công 30 giây duy nhất còn lại cho chủ sở hữu:**
    - Truy cập RDP vào `naqex-node1` (`192.168.1.28` hoặc Tailscale `100.72.70.18`), đăng nhập lại `1` lần duy nhất vào tài khoản `FTMO-Demo 1515343166` trong cửa sổ MT5 đang mở và **tích chọn `Save password`** — từ đó về sau nhờ `KeepPrivate=1`, mọi lần khởi động lại hoặc cúp điện MT5 sẽ tự đăng nhập lại hoàn toàn tự động.
+
+---
+
+## 6. Nhật Ký Nâng Cấp Thực Địa Đợt Vá Vòng 2 (`R2-01..R2-10`) & Khung Vòng 3 (`2026-11-25 12:38–12:45 ICT`)
+
+Sau khi chủ sở hữu hoàn tất bước đăng nhập 1 lần lúc sáng (`10:50 ICT`, kích hoạt `[RECOVERED]` trên Telegram lúc `10:51 ICT`) và xác nhận tài khoản đang phẳng (`open_positions = 0`, `terminal_connected = true`, `KeepPrivate = 1`, `connector.ini` không chứa `[Common]`), đợt nâng cấp Vòng 2/Vòng 3 đã được triển khai và kiểm chứng sống trọn vẹn:
+
+1. **Tắt 2 tác vụ Crypto Shadow/Maker theo Quyết định 4 (giữ nguyên toàn bộ log đã thu trên đĩa):**
+   - `Naqex_Crypto_Shadow_5m` -> **`Disabled`** · `Naqex_Crypto_Maker_Probe_5m` -> **`Disabled`**. Máy `naqex-node1` hiện dành 100% tài nguyên cho nhánh Prop benchmark.
+2. **Hoán đổi phẳng `10/10 .ex5` + Lịch tin đỏ `477` dòng `6` đồng tiền (`sha256 = 401c5c64cb127f49...`) + Bộ script giám sát v2:**
+   - Đã chép và xác minh khớp SHA-256 từng byte cho `9` tệp `.ex5` gia cố (`PropGuard v3.10` + `Orchestrator v2.10`) và **`Naqex_Master_Prop7E.ex5` (`v1.00`, `InpDryRunLogOnly = true`, `InpShadowCompareMode = true`)** vào `C:\Naqex\mt5\MQL5\Experts\Naqex\`, kèm `5` preset `C:\Naqex\ops\master_v2\*.set`, `naqex_mt5_watchdog.ps1` (bắt `quote_ts`, `positions_state`, `anchor_state`), `sync_updated_ex5_when_flat.ps1` (v2 chặn mất kết nối/UNKNOWN) và `manifest.sha256.json`.
+   - **Chứng minh sống cơ chế tự đăng nhập (`KeepPrivate = 1`):** Sau khi dừng và khởi động lại `terminal64.exe` hoàn toàn tự động qua `Naqex_MT5_Portable_AutoStart`, MT5 tự kết nối lại `FTMO-Demo 1515343166` mà **không cần thao tác RDP**.
+   - **Bằng chứng log & nhịp tim (`12:43–12:45 ICT`):**
+     - Cả `9/9` biểu đồ đang mở đều ghi `[PROPGUARD-OK] Loaded 477 red-news events from 'naqex_red_news_utc.csv'` (`0` cảnh báo `[PROPGUARD-WARN]`).
+     - `naqex_heartbeat.json`: `account_login = 1515343166`, `account_server = "FTMO-Demo"`, `build_version = "2.10"`, `terminal_connected = true`, `positions_state = "CONFIRMED"`, `anchor_state = "SYNCED"`, `quote_ts = 1795592686` (tươi theo tick sàn), `balance = equity = 9.998,88 USD`, `open_positions = 0`, `total_account_positions = 0`, `pending_orders = 0`, `orphan_no_sl = 0`, `dry_run = false`.
+     - `Naqex_MT5_Watchdog_NODE1` & `Naqex_Heroku_Heartbeat_NODE1` đều chạy sạch với **`LastResult = 0`**.
+3. **Nâng cấp Heroku EU Dead-Man's-Switch v4 (`naqex-deadman-eu`, build `76a4644a` `v4-round2-r2-08-expected-nodes`):**
+   - Đã đặt `EXPECTED_NODES = NAQEX_NODE1` (bảo toàn mọi biến môi trường hiện có & mức chi phí gói Student `12 USD/tháng <= 13 USD/tháng` tới `2028-09-30`).
+   - Kiểm chứng sống: `GET /health` -> `200` (`persistence = postgres`, `order_send_count = 0`), `GET /` chưa có token -> `401`, `GET /api/status` (có `X-Naqex-View-Token`) -> **`NAQEX_NODE1: OK` (`age_sec = 6s`, `build_version = "2.10"`, `positions_state = "CONFIRMED"`, `anchor_state = "SYNCED"`, `reasons = []`, `pg_heartbeat_rows = 1.288`)**.

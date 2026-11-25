@@ -12,6 +12,14 @@ owner: "knowledge/owner/PROFILE.md"
 
 > **Mục đích tài liệu:** Đây là bản kế hoạch hành động duy nhất của Naqex để đưa hệ thống từ mức hiện tại (đang chạy thử 1 nhánh FX/Chỉ số trên `naqex-node1`, chưa có lịch sử rút lãi thật) tiến sát cảnh giới **chuyên gia giao dịch tự động độc lập bậc nhất (Top 1% Solo Quant)** — hoàn toàn **thực tế, đo bằng tiền lời ròng sau mọi chi phí, và lấy tiền lời tự nuôi hạ tầng**.
 >
+> **Cập Nhật Kiến Trúc Vòng 3 (`25/11/2026` — Chốt Theo Kiểm Toán Độc Lập Astra Vòng 2 & Vòng 3):**
+> - **Nguồn hợp đồng chuẩn duy nhất:** [prop_contracts_v2.json](../tooling/ai-engines/configs/prop_contracts_v2.json) · [Đối chứng Vòng 3 (`N = 5.000` ngày lịch thật)](research/ROUND3-FRAME-COUNTERFACTUAL-BENCHMARK-20261125.md).
+> - **4 thay đổi hiệu lực ngay (ưu tiên hơn các giả định cũ bên dưới nếu có xung đột):**
+>   1. **Thước đo tiền mặt thực thu (`Settled Cash`) & ngày lịch thật:** Gỡ bỏ thang `350K`, gỡ bỏ cổng mua mù `Gate-42`, gỡ bỏ mua thẳng `The5ers 20K`, và gỡ luật chia cứng `30/50/20` trước khi hoàn gốc. Chỉ xét nâng bậc khi đủ `>= 2` chu kỳ nhận tiền thật đã về ví + đã hoàn vốn gốc + còn đệm `>= 2×` giá vé mới (`treasury_ledger.py`); mốc `100K` chỉ là giả thuyết dài hạn.
+>   2. **Đội hình cố định `7E` (`E1..E7`) xuyên cả 3 pha + khóa cụm hướng `USD/JPY/US100`:** Đối chứng cặp xác nhận `7E` thắng `8E` ở mọi bậc phí (`1,0×..2,0×`); khóa cụm hướng (`USD 2,25% / JPY 2,00% / US100 1,75% / Tổng 3,00%`) cắt ngày xấu nhất P1 từ `5,14%` xuống `4,01%` (`0,0%` cháy ngày lượt 1); giữ `STATIC_LOCK` làm mặc định.
+>   3. **Kiến trúc `1` Master EA/tài khoản (`Naqex_Master_Prop7E.mq5`):** Đã biên dịch sạch cùng `5` preset gọn `master_v2/*.set` và đặt sẵn trên `naqex-node1` để chạy đối chứng shadow trước khi thay thế dàn `9` chart cũ (vẫn đã gia cố `v3.10/v2.10` + lịch tin đỏ `477` dòng).
+>   4. **Một bài toán chính (`FTMO Swing 10K` chính, `The5ers HS 5K` chấm điểm song song) & Hoãn Own-Book phức hợp dưới `10k USD`:** Đã tắt 2 tác vụ Crypto Shadow/Maker trên `naqex-node1` khi vốn riêng còn `0 USD`; dưới `10k USD` chỉ giữ tiền mặt/T-Bill (`10k+` mới xét ETF `S3B`, `25k+` mới xét `S2/S3A/Q1`, `50k+` xét `S4/Q2`, `100k+` xét đa nhánh đầy đủ).
+>
 > **Chế độ an toàn bất biến:** Không tự động gửi lệnh tiền thật (`OrderSend = 0` trên mọi công cụ nghiên cứu), giữ niêm phong tuyệt đối tập dữ liệu kiểm tra mật `Holdout 2025+` ([NATIVE_FTMO_HOLDOUT_LOCK.json](research/NATIVE_FTMO_HOLDOUT_LOCK.json)) cho thế hệ chiến lược v2, và luôn quy đổi rủi ro song song theo `%`, `USD` và `triệu VND` (`25.500 VND/USD`).
 
 ---

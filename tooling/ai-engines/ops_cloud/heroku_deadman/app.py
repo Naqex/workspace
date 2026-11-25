@@ -69,6 +69,12 @@ def format_reason_vi(code: str) -> str:
         return "Tiến trình MT5 (terminal64.exe) đã dừng"
     if c == "BROKER_DISCONNECTED":
         return "MT5 mất kết nối máy chủ sàn (terminal_connected=false)"
+    if c == "POSITIONS_STATE_UNKNOWN":
+        return "Không xác định được số lệnh mở do mất kết nối sàn"
+    if c == "DAILY_ANCHOR_UNRECOVERED":
+        return "Chưa khôi phục được mốc số dư đầu ngày sau gián đoạn — đã khóa mở lệnh mới"
+    if c.startswith("EXPECTED_NODE_MISSING"):
+        return "Máy chủ dự kiến chưa gửi nhịp tim nào sau khi khởi động dịch vụ"
     if c.startswith("INNER_HEARTBEAT_STALE="):
         age = c.split("=", 1)[1]
         return f"Dữ liệu nhịp tim bên trong MT5 đã cũ ({age}) — nghi treo EA hoặc phát lại snapshot cũ"
@@ -456,6 +462,7 @@ class DeadmanMonitor:
         require_view_token: bool = True,
         stale_after_sec: int = DEFAULT_STALE_AFTER_SEC,
         alert_cooldown_sec: int = DEFAULT_ALERT_COOLDOWN_SEC,
+        expected_nodes: list[str] | tuple[str, ...] | None = None,
         alert_sender: Callable[[str], dict[str, Any]] | None = None,
         clock_fn: Callable[[], float] = time.time,
         pg_store: PostgresStore | None = None,
@@ -466,10 +473,15 @@ class DeadmanMonitor:
         self.stale_after_sec = max(30, int(stale_after_sec))
         self.alert_cooldown_sec = max(30, int(alert_cooldown_sec))
         self._clock = clock_fn
+        self._started_ts = float(clock_fn())
+        self.expected_nodes: list[str] = [
+            str(x).strip() for x in (expected_nodes or []) if str(x).strip()
+        ]
         self._alert_sender = alert_sender or self._default_alert_sender
         self._store = pg_store
         self._lock = threading.Lock()
         self._nodes: dict[str, NodeState] = {}
+        self._channel_cooldown: dict[tuple[str, str, str], float] = {}
         self.alerts_emitted: deque[dict[str, Any]] = deque(maxlen=100)
 
         if self._store is not None:
@@ -481,13 +493,20 @@ class DeadmanMonitor:
             except Exception as exc:
                 print(f"[WARN] Postgres load_state failed, continuing in-memory: {exc}", flush=True)
 
-    def _default_alert_sender(self, text: str, html_text: str = "") -> dict[str, Any]:
+    def _default_alert_sender(
+        self,
+        text: str,
+        html_text: str = "",
+        *,
+        skip_channels: set[str] | None = None,
+    ) -> dict[str, Any]:
+        skip = skip_channels or set()
         return dispatch_alert_message(
             text,
             html_text=html_text,
-            telegram_bot_token=os.environ.get("TELEGRAM_BOT_TOKEN", "").strip(),
-            telegram_chat_id=os.environ.get("TELEGRAM_CHAT_ID", "").strip(),
-            webhook_url=os.environ.get("ALERT_WEBHOOK_URL", "").strip(),
+            telegram_bot_token="" if "telegram" in skip else os.environ.get("TELEGRAM_BOT_TOKEN", "").strip(),
+            telegram_chat_id="" if "telegram" in skip else os.environ.get("TELEGRAM_CHAT_ID", "").strip(),
+            webhook_url="" if "webhook" in skip else os.environ.get("ALERT_WEBHOOK_URL", "").strip(),
         )
 
     def verify_ingest_token(self, auth_header: str) -> tuple[bool, str]:
@@ -518,6 +537,12 @@ class DeadmanMonitor:
         if hb.get("terminal_connected") is False:
             status = "CRITICAL"
             reasons.append("BROKER_DISCONNECTED")
+        if str(hb.get("positions_state") or "").upper() == "UNKNOWN" or (hb.get("open_positions") is not None and int(hb.get("open_positions")) < 0):
+            status = "CRITICAL"
+            reasons.append("POSITIONS_STATE_UNKNOWN")
+        if str(hb.get("anchor_state") or "").upper() == "UNRECOVERED_AFTER_GAP":
+            status = "CRITICAL"
+            reasons.append("DAILY_ANCHOR_UNRECOVERED")
         if now_ts is not None and hb.get("utc_ts") is not None:
             try:
                 inner_ts = float(hb["utc_ts"])
@@ -553,13 +578,20 @@ class DeadmanMonitor:
     def _emit_alert(self, node: NodeState, event_key: str, text: str, now: float, *, html_text: str = "") -> None:
         if node.last_alert_key == event_key and (now - node.last_alert_ts) < self.alert_cooldown_sec:
             return
+        # R2-08: Per-channel cooldown prevents re-spamming Telegram if only secondary webhook failed!
+        already_sent_channels = {
+            ch for (lbl, ek, ch), ts in self._channel_cooldown.items()
+            if lbl == node.account_label and ek == event_key and (now - ts) < self.alert_cooldown_sec
+        }
         if self._alert_sender == self._default_alert_sender:
-            res = self._default_alert_sender(text, html_text=html_text)
+            res = self._default_alert_sender(text, html_text=html_text, skip_channels=already_sent_channels)
         else:
             res = self._alert_sender(html_text or text)
-        # Only arm cooldown when delivery succeeded (or no external sink configured); failed sends retry next cycle!
+        sent_list = list(res.get("sent") or []) if isinstance(res, dict) else []
+        for ch in sent_list:
+            self._channel_cooldown[(node.account_label, event_key, str(ch))] = now
         has_errors = bool(res.get("errors")) if isinstance(res, dict) else False
-        was_sent = bool(res.get("sent")) if isinstance(res, dict) else True
+        was_sent = bool(sent_list) if isinstance(res, dict) else True
         is_configured = bool(res.get("configured", True)) if isinstance(res, dict) else True
         if (not has_errors and was_sent) or (not is_configured):
             node.last_alert_key = event_key
@@ -668,11 +700,23 @@ class DeadmanMonitor:
         now = float(self._clock())
         staled: list[dict[str, Any]] = []
         with self._lock:
+            # R2-08: Alert if an expected node NEVER registered (e.g., after DB fallback or fresh boot!)
+            for exp_lbl in self.expected_nodes:
+                if exp_lbl not in self._nodes and (now - self._started_ts) > self.stale_after_sec:
+                    ghost = NodeState(
+                        account_label=exp_lbl,
+                        first_seen_ts=self._started_ts,
+                        last_seen_ts=self._started_ts,
+                        status="STALE",
+                        active_reasons=["EXPECTED_NODE_MISSING"],
+                    )
+                    self._nodes[exp_lbl] = ghost
             for node in self._nodes.values():
                 age = now - node.last_seen_ts
                 if age > self.stale_after_sec:
                     node.status = "STALE"
-                    node.active_reasons = [f"NO_HEARTBEAT_{int(age)}s_GT_{self.stale_after_sec}s"]
+                    if "EXPECTED_NODE_MISSING" not in node.active_reasons:
+                        node.active_reasons = [f"NO_HEARTBEAT_{int(age)}s_GT_{self.stale_after_sec}s"]
                     hb = node.last_payload.get("heartbeat") if isinstance(node.last_payload.get("heartbeat"), dict) else node.last_payload
                     html_msg, plain_msg = format_alert_message(
                         kind="STALE",
@@ -706,11 +750,19 @@ class DeadmanMonitor:
                     "status": "STALE" if age > self.stale_after_sec else n.status,
                     "age_sec": age,
                     "mt5_running": n.last_payload.get("mt5_running"),
+                    "account_login": hb.get("account_login"),
+                    "account_server": hb.get("account_server"),
+                    "build_version": hb.get("build_version"),
+                    "positions_state": hb.get("positions_state"),
+                    "anchor_state": hb.get("anchor_state"),
+                    "manual_halt_ack": hb.get("manual_halt_ack"),
                     "balance": hb.get("balance"),
                     "equity": hb.get("equity"),
                     "daily_dd_pct": hb.get("daily_dd_pct"),
                     "static_dd_pct": hb.get("static_dd_pct"),
                     "open_positions": hb.get("open_positions"),
+                    "total_account_positions": hb.get("total_account_positions"),
+                    "pending_orders": hb.get("pending_orders"),
                     "orphan_no_sl": hb.get("orphan_no_sl"),
                     "regime": hb.get("regime"),
                     "kill_switch": hb.get("kill_switch"),
@@ -895,12 +947,15 @@ def main() -> int:
             print(f"[WARN] Postgres init failed ({exc}); falling back to in-memory ring buffer.", flush=True)
 
     req_view = os.environ.get("NAQEX_REQUIRE_VIEW_TOKEN", "true").strip().lower() not in ("0", "false", "no")
+    exp_nodes_raw = os.environ.get("EXPECTED_NODES", "").strip()
+    expected_nodes = [x.strip() for x in exp_nodes_raw.split(",") if x.strip()] if exp_nodes_raw else []
     monitor = DeadmanMonitor(
         ingest_token=os.environ.get("NAQEX_INGEST_TOKEN", ""),
         view_token=os.environ.get("NAQEX_VIEW_TOKEN", ""),
         require_view_token=req_view,
         stale_after_sec=int(os.environ.get("STALE_AFTER_SEC", str(DEFAULT_STALE_AFTER_SEC))),
         alert_cooldown_sec=int(os.environ.get("ALERT_COOLDOWN_SEC", str(DEFAULT_ALERT_COOLDOWN_SEC))),
+        expected_nodes=expected_nodes,
         pg_store=pg_store,
     )
     stop_ev = threading.Event()

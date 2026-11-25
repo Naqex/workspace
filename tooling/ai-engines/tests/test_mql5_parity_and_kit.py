@@ -52,10 +52,11 @@ class Mql5ParityAndDeploymentKitTests(unittest.TestCase):
         self.assertTrue(rep["red_news_csv"]["ok"])
         self.assertGreaterEqual(rep["red_news_csv"]["rows"], 200)
 
-        # Verify all 9 compiled .ex5 binaries + MetaEditor64 logs show 0 errors, 0 warnings
+        # Verify all 10 compiled .ex5 binaries (9 legacy baseline + Naqex_Master_Prop7E) show 0 errors, 0 warnings
         comp = rep["compile_artifacts"]
         self.assertTrue(comp["ok"], f"Compile artifacts failed: {comp['errors']}")
-        self.assertEqual(len(comp["files"]), 9)
+        self.assertEqual(len(comp["files"]), 10)
+        self.assertTrue(rep["master_ea"]["ok"])
         for stem, info in comp["files"].items():
             self.assertTrue(info["ex5_exists"], f"Missing .ex5 for {stem}")
             self.assertGreater(info["ex5_bytes"], 10_000, f"Suspiciously small .ex5 for {stem}")
@@ -94,12 +95,12 @@ class Mql5ParityAndDeploymentKitTests(unittest.TestCase):
         self.assertTrue(rep["ok"], f"Deployment kit verification failed: {rep['errors']}")
         self.assertEqual(rep["profiles_expected"], 10)
         self.assertEqual(rep["presets_checked"], 90)
-        self.assertEqual(rep["verified_ex5_files"], 9)
+        self.assertEqual(rep["verified_ex5_files"], 10)
 
         manifest = json.loads((KIT_DIR / "manifest.sha256.json").read_text(encoding="utf-8"))
         self.assertEqual(set(manifest["profiles"].keys()), EXPECTED_PROFILES)
         self.assertEqual(manifest["order_send_count"], 0)
-        self.assertEqual(manifest["compiled_ex5_count"], 9)
+        self.assertEqual(manifest["compiled_ex5_count"], 10)
 
         # Verify M2.2 calibrated multipliers & PropGuard [0.20, 3.50] clamp compatibility
         bal_orch = kit.parse_set_file(KIT_DIR / "presets/FTMO_P1_Balanced_3to6m/Naqex_AccountOrchestrator.set")
@@ -160,6 +161,9 @@ class Mql5ParityAndDeploymentKitTests(unittest.TestCase):
                 json.dumps(
                     {
                         "utc_ts": now_ts - 15,
+                        "quote_ts": now_ts - 10,
+                        "terminal_connected": True,
+                        "positions_state": "CONFIRMED",
                         "balance": 10000.0,
                         "equity": 10025.0,
                         "day_anchor_eq": 10000.0,
@@ -259,6 +263,9 @@ class Mql5ParityAndDeploymentKitTests(unittest.TestCase):
                 json.dumps(
                     {
                         "utc_ts": now_ts - 10,
+                        "quote_ts": now_ts - 5,
+                        "terminal_connected": True,
+                        "positions_state": "CONFIRMED",
                         "balance": 10000.0,
                         "equity": 10000.0,
                         "daily_dd_pct": 0.0,
@@ -387,7 +394,8 @@ class Mql5ParityAndDeploymentKitTests(unittest.TestCase):
         self.assertEqual(mqh_parsed["inputs"]["InpGuardNewsHardBanSec"]["value"], 135)
         self.assertIn("IsInRedNewsPreFlattenWindowFor", mqh_src)
         self.assertIn("MathAbs(diff) <= InpGuardNewsHardBanSec", mqh_src)
-        self.assertIn("diff > InpGuardNewsHardBanSec && diff <= InpGuardNewsPadSec", mqh_src)
+        self.assertIn("diff > InpGuardNewsHardBanSec && diff <= effPad", mqh_src)
+        self.assertIn("MathMax(InpGuardNewsPadSec, 3600)", mqh_src)
 
         for eid, contract in parity.ENGINE_PARITY_CONTRACTS.items():
             ea_src = (EXPORTS_DIR / contract["file"]).read_text(encoding="utf-8")
@@ -576,7 +584,7 @@ class Mql5ParityAndDeploymentKitTests(unittest.TestCase):
 
             now_ts = 1_795_500_000
             # 1. Fail-closed when open_positions == 1: exit 2, zero files copied
-            (files_dir / "naqex_heartbeat.json").write_text(json.dumps({"open_positions": 1, "utc_ts": now_ts - 10}), encoding="utf-8")
+            (files_dir / "naqex_heartbeat.json").write_text(json.dumps({"open_positions": 1, "total_account_positions": 1, "pending_orders": 0, "terminal_connected": True, "positions_state": "CONFIRMED", "utc_ts": now_ts - 10}), encoding="utf-8")
             p_blk = subprocess.run(
                 ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", str(sync_ps), "-TargetMt5Root", str(mt5_root), "-NowUtcOverride", str(now_ts)],
                 capture_output=True, text=True, check=False, timeout=30,
@@ -586,8 +594,27 @@ class Mql5ParityAndDeploymentKitTests(unittest.TestCase):
             self.assertEqual(list(experts_dir.glob("*.ex5")), [])
             self.assertFalse((files_dir / "naqex_red_news_utc.csv").exists())
 
-            # 1b. Astra F19 regression: stale heartbeat (> 180s) MUST fail closed (exit 2) even when open_positions == 0!
-            (files_dir / "naqex_heartbeat.json").write_text(json.dumps({"open_positions": 0, "utc_ts": now_ts - 600}), encoding="utf-8")
+            # 1a. Astra R2-03 CRITICAL regression: disconnected heartbeat MUST NEVER allow sync even if open_positions==0!
+            (files_dir / "naqex_heartbeat.json").write_text(json.dumps({"open_positions": 0, "terminal_connected": False, "positions_state": "UNKNOWN", "utc_ts": now_ts - 2}), encoding="utf-8")
+            p_disc = subprocess.run(
+                ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", str(sync_ps), "-TargetMt5Root", str(mt5_root), "-NowUtcOverride", str(now_ts)],
+                capture_output=True, text=True, check=False, timeout=30,
+            )
+            self.assertEqual(p_disc.returncode, 2)
+            self.assertEqual(json.loads(p_disc.stdout)["status"], "BLOCKED_BROKER_DISCONNECTED")
+            self.assertEqual(list(experts_dir.glob("*.ex5")), [])
+
+            # 1a-ii. Astra R2-03: non-Naqex account position or pending order blocks flat-sync!
+            (files_dir / "naqex_heartbeat.json").write_text(json.dumps({"open_positions": 0, "total_account_positions": 1, "pending_orders": 0, "terminal_connected": True, "positions_state": "CONFIRMED", "utc_ts": now_ts - 5}), encoding="utf-8")
+            p_nonnq = subprocess.run(
+                ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", str(sync_ps), "-TargetMt5Root", str(mt5_root), "-NowUtcOverride", str(now_ts)],
+                capture_output=True, text=True, check=False, timeout=30,
+            )
+            self.assertEqual(p_nonnq.returncode, 2)
+            self.assertEqual(json.loads(p_nonnq.stdout)["status"], "BLOCKED_OPEN_POSITIONS")
+
+            # 1b. Astra F19 regression: stale heartbeat (> 180s) MUST fail closed (exit 2) even when connected & flat!
+            (files_dir / "naqex_heartbeat.json").write_text(json.dumps({"open_positions": 0, "total_account_positions": 0, "pending_orders": 0, "terminal_connected": True, "positions_state": "CONFIRMED", "utc_ts": now_ts - 600}), encoding="utf-8")
             p_stale = subprocess.run(
                 ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", str(sync_ps), "-TargetMt5Root", str(mt5_root), "-NowUtcOverride", str(now_ts)],
                 capture_output=True, text=True, check=False, timeout=30,
@@ -596,10 +623,10 @@ class Mql5ParityAndDeploymentKitTests(unittest.TestCase):
             self.assertEqual(json.loads(p_stale.stdout)["status"], "BLOCKED_STALE_HEARTBEAT")
             self.assertEqual(list(experts_dir.glob("*.ex5")), [])
 
-            # 2. Live sync when flat & fresh (open_positions == 0): copies all 9 .ex5 + 6-ccy CSV with SHA-256 & manifest verification
-            (files_dir / "naqex_heartbeat.json").write_text(json.dumps({"open_positions": 0, "utc_ts": now_ts - 10}), encoding="utf-8")
+            # 2. Live sync when connected, confirmed flat & fresh: copies all 9 baseline + Master (when -IncludeMasterEx5) + 6-ccy CSV
+            (files_dir / "naqex_heartbeat.json").write_text(json.dumps({"open_positions": 0, "total_account_positions": 0, "pending_orders": 0, "terminal_connected": True, "positions_state": "CONFIRMED", "account_login": 1515343166, "account_server": "FTMO-Demo", "utc_ts": now_ts - 10}), encoding="utf-8")
             p_sync = subprocess.run(
-                ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", str(sync_ps), "-TargetMt5Root", str(mt5_root), "-NowUtcOverride", str(now_ts)],
+                ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", str(sync_ps), "-TargetMt5Root", str(mt5_root), "-ExpectedLogin", "1515343166", "-ExpectedServer", "FTMO-Demo", "-NowUtcOverride", str(now_ts)],
                 capture_output=True, text=True, check=False, timeout=30,
             )
             self.assertEqual(p_sync.returncode, 0, p_sync.stderr)
@@ -609,7 +636,7 @@ class Mql5ParityAndDeploymentKitTests(unittest.TestCase):
             self.assertTrue(out["sha256_verified"])
             self.assertTrue(out["manifest_checked"])
             self.assertEqual(out["order_send"], 0)
-            self.assertGreaterEqual(out["red_news_csv"]["rows"], 430)
+            self.assertGreaterEqual(out["red_news_csv"]["rows"], 470)
             self.assertEqual(out["red_news_csv"]["sha256"], exp_csv_sha)
             self.assertTrue(out["red_news_csv"]["synced"])
             self.assertEqual(len(list(experts_dir.glob("*.ex5"))), 9)
@@ -652,6 +679,24 @@ class Mql5ParityAndDeploymentKitTests(unittest.TestCase):
         # 3. Flat-sync script must safely handle shallow VPS paths (e.g. C:\Naqex\ops\vps_kit)
         self.assertIn("function Get-AncestorPath", sync_ps)
         self.assertNotIn("Split-Path -Parent (Split-Path -Parent (Split-Path -Parent", sync_ps)
+
+        # 4. Astra R2-02 / R2-03 / R2-04 / R2-05 / R2-07 & Round-3 Master_Prop7E architectural invariants
+        self.assertIn("CurrentAccountServerHash()", pg)
+        self.assertIn("IsRedNewsCalendarHealthyFor(", pg)
+        self.assertIn("EST03UTC", pg)
+        self.assertIn("ComputeFactorHeadroomPct(", pg)
+        self.assertIn("if(refPx <= 0.0 || freeMargin <= 0.0) return 0.0;", pg)
+        self.assertIn('"UNKNOWN", -1, -1, -1, -1', orch)
+        self.assertIn("CurrentResetStartServerTime()", orch)
+
+        master = (exp_dir / "Naqex_Master_Prop7E.mq5").read_text(encoding="utf-8")
+        sigs = (exp_dir / "Include" / "Naqex_Signals_7E.mqh").read_text(encoding="utf-8")
+        self.assertIn("CopyTicksRange(", sigs)
+        self.assertIn("ReconstructM1Window(", sigs)
+        self.assertIn("OnTradeTransaction(", master)
+        self.assertIn("InpMaxJpyClusterPct", master)
+        self.assertIn("InpMaxUsdClusterPct", master)
+        self.assertIn("BARRIER_TAPER", master)
 
 
 if __name__ == "__main__":

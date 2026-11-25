@@ -89,23 +89,28 @@ def test_ftmo_4_day_and_the5ers_3x_profitable_day_math(tmp_path: Path) -> None:
 
     # Build 3 clean intraday trading days (10:00 UTC -> 14:00 UTC) with low 0.5 bps slip & 0 swap
     base_ts = 1_795_500_000  # Away from news & away from 21:55-22:15 UTC rollover
-    # Align cleanly to 2026-11-24 10:00 UTC (exact)
+    # Align cleanly to 2026-11-24 10:00 UTC (exact) — side = execution/deal side (BUY entry -> SELL exit!)
     d0 = 1_795_428_000  # 2026-11-24 10:00:00 UTC
     rows_3d = []
     for i, pnl in enumerate((30.0, 30.0, 20.0)):
         t_in = d0 + i * 86_400
         t_out = t_in + 3600
         rows_3d.append({"utc_ts": t_in, "magic": 20261122, "symbol": "USDJPY", "side": "BUY", "event_type": "ENTRY", "signal_price": 150.000, "fill_price": 150.008, "sl_price": 149.2, "lots": 0.10, "pnl_usd": 0.0, "swap_usd": 0.0})
-        rows_3d.append({"utc_ts": t_out, "magic": 20261122, "symbol": "USDJPY", "side": "BUY", "event_type": "EXIT", "signal_price": 150.300, "fill_price": 150.295, "sl_price": 149.2, "lots": 0.10, "pnl_usd": pnl, "swap_usd": 0.0})
+        rows_3d.append({"utc_ts": t_out, "magic": 20261122, "symbol": "USDJPY", "side": "SELL", "event_type": "EXIT", "signal_price": 150.300, "fill_price": 150.295, "sl_price": 149.2, "lots": 0.10, "pnl_usd": pnl, "swap_usd": 0.0})
     _write_audit(audit_csv, rows_3d)
+    hb_ok = tmp_path / "hb.json"
+    hb_ok.write_text(json.dumps({"utc_ts": d0 + 4 * 86_400, "account_login": 1515343166, "terminal_connected": True, "open_positions": 0, "positions_state": "CONFIRMED", "orphan_no_sl": 0, "kill_switch": False}), encoding="utf-8")
+
+    # Isolated R3 day-count math check (explicitly relaxing SOP min_closed_trades & statement for 3-day synthetic unit check)
+    r3_kwargs = dict(exec_audit_csv=audit_csv, news_csv=news_csv, spread_log_jsonl=None, heartbeat_json=hb_ok, require_statement=False, min_closed_trades=3, min_distinct_engines=1, min_trial_calendar_days=3)
 
     # FTMO 10k: 3 days < 4 required -> EXTEND_SHADOW
-    res_ftmo_3 = pct.evaluate_prop_challenge(profile_id="ftmo_swing_10k", exec_audit_csv=audit_csv, news_csv=news_csv, spread_log_jsonl=None, heartbeat_json=None)
+    res_ftmo_3 = pct.evaluate_prop_challenge(profile_id="ftmo_swing_10k", **r3_kwargs)
     assert res_ftmo_3["rules"]["R3_min_days"]["status"] == "IN_PROGRESS"
     assert res_ftmo_3["gate_decision"] == "EXTEND_SHADOW"
 
     # The5ers 5k (+0.50% = 25 USD): Day 3 earned +20 USD < 25 USD -> only 2/3 profitable days -> EXTEND_SHADOW!
-    res_t5_2p = pct.evaluate_prop_challenge(profile_id="the5ers_hs_5k", exec_audit_csv=audit_csv, news_csv=news_csv, spread_log_jsonl=None, heartbeat_json=None)
+    res_t5_2p = pct.evaluate_prop_challenge(profile_id="the5ers_hs_5k", **r3_kwargs)
     assert res_t5_2p["rules"]["R3_min_days"]["trading_days"] == 3
     assert res_t5_2p["rules"]["R3_min_days"]["profitable_days"] == 2
     assert res_t5_2p["gate_decision"] == "EXTEND_SHADOW"
@@ -113,18 +118,18 @@ def test_ftmo_4_day_and_the5ers_3x_profitable_day_math(tmp_path: Path) -> None:
     # Bump Day 3 pnl to +26.0 USD (>= 25.0 USD) -> The5ers 5k PASS_TO_PAID!
     rows_3d[-1]["pnl_usd"] = 26.0
     _write_audit(audit_csv, rows_3d)
-    res_t5_ok = pct.evaluate_prop_challenge(profile_id="the5ers_hs_5k", exec_audit_csv=audit_csv, news_csv=news_csv, spread_log_jsonl=None, heartbeat_json=None)
+    res_t5_ok = pct.evaluate_prop_challenge(profile_id="the5ers_hs_5k", **r3_kwargs)
     assert res_t5_ok["rules"]["R3_min_days"]["profitable_days"] == 3
     assert res_t5_ok["gate_decision"] == "PASS_TO_PAID"
 
-    # Add 4th clean trading day -> FTMO 10k PASS_TO_PAID!
+    # Add 4th clean trading day (SHORT entry SELL -> BUY exit) -> FTMO 10k PASS_TO_PAID!
     t4 = d0 + 3 * 86_400
     rows_4d = list(rows_3d) + [
         {"utc_ts": t4, "magic": 20261123, "symbol": "USDJPY", "side": "SELL", "event_type": "ENTRY", "signal_price": 150.000, "fill_price": 149.992, "sl_price": 150.8, "lots": 0.10, "pnl_usd": 0.0, "swap_usd": 0.0},
-        {"utc_ts": t4 + 3600, "magic": 20261123, "symbol": "USDJPY", "side": "SELL", "event_type": "EXIT", "signal_price": 149.700, "fill_price": 149.706, "sl_price": 150.8, "lots": 0.10, "pnl_usd": 35.0, "swap_usd": 0.0},
+        {"utc_ts": t4 + 3600, "magic": 20261123, "symbol": "USDJPY", "side": "BUY", "event_type": "EXIT", "signal_price": 149.700, "fill_price": 149.706, "sl_price": 150.8, "lots": 0.10, "pnl_usd": 35.0, "swap_usd": 0.0},
     ]
     _write_audit(audit_csv, rows_4d)
-    res_ftmo_4 = pct.evaluate_prop_challenge(profile_id="ftmo_swing_10k", exec_audit_csv=audit_csv, news_csv=news_csv, spread_log_jsonl=None, heartbeat_json=None)
+    res_ftmo_4 = pct.evaluate_prop_challenge(profile_id="ftmo_swing_10k", **r3_kwargs)
     assert res_ftmo_4["rules"]["R3_min_days"]["trading_days"] == 4
     assert res_ftmo_4["gate_decision"] == "PASS_TO_PAID"
 
@@ -326,20 +331,28 @@ def test_symbol_aliases_red_news_and_r4_r1_triage_tagging(tmp_path: Path) -> Non
     assert res_sw["risk_attribution"]["active_label"] == "R3"
 
     # 5. Pure R2 Amber daily DD brake across 4 clean trading days -> active_label == "R2"
+    hb_clean = tmp_path / "hb_clean.json"
+    hb_clean.write_text(json.dumps({"utc_ts": d0 + 5 * 86_400, "account_login": 1515343166, "terminal_connected": True, "open_positions": 0, "positions_state": "CONFIRMED", "orphan_no_sl": 0, "kill_switch": False}), encoding="utf-8")
     _write_audit(audit_csv, [
-        {"utc_ts": d0 + i * 86_400, "magic": 20261122, "symbol": "USDJPY", "side": "BUY", "event_type": "EXIT", "signal_price": 150.0, "fill_price": 150.0, "pnl_usd": pnl, "swap_usd": 0.0}
+        {"utc_ts": d0 + i * 86_400, "magic": 20261122, "symbol": "USDJPY", "side": "SELL", "event_type": "EXIT", "signal_price": 150.0, "fill_price": 150.0, "pnl_usd": pnl, "swap_usd": 0.0}
         for i, pnl in enumerate((-380.0, 50.0, 50.0, 50.0))
     ])
-    res_r2 = pct.evaluate_prop_challenge(profile_id="ftmo_swing_10k", exec_audit_csv=audit_csv, news_csv=news_csv, spread_log_jsonl=None, heartbeat_json=None)
+    res_r2 = pct.evaluate_prop_challenge(
+        profile_id="ftmo_swing_10k", exec_audit_csv=audit_csv, news_csv=news_csv, spread_log_jsonl=None,
+        heartbeat_json=hb_clean, require_statement=False, min_closed_trades=4, min_distinct_engines=1,
+    )
     assert res_r2["rules"]["R1_daily_loss"]["risk_label"] == "R2"
     assert res_r2["risk_attribution"]["active_label"] == "R2"
 
     # 6. Pure R1 strategy edge decay (-3.2% spread across 4 losing days < Amber daily limit, clean R4/R3/R2) -> active_label == "R1"
     _write_audit(audit_csv, [
-        {"utc_ts": d0 + i * 86_400, "magic": 20261122, "symbol": "USDJPY", "side": "BUY", "event_type": "EXIT", "signal_price": 150.0, "fill_price": 150.0, "pnl_usd": -80.0, "swap_usd": 0.0}
+        {"utc_ts": d0 + i * 86_400, "magic": 20261122, "symbol": "USDJPY", "side": "SELL", "event_type": "EXIT", "signal_price": 150.0, "fill_price": 150.0, "pnl_usd": -80.0, "swap_usd": 0.0}
         for i in range(4)
     ])
-    res_r1 = pct.evaluate_prop_challenge(profile_id="ftmo_swing_10k", exec_audit_csv=audit_csv, news_csv=news_csv, spread_log_jsonl=None, heartbeat_json=None)
+    res_r1 = pct.evaluate_prop_challenge(
+        profile_id="ftmo_swing_10k", exec_audit_csv=audit_csv, news_csv=news_csv, spread_log_jsonl=None,
+        heartbeat_json=hb_clean, require_statement=False, min_closed_trades=4, min_distinct_engines=1,
+    )
     assert res_r1["risk_attribution"]["active_label"] == "R1"
     assert res_r1["risk_attribution"]["layers"]["R1"]["status"] == "ALERT"
 
@@ -392,9 +405,118 @@ def test_astra_f13_unresolved_fill_adverse_masking_and_missing_swap_fail_closed(
     for i in range(4):
         t_in = d0 + i * 86_400
         rows_msw.append({"utc_ts": t_in, "magic": 20261122, "symbol": "USDJPY", "side": "BUY", "event_type": "ENTRY", "signal_price": 150.0, "fill_price": 150.005, "pnl_usd": 0.0, "swap_usd": 0.0})
-        rows_msw.append({"utc_ts": t_in + 3600, "magic": 20261122, "symbol": "USDJPY", "side": "BUY", "event_type": "EXIT", "signal_price": 150.2, "fill_price": 150.2, "pnl_usd": 30.0, "swap_usd": ""})
+        rows_msw.append({"utc_ts": t_in + 3600, "magic": 20261122, "symbol": "USDJPY", "side": "SELL", "event_type": "EXIT", "signal_price": 150.2, "fill_price": 150.2, "pnl_usd": 30.0, "swap_usd": ""})
     _write_audit(audit_csv, rows_msw)
     res_msw = pct.evaluate_prop_challenge(profile_id="ftmo_swing_10k", exec_audit_csv=audit_csv, news_csv=news_csv, spread_log_jsonl=None, heartbeat_json=None)
     assert res_msw["rules"]["R4_zero_swap_and_red_news"]["missing_swap_count"] == 4
     assert res_msw["gate_decision"] == "EXTEND_SHADOW"
+
+
+def test_astra_r2_01_counterexamples_sell_exit_slippage_preflatten_and_statement(tmp_path: Path) -> None:
+    """Astra R2-01 CRITICAL regressions:
+      1. 4 entries + 0 exits + no heartbeat/news/statement MUST return EXTEND_SHADOW (NEVER PASS_TO_PAID!).
+      2. 4 entries + 4 SELL exits slipping adversely by 10 bps (99.9 vs 100.0) MUST return HALT_AND_FIX (+5 bps mean!).
+      3. ORDER_BLOCKED_SYMCAP / CLOSE_REJECT NEVER count as trading days.
+      4. Valid defensive PRE_FLATTEN at -180s (before -135s hard ban) is NOT falsely flagged as a red-news violation.
+      5. Full reconciled fixture (10 closed deals, >=2 engines, statement match, connected heartbeat, news CSV) PASSES!
+    """
+    d0 = 1_795_428_000  # 2026-11-24 10:00:00 UTC
+    audit_csv = tmp_path / "audit.csv"
+    news_csv = tmp_path / "news.csv"
+    stmt_csv = tmp_path / "statement.csv"
+    hb_json = tmp_path / "hb.json"
+
+    # Counterexample 1: 4 entries of E1 across 4 days, 0 exits, no heartbeat, no news, no statement
+    ce1_rows = [
+        {"utc_ts": d0 + i * 86_400, "magic": 20261122, "symbol": "USDJPY", "side": "BUY", "event_type": "ORDER_FILL", "signal_price": 100.0, "fill_price": 100.0, "lots": 0.10, "retcode": 10009}
+        for i in range(4)
+    ]
+    _write_audit(audit_csv, ce1_rows)
+    res_ce1 = pct.evaluate_prop_challenge(
+        profile_id="ftmo_swing_10k", exec_audit_csv=audit_csv, news_csv=None, spread_log_jsonl=None, heartbeat_json=None,
+    )
+    assert res_ce1["gate_decision"] == "EXTEND_SHADOW"
+    assert res_ce1["summary"]["closed_deals"] == 0
+    assert res_ce1["rules"]["R6_reconciliation_and_coverage"]["status"] == "WARN"
+
+    # Counterexample 2: Add 4 SELL exits at 99.9 vs signal 100.0 (+10 bps adverse each, +5 bps mean > 1.95 bps E1 limit!)
+    ce2_rows = list(ce1_rows)
+    for i in range(4):
+        ce2_rows.append({
+            "utc_ts": d0 + i * 86_400 + 3600, "magic": 20261122, "symbol": "USDJPY",
+            "side": "SELL", "event_type": "ORDER_CLOSE", "signal_price": 100.0, "fill_price": 99.9,
+            "lots": 0.10, "retcode": 10009, "pnl_usd": 10.0, "swap_usd": 0.0,
+        })
+    _write_audit(audit_csv, ce2_rows)
+    res_ce2 = pct.evaluate_prop_challenge(
+        profile_id="ftmo_swing_10k", exec_audit_csv=audit_csv, news_csv=None, spread_log_jsonl=None, heartbeat_json=None,
+    )
+    e1_tca = res_ce2["rules"]["R5_engine_slippage_tca"]["per_engine"]["E1_USDJPY_TOKYO"]
+    assert abs(e1_tca["mean_adverse_slip_bps"] - 5.0) < 0.05
+    assert abs(e1_tca["mean_positive_adverse_slip_bps"] - 5.0) < 0.05
+    assert e1_tca["breached"] is True
+    assert res_ce2["gate_decision"] == "HALT_AND_FIX"
+
+    # Counterexample 3: Non-fill events (ORDER_BLOCKED_SYMCAP, CLOSE_REJECT, UNKNOWN) MUST NOT count as trading days!
+    _write_audit(audit_csv, [
+        {"utc_ts": d0 + i * 86_400, "magic": 20261122, "symbol": "USDJPY", "side": "BUY", "event_type": ev, "signal_price": 100.0, "fill_price": -1.0}
+        for i, ev in enumerate(("ORDER_BLOCKED_SYMCAP", "CLOSE_REJECT", "ORDER_BLOCKED_FACTOR", "RANDOM_NOISE"))
+    ])
+    res_nf = pct.evaluate_prop_challenge(profile_id="ftmo_swing_10k", exec_audit_csv=audit_csv, news_csv=None, spread_log_jsonl=None, heartbeat_json=None)
+    assert res_nf["summary"]["deals_total"] == 0
+    assert res_nf["summary"]["trading_days"] == 0
+    assert res_nf["summary"]["close_rejects"] == 1
+    assert res_nf["summary"]["blocked_orders"] == 2
+    assert res_nf["summary"]["ignored_unknown_events"] == 1
+    assert res_nf["gate_decision"] == "EXTEND_SHADOW"
+
+    # Counterexample 4: Defensive PRE_FLATTEN exit at -180s before USD CPI (outside +-135s hard ban) is VALID, NOT a violation!
+    _write_news(news_csv, [(d0 + 3780, "USD", "US_CPI")])  # News at t_out + 180s
+    _write_audit(audit_csv, [
+        {"utc_ts": d0, "magic": 20261122, "symbol": "USDJPY", "side": "BUY", "event_type": "ORDER_FILL", "signal_price": 150.0, "fill_price": 150.002, "lots": 0.1, "pnl_usd": 0.0, "swap_usd": 0.0, "comment": "deal=101|pos=1"},
+        {"utc_ts": d0 + 3600, "magic": 20261122, "symbol": "USDJPY", "side": "SELL", "event_type": "ORDER_CLOSE", "signal_price": 150.1, "fill_price": 150.098, "lots": 0.1, "pnl_usd": 12.0, "swap_usd": 0.0, "comment": "NEWS_PRE_FLATTEN|deal=102|pos=1"},
+    ])
+    res_pf = pct.evaluate_prop_challenge(profile_id="ftmo_std_10k", exec_audit_csv=audit_csv, news_csv=news_csv, spread_log_jsonl=None, heartbeat_json=None)
+    assert res_pf["rules"]["R4_zero_swap_and_red_news"]["red_news_guard_violations"] == 0
+    assert res_pf["rules"]["R4_zero_swap_and_red_news"]["valid_pre_flatten_exits"] == 1
+
+    # Counterexample 5: Full strict default PASS_TO_PAID fixture (10 reconciled closed deals, 3 engines, 5 days, heartbeat + statement + news)
+    _write_news(news_csv, [(1_700_000_000, "USD", "OLD")])
+    hb_json.write_text(json.dumps({"utc_ts": d0 + 6 * 86_400, "account_login": 1515343166, "terminal_connected": True, "open_positions": 0, "positions_state": "CONFIRMED", "orphan_no_sl": 0, "kill_switch": False, "daily_dd_pct": 0.2, "static_dd_pct": 0.4}), encoding="utf-8")
+    full_audit = []
+    stmt_rows = []
+    magics = [20261122, 20261125, 20261124]
+    syms = ["USDJPY", "GBPUSD", "US100.cash"]
+    pxs = [150.0, 1.2500, 20000.0]
+    deal_seq = 500
+    for k in range(10):
+        idx = k % 3
+        day_off = (k // 2) * 86_400
+        t_in = d0 + day_off + (k % 2) * 7200
+        t_out = t_in + 1800
+        d_in, d_out = str(deal_seq), str(deal_seq + 1)
+        deal_seq += 2
+        pos_id = str(900 + k)
+        p0 = pxs[idx]
+        full_audit.append({"utc_ts": t_in, "magic": magics[idx], "symbol": syms[idx], "side": "BUY", "event_type": "ORDER_FILL", "signal_price": p0, "fill_price": p0, "lots": 0.1, "retcode": 10009, "comment": f"deal={d_in}|pos={pos_id}"})
+        full_audit.append({"utc_ts": t_out, "magic": magics[idx], "symbol": syms[idx], "side": "SELL", "event_type": "ORDER_CLOSE", "signal_price": p0 * 1.001, "fill_price": p0 * 1.001, "lots": 0.1, "retcode": 10009, "comment": f"deal={d_out}|pos={pos_id}"})
+        stmt_rows.append({"account_login": 1515343166, "deal_id": d_in, "position_id": pos_id, "symbol": syms[idx], "side": "BUY", "volume": 0.1, "price": p0, "pnl_usd": 0.0, "swap_usd": 0.0, "commission_usd": -0.5})
+        stmt_rows.append({"account_login": 1515343166, "deal_id": d_out, "position_id": pos_id, "symbol": syms[idx], "side": "SELL", "volume": 0.1, "price": p0 * 1.001, "pnl_usd": 25.0, "swap_usd": 0.0, "commission_usd": -0.5})
+    _write_audit(audit_csv, full_audit)
+    with stmt_csv.open("w", encoding="utf-8", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=["account_login", "deal_id", "position_id", "symbol", "side", "volume", "price", "pnl_usd", "swap_usd", "commission_usd"])
+        w.writeheader()
+        w.writerows(stmt_rows)
+
+    res_pass = pct.evaluate_prop_challenge(
+        profile_id="ftmo_swing_10k", exec_audit_csv=audit_csv, news_csv=news_csv,
+        spread_log_jsonl=None, heartbeat_json=hb_json, statement_csv=stmt_csv, expected_account_login=1515343166,
+    )
+    assert res_pass["gate_decision"] == "PASS_TO_PAID", res_pass["gate_reasons"]
+    assert res_pass["summary"]["closed_deals"] == 10
+    assert res_pass["summary"]["statement_matched_deals"] == 20
+    assert res_pass["summary"]["statement_unmatched_deals"] == 0
+    assert len(res_pass["summary"]["engines_observed"]) == 3
+    assert len(res_pass["summary"]["core7_missing_engines"]) == 4
+
 

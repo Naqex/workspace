@@ -730,8 +730,38 @@ def run_parity_audit(
     # 4. Red-news CSV integrity
     news_report = verify_red_news_csv(exports_dir / "Files/naqex_red_news_utc.csv")
 
-    # 5. Optional compiled .ex5 + MetaEditor64 compile logs check
-    all_stems = ["Naqex_AccountOrchestrator"] + sorted(
+    # 4b. Round-3 Single Multi-Symbol Master EA & Pure Signal Header audit
+    master_errors: list[str] = []
+    master_path = exports_dir / "Naqex_Master_Prop7E.mq5"
+    sig_path = exports_dir / "Include/Naqex_Signals_7E.mqh"
+    master_parsed = None
+    if not sig_path.exists():
+        master_errors.append(f"Missing signal header: {sig_path}")
+    else:
+        sig_parsed = parse_mq5_source(sig_path)
+        if sig_parsed["audit"]["red_flags"]:
+            master_errors.append(f"Naqex_Signals_7E.mqh red flags: {sig_parsed['audit']['red_flags']}")
+        for forbidden in ("OrderSend(", "CTrade", ".Buy(", ".Sell(", ".PositionClose("):
+            if forbidden in sig_parsed["code"]:
+                master_errors.append(f"Naqex_Signals_7E.mqh must be pure signal only (found {forbidden})")
+        if re.search(r"CopyBuffer\s*\([^,]+,\s*0\s*,\s*0\s*,", sig_parsed["code"]):
+            master_errors.append("Naqex_Signals_7E.mqh LOOKAHEAD_RISK: CopyBuffer shift=0")
+    if not master_path.exists():
+        master_errors.append(f"Missing Master EA: {master_path}")
+    else:
+        master_parsed = parse_mq5_source(master_path)
+        if master_parsed["audit"]["red_flags"]:
+            master_errors.append(f"Naqex_Master_Prop7E.mq5 red flags: {master_parsed['audit']['red_flags']}")
+        if master_parsed["inputs"].get("InpDryRunLogOnly", {}).get("value") is not True:
+            master_errors.append("Naqex_Master_Prop7E.mq5 must default InpDryRunLogOnly=true")
+        if master_parsed["inputs"].get("InpShadowCompareMode", {}).get("value") is not True:
+            master_errors.append("Naqex_Master_Prop7E.mq5 must default InpShadowCompareMode=true")
+        for req_tok in ("OnTradeTransaction", "ComputeFactorHeadroomPct", "positions_state", "UNKNOWN", "OrderCalcMargin"):
+            if req_tok not in master_parsed["code"]:
+                master_errors.append(f"Naqex_Master_Prop7E.mq5 missing required token: {req_tok}")
+
+    # 5. Optional compiled .ex5 + MetaEditor64 compile logs check (9 legacy baseline + Master_Prop7E = 10)
+    all_stems = ["Naqex_AccountOrchestrator", "Naqex_Master_Prop7E"] + sorted(
         Path(c["file"]).stem for c in ENGINE_PARITY_CONTRACTS.values()
     )
     compile_report = (
@@ -751,6 +781,7 @@ def run_parity_audit(
         len(global_errors) == 0
         and len(mqh_errors) == 0
         and len(orch_errors) == 0
+        and len(master_errors) == 0
         and news_report["ok"]
         and all(r["ok"] for r in engine_reports.values())
         and (compile_report["ok"] if require_ex5 else True)
@@ -771,6 +802,11 @@ def run_parity_audit(
             "ok": len(orch_errors) == 0,
             "sha256": orch_parsed["sha256"] if orch_parsed else None,
             "errors": orch_errors,
+        },
+        "master_ea": {
+            "ok": len(master_errors) == 0,
+            "sha256": master_parsed["sha256"] if master_parsed else None,
+            "errors": master_errors,
         },
         "red_news_csv": news_report,
         "compile_artifacts": compile_report,
@@ -793,6 +829,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"MQL5 <-> Python Parity Audit: {'PASS' if rep['ok'] else 'FAIL'} ({rep['engines_passed']}/{rep['engines_checked']} EAs)")
         print(f"  PropGuard:    {'OK' if rep['propguard']['ok'] else 'FAIL'} {rep['propguard']['errors']}")
         print(f"  Orchestrator: {'OK' if rep['orchestrator']['ok'] else 'FAIL'} {rep['orchestrator']['errors']}")
+        print(f"  Master_7E:    {'OK' if rep['master_ea']['ok'] else 'FAIL'} {rep['master_ea']['errors']}")
         print(f"  Red-News CSV: {'OK' if rep['red_news_csv']['ok'] else 'FAIL'} ({rep['red_news_csv']['rows']} rows, ccys={rep['red_news_csv'].get('currencies')})")
         print(f"  Compiled EX5: {'OK' if rep['compile_artifacts']['ok'] else 'MISSING/FAIL'} ({len(rep['compile_artifacts']['files'])} checked)")
         for eid, er in rep["engines"].items():

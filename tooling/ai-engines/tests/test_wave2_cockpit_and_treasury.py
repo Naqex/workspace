@@ -607,3 +607,40 @@ def test_astra_f18_cockpit_zero_equity_preserved_and_emergency_delivery_status(t
     assert (bridge / "naqex_manual_halt.flag").is_file()
 
 
+def test_astra_r2_06_and_round3_settled_cash_ledger():
+    """Astra R2-06 + Round-3: strictly separate out-of-pocket, Hub Credit, receivable, principal recovery & surplus."""
+    evs_short = [
+        treasury_ledger.SettledCashEvent("2026-01-05", "OUT_OF_POCKET_FEE", 80.0, "A1", "The5ers"),
+        treasury_ledger.SettledCashEvent("2026-02-01", "HUB_CREDIT_GRANT", 20.0, "A1", "The5ers"),
+        treasury_ledger.SettledCashEvent("2026-02-15", "PAYOUT_SETTLED", 65.0, "A1", "The5ers", settled_date="2026-02-20", withdrawal_fee_usd=5.0, cycle_id="C1", operator_hours=4.0),
+    ]
+    s1 = treasury_ledger.compute_settled_cash_summary(evs_short, as_of_date="2026-02-25", required_next_ticket_fee_usd=168.0)
+    assert s1["out_of_pocket_paid_usd"] == 80.0
+    assert s1["settled_payouts_net_usd"] == 60.0
+    assert s1["hub_credits_non_withdrawable_usd"] == 20.0
+    assert s1["net_settled_cash_usd"] == -20.0
+    assert s1["principal_recovered"] is False
+    assert s1["principal_shortfall_usd"] == 20.0
+    assert s1["allocatable_surplus_usd"] == 0.0
+    assert s1["stage_promotion_ready"] is False
+
+    # Add unsettled future payout (settled_date > as_of_date) -> MUST stay receivable, NOT boost settled cash!
+    evs_more = list(evs_short) + [
+        treasury_ledger.SettledCashEvent("2026-03-01", "PAYOUT_SETTLED", 500.0, "A1", "The5ers", settled_date="2026-03-06", withdrawal_fee_usd=17.5, cycle_id="C2", operator_hours=3.0),
+    ]
+    s_before = treasury_ledger.compute_settled_cash_summary(evs_more, as_of_date="2026-03-03", required_next_ticket_fee_usd=168.0)
+    assert s_before["receivable_unsettled_usd"] == 482.5
+    assert s_before["principal_recovered"] is False
+    assert s_before["stage_promotion_ready"] is False
+
+    # After settlement date (2026-03-06): 2 positive cycles, principal recovered, net = 462.5 >= 2*168 (336) -> READY!
+    s_after = treasury_ledger.compute_settled_cash_summary(evs_more, as_of_date="2026-03-10", required_next_ticket_fee_usd=168.0)
+    assert s_after["receivable_unsettled_usd"] == 0.0
+    assert s_after["principal_recovered"] is True
+    assert s_after["settled_positive_cycles"] == 2
+    assert s_after["net_settled_cash_usd"] == 462.5
+    assert s_after["allocatable_surplus_usd"] == 126.5
+    assert s_after["stage_promotion_ready"] is True
+
+
+

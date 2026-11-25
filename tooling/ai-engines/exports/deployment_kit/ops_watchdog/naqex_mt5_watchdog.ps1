@@ -22,6 +22,8 @@
 param(
     [string]$HeartbeatPath = "",
     [string]$ProcessName = "terminal64",
+    [string]$ExpectedProcessPath = "",
+    [long]$ExpectedLogin = 0,
     [string]$StateDir = "",
     [string]$AlertFile = "",
     [string]$WatchdogLogFile = "",
@@ -167,6 +169,9 @@ if ($SkipProcessCheck) {
     $procCount = -1
 } else {
     $procs = @(Get-Process -Name $ProcessName -ErrorAction SilentlyContinue)
+    if (-not [string]::IsNullOrWhiteSpace($ExpectedProcessPath)) {
+        $procs = @($procs | Where-Object { try { $_.Path -ieq $ExpectedProcessPath } catch { $false } })
+    }
     $procCount = $procs.Count
     $procRunning = ($procCount -gt 0)
     if (-not $procRunning) {
@@ -204,17 +209,36 @@ if ([string]::IsNullOrWhiteSpace($HeartbeatPath)) {
             $alerts.Add("HEARTBEAT_STALE: age=${rawAgeSec}s > ${StaleAfterSec}s")
         }
         $hbProps = $hbData.PSObject.Properties.Name
+        if ($ExpectedLogin -gt 0 -and ($hbProps -contains "account_login") -and [long]$hbData.account_login -ne $ExpectedLogin) {
+            $status = "CRITICAL"
+            $alerts.Add("ACCOUNT_LOGIN_MISMATCH: got=$($hbData.account_login) expected=$ExpectedLogin")
+        }
         if (($hbProps -contains "terminal_connected") -and (-not [bool]$hbData.terminal_connected)) {
             $status = "CRITICAL"
             $alerts.Add("BROKER_DISCONNECTED: terminal_connected=false")
         }
-        if ($hbProps -contains "quote_ts") {
-            $qTs = [long]$hbData.quote_ts
-            $nowDt = [DateTimeOffset]::FromUnixTimeSeconds($nowUtcTs).UtcDateTime
-            $isActiveMarket = ($nowDt.DayOfWeek -ge [System.DayOfWeek]::Monday -and $nowDt.DayOfWeek -le [System.DayOfWeek]::Friday -and $nowDt.Hour -ge 1 -and $nowDt.Hour -lt 20)
-            if ($isActiveMarket -and $qTs -gt 0 -and ($nowUtcTs - $qTs) -gt ($StaleAfterSec * 2)) {
+        if (($hbProps -contains "positions_state") -and ([string]$hbData.positions_state -ne "CONFIRMED")) {
+            $status = "CRITICAL"
+            $alerts.Add("POSITIONS_STATE_UNKNOWN: positions_state=$($hbData.positions_state)")
+        }
+        if (($hbProps -contains "anchor_state") -and ([string]$hbData.anchor_state -eq "UNRECOVERED_AFTER_GAP")) {
+            $status = "CRITICAL"
+            $alerts.Add("DAILY_ANCHOR_UNRECOVERED: anchor_state=UNRECOVERED_AFTER_GAP")
+        }
+        $nowDt = [DateTimeOffset]::FromUnixTimeSeconds($nowUtcTs).UtcDateTime
+        $isActiveMarket = ($nowDt.DayOfWeek -ge [System.DayOfWeek]::Monday -and $nowDt.DayOfWeek -le [System.DayOfWeek]::Friday -and $nowDt.Hour -ge 1 -and $nowDt.Hour -lt 20)
+        if ($isActiveMarket) {
+            if (-not ($hbProps -contains "quote_ts") -or [long]$hbData.quote_ts -le 0) {
                 if ($status -eq "OK") { $status = "WARNING" }
-                $alerts.Add("QUOTE_FEED_STALE: quote_age=$($nowUtcTs - $qTs)s > $($StaleAfterSec * 2)s")
+                $alerts.Add("QUOTE_FEED_MISSING_OR_ZERO: quote_ts missing or <= 0 during active market hours")
+            } else {
+                $qTs = [long]$hbData.quote_ts
+                # Guard against MT5 broker server time offset (UTC+2/+3) by measuring abs delta > 4h vs server/UTC drift
+                $qDelta = $nowUtcTs - $qTs
+                if ($qDelta -gt ($StaleAfterSec * 2) -and $qDelta -lt 7200) {
+                    if ($status -eq "OK") { $status = "WARNING" }
+                    $alerts.Add("QUOTE_FEED_STALE: quote_age=${qDelta}s > $($StaleAfterSec * 2)s")
+                }
             }
         }
         if ([bool]$hbData.kill_switch) {

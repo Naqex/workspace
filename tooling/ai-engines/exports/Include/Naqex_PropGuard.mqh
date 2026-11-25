@@ -44,6 +44,7 @@ struct NaqexRedNewsEvent
 {
    datetime utc_ts;
    string   ccy;
+   string   label;
 };
 
 class CNaqexPropGuard
@@ -55,13 +56,19 @@ private:
    NaqexRedNewsEvent m_events[];
    int               m_eventCount;
    datetime          m_maxEventTs;
+   datetime          m_maxEventTsUsd;
+   datetime          m_maxEventTsEur;
+   datetime          m_maxEventTsGbp;
+   datetime          m_maxEventTsJpy;
+   datetime          m_maxEventTsAud;
+   datetime          m_maxEventTsCad;
    double            m_dayStartEquity;
    int               m_dayKey;
    datetime          m_lastTradedDay;
 
    string StateKey(const string suffix) const
    {
-      return StringFormat("NQXG_%I64d_%I64d_%s_%s", CurrentAccountLogin(), m_magic, m_symbol, suffix);
+      return StringFormat("NQXG_%I64d_%u_%I64d_%s_%s", CurrentAccountLogin(), CurrentAccountServerHash(), m_magic, m_symbol, suffix);
    }
 
    int BuildUtcDayKey(const datetime utcNow) const
@@ -104,31 +111,37 @@ private:
       return CurrencyMatchesSymbolFor(m_symbol, evCcy);
    }
 
-   static string SymResLockKey(const string sym) { return StringFormat("NQXG_RLOCK_%I64d_%s", CurrentAccountLogin(), sym); }
-   static string SymResPctKey(const string sym)  { return StringFormat("NQXG_RPCT_%I64d_%s",  CurrentAccountLogin(), sym); }
-   static string SymResTsKey(const string sym)   { return StringFormat("NQXG_RTS_%I64d_%s",   CurrentAccountLogin(), sym); }
+   static string SymResLockKey(const string sym) { return StringFormat("NQXG_RLOCK_%I64d_%u_%s", CurrentAccountLogin(), CurrentAccountServerHash(), sym); }
+   static string SymResPctKey(const string sym)  { return StringFormat("NQXG_RPCT_%I64d_%u_%s",  CurrentAccountLogin(), CurrentAccountServerHash(), sym); }
+   static string SymResTsKey(const string sym)   { return StringFormat("NQXG_RTS_%I64d_%u_%s",   CurrentAccountLogin(), CurrentAccountServerHash(), sym); }
+   static string SymResLockTsKey(const string sym){ return StringFormat("NQXG_RLTS_%I64d_%u_%s", CurrentAccountLogin(), CurrentAccountServerHash(), sym); }
 
    bool AcquireSymbolLock(const string sym) const
    {
       string lk = SymResLockKey(sym);
-      string tk = SymResTsKey(sym);
-      if(!GlobalVariableCheck(lk))
-         GlobalVariableSet(lk, 0.0);
+      string ltk = SymResLockTsKey(sym);
       long nowTs = (long)NowUTC();
       for(int attempt = 0; attempt < 25; attempt++)
       {
+         // Atomic creation/acquire: only initialize to 0 if truly absent, then CAS 0 -> 1
+         if(!GlobalVariableCheck(lk))
+            GlobalVariableSetOnCondition(lk, 0.0, 0.0);
          if(GlobalVariableSetOnCondition(lk, 1.0, 0.0))
-            return true;
-         // Break stale lock older than 15s (e.g., crash mid-order)
-         if(GlobalVariableCheck(tk))
          {
-            long prevTs = (long)GlobalVariableGet(tk);
-            if(nowTs - prevTs > 15)
+            GlobalVariableSet(ltk, (double)nowTs);
+            return true;
+         }
+         // Break ONLY mutex lock if stale > 15s (NEVER clears active unknown-state risk reservation!)
+         if(GlobalVariableCheck(ltk))
+         {
+            long prevLockTs = (long)GlobalVariableGet(ltk);
+            if(nowTs - prevLockTs > 15)
             {
-               GlobalVariableSet(lk, 0.0);
-               GlobalVariableSet(SymResPctKey(sym), 0.0);
-               if(GlobalVariableSetOnCondition(lk, 1.0, 0.0))
+               if(GlobalVariableSetOnCondition(lk, 0.0, 1.0) && GlobalVariableSetOnCondition(lk, 1.0, 0.0))
+               {
+                  GlobalVariableSet(ltk, (double)nowTs);
                   return true;
+               }
             }
          }
          if(!MQLInfoInteger(MQL_TESTER))
@@ -149,26 +162,41 @@ private:
       if(!GlobalVariableCheck(pk) || !GlobalVariableCheck(tk))
          return 0.0;
       long age = (long)NowUTC() - (long)GlobalVariableGet(tk);
-      if(age < 0 || age > 15)
+      // Hold unconfirmed/unknown-state reservations up to 120s so slow broker ACKs cannot double-spend risk (R2-02)
+      if(age < 0 || age > 120)
          return 0.0;
       return MathMax(0.0, GlobalVariableGet(pk));
    }
 
 public:
-   CNaqexPropGuard() : m_symbol(""), m_magic(0), m_eaMaxDailyLossPct(0.0), m_eventCount(0), m_maxEventTs(0), m_dayStartEquity(0.0), m_dayKey(-1), m_lastTradedDay(0) {}
+   CNaqexPropGuard() : m_symbol(""), m_magic(0), m_eaMaxDailyLossPct(0.0), m_eventCount(0), m_maxEventTs(0),
+                       m_maxEventTsUsd(0), m_maxEventTsEur(0), m_maxEventTsGbp(0), m_maxEventTsJpy(0),
+                       m_maxEventTsAud(0), m_maxEventTsCad(0), m_dayStartEquity(0.0), m_dayKey(-1), m_lastTradedDay(0) {}
 
-   // Account-login-scoped GlobalVariable keys (prevents cross-account pollution on shared terminal)
+   // Account-login + server-hash scoped GlobalVariable keys (R2-02: prevents cross-server login collision)
    static long CurrentAccountLogin()
    {
       return AccountInfoInteger(ACCOUNT_LOGIN);
    }
-   static string GlobalKillKey()    { return StringFormat("NQXG_GLOBAL_KILLSWITCH_%I64d", CurrentAccountLogin()); }
-   static string GlobalMultKey()    { return StringFormat("NQXG_GLOBAL_RISK_MULT_%I64d",  CurrentAccountLogin()); }
-   static string OrchTsKey()        { return StringFormat("NQXG_ORCH_TS_%I64d",           CurrentAccountLogin()); }
-   static string AcctDayKeyName()   { return StringFormat("NQXG_ACCT_DAYKEY_%I64d",       CurrentAccountLogin()); }
-   static string AcctDayEqKeyName() { return StringFormat("NQXG_ACCT_DAYEQ_%I64d",        CurrentAccountLogin()); }
-   static string AcctDayBalKeyName(){ return StringFormat("NQXG_ACCT_DAYBAL_%I64d",       CurrentAccountLogin()); }
-   static string AcctAutoKillKey()  { return StringFormat("NQXG_ACCT_AUTOKILL_%I64d",     CurrentAccountLogin()); }
+   static uint CurrentAccountServerHash()
+   {
+      string srv = AccountInfoString(ACCOUNT_SERVER);
+      uint h = 2166136261;
+      int n = StringLen(srv);
+      for(int i = 0; i < n; i++)
+      {
+         h ^= (uint)StringGetCharacter(srv, i);
+         h *= 16777619;
+      }
+      return h;
+   }
+   static string GlobalKillKey()    { return StringFormat("NQXG_GLOBAL_KILLSWITCH_%I64d_%u", CurrentAccountLogin(), CurrentAccountServerHash()); }
+   static string GlobalMultKey()    { return StringFormat("NQXG_GLOBAL_RISK_MULT_%I64d_%u",  CurrentAccountLogin(), CurrentAccountServerHash()); }
+   static string OrchTsKey()        { return StringFormat("NQXG_ORCH_TS_%I64d_%u",           CurrentAccountLogin(), CurrentAccountServerHash()); }
+   static string AcctDayKeyName()   { return StringFormat("NQXG_ACCT_DAYKEY_%I64d_%u",       CurrentAccountLogin(), CurrentAccountServerHash()); }
+   static string AcctDayEqKeyName() { return StringFormat("NQXG_ACCT_DAYEQ_%I64d_%u",        CurrentAccountLogin(), CurrentAccountServerHash()); }
+   static string AcctDayBalKeyName(){ return StringFormat("NQXG_ACCT_DAYBAL_%I64d_%u",       CurrentAccountLogin(), CurrentAccountServerHash()); }
+   static string AcctAutoKillKey()  { return StringFormat("NQXG_ACCT_AUTOKILL_%I64d_%u",     CurrentAccountLogin(), CurrentAccountServerHash()); }
 
    // Tick-grid price normalizer (prevents invalid-stops on indices with tick_size > point)
    static double NormalizePriceToTick(const string sym, const double px)
@@ -439,10 +467,13 @@ public:
    }
 
    // 9. Fail-closed CSV-driven +/-PadSec red-news guard (format: utc_ts,ccy,event)
+   //    R2-05: tracks per-currency expiry & expands unfixed BoJ EST03UTC window to +/-3600s!
    int LoadRedNewsCsv(const string fileName)
    {
       m_eventCount = 0;
       m_maxEventTs = 0;
+      m_maxEventTsUsd = 0; m_maxEventTsEur = 0; m_maxEventTsGbp = 0;
+      m_maxEventTsJpy = 0; m_maxEventTsAud = 0; m_maxEventTsCad = 0;
       ArrayResize(m_events, 0);
       int fh = INVALID_HANDLE;
       for(int attempt = 0; attempt < 10; attempt++)
@@ -464,11 +495,19 @@ public:
          if(colTs == "" || colTs == "utc_ts") continue;
          long ts = StringToInteger(colTs);
          if(ts <= 0) continue;
+         string uCcy = colCcy;
+         StringToUpper(uCcy);
          ArrayResize(m_events, m_eventCount + 1, 64);
          m_events[m_eventCount].utc_ts = (datetime)ts;
-         m_events[m_eventCount].ccy    = colCcy;
-         if((datetime)ts > m_maxEventTs)
-            m_maxEventTs = (datetime)ts;
+         m_events[m_eventCount].ccy    = uCcy;
+         m_events[m_eventCount].label  = colEv;
+         if((datetime)ts > m_maxEventTs) m_maxEventTs = (datetime)ts;
+         if(uCcy == "USD" && (datetime)ts > m_maxEventTsUsd) m_maxEventTsUsd = (datetime)ts;
+         if(uCcy == "EUR" && (datetime)ts > m_maxEventTsEur) m_maxEventTsEur = (datetime)ts;
+         if(uCcy == "GBP" && (datetime)ts > m_maxEventTsGbp) m_maxEventTsGbp = (datetime)ts;
+         if(uCcy == "JPY" && (datetime)ts > m_maxEventTsJpy) m_maxEventTsJpy = (datetime)ts;
+         if(uCcy == "AUD" && (datetime)ts > m_maxEventTsAud) m_maxEventTsAud = (datetime)ts;
+         if(uCcy == "CAD" && (datetime)ts > m_maxEventTsCad) m_maxEventTsCad = (datetime)ts;
          m_eventCount++;
       }
       FileClose(fh);
@@ -484,17 +523,33 @@ public:
       return true;
    }
 
+   bool IsRedNewsCalendarHealthyFor(const string sym) const
+   {
+      if(!IsRedNewsCalendarHealthy()) return false;
+      if(!InpGuardEnableRedNews || MQLInfoInteger(MQL_TESTER)) return true;
+      datetime nowUtc = NowUTC();
+      // Every active currency matched by `sym` must itself have non-expired schedule coverage (R2-05)
+      if(CurrencyMatchesSymbolFor(sym, "USD") && (m_maxEventTsUsd <= 0 || nowUtc > m_maxEventTsUsd + 86400)) return false;
+      if(CurrencyMatchesSymbolFor(sym, "EUR") && (m_maxEventTsEur <= 0 || nowUtc > m_maxEventTsEur + 86400)) return false;
+      if(CurrencyMatchesSymbolFor(sym, "GBP") && (m_maxEventTsGbp <= 0 || nowUtc > m_maxEventTsGbp + 86400)) return false;
+      if(CurrencyMatchesSymbolFor(sym, "JPY") && (m_maxEventTsJpy <= 0 || nowUtc > m_maxEventTsJpy + 86400)) return false;
+      if(CurrencyMatchesSymbolFor(sym, "AUD") && (m_maxEventTsAud <= 0 || nowUtc > m_maxEventTsAud + 86400)) return false;
+      if(CurrencyMatchesSymbolFor(sym, "CAD") && (m_maxEventTsCad <= 0 || nowUtc > m_maxEventTsCad + 86400)) return false;
+      return true;
+   }
+
    bool IsInsideRedNewsWindowFor(const string sym) const
    {
       if(!InpGuardEnableRedNews) return false;
-      // FAIL-CLOSED: missing, empty, or expired calendar blocks new entries!
-      if(!IsRedNewsCalendarHealthy()) return true;
+      // FAIL-CLOSED: missing, empty, or per-currency expired calendar blocks new entries!
+      if(!IsRedNewsCalendarHealthyFor(sym)) return true;
       datetime nowUtc = NowUTC();
       for(int i = 0; i < m_eventCount; i++)
       {
          if(!CurrencyMatchesSymbolFor(sym, m_events[i].ccy)) continue;
+         int effPad = (StringFind(m_events[i].label, "EST03UTC") >= 0) ? MathMax(InpGuardNewsPadSec, 3600) : InpGuardNewsPadSec;
          long diff = (long)m_events[i].utc_ts - (long)nowUtc;
-         if(MathAbs(diff) <= InpGuardNewsPadSec)
+         if(MathAbs(diff) <= effPad)
             return true;
       }
       return false;
@@ -509,16 +564,17 @@ public:
    // Returns false inside ANY matching event's +/-InpGuardNewsHardBanSec zone or missing calendar.
    bool IsInRedNewsPreFlattenWindowFor(const string sym) const
    {
-      if(!InpGuardEnableRedNews || !IsRedNewsCalendarHealthy()) return false;
+      if(!InpGuardEnableRedNews || !IsRedNewsCalendarHealthyFor(sym)) return false;
       datetime nowUtc = NowUTC();
       bool inPreFlatten = false;
       for(int i = 0; i < m_eventCount; i++)
       {
          if(!CurrencyMatchesSymbolFor(sym, m_events[i].ccy)) continue;
+         int effPad = (StringFind(m_events[i].label, "EST03UTC") >= 0) ? MathMax(InpGuardNewsPadSec, 3600) : InpGuardNewsPadSec;
          long diff = (long)m_events[i].utc_ts - (long)nowUtc;
          if(MathAbs(diff) <= InpGuardNewsHardBanSec)
             return false;
-         if(diff > InpGuardNewsHardBanSec && diff <= InpGuardNewsPadSec)
+         if(diff > InpGuardNewsHardBanSec && diff <= effPad)
             inPreFlatten = true;
       }
       return inPreFlatten;
@@ -628,22 +684,127 @@ public:
       if(rawLots < volMin) return 0.0;
       double clampedLots = MathMin(rawLots, volMax);
 
-      // Free-margin safety check via OrderCalcMargin (prevents margin-call rejects on 5K / 1:30 Swing!)
+      // Free-margin safety check via OrderCalcMargin — STRICTLY FAIL-CLOSED (R2-04)!
+      // Missing quote, non-positive free margin, or OrderCalcMargin failure MUST return 0.0 (NEVER raw lots).
       ENUM_ORDER_TYPE ordType = isBuy ? ORDER_TYPE_BUY : ORDER_TYPE_SELL;
       double refPx = isBuy ? SymbolInfoDouble(sym, SYMBOL_ASK) : SymbolInfoDouble(sym, SYMBOL_BID);
       double freeMargin = AccountInfoDouble(ACCOUNT_MARGIN_FREE);
       double reqMargin = 0.0;
-      if(refPx > 0.0 && freeMargin > 0.0 && OrderCalcMargin(ordType, sym, clampedLots, refPx, reqMargin))
+      if(refPx <= 0.0 || freeMargin <= 0.0) return 0.0;
+      if(!OrderCalcMargin(ordType, sym, clampedLots, refPx, reqMargin) || reqMargin < 0.0) return 0.0;
+      double maxAllowedMargin = freeMargin * 0.85;
+      if(reqMargin > maxAllowedMargin && reqMargin > 0.0)
       {
-         double maxAllowedMargin = freeMargin * 0.85;
-         if(reqMargin > maxAllowedMargin && reqMargin > 0.0)
-         {
-            double scaledLots = MathFloor((clampedLots * (maxAllowedMargin / reqMargin)) / volStep) * volStep;
-            if(scaledLots < volMin) return 0.0;
-            clampedLots = MathMin(scaledLots, volMax);
-         }
+         double scaledLots = MathFloor((clampedLots * (maxAllowedMargin / reqMargin)) / volStep) * volStep;
+         if(scaledLots < volMin) return 0.0;
+         clampedLots = MathMin(scaledLots, volMax);
       }
       return clampedLots;
+   }
+
+   // 11b. Directional Factor Cluster Risk Accounting (Astra R2-07 / Round-3: USD, JPY, US100 clusters)
+   static void AccumulateDirectionalFactor(const string sym, const bool isBuy, const double riskPct,
+                                           double &usdLong, double &usdShort,
+                                           double &jpyLong, double &jpyShort,
+                                           double &idxLong, double &idxShort)
+   {
+      if(riskPct <= 0.0) return;
+      string u = sym;
+      StringToUpper(u);
+      int dir = isBuy ? 1 : -1;
+      if(StringFind(u, "US100") >= 0 || StringFind(u, "NAS100") >= 0 || StringFind(u, "NDX") >= 0 ||
+         StringFind(u, "USTEC") >= 0 || StringFind(u, "US500") >= 0 || StringFind(u, "SPX") >= 0)
+      {
+         if(dir > 0) idxLong += riskPct; else idxShort += riskPct;
+         return;
+      }
+      int posUsd = StringFind(u, "USD");
+      if(posUsd == 0)
+      {
+         if(dir > 0) usdLong += riskPct; else usdShort += riskPct;
+      }
+      else if(posUsd >= 3)
+      {
+         if(dir > 0) usdShort += riskPct; else usdLong += riskPct;
+      }
+      int posJpy = StringFind(u, "JPY");
+      if(posJpy == 0)
+      {
+         if(dir > 0) jpyLong += riskPct; else jpyShort += riskPct;
+      }
+      else if(posJpy >= 3)
+      {
+         if(dir > 0) jpyShort += riskPct; else jpyLong += riskPct;
+      }
+   }
+
+   double ComputeAccountFactorRisk(double &usdLong, double &usdShort,
+                                   double &jpyLong, double &jpyShort,
+                                   double &idxLong, double &idxShort) const
+   {
+      usdLong = 0.0; usdShort = 0.0;
+      jpyLong = 0.0; jpyShort = 0.0;
+      idxLong = 0.0; idxShort = 0.0;
+      double bal = AccountInfoDouble(ACCOUNT_BALANCE);
+      if(bal <= 0.0) return 999.0;
+      double totalPct = 0.0;
+      for(int i = PositionsTotal() - 1; i >= 0; i--)
+      {
+         ulong tk = PositionGetTicket(i);
+         if(tk == 0) continue;
+         string psym = PositionGetString(POSITION_SYMBOL);
+         double openPx = PositionGetDouble(POSITION_PRICE_OPEN);
+         double slPx   = PositionGetDouble(POSITION_SL);
+         double vol    = PositionGetDouble(POSITION_VOLUME);
+         if(vol <= 0.0) continue;
+         if(slPx <= 0.0) return 999.0; // FAIL-CLOSED on orphan no-SL position!
+         double tSize = SymbolInfoDouble(psym, SYMBOL_TRADE_TICK_SIZE);
+         double tVal  = SymbolInfoDouble(psym, SYMBOL_TRADE_TICK_VALUE_LOSS);
+         if(tVal <= 0.0) tVal = SymbolInfoDouble(psym, SYMBOL_TRADE_TICK_VALUE);
+         if(tSize <= 0.0 || tVal <= 0.0) return 999.0;
+         double rPct = (((MathAbs(openPx - slPx) / tSize) * tVal * vol) / bal) * 100.0;
+         totalPct += rPct;
+         bool pBuy = (PositionGetInteger(POSITION_TYPE) == POSITION_TYPE_BUY);
+         AccumulateDirectionalFactor(psym, pBuy, rPct, usdLong, usdShort, jpyLong, jpyShort, idxLong, idxShort);
+      }
+      return totalPct;
+   }
+
+   double ComputeFactorHeadroomPct(const string sym, const bool isBuy,
+                                   const double maxUsdClusterPct, const double maxJpyClusterPct,
+                                   const double maxIdxClusterPct, const double maxTotalOpenPct,
+                                   const double extraUsdLong = 0.0, const double extraUsdShort = 0.0,
+                                   const double extraJpyLong = 0.0, const double extraJpyShort = 0.0,
+                                   const double extraIdxLong = 0.0, const double extraIdxShort = 0.0,
+                                   const double extraTotal = 0.0) const
+   {
+      double uL, uS, jL, jS, iL, iS;
+      double tot = ComputeAccountFactorRisk(uL, uS, jL, jS, iL, iS);
+      if(tot >= 900.0) return 0.0;
+      uL += extraUsdLong; uS += extraUsdShort;
+      jL += extraJpyLong; jS += extraJpyShort;
+      iL += extraIdxLong; iS += extraIdxShort;
+      tot += extraTotal;
+
+      double headroom = (maxTotalOpenPct > 0.0) ? MathMax(0.0, maxTotalOpenPct - tot) : 999.0;
+      double dUL = 0.0, dUS = 0.0, dJL = 0.0, dJS = 0.0, dIL = 0.0, dIS = 0.0;
+      AccumulateDirectionalFactor(sym, isBuy, 1.0, dUL, dUS, dJL, dJS, dIL, dIS);
+      if(maxUsdClusterPct > 0.0)
+      {
+         if(dUL > 0.0) headroom = MathMin(headroom, MathMax(0.0, maxUsdClusterPct - uL));
+         if(dUS > 0.0) headroom = MathMin(headroom, MathMax(0.0, maxUsdClusterPct - uS));
+      }
+      if(maxJpyClusterPct > 0.0)
+      {
+         if(dJL > 0.0) headroom = MathMin(headroom, MathMax(0.0, maxJpyClusterPct - jL));
+         if(dJS > 0.0) headroom = MathMin(headroom, MathMax(0.0, maxJpyClusterPct - jS));
+      }
+      if(maxIdxClusterPct > 0.0)
+      {
+         if(dIL > 0.0) headroom = MathMin(headroom, MathMax(0.0, maxIdxClusterPct - iL));
+         if(dIS > 0.0) headroom = MathMin(headroom, MathMax(0.0, maxIdxClusterPct - iS));
+      }
+      return MathMax(0.0, headroom);
    }
 
    double ComputeSafeLots(const double requestedRiskPct, const double slDistancePrice, const bool isBuy = true) const
@@ -686,7 +847,7 @@ public:
       LogExecAuditFor(m_symbol, side, evType, sigPx, fillPx, slPx, lots, latencyMs, retcode, note);
    }
 
-   // 12b. Resolve actual broker-executed fill price (NEVER silently fabricates signal price as fill!)
+   // 12b. Resolve actual broker-executed fill price (R2-02: exact order/deal match ONLY — NEVER fallback to unrelated open pos!)
    double ResolveExecutedFillPrice(CTrade &tr, const string sym, const double fallbackPx) const
    {
       double px = tr.ResultPrice();
@@ -697,14 +858,18 @@ public:
          double dpx = HistoryDealGetDouble(deal, DEAL_PRICE);
          if(dpx > 0.0) return dpx;
       }
-      for(int i = PositionsTotal() - 1; i >= 0; i--)
+      ulong ord = tr.ResultOrder();
+      if(ord > 0)
       {
-         ulong tk = PositionGetTicket(i);
-         if(tk == 0) continue;
-         if(PositionGetInteger(POSITION_MAGIC) == m_magic && PositionGetString(POSITION_SYMBOL) == sym)
+         for(int i = PositionsTotal() - 1; i >= 0; i--)
          {
-            double opx = PositionGetDouble(POSITION_PRICE_OPEN);
-            if(opx > 0.0) return opx;
+            ulong tk = PositionGetTicket(i);
+            if(tk == 0) continue;
+            if((ulong)PositionGetInteger(POSITION_IDENTIFIER) == ord && PositionGetString(POSITION_SYMBOL) == sym)
+            {
+               double opx = PositionGetDouble(POSITION_PRICE_OPEN);
+               if(opx > 0.0) return opx;
+            }
          }
       }
       return fallbackPx;
@@ -754,8 +919,20 @@ public:
                       : tr.Sell(lots, sym, entryPrice, normSl, 0.0, comment);
       double latMs = (double)(GetMicrosecondCount() - t0) / 1000.0;
       uint ret = tr.ResultRetcode();
-      ReleaseSymbolRiskFor(sym, estRiskPct);
 
+      // R2-02: ONLY release reservation when broker confirmed a definite terminal outcome!
+      // On TIMEOUT or PLACED (unknown final fill state), KEEP reservation locked so concurrent EAs cannot double-spend!
+      bool isUnknownInFlight = (ret == TRADE_RETCODE_TIMEOUT || ret == TRADE_RETCODE_PLACED);
+      if(!isUnknownInFlight)
+         ReleaseSymbolRiskFor(sym, estRiskPct);
+
+      if(isUnknownInFlight)
+      {
+         PrintFormat("[PROPGUARD-UNKNOWN] %s %s retcode=%u — keeping risk reservation held until reconciled!", sideStr, sym, ret);
+         LogExecAuditFor(sym, sideStr, "FILL_UNRESOLVED", entryPrice, -1.0, normSl, lots, latMs, ret,
+                         StringFormat("%s|ord=%I64u|UNKNOWN_INFLIGHT", comment, (ulong)tr.ResultOrder()));
+         return false;
+      }
       if(!ok || (ret != TRADE_RETCODE_DONE && ret != TRADE_RETCODE_DONE_PARTIAL))
       {
          double rejPx = tr.ResultPrice();
@@ -763,11 +940,16 @@ public:
          LogExecAuditFor(sym, sideStr, "ORDER_REJECT", entryPrice, rejPx, normSl, lots, latMs, ret, tr.ResultRetcodeDescription());
          return false;
       }
-      double execLots = (tr.ResultVolume() > 0.0) ? tr.ResultVolume() : lots;
+      double execLots = tr.ResultVolume();
+      if(execLots <= 0.0 && tr.ResultDeal() > 0 && HistoryDealSelect(tr.ResultDeal()))
+         execLots = HistoryDealGetDouble(tr.ResultDeal(), DEAL_VOLUME);
+      bool volUnresolved = (execLots <= 0.0);
+      if(volUnresolved) execLots = lots;
       double fillPx   = ResolveExecutedFillPrice(tr, sym, -1.0);
-      string noteStr  = StringFormat("%s|deal=%I64u|ord=%I64u%s",
+      string noteStr  = StringFormat("%s|deal=%I64u|ord=%I64u%s%s",
                                      comment, (ulong)tr.ResultDeal(), (ulong)tr.ResultOrder(),
-                                     (fillPx <= 0.0) ? "|FILL_UNRESOLVED" : "");
+                                     (fillPx <= 0.0) ? "|FILL_UNRESOLVED" : "",
+                                     volUnresolved ? "|VOL_UNRESOLVED" : "");
       LogExecAuditFor(sym, sideStr, "ORDER_FILL", entryPrice, fillPx, normSl, execLots, latMs, ret, noteStr);
       return true;
    }
@@ -778,7 +960,7 @@ public:
       return ExecuteCheckedFor(tr, m_symbol, isBuy, lots, entryPrice, slPrice, comment, eaDryRun);
    }
 
-   // 14. Checked position close wrapper (verifies TRADE_RETCODE_DONE & logs ORDER_CLOSE / CLOSE_REJECT)
+   // 14. Checked position close wrapper (R2-02: verifies remaining volume == 0, flags partial close cleanly!)
    bool ClosePositionChecked(CTrade &tr, const ulong ticket, const string reason, const bool eaDryRun = true) const
    {
       if(!PositionSelectByTicket(ticket)) return false;
@@ -810,10 +992,20 @@ public:
       double closePx = tr.ResultPrice();
       if(closePx <= 0.0 && tr.ResultDeal() > 0 && HistoryDealSelect(tr.ResultDeal()))
          closePx = HistoryDealGetDouble(tr.ResultDeal(), DEAL_PRICE);
-      double closedVol = (tr.ResultVolume() > 0.0) ? tr.ResultVolume() : pvol;
-      LogExecAuditFor(psym, sideStr, "ORDER_CLOSE", sigPx, (closePx > 0.0 ? closePx : -1.0), psl, closedVol, latMs, ret,
-                      StringFormat("%s|tk=%I64u|deal=%I64u", reason, ticket, (ulong)tr.ResultDeal()));
-      return true;
+      double closedVol = tr.ResultVolume();
+      if(closedVol <= 0.0 && tr.ResultDeal() > 0 && HistoryDealSelect(tr.ResultDeal()))
+         closedVol = HistoryDealGetDouble(tr.ResultDeal(), DEAL_VOLUME);
+      if(closedVol <= 0.0) closedVol = pvol;
+
+      // Verify whether position is actually fully flat or partially remaining (R2-02)
+      bool stillOpen = PositionSelectByTicket(ticket);
+      double remVol = stillOpen ? PositionGetDouble(POSITION_VOLUME) : 0.0;
+      string evType = (stillOpen && remVol > 0.0) ? "PARTIAL_EXIT" : "ORDER_CLOSE";
+      LogExecAuditFor(psym, sideStr, evType, sigPx, (closePx > 0.0 ? closePx : -1.0), psl, closedVol, latMs, ret,
+                      StringFormat("%s|tk=%I64u|deal=%I64u|rem=%.2f%s",
+                                   reason, ticket, (ulong)tr.ResultDeal(), remVol,
+                                   (closePx <= 0.0) ? "|FILL_UNRESOLVED" : ""));
+      return !(stillOpen && remVol > 0.0);
    }
 };
 

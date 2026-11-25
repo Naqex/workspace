@@ -307,6 +307,126 @@ class TreasuryLedger:
         }
 
 
+@dataclass
+class SettledCashEvent:
+    """Round-3 Settled-Cash Ledger event (strictly separates out-of-pocket, receivable, settled cash & hub credit)."""
+
+    date: str  # YYYY-MM-DD (event / request date)
+    event_type: str  # OUT_OF_POCKET_FEE | OPS_CASH_OUT | HUB_CREDIT_GRANT | PAYOUT_APPROVED | PAYOUT_SETTLED | EXTERNAL_CASH_REFUND | TAX_PAID
+    amount_usd: float
+    account_id: str = ""
+    firm: str = ""
+    settled_date: str = ""  # YYYY-MM-DD when cash actually lands in bank/wallet
+    withdrawal_fee_usd: float = 0.0
+    fx_bank_fee_usd: float = 0.0
+    operator_hours: float = 0.0
+    cycle_id: str = ""
+    note: str = ""
+
+
+def compute_settled_cash_summary(
+    events: list[SettledCashEvent],
+    *,
+    as_of_date: str | None = None,
+    required_next_ticket_fee_usd: float = 168.0,
+    required_buffer_tickets: float = 2.0,
+    usd_vnd_rate: float = DEFAULT_USD_VND_RATE,
+) -> dict[str, Any]:
+    """Audit real settled cashflow per Astra Round-3 blueprint (replaces premature 30/50/20 & Gate-42)."""
+    ordered = sorted(events, key=lambda e: (e.date, e.settled_date or e.date))
+    out_of_pocket_usd = 0.0
+    ops_and_tax_paid_usd = 0.0
+    hub_credits_usd = 0.0
+    external_cash_refunds_usd = 0.0
+    receivable_payouts_usd = 0.0
+    settled_payouts_net_usd = 0.0
+    total_withdrawal_and_fx_fees_usd = 0.0
+    total_operator_hours = 0.0
+    settled_positive_cycles: set[str] = set()
+    peak_out_of_pocket_usd = 0.0
+    running_cash_balance_usd = 0.0
+
+    for ev in ordered:
+        et = ev.event_type.upper()
+        amt = max(0.0, float(ev.amount_usd))
+        total_operator_hours += max(0.0, float(ev.operator_hours))
+        is_settled_by_cutoff = (as_of_date is None) or ((ev.settled_date or ev.date) <= as_of_date)
+
+        if et == "OUT_OF_POCKET_FEE":
+            out_of_pocket_usd += amt
+            running_cash_balance_usd -= amt
+            peak_out_of_pocket_usd = max(peak_out_of_pocket_usd, -running_cash_balance_usd)
+        elif et in ("OPS_CASH_OUT", "TAX_PAID"):
+            ops_and_tax_paid_usd += amt
+            out_of_pocket_usd += amt
+            running_cash_balance_usd -= amt
+            peak_out_of_pocket_usd = max(peak_out_of_pocket_usd, -running_cash_balance_usd)
+        elif et == "HUB_CREDIT_GRANT":
+            # Non-withdrawable firm credit — NEVER counts as settled cash or principal recovery!
+            hub_credits_usd += amt
+        elif et == "EXTERNAL_CASH_REFUND":
+            if is_settled_by_cutoff:
+                external_cash_refunds_usd += amt
+                running_cash_balance_usd += amt
+            else:
+                receivable_payouts_usd += amt
+        elif et == "PAYOUT_APPROVED":
+            # Approved but not yet landed — strictly receivable, earns 0 yield until settled!
+            net_after_fees = max(0.0, amt - max(0.0, ev.withdrawal_fee_usd) - max(0.0, ev.fx_bank_fee_usd))
+            receivable_payouts_usd += net_after_fees
+        elif et == "PAYOUT_SETTLED":
+            fees = max(0.0, float(ev.withdrawal_fee_usd)) + max(0.0, float(ev.fx_bank_fee_usd))
+            total_withdrawal_and_fx_fees_usd += fees
+            net_landed = max(0.0, amt - fees)
+            if is_settled_by_cutoff:
+                settled_payouts_net_usd += net_landed
+                running_cash_balance_usd += net_landed
+                if net_landed > 0.0:
+                    settled_positive_cycles.add(ev.cycle_id or f"{ev.firm}:{ev.date}")
+            else:
+                receivable_payouts_usd += net_landed
+
+    total_settled_inflows_usd = settled_payouts_net_usd + external_cash_refunds_usd
+    net_settled_cash_usd = total_settled_inflows_usd - out_of_pocket_usd
+    principal_recovered = (out_of_pocket_usd > 0.0 and net_settled_cash_usd >= 0.0) or (
+        out_of_pocket_usd == 0.0 and total_settled_inflows_usd > 0.0
+    )
+    principal_shortfall_usd = max(0.0, out_of_pocket_usd - total_settled_inflows_usd)
+    required_reserve_usd = max(0.0, required_next_ticket_fee_usd * required_buffer_tickets)
+    allocatable_surplus_usd = max(0.0, net_settled_cash_usd - required_reserve_usd) if principal_recovered else 0.0
+
+    # Astra Round-3 stage promotion gate:
+    # >= 2 distinct positive settled payout cycles + principal recovered + surplus >= 2x next ticket fee
+    stage_promotion_ready = (
+        len(settled_positive_cycles) >= 2
+        and principal_recovered
+        and net_settled_cash_usd >= required_reserve_usd
+    )
+
+    return {
+        "schema": "naqex-settled-cash-ledger-v2",
+        "order_send_count": ORDER_SEND_COUNT,
+        "as_of_date": as_of_date,
+        "out_of_pocket_paid_usd": round(out_of_pocket_usd, 2),
+        "ops_and_tax_paid_usd": round(ops_and_tax_paid_usd, 2),
+        "peak_out_of_pocket_usd": round(peak_out_of_pocket_usd, 2),
+        "hub_credits_non_withdrawable_usd": round(hub_credits_usd, 2),
+        "receivable_unsettled_usd": round(receivable_payouts_usd, 2),
+        "external_cash_refunds_settled_usd": round(external_cash_refunds_usd, 2),
+        "settled_payouts_net_usd": round(settled_payouts_net_usd, 2),
+        "withdrawal_and_fx_fees_usd": round(total_withdrawal_and_fx_fees_usd, 2),
+        "net_settled_cash_usd": round(net_settled_cash_usd, 2),
+        "net_settled_cash_vnd": round(net_settled_cash_usd * usd_vnd_rate, 0),
+        "principal_recovered": principal_recovered,
+        "principal_shortfall_usd": round(principal_shortfall_usd, 2),
+        "required_reserve_buffer_usd": round(required_reserve_usd, 2),
+        "allocatable_surplus_usd": round(allocatable_surplus_usd, 2),
+        "settled_positive_cycles": len(settled_positive_cycles),
+        "operator_hours_logged": round(total_operator_hours, 2),
+        "stage_promotion_ready": stage_promotion_ready,
+    }
+
+
 def compute_prop_own_crossover(
     *,
     own_book_equity_usd: float,

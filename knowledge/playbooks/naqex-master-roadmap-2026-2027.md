@@ -23,7 +23,7 @@ sources:
 
 # Lộ Trình Tăng Trưởng Tổng Thể Naqex Quant Pod (`2026–2027`: `Phase 0 → Phase 5`)
 
-> **Tuyên ngôn Vận hành (Đồng bộ với [PROFILE.md](../owner/PROFILE.md) & [TOP1-SOLO-QUANT-MASTER-PLAN.md](../../planning/TOP1-SOLO-QUANT-MASTER-PLAN.md)):** Bản lộ trình kỹ thuật này triển khai chi tiết các nhánh vốn và cổng định lượng cho mục tiêu **Chuyên gia độc lập bậc nhất (Top 1%)** đã chốt ngày `2026-11-24` (tối ưu tiền lời ròng kỳ vọng EV ở vùng rớt vé thi `22%–35%` / cháy Funded `< 1%`, chẩn đoán rủi ro bắt buộc theo thứ tự `R4 -> R3 -> R2 -> R1`, và lấy lãi thật tự nuôi hạ tầng). Toàn bộ bằng chứng Wave-1 & Wave-2 kết nối thành **6 pha có cổng khóa (`Gate-Driven`)** với nguyên tắc bất di bất dịch: **fail-closed thực thi (`OrderSend = 0` khi chưa qua cổng), tách biệt tuyệt đối tâm lý giữa lệnh, và mọi rủi ro luôn quy đổi song song `%`, `USD` và `triệu VND`**.
+> **Tuyên ngôn Vận hành ([PROFILE.md](../owner/PROFILE.md) · [TOP1-SOLO-QUANT-MASTER-PLAN.md](../../planning/TOP1-SOLO-QUANT-MASTER-PLAN.md)):** Triển khai 6 pha có cổng khóa (`Gate-Driven`), ưu tiên dòng tiền mặt thực thu (`Settled Cash`) sau phí/thuế, chẩn đoán ngược `R4 -> R3 -> R2 -> R1`, giữ `OrderSend = 0` khi chưa qua cổng và quy đổi rủi ro song song `%`, `USD`, `triệu VND`. *(Cập nhật khung Vòng 3 ngày `2026-11-25`: chạy chuẩn `7E` cố định + 1 Master EA, neo bài toán chính `FTMO Swing 10K` / shadow `The5ers HS 5K`, hoãn Own-Book phức hợp dưới `10k USD`.)*
 
 ---
 
@@ -81,12 +81,10 @@ Khi Sổ Vốn Riêng tích lũy từ payout (hoặc kết hợp vốn mồi t�
 
 ## Phase 3 — Nhân Thang Đa Quỹ & Mở Khóa Nhánh Có Điều Kiện (`25k → 100k USD`, Tháng `12–24`)
 
-1. **Thang Nhân Danh Nghĩa `LADDER_STAGGER_SCALE` + Điểm Giao Cắt `50k / 100k USD`:**
-   - Khi Quỹ Dự phòng Phí đạt `1.500–3.000 USD` từ chính lãi Prop, nâng dần thang đa quỹ (`FTMO + The5ers` lệch pha) lên tổng danh nghĩa `200k–350k USD` (`EV/Phí = +8,00×..+10,71×`, `Wipeout <= 0,1%`).
-   - Dữ liệu thực đo từ [MULTI-PROP-SCALING-AND-BLACKSWAN-STRESS-20261124.md](../../planning/research/MULTI-PROP-SCALING-AND-BLACKSWAN-STRESS-20261124.md) cho thấy: Pure Prop Max Ladder (`3k` phí, `0` vốn mồi) đạt trung vị `45,2k USD` sau 60m (`42,5%` vượt `50k USD`), trong khi **Hybrid Seed `25k USD` + Ladder** đẩy xác suất vượt **`50k USD` (`1,275 tỷ VND`) lên `93,2%` (trung vị `35,2` tháng)** và Hybrid Seed `40k USD` đạt `100%` trong `18,1` tháng (`55,5%` vượt `100k USD`).
-2. **Hai Cổng Mở Khóa Có Điều Kiện (Chỉ mở khi vượt Gate — tuyệt đối không nhảy cóc):**
-   - **Cổng A — `M2B_BLEND_50_FUND_50_MOM` (Crypto Market-Neutral Maker Stat-Arb, Cl.B `+15,01%`, `r_S2 = -0,2358`):** Chỉ kích hoạt sau khi `crypto_maker_shadow_probe.py` chứng minh **`>= 30` ngày live** đạt tỷ lệ khớp passive-limit touch-through **`>= 70%`** và chi phí thực tế sau adverse selection **`<= 6,15 bps`/chiều/chân** (giữ tổng CEX Pod vẫn `<= 25%`!).
-   - **Cổng B — CME Micro Futures (`Topstep 50K` & IBKR Futures, [LAB5-CME-FUTURES-PROP-STUDY-20261124.md](../../planning/research/LAB5-CME-FUTURES-PROP-STUDY-20261124.md) · [LAB8-CME-NATIVE-FUTURES-STRATEGY-LAB-20261124.md](../../planning/research/LAB8-CME-NATIVE-FUTURES-STRATEGY-LAB-20261124.md)):** Tuyệt đối **KHÔNG** mang FX micro `M6J` (`9,81%` biên độ ngày -> EV âm `-0,65×`), và `Topstep` cấm giữ qua đêm sau `15:10 CT` (loại D1 swing). Trên IBKR Own-Book, do lô tối thiểu `1` micro quá lớn (`MES ~30k, MNQ ~43k, ZN ~112k USD`), **dành riêng CME Micros cho mốc `>= 100k USD`** (dưới `100k USD`, ETF `S3B + S4` thắng tuyệt đối!).
+1. **Thang Nhân Danh Nghĩa & Ngưỡng Kinh Tế:** Chỉ xét nâng bậc đơn tài khoản (`10K -> 25K -> trần giả thuyết 100k USD`) sau khi đủ `>= 2` chu kỳ nhận tiền thật (`Settled Cash`), hoàn gốc và dư đệm `>= 2×` vé mới ([MULTI-PROP-SCALING-AND-BLACKSWAN-STRESS-20261124.md](../../planning/research/MULTI-PROP-SCALING-AND-BLACKSWAN-STRESS-20261124.md)).
+2. **Hai Cổng Mở Khóa Có Điều Kiện:**
+   - **Cổng A (`M2B` Maker Stat-Arb, [LAB2B-CRYPTO-MAKER-STATARB-20261124.md](../../planning/research/LAB2B-CRYPTO-MAKER-STATARB-20261124.md)):** Tạm tắt thu thập trên `naqex-node1` khi vốn riêng còn `0 USD`; chỉ bật lại đánh giá 30 ngày (`fill >= 70%`, `cost <= 6,15 bps`) khi vốn riêng vượt ngưỡng kinh tế (`>= 25k USD`, giữ tổng CEX `<= 25%`).
+   - **Cổng B (CME Micro Futures, [LAB5-CME-FUTURES-PROP-STUDY-20261124.md](../../planning/research/LAB5-CME-FUTURES-PROP-STUDY-20261124.md) · [LAB8-CME-NATIVE-FUTURES-STRATEGY-LAB-20261124.md](../../planning/research/LAB8-CME-NATIVE-FUTURES-STRATEGY-LAB-20261124.md)):** Cấm `M6J`, loại D1 swing trên `Topstep`; trên IBKR Own-Book chỉ xét CME Micros từ mốc **`>= 100k USD`** (dưới `100k USD`, ETF `S3B + S4` tối ưu hơn).
 
 ---
 

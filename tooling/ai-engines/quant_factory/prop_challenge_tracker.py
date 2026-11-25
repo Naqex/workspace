@@ -49,6 +49,7 @@ class PropProfileSpec:
     red_news_firm_sec: int
     red_news_guard_sec: int
     server_utc_offset_h: int = 2
+    reset_tz: str = "Europe/Prague"  # Europe/Prague (FTMO DST-aware) | NY_CLOSE_SERVER (The5ers US DST) | UTC
 
 
 PROP_PROFILES: dict[str, PropProfileSpec] = {
@@ -66,6 +67,7 @@ PROP_PROFILES: dict[str, PropProfileSpec] = {
         profitable_day_threshold_pct=0.0,
         red_news_firm_sec=0,
         red_news_guard_sec=300,
+        reset_tz="Europe/Prague",
     ),
     "ftmo_std_10k": PropProfileSpec(
         profile_id="ftmo_std_10k",
@@ -81,6 +83,7 @@ PROP_PROFILES: dict[str, PropProfileSpec] = {
         profitable_day_threshold_pct=0.0,
         red_news_firm_sec=120,
         red_news_guard_sec=300,
+        reset_tz="Europe/Prague",
     ),
     "the5ers_hs_5k": PropProfileSpec(
         profile_id="the5ers_hs_5k",
@@ -96,6 +99,7 @@ PROP_PROFILES: dict[str, PropProfileSpec] = {
         profitable_day_threshold_pct=0.50,
         red_news_firm_sec=120,
         red_news_guard_sec=300,
+        reset_tz="NY_CLOSE_SERVER",
     ),
     "the5ers_hs_20k": PropProfileSpec(
         profile_id="the5ers_hs_20k",
@@ -111,6 +115,7 @@ PROP_PROFILES: dict[str, PropProfileSpec] = {
         profitable_day_threshold_pct=0.50,
         red_news_firm_sec=120,
         red_news_guard_sec=300,
+        reset_tz="NY_CLOSE_SERVER",
     ),
     "ftmo_swing_25k": PropProfileSpec(
         profile_id="ftmo_swing_25k",
@@ -126,6 +131,7 @@ PROP_PROFILES: dict[str, PropProfileSpec] = {
         profitable_day_threshold_pct=0.0,
         red_news_firm_sec=0,
         red_news_guard_sec=300,
+        reset_tz="Europe/Prague",
     ),
     "ftmo_swing_50k": PropProfileSpec(
         profile_id="ftmo_swing_50k",
@@ -141,6 +147,7 @@ PROP_PROFILES: dict[str, PropProfileSpec] = {
         profitable_day_threshold_pct=0.0,
         red_news_firm_sec=0,
         red_news_guard_sec=300,
+        reset_tz="Europe/Prague",
     ),
     "ftmo_swing_100k": PropProfileSpec(
         profile_id="ftmo_swing_100k",
@@ -156,6 +163,7 @@ PROP_PROFILES: dict[str, PropProfileSpec] = {
         profitable_day_threshold_pct=0.0,
         red_news_firm_sec=0,
         red_news_guard_sec=300,
+        reset_tz="Europe/Prague",
     ),
     "the5ers_hs_50k": PropProfileSpec(
         profile_id="the5ers_hs_50k",
@@ -171,6 +179,7 @@ PROP_PROFILES: dict[str, PropProfileSpec] = {
         profitable_day_threshold_pct=0.50,
         red_news_firm_sec=120,
         red_news_guard_sec=300,
+        reset_tz="NY_CLOSE_SERVER",
     ),
 }
 
@@ -199,11 +208,30 @@ ENGINE_BACKTEST_SLIP_BUDGET_BPS: dict[str, float] = {
     "S6_FX_USD_BSK": 1.50,
     "S7_XAU_EXP120": 2.05,
 }
+CORE7_ENGINES: tuple[str, ...] = (
+    "E1_USDJPY_TOKYO",
+    "E2_USDJPY_EXP80",
+    "E3_GBPUSD_VH",
+    "E4_US100_SESS40",
+    "E5_US100_RS1130",
+    "E6_EURJPY_VOLCOMP",
+    "E7_USDJPY_NY10ET",
+)
 DEFAULT_ENGINE_BUDGET_BPS = 1.60
 SLIPPAGE_BREACH_MULT = 1.50
-ENTRY_EVENT_TYPES: frozenset[str] = frozenset({"ENTRY", "ORDER_FILL"})
-EXIT_EVENT_TYPES: frozenset[str] = frozenset({"EXIT", "ORDER_CLOSE", "CLOSE"})
-NON_FILL_EVENT_TYPES: frozenset[str] = frozenset({"DRYRUN_SIGNAL", "ORDER_REJECT"})
+NEWS_HARD_BAN_SEC = 135
+BOJ_ESTIMATED_PAD_SEC = 3600
+ENTRY_EVENT_TYPES: frozenset[str] = frozenset({"ENTRY", "ORDER_FILL", "ENTRY_FILLED", "PARTIAL_ENTRY"})
+EXIT_EVENT_TYPES: frozenset[str] = frozenset({
+    "EXIT", "ORDER_CLOSE", "CLOSE", "EXIT_FILLED", "PARTIAL_EXIT",
+    "SL_HIT", "TP_HIT", "TIME_EXIT", "PRE_FLATTEN_EXIT",
+})
+VALID_FILL_EVENT_TYPES: frozenset[str] = ENTRY_EVENT_TYPES | EXIT_EVENT_TYPES
+NON_FILL_EVENT_TYPES: frozenset[str] = frozenset({
+    "DRYRUN_SIGNAL", "ORDER_REJECT", "ORDER_BLOCKED_SYMCAP",
+    "ORDER_BLOCKED_FACTOR", "ORDER_BLOCKED_RISK", "CLOSE_REJECT",
+    "FILL_UNRESOLVED", "SHADOW_INTENT",
+})
 
 
 def _to_float(val: Any, default: float = 0.0) -> float:
@@ -222,6 +250,59 @@ def _to_int(val: Any, default: int = 0) -> int:
         return int(float(val))
     except (ValueError, TypeError):
         return default
+
+
+def _nth_sunday_day(year: int, month: int, nth: int) -> int:
+    first_wd = datetime(year, month, 1, tzinfo=timezone.utc).weekday()  # Mon=0..Sun=6
+    first_sun = 1 + (6 - first_wd) % 7
+    return first_sun + 7 * (nth - 1)
+
+
+def _last_sunday_day(year: int, month: int) -> int:
+    next_m = datetime(year + 1, 1, 1, tzinfo=timezone.utc) if month == 12 else datetime(year, month + 1, 1, tzinfo=timezone.utc)
+    last_d = next_m.timestamp() - 86_400
+    dt = datetime.fromtimestamp(last_d, timezone.utc)
+    return dt.day - ((dt.weekday() - 6) % 7)
+
+
+def _prague_utc_offset_h(utc_dt: datetime) -> int:
+    """Exact EU DST offset for Europe/Prague (FTMO): CEST +2h last Sun Mar 01:00 UTC -> last Sun Oct 01:00 UTC, else CET +1h."""
+    y, m, d, h = utc_dt.year, utc_dt.month, utc_dt.day, utc_dt.hour
+    if m < 3 or m > 10:
+        return 1
+    if 3 < m < 10:
+        return 2
+    ls = _last_sunday_day(y, m)
+    if m == 3:
+        return 2 if (d > ls or (d == ls and h >= 1)) else 1
+    return 2 if (d < ls or (d == ls and h < 1)) else 1
+
+
+def _ny_close_server_offset_h(utc_dt: datetime) -> int:
+    """Exact NY+7 server offset (The5ers / FTMO server time): UTC+3 during US EDT, UTC+2 during US EST."""
+    y, m, d, h = utc_dt.year, utc_dt.month, utc_dt.day, utc_dt.hour
+    if m < 3 or m > 11:
+        return 2
+    if 3 < m < 11:
+        return 3
+    if m == 3:
+        s2 = _nth_sunday_day(y, 3, 2)
+        return 3 if (d > s2 or (d == s2 and h >= 7)) else 2
+    s1 = _nth_sunday_day(y, 11, 1)
+    return 3 if (d < s1 or (d == s1 and h < 6)) else 2
+
+
+def _firm_reset_day(utc_ts: int, reset_tz: str = "Europe/Prague", fallback_offset_h: int = 2) -> str:
+    utc_dt = datetime.fromtimestamp(utc_ts, timezone.utc)
+    if reset_tz == "Europe/Prague":
+        off_h = _prague_utc_offset_h(utc_dt)
+    elif reset_tz == "NY_CLOSE_SERVER":
+        off_h = _ny_close_server_offset_h(utc_dt)
+    elif reset_tz == "UTC":
+        off_h = 0
+    else:
+        off_h = fallback_offset_h
+    return datetime.fromtimestamp(utc_ts + off_h * 3600, timezone.utc).strftime("%Y-%m-%d")
 
 
 def _server_day(utc_ts: int, offset_h: int = 2) -> str:
@@ -390,6 +471,16 @@ def load_red_news_events(news_csv: Path | None) -> list[dict[str, Any]]:
     return events
 
 
+_TAG_ID_RE = re.compile(r"\b(deal|ord|tk|pos|intent)=([A-Za-z0-9_-]+)")
+
+
+def _extract_comment_ids(comment: str) -> dict[str, str]:
+    out: dict[str, str] = {}
+    for k, v in _TAG_ID_RE.findall(comment or ""):
+        out[k] = v
+    return out
+
+
 def load_exec_audit_rows(audit_csv: Path | None) -> list[dict[str, Any]]:
     if audit_csv is None or not audit_csv.is_file():
         return []
@@ -402,13 +493,19 @@ def load_exec_audit_rows(audit_csv: Path | None) -> list[dict[str, Any]]:
             magic = _to_int(r.get("magic"), 0)
             eng = str(r.get("engine_id") or "").strip() or MAGIC_TO_ENGINE.get(magic, f"MAGIC_{magic}")
             has_swap = ("swap_usd" in r and str(r.get("swap_usd") or "").strip() != "")
+            has_comm = ("commission_usd" in r and str(r.get("commission_usd") or "").strip() != "")
+            comment = str(r.get("comment") or "").strip()
+            tag_ids = _extract_comment_ids(comment)
+            exec_side = str(r.get("deal_side") or r.get("exec_side") or r.get("side") or "").strip().upper()
+            pos_side = str(r.get("position_side") or "").strip().upper()
             rows.append({
                 "utc_ts": ts,
                 "magic": magic,
                 "engine_id": eng,
                 "symbol": str(r.get("symbol") or "").strip(),
-                "side": str(r.get("side") or "").strip().upper(),
-                "event_type": str(r.get("event_type") or "ENTRY").strip().upper(),
+                "side": exec_side,
+                "position_side": pos_side,
+                "event_type": str(r.get("event_type") or "").strip().upper(),
                 "signal_price": _to_float(r.get("signal_price"), 0.0),
                 "fill_price": _to_float(r.get("fill_price"), -1.0),
                 "sl_price": _to_float(r.get("sl_price"), 0.0),
@@ -416,11 +513,52 @@ def load_exec_audit_rows(audit_csv: Path | None) -> list[dict[str, Any]]:
                 "spread_pts": _to_float(r.get("spread_pts"), 0.0),
                 "latency_ms": _to_float(r.get("latency_ms"), 0.0),
                 "retcode": _to_int(r.get("retcode"), 0),
-                "pnl_usd": _to_float(r.get("pnl_usd"), 0.0) if "pnl_usd" in r and r.get("pnl_usd") != "" else None,
+                "pnl_usd": _to_float(r.get("pnl_usd"), 0.0) if "pnl_usd" in r and str(r.get("pnl_usd") or "").strip() != "" else None,
                 "swap_usd": _to_float(r.get("swap_usd"), 0.0) if has_swap else None,
-                "comment": str(r.get("comment") or "").strip(),
+                "commission_usd": _to_float(r.get("commission_usd"), 0.0) if has_comm else None,
+                "account_login": _to_int(r.get("account_login"), 0),
+                "deal_id": str(r.get("deal_id") or tag_ids.get("deal") or "").strip(),
+                "order_id": str(r.get("order_id") or tag_ids.get("ord") or "").strip(),
+                "position_id": str(r.get("position_id") or tag_ids.get("pos") or tag_ids.get("tk") or "").strip(),
+                "intent_id": str(r.get("intent_id") or tag_ids.get("intent") or "").strip(),
+                "comment": comment,
             })
     rows.sort(key=lambda x: x["utc_ts"])
+    return rows
+
+
+def load_broker_statement_rows(statement_csv: Path | None) -> list[dict[str, Any]]:
+    """Load broker statement deal rows for deterministic reconciliation by account + deal/order/position ID."""
+    if statement_csv is None or not statement_csv.is_file():
+        return []
+    rows: list[dict[str, Any]] = []
+    with statement_csv.open("r", encoding="utf-8", errors="replace", newline="") as f:
+        for r in csv.DictReader(f):
+            deal_id = str(r.get("deal_id") or r.get("deal") or r.get("ticket") or "").strip()
+            order_id = str(r.get("order_id") or r.get("order") or "").strip()
+            pos_id = str(r.get("position_id") or r.get("position") or "").strip()
+            if not (deal_id or order_id or pos_id):
+                continue
+            rows.append({
+                "account_login": _to_int(r.get("account_login") or r.get("login"), 0),
+                "deal_id": deal_id,
+                "order_id": order_id,
+                "position_id": pos_id,
+                "symbol": str(r.get("symbol") or "").strip(),
+                "side": str(r.get("side") or r.get("type") or "").strip().upper(),
+                "entry_flag": str(r.get("entry") or r.get("direction") or "").strip().upper(),
+                "volume": _to_float(r.get("volume") or r.get("lots"), 0.0),
+                "price": _to_float(r.get("price") or r.get("fill_price"), 0.0),
+                "pnl_usd": _to_float(r.get("pnl_usd") or r.get("profit"), 0.0)
+                if any(str(r.get(k) or "").strip() != "" for k in ("pnl_usd", "profit"))
+                else None,
+                "swap_usd": _to_float(r.get("swap_usd") or r.get("swap"), 0.0)
+                if any(str(r.get(k) or "").strip() != "" for k in ("swap_usd", "swap"))
+                else None,
+                "commission_usd": _to_float(r.get("commission_usd") or r.get("commission"), 0.0)
+                if any(str(r.get(k) or "").strip() != "" for k in ("commission_usd", "commission"))
+                else 0.0,
+            })
     return rows
 
 
@@ -458,9 +596,17 @@ def evaluate_prop_challenge(
     spread_log_jsonl: Path | None = DEFAULT_SPREAD_LOG_JSONL,
     news_csv: Path | None = DEFAULT_NEWS_CSV,
     heartbeat_json: Path | None = DEFAULT_HEARTBEAT_JSON,
+    statement_csv: Path | None = None,
     now_utc: datetime | None = None,
+    require_statement: bool = True,
+    require_heartbeat: bool = True,
+    require_news_calendar: bool = True,
+    min_closed_trades: int = 10,
+    min_distinct_engines: int = 2,
+    min_trial_calendar_days: int = 4,
+    expected_account_login: int | None = None,
 ) -> dict[str, Any]:
-    """Evaluate all 5 broker-aligned compliance & TCA rules and return a fail-closed Gate Decision."""
+    """Evaluate all 6 broker-aligned compliance, reconciliation & TCA rules (fail-closed Gate Decision)."""
     if profile_id not in PROP_PROFILES:
         raise ValueError(f"Unknown profile '{profile_id}'. Expected one of {sorted(PROP_PROFILES.keys())}")
     spec = PROP_PROFILES[profile_id]
@@ -469,10 +615,19 @@ def evaluate_prop_challenge(
     all_rows = load_exec_audit_rows(exec_audit_csv)
     dryrun_signals = sum(1 for r in all_rows if r["event_type"] == "DRYRUN_SIGNAL")
     rejected_orders = sum(1 for r in all_rows if r["event_type"] == "ORDER_REJECT")
-    deals = [r for r in all_rows if r["event_type"] not in NON_FILL_EVENT_TYPES]
+    close_rejects = sum(1 for r in all_rows if r["event_type"] == "CLOSE_REJECT")
+    blocked_orders = sum(1 for r in all_rows if r["event_type"].startswith("ORDER_BLOCKED"))
+    ignored_unknown_events = sum(
+        1 for r in all_rows
+        if r["event_type"] not in VALID_FILL_EVENT_TYPES and r["event_type"] not in NON_FILL_EVENT_TYPES
+    )
+    # R2-01 STRICT ALLOWLIST: only actual executed fills enter `deals` and count toward trading days!
+    deals = [r for r in all_rows if r["event_type"] in VALID_FILL_EVENT_TYPES]
+    explicit_unresolved_rows = sum(1 for r in all_rows if r["event_type"] == "FILL_UNRESOLVED")
     spreads = load_spread_log_rows(spread_log_jsonl)
     news_events = load_red_news_events(news_csv)
     hb = load_heartbeat_json(heartbeat_json)
+    stmt_rows = load_broker_statement_rows(statement_csv)
 
     init_bal = spec.initial_balance_usd
 
@@ -480,7 +635,7 @@ def evaluate_prop_challenge(
     orphan_no_sl = int((hb or {}).get("orphan_no_sl", 0)) if isinstance(hb, dict) else 0
     kill_switch = bool((hb or {}).get("kill_switch", False)) if isinstance(hb, dict) else False
 
-    if not deals and orphan_no_sl == 0 and not kill_switch:
+    if not deals and orphan_no_sl == 0 and not kill_switch and explicit_unresolved_rows == 0:
         hb_daily_dd = float((hb or {}).get("daily_dd_pct", 0.0)) if isinstance(hb, dict) else 0.0
         hb_static_dd = float((hb or {}).get("static_dd_pct", 0.0)) if isinstance(hb, dict) else 0.0
         pre_alerts = [
@@ -505,10 +660,17 @@ def evaluate_prop_challenge(
             ),
             "summary": {
                 "deals_total": 0,
+                "entry_deals": 0,
+                "closed_deals": 0,
+                "reconciled_closed_trades": 0,
                 "dryrun_signals": dryrun_signals,
                 "rejected_orders": rejected_orders,
+                "close_rejects": close_rejects,
+                "blocked_orders": blocked_orders,
+                "ignored_unknown_events": ignored_unknown_events,
                 "trading_days": 0,
                 "profitable_days": 0,
+                "trial_calendar_days": 0,
                 "net_pnl_usd": 0.0,
                 "net_pnl_pct": 0.0,
                 "worst_daily_dd_pct": round(hb_daily_dd, 3),
@@ -517,16 +679,35 @@ def evaluate_prop_challenge(
                 "kill_switch": kill_switch,
                 "spread_log_rows": len(spreads),
                 "news_events_loaded": len(news_events),
+                "statement_rows_loaded": len(stmt_rows),
+                "engines_observed": [],
+                "core7_missing_engines": list(CORE7_ENGINES),
                 "symbol_concentration": {},
             },
             "rules": {
                 "R1_daily_loss": {"status": "PASS", "risk_label": "OK", "worst_daily_dd_pct": round(hb_daily_dd, 3), "amber_buffer_pct": round(spec.amber_daily_brake_pct - hb_daily_dd, 3), "hard_buffer_pct": round(spec.hard_daily_loss_pct - hb_daily_dd, 3)},
                 "R2_max_total_loss": {"status": "PASS", "risk_label": "OK", "max_total_dd_pct": round(hb_static_dd, 3), "red_buffer_pct": round(spec.red_total_brake_pct - hb_static_dd, 3), "hard_buffer_pct": round(spec.hard_max_loss_pct - hb_static_dd, 3)},
                 "R3_min_days": {"status": "IN_PROGRESS", "risk_label": "R4", "trading_days": 0, "required_trading_days": spec.min_trading_days, "profitable_days": 0, "required_profitable_days": spec.min_profitable_days, "profitable_day_threshold_usd": round(init_bal * spec.profitable_day_threshold_pct / 100.0, 2)},
-                "R4_zero_swap_and_red_news": {"status": "PASS", "risk_label": "OK", "nonzero_swap_count": 0, "overnight_hold_count": 0, "rollover_blackout_count": 0, "red_news_guard_violations": 0, "red_news_firm_violations": 0, "violations": []},
-                "R5_engine_slippage_tca": {"status": "PASS", "risk_label": "OK", "flagged_engines": [], "per_engine": {}},
+                "R4_zero_swap_and_red_news": {"status": "PASS", "risk_label": "OK", "nonzero_swap_count": 0, "missing_swap_count": 0, "overnight_hold_count": 0, "rollover_blackout_count": 0, "valid_pre_flatten_exits": 0, "red_news_guard_violations": 0, "red_news_firm_violations": 0, "violations": []},
+                "R5_engine_slippage_tca": {"status": "PASS", "risk_label": "OK", "flagged_engines": [], "unresolved_fill_count": 0, "unmeasured_engines": [], "per_engine": {}},
+                "R6_reconciliation_and_coverage": {"status": "IN_PROGRESS", "risk_label": "R3", "closed_deals": 0, "min_closed_trades": min_closed_trades, "reconciled_closed_trades": 0, "unclosed_entries": 0, "engines_observed": [], "core7_missing_engines": list(CORE7_ENGINES), "statement_reconciled": False, "heartbeat_present": hb is not None},
             },
         }
+
+    # --- Index optional broker statement rows for deterministic join (account + deal/order/position ID) ---
+    stmt_by_deal: dict[str, dict[str, Any]] = {}
+    stmt_by_order: dict[str, dict[str, Any]] = {}
+    stmt_by_pos: dict[str, list[dict[str, Any]]] = {}
+    stmt_logins: set[int] = set()
+    for sr in stmt_rows:
+        if sr["account_login"] > 0:
+            stmt_logins.add(sr["account_login"])
+        if sr["deal_id"]:
+            stmt_by_deal[sr["deal_id"]] = sr
+        if sr["order_id"]:
+            stmt_by_order[sr["order_id"]] = sr
+        if sr["position_id"]:
+            stmt_by_pos.setdefault(sr["position_id"], []).append(sr)
 
     # --- Aggregate daily PnL, watermark DD, trading days & profitable days ---
     daily_pnl_usd: dict[str, float] = {}
@@ -536,54 +717,103 @@ def evaluate_prop_challenge(
 
     nonzero_swap_count = 0
     missing_swap_count = 0
-    unresolved_fill_count = 0
+    missing_pnl_exits_count = 0
+    unresolved_fill_count = explicit_unresolved_rows
     overnight_hold_count = 0
     rollover_blackout_count = 0
+    valid_pre_flatten_exits = 0
     news_guard_violations: list[dict[str, Any]] = []
     news_firm_violations: list[dict[str, Any]] = []
-    open_entry_day: dict[tuple[int, str], str] = {}
+    open_entry_day: dict[tuple[Any, ...], list[str]] = {}
+    entry_count = 0
+    closed_deals_count = 0
+    reconciled_closed_trades = 0
+    statement_matched_deals = 0
+    statement_unmatched_deals = 0
 
     per_engine_slips: dict[str, list[float]] = {}
     per_engine_trades: dict[str, int] = {}
+    engines_observed_set: set[str] = set()
     symbol_pnl_usd: dict[str, float] = {}
     symbol_day_entries: dict[tuple[str, str], int] = {}
 
     for d in deals:
-        dk = _server_day(d["utc_ts"], spec.server_utc_offset_h)
+        dk = _firm_reset_day(d["utc_ts"], spec.reset_tz, spec.server_utc_offset_h)
         trading_days_set.add(dk)
         ev = d["event_type"]
         is_entry = ev in ENTRY_EVENT_TYPES
         is_exit = ev in EXIT_EVENT_TYPES
+        is_pre_flatten = (ev == "PRE_FLATTEN_EXIT") or ("NEWS_PRE_FLATTEN" in d["comment"].upper())
         eng = d["engine_id"]
+        engines_observed_set.add(eng)
         norm_sym = _normalize_symbol(d["symbol"])
+        if is_entry:
+            entry_count += 1
+        if is_exit:
+            closed_deals_count += 1
         per_engine_trades[eng] = per_engine_trades.get(eng, 0) + (1 if is_entry else 0)
         if is_entry and norm_sym:
             symbol_day_entries[(dk, norm_sym)] = symbol_day_entries.get((dk, norm_sym), 0) + 1
 
+        # Enrich / reconcile against optional broker statement (by deal_id -> order_id -> position_id)
+        matched_sr: dict[str, Any] | None = None
+        if stmt_rows:
+            if d["deal_id"] and d["deal_id"] in stmt_by_deal:
+                matched_sr = stmt_by_deal[d["deal_id"]]
+            elif d["order_id"] and d["order_id"] in stmt_by_order:
+                matched_sr = stmt_by_order[d["order_id"]]
+            elif d["position_id"] and d["position_id"] in stmt_by_pos:
+                cands = stmt_by_pos[d["position_id"]]
+                matched_sr = cands[-1] if is_exit else cands[0]
+            if matched_sr is not None:
+                statement_matched_deals += 1
+            else:
+                statement_unmatched_deals += 1
+
+        eff_swap = d["swap_usd"]
+        if eff_swap is None and matched_sr is not None and matched_sr["swap_usd"] is not None:
+            eff_swap = matched_sr["swap_usd"]
+        eff_pnl = d["pnl_usd"]
+        if eff_pnl is None and matched_sr is not None and matched_sr["pnl_usd"] is not None:
+            eff_pnl = matched_sr["pnl_usd"]
+        if is_exit and eff_pnl is None:
+            missing_pnl_exits_count += 1
+
         # Rule 4a: Swap == 0.0 & Rollover flat audit (fail-closed if EXIT row lacks swap_usd!)
-        sw_val = d["swap_usd"]
-        if sw_val is None:
+        if eff_swap is None:
             if is_exit:
                 missing_swap_count += 1
-        elif abs(sw_val) > 1e-6:
+        elif abs(eff_swap) > 1e-6:
             nonzero_swap_count += 1
         if _in_rollover_blackout(d["utc_ts"]):
             rollover_blackout_count += 1
-        pos_key = (d["magic"], d["symbol"])
-        if is_entry:
-            open_entry_day[pos_key] = dk
-        elif is_exit:
-            ent_day = open_entry_day.pop(pos_key, None)
-            if ent_day is not None and ent_day != dk:
-                overnight_hold_count += 1
 
-        # Rule 4b: Red-News window check (matching symbol currency within +-guard_sec / +-firm_sec)
+        pos_key = ("POS", d["position_id"]) if d["position_id"] else ("MS", d["magic"], d["symbol"])
+        if is_entry:
+            open_entry_day.setdefault(pos_key, []).append(dk)
+        elif is_exit:
+            stack = open_entry_day.get(pos_key)
+            if stack:
+                ent_day = stack.pop(0)
+                if not stack:
+                    open_entry_day.pop(pos_key, None)
+                reconciled_closed_trades += 1
+                if ent_day != dk:
+                    overnight_hold_count += 1
+
+        # Rule 4b: Red-News window check (respects defensive PRE_FLATTEN outside +-135s & BoJ estimated window!)
         sym_ccys = _symbol_currencies(d["symbol"])
         for ne in news_events:
             if ne["ccy"] not in sym_ccys:
                 continue
-            dt_sec = abs(d["utc_ts"] - ne["utc_ts"])
-            if dt_sec <= spec.red_news_guard_sec:
+            pad_sec = BOJ_ESTIMATED_PAD_SEC if "EST03UTC" in ne["event"].upper() else spec.red_news_guard_sec
+            signed_before_sec = ne["utc_ts"] - d["utc_ts"]  # >0 means BEFORE news release
+            dt_sec = abs(signed_before_sec)
+            if dt_sec <= pad_sec:
+                # Defensive pre-flatten strictly BEFORE hard +-135s no-execution zone is compliant, NOT a violation!
+                if is_exit and is_pre_flatten and signed_before_sec > NEWS_HARD_BAN_SEC:
+                    valid_pre_flatten_exits += 1
+                    break
                 rec_v = {
                     "utc_ts": d["utc_ts"],
                     "engine_id": eng,
@@ -598,27 +828,46 @@ def evaluate_prop_challenge(
                     news_firm_violations.append(rec_v)
                 break
 
-        # Rule 5: Realized adverse slippage (bps) vs signal_price — NEVER treat unresolved fill as 0 slip!
+        # Rule 5: Realized adverse slippage (bps) vs signal_price — EXECUTION/DEAL SIDE CONVENTION!
+        # BUY deal (opening LONG or closing SHORT) pays Ask -> adverse when fill > signal.
+        # SELL deal (opening SHORT or closing LONG) hits Bid -> adverse when fill < signal.
         sig_px = d["signal_price"]
         fill_px = d["fill_price"]
         if ev == "FILL_UNRESOLVED" or "FILL_UNRESOLVED" in d["comment"].upper() or fill_px <= 0.0:
             unresolved_fill_count += 1
         elif sig_px > 0.0 and fill_px > 0.0:
-            side = d["side"]
-            # BUY entry (ENTRY/ORDER_FILL) or SELL exit (EXIT/CLOSE) pays Ask -> adverse when fill > signal
-            if (is_entry and side == "BUY") or (is_exit and side == "SELL"):
+            deal_side = d["side"]
+            if not deal_side and d["position_side"]:
+                # Fallback ONLY when CSV omits execution `side` and supplies `position_side`
+                if is_exit:
+                    deal_side = "SELL" if d["position_side"] == "BUY" else "BUY"
+                else:
+                    deal_side = d["position_side"]
+            if deal_side == "BUY":
                 adv_bps = ((fill_px - sig_px) / sig_px) * 10_000.0
-            else:
+            elif deal_side == "SELL":
                 adv_bps = ((sig_px - fill_px) / sig_px) * 10_000.0
+            else:
+                # Unknown side -> fail-closed treat absolute price deviation as adverse!
+                adv_bps = (abs(fill_px - sig_px) / sig_px) * 10_000.0
             per_engine_slips.setdefault(eng, []).append(adv_bps)
 
         # Daily PnL & cumulative equity
-        if d["pnl_usd"] is not None:
-            daily_pnl_usd[dk] = daily_pnl_usd.get(dk, 0.0) + d["pnl_usd"]
+        if eff_pnl is not None:
+            daily_pnl_usd[dk] = daily_pnl_usd.get(dk, 0.0) + eff_pnl
             if norm_sym:
-                symbol_pnl_usd[norm_sym] = symbol_pnl_usd.get(norm_sym, 0.0) + d["pnl_usd"]
-            running_eq += d["pnl_usd"]
+                symbol_pnl_usd[norm_sym] = symbol_pnl_usd.get(norm_sym, 0.0) + eff_pnl
+            running_eq += eff_pnl
             equity_curve.append(running_eq)
+
+    unclosed_entries_count = sum(len(v) for v in open_entry_day.values())
+    engines_observed = sorted(engines_observed_set)
+    core7_missing = [e for e in CORE7_ENGINES if e not in engines_observed_set]
+    trial_calendar_days = 0
+    if deals:
+        first_d = datetime.fromtimestamp(deals[0]["utc_ts"], timezone.utc).date()
+        last_d = datetime.fromtimestamp(deals[-1]["utc_ts"], timezone.utc).date()
+        trial_calendar_days = (last_d - first_d).days + 1
 
     # Include live heartbeat DD & spread log snapshots into Rules 1 & 2
     worst_daily_dd_pct = 0.0
@@ -629,7 +878,7 @@ def evaluate_prop_challenge(
         worst_daily_dd_pct = max(worst_daily_dd_pct, float(hb["daily_dd_pct"]))
 
     min_eq = min(equity_curve)
-    if isinstance(hb, dict) and hb.get("equity") is not None:
+    if isinstance(hb, dict) and hb.get("equity") is not None and hb.get("terminal_connected") is not False:
         min_eq = min(min_eq, float(hb["equity"]))
     max_total_dd_pct = max(0.0, ((init_bal - min_eq) / init_bal) * 100.0)
     if isinstance(hb, dict) and hb.get("static_dd_pct") is not None:
@@ -707,6 +956,52 @@ def evaluate_prop_challenge(
         r5_status = "WARN"
     else:
         r5_status = "PASS"
+
+    # Rule 6 (Astra R2-01 CRITICAL): Reconciliation, Closed Deals, Statement Join, Heartbeat & Fleet Coverage
+    r6_hard_issues: list[str] = []
+    r6_warn_issues: list[str] = []
+
+    if hb is not None and hb.get("terminal_connected") is False:
+        r6_hard_issues.append("Heartbeat reports terminal_connected=false (broker disconnected)")
+    if expected_account_login is not None:
+        if hb is not None and int(hb.get("account_login") or 0) not in (0, expected_account_login):
+            r6_hard_issues.append(f"Heartbeat account_login={hb.get('account_login')} != expected {expected_account_login}")
+        if stmt_logins and expected_account_login not in stmt_logins:
+            r6_hard_issues.append(f"Broker statement logins {sorted(stmt_logins)} do not match expected {expected_account_login}")
+
+    if closed_deals_count <= 0:
+        r6_warn_issues.append("Zero closed deals recorded (entries without reconciled exits cannot pass gate)")
+    elif closed_deals_count < max(1, min_closed_trades):
+        r6_warn_issues.append(f"Insufficient closed deals: {closed_deals_count}/{min_closed_trades} required by SOP")
+    if missing_pnl_exits_count > 0:
+        r6_warn_issues.append(f"Missing realized pnl_usd on {missing_pnl_exits_count} closed deal(s)")
+    if close_rejects > 0:
+        r6_warn_issues.append(f"Observed {close_rejects} CLOSE_REJECT event(s) — verify position closure")
+    if unclosed_entries_count > 0:
+        hb_open = int(hb.get("open_positions", -1)) if isinstance(hb, dict) else -1
+        if hb is None or hb_open == 0:
+            r6_warn_issues.append(f"{unclosed_entries_count} entry deal(s) have no matching exit row (reconcile against statement)")
+    if require_heartbeat and hb is None:
+        r6_warn_issues.append("Missing naqex_heartbeat.json — cannot verify live broker connectivity or open_positions")
+    elif isinstance(hb, dict) and (str(hb.get("positions_state") or "").upper() == "UNKNOWN" or int(hb.get("open_positions") or 0) < 0):
+        r6_warn_issues.append("Heartbeat positions_state is UNKNOWN (offline/unsynced)")
+    if require_statement and not stmt_rows:
+        r6_warn_issues.append("Missing broker statement reconciliation CSV (statement_csv required for PASS_TO_PAID)")
+    elif stmt_rows and statement_unmatched_deals > 0:
+        r6_warn_issues.append(f"{statement_unmatched_deals} executed fill(s) not matched in broker statement")
+    if require_news_calendar and spec.red_news_guard_sec > 0 and not news_events:
+        r6_warn_issues.append("Missing/empty red-news calendar CSV — cannot certify news compliance")
+    if len(engines_observed) < max(1, min_distinct_engines):
+        r6_warn_issues.append(f"Insufficient fleet coverage: only {len(engines_observed)} engine(s) observed ({', '.join(engines_observed)}), need >= {min_distinct_engines}")
+    if trial_calendar_days < max(1, min_trial_calendar_days):
+        r6_warn_issues.append(f"Trial span too short: {trial_calendar_days} calendar day(s) < {min_trial_calendar_days}")
+
+    if r6_hard_issues:
+        r6_status = "FAIL"
+    elif r6_warn_issues:
+        r6_status = "WARN"
+    else:
+        r6_status = "PASS"
 
     # Fail-closed Gate Decision + Structured R4 -> R3 -> R2 -> R1 triage tagging
     hard_reasons: list[str] = []
@@ -814,6 +1109,14 @@ def evaluate_prop_challenge(
     else:
         r3_risk_label = "OK"
 
+    for r6h in r6_hard_issues:
+        hard_reasons.append(f"Rule 6 Reconciliation FAIL: {r6h}")
+        alerts.append({"rule_id": "R6_reconciliation_and_coverage", "severity": "FAIL", "risk_label": "R3", "message": r6h})
+    for r6w in r6_warn_issues:
+        warn_reasons.append(f"Rule 6 Reconciliation incomplete: {r6w}")
+        alerts.append({"rule_id": "R6_reconciliation_and_coverage", "severity": "WARN", "risk_label": "R3", "message": r6w})
+    r6_risk_label = "R3" if (r6_hard_issues or r6_warn_issues) else "OK"
+
     # R2 Symbol Concentration diagnostic (non-blocking informational alert if >= 3 entries on same canonical symbol in 1 day)
     symbol_concentration: dict[str, dict[str, Any]] = {}
     for sym_k, pnl_v in sorted(symbol_pnl_usd.items()):
@@ -841,7 +1144,7 @@ def evaluate_prop_challenge(
     else:
         gate_decision = "PASS_TO_PAID"
         overall_status = "COMPLIANT_READY_TO_PROMOTE"
-        reasons = ["All 5 compliance & realized TCA rules PASSED with zero violations."]
+        reasons = ["All 6 compliance, reconciliation, coverage & realized TCA rules PASSED with zero violations."]
 
     net_pnl_usd = round(sum(daily_pnl_usd.values()), 2)
     net_pnl_pct = round((net_pnl_usd / init_bal) * 100.0, 2)
@@ -865,10 +1168,18 @@ def evaluate_prop_challenge(
         "risk_attribution": risk_attribution,
         "summary": {
             "deals_total": len(deals),
+            "entry_deals": entry_count,
+            "closed_deals": closed_deals_count,
+            "reconciled_closed_trades": reconciled_closed_trades,
+            "unclosed_entries": unclosed_entries_count,
             "dryrun_signals": dryrun_signals,
             "rejected_orders": rejected_orders,
+            "close_rejects": close_rejects,
+            "blocked_orders": blocked_orders,
+            "ignored_unknown_events": ignored_unknown_events,
             "trading_days": n_tdays,
             "profitable_days": n_pdays,
+            "trial_calendar_days": trial_calendar_days,
             "net_pnl_usd": net_pnl_usd,
             "net_pnl_pct": net_pnl_pct,
             "worst_daily_dd_pct": round(worst_daily_dd_pct, 3),
@@ -877,6 +1188,11 @@ def evaluate_prop_challenge(
             "kill_switch": kill_switch,
             "spread_log_rows": len(spreads),
             "news_events_loaded": len(news_events),
+            "statement_rows_loaded": len(stmt_rows),
+            "statement_matched_deals": statement_matched_deals,
+            "statement_unmatched_deals": statement_unmatched_deals,
+            "engines_observed": engines_observed,
+            "core7_missing_engines": core7_missing,
             "symbol_concentration": symbol_concentration,
         },
         "rules": {
@@ -911,6 +1227,7 @@ def evaluate_prop_challenge(
                 "missing_swap_count": missing_swap_count,
                 "overnight_hold_count": overnight_hold_count,
                 "rollover_blackout_count": rollover_blackout_count,
+                "valid_pre_flatten_exits": valid_pre_flatten_exits,
                 "red_news_guard_violations": len(news_guard_violations),
                 "red_news_firm_violations": len(news_firm_violations),
                 "violations": news_guard_violations[:20],
@@ -926,6 +1243,22 @@ def evaluate_prop_challenge(
                     "not full tail slippage distribution; keep live TCA monitoring active across first 100+ paid trades."
                 ),
                 "per_engine": per_engine_tca,
+            },
+            "R6_reconciliation_and_coverage": {
+                "status": r6_status,
+                "risk_label": r6_risk_label,
+                "closed_deals": closed_deals_count,
+                "min_closed_trades": min_closed_trades,
+                "reconciled_closed_trades": reconciled_closed_trades,
+                "unclosed_entries": unclosed_entries_count,
+                "missing_pnl_exits": missing_pnl_exits_count,
+                "engines_observed": engines_observed,
+                "core7_missing_engines": core7_missing,
+                "trial_calendar_days": trial_calendar_days,
+                "statement_reconciled": bool(stmt_rows and statement_unmatched_deals == 0),
+                "heartbeat_present": hb is not None,
+                "hard_issues": r6_hard_issues,
+                "warn_issues": r6_warn_issues,
             },
         },
     }
@@ -943,6 +1276,7 @@ def render_prop_tracker_md(payload: dict[str, Any]) -> str:
         rules["R4_zero_swap_and_red_news"],
         rules["R5_engine_slippage_tca"],
     )
+    r6 = rules.get("R6_reconciliation_and_coverage") or {}
 
     ra = payload.get("risk_attribution") or {}
     ra_active = ra.get("active_label", "OK")
@@ -963,17 +1297,18 @@ def render_prop_tracker_md(payload: dict[str, Any]) -> str:
         f"- **Thời điểm UTC:** `{payload['generated_utc']}` · **Trạng thái:** `{payload['status']}`",
         f"- **Phán quyết Cổng Chuyển (Fail-Closed Gate):** **`{payload['gate_decision']}`**",
         f"- **Phân Tầng Lỗi 4 Lớp (`R4 -> R3 -> R2 -> R1`):** **`{ra_active}`** — {ra_headline}",
-        f"- **Số dư khởi điểm:** `{prof['initial_balance_usd']:,.0f} USD` · **Lãi ròng:** `{summ['net_pnl_usd']:+,.2f} USD` (`{summ['net_pnl_pct']:+.2f}%`) · **Tổng lệnh:** `{summ['deals_total']}`",
+        f"- **Số dư khởi điểm:** `{prof['initial_balance_usd']:,.0f} USD` · **Lãi ròng:** `{summ['net_pnl_usd']:+,.2f} USD` (`{summ['net_pnl_pct']:+.2f}%`) · **Tổng khớp / Đã đóng:** `{summ['deals_total']} / {summ.get('closed_deals', 0)}`",
         "",
-        "## 1. Kiểm Toán 5 Quy Tắc Bắt Buộc",
+        "## 1. Kiểm Toán 6 Quy Tắc Bắt Buộc",
         "",
         "| Quy tắc | Trạng thái | Tầng lỗi | Giá trị thực đo | Ngưỡng cứng / Đệm an toàn |",
         "| --- | :---: | :---: | --- | --- |",
         f"| **R1 — Daily Loss & Amber Brake** | `{r1['status']}` | `{r1.get('risk_label', 'OK')}` | Worst Daily DD `{r1['worst_daily_dd_pct']:.2f}%` | Amber `{prof['amber_daily_brake_pct']:.1f}%` (đệm `{r1['amber_buffer_pct']:+.2f}%`) · Hard `{prof['hard_daily_loss_pct']:.1f}%` |",
         f"| **R2 — Max Total Loss & Red Brake** | `{r2['status']}` | `{r2.get('risk_label', 'OK')}` | Max Total DD `{r2['max_total_dd_pct']:.2f}%` · Orphan `{summ['orphan_no_sl']}` | Red `{prof['red_total_brake_pct']:.1f}%` (đệm `{r2['red_buffer_pct']:+.2f}%`) · Hard `{prof['hard_max_loss_pct']:.1f}%` |",
         f"| **R3 — Số Ngày Giao Dịch / Ngày Lãi** | `{r3['status']}` | `{r3.get('risk_label', 'OK')}` | Trading `{r3['trading_days']}/{r3['required_trading_days']}` · Profitable `{r3['profitable_days']}/{r3['required_profitable_days']}` | Ngưỡng ngày lãi `>= +{prof['profitable_day_threshold_pct']:.2f}%` (`>= {r3['profitable_day_threshold_usd']:,.2f} USD`) |",
-        f"| **R4 — Zero Swap & Khóa Tin Đỏ** | `{r4['status']}` | `{r4.get('risk_label', 'OK')}` | Swap!=0: `{r4['nonzero_swap_count']}` · Overnight: `{r4['overnight_hold_count']}` · Rollover: `{r4['rollover_blackout_count']}` | Vi phạm Tin Đỏ (`+-{prof['red_news_guard_sec']}s`): `{r4['red_news_guard_violations']}` (Hãng `+-{prof['red_news_firm_sec']}s`: `{r4['red_news_firm_violations']}`) |",
+        f"| **R4 — Zero Swap & Khóa Tin Đỏ** | `{r4['status']}` | `{r4.get('risk_label', 'OK')}` | Swap!=0: `{r4['nonzero_swap_count']}` · Overnight: `{r4['overnight_hold_count']}` · Pre-flatten hợp lệ: `{r4.get('valid_pre_flatten_exits', 0)}` | Vi phạm Tin Đỏ (`+-{prof['red_news_guard_sec']}s`): `{r4['red_news_guard_violations']}` (Hãng `+-{prof['red_news_firm_sec']}s`: `{r4['red_news_firm_violations']}`) |",
         f"| **R5 — Trượt Giá Thực Tế (`<= 1.5x` M1)** | `{r5['status']}` | `{r5.get('risk_label', 'OK')}` | Động cơ vượt ngưỡng: `{len(r5['flagged_engines'])}` | Danh sách cờ đỏ: `{', '.join(r5['flagged_engines']) if r5['flagged_engines'] else 'NONE'}` |",
+        f"| **R6 — Đối Soát Statement & Độ Phủ Đội Hình** | `{r6.get('status', 'PASS')}` | `{r6.get('risk_label', 'OK')}` | Đóng `{r6.get('closed_deals', 0)}/{r6.get('min_closed_trades', 10)}` · EA phủ `{len(r6.get('engines_observed', []))}/7` | Statement `{r6.get('statement_reconciled', False)}` · Heartbeat `{r6.get('heartbeat_present', False)}` |",
         "",
     ]
 
@@ -1009,6 +1344,9 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--spread-log-jsonl", type=Path, default=DEFAULT_SPREAD_LOG_JSONL)
     ap.add_argument("--news-csv", type=Path, default=DEFAULT_NEWS_CSV)
     ap.add_argument("--heartbeat-json", type=Path, default=DEFAULT_HEARTBEAT_JSON)
+    ap.add_argument("--statement-csv", type=Path, default=None)
+    ap.add_argument("--expected-login", type=int, default=None)
+    ap.add_argument("--strict-exit", action="store_true", help="Exit 0 only on PASS_TO_PAID, 2 on EXTEND_SHADOW, 3 on HALT_AND_FIX.")
     ap.add_argument("--out-md", type=Path, default=None)
     ap.add_argument("--out-json", type=Path, default=None)
     args = ap.parse_args(argv)
@@ -1019,6 +1357,8 @@ def main(argv: list[str] | None = None) -> int:
         spread_log_jsonl=args.spread_log_jsonl,
         news_csv=args.news_csv,
         heartbeat_json=args.heartbeat_json,
+        statement_csv=args.statement_csv,
+        expected_account_login=args.expected_login,
     )
     md = render_prop_tracker_md(payload)
 
@@ -1035,9 +1375,16 @@ def main(argv: list[str] | None = None) -> int:
         "status": payload["status"],
         "gate_decision": payload["gate_decision"],
         "deals_total": payload["summary"]["deals_total"],
+        "closed_deals": payload["summary"].get("closed_deals", 0),
         "out_md": str(args.out_md) if args.out_md else None,
         "out_json": str(args.out_json) if args.out_json else None,
     }, indent=2, ensure_ascii=False))
+    if args.strict_exit:
+        if payload["gate_decision"] == "PASS_TO_PAID":
+            return 0
+        if payload["gate_decision"] == "EXTEND_SHADOW":
+            return 2
+        return 3
     return 0
 
 

@@ -5,7 +5,7 @@
 //| Attach to ONE chart on the MT5 terminal running the 8 Naqex EAs. |
 //+------------------------------------------------------------------+
 #property strict
-#property version   "2.01"
+#property version   "2.10"
 
 #include <Trade/Trade.mqh>
 #include "Include/Naqex_PropGuard.mqh"
@@ -32,11 +32,12 @@ input string InpManualHaltFile     = "naqex_manual_halt.flag";
 input long   InpMagicRangeMin      = 20261120;
 input long   InpMagicRangeMax      = 20261199;
 
-int      g_dayKey         = -1;
-double   g_dayAnchorEq    = 0.0;
-double   g_dayAnchorBal   = 0.0;
-bool     g_autoKillActive = false;
-datetime g_lastHbWrite    = 0;
+int      g_dayKey            = -1;
+double   g_dayAnchorEq       = 0.0;
+double   g_dayAnchorBal      = 0.0;
+bool     g_autoKillActive    = false;
+bool     g_anchorUnrecovered = false;
+datetime g_lastHbWrite       = 0;
 
 int LastSundayOfMonth(const int year, const int month)
 {
@@ -93,11 +94,31 @@ bool IsAccountSynced(const double bal, const double eq)
    return (bal > 0.0 && eq > 0.0);
 }
 
+datetime CurrentResetStartServerTime()
+{
+   datetime srvNow = TimeCurrent();
+   if(InpDailyResetMode == 0)
+      return srvNow - (srvNow % 86400);
+   datetime nowUtc = g_orchGuard.NowUTC();
+   long srvMinusUtc = (long)srvNow - (long)nowUtc;
+   if(InpDailyResetMode == 1)
+   {
+      MqlDateTime utc; TimeToStruct(nowUtc, utc);
+      int prgOff = PragueUtcOffsetHours(utc) * 3600;
+      datetime prgNow = nowUtc + (datetime)prgOff;
+      datetime prgMidUtc = (prgNow - (prgNow % 86400)) - (datetime)prgOff;
+      return prgMidUtc + (datetime)srvMinusUtc;
+   }
+   datetime utcMid = nowUtc - (nowUtc % 86400);
+   return utcMid + (datetime)srvMinusUtc;
+}
+
 void WriteHeartbeatJson(const datetime nowUtc, const double bal, const double eq,
                         const double dailyDdPct, const double staticDdPct, const double profitPct,
                         const string regime, const double riskMult,
                         const bool effectiveKill, const bool manualHalt,
-                        const int openCount, const int orphanCount)
+                        const string posState, const int openCount, const int totalAcctPos,
+                        const int pendingCount, const int orphanCount, const string anchorState)
 {
    if(MQLInfoInteger(MQL_TESTER) || (nowUtc - g_lastHbWrite) < InpHeartbeatSec)
       return;
@@ -105,21 +126,26 @@ void WriteHeartbeatJson(const datetime nowUtc, const double bal, const double eq
    bool termConnected = (TerminalInfoInteger(TERMINAL_CONNECTED) != 0);
    long quoteTs = (long)SymbolInfoInteger(_Symbol, SYMBOL_TIME);
    long acctLogin = CNaqexPropGuard::CurrentAccountLogin();
+   string acctServer = AccountInfoString(ACCOUNT_SERVER);
+   StringReplace(acctServer, "\"", "");
    int fh = FileOpen(InpHeartbeatFile, FILE_WRITE | FILE_TXT | FILE_ANSI | FILE_SHARE_READ);
    if(fh != INVALID_HANDLE)
    {
       string js = StringFormat(
-         "{\"utc_ts\":%I64d,\"account_login\":%I64d,\"terminal_connected\":%s,\"quote_ts\":%I64d,"
+         "{\"utc_ts\":%I64d,\"account_login\":%I64d,\"account_server\":\"%s\",\"build_version\":\"2.10\","
+         "\"terminal_connected\":%s,\"quote_ts\":%I64d,\"positions_state\":\"%s\",\"anchor_state\":\"%s\","
          "\"balance\":%.2f,\"equity\":%.2f,\"day_anchor_eq\":%.2f,\"day_anchor_bal\":%.2f,"
          "\"daily_dd_pct\":%.3f,\"static_dd_pct\":%.3f,\"profit_pct\":%.3f,\"reset_mode\":%d,"
          "\"regime\":\"%s\",\"risk_mult\":%.3f,"
-         "\"kill_switch\":%s,\"manual_halt\":%s,\"open_positions\":%d,\"orphan_no_sl\":%d,\"dry_run\":%s}\n",
-         (long)nowUtc, acctLogin, termConnected ? "true" : "false", quoteTs,
+         "\"kill_switch\":%s,\"manual_halt\":%s,\"manual_halt_ack\":%s,"
+         "\"open_positions\":%d,\"total_account_positions\":%d,\"pending_orders\":%d,\"orphan_no_sl\":%d,\"dry_run\":%s}\n",
+         (long)nowUtc, acctLogin, acctServer,
+         termConnected ? "true" : "false", quoteTs, posState, anchorState,
          bal, eq, g_dayAnchorEq, g_dayAnchorBal,
          dailyDdPct, staticDdPct, profitPct, InpDailyResetMode,
          regime, riskMult,
-         effectiveKill ? "true" : "false", manualHalt ? "true" : "false",
-         openCount, orphanCount,
+         effectiveKill ? "true" : "false", manualHalt ? "true" : "false", manualHalt ? "true" : "false",
+         openCount, totalAcctPos, pendingCount, orphanCount,
          (InpDryRunLogOnly || InpGuardDryRunLogOnly) ? "true" : "false"
       );
       FileWriteString(fh, js);
@@ -141,22 +167,55 @@ void RestoreOrInitDayAnchor()
    string kAuto = CNaqexPropGuard::AcctAutoKillKey();
    if(GlobalVariableCheck(kDay) && (int)GlobalVariableGet(kDay) == today && GlobalVariableCheck(kEq) && GlobalVariableGet(kEq) > 0.0)
    {
-      g_dayKey         = today;
-      g_dayAnchorEq    = GlobalVariableGet(kEq);
-      g_dayAnchorBal   = (GlobalVariableCheck(kBal) && GlobalVariableGet(kBal) > 0.0) ? GlobalVariableGet(kBal) : g_dayAnchorEq;
-      g_autoKillActive = GlobalVariableCheck(kAuto) && (GlobalVariableGet(kAuto) >= 1.0);
+      g_dayKey            = today;
+      g_dayAnchorEq       = GlobalVariableGet(kEq);
+      g_dayAnchorBal      = (GlobalVariableCheck(kBal) && GlobalVariableGet(kBal) > 0.0) ? GlobalVariableGet(kBal) : g_dayAnchorEq;
+      g_autoKillActive    = GlobalVariableCheck(kAuto) && (GlobalVariableGet(kAuto) >= 1.0);
+      g_anchorUnrecovered = false;
    }
    else
    {
+      // R2-04: Reconstruct true midnight balance from today's closed deal history when reconnecting mid-day!
+      double reconstructedBal = bal;
+      g_anchorUnrecovered = false;
+      if(!MQLInfoInteger(MQL_TESTER))
+      {
+         datetime resetStart = CurrentResetStartServerTime();
+         datetime srvNow = TimeCurrent();
+         if(srvNow >= resetStart && HistorySelect(resetStart, srvNow + 60))
+         {
+            double todayRealized = 0.0;
+            int totalDeals = HistoryDealsTotal();
+            for(int i = 0; i < totalDeals; i++)
+            {
+               ulong dtk = HistoryDealGetTicket(i);
+               if(dtk == 0) continue;
+               long dtype = HistoryDealGetInteger(dtk, DEAL_TYPE);
+               if(dtype == DEAL_TYPE_BUY || dtype == DEAL_TYPE_SELL)
+               {
+                  todayRealized += HistoryDealGetDouble(dtk, DEAL_PROFIT)
+                                 + HistoryDealGetDouble(dtk, DEAL_SWAP)
+                                 + HistoryDealGetDouble(dtk, DEAL_COMMISSION);
+               }
+            }
+            reconstructedBal = bal - todayRealized;
+            if(reconstructedBal <= 0.0) reconstructedBal = bal;
+         }
+         else if(srvNow - resetStart > 600)
+         {
+            // History unavailable after mid-day gap -> fail-closed anchor state!
+            g_anchorUnrecovered = true;
+         }
+      }
       g_dayKey         = today;
-      g_dayAnchorBal   = bal;
-      g_dayAnchorEq    = (InpDailyResetMode == 1) ? bal : MathMax(bal, eq);
+      g_dayAnchorBal   = reconstructedBal;
+      g_dayAnchorEq    = (InpDailyResetMode == 1) ? reconstructedBal : MathMax(reconstructedBal, eq);
       g_autoKillActive = false;
       GlobalVariableSet(kDay, (double)g_dayKey);
       GlobalVariableSet(kEq, g_dayAnchorEq);
       GlobalVariableSet(kBal, g_dayAnchorBal);
       GlobalVariableSet(kAuto, 0.0);
-      GlobalVariableSet(CNaqexPropGuard::GlobalKillKey(), 0.0);
+      GlobalVariableSet(CNaqexPropGuard::GlobalKillKey(), g_anchorUnrecovered ? 1.0 : 0.0);
    }
 }
 
@@ -180,12 +239,13 @@ void EvaluatePortfolioState()
    double bal = AccountInfoDouble(ACCOUNT_BALANCE);
    double eq  = AccountInfoDouble(ACCOUNT_EQUITY);
 
-   // Fail-closed pause while broker disconnected or account balance/equity not yet synced:
-   // NEVER compute fake 100% static DD or latch sticky g_autoKillActive on startup before login!
+   // Fail-closed pause while broker disconnected or account balance/equity not yet synced (R2-03):
+   // NEVER emit open_positions=0 while offline! Emit explicit positions_state="UNKNOWN" and -1 counts!
    if(!IsAccountSynced(bal, eq))
    {
       GlobalVariableSet(CNaqexPropGuard::GlobalKillKey(), 1.0);
-      WriteHeartbeatJson(nowUtc, bal, eq, 0.0, 0.0, 0.0, "DISCONNECTED", 0.0, true, false, 0, 0);
+      WriteHeartbeatJson(nowUtc, bal, eq, 0.0, 0.0, 0.0, "DISCONNECTED", 0.0, true, false,
+                         "UNKNOWN", -1, -1, -1, -1, "UNSYNCED");
       return;
    }
 
@@ -248,9 +308,11 @@ void EvaluatePortfolioState()
       GlobalVariableSet(CNaqexPropGuard::AcctAutoKillKey(), 1.0);
    }
 
-   bool effectiveKill = g_autoKillActive || manualHalt;
+   bool effectiveKill = g_autoKillActive || manualHalt || g_anchorUnrecovered;
    GlobalVariableSet(CNaqexPropGuard::GlobalKillKey(), effectiveKill ? 1.0 : 0.0);
 
+   if(g_anchorUnrecovered)
+      regime = "ANCHOR_UNRECOVERED";
    if(manualHalt)
       regime = manualFlatten ? "MANUAL_FLATTEN" : "MANUAL_HALT";
    if(g_autoKillActive)
@@ -258,10 +320,12 @@ void EvaluatePortfolioState()
    else if(manualFlatten)
       FlattenAllNaqexPositions("MANUAL_COVERED_FLATTEN");
 
-   // Count open Naqex positions & detect orphans (missing SL)
+   // Count open Naqex positions, total account positions, pending orders & orphans (missing SL)
    int openCount = 0;
    int orphanCount = 0;
-   for(int i = PositionsTotal() - 1; i >= 0; i--)
+   int totalAcctPos = PositionsTotal();
+   int pendingCount = OrdersTotal();
+   for(int i = totalAcctPos - 1; i >= 0; i--)
    {
       ulong ticket = PositionGetTicket(i);
       if(ticket == 0) continue;
@@ -276,9 +340,11 @@ void EvaluatePortfolioState()
       }
    }
 
-   // Write structured JSON heartbeat (includes broker connectivity, quote_ts, login & persistent kill_switch)
+   // Write structured JSON heartbeat (R2-03/R2-04: positions_state=CONFIRMED, total_account_positions, pending_orders, anchor_state)
    WriteHeartbeatJson(nowUtc, bal, eq, dailyDdPct, staticDdPct, profitPct,
-                      regime, riskMult, effectiveKill, manualHalt, openCount, orphanCount);
+                      regime, riskMult, effectiveKill, manualHalt,
+                      "CONFIRMED", openCount, totalAcctPos, pendingCount, orphanCount,
+                      g_anchorUnrecovered ? "UNRECOVERED_AFTER_GAP" : "SYNCED");
 }
 
 int OnInit()

@@ -18,8 +18,14 @@ param(
 
     [string]$Ex5SourceDir = "",
     [string]$RedNewsCsvPath = "",
+    [string]$ManifestFilePath = "",
+    [long]$ExpectedLogin = 0,
+    [string]$ExpectedServer = "",
     [int]$MaxHeartbeatAgeSec = 180,
     [long]$NowUtcOverride = 0,
+    [switch]$IncludeMasterEx5,
+    [switch]$RequireManualHaltAck,
+    [switch]$RequireManifest,
     [switch]$DryRun,
     [switch]$ForceWhenHeartbeatMissing
 )
@@ -38,6 +44,9 @@ $RequiredEx5Names = @(
     "Naqex_WB_TOKYO_BOX_USDJPY.ex5",
     "Naqex_WB_VOLCOMP_EXP75_EURJPY.ex5"
 )
+if ($IncludeMasterEx5) {
+    $RequiredEx5Names += "Naqex_Master_Prop7E.ex5"
+}
 
 function Get-AncestorPath {
     param([string]$StartPath, [int]$Levels)
@@ -54,7 +63,13 @@ function Get-AncestorPath {
 $KitRoot = Get-AncestorPath -StartPath $PSScriptRoot -Levels 1
 $ExportsDir = Get-AncestorPath -StartPath $PSScriptRoot -Levels 2
 $RepoRoot = Get-AncestorPath -StartPath $PSScriptRoot -Levels 5
-$ManifestPath = if ($KitRoot) { Join-Path $KitRoot "manifest.sha256.json" } else { "" }
+$ManifestPath = if (-not [string]::IsNullOrWhiteSpace($ManifestFilePath)) {
+    $ManifestFilePath
+} elseif ($KitRoot) {
+    Join-Path $KitRoot "manifest.sha256.json"
+} else {
+    ""
+}
 $DefaultCompiledDir = if ($RepoRoot) { Join-Path $RepoRoot ".runtime\mt5-compiled-ex5" } else { "" }
 $ResolvedEx5Dir = if (-not [string]::IsNullOrWhiteSpace($Ex5SourceDir)) {
     $Ex5SourceDir
@@ -73,61 +88,91 @@ $ResolvedCsvPath = if (-not [string]::IsNullOrWhiteSpace($RedNewsCsvPath)) {
 $HbPath = Join-Path $TargetMt5Root "MQL5\Files\naqex_heartbeat.json"
 $NowUtcTs = if ($NowUtcOverride -gt 0) { $NowUtcOverride } else { [DateTimeOffset]::UtcNow.ToUnixTimeSeconds() }
 
+function Emit-BlockedAndExit {
+    param([string]$StatusCode, [string]$Message, [hashtable]$Extra = @{}, [bool]$IsDryRun = $false)
+    $obj = [ordered]@{
+        schema     = "naqex-ex5-flat-sync-v2"
+        status     = $StatusCode
+        dry_run    = $IsDryRun
+        order_send = 0
+        message    = $Message
+    }
+    foreach ($k in $Extra.Keys) { $obj[$k] = $Extra[$k] }
+    Write-Output ($obj | ConvertTo-Json -Depth 4)
+    exit 2
+}
+
 function Assert-FlatAndFreshHeartbeat {
-    param([string]$Path, [long]$NowTs, [int]$MaxAgeSec, [bool]$AllowMissing, [bool]$IsDryRun)
+    param(
+        [string]$Path, [long]$NowTs, [int]$MaxAgeSec,
+        [bool]$AllowMissing, [bool]$IsDryRun,
+        [long]$ExpLogin, [string]$ExpServer, [bool]$NeedHaltAck
+    )
     if (-not (Test-Path -LiteralPath $Path)) {
-        if ($AllowMissing) { return 0 }
+        if ($AllowMissing) { return @{ open_positions = 0; utc_ts = 0; account_login = 0 } }
         throw "HEARTBEAT_MISSING_FAIL_CLOSED: $Path not found. Pass -ForceWhenHeartbeatMissing only if terminal is verified offline."
     }
     $hb = Get-Content -LiteralPath $Path -Raw -Encoding UTF8 | ConvertFrom-Json
     $hbProps = $hb.PSObject.Properties.Name
-    $openPos = [int]$hb.open_positions
-    if ($openPos -gt 0) {
-        $blocked = [ordered]@{
-            schema         = "naqex-ex5-flat-sync-v1"
-            status         = "BLOCKED_OPEN_POSITIONS"
-            open_positions = $openPos
-            heartbeat_path = $Path
-            dry_run        = $IsDryRun
-            order_send     = 0
-            message        = "Refused fail-closed: terminal currently has $openPos open position(s). Retry once flat (open_positions == 0)."
+
+    # R2-03 CRITICAL: NEVER allow sync when broker is disconnected or positions_state is UNKNOWN!
+    if (-not ($hbProps -contains "terminal_connected") -or (-not [bool]$hb.terminal_connected)) {
+        Emit-BlockedAndExit -StatusCode "BLOCKED_BROKER_DISCONNECTED" -Message "Refused fail-closed: terminal_connected is false or missing (broker positions unknown while offline)." -Extra @{ heartbeat_path = $Path } -IsDryRun:$IsDryRun
+    }
+    if ($hbProps -contains "positions_state") {
+        $ps = ([string]$hb.positions_state).ToUpperInvariant()
+        if ($ps -ne "CONFIRMED") {
+            Emit-BlockedAndExit -StatusCode "BLOCKED_POSITIONS_UNKNOWN" -Message "Refused fail-closed: positions_state='$ps' != CONFIRMED." -Extra @{ heartbeat_path = $Path; positions_state = $ps } -IsDryRun:$IsDryRun
         }
-        Write-Output ($blocked | ConvertTo-Json -Depth 4)
-        exit 2
+    }
+    if ($ExpLogin -gt 0) {
+        $gotLogin = if ($hbProps -contains "account_login") { [long]$hb.account_login } else { 0 }
+        if ($gotLogin -ne $ExpLogin) {
+            Emit-BlockedAndExit -StatusCode "BLOCKED_ACCOUNT_MISMATCH" -Message "Refused fail-closed: account_login=$gotLogin != expected $ExpLogin." -Extra @{ account_login = $gotLogin; expected_login = $ExpLogin } -IsDryRun:$IsDryRun
+        }
+    }
+    if (-not [string]::IsNullOrWhiteSpace($ExpServer)) {
+        $gotSrv = if ($hbProps -contains "account_server") { [string]$hb.account_server } else { "" }
+        if ($gotSrv -ne $ExpServer) {
+            Emit-BlockedAndExit -StatusCode "BLOCKED_SERVER_MISMATCH" -Message "Refused fail-closed: account_server='$gotSrv' != expected '$ExpServer'." -Extra @{ account_server = $gotSrv; expected_server = $ExpServer } -IsDryRun:$IsDryRun
+        }
+    }
+    if ($NeedHaltAck) {
+        $ack = ($hbProps -contains "manual_halt_ack" -and [bool]$hb.manual_halt_ack) -or ($hbProps -contains "manual_halt" -and [bool]$hb.manual_halt)
+        if (-not $ack) {
+            Emit-BlockedAndExit -StatusCode "BLOCKED_MANUAL_HALT_UNCONFIRMED" -Message "Refused fail-closed: manual_halt_ack is false (lock new entries before release sync)." -Extra @{ heartbeat_path = $Path } -IsDryRun:$IsDryRun
+        }
+    }
+
+    $openPos = [int]$hb.open_positions
+    $totalAcctPos = if ($hbProps -contains "total_account_positions") { [int]$hb.total_account_positions } else { $openPos }
+    $pendingOrd = if ($hbProps -contains "pending_orders") { [int]$hb.pending_orders } else { 0 }
+    $inFlightOrd = if ($hbProps -contains "in_flight_orders") { [int]$hb.in_flight_orders } else { 0 }
+
+    if ($openPos -lt 0 -or $totalAcctPos -lt 0 -or $pendingOrd -lt 0 -or $inFlightOrd -lt 0) {
+        Emit-BlockedAndExit -StatusCode "BLOCKED_POSITIONS_UNKNOWN" -Message "Refused fail-closed: negative position/order count signals unknown broker state." -Extra @{ open_positions = $openPos; total_account_positions = $totalAcctPos; pending_orders = $pendingOrd } -IsDryRun:$IsDryRun
+    }
+    if ($openPos -gt 0 -or $totalAcctPos -gt 0 -or $pendingOrd -gt 0 -or $inFlightOrd -gt 0) {
+        Emit-BlockedAndExit -StatusCode "BLOCKED_OPEN_POSITIONS" -Message "Refused fail-closed: account not flat (open=$openPos total=$totalAcctPos pending=$pendingOrd in_flight=$inFlightOrd)." -Extra @{ open_positions = $openPos; total_account_positions = $totalAcctPos; pending_orders = $pendingOrd; in_flight_orders = $inFlightOrd; heartbeat_path = $Path } -IsDryRun:$IsDryRun
     }
     if (-not $AllowMissing) {
         if (-not ($hbProps -contains "utc_ts") -or [long]$hb.utc_ts -le 0) {
-            $blocked = [ordered]@{
-                schema         = "naqex-ex5-flat-sync-v1"
-                status         = "BLOCKED_STALE_HEARTBEAT"
-                heartbeat_path = $Path
-                dry_run        = $IsDryRun
-                order_send     = 0
-                message        = "Refused fail-closed: heartbeat missing valid utc_ts."
-            }
-            Write-Output ($blocked | ConvertTo-Json -Depth 4)
-            exit 2
+            Emit-BlockedAndExit -StatusCode "BLOCKED_STALE_HEARTBEAT" -Message "Refused fail-closed: heartbeat missing valid utc_ts." -Extra @{ heartbeat_path = $Path } -IsDryRun:$IsDryRun
         }
         $ageSec = $NowTs - [long]$hb.utc_ts
         if ($ageSec -gt $MaxAgeSec -or $ageSec -lt -60) {
-            $blocked = [ordered]@{
-                schema          = "naqex-ex5-flat-sync-v1"
-                status          = "BLOCKED_STALE_HEARTBEAT"
-                heartbeat_age_s = $ageSec
-                max_age_s       = $MaxAgeSec
-                heartbeat_path  = $Path
-                dry_run         = $IsDryRun
-                order_send      = 0
-                message         = "Refused fail-closed: heartbeat age=${ageSec}s outside [-60, ${MaxAgeSec}]s."
-            }
-            Write-Output ($blocked | ConvertTo-Json -Depth 4)
-            exit 2
+            Emit-BlockedAndExit -StatusCode "BLOCKED_STALE_HEARTBEAT" -Message "Refused fail-closed: heartbeat age=${ageSec}s outside [-60, ${MaxAgeSec}]s." -Extra @{ heartbeat_age_s = $ageSec; max_age_s = $MaxAgeSec; heartbeat_path = $Path } -IsDryRun:$IsDryRun
         }
     }
-    return $openPos
+    return @{
+        open_positions = $openPos
+        utc_ts         = if ($hbProps -contains "utc_ts") { [long]$hb.utc_ts } else { 0 }
+        account_login  = if ($hbProps -contains "account_login") { [long]$hb.account_login } else { 0 }
+    }
 }
 
-$OpenPos = Assert-FlatAndFreshHeartbeat -Path $HbPath -NowTs $NowUtcTs -MaxAgeSec $MaxHeartbeatAgeSec -AllowMissing:$ForceWhenHeartbeatMissing -IsDryRun:$DryRun
+$HbSnap1 = Assert-FlatAndFreshHeartbeat -Path $HbPath -NowTs $NowUtcTs -MaxAgeSec $MaxHeartbeatAgeSec -AllowMissing:$ForceWhenHeartbeatMissing -IsDryRun:$DryRun -ExpLogin $ExpectedLogin -ExpServer $ExpectedServer -NeedHaltAck:$RequireManualHaltAck
+$OpenPos = [int]$HbSnap1.open_positions
 
 $Ex5Files = @()
 foreach ($reqName in $RequiredEx5Names) {
@@ -138,9 +183,10 @@ foreach ($reqName in $RequiredEx5Names) {
     $Ex5Files += Get-Item -LiteralPath $fp
 }
 
-# Cross-verify source .ex5 hashes against kit manifest when using default compiled dir
+# R2-03: Always cross-verify source .ex5 AND red-news CSV hashes against manifest whenever manifest is available (or required!)
 $ManifestHashes = @{}
-if ([string]::IsNullOrWhiteSpace($Ex5SourceDir) -and -not [string]::IsNullOrWhiteSpace($ManifestPath) -and (Test-Path -LiteralPath $ManifestPath)) {
+$ManifestCsvHash = ""
+if (-not [string]::IsNullOrWhiteSpace($ManifestPath) -and (Test-Path -LiteralPath $ManifestPath)) {
     $mObj = Get-Content -LiteralPath $ManifestPath -Raw -Encoding UTF8 | ConvertFrom-Json
     if ($mObj.compiled_ex5_files) {
         foreach ($prop in $mObj.compiled_ex5_files.PSObject.Properties) {
@@ -148,6 +194,15 @@ if ([string]::IsNullOrWhiteSpace($Ex5SourceDir) -and -not [string]::IsNullOrWhit
             $ManifestHashes[$leaf] = ([string]$prop.Value.sha256).ToLowerInvariant()
         }
     }
+    if ($mObj.external_dependencies) {
+        foreach ($prop in $mObj.external_dependencies.PSObject.Properties) {
+            if ($prop.Name -like "*naqex_red_news_utc.csv" -and $prop.Value.snapshot_sha256) {
+                $ManifestCsvHash = ([string]$prop.Value.snapshot_sha256).ToLowerInvariant()
+            }
+        }
+    }
+} elseif ($RequireManifest) {
+    throw "MANIFEST_REQUIRED_MISSING: manifest not found at '$ManifestPath'"
 }
 
 if (-not (Test-Path -LiteralPath $ResolvedCsvPath)) {
@@ -159,6 +214,9 @@ if ($CsvLines.Count -lt 201 -or ($CsvLines[0].Trim() -notlike "utc_ts,ccy,event*
 }
 $CsvRowCount = $CsvLines.Count - 1
 $SrcCsvSha = (Get-FileHash -LiteralPath $ResolvedCsvPath -Algorithm SHA256).Hash.ToLowerInvariant()
+if (-not [string]::IsNullOrWhiteSpace($ManifestCsvHash) -and $SrcCsvSha -ne $ManifestCsvHash) {
+    throw "MANIFEST_CSV_SHA256_MISMATCH: naqex_red_news_utc.csv disk=$SrcCsvSha != manifest=$ManifestCsvHash"
+}
 
 # Detect whether target places Naqex EAs under MQL5\Experts\Naqex or directly under MQL5\Experts
 $SubDir = Join-Path $TargetMt5Root "MQL5\Experts\Naqex"
@@ -179,23 +237,27 @@ foreach ($f in $Ex5Files) {
 }
 
 if (-not $DryRun) {
-    # Re-check flat + fresh right before writing (reduces TOCTOU window)
+    # Re-check flat + connected + fresh right before writing (reduces TOCTOU window)
     $NowCheckTs = if ($NowUtcOverride -gt 0) { $NowUtcOverride } else { [DateTimeOffset]::UtcNow.ToUnixTimeSeconds() }
-    $null = Assert-FlatAndFreshHeartbeat -Path $HbPath -NowTs $NowCheckTs -MaxAgeSec $MaxHeartbeatAgeSec -AllowMissing:$ForceWhenHeartbeatMissing -IsDryRun:$false
+    $null = Assert-FlatAndFreshHeartbeat -Path $HbPath -NowTs $NowCheckTs -MaxAgeSec $MaxHeartbeatAgeSec -AllowMissing:$ForceWhenHeartbeatMissing -IsDryRun:$false -ExpLogin $ExpectedLogin -ExpServer $ExpectedServer -NeedHaltAck:$RequireManualHaltAck
 
     New-Item -ItemType Directory -Force -Path $DestDir | Out-Null
     New-Item -ItemType Directory -Force -Path $DestFilesDir | Out-Null
     $Stamp = [DateTimeOffset]::UtcNow.ToString("yyyyMMddTHHmmssZ")
     $RollbackDir = Join-Path $TargetMt5Root ".naqex_sync_rollback_$Stamp"
     $BackedUp = @()
+    $NewlyCreated = @()
     try {
         foreach ($f in $Ex5Files) {
             $dst = Join-Path $DestDir $f.Name
             if (Test-Path -LiteralPath $dst) {
                 New-Item -ItemType Directory -Force -Path $RollbackDir | Out-Null
                 $bak = Join-Path $RollbackDir $f.Name
+                $origHash = (Get-FileHash -LiteralPath $dst -Algorithm SHA256).Hash.ToLowerInvariant()
                 Copy-Item -LiteralPath $dst -Destination $bak -Force
-                $BackedUp += @{ Src = $bak; Dst = $dst }
+                $BackedUp += @{ Src = $bak; Dst = $dst; OrigHash = $origHash }
+            } else {
+                $NewlyCreated += $dst
             }
             Copy-Item -LiteralPath $f.FullName -Destination $dst -Force
             $dstHash = (Get-FileHash -LiteralPath $dst -Algorithm SHA256).Hash.ToLowerInvariant()
@@ -206,8 +268,11 @@ if (-not $DryRun) {
         if (Test-Path -LiteralPath $DestCsvPath) {
             New-Item -ItemType Directory -Force -Path $RollbackDir | Out-Null
             $bakCsv = Join-Path $RollbackDir "naqex_red_news_utc.csv"
+            $origCsvHash = (Get-FileHash -LiteralPath $DestCsvPath -Algorithm SHA256).Hash.ToLowerInvariant()
             Copy-Item -LiteralPath $DestCsvPath -Destination $bakCsv -Force
-            $BackedUp += @{ Src = $bakCsv; Dst = $DestCsvPath }
+            $BackedUp += @{ Src = $bakCsv; Dst = $DestCsvPath; OrigHash = $origCsvHash }
+        } else {
+            $NewlyCreated += $DestCsvPath
         }
         Copy-Item -LiteralPath $ResolvedCsvPath -Destination $DestCsvPath -Force
         $dstCsvSha = (Get-FileHash -LiteralPath $DestCsvPath -Algorithm SHA256).Hash.ToLowerInvariant()
@@ -218,25 +283,42 @@ if (-not $DryRun) {
             Remove-Item -Recurse -Force -LiteralPath $RollbackDir -ErrorAction SilentlyContinue
         }
     } catch {
+        $syncErr = $_
+        $rbErrors = @()
+        # R2-03: Strict rollback restores ALL overwritten files with SHA verification AND removes newly introduced files!
         foreach ($item in $BackedUp) {
-            if (Test-Path -LiteralPath $item.Src) {
-                Copy-Item -LiteralPath $item.Src -Destination $item.Dst -Force -ErrorAction SilentlyContinue
+            try {
+                Copy-Item -LiteralPath $item.Src -Destination $item.Dst -Force
+                $restoredHash = (Get-FileHash -LiteralPath $item.Dst -Algorithm SHA256).Hash.ToLowerInvariant()
+                if ($restoredHash -ne $item.OrigHash) {
+                    $rbErrors += "Restore SHA mismatch on $($item.Dst)"
+                }
+            } catch {
+                $rbErrors += "Restore failed on $($item.Dst): $($_.Exception.Message)"
             }
         }
-        throw
+        foreach ($newDst in $NewlyCreated) {
+            if (Test-Path -LiteralPath $newDst) {
+                try { Remove-Item -Force -LiteralPath $newDst } catch { $rbErrors += "Failed removing new file ${newDst}: $($_.Exception.Message)" }
+            }
+        }
+        if ($rbErrors.Count -gt 0) {
+            throw "SYNC_AND_ROLLBACK_ERROR: $($syncErr.Exception.Message) | RollbackErrors: $($rbErrors -join '; ')"
+        }
+        throw $syncErr
     }
 }
 
 $res = [ordered]@{
-    schema          = "naqex-ex5-flat-sync-v1"
-    status          = if ($DryRun) { "DRYRUN_READY_FLAT" } else { "SYNCED_CLEAN_FLAT" }
-    open_positions  = $OpenPos
-    dest_dir        = $DestDir
-    files_count     = $Updated.Count
-    files           = @($Updated)
-    ex5_sha256      = $Ex5Hashes
+    schema           = "naqex-ex5-flat-sync-v2"
+    status           = if ($DryRun) { "DRYRUN_READY_FLAT" } else { "SYNCED_CLEAN_FLAT" }
+    open_positions   = $OpenPos
+    dest_dir         = $DestDir
+    files_count      = $Updated.Count
+    files            = @($Updated)
+    ex5_sha256       = $Ex5Hashes
     manifest_checked = ($ManifestHashes.Count -gt 0)
-    red_news_csv    = [ordered]@{
+    red_news_csv     = [ordered]@{
         source          = $ResolvedCsvPath
         dest            = $DestCsvPath
         rows            = $CsvRowCount
@@ -244,8 +326,8 @@ $res = [ordered]@{
         synced          = (-not [bool]$DryRun)
         sha256_verified = $true
     }
-    sha256_verified = $true
-    order_send      = 0
+    sha256_verified  = $true
+    order_send       = 0
 }
 Write-Output ($res | ConvertTo-Json -Depth 5)
 exit 0

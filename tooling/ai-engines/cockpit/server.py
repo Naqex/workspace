@@ -892,6 +892,7 @@ def build_prop_metrix_payload(
         else:
             cal_cells.append({"empty": False, "day_num": dnum, "day": dk, "has_trade": False, "pnl_usd": None, "state": "IDLE"})
 
+    active_meta_src = cloud_node if (cloud_node and cloud_node.get("equity") is not None) else (local_hb if local_hb else {})
     return {
         "schema": "naqex-prop-metrix-v1",
         "generated_utc": datetime.now(timezone.utc).isoformat(),
@@ -903,6 +904,13 @@ def build_prop_metrix_payload(
             "status": source_status,
             "age_sec": age_sec,
             "mt5_running": cloud_node.get("mt5_running") if cloud_node else None,
+            "account_login": active_meta_src.get("account_login"),
+            "account_server": active_meta_src.get("account_server"),
+            "build_version": active_meta_src.get("build_version"),
+            "positions_state": active_meta_src.get("positions_state") or ("CONFIRMED" if source_status == "OK" else "UNKNOWN"),
+            "anchor_state": active_meta_src.get("anchor_state"),
+            "manual_halt_ack": active_meta_src.get("manual_halt_ack"),
+            "read_only_note": "Read-only mirror; verify broker statement/terminal before treating positions as flat or closed.",
         },
         "account": {
             "initial_usd": init_usd,

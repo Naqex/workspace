@@ -264,3 +264,46 @@ def test_win10_home_vps_bootstrap_script_dry_run():
     assert out["dry_run"] is True and out["order_send"] == 0
     assert any("DRYRUN_OPENSSH" in a for a in out["actions"])
     assert any("DRYRUN_REGISTER_SCHTASK" in a for a in out["actions"])
+
+
+def test_deadman_r2_08_expected_node_missing_and_unknown_positions():
+    """Astra R2-08: alert if expected node never reported (e.g. DB fallback) & flag UNKNOWN positions_state."""
+    now_box = [1_795_500_000.0]
+    sent_msgs: list[str] = []
+
+    def fake_send(msg: str) -> dict:
+        sent_msgs.append(msg)
+        return {"sent": ["telegram"], "errors": [], "configured": True}
+
+    mon = deadman_app.DeadmanMonitor(
+        ingest_token="tok",
+        view_token="vtok",
+        stale_after_sec=180,
+        expected_nodes=["NAQEX_NODE1"],
+        alert_sender=fake_send,
+        clock_fn=lambda: now_box[0],
+    )
+    # After 200s with zero heartbeats ever received -> MUST fire STALE for NAQEX_NODE1!
+    now_box[0] += 200.0
+    staled = mon.check_stale_nodes()
+    assert len(staled) == 1 and staled[0]["account_label"] == "NAQEX_NODE1"
+    assert len(sent_msgs) == 1
+
+    # Ingesting heartbeat with positions_state=UNKNOWN / open_positions=-1 / UNRECOVERED_AFTER_GAP -> CRITICAL!
+    res = mon.ingest_heartbeat({
+        "account_label": "NAQEX_NODE1",
+        "mt5_running": True,
+        "heartbeat": {
+            "utc_ts": now_box[0] - 5,
+            "terminal_connected": True,
+            "positions_state": "UNKNOWN",
+            "anchor_state": "UNRECOVERED_AFTER_GAP",
+            "open_positions": -1,
+            "balance": 10000.0,
+            "equity": 10000.0,
+        },
+    })
+    assert res["status"] == "CRITICAL"
+    assert "POSITIONS_STATE_UNKNOWN" in res["reasons"]
+    assert "DAILY_ANCHOR_UNRECOVERED" in res["reasons"]
+

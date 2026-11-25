@@ -165,7 +165,10 @@ def test_vps_24x5_install_and_flat_only_sync_scripts(tmp_path: Path):
     # 2. Fail-closed flat-only updater MUST refuse with exit code 2 when open_positions == 1!
     files_dir = mt5_target / "MQL5" / "Files"
     files_dir.mkdir(parents=True, exist_ok=True)
-    (files_dir / "naqex_heartbeat.json").write_text(json.dumps({"open_positions": 1, "utc_ts": 1795498000}), encoding="utf-8")
+    (files_dir / "naqex_heartbeat.json").write_text(
+        json.dumps({"open_positions": 1, "terminal_connected": True, "positions_state": "CONFIRMED", "utc_ts": 1795498000}),
+        encoding="utf-8",
+    )
     p2 = subprocess.run(
         [
             "powershell", "-NoProfile", "-ExecutionPolicy", "Bypass",
@@ -179,8 +182,29 @@ def test_vps_24x5_install_and_flat_only_sync_scripts(tmp_path: Path):
     assert p2.returncode == 2
     assert json.loads(p2.stdout)["status"] == "BLOCKED_OPEN_POSITIONS"
 
+    # 2a. R2-03 regression: disconnected/UNKNOWN positions MUST refuse even if open_positions == 0!
+    (files_dir / "naqex_heartbeat.json").write_text(
+        json.dumps({"open_positions": 0, "terminal_connected": False, "positions_state": "UNKNOWN", "utc_ts": 1795498000}),
+        encoding="utf-8",
+    )
+    p2a = subprocess.run(
+        [
+            "powershell", "-NoProfile", "-ExecutionPolicy", "Bypass",
+            "-File", str(sync_ps),
+            "-TargetMt5Root", str(mt5_target),
+            "-NowUtcOverride", "1795498015",
+            "-DryRun",
+        ],
+        capture_output=True, text=True, check=False,
+    )
+    assert p2a.returncode == 2
+    assert json.loads(p2a.stdout)["status"] == "BLOCKED_BROKER_DISCONNECTED"
+
     # 2b. Fail-closed on stale heartbeat (> 180s) even when open_positions == 0!
-    (files_dir / "naqex_heartbeat.json").write_text(json.dumps({"open_positions": 0, "utc_ts": 1795498000}), encoding="utf-8")
+    (files_dir / "naqex_heartbeat.json").write_text(
+        json.dumps({"open_positions": 0, "terminal_connected": True, "positions_state": "CONFIRMED", "utc_ts": 1795498000}),
+        encoding="utf-8",
+    )
     p2b = subprocess.run(
         [
             "powershell", "-NoProfile", "-ExecutionPolicy", "Bypass",
