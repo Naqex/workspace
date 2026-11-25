@@ -43,3 +43,8 @@ tooling/ai-engines/quant_core/research_fast_fail.py text eol=lf
 planning/research/BOT-REVERSE-LAB-PLAYBOOK.md text eol=lf
 research/bot_reverse_lab/controls/* text eol=lf
 config/ftmo_free_trial.env.example text eol=lf
+# Holdout lock & SHA-256 tracked MQL5/calendar/deployment artifacts must preserve LF bytes on Windows CI.
+planning/research/NATIVE_FTMO_HOLDOUT_LOCK.json text eol=lf
+tooling/ai-engines/exports/** text eol=lf
+tooling/ai-engines/configs/calendars/** text eol=lf
+planning/research/PORTFOLIO-REGISTRY.json text eol=lf

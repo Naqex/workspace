@@ -35,7 +35,7 @@ sources:
      - `EUR`: ECB Main Refinancing Rate.
      - `GBP`: BoE Official Bank Rate & MPC Votes, UK CPI.
      - `CAD`: BoC Overnight Rate & Statement, CAD CPI *(bộ `7E` không giao dịch cặp CAD)*.
-   - **Lỗ hổng phát hiện ngay hôm nay (`25/11`):** Tệp `naqex_red_news_utc.csv` hiện có `477` mốc nhưng **chưa có `FOMC Meeting Minutes`** (công bố lúc `19:00/18:00 UTC` — đúng khung `7E` đang giữ lệnh trước `20:55 UTC`). **Bắt buộc bổ sung đủ `FOMC Minutes 2026–2027`** trong Sprint này nếu cân nhắc `FTMO Standard`.
+   - **Lỗ hổng phát hiện & ĐÃ VÁ ngay hôm nay (`25/11`):** Tệp `naqex_red_news_utc.csv` trước đó thiếu `FOMC Meeting Minutes` (công bố lúc `19:00/18:00 UTC` — đúng khung `7E` đang giữ lệnh trước `20:55 UTC`). Đã bổ sung đủ **`16` mốc `FOMC Meeting Minutes 2026–2027`** chính thức từ `federalreserve.gov`, nâng lịch tin đỏ lên **`492` dòng (`sha256 = 235722ed1821499f...`)** và cập nhật manifest.
    - Bộ `7E` của mình đã đóng phẳng `100%` trước `20:55 UTC` (`swap = 0`, không giữ qua cuối tuần) nên đáp ứng sẵn yêu cầu không giữ cuối tuần của `FTMO Standard`.
 4. **Lịch nghỉ lễ Mỹ tuần này (lý do KHÔNG THỂ chỉ ngồi chờ dàn `7E` tự phát lệnh):**
    - **Thứ 4 (`25/11`):** Phiên đầy đủ.

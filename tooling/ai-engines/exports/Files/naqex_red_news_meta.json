@@ -1,8 +1,8 @@
 {
   "schema": "naqex-red-news-meta-v2",
-  "csv_sha256": "401c5c64cb127f4999ceb2aa24d4ca1baa65f112822da62ec4399638a1a2ca6b",
-  "csv_bytes": 13490,
-  "total_rows": 477,
+  "csv_sha256": "235722ed1821499f8d81b169418486d3a8b9c0e8911857c88fea8d2270d3dff7",
+  "csv_bytes": 14131,
+  "total_rows": 492,
   "currencies": [
     "AUD",
     "CAD",
@@ -52,7 +52,7 @@
       "EUR": 16,
       "GBP": 10,
       "JPY": 8,
-      "USD": 39
+      "USD": 47
     },
     "2027": {
       "AUD": 8,
@@ -60,7 +60,7 @@
       "EUR": 16,
       "GBP": 20,
       "JPY": 8,
-      "USD": 73
+      "USD": 80
     }
   },
   "boj_estimated_window_sec": 3600

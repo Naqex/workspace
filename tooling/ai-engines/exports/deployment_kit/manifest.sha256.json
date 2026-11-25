@@ -1,6 +1,6 @@
 {
   "schema": "naqex-mt5-deployment-kit-manifest-v1",
-  "generated_utc": "2026-11-25T05:31:46+00:00",
+  "generated_utc": "2026-11-25T06:30:24+00:00",
   "order_send_count": 0,
   "profile_count": 10,
   "profiles": {
@@ -713,8 +713,8 @@
   "external_dependencies": {
     "tooling/ai-engines/exports/Files/naqex_red_news_utc.csv": {
       "owner": "lane-b-risk-auditor",
-      "rows_at_build": 477,
-      "snapshot_sha256": "401c5c64cb127f4999ceb2aa24d4ca1baa65f112822da62ec4399638a1a2ca6b"
+      "rows_at_build": 492,
+      "snapshot_sha256": "235722ed1821499f8d81b169418486d3a8b9c0e8911857c88fea8d2270d3dff7"
     }
   }
 }

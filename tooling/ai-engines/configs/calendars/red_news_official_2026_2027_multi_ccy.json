@@ -1,6 +1,6 @@
 {
   "schema": "naqex-red-news-multi-ccy-2026-2027-v1",
-  "generated_utc": "2026-11-25T05:15:00Z",
+  "generated_utc": "2026-11-25T06:30:00Z",
   "coverage": "Full-Year 2026 + Full-Year 2027 across USD, GBP, EUR, JPY, AUD, CAD (all 6 central banks >= 8 meetings/yr)",
   "currencies": [
     "USD",
@@ -20,7 +20,8 @@
     "ecb.europa.eu — ECB Governing Council Monetary Policy Decisions (14:15 Frankfurt) + Press Conferences (14:45 Frankfurt) 2026-2027",
     "boj.or.jp — BoJ Monetary Policy Meetings 2026-2027 official dates (release time unfixed ~11:30-12:30 JST; anchored 12:00 JST / 03:00 UTC EST03UTC)",
     "rba.gov.au — RBA Monetary Policy Board cash rate decisions 2026-2027 official schedule (14:30 Australia/Sydney)",
-    "bankofcanada.ca — Bank of Canada policy interest rate announcements 2026-2027 official schedule (09:45 America/Toronto)"
+    "bankofcanada.ca — Bank of Canada policy interest rate announcements 2026-2027 official schedule (09:45 America/Toronto)",
+    "federalreserve.gov — FOMC Meeting Minutes 2026-2027 (3 weeks post-meeting, 14:00 ET; required by FTMO Standard Restricted Events)"
   ],
   "notes": [
     "Frozen red_news_official_2018_2024.json (224 Dev rows) and red_news_official_2025_2026.json (31 2025 + 32 2026 USD rows) remain untouched.",
@@ -28,7 +29,7 @@
     "BoJ MPM dates are official, but announcement minute varies (~11:30-12:30 JST / 02:30-03:30 UTC), so tagged _EST03UTC.",
     "BEA co-releases monthly Personal Income & Outlays (Core PCE) and GDP estimates at 08:30 ET; simultaneous BLS PPI + Census Retail Sales (2027-10-15, 2027-12-15) are deduplicated per (utc_ts, ccy) by build_red_news_calendar.py."
   ],
-  "event_count": 192,
+  "event_count": 208,
   "events": [
     {
       "local_date": "2026-01-23",
@@ -94,6 +95,17 @@
       "ccy": "EUR",
       "event": "ECB_PRESS_CONF_ECB2026",
       "source": "ecb.europa.eu",
+      "confidence": "OFFICIAL_CONFIRMED"
+    },
+    {
+      "local_date": "2026-02-18",
+      "local_time": "14:00",
+      "tz_name": "America/New_York",
+      "utc_ts": 1771441200,
+      "utc_iso": "2026-02-18T19:00:00Z",
+      "ccy": "USD",
+      "event": "FOMC_MINUTES_FED2026",
+      "source": "federalreserve.gov",
       "confidence": "OFFICIAL_CONFIRMED"
     },
     {
@@ -163,6 +175,17 @@
       "confidence": "OFFICIAL_CONFIRMED"
     },
     {
+      "local_date": "2026-04-08",
+      "local_time": "14:00",
+      "tz_name": "America/New_York",
+      "utc_ts": 1775671200,
+      "utc_iso": "2026-04-08T18:00:00Z",
+      "ccy": "USD",
+      "event": "FOMC_MINUTES_FED2026",
+      "source": "federalreserve.gov",
+      "confidence": "OFFICIAL_CONFIRMED"
+    },
+    {
       "local_date": "2026-04-28",
       "local_time": "12:00",
       "tz_name": "Asia/Tokyo",
@@ -226,6 +249,17 @@
       "ccy": "AUD",
       "event": "RBA_RATE_RBA2026",
       "source": "rba.gov.au",
+      "confidence": "OFFICIAL_CONFIRMED"
+    },
+    {
+      "local_date": "2026-05-20",
+      "local_time": "14:00",
+      "tz_name": "America/New_York",
+      "utc_ts": 1779300000,
+      "utc_iso": "2026-05-20T18:00:00Z",
+      "ccy": "USD",
+      "event": "FOMC_MINUTES_FED2026",
+      "source": "federalreserve.gov",
       "confidence": "OFFICIAL_CONFIRMED"
     },
     {
@@ -295,6 +329,17 @@
       "confidence": "OFFICIAL_CONFIRMED"
     },
     {
+      "local_date": "2026-07-08",
+      "local_time": "14:00",
+      "tz_name": "America/New_York",
+      "utc_ts": 1783533600,
+      "utc_iso": "2026-07-08T18:00:00Z",
+      "ccy": "USD",
+      "event": "FOMC_MINUTES_FED2026",
+      "source": "federalreserve.gov",
+      "confidence": "OFFICIAL_CONFIRMED"
+    },
+    {
       "local_date": "2026-07-15",
       "local_time": "09:45",
       "tz_name": "America/Toronto",
@@ -361,6 +406,17 @@
       "confidence": "OFFICIAL_CONFIRMED"
     },
     {
+      "local_date": "2026-08-19",
+      "local_time": "14:00",
+      "tz_name": "America/New_York",
+      "utc_ts": 1787162400,
+      "utc_iso": "2026-08-19T18:00:00Z",
+      "ccy": "USD",
+      "event": "FOMC_MINUTES_FED2026",
+      "source": "federalreserve.gov",
+      "confidence": "OFFICIAL_CONFIRMED"
+    },
+    {
       "local_date": "2026-09-02",
       "local_time": "09:45",
       "tz_name": "America/Toronto",
@@ -424,6 +480,17 @@
       "ccy": "AUD",
       "event": "RBA_RATE_RBA2026",
       "source": "rba.gov.au",
+      "confidence": "OFFICIAL_CONFIRMED"
+    },
+    {
+      "local_date": "2026-10-07",
+      "local_time": "14:00",
+      "tz_name": "America/New_York",
+      "utc_ts": 1791396000,
+      "utc_iso": "2026-10-07T18:00:00Z",
+      "ccy": "USD",
+      "event": "FOMC_MINUTES_FED2026",
+      "source": "federalreserve.gov",
       "confidence": "OFFICIAL_CONFIRMED"
     },
     {
@@ -523,6 +590,17 @@
       "ccy": "GBP",
       "event": "UK_CPI_ONS2026",
       "source": "ons.gov.uk",
+      "confidence": "OFFICIAL_CONFIRMED"
+    },
+    {
+      "local_date": "2026-11-18",
+      "local_time": "14:00",
+      "tz_name": "America/New_York",
+      "utc_ts": 1795028400,
+      "utc_iso": "2026-11-18T19:00:00Z",
+      "ccy": "USD",
+      "event": "FOMC_MINUTES_FED2026",
+      "source": "federalreserve.gov",
       "confidence": "OFFICIAL_CONFIRMED"
     },
     {
@@ -655,6 +733,17 @@
       "ccy": "USD",
       "event": "US_GDP_AND_CORE_PCE_BEA2026",
       "source": "bea.gov",
+      "confidence": "OFFICIAL_CONFIRMED"
+    },
+    {
+      "local_date": "2026-12-30",
+      "local_time": "14:00",
+      "tz_name": "America/New_York",
+      "utc_ts": 1798657200,
+      "utc_iso": "2026-12-30T19:00:00Z",
+      "ccy": "USD",
+      "event": "FOMC_MINUTES_FED2026",
+      "source": "federalreserve.gov",
       "confidence": "OFFICIAL_CONFIRMED"
     },
     {
@@ -867,6 +956,17 @@
       "confidence": "OFFICIAL_CONFIRMED"
     },
     {
+      "local_date": "2027-02-17",
+      "local_time": "14:00",
+      "tz_name": "America/New_York",
+      "utc_ts": 1802890800,
+      "utc_iso": "2027-02-17T19:00:00Z",
+      "ccy": "USD",
+      "event": "FOMC_MINUTES_FED2027_TENTATIVE",
+      "source": "federalreserve.gov",
+      "confidence": "OFFICIAL_TENTATIVE"
+    },
+    {
       "local_date": "2027-02-25",
       "local_time": "08:30",
       "tz_name": "America/New_York",
@@ -1041,6 +1141,17 @@
       "event": "US_NFP_BLS2027",
       "source": "bls.gov",
       "confidence": "OFFICIAL_CONFIRMED"
+    },
+    {
+      "local_date": "2027-04-07",
+      "local_time": "14:00",
+      "tz_name": "America/New_York",
+      "utc_ts": 1807120800,
+      "utc_iso": "2027-04-07T18:00:00Z",
+      "ccy": "USD",
+      "event": "FOMC_MINUTES_FED2027_TENTATIVE",
+      "source": "federalreserve.gov",
+      "confidence": "OFFICIAL_TENTATIVE"
     },
     {
       "local_date": "2027-04-13",
@@ -1241,6 +1352,17 @@
       "confidence": "OFFICIAL_CONFIRMED"
     },
     {
+      "local_date": "2027-05-19",
+      "local_time": "14:00",
+      "tz_name": "America/New_York",
+      "utc_ts": 1810749600,
+      "utc_iso": "2027-05-19T18:00:00Z",
+      "ccy": "USD",
+      "event": "FOMC_MINUTES_FED2027_TENTATIVE",
+      "source": "federalreserve.gov",
+      "confidence": "OFFICIAL_TENTATIVE"
+    },
+    {
       "local_date": "2027-05-27",
       "local_time": "08:30",
       "tz_name": "America/New_York",
@@ -1404,6 +1526,17 @@
       "event": "US_GDP_AND_CORE_PCE_BEA2027",
       "source": "bea.gov",
       "confidence": "OFFICIAL_CONFIRMED"
+    },
+    {
+      "local_date": "2027-06-30",
+      "local_time": "14:00",
+      "tz_name": "America/New_York",
+      "utc_ts": 1814378400,
+      "utc_iso": "2027-06-30T18:00:00Z",
+      "ccy": "USD",
+      "event": "FOMC_MINUTES_FED2027_TENTATIVE",
+      "source": "federalreserve.gov",
+      "confidence": "OFFICIAL_TENTATIVE"
     },
     {
       "local_date": "2027-07-02",
@@ -1615,6 +1748,17 @@
       "confidence": "OFFICIAL_CONFIRMED"
     },
     {
+      "local_date": "2027-08-18",
+      "local_time": "14:00",
+      "tz_name": "America/New_York",
+      "utc_ts": 1818612000,
+      "utc_iso": "2027-08-18T18:00:00Z",
+      "ccy": "USD",
+      "event": "FOMC_MINUTES_FED2027_TENTATIVE",
+      "source": "federalreserve.gov",
+      "confidence": "OFFICIAL_TENTATIVE"
+    },
+    {
       "local_date": "2027-08-25",
       "local_time": "08:30",
       "tz_name": "America/New_York",
@@ -1778,6 +1922,17 @@
       "event": "US_GDP_AND_CORE_PCE_BEA2027",
       "source": "bea.gov",
       "confidence": "OFFICIAL_CONFIRMED"
+    },
+    {
+      "local_date": "2027-10-06",
+      "local_time": "14:00",
+      "tz_name": "America/New_York",
+      "utc_ts": 1822845600,
+      "utc_iso": "2027-10-06T18:00:00Z",
+      "ccy": "USD",
+      "event": "FOMC_MINUTES_FED2027_TENTATIVE",
+      "source": "federalreserve.gov",
+      "confidence": "OFFICIAL_TENTATIVE"
     },
     {
       "local_date": "2027-10-08",
@@ -1990,6 +2145,17 @@
     },
     {
       "local_date": "2027-11-17",
+      "local_time": "14:00",
+      "tz_name": "America/New_York",
+      "utc_ts": 1826478000,
+      "utc_iso": "2027-11-17T19:00:00Z",
+      "ccy": "USD",
+      "event": "FOMC_MINUTES_FED2027_TENTATIVE",
+      "source": "federalreserve.gov",
+      "confidence": "OFFICIAL_TENTATIVE"
+    },
+    {
+      "local_date": "2027-11-17",
       "local_time": "14:30",
       "tz_name": "America/New_York",
       "utc_ts": 1826479800,
@@ -2031,6 +2197,17 @@
       "event": "BOC_RATE_BOC2027",
       "source": "bankofcanada.ca",
       "confidence": "OFFICIAL_CONFIRMED"
+    },
+    {
+      "local_date": "2027-12-08",
+      "local_time": "14:00",
+      "tz_name": "America/New_York",
+      "utc_ts": 1828292400,
+      "utc_iso": "2027-12-08T19:00:00Z",
+      "ccy": "USD",
+      "event": "FOMC_MINUTES_FED2027_TENTATIVE",
+      "source": "federalreserve.gov",
+      "confidence": "OFFICIAL_TENTATIVE"
     },
     {
       "local_date": "2027-12-10",
