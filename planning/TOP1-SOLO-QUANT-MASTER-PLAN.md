@@ -2,7 +2,7 @@
 doc_type: plan
 domain: strategy-and-operations
 status: active
-updated_utc: 2026-11-25
+updated_utc: 2026-11-26
 order_send_count: 0
 holdout_rows_analysed: 0
 owner: "knowledge/owner/PROFILE.md"
@@ -10,6 +10,12 @@ owner: "knowledge/owner/PROFILE.md"
 
 # Kế Hoạch Tổng Thể Chạm Chuẩn "Chuyên Gia Độc Lập Bậc Nhất (Top 1%)"
 
+> **Hiệu Chính Toán Học & Kỷ Luật Thực Thi (`26/11/2026` — Sau Kiểm Toán Độc Lập Astra & Sprint 6 Giờ Parity):**
+> Các mục tiêu lịch sử ở Phần 1 bên dưới được hiệu chỉnh cứng theo 3 nguyên tắc toán học bắt buộc (ưu tiên hơn mọi con số cũ nếu có xung đột):
+> 1. **Cân bằng xác suất 3 trạng thái tại Ngày 180 (`Đậu + Rớt + Chờ = 100%`):** Bảng cũ ghi đồng thời tỷ lệ đậu 6 tháng `85%–95%` và vùng rớt vé `22%–35%` là **mâu thuẫn toán học trên 1 vé** (`85% + 22% > 100%`). Mọi báo cáo về sau phải tách rõ 3 nhóm **`Đậu / Rớt / Đang chờ` tại Ngày 180 cộng đúng `100%`** (tỷ lệ đậu gộp nhiều vé chỉ tính riêng kèm trần chi phí mua lại).
+> 2. **Đa dạng hóa không nhân cấp số nhân lãi không đòn bẩy (`1×`):** Ghép `4` nhánh độc lập mỗi nhánh lãi `~+7,3%/năm` ở mức không đòn bẩy (`1×`) giúp **giảm độ rung lắc và sụt giảm sâu nhất** (nâng độ đều/Sharpe), **KHÔNG tự nhân lãi năm không đòn bẩy lên `+18%..+30%/năm`**; mức lợi nhuận cao hơn chỉ xuất hiện khi dùng đòn bẩy có kiểm soát hoặc quy mô danh nghĩa tài khoản quỹ (kèm rủi ro đuôi tương ứng).
+> 3. **Kỷ luật tài chính Năm 1 = `0 VND` thu nhập giao dịch:** Không dự toán hay dựa vào thu nhập trading trong Năm 1; trạng thái hiện tại sau Sprint 6 giờ ([SPRINT-6H-STANDARD-PARITY-AND-C00-VS-C10-AUDIT-20261126.md](research/SPRINT-6H-STANDARD-PARITY-AND-C00-VS-C10-AUDIT-20261126.md)) là **`DỪNG TẠI CỔNG PARITY` (`0 VND`, `C10` chưa thăng hạng, `C00` chưa tự động có bằng chứng edge thực chiến)** cho tới khi vá xong đồng bộ Python↔MT5 `v1.02`.
+>
 > **Mục đích tài liệu:** Đây là bản kế hoạch hành động duy nhất của Naqex để đưa hệ thống từ mức hiện tại (đang chạy thử 1 nhánh FX/Chỉ số trên `naqex-node1`, chưa có lịch sử rút lãi thật) tiến sát cảnh giới **chuyên gia giao dịch tự động độc lập bậc nhất (Top 1% Solo Quant)** — hoàn toàn **thực tế, đo bằng tiền lời ròng sau mọi chi phí, và lấy tiền lời tự nuôi hạ tầng**.
 >
 > **Cập Nhật Kiến Trúc Vòng 3 (`25/11/2026` — Chốt Theo Kiểm Toán Độc Lập Astra Vòng 2 & Vòng 3):**
