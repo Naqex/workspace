@@ -1,6 +1,6 @@
 ---
 name: quant-factory-ops
-description: Autonomously audit, accelerate, prune bloat, verify regression, and maintain the Naqex 4-layer Quant Factory (declarative JSON configs, zero-pickle NPZ derived cache, Numba JIT evaluation, MQL5 PropGuard, and system_doctor health checks). Use for quant infrastructure health checks, performance upgrades, anti-bloat archiving, or safe local package/workflow maintenance; do not use for trading education, UI design, strategy selection, or opening the sealed 2025+ Holdout.
+description: Audit, accelerate, prune bloat, verify regression, and maintain the Naqex 4-layer Quant Factory (JSON configs, NPZ cache, Numba JIT, MQL5 PropGuard, MT5 real-tick tester, system_doctor). Use for quant infra health, speedups, or maintenance; not lessons, UI, strategy picks, or Holdout.
 ---
 
 # Quant Factory Operations & Autonomous Maintenance
@@ -80,6 +80,12 @@ Minimize wall-clock waste without weakening hard safety or statistical boundarie
 1. **Event/Sample Gates over Arbitrary Calendar Waits:** Prefer minimum-sufficient event criteria (e.g., `>= 10–15` clean closed fills spanning Asia/London/NY sessions, rollover, and red-news with `0` technical defects) over rigid calendar padding (`14d / 30d / months`). When a bounded-loss micro-canary (e.g., a small `39 USD` ticket after written firm clearance) produces higher-fidelity real-world evidence faster than prolonged demo waiting, present **both** the fast-path and conservative-path trade-off explicitly.
 2. **Parallelize Independent Lanes instead of Serializing:** Never pause an active owner behind a passive telemetry wait. Keep dependent capital-scaling gates fail-closed while immediately executing technically independent lanes in parallel (Dev v2 R&D, VPS/Control Room ops, independent Own-Book sleeves, product apps).
 3. **Local-First Fast Falsification:** Default to local SSD caches (`.runtime/hot-m1-cache`, `.npz` derived tapes, Numba JIT) with zero dependency on external drives, run compute jobs asynchronously alongside disjoint code/ops edits, and run cheap kill-tests (`robustness_gate`, Walk-Forward vs Fixed baseline) first to kill weak ideas in seconds instead of days.
+
+### 6. MT5 Dev Portable & Multi-Symbol Real-Tick Discipline
+
+1. **Single Canonical English Dev MT5:** Keep ONLY `.runtime/ftmo-demo-portable-1515343166` (English) on the dev PC and prune stale `.runtime` MT5 clones after use — never switch Dev MT5/MetaEditor to Vietnamese (breaks HTML report & compile-log regex parsers; Vietnamese on `naqex-node1` live terminal is safe).
+2. **Headless Strategy Tester Auth & Isolation:** Every `tester.ini` MUST enforce `KeepPrivate=1` and `[Experts] Enabled=0 / AllowLiveTrading=0 / AllowDllImport=0` (prevents wiping `accounts.dat` and prevents live chart orders). Note `MetaTrader5.initialize()` alone does not persist credentials for `/config:tester.ini` — pass transient `[Common]` Demo credentials only from gitignored local `.env` deleted in `finally:` (never log/commit). Never launch two `terminal64.exe` processes concurrently on the same host, verify `Config/servers.dat` before connecting to a new firm, and stop heavy multi-symbol Tester runs immediately when the owner reports high CPU load.
+3. **Multi-Asset MQL5 Invariants:** Never apply a single FX spread cap (`35 pts`) to indices (`US100.cash ~195 pts`) — use per-asset-class caps (`MaxSpreadCapForSymbol`). Always declare `#property tester_file "naqex_red_news_utc.csv"` so Tester sandboxes receive the red-news CSV. Cache immutable closed-bar (`shift=1`) D1 ATR/range filters once per D1 bar, add a `>= 60s` holiday-retry cooldown on M1 window reconstructions, and use `EventSetTimer(MQLInfoInteger(MQL_TESTER) ? 60 : 1)` + 1s Tester `OnTick` throttle so `Model=4` avoids tens of millions of redundant callbacks.
 
 ## Negative triggers
 

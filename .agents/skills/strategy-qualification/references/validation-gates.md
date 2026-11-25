@@ -111,6 +111,9 @@ chồng lấn, không là account PnL hay chứng minh edge/OOS/prop. G0–G6 v�
 11. **Cổng theo Sự kiện/Mẫu thực & Tách Nhánh Song song (Fast-Path không hạ chuẩn an toàn):**
    - Khi đề xuất lộ trình hoặc xét chuyển pha `G5/G6`, tách rạch ròi **ràng buộc bất biến** (niêm phong Holdout, `0` lỗi khớp/SL/swap, không sửa tham số v1 đang chạy live) khỏi **đệm ngày lịch tùy ý**.
    - Ưu tiên định nghĩa cổng theo **sự kiện/mẫu thực tế tối thiểu** (số lệnh đóng sạch qua đủ phiên, rollover và tin đỏ) kèm phương án **micro-canary giới hạn lỗ nhỏ** (khi được hãng chấp thuận bằng văn bản) để rút ngắn thời gian chờ mà vẫn giữ nguyên biên an toàn; không buộc các nhánh độc lập về kỹ thuật (Own-Book, R&D v2 trên Dev, hạ tầng VPS/Cockpit) phải chờ tuần tự cổng forward của nhánh khác.
+12. **Kiểm chứng điều khoản gốc & chống bẫy kỳ vọng lệch cho Contest / Promo Prop SKU (từ đợt FTMO/The5ers Black Friday 2026):**
+   - Trước khi chạy thử hay gắn EA vào bất kỳ cuộc thi hoặc gói khuyến mãi nào của quỹ, bắt buộc đối chiếu điều khoản gốc hiện hành (`EA allowed`, giới hạn số lệnh mở đồng thời, phân biệt `Standard` vs `Swing`, danh sách tin đỏ hạn chế đầy đủ bao gồm `FOMC Meeting Minutes`, chính sách hoàn phí). Nếu cuộc thi cấm EA hoặc chỉ cho tối đa `1` lệnh mở (như The5ers Trading Contest), chỉ khai thác ở chế độ **quét thông số sàn chỉ đọc (`OrderSend = 0`)**, không gắn bot và không tăng rủi ro kiểu đánh bạc để đua bảng xếp hạng.
+   - Không bao giờ chọn gói khuyến mãi phí rẻ nhiều vòng hẹp DD (như Bootcamp `3` vòng `6%` / tĩnh `5%`) chỉ dựa trên `EV/Phí` trung bình: bắt buộc báo đồng thời **trung vị lãi ròng 24 tháng**, **xác suất lỗ `P(net <= 0)`**, **tỷ lệ vượt đủ các vòng** và **trung vị ngày lịch tới lần rút thưởng đầu tiên**.
 
 ## Cách báo cáo
 

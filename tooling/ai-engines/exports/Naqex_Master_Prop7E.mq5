@@ -670,7 +670,7 @@ int OnInit()
                InpShadowCompareMode ? "true" : "false",
                (InpDryRunLogOnly || InpGuardDryRunLogOnly) ? "true" : "false",
                CNaqexPropGuard::CurrentAccountLogin());
-   EventSetTimer(1); // 1s multi-symbol CopyTicksRange + reconciliation loop
+   EventSetTimer(MQLInfoInteger(MQL_TESTER) ? 60 : 1); // 1s live CopyTicksRange + reconciliation; 60s in Tester
    RunMasterCycle();
    return INIT_SUCCEEDED;
 }
@@ -683,6 +683,13 @@ void OnDeinit(const int reason)
 
 void OnTick()
 {
+   if(MQLInfoInteger(MQL_TESTER))
+   {
+      static datetime s_lastTesterSec = 0;
+      datetime cur = TimeCurrent();
+      if(cur == s_lastTesterSec) return;
+      s_lastTesterSec = cur;
+   }
    RunMasterCycle();
 }
 
