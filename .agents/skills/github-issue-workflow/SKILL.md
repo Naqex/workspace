@@ -27,5 +27,11 @@ Không tạo issue cho mỗi commit/PR; không đóng khi chỉ source/CI đạt
 còn chờ. Review độc lập chỉ khi cần theo rủi ro và được giao; không giả self-review
 là độc lập. Không thêm service cleanup hoặc quyền broker/deploy qua Git.
 
+## Ranh giới 2 tầng (Public Org vs Private Personal Vault)
+
+- **Tầng 1 — Public Org (`Naqex/*`, gồm `Naqex/workspace`):** hạ tầng mở, UI, tài liệu, CI và mẫu công khai; giữ sạch thông tin cá nhân, IP/handle OPSEC nội bộ và chiến lược độc quyền mới.
+- **Tầng 2 — Private Personal Vault (`private_vault/`):** được `.gitignore` ở Tầng 1 và đồng bộ riêng tới repo Private `Miikey24s/naqex-private-vault`; lưu hồ sơ chủ sở hữu (`owner/`), cấu hình node/OPSEC thực (`ops/`), chiến lược v2/v3 (`strategies/`), preset trả phí/live (`presets/`), sao kê thật (`statements/`) và bản sao lưu cấu hình AI đã lọc sạch bí mật (`ai-env-backup/`). Tuyệt đối không `git add -f` hoặc đẩy nội dung Tầng 2 lên Tầng 1.
+- **Tầng 3 — Ngoài mọi Git repo (Secret-Zero):** mật khẩu sàn, `accounts.dat`, `terminal.lic`, API/bot tokens, `*.env`, `*.key`, `*.pem` không bao giờ đi vào bất kỳ repo nào (cả Public lẫn Private).
+
 Bản cũ được [archive](../../../tooling/github-workflow/archive/20261109/README.md);
 không đọc/bật lại mặc định.

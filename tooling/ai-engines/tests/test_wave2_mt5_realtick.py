@@ -93,7 +93,9 @@ class Wave2Mt5RealTickTests(unittest.TestCase):
         self.assertIn("Model=4", ini)
         self.assertIn("ExecutionMode=150", ini)
         self.assertIn("Leverage=1:30", ini)
-        self.assertIn("KeepPrivate=0", ini)
+        self.assertIn("KeepPrivate=1", ini)
+        self.assertIn("Enabled=0", ini)
+        self.assertIn("AllowLiveTrading=0", ini)
         self.assertIn("ShutdownTerminal=1", ini)
         self.assertNotIn("Password=", ini)
         self.assertNotIn("Login=", ini)
@@ -262,6 +264,30 @@ class Wave2Mt5RealTickTests(unittest.TestCase):
                     self.assertTrue(metrics["ok"], f"{eid} {lat_k} not ok")
                     self.assertTrue(metrics["swap_zero_ok"], f"{eid} {lat_k} swap != 0")
                     self.assertTrue(metrics["log_clean"], f"{eid} {lat_k} logs not clean")
+
+    def test_master_prop7e_mui3_fixes_and_holdout_guard(self):
+        master_src = (EXPORTS_DIR / "Naqex_Master_Prop7E.mq5").read_text(encoding="utf-8")
+        pg_src = (EXPORTS_DIR / "Include/Naqex_PropGuard.mqh").read_text(encoding="utf-8")
+        sig_src = (EXPORTS_DIR / "Include/Naqex_Signals_7E.mqh").read_text(encoding="utf-8")
+
+        # Bug #1: per-symbol spread override prevents US100.cash (195 pts) deadlock under 35 pt FX cap
+        self.assertIn("maxSpreadOverridePts", pg_src)
+        self.assertIn("InpMaxIndexSpreadPoints   = 450.0;", master_src)
+        self.assertIn("InpMaxEurJpySpreadPoints  = 45.0;", master_src)
+        self.assertIn("MaxSpreadCapForSymbol(it.symbol)", master_src)
+
+        # Bug #2: #property tester_file ships red-news CSV into Strategy Tester Agent sandbox
+        self.assertIn('#property tester_file "naqex_red_news_utc.csv"', master_src)
+        self.assertIn("InpDryRunLogOnly          = true;", master_src)
+        self.assertIn("InpShadowCompareMode      = true;", master_src)
+
+        # Bug #3: MQL_TESTER fast-path preserves live CopyTicksRange()
+        self.assertIn("CopyTicksRange(", sig_src)
+        self.assertIn("bool isTester = (MQLInfoInteger(MQL_TESTER) != 0);", sig_src)
+
+        # Master runner fail-closed rejects Holdout >= 2025.01.01
+        with self.assertRaises(ValueError):
+            runner.run_master_prop7e_job(from_date="2024.01.01", to_date="2025.01.15")
 
 
 if __name__ == "__main__":

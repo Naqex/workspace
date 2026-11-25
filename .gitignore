@@ -76,3 +76,6 @@ desktop.ini
 !/research/bot_reverse_lab/inbox/live_signals/
 /research/bot_reverse_lab/inbox/live_signals/*
 !/research/bot_reverse_lab/inbox/live_signals/README.md
+
+# Layer-2 Personal Private Vault (separate private Git repo: Miikey24s/naqex-private-vault)
+/private_vault/
