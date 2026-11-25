@@ -20,31 +20,32 @@ sources:
 
 ---
 
-## 1. Email #1 — Gửi FTMO (`support@ftmo.com`) Cho Gói `FTMO Swing 2-Step`
+## 1. Email #1 — Gửi FTMO (`support@ftmo.com`) Cho Gói `FTMO 2-Step (Standard / Swing)`
 
 - **Người nhận:** `support@ftmo.com` (gửi từ đúng địa chỉ email đăng ký tài khoản FTMO của bạn).
-- **Lý do ưu tiên `FTMO Swing 2-Step`:** Miễn hoàn toàn luật cấm tin đỏ `±2` phút (tránh rủi ro bị xử vi phạm `R4` nếu giá giật tin quét trúng SL/TP trên `FTMO Standard`), đòn bẩy `1:30` hoàn toàn phù hợp bộ 8 bot intraday của Naqex.
+- **Lý do hỏi gộp cả `Standard` & `Swing`:** Dịp Black Friday (`-> 30/11/2026 16:00 ICT`), ưu đãi giảm giá ngoài Mỹ/Úc áp cho **`FTMO Standard`** (nên cần xác nhận luôn cho cả `Standard` có khóa tin đỏ `±5` phút lẫn `Swing` miễn luật tin đỏ).
 
 ```text
 To: support@ftmo.com
-Subject: Pre-Purchase Written Confirmation — 100% Proprietary White-Box MQL5 EA (FTMO Swing 2-Step)
+Subject: Pre-Purchase Written Confirmation — 100% Proprietary White-Box MQL5 EA (FTMO 2-Step Standard / Swing)
 
 Hello FTMO Support & Risk Team,
 
-Before purchasing an FTMO Swing (2-Step) Challenge account, I am writing to request written confirmation that running my strictly proprietary, self-developed MetaTrader 5 Expert Advisor suite complies fully with FTMO's Terms & Conditions and Prohibited Trading Practices.
+Before purchasing an FTMO 2-Step Challenge account (either Standard or Swing), I am writing to request written confirmation that running my strictly proprietary, self-developed MetaTrader 5 Expert Advisor complies fully with FTMO's Terms & Conditions and Prohibited Trading Practices.
 
 Technical & Risk Profile of My Automated System (100% Owned Custom Source Code):
 1. Exclusive Ownership & Zero Copy-Trading: Every MQL5 source file (.mq5) is written, compiled, and operated solely by me for my own personal account. No third-party, commercial, leased, shared, or signal-copied EAs are used, and no external users run the same parameters or entries.
 2. Dedicated Clean Residential IP: The MT5 terminal runs continuously on my own dedicated personal Windows workstation at home (naqex-node1) over my private residential ISP connection (zero shared commercial VPS/VPN IP pools).
-3. Architecture & Low-Frequency Cadence: The suite consists of 8 low-frequency intraday breakout and cross-asset momentum EAs (trading liquid FX majors USDJPY, GBPUSD, EURJPY, EURUSD, AUDUSD, USDCAD and US100.cash) coordinated by 1 local Account Orchestrator EA. Typical activity is 0 to 3 trades per day across the entire portfolio (zero HFT, zero tick scalping, zero latency or demo-feed arbitrage, and zero order-modification spam).
-4. Hard-Coded Risk Controls on Every Order:
+3. Architecture & Low-Frequency Cadence: The system runs 7 low-frequency intraday breakout and cross-asset momentum strategies (trading liquid FX majors USDJPY, GBPUSD, EURJPY and US100.cash). Typical activity is 0 to 3 trades per day across the entire portfolio (zero HFT, zero tick scalping, zero latency or demo-feed arbitrage, and zero order-modification spam).
+4. Hard-Coded Risk & News Controls on Every Order:
    - Mandatory broker-side Stop Loss attached immediately at order entry (zero hidden/virtual stop-losses).
    - Strict intraday flat policy: all positions automatically close before daily rollover (prior to 20:55 UTC / 15:55 ET; zero overnight swap and zero weekend holding).
+   - High-impact news protection for Standard FTMO Accounts: a built-in official calendar guard (USD/EUR/GBP/JPY/AUD/CAD including FOMC Rate & Minutes, NFP, CPI, GDP, BoE, ECB, BoJ) blocks all entries within ±5 minutes and pre-flattens any open affected position strictly before -2 minutes 15 seconds prior to Restricted releases (zero orders/SL/TP active inside the ±2-minute window).
    - Zero grid, zero martingale, zero averaging down, and zero cross-account hedging.
-   - Portfolio-level symbol risk cap (<= 1.75% per symbol during Evaluation, <= 1.00% per symbol on Funded accounts), automatic drawdown de-risking, and hard daily/overall kill switches synced to Europe/Prague daily reset.
+   - Portfolio-level per-symbol and directional currency-factor risk caps (USD/JPY/US100), automatic drawdown de-risking, and hard daily/overall kill switches synced to Europe/Prague daily reset.
 
 Could you please confirm in writing that:
-(a) Operating this strictly proprietary, self-coded MQL5 EA suite from my dedicated personal machine complies fully with FTMO Swing (2-Step) Evaluation and FTMO Account rules; and
+(a) Operating this strictly proprietary, self-coded MQL5 EA from my dedicated personal machine complies fully with FTMO 2-Step Standard and Swing Evaluation and FTMO Account rules; and
 (b) Whether any additional disclosure or registration is required prior to starting the Challenge?
 
 Thank you very much for your assistance.
