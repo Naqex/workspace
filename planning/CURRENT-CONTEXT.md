@@ -1,22 +1,23 @@
 # Current context — Naqex Workspace
 
-`25/11/2026 22:58 ICT` · `WORK: ASTRA-R4-UNPAID-OPTION-0USD-LOCKED | LIVE-NODE1: ONLINE-CONNECTED-FLAT | HOLDOUT 2025+ SEALED`
+`25/11/2026 23:24 ICT` · `WORK: READY-FOR-ASTRA-R5-BANKROLL-12-15M-RECHECK | LIVE-NODE1: ONLINE-CONNECTED-FLAT | HOLDOUT 2025+ SEALED`
 
-`GOAL-NOW: UNPAID-OPTION (0 USD) — BỎ QUA BLACK FRIDAY 30/11, GIỮ v1.01 KIỂM CHỨNG NGOẠI TUYẾN | SINGLE-TICKET ZERO-RETRY + MT5 v1.01 500ms/655ms & FULL-2024 ĐÃ CHỐT | LƯU Ý ĐIỀU KIỆN ĐỦ 18 TUỔI FTMO`
+`GOAL-NOW: TÁI THẨM ĐỊNH ASTRA VÒNG 5 (ĐỦ 18+, VỐN 12–15 TR VND, BẢNG 1/2/3 VÉ VÉ #1 BF + LỊCH SALE THẬT, 2 CASE 30/11 VS GIỮ BILL 14 NGÀY, MT5 v1.01 500/655ms & FULL-2024)`
 
-## 0. Phán Quyết Astra Vòng 4 (`UNPAID-OPTION — 0 USD`) & Kiểm Định Đúng 1 Vé
+## 0. Hồ Sơ Tái Thẩm Định Astra Vòng 5 (Cập Nhật Đủ 4 Điểm Mù Vòng 4)
 
-- **Phán quyết chính thức (đã áp dụng):** **`UNPAID-OPTION — 0 USD`** — giữ bản **`Naqex_Master_Prop7E.ex5 v1.01`** (`sha16=2e0006ad786bdad6`) để tiếp tục kiểm chứng ngoại tuyến trên Dev kín và **để ưu đãi FTMO Black Friday (`Thứ Hai 30/11/2026 16:00 ICT`) đi qua**. Ghi nhận điều kiện [đủ 18 tuổi của FTMO](https://ftmo.com/en/faq/who-can-join-ftmo/) để chủ sở hữu tự đối chiếu trước mọi kế hoạch trả phí trong tương lai.
-- **Báo cáo kiểm định mới theo đúng yêu cầu Astra Vòng 4 (thay thế góc nhìn multi-retry cũ):** [ASTRA-ROUND4-UNPAID-OPTION-SINGLE-TICKET-LATENCY-AUDIT-20261125.md](research/ASTRA-ROUND4-UNPAID-OPTION-SINGLE-TICKET-LATENCY-AUDIT-20261125.md) *(hồ sơ vòng 4 cũ lưu đối chiếu: [ASTRA-ROUND4-BLACKFRIDAY-GONOGO-DOSSIER-20261126.md](research/ASTRA-ROUND4-BLACKFRIDAY-GONOGO-DOSSIER-20261126.md))*.
-- **3 con số chốt cho ĐÚNG 1 VÉ — KHÔNG RETRY (`N = 10.000`, `v1.01 REL+HEADROOM`, `GUARD_ALL_ON`, `P1 Sprint 4x`, phí chuẩn `155 EUR = 165,08 USD`):**
-  - **Ma sát `0,66×` (đo sống 28/28 lệnh):** `P(Payout 1)` 12m/24m/36m = `59,9% / 84,7% / 88,6%` · chờ trung vị **`273 ngày` (~9 tháng)** · tiền ròng 24m **`+825,7 USD` (Med `+815,9 USD`, `P<=0 = 15,3%`)**.
-  - **Ma sát `1,00×` (chuẩn Dev):** `P(Payout 1)` = `46,6% / 73,0% / 79,2%` · chờ trung vị **`300 ngày` (~10 tháng)** · tiền ròng 24m **`+535,5 USD` (Med `+490,5 USD`, `P<=0 = 27,0%`)**.
-  - **Ma sát `1,50×` (stress Astra):** `P(Payout 1)` = **`29,3%` (12m) / `51,2%` (24m) / `58,3%` (36m)** · chờ trung vị **`329 ngày` (~11 tháng)** · tiền ròng 24m **`+216,3 USD` (Med `+62,4 USD`, `P<=0 = 48,8%`)**.
-  - **Chênh lệch Black Friday (`98,70 EUR`) vs Giá thường (`155 EUR`) trên 1 vé:** Vì FTMO hoàn `100%` phí ở payout đầu, trung vị người thắng bằng nhau; giảm giá chỉ tăng EV đúng **`+9,1 .. +29,2 USD`** — xác nhận hoàn toàn quyết định không vội mua.
+- **Hồ sơ chính & Prompt sẵn dán gửi Astra Vòng 5:** [ASTRA-ROUND5-BANKROLL-12-15M-BF-AND-14D-BILL-DOSSIER-20261125.md](research/ASTRA-ROUND5-BANKROLL-12-15M-BF-AND-14D-BILL-DOSSIER-20261125.md) *(phản biện Vòng 4 lưu đối chiếu: [ASTRA-ROUND4-UNPAID-OPTION-SINGLE-TICKET-LATENCY-AUDIT-20261125.md](research/ASTRA-ROUND4-UNPAID-OPTION-SINGLE-TICKET-LATENCY-AUDIT-20261125.md))*.
+- **Cập nhật điều kiện & khung vốn:** Chủ sở hữu xác nhận **đủ điều kiện `>= 18` tuổi**; khung vốn rủi ro **`12–15 triệu VND`** (`~462–577 USD` @ `26.000 VND/USD`); so sánh song song **2 case thời hạn** (**Case 1**: trả trước `30/11 16:00 ICT`, có biến thể giữ `0` lệnh `10–12 ngày` theo quyền hoàn `14 ngày` GTC; **Case 2**: tạo đơn giữ bill `Đang chờ ~14 ngày` sáng `30/11` tốn **`0 VND`**, đo thêm đuôi SL `US100.cash` xuyên NFP `04/12` + CPI `10/12`).
+- **Tóm tắt bộ bảng `N = 10.000 × 36m` (`v1.01 REL+HEADROOM`, `GUARD_ALL_ON`, `P1 Sprint 4x`, vé #1 BF `98,70 EUR = 2,73 tr`, vé #2/#3 tính đúng lịch sale thật `155 EUR / -20% Xmas / -30% BF`):**
+  - **Điểm ngọt trong vốn `12–15 tr` = `BF98 · Trần 2 vé` (Max `7,02 tr VND`, giữ lại `5–8 tr` tiền mặt):**
+    - `0,66×` (đo sống): `P(Pay1 24m) = 91,9%` · chờ `284d` · ròng 24m Mean **`+22,97 tr`** / Med **`+22,27 tr`** · `Ruin 1,2%` · `EV/OOP +7,25×`.
+    - `1,00×` (chuẩn Dev): `P(Pay1 24m) = 83,0%` · chờ `319d` · ròng 24m Mean **`+15,56 tr`** / Med **`+14,44 tr`** · `Ruin 3,1%` · `EV/OOP +4,45×` (vs Bỏ BF `+2,99×`, OOP Max `8,58 tr`).
+    - `1,50×` (stress Astra): `P(Pay1 24m) = 63,2%` (vs `51,2%` 1 vé) · chờ `362d` · ròng 24m Mean **`+6,83 tr`** / Med **`+4,81 tr`** (`3×` trung vị 1 vé) · `Ruin 11,5%` (vs `35,8%` 1 vé) · `EV/OOP +1,61×` (vs Bỏ BF `+1,05×`). Thêm vé #3 (`11,32 tr`) làm giảm nhẹ Mean (`+258,9` vs `+262,7 USD`); chờ đợt sale mua vé #2 cũng bị tụt trung vị (`+131` vs `+185 USD`).
+    - *Độ nhạy bill VN `62,30 EUR` (`1,73 tr`, gốc `89 EUR = 2,46 tr`):* `BF62 · Trần 2 vé` Max chỉ **`4,19 tr`**, tại `1,50×` đạt Mean `+7,70 tr` / Med `+5,07 tr` (`EV/OOP +2,97×`).
 - **Kiểm thử MT5 `v1.01` ở đúng độ trễ đo được (`500 ms` P50 / `655 ms` P90) & Full-2024 (`swap = 0,00 USD`, `492` tin đỏ, `clean = True`, `holdout = 0`):**
   - **`Q4 2024 Model=4 Real-Tick (20,02M ticks, P1 4x)`:** `50 ms` `+736,06 USD` (`PF 1,23, Sh 1,98`) -> **`500 ms` `+790,52 USD` (`PF 1,25, Sh 2,13, EqDD 6,24%`)** -> **`655 ms` `+799,56 USD` (`PF 1,25, Sh 2,15, EqDD 6,17%`)** — không suy giảm cấu trúc (chênh `+54..+63 USD` là nhiễu mở nến, không tính là lợi thế).
   - **`Full-2024 Model=1 @ 500 ms`:** `Funded 1x` **`+613,64 USD`** (`4/4` quý dương, `EqDD 4,06%`); `P1 4x` **`+1.418,65 USD`** (`4/4` quý dương, `minBal 9.595,79`, ngày sụp Yên `05/08/2024` `-3,14%`, đạt `+10%` ngày `2024-05-15` sau `134` ngày) ([Mũi 3 Receipt](research/MUI3-MASTER-PROP7E-REALTICK-2024-20261125.md)).
-- **Điểm mù vẫn còn mở (`0 USD`):** Mới đo `1` phiên sống (`28/28` RT, P50 `0,615×` / P90 `0,897×`, Bootstrap 95% CI `[0,618×..0,704×]`), mới có `2` lệnh chạm SL sống trên `US100.cash` (chưa đủ chốt `450 pts` là trần đuôi tuyệt đối), và thời gian chờ payout đầu `9–11 tháng` còn dài cho mục tiêu thu nhập chính.
+- **Điểm mù còn mở:** Mới đo `1` phiên sống (`28/28` RT, `2` lệnh chạm SL trên `US100.cash`); **Case 2 (giữ bill `14` ngày, `0 VND`)** hoặc **Case 1B (giữ `0` lệnh `10–12` ngày)** cho phép đo thêm xuyên NFP `04/12` + CPI `10/12` trước khi đặt lệnh thật #1.
 
 ## 1. Kiến Trúc Đã Khóa & Sổ R&D Trung Thực (`3 / 56 PASS`)
 
