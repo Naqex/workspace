@@ -1,8 +1,14 @@
 # Current context — Naqex Workspace
 
-`25/11/2026 12:45 ICT` · `WORK: ROUND2-R2-01..R2-10-CLOSED-AND-ROUND3-FRAME-LIVE | REVIEW: VERIFIED | LIVE-NODE1: ONLINE-CONNECTED-FLAT`
+`25/11/2026 13:26 ICT` · `WORK: FTMO-BLACKFRIDAY-5DAY-SPRINT-ACTIVE | REVIEW: VERIFIED | LIVE-NODE1: ONLINE-CONNECTED-FLAT`
 
-`NODE1: 10/10 EX5 (v3.10/v2.10 + Master_Prop7E v1.00) + 477-ROW CSV + CRYPTO TASKS DISABLED + KEEPPRIVATE=1 AUTO-LOGIN VERIFIED + HEROKU EU v4 LIVE (EXPECTED_NODES=NAQEX_NODE1) | HOLDOUT 2025+ SEALED`
+`GOAL-NOW: 5-DAY ACCELERATED GO/NO-GO BEFORE FTMO BLACK FRIDAY END (MON 30/11/2026 16:00 ICT / 10:00 CET) | NODE1: 10/10 EX5 + 477-ROW CSV + HEROKU EU v4 LIVE | HOLDOUT 2025+ SEALED`
+
+## 0. Mục Tiêu Ngắn Hạn Hiện Hành — Sprint Kiểm Chứng 5 Ngày FTMO Black Friday (`-> 30/11 16:00 ICT`)
+
+- **Kế hoạch hành động đầy đủ:** [FTMO-BLACKFRIDAY-2026-SPRINT-PLAN-20261125.md](research/FTMO-BLACKFRIDAY-2026-SPRINT-PLAN-20261125.md)
+- **Hạn chót:** **Thứ Hai `30/11/2026` lúc `16:00 ICT` (`10:00 CET`)** cho FTMO CFD (`Standard` được giảm tới `-30%` ngoài Mỹ/Úc, `Swing` không giảm; tuần này Mỹ nghỉ Lễ Tạ Ơn Thứ 5 `26/11` và đóng sớm Thứ 6 `27/11`).
+- **Phát hiện nóng & 6 mũi tăng tốc:** (1) Lịch tin đỏ hiện thiếu **`FOMC Meeting Minutes`** (nằm trong danh sách `Restricted` của `FTMO Standard Funded`) -> vá ngay; (2) Chạy đo **Live Spread 24/7** (`OrderSend = 0`) + **Bot thăm dò `0,01` lot trên Free Trial phụ (`20–40` lệnh trong `48h`)** + **`Model=4` Real-Tick `2024` (`200+` lệnh, giữ kín `2025+`)** + gắn shadow `Naqex_Master_Prop7E` + gửi email xác nhận EA `support@ftmo.com` & test sao kê sàn -> tổng hợp toàn bộ cho **GPT-6.2 Astra Vòng 4 tối Chủ Nhật `29/11`** chốt **`MUA` hay `BỎ QUA`** trước `16:00 ICT` Thứ 2.
 
 ## 1. Mục Tiêu & Khung Kiến Trúc Vòng 3 Đã Chốt (`25/11/2026`)
 
