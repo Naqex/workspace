@@ -1,23 +1,19 @@
 # Current context — Naqex Workspace
 
-`25/11/2026 23:24 ICT` · `WORK: READY-FOR-ASTRA-R5-BANKROLL-12-15M-RECHECK | LIVE-NODE1: ONLINE-CONNECTED-FLAT | HOLDOUT 2025+ SEALED`
+`25/11/2026 23:30 ICT` · `WORK: ASTRA-R5-FINAL-UNPAID-OPTION-0VND-CLOSED | LIVE-NODE1: ONLINE-CONNECTED-FLAT | HOLDOUT 2025+ SEALED`
 
-`GOAL-NOW: TÁI THẨM ĐỊNH ASTRA VÒNG 5 (ĐỦ 18+, VỐN 12–15 TR VND, BẢNG 1/2/3 VÉ VÉ #1 BF + LỊCH SALE THẬT, 2 CASE 30/11 VS GIỮ BILL 14 NGÀY, MT5 v1.01 500/655ms & FULL-2024)`
+`GOAL-NOW: CHỐT CHÍNH THỨC (d) UNPAID-OPTION — 0 VND (BỎ QUA BLACK FRIDAY 30/11, KHÔNG TẠO BILL) | CHUẨN 1 VÉ | TIẾP TỤC ĐO ĐUÔI SL US100.cash TRÊN DEMO MIỄN PHÍ XUYÊN NFP 04/12 & CPI 10/12`
 
-## 0. Hồ Sơ Tái Thẩm Định Astra Vòng 5 (Cập Nhật Đủ 4 Điểm Mù Vòng 4)
+## 0. Phán Quyết Cuối Astra Vòng 5 — `(d) UNPAID-OPTION — 0 VND` (Đã Khóa)
 
-- **Hồ sơ chính & Prompt sẵn dán gửi Astra Vòng 5:** [ASTRA-ROUND5-BANKROLL-12-15M-BF-AND-14D-BILL-DOSSIER-20261125.md](research/ASTRA-ROUND5-BANKROLL-12-15M-BF-AND-14D-BILL-DOSSIER-20261125.md) *(phản biện Vòng 4 lưu đối chiếu: [ASTRA-ROUND4-UNPAID-OPTION-SINGLE-TICKET-LATENCY-AUDIT-20261125.md](research/ASTRA-ROUND4-UNPAID-OPTION-SINGLE-TICKET-LATENCY-AUDIT-20261125.md))*.
-- **Cập nhật điều kiện & khung vốn:** Chủ sở hữu xác nhận **đủ điều kiện `>= 18` tuổi**; khung vốn rủi ro **`12–15 triệu VND`** (`~462–577 USD` @ `26.000 VND/USD`); so sánh song song **2 case thời hạn** (**Case 1**: trả trước `30/11 16:00 ICT`, có biến thể giữ `0` lệnh `10–12 ngày` theo quyền hoàn `14 ngày` GTC; **Case 2**: tạo đơn giữ bill `Đang chờ ~14 ngày` sáng `30/11` tốn **`0 VND`**, đo thêm đuôi SL `US100.cash` xuyên NFP `04/12` + CPI `10/12`).
-- **Tóm tắt bộ bảng `N = 10.000 × 36m` (`v1.01 REL+HEADROOM`, `GUARD_ALL_ON`, `P1 Sprint 4x`, vé #1 BF `98,70 EUR = 2,73 tr`, vé #2/#3 tính đúng lịch sale thật `155 EUR / -20% Xmas / -30% BF`):**
-  - **Điểm ngọt trong vốn `12–15 tr` = `BF98 · Trần 2 vé` (Max `7,02 tr VND`, giữ lại `5–8 tr` tiền mặt):**
-    - `0,66×` (đo sống): `P(Pay1 24m) = 91,9%` · chờ `284d` · ròng 24m Mean **`+22,97 tr`** / Med **`+22,27 tr`** · `Ruin 1,2%` · `EV/OOP +7,25×`.
-    - `1,00×` (chuẩn Dev): `P(Pay1 24m) = 83,0%` · chờ `319d` · ròng 24m Mean **`+15,56 tr`** / Med **`+14,44 tr`** · `Ruin 3,1%` · `EV/OOP +4,45×` (vs Bỏ BF `+2,99×`, OOP Max `8,58 tr`).
-    - `1,50×` (stress Astra): `P(Pay1 24m) = 63,2%` (vs `51,2%` 1 vé) · chờ `362d` · ròng 24m Mean **`+6,83 tr`** / Med **`+4,81 tr`** (`3×` trung vị 1 vé) · `Ruin 11,5%` (vs `35,8%` 1 vé) · `EV/OOP +1,61×` (vs Bỏ BF `+1,05×`). Thêm vé #3 (`11,32 tr`) làm giảm nhẹ Mean (`+258,9` vs `+262,7 USD`); chờ đợt sale mua vé #2 cũng bị tụt trung vị (`+131` vs `+185 USD`).
-    - *Độ nhạy bill VN `62,30 EUR` (`1,73 tr`, gốc `89 EUR = 2,46 tr`):* `BF62 · Trần 2 vé` Max chỉ **`4,19 tr`**, tại `1,50×` đạt Mean `+7,70 tr` / Med `+5,07 tr` (`EV/OOP +2,97×`).
-- **Kiểm thử MT5 `v1.01` ở đúng độ trễ đo được (`500 ms` P50 / `655 ms` P90) & Full-2024 (`swap = 0,00 USD`, `492` tin đỏ, `clean = True`, `holdout = 0`):**
-  - **`Q4 2024 Model=4 Real-Tick (20,02M ticks, P1 4x)`:** `50 ms` `+736,06 USD` (`PF 1,23, Sh 1,98`) -> **`500 ms` `+790,52 USD` (`PF 1,25, Sh 2,13, EqDD 6,24%`)** -> **`655 ms` `+799,56 USD` (`PF 1,25, Sh 2,15, EqDD 6,17%`)** — không suy giảm cấu trúc (chênh `+54..+63 USD` là nhiễu mở nến, không tính là lợi thế).
-  - **`Full-2024 Model=1 @ 500 ms`:** `Funded 1x` **`+613,64 USD`** (`4/4` quý dương, `EqDD 4,06%`); `P1 4x` **`+1.418,65 USD`** (`4/4` quý dương, `minBal 9.595,79`, ngày sụp Yên `05/08/2024` `-3,14%`, đạt `+10%` ngày `2024-05-15` sau `134` ngày) ([Mũi 3 Receipt](research/MUI3-MASTER-PROP7E-REALTICK-2024-20261125.md)).
-- **Điểm mù còn mở:** Mới đo `1` phiên sống (`28/28` RT, `2` lệnh chạm SL trên `US100.cash`); **Case 2 (giữ bill `14` ngày, `0 VND`)** hoặc **Case 1B (giữ `0` lệnh `10–12` ngày)** cho phép đo thêm xuyên NFP `04/12` + CPI `10/12` trước khi đặt lệnh thật #1.
+- **Quyết định chốt (áp dụng cho cả `62,30 EUR` lẫn `98,70 EUR`):** **`(d) UNPAID-OPTION — 0 VND`** — bỏ qua hoàn toàn đợt FTMO Black Friday `30/11/2026`, **không tạo hóa đơn giữ bill** (chưa có cam kết hợp đồng chính thức rằng bill chưa trả sẽ giữ giá 14 ngày). Hồ sơ đầy đủ & số liệu gốc: [ASTRA-ROUND5-BANKROLL-12-15M-BF-AND-14D-BILL-DOSSIER-20261125.md](research/ASTRA-ROUND5-BANKROLL-12-15M-BF-AND-14D-BILL-DOSSIER-20261125.md) · [ASTRA-ROUND4-UNPAID-OPTION-SINGLE-TICKET-LATENCY-AUDIT-20261125.md](research/ASTRA-ROUND4-UNPAID-OPTION-SINGLE-TICKET-LATENCY-AUDIT-20261125.md).
+- **3 lý do chốt lõi của Astra Vòng 5 (khung vốn `12–15 triệu VND`, chủ sở hữu đủ điều kiện `>= 18` tuổi):**
+  1. **Giữ chuẩn `1 vé` làm thước đo chính:** Ở `98,70 EUR` & `1,50×`, mở lên `2 vé` chỉ tăng lãi TB 24 tháng thêm **`+447.000 VND`** nhưng phải tăng mức ứng tối đa thêm **`+4,29 triệu VND`** (tổng `7,02 tr` = `47–59%` ngân sách); mức `62,30 EUR` giảm áp lực vốn nhưng không bổ sung bằng chứng khớp lệnh.
+  2. **Bài toán thu nhập chính trên `1 vé` ở `1,50×` còn quá mỏng:** xác suất có payout trong 12 tháng mới đạt **`29,3%`**, còn xác suất tiền ròng 24 tháng `<= 0` là **`48,8%`**.
+  3. **Điểm mù lớn nhất còn lại:** **giá thoát cắt lỗ (`SL`) của `US100.cash` khi thị trường giật mạnh** (`7` vòng lệnh & `2` lần chạm SL ở `0,01` lot là chưa đủ đo phần đuôi cực đoan) -> ưu tiên đo thêm trên Demo `0 VND` xuyên **NFP `04/12/2026` và CPI `10/12/2026`** (lịch BLS chính thức).
+- **Thành tựu kỹ thuật `Naqex_Master_Prop7E.ex5 v1.01` (`sha16=2e0006ad786bdad6`) đã xác minh & giữ nguyên để nghiên cứu tiếp:**
+  - `Q4/2024 Model=4` (`20,02M` tick thực, `155` lệnh, `swap = 0,00`, `492` tin đỏ): dương ổn định tại `50 ms` (`+736,06`), **`500 ms` (`+790,52`, PF `1,25`, Sh `2,13`)** và **`655 ms` (`+799,56`, PF `1,25`, Sh `2,15`)**.
+  - `Full-2024 Model=1 @ 500 ms`: `Funded 1x` **`+613,64 USD`** (`4/4` quý dương, EqDD `4,06%`); `P1 4x` **`+1.418,65 USD`** (`4/4` quý dương, ngày sụp Yên `05/08/2024` `-3,14%`, đạt `+10%` ngày `2024-05-15` sau `134` ngày) ([Mũi 3 Receipt](research/MUI3-MASTER-PROP7E-REALTICK-2024-20261125.md)).
 
 ## 1. Kiến Trúc Đã Khóa & Sổ R&D Trung Thực (`3 / 56 PASS`)
 
