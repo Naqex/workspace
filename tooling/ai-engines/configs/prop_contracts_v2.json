@@ -1,10 +1,11 @@
 {
   "schema": "naqex-prop-contracts-v2",
-  "updated_utc": "2026-11-25T05:15:00Z",
+  "updated_utc": "2026-11-25T18:10:00Z",
   "order_send_count": 0,
   "architecture_frame": "ROUND3_APPROVED_SINGLE_ACCOUNT_7E_MASTER",
   "notes": [
     "Primary validation contract: FTMO 2-Step Swing 10K (zero news restriction, no 0.5% profitable-day hurdle, low 20-50 USD payout floor).",
+    "Standard candidate contract under PLAN v3.1 verification: FTMO 2-Step Standard 10K (1:100 FX, 1:50 Index, 1:30 Metals, official strict '<' floor breach, Prague 00:00 reset, news allowed in P1/P2 with execution cost flagged separately, +-2m news ban in Funded / Naqex bot guard +-5m; 98.70 EUR fee and 14-day unpaid bill hold explicitly tagged MODEL_ASSUMPTION).",
     "Shadow-scored contract on identical event log: The5ers High Stakes 5K (strict +-2m news entry ban, 3x >=0.5% profitable days, 150 USD min payout, 3.5% Rise/crypto fee, separated Hub Credit vs 70% external-cash refund).",
     "350K ladder, Gate-42 auto-buy, direct The5ers 20K purchase, and 30/50/20 pre-recovery split are retired from active architecture per Astra Round-3 blueprint.",
     "Actual checkout pricing, Classic/New SKU terms, EA written approval, and Vietnam payout rail fees must be verified at checkout before spending real money."
@@ -80,6 +81,131 @@
         "p1": { "base_mult": 2.67, "ea_scale": 1.50, "profit_lock_pct": 5.0, "profit_lock_mult": 1.34, "amber_dd_pct": 3.5, "amber_mult": 0.65, "red_dd_pct": 6.0, "red_mult": 0.40, "kill_daily_dd_pct": 3.5, "kill_static_dd_pct": 8.0 },
         "p2": { "base_mult": 2.00, "ea_scale": 1.00, "profit_lock_pct": 3.0, "profit_lock_mult": 1.00, "amber_dd_pct": 3.5, "amber_mult": 0.65, "red_dd_pct": 6.0, "red_mult": 0.40, "kill_daily_dd_pct": 3.5, "kill_static_dd_pct": 8.0 },
         "funded": { "base_mult": 1.00, "ea_scale": 1.00, "profit_lock_pct": 0.0, "profit_lock_mult": 1.00, "amber_dd_pct": 3.5, "amber_mult": 0.65, "red_dd_pct": 6.0, "red_mult": 0.40, "kill_daily_dd_pct": 3.0, "kill_static_dd_pct": 7.5 }
+      }
+    },
+    "ftmo_standard_10k": {
+      "role": "STANDARD_CANDIDATE_UNDER_VERIFICATION",
+      "firm": "FTMO",
+      "program": "2-Step Standard 10K",
+      "profile_mode": "Standard",
+      "nominal_usd": 10000.0,
+      "fee_eur_standard_non_promo": 155.0,
+      "fee_usd_standard_non_promo_ref": 165.08,
+      "fee_eur": 98.70,
+      "fee_usd": 105.12,
+      "fee_eur_usd_fx_assumption": 1.065,
+      "fee_pricing_tag": "MODEL_ASSUMPTION",
+      "unpaid_bill_hold_calendar_days": 14,
+      "unpaid_bill_hold_tag": "MODEL_ASSUMPTION",
+      "model_assumptions": {
+        "black_friday_fee_98_70_eur": {
+          "value_eur": 98.70,
+          "eur_usd_rate": 1.065,
+          "value_usd": 105.12,
+          "tag": "MODEL_ASSUMPTION",
+          "note": "Promo EUR checkout price and EUR/USD conversion rate are modeling assumptions until confirmed on live checkout screen."
+        },
+        "unpaid_bill_hold_14_days": {
+          "calendar_days": 14,
+          "tag": "MODEL_ASSUMPTION",
+          "note": "14-day unpaid invoice hold window is a modeling/operational assumption until verified on actual FTMO invoice terms."
+        }
+      },
+      "fee_refund_mode": "CASH_WITH_FIRST_REWARD",
+      "external_cash_refund_pct": 1.00,
+      "hub_credit_step1_pct": 0.0,
+      "hub_credit_step2_pct": 0.0,
+      "p1_target_pct": 10.0,
+      "p2_target_pct": 5.0,
+      "daily_dd_limit_pct": 5.0,
+      "static_dd_limit_pct": 10.0,
+      "official_floor_breach_operator": "STRICT_LT",
+      "runner_conservative_floor_breach_operator": "LE",
+      "official_floor_breach_note": "FTMO official breach triggers strictly below floor (equity < day_anchor_bal - 500 USD or equity < 9000 USD); conservative Python runners use <= floor / >= limit and are contrasted explicitly in boundary tests.",
+      "daily_reset_tz": "Europe/Prague",
+      "daily_reset_local_time": "00:00",
+      "daily_dd_anchor_mode": "MIDNIGHT_BALANCE_OVER_INITIAL",
+      "min_trading_days_per_phase": 4,
+      "min_profitable_days_per_phase": 0,
+      "profitable_day_threshold_pct": 0.0,
+      "leverage_fx": 100,
+      "leverage_indices": 50,
+      "leverage_metals": 30,
+      "news_restricted_sec": 120,
+      "naqex_guard_pad_sec": 300,
+      "naqex_guard_hard_ban_sec": 135,
+      "news_policy_by_phase": {
+        "p1": {
+          "firm_news_allowed": true,
+          "firm_restricted_sec": 0,
+          "execution_cost_flag": "EXECUTION_SLIPPAGE_AND_SPREAD_COST_FLAGGED_SEPARATELY"
+        },
+        "p2": {
+          "firm_news_allowed": true,
+          "firm_restricted_sec": 0,
+          "execution_cost_flag": "EXECUTION_SLIPPAGE_AND_SPREAD_COST_FLAGGED_SEPARATELY"
+        },
+        "funded": {
+          "firm_news_allowed": false,
+          "firm_restricted_sec": 120,
+          "naqex_bot_guard_pad_sec": 300,
+          "naqex_bot_guard_hard_ban_sec": 135
+        }
+      },
+      "profit_split_pct": 0.80,
+      "payout_cycle_calendar_days": 14,
+      "payout_settlement_lag_calendar_days": 3,
+      "min_payout_net_usd": 50.0,
+      "withdrawal_fee_pct": 0.01,
+      "max_payout_cap_usd": null,
+      "phases": {
+        "p1": {
+          "base_mult": 4.00,
+          "ea_scale": 1.00,
+          "profit_lock_pct": 7.0,
+          "profit_lock_mult": 2.50,
+          "amber_dd_pct": 3.5,
+          "amber_mult": 0.65,
+          "red_dd_pct": 6.0,
+          "red_mult": 0.40,
+          "kill_daily_dd_pct": 3.5,
+          "kill_static_dd_pct": 8.0,
+          "enable_red_news_guard": false,
+          "factor_cluster_caps_pct": { "per_symbol": 1.75, "usd_directional": 2.25, "jpy_directional": 2.00, "us100_index": 1.75, "total_open_account": 3.00 }
+        },
+        "p2": {
+          "base_mult": 3.50,
+          "ea_scale": 1.00,
+          "profit_lock_pct": 3.5,
+          "profit_lock_mult": 1.75,
+          "amber_dd_pct": 3.5,
+          "amber_mult": 0.65,
+          "red_dd_pct": 6.0,
+          "red_mult": 0.40,
+          "kill_daily_dd_pct": 3.0,
+          "kill_static_dd_pct": 7.5,
+          "enable_red_news_guard": false,
+          "factor_cluster_caps_pct": { "per_symbol": 1.75, "usd_directional": 2.25, "jpy_directional": 2.00, "us100_index": 1.75, "total_open_account": 3.00 }
+        },
+        "funded": {
+          "base_mult": 1.25,
+          "ea_scale": 1.00,
+          "profit_lock_pct": 0.0,
+          "profit_lock_mult": 1.25,
+          "amber_dd_pct": 3.5,
+          "amber_mult": 0.65,
+          "red_dd_pct": 6.0,
+          "red_mult": 0.40,
+          "kill_daily_dd_pct": 2.5,
+          "kill_static_dd_pct": 7.5,
+          "enable_red_news_guard": true,
+          "factor_cluster_caps_pct": { "per_symbol": 1.25, "usd_directional": 1.75, "jpy_directional": 1.50, "us100_index": 1.25, "total_open_account": 2.25 }
+        }
+      },
+      "v101_c00_baseline_phases": {
+        "p1": { "base_mult": 4.00, "profit_lock_pct": 5.0, "profit_lock_mult": 2.01, "kill_daily_dd_pct": 3.5, "kill_static_dd_pct": 8.0, "enable_red_news_guard": true },
+        "p2": { "base_mult": 2.00, "profit_lock_pct": 2.5, "profit_lock_mult": 1.00, "kill_daily_dd_pct": 2.5, "kill_static_dd_pct": 7.5, "enable_red_news_guard": true },
+        "funded": { "base_mult": 1.00, "profit_lock_pct": 0.0, "profit_lock_mult": 1.00, "kill_daily_dd_pct": 2.5, "kill_static_dd_pct": 7.5, "enable_red_news_guard": true }
       }
     },
     "the5ers_hs_5k": {
