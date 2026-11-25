@@ -86,6 +86,24 @@ def _hash_vector(text: str) -> np.ndarray:
     return vec
 
 
+def owner_dir(root: Path | None = None) -> Path:
+    """Return Layer-2 private owner directory if present locally, else fallback to public `knowledge/owner`."""
+    base = root if root is not None else ROOT
+    priv = base / "private_vault" / "owner"
+    if priv.is_dir():
+        return priv
+    return base / "knowledge" / "owner"
+
+
+def resolve_owner_file(filename: str, root: Path | None = None) -> Path:
+    """Resolve an owner Markdown file using Private-First override with clean public fallback."""
+    base = root if root is not None else ROOT
+    priv_file = base / "private_vault" / "owner" / filename
+    if priv_file.is_file():
+        return priv_file
+    return base / "knowledge" / "owner" / filename
+
+
 def iter_knowledge_docs(*, include_archive: bool = False) -> list[tuple[str, Path, str, bool]]:
     """Discover all maintained Markdown sources across the workspace with clear domain & evergreen flags."""
     found: dict[str, tuple[Path, str, bool]] = {}
@@ -96,10 +114,22 @@ def iter_knowledge_docs(*, include_archive: bool = False) -> list[tuple[str, Pat
         rel = p.relative_to(ROOT).as_posix()
         found[rel] = (p, domain, evergreen)
 
-    # 1. Owner profile, curiosity journal, decisions, synthesized topics & playbooks
-    for p in sorted((ROOT / "knowledge/owner").glob("*.md")):
-        is_ev = p.name != "CURIOSITY-LOG.md"
-        _add(p, "owner", is_ev)
+    # 1. Owner profile, curiosity journal, decisions (Private-First override when private_vault/owner exists)
+    priv_owner = ROOT / "private_vault/owner"
+    pub_owner = ROOT / "knowledge/owner"
+    private_owner_names: set[str] = set()
+    if priv_owner.is_dir():
+        for p in sorted(priv_owner.glob("*.md")):
+            is_ev = p.name != "CURIOSITY-LOG.md"
+            _add(p, "owner", is_ev)
+            if p.is_file() and p.stat().st_size <= 1_000_000:
+                private_owner_names.add(p.name)
+    if pub_owner.is_dir():
+        for p in sorted(pub_owner.glob("*.md")):
+            if p.name in private_owner_names:
+                continue
+            is_ev = p.name != "CURIOSITY-LOG.md"
+            _add(p, "owner", is_ev)
     for p in sorted((ROOT / "knowledge/topics").glob("*.md")):
         _add(p, "knowledge", True)
     pb_dir = ROOT / "knowledge/playbooks"
@@ -535,13 +565,17 @@ def query_brain(
 
 
 def owner_brief() -> str:
-    prof = (ROOT / "knowledge/owner/PROFILE.md").read_text(encoding="utf-8")
-    cur_lines = (ROOT / "knowledge/owner/CURIOSITY-LOG.md").read_text(encoding="utf-8").splitlines()
+    prof_p = resolve_owner_file("PROFILE.md")
+    cur_p = resolve_owner_file("CURIOSITY-LOG.md")
+    dec_p = resolve_owner_file("DECISIONS-JOURNAL.md")
+    prof = prof_p.read_text(encoding="utf-8")
+    cur_lines = cur_p.read_text(encoding="utf-8").splitlines()
     recent_cur = [l for l in cur_lines if l.startswith("- **[")][-5:]
-    dec_lines = (ROOT / "knowledge/owner/DECISIONS-JOURNAL.md").read_text(encoding="utf-8").splitlines()
+    dec_lines = dec_p.read_text(encoding="utf-8").splitlines()
     recent_dec = [l for l in dec_lines if l.startswith("| `202")][-5:]
+    src_dir = prof_p.parent.relative_to(ROOT).as_posix()
     out = [
-        "=== NAQEX OWNER BRIEF ===",
+        f"=== NAQEX OWNER BRIEF ({src_dir}) ===",
         prof.strip(),
         "\n--- Recent Curiosities (last 5) ---",
         *recent_cur,
@@ -552,7 +586,7 @@ def owner_brief() -> str:
 
 
 def log_curiosity(topic: str, question: str, takeaway: str, source: str = "") -> dict:
-    p = ROOT / "knowledge/owner/CURIOSITY-LOG.md"
+    p = resolve_owner_file("CURIOSITY-LOG.md")
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     text = p.read_text(encoding="utf-8")
     day_hdr = f"## {today}"
@@ -568,7 +602,7 @@ def log_curiosity(topic: str, question: str, takeaway: str, source: str = "") ->
 
 
 def log_decision(decision: str, reason: str, revisit: str) -> dict:
-    p = ROOT / "knowledge/owner/DECISIONS-JOURNAL.md"
+    p = resolve_owner_file("DECISIONS-JOURNAL.md")
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     row = f"| `{today}` | {decision} | {reason} | {revisit} |\n"
     text = p.read_text(encoding="utf-8").rstrip() + "\n" + row
@@ -760,6 +794,7 @@ def audit_data() -> dict:
     return {
         "brain_index_ready": db_ok,
         "brain_index_kb": db_kb,
+        "owner_source": resolve_owner_file("PROFILE.md").parent.relative_to(ROOT).as_posix(),
         "knowledge_md_files": kb_count,
         "planning_research_files": pr_count,
         "dead_empty_runtime_dirs": empty_tmp_dirs,

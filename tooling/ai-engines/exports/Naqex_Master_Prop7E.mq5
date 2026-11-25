@@ -11,7 +11,8 @@
 //|   - Fail-closed defaults: DryRun=true, ShadowCompareMode=true    |
 //+------------------------------------------------------------------+
 #property strict
-#property version   "1.00"
+#property version     "1.00"
+#property tester_file "naqex_red_news_utc.csv"
 
 #include <Trade/Trade.mqh>
 #include "Include/Naqex_PropGuard.mqh"
@@ -57,6 +58,8 @@ input string InpSymUS500               = "US500.cash";
 input string InpSymEURUSD              = "EURUSD";
 input string InpSymAUDUSD              = "AUDUSD";
 input string InpSymUSDCAD              = "USDCAD";
+input double InpMaxIndexSpreadPoints   = 450.0;      // Max spread (pts) for US100/US500 indices (FTMO normal ~195 pts)
+input double InpMaxEurJpySpreadPoints  = 45.0;       // Max spread (pts) for EURJPY cross (matches E6 preset)
 input int    InpMaxBreakoutTickLagMs   = 5000;
 input int    InpHeartbeatSec           = 15;
 input string InpHeartbeatFile          = "naqex_master_heartbeat.json";
@@ -431,6 +434,19 @@ void ClosePositionsByReason(const datetime nowUtc, const bool flattenAll, const 
    }
 }
 
+double MaxSpreadCapForSymbol(const string sym)
+{
+   string u = sym;
+   StringToUpper(u);
+   if(StringFind(u, "US100") >= 0 || StringFind(u, "NAS100") >= 0 ||
+      StringFind(u, "NDX")   >= 0 || StringFind(u, "USTEC")  >= 0 ||
+      StringFind(u, "US500") >= 0 || StringFind(u, "SPX")    >= 0)
+      return InpMaxIndexSpreadPoints;
+   if(StringFind(u, "EURJPY") >= 0)
+      return InpMaxEurJpySpreadPoints;
+   return InpGuardMaxSpreadPoints;
+}
+
 void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
 {
    bool isShadowOrDry = (it.shadow_only || InpShadowCompareMode || InpDryRunLogOnly || InpGuardDryRunLogOnly);
@@ -440,7 +456,7 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
       LogMasterShadowRow(it, "ORDER_BLOCKED_NEWS", 0.0, 0.0, "INSIDE_RED_NEWS_OR_EXPIRED_CALENDAR");
       return;
    }
-   if(!g_guard.IsSpreadAndSessionSafeFor(it.symbol))
+   if(!g_guard.IsSpreadAndSessionSafeFor(it.symbol, MaxSpreadCapForSymbol(it.symbol)))
    {
       LogMasterShadowRow(it, "ORDER_BLOCKED_SPREAD", 0.0, 0.0, "SPREAD_OR_ROLLOVER_GUARD");
       return;

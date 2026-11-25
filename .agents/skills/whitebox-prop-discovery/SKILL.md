@@ -1,6 +1,6 @@
 ---
 name: whitebox-prop-discovery
-description: Discover, intake-audit, and validate prop-first white-box trading strategies (FTMO Swing/Standard, swap=0, zero-grid/martingale) on sealed M1 Bid/Ask caches using strict Cluster A discovery and blind Cluster B validation, then export auditable .mq5 templates for verified candidates. Use for systematic prop strategy discovery or auditing open-source .mq5 leads; do not use to crack, run, or black-box-clone closed-source commercial .ex4/.ex5 binaries.
+description: Discover, intake-audit, and validate prop-first white-box strategies (FTMO Swing/Standard, swap=0, zero-grid/martingale) on sealed M1 Bid/Ask caches via Cluster A -> blind Cluster B, then export auditable .mq5 templates. Use for prop strategy R&D or open-source .mq5 audits; do not use to crack/clone .ex4/.ex5.
 ---
 
 # White-Box Prop-First Strategy Discovery
@@ -13,6 +13,7 @@ Discover and qualify FTMO-compatible white-box strategies without black-box `.ex
 - **Holdout lock (`>= 2025-01-01`):** Always read from sealed Development caches (`holdout_rows = 0`, `NATIVE_FTMO_HOLDOUT_LOCK.json`). Never touch holdout during discovery or screening.
 - **Prop-first constraints:** Prefer intraday `swap = 0` (or verified positive-swap), hard SL on every order, max 1 position per engine/symbol, zero grid/martingale, and Prague-reset daily loss safety.
 - **Fail-closed execution:** Generated `.mq5` templates MUST keep `InpDryRunLogOnly = true` by default (`OrderSend = 0`). Qualification gates belong to [validation-gates.md](../strategy-qualification/references/validation-gates.md).
+- **2-Layer Output Boundary (Public Framework vs Private Alpha Vault):** Keep public `tooling/ai-engines/exports/` strictly for open framework code (`Naqex_PropGuard.mqh`, baseline v1 templates, and dry-run/demo kits). Store new proprietary v2/v3 strategy candidates in `private_vault/strategies/`, live/paid challenge `.set` presets in `private_vault/presets/`, and real broker/prop statements in `private_vault/statements/` (gitignored by Layer 1, synced only to the private personal vault). Never commit proprietary v2/v3 alphas, live paid presets, or real broker statements into Public Layer 1.
 
 ## Workflow
 

@@ -47,16 +47,31 @@ def allowed(path, product=False, *, research=False):
         if (path.as_posix().startswith('knowledge/') and 'inbox' not in {p.lower() for p in path.parts}
                 and 'archive' not in {p.lower() for p in path.parts}):
             return True
+        if (path.as_posix().startswith('private_vault/owner/') and len(path.parts) == 3
+                and 'holdout' not in path.name.lower()):
+            return True
     return path.as_posix() in {"README.md", "AGENTS.md", "CONTRIBUTING.md"} or path.as_posix().startswith(("docs/development/", "tooling/search/"))
 
 
 def source_files(*, research=False):
+    private_owner_dir = ROOT / "private_vault" / "owner"
+    private_owner_names: set[str] = set()
+    if research and private_owner_dir.is_dir() and not private_owner_dir.is_symlink():
+        for source in sorted(private_owner_dir.glob("*.md")):
+            relative = Path("private_vault/owner") / source.name
+            if (allowed(relative, False, research=True) and source.is_file() and not source.is_symlink()
+                    and source.resolve().is_relative_to(private_owner_dir.resolve())
+                    and source.stat().st_size <= 1_000_000):
+                private_owner_names.add(source.name)
+                yield relative, source
     for repo, prefix, product in [(ROOT, Path(), False), (ROOT / "projects/trader", Path("projects/trader"), True)]:
         if not (repo / ".git").exists():
             continue
         names = subprocess.check_output(["git", "-C", str(repo), "ls-files", "-z"]).decode("utf8").split("\0")
         for name in filter(None, names):
             relative, source = Path(name), repo / name
+            if research and not product and relative.parts[:2] == ("knowledge", "owner") and relative.name in private_owner_names:
+                continue
             if allowed(relative, product, research=research) and source.is_file() and not source.is_symlink() and source.resolve().is_relative_to(repo.resolve()) and source.stat().st_size <= 1_000_000:
                 yield prefix / relative, source
 

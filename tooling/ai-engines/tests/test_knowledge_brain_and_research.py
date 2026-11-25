@@ -124,3 +124,136 @@ def test_workspace_brain_index_and_owner_profile_ready():
         q = brain_cli.query_brain("thi quy ftmo holdout", top_k=3)
         assert q["hits"]
         assert q["elapsed_ms"] < 500.0
+
+
+def test_brain_private_first_override_and_clean_public_fallback(tmp_path, monkeypatch):
+    # Setup Layer-1 public stubs only (no private_vault yet -> clean CI/public clone behavior)
+    pub_owner = tmp_path / "knowledge/owner"
+    pub_owner.mkdir(parents=True)
+    (tmp_path / "knowledge/topics").mkdir(parents=True)
+    (pub_owner / "PROFILE.md").write_text(
+        "---\ndoc_type: evergreen\ndomain: owner\n---\n# Public Stub Profile\nPublic fallback sentinel alpha.\n",
+        encoding="utf-8",
+    )
+    (pub_owner / "CURIOSITY-LOG.md").write_text(
+        "# Curiosity Stub\n\n## 2026-11-25\n- **[Public]** *Public curiosity stub?*\n",
+        encoding="utf-8",
+    )
+    (pub_owner / "DECISIONS-JOURNAL.md").write_text(
+        "# Decisions Stub\n\n| Ngày | Quyết định | Lý do | Revisit |\n|---|---|---|---|\n| `2026-11-25` | Public stub decision | Template | Never |\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "knowledge/topics/guide.md").write_text(
+        "---\ndoc_type: evergreen\n---\n# Shared Topic\nGeneral public guide.\n",
+        encoding="utf-8",
+    )
+
+    monkeypatch.setattr(brain_cli, "ROOT", tmp_path)
+    monkeypatch.setattr(brain_cli, "BRAIN_DIR", tmp_path / ".runtime/knowledge")
+    monkeypatch.setattr(brain_cli, "DB_PATH", tmp_path / ".runtime/knowledge/brain.sqlite3")
+    monkeypatch.setattr(brain_cli, "VEC_PATH", tmp_path / ".runtime/knowledge/brain_vec.npz")
+
+    # 1. Clean public fallback
+    assert brain_cli.resolve_owner_file("PROFILE.md") == pub_owner / "PROFILE.md"
+    idx_pub = brain_cli.index_brain()
+    assert idx_pub["files_total"] == 4
+    q_pub = brain_cli.query_brain("Public fallback sentinel alpha", domain="owner", top_k=3)
+    assert q_pub["hits"] and q_pub["hits"][0]["path"] == "knowledge/owner/PROFILE.md"
+    brief_pub = brain_cli.owner_brief()
+    assert "knowledge/owner" in brief_pub
+    assert "Public fallback sentinel alpha" in brief_pub
+    assert brain_cli.audit_data()["owner_source"] == "knowledge/owner"
+
+    # 2. Mount Layer-2 private_vault/owner -> Private-First override must supersede public stubs
+    priv_owner = tmp_path / "private_vault/owner"
+    priv_owner.mkdir(parents=True)
+    (priv_owner / "PROFILE.md").write_text(
+        "---\ndoc_type: evergreen\ndomain: owner\n---\n# Private Real Profile\nPrivate vault sentinel omega drawdown rules.\n",
+        encoding="utf-8",
+    )
+    (priv_owner / "CURIOSITY-LOG.md").write_text(
+        "# Private Curiosity\n\n## 2026-11-25\n- **[Private]** *Private real question?*\n",
+        encoding="utf-8",
+    )
+    (priv_owner / "DECISIONS-JOURNAL.md").write_text(
+        "# Private Decisions\n\n| Ngày | Quyết định | Lý do | Revisit |\n|---|---|---|---|\n| `2026-11-25` | Private real decision | Vault | Q1 |\n",
+        encoding="utf-8",
+    )
+
+    assert brain_cli.resolve_owner_file("PROFILE.md") == priv_owner / "PROFILE.md"
+    idx_priv = brain_cli.index_brain()
+    assert idx_priv["files_total"] == 4
+    assert idx_priv["files_removed"] == 3  # Replaced 3 public stubs with 3 private owner files
+    assert idx_priv["files_updated"] == 3
+
+    q_priv = brain_cli.query_brain("Private vault sentinel omega", domain="owner", top_k=5)
+    assert q_priv["hits"]
+    assert q_priv["hits"][0]["path"] == "private_vault/owner/PROFILE.md"
+    assert q_priv["hits"][0]["evergreen"] is True
+    # Public stub must NOT duplicate in index once private override is active
+    assert all(not h["path"].startswith("knowledge/owner/") for h in q_priv["hits"])
+
+    brief_priv = brain_cli.owner_brief()
+    assert "private_vault/owner" in brief_priv
+    assert "Private vault sentinel omega" in brief_priv
+    assert "Public fallback sentinel alpha" not in brief_priv
+    assert brain_cli.audit_data()["owner_source"] == "private_vault/owner"
+
+    # Writes must target private_vault/owner and leave Layer-1 public stubs untouched
+    pub_cur_before = (pub_owner / "CURIOSITY-LOG.md").read_text(encoding="utf-8")
+    pub_dec_before = (pub_owner / "DECISIONS-JOURNAL.md").read_text(encoding="utf-8")
+    lc = brain_cli.log_curiosity("Vault", "Does private write stay private?", "Yes, Layer-2 only")
+    ld = brain_cli.log_decision("Use Layer-2 Private Vault", "Zero personal leak to Layer-1", "Annual")
+    assert lc["logged_to"] == "private_vault/owner/CURIOSITY-LOG.md"
+    assert ld["logged_to"] == "private_vault/owner/DECISIONS-JOURNAL.md"
+    assert (pub_owner / "CURIOSITY-LOG.md").read_text(encoding="utf-8") == pub_cur_before
+    assert (pub_owner / "DECISIONS-JOURNAL.md").read_text(encoding="utf-8") == pub_dec_before
+    assert "Does private write stay private?" in (priv_owner / "CURIOSITY-LOG.md").read_text(encoding="utf-8")
+    assert "Use Layer-2 Private Vault" in (priv_owner / "DECISIONS-JOURNAL.md").read_text(encoding="utf-8")
+
+
+def test_xerj_private_first_owner_resolution(tmp_path, monkeypatch):
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("xerj_pf", ROOT / "tooling/search/xerj.py")
+    xerj = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(xerj)
+
+    # Strict scope checks: private_vault/owner/*.md is research-only; ops/presets/holdout stay excluded
+    assert xerj.allowed(Path("private_vault/owner/PROFILE.md"), research=True) is True
+    assert xerj.allowed(Path("private_vault/owner/PROFILE.md"), research=False) is False
+    assert xerj.allowed(Path("private_vault/owner/PROFILE.md"), product=True, research=True) is False
+    assert xerj.allowed(Path("private_vault/ops/naqex-node1-topology.md"), research=True) is False
+    assert xerj.allowed(Path("private_vault/owner/holdout-notes.md"), research=True) is False
+    assert xerj.allowed(Path("private_vault/owner/sub/nested.md"), research=True) is False
+
+    # Setup tiny git repo to verify source_files() public fallback -> private-first override
+    subprocess.run(["git", "init", "-b", "main", str(tmp_path)], check=True, capture_output=True)
+    pub_owner = tmp_path / "knowledge/owner"
+    pub_owner.mkdir(parents=True)
+    (pub_owner / "PROFILE.md").write_text("# Public Stub\n", encoding="utf-8")
+    (tmp_path / "knowledge/topics").mkdir(parents=True)
+    (tmp_path / "knowledge/topics/topic.md").write_text("# Shared Topic\n", encoding="utf-8")
+    subprocess.run(["git", "-C", str(tmp_path), "add", "knowledge"], check=True, capture_output=True)
+
+    monkeypatch.setattr(xerj, "ROOT", tmp_path)
+    pub_rels = [rel.as_posix() for rel, _ in xerj.source_files(research=True)]
+    assert "knowledge/owner/PROFILE.md" in pub_rels
+    assert "knowledge/topics/topic.md" in pub_rels
+
+    # Add private_vault/owner/PROFILE.md (untracked/gitignored in Layer-1)
+    priv_owner = tmp_path / "private_vault/owner"
+    priv_owner.mkdir(parents=True)
+    (priv_owner / "PROFILE.md").write_text("# Private Profile\n", encoding="utf-8")
+    (tmp_path / "private_vault/ops").mkdir(parents=True)
+    (tmp_path / "private_vault/ops/naqex-node1-topology.md").write_text("# OPSEC\n", encoding="utf-8")
+
+    priv_rels = [rel.as_posix() for rel, _ in xerj.source_files(research=True)]
+    assert "private_vault/owner/PROFILE.md" in priv_rels
+    assert "knowledge/owner/PROFILE.md" not in priv_rels  # Overridden by Private-First
+    assert "knowledge/topics/topic.md" in priv_rels
+    assert all(not r.startswith("private_vault/ops/") for r in priv_rels)
+    # Default codegraph mode (research=False) must NOT include private_vault
+    default_rels = [rel.as_posix() for rel, _ in xerj.source_files(research=False)]
+    assert all(not r.startswith("private_vault/") for r in default_rels)

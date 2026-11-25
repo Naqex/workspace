@@ -141,7 +141,12 @@ def render_tester_ini(
         "[Common]\r\n"
         "ProxyEnable=0\r\n"
         "NewsEnable=0\r\n"
-        "KeepPrivate=0\r\n"
+        "KeepPrivate=1\r\n"
+        "\r\n"
+        "[Experts]\r\n"
+        "Enabled=0\r\n"
+        "AllowLiveTrading=0\r\n"
+        "AllowDllImport=0\r\n"
         "\r\n"
         "[Tester]\r\n"
         f"Expert={expert_rel}\r\n"
@@ -402,6 +407,202 @@ def run_suite(
     return summary
 
 
+def build_master_tester_set_file(
+    *,
+    out_path: Path,
+    base_phase_mult: float = 1.00,
+    max_symbol_risk_pct: float = 1.00,
+    kill_daily_dd_pct: float = 2.50,
+    kill_static_dd_pct: float = 7.50,
+    enable_red_news: bool = True,
+    tester_utc_offset_h: int = 2,
+    contract_sku: str = "FTMO_STD_10K_FUNDED_2024",
+) -> Path:
+    """Create Strategy Tester `.set` for `Naqex_Master_Prop7E.ex5` (source `.mq5` remains fail-closed DryRun=true)."""
+    lines = [
+        f"; Auto-generated Strategy Tester preset for Naqex_Master_Prop7E ({contract_sku})",
+        "; Simulation ONLY inside MT5 Strategy Tester; .mq5 defaults remain InpDryRunLogOnly=true",
+        "InpDryRunLogOnly=false",
+        "InpShadowCompareMode=false",
+        "InpEnableS6Shadow=false",
+        "InpWritePrimaryHeartbeat=false",
+        f"InpContractSku={contract_sku}",
+        "InpInitialBalanceUSD=10000.00",
+        "InpTargetProfitPct=0.00",
+        "InpHardDailyDdPct=5.00",
+        "InpHardStaticDdPct=10.00",
+        "InpDailyResetMode=1",
+        "InpSizingMode=0",
+        f"InpBasePhaseMult={base_phase_mult:.2f}",
+        "InpProfitLockPct=0.00",
+        "InpProfitLockMult=1.00",
+        "InpAmberDdPct=3.50",
+        "InpAmberMult=0.65",
+        "InpRedDdPct=6.00",
+        "InpRedMult=0.40",
+        f"InpKillDailyDdPct={kill_daily_dd_pct:.2f}",
+        f"InpKillStaticDdPct={kill_static_dd_pct:.2f}",
+        f"InpMaxSymbolRiskPct={max_symbol_risk_pct:.2f}",
+        "InpMaxUsdClusterPct=1.50",
+        "InpMaxJpyClusterPct=1.25",
+        "InpMaxIdxClusterPct=1.00",
+        "InpMaxAccountOpenRiskPct=2.00",
+        "InpMaxIndexSpreadPoints=450.00",
+        "InpMaxEurJpySpreadPoints=45.00",
+        "InpGuardDryRunLogOnly=false",
+        f"InpGuardMaxDailyLossPct={kill_daily_dd_pct:.2f}",
+        f"InpGuardMaxSymbolRiskPct={max_symbol_risk_pct:.2f}",
+        "InpGuardUseOrchestrator=false",
+        "InpGuardMaxSpreadPoints=35.00",
+        "InpGuardRolloverStartUTC=21",
+        "InpGuardRolloverEndUTC=0",
+        "InpGuardEarlyCloseMin=10",
+        f"InpGuardTesterUtcOffsetH={int(tester_utc_offset_h)}",
+        f"InpGuardEnableRedNews={'true' if enable_red_news else 'false'}",
+        "InpGuardRedNewsCsvFile=naqex_red_news_utc.csv",
+        "InpGuardNewsPadSec=300",
+        "InpGuardNewsHardBanSec=135",
+    ]
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
+    return out_path
+
+
+def run_master_prop7e_job(
+    *,
+    portable_root: Path = DEFAULT_PORTABLE_ROOT,
+    results_dir: Path = DEFAULT_RESULTS_DIR,
+    from_date: str = "2024.01.01",
+    to_date: str = "2024.12.31",
+    latency_ms: int = 50,
+    model: int = 4,
+    deposit: int = 10000,
+    leverage: int = 100,
+    base_phase_mult: float = 1.00,
+    enable_red_news: bool = True,
+    tester_utc_offset_h: int = 2,
+    timeout_sec: int = 600,
+) -> dict[str, Any]:
+    """Run Model=4 Strategy Tester on `Naqex_Master_Prop7E.ex5` strictly on Dev <= 2024.12.31."""
+    assert_safe_portable_root(portable_root)
+    if to_date.replace("-", ".") > "2024.12.31":
+        raise ValueError(f"HOLDOUT LOCK VIOLATION: ToDate '{to_date}' exceeds sealed Dev cutoff 2024.12.31")
+    sync_ex5_and_files_to_portable(portable_root=portable_root)
+    terminal_exe = portable_root / "terminal64.exe"
+    if not terminal_exe.exists():
+        raise FileNotFoundError(f"FTMO portable terminal64.exe missing: {terminal_exe}")
+
+    run_tag = f"MASTER_PROP7E_{from_date.replace('.', '')}_{to_date.replace('.', '')}_L{leverage}_{latency_ms}ms"
+    run_dir = results_dir / run_tag
+    run_dir.mkdir(parents=True, exist_ok=True)
+
+    set_name = f"naqex_rt_{run_tag}.set"
+    build_master_tester_set_file(
+        out_path=portable_root / "MQL5/Profiles/Tester" / set_name,
+        base_phase_mult=base_phase_mult,
+        enable_red_news=enable_red_news,
+        tester_utc_offset_h=tester_utc_offset_h,
+    )
+    report_stem = f"naqex_rt_{run_tag}"
+    for stale in (portable_root / f"{report_stem}.htm", portable_root / f"{report_stem}.html"):
+        if stale.exists():
+            stale.unlink()
+
+    ini_path = run_dir / "tester.ini"
+    ini_path.write_text(
+        render_tester_ini(
+            expert_rel=r"Naqex\Naqex_Master_Prop7E",
+            set_filename=set_name,
+            symbol="USDJPY",
+            period="M5",
+            from_date=from_date,
+            to_date=to_date,
+            report_stem=report_stem,
+            execution_mode_ms=latency_ms,
+            model=model,
+            deposit=deposit,
+            leverage=leverage,
+        ),
+        encoding="ascii",
+    )
+    _clear_old_tester_logs(portable_root)
+
+    t0 = time.perf_counter()
+    timed_out = False
+    try:
+        proc = subprocess.run(
+            [str(terminal_exe), "/portable", f"/config:{ini_path}"],
+            capture_output=True, text=True, timeout=timeout_sec, check=False,
+        )
+        rc = int(proc.returncode)
+    except subprocess.TimeoutExpired:
+        timed_out = True
+        rc = -999
+        subprocess.run(
+            [
+                "powershell", "-NoProfile", "-Command",
+                f"Get-Process terminal64,metatester64 -ErrorAction SilentlyContinue | Where-Object {{ $_.Path -like '{portable_root}*' }} | Stop-Process -Force -ErrorAction SilentlyContinue",
+            ],
+            capture_output=True, check=False,
+        )
+    elapsed = round(time.perf_counter() - t0, 2)
+
+    archived_report: Path | None = None
+    for cand in (portable_root / f"{report_stem}.htm", portable_root / f"{report_stem}.html"):
+        if cand.exists():
+            dst = run_dir / cand.name
+            shutil.copy2(cand, dst)
+            archived_report = dst
+            try:
+                cand.unlink()
+            except OSError:
+                pass
+            break
+    for png in portable_root.glob(f"{report_stem}*.png"):
+        try:
+            png.unlink()
+        except OSError:
+            pass
+
+    archived_logs: list[Path] = []
+    for lp in sorted((portable_root / "Tester/logs").glob("*.log")):
+        dst = run_dir / f"tester_{lp.name}"
+        shutil.copy2(lp, dst)
+        archived_logs.append(dst)
+    for agent_dir in sorted((portable_root / "Tester").glob("Agent-*")):
+        for lp in sorted((agent_dir / "logs").glob("*.log")):
+            dst = run_dir / f"{agent_dir.name}_{lp.name}"
+            shutil.copy2(lp, dst)
+            archived_logs.append(dst)
+
+    parsed_report = recon.parse_mt5_html_report(archived_report) if archived_report else {"ok": False, "error": "No HTML report emitted"}
+    parsed_logs = recon.parse_tester_logs(archived_logs)
+    result = {
+        "schema": "naqex-master-prop7e-realtick-v1",
+        "run_tag": run_tag,
+        "from_date": from_date,
+        "to_date": to_date,
+        "leverage": leverage,
+        "latency_ms": latency_ms,
+        "model": model,
+        "base_phase_mult": base_phase_mult,
+        "enable_red_news": enable_red_news,
+        "exit_code": rc,
+        "timed_out": timed_out,
+        "elapsed_sec": elapsed,
+        "report_path": str(archived_report) if archived_report else None,
+        "report": {k: v for k, v in parsed_report.items() if k != "deals"},
+        "deals_count": len(parsed_report.get("deals", [])),
+        "logs": parsed_logs,
+    }
+    (run_dir / "parsed_result.json").write_text(
+        json.dumps({**result, "deals": parsed_report.get("deals", [])}, indent=2, ensure_ascii=False),
+        encoding="utf-8",
+        newline="\n",
+    )
+    return result
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="Sequential MT5 Real-Tick Strategy Tester runner for FTMO-Demo 1515343166.")
     ap.add_argument("--portable-root", type=Path, default=DEFAULT_PORTABLE_ROOT)
@@ -414,7 +615,28 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--model", type=int, default=4, help="MT5 Tester Model: 4=Every tick based on real ticks, 1=1m OHLC.")
     ap.add_argument("--utc-offset", type=int, default=2, help="Server UTC offset for Strategy Tester.")
     ap.add_argument("--timeout", type=int, default=240)
+    ap.add_argument("--master-prop7e", action="store_true", help="Run single multi-symbol Naqex_Master_Prop7E.ex5 job (strictly <= 2024.12.31).")
+    ap.add_argument("--leverage", type=int, default=100, help="Leverage for --master-prop7e (100=FTMO Standard, 30=FTMO Swing).")
+    ap.add_argument("--base-mult", type=float, default=1.00, help="Base phase risk multiplier for --master-prop7e.")
+    ap.add_argument("--no-red-news", action="store_true", help="Disable red-news guard for Swing comparison on --master-prop7e.")
     args = ap.parse_args(argv)
+
+    if args.master_prop7e:
+        res = run_master_prop7e_job(
+            portable_root=args.portable_root,
+            results_dir=args.results_dir,
+            from_date=args.from_date,
+            to_date=args.to_date,
+            latency_ms=args.latencies[0],
+            model=args.model,
+            leverage=args.leverage,
+            base_phase_mult=args.base_mult,
+            enable_red_news=not args.no_red_news,
+            tester_utc_offset_h=args.utc_offset,
+            timeout_sec=max(args.timeout, 600),
+        )
+        print(json.dumps(res, indent=2, ensure_ascii=False))
+        return 0 if res["report"].get("ok") else 1
 
     run_suite(
         portable_root=args.portable_root,

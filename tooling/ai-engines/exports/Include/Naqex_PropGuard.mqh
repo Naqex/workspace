@@ -406,8 +406,8 @@ public:
       return (ddPct >= effLimit);
    }
 
-   // 7. Rollover blackout & spread spike filter (supports wrap-around and same-day windows)
-   bool IsSpreadAndSessionSafeFor(const string sym) const
+   // 7. Rollover blackout & spread spike filter (supports wrap-around, same-day windows & per-symbol spread override)
+   bool IsSpreadAndSessionSafeFor(const string sym, const double maxSpreadOverridePts = -1.0) const
    {
       MqlDateTime utc;
       TimeToStruct(NowUTC(), utc);
@@ -422,10 +422,11 @@ public:
          if(utc.hour >= InpGuardRolloverStartUTC && utc.hour < InpGuardRolloverEndUTC)
             return false;
       }
-      if(InpGuardMaxSpreadPoints > 0.0)
+      double effMaxSpread = (maxSpreadOverridePts >= 0.0) ? maxSpreadOverridePts : InpGuardMaxSpreadPoints;
+      if(effMaxSpread > 0.0)
       {
          double spreadPts = (double)SymbolInfoInteger(sym, SYMBOL_SPREAD);
-         if(spreadPts > InpGuardMaxSpreadPoints)
+         if(spreadPts > effMaxSpread)
             return false;
       }
       return true;

@@ -292,12 +292,17 @@ public:
    {
       long maxLagMs = 0;
       long srvNowMsc = (long)TimeCurrent() * 1000;
+      bool isTester = (MQLInfoInteger(MQL_TESTER) != 0);
       for(int s = 0; s < NAQEX_SYM_COUNT; s++)
       {
          m_feeds[s].has_fresh_tick = false;
+         int copied = 0;
          MqlTick ticks[];
-         long fromMsc = (m_feeds[s].last_tick_msc > 0) ? (m_feeds[s].last_tick_msc + 1) : (srvNowMsc - 5000);
-         int copied = CopyTicksRange(m_feeds[s].symbol, ticks, COPY_TICKS_INFO, (ulong)MathMax((long)0, fromMsc));
+         if(!isTester)
+         {
+            long fromMsc = (m_feeds[s].last_tick_msc > 0) ? (m_feeds[s].last_tick_msc + 1) : (srvNowMsc - 5000);
+            copied = CopyTicksRange(m_feeds[s].symbol, ticks, COPY_TICKS_INFO, (ulong)MathMax((long)0, fromMsc));
+         }
          if(copied > 0)
          {
             MqlTick last = ticks[copied - 1];
@@ -308,7 +313,7 @@ public:
                m_feeds[s].last_ask = last.ask;
                long lag = MathMax((long)0, srvNowMsc - last.time_msc);
                m_feeds[s].last_lag_ms = lag;
-               m_feeds[s].has_fresh_tick = (lag <= m_maxBreakoutLagMs || MQLInfoInteger(MQL_TESTER));
+               m_feeds[s].has_fresh_tick = (lag <= m_maxBreakoutLagMs || isTester);
                if(lag > maxLagMs) maxLagMs = lag;
             }
          }
@@ -317,11 +322,12 @@ public:
             MqlTick tk;
             if(SymbolInfoTick(m_feeds[s].symbol, tk) && tk.bid > 0.0 && tk.ask > 0.0)
             {
+               m_feeds[s].last_tick_msc = tk.time_msc;
                m_feeds[s].last_bid = tk.bid;
                m_feeds[s].last_ask = tk.ask;
                long lag = MathMax((long)0, srvNowMsc - tk.time_msc);
                m_feeds[s].last_lag_ms = lag;
-               m_feeds[s].has_fresh_tick = (lag <= m_maxBreakoutLagMs || MQLInfoInteger(MQL_TESTER));
+               m_feeds[s].has_fresh_tick = (lag <= m_maxBreakoutLagMs || isTester);
                if(lag > maxLagMs) maxLagMs = lag;
             }
          }
