@@ -13,11 +13,16 @@ from __future__ import annotations
 import argparse
 import json
 import pathlib
+import re
 import subprocess
 import sys
 
 ORDER_SEND_CAPABLE: bool = False
 ORDER_SEND_COUNT: int = 0
+
+_FORBIDDEN_SHELL_META: frozenset[str] = frozenset('&|;><^%$()`"\'!\r\n\t')
+_SAFE_EXTRA_ARG_RE = re.compile(r"^[A-Za-z0-9._:=\\/@,-]+$")
+_SAFE_HOST_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]*$")
 
 SCRIPTS_DIR = pathlib.Path(__file__).resolve().parent / "node_scripts"
 REMOTE_PYTHON = r"C:\Naqex\tools\python\cpython-3.12-windows-x86_64-none\python.exe"
@@ -48,6 +53,26 @@ def resolve_ssh_host(hosts: tuple[str, ...] = DEFAULT_HOSTS, timeout: int = 4) -
     raise RuntimeError(f"Unable to reach any SSH host in {hosts}")
 
 
+def _validate_host(host: str) -> str:
+    h = str(host or "").strip()
+    if not h or not _SAFE_HOST_RE.fullmatch(h):
+        raise ValueError(f"Invalid SSH host alias: {host!r}")
+    return h
+
+
+def _validate_and_quote_extra_args(extra_args: list[str] | None) -> str:
+    """Strictly allowlist probe CLI arguments and reject all shell metacharacters."""
+    if not extra_args:
+        return ""
+    quoted: list[str] = []
+    for raw in extra_args:
+        arg = str(raw)
+        if not arg or any(ch in _FORBIDDEN_SHELL_META for ch in arg) or not _SAFE_EXTRA_ARG_RE.fullmatch(arg):
+            raise ValueError(f"Unsafe SSH probe argument rejected: {arg!r}")
+        quoted.append(f'"{arg}"')
+    return " ".join(quoted)
+
+
 def run_remote_probe(
     command_key: str,
     extra_args: list[str] | None = None,
@@ -57,9 +82,9 @@ def run_remote_probe(
 ) -> dict:
     if command_key not in SCRIPT_MAP:
         raise ValueError(f"Unknown probe command: {command_key}")
-    target_host = host or resolve_ssh_host()
+    arg_str = _validate_and_quote_extra_args(extra_args)
+    target_host = _validate_host(host) if host is not None else resolve_ssh_host()
     script_name = SCRIPT_MAP[command_key]
-    arg_str = " ".join(extra_args or [])
     remote_cmd = f'"{REMOTE_PYTHON}" "{REMOTE_SCRIPTS_DIR}\\{script_name}" {arg_str}'.strip()
     proc = subprocess.run(
         ["ssh", "-o", "ConnectTimeout=6", "-o", "BatchMode=yes", target_host, remote_cmd],
@@ -73,7 +98,7 @@ def run_remote_probe(
 
 
 def deploy_scripts(*, host: str | None = None) -> dict:
-    target_host = host or resolve_ssh_host()
+    target_host = _validate_host(host) if host is not None else resolve_ssh_host()
     subprocess.run(
         ["ssh", "-o", "ConnectTimeout=6", "-o", "BatchMode=yes", target_host, f'if not exist "{REMOTE_SCRIPTS_DIR}" mkdir "{REMOTE_SCRIPTS_DIR}"'],
         check=True, capture_output=True, text=True, timeout=15,

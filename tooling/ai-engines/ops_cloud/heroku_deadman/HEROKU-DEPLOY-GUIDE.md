@@ -23,22 +23,23 @@ Bạn có **2 cách** (chọn cách thấy gọn hơn):
 1. Cài Heroku CLI trên Windows (`winget install Heroku.HerokuCLI`), rồi chạy:
    ```powershell
    heroku login
-   heroku create naqex-deadman-watch --region eu
-   heroku ps:type web=basic -a naqex-deadman-watch
+   heroku create <HEROKU_DEADMAN_APP> --region eu
+   heroku ps:type web=basic -a <HEROKU_DEADMAN_APP>
    ```
    *(Quan trọng: chọn `--region eu` và `web=basic` để dyno chạy 24/7 không tự ngủ.)*
 2. Thiết lập biến bí mật trên Heroku (chỉ lưu trên server Heroku, không lưu vào Git):
    ```powershell
-   heroku config:set -a naqex-deadman-watch `
+   heroku config:set -a <HEROKU_DEADMAN_APP> `
      NAQEX_INGEST_TOKEN="chon-mot-chuoi-bi-mat-dai-bat-ky" `
      NAQEX_VIEW_TOKEN="mat-khau-xem-trang-web-tren-dien-thoai" `
      TELEGRAM_BOT_TOKEN="token-tu-BotFather" `
      TELEGRAM_CHAT_ID="so-chat-id-cua-ban" `
      STALE_AFTER_SEC="180"
    ```
+   *(Tùy chọn: đặt thêm `NAQEX_NODE_RDP_HINT="<TAILSCALE_IP>"` trong config Heroku nếu muốn hiển thị gợi ý RDP trong tin nhắn Telegram — không ghi cứng IP trong mã nguồn.)*
 3. Đẩy đúng thư mục `heroku_deadman` lên Heroku:
    ```powershell
-   git subtree push --prefix tooling/ai-engines/ops_cloud/heroku_deadman https://git.heroku.com/naqex-deadman-watch.git main
+   git subtree push --prefix tooling/ai-engines/ops_cloud/heroku_deadman https://git.heroku.com/<HEROKU_DEADMAN_APP>.git main
    ```
 
 ### Cách B — Nếu muốn AI Agent tự deploy giúp trên máy bạn
@@ -51,7 +52,7 @@ Bạn có **2 cách** (chọn cách thấy gọn hơn):
 
 1. Cài biến môi trường User trên PC phụ:
    ```powershell
-   [Environment]::SetEnvironmentVariable("NAQEX_DEADMAN_URL", "https://naqex-deadman-watch.herokuapp.com/api/heartbeat", "User")
+   [Environment]::SetEnvironmentVariable("NAQEX_DEADMAN_URL", "https://<HEROKU_DEADMAN_APP>.herokuapp.com/api/heartbeat", "User")
    [Environment]::SetEnvironmentVariable("NAQEX_INGEST_TOKEN", "dung-chuoi-bi-mat-o-buoc-2", "User")
    ```
 2. Chạy thử 1 nhịp dry-run để xác nhận đọc đúng `naqex_heartbeat.json`:
@@ -61,4 +62,7 @@ Bạn có **2 cách** (chọn cách thấy gọn hơn):
      --account-label "FTMO_HOME_PC" --once --dry-run
    ```
 3. Đăng ký Windows Task Scheduler chạy `--once` mỗi `1` phút (hoặc chạy daemon `--interval-sec 60` lúc Windows khởi động) — kết hợp BIOS **`Restore on AC Power Loss -> Power On`** và dây mạng LAN cắm thẳng.
-4. Trên điện thoại, lưu bookmark: `https://naqex-deadman-watch.herokuapp.com/?token=<NAQEX_VIEW_TOKEN>`.
+4. Kiểm tra trạng thái API qua header `X-Naqex-View-Token` (**không** truyền token trong query string trên URL để tránh lọt bí mật vào access log của router Heroku):
+   ```powershell
+   curl.exe -s -H "X-Naqex-View-Token: <NAQEX_VIEW_TOKEN>" "https://<HEROKU_DEADMAN_APP>.herokuapp.com/api/status"
+   ```

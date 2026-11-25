@@ -83,9 +83,14 @@ Minimize wall-clock waste without weakening hard safety or statistical boundarie
 
 ### 6. MT5 Dev Portable & Multi-Symbol Real-Tick Discipline
 
-1. **Single Canonical English Dev MT5:** Keep ONLY `.runtime/ftmo-demo-portable-1515343166` (English) on the dev PC and prune stale `.runtime` MT5 clones after use — never switch Dev MT5/MetaEditor to Vietnamese (breaks HTML report & compile-log regex parsers; Vietnamese on `naqex-node1` live terminal is safe).
+1. **Single Canonical English Dev MT5:** Keep ONLY `.runtime/ftmo-demo-portable-<DEMO_ID>` (English) on the dev PC and prune stale `.runtime` MT5 clones after use — never switch Dev MT5/MetaEditor to Vietnamese (breaks HTML report & compile-log regex parsers; Vietnamese on `naqex-node1` live terminal is safe).
 2. **Headless Strategy Tester Auth & Isolation:** Every `tester.ini` MUST enforce `KeepPrivate=1` and `[Experts] Enabled=0 / AllowLiveTrading=0 / AllowDllImport=0` (prevents wiping `accounts.dat` and prevents live chart orders). Note `MetaTrader5.initialize()` alone does not persist credentials for `/config:tester.ini` — pass transient `[Common]` Demo credentials only from gitignored local `.env` deleted in `finally:` (never log/commit). Never launch two `terminal64.exe` processes concurrently on the same host, verify `Config/servers.dat` before connecting to a new firm, and stop heavy multi-symbol Tester runs immediately when the owner reports high CPU load.
 3. **Multi-Asset MQL5 Invariants:** Never apply a single FX spread cap (`35 pts`) to indices (`US100.cash ~195 pts`) — use per-asset-class caps (`MaxSpreadCapForSymbol`). Always declare `#property tester_file "naqex_red_news_utc.csv"` so Tester sandboxes receive the red-news CSV. Cache immutable closed-bar (`shift=1`) D1 ATR/range filters once per D1 bar, add a `>= 60s` holiday-retry cooldown on M1 window reconstructions, and use `EventSetTimer(MQLInfoInteger(MQL_TESTER) ? 60 : 1)` + 1s Tester `OnTick` throttle so `Model=4` avoids tens of millions of redundant callbacks.
+4. **Live-Money Parity, Slippage Deviation & CI Guardrails:**
+   - Always assert MQL5-vs-Python parity on drawdown brakes (`AMBER`/`RED` must scale relatively `base * mult` + intraday headroom taper rather than absolute clamping on P1 multipliers) and pass real per-engine `magic` + `tk`/`pos` into `LogExecAuditFor()` so TCA reconciliation and overnight-hold checks stay accurate.
+   - Calibrate `CTrade::SetDeviationInPoints()` per asset class from real live-probe tail slippage (e.g., `35` pts FX vs `>= 450` pts `US100.cash`, never rely on MT5's `10`-pt default).
+   - Holdout/research scripts must NEVER overwrite production `exports/Files/naqex_red_news_utc.csv` and must enforce programmatic `max_date < "2025-01-01"` inside `data_store`/`prop_engine`/`mt5_realtick_runner`.
+   - Keep pure-offline function-based `pytest` suites + `test_layer1_opsec_guard.py` explicitly wired into `.github/workflows/workspace.yml` (`unittest` loaders silently skip `def test_*` functions).
 
 ## Negative triggers
 

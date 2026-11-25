@@ -188,7 +188,7 @@ Kiểm tra offline có sẵn, không kết nối broker:
 
 ```powershell
 $env:PYTHONPATH='projects/trader/foundation_v2;tooling/ai-engines;tooling/ai-engines/tests;tooling'
-& 'C:/Users/MIIKEY/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe' -m unittest test_prop_v18 -v
+& '<CODEX_BUNDLED_PYTHON>' -m unittest test_prop_v18 -v
 ```
 
 ## 7. Bước hợp lý ngay sáng nay

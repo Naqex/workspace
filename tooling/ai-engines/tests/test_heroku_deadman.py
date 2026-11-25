@@ -307,3 +307,48 @@ def test_deadman_r2_08_expected_node_missing_and_unknown_positions():
     assert "POSITIONS_STATE_UNKNOWN" in res["reasons"]
     assert "DAILY_ANCHOR_UNRECOVERED" in res["reasons"]
 
+
+def test_deadman_opsec_rdp_hint_env_and_secret_error_scrubbing(monkeypatch):
+    """Wave 2.8A OPSEC: zero hardcoded IP in alerts & bot token / webhook URL scrubbed from exception errors."""
+    monkeypatch.delenv("NAQEX_NODE_RDP_HINT", raising=False)
+    for kind in ("STALE", "CRITICAL", "WARNING"):
+        h_msg, p_msg = deadman_app.format_alert_message(
+            kind=kind,
+            label="NAQEX_NODE1",
+            now_ts=1_795_510_560.0,
+            reasons=["MT5_PROCESS_DOWN"],
+            age_sec=210.0,
+        )
+        assert "100.72." not in h_msg and "100.72." not in p_msg
+        assert "RDP" not in h_msg and "RDP" not in p_msg
+
+    monkeypatch.setenv("NAQEX_NODE_RDP_HINT", "node-rdp-alias")
+    h_with, p_with = deadman_app.format_alert_message(
+        kind="STALE",
+        label="NAQEX_NODE1",
+        now_ts=1_795_510_560.0,
+        age_sec=210.0,
+    )
+    assert "<code>node-rdp-alias</code>" in h_with
+    assert "RDP node-rdp-alias" in p_with
+
+    fake_tg_token = "123456789:AAFakeSecretTelegramTokenXYZ"
+    fake_webhook = "https://discord.com/api/webhooks/999888777/SuperSecretWebhookToken"
+
+    def _boom(req, timeout=10.0):
+        raise RuntimeError(f"Connection failed for {req.full_url} with token={fake_tg_token}")
+
+    monkeypatch.setattr(deadman_app.urllib.request, "urlopen", _boom)
+    res = deadman_app.dispatch_alert_message(
+        "test alert",
+        telegram_bot_token=fake_tg_token,
+        telegram_chat_id="42",
+        webhook_url=fake_webhook,
+    )
+    joined = " ".join(res["errors"])
+    assert len(res["errors"]) == 2
+    assert fake_tg_token not in joined
+    assert fake_webhook not in joined
+    assert "SuperSecretWebhookToken" not in joined
+    assert "<REDACTED" in joined
+

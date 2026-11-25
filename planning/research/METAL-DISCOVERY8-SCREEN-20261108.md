@@ -4,7 +4,7 @@ Owner cho phép mở rộng cách nghiên cứu; [preparation](METAL-DISCOVERY8-
 giữ data/transport/cost corrections trước strategyoutcome. Đợt này chỉ historical
 development trên2021–2024, không cleanOOS hoặc broker execution.2025+closed.
 Không sửa sourceD: đang chạy hai EURUSDannualbatches; triển khai ở isolated
-`C:/Users/MIIKEY/.codex/worktrees/research-metals/trader`, base78a8397f.
+`~/.codex/worktrees/research-metals/trader`, base78a8397f.
 
 ## Fixed recipes và model
 

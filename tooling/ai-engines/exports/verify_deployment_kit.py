@@ -34,6 +34,7 @@ from datetime import datetime, timezone
 import hashlib
 import json
 from pathlib import Path
+import re
 import sys
 from typing import Any
 
@@ -415,6 +416,134 @@ THE5ERS_4_8_CALIBRATED_P1: dict[str, Any] = {
     "ea_daily_stop_pct": 2.80,
     "calibration_tag": "CYCLE1_SYMCAP_4_8_CALIBRATED",
 }
+
+# Black Friday FTMO Standard 10K 4-Stage Lifecycle Presets for single-authority `Naqex_Master_Prop7E.ex5`
+# Verified against Model=4 real ticks (20.02M ticks, 50ms & 150ms) and Model=1 full-year 2024 (swap=0.00 USD, 492 red-news OK).
+# ALL 4 presets strictly enforce fail-closed defaults (InpDryRunLogOnly=true, InpGuardDryRunLogOnly=true)
+# so accidental load NEVER fires live orders until the owner explicitly flips both flags on the paid account.
+_MASTER_PROP7E_COMMON_BASE: dict[str, Any] = {
+    "InpDryRunLogOnly": True,
+    "InpShadowCompareMode": False,
+    "InpEnableS6Shadow": False,
+    "InpWritePrimaryHeartbeat": True,
+    "InpInitialBalanceUSD": 10000.00,
+    "InpHardDailyDdPct": 5.00,
+    "InpHardStaticDdPct": 10.00,
+    "InpDailyResetMode": 1,
+    "InpSizingMode": 0,
+    "InpAmberDdPct": 3.50,
+    "InpAmberMult": 0.65,
+    "InpRedDdPct": 6.00,
+    "InpRedMult": 0.40,
+    "InpSymUSDJPY": "USDJPY",
+    "InpSymGBPUSD": "GBPUSD",
+    "InpSymEURJPY": "EURJPY",
+    "InpSymUS100": "US100.cash",
+    "InpSymUS500": "US500.cash",
+    "InpSymEURUSD": "EURUSD",
+    "InpSymAUDUSD": "AUDUSD",
+    "InpSymUSDCAD": "USDCAD",
+    "InpMaxIndexSpreadPoints": 450.0,
+    "InpMaxEurJpySpreadPoints": 45.0,
+    "InpMaxBreakoutTickLagMs": 5000,
+    "InpHeartbeatSec": 15,
+    "InpHeartbeatFile": "naqex_master_heartbeat.json",
+    "InpShadowCsvFile": "naqex_master_shadow.csv",
+    "InpAllowManualHaltFile": False,
+    "InpManualHaltFile": "naqex_manual_halt.flag",
+    "InpMagicRangeMin": 20261120,
+    "InpMagicRangeMax": 20261199,
+    "InpGuardDryRunLogOnly": True,
+    "InpGuardUseOrchestrator": False,
+    "InpGuardMaxSpreadPoints": 35.0,
+    "InpGuardRolloverStartUTC": 21,
+    "InpGuardRolloverEndUTC": 0,
+    "InpGuardEarlyCloseMin": 10,
+    "InpGuardTesterUtcOffsetH": 2,
+    "InpGuardEnableRedNews": True,
+    "InpGuardRedNewsCsvFile": "naqex_red_news_utc.csv",
+    "InpGuardNewsPadSec": 300,
+    "InpGuardNewsHardBanSec": 135,
+    "InpGuardTcaAuditCsvFile": "naqex_exec_audit.csv",
+    "InpGuardMagicRangeMin": 20261120,
+    "InpGuardMagicRangeMax": 20261199,
+}
+
+MASTER_PROP7E_LIFECYCLE_PRESETS: dict[str, dict[str, Any]] = {
+    "FTMO_Std10K_MasterProp7E_P1_Balanced_3x.set": {
+        **_MASTER_PROP7E_COMMON_BASE,
+        "InpContractSku": "FTMO_STD_10K_P1_BALANCED_3X",
+        "InpTargetProfitPct": 10.00,
+        "InpBasePhaseMult": 3.00,
+        "InpProfitLockPct": 5.00,
+        "InpProfitLockMult": 1.50,
+        "InpKillDailyDdPct": 3.00,
+        "InpKillStaticDdPct": 7.50,
+        "InpMaxSymbolRiskPct": 1.50,
+        "InpMaxUsdClusterPct": 2.00,
+        "InpMaxJpyClusterPct": 1.75,
+        "InpMaxIdxClusterPct": 1.50,
+        "InpMaxAccountOpenRiskPct": 2.50,
+        "InpGuardMaxDailyLossPct": 3.00,
+        "InpGuardMaxSymbolRiskPct": 1.50,
+    },
+    "FTMO_Std10K_MasterProp7E_P1_Sprint_4x.set": {
+        **_MASTER_PROP7E_COMMON_BASE,
+        "InpContractSku": "FTMO_STD_10K_P1_SPRINT_4X",
+        "InpTargetProfitPct": 10.00,
+        "InpBasePhaseMult": 4.00,
+        "InpProfitLockPct": 5.00,
+        "InpProfitLockMult": 2.01,
+        "InpKillDailyDdPct": 3.50,
+        "InpKillStaticDdPct": 8.00,
+        "InpMaxSymbolRiskPct": 1.75,
+        "InpMaxUsdClusterPct": 2.25,
+        "InpMaxJpyClusterPct": 2.00,
+        "InpMaxIdxClusterPct": 1.75,
+        "InpMaxAccountOpenRiskPct": 3.00,
+        "InpGuardMaxDailyLossPct": 3.50,
+        "InpGuardMaxSymbolRiskPct": 1.75,
+    },
+    "FTMO_Std10K_MasterProp7E_P2_Verify_2x.set": {
+        **_MASTER_PROP7E_COMMON_BASE,
+        "InpContractSku": "FTMO_STD_10K_P2_VERIFY_2X",
+        "InpTargetProfitPct": 5.00,
+        "InpBasePhaseMult": 2.00,
+        "InpProfitLockPct": 2.50,
+        "InpProfitLockMult": 1.00,
+        "InpKillDailyDdPct": 2.50,
+        "InpKillStaticDdPct": 7.50,
+        "InpMaxSymbolRiskPct": 1.25,
+        "InpMaxUsdClusterPct": 1.75,
+        "InpMaxJpyClusterPct": 1.50,
+        "InpMaxIdxClusterPct": 1.25,
+        "InpMaxAccountOpenRiskPct": 2.25,
+        "InpGuardMaxDailyLossPct": 2.50,
+        "InpGuardMaxSymbolRiskPct": 1.25,
+    },
+    "FTMO_Std10K_MasterProp7E_Funded_Safe_1x.set": {
+        **_MASTER_PROP7E_COMMON_BASE,
+        "InpContractSku": "FTMO_STD_10K_FUNDED_SAFE_1X",
+        "InpTargetProfitPct": 0.00,
+        "InpBasePhaseMult": 1.00,
+        "InpProfitLockPct": 0.00,
+        "InpProfitLockMult": 1.00,
+        "InpKillDailyDdPct": 2.50,
+        "InpKillStaticDdPct": 7.50,
+        "InpMaxSymbolRiskPct": 1.00,
+        "InpMaxUsdClusterPct": 1.50,
+        "InpMaxJpyClusterPct": 1.25,
+        "InpMaxIdxClusterPct": 1.00,
+        "InpMaxAccountOpenRiskPct": 2.00,
+        "InpGuardMaxDailyLossPct": 2.50,
+        "InpGuardMaxSymbolRiskPct": 1.00,
+    },
+}
+
+_SECRET_LEAK_RE = re.compile(
+    r"(?i)(password\s*=|login\s*=|api[_-]?key\s*=|webhook\s*=\s*https?://|"
+    r"\b100\.\d{1,3}\.\d{1,3}\.\d{1,3}\b|\b192\.168\.\d{1,3}\.\d{1,3}\b|\b10\.\d{1,3}\.\d{1,3}\.\d{1,3}\b)"
+)
 
 
 def build_scaled_tier_config(
@@ -992,6 +1121,23 @@ def build_presets_and_manifest(
             lines.append(f"{k}={v}")
         (master_v2_dir / fname).write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
 
+    # 2c. Generate Black Friday 4-stage lifecycle presets for Naqex_Master_Prop7E directly under presets/
+    master_parsed = parity.parse_mq5_source(exports_dir / "Naqex_Master_Prop7E.mq5")
+    valid_master_keys = set(master_parsed["inputs"]) | set(mqh_parsed["inputs"])
+    for fname, kv in MASTER_PROP7E_LIFECYCLE_PRESETS.items():
+        assert set(kv).issubset(valid_master_keys), f"Unknown Master_Prop7E keys in {fname}: {set(kv) - valid_master_keys}"
+        header_lines = [
+            f"Naqex MT5 Master_Prop7E Lifecycle Preset | File: {fname} | SKU: {kv['InpContractSku']}",
+            "Attach: SINGLE chart USDJPY M5 ONLY (do NOT attach legacy Orchestrator or 8 separate EAs on same account)",
+            f"RiskMult: {kv['InpBasePhaseMult']:.2f}x | ProfitLock: {kv['InpProfitLockPct']:.2f}%->{kv['InpProfitLockMult']:.2f}x | KillDD: {kv['InpKillDailyDdPct']:.2f}%/{kv['InpKillStaticDdPct']:.2f}%",
+            "ARM-LOCKED FAIL-CLOSED: InpDryRunLogOnly=true & InpGuardDryRunLogOnly=true until owner explicitly disarms on paid FTMO 10K account",
+        ]
+        (presets_dir / fname).write_text(
+            _render_set_file(header_lines, kv),
+            encoding="utf-8",
+            newline="\n",
+        )
+
     # 3. Build cryptographic SHA-256 manifest
     tracked_files: list[Path] = []
     tracked_files.extend(sorted(exports_dir.glob("*.mq5")))
@@ -1001,6 +1147,7 @@ def build_presets_and_manifest(
     tracked_files.append(exports_dir / "verify_deployment_kit.py")
     for rel_kit in (
         "ACTIVATION-CARD-LOCAL-MT5.md",
+        "BLACKFRIDAY-FTMO-10K-ACTIVATION-CHECKLIST.md",
         "ops_watchdog/naqex_mt5_watchdog.ps1",
         "vps_kit/sync_updated_ex5_when_flat.ps1",
     ):
@@ -1039,6 +1186,8 @@ def build_presets_and_manifest(
         "order_send_count": 0,
         "profile_count": len(OPERATIONAL_PROFILES),
         "profiles": profiles_summary,
+        "master_lifecycle_presets_count": len(MASTER_PROP7E_LIFECYCLE_PRESETS),
+        "master_lifecycle_presets": sorted(MASTER_PROP7E_LIFECYCLE_PRESETS),
         "tracked_files_count": len(tracked_entries),
         "tracked_files": tracked_entries,
         "compiled_ex5_count": len(ex5_entries),
@@ -1245,14 +1394,88 @@ def verify_kit(
 
             presets_checked += 1
 
-    # 4. Check Activation Card, Watchdog & Flat-Only Sync script existence & anti-bloat across exports/
+    # 3b. Validate the 4 Black Friday Naqex_Master_Prop7E lifecycle .set presets directly under presets/
+    master_keys = set(parity.parse_mq5_source(exports_dir / "Naqex_Master_Prop7E.mq5")["inputs"]) | mqh_keys
+    master_presets_checked = 0
+    for fname, expected_kv in MASTER_PROP7E_LIFECYCLE_PRESETS.items():
+        mp = presets_dir / fname
+        if not mp.exists():
+            errors.append(f"Missing Master_Prop7E lifecycle preset: presets/{fname}")
+            continue
+        raw_text = mp.read_text(encoding="utf-8", errors="replace")
+        if _SECRET_LEAK_RE.search(raw_text) or "$" in raw_text:
+            errors.append(f"presets/{fname} failed secret/OPSEC hygiene check")
+        kv = parse_set_file(mp)
+        unknown = set(kv) - master_keys
+        if unknown:
+            errors.append(f"presets/{fname} has unknown Naqex_Master_Prop7E keys: {sorted(unknown)}")
+
+        # Strict fail-closed safety invariants
+        if kv.get("InpDryRunLogOnly") != "true" or kv.get("InpGuardDryRunLogOnly") != "true":
+            errors.append(f"presets/{fname} MUST enforce fail-closed InpDryRunLogOnly=true and InpGuardDryRunLogOnly=true")
+        if kv.get("InpShadowCompareMode") != "false":
+            errors.append(f"presets/{fname} must keep InpShadowCompareMode=false for paid single-authority activation")
+        if kv.get("InpGuardUseOrchestrator") != "false":
+            errors.append(f"presets/{fname} must keep InpGuardUseOrchestrator=false (Master_Prop7E is sole authority)")
+        if kv.get("InpAllowManualHaltFile") != "false":
+            errors.append(f"presets/{fname} must keep InpAllowManualHaltFile=false")
+        if kv.get("InpDailyResetMode") != "1":
+            errors.append(f"presets/{fname} must use FTMO Prague DST InpDailyResetMode=1")
+        if kv.get("InpGuardEnableRedNews") != "true" or kv.get("InpGuardRedNewsCsvFile") != "naqex_red_news_utc.csv":
+            errors.append(f"presets/{fname} must enforce Red-News guard with naqex_red_news_utc.csv")
+        m_hb = int(kv.get("InpGuardNewsHardBanSec", "0"))
+        m_pad = int(kv.get("InpGuardNewsPadSec", "0"))
+        if m_hb != 135 or m_hb >= m_pad:
+            errors.append(f"presets/{fname} invalid red-news hard ban/pad ({m_hb}/{m_pad})")
+
+        # Exact verified spread caps (FX 35.0, EURJPY 45.0, US100/US500 450.0)
+        if abs(float(kv.get("InpGuardMaxSpreadPoints", "0")) - 35.0) > 1e-6:
+            errors.append(f"presets/{fname} InpGuardMaxSpreadPoints must be 35.0")
+        if abs(float(kv.get("InpMaxEurJpySpreadPoints", "0")) - 45.0) > 1e-6:
+            errors.append(f"presets/{fname} InpMaxEurJpySpreadPoints must be 45.0")
+        if abs(float(kv.get("InpMaxIndexSpreadPoints", "0")) - 450.0) > 1e-6:
+            errors.append(f"presets/{fname} InpMaxIndexSpreadPoints must be 450.0")
+
+        # Verify exact phase risk, ProfitLock, cluster & DD caps match spec
+        for num_key in (
+            "InpTargetProfitPct",
+            "InpBasePhaseMult",
+            "InpProfitLockPct",
+            "InpProfitLockMult",
+            "InpKillDailyDdPct",
+            "InpKillStaticDdPct",
+            "InpMaxSymbolRiskPct",
+            "InpMaxUsdClusterPct",
+            "InpMaxJpyClusterPct",
+            "InpMaxIdxClusterPct",
+            "InpMaxAccountOpenRiskPct",
+            "InpGuardMaxDailyLossPct",
+            "InpGuardMaxSymbolRiskPct",
+        ):
+            got_v = float(kv.get(num_key, "-999"))
+            exp_v = float(expected_kv[num_key])
+            if abs(got_v - exp_v) > 1e-6:
+                errors.append(f"presets/{fname} {num_key}={got_v} != expected {exp_v}")
+
+        master_presets_checked += 1
+
+    # 4. Check Activation Card, Black Friday Checklist, Watchdog & Flat-Only Sync script existence & anti-bloat across exports/
     for req_file in (
         kit_dir / "ACTIVATION-CARD-LOCAL-MT5.md",
+        kit_dir / "BLACKFRIDAY-FTMO-10K-ACTIVATION-CHECKLIST.md",
         kit_dir / "ops_watchdog/naqex_mt5_watchdog.ps1",
         kit_dir / "vps_kit/sync_updated_ex5_when_flat.ps1",
     ):
         if not req_file.exists():
             errors.append(f"Missing required kit artifact: {req_file.relative_to(REPO_ROOT)}")
+
+    bf_checklist = kit_dir / "BLACKFRIDAY-FTMO-10K-ACTIVATION-CHECKLIST.md"
+    if bf_checklist.exists():
+        bf_txt = bf_checklist.read_text(encoding="utf-8", errors="replace")
+        if "$" in bf_txt:
+            errors.append("BLACKFRIDAY-FTMO-10K-ACTIVATION-CHECKLIST.md must not contain bare $")
+        if _SECRET_LEAK_RE.search(bf_txt):
+            errors.append("BLACKFRIDAY-FTMO-10K-ACTIVATION-CHECKLIST.md failed secret/OPSEC hygiene check")
 
     for f in exports_dir.rglob("*"):
         if f.is_file():
@@ -1266,6 +1489,8 @@ def verify_kit(
         "ok": len(errors) == 0,
         "profiles_expected": len(OPERATIONAL_PROFILES),
         "presets_checked": presets_checked,
+        "master_presets_checked": master_presets_checked,
+        "total_presets_checked": presets_checked + master_presets_checked,
         "verified_tracked_files": verified_tracked,
         "verified_ex5_files": verified_ex5,
         "parity_ok": parity_rep["ok"],
@@ -1319,6 +1544,7 @@ def main(argv: list[str] | None = None) -> int:
         print(
             f"Deployment Kit Verify: {'PASS' if rep['ok'] else 'FAIL'} | "
             f"profiles={rep['profiles_expected']} presets={rep['presets_checked']} "
+            f"master_presets={rep['master_presets_checked']} total_presets={rep['total_presets_checked']} "
             f"tracked_sha={rep['verified_tracked_files']} ex5_sha={rep['verified_ex5_files']}"
         )
         for err in rep["errors"]:

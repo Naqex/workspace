@@ -7,9 +7,9 @@ nhánh V24. Chưa nhận chiến lược GBPUSD hoặc thay engine tài khoản.
 ## Nguồn và quyết định tích hợp
 
 Chat nguồn: `01a1daf7-cb89-7b83-ad62-cb0be1b35cdc`.
-Trader nguồn: `C:/Users/MIIKEY/.codex/worktrees/04e2/trader`,
+Trader nguồn: `~/.codex/worktrees/04e2/trader`,
 `codex/solo-system-research`, SHA `621f0e0bbf7dcfde00ff546b343acd4189eb95dd`.
-Workspace nguồn: `C:/Users/MIIKEY/.codex/worktrees/solo-prop-system/TradingWorkspace`,
+Workspace nguồn: `~/.codex/worktrees/solo-prop-system/TradingWorkspace`,
 `codex/solo-prop-system`, SHA `6f6c2f850f55d3a8ad802e3b27459a4aa27a3688`.
 SHA Workspace này còn local, cao hơn head PR84 `b1ba9a8` một commit.
 

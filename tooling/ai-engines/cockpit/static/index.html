@@ -51,6 +51,110 @@
       </div>
     </section>
 
+    <!-- Row 0.25: Sprint Black Friday 30/11 & Trạng thái Node1 (Flat-First) -->
+    <section class="panel" id="panel-bf-sprint" aria-label="Sprint Black Friday 30/11 và Trạng thái Node1">
+      <div class="panel-hdr">
+        <div>
+          <h2>Sprint Black Friday 30/11 &amp; Trạng thái Node1</h2>
+          <div class="sub">Chốt trước 30/11/2026 16:00 (giờ VN) · Đối chiếu thực tế Mũi 1–3 &amp; sức khỏe máy chủ chạy bot</div>
+        </div>
+        <div class="tier-pills">
+          <span class="tag tag-amber" id="bf-countdown-badge">Đếm ngược: —</span>
+          <span class="tag" id="bf-vault-badge">Kho bảo mật lớp 2: —</span>
+          <span class="tag tag-lock" id="bf-seal-badge">OrderSend=0 · Holdout khóa</span>
+          <button id="btn-bf-refresh" class="btn" type="button">Làm mới dữ liệu</button>
+        </div>
+      </div>
+
+      <div class="bf-summary-bar" aria-label="Chỉ số tóm tắt Sprint Black Friday">
+        <div class="bf-summary-cell">
+          <div class="mini-lbl">Đếm ngược chốt quỹ (30/11 16:00)</div>
+          <div class="mini-val mono warn" id="bf-countdown-val">—</div>
+          <div class="mini-sub mono" id="bf-countdown-sub">Mốc giờ VN: 30/11/2026 16:00 ICT</div>
+        </div>
+        <div class="bf-summary-cell">
+          <div class="mini-lbl">Mũi 3 — Master_Prop7E (5 kịch bản)</div>
+          <div class="mini-val mono" id="bf-mui3-val">—</div>
+          <div class="mini-sub mono" id="bf-mui3-sub">Chưa có kịch bản nào</div>
+        </div>
+        <div class="bf-summary-cell">
+          <div class="mini-lbl">Mũi 1–2 — Đo khớp lệnh &amp; Spread thực địa</div>
+          <div class="mini-val mono" id="bf-friction-val">—</div>
+          <div class="mini-sub mono" id="bf-friction-sub">Đang chờ dữ liệu đo thực tế</div>
+        </div>
+        <div class="bf-summary-cell">
+          <div class="mini-lbl">Trạng thái máy chủ Node1</div>
+          <div class="mini-val mono" id="bf-node1-val">—</div>
+          <div class="mini-sub mono" id="bf-node1-sub">Đang kiểm tra…</div>
+        </div>
+      </div>
+
+      <div class="bf-calib-strip" id="bf-calib-strip" aria-label="Tiến độ lệnh đo thực địa Mũi 1">
+        <div class="bf-calib-top">
+          <span class="mx-risk-title">Tiến độ đo thực địa (Mũi 1)</span>
+          <span class="tag" id="bf-calib-status-badge">CHỜ</span>
+          <span class="bf-calib-headline mono" id="bf-calib-headline">0 / 28 lệnh probe thực địa · Trượt giá TB: — · Độ trễ P50: —</span>
+        </div>
+        <div class="bf-progress-track"><div class="bf-progress-fill" id="bf-calib-bar"></div></div>
+        <div class="bf-node-pills mono" id="bf-calib-sym-pills"></div>
+      </div>
+
+      <div class="bf-node-strip" id="bf-node-strip" aria-label="Chỉ số sức khỏe máy chủ Node1">
+        <div class="bf-node-hdr">
+          <span class="mx-risk-title">Sức khỏe máy chủ naqex-node1</span>
+          <span class="tag" id="n1-source-badge">—</span>
+        </div>
+        <div class="bf-node-pills mono" id="bf-node-pills">
+          <span class="bf-pill">Đang tải trạng thái Node1…</span>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <h3 class="sec-subhdr" style="margin-top:0">Mũi 3 — Kiểm chứng Master_Prop7E (Model=4 Real Ticks &amp; Model=1 1m OHLC)</h3>
+          <div class="table-scroll">
+            <table class="data-table" id="tbl-bf-mui3">
+              <thead>
+                <tr>
+                  <th>Kịch bản</th>
+                  <th>Mô hình</th>
+                  <th>Giai đoạn</th>
+                  <th class="num">Lệnh</th>
+                  <th class="num">Lãi ròng</th>
+                  <th class="num">PF</th>
+                  <th class="num">Sharpe</th>
+                  <th class="num">EqDD%</th>
+                  <th>Swap=0</th>
+                </tr>
+              </thead>
+              <tbody><tr><td colspan="9" class="mono">Chưa có kết quả chạy thử Master_Prop7E.</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="sec-subhdr" style="margin-top:0">Mũi 1–2 — Độ trượt giá &amp; Tỷ lệ Spread (Thực tế / Chuẩn Dev 1.0×)</h3>
+          <div class="table-scroll">
+            <table class="data-table" id="tbl-bf-friction">
+              <thead>
+                <tr>
+                  <th>Mã</th>
+                  <th class="num">Lệnh mẫu</th>
+                  <th class="num">Spread TB (bps)</th>
+                  <th class="num">Spread P90 (bps)</th>
+                  <th class="num">Tỷ lệ / Dev 1.0×</th>
+                  <th class="num">Số mẫu</th>
+                  <th>Trạng thái</th>
+                </tr>
+              </thead>
+              <tbody><tr><td colspan="7" class="mono">Chưa có dữ liệu spread hoặc trượt giá thực tế.</td></tr></tbody>
+            </table>
+          </div>
+          <div class="bf-footnote mono" id="bf-friction-note">Chưa có dữ liệu tổng hợp trượt giá Mũi 1.</div>
+        </div>
+      </div>
+    </section>
+
     <!-- Row 0.5: Prop Account MetriX (Permitted Loss Buffers, Objective Checklist & Daily PnL Calendar) -->
     <section class="panel" id="panel-prop-metrix" aria-label="Prop Account MetriX">
       <div class="panel-hdr">

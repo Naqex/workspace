@@ -24,7 +24,22 @@ sys.path.insert(0, str(AI_ENGINES))
 if FOUNDATION_SRC.exists():
     sys.path.insert(0, str(FOUNDATION_SRC))
 
-AI_ENV_AUDIT_PS1 = Path(r"C:\Users\MIIKEY\.gemini\config\plugins\migrated-settings\skills\ai-environment-maintainer\scripts\audit-ai-environment.ps1")
+def _resolve_ai_env_audit_ps1() -> Path:
+    env_override = os.environ.get("NAQEX_AI_ENV_AUDIT_PS1", "").strip()
+    if env_override:
+        return Path(env_override)
+    home = Path.home()
+    candidates = (
+        home / ".gemini/config/plugins/migrated-settings/skills/ai-environment-maintainer/scripts/audit-ai-environment.ps1",
+        home / ".agents/skills/ai-environment-maintainer/scripts/audit-ai-environment.ps1",
+    )
+    for cand in candidates:
+        if cand.exists():
+            return cand
+    return candidates[0]
+
+
+AI_ENV_AUDIT_PS1 = _resolve_ai_env_audit_ps1()
 
 
 def _subproc_env() -> dict[str, str]:

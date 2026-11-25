@@ -1,7 +1,10 @@
 //+------------------------------------------------------------------+
-//| Naqex_Signals_7E.mqh (v1.00 — Pure Signal Modules, 0 OrderSend)  |
+//| Naqex_Signals_7E.mqh (v1.01 — Pure Signal Modules, 0 OrderSend)  |
 //| Round-3 Approved Architecture: 7 Fixed Core Engines (E1..E7)     |
 //| + Optional S6 Shadow-Only Compare Module.                        |
+//| v1.01 Hardened: HistorySelect traded-day hydration, mid-window   |
+//| E1/E4 box guard, ServerNow(), 23-date NYSE block on E4/E5/E7,    |
+//| Sunday open WEEKEND_GAP_FAILSAFE_SWAP0 flatten.                  |
 //|                                                                  |
 //| PURE SIGNAL ONLY: contains ZERO CTrade / OrderSend calls.        |
 //| Emits structured NaqexSignalIntent records to Master Authority.  |
@@ -61,6 +64,7 @@ class CNaqexSignals7E
 private:
    NaqexSymbolFeedState m_feeds[NAQEX_SYM_COUNT];
    datetime             m_tradedDay[8]; // 0..6 = E1..E7, 7 = S6
+   bool                 m_tradedDayHydrated;
    int                  m_intentSeq;
    int                  m_maxBreakoutLagMs;
    bool                 m_enableS6Shadow;
@@ -155,11 +159,11 @@ private:
       return true;
    }
 
-   // Reconstruct [startUtc, endUtc) M1 high/low/open/close from broker history (restart resilience!)
+   // Reconstruct [startUtc, endUtc) M1 high/low/open/close from broker history (restart resilience + V101-03 ServerNow!)
    bool ReconstructM1Window(const string sym, const datetime nowUtc, const datetime startUtc, const datetime endUtc,
                             double &outOpen, double &outHigh, double &outLow, double &outClose) const
    {
-      long srvMinusUtc = (long)TimeCurrent() - (long)nowUtc;
+      long srvMinusUtc = (long)CNaqexPropGuard::ServerNow() - (long)nowUtc;
       datetime srvStart = startUtc + (datetime)srvMinusUtc;
       datetime srvEnd   = endUtc + (datetime)srvMinusUtc - 1;
       if(srvEnd < srvStart) return false;
@@ -194,6 +198,7 @@ private:
 public:
    CNaqexSignals7E()
    {
+      m_tradedDayHydrated = false;
       m_intentSeq        = 0;
       m_maxBreakoutLagMs = 5000;
       m_enableS6Shadow   = true;
@@ -305,11 +310,102 @@ public:
       return (idx >= 0 && idx < 8 && m_tradedDay[idx] == dayKey);
    }
 
+   bool IsTradedDayHydrated() const
+   {
+      return m_tradedDayHydrated;
+   }
+
+   // V101-02 (OPS-01): Hydrate m_tradedDay[8] from 48h deal history + open positions after mid-day restart!
+   // Fail-closed: returns false (blocking new entries until retry succeeds) if HistorySelect fails while live.
+   bool HydrateTradedDaysFromHistory(const datetime nowUtc)
+   {
+      if(MQLInfoInteger(MQL_TESTER))
+      {
+         m_tradedDayHydrated = true;
+         return true;
+      }
+      datetime srvNow = CNaqexPropGuard::ServerNow();
+      if(srvNow <= 0 || nowUtc <= 0)
+      {
+         m_tradedDayHydrated = false;
+         return false;
+      }
+      if(!HistorySelect(srvNow - 48 * 3600, srvNow + 60))
+      {
+         m_tradedDayHydrated = false;
+         return false;
+      }
+
+      long srvMinusUtc = (long)srvNow - (long)nowUtc;
+      datetime curUtcDay = nowUtc - (nowUtc % 86400);
+      MqlDateTime curUtcDt; TimeToStruct(nowUtc, curUtcDt);
+      datetime curNy = nowUtc + (datetime)(NewYorkUtcOffsetHours(curUtcDt) * 3600);
+      datetime curNyDay = curNy - (curNy % 86400);
+
+      int nDeals = HistoryDealsTotal();
+      for(int i = 0; i < nDeals; i++)
+      {
+         ulong dtk = HistoryDealGetTicket(i);
+         if(dtk == 0) continue;
+         long dEntry = HistoryDealGetInteger(dtk, DEAL_ENTRY);
+         if(dEntry != DEAL_ENTRY_IN) continue;
+         long dType = HistoryDealGetInteger(dtk, DEAL_TYPE);
+         if(dType != DEAL_TYPE_BUY && dType != DEAL_TYPE_SELL) continue;
+         long dMagic = HistoryDealGetInteger(dtk, DEAL_MAGIC);
+         int idx = EngineIndexFromMagic(dMagic);
+         if(idx < 0 || idx >= 8) continue;
+
+         datetime dealSrv = (datetime)HistoryDealGetInteger(dtk, DEAL_TIME);
+         datetime dealUtc = dealSrv - (datetime)srvMinusUtc;
+         if(idx == 0 || idx == 7)
+         {
+            datetime dUtcDay = dealUtc - (dealUtc % 86400);
+            if(dUtcDay > m_tradedDay[idx]) m_tradedDay[idx] = dUtcDay;
+         }
+         else if(idx == 1 || idx == 2 || idx == 5)
+         {
+            int symIdx = (idx == 1) ? SYM_USDJPY : ((idx == 2) ? SYM_GBPUSD : SYM_EURJPY);
+            datetime d1Bar = iTime(m_feeds[symIdx].symbol, PERIOD_D1, 0);
+            if(d1Bar > 0 && dealSrv >= d1Bar)
+               m_tradedDay[idx] = d1Bar;
+         }
+         else
+         {
+            MqlDateTime du; TimeToStruct(dealUtc, du);
+            datetime dNy = dealUtc + (datetime)(NewYorkUtcOffsetHours(du) * 3600);
+            datetime dNyDay = dNy - (dNy % 86400);
+            if(dNyDay > m_tradedDay[idx]) m_tradedDay[idx] = dNyDay;
+         }
+      }
+
+      // Also mark any currently open position's engine as traded for its active session day
+      for(int p = PositionsTotal() - 1; p >= 0; p--)
+      {
+         ulong ptk = PositionGetTicket(p);
+         if(ptk == 0) continue;
+         int idx = EngineIndexFromMagic(PositionGetInteger(POSITION_MAGIC));
+         if(idx < 0 || idx >= 8) continue;
+         if(idx == 0 || idx == 7)
+            m_tradedDay[idx] = curUtcDay;
+         else if(idx == 1 || idx == 2 || idx == 5)
+         {
+            int symIdx = (idx == 1) ? SYM_USDJPY : ((idx == 2) ? SYM_GBPUSD : SYM_EURJPY);
+            datetime d1Bar = iTime(m_feeds[symIdx].symbol, PERIOD_D1, 0);
+            if(d1Bar > 0) m_tradedDay[idx] = d1Bar;
+         }
+         else
+            m_tradedDay[idx] = curNyDay;
+      }
+
+      m_tradedDayHydrated = true;
+      return true;
+   }
+
    // Poll all 8 symbols via CopyTicksRange cursor (handles duplicate ms & records decision tick lag)
    long PollSymbolTicks()
    {
       long maxLagMs = 0;
-      long srvNowMsc = (long)TimeCurrent() * 1000;
+      long srvNowMsc = (long)CNaqexPropGuard::ServerNow() * 1000;
       bool isTester = (MQLInfoInteger(MQL_TESTER) != 0);
       for(int s = 0; s < NAQEX_SYM_COUNT; s++)
       {
@@ -353,19 +449,25 @@ public:
       return maxLagMs;
    }
 
-   // Check whether a given engine magic should hard-flatten by clock / holiday half-day
+   // Check whether a given engine magic should hard-flatten by clock / holiday half-day / Sunday gap
    bool ShouldClockFlattenMagic(const long magic, const datetime nowUtc, string &outReason) const
    {
       outReason = "";
       MqlDateTime utc; TimeToStruct(nowUtc, utc);
-      if(utc.day_of_week == 0 || utc.day_of_week == 6) return false;
+      if(utc.day_of_week == 6) return false;
+      // V101-04: Flatten any stranded Friday position immediately on Sunday market open (swap=0 failsafe!)
+      if(utc.day_of_week == 0)
+      {
+         if(utc.hour >= 21) { outReason = "WEEKEND_GAP_FAILSAFE_SWAP0"; return true; }
+         return false;
+      }
       if(magic == 20261122) // E1 Helsinki 18:00
       {
          int flatH = 18 - HelsinkiUtcOffsetHours(utc);
          if(utc.hour >= flatH) { outReason = "HARD_FLAT_18H_HELSINKI_SWAP0"; return true; }
          return false;
       }
-      if(magic == 20261124 || magic == 20261126) // E4, E5 US100 15:55 ET + US half-day
+      if(magic == 20261124 || magic == 20261126) // E4, E5 US100 15:55 ET + US holiday/half-day
       {
          datetime nowNy = nowUtc + (datetime)(NewYorkUtcOffsetHours(utc) * 3600);
          MqlDateTime ny; TimeToStruct(nowNy, ny);
@@ -396,7 +498,7 @@ public:
       MqlDateTime ny; TimeToStruct(nowNy, ny);
       datetime nyDay  = nowNy - (nowNy % 86400);
       int nyMins      = ny.hour * 60 + ny.min;
-      bool isUsHalf   = CNaqexPropGuard::IsUsEquityHalfDayNY(ny);
+      bool isUsHalf   = CNaqexPropGuard::IsUsEquityHolidayOrHalfDayNY(ny);
 
       // --- E1: TOKYO_BOX_OCO (USDJPY) ---
       {
@@ -410,7 +512,32 @@ public:
          if(utc.hour >= 0 && utc.hour < 3 && ask > 0.0 && bid > 0.0)
          {
             double mid = 0.5 * (ask + bid);
-            if(!m_e1BoxReady) { m_e1BoxTop = mid; m_e1BoxBot = mid; m_e1BoxReady = true; }
+            if(!m_e1BoxReady)
+            {
+               // V101-02: Guard mid-window restart (>= 2m after 00:00 UTC) so partial box never shrinks slDist!
+               if((nowUtc - utcDay) >= 120)
+               {
+                  if((nowUtc - m_e1ReconstLastTry) >= 15 || MQLInfoInteger(MQL_TESTER))
+                  {
+                     m_e1ReconstLastTry = nowUtc;
+                     double o0, h0, l0, c0;
+                     if(ReconstructM1Window(sym, nowUtc, utcDay, nowUtc, o0, h0, l0, c0) && h0 > 0.0 && l0 > 0.0)
+                     {
+                        m_e1BoxTop = MathMax(h0, mid);
+                        m_e1BoxBot = MathMin(l0, mid);
+                        m_e1BoxReady = true;
+                     }
+                     else if(MQLInfoInteger(MQL_TESTER))
+                     {
+                        m_e1BoxTop = mid; m_e1BoxBot = mid; m_e1BoxReady = true;
+                     }
+                  }
+               }
+               else
+               {
+                  m_e1BoxTop = mid; m_e1BoxBot = mid; m_e1BoxReady = true;
+               }
+            }
             else { if(mid > m_e1BoxTop) m_e1BoxTop = mid; if(mid < m_e1BoxBot) m_e1BoxBot = mid; }
          }
          else if(utc.hour >= 3 && !m_e1BoxReady && (nowUtc - m_e1ReconstLastTry) >= 60)
@@ -588,7 +715,32 @@ public:
          double ask = m_feeds[SYM_US100].last_ask, bid = m_feeds[SYM_US100].last_bid;
          if(nyMins >= 9 * 60 + 30 && nyMins < 11 * 60 + 30 && bid > 0.0)
          {
-            if(!m_e4MornInit) { m_e4MornOpen = bid; m_e4MornHigh = bid; m_e4MornLow = bid; m_e4MornClose = bid; m_e4MornInit = true; }
+            if(!m_e4MornInit)
+            {
+               // V101-02: Guard mid-window restart (>= 09:32 ET) by backfilling [09:30 ET .. now] from M1 bars
+               if(nyMins >= 9 * 60 + 32)
+               {
+                  int nyOffSec = NewYorkUtcOffsetHours(utc) * 3600;
+                  datetime tStartUtc = (nyDay + 9 * 3600 + 30 * 60) - (datetime)nyOffSec;
+                  double o4, h4, l4, c4;
+                  if(ReconstructM1Window(sym, nowUtc, tStartUtc, nowUtc, o4, h4, l4, c4) && h4 > 0.0 && l4 > 0.0)
+                  {
+                     m_e4MornOpen  = o4;
+                     m_e4MornHigh  = MathMax(h4, bid);
+                     m_e4MornLow   = MathMin(l4, bid);
+                     m_e4MornClose = bid;
+                     m_e4MornInit  = true;
+                  }
+                  else if(MQLInfoInteger(MQL_TESTER))
+                  {
+                     m_e4MornOpen = bid; m_e4MornHigh = bid; m_e4MornLow = bid; m_e4MornClose = bid; m_e4MornInit = true;
+                  }
+               }
+               else
+               {
+                  m_e4MornOpen = bid; m_e4MornHigh = bid; m_e4MornLow = bid; m_e4MornClose = bid; m_e4MornInit = true;
+               }
+            }
             else { if(bid > m_e4MornHigh) m_e4MornHigh = bid; if(bid < m_e4MornLow) m_e4MornLow = bid; m_e4MornClose = bid; }
          }
          double atrUs100 = 0.0;
@@ -670,7 +822,7 @@ public:
       }
 
       // --- E7: USDJPY_NY_RISK_FLOW_10ET (USDJPY) ---
-      if(m_nyAnchorReady && !IsEngineTraded(6, nyDay) &&
+      if(!isUsHalf && m_nyAnchorReady && !IsEngineTraded(6, nyDay) &&
          nyMins >= 10 * 60 && nyMins < 10 * 60 + 10 && m_feeds[SYM_USDJPY].has_fresh_tick)
       {
          double atrEq = 0.0, atrJpy = 0.0;

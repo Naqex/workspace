@@ -51,7 +51,7 @@ SAMPLE_MT5_HTML = """<!DOCTYPE html>
 class Wave2Mt5RealTickTests(unittest.TestCase):
     def test_forbidden_non_ftmo_paths_are_rejected_fail_closed(self):
         bad_term = Path(r"C:\Program Files\MetaTrader 5\terminal64.exe")
-        bad_data = Path(r"C:\Users\MIIKEY\AppData\Roaming\MetaQuotes\Terminal\D0E8209F77C8CF37AD8BF550E51FF075")
+        bad_data = Path.home() / "AppData/Roaming/MetaQuotes/Terminal/D0E8209F77C8CF37AD8BF550E51FF075"
         with self.assertRaises(ValueError):
             mon.assert_safe_terminal_path(bad_term)
         with self.assertRaises(ValueError):

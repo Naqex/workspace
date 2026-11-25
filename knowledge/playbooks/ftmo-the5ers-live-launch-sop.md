@@ -28,9 +28,9 @@ sources:
 
 ## 1. Kiểm Tra Trước Giờ G (`Pre-Flight Checklist`)
 
-1. **Hạ tầng Cấp 1 — `naqex-node1` 24/7 + Heroku EU + Telegram `@naqex_guard_bot`:**
-   - **Hiện tại (`~0 USD/tháng` tiền túi):** MT5 chạy riêng trên **`naqex-node1`** (`Windows 10 LTSC`, 3 ổ tách biệt, sao lưu `05:30`, đồng bộ NTP `< 1s`), đẩy nhịp tim lên **Heroku EU** (gói Student miễn phí tới `2028-09-30` — nhắc kiểm tra ngày `2028-09-25`) và cảnh báo tức thì qua **`@naqex_guard_bot`**.
-   - **Khóa an toàn trước tiền thật:** Bật lại **Windows Defender** (chỉ đặt đúng 1 ngoại lệ `C:\Naqex`), giữ tường lửa BẬT, `0` mật khẩu trần trên ổ cứng; diễn tập ngắt mạng/MT5 `3` phút xác nhận nhận tin nhắn đỏ `🔴 MẤT KẾT NỐI` từ `@naqex_guard_bot`; duy trì tác vụ `5` phút [naqex_mt5_watchdog.ps1](../../tooling/ai-engines/exports/deployment_kit/ops_watchdog/naqex_mt5_watchdog.ps1) (`-StaleAfterSec 180`, báo động ngay nếu `HbAge > 180s` hoặc `orphan_no_sl > 0`). Bảo trì máy tuân theo [naqex-node-ops](../../.agents/skills/naqex-node-ops/SKILL.md).
+1. **Hạ tầng Cấp 1 — `naqex-node1` 24/7 + Heroku EU + Telegram `<TELEGRAM_GUARD_BOT>`:**
+   - **Hiện tại (`~0 USD/tháng` tiền túi):** MT5 chạy riêng trên **`naqex-node1`** (`Windows 10 LTSC`, 3 ổ tách biệt, sao lưu `05:30`, đồng bộ NTP `< 1s`), đẩy nhịp tim lên **Heroku EU** (gói Student miễn phí tới `2028-09-30` — nhắc kiểm tra ngày `2028-09-25`) và cảnh báo tức thì qua **`<TELEGRAM_GUARD_BOT>`**.
+   - **Khóa an toàn trước tiền thật:** Bật lại **Windows Defender** (chỉ đặt đúng 1 ngoại lệ `C:\Naqex`), giữ tường lửa BẬT, `0` mật khẩu trần trên ổ cứng; diễn tập ngắt mạng/MT5 `3` phút xác nhận nhận tin nhắn đỏ `🔴 MẤT KẾT NỐI` từ `<TELEGRAM_GUARD_BOT>`; duy trì tác vụ `5` phút [naqex_mt5_watchdog.ps1](../../tooling/ai-engines/exports/deployment_kit/ops_watchdog/naqex_mt5_watchdog.ps1) (`-StaleAfterSec 180`, báo động ngay nếu `HbAge > 180s` hoặc `orphan_no_sl > 0`). Bảo trì máy tuân theo [naqex-node-ops](../../.agents/skills/naqex-node-ops/SKILL.md).
    - **Hạ tầng Cấp 2 (VPS sát sàn LD4/NY4, `25–40 USD/tháng`):** **CHỈ** thuê khi đã rút lãi ròng đều **`>= 300 USD/tháng`** từ Prop (trích từ Ngăn 3, không móc tiền túi).
 2. **Sandbox Portable & Đủ 4 Bản Vá Kỹ Thuật Bắt Buộc:**
    - Dùng đúng thư mục portable `.runtime/ftmo-demo-portable-1515343166`, profile **`Naqex_FreeTrial`** gồm `9` biểu đồ (`E1..E7`, `S6`, `Naqex_AccountOrchestrator`), `KeepPrivate = 0`, `Leverage = 1:30`, tuân thủ [ACTIVATION-CARD-LOCAL-MT5.md](../../tooling/ai-engines/exports/deployment_kit/ACTIVATION-CARD-LOCAL-MT5.md) (mặc định nguồn `.mq5` luôn `InpDryRunLogOnly = true`).
@@ -75,7 +75,7 @@ Khi gặp lỗ hoặc lệch số, **KHÔNG vội sửa bot** — luôn kiểm t
 | Thứ tự | Nhãn | Bản chất | Hành động đúng tầng |
 | :--- | :--- | :--- | :--- |
 | **1** | **`R4`** | Luật quỹ, Sàn & Con người | Soi luật tin đỏ `±2p/±5p`, loại tài khoản (`Swing` vs `Standard`), IP cố định `naqex-node1`, thư xác nhận EA, dấu hiệu bấm tay can thiệp. **Không đụng code bot.** |
-| **2** | **`R3`** | Khớp lệnh, Trượt giá & Máy móc | Đối chiếu `naqex_exec_audit.csv` với MetriX, NTP `< 1s`, `HbAge <= 180s`, cảnh báo `@naqex_guard_bot`, `swap == 0`, trượt giá `<= 1,5×`. **Không sửa logic vào lệnh.** |
+| **2** | **`R3`** | Khớp lệnh, Trượt giá & Máy móc | Đối chiếu `naqex_exec_audit.csv` với MetriX, NTP `< 1s`, `HbAge <= 180s`, cảnh báo `<TELEGRAM_GUARD_BOT>`, `swap == 0`, trượt giá `<= 1,5×`. **Không sửa logic vào lệnh.** |
 | **3** | **`R2`** | Trùng lặp Danh mục & Tập trung | Soi `SYMCAP` trên 1 mã (`<= 1,75%` P1 / `<= 1,00%` Funded), tránh mở 2 quỹ cùng ngày `Sprint`, giữ tổng CEX `<= 25%` (`NCO_CexCap25`) ở Own-Book. **Không sửa từng bot lẻ.** |
 | **4** | **`R1`** | Suy giảm lợi thế THẬT | Chỉ khi `R4/R3/R2` đều sạch mới để `CUSUM/SPRT` và `AccountOrchestrator` tự hạ ga / tạm dừng nhánh hỏng đưa về nghiên cứu. |
 
@@ -83,7 +83,7 @@ Khi gặp lỗ hoặc lệch số, **KHÔNG vội sửa bot** — luôn kiểm t
 
 | Sự cố (Nhãn) | Dấu hiệu | Thao tác tức thì | Điều kiện mở lại |
 | :--- | :--- | :--- | :--- |
-| **1. Vị thế Mồ côi Không SL (`R3` — `orphan_no_sl > 0`)** | `@naqex_guard_bot` / `[ORCH-ALERT]` / `daily_ops_briefing` `FAIL` | (1) Tắt `Algo Trading`; (2) Gắn SL `0,75 ATR` (hoặc đóng ngay nếu lỗ `> 1,0R`); (3) Lưu log `Experts`/`Journal`. | Rõ nguyên nhân gốc, vá & test sạch trên Demo. |
-| **2. Mất Kết nối `naqex-node1` (`R3` — `HbAge > 180s`)** | Tin nhắn đỏ `🔴 MẤT KẾT NỐI` từ `@naqex_guard_bot` (Heroku EU) / watchdog `-StaleAfterSec 180` | (1) Mở MT5 Mobile (chỉ xem/đóng, **cấm vào lệnh**); (2) Đóng phẳng trước rollover `21:55 UTC` hoặc tin đỏ nếu `naqex-node1` chưa hồi phục. | Khởi động lại MT5, xác nhận nhịp tim nhảy đều, NTP `< 1s`, `DAYEQ` đúng. |
+| **1. Vị thế Mồ côi Không SL (`R3` — `orphan_no_sl > 0`)** | `<TELEGRAM_GUARD_BOT>` / `[ORCH-ALERT]` / `daily_ops_briefing` `FAIL` | (1) Tắt `Algo Trading`; (2) Gắn SL `0,75 ATR` (hoặc đóng ngay nếu lỗ `> 1,0R`); (3) Lưu log `Experts`/`Journal`. | Rõ nguyên nhân gốc, vá & test sạch trên Demo. |
+| **2. Mất Kết nối `naqex-node1` (`R3` — `HbAge > 180s`)** | Tin nhắn đỏ `🔴 MẤT KẾT NỐI` từ `<TELEGRAM_GUARD_BOT>` (Heroku EU) / watchdog `-StaleAfterSec 180` | (1) Mở MT5 Mobile (chỉ xem/đóng, **cấm vào lệnh**); (2) Đóng phẳng trước rollover `21:55 UTC` hoặc tin đỏ nếu `naqex-node1` chưa hồi phục. | Khởi động lại MT5, xác nhận nhịp tim nhảy đều, NTP `< 1s`, `DAYEQ` đúng. |
 | **3. Global Kill-Switch (`R2/R1` — `kill_switch = true`)** | Chạm phanh ngày `2,5%–3,5%` hoặc phanh Đỏ `7,0%` | **CẤM tắt Kill-Switch đánh gỡ!** Xác nhận phẳng toàn bộ qua `prop_challenge_tracker.py`; nghỉ hết phiên/tuần và kiểm toán `R4 -> R3 -> R2 -> R1`. | Sang phiên mới sau biên bản kiểm toán; không nâng lot gỡ lỗ. |
 | **4. Vi phạm Swap, Tin Đỏ hoặc Trượt Giá `> 1,5×` (`R4/R3`)** | `prop_challenge_tracker.py` trả về **`HALT_AND_FIX`** | (1) Tắt riêng EA lỗi; (2) Kiểm tra `naqex_red_news_utc.csv`, mã `NAS100`, DST máy chủ & half-day Mỹ; (3) Soi spread lúc khớp. | Vá đúng tầng, chạy `build_red_news_calendar.py --verify`, test `0` lỗi trên Demo. |

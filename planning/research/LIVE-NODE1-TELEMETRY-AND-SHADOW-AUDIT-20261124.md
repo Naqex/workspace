@@ -30,7 +30,7 @@ Hệ thống hạ tầng `naqex-node1` + trạm giám sát mây Heroku EU + bộ
 | **3. Vòng Free Trial `14` ngày (`FTMO-Demo 1515343166`)** | `10–15` lệnh đóng khớp MetriX, `0` orphan, `0` swap, trượt giá `<= 1,5×` | **`0` lệnh đóng / `1` lệnh đang mở** (`E1_USDJPY_TOKYO`, lãi nổi `+7,52 USD`, `orphan_no_sl = 0`) — Ngày 1/14 | **ĐANG CHẠY (`IN_PROGRESS`)** |
 | **4. Đồng bộ 4 bản vá Cycle 1 lên `naqex-node1`** | `9/9 .ex5` bản vá mới + lịch tin đỏ `418` dòng 4 đồng tiền | Đã biên dịch & kiểm định xong trên máy dev; `naqex-node1` đang mở `1` vị thế nên **chờ phẳng (`open_positions == 0`) mới chép** | **CHỜ PHẲNG (`PENDING_FLAT_SYNC`)** |
 | **5. Thư xác nhận văn bản FTMO & The5ers (`Terms §11`)** | Có email phản hồi chấp thuận EA độc quyền từ cả 2 quỹ | Đã soạn sẵn bộ email copy-paste tại [FTMO-THE5ERS-WRITTEN-CLEARANCE-EMAILS.md](../../tooling/ai-engines/exports/deployment_kit/FTMO-THE5ERS-WRITTEN-CLEARANCE-EMAILS.md) | **CHỜ CHỦ SỞ HỮU GỬI** |
-| **6. Diễn tập mất kết nối `3` phút (`@naqex_guard_bot`)** | Điện thoại nhận đúng tin nhắn đỏ `🔴 MẤT KẾT NỐI` | Chưa ghi nhận biên bản diễn tập — chỉ làm khi `open_positions == 0` (sau `21:00 UTC` hoặc cuối tuần) | **CHỜ DIỄN TẬP** |
+| **6. Diễn tập mất kết nối `3` phút (`<TELEGRAM_GUARD_BOT>`)** | Điện thoại nhận đúng tin nhắn đỏ `🔴 MẤT KẾT NỐI` | Chưa ghi nhận biên bản diễn tập — chỉ làm khi `open_positions == 0` (sau `21:00 UTC` hoặc cuối tuần) | **CHỜ DIỄN TẬP** |
 | **7. Cổng `30` ngày Crypto Maker (`M2B`)** | Đủ `30` ngày dữ liệu thật, khớp `>= 70%`, chi phí `<= 6,15 bps` | Đã gom **`0,70 / 30,00` ngày (`197` chu kỳ)**, còn **`~29,31` ngày**; sơ bộ `15m` rất tốt (`97,44%` khớp / `3,081 bps`) | **ĐANG GOM (`2,3%`)** |
 
 ---
@@ -65,7 +65,7 @@ Hệ thống hạ tầng `naqex-node1` + trạm giám sát mây Heroku EU + bộ
 | **Windows Defender & Firewall** | `Antivirus=True`, `RealTimeProtection=True`, `DisableRealtimeMonitoring=False`, ngoại lệ duy nhất **`C:\Naqex`** · Firewall `3/3` BẬT | **Đạt chuẩn bảo mật** |
 | **Tác vụ `SYSTEM` (`Naqex_*`)** | `4/4` tác vụ (`Heroku_Heartbeat_1m`, `Daily_Backup_D`, `Crypto_Shadow_5m`, `Crypto_Maker_Probe_5m`) đều `Ready` & **`LastRes = 0`** | Khỏe *(xem ghi chú nhỏ)* |
 
-> **Ghi chú vận hành nhỏ:** Kịch bản `C:\Naqex\ops\naqex_mt5_watchdog.ps1` đã chép sẵn trên đĩa nhưng chưa đăng ký tác vụ định kỳ cục bộ riêng (`Naqex_MT5_Watchdog_NODE1`). Hiện trạm Heroku EU (1 phút/lần) + `@naqex_guard_bot` đã đảm nhiệm giám sát sống từ xa rất tốt; có thể đăng ký thêm watchdog cục bộ trong khung bảo trì cuối tuần để có lớp bảo vệ thứ 2.
+> **Ghi chú vận hành nhỏ:** Kịch bản `C:\Naqex\ops\naqex_mt5_watchdog.ps1` đã chép sẵn trên đĩa nhưng chưa đăng ký tác vụ định kỳ cục bộ riêng (`Naqex_MT5_Watchdog_NODE1`). Hiện trạm Heroku EU (1 phút/lần) + `<TELEGRAM_GUARD_BOT>` đã đảm nhiệm giám sát sống từ xa rất tốt; có thể đăng ký thêm watchdog cục bộ trong khung bảo trì cuối tuần để có lớp bảo vệ thứ 2.
 
 ---
 
@@ -105,7 +105,7 @@ Toàn bộ bộ gom dữ liệu chạy hoàn toàn **chỉ đọc (`OrderSend = 
 1. **Giữ nguyên `naqex-node1` chạy yên ngay bây giờ (`open_positions == 1`):** Không bấm đóng tay lệnh `E1_USDJPY_TOKYO` và không khởi động lại MT5.
 2. **Chờ phẳng (`open_positions == 0`, dự kiến sau `16:00 UTC` / `23:00` ICT tối nay) rồi đồng bộ 1 lần:** Đẩy `9/9 .ex5` đã vá đủ 4 bản vá Cycle 1 + tệp lịch tin đỏ mới **`418` dòng** (`naqex_red_news_utc.csv`) sang `naqex-node1` bằng `sync_updated_ex5_when_flat.ps1` trước khi tin đỏ `US GDP + Core PCE` ra lúc `2026-11-25 13:30 UTC`.
 3. **Gửi ngay 2 email xin xác nhận chạy EA độc quyền:** Dùng đúng mẫu sẵn sàng copy-paste tại [FTMO-THE5ERS-WRITTEN-CLEARANCE-EMAILS.md](../../tooling/ai-engines/exports/deployment_kit/FTMO-THE5ERS-WRITTEN-CLEARANCE-EMAILS.md) gửi `support@ftmo.com` và `help@the5ers.com`.
-4. **Diễn tập cảnh báo mất kết nối `3` phút khi tài khoản phẳng:** Kiểm tra điện thoại nhận đúng tin nhắn đỏ `🔴 MẤT KẾT NỐI` từ `@naqex_guard_bot` (xem hướng dẫn 5 bước trong tài liệu trên).
+4. **Diễn tập cảnh báo mất kết nối `3` phút khi tài khoản phẳng:** Kiểm tra điện thoại nhận đúng tin nhắn đỏ `🔴 MẤT KẾT NỐI` từ `<TELEGRAM_GUARD_BOT>` (xem hướng dẫn 5 bước trong tài liệu trên).
 5. **Tiếp tục tích lũy đủ `10–15` lệnh đóng Free Trial (`14` ngày) và `30` ngày Crypto Maker** — chỉ mở mua vé `The5ers High Stakes 5K` sau khi toàn bộ bảng cổng Mục 1 chuyển sang **`PASS`**.
 
 ---
@@ -114,9 +114,9 @@ Toàn bộ bộ gom dữ liệu chạy hoàn toàn **chỉ đọc (`OrderSend = 
 
 Sau khi lệnh `E1_USDJPY_TOKYO` (`#591010790`) tự đóng phẳng sạch lúc `23:00:00.714 ICT` (`16:00:00 UTC`, `0 USD` swap, số dư chốt `9.998,88 USD`, `open_positions = 0`), cửa sổ bảo trì phẳng đã mở và hoàn tất toàn bộ các hạng mục nâng cấp sau:
 
-1. **Đã xử lý `7` điểm lệch trực tiếp trên `naqex-node1` và `naqex-deadman-eu`:**
+1. **Đã xử lý `7` điểm lệch trực tiếp trên `naqex-node1` và `<HEROKU_DEADMAN_APP>`:**
    - **Tắt ngủ ổ cứng (`DISKIDLE`):** Chỉnh `powercfg /change disk-timeout-ac 0` (từ `900s` về `0`), khóa `STANDBY = 0`, `HIBERNATE = 0`.
-   - **Nâng cấp Heroku Dead-Man's-Switch (`naqex-deadman-eu`, build `7513a106` `v3-astra-f17-f20-hardened`):** Triển khai thành công bản vá `F17/F20` (`GET /health` `200`, `GET /` chưa xác thực trả `401`, giữ nguyên ngân sách `12 USD/tháng <= 13 USD/tháng` và Postgres `709` dòng). Đã **kiểm chứng sống** luồng cảnh báo Telegram `@naqex_guard_bot` khi trạm tự phát hiện `INNER_HEARTBEAT_STALE` và gửi tin nhắn thành công (`sent: ["telegram"], errors: []`).
+   - **Nâng cấp Heroku Dead-Man's-Switch (`<HEROKU_DEADMAN_APP>`, build `7513a106` `v3-astra-f17-f20-hardened`):** Triển khai thành công bản vá `F17/F20` (`GET /health` `200`, `GET /` chưa xác thực trả `401`, giữ nguyên ngân sách `12 USD/tháng <= 13 USD/tháng` và Postgres `709` dòng). Đã **kiểm chứng sống** luồng cảnh báo Telegram `<TELEGRAM_GUARD_BOT>` khi trạm tự phát hiện `INNER_HEARTBEAT_STALE` và gửi tin nhắn thành công (`sent: ["telegram"], errors: []`).
    - **Đồng bộ sạch `9/9 .ex5` MQL5 v3.01 + lịch tin đỏ `436` dòng `6` đồng tiền (`AUD/CAD/EUR/GBP/JPY/USD`, `sha=419b005e...`)** + cập nhật `naqex_mt5_watchdog.ps1`, `sync_updated_ex5_when_flat.ps1`, `ex5_expected_sha256.json`, `manifest.sha256.json` và bộ preset The5ers (`ProfitLock +4%`, `SPX500`) sang `C:\Naqex\ops\` và `C:\Naqex\mt5\`. Khớp SHA-256 tuyệt đối `9/9`.
    - **Cập nhật bộ gom Crypto Shadow (`OrderSend = 0`):** Đạt **`318` chu kỳ** Crypto Shadow và **`307` chu kỳ** Crypto Maker (`LastRes = 0`).
 2. **3 lỗi thực chiến nghiêm trọng phát hiện trực tiếp khi vận hành trên VPS và đã vá dứt điểm + biên dịch lại `9/9 .ex5` (`0` lỗi/cảnh báo):**
@@ -125,7 +125,7 @@ Sau khi lệnh `E1_USDJPY_TOKYO` (`#591010790`) tự đóng phẳng sạch lúc 
    - **Lỗi `Naqex_AccountOrchestrator` khóa nhầm `kill_switch` cả ngày trước lúc đăng nhập (`v2.01`):** Khi MT5 mới khởi động chưa kết nối sàn (`equity = 0`), bản cũ tính nhầm `static_dd_pct = 100%` và khóa cứng `g_autoKillActive` -> đã thêm `IsAccountSynced(bal, eq)` chuyển tạm sang `regime = "DISCONNECTED"` không chốt khóa cứng.
    - **Lỗi `KeepPrivate=0` trong `C:\Naqex\mt5\connector.ini`:** Là nguyên nhân khiến MT5 không lưu mật khẩu phiên cũ khi khởi động lại (nếu cúp điện sau này cũng sẽ mất kết nối). Đã đổi sang **`KeepPrivate=1`** (không chứa mật khẩu trần).
 3. **1 bước thủ công 30 giây duy nhất còn lại cho chủ sở hữu:**
-   - Truy cập RDP vào `naqex-node1` (`192.168.1.28` hoặc Tailscale `100.72.70.18`), đăng nhập lại `1` lần duy nhất vào tài khoản `FTMO-Demo 1515343166` trong cửa sổ MT5 đang mở và **tích chọn `Save password`** — từ đó về sau nhờ `KeepPrivate=1`, mọi lần khởi động lại hoặc cúp điện MT5 sẽ tự đăng nhập lại hoàn toàn tự động.
+   - Truy cập RDP vào `naqex-node1` (`<LAN_IP>` hoặc Tailscale `<TAILSCALE_IP>`), đăng nhập lại `1` lần duy nhất vào tài khoản `FTMO-Demo 1515343166` trong cửa sổ MT5 đang mở và **tích chọn `Save password`** — từ đó về sau nhờ `KeepPrivate=1`, mọi lần khởi động lại hoặc cúp điện MT5 sẽ tự đăng nhập lại hoàn toàn tự động.
 
 ---
 
@@ -142,6 +142,6 @@ Sau khi chủ sở hữu hoàn tất bước đăng nhập 1 lần lúc sáng (`
      - Cả `9/9` biểu đồ đang mở đều ghi `[PROPGUARD-OK] Loaded 477 red-news events from 'naqex_red_news_utc.csv'` (`0` cảnh báo `[PROPGUARD-WARN]`).
      - `naqex_heartbeat.json`: `account_login = 1515343166`, `account_server = "FTMO-Demo"`, `build_version = "2.10"`, `terminal_connected = true`, `positions_state = "CONFIRMED"`, `anchor_state = "SYNCED"`, `quote_ts = 1795592686` (tươi theo tick sàn), `balance = equity = 9.998,88 USD`, `open_positions = 0`, `total_account_positions = 0`, `pending_orders = 0`, `orphan_no_sl = 0`, `dry_run = false`.
      - `Naqex_MT5_Watchdog_NODE1` & `Naqex_Heroku_Heartbeat_NODE1` đều chạy sạch với **`LastResult = 0`**.
-3. **Nâng cấp Heroku EU Dead-Man's-Switch v4 (`naqex-deadman-eu`, build `76a4644a` `v4-round2-r2-08-expected-nodes`):**
+3. **Nâng cấp Heroku EU Dead-Man's-Switch v4 (`<HEROKU_DEADMAN_APP>`, build `76a4644a` `v4-round2-r2-08-expected-nodes`):**
    - Đã đặt `EXPECTED_NODES = NAQEX_NODE1` (bảo toàn mọi biến môi trường hiện có & mức chi phí gói Student `12 USD/tháng <= 13 USD/tháng` tới `2028-09-30`).
    - Kiểm chứng sống: `GET /health` -> `200` (`persistence = postgres`, `order_send_count = 0`), `GET /` chưa có token -> `401`, `GET /api/status` (có `X-Naqex-View-Token`) -> **`NAQEX_NODE1: OK` (`age_sec = 6s`, `build_version = "2.10"`, `positions_state = "CONFIRMED"`, `anchor_state = "SYNCED"`, `reasons = []`, `pg_heartbeat_rows = 1.288`)**.

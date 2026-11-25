@@ -63,6 +63,19 @@ def assert_safe_portable_root(portable_root: Path) -> None:
             raise ValueError(f"SAFETY ABORT: Refusing to run Strategy Tester on forbidden path: {portable_root}")
 
 
+def assert_dev_date_sealed(to_date: str, from_date: str | None = None) -> None:
+    """Enforce sealed Development cutoff (`<= 2024.12.31`) across ALL Strategy Tester entrypoints."""
+    norm_to = str(to_date).strip().replace("-", ".")
+    if norm_to > "2024.12.31":
+        raise ValueError(f"HOLDOUT LOCK VIOLATION: ToDate '{to_date}' exceeds sealed Dev cutoff 2024.12.31")
+    if from_date is not None:
+        norm_from = str(from_date).strip().replace("-", ".")
+        if norm_from > "2024.12.31":
+            raise ValueError(f"HOLDOUT LOCK VIOLATION: FromDate '{from_date}' exceeds sealed Dev cutoff 2024.12.31")
+        if norm_from > norm_to:
+            raise ValueError(f"Invalid tester window: FromDate '{from_date}' > ToDate '{to_date}'")
+
+
 def verify_ftmo_demo_specs(specs_path: Path = DEFAULT_SPECS_PATH) -> dict[str, Any]:
     if not specs_path.exists():
         raise FileNotFoundError(f"Missing FTMO-Demo specs verification artifact: {specs_path}")
@@ -203,6 +216,7 @@ def run_single_tester_job(
 ) -> dict[str, Any]:
     """Execute one MT5 Real-Tick Strategy Tester run and archive its HTML report + logs."""
     assert_safe_portable_root(portable_root)
+    assert_dev_date_sealed(to_date, from_date)
     terminal_exe = portable_root / "terminal64.exe"
     if not terminal_exe.exists():
         raise FileNotFoundError(f"FTMO portable terminal64.exe missing: {terminal_exe}")
@@ -342,6 +356,8 @@ def run_suite(
     timeout_sec: int = 240,
 ) -> dict[str, Any]:
     """Run full sequential Real-Tick Strategy Tester suite & Python reconciliation."""
+    assert_safe_portable_root(portable_root)
+    assert_dev_date_sealed(to_date, from_date)
     specs = verify_ftmo_demo_specs(specs_path)
     leverage = int(specs["account"].get("leverage", 100))
     sync_ex5_and_files_to_portable(portable_root=portable_root)
@@ -485,8 +501,7 @@ def run_master_prop7e_job(
 ) -> dict[str, Any]:
     """Run Model=4 Strategy Tester on `Naqex_Master_Prop7E.ex5` strictly on Dev <= 2024.12.31."""
     assert_safe_portable_root(portable_root)
-    if to_date.replace("-", ".") > "2024.12.31":
-        raise ValueError(f"HOLDOUT LOCK VIOLATION: ToDate '{to_date}' exceeds sealed Dev cutoff 2024.12.31")
+    assert_dev_date_sealed(to_date, from_date)
     sync_ex5_and_files_to_portable(portable_root=portable_root)
     terminal_exe = portable_root / "terminal64.exe"
     if not terminal_exe.exists():

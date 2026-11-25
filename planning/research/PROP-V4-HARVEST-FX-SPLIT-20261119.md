@@ -38,7 +38,7 @@ S02 cũ dùng Gold 150 USD, EUR 75 USD và thêm GBP 75 USD lên đối chứng
 Gold 150 + EUR 75. Nó dùng cap 500 USD, sàn 46.500 USD, reward 30 ngày
 và các mốc có thời lượng khác nhau. Kết quả cộng GBP của S02 không
 đo phần EURUSD bị cắt và không trả lời phép chia suất này.
-[S02 và audit khoảng trống](/C:/Users/MIIKEY/.codex/worktrees/solo-prop-system/TradingWorkspace/planning/research/SOLO-THREE-ASSET-REPLAY-RESULTS-20261118.md).
+[S02 và audit khoảng trống](SOLO-THREE-ASSET-REPLAY-RESULTS-20261118.md).
 
 ## 1. Kế toán tham chiếu trước khi chạy guard
 

@@ -47,6 +47,25 @@ from quant_factory.research_council import (
 
 M_TOTAL_HARD_CAP = 20
 DEFAULT_OUT_DIR = ROOT / ".runtime/auto-research-out"
+HOLDOUT_CUTOFF_DAY = "2025-01-01"
+
+
+def _assert_dev_window_sealed(ev_cfg: dict) -> None:
+    """Reject any evaluator spec attempting to access holdout dates >= 2025-01-01 or non-zero holdout rows."""
+    end_day = ev_cfg.get("end_day")
+    if end_day is not None and str(end_day).strip() >= HOLDOUT_CUTOFF_DAY:
+        raise ValueError(
+            f"HOLDOUT_LOCK_VIOLATION: evaluator end_day '{end_day}' >= {HOLDOUT_CUTOFF_DAY}"
+        )
+    split_day = ev_cfg.get("cluster_b_start")
+    if split_day is not None and str(split_day).strip() >= HOLDOUT_CUTOFF_DAY:
+        raise ValueError(
+            f"HOLDOUT_LOCK_VIOLATION: evaluator cluster_b_start '{split_day}' >= {HOLDOUT_CUTOFF_DAY}"
+        )
+    if int(ev_cfg.get("holdout_rows_analysed", 0)) != 0:
+        raise ValueError(
+            f"HOLDOUT_LOCK_VIOLATION: evaluator holdout_rows_analysed={ev_cfg.get('holdout_rows_analysed')} != 0"
+        )
 
 
 def _sanitize_ident(raw: str) -> str:
@@ -98,6 +117,7 @@ def _builtin_evaluate_spec(
 ) -> dict:
     """Built-in causal evaluator supporting `frozen_engine_dev`, `sleeve_json`, and `inline_arrays` specs."""
     ev_cfg = spec.get("evaluator") or {}
+    _assert_dev_window_sealed(ev_cfg)
     kind = str(ev_cfg.get("kind", "inline_arrays"))
 
     if kind == "frozen_engine_dev":
@@ -106,6 +126,8 @@ def _builtin_evaluate_spec(
         ext_days = dev_ctx["ext_days"]
         days_a = dev_ctx["days_a"]
         days_b = dev_ctx["days_b"]
+        if any(str(d) >= HOLDOUT_CUTOFF_DAY for d in ext_days):
+            raise ValueError("HOLDOUT_LOCK_VIOLATION: dev_ctx ext_days contains >= 2025-01-01")
         inc_b = dev_ctx["incumbent_b"]
         risk = float(ev_cfg.get("risk_frac", 0.005))
 
@@ -139,7 +161,11 @@ def _builtin_evaluate_spec(
         rmap, meta = load_external_sleeve_json(path, variant=ev_cfg.get("variant"))
         split_day = str(ev_cfg.get("cluster_b_start", "2023-01-01"))
         end_day = str(ev_cfg.get("end_day", "2024-12-31"))
+        if end_day >= HOLDOUT_CUTOFF_DAY or split_day >= HOLDOUT_CUTOFF_DAY:
+            raise ValueError(f"HOLDOUT_LOCK_VIOLATION: sleeve_json window ({split_day}..{end_day}) breaches {HOLDOUT_CUTOFF_DAY}")
         days_sorted = sorted(d for d in rmap if d <= end_day)
+        if any(str(d) >= HOLDOUT_CUTOFF_DAY for d in days_sorted):
+            raise ValueError("HOLDOUT_LOCK_VIOLATION: sleeve_json produced holdout dates >= 2025-01-01")
         ret_a = np.array([rmap[d] for d in days_sorted if d < split_day], dtype=np.float64)
         ret_b = np.array([rmap[d] for d in days_sorted if d >= split_day], dtype=np.float64)
         p_raw = sign_flip_p_numba(ret_b, -ret_b, draws=1000, seed=seed) if len(ret_b) else 1.0
@@ -306,7 +332,10 @@ def run_research_batch(
     raw_ev_list = []
     fam_p_vals = []
     for i, (_card, sp) in enumerate(parsed):
+        _assert_dev_window_sealed(sp.get("evaluator") or {})
         raw_ev = evaluator_fn(sp) if evaluator_fn is not None else _builtin_evaluate_spec(sp, dev_ctx=dev_ctx, seed=seed + i)
+        if raw_ev.get("end_day") is not None and str(raw_ev["end_day"]) >= HOLDOUT_CUTOFF_DAY:
+            raise ValueError(f"HOLDOUT_LOCK_VIOLATION: evaluator returned end_day={raw_ev['end_day']} >= {HOLDOUT_CUTOFF_DAY}")
         raw_ev_list.append(raw_ev)
         fam_p_vals.append(float(raw_ev["p_value_raw"]))
 

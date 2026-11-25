@@ -70,7 +70,7 @@ chồng lấn, không là account PnL hay chứng minh edge/OOS/prop. G0–G6 v�
    - Chiến lược 2 chiều: giữ đối chứng `Fade` cùng timestamp/quote thực thi.
    - Chiến lược 1 chiều (Long-only/Short-only trên tài sản có drift dài hạn như
      XAUUSD/US500): bổ sung **Monte Carlo Random-Entry Null Test** (300–1.000 lần
-     xáo trộn cùng số lệnh & luật thoát, $p < 0,05$) để tách Alpha khỏi Beta.
+     xáo trộn cùng số lệnh & luật thoát, `p < 0,05`) để tách Alpha khỏi Beta.
    - Sau Stage-0: kiểm độ bền tham số ±30% và xét hiệu chỉnh đa thử nghiệm
      (FDR/DSR) theo tổng lịch sử trial của chiến dịch.
 4. **Air-Gap với kho intel bên ngoài (`strategy-intel`):** Kho thu thập ý tưởng

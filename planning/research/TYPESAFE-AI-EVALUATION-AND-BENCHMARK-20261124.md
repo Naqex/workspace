@@ -25,7 +25,7 @@ supersedes_delta_from: planning/typesafe-research-2026-09-19/REPORT.md
 | **Kiểu đầu vào & nguyên thủy** | Chỉ text (`Choice`, `Noul`, `Score`); báo cáo cũ ghi *"không nhận ảnh"* | **Hỗ trợ ảnh PNG/JPEG + nguyên thủy `Box`** (định vị tọa độ chuẩn hóa `[top, bottom, left, right]`) qua header `TypeSafe-Danger-Zone-Images: true` |
 | **Độ trễ thực đo từ VN** | Trung vị `773 ms`, max `1.126 ms` | **Trung vị `287,9 ms`, P90 `314,3 ms`, max `369,0 ms`** (nhanh hơn **`2,68×`**) |
 | **Giá & Context** | `0,042 USD / 1M` input tokens, output miễn phí | Giữ nguyên **`0,042 USD / 1M` input tokens** (output free); `64k` per-request / `32k` per-question (mở `262k` qua `Long-Context` nhưng kém chính xác hơn) |
-| **Kỹ năng `typesafe-ai`** | Bản cũ `149` dòng | Đã cập nhật lên bản GitHub mới nhất `289` dòng (`C:\Users\MIIKEY\.gemini\config\skills\typesafe-ai\SKILL.md`, `audit-ai-environment.ps1`: `0 errors, 0 warnings`) |
+| **Kỹ năng `typesafe-ai`** | Bản cũ `149` dòng | Đã cập nhật lên bản GitHub mới nhất `289` dòng (`~/.gemini/config/skills/typesafe-ai/SKILL.md`, `audit-ai-environment.ps1`: `0 errors, 0 warnings`) |
 | **Điểm yếu đã công bố (`jaggedness.md`)** | Kém toán/đếm/ngày giờ, nhạy injection | Xác nhận thêm: **Choice option-order bias** (hơi thiên vị phương án đầu), **Literal reading**, **`Box` luôn trả tọa độ ngay cả khi không có vật thể** (bắt buộc kẹp `Noul` đồng hành), và không huấn luyện lại trên dữ liệu khách hàng |
 
 ---

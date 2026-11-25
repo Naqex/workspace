@@ -15,6 +15,9 @@ import pass28_final_discovery_rednews_frontier as p28
 from native_ftmo_monfri_seal import START, STOP
 
 
+HOLDOUT_CUTOFF_DAY = "2025-01-01"
+
+
 def replay_portfolio_m1(
     days: list[str],
     tapes: dict[str, dict],
@@ -26,15 +29,34 @@ def replay_portfolio_m1(
     red_news_cal: dict | None = None,
     news_pad_sec: int = 300,
     cutoff: int = STOP,
+    allow_holdout: bool = False,
 ) -> tuple[dict, list[dict]]:
     """Config-driven exact minute-by-minute M1 floating-equity Prague-reset portfolio audit.
 
     Enforces optional per-symbol concurrent risk cap (guards FTMO 1% trade-idea bundle rule across US100/USDJPY!)
     and optional ±news_pad_sec causal red-news flatten guard.
+    Fail-closed on any holdout day `>= 2025-01-01` or `cutoff > STOP` unless `allow_holdout=True`.
     """
+    sorted_days = sorted(days)
+    if not allow_holdout:
+        if int(cutoff) > int(STOP):
+            raise ValueError(f"HOLDOUT_LOCK_VIOLATION: replay cutoff {cutoff} exceeds sealed STOP ({STOP})")
+        bad_days = [str(d) for d in sorted_days if str(d) >= HOLDOUT_CUTOFF_DAY]
+        if bad_days:
+            raise ValueError(
+                f"HOLDOUT_LOCK_VIOLATION: replay_portfolio_m1 received holdout days >= {HOLDOUT_CUTOFF_DAY}: {bad_days[:5]}"
+            )
     active_tapes = {}
     news_stats = {}
     for eng in risks:
+        if not allow_holdout:
+            for dk in sorted_days:
+                if dk in tapes[eng]:
+                    st_arr = tapes[eng][dk][1]
+                    if len(st_arr) > 0 and int(st_arr[-1]) >= int(STOP):
+                        raise ValueError(
+                            f"HOLDOUT_LOCK_VIOLATION: Tape '{eng}' day '{dk}' timestamp {int(st_arr[-1])} >= STOP ({STOP})"
+                        )
         if red_news_cal is not None:
             gt, st = p28.apply_red_news_guard_to_tape(tapes[eng], red_news_cal, mode="FLATTEN_5M", pad_sec=news_pad_sec)
             active_tapes[eng] = gt
@@ -43,7 +65,6 @@ def replay_portfolio_m1(
             active_tapes[eng] = tapes[eng]
 
     balance = float(initial)
-    sorted_days = sorted(days)
     meter = jpy_eq.EquityMetrics(initial, START, [int(np.datetime64(d, "D").astype(int)) for d in sorted_days])
     exits, totals, rejects = [], defaultdict(list), Counter()
     peak_margin = peak_simultaneous = 0.0
@@ -155,8 +176,19 @@ def compute_cluster_a_invdd_weights(cluster_a_days: list[str], tapes: dict, engi
     return {e: total_budget * inv[e] / s for e in engine_ids}
 
 
-def apply_vol_targeting_causal(days_sorted: list[str], nets: np.ndarray, dds: np.ndarray, *, window: int = 20, lo: float = 0.55, hi: float = 1.35) -> tuple[np.ndarray, np.ndarray]:
+def apply_vol_targeting_causal(
+    days_sorted: list[str],
+    nets: np.ndarray,
+    dds: np.ndarray,
+    *,
+    window: int = 20,
+    lo: float = 0.55,
+    hi: float = 1.35,
+    allow_holdout: bool = False,
+) -> tuple[np.ndarray, np.ndarray]:
     """Strictly causal Moreira & Muir volatility-managed scaling (target vol fitted ONLY on Cluster A < 2021-01-01)."""
+    if not allow_holdout and any(str(d) >= HOLDOUT_CUTOFF_DAY for d in days_sorted):
+        raise ValueError(f"HOLDOUT_LOCK_VIOLATION: apply_vol_targeting_causal received day >= {HOLDOUT_CUTOFF_DAY}")
     idx_split = sum(1 for d in days_sorted if d < "2021-01-01")
     target_vol = float(np.std(nets[:max(30, idx_split)]))
     out_n = nets.copy()
