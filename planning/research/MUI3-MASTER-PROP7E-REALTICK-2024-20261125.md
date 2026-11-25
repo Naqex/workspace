@@ -126,3 +126,16 @@ Tham số chuẩn vòng 1 (`P1`) theo thiết kế: `InpBasePhaseMult=4,00`, `In
   1. Bàn giao sạch Dev MT5 cho `@ops-probe` khởi chạy ngay **Wave 1B** (Mũi 1–2 đo thực địa spread & trượt giá trên `FTMO-Demo 1515343318`).
   2. Giữ nguyên bộ 9 EA đang chạy trên `naqex-node1` để không làm đứt chuỗi dữ liệu Demo hiện hữu; chỉ chuyển sang `Naqex_Master_Prop7E.ex5` (cấu hình `P1 4,0x + PROFIT_LOCK`) khi bắt đầu vòng Challenge mới sau khi chốt đủ Mũi 1–2 (ma sát thực tế), Mũi 5 (email xác nhận EA & giá checkout thật) và phán quyết cuối của Astra tối `29/11`.
   3. *(Tùy chọn không chặn Black Friday)*: Nếu muốn nâng Kịch bản 5 cả năm `2024` từ `Model=1` lên `Model=4` tick thật `100%`, nên chạy ngoài giờ cao điểm (sau `01:00` sáng giờ VN khi `FTMO-Demo` tải `.tkc` ở tốc độ `~2 MB/s` thay vì `115 KB/s`).
+
+---
+
+## 7. Bổ sung hậu Astra Vòng 4 (`25/11/2026 22:55 ICT`): `v1.01` ở độ trễ thực đo (`500 ms` / `655 ms`) & Full-2024
+
+Thực hiện theo yêu cầu kiểm chứng ngoại tuyến sau phán quyết **`UNPAID-OPTION — 0 USD`** (chi tiết tại [ASTRA-ROUND4-UNPAID-OPTION-SINGLE-TICKET-LATENCY-AUDIT-20261125.md](ASTRA-ROUND4-UNPAID-OPTION-SINGLE-TICKET-LATENCY-AUDIT-20261125.md); biên nhận JSON: `.runtime/mt5-realtick-results/v101_measured_latency_and_full2024_summary.json`; `Holdout 2025+` NIÊM PHONG, `holdout_rows_analysed = 0`, `swap = 0,00 USD`, `clean = True`, `0` lỗi):
+
+| # | Kịch bản (`Naqex_Master_Prop7E.ex5 v1.01`) | Cửa sổ Dev | Model & Ticks | Độ trễ | Số lệnh (Win%) | Lãi ròng (`USD`) | PF | Sharpe | Bal DD / Eq DD | Ghi chú |
+|---|---|---|---|---|---:|---:|---:|---:|---|---|
+| **7** | `V101_2024Q4_P1_4X_500ms` | `2024.09.01–12.31` | `Model=4` (`20,02M` real ticks) | **`500 ms`** (P50 đo) | `155` (`53,55%`) | **`+790,52`** | `1,25` | `2,13` | `4,90%` / `6,24%` | `worstDay -172,40`, `comm -98,36` |
+| **8** | `V101_2024Q4_P1_4X_655ms` | `2024.09.01–12.31` | `Model=4` (`20,02M` real ticks) | **`655 ms`** (P90 đo) | `155` (`53,55%`) | **`+799,56`** | `1,25` | `2,15` | `4,83%` / `6,17%` | `worstDay -172,15`, `comm -98,52` |
+| **9** | `V101_FULL2024_FUNDED_1X_500ms` | `2024.01.02–12.31` | `Model=1` (`1,46M` 1m-OHLC) | **`500 ms`** | `469` (`50,75%`) | **`+613,64`** | `1,15` | `1,21` | `3,42%` / `4,06%` | `4/4` quý dương (`minBal 9.960,39`) |
+| **10** | `V101_FULL2024_P1_4X_500ms` | `2024.01.02–12.31` | `Model=1` (`1,46M` 1m-OHLC) | **`500 ms`** | `470` (`50,43%`) | **`+1.418,65`** | `1,15` | `1,26` | `8,00%` / `8,75%` | `4/4` quý dương; đạt `+10%` ngày `2024-05-15`; ngày sụp Yên `05/08` `-314,00` |

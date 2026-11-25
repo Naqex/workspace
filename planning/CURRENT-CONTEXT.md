@@ -1,19 +1,22 @@
 # Current context — Naqex Workspace
 
-`25/11/2026 22:05 ICT` · `WORK: WAVE3-FINALIZED-READY-FOR-ASTRA-R4 | REVIEW: PENDING-VERIFIER-6GATES | LIVE-NODE1: ONLINE-CONNECTED-FLAT`
+`25/11/2026 22:58 ICT` · `WORK: ASTRA-R4-UNPAID-OPTION-0USD-LOCKED | LIVE-NODE1: ONLINE-CONNECTED-FLAT | HOLDOUT 2025+ SEALED`
 
-`GOAL-NOW: FTMO BLACK FRIDAY GO/NO-GO (MON 30/11/2026 16:00 ICT / 10:00 CET) | LIVE FRICTION 28/28 PASS (P50 0.615x, 95% CI 0.618-0.704x) | MASTER_PROP7E v1.01 10/10 EX5 + MODEL=4 VERIFIED | HOLDOUT 2025+ SEALED`
+`GOAL-NOW: UNPAID-OPTION (0 USD) — BỎ QUA BLACK FRIDAY 30/11, GIỮ v1.01 KIỂM CHỨNG NGOẠI TUYẾN | SINGLE-TICKET ZERO-RETRY + MT5 v1.01 500ms/655ms & FULL-2024 ĐÃ CHỐT | LƯU Ý ĐIỀU KIỆN ĐỦ 18 TUỔI FTMO`
 
-## 0. Hồ Sơ Phán Quyết Chính (Astra Vòng 4 — Đã Hoàn Thiện `100%`)
+## 0. Phán Quyết Astra Vòng 4 (`UNPAID-OPTION — 0 USD`) & Kiểm Định Đúng 1 Vé
 
-- **Hồ sơ tổng hợp duy nhất để gửi GPT-6.2 Astra Vòng 4:** [ASTRA-ROUND4-BLACKFRIDAY-GONOGO-DOSSIER-20261126.md](research/ASTRA-ROUND4-BLACKFRIDAY-GONOGO-DOSSIER-20261126.md) (`READY_FOR_ASTRA_ROUND4_DECISION`, `0` ô chờ, kèm Prompt dán thẳng).
-- **Hạn chót FTMO Black Friday CFD (`-30%` cho `FTMO 2-Step Standard`):** **Thứ Hai `30/11/2026` lúc `16:00 ICT` (`10:00 CET`)** (Mỹ nghỉ Lễ Tạ Ơn `26/11` & đóng sớm `27/11`, `v1.01` đã khóa lịch NYSE `23` ngày lễ/nửa phiên `2026–2027`).
-- **Kết quả đo thực địa Mũi 1 & 2 (`28/28` RT = `56` legs, `3.734` dòng spread `5s` xuyên London + NY Overlap + `14:30 UTC` NY Cash Open):**
-  - **`PASS_WITHIN_1_5X`** (`0` reject, `swap = 0,00 USD`, `0` vi phạm tin đỏ `13:30 UTC` `US_GDP_AND_CORE_PCE`, đã đo `2` lệnh SL cứng thật trên `US100.cash` lúc NY mở cửa).
-  - **Hệ số Ma Sát Thực Core-4 (`7E`):** **`P50 = 0,615×` / `P90 = 0,897×`**; **10k Stratified Bootstrap 95% CI bảo thủ `[0,618× .. 0,661× .. 0,704×]`** (toàn bộ KTC 95% `< 0,75×`!); Page's CUSUM `0,00 / đỉnh 0,38` -> **`BÌNH THƯỜNG`**.
-- **Chứng nhận `Naqex_Master_Prop7E.ex5 v1.01` (`sha16=2e0006ad786bdad6`):**
-  - Biên dịch sạch **`10/10 .ex5` (`0 errors, 0 warnings`)**, vá trọn `V101-01..V101-07` ([Spec v1.01](research/MASTER-PROP7E-V101-RESTART-HYDRATION-SPEC-20261125.md) · [Đối khớp 1:1](research/MASTER-7E-VS-LEGACY-PARITY-AUDIT-20261125.md): **`0` drifts**, `32/32` tests PASS) — đặc biệt `V101-07` (`REL+HEADROOM`) xóa bẫy cát lún AMBER giúp `FTMO Std 98,70 EUR` đạt **`+844,9 USD` (`EV +8,04×`, `P<=0 8,7%`) ở `0,75×`** và **`+306,6 / Med +235,7 USD` ở `1,50×`** (`0,0%` cháy ngày).
-  - **`Model=4` Real Ticks (`20,02M` ticks, `2024 Q4`, `1:100`, `4,0×` P1 + `PROFIT_LOCK`, `50 ms`, `slippage 35 FX / 450 US100`):** **`155` lệnh khớp 100%, `+736,06 USD (+7,36%)`, `PF 1,23`, `Sharpe 1,98`, `EqDD 6,27%`, `swap = 0,00`**, `492` tin đỏ, `hydrated=true` ([Mũi 3 Receipt](research/MUI3-MASTER-PROP7E-REALTICK-2024-20261125.md)).
+- **Phán quyết chính thức (đã áp dụng):** **`UNPAID-OPTION — 0 USD`** — giữ bản **`Naqex_Master_Prop7E.ex5 v1.01`** (`sha16=2e0006ad786bdad6`) để tiếp tục kiểm chứng ngoại tuyến trên Dev kín và **để ưu đãi FTMO Black Friday (`Thứ Hai 30/11/2026 16:00 ICT`) đi qua**. Ghi nhận điều kiện [đủ 18 tuổi của FTMO](https://ftmo.com/en/faq/who-can-join-ftmo/) để chủ sở hữu tự đối chiếu trước mọi kế hoạch trả phí trong tương lai.
+- **Báo cáo kiểm định mới theo đúng yêu cầu Astra Vòng 4 (thay thế góc nhìn multi-retry cũ):** [ASTRA-ROUND4-UNPAID-OPTION-SINGLE-TICKET-LATENCY-AUDIT-20261125.md](research/ASTRA-ROUND4-UNPAID-OPTION-SINGLE-TICKET-LATENCY-AUDIT-20261125.md) *(hồ sơ vòng 4 cũ lưu đối chiếu: [ASTRA-ROUND4-BLACKFRIDAY-GONOGO-DOSSIER-20261126.md](research/ASTRA-ROUND4-BLACKFRIDAY-GONOGO-DOSSIER-20261126.md))*.
+- **3 con số chốt cho ĐÚNG 1 VÉ — KHÔNG RETRY (`N = 10.000`, `v1.01 REL+HEADROOM`, `GUARD_ALL_ON`, `P1 Sprint 4x`, phí chuẩn `155 EUR = 165,08 USD`):**
+  - **Ma sát `0,66×` (đo sống 28/28 lệnh):** `P(Payout 1)` 12m/24m/36m = `59,9% / 84,7% / 88,6%` · chờ trung vị **`273 ngày` (~9 tháng)** · tiền ròng 24m **`+825,7 USD` (Med `+815,9 USD`, `P<=0 = 15,3%`)**.
+  - **Ma sát `1,00×` (chuẩn Dev):** `P(Payout 1)` = `46,6% / 73,0% / 79,2%` · chờ trung vị **`300 ngày` (~10 tháng)** · tiền ròng 24m **`+535,5 USD` (Med `+490,5 USD`, `P<=0 = 27,0%`)**.
+  - **Ma sát `1,50×` (stress Astra):** `P(Payout 1)` = **`29,3%` (12m) / `51,2%` (24m) / `58,3%` (36m)** · chờ trung vị **`329 ngày` (~11 tháng)** · tiền ròng 24m **`+216,3 USD` (Med `+62,4 USD`, `P<=0 = 48,8%`)**.
+  - **Chênh lệch Black Friday (`98,70 EUR`) vs Giá thường (`155 EUR`) trên 1 vé:** Vì FTMO hoàn `100%` phí ở payout đầu, trung vị người thắng bằng nhau; giảm giá chỉ tăng EV đúng **`+9,1 .. +29,2 USD`** — xác nhận hoàn toàn quyết định không vội mua.
+- **Kiểm thử MT5 `v1.01` ở đúng độ trễ đo được (`500 ms` P50 / `655 ms` P90) & Full-2024 (`swap = 0,00 USD`, `492` tin đỏ, `clean = True`, `holdout = 0`):**
+  - **`Q4 2024 Model=4 Real-Tick (20,02M ticks, P1 4x)`:** `50 ms` `+736,06 USD` (`PF 1,23, Sh 1,98`) -> **`500 ms` `+790,52 USD` (`PF 1,25, Sh 2,13, EqDD 6,24%`)** -> **`655 ms` `+799,56 USD` (`PF 1,25, Sh 2,15, EqDD 6,17%`)** — không suy giảm cấu trúc (chênh `+54..+63 USD` là nhiễu mở nến, không tính là lợi thế).
+  - **`Full-2024 Model=1 @ 500 ms`:** `Funded 1x` **`+613,64 USD`** (`4/4` quý dương, `EqDD 4,06%`); `P1 4x` **`+1.418,65 USD`** (`4/4` quý dương, `minBal 9.595,79`, ngày sụp Yên `05/08/2024` `-3,14%`, đạt `+10%` ngày `2024-05-15` sau `134` ngày) ([Mũi 3 Receipt](research/MUI3-MASTER-PROP7E-REALTICK-2024-20261125.md)).
+- **Điểm mù vẫn còn mở (`0 USD`):** Mới đo `1` phiên sống (`28/28` RT, P50 `0,615×` / P90 `0,897×`, Bootstrap 95% CI `[0,618×..0,704×]`), mới có `2` lệnh chạm SL sống trên `US100.cash` (chưa đủ chốt `450 pts` là trần đuôi tuyệt đối), và thời gian chờ payout đầu `9–11 tháng` còn dài cho mục tiêu thu nhập chính.
 
 ## 1. Kiến Trúc Đã Khóa & Sổ R&D Trung Thực (`3 / 56 PASS`)
 
@@ -35,8 +38,9 @@
 | **`projects/vi-dubber` (`Naqex/vi-dubber`)** | **`origin/main @ 5da3c65`** (`PR #2–#5` merged, **TẠM DỪNG theo chủ sở hữu**) | 4 file WIP cục bộ của chủ sở hữu & `work/job-8dc51f8a892aba21/` giữ nguyên 100% không chạm; worktree tạm đã dọn sạch. |
 | **Giáo dục (`education/`)** | **`check_setup.py` exit `0`** | Đã thêm bộ sinh bài tập `education/tools/drill_generator.py` luyện kỹ năng `leverage_margin_vs_pnl` (`1:30` vs `1:100`) theo tiến độ thực. |
 
-## 3. Bước Kế Tiếp Ngay Cho Chủ Sở Hữu (`26–30/11/2026`)
+## 3. Bước Kế Tiếp Ở Chế Độ Ngoại Tuyến (`UNPAID-OPTION — 0 USD`)
 
-1. **Gửi Prompt Mục 7 trong [ASTRA-ROUND4-BLACKFRIDAY-GONOGO-DOSSIER-20261126.md](research/ASTRA-ROUND4-BLACKFRIDAY-GONOGO-DOSSIER-20261126.md) cho GPT-6.2 Astra Vòng 4** chốt phán quyết `GO / NO-GO`, cấu hình P1 (`4,0× Sprint` vs `3,0× Balanced` trên `v1.01`) và lịch kích hoạt sau Lễ Tạ Ơn Mỹ (`01/12/2026`).
-2. **Gửi thư xác nhận EA `v1.01` tới `support@ftmo.com`** từ [FTMO-THE5ERS-WRITTEN-CLEARANCE-EMAILS.md](../tooling/ai-engines/exports/deployment_kit/FTMO-THE5ERS-WRITTEN-CLEARANCE-EMAILS.md) & kiểm màn hình checkout thật (`trader.ftmo.com`: đúng **`2-Step`**, **`10.000 USD`**, **`Standard`**, giá `62,30`/`98,70 EUR`, thẻ Visa/MC chính chủ còn hạn dài không phải thẻ ảo) theo Checklist 5 phút trong [Mũi 5 Pháp Lý VN](research/PROP-VN-PAYOUT-LEGAL-AND-VPS-COMPLIANCE-20261125.md).
-3. **Nếu Astra chốt `GO` & chủ sở hữu mua vé trước `30/11 16:00 ICT`:** Đồng bộ phẳng bản **`v1.01`** (`10/10 .ex5` + `492` dòng CSV) lên `naqex-node1`, gắn duy nhất `1` chart `USDJPY M5` với preset `FTMO_Std10K_MasterProp7E_P1_*.set` theo [BLACKFRIDAY-FTMO-10K-ACTIVATION-CHECKLIST.md](../tooling/ai-engines/exports/deployment_kit/BLACKFRIDAY-FTMO-10K-ACTIVATION-CHECKLIST.md), kiểm WAN IP router sạch CGNAT trước khi lên Funded, và ghi ngay `OUT_OF_POCKET_FEE` vào `treasury_ledger.py`.
+1. **Giữ khóa `0 USD` và đối chiếu điều kiện tham gia:** Để hạn Black Friday `30/11/2026` trôi qua; kiểm tra rõ điều kiện đủ `18` tuổi & pháp lý trước khi lên bất kỳ kế hoạch mua vé Prop trả phí nào.
+2. **Đóng nốt điểm mù phần đuôi trên Demo (`0 USD`, không đụng `Holdout 2025+`):** Tiếp tục giữ `naqex-node1` chạy shadow/Free Trial và đo thêm trượt giá SL thực tế trên `US100.cash` qua nhiều phiên/tuần (đặc biệt ngày tin đỏ & mở cửa Mỹ) thay vì dựa vào 1 phiên duy nhất.
+3. **Giải bài toán thu nhập & thời gian chờ:** Nghiên cứu hướng rút ngắn thời gian chờ payout đầu dưới `9–11` tháng (hoặc nguồn thu song song không lệ thuộc chu kỳ 2-Step `10K`) trước khi cân nhắc bất kỳ lệnh mua vé nào.
+4. **Dữ liệu đã lưu sạch trên Git:** `Naqex/workspace` `main @ 959597f` (PR `#109`, `3/3` CI PASS) + bổ sung báo cáo `UNPAID-OPTION`; `Miikey24s/naqex-private-vault` + `D:\NaqexBackup\naqex-private-vault.bundle` đã đồng bộ cùng bộ mô phỏng 1 vé `single_ticket_v101_audit/`.
