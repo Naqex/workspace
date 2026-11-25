@@ -85,8 +85,16 @@ private:
    // E5 & E7 09:30 ET anchor state
    datetime             m_nyAnchorDay;
    bool                 m_nyAnchorReady;
+   datetime             m_nyAnchorLastTry;
    double               m_us100Open0930;
    double               m_us500Open0930;
+
+   // Daily D1 ATR & E6 vol-compression cache (immutable intraday — shift=1 closed D1 bars only!)
+   datetime             m_d1AtrCacheDay[NAQEX_SYM_COUNT];
+   double               m_d1AtrCacheVal[NAQEX_SYM_COUNT];
+   datetime             m_e6CompCacheDay;
+   bool                 m_e6CompCacheOk;
+   datetime             m_e1ReconstLastTry;
 
    // Base risk % per engine (exact Registry values)
    double               m_baseRisk[8];
@@ -128,13 +136,21 @@ private:
       return preferred;
    }
 
-   bool ReadPriorD1Atr(const int idx, double &outAtr) const
+   bool ReadPriorD1Atr(const int idx, double &outAtr)
    {
       outAtr = 0.0;
       if(idx < 0 || idx >= NAQEX_SYM_COUNT || m_feeds[idx].atr_handle == INVALID_HANDLE) return false;
+      datetime d1Bar = iTime(m_feeds[idx].symbol, PERIOD_D1, 0);
+      if(d1Bar > 0 && m_d1AtrCacheDay[idx] == d1Bar && m_d1AtrCacheVal[idx] > 0.0)
+      {
+         outAtr = m_d1AtrCacheVal[idx];
+         return true;
+      }
       double buf[1];
       // Strict causal shift=1 (prior completed D1 bar ONLY!)
       if(CopyBuffer(m_feeds[idx].atr_handle, 0, 1, 1, buf) != 1 || buf[0] <= 0.0) return false;
+      m_d1AtrCacheDay[idx] = d1Bar;
+      m_d1AtrCacheVal[idx] = buf[0];
       outAtr = buf[0];
       return true;
    }
@@ -185,7 +201,9 @@ public:
       m_e1BoxDay         = 0; m_e1BoxReady = false; m_e1BoxTop = 0.0; m_e1BoxBot = 0.0;
       m_e4SessDay        = 0; m_e4MornInit = false; m_e4MornFrozen = false;
       m_e4MornOpen       = 0.0; m_e4MornHigh = 0.0; m_e4MornLow = 0.0; m_e4MornClose = 0.0; m_e4MornDir = 0;
-      m_nyAnchorDay      = 0; m_nyAnchorReady = false; m_us100Open0930 = 0.0; m_us500Open0930 = 0.0;
+      m_nyAnchorDay      = 0; m_nyAnchorReady = false; m_nyAnchorLastTry = 0; m_us100Open0930 = 0.0; m_us500Open0930 = 0.0;
+      m_e6CompCacheDay   = 0; m_e6CompCacheOk = false; m_e1ReconstLastTry = 0;
+      for(int s = 0; s < NAQEX_SYM_COUNT; s++) { m_d1AtrCacheDay[s] = 0; m_d1AtrCacheVal[s] = 0.0; }
       for(int i = 0; i < 8; i++) m_tradedDay[i] = 0;
       // Registry exact base risk percentages (E1..E7 + S6)
       m_baseRisk[0] = 0.16; // E1_USDJPY_TOKYO
@@ -395,8 +413,9 @@ public:
             if(!m_e1BoxReady) { m_e1BoxTop = mid; m_e1BoxBot = mid; m_e1BoxReady = true; }
             else { if(mid > m_e1BoxTop) m_e1BoxTop = mid; if(mid < m_e1BoxBot) m_e1BoxBot = mid; }
          }
-         else if(utc.hour >= 3 && !m_e1BoxReady)
+         else if(utc.hour >= 3 && !m_e1BoxReady && (nowUtc - m_e1ReconstLastTry) >= 60)
          {
+            m_e1ReconstLastTry = nowUtc;
             // Restart resilience: reconstruct 00:00..03:00 UTC box from broker M1 bars!
             double o0, h0, l0, c0;
             if(ReconstructM1Window(sym, nowUtc, utcDay, utcDay + 3 * 3600, o0, h0, l0, c0) && h0 > l0)
@@ -501,16 +520,21 @@ public:
          double atrD1 = 0.0, dayOpen = iOpen(sym, PERIOD_D1, 0);
          if(!IsEngineTraded(5, d1Start) && ReadPriorD1Atr(SYM_EURJPY, atrD1) && dayOpen > 0.0)
          {
-            double sum5 = 0.0, sum20 = 0.0;
-            bool okComp = true;
-            for(int s = 1; s <= 20; s++)
+            if(m_e6CompCacheDay != d1Start)
             {
-               double rng = iHigh(sym, PERIOD_D1, s) - iLow(sym, PERIOD_D1, s);
-               if(rng <= 0.0) { okComp = false; break; }
-               sum20 += rng;
-               if(s <= 5) sum5 += rng;
+               double sum5 = 0.0, sum20 = 0.0;
+               bool okComp = true;
+               for(int s = 1; s <= 20; s++)
+               {
+                  double rng = iHigh(sym, PERIOD_D1, s) - iLow(sym, PERIOD_D1, s);
+                  if(rng <= 0.0) { okComp = false; break; }
+                  sum20 += rng;
+                  if(s <= 5) sum5 += rng;
+               }
+               m_e6CompCacheDay = d1Start;
+               m_e6CompCacheOk  = (okComp && ((sum5 / 5.0) / (sum20 / 20.0)) < 0.85);
             }
-            if(okComp && ((sum5 / 5.0) / (sum20 / 20.0)) < 0.85)
+            if(m_e6CompCacheOk)
             {
                double ask = m_feeds[SYM_EURJPY].last_ask, bid = m_feeds[SYM_EURJPY].last_bid;
                if(ask >= dayOpen + 0.75 * atrD1)
@@ -540,8 +564,9 @@ public:
       {
          m_nyAnchorDay = nyDay; m_nyAnchorReady = false; m_us100Open0930 = 0.0; m_us500Open0930 = 0.0;
       }
-      if(!m_nyAnchorReady && nyMins >= 9 * 60 + 30)
+      if(!m_nyAnchorReady && nyMins >= 9 * 60 + 30 && (nowUtc - m_nyAnchorLastTry) >= 60)
       {
+         m_nyAnchorLastTry = nowUtc;
          int nyOffSec = NewYorkUtcOffsetHours(utc) * 3600;
          datetime t0930Utc = (nyDay + 9 * 3600 + 30 * 60) - (datetime)nyOffSec;
          double o1, h1, l1, c1, o2, h2, l2, c2;
