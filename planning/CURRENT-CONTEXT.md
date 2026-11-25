@@ -1,19 +1,20 @@
 # Current context — Naqex Workspace
 
-`25/11/2026 23:30 ICT` · `WORK: ASTRA-R5-FINAL-UNPAID-OPTION-0VND-CLOSED | LIVE-NODE1: ONLINE-CONNECTED-FLAT | HOLDOUT 2025+ SEALED`
+`25/11/2026 23:46 ICT` · `WORK: OWNER-DIRECTED-18D-SPRINT-TO-DEC13 | BILL-HOLD-NOV30 | LIVE-NODE1: ONLINE-CONNECTED-FLAT | HOLDOUT 2025+ SEALED`
 
-`GOAL-NOW: CHỐT CHÍNH THỨC (d) UNPAID-OPTION — 0 VND (BỎ QUA BLACK FRIDAY 30/11, KHÔNG TẠO BILL) | CHUẨN 1 VÉ | TIẾP TỤC ĐO ĐUÔI SL US100.cash TRÊN DEMO MIỄN PHÍ XUYÊN NFP 04/12 & CPI 10/12`
+`GOAL-NOW: QUYẾT ĐỊNH OWNER — TẠO ĐƠN GIỮ BILL BLACK FRIDAY NGÀY 30/11 (14 NGÀY -> HẠN ~13/12/2026) | DÙNG 18 NGÀY (26/11->13/12) TỐI ƯU HỆ THỐNG/CHIẾN LƯỢC CHO BÀI TOÁN 1 VÉ + ĐO ĐUÔI SL US100.cash XUYÊN NFP 04/12 & CPI 10/12 -> TỚI 12–13/12 MỚI CHỐT THANH TOÁN`
 
-## 0. Phán Quyết Cuối Astra Vòng 5 — `(d) UNPAID-OPTION — 0 VND` (Đã Khóa)
+## 0. Quyết Định Chính Thức Của Chủ Sở Hữu & Lộ Trình Sprint `18 Ngày` (`26/11 -> 13/12/2026`)
 
-- **Quyết định chốt (áp dụng cho cả `62,30 EUR` lẫn `98,70 EUR`):** **`(d) UNPAID-OPTION — 0 VND`** — bỏ qua hoàn toàn đợt FTMO Black Friday `30/11/2026`, **không tạo hóa đơn giữ bill** (chưa có cam kết hợp đồng chính thức rằng bill chưa trả sẽ giữ giá 14 ngày). Hồ sơ đầy đủ & số liệu gốc: [ASTRA-ROUND5-BANKROLL-12-15M-BF-AND-14D-BILL-DOSSIER-20261125.md](research/ASTRA-ROUND5-BANKROLL-12-15M-BF-AND-14D-BILL-DOSSIER-20261125.md) · [ASTRA-ROUND4-UNPAID-OPTION-SINGLE-TICKET-LATENCY-AUDIT-20261125.md](research/ASTRA-ROUND4-UNPAID-OPTION-SINGLE-TICKET-LATENCY-AUDIT-20261125.md).
-- **3 lý do chốt lõi của Astra Vòng 5 (khung vốn `12–15 triệu VND`, chủ sở hữu đủ điều kiện `>= 18` tuổi):**
-  1. **Giữ chuẩn `1 vé` làm thước đo chính:** Ở `98,70 EUR` & `1,50×`, mở lên `2 vé` chỉ tăng lãi TB 24 tháng thêm **`+447.000 VND`** nhưng phải tăng mức ứng tối đa thêm **`+4,29 triệu VND`** (tổng `7,02 tr` = `47–59%` ngân sách); mức `62,30 EUR` giảm áp lực vốn nhưng không bổ sung bằng chứng khớp lệnh.
-  2. **Bài toán thu nhập chính trên `1 vé` ở `1,50×` còn quá mỏng:** xác suất có payout trong 12 tháng mới đạt **`29,3%`**, còn xác suất tiền ròng 24 tháng `<= 0` là **`48,8%`**.
-  3. **Điểm mù lớn nhất còn lại:** **giá thoát cắt lỗ (`SL`) của `US100.cash` khi thị trường giật mạnh** (`7` vòng lệnh & `2` lần chạm SL ở `0,01` lot là chưa đủ đo phần đuôi cực đoan) -> ưu tiên đo thêm trên Demo `0 VND` xuyên **NFP `04/12/2026` và CPI `10/12/2026`** (lịch BLS chính thức).
-- **Thành tựu kỹ thuật `Naqex_Master_Prop7E.ex5 v1.01` (`sha16=2e0006ad786bdad6`) đã xác minh & giữ nguyên để nghiên cứu tiếp:**
-  - `Q4/2024 Model=4` (`20,02M` tick thực, `155` lệnh, `swap = 0,00`, `492` tin đỏ): dương ổn định tại `50 ms` (`+736,06`), **`500 ms` (`+790,52`, PF `1,25`, Sh `2,13`)** và **`655 ms` (`+799,56`, PF `1,25`, Sh `2,15`)**.
-  - `Full-2024 Model=1 @ 500 ms`: `Funded 1x` **`+613,64 USD`** (`4/4` quý dương, EqDD `4,06%`); `P1 4x` **`+1.418,65 USD`** (`4/4` quý dương, ngày sụp Yên `05/08/2024` `-3,14%`, đạt `+10%` ngày `2024-05-15` sau `134` ngày) ([Mũi 3 Receipt](research/MUI3-MASTER-PROP7E-REALTICK-2024-20261125.md)).
+- **Quyết định của chủ sở hữu (điều chỉnh đúng trọng tâm sau Astra Vòng 5):**
+  - **KHÔNG** lấy trạng thái hôm nay (`25/11`) làm điểm chốt dừng sớm. Phản biện Astra Vòng 5 ([Hồ sơ Vòng 5](research/ASTRA-ROUND5-BANKROLL-12-15M-BF-AND-14D-BILL-DOSSIER-20261125.md)) được dùng làm **danh sách mục tiêu kỹ thuật phải giải xong trước ngày `13/12/2026`**.
+  - **Mốc Thứ Hai `30/11/2026` (trước `16:00 ICT`):** Chủ sở hữu tạo đơn giữ bill Black Friday (`14 ngày`, hạn thanh toán `~13–14/12/2026`, `0 VND` bỏ ra ngay ngày `30/11`; hành động đặt đơn & thanh toán thuộc toàn quyền chủ sở hữu, AI giữ `OrderSend = 0`).
+  - **Mốc quyết định thanh toán thật:** **`12–13/12/2026`** — chỉ chốt bấm trả tiền bill sau khi đã hoàn tất 3 mũi tăng tốc dưới đây trên Dev kín (`Holdout 2025+` NIÊM PHONG) + đo sống xuyên NFP & CPI.
+- **3 mũi tăng tốc bắt buộc trong `18 ngày` (`26/11 -> 13/12/2026`):**
+  1. **Mũi A — Đóng điểm mù trượt giá cắt lỗ (`SL`) của `US100.cash` trên Demo miễn phí (`0 VND`):** Lên lịch chạy `ftmo_demo_calibration_probe.py` trên Demo phụ xuyên nhiều phiên mở cửa Mỹ (`14:30 UTC`), trọng tâm **NFP `04/12`** và **CPI `10/12`** để thu tối thiểu **`>= 15–20` lần chạm SL thật trên `US100.cash`** (thay vì `2` lần) và chốt chính xác phân vị trượt giá P95/P99.
+  2. **Mũi B — Tối ưu hóa chiến lược & tốc độ pha cho mục tiêu ĐÚNG 1 VÉ (`v1.01 -> v1.02`, Dev `2018–2024` kín):** Tấn công thẳng vào 2 con số Astra chê (`P(Pay1 12m) = 29,3%`, chờ `300–329d`, `P(net<=0 24m) = 48,8%` ở `1,50×`) — đặc biệt rà soát nút thắt **`P2` đang chạy quá chậm (`96–110` ngày chỉ để ăn `+5%` với cháy P2 chỉ `2,6%`!)**, tối ưu hóa tham số `P1/P2/ProfitLock/Funded` và kiểm định trên `Model=4` Real-Tick `500/655 ms` + Full-2024.
+  3. **Mũi C — Cổng kiểm định chốt trước hạn bill (`12–13/12/2026`):** Chấm lại toàn bộ gói bằng chứng mới (`v1.02` + bộ đo SL `US100.cash` xuyên NFP/CPI) để chủ sở hữu quyết định thanh toán bill Black Friday (`62,30` hoặc `98,70 EUR`) hay bỏ bill (`0 VND`).
+- **Nền kỹ thuật đã có sẵn (`v1.01`, `sha16=2e0006ad786bdad6`):** `10/10 .ex5` sạch `0/0`; `Q4 Model=4` `20,02M` tick thực dương ở `50/500/655 ms` (`+736 / +791 / +800 USD`); `Full-2024 Model=1 @ 500 ms` `4/4` quý dương (`Funded 1x +613,64 USD`, `P1 4x +1.418,65 USD`, vượt ngày sụp Yên `05/08` `-3,14%`, đạt `+10%` ngày `2024-05-15`) ([Mũi 3 Receipt](research/MUI3-MASTER-PROP7E-REALTICK-2024-20261125.md)).
 
 ## 1. Kiến Trúc Đã Khóa & Sổ R&D Trung Thực (`3 / 56 PASS`)
 
