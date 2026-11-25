@@ -32,6 +32,7 @@ All new studies (`Pass 29+`) reuse these 4 layers instead of duplicating loops i
 4. **Verified Reporting & MQL5 Guard** ([report_gen.py](../../../tooling/ai-engines/quant_factory/report_gen.py), [Naqex_PropGuard.mqh](../../../tooling/ai-engines/exports/Include/Naqex_PropGuard.mqh)):
    - Auto-generated Markdown tables and immutable `.json` + `.sha256` receipts.
    - Shared MQL5 production guard (auto `ORDER_FILLING_*`, `SYMBOL_TRADE_TICK_VALUE_LOSS`, per-symbol concurrent risk cap, Strategy-Tester UTC offset, `SymbolInfoSessionTrade` holiday early-close flatten, `GlobalVariable` VPS-restart persistence, CSV red-news guard).
+   - Live multi-EA & VPS runtime invariants: all concurrent `FileOpen` calls (`LoadRedNewsCsv`, `LogExecAuditFor`) must pass `FILE_SHARE_READ | FILE_SHARE_WRITE` with bounded retry; `Naqex_AccountOrchestrator` must gate DD/kill-switch on `IsAccountSynced(bal, eq)` (`TERMINAL_CONNECTED != 0 && bal > 0 && eq > 0`) so disconnected startup never latches sticky kill-switch; VPS PowerShell scripts must use bounded `Get-AncestorPath` instead of deep repo-relative `Split-Path -Parent` chains.
 
 ## Autonomous Maintenance Runbook
 
