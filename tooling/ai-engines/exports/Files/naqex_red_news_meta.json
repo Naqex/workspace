@@ -1,0 +1,67 @@
+{
+  "schema": "naqex-red-news-meta-v2",
+  "csv_sha256": "235722ed1821499f8d81b169418486d3a8b9c0e8911857c88fea8d2270d3dff7",
+  "csv_bytes": 14131,
+  "total_rows": 492,
+  "currencies": [
+    "AUD",
+    "CAD",
+    "EUR",
+    "GBP",
+    "JPY",
+    "USD"
+  ],
+  "min_utc_ts": 1515159000,
+  "max_utc_ts": 1829482200,
+  "max_utc_ts_by_ccy": {
+    "AUD": 1828755000,
+    "CAD": 1828277100,
+    "EUR": 1828964700,
+    "GBP": 1828958400,
+    "JPY": 1829012400,
+    "USD": 1829482200
+  },
+  "by_year_ccy": {
+    "2018": {
+      "USD": 32
+    },
+    "2019": {
+      "USD": 32
+    },
+    "2020": {
+      "USD": 32
+    },
+    "2021": {
+      "USD": 32
+    },
+    "2022": {
+      "USD": 32
+    },
+    "2023": {
+      "USD": 32
+    },
+    "2024": {
+      "USD": 32
+    },
+    "2025": {
+      "USD": 31
+    },
+    "2026": {
+      "AUD": 8,
+      "CAD": 8,
+      "EUR": 16,
+      "GBP": 10,
+      "JPY": 8,
+      "USD": 47
+    },
+    "2027": {
+      "AUD": 8,
+      "CAD": 8,
+      "EUR": 16,
+      "GBP": 20,
+      "JPY": 8,
+      "USD": 80
+    }
+  },
+  "boj_estimated_window_sec": 3600
+}

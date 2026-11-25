@@ -1,0 +1,84 @@
+{
+  "profile": "FTMO_FreeTrial_DryRun",
+  "firm": "FTMO",
+  "account_type": "FreeTrial_10k_Shadow",
+  "capital_usd": 10000.0,
+  "portfolio": "PORT_7E_CORE_PLUS_S6_SHADOW",
+  "include_s6": true,
+  "dry_run_preset": true,
+  "arm_locked": true,
+  "ea_risk_scale": 1.0,
+  "base_phase_mult": 1.0,
+  "effective_mult": 1.0,
+  "calibration_tag": "M2_2_SEED20261124_SYNCED",
+  "amber_dd_pct": 3.5,
+  "amber_mult": 0.65,
+  "red_dd_pct": 6.0,
+  "red_mult": 0.4,
+  "profit_lock_pct": 0.0,
+  "profit_lock_mult": 1.0,
+  "daily_reset_mode": 1,
+  "kill_daily_dd_pct": 2.5,
+  "kill_static_dd_pct": 7.5,
+  "ea_daily_stop_pct": 2.5,
+  "max_symbol_risk_pct": 1.0,
+  "enable_red_news": true,
+  "news_pad_sec": 300,
+  "news_hard_ban_sec": 135,
+  "notes": "Day 1-2 local PC Free Trial shadow dry-run. Logs signals & heartbeat with OrderSend=0 (Prague reset).",
+  "active_engines": [
+    "E1_USDJPY_TOKYO",
+    "E2_USDJPY_EXP80",
+    "E3_GBPUSD_VH",
+    "E4_US100_SESS40",
+    "E5_US100_RS1130",
+    "E6_EURJPY_VOLCOMP",
+    "E7_USDJPY_NY10ET",
+    "S6_FX_USD_BSK"
+  ],
+  "standby_engines": [],
+  "chart_attachments": {
+    "E1_USDJPY_TOKYO": {
+      "symbol": "USDJPY",
+      "timeframe": "M15"
+    },
+    "E2_USDJPY_EXP80": {
+      "symbol": "USDJPY",
+      "timeframe": "M15"
+    },
+    "E3_GBPUSD_VH": {
+      "symbol": "GBPUSD",
+      "timeframe": "M15"
+    },
+    "E4_US100_SESS40": {
+      "symbol": "US100.cash",
+      "timeframe": "M5"
+    },
+    "E5_US100_RS1130": {
+      "symbol": "US100.cash",
+      "timeframe": "M5"
+    },
+    "E6_EURJPY_VOLCOMP": {
+      "symbol": "EURJPY",
+      "timeframe": "M15"
+    },
+    "E7_USDJPY_NY10ET": {
+      "symbol": "USDJPY",
+      "timeframe": "M5"
+    },
+    "S6_FX_USD_BSK": {
+      "symbol": "EURUSD",
+      "timeframe": "M15"
+    }
+  },
+  "spread_caps_points": {
+    "E1_USDJPY_TOKYO": 35.0,
+    "E2_USDJPY_EXP80": 35.0,
+    "E3_GBPUSD_VH": 35.0,
+    "E4_US100_SESS40": 450.0,
+    "E5_US100_RS1130": 450.0,
+    "E6_EURJPY_VOLCOMP": 45.0,
+    "E7_USDJPY_NY10ET": 35.0,
+    "S6_FX_USD_BSK": 35.0
+  }
+}

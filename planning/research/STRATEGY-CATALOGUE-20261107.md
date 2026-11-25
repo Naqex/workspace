@@ -13,6 +13,114 @@ thêm1relatedhypothesis và2constantcontrols trong `registered_component_studies
 không accountpolicy/independentedge.673signals/2022–24,endpointstressâm3năm,
 park exactrecipe;không2025–26/grid. Historical123/88/53 vànegativeIDs giữ.
 
+## Tra bằng chứng đã gắn nhãn
+
+Mở [catalogue JSON](STRATEGY-CATALOGUE-20261107.json), mục
+`evidence_inventory`, hoặc chạy từ workspace root. ID chiến lược cũ
+vẫn tra được. ID recipe phân biệt từng bộ luật. Khóa study cho biết
+phép đo dùng dữ liệu và giả định nào.
+
+~~~powershell
+python -X utf8 tooling/ai-engines/research_inventory.py --key us500-preannouncement-ordinary-range
+python -X utf8 tooling/ai-engines/research_inventory.py --key R094
+python -X utf8 tooling/ai-engines/research_inventory.py --key v15-sizing-12m
+python -X utf8 tooling/ai-engines/research_inventory.py --key h1-post-london16-16ny-atr14x1p5
+python -X utf8 tooling/ai-engines/research_inventory.py --key h1-london-postfix16-20-atr14x1p5
+python -X utf8 tooling/ai-engines/research_inventory.py --key h4-sma20-80-atr14
+python -X utf8 tooling/ai-engines/research_inventory.py --key us500-v16-slippage-endpoint-funnel
+~~~
+
+- **US500 trước tin.** Census lịch có 204 cửa sổ. Biên độ đêm thường
+  có đủ đối chứng cho 19/100 và 98/104. Pilot giá đêm tin mang trạng thái
+  `not_run`. [Hồ sơ](PROP-US500-PREANNOUNCEMENT-PREFLIGHT-20261119.md).
+- **EURUSD.** Tra đủ 24 recipe theo lớp hụt đầu tiên trong sổ stress.
+  Có 9 đã yếu sau spread, 13 đổi dấu khi tính commission và slippage,
+  2 đổi dấu khi tính financing. Midpoint trước spread còn unknown.
+  R022 định danh chính London postfix. Post-London 16NY có ID recipe
+  riêng và liên kết như biến thể cùng họ. Hậu kiểm rollover giữ nguyên
+  swap của hai recipe H4 trong lát 2018–2022. Bản thử lọc spread mới
+  dừng ở đăng ký. [Bảng gốc](GOLD-M1-PATH-AND-EURUSD-POSTMORTEM-20261113.md) ·
+  [Hậu kiểm rollover](PROP-EUR-FX-ROLLOVER-AUDIT-20261119.md).
+- **US500 V16.** Trong 98 cấu hình endpoint, 24 dương cả hai cụm ở
+  midpoint, 14 sau spread và 4 sau stress. Phép đo chỉ có giá hai mốc,
+  chưa xác nhận đường giữ lệnh hoặc stop. [Bảng gốc](PROP-US500-V16-SLIPPAGE-RESULTS-20261119.md).
+
+| Phạm vi kiểm ngày 19/11/2026 | Độ phủ |
+| --- | --- |
+| Git tại `5a2072a`, dưới `planning/research` và `planning/trader/research` | **968** đường dẫn. Có **27** gắn nhãn sâu, **84** được catalogue cũ dẫn có vai trò, **131** có vai trò ghi rõ trong index, **240** có link điều hướng đơn thuần và **486** chưa có binding. |
+| Nhãn loại artifact trên cùng 968 đường dẫn | **23** sidecar được nhận diện qua tài liệu hoặc code đã dẫn, **12** Markdown qua tiêu đề. Còn **341** nhãn tạm theo tên và **99** tài liệu chỉ rõ định dạng. Xem `artifact_role_counts`, `role_basis_counts` và `role_evidence` qua `--all`. Nhãn loại file tách khỏi trạng thái liên kết bằng chứng. |
+| Đơn vị có nhãn sâu | **7** nhóm nguồn, **61** phân vùng có seal, **11** mục study/trạng thái, **24** recipe có nhãn phí và **24** profile corpus V26 theo hash trong card. Giữ nguyên **123** hồ sơ legacy. |
+| Kho private trên máy này | **405** thư mục cấp một thuộc `prop-*` hoặc campaign `execution-v1`, cùng phạm vi lần trước. **13** có khóa catalogue, **313** có locator trong tài liệu nhưng chưa có khóa catalogue, **50** có tệp ở gốc nhưng chưa có tài liệu dẫn, **29** chỉ biết thư mục. So với lần trước, **223/302** thư mục chỉ biết tên đã nối được tài liệu. |
+| Các phép kiểm riêng trên 405 thư mục | **235** có `manifest.json`, **17** có `protocol.md`, **2** có `README.md`. **324** thư mục có dẫn chiếu tài liệu, **12** có metadata kiểm SHA256 và **7** có locator nguồn hoặc run ràng buộc bằng metadata đã kiểm. Các số này có thể chồng lên nhau. |
+| Quan hệ giữa tài liệu | **281** lượt dẫn chiếu trực tiếp từ **170** tài liệu, trong đó **166** nằm ngoài nguồn được dẫn trực tiếp ở 11 hồ sơ ưu tiên. Mỗi quan hệ có đường dẫn và số dòng. |
+
+`--all` trả từng đường dẫn, căn cứ gán nhãn và phần chưa rõ. Thêm
+`--private-root E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs` để kiểm metadata
+trên máy hiện tại. Mẫu số giới hạn trong hai cây Git và hai nhóm thư mục
+đã nêu, ngoài phạm vi còn có các repo, kho raw, thư mục khác và lịch sử
+chưa lưu. Cột thay đổi so với mốc Git giúp nhận ra file mới hoặc đã dời.
+Chỉ nâng nhãn provisional khi có tài liệu hoặc seal làm căn cứ.
+
+`--path` tra chính xác một đường dẫn trong inventory. Ví dụ sau trả
+protocol được báo cáo dẫn và các thư mục private có locator trong báo cáo.
+
+~~~powershell
+python -X utf8 tooling/ai-engines/research_inventory.py --private-root E:/BACKUP-TRADINGWORKSPACE/ai-engine-jobs --path planning/research/EURUSD-FUNNEL-AUDIT-RESULTS-20261113.md
+~~~
+
+Với thư mục private, `root_artifact_locators` xác nhận tệp hiện diện,
+`document_references` cho biết tài liệu và căn cứ khớp.
+`verified_metadata` ghi tệp đã kiểm hash. `source_run_binding_basis`
+ghi rõ loại liên kết đã kiểm, gồm seal phân vùng, sổ năm hoặc manifest
+khai báo đầu vào và đầu ra. Hai tên ngắn trùng nhau được giữ ở
+`ambiguous_short_locators` để đối chiếu. `document_relations` chỉ phản ánh
+quan hệ được tài liệu ghi rõ.
+
+Đợt này kiểm thêm **3** manifest có SHA256 công bố và đã biết định dạng.
+Chúng khai báo **19** locator đầu vào và đầu ra. Công cụ chỉ kiểm tệp
+được khai báo có mặt. Kết quả không xác nhận hash, dữ liệu giá hay nội dung
+của các tệp được trỏ tới. **38** metadata đã kiểm và **79** locator đã
+đăng ký từ trước vẫn giữ trong phạm vi kiểm.
+
+**Việc còn thiếu có thể đổi quyết định.** Trước hết cần đối soát exposure
+theo partition để biết tập nào còn dùng được cho OOS. Sau đó kiểm lịch và
+phí tài khoản đích cùng những đoạn giá thiếu có thể đổi stop hoặc equity
+drawdown. Khi chọn tái sử dụng hồ sơ legacy, bổ sung liên kết về nguồn và
+lần đo cho đúng hồ sơ đó. Chi tiết nằm ở `gaps` trong catalogue. Cách nối
+nguồn, lần chạy và kết quả, cùng phép đo chất lượng có mẫu số, tham khảo
+các tài liệu sau. [W3C PROV](https://www.w3.org/TR/prov-overview/) ·
+[OpenLineage](https://openlineage.io/docs/spec/object-model/) ·
+[W3C DQV](https://www.w3.org/TR/vocab-dqv/).
+
+### US500 M15 — phạm vi kiểm ngoài mẫu của R094, RS01 và RS07
+
+Rà metadata ngày 19/11/2026. **Chưa xác nhận được cửa sổ nào trong
+2018–2026 đủ căn cứ làm holdout chưa dùng cho quyết định về ba bộ luật
+này.** Kết luận theo phiên bản và mục đích đã ghi, với phần chưa xác minh
+để `unknown`.
+
+| Khoảng US500 | Đã dùng vào việc gì và giới hạn của bằng chứng |
+| --- | --- |
+| 2018–2019 | Chưa thấy sổ theo đúng ba bộ luật. FP07, tiền thân của RS01, đã đếm cơ hội trên phiên cash. Nguồn M1 Bid/Ask US500 cũng đã dùng cho đối chứng cash 2018–2023. Các phép đo này ghi nhận exposure liên quan, chưa xác định được mọi phân vùng hay ảnh hưởng tới từng quyết định. [Đếm FP07](US500-CHANNEL-HISTORY-RESULTS-20261112.md) · [Đối chứng cash](PROP-US500-CASH-SESSION-20261119.md). |
+| 2020–2021 | RS01 và RS07 đã dùng hai năm này cùng 2016 để chẩn đoán độ bền trên lịch sử. FP07 cũng đã đếm cơ hội. Báo cáo A/B của R094 dừng trước khi mở thêm 2018–2021. Điều đó chỉ xác định phạm vi của A/B. [Kiểm lịch sử RS01/RS07](US500-RECENT-SCREEN-RESULTS-20261112.md) · [R094 A/B](PROP-US500-R094-AFTERNOON-RESULTS-20261119.md). |
+| 2022–2024 | Sàng lọc Development cho R094 gốc (thoát 12:01 New York), RS01 phá kênh FP07 và RS07 quay lại Bollinger (liên quan R003). R094 B (thoát 15:59) chỉ so với A trên 2022–2023 và đã gác. RS04 là đối chứng đếm cơ hội với trigger liên quan R094 và giả định thực thi khác. [R094 gốc](US500-M15-OPENING-SCREEN-RESULTS-20261111.md) · [Protocol RS](US500-RECENT-SCREEN-PROTOCOL-20261112.md). |
+| 2025 | Dùng để lựa chọn trong study recent, gồm sổ kinh tế RS01/RS07 và đếm RS04. Sổ stress thiếu đường giá khiến không có recipe đủ điều kiện chọn, nên dùng RS01/RS07 theo phương án dự phòng đã khóa. [Kết quả chọn](US500-RECENT-SCREEN-RESULTS-20261112.md). |
+| 01/01–11/11/2026 (phiên New York) | RS01/RS07 đã chạy chẩn đoán sau khi khóa lựa chọn. Tình trạng từng sử dụng trước lần đó chưa được xác minh đầy đủ. Phần sau mốc 11/11 và các partition chưa truy được theo phiên bản vẫn `unknown`; chưa có bằng chứng để dùng làm holdout. [Phạm vi và giới hạn](US500-RECENT-SCREEN-RESULTS-20261112.md). |
+
+Các nguồn trên chủ yếu xác nhận theo năm hoặc cửa sổ công bố. Việc nguồn
+đã được nhập hay có quote đúng lúc quyết định là kiểm tra dữ liệu, còn
+holdout cần chứng minh kết quả chưa được dùng để thiết kế, chọn hay sửa
+luật. Vắng log hoặc ghi đóng trong một study chưa đủ để xác nhận điều đó.
+Quyền mở dữ liệu cần được cấp riêng.
+
+Nếu được giao kiểm tiếp, dùng phần lịch sử đã dùng cho hồi quy, chẩn đoán
+hoặc kiểm độ bền có ghi exposure. Chỉ dùng lịch sử để kiểm ngoài mẫu khi
+truy được đúng nguồn, phân vùng và lịch sử quyết định, khóa luật cùng tiêu
+chí trước khi xem và có quyền mở. Để chuyển sang quan sát forward, trước
+hết cần ứng viên có bằng chứng sau phí, rồi khóa cấu hình và tiêu chí,
+xin quyền phù hợp và chỉ thu dữ liệu phát sinh sau mốc khóa. Chưa khởi
+động quan sát. [Cửa kiểm định](../../.agents/skills/strategy-qualification/references/validation-gates.md).
+
 ## Rà lại ứng viên từng được giữ — 12/11/2026
 
 Owner nhắc phải kế thừa shortlist cũ trước khi đề xuất cơ chế mới. Đây là
@@ -100,7 +208,7 @@ freeze trước outcomes; old quarter-mask failure và corrected attempt đều 
 |R026|Month-end relative-equity flow|fixing_flow / R020|Gác exactadaptation sau6years;stress−227,6pip/66resolved|0|[Continuationresults](R026-RELATIVE-EQUITY-CONTINUATION-RESULTS-20261108.md); giữ baseline2019/22, không bot/edge|
 |R027|News-surprise continuation|event|Historical source reviewed; intraday known-at/access chưa admitted|0|[Source review](FOMC-SURPRISE-SOURCE-RESULTS-20261109.md); chưa ownoutcome|
 |R028|News overreaction reversal|event / R027|Historical source reviewed; intraday known-at/access chưa admitted|0|[Source review](FOMC-SURPRISE-SOURCE-RESULTS-20261109.md); chưa ownoutcome|
-|R029|Currency carry|carry|long_history_or_multi_data|0|Chưa outcome riêng|
+|R029|Currency carry|carry|Gác: 5 vị thế/6 năm, hụt quy mô; swap FTMO lịch sử chưa xác minh|1|[Kết quả R029](PROP-FX-CARRY-R029-RESULTS-20261118.md)|
 |R030|Carry + trend|carry / R029|long_history_or_multi_data|0|Chưa outcome riêng|
 |R031|Long-horizon value / PPP|value|long_history_or_multi_data|0|Chưa outcome riêng|
 |R032|Value + momentum|value / R031|long_history_or_multi_data|0|Chưa outcome riêng|

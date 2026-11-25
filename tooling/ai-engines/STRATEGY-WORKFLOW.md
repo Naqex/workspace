@@ -24,6 +24,23 @@ chiến lược hiện tại. Không thêm tracker/UI riêng.
 Không cần agent/task riêng mỗi hàng. Fixed process worker không tự nhận câu hỏi
 mới từ Markdown; coding agent chạy study riêng, lead delegate theo capability.
 
+## Lấy dữ liệu lịch sử Dukascopy qua QDM CLI
+
+Với lượt nghiên cứu mới, dùng [QuantDataManager CLI](../../projects/trader/docs/quantdatamanager.md)
+cho toàn bộ dữ liệu upstream Dukascopy. Kiểm cache bằng danh sách symbol
+trước, xuất đúng khoảng ngày UTC, lưu riêng `data_source=Dukascopy`
+và `download_engine=QuantDataManager`. Dùng tick export có cả Bid/Ask
+khi cần đo execution hoặc floating equity. Giữ khoảng trống và SHA256.
+Các file native broker đã niêm phong giữ provenance broker của chúng.
+
+Mỗi lượt có khóa holdout phải chứng minh giới hạn ở cả bước tải lẫn bước
+xuất. QDM `action=update` bỏ qua `dateto`. Khi cache thiếu và phiên bản
+CLI chưa có lệnh tải khóa ngày cuối, ghi blocker nguồn và tiếp tục phần
+phép đo độc lập. HTTP Dukascopy trực tiếp, dukascopy-node và BI5 trực tiếp
+chỉ còn là đường tái tạo artifact lịch sử từ cache đã gắn hash. Mọi lượt
+tải mới đi qua QDM CLI.
+[Kiểm tra phiên bản và cache tại Pass 7](../../planning/research/PASS7-USDJPY-FULL-M1-EQUITY-AND-FX-SCOUT-20261120.md).
+
 ## Từ ý tưởng đến payout — cách hiểu và vai trò
 
 **Ý tưởng → quy tắc rõ → thử quá khứ → kiểm chéo/ngoài mẫu → demo → challenge
@@ -72,6 +89,72 @@ căn cứ và current gaps ở [framework audit](../../planning/research/STRATEG
 Protocol/data/source hashes và exit0 không tự chứng minh preregistration timing,
 causality, OOS hoặc prop fit. Dossier `review_checks` tách mechanical checks khỏi
 phần chưa được tool đánh giá; dùng bảng gate/evidence trong mọi đề xuất đổi stage.
+
+## Từ trạng thái thị trường đến vận hành
+
+**Luồng quyết định.** Dữ liệu đúng nguồn và thời điểm biết → trạng thái thị
+trường → luật chính hoặc nhánh bổ sung → kiểm rủi ro và quyền → đề nghị lệnh
+→ đối soát, ghi sự kiện và cảnh báo. Dùng cùng phiên bản luật và cùng quy
+ước thời gian trong backtest và quan sát. Mỗi môi trường ghi rõ cách mô
+phỏng hoặc quan sát khớp lệnh. AI hỗ trợ nghiên cứu, review và đọc sai lệch.
+Quyền thực thi thuộc bộ kiểm rủi ro và người vận hành tài khoản.
+
+**Logic.** Bắt đầu từ mục tiêu, thời gian giữ và sản phẩm đích. Nêu hành vi
+cần khai thác như tiếp diễn, hồi về vùng hoặc quan hệ giữa các tài sản khi
+thị trường xấu. Ghi trạng thái nào biết được lúc quyết định, rồi khóa
+bias → zone/setup → trigger → entry → stop/exit → sizing. Nếu dùng bias
+H1 cho entry M15, chỉ lấy H1 đã đóng và biết được lúc quyết định. Dùng bản
+không lọc trạng thái làm đối chứng khi thử thêm bộ lọc. Khi thiếu căn cứ
+phân loại, ghi `unknown` và xử lý theo luật đã khóa. Đứng ngoài là một
+quyết định hợp lệ. V3 từng giảm một nửa risk cho tín hiệu ngược D1 đã
+đóng. Drawdown giảm, nhưng Net/DD giảm từ 0,805 xuống 0,644 ở phí đối
+xứng và từ 1,070 xuống 0,899 ở phí bất đối xứng. V3 giữ cấu hình gốc.
+[Đối chiếu V3](../../planning/research/PROP-PORTFOLIO-V3-RESULTS-20261114.md#3-vì-sao-giữ-a-gốc-thay-vì-d1-scaling).
+
+**Kiểm chứng.** Dùng [nhật ký quyết định](#nhật-ký-quyết-định-để-kiểm-lại-việc-tối-ưu-và-chọn-chiến-lược),
+[catalogue](../../planning/research/STRATEGY-CATALOGUE-20261107.md#tra-bằng-chứng-đã-gắn-nhãn)
+và [validation gates](../../.agents/skills/strategy-qualification/references/validation-gates.md)
+hiện có. Khi đánh giá việc thêm một nhánh, so `BASE_GUARD + nhánh` với
+`BASE_GUARD` trên cùng sổ, vốn, cách tính phí và ngân sách rủi ro.
+Đo phần tăng thêm sau khi tính tín hiệu trùng và giới hạn vị thế chung.
+`BASE_GUARD` là đối chứng chưa đủ chuẩn Challenge. Nếu cần kiểm độ nhạy
+tham số, đăng ký vùng lân cận trước khi đo. Chỉ dùng tập ngoài mẫu một
+lần để đánh giá cấu hình đã khóa, sau khi xác nhận exposure và quyền mở.
+
+**Thực thi và theo dõi, khi tới forward.** Ghi thời điểm dữ liệu có thể
+biết, thời điểm quyết định, nộp lệnh và khớp riêng. Ví dụ close ngày rồi
+khớp ở open kế tiếp chỉ hợp với bài đo dùng dữ liệu ngày. Với M15, ghi
+mốc đóng nến và quote có thể dùng sau quyết định. Khi khởi động lại, đối
+soát vị thế, SL và lệnh đang chờ hoặc chưa rõ phản hồi. Dùng định danh yêu cầu sẵn có để
+phát hiện gửi trùng. Chặn mở mới khi
+trạng thái chưa rõ, thiếu SL bắt buộc, quote lỗi hoặc vượt hạn mức. Đối
+chiếu shadow/paper với replay theo từng sự kiện, kể cả tín hiệu bị bỏ,
+bị chặn hoặc không khớp. Lỗi dữ liệu, thực thi hoặc risk cần chặn và đối
+soát. Dao động hiệu suất còn trong phạm vi dự kiến thì ghi nhận và theo
+dõi. Khi có bằng chứng suy giảm theo tiêu chí đã khóa, review để quyết
+định tiếp tục, gác hoặc lưu hồ sơ. Thay luật hoặc đổi nhánh cần version
+mới, kiểm chứng, theo dõi forward và quyết định của chủ tài khoản.
+
+- **Có sẵn.** Adapter V19 có `READ_ONLY` và `SHADOW_PAPER` đã kiểm offline,
+  còn kết nối và đối chiếu với broker đích chưa xác minh. `shadow_reconcile.py`
+  tạo bản sửa riêng cho capture đã dừng. `golden_event_parity.py` so một
+  batch đã hoàn tất với batch chuẩn đã khóa. [Bằng chứng V19](../../planning/research/FTMO-FREE-TRIAL-ADAPTER-V19-20261116.md) ·
+  [Sửa capture](shadow_reconcile.py) · [So batch](golden_event_parity.py).
+- **Cần ghi khi giao task.** Câu hỏi, một thay đổi, đối chứng và tiêu chí,
+  đường dẫn bằng chứng, quyết định. Mẫu ngắn: “Kiểm [câu hỏi] bằng [một
+  thay đổi] so với [đối chứng] theo [tiêu chí đã khóa]. Dùng [hồ sơ].
+  Chốt [giữ/gác/cần thêm bằng chứng] kèm lý do.”
+- **Chỉ áp khi tới forward.** Ví dụ sau restart thấy lệnh gửi chưa rõ
+  phản hồi thì chặn entry mới và đối soát trạng thái trước khi thử lại.
+  Trong paper chỉ xử lý sổ mô phỏng. Chuyển từ quan sát sang paper hoặc
+  thực thi theo quyền riêng ở từng bước. Bàn giao cách đọc log, dừng
+  và khôi phục theo [hướng dẫn người vận hành](../../.agents/skills/strategy-qualification/references/owner-handover.md).
+
+**Ví dụ đã có — R094.** Câu hỏi là giữ lệnh qua buổi chiều có tạo đủ lợi
+nhuận sau stress không. A thoát 12:01, B thoát 15:59 New York, giữ entry,
+stop và size. B đạt +16,57R năm 2022 và −6,31R năm 2023, dưới mục tiêu
+60R của bài toán hai vòng. Giữ A làm đối chứng và gác B. Nghiên cứu này
+chưa đo bộ lọc trạng thái thị trường. [Hồ sơ R094 A/B](../../planning/research/PROP-US500-R094-AFTERNOON-RESULTS-20261119.md).
 
 ## Lọc độ phù hợp trước khi triển khai sâu
 
@@ -274,6 +357,15 @@ owner hiện có, không tạo catalogue/score/ledger riêng:
 Thẻ hypothesis là nội dung trong protocol/dossier hiện có, chưa phải schema/tool
 tự động mới. Độ tin cậy đến từ test đúng câu hỏi và đối chứng độc lập; tốc độ đến
 từ reuse dữ liệu/core/kết quả và chỉ chạy phần bị thay đổi, không từ việc bỏ gates.
+
+Khi đóng hoặc tái sử dụng study, cập nhật hồ sơ gốc và bổ sung liên kết
+cần tra trong `evidence_inventory` của
+[catalogue](../../planning/research/STRATEGY-CATALOGUE-20261107.md#tra-bằng-chứng-đã-gắn-nhãn).
+Giữ ID phiên bản, dataset và partition, nguồn và tài khoản đích, phạm vi
+giá đã dùng, mẫu số chất lượng, mô hình phí, đơn vị và điều kiện mở lại.
+Ghi `unknown` kèm lý do khi thiếu căn cứ. Chạy
+`python -X utf8 tooling/ai-engines/research_inventory.py` để kiểm liên kết
+và thay đổi phạm vi. Công cụ đọc metadata theo scope đã đăng ký.
 
 ### Nhật ký quyết định để kiểm lại việc tối ưu và chọn chiến lược
 

@@ -132,3 +132,10 @@ class ClockReader:
         self.normalized=NativeMT5Reader.__new__(NativeMT5Reader)
         self.normalized.sdk=ClockSDK(reader.sdk,reader.account()['server'])
     def __getattr__(self,name):return getattr(self.normalized,name)
+
+    def latest_quote(self, asset):
+        tick = self.inner.sdk.symbol_info_tick(asset)
+        if tick is None or not tick.time_msc:
+            return None
+        return dict(asset=asset, time_msc=quote_utc_msc(tick.time_msc, self.normalized.sdk.server),
+                    bid=tick.bid, ask=tick.ask, flags=tick.flags)

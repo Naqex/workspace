@@ -1,0 +1,332 @@
+{
+  "schema": "naqex-holdout-2025-2026-verdict-v1",
+  "protocol_commit": "521926f",
+  "evaluated_utc": "2026-11-23T15:21:02.882028+00:00",
+  "holdout_window": {
+    "first_day": "2025-01-02",
+    "last_day": "2026-11-20",
+    "trading_days": 491
+  },
+  "order_send_count": 0,
+  "weekend_violations": 0,
+  "elapsed_seconds": 8.09,
+  "dev_2024_parity": {
+    "PORT_7E_2024_unbounded_pct": 7.69,
+    "PORT_7E_2024_frozen_ref_pct": 7.0,
+    "PORT_9E_2024_unbounded_pct": 7.14,
+    "PORT_9E_2024_frozen_ref_pct": 6.6
+  },
+  "per_engine_holdout": {
+    "E1_USDJPY_TOKYO": {
+      "n": 465,
+      "net_R": 48.05,
+      "pf": 1.22,
+      "win_rate_pct": 45.4,
+      "max_dd_R": 47.75,
+      "buy_R": 18.5,
+      "sell_R": 29.55,
+      "years_R": {
+        "2025": 51.82,
+        "2026": -3.77
+      }
+    },
+    "E2_USDJPY_EXP80": {
+      "n": 141,
+      "net_R": 11.16,
+      "pf": 1.33,
+      "win_rate_pct": 51.8,
+      "max_dd_R": 8.55,
+      "buy_R": 7.6,
+      "sell_R": 3.56,
+      "years_R": {
+        "2025": -3.03,
+        "2026": 14.19
+      }
+    },
+    "E3_GBPUSD_VH": {
+      "n": 53,
+      "net_R": 0.28,
+      "pf": 1.02,
+      "win_rate_pct": 49.1,
+      "max_dd_R": 3.97,
+      "buy_R": 1.88,
+      "sell_R": -1.59,
+      "years_R": {
+        "2025": -1.93,
+        "2026": 2.22
+      }
+    },
+    "E4_US100_SESS40": {
+      "n": 101,
+      "net_R": 9.47,
+      "pf": 1.57,
+      "win_rate_pct": 57.4,
+      "max_dd_R": 2.62,
+      "buy_R": 1.53,
+      "sell_R": 7.94,
+      "years_R": {
+        "2025": 3.93,
+        "2026": 5.54
+      }
+    },
+    "E5_US100_RS1130": {
+      "n": 42,
+      "net_R": 7.39,
+      "pf": 2.87,
+      "win_rate_pct": 59.5,
+      "max_dd_R": 0.9,
+      "buy_R": 3.75,
+      "sell_R": 3.64,
+      "years_R": {
+        "2025": 5.11,
+        "2026": 2.27
+      }
+    },
+    "E6_EURJPY_VOLCOMP": {
+      "n": 47,
+      "net_R": 0.25,
+      "pf": 1.02,
+      "win_rate_pct": 51.1,
+      "max_dd_R": 4.95,
+      "buy_R": 0.6,
+      "sell_R": -0.35,
+      "years_R": {
+        "2025": -4.28,
+        "2026": 4.53
+      }
+    },
+    "E7_USDJPY_NY10ET": {
+      "n": 32,
+      "net_R": 2.61,
+      "pf": 1.7,
+      "win_rate_pct": 56.2,
+      "max_dd_R": 1.35,
+      "buy_R": 1.86,
+      "sell_R": 0.75,
+      "years_R": {
+        "2025": 1.46,
+        "2026": 1.14
+      }
+    },
+    "S6_FX_USD_BSK": {
+      "n": 51,
+      "net_R": 1.6,
+      "pf": 1.11,
+      "win_rate_pct": 47.1,
+      "max_dd_R": 4.48,
+      "buy_R": -0.37,
+      "sell_R": 1.97,
+      "years_R": {
+        "2025": -0.84,
+        "2026": 2.44
+      }
+    },
+    "S7_XAU_EXP120": {
+      "n": 52,
+      "net_R": 11.48,
+      "pf": 2.58,
+      "win_rate_pct": 61.5,
+      "max_dd_R": 2.83,
+      "buy_R": 4.65,
+      "sell_R": 6.83,
+      "years_R": {
+        "2025": 5.37,
+        "2026": 6.11
+      }
+    }
+  },
+  "core_engines_intact_gt_neg15R": "7/7",
+  "portfolios_holdout": {
+    "PORT_7E_UNCAPPED": {
+      "n_days": 491,
+      "span_years": 1.881,
+      "total_return_pct": 22.76,
+      "ann_pct": 12.1,
+      "peak_dd_pct": 6.92,
+      "daily_loss_pct": 1.48,
+      "calmar": 1.75,
+      "underwater_months": 4.33,
+      "sym_cap_hits": 0,
+      "margin_failures": 0,
+      "years_pct": {
+        "2025": 7.19,
+        "2026": 15.58
+      }
+    },
+    "PORT_7E_SYMCAP_100": {
+      "n_days": 491,
+      "span_years": 1.881,
+      "total_return_pct": 22.34,
+      "ann_pct": 11.88,
+      "peak_dd_pct": 6.96,
+      "daily_loss_pct": 1.48,
+      "calmar": 1.71,
+      "underwater_months": 4.33,
+      "sym_cap_hits": 14,
+      "margin_failures": 0,
+      "years_pct": {
+        "2025": 6.9,
+        "2026": 15.44
+      }
+    },
+    "PORT_7E_SYMCAP_100_REDNEWS": {
+      "n_days": 491,
+      "span_years": 1.881,
+      "total_return_pct": 23.88,
+      "ann_pct": 12.7,
+      "peak_dd_pct": 6.55,
+      "daily_loss_pct": 1.48,
+      "calmar": 1.94,
+      "underwater_months": 5.32,
+      "sym_cap_hits": 11,
+      "margin_failures": 0,
+      "years_pct": {
+        "2025": 4.7,
+        "2026": 19.18
+      }
+    },
+    "PORT_9E_UNCAPPED": {
+      "n_days": 491,
+      "span_years": 1.881,
+      "total_return_pct": 23.37,
+      "ann_pct": 12.42,
+      "peak_dd_pct": 8.34,
+      "daily_loss_pct": 1.48,
+      "calmar": 1.49,
+      "underwater_months": 6.93,
+      "sym_cap_hits": 0,
+      "margin_failures": 0,
+      "years_pct": {
+        "2025": 6.7,
+        "2026": 16.67
+      }
+    },
+    "PORT_9E_SYMCAP_100": {
+      "n_days": 491,
+      "span_years": 1.881,
+      "total_return_pct": 22.89,
+      "ann_pct": 12.17,
+      "peak_dd_pct": 8.39,
+      "daily_loss_pct": 1.48,
+      "calmar": 1.45,
+      "underwater_months": 6.93,
+      "sym_cap_hits": 17,
+      "margin_failures": 0,
+      "years_pct": {
+        "2025": 6.38,
+        "2026": 16.52
+      }
+    },
+    "PORT_9E_SYMCAP_100_REDNEWS": {
+      "n_days": 491,
+      "span_years": 1.881,
+      "total_return_pct": 23.79,
+      "ann_pct": 12.65,
+      "peak_dd_pct": 7.16,
+      "daily_loss_pct": 1.48,
+      "calmar": 1.77,
+      "underwater_months": 9.63,
+      "sym_cap_hits": 14,
+      "margin_failures": 0,
+      "years_pct": {
+        "2025": 3.1,
+        "2026": 20.7
+      }
+    },
+    "PORT_9E_INVDD_SYMCAP_100": {
+      "n_days": 491,
+      "span_years": 1.881,
+      "total_return_pct": 23.11,
+      "ann_pct": 12.28,
+      "peak_dd_pct": 7.46,
+      "daily_loss_pct": 1.18,
+      "calmar": 1.65,
+      "underwater_months": 6.93,
+      "sym_cap_hits": 17,
+      "margin_failures": 0,
+      "years_pct": {
+        "2025": 7.83,
+        "2026": 15.28
+      }
+    }
+  },
+  "alpha_decay_monitor": {
+    "PORT_7E": {
+      "schema": "naqex-live-decay-v1",
+      "baseline": {
+        "n_dev": 1564,
+        "mu": 0.034612542189086354,
+        "sd": 0.42234788663707934
+      },
+      "n_live": 491,
+      "live_mean": 0.04636,
+      "live_cum": 22.7616,
+      "cusum": {
+        "schema": "cusum-change-detection-v1",
+        "current_negative_sigma": 0.0,
+        "min_negative_sigma": -6.778,
+        "threshold_sigma": 4.5,
+        "active_breach": false,
+        "historical_trigger_count": 38,
+        "first_negative_step": 7,
+        "result_sha256": "2256b912a05a4c91"
+      },
+      "sprt": {
+        "llr": -2.768,
+        "upper_reject_edge": 2.89,
+        "lower_confirm_edge": -2.251,
+        "state": "CONFIRM_EDGE_INTACT"
+      },
+      "confidence_cone": {
+        "p05": 1.9594,
+        "p10": 4.8458,
+        "p50": 16.5816,
+        "p90": 29.0424,
+        "observed_percentile": 74.5
+      },
+      "verdict": "GREEN_WITHIN_EXPECTATION",
+      "reasons": [
+        "Live cumulative 22.762 at 74.5th pct of Dev cone (p05=1.959, p50=16.582); current CUSUM=0.00σ"
+      ]
+    },
+    "PORT_9E": {
+      "schema": "naqex-live-decay-v1",
+      "baseline": {
+        "n_dev": 1564,
+        "mu": 0.03953030094519462,
+        "sd": 0.46226626638854545
+      },
+      "n_live": 491,
+      "live_mean": 0.04759,
+      "live_cum": 23.3691,
+      "cusum": {
+        "schema": "cusum-change-detection-v1",
+        "current_negative_sigma": 0.0,
+        "min_negative_sigma": -8.115,
+        "threshold_sigma": 4.5,
+        "active_breach": false,
+        "historical_trigger_count": 45,
+        "first_negative_step": 7,
+        "result_sha256": "7caac33ed466b313"
+      },
+      "sprt": {
+        "llr": -2.528,
+        "upper_reject_edge": 2.89,
+        "lower_confirm_edge": -2.251,
+        "state": "CONFIRM_EDGE_INTACT"
+      },
+      "confidence_cone": {
+        "p05": 3.0675,
+        "p10": 6.0392,
+        "p50": 18.8058,
+        "p90": 32.7747,
+        "observed_percentile": 66.5
+      },
+      "verdict": "GREEN_WITHIN_EXPECTATION",
+      "reasons": [
+        "Live cumulative 23.369 at 66.5th pct of Dev cone (p05=3.067, p50=18.806); current CUSUM=0.00σ"
+      ]
+    }
+  },
+  "g0_preregistered_verdict": "CONDITIONAL"
+}

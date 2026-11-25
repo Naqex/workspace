@@ -1,0 +1,31 @@
+; Naqex MT5 Preset | Profile: The5ers_HighStakes_P1_Balanced | Engine: E6_EURJPY_VOLCOMP (ACTIVE)
+; Attach: EURJPY M15 | Magic: 20261128 | MaxSpreadPts: 45.0
+; ARM-LOCKED SAFETY: set InpDryRunLogOnly=false & InpGuardDryRunLogOnly=false ONLY after Free Trial PASS & TCA GREEN
+InpDryRunLogOnly=true
+InpRiskPercent=0.75
+InpMaxDailyLossPct=4.20
+InpMaxVolRatio5_20=0.85
+InpTrigAtrMult=0.75
+InpSlAtrMult=0.75
+InpAtrPeriodD1=14
+InpEntryStartHourUTC=7
+InpEntryEndHourUTC=17
+InpFlatHourUTC=20
+InpFlatMinUTC=55
+InpMagicNumber=20261128
+InpGuardDryRunLogOnly=true
+InpGuardMaxDailyLossPct=4.20
+InpGuardMaxSymbolRiskPct=1.75
+InpGuardUseOrchestrator=true
+InpGuardMaxSpreadPoints=45.00
+InpGuardRolloverStartUTC=21
+InpGuardRolloverEndUTC=0
+InpGuardEarlyCloseMin=10
+InpGuardTesterUtcOffsetH=2
+InpGuardEnableRedNews=true
+InpGuardRedNewsCsvFile=naqex_red_news_utc.csv
+InpGuardNewsPadSec=300
+InpGuardNewsHardBanSec=135
+InpGuardTcaAuditCsvFile=naqex_exec_audit.csv
+InpGuardMagicRangeMin=20261120
+InpGuardMagicRangeMax=20261199

@@ -1,0 +1,249 @@
+{
+  "schema": "naqex-crypto-sleeve2-study-v1",
+  "generated_utc": "2026-11-23T15:21:57.460068+00:00",
+  "data_window": {
+    "first_day": "2018-01-01",
+    "last_day": "2026-08-23",
+    "n_days": 3157,
+    "coins": [
+      "BTCUSDT",
+      "ETHUSDT",
+      "BNBUSDT",
+      "ADAUSDT",
+      "SOLUSDT"
+    ]
+  },
+  "limitations": [
+    "Survivorship bias: 5 large-cap coins (BTC, ETH, BNB, ADA, SOL) known to survive through 2026; live universe must be selected causally by trailing liquidity/volume.",
+    "Spot-only long/cash (no shorting, no futures funding-rate carry yet); 15 bps base and 30 bps stress one-way turnover cost modeled."
+  ],
+  "crypto_strategies": {
+    "BH_BTC": {
+      "dev_2018_2024_15bps": {
+        "n_days": 2453,
+        "cagr_pct": 44.19,
+        "ann_vol_pct": 65.65,
+        "sharpe": 0.89,
+        "max_dd_pct": 76.63,
+        "calmar": 0.58,
+        "total_ret_pct": 1069.84
+      },
+      "dev_2018_2024_30bps": {
+        "n_days": 2453,
+        "cagr_pct": 44.19,
+        "ann_vol_pct": 65.65,
+        "sharpe": 0.89,
+        "max_dd_pct": 76.63,
+        "calmar": 0.58,
+        "total_ret_pct": 1069.84
+      },
+      "oos_2025_2026_15bps": {
+        "n_days": 600,
+        "cagr_pct": -11.3,
+        "ann_vol_pct": 43.82,
+        "sharpe": -0.05,
+        "max_dd_pct": 52.97,
+        "calmar": -0.21,
+        "total_ret_pct": -17.89
+      },
+      "oos_2025_2026_30bps": {
+        "n_days": 600,
+        "cagr_pct": -11.38,
+        "ann_vol_pct": 43.82,
+        "sharpe": -0.06,
+        "max_dd_pct": 52.97,
+        "calmar": -0.21,
+        "total_ret_pct": -18.01
+      },
+      "time_in_market_dev_pct": 100.0,
+      "annual_turnover_x": 0.0
+    },
+    "BH_EQW5": {
+      "dev_2018_2024_15bps": {
+        "n_days": 2453,
+        "cagr_pct": 69.43,
+        "ann_vol_pct": 78.21,
+        "sharpe": 1.08,
+        "max_dd_pct": 82.52,
+        "calmar": 0.84,
+        "total_ret_pct": 3358.71
+      },
+      "dev_2018_2024_30bps": {
+        "n_days": 2453,
+        "cagr_pct": 69.4,
+        "ann_vol_pct": 78.2,
+        "sharpe": 1.07,
+        "max_dd_pct": 82.52,
+        "calmar": 0.84,
+        "total_ret_pct": 3354.21
+      },
+      "oos_2025_2026_15bps": {
+        "n_days": 600,
+        "cagr_pct": -23.15,
+        "ann_vol_pct": 61.4,
+        "sharpe": -0.12,
+        "max_dd_pct": 66.9,
+        "calmar": -0.35,
+        "total_ret_pct": -35.13
+      },
+      "oos_2025_2026_30bps": {
+        "n_days": 600,
+        "cagr_pct": -23.16,
+        "ann_vol_pct": 61.4,
+        "sharpe": -0.12,
+        "max_dd_pct": 66.9,
+        "calmar": -0.35,
+        "total_ret_pct": -35.15
+      },
+      "time_in_market_dev_pct": 100.0,
+      "annual_turnover_x": 0.13
+    },
+    "C1_TSMOM_VOL20": {
+      "dev_2018_2024_15bps": {
+        "n_days": 2453,
+        "cagr_pct": 14.98,
+        "ann_vol_pct": 8.62,
+        "sharpe": 1.66,
+        "max_dd_pct": 11.04,
+        "calmar": 1.36,
+        "total_ret_pct": 155.45
+      },
+      "dev_2018_2024_30bps": {
+        "n_days": 2453,
+        "cagr_pct": 13.9,
+        "ann_vol_pct": 8.62,
+        "sharpe": 1.55,
+        "max_dd_pct": 11.67,
+        "calmar": 1.19,
+        "total_ret_pct": 139.84
+      },
+      "oos_2025_2026_15bps": {
+        "n_days": 600,
+        "cagr_pct": 5.98,
+        "ann_vol_pct": 8.47,
+        "sharpe": 0.73,
+        "max_dd_pct": 6.46,
+        "calmar": 0.93,
+        "total_ret_pct": 10.02
+      },
+      "oos_2025_2026_30bps": {
+        "n_days": 600,
+        "cagr_pct": 4.66,
+        "ann_vol_pct": 8.46,
+        "sharpe": 0.58,
+        "max_dd_pct": 7.38,
+        "calmar": 0.63,
+        "total_ret_pct": 7.78
+      },
+      "time_in_market_dev_pct": 61.9,
+      "annual_turnover_x": 6.26
+    },
+    "C2_XSEC_TOP2_TREND": {
+      "dev_2018_2024_15bps": {
+        "n_days": 2453,
+        "cagr_pct": 20.34,
+        "ann_vol_pct": 11.48,
+        "sharpe": 1.67,
+        "max_dd_pct": 13.87,
+        "calmar": 1.47,
+        "total_ret_pct": 246.96
+      },
+      "dev_2018_2024_30bps": {
+        "n_days": 2453,
+        "cagr_pct": 18.12,
+        "ann_vol_pct": 11.48,
+        "sharpe": 1.51,
+        "max_dd_pct": 15.52,
+        "calmar": 1.17,
+        "total_ret_pct": 206.25
+      },
+      "oos_2025_2026_15bps": {
+        "n_days": 600,
+        "cagr_pct": 8.98,
+        "ann_vol_pct": 11.1,
+        "sharpe": 0.83,
+        "max_dd_pct": 8.21,
+        "calmar": 1.09,
+        "total_ret_pct": 15.18
+      },
+      "oos_2025_2026_30bps": {
+        "n_days": 600,
+        "cagr_pct": 6.01,
+        "ann_vol_pct": 11.09,
+        "sharpe": 0.58,
+        "max_dd_pct": 8.98,
+        "calmar": 0.67,
+        "total_ret_pct": 10.07
+      },
+      "time_in_market_dev_pct": 51.8,
+      "annual_turnover_x": 12.39
+    }
+  },
+  "combined_quant_pod_dev": {
+    "DEV_2018_2024_FX7E_15X_PLUS_C1_TSMOM_VOL20_075X": {
+      "calendar_days": 2453,
+      "corr_all_fx_days": 0.0205,
+      "corr_worst5pct_fx_days": 0.0851,
+      "sleeve1_fx": {
+        "n_days": 2453,
+        "cagr_pct": 11.42,
+        "ann_vol_pct": 9.46,
+        "sharpe": 1.19,
+        "max_dd_pct": 8.34,
+        "calmar": 1.37,
+        "total_ret_pct": 106.8
+      },
+      "sleeve2_crypto": {
+        "n_days": 2453,
+        "cagr_pct": 11.11,
+        "ann_vol_pct": 6.47,
+        "sharpe": 1.66,
+        "max_dd_pct": 8.37,
+        "calmar": 1.33,
+        "total_ret_pct": 103.01
+      },
+      "combined_pod": {
+        "n_days": 2453,
+        "cagr_pct": 23.78,
+        "ann_vol_pct": 11.54,
+        "sharpe": 1.91,
+        "max_dd_pct": 10.07,
+        "calmar": 2.36,
+        "total_ret_pct": 319.46
+      }
+    },
+    "DEV_2018_2024_FX7E_15X_PLUS_C2_XSEC_TOP2_TREND_075X": {
+      "calendar_days": 2453,
+      "corr_all_fx_days": 0.0156,
+      "corr_worst5pct_fx_days": 0.1105,
+      "sleeve1_fx": {
+        "n_days": 2453,
+        "cagr_pct": 11.42,
+        "ann_vol_pct": 9.46,
+        "sharpe": 1.19,
+        "max_dd_pct": 8.34,
+        "calmar": 1.37,
+        "total_ret_pct": 106.8
+      },
+      "sleeve2_crypto": {
+        "n_days": 2453,
+        "cagr_pct": 15.03,
+        "ann_vol_pct": 8.61,
+        "sharpe": 1.67,
+        "max_dd_pct": 10.55,
+        "calmar": 1.42,
+        "total_ret_pct": 156.33
+      },
+      "combined_pod": {
+        "n_days": 2453,
+        "cagr_pct": 28.15,
+        "ann_vol_pct": 12.87,
+        "sharpe": 1.99,
+        "max_dd_pct": 13.5,
+        "calmar": 2.09,
+        "total_ret_pct": 429.6
+      }
+    }
+  },
+  "oos_pod_note": "OOS Crypto window covers 2025-01-01..2026-08-23 (600 calendar days); see Holdout verdict for FX 2025-2026."
+}

@@ -1,0 +1,27 @@
+title = "Naqex Workspace Gitleaks Config"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Verified non-secret Vietnamese doc placeholder and FTMO contract identifier"
+condition = "AND"
+paths = [
+  '''^tooling/ai-engines/ops_cloud/heroku_deadman/HEROKU-DEPLOY-GUIDE\.md$''',
+  '''^tooling/ai-engines/pass27_portfolio_m1_phase_audit\.py$''',
+]
+regexes = [
+  '''dung-chuoi-bi-mat-o-buoc-2''',
+  '''FTMO_SWING_10K''',
+]
+
+[[allowlists]]
+description = "Verified non-secret strategy catalogue JSON key fields (regexTarget=line)"
+condition = "AND"
+regexTarget = "line"
+paths = [
+  '''^planning/research/STRATEGY-CATALOGUE-20261107\.json$''',
+]
+regexes = [
+  '''"key":\s*"[A-Za-z0-9_./:-]+"''',
+]

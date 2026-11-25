@@ -32,10 +32,50 @@ FAST = {
     "test_evidence_compaction", "test_ftmo_trial_runner", "test_trade_forensics", "test_prop_v22", "test_prop_v23",
     "test_bot_lab", "test_ftmo_connection", "test_research_fast_fail",
     "test_native_paths", "test_prop_v25", "test_corpus_funnel",
+    "test_prop_v26", "test_corpus_batch_signals", "test_corpus_batch_execution", "test_mt_report_parser",
+    "test_research_entry_admission",
 }
 SMOKE = {"test_quant_core", "test_vectorized_stage0", "test_workspace_maintenance",
          "test_deep_storage", "test_zero_tuning_ensemble", "test_sl_active_kernel",
          "test_independent_ledger_auditor", "test_gap_aware_execution"}
+# Measured LPT shard weights (seconds) so --workers N balances even without --profile (e.g. CI).
+DEFAULT_WEIGHTS = {
+    "test_shadow_reconcile": 9.44,
+    "test_forex_study_batch": 4.08,
+    "test_frozen_source_proof": 3.36,
+    "test_fx_pair_formation": 2.80,
+    "test_us500_euopen_component": 2.53,
+    "test_explicit_m1_view": 2.38,
+    "test_multiframe_runner_recovery": 2.37,
+    "test_shadow_night": 2.36,
+    "test_index_cash_close_tick_component": 2.15,
+    "test_nasdaq_intraday_momentum_component": 1.59,
+    "test_index_rest_of_day_component": 1.59,
+    "test_nasdaq_noise14": 1.52,
+    "test_us500_inventory_condition": 1.39,
+    "test_nasdaq_overnight_reversal_component": 1.36,
+    "test_engine_worker": 1.30,
+    "test_us500_fomc_momentum_component": 1.27,
+    "test_index_consensus_component": 1.26,
+    "test_options_expiry_component": 1.15,
+    "test_forex_discovery_report": 1.02,
+    "test_shadow_sessions": 0.95,
+    "test_us500_multiframe": 0.55,
+    "test_ny_fx_gap_scenarios": 0.53,
+    "test_fixing_clock_probe": 0.51,
+    "test_ftmo_spread_sessions": 0.48,
+    "test_rd_research": 0.48,
+    "test_nasdaq_opening5_bounds": 0.44,
+    "test_native_hourly_source": 0.42,
+    "test_strategy_evidence": 0.37,
+    "test_index_noise_study": 0.37,
+    "test_forex_time_fit": 0.37,
+    "test_xau_scale_horizon_audit": 0.36,
+    "test_sealed_m1_review": 0.35,
+    "test_paperclip_strategy_skills": 0.33,
+    "test_nasdaq_opening5_orb": 0.32,
+    "test_index_preclose_reversion": 0.31,
+}
 
 
 class RepoModuleFinder:
@@ -43,12 +83,14 @@ class RepoModuleFinder:
     def __init__(self):
         source = Path(__file__).parent
         self.files = {}
+        stdlib = sys.stdlib_module_names
         for folder, prefix in ((source, ""), (source / "tests", ""), (source / "quant_core", "quant_core.")):
             for entry in os.scandir(folder):
                 if entry.name.endswith(".py") and entry.is_file() and entry.name != "__init__.py":
-                    name = prefix + entry.name[:-3]
-                    if prefix or name.startswith(("test_", "prop_", "xau_", "eurusd_", "us500_")):
-                        self.files.setdefault(name, entry.path)
+                    stem = entry.name[:-3]
+                    if not prefix and stem in stdlib:
+                        continue
+                    self.files.setdefault(prefix + stem, entry.path)
 
     def find_spec(self, fullname, path=None, target=None):
         filename = self.files.get(fullname)
@@ -124,29 +166,35 @@ def run(group, tier, output, selected=None, indexed_imports=False):
     return 0 if result.wasSuccessful() else 1
 
 
+def assign_shards(selected, workers, durations=None):
+    weights_map = DEFAULT_WEIGHTS if durations is None else {**DEFAULT_WEIGHTS, **durations}
+    batches, weights = [[] for _ in range(workers)], [0.] * workers
+    for name in sorted(selected, key=lambda n: (-weights_map.get(n, .1), n)):
+        i = min(range(workers), key=lambda j: weights[j])
+        batches[i].append(name)
+        weights[i] += weights_map.get(name, .1)
+    return batches
+
+
 def parallel(group, tier, output, workers, profile=None):
     from concurrent.futures import ThreadPoolExecutor
     import subprocess
     selected = modules(group, tier)
-    durations = {}
+    durations = None
     if profile:
         durations = json.loads(profile.read_text(encoding="utf-8-sig")).get("module_seconds", {})
-    batches, weights = [[] for _ in range(workers)], [0.] * workers
-    for name in sorted(selected, key=lambda n: -durations.get(n, .1)):
-        i = min(range(workers), key=lambda j: weights[j])
-        batches[i].append(name)
-        weights[i] += durations.get(name, .1)
+    batches = assign_shards(selected, workers, durations)
     start = time.perf_counter()
 
     def child(i):
         receipt = output.with_name(output.stem + f"-shard{i}.json")
-        command = [sys.executable, str(Path(__file__).resolve()), "--group", group,
-                   "--tier", tier, "--output", str(receipt)]
+        command = [sys.executable, "-X", "utf8", str(Path(__file__).resolve()), "--group", group,
+                   "--tier", tier, "--indexed-imports", "--output", str(receipt)]
         for module in batches[i]:
             command += ["--module", module]
-        with receipt.with_suffix(".stdout").open("w") as log:
+        with receipt.with_suffix(".stdout").open("w", encoding="utf-8") as log:
             status = subprocess.run(command, stdout=log, stderr=subprocess.STDOUT).returncode
-        return status, json.loads(receipt.read_text())
+        return status, json.loads(receipt.read_text(encoding="utf-8"))
 
     with ThreadPoolExecutor(max_workers=workers) as pool:
         results = list(pool.map(child, range(workers)))

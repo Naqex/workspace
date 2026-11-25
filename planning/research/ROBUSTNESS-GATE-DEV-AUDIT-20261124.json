@@ -1,0 +1,1515 @@
+{
+  "schema": "naqex-robustness-gate-dev-audit-v1",
+  "generated_utc": "2026-11-24T05:35:27.986726+00:00",
+  "holdout_lock_sha256": "f0a6b43cb205535b0a959456455dc1d857a0936c06c2e51b8614fd7d772a8486",
+  "holdout_rows_analysed": 0,
+  "order_send_count": 0,
+  "dev_window": "2018-01-02..2024-12-31",
+  "mc_draws": 1000,
+  "elapsed_sec": 8.33,
+  "counts": {
+    "total_engines": 9,
+    "pass_robust": 4,
+    "warn_asymmetry_or_year": 2,
+    "fail_fragile": 3,
+    "mc_unbiased_ge90": 9,
+    "mc_same_side_ge90": 9,
+    "top5_trim_positive": 6,
+    "both_sides_positive": 5
+  },
+  "worst_year_ranking": [
+    {
+      "rank": 1,
+      "engine": "E7_USDJPY_NY10ET",
+      "in_port_7e": true,
+      "verdict": "PASS_ROBUST",
+      "worst_year_p10_r": -1.27,
+      "worst_year_r": -1.28,
+      "total_sum_r": 7.34
+    },
+    {
+      "rank": 2,
+      "engine": "S6_FX_USD_BSK",
+      "in_port_7e": false,
+      "verdict": "WARN_ASYMMETRY_OR_YEAR",
+      "worst_year_p10_r": -2.36,
+      "worst_year_r": -1.94,
+      "total_sum_r": 9.99
+    },
+    {
+      "rank": 3,
+      "engine": "E6_EURJPY_VOLCOMP",
+      "in_port_7e": true,
+      "verdict": "PASS_ROBUST",
+      "worst_year_p10_r": -2.4,
+      "worst_year_r": -1.97,
+      "total_sum_r": 13.11
+    },
+    {
+      "rank": 4,
+      "engine": "E2_USDJPY_EXP80",
+      "in_port_7e": true,
+      "verdict": "WARN_ASYMMETRY_OR_YEAR",
+      "worst_year_p10_r": -2.92,
+      "worst_year_r": 0.58,
+      "total_sum_r": 34.75
+    },
+    {
+      "rank": 5,
+      "engine": "E3_GBPUSD_VH",
+      "in_port_7e": true,
+      "verdict": "PASS_ROBUST",
+      "worst_year_p10_r": -3.26,
+      "worst_year_r": -1.04,
+      "total_sum_r": 14.19
+    },
+    {
+      "rank": 6,
+      "engine": "S7_XAU_EXP120",
+      "in_port_7e": false,
+      "verdict": "FAIL_FRAGILE",
+      "worst_year_p10_r": -3.54,
+      "worst_year_r": -3.35,
+      "total_sum_r": 11.97
+    },
+    {
+      "rank": 7,
+      "engine": "E5_US100_RS1130",
+      "in_port_7e": true,
+      "verdict": "PASS_ROBUST",
+      "worst_year_p10_r": -3.86,
+      "worst_year_r": -3.55,
+      "total_sum_r": 12.22
+    },
+    {
+      "rank": 8,
+      "engine": "E4_US100_SESS40",
+      "in_port_7e": true,
+      "verdict": "FAIL_FRAGILE",
+      "worst_year_p10_r": -4.36,
+      "worst_year_r": -1.33,
+      "total_sum_r": 14.14
+    },
+    {
+      "rank": 9,
+      "engine": "E1_USDJPY_TOKYO",
+      "in_port_7e": true,
+      "verdict": "FAIL_FRAGILE",
+      "worst_year_p10_r": -21.03,
+      "worst_year_r": -23.98,
+      "total_sum_r": 76.45
+    }
+  ],
+  "engines": [
+    {
+      "schema": "naqex-robustness-gate-v1",
+      "strategy_id": "E1_USDJPY_TOKYO",
+      "order_send_capable": false,
+      "holdout_rows_analysed": 0,
+      "n_trades": 1437,
+      "total_sum_r": 76.45,
+      "profit_factor": 1.11,
+      "passed": false,
+      "verdict": "FAIL_FRAGILE",
+      "failed_pillars": [
+        "R2_buy_sell_symmetry",
+        "R3_top5_outlier_trim",
+        "R4_worst_year_stability"
+      ],
+      "ranking_score_worst_year_p10_r": -21.03,
+      "thresholds": {
+        "min_mc_beat_rate_unbiased": 0.9,
+        "min_mc_beat_rate_same_side": 0.9,
+        "mc_draws": 1000,
+        "min_side_trades_for_bidirectional": 15,
+        "min_side_share_for_bidirectional": 0.1,
+        "min_side_pf": 1.0,
+        "allow_unidirectional": false,
+        "outlier_trim_pct": 0.05,
+        "outlier_trim_basis": "winners",
+        "min_trimmed_pf": 1.0,
+        "min_positive_year_ratio": 0.57,
+        "max_worst_year_loss_r": -10.0,
+        "worst_year_subsamples": 500,
+        "worst_year_drop_frac": 0.1
+      },
+      "pillars": {
+        "R1_random_entry_mc": {
+          "mc_mode": "real_market_bars",
+          "draws": 1000,
+          "obs_sum_r": 76.45,
+          "beat_rate_unbiased": 1.0,
+          "null_unbiased_median_r": -82.78,
+          "null_unbiased_p90_r": -31.73,
+          "beat_rate_same_side": 1.0,
+          "null_same_side_median_r": -83.47,
+          "null_same_side_p90_r": -32.56,
+          "buy_beat_rate_vs_random_buy": 1.0,
+          "buy_null_median_r": -28.31,
+          "sell_beat_rate_vs_random_sell": 0.969,
+          "sell_null_median_r": -56.5,
+          "passed": true
+        },
+        "R2_buy_sell_symmetry": {
+          "passed": false,
+          "directionality": "BIDIRECTIONAL",
+          "buy": {
+            "n": 739,
+            "share_pct": 51.4,
+            "sum_r": 77.7,
+            "mean_r": 0.1051,
+            "win_rate_pct": 47.9,
+            "pf": 1.23
+          },
+          "sell": {
+            "n": 698,
+            "share_pct": 48.6,
+            "sum_r": -1.25,
+            "mean_r": -0.0018,
+            "win_rate_pct": 41.3,
+            "pf": 1.0
+          },
+          "warnings": [
+            "SELL_EDGE_FAIL(sum_r=-1.25, pf=1.0)"
+          ]
+        },
+        "R3_top5_outlier_trim": {
+          "passed": false,
+          "trim_pct": 0.05,
+          "trim_basis": "winners",
+          "n_trades": 1437,
+          "raw_sum_r": 76.45,
+          "raw_pf": 1.11,
+          "dropped_k_of_all": 72,
+          "trimmed_all_sum_r": -198.22,
+          "trimmed_all_pf": 0.71,
+          "retention_ratio_all": -2.593,
+          "dropped_k_of_winners": 33,
+          "trimmed_winners_sum_r": -86.94,
+          "trimmed_winners_pf": 0.87,
+          "retention_ratio_winners": -1.137
+        },
+        "R4_worst_year_stability": {
+          "passed": false,
+          "n_years": 7,
+          "positive_years": 5,
+          "positive_year_ratio": 0.714,
+          "worst_year": "2019",
+          "worst_year_r": -23.98,
+          "best_year": "2022",
+          "best_year_r": 44.56,
+          "rolling_worst_12m_r": -25.23,
+          "rolling_worst_12m_start": "2018-12-06",
+          "mc_worst_year_median_r": -10.05,
+          "mc_worst_year_p10_r": -21.03,
+          "ranking_score_worst_year_p10_r": -21.03,
+          "years": {
+            "2018": {
+              "n": 221,
+              "sum_r": 25.33,
+              "win_rate_pct": 49.8,
+              "pf": 1.27,
+              "max_dd_r": 11.88
+            },
+            "2019": {
+              "n": 191,
+              "sum_r": -23.98,
+              "win_rate_pct": 39.3,
+              "pf": 0.74,
+              "max_dd_r": 24.36
+            },
+            "2020": {
+              "n": 189,
+              "sum_r": 18.14,
+              "win_rate_pct": 46.6,
+              "pf": 1.21,
+              "max_dd_r": 10.79
+            },
+            "2021": {
+              "n": 167,
+              "sum_r": -6.23,
+              "win_rate_pct": 43.1,
+              "pf": 0.93,
+              "max_dd_r": 17.24
+            },
+            "2022": {
+              "n": 224,
+              "sum_r": 44.56,
+              "win_rate_pct": 46.4,
+              "pf": 1.44,
+              "max_dd_r": 9.57
+            },
+            "2023": {
+              "n": 226,
+              "sum_r": 1.28,
+              "win_rate_pct": 42.5,
+              "pf": 1.01,
+              "max_dd_r": 23.48
+            },
+            "2024": {
+              "n": 219,
+              "sum_r": 17.34,
+              "win_rate_pct": 44.3,
+              "pf": 1.16,
+              "max_dd_r": 14.95
+            }
+          }
+        }
+      },
+      "in_port_7e": true,
+      "assets": [
+        "USDJPY"
+      ]
+    },
+    {
+      "schema": "naqex-robustness-gate-v1",
+      "strategy_id": "E2_USDJPY_EXP80",
+      "order_send_capable": false,
+      "holdout_rows_analysed": 0,
+      "n_trades": 569,
+      "total_sum_r": 34.75,
+      "profit_factor": 1.3,
+      "passed": false,
+      "verdict": "WARN_ASYMMETRY_OR_YEAR",
+      "failed_pillars": [
+        "R2_buy_sell_symmetry"
+      ],
+      "ranking_score_worst_year_p10_r": -2.92,
+      "thresholds": {
+        "min_mc_beat_rate_unbiased": 0.9,
+        "min_mc_beat_rate_same_side": 0.9,
+        "mc_draws": 1000,
+        "min_side_trades_for_bidirectional": 15,
+        "min_side_share_for_bidirectional": 0.1,
+        "min_side_pf": 1.0,
+        "allow_unidirectional": false,
+        "outlier_trim_pct": 0.05,
+        "outlier_trim_basis": "winners",
+        "min_trimmed_pf": 1.0,
+        "min_positive_year_ratio": 0.57,
+        "max_worst_year_loss_r": -10.0,
+        "worst_year_subsamples": 500,
+        "worst_year_drop_frac": 0.1
+      },
+      "pillars": {
+        "R1_random_entry_mc": {
+          "mc_mode": "real_market_bars",
+          "draws": 1000,
+          "obs_sum_r": 34.75,
+          "beat_rate_unbiased": 1.0,
+          "null_unbiased_median_r": -17.3,
+          "null_unbiased_p90_r": 1.38,
+          "beat_rate_same_side": 1.0,
+          "null_same_side_median_r": -17.62,
+          "null_same_side_p90_r": 0.24,
+          "buy_beat_rate_vs_random_buy": 1.0,
+          "buy_null_median_r": -4.16,
+          "sell_beat_rate_vs_random_sell": 0.847,
+          "sell_null_median_r": -13.43,
+          "passed": true
+        },
+        "R2_buy_sell_symmetry": {
+          "passed": false,
+          "directionality": "BIDIRECTIONAL",
+          "buy": {
+            "n": 266,
+            "share_pct": 46.7,
+            "sum_r": 37.28,
+            "mean_r": 0.1401,
+            "win_rate_pct": 59.4,
+            "pf": 1.91
+          },
+          "sell": {
+            "n": 303,
+            "share_pct": 53.3,
+            "sum_r": -2.53,
+            "mean_r": -0.0084,
+            "win_rate_pct": 47.5,
+            "pf": 0.97
+          },
+          "warnings": [
+            "SELL_EDGE_FAIL(sum_r=-2.53, pf=0.97)"
+          ]
+        },
+        "R3_top5_outlier_trim": {
+          "passed": true,
+          "trim_pct": 0.05,
+          "trim_basis": "winners",
+          "n_trades": 569,
+          "raw_sum_r": 34.75,
+          "raw_pf": 1.3,
+          "dropped_k_of_all": 29,
+          "trimmed_all_sum_r": -15.43,
+          "trimmed_all_pf": 0.87,
+          "retention_ratio_all": -0.444,
+          "dropped_k_of_winners": 16,
+          "trimmed_winners_sum_r": 1.16,
+          "trimmed_winners_pf": 1.01,
+          "retention_ratio_winners": 0.033
+        },
+        "R4_worst_year_stability": {
+          "passed": true,
+          "n_years": 7,
+          "positive_years": 7,
+          "positive_year_ratio": 1.0,
+          "worst_year": "2024",
+          "worst_year_r": 0.58,
+          "best_year": "2020",
+          "best_year_r": 11.51,
+          "rolling_worst_12m_r": -2.5,
+          "rolling_worst_12m_start": "2022-10-21",
+          "mc_worst_year_median_r": -0.5,
+          "mc_worst_year_p10_r": -2.92,
+          "ranking_score_worst_year_p10_r": -2.92,
+          "years": {
+            "2018": {
+              "n": 82,
+              "sum_r": 5.84,
+              "win_rate_pct": 57.3,
+              "pf": 1.46,
+              "max_dd_r": 2.65
+            },
+            "2019": {
+              "n": 68,
+              "sum_r": 4.86,
+              "win_rate_pct": 52.9,
+              "pf": 1.36,
+              "max_dd_r": 4.26
+            },
+            "2020": {
+              "n": 81,
+              "sum_r": 11.51,
+              "win_rate_pct": 48.1,
+              "pf": 1.56,
+              "max_dd_r": 3.25
+            },
+            "2021": {
+              "n": 88,
+              "sum_r": 4.61,
+              "win_rate_pct": 50.0,
+              "pf": 1.29,
+              "max_dd_r": 2.55
+            },
+            "2022": {
+              "n": 92,
+              "sum_r": 2.17,
+              "win_rate_pct": 52.2,
+              "pf": 1.11,
+              "max_dd_r": 3.65
+            },
+            "2023": {
+              "n": 76,
+              "sum_r": 5.17,
+              "win_rate_pct": 55.3,
+              "pf": 1.32,
+              "max_dd_r": 5.13
+            },
+            "2024": {
+              "n": 82,
+              "sum_r": 0.58,
+              "win_rate_pct": 56.1,
+              "pf": 1.03,
+              "max_dd_r": 6.42
+            }
+          }
+        }
+      },
+      "in_port_7e": true,
+      "assets": [
+        "USDJPY"
+      ]
+    },
+    {
+      "schema": "naqex-robustness-gate-v1",
+      "strategy_id": "E3_GBPUSD_VH",
+      "order_send_capable": false,
+      "holdout_rows_analysed": 0,
+      "n_trades": 198,
+      "total_sum_r": 14.19,
+      "profit_factor": 1.33,
+      "passed": true,
+      "verdict": "PASS_ROBUST",
+      "failed_pillars": [],
+      "ranking_score_worst_year_p10_r": -3.26,
+      "thresholds": {
+        "min_mc_beat_rate_unbiased": 0.9,
+        "min_mc_beat_rate_same_side": 0.9,
+        "mc_draws": 1000,
+        "min_side_trades_for_bidirectional": 15,
+        "min_side_share_for_bidirectional": 0.1,
+        "min_side_pf": 1.0,
+        "allow_unidirectional": false,
+        "outlier_trim_pct": 0.05,
+        "outlier_trim_basis": "winners",
+        "min_trimmed_pf": 1.0,
+        "min_positive_year_ratio": 0.57,
+        "max_worst_year_loss_r": -10.0,
+        "worst_year_subsamples": 500,
+        "worst_year_drop_frac": 0.1
+      },
+      "pillars": {
+        "R1_random_entry_mc": {
+          "mc_mode": "real_market_bars",
+          "draws": 1000,
+          "obs_sum_r": 14.19,
+          "beat_rate_unbiased": 0.999,
+          "null_unbiased_median_r": -6.57,
+          "null_unbiased_p90_r": 2.72,
+          "beat_rate_same_side": 0.998,
+          "null_same_side_median_r": -6.38,
+          "null_same_side_p90_r": 2.37,
+          "buy_beat_rate_vs_random_buy": 0.947,
+          "buy_null_median_r": -3.54,
+          "sell_beat_rate_vs_random_sell": 0.989,
+          "sell_null_median_r": -2.56,
+          "passed": true
+        },
+        "R2_buy_sell_symmetry": {
+          "passed": true,
+          "directionality": "BIDIRECTIONAL",
+          "buy": {
+            "n": 95,
+            "share_pct": 48.0,
+            "sum_r": 4.72,
+            "mean_r": 0.0497,
+            "win_rate_pct": 52.6,
+            "pf": 1.24
+          },
+          "sell": {
+            "n": 103,
+            "share_pct": 52.0,
+            "sum_r": 9.47,
+            "mean_r": 0.0919,
+            "win_rate_pct": 47.6,
+            "pf": 1.4
+          },
+          "warnings": []
+        },
+        "R3_top5_outlier_trim": {
+          "passed": true,
+          "trim_pct": 0.05,
+          "trim_basis": "winners",
+          "n_trades": 198,
+          "raw_sum_r": 14.19,
+          "raw_pf": 1.33,
+          "dropped_k_of_all": 10,
+          "trimmed_all_sum_r": -5.0,
+          "trimmed_all_pf": 0.88,
+          "retention_ratio_all": -0.352,
+          "dropped_k_of_winners": 5,
+          "trimmed_winners_sum_r": 2.82,
+          "trimmed_winners_pf": 1.07,
+          "retention_ratio_winners": 0.199
+        },
+        "R4_worst_year_stability": {
+          "passed": true,
+          "n_years": 7,
+          "positive_years": 5,
+          "positive_year_ratio": 0.714,
+          "worst_year": "2018",
+          "worst_year_r": -1.04,
+          "best_year": "2020",
+          "best_year_r": 7.02,
+          "rolling_worst_12m_r": -2.95,
+          "rolling_worst_12m_start": "2020-05-27",
+          "mc_worst_year_median_r": -2.39,
+          "mc_worst_year_p10_r": -3.26,
+          "ranking_score_worst_year_p10_r": -3.26,
+          "years": {
+            "2018": {
+              "n": 25,
+              "sum_r": -1.04,
+              "win_rate_pct": 40.0,
+              "pf": 0.85,
+              "max_dd_r": 3.79
+            },
+            "2019": {
+              "n": 28,
+              "sum_r": -0.4,
+              "win_rate_pct": 35.7,
+              "pf": 0.95,
+              "max_dd_r": 5.43
+            },
+            "2020": {
+              "n": 36,
+              "sum_r": 7.02,
+              "win_rate_pct": 50.0,
+              "pf": 2.0,
+              "max_dd_r": 2.98
+            },
+            "2021": {
+              "n": 21,
+              "sum_r": 1.13,
+              "win_rate_pct": 52.4,
+              "pf": 1.31,
+              "max_dd_r": 1.2
+            },
+            "2022": {
+              "n": 30,
+              "sum_r": 6.18,
+              "win_rate_pct": 60.0,
+              "pf": 2.11,
+              "max_dd_r": 2.43
+            },
+            "2023": {
+              "n": 27,
+              "sum_r": 1.21,
+              "win_rate_pct": 59.3,
+              "pf": 1.24,
+              "max_dd_r": 3.57
+            },
+            "2024": {
+              "n": 31,
+              "sum_r": 0.1,
+              "win_rate_pct": 51.6,
+              "pf": 1.02,
+              "max_dd_r": 1.94
+            }
+          }
+        }
+      },
+      "in_port_7e": true,
+      "assets": [
+        "GBPUSD"
+      ]
+    },
+    {
+      "schema": "naqex-robustness-gate-v1",
+      "strategy_id": "E4_US100_SESS40",
+      "order_send_capable": false,
+      "holdout_rows_analysed": 0,
+      "n_trades": 414,
+      "total_sum_r": 14.14,
+      "profit_factor": 1.17,
+      "passed": false,
+      "verdict": "FAIL_FRAGILE",
+      "failed_pillars": [
+        "R3_top5_outlier_trim"
+      ],
+      "ranking_score_worst_year_p10_r": -4.36,
+      "thresholds": {
+        "min_mc_beat_rate_unbiased": 0.9,
+        "min_mc_beat_rate_same_side": 0.9,
+        "mc_draws": 1000,
+        "min_side_trades_for_bidirectional": 15,
+        "min_side_share_for_bidirectional": 0.1,
+        "min_side_pf": 1.0,
+        "allow_unidirectional": false,
+        "outlier_trim_pct": 0.05,
+        "outlier_trim_basis": "winners",
+        "min_trimmed_pf": 1.0,
+        "min_positive_year_ratio": 0.57,
+        "max_worst_year_loss_r": -10.0,
+        "worst_year_subsamples": 500,
+        "worst_year_drop_frac": 0.1
+      },
+      "pillars": {
+        "R1_random_entry_mc": {
+          "mc_mode": "real_market_bars",
+          "draws": 1000,
+          "obs_sum_r": 14.14,
+          "beat_rate_unbiased": 1.0,
+          "null_unbiased_median_r": -18.2,
+          "null_unbiased_p90_r": -3.77,
+          "beat_rate_same_side": 0.997,
+          "null_same_side_median_r": -16.97,
+          "null_same_side_p90_r": -3.0,
+          "buy_beat_rate_vs_random_buy": 0.92,
+          "buy_null_median_r": -7.89,
+          "sell_beat_rate_vs_random_sell": 0.998,
+          "sell_null_median_r": -9.79,
+          "passed": true
+        },
+        "R2_buy_sell_symmetry": {
+          "passed": true,
+          "directionality": "BIDIRECTIONAL",
+          "buy": {
+            "n": 230,
+            "share_pct": 55.6,
+            "sum_r": 4.23,
+            "mean_r": 0.0184,
+            "win_rate_pct": 55.7,
+            "pf": 1.1
+          },
+          "sell": {
+            "n": 184,
+            "share_pct": 44.4,
+            "sum_r": 9.91,
+            "mean_r": 0.0539,
+            "win_rate_pct": 52.2,
+            "pf": 1.26
+          },
+          "warnings": []
+        },
+        "R3_top5_outlier_trim": {
+          "passed": false,
+          "trim_pct": 0.05,
+          "trim_basis": "winners",
+          "n_trades": 414,
+          "raw_sum_r": 14.14,
+          "raw_pf": 1.17,
+          "dropped_k_of_all": 21,
+          "trimmed_all_sum_r": -11.54,
+          "trimmed_all_pf": 0.86,
+          "retention_ratio_all": -0.816,
+          "dropped_k_of_winners": 12,
+          "trimmed_winners_sum_r": -2.64,
+          "trimmed_winners_pf": 0.97,
+          "retention_ratio_winners": -0.187
+        },
+        "R4_worst_year_stability": {
+          "passed": true,
+          "n_years": 7,
+          "positive_years": 5,
+          "positive_year_ratio": 0.714,
+          "worst_year": "2019",
+          "worst_year_r": -1.33,
+          "best_year": "2018",
+          "best_year_r": 6.5,
+          "rolling_worst_12m_r": -4.36,
+          "rolling_worst_12m_start": "2022-08-19",
+          "mc_worst_year_median_r": -2.64,
+          "mc_worst_year_p10_r": -4.36,
+          "ranking_score_worst_year_p10_r": -4.36,
+          "years": {
+            "2018": {
+              "n": 46,
+              "sum_r": 6.5,
+              "win_rate_pct": 58.7,
+              "pf": 1.7,
+              "max_dd_r": 4.52
+            },
+            "2019": {
+              "n": 52,
+              "sum_r": -1.33,
+              "win_rate_pct": 44.2,
+              "pf": 0.87,
+              "max_dd_r": 3.21
+            },
+            "2020": {
+              "n": 53,
+              "sum_r": -0.89,
+              "win_rate_pct": 49.1,
+              "pf": 0.94,
+              "max_dd_r": 6.02
+            },
+            "2021": {
+              "n": 67,
+              "sum_r": 2.44,
+              "win_rate_pct": 55.2,
+              "pf": 1.25,
+              "max_dd_r": 1.7
+            },
+            "2022": {
+              "n": 67,
+              "sum_r": 3.71,
+              "win_rate_pct": 59.7,
+              "pf": 1.31,
+              "max_dd_r": 2.15
+            },
+            "2023": {
+              "n": 70,
+              "sum_r": 0.41,
+              "win_rate_pct": 52.9,
+              "pf": 1.03,
+              "max_dd_r": 4.41
+            },
+            "2024": {
+              "n": 59,
+              "sum_r": 3.31,
+              "win_rate_pct": 57.6,
+              "pf": 1.28,
+              "max_dd_r": 2.05
+            }
+          }
+        }
+      },
+      "in_port_7e": true,
+      "assets": [
+        "US100"
+      ]
+    },
+    {
+      "schema": "naqex-robustness-gate-v1",
+      "strategy_id": "E5_US100_RS1130",
+      "order_send_capable": false,
+      "holdout_rows_analysed": 0,
+      "n_trades": 261,
+      "total_sum_r": 12.22,
+      "profit_factor": 1.25,
+      "passed": true,
+      "verdict": "PASS_ROBUST",
+      "failed_pillars": [],
+      "ranking_score_worst_year_p10_r": -3.86,
+      "thresholds": {
+        "min_mc_beat_rate_unbiased": 0.9,
+        "min_mc_beat_rate_same_side": 0.9,
+        "mc_draws": 1000,
+        "min_side_trades_for_bidirectional": 15,
+        "min_side_share_for_bidirectional": 0.1,
+        "min_side_pf": 1.0,
+        "allow_unidirectional": false,
+        "outlier_trim_pct": 0.05,
+        "outlier_trim_basis": "winners",
+        "min_trimmed_pf": 1.0,
+        "min_positive_year_ratio": 0.57,
+        "max_worst_year_loss_r": -10.0,
+        "worst_year_subsamples": 500,
+        "worst_year_drop_frac": 0.1
+      },
+      "pillars": {
+        "R1_random_entry_mc": {
+          "mc_mode": "real_market_bars",
+          "draws": 1000,
+          "obs_sum_r": 12.22,
+          "beat_rate_unbiased": 0.997,
+          "null_unbiased_median_r": -10.08,
+          "null_unbiased_p90_r": 0.46,
+          "beat_rate_same_side": 0.997,
+          "null_same_side_median_r": -10.54,
+          "null_same_side_p90_r": 0.57,
+          "buy_beat_rate_vs_random_buy": 0.943,
+          "buy_null_median_r": -3.19,
+          "sell_beat_rate_vs_random_sell": 0.981,
+          "sell_null_median_r": -6.89,
+          "passed": true
+        },
+        "R2_buy_sell_symmetry": {
+          "passed": true,
+          "directionality": "BIDIRECTIONAL",
+          "buy": {
+            "n": 129,
+            "share_pct": 49.4,
+            "sum_r": 5.86,
+            "mean_r": 0.0454,
+            "win_rate_pct": 58.1,
+            "pf": 1.26
+          },
+          "sell": {
+            "n": 132,
+            "share_pct": 50.6,
+            "sum_r": 6.37,
+            "mean_r": 0.0482,
+            "win_rate_pct": 46.2,
+            "pf": 1.24
+          },
+          "warnings": []
+        },
+        "R3_top5_outlier_trim": {
+          "passed": true,
+          "trim_pct": 0.05,
+          "trim_basis": "winners",
+          "n_trades": 261,
+          "raw_sum_r": 12.22,
+          "raw_pf": 1.25,
+          "dropped_k_of_all": 14,
+          "trimmed_all_sum_r": -5.47,
+          "trimmed_all_pf": 0.89,
+          "retention_ratio_all": -0.448,
+          "dropped_k_of_winners": 7,
+          "trimmed_winners_sum_r": 1.82,
+          "trimmed_winners_pf": 1.04,
+          "retention_ratio_winners": 0.149
+        },
+        "R4_worst_year_stability": {
+          "passed": true,
+          "n_years": 7,
+          "positive_years": 6,
+          "positive_year_ratio": 0.857,
+          "worst_year": "2023",
+          "worst_year_r": -3.55,
+          "best_year": "2022",
+          "best_year_r": 5.01,
+          "rolling_worst_12m_r": -4.52,
+          "rolling_worst_12m_start": "2023-03-09",
+          "mc_worst_year_median_r": -1.98,
+          "mc_worst_year_p10_r": -3.86,
+          "ranking_score_worst_year_p10_r": -3.86,
+          "years": {
+            "2018": {
+              "n": 37,
+              "sum_r": 4.58,
+              "win_rate_pct": 51.4,
+              "pf": 1.71,
+              "max_dd_r": 2.89
+            },
+            "2019": {
+              "n": 18,
+              "sum_r": 0.55,
+              "win_rate_pct": 50.0,
+              "pf": 1.23,
+              "max_dd_r": 1.27
+            },
+            "2020": {
+              "n": 50,
+              "sum_r": 0.58,
+              "win_rate_pct": 48.0,
+              "pf": 1.07,
+              "max_dd_r": 3.03
+            },
+            "2021": {
+              "n": 61,
+              "sum_r": 2.2,
+              "win_rate_pct": 50.8,
+              "pf": 1.17,
+              "max_dd_r": 8.26
+            },
+            "2022": {
+              "n": 20,
+              "sum_r": 5.01,
+              "win_rate_pct": 65.0,
+              "pf": 3.34,
+              "max_dd_r": 1.46
+            },
+            "2023": {
+              "n": 38,
+              "sum_r": -3.55,
+              "win_rate_pct": 44.7,
+              "pf": 0.67,
+              "max_dd_r": 3.55
+            },
+            "2024": {
+              "n": 37,
+              "sum_r": 2.85,
+              "win_rate_pct": 62.2,
+              "pf": 1.53,
+              "max_dd_r": 1.82
+            }
+          }
+        }
+      },
+      "in_port_7e": true,
+      "assets": [
+        "US100"
+      ]
+    },
+    {
+      "schema": "naqex-robustness-gate-v1",
+      "strategy_id": "E6_EURJPY_VOLCOMP",
+      "order_send_capable": false,
+      "holdout_rows_analysed": 0,
+      "n_trades": 138,
+      "total_sum_r": 13.11,
+      "profit_factor": 1.58,
+      "passed": true,
+      "verdict": "PASS_ROBUST",
+      "failed_pillars": [],
+      "ranking_score_worst_year_p10_r": -2.4,
+      "thresholds": {
+        "min_mc_beat_rate_unbiased": 0.9,
+        "min_mc_beat_rate_same_side": 0.9,
+        "mc_draws": 1000,
+        "min_side_trades_for_bidirectional": 15,
+        "min_side_share_for_bidirectional": 0.1,
+        "min_side_pf": 1.0,
+        "allow_unidirectional": false,
+        "outlier_trim_pct": 0.05,
+        "outlier_trim_basis": "winners",
+        "min_trimmed_pf": 1.0,
+        "min_positive_year_ratio": 0.57,
+        "max_worst_year_loss_r": -10.0,
+        "worst_year_subsamples": 500,
+        "worst_year_drop_frac": 0.1
+      },
+      "pillars": {
+        "R1_random_entry_mc": {
+          "mc_mode": "real_market_bars",
+          "draws": 1000,
+          "obs_sum_r": 13.11,
+          "beat_rate_unbiased": 0.994,
+          "null_unbiased_median_r": -4.58,
+          "null_unbiased_p90_r": 3.99,
+          "beat_rate_same_side": 0.99,
+          "null_same_side_median_r": -4.48,
+          "null_same_side_p90_r": 4.69,
+          "buy_beat_rate_vs_random_buy": 0.984,
+          "buy_null_median_r": -1.65,
+          "sell_beat_rate_vs_random_sell": 0.93,
+          "sell_null_median_r": -3.13,
+          "passed": true
+        },
+        "R2_buy_sell_symmetry": {
+          "passed": true,
+          "directionality": "BIDIRECTIONAL",
+          "buy": {
+            "n": 63,
+            "share_pct": 45.7,
+            "sum_r": 8.23,
+            "mean_r": 0.1307,
+            "win_rate_pct": 58.7,
+            "pf": 2.0
+          },
+          "sell": {
+            "n": 75,
+            "share_pct": 54.3,
+            "sum_r": 4.88,
+            "mean_r": 0.065,
+            "win_rate_pct": 50.7,
+            "pf": 1.34
+          },
+          "warnings": []
+        },
+        "R3_top5_outlier_trim": {
+          "passed": true,
+          "trim_pct": 0.05,
+          "trim_basis": "winners",
+          "n_trades": 138,
+          "raw_sum_r": 13.11,
+          "raw_pf": 1.58,
+          "dropped_k_of_all": 7,
+          "trimmed_all_sum_r": 1.09,
+          "trimmed_all_pf": 1.05,
+          "retention_ratio_all": 0.083,
+          "dropped_k_of_winners": 4,
+          "trimmed_winners_sum_r": 4.82,
+          "trimmed_winners_pf": 1.21,
+          "retention_ratio_winners": 0.367
+        },
+        "R4_worst_year_stability": {
+          "passed": true,
+          "n_years": 7,
+          "positive_years": 5,
+          "positive_year_ratio": 0.714,
+          "worst_year": "2021",
+          "worst_year_r": -1.97,
+          "best_year": "2019",
+          "best_year_r": 5.64,
+          "rolling_worst_12m_r": -2.6,
+          "rolling_worst_12m_start": "2020-12-28",
+          "mc_worst_year_median_r": -1.08,
+          "mc_worst_year_p10_r": -2.4,
+          "ranking_score_worst_year_p10_r": -2.4,
+          "years": {
+            "2018": {
+              "n": 15,
+              "sum_r": 0.4,
+              "win_rate_pct": 53.3,
+              "pf": 1.13,
+              "max_dd_r": 2.69
+            },
+            "2019": {
+              "n": 22,
+              "sum_r": 5.64,
+              "win_rate_pct": 63.6,
+              "pf": 4.4,
+              "max_dd_r": 0.73
+            },
+            "2020": {
+              "n": 18,
+              "sum_r": -0.1,
+              "win_rate_pct": 27.8,
+              "pf": 0.97,
+              "max_dd_r": 2.92
+            },
+            "2021": {
+              "n": 22,
+              "sum_r": -1.97,
+              "win_rate_pct": 45.5,
+              "pf": 0.6,
+              "max_dd_r": 3.07
+            },
+            "2022": {
+              "n": 23,
+              "sum_r": 4.11,
+              "win_rate_pct": 56.5,
+              "pf": 2.2,
+              "max_dd_r": 2.01
+            },
+            "2023": {
+              "n": 23,
+              "sum_r": 3.36,
+              "win_rate_pct": 69.6,
+              "pf": 2.36,
+              "max_dd_r": 1.0
+            },
+            "2024": {
+              "n": 15,
+              "sum_r": 1.66,
+              "win_rate_pct": 60.0,
+              "pf": 1.45,
+              "max_dd_r": 1.82
+            }
+          }
+        }
+      },
+      "in_port_7e": true,
+      "assets": [
+        "EURJPY"
+      ]
+    },
+    {
+      "schema": "naqex-robustness-gate-v1",
+      "strategy_id": "E7_USDJPY_NY10ET",
+      "order_send_capable": false,
+      "holdout_rows_analysed": 0,
+      "n_trades": 105,
+      "total_sum_r": 7.34,
+      "profit_factor": 1.49,
+      "passed": true,
+      "verdict": "PASS_ROBUST",
+      "failed_pillars": [],
+      "ranking_score_worst_year_p10_r": -1.27,
+      "thresholds": {
+        "min_mc_beat_rate_unbiased": 0.9,
+        "min_mc_beat_rate_same_side": 0.9,
+        "mc_draws": 1000,
+        "min_side_trades_for_bidirectional": 15,
+        "min_side_share_for_bidirectional": 0.1,
+        "min_side_pf": 1.0,
+        "allow_unidirectional": false,
+        "outlier_trim_pct": 0.05,
+        "outlier_trim_basis": "winners",
+        "min_trimmed_pf": 1.0,
+        "min_positive_year_ratio": 0.57,
+        "max_worst_year_loss_r": -10.0,
+        "worst_year_subsamples": 500,
+        "worst_year_drop_frac": 0.1
+      },
+      "pillars": {
+        "R1_random_entry_mc": {
+          "mc_mode": "real_market_bars",
+          "draws": 1000,
+          "obs_sum_r": 7.34,
+          "beat_rate_unbiased": 0.979,
+          "null_unbiased_median_r": -4.02,
+          "null_unbiased_p90_r": 2.92,
+          "beat_rate_same_side": 0.966,
+          "null_same_side_median_r": -3.55,
+          "null_same_side_p90_r": 4.15,
+          "buy_beat_rate_vs_random_buy": 0.952,
+          "buy_null_median_r": -1.35,
+          "sell_beat_rate_vs_random_sell": 0.825,
+          "sell_null_median_r": -1.99,
+          "passed": true
+        },
+        "R2_buy_sell_symmetry": {
+          "passed": true,
+          "directionality": "BIDIRECTIONAL",
+          "buy": {
+            "n": 64,
+            "share_pct": 61.0,
+            "sum_r": 5.91,
+            "mean_r": 0.0923,
+            "win_rate_pct": 59.4,
+            "pf": 1.6
+          },
+          "sell": {
+            "n": 41,
+            "share_pct": 39.0,
+            "sum_r": 1.43,
+            "mean_r": 0.0349,
+            "win_rate_pct": 56.1,
+            "pf": 1.28
+          },
+          "warnings": []
+        },
+        "R3_top5_outlier_trim": {
+          "passed": true,
+          "trim_pct": 0.05,
+          "trim_basis": "winners",
+          "n_trades": 105,
+          "raw_sum_r": 7.34,
+          "raw_pf": 1.49,
+          "dropped_k_of_all": 6,
+          "trimmed_all_sum_r": -0.7,
+          "trimmed_all_pf": 0.95,
+          "retention_ratio_all": -0.096,
+          "dropped_k_of_winners": 4,
+          "trimmed_winners_sum_r": 1.14,
+          "trimmed_winners_pf": 1.08,
+          "retention_ratio_winners": 0.155
+        },
+        "R4_worst_year_stability": {
+          "passed": true,
+          "n_years": 7,
+          "positive_years": 6,
+          "positive_year_ratio": 0.857,
+          "worst_year": "2020",
+          "worst_year_r": -1.28,
+          "best_year": "2019",
+          "best_year_r": 2.17,
+          "rolling_worst_12m_r": -1.0,
+          "rolling_worst_12m_start": "2020-03-02",
+          "mc_worst_year_median_r": -0.66,
+          "mc_worst_year_p10_r": -1.27,
+          "ranking_score_worst_year_p10_r": -1.27,
+          "years": {
+            "2018": {
+              "n": 18,
+              "sum_r": 1.36,
+              "win_rate_pct": 55.6,
+              "pf": 2.16,
+              "max_dd_r": 0.65
+            },
+            "2019": {
+              "n": 14,
+              "sum_r": 2.17,
+              "win_rate_pct": 57.1,
+              "pf": 2.21,
+              "max_dd_r": 1.0
+            },
+            "2020": {
+              "n": 16,
+              "sum_r": -1.28,
+              "win_rate_pct": 50.0,
+              "pf": 0.73,
+              "max_dd_r": 2.31
+            },
+            "2021": {
+              "n": 20,
+              "sum_r": 0.81,
+              "win_rate_pct": 60.0,
+              "pf": 1.28,
+              "max_dd_r": 1.05
+            },
+            "2022": {
+              "n": 11,
+              "sum_r": 2.0,
+              "win_rate_pct": 81.8,
+              "pf": 2.76,
+              "max_dd_r": 1.13
+            },
+            "2023": {
+              "n": 13,
+              "sum_r": 0.27,
+              "win_rate_pct": 53.8,
+              "pf": 1.18,
+              "max_dd_r": 1.49
+            },
+            "2024": {
+              "n": 13,
+              "sum_r": 2.0,
+              "win_rate_pct": 53.8,
+              "pf": 2.21,
+              "max_dd_r": 0.96
+            }
+          }
+        }
+      },
+      "in_port_7e": true,
+      "assets": [
+        "USDJPY"
+      ]
+    },
+    {
+      "schema": "naqex-robustness-gate-v1",
+      "strategy_id": "S6_FX_USD_BSK",
+      "order_send_capable": false,
+      "holdout_rows_analysed": 0,
+      "n_trades": 195,
+      "total_sum_r": 9.99,
+      "profit_factor": 1.26,
+      "passed": false,
+      "verdict": "WARN_ASYMMETRY_OR_YEAR",
+      "failed_pillars": [
+        "R2_buy_sell_symmetry"
+      ],
+      "ranking_score_worst_year_p10_r": -2.36,
+      "thresholds": {
+        "min_mc_beat_rate_unbiased": 0.9,
+        "min_mc_beat_rate_same_side": 0.9,
+        "mc_draws": 1000,
+        "min_side_trades_for_bidirectional": 15,
+        "min_side_share_for_bidirectional": 0.1,
+        "min_side_pf": 1.0,
+        "allow_unidirectional": false,
+        "outlier_trim_pct": 0.05,
+        "outlier_trim_basis": "winners",
+        "min_trimmed_pf": 1.0,
+        "min_positive_year_ratio": 0.57,
+        "max_worst_year_loss_r": -10.0,
+        "worst_year_subsamples": 500,
+        "worst_year_drop_frac": 0.1
+      },
+      "pillars": {
+        "R1_random_entry_mc": {
+          "mc_mode": "real_market_bars_multi_asset",
+          "draws": 1000,
+          "obs_sum_r": 9.99,
+          "beat_rate_unbiased": 0.992,
+          "null_unbiased_median_r": -6.68,
+          "null_unbiased_p90_r": 2.7,
+          "beat_rate_same_side": 0.991,
+          "null_same_side_median_r": -6.04,
+          "null_same_side_p90_r": 3.27,
+          "buy_beat_rate_vs_random_buy": 0.685,
+          "buy_null_median_r": -3.59,
+          "sell_beat_rate_vs_random_sell": 0.997,
+          "sell_null_median_r": -3.3,
+          "passed": true
+        },
+        "R2_buy_sell_symmetry": {
+          "passed": false,
+          "directionality": "BIDIRECTIONAL",
+          "buy": {
+            "n": 90,
+            "share_pct": 46.2,
+            "sum_r": -0.88,
+            "mean_r": -0.0097,
+            "win_rate_pct": 47.8,
+            "pf": 0.95
+          },
+          "sell": {
+            "n": 105,
+            "share_pct": 53.8,
+            "sum_r": 10.87,
+            "mean_r": 0.1035,
+            "win_rate_pct": 52.4,
+            "pf": 1.56
+          },
+          "warnings": [
+            "BUY_EDGE_FAIL(sum_r=-0.88, pf=0.95)"
+          ]
+        },
+        "R3_top5_outlier_trim": {
+          "passed": true,
+          "trim_pct": 0.05,
+          "trim_basis": "winners",
+          "n_trades": 195,
+          "raw_sum_r": 9.99,
+          "raw_pf": 1.26,
+          "dropped_k_of_all": 10,
+          "trimmed_all_sum_r": -3.79,
+          "trimmed_all_pf": 0.9,
+          "retention_ratio_all": -0.38,
+          "dropped_k_of_winners": 5,
+          "trimmed_winners_sum_r": 0.97,
+          "trimmed_winners_pf": 1.03,
+          "retention_ratio_winners": 0.097
+        },
+        "R4_worst_year_stability": {
+          "passed": true,
+          "n_years": 7,
+          "positive_years": 5,
+          "positive_year_ratio": 0.714,
+          "worst_year": "2024",
+          "worst_year_r": -1.94,
+          "best_year": "2019",
+          "best_year_r": 3.57,
+          "rolling_worst_12m_r": -2.38,
+          "rolling_worst_12m_start": "2023-12-22",
+          "mc_worst_year_median_r": -1.52,
+          "mc_worst_year_p10_r": -2.36,
+          "ranking_score_worst_year_p10_r": -2.36,
+          "years": {
+            "2018": {
+              "n": 32,
+              "sum_r": 0.29,
+              "win_rate_pct": 40.6,
+              "pf": 1.04,
+              "max_dd_r": 2.23
+            },
+            "2019": {
+              "n": 15,
+              "sum_r": 3.57,
+              "win_rate_pct": 66.7,
+              "pf": 8.22,
+              "max_dd_r": 0.21
+            },
+            "2020": {
+              "n": 39,
+              "sum_r": 3.42,
+              "win_rate_pct": 51.3,
+              "pf": 1.35,
+              "max_dd_r": 2.45
+            },
+            "2021": {
+              "n": 31,
+              "sum_r": 3.09,
+              "win_rate_pct": 58.1,
+              "pf": 2.08,
+              "max_dd_r": 1.06
+            },
+            "2022": {
+              "n": 37,
+              "sum_r": 2.93,
+              "win_rate_pct": 51.4,
+              "pf": 1.44,
+              "max_dd_r": 3.4
+            },
+            "2023": {
+              "n": 27,
+              "sum_r": -1.38,
+              "win_rate_pct": 48.1,
+              "pf": 0.82,
+              "max_dd_r": 4.65
+            },
+            "2024": {
+              "n": 14,
+              "sum_r": -1.94,
+              "win_rate_pct": 35.7,
+              "pf": 0.37,
+              "max_dd_r": 2.74
+            }
+          }
+        }
+      },
+      "in_port_7e": false,
+      "assets": [
+        "AUDUSD",
+        "EURUSD",
+        "GBPUSD",
+        "USDCAD"
+      ]
+    },
+    {
+      "schema": "naqex-robustness-gate-v1",
+      "strategy_id": "S7_XAU_EXP120",
+      "order_send_capable": false,
+      "holdout_rows_analysed": 0,
+      "n_trades": 204,
+      "total_sum_r": 11.97,
+      "profit_factor": 1.27,
+      "passed": false,
+      "verdict": "FAIL_FRAGILE",
+      "failed_pillars": [
+        "R2_buy_sell_symmetry",
+        "R3_top5_outlier_trim"
+      ],
+      "ranking_score_worst_year_p10_r": -3.54,
+      "thresholds": {
+        "min_mc_beat_rate_unbiased": 0.9,
+        "min_mc_beat_rate_same_side": 0.9,
+        "mc_draws": 1000,
+        "min_side_trades_for_bidirectional": 15,
+        "min_side_share_for_bidirectional": 0.1,
+        "min_side_pf": 1.0,
+        "allow_unidirectional": false,
+        "outlier_trim_pct": 0.05,
+        "outlier_trim_basis": "winners",
+        "min_trimmed_pf": 1.0,
+        "min_positive_year_ratio": 0.57,
+        "max_worst_year_loss_r": -10.0,
+        "worst_year_subsamples": 500,
+        "worst_year_drop_frac": 0.1
+      },
+      "pillars": {
+        "R1_random_entry_mc": {
+          "mc_mode": "real_market_bars",
+          "draws": 1000,
+          "obs_sum_r": 11.97,
+          "beat_rate_unbiased": 1.0,
+          "null_unbiased_median_r": -11.72,
+          "null_unbiased_p90_r": -3.24,
+          "beat_rate_same_side": 0.999,
+          "null_same_side_median_r": -11.8,
+          "null_same_side_p90_r": -3.62,
+          "buy_beat_rate_vs_random_buy": 0.787,
+          "buy_null_median_r": -5.08,
+          "sell_beat_rate_vs_random_sell": 1.0,
+          "sell_null_median_r": -7.23,
+          "passed": true
+        },
+        "R2_buy_sell_symmetry": {
+          "passed": false,
+          "directionality": "BIDIRECTIONAL",
+          "buy": {
+            "n": 100,
+            "share_pct": 49.0,
+            "sum_r": -1.35,
+            "mean_r": -0.0135,
+            "win_rate_pct": 52.0,
+            "pf": 0.94
+          },
+          "sell": {
+            "n": 104,
+            "share_pct": 51.0,
+            "sum_r": 13.32,
+            "mean_r": 0.1281,
+            "win_rate_pct": 51.0,
+            "pf": 1.65
+          },
+          "warnings": [
+            "BUY_EDGE_FAIL(sum_r=-1.35, pf=0.94)"
+          ]
+        },
+        "R3_top5_outlier_trim": {
+          "passed": false,
+          "trim_pct": 0.05,
+          "trim_basis": "winners",
+          "n_trades": 204,
+          "raw_sum_r": 11.97,
+          "raw_pf": 1.27,
+          "dropped_k_of_all": 11,
+          "trimmed_all_sum_r": -10.28,
+          "trimmed_all_pf": 0.77,
+          "retention_ratio_all": -0.859,
+          "dropped_k_of_winners": 6,
+          "trimmed_winners_sum_r": -3.17,
+          "trimmed_winners_pf": 0.93,
+          "retention_ratio_winners": -0.265
+        },
+        "R4_worst_year_stability": {
+          "passed": true,
+          "n_years": 7,
+          "positive_years": 5,
+          "positive_year_ratio": 0.714,
+          "worst_year": "2019",
+          "worst_year_r": -3.35,
+          "best_year": "2020",
+          "best_year_r": 7.08,
+          "rolling_worst_12m_r": -3.8,
+          "rolling_worst_12m_start": "2020-11-23",
+          "mc_worst_year_median_r": -1.9,
+          "mc_worst_year_p10_r": -3.54,
+          "ranking_score_worst_year_p10_r": -3.54,
+          "years": {
+            "2018": {
+              "n": 28,
+              "sum_r": 1.33,
+              "win_rate_pct": 53.6,
+              "pf": 1.21,
+              "max_dd_r": 1.58
+            },
+            "2019": {
+              "n": 31,
+              "sum_r": -3.35,
+              "win_rate_pct": 48.4,
+              "pf": 0.54,
+              "max_dd_r": 4.36
+            },
+            "2020": {
+              "n": 35,
+              "sum_r": 7.08,
+              "win_rate_pct": 51.4,
+              "pf": 2.14,
+              "max_dd_r": 2.42
+            },
+            "2021": {
+              "n": 29,
+              "sum_r": -2.32,
+              "win_rate_pct": 44.8,
+              "pf": 0.71,
+              "max_dd_r": 3.05
+            },
+            "2022": {
+              "n": 30,
+              "sum_r": 1.51,
+              "win_rate_pct": 63.3,
+              "pf": 1.27,
+              "max_dd_r": 1.8
+            },
+            "2023": {
+              "n": 28,
+              "sum_r": 6.01,
+              "win_rate_pct": 42.9,
+              "pf": 2.19,
+              "max_dd_r": 1.37
+            },
+            "2024": {
+              "n": 23,
+              "sum_r": 1.71,
+              "win_rate_pct": 56.5,
+              "pf": 1.31,
+              "max_dd_r": 2.19
+            }
+          }
+        }
+      },
+      "in_port_7e": false,
+      "assets": [
+        "XAUUSD"
+      ]
+    }
+  ]
+}

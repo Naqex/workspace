@@ -54,6 +54,64 @@ phổ quát. Bài học: US500 BR01/RS02, EURUSD Catalogue13/B0 và
 Qua Stage-0 chỉ cho phép xét đầu tư tiếp đúng protocol; raw markout có thể
 chồng lấn, không là account PnL hay chứng minh edge/OOS/prop. G0–G6 vẫn áp dụng.
 
+### Luật thực thi & chống ảo giác bổ sung (23/11/2026 · từ Pass 10–12 & Clean-Room Intel)
+
+1. **Straight-to-M1 Bid/Ask cho lệnh chờ/SL trong ngày:** Mọi chiến lược dùng
+   `Pending Stop`/`Limit` nội phiên hoặc SL hẹp **bắt buộc** đo trực tiếp trên
+   M1/Tick Bid–Ask với quy tắc bảo thủ `SL hit first` khi trùng phút. Không dùng
+   H1 làm bước lọc trung gian cho intraday pending stop (bài học Pass 11: GBPUSD
+   London ORB đạt +181,24R trên H1 nhưng rơi về −7,45R trên M1 do 172 ngày quét
+   hai biên).
+2. **FTMO Real-Cost & Swap-3× Pre-Mortem:** Mọi chiến lược giữ qua đêm hoặc qua
+   cuối tuần phải trừ swap có dấu và triple-swap đúng ngày theo snapshot tài
+   khoản đích (`36f1535` Standard / `8fd77ef` Swing) ngay tại Stage-0 (bài học
+   Pass 10: US500 TOM lãi gộp +521 USD nhưng swap ăn −545 USD).
+3. **Alpha vs Beta Null Test & Độ bền tham số:**
+   - Chiến lược 2 chiều: giữ đối chứng `Fade` cùng timestamp/quote thực thi.
+   - Chiến lược 1 chiều (Long-only/Short-only trên tài sản có drift dài hạn như
+     XAUUSD/US500): bổ sung **Monte Carlo Random-Entry Null Test** (300–1.000 lần
+     xáo trộn cùng số lệnh & luật thoát, $p < 0,05$) để tách Alpha khỏi Beta.
+   - Sau Stage-0: kiểm độ bền tham số ±30% và xét hiệu chỉnh đa thử nghiệm
+     (FDR/DSR) theo tổng lịch sử trial của chiến dịch.
+4. **Air-Gap với kho intel bên ngoài (`strategy-intel`):** Kho thu thập ý tưởng
+   bên ngoài chỉ bàn giao **đặc tả toán học thuần túy** (`external_concept_ref`)
+   vào protocol preregister; **cấm** đọc file/import code xuyên repo hoặc dùng
+   số liệu từ `01/01/2025` trở đi để chọn ứng viên. Mọi nguồn ngoài luôn ở mức
+   `SOURCE_CLAIM_ONLY` cho đến khi tái lập trên M1 Bid/Ask + phí thật trong
+   workspace.
+5. **Phân loại 3 tầng song hành (ưu tiên tuyệt đối FTMO, không vứt nhầm edge cho tài khoản riêng):**
+   Trong cùng một lượt kiểm định (không thêm chi phí tính toán và không hạ chuẩn
+   FTMO Challenge), gắn thêm nhãn mục đích sử dụng cho mọi ứng viên đã test:
+   - `TIER_1_FTMO_READY`: Có lợi thế thống kê thật (`MC Null p < 0,05`, qua kiểm
+     chỉnh đa kiểm định khi sàng lọc hàng loạt, dương cả 2 cụm thời gian), sống
+     khỏe dưới phí + Swap 3× FTMO thực tế (`36f1535`/`8fd77ef`) và đáp ứng rào
+     rủi ro/DD của mục tiêu FTMO Challenge hiện hành.
+   - `TIER_2_PERSONAL_VAULT`: Có **lợi thế giá thật đã chứng minh** (`MC Null
+     p < 0,05`, dương bền vững cả 2 cụm, chịu được spread/commission thực tế
+     kiểu Exness Raw/Pro — `EXNESS_WEBSITE_SNAPSHOT_UNMEASURED_DEMO`), nhưng
+     trượt FTMO chỉ vì Swap 3× FTMO quá nặng hoặc tốc độ/underwater chậm hơn
+     khung thi Challenge. Cất riêng làm kho dự trữ dài hạn cho tài khoản vốn
+     riêng; **không** dựa mù quáng vào Exness Extended Swap-Free (vì đây là ưu
+     đãi có điều kiện có thể bị sàn thu hồi nếu bot lạm dụng giữ qua đêm).
+   - `TIER_3_DEAD_NO_EDGE`: Không thắng nổi chọn ngẫu nhiên (`p >= 0,05`) hoặc
+     lỗ ngay từ tín hiệu giá trước Swap. Xóa sổ vĩnh viễn cho mọi sàn.
+6. **Hiệu chuẩn Control & Bắt buộc xác nhận M1 Bid/Ask cho mọi ứng viên H4/D1 (từ Pass 19 & 21):**
+   - Mọi lượt sàng lọc nhanh trên H4/D1 phải chạy kèm ít nhất **1 mẫu đối chứng dương đã có kết quả M1 thật** (ví dụ `CONTROL_USDJPY`) để phát hiện sớm lỗi thứ tự giá trên chính cây nến vào lệnh (pre-trigger false-SL).
+   - Kết quả dương trên H4/D1 chỉ có giá trị **đề xuất tải dữ liệu M1**, **không bao giờ** là bằng chứng lên `TIER_1` hay ghép danh mục (bài học Pass 21: `GBPJPY EXP080` đạt `+9,28R` trên H4 nhưng rơi về `-9,52R` trên M1 Bid/Ask thật do spread `1,4–2,4 pip` và quét SL nội nến).
+7. **Kỷ luật Discovery Cụm A → Blind OOS Cụm B & BH FDR toàn không gian (từ Pass 20–22):**
+   - Khi quét hệ thống nhiều biến thể (`m_total > 1`), chỉ được chọn ứng viên dựa trên **Cụm A (`2018–2020`)**; **Cụm B (`2021–2024`)** giữ mù hoàn toàn để đánh giá OOS và tính **BH FDR trên toàn bộ `m_total` đã quét** (không chỉ trên nhóm sống sót).
+   - Ứng viên giữ lệnh dài ngày hoặc ăn Carry dương phải qua thêm **Matched-Hold Timing Permutation Null** để tách alpha thời điểm vào lệnh khỏi drift/carry chung (bài học Pass 20: `DON20_POS` trượt timing null `p = 0,14–0,97` và `0/12` ô 2D).
+8. **Outlier/Crisis Stress & Mặt phẳng 2D kép trước khi thăng hạng động cơ (từ Pass 22):**
+   - Trước khi thăng hạng động cơ vào danh mục cốt lõi hoặc xuất `.mq5`, phải qua: (a) **Outlier Stress** — vẫn dương ròng sau khi bỏ Top-3/Top-5 lệnh thắng lớn nhất và loại đồng thời các giai đoạn sốc cực đoan liên quan (như COVID 03/2020, UK Gilt 09–10/2022); (b) **Mặt phẳng 2D kép** — kiểm cả lưới cốt lõi (`trigger × SL`) lẫn lưới bộ lọc phụ (`trigger × filter`), ghi nhận trung thực vùng nhạy nếu có thay vì ẩn sau một lưới đẹp.
+9. **Kiểm định tích lũy trước Holdout — Cumulative DSR & Tail Correlation (từ Pass 28 / Pre-Holdout Audit):**
+   - Trước khi mở khóa Holdout (`>= 2025-01-01`), bắt buộc đo **Deflated Sharpe Ratio (DSR / PSR)** theo tổng ngân sách thử nghiệm tích lũy toàn chiến dịch (`M = 1, 40, 250, 600`) và **Worst-5% Tail Correlation** giữa các động cơ trên những ngày lỗ sâu nhất của danh mục (via `quant_factory.eval_pipeline`), kèm kiểm tra xu hướng suy giảm theo từng năm (`2018 → 2024`).
+10. **Ràng buộc vận hành Prop Payout & MT5 Backtest-to-Live Parity (từ Pre-Holdout Audit):**
+   - Với danh mục nhiều động cơ trên cùng một mã (như `US100` E4+E5, `USDJPY` E1+E2+E7), phải đo tác động của **Per-Symbol Concurrent Risk Cap** (`<= 1,00%–1,25%` mỗi mã) để phòng luật gộp *"trade idea bundle"* khi FTMO/The5ers duyệt payout, đồng thời kiểm **khóa tin đỏ `±5 phút` chính thức (`224` sự kiện FOMC/CPI/NFP)**.
+   - Mọi bản EA đưa lên Demo/Live phải thừa kế/khớp hợp đồng an toàn của `Naqex_PropGuard.mqh`: tự nhận `ORDER_FILLING_*`, sizing theo `SYMBOL_TRADE_TICK_VALUE_LOSS`, xử lý lệch `TimeGMT()` trong Strategy Tester, tự đóng trước giờ đóng sớm ngày lễ Mỹ (`SymbolInfoSessionTrade`), lưu trạng thái qua `GlobalVariable` chống VPS restart, và xác minh `TRADE_RETCODE_DONE`.
+11. **Cổng theo Sự kiện/Mẫu thực & Tách Nhánh Song song (Fast-Path không hạ chuẩn an toàn):**
+   - Khi đề xuất lộ trình hoặc xét chuyển pha `G5/G6`, tách rạch ròi **ràng buộc bất biến** (niêm phong Holdout, `0` lỗi khớp/SL/swap, không sửa tham số v1 đang chạy live) khỏi **đệm ngày lịch tùy ý**.
+   - Ưu tiên định nghĩa cổng theo **sự kiện/mẫu thực tế tối thiểu** (số lệnh đóng sạch qua đủ phiên, rollover và tin đỏ) kèm phương án **micro-canary giới hạn lỗ nhỏ** (khi được hãng chấp thuận bằng văn bản) để rút ngắn thời gian chờ mà vẫn giữ nguyên biên an toàn; không buộc các nhánh độc lập về kỹ thuật (Own-Book, R&D v2 trên Dev, hạ tầng VPS/Cockpit) phải chờ tuần tự cổng forward của nhánh khác.
+
 ## Cách báo cáo
 
 ### Nhãn nguyên nhân dừng và phạm vi bằng chứng

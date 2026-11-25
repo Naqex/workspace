@@ -73,3 +73,6 @@ desktop.ini
 /config/ftmo_free_trial.env
 /research/bot_reverse_lab/inbox/*
 !/research/bot_reverse_lab/inbox/.gitkeep
+!/research/bot_reverse_lab/inbox/live_signals/
+/research/bot_reverse_lab/inbox/live_signals/*
+!/research/bot_reverse_lab/inbox/live_signals/README.md

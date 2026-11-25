@@ -1,0 +1,27 @@
+; Naqex MT5 Preset | Profile: FTMO_FreeTrial_DryRun | Engine: E1_USDJPY_TOKYO (ACTIVE)
+; Attach: USDJPY M15 | Magic: 20261122 | MaxSpreadPts: 35.0
+; ARM-LOCKED SAFETY: set InpDryRunLogOnly=false & InpGuardDryRunLogOnly=false ONLY after Free Trial PASS & TCA GREEN
+InpDryRunLogOnly=true
+InpRiskPercent=0.16
+InpMaxDailyLossPct=2.50
+InpBoxStartHourUTC=0
+InpBoxEndHourUTC=3
+InpActEndHourUTC=10
+InpFlatHourHelsinki=18
+InpMagicNumber=20261122
+InpGuardDryRunLogOnly=true
+InpGuardMaxDailyLossPct=2.50
+InpGuardMaxSymbolRiskPct=1.00
+InpGuardUseOrchestrator=true
+InpGuardMaxSpreadPoints=35.00
+InpGuardRolloverStartUTC=21
+InpGuardRolloverEndUTC=0
+InpGuardEarlyCloseMin=10
+InpGuardTesterUtcOffsetH=2
+InpGuardEnableRedNews=true
+InpGuardRedNewsCsvFile=naqex_red_news_utc.csv
+InpGuardNewsPadSec=300
+InpGuardNewsHardBanSec=135
+InpGuardTcaAuditCsvFile=naqex_exec_audit.csv
+InpGuardMagicRangeMin=20261120
+InpGuardMagicRangeMax=20261199

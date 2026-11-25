@@ -1,0 +1,1816 @@
+{
+  "schema": "pass10-institutional-flow-v1",
+  "parent": "d004497",
+  "protocol_commit": "99b30515d6dee84f5572cbfc93ac7f238fcb2784",
+  "holdout_lock_sha256": "f0a6b43cb205535b0a959456455dc1d857a0936c06c2e51b8614fd7d772a8486",
+  "holdout_price_files_read": 0,
+  "order_send_count": 0,
+  "profiles": {
+    "Standard": {
+      "commit": "36f1535",
+      "sha256_lf": "09d1a66b5bbb46032ca8dfd7294b40a7d98424a3dd155ac9561cc5fe9c25dc32",
+      "reference": "FTMO-DEMO-10K-STANDARD-FULL13-AND-EXECUTION-20261119.json"
+    },
+    "Swing": {
+      "commit": "8fd77ef",
+      "sha256_lf": "803352fbf00d7af15719033c9b0aa5b3140bca0d0cfa7235d01caa2e7b95f4a3",
+      "reference": "SWING-10K-AUDIT-MULTIWEEK-AND-WIN-TAXONOMY-20261120.json"
+    }
+  },
+  "input_hashes": {
+    "EURUSD": "a7a1b2ad66a0f99d0febfacfdf48163f4b408c6a54b169326ade96842d268345",
+    "GBPUSD": "00f405dbd117f747a1648e4137a3139c4d26637aaab4c00ca8e1e6e9cd37b741",
+    "US500.cash": "631d9e800d24455b5c813dc3c4a77309f07a333e3ad9ebd1980cf464a2f7f94d"
+  },
+  "cohort": [
+    2018,
+    2024
+  ],
+  "london": {
+    "EURUSD": {
+      "decision": "REJECTED_AT_STAGE0",
+      "coverage": {
+        "2018": {
+          "missing_or_flat_box": 2,
+          "first_touch": 238,
+          "ambiguous_first_touch": 16,
+          "8h:missing_path_or_endpoint": 1,
+          "no_touch": 5
+        },
+        "2019": {
+          "missing_or_flat_box": 2,
+          "first_touch": 238,
+          "no_touch": 7,
+          "ambiguous_first_touch": 14
+        },
+        "2020": {
+          "missing_or_flat_box": 2,
+          "ambiguous_first_touch": 26,
+          "first_touch": 230,
+          "4h:missing_path_or_endpoint": 1,
+          "8h:missing_path_or_endpoint": 1,
+          "hard_flat:missing_path_or_endpoint": 1,
+          "no_touch": 4,
+          "8h:rollover_or_cutoff": 1
+        },
+        "2021": {
+          "missing_or_flat_box": 1,
+          "first_touch": 227,
+          "ambiguous_first_touch": 23,
+          "no_touch": 10
+        },
+        "2022": {
+          "first_touch": 232,
+          "ambiguous_first_touch": 18,
+          "no_touch": 9,
+          "missing_or_flat_box": 1
+        },
+        "2023": {
+          "first_touch": 235,
+          "no_touch": 9,
+          "ambiguous_first_touch": 15,
+          "missing_or_flat_box": 1
+        },
+        "2024": {
+          "missing_or_flat_box": 2,
+          "first_touch": 235,
+          "ambiguous_first_touch": 18,
+          "no_touch": 7,
+          "8h:rollover_or_cutoff": 2
+        }
+      },
+      "horizons": {
+        "4h": {
+          "total": {
+            "n": 1634,
+            "buy": 839,
+            "sell": 795,
+            "net": -8822.999999994641,
+            "gross": 7517.000000005359,
+            "friction": 16340.0,
+            "fade": -23857.00000000536,
+            "net_mean": -5.399632802934297,
+            "fade_mean": -14.600367197065703,
+            "friction_mean": 10.0
+          },
+          "years": {
+            "2018": {
+              "n": 238,
+              "buy": 117,
+              "sell": 121,
+              "net": 4453.500000000891,
+              "gross": 6833.500000000891,
+              "friction": 2380.0,
+              "fade": -9213.500000000891,
+              "net_mean": 18.712184873953326,
+              "fade_mean": -38.712184873953326,
+              "friction_mean": 10.0
+            },
+            "2019": {
+              "n": 238,
+              "buy": 130,
+              "sell": 108,
+              "net": -3625.9999999992588,
+              "gross": -1245.9999999992588,
+              "friction": 2380.0,
+              "fade": -1134.0000000007412,
+              "net_mean": -15.235294117643944,
+              "fade_mean": -4.764705882356056,
+              "friction_mean": 10.0
+            },
+            "2020": {
+              "n": 229,
+              "buy": 112,
+              "sell": 117,
+              "net": -2989.9999999993456,
+              "gross": -699.9999999993457,
+              "friction": 2290.0,
+              "fade": -1590.0000000006542,
+              "net_mean": -13.056768558949107,
+              "fade_mean": -6.943231441050892,
+              "friction_mean": 10.0
+            },
+            "2021": {
+              "n": 227,
+              "buy": 119,
+              "sell": 108,
+              "net": 694.0000000007437,
+              "gross": 2964.000000000744,
+              "friction": 2270.0,
+              "fade": -5234.000000000744,
+              "net_mean": 3.0572687224702366,
+              "fade_mean": -23.057268722470237,
+              "friction_mean": 10.0
+            },
+            "2022": {
+              "n": 232,
+              "buy": 121,
+              "sell": 111,
+              "net": -9258.999999999174,
+              "gross": -6938.999999999173,
+              "friction": 2320.0,
+              "fade": 4618.999999999173,
+              "net_mean": -39.90948275861713,
+              "fade_mean": 19.909482758617127,
+              "friction_mean": 10.0
+            },
+            "2023": {
+              "n": 235,
+              "buy": 120,
+              "sell": 115,
+              "net": 1104.5000000007599,
+              "gross": 3454.50000000076,
+              "friction": 2350.0,
+              "fade": -5804.50000000076,
+              "net_mean": 4.700000000003233,
+              "fade_mean": -24.700000000003236,
+              "friction_mean": 10.0
+            },
+            "2024": {
+              "n": 235,
+              "buy": 120,
+              "sell": 115,
+              "net": 800.000000000741,
+              "gross": 3150.0000000007412,
+              "friction": 2350.0,
+              "fade": -5500.000000000741,
+              "net_mean": 3.4042553191520892,
+              "fade_mean": -23.40425531915209,
+              "friction_mean": 10.0
+            }
+          },
+          "clusters": {
+            "A": {
+              "n": 705,
+              "buy": 359,
+              "sell": 346,
+              "net": -2162.499999997713,
+              "gross": 4887.500000002287,
+              "friction": 7050.0,
+              "fade": -11937.500000002286,
+              "net_mean": -3.067375886521579,
+              "fade_mean": -16.932624113478422,
+              "friction_mean": 10.0
+            },
+            "B": {
+              "n": 929,
+              "buy": 480,
+              "sell": 449,
+              "net": -6660.499999996929,
+              "gross": 2629.5000000030714,
+              "friction": 9290.0,
+              "fade": -11919.500000003072,
+              "net_mean": -7.1695371367028295,
+              "fade_mean": -12.830462863297171,
+              "friction_mean": 10.0
+            }
+          },
+          "scale": {
+            "median_friction": 0.0001,
+            "median_natural_stop": 0.0018299999999999983,
+            "median_ratio_pct": 5.464480874316945,
+            "share_at_12pct": 0.9675642594859241,
+            "median_box_width_pips": 18.299999999999983,
+            "friction_over_box_pct": 5.464480874316945
+          },
+          "gate": {
+            "tests": {
+              "all_years_observed": true,
+              "positive_both_clusters": false,
+              "at_least_five_positive_years": false,
+              "positive_ex_best_two_years": false,
+              "mean_net_covers_mean_friction": false,
+              "beats_control_by_friction_both_clusters": false,
+              "natural_stop_scale": true
+            },
+            "positive_years": 4,
+            "net_ex_best_two_years": -14380.999999996293,
+            "pass": false
+          }
+        },
+        "8h": {
+          "total": {
+            "n": 1630,
+            "buy": 836,
+            "sell": 794,
+            "net": 9230.000000005282,
+            "gross": 25530.000000005282,
+            "friction": 16300.0,
+            "fade": -41830.00000000528,
+            "net_mean": 5.662576687119805,
+            "fade_mean": -25.662576687119806,
+            "friction_mean": 10.0
+          },
+          "years": {
+            "2018": {
+              "n": 237,
+              "buy": 117,
+              "sell": 120,
+              "net": 6104.000000000892,
+              "gross": 8474.000000000891,
+              "friction": 2370.0,
+              "fade": -10844.000000000893,
+              "net_mean": 25.75527426160714,
+              "fade_mean": -45.75527426160714,
+              "friction_mean": 10.0
+            },
+            "2019": {
+              "n": 238,
+              "buy": 130,
+              "sell": 108,
+              "net": -2711.9999999995107,
+              "gross": -331.99999999951075,
+              "friction": 2380.0,
+              "fade": -2048.0000000004893,
+              "net_mean": -11.39495798319122,
+              "fade_mean": -8.60504201680878,
+              "friction_mean": 10.0
+            },
+            "2020": {
+              "n": 228,
+              "buy": 111,
+              "sell": 117,
+              "net": -5603.4999999989905,
+              "gross": -3323.499999998991,
+              "friction": 2280.0,
+              "fade": 1043.4999999989907,
+              "net_mean": -24.576754385960484,
+              "fade_mean": 4.576754385960485,
+              "friction_mean": 10.0
+            },
+            "2021": {
+              "n": 227,
+              "buy": 119,
+              "sell": 108,
+              "net": 3961.000000000764,
+              "gross": 6231.000000000764,
+              "friction": 2270.0,
+              "fade": -8501.000000000764,
+              "net_mean": 17.449339207051825,
+              "fade_mean": -37.44933920705182,
+              "friction_mean": 10.0
+            },
+            "2022": {
+              "n": 232,
+              "buy": 121,
+              "sell": 111,
+              "net": 7215.000000000681,
+              "gross": 9535.000000000682,
+              "friction": 2320.0,
+              "fade": -11855.000000000682,
+              "net_mean": 31.09913793103742,
+              "fade_mean": -51.099137931037426,
+              "friction_mean": 10.0
+            },
+            "2023": {
+              "n": 235,
+              "buy": 120,
+              "sell": 115,
+              "net": 2611.500000000774,
+              "gross": 4961.500000000774,
+              "friction": 2350.0,
+              "fade": -7311.500000000774,
+              "net_mean": 11.112765957450103,
+              "fade_mean": -31.1127659574501,
+              "friction_mean": 10.0
+            },
+            "2024": {
+              "n": 233,
+              "buy": 118,
+              "sell": 115,
+              "net": -2345.9999999993274,
+              "gross": -15.9999999993276,
+              "friction": 2330.0,
+              "fade": -2314.0000000006726,
+              "net_mean": -10.068669527894109,
+              "fade_mean": -9.931330472105891,
+              "friction_mean": 10.0
+            }
+          },
+          "clusters": {
+            "A": {
+              "n": 703,
+              "buy": 358,
+              "sell": 345,
+              "net": -2211.4999999976094,
+              "gross": 4818.500000002391,
+              "friction": 7030.0,
+              "fade": -11848.50000000239,
+              "net_mean": -3.1458036984318767,
+              "fade_mean": -16.854196301568123,
+              "friction_mean": 10.0
+            },
+            "B": {
+              "n": 927,
+              "buy": 478,
+              "sell": 449,
+              "net": 11441.500000002892,
+              "gross": 20711.500000002892,
+              "friction": 9270.0,
+              "fade": -29981.500000002892,
+              "net_mean": 12.34250269687475,
+              "fade_mean": -32.342502696874746,
+              "friction_mean": 10.0
+            }
+          },
+          "scale": {
+            "median_friction": 0.0001,
+            "median_natural_stop": 0.0018299999999999983,
+            "median_ratio_pct": 5.464480874316945,
+            "share_at_12pct": 0.9674846625766871,
+            "median_box_width_pips": 18.299999999999983,
+            "friction_over_box_pct": 5.464480874316945
+          },
+          "gate": {
+            "tests": {
+              "all_years_observed": true,
+              "positive_both_clusters": false,
+              "at_least_five_positive_years": false,
+              "positive_ex_best_two_years": false,
+              "mean_net_covers_mean_friction": false,
+              "beats_control_by_friction_both_clusters": true,
+              "natural_stop_scale": true
+            },
+            "positive_years": 4,
+            "net_ex_best_two_years": -4088.9999999962906,
+            "pass": false
+          }
+        },
+        "hard_flat": {
+          "total": {
+            "n": 1634,
+            "buy": 839,
+            "sell": 795,
+            "net": -4193.999999994991,
+            "gross": 12146.000000005008,
+            "friction": 16340.0,
+            "fade": -28486.00000000501,
+            "net_mean": -2.566707466337204,
+            "fade_mean": -17.433292533662797,
+            "friction_mean": 10.0
+          },
+          "years": {
+            "2018": {
+              "n": 238,
+              "buy": 117,
+              "sell": 121,
+              "net": 2717.500000000821,
+              "gross": 5097.500000000821,
+              "friction": 2380.0,
+              "fade": -7477.500000000821,
+              "net_mean": 11.418067226894205,
+              "fade_mean": -31.418067226894205,
+              "friction_mean": 10.0
+            },
+            "2019": {
+              "n": 238,
+              "buy": 130,
+              "sell": 108,
+              "net": -4239.99999999944,
+              "gross": -1859.99999999944,
+              "friction": 2380.0,
+              "fade": -520.00000000056,
+              "net_mean": -17.815126050417813,
+              "fade_mean": -2.184873949582185,
+              "friction_mean": 10.0
+            },
+            "2020": {
+              "n": 229,
+              "buy": 112,
+              "sell": 117,
+              "net": -5311.999999999392,
+              "gross": -3021.9999999993915,
+              "friction": 2290.0,
+              "fade": 731.9999999993917,
+              "net_mean": -23.196506550215684,
+              "fade_mean": 3.196506550215684,
+              "friction_mean": 10.0
+            },
+            "2021": {
+              "n": 227,
+              "buy": 119,
+              "sell": 108,
+              "net": 1745.000000000679,
+              "gross": 4015.000000000679,
+              "friction": 2270.0,
+              "fade": -6285.000000000679,
+              "net_mean": 7.687224669606515,
+              "fade_mean": -27.68722466960652,
+              "friction_mean": 10.0
+            },
+            "2022": {
+              "n": 232,
+              "buy": 121,
+              "sell": 111,
+              "net": 1677.0000000006055,
+              "gross": 3997.0000000006053,
+              "friction": 2320.0,
+              "fade": -6317.000000000606,
+              "net_mean": 7.228448275864679,
+              "fade_mean": -27.22844827586468,
+              "friction_mean": 10.0
+            },
+            "2023": {
+              "n": 235,
+              "buy": 120,
+              "sell": 115,
+              "net": 2160.50000000095,
+              "gross": 4510.5000000009495,
+              "friction": 2350.0,
+              "fade": -6860.5000000009495,
+              "net_mean": 9.193617021280637,
+              "fade_mean": -29.193617021280637,
+              "friction_mean": 10.0
+            },
+            "2024": {
+              "n": 235,
+              "buy": 120,
+              "sell": 115,
+              "net": -2941.999999999215,
+              "gross": -591.9999999992152,
+              "friction": 2350.0,
+              "fade": -1758.0000000007847,
+              "net_mean": -12.519148936166873,
+              "fade_mean": -7.480851063833126,
+              "friction_mean": 10.0
+            }
+          },
+          "clusters": {
+            "A": {
+              "n": 705,
+              "buy": 359,
+              "sell": 346,
+              "net": -6834.499999998011,
+              "gross": 215.50000000198924,
+              "friction": 7050.0,
+              "fade": -7265.500000001989,
+              "net_mean": -9.69432624113193,
+              "fade_mean": -10.30567375886807,
+              "friction_mean": 10.0
+            },
+            "B": {
+              "n": 929,
+              "buy": 480,
+              "sell": 449,
+              "net": 2640.500000003019,
+              "gross": 11930.50000000302,
+              "friction": 9290.0,
+              "fade": -21220.50000000302,
+              "net_mean": 2.842303552209924,
+              "fade_mean": -22.842303552209923,
+              "friction_mean": 10.0
+            }
+          },
+          "scale": {
+            "median_friction": 0.0001,
+            "median_natural_stop": 0.0018299999999999983,
+            "median_ratio_pct": 5.464480874316945,
+            "share_at_12pct": 0.9675642594859241,
+            "median_box_width_pips": 18.299999999999983,
+            "friction_over_box_pct": 5.464480874316945
+          },
+          "gate": {
+            "tests": {
+              "all_years_observed": true,
+              "positive_both_clusters": false,
+              "at_least_five_positive_years": false,
+              "positive_ex_best_two_years": false,
+              "mean_net_covers_mean_friction": false,
+              "beats_control_by_friction_both_clusters": false,
+              "natural_stop_scale": true
+            },
+            "positive_years": 4,
+            "net_ex_best_two_years": -9071.999999996762,
+            "pass": false
+          }
+        }
+      }
+    },
+    "GBPUSD": {
+      "decision": "PROMOTE_TO_SL_SLICE",
+      "coverage": {
+        "2018": {
+          "missing_or_flat_box": 2,
+          "first_touch": 233,
+          "ambiguous_first_touch": 22,
+          "8h:rollover_or_cutoff": 1,
+          "no_touch": 4
+        },
+        "2019": {
+          "missing_or_flat_box": 2,
+          "first_touch": 218,
+          "ambiguous_first_touch": 38,
+          "8h:missing_path_or_endpoint": 13,
+          "hard_flat:missing_path_or_endpoint": 10,
+          "no_touch": 3
+        },
+        "2020": {
+          "missing_or_flat_box": 2,
+          "first_touch": 229,
+          "ambiguous_first_touch": 28,
+          "4h:missing_path_or_endpoint": 1,
+          "8h:missing_path_or_endpoint": 1,
+          "hard_flat:missing_path_or_endpoint": 1,
+          "no_touch": 3
+        },
+        "2021": {
+          "missing_or_flat_box": 1,
+          "ambiguous_first_touch": 22,
+          "first_touch": 232,
+          "no_touch": 6
+        },
+        "2022": {
+          "first_touch": 238,
+          "ambiguous_first_touch": 15,
+          "no_touch": 6,
+          "missing_or_flat_box": 1
+        },
+        "2023": {
+          "no_touch": 4,
+          "first_touch": 231,
+          "ambiguous_first_touch": 24,
+          "missing_or_flat_box": 1
+        },
+        "2024": {
+          "missing_or_flat_box": 2,
+          "first_touch": 235,
+          "ambiguous_first_touch": 24,
+          "no_touch": 1
+        }
+      },
+      "horizons": {
+        "4h": {
+          "total": {
+            "n": 1615,
+            "buy": 783,
+            "sell": 832,
+            "net": 47662.00000000147,
+            "gross": 73502.00000000147,
+            "friction": 25840.0,
+            "fade": -99342.00000000147,
+            "net_mean": 29.512074303406482,
+            "fade_mean": -61.512074303406486,
+            "friction_mean": 16.0
+          },
+          "years": {
+            "2018": {
+              "n": 233,
+              "buy": 108,
+              "sell": 125,
+              "net": 14124.500000000138,
+              "gross": 17852.50000000014,
+              "friction": 3728.0,
+              "fade": -21580.50000000014,
+              "net_mean": 60.62017167382034,
+              "fade_mean": -92.62017167382034,
+              "friction_mean": 16.0
+            },
+            "2019": {
+              "n": 218,
+              "buy": 106,
+              "sell": 112,
+              "net": 3444.5000000004748,
+              "gross": 6932.500000000475,
+              "friction": 3488.0,
+              "fade": -10420.500000000475,
+              "net_mean": 15.800458715598507,
+              "fade_mean": -47.80045871559851,
+              "friction_mean": 16.0
+            },
+            "2020": {
+              "n": 228,
+              "buy": 117,
+              "sell": 111,
+              "net": 12611.000000000313,
+              "gross": 16259.000000000313,
+              "friction": 3648.0,
+              "fade": -19907.000000000313,
+              "net_mean": 55.3114035087733,
+              "fade_mean": -87.3114035087733,
+              "friction_mean": 16.0
+            },
+            "2021": {
+              "n": 232,
+              "buy": 116,
+              "sell": 116,
+              "net": 5378.500000000224,
+              "gross": 9090.500000000224,
+              "friction": 3712.0,
+              "fade": -12802.500000000224,
+              "net_mean": 23.18318965517338,
+              "fade_mean": -55.18318965517338,
+              "friction_mean": 16.0
+            },
+            "2022": {
+              "n": 238,
+              "buy": 114,
+              "sell": 124,
+              "net": 7822.000000000008,
+              "gross": 11630.000000000007,
+              "friction": 3808.0,
+              "fade": -15438.000000000007,
+              "net_mean": 32.86554621848743,
+              "fade_mean": -64.86554621848742,
+              "friction_mean": 16.0
+            },
+            "2023": {
+              "n": 231,
+              "buy": 103,
+              "sell": 128,
+              "net": 3214.500000000153,
+              "gross": 6910.500000000153,
+              "friction": 3696.0,
+              "fade": -10606.500000000153,
+              "net_mean": 13.915584415585077,
+              "fade_mean": -45.91558441558508,
+              "friction_mean": 16.0
+            },
+            "2024": {
+              "n": 235,
+              "buy": 119,
+              "sell": 116,
+              "net": 1067.0000000001587,
+              "gross": 4827.000000000158,
+              "friction": 3760.0,
+              "fade": -8587.000000000158,
+              "net_mean": 4.540425531915569,
+              "fade_mean": -36.54042553191557,
+              "friction_mean": 16.0
+            }
+          },
+          "clusters": {
+            "A": {
+              "n": 679,
+              "buy": 331,
+              "sell": 348,
+              "net": 30180.000000000924,
+              "gross": 41044.000000000924,
+              "friction": 10864.0,
+              "fade": -51908.000000000924,
+              "net_mean": 44.44771723122375,
+              "fade_mean": -76.44771723122375,
+              "friction_mean": 16.0
+            },
+            "B": {
+              "n": 936,
+              "buy": 452,
+              "sell": 484,
+              "net": 17482.000000000542,
+              "gross": 32458.000000000542,
+              "friction": 14976.0,
+              "fade": -47434.000000000546,
+              "net_mean": 18.677350427351005,
+              "fade_mean": -50.67735042735101,
+              "friction_mean": 16.0
+            }
+          },
+          "scale": {
+            "median_friction": 0.00016,
+            "median_natural_stop": 0.0025700000000001832,
+            "median_ratio_pct": 6.225680933851696,
+            "share_at_12pct": 0.9405572755417957,
+            "median_box_width_pips": 25.700000000001832,
+            "friction_over_box_pct": 6.225680933851696
+          },
+          "gate": {
+            "tests": {
+              "all_years_observed": true,
+              "positive_both_clusters": true,
+              "at_least_five_positive_years": true,
+              "positive_ex_best_two_years": true,
+              "mean_net_covers_mean_friction": true,
+              "beats_control_by_friction_both_clusters": true,
+              "natural_stop_scale": true
+            },
+            "positive_years": 7,
+            "net_ex_best_two_years": 20926.50000000102,
+            "pass": true
+          }
+        },
+        "8h": {
+          "total": {
+            "n": 1601,
+            "buy": 775,
+            "sell": 826,
+            "net": 62618.000000000815,
+            "gross": 88234.00000000081,
+            "friction": 25616.0,
+            "fade": -113850.00000000081,
+            "net_mean": 39.111805121799385,
+            "fade_mean": -71.11180512179938,
+            "friction_mean": 16.0
+          },
+          "years": {
+            "2018": {
+              "n": 232,
+              "buy": 107,
+              "sell": 125,
+              "net": 13054.999999999998,
+              "gross": 16767.0,
+              "friction": 3712.0,
+              "fade": -20479.0,
+              "net_mean": 56.27155172413792,
+              "fade_mean": -88.27155172413794,
+              "friction_mean": 16.0
+            },
+            "2019": {
+              "n": 205,
+              "buy": 99,
+              "sell": 106,
+              "net": 9419.000000000238,
+              "gross": 12699.000000000238,
+              "friction": 3280.0,
+              "fade": -15979.000000000238,
+              "net_mean": 45.9463414634158,
+              "fade_mean": -77.94634146341579,
+              "friction_mean": 16.0
+            },
+            "2020": {
+              "n": 228,
+              "buy": 117,
+              "sell": 111,
+              "net": 11764.000000000115,
+              "gross": 15412.000000000115,
+              "friction": 3648.0,
+              "fade": -19060.000000000116,
+              "net_mean": 51.596491228070676,
+              "fade_mean": -83.59649122807069,
+              "friction_mean": 16.0
+            },
+            "2021": {
+              "n": 232,
+              "buy": 116,
+              "sell": 116,
+              "net": 6996.50000000021,
+              "gross": 10708.500000000211,
+              "friction": 3712.0,
+              "fade": -14420.500000000211,
+              "net_mean": 30.157327586207803,
+              "fade_mean": -62.157327586207806,
+              "friction_mean": 16.0
+            },
+            "2022": {
+              "n": 238,
+              "buy": 114,
+              "sell": 124,
+              "net": 20790.999999999905,
+              "gross": 24598.999999999905,
+              "friction": 3808.0,
+              "fade": -28406.999999999905,
+              "net_mean": 87.35714285714246,
+              "fade_mean": -119.35714285714246,
+              "friction_mean": 16.0
+            },
+            "2023": {
+              "n": 231,
+              "buy": 103,
+              "sell": 128,
+              "net": 3149.5000000000828,
+              "gross": 6845.500000000083,
+              "friction": 3696.0,
+              "fade": -10541.500000000082,
+              "net_mean": 13.634199134199493,
+              "fade_mean": -45.63419913419949,
+              "friction_mean": 16.0
+            },
+            "2024": {
+              "n": 235,
+              "buy": 119,
+              "sell": 116,
+              "net": -2556.999999999735,
+              "gross": 1203.0000000002651,
+              "friction": 3760.0,
+              "fade": -4963.000000000265,
+              "net_mean": -10.88085106382866,
+              "fade_mean": -21.11914893617134,
+              "friction_mean": 16.0
+            }
+          },
+          "clusters": {
+            "A": {
+              "n": 665,
+              "buy": 323,
+              "sell": 342,
+              "net": 34238.00000000035,
+              "gross": 44878.00000000035,
+              "friction": 10640.0,
+              "fade": -55518.00000000035,
+              "net_mean": 51.48571428571481,
+              "fade_mean": -83.4857142857148,
+              "friction_mean": 16.0
+            },
+            "B": {
+              "n": 936,
+              "buy": 452,
+              "sell": 484,
+              "net": 28380.000000000462,
+              "gross": 43356.000000000466,
+              "friction": 14976.0,
+              "fade": -58332.000000000466,
+              "net_mean": 30.320512820513315,
+              "fade_mean": -62.320512820513315,
+              "friction_mean": 16.0
+            }
+          },
+          "scale": {
+            "median_friction": 0.00016,
+            "median_natural_stop": 0.0025799999999998047,
+            "median_ratio_pct": 6.2015503875973685,
+            "share_at_12pct": 0.9400374765771393,
+            "median_box_width_pips": 25.799999999998047,
+            "friction_over_box_pct": 6.2015503875973685
+          },
+          "gate": {
+            "tests": {
+              "all_years_observed": true,
+              "positive_both_clusters": true,
+              "at_least_five_positive_years": true,
+              "positive_ex_best_two_years": true,
+              "mean_net_covers_mean_friction": true,
+              "beats_control_by_friction_both_clusters": true,
+              "natural_stop_scale": true
+            },
+            "positive_years": 6,
+            "net_ex_best_two_years": 28772.00000000091,
+            "pass": true
+          }
+        },
+        "hard_flat": {
+          "total": {
+            "n": 1605,
+            "buy": 778,
+            "sell": 827,
+            "net": 64817.000000001164,
+            "gross": 90497.00000000116,
+            "friction": 25680.0,
+            "fade": -116177.00000000116,
+            "net_mean": 40.384423676013185,
+            "fade_mean": -72.38442367601318,
+            "friction_mean": 16.0
+          },
+          "years": {
+            "2018": {
+              "n": 233,
+              "buy": 108,
+              "sell": 125,
+              "net": 10833.500000000382,
+              "gross": 14561.500000000382,
+              "friction": 3728.0,
+              "fade": -18289.500000000382,
+              "net_mean": 46.49570815450808,
+              "fade_mean": -78.49570815450808,
+              "friction_mean": 16.0
+            },
+            "2019": {
+              "n": 208,
+              "buy": 101,
+              "sell": 107,
+              "net": 9473.50000000042,
+              "gross": 12801.50000000042,
+              "friction": 3328.0,
+              "fade": -16129.50000000042,
+              "net_mean": 45.5456730769251,
+              "fade_mean": -77.5456730769251,
+              "friction_mean": 16.0
+            },
+            "2020": {
+              "n": 228,
+              "buy": 117,
+              "sell": 111,
+              "net": 20016.000000000062,
+              "gross": 23664.000000000062,
+              "friction": 3648.0,
+              "fade": -27312.000000000065,
+              "net_mean": 87.7894736842108,
+              "fade_mean": -119.78947368421082,
+              "friction_mean": 16.0
+            },
+            "2021": {
+              "n": 232,
+              "buy": 116,
+              "sell": 116,
+              "net": 4411.500000000284,
+              "gross": 8123.500000000284,
+              "friction": 3712.0,
+              "fade": -11835.500000000284,
+              "net_mean": 19.015086206897774,
+              "fade_mean": -51.01508620689778,
+              "friction_mean": 16.0
+            },
+            "2022": {
+              "n": 238,
+              "buy": 114,
+              "sell": 124,
+              "net": 18246.99999999989,
+              "gross": 22054.99999999989,
+              "friction": 3808.0,
+              "fade": -25862.99999999989,
+              "net_mean": 76.6680672268903,
+              "fade_mean": -108.6680672268903,
+              "friction_mean": 16.0
+            },
+            "2023": {
+              "n": 231,
+              "buy": 103,
+              "sell": 128,
+              "net": 3641.500000000086,
+              "gross": 7337.500000000086,
+              "friction": 3696.0,
+              "fade": -11033.500000000085,
+              "net_mean": 15.764069264069636,
+              "fade_mean": -47.76406926406963,
+              "friction_mean": 16.0
+            },
+            "2024": {
+              "n": 235,
+              "buy": 119,
+              "sell": 116,
+              "net": -1805.9999999999661,
+              "gross": 1954.0000000000339,
+              "friction": 3760.0,
+              "fade": -5714.000000000034,
+              "net_mean": -7.685106382978579,
+              "fade_mean": -24.31489361702142,
+              "friction_mean": 16.0
+            }
+          },
+          "clusters": {
+            "A": {
+              "n": 669,
+              "buy": 326,
+              "sell": 343,
+              "net": 40323.000000000866,
+              "gross": 51027.000000000866,
+              "friction": 10704.0,
+              "fade": -61731.000000000866,
+              "net_mean": 60.27354260089815,
+              "fade_mean": -92.27354260089815,
+              "friction_mean": 16.0
+            },
+            "B": {
+              "n": 936,
+              "buy": 452,
+              "sell": 484,
+              "net": 24494.000000000295,
+              "gross": 39470.00000000029,
+              "friction": 14976.0,
+              "fade": -54446.00000000029,
+              "net_mean": 26.168803418803734,
+              "fade_mean": -58.168803418803726,
+              "friction_mean": 16.0
+            }
+          },
+          "scale": {
+            "median_friction": 0.00016,
+            "median_natural_stop": 0.0025800000000000267,
+            "median_ratio_pct": 6.201550387596835,
+            "share_at_12pct": 0.9401869158878504,
+            "median_box_width_pips": 25.800000000000267,
+            "friction_over_box_pct": 6.201550387596835
+          },
+          "gate": {
+            "tests": {
+              "all_years_observed": true,
+              "positive_both_clusters": true,
+              "at_least_five_positive_years": true,
+              "positive_ex_best_two_years": true,
+              "mean_net_covers_mean_friction": true,
+              "beats_control_by_friction_both_clusters": true,
+              "natural_stop_scale": true
+            },
+            "positive_years": 6,
+            "net_ex_best_two_years": 26554.000000001204,
+            "pass": true
+          }
+        }
+      },
+      "sl_slice": {
+        "total": {
+          "n": 1605,
+          "net_R": 181.24215025025254,
+          "net_usd_per_lot": 48674.000000001564,
+          "exits": {
+            "HARD_FLAT": 777,
+            "SL_GAP_OR_TOUCH": 828
+          }
+        },
+        "years": {
+          "2018": {
+            "n": 233,
+            "net_R": 47.855395785058214,
+            "net_usd_per_lot": 11757.00000000037,
+            "exits": {
+              "HARD_FLAT": 122,
+              "SL_GAP_OR_TOUCH": 111
+            }
+          },
+          "2019": {
+            "n": 208,
+            "net_R": 4.680836973452139,
+            "net_usd_per_lot": 2091.0000000003297,
+            "exits": {
+              "HARD_FLAT": 99,
+              "SL_GAP_OR_TOUCH": 109
+            }
+          },
+          "2020": {
+            "n": 228,
+            "net_R": 57.10225718386006,
+            "net_usd_per_lot": 16818.00000000005,
+            "exits": {
+              "HARD_FLAT": 124,
+              "SL_GAP_OR_TOUCH": 104
+            }
+          },
+          "2021": {
+            "n": 232,
+            "net_R": 10.825334619365034,
+            "net_usd_per_lot": 3383.5000000004093,
+            "exits": {
+              "HARD_FLAT": 112,
+              "SL_GAP_OR_TOUCH": 120
+            }
+          },
+          "2022": {
+            "n": 238,
+            "net_R": 51.48236179966212,
+            "net_usd_per_lot": 19826.00000000011,
+            "exits": {
+              "SL_GAP_OR_TOUCH": 116,
+              "HARD_FLAT": 122
+            }
+          },
+          "2023": {
+            "n": 231,
+            "net_R": 13.964060188260751,
+            "net_usd_per_lot": 30.00000000011898,
+            "exits": {
+              "SL_GAP_OR_TOUCH": 131,
+              "HARD_FLAT": 100
+            }
+          },
+          "2024": {
+            "n": 235,
+            "net_R": -4.668096299405797,
+            "net_usd_per_lot": -5231.499999999826,
+            "exits": {
+              "HARD_FLAT": 98,
+              "SL_GAP_OR_TOUCH": 137
+            }
+          }
+        },
+        "clusters": {
+          "A": {
+            "n": 669,
+            "net_R": 109.63848994237041,
+            "net_usd_per_lot": 30666.000000000753,
+            "exits": {
+              "HARD_FLAT": 345,
+              "SL_GAP_OR_TOUCH": 324
+            }
+          },
+          "B": {
+            "n": 936,
+            "net_R": 71.60366030788211,
+            "net_usd_per_lot": 18008.00000000081,
+            "exits": {
+              "HARD_FLAT": 432,
+              "SL_GAP_OR_TOUCH": 504
+            }
+          }
+        },
+        "sizing": {
+          "10000": {
+            "statuses": {
+              "SIZED": 1605
+            },
+            "net_usd": 4993.895000000151,
+            "peak_margin_usd": 1343.9964193470798
+          },
+          "25000": {
+            "statuses": {
+              "SIZED": 1605
+            },
+            "net_usd": 12735.55000000039,
+            "peak_margin_usd": 3404.790929012602
+          }
+        }
+      }
+    }
+  },
+  "ny_orb": {
+    "decision": "US500_INTRADAY_DATA_GAP_2018_2020",
+    "executed": false,
+    "qdm_preflight": {
+      "schema": "pass10-qdm-metadata-only-v1",
+      "qdm_cli_version": "125.2692",
+      "qdm_cli_sha256": "b58052d516422e3cf8e0d42a0883f6811807ecd730d867f8838efbcf6883f4a6",
+      "metadata_commands": [
+        "-h",
+        "-symbol action=list",
+        "-instrument action=list"
+      ],
+      "registered_symbols": [
+        "AAPLUSUSD_TW",
+        "EURUSD_TICK_TW",
+        "EURUSD_TW",
+        "USATECHIDXUSD_TW",
+        "USDJPY_PASS7B_QUARANTINE",
+        "XAUUSD_TW"
+      ],
+      "relevant_templates": [
+        "USA500.IDX_dukascopy",
+        "US500.cash_ftmo",
+        "GBPUSD_dukascopy",
+        "GBPUSD_ftmo"
+      ],
+      "native_index_h1_2018_2020_bars": [
+        258,
+        259,
+        259
+      ],
+      "native_index_h1_2018_2020_intraday_clock_rows": 0,
+      "qdm_admitted_us500_exports": 0,
+      "qdm_update_calls": 0,
+      "reason": "No cached US500 series and update cannot enforce the pre-2025 upper bound",
+      "verdict": "US500_INTRADAY_DATA_GAP_2018_2020"
+    }
+  },
+  "pairing": {
+    "pairing_basis": "same eligible UTC day and fixed $30 per sleeve, closed cash only",
+    "reference_eligible_days": 1334,
+    "gbpusd_eligible_days": 1805,
+    "paired_days": 1324,
+    "excluded_usdjpy_signals": 8,
+    "excluded_gbpusd_signals": 428,
+    "original_usdjpy_full_closed_cash": {
+      "net_usd": 2261.4059807145486,
+      "max_dd_usd": 612.134169469055,
+      "net_over_dd": 3.694297906414892,
+      "max_underwater_days": 637,
+      "max_underwater_months": 20.928561161420152
+    },
+    "original_usdjpy_full_floating_underwater_months": 21.12427588063638,
+    "correlation": {
+      "daily": {
+        "all": {
+          "n": 1324,
+          "pearson": 0.051778945430105874,
+          "double_loss": 380,
+          "gbpusd_positive": 454,
+          "gbpusd_net_usd": 2570.635000000095
+        },
+        "usdjpy_losing": {
+          "n": 663,
+          "pearson": -0.012111274675207648,
+          "double_loss": 380,
+          "gbpusd_positive": 214,
+          "gbpusd_net_usd": 146.5450000000507
+        }
+      },
+      "weekly": {
+        "all": {
+          "n": 342,
+          "pearson": 0.06284755236082586,
+          "double_loss": 83,
+          "gbpusd_positive": 157,
+          "gbpusd_net_usd": 2570.6350000000944
+        },
+        "usdjpy_losing": {
+          "n": 164,
+          "pearson": 0.011920276418892348,
+          "double_loss": 83,
+          "gbpusd_positive": 81,
+          "gbpusd_net_usd": 1019.5000000000397
+        }
+      }
+    },
+    "matched_cash": {
+      "usdjpy": {
+        "net_usd": 2374.287067986491,
+        "max_dd_usd": 612.134169469055,
+        "net_over_dd": 3.87870369995171,
+        "max_underwater_days": 637,
+        "max_underwater_months": 20.928561161420152
+      },
+      "gbpusd": {
+        "net_usd": 2570.635000000095,
+        "max_dd_usd": 890.4349999999754,
+        "net_over_dd": 2.8869428986957675,
+        "max_underwater_days": 627,
+        "max_underwater_months": 20.60001232058153
+      },
+      "combined": {
+        "net_usd": 4944.922067986584,
+        "max_dd_usd": 940.9739579076704,
+        "net_over_dd": 5.255110437893528,
+        "max_underwater_days": 516,
+        "max_underwater_months": 16.953120187272837
+      }
+    },
+    "reference_manifest_files": {
+      "verified/M1_Real_Stress_05-trades.json": "0c553375c5380a7942287f3e4cff17a2fbd8fccad37bace8f9e6820cb64c3b14",
+      "verified/M1_Real_Stress_05-account-lots.json": "cf5ff3df4a28628d675ebef4eb0c9df553b6a7f70dce988fba5023420094b94b",
+      "verified/result.json": "3062085665db30e6dc662727af27352f8b5d17afbb6901555dd742d831fd198c",
+      "development-m1/USDJPY-M1-BIDASK-2018.parquet": "30f19b23514e6b6e4edb42564579ac522540f9c7736ef587b98266dfe459aefa",
+      "development-m1/USDJPY-M1-BIDASK-2019.parquet": "fc82c1b79f107db1a0bcfeb07e75fdbb711040e9dc95f5daa9f109248f98d4db",
+      "development-m1/USDJPY-M1-BIDASK-2020.parquet": "afa86499e30f71b255f4cb2fd757cb62ef64aa9e4b5bc38ada64f4e1d9a73bb3",
+      "development-m1/USDJPY-M1-BIDASK-2021.parquet": "bbf2c8d5f6f874ea9b1ae3969460d6a1abf7d8170e2e6545d08e7bf4fe08f6d4",
+      "development-m1/USDJPY-M1-BIDASK-2022.parquet": "853f868e465e79c8ad50f78011bdb34fac266016c24792e59c7d46269ea1ea9b",
+      "development-m1/USDJPY-M1-BIDASK-2023.parquet": "9c51f9911f7c1ce0430090becc97a73e3ea68d8d20c41d1cb60ccca054c3ce56",
+      "development-m1/USDJPY-M1-BIDASK-2024.parquet": "455a6fa78a0ea018e1536ec0005e0604e5b49e9ceca6e1e7acca680e3501659d"
+    }
+  },
+  "calendars": {
+    "nyse-2018.json": "d93dc927b8b19fcb563be8734f8f7b13513420cc9c704e12a5051161975c04e3",
+    "nyse-2019.json": "50deb81200dd7d197c0b2668f782523c8e673d2818c5deaea90b74f0333cd276",
+    "nyse-2020.json": "5b446bbc4aab03da234ea60478099a6f0e6ad8bb7a93353742404839a4df7e7d",
+    "nyse-2021.json": "62db994534f0fc9e9d10b3b494097ab0d45387b4384e8c3b9b9273800e839f96",
+    "nyse-2022.json": "487340010443ac72afbf1cd56508c75d64c17ba55950339ac764bc1eb20f8780",
+    "nyse-2023.json": "249a450b91cf5bbb13fd84f4ed8dfad0c584ea2b1e86a7254d6ffb2b800ab83f",
+    "nyse-2024.json": "d6d40a449747596189b25ff3de9e24051083e062c8cdfb1528dd2914bc1d8229"
+  },
+  "tom": {
+    "Swing": {
+      "planned_tom": 83,
+      "planned_rest": 1173,
+      "boundary_tom_windows": 2,
+      "native_d1_rows": 1810,
+      "cash_sessions": 1761,
+      "cash_d1_present": 1761,
+      "total": {
+        "n": 83,
+        "control_n": 1173,
+        "net": -198.13850000000298,
+        "gross": 521.3799999999969,
+        "friction": 719.5185,
+        "swap": -545.2185000000001,
+        "triple_rollovers": 63,
+        "friday_clamped": 0,
+        "net_bps_session": -0.9144325541825752,
+        "rest_bps_session": -2.0565362778197,
+        "friction_bps_session": 5.96751147469339
+      },
+      "years": {
+        "2018": {
+          "n": 12,
+          "control_n": 167,
+          "net": -241.8376999999998,
+          "gross": -135.19999999999982,
+          "friction": 106.6377,
+          "swap": -81.4377,
+          "triple_rollovers": 9,
+          "friday_clamped": 0,
+          "net_bps_session": -17.555799060546622,
+          "rest_bps_session": -11.741559165191578,
+          "friction_bps_session": 8.12095987530066
+        },
+        "2019": {
+          "n": 12,
+          "control_n": 168,
+          "net": -84.62739999999988,
+          "gross": 20.63000000000011,
+          "friction": 105.2574,
+          "swap": -80.0574,
+          "triple_rollovers": 10,
+          "friday_clamped": 0,
+          "net_bps_session": -4.963578304494809,
+          "rest_bps_session": 5.188669527494468,
+          "friction_bps_session": 7.470729867457777
+        },
+        "2020": {
+          "n": 12,
+          "control_n": 169,
+          "net": 363.8831999999997,
+          "gross": 466.37999999999965,
+          "friction": 102.49680000000001,
+          "swap": -77.2968,
+          "triple_rollovers": 9,
+          "friday_clamped": 0,
+          "net_bps_session": 22.12520485021096,
+          "rest_bps_session": -6.073785277895096,
+          "friction_bps_session": 6.669125670097525
+        },
+        "2021": {
+          "n": 12,
+          "control_n": 168,
+          "net": -114.41769999999974,
+          "gross": -7.779999999999745,
+          "friction": 106.6377,
+          "swap": -81.4377,
+          "triple_rollovers": 10,
+          "friday_clamped": 0,
+          "net_bps_session": -4.0981369892189985,
+          "rest_bps_session": 4.283856721332413,
+          "friction_bps_session": 5.215235829027002
+        },
+        "2022": {
+          "n": 12,
+          "control_n": 167,
+          "net": -18.486500000002145,
+          "gross": 82.62999999999784,
+          "friction": 101.1165,
+          "swap": -75.9165,
+          "triple_rollovers": 8,
+          "friday_clamped": 0,
+          "net_bps_session": -0.7095364304276014,
+          "rest_bps_session": -15.559657677141708,
+          "friction_bps_session": 5.208124092761712
+        },
+        "2023": {
+          "n": 12,
+          "control_n": 166,
+          "net": 70.9834999999999,
+          "gross": 172.0999999999999,
+          "friction": 101.1165,
+          "swap": -75.9165,
+          "triple_rollovers": 8,
+          "friday_clamped": 0,
+          "net_bps_session": 5.26024421313939,
+          "rest_bps_session": 1.0006580630140123,
+          "friction_bps_session": 4.877838743892423
+        },
+        "2024": {
+          "n": 11,
+          "control_n": 168,
+          "net": -173.635900000001,
+          "gross": -77.38000000000102,
+          "friction": 96.2559,
+          "swap": -73.1559,
+          "triple_rollovers": 9,
+          "friday_clamped": 0,
+          "net_bps_session": -6.963516485554686,
+          "rest_bps_session": 8.42834656242964,
+          "friction_bps_session": 4.05084395064602
+        }
+      },
+      "clusters": {
+        "A": {
+          "n": 36,
+          "control_n": 504,
+          "net": 37.418099999999995,
+          "gross": 351.80999999999995,
+          "friction": 314.3919,
+          "swap": -238.79190000000003,
+          "triple_rollovers": 28,
+          "friday_clamped": 0,
+          "net_bps_session": -0.13139083827682446,
+          "rest_bps_session": -4.19764605542102,
+          "friction_bps_session": 7.420271804285321
+        },
+        "B": {
+          "n": 47,
+          "control_n": 669,
+          "net": -235.55660000000296,
+          "gross": 169.56999999999698,
+          "friction": 405.1266,
+          "swap": -306.4266,
+          "triple_rollovers": 35,
+          "friday_clamped": 0,
+          "net_bps_session": -1.5142091876422994,
+          "rest_bps_session": -0.44350290276579085,
+          "friction_bps_session": 4.8547588818144645
+        }
+      },
+      "scale": {
+        "median_friction": 9.0015,
+        "median_natural_stop": 102.52789382467813,
+        "median_ratio_pct": 8.779561994507068,
+        "share_at_12pct": 0.7710843373493976
+      },
+      "gate": {
+        "tests": {
+          "all_years_observed": true,
+          "positive_both_clusters": false,
+          "at_least_five_positive_years": false,
+          "positive_ex_best_two_years": false,
+          "mean_net_covers_mean_friction": false,
+          "beats_control_by_friction_both_clusters": false,
+          "natural_stop_scale": true
+        },
+        "positive_years": 2,
+        "net_ex_best_two_years": -633.0052000000026,
+        "pass": false
+      },
+      "decision": "REJECTED_AT_STAGE0"
+    },
+    "Standard": {
+      "planned_tom": 83,
+      "planned_rest": 1173,
+      "boundary_tom_windows": 2,
+      "native_d1_rows": 1810,
+      "cash_sessions": 1761,
+      "cash_d1_present": 1761,
+      "total": {
+        "n": 83,
+        "control_n": 1173,
+        "net": -261.71250000000134,
+        "gross": 0.7099999999986721,
+        "friction": 262.4225,
+        "swap": -88.1225,
+        "triple_rollovers": 0,
+        "friday_clamped": 63,
+        "net_bps_session": -4.013000323570596,
+        "rest_bps_session": -0.24159794191738357,
+        "friction_bps_session": 4.561350205236653
+      },
+      "years": {
+        "2018": {
+          "n": 12,
+          "control_n": 167,
+          "net": -32.23249999999982,
+          "gross": 7.800000000000182,
+          "friction": 40.0325,
+          "swap": -14.832500000000001,
+          "triple_rollovers": 0,
+          "friday_clamped": 9,
+          "net_bps_session": 7.065800288058532,
+          "rest_bps_session": -11.611599472305363,
+          "friction_bps_session": 5.959477331069958
+        },
+        "2019": {
+          "n": 12,
+          "control_n": 168,
+          "net": -114.24499999999948,
+          "gross": -76.82999999999947,
+          "friction": 37.415,
+          "swap": -12.215,
+          "triple_rollovers": 0,
+          "friday_clamped": 10,
+          "net_bps_session": -10.501443073447989,
+          "rest_bps_session": 12.389293653010457,
+          "friction_bps_session": 5.736669109926773
+        },
+        "2020": {
+          "n": 12,
+          "control_n": 169,
+          "net": -208.43499999999952,
+          "gross": -171.01999999999953,
+          "friction": 37.415,
+          "swap": -12.215,
+          "triple_rollovers": 0,
+          "friday_clamped": 9,
+          "net_bps_session": -19.07754146797146,
+          "rest_bps_session": -0.7705403061462746,
+          "friction_bps_session": 5.247509378622944
+        },
+        "2021": {
+          "n": 12,
+          "control_n": 168,
+          "net": -157.8549999999989,
+          "gross": -123.92999999999893,
+          "friction": 33.925000000000004,
+          "swap": -8.725000000000001,
+          "triple_rollovers": 0,
+          "friday_clamped": 10,
+          "net_bps_session": -23.497095858497588,
+          "rest_bps_session": 11.25111009917449,
+          "friction_bps_session": 4.167726655648752
+        },
+        "2022": {
+          "n": 12,
+          "control_n": 167,
+          "net": -231.97500000000153,
+          "gross": -191.07000000000153,
+          "friction": 40.905,
+          "swap": -15.705000000000002,
+          "triple_rollovers": 0,
+          "friday_clamped": 8,
+          "net_bps_session": -36.423157217491045,
+          "rest_bps_session": -18.846251624919958,
+          "friction_bps_session": 3.844086211747825
+        },
+        "2023": {
+          "n": 12,
+          "control_n": 166,
+          "net": 474.8399999999995,
+          "gross": 513.9999999999995,
+          "friction": 39.160000000000004,
+          "swap": -13.96,
+          "triple_rollovers": 0,
+          "friday_clamped": 8,
+          "net_bps_session": 43.53862147890677,
+          "rest_bps_session": -2.100405806819591,
+          "friction_bps_session": 3.7668940332547365
+        },
+        "2024": {
+          "n": 11,
+          "control_n": 168,
+          "net": 8.189999999998403,
+          "gross": 41.7599999999984,
+          "friction": 33.57,
+          "swap": -10.47,
+          "triple_rollovers": 0,
+          "friday_clamped": 9,
+          "net_bps_session": 12.150796668086718,
+          "rest_bps_session": 7.799807099233566,
+          "friction_bps_session": 3.083974035580934
+        }
+      },
+      "clusters": {
+        "A": {
+          "n": 36,
+          "control_n": 504,
+          "net": -354.91249999999883,
+          "gross": -240.04999999999882,
+          "friction": 114.86250000000001,
+          "swap": -39.2625,
+          "triple_rollovers": 0,
+          "friday_clamped": 28,
+          "net_bps_session": -7.504394751120306,
+          "rest_bps_session": 0.02389466288103309,
+          "friction_bps_session": 5.647885273206558
+        },
+        "B": {
+          "n": 47,
+          "control_n": 669,
+          "net": 93.19999999999749,
+          "gross": 240.7599999999975,
+          "friction": 147.56,
+          "swap": -48.86,
+          "triple_rollovers": 0,
+          "friday_clamped": 35,
+          "net_bps_session": -1.3387407620431582,
+          "rest_bps_session": -0.4416103078641728,
+          "friction_bps_session": 3.7291105787065115
+        }
+      },
+      "scale": {
+        "median_friction": 2.9725,
+        "median_natural_stop": 102.52789382467813,
+        "median_ratio_pct": 2.899211023570767,
+        "share_at_12pct": 1.0
+      },
+      "gate": {
+        "tests": {
+          "all_years_observed": true,
+          "positive_both_clusters": false,
+          "at_least_five_positive_years": false,
+          "positive_ex_best_two_years": false,
+          "mean_net_covers_mean_friction": false,
+          "beats_control_by_friction_both_clusters": false,
+          "natural_stop_scale": true
+        },
+        "positive_years": 2,
+        "net_ex_best_two_years": -744.7424999999993,
+        "pass": false
+      },
+      "decision": "CONTROL_ONLY"
+    }
+  },
+  "executed_hypotheses": [
+    "E2_LONDON_ORB_FX:EURUSD",
+    "E2_LONDON_ORB_FX:GBPUSD",
+    "E2_US500_TOM_SWING"
+  ],
+  "lineage": {
+    "E2_LONDON_ORB_FX": {
+      "related": [
+        "R016",
+        "R017",
+        "Discovery7",
+        "Pass7 FX scout"
+      ],
+      "exact_repeat_at_36f1535": false
+    },
+    "E2_US500_NY_ORB": {
+      "related": [
+        "R094",
+        "R095",
+        "R100–R121",
+        "R094 afternoon"
+      ],
+      "exact_repeat_at_36f1535": false
+    },
+    "E2_US500_TOM_SWING": {
+      "related": [
+        "R025"
+      ],
+      "exact_repeat_at_36f1535": false
+    }
+  },
+  "verified_max_execution_utc": "2024-12-31T18:00:00+00:00",
+  "standard_weekend_correction": {
+    "commit": "56f1e80",
+    "previous_control": {
+      "planned_tom": 83,
+      "planned_rest": 1173,
+      "boundary_tom_windows": 2,
+      "native_d1_rows": 1810,
+      "cash_sessions": 1761,
+      "cash_d1_present": 1761,
+      "total": {
+        "n": 83,
+        "control_n": 1173,
+        "net": -210.67000000000235,
+        "gross": 75.30999999999767,
+        "friction": 285.98,
+        "swap": -111.68,
+        "triple_rollovers": 5,
+        "friday_clamped": 58,
+        "net_bps_session": -5.475838881859364,
+        "rest_bps_session": -0.35768941589586767,
+        "friction_bps_session": 4.566687272024951
+      },
+      "years": {
+        "2018": {
+          "n": 12,
+          "control_n": 167,
+          "net": -29.21749999999982,
+          "gross": 16.050000000000182,
+          "friction": 45.267500000000005,
+          "swap": -20.067500000000003,
+          "triple_rollovers": 1,
+          "friday_clamped": 8,
+          "net_bps_session": 1.5234152305872672,
+          "rest_bps_session": -11.611599472305363,
+          "friction_bps_session": 5.874467752525896
+        },
+        "2019": {
+          "n": 12,
+          "control_n": 168,
+          "net": -114.24499999999948,
+          "gross": -76.82999999999947,
+          "friction": 37.415,
+          "swap": -12.215,
+          "triple_rollovers": 0,
+          "friday_clamped": 10,
+          "net_bps_session": -10.501443073447989,
+          "rest_bps_session": 12.47347700397419,
+          "friction_bps_session": 5.736669109926773
+        },
+        "2020": {
+          "n": 12,
+          "control_n": 169,
+          "net": -173.96000000000018,
+          "gross": -127.82000000000016,
+          "friction": 46.14,
+          "swap": -20.94,
+          "triple_rollovers": 2,
+          "friday_clamped": 7,
+          "net_bps_session": -21.948973355720984,
+          "rest_bps_session": -2.4145992191946535,
+          "friction_bps_session": 5.338586858316117
+        },
+        "2021": {
+          "n": 12,
+          "control_n": 168,
+          "net": -111.0674999999993,
+          "gross": -72.77999999999929,
+          "friction": 38.2875,
+          "swap": -13.0875,
+          "triple_rollovers": 1,
+          "friday_clamped": 9,
+          "net_bps_session": -24.322521102432088,
+          "rest_bps_session": 11.228197638692276,
+          "friction_bps_session": 4.240852282740461
+        },
+        "2022": {
+          "n": 12,
+          "control_n": 167,
+          "net": -231.97500000000153,
+          "gross": -191.07000000000153,
+          "friction": 40.905,
+          "swap": -15.705000000000002,
+          "triple_rollovers": 0,
+          "friday_clamped": 8,
+          "net_bps_session": -36.423157217491045,
+          "rest_bps_session": -17.80323777673012,
+          "friction_bps_session": 3.844086211747825
+        },
+        "2023": {
+          "n": 12,
+          "control_n": 166,
+          "net": 474.8399999999995,
+          "gross": 513.9999999999995,
+          "friction": 39.160000000000004,
+          "swap": -13.96,
+          "triple_rollovers": 0,
+          "friday_clamped": 8,
+          "net_bps_session": 43.53862147890677,
+          "rest_bps_session": -2.358274270194192,
+          "friction_bps_session": 3.7668940332547365
+        },
+        "2024": {
+          "n": 11,
+          "control_n": 168,
+          "net": -25.0450000000016,
+          "gross": 13.7599999999984,
+          "friction": 38.805,
+          "swap": -15.705000000000002,
+          "triple_rollovers": 1,
+          "friday_clamped": 8,
+          "net_bps_session": 11.192188116440882,
+          "rest_bps_session": 7.799807099233566,
+          "friction_bps_session": 3.0378516905390214
+        }
+      },
+      "clusters": {
+        "A": {
+          "n": 36,
+          "control_n": 504,
+          "net": -317.42249999999945,
+          "gross": -188.59999999999945,
+          "friction": 128.82250000000002,
+          "swap": -53.222500000000004,
+          "triple_rollovers": 3,
+          "friday_clamped": 25,
+          "net_bps_session": -10.309000399527235,
+          "rest_bps_session": -0.49932587946672197,
+          "friction_bps_session": 5.649907906922929
+        },
+        "B": {
+          "n": 47,
+          "control_n": 669,
+          "net": 106.75249999999711,
+          "gross": 263.9099999999971,
+          "friction": 157.1575,
+          "swap": -58.4575,
+          "triple_rollovers": 2,
+          "friday_clamped": 33,
+          "net_bps_session": -1.773842825773333,
+          "rest_bps_session": -0.2509857123985424,
+          "friction_bps_session": 3.736986360188202
+        }
+      },
+      "scale": {
+        "median_friction": 2.9725,
+        "median_natural_stop": 102.52789382467813,
+        "median_ratio_pct": 2.899211023570767,
+        "share_at_12pct": 1.0
+      },
+      "gate": {
+        "tests": {
+          "all_years_observed": true,
+          "positive_both_clusters": false,
+          "at_least_five_positive_years": false,
+          "positive_ex_best_two_years": false,
+          "mean_net_covers_mean_friction": false,
+          "beats_control_by_friction_both_clusters": false,
+          "natural_stop_scale": true
+        },
+        "positive_years": 1,
+        "net_ex_best_two_years": -660.4650000000003,
+        "pass": false
+      },
+      "decision": "CONTROL_ONLY"
+    },
+    "unchanged": [
+      "both London arms",
+      "TOM Swing"
+    ]
+  },
+  "verification": {
+    "tests": 1496,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "receipt": "pass10-quant-full-retry.json",
+    "sha256": "d8474882128074b790abf3230fb47003eb341c08b1547d32c2eade9a4cabfa1a",
+    "first_attempt": "pass10-quant-full.json",
+    "first_attempt_error": "Existing observer fixture temporary Parquet cleanup, Windows sharing violation (WinError 32)",
+    "retry_temp_scope": "quant-test-temp",
+    "arithmetic_reconciled": true
+  },
+  "verdict": "GBPUSD_H1_SURVIVOR_NEEDS_M1_AND_MATCHED_RISK_EQUITY"
+}

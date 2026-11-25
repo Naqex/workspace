@@ -101,6 +101,36 @@ class ObserverRunnerTests(unittest.TestCase):
                 recorder.accept(dict(kind="quote",asset="XAUUSD",bid=1.,ask=2.,time_msc=100,known_at_msc=99))
             recorder.close()
 
+    def test_read_only_capture_keeps_observing_after_history_has_frozen(self):
+        from types import SimpleNamespace
+
+        elapsed = 0.0
+        epoch = 1795080000000
+        collected = []
+        bundle, plan = runner.builtin_fixture()
+        frozen_history = dict(asset="EURUSD", time_msc=epoch + 8000, bid=1.0, ask=1.1, flags=0)
+
+        def sleep(seconds):
+            nonlocal elapsed
+            elapsed += seconds
+
+        def latest(asset):
+            n = 9 if elapsed == 10 else int(elapsed)
+            return dict(frozen_history, asset=asset, time_msc=epoch + 1000 * n)
+
+        reader = SimpleNamespace(account=lambda: bundle["account"], latest_quote=latest,
+                                 ticks=lambda *_: [frozen_history])
+        with patch.object(runner.time, "monotonic", side_effect=lambda: elapsed), \
+             patch.object(runner.time, "time", side_effect=lambda: epoch / 1000 + elapsed), \
+             patch.object(runner.time, "sleep", side_effect=sleep):
+            receipt = runner.sample_live_quotes(reader, plan["binding"], ["EURUSD"],
+                                                SimpleNamespace(accept=collected.append), 12, poll_interval=1)
+        self.assertEqual(reader.ticks()[0]["time_msc"], epoch + 8000)
+        self.assertEqual(collected[-1]["time_msc"], epoch + 11000)
+        self.assertEqual(receipt["symbols"]["EURUSD"], dict(rows=11, first_msc=epoch, last_msc=epoch + 11000))
+        self.assertEqual(receipt["elapsed_seconds"], 12)
+        self.assertFalse(receipt["complete_tick_feed_claim"])
+
     def test_no_submission_api_and_module_namespace_resolves_existing_implementation(self):
         tree=ast.parse(Path(runner.__file__).read_text(encoding="utf-8"))
         self.assertFalse(any(isinstance(n,ast.Attribute) and n.attr in ("order_send","order_check","login") for n in ast.walk(tree)))

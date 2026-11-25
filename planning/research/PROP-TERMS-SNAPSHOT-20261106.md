@@ -23,4 +23,5 @@ The5ers sources:
 
 Trạng thái: **FTMO profile đủ để thiết kế evaluator sơ bộ; The5ers chỉ là
 comparison profile pending account/program pin**. Chưa mở numerical run, holdout
-hay automation authority.
+hay automation authority. Cập nhật 23/11/2026 cho The5ers (luật mới, rủi ro ban,
+payout & lộ trình lấy MT5 spec 0 USD): [THE5ERS-PARALLEL-PROFILE-AND-SPEC-PLAN-20261123.md](THE5ERS-PARALLEL-PROFILE-AND-SPEC-PLAN-20261123.md).

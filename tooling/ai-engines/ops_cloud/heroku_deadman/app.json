@@ -1,0 +1,40 @@
+{
+  "name": "Naqex Cloud Dead-Man's-Switch",
+  "description": "24/7 Heroku EU monitor (Basic Dyno $7 + Postgres Essential-0 $5 = $12/mo <= $13 Student cap) for Windows 10 home PC running MT5 (OrderSend=0).",
+  "stack": "heroku-24",
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  },
+  "addons": [
+    "heroku-postgresql:essential-0"
+  ],
+  "env": {
+    "NAQEX_INGEST_TOKEN": {
+      "description": "Secret Bearer token shared with pc_heartbeat_sender.py on your Windows 10 PC",
+      "generator": "secret"
+    },
+    "NAQEX_VIEW_TOKEN": {
+      "description": "Secret token protecting the mobile status dashboard",
+      "generator": "secret"
+    },
+    "TELEGRAM_BOT_TOKEN": {
+      "description": "Telegram Bot token from @BotFather (optional if using ALERT_WEBHOOK_URL)",
+      "required": false
+    },
+    "TELEGRAM_CHAT_ID": {
+      "description": "Your Telegram numeric chat ID (optional if using ALERT_WEBHOOK_URL)",
+      "required": false
+    },
+    "ALERT_WEBHOOK_URL": {
+      "description": "Optional Discord/Slack webhook URL",
+      "required": false
+    },
+    "STALE_AFTER_SEC": {
+      "description": "Seconds without heartbeat before firing PC_OFFLINE alert (default 180 = 3 min)",
+      "value": "180"
+    }
+  }
+}

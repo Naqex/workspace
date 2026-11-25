@@ -12,10 +12,12 @@ kiểm thử hoặc quyền thực thi của task.
 
 ## Trước khi làm
 
-1. Tìm đúng owner từ yêu cầu, [current context](../../../planning/CURRENT-CONTEXT.md)
+1. Tìm đúng owner từ yêu cầu, [current context](../../../planning/CURRENT-CONTEXT.md),
+   [Personal Knowledge Vault](../../../knowledge/README.md) (`brain_cli.py owner-brief` / `query`)
    và PLAN/task liên quan. Research bắt đầu ở [chỉ mục](../../../planning/research/README.md),
    rồi `rg` câu hỏi, lỗi, contract hoặc tên công cụ trong nguồn được dẫn.
    Không đọc toàn archive hoặc mở lại toàn bộ nguồn web để bắt đầu.
+   Với research đa nguồn EN/VI/CN/RU hoặc ghi nhật ký tò mò/quyết định liên lĩnh vực của owner, phối hợp [research-and-memory-ops](../research-and-memory-ops/SKILL.md).
 2. Đối chiếu kết luận cũ với câu hỏi hiện tại: scope, ngày kiểm, phiên bản,
    input/code/runtime và giới hạn bằng chứng. Phân biệt nguồn chính thức,
    tự thuật cộng đồng, suy luận và kết quả thực thi. Không biến khuyến nghị

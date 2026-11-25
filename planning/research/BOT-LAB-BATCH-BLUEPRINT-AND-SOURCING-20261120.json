@@ -1,0 +1,2697 @@
+{
+  "schema": "bot-lab-batch-closeout-v1",
+  "private_manifest": {
+    "path": "bot-lab-batch-20261120/manifest.json",
+    "sha256": "cba79571e1cb321dbf48c873d1d02ce0476ad7a22cf9a054888faaf2ff1ef57f"
+  },
+  "holdout_lock_sha256": "f0a6b43cb205535b0a959456455dc1d857a0936c06c2e51b8614fd7d772a8486",
+  "holdout_price_reads": 0,
+  "order_send_count": 0,
+  "file_candidates": 0,
+  "local_inventory_counts": {
+    "research\\bot_reverse_lab": 0,
+    "education\\real-example": 4,
+    ".artifacts": 131,
+    ".runtime": 177,
+    "tmp": 1,
+    "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs": 125
+  },
+  "online_sourcing": {
+    "myfxbook": {
+      "url": "https://www.myfxbook.com/systems",
+      "access": "HTTP_403",
+      "admitted": 0
+    },
+    "mql5": {
+      "url": "https://www.mql5.com/en/signals/mt5/list",
+      "access": "PUBLIC_STATISTICS_ONLY; CSV UNVERIFIED",
+      "reviewed": 5,
+      "admitted": 0
+    },
+    "darwinex": {
+      "url": "https://help.darwinex.com/migration/raw-darwin-data-user-guide",
+      "access": "TRADE_SCHEMA_NOT_VERIFIED",
+      "admitted": 0
+    }
+  },
+  "dry_run_leaderboard": {
+    "records": [
+      {
+        "file": "clean_swing_and_standard.csv",
+        "sha256": "67d197a1df75e2fd6e5ab0ff828f772805221fbc6888813697e4de14bfa5e466",
+        "status": "PASS_SWING_AND_STANDARD",
+        "score": 0.4559999999999127,
+        "confirmed_rejections": [],
+        "evidence_gaps": [],
+        "standard": {
+          "passed": true,
+          "failed": [],
+          "unknown": [],
+          "news": {
+            "status": "CLEAR_ON_PROVIDED_CALENDAR",
+            "assessed": 12,
+            "flagged_rows": []
+          }
+        },
+        "trades": 12,
+        "source": "FLAT_TRADE_TABLE",
+        "path_scope": {
+          "bar_path_development_eligible": 12
+        },
+        "log_geometry": {
+          "trades": 12,
+          "exact_clock_trades": 12,
+          "calendar_months": 2,
+          "holding_share": {
+            "intraday_utc": 1.0,
+            "overnight_utc": 0.0,
+            "weekend_utc": 0.0
+          },
+          "hold_hours": {
+            "p25": 0.08333333333333333,
+            "median": 0.08333333333333333,
+            "p75": 0.08333333333333333,
+            "p90": 0.08333333333333333
+          },
+          "trades_per_calendar_month": 6.0,
+          "lot_quantiles": {
+            "p25": 0.1,
+            "median": 0.1,
+            "p75": 0.1,
+            "p90": 0.1
+          },
+          "reported_R": {
+            "n": 0,
+            "total": null,
+            "quantiles": {
+              "p25": null,
+              "median": null,
+              "p75": null,
+              "p90": null
+            }
+          },
+          "session_dna": {
+            "open_time": {
+              "hour_utc": {
+                "13": 12
+              },
+              "bucket": {
+                "London_NY_overlap": 12
+              }
+            },
+            "close_time": {
+              "hour_utc": {
+                "13": 12
+              },
+              "bucket": {
+                "London_NY_overlap": 12
+              }
+            }
+          }
+        },
+        "log_only_after_lock": {
+          "trades": 0,
+          "exact_clock_trades": 0,
+          "calendar_months": 0,
+          "holding_share": {
+            "intraday_utc": null,
+            "overnight_utc": null,
+            "weekend_utc": null
+          },
+          "hold_hours": {
+            "p25": null,
+            "median": null,
+            "p75": null,
+            "p90": null
+          },
+          "trades_per_calendar_month": null,
+          "lot_quantiles": {
+            "p25": null,
+            "median": null,
+            "p75": null,
+            "p90": null
+          },
+          "reported_R": {
+            "n": 0,
+            "total": null,
+            "quantiles": {
+              "p25": null,
+              "median": null,
+              "p75": null,
+              "p90": null
+            }
+          },
+          "session_dna": {
+            "open_time": {
+              "hour_utc": {},
+              "bucket": {}
+            },
+            "close_time": {
+              "hour_utc": {},
+              "bucket": {}
+            }
+          }
+        },
+        "bar_path_skipped_rows": [],
+        "profile_sim": {
+          "Swing": [
+            {
+              "status": "NO_BREACH_AT_SAMPLED_MARKS",
+              "capital_usd": 10000,
+              "risk_per_trade_pct": 0.5,
+              "normalized_trades": 12,
+              "excluded": {},
+              "equity_mark_points": 60,
+              "unvalued_event_points": 12,
+              "closed_balance_observations": 12,
+              "known_entry_margin_trades": 12,
+              "daily_loss_pct": 0.002000000000007276,
+              "maximum_loss_pct": 0.002000000000007276,
+              "cash_only_daily_loss_pct": 0.002000000000007276,
+              "cash_only_static_loss_pct": 0.002000000000007276,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1707138060000,
+              "worst_overall_at_msc": 1707138060000,
+              "net_usd": 91.19999999998254,
+              "peak_margin_usd": 293.3330659934563,
+              "peak_margin_pct_initial": 2.9333306599345628,
+              "margin_peak_pct_available_equity": 2.9333893277211174,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            },
+            {
+              "status": "NO_BREACH_AT_SAMPLED_MARKS",
+              "capital_usd": 10000,
+              "risk_per_trade_pct": 1.0,
+              "normalized_trades": 12,
+              "excluded": {},
+              "equity_mark_points": 60,
+              "unvalued_event_points": 12,
+              "closed_balance_observations": 12,
+              "known_entry_margin_trades": 12,
+              "daily_loss_pct": 0.003999999999996362,
+              "maximum_loss_pct": 0.003999999999996362,
+              "cash_only_daily_loss_pct": 0.003999999999996362,
+              "cash_only_static_loss_pct": 0.003999999999996362,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1707138060000,
+              "worst_overall_at_msc": 1707138060000,
+              "net_usd": 182.3999999999869,
+              "peak_margin_usd": 586.6661319869125,
+              "peak_margin_pct_initial": 5.8666613198691255,
+              "margin_peak_pct_available_equity": 5.866895995708954,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            },
+            {
+              "status": "NO_BREACH_AT_SAMPLED_MARKS",
+              "capital_usd": 25000,
+              "risk_per_trade_pct": 0.5,
+              "normalized_trades": 12,
+              "excluded": {},
+              "equity_mark_points": 60,
+              "unvalued_event_points": 12,
+              "closed_balance_observations": 12,
+              "known_entry_margin_trades": 12,
+              "daily_loss_pct": 0.002,
+              "maximum_loss_pct": 0.002,
+              "cash_only_daily_loss_pct": 0.002,
+              "cash_only_static_loss_pct": 0.002,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1707138060000,
+              "worst_overall_at_msc": 1707138060000,
+              "net_usd": 227.99999999995634,
+              "peak_margin_usd": 733.3326649836408,
+              "peak_margin_pct_initial": 2.9333306599345637,
+              "margin_peak_pct_available_equity": 2.933389327721118,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            },
+            {
+              "status": "NO_BREACH_AT_SAMPLED_MARKS",
+              "capital_usd": 25000,
+              "risk_per_trade_pct": 1.0,
+              "normalized_trades": 12,
+              "excluded": {},
+              "equity_mark_points": 60,
+              "unvalued_event_points": 12,
+              "closed_balance_observations": 12,
+              "known_entry_margin_trades": 12,
+              "daily_loss_pct": 0.004100000000005821,
+              "maximum_loss_pct": 0.004100000000005821,
+              "cash_only_daily_loss_pct": 0.004100000000005821,
+              "cash_only_static_loss_pct": 0.004100000000005821,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1707138060000,
+              "worst_overall_at_msc": 1707138060000,
+              "net_usd": 467.3999999999214,
+              "peak_margin_usd": 1503.3319632164635,
+              "peak_margin_pct_initial": 6.013327852865853,
+              "margin_peak_pct_available_equity": 6.01357440941664,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            }
+          ],
+          "Standard": [
+            {
+              "status": "NO_BREACH_AT_SAMPLED_MARKS",
+              "capital_usd": 10000,
+              "risk_per_trade_pct": 0.5,
+              "normalized_trades": 12,
+              "excluded": {},
+              "equity_mark_points": 60,
+              "unvalued_event_points": 12,
+              "closed_balance_observations": 12,
+              "known_entry_margin_trades": 12,
+              "daily_loss_pct": 0.002000000000007276,
+              "maximum_loss_pct": 0.002000000000007276,
+              "cash_only_daily_loss_pct": 0.002000000000007276,
+              "cash_only_static_loss_pct": 0.002000000000007276,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1707138060000,
+              "worst_overall_at_msc": 1707138060000,
+              "net_usd": 91.19999999998254,
+              "peak_margin_usd": 88.00039977285634,
+              "peak_margin_pct_initial": 0.8800039977285634,
+              "margin_peak_pct_available_equity": 0.8800215981605266,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            },
+            {
+              "status": "NO_BREACH_AT_SAMPLED_MARKS",
+              "capital_usd": 10000,
+              "risk_per_trade_pct": 1.0,
+              "normalized_trades": 12,
+              "excluded": {},
+              "equity_mark_points": 60,
+              "unvalued_event_points": 12,
+              "closed_balance_observations": 12,
+              "known_entry_margin_trades": 12,
+              "daily_loss_pct": 0.003999999999996362,
+              "maximum_loss_pct": 0.003999999999996362,
+              "cash_only_daily_loss_pct": 0.003999999999996362,
+              "cash_only_static_loss_pct": 0.003999999999996362,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1707138060000,
+              "worst_overall_at_msc": 1707138060000,
+              "net_usd": 182.3999999999869,
+              "peak_margin_usd": 176.00079954571268,
+              "peak_margin_pct_initial": 1.7600079954571268,
+              "margin_peak_pct_available_equity": 1.7600783985930704,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            },
+            {
+              "status": "NO_BREACH_AT_SAMPLED_MARKS",
+              "capital_usd": 50000,
+              "risk_per_trade_pct": 0.5,
+              "normalized_trades": 12,
+              "excluded": {},
+              "equity_mark_points": 60,
+              "unvalued_event_points": 12,
+              "closed_balance_observations": 12,
+              "known_entry_margin_trades": 12,
+              "daily_loss_pct": 0.0020500000000029106,
+              "maximum_loss_pct": 0.0020500000000029106,
+              "cash_only_daily_loss_pct": 0.0020500000000029106,
+              "cash_only_static_loss_pct": 0.0020500000000029106,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1707138060000,
+              "worst_overall_at_msc": 1707138060000,
+              "net_usd": 467.3999999999651,
+              "peak_margin_usd": 451.00204883588873,
+              "peak_margin_pct_initial": 0.9020040976717775,
+              "margin_peak_pct_available_equity": 0.9020225891348547,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            },
+            {
+              "status": "NO_BREACH_AT_SAMPLED_MARKS",
+              "capital_usd": 50000,
+              "risk_per_trade_pct": 1.0,
+              "normalized_trades": 12,
+              "excluded": {},
+              "equity_mark_points": 60,
+              "unvalued_event_points": 12,
+              "closed_balance_observations": 12,
+              "known_entry_margin_trades": 12,
+              "daily_loss_pct": 0.004100000000005821,
+              "maximum_loss_pct": 0.004100000000005821,
+              "cash_only_daily_loss_pct": 0.004100000000005821,
+              "cash_only_static_loss_pct": 0.004100000000005821,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1707138060000,
+              "worst_overall_at_msc": 1707138060000,
+              "net_usd": 934.7999999998428,
+              "peak_margin_usd": 902.0040976717775,
+              "peak_margin_pct_initial": 1.804008195343555,
+              "margin_peak_pct_available_equity": 1.8040821627122263,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            }
+          ]
+        },
+        "toxicity": {
+          "HIDDEN_MARTINGALE_LOT_ESCALATION": {
+            "status": "NO_FLAG_IN_OBSERVED_CONTEXT",
+            "evidence": [],
+            "assessed": 10,
+            "rule": "Two strictly settled losses in same symbol and current lot >=1.5x last loss lot"
+          },
+          "HIDDEN_GRID_AVERAGING_DOWN": {
+            "status": "UNKNOWN",
+            "evidence": [],
+            "assessed": 0,
+            "overlaps_without_mark_or_clock": 0,
+            "log_only_overlap_checks": 0
+          },
+          "NO_HARD_SL_OR_WIDE_STOP_GAMBLING": {
+            "status": "UNKNOWN",
+            "observed_sl": 12,
+            "missing_sl": 0,
+            "explicit_no_sl": 0,
+            "explicit_no_sl_share": 0.0,
+            "avg_loss_over_avg_win": null,
+            "loss_size_flag_min_ratio": 3.0,
+            "wide_stop_geometry": "REQUIRES_INITIAL_STOP_AND_ADMITTED_PATH"
+          },
+          "CONCENTRATED_LOTTERY_PROFILE": {
+            "status": "NO_FLAG_IN_OBSERVED_CONTEXT",
+            "metrics": {
+              "n": 12,
+              "wins": 12,
+              "losses": 0,
+              "breakeven": 0,
+              "winrate": 1.0,
+              "sum": 114.0,
+              "mean": 9.5,
+              "median": 9.5,
+              "avg_win": 9.5,
+              "avg_loss": null,
+              "avg_loss_over_avg_win": null,
+              "top2_profit_share": 0.16666666666666666,
+              "top5_profit_share": 0.4166666666666667,
+              "top10_profit_share": 0.8333333333333334,
+              "ex_top2": 95.0,
+              "ex_top5": 66.5,
+              "largest_month_profit_share": 0.5,
+              "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+              "months_observed": 2
+            },
+            "min_trades": 10,
+            "top2_limit": 0.5,
+            "top5_limit": 0.7,
+            "top_month_limit": 0.8
+          },
+          "FTMO_RULE_BREACH_SIM": {
+            "status": "NO_BREACH_AT_SAMPLED_MARKS",
+            "scenarios": 8,
+            "scenarios_with_observed_breach": 0,
+            "standard_funded_session": "NO_LONG_BREAK_OBSERVED"
+          }
+        },
+        "rank": 1
+      },
+      {
+        "file": "clean_swing_survivor.csv",
+        "sha256": "124400a39f95cc58093e00bc741b110c0b33e7937acc53c74f43366bb74348ea",
+        "status": "PASS_SWING_CANDIDATE",
+        "score": 0.39385279999992784,
+        "confirmed_rejections": [],
+        "evidence_gaps": [],
+        "standard": {
+          "passed": false,
+          "failed": [
+            {
+              "code": "STANDARD_LONG_MARKET_BREAK",
+              "evidence": [
+                {
+                  "row": 1,
+                  "symbol": "EURUSD",
+                  "break_start_msc": 1706907600000,
+                  "break_end_msc": 1707084000000
+                }
+              ]
+            }
+          ],
+          "unknown": [],
+          "news": {
+            "status": "CLEAR_ON_PROVIDED_CALENDAR",
+            "assessed": 12,
+            "flagged_rows": []
+          }
+        },
+        "trades": 12,
+        "source": "FLAT_TRADE_TABLE",
+        "path_scope": {
+          "bar_path_development_eligible": 12
+        },
+        "log_geometry": {
+          "trades": 12,
+          "exact_clock_trades": 12,
+          "calendar_months": 2,
+          "holding_share": {
+            "intraday_utc": 0.9166666666666666,
+            "overnight_utc": 0.0,
+            "weekend_utc": 0.08333333333333333
+          },
+          "hold_hours": {
+            "p25": 0.08333333333333333,
+            "median": 0.08333333333333333,
+            "p75": 0.08333333333333333,
+            "p90": 0.08333333333333333
+          },
+          "trades_per_calendar_month": 6.0,
+          "lot_quantiles": {
+            "p25": 0.1,
+            "median": 0.1,
+            "p75": 0.1,
+            "p90": 0.1
+          },
+          "reported_R": {
+            "n": 0,
+            "total": null,
+            "quantiles": {
+              "p25": null,
+              "median": null,
+              "p75": null,
+              "p90": null
+            }
+          },
+          "session_dna": {
+            "open_time": {
+              "hour_utc": {
+                "20": 1,
+                "13": 11
+              },
+              "bucket": {
+                "NY": 1,
+                "London_NY_overlap": 11
+              }
+            },
+            "close_time": {
+              "hour_utc": {
+                "22": 1,
+                "13": 11
+              },
+              "bucket": {
+                "Other": 1,
+                "London_NY_overlap": 11
+              }
+            }
+          }
+        },
+        "log_only_after_lock": {
+          "trades": 0,
+          "exact_clock_trades": 0,
+          "calendar_months": 0,
+          "holding_share": {
+            "intraday_utc": null,
+            "overnight_utc": null,
+            "weekend_utc": null
+          },
+          "hold_hours": {
+            "p25": null,
+            "median": null,
+            "p75": null,
+            "p90": null
+          },
+          "trades_per_calendar_month": null,
+          "lot_quantiles": {
+            "p25": null,
+            "median": null,
+            "p75": null,
+            "p90": null
+          },
+          "reported_R": {
+            "n": 0,
+            "total": null,
+            "quantiles": {
+              "p25": null,
+              "median": null,
+              "p75": null,
+              "p90": null
+            }
+          },
+          "session_dna": {
+            "open_time": {
+              "hour_utc": {},
+              "bucket": {}
+            },
+            "close_time": {
+              "hour_utc": {},
+              "bucket": {}
+            }
+          }
+        },
+        "bar_path_skipped_rows": [],
+        "profile_sim": {
+          "Swing": [
+            {
+              "status": "NO_BREACH_AT_SAMPLED_MARKS",
+              "capital_usd": 10000,
+              "risk_per_trade_pct": 0.5,
+              "normalized_trades": 12,
+              "excluded": {},
+              "equity_mark_points": 64,
+              "unvalued_event_points": 13,
+              "closed_balance_observations": 12,
+              "known_entry_margin_trades": 12,
+              "daily_loss_pct": 0.002000000000007276,
+              "maximum_loss_pct": 0.009368000000013126,
+              "cash_only_daily_loss_pct": 0.009368000000013126,
+              "cash_only_static_loss_pct": 0.009368000000013126,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1706907420000,
+              "worst_overall_at_msc": 1707084000000,
+              "net_usd": 98.46319999998195,
+              "peak_margin_usd": 293.3330659934563,
+              "peak_margin_pct_initial": 2.9333306599345628,
+              "margin_peak_pct_available_equity": 2.9336054800959386,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            },
+            {
+              "status": "NO_BREACH_AT_SAMPLED_MARKS",
+              "capital_usd": 10000,
+              "risk_per_trade_pct": 1.0,
+              "normalized_trades": 12,
+              "excluded": {},
+              "equity_mark_points": 64,
+              "unvalued_event_points": 13,
+              "closed_balance_observations": 12,
+              "known_entry_margin_trades": 12,
+              "daily_loss_pct": 0.003999999999996362,
+              "maximum_loss_pct": 0.018735999999989872,
+              "cash_only_daily_loss_pct": 0.018735999999989872,
+              "cash_only_static_loss_pct": 0.018735999999989872,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1706907420000,
+              "worst_overall_at_msc": 1707084000000,
+              "net_usd": 196.92639999998937,
+              "peak_margin_usd": 586.6661319869125,
+              "peak_margin_pct_initial": 5.8666613198691255,
+              "margin_peak_pct_available_equity": 5.867760703514535,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            },
+            {
+              "status": "NO_BREACH_AT_SAMPLED_MARKS",
+              "capital_usd": 25000,
+              "risk_per_trade_pct": 0.5,
+              "normalized_trades": 12,
+              "excluded": {},
+              "equity_mark_points": 64,
+              "unvalued_event_points": 13,
+              "closed_balance_observations": 12,
+              "known_entry_margin_trades": 12,
+              "daily_loss_pct": 0.002,
+              "maximum_loss_pct": 0.009368000000002211,
+              "cash_only_daily_loss_pct": 0.009368000000002211,
+              "cash_only_static_loss_pct": 0.009368000000002211,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1706907420000,
+              "worst_overall_at_msc": 1707084000000,
+              "net_usd": 246.15799999995943,
+              "peak_margin_usd": 733.3326649836408,
+              "peak_margin_pct_initial": 2.9333306599345637,
+              "margin_peak_pct_available_equity": 2.9336054800959386,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            },
+            {
+              "status": "NO_BREACH_AT_SAMPLED_MARKS",
+              "capital_usd": 25000,
+              "risk_per_trade_pct": 1.0,
+              "normalized_trades": 12,
+              "excluded": {},
+              "equity_mark_points": 64,
+              "unvalued_event_points": 13,
+              "closed_balance_observations": 12,
+              "known_entry_margin_trades": 12,
+              "daily_loss_pct": 0.004100000000005821,
+              "maximum_loss_pct": 0.019204400000002352,
+              "cash_only_daily_loss_pct": 0.019204400000002352,
+              "cash_only_static_loss_pct": 0.019204400000002352,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1706907420000,
+              "worst_overall_at_msc": 1707084000000,
+              "net_usd": 504.6238999999259,
+              "peak_margin_usd": 1503.3319632164635,
+              "peak_margin_pct_initial": 6.013327852865853,
+              "margin_peak_pct_available_equity": 6.01448289821956,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            }
+          ],
+          "Standard": [
+            {
+              "status": "NO_BREACH_AT_SAMPLED_MARKS",
+              "capital_usd": 10000,
+              "risk_per_trade_pct": 0.5,
+              "normalized_trades": 12,
+              "excluded": {},
+              "equity_mark_points": 64,
+              "unvalued_event_points": 13,
+              "closed_balance_observations": 12,
+              "known_entry_margin_trades": 12,
+              "daily_loss_pct": 0.002000000000007276,
+              "maximum_loss_pct": 0.00877600000001621,
+              "cash_only_daily_loss_pct": 0.00877600000001621,
+              "cash_only_static_loss_pct": 0.00877600000001621,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1706907420000,
+              "worst_overall_at_msc": 1707084000000,
+              "net_usd": 98.52239999998164,
+              "peak_margin_usd": 88.00039977285634,
+              "peak_margin_pct_initial": 0.8800039977285634,
+              "margin_peak_pct_available_equity": 0.8800812336576292,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            },
+            {
+              "status": "NO_BREACH_AT_SAMPLED_MARKS",
+              "capital_usd": 10000,
+              "risk_per_trade_pct": 1.0,
+              "normalized_trades": 12,
+              "excluded": {},
+              "equity_mark_points": 64,
+              "unvalued_event_points": 13,
+              "closed_balance_observations": 12,
+              "known_entry_margin_trades": 12,
+              "daily_loss_pct": 0.003999999999996362,
+              "maximum_loss_pct": 0.017551999999996043,
+              "cash_only_daily_loss_pct": 0.017551999999996043,
+              "cash_only_static_loss_pct": 0.017551999999996043,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1706907420000,
+              "worst_overall_at_msc": 1707084000000,
+              "net_usd": 197.04479999998875,
+              "peak_margin_usd": 176.00079954571268,
+              "peak_margin_pct_initial": 1.7600079954571268,
+              "margin_peak_pct_available_equity": 1.7603169662910503,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            },
+            {
+              "status": "NO_BREACH_AT_SAMPLED_MARKS",
+              "capital_usd": 50000,
+              "risk_per_trade_pct": 0.5,
+              "normalized_trades": 12,
+              "excluded": {},
+              "equity_mark_points": 64,
+              "unvalued_event_points": 13,
+              "closed_balance_observations": 12,
+              "known_entry_margin_trades": 12,
+              "daily_loss_pct": 0.0020500000000029106,
+              "maximum_loss_pct": 0.00899539999999979,
+              "cash_only_daily_loss_pct": 0.00899539999999979,
+              "cash_only_static_loss_pct": 0.00899539999999979,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1706907420000,
+              "worst_overall_at_msc": 1707084000000,
+              "net_usd": 504.92729999996664,
+              "peak_margin_usd": 451.00204883588873,
+              "peak_margin_pct_initial": 0.9020040976717775,
+              "margin_peak_pct_available_equity": 0.9020852438478025,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            },
+            {
+              "status": "NO_BREACH_AT_SAMPLED_MARKS",
+              "capital_usd": 50000,
+              "risk_per_trade_pct": 1.0,
+              "normalized_trades": 12,
+              "excluded": {},
+              "equity_mark_points": 64,
+              "unvalued_event_points": 13,
+              "closed_balance_observations": 12,
+              "known_entry_margin_trades": 12,
+              "daily_loss_pct": 0.004100000000005821,
+              "maximum_loss_pct": 0.01799079999999958,
+              "cash_only_daily_loss_pct": 0.01799079999999958,
+              "cash_only_static_loss_pct": 0.01799079999999958,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1706907420000,
+              "worst_overall_at_msc": 1707084000000,
+              "net_usd": 1009.8545999998532,
+              "peak_margin_usd": 902.0040976717775,
+              "peak_margin_pct_initial": 1.804008195343555,
+              "margin_peak_pct_available_equity": 1.8043328092506015,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            }
+          ]
+        },
+        "toxicity": {
+          "HIDDEN_MARTINGALE_LOT_ESCALATION": {
+            "status": "NO_FLAG_IN_OBSERVED_CONTEXT",
+            "evidence": [],
+            "assessed": 10,
+            "rule": "Two strictly settled losses in same symbol and current lot >=1.5x last loss lot"
+          },
+          "HIDDEN_GRID_AVERAGING_DOWN": {
+            "status": "UNKNOWN",
+            "evidence": [],
+            "assessed": 0,
+            "overlaps_without_mark_or_clock": 0,
+            "log_only_overlap_checks": 0
+          },
+          "NO_HARD_SL_OR_WIDE_STOP_GAMBLING": {
+            "status": "UNKNOWN",
+            "observed_sl": 12,
+            "missing_sl": 0,
+            "explicit_no_sl": 0,
+            "explicit_no_sl_share": 0.0,
+            "avg_loss_over_avg_win": null,
+            "loss_size_flag_min_ratio": 3.0,
+            "wide_stop_geometry": "REQUIRES_INITIAL_STOP_AND_ADMITTED_PATH"
+          },
+          "CONCENTRATED_LOTTERY_PROFILE": {
+            "status": "NO_FLAG_IN_OBSERVED_CONTEXT",
+            "metrics": {
+              "n": 12,
+              "wins": 12,
+              "losses": 0,
+              "breakeven": 0,
+              "winrate": 1.0,
+              "sum": 114.0,
+              "mean": 9.5,
+              "median": 9.5,
+              "avg_win": 9.5,
+              "avg_loss": null,
+              "avg_loss_over_avg_win": null,
+              "top2_profit_share": 0.16666666666666666,
+              "top5_profit_share": 0.4166666666666667,
+              "top10_profit_share": 0.8333333333333334,
+              "ex_top2": 95.0,
+              "ex_top5": 66.5,
+              "largest_month_profit_share": 0.5,
+              "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+              "months_observed": 2
+            },
+            "min_trades": 10,
+            "top2_limit": 0.5,
+            "top5_limit": 0.7,
+            "top_month_limit": 0.8
+          },
+          "FTMO_RULE_BREACH_SIM": {
+            "status": "BREACH_INDICATION",
+            "scenarios": 8,
+            "scenarios_with_observed_breach": 0,
+            "standard_funded_session": "FUNDED_STANDARD_LONG_BREAK_OBSERVED"
+          }
+        },
+        "rank": 2
+      },
+      {
+        "file": "mixed_holdout_date_log.csv",
+        "sha256": "aab79eaef5b086cedfa7ab415f0303bcab5704a63e0e410076de7f0aaeccbb38",
+        "status": "INSUFFICIENT_DATA_UNKNOWN",
+        "score": null,
+        "confirmed_rejections": [],
+        "evidence_gaps": [
+          {
+            "code": "BAR_PATH_SKIPPED_HOLDOUT_LOCK",
+            "trades": 2
+          },
+          {
+            "code": "EQUITY_MARGIN_OR_RISK_EVIDENCE_INCOMPLETE",
+            "scenario": "10000@0.5%",
+            "covered": 3,
+            "margin_covered": 3
+          },
+          {
+            "code": "EQUITY_MARGIN_OR_RISK_EVIDENCE_INCOMPLETE",
+            "scenario": "10000@1%",
+            "covered": 3,
+            "margin_covered": 3
+          },
+          {
+            "code": "EQUITY_MARGIN_OR_RISK_EVIDENCE_INCOMPLETE",
+            "scenario": "25000@0.5%",
+            "covered": 3,
+            "margin_covered": 3
+          },
+          {
+            "code": "EQUITY_MARGIN_OR_RISK_EVIDENCE_INCOMPLETE",
+            "scenario": "25000@1%",
+            "covered": 3,
+            "margin_covered": 3
+          }
+        ],
+        "standard": {
+          "passed": false,
+          "failed": [],
+          "unknown": [
+            {
+              "code": "EQUITY_MARGIN_OR_RISK_EVIDENCE_INCOMPLETE",
+              "scenario": "10000@0.5%",
+              "covered": 3,
+              "margin_covered": 3
+            },
+            {
+              "code": "EQUITY_MARGIN_OR_RISK_EVIDENCE_INCOMPLETE",
+              "scenario": "10000@1%",
+              "covered": 3,
+              "margin_covered": 3
+            },
+            {
+              "code": "EQUITY_MARGIN_OR_RISK_EVIDENCE_INCOMPLETE",
+              "scenario": "50000@0.5%",
+              "covered": 3,
+              "margin_covered": 3
+            },
+            {
+              "code": "EQUITY_MARGIN_OR_RISK_EVIDENCE_INCOMPLETE",
+              "scenario": "50000@1%",
+              "covered": 3,
+              "margin_covered": 3
+            }
+          ],
+          "news": {
+            "status": "CLEAR_ON_PROVIDED_CALENDAR",
+            "assessed": 3,
+            "flagged_rows": []
+          }
+        },
+        "trades": 3,
+        "source": "FLAT_TRADE_TABLE",
+        "path_scope": {
+          "bar_path_development_eligible": 1,
+          "bar_path_skipped_holdout_lock": 2
+        },
+        "log_geometry": {
+          "trades": 3,
+          "exact_clock_trades": 3,
+          "calendar_months": 28,
+          "holding_share": {
+            "intraday_utc": 1.0,
+            "overnight_utc": 0.0,
+            "weekend_utc": 0.0
+          },
+          "hold_hours": {
+            "p25": 0.08333333333333333,
+            "median": 0.08333333333333333,
+            "p75": 0.08333333333333333,
+            "p90": 0.08333333333333333
+          },
+          "trades_per_calendar_month": 0.10714285714285714,
+          "lot_quantiles": {
+            "p25": 0.1,
+            "median": 0.1,
+            "p75": 0.1,
+            "p90": 0.1
+          },
+          "reported_R": {
+            "n": 0,
+            "total": null,
+            "quantiles": {
+              "p25": null,
+              "median": null,
+              "p75": null,
+              "p90": null
+            }
+          },
+          "session_dna": {
+            "open_time": {
+              "hour_utc": {
+                "8": 3
+              },
+              "bucket": {
+                "Asia_London_overlap": 3
+              }
+            },
+            "close_time": {
+              "hour_utc": {
+                "8": 3
+              },
+              "bucket": {
+                "Asia_London_overlap": 3
+              }
+            }
+          }
+        },
+        "log_only_after_lock": {
+          "trades": 2,
+          "exact_clock_trades": 2,
+          "calendar_months": 18,
+          "holding_share": {
+            "intraday_utc": 1.0,
+            "overnight_utc": 0.0,
+            "weekend_utc": 0.0
+          },
+          "hold_hours": {
+            "p25": 0.08333333333333333,
+            "median": 0.08333333333333333,
+            "p75": 0.08333333333333333,
+            "p90": 0.08333333333333333
+          },
+          "trades_per_calendar_month": 0.1111111111111111,
+          "lot_quantiles": {
+            "p25": 0.1,
+            "median": 0.1,
+            "p75": 0.1,
+            "p90": 0.1
+          },
+          "reported_R": {
+            "n": 0,
+            "total": null,
+            "quantiles": {
+              "p25": null,
+              "median": null,
+              "p75": null,
+              "p90": null
+            }
+          },
+          "session_dna": {
+            "open_time": {
+              "hour_utc": {
+                "8": 2
+              },
+              "bucket": {
+                "Asia_London_overlap": 2
+              }
+            },
+            "close_time": {
+              "hour_utc": {
+                "8": 2
+              },
+              "bucket": {
+                "Asia_London_overlap": 2
+              }
+            }
+          }
+        },
+        "bar_path_skipped_rows": [
+          2,
+          3
+        ],
+        "profile_sim": {
+          "Swing": [
+            {
+              "status": "UNKNOWN_INTRADAY_COVERAGE_OR_RISK",
+              "capital_usd": 10000,
+              "risk_per_trade_pct": 0.5,
+              "normalized_trades": 3,
+              "excluded": {},
+              "equity_mark_points": 7,
+              "unvalued_event_points": 3,
+              "closed_balance_observations": 3,
+              "known_entry_margin_trades": 3,
+              "daily_loss_pct": 0.002000000000007276,
+              "maximum_loss_pct": 0.002000000000007276,
+              "cash_only_daily_loss_pct": 0.002000000000007276,
+              "cash_only_static_loss_pct": 0.002000000000007276,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1710748860000,
+              "worst_overall_at_msc": 1710748860000,
+              "net_usd": 61.2076158940381,
+              "peak_margin_usd": 293.3330659934563,
+              "peak_margin_pct_initial": 2.9333306599345628,
+              "margin_peak_pct_available_equity": 2.9333893277211174,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            },
+            {
+              "status": "UNKNOWN_INTRADAY_COVERAGE_OR_RISK",
+              "capital_usd": 10000,
+              "risk_per_trade_pct": 1.0,
+              "normalized_trades": 3,
+              "excluded": {},
+              "equity_mark_points": 7,
+              "unvalued_event_points": 3,
+              "closed_balance_observations": 3,
+              "known_entry_margin_trades": 3,
+              "daily_loss_pct": 0.003999999999996362,
+              "maximum_loss_pct": 0.003999999999996362,
+              "cash_only_daily_loss_pct": 0.003999999999996362,
+              "cash_only_static_loss_pct": 0.003999999999996362,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1710748860000,
+              "worst_overall_at_msc": 1710748860000,
+              "net_usd": 122.4152317880762,
+              "peak_margin_usd": 586.6661319869125,
+              "peak_margin_pct_initial": 5.8666613198691255,
+              "margin_peak_pct_available_equity": 5.866895995708954,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            },
+            {
+              "status": "UNKNOWN_INTRADAY_COVERAGE_OR_RISK",
+              "capital_usd": 25000,
+              "risk_per_trade_pct": 0.5,
+              "normalized_trades": 3,
+              "excluded": {},
+              "equity_mark_points": 7,
+              "unvalued_event_points": 3,
+              "closed_balance_observations": 3,
+              "known_entry_margin_trades": 3,
+              "daily_loss_pct": 0.002,
+              "maximum_loss_pct": 0.002,
+              "cash_only_daily_loss_pct": 0.002,
+              "cash_only_static_loss_pct": 0.002,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1710748860000,
+              "worst_overall_at_msc": 1710748860000,
+              "net_usd": 156.30529801323792,
+              "peak_margin_usd": 733.3326649836408,
+              "peak_margin_pct_initial": 2.9333306599345637,
+              "margin_peak_pct_available_equity": 2.933389327721118,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            },
+            {
+              "status": "UNKNOWN_INTRADAY_COVERAGE_OR_RISK",
+              "capital_usd": 25000,
+              "risk_per_trade_pct": 1.0,
+              "normalized_trades": 3,
+              "excluded": {},
+              "equity_mark_points": 7,
+              "unvalued_event_points": 3,
+              "closed_balance_observations": 3,
+              "known_entry_margin_trades": 3,
+              "daily_loss_pct": 0.004100000000005821,
+              "maximum_loss_pct": 0.004100000000005821,
+              "cash_only_daily_loss_pct": 0.004100000000005821,
+              "cash_only_static_loss_pct": 0.004100000000005821,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1710748860000,
+              "worst_overall_at_msc": 1710748860000,
+              "net_usd": 321.0831125827681,
+              "peak_margin_usd": 1503.3319632164635,
+              "peak_margin_pct_initial": 6.013327852865853,
+              "margin_peak_pct_available_equity": 6.01357440941664,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            }
+          ],
+          "Standard": [
+            {
+              "status": "UNKNOWN_INTRADAY_COVERAGE_OR_RISK",
+              "capital_usd": 10000,
+              "risk_per_trade_pct": 0.5,
+              "normalized_trades": 3,
+              "excluded": {},
+              "equity_mark_points": 7,
+              "unvalued_event_points": 3,
+              "closed_balance_observations": 3,
+              "known_entry_margin_trades": 3,
+              "daily_loss_pct": 0.002000000000007276,
+              "maximum_loss_pct": 0.002000000000007276,
+              "cash_only_daily_loss_pct": 0.002000000000007276,
+              "cash_only_static_loss_pct": 0.002000000000007276,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1710748860000,
+              "worst_overall_at_msc": 1710748860000,
+              "net_usd": 61.2076158940381,
+              "peak_margin_usd": 88.00039977285634,
+              "peak_margin_pct_initial": 0.8800039977285634,
+              "margin_peak_pct_available_equity": 0.8800215981605266,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            },
+            {
+              "status": "UNKNOWN_INTRADAY_COVERAGE_OR_RISK",
+              "capital_usd": 10000,
+              "risk_per_trade_pct": 1.0,
+              "normalized_trades": 3,
+              "excluded": {},
+              "equity_mark_points": 7,
+              "unvalued_event_points": 3,
+              "closed_balance_observations": 3,
+              "known_entry_margin_trades": 3,
+              "daily_loss_pct": 0.003999999999996362,
+              "maximum_loss_pct": 0.003999999999996362,
+              "cash_only_daily_loss_pct": 0.003999999999996362,
+              "cash_only_static_loss_pct": 0.003999999999996362,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1710748860000,
+              "worst_overall_at_msc": 1710748860000,
+              "net_usd": 122.4152317880762,
+              "peak_margin_usd": 176.00079954571268,
+              "peak_margin_pct_initial": 1.7600079954571268,
+              "margin_peak_pct_available_equity": 1.7600783985930704,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            },
+            {
+              "status": "UNKNOWN_INTRADAY_COVERAGE_OR_RISK",
+              "capital_usd": 50000,
+              "risk_per_trade_pct": 0.5,
+              "normalized_trades": 3,
+              "excluded": {},
+              "equity_mark_points": 7,
+              "unvalued_event_points": 3,
+              "closed_balance_observations": 3,
+              "known_entry_margin_trades": 3,
+              "daily_loss_pct": 0.0020500000000029106,
+              "maximum_loss_pct": 0.0020500000000029106,
+              "cash_only_daily_loss_pct": 0.0020500000000029106,
+              "cash_only_static_loss_pct": 0.0020500000000029106,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1710748860000,
+              "worst_overall_at_msc": 1710748860000,
+              "net_usd": 321.08311258277536,
+              "peak_margin_usd": 451.00204883588873,
+              "peak_margin_pct_initial": 0.9020040976717775,
+              "margin_peak_pct_available_equity": 0.9020225891348547,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            },
+            {
+              "status": "UNKNOWN_INTRADAY_COVERAGE_OR_RISK",
+              "capital_usd": 50000,
+              "risk_per_trade_pct": 1.0,
+              "normalized_trades": 3,
+              "excluded": {},
+              "equity_mark_points": 7,
+              "unvalued_event_points": 3,
+              "closed_balance_observations": 3,
+              "known_entry_margin_trades": 3,
+              "daily_loss_pct": 0.004100000000005821,
+              "maximum_loss_pct": 0.004100000000005821,
+              "cash_only_daily_loss_pct": 0.004100000000005821,
+              "cash_only_static_loss_pct": 0.004100000000005821,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1710748860000,
+              "worst_overall_at_msc": 1710748860000,
+              "net_usd": 642.1662251655362,
+              "peak_margin_usd": 902.0040976717775,
+              "peak_margin_pct_initial": 1.804008195343555,
+              "margin_peak_pct_available_equity": 1.8040821627122263,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            }
+          ]
+        },
+        "toxicity": {
+          "HIDDEN_MARTINGALE_LOT_ESCALATION": {
+            "status": "UNKNOWN",
+            "evidence": [],
+            "assessed": 0,
+            "rule": "Two strictly settled losses in same symbol and current lot >=1.5x last loss lot"
+          },
+          "HIDDEN_GRID_AVERAGING_DOWN": {
+            "status": "UNKNOWN",
+            "evidence": [],
+            "assessed": 0,
+            "overlaps_without_mark_or_clock": 0,
+            "log_only_overlap_checks": 0
+          },
+          "NO_HARD_SL_OR_WIDE_STOP_GAMBLING": {
+            "status": "UNKNOWN",
+            "observed_sl": 3,
+            "missing_sl": 0,
+            "explicit_no_sl": 0,
+            "explicit_no_sl_share": 0.0,
+            "avg_loss_over_avg_win": null,
+            "loss_size_flag_min_ratio": 3.0,
+            "wide_stop_geometry": "REQUIRES_INITIAL_STOP_AND_ADMITTED_PATH"
+          },
+          "CONCENTRATED_LOTTERY_PROFILE": {
+            "status": "UNKNOWN",
+            "metrics": {
+              "n": 3,
+              "wins": 3,
+              "losses": 0,
+              "breakeven": 0,
+              "winrate": 1.0,
+              "sum": 84.0,
+              "mean": 28.0,
+              "median": 9.5,
+              "avg_win": 28.0,
+              "avg_loss": null,
+              "avg_loss_over_avg_win": null,
+              "top2_profit_share": 0.8869047619047619,
+              "top5_profit_share": 1.0,
+              "top10_profit_share": 1.0,
+              "ex_top2": 9.5,
+              "ex_top5": 0.0,
+              "largest_month_profit_share": 0.7738095238095238,
+              "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+              "months_observed": 3
+            },
+            "min_trades": 10,
+            "top2_limit": 0.5,
+            "top5_limit": 0.7,
+            "top_month_limit": 0.8
+          },
+          "FTMO_RULE_BREACH_SIM": {
+            "status": "UNKNOWN",
+            "scenarios": 8,
+            "scenarios_with_observed_breach": 0,
+            "standard_funded_session": "NO_LONG_BREAK_OBSERVED"
+          }
+        },
+        "rank": null
+      },
+      {
+        "file": "hidden_grid_ftmo_breach.csv",
+        "sha256": "0388bd80bc2c601ff8de58dfc887fad49ecd88221e6d5f348733a74aff83d1df",
+        "status": "REJECTED_TOXIC_OR_FTMO_BREACH",
+        "score": null,
+        "confirmed_rejections": [
+          {
+            "code": "HIDDEN_GRID_AVERAGING_DOWN",
+            "evidence": [
+              {
+                "row": 2,
+                "prior_open_row": 1,
+                "estimated_liquidation_price": 1.09975,
+                "evidence_basis": "M1_BID_ASK_PROXY"
+              },
+              {
+                "row": 3,
+                "prior_open_row": 1,
+                "estimated_liquidation_price": 1.0995,
+                "evidence_basis": "M1_BID_ASK_PROXY"
+              },
+              {
+                "row": 3,
+                "prior_open_row": 2,
+                "estimated_liquidation_price": 1.0995,
+                "evidence_basis": "M1_BID_ASK_PROXY"
+              },
+              {
+                "row": 4,
+                "prior_open_row": 1,
+                "estimated_liquidation_price": 1.09925,
+                "evidence_basis": "M1_BID_ASK_PROXY"
+              },
+              {
+                "row": 4,
+                "prior_open_row": 2,
+                "estimated_liquidation_price": 1.09925,
+                "evidence_basis": "M1_BID_ASK_PROXY"
+              },
+              {
+                "row": 4,
+                "prior_open_row": 3,
+                "estimated_liquidation_price": 1.09925,
+                "evidence_basis": "M1_BID_ASK_PROXY"
+              },
+              {
+                "row": 5,
+                "prior_open_row": 1,
+                "estimated_liquidation_price": 1.099,
+                "evidence_basis": "M1_BID_ASK_PROXY"
+              },
+              {
+                "row": 5,
+                "prior_open_row": 2,
+                "estimated_liquidation_price": 1.099,
+                "evidence_basis": "M1_BID_ASK_PROXY"
+              },
+              {
+                "row": 5,
+                "prior_open_row": 3,
+                "estimated_liquidation_price": 1.099,
+                "evidence_basis": "M1_BID_ASK_PROXY"
+              },
+              {
+                "row": 5,
+                "prior_open_row": 4,
+                "estimated_liquidation_price": 1.099,
+                "evidence_basis": "M1_BID_ASK_PROXY"
+              },
+              {
+                "row": 6,
+                "prior_open_row": 1,
+                "estimated_liquidation_price": 1.09875,
+                "evidence_basis": "M1_BID_ASK_PROXY"
+              },
+              {
+                "row": 6,
+                "prior_open_row": 2,
+                "estimated_liquidation_price": 1.09875,
+                "evidence_basis": "M1_BID_ASK_PROXY"
+              },
+              {
+                "row": 6,
+                "prior_open_row": 3,
+                "estimated_liquidation_price": 1.09875,
+                "evidence_basis": "M1_BID_ASK_PROXY"
+              },
+              {
+                "row": 6,
+                "prior_open_row": 4,
+                "estimated_liquidation_price": 1.09875,
+                "evidence_basis": "M1_BID_ASK_PROXY"
+              },
+              {
+                "row": 6,
+                "prior_open_row": 5,
+                "estimated_liquidation_price": 1.09875,
+                "evidence_basis": "M1_BID_ASK_PROXY"
+              }
+            ],
+            "explicit_no_sl": null,
+            "avg_loss_over_avg_win": null,
+            "concentration": null
+          },
+          {
+            "code": "FTMO_RULE_BREACH_SIM",
+            "scenario": "10000@0.5%",
+            "daily_loss_pct": 18.118500000000314,
+            "maximum_loss_pct": 18.118500000000314,
+            "scope": "BREACH_AT_MODELED_MARK"
+          },
+          {
+            "code": "FTMO_MARGIN_AT_EQUITY_MARK",
+            "scenario": "10000@0.5%",
+            "margin_pct": 126.09961418420255
+          },
+          {
+            "code": "NONPOSITIVE_TARGET_NET",
+            "scenario": "10000@0.5%",
+            "net_usd": -1811.8500000000313
+          },
+          {
+            "code": "FTMO_RULE_BREACH_SIM",
+            "scenario": "10000@1%",
+            "daily_loss_pct": 36.62250000000075,
+            "maximum_loss_pct": 36.62250000000075,
+            "scope": "BREACH_AT_MODELED_MARK"
+          },
+          {
+            "code": "FTMO_MARGIN_AT_EQUITY_MARK",
+            "scenario": "10000@1%",
+            "margin_pct": 328.8429780046712
+          },
+          {
+            "code": "NONPOSITIVE_TARGET_NET",
+            "scenario": "10000@1%",
+            "net_usd": -3662.2500000000746
+          },
+          {
+            "code": "FTMO_RULE_BREACH_SIM",
+            "scenario": "25000@0.5%",
+            "daily_loss_pct": 18.34980000000034,
+            "maximum_loss_pct": 18.34980000000034,
+            "scope": "BREACH_AT_MODELED_MARK"
+          },
+          {
+            "code": "FTMO_MARGIN_AT_EQUITY_MARK",
+            "scenario": "25000@0.5%",
+            "margin_pct": 128.0694511780139
+          },
+          {
+            "code": "NONPOSITIVE_TARGET_NET",
+            "scenario": "25000@0.5%",
+            "net_usd": -4587.450000000084
+          },
+          {
+            "code": "FTMO_RULE_BREACH_SIM",
+            "scenario": "25000@1%",
+            "daily_loss_pct": 36.699600000000764,
+            "maximum_loss_pct": 36.699600000000764,
+            "scope": "BREACH_AT_MODELED_MARK"
+          },
+          {
+            "code": "FTMO_MARGIN_AT_EQUITY_MARK",
+            "scenario": "25000@1%",
+            "margin_pct": 329.9341918878386
+          },
+          {
+            "code": "NONPOSITIVE_TARGET_NET",
+            "scenario": "25000@1%",
+            "net_usd": -9174.90000000019
+          },
+          {
+            "code": "NONPOSITIVE_TARGET_NET_AT_LOGGED_SIZES",
+            "net_usd": -385.50000000000784
+          }
+        ],
+        "evidence_gaps": [
+          {
+            "code": "EQUITY_MARGIN_OR_RISK_EVIDENCE_INCOMPLETE",
+            "scenario": "10000@0.5%",
+            "covered": 6,
+            "margin_covered": 6
+          },
+          {
+            "code": "EQUITY_MARGIN_OR_RISK_EVIDENCE_INCOMPLETE",
+            "scenario": "10000@1%",
+            "covered": 6,
+            "margin_covered": 6
+          },
+          {
+            "code": "EQUITY_MARGIN_OR_RISK_EVIDENCE_INCOMPLETE",
+            "scenario": "25000@0.5%",
+            "covered": 6,
+            "margin_covered": 6
+          },
+          {
+            "code": "EQUITY_MARGIN_OR_RISK_EVIDENCE_INCOMPLETE",
+            "scenario": "25000@1%",
+            "covered": 6,
+            "margin_covered": 6
+          }
+        ],
+        "standard": {
+          "passed": false,
+          "failed": [
+            {
+              "code": "FTMO_RULE_BREACH_SIM",
+              "scenario": "10000@0.5%",
+              "daily_loss_pct": 18.118500000000314,
+              "maximum_loss_pct": 18.118500000000314,
+              "scope": "BREACH_AT_MODELED_MARK"
+            },
+            {
+              "code": "NONPOSITIVE_TARGET_NET",
+              "scenario": "10000@0.5%",
+              "net_usd": -1811.8500000000313
+            },
+            {
+              "code": "FTMO_RULE_BREACH_SIM",
+              "scenario": "10000@1%",
+              "daily_loss_pct": 36.62250000000075,
+              "maximum_loss_pct": 36.62250000000075,
+              "scope": "BREACH_AT_MODELED_MARK"
+            },
+            {
+              "code": "NONPOSITIVE_TARGET_NET",
+              "scenario": "10000@1%",
+              "net_usd": -3662.2500000000746
+            },
+            {
+              "code": "FTMO_RULE_BREACH_SIM",
+              "scenario": "50000@0.5%",
+              "daily_loss_pct": 18.34980000000034,
+              "maximum_loss_pct": 18.34980000000034,
+              "scope": "BREACH_AT_MODELED_MARK"
+            },
+            {
+              "code": "NONPOSITIVE_TARGET_NET",
+              "scenario": "50000@0.5%",
+              "net_usd": -9174.900000000169
+            },
+            {
+              "code": "FTMO_RULE_BREACH_SIM",
+              "scenario": "50000@1%",
+              "daily_loss_pct": 36.699600000000764,
+              "maximum_loss_pct": 36.699600000000764,
+              "scope": "BREACH_AT_MODELED_MARK"
+            },
+            {
+              "code": "NONPOSITIVE_TARGET_NET",
+              "scenario": "50000@1%",
+              "net_usd": -18349.80000000038
+            },
+            {
+              "code": "NONPOSITIVE_TARGET_NET_AT_LOGGED_SIZES",
+              "net_usd": -385.50000000000784
+            }
+          ],
+          "unknown": [
+            {
+              "code": "EQUITY_MARGIN_OR_RISK_EVIDENCE_INCOMPLETE",
+              "scenario": "10000@0.5%",
+              "covered": 6,
+              "margin_covered": 6
+            },
+            {
+              "code": "EQUITY_MARGIN_OR_RISK_EVIDENCE_INCOMPLETE",
+              "scenario": "10000@1%",
+              "covered": 6,
+              "margin_covered": 6
+            },
+            {
+              "code": "EQUITY_MARGIN_OR_RISK_EVIDENCE_INCOMPLETE",
+              "scenario": "50000@0.5%",
+              "covered": 6,
+              "margin_covered": 6
+            },
+            {
+              "code": "EQUITY_MARGIN_OR_RISK_EVIDENCE_INCOMPLETE",
+              "scenario": "50000@1%",
+              "covered": 6,
+              "margin_covered": 6
+            }
+          ],
+          "news": {
+            "status": "CLEAR_ON_PROVIDED_CALENDAR",
+            "assessed": 6,
+            "flagged_rows": []
+          }
+        },
+        "trades": 6,
+        "source": "FLAT_TRADE_TABLE",
+        "path_scope": {
+          "bar_path_development_eligible": 6
+        },
+        "log_geometry": {
+          "trades": 6,
+          "exact_clock_trades": 6,
+          "calendar_months": 1,
+          "holding_share": {
+            "intraday_utc": 1.0,
+            "overnight_utc": 0.0,
+            "weekend_utc": 0.0
+          },
+          "hold_hours": {
+            "p25": 0.15,
+            "median": 0.15,
+            "p75": 0.15,
+            "p90": 0.15
+          },
+          "trades_per_calendar_month": 6.0,
+          "lot_quantiles": {
+            "p25": 0.1,
+            "median": 0.1,
+            "p75": 0.1,
+            "p90": 0.1
+          },
+          "reported_R": {
+            "n": 0,
+            "total": null,
+            "quantiles": {
+              "p25": null,
+              "median": null,
+              "p75": null,
+              "p90": null
+            }
+          },
+          "session_dna": {
+            "open_time": {
+              "hour_utc": {
+                "8": 6
+              },
+              "bucket": {
+                "Asia_London_overlap": 6
+              }
+            },
+            "close_time": {
+              "hour_utc": {
+                "8": 6
+              },
+              "bucket": {
+                "Asia_London_overlap": 6
+              }
+            }
+          }
+        },
+        "log_only_after_lock": {
+          "trades": 0,
+          "exact_clock_trades": 0,
+          "calendar_months": 0,
+          "holding_share": {
+            "intraday_utc": null,
+            "overnight_utc": null,
+            "weekend_utc": null
+          },
+          "hold_hours": {
+            "p25": null,
+            "median": null,
+            "p75": null,
+            "p90": null
+          },
+          "trades_per_calendar_month": null,
+          "lot_quantiles": {
+            "p25": null,
+            "median": null,
+            "p75": null,
+            "p90": null
+          },
+          "reported_R": {
+            "n": 0,
+            "total": null,
+            "quantiles": {
+              "p25": null,
+              "median": null,
+              "p75": null,
+              "p90": null
+            }
+          },
+          "session_dna": {
+            "open_time": {
+              "hour_utc": {},
+              "bucket": {}
+            },
+            "close_time": {
+              "hour_utc": {},
+              "bucket": {}
+            }
+          }
+        },
+        "bar_path_skipped_rows": [],
+        "profile_sim": {
+          "Swing": [
+            {
+              "status": "BREACH_AT_MODELED_MARK",
+              "capital_usd": 10000,
+              "risk_per_trade_pct": 0.5,
+              "normalized_trades": 6,
+              "excluded": {},
+              "equity_mark_points": 9,
+              "unvalued_event_points": 6,
+              "closed_balance_observations": 6,
+              "known_entry_margin_trades": 6,
+              "daily_loss_pct": 18.118500000000314,
+              "maximum_loss_pct": 18.118500000000314,
+              "cash_only_daily_loss_pct": 18.118500000000314,
+              "cash_only_static_loss_pct": 18.118500000000314,
+              "daily_breach_observed": true,
+              "overall_breach_observed": true,
+              "worst_daily_at_msc": 1708071240000,
+              "worst_overall_at_msc": 1708071240000,
+              "net_usd": -1811.8500000000313,
+              "peak_margin_usd": 10334.115581623726,
+              "peak_margin_pct_initial": 103.34115581623726,
+              "margin_peak_pct_available_equity": 126.09961418420255,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": true,
+              "margin_100pct_exceeded_at_equity_mark": true
+            },
+            {
+              "status": "BREACH_AT_MODELED_MARK",
+              "capital_usd": 10000,
+              "risk_per_trade_pct": 1.0,
+              "normalized_trades": 6,
+              "excluded": {},
+              "equity_mark_points": 9,
+              "unvalued_event_points": 6,
+              "closed_balance_observations": 6,
+              "known_entry_margin_trades": 6,
+              "daily_loss_pct": 36.62250000000075,
+              "maximum_loss_pct": 36.62250000000075,
+              "cash_only_daily_loss_pct": 36.62250000000075,
+              "cash_only_static_loss_pct": 36.62250000000075,
+              "daily_breach_observed": true,
+              "overall_breach_observed": true,
+              "worst_daily_at_msc": 1708071240000,
+              "worst_overall_at_msc": 1708071240000,
+              "net_usd": -3662.2500000000746,
+              "peak_margin_usd": 20888.10596285647,
+              "peak_margin_pct_initial": 208.88105962856469,
+              "margin_peak_pct_available_equity": 328.8429780046712,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": true,
+              "margin_100pct_exceeded_at_equity_mark": true
+            },
+            {
+              "status": "BREACH_AT_MODELED_MARK",
+              "capital_usd": 25000,
+              "risk_per_trade_pct": 0.5,
+              "normalized_trades": 6,
+              "excluded": {},
+              "equity_mark_points": 9,
+              "unvalued_event_points": 6,
+              "closed_balance_observations": 6,
+              "known_entry_margin_trades": 6,
+              "daily_loss_pct": 18.34980000000034,
+              "maximum_loss_pct": 18.34980000000034,
+              "cash_only_daily_loss_pct": 18.34980000000034,
+              "cash_only_static_loss_pct": 18.34980000000034,
+              "daily_breach_observed": true,
+              "overall_breach_observed": true,
+              "worst_daily_at_msc": 1708071240000,
+              "worst_overall_at_msc": 1708071240000,
+              "net_usd": -4587.450000000084,
+              "peak_margin_usd": 26165.10115347284,
+              "peak_margin_pct_initial": 104.66040461389136,
+              "margin_peak_pct_available_equity": 128.0694511780139,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": true,
+              "margin_100pct_exceeded_at_equity_mark": true
+            },
+            {
+              "status": "BREACH_AT_MODELED_MARK",
+              "capital_usd": 25000,
+              "risk_per_trade_pct": 1.0,
+              "normalized_trades": 6,
+              "excluded": {},
+              "equity_mark_points": 9,
+              "unvalued_event_points": 6,
+              "closed_balance_observations": 6,
+              "known_entry_margin_trades": 6,
+              "daily_loss_pct": 36.699600000000764,
+              "maximum_loss_pct": 36.699600000000764,
+              "cash_only_daily_loss_pct": 36.699600000000764,
+              "cash_only_static_loss_pct": 36.699600000000764,
+              "daily_breach_observed": true,
+              "overall_breach_observed": true,
+              "worst_daily_at_msc": 1708071240000,
+              "worst_overall_at_msc": 1708071240000,
+              "net_usd": -9174.90000000019,
+              "peak_margin_usd": 52330.20230694568,
+              "peak_margin_pct_initial": 209.32080922778272,
+              "margin_peak_pct_available_equity": 329.9341918878386,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": true,
+              "margin_100pct_exceeded_at_equity_mark": true
+            }
+          ],
+          "Standard": [
+            {
+              "status": "BREACH_AT_MODELED_MARK",
+              "capital_usd": 10000,
+              "risk_per_trade_pct": 0.5,
+              "normalized_trades": 6,
+              "excluded": {},
+              "equity_mark_points": 9,
+              "unvalued_event_points": 6,
+              "closed_balance_observations": 6,
+              "known_entry_margin_trades": 6,
+              "daily_loss_pct": 18.118500000000314,
+              "maximum_loss_pct": 18.118500000000314,
+              "cash_only_daily_loss_pct": 18.118500000000314,
+              "cash_only_static_loss_pct": 18.118500000000314,
+              "daily_breach_observed": true,
+              "overall_breach_observed": true,
+              "worst_daily_at_msc": 1708071240000,
+              "worst_overall_at_msc": 1708071240000,
+              "net_usd": -1811.8500000000313,
+              "peak_margin_usd": 3100.2515839863718,
+              "peak_margin_pct_initial": 31.00251583986372,
+              "margin_peak_pct_available_equity": 37.83009058944729,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            },
+            {
+              "status": "BREACH_AT_MODELED_MARK",
+              "capital_usd": 10000,
+              "risk_per_trade_pct": 1.0,
+              "normalized_trades": 6,
+              "excluded": {},
+              "equity_mark_points": 9,
+              "unvalued_event_points": 6,
+              "closed_balance_observations": 6,
+              "known_entry_margin_trades": 6,
+              "daily_loss_pct": 36.62250000000075,
+              "maximum_loss_pct": 36.62250000000075,
+              "cash_only_daily_loss_pct": 36.62250000000075,
+              "cash_only_static_loss_pct": 36.62250000000075,
+              "daily_breach_observed": true,
+              "overall_breach_observed": true,
+              "worst_daily_at_msc": 1708071240000,
+              "worst_overall_at_msc": 1708071240000,
+              "net_usd": -3662.2500000000746,
+              "peak_margin_usd": 6266.465967632028,
+              "peak_margin_pct_initial": 62.664659676320284,
+              "margin_peak_pct_available_equity": 98.65343148035424,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": true,
+              "margin_100pct_exceeded_at_equity_mark": false
+            },
+            {
+              "status": "BREACH_AT_MODELED_MARK",
+              "capital_usd": 50000,
+              "risk_per_trade_pct": 0.5,
+              "normalized_trades": 6,
+              "excluded": {},
+              "equity_mark_points": 9,
+              "unvalued_event_points": 6,
+              "closed_balance_observations": 6,
+              "known_entry_margin_trades": 6,
+              "daily_loss_pct": 18.34980000000034,
+              "maximum_loss_pct": 18.34980000000034,
+              "cash_only_daily_loss_pct": 18.34980000000034,
+              "cash_only_static_loss_pct": 18.34980000000034,
+              "daily_breach_observed": true,
+              "overall_breach_observed": true,
+              "worst_daily_at_msc": 1708071240000,
+              "worst_overall_at_msc": 1708071240000,
+              "net_usd": -9174.900000000169,
+              "peak_margin_usd": 15699.146318909714,
+              "peak_margin_pct_initial": 31.39829263781943,
+              "margin_peak_pct_available_equity": 38.42104491079416,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            },
+            {
+              "status": "BREACH_AT_MODELED_MARK",
+              "capital_usd": 50000,
+              "risk_per_trade_pct": 1.0,
+              "normalized_trades": 6,
+              "excluded": {},
+              "equity_mark_points": 9,
+              "unvalued_event_points": 6,
+              "closed_balance_observations": 6,
+              "known_entry_margin_trades": 6,
+              "daily_loss_pct": 36.699600000000764,
+              "maximum_loss_pct": 36.699600000000764,
+              "cash_only_daily_loss_pct": 36.699600000000764,
+              "cash_only_static_loss_pct": 36.699600000000764,
+              "daily_breach_observed": true,
+              "overall_breach_observed": true,
+              "worst_daily_at_msc": 1708071240000,
+              "worst_overall_at_msc": 1708071240000,
+              "net_usd": -18349.80000000038,
+              "peak_margin_usd": 31398.292637819428,
+              "peak_margin_pct_initial": 62.79658527563886,
+              "margin_peak_pct_available_equity": 98.98079743083514,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": true,
+              "margin_100pct_exceeded_at_equity_mark": false
+            }
+          ]
+        },
+        "toxicity": {
+          "HIDDEN_MARTINGALE_LOT_ESCALATION": {
+            "status": "UNKNOWN",
+            "evidence": [],
+            "assessed": 0,
+            "rule": "Two strictly settled losses in same symbol and current lot >=1.5x last loss lot"
+          },
+          "HIDDEN_GRID_AVERAGING_DOWN": {
+            "status": "FLAG_AT_BID_PROXY",
+            "evidence": [
+              {
+                "row": 2,
+                "prior_open_row": 1,
+                "estimated_liquidation_price": 1.09975,
+                "evidence_basis": "M1_BID_ASK_PROXY"
+              },
+              {
+                "row": 3,
+                "prior_open_row": 1,
+                "estimated_liquidation_price": 1.0995,
+                "evidence_basis": "M1_BID_ASK_PROXY"
+              },
+              {
+                "row": 3,
+                "prior_open_row": 2,
+                "estimated_liquidation_price": 1.0995,
+                "evidence_basis": "M1_BID_ASK_PROXY"
+              },
+              {
+                "row": 4,
+                "prior_open_row": 1,
+                "estimated_liquidation_price": 1.09925,
+                "evidence_basis": "M1_BID_ASK_PROXY"
+              },
+              {
+                "row": 4,
+                "prior_open_row": 2,
+                "estimated_liquidation_price": 1.09925,
+                "evidence_basis": "M1_BID_ASK_PROXY"
+              },
+              {
+                "row": 4,
+                "prior_open_row": 3,
+                "estimated_liquidation_price": 1.09925,
+                "evidence_basis": "M1_BID_ASK_PROXY"
+              },
+              {
+                "row": 5,
+                "prior_open_row": 1,
+                "estimated_liquidation_price": 1.099,
+                "evidence_basis": "M1_BID_ASK_PROXY"
+              },
+              {
+                "row": 5,
+                "prior_open_row": 2,
+                "estimated_liquidation_price": 1.099,
+                "evidence_basis": "M1_BID_ASK_PROXY"
+              },
+              {
+                "row": 5,
+                "prior_open_row": 3,
+                "estimated_liquidation_price": 1.099,
+                "evidence_basis": "M1_BID_ASK_PROXY"
+              },
+              {
+                "row": 5,
+                "prior_open_row": 4,
+                "estimated_liquidation_price": 1.099,
+                "evidence_basis": "M1_BID_ASK_PROXY"
+              },
+              {
+                "row": 6,
+                "prior_open_row": 1,
+                "estimated_liquidation_price": 1.09875,
+                "evidence_basis": "M1_BID_ASK_PROXY"
+              },
+              {
+                "row": 6,
+                "prior_open_row": 2,
+                "estimated_liquidation_price": 1.09875,
+                "evidence_basis": "M1_BID_ASK_PROXY"
+              },
+              {
+                "row": 6,
+                "prior_open_row": 3,
+                "estimated_liquidation_price": 1.09875,
+                "evidence_basis": "M1_BID_ASK_PROXY"
+              },
+              {
+                "row": 6,
+                "prior_open_row": 4,
+                "estimated_liquidation_price": 1.09875,
+                "evidence_basis": "M1_BID_ASK_PROXY"
+              },
+              {
+                "row": 6,
+                "prior_open_row": 5,
+                "estimated_liquidation_price": 1.09875,
+                "evidence_basis": "M1_BID_ASK_PROXY"
+              }
+            ],
+            "assessed": 15,
+            "overlaps_without_mark_or_clock": 0,
+            "log_only_overlap_checks": 0
+          },
+          "NO_HARD_SL_OR_WIDE_STOP_GAMBLING": {
+            "status": "UNKNOWN",
+            "observed_sl": 6,
+            "missing_sl": 0,
+            "explicit_no_sl": 0,
+            "explicit_no_sl_share": 0.0,
+            "avg_loss_over_avg_win": null,
+            "loss_size_flag_min_ratio": 3.0,
+            "wide_stop_geometry": "REQUIRES_INITIAL_STOP_AND_ADMITTED_PATH"
+          },
+          "CONCENTRATED_LOTTERY_PROFILE": {
+            "status": "UNKNOWN",
+            "metrics": {
+              "n": 6,
+              "wins": 0,
+              "losses": 6,
+              "breakeven": 0,
+              "winrate": 0.0,
+              "sum": -360.0,
+              "mean": -60.0,
+              "median": -60.0,
+              "avg_win": null,
+              "avg_loss": 60.0,
+              "avg_loss_over_avg_win": null,
+              "top2_profit_share": null,
+              "top5_profit_share": null,
+              "top10_profit_share": null,
+              "ex_top2": -360.0,
+              "ex_top5": -360.0,
+              "largest_month_profit_share": null,
+              "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+              "months_observed": 1
+            },
+            "min_trades": 10,
+            "top2_limit": 0.5,
+            "top5_limit": 0.7,
+            "top_month_limit": 0.8
+          },
+          "FTMO_RULE_BREACH_SIM": {
+            "status": "BREACH_INDICATION",
+            "scenarios": 8,
+            "scenarios_with_observed_breach": 8,
+            "standard_funded_session": "NO_LONG_BREAK_OBSERVED"
+          }
+        },
+        "rank": null
+      },
+      {
+        "file": "hidden_martingale_trap.csv",
+        "sha256": "931942307358fefe4999db014546c3818c0a8683dba07e27d5019dc869623165",
+        "status": "REJECTED_TOXIC_OR_FTMO_BREACH",
+        "score": null,
+        "confirmed_rejections": [
+          {
+            "code": "HIDDEN_MARTINGALE_LOT_ESCALATION",
+            "evidence": [
+              {
+                "row": 3,
+                "previous": 2,
+                "lot_multiple": 5.0
+              }
+            ],
+            "explicit_no_sl": null,
+            "avg_loss_over_avg_win": null,
+            "concentration": null
+          }
+        ],
+        "evidence_gaps": [],
+        "standard": {
+          "passed": true,
+          "failed": [],
+          "unknown": [],
+          "news": {
+            "status": "CLEAR_ON_PROVIDED_CALENDAR",
+            "assessed": 3,
+            "flagged_rows": []
+          }
+        },
+        "trades": 3,
+        "source": "FLAT_TRADE_TABLE",
+        "path_scope": {
+          "bar_path_development_eligible": 3
+        },
+        "log_geometry": {
+          "trades": 3,
+          "exact_clock_trades": 3,
+          "calendar_months": 1,
+          "holding_share": {
+            "intraday_utc": 1.0,
+            "overnight_utc": 0.0,
+            "weekend_utc": 0.0
+          },
+          "hold_hours": {
+            "p25": 0.08333333333333333,
+            "median": 0.08333333333333333,
+            "p75": 0.08333333333333333,
+            "p90": 0.08333333333333333
+          },
+          "trades_per_calendar_month": 3.0,
+          "lot_quantiles": {
+            "p25": 0.1,
+            "median": 0.1,
+            "p75": 0.3,
+            "p90": 0.42000000000000004
+          },
+          "reported_R": {
+            "n": 0,
+            "total": null,
+            "quantiles": {
+              "p25": null,
+              "median": null,
+              "p75": null,
+              "p90": null
+            }
+          },
+          "session_dna": {
+            "open_time": {
+              "hour_utc": {
+                "12": 1,
+                "13": 1,
+                "14": 1
+              },
+              "bucket": {
+                "London": 1,
+                "London_NY_overlap": 2
+              }
+            },
+            "close_time": {
+              "hour_utc": {
+                "12": 1,
+                "13": 1,
+                "14": 1
+              },
+              "bucket": {
+                "London": 1,
+                "London_NY_overlap": 2
+              }
+            }
+          }
+        },
+        "log_only_after_lock": {
+          "trades": 0,
+          "exact_clock_trades": 0,
+          "calendar_months": 0,
+          "holding_share": {
+            "intraday_utc": null,
+            "overnight_utc": null,
+            "weekend_utc": null
+          },
+          "hold_hours": {
+            "p25": null,
+            "median": null,
+            "p75": null,
+            "p90": null
+          },
+          "trades_per_calendar_month": null,
+          "lot_quantiles": {
+            "p25": null,
+            "median": null,
+            "p75": null,
+            "p90": null
+          },
+          "reported_R": {
+            "n": 0,
+            "total": null,
+            "quantiles": {
+              "p25": null,
+              "median": null,
+              "p75": null,
+              "p90": null
+            }
+          },
+          "session_dna": {
+            "open_time": {
+              "hour_utc": {},
+              "bucket": {}
+            },
+            "close_time": {
+              "hour_utc": {},
+              "bucket": {}
+            }
+          }
+        },
+        "bar_path_skipped_rows": [],
+        "profile_sim": {
+          "Swing": [
+            {
+              "status": "NO_BREACH_AT_SAMPLED_MARKS",
+              "capital_usd": 10000,
+              "risk_per_trade_pct": 0.5,
+              "normalized_trades": 3,
+              "excluded": {},
+              "equity_mark_points": 15,
+              "unvalued_event_points": 3,
+              "closed_balance_observations": 3,
+              "known_entry_margin_trades": 3,
+              "daily_loss_pct": 0.17000000000003637,
+              "maximum_loss_pct": 0.17000000000003637,
+              "cash_only_daily_loss_pct": 0.17000000000003637,
+              "cash_only_static_loss_pct": 0.17000000000003637,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1708005660000,
+              "worst_overall_at_msc": 1708005660000,
+              "net_usd": 30.799999999995634,
+              "peak_margin_usd": 293.3330659934563,
+              "peak_margin_pct_initial": 2.9333306599345628,
+              "margin_peak_pct_available_equity": 2.9383258138180546,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            },
+            {
+              "status": "NO_BREACH_AT_SAMPLED_MARKS",
+              "capital_usd": 10000,
+              "risk_per_trade_pct": 1.0,
+              "normalized_trades": 3,
+              "excluded": {},
+              "equity_mark_points": 15,
+              "unvalued_event_points": 3,
+              "closed_balance_observations": 3,
+              "known_entry_margin_trades": 3,
+              "daily_loss_pct": 0.3400000000000182,
+              "maximum_loss_pct": 0.3400000000000182,
+              "cash_only_daily_loss_pct": 0.3400000000000182,
+              "cash_only_static_loss_pct": 0.3400000000000182,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1708005660000,
+              "worst_overall_at_msc": 1708005660000,
+              "net_usd": 61.599999999998545,
+              "peak_margin_usd": 586.6661319869125,
+              "peak_margin_pct_initial": 5.8666613198691255,
+              "margin_peak_pct_available_equity": 5.886676018331453,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            },
+            {
+              "status": "NO_BREACH_AT_SAMPLED_MARKS",
+              "capital_usd": 25000,
+              "risk_per_trade_pct": 0.5,
+              "normalized_trades": 3,
+              "excluded": {},
+              "equity_mark_points": 15,
+              "unvalued_event_points": 3,
+              "closed_balance_observations": 3,
+              "known_entry_margin_trades": 3,
+              "daily_loss_pct": 0.1700000000000291,
+              "maximum_loss_pct": 0.1700000000000291,
+              "cash_only_daily_loss_pct": 0.1700000000000291,
+              "cash_only_static_loss_pct": 0.1700000000000291,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1708005660000,
+              "worst_overall_at_msc": 1708005660000,
+              "net_usd": 76.99999999999272,
+              "peak_margin_usd": 733.3326649836408,
+              "peak_margin_pct_initial": 2.9333306599345637,
+              "margin_peak_pct_available_equity": 2.938325813818055,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            },
+            {
+              "status": "NO_BREACH_AT_SAMPLED_MARKS",
+              "capital_usd": 25000,
+              "risk_per_trade_pct": 1.0,
+              "normalized_trades": 3,
+              "excluded": {},
+              "equity_mark_points": 15,
+              "unvalued_event_points": 3,
+              "closed_balance_observations": 3,
+              "known_entry_margin_trades": 3,
+              "daily_loss_pct": 0.3485000000000582,
+              "maximum_loss_pct": 0.3485000000000582,
+              "cash_only_daily_loss_pct": 0.3485000000000582,
+              "cash_only_static_loss_pct": 0.3485000000000582,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1708005660000,
+              "worst_overall_at_msc": 1708005660000,
+              "net_usd": 157.849999999984,
+              "peak_margin_usd": 1503.3319632164635,
+              "peak_margin_pct_initial": 6.013327852865853,
+              "margin_peak_pct_available_equity": 6.034357589063744,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            }
+          ],
+          "Standard": [
+            {
+              "status": "NO_BREACH_AT_SAMPLED_MARKS",
+              "capital_usd": 10000,
+              "risk_per_trade_pct": 0.5,
+              "normalized_trades": 3,
+              "excluded": {},
+              "equity_mark_points": 15,
+              "unvalued_event_points": 3,
+              "closed_balance_observations": 3,
+              "known_entry_margin_trades": 3,
+              "daily_loss_pct": 0.17000000000003637,
+              "maximum_loss_pct": 0.17000000000003637,
+              "cash_only_daily_loss_pct": 0.17000000000003637,
+              "cash_only_static_loss_pct": 0.17000000000003637,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1708005660000,
+              "worst_overall_at_msc": 1708005660000,
+              "net_usd": 30.799999999995634,
+              "peak_margin_usd": 88.00039977285634,
+              "peak_margin_pct_initial": 0.8800039977285634,
+              "margin_peak_pct_available_equity": 0.8815025520670778,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            },
+            {
+              "status": "NO_BREACH_AT_SAMPLED_MARKS",
+              "capital_usd": 10000,
+              "risk_per_trade_pct": 1.0,
+              "normalized_trades": 3,
+              "excluded": {},
+              "equity_mark_points": 15,
+              "unvalued_event_points": 3,
+              "closed_balance_observations": 3,
+              "known_entry_margin_trades": 3,
+              "daily_loss_pct": 0.3400000000000182,
+              "maximum_loss_pct": 0.3400000000000182,
+              "cash_only_daily_loss_pct": 0.3400000000000182,
+              "cash_only_static_loss_pct": 0.3400000000000182,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1708005660000,
+              "worst_overall_at_msc": 1708005660000,
+              "net_usd": 61.599999999998545,
+              "peak_margin_usd": 176.00079954571268,
+              "peak_margin_pct_initial": 1.7600079954571268,
+              "margin_peak_pct_available_equity": 1.7660124377454616,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            },
+            {
+              "status": "NO_BREACH_AT_SAMPLED_MARKS",
+              "capital_usd": 50000,
+              "risk_per_trade_pct": 0.5,
+              "normalized_trades": 3,
+              "excluded": {},
+              "equity_mark_points": 15,
+              "unvalued_event_points": 3,
+              "closed_balance_observations": 3,
+              "known_entry_margin_trades": 3,
+              "daily_loss_pct": 0.17425000000001456,
+              "maximum_loss_pct": 0.17425000000001456,
+              "cash_only_daily_loss_pct": 0.17425000000001456,
+              "cash_only_static_loss_pct": 0.17425000000001456,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1708005660000,
+              "worst_overall_at_msc": 1708005660000,
+              "net_usd": 157.84999999999127,
+              "peak_margin_usd": 451.00204883588873,
+              "peak_margin_pct_initial": 0.9020040976717775,
+              "margin_peak_pct_available_equity": 0.9035785833532708,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            },
+            {
+              "status": "NO_BREACH_AT_SAMPLED_MARKS",
+              "capital_usd": 50000,
+              "risk_per_trade_pct": 1.0,
+              "normalized_trades": 3,
+              "excluded": {},
+              "equity_mark_points": 15,
+              "unvalued_event_points": 3,
+              "closed_balance_observations": 3,
+              "known_entry_margin_trades": 3,
+              "daily_loss_pct": 0.3485000000000582,
+              "maximum_loss_pct": 0.3485000000000582,
+              "cash_only_daily_loss_pct": 0.3485000000000582,
+              "cash_only_static_loss_pct": 0.3485000000000582,
+              "daily_breach_observed": false,
+              "overall_breach_observed": false,
+              "worst_daily_at_msc": 1708005660000,
+              "worst_overall_at_msc": 1708005660000,
+              "net_usd": 315.699999999968,
+              "peak_margin_usd": 902.0040976717775,
+              "peak_margin_pct_initial": 1.804008195343555,
+              "margin_peak_pct_available_equity": 1.8103171506134437,
+              "margin_scope": "INITIAL_REQUIREMENTS_AT_REPORTED_FILLS_PLUS_OBSERVED_EQUITY_MARKS",
+              "margin_prudential_50pct_exceeded": false,
+              "margin_100pct_exceeded_at_equity_mark": false
+            }
+          ]
+        },
+        "toxicity": {
+          "HIDDEN_MARTINGALE_LOT_ESCALATION": {
+            "status": "FLAG",
+            "evidence": [
+              {
+                "row": 3,
+                "previous": 2,
+                "lot_multiple": 5.0
+              }
+            ],
+            "assessed": 1,
+            "rule": "Two strictly settled losses in same symbol and current lot >=1.5x last loss lot"
+          },
+          "HIDDEN_GRID_AVERAGING_DOWN": {
+            "status": "UNKNOWN",
+            "evidence": [],
+            "assessed": 0,
+            "overlaps_without_mark_or_clock": 0,
+            "log_only_overlap_checks": 0
+          },
+          "NO_HARD_SL_OR_WIDE_STOP_GAMBLING": {
+            "status": "NO_FLAG_IN_OBSERVED_CONTEXT",
+            "observed_sl": 3,
+            "missing_sl": 0,
+            "explicit_no_sl": 0,
+            "explicit_no_sl_share": 0.0,
+            "avg_loss_over_avg_win": 0.035058430717863104,
+            "loss_size_flag_min_ratio": 3.0,
+            "wide_stop_geometry": "REQUIRES_INITIAL_STOP_AND_ADMITTED_PATH"
+          },
+          "CONCENTRATED_LOTTERY_PROFILE": {
+            "status": "UNKNOWN",
+            "metrics": {
+              "n": 3,
+              "wins": 1,
+              "losses": 2,
+              "breakeven": 0,
+              "winrate": 0.3333333333333333,
+              "sum": 278.5,
+              "mean": 92.83333333333333,
+              "median": -10.5,
+              "avg_win": 299.5,
+              "avg_loss": 10.5,
+              "avg_loss_over_avg_win": 0.035058430717863104,
+              "top2_profit_share": 1.0,
+              "top5_profit_share": 1.0,
+              "top10_profit_share": 1.0,
+              "ex_top2": -21.0,
+              "ex_top5": -21.0,
+              "largest_month_profit_share": null,
+              "monthly_time_basis": "JOURNAL_DATE_OR_REPORTED_CLOSE_DATE",
+              "months_observed": 1
+            },
+            "min_trades": 10,
+            "top2_limit": 0.5,
+            "top5_limit": 0.7,
+            "top_month_limit": 0.8
+          },
+          "FTMO_RULE_BREACH_SIM": {
+            "status": "NO_BREACH_AT_SAMPLED_MARKS",
+            "scenarios": 8,
+            "scenarios_with_observed_breach": 0,
+            "standard_funded_session": "NO_LONG_BREAK_OBSERVED"
+          }
+        },
+        "rank": null
+      }
+    ],
+    "allocation": {
+      "Swing": 80,
+      "Standard": 20
+    },
+    "score_basis": "0.8*worst Swing base return pct/month + 0.2*worst eligible Standard base return pct/month; no Standard credit if unresolved",
+    "scope": "SAMPLED HISTORICAL MODEL ON PROVIDED TRADES; CANDIDATE FOR RESEARCH",
+    "order_send_count": 0
+  },
+  "dry_run_blueprints": {
+    "records": [
+      {
+        "file": "clean_swing_and_standard.csv",
+        "sha256": "67d197a1df75e2fd6e5ab0ff828f772805221fbc6888813697e4de14bfa5e466",
+        "assets": {
+          "EURUSD": {
+            "trades": 12,
+            "trade_share": 1.0,
+            "target_net_usd": 113.99999999998676,
+            "net_contribution_share": 1.0,
+            "positive_price_pnl_share": 1.0
+          }
+        },
+        "audited_ftmo_symbol_trade_share": 1.0,
+        "trades": 12,
+        "exact_clock_trades": 12,
+        "calendar_months": 2,
+        "holding_share": {
+          "intraday_utc": 1.0,
+          "overnight_utc": 0.0,
+          "weekend_utc": 0.0
+        },
+        "hold_hours": {
+          "p25": 0.08333333333333333,
+          "median": 0.08333333333333333,
+          "p75": 0.08333333333333333,
+          "p90": 0.08333333333333333
+        },
+        "trades_per_calendar_month": 6.0,
+        "lot_quantiles": {
+          "p25": 0.1,
+          "median": 0.1,
+          "p75": 0.1,
+          "p90": 0.1
+        },
+        "reported_R": {
+          "n": 0,
+          "total": null,
+          "quantiles": {
+            "p25": null,
+            "median": null,
+            "p75": null,
+            "p90": null
+          }
+        },
+        "session_dna": {
+          "open_time": {
+            "hour_utc": {
+              "13": 12
+            },
+            "bucket": {
+              "London_NY_overlap": 12
+            }
+          },
+          "close_time": {
+            "hour_utc": {
+              "13": 12
+            },
+            "bucket": {
+              "London_NY_overlap": 12
+            }
+          }
+        },
+        "winrate": 1.0,
+        "avg_win_over_avg_loss": null,
+        "initial_sl_distance_pct": {
+          "p25": 0.545454545454546,
+          "median": 0.545454545454546,
+          "p75": 0.545454545454546,
+          "p90": 0.545454545454546
+        },
+        "tp_distance_pct": {
+          "p25": 1.090909090909092,
+          "median": 1.090909090909092,
+          "p75": 1.090909090909092,
+          "p90": 1.090909090909092
+        },
+        "target_cost_usd": {
+          "commission": 6.0,
+          "net_swap": 0.0,
+          "positive_price_pnl_usd": 119.99999999998676
+        },
+        "target_execution_cost_share": 0.05000000000000552,
+        "target_cost_including_swap_share": 0.05000000000000552,
+        "winner_taxonomy": {
+          "CUTOFF_TRUNCATED_WIN": 0,
+          "CARRY_ASSISTED_WIN": 0,
+          "TAIL_TREND_RUNNER": 0,
+          "CLEAN_STRUCTURAL_WIN": 0,
+          "LUCKY_NOISE_WIN": 12,
+          "UNCLASSIFIED_MISSING_EVIDENCE": 0
+        },
+        "bar_path_status": {
+          "bar_path_development_eligible": 12
+        },
+        "basis": "SWING_TARGET_AT_LOGGED_LOTS; CLOSED_TRADE_COHORT; FIXED_SNAPSHOT_COSTS"
+      },
+      {
+        "file": "clean_swing_survivor.csv",
+        "sha256": "124400a39f95cc58093e00bc741b110c0b33e7937acc53c74f43366bb74348ea",
+        "assets": {
+          "EURUSD": {
+            "trades": 12,
+            "trade_share": 1.0,
+            "target_net_usd": 123.07899999998787,
+            "net_contribution_share": 1.0,
+            "positive_price_pnl_share": 1.0
+          }
+        },
+        "audited_ftmo_symbol_trade_share": 1.0,
+        "trades": 12,
+        "exact_clock_trades": 12,
+        "calendar_months": 2,
+        "holding_share": {
+          "intraday_utc": 0.9166666666666666,
+          "overnight_utc": 0.0,
+          "weekend_utc": 0.08333333333333333
+        },
+        "hold_hours": {
+          "p25": 0.08333333333333333,
+          "median": 0.08333333333333333,
+          "p75": 0.08333333333333333,
+          "p90": 0.08333333333333333
+        },
+        "trades_per_calendar_month": 6.0,
+        "lot_quantiles": {
+          "p25": 0.1,
+          "median": 0.1,
+          "p75": 0.1,
+          "p90": 0.1
+        },
+        "reported_R": {
+          "n": 0,
+          "total": null,
+          "quantiles": {
+            "p25": null,
+            "median": null,
+            "p75": null,
+            "p90": null
+          }
+        },
+        "session_dna": {
+          "open_time": {
+            "hour_utc": {
+              "20": 1,
+              "13": 11
+            },
+            "bucket": {
+              "NY": 1,
+              "London_NY_overlap": 11
+            }
+          },
+          "close_time": {
+            "hour_utc": {
+              "22": 1,
+              "13": 11
+            },
+            "bucket": {
+              "Other": 1,
+              "London_NY_overlap": 11
+            }
+          }
+        },
+        "winrate": 1.0,
+        "avg_win_over_avg_loss": null,
+        "initial_sl_distance_pct": {
+          "p25": 0.545454545454546,
+          "median": 0.545454545454546,
+          "p75": 0.545454545454546,
+          "p90": 0.545454545454546
+        },
+        "tp_distance_pct": {
+          "p25": 1.090909090909092,
+          "median": 1.090909090909092,
+          "p75": 1.090909090909092,
+          "p90": 1.090909090909092
+        },
+        "target_cost_usd": {
+          "commission": 6.0,
+          "net_swap": -0.9210000000000002,
+          "positive_price_pnl_usd": 129.99999999998786
+        },
+        "target_execution_cost_share": 0.046153846153850465,
+        "target_cost_including_swap_share": 0.05323846153846651,
+        "winner_taxonomy": {
+          "CUTOFF_TRUNCATED_WIN": 0,
+          "CARRY_ASSISTED_WIN": 0,
+          "TAIL_TREND_RUNNER": 0,
+          "CLEAN_STRUCTURAL_WIN": 0,
+          "LUCKY_NOISE_WIN": 12,
+          "UNCLASSIFIED_MISSING_EVIDENCE": 0
+        },
+        "bar_path_status": {
+          "bar_path_development_eligible": 12
+        },
+        "basis": "SWING_TARGET_AT_LOGGED_LOTS; CLOSED_TRADE_COHORT; FIXED_SNAPSHOT_COSTS"
+      }
+    ],
+    "scope": "DESCRIPTIVE; NO STRATEGY RECONSTRUCTION",
+    "order_send_count": 0
+  },
+  "actual_inbox": {
+    "records": [],
+    "allocation": {
+      "Swing": 80,
+      "Standard": 20
+    },
+    "score_basis": "0.8*worst Swing base return pct/month + 0.2*worst eligible Standard base return pct/month; no Standard credit if unresolved",
+    "scope": "SAMPLED HISTORICAL MODEL ON PROVIDED TRADES; CANDIDATE FOR RESEARCH",
+    "order_send_count": 0
+  },
+  "tests": {
+    "passed": 63,
+    "skipped": 0
+  }
+}

@@ -4504,21 +4504,39 @@
   "registered_setup_studies": [
     {
       "id": "us500-entry-common14-20261112",
-      "configuration_ids": ["BR01-common14-v1", "RS02-v1"],
+      "configuration_ids": [
+        "BR01-common14-v1",
+        "RS02-v1"
+      ],
       "new_related_rule_versions": 1,
       "parent": "RS01/FP07, shared breakout cutoff14NY from existing RS02 contract",
       "status": "completed_comparison_inconclusive_not_challenge_qualified",
       "new_native_books": 12,
       "reused_books": 8,
-      "years": [2022, 2023, 2024, 2025],
-      "fixed": {"channel_bars": 20, "atr_period": 14, "break_buffer_atr": "0.10", "retest_width_atr": "0.10", "stop_atr": 2},
+      "years": [
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "fixed": {
+        "channel_bars": 20,
+        "atr_period": 14,
+        "break_buffer_atr": "0.10",
+        "retest_width_atr": "0.10",
+        "stop_atr": 2
+      },
       "protocol_locator": "US500-ENTRY-METHOD-COMPARISON-PROTOCOL-20261112.md",
       "evidence_locator": "US500-ENTRY-METHOD-COMPARISON-RESULTS-20261112.md",
       "diagnostic_followup": {
         "id": "us500-continuation-diagnostics-20261112",
         "protocol_locator": "US500-CONTINUATION-DIAGNOSTIC-PROTOCOL-20261112.md",
         "evidence_locator": "US500-CONTINUATION-DIAGNOSTIC-RESULTS-20261112.md",
-        "horizon_minutes": [15, 30, 60],
+        "horizon_minutes": [
+          15,
+          30,
+          60
+        ],
         "event_rows": 2865,
         "known_event_windows": 2849,
         "missing_quote_windows": 14,
@@ -4538,19 +4556,53 @@
     },
     {
       "id": "us500-recent-discovery-20261112",
-      "configuration_ids": ["RS01", "RS02", "RS03", "RS04", "RS05", "RS06", "RS07", "RS08"],
-      "financial_recipe_ids": ["RS01", "RS02", "RS03", "RS07"],
-      "related_lineage": {"RS01": "R001/FP07", "RS02": "FP07 breakout-retest", "RS03": "R019 prior-day levels", "RS04": "R094 standardized execution", "RS05": "R095 standardized execution", "RS06": "R123/FP05 standardized exit", "RS07": "R003 band reentry", "RS08": "overnight/opening reversion"},
+      "configuration_ids": [
+        "RS01",
+        "RS02",
+        "RS03",
+        "RS04",
+        "RS05",
+        "RS06",
+        "RS07",
+        "RS08"
+      ],
+      "financial_recipe_ids": [
+        "RS01",
+        "RS02",
+        "RS03",
+        "RS07"
+      ],
+      "related_lineage": {
+        "RS01": "R001/FP07",
+        "RS02": "FP07 breakout-retest",
+        "RS03": "R019 prior-day levels",
+        "RS04": "R094 standardized execution",
+        "RS05": "R095 standardized execution",
+        "RS06": "R123/FP05 standardized exit",
+        "RS07": "R003 band reentry",
+        "RS08": "overnight/opening reversion"
+      },
       "status": "completed_scenario_screen_inconclusive_not_challenge_qualified",
       "retained_books": 56,
       "financial_books": 48,
       "null_books": 8,
       "reused_books": 37,
-      "development_years": [2022, 2023, 2024],
+      "development_years": [
+        2022,
+        2023,
+        2024
+      ],
       "selection_year": 2025,
-      "diagnostic_2026_codes": ["RS01", "RS07"],
+      "diagnostic_2026_codes": [
+        "RS01",
+        "RS07"
+      ],
       "recent_cutoff_exclusive_utc": "2026-11-12T00:00:00Z",
-      "historical_stress_years": [2016, 2020, 2021],
+      "historical_stress_years": [
+        2016,
+        2020,
+        2021
+      ],
       "selection": "no_full_known_2025_eligible_recipe; fixed diagnostic controls per preregistered fallback",
       "exposure": "2025_consumed_selection;RS01_RS07_2026_consumed_diagnostic;pristine_OOS_unverified",
       "protocol_locator": "US500-RECENT-SCREEN-PROTOCOL-20261112.md",
@@ -4563,14 +4615,34 @@
   "registered_component_studies": [
     {
       "id": "us500-same-clock-v1",
-      "configuration_ids": ["TC01"],
-      "controls": ["constant_BUY", "constant_SELL"],
-      "related_families": ["calendar", "equity_intraday_momentum"],
+      "configuration_ids": [
+        "TC01"
+      ],
+      "controls": [
+        "constant_BUY",
+        "constant_SELL"
+      ],
+      "related_families": [
+        "calendar",
+        "equity_intraday_momentum"
+      ],
       "status": "park_exact_component",
       "new_related_component_definitions": 1,
-      "source_years": [2022, 2023, 2024],
-      "signal_counts": [230, 228, 215],
-      "stress_net_point_per_unit": ["-768.960", "-354.516", "-411.926"],
+      "source_years": [
+        2022,
+        2023,
+        2024
+      ],
+      "signal_counts": [
+        230,
+        228,
+        215
+      ],
+      "stress_net_point_per_unit": [
+        "-768.960",
+        "-354.516",
+        "-411.926"
+      ],
       "scope": "endpoint_only_no_SL_account_or_prop; not paper replication or independent edge",
       "source_commit": "df26bf1",
       "protocol_locator": "US500-SAME-CLOCK-PROTOCOL-20261112.md",
@@ -4636,27 +4708,2860 @@
     {
       "id": "us500-opportunity-screen-v1",
       "baseline": "R123/FP05;R094 saved cadence only",
-      "related_parents": ["R123", "R001", "R002"],
-      "configuration_ids": ["FP06", "FP07", "FP08"],
-      "new_related_design_ids": ["FP06", "FP07", "FP08"],
+      "related_parents": [
+        "R123",
+        "R001",
+        "R002"
+      ],
+      "configuration_ids": [
+        "FP06",
+        "FP07",
+        "FP08"
+      ],
+      "new_related_design_ids": [
+        "FP06",
+        "FP07",
+        "FP08"
+      ],
       "status": "completed_frequency_only_not_edge",
       "financial_simulations": 0,
       "protocol_locator": "US500-OPPORTUNITY-SCREEN-PROTOCOL-20261112.md",
       "evidence_locator": "US500-OPPORTUNITY-SCREEN-RESULTS-20261112.md",
-      "first_signal_exact_quote_available": {"FP06": [65, 54, 62], "FP07": [195, 174, 171], "FP08": [72, 62, 62]},
+      "first_signal_exact_quote_available": {
+        "FP06": [
+          65,
+          54,
+          62
+        ],
+        "FP07": [
+          195,
+          174,
+          171
+        ],
+        "FP08": [
+          72,
+          62,
+          62
+        ]
+      },
       "FP07_historical_extension": {
-        "source_years": [2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021],
-        "first_signal_exact_quote_available": [47, 24, 133, 160, 46, 107, 87, 152, 156],
+        "source_years": [
+          2013,
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021
+        ],
+        "first_signal_exact_quote_available": [
+          47,
+          24,
+          133,
+          160,
+          46,
+          107,
+          87,
+          152,
+          156
+        ],
         "status": "completed_descriptive_frequency_data_limited_not_edge_or_clean_OOS",
         "rule_changed": false,
         "new_financial_simulations": 0,
         "protocol_locator": "US500-CHANNEL-HISTORY-PROTOCOL-20261112.md",
         "evidence_locator": "US500-CHANNEL-HISTORY-RESULTS-20261112.md"
       },
-      "source_years": [2022, 2023, 2024],
+      "source_years": [
+        2022,
+        2023,
+        2024
+      ],
       "exposure": "consumed_development_not_clean_OOS",
       "decision": "FP07 prioritized for separately registered economic-screen design on cadence only;FP06/FP08 lower cadence priority;no PnL or live cap change",
       "dispatch_authorized": false
     }
-  ]
+  ],
+  "evidence_inventory": {
+    "version": 1,
+    "broker_observations": [
+      {
+        "id": "pass22-gbpusd-volhigh-3engine-20261123",
+        "scope": "Pass 22 Development 2018-2024 zero-network M1 forensic & Prague-reset 3-engine audit of GBPUSD WB_EXP_80_VOL_HIGH: PROMOTED as orthogonal Engine #3 (survives all 3 cost tiers through +1.00 pip stress, 8/9 trig x sl_atr surface cells positive in both A&B, positive BUY +4.72R & SELL +9.47R, survives excluding both Mar-2020 COVID & Sep-Oct 2022 UK Gilt at +4.66R, rJPY=0.0174; upgrades 3-engine portfolio to +4.23-5.33%/yr at 5.18-6.46% Peak DD and Calmar 0.82-0.84 across Swing 10k/25k & Standard 50k with 0 margin failures; exported clean Naqex_WB_EXP080_VOLHIGH_GBPUSD.mq5).",
+        "report": "PASS22-GBPUSD-VOLHIGH-FORENSIC-3ENGINE-20261123.md",
+        "summary": "PASS22-GBPUSD-VOLHIGH-FORENSIC-3ENGINE-20261123.json",
+        "private_manifest": "pass22-gbpusd-volhigh-3engine-20261123/manifest.json",
+        "private_manifest_sha256": "22ad68662f68fd3420c87a762adf78301d82983a7fc4622e58d913d8c1238e3b"
+      },
+      {
+        "id": "pass21-gbpjpy-and-whitebox-discovery-20261123",
+        "scope": "Pass 21 Development 2018-2024 parallel execution: Lane A sealed 2.61M GBPJPY Native M1 Bid/Ask bars on D: SSD Hot Cache and rejected GBPJPY EXP_DAILY_OPEN (-9.52R Stress, 0/12 2D surface, H4 illusion exposed); Lane B deployed Prop-First White-Box Discovery System (whitebox_discovery.py, mq5_whitebox_exporter.py, whitebox-prop-discovery skill, clean Naqex_WB_EXP080_USDJPY.mq5 export) and discovered orthogonal non-JPY candidate WB_EXP_80_VOL_HIGH GBPUSD (A +5.72R -> Blind B +8.61R, 4/4 blind years positive, BUY +5.03R & SELL +9.30R, DD 5.43R, p=0.006, FDR q=0.0915 across 144 specs, rJPY=0.0168).",
+        "report": "PASS21-GBPJPY-M1-AND-WHITEBOX-PROP-DISCOVERY-20261123.md",
+        "summary": "PASS21-GBPJPY-M1-AND-WHITEBOX-PROP-DISCOVERY-20261123.json",
+        "private_manifest": "pass21-gbpjpy-m1-20261123/manifest.json",
+        "private_manifest_sha256": "64da49a5eaa8d8134af3d9f80c0d8b88b8f7b13e7084ced33717b23696a1d7f6"
+      },
+      {
+        "id": "pass20-pos-swap-carry-3engine-20261123",
+        "scope": "Pass 20 Development 2018-2024 zero-network H4/M1 forensic audit of 8-pair Positive-Swap Carry-Trend & Prague-reset 3-engine portfolio integration: H4 vs Native M1 parity confirmed on USDJPY (+14.68R vs +15.18R) & EURUSD (-1.58R vs -0.06R), but Donchian Carry-Trend REJECTED (0/12 2D surface cells positive in both A&B for NON_JPY_4 and ALL_8_JPYCAP1, fails matched-hold timing null p=0.14-0.97, degrades/does not beat Pass 17 2-engine core). Keep Pass 17 2-engine core.",
+        "report": "PASS20-POS-SWAP-CARRY-TREND-3ENGINE-20261123.md",
+        "summary": "PASS20-POS-SWAP-CARRY-TREND-3ENGINE-20261123.json",
+        "private_manifest": "pass20-pos-swap-carry-3engine-20261123/manifest.json",
+        "private_manifest_sha256": "10ec5a3b82f8a6565af02833d8e8775f64edd821e9cede23158f879177b748e8"
+      },
+      {
+        "id": "pass19-us500-supertrend-yencross-20261123",
+        "scope": "Pass 19 Development 2018-2024 zero-network 3-track screen: (1) US500 overnight/short-swing (0/6 FTMO due to -$1.38/night swap headwind, though IBS +9.40R & Overnight +8.02R on Exness Swap-Free); (2) Clean-room SuperTrend(10,3) retracement + step-trailing rejected 0/5 (-41R..-77R); (3) Calibrated Stage-0 H4/D1 scout identifies GBPJPY (+9.28R, 5/7 yr, rJPY=0.23) for EXP080 M1 check and USDCAD (+8.07R, 6/7 yr, DD 3.4R, rJPY=-0.003) + 6-pair Positive-Swap Donchian-20 basket (+28.7R, +$10,435 positive FTMO swap) for Pass 20 deep verification.",
+        "report": "PASS19-US500-OVERNIGHT-SUPERTREND-YENCROSS-20261123.md",
+        "summary": "PASS19-US500-OVERNIGHT-SUPERTREND-YENCROSS-20261123.json",
+        "private_manifest": "pass19-us500-supertrend-yencross-20261123-cal/manifest.json",
+        "private_manifest_sha256": "a6ea0937ee4f50dc80a58a095bcdb4626ddcdad0fcd1665f034d1a01f83bcabc"
+      },
+      {
+        "id": "pass18-opensource-non-usdjpy-20261123",
+        "scope": "Pass 18 Development 2018-2024 zero-network screen of 14 peer-reviewed & open-source intraday (swap=0) strategies on non-USDJPY assets (US500 JFE/Quantpedia, EURUSD/GBPUSD JoF 2024 WMR Fix & Crabel NR4, XAUUSD NR4 & JFM LBMA PM Drift): 0/14 Tier 1, 0/14 Tier 2, 14/14 TIER_3_DEAD_NO_EDGE (thin academic edges eaten by retail CFD spread/comm or decayed post-publication).",
+        "report": "PASS18-OPENSOURCE-NON-USDJPY-ENGINE3-20261123.md",
+        "summary": "PASS18-OPENSOURCE-NON-USDJPY-ENGINE3-20261123.json",
+        "private_manifest": "pass18-opensource-non-usdjpy-20261123/manifest.json",
+        "private_manifest_sha256": "2afcad69605c68affcc62eb42d3d247a0d2b9efb8ff6fd3f5f4f1c0fb21dac3b"
+      },
+      {
+        "id": "pass17-usdjpy-forensic-cross-asset-20261123",
+        "scope": "Pass 17 Development 2018-2024 zero-network M1 floating equity forensic audit of EXP_DAILY_OPEN_080 USDJPY (survives all 3 cost tiers through +1.00 pip stress, 12/12 2D surface cells positive in both Cluster A & B, cuts Engine #1 portfolio DD from 9.08% to 5.45% and underwater from 41.2m to 20.6m, doubles Calmar 0.32->0.64; directional asymmetry BUY +37.28R vs SELL -2.53R; pace 3.5-3.7%/yr still needs non-JPY Engine #3) & cross-asset GBPUSD/US500 check.",
+        "report": "PASS17-USDJPY-EXPANSION-FORENSIC-AND-CROSS-ASSET-20261123.md",
+        "summary": "PASS17-USDJPY-EXPANSION-FORENSIC-AND-CROSS-ASSET-20261123.json",
+        "private_manifest": "pass17-usdjpy-forensic-cross-asset-20261123/manifest.json",
+        "private_manifest_sha256": "935c09b490aecdc44641821c933fa54a4088c0b598a8cfeaa1a9780fd771415a"
+      },
+      {
+        "id": "pass16-dual-track-20261123",
+        "scope": "Pass 16 Development 2018-2024 zero-network dual-track screen: Track 1 Wide-Expansion Daily-Open ATR (swap=0) produced FIRST TIER_1_FTMO_READY breakthrough on native USDJPY M1 (EXP_DAILY_OPEN_080: +35.24R, 7/7 years positive, 6.36R DD, MC p=0.002, FDR q=0.0048; EXP_DAILY_OPEN_080_TREND: +24.74R, 6/7 years) plus TIER_2 XAUUSD 1.20 ATR (+10.43R, q=0.004); Track 2 closed remaining 8 H1 context leads from strategy-intel (23/24 TIER_3, 1 TIER_2 VIR024 USDJPY).",
+        "report": "PASS16-DUAL-TRACK-EXPANSION-AND-H1-CONTEXT-20261123.md",
+        "summary": "PASS16-DUAL-TRACK-EXPANSION-AND-H1-CONTEXT-20261123.json",
+        "private_manifest": "pass16-dual-track-20261123/manifest.json",
+        "private_manifest_sha256": "438154843a164bb1d1171daf3d47aa8abe631c4cd6b872f379d0d51a5ed4f03d"
+      },
+      {
+        "id": "pass15-ftmo-native-engine2-20261123",
+        "scope": "Pass 15 Development 2018-2024 zero-network FTMO-native Engine #2 screen (4 XAUUSD intraday zero-swap + 3 FX positive-carry trend, BH FDR m=7): 0/7 Tier 1/2 (all TIER_3_DEAD_NO_EDGE); diagnostic finding: XAU_DAILY_OPEN_ATR showed genuine gross momentum (p=0.004, FDR q=0.028, +144.5R vs Fade) overwhelmed by 1,235-trade execution drag (-$64.8k).",
+        "report": "PASS15-FTMO-NATIVE-ENGINE2-20261123.md",
+        "summary": "PASS15-FTMO-NATIVE-ENGINE2-20261123.json",
+        "private_manifest": "pass15-ftmo-native-engine2-20261123/manifest.json",
+        "private_manifest_sha256": "efe947bf3ec13cddeafa0c22ee37ffd424edeb20f76460ec7dc4538e9914dd93"
+      },
+      {
+        "id": "pass14-intel-top15-batch-20261123",
+        "scope": "Pass 14 Development 2018-2024 zero-network batch screen of all 13 remaining 'CHAT' leads from strategy-intel x 4 assets (52 pairs, M1 path + FTMO Swap 3x + Exness Ref + MC Null + BH FDR): 0/52 TIER_1_FTMO_READY, 2/52 TIER_2_PERSONAL_VAULT_PROVISIONAL_XAU (NEN006 XAUUSD, IND026 XAUUSD), 50/52 TIER_3_DEAD_NO_EDGE.",
+        "report": "PASS14-STRATEGY-INTEL-TOP15-BATCH-20261123.md",
+        "summary": "PASS14-STRATEGY-INTEL-TOP15-BATCH-20261123.json",
+        "private_manifest": "pass14-intel-top15-batch-20261123/manifest.json",
+        "private_manifest_sha256": "d435b5db878f395e378be136d420afac5218bc0e1de581f98961c84c5095ba48"
+      },
+      {
+        "id": "pass13-triple-track-20261123",
+        "scope": "Pass 13 Development 2018-2024 zero-network triple-track Engine #2 screen: Track 1 GBPUSD/EURUSD Liquidity Sweep (FAILED), Track 2 Clean-Room NEN022 Fakey H4 & SEA003 XAUUSD TOM Swap-3x/MC Null (FAILED), Track 3 US500 NY ORB Sealed Explicit M1 (FAILED, ORB_ENGINE2_SEARCH_EXHAUSTED).",
+        "report": "PASS13-TRIPLE-TRACK-ENGINE2-20261123.md",
+        "summary": "PASS13-TRIPLE-TRACK-ENGINE2-20261123.json",
+        "private_manifest": "pass13-triple-track-20261123/manifest.json",
+        "private_manifest_sha256": "d0335588f448006feb6271e54e0c3c28b25c910d1dddbabae373cf02df1ab660"
+      },
+      {
+        "id": "pass12-us500-m1-usdjpy-forensic-20261120",
+        "scope": "Pass 12 Development 2018–2024: US500 NY ORB QDM acquisition blocked by HTTP 429 (US500_M1_DATA_UNAVAILABLE); USDJPY Tokyo-box 4-axis known-at-entry forensic audit and 12% cost gate (USDJPY_COST_HYGIENE_NOT_RETAINED).",
+        "report": "PASS12-US500-M1-ORB-AND-USDJPY-FORENSIC-20261120.md",
+        "summary": "PASS12-US500-M1-ORB-AND-USDJPY-FORENSIC-20261120.json",
+        "private_manifest": "pass12-us500-m1-usdjpy-forensic-20261120/manifest.json",
+        "private_manifest_sha256": "f3e752528d12026007a67a8f36767eb01eb49dc4f30d23291b41a02863b21b8a"
+      },
+      {
+        "id": "pass11-gbpusd-m1-20261120",
+        "scope": "GBPUSD London ORB M1 truth check on QDM Development 2018–2024. Rejected before portfolio",
+        "report": "PASS11-GBPUSD-M1-TRUTH-AND-TWO-ENGINE-PORTFOLIO-20261120.md",
+        "summary": "PASS11-GBPUSD-M1-TRUTH-AND-TWO-ENGINE-PORTFOLIO-20261120.json",
+        "private_manifest": "pass11-gbpusd-m1-20261120/manifest.json",
+        "private_manifest_sha256": "b5ffd157fd8d972b0eb0340004f4720b032145d7dd6a7bc841e1db4bc435879b"
+      },
+      {
+        "id": "pass10-engine2-institutional-flow-20261120",
+        "scope": "Sealed Development 2018–2024. London FX OCO, US500 month turn, NY ORB blocked; GBPUSD H1 survivor needs M1",
+        "report": "PASS10-ENGINE2-INSTITUTIONAL-FLOW-STAGE0-20261120.md",
+        "summary": "PASS10-ENGINE2-INSTITUTIONAL-FLOW-STAGE0-20261120.json",
+        "private_manifest": "pass10-engine2-institutional-flow-20261120/manifest.json",
+        "private_manifest_sha256": "3d328531bf647b35e7ef0ed32b9b78f9378bd899b7352a0f395eba5e6d98f341"
+      },
+      {
+        "id": "pass9-engine2-round2-20261120",
+        "scope": "Six new real MQL5 CSV exports, log-only toxicity and FTMO 13-symbol repricing; no Engine #2 admission",
+        "report": "PASS9-ENGINE2-ROUND2-AUDIT-AND-DNA-20261120.md",
+        "summary": "PASS9-ENGINE2-ROUND2-AUDIT-AND-DNA-20261120.json",
+        "private_manifest": "pass9-engine2-round2-20261120/manifest.json",
+        "private_manifest_sha256": "3435477f9d32412af52ef0f8eb58e423528e2f3cf23030e3095796431dafb254"
+      },
+      {
+        "id": "pass8-engine2-and-m1-gaps-20261120",
+        "scope": "Public anti-grid MQL5 review and frozen USDJPY 2018–2024 M1 sparse-path sensitivity",
+        "report": "PASS8-ANTIGRID-ENGINE2-SOURCING-AND-M1-GAP-AUDIT-20261120.md",
+        "summary": "PASS8-ANTIGRID-ENGINE2-SOURCING-AND-M1-GAP-AUDIT-20261120.json",
+        "private_manifest": "pass8-engine2-and-m1-gaps-20261120/manifest.json",
+        "private_manifest_sha256": "eade3a1e50c3b25537934b5bcd09cfbddba08a5b096e65dc6624bfc6e9654e4e"
+      },
+      {
+        "id": "pass7b-usdjpy-qdm-equity-20261120",
+        "scope": "QDM-only USDJPY 2018–2024, unchanged Tokyo-box, 36 offline floating equity scenarios",
+        "report": "PASS7B-USDJPY-FULL-M1-FLOATING-EQUITY-20261120.md",
+        "summary": "PASS7B-USDJPY-FULL-M1-FLOATING-EQUITY-20261120.json",
+        "private_manifest": "pass7b-usdjpy-qdm-equity-20261120/manifest.json",
+        "private_manifest_sha256": "d91ec9b8e3c2362a95e84b11aab747dbb0bf69ce67df042dd91b854392677ccf"
+      },
+      {
+        "id": "pass7-usdjpy-qdm-and-fx-scout-20261120",
+        "scope": "QDM-only USDJPY acquisition blocked; three sealed native H1 FX Stage-0 screens rejected; 2018–2024 only",
+        "report": "PASS7-USDJPY-FULL-M1-EQUITY-AND-FX-SCOUT-20261120.md",
+        "summary": "PASS7-USDJPY-FULL-M1-EQUITY-AND-FX-SCOUT-20261120.json",
+        "private_manifest": "pass7-usdjpy-qdm-and-fx-scout-20261120/manifest.json",
+        "private_manifest_sha256": "6ed0a2411df7e22097cf8807f31fa29befcd2689c968269f60999c0d9d3acefd"
+      },
+      {
+        "id": "pass6-breakout-execution-20261120",
+        "scope": "2018–2024 only; USDJPY paired M1 and adverse H1 stress; XAUUSD Stage-0 rejected; no portfolio admission",
+        "report": "PASS6-USDJPY-HIRES-AND-XAUUSD-PORTFOLIO-20261120.md",
+        "summary": "PASS6-USDJPY-HIRES-AND-XAUUSD-PORTFOLIO-20261120.json",
+        "private_manifest": "pass6-breakout-execution-20261120/manifest.json",
+        "private_manifest_sha256": "27384e3646dc4469d808f304616d80f8ec8e2dd7489b42ccd8aaa1730ae50002"
+      },
+      {
+        "id": "pass5-usdjpy-tokyo-box-20261120",
+        "scope": "Sealed USDJPY H1 Development 2018–2024; fixed first-touch horizons and one SL-active follow-up",
+        "report": "PASS5-USDJPY-TOKYO-BOX-STAGE0-20261120.md",
+        "summary": "PASS5-USDJPY-TOKYO-BOX-STAGE0-20261120.json",
+        "private_manifest": "pass5-usdjpy-tokyo-box-20261120/manifest.json",
+        "private_manifest_sha256": "b301e9d15431d27d1018b3616e187d574e2a66ad26cd7deba4713c3642a6ef4c"
+      },
+      {
+        "id": "bot-lab-breakout-pass4-20261120",
+        "scope": "776 USDJPY and XAUUSD trade logs; clock, exits and sizing forensics; proposed independent Stage-0",
+        "report": "BOT-LAB-BREAKOUT-EA-FORENSIC-DNA-20261120.md",
+        "summary": "BOT-LAB-BREAKOUT-EA-FORENSIC-DNA-20261120.json",
+        "private_manifest": "bot-lab-breakout-pass4-20261120/manifest.json",
+        "private_manifest_sha256": "b3dde9f7bc3e3bf797a1c98d8d20c216aa727ee12a383d3dff1d39b93e6d649e"
+      },
+      {
+        "id": "bot-lab-mql5-pass3-20261120",
+        "scope": "First real MT4/MT5 MQL5 log batch, toxicity, cost sensitivity, no admitted FTMO portfolio",
+        "report": "BOT-LAB-FIRST-REAL-MQL5-AUDIT-20261120.md",
+        "summary": "BOT-LAB-FIRST-REAL-MQL5-AUDIT-20261120.json",
+        "private_manifest": "bot-lab-mql5-pass3-20261120/manifest.json",
+        "private_manifest_sha256": "d57e90a9ba09ca8d7ffd24679deee24789d1d2d1682b0ddc3427c53627147e92"
+      },
+      {
+        "id": "mql5-sourcing-pass2-20261120",
+        "scope": "Public MQL5 MT4/MT5 signal stats and guest history access; eight Real leads; no trade log or FTMO qualification",
+        "report": "BOT-LAB-MQL5-SOURCING-PASS2-20261120.md",
+        "summary": "BOT-LAB-MQL5-SOURCING-PASS2-20261120.json",
+        "private_manifest": "mql5-sourcing-pass2-20261120/manifest.json",
+        "private_manifest_sha256": "9c1c5bcee57f59f0df12754957286ae09f6211d2623129a1b4e7c0851ac1cd9e"
+      },
+      {
+        "id": "bot-lab-batch-20261120",
+        "scope": "Offline trade-log batch leaderboard, synthetic acceptance controls and public-source admission checks",
+        "report": "BOT-LAB-BATCH-BLUEPRINT-AND-SOURCING-20261120.md",
+        "summary": "BOT-LAB-BATCH-BLUEPRINT-AND-SOURCING-20261120.json",
+        "private_manifest": "bot-lab-batch-20261120/manifest.json",
+        "private_manifest_sha256": "cba79571e1cb321dbf48c873d1d02ce0476ad7a22cf9a054888faaf2ff1ef57f"
+      },
+      {
+        "id": "bot-lab-live-20261120",
+        "scope": "Offline FTMO trade-log auditor, sealed Development excursion diagnosis and Performance journal benchmark",
+        "report": "BOT-LAB-LIVE-AUDITOR-AND-LEAKAGE-DIAGNOSIS-20261120.md",
+        "summary": "BOT-LAB-LIVE-AUDITOR-AND-LEAKAGE-DIAGNOSIS-20261120.json",
+        "private_manifest": "bot-lab-live-20261120/manifest.json",
+        "private_manifest_sha256": "b4e2b66903266f97a34106a0afe6feb5465f82b1e4923c567508614b668772f4"
+      },
+      {
+        "id": "swing-10k-20261120",
+        "scope": "FTMO 10k Swing read-only 13-symbol specs, native sizing, frozen Development 2018–2024 paired cutoff screen and winner diagnosis",
+        "report": "SWING-10K-AUDIT-MULTIWEEK-AND-WIN-TAXONOMY-20261120.md",
+        "summary": "SWING-10K-AUDIT-MULTIWEEK-AND-WIN-TAXONOMY-20261120.json",
+        "private_manifest": "swing-10k-20261120/manifest.json",
+        "private_manifest_sha256": "0d9d87ef808613b6b8f35b0412ef4dde428ed7379cad532f881884c28fc41e41"
+      },
+      {
+        "id": "bottleneck2-asymmetric-pivot-20261119",
+        "scope": "Offline 2018–2024 Development: parent ledger attribution, three preregistered asymmetry mechanisms, holdout locked and OHLC Standard kill switch",
+        "report": "BOTTLENECK2-ASYMMETRIC-PIVOT-20261119.md",
+        "summary": "BOTTLENECK2-ASYMMETRIC-PIVOT-20261119.json",
+        "private_manifest": "bottleneck2-asymmetric-pivot-20261119/manifest.json",
+        "private_manifest_sha256": "be77daf84d9d73671e8423804e711f30d348917740b041c7968acc1d508ebf52"
+      },
+      {
+        "id": "bottleneck2-monfri-20261119",
+        "scope": "Offline Development screen on sealed FTMO-Demo bars for six symbols, three fixed families and a paired exit-time comparison",
+        "report": "BOTTLENECK2-MULTI-ASSET-MONFRI-SCREEN-20261119.md",
+        "summary": "BOTTLENECK2-MULTI-ASSET-MONFRI-SCREEN-20261119.json",
+        "private_manifest": "bottleneck2-monfri-20261119/manifest.json",
+        "private_manifest_sha256": "ea4a22aa4af11131e266b785a7f9dd820f12f8b1d7f1b56cfa30f8c496fd6275"
+      },
+      {
+        "id": "ftmo-demo-full13-20261119",
+        "scope": "FTMO-Demo 10k Standard, 39 native closed-bar series and commission/slippage from 16 Demo round trips",
+        "report": "FTMO-DEMO-10K-STANDARD-FULL13-AND-EXECUTION-20261119.md",
+        "summary": "FTMO-DEMO-10K-STANDARD-FULL13-AND-EXECUTION-20261119.json",
+        "private_manifest": "ftmo-demo-full13-20261119/manifest.json",
+        "private_manifest_sha256": "958efae21180c0dfc2654de3ecc447effb88e0ddc12eb63e30aca894c6980f1c"
+      },
+      {
+        "id": "ftmo-demo-10k-standard-20261119",
+        "scope": "FTMO-Demo 10k Standard, 13 symbol specs and quote samples, four 0.01-lot round trips",
+        "report": "FTMO-DEMO-10K-STANDARD-RESEARCH-20261119.md",
+        "summary": "FTMO-DEMO-10K-STANDARD-RESEARCH-20261119.json",
+        "private_manifest": "ftmo-demo-10k-standard-20261119/manifest.json",
+        "private_manifest_sha256": "5a188b25ef5087c00ecfc5e11b585a19838f6c1871451ce1b0291eb7a9c9423f"
+      }
+    ],
+    "tracked_scope": [
+      "planning/research",
+      "planning/trader/research"
+    ],
+    "private_directory_scope": [
+      {
+        "prefix": ".",
+        "name_prefix": "prop-"
+      },
+      {
+        "prefix": "challenge-discovery4-20261108/execution-v1",
+        "name_prefix": ""
+      }
+    ],
+    "datasets": [
+      {
+        "id": "pass11-gbpusd-m1-20261120",
+        "asset": "GBPUSD",
+        "source": "Dukascopy via QDM CLI 125.2692, bounded UTC Bid/Ask tick export",
+        "target": "FTMO Swing/Standard cost snapshot; QDM historical prices",
+        "grain": "M1 joint Bid/Ask and observed midpoint OHLC, year partitions, Parquet/Zstd",
+        "window": "2018–2024 UTC, holdout-exclusive 2025-01-01",
+        "clock": "UTC Unix minute; trading window 08:00–17:00 Europe/London",
+        "availability": "204491282 ticks and 2608982 M1 observations in seven private partitions",
+        "exposure": "Development used by Pass 11; QDM raw cache quarantined and outside research",
+        "quality": "1787/1827 weekday windows have all 541 minutes. Five isolated-gap days were admitted for sensitivity, 35 excluded.",
+        "locator": "README.md",
+        "kind": "derived_data",
+        "quality_counts": [
+          {
+            "metric": "strict_london_days",
+            "numerator": 1787,
+            "denominator": 1827
+          },
+          {
+            "metric": "expanded_london_days",
+            "numerator": 1792,
+            "denominator": 1827
+          }
+        ]
+      },
+      {
+        "id": "pass7b-usdjpy-qdm-equity-20261120",
+        "asset": "USDJPY",
+        "source": "Dukascopy via QDM CLI 125.2692, bounded UTC Bid/Ask tick export",
+        "target": "FTMO Swing/Standard cost and margin snapshot; historical prices are QDM",
+        "grain": "M1 joint Bid/Ask OHLC and observed mid OHLC, year partitions, Parquet/Zstd",
+        "window": "2018–2024 UTC, holdout-exclusive 2025-01-01",
+        "clock": "UTC timestamp as Unix minute; mark at M1, baseline Prague Daily Loss",
+        "availability": "203603414 observed ticks in bounded exports, 2607454 M1 bars saved in seven private partitions",
+        "exposure": "Development used by Pass 7B; QDM raw cache quarantined and no 2025+ price exported or analyzed",
+        "quality": "1332/1813 native H1 active days have complete M1 paths; 481 remain incomplete. 84/84 months represented.",
+        "locator": "README.md",
+        "kind": "derived_data",
+        "quality_counts": [
+          {
+            "metric": "native_active_complete_m1_days",
+            "numerator": 1332,
+            "denominator": 1813
+          },
+          {
+            "metric": "pass6_same_clock_minutes",
+            "numerator": 313541,
+            "denominator": 313599
+          }
+        ]
+      },
+      {
+        "id": "us500-v11-m1",
+        "asset": "US500",
+        "source": "Dukascopy USA500.IDX/USD, explicit source V11",
+        "target": "FTMO US500.cash chưa bind",
+        "grain": "M1 Bid/Ask, quý × phía",
+        "window": "2018–2023, UTC",
+        "clock": "Unix ms nến mở, extrema chỉ sẵn sàng sau phút đóng",
+        "availability": "48 partition trong 6 proof được neo; catalog chỉ kiểm metadata",
+        "exposure": "Development đã dùng; lượt phân loại không mở giá",
+        "quality": "Dùng coverage theo phép đo. Proof xác minh paired source, không suy mọi phút thị trường có quote.",
+        "locator": "INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md",
+        "kind": "derived_data"
+      },
+      {
+        "id": "us500-preannouncement-calendar",
+        "asset": "US500",
+        "source": "BLS, BEA, ISM, Fed và fixtures NYSE",
+        "target": "Lịch entry/exit CFD chưa xác minh",
+        "grain": "Ngày công bố; cửa sổ trước tin",
+        "window": "2018–2023",
+        "clock": "America/New_York",
+        "availability": "Sau khi công bố lịch; dấu giờ biết trước từng lệnh còn thiếu",
+        "exposure": "Used for metadata census only",
+        "quality": "215 lượt tin → 210 ngày → 204 cửa sổ sau lọc FOMC. ISM tháng 2–12 dùng ngày NYSE đầu tháng.",
+        "locator": "PROP-US500-PREANNOUNCEMENT-PREFLIGHT-20261119.md",
+        "kind": "derived_calendar"
+      },
+      {
+        "id": "eurusd-catalogue-raw",
+        "asset": "EURUSD",
+        "source": "QDM local EURUSD_TICK_TW observed joint Bid/Ask",
+        "target": "FTMO EURUSD lịch sử chưa bind",
+        "grain": "Tick, partition năm",
+        "window": "2010–2022, thêm warmup ngoài inventory",
+        "clock": "UTC, nguồn tick ms",
+        "availability": "Seals từng năm; source tick sẵn sàng theo thời điểm quote",
+        "exposure": "Catalogue13 consumed Development 2010–2022",
+        "quality": "325.614.557 evaluation ticks được ghi nhận trong báo cáo. Count này không là độ phủ lịch hay số fills.",
+        "locator": "EURUSD-OBSERVED-HISTORY-20261108.md",
+        "kind": "raw_data"
+      },
+      {
+        "id": "eurusd-catalogue-h1",
+        "asset": "EURUSD",
+        "source": "H1 dựa trên joint QDM tick của EURUSD_TICK_TW",
+        "target": "FTMO EURUSD lịch sử chưa bind",
+        "grain": "H1 Bid/Ask và midpoint from observed ticks",
+        "window": "2010–2022, warmup theo protocol",
+        "clock": "UTC cho cache, Europe/London và America/New_York cho luật",
+        "availability": "H1 chỉ biết sau close; joint quote close đã timestamp; mô phỏng fill dùng first quote H1 kế tiếp",
+        "exposure": "Catalogue13 consumed Development 2010–2022",
+        "quality": "Mô hình SL dùng extrema H1/giá mở qua gap; thiếu first-touch tick và DD nội nến.",
+        "locator": "EURUSD-CATALOGUE-LONG-SCREEN-20261108.md",
+        "parents": [
+          "eurusd-catalogue-raw"
+        ],
+        "kind": "derived_data"
+      },
+      {
+        "id": "gold-r043-m1",
+        "asset": "XAUUSD",
+        "source": "QDM XAUUSD M1 Bid; Ask theo mô hình trong R043",
+        "target": "FTMO Swing XAUUSD chưa xác minh đường giá/chi phí lịch sử",
+        "grain": "M1 Bid → H4 cho tín hiệu; M1 theo đường giữ",
+        "window": "2010–2024",
+        "clock": "UTC cho nguồn, Europe/Prague cho daily-reset mô phỏng",
+        "availability": "Nến H4 đóng mới biết; M1 envelope có hạn chế thứ tự; chưa đủ lịch đóng thật",
+        "exposure": "2010–2024 đã dùng trong R043; 2025–2026 không mở trong lượt R043 và trạng thái toàn dự án xem theo study",
+        "quality": "2.754.363/4.040.190 phút lịch trong 225 vị thế; 1.108.505 phút cuối tuần tách riêng, 177.322 phút còn lại chưa phân loại.",
+        "locator": "GOLD-M1-PATH-AND-EURUSD-POSTMORTEM-20261113.md",
+        "quality_counts": [
+          {
+            "metric": "held_calendar_minutes_observed",
+            "numerator": 2754363,
+            "denominator": 4040190
+          },
+          {
+            "metric": "held_positions_with_missing_calendar_minutes",
+            "numerator": 198,
+            "denominator": 225
+          }
+        ],
+        "kind": "source_group"
+      },
+      {
+        "id": "v15-development-tape",
+        "asset": "EURUSD + XAUUSD",
+        "source": "Tape 340 tín hiệu V15 cùng sổ Development đã audit",
+        "target": "Mô hình FTMO 2-Step Swing 50k",
+        "grain": "Tín hiệu và đường vốn M1, theo thứ tự OHLC/OLHC",
+        "window": "2018–2023, cutoff 2024-01-01T00:00:00Z",
+        "clock": "UTC cho cutoff; đồng hồ quỹ xem protocol V15/V14",
+        "availability": "Sổ Dev đã audit; OHLC/OLHC và swap SYM/ASYM là cấu hình mô hình",
+        "exposure": "Development đã dùng",
+        "quality": "V15 ghi 44/340 tín hiệu Dev gắn cờ UNKNOWN_GAP. Hậu kiểm sizing không xác nhận same-policy STRICT trên 61 mốc.",
+        "locator": "BRIDGE-AND-VELOCITY-V15-RESULTS-20261115.md",
+        "quality_counts": [
+          {
+            "metric": "development_signals_with_unknown_gap_v15_original",
+            "numerator": 44,
+            "denominator": 340
+          }
+        ],
+        "kind": "derived_tape"
+      },
+      {
+        "id": "v26-legacy-corpus",
+        "asset": "XAUUSD + EURUSD + US500 + GBPUSD + AUDUSD",
+        "source": "Corpus MT5 Free Robots theo card và nguồn giá nghiên cứu mô tả ở V26",
+        "target": "Prop rule/cost simulation; không actual account",
+        "grain": "24 profiles theo hash; H1 benchmark, portfolio replay riêng",
+        "window": "Dev 2018–2023; đối chiếu lịch sử 2024–2026-10-13",
+        "clock": "Xem clock theo từng protocol V26",
+        "availability": "Metadata card có rank, hash, alias; payload và license không tái kiểm",
+        "exposure": "Validation lịch sử 2024–2026 đã sử dụng trong các chiến dịch trước",
+        "quality": "24 hồ sơ là ứng viên theo corpus, không 24 edge độc lập; 105 mốc có thể chồng nhau.",
+        "locator": "BATCH-EXACT-ISO-V26-RESULTS-20261118.md",
+        "kind": "source_group"
+      }
+    ],
+    "studies": [
+      {
+        "id": "us500-preannouncement-calendar-preflight",
+        "candidates": [],
+        "inputs": [
+          "us500-preannouncement-calendar"
+        ],
+        "method": "Census cộng quy đổi trung bình paper Hu/Pan/Wang/Zhu Table 1",
+        "scope": "2018–2023",
+        "kind": [
+          "measurement",
+          "transferred",
+          "counterfactual"
+        ],
+        "cost": "0/3/6 bp all-in giả định; swap target unknown vì thiếu point/mode/multiplier lịch sử",
+        "unit": "bp/vòng, USD/năm",
+        "risk": "50k, 125 USD, stop quy chiếu 1%",
+        "verdict": "parked_at_preflight",
+        "limitation": "Ước tính 378,70 USD/năm trước phí. Lịch proxy ISM, không biết chắc có fill khớp giờ.",
+        "reopen": "Cần bằng chứng đủ quy mô sau phí, lịch đã biết trước và điều kiện khớp được.",
+        "docs": {
+          "outcome": "PROP-US500-PREANNOUNCEMENT-PREFLIGHT-20261119.md"
+        },
+        "private_dir": "prop-us500-preannouncement-20261119",
+        "quality_counts": [
+          {
+            "metric": "windows_after_fomc_screen",
+            "numerator": 204,
+            "denominator": 210
+          }
+        ],
+        "series_status": "calendar_only",
+        "evidence_revision": "6fb0dbc"
+      },
+      {
+        "id": "us500-preannouncement-ordinary-range",
+        "candidates": [],
+        "inputs": [
+          "us500-preannouncement-calendar",
+          "us500-v11-m1"
+        ],
+        "method": "Bid high–low / midpoint, median 20 đêm thường quá khứ cùng giờ/cửa sổ",
+        "scope": "2018–2020, 2021–2023",
+        "kind": [
+          "measurement",
+          "transferred",
+          "counterfactual"
+        ],
+        "cost": "0/3/6 bp toàn vòng mới là độ nhạy; chưa có phí đích lịch sử",
+        "unit": "% giá và USD/năm giả định",
+        "risk": "50k; 0,25/0,40/0,50%; lot floor giả định 0,01; notional ≤15× vốn",
+        "verdict": "parked_at_preflight",
+        "limitation": "19/100 và 98/104. Range 2,13%/1,42%. Tập thiếu không đều, đêm đủ gần nhất năm 2023 cách 102 ngày trung vị. Không dùng làm chứng nhận SL.",
+        "reopen": "Cần đủ đêm thường gần entry và kinh tế đủ ở cùng phí có căn cứ trong cả hai cụm.",
+        "docs": {
+          "outcome": "PROP-US500-PREANNOUNCEMENT-PREFLIGHT-20261119.md"
+        },
+        "private_dir": "prop-us500-preannouncement-20261119",
+        "depends_on": [
+          "us500-preannouncement-calendar-preflight"
+        ],
+        "quality_counts": [
+          {
+            "metric": "eligible_events_with_20_prior_ordinary_windows_2018_2020",
+            "numerator": 19,
+            "denominator": 100
+          },
+          {
+            "metric": "eligible_events_with_20_prior_ordinary_windows_2021_2023",
+            "numerator": 98,
+            "denominator": 104
+          }
+        ],
+        "series_status": "ordinary_overnight_only",
+        "evidence_revision": "5a2072a"
+      },
+      {
+        "id": "us500-preannouncement-event-price-pilot",
+        "candidates": [],
+        "inputs": [
+          "us500-preannouncement-calendar"
+        ],
+        "method": "Pilot quanh tin từng được cân nhắc; không có run",
+        "scope": "Không áp dụng, chưa chạy",
+        "kind": [
+          "protocol",
+          "decision"
+        ],
+        "cost": "Unknown: phí, carry và lịch CFD đích chưa xác minh",
+        "unit": "Không áp dụng",
+        "risk": "Chưa có sizing/stop eligible",
+        "verdict": "not_run",
+        "limitation": "204 cửa sổ lịch không phải 204 entry/fill. Không có PnL đêm tin.",
+        "reopen": "Chỉ mở nếu cả hai cụm qua preflight với lịch/giờ/carry được xác minh.",
+        "docs": {
+          "decision": "PROP-US500-PREANNOUNCEMENT-PREFLIGHT-20261119.md"
+        },
+        "depends_on": [
+          "us500-preannouncement-ordinary-range"
+        ],
+        "series_status": "event_price_not_opened"
+      },
+      {
+        "id": "r094-afternoon-ab",
+        "candidates": [
+          "R094"
+        ],
+        "inputs": [
+          "us500-v11-m1"
+        ],
+        "method": "R094 M15 OR15. A 12:01 NY, B 15:59 NY. Cùng entry, stop, size; so hard stop qua cả chiều",
+        "scope": "2022–2023, NYSE 390 phút",
+        "kind": [
+          "outcome",
+          "modeled",
+          "control",
+          "counterfactual"
+        ],
+        "cost": "Bid/Ask quan sát nhúng spread, 0 commission, trượt chuẩn/stress 0,25/0,75 điểm mỗi phía",
+        "unit": "USD, R với budget 25 USD, ROI 10k",
+        "risk": "10k, 25 USD/lệnh, min/step 0,01 lot theo giả định",
+        "verdict": "parked_B_A_control",
+        "limitation": "B stress +16,57R/−6,31R với 231/222 lệnh; path chưa rõ A 1/231 và 3/222, B 3/231 và 4/222. Cash DD không là floating/rule result. Top-k là hindsight.",
+        "reopen": "Cần lợi thế đủ và lặp qua cụm, đủ đường giữ trước replay quỹ.",
+        "docs": {
+          "outcome": "PROP-US500-R094-AFTERNOON-RESULTS-20261119.md",
+          "baseline": "US500-M15-OPENING-SCREEN-RESULTS-20261111.md"
+        },
+        "private_dir": "prop-us500-r094-afternoon-20261119",
+        "quality_counts": [
+          {
+            "metric": "B_unresolved_2022",
+            "numerator": 3,
+            "denominator": 231
+          },
+          {
+            "metric": "B_unresolved_2023",
+            "numerator": 4,
+            "denominator": 222
+          }
+        ],
+        "evidence_revision": "38c89ca",
+        "variants": {
+          "A": {
+            "role": "baseline_control",
+            "exit": "12:01 America/New_York"
+          },
+          "B": {
+            "role": "related_exit_trial",
+            "exit": "15:59 America/New_York"
+          }
+        }
+      },
+      {
+        "id": "v15-sizing-12m",
+        "candidates": [],
+        "inputs": [
+          "v15-development-tape"
+        ],
+        "method": "Hậu kiểm sizing các policy V15; P1/P2/Reward từ cùng tape, mốc tháng, overlap và right censor",
+        "scope": "2018–2023, 61 mốc đủ 12 tháng, 11 cuối kỳ chưa đủ",
+        "kind": [
+          "outcome",
+          "modeled",
+          "control"
+        ],
+        "cost": "PRIMARY hai thứ tự M1, swap SYM/ASYM đã khóa; thiếu same-policy adverse STRICT trên cùng 61 mốc",
+        "unit": "Cửa sổ, Reward USD mô phỏng, daily/static equity %",
+        "risk": "50k; risk theo phase, D3 1,20%/1,05%/0,75%, mức 10k fixed-risk chưa đo",
+        "verdict": "not_qualified",
+        "limitation": "D1.25 1 đợt không chồng lấn qua P2 và Reward. D3 2 đợt nhưng worst 2,62%/8,40% vượt đệm 2,5%/6,5%. Không phải payout thật.",
+        "reopen": "Cần cùng policy adverse path và kết quả lặp trong đệm rủi ro ở vốn đích.",
+        "docs": {
+          "outcome": "PROP-CHALLENGE-REWARD-MILESTONES-20261119.md",
+          "protocol": "BRIDGE-AND-VELOCITY-V15-PROTOCOL-20261115.md",
+          "baseline": "BRIDGE-AND-VELOCITY-V15-RESULTS-20261115.md"
+        },
+        "private_dir": "prop-v15-sizing-evidence-20261119",
+        "quality_counts": [
+          {
+            "metric": "start_windows_with_full_12_month_followup",
+            "numerator": 61,
+            "denominator": 72
+          }
+        ],
+        "evidence_revision": "29b0a1a"
+      },
+      {
+        "id": "eurusd-catalogue13-v1",
+        "candidates": [],
+        "inputs": [
+          "eurusd-catalogue-h1"
+        ],
+        "method": "Catalogue13 dùng simulate_coarse; 24 fixed versions × 13 năm × 2 phí. Thành viên của batch được định danh theo recipe bên dưới.",
+        "scope": "2010–2022, reset năm",
+        "kind": [
+          "outcome",
+          "modeled"
+        ],
+        "cost": "Spread joint observed; commission 5 USD/vòng; slippage 0/4 USD/vòng/lot; swap tham chiếu/stress theo protocol",
+        "unit": "USD tổng các sổ riêng, USD/lot cho hồ sơ chẩn đoán",
+        "risk": "10k, 25 USD/lệnh",
+        "verdict": "economic_fail_frozen_screen",
+        "limitation": "0/24 giữ. Riêng post-London 3.376 lệnh, 8,19 USD/lot gross đã nhúng spread, phí khác stress 9 USD/lot, swap 0; net chuẩn/stress +922,35/−239,71 USD toàn 13 sổ. Chưa prop path.",
+        "reopen": "Cần câu hỏi cơ chế mới đã đăng ký và dữ liệu đủ cho đúng cách khớp.",
+        "docs": {
+          "protocol": "EURUSD-CATALOGUE-LONG-SCREEN-20261108.md",
+          "outcome": "EURUSD-CATALOGUE13-RESULTS-20261108.md",
+          "diagnosis": "GOLD-EURUSD-PORTFOLIO-STAGE-A-20261113.md"
+        },
+        "private_dir": "challenge-discovery4-20261108/execution-v1/eurusd-catalogue13-v1",
+        "quality_counts": [
+          {
+            "metric": "catalogue_cases_reconciled",
+            "numerator": 624,
+            "denominator": 624
+          }
+        ],
+        "source_revision": "9fd6cd00"
+      },
+      {
+        "id": "eurusd-catalogue13-post-london-spread",
+        "candidates": [],
+        "inputs": [
+          "eurusd-catalogue-h1"
+        ],
+        "method": "Bản đăng ký P75 theo 60 phiên, joint Bid/Ask trước 16 London, cùng BUY post-London exact candidate",
+        "scope": "Phạm vi đăng ký 2018–2022, chưa phát sinh kết quả",
+        "kind": [
+          "protocol",
+          "decision"
+        ],
+        "cost": "Giữ nguyên hai cost scenario theo bản đăng ký",
+        "unit": "Không áp dụng vì chưa tính subgroup",
+        "risk": "10k, 25 USD dự kiến giữ như baseline",
+        "verdict": "paused_before_run",
+        "limitation": "Đã đọc 5 dòng mẫu CSV nguồn (4 tick năm 2018), code producer và registration trước lệnh đổi ưu tiên. Không tính nhãn lọc, thống kê subgroup hay PnL. Từ lúc đổi việc chỉ kiểm metadata.",
+        "reopen": "Chỉ tiếp tục nếu chủ dự án cấp lại phạm vi testing.",
+        "docs": {
+          "baseline": "EURUSD-CATALOGUE13-RESULTS-20261108.md"
+        },
+        "private_dir": "prop-eurusd-catalogue13-spread-20261119",
+        "depends_on": [
+          "eurusd-catalogue13-v1"
+        ],
+        "series_status": "registration_only",
+        "recipe_keys": [
+          "eurusd-h1-post-london16-16ny-atr14x1p5-r025-v1"
+        ]
+      },
+      {
+        "id": "gold-r043-annual-and-path",
+        "candidates": [
+          "R043"
+        ],
+        "inputs": [
+          "gold-r043-m1"
+        ],
+        "method": "15 reset books H4 SMA20/80; chi phí bất đối xứng và hậu kiểm M1 envelope của đường vốn",
+        "scope": "2010–2024, 220 closed / 5 open",
+        "kind": [
+          "outcome",
+          "modeled",
+          "counterfactual",
+          "control"
+        ],
+        "cost": "Baseline R043 và stress swap theo scenario cũ −40 USD/lot mỗi nhịp tính; target XAU spec/carry chưa xác minh",
+        "unit": "USD, %, held-minute coverage",
+        "risk": "50k; baseline 125 USD, sensitivity 0,40/0,50%",
+        "verdict": "parked_prop_timefit",
+        "limitation": "Gross/swap lớn và cadence 14,67 lệnh/năm. 4.035,06 USD stress là tổng equity 15 sổ riêng có terminal floating. M1 không xác nhận full tick/FTMO drawdown.",
+        "reopen": "Giữ regression fixture; chỉ xem lại với cơ chế time-fit và target path/carry đủ cho quyết định.",
+        "docs": {
+          "outcome": "GOLD-R043-FINANCING-PATH-AUDIT-20261112.md",
+          "diagnosis": "GOLD-M1-PATH-AND-EURUSD-POSTMORTEM-20261113.md",
+          "decision": "STRATEGY-STATUS-AND-CANDIDATE-DOSSIERS-20261112.md",
+          "control": "GOLD-R043-REGRESSION-FIXTURE-20261113.json"
+        },
+        "private_dir": "challenge-discovery4-20261108/execution-v1/gold-m1-path-review-20261112-v1"
+      },
+      {
+        "id": "legacy-v26-batch-exact-iso",
+        "candidates": [],
+        "inputs": [
+          "v26-legacy-corpus"
+        ],
+        "method": "V26 exact ISO đối chứng BASE_GUARD, benchmark bot và bootstrap theo protocol",
+        "scope": "Lịch sử đã exposed 2018–13/10/2026, gồm Development và historical validation",
+        "kind": [
+          "outcome",
+          "modeled",
+          "control"
+        ],
+        "cost": "Chi phí chuẩn, +50% và giá thiếu stress là các scenario của V26",
+        "unit": "R, cửa sổ/vòng đời, Reward mô phỏng",
+        "risk": "Xem vốn/risk theo từng sổ và protocol V26; không đồng nhất giữa benchmark và lifecycle",
+        "verdict": "not_qualified",
+        "limitation": "Lịch sử 2024–2026 đã có exposure; 105 mốc lịch sử và 5.000 chuỗi bootstrap là mẫu có điều kiện.",
+        "reopen": "Xác minh giá/cost/account và thu forward data sau khóa cấu hình trước promotion.",
+        "docs": {
+          "outcome": "BATCH-EXACT-ISO-V26-RESULTS-20261118.md",
+          "protocol": "BATCH-EXACT-ISO-V26-PROTOCOL-20261118.md",
+          "source": "CORPUS-BATCH-V26-CARD-20261118.json"
+        },
+        "private_dir": "challenge-discovery4-20261108/execution-v1/batch-exact-iso-v26-20261118"
+      },
+      {
+        "id": "eurusd-catalogue13-rollover-clock-review",
+        "candidates": [],
+        "inputs": [
+          "eurusd-catalogue-h1"
+        ],
+        "method": "Recheck same held positions with fixed 22:00 UTC and 17:00 America/New_York, independent Prague reset not used for swap",
+        "scope": "2018–2022 subset, H4 SMA and H4 pullback",
+        "kind": [
+          "measurement",
+          "counterfactual"
+        ],
+        "cost": "Keep original swap rates and rounding; only change accounting clock",
+        "unit": "USD and rollover event counts",
+        "risk": "10k reset annually, 25 USD planned risk",
+        "verdict": "original_verdict_unchanged",
+        "limitation": "Catalogue13 same cash and financing under both clocks in this subset. Not historical target swap confirmation. F2 did change in its separate ledger.",
+        "reopen": "Review actual target calendar/rates only if a new decision depends on them.",
+        "docs": {
+          "diagnosis": "PROP-EUR-FX-ROLLOVER-AUDIT-20261119.md",
+          "baseline": "EURUSD-CATALOGUE13-RESULTS-20261108.md"
+        },
+        "private_dir": "prop-eur-fx-rollover-audit-20261119",
+        "depends_on": [
+          "eurusd-catalogue13-v1"
+        ],
+        "recipe_keys": [
+          "eurusd-h4-sma20-80-atr14-r025-v1",
+          "eurusd-h4-pullback20-80-atr14-r025-v1"
+        ]
+      },
+      {
+        "id": "us500-v16-slippage-endpoint-funnel",
+        "candidates": [],
+        "inputs": [
+          "us500-v11-m1"
+        ],
+        "method": "98 endpoint configurations from 202 rows, 104 aliases; fixed-lot counterfactual and friction cap recalculation",
+        "scope": "Development 2018–2020 and 2021–2023, US500 intraday endpoints",
+        "kind": [
+          "measurement",
+          "modeled",
+          "counterfactual"
+        ],
+        "cost": "Midpoint, bid/ask spread, funding model, 0.75 point per side stress slippage; commission 0",
+        "unit": "configuration counts and USD/year in weaker cluster",
+        "risk": "150 USD reference per opportunity, natural stop width and 0.01 lot floor",
+        "verdict": "parked_endpoint_screen",
+        "limitation": "98→24→14→4 is positive in both clusters under successive cost layers, not number of fills or independent edges. 0/98 positive with sufficient cadence under any slippage assumption. Stop paths not measured.",
+        "reopen": "New independent mechanism with plausible scale; a tighter quote assumption alone did not change triage.",
+        "docs": {
+          "outcome": "PROP-US500-V16-SLIPPAGE-RESULTS-20261119.md",
+          "protocol": "GAP-IMMUNE-MULTIASSET-V16-PROTOCOL-20261116.md"
+        },
+        "private_dir": "prop-us500-v16-slippage-20261119",
+        "quality_counts": [
+          {
+            "metric": "positive_both_clusters_midpoint",
+            "numerator": 24,
+            "denominator": 98
+          },
+          {
+            "metric": "positive_both_clusters_after_spread_before_funding_and_slippage",
+            "numerator": 14,
+            "denominator": 98
+          },
+          {
+            "metric": "positive_both_clusters_stress",
+            "numerator": 4,
+            "denominator": 98
+          },
+          {
+            "metric": "adequate_cadence_and_positive_both_clusters",
+            "numerator": 0,
+            "denominator": 98
+          }
+        ],
+        "series_status": "endpoint_only",
+        "evidence_revision": "7e88add"
+      }
+    ],
+    "legacy_exposure": [
+      {
+        "asset": "US500",
+        "known": "2025 đã dùng cho selection trong study recent, 2026 RS01/RS07 đã dùng diagnostic",
+        "observations": [
+          "US500-RECENT-SCREEN-RESULTS-20261112.md"
+        ],
+        "unknown": "Exposure khác tùy recipe và data version. Không cấp quyền mở lại."
+      },
+      {
+        "asset": "EURUSD và XAUUSD",
+        "known": "B0 Development 2022–2023, 2024 historical validation đã có exposure, 2025–2026 đóng trong hai lượt B0",
+        "observations": [
+          "EURUSD-B0-RESULTS-20261113.md",
+          "XAUUSD-INTRADAY-B0-RESULTS-20261113.md"
+        ],
+        "unknown": "Đóng ở một study không chứng minh chưa từng dùng ở study khác."
+      },
+      {
+        "asset": "Danh mục V15/V26",
+        "known": "V15 sizing follow-up chỉ Dev; V15 full và V26 đã dùng 2024–2026 ở các lịch sử được ghi",
+        "observations": [
+          "BRIDGE-AND-VELOCITY-V15-RESULTS-20261115.md",
+          "BATCH-EXACT-ISO-V26-RESULTS-20261118.md"
+        ],
+        "unknown": "Cần mapping source/trading scope riêng cho mọi claim clean OOS."
+      }
+    ],
+    "gaps": [
+      {
+        "priority": 1,
+        "missing": "Data exposure theo asset × partition × decision",
+        "impact": "Chặn đánh giá OOS và quyết định mở dữ liệu. Giữ unknown cho phần chưa bind.",
+        "next": "Đối soát metadata của hồ sơ đang được xem xét từ manifest/receipt gốc trước mọi request về OOS."
+      },
+      {
+        "priority": 1,
+        "missing": "Path gap và FTMO target spec/cost clock",
+        "impact": "Chặn diễn giải DD, khả năng khớp và qualification, đặc biệt V15, Gold R043, US500 qua đêm.",
+        "next": "Tìm proof của carrier/source đúng instrument, field/đơn vị và ngày hiệu lực. Chỉ mở tape nếu được riêng."
+      },
+      {
+        "priority": 2,
+        "missing": "Binding sâu trên phần legacy chỉ có index/directory",
+        "impact": "Dễ lặp phép thử và nhầm protocol với run/outcome.",
+        "next": "Khi tái dùng một study, thêm parent/run/partition locator và quality denominator từ nguồn đã lưu."
+      },
+      {
+        "priority": 2,
+        "missing": "Lịch sử chọn phiên bản có liên kết, exact costs và control",
+        "impact": "Số phiên bản hoặc mốc bắt đầu không đủ để gọi là số lần thử độc lập.",
+        "next": "Giữ ID họ, filter/exit/sizing là attempt/version có parent, không reset số đếm."
+      }
+    ],
+    "metadata_bindings": [
+      {
+        "key": "pass11-gbpusd-m1-20261120/m1-seal",
+        "owner": "pass11-gbpusd-m1-20261120",
+        "path": "pass11-gbpusd-m1-20261120/development-m1/manifest.json",
+        "sha256": "4224f3ec2744f8ba85dfd977e5473565619ea74179c4adcab0522bee137900c4"
+      },
+      {
+        "key": "pass7b-usdjpy-qdm-equity-20261120/m1-seal",
+        "owner": "pass7b-usdjpy-qdm-equity-20261120",
+        "path": "pass7b-usdjpy-qdm-equity-20261120/development-m1/manifest.json",
+        "sha256": "94ad33ad4e47622d96aa24da68c4451fb87fcaa1e528b17e261ae15bb9b869f1"
+      },
+      {
+        "key": "r094-afternoon-manifest",
+        "owner": "r094-afternoon-ab",
+        "path": "prop-us500-r094-afternoon-20261119/manifest.json",
+        "sha256": "b08cb2b4642efc84dbd03d6c3497bd05b2cb1b1332374bb04ba7a43b5a73fb04"
+      },
+      {
+        "key": "v15-sizing-manifest",
+        "owner": "v15-sizing-12m",
+        "path": "prop-v15-sizing-evidence-20261119/manifest.json",
+        "sha256": "cf56d1ff091060f6d2cf8265f412f31f5ed185a22c7c18a846245617a52d8141"
+      },
+      {
+        "key": "us500-v11-admission",
+        "owner": "us500-v11-m1",
+        "path": "challenge-discovery4-20261108/execution-v1/ensemble-and-storage-v11-20261115/source-admission-v11.json",
+        "sha256": "0ce5dfb80807d21b4f07b3b7238c5f237d604b85d971bac27454b7e4ffa3270a"
+      },
+      {
+        "key": "us500-ordinary-range-study-protocol",
+        "owner": "us500-preannouncement-ordinary-range",
+        "path": "prop-us500-preannouncement-20261119/range-protocol.md",
+        "sha256": "caf241766641f68fdf23a19da2a39028a98beca1b760c8b8074328de28cf7a94"
+      },
+      {
+        "key": "eurusd-spread-study-registration",
+        "owner": "eurusd-catalogue13-post-london-spread",
+        "path": "prop-eurusd-catalogue13-spread-20261119/registration.md",
+        "sha256": "9885944f69493481cacdf1f7043fdb5243bbd9537350851e3688f87ea2f934fa"
+      },
+      {
+        "key": "eurusd-catalogue13-config",
+        "owner": "eurusd-catalogue13-v1",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-catalogue13-v1/config.json",
+        "sha256": "bb98a0c1a1e4e262ce0c6af9ba59876ec3e63e8a1372aac986cff33fa6e2a166"
+      },
+      {
+        "key": "us500-v11-proof-2018",
+        "owner": "us500-v11-m1",
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2018/source-observation-proof.json",
+        "sha256": "1670fb10ccd76036f092b2dc9b959852130b27d695d3ebeae60856239b3c337c"
+      },
+      {
+        "key": "us500-v11-proof-2019",
+        "owner": "us500-v11-m1",
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2019/source-observation-proof.json",
+        "sha256": "657f2ec2542af0d76b4df5980e93791b7a0b16f8f915f2205c5aa6a170d86f59"
+      },
+      {
+        "key": "us500-v11-proof-2020",
+        "owner": "us500-v11-m1",
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2020/source-observation-proof.json",
+        "sha256": "dda09cb011313aa2484676c51f186eea4ee8243500dde375bc83a177f3fa2669"
+      },
+      {
+        "key": "us500-v11-proof-2021",
+        "owner": "us500-v11-m1",
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2021/source-observation-proof.json",
+        "sha256": "caa6f2802d1d2c04a27028cb3f1da5ddbedf8bd9bda17096ebf077ea1969e9ce"
+      },
+      {
+        "key": "us500-v11-proof-2022",
+        "owner": "us500-v11-m1",
+        "path": "challenge-discovery4-20261108/execution-v1/us500-explicit-source-v1/2022/source-observation-proof.json",
+        "sha256": "7a41f021c86a04345ce2591b90efa72112792ef5479c16ff6d1167f7064dc840"
+      },
+      {
+        "key": "us500-v11-proof-2023",
+        "owner": "us500-v11-m1",
+        "path": "challenge-discovery4-20261108/execution-v1/us500-explicit-source-v1/2023/source-observation-proof.json",
+        "sha256": "61d46d061a870e98a97b696b95d8efab2d28abe190d94f2fc04c1b2255b1909c"
+      },
+      {
+        "key": "eurusd-qdm-raw-seal-2010",
+        "owner": "eurusd-catalogue-raw",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-observed-history-v2/2010/raw-seal.json",
+        "sha256": "e913ee89c5554eaf6ee4b6925f4fbe0a069bcfe2dd073b9457e83baff37854c7"
+      },
+      {
+        "key": "eurusd-catalogue13-complete-2010",
+        "owner": "eurusd-catalogue13-v1",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-catalogue13-v1/2010/completed.json",
+        "sha256": "3f8134e65302702e78fe97db44394522ddebf324445ca77e03d7967935dcf5d2"
+      },
+      {
+        "key": "eurusd-qdm-raw-seal-2011",
+        "owner": "eurusd-catalogue-raw",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-observed-history-v2/2011/raw-seal.json",
+        "sha256": "88f7e5828006119b7abb82691e8cf74a9807c12aa43b6df662663a540b8f41ff"
+      },
+      {
+        "key": "eurusd-catalogue13-complete-2011",
+        "owner": "eurusd-catalogue13-v1",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-catalogue13-v1/2011/completed.json",
+        "sha256": "f02074752d5207d4f33ac0a90574eaecbeabfed3cdd0bd5ffb85961f55214954"
+      },
+      {
+        "key": "eurusd-qdm-raw-seal-2012",
+        "owner": "eurusd-catalogue-raw",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-observed-history-v2/2012/raw-seal.json",
+        "sha256": "49da88437a98a2936cc085283710e309714f5c059ebabd9f9e792e34a44e1716"
+      },
+      {
+        "key": "eurusd-catalogue13-complete-2012",
+        "owner": "eurusd-catalogue13-v1",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-catalogue13-v1/2012/completed.json",
+        "sha256": "7a392933841c3e9cf400d7401a14b9401cb26c1092e22faa180caa24793ad6e1"
+      },
+      {
+        "key": "eurusd-qdm-raw-seal-2013",
+        "owner": "eurusd-catalogue-raw",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-observed-history-v2/2013/raw-seal.json",
+        "sha256": "2722562c1d10cd9f35a6899d8811ea293e1b3a06685df6b3be5dca9861e3fa2a"
+      },
+      {
+        "key": "eurusd-catalogue13-complete-2013",
+        "owner": "eurusd-catalogue13-v1",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-catalogue13-v1/2013/completed.json",
+        "sha256": "9a6eb9b57dcca3cfed6795607d590eefc02dd4497ca14386e03a39276ef75f09"
+      },
+      {
+        "key": "eurusd-qdm-raw-seal-2014",
+        "owner": "eurusd-catalogue-raw",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-observed-history-v2/2014/raw-seal.json",
+        "sha256": "44db058f6dbf1cf615cd089ffd17a7943f573359c24269209757232de2125d22"
+      },
+      {
+        "key": "eurusd-catalogue13-complete-2014",
+        "owner": "eurusd-catalogue13-v1",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-catalogue13-v1/2014/completed.json",
+        "sha256": "0b8df30de08bd8d60000c0ab362aeed3df5d2199908cbdb545d054cda37c3913"
+      },
+      {
+        "key": "eurusd-qdm-raw-seal-2015",
+        "owner": "eurusd-catalogue-raw",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-observed-history-v2/2015/raw-seal.json",
+        "sha256": "fcdb1be556a594a7416446415467b15f82eab6e278d406e61128825077dbec90"
+      },
+      {
+        "key": "eurusd-catalogue13-complete-2015",
+        "owner": "eurusd-catalogue13-v1",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-catalogue13-v1/2015/completed.json",
+        "sha256": "751043e755a6c98c84802f92e387c2373c1b5efeca43db92533a6ffbba693c80"
+      },
+      {
+        "key": "eurusd-qdm-raw-seal-2016",
+        "owner": "eurusd-catalogue-raw",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-observed-history-v2/2016/raw-seal.json",
+        "sha256": "1f24f0660a876a57b5ea97307425a8165966ae20572b419680aef45d115a8022"
+      },
+      {
+        "key": "eurusd-catalogue13-complete-2016",
+        "owner": "eurusd-catalogue13-v1",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-catalogue13-v1/2016/completed.json",
+        "sha256": "a68f07837c9e1f6fe3b7374c2c3cc8d3469db01b2b118092d1198e07b6c061f0"
+      },
+      {
+        "key": "eurusd-qdm-raw-seal-2017",
+        "owner": "eurusd-catalogue-raw",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-observed-history-v2/2017/raw-seal.json",
+        "sha256": "5af7885e0f867079dc2450c618822fd2da015c481b05c4aa9626712fcea60792"
+      },
+      {
+        "key": "eurusd-catalogue13-complete-2017",
+        "owner": "eurusd-catalogue13-v1",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-catalogue13-v1/2017/completed.json",
+        "sha256": "6a2d58677df8020b514f1211aee22a12ecddf267cc93d5011b0cc8d2f367b43e"
+      },
+      {
+        "key": "eurusd-qdm-raw-seal-2018",
+        "owner": "eurusd-catalogue-raw",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-observed-history-v2/2018/raw-seal.json",
+        "sha256": "b28f04ce1e096f1a2b407a8a05b6d2f865d488f5e10ae29b04215ccc6ef1d0a3"
+      },
+      {
+        "key": "eurusd-catalogue13-complete-2018",
+        "owner": "eurusd-catalogue13-v1",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-catalogue13-v1/2018/completed.json",
+        "sha256": "5cb6401ef06712535edba8ada261cfd84d614185e3c4e16151fffd6f6fe00e33"
+      },
+      {
+        "key": "eurusd-qdm-raw-seal-2019",
+        "owner": "eurusd-catalogue-raw",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-observed-history-v2/2019/raw-seal.json",
+        "sha256": "1f2be6455d3e71eb4c86c88465d9c041e12a760a5d318f1416015b1b9f25ddcd"
+      },
+      {
+        "key": "eurusd-catalogue13-complete-2019",
+        "owner": "eurusd-catalogue13-v1",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-catalogue13-v1/2019/completed.json",
+        "sha256": "0c717adbfebdb1b14bcc2b6644276d6b85963c4aa8d0374f4521ea4669a4b426"
+      },
+      {
+        "key": "eurusd-qdm-raw-seal-2020",
+        "owner": "eurusd-catalogue-raw",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-observed-history-v2/2020/raw-seal.json",
+        "sha256": "a32abcc015f7727da3a2b1fb455a0ba5026bee125708a568c7fe7fa6acbcb137"
+      },
+      {
+        "key": "eurusd-catalogue13-complete-2020",
+        "owner": "eurusd-catalogue13-v1",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-catalogue13-v1/2020/completed.json",
+        "sha256": "004870c63d3138ac5f3be0b1c237a781ed04f83c9aa1daca6012cb1a67ccfda5"
+      },
+      {
+        "key": "eurusd-qdm-raw-seal-2021",
+        "owner": "eurusd-catalogue-raw",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-observed-history-v2/2021/raw-seal.json",
+        "sha256": "ca1c26d6dfeeb8ef64871d2a110b51bd575df06f2e0eed419e44e0e553b4a789"
+      },
+      {
+        "key": "eurusd-catalogue13-complete-2021",
+        "owner": "eurusd-catalogue13-v1",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-catalogue13-v1/2021/completed.json",
+        "sha256": "ca7f31fa1efd1bad22ff3c53a1476c4c87f2b00b28ad2999f5c1a469ba2c32bd"
+      },
+      {
+        "key": "eurusd-qdm-raw-seal-2022",
+        "owner": "eurusd-catalogue-raw",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-observed-history-v2/2022/raw-seal.json",
+        "sha256": "f24e42c7773f611722c2ff507e67a3de57ba3b0941735faa75f7e454d326648d"
+      },
+      {
+        "key": "eurusd-catalogue13-complete-2022",
+        "owner": "eurusd-catalogue13-v1",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-catalogue13-v1/2022/completed.json",
+        "sha256": "4fea9a411ea2695947df108d655c13df7e73b3c5d7b62ed191c89da355fbfe38"
+      }
+    ],
+    "payload_refs": [
+      {
+        "owner": "pass11-gbpusd-m1-20261120",
+        "path": "pass11-gbpusd-m1-20261120/development-m1/GBPUSD-M1-BIDASK-2018.parquet",
+        "sha256": "4a3f26dbd1e279a682f8647fb58ed7c775c8e0ba1ef23c21e9373c748808a2a4",
+        "kind": "derived_m1_bid_ask_ohlc",
+        "year": 2018,
+        "rows": 373306
+      },
+      {
+        "owner": "pass11-gbpusd-m1-20261120",
+        "path": "pass11-gbpusd-m1-20261120/development-m1/GBPUSD-M1-BIDASK-2019.parquet",
+        "sha256": "613f878432e57a5e8f0c61c28e1fac65f85e994eac8a8bc142de6ecd6855eefd",
+        "kind": "derived_m1_bid_ask_ohlc",
+        "year": 2019,
+        "rows": 372936
+      },
+      {
+        "owner": "pass11-gbpusd-m1-20261120",
+        "path": "pass11-gbpusd-m1-20261120/development-m1/GBPUSD-M1-BIDASK-2020.parquet",
+        "sha256": "9fbf06d7ed4ba0fff23e2be9b4da07b4b63c52a2fcf7cef7a41d6ab7b27126ba",
+        "kind": "derived_m1_bid_ask_ohlc",
+        "year": 2020,
+        "rows": 374198
+      },
+      {
+        "owner": "pass11-gbpusd-m1-20261120",
+        "path": "pass11-gbpusd-m1-20261120/development-m1/GBPUSD-M1-BIDASK-2021.parquet",
+        "sha256": "61b6bacd75112aa97ef585d31763f502e596261d280d4c93073d74c46f9d2ce2",
+        "kind": "derived_m1_bid_ask_ohlc",
+        "year": 2021,
+        "rows": 371585
+      },
+      {
+        "owner": "pass11-gbpusd-m1-20261120",
+        "path": "pass11-gbpusd-m1-20261120/development-m1/GBPUSD-M1-BIDASK-2022.parquet",
+        "sha256": "7a1bafcad6332a9ef3ff0ebc5a7712d6a9314f09614bf7f4c18635fe83ae7b61",
+        "kind": "derived_m1_bid_ask_ohlc",
+        "year": 2022,
+        "rows": 372615
+      },
+      {
+        "owner": "pass11-gbpusd-m1-20261120",
+        "path": "pass11-gbpusd-m1-20261120/development-m1/GBPUSD-M1-BIDASK-2023.parquet",
+        "sha256": "4990edc7870c20dce055b6448df5e23fe8b7a43ca6e640aa3a5a2ef46a7be750",
+        "kind": "derived_m1_bid_ask_ohlc",
+        "year": 2023,
+        "rows": 371874
+      },
+      {
+        "owner": "pass11-gbpusd-m1-20261120",
+        "path": "pass11-gbpusd-m1-20261120/development-m1/GBPUSD-M1-BIDASK-2024.parquet",
+        "sha256": "0bfea0ca9190c0e30019c1c54425f79999bee28c0e5e1350d34cd713de6ca677",
+        "kind": "derived_m1_bid_ask_ohlc",
+        "year": 2024,
+        "rows": 372468
+      },
+      {
+        "owner": "pass7b-usdjpy-qdm-equity-20261120",
+        "path": "pass7b-usdjpy-qdm-equity-20261120/development-m1/USDJPY-M1-BIDASK-2018.parquet",
+        "sha256": "30f19b23514e6b6e4edb42564579ac522540f9c7736ef587b98266dfe459aefa",
+        "kind": "derived_m1_bid_ask_ohlc",
+        "year": 2018,
+        "rows": 372794
+      },
+      {
+        "owner": "pass7b-usdjpy-qdm-equity-20261120",
+        "path": "pass7b-usdjpy-qdm-equity-20261120/development-m1/USDJPY-M1-BIDASK-2019.parquet",
+        "sha256": "fc82c1b79f107db1a0bcfeb07e75fdbb711040e9dc95f5daa9f109248f98d4db",
+        "kind": "derived_m1_bid_ask_ohlc",
+        "year": 2019,
+        "rows": 372700
+      },
+      {
+        "owner": "pass7b-usdjpy-qdm-equity-20261120",
+        "path": "pass7b-usdjpy-qdm-equity-20261120/development-m1/USDJPY-M1-BIDASK-2020.parquet",
+        "sha256": "afa86499e30f71b255f4cb2fd757cb62ef64aa9e4b5bc38ada64f4e1d9a73bb3",
+        "kind": "derived_m1_bid_ask_ohlc",
+        "year": 2020,
+        "rows": 373333
+      },
+      {
+        "owner": "pass7b-usdjpy-qdm-equity-20261120",
+        "path": "pass7b-usdjpy-qdm-equity-20261120/development-m1/USDJPY-M1-BIDASK-2021.parquet",
+        "sha256": "bbf2c8d5f6f874ea9b1ae3969460d6a1abf7d8170e2e6545d08e7bf4fe08f6d4",
+        "kind": "derived_m1_bid_ask_ohlc",
+        "year": 2021,
+        "rows": 370563
+      },
+      {
+        "owner": "pass7b-usdjpy-qdm-equity-20261120",
+        "path": "pass7b-usdjpy-qdm-equity-20261120/development-m1/USDJPY-M1-BIDASK-2022.parquet",
+        "sha256": "853f868e465e79c8ad50f78011bdb34fac266016c24792e59c7d46269ea1ea9b",
+        "kind": "derived_m1_bid_ask_ohlc",
+        "year": 2022,
+        "rows": 372717
+      },
+      {
+        "owner": "pass7b-usdjpy-qdm-equity-20261120",
+        "path": "pass7b-usdjpy-qdm-equity-20261120/development-m1/USDJPY-M1-BIDASK-2023.parquet",
+        "sha256": "9c51f9911f7c1ce0430090becc97a73e3ea68d8d20c41d1cb60ccca054c3ce56",
+        "kind": "derived_m1_bid_ask_ohlc",
+        "year": 2023,
+        "rows": 371964
+      },
+      {
+        "owner": "pass7b-usdjpy-qdm-equity-20261120",
+        "path": "pass7b-usdjpy-qdm-equity-20261120/development-m1/USDJPY-M1-BIDASK-2024.parquet",
+        "sha256": "455a6fa78a0ea018e1536ec0005e0604e5b49e9ceca6e1e7acca680e3501659d",
+        "kind": "derived_m1_bid_ask_ohlc",
+        "year": 2024,
+        "rows": 373383
+      },
+      {
+        "owner": "us500-preannouncement-calendar-preflight",
+        "path": "prop-us500-preannouncement-20261119/calendar-and-arithmetic.json.zst",
+        "sha256": "1f91354e48de9002b9c615771b216225694fc0e6f2a65aee613f130b1ec3c2ec",
+        "kind": "measurement_and_counterfactual"
+      },
+      {
+        "owner": "us500-preannouncement-ordinary-range",
+        "path": "prop-us500-preannouncement-20261119/ordinary-range-receipt.json.zst",
+        "sha256": "65546b164cc213a6f851f27b6c4561996415d3af0c7b78d7ec155d504ac72a17",
+        "kind": "measurement_and_counterfactual"
+      },
+      {
+        "owner": "us500-preannouncement-ordinary-range",
+        "path": "prop-us500-preannouncement-20261119/ordinary-range-gaps.json.zst",
+        "sha256": "1c73408c4099d5d2e885181209b03bf2999bffca5a1600ab62a789222b7d897e",
+        "kind": "measurement"
+      },
+      {
+        "owner": "r094-afternoon-ab",
+        "path": "prop-us500-r094-afternoon-20261119/ab-rows.json.zst",
+        "sha256": "3220f95ba8c10776f39a40ccc4cec82875b8b8f565d859db63f03205f869feb7",
+        "kind": "modeled_outcome"
+      },
+      {
+        "owner": "v15-sizing-12m",
+        "path": "prop-v15-sizing-evidence-20261119/receipt.json.zst",
+        "sha256": "38c7762187ea3f6926fb983cfa9171ae0c8923c5ce7720c7400ce864b4b8f498",
+        "kind": "modeled_outcome"
+      },
+      {
+        "owner": "eurusd-catalogue13-v1",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-catalogue13-v1/2010/result.json",
+        "sha256": "0ef618cf87026847dbafb1de4b75c6cfa0c822683491f4094e69840a991b7aab",
+        "kind": "modeled_outcome_annual_book_container",
+        "year": 2010,
+        "rows": 48,
+        "metadata_key": "eurusd-catalogue13-complete-2010"
+      },
+      {
+        "owner": "eurusd-catalogue13-v1",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-catalogue13-v1/2011/result.json",
+        "sha256": "6a7ac2257d88b4ab23c6ae8c4b762ed6489fc8122eb886871c461a0cc7307fc7",
+        "kind": "modeled_outcome_annual_book_container",
+        "year": 2011,
+        "rows": 48,
+        "metadata_key": "eurusd-catalogue13-complete-2011"
+      },
+      {
+        "owner": "eurusd-catalogue13-v1",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-catalogue13-v1/2012/result.json",
+        "sha256": "9e9fffbac78b6e05033a34dacd9d4932dfbb595876891b145a7899816a2ad1bf",
+        "kind": "modeled_outcome_annual_book_container",
+        "year": 2012,
+        "rows": 48,
+        "metadata_key": "eurusd-catalogue13-complete-2012"
+      },
+      {
+        "owner": "eurusd-catalogue13-v1",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-catalogue13-v1/2013/result.json",
+        "sha256": "8fa410132e665a301f287e4f450fea3dd48cc6e8d7ec6e877d9744aaf7e9d5d8",
+        "kind": "modeled_outcome_annual_book_container",
+        "year": 2013,
+        "rows": 48,
+        "metadata_key": "eurusd-catalogue13-complete-2013"
+      },
+      {
+        "owner": "eurusd-catalogue13-v1",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-catalogue13-v1/2014/result.json",
+        "sha256": "3159a99415dce1cb09df80ca34998b6937c7bcc05252633c64d2f9a7a377b656",
+        "kind": "modeled_outcome_annual_book_container",
+        "year": 2014,
+        "rows": 48,
+        "metadata_key": "eurusd-catalogue13-complete-2014"
+      },
+      {
+        "owner": "eurusd-catalogue13-v1",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-catalogue13-v1/2015/result.json",
+        "sha256": "a3c47d2a2150132aba519e68af1a3aa236b222720cb47aa59618ccfb1c0dbb36",
+        "kind": "modeled_outcome_annual_book_container",
+        "year": 2015,
+        "rows": 48,
+        "metadata_key": "eurusd-catalogue13-complete-2015"
+      },
+      {
+        "owner": "eurusd-catalogue13-v1",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-catalogue13-v1/2016/result.json",
+        "sha256": "d21ca4f4512017db895d519095aa9cbb2e8877a41dc41a58384139490cd48ac0",
+        "kind": "modeled_outcome_annual_book_container",
+        "year": 2016,
+        "rows": 48,
+        "metadata_key": "eurusd-catalogue13-complete-2016"
+      },
+      {
+        "owner": "eurusd-catalogue13-v1",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-catalogue13-v1/2017/result.json",
+        "sha256": "ca9e0f812706b4664830862207416c30faa93da5bdb48138c8eb6d9e61ca7dc2",
+        "kind": "modeled_outcome_annual_book_container",
+        "year": 2017,
+        "rows": 48,
+        "metadata_key": "eurusd-catalogue13-complete-2017"
+      },
+      {
+        "owner": "eurusd-catalogue13-v1",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-catalogue13-v1/2018/result.json",
+        "sha256": "d3cdcd79f9e87d275b7efe5488ec1df5670354701e4f8306515a18de9c7448dc",
+        "kind": "modeled_outcome_annual_book_container",
+        "year": 2018,
+        "rows": 48,
+        "metadata_key": "eurusd-catalogue13-complete-2018"
+      },
+      {
+        "owner": "eurusd-catalogue13-v1",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-catalogue13-v1/2019/result.json",
+        "sha256": "f9df9ea7a1f97079443b2fbf453da1f7d5ba3933cf14defba196da8796c301c2",
+        "kind": "modeled_outcome_annual_book_container",
+        "year": 2019,
+        "rows": 48,
+        "metadata_key": "eurusd-catalogue13-complete-2019"
+      },
+      {
+        "owner": "eurusd-catalogue13-v1",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-catalogue13-v1/2020/result.json",
+        "sha256": "9d20fdc4d93be1d013f3eb0712c14377d508ec06997b6395780fd3aae457abff",
+        "kind": "modeled_outcome_annual_book_container",
+        "year": 2020,
+        "rows": 48,
+        "metadata_key": "eurusd-catalogue13-complete-2020"
+      },
+      {
+        "owner": "eurusd-catalogue13-v1",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-catalogue13-v1/2021/result.json",
+        "sha256": "d1247be26e5ee7a0c8deda267e6481f13207cec66c9cd21d4a1fd04a96736cff",
+        "kind": "modeled_outcome_annual_book_container",
+        "year": 2021,
+        "rows": 48,
+        "metadata_key": "eurusd-catalogue13-complete-2021"
+      },
+      {
+        "owner": "eurusd-catalogue13-v1",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-catalogue13-v1/2022/result.json",
+        "sha256": "6fec2ecdbed0eff7692824f1c88cf5079e93cfb6c97297286bebc618d8a9c2b8",
+        "kind": "modeled_outcome_annual_book_container",
+        "year": 2022,
+        "rows": 48,
+        "metadata_key": "eurusd-catalogue13-complete-2022"
+      }
+    ],
+    "tracked_base": "5a2072a29c59dcdc59fa71a9916342afdb9383d7",
+    "partitions": [
+      {
+        "id": "us500-v11-m1/2018/q1-ask",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2018",
+        "logical": "q1-ask",
+        "year": 2018,
+        "rows": 50454,
+        "first": 1514876700000,
+        "last": 1522353540000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2018/q1-ask.json",
+        "sha256": "e21424c959ce32e790c6d49c023756b96d9dbc26d2abeebdaa4145d1c1608438"
+      },
+      {
+        "id": "us500-v11-m1/2018/q1-bid",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2018",
+        "logical": "q1-bid",
+        "year": 2018,
+        "rows": 50454,
+        "first": 1514876700000,
+        "last": 1522353540000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2018/q1-bid.json",
+        "sha256": "58a6d6f5bdd3ab6fe24d86b99a107a07d3e3286001aa2d0cd57b3e9c683ce4aa"
+      },
+      {
+        "id": "us500-v11-m1/2018/q2-ask",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2018",
+        "logical": "q2-ask",
+        "year": 2018,
+        "rows": 72488,
+        "first": 1522649100000,
+        "last": 1530303240000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2018/q2-ask.json",
+        "sha256": "d8fe0e2fbf8493e7f882b96ab736c0a5267fa48e65354e8b9f9c42ae41369ea4"
+      },
+      {
+        "id": "us500-v11-m1/2018/q2-bid",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2018",
+        "logical": "q2-bid",
+        "year": 2018,
+        "rows": 72488,
+        "first": 1522649100000,
+        "last": 1530303240000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2018/q2-bid.json",
+        "sha256": "e15896468648b569f9b05f2e14c7fed53f5948a71faf5803b15d903cee533fbf"
+      },
+      {
+        "id": "us500-v11-m1/2018/q3-ask",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2018",
+        "logical": "q3-ask",
+        "year": 2018,
+        "rows": 71618,
+        "first": 1530482460000,
+        "last": 1538351940000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2018/q3-ask.json",
+        "sha256": "4bafef01ef7b72cbd8d891b5df858c54a29dd7b125bd5e8388294eed304f9740"
+      },
+      {
+        "id": "us500-v11-m1/2018/q3-bid",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2018",
+        "logical": "q3-bid",
+        "year": 2018,
+        "rows": 71618,
+        "first": 1530482460000,
+        "last": 1538351940000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2018/q3-bid.json",
+        "sha256": "34c8080081fdef8194e411740d27012f4ab7dd5fed63ee01b03df3dc349e200c"
+      },
+      {
+        "id": "us500-v11-m1/2018/q4-ask",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2018",
+        "logical": "q4-ask",
+        "year": 2018,
+        "rows": 83002,
+        "first": 1538352000000,
+        "last": 1546290840000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2018/q4-ask.json",
+        "sha256": "0b6839a7b15d17765ae6b39db3b129ff57af7e86c5e8b5539ddb334a51c48ccb"
+      },
+      {
+        "id": "us500-v11-m1/2018/q4-bid",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2018",
+        "logical": "q4-bid",
+        "year": 2018,
+        "rows": 83002,
+        "first": 1538352000000,
+        "last": 1546290840000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2018/q4-bid.json",
+        "sha256": "2a13a14934275859122793f674af10c830124795bfa5b6780d2a7e2c1387fe80"
+      },
+      {
+        "id": "us500-v11-m1/2019/q1-ask",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2019",
+        "logical": "q1-ask",
+        "year": 2019,
+        "rows": 77825,
+        "first": 1546383600000,
+        "last": 1554076740000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2019/q1-ask.json",
+        "sha256": "c9979061d6bd7ed1ca7a091b10894b9365096f42409c6bf15d7252343cc8f679"
+      },
+      {
+        "id": "us500-v11-m1/2019/q1-bid",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2019",
+        "logical": "q1-bid",
+        "year": 2019,
+        "rows": 77825,
+        "first": 1546383600000,
+        "last": 1554076740000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2019/q1-bid.json",
+        "sha256": "fbd23c9d3005acba85c6659a802a9c350acf084adb95291f105202977e811d25"
+      },
+      {
+        "id": "us500-v11-m1/2019/q2-ask",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2019",
+        "logical": "q2-ask",
+        "year": 2019,
+        "rows": 76385,
+        "first": 1554076800000,
+        "last": 1561939140000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2019/q2-ask.json",
+        "sha256": "f0f152a1c774428daada31aa64535489ff28e430614be2489db294844496b8d1"
+      },
+      {
+        "id": "us500-v11-m1/2019/q2-bid",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2019",
+        "logical": "q2-bid",
+        "year": 2019,
+        "rows": 76385,
+        "first": 1554076800000,
+        "last": 1561939140000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2019/q2-bid.json",
+        "sha256": "49d33b657083db674eb87555a0700b6405022d6035919307bd17746e96075f5b"
+      },
+      {
+        "id": "us500-v11-m1/2019/q3-ask",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2019",
+        "logical": "q3-ask",
+        "year": 2019,
+        "rows": 80146,
+        "first": 1561939200000,
+        "last": 1569887940000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2019/q3-ask.json",
+        "sha256": "f2eab51a96498f514a072e4e10e3bf5f72a35e15291a55d9ac37c4e370a4a859"
+      },
+      {
+        "id": "us500-v11-m1/2019/q3-bid",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2019",
+        "logical": "q3-bid",
+        "year": 2019,
+        "rows": 80146,
+        "first": 1561939200000,
+        "last": 1569887940000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2019/q3-bid.json",
+        "sha256": "87cd54c92b7a26f8c297d85003e2869e8b39a6f00a3fc2a06f33a3a26c047e50"
+      },
+      {
+        "id": "us500-v11-m1/2019/q4-ask",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2019",
+        "logical": "q4-ask",
+        "year": 2019,
+        "rows": 74676,
+        "first": 1569888000000,
+        "last": 1577826840000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2019/q4-ask.json",
+        "sha256": "71f1f3b9163e6b5ea67f10abf38bf659d9d89509323d74c65b582912e2c04860"
+      },
+      {
+        "id": "us500-v11-m1/2019/q4-bid",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2019",
+        "logical": "q4-bid",
+        "year": 2019,
+        "rows": 74676,
+        "first": 1569888000000,
+        "last": 1577826840000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2019/q4-bid.json",
+        "sha256": "9f709bef95c127533631a01da5343161c1cc8d5f65acb508199d802b89144f93"
+      },
+      {
+        "id": "us500-v11-m1/2020/q1-ask",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2020",
+        "logical": "q1-ask",
+        "year": 2020,
+        "rows": 79169,
+        "first": 1577919600000,
+        "last": 1585699140000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2020/q1-ask.json",
+        "sha256": "3fa464ac936b525bf74b637a07f787b932a9da421cbebeb98b2158774d03907c"
+      },
+      {
+        "id": "us500-v11-m1/2020/q1-bid",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2020",
+        "logical": "q1-bid",
+        "year": 2020,
+        "rows": 79169,
+        "first": 1577919600000,
+        "last": 1585699140000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2020/q1-bid.json",
+        "sha256": "323e0decc3b1f997d02d6ecf4150d333a18ae6d77a79defbf65ae2ba5159477d"
+      },
+      {
+        "id": "us500-v11-m1/2020/q2-ask",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2020",
+        "logical": "q2-ask",
+        "year": 2020,
+        "rows": 83798,
+        "first": 1585699200000,
+        "last": 1593561540000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2020/q2-ask.json",
+        "sha256": "a7bb8e7b633d089727db827fcf318df7bd85e544c9ba1afb24782d3e6ba90b90"
+      },
+      {
+        "id": "us500-v11-m1/2020/q2-bid",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2020",
+        "logical": "q2-bid",
+        "year": 2020,
+        "rows": 83798,
+        "first": 1585699200000,
+        "last": 1593561540000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2020/q2-bid.json",
+        "sha256": "8de5e80ab6b8b0c958c3670655d05747fd14e378fc0789791295b55ebf73fb3e"
+      },
+      {
+        "id": "us500-v11-m1/2020/q3-ask",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2020",
+        "logical": "q3-ask",
+        "year": 2020,
+        "rows": 86456,
+        "first": 1593561600000,
+        "last": 1601510340000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2020/q3-ask.json",
+        "sha256": "bbc5c6cacb5e32765e6844ae0626f9ca85e03b7b90fad0e56256be9b90877dbe"
+      },
+      {
+        "id": "us500-v11-m1/2020/q3-bid",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2020",
+        "logical": "q3-bid",
+        "year": 2020,
+        "rows": 86456,
+        "first": 1593561600000,
+        "last": 1601510340000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2020/q3-bid.json",
+        "sha256": "4f305089c8b5db27fc4e5bf6effd6821da1b3b27a519679abac6082ede75de77"
+      },
+      {
+        "id": "us500-v11-m1/2020/q4-ask",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2020",
+        "logical": "q4-ask",
+        "year": 2020,
+        "rows": 81898,
+        "first": 1601510400000,
+        "last": 1609449240000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2020/q4-ask.json",
+        "sha256": "04cfaa07543d432145b1bdee9e08b68fca1ebb4c86836d9f87e0f8267d900e3a"
+      },
+      {
+        "id": "us500-v11-m1/2020/q4-bid",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2020",
+        "logical": "q4-bid",
+        "year": 2020,
+        "rows": 81898,
+        "first": 1601510400000,
+        "last": 1609449240000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2020/q4-bid.json",
+        "sha256": "9f3cc3d09ce3a863f02b3c3a5dc5b7f697a6c88d501c5b4c9b21e56c395a93fc"
+      },
+      {
+        "id": "us500-v11-m1/2021/q1-ask",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2021",
+        "logical": "q1-ask",
+        "year": 2021,
+        "rows": 82973,
+        "first": 1609714800000,
+        "last": 1617235140000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2021/q1-ask.json",
+        "sha256": "8b54ad52c69bae4ed8d953742b4111f4f215172a499877c1efd676b36bdfcbef"
+      },
+      {
+        "id": "us500-v11-m1/2021/q1-bid",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2021",
+        "logical": "q1-bid",
+        "year": 2021,
+        "rows": 82973,
+        "first": 1609714800000,
+        "last": 1617235140000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2021/q1-bid.json",
+        "sha256": "518661ac7065aac2e018a79265af8509c3c71db061df8390ec8b595ab25a6736"
+      },
+      {
+        "id": "us500-v11-m1/2021/q2-ask",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2021",
+        "logical": "q2-ask",
+        "year": 2021,
+        "rows": 82458,
+        "first": 1617235200000,
+        "last": 1625097540000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2021/q2-ask.json",
+        "sha256": "e20e4400143da02fc2bbc42fc3b07b98976c01dc31e195d3d09964aa5f0028a5"
+      },
+      {
+        "id": "us500-v11-m1/2021/q2-bid",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2021",
+        "logical": "q2-bid",
+        "year": 2021,
+        "rows": 82458,
+        "first": 1617235200000,
+        "last": 1625097540000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2021/q2-bid.json",
+        "sha256": "f0daf4ee7caa6231f020fcf9b5e39efb3272832ab997bedc35f20eaed93a2be7"
+      },
+      {
+        "id": "us500-v11-m1/2021/q3-ask",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2021",
+        "logical": "q3-ask",
+        "year": 2021,
+        "rows": 84151,
+        "first": 1625097600000,
+        "last": 1633046340000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2021/q3-ask.json",
+        "sha256": "3de27dbca6871a7ed83a6a06ccc2d38848ca989f6c5ba047fceec6b2855de85b"
+      },
+      {
+        "id": "us500-v11-m1/2021/q3-bid",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2021",
+        "logical": "q3-bid",
+        "year": 2021,
+        "rows": 84151,
+        "first": 1625097600000,
+        "last": 1633046340000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2021/q3-bid.json",
+        "sha256": "44432fa1aa6010512e2f3ee76e0f9a9fbbefa8db1ca5310c7fc7fc77d666668b"
+      },
+      {
+        "id": "us500-v11-m1/2021/q4-ask",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2021",
+        "logical": "q4-ask",
+        "year": 2021,
+        "rows": 84786,
+        "first": 1633046400000,
+        "last": 1640985240000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2021/q4-ask.json",
+        "sha256": "a7d3e6a3280db94726184a9370dd59f089571c4b6c89b951a626c7ecbf2e7120"
+      },
+      {
+        "id": "us500-v11-m1/2021/q4-bid",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2021",
+        "logical": "q4-bid",
+        "year": 2021,
+        "rows": 84786,
+        "first": 1633046400000,
+        "last": 1640985240000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-long-explicit-source-v1/2021/q4-bid.json",
+        "sha256": "5399f23ec0fb7d4dd2adab204e3095e79184de94b3fb4d57f2f39922549ab595"
+      },
+      {
+        "id": "us500-v11-m1/2022/q1-ask",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2022",
+        "logical": "q1-ask",
+        "year": 2022,
+        "rows": 84948,
+        "first": 1641164400000,
+        "last": 1648771140000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-explicit-source-v1/2022/q1-ask.json",
+        "sha256": "3e28b3ff7dfc64da147a0b4b5439fc0444bdf94e3b288ac940d2e011fc5b1cc6"
+      },
+      {
+        "id": "us500-v11-m1/2022/q1-bid",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2022",
+        "logical": "q1-bid",
+        "year": 2022,
+        "rows": 84948,
+        "first": 1641164400000,
+        "last": 1648771140000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-explicit-source-v1/2022/q1-bid.json",
+        "sha256": "d1b3c5ddc4ca3b864a081b3695cc6c4ecec3a7fe03bfe9a5f9344fd782dc6d1b"
+      },
+      {
+        "id": "us500-v11-m1/2022/q2-ask",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2022",
+        "logical": "q2-ask",
+        "year": 2022,
+        "rows": 84745,
+        "first": 1648771200000,
+        "last": 1656633540000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-explicit-source-v1/2022/q2-ask.json",
+        "sha256": "9b3f119b34010e9aeb62263e1c1a726c70d768cb64dc82cb29159a5d8e1fc3d6"
+      },
+      {
+        "id": "us500-v11-m1/2022/q2-bid",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2022",
+        "logical": "q2-bid",
+        "year": 2022,
+        "rows": 84745,
+        "first": 1648771200000,
+        "last": 1656633540000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-explicit-source-v1/2022/q2-bid.json",
+        "sha256": "a0bce266f10b51d581dca247e88265b7bf40921a038ac930eac1ff8003687bb5"
+      },
+      {
+        "id": "us500-v11-m1/2022/q3-ask",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2022",
+        "logical": "q3-ask",
+        "year": 2022,
+        "rows": 87196,
+        "first": 1656633600000,
+        "last": 1664568840000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-explicit-source-v1/2022/q3-ask.json",
+        "sha256": "7cf725a76d37c2002304f30fa8d4cd948813e60b92609027145c13a848c52dc7"
+      },
+      {
+        "id": "us500-v11-m1/2022/q3-bid",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2022",
+        "logical": "q3-bid",
+        "year": 2022,
+        "rows": 87196,
+        "first": 1656633600000,
+        "last": 1664568840000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-explicit-source-v1/2022/q3-bid.json",
+        "sha256": "4dccf36b33e31277895b73d233505221ff8174c003d33e5ed70b6037e3e17197"
+      },
+      {
+        "id": "us500-v11-m1/2022/q4-ask",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2022",
+        "logical": "q4-ask",
+        "year": 2022,
+        "rows": 84793,
+        "first": 1664748000000,
+        "last": 1672434780000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-explicit-source-v1/2022/q4-ask.json",
+        "sha256": "6efd789a3c5c4a907373d5eccaae248180644b96f448e77c811197f7b1735e55"
+      },
+      {
+        "id": "us500-v11-m1/2022/q4-bid",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2022",
+        "logical": "q4-bid",
+        "year": 2022,
+        "rows": 84793,
+        "first": 1664748000000,
+        "last": 1672434780000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-explicit-source-v1/2022/q4-bid.json",
+        "sha256": "c82ee38202f856d072d338c4eea3ada29d685765d5ccf46d951e0796adb34a7e"
+      },
+      {
+        "id": "us500-v11-m1/2023/q1-ask",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2023",
+        "logical": "q1-ask",
+        "year": 2023,
+        "rows": 84457,
+        "first": 1672700400000,
+        "last": 1680293640000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-explicit-source-v1/2023/q1-ask.json",
+        "sha256": "78e5dcc9fcac552cbe1644ad336bbf6425d15bc0fc09a6200ac7a4db7096f590"
+      },
+      {
+        "id": "us500-v11-m1/2023/q1-bid",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2023",
+        "logical": "q1-bid",
+        "year": 2023,
+        "rows": 84457,
+        "first": 1672700400000,
+        "last": 1680293640000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-explicit-source-v1/2023/q1-bid.json",
+        "sha256": "93ea63dbc2f82d4f8ff869cf076fb52aa90a5741efaca1dfd38302530ac5f962"
+      },
+      {
+        "id": "us500-v11-m1/2023/q2-ask",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2023",
+        "logical": "q2-ask",
+        "year": 2023,
+        "rows": 83485,
+        "first": 1680472800000,
+        "last": 1688156040000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-explicit-source-v1/2023/q2-ask.json",
+        "sha256": "f10a1080a30367e159014ce7a36bac3839d4c1a1883ad118ea848d83d49278d4"
+      },
+      {
+        "id": "us500-v11-m1/2023/q2-bid",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2023",
+        "logical": "q2-bid",
+        "year": 2023,
+        "rows": 83485,
+        "first": 1680472800000,
+        "last": 1688156040000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-explicit-source-v1/2023/q2-bid.json",
+        "sha256": "3a7b1a7b16f91e0718849c28fca2cad9563f05967ae29f48d23a723c9c49769c"
+      },
+      {
+        "id": "us500-v11-m1/2023/q3-ask",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2023",
+        "logical": "q3-ask",
+        "year": 2023,
+        "rows": 82307,
+        "first": 1688335200000,
+        "last": 1696018440000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-explicit-source-v1/2023/q3-ask.json",
+        "sha256": "f87e3927be567f7c6ab1484caae98c6198b92ad5f481345d8f2ed4c7ba9ba296"
+      },
+      {
+        "id": "us500-v11-m1/2023/q3-bid",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2023",
+        "logical": "q3-bid",
+        "year": 2023,
+        "rows": 82307,
+        "first": 1688335200000,
+        "last": 1696018440000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-explicit-source-v1/2023/q3-bid.json",
+        "sha256": "9cc8caba86e070a084365abe846135c494013beeddfff2874235863653e8b011"
+      },
+      {
+        "id": "us500-v11-m1/2023/q4-ask",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2023",
+        "logical": "q4-ask",
+        "year": 2023,
+        "rows": 81987,
+        "first": 1696197600000,
+        "last": 1703884380000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-explicit-source-v1/2023/q4-ask.json",
+        "sha256": "c82e50bcac2403d694aaee13a87d6f9d13f3d91d7d4066cae72d9b758ca1a63e"
+      },
+      {
+        "id": "us500-v11-m1/2023/q4-bid",
+        "dataset": "us500-v11-m1",
+        "key": "us500-v11-proof-2023",
+        "logical": "q4-bid",
+        "year": 2023,
+        "rows": 81987,
+        "first": 1696197600000,
+        "last": 1703884380000,
+        "path": "challenge-discovery4-20261108/execution-v1/us500-explicit-source-v1/2023/q4-bid.json",
+        "sha256": "f2b51bf6fc1e48b253492e662c73a7b8c2c848bac7cca22782490d20002f63b5"
+      },
+      {
+        "id": "eurusd-catalogue-raw/2010",
+        "dataset": "eurusd-catalogue-raw",
+        "key": "eurusd-qdm-raw-seal-2010",
+        "year": 2010,
+        "first_day": "20100101",
+        "last_day": "20101231",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-observed-history-v2/2010/attempt-1/export/EURUSD_TICK_TW-TICK-No Session.csv",
+        "sha256": "2eb97cb080c278385ddb50db01b58ea38dd561dffca0902d07ebce7c67fee2cf"
+      },
+      {
+        "id": "eurusd-catalogue-raw/2011",
+        "dataset": "eurusd-catalogue-raw",
+        "key": "eurusd-qdm-raw-seal-2011",
+        "year": 2011,
+        "first_day": "20110101",
+        "last_day": "20111231",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-observed-history-v2/2011/attempt-1/export/EURUSD_TICK_TW-TICK-No Session.csv",
+        "sha256": "0321589300b84e898ae408f0ab3cdebfec80478a94f999d3b714b3f27953b8a5"
+      },
+      {
+        "id": "eurusd-catalogue-raw/2012",
+        "dataset": "eurusd-catalogue-raw",
+        "key": "eurusd-qdm-raw-seal-2012",
+        "year": 2012,
+        "first_day": "20120101",
+        "last_day": "20121231",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-observed-history-v2/2012/attempt-1/export/EURUSD_TICK_TW-TICK-No Session.csv",
+        "sha256": "499145969fdcbeec95c52324149c0d360b8019dbb7358dd8edb323c9f46fd5db"
+      },
+      {
+        "id": "eurusd-catalogue-raw/2013",
+        "dataset": "eurusd-catalogue-raw",
+        "key": "eurusd-qdm-raw-seal-2013",
+        "year": 2013,
+        "first_day": "20130101",
+        "last_day": "20131231",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-observed-history-v2/2013/attempt-1/export/EURUSD_TICK_TW-TICK-No Session.csv",
+        "sha256": "23c7f62be9277c688899abb2bd12db625156575d076340fafc6fbb88b44aa28e"
+      },
+      {
+        "id": "eurusd-catalogue-raw/2014",
+        "dataset": "eurusd-catalogue-raw",
+        "key": "eurusd-qdm-raw-seal-2014",
+        "year": 2014,
+        "first_day": "20140101",
+        "last_day": "20141231",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-observed-history-v2/2014/attempt-1/export/EURUSD_TICK_TW-TICK-No Session.csv",
+        "sha256": "b1758eaa52e87fa295ecd32c1ec128ebe9e9740042a7091391ceb0115ed6933b"
+      },
+      {
+        "id": "eurusd-catalogue-raw/2015",
+        "dataset": "eurusd-catalogue-raw",
+        "key": "eurusd-qdm-raw-seal-2015",
+        "year": 2015,
+        "first_day": "20150101",
+        "last_day": "20151231",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-observed-history-v2/2015/attempt-1/export/EURUSD_TICK_TW-TICK-No Session.csv",
+        "sha256": "d8a01a7a566409029a4b79b351743c7562a08e9718c457f3d9826c62d5280702"
+      },
+      {
+        "id": "eurusd-catalogue-raw/2016",
+        "dataset": "eurusd-catalogue-raw",
+        "key": "eurusd-qdm-raw-seal-2016",
+        "year": 2016,
+        "first_day": "20160101",
+        "last_day": "20161231",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-observed-history-v2/2016/attempt-1/export/EURUSD_TICK_TW-TICK-No Session.csv",
+        "sha256": "ec41252a293e53fea8e67d11bc88817d425f70eca502f583fe6cb5d847cfae6d"
+      },
+      {
+        "id": "eurusd-catalogue-raw/2017",
+        "dataset": "eurusd-catalogue-raw",
+        "key": "eurusd-qdm-raw-seal-2017",
+        "year": 2017,
+        "first_day": "20170101",
+        "last_day": "20171231",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-observed-history-v2/2017/attempt-1/export/EURUSD_TICK_TW-TICK-No Session.csv",
+        "sha256": "6da37370f895a5de10ae045194f7066e47c68450e713078606cfdec277ca2daf"
+      },
+      {
+        "id": "eurusd-catalogue-raw/2018",
+        "dataset": "eurusd-catalogue-raw",
+        "key": "eurusd-qdm-raw-seal-2018",
+        "year": 2018,
+        "first_day": "20180101",
+        "last_day": "20181231",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-observed-history-v2/2018/attempt-1/export/EURUSD_TICK_TW-TICK-No Session.csv",
+        "sha256": "4f94cefcff2ae305fb1506abce1378703db824fffd7e634e5b993199838ed627"
+      },
+      {
+        "id": "eurusd-catalogue-raw/2019",
+        "dataset": "eurusd-catalogue-raw",
+        "key": "eurusd-qdm-raw-seal-2019",
+        "year": 2019,
+        "first_day": "20190101",
+        "last_day": "20191231",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-observed-history-v2/2019/attempt-1/export/EURUSD_TICK_TW-TICK-No Session.csv",
+        "sha256": "0eb9f69a9587ed16fa1458ed3666e50d3a28a7b8672cf66371d38d19616e8d2a"
+      },
+      {
+        "id": "eurusd-catalogue-raw/2020",
+        "dataset": "eurusd-catalogue-raw",
+        "key": "eurusd-qdm-raw-seal-2020",
+        "year": 2020,
+        "first_day": "20200101",
+        "last_day": "20201231",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-observed-history-v2/2020/attempt-1/export/EURUSD_TICK_TW-TICK-No Session.csv",
+        "sha256": "3853aa698b5bbd38c6fe61710a20b6ffd642c19328ae08b41091ee6d72e1d3b8"
+      },
+      {
+        "id": "eurusd-catalogue-raw/2021",
+        "dataset": "eurusd-catalogue-raw",
+        "key": "eurusd-qdm-raw-seal-2021",
+        "year": 2021,
+        "first_day": "20210101",
+        "last_day": "20211231",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-observed-history-v2/2021/attempt-1/export/EURUSD_TICK_TW-TICK-No Session.csv",
+        "sha256": "bbdcf03baac9974567ac80ed462290fdb9fefc25068b05bf97f81fb04ff3cae5"
+      },
+      {
+        "id": "eurusd-catalogue-raw/2022",
+        "dataset": "eurusd-catalogue-raw",
+        "key": "eurusd-qdm-raw-seal-2022",
+        "year": 2022,
+        "first_day": "20220101",
+        "last_day": "20221231",
+        "path": "challenge-discovery4-20261108/execution-v1/eurusd-observed-history-v2/2022/attempt-1/export/EURUSD_TICK_TW-TICK-No Session.csv",
+        "sha256": "37140d6b6d35b17b0a097241d3ee20e6090858ac0b0774836ed053fb1d911af1"
+      }
+    ],
+    "legacy_corpus_meta": {
+      "dataset": "v26-legacy-corpus",
+      "source": "CORPUS-BATCH-V26-CARD-20261118.json",
+      "sha256": "97c594ec4cf0242aacb037746fc0546358ded8d7784fb71527a95418e651a18e",
+      "hash_scope": "tracked JSON with normalized LF",
+      "profile_count": 24,
+      "alias_counts_total": 120,
+      "benchmark_cells": 115,
+      "exposure_basis": "Card says selection_uses_later=false; V26 historical validation was exposed; no independent edge claim.",
+      "identity_field": "sha256"
+    },
+    "eurusd_catalogue13_recipes": {
+      "study": "eurusd-catalogue13-v1",
+      "source": "GOLD-M1-PATH-AND-EURUSD-POSTMORTEM-20261113.md",
+      "sha256": "6ce3189477bd8fdb2d282019c0a449c5067d31f400ddff4e5c5474c1c5ee5c07",
+      "hash_scope": "tracked Markdown with normalized LF",
+      "scope": "USD total of 13 separate annual stress books, including terminal equity bridges",
+      "pre_spread_midpoint": {
+        "status": "unknown",
+        "reason": "Saved attribution starts at observed bid/ask gross. No matched midpoint counterfactual."
+      },
+      "counts_by_first_negative_layer": {
+        "gross_after_spread_not_positive": 9,
+        "financing": 2,
+        "commission_plus_slippage": 13
+      },
+      "recipes": [
+        {
+          "id": "eurusd-h4-donchian20-10-atr14-r025-v1",
+          "row_alias": "h4-donchian20-10-atr14",
+          "closed_trades": 640,
+          "first_negative_layer": "gross_after_spread_not_positive",
+          "gross_after_spread_usd": "-482.21",
+          "commission_usd": "103.65",
+          "slippage_usd": "82.92",
+          "financing_usd": "1956.80",
+          "net_stress_usd": "-2625.58",
+          "catalogue_links": [
+            {
+              "id": "R001",
+              "relationship": "exact_recipe"
+            }
+          ]
+        },
+        {
+          "id": "eurusd-h4-sma20-80-atr14-r025-v1",
+          "row_alias": "h4-sma20-80-atr14",
+          "closed_trades": 224,
+          "first_negative_layer": "financing",
+          "gross_after_spread_usd": "232.72",
+          "commission_usd": "37.90",
+          "slippage_usd": "30.32",
+          "financing_usd": "1455.20",
+          "net_stress_usd": "-1290.70",
+          "catalogue_links": [
+            {
+              "id": "R002",
+              "relationship": "exact_recipe"
+            }
+          ]
+        },
+        {
+          "id": "eurusd-h4-z20-2-atr14-time6-r025-v1",
+          "row_alias": "h4-z20-2-atr14-time6",
+          "closed_trades": 1403,
+          "first_negative_layer": "gross_after_spread_not_positive",
+          "gross_after_spread_usd": "-500.00",
+          "commission_usd": "227.75",
+          "slippage_usd": "182.20",
+          "financing_usd": "1117.60",
+          "net_stress_usd": "-2027.55",
+          "catalogue_links": [
+            {
+              "id": "R003",
+              "relationship": "exact_recipe"
+            }
+          ]
+        },
+        {
+          "id": "eurusd-h4-pullback20-80-atr14-r025-v1",
+          "row_alias": "h4-pullback20-80-atr14",
+          "closed_trades": 301,
+          "first_negative_layer": "financing",
+          "gross_after_spread_usd": "532.98",
+          "commission_usd": "51.85",
+          "slippage_usd": "41.48",
+          "financing_usd": "2029.80",
+          "net_stress_usd": "-1590.15",
+          "catalogue_links": [
+            {
+              "id": "R004",
+              "relationship": "exact_recipe"
+            }
+          ]
+        },
+        {
+          "id": "eurusd-h4-utc-range00-08-atr14-r025-v1",
+          "row_alias": "h4-utc-range00-08-atr14",
+          "closed_trades": 2637,
+          "first_negative_layer": "gross_after_spread_not_positive",
+          "gross_after_spread_usd": "-355.52",
+          "commission_usd": "434.65",
+          "slippage_usd": "347.72",
+          "financing_usd": "0.80",
+          "net_stress_usd": "-1138.69",
+          "catalogue_links": [
+            {
+              "id": "R005",
+              "relationship": "exact_recipe"
+            }
+          ]
+        },
+        {
+          "id": "eurusd-h4-failed20-atr14-time6-r025-v1",
+          "row_alias": "h4-failed20-atr14-time6",
+          "closed_trades": 1353,
+          "first_negative_layer": "commission_plus_slippage",
+          "gross_after_spread_usd": "221.23",
+          "commission_usd": "223.15",
+          "slippage_usd": "178.52",
+          "financing_usd": "1012.60",
+          "net_stress_usd": "-1193.04",
+          "catalogue_links": [
+            {
+              "id": "R006",
+              "relationship": "exact_recipe"
+            }
+          ]
+        },
+        {
+          "id": "eurusd-h4-compression6-24-atr14-time6-r025-v1",
+          "row_alias": "h4-compression6-24-atr14-time6",
+          "closed_trades": 1513,
+          "first_negative_layer": "gross_after_spread_not_positive",
+          "gross_after_spread_usd": "-919.15",
+          "commission_usd": "251.20",
+          "slippage_usd": "200.96",
+          "financing_usd": "1120.60",
+          "net_stress_usd": "-2491.91",
+          "catalogue_links": [
+            {
+              "id": "R007",
+              "relationship": "exact_recipe"
+            }
+          ]
+        },
+        {
+          "id": "eurusd-h4-utc-range-fade-atr14-r025-v1",
+          "row_alias": "h4-utc-range-fade-atr14",
+          "closed_trades": 1537,
+          "first_negative_layer": "gross_after_spread_not_positive",
+          "gross_after_spread_usd": "-110.82",
+          "commission_usd": "255.25",
+          "slippage_usd": "204.20",
+          "financing_usd": "1.00",
+          "net_stress_usd": "-571.27",
+          "catalogue_links": [
+            {
+              "id": "R008",
+              "relationship": "exact_recipe"
+            }
+          ]
+        },
+        {
+          "id": "eurusd-h1-rsi14-reentry-atr14x1p5-time12-r025-v1",
+          "row_alias": "h1-rsi14-reentry-atr14x1p5-time12",
+          "closed_trades": 2195,
+          "first_negative_layer": "gross_after_spread_not_positive",
+          "gross_after_spread_usd": "-2804.00",
+          "commission_usd": "1009.45",
+          "slippage_usd": "807.56",
+          "financing_usd": "1833.80",
+          "net_stress_usd": "-6454.81",
+          "catalogue_links": [
+            {
+              "id": "R012",
+              "relationship": "exact_recipe"
+            }
+          ]
+        },
+        {
+          "id": "eurusd-h1-shock2-reclaim-atr14x1p5-time12-r025-v1",
+          "row_alias": "h1-shock2-reclaim-atr14x1p5-time12",
+          "closed_trades": 322,
+          "first_negative_layer": "commission_plus_slippage",
+          "gross_after_spread_usd": "203.71",
+          "commission_usd": "143.75",
+          "slippage_usd": "115.00",
+          "financing_usd": "104.40",
+          "net_stress_usd": "-159.44",
+          "catalogue_links": [
+            {
+              "id": "R013",
+              "relationship": "exact_recipe"
+            }
+          ]
+        },
+        {
+          "id": "eurusd-h1-prior-day-break-atr14x1p5-close20-r025-v1",
+          "row_alias": "h1-prior-day-break-atr14x1p5-close20",
+          "closed_trades": 2249,
+          "first_negative_layer": "commission_plus_slippage",
+          "gross_after_spread_usd": "1230.27",
+          "commission_usd": "1125.25",
+          "slippage_usd": "900.20",
+          "financing_usd": "0.00",
+          "net_stress_usd": "-795.18",
+          "catalogue_links": [
+            {
+              "id": "R015",
+              "relationship": "exact_recipe"
+            }
+          ]
+        },
+        {
+          "id": "eurusd-h1-prior-day-fade-atr14x1p5-close20-r025-v1",
+          "row_alias": "h1-prior-day-fade-atr14x1p5-close20",
+          "closed_trades": 1883,
+          "first_negative_layer": "commission_plus_slippage",
+          "gross_after_spread_usd": "176.18",
+          "commission_usd": "947.95",
+          "slippage_usd": "758.36",
+          "financing_usd": "0.00",
+          "net_stress_usd": "-1530.13",
+          "catalogue_links": [
+            {
+              "id": "R014",
+              "relationship": "exact_recipe"
+            }
+          ]
+        },
+        {
+          "id": "eurusd-h1-bb20-reentry-atr14x1p5-time12-r025-v1",
+          "row_alias": "h1-bb20-reentry-atr14x1p5-time12",
+          "closed_trades": 3157,
+          "first_negative_layer": "commission_plus_slippage",
+          "gross_after_spread_usd": "1265.48",
+          "commission_usd": "1515.30",
+          "slippage_usd": "1212.24",
+          "financing_usd": "2298.20",
+          "net_stress_usd": "-3760.26",
+          "catalogue_links": [
+            {
+              "id": "R011",
+              "relationship": "exact_recipe"
+            }
+          ]
+        },
+        {
+          "id": "eurusd-h1-pullback20-80-atr14x1p5-time24-r025-v1",
+          "row_alias": "h1-pullback20-80-atr14x1p5-time24",
+          "closed_trades": 2646,
+          "first_negative_layer": "gross_after_spread_not_positive",
+          "gross_after_spread_usd": "-258.73",
+          "commission_usd": "1345.15",
+          "slippage_usd": "1076.12",
+          "financing_usd": "3551.80",
+          "net_stress_usd": "-6231.80",
+          "catalogue_links": [
+            {
+              "id": "R004",
+              "relationship": "related_version_in_family"
+            }
+          ]
+        },
+        {
+          "id": "eurusd-h1-europe-am-short-atr14x1p5-close13-r025-v1",
+          "row_alias": "h1-europe-am-short-atr14x1p5-close13",
+          "closed_trades": 3383,
+          "first_negative_layer": "commission_plus_slippage",
+          "gross_after_spread_usd": "1540.89",
+          "commission_usd": "1973.50",
+          "slippage_usd": "1578.80",
+          "financing_usd": "23.60",
+          "net_stress_usd": "-2035.01",
+          "catalogue_links": [
+            {
+              "id": "R021",
+              "relationship": "exact_recipe"
+            }
+          ]
+        },
+        {
+          "id": "eurusd-h1-london-postfix16-20-atr14x1p5-r025-v1",
+          "row_alias": "h1-london-postfix16-20-atr14x1p5",
+          "closed_trades": 3376,
+          "first_negative_layer": "commission_plus_slippage",
+          "gross_after_spread_usd": "1558.50",
+          "commission_usd": "1479.35",
+          "slippage_usd": "1183.48",
+          "financing_usd": "0.00",
+          "net_stress_usd": "-1104.33",
+          "catalogue_links": [
+            {
+              "id": "R022",
+              "relationship": "exact_recipe"
+            }
+          ]
+        },
+        {
+          "id": "eurusd-h1-pre-ecb02ny-14berlin-atr14x1p5-r025-v1",
+          "row_alias": "h1-pre-ecb02ny-14berlin-atr14x1p5",
+          "closed_trades": 3383,
+          "first_negative_layer": "commission_plus_slippage",
+          "gross_after_spread_usd": "2846.03",
+          "commission_usd": "1972.80",
+          "slippage_usd": "1578.24",
+          "financing_usd": "23.60",
+          "net_stress_usd": "-728.61",
+          "catalogue_links": [
+            {
+              "id": "R021",
+              "relationship": "related_version_in_family"
+            }
+          ]
+        },
+        {
+          "id": "eurusd-h1-post-london16-16ny-atr14x1p5-r025-v1",
+          "row_alias": "h1-post-london16-16ny-atr14x1p5",
+          "closed_trades": 3376,
+          "first_negative_layer": "commission_plus_slippage",
+          "gross_after_spread_usd": "2423.12",
+          "commission_usd": "1479.35",
+          "slippage_usd": "1183.48",
+          "financing_usd": "0.00",
+          "net_stress_usd": "-239.71",
+          "catalogue_links": [
+            {
+              "id": "R022",
+              "relationship": "related_version_in_family"
+            }
+          ]
+        },
+        {
+          "id": "eurusd-h1-pre-tokyo18ny-10tokyo-atr14x1p5-r025-v1",
+          "row_alias": "h1-pre-tokyo18ny-10tokyo-atr14x1p5",
+          "closed_trades": 2705,
+          "first_negative_layer": "gross_after_spread_not_positive",
+          "gross_after_spread_usd": "-1759.95",
+          "commission_usd": "1340.85",
+          "slippage_usd": "1072.68",
+          "financing_usd": "0.00",
+          "net_stress_usd": "-4173.48",
+          "catalogue_links": [
+            {
+              "id": "R021",
+              "relationship": "related_version_in_family"
+            }
+          ]
+        },
+        {
+          "id": "eurusd-h1-fixing-composite-atr14x1p5-r025-v1",
+          "row_alias": "h1-fixing-composite-atr14x1p5",
+          "closed_trades": 9461,
+          "first_negative_layer": "commission_plus_slippage",
+          "gross_after_spread_usd": "3487.20",
+          "commission_usd": "4790.90",
+          "slippage_usd": "3832.72",
+          "financing_usd": "23.60",
+          "net_stress_usd": "-5160.02",
+          "catalogue_links": [
+            {
+              "id": "R037",
+              "relationship": "exact_recipe"
+            }
+          ]
+        },
+        {
+          "id": "eurusd-h1-london-orb08-09-atr14x1p5-r025-v1",
+          "row_alias": "h1-london-orb08-09-atr14x1p5",
+          "closed_trades": 2497,
+          "first_negative_layer": "commission_plus_slippage",
+          "gross_after_spread_usd": "791.81",
+          "commission_usd": "1287.35",
+          "slippage_usd": "1029.88",
+          "financing_usd": "0.00",
+          "net_stress_usd": "-1525.42",
+          "catalogue_links": [
+            {
+              "id": "R016",
+              "relationship": "exact_recipe"
+            }
+          ]
+        },
+        {
+          "id": "eurusd-h1-ny-orb08-09-atr14x1p5-r025-v1",
+          "row_alias": "h1-ny-orb08-09-atr14x1p5",
+          "closed_trades": 2760,
+          "first_negative_layer": "gross_after_spread_not_positive",
+          "gross_after_spread_usd": "-889.05",
+          "commission_usd": "1236.50",
+          "slippage_usd": "989.20",
+          "financing_usd": "0.00",
+          "net_stress_usd": "-3114.75",
+          "catalogue_links": [
+            {
+              "id": "R017",
+              "relationship": "exact_recipe"
+            }
+          ]
+        },
+        {
+          "id": "eurusd-h1-asia09-15tokyo-london-break-atr14x1p5-r025-v1",
+          "row_alias": "h1-asia09-15tokyo-london-break-atr14x1p5",
+          "closed_trades": 2939,
+          "first_negative_layer": "commission_plus_slippage",
+          "gross_after_spread_usd": "671.60",
+          "commission_usd": "1609.25",
+          "slippage_usd": "1287.40",
+          "financing_usd": "0.00",
+          "net_stress_usd": "-2225.05",
+          "catalogue_links": [
+            {
+              "id": "R018",
+              "relationship": "exact_recipe"
+            }
+          ]
+        },
+        {
+          "id": "eurusd-h1-bb20-reentry-flat80-atr14x1p5-time12-r025-v1",
+          "row_alias": "h1-bb20-reentry-flat80-atr14x1p5-time12",
+          "closed_trades": 471,
+          "first_negative_layer": "commission_plus_slippage",
+          "gross_after_spread_usd": "30.87",
+          "commission_usd": "223.95",
+          "slippage_usd": "179.16",
+          "financing_usd": "360.20",
+          "net_stress_usd": "-732.44",
+          "catalogue_links": [
+            {
+              "id": "R011",
+              "relationship": "related_version_in_family"
+            }
+          ]
+        }
+      ]
+    },
+    "artifact_role_annotations": [
+      {
+        "path": "planning/research/AUTONOMY-2-YEAR-FEASIBILITY-2026-09-28.json",
+        "role": "decision_record",
+        "source": "planning/checkpoints/workspace-next-stage/M7-TRACEABILITY-PREP-2026-09-27/M7-TRACEABILITY-REFRESH-2026-09-28-r7.md",
+        "note": "Companion quyết định feasibility RESEARCH_PREP_ONLY."
+      },
+      {
+        "path": "planning/research/COMPRESSION-ROBUSTNESS-20261107.json",
+        "role": "protocol_or_freeze",
+        "source": "planning/research/COMPRESSION-ROBUSTNESS-20261107-RECOVERY-V2.md",
+        "note": "Bản đăng ký gốc giữ nguyên khi recovery v2."
+      },
+      {
+        "path": "planning/research/FTMO-PUBLIC-SYMBOLS-20261108.json",
+        "role": "target_spec_observation",
+        "source": "planning/research/FTMO-SYMBOL-AND-CLOCK-ADMISSION-20261108.md",
+        "note": "Quan sát công khai, chưa xác minh biểu phí lịch sử hay tài khoản."
+      },
+      {
+        "path": "planning/research/GOLD-CONTINUOUS-B1-AMENDMENT-V1P1-20261113.json",
+        "role": "protocol_or_freeze",
+        "source": "planning/research/GOLD-CONTINUOUS-B1-AMENDMENT-V1P1-20261113.md",
+        "note": "Bản sửa protocol v1.1, giữ version cũ."
+      },
+      {
+        "path": "planning/research/GOLD-EURUSD-PORTFOLIO-STAGE-A-20261113.json",
+        "role": "evidence_report_or_sidecar",
+        "source": "planning/research/GOLD-EURUSD-PORTFOLIO-STAGE-A-20261113.md",
+        "note": "Dossier Stage A gồm số liệu tổng hợp và SHA."
+      },
+      {
+        "path": "planning/research/H1-HISTORICAL-SCREEN-2023-20261108.json",
+        "role": "protocol_or_freeze",
+        "source": "planning/research/DISCOVERY4-RESULTS-20261108.md",
+        "note": "Registration 2023 được ghi trước numerical."
+      },
+      {
+        "path": "planning/research/H1-SELECTION-V2-AND-2024-20261108.json",
+        "role": "protocol_or_freeze",
+        "source": "planning/research/H1-SELECTION-V2-AND-2024-20261108.md",
+        "note": "Protocol thay selection v2 và pin 2024 trước chạy các luật H1."
+      },
+      {
+        "path": "planning/research/H1-SURVIVORS-2023-20261108.json",
+        "role": "protocol_or_freeze",
+        "source": "planning/research/H1-SURVIVOR-TICK-REVIEW-20261108.md",
+        "note": "Commit 3d81446 khóa hai registration kiểm tick cho 2023/24."
+      },
+      {
+        "path": "planning/research/H1-SURVIVORS-2024-20261108.json",
+        "role": "protocol_or_freeze",
+        "source": "planning/research/H1-SURVIVOR-TICK-REVIEW-20261108.md",
+        "note": "Commit 3d81446 khóa hai registration kiểm tick cho 2023/24."
+      },
+      {
+        "path": "planning/research/ORB-DISCOVERY7-2023-20261108.json",
+        "role": "protocol_or_freeze",
+        "source": "planning/research/ORB-DISCOVERY7-20261108.md",
+        "note": "Bổ sung registration theo năm ở 7ea0217."
+      },
+      {
+        "path": "planning/research/ORB-DISCOVERY7-2024-20261108.json",
+        "role": "protocol_or_freeze",
+        "source": "planning/research/ORB-DISCOVERY7-20261108.md",
+        "note": "Bổ sung registration theo năm ở 7ea0217."
+      },
+      {
+        "path": "planning/research/PERIOD-ROBUSTNESS-20261106.json",
+        "role": "protocol_or_freeze",
+        "source": "planning/research/PERIOD-ROBUSTNESS-20261106.md",
+        "note": "Protocol period với mẫu và source đã khóa."
+      },
+      {
+        "path": "planning/research/PROP-HISTORICAL-ROBUSTNESS-20261105.json",
+        "role": "protocol_or_freeze",
+        "source": "planning/research/PROP-HISTORICAL-ROBUSTNESS-20261105.md",
+        "note": "Registration giữ các pin cụ thể."
+      },
+      {
+        "path": "planning/research/PROP-PATH-SURVIVORS-20261106.json",
+        "role": "protocol_or_freeze",
+        "source": "planning/research/PROP-PATH-SURVIVORS-20261106.md",
+        "note": "Registration scope kiểm tick/DD và lifecycle cho survivors."
+      },
+      {
+        "path": "planning/research/PROP-V6-SESSION-CALENDAR-20261115.json",
+        "role": "derived_session_calendar",
+        "source": "tooling/ai-engines/prop_v6_common.py",
+        "note": "Runner tham chiếu trực tiếp CALENDAR trong source bindings."
+      },
+      {
+        "path": "planning/research/PROP-V7-SESSION-CALENDAR-20261115.json",
+        "role": "derived_session_calendar",
+        "source": "planning/research/PROP-GOLD-V7-RESULTS-20261115.md",
+        "note": "Lịch ghim cho V7, phân biệt với protocol và decision."
+      },
+      {
+        "path": "planning/research/PROP-V8-SESSION-CALENDAR-20261115.json",
+        "role": "derived_session_calendar",
+        "source": "planning/research/PROP-EURUSD-RSI37-ENTRY-CALENDAR-RESULTS-20261119.md",
+        "note": "Lịch khóa được tái dùng cho hard-flat entry review."
+      },
+      {
+        "path": "planning/research/SESSION-DISCOVERY6-2023-20261108.json",
+        "role": "protocol_or_freeze",
+        "source": "planning/research/SESSION-DISCOVERY6-20261108.md",
+        "note": "Bổ sung registration theo năm ở de084d2."
+      },
+      {
+        "path": "planning/research/SESSION-DISCOVERY6-2024-20261108.json",
+        "role": "protocol_or_freeze",
+        "source": "planning/research/SESSION-DISCOVERY6-20261108.md",
+        "note": "Bổ sung registration theo năm ở de084d2."
+      },
+      {
+        "path": "planning/research/TIME-FIT-HISTORICAL-20261106.json",
+        "role": "protocol_or_freeze",
+        "source": "planning/research/TIME-FIT-REGISTRATION-20261106.md",
+        "note": "Registration khóa source, input, vốn và phí."
+      },
+      {
+        "path": "planning/research/UTC-VALIDATION-20261107.json",
+        "role": "protocol_or_freeze",
+        "source": "planning/research/UTC-VALIDATION-20261107-RECOVERY-V2.md",
+        "note": "Bản đăng ký historical robustness giữ bất biến khi recovery v2."
+      },
+      {
+        "path": "planning/research/V26-REPLAY-CHUNKS-20261118.json",
+        "role": "run_partition_plan",
+        "source": "tooling/ai-engines/prop_v26_chunks.py",
+        "note": "Card khóa phạm vi replay còn lại theo chunk, không phải chuỗi giá hay kết quả."
+      },
+      {
+        "path": "planning/research/XAUUSD-A-SESSION-CALENDAR-20261114.json",
+        "role": "derived_session_calendar",
+        "source": "planning/research/XAUUSD-A-HOLIDAY-VALIDATION-RESULTS-20261114.md",
+        "note": "Lịch khóa trước historical validation, đóng trước kỳ nghỉ."
+      },
+      {
+        "path": "planning/research/AI-RESEARCH-WORKFLOW-20261101.md",
+        "role": "research_workflow",
+        "source": "planning/research/AI-RESEARCH-WORKFLOW-20261101.md",
+        "note": "Vai trò nêu trực tiếp trong tiêu đề tài liệu."
+      },
+      {
+        "path": "planning/research/CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md",
+        "role": "campaign_plan",
+        "source": "planning/research/CHALLENGE-CANDIDATE-CAMPAIGN-20261108.md",
+        "note": "Vai trò nêu trực tiếp trong tiêu đề tài liệu."
+      },
+      {
+        "path": "planning/research/DISCOVERY-ROUND3-20261107.md",
+        "role": "protocol_or_freeze",
+        "source": "planning/research/DISCOVERY-ROUND3-20261107.md",
+        "note": "Vai trò nêu trực tiếp trong tiêu đề tài liệu."
+      },
+      {
+        "path": "planning/research/H1-HISTORICAL-SCREEN-2023-20261108.md",
+        "role": "protocol_or_freeze",
+        "source": "planning/research/H1-HISTORICAL-SCREEN-2023-20261108.md",
+        "note": "Vai trò nêu trực tiếp trong tiêu đề tài liệu."
+      },
+      {
+        "path": "planning/research/NASDAQ-OPENING5-ORB-INTERIM-20261108.md",
+        "role": "interim_evidence_report",
+        "source": "planning/research/NASDAQ-OPENING5-ORB-INTERIM-20261108.md",
+        "note": "Vai trò nêu trực tiếp trong tiêu đề tài liệu."
+      },
+      {
+        "path": "planning/research/NASDAQ-OPENING5-ORB-METHOD-20261108.md",
+        "role": "method_reference",
+        "source": "planning/research/NASDAQ-OPENING5-ORB-METHOD-20261108.md",
+        "note": "Vai trò nêu trực tiếp trong tiêu đề tài liệu."
+      },
+      {
+        "path": "planning/research/PRE-ECB-PATH-RISK-20261108.md",
+        "role": "protocol_or_freeze",
+        "source": "planning/research/PRE-ECB-PATH-RISK-20261108.md",
+        "note": "Vai trò nêu trực tiếp trong tiêu đề tài liệu."
+      },
+      {
+        "path": "planning/research/R026-RELATIVE-EQUITY-COMPONENT-20261108.md",
+        "role": "protocol_or_freeze",
+        "source": "planning/research/R026-RELATIVE-EQUITY-COMPONENT-20261108.md",
+        "note": "Vai trò nêu trực tiếp trong tiêu đề tài liệu."
+      },
+      {
+        "path": "planning/research/US500-DAILY-REVERSION-20261108.md",
+        "role": "protocol_or_freeze",
+        "source": "planning/research/US500-DAILY-REVERSION-20261108.md",
+        "note": "Vai trò nêu trực tiếp trong tiêu đề tài liệu."
+      },
+      {
+        "path": "planning/research/US500-NOISE-STUDY-20261108.md",
+        "role": "protocol_or_freeze",
+        "source": "planning/research/US500-NOISE-STUDY-20261108.md",
+        "note": "Vai trò nêu trực tiếp trong tiêu đề tài liệu."
+      },
+      {
+        "path": "planning/research/US500-PRECLOSE-SENTINEL-LONG-20261108.md",
+        "role": "evidence_report_or_sidecar",
+        "source": "planning/research/US500-PRECLOSE-SENTINEL-LONG-20261108.md",
+        "note": "Vai trò nêu trực tiếp trong tiêu đề tài liệu."
+      },
+      {
+        "path": "planning/trader/research/fxreplay-advanced-charts-20261004.md",
+        "role": "decision_record",
+        "source": "planning/trader/research/fxreplay-advanced-charts-20261004.md",
+        "note": "Vai trò nêu trực tiếp trong tiêu đề tài liệu."
+      }
+    ],
+    "document_manifest_bindings": [
+      {
+        "path": "prop-eur-auction-prenews-20261119/manifest.json",
+        "document": "planning/research/PROP-EUR-TREASURY-PRENEWS-STAGE0-RESULTS-20261119.md",
+        "sha256": "d2b3aabcd0e67d63e6d29466c4332581e238e8b640460058ce6dad0c491f50ff",
+        "entries": {
+          "run_input": [
+            "registration.md",
+            "measure.py",
+            "census.py",
+            "census.json"
+          ],
+          "output": [
+            "rows.json.zst",
+            "summary.json"
+          ]
+        }
+      },
+      {
+        "path": "prop-xau-real-yield-london-20261119/manifest.json",
+        "document": "planning/research/PROP-XAU-REAL-YIELD-LONDON-STAGE0-RESULTS-20261119.md",
+        "sha256": "972813420cba3abb4239aa2ec2dd094cfde3e0eb7179f2eaec928077efa294db",
+        "entries": {
+          "run_input": [
+            "registration.md",
+            "stage0.py"
+          ],
+          "output": [
+            "rows.json.zst",
+            "summary.json"
+          ]
+        }
+      },
+      {
+        "path": "prop-eur-fx-rollover-audit-20261119/manifest.json",
+        "document": "planning/research/PROP-EUR-FX-ROLLOVER-AUDIT-20261119.md",
+        "sha256": "c08cc8c831a7ddd1e3b72f915a48409fa56923251bb20445be06773723e579a3",
+        "entries": {
+          "run_input": [
+            "registration.md",
+            "economics.py",
+            "reward-census.py",
+            "verify.py"
+          ],
+          "output": [
+            "summary.json",
+            "economics-manifest.json",
+            "ledgers.json.zst",
+            "reward-clock-census.json.zst",
+            "verification.json"
+          ]
+        }
+      }
+    ]
+  }
 }

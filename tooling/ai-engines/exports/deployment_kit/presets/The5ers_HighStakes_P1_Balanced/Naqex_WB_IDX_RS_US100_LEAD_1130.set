@@ -1,0 +1,28 @@
+; Naqex MT5 Preset | Profile: The5ers_HighStakes_P1_Balanced | Engine: E5_US100_RS1130 (ACTIVE)
+; Attach: NAS100 M5 | Magic: 20261126 | MaxSpreadPts: 450.0
+; Broker Symbol Check (The5ers G1): Attach to NAS100 M5 and verify exact S&P500 symbol (SPX500 vs US500) in InpBenchmarkSymbol against Market Watch before disarming
+; ARM-LOCKED SAFETY: set InpDryRunLogOnly=false & InpGuardDryRunLogOnly=false ONLY after Free Trial PASS & TCA GREEN
+InpDryRunLogOnly=true
+InpBenchmarkSymbol=SPX500
+InpRiskPercent=0.75
+InpMaxDailyLossPct=4.20
+InpMinRsDiffAtr=0.25
+InpSlAtrMult=0.75
+InpAtrPeriodD1=14
+InpMagicNumber=20261126
+InpGuardDryRunLogOnly=true
+InpGuardMaxDailyLossPct=4.20
+InpGuardMaxSymbolRiskPct=1.75
+InpGuardUseOrchestrator=true
+InpGuardMaxSpreadPoints=450.00
+InpGuardRolloverStartUTC=21
+InpGuardRolloverEndUTC=0
+InpGuardEarlyCloseMin=10
+InpGuardTesterUtcOffsetH=2
+InpGuardEnableRedNews=true
+InpGuardRedNewsCsvFile=naqex_red_news_utc.csv
+InpGuardNewsPadSec=300
+InpGuardNewsHardBanSec=135
+InpGuardTcaAuditCsvFile=naqex_exec_audit.csv
+InpGuardMagicRangeMin=20261120
+InpGuardMagicRangeMax=20261199

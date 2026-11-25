@@ -1,0 +1,1701 @@
+{
+  "pass": "Pass 22",
+  "protocol_commit": "d9b70d6b6e362062e105db4722d37f941751f00a",
+  "holdout_lock_sha256": "f0a6b43cb205535b0a959456455dc1d857a0936c06c2e51b8614fd7d772a8486",
+  "holdout_rows": 0,
+  "order_send_count": 0,
+  "network_calls": 0,
+  "spec_bindings": {
+    "Standard": {
+      "commit": "36f1535",
+      "sha256_lf": "09d1a66b5bbb46032ca8dfd7294b40a7d98424a3dd155ac9561cc5fe9c25dc32",
+      "reference": "FTMO-DEMO-10K-STANDARD-FULL13-AND-EXECUTION-20261119.json"
+    },
+    "Swing": {
+      "commit": "8fd77ef",
+      "sha256_lf": "803352fbf00d7af15719033c9b0aa5b3140bca0d0cfa7235d01caa2e7b95f4a3",
+      "reference": "SWING-10K-AUDIT-MULTIWEEK-AND-WIN-TAXONOMY-20261120.json"
+    }
+  },
+  "elapsed_seconds": 22.3,
+  "verdict": "GBPUSD_VOLHIGH_PROMOTED_AS_ORTHOGONAL_ENGINE3",
+  "promotion_checks": {
+    "cost_ok": true,
+    "surf_ok": true,
+    "upgraded_configs": [
+      "PORT3E_075_GBP025",
+      "PORT3E_075_GBP050",
+      "PORT3E_075_GBP075",
+      "PORT3E_INVDD_125"
+    ]
+  },
+  "cost_matrix": {
+    "M1_Real_Base": {
+      "strict": {
+        "n": 158,
+        "net_R": 17.839063874933327,
+        "win_rate": 0.5126582278481012,
+        "losing_R": 33.91928884704036,
+        "winning_R": 51.75835272197369,
+        "top10_R": 19.35992807892024,
+        "winner_label_coverage": 0.0,
+        "floating_dd_R": 4.451717261697605,
+        "net_R_annual": 2.5484376964190467,
+        "years": {
+          "2018": -0.674,
+          "2019": 1.178,
+          "2020": 9.933,
+          "2021": 0.091,
+          "2022": 5.944,
+          "2023": 0.794,
+          "2024": 0.573
+        },
+        "clusters": {
+          "A": 10.436,
+          "B": 7.403
+        },
+        "pos_years": 6,
+        "underwater_months": 16.06,
+        "underwater_censored": false,
+        "exit_counts": {
+          "HARD_FLAT": 142,
+          "SL_GAP_OR_TOUCH": 16
+        },
+        "median_cost_over_stop_pct": 2.26
+      },
+      "extended": {
+        "n": 171,
+        "net_R": 16.64258812592343,
+        "win_rate": 0.5029239766081871,
+        "losing_R": 36.77391297385355,
+        "winning_R": 53.41650109977698,
+        "top10_R": 19.35992807892024,
+        "winner_label_coverage": 0.0,
+        "floating_dd_R": 4.724152847836665,
+        "net_R_annual": 2.377512589417633,
+        "years": {
+          "2018": -0.899,
+          "2019": 0.924,
+          "2020": 9.532,
+          "2021": -0.226,
+          "2022": 5.944,
+          "2023": 0.794,
+          "2024": 0.573
+        },
+        "clusters": {
+          "A": 9.558,
+          "B": 7.085
+        },
+        "pos_years": 5,
+        "underwater_months": 17.35,
+        "underwater_censored": false,
+        "exit_counts": {
+          "HARD_FLAT": 154,
+          "SL_GAP_OR_TOUCH": 17
+        },
+        "median_cost_over_stop_pct": 2.26
+      },
+      "all_dev": {
+        "n": 198,
+        "net_R": 15.543536919624316,
+        "win_rate": 0.5,
+        "losing_R": 42.811793104769556,
+        "winning_R": 58.35533002439387,
+        "top10_R": 19.35992807892024,
+        "winner_label_coverage": 0.0,
+        "floating_dd_R": 6.297146935571805,
+        "net_R_annual": 2.2205052742320452,
+        "years": {
+          "2018": -0.899,
+          "2019": -0.228,
+          "2020": 7.249,
+          "2021": 1.291,
+          "2022": 6.371,
+          "2023": 1.396,
+          "2024": 0.363
+        },
+        "clusters": {
+          "A": 6.122,
+          "B": 9.421
+        },
+        "pos_years": 5,
+        "underwater_months": 26.84,
+        "underwater_censored": false,
+        "exit_counts": {
+          "HARD_FLAT": 179,
+          "SL_GAP_OR_TOUCH": 19
+        },
+        "median_cost_over_stop_pct": 2.27
+      }
+    },
+    "M1_Real_Stress_05": {
+      "strict": {
+        "n": 158,
+        "net_R": 16.735099656962635,
+        "win_rate": 0.5126582278481012,
+        "losing_R": 34.20859080100633,
+        "winning_R": 50.94369045796896,
+        "top10_R": 19.190860394437703,
+        "winner_label_coverage": 0.0,
+        "floating_dd_R": 4.517421080712437,
+        "net_R_annual": 2.3907285224232337,
+        "years": {
+          "2018": -0.814,
+          "2019": 1.03,
+          "2020": 9.764,
+          "2021": 0.02,
+          "2022": 5.758,
+          "2023": 0.62,
+          "2024": 0.357
+        },
+        "clusters": {
+          "A": 9.98,
+          "B": 6.755
+        },
+        "pos_years": 6,
+        "underwater_months": 16.06,
+        "underwater_censored": false,
+        "exit_counts": {
+          "HARD_FLAT": 142,
+          "SL_GAP_OR_TOUCH": 16
+        },
+        "median_cost_over_stop_pct": 2.93
+      },
+      "extended": {
+        "n": 171,
+        "net_R": 15.465475065995985,
+        "win_rate": 0.5029239766081871,
+        "losing_R": 37.09690409583138,
+        "winning_R": 52.56237916182736,
+        "top10_R": 19.190860394437703,
+        "winner_label_coverage": 0.0,
+        "floating_dd_R": 4.8007871865064775,
+        "net_R_annual": 2.209353580856569,
+        "years": {
+          "2018": -1.044,
+          "2019": 0.762,
+          "2020": 9.338,
+          "2021": -0.325,
+          "2022": 5.758,
+          "2023": 0.62,
+          "2024": 0.357
+        },
+        "clusters": {
+          "A": 9.055,
+          "B": 6.411
+        },
+        "pos_years": 5,
+        "underwater_months": 17.35,
+        "underwater_censored": false,
+        "exit_counts": {
+          "HARD_FLAT": 154,
+          "SL_GAP_OR_TOUCH": 17
+        },
+        "median_cost_over_stop_pct": 2.93
+      },
+      "all_dev": {
+        "n": 198,
+        "net_R": 14.190391477318606,
+        "win_rate": 0.5,
+        "losing_R": 43.18823752803455,
+        "winning_R": 57.378629005353154,
+        "top10_R": 19.190860394437703,
+        "winner_label_coverage": 0.0,
+        "floating_dd_R": 6.43580379103771,
+        "net_R_annual": 2.0271987824740867,
+        "years": {
+          "2018": -1.044,
+          "2019": -0.401,
+          "2020": 7.022,
+          "2021": 1.131,
+          "2022": 6.177,
+          "2023": 1.209,
+          "2024": 0.096
+        },
+        "clusters": {
+          "A": 5.577,
+          "B": 8.614
+        },
+        "pos_years": 5,
+        "underwater_months": 26.87,
+        "underwater_censored": false,
+        "exit_counts": {
+          "HARD_FLAT": 179,
+          "SL_GAP_OR_TOUCH": 19
+        },
+        "median_cost_over_stop_pct": 2.94
+      }
+    },
+    "M1_Real_Stress_10": {
+      "strict": {
+        "n": 158,
+        "net_R": 15.645690599476348,
+        "win_rate": 0.5063291139240507,
+        "losing_R": 34.496744462285974,
+        "winning_R": 50.14243506176232,
+        "top10_R": 19.02383498546498,
+        "winner_label_coverage": 0.0,
+        "floating_dd_R": 4.5831248997272676,
+        "net_R_annual": 2.2350986570680496,
+        "years": {
+          "2018": -0.953,
+          "2019": 0.884,
+          "2020": 9.598,
+          "2021": -0.05,
+          "2022": 5.575,
+          "2023": 0.449,
+          "2024": 0.144
+        },
+        "clusters": {
+          "A": 9.528,
+          "B": 6.117
+        },
+        "pos_years": 5,
+        "underwater_months": 18.4,
+        "underwater_censored": false,
+        "exit_counts": {
+          "HARD_FLAT": 142,
+          "SL_GAP_OR_TOUCH": 16
+        },
+        "median_cost_over_stop_pct": 3.62
+      },
+      "extended": {
+        "n": 171,
+        "net_R": 14.303841323565084,
+        "win_rate": 0.49707602339181284,
+        "losing_R": 37.418298113674076,
+        "winning_R": 51.722139437239164,
+        "top10_R": 19.02383498546498,
+        "winner_label_coverage": 0.0,
+        "floating_dd_R": 4.877421525176288,
+        "net_R_annual": 2.0434059033664407,
+        "years": {
+          "2018": -1.188,
+          "2019": 0.601,
+          "2020": 9.145,
+          "2021": -0.421,
+          "2022": 5.575,
+          "2023": 0.449,
+          "2024": 0.144
+        },
+        "clusters": {
+          "A": 8.558,
+          "B": 5.746
+        },
+        "pos_years": 5,
+        "underwater_months": 26.02,
+        "underwater_censored": false,
+        "exit_counts": {
+          "HARD_FLAT": 154,
+          "SL_GAP_OR_TOUCH": 17
+        },
+        "median_cost_over_stop_pct": 3.62
+      },
+      "all_dev": {
+        "n": 198,
+        "net_R": 12.85524508795449,
+        "win_rate": 0.494949494949495,
+        "losing_R": 43.562341525602065,
+        "winning_R": 56.41758661355656,
+        "top10_R": 19.02383498546498,
+        "winner_label_coverage": 0.0,
+        "floating_dd_R": 6.574460646503615,
+        "net_R_annual": 1.8364635839934986,
+        "years": {
+          "2018": -1.188,
+          "2019": -0.572,
+          "2020": 6.798,
+          "2021": 0.972,
+          "2022": 5.986,
+          "2023": 1.025,
+          "2024": -0.166
+        },
+        "clusters": {
+          "A": 5.037,
+          "B": 7.818
+        },
+        "pos_years": 4,
+        "underwater_months": 26.88,
+        "underwater_censored": false,
+        "exit_counts": {
+          "HARD_FLAT": 179,
+          "SL_GAP_OR_TOUCH": 19
+        },
+        "median_cost_over_stop_pct": 3.62
+      }
+    }
+  },
+  "surface_trig_vol": {
+    "both_pos": 3,
+    "total": 12,
+    "cells": {
+      "trig0.65_vol0.95": {
+        "n": 437,
+        "net_R": 1.02,
+        "A": -3.036,
+        "B": 4.052,
+        "pos_years": 3,
+        "dd_R": 12.03
+      },
+      "trig0.65_vol1.10": {
+        "n": 303,
+        "net_R": 2.04,
+        "A": -1.749,
+        "B": 3.793,
+        "pos_years": 5,
+        "dd_R": 11.82
+      },
+      "trig0.65_vol1.25": {
+        "n": 188,
+        "net_R": -0.02,
+        "A": -0.189,
+        "B": 0.168,
+        "pos_years": 4,
+        "dd_R": 10.77
+      },
+      "trig0.80_vol0.95": {
+        "n": 287,
+        "net_R": 13.56,
+        "A": 4.289,
+        "B": 9.272,
+        "pos_years": 4,
+        "dd_R": 7.46
+      },
+      "trig0.80_vol1.10": {
+        "n": 198,
+        "net_R": 14.19,
+        "A": 5.577,
+        "B": 8.614,
+        "pos_years": 5,
+        "dd_R": 6.44
+      },
+      "trig0.80_vol1.25": {
+        "n": 127,
+        "net_R": 10.1,
+        "A": 7.301,
+        "B": 2.803,
+        "pos_years": 4,
+        "dd_R": 3.96
+      },
+      "trig0.95_vol0.95": {
+        "n": 207,
+        "net_R": -0.49,
+        "A": 0.247,
+        "B": -0.739,
+        "pos_years": 2,
+        "dd_R": 9.35
+      },
+      "trig0.95_vol1.10": {
+        "n": 148,
+        "net_R": 1.93,
+        "A": 2.495,
+        "B": -0.57,
+        "pos_years": 2,
+        "dd_R": 10.04
+      },
+      "trig0.95_vol1.25": {
+        "n": 94,
+        "net_R": 3.71,
+        "A": 6.005,
+        "B": -2.295,
+        "pos_years": 4,
+        "dd_R": 6.99
+      },
+      "trig1.10_vol0.95": {
+        "n": 125,
+        "net_R": 7.56,
+        "A": 9.096,
+        "B": -1.533,
+        "pos_years": 5,
+        "dd_R": 8.52
+      },
+      "trig1.10_vol1.10": {
+        "n": 89,
+        "net_R": 6.74,
+        "A": 7.068,
+        "B": -0.332,
+        "pos_years": 5,
+        "dd_R": 5.95
+      },
+      "trig1.10_vol1.25": {
+        "n": 57,
+        "net_R": 8.39,
+        "A": 8.871,
+        "B": -0.481,
+        "pos_years": 5,
+        "dd_R": 4.21
+      }
+    }
+  },
+  "surface_trig_sl": {
+    "both_pos": 8,
+    "total": 9,
+    "cells": {
+      "trig0.70_sl0.55": {
+        "n": 260,
+        "net_R": 18.19,
+        "A": 5.523,
+        "B": 12.666,
+        "pos_years": 6,
+        "dd_R": 13.98
+      },
+      "trig0.70_sl0.75": {
+        "n": 260,
+        "net_R": 13.29,
+        "A": 4.161,
+        "B": 9.128,
+        "pos_years": 6,
+        "dd_R": 9.84
+      },
+      "trig0.70_sl0.95": {
+        "n": 260,
+        "net_R": 7.18,
+        "A": 1.403,
+        "B": 5.779,
+        "pos_years": 6,
+        "dd_R": 8.4
+      },
+      "trig0.80_sl0.55": {
+        "n": 198,
+        "net_R": 13.62,
+        "A": 8.464,
+        "B": 5.158,
+        "pos_years": 4,
+        "dd_R": 9.28
+      },
+      "trig0.80_sl0.75": {
+        "n": 198,
+        "net_R": 14.19,
+        "A": 5.577,
+        "B": 8.614,
+        "pos_years": 5,
+        "dd_R": 6.44
+      },
+      "trig0.80_sl0.95": {
+        "n": 198,
+        "net_R": 8.64,
+        "A": 2.681,
+        "B": 5.958,
+        "pos_years": 4,
+        "dd_R": 6.13
+      },
+      "trig0.90_sl0.55": {
+        "n": 167,
+        "net_R": -0.18,
+        "A": 1.569,
+        "B": -1.754,
+        "pos_years": 2,
+        "dd_R": 12.33
+      },
+      "trig0.90_sl0.75": {
+        "n": 167,
+        "net_R": 4.18,
+        "A": 1.472,
+        "B": 2.709,
+        "pos_years": 2,
+        "dd_R": 8.73
+      },
+      "trig0.90_sl0.95": {
+        "n": 167,
+        "net_R": 1.22,
+        "A": 0.118,
+        "B": 1.105,
+        "pos_years": 2,
+        "dd_R": 7.06
+      }
+    }
+  },
+  "decomposition_all_dev": {
+    "direction": {
+      "BUY": {
+        "n": 95,
+        "win_rate": 0.526,
+        "net_R": 4.72,
+        "floating_dd_R": 3.9
+      },
+      "SELL": {
+        "n": 103,
+        "win_rate": 0.476,
+        "net_R": 9.47,
+        "floating_dd_R": 5.75
+      }
+    },
+    "entry_window": {
+      "07:00–11:59_London": {
+        "n": 83,
+        "win_rate": 0.446,
+        "net_R": 7.61,
+        "floating_dd_R": 6.99
+      },
+      "12:00–16:59_NY": {
+        "n": 115,
+        "win_rate": 0.539,
+        "net_R": 6.58,
+        "floating_dd_R": 7.54
+      }
+    },
+    "cost_bucket": {
+      "4–8%": {
+        "n": 9,
+        "win_rate": 0.444,
+        "net_R": -1.0,
+        "floating_dd_R": 2.62
+      },
+      "<4%": {
+        "n": 181,
+        "win_rate": 0.497,
+        "net_R": 12.48,
+        "floating_dd_R": 6.26
+      },
+      ">8%": {
+        "n": 8,
+        "win_rate": 0.625,
+        "net_R": 2.71,
+        "floating_dd_R": 1.62
+      }
+    }
+  },
+  "outlier_stress": {
+    "total_R": 14.19,
+    "drop_top3_R": 6.24,
+    "drop_top5_R": 2.82,
+    "drop_top10_R": -5.0,
+    "excl_covid_2020_03_R": 6.81,
+    "excl_gilt_2022_0910_R": 12.05,
+    "excl_both_crises_R": 4.66,
+    "excl_both_n": 182,
+    "top5_trades": [
+      {
+        "day": "2022-09-23",
+        "dir": "SELL",
+        "net_R": 3.25
+      },
+      {
+        "day": "2020-03-18",
+        "dir": "SELL",
+        "net_R": 2.81
+      },
+      {
+        "day": "2022-05-05",
+        "dir": "SELL",
+        "net_R": 1.89
+      },
+      {
+        "day": "2019-03-13",
+        "dir": "BUY",
+        "net_R": 1.74
+      },
+      {
+        "day": "2020-03-12",
+        "dir": "SELL",
+        "net_R": 1.67
+      }
+    ]
+  },
+  "sign_flip_null": {
+    "gross_p": 0.006993006993006993,
+    "ftmo_net_p": 0.006993006993006993
+  },
+  "corr_usdjpy_core": {
+    "union_corr": 0.0174,
+    "overlap_corr": 0.0397,
+    "overlap_days": 182
+  },
+  "cluster_a_dd_3e": {
+    "USDJPY": 5.5832908770992615,
+    "USDJPY_EXP": 1.5175612285318676,
+    "GBPUSD_VH": 1.2301513734445506
+  },
+  "inverse_dd_weights_3e": {
+    "USDJPY": 0.10848548544890527,
+    "USDJPY_EXP": 0.39913119142516246,
+    "GBPUSD_VH": 0.49238332312593225
+  },
+  "books": {
+    "Swing_10000": {
+      "BASE_2E_USDJPY_075": {
+        "risk": {
+          "USDJPY": 0.0016028652680941018,
+          "USDJPY_EXP": 0.005897134731905899
+        },
+        "net_usd": 2455.9342051343556,
+        "annual_usd": {
+          "A": 411.7408333346541,
+          "B": 305.1779262826014,
+          "all": 350.8477435906222
+        },
+        "annual_pct": {
+          "A": 4.117408333346541,
+          "B": 3.051779262826014,
+          "all": 3.508477435906222
+        },
+        "daily_loss_pct": 0.7440756057269027,
+        "peak_dd_pct": 5.4495805083917,
+        "static_loss_pct": 0.05570583224640359,
+        "net_over_dd": 4.5066481747586105,
+        "underwater_months": 20.597616651950418,
+        "double_sl_days": 26,
+        "peak_margin_pct": 11.666655,
+        "simultaneous_margin_pct": 11.666655,
+        "simultaneous_margin_09_16_utc_pct": 11.666655,
+        "overlap_days": 336,
+        "margin_failures": 0,
+        "min_lot_rejections": 4,
+        "sized": 1931,
+        "stale_marks_group_a": 350,
+        "calmar": 0.64
+      },
+      "SOLO_GBP_VH_050": {
+        "risk": {
+          "GBPUSD_VH": 0.005
+        },
+        "net_usd": 691.8909892774773,
+        "annual_usd": {
+          "A": 133.98532717588586,
+          "B": 72.48375193745085,
+          "all": 98.84156989678247
+        },
+        "annual_pct": {
+          "A": 1.3398532717588585,
+          "B": 0.7248375193745085,
+          "all": 0.9884156989678248
+        },
+        "daily_loss_pct": 0.5471913993421549,
+        "peak_dd_pct": 2.3120551646553396,
+        "static_loss_pct": 2.0328242380152006,
+        "net_over_dd": 2.992536682750899,
+        "underwater_months": 26.84604520740786,
+        "double_sl_days": 0,
+        "peak_margin_pct": 4.301296980714623,
+        "simultaneous_margin_pct": 0.0,
+        "simultaneous_margin_09_16_utc_pct": 0.0,
+        "overlap_days": 0,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "sized": 171,
+        "stale_marks_group_a": 31,
+        "calmar": 0.43
+      },
+      "SOLO_GBP_VH_075": {
+        "risk": {
+          "GBPUSD_VH": 0.0075
+        },
+        "net_usd": 1096.5516820811026,
+        "annual_usd": {
+          "A": 215.55744405486215,
+          "B": 112.46983747912856,
+          "all": 156.65024029730037
+        },
+        "annual_pct": {
+          "A": 2.1555744405486212,
+          "B": 1.1246983747912855,
+          "all": 1.5665024029730037
+        },
+        "daily_loss_pct": 0.8164319920176968,
+        "peak_dd_pct": 3.377048588942271,
+        "static_loss_pct": 3.0830589603072256,
+        "net_over_dd": 3.2470710835243115,
+        "underwater_months": 26.016505016073793,
+        "double_sl_days": 0,
+        "peak_margin_pct": 6.4519454710719355,
+        "simultaneous_margin_pct": 0.0,
+        "simultaneous_margin_09_16_utc_pct": 0.0,
+        "overlap_days": 0,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "sized": 171,
+        "stale_marks_group_a": 31,
+        "calmar": 0.46
+      },
+      "SOLO_GBP_VH_100": {
+        "risk": {
+          "GBPUSD_VH": 0.01
+        },
+        "net_usd": 1454.8831005733082,
+        "annual_usd": {
+          "A": 287.9159170021648,
+          "B": 147.78383739170314,
+          "all": 207.84044293904404
+        },
+        "annual_pct": {
+          "A": 2.879159170021648,
+          "B": 1.4778383739170315,
+          "all": 2.0784044293904405
+        },
+        "daily_loss_pct": 1.10685876618958,
+        "peak_dd_pct": 4.546967912481868,
+        "static_loss_pct": 4.226487649497158,
+        "net_over_dd": 3.19967751824136,
+        "underwater_months": 26.017029781583467,
+        "double_sl_days": 0,
+        "peak_margin_pct": 8.602593961429246,
+        "simultaneous_margin_pct": 0.0,
+        "simultaneous_margin_09_16_utc_pct": 0.0,
+        "overlap_days": 0,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "sized": 171,
+        "stale_marks_group_a": 31,
+        "calmar": 0.46
+      },
+      "PORT3E_075_GBP025": {
+        "risk": {
+          "USDJPY": 0.0016028652680941018,
+          "USDJPY_EXP": 0.005897134731905899,
+          "GBPUSD_VH": 0.0025
+        },
+        "net_usd": 2774.5556688803626,
+        "annual_usd": {
+          "A": 484.43682557406754,
+          "B": 330.3112980395391,
+          "all": 396.36509555433753
+        },
+        "annual_pct": {
+          "A": 4.844368255740675,
+          "B": 3.303112980395391,
+          "all": 3.9636509555433754
+        },
+        "daily_loss_pct": 0.9965401483926144,
+        "peak_dd_pct": 5.59940478975619,
+        "static_loss_pct": 0.23693769807177886,
+        "net_over_dd": 4.955090358811463,
+        "underwater_months": 20.270984346016686,
+        "double_sl_days": 21,
+        "peak_margin_pct": 11.666655,
+        "simultaneous_margin_pct": 11.666655,
+        "simultaneous_margin_09_16_utc_pct": 11.666655,
+        "overlap_days": 413,
+        "margin_failures": 0,
+        "min_lot_rejections": 4,
+        "sized": 2102,
+        "stale_marks_group_a": 381,
+        "calmar": 0.71
+      },
+      "PORT3E_075_GBP050": {
+        "risk": {
+          "USDJPY": 0.0016028652680941018,
+          "USDJPY_EXP": 0.005897134731905899,
+          "GBPUSD_VH": 0.005
+        },
+        "net_usd": 3147.825194411833,
+        "annual_usd": {
+          "A": 545.7261605105399,
+          "B": 377.6616782200523,
+          "all": 449.6893134874047
+        },
+        "annual_pct": {
+          "A": 5.4572616051053995,
+          "B": 3.7766167822005228,
+          "all": 4.496893134874047
+        },
+        "daily_loss_pct": 1.2611214640337858,
+        "peak_dd_pct": 5.818557937464684,
+        "static_loss_pct": 0.9178138817234504,
+        "net_over_dd": 5.4099748223585316,
+        "underwater_months": 20.106664293813928,
+        "double_sl_days": 21,
+        "peak_margin_pct": 13.420863784729715,
+        "simultaneous_margin_pct": 11.666655,
+        "simultaneous_margin_09_16_utc_pct": 11.666655,
+        "overlap_days": 413,
+        "margin_failures": 0,
+        "min_lot_rejections": 4,
+        "sized": 2102,
+        "stale_marks_group_a": 381,
+        "calmar": 0.77
+      },
+      "PORT3E_075_GBP075": {
+        "risk": {
+          "USDJPY": 0.0016028652680941018,
+          "USDJPY_EXP": 0.005897134731905899,
+          "GBPUSD_VH": 0.0075
+        },
+        "net_usd": 3552.485887215462,
+        "annual_usd": {
+          "A": 627.2982773895162,
+          "B": 417.64776376172995,
+          "all": 507.4979838879231
+        },
+        "annual_pct": {
+          "A": 6.272982773895162,
+          "B": 4.1764776376173,
+          "all": 5.074979838879231
+        },
+        "daily_loss_pct": 1.5257027796749572,
+        "peak_dd_pct": 6.088569525641651,
+        "static_loss_pct": 1.452808116800661,
+        "net_over_dd": 5.834680662271125,
+        "underwater_months": 19.876018444366867,
+        "double_sl_days": 21,
+        "peak_margin_pct": 15.08940013349848,
+        "simultaneous_margin_pct": 11.666655,
+        "simultaneous_margin_09_16_utc_pct": 11.666655,
+        "overlap_days": 413,
+        "margin_failures": 0,
+        "min_lot_rejections": 4,
+        "sized": 2102,
+        "stale_marks_group_a": 381,
+        "calmar": 0.83
+      },
+      "PORT3E_075_GBP100": {
+        "risk": {
+          "USDJPY": 0.0016028652680941018,
+          "USDJPY_EXP": 0.005897134731905899,
+          "GBPUSD_VH": 0.01
+        },
+        "net_usd": 3910.817305707673,
+        "annual_usd": {
+          "A": 699.6567503368188,
+          "B": 452.96176367430456,
+          "all": 558.6881865296675
+        },
+        "annual_pct": {
+          "A": 6.996567503368188,
+          "B": 4.529617636743045,
+          "all": 5.586881865296675
+        },
+        "daily_loss_pct": 1.7902840953161467,
+        "peak_dd_pct": 6.892528609341188,
+        "static_loss_pct": 2.1527428258725196,
+        "net_over_dd": 5.673995027612198,
+        "underwater_months": 19.875151440481325,
+        "double_sl_days": 21,
+        "peak_margin_pct": 17.17507056945943,
+        "simultaneous_margin_pct": 12.935922961429245,
+        "simultaneous_margin_09_16_utc_pct": 12.935922961429245,
+        "overlap_days": 413,
+        "margin_failures": 0,
+        "min_lot_rejections": 4,
+        "sized": 2102,
+        "stale_marks_group_a": 381,
+        "calmar": 0.81
+      },
+      "PORT3E_INVDD_075": {
+        "risk": {
+          "USDJPY": 0.0008136411408667895,
+          "USDJPY_EXP": 0.0029934839356887183,
+          "GBPUSD_VH": 0.0036928749234444915
+        },
+        "net_usd": 1621.3527889994457,
+        "annual_usd": {
+          "A": 282.6699025061879,
+          "B": 193.33577037021308,
+          "all": 231.6218269999208
+        },
+        "annual_pct": {
+          "A": 2.826699025061879,
+          "B": 1.9333577037021308,
+          "all": 2.316218269999208
+        },
+        "daily_loss_pct": 0.6743496112579669,
+        "peak_dd_pct": 3.0922941890061155,
+        "static_loss_pct": 0.6874290406758519,
+        "net_over_dd": 5.243203556646593,
+        "underwater_months": 20.27061929174909,
+        "double_sl_days": 22,
+        "peak_margin_pct": 7.502799523153144,
+        "simultaneous_margin_pct": 5.666661,
+        "simultaneous_margin_09_16_utc_pct": 5.666661,
+        "overlap_days": 401,
+        "margin_failures": 0,
+        "min_lot_rejections": 29,
+        "sized": 2077,
+        "stale_marks_group_a": 381,
+        "calmar": 0.75
+      },
+      "PORT3E_INVDD_100": {
+        "risk": {
+          "USDJPY": 0.0010848548544890528,
+          "USDJPY_EXP": 0.003991311914251625,
+          "GBPUSD_VH": 0.004923833231259322
+        },
+        "net_usd": 2206.451840362888,
+        "annual_usd": {
+          "A": 378.24097515789043,
+          "B": 267.9322287222995,
+          "all": 315.2074057661269
+        },
+        "annual_pct": {
+          "A": 3.7824097515789044,
+          "B": 2.679322287222995,
+          "all": 3.152074057661269
+        },
+        "daily_loss_pct": 0.9211812579807338,
+        "peak_dd_pct": 3.897295522794029,
+        "static_loss_pct": 1.230963377691005,
+        "net_over_dd": 5.66149481725997,
+        "underwater_months": 19.876018444366867,
+        "double_sl_days": 22,
+        "peak_margin_pct": 10.087533784729716,
+        "simultaneous_margin_pct": 7.9999920000000015,
+        "simultaneous_margin_09_16_utc_pct": 7.9999920000000015,
+        "overlap_days": 409,
+        "margin_failures": 0,
+        "min_lot_rejections": 12,
+        "sized": 2094,
+        "stale_marks_group_a": 381,
+        "calmar": 0.81
+      },
+      "PORT3E_INVDD_125": {
+        "risk": {
+          "USDJPY": 0.001356068568111316,
+          "USDJPY_EXP": 0.004989139892814531,
+          "GBPUSD_VH": 0.006154791539074153
+        },
+        "net_usd": 2957.6256941890406,
+        "annual_usd": {
+          "A": 508.70159690601486,
+          "B": 357.88022586775554,
+          "all": 422.51795631272006
+        },
+        "annual_pct": {
+          "A": 5.087015969060149,
+          "B": 3.578802258677555,
+          "all": 4.225179563127201
+        },
+        "daily_loss_pct": 1.212725804041911,
+        "peak_dd_pct": 5.181192934406172,
+        "static_loss_pct": 1.1492606592359698,
+        "net_over_dd": 5.708387492287084,
+        "underwater_months": 19.875151440481325,
+        "double_sl_days": 21,
+        "peak_margin_pct": 12.588466959114097,
+        "simultaneous_margin_pct": 9.99999,
+        "simultaneous_margin_09_16_utc_pct": 9.99999,
+        "overlap_days": 412,
+        "margin_failures": 0,
+        "min_lot_rejections": 5,
+        "sized": 2101,
+        "stale_marks_group_a": 381,
+        "calmar": 0.82
+      }
+    },
+    "Swing_25000": {
+      "BASE_2E_USDJPY_075": {
+        "risk": {
+          "USDJPY": 0.0016028652680941018,
+          "USDJPY_EXP": 0.005897134731905899
+        },
+        "net_usd": 6404.342910640484,
+        "annual_usd": {
+          "A": 1053.9103163983607,
+          "B": 810.6529903613514,
+          "all": 914.9061300914976
+        },
+        "annual_pct": {
+          "A": 4.215641265593443,
+          "B": 3.2426119614454056,
+          "all": 3.6596245203659903
+        },
+        "daily_loss_pct": 0.7487179102477676,
+        "peak_dd_pct": 5.618731125033824,
+        "static_loss_pct": 0.05570583224639995,
+        "net_over_dd": 4.559280569313186,
+        "underwater_months": 19.87610970793377,
+        "double_sl_days": 27,
+        "peak_margin_pct": 11.999988,
+        "simultaneous_margin_pct": 11.999988,
+        "simultaneous_margin_09_16_utc_pct": 11.999988,
+        "overlap_days": 340,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "sized": 1935,
+        "stale_marks_group_a": 350,
+        "calmar": 0.65
+      },
+      "SOLO_GBP_VH_050": {
+        "risk": {
+          "GBPUSD_VH": 0.005
+        },
+        "net_usd": 1839.6596235930483,
+        "annual_usd": {
+          "A": 358.21381729307404,
+          "B": 191.25454292844958,
+          "all": 262.8085176561498
+        },
+        "annual_pct": {
+          "A": 1.432855269172296,
+          "B": 0.7650181717137984,
+          "all": 1.051234070624599
+        },
+        "daily_loss_pct": 0.569079055315844,
+        "peak_dd_pct": 2.2870402445078217,
+        "static_loss_pct": 2.109949452709188,
+        "net_over_dd": 3.217537825162231,
+        "underwater_months": 26.017006965691742,
+        "double_sl_days": 0,
+        "peak_margin_pct": 4.301296980714624,
+        "simultaneous_margin_pct": 0.0,
+        "simultaneous_margin_09_16_utc_pct": 0.0,
+        "overlap_days": 0,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "sized": 171,
+        "stale_marks_group_a": 31,
+        "calmar": 0.46
+      },
+      "SOLO_GBP_VH_075": {
+        "risk": {
+          "GBPUSD_VH": 0.0075
+        },
+        "net_usd": 2867.775245308654,
+        "annual_usd": {
+          "A": 559.3319155974206,
+          "B": 297.44487462909467,
+          "all": 409.6821779012363
+        },
+        "annual_pct": {
+          "A": 2.2373276623896823,
+          "B": 1.1897794985163788,
+          "all": 1.6387287116049452
+        },
+        "daily_loss_pct": 0.8452376032720349,
+        "peak_dd_pct": 3.444160396742183,
+        "static_loss_pct": 3.2249688213628978,
+        "net_over_dd": 3.3305942987106762,
+        "underwater_months": 26.016505016073793,
+        "double_sl_days": 0,
+        "peak_margin_pct": 6.537971410686228,
+        "simultaneous_margin_pct": 0.0,
+        "simultaneous_margin_09_16_utc_pct": 0.0,
+        "overlap_days": 0,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "sized": 171,
+        "stale_marks_group_a": 31,
+        "calmar": 0.48
+      },
+      "SOLO_GBP_VH_100": {
+        "risk": {
+          "GBPUSD_VH": 0.01
+        },
+        "net_usd": 3771.1248858755316,
+        "annual_usd": {
+          "A": 741.3063147109065,
+          "B": 386.80148543569976,
+          "all": 538.7321265536474
+        },
+        "annual_pct": {
+          "A": 2.965225258843626,
+          "B": 1.5472059417427988,
+          "all": 2.1549285062145898
+        },
+        "daily_loss_pct": 1.138158110631688,
+        "peak_dd_pct": 4.65250540387549,
+        "static_loss_pct": 4.296752475608824,
+        "net_over_dd": 3.242231493366325,
+        "underwater_months": 26.017006965691742,
+        "double_sl_days": 0,
+        "peak_margin_pct": 8.774645840657833,
+        "simultaneous_margin_pct": 0.0,
+        "simultaneous_margin_09_16_utc_pct": 0.0,
+        "overlap_days": 0,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "sized": 171,
+        "stale_marks_group_a": 31,
+        "calmar": 0.46
+      },
+      "PORT3E_075_GBP025": {
+        "risk": {
+          "USDJPY": 0.0016028652680941018,
+          "USDJPY_EXP": 0.005897134731905899,
+          "GBPUSD_VH": 0.0025
+        },
+        "net_usd": 7343.275246698915,
+        "annual_usd": {
+          "A": 1233.2418334222577,
+          "B": 910.8874366080375,
+          "all": 1049.039320956988
+        },
+        "annual_pct": {
+          "A": 4.932967333689031,
+          "B": 3.64354974643215,
+          "all": 4.196157283827952
+        },
+        "daily_loss_pct": 0.9926206065699953,
+        "peak_dd_pct": 5.746092531905757,
+        "static_loss_pct": 0.4396731244883849,
+        "net_over_dd": 5.1118391887528025,
+        "underwater_months": 19.876018444366867,
+        "double_sl_days": 22,
+        "peak_margin_pct": 11.999988,
+        "simultaneous_margin_pct": 11.999988,
+        "simultaneous_margin_09_16_utc_pct": 11.999988,
+        "overlap_days": 415,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "sized": 2106,
+        "stale_marks_group_a": 381,
+        "calmar": 0.73
+      },
+      "PORT3E_075_GBP050": {
+        "risk": {
+          "USDJPY": 0.0016028652680941018,
+          "USDJPY_EXP": 0.005897134731905899,
+          "GBPUSD_VH": 0.005
+        },
+        "net_usd": 8244.002534233448,
+        "annual_usd": {
+          "A": 1412.1241336914347,
+          "B": 1001.907533289801,
+          "all": 1177.7146477476356
+        },
+        "annual_pct": {
+          "A": 5.648496534765739,
+          "B": 4.0076301331592035,
+          "all": 4.710858590990543
+        },
+        "daily_loss_pct": 1.2572019222111703,
+        "peak_dd_pct": 5.941629275089551,
+        "static_loss_pct": 1.0221329960989969,
+        "net_over_dd": 5.549994557079931,
+        "underwater_months": 19.875105808697874,
+        "double_sl_days": 22,
+        "peak_margin_pct": 13.537436767291277,
+        "simultaneous_margin_pct": 11.999988,
+        "simultaneous_margin_09_16_utc_pct": 11.999988,
+        "overlap_days": 415,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "sized": 2106,
+        "stale_marks_group_a": 381,
+        "calmar": 0.79
+      },
+      "PORT3E_075_GBP075": {
+        "risk": {
+          "USDJPY": 0.0016028652680941018,
+          "USDJPY_EXP": 0.005897134731905899,
+          "GBPUSD_VH": 0.0075
+        },
+        "net_usd": 9272.118155949,
+        "annual_usd": {
+          "A": 1613.2422319957814,
+          "B": 1108.0978649904462,
+          "all": 1324.5883079927141
+        },
+        "annual_pct": {
+          "A": 6.452968927983126,
+          "B": 4.432391459961784,
+          "all": 5.298353231970856
+        },
+        "daily_loss_pct": 1.5217832378523453,
+        "peak_dd_pct": 6.301617701757932,
+        "static_loss_pct": 1.6609805246093747,
+        "net_over_dd": 5.885547867089684,
+        "underwater_months": 19.64963916667237,
+        "double_sl_days": 22,
+        "peak_margin_pct": 15.539680385813794,
+        "simultaneous_margin_pct": 11.999988,
+        "simultaneous_margin_09_16_utc_pct": 11.999988,
+        "overlap_days": 415,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "sized": 2106,
+        "stale_marks_group_a": 381,
+        "calmar": 0.84
+      },
+      "PORT3E_075_GBP100": {
+        "risk": {
+          "USDJPY": 0.0016028652680941018,
+          "USDJPY_EXP": 0.005897134731905899,
+          "GBPUSD_VH": 0.01
+        },
+        "net_usd": 10175.467796515899,
+        "annual_usd": {
+          "A": 1795.2166311092672,
+          "B": 1197.4544757970514,
+          "all": 1453.6382566451284
+        },
+        "annual_pct": {
+          "A": 7.180866524437069,
+          "B": 4.789817903188205,
+          "all": 5.814553026580514
+        },
+        "daily_loss_pct": 1.7863645534935058,
+        "peak_dd_pct": 7.101592438650245,
+        "static_loss_pct": 2.243440396219972,
+        "net_over_dd": 5.731372440432465,
+        "underwater_months": 19.6486580833282,
+        "double_sl_days": 22,
+        "peak_margin_pct": 17.375070369459436,
+        "simultaneous_margin_pct": 13.174641440657833,
+        "simultaneous_margin_09_16_utc_pct": 13.174641440657833,
+        "overlap_days": 415,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "sized": 2106,
+        "stale_marks_group_a": 381,
+        "calmar": 0.82
+      },
+      "PORT3E_INVDD_075": {
+        "risk": {
+          "USDJPY": 0.0008136411408667895,
+          "USDJPY_EXP": 0.0029934839356887183,
+          "GBPUSD_VH": 0.0036928749234444915
+        },
+        "net_usd": 4487.432095105229,
+        "annual_usd": {
+          "A": 804.9567631135291,
+          "B": 518.1404514411518,
+          "all": 641.0617278721755
+        },
+        "annual_pct": {
+          "A": 3.219827052454116,
+          "B": 2.072561805764607,
+          "all": 2.564246911488702
+        },
+        "daily_loss_pct": 0.736945006384587,
+        "peak_dd_pct": 3.0894500517020496,
+        "static_loss_pct": 0.8049727363385609,
+        "net_over_dd": 5.810007632436716,
+        "underwater_months": 19.874991729239248,
+        "double_sl_days": 22,
+        "peak_margin_pct": 7.602986558030021,
+        "simultaneous_margin_pct": 5.999994,
+        "simultaneous_margin_09_16_utc_pct": 5.999994,
+        "overlap_days": 414,
+        "margin_failures": 0,
+        "min_lot_rejections": 1,
+        "sized": 2105,
+        "stale_marks_group_a": 381,
+        "calmar": 0.83
+      },
+      "PORT3E_INVDD_100": {
+        "risk": {
+          "USDJPY": 0.0010848548544890528,
+          "USDJPY_EXP": 0.003991311914251625,
+          "GBPUSD_VH": 0.004923833231259322
+        },
+        "net_usd": 6069.520343572611,
+        "annual_usd": {
+          "A": 1052.9488291708888,
+          "B": 727.6684640149938,
+          "all": 867.0743347960872
+        },
+        "annual_pct": {
+          "A": 4.211795316683555,
+          "B": 2.9106738560599754,
+          "all": 3.468297339184349
+        },
+        "daily_loss_pct": 1.001661812842707,
+        "peak_dd_pct": 4.206664125551339,
+        "static_loss_pct": 1.0776363733889303,
+        "net_over_dd": 5.771338202835122,
+        "underwater_months": 19.64963916667237,
+        "double_sl_days": 22,
+        "peak_margin_pct": 10.204106767291277,
+        "simultaneous_margin_pct": 8.1333252,
+        "simultaneous_margin_09_16_utc_pct": 8.1333252,
+        "overlap_days": 415,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "sized": 2106,
+        "stale_marks_group_a": 381,
+        "calmar": 0.82
+      },
+      "PORT3E_INVDD_125": {
+        "risk": {
+          "USDJPY": 0.001356068568111316,
+          "USDJPY_EXP": 0.004989139892814531,
+          "GBPUSD_VH": 0.006154791539074153
+        },
+        "net_usd": 7667.855201270631,
+        "annual_usd": {
+          "A": 1347.9202680051733,
+          "B": 906.0235993137711,
+          "all": 1095.4078858958044
+        },
+        "annual_pct": {
+          "A": 5.391681072020694,
+          "B": 3.6240943972550843,
+          "all": 4.381631543583217
+        },
+        "daily_loss_pct": 1.248493459565463,
+        "peak_dd_pct": 5.3758890172105165,
+        "static_loss_pct": 1.3207651469398698,
+        "net_over_dd": 5.705367187992573,
+        "underwater_months": 19.874991729239248,
+        "double_sl_days": 22,
+        "peak_margin_pct": 12.938560176552533,
+        "simultaneous_margin_pct": 10.133323199999998,
+        "simultaneous_margin_09_16_utc_pct": 10.133323199999998,
+        "overlap_days": 415,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "sized": 2106,
+        "stale_marks_group_a": 381,
+        "calmar": 0.82
+      }
+    },
+    "Standard_50000": {
+      "BASE_2E_USDJPY_075": {
+        "risk": {
+          "USDJPY": 0.0016028652680941018,
+          "USDJPY_EXP": 0.005897134731905899
+        },
+        "net_usd": 12942.814322738988,
+        "annual_usd": {
+          "A": 2118.274041963845,
+          "B": 1646.9980492118855,
+          "all": 1848.9734746769984
+        },
+        "annual_pct": {
+          "A": 4.23654808392769,
+          "B": 3.293996098423771,
+          "all": 3.6979469493539967
+        },
+        "daily_loss_pct": 0.7487179102477676,
+        "peak_dd_pct": 5.6584561026762685,
+        "static_loss_pct": 0.05663426278383122,
+        "net_over_dd": 4.5746804739255476,
+        "underwater_months": 19.87610970793377,
+        "double_sl_days": 27,
+        "peak_margin_pct": 3.6,
+        "simultaneous_margin_pct": 3.6,
+        "simultaneous_margin_09_16_utc_pct": 3.6,
+        "overlap_days": 340,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "sized": 1935,
+        "stale_marks_group_a": 350,
+        "calmar": 0.65
+      },
+      "SOLO_GBP_VH_050": {
+        "risk": {
+          "GBPUSD_VH": 0.005
+        },
+        "net_usd": 3771.124885875557,
+        "annual_usd": {
+          "A": 741.3063147109065,
+          "B": 386.80148543569976,
+          "all": 538.732126553651
+        },
+        "annual_pct": {
+          "A": 1.482612629421813,
+          "B": 0.7736029708713994,
+          "all": 1.077464253107302
+        },
+        "daily_loss_pct": 0.569079055315844,
+        "peak_dd_pct": 2.3262527019377304,
+        "static_loss_pct": 2.1483762378044196,
+        "net_over_dd": 3.242231493366367,
+        "underwater_months": 26.017006965691742,
+        "double_sl_days": 0,
+        "peak_margin_pct": 1.3161957865307659,
+        "simultaneous_margin_pct": 0.0,
+        "simultaneous_margin_09_16_utc_pct": 0.0,
+        "overlap_days": 0,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "sized": 171,
+        "stale_marks_group_a": 31,
+        "calmar": 0.46
+      },
+      "SOLO_GBP_VH_075": {
+        "risk": {
+          "GBPUSD_VH": 0.0075
+        },
+        "net_usd": 5708.2912681928065,
+        "annual_usd": {
+          "A": 1116.7000058249823,
+          "B": 589.547812679467,
+          "all": 815.4701811704009
+        },
+        "annual_pct": {
+          "A": 2.2334000116499646,
+          "B": 1.179095625358934,
+          "all": 1.6309403623408019
+        },
+        "daily_loss_pct": 0.853618582973766,
+        "peak_dd_pct": 3.4910771591192313,
+        "static_loss_pct": 3.241615017764576,
+        "net_over_dd": 3.270217762607664,
+        "underwater_months": 26.01666472731587,
+        "double_sl_days": 0,
+        "peak_margin_pct": 1.9871975600562541,
+        "simultaneous_margin_pct": 0.0,
+        "simultaneous_margin_09_16_utc_pct": 0.0,
+        "overlap_days": 0,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "sized": 171,
+        "stale_marks_group_a": 31,
+        "calmar": 0.47
+      },
+      "SOLO_GBP_VH_100": {
+        "risk": {
+          "GBPUSD_VH": 0.01
+        },
+        "net_usd": 7631.0165559879315,
+        "annual_usd": {
+          "A": 1492.7631778916582,
+          "B": 788.1817555782372,
+          "all": 1090.1452222839903
+        },
+        "annual_pct": {
+          "A": 2.9855263557833167,
+          "B": 1.5763635111564744,
+          "all": 2.1802904445679805
+        },
+        "daily_loss_pct": 1.138158110631688,
+        "peak_dd_pct": 4.673809738803015,
+        "static_loss_pct": 4.330957280640141,
+        "net_over_dd": 3.2654373979469145,
+        "underwater_months": 26.01666472731587,
+        "double_sl_days": 0,
+        "peak_margin_pct": 2.6581993335817424,
+        "simultaneous_margin_pct": 0.0,
+        "simultaneous_margin_09_16_utc_pct": 0.0,
+        "overlap_days": 0,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "sized": 171,
+        "stale_marks_group_a": 31,
+        "calmar": 0.47
+      },
+      "PORT3E_075_GBP025": {
+        "risk": {
+          "USDJPY": 0.0016028652680941018,
+          "USDJPY_EXP": 0.005897134731905899,
+          "GBPUSD_VH": 0.0025
+        },
+        "net_usd": 14782.47394633211,
+        "annual_usd": {
+          "A": 2476.487859256919,
+          "B": 1838.2525921403353,
+          "all": 2111.7819923331585
+        },
+        "annual_pct": {
+          "A": 4.952975718513838,
+          "B": 3.6765051842806704,
+          "all": 4.223563984666317
+        },
+        "daily_loss_pct": 1.0040747054602106,
+        "peak_dd_pct": 5.819905177704161,
+        "static_loss_pct": 0.4351431820349826,
+        "net_over_dd": 5.07997071944169,
+        "underwater_months": 19.876041260258592,
+        "double_sl_days": 22,
+        "peak_margin_pct": 3.6,
+        "simultaneous_margin_pct": 3.6,
+        "simultaneous_margin_09_16_utc_pct": 3.6,
+        "overlap_days": 415,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "sized": 2106,
+        "stale_marks_group_a": 381,
+        "calmar": 0.73
+      },
+      "PORT3E_075_GBP050": {
+        "risk": {
+          "USDJPY": 0.0016028652680941018,
+          "USDJPY_EXP": 0.005897134731905899,
+          "GBPUSD_VH": 0.005
+        },
+        "net_usd": 16713.939208614684,
+        "annual_usd": {
+          "A": 2859.5803566747513,
+          "B": 2033.7995346475855,
+          "all": 2387.705601230669
+        },
+        "annual_pct": {
+          "A": 5.719160713349503,
+          "B": 4.067599069295171,
+          "all": 4.7754112024613375
+        },
+        "daily_loss_pct": 1.2686560211013858,
+        "peak_dd_pct": 5.998550572548164,
+        "static_loss_pct": 1.0457968820954702,
+        "net_over_dd": 5.572659263757664,
+        "underwater_months": 19.875151440481325,
+        "double_sl_days": 22,
+        "peak_margin_pct": 4.086261103081973,
+        "simultaneous_margin_pct": 3.6,
+        "simultaneous_margin_09_16_utc_pct": 3.6,
+        "overlap_days": 415,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "sized": 2106,
+        "stale_marks_group_a": 381,
+        "calmar": 0.8
+      },
+      "PORT3E_075_GBP075": {
+        "risk": {
+          "USDJPY": 0.0016028652680941018,
+          "USDJPY_EXP": 0.005897134731905899,
+          "GBPUSD_VH": 0.0075
+        },
+        "net_usd": 18651.10559093191,
+        "annual_usd": {
+          "A": 3234.9740477888276,
+          "B": 2236.5458618913526,
+          "all": 2664.443655847416
+        },
+        "annual_pct": {
+          "A": 6.469948095577655,
+          "B": 4.473091723782705,
+          "all": 5.328887311694832
+        },
+        "daily_loss_pct": 1.5332373367425607,
+        "peak_dd_pct": 6.463350953143658,
+        "static_loss_pct": 1.6564505821559579,
+        "net_over_dd": 5.771342365947295,
+        "underwater_months": 19.874763570322,
+        "double_sl_days": 22,
+        "peak_margin_pct": 4.661905666879425,
+        "simultaneous_margin_pct": 3.6,
+        "simultaneous_margin_09_16_utc_pct": 3.6,
+        "overlap_days": 415,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "sized": 2106,
+        "stale_marks_group_a": 381,
+        "calmar": 0.82
+      },
+      "PORT3E_075_GBP100": {
+        "risk": {
+          "USDJPY": 0.0016028652680941018,
+          "USDJPY_EXP": 0.005897134731905899,
+          "GBPUSD_VH": 0.01
+        },
+        "net_usd": 20573.830878727007,
+        "annual_usd": {
+          "A": 3611.037219855503,
+          "B": 2435.179804790123,
+          "all": 2939.118696961001
+        },
+        "annual_pct": {
+          "A": 7.222074439711006,
+          "B": 4.870359609580246,
+          "all": 5.878237393922003
+        },
+        "daily_loss_pct": 1.7978186523837212,
+        "peak_dd_pct": 7.273711627018521,
+        "static_loss_pct": 2.2671909284871363,
+        "net_over_dd": 5.657037818850175,
+        "underwater_months": 19.6485668197613,
+        "double_sl_days": 22,
+        "peak_margin_pct": 5.237550230676877,
+        "simultaneous_margin_pct": 3.9981993335817423,
+        "simultaneous_margin_09_16_utc_pct": 3.9981993335817423,
+        "overlap_days": 415,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "sized": 2106,
+        "stale_marks_group_a": 381,
+        "calmar": 0.81
+      },
+      "PORT3E_INVDD_075": {
+        "risk": {
+          "USDJPY": 0.0008136411408667895,
+          "USDJPY_EXP": 0.0029934839356887183,
+          "GBPUSD_VH": 0.0036928749234444915
+        },
+        "net_usd": 9307.319163890003,
+        "annual_usd": {
+          "A": 1604.8681593852132,
+          "B": 1123.1786714335765,
+          "all": 1329.6170234128574
+        },
+        "annual_pct": {
+          "A": 3.2097363187704264,
+          "B": 2.246357342867153,
+          "all": 2.659234046825715
+        },
+        "daily_loss_pct": 0.759116652034325,
+        "peak_dd_pct": 3.1322920161532677,
+        "static_loss_pct": 0.810463563360463,
+        "net_over_dd": 5.942817027206944,
+        "underwater_months": 19.874763570322,
+        "double_sl_days": 22,
+        "peak_margin_pct": 2.32592480892678,
+        "simultaneous_margin_pct": 1.82,
+        "simultaneous_margin_09_16_utc_pct": 1.82,
+        "overlap_days": 415,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "sized": 2106,
+        "stale_marks_group_a": 381,
+        "calmar": 0.85
+      },
+      "PORT3E_INVDD_100": {
+        "risk": {
+          "USDJPY": 0.0010848548544890528,
+          "USDJPY_EXP": 0.003991311914251625,
+          "GBPUSD_VH": 0.004923833231259322
+        },
+        "net_usd": 12421.224919511908,
+        "annual_usd": {
+          "A": 2147.8990254495493,
+          "B": 1494.3819607908301,
+          "all": 1774.4607027874154
+        },
+        "annual_pct": {
+          "A": 4.295798050899099,
+          "B": 2.9887639215816604,
+          "all": 3.5489214055748306
+        },
+        "daily_loss_pct": 1.0174023976472963,
+        "peak_dd_pct": 4.27289322717725,
+        "static_loss_pct": 1.1044775927278097,
+        "net_over_dd": 5.813964571128585,
+        "underwater_months": 19.874763570322,
+        "double_sl_days": 22,
+        "peak_margin_pct": 3.1262611030819727,
+        "simultaneous_margin_pct": 2.44,
+        "simultaneous_margin_09_16_utc_pct": 2.44,
+        "overlap_days": 415,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "sized": 2106,
+        "stale_marks_group_a": 381,
+        "calmar": 0.83
+      },
+      "PORT3E_INVDD_125": {
+        "risk": {
+          "USDJPY": 0.001356068568111316,
+          "USDJPY_EXP": 0.004989139892814531,
+          "GBPUSD_VH": 0.006154791539074153
+        },
+        "net_usd": 15605.210277283564,
+        "annual_usd": {
+          "A": 2706.7106710097037,
+          "B": 1871.2695660636011,
+          "all": 2229.315753897652
+        },
+        "annual_pct": {
+          "A": 5.413421342019407,
+          "B": 3.7425391321272024,
+          "all": 4.458631507795304
+        },
+        "daily_loss_pct": 1.273176624237749,
+        "peak_dd_pct": 5.409769832130841,
+        "static_loss_pct": 1.3562117098466406,
+        "net_over_dd": 5.76926958503773,
+        "underwater_months": 19.874740754430274,
+        "double_sl_days": 22,
+        "peak_margin_pct": 3.901569372724232,
+        "simultaneous_margin_pct": 3.04,
+        "simultaneous_margin_09_16_utc_pct": 3.04,
+        "overlap_days": 415,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "sized": 2106,
+        "stale_marks_group_a": 381,
+        "calmar": 0.82
+      }
+    }
+  },
+  "quant_test_suite": {
+    "tests": 1537,
+    "passed": true,
+    "skipped": 0,
+    "errors": 0,
+    "failures": 0,
+    "seconds": 17.12
+  },
+  "private_manifest": "pass22-gbpusd-volhigh-3engine-20261123/manifest.json",
+  "private_manifest_sha256": "22ad68662f68fd3420c87a762adf78301d82983a7fc4622e58d913d8c1238e3b",
+  "exported_mq5": "tooling/ai-engines/exports/Naqex_WB_EXP080_VOLHIGH_GBPUSD.mq5"
+}

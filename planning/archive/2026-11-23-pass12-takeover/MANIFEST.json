@@ -1,0 +1,20 @@
+{
+  "schema": "pass12-takeover-context-archive-v1",
+  "created_utc": "2026-11-23",
+  "reason": "Compact 88 KiB / 1,261-line CURRENT-CONTEXT.md (V14-V26 + Nov 18-19 rejected screens) back to 1-2 page budget per planning/CONTEXT-LIFECYCLE.md while preserving byte-exact snapshot and links.",
+  "records": [
+    {
+      "original": "planning/CURRENT-CONTEXT.md",
+      "original_git_commit": "fdef13d5a30dd1299ff47a1edf1126919303191b",
+      "original_bytes": 88224,
+      "original_sha256": "37dc6f2f1e7f591f408fdbcbb9f8f07128fc477d22f9033dd42e2b9464a81002",
+      "original_git_blob_sha256": "37dc6f2f1e7f591f408fdbcbb9f8f07128fc477d22f9033dd42e2b9464a81002",
+      "archive": "planning/archive/2026-11-23-pass12-takeover/CURRENT-CONTEXT.before.md",
+      "archive_sha256": "d9d0869cc7b27c7d19eea873042f44b8da04ab98f683f86c5ce7cb6752f0ab20",
+      "original_bytes_snapshot": "planning/archive/2026-11-23-pass12-takeover/CURRENT-CONTEXT.original.txt.gz",
+      "original_bytes_encoding": "gzip; decompressed bytes match original_sha256",
+      "compressed_sha256": "c17c39f76b5ec68ecbe80e5d92b52f32e70bde06dee599447083359b80ec081f",
+      "archive_hash_policy": "LF-normalized readable Markdown with historical header; exact original bytes preserved in gzip"
+    }
+  ]
+}

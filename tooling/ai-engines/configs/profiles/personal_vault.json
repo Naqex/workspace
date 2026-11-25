@@ -1,0 +1,20 @@
+{
+  "id": "PERSONAL_VAULT",
+  "portfolio": "PORT_9E_P28_TURBO",
+  "core_portfolio": "PORT_9E_P28_TURBO",
+  "allocation_mode": "inverse_dd_a",
+  "vol_target_20d": true,
+  "vol_clamp": [
+    0.55,
+    1.4
+  ],
+  "p1_mult": 1.5,
+  "p2_mult": 1.5,
+  "funded_mult": 1.5,
+  "amber_dd_pct": 0.08,
+  "amber_mult": 0.7,
+  "red_dd_pct": 0.14,
+  "red_mult": 0.45,
+  "ea_daily_stop_pct": 0.05,
+  "max_symbol_concurrent_risk_pct": 0.025
+}

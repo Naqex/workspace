@@ -1,0 +1,479 @@
+{
+  "pass": "Pass 15",
+  "date_utc": "2026-11-23T09:58:05.504368+00:00",
+  "protocol_file": "planning/research/PASS15-FTMO-NATIVE-ENGINE2-PROTOCOL-20261123.md",
+  "protocol_commit": "b2e5803b0c7676bf1cbb516fa19db716aec7d16a",
+  "holdout_lock_sha256": "f0a6b43cb205535b0a959456455dc1d857a0936c06c2e51b8614fd7d772a8486",
+  "holdout_rows": 0,
+  "order_send_count": 0,
+  "network_calls": 0,
+  "elapsed_seconds": 14.61,
+  "overall_verdict": "PASS15_ALL_SEVEN_HYPOTHESES_REJECTED_ENGINE1_NEEDS_PARTNER",
+  "tier_counts": {
+    "TIER_3_DEAD_NO_EDGE": 7
+  },
+  "quant_test_suite": {
+    "passed": true,
+    "tests": 1518,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 17.959183899998607
+  },
+  "hypotheses": [
+    {
+      "strategy": "XAU_DAILY_OPEN_ATR",
+      "asset": "XAUUSD",
+      "native_Ask": false,
+      "n": 1235,
+      "win_rate_ftmo": 0.4388663967611336,
+      "ftmo_net_R": -38.20018348885384,
+      "ftmo_annual_R": -5.4571690698362625,
+      "ftmo_top10_R": 26.675419938482314,
+      "ftmo_closed_dd_R": 56.877871121360066,
+      "ftmo_clusters_R": {
+        "A": -32.57751394800205,
+        "B": -5.622669540851783
+      },
+      "ftmo_years_R": {
+        "2018": -14.263195200802649,
+        "2019": -20.744834672984855,
+        "2020": 2.4305159257854485,
+        "2021": -8.316047274200237,
+        "2022": -1.5595623823568208,
+        "2023": -8.128439638789539,
+        "2024": 12.381379754494814
+      },
+      "ftmo_pos_years": 2,
+      "gross_usd_sum": 29483.56852846582,
+      "ftmo_exec_cost_usd_sum": 64802.939816487065,
+      "ftmo_swap_usd_sum": 0.0,
+      "ftmo_net_usd_sum": -35319.37128802125,
+      "exness_normal_R": -6.340633131202169,
+      "exness_normal_clusters_R": {
+        "A": -15.231511271699375,
+        "B": 8.890878140497207
+      },
+      "exness_swapfree_R": -6.340633131202169,
+      "exness_swapfree_clusters_R": {
+        "A": -15.231511271699375,
+        "B": 8.890878140497207
+      },
+      "exness_swapfree_pos_years": 3,
+      "mc_null": {
+        "hold_hours_matched": 8,
+        "n_buy": 665,
+        "n_sell": 570,
+        "draws": 1000,
+        "seed": 20261123,
+        "obs_gross_usd": 29483.56852846582,
+        "null_gross_mean": -59050.87999999999,
+        "null_gross_p95": -7043.199999999875,
+        "gross_p_value": 0.003996003996003996,
+        "obs_ftmo_net_usd": -35319.37128802125,
+        "null_net_mean": -123856.371785752,
+        "null_net_p95": -71820.53600049988,
+        "ftmo_net_p_value": 0.003996003996003996
+      },
+      "exit_counts": {
+        "TIME_FLAT": 1069,
+        "SL_GAP_OR_TOUCH": 166
+      },
+      "tier": "TIER_3_DEAD_NO_EDGE",
+      "fade_ftmo_R": -182.6471821704298,
+      "beats_fade": true,
+      "branch": "TrackA_XAU_Intraday_ZeroSwap",
+      "fdr_gross_q": 0.027972027972027972,
+      "fdr_ftmo_q": 0.027972027972027972
+    },
+    {
+      "strategy": "XAU_LONDON_NY_MOMENTUM",
+      "asset": "XAUUSD",
+      "native_Ask": false,
+      "n": 241,
+      "win_rate_ftmo": 0.4066390041493776,
+      "ftmo_net_R": -19.541840744181567,
+      "ftmo_annual_R": -2.791691534883081,
+      "ftmo_top10_R": 20.54356251479581,
+      "ftmo_closed_dd_R": 20.97188886480501,
+      "ftmo_clusters_R": {
+        "A": -3.6096581534001904,
+        "B": -15.932182590781375
+      },
+      "ftmo_years_R": {
+        "2018": -11.988633539573248,
+        "2019": -1.072179346025719,
+        "2020": 9.451154732198777,
+        "2021": -5.528826442980654,
+        "2022": -6.218120364593745,
+        "2023": -5.00332474733327,
+        "2024": 0.8180889641262952
+      },
+      "ftmo_pos_years": 2,
+      "gross_usd_sum": -5504.591544307482,
+      "ftmo_exec_cost_usd_sum": 12620.493425094399,
+      "ftmo_swap_usd_sum": 0.0,
+      "ftmo_net_usd_sum": -18125.08496940188,
+      "exness_normal_R": -11.492780952334384,
+      "exness_normal_clusters_R": {
+        "A": 1.177770456082632,
+        "B": -12.670551408417015
+      },
+      "exness_swapfree_R": -11.492780952334384,
+      "exness_swapfree_clusters_R": {
+        "A": 1.177770456082632,
+        "B": -12.670551408417015
+      },
+      "exness_swapfree_pos_years": 3,
+      "mc_null": {
+        "hold_hours_matched": 8,
+        "n_buy": 117,
+        "n_sell": 124,
+        "draws": 1000,
+        "seed": 20261123,
+        "obs_gross_usd": -5504.591544307482,
+        "null_gross_mean": -11404.174999999996,
+        "null_gross_p95": 13638.799999999943,
+        "gross_p_value": 0.32867132867132864,
+        "obs_ftmo_net_usd": -18125.08496940188,
+        "null_net_mean": -24050.158097072996,
+        "null_net_p95": 985.9262270999383,
+        "ftmo_net_p_value": 0.32867132867132864
+      },
+      "exit_counts": {
+        "SL_GAP_OR_TOUCH": 57,
+        "TIME_FLAT": 184
+      },
+      "tier": "TIER_3_DEAD_NO_EDGE",
+      "fade_ftmo_R": -16.247190462151913,
+      "beats_fade": false,
+      "branch": "TrackA_XAU_Intraday_ZeroSwap",
+      "fdr_gross_q": 0.5230769230769231,
+      "fdr_ftmo_q": 0.5734265734265734
+    },
+    {
+      "strategy": "XAU_H1_DONCHIAN_INTRADAY",
+      "asset": "XAUUSD",
+      "native_Ask": false,
+      "n": 1307,
+      "win_rate_ftmo": 0.3404743687834736,
+      "ftmo_net_R": -148.48467236527748,
+      "ftmo_annual_R": -21.212096052182495,
+      "ftmo_top10_R": 63.44057154117874,
+      "ftmo_closed_dd_R": 160.20395031160356,
+      "ftmo_clusters_R": {
+        "A": -47.133417714100744,
+        "B": -101.35125465117672
+      },
+      "ftmo_years_R": {
+        "2018": -34.619504168906495,
+        "2019": -30.166813557634793,
+        "2020": 17.65290001244054,
+        "2021": -40.708381038775634,
+        "2022": -39.152269484216085,
+        "2023": -6.374822969432577,
+        "2024": -15.11578115875242
+      },
+      "ftmo_pos_years": 1,
+      "gross_usd_sum": -1560.541722826406,
+      "ftmo_exec_cost_usd_sum": 68597.62630877508,
+      "ftmo_swap_usd_sum": 0.0,
+      "ftmo_net_usd_sum": -70158.16803160148,
+      "exness_normal_R": -61.729619829968904,
+      "exness_normal_clusters_R": {
+        "A": -1.8786562781566571,
+        "B": -59.85096355181224
+      },
+      "exness_swapfree_R": -61.729619829968904,
+      "exness_swapfree_clusters_R": {
+        "A": -1.8786562781566571,
+        "B": -59.85096355181224
+      },
+      "exness_swapfree_pos_years": 2,
+      "mc_null": {
+        "hold_hours_matched": 5,
+        "n_buy": 728,
+        "n_sell": 579,
+        "draws": 1000,
+        "seed": 20261123,
+        "obs_gross_usd": -1560.541722826406,
+        "null_gross_mean": -64732.589000000014,
+        "null_gross_p95": -18668.9500000002,
+        "gross_p_value": 0.015984015984015984,
+        "obs_ftmo_net_usd": -70158.16803160148,
+        "null_net_mean": -133316.28992247302,
+        "null_net_p95": -87227.8827049502,
+        "ftmo_net_p_value": 0.015984015984015984
+      },
+      "exit_counts": {
+        "TIME_FLAT": 618,
+        "SL_GAP_OR_TOUCH": 689
+      },
+      "tier": "TIER_3_DEAD_NO_EDGE",
+      "fade_ftmo_R": -227.54154146700944,
+      "beats_fade": true,
+      "branch": "TrackA_XAU_Intraday_ZeroSwap",
+      "fdr_gross_q": 0.055944055944055944,
+      "fdr_ftmo_q": 0.055944055944055944
+    },
+    {
+      "strategy": "XAU_ASIA_SQUEEZE_BREAK",
+      "asset": "XAUUSD",
+      "native_Ask": false,
+      "n": 650,
+      "win_rate_ftmo": 0.32,
+      "ftmo_net_R": -92.54173781009582,
+      "ftmo_annual_R": -13.220248258585118,
+      "ftmo_top10_R": 56.49442821399932,
+      "ftmo_closed_dd_R": 112.14969424348979,
+      "ftmo_clusters_R": {
+        "A": -41.58068424899059,
+        "B": -50.96105356110523
+      },
+      "ftmo_years_R": {
+        "2018": -15.375448169692513,
+        "2019": -19.328230305089516,
+        "2020": -6.8770057742085635,
+        "2021": -25.109983022269393,
+        "2022": -6.172198563595613,
+        "2023": -23.986461644359586,
+        "2024": 4.307589669119359
+      },
+      "ftmo_pos_years": 1,
+      "gross_usd_sum": -18306.999999999993,
+      "ftmo_exec_cost_usd_sum": 34129.939465,
+      "ftmo_swap_usd_sum": 0.0,
+      "ftmo_net_usd_sum": -52436.939464999996,
+      "exness_normal_R": -54.01957908130157,
+      "exness_normal_clusters_R": {
+        "A": -24.754383533024967,
+        "B": -29.265195548276605
+      },
+      "exness_swapfree_R": -54.01957908130157,
+      "exness_swapfree_clusters_R": {
+        "A": -24.754383533024967,
+        "B": -29.265195548276605
+      },
+      "exness_swapfree_pos_years": 2,
+      "mc_null": {
+        "hold_hours_matched": 7,
+        "n_buy": 358,
+        "n_sell": 292,
+        "draws": 1000,
+        "seed": 20261123,
+        "obs_gross_usd": -18306.999999999993,
+        "null_gross_mean": -31317.34800000001,
+        "null_gross_p95": 6427.050000000121,
+        "gross_p_value": 0.2757242757242757,
+        "obs_ftmo_net_usd": -52436.939464999996,
+        "null_net_mean": -65425.248078232005,
+        "null_net_p95": -27679.817674649872,
+        "ftmo_net_p_value": 0.2757242757242757
+      },
+      "exit_counts": {
+        "TIME_FLAT": 272,
+        "SL_GAP_OR_TOUCH": 378
+      },
+      "tier": "TIER_3_DEAD_NO_EDGE",
+      "fade_ftmo_R": -173.73594154733405,
+      "beats_fade": true,
+      "branch": "TrackA_XAU_Intraday_ZeroSwap",
+      "fdr_gross_q": 0.5230769230769231,
+      "fdr_ftmo_q": 0.5734265734265734
+    },
+    {
+      "strategy": "CARRY_USDJPY_LONG_DONCHIAN20",
+      "asset": "USDJPY",
+      "native_Ask": true,
+      "n": 43,
+      "win_rate_ftmo": 0.4883720930232558,
+      "ftmo_net_R": 11.283436464438143,
+      "ftmo_annual_R": 1.6119194949197346,
+      "ftmo_top10_R": 23.35550906638322,
+      "ftmo_closed_dd_R": 6.729322192455749,
+      "ftmo_clusters_R": {
+        "A": -5.162503791373154,
+        "B": 16.445940255811298
+      },
+      "ftmo_years_R": {
+        "2018": -0.12833417807976824,
+        "2019": -2.0321246689289008,
+        "2020": -3.0020449443644845,
+        "2021": 4.323372511581077,
+        "2022": 7.983750254012816,
+        "2023": 1.9182361637314924,
+        "2024": 2.2205813264859118
+      },
+      "ftmo_pos_years": 4,
+      "gross_usd_sum": 20627.65115856701,
+      "ftmo_exec_cost_usd_sum": 524.9438374416117,
+      "ftmo_swap_usd_sum": 1676.5436871218187,
+      "ftmo_net_usd_sum": 21779.251008247218,
+      "exness_normal_R": 10.19026863421361,
+      "exness_normal_clusters_R": {
+        "A": -5.52755374426395,
+        "B": 15.71782237847756
+      },
+      "exness_swapfree_R": 10.19026863421361,
+      "exness_swapfree_clusters_R": {
+        "A": -5.52755374426395,
+        "B": 15.71782237847756
+      },
+      "exness_swapfree_pos_years": 4,
+      "mc_null": {
+        "hold_hours_matched": 504,
+        "n_buy": 43,
+        "n_sell": 0,
+        "draws": 1000,
+        "seed": 20261123,
+        "obs_gross_usd": 20627.65115856701,
+        "null_gross_mean": 14912.255376455583,
+        "null_gross_p95": 42257.77184574835,
+        "gross_p_value": 0.37362637362637363,
+        "obs_ftmo_net_usd": 21779.251008247218,
+        "null_net_mean": 17121.242364509068,
+        "null_net_p95": 44466.628412114595,
+        "ftmo_net_p_value": 0.4095904095904096
+      },
+      "exit_counts": {
+        "TIME_FLAT": 18,
+        "SL_GAP_OR_TOUCH": 16,
+        "EARLY_SIGNAL_EXIT": 9
+      },
+      "tier": "TIER_3_DEAD_NO_EDGE",
+      "branch": "TrackB_FX_PositiveCarry_Trend",
+      "fdr_gross_q": 0.5230769230769231,
+      "fdr_ftmo_q": 0.5734265734265734
+    },
+    {
+      "strategy": "CARRY_USDJPY_LONG_PULLBACK_H4",
+      "asset": "USDJPY",
+      "native_Ask": true,
+      "n": 185,
+      "win_rate_ftmo": 0.3675675675675676,
+      "ftmo_net_R": 12.182856349673598,
+      "ftmo_annual_R": 1.7404080499533712,
+      "ftmo_top10_R": 24.186750780889604,
+      "ftmo_closed_dd_R": 10.24426904277822,
+      "ftmo_clusters_R": {
+        "A": -0.9699858355316747,
+        "B": 13.152842185205271
+      },
+      "ftmo_years_R": {
+        "2018": 4.579613321190532,
+        "2019": -4.416148782618699,
+        "2020": -1.133450374103508,
+        "2021": 12.071640611557012,
+        "2022": -2.976721542175897,
+        "2023": 3.2553966762663706,
+        "2024": 0.8025264395577858
+      },
+      "ftmo_pos_years": 4,
+      "gross_usd_sum": 3276.2510603320156,
+      "ftmo_exec_cost_usd_sum": 2264.3259923496,
+      "ftmo_swap_usd_sum": 1825.894523971115,
+      "ftmo_net_usd_sum": 2837.8195919535306,
+      "exness_normal_R": 10.226460866494188,
+      "exness_normal_clusters_R": {
+        "A": -1.9337306028899417,
+        "B": 12.160191469384129
+      },
+      "exness_swapfree_R": 10.226460866494188,
+      "exness_swapfree_clusters_R": {
+        "A": -1.9337306028899417,
+        "B": 12.160191469384129
+      },
+      "exness_swapfree_pos_years": 4,
+      "mc_null": {
+        "hold_hours_matched": 83,
+        "n_buy": 185,
+        "n_sell": 0,
+        "draws": 1000,
+        "seed": 20261123,
+        "obs_gross_usd": 3276.2510603320156,
+        "null_gross_mean": 9991.759092075921,
+        "null_gross_p95": 32565.607466836926,
+        "gross_p_value": 0.6983016983016983,
+        "obs_ftmo_net_usd": 2837.8195919535306,
+        "null_net_mean": 9614.417816619636,
+        "null_net_p95": 32225.030421347634,
+        "ftmo_net_p_value": 0.6993006993006993
+      },
+      "exit_counts": {
+        "TP_GAP_OR_TOUCH": 41,
+        "SL_GAP_OR_TOUCH": 107,
+        "TIME_FLAT": 37
+      },
+      "tier": "TIER_3_DEAD_NO_EDGE",
+      "branch": "TrackB_FX_PositiveCarry_Trend",
+      "fdr_gross_q": 0.8071928071928072,
+      "fdr_ftmo_q": 0.8101898101898103
+    },
+    {
+      "strategy": "CARRY_EURUSD_SHORT_DONCHIAN20",
+      "asset": "EURUSD",
+      "native_Ask": true,
+      "n": 38,
+      "win_rate_ftmo": 0.4473684210526316,
+      "ftmo_net_R": -0.3020301385634855,
+      "ftmo_annual_R": -0.043147162651926495,
+      "ftmo_top10_R": 13.802847310430627,
+      "ftmo_closed_dd_R": 7.866174035788916,
+      "ftmo_clusters_R": {
+        "A": -5.0669269175254215,
+        "B": 4.764896778961936
+      },
+      "ftmo_years_R": {
+        "2018": 0.9620962005443094,
+        "2019": -5.598417956529196,
+        "2020": -0.4306051615405351,
+        "2021": 3.0611576360658366,
+        "2022": -0.8613836220097728,
+        "2023": 0.7472037513458683,
+        "2024": 1.8179190135600038
+      },
+      "ftmo_pos_years": 4,
+      "gross_usd_sum": -2051.172707006843,
+      "ftmo_exec_cost_usd_sum": 532.0,
+      "ftmo_swap_usd_sum": 206.36000000000007,
+      "ftmo_net_usd_sum": -2376.8127070068435,
+      "exness_normal_R": -0.31225078249606286,
+      "exness_normal_clusters_R": {
+        "A": -5.073136729011031,
+        "B": 4.760885946514969
+      },
+      "exness_swapfree_R": -0.31225078249606286,
+      "exness_swapfree_clusters_R": {
+        "A": -5.073136729011031,
+        "B": 4.760885946514969
+      },
+      "exness_swapfree_pos_years": 4,
+      "mc_null": {
+        "hold_hours_matched": 576,
+        "n_buy": 0,
+        "n_sell": 38,
+        "draws": 1000,
+        "seed": 20261123,
+        "obs_gross_usd": -2051.172707006843,
+        "null_gross_mean": 9056.192000000003,
+        "null_gross_p95": 31688.199999999946,
+        "gross_p_value": 0.8071928071928072,
+        "obs_ftmo_net_usd": -2376.8127070068435,
+        "null_net_mean": 8882.403840000003,
+        "null_net_p95": 31514.207999999948,
+        "ftmo_net_p_value": 0.8101898101898102
+      },
+      "exit_counts": {
+        "SL_GAP_OR_TOUCH": 11,
+        "TIME_FLAT": 14,
+        "EARLY_SIGNAL_EXIT": 13
+      },
+      "tier": "TIER_3_DEAD_NO_EDGE",
+      "branch": "TrackB_FX_PositiveCarry_Trend",
+      "fdr_gross_q": 0.8071928071928072,
+      "fdr_ftmo_q": 0.8101898101898103
+    }
+  ],
+  "stability_checks": {},
+  "portfolio_checks": {}
+}

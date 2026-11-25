@@ -1,0 +1,27 @@
+; Naqex MT5 Preset | Profile: FTMO_FreeTrial_Demo | Engine: E5_US100_RS1130 (ACTIVE)
+; Attach: US100.cash M5 | Magic: 20261126 | MaxSpreadPts: 450.0
+; FREE TRIAL DEMO ONLY: Demo paper execution enabled (never attach to paid account without re-audit)
+InpDryRunLogOnly=false
+InpBenchmarkSymbol=US500.cash
+InpRiskPercent=0.50
+InpMaxDailyLossPct=2.50
+InpMinRsDiffAtr=0.25
+InpSlAtrMult=0.75
+InpAtrPeriodD1=14
+InpMagicNumber=20261126
+InpGuardDryRunLogOnly=false
+InpGuardMaxDailyLossPct=2.50
+InpGuardMaxSymbolRiskPct=1.00
+InpGuardUseOrchestrator=true
+InpGuardMaxSpreadPoints=450.00
+InpGuardRolloverStartUTC=21
+InpGuardRolloverEndUTC=0
+InpGuardEarlyCloseMin=10
+InpGuardTesterUtcOffsetH=2
+InpGuardEnableRedNews=true
+InpGuardRedNewsCsvFile=naqex_red_news_utc.csv
+InpGuardNewsPadSec=300
+InpGuardNewsHardBanSec=135
+InpGuardTcaAuditCsvFile=naqex_exec_audit.csv
+InpGuardMagicRangeMin=20261120
+InpGuardMagicRangeMax=20261199

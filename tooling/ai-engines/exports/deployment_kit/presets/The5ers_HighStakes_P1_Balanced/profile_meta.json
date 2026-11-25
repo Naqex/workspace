@@ -1,0 +1,86 @@
+{
+  "profile": "The5ers_HighStakes_P1_Balanced",
+  "firm": "The5ers",
+  "account_type": "HighStakes_5k_P1_Balanced",
+  "capital_usd": 5000.0,
+  "portfolio": "PORT_7E_CORE_PLUS_S6",
+  "include_s6": true,
+  "dry_run_preset": true,
+  "arm_locked": true,
+  "ea_risk_scale": 1.5,
+  "base_phase_mult": 2.67,
+  "effective_mult": 4.0,
+  "calibration_tag": "M2_2_SEED20261124_SYNCED",
+  "amber_dd_pct": 7.5,
+  "amber_mult": 1.0,
+  "red_dd_pct": 9.0,
+  "red_mult": 0.75,
+  "profit_lock_pct": 4.0,
+  "profit_lock_mult": 1.34,
+  "daily_reset_mode": 0,
+  "kill_daily_dd_pct": 4.2,
+  "kill_static_dd_pct": 9.2,
+  "ea_daily_stop_pct": 4.2,
+  "max_symbol_risk_pct": 1.75,
+  "enable_red_news": true,
+  "news_pad_sec": 300,
+  "news_hard_ban_sec": 135,
+  "requires_ea_written_clearance": true,
+  "notes": "The5ers HS 5k P1 Balanced (eff 4.00x; SYMCAP 1.75%, ProfitLock >=+4% [50% of 8% target] -> 2.01x, Server midnight reset, NAS100/SPX500 mapping; written EA clearance req). ARM-LOCKED.",
+  "active_engines": [
+    "E1_USDJPY_TOKYO",
+    "E2_USDJPY_EXP80",
+    "E3_GBPUSD_VH",
+    "E4_US100_SESS40",
+    "E5_US100_RS1130",
+    "E6_EURJPY_VOLCOMP",
+    "E7_USDJPY_NY10ET",
+    "S6_FX_USD_BSK"
+  ],
+  "standby_engines": [],
+  "chart_attachments": {
+    "E1_USDJPY_TOKYO": {
+      "symbol": "USDJPY",
+      "timeframe": "M15"
+    },
+    "E2_USDJPY_EXP80": {
+      "symbol": "USDJPY",
+      "timeframe": "M15"
+    },
+    "E3_GBPUSD_VH": {
+      "symbol": "GBPUSD",
+      "timeframe": "M15"
+    },
+    "E4_US100_SESS40": {
+      "symbol": "NAS100",
+      "timeframe": "M5"
+    },
+    "E5_US100_RS1130": {
+      "symbol": "NAS100",
+      "timeframe": "M5"
+    },
+    "E6_EURJPY_VOLCOMP": {
+      "symbol": "EURJPY",
+      "timeframe": "M15"
+    },
+    "E7_USDJPY_NY10ET": {
+      "symbol": "USDJPY",
+      "timeframe": "M5"
+    },
+    "S6_FX_USD_BSK": {
+      "symbol": "EURUSD",
+      "timeframe": "M15"
+    }
+  },
+  "spread_caps_points": {
+    "E1_USDJPY_TOKYO": 35.0,
+    "E2_USDJPY_EXP80": 35.0,
+    "E3_GBPUSD_VH": 35.0,
+    "E4_US100_SESS40": 450.0,
+    "E5_US100_RS1130": 450.0,
+    "E6_EURJPY_VOLCOMP": 45.0,
+    "E7_USDJPY_NY10ET": 35.0,
+    "S6_FX_USD_BSK": 35.0
+  },
+  "broker_symbol_verification_note": "The5ers chart mapping uses NAS100 for E4/E5 and E7 InpEquitySymbol; verify exact S&P500 benchmark symbol (SPX500 vs US500) in E5 InpBenchmarkSymbol against The5ers Market Watch (G1 snapshot) before disarming."
+}

@@ -1,0 +1,1462 @@
+{
+  "schema": "pass11-gbpusd-m1-portfolio-v1",
+  "verdict": "GBPUSD_FAILED_M1_CHECK",
+  "source": {
+    "source": "GBPUSD_PASS11_QUARANTINE",
+    "protocol_commit": "98068c8b7a6548889fd5c5b3794b10a5db91a76d",
+    "export_receipt_sha256": "c6c7e9344d2ac9fae4dffbb8749f9c4d9eecbe626b3664d335912defb2202cb0",
+    "years": {
+      "2018": {
+        "year": 2018,
+        "rows": 26510095,
+        "first_ms": 1514844007594,
+        "last_ms": 1546293596204,
+        "sha256": "bb44099111d388b3db04a89527aaccfdbe590b5c287610f3488e0e1b08c51f38",
+        "bytes": 1219327805,
+        "rows_at_or_after_holdout": 0,
+        "parquet": "GBPUSD-M1-BIDASK-2018.parquet",
+        "parquet_sha256": "4a3f26dbd1e279a682f8647fb58ed7c775c8e0ba1ef23c21e9373c748808a2a4",
+        "minutes": 373306,
+        "codec": "zstd",
+        "first_minute": 25247400,
+        "last_minute": 25771559
+      },
+      "2019": {
+        "year": 2019,
+        "rows": 30615058,
+        "first_ms": 1546380374151,
+        "last_ms": 1577829584025,
+        "sha256": "410fe1a427b31e3d2d3f19717a9177c341a38ab5d3c4e67b5a06d2be4c0eb33b",
+        "bytes": 1408058514,
+        "rows_at_or_after_holdout": 0,
+        "parquet": "GBPUSD-M1-BIDASK-2019.parquet",
+        "parquet_sha256": "613f878432e57a5e8f0c61c28e1fac65f85e994eac8a8bc142de6ecd6855eefd",
+        "minutes": 372936,
+        "codec": "zstd",
+        "first_minute": 25773006,
+        "last_minute": 26297159
+      },
+      "2020": {
+        "year": 2020,
+        "rows": 32293308,
+        "first_ms": 1577916165164,
+        "last_ms": 1609451996198,
+        "sha256": "a1d874d75d439878664f080946a36cd15ad6da547b89e96fe7fd7c83c3ccfed7",
+        "bytes": 1484778541,
+        "rows_at_or_after_holdout": 0,
+        "parquet": "GBPUSD-M1-BIDASK-2020.parquet",
+        "parquet_sha256": "9fbf06d7ed4ba0fff23e2be9b4da07b4b63c52a2fcf7cef7a41d6ab7b27126ba",
+        "minutes": 374198,
+        "codec": "zstd",
+        "first_minute": 26298602,
+        "last_minute": 26824199
+      },
+      "2021": {
+        "year": 2021,
+        "rows": 20382321,
+        "first_ms": 1609711200204,
+        "last_ms": 1640987996202,
+        "sha256": "2e80c7ddad8c4ca2aab6309a8230df7c691e42d808640a9eb56095c61d3c0060",
+        "bytes": 922182215,
+        "rows_at_or_after_holdout": 0,
+        "parquet": "GBPUSD-M1-BIDASK-2021.parquet",
+        "parquet_sha256": "61b6bacd75112aa97ef585d31763f502e596261d280d4c93073d74c46f9d2ce2",
+        "minutes": 371585,
+        "codec": "zstd",
+        "first_minute": 26828520,
+        "last_minute": 27349799
+      },
+      "2022": {
+        "year": 2022,
+        "rows": 43751475,
+        "first_ms": 1641160900447,
+        "last_ms": 1672437597134,
+        "sha256": "ce32f311865d967db5283c542c7448c088ce7296a6ef381627d9e076f26b0c34",
+        "bytes": 1979229854,
+        "rows_at_or_after_holdout": 0,
+        "parquet": "GBPUSD-M1-BIDASK-2022.parquet",
+        "parquet_sha256": "7a1bafcad6332a9ef3ff0ebc5a7712d6a9314f09614bf7f4c18635fe83ae7b61",
+        "minutes": 372615,
+        "codec": "zstd",
+        "first_minute": 27352681,
+        "last_minute": 27873959
+      },
+      "2023": {
+        "year": 2023,
+        "rows": 28956623,
+        "first_ms": 1672614263944,
+        "last_ms": 1703887199000,
+        "sha256": "b009b9a86186b6c36b52b67f9485ed8ead2b6809bf0c04bf1774a6ee5d81e158",
+        "bytes": 1310356920,
+        "rows_at_or_after_holdout": 0,
+        "parquet": "GBPUSD-M1-BIDASK-2023.parquet",
+        "parquet_sha256": "4990edc7870c20dce055b6448df5e23fe8b7a43ca6e640aa3a5a2ef46a7be750",
+        "minutes": 371874,
+        "codec": "zstd",
+        "first_minute": 27876904,
+        "last_minute": 28398119
+      },
+      "2024": {
+        "year": 2024,
+        "rows": 21982402,
+        "first_ms": 1704146457222,
+        "last_ms": 1735682399120,
+        "sha256": "25398d7e146297a3c0673e9e0f32fc84a40bd796c784ceb56327d816a3f1428d",
+        "bytes": 995165725,
+        "rows_at_or_after_holdout": 0,
+        "parquet": "GBPUSD-M1-BIDASK-2024.parquet",
+        "parquet_sha256": "0bfea0ca9190c0e30019c1c54425f79999bee28c0e5e1350d34cd713de6ca677",
+        "minutes": 372468,
+        "codec": "zstd",
+        "first_minute": 28402440,
+        "last_minute": 28928039
+      }
+    }
+  },
+  "qdm_cli_version": "125.2692",
+  "qdm_update_outcome": "qdm_command_failed",
+  "m1": {
+    "protocol_commit": "98068c8b7a6548889fd5c5b3794b10a5db91a76d",
+    "verdict": "GBPUSD_FAILED_M1_CHECK",
+    "fees": {
+      "Standard": {
+        "commit": "36f1535",
+        "sha256_lf": "09d1a66b5bbb46032ca8dfd7294b40a7d98424a3dd155ac9561cc5fe9c25dc32",
+        "reference": "FTMO-DEMO-10K-STANDARD-FULL13-AND-EXECUTION-20261119.json"
+      },
+      "Swing": {
+        "commit": "8fd77ef",
+        "sha256_lf": "803352fbf00d7af15719033c9b0aa5b3140bca0d0cfa7235d01caa2e7b95f4a3",
+        "reference": "SWING-10K-AUDIT-MULTIWEEK-AND-WIN-TAXONOMY-20261120.json"
+      }
+    },
+    "coverage": {
+      "2018": {
+        "empty_window": 2,
+        "strict": 258,
+        "B": 1
+      },
+      "2019": {
+        "empty_window": 2,
+        "strict": 256,
+        "B": 3
+      },
+      "2020": {
+        "empty_window": 2,
+        "strict": 259,
+        "B": 1
+      },
+      "2021": {
+        "empty_window": 1,
+        "strict": 252,
+        "B": 5,
+        "A_admitted": 3
+      },
+      "2022": {
+        "strict": 253,
+        "B": 7
+      },
+      "2023": {
+        "A_admitted": 1,
+        "strict": 252,
+        "B": 6,
+        "empty_window": 1
+      },
+      "2024": {
+        "empty_window": 2,
+        "strict": 257,
+        "B": 2,
+        "A_admitted": 1
+      }
+    },
+    "results": {
+      "strict": {
+        "M1_Real_Base": {
+          "total": {
+            "days": 1787,
+            "n": 1762,
+            "net_R": 28.11134827565197,
+            "positive": 643,
+            "top10_win_R": 79.52965644935183,
+            "net_without_top10_R": -51.41830817369986,
+            "top10_share_of_winners": 0.07279942143382205,
+            "exits": {
+              "HARD_FLAT": 776,
+              "SL_GAP_OR_TOUCH": 986
+            },
+            "dual_entry_minutes": 0,
+            "entry_sl_same_minute": 0,
+            "floating_dd_R": 54.10780716931913,
+            "underwater_months": 29.209178376923095
+          },
+          "h1_dual": {
+            "days": 172,
+            "n": 172,
+            "net_R": -153.30798711568974,
+            "positive": 9,
+            "top10_win_R": 16.492153705185096,
+            "net_without_top10_R": -169.80014082087484,
+            "top10_share_of_winners": 1.0,
+            "exits": {
+              "SL_GAP_OR_TOUCH": 161,
+              "HARD_FLAT": 11
+            },
+            "dual_entry_minutes": 0,
+            "entry_sl_same_minute": 0,
+            "floating_dd_R": 153.72178021876607,
+            "underwater_months": 83.70117075945737
+          },
+          "years": {
+            "2018": 13.081419388002455,
+            "2019": 22.173996769010085,
+            "2020": 19.62654801789693,
+            "2021": -5.495655857784076,
+            "2022": 28.263540513453595,
+            "2023": -11.866781588675073,
+            "2024": -37.67171896625195
+          },
+          "cl": {
+            "A": 54.88196417490947,
+            "B": -26.770615899257507
+          },
+          "positive_years": 4,
+          "sides": {
+            "BUY": {
+              "total": {
+                "days": 1787,
+                "n": 835,
+                "net_R": 59.54639938695057,
+                "positive": 328,
+                "top10_win_R": 67.95465671547947,
+                "net_without_top10_R": -8.408257328528904,
+                "top10_share_of_winners": 0.1255254898630961,
+                "exits": {
+                  "HARD_FLAT": 389,
+                  "SL_GAP_OR_TOUCH": 446
+                },
+                "dual_entry_minutes": 0,
+                "entry_sl_same_minute": 0,
+                "floating_dd_R": 21.256519522867166,
+                "underwater_months": 13.53885888599127
+              },
+              "h1_dual": {
+                "days": 172,
+                "n": 75,
+                "net_R": -69.42191214934908,
+                "positive": 4,
+                "top10_win_R": 4.597916926961421,
+                "net_without_top10_R": -74.0198290763105,
+                "top10_share_of_winners": 1.0,
+                "exits": {
+                  "SL_GAP_OR_TOUCH": 70,
+                  "HARD_FLAT": 5
+                },
+                "dual_entry_minutes": 0,
+                "entry_sl_same_minute": 0,
+                "floating_dd_R": 69.83570525271352,
+                "underwater_months": 83.70117075945737
+              },
+              "years": {
+                "2018": 5.080739209258211,
+                "2019": 12.420722008828259,
+                "2020": 25.058427007217354,
+                "2021": 5.278798585031693,
+                "2022": 7.628627078422992,
+                "2023": 3.384014014162532,
+                "2024": 0.695071484029528
+              }
+            },
+            "SELL": {
+              "total": {
+                "days": 1787,
+                "n": 927,
+                "net_R": -31.4350511112986,
+                "positive": 315,
+                "top10_win_R": 65.75089482274136,
+                "net_without_top10_R": -97.18594593403995,
+                "top10_share_of_winners": 0.119311148328541,
+                "exits": {
+                  "HARD_FLAT": 387,
+                  "SL_GAP_OR_TOUCH": 540
+                },
+                "dual_entry_minutes": 0,
+                "entry_sl_same_minute": 0,
+                "floating_dd_R": 69.99934358685277,
+                "underwater_months": 57.47293426817647
+              },
+              "h1_dual": {
+                "days": 172,
+                "n": 97,
+                "net_R": -83.88607496634064,
+                "positive": 5,
+                "top10_win_R": 11.894236778223675,
+                "net_without_top10_R": -95.78031174456432,
+                "top10_share_of_winners": 1.0,
+                "exits": {
+                  "SL_GAP_OR_TOUCH": 91,
+                  "HARD_FLAT": 6
+                },
+                "dual_entry_minutes": 0,
+                "entry_sl_same_minute": 0,
+                "floating_dd_R": 83.88607496605255,
+                "underwater_months": 83.66900035212527
+              },
+              "years": {
+                "2018": 8.000680178744245,
+                "2019": 9.753274760181826,
+                "2020": -5.431878989320421,
+                "2021": -10.77445444281577,
+                "2022": 20.634913435030604,
+                "2023": -15.250795602837604,
+                "2024": -38.36679045028148
+              }
+            }
+          }
+        },
+        "M1_Real_Stress_05": {
+          "total": {
+            "days": 1787,
+            "n": 1762,
+            "net_R": -9.571897900820117,
+            "positive": 638,
+            "top10_win_R": 79.22488452492529,
+            "net_without_top10_R": -88.7967824257454,
+            "top10_share_of_winners": 0.07337636164714464,
+            "exits": {
+              "HARD_FLAT": 776,
+              "SL_GAP_OR_TOUCH": 986
+            },
+            "dual_entry_minutes": 0,
+            "entry_sl_same_minute": 0,
+            "floating_dd_R": 67.31126030604355,
+            "underwater_months": 30.587919897967332
+          },
+          "h1_dual": {
+            "days": 172,
+            "n": 172,
+            "net_R": -158.1662247028278,
+            "positive": 9,
+            "top10_win_R": 16.263254968590797,
+            "net_without_top10_R": -174.4294796714186,
+            "top10_share_of_winners": 1.0,
+            "exits": {
+              "SL_GAP_OR_TOUCH": 161,
+              "HARD_FLAT": 11
+            },
+            "dual_entry_minutes": 0,
+            "entry_sl_same_minute": 0,
+            "floating_dd_R": 158.54170363012236,
+            "underwater_months": 83.70117075945737
+          },
+          "years": {
+            "2018": 8.044972678124044,
+            "2019": 16.453192064919875,
+            "2020": 15.351120856663645,
+            "2021": -10.668023971408722,
+            "2022": 23.89170173471239,
+            "2023": -17.268574149434475,
+            "2024": -45.376287114396874
+          },
+          "cl": {
+            "A": 39.849285599707564,
+            "B": -49.421183500527675
+          },
+          "positive_years": 4,
+          "sides": {
+            "BUY": {
+              "total": {
+                "days": 1787,
+                "n": 835,
+                "net_R": 41.536771295566695,
+                "positive": 325,
+                "top10_win_R": 67.64795751078444,
+                "net_without_top10_R": -26.111186215217742,
+                "top10_share_of_winners": 0.1264867190216362,
+                "exits": {
+                  "HARD_FLAT": 389,
+                  "SL_GAP_OR_TOUCH": 446
+                },
+                "dual_entry_minutes": 0,
+                "entry_sl_same_minute": 0,
+                "floating_dd_R": 22.794978899066336,
+                "underwater_months": 14.16225749559083
+              },
+              "h1_dual": {
+                "days": 172,
+                "n": 75,
+                "net_R": -71.56572429148002,
+                "positive": 4,
+                "top10_win_R": 4.510644581627611,
+                "net_without_top10_R": -76.07636887310764,
+                "top10_share_of_winners": 1.0,
+                "exits": {
+                  "SL_GAP_OR_TOUCH": 70,
+                  "HARD_FLAT": 5
+                },
+                "dual_entry_minutes": 0,
+                "entry_sl_same_minute": 0,
+                "floating_dd_R": 71.94120321876835,
+                "underwater_months": 83.70117075945737
+              },
+              "years": {
+                "2018": 2.8707277211552698,
+                "2019": 9.523745350146442,
+                "2020": 22.790509566637557,
+                "2021": 2.9035706315366765,
+                "2022": 5.5284986592463685,
+                "2023": 0.9562955405910999,
+                "2024": -3.036576173746717
+              }
+            },
+            "SELL": {
+              "total": {
+                "days": 1787,
+                "n": 927,
+                "net_R": -51.10866919638681,
+                "positive": 313,
+                "top10_win_R": 65.45334906206477,
+                "net_without_top10_R": -116.56201825845159,
+                "top10_share_of_winners": 0.12012363104442386,
+                "exits": {
+                  "HARD_FLAT": 387,
+                  "SL_GAP_OR_TOUCH": 540
+                },
+                "dual_entry_minutes": 0,
+                "entry_sl_same_minute": 0,
+                "floating_dd_R": 83.5938531034626,
+                "underwater_months": 57.47293426817647
+              },
+              "h1_dual": {
+                "days": 172,
+                "n": 97,
+                "net_R": -86.60050041134777,
+                "positive": 5,
+                "top10_win_R": 11.752610386963186,
+                "net_without_top10_R": -98.35311079831095,
+                "top10_share_of_winners": 1.0,
+                "exits": {
+                  "SL_GAP_OR_TOUCH": 91,
+                  "HARD_FLAT": 6
+                },
+                "dual_entry_minutes": 0,
+                "entry_sl_same_minute": 0,
+                "floating_dd_R": 86.600500411354,
+                "underwater_months": 83.66900035212527
+              },
+              "years": {
+                "2018": 5.174244956968773,
+                "2019": 6.929446714773434,
+                "2020": -7.439388709973912,
+                "2021": -13.5715946029454,
+                "2022": 18.363203075466025,
+                "2023": -18.224869690025574,
+                "2024": -42.33971094065016
+              }
+            }
+          }
+        },
+        "M1_Real_Stress_10": {
+          "total": {
+            "days": 1787,
+            "n": 1762,
+            "net_R": -47.255144077292194,
+            "positive": 631,
+            "top10_win_R": 78.92011260049874,
+            "net_without_top10_R": -126.17525667779094,
+            "top10_share_of_winners": 0.07395822886275377,
+            "exits": {
+              "HARD_FLAT": 776,
+              "SL_GAP_OR_TOUCH": 986
+            },
+            "dual_entry_minutes": 0,
+            "entry_sl_same_minute": 0,
+            "floating_dd_R": 91.99927727726754,
+            "underwater_months": 55.83354400006692
+          },
+          "h1_dual": {
+            "days": 172,
+            "n": 172,
+            "net_R": -163.02446228996584,
+            "positive": 9,
+            "top10_win_R": 16.0343562319965,
+            "net_without_top10_R": -179.05881852196234,
+            "top10_share_of_winners": 1.0,
+            "exits": {
+              "SL_GAP_OR_TOUCH": 161,
+              "HARD_FLAT": 11
+            },
+            "dual_entry_minutes": 0,
+            "entry_sl_same_minute": 0,
+            "floating_dd_R": 163.36162704019807,
+            "underwater_months": 83.70117075945737
+          },
+          "years": {
+            "2018": 3.0085259682456282,
+            "2019": 10.732387360829673,
+            "2020": 11.075693695430358,
+            "2021": -15.840392085033363,
+            "2022": 19.519862955971195,
+            "2023": -22.67036671019387,
+            "2024": -53.08085526254181
+          },
+          "cl": {
+            "A": 24.816607024505657,
+            "B": -72.07175110179784
+          },
+          "positive_years": 4,
+          "sides": {
+            "BUY": {
+              "total": {
+                "days": 1787,
+                "n": 835,
+                "net_R": 23.52714320418283,
+                "positive": 322,
+                "top10_win_R": 67.3425165993865,
+                "net_without_top10_R": -43.815373395203665,
+                "top10_share_of_winners": 0.12745840955557244,
+                "exits": {
+                  "HARD_FLAT": 389,
+                  "SL_GAP_OR_TOUCH": 446
+                },
+                "dual_entry_minutes": 0,
+                "entry_sl_same_minute": 0,
+                "floating_dd_R": 26.100806639762595,
+                "underwater_months": 33.08486827244913
+              },
+              "h1_dual": {
+                "days": 172,
+                "n": 75,
+                "net_R": -73.70953643361096,
+                "positive": 4,
+                "top10_win_R": 4.423372236293801,
+                "net_without_top10_R": -78.13290866990477,
+                "top10_share_of_winners": 1.0,
+                "exits": {
+                  "SL_GAP_OR_TOUCH": 70,
+                  "HARD_FLAT": 5
+                },
+                "dual_entry_minutes": 0,
+                "entry_sl_same_minute": 0,
+                "floating_dd_R": 74.04670118377544,
+                "underwater_months": 83.70117075945737
+              },
+              "years": {
+                "2018": 0.6607162330523246,
+                "2019": 6.626768691464625,
+                "2020": 20.52259212605776,
+                "2021": 0.5283426780416624,
+                "2022": 3.428370240069748,
+                "2023": -1.471422932980324,
+                "2024": -6.768223831522966
+              }
+            },
+            "SELL": {
+              "total": {
+                "days": 1787,
+                "n": 927,
+                "net_R": -70.78228728147502,
+                "positive": 309,
+                "top10_win_R": 65.1705232972379,
+                "net_without_top10_R": -135.95281057871293,
+                "top10_share_of_winners": 0.12096809823369878,
+                "exits": {
+                  "HARD_FLAT": 387,
+                  "SL_GAP_OR_TOUCH": 540
+                },
+                "dual_entry_minutes": 0,
+                "entry_sl_same_minute": 0,
+                "floating_dd_R": 97.1883626205381,
+                "underwater_months": 57.47293426817647
+              },
+              "h1_dual": {
+                "days": 172,
+                "n": 97,
+                "net_R": -89.31492585635489,
+                "positive": 5,
+                "top10_win_R": 11.610983995702698,
+                "net_without_top10_R": -100.92590985205759,
+                "top10_share_of_winners": 1.0,
+                "exits": {
+                  "SL_GAP_OR_TOUCH": 91,
+                  "HARD_FLAT": 6
+                },
+                "dual_entry_minutes": 0,
+                "entry_sl_same_minute": 0,
+                "floating_dd_R": 89.31492585642263,
+                "underwater_months": 83.66900035212527
+              },
+              "years": {
+                "2018": 2.3478097351933034,
+                "2019": 4.105618669365048,
+                "2020": -9.446898430627403,
+                "2021": -16.368734763075025,
+                "2022": 16.091492715901445,
+                "2023": -21.198943777213547,
+                "2024": -46.31263143101884
+              }
+            }
+          }
+        },
+        "gate": false
+      },
+      "extended": {
+        "M1_Real_Base": {
+          "total": {
+            "days": 1792,
+            "n": 1767,
+            "net_R": 30.377456993497628,
+            "positive": 644,
+            "top10_win_R": 79.52965644935183,
+            "net_without_top10_R": -49.1521994558542,
+            "top10_share_of_winners": 0.072431771475573,
+            "exits": {
+              "HARD_FLAT": 778,
+              "SL_GAP_OR_TOUCH": 989
+            },
+            "dual_entry_minutes": 0,
+            "entry_sl_same_minute": 0,
+            "floating_dd_R": 48.686636596918106,
+            "underwater_months": 29.43078913324709
+          },
+          "h1_dual": {
+            "days": 172,
+            "n": 172,
+            "net_R": -153.30798711568974,
+            "positive": 9,
+            "top10_win_R": 16.492153705185096,
+            "net_without_top10_R": -169.80014082087484,
+            "top10_share_of_winners": 1.0,
+            "exits": {
+              "SL_GAP_OR_TOUCH": 161,
+              "HARD_FLAT": 11
+            },
+            "dual_entry_minutes": 0,
+            "entry_sl_same_minute": 0,
+            "floating_dd_R": 153.72178021876607,
+            "underwater_months": 83.70117075945737
+          },
+          "years": {
+            "2018": 13.081419388002455,
+            "2019": 22.173996769010085,
+            "2020": 19.62654801789693,
+            "2021": -8.65071771231057,
+            "2022": 28.263540513453595,
+            "2023": -11.99067539398479,
+            "2024": -32.126654588570084
+          },
+          "cl": {
+            "A": 54.88196417490947,
+            "B": -24.504507181411846
+          },
+          "positive_years": 4,
+          "sides": {
+            "BUY": {
+              "total": {
+                "days": 1792,
+                "n": 837,
+                "net_R": 64.04970042356516,
+                "positive": 329,
+                "top10_win_R": 68.61674236975675,
+                "net_without_top10_R": -4.567041946191594,
+                "top10_share_of_winners": 0.1254633928330162,
+                "exits": {
+                  "HARD_FLAT": 390,
+                  "SL_GAP_OR_TOUCH": 447
+                },
+                "dual_entry_minutes": 0,
+                "entry_sl_same_minute": 0,
+                "floating_dd_R": 21.256519522867166,
+                "underwater_months": 13.53885888599127
+              },
+              "h1_dual": {
+                "days": 172,
+                "n": 75,
+                "net_R": -69.42191214934908,
+                "positive": 4,
+                "top10_win_R": 4.597916926961421,
+                "net_without_top10_R": -74.0198290763105,
+                "top10_share_of_winners": 1.0,
+                "exits": {
+                  "SL_GAP_OR_TOUCH": 70,
+                  "HARD_FLAT": 5
+                },
+                "dual_entry_minutes": 0,
+                "entry_sl_same_minute": 0,
+                "floating_dd_R": 69.83570525271352,
+                "underwater_months": 83.70117075945737
+              },
+              "years": {
+                "2018": 5.080739209258211,
+                "2019": 12.420722008828259,
+                "2020": 25.058427007217354,
+                "2021": 4.23703524396441,
+                "2022": 7.628627078422992,
+                "2023": 3.384014014162532,
+                "2024": 6.240135861711395
+              }
+            },
+            "SELL": {
+              "total": {
+                "days": 1792,
+                "n": 930,
+                "net_R": -33.672243430067525,
+                "positive": 315,
+                "top10_win_R": 65.75089482274136,
+                "net_without_top10_R": -99.42313825280888,
+                "top10_share_of_winners": 0.119311148328541,
+                "exits": {
+                  "HARD_FLAT": 388,
+                  "SL_GAP_OR_TOUCH": 542
+                },
+                "dual_entry_minutes": 0,
+                "entry_sl_same_minute": 0,
+                "floating_dd_R": 72.23653590562753,
+                "underwater_months": 57.47293426817647
+              },
+              "h1_dual": {
+                "days": 172,
+                "n": 97,
+                "net_R": -83.88607496634064,
+                "positive": 5,
+                "top10_win_R": 11.894236778223675,
+                "net_without_top10_R": -95.78031174456432,
+                "top10_share_of_winners": 1.0,
+                "exits": {
+                  "SL_GAP_OR_TOUCH": 91,
+                  "HARD_FLAT": 6
+                },
+                "dual_entry_minutes": 0,
+                "entry_sl_same_minute": 0,
+                "floating_dd_R": 83.88607496605255,
+                "underwater_months": 83.66900035212527
+              },
+              "years": {
+                "2018": 8.000680178744245,
+                "2019": 9.753274760181826,
+                "2020": -5.431878989320421,
+                "2021": -12.88775295627498,
+                "2022": 20.634913435030604,
+                "2023": -15.37468940814732,
+                "2024": -38.36679045028148
+              }
+            }
+          }
+        },
+        "M1_Real_Stress_05": {
+          "total": {
+            "days": 1792,
+            "n": 1767,
+            "net_R": -7.4496023751838925,
+            "positive": 639,
+            "top10_win_R": 79.22488452492529,
+            "net_without_top10_R": -86.67448690010917,
+            "top10_share_of_winners": 0.07300433392275096,
+            "exits": {
+              "HARD_FLAT": 778,
+              "SL_GAP_OR_TOUCH": 989
+            },
+            "dual_entry_minutes": 0,
+            "entry_sl_same_minute": 0,
+            "floating_dd_R": 64.51238001929596,
+            "underwater_months": 55.83354400006692
+          },
+          "h1_dual": {
+            "days": 172,
+            "n": 172,
+            "net_R": -158.1662247028278,
+            "positive": 9,
+            "top10_win_R": 16.263254968590797,
+            "net_without_top10_R": -174.4294796714186,
+            "top10_share_of_winners": 1.0,
+            "exits": {
+              "SL_GAP_OR_TOUCH": 161,
+              "HARD_FLAT": 11
+            },
+            "dual_entry_minutes": 0,
+            "entry_sl_same_minute": 0,
+            "floating_dd_R": 158.54170363012236,
+            "underwater_months": 83.70117075945737
+          },
+          "years": {
+            "2018": 8.044972678124044,
+            "2019": 16.453192064919875,
+            "2020": 15.351120856663645,
+            "2021": -13.909231300672156,
+            "2022": 23.89170173471239,
+            "2023": -17.407217217281065,
+            "2024": -39.87414119165063
+          },
+          "cl": {
+            "A": 39.849285599707564,
+            "B": -47.29888797489146
+          },
+          "positive_years": 4,
+          "sides": {
+            "BUY": {
+              "total": {
+                "days": 1792,
+                "n": 837,
+                "net_R": 45.97395202109717,
+                "positive": 326,
+                "top10_win_R": 68.28374398652612,
+                "net_without_top10_R": -22.30979196542895,
+                "top10_share_of_winners": 0.12637537504068863,
+                "exits": {
+                  "HARD_FLAT": 390,
+                  "SL_GAP_OR_TOUCH": 447
+                },
+                "dual_entry_minutes": 0,
+                "entry_sl_same_minute": 0,
+                "floating_dd_R": 22.794978899066336,
+                "underwater_months": 14.16225749559083
+              },
+              "h1_dual": {
+                "days": 172,
+                "n": 75,
+                "net_R": -71.56572429148002,
+                "positive": 4,
+                "top10_win_R": 4.510644581627611,
+                "net_without_top10_R": -76.07636887310764,
+                "top10_share_of_winners": 1.0,
+                "exits": {
+                  "SL_GAP_OR_TOUCH": 70,
+                  "HARD_FLAT": 5
+                },
+                "dual_entry_minutes": 0,
+                "entry_sl_same_minute": 0,
+                "floating_dd_R": 71.94120321876835,
+                "underwater_months": 83.70117075945737
+              },
+              "years": {
+                "2018": 2.8707277211552698,
+                "2019": 9.523745350146442,
+                "2020": 22.790509566637557,
+                "2021": 1.8386054343209033,
+                "2022": 5.5284986592463685,
+                "2023": 0.9562955405910999,
+                "2024": 2.4655697489995307
+              }
+            },
+            "SELL": {
+              "total": {
+                "days": 1792,
+                "n": 930,
+                "net_R": -53.42355439628106,
+                "positive": 313,
+                "top10_win_R": 65.45334906206477,
+                "net_without_top10_R": -118.87690345834584,
+                "top10_share_of_winners": 0.12012363104442386,
+                "exits": {
+                  "HARD_FLAT": 388,
+                  "SL_GAP_OR_TOUCH": 542
+                },
+                "dual_entry_minutes": 0,
+                "entry_sl_same_minute": 0,
+                "floating_dd_R": 85.90873830334749,
+                "underwater_months": 57.47293426817647
+              },
+              "h1_dual": {
+                "days": 172,
+                "n": 97,
+                "net_R": -86.60050041134777,
+                "positive": 5,
+                "top10_win_R": 11.752610386963186,
+                "net_without_top10_R": -98.35311079831095,
+                "top10_share_of_winners": 1.0,
+                "exits": {
+                  "SL_GAP_OR_TOUCH": 91,
+                  "HARD_FLAT": 6
+                },
+                "dual_entry_minutes": 0,
+                "entry_sl_same_minute": 0,
+                "floating_dd_R": 86.600500411354,
+                "underwater_months": 83.66900035212527
+              },
+              "years": {
+                "2018": 5.174244956968773,
+                "2019": 6.929446714773434,
+                "2020": -7.439388709973912,
+                "2021": -15.74783673499306,
+                "2022": 18.363203075466025,
+                "2023": -18.363512757872165,
+                "2024": -42.33971094065016
+              }
+            }
+          }
+        },
+        "M1_Real_Stress_10": {
+          "total": {
+            "days": 1792,
+            "n": 1767,
+            "net_R": -45.276661743865404,
+            "positive": 632,
+            "top10_win_R": 78.92011260049874,
+            "net_without_top10_R": -124.19677434436414,
+            "top10_share_of_winners": 0.07358178491876696,
+            "exits": {
+              "HARD_FLAT": 778,
+              "SL_GAP_OR_TOUCH": 989
+            },
+            "dual_entry_minutes": 0,
+            "entry_sl_same_minute": 0,
+            "floating_dd_R": 90.02079494390637,
+            "underwater_months": 55.83354400006692
+          },
+          "h1_dual": {
+            "days": 172,
+            "n": 172,
+            "net_R": -163.02446228996584,
+            "positive": 9,
+            "top10_win_R": 16.0343562319965,
+            "net_without_top10_R": -179.05881852196234,
+            "top10_share_of_winners": 1.0,
+            "exits": {
+              "SL_GAP_OR_TOUCH": 161,
+              "HARD_FLAT": 11
+            },
+            "dual_entry_minutes": 0,
+            "entry_sl_same_minute": 0,
+            "floating_dd_R": 163.36162704019807,
+            "underwater_months": 83.70117075945737
+          },
+          "years": {
+            "2018": 3.0085259682456282,
+            "2019": 10.732387360829673,
+            "2020": 11.075693695430358,
+            "2021": -19.167744889033735,
+            "2022": 19.519862955971195,
+            "2023": -22.823759040577336,
+            "2024": -47.62162779473118
+          },
+          "cl": {
+            "A": 24.816607024505657,
+            "B": -70.09326876837106
+          },
+          "positive_years": 4,
+          "sides": {
+            "BUY": {
+              "total": {
+                "days": 1792,
+                "n": 837,
+                "net_R": 27.898203618629193,
+                "positive": 323,
+                "top10_win_R": 67.95074560329549,
+                "net_without_top10_R": -40.05254198466629,
+                "top10_share_of_winners": 0.12729431419216328,
+                "exits": {
+                  "HARD_FLAT": 390,
+                  "SL_GAP_OR_TOUCH": 447
+                },
+                "dual_entry_minutes": 0,
+                "entry_sl_same_minute": 0,
+                "floating_dd_R": 26.100806639762595,
+                "underwater_months": 32.822987467230675
+              },
+              "h1_dual": {
+                "days": 172,
+                "n": 75,
+                "net_R": -73.70953643361096,
+                "positive": 4,
+                "top10_win_R": 4.423372236293801,
+                "net_without_top10_R": -78.13290866990477,
+                "top10_share_of_winners": 1.0,
+                "exits": {
+                  "SL_GAP_OR_TOUCH": 70,
+                  "HARD_FLAT": 5
+                },
+                "dual_entry_minutes": 0,
+                "entry_sl_same_minute": 0,
+                "floating_dd_R": 74.04670118377544,
+                "underwater_months": 83.70117075945737
+              },
+              "years": {
+                "2018": 0.6607162330523246,
+                "2019": 6.626768691464625,
+                "2020": 20.52259212605776,
+                "2021": -0.5598243753226014,
+                "2022": 3.428370240069748,
+                "2023": -1.471422932980324,
+                "2024": -1.3089963637123385
+              }
+            },
+            "SELL": {
+              "total": {
+                "days": 1792,
+                "n": 930,
+                "net_R": -73.1748653624946,
+                "positive": 309,
+                "top10_win_R": 65.1705232972379,
+                "net_without_top10_R": -138.34538865973252,
+                "top10_share_of_winners": 0.12096809823369878,
+                "exits": {
+                  "HARD_FLAT": 388,
+                  "SL_GAP_OR_TOUCH": 542
+                },
+                "dual_entry_minutes": 0,
+                "entry_sl_same_minute": 0,
+                "floating_dd_R": 99.58094070153311,
+                "underwater_months": 57.47293426817647
+              },
+              "h1_dual": {
+                "days": 172,
+                "n": 97,
+                "net_R": -89.31492585635489,
+                "positive": 5,
+                "top10_win_R": 11.610983995702698,
+                "net_without_top10_R": -100.92590985205759,
+                "top10_share_of_winners": 1.0,
+                "exits": {
+                  "SL_GAP_OR_TOUCH": 91,
+                  "HARD_FLAT": 6
+                },
+                "dual_entry_minutes": 0,
+                "entry_sl_same_minute": 0,
+                "floating_dd_R": 89.31492585642263,
+                "underwater_months": 83.66900035212527
+              },
+              "years": {
+                "2018": 2.3478097351933034,
+                "2019": 4.105618669365048,
+                "2020": -9.446898430627403,
+                "2021": -18.607920513711136,
+                "2022": 16.091492715901445,
+                "2023": -21.35233610759701,
+                "2024": -46.31263143101884
+              }
+            }
+          }
+        },
+        "gate": false
+      }
+    },
+    "h1_dual_days": [
+      "2018-01-10",
+      "2018-01-11",
+      "2018-01-18",
+      "2018-01-19",
+      "2018-03-07",
+      "2018-05-04",
+      "2018-05-21",
+      "2018-05-25",
+      "2018-05-30",
+      "2018-06-08",
+      "2018-06-19",
+      "2018-06-22",
+      "2018-07-10",
+      "2018-07-11",
+      "2018-07-12",
+      "2018-07-17",
+      "2018-08-13",
+      "2018-08-14",
+      "2018-08-16",
+      "2018-09-07",
+      "2018-09-28",
+      "2018-10-03",
+      "2019-01-04",
+      "2019-01-28",
+      "2019-01-31",
+      "2019-02-18",
+      "2019-02-19",
+      "2019-02-28",
+      "2019-03-20",
+      "2019-04-03",
+      "2019-04-19",
+      "2019-04-22",
+      "2019-05-01",
+      "2019-05-03",
+      "2019-05-09",
+      "2019-06-11",
+      "2019-06-12",
+      "2019-06-13",
+      "2019-06-18",
+      "2019-06-20",
+      "2019-06-28",
+      "2019-07-01",
+      "2019-07-04",
+      "2019-07-08",
+      "2019-07-15",
+      "2019-07-26",
+      "2019-07-29",
+      "2019-07-30",
+      "2019-08-05",
+      "2019-08-07",
+      "2019-08-23",
+      "2019-10-11",
+      "2019-10-16",
+      "2019-10-31",
+      "2019-11-11",
+      "2019-11-13",
+      "2019-11-15",
+      "2019-11-26",
+      "2019-12-05",
+      "2019-12-30",
+      "2020-01-08",
+      "2020-01-13",
+      "2020-01-15",
+      "2020-01-17",
+      "2020-01-24",
+      "2020-02-05",
+      "2020-02-06",
+      "2020-02-19",
+      "2020-04-02",
+      "2020-05-01",
+      "2020-05-05",
+      "2020-05-12",
+      "2020-05-18",
+      "2020-05-27",
+      "2020-06-02",
+      "2020-06-08",
+      "2020-07-07",
+      "2020-07-17",
+      "2020-08-06",
+      "2020-08-10",
+      "2020-09-07",
+      "2020-09-10",
+      "2020-09-17",
+      "2020-10-08",
+      "2020-10-09",
+      "2020-10-13",
+      "2020-11-11",
+      "2020-11-13",
+      "2021-01-04",
+      "2021-01-22",
+      "2021-02-04",
+      "2021-03-19",
+      "2021-03-31",
+      "2021-04-15",
+      "2021-04-26",
+      "2021-05-11",
+      "2021-05-20",
+      "2021-06-30",
+      "2021-07-01",
+      "2021-07-28",
+      "2021-08-02",
+      "2021-09-03",
+      "2021-09-17",
+      "2021-10-18",
+      "2021-10-22",
+      "2021-11-22",
+      "2021-12-01",
+      "2021-12-03",
+      "2021-12-13",
+      "2021-12-22",
+      "2022-01-20",
+      "2022-02-03",
+      "2022-03-01",
+      "2022-03-28",
+      "2022-04-20",
+      "2022-06-01",
+      "2022-06-29",
+      "2022-07-06",
+      "2022-08-11",
+      "2022-08-17",
+      "2022-08-22",
+      "2022-09-28",
+      "2022-11-08",
+      "2022-11-22",
+      "2022-12-23",
+      "2023-01-17",
+      "2023-01-30",
+      "2023-02-21",
+      "2023-02-27",
+      "2023-03-14",
+      "2023-03-21",
+      "2023-04-20",
+      "2023-04-25",
+      "2023-04-27",
+      "2023-04-28",
+      "2023-06-02",
+      "2023-07-07",
+      "2023-07-11",
+      "2023-09-11",
+      "2023-10-20",
+      "2023-10-27",
+      "2023-11-17",
+      "2023-11-23",
+      "2023-12-04",
+      "2023-12-07",
+      "2023-12-15",
+      "2023-12-18",
+      "2023-12-20",
+      "2023-12-22",
+      "2024-01-17",
+      "2024-02-01",
+      "2024-02-07",
+      "2024-02-13",
+      "2024-02-26",
+      "2024-03-07",
+      "2024-03-18",
+      "2024-03-26",
+      "2024-03-29",
+      "2024-04-08",
+      "2024-04-29",
+      "2024-05-27",
+      "2024-06-10",
+      "2024-06-21",
+      "2024-07-18",
+      "2024-07-23",
+      "2024-07-30",
+      "2024-09-02",
+      "2024-10-23",
+      "2024-10-30",
+      "2024-11-15",
+      "2024-11-18",
+      "2024-11-28",
+      "2024-12-26"
+    ],
+    "h1_m1_matched_signals": {
+      "strict": {
+        "2018": {
+          "matched_signals": 232,
+          "side_disagrees": 9,
+          "h1_net_R_on_match": 48.91922557229224,
+          "m1_net_R_on_match": 29.845999113183467,
+          "h1_only_in_covered_days": 0,
+          "m1_only_in_covered_days": 22,
+          "h1_outside_m1_coverage": 1
+        },
+        "2019": {
+          "matched_signals": 203,
+          "side_disagrees": 63,
+          "h1_net_R_on_match": 8.158923249185872,
+          "m1_net_R_on_match": 40.60755442642236,
+          "h1_only_in_covered_days": 2,
+          "m1_only_in_covered_days": 49,
+          "h1_outside_m1_coverage": 3
+        },
+        "2020": {
+          "matched_signals": 227,
+          "side_disagrees": 3,
+          "h1_net_R_on_match": 57.30670633640242,
+          "m1_net_R_on_match": 46.203725640234495,
+          "h1_only_in_covered_days": 0,
+          "m1_only_in_covered_days": 29,
+          "h1_outside_m1_coverage": 1
+        },
+        "2021": {
+          "matched_signals": 224,
+          "side_disagrees": 3,
+          "h1_net_R_on_match": 17.934792977271016,
+          "m1_net_R_on_match": 12.914190960197951,
+          "h1_only_in_covered_days": 0,
+          "m1_only_in_covered_days": 22,
+          "h1_outside_m1_coverage": 8
+        },
+        "2022": {
+          "matched_signals": 232,
+          "side_disagrees": 2,
+          "h1_net_R_on_match": 49.306039721340305,
+          "m1_net_R_on_match": 40.92665596083576,
+          "h1_only_in_covered_days": 0,
+          "m1_only_in_covered_days": 16,
+          "h1_outside_m1_coverage": 6
+        },
+        "2023": {
+          "matched_signals": 226,
+          "side_disagrees": 2,
+          "h1_net_R_on_match": 13.281099316970074,
+          "m1_net_R_on_match": 2.782695860050386,
+          "h1_only_in_covered_days": 0,
+          "m1_only_in_covered_days": 24,
+          "h1_outside_m1_coverage": 5
+        },
+        "2024": {
+          "matched_signals": 233,
+          "side_disagrees": 3,
+          "h1_net_R_on_match": -13.916475076119392,
+          "m1_net_R_on_match": -19.718944273219755,
+          "h1_only_in_covered_days": 0,
+          "m1_only_in_covered_days": 23,
+          "h1_outside_m1_coverage": 2
+        }
+      },
+      "extended": {
+        "2018": {
+          "matched_signals": 232,
+          "side_disagrees": 9,
+          "h1_net_R_on_match": 48.91922557229224,
+          "m1_net_R_on_match": 29.845999113183467,
+          "h1_only_in_covered_days": 0,
+          "m1_only_in_covered_days": 22,
+          "h1_outside_m1_coverage": 1
+        },
+        "2019": {
+          "matched_signals": 203,
+          "side_disagrees": 63,
+          "h1_net_R_on_match": 8.158923249185872,
+          "m1_net_R_on_match": 40.60755442642236,
+          "h1_only_in_covered_days": 2,
+          "m1_only_in_covered_days": 49,
+          "h1_outside_m1_coverage": 3
+        },
+        "2020": {
+          "matched_signals": 227,
+          "side_disagrees": 3,
+          "h1_net_R_on_match": 57.30670633640242,
+          "m1_net_R_on_match": 46.203725640234495,
+          "h1_only_in_covered_days": 0,
+          "m1_only_in_covered_days": 29,
+          "h1_outside_m1_coverage": 1
+        },
+        "2021": {
+          "matched_signals": 227,
+          "side_disagrees": 3,
+          "h1_net_R_on_match": 14.777897001026856,
+          "m1_net_R_on_match": 9.672983630934517,
+          "h1_only_in_covered_days": 0,
+          "m1_only_in_covered_days": 22,
+          "h1_outside_m1_coverage": 5
+        },
+        "2022": {
+          "matched_signals": 232,
+          "side_disagrees": 2,
+          "h1_net_R_on_match": 49.306039721340305,
+          "m1_net_R_on_match": 40.92665596083576,
+          "h1_only_in_covered_days": 0,
+          "m1_only_in_covered_days": 16,
+          "h1_outside_m1_coverage": 6
+        },
+        "2023": {
+          "matched_signals": 226,
+          "side_disagrees": 2,
+          "h1_net_R_on_match": 13.281099316970074,
+          "m1_net_R_on_match": 2.782695860050386,
+          "h1_only_in_covered_days": 0,
+          "m1_only_in_covered_days": 25,
+          "h1_outside_m1_coverage": 5
+        },
+        "2024": {
+          "matched_signals": 234,
+          "side_disagrees": 3,
+          "h1_net_R_on_match": -8.43766151679708,
+          "m1_net_R_on_match": -14.216798350473507,
+          "h1_only_in_covered_days": 0,
+          "m1_only_in_covered_days": 23,
+          "h1_outside_m1_coverage": 1
+        }
+      }
+    },
+    "source_manifest_sha256": "4224f3ec2744f8ba85dfd977e5473565619ea74179c4adcab0522bee137900c4",
+    "holdout_rows": 0,
+    "order_send_count": 0,
+    "track3_eligible": false
+  },
+  "portfolio": null,
+  "dual_diagnostics": {
+    "M1_Real_Base": {
+      "strict": {
+        "uncovered_dual_days": [
+          {
+            "day": "2024-03-29",
+            "group": "B",
+            "missing_minutes": 10,
+            "jump_pips": null
+          }
+        ],
+        "dual_2024_trades": 23,
+        "dual_2024_net_R": -24.708291826471008,
+        "net_R_outside_h1_dual_diagnostic": 181.41933539134172,
+        "dual_by_cluster": {
+          "A": -70.55179800493528,
+          "B": -82.75618911075446
+        }
+      },
+      "extended": {
+        "uncovered_dual_days": [
+          {
+            "day": "2024-03-29",
+            "group": "B",
+            "missing_minutes": 10,
+            "jump_pips": null
+          }
+        ],
+        "dual_2024_trades": 23,
+        "dual_2024_net_R": -24.708291826471008,
+        "net_R_outside_h1_dual_diagnostic": 183.68544410918736,
+        "dual_by_cluster": {
+          "A": -70.55179800493528,
+          "B": -82.75618911075446
+        }
+      }
+    },
+    "M1_Real_Stress_05": {
+      "strict": {
+        "uncovered_dual_days": [
+          {
+            "day": "2024-03-29",
+            "group": "B",
+            "missing_minutes": 10,
+            "jump_pips": null
+          }
+        ],
+        "dual_2024_trades": 23,
+        "dual_2024_net_R": -25.65734284117712,
+        "net_R_outside_h1_dual_diagnostic": 148.59432680200769,
+        "dual_by_cluster": {
+          "A": -72.87629416690696,
+          "B": -85.28993053592083
+        }
+      },
+      "extended": {
+        "uncovered_dual_days": [
+          {
+            "day": "2024-03-29",
+            "group": "B",
+            "missing_minutes": 10,
+            "jump_pips": null
+          }
+        ],
+        "dual_2024_trades": 23,
+        "dual_2024_net_R": -25.65734284117712,
+        "net_R_outside_h1_dual_diagnostic": 150.7166223276439,
+        "dual_by_cluster": {
+          "A": -72.87629416690696,
+          "B": -85.28993053592083
+        }
+      }
+    },
+    "M1_Real_Stress_10": {
+      "strict": {
+        "uncovered_dual_days": [
+          {
+            "day": "2024-03-29",
+            "group": "B",
+            "missing_minutes": 10,
+            "jump_pips": null
+          }
+        ],
+        "dual_2024_trades": 23,
+        "dual_2024_net_R": -26.606393855883237,
+        "net_R_outside_h1_dual_diagnostic": 115.76931821267365,
+        "dual_by_cluster": {
+          "A": -75.20079032887865,
+          "B": -87.8236719610872
+        }
+      },
+      "extended": {
+        "uncovered_dual_days": [
+          {
+            "day": "2024-03-29",
+            "group": "B",
+            "missing_minutes": 10,
+            "jump_pips": null
+          }
+        ],
+        "dual_2024_trades": 23,
+        "dual_2024_net_R": -26.606393855883237,
+        "net_R_outside_h1_dual_diagnostic": 117.74780054610045,
+        "dual_by_cluster": {
+          "A": -75.20079032887865,
+          "B": -87.8236719610872
+        }
+      }
+    }
+  },
+  "holdout_rows": 0,
+  "order_send_count": 0,
+  "test_receipt": {
+    "tests": 1503,
+    "skipped": 0,
+    "sha256": "57ac5fa768e8f0df47d7f9f840e19b7c4814998b990f0958c7aa61329a97a7a9"
+  }
+}

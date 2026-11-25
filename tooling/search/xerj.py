@@ -44,6 +44,9 @@ def allowed(path, product=False, *, research=False):
         if (path.as_posix().startswith('planning/research/') and 'archive' not in {p.lower() for p in path.parts}
                 and 'holdout' not in path.name.lower()):
             return True
+        if (path.as_posix().startswith('knowledge/') and 'inbox' not in {p.lower() for p in path.parts}
+                and 'archive' not in {p.lower() for p in path.parts}):
+            return True
     return path.as_posix() in {"README.md", "AGENTS.md", "CONTRIBUTING.md"} or path.as_posix().startswith(("docs/development/", "tooling/search/"))
 
 

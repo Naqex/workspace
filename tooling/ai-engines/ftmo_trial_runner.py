@@ -12,6 +12,7 @@ import time
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 import ftmo_free_trial_adapter as adapter
+import ftmo_spread_sessions as spread_sessions
 
 ASSETS = ("XAUUSD", "EURUSD", "US500", "GBPUSD", "AUDUSD")
 ALLOW_LIVE_ORDER_SEND = False
@@ -74,9 +75,10 @@ def check_mt5_ready(*, terminal=None, sdk=None, inventory=None,expected_binding=
         r["terminal_connected"]=bool(ti.get("connected"))
         ping=ti.get("ping_last")
         if isinstance(ping,(int,float)) and math.isfinite(ping) and ping>0:r["last_reported_broker_ping_ms"]=ping/1000
-        symbols={};now=int(time.time()*1000)
+        symbols={}
         for asset in ASSETS:
             spec=sdk.symbol_info(asset);tick=sdk.symbol_info_tick(asset) if spec is not None else None
+            now=int(time.time()*1000)
             quote=tick._asdict() if tick is not None else {}
             if native_clock and quote.get('time_msc') is not None:
                 from ftmo_connection import quote_utc_msc
@@ -103,7 +105,7 @@ def check_mt5_ready(*, terminal=None, sdk=None, inventory=None,expected_binding=
         r["probe_under_one_second"]=r["probe_wall_ms"]<1000
 
 
-def snapshot(reader, now, *, replay=False):
+def snapshot(reader, now, *, replay=False, assets=ASSETS):
     account=reader.account()
     if type(account.get("trade_mode")) is not int or account["trade_mode"] != 0:
         raise adapter.AdapterError("FTMO_DEMO_TRIAL_REQUIRED_REAL_ACCOUNT_REJECTED")
@@ -114,7 +116,7 @@ def snapshot(reader, now, *, replay=False):
     binding=dict(server=account["server"],account_hash=adapter.account_hash(account["login"],account["server"]))
     adapter.verify_account(account,binding)
     specs={}
-    for asset in ASSETS:
+    for asset in assets:
         try:
             raw=reader.spec(asset)
         except (adapter.AdapterError,KeyError):
@@ -317,10 +319,53 @@ def builtin_fixture():
     return dict(account=account,specs=specs,events=events),p
 
 
+def sample_live_quotes(reader, binding, symbols, recorder, seconds, *, poll_interval=.25):
+    """Observe the latest native quote each poll. A history read can lag live quotes."""
+    started = time.monotonic()
+    first = int(time.time() * 1000)
+    previous = {}
+    windows = {asset: dict(rows=0, first_msc=None, last_msc=None) for asset in symbols}
+    polls = 0
+    while time.monotonic() - started < seconds:
+        adapter.verify_account(reader.account(), binding)
+        for asset in windows:
+            row = reader.latest_quote(asset)
+            known_at = int(time.time() * 1000)
+            if row is None or not first <= row["time_msc"] <= known_at:
+                continue
+            if not (math.isfinite(row["bid"]) and math.isfinite(row["ask"]) and 0 < row["bid"] <= row["ask"]):
+                continue
+            key = (row["time_msc"], row["bid"], row["ask"], row["flags"])
+            old = previous.get(asset)
+            if old is not None and (key == old or key[0] < old[0]):
+                continue
+            recorder.accept(dict(row, kind="quote", known_at_msc=known_at))
+            previous[asset] = key
+            stats = windows[asset]
+            if stats["first_msc"] is None:
+                stats["first_msc"] = key[0]
+            stats["last_msc"] = key[0]
+            stats["rows"] += 1
+        polls += 1
+        left = min(started + seconds, started + polls * poll_interval) - time.monotonic()
+        if left > 0:
+            time.sleep(left)
+    return dict(source="NATIVE_MT5_SYMBOL_INFO_TICK", complete_tick_feed_claim=False,
+                requested_seconds=seconds, elapsed_seconds=time.monotonic()-started,
+                started_utc_msc=first, ended_utc_msc=int(time.time() * 1000),
+                poll_interval_seconds=poll_interval, polls=polls, symbols=windows)
+
+
 def run(mode,output,*,manifest=None,bridge=None,replay=False,seconds=60,speed=1.,terminal=None,
-        require_native=False,expected_binding=None):
+        require_native=False,expected_binding=None,symbols=None,session_tag=None,owned_sdk=None):
     if not 1<=seconds<=3600:raise ValueError("bounded_duration_1_to_3600_seconds")
     if not math.isfinite(speed) or speed<=0:raise ValueError("positive_replay_speed_required")
+    if symbols is not None and (not symbols or mode != "read-only" or not require_native):
+        raise ValueError("custom_symbols_require_owned_native_read_only")
+    if session_tag is not None:
+        if mode != "read-only" or replay or bridge or not require_native:
+            raise ValueError("SESSION_TAG_REQUIRES_NATIVE_READ_ONLY")
+        spread_sessions.window(session_tag, datetime.now(timezone.utc), seconds)
     inventory=terminal_inventory() if not replay else []
     output=Path(output);output.mkdir(parents=True,exist_ok=False)
     write(output/"environment.json",dict(terminals=inventory,SDK_available=bool(importlib.util.find_spec("MetaTrader5")),
@@ -338,10 +383,16 @@ def run(mode,output,*,manifest=None,bridge=None,replay=False,seconds=60,speed=1.
             if len(inventory)!=1:raise adapter.AdapterError("MULTIPLE_TERMINALS_REQUIRE_EXPLICIT_PATH")
             terminal=inventory[0]["ExecutablePath"]
         from ftmo_connection import ClockReader
-        reader=adapter.NativeMT5Reader(terminal)
+        if owned_sdk is None:
+            reader=adapter.NativeMT5Reader(terminal)
+        else:
+            # trial_session has already initialized and verified this exact portable IPC binding.
+            reader=adapter.NativeMT5Reader.__new__(adapter.NativeMT5Reader)
+            reader.sdk=owned_sdk
         if hasattr(reader,'sdk'):reader=ClockReader(reader)
         try:
-            now=int(time.time()*1000);snap=snapshot(reader,now)
+            assets = symbols or (spread_sessions.ASSETS if session_tag else ASSETS)
+            now=int(time.time()*1000);snap=snapshot(reader,now,assets=assets)
             if expected_binding is not None and snap["binding"]!=expected_binding:
                 raise adapter.AdapterError("WATCH_ACCOUNT_CHANGED_AFTER_PROBE")
             if manifest:
@@ -382,23 +433,27 @@ def run(mode,output,*,manifest=None,bridge=None,replay=False,seconds=60,speed=1.
                         paper_factory=ObserverPaper,event_sink=with_path.accept)
                     write(output/"shadow_paper_ledger.json",result)
                 else:
-                    previous={};deadline=time.monotonic()+seconds
-                    while time.monotonic()<deadline:
-                        adapter.verify_account(reader.account(),snap["binding"]);end=int(time.time()*1000)
-                        for asset,spec in snap["specs"].items():
-                            if spec["status"]=="SYMBOL_UNAVAILABLE":continue
-                            first=previous[asset][0] if asset in previous else now
-                            rows=reader.ticks(asset,first,end+1);received=int(time.time()*1000)
-                            fresh=adapter.new_live_ticks(rows,previous.get(asset))
-                            for row in fresh:with_path.accept(dict(row,kind="quote",known_at_msc=received))
-                            if rows:
-                                boundary=rows[-1]["time_msc"]
-                                previous[asset]=(boundary,[(r["time_msc"],r["bid"],r["ask"],r.get("flags",0)) for r in rows if r["time_msc"]==boundary])
-                        time.sleep(1)
-                    result=dict(mode="READ_ONLY",actual_broker_orders=0,slippage_measured=False)
+                    active = [asset for asset, spec in snap["specs"].items() if spec["status"] != "SYMBOL_UNAVAILABLE"]
+                    if symbols is not None or (session_tag is not None and owned_sdk is not None):
+                        for asset in active:
+                            info = reader.sdk.symbol_info(asset)
+                            if info is None or (not info.select and not reader.sdk.symbol_select(asset, True)):
+                                raise adapter.AdapterError("OWNED_TERMINAL_QUOTE_SUBSCRIPTION_FAILED")
+                    capture = sample_live_quotes(reader, snap["binding"], active, with_path, seconds)
+                    result=dict(mode="READ_ONLY",actual_broker_orders=0,slippage_measured=False,quote_window=capture)
+                    if session_tag is not None:
+                        start = capture["started_utc_msc"] / 1000
+                        span = capture["ended_utc_msc"] / 1000 - start
+                        result.update(binding=snap["binding"], session_window=spread_sessions.window(
+                            session_tag, datetime.fromtimestamp(start, timezone.utc), span))
             finally:write(output/"quote_capture.json",with_path.close())
-            write(output/"report.json",dict(result,native_terminal_verified=True,source="NATIVE_MT5"));return
-        finally:reader.close()
+            write(output/"report.json",dict(result,native_terminal_verified=True,source="NATIVE_MT5"))
+            if session_tag is not None:
+                write(output/"SESSION_SPREAD_SUMMARY.json",spread_sessions.combine([output]))
+            return
+        finally:
+            if owned_sdk is None:
+                reader.close()
     reader=adapter.FileBridge.__new__(adapter.FileBridge);reader.bundle=bundle
     snap=snapshot(reader,plan["from_msc"],replay=True)
     if snap["binding"]!=plan["binding"]:raise adapter.AdapterError("REPLAY_ACCOUNT_BINDING_MISMATCH")
@@ -477,7 +532,9 @@ def main():
     import argparse
     p=argparse.ArgumentParser(description=__doc__);p.add_argument("--mode",choices=("read-only","shadow-paper"),default="read-only")
     p.add_argument("--output",type=Path);p.add_argument("--manifest",type=Path);p.add_argument("--bridge",type=Path)
-    p.add_argument("--replay",action="store_true");p.add_argument("--seconds",type=int,default=60)
+    p.add_argument("--replay",action="store_true");p.add_argument("--seconds","--duration",type=int,default=60)
+    p.add_argument("--session-tag",choices=tuple(spread_sessions.WINDOWS))
+    p.add_argument("--combine-spread",type=Path,nargs="+",metavar="CAPTURE_DIR")
     p.add_argument("--speed",type=float,default=1.);p.add_argument("--terminal")
     p.add_argument("--check-mt5-ready",action="store_true")
     p.add_argument("--watch-mt5",action="store_true");p.add_argument("--watch-timeout",type=float,default=300)
@@ -486,6 +543,15 @@ def main():
     a=p.parse_args()
     from ftmo_connection import credentials,trial_session
     try:
+        if a.combine_spread:
+            if not a.output or a.session_tag or a.replay or a.bridge or a.watch_mt5 or a.check_mt5_ready or a.credentials_file or a.mode != "read-only":
+                p.error("combine spread takes only capture directories and a new output file")
+            write(a.output,spread_sessions.combine(a.combine_spread))
+            return 0
+        if a.session_tag:
+            if a.mode != "read-only" or a.replay or a.bridge or a.watch_mt5 or a.check_mt5_ready:
+                p.error("session tag is only for a bounded native read-only sample")
+            spread_sessions.window(a.session_tag,datetime.now(timezone.utc),a.seconds)
         values=credentials(a.credentials_file)
         if values and (a.replay or a.bridge):p.error('credentials are separate from fixture/bridge replay')
         with trial_session(values) as terminal:
@@ -523,7 +589,8 @@ def dispatch(a,p):
         from prop_v24_common import JOB
     out=a.output or JOB/("observer-"+datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ"))
     try:run(a.mode,out,manifest=a.manifest,bridge=a.bridge,replay=a.replay,seconds=a.seconds,speed=a.speed,terminal=a.terminal,
-        require_native=a.credentials_active,expected_binding=a.expected_binding)
+        require_native=a.credentials_active or a.session_tag is not None,expected_binding=a.expected_binding,
+        session_tag=a.session_tag,owned_sdk=__import__("MetaTrader5") if a.credentials_active else None)
     except (adapter.AdapterError,ValueError,ModuleNotFoundError) as exc:
         if out.exists() and not (out/"failure.json").exists():write(out/"failure.json",dict(error=str(exc),actual_broker_orders=0))
         p.exit(2,"Read-only/shadow stopped: "+str(exc)+". See QUICKSTART-FTMO-FREE-TRIAL.md.\n")

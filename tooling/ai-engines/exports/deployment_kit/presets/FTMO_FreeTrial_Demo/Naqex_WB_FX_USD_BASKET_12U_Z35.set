@@ -1,0 +1,30 @@
+; Naqex MT5 Preset | Profile: FTMO_FreeTrial_Demo | Engine: S6_FX_USD_BSK (ACTIVE)
+; Attach: EURUSD M15 | Magic: 20261127 | MaxSpreadPts: 35.0
+; FREE TRIAL DEMO ONLY: Demo paper execution enabled (never attach to paid account without re-audit)
+InpDryRunLogOnly=false
+InpRiskPercent=0.50
+InpMaxDailyLossPct=2.50
+InpMinUsdBasketZ=0.35
+InpSlAtrMult=0.75
+InpEntryHourUTC=12
+InpLookbackHours=5
+InpFlatHourUTC=20
+InpFlatMinUTC=55
+InpAtrPeriodD1=14
+InpMagicNumber=20261127
+InpGuardDryRunLogOnly=false
+InpGuardMaxDailyLossPct=2.50
+InpGuardMaxSymbolRiskPct=1.00
+InpGuardUseOrchestrator=true
+InpGuardMaxSpreadPoints=35.00
+InpGuardRolloverStartUTC=21
+InpGuardRolloverEndUTC=0
+InpGuardEarlyCloseMin=10
+InpGuardTesterUtcOffsetH=2
+InpGuardEnableRedNews=true
+InpGuardRedNewsCsvFile=naqex_red_news_utc.csv
+InpGuardNewsPadSec=300
+InpGuardNewsHardBanSec=135
+InpGuardTcaAuditCsvFile=naqex_exec_audit.csv
+InpGuardMagicRangeMin=20261120
+InpGuardMagicRangeMax=20261199

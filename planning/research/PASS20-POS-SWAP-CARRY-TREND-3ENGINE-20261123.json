@@ -1,0 +1,1096 @@
+{
+  "pass": "Pass 20",
+  "protocol_commit": "54cb0697aedf20747e543f1cd08232b8ddf662a6",
+  "holdout_lock_sha256": "f0a6b43cb205535b0a959456455dc1d857a0936c06c2e51b8614fd7d772a8486",
+  "holdout_rows": 0,
+  "order_send_count": 0,
+  "network_calls": 0,
+  "spec_bindings": {
+    "Standard": {
+      "commit": "36f1535",
+      "sha256_lf": "09d1a66b5bbb46032ca8dfd7294b40a7d98424a3dd155ac9561cc5fe9c25dc32",
+      "reference": "FTMO-DEMO-10K-STANDARD-FULL13-AND-EXECUTION-20261119.json"
+    },
+    "Swing": {
+      "commit": "8fd77ef",
+      "sha256_lf": "803352fbf00d7af15719033c9b0aa5b3140bca0d0cfa7235d01caa2e7b95f4a3",
+      "reference": "SWING-10K-AUDIT-MULTIWEEK-AND-WIN-TAXONOMY-20261120.json"
+    }
+  },
+  "elapsed_seconds": 81.77,
+  "track1_h4_forensic": [
+    {
+      "sym": "USDCAD",
+      "side": "BUY",
+      "is_jpy": false,
+      "swap_pts": 0.77,
+      "stress1x": {
+        "n": 30,
+        "net_R": 7.73,
+        "price_R": 7.23,
+        "swap_usd": 590.0,
+        "A": 3.38,
+        "B": 4.35,
+        "price_A": 3.18,
+        "price_B": 4.05,
+        "pos_years": 6,
+        "dd_R": 3.2
+      },
+      "stress2x_net_R": 7.34,
+      "fade_net_R": -15.31,
+      "p_sign_flip": 0.162,
+      "p_timing_price": 0.34,
+      "p_timing_total": 0.333,
+      "corr_usdjpy_core": -0.0028
+    },
+    {
+      "sym": "USDCHF",
+      "side": "BUY",
+      "is_jpy": false,
+      "swap_pts": 1.91,
+      "stress1x": {
+        "n": 25,
+        "net_R": 2.68,
+        "price_R": 1.47,
+        "swap_usd": 1670.0,
+        "A": -1.5,
+        "B": 4.18,
+        "price_A": -1.94,
+        "price_B": 3.41,
+        "pos_years": 4,
+        "dd_R": 5.77
+      },
+      "stress2x_net_R": 2.35,
+      "fade_net_R": -10.66,
+      "p_sign_flip": 0.181,
+      "p_timing_price": 0.371,
+      "p_timing_total": 0.348,
+      "corr_usdjpy_core": 0.0337
+    },
+    {
+      "sym": "EURUSD",
+      "side": "SELL",
+      "is_jpy": false,
+      "swap_pts": 0.28,
+      "stress1x": {
+        "n": 33,
+        "net_R": -1.58,
+        "price_R": -1.77,
+        "swap_usd": 272.0,
+        "A": -3.74,
+        "B": 2.16,
+        "price_A": -3.81,
+        "price_B": 2.03,
+        "pos_years": 4,
+        "dd_R": 7.99
+      },
+      "stress2x_net_R": -1.92,
+      "fade_net_R": -5.43,
+      "p_sign_flip": 0.53,
+      "p_timing_price": 0.702,
+      "p_timing_total": 0.696,
+      "corr_usdjpy_core": 0.0191
+    },
+    {
+      "sym": "EURGBP",
+      "side": "SELL",
+      "is_jpy": false,
+      "swap_pts": 0.19,
+      "stress1x": {
+        "n": 34,
+        "net_R": -13.55,
+        "price_R": -13.71,
+        "swap_usd": 226.0,
+        "A": -5.66,
+        "B": -7.89,
+        "price_A": -5.71,
+        "price_B": -8.0,
+        "pos_years": 2,
+        "dd_R": 13.55
+      },
+      "stress2x_net_R": -13.82,
+      "fade_net_R": 5.96,
+      "p_sign_flip": 0.935,
+      "p_timing_price": 0.968,
+      "p_timing_total": 0.968,
+      "corr_usdjpy_core": -0.0102
+    },
+    {
+      "sym": "USDJPY",
+      "side": "BUY",
+      "is_jpy": true,
+      "swap_pts": 2.61,
+      "stress1x": {
+        "n": 29,
+        "net_R": 14.68,
+        "price_R": 13.2,
+        "swap_usd": 2078.0,
+        "A": -6.0,
+        "B": 20.69,
+        "price_A": -6.44,
+        "price_B": 19.64,
+        "pos_years": 4,
+        "dd_R": 6.89
+      },
+      "stress2x_net_R": 14.37,
+      "fade_net_R": -24.1,
+      "p_sign_flip": 0.007,
+      "p_timing_price": 0.151,
+      "p_timing_total": 0.139,
+      "corr_usdjpy_core": -0.0008
+    },
+    {
+      "sym": "EURJPY",
+      "side": "BUY",
+      "is_jpy": true,
+      "swap_pts": 1.24,
+      "stress1x": {
+        "n": 32,
+        "net_R": -0.71,
+        "price_R": -1.26,
+        "swap_usd": 912.0,
+        "A": -5.33,
+        "B": 4.62,
+        "price_A": -5.51,
+        "price_B": 4.25,
+        "pos_years": 4,
+        "dd_R": 7.16
+      },
+      "stress2x_net_R": -0.89,
+      "fade_net_R": -3.98,
+      "p_sign_flip": 0.379,
+      "p_timing_price": 0.569,
+      "p_timing_total": 0.558,
+      "corr_usdjpy_core": -0.0119
+    },
+    {
+      "sym": "GBPJPY",
+      "side": "BUY",
+      "is_jpy": true,
+      "swap_pts": 3.5,
+      "stress1x": {
+        "n": 29,
+        "net_R": 6.43,
+        "price_R": 5.22,
+        "swap_usd": 3002.0,
+        "A": -2.33,
+        "B": 8.75,
+        "price_A": -2.79,
+        "price_B": 8.01,
+        "pos_years": 4,
+        "dd_R": 3.59
+      },
+      "stress2x_net_R": 6.28,
+      "fade_net_R": -14.33,
+      "p_sign_flip": 0.13,
+      "p_timing_price": 0.331,
+      "p_timing_total": 0.301,
+      "corr_usdjpy_core": 0.0138
+    },
+    {
+      "sym": "AUDJPY",
+      "side": "BUY",
+      "is_jpy": true,
+      "swap_pts": 2.81,
+      "stress1x": {
+        "n": 32,
+        "net_R": -3.68,
+        "price_R": -5.08,
+        "swap_usd": 2183.0,
+        "A": -0.61,
+        "B": -3.07,
+        "price_A": -1.19,
+        "price_B": -3.89,
+        "pos_years": 2,
+        "dd_R": 7.35
+      },
+      "stress2x_net_R": -3.86,
+      "fade_net_R": -2.8,
+      "p_sign_flip": 0.355,
+      "p_timing_price": 0.826,
+      "p_timing_total": 0.804,
+      "corr_usdjpy_core": -0.0266
+    }
+  ],
+  "track1b_m1_parity": [
+    {
+      "sym": "USDJPY",
+      "side": 1,
+      "matched": 29,
+      "h4_total": 29,
+      "h4_net_R": 14.68,
+      "m1_native_net_R": 15.18,
+      "diff_R_total": 0.5,
+      "diff_R_per_year": 0.071
+    },
+    {
+      "sym": "EURUSD",
+      "side": -1,
+      "matched": 33,
+      "h4_total": 33,
+      "h4_net_R": -1.58,
+      "m1_native_net_R": -0.06,
+      "diff_R_total": 1.53,
+      "diff_R_per_year": 0.218
+    }
+  ],
+  "track2_surface_non_jpy_4": {
+    "both_clusters_pos_with_swap": 0,
+    "both_clusters_pos_price_only": 0,
+    "cells": {
+      "don15_ex10_sl1.5": {
+        "n": 154,
+        "net_R": -19.23,
+        "price_R": -21.92,
+        "swap_usd": 2718.0,
+        "A": -9.84,
+        "B": -9.39,
+        "price_A": -10.77,
+        "price_B": -11.14,
+        "pos_years": 3,
+        "dd_R": 35.72
+      },
+      "don15_ex10_sl2.0": {
+        "n": 137,
+        "net_R": -4.57,
+        "price_R": -6.85,
+        "swap_usd": 3055.0,
+        "A": -4.54,
+        "B": -0.02,
+        "price_A": -5.37,
+        "price_B": -1.47,
+        "pos_years": 3,
+        "dd_R": 17.53
+      },
+      "don15_ex15_sl2.5": {
+        "n": 124,
+        "net_R": -12.11,
+        "price_R": -14.21,
+        "swap_usd": 3519.0,
+        "A": -8.18,
+        "B": -3.93,
+        "price_A": -8.92,
+        "price_B": -5.29,
+        "pos_years": 2,
+        "dd_R": 22.02
+      },
+      "don20_ex10_sl1.5": {
+        "n": 139,
+        "net_R": -20.18,
+        "price_R": -22.59,
+        "swap_usd": 2433.0,
+        "A": -14.35,
+        "B": -5.84,
+        "price_A": -15.23,
+        "price_B": -7.36,
+        "pos_years": 2,
+        "dd_R": 34.27
+      },
+      "don20_ex10_sl2.0": {
+        "n": 122,
+        "net_R": -4.71,
+        "price_R": -6.78,
+        "swap_usd": 2759.0,
+        "A": -7.51,
+        "B": 2.8,
+        "price_A": -8.28,
+        "price_B": 1.5,
+        "pos_years": 4,
+        "dd_R": 19.3
+      },
+      "don20_ex15_sl2.5": {
+        "n": 111,
+        "net_R": -10.93,
+        "price_R": -12.84,
+        "swap_usd": 3192.0,
+        "A": -10.07,
+        "B": -0.86,
+        "price_A": -10.75,
+        "price_B": -2.09,
+        "pos_years": 3,
+        "dd_R": 20.63
+      },
+      "don30_ex10_sl1.5": {
+        "n": 120,
+        "net_R": -26.16,
+        "price_R": -28.23,
+        "swap_usd": 2098.0,
+        "A": -10.81,
+        "B": -15.35,
+        "price_A": -11.52,
+        "price_B": -16.71,
+        "pos_years": 2,
+        "dd_R": 42.01
+      },
+      "don30_ex10_sl2.0": {
+        "n": 109,
+        "net_R": -16.53,
+        "price_R": -18.34,
+        "swap_usd": 2408.0,
+        "A": -7.49,
+        "B": -9.05,
+        "price_A": -8.13,
+        "price_B": -10.21,
+        "pos_years": 2,
+        "dd_R": 28.5
+      },
+      "don30_ex15_sl2.5": {
+        "n": 100,
+        "net_R": -19.92,
+        "price_R": -21.6,
+        "swap_usd": 2797.0,
+        "A": -6.93,
+        "B": -12.99,
+        "price_A": -7.53,
+        "price_B": -14.06,
+        "pos_years": 1,
+        "dd_R": 30.08
+      },
+      "don40_ex10_sl1.5": {
+        "n": 103,
+        "net_R": -26.04,
+        "price_R": -27.76,
+        "swap_usd": 1666.0,
+        "A": -6.37,
+        "B": -19.67,
+        "price_A": -6.92,
+        "price_B": -20.85,
+        "pos_years": 2,
+        "dd_R": 40.0
+      },
+      "don40_ex10_sl2.0": {
+        "n": 96,
+        "net_R": -21.39,
+        "price_R": -22.9,
+        "swap_usd": 1962.0,
+        "A": -8.49,
+        "B": -12.9,
+        "price_A": -8.93,
+        "price_B": -13.97,
+        "pos_years": 2,
+        "dd_R": 31.94
+      },
+      "don40_ex15_sl2.5": {
+        "n": 88,
+        "net_R": -22.51,
+        "price_R": -23.92,
+        "swap_usd": 2315.0,
+        "A": -7.82,
+        "B": -14.69,
+        "price_A": -8.25,
+        "price_B": -15.67,
+        "pos_years": 2,
+        "dd_R": 31.7
+      }
+    }
+  },
+  "track2_surface_all8_jpycap1": {
+    "both_clusters_pos_with_swap": 0,
+    "both_clusters_pos_price_only": 0,
+    "cells": {
+      "don15_ex10_sl1.5": {
+        "n": 196,
+        "net_R": -9.16,
+        "price_R": -14.23,
+        "swap_usd": 6057.0,
+        "A": -11.39,
+        "B": 2.23,
+        "price_A": -13.57,
+        "price_B": -0.66,
+        "pos_years": 5,
+        "dd_R": 24.37
+      },
+      "don15_ex10_sl2.0": {
+        "n": 180,
+        "net_R": 0.91,
+        "price_R": -3.1,
+        "swap_usd": 6065.0,
+        "A": -9.1,
+        "B": 10.01,
+        "price_A": -10.77,
+        "price_B": 7.67,
+        "pos_years": 4,
+        "dd_R": 16.29
+      },
+      "don15_ex15_sl2.5": {
+        "n": 159,
+        "net_R": -12.69,
+        "price_R": -16.19,
+        "swap_usd": 6810.0,
+        "A": -9.59,
+        "B": -3.1,
+        "price_A": -11.03,
+        "price_B": -5.16,
+        "pos_years": 2,
+        "dd_R": 21.08
+      },
+      "don20_ex10_sl1.5": {
+        "n": 179,
+        "net_R": -9.28,
+        "price_R": -13.86,
+        "swap_usd": 5557.0,
+        "A": -9.55,
+        "B": 0.27,
+        "price_A": -11.49,
+        "price_B": -2.37,
+        "pos_years": 3,
+        "dd_R": 22.64
+      },
+      "don20_ex10_sl2.0": {
+        "n": 159,
+        "net_R": 0.16,
+        "price_R": -3.51,
+        "swap_usd": 5774.0,
+        "A": -5.45,
+        "B": 5.62,
+        "price_A": -7.05,
+        "price_B": 3.54,
+        "pos_years": 4,
+        "dd_R": 14.75
+      },
+      "don20_ex15_sl2.5": {
+        "n": 143,
+        "net_R": -9.86,
+        "price_R": -13.22,
+        "swap_usd": 6678.0,
+        "A": -8.86,
+        "B": -1.0,
+        "price_A": -10.33,
+        "price_B": -2.9,
+        "pos_years": 3,
+        "dd_R": 19.6
+      },
+      "don30_ex10_sl1.5": {
+        "n": 162,
+        "net_R": -25.84,
+        "price_R": -29.78,
+        "swap_usd": 4484.0,
+        "A": -13.56,
+        "B": -12.28,
+        "price_A": -15.27,
+        "price_B": -14.51,
+        "pos_years": 2,
+        "dd_R": 39.15
+      },
+      "don30_ex10_sl2.0": {
+        "n": 150,
+        "net_R": -20.44,
+        "price_R": -23.75,
+        "swap_usd": 4910.0,
+        "A": -12.38,
+        "B": -8.06,
+        "price_A": -13.81,
+        "price_B": -9.93,
+        "pos_years": 3,
+        "dd_R": 30.0
+      },
+      "don30_ex15_sl2.5": {
+        "n": 130,
+        "net_R": -21.25,
+        "price_R": -24.16,
+        "swap_usd": 5791.0,
+        "A": -8.93,
+        "B": -12.32,
+        "price_A": -10.25,
+        "price_B": -13.91,
+        "pos_years": 2,
+        "dd_R": 28.86
+      },
+      "don40_ex10_sl1.5": {
+        "n": 142,
+        "net_R": -23.7,
+        "price_R": -27.14,
+        "swap_usd": 4034.0,
+        "A": -11.92,
+        "B": -11.78,
+        "price_A": -13.2,
+        "price_B": -13.94,
+        "pos_years": 2,
+        "dd_R": 34.74
+      },
+      "don40_ex10_sl2.0": {
+        "n": 133,
+        "net_R": -22.24,
+        "price_R": -25.11,
+        "swap_usd": 4406.0,
+        "A": -14.75,
+        "B": -7.5,
+        "price_A": -15.78,
+        "price_B": -9.33,
+        "pos_years": 1,
+        "dd_R": 30.1
+      },
+      "don40_ex15_sl2.5": {
+        "n": 118,
+        "net_R": -24.79,
+        "price_R": -27.47,
+        "swap_usd": 5304.0,
+        "A": -9.44,
+        "B": -15.34,
+        "price_A": -10.53,
+        "price_B": -16.94,
+        "pos_years": 2,
+        "dd_R": 31.24
+      }
+    }
+  },
+  "track3_books": {
+    "Swing_10000": {
+      "BASE_2E_INVDD_075": {
+        "net_usd": 2455.93,
+        "annual_pct": {
+          "A": 4.12,
+          "B": 3.05,
+          "all": 3.51
+        },
+        "peak_dd_pct": 5.44,
+        "daily_loss_pct": 0.74,
+        "underwater_months": 20.6,
+        "calmar": 0.65,
+        "peak_margin_pct": 11.7,
+        "margin_failures": 0,
+        "min_lot_rejections": 4,
+        "carry_cap_skips": 0,
+        "sized_total": 1931,
+        "sized_carry": 0
+      },
+      "SOLO_CARRY_NJ4_050": {
+        "net_usd": -37.58,
+        "annual_pct": {
+          "A": -0.7,
+          "B": 0.43,
+          "all": -0.05
+        },
+        "peak_dd_pct": 8.9,
+        "daily_loss_pct": 1.59,
+        "underwater_months": 57.5,
+        "calmar": -0.01,
+        "peak_margin_pct": 6.3,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "carry_cap_skips": 0,
+        "sized_total": 122,
+        "sized_carry": 122
+      },
+      "SOLO_CARRY_A8C1_050": {
+        "net_usd": 121.58,
+        "annual_pct": {
+          "A": -0.61,
+          "B": 0.76,
+          "all": 0.17
+        },
+        "peak_dd_pct": 5.9,
+        "daily_loss_pct": 1.59,
+        "underwater_months": 41.5,
+        "calmar": 0.03,
+        "peak_margin_pct": 6.3,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "carry_cap_skips": 9,
+        "sized_total": 150,
+        "sized_carry": 150
+      },
+      "PORT3E_075_NJ4_025": {
+        "net_usd": 2499.69,
+        "annual_pct": {
+          "A": 4.06,
+          "B": 3.2,
+          "all": 3.57
+        },
+        "peak_dd_pct": 6.29,
+        "daily_loss_pct": 1.12,
+        "underwater_months": 22.8,
+        "calmar": 0.57,
+        "peak_margin_pct": 13.4,
+        "margin_failures": 0,
+        "min_lot_rejections": 8,
+        "carry_cap_skips": 0,
+        "sized_total": 2049,
+        "sized_carry": 118
+      },
+      "PORT3E_075_NJ4_040": {
+        "net_usd": 2301.19,
+        "annual_pct": {
+          "A": 3.43,
+          "B": 3.18,
+          "all": 3.29
+        },
+        "peak_dd_pct": 7.61,
+        "daily_loss_pct": 1.57,
+        "underwater_months": 29.6,
+        "calmar": 0.43,
+        "peak_margin_pct": 14.4,
+        "margin_failures": 0,
+        "min_lot_rejections": 4,
+        "carry_cap_skips": 0,
+        "sized_total": 2053,
+        "sized_carry": 122
+      },
+      "PORT3E_075_NJ4_050": {
+        "net_usd": 2418.36,
+        "annual_pct": {
+          "A": 3.42,
+          "B": 3.48,
+          "all": 3.45
+        },
+        "peak_dd_pct": 8.39,
+        "daily_loss_pct": 1.74,
+        "underwater_months": 31.1,
+        "calmar": 0.41,
+        "peak_margin_pct": 15.4,
+        "margin_failures": 0,
+        "min_lot_rejections": 4,
+        "carry_cap_skips": 0,
+        "sized_total": 2053,
+        "sized_carry": 122
+      },
+      "PORT3E_075_A8C1_025": {
+        "net_usd": 2424.22,
+        "annual_pct": {
+          "A": 3.77,
+          "B": 3.24,
+          "all": 3.46
+        },
+        "peak_dd_pct": 6.29,
+        "daily_loss_pct": 1.17,
+        "underwater_months": 19.9,
+        "calmar": 0.55,
+        "peak_margin_pct": 13.7,
+        "margin_failures": 0,
+        "min_lot_rejections": 12,
+        "carry_cap_skips": 7,
+        "sized_total": 2075,
+        "sized_carry": 144
+      },
+      "PORT3E_075_A8C1_040": {
+        "net_usd": 2462.05,
+        "annual_pct": {
+          "A": 3.7,
+          "B": 3.38,
+          "all": 3.52
+        },
+        "peak_dd_pct": 6.75,
+        "daily_loss_pct": 1.57,
+        "underwater_months": 14.0,
+        "calmar": 0.52,
+        "peak_margin_pct": 15.1,
+        "margin_failures": 0,
+        "min_lot_rejections": 4,
+        "carry_cap_skips": 9,
+        "sized_total": 2081,
+        "sized_carry": 150
+      },
+      "PORT3E_075_A8C1_050": {
+        "net_usd": 2577.51,
+        "annual_pct": {
+          "A": 3.5,
+          "B": 3.82,
+          "all": 3.68
+        },
+        "peak_dd_pct": 7.63,
+        "daily_loss_pct": 1.74,
+        "underwater_months": 14.0,
+        "calmar": 0.48,
+        "peak_margin_pct": 16.4,
+        "margin_failures": 0,
+        "min_lot_rejections": 4,
+        "carry_cap_skips": 9,
+        "sized_total": 2081,
+        "sized_carry": 150
+      },
+      "PORT3E_100_A8C1_050": {
+        "net_usd": 3443.31,
+        "annual_pct": {
+          "A": 4.93,
+          "B": 4.91,
+          "all": 4.92
+        },
+        "peak_dd_pct": 8.91,
+        "daily_loss_pct": 2.02,
+        "underwater_months": 14.0,
+        "calmar": 0.55,
+        "peak_margin_pct": 20.4,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "carry_cap_skips": 9,
+        "sized_total": 2085,
+        "sized_carry": 150
+      }
+    },
+    "Swing_25000": {
+      "BASE_2E_INVDD_075": {
+        "net_usd": 6404.34,
+        "annual_pct": {
+          "A": 4.22,
+          "B": 3.24,
+          "all": 3.66
+        },
+        "peak_dd_pct": 5.61,
+        "daily_loss_pct": 0.75,
+        "underwater_months": 19.9,
+        "calmar": 0.65,
+        "peak_margin_pct": 12.0,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "carry_cap_skips": 0,
+        "sized_total": 1935,
+        "sized_carry": 0
+      },
+      "SOLO_CARRY_NJ4_050": {
+        "net_usd": -573.49,
+        "annual_pct": {
+          "A": -1.14,
+          "B": 0.28,
+          "all": -0.33
+        },
+        "peak_dd_pct": 10.27,
+        "daily_loss_pct": 1.84,
+        "underwater_months": 57.5,
+        "calmar": -0.03,
+        "peak_margin_pct": 6.8,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "carry_cap_skips": 0,
+        "sized_total": 122,
+        "sized_carry": 122
+      },
+      "SOLO_CARRY_A8C1_050": {
+        "net_usd": -70.33,
+        "annual_pct": {
+          "A": -0.79,
+          "B": 0.53,
+          "all": -0.04
+        },
+        "peak_dd_pct": 6.64,
+        "daily_loss_pct": 1.84,
+        "underwater_months": 41.5,
+        "calmar": -0.01,
+        "peak_margin_pct": 6.8,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "carry_cap_skips": 9,
+        "sized_total": 150,
+        "sized_carry": 150
+      },
+      "PORT3E_075_NJ4_025": {
+        "net_usd": 6159.59,
+        "annual_pct": {
+          "A": 3.67,
+          "B": 3.4,
+          "all": 3.52
+        },
+        "peak_dd_pct": 6.63,
+        "daily_loss_pct": 1.32,
+        "underwater_months": 22.8,
+        "calmar": 0.53,
+        "peak_margin_pct": 13.8,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "carry_cap_skips": 0,
+        "sized_total": 2057,
+        "sized_carry": 122
+      },
+      "PORT3E_075_NJ4_040": {
+        "net_usd": 5996.35,
+        "annual_pct": {
+          "A": 3.39,
+          "B": 3.46,
+          "all": 3.43
+        },
+        "peak_dd_pct": 8.16,
+        "daily_loss_pct": 1.7,
+        "underwater_months": 29.6,
+        "calmar": 0.42,
+        "peak_margin_pct": 15.2,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "carry_cap_skips": 0,
+        "sized_total": 2057,
+        "sized_carry": 122
+      },
+      "PORT3E_075_NJ4_050": {
+        "net_usd": 5830.86,
+        "annual_pct": {
+          "A": 3.08,
+          "B": 3.52,
+          "all": 3.33
+        },
+        "peak_dd_pct": 10.07,
+        "daily_loss_pct": 1.95,
+        "underwater_months": 31.1,
+        "calmar": 0.33,
+        "peak_margin_pct": 16.0,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "carry_cap_skips": 0,
+        "sized_total": 2057,
+        "sized_carry": 122
+      },
+      "PORT3E_075_A8C1_025": {
+        "net_usd": 6367.77,
+        "annual_pct": {
+          "A": 3.87,
+          "B": 3.46,
+          "all": 3.64
+        },
+        "peak_dd_pct": 6.3,
+        "daily_loss_pct": 1.32,
+        "underwater_months": 19.9,
+        "calmar": 0.58,
+        "peak_margin_pct": 14.3,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "carry_cap_skips": 9,
+        "sized_total": 2085,
+        "sized_carry": 150
+      },
+      "PORT3E_075_A8C1_040": {
+        "net_usd": 6488.34,
+        "annual_pct": {
+          "A": 3.64,
+          "B": 3.76,
+          "all": 3.71
+        },
+        "peak_dd_pct": 7.05,
+        "daily_loss_pct": 1.7,
+        "underwater_months": 14.0,
+        "calmar": 0.53,
+        "peak_margin_pct": 16.1,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "carry_cap_skips": 9,
+        "sized_total": 2085,
+        "sized_carry": 150
+      },
+      "PORT3E_075_A8C1_050": {
+        "net_usd": 6334.02,
+        "annual_pct": {
+          "A": 3.42,
+          "B": 3.77,
+          "all": 3.62
+        },
+        "peak_dd_pct": 8.44,
+        "daily_loss_pct": 1.95,
+        "underwater_months": 14.0,
+        "calmar": 0.43,
+        "peak_margin_pct": 17.0,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "carry_cap_skips": 9,
+        "sized_total": 2085,
+        "sized_carry": 150
+      },
+      "PORT3E_100_A8C1_050": {
+        "net_usd": 8463.39,
+        "annual_pct": {
+          "A": 4.85,
+          "B": 4.83,
+          "all": 4.84
+        },
+        "peak_dd_pct": 9.39,
+        "daily_loss_pct": 2.2,
+        "underwater_months": 14.0,
+        "calmar": 0.51,
+        "peak_margin_pct": 21.0,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "carry_cap_skips": 9,
+        "sized_total": 2085,
+        "sized_carry": 150
+      }
+    },
+    "Standard_50000": {
+      "BASE_2E_INVDD_075": {
+        "net_usd": 12942.81,
+        "annual_pct": {
+          "A": 4.24,
+          "B": 3.29,
+          "all": 3.7
+        },
+        "peak_dd_pct": 5.65,
+        "daily_loss_pct": 0.75,
+        "underwater_months": 19.9,
+        "calmar": 0.66,
+        "peak_margin_pct": 3.6,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "carry_cap_skips": 0,
+        "sized_total": 1935,
+        "sized_carry": 0
+      },
+      "SOLO_CARRY_NJ4_050": {
+        "net_usd": -1044.83,
+        "annual_pct": {
+          "A": -1.17,
+          "B": 0.36,
+          "all": -0.3
+        },
+        "peak_dd_pct": 10.39,
+        "daily_loss_pct": 1.86,
+        "underwater_months": 57.5,
+        "calmar": -0.03,
+        "peak_margin_pct": 2.0,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "carry_cap_skips": 0,
+        "sized_total": 122,
+        "sized_carry": 122
+      },
+      "SOLO_CARRY_A8C1_050": {
+        "net_usd": 153.82,
+        "annual_pct": {
+          "A": -0.77,
+          "B": 0.65,
+          "all": 0.04
+        },
+        "peak_dd_pct": 6.71,
+        "daily_loss_pct": 1.86,
+        "underwater_months": 41.5,
+        "calmar": 0.01,
+        "peak_margin_pct": 2.0,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "carry_cap_skips": 9,
+        "sized_total": 150,
+        "sized_carry": 150
+      },
+      "PORT3E_075_NJ4_025": {
+        "net_usd": 12369.33,
+        "annual_pct": {
+          "A": 3.67,
+          "B": 3.43,
+          "all": 3.53
+        },
+        "peak_dd_pct": 6.8,
+        "daily_loss_pct": 1.35,
+        "underwater_months": 22.8,
+        "calmar": 0.52,
+        "peak_margin_pct": 4.2,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "carry_cap_skips": 0,
+        "sized_total": 2057,
+        "sized_carry": 122
+      },
+      "PORT3E_075_NJ4_040": {
+        "net_usd": 12067.89,
+        "annual_pct": {
+          "A": 3.33,
+          "B": 3.54,
+          "all": 3.45
+        },
+        "peak_dd_pct": 8.36,
+        "daily_loss_pct": 1.74,
+        "underwater_months": 29.6,
+        "calmar": 0.41,
+        "peak_margin_pct": 4.6,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "carry_cap_skips": 0,
+        "sized_total": 2057,
+        "sized_carry": 122
+      },
+      "PORT3E_075_NJ4_050": {
+        "net_usd": 11897.99,
+        "annual_pct": {
+          "A": 3.06,
+          "B": 3.65,
+          "all": 3.4
+        },
+        "peak_dd_pct": 10.12,
+        "daily_loss_pct": 1.99,
+        "underwater_months": 31.1,
+        "calmar": 0.34,
+        "peak_margin_pct": 4.8,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "carry_cap_skips": 0,
+        "sized_total": 2057,
+        "sized_carry": 122
+      },
+      "PORT3E_075_A8C1_025": {
+        "net_usd": 12872.49,
+        "annual_pct": {
+          "A": 3.84,
+          "B": 3.56,
+          "all": 3.68
+        },
+        "peak_dd_pct": 6.44,
+        "daily_loss_pct": 1.35,
+        "underwater_months": 19.9,
+        "calmar": 0.57,
+        "peak_margin_pct": 4.4,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "carry_cap_skips": 9,
+        "sized_total": 2085,
+        "sized_carry": 150
+      },
+      "PORT3E_075_A8C1_040": {
+        "net_usd": 13030.43,
+        "annual_pct": {
+          "A": 3.62,
+          "B": 3.8,
+          "all": 3.72
+        },
+        "peak_dd_pct": 7.35,
+        "daily_loss_pct": 1.74,
+        "underwater_months": 14.0,
+        "calmar": 0.51,
+        "peak_margin_pct": 4.8,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "carry_cap_skips": 9,
+        "sized_total": 2085,
+        "sized_carry": 150
+      },
+      "PORT3E_075_A8C1_050": {
+        "net_usd": 13096.64,
+        "annual_pct": {
+          "A": 3.47,
+          "B": 3.95,
+          "all": 3.74
+        },
+        "peak_dd_pct": 8.54,
+        "daily_loss_pct": 1.99,
+        "underwater_months": 14.0,
+        "calmar": 0.44,
+        "peak_margin_pct": 5.2,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "carry_cap_skips": 9,
+        "sized_total": 2085,
+        "sized_carry": 150
+      },
+      "PORT3E_100_A8C1_050": {
+        "net_usd": 17460.21,
+        "annual_pct": {
+          "A": 4.92,
+          "B": 5.04,
+          "all": 4.99
+        },
+        "peak_dd_pct": 9.6,
+        "daily_loss_pct": 2.23,
+        "underwater_months": 14.0,
+        "calmar": 0.52,
+        "peak_margin_pct": 6.4,
+        "margin_failures": 0,
+        "min_lot_rejections": 0,
+        "carry_cap_skips": 9,
+        "sized_total": 2085,
+        "sized_carry": 150
+      }
+    }
+  },
+  "quant_test_suite": {
+    "tests": 1531,
+    "passed": true,
+    "skipped": 0,
+    "errors": 0,
+    "failures": 0,
+    "seconds": 22.36
+  },
+  "private_manifest": "pass20-pos-swap-carry-3engine-20261123/manifest.json",
+  "private_manifest_sha256": "10ec5a3b82f8a6565af02833d8e8775f64edd821e9cede23158f879177b748e8",
+  "verdict": "POS_SWAP_DONCHIAN_CARRY_REJECTED_0_OF_12_SURFACE_AND_FAILS_TIMING_NULL_KEEP_PASS17_2ENGINE_CORE"
+}

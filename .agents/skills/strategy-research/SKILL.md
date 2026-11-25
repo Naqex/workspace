@@ -30,7 +30,11 @@ thì dùng dossier được giao; không bịa command hoặc bắt owner kể l
   tiêu khác bác edge. Baseline risk không là trần bất biến; sizing cần review riêng.
 - Cơ chế tín hiệu mới phải qua [Stage-0 raw markout/scale](../strategy-qualification/references/validation-gates.md#stage-0-unconditional-markout--scale-screen)
   trên Development trước khi code SL/TP/sizing/filter phụ; giữ tiêu chí và
-  budget đã khóa, không chọn lại cohort/horizon để cứu kết quả.
+  budget đã khóa, không chọn lại cohort/horizon để cứu kết quả. Với lệnh chờ/SL
+  trong ngày, giữ qua đêm, chiến lược một chiều hoặc ý tưởng lấy từ kho intel
+  ngoài (`strategy-intel`), áp dụng ngay
+  [luật thực thi & chống ảo giác bổ sung](../strategy-qualification/references/validation-gates.md#luật-thực-thi--chống-ảo-giác-bổ-sung-23112026--từ-pass-1012--clean-room-intel)
+  (M1 Bid/Ask trực tiếp, Swap-3× pre-mortem, Random-Entry Null Test và Air-Gap).
 - Tách official/paper/community/inference. Kiểm nguồn hiện hành trước quyết
   định nhạy thời gian; không xếp phổ biến/hiệu quả bằng upvote hoặc quảng cáo.
 

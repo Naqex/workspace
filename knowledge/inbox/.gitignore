@@ -1,0 +1,6 @@
+# Keep raw scraped web captures local; promote distilled synthesis to knowledge/topics/ or planning/research/
+*.md
+*.json
+*.txt
+!README.md
+!.gitignore

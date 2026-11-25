@@ -1,0 +1,37 @@
+; Naqex MT5 Preset | Profile: FTMO_P1_Sprint_1to3m | Target: Naqex_AccountOrchestrator.ex5
+; Firm: FTMO | AccountType: Challenge_P1_10k_Sprint | CapitalUSD: 10000 | Reset: Europe_Prague_CET_CEST
+; ARM-LOCKED SAFETY: set InpDryRunLogOnly=false & InpGuardDryRunLogOnly=false ONLY after Free Trial PASS & TCA GREEN
+InpDryRunLogOnly=true
+InpInitialBalanceUSD=10000.00
+InpBasePhaseMult=3.17
+InpAmberDdPct=9.90
+InpAmberMult=1.00
+InpRedDdPct=9.90
+InpRedMult=1.00
+InpProfitLockPct=5.00
+InpProfitLockMult=1.34
+InpKillDailyDdPct=4.30
+InpKillStaticDdPct=9.50
+InpDailyResetMode=1
+InpHeartbeatSec=15
+InpHeartbeatFile=naqex_heartbeat.json
+InpAllowManualHaltFile=false
+InpManualHaltFile=naqex_manual_halt.flag
+InpMagicRangeMin=20261120
+InpMagicRangeMax=20261199
+InpGuardDryRunLogOnly=true
+InpGuardMaxDailyLossPct=4.30
+InpGuardMaxSymbolRiskPct=2.00
+InpGuardUseOrchestrator=true
+InpGuardMaxSpreadPoints=35.00
+InpGuardRolloverStartUTC=21
+InpGuardRolloverEndUTC=0
+InpGuardEarlyCloseMin=10
+InpGuardTesterUtcOffsetH=2
+InpGuardEnableRedNews=true
+InpGuardRedNewsCsvFile=naqex_red_news_utc.csv
+InpGuardNewsPadSec=300
+InpGuardNewsHardBanSec=135
+InpGuardTcaAuditCsvFile=naqex_exec_audit.csv
+InpGuardMagicRangeMin=20261120
+InpGuardMagicRangeMax=20261199

@@ -1,0 +1,2778 @@
+{
+  "schema": "swing-10k-compact-spec-pointer-v1",
+  "compacted_utc": "2026-11-23T14:40:00+00:00",
+  "archive_path": "E:\\BACKUP-TRADINGWORKSPACE\\ai-engine-jobs\\archive-raw-json-20261123\\SWING-10K-AUDIT-MULTIWEEK-AND-WIN-TAXONOMY-20261120.json",
+  "archive_full_raw_bytes": 1280358,
+  "archive_full_normalized_sha256": "803352fbf00d7af15719033c9b0aa5b3140bca0d0cfa7235d01caa2e7b95f4a3",
+  "account_audit": {
+    "account_swing": {
+      "server": "FTMO-Demo",
+      "company": "FTMO Global Markets Ltd",
+      "currency": "USD",
+      "leverage": 30,
+      "trade_mode": 0,
+      "balance": 10000.0
+    },
+    "standard_audit_commit": "36f1535",
+    "symbols": {
+      "EURUSD": {
+        "structural_difference": {},
+        "standard_fields": {
+          "trade_contract_size": 100000.0,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "trade_stops_level": 0,
+          "trade_tick_size": 1e-05,
+          "swap_mode": 1,
+          "swap_long": -8.47,
+          "swap_short": 0.29,
+          "swap_rollover3days": 3
+        },
+        "swing_fields": {
+          "trade_contract_size": 100000.0,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "trade_stops_level": 0,
+          "trade_tick_size": 1e-05,
+          "swap_mode": 1,
+          "swap_long": -9.21,
+          "swap_short": 0.28,
+          "swap_rollover3days": 3
+        },
+        "standard_margin_001_usd": [
+          11.01,
+          11.01
+        ],
+        "swing_margin": {
+          "bid": 1.09723,
+          "ask": 1.09723,
+          "quote_utc_msc": 1795144531804,
+          "quote_age_ms": 4539,
+          "quote_fresh": true,
+          "sides": {
+            "BUY": {
+              "margin_001_usd": 36.57,
+              "margin_100_usd": 3657.43,
+              "sized": {
+                "10000:D1": {
+                  "lot": 0.06,
+                  "stress_stop_usd_per_lot": 740.97,
+                  "margin_usd": 219.45,
+                  "same_size_slots_40pct": 18,
+                  "same_size_slots_50pct": 22
+                },
+                "25000:D1": {
+                  "lot": 0.16,
+                  "stress_stop_usd_per_lot": 740.97,
+                  "margin_usd": 585.19,
+                  "same_size_slots_40pct": 17,
+                  "same_size_slots_50pct": 21
+                },
+                "10000:H4": {
+                  "lot": 0.17,
+                  "stress_stop_usd_per_lot": 288.35,
+                  "margin_usd": 621.76,
+                  "same_size_slots_40pct": 6,
+                  "same_size_slots_50pct": 8
+                },
+                "25000:H4": {
+                  "lot": 0.43,
+                  "stress_stop_usd_per_lot": 288.35,
+                  "margin_usd": 1572.7,
+                  "same_size_slots_40pct": 6,
+                  "same_size_slots_50pct": 7
+                }
+              }
+            },
+            "SELL": {
+              "margin_001_usd": 36.57,
+              "margin_100_usd": 3657.43,
+              "sized": {
+                "10000:D1": {
+                  "lot": 0.06,
+                  "stress_stop_usd_per_lot": 740.97,
+                  "margin_usd": 219.45,
+                  "same_size_slots_40pct": 18,
+                  "same_size_slots_50pct": 22
+                },
+                "25000:D1": {
+                  "lot": 0.16,
+                  "stress_stop_usd_per_lot": 740.97,
+                  "margin_usd": 585.19,
+                  "same_size_slots_40pct": 17,
+                  "same_size_slots_50pct": 21
+                },
+                "10000:H4": {
+                  "lot": 0.17,
+                  "stress_stop_usd_per_lot": 288.35,
+                  "margin_usd": 621.76,
+                  "same_size_slots_40pct": 6,
+                  "same_size_slots_50pct": 8
+                },
+                "25000:H4": {
+                  "lot": 0.43,
+                  "stress_stop_usd_per_lot": 288.35,
+                  "margin_usd": 1572.7,
+                  "same_size_slots_40pct": 6,
+                  "same_size_slots_50pct": 7
+                }
+              }
+            }
+          },
+          "development_median_ATR14_price": {
+            "D1": 0.007319724223013859,
+            "H4": 0.0027935472238205757
+          }
+        },
+        "spread_live_swing": {
+          "n": 30,
+          "p50": 0.09999999999843467,
+          "p95": 0.10000000000065512
+        },
+        "spread_standard_london": {
+          "n": 139,
+          "median": 0.1,
+          "p95": 0.3,
+          "max": 0.3,
+          "timestamp_span_seconds": 111.748
+        },
+        "swing_weekly_sessions": {
+          "sessions_quote": [
+            {
+              "weekday": 1,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 2,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 3,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 4,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 5,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            }
+          ],
+          "sessions_trade": [
+            {
+              "weekday": 1,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 2,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 3,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 4,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 5,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            }
+          ]
+        },
+        "standard_weekly_sessions": null
+      },
+      "GBPUSD": {
+        "structural_difference": {},
+        "standard_fields": {
+          "trade_contract_size": 100000.0,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "trade_stops_level": 0,
+          "trade_tick_size": 1e-05,
+          "swap_mode": 1,
+          "swap_long": -4.58,
+          "swap_short": -5.33,
+          "swap_rollover3days": 3
+        },
+        "swing_fields": {
+          "trade_contract_size": 100000.0,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "trade_stops_level": 0,
+          "trade_tick_size": 1e-05,
+          "swap_mode": 1,
+          "swap_long": -4.52,
+          "swap_short": -5.42,
+          "swap_rollover3days": 3
+        },
+        "standard_margin_001_usd": [
+          13.17,
+          13.17
+        ],
+        "swing_margin": {
+          "bid": 1.30964,
+          "ask": 1.3096700000000001,
+          "quote_utc_msc": 1795144530610,
+          "quote_age_ms": 5834,
+          "quote_fresh": true,
+          "sides": {
+            "BUY": {
+              "margin_001_usd": 43.66,
+              "margin_100_usd": 4365.57,
+              "sized": {
+                "10000:D1": {
+                  "lot": 0.04,
+                  "stress_stop_usd_per_lot": 1006.49,
+                  "margin_usd": 174.62,
+                  "same_size_slots_40pct": 22,
+                  "same_size_slots_50pct": 28
+                },
+                "25000:D1": {
+                  "lot": 0.12,
+                  "stress_stop_usd_per_lot": 1006.49,
+                  "margin_usd": 523.87,
+                  "same_size_slots_40pct": 19,
+                  "same_size_slots_50pct": 23
+                },
+                "10000:H4": {
+                  "lot": 0.13,
+                  "stress_stop_usd_per_lot": 382.47,
+                  "margin_usd": 567.52,
+                  "same_size_slots_40pct": 7,
+                  "same_size_slots_50pct": 8
+                },
+                "25000:H4": {
+                  "lot": 0.32,
+                  "stress_stop_usd_per_lot": 382.47,
+                  "margin_usd": 1396.98,
+                  "same_size_slots_40pct": 7,
+                  "same_size_slots_50pct": 8
+                }
+              }
+            },
+            "SELL": {
+              "margin_001_usd": 43.65,
+              "margin_100_usd": 4365.47,
+              "sized": {
+                "10000:D1": {
+                  "lot": 0.04,
+                  "stress_stop_usd_per_lot": 1006.49,
+                  "margin_usd": 174.62,
+                  "same_size_slots_40pct": 22,
+                  "same_size_slots_50pct": 28
+                },
+                "25000:D1": {
+                  "lot": 0.12,
+                  "stress_stop_usd_per_lot": 1006.49,
+                  "margin_usd": 523.86,
+                  "same_size_slots_40pct": 19,
+                  "same_size_slots_50pct": 23
+                },
+                "10000:H4": {
+                  "lot": 0.13,
+                  "stress_stop_usd_per_lot": 382.47,
+                  "margin_usd": 567.51,
+                  "same_size_slots_40pct": 7,
+                  "same_size_slots_50pct": 8
+                },
+                "25000:H4": {
+                  "lot": 0.32,
+                  "stress_stop_usd_per_lot": 382.47,
+                  "margin_usd": 1396.95,
+                  "same_size_slots_40pct": 7,
+                  "same_size_slots_50pct": 8
+                }
+              }
+            }
+          },
+          "development_median_ATR14_price": {
+            "D1": 0.009944920875666188,
+            "H4": 0.0037046864693492873
+          }
+        },
+        "spread_live_swing": {
+          "n": 24,
+          "p50": 0.7500000000004725,
+          "p95": 0.9999999999998899
+        },
+        "spread_standard_london": {
+          "n": 91,
+          "median": 0.7,
+          "p95": 0.8,
+          "max": 0.8,
+          "timestamp_span_seconds": 111.453
+        },
+        "swing_weekly_sessions": {
+          "sessions_quote": [
+            {
+              "weekday": 1,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 2,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 3,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 4,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 5,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            }
+          ],
+          "sessions_trade": [
+            {
+              "weekday": 1,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 2,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 3,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 4,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 5,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            }
+          ]
+        },
+        "standard_weekly_sessions": null
+      },
+      "AUDUSD": {
+        "structural_difference": {},
+        "standard_fields": {
+          "trade_contract_size": 100000.0,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "trade_stops_level": 0,
+          "trade_tick_size": 1e-05,
+          "swap_mode": 1,
+          "swap_long": -2.45,
+          "swap_short": -7.05,
+          "swap_rollover3days": 3
+        },
+        "swing_fields": {
+          "trade_contract_size": 100000.0,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "trade_stops_level": 0,
+          "trade_tick_size": 1e-05,
+          "swap_mode": 1,
+          "swap_long": -2.2,
+          "swap_short": -7.08,
+          "swap_rollover3days": 3
+        },
+        "standard_margin_001_usd": [
+          6.71,
+          6.71
+        ],
+        "swing_margin": {
+          "bid": 0.66487,
+          "ask": 0.6649,
+          "quote_utc_msc": 1795144531660,
+          "quote_age_ms": 4810,
+          "quote_fresh": true,
+          "sides": {
+            "BUY": {
+              "margin_001_usd": 22.16,
+              "margin_100_usd": 2216.33,
+              "sized": {
+                "10000:D1": {
+                  "lot": 0.07,
+                  "stress_stop_usd_per_lot": 648.97,
+                  "margin_usd": 155.14,
+                  "same_size_slots_40pct": 25,
+                  "same_size_slots_50pct": 32
+                },
+                "25000:D1": {
+                  "lot": 0.19,
+                  "stress_stop_usd_per_lot": 648.97,
+                  "margin_usd": 421.1,
+                  "same_size_slots_40pct": 23,
+                  "same_size_slots_50pct": 29
+                },
+                "10000:H4": {
+                  "lot": 0.19,
+                  "stress_stop_usd_per_lot": 262.64,
+                  "margin_usd": 421.1,
+                  "same_size_slots_40pct": 9,
+                  "same_size_slots_50pct": 11
+                },
+                "25000:H4": {
+                  "lot": 0.47,
+                  "stress_stop_usd_per_lot": 262.64,
+                  "margin_usd": 1041.68,
+                  "same_size_slots_40pct": 9,
+                  "same_size_slots_50pct": 11
+                }
+              }
+            },
+            "SELL": {
+              "margin_001_usd": 22.16,
+              "margin_100_usd": 2216.23,
+              "sized": {
+                "10000:D1": {
+                  "lot": 0.07,
+                  "stress_stop_usd_per_lot": 648.97,
+                  "margin_usd": 155.14,
+                  "same_size_slots_40pct": 25,
+                  "same_size_slots_50pct": 32
+                },
+                "25000:D1": {
+                  "lot": 0.19,
+                  "stress_stop_usd_per_lot": 648.97,
+                  "margin_usd": 421.08,
+                  "same_size_slots_40pct": 23,
+                  "same_size_slots_50pct": 29
+                },
+                "10000:H4": {
+                  "lot": 0.19,
+                  "stress_stop_usd_per_lot": 262.64,
+                  "margin_usd": 421.08,
+                  "same_size_slots_40pct": 9,
+                  "same_size_slots_50pct": 11
+                },
+                "25000:H4": {
+                  "lot": 0.47,
+                  "stress_stop_usd_per_lot": 262.64,
+                  "margin_usd": 1041.63,
+                  "same_size_slots_40pct": 9,
+                  "same_size_slots_50pct": 12
+                }
+              }
+            }
+          },
+          "development_median_ATR14_price": {
+            "D1": 0.006369689377810237,
+            "H4": 0.002506373722510074
+          }
+        },
+        "spread_live_swing": {
+          "n": 25,
+          "p50": 0.49999999999994493,
+          "p95": 0.49999999999994493
+        },
+        "spread_standard_london": {
+          "n": 77,
+          "median": 0.4,
+          "p95": 0.4,
+          "max": 0.4,
+          "timestamp_span_seconds": 110.551
+        },
+        "swing_weekly_sessions": {
+          "sessions_quote": [
+            {
+              "weekday": 1,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 2,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 3,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 4,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 5,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            }
+          ],
+          "sessions_trade": [
+            {
+              "weekday": 1,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 2,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 3,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 4,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 5,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            }
+          ]
+        },
+        "standard_weekly_sessions": null
+      },
+      "USDJPY": {
+        "structural_difference": {},
+        "standard_fields": {
+          "trade_contract_size": 100000.0,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "trade_stops_level": 0,
+          "trade_tick_size": 0.001,
+          "swap_mode": 1,
+          "swap_long": 2.64,
+          "swap_short": -19.33,
+          "swap_rollover3days": 3
+        },
+        "swing_fields": {
+          "trade_contract_size": 100000.0,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "trade_stops_level": 0,
+          "trade_tick_size": 0.001,
+          "swap_mode": 1,
+          "swap_long": 2.61,
+          "swap_short": -17.6,
+          "swap_rollover3days": 3
+        },
+        "standard_margin_001_usd": [
+          10.0,
+          10.0
+        ],
+        "swing_margin": {
+          "bid": 159.154,
+          "ask": 159.158,
+          "quote_utc_msc": 1795144531210,
+          "quote_age_ms": 5285,
+          "quote_fresh": true,
+          "sides": {
+            "BUY": {
+              "margin_001_usd": 33.33,
+              "margin_100_usd": 3333.33,
+              "sized": {
+                "10000:D1": {
+                  "lot": 0.1,
+                  "stress_stop_usd_per_lot": 473.24,
+                  "margin_usd": 333.33,
+                  "same_size_slots_40pct": 12,
+                  "same_size_slots_50pct": 15
+                },
+                "25000:D1": {
+                  "lot": 0.26,
+                  "stress_stop_usd_per_lot": 473.24,
+                  "margin_usd": 866.67,
+                  "same_size_slots_40pct": 11,
+                  "same_size_slots_50pct": 14
+                },
+                "10000:H4": {
+                  "lot": 0.25,
+                  "stress_stop_usd_per_lot": 199.06,
+                  "margin_usd": 833.33,
+                  "same_size_slots_40pct": 4,
+                  "same_size_slots_50pct": 6
+                },
+                "25000:H4": {
+                  "lot": 0.62,
+                  "stress_stop_usd_per_lot": 199.06,
+                  "margin_usd": 2066.67,
+                  "same_size_slots_40pct": 4,
+                  "same_size_slots_50pct": 6
+                }
+              }
+            },
+            "SELL": {
+              "margin_001_usd": 33.33,
+              "margin_100_usd": 3333.33,
+              "sized": {
+                "10000:D1": {
+                  "lot": 0.1,
+                  "stress_stop_usd_per_lot": 468.91,
+                  "margin_usd": 333.33,
+                  "same_size_slots_40pct": 12,
+                  "same_size_slots_50pct": 15
+                },
+                "25000:D1": {
+                  "lot": 0.26,
+                  "stress_stop_usd_per_lot": 468.91,
+                  "margin_usd": 866.67,
+                  "same_size_slots_40pct": 11,
+                  "same_size_slots_50pct": 14
+                },
+                "10000:H4": {
+                  "lot": 0.25,
+                  "stress_stop_usd_per_lot": 198.31,
+                  "margin_usd": 833.33,
+                  "same_size_slots_40pct": 4,
+                  "same_size_slots_50pct": 6
+                },
+                "25000:H4": {
+                  "lot": 0.63,
+                  "stress_stop_usd_per_lot": 198.31,
+                  "margin_usd": 2100.0,
+                  "same_size_slots_40pct": 4,
+                  "same_size_slots_50pct": 5
+                }
+              }
+            }
+          },
+          "development_median_ATR14_price": {
+            "D1": 0.7337675645183209,
+            "H4": 0.30026217941302136
+          }
+        },
+        "spread_live_swing": {
+          "n": 35,
+          "p50": 0.2999999999985903,
+          "p95": 0.30000000000143245
+        },
+        "spread_standard_london": {
+          "n": 44,
+          "median": 0.3,
+          "p95": 0.8,
+          "max": 0.9,
+          "timestamp_span_seconds": 110.995
+        },
+        "swing_weekly_sessions": {
+          "sessions_quote": [
+            {
+              "weekday": 1,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 2,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 3,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 4,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 5,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            }
+          ],
+          "sessions_trade": [
+            {
+              "weekday": 1,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 2,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 3,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 4,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 5,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            }
+          ]
+        },
+        "standard_weekly_sessions": null
+      },
+      "USDCHF": {
+        "structural_difference": {},
+        "standard_fields": {
+          "trade_contract_size": 100000.0,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "trade_stops_level": 0,
+          "trade_tick_size": 1e-05,
+          "swap_mode": 1,
+          "swap_long": 1.95,
+          "swap_short": -13.52,
+          "swap_rollover3days": 3
+        },
+        "swing_fields": {
+          "trade_contract_size": 100000.0,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "trade_stops_level": 0,
+          "trade_tick_size": 1e-05,
+          "swap_mode": 1,
+          "swap_long": 1.91,
+          "swap_short": -13.33,
+          "swap_rollover3days": 3
+        },
+        "standard_margin_001_usd": [
+          10.0,
+          10.0
+        ],
+        "swing_margin": {
+          "bid": 0.84268,
+          "ask": 0.84272,
+          "quote_utc_msc": 1795144531508,
+          "quote_age_ms": 5013,
+          "quote_fresh": true,
+          "sides": {
+            "BUY": {
+              "margin_001_usd": 33.33,
+              "margin_100_usd": 3333.33,
+              "sized": {
+                "10000:D1": {
+                  "lot": 0.06,
+                  "stress_stop_usd_per_lot": 744.2,
+                  "margin_usd": 200.0,
+                  "same_size_slots_40pct": 20,
+                  "same_size_slots_50pct": 25
+                },
+                "25000:D1": {
+                  "lot": 0.16,
+                  "stress_stop_usd_per_lot": 744.2,
+                  "margin_usd": 533.33,
+                  "same_size_slots_40pct": 18,
+                  "same_size_slots_50pct": 23
+                },
+                "10000:H4": {
+                  "lot": 0.16,
+                  "stress_stop_usd_per_lot": 299.27,
+                  "margin_usd": 533.33,
+                  "same_size_slots_40pct": 7,
+                  "same_size_slots_50pct": 9
+                },
+                "25000:H4": {
+                  "lot": 0.41,
+                  "stress_stop_usd_per_lot": 299.27,
+                  "margin_usd": 1366.67,
+                  "same_size_slots_40pct": 7,
+                  "same_size_slots_50pct": 9
+                }
+              }
+            },
+            "SELL": {
+              "margin_001_usd": 33.33,
+              "margin_100_usd": 3333.33,
+              "sized": {
+                "10000:D1": {
+                  "lot": 0.06,
+                  "stress_stop_usd_per_lot": 733.47,
+                  "margin_usd": 200.0,
+                  "same_size_slots_40pct": 20,
+                  "same_size_slots_50pct": 25
+                },
+                "25000:D1": {
+                  "lot": 0.17,
+                  "stress_stop_usd_per_lot": 733.47,
+                  "margin_usd": 566.67,
+                  "same_size_slots_40pct": 17,
+                  "same_size_slots_50pct": 22
+                },
+                "10000:H4": {
+                  "lot": 0.16,
+                  "stress_stop_usd_per_lot": 297.56,
+                  "margin_usd": 533.33,
+                  "same_size_slots_40pct": 7,
+                  "same_size_slots_50pct": 9
+                },
+                "25000:H4": {
+                  "lot": 0.42,
+                  "stress_stop_usd_per_lot": 297.56,
+                  "margin_usd": 1400.0,
+                  "same_size_slots_40pct": 7,
+                  "same_size_slots_50pct": 8
+                }
+              }
+            }
+          },
+          "development_median_ATR14_price": {
+            "D1": 0.006103743093992876,
+            "H4": 0.0023925875611834667
+          }
+        },
+        "spread_live_swing": {
+          "n": 16,
+          "p50": 0.40000000000040004,
+          "p95": 0.40000000000040004
+        },
+        "spread_standard_london": {
+          "n": 72,
+          "median": 0.5,
+          "p95": 0.6,
+          "max": 0.6,
+          "timestamp_span_seconds": 112.649
+        },
+        "swing_weekly_sessions": {
+          "sessions_quote": [
+            {
+              "weekday": 1,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 2,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 3,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 4,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 5,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            }
+          ],
+          "sessions_trade": [
+            {
+              "weekday": 1,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 2,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 3,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 4,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 5,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            }
+          ]
+        },
+        "standard_weekly_sessions": null
+      },
+      "USDCAD": {
+        "structural_difference": {},
+        "standard_fields": {
+          "trade_contract_size": 100000.0,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "trade_stops_level": 0,
+          "trade_tick_size": 1e-05,
+          "swap_mode": 1,
+          "swap_long": 0.71,
+          "swap_short": -10.82,
+          "swap_rollover3days": 3
+        },
+        "swing_fields": {
+          "trade_contract_size": 100000.0,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "trade_stops_level": 0,
+          "trade_tick_size": 1e-05,
+          "swap_mode": 1,
+          "swap_long": 0.77,
+          "swap_short": -11.02,
+          "swap_rollover3days": 3
+        },
+        "standard_margin_001_usd": [
+          10.0,
+          10.0
+        ],
+        "swing_margin": {
+          "bid": 1.43373,
+          "ask": 1.43377,
+          "quote_utc_msc": 1795144532408,
+          "quote_age_ms": 4138,
+          "quote_fresh": true,
+          "sides": {
+            "BUY": {
+              "margin_001_usd": 33.33,
+              "margin_100_usd": 3333.33,
+              "sized": {
+                "10000:D1": {
+                  "lot": 0.08,
+                  "stress_stop_usd_per_lot": 579.38,
+                  "margin_usd": 266.67,
+                  "same_size_slots_40pct": 14,
+                  "same_size_slots_50pct": 18
+                },
+                "25000:D1": {
+                  "lot": 0.21,
+                  "stress_stop_usd_per_lot": 579.38,
+                  "margin_usd": 700.0,
+                  "same_size_slots_40pct": 14,
+                  "same_size_slots_50pct": 17
+                },
+                "10000:H4": {
+                  "lot": 0.21,
+                  "stress_stop_usd_per_lot": 230.13,
+                  "margin_usd": 700.0,
+                  "same_size_slots_40pct": 5,
+                  "same_size_slots_50pct": 7
+                },
+                "25000:H4": {
+                  "lot": 0.54,
+                  "stress_stop_usd_per_lot": 230.13,
+                  "margin_usd": 1800.0,
+                  "same_size_slots_40pct": 5,
+                  "same_size_slots_50pct": 6
+                }
+              }
+            },
+            "SELL": {
+              "margin_001_usd": 33.33,
+              "margin_100_usd": 3333.33,
+              "sized": {
+                "10000:D1": {
+                  "lot": 0.08,
+                  "stress_stop_usd_per_lot": 572.88,
+                  "margin_usd": 266.67,
+                  "same_size_slots_40pct": 14,
+                  "same_size_slots_50pct": 18
+                },
+                "25000:D1": {
+                  "lot": 0.21,
+                  "stress_stop_usd_per_lot": 572.88,
+                  "margin_usd": 700.0,
+                  "same_size_slots_40pct": 14,
+                  "same_size_slots_50pct": 17
+                },
+                "10000:H4": {
+                  "lot": 0.21,
+                  "stress_stop_usd_per_lot": 229.13,
+                  "margin_usd": 700.0,
+                  "same_size_slots_40pct": 5,
+                  "same_size_slots_50pct": 7
+                },
+                "25000:H4": {
+                  "lot": 0.54,
+                  "stress_stop_usd_per_lot": 229.13,
+                  "margin_usd": 1800.0,
+                  "same_size_slots_40pct": 5,
+                  "same_size_slots_50pct": 6
+                }
+              }
+            }
+          },
+          "development_median_ATR14_price": {
+            "D1": 0.008108334089110871,
+            "H4": 0.0031406423572923727
+          }
+        },
+        "spread_live_swing": {
+          "n": 21,
+          "p50": 0.40000000000040004,
+          "p95": 0.4000000000026205
+        },
+        "spread_standard_london": {
+          "n": 71,
+          "median": 0.4,
+          "p95": 0.6,
+          "max": 0.6,
+          "timestamp_span_seconds": 111.465
+        },
+        "swing_weekly_sessions": {
+          "sessions_quote": [
+            {
+              "weekday": 1,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 2,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 3,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 4,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 5,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            }
+          ],
+          "sessions_trade": [
+            {
+              "weekday": 1,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 2,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 3,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 4,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 5,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            }
+          ]
+        },
+        "standard_weekly_sessions": null
+      },
+      "NZDUSD": {
+        "structural_difference": {},
+        "standard_fields": {
+          "trade_contract_size": 100000.0,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "trade_stops_level": 0,
+          "trade_tick_size": 1e-05,
+          "swap_mode": 1,
+          "swap_long": -4.8,
+          "swap_short": 0.0,
+          "swap_rollover3days": 3
+        },
+        "swing_fields": {
+          "trade_contract_size": 100000.0,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "trade_stops_level": 0,
+          "trade_tick_size": 1e-05,
+          "swap_mode": 1,
+          "swap_long": -4.68,
+          "swap_short": -0.13,
+          "swap_rollover3days": 3
+        },
+        "standard_margin_001_usd": [
+          5.53,
+          5.53
+        ],
+        "swing_margin": {
+          "bid": 0.54843,
+          "ask": 0.54847,
+          "quote_utc_msc": 1795144529859,
+          "quote_age_ms": 6713,
+          "quote_fresh": true,
+          "sides": {
+            "BUY": {
+              "margin_001_usd": 18.28,
+              "margin_100_usd": 1828.23,
+              "sized": {
+                "10000:D1": {
+                  "lot": 0.08,
+                  "stress_stop_usd_per_lot": 621.39,
+                  "margin_usd": 146.26,
+                  "same_size_slots_40pct": 27,
+                  "same_size_slots_50pct": 34
+                },
+                "25000:D1": {
+                  "lot": 0.2,
+                  "stress_stop_usd_per_lot": 621.39,
+                  "margin_usd": 365.65,
+                  "same_size_slots_40pct": 27,
+                  "same_size_slots_50pct": 34
+                },
+                "10000:H4": {
+                  "lot": 0.19,
+                  "stress_stop_usd_per_lot": 252.83,
+                  "margin_usd": 347.36,
+                  "same_size_slots_40pct": 11,
+                  "same_size_slots_50pct": 14
+                },
+                "25000:H4": {
+                  "lot": 0.49,
+                  "stress_stop_usd_per_lot": 252.83,
+                  "margin_usd": 895.83,
+                  "same_size_slots_40pct": 11,
+                  "same_size_slots_50pct": 13
+                }
+              }
+            },
+            "SELL": {
+              "margin_001_usd": 18.28,
+              "margin_100_usd": 1828.1,
+              "sized": {
+                "10000:D1": {
+                  "lot": 0.08,
+                  "stress_stop_usd_per_lot": 621.39,
+                  "margin_usd": 146.25,
+                  "same_size_slots_40pct": 27,
+                  "same_size_slots_50pct": 34
+                },
+                "25000:D1": {
+                  "lot": 0.2,
+                  "stress_stop_usd_per_lot": 621.39,
+                  "margin_usd": 365.62,
+                  "same_size_slots_40pct": 27,
+                  "same_size_slots_50pct": 34
+                },
+                "10000:H4": {
+                  "lot": 0.19,
+                  "stress_stop_usd_per_lot": 252.83,
+                  "margin_usd": 347.34,
+                  "same_size_slots_40pct": 11,
+                  "same_size_slots_50pct": 14
+                },
+                "25000:H4": {
+                  "lot": 0.49,
+                  "stress_stop_usd_per_lot": 252.83,
+                  "margin_usd": 895.77,
+                  "same_size_slots_40pct": 11,
+                  "same_size_slots_50pct": 13
+                }
+              }
+            }
+          },
+          "development_median_ATR14_price": {
+            "D1": 0.0060839126640290725,
+            "H4": 0.0023982587412025645
+          }
+        },
+        "spread_live_swing": {
+          "n": 27,
+          "p50": 0.49999999999994493,
+          "p95": 0.700000000000145
+        },
+        "spread_standard_london": {
+          "n": 55,
+          "median": 0.6,
+          "p95": 0.6,
+          "max": 0.6,
+          "timestamp_span_seconds": 111.151
+        },
+        "swing_weekly_sessions": {
+          "sessions_quote": [
+            {
+              "weekday": 1,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 2,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 3,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 4,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 5,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            }
+          ],
+          "sessions_trade": [
+            {
+              "weekday": 1,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 2,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 3,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 4,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 5,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            }
+          ]
+        },
+        "standard_weekly_sessions": null
+      },
+      "EURGBP": {
+        "structural_difference": {},
+        "standard_fields": {
+          "trade_contract_size": 100000.0,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "trade_stops_level": 0,
+          "trade_tick_size": 1e-05,
+          "swap_mode": 1,
+          "swap_long": -6.8,
+          "swap_short": 0.15,
+          "swap_rollover3days": 3
+        },
+        "swing_fields": {
+          "trade_contract_size": 100000.0,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "trade_stops_level": 0,
+          "trade_tick_size": 1e-05,
+          "swap_mode": 1,
+          "swap_long": -7.43,
+          "swap_short": 0.19,
+          "swap_rollover3days": 3
+        },
+        "standard_margin_001_usd": [
+          11.01,
+          11.01
+        ],
+        "swing_margin": {
+          "bid": 0.83777,
+          "ask": 0.83783,
+          "quote_utc_msc": 1795144532110,
+          "quote_age_ms": 4486,
+          "quote_fresh": true,
+          "sides": {
+            "BUY": {
+              "margin_001_usd": 36.57,
+              "margin_100_usd": 3657.43,
+              "sized": {
+                "10000:D1": {
+                  "lot": 0.07,
+                  "stress_stop_usd_per_lot": 703.66,
+                  "margin_usd": 256.02,
+                  "same_size_slots_40pct": 15,
+                  "same_size_slots_50pct": 19
+                },
+                "25000:D1": {
+                  "lot": 0.17,
+                  "stress_stop_usd_per_lot": 703.66,
+                  "margin_usd": 621.76,
+                  "same_size_slots_40pct": 16,
+                  "same_size_slots_50pct": 20
+                },
+                "10000:H4": {
+                  "lot": 0.18,
+                  "stress_stop_usd_per_lot": 277.06,
+                  "margin_usd": 658.34,
+                  "same_size_slots_40pct": 6,
+                  "same_size_slots_50pct": 7
+                },
+                "25000:H4": {
+                  "lot": 0.45,
+                  "stress_stop_usd_per_lot": 277.06,
+                  "margin_usd": 1645.85,
+                  "same_size_slots_40pct": 6,
+                  "same_size_slots_50pct": 7
+                }
+              }
+            },
+            "SELL": {
+              "margin_001_usd": 36.57,
+              "margin_100_usd": 3657.43,
+              "sized": {
+                "10000:D1": {
+                  "lot": 0.07,
+                  "stress_stop_usd_per_lot": 703.64,
+                  "margin_usd": 256.02,
+                  "same_size_slots_40pct": 15,
+                  "same_size_slots_50pct": 19
+                },
+                "25000:D1": {
+                  "lot": 0.17,
+                  "stress_stop_usd_per_lot": 703.64,
+                  "margin_usd": 621.76,
+                  "same_size_slots_40pct": 16,
+                  "same_size_slots_50pct": 20
+                },
+                "10000:H4": {
+                  "lot": 0.18,
+                  "stress_stop_usd_per_lot": 277.05,
+                  "margin_usd": 658.34,
+                  "same_size_slots_40pct": 6,
+                  "same_size_slots_50pct": 7
+                },
+                "25000:H4": {
+                  "lot": 0.45,
+                  "stress_stop_usd_per_lot": 277.05,
+                  "margin_usd": 1645.85,
+                  "same_size_slots_40pct": 6,
+                  "same_size_slots_50pct": 7
+                }
+              }
+            }
+          },
+          "development_median_ATR14_price": {
+            "D1": 0.005234625336362109,
+            "H4": 0.0019772543370838863
+          }
+        },
+        "spread_live_swing": {
+          "n": 16,
+          "p50": 0.5999999999994898,
+          "p95": 0.700000000000145
+        },
+        "spread_standard_london": {
+          "n": 84,
+          "median": 0.5,
+          "p95": 0.6,
+          "max": 0.6,
+          "timestamp_span_seconds": 111.287
+        },
+        "swing_weekly_sessions": {
+          "sessions_quote": [
+            {
+              "weekday": 1,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 2,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 3,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 4,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 5,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            }
+          ],
+          "sessions_trade": [
+            {
+              "weekday": 1,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 2,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 3,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 4,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 5,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            }
+          ]
+        },
+        "standard_weekly_sessions": null
+      },
+      "EURJPY": {
+        "structural_difference": {},
+        "standard_fields": {
+          "trade_contract_size": 100000.0,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "trade_stops_level": 0,
+          "trade_tick_size": 0.001,
+          "swap_mode": 1,
+          "swap_long": 2.11,
+          "swap_short": -11.15,
+          "swap_rollover3days": 3
+        },
+        "swing_fields": {
+          "trade_contract_size": 100000.0,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "trade_stops_level": 0,
+          "trade_tick_size": 0.001,
+          "swap_mode": 1,
+          "swap_long": 1.24,
+          "swap_short": -10.11,
+          "swap_rollover3days": 3
+        },
+        "standard_margin_001_usd": [
+          11.01,
+          11.01
+        ],
+        "swing_margin": {
+          "bid": 174.632,
+          "ask": 174.644,
+          "quote_utc_msc": 1795144532260,
+          "quote_age_ms": 4360,
+          "quote_fresh": true,
+          "sides": {
+            "BUY": {
+              "margin_001_usd": 36.57,
+              "margin_100_usd": 3657.43,
+              "sized": {
+                "10000:D1": {
+                  "lot": 0.07,
+                  "stress_stop_usd_per_lot": 670.57,
+                  "margin_usd": 256.02,
+                  "same_size_slots_40pct": 15,
+                  "same_size_slots_50pct": 19
+                },
+                "25000:D1": {
+                  "lot": 0.18,
+                  "stress_stop_usd_per_lot": 670.57,
+                  "margin_usd": 658.34,
+                  "same_size_slots_40pct": 15,
+                  "same_size_slots_50pct": 18
+                },
+                "10000:H4": {
+                  "lot": 0.18,
+                  "stress_stop_usd_per_lot": 264.84,
+                  "margin_usd": 658.34,
+                  "same_size_slots_40pct": 6,
+                  "same_size_slots_50pct": 7
+                },
+                "25000:H4": {
+                  "lot": 0.47,
+                  "stress_stop_usd_per_lot": 264.84,
+                  "margin_usd": 1718.99,
+                  "same_size_slots_40pct": 5,
+                  "same_size_slots_50pct": 7
+                }
+              }
+            },
+            "SELL": {
+              "margin_001_usd": 36.57,
+              "margin_100_usd": 3657.43,
+              "sized": {
+                "10000:D1": {
+                  "lot": 0.07,
+                  "stress_stop_usd_per_lot": 670.55,
+                  "margin_usd": 256.02,
+                  "same_size_slots_40pct": 15,
+                  "same_size_slots_50pct": 19
+                },
+                "25000:D1": {
+                  "lot": 0.18,
+                  "stress_stop_usd_per_lot": 670.55,
+                  "margin_usd": 658.34,
+                  "same_size_slots_40pct": 15,
+                  "same_size_slots_50pct": 18
+                },
+                "10000:H4": {
+                  "lot": 0.18,
+                  "stress_stop_usd_per_lot": 264.84,
+                  "margin_usd": 658.34,
+                  "same_size_slots_40pct": 6,
+                  "same_size_slots_50pct": 7
+                },
+                "25000:H4": {
+                  "lot": 0.47,
+                  "stress_stop_usd_per_lot": 264.84,
+                  "margin_usd": 1718.99,
+                  "same_size_slots_40pct": 5,
+                  "same_size_slots_50pct": 7
+                }
+              }
+            }
+          },
+          "development_median_ATR14_price": {
+            "D1": 1.0432768813552242,
+            "H4": 0.3975533478344931
+          }
+        },
+        "spread_live_swing": {
+          "n": 36,
+          "p50": 1.0000000000019327,
+          "p95": 1.1000000000002785
+        },
+        "spread_standard_london": {
+          "n": 163,
+          "median": 0.9,
+          "p95": 1.1,
+          "max": 1.1,
+          "timestamp_span_seconds": 112.498
+        },
+        "swing_weekly_sessions": {
+          "sessions_quote": [
+            {
+              "weekday": 1,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 2,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 3,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 4,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 5,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            }
+          ],
+          "sessions_trade": [
+            {
+              "weekday": 1,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 2,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 3,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 4,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 5,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            }
+          ]
+        },
+        "standard_weekly_sessions": null
+      },
+      "GBPJPY": {
+        "structural_difference": {},
+        "standard_fields": {
+          "trade_contract_size": 100000.0,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "trade_stops_level": 0,
+          "trade_tick_size": 0.001,
+          "swap_mode": 1,
+          "swap_long": 5.87,
+          "swap_short": -25.15,
+          "swap_rollover3days": 3
+        },
+        "swing_fields": {
+          "trade_contract_size": 100000.0,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "trade_stops_level": 0,
+          "trade_tick_size": 0.001,
+          "swap_mode": 1,
+          "swap_long": 3.5,
+          "swap_short": -25.07,
+          "swap_rollover3days": 3
+        },
+        "standard_margin_001_usd": [
+          13.17,
+          13.17
+        ],
+        "swing_margin": {
+          "bid": 208.432,
+          "ask": 208.45,
+          "quote_utc_msc": 1795144531210,
+          "quote_age_ms": 5433,
+          "quote_fresh": true,
+          "sides": {
+            "BUY": {
+              "margin_001_usd": 43.66,
+              "margin_100_usd": 4365.57,
+              "sized": {
+                "10000:D1": {
+                  "lot": 0.05,
+                  "stress_stop_usd_per_lot": 878.91,
+                  "margin_usd": 218.28,
+                  "same_size_slots_40pct": 18,
+                  "same_size_slots_50pct": 22
+                },
+                "25000:D1": {
+                  "lot": 0.14,
+                  "stress_stop_usd_per_lot": 878.91,
+                  "margin_usd": 611.18,
+                  "same_size_slots_40pct": 16,
+                  "same_size_slots_50pct": 20
+                },
+                "10000:H4": {
+                  "lot": 0.14,
+                  "stress_stop_usd_per_lot": 354.82,
+                  "margin_usd": 611.18,
+                  "same_size_slots_40pct": 6,
+                  "same_size_slots_50pct": 8
+                },
+                "25000:H4": {
+                  "lot": 0.35,
+                  "stress_stop_usd_per_lot": 354.82,
+                  "margin_usd": 1527.95,
+                  "same_size_slots_40pct": 6,
+                  "same_size_slots_50pct": 8
+                }
+              }
+            },
+            "SELL": {
+              "margin_001_usd": 43.65,
+              "margin_100_usd": 4365.47,
+              "sized": {
+                "10000:D1": {
+                  "lot": 0.05,
+                  "stress_stop_usd_per_lot": 878.89,
+                  "margin_usd": 218.27,
+                  "same_size_slots_40pct": 18,
+                  "same_size_slots_50pct": 22
+                },
+                "25000:D1": {
+                  "lot": 0.14,
+                  "stress_stop_usd_per_lot": 878.89,
+                  "margin_usd": 611.17,
+                  "same_size_slots_40pct": 16,
+                  "same_size_slots_50pct": 20
+                },
+                "10000:H4": {
+                  "lot": 0.14,
+                  "stress_stop_usd_per_lot": 354.82,
+                  "margin_usd": 611.17,
+                  "same_size_slots_40pct": 6,
+                  "same_size_slots_50pct": 8
+                },
+                "25000:H4": {
+                  "lot": 0.35,
+                  "stress_stop_usd_per_lot": 354.82,
+                  "margin_usd": 1527.91,
+                  "same_size_slots_40pct": 6,
+                  "same_size_slots_50pct": 8
+                }
+              }
+            }
+          },
+          "development_median_ATR14_price": {
+            "D1": 1.3688672483145703,
+            "H4": 0.5347635253720887
+          }
+        },
+        "spread_live_swing": {
+          "n": 50,
+          "p50": 2.5000000000005684,
+          "p95": 2.899999999999636
+        },
+        "spread_standard_london": {
+          "n": 117,
+          "median": 2.4,
+          "p95": 2.8,
+          "max": 3.1,
+          "timestamp_span_seconds": 110.998
+        },
+        "swing_weekly_sessions": {
+          "sessions_quote": [
+            {
+              "weekday": 1,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 2,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 3,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 4,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 5,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            }
+          ],
+          "sessions_trade": [
+            {
+              "weekday": 1,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 2,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 3,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 4,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 5,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            }
+          ]
+        },
+        "standard_weekly_sessions": null
+      },
+      "AUDJPY": {
+        "structural_difference": {},
+        "standard_fields": {
+          "trade_contract_size": 100000.0,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "trade_stops_level": 0,
+          "trade_tick_size": 0.001,
+          "swap_mode": 1,
+          "swap_long": 3.77,
+          "swap_short": -15.25,
+          "swap_rollover3days": 3
+        },
+        "swing_fields": {
+          "trade_contract_size": 100000.0,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "trade_stops_level": 0,
+          "trade_tick_size": 0.001,
+          "swap_mode": 1,
+          "swap_long": 2.81,
+          "swap_short": -13.92,
+          "swap_rollover3days": 3
+        },
+        "standard_margin_001_usd": [
+          6.71,
+          6.71
+        ],
+        "swing_margin": {
+          "bid": 105.814,
+          "ask": 105.823,
+          "quote_utc_msc": 1795144531662,
+          "quote_age_ms": 5005,
+          "quote_fresh": true,
+          "sides": {
+            "BUY": {
+              "margin_001_usd": 22.16,
+              "margin_100_usd": 2216.33,
+              "sized": {
+                "10000:D1": {
+                  "lot": 0.09,
+                  "stress_stop_usd_per_lot": 527.3,
+                  "margin_usd": 199.47,
+                  "same_size_slots_40pct": 20,
+                  "same_size_slots_50pct": 25
+                },
+                "25000:D1": {
+                  "lot": 0.23,
+                  "stress_stop_usd_per_lot": 527.3,
+                  "margin_usd": 509.76,
+                  "same_size_slots_40pct": 19,
+                  "same_size_slots_50pct": 24
+                },
+                "10000:H4": {
+                  "lot": 0.23,
+                  "stress_stop_usd_per_lot": 213.14,
+                  "margin_usd": 509.76,
+                  "same_size_slots_40pct": 7,
+                  "same_size_slots_50pct": 9
+                },
+                "25000:H4": {
+                  "lot": 0.58,
+                  "stress_stop_usd_per_lot": 213.14,
+                  "margin_usd": 1285.47,
+                  "same_size_slots_40pct": 7,
+                  "same_size_slots_50pct": 9
+                }
+              }
+            },
+            "SELL": {
+              "margin_001_usd": 22.16,
+              "margin_100_usd": 2216.23,
+              "sized": {
+                "10000:D1": {
+                  "lot": 0.09,
+                  "stress_stop_usd_per_lot": 527.29,
+                  "margin_usd": 199.46,
+                  "same_size_slots_40pct": 20,
+                  "same_size_slots_50pct": 25
+                },
+                "25000:D1": {
+                  "lot": 0.23,
+                  "stress_stop_usd_per_lot": 527.29,
+                  "margin_usd": 509.73,
+                  "same_size_slots_40pct": 19,
+                  "same_size_slots_50pct": 24
+                },
+                "10000:H4": {
+                  "lot": 0.23,
+                  "stress_stop_usd_per_lot": 213.14,
+                  "margin_usd": 509.73,
+                  "same_size_slots_40pct": 7,
+                  "same_size_slots_50pct": 9
+                },
+                "25000:H4": {
+                  "lot": 0.58,
+                  "stress_stop_usd_per_lot": 213.14,
+                  "margin_usd": 1285.42,
+                  "same_size_slots_40pct": 7,
+                  "same_size_slots_50pct": 9
+                }
+              }
+            }
+          },
+          "development_median_ATR14_price": {
+            "D1": 0.8182644994625103,
+            "H4": 0.31826577758323527
+          }
+        },
+        "spread_live_swing": {
+          "n": 46,
+          "p50": 1.2000000000000455,
+          "p95": 1.2000000000000455
+        },
+        "spread_standard_london": {
+          "n": 89,
+          "median": 1.0,
+          "p95": 1.2,
+          "max": 1.3,
+          "timestamp_span_seconds": 110.678
+        },
+        "swing_weekly_sessions": {
+          "sessions_quote": [
+            {
+              "weekday": 1,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 2,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 3,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 4,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 5,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            }
+          ],
+          "sessions_trade": [
+            {
+              "weekday": 1,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 2,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 3,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 4,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            },
+            {
+              "weekday": 5,
+              "index": 0,
+              "from_server_seconds": 300,
+              "to_server_seconds": 86100
+            }
+          ]
+        },
+        "standard_weekly_sessions": null
+      },
+      "XAUUSD": {
+        "structural_difference": {},
+        "standard_fields": {
+          "trade_contract_size": 100.0,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "trade_stops_level": 0,
+          "trade_tick_size": 0.01,
+          "swap_mode": 1,
+          "swap_long": -56.56,
+          "swap_short": -4.2,
+          "swap_rollover3days": 3
+        },
+        "swing_fields": {
+          "trade_contract_size": 100.0,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "trade_stops_level": 0,
+          "trade_tick_size": 0.01,
+          "swap_mode": 1,
+          "swap_long": -56.28,
+          "swap_short": -4.2,
+          "swap_rollover3days": 3
+        },
+        "standard_margin_001_usd": [
+          74.71,
+          74.7
+        ],
+        "swing_margin": {
+          "bid": 3525.28,
+          "ask": 3525.72,
+          "quote_utc_msc": 1795144532858,
+          "quote_age_ms": 3834,
+          "quote_fresh": true,
+          "sides": {
+            "BUY": {
+              "margin_001_usd": 235.05,
+              "margin_100_usd": 23504.8,
+              "sized": {
+                "10000:D1": {
+                  "lot": 0.02,
+                  "stress_stop_usd_per_lot": 2418.1091156560324,
+                  "margin_usd": 470.1,
+                  "same_size_slots_40pct": 8,
+                  "same_size_slots_50pct": 10
+                },
+                "25000:D1": {
+                  "lot": 0.05,
+                  "stress_stop_usd_per_lot": 2418.1091156560324,
+                  "margin_usd": 1175.24,
+                  "same_size_slots_40pct": 8,
+                  "same_size_slots_50pct": 10
+                },
+                "10000:H4": {
+                  "lot": 0.05,
+                  "stress_stop_usd_per_lot": 981.7191705040302,
+                  "margin_usd": 1175.24,
+                  "same_size_slots_40pct": 3,
+                  "same_size_slots_50pct": 4
+                },
+                "25000:H4": {
+                  "lot": 0.12,
+                  "stress_stop_usd_per_lot": 981.7191705040302,
+                  "margin_usd": 2820.58,
+                  "same_size_slots_40pct": 3,
+                  "same_size_slots_50pct": 4
+                }
+              }
+            },
+            "SELL": {
+              "margin_001_usd": 235.02,
+              "margin_100_usd": 23501.87,
+              "sized": {
+                "10000:D1": {
+                  "lot": 0.02,
+                  "stress_stop_usd_per_lot": 2418.1422843439677,
+                  "margin_usd": 470.04,
+                  "same_size_slots_40pct": 8,
+                  "same_size_slots_50pct": 10
+                },
+                "25000:D1": {
+                  "lot": 0.05,
+                  "stress_stop_usd_per_lot": 2418.1422843439677,
+                  "margin_usd": 1175.09,
+                  "same_size_slots_40pct": 8,
+                  "same_size_slots_50pct": 10
+                },
+                "10000:H4": {
+                  "lot": 0.05,
+                  "stress_stop_usd_per_lot": 981.7322294959697,
+                  "margin_usd": 1175.09,
+                  "same_size_slots_40pct": 3,
+                  "same_size_slots_50pct": 4
+                },
+                "25000:H4": {
+                  "lot": 0.12,
+                  "stress_stop_usd_per_lot": 981.7322294959697,
+                  "margin_usd": 2820.22,
+                  "same_size_slots_40pct": 3,
+                  "same_size_slots_50pct": 4
+                }
+              }
+            }
+          },
+          "development_median_ATR14_price": {
+            "D1": 23.291919953798285,
+            "H4": 8.927851385391907
+          }
+        },
+        "spread_live_swing": {
+          "n": 93,
+          "p50": 0.44000000000005457,
+          "p95": 0.45400000000017815
+        },
+        "spread_standard_london": {
+          "n": 204,
+          "median": 0.35,
+          "p95": 0.39,
+          "max": 0.4,
+          "timestamp_span_seconds": 110.997
+        },
+        "swing_weekly_sessions": {
+          "sessions_quote": [
+            {
+              "weekday": 1,
+              "index": 0,
+              "from_server_seconds": 3900,
+              "to_server_seconds": 85800
+            },
+            {
+              "weekday": 2,
+              "index": 0,
+              "from_server_seconds": 3900,
+              "to_server_seconds": 85800
+            },
+            {
+              "weekday": 3,
+              "index": 0,
+              "from_server_seconds": 3900,
+              "to_server_seconds": 85800
+            },
+            {
+              "weekday": 4,
+              "index": 0,
+              "from_server_seconds": 3900,
+              "to_server_seconds": 85800
+            },
+            {
+              "weekday": 5,
+              "index": 0,
+              "from_server_seconds": 3900,
+              "to_server_seconds": 85800
+            }
+          ],
+          "sessions_trade": [
+            {
+              "weekday": 1,
+              "index": 0,
+              "from_server_seconds": 3900,
+              "to_server_seconds": 85800
+            },
+            {
+              "weekday": 2,
+              "index": 0,
+              "from_server_seconds": 3900,
+              "to_server_seconds": 85800
+            },
+            {
+              "weekday": 3,
+              "index": 0,
+              "from_server_seconds": 3900,
+              "to_server_seconds": 85800
+            },
+            {
+              "weekday": 4,
+              "index": 0,
+              "from_server_seconds": 3900,
+              "to_server_seconds": 85800
+            },
+            {
+              "weekday": 5,
+              "index": 0,
+              "from_server_seconds": 3900,
+              "to_server_seconds": 85800
+            }
+          ]
+        },
+        "standard_weekly_sessions": null
+      },
+      "US500.cash": {
+        "structural_difference": {},
+        "standard_fields": {
+          "trade_contract_size": 1.0,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "trade_stops_level": 0,
+          "trade_tick_size": 0.01,
+          "swap_mode": 1,
+          "swap_long": -87.25,
+          "swap_short": -88.78,
+          "swap_rollover3days": 5
+        },
+        "swing_fields": {
+          "trade_contract_size": 1.0,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "trade_stops_level": 0,
+          "trade_tick_size": 0.01,
+          "swap_mode": 1,
+          "swap_long": -138.03,
+          "swap_short": -36.37,
+          "swap_rollover3days": 5
+        },
+        "standard_margin_001_usd": [
+          1.48,
+          1.48
+        ],
+        "swing_margin": {
+          "bid": 7149.25,
+          "ask": 7149.85,
+          "quote_utc_msc": 1795144532909,
+          "quote_age_ms": 3804,
+          "quote_fresh": true,
+          "sides": {
+            "BUY": {
+              "margin_001_usd": 4.77,
+              "margin_100_usd": 476.66,
+              "sized": {
+                "10000:D1": {
+                  "lot": 0.93,
+                  "stress_stop_usd_per_lot": 53.48,
+                  "margin_usd": 443.29,
+                  "same_size_slots_40pct": 9,
+                  "same_size_slots_50pct": 11
+                },
+                "25000:D1": {
+                  "lot": 2.33,
+                  "stress_stop_usd_per_lot": 53.48,
+                  "margin_usd": 1110.61,
+                  "same_size_slots_40pct": 9,
+                  "same_size_slots_50pct": 11
+                }
+              }
+            },
+            "SELL": {
+              "margin_001_usd": 4.77,
+              "margin_100_usd": 476.62,
+              "sized": {
+                "10000:D1": {
+                  "lot": 0.93,
+                  "stress_stop_usd_per_lot": 53.48,
+                  "margin_usd": 443.25,
+                  "same_size_slots_40pct": 9,
+                  "same_size_slots_50pct": 11
+                },
+                "25000:D1": {
+                  "lot": 2.33,
+                  "stress_stop_usd_per_lot": 53.48,
+                  "margin_usd": 1110.52,
+                  "same_size_slots_40pct": 9,
+                  "same_size_slots_50pct": 11
+                }
+              }
+            }
+          },
+          "development_median_ATR14_price": {
+            "D1": 51.37958240352643,
+            "H4": null
+          }
+        },
+        "spread_live_swing": {
+          "n": 49,
+          "p50": 0.6000000000003638,
+          "p95": 0.6000000000003638
+        },
+        "spread_standard_london": {
+          "n": 108,
+          "median": 0.6,
+          "p95": 0.6,
+          "max": 0.6,
+          "timestamp_span_seconds": 110.313
+        },
+        "swing_weekly_sessions": {
+          "sessions_quote": [
+            {
+              "weekday": 1,
+              "index": 0,
+              "from_server_seconds": 3900,
+              "to_server_seconds": 85800
+            },
+            {
+              "weekday": 2,
+              "index": 0,
+              "from_server_seconds": 3900,
+              "to_server_seconds": 85800
+            },
+            {
+              "weekday": 3,
+              "index": 0,
+              "from_server_seconds": 3900,
+              "to_server_seconds": 85800
+            },
+            {
+              "weekday": 4,
+              "index": 0,
+              "from_server_seconds": 3900,
+              "to_server_seconds": 85800
+            },
+            {
+              "weekday": 5,
+              "index": 0,
+              "from_server_seconds": 3900,
+              "to_server_seconds": 85800
+            }
+          ],
+          "sessions_trade": [
+            {
+              "weekday": 1,
+              "index": 0,
+              "from_server_seconds": 3900,
+              "to_server_seconds": 85800
+            },
+            {
+              "weekday": 2,
+              "index": 0,
+              "from_server_seconds": 3900,
+              "to_server_seconds": 85800
+            },
+            {
+              "weekday": 3,
+              "index": 0,
+              "from_server_seconds": 3900,
+              "to_server_seconds": 85800
+            },
+            {
+              "weekday": 4,
+              "index": 0,
+              "from_server_seconds": 3900,
+              "to_server_seconds": 85800
+            },
+            {
+              "weekday": 5,
+              "index": 0,
+              "from_server_seconds": 3900,
+              "to_server_seconds": 85800
+            }
+          ]
+        },
+        "standard_weekly_sessions": null
+      }
+    },
+    "capacity": {
+      "10000": {
+        "D1": {
+          "0.4": {
+            "eligible": 13,
+            "cap_usd": 4000.0,
+            "lowest_margin_first": {
+              "count": 13,
+              "symbols": [
+                "NZDUSD",
+                "AUDUSD",
+                "GBPUSD",
+                "AUDJPY",
+                "USDCHF",
+                "GBPJPY",
+                "EURUSD",
+                "EURGBP",
+                "EURJPY",
+                "USDCAD",
+                "USDJPY",
+                "US500.cash",
+                "XAUUSD"
+              ],
+              "margin_usd": 3338.6499999999996
+            },
+            "guaranteed_any_subset": {
+              "count": 13,
+              "symbols": [
+                "XAUUSD",
+                "US500.cash",
+                "USDJPY",
+                "USDCAD",
+                "EURGBP",
+                "EURJPY",
+                "EURUSD",
+                "GBPJPY",
+                "USDCHF",
+                "AUDJPY",
+                "GBPUSD",
+                "AUDUSD",
+                "NZDUSD"
+              ],
+              "margin_usd": 3338.6499999999996
+            }
+          },
+          "0.5": {
+            "eligible": 13,
+            "cap_usd": 5000.0,
+            "lowest_margin_first": {
+              "count": 13,
+              "symbols": [
+                "NZDUSD",
+                "AUDUSD",
+                "GBPUSD",
+                "AUDJPY",
+                "USDCHF",
+                "GBPJPY",
+                "EURUSD",
+                "EURGBP",
+                "EURJPY",
+                "USDCAD",
+                "USDJPY",
+                "US500.cash",
+                "XAUUSD"
+              ],
+              "margin_usd": 3338.6499999999996
+            },
+            "guaranteed_any_subset": {
+              "count": 13,
+              "symbols": [
+                "XAUUSD",
+                "US500.cash",
+                "USDJPY",
+                "USDCAD",
+                "EURGBP",
+                "EURJPY",
+                "EURUSD",
+                "GBPJPY",
+                "USDCHF",
+                "AUDJPY",
+                "GBPUSD",
+                "AUDUSD",
+                "NZDUSD"
+              ],
+              "margin_usd": 3338.6499999999996
+            }
+          }
+        },
+        "H4": {
+          "0.4": {
+            "eligible": 12,
+            "cap_usd": 4000.0,
+            "lowest_margin_first": {
+              "count": 7,
+              "symbols": [
+                "NZDUSD",
+                "AUDUSD",
+                "AUDJPY",
+                "USDCHF",
+                "GBPUSD",
+                "GBPJPY",
+                "EURUSD"
+              ],
+              "margin_usd": 3612.01
+            },
+            "guaranteed_any_subset": {
+              "count": 4,
+              "symbols": [
+                "XAUUSD",
+                "USDJPY",
+                "USDCAD",
+                "EURGBP"
+              ],
+              "margin_usd": 3366.9100000000003
+            }
+          },
+          "0.5": {
+            "eligible": 12,
+            "cap_usd": 5000.0,
+            "lowest_margin_first": {
+              "count": 9,
+              "symbols": [
+                "NZDUSD",
+                "AUDUSD",
+                "AUDJPY",
+                "USDCHF",
+                "GBPUSD",
+                "GBPJPY",
+                "EURUSD",
+                "EURGBP",
+                "EURJPY"
+              ],
+              "margin_usd": 4928.6900000000005
+            },
+            "guaranteed_any_subset": {
+              "count": 6,
+              "symbols": [
+                "XAUUSD",
+                "USDJPY",
+                "USDCAD",
+                "EURGBP",
+                "EURJPY",
+                "EURUSD"
+              ],
+              "margin_usd": 4647.01
+            }
+          }
+        }
+      },
+      "25000": {
+        "D1": {
+          "0.4": {
+            "eligible": 13,
+            "cap_usd": 10000.0,
+            "lowest_margin_first": {
+              "count": 13,
+              "symbols": [
+                "NZDUSD",
+                "AUDUSD",
+                "AUDJPY",
+                "GBPUSD",
+                "USDCHF",
+                "EURUSD",
+                "GBPJPY",
+                "EURGBP",
+                "EURJPY",
+                "USDCAD",
+                "USDJPY",
+                "US500.cash",
+                "XAUUSD"
+              ],
+              "margin_usd": 8716.04
+            },
+            "guaranteed_any_subset": {
+              "count": 13,
+              "symbols": [
+                "XAUUSD",
+                "US500.cash",
+                "USDJPY",
+                "USDCAD",
+                "EURJPY",
+                "EURGBP",
+                "GBPJPY",
+                "EURUSD",
+                "USDCHF",
+                "GBPUSD",
+                "AUDJPY",
+                "AUDUSD",
+                "NZDUSD"
+              ],
+              "margin_usd": 8716.039999999999
+            }
+          },
+          "0.5": {
+            "eligible": 13,
+            "cap_usd": 12500.0,
+            "lowest_margin_first": {
+              "count": 13,
+              "symbols": [
+                "NZDUSD",
+                "AUDUSD",
+                "AUDJPY",
+                "GBPUSD",
+                "USDCHF",
+                "EURUSD",
+                "GBPJPY",
+                "EURGBP",
+                "EURJPY",
+                "USDCAD",
+                "USDJPY",
+                "US500.cash",
+                "XAUUSD"
+              ],
+              "margin_usd": 8716.04
+            },
+            "guaranteed_any_subset": {
+              "count": 13,
+              "symbols": [
+                "XAUUSD",
+                "US500.cash",
+                "USDJPY",
+                "USDCAD",
+                "EURJPY",
+                "EURGBP",
+                "GBPJPY",
+                "EURUSD",
+                "USDCHF",
+                "GBPUSD",
+                "AUDJPY",
+                "AUDUSD",
+                "NZDUSD"
+              ],
+              "margin_usd": 8716.039999999999
+            }
+          }
+        },
+        "H4": {
+          "0.4": {
+            "eligible": 12,
+            "cap_usd": 10000.0,
+            "lowest_margin_first": {
+              "count": 7,
+              "symbols": [
+                "NZDUSD",
+                "AUDUSD",
+                "AUDJPY",
+                "GBPUSD",
+                "USDCHF",
+                "GBPJPY",
+                "EURUSD"
+              ],
+              "margin_usd": 9120.61
+            },
+            "guaranteed_any_subset": {
+              "count": 4,
+              "symbols": [
+                "XAUUSD",
+                "USDJPY",
+                "USDCAD",
+                "EURJPY"
+              ],
+              "margin_usd": 8439.57
+            }
+          },
+          "0.5": {
+            "eligible": 12,
+            "cap_usd": 12500.0,
+            "lowest_margin_first": {
+              "count": 9,
+              "symbols": [
+                "NZDUSD",
+                "AUDUSD",
+                "AUDJPY",
+                "GBPUSD",
+                "USDCHF",
+                "GBPJPY",
+                "EURUSD",
+                "EURGBP",
+                "EURJPY"
+              ],
+              "margin_usd": 12485.45
+            },
+            "guaranteed_any_subset": {
+              "count": 6,
+              "symbols": [
+                "XAUUSD",
+                "USDJPY",
+                "USDCAD",
+                "EURJPY",
+                "EURGBP",
+                "EURUSD"
+              ],
+              "margin_usd": 11658.12
+            }
+          }
+        }
+      }
+    },
+    "native_spread_capture": {
+      "observed_at_msc": 1795144319825,
+      "elapsed_seconds": 30.0,
+      "samples": 468,
+      "basis": "Non-simultaneous native sampled quotes"
+    },
+    "cleanup_recovery": {
+      "owned_process_ids_observed": [
+        21244,
+        5500
+      ],
+      "owned_process_ids_remaining": [],
+      "order_send_count": 0
+    },
+    "order_send_count": 0
+  },
+  "scope": {
+    "development": [
+      2018,
+      2024
+    ],
+    "clusters": {
+      "A": [
+        2018,
+        2020
+      ],
+      "B": [
+        2021,
+        2024
+      ]
+    }
+  }
+}
