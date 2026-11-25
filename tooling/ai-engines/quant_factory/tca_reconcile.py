@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import csv
 from pathlib import Path
+import re
 from typing import Iterable
 
 import numpy as np
@@ -23,6 +24,7 @@ BENCHMARK_SPREAD_PTS = {
     "GBPUSD": 6.0,
     "EURUSD": 4.0,
     "EURJPY": 14.0,
+    "GBPJPY": 16.0,
     "AUDUSD": 7.0,
     "USDCAD": 9.0,
     "XAUUSD": 28.0,
@@ -30,22 +32,89 @@ BENCHMARK_SPREAD_PTS = {
     "US100.cash": 20.0,
     "US500": 6.0,
     "US500.cash": 6.0,
+    "US30": 18.0,
+    "GER40": 15.0,
+    "UK100": 12.0,
 }
 
 POINT_SIZES = {
     "USDJPY": 0.001,
     "EURJPY": 0.001,
     "GBPJPY": 0.001,
+    "AUDJPY": 0.001,
+    "CADJPY": 0.001,
+    "CHFJPY": 0.001,
+    "NZDJPY": 0.001,
     "GBPUSD": 0.00001,
     "EURUSD": 0.00001,
     "AUDUSD": 0.00001,
     "USDCAD": 0.00001,
+    "USDCHF": 0.00001,
+    "NZDUSD": 0.00001,
     "XAUUSD": 0.01,
+    "XAGUSD": 0.001,
     "US100": 0.01,
     "US100.cash": 0.01,
     "US500": 0.01,
     "US500.cash": 0.01,
+    "US30": 0.01,
+    "GER40": 0.01,
+    "UK100": 0.01,
 }
+
+_INDEX_METAL_ALIAS_RULES: tuple[tuple[re.Pattern[str], str], ...] = (
+    (re.compile(r"^(?:US100|NAS100|USTEC|NDX100|NDX)(?:[^A-Z0-9].*|[a-z].*|$)", re.I), "US100"),
+    (re.compile(r"^(?:US500|SPX500|SP500|SPX)(?:[^A-Z0-9].*|[a-z].*|$)", re.I), "US500"),
+    (re.compile(r"^(?:US30|DJ30|WS30)(?:[^A-Z0-9].*|[a-z].*|$)", re.I), "US30"),
+    (re.compile(r"^(?:GER40|DE40|DAX40|DAX)(?:[^A-Z0-9].*|[a-z].*|$)", re.I), "GER40"),
+    (re.compile(r"^(?:UK100|FTSE100|FTSE)(?:[^A-Z0-9].*|[a-z].*|$)", re.I), "UK100"),
+    (re.compile(r"^(?:XAUUSD|GOLD)(?:[^A-Z0-9].*|[a-z].*|$)", re.I), "XAUUSD"),
+    (re.compile(r"^(?:XAGUSD|SILVER)(?:[^A-Z0-9].*|[a-z].*|$)", re.I), "XAGUSD"),
+)
+_FX6_SUFFIX_RE = re.compile(r"^([A-Za-z]{6})(?:[\._\-\+\#].*|[a-z]{1,4})?$")
+
+
+def normalize_symbol_alias(symbol: str) -> str:
+    """Normalize broker-specific suffixes and index aliases (e.g. `USDJPY.pro`, `NAS100`, `SPX500`, `XAUUSDm`) to canonical keys."""
+    s = str(symbol or "").strip()
+    if not s:
+        return ""
+    for rx, canonical in _INDEX_METAL_ALIAS_RULES:
+        if rx.match(s):
+            return canonical
+    # Exact 6-char FX pair or 6-char FX + suffix (.pro, .raw, .ecn, m, c, +, _, etc.)
+    m = _FX6_SUFFIX_RE.match(s)
+    if m:
+        return m.group(1).upper()
+    # Fallback: strip anything after first delimiter (., _, -, +, #)
+    head = re.split(r"[\._\-\+\#]", s, maxsplit=1)[0].strip()
+    if len(head) >= 6 and head[:6].isalpha():
+        return head[:6].upper()
+    return head.upper()
+
+
+def point_size_for_symbol(symbol: str) -> float:
+    """Return broker point size with suffix/alias normalization (never silently distorting JPY/Index/Gold by 100x-1000x)."""
+    raw = str(symbol or "").strip()
+    if raw in POINT_SIZES:
+        return POINT_SIZES[raw]
+    canon = normalize_symbol_alias(raw)
+    if canon in POINT_SIZES:
+        return POINT_SIZES[canon]
+    if len(canon) == 6 and canon.endswith("JPY"):
+        return 0.001
+    if canon.startswith("XAU"):
+        return 0.01
+    return 0.00001
+
+
+def benchmark_spread_for_symbol(symbol: str) -> float | None:
+    """Return benchmark median spread in broker points using canonical alias normalization."""
+    raw = str(symbol or "").strip()
+    if raw in BENCHMARK_SPREAD_PTS:
+        return BENCHMARK_SPREAD_PTS[raw]
+    canon = normalize_symbol_alias(raw)
+    return BENCHMARK_SPREAD_PTS.get(canon)
 
 
 def load_exec_audit_csv(csv_path: Path) -> list[dict]:
@@ -94,7 +163,7 @@ def compute_tca_report(
 
     for e in fills:
         sym = e["symbol"]
-        pt = POINT_SIZES.get(sym, 0.00001)
+        pt = point_size_for_symbol(sym)
         sig_px = float(e["signal_price"])
         fill_px = float(e["fill_price"])
         sl_px = float(e["sl_price"])
@@ -107,7 +176,7 @@ def compute_tca_report(
         by_sym.setdefault(sym, []).append(adv_pts)
         if sl_dist > 1e-12:
             slip_r_pcts.append(100.0 * adverse_px / sl_dist)
-        bench = BENCHMARK_SPREAD_PTS.get(sym)
+        bench = benchmark_spread_for_symbol(sym)
         if bench and bench > 0:
             spread_ratios.append(float(e["spread_pts"]) / bench)
         latencies.append(float(e["latency_ms"]))

@@ -704,6 +704,166 @@ class Mql5ParityAndDeploymentKitTests(unittest.TestCase):
         self.assertIn("InpMaxUsdClusterPct", master)
         self.assertIn("BARRIER_TAPER", master)
 
+    def test_blackfriday_master_prop7e_4_lifecycle_presets_fail_closed_and_checklist(self):
+        has_local_ex5 = EX5_DIR.is_dir() and len(list(EX5_DIR.glob("*.ex5"))) >= 10
+        rep = kit.verify_kit(exports_dir=EXPORTS_DIR, kit_dir=KIT_DIR, ex5_dir=EX5_DIR, require_ex5=has_local_ex5)
+        self.assertTrue(rep["ok"], f"Kit verification failed: {rep['errors']}")
+        self.assertEqual(rep["presets_checked"], 90)
+        self.assertEqual(rep["master_presets_checked"], 4)
+        self.assertEqual(rep["total_presets_checked"], 94)
+
+        master_keys = (
+            set(parity.parse_mq5_source(EXPORTS_DIR / "Naqex_Master_Prop7E.mq5")["inputs"])
+            | set(parity.parse_mq5_source(EXPORTS_DIR / "Include/Naqex_PropGuard.mqh")["inputs"])
+        )
+        manifest = json.loads((KIT_DIR / "manifest.sha256.json").read_text(encoding="utf-8"))
+        self.assertEqual(manifest["master_lifecycle_presets_count"], 4)
+
+        expected_specs = {
+            "FTMO_Std10K_MasterProp7E_P1_Balanced_3x.set": (3.00, 10.00, 5.00, 1.50, 3.00, 7.50, 1.50, 2.00, 1.75, 1.50, 2.50),
+            "FTMO_Std10K_MasterProp7E_P1_Sprint_4x.set": (4.00, 10.00, 5.00, 2.01, 3.50, 8.00, 1.75, 2.25, 2.00, 1.75, 3.00),
+            "FTMO_Std10K_MasterProp7E_P2_Verify_2x.set": (2.00, 5.00, 2.50, 1.00, 2.50, 7.50, 1.25, 1.75, 1.50, 1.25, 2.25),
+            "FTMO_Std10K_MasterProp7E_Funded_Safe_1x.set": (1.00, 0.00, 0.00, 1.00, 2.50, 7.50, 1.00, 1.50, 1.25, 1.00, 2.00),
+        }
+        for fname, exp in expected_specs.items():
+            p = KIT_DIR / "presets" / fname
+            self.assertTrue(p.exists(), f"Missing MasterProp7E preset: {fname}")
+            rel = p.resolve().relative_to(REPO_ROOT.resolve()).as_posix()
+            self.assertIn(rel, manifest["tracked_files"], f"{fname} not hashed in manifest.sha256.json")
+
+            raw = p.read_text(encoding="utf-8")
+            self.assertNotIn("$", raw)
+            self.assertNotIn("Password=", raw)
+            self.assertNotIn("Login=", raw)
+
+            kv = kit.parse_set_file(p)
+            self.assertEqual(set(kv) - master_keys, set(), f"Unknown keys in {fname}")
+
+            # Fail-closed safety & spread/news locks
+            self.assertEqual(kv["InpDryRunLogOnly"], "true")
+            self.assertEqual(kv["InpGuardDryRunLogOnly"], "true")
+            self.assertEqual(kv["InpShadowCompareMode"], "false")
+            self.assertEqual(kv["InpGuardUseOrchestrator"], "false")
+            self.assertEqual(kv["InpDailyResetMode"], "1")
+            self.assertEqual(kv["InpGuardEnableRedNews"], "true")
+            self.assertEqual(kv["InpGuardRedNewsCsvFile"], "naqex_red_news_utc.csv")
+            self.assertEqual(int(kv["InpGuardNewsHardBanSec"]), 135)
+            self.assertAlmostEqual(float(kv["InpGuardMaxSpreadPoints"]), 35.0, places=2)
+            self.assertAlmostEqual(float(kv["InpMaxEurJpySpreadPoints"]), 45.0, places=2)
+            self.assertAlmostEqual(float(kv["InpMaxIndexSpreadPoints"]), 450.0, places=2)
+
+            mult, tgt, pl_pct, pl_mult, k_day, k_st, sym_r, usd_c, jpy_c, idx_c, tot_r = exp
+            self.assertAlmostEqual(float(kv["InpBasePhaseMult"]), mult, places=2)
+            self.assertAlmostEqual(float(kv["InpTargetProfitPct"]), tgt, places=2)
+            self.assertAlmostEqual(float(kv["InpProfitLockPct"]), pl_pct, places=2)
+            self.assertAlmostEqual(float(kv["InpProfitLockMult"]), pl_mult, places=2)
+            self.assertAlmostEqual(float(kv["InpKillDailyDdPct"]), k_day, places=2)
+            self.assertAlmostEqual(float(kv["InpKillStaticDdPct"]), k_st, places=2)
+            self.assertAlmostEqual(float(kv["InpGuardMaxDailyLossPct"]), k_day, places=2)
+            self.assertAlmostEqual(float(kv["InpMaxSymbolRiskPct"]), sym_r, places=2)
+            self.assertAlmostEqual(float(kv["InpGuardMaxSymbolRiskPct"]), sym_r, places=2)
+            self.assertAlmostEqual(float(kv["InpMaxUsdClusterPct"]), usd_c, places=2)
+            self.assertAlmostEqual(float(kv["InpMaxJpyClusterPct"]), jpy_c, places=2)
+            self.assertAlmostEqual(float(kv["InpMaxIdxClusterPct"]), idx_c, places=2)
+            self.assertAlmostEqual(float(kv["InpMaxAccountOpenRiskPct"]), tot_r, places=2)
+
+        # Checklist artifact hygiene & manifest tracking
+        chk = KIT_DIR / "BLACKFRIDAY-FTMO-10K-ACTIVATION-CHECKLIST.md"
+        self.assertTrue(chk.exists())
+        chk_rel = chk.resolve().relative_to(REPO_ROOT.resolve()).as_posix()
+        self.assertIn(chk_rel, manifest["tracked_files"])
+        chk_txt = chk.read_text(encoding="utf-8")
+        self.assertNotIn("$", chk_txt)
+        self.assertIn("30/11/2026", chk_txt)
+        self.assertIn("node_ctl.py", chk_txt)
+        self.assertIn("Naqex_Master_Prop7E", chk_txt)
+        self.assertIsNone(re.search(r"(Password=|100\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+)", chk_txt))
+
+        # Negative test: verify_kit catches fail-closed breach, bad US100 spread cap, and unknown input keys
+        with tempfile.TemporaryDirectory() as td:
+            tmp_kit = Path(td) / "deployment_kit"
+            shutil.copytree(KIT_DIR, tmp_kit)
+            bad_set = tmp_kit / "presets/FTMO_Std10K_MasterProp7E_P1_Sprint_4x.set"
+            txt = bad_set.read_text(encoding="utf-8")
+            txt = txt.replace("InpDryRunLogOnly=true", "InpDryRunLogOnly=false")
+            txt = txt.replace("InpMaxIndexSpreadPoints=450.00", "InpMaxIndexSpreadPoints=35.00")
+            txt += "InpBogusUnknownParam=123\n"
+            bad_set.write_text(txt, encoding="utf-8")
+
+            bad_rep = kit.verify_kit(exports_dir=EXPORTS_DIR, kit_dir=tmp_kit, ex5_dir=EX5_DIR, require_ex5=False)
+            self.assertFalse(bad_rep["ok"])
+            joined = " | ".join(bad_rep["errors"])
+            self.assertIn("InpDryRunLogOnly=true", joined)
+            self.assertIn("InpMaxIndexSpreadPoints must be 450.0", joined)
+            self.assertIn("InpBogusUnknownParam", joined)
+
+    def test_master_vs_legacy_7e_1to1_parity_and_drift_detection(self):
+        # 1. Positive verification on real production sources
+        rep = parity.audit_master_vs_legacy_7e(exports_dir=EXPORTS_DIR)
+        self.assertTrue(rep["ok"], f"Master vs Legacy 7E parity failed: {rep['unintended_drifts']}")
+        self.assertEqual(rep["engines_checked"], 7)
+        self.assertEqual(rep["engines_matched"], 7)
+        self.assertEqual(rep["unintended_drifts"], [])
+        self.assertTrue(rep["orchestrator_parity"]["ok"])
+        self.assertGreaterEqual(rep["orchestrator_parity"]["shared_inputs_verified"], 15)
+        self.assertGreaterEqual(len(rep["intentional_differences"]), 7)
+        self.assertGreaterEqual(len(rep["operational_notes"]), 2)
+
+        for eid in (
+            "E1_USDJPY_TOKYO",
+            "E2_USDJPY_EXP80",
+            "E3_GBPUSD_VH",
+            "E4_US100_SESS40",
+            "E5_US100_RS1130",
+            "E6_EURJPY_VOLCOMP",
+            "E7_USDJPY_NY10ET",
+        ):
+            self.assertIn(eid, rep["engine_comparisons"])
+            self.assertTrue(rep["engine_comparisons"][eid]["ok"], f"{eid} failed: {rep['engine_comparisons'][eid]}")
+
+        # 2. Full parity audit includes master_vs_legacy_7e
+        full_rep = parity.run_parity_audit(exports_dir=EXPORTS_DIR, ex5_dir=None, require_ex5=False)
+        self.assertTrue(full_rep["ok"])
+        self.assertTrue(full_rep["master_vs_legacy_7e"]["ok"])
+
+        # 3. Negative drift-injection check on temp copy of exports/
+        with tempfile.TemporaryDirectory() as td:
+            tmp_exp = Path(td) / "exports"
+            shutil.copytree(EXPORTS_DIR / "Include", tmp_exp / "Include")
+            shutil.copytree(EXPORTS_DIR / "Files", tmp_exp / "Files")
+            for mq5 in EXPORTS_DIR.glob("*.mq5"):
+                shutil.copy2(mq5, tmp_exp / mq5.name)
+
+            # Mutate Signals header: break E2 risk %, E2 trigger mult, and E6 magic
+            sig_p = tmp_exp / "Include/Naqex_Signals_7E.mqh"
+            sig_txt = sig_p.read_text(encoding="utf-8")
+            sig_txt = sig_txt.replace("m_baseRisk[1] = 0.59;", "m_baseRisk[1] = 0.99;")
+            sig_txt = sig_txt.replace("dayOpen + 0.80 * atrD1", "dayOpen + 0.99 * atrD1", 1)
+            sig_txt = sig_txt.replace("it.magic = 20261128;", "it.magic = 20261199;")
+            sig_p.write_text(sig_txt, encoding="utf-8")
+
+            # Mutate Master EA: drift KillDailyDdPct away from Legacy Orchestrator
+            m_p = tmp_exp / "Naqex_Master_Prop7E.mq5"
+            m_txt = m_p.read_text(encoding="utf-8")
+            m_txt = m_txt.replace("InpKillDailyDdPct         = 3.00;", "InpKillDailyDdPct         = 9.00;")
+            m_p.write_text(m_txt, encoding="utf-8")
+
+            bad = parity.audit_master_vs_legacy_7e(exports_dir=tmp_exp)
+            self.assertFalse(bad["ok"])
+            joined = " | ".join(bad["unintended_drifts"])
+            self.assertIn("E2_USDJPY_EXP80: Signals m_baseRisk[1]=0.99 != legacy InpRiskPercent=0.59", joined)
+            self.assertIn("E2_USDJPY_EXP80: trigger mult mismatch", joined)
+            self.assertIn("E6_EURJPY_VOLCOMP: Signals block missing exact magic 20261128", joined)
+            self.assertIn("Orchestrator parity input InpKillDailyDdPct", joined)
+
+        # 4. Verify plain-Vietnamese parity receipt hygiene
+        receipt = REPO_ROOT / "planning/research/MASTER-7E-VS-LEGACY-PARITY-AUDIT-20261125.md"
+        self.assertTrue(receipt.exists(), "Missing Mũi 4 parity receipt document")
+        self.assertLessEqual(receipt.stat().st_size, 15 * 1024)
+        rec_txt = receipt.read_text(encoding="utf-8")
+        self.assertNotIn("$", rec_txt)
+        self.assertIsNone(re.search(r"(Password=|100\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+)", rec_txt))
+
 
 if __name__ == "__main__":
     unittest.main()

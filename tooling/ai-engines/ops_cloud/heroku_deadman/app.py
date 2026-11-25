@@ -27,6 +27,7 @@ from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
 import os
+import re
 import threading
 import time
 from typing import Any, Callable
@@ -184,14 +185,23 @@ def format_alert_message(
     html_lines.append(f"<b>Thời điểm:</b> <code>{html.escape(ts_str)}</code>")
     plain_lines.append(f"Thời điểm: {ts_str}")
 
+    rdp_hint = os.environ.get("NAQEX_NODE_RDP_HINT", "").strip()
     if kind == "STALE":
         html_lines.append("")
-        html_lines.append("👉 <i>Kiểm tra nguồn điện, mạng nhà hoặc mở RDP <code>100.72.70.18</code></i>")
-        plain_lines.append("Hành động: Kiểm tra nguồn điện, mạng nhà hoặc mở RDP 100.72.70.18")
+        if rdp_hint:
+            html_lines.append(f"👉 <i>Kiểm tra nguồn điện, mạng nhà hoặc mở RDP <code>{html.escape(rdp_hint)}</code></i>")
+            plain_lines.append(f"Hành động: Kiểm tra nguồn điện, mạng nhà hoặc mở RDP {rdp_hint}")
+        else:
+            html_lines.append("👉 <i>Kiểm tra nguồn điện, mạng nhà hoặc bảng điều khiển</i>")
+            plain_lines.append("Hành động: Kiểm tra nguồn điện, mạng nhà hoặc bảng điều khiển")
     elif kind in ("CRITICAL", "WARNING"):
         html_lines.append("")
-        html_lines.append("👉 <i>Kiểm tra ngay trên RDP <code>100.72.70.18</code> hoặc bảng điều khiển</i>")
-        plain_lines.append("Hành động: Kiểm tra ngay trên RDP 100.72.70.18 hoặc bảng điều khiển")
+        if rdp_hint:
+            html_lines.append(f"👉 <i>Kiểm tra ngay trên RDP <code>{html.escape(rdp_hint)}</code> hoặc bảng điều khiển</i>")
+            plain_lines.append(f"Hành động: Kiểm tra ngay trên RDP {rdp_hint} hoặc bảng điều khiển")
+        else:
+            html_lines.append("👉 <i>Kiểm tra ngay trên bảng điều khiển</i>")
+            plain_lines.append("Hành động: Kiểm tra ngay trên bảng điều khiển")
 
     return "\n".join(html_lines), " | ".join(plain_lines)
 
@@ -398,6 +408,24 @@ class PostgresStore:
             return bool(cur.rowcount and cur.rowcount > 0)
 
 
+_TG_BOT_TOKEN_RE = re.compile(r"(?:bot)?\b\d{6,}:[A-Za-z0-9_-]{10,}\b")
+_SENSITIVE_URL_RE = re.compile(r"https?://[^\s'\"<>]+")
+_KV_SECRET_RE = re.compile(r"(?i)([?&]|\b)((?:token|api[_-]?key|secret)=)[^\s&'\"<>]+")
+_BEARER_SECRET_RE = re.compile(r"(?i)(Bearer\s+)[^\s'\"<>]+")
+
+
+def _scrub_secret_text(raw: str, *, secrets: tuple[str, ...] = ()) -> str:
+    """Scrub bot tokens, webhook URLs, and bearer/query/kv secrets from persisted error text."""
+    out = str(raw or "")
+    for sec in sorted({str(s or "").strip() for s in secrets if str(s or "").strip()}, key=len, reverse=True):
+        out = out.replace(sec, "<REDACTED>")
+    out = _SENSITIVE_URL_RE.sub("<REDACTED_URL>", out)
+    out = _TG_BOT_TOKEN_RE.sub("<REDACTED_TOKEN>", out)
+    out = _KV_SECRET_RE.sub(r"\1\2<REDACTED>", out)
+    out = _BEARER_SECRET_RE.sub(r"\1<REDACTED>", out)
+    return out
+
+
 def dispatch_alert_message(
     text: str,
     *,
@@ -429,7 +457,8 @@ def dispatch_alert_message(
                 else:
                     errors.append(f"telegram:http_{resp.status}")
         except Exception as exc:
-            errors.append(f"telegram:{exc}")
+            safe_exc = _scrub_secret_text(str(exc), secrets=(telegram_bot_token, webhook_url, url))
+            errors.append(f"telegram:{safe_exc}")
 
     if webhook_url:
         payload = json.dumps({"text": text, "content": text}, ensure_ascii=False).encode("utf-8")
@@ -446,7 +475,8 @@ def dispatch_alert_message(
                 else:
                     errors.append(f"webhook:http_{resp.status}")
         except Exception as exc:
-            errors.append(f"webhook:{exc}")
+            safe_exc = _scrub_secret_text(str(exc), secrets=(telegram_bot_token, webhook_url))
+            errors.append(f"webhook:{safe_exc}")
 
     return {"sent": sent, "errors": errors, "configured": bool((telegram_bot_token and telegram_chat_id) or webhook_url)}
 

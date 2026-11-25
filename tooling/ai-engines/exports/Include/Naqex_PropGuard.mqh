@@ -1,6 +1,9 @@
 //+------------------------------------------------------------------+
-//| Naqex_PropGuard.mqh (v3.0 — Full-Stack Fail-Closed Prop Guard)   |
+//| Naqex_PropGuard.mqh (v3.1 — Full-Stack Fail-Closed Prop Guard)   |
 //| Shared Production Safety, Atomic SymCap, Margin & TCA Logger     |
+//| v1.01 Hardened: ServerNow(), 23-date NYSE calendar, ±135s hard   |
+//| ban helper, live-calibrated SetDeviationInPoints, safe volDigits |
+//| rounding, reqMargin <= 0 fail-closed, magicOverride TCA audit    |
 //|                                                                  |
 //| Capabilities:                                                    |
 //|   1. Auto-detected ORDER_FILLING_* (FOK/IOC/RETURN) in OnInit()  |
@@ -226,6 +229,55 @@ public:
       return true;
    }
 
+   // 1b. Safe lot rounding & live-calibrated SetDeviationInPoints (V101-06)
+   static int ComputeVolumeDigits(const double volStep)
+   {
+      if(volStep <= 0.0) return 2;
+      int digits = 0;
+      double scaled = volStep;
+      while(digits < 8 && MathAbs(scaled - MathRound(scaled)) > 1e-7)
+      {
+         scaled *= 10.0;
+         digits++;
+      }
+      return digits;
+   }
+
+   static double RoundVolumeDownToStep(const double rawLots, const double volStep, const double volMin, const double volMax)
+   {
+      if(rawLots <= 0.0 || volStep <= 0.0) return 0.0;
+      int volDigits = ComputeVolumeDigits(volStep);
+      double lots = NormalizeDouble(MathFloor((rawLots + 1e-9) / volStep) * volStep, volDigits);
+      if(lots < volMin) return 0.0;
+      return NormalizeDouble(MathMin(lots, volMax), volDigits);
+   }
+
+   static bool IsIndexSymbol(const string sym)
+   {
+      string u = sym;
+      StringToUpper(u);
+      return (StringFind(u, "US100")  >= 0 || StringFind(u, "NAS100") >= 0 ||
+              StringFind(u, "NDX")    >= 0 || StringFind(u, "USTEC")  >= 0 ||
+              StringFind(u, "US500")  >= 0 || StringFind(u, "SPX")    >= 0 ||
+              StringFind(u, "US30")   >= 0 || StringFind(u, "GER40")  >= 0 ||
+              StringFind(u, "DE40")   >= 0 || StringFind(u, "DAX")    >= 0 ||
+              StringFind(u, "UK100")  >= 0 || StringFind(u, "FTSE")   >= 0);
+   }
+
+   static ulong RecommendedDeviationPoints(const string sym, const ulong fxPts = 35, const ulong idxPts = 450, const ulong metalPts = 80)
+   {
+      if(IsIndexSymbol(sym)) return idxPts;
+      string u = sym;
+      StringToUpper(u);
+      if(StringFind(u, "XAU") >= 0 || StringFind(u, "XAG") >= 0) return metalPts;
+      return fxPts;
+   }
+
+   static void ConfigureDeviationPoints(CTrade &tr, const string sym, const ulong fxPts = 35, const ulong idxPts = 450, const ulong metalPts = 80)
+   {
+      tr.SetDeviationInPoints(RecommendedDeviationPoints(sym, fxPts, idxPts, metalPts));
+   }
+
    // 2. Initialize guard, configure filling, load CSV news calendar & restore VPS-restart state
    bool Init(CTrade &tr, const string sym, const long magic, const double eaMaxDailyLossPct = 0.0)
    {
@@ -272,23 +324,124 @@ public:
       return (utc.day < s1 || (utc.day == s1 && utc.hour < 6));
    }
 
+   static int NthWeekdayOfMonth(const int year, const int month, const int targetDow, const int nth)
+   {
+      MqlDateTime d;
+      ZeroMemory(d);
+      d.year = year; d.mon = month; d.day = 1;
+      TimeToStruct(StructToTime(d), d);
+      return 1 + ((targetDow - d.day_of_week + 7) % 7) + (nth - 1) * 7;
+   }
+
+   static int LastWeekdayOfMonth(const int year, const int month, const int targetDow)
+   {
+      MqlDateTime d;
+      ZeroMemory(d);
+      d.year = (month == 12) ? (year + 1) : year;
+      d.mon  = (month == 12) ? 1 : (month + 1);
+      d.day  = 1;
+      datetime lastDayTs = StructToTime(d) - 86400;
+      TimeToStruct(lastDayTs, d);
+      return d.day - ((d.day_of_week - targetDow + 7) % 7);
+   }
+
+   static void GregorianEasterSunday(const int year, int &outMon, int &outDay)
+   {
+      int a = year % 19;
+      int b = year / 100;
+      int c = year % 100;
+      int d = b / 4;
+      int e = b % 4;
+      int f = (b + 8) / 25;
+      int g = (b - f + 1) / 3;
+      int h = (19 * a + b - d - g + 15) % 30;
+      int i = c / 4;
+      int k = c % 4;
+      int l = (32 + 2 * e + 2 * i - h - k) % 7;
+      int m = (a + 11 * h + 22 * l) / 451;
+      outMon = (h + l - 7 * m + 114) / 31;
+      outDay = ((h + l - 7 * m + 114) % 31) + 1;
+   }
+
+   static bool MatchesObservedFixedHoliday(const MqlDateTime &ny, const int holMon, const int holDay)
+   {
+      MqlDateTime h;
+      ZeroMemory(h);
+      h.year = ny.year; h.mon = holMon; h.day = holDay;
+      datetime hTs = StructToTime(h);
+      TimeToStruct(hTs, h);
+      if(h.day_of_week == 6)      hTs -= 86400; // Saturday -> observed Friday
+      else if(h.day_of_week == 0) hTs += 86400; // Sunday -> observed Monday
+      TimeToStruct(hTs, h);
+      return (ny.mon == h.mon && ny.day == h.day);
+   }
+
+   static bool IsUsEquityHolidayOrHalfDayNY(const MqlDateTime &ny)
+   {
+      // Full NYSE holiday & 13:00 ET early-close calendar (V101-04: covers all 23 dates in 2026-2027)
+      // 1. New Year's Day (observed, including Dec 31 if Jan 1 next year falls on Saturday)
+      if(MatchesObservedFixedHoliday(ny, 1, 1)) return true;
+      if(ny.mon == 12 && ny.day == 31)
+      {
+         MqlDateTime nyNext; ZeroMemory(nyNext); nyNext.year = ny.year + 1; nyNext.mon = 1; nyNext.day = 1;
+         TimeToStruct(StructToTime(nyNext), nyNext);
+         if(nyNext.day_of_week == 6) return true;
+      }
+      // 2. MLK Day (3rd Mon Jan) & Presidents' Day (3rd Mon Feb)
+      if(ny.mon == 1 && ny.day == NthWeekdayOfMonth(ny.year, 1, 1, 3)) return true;
+      if(ny.mon == 2 && ny.day == NthWeekdayOfMonth(ny.year, 2, 1, 3)) return true;
+      // 3. Good Friday (Easter Sunday - 2 days via Anonymous Gregorian algorithm)
+      if(ny.mon == 3 || ny.mon == 4)
+      {
+         int eMon = 0, eDay = 0;
+         GregorianEasterSunday(ny.year, eMon, eDay);
+         MqlDateTime gf; ZeroMemory(gf); gf.year = ny.year; gf.mon = eMon; gf.day = eDay;
+         TimeToStruct(StructToTime(gf) - 2 * 86400, gf);
+         if(ny.mon == gf.mon && ny.day == gf.day) return true;
+      }
+      // 4. Memorial Day (Last Mon May) & Juneteenth (June 19 observed)
+      if(ny.mon == 5 && ny.day == LastWeekdayOfMonth(ny.year, 5, 1)) return true;
+      if(MatchesObservedFixedHoliday(ny, 6, 19)) return true;
+      // 5. Independence Day (July 4 observed) + July 3 early close when July 4 is Tue..Fri
+      if(MatchesObservedFixedHoliday(ny, 7, 4)) return true;
+      if(ny.mon == 7 && ny.day == 3)
+      {
+         MqlDateTime j4; ZeroMemory(j4); j4.year = ny.year; j4.mon = 7; j4.day = 4;
+         TimeToStruct(StructToTime(j4), j4);
+         if(j4.day_of_week >= 2 && j4.day_of_week <= 5) return true;
+      }
+      // 6. Labor Day (1st Mon Sep)
+      if(ny.mon == 9 && ny.day == NthWeekdayOfMonth(ny.year, 9, 1, 1)) return true;
+      // 7. Thanksgiving (4th Thu Nov) & Black Friday early close (day after Thanksgiving)
+      if(ny.mon == 11)
+      {
+         int tgDay = NthWeekdayOfMonth(ny.year, 11, 4, 4);
+         if(ny.day == tgDay || ny.day == tgDay + 1) return true;
+      }
+      // 8. Christmas Day (Dec 25 observed) + Christmas Eve early close (weekday Dec 24)
+      if(MatchesObservedFixedHoliday(ny, 12, 25)) return true;
+      if(ny.mon == 12 && ny.day == 24 && ny.day_of_week >= 1 && ny.day_of_week <= 5) return true;
+      return false;
+   }
+
    static bool IsUsEquityHalfDayNY(const MqlDateTime &ny)
    {
-      // NYSE 13:00 ET early-close holiday half-days (prevents holding US100/US500 across holiday rollover!)
-      if(ny.mon == 7 && ny.day == 3 && ny.day_of_week >= 1 && ny.day_of_week <= 4)
-         return true; // Independence Day Eve
-      if(ny.mon == 11 && ny.day_of_week == 5 && ny.day >= 23 && ny.day <= 29)
-         return true; // Black Friday (Friday after 4th Thursday of November)
-      if(ny.mon == 12 && ny.day == 24 && ny.day_of_week >= 1 && ny.day_of_week <= 5)
-         return true; // Christmas Eve
-      return false;
+      return IsUsEquityHolidayOrHalfDayNY(ny);
+   }
+
+   // V101-03: Use TimeTradeServer() when live (never freezes on quiet ticks); TimeCurrent() inside MQL_TESTER
+   static datetime ServerNow()
+   {
+      if(MQLInfoInteger(MQL_TESTER)) return TimeCurrent();
+      datetime ts = TimeTradeServer();
+      return (ts > 0) ? ts : TimeCurrent();
    }
 
    datetime NowUTC() const
    {
       if(MQLInfoInteger(MQL_TESTER))
       {
-         datetime srvNow = TimeCurrent();
+         datetime srvNow = ServerNow();
          int offH = InpGuardTesterUtcOffsetH;
          if(offH == 2)
          {
@@ -441,7 +594,7 @@ public:
    bool IsNearBrokerSessionCloseFor(const string sym) const
    {
       if(InpGuardEarlyCloseMin <= 0) return false;
-      datetime srvNow = TimeCurrent();
+      datetime srvNow = ServerNow();
       MqlDateTime srv;
       TimeToStruct(srvNow, srv);
       ENUM_DAY_OF_WEEK dow = (ENUM_DAY_OF_WEEK)srv.day_of_week;
@@ -586,6 +739,27 @@ public:
       return IsInRedNewsPreFlattenWindowFor(m_symbol);
    }
 
+   // V101-04: True inside hard +/-InpGuardNewsHardBanSec (+/-135s) no-execution ban zone
+   // Blocks non-emergency clock-flatten closes from violating FTMO/The5ers +/-2m rule!
+   bool IsInsideRedNewsHardBanFor(const string sym) const
+   {
+      if(!InpGuardEnableRedNews || !IsRedNewsCalendarHealthyFor(sym)) return false;
+      datetime nowUtc = NowUTC();
+      for(int i = 0; i < m_eventCount; i++)
+      {
+         if(!CurrencyMatchesSymbolFor(sym, m_events[i].ccy)) continue;
+         long diff = (long)m_events[i].utc_ts - (long)nowUtc;
+         if(MathAbs(diff) <= InpGuardNewsHardBanSec)
+            return true;
+      }
+      return false;
+   }
+
+   bool IsInsideRedNewsHardBan() const
+   {
+      return IsInsideRedNewsHardBanFor(m_symbol);
+   }
+
    // 10. Fail-closed per-symbol open + reserved SL risk % across ALL positions on same symbol
    double GetOpenSymbolRiskPctFor(const string sym) const
    {
@@ -681,24 +855,22 @@ public:
       double lossPerLot = (slDistancePrice / tickSize) * tickValue;
       if(lossPerLot <= 0.0) return 0.0;
 
-      double rawLots = MathFloor((riskMoney / lossPerLot) / volStep) * volStep;
-      if(rawLots < volMin) return 0.0;
-      double clampedLots = MathMin(rawLots, volMax);
+      double clampedLots = RoundVolumeDownToStep(riskMoney / lossPerLot, volStep, volMin, volMax);
+      if(clampedLots < volMin) return 0.0;
 
-      // Free-margin safety check via OrderCalcMargin — STRICTLY FAIL-CLOSED (R2-04)!
-      // Missing quote, non-positive free margin, or OrderCalcMargin failure MUST return 0.0 (NEVER raw lots).
+      // Free-margin safety check via OrderCalcMargin — STRICTLY FAIL-CLOSED (R2-04 + V101-06: reqMargin <= 0.0)!
+      // Missing quote, non-positive free margin, or OrderCalcMargin failure/0 MUST return 0.0 (NEVER raw lots).
       ENUM_ORDER_TYPE ordType = isBuy ? ORDER_TYPE_BUY : ORDER_TYPE_SELL;
       double refPx = isBuy ? SymbolInfoDouble(sym, SYMBOL_ASK) : SymbolInfoDouble(sym, SYMBOL_BID);
       double freeMargin = AccountInfoDouble(ACCOUNT_MARGIN_FREE);
       double reqMargin = 0.0;
       if(refPx <= 0.0 || freeMargin <= 0.0) return 0.0;
-      if(!OrderCalcMargin(ordType, sym, clampedLots, refPx, reqMargin) || reqMargin < 0.0) return 0.0;
+      if(!OrderCalcMargin(ordType, sym, clampedLots, refPx, reqMargin) || reqMargin <= 0.0) return 0.0;
       double maxAllowedMargin = freeMargin * 0.85;
-      if(reqMargin > maxAllowedMargin && reqMargin > 0.0)
+      if(reqMargin > maxAllowedMargin)
       {
-         double scaledLots = MathFloor((clampedLots * (maxAllowedMargin / reqMargin)) / volStep) * volStep;
-         if(scaledLots < volMin) return 0.0;
-         clampedLots = MathMin(scaledLots, volMax);
+         clampedLots = RoundVolumeDownToStep(clampedLots * (maxAllowedMargin / reqMargin), volStep, volMin, volMax);
+         if(clampedLots < volMin) return 0.0;
       }
       return clampedLots;
    }
@@ -813,9 +985,10 @@ public:
       return ComputeSafeLotsFor(m_symbol, requestedRiskPct, slDistancePrice, isBuy);
    }
 
-   // 12. Structured CSV execution audit logger (feeds Python quant_factory.tca_reconcile)
+   // 12. Structured CSV execution audit logger (feeds Python quant_factory.tca_reconcile; V101-01 magicOverride!)
    void LogExecAuditFor(const string sym, const string side, const string evType, const double sigPx, const double fillPx,
-                        const double slPx, const double lots, const double latencyMs, const uint retcode, const string note) const
+                        const double slPx, const double lots, const double latencyMs, const uint retcode, const string note,
+                        const long magicOverride = -1) const
    {
       if(MQLInfoInteger(MQL_TESTER)) return;
       bool needHeader = !FileIsExist(InpGuardTcaAuditCsvFile);
@@ -835,7 +1008,8 @@ public:
       if(needHeader)
          FileWrite(fh, "utc_ts", "magic", "symbol", "side", "event_type", "signal_price", "fill_price", "sl_price", "lots", "spread_pts", "latency_ms", "retcode", "comment");
       double spPts = (double)SymbolInfoInteger(sym, SYMBOL_SPREAD);
-      FileWrite(fh, (long)NowUTC(), m_magic, sym, side, evType,
+      long effMagic = (magicOverride > 0) ? magicOverride : m_magic;
+      FileWrite(fh, (long)NowUTC(), effMagic, sym, side, evType,
                 DoubleToString(sigPx, 6), DoubleToString(fillPx, 6), DoubleToString(slPx, 6),
                 DoubleToString(lots, 2), DoubleToString(spPts, 1), DoubleToString(latencyMs, 2),
                 (long)retcode, note);
@@ -884,13 +1058,18 @@ public:
       double normSl = NormalizePriceToTick(sym, slPrice);
       double pt = SymbolInfoDouble(sym, SYMBOL_POINT);
       long stopsLvl = SymbolInfoInteger(sym, SYMBOL_TRADE_STOPS_LEVEL);
-      if(pt > 0.0 && stopsLvl > 0 && MathAbs(entryPrice - normSl) < (double)stopsLvl * pt)
+      // V101-06: Check STOPS_LEVEL against actual liquidation price (Bid for BUY, Ask for SELL)
+      double liqPx = isBuy ? SymbolInfoDouble(sym, SYMBOL_BID) : SymbolInfoDouble(sym, SYMBOL_ASK);
+      if(liqPx <= 0.0) liqPx = entryPrice;
+      double stopsGap = isBuy ? (liqPx - normSl) : (normSl - liqPx);
+      if(pt > 0.0 && stopsLvl > 0 && stopsGap < (double)stopsLvl * pt)
       {
          PrintFormat("[PROPGUARD-ERR] %s SL too close to stops_level=%I64d", sym, stopsLvl);
          return false;
       }
 
       ConfigureFillingMode(tr, sym);
+      ConfigureDeviationPoints(tr, sym);
       string sideStr = isBuy ? "BUY" : "SELL";
       if(eaDryRun || InpGuardDryRunLogOnly)
       {
@@ -961,33 +1140,37 @@ public:
       return ExecuteCheckedFor(tr, m_symbol, isBuy, lots, entryPrice, slPrice, comment, eaDryRun);
    }
 
-   // 14. Checked position close wrapper (R2-02: verifies remaining volume == 0, flags partial close cleanly!)
+   // 14. Checked position close wrapper (R2-02 + V101-01/06: verifies remaining volume == 0, logs real magic + tk/pos!)
    bool ClosePositionChecked(CTrade &tr, const ulong ticket, const string reason, const bool eaDryRun = true) const
    {
       if(!PositionSelectByTicket(ticket)) return false;
-      string psym = PositionGetString(POSITION_SYMBOL);
-      double pvol = PositionGetDouble(POSITION_VOLUME);
-      double psl  = PositionGetDouble(POSITION_SL);
-      long ptype  = PositionGetInteger(POSITION_TYPE);
+      string psym  = PositionGetString(POSITION_SYMBOL);
+      long pmagic  = PositionGetInteger(POSITION_MAGIC);
+      ulong posId  = (ulong)PositionGetInteger(POSITION_IDENTIFIER);
+      double pvol  = PositionGetDouble(POSITION_VOLUME);
+      double psl   = PositionGetDouble(POSITION_SL);
+      long ptype   = PositionGetInteger(POSITION_TYPE);
       string sideStr = (ptype == POSITION_TYPE_BUY) ? "SELL" : "BUY";
       double sigPx = (ptype == POSITION_TYPE_BUY) ? SymbolInfoDouble(psym, SYMBOL_BID) : SymbolInfoDouble(psym, SYMBOL_ASK);
 
       if(eaDryRun || InpGuardDryRunLogOnly)
       {
-         PrintFormat("[DRYRUN-CLOSE] ticket=%I64u sym=%s vol=%.2f reason=%s", ticket, psym, pvol, reason);
+         PrintFormat("[DRYRUN-CLOSE] ticket=%I64u pos=%I64u magic=%I64d sym=%s vol=%.2f reason=%s", ticket, posId, pmagic, psym, pvol, reason);
          return true;
       }
       ConfigureFillingMode(tr, psym);
+      ConfigureDeviationPoints(tr, psym);
       ulong t0 = GetMicrosecondCount();
       bool ok = tr.PositionClose(ticket);
       double latMs = (double)(GetMicrosecondCount() - t0) / 1000.0;
       uint ret = tr.ResultRetcode();
       if(!ok || (ret != TRADE_RETCODE_DONE && ret != TRADE_RETCODE_DONE_PARTIAL))
       {
-         PrintFormat("[PROPGUARD-CLOSE-ERR] ticket=%I64u sym=%s ret=%u desc=%s reason=%s",
-                     ticket, psym, ret, tr.ResultRetcodeDescription(), reason);
+         PrintFormat("[PROPGUARD-CLOSE-ERR] ticket=%I64u pos=%I64u sym=%s ret=%u desc=%s reason=%s",
+                     ticket, posId, psym, ret, tr.ResultRetcodeDescription(), reason);
          LogExecAuditFor(psym, sideStr, "CLOSE_REJECT", sigPx, tr.ResultPrice(), psl, pvol, latMs, ret,
-                         StringFormat("%s|tk=%I64u|%s", reason, ticket, tr.ResultRetcodeDescription()));
+                         StringFormat("%s|tk=%I64u|pos=%I64u|%s", reason, ticket, posId, tr.ResultRetcodeDescription()),
+                         pmagic);
          return false;
       }
       double closePx = tr.ResultPrice();
@@ -1003,9 +1186,10 @@ public:
       double remVol = stillOpen ? PositionGetDouble(POSITION_VOLUME) : 0.0;
       string evType = (stillOpen && remVol > 0.0) ? "PARTIAL_EXIT" : "ORDER_CLOSE";
       LogExecAuditFor(psym, sideStr, evType, sigPx, (closePx > 0.0 ? closePx : -1.0), psl, closedVol, latMs, ret,
-                      StringFormat("%s|tk=%I64u|deal=%I64u|rem=%.2f%s",
-                                   reason, ticket, (ulong)tr.ResultDeal(), remVol,
-                                   (closePx <= 0.0) ? "|FILL_UNRESOLVED" : ""));
+                      StringFormat("%s|tk=%I64u|pos=%I64u|deal=%I64u|rem=%.2f%s",
+                                   reason, ticket, posId, (ulong)tr.ResultDeal(), remVol,
+                                   (closePx <= 0.0) ? "|FILL_UNRESOLVED" : ""),
+                      pmagic);
       return !(stillOpen && remVol > 0.0);
    }
 };

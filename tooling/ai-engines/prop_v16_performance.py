@@ -1,10 +1,11 @@
 """Measured four-runtime suite; reuse the registered runner's profile sharding."""
+from pathlib import Path
 import subprocess
 import sys
 import time
 from prop_v16_common import *
 
-BASE="C:/Users/MIIKEY/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe"
+BASE=str(Path.home()/".cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe")
 RUNTIMES=dict(base=BASE,
     native="D:/ANNAM/TradingWorkspace/projects/trader/foundation_v2/engine_runtime/.venv/Scripts/python.exe",
     statistics="D:/ANNAM/TradingWorkspace/.runtime/research-statistics/Scripts/python.exe",

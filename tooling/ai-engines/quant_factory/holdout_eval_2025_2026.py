@@ -11,6 +11,7 @@ Protocol G0 commit: 521926f (planning/research/HOLDOUT-2025-2026-UNLOCK-PROTOCOL
 
 from __future__ import annotations
 
+import argparse
 from collections import defaultdict
 from datetime import date, datetime, timedelta, timezone
 import csv
@@ -73,7 +74,24 @@ def _local_ts(day_iso: str, hour: int, minute: int, tz: ZoneInfo) -> int:
     return int(datetime(d.year, d.month, d.day, hour, minute, tzinfo=tz).timestamp())
 
 
-def build_2025_2026_red_news_calendar_and_export_csv() -> dict[str, list[tuple[int, str]]]:
+def build_2025_2026_red_news_calendar_and_export_csv(
+    *,
+    out_csv_path: Path | None = None,
+) -> dict[str, list[tuple[int, str]]]:
+    csv_path = out_csv_path or (HOLDOUT_CACHE / "holdout_red_news_usd_2018_2026.csv")
+    resolved_csv = csv_path.resolve()
+    prod_files_dir = (AI_ENGINES / "exports/Files").resolve()
+    tracked_calendars_dir = (CONFIGS_DIR / "calendars").resolve()
+    if (
+        resolved_csv.name.lower() == "naqex_red_news_utc.csv"
+        or prod_files_dir in resolved_csv.parents
+        or tracked_calendars_dir in resolved_csv.parents
+    ):
+        raise ValueError(
+            f"SAFETY ABORT: Refusing to overwrite production/tracked red-news calendar '{csv_path}'. "
+            "Holdout calendar exports must stay strictly inside .runtime/holdout-m1-cache/ or an isolated temp directory."
+        )
+
     events: dict[str, list[tuple[int, str, str]]] = defaultdict(list)
     for d in OFFICIAL_FOMC_2025_2026:
         events[d].append((_local_ts(d, 14, 0, NY_TZ), "USD", "FOMC"))
@@ -87,7 +105,7 @@ def build_2025_2026_red_news_calendar_and_export_csv() -> dict[str, list[tuple[i
                 fri += timedelta(days=7)
             events[fri.isoformat()].append((_local_ts(fri.isoformat(), 8, 30, NY_TZ), "USD", "US_NFP"))
 
-    # Persist 2025-2026 declarative JSON calendar
+    # Persist holdout-only 2025-2026 JSON strictly beside csv_path (NEVER overwrite tracked configs/calendars/)
     cal_2526_json = {
         "schema": "naqex-red-news-official-2025-2026-v1",
         "sources": ["federalreserve.gov", "bls.gov"],
@@ -96,11 +114,13 @@ def build_2025_2026_red_news_calendar_and_export_csv() -> dict[str, list[tuple[i
             for dk, v in sorted(events.items())
         },
     }
-    (CONFIGS_DIR / "calendars/red_news_official_2025_2026.json").write_text(
+    csv_path.parent.mkdir(parents=True, exist_ok=True)
+    csv_path.with_suffix(".json").write_text(
         json.dumps(cal_2526_json, indent=2) + "\n", encoding="utf-8", newline="\n"
     )
 
-    # Also export combined 2018-2026 CSV ready for MT5 MQL5/Files/naqex_red_news_utc.csv
+    # Export holdout-only USD 2018-2026 CSV strictly inside .runtime/holdout-m1-cache/
+    # NEVER overwrite production 6-currency exports/Files/naqex_red_news_utc.csv!
     cal_1824 = json.loads((CONFIGS_DIR / "calendars/red_news_official_2018_2024.json").read_text(encoding="utf-8"))
     all_rows = []
     for dk, evs in sorted(cal_1824["events_by_day"].items()):
@@ -111,8 +131,6 @@ def build_2025_2026_red_news_calendar_and_export_csv() -> dict[str, list[tuple[i
             all_rows.append((ts, c, ev))
     all_rows.sort()
 
-    csv_path = AI_ENGINES / "exports/Files/naqex_red_news_utc.csv"
-    csv_path.parent.mkdir(parents=True, exist_ok=True)
     with csv_path.open("w", encoding="utf-8", newline="\n") as f:
         w = csv.writer(f)
         w.writerow(["utc_ts", "ccy", "event"])
@@ -537,7 +555,7 @@ def _replay_holdout_window(days: list[str], tapes: dict, risks: dict, *, max_sym
     last_ts = int(datetime.fromisoformat(max(days) + "T23:59:59+00:00").timestamp())
     met, exits = replay_portfolio_m1(
         days, tapes, risks, 10000.0,
-        profile_mode="Swing", max_symbol_concurrent_risk=max_sym, red_news_cal=cal, cutoff=last_ts + 60,
+        profile_mode="Swing", max_symbol_concurrent_risk=max_sym, red_news_cal=cal, cutoff=last_ts + 60, allow_holdout=True,
     )
     # Exact calendar year span (2025-01-01 to 2026-11-20 = ~1.885 years)
     d0 = date.fromisoformat(min(days))
@@ -564,7 +582,24 @@ def _replay_holdout_window(days: list[str], tapes: dict, risks: dict, *, max_sym
     }, exits
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    ap = argparse.ArgumentParser(
+        description="ONE-TIME Preregistered Blind Holdout Evaluator (2025-01-01+). Fail-closed without explicit unlock flag."
+    )
+    ap.add_argument(
+        "--confirm-one-time-holdout-unlock",
+        action="store_true",
+        help="Required explicit owner unlock confirmation before reading .runtime/holdout-m1-cache/.",
+    )
+    args = ap.parse_args(argv)
+    if not args.confirm_one_time_holdout_unlock:
+        print(
+            "HOLDOUT_LOCKED: Refusing to read .runtime/holdout-m1-cache/ without explicit "
+            "--confirm-one-time-holdout-unlock flag (OrderSend=0, holdout_rows_analysed=0).",
+            file=sys.stderr,
+        )
+        return 2
+
     t0 = time.perf_counter()
     reg = load_registry()
     specs, _ = profiles()

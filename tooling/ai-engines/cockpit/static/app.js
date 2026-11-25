@@ -35,6 +35,11 @@
     const n = Number(v || 0);
     return `${sign && n > 0 ? "+" : ""}${n.toFixed(2)}%`;
   };
+  const escHtml = (v) => String(v == null ? "" : v)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
 
   async function fetchJson(url) {
     const resp = await fetch(url, { cache: "no-store" });
@@ -725,6 +730,226 @@
     }).join("");
   }
 
+  function renderBlackFridaySprint(d) {
+    if (!d || !$("panel-bf-sprint")) return;
+    const cdText = d.countdown_vi || `${d.remaining_hours ?? 0}h ${d.remaining_minutes ?? 0}m`;
+    const cdBadge = $("bf-countdown-badge");
+    cdBadge.textContent = cdText;
+    cdBadge.className = `tag ${d.expired ? "tag-red" : (Number(d.remaining_hours || 0) <= 24 ? "tag-amber" : "tag-green")}`;
+
+    $("bf-countdown-val").textContent = d.expired
+      ? "Đã đến hạn"
+      : `${d.remaining_hours} giờ ${String(d.remaining_minutes ?? 0).padStart(2, "0")} phút`;
+    $("bf-countdown-val").className = `mini-val mono ${d.expired ? "neg" : "warn"}`;
+    $("bf-countdown-sub").textContent = `Hạn chốt: ${d.deadline_ict || "30/11/2026 16:00 ICT"} (${cdText})`;
+
+    const vaultEl = $("bf-vault-badge");
+    const mounted = d.private_vault_status === "MOUNTED";
+    vaultEl.textContent = mounted ? "Kho bảo mật lớp 2: ĐÃ GẮN" : "Kho bảo mật lớp 2: CHƯA GẮN";
+    vaultEl.className = `tag ${mounted ? "tag-green" : "tag-amber"}`;
+
+    $("bf-seal-badge").textContent = `OrderSend=${d.order_send_count ?? 0} · ${d.holdout_sealed ? "Holdout khóa" : "Kiểm tra Holdout"}`;
+
+    // Mũi 3 summary & 5-scenario table (Model=4 Real Ticks vs Model=1 1m OHLC)
+    const m3 = d.mui3_realtick || {};
+    const m3Latest = m3.latest || null;
+    if (m3.available && m3Latest) {
+      const m4c = m3.model4_count != null ? m3.model4_count : (m3.scenarios || []).filter((x) => x.model === 4).length;
+      const m1c = m3.model1_count != null ? m3.model1_count : (m3.scenarios || []).filter((x) => x.model === 1).length;
+      const allSwapOk = (m3.scenarios || []).every((x) => x.swap_zero_ok !== false);
+      $("bf-mui3-val").textContent = `${m3.scenarios_count} kịch bản ĐẠT (${m4c} M4 · ${m1c} M1)`;
+      $("bf-mui3-val").className = "mini-val mono pos";
+      const net = m3Latest.total_net_profit_usd;
+      const netStr = net != null ? `${net >= 0 ? "+" : ""}${Number(net).toFixed(2)} USD` : "—";
+      const pfStr = m3Latest.profit_factor != null ? `PF ${Number(m3Latest.profit_factor).toFixed(2)}` : "PF —";
+      $("bf-mui3-sub").textContent = `Mới nhất: ${m3Latest.label} (${netStr}, ${pfStr}) · ${allSwapOk ? "Swap=0 ĐẠT" : "Kiểm tra Swap"}`;
+    } else {
+      $("bf-mui3-val").textContent = "Đang chờ";
+      $("bf-mui3-val").className = "mini-val mono warn";
+      $("bf-mui3-sub").textContent = "Chưa có tệp kết quả Master_Prop7E";
+    }
+
+    const m3Body = $("tbl-bf-mui3").querySelector("tbody");
+    const scList = m3.scenarios || [];
+    if (!scList.length) {
+      m3Body.innerHTML = `<tr><td colspan="9" class="mono">Chưa có kết quả chạy thử Master_Prop7E (trạng thái chờ).</td></tr>`;
+    } else {
+      m3Body.innerHTML = scList.map((sc) => {
+        const net = sc.total_net_profit_usd;
+        const netCls = net == null ? "" : (net >= 0 ? "pos" : "neg");
+        const netTxt = net == null ? "—" : `${net >= 0 ? "+" : ""}${Number(net).toFixed(2)} USD`;
+        const winTxt = (sc.from_date && sc.to_date) ? `${sc.from_date}–${sc.to_date}` : (sc.period || "—");
+        const isM4 = sc.model === 4 || sc.is_real_ticks === true;
+        const mBadge = sc.model_badge || (isM4 ? "Model=4 Real Ticks" : "Model=1 1m OHLC");
+        const mCls = isM4 ? "tag-green" : "tag-amber";
+        const shortLbl = String(sc.label || "").replace(/^MASTER_PROP7E_/, "");
+        return `
+          <tr>
+            <td class="mono strong" title="${escHtml(sc.label)}">${escHtml(shortLbl)}</td>
+            <td><span class="tag ${mCls}">${escHtml(mBadge)}</span></td>
+            <td class="mono">${escHtml(winTxt)}</td>
+            <td class="num mono">${sc.total_trades != null ? sc.total_trades : "—"}</td>
+            <td class="num mono ${netCls}">${netTxt}</td>
+            <td class="num mono">${sc.profit_factor != null ? Number(sc.profit_factor).toFixed(2) : "—"}</td>
+            <td class="num mono">${sc.sharpe_ratio != null ? Number(sc.sharpe_ratio).toFixed(2) : "—"}</td>
+            <td class="num mono">${sc.equity_dd_pct != null ? `${Number(sc.equity_dd_pct).toFixed(2)}%` : "—"}</td>
+            <td><span class="tag ${sc.swap_zero_ok ? "tag-green" : "tag-red"}">${sc.swap_zero_ok ? "ĐẠT" : "LỖI"}</span></td>
+          </tr>`;
+      }).join("");
+    }
+
+    // Mũi 1-2 live calibration progress strip + summary & table
+    const m12 = d.mui1_mui2 || {};
+    const rf = m12.realized_friction || {};
+    const cp = m12.calibration_progress || {};
+    const ls = m12.live_spreads || {};
+
+    const cpDone = Number(cp.completed_round_trips || 0);
+    const cpTarget = Number(cp.target_round_trips || 28);
+    const cpOpen = Number(cp.open_in_progress_count || 0);
+    const cpPct = Math.min(100, Math.max(0, Number(cp.progress_pct || 0)));
+    const cpBadge = $("bf-calib-status-badge");
+    if (cpBadge) {
+      const cpMap = { COMPLETED: ["HOÀN TẤT", "tag-green"], IN_PROGRESS: ["ĐANG ĐO", "tag-amber"], pending: ["CHỜ", ""] };
+      const [lbl, cls] = cpMap[cp.status] || ["CHỜ", ""];
+      cpBadge.textContent = lbl;
+      cpBadge.className = `tag ${cls}`;
+    }
+    const cpBar = $("bf-calib-bar");
+    if (cpBar) cpBar.style.width = `${cpPct}%`;
+    const cpHead = $("bf-calib-headline");
+    if (cpHead) {
+      const slipMean = cp.mean_adverse_slip_bps != null ? `${Number(cp.mean_adverse_slip_bps).toFixed(2)} bps` : "—";
+      const slipMax = cp.max_adverse_slip_bps != null ? `tối đa ${Number(cp.max_adverse_slip_bps).toFixed(2)} bps` : "";
+      const latP50 = cp.median_latency_ms != null ? `${Number(cp.median_latency_ms).toFixed(1)} ms` : "—";
+      const swapStr = cp.available ? (cp.swap_zero_ok ? "Swap=0 ĐẠT" : "Swap LỆCH") : "Swap=0";
+      const openPart = cpOpen > 0 ? ` · Đang mở: ${cpOpen}` : "";
+      const slipPart = slipMax ? `${slipMean} (${slipMax})` : slipMean;
+      cpHead.textContent = `${cpDone} / ${cpTarget} lệnh probe thực địa${openPart} · Trượt giá TB: ${slipPart} · Độ trễ P50: ${latP50} · ${swapStr}`;
+    }
+    const cpSymEl = $("bf-calib-sym-pills");
+    if (cpSymEl) {
+      const perSym = cp.per_symbol_fills || {};
+      const keys = Object.keys(perSym);
+      cpSymEl.innerHTML = keys.map((sym) => {
+        const item = perSym[sym] || {};
+        const comp = Number(item.completed || 0);
+        const tgt = Number(item.target || 7);
+        const op = Number(item.open || 0);
+        const tone = comp >= tgt ? "is-ok" : (comp > 0 || op > 0 ? "is-warn" : "");
+        const openTxt = op > 0 ? ` (+${op} mở)` : "";
+        return `<span class="bf-pill ${tone}"><span class="bf-pill-lbl">${escHtml(sym)}:</span> <strong>${comp}/${tgt}${openTxt}</strong></span>`;
+      }).join("");
+    }
+
+    if (rf.available) {
+      const p50 = rf.p50_friction_mult != null ? `P50 ${Number(rf.p50_friction_mult).toFixed(2)}×` : "P50 —";
+      const p90 = rf.p90_friction_mult != null ? `P90 ${Number(rf.p90_friction_mult).toFixed(2)}×` : "P90 —";
+      const ok = rf.p50_friction_mult == null || rf.p50_friction_mult <= 1.5;
+      $("bf-friction-val").textContent = `${p50} / ${p90}`;
+      $("bf-friction-val").className = `mini-val mono ${ok ? "pos" : "warn"}`;
+      $("bf-friction-sub").textContent = `${rf.fills_count ?? cpDone} lệnh khớp · ${ls.samples_count ?? 0} mẫu spread · ${rf.verdict || "OK"}`;
+      $("bf-friction-note").textContent = `Tổng hợp Mũi 1–2 (${rf.generated_utc || "mới nhất"}): trượt giá P50=${rf.p50_slippage_bps != null ? `${rf.p50_slippage_bps} bps` : "—"} · P90=${rf.p90_slippage_bps != null ? `${rf.p90_slippage_bps} bps` : "—"}.`;
+    } else if (cp.available) {
+      $("bf-friction-val").textContent = `${cpDone} / ${cpTarget} lệnh probe`;
+      $("bf-friction-val").className = `mini-val mono ${cpDone >= cpTarget ? "pos" : "accent"}`;
+      const latTxt = cp.median_latency_ms != null ? ` · P50 ${Number(cp.median_latency_ms).toFixed(0)}ms` : "";
+      $("bf-friction-sub").textContent = `${ls.samples_count ?? 0} mẫu spread trực tiếp${latTxt} · đang thu thập`;
+      $("bf-friction-note").textContent = `Đang đọc trực tiếp tiến độ từ bảng khớp lệnh mẫu (cập nhật: ${cp.latest_fill_utc || ls.latest_captured_utc || "—"}). Tệp tổng hợp cuối sẽ có sau khi hoàn tất phiên đo.`;
+    } else if (ls.available) {
+      $("bf-friction-val").textContent = `${ls.samples_count} mẫu spread`;
+      $("bf-friction-val").className = "mini-val mono accent";
+      $("bf-friction-sub").textContent = "Đang chờ tổng hợp trượt giá Mũi 1 · Spread trực tiếp đã có";
+      $("bf-friction-note").textContent = `Chưa có tệp đo trượt giá Mũi 1 — đang hiển thị spread thực từ ${ls.samples_count} mẫu gần nhất (${ls.latest_captured_utc || "—"}).`;
+    } else {
+      $("bf-friction-val").textContent = "Đang chờ";
+      $("bf-friction-val").className = "mini-val mono warn";
+      $("bf-friction-sub").textContent = "Chưa có dữ liệu trượt giá và spread trực tiếp";
+      $("bf-friction-note").textContent = "Chưa có dữ liệu Mũi 1–2 (hệ thống tự cập nhật khi tệp thực địa sẵn sàng).";
+    }
+
+    const frBody = $("tbl-bf-friction").querySelector("tbody");
+    const symRows = m12.symbol_table || [];
+    if (!symRows.length) {
+      frBody.innerHTML = `<tr><td colspan="7" class="mono">Chưa có mẫu spread trực tiếp cho 4 mã cốt lõi.</td></tr>`;
+    } else {
+      frBody.innerHTML = symRows.map((r) => {
+        const ratio = r.ratio_vs_dev_1x;
+        const rTag = ratio == null
+          ? `<span class="tag">CHỜ</span>`
+          : (ratio <= 1.25
+            ? `<span class="tag tag-green">TỐT</span>`
+            : (ratio <= 1.75 ? `<span class="tag tag-amber">THEO DÕI</span>` : `<span class="tag tag-red">CAO</span>`));
+        const fillTxt = r.fills_count != null ? `${r.fills_count}/7` : "—";
+        return `
+          <tr>
+            <td class="mono strong">${escHtml(r.symbol)}</td>
+            <td class="num mono">${fillTxt}</td>
+            <td class="num mono">${r.live_median_spread_bps != null ? Number(r.live_median_spread_bps).toFixed(2) : "—"}</td>
+            <td class="num mono">${r.live_p90_spread_bps != null ? Number(r.live_p90_spread_bps).toFixed(2) : "—"}</td>
+            <td class="num mono strong">${ratio != null ? `${Number(ratio).toFixed(2)}×` : "—"}</td>
+            <td class="num mono">${r.samples != null ? r.samples : "—"}</td>
+            <td>${rTag}</td>
+          </tr>`;
+      }).join("");
+    }
+  }
+
+  function renderNode1Summary(n) {
+    if (!n || !$("bf-node-pills")) return;
+    const isLive = n.source === "live_ssh" && n.connected === true;
+    const srcBadge = $("n1-source-badge");
+    srcBadge.textContent = isLive ? "SSH trực tiếp" : "Dự phòng cục bộ";
+    srcBadge.className = `tag ${isLive ? "tag-green" : "tag-amber"}`;
+
+    $("bf-node1-val").textContent = isLive
+      ? (n.mt5_running ? "Trực tuyến · MT5 chạy" : "Trực tuyến · MT5 dừng")
+      : "Chế độ dự phòng";
+    $("bf-node1-val").className = `mini-val mono ${isLive && n.mt5_running ? "pos" : (isLive ? "neg" : "warn")}`;
+
+    const balTxt = n.balance != null ? fmtUSD(n.balance) : "—";
+    const eqTxt = n.equity != null ? fmtUSD(n.equity) : "—";
+    $("bf-node1-sub").textContent = `Số dư ${balTxt} · Equity ${eqTxt} · Vị thế: ${n.open_positions != null ? n.open_positions : "—"}`;
+
+    const mkPill = (lbl, val, tone = "") =>
+      `<span class="bf-pill ${tone}"><span class="bf-pill-lbl">${escHtml(lbl)}:</span> <strong>${escHtml(val)}</strong></span>`;
+
+    const mt5Txt = n.mt5_running === true ? "Đang chạy" : (n.mt5_running === false ? "Đã dừng" : "Chưa rõ");
+    const mt5Tone = n.mt5_running === true ? "is-ok" : (n.mt5_running === false ? "is-bad" : "");
+    const pgOk = n.propguard_ok_count != null ? n.propguard_ok_count : "—";
+    const pgWarn = n.propguard_warn_count != null ? n.propguard_warn_count : "—";
+    const pgTone = n.propguard_warn_count != null ? (n.propguard_warn_count > 0 ? "is-bad" : "is-ok") : "";
+    const alTxt = n.auto_logon === true ? "Bật" : (n.auto_logon === false ? "Tắt" : "—");
+    const alTone = n.auto_logon === true ? "is-ok" : (n.auto_logon === false ? "is-warn" : "");
+    const hkTone = n.heroku_status === "OK" ? "is-ok" : (n.heroku_status === "ERROR" ? "is-bad" : "is-warn");
+    const ramTxt = n.free_ram_gb != null ? `${Number(n.free_ram_gb).toFixed(1)} GB` : "—";
+    const diskTxt = n.c_free_gb != null ? `${Number(n.c_free_gb).toFixed(1)} GB` : "—";
+    const diskTone = n.c_free_gb != null ? (n.c_free_gb < 10 ? "is-bad" : "is-ok") : "";
+
+    $("bf-node-pills").innerHTML = [
+      mkPill("Kết nối", n.connected ? "Trực tiếp" : "Ngoại tuyến", n.connected ? "is-ok" : "is-warn"),
+      mkPill("MT5", mt5Txt, mt5Tone),
+      mkPill("Lệnh mở", n.open_positions != null ? String(n.open_positions) : "—"),
+      mkPill("Số dư / Equity", `${balTxt} / ${eqTxt}`),
+      mkPill("PropGuard", `OK ${pgOk} · Cảnh báo ${pgWarn}`, pgTone),
+      mkPill("Lệch giờ NTP", n.ntp_offset || "—", n.ntp_offset && n.ntp_offset !== "unknown" ? "is-ok" : ""),
+      mkPill("Tự đăng nhập", alTxt, alTone),
+      mkPill("Giám sát Heroku", n.heroku_status || "—", hkTone),
+      mkPill("RAM trống", ramTxt),
+      mkPill("Ổ C trống", diskTxt, diskTone),
+    ].join("");
+  }
+
+  async function refreshBlackFridayAndNode1(forceFresh = false) {
+    const q = forceFresh ? "?nocache=1" : "";
+    const [bfRes, n1Res] = await Promise.allSettled([
+      fetchJson(`/api/blackfriday-sprint${q}`),
+      fetchJson(`/api/node1-summary${q}`),
+    ]);
+    if (bfRes.status === "fulfilled") renderBlackFridaySprint(bfRes.value);
+    if (n1Res.status === "fulfilled") renderNode1Summary(n1Res.value);
+  }
+
   async function refreshAll() {
     const [summary, alloc, telemetry] = await Promise.all([
       fetchJson("/api/summary"),
@@ -739,7 +964,13 @@
     renderEquityAndDDCharts();
     renderCorrelationHeatmap();
     renderTelemetry();
-    await Promise.all([refreshPropMetrix(), refreshCalculator(), refreshStress(), refreshRebalancer()]);
+    await Promise.all([
+      refreshBlackFridayAndNode1(),
+      refreshPropMetrix(),
+      refreshCalculator(),
+      refreshStress(),
+      refreshRebalancer(),
+    ]);
   }
 
   function syncCapitalFromUsd(usd) {
@@ -755,6 +986,19 @@
 
   window.addEventListener("DOMContentLoaded", () => {
     $("btn-refresh").addEventListener("click", () => refreshAll());
+    const bfRefBtn = $("btn-bf-refresh");
+    if (bfRefBtn) {
+      bfRefBtn.addEventListener("click", async () => {
+        bfRefBtn.disabled = true;
+        bfRefBtn.textContent = "Đang làm mới…";
+        try {
+          await refreshBlackFridayAndNode1(true);
+        } finally {
+          bfRefBtn.disabled = false;
+          bfRefBtn.textContent = "Làm mới dữ liệu";
+        }
+      });
+    }
     $("slider-cap-usd").addEventListener("input", () => {
       syncCapitalFromUsd(Number($("slider-cap-usd").value || 50000));
       refreshCalculator();

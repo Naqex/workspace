@@ -113,3 +113,52 @@ def test_node_exec_audit_summarizes_fills_and_rejects(tmp_path: pathlib.Path):
     assert res["fills_by_symbol"] == {"USDJPY": 1}
     assert res["latency_ms"]["median"] == 30.25
     assert len(res["rejects_tail"]) == 1
+
+
+def test_node_ctl_rejects_shell_metacharacters_and_quotes_safe_args():
+    import pytest
+
+    unsafe_cases = [
+        ["--scope", "mql5&whoami"],
+        ["--grep", "foo|calc"],
+        ["--days", "1;dir"],
+        ["--tail", "10>out.txt"],
+        ["--tail", "10<in.txt"],
+        ["--grep", "a^b"],
+        ["--grep", "%COMSPEC%"],
+        ["--grep", "$(id)"],
+        ["--grep", "`whoami`"],
+        ["--grep", "a b"],
+        ["--grep", "bad\nline"],
+        [""],
+    ]
+    for bad_args in unsafe_cases:
+        with pytest.raises(ValueError, match="Unsafe SSH probe argument"):
+            node_ctl.run_remote_probe("logs", extra_args=bad_args, host="naqex-node1")
+
+    with pytest.raises(ValueError, match="Invalid SSH host alias"):
+        node_ctl.run_remote_probe("status", host="-oProxyCommand=evil")
+
+    captured: list[list[str]] = []
+
+    def fake_run(cmd, **_kw):
+        captured.append(cmd)
+
+        class _R:
+            returncode = 0
+            stdout = json.dumps({"ok": True, "order_send_count": 0})
+            stderr = ""
+
+        return _R()
+
+    with patch.object(node_ctl.subprocess, "run", side_effect=fake_run):
+        res = node_ctl.run_remote_probe(
+            "logs",
+            extra_args=["--scope", "mql5", "--days", "1", "--errors-only", "--mt5-root", r"C:\Naqex\mt5"],
+            host="naqex-node1",
+        )
+    assert res["ok"] is True
+    assert res["_ssh_host"] == "naqex-node1"
+    assert len(captured) == 1
+    remote_cmd = captured[0][-1]
+    assert '"--scope" "mql5" "--days" "1" "--errors-only" "--mt5-root" "C:\\Naqex\\mt5"' in remote_cmd

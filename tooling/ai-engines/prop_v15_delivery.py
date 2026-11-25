@@ -11,7 +11,7 @@ from prop_v15_common import *
 from prop_v15_campaign import metrics
 
 REPORT=Path("planning/research/BRIDGE-AND-VELOCITY-V15-RESULTS-20261115")
-PYTHON="C:/Users/MIIKEY/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe"
+PYTHON=str(Path.home()/".cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe")
 
 
 def verify_tests():

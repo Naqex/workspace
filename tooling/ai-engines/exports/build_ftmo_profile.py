@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from pathlib import Path
 import sys
 from typing import Any
@@ -26,10 +27,16 @@ if str(EXPORTS_DIR) not in sys.path:
 
 import verify_deployment_kit as kit  # noqa: E402
 
+def _default_ftmo_appdata_root() -> Path:
+    env_override = os.environ.get("NAQEX_FTMO_APPDATA_ROOT", "").strip()
+    if env_override:
+        return Path(env_override)
+    appdata = Path(os.environ.get("APPDATA") or (Path.home() / "AppData/Roaming"))
+    return appdata / "MetaQuotes/Terminal/81A933A9AFC5DE3C23B15CAB19C63850"
+
+
 DEFAULT_PORTABLE_ROOT = REPO_ROOT / ".runtime/ftmo-demo-portable-1515343166"
-DEFAULT_FTMO_APPDATA_ROOT = Path(
-    r"C:\Users\MIIKEY\AppData\Roaming\MetaQuotes\Terminal\81A933A9AFC5DE3C23B15CAB19C63850"
-)
+DEFAULT_FTMO_APPDATA_ROOT = _default_ftmo_appdata_root()
 
 # Forbidden path guard: NEVER touch the Exness Real MT5 installation
 FORBIDDEN_PATH_TOKENS = ("program files\\metatrader 5", "d0e8209f77c8cf37ad8bf550e51ff075")

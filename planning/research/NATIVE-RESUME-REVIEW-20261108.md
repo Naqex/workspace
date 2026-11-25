@@ -1,7 +1,7 @@
 # Complete checkpoint và CLI resume — phạm vi đã kiểm
 
 Đã triển khai tại Trader `3ae4f844`/`b741bee1`, branch `codex/research-resume`,
-checkout `C:/Users/MIIKEY/.codex/worktrees/replay-history-validation/trader`.
+checkout `~/.codex/worktrees/replay-history-validation/trader`.
 Workspace `3fe3b34` forward config `resume_scenarios_from`. D:source78a8397f và
 research-metals native job e4481140 không bị thay trong lúc chạy.
 

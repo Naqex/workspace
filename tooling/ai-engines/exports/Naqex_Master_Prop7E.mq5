@@ -1,17 +1,17 @@
 //+------------------------------------------------------------------+
-//| Naqex_Master_Prop7E.mq5 (v1.00 — Single Multi-Symbol Authority)  |
-//| Round-3 Approved Architecture:                                   |
+//| Naqex_Master_Prop7E.mq5 (v1.01 — Single Multi-Symbol Authority)  |
+//| Round-3 Approved Architecture + v1.01 Hardening (V101-01..07):   |
 //|   - ONE Execution Authority per MT5 account (zero GV CAS races)  |
 //|   - 7 Fixed Core Engines (E1..E7) across all phases + S6 shadow  |
-//|   - In-memory atomic Per-Symbol + Directional Factor Cluster     |
-//|     (USD / JPY / US100) + Total Account Open Risk Allocator      |
-//|   - In-flight pending/unknown order ledger reconciled via        |
-//|     OnTradeTransaction + HistoryDeals + PositionsTotal           |
-//|   - Dual sizing benchmark: 0=STATIC_LOCK | 1=BARRIER_HEADROOM    |
+//|   - Real per-engine magic + tk/pos TCA audit & restart hydration |
+//|   - TimeTradeServer() + exact EU Prague DST midnight offset      |
+//|   - 23-date NYSE calendar + ±135s hard-ban + Sunday gap flatten  |
+//|   - Pending OrdersTotal() cancel + live-calibrated deviation pts |
+//|   - REL+HEADROOM relative AMBER/RED brake + dailyHeadroom taper  |
 //|   - Fail-closed defaults: DryRun=true, ShadowCompareMode=true    |
 //+------------------------------------------------------------------+
 #property strict
-#property version     "1.00"
+#property version     "1.01"
 #property tester_file "naqex_red_news_utc.csv"
 
 #include <Trade/Trade.mqh>
@@ -60,6 +60,8 @@ input string InpSymAUDUSD              = "AUDUSD";
 input string InpSymUSDCAD              = "USDCAD";
 input double InpMaxIndexSpreadPoints   = 450.0;      // Max spread (pts) for US100/US500 indices (FTMO normal ~195 pts)
 input double InpMaxEurJpySpreadPoints  = 45.0;       // Max spread (pts) for EURJPY cross (matches E6 preset)
+input int    InpMaxSlippagePointsFx    = 35;         // V101-06 SetDeviationInPoints for FX pairs (pts)
+input int    InpMaxSlippagePointsIdx   = 450;        // V101-06 SetDeviationInPoints for US100/US500 (live-calibrated >= +370pt)
 input int    InpMaxBreakoutTickLagMs   = 5000;
 input int    InpHeartbeatSec           = 15;
 input string InpHeartbeatFile          = "naqex_master_heartbeat.json";
@@ -81,6 +83,7 @@ struct NaqexInFlightOrder
    double   est_risk_pct;
    ulong    order_ticket;
    datetime sent_utc;
+   datetime session_day_key;
    bool     unknown_state;
 };
 
@@ -94,6 +97,8 @@ double   g_dayAnchorEq       = 0.0;
 double   g_dayAnchorBal      = 0.0;
 bool     g_autoKillActive    = false;
 bool     g_anchorUnrecovered = false;
+datetime g_lastAnchorRetry   = 0;
+datetime g_lastHydrateRetry  = 0;
 datetime g_lastHbWrite       = 0;
 long     g_lastTickLagMs     = 0;
 long     g_maxTickLagMs      = 0;
@@ -114,11 +119,21 @@ int PragueUtcOffsetHoursM(const MqlDateTime &utc)
    return (utc.day < ls || (utc.day == ls && utc.hour < 1)) ? 2 : 1;
 }
 
+// V101-03: Exact UTC offset at 00:00 Prague local midnight (0-second error across all EU DST Sundays!)
+int PragueMidnightUtcOffsetHoursM(const int year, const int month, const int day)
+{
+   if(month < 3 || month > 10) return 1;
+   if(month > 3 && month < 10) return 2;
+   int ls = LastSundayOfMonthM(year, month);
+   if(month == 3) return (day > ls) ? 2 : 1;  // At 00:00 Prague on last Sun Mar, switch at 01:00 UTC has not occurred -> CET (+1)
+   return (day <= ls) ? 2 : 1;                // At 00:00 Prague on last Sun Oct, switch at 01:00 UTC has not occurred -> CEST (+2)
+}
+
 int CurrentResetDayKeyM()
 {
    datetime refTs = 0;
    if(InpDailyResetMode == 0)
-      refTs = TimeCurrent();
+      refTs = CNaqexPropGuard::ServerNow();
    else if(InpDailyResetMode == 1)
    {
       datetime nowUtc = g_guard.NowUTC();
@@ -133,19 +148,28 @@ int CurrentResetDayKeyM()
 
 datetime CurrentResetStartServerTimeM()
 {
-   datetime srvNow = TimeCurrent();
+   datetime srvNow = CNaqexPropGuard::ServerNow();
    if(InpDailyResetMode == 0) return srvNow - (srvNow % 86400);
    datetime nowUtc = g_guard.NowUTC();
    long srvMinusUtc = (long)srvNow - (long)nowUtc;
    if(InpDailyResetMode == 1)
    {
       MqlDateTime utc; TimeToStruct(nowUtc, utc);
-      int prgOff = PragueUtcOffsetHoursM(utc) * 3600;
-      datetime prgNow = nowUtc + (datetime)prgOff;
-      datetime prgMidUtc = (prgNow - (prgNow % 86400)) - (datetime)prgOff;
+      int curOff = PragueUtcOffsetHoursM(utc) * 3600;
+      datetime prgNow = nowUtc + (datetime)curOff;
+      MqlDateTime prgDt; TimeToStruct(prgNow, prgDt);
+      int midOff = PragueMidnightUtcOffsetHoursM(prgDt.year, prgDt.mon, prgDt.day) * 3600;
+      datetime prgMidUtc = (prgNow - (prgNow % 86400)) - (datetime)midOff;
       return prgMidUtc + (datetime)srvMinusUtc;
    }
    return (nowUtc - (nowUtc % 86400)) + (datetime)srvMinusUtc;
+}
+
+void PersistAutoKillStateM(const int dayKey, const bool active)
+{
+   if(MQLInfoInteger(MQL_TESTER) || dayKey <= 0) return;
+   GlobalVariableSet(CNaqexPropGuard::AcctDayKeyName(), (double)dayKey);
+   GlobalVariableSet(CNaqexPropGuard::AcctAutoKillKey(), active ? 1.0 : 0.0);
 }
 
 bool IsAccountSyncedM(const double bal, const double eq)
@@ -160,15 +184,20 @@ void RestoreOrInitDayAnchorM()
    double bal = AccountInfoDouble(ACCOUNT_BALANCE);
    double eq  = AccountInfoDouble(ACCOUNT_EQUITY);
    if(!IsAccountSyncedM(bal, eq)) return;
+   datetime nowUtc = g_guard.NowUTC();
    int today = CurrentResetDayKeyM();
-   if(today == g_dayKey && g_dayAnchorEq > 0.0) return;
+   bool isNewDay = (today != g_dayKey);
+   if(!isNewDay && g_dayAnchorEq > 0.0 && !g_anchorUnrecovered) return;
+   // V101-02: Retry ANCHOR_UNRECOVERED every 15s instead of locking dead all day
+   if(!isNewDay && g_anchorUnrecovered && (nowUtc - g_lastAnchorRetry) < 15) return;
+   g_lastAnchorRetry = nowUtc;
 
    double reconstructedBal = bal;
    g_anchorUnrecovered = false;
    if(!MQLInfoInteger(MQL_TESTER))
    {
       datetime resetStart = CurrentResetStartServerTimeM();
-      datetime srvNow = TimeCurrent();
+      datetime srvNow = CNaqexPropGuard::ServerNow();
       if(srvNow >= resetStart && HistorySelect(resetStart, srvNow + 60))
       {
          double todayRealized = 0.0;
@@ -191,10 +220,28 @@ void RestoreOrInitDayAnchorM()
          g_anchorUnrecovered = true;
       }
    }
+   int prevDayKey   = g_dayKey;
    g_dayKey         = today;
    g_dayAnchorBal   = reconstructedBal;
    g_dayAnchorEq    = (InpDailyResetMode == 1) ? reconstructedBal : MathMax(reconstructedBal, eq);
-   g_autoKillActive = false;
+
+   // V101-02: Restore persisted g_autoKillActive across mid-day restarts; reset cleanly on new day!
+   if(!MQLInfoInteger(MQL_TESTER))
+   {
+      string dkKey = CNaqexPropGuard::AcctDayKeyName();
+      string akKey = CNaqexPropGuard::AcctAutoKillKey();
+      if(prevDayKey == -1 && GlobalVariableCheck(dkKey) && (int)GlobalVariableGet(dkKey) == today && GlobalVariableCheck(akKey))
+         g_autoKillActive = (GlobalVariableGet(akKey) >= 1.0);
+      else if(isNewDay)
+      {
+         g_autoKillActive = false;
+         PersistAutoKillStateM(today, false);
+      }
+   }
+   else if(isNewDay)
+   {
+      g_autoKillActive = false;
+   }
 }
 
 int CountActiveInFlight()
@@ -212,6 +259,8 @@ void ReconcileInFlightOrders(const datetime nowUtc)
       if(!g_inFlight[i].active) continue;
       // Check if position already materialized on broker (match order_ticket or magic+symbol)
       bool posFound = false;
+      ulong foundPosId = 0;
+      double foundOpenPx = -1.0, foundSl = 0.0, foundVol = 0.0;
       for(int p = PositionsTotal() - 1; p >= 0; p--)
       {
          ulong ptk = PositionGetTicket(p);
@@ -219,12 +268,26 @@ void ReconcileInFlightOrders(const datetime nowUtc)
          if((g_inFlight[i].order_ticket > 0 && (ulong)PositionGetInteger(POSITION_IDENTIFIER) == g_inFlight[i].order_ticket) ||
             (PositionGetInteger(POSITION_MAGIC) == g_inFlight[i].magic && PositionGetString(POSITION_SYMBOL) == g_inFlight[i].symbol))
          {
-            posFound = true;
+            posFound    = true;
+            foundPosId  = (ulong)PositionGetInteger(POSITION_IDENTIFIER);
+            foundOpenPx = PositionGetDouble(POSITION_PRICE_OPEN);
+            foundSl     = PositionGetDouble(POSITION_SL);
+            foundVol    = PositionGetDouble(POSITION_VOLUME);
             break;
          }
       }
       if(posFound)
       {
+         // V101-05: Mark engine traded when TIMEOUT/PLACED unknown_state reconciles into a live position!
+         if(g_inFlight[i].unknown_state)
+         {
+            g_signals.MarkEngineTraded(g_inFlight[i].magic, g_inFlight[i].session_day_key);
+            g_guard.LogExecAuditFor(g_inFlight[i].symbol, g_inFlight[i].is_buy ? "BUY" : "SELL",
+                                    "ORDER_FILL_RECONCILED", foundOpenPx, foundOpenPx, foundSl, foundVol, 0.0, TRADE_RETCODE_DONE,
+                                    StringFormat("intent=%s|ord=%I64u|pos=%I64u|RECONCILED_FROM_UNKNOWN",
+                                                 g_inFlight[i].intent_id, g_inFlight[i].order_ticket, foundPosId),
+                                    g_inFlight[i].magic);
+         }
          g_inFlight[i].active = false;
          continue;
       }
@@ -236,19 +299,37 @@ void ReconcileInFlightOrders(const datetime nowUtc)
 
 void RegisterInFlight(const NaqexSignalIntent &it, const double estRiskPct, const ulong ordTicket, const bool isUnknown)
 {
+   // V101-05: Deduplicate by magic or order_ticket before allocating a new slot
+   for(int i = 0; i < NAQEX_MAX_INFLIGHT; i++)
+   {
+      if(g_inFlight[i].active &&
+         (g_inFlight[i].magic == it.magic || (ordTicket > 0 && g_inFlight[i].order_ticket == ordTicket)))
+      {
+         g_inFlight[i].intent_id       = it.intent_id;
+         g_inFlight[i].symbol          = it.symbol;
+         g_inFlight[i].is_buy          = it.is_buy;
+         g_inFlight[i].est_risk_pct    = estRiskPct;
+         g_inFlight[i].order_ticket    = ordTicket;
+         g_inFlight[i].sent_utc        = it.signal_utc;
+         g_inFlight[i].session_day_key = it.session_day_key;
+         g_inFlight[i].unknown_state   = isUnknown;
+         return;
+      }
+   }
    for(int i = 0; i < NAQEX_MAX_INFLIGHT; i++)
    {
       if(!g_inFlight[i].active)
       {
-         g_inFlight[i].active        = true;
-         g_inFlight[i].intent_id     = it.intent_id;
-         g_inFlight[i].magic         = it.magic;
-         g_inFlight[i].symbol        = it.symbol;
-         g_inFlight[i].is_buy        = it.is_buy;
-         g_inFlight[i].est_risk_pct  = estRiskPct;
-         g_inFlight[i].order_ticket  = ordTicket;
-         g_inFlight[i].sent_utc      = it.signal_utc;
-         g_inFlight[i].unknown_state = isUnknown;
+         g_inFlight[i].active          = true;
+         g_inFlight[i].intent_id       = it.intent_id;
+         g_inFlight[i].magic           = it.magic;
+         g_inFlight[i].symbol          = it.symbol;
+         g_inFlight[i].is_buy          = it.is_buy;
+         g_inFlight[i].est_risk_pct    = estRiskPct;
+         g_inFlight[i].order_ticket    = ordTicket;
+         g_inFlight[i].sent_utc        = it.signal_utc;
+         g_inFlight[i].session_day_key = it.session_day_key;
+         g_inFlight[i].unknown_state   = isUnknown;
          return;
       }
    }
@@ -315,14 +396,15 @@ double ComputePhaseRiskMultiplier(const double dailyDdPct, const double staticDd
 {
    double mult = InpBasePhaseMult;
    outRegime = "NORMAL";
+   // V101-07 (REL+HEADROOM): Relative AMBER/RED brake fixes the P1 4x AMBER Quicksand Trap while keeping Funded 1.0x identical!
    if(staticDdPct >= InpRedDdPct)
    {
-      mult = MathMin(mult, InpRedMult);
+      mult = MathMin(mult, InpBasePhaseMult * InpRedMult);
       outRegime = "RED_BRAKE";
    }
    else if(staticDdPct >= InpAmberDdPct)
    {
-      mult = MathMin(mult, InpAmberMult);
+      mult = MathMin(mult, InpBasePhaseMult * InpAmberMult);
       outRegime = "AMBER_BRAKE";
    }
    else if(InpProfitLockPct > 0.0 && profitPct >= InpProfitLockPct)
@@ -331,14 +413,21 @@ double ComputePhaseRiskMultiplier(const double dailyDdPct, const double staticDd
       outRegime = "PROFIT_LOCK";
    }
 
+   // V101-07: Unconditional dailyHeadroom < 2.0% taper (even when InpSizingMode == 0) guarantees 0.0% daily DD breaches!
+   double dailyHeadroom = MathMax(0.0, InpKillDailyDdPct - dailyDdPct);
+   if(dailyHeadroom < 2.0)
+   {
+      double dailyScale = MathMax(0.25, dailyHeadroom / 2.0);
+      mult = MathMin(mult, InpBasePhaseMult * dailyScale);
+      if(outRegime == "NORMAL")
+         outRegime = "DAILY_HEADROOM_TAPER";
+   }
+
    // SizingMode 1: BARRIER_HEADROOM_MIN (Astra Round-3 state-dependent control — ONLY tapers, NEVER boosts!)
    if(InpSizingMode == 1)
    {
-      double dailyHeadroom  = MathMax(0.0, InpKillDailyDdPct - dailyDdPct);
       double staticHeadroom = MathMax(0.0, InpKillStaticDdPct - staticDdPct);
-      // Scale smoothly down if headroom tightens below 2.0% daily or 3.5% static
       double ddScale = 1.0;
-      if(dailyHeadroom < 2.0)  ddScale = MathMin(ddScale, MathMax(0.25, dailyHeadroom / 2.0));
       if(staticHeadroom < 3.5) ddScale = MathMin(ddScale, MathMax(0.25, staticHeadroom / 3.5));
       // Target-proximity taper when within last 35% of phase profit target
       if(InpTargetProfitPct > 0.0 && profitPct > 0.0)
@@ -380,7 +469,7 @@ void WriteMasterHeartbeat(const datetime nowUtc, const double bal, const double 
    if(fh != INVALID_HANDLE)
    {
       string js = StringFormat(
-         "{\"utc_ts\":%I64d,\"account_login\":%I64d,\"account_server\":\"%s\",\"build_version\":\"master-1.00\","
+         "{\"utc_ts\":%I64d,\"account_login\":%I64d,\"account_server\":\"%s\",\"build_version\":\"master-1.01\","
          "\"sku\":\"%s\",\"sizing_mode\":%d,\"shadow_compare\":%s,\"terminal_connected\":%s,\"quote_ts\":%I64d,"
          "\"positions_state\":\"%s\",\"anchor_state\":\"%s\","
          "\"balance\":%.2f,\"equity\":%.2f,\"day_anchor_eq\":%.2f,\"day_anchor_bal\":%.2f,"
@@ -428,9 +517,56 @@ void ClosePositionsByReason(const datetime nowUtc, const bool flattenAll, const 
          reason = "NEWS_PRE_FLATTEN";
       if(reason != "")
       {
+         // V101-04: Never execute non-emergency clock/session close inside +/-135s hard red-news ban!
+         if(!flattenAll && g_guard.IsInsideRedNewsHardBanFor(psym))
+            continue;
          g_trade.SetExpertMagicNumber(pm);
          g_guard.ClosePositionChecked(g_trade, tk, reason, isDry);
       }
+   }
+}
+
+// V101-05: Cancel pending orders in our magic range on Kill-Switch, ManualFlatten, Red-News Pre-Flatten, or Hard-Flat
+void CancelPendingOrdersByReason(const datetime nowUtc, const bool cancelAll, const string globalReason)
+{
+   bool isDry = (InpDryRunLogOnly || InpShadowCompareMode || InpGuardDryRunLogOnly);
+   for(int i = OrdersTotal() - 1; i >= 0; i--)
+   {
+      ulong ot = OrderGetTicket(i);
+      if(ot == 0) continue;
+      long om = OrderGetInteger(ORDER_MAGIC);
+      if(om < InpMagicRangeMin || om > InpMagicRangeMax) continue;
+      string osym = OrderGetString(ORDER_SYMBOL);
+      string reason = "";
+      if(cancelAll)
+         reason = globalReason;
+      else if(g_signals.ShouldClockFlattenMagic(om, nowUtc, reason))
+         {}
+      else if(g_guard.IsNearBrokerSessionCloseFor(osym))
+         reason = "HARD_FLAT_SESSION_CLOSE_SWAP0";
+      else if(g_guard.IsInRedNewsPreFlattenWindowFor(osym))
+         reason = "NEWS_PRE_FLATTEN";
+      if(reason == "") continue;
+      if(!cancelAll && g_guard.IsInsideRedNewsHardBanFor(osym))
+         continue;
+      double op   = OrderGetDouble(ORDER_PRICE_OPEN);
+      double osl  = OrderGetDouble(ORDER_SL);
+      double ovol = OrderGetDouble(ORDER_VOLUME_CURRENT);
+      long otype  = OrderGetInteger(ORDER_TYPE);
+      string sideStr = (otype == ORDER_TYPE_BUY_LIMIT || otype == ORDER_TYPE_BUY_STOP || otype == ORDER_TYPE_BUY_STOP_LIMIT) ? "BUY" : "SELL";
+      if(isDry)
+      {
+         PrintFormat("[DRYRUN-CANCEL] ord=%I64u magic=%I64d sym=%s vol=%.2f reason=%s", ot, om, osym, ovol, reason);
+         continue;
+      }
+      g_trade.SetExpertMagicNumber(om);
+      ulong t0 = GetMicrosecondCount();
+      bool ok = g_trade.OrderDelete(ot);
+      double latMs = (double)(GetMicrosecondCount() - t0) / 1000.0;
+      uint ret = g_trade.ResultRetcode();
+      g_guard.LogExecAuditFor(osym, sideStr, ok ? "ORDER_CANCEL" : "CANCEL_REJECT", op, -1.0, osl, ovol, latMs, ret,
+                              StringFormat("%s|ord=%I64u|%s", reason, ot, g_trade.ResultRetcodeDescription()),
+                              om);
    }
 }
 
@@ -468,7 +604,11 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
    if(slDist <= 0.0 || stopLoss <= 0.0) return;
    double pt = SymbolInfoDouble(it.symbol, SYMBOL_POINT);
    long stopsLvl = SymbolInfoInteger(it.symbol, SYMBOL_TRADE_STOPS_LEVEL);
-   if(pt > 0.0 && stopsLvl > 0 && slDist < (double)stopsLvl * pt)
+   // V101-06: Verify STOPS_LEVEL against actual liquidation price (Bid - SL for BUY, SL - Ask for SELL)
+   double liqPx = it.is_buy ? SymbolInfoDouble(it.symbol, SYMBOL_BID) : SymbolInfoDouble(it.symbol, SYMBOL_ASK);
+   if(liqPx <= 0.0) liqPx = it.signal_price;
+   double stopsGap = it.is_buy ? (liqPx - stopLoss) : (stopLoss - liqPx);
+   if(pt > 0.0 && stopsLvl > 0 && stopsGap < (double)stopsLvl * pt)
    {
       LogMasterShadowRow(it, "ORDER_BLOCKED_STOPS", 0.0, 0.0, "SL_BELOW_BROKER_STOPS_LEVEL");
       return;
@@ -496,7 +636,7 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
       return;
    }
 
-   // Compute safe lots with 5% commission cushion + fail-closed OrderCalcMargin <= 85%
+   // Compute safe lots with 5% commission cushion + volDigits rounding + fail-closed OrderCalcMargin <= 85% (V101-06)
    double bal = AccountInfoDouble(ACCOUNT_BALANCE);
    double tickSize = SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_SIZE);
    double tickVal  = SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_VALUE_LOSS);
@@ -509,24 +649,22 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
    double lossPerLot = (slDist / tickSize) * tickVal;
    if(lossPerLot <= 0.0) return;
    double riskMoney = bal * (allowedRiskPct / 100.0) * 0.95;
-   double lots = MathFloor((riskMoney / lossPerLot) / volStep) * volStep;
+   double lots = CNaqexPropGuard::RoundVolumeDownToStep(riskMoney / lossPerLot, volStep, volMin, volMax);
    if(lots < volMin) return;
-   lots = MathMin(lots, volMax);
 
    ENUM_ORDER_TYPE ordType = it.is_buy ? ORDER_TYPE_BUY : ORDER_TYPE_SELL;
    double freeMargin = AccountInfoDouble(ACCOUNT_MARGIN_FREE);
    double reqMargin = 0.0;
-   if(freeMargin <= 0.0 || !OrderCalcMargin(ordType, it.symbol, lots, it.signal_price, reqMargin) || reqMargin < 0.0)
+   if(freeMargin <= 0.0 || !OrderCalcMargin(ordType, it.symbol, lots, it.signal_price, reqMargin) || reqMargin <= 0.0)
    {
       LogMasterShadowRow(it, "ORDER_BLOCKED_MARGIN", allowedRiskPct, 0.0, "FAIL_CLOSED_MARGIN_CHECK");
       return;
    }
    double maxAllowM = freeMargin * 0.85;
-   if(reqMargin > maxAllowM && reqMargin > 0.0)
+   if(reqMargin > maxAllowM)
    {
-      lots = MathFloor((lots * (maxAllowM / reqMargin)) / volStep) * volStep;
+      lots = CNaqexPropGuard::RoundVolumeDownToStep(lots * (maxAllowM / reqMargin), volStep, volMin, volMax);
       if(lots < volMin) return;
-      lots = MathMin(lots, volMax);
    }
 
    // Always record shadow intent in shadow/dry-run mode (ZERO OrderSend!)
@@ -540,6 +678,11 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
    double actualRiskPct = (((slDist / tickSize) * tickVal * lots) / bal) * 100.0;
    g_trade.SetExpertMagicNumber(it.magic);
    CNaqexPropGuard::ConfigureFillingMode(g_trade, it.symbol);
+   // V101-06: Live-calibrated per-asset slippage tolerance (35 pts FX / 450 pts US100.cash >= +370pt live spike!)
+   ulong devPts = CNaqexPropGuard::RecommendedDeviationPoints(it.symbol,
+                                                              (ulong)MathMax(0, InpMaxSlippagePointsFx),
+                                                              (ulong)MathMax(0, InpMaxSlippagePointsIdx));
+   g_trade.SetDeviationInPoints(devPts);
 
    ulong t0 = GetMicrosecondCount();
    bool ok = it.is_buy ? g_trade.Buy(lots, it.symbol, it.signal_price, normSl, 0.0, it.tag)
@@ -552,23 +695,51 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
    {
       RegisterInFlight(it, actualRiskPct, g_trade.ResultOrder(), true);
       g_guard.LogExecAuditFor(it.symbol, sideStr, "FILL_UNRESOLVED", it.signal_price, -1.0, normSl, lots, latMs, ret,
-                              StringFormat("%s|intent=%s|ord=%I64u|UNKNOWN_INFLIGHT", it.tag, it.intent_id, (ulong)g_trade.ResultOrder()));
+                              StringFormat("%s|intent=%s|ord=%I64u|UNKNOWN_INFLIGHT", it.tag, it.intent_id, (ulong)g_trade.ResultOrder()),
+                              it.magic);
       return;
    }
    if(!ok || (ret != TRADE_RETCODE_DONE && ret != TRADE_RETCODE_DONE_PARTIAL))
    {
       g_guard.LogExecAuditFor(it.symbol, sideStr, "ORDER_REJECT", it.signal_price, g_trade.ResultPrice(), normSl, lots, latMs, ret,
-                              StringFormat("%s|intent=%s|%s", it.tag, it.intent_id, g_trade.ResultRetcodeDescription()));
+                              StringFormat("%s|intent=%s|%s", it.tag, it.intent_id, g_trade.ResultRetcodeDescription()),
+                              it.magic);
       return;
    }
 
-   RegisterInFlight(it, actualRiskPct, g_trade.ResultOrder(), false);
+   ulong dealId = (ulong)g_trade.ResultDeal();
+   ulong ordId  = (ulong)g_trade.ResultOrder();
+   ulong posId  = ordId;
+   if(dealId > 0 && HistoryDealSelect(dealId))
+   {
+      long dPos = HistoryDealGetInteger(dealId, DEAL_POSITION_ID);
+      if(dPos > 0) posId = (ulong)dPos;
+   }
+
+   // V101-05: Only register g_inFlight if the broker has NOT already synchronously materialized the position
+   bool alreadyInPositions = false;
+   for(int p = PositionsTotal() - 1; p >= 0; p--)
+   {
+      ulong ptk = PositionGetTicket(p);
+      if(ptk == 0) continue;
+      if((posId > 0 && (ulong)PositionGetInteger(POSITION_IDENTIFIER) == posId) ||
+         (PositionGetInteger(POSITION_MAGIC) == it.magic && PositionGetString(POSITION_SYMBOL) == it.symbol))
+      {
+         alreadyInPositions = true;
+         break;
+      }
+   }
+   if(!alreadyInPositions)
+      RegisterInFlight(it, actualRiskPct, ordId, false);
+
    double execLots = (g_trade.ResultVolume() > 0.0) ? g_trade.ResultVolume() : lots;
    double fillPx = g_guard.ResolveExecutedFillPrice(g_trade, it.symbol, -1.0);
+   // V101-01: Log real per-engine it.magic + tk=/pos= so prop_challenge_tracker matches 7/7 engines!
    g_guard.LogExecAuditFor(it.symbol, sideStr, "ORDER_FILL", it.signal_price, fillPx, normSl, execLots, latMs, ret,
-                           StringFormat("%s|intent=%s|deal=%I64u|ord=%I64u%s",
-                                        it.tag, it.intent_id, (ulong)g_trade.ResultDeal(), (ulong)g_trade.ResultOrder(),
-                                        (fillPx <= 0.0) ? "|FILL_UNRESOLVED" : ""));
+                           StringFormat("%s|intent=%s|deal=%I64u|ord=%I64u|tk=%I64u|pos=%I64u%s",
+                                        it.tag, it.intent_id, dealId, ordId, ordId, posId,
+                                        (fillPx <= 0.0) ? "|FILL_UNRESOLVED" : ""),
+                           it.magic);
    g_signals.MarkEngineTraded(it.magic, it.session_day_key);
 }
 
@@ -586,6 +757,12 @@ void RunMasterCycle()
    }
 
    RestoreOrInitDayAnchorM();
+   // V101-02: Retry traded-day history hydration every 5s if initial OnInit HistorySelect failed
+   if(!g_signals.IsTradedDayHydrated() && (nowUtc - g_lastHydrateRetry) >= 5)
+   {
+      g_lastHydrateRetry = nowUtc;
+      g_signals.HydrateTradedDaysFromHistory(nowUtc);
+   }
    ReconcileInFlightOrders(nowUtc);
 
    long lag = g_signals.PollSymbolTicks();
@@ -616,21 +793,37 @@ void RunMasterCycle()
    }
 
    if(dailyDdPct >= InpKillDailyDdPct || staticDdPct >= InpKillStaticDdPct)
-      g_autoKillActive = true;
+   {
+      if(!g_autoKillActive)
+      {
+         g_autoKillActive = true;
+         PersistAutoKillStateM(g_dayKey, true);
+      }
+   }
    bool effectiveKill = g_autoKillActive || manualHalt || g_anchorUnrecovered;
    if(g_anchorUnrecovered) regime = "ANCHOR_UNRECOVERED";
    if(manualHalt) regime = manualFlatten ? "MANUAL_FLATTEN" : "MANUAL_HALT";
 
-   // Exits & risk protection ALWAYS execute before any new intent evaluation
+   // Exits, pending order cancellations & risk protection ALWAYS execute before any new intent evaluation
    if(g_autoKillActive)
-      ClosePositionsByReason(nowUtc, true, (dailyDdPct >= InpKillDailyDdPct) ? "MASTER_KILL_DAILY_DD" : "MASTER_KILL_STATIC_DD");
+   {
+      string killWhy = (dailyDdPct >= InpKillDailyDdPct) ? "MASTER_KILL_DAILY_DD" : "MASTER_KILL_STATIC_DD";
+      CancelPendingOrdersByReason(nowUtc, true, killWhy);
+      ClosePositionsByReason(nowUtc, true, killWhy);
+   }
    else if(manualFlatten)
+   {
+      CancelPendingOrdersByReason(nowUtc, true, "MASTER_MANUAL_FLATTEN");
       ClosePositionsByReason(nowUtc, true, "MASTER_MANUAL_FLATTEN");
+   }
    else
+   {
+      CancelPendingOrdersByReason(nowUtc, false, "");
       ClosePositionsByReason(nowUtc, false, "");
+   }
 
-   // Collect and allocate intents ONLY when healthy & unlocked
-   if(!effectiveKill)
+   // Collect and allocate intents ONLY when healthy, unlocked, and traded-day history hydrated (V101-02)
+   if(!effectiveKill && g_signals.IsTradedDayHydrated())
    {
       NaqexSignalIntent intents[NAQEX_MAX_INTENTS];
       int nIntents = g_signals.CollectIntents(nowUtc, intents);
@@ -665,10 +858,12 @@ int OnInit()
       return INIT_FAILED;
    g_guard.Init(g_trade, g_signals.SymbolAt(SYM_USDJPY), InpMagicRangeMin, InpKillDailyDdPct);
    RestoreOrInitDayAnchorM();
-   PrintFormat("[MASTER-7E-INIT] v1.00 sku=%s sizing=%d shadow=%s dry_run=%s login=%I64d",
+   g_signals.HydrateTradedDaysFromHistory(g_guard.NowUTC());
+   PrintFormat("[MASTER-7E-INIT] v1.01 sku=%s sizing=%d shadow=%s dry_run=%s hydrated=%s login=%I64d",
                InpContractSku, InpSizingMode,
                InpShadowCompareMode ? "true" : "false",
                (InpDryRunLogOnly || InpGuardDryRunLogOnly) ? "true" : "false",
+               g_signals.IsTradedDayHydrated() ? "true" : "false",
                CNaqexPropGuard::CurrentAccountLogin());
    EventSetTimer(MQLInfoInteger(MQL_TESTER) ? 60 : 1); // 1s live CopyTicksRange + reconciliation; 60s in Tester
    RunMasterCycle();
@@ -700,7 +895,7 @@ void OnTimer()
 
 void OnTradeTransaction(const MqlTradeTransaction &trans, const MqlTradeRequest &request, const MqlTradeResult &result)
 {
-   // Lightweight handler (queue limit = 1024): clear confirmed/rejected in-flight slots promptly
+   // Lightweight handler (queue limit = 1024): clear confirmed/rejected in-flight slots & mark reconciled fills (V101-05)
    if(trans.order == 0) return;
    if(trans.type == TRADE_TRANSACTION_DEAL_ADD ||
       (trans.type == TRADE_TRANSACTION_ORDER_DELETE && trans.order_state != ORDER_STATE_FILLED))
@@ -709,6 +904,15 @@ void OnTradeTransaction(const MqlTradeTransaction &trans, const MqlTradeRequest 
       {
          if(g_inFlight[i].active && g_inFlight[i].order_ticket == trans.order)
          {
+            if(trans.type == TRADE_TRANSACTION_DEAL_ADD && g_inFlight[i].unknown_state)
+            {
+               g_signals.MarkEngineTraded(g_inFlight[i].magic, g_inFlight[i].session_day_key);
+               g_guard.LogExecAuditFor(g_inFlight[i].symbol, g_inFlight[i].is_buy ? "BUY" : "SELL",
+                                       "ORDER_FILL_RECONCILED", trans.price, trans.price, trans.price_sl, trans.volume, 0.0, TRADE_RETCODE_DONE,
+                                       StringFormat("intent=%s|deal=%I64u|ord=%I64u|pos=%I64u|TX_RECONCILED",
+                                                    g_inFlight[i].intent_id, (ulong)trans.deal, (ulong)trans.order, (ulong)trans.position),
+                                       g_inFlight[i].magic);
+            }
             g_inFlight[i].active = false;
             break;
          }

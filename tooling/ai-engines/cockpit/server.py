@@ -14,6 +14,8 @@ Live JSON API endpoints:
   - GET  /api/stress          -> Black-Swan VND/USD loss matrix (-30%/-50% CEX, Corr=0.85) & Multi-Prop budget audit
   - GET|POST /api/vnd-calculator -> PROFILE.md-calibrated VND/USD absolute risk, stress & crossover calculator
   - GET  /api/rebalancer      -> Dry-run Sleeve #3B IBKR Macro ETF weights & order tickets (`OrderSend = 0`)
+  - GET  /api/blackfriday-sprint -> Cached 30s Black Friday 30/11 countdown, Mũi 3 Real-Tick, Mũi 1-2 friction/spreads & Vault status
+  - GET  /api/node1-summary   -> Cached 30s sanitized naqex-node1 health summary (live SSH w/ 4s cap or offline fallback)
 """
 
 from __future__ import annotations
@@ -64,7 +66,27 @@ _STRESS_CACHE_LOCK = threading.Lock()
 _STRESS_MD_CACHE: dict[str, tuple[float, dict[str, Any]]] = {}
 _HEROKU_CACHE_LOCK = threading.Lock()
 _HEROKU_STATUS_CACHE: tuple[float, dict[str, Any] | None] = (0.0, None)
+_SPRINT_CACHE_LOCK = threading.Lock()
+_SPRINT_CACHE: dict[str, tuple[float, dict[str, Any]]] = {}
+_NODE1_CACHE_LOCK = threading.Lock()
+_NODE1_CACHE: dict[tuple[str, bool], tuple[float, dict[str, Any]]] = {}
 VN_TZ = timezone(timedelta(hours=7))
+
+BLACKFRIDAY_DEADLINE_ISO = "2026-11-30T09:00:00Z"
+BLACKFRIDAY_DEADLINE_ICT = "30/11/2026 16:00 ICT"
+BLACKFRIDAY_DEADLINE_DT = datetime(2026, 11, 30, 9, 0, 0, tzinfo=timezone.utc)
+SPRINT_CACHE_TTL_SEC = 30.0
+NODE1_CACHE_TTL_SEC = 30.0
+NODE1_SSH_TIMEOUT_SEC = 4.0
+
+CORE_DEV_SPREAD_BASELINE_BPS: dict[str, float] = {
+    "USDJPY": 1.30,
+    "GBPUSD": 1.50,
+    "EURJPY": 1.50,
+    "US100.cash": 2.25,
+}
+_NTP_OFFSET_RE = re.compile(r"[+-]?\d+(?:\.\d+)?s\b")
+_IPV4_OR_URL_RE = re.compile(r"(?:https?://\S+|\b(?:\d{1,3}\.){3}\d{1,3}\b)", re.IGNORECASE)
 
 PROP_METRIX_PROGRAMS: dict[str, dict[str, Any]] = {
     "ftmo_free_trial_10k": {
@@ -568,14 +590,23 @@ def _fetch_heroku_node1_cached(root: Path, *, ttl_sec: float = 8.0) -> dict[str,
     cfg = _safe_read_json(cfg_path)
     if not isinstance(cfg, dict):
         return None
-    web_url = str(cfg.get("web_url") or "").rstrip("/")
-    dash_url = str(cfg.get("mobile_dashboard_url") or "")
-    if not web_url or "?" not in dash_url:
+    raw_web_url = str(cfg.get("web_url") or "").strip()
+    dash_url = str(cfg.get("mobile_dashboard_url") or "").strip()
+    view_token = str(cfg.get("view_token") or "").strip()
+    if not view_token and dash_url:
+        view_token = (parse_qs(urlparse(dash_url).query).get("token") or [""])[0].strip()
+    if not view_token and raw_web_url:
+        view_token = (parse_qs(urlparse(raw_web_url).query).get("token") or [""])[0].strip()
+    parsed_web = urlparse(raw_web_url)
+    web_base = f"{parsed_web.scheme}://{parsed_web.netloc}{parsed_web.path}".rstrip("/") if (parsed_web.scheme and parsed_web.netloc) else ""
+    if not web_base or not view_token:
         return None
-    q_part = dash_url.split("?", 1)[1]
     result: dict[str, Any] | None = None
     try:
-        req = urllib.request.Request(f"{web_url}/api/status?{q_part}", headers={"User-Agent": "Naqex-Cockpit/1.0"})
+        req = urllib.request.Request(
+            f"{web_base}/api/status",
+            headers={"User-Agent": "Naqex-Cockpit/1.0", "X-Naqex-View-Token": view_token},
+        )
         with urllib.request.urlopen(req, timeout=2.5) as resp:
             data = json.loads(resp.read().decode("utf-8"))
         nodes = data.get("nodes") or []
@@ -1115,7 +1146,11 @@ def build_allocations_payload(root: Path = ROOT) -> dict[str, Any]:
             "generated_utc": datetime.now(timezone.utc).isoformat(),
             "order_send_count": ORDER_SEND_COUNT,
             "available": False,
+            "window": {},
+            "holdout_sealed": True,
+            "sleeve_order": [],
             "sleeves": [],
+            "pod_composite_metrics": {},
             "dates": [],
             "equity_curves": {},
             "underwater_dd_pct": {},
@@ -1941,6 +1976,888 @@ def compute_vnd_risk_calculator(
     }
 
 
+def clear_sprint_and_node1_caches() -> None:
+    """Clear in-memory 30s TTL caches for /api/blackfriday-sprint and /api/node1-summary."""
+    with _SPRINT_CACHE_LOCK:
+        _SPRINT_CACHE.clear()
+    with _NODE1_CACHE_LOCK:
+        _NODE1_CACHE.clear()
+
+
+def _coerce_opt_float(val: Any, ndigits: int = 2) -> float | None:
+    if val is None or isinstance(val, bool):
+        return None
+    try:
+        f = float(val)
+        if not math.isfinite(f):
+            return None
+        return round(f, ndigits)
+    except (TypeError, ValueError):
+        return None
+
+
+def _coerce_opt_int(val: Any) -> int | None:
+    if val is None or isinstance(val, bool):
+        return None
+    try:
+        return int(float(val))
+    except (TypeError, ValueError):
+        return None
+
+
+def _coerce_opt_bool(val: Any) -> bool | None:
+    if val is None:
+        return None
+    if isinstance(val, bool):
+        return val
+    if isinstance(val, (int, float)):
+        return bool(int(val))
+    s = str(val).strip().lower()
+    if s in ("1", "true", "yes", "on", "enabled"):
+        return True
+    if s in ("0", "false", "no", "off", "disabled"):
+        return False
+    return None
+
+
+def _sanitize_short_token(val: Any, default: str = "UNKNOWN", max_len: int = 48) -> str:
+    if val is None:
+        return default
+    s = _IPV4_OR_URL_RE.sub("[REDACTED]", str(val)).strip()
+    s = re.sub(r"[\r\n\t]+", " ", s)[:max_len].strip()
+    return s or default
+
+
+def _sanitize_ntp_offset(val: Any) -> str | None:
+    if val is None:
+        return None
+    m = _NTP_OFFSET_RE.search(str(val))
+    if m:
+        return m.group(0)
+    return "unknown"
+
+
+def _sanitize_heroku_status(raw_last: Any, raw_text: Any = None) -> str:
+    if isinstance(raw_last, dict):
+        if raw_last.get("ok") is True:
+            return "OK"
+        resp = raw_last.get("response")
+        if isinstance(resp, dict) and resp.get("ok") is True:
+            return "OK"
+        st = str(raw_last.get("status") or "").strip().upper()
+        if st in ("OK", "HEALTHY", "WARN", "ALERT", "STALE", "ERROR", "DEGRADED"):
+            return "OK" if st == "HEALTHY" else st
+        if raw_last.get("ok") is False or raw_last.get("error"):
+            return "ERROR"
+        return "UNKNOWN"
+    if isinstance(raw_text, str) and raw_text.strip():
+        low = raw_text.lower()
+        if any(tok in low for tok in ("error", "fail", "exception", "timeout")):
+            return "ERROR"
+        if '"ok": true' in low or '"ok":true' in low or "status_code=200" in low or "200 ok" in low:
+            return "OK"
+        return "UNKNOWN"
+    return "UNKNOWN"
+
+
+def _extract_first_float(d: dict[str, Any], keys: tuple[str, ...], ndigits: int = 2) -> float | None:
+    for k in keys:
+        if k in d:
+            v = _coerce_opt_float(d.get(k), ndigits)
+            if v is not None:
+                return v
+    return None
+
+
+def _extract_first_int(d: dict[str, Any], keys: tuple[str, ...]) -> int | None:
+    for k in keys:
+        if k in d:
+            v = _coerce_opt_int(d.get(k))
+            if v is not None:
+                return v
+    return None
+
+
+def _detect_realtick_model(
+    summ: dict[str, Any],
+    rep: dict[str, Any],
+    scenario_dir: Path,
+    label: str,
+) -> tuple[int, str]:
+    """Detect MT5 tester modeling mode (4 = Real Ticks, 1 = 1-Minute OHLC) from JSON, tester.ini, or label."""
+    model_val = _coerce_opt_int(summ.get("model") if "model" in summ else rep.get("model"))
+    if model_val is None:
+        ini_p = scenario_dir / "tester.ini"
+        if ini_p.is_file():
+            try:
+                raw_ini = ini_p.read_text(encoding="utf-8", errors="replace")
+                m = re.search(r"(?m)^\s*Model\s*=\s*(\d+)\s*$", raw_ini)
+                if m:
+                    model_val = int(m.group(1))
+            except OSError:
+                model_val = None
+    if model_val is None:
+        up_lbl = label.upper()
+        model_val = 1 if ("M1OHLC" in up_lbl or "OHLC" in up_lbl) else 4
+
+    if model_val == 4:
+        return 4, "Model=4 Real Ticks"
+    if model_val == 1:
+        return 1, "Model=1 1m OHLC"
+    return model_val, f"Model={model_val}"
+
+
+def _load_mui3_master_prop7e_scenarios(root: Path) -> dict[str, Any]:
+    rt_dir = root / ".runtime/mt5-realtick-results"
+    scenarios: list[dict[str, Any]] = []
+    if rt_dir.is_dir():
+        for jf in sorted(rt_dir.glob("MASTER_PROP7E_*/parsed_result.json")):
+            obj = _safe_read_json(jf)
+            if not isinstance(obj, dict):
+                continue
+            summ = obj.get("summary") if isinstance(obj.get("summary"), dict) else obj
+            rep = obj.get("report") if isinstance(obj.get("report"), dict) else obj
+            label_clean = _sanitize_short_token(summ.get("label") or jf.parent.name, jf.parent.name, 64)
+            model_num, model_badge = _detect_realtick_model(summ, rep, jf.parent, label_clean)
+
+            lat_ms = _coerce_opt_int(summ.get("latency_ms"))
+            if lat_ms is None:
+                m_lat = re.search(r"_(\d+)ms\b", label_clean, re.IGNORECASE)
+                if m_lat:
+                    lat_ms = int(m_lat.group(1))
+
+            swap_val = _coerce_opt_float(
+                rep.get("swap_total_usd") if "swap_total_usd" in rep else summ.get("total_swap_usd"), 2
+            )
+            swap_zero_ok = (
+                bool(rep.get("swap_zero_ok"))
+                if "swap_zero_ok" in rep
+                else (swap_val is not None and abs(swap_val) <= 1e-9)
+            )
+            net_by_sym_raw = summ.get("net_by_symbol_usd")
+            net_by_sym = (
+                {
+                    _sanitize_short_token(k, "SYM", 24): round(float(v), 2)
+                    for k, v in net_by_sym_raw.items()
+                    if isinstance(v, (int, float)) and not isinstance(v, bool)
+                }
+                if isinstance(net_by_sym_raw, dict)
+                else {}
+            )
+            try:
+                mtime_ts = jf.stat().st_mtime
+                mtime_iso = datetime.fromtimestamp(mtime_ts, timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+            except OSError:
+                mtime_ts = 0.0
+                mtime_iso = None
+            scenarios.append({
+                "label": label_clean,
+                "model": model_num,
+                "model_badge": model_badge,
+                "is_real_ticks": model_num == 4,
+                "latency_ms": lat_ms,
+                "base_phase_mult": _coerce_opt_float(summ.get("base_phase_mult"), 2),
+                "ok": bool(rep.get("ok") if "ok" in rep else summ.get("report_ok", False)),
+                "from_date": _sanitize_short_token(summ.get("from_date"), "", 24),
+                "to_date": _sanitize_short_token(summ.get("to_date"), "", 24),
+                "period": _sanitize_short_token(rep.get("period"), "", 48),
+                "leverage": _coerce_opt_int(summ.get("leverage")),
+                "elapsed_s": _coerce_opt_float(summ.get("elapsed_s"), 1),
+                "total_trades": _coerce_opt_int(
+                    rep.get("total_trades") if "total_trades" in rep else summ.get("total_trades")
+                ),
+                "win_rate_pct": _coerce_opt_float(rep.get("win_rate_pct"), 2),
+                "total_net_profit_usd": _coerce_opt_float(
+                    rep.get("total_net_profit") if "total_net_profit" in rep else summ.get("total_net_profit"), 2
+                ),
+                "profit_factor": _coerce_opt_float(rep.get("profit_factor"), 2),
+                "sharpe_ratio": _coerce_opt_float(rep.get("sharpe_ratio"), 2),
+                "balance_dd_pct": _coerce_opt_float(rep.get("balance_dd_pct"), 2),
+                "equity_dd_pct": _coerce_opt_float(rep.get("equity_dd_pct"), 2),
+                "swap_total_usd": swap_val,
+                "swap_zero_ok": swap_zero_ok,
+                "commission_total_usd": _coerce_opt_float(
+                    rep.get("commission_total_usd") if "commission_total_usd" in rep else summ.get("total_comm_usd"), 2
+                ),
+                "propguard_ok_lines": _coerce_opt_int(summ.get("propguard_ok_lines")),
+                "propguard_warn_lines": _coerce_opt_int(summ.get("propguard_warn_lines")),
+                "order_rejects": _coerce_opt_int(summ.get("order_rejects")),
+                "log_errors_count": len(summ.get("log_errors") or []) if isinstance(summ.get("log_errors"), list) else 0,
+                "net_by_symbol_usd": net_by_sym,
+                "updated_utc": mtime_iso,
+                "_mtime": mtime_ts,
+            })
+
+    if not scenarios:
+        return {
+            "status": "pending",
+            "available": False,
+            "scenarios_count": 0,
+            "model4_count": 0,
+            "model1_count": 0,
+            "latest": None,
+            "scenarios": [],
+        }
+
+    # Display Model=4 Real Ticks first, then Model=1 1m OHLC, sorted deterministically by label
+    scenarios.sort(key=lambda x: (0 if x["model"] == 4 else 1, x["label"]))
+    latest_item = max(scenarios, key=lambda x: (x["_mtime"], x["label"]))
+    cleaned = [{k: v for k, v in s.items() if k != "_mtime"} for s in scenarios]
+    latest_clean = {k: v for k, v in latest_item.items() if k != "_mtime"}
+    return {
+        "status": "AVAILABLE",
+        "available": True,
+        "scenarios_count": len(cleaned),
+        "model4_count": sum(1 for s in cleaned if s["model"] == 4),
+        "model1_count": sum(1 for s in cleaned if s["model"] == 1),
+        "latest": latest_clean,
+        "scenarios": cleaned,
+    }
+
+
+def _load_live_calibration_progress(root: Path, *, target_round_trips: int = 28) -> dict[str, Any]:
+    """Read-only parser for `.runtime/live-overnight/ftmo_calibration_fills_1515343318.csv` with partial-line safety."""
+    csv_path = root / ".runtime/live-overnight/ftmo_calibration_fills_1515343318.csv"
+    per_sym_default: dict[str, dict[str, Any]] = {
+        sym: {"completed": 0, "open": 0, "target": 7, "legs": 0, "mean_slip_bps": None}
+        for sym in CORE_DEV_SPREAD_BASELINE_BPS
+    }
+    empty_payload: dict[str, Any] = {
+        "status": "pending",
+        "available": False,
+        "completed_round_trips": 0,
+        "target_round_trips": target_round_trips,
+        "progress_pct": 0.0,
+        "open_in_progress_count": 0,
+        "valid_legs_count": 0,
+        "rejected_count": 0,
+        "skipped_partial_rows": 0,
+        "mean_adverse_slip_pts": None,
+        "max_adverse_slip_pts": None,
+        "mean_adverse_slip_bps": None,
+        "max_adverse_slip_bps": None,
+        "median_latency_ms": None,
+        "p90_latency_ms": None,
+        "swap_total_usd": 0.0,
+        "swap_zero_ok": True,
+        "latest_fill_utc": None,
+        "per_symbol_fills": per_sym_default,
+    }
+    if not csv_path.is_file():
+        return empty_payload
+
+    try:
+        raw_text = csv_path.read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return empty_payload
+
+    lines = [ln for ln in raw_text.splitlines() if ln.strip()]
+    if len(lines) < 2:
+        return empty_payload
+
+    try:
+        header = [h.strip() for h in next(csv.reader([lines[0]]))]
+    except Exception:
+        return empty_payload
+    if "symbol" not in header or "leg" not in header:
+        return empty_payload
+
+    expected_cols = len(header)
+    skipped_partial = 0
+    rejected_count = 0
+    valid_legs = 0
+    slip_pts_vals: list[float] = []
+    slip_bps_vals: list[float] = []
+    lat_vals: list[float] = []
+    swap_vals: list[float] = []
+    latest_fill_utc: str | None = None
+
+    trades_by_key: dict[str, dict[str, Any]] = {}
+    sym_slip_bps: dict[str, list[float]] = {sym: [] for sym in CORE_DEV_SPREAD_BASELINE_BPS}
+    sym_legs: dict[str, int] = {sym: 0 for sym in CORE_DEV_SPREAD_BASELINE_BPS}
+
+    for idx, raw_ln in enumerate(lines[1:], start=1):
+        try:
+            fields = next(csv.reader([raw_ln]))
+        except Exception:
+            skipped_partial += 1
+            continue
+        if len(fields) != expected_cols:
+            skipped_partial += 1
+            continue
+        r = dict(zip(header, fields))
+        if str(r.get("dry_run") or "").strip().lower() in ("true", "1", "yes"):
+            continue
+        sym = _sanitize_short_token(r.get("symbol"), "", 24)
+        leg = str(r.get("leg") or "").strip().upper()
+        utc_ts = _coerce_opt_int(r.get("utc_ts"))
+        if not sym or leg not in ("ENTRY", "EXIT", "ENTRY_REJECT", "EXIT_REJECT") or utc_ts is None or utc_ts <= 0:
+            skipped_partial += 1
+            continue
+
+        retcode = _coerce_opt_int(r.get("retcode"))
+        if leg.endswith("_REJECT") or (retcode is not None and retcode != 10009):
+            rejected_count += 1
+            continue
+
+        valid_legs += 1
+        sym_legs[sym] = sym_legs.get(sym, 0) + 1
+        utc_iso = _sanitize_short_token(r.get("utc_iso"), "", 40)
+        if utc_iso:
+            latest_fill_utc = utc_iso
+
+        s_pts = _coerce_opt_float(r.get("adverse_slip_pts"), 4)
+        s_bps = _coerce_opt_float(r.get("adverse_slip_bps"), 4)
+        lat_ms = _coerce_opt_float(r.get("latency_ms"), 2)
+        swap_u = _coerce_opt_float(r.get("swap_usd"), 4)
+        if s_pts is not None:
+            slip_pts_vals.append(s_pts)
+        if s_bps is not None:
+            slip_bps_vals.append(s_bps)
+            sym_slip_bps.setdefault(sym, []).append(s_bps)
+        if lat_ms is not None and lat_ms > 0.0:
+            lat_vals.append(lat_ms)
+        if swap_u is not None:
+            swap_vals.append(swap_u)
+
+        tseq = str(r.get("trade_seq") or "").strip()
+        pos_id = str(r.get("position_id") or "").strip()
+        tkey = f"{sym}|seq:{tseq}|pos:{pos_id}" if (tseq or pos_id) else f"{sym}|row:{idx}"
+        rec = trades_by_key.setdefault(tkey, {"symbol": sym, "has_entry": False, "has_exit": False})
+        if leg == "ENTRY":
+            rec["has_entry"] = True
+        elif leg == "EXIT":
+            rec["has_exit"] = True
+
+    completed_rt = sum(1 for tr in trades_by_key.values() if tr["has_exit"])
+    open_in_prog = sum(1 for tr in trades_by_key.values() if tr["has_entry"] and not tr["has_exit"])
+
+    per_sym_out: dict[str, dict[str, Any]] = {}
+    all_syms = list(CORE_DEV_SPREAD_BASELINE_BPS.keys()) + sorted(
+        s for s in (set(sym_legs.keys()) | {tr["symbol"] for tr in trades_by_key.values()})
+        if s not in CORE_DEV_SPREAD_BASELINE_BPS
+    )
+    for sym in all_syms:
+        comp_s = sum(1 for tr in trades_by_key.values() if tr["symbol"] == sym and tr["has_exit"])
+        open_s = sum(1 for tr in trades_by_key.values() if tr["symbol"] == sym and tr["has_entry"] and not tr["has_exit"])
+        sb_arr = sym_slip_bps.get(sym, [])
+        per_sym_out[sym] = {
+            "completed": comp_s,
+            "open": open_s,
+            "target": 7,
+            "legs": sym_legs.get(sym, 0),
+            "mean_slip_bps": round(float(np.mean(sb_arr)), 2) if sb_arr else None,
+        }
+
+    swap_total = round(float(sum(swap_vals)), 4) if swap_vals else 0.0
+    swap_zero_ok = all(abs(x) <= 1e-6 for x in swap_vals) if swap_vals else True
+
+    if completed_rt >= target_round_trips:
+        status_str = "COMPLETED"
+    elif completed_rt > 0 or open_in_prog > 0 or valid_legs > 0:
+        status_str = "IN_PROGRESS"
+    else:
+        status_str = "pending"
+
+    return {
+        "status": status_str,
+        "available": valid_legs > 0,
+        "completed_round_trips": completed_rt,
+        "target_round_trips": target_round_trips,
+        "progress_pct": round(min(100.0, 100.0 * completed_rt / max(1, target_round_trips)), 1),
+        "open_in_progress_count": open_in_prog,
+        "valid_legs_count": valid_legs,
+        "rejected_count": rejected_count,
+        "skipped_partial_rows": skipped_partial,
+        "mean_adverse_slip_pts": round(float(np.mean(slip_pts_vals)), 2) if slip_pts_vals else None,
+        "max_adverse_slip_pts": round(float(np.max(slip_pts_vals)), 2) if slip_pts_vals else None,
+        "mean_adverse_slip_bps": round(float(np.mean(slip_bps_vals)), 2) if slip_bps_vals else None,
+        "max_adverse_slip_bps": round(float(np.max(slip_bps_vals)), 2) if slip_bps_vals else None,
+        "median_latency_ms": round(float(np.median(lat_vals)), 1) if lat_vals else None,
+        "p90_latency_ms": round(float(np.percentile(lat_vals, 90)), 1) if lat_vals else None,
+        "swap_total_usd": swap_total,
+        "swap_zero_ok": swap_zero_ok,
+        "latest_fill_utc": latest_fill_utc,
+        "per_symbol_fills": per_sym_out,
+    }
+
+
+def _load_mui1_mui2_friction_and_spreads(root: Path) -> dict[str, Any]:
+    live_dir = root / ".runtime/live-overnight"
+    friction_path = live_dir / "ftmo_realized_friction_summary_20261125.json"
+    spread_path = live_dir / "mt5_live_spread_log.jsonl"
+
+    calibration_progress = _load_live_calibration_progress(root)
+    friction_raw = _safe_read_json(friction_path)
+    friction_by_sym: dict[str, dict[str, Any]] = {}
+    friction_block: dict[str, Any]
+    if isinstance(friction_raw, dict):
+        overall = friction_raw.get("overall") if isinstance(friction_raw.get("overall"), dict) else {}
+        rf_sub = friction_raw.get("realized_friction") if isinstance(friction_raw.get("realized_friction"), dict) else {}
+        port_c4 = friction_raw.get("portfolio_core4") if isinstance(friction_raw.get("portfolio_core4"), dict) else {}
+        inputs_sub = friction_raw.get("inputs") if isinstance(friction_raw.get("inputs"), dict) else {}
+        merged_top = {**rf_sub, **overall, **port_c4, **friction_raw}
+
+        fills_count = _extract_first_int(
+            merged_top, ("fills_count", "total_fills", "n_fills", "trades_count", "closed_trades")
+        )
+        if fills_count is None and isinstance(friction_raw.get("realized_friction_by_symbol"), dict):
+            paired_sum = sum(
+                int(v.get("paired_roundtrips") or v.get("exits") or 0)
+                for v in friction_raw["realized_friction_by_symbol"].values()
+                if isinstance(v, dict)
+            )
+            if paired_sum > 0:
+                fills_count = paired_sum
+        if fills_count is None:
+            fills_count = _extract_first_int(inputs_sub, ("live_fill_legs_total",))
+        if fills_count is None:
+            fills_count = calibration_progress["completed_round_trips"]
+
+        p50_mult = _extract_first_float(
+            merged_top,
+            (
+                "realized_friction_multiplier_p50",
+                "realized_friction_mult_p50",
+                "friction_multiplier_p50",
+                "p50_friction_multiplier",
+                "friction_mult_p50",
+                "p50_mult",
+            ),
+            2,
+        )
+        p90_mult = _extract_first_float(
+            merged_top,
+            (
+                "realized_friction_multiplier_p90",
+                "realized_friction_mult_p90",
+                "friction_multiplier_p90",
+                "p90_friction_multiplier",
+                "friction_mult_p90",
+                "p90_mult",
+            ),
+            2,
+        )
+        p50_slip_bps = _extract_first_float(
+            merged_top, ("adverse_slippage_p50_bps", "slippage_p50_bps", "p50_slippage_bps", "median_slippage_bps"), 2
+        )
+        p90_slip_bps = _extract_first_float(
+            merged_top, ("adverse_slippage_p90_bps", "slippage_p90_bps", "p90_slippage_bps"), 2
+        )
+
+        # Native ftmo_demo_calibration_probe.py schema (`spread_vs_dev_m1` + `realized_friction_by_symbol`)
+        sp_vs_dev = friction_raw.get("spread_vs_dev_m1") if isinstance(friction_raw.get("spread_vs_dev_m1"), dict) else {}
+        rf_by_sym = (
+            friction_raw.get("realized_friction_by_symbol")
+            if isinstance(friction_raw.get("realized_friction_by_symbol"), dict)
+            else {}
+        )
+        raw_by_sym = (
+            friction_raw.get("by_symbol")
+            or friction_raw.get("symbols")
+            or friction_raw.get("spread_ratios_by_symbol")
+            or {}
+        )
+        sym_keys_union: list[str] = []
+        for src_d in (rf_by_sym, sp_vs_dev, raw_by_sym if isinstance(raw_by_sym, dict) else {}):
+            for k in src_d.keys():
+                if k not in sym_keys_union:
+                    sym_keys_union.append(k)
+
+        for sym_k in sym_keys_union:
+            rec_flat = raw_by_sym.get(sym_k) if isinstance(raw_by_sym, dict) and isinstance(raw_by_sym.get(sym_k), dict) else {}
+            rec_rf = rf_by_sym.get(sym_k) if isinstance(rf_by_sym.get(sym_k), dict) else {}
+            rec_sp_ov = (
+                sp_vs_dev[sym_k].get("OVERALL")
+                if isinstance(sp_vs_dev.get(sym_k), dict) and isinstance(sp_vs_dev[sym_k].get("OVERALL"), dict)
+                else {}
+            )
+            merged_sym = {**rec_sp_ov, **rec_rf, **rec_flat}
+            sym_clean = _sanitize_short_token(sym_k, "SYM", 24)
+            friction_by_sym[sym_clean] = {
+                "fills_count": _extract_first_int(
+                    merged_sym, ("paired_roundtrips", "fills_count", "exits", "n_fills", "trades", "count")
+                ),
+                "live_median_spread_bps": _extract_first_float(
+                    merged_sym,
+                    ("live_median_spread_bps", "live_spread_p50_bps", "median_spread_bps", "live_spread_bps", "spread_p50_bps"),
+                    2,
+                ),
+                "live_p90_spread_bps": _extract_first_float(
+                    merged_sym, ("live_p90_spread_bps", "live_spread_p90_bps", "p90_spread_bps", "spread_p90_bps"), 2
+                ),
+                "dev_median_spread_bps": _extract_first_float(
+                    merged_sym,
+                    ("dev_m1_median_spread_bps", "dev_median_spread_bps", "dev_m1_spread_bps", "dev_baseline_bps", "budget_bps"),
+                    2,
+                ),
+                "spread_ratio_vs_dev": _extract_first_float(
+                    merged_sym,
+                    ("live_to_dev_spread_ratio_bps", "spread_ratio_vs_dev", "live_to_dev_spread_ratio", "spread_ratio", "ratio_vs_dev_1x"),
+                    2,
+                ),
+                "friction_mult_p50": _extract_first_float(
+                    merged_sym, ("realized_friction_multiplier_p50", "realized_friction_mult_p50", "friction_mult_p50", "p50_mult"), 2
+                ),
+                "friction_mult_p90": _extract_first_float(
+                    merged_sym, ("realized_friction_multiplier_p90", "realized_friction_mult_p90", "friction_mult_p90", "p90_mult"), 2
+                ),
+            }
+
+        raw_by_sess = friction_raw.get("by_session") or {}
+        by_session_clean: dict[str, dict[str, Any]] = {}
+        if isinstance(raw_by_sess, dict):
+            for sess_k, rec in raw_by_sess.items():
+                if not isinstance(rec, dict):
+                    continue
+                sk = _sanitize_short_token(sess_k, "SESSION", 24)
+                by_session_clean[sk] = {
+                    "samples": _extract_first_int(rec, ("samples", "count", "n_samples")),
+                    "median_spread_bps": _extract_first_float(rec, ("median_spread_bps", "live_median_spread_bps"), 2),
+                    "spread_ratio_vs_dev": _extract_first_float(rec, ("spread_ratio_vs_dev", "ratio_vs_dev_1x"), 2),
+                }
+
+        friction_block = {
+            "status": "AVAILABLE",
+            "available": True,
+            "generated_utc": _sanitize_short_token(friction_raw.get("generated_utc"), "", 40) or None,
+            "verdict": _sanitize_short_token(merged_top.get("verdict") or merged_top.get("status"), "RECORDED", 32),
+            "fills_count": fills_count,
+            "p50_friction_mult": p50_mult,
+            "p90_friction_mult": p90_mult,
+            "p50_slippage_bps": p50_slip_bps,
+            "p90_slippage_bps": p90_slip_bps,
+            "latency_p50_ms": _extract_first_float(merged_top, ("latency_p50_ms",), 1),
+            "by_session": by_session_clean,
+        }
+    else:
+        friction_block = {
+            "status": "pending",
+            "available": False,
+            "generated_utc": None,
+            "verdict": "PENDING",
+            "fills_count": 0,
+            "p50_friction_mult": None,
+            "p90_friction_mult": None,
+            "p50_slippage_bps": None,
+            "p90_slippage_bps": None,
+            "latency_p50_ms": None,
+            "by_session": {},
+        }
+
+    # Aggregate live spreads from mt5_live_spread_log.jsonl (last 2000 samples)
+    spread_rows = _read_jsonl_tail(spread_path, limit=2000)
+    sym_bps: dict[str, list[float]] = {}
+    latest_cap_utc: str | None = None
+    for row in spread_rows:
+        cap = row.get("captured_utc") or row.get("timestamp_utc")
+        if isinstance(cap, str) and cap.strip():
+            latest_cap_utc = _sanitize_short_token(cap, "", 40)
+        quotes = row.get("quotes")
+        if isinstance(quotes, dict):
+            for sym, q in quotes.items():
+                if not isinstance(q, dict):
+                    continue
+                sp_bps = _coerce_opt_float(q.get("spread_bps"), 4)
+                if sp_bps is None:
+                    bid = _coerce_opt_float(q.get("bid"), 8)
+                    ask = _coerce_opt_float(q.get("ask"), 8)
+                    if bid is not None and ask is not None and bid > 0.0 and ask >= bid:
+                        mid = 0.5 * (bid + ask)
+                        sp_bps = ((ask - bid) / mid) * 10_000.0
+                if sp_bps is not None and sp_bps >= 0.0:
+                    sym_bps.setdefault(str(sym), []).append(float(sp_bps))
+        elif row.get("symbol"):
+            sym = str(row["symbol"])
+            sp_bps = _coerce_opt_float(row.get("spread_bps"), 4)
+            if sp_bps is None:
+                bid = _coerce_opt_float(row.get("bid"), 8)
+                ask = _coerce_opt_float(row.get("ask"), 8)
+                if bid is not None and ask is not None and bid > 0.0 and ask >= bid:
+                    sp_bps = ((ask - bid) / (0.5 * (bid + ask))) * 10_000.0
+            if sp_bps is not None and sp_bps >= 0.0:
+                sym_bps.setdefault(sym, []).append(float(sp_bps))
+
+    ordered_syms: list[str] = list(CORE_DEV_SPREAD_BASELINE_BPS.keys())
+    for extra in sorted(set(friction_by_sym.keys()) | set(sym_bps.keys())):
+        if extra not in ordered_syms and extra in friction_by_sym:
+            ordered_syms.append(extra)
+
+    calib_by_sym = calibration_progress.get("per_symbol_fills") or {}
+    symbol_rows: list[dict[str, Any]] = []
+    for sym in ordered_syms:
+        arr = sym_bps.get(sym, [])
+        frec = friction_by_sym.get(sym, {})
+        crec = calib_by_sym.get(sym, {})
+        med_bps = frec.get("live_median_spread_bps")
+        p90_bps = frec.get("live_p90_spread_bps")
+        if med_bps is None and arr:
+            med_bps = round(float(np.median(arr)), 2)
+        if p90_bps is None and arr:
+            p90_bps = round(float(np.percentile(arr, 90)), 2)
+        dev_base = frec.get("dev_median_spread_bps") or CORE_DEV_SPREAD_BASELINE_BPS.get(sym)
+        ratio = frec.get("spread_ratio_vs_dev")
+        if ratio is None and med_bps is not None and dev_base and dev_base > 0.0:
+            ratio = round(float(med_bps) / float(dev_base), 2)
+        fills_sym = frec.get("fills_count")
+        if fills_sym is None and crec and (crec.get("completed", 0) > 0 or crec.get("open", 0) > 0):
+            fills_sym = int(crec.get("completed", 0))
+        if not arr and not frec and not (crec and (crec.get("completed", 0) > 0 or crec.get("open", 0) > 0)):
+            continue
+        symbol_rows.append({
+            "symbol": sym,
+            "samples": len(arr),
+            "fills_count": fills_sym,
+            "live_median_spread_bps": med_bps,
+            "live_p90_spread_bps": p90_bps,
+            "dev_baseline_bps": dev_base,
+            "ratio_vs_dev_1x": ratio,
+            "friction_mult_p50": frec.get("friction_mult_p50"),
+            "friction_mult_p90": frec.get("friction_mult_p90"),
+        })
+
+    return {
+        "realized_friction": friction_block,
+        "calibration_progress": calibration_progress,
+        "live_spreads": {
+            "status": "ACTIVE" if spread_rows else "pending",
+            "available": bool(spread_rows),
+            "samples_count": len(spread_rows),
+            "latest_captured_utc": latest_cap_utc,
+        },
+        "symbol_table": symbol_rows,
+    }
+
+
+def build_blackfriday_sprint_payload(
+    root: Path = ROOT,
+    *,
+    now_utc: datetime | None = None,
+    use_cache: bool = True,
+    ttl_sec: float = SPRINT_CACHE_TTL_SEC,
+) -> dict[str, Any]:
+    """Read-only 30s cached Black Friday 30/11 sprint status, Mũi 1-3 metrics & Layer-2 vault mount status."""
+    cache_key = str(root.resolve())
+    mono_now = time.monotonic()
+    if use_cache and now_utc is None and ttl_sec > 0.0:
+        with _SPRINT_CACHE_LOCK:
+            cached = _SPRINT_CACHE.get(cache_key)
+            if cached is not None and (mono_now - cached[0]) < ttl_sec:
+                return dict(cached[1])
+
+    now_dt = now_utc.astimezone(timezone.utc) if now_utc is not None else datetime.now(timezone.utc)
+    delta_s = (BLACKFRIDAY_DEADLINE_DT - now_dt).total_seconds()
+    expired = delta_s <= 0.0
+    rem_s = max(0, int(delta_s))
+    rem_days, rem_after_days = divmod(rem_s, 86_400)
+    rem_hours_in_day = rem_after_days // 3_600
+    rem_hours_total = rem_s // 3_600
+    rem_minutes = (rem_s % 3_600) // 60
+    countdown_vi = (
+        "Đã đến mốc 30/11 16:00 (ICT)"
+        if expired
+        else f"Còn {rem_days} ngày {rem_hours_in_day} giờ {rem_minutes:02d} phút"
+    )
+
+    mui3 = _load_mui3_master_prop7e_scenarios(root)
+    mui12 = _load_mui1_mui2_friction_and_spreads(root)
+    vault_status = "MOUNTED" if (root / "private_vault" / "owner").exists() else "NOT_MOUNTED"
+
+    payload: dict[str, Any] = {
+        "schema": "naqex-blackfriday-sprint-v1",
+        "generated_utc": now_dt.strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "cache_ttl_sec": int(ttl_sec),
+        "order_send_count": ORDER_SEND_COUNT,
+        "holdout_sealed": True,
+        "deadline_iso": BLACKFRIDAY_DEADLINE_ISO,
+        "deadline_ict": BLACKFRIDAY_DEADLINE_ICT,
+        "remaining_hours": rem_hours_total,
+        "remaining_minutes": rem_minutes,
+        "remaining_days": rem_days,
+        "remaining_hours_in_day": rem_hours_in_day,
+        "remaining_seconds": rem_s,
+        "expired": expired,
+        "countdown_vi": countdown_vi,
+        "private_vault_status": vault_status,
+        "mui3_realtick": mui3,
+        "mui1_mui2": mui12,
+    }
+
+    if use_cache and now_utc is None and ttl_sec > 0.0:
+        with _SPRINT_CACHE_LOCK:
+            _SPRINT_CACHE[cache_key] = (mono_now, payload)
+    return dict(payload)
+
+
+def _probe_node1_via_node_ctl(timeout_sec: float = NODE1_SSH_TIMEOUT_SEC) -> dict[str, Any] | None:
+    """Invoke ops_cloud.node_ctl.run_remote_probe('status') bounded strictly by timeout_sec (OrderSend=0)."""
+    try:
+        from ops_cloud import node_ctl
+    except Exception:
+        return None
+
+    result_box: dict[str, Any] = {}
+
+    def _worker() -> None:
+        try:
+            res = node_ctl.run_remote_probe("status", timeout=max(1, int(math.ceil(timeout_sec))))
+            if isinstance(res, dict):
+                result_box["data"] = res
+        except Exception:
+            result_box["error"] = True
+
+    th = threading.Thread(target=_worker, daemon=True)
+    th.start()
+    th.join(timeout=max(0.2, float(timeout_sec)))
+    if th.is_alive():
+        return None
+    data = result_box.get("data")
+    return data if isinstance(data, dict) else None
+
+
+def _read_local_node1_fallback(root: Path) -> tuple[dict[str, Any], dict[str, Any]]:
+    overnight_dir = root / ".runtime/live-overnight"
+    local_hb: dict[str, Any] = {}
+    for cand in (
+        overnight_dir / "naqex_heartbeat.json",
+        root / ".runtime/ftmo-demo-portable-1515343166/MQL5/Files/naqex_heartbeat.json",
+        root / ".runtime/naqex_heartbeat.json",
+    ):
+        obj = _safe_read_json(cand)
+        if isinstance(obj, dict):
+            local_hb = obj
+            break
+    spread_tail = _read_jsonl_tail(overnight_dir / "mt5_live_spread_log.jsonl", limit=5)
+    latest_snap = spread_tail[-1] if spread_tail else {}
+    return local_hb, latest_snap
+
+
+def build_node1_summary_payload(
+    root: Path = ROOT,
+    *,
+    allow_ssh: bool = True,
+    timeout_sec: float = NODE1_SSH_TIMEOUT_SEC,
+    use_cache: bool = True,
+    ttl_sec: float = NODE1_CACHE_TTL_SEC,
+) -> dict[str, Any]:
+    """Read-only 30s cached, strictly sanitized naqex-node1 health summary (ZERO raw IPs/URLs/tokens)."""
+    cache_key = (str(root.resolve()), bool(allow_ssh))
+    mono_now = time.monotonic()
+    if use_cache and ttl_sec > 0.0:
+        with _NODE1_CACHE_LOCK:
+            cached = _NODE1_CACHE.get(cache_key)
+            if cached is not None and (mono_now - cached[0]) < ttl_sec:
+                return dict(cached[1])
+
+    now_iso = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    raw_ssh = _probe_node1_via_node_ctl(timeout_sec=timeout_sec) if allow_ssh else None
+
+    if isinstance(raw_ssh, dict):
+        hb = raw_ssh.get("heartbeat") if isinstance(raw_ssh.get("heartbeat"), dict) else {}
+        sys_info = raw_ssh.get("system") if isinstance(raw_ssh.get("system"), dict) else {}
+        disks = raw_ssh.get("disks") if isinstance(raw_ssh.get("disks"), dict) else {}
+        disk_c = disks.get("C") if isinstance(disks.get("C"), dict) else {}
+        mt5_procs = raw_ssh.get("mt5_procs")
+        if isinstance(mt5_procs, list):
+            mt5_running: bool | None = len(mt5_procs) > 0
+        else:
+            mt5_running = _coerce_opt_bool(raw_ssh.get("mt5_running"))
+
+        bal = _coerce_opt_float(hb["balance"], 2) if "balance" in hb else _coerce_opt_float(raw_ssh.get("balance"), 2)
+        eq = _coerce_opt_float(hb["equity"], 2) if "equity" in hb else _coerce_opt_float(raw_ssh.get("equity"), 2)
+        open_pos = (
+            _coerce_opt_int(hb["open_positions"])
+            if "open_positions" in hb
+            else _coerce_opt_int(raw_ssh.get("open_positions"))
+        )
+        payload: dict[str, Any] = {
+            "schema": "naqex-node1-summary-v1",
+            "generated_utc": now_iso,
+            "cache_ttl_sec": int(ttl_sec),
+            "order_send_count": ORDER_SEND_COUNT,
+            "holdout_sealed": True,
+            "connected": True,
+            "mt5_running": mt5_running,
+            "open_positions": open_pos,
+            "balance": bal,
+            "equity": eq,
+            "propguard_ok_count": _coerce_opt_int(raw_ssh.get("propguard_ok_count")),
+            "propguard_warn_count": _coerce_opt_int(raw_ssh.get("propguard_warn_count")),
+            "ntp_offset": _sanitize_ntp_offset(raw_ssh.get("ntp_offset")),
+            "auto_logon": _coerce_opt_bool(
+                sys_info.get("auto_logon") if "auto_logon" in sys_info else raw_ssh.get("auto_logon")
+            ),
+            "heroku_status": _sanitize_heroku_status(raw_ssh.get("heroku_last"), raw_ssh.get("heroku_last_raw")),
+            "free_ram_gb": _coerce_opt_float(
+                sys_info.get("free_ram_gb") if "free_ram_gb" in sys_info else raw_ssh.get("free_ram_gb"), 1
+            ),
+            "c_free_gb": _coerce_opt_float(
+                disk_c.get("free_gb") if "free_gb" in disk_c else raw_ssh.get("c_free_gb"), 1
+            ),
+            "source": "live_ssh",
+        }
+    else:
+        local_hb, latest_snap = _read_local_node1_fallback(root)
+        snap_acct = latest_snap.get("account") if isinstance(latest_snap.get("account"), dict) else {}
+        snap_hb = latest_snap.get("heartbeat") if isinstance(latest_snap.get("heartbeat"), dict) else {}
+        snap_hb_pay = snap_hb.get("payload") if isinstance(snap_hb.get("payload"), dict) else snap_hb
+
+        if "balance" in local_hb:
+            fb_bal = _coerce_opt_float(local_hb.get("balance"), 2)
+        elif "balance" in snap_acct:
+            fb_bal = _coerce_opt_float(snap_acct.get("balance"), 2)
+        else:
+            fb_bal = _coerce_opt_float(snap_hb_pay.get("balance"), 2)
+
+        if "equity" in local_hb:
+            fb_eq = _coerce_opt_float(local_hb.get("equity"), 2)
+        elif "equity" in snap_acct:
+            fb_eq = _coerce_opt_float(snap_acct.get("equity"), 2)
+        else:
+            fb_eq = _coerce_opt_float(snap_hb_pay.get("equity"), 2)
+
+        if "open_positions" in local_hb:
+            fb_pos = _coerce_opt_int(local_hb.get("open_positions"))
+        elif "naqex_positions_count" in latest_snap:
+            fb_pos = _coerce_opt_int(latest_snap.get("naqex_positions_count"))
+        else:
+            fb_pos = _coerce_opt_int(snap_hb_pay.get("open_positions"))
+
+        if "terminal_connected" in latest_snap:
+            fb_mt5 = _coerce_opt_bool(latest_snap.get("terminal_connected"))
+        elif local_hb:
+            fb_mt5 = _coerce_opt_bool(local_hb.get("mt5_running"))
+        else:
+            fb_mt5 = None
+
+        has_local = bool(local_hb or snap_acct or snap_hb_pay)
+        payload = {
+            "schema": "naqex-node1-summary-v1",
+            "generated_utc": now_iso,
+            "cache_ttl_sec": int(ttl_sec),
+            "order_send_count": ORDER_SEND_COUNT,
+            "holdout_sealed": True,
+            "connected": False,
+            "mt5_running": fb_mt5,
+            "open_positions": fb_pos,
+            "balance": fb_bal,
+            "equity": fb_eq,
+            "propguard_ok_count": None,
+            "propguard_warn_count": None,
+            "ntp_offset": None,
+            "auto_logon": None,
+            "heroku_status": "LOCAL_CACHE" if has_local else "UNAVAILABLE",
+            "free_ram_gb": None,
+            "c_free_gb": None,
+            "source": "fallback",
+        }
+
+    if use_cache and ttl_sec > 0.0:
+        with _NODE1_CACHE_LOCK:
+            _NODE1_CACHE[cache_key] = (mono_now, payload)
+    return dict(payload)
+
+
 def make_handler(root: Path = ROOT, static_dir: Path = STATIC_DIR):
     class CockpitHandler(BaseHTTPRequestHandler):
         def log_message(self, format: str, *args: Any) -> None:
@@ -2020,6 +2937,18 @@ def make_handler(root: Path = ROOT, static_dir: Path = STATIC_DIR):
                 return
             if path == "/api/emergency-cover":
                 self._send_json(HTTPStatus.OK, read_emergency_cover_state(root))
+                return
+            if path == "/api/blackfriday-sprint":
+                nocache = str(qs.get("nocache", ["0"])[0]) in ("1", "true", "yes")
+                self._send_json(HTTPStatus.OK, build_blackfriday_sprint_payload(root, use_cache=not nocache))
+                return
+            if path == "/api/node1-summary":
+                offline = str(qs.get("offline", ["0"])[0]) in ("1", "true", "yes")
+                nocache = str(qs.get("nocache", ["0"])[0]) in ("1", "true", "yes")
+                self._send_json(
+                    HTTPStatus.OK,
+                    build_node1_summary_payload(root, allow_ssh=not offline, use_cache=not nocache),
+                )
                 return
             if path == "/api/stress":
                 try:

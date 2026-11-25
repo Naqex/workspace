@@ -18,12 +18,13 @@ import pass22_gbpusd_volhigh_3engine as p22
 import pass24_mtf_new_archetypes as p24
 import pass27_portfolio_m1_phase_audit as p27
 import pass28_final_discovery_rednews_frontier as p28
-from native_ftmo_monfri_seal import ROOT, sha
+from native_ftmo_monfri_seal import ROOT, STOP, sha
 from quant_core.ftmo_track_replay import profiles
 
 CONFIGS_DIR = ROOT / "tooling/ai-engines/configs"
 REGISTRY_PATH = ROOT / "planning/research/PORTFOLIO-REGISTRY.json"
 DERIVED_CACHE_DIR = hcache.DEFAULT_CACHE / "_derived"
+HOLDOUT_CUTOFF_DAY = "2025-01-01"
 
 
 def assert_holdout_locked() -> str:
@@ -32,6 +33,33 @@ def assert_holdout_locked() -> str:
     if digest != clock.LOCK_SHA:
         raise ValueError(f"HOLDOUT_LOCK_SHA_MISMATCH: expected={clock.LOCK_SHA[:12]} got={digest[:12]}")
     return digest
+
+
+def assert_dev_series_strictly_pre_holdout(
+    days: list[str] | tuple[str, ...],
+    tapes: dict[str, dict] | None = None,
+    *,
+    cutoff_day: str = HOLDOUT_CUTOFF_DAY,
+    stop_ts: int = STOP,
+) -> None:
+    """Programmatically verify loaded dev days and timestamps stay strictly `< 2025-01-01` (`stamps[-1] < STOP`)."""
+    bad_days = [str(d) for d in days if str(d) >= cutoff_day]
+    if bad_days:
+        raise ValueError(
+            f"HOLDOUT_LOCK_VIOLATION: Dev day series contains holdout dates >= {cutoff_day}: {bad_days[:5]}"
+        )
+    if tapes is not None:
+        for eng, day_map in tapes.items():
+            for dk, item in day_map.items():
+                if str(dk) >= cutoff_day:
+                    raise ValueError(
+                        f"HOLDOUT_LOCK_VIOLATION: Tape '{eng}' contains holdout day '{dk}' >= {cutoff_day}"
+                    )
+                stamps = item[1]
+                if len(stamps) > 0 and int(stamps[-1]) >= int(stop_ts):
+                    raise ValueError(
+                        f"HOLDOUT_LOCK_VIOLATION: Tape '{eng}' day '{dk}' timestamp {int(stamps[-1])} >= STOP ({int(stop_ts)})"
+                    )
 
 
 def load_registry() -> dict:
@@ -140,6 +168,8 @@ def build_or_load_frozen_tapes(
         hit = _load_tapes_safe_npz(derived_dir, stem, binding)
         if hit is not None:
             meta, tapes = hit
+            assert_dev_series_strictly_pre_holdout(meta["ext_days"], tapes)
+            assert_dev_series_strictly_pre_holdout(meta["strict_cluster_a_days"])
             return {
                 "cache_hit": True,
                 "load_seconds": round(time.perf_counter() - t0, 4),
@@ -183,6 +213,8 @@ def build_or_load_frozen_tapes(
         "S6_FX_USD_BSK": p27.build_fx_usd_basket_s6_tape(bundles, day_maps, all_days),
         "S7_XAU_EXP120": p27.build_xau_exp120_s7_tape(bundles["XAUUSD"]),
     }
+    assert_dev_series_strictly_pre_holdout(ext_days, tapes)
+    assert_dev_series_strictly_pre_holdout(strict_a_days)
     meta = {
         "schema": "naqex-frozen-tapes-v1",
         "built_utc": datetime.now(timezone.utc).isoformat(),

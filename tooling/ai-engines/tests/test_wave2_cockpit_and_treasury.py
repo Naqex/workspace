@@ -643,4 +643,520 @@ def test_astra_r2_06_and_round3_settled_cash_ledger():
     assert s_after["stage_promotion_ready"] is True
 
 
+# ---------------------------------------------------------------------------
+# 5. Black Friday 30/11 Sprint & Sanitized Node1 Summary Endpoints
+# ---------------------------------------------------------------------------
+
+def test_blackfriday_sprint_endpoint_artifacts_vault_and_ci_fallback(tmp_path: Path):
+    """Verify /api/blackfriday-sprint countdown, Mũi 1-3 pickup, vault mount status, 30s cache & CI absent-file fallback."""
+    from datetime import datetime, timezone
+
+    cockpit_server.clear_sprint_and_node1_caches()
+
+    # 1. Clean empty tmp_path (CI runner without runtime artifacts or private_vault/)
+    empty_root = tmp_path / "ci_empty"
+    empty_root.mkdir(parents=True)
+    fixed_now = datetime(2026, 11, 28, 7, 30, 0, tzinfo=timezone.utc)  # 49h 30m before 2026-11-30T09:00:00Z
+    ci_pay = cockpit_server.build_blackfriday_sprint_payload(empty_root, now_utc=fixed_now, use_cache=False)
+    assert ci_pay["order_send_count"] == 0
+    assert ci_pay["holdout_sealed"] is True
+    assert ci_pay["deadline_iso"] == "2026-11-30T09:00:00Z"
+    assert ci_pay["remaining_hours"] == 49
+    assert ci_pay["remaining_minutes"] == 30
+    assert ci_pay["expired"] is False
+    assert ci_pay["private_vault_status"] == "NOT_MOUNTED"
+    assert ci_pay["mui3_realtick"]["status"] == "pending"
+    assert ci_pay["mui3_realtick"]["available"] is False
+    assert ci_pay["mui1_mui2"]["realized_friction"]["status"] == "pending"
+    assert ci_pay["mui1_mui2"]["live_spreads"]["status"] == "pending"
+    assert ci_pay["mui1_mui2"]["symbol_table"] == []
+
+    # 2. Populate synthetic Mũi 3, Mũi 1-2 & Layer-2 private_vault/owner (with decoy private note never exposed!)
+    full_root = tmp_path / "full_ws"
+    (full_root / "private_vault/owner").mkdir(parents=True)
+    (full_root / "private_vault/owner/SECRET_NOTE.md").write_text("TOP_SECRET_VND_999999", encoding="utf-8")
+
+    rt_dir = full_root / ".runtime/mt5-realtick-results/MASTER_PROP7E_2024Q4_L30_50ms"
+    rt_dir.mkdir(parents=True)
+    (rt_dir / "parsed_result.json").write_text(
+        json.dumps({
+            "summary": {
+                "label": "MASTER_PROP7E_2024Q4_L30_50ms",
+                "from_date": "2024.09.01",
+                "to_date": "2024.12.31",
+                "leverage": 30,
+                "elapsed_s": 267.1,
+                "report_ok": True,
+                "total_swap_usd": 0.0,
+                "total_comm_usd": -34.0,
+                "propguard_ok_lines": 1,
+                "propguard_warn_lines": 0,
+                "order_rejects": 0,
+                "log_errors": [],
+                "net_by_symbol_usd": {"USDJPY": 111.36, "US100.cash": 14.46},
+                "report_path": r"C:\secret_local_path\hidden.htm",
+            },
+            "report": {
+                "ok": True,
+                "period": "M5 (2024.09.01 - 2024.12.31)",
+                "total_net_profit": 138.79,
+                "profit_factor": 1.12,
+                "sharpe_ratio": 1.03,
+                "balance_dd_pct": 2.18,
+                "equity_dd_pct": 2.59,
+                "total_trades": 156,
+                "win_rate_pct": 52.56,
+                "swap_total_usd": 0.0,
+                "swap_zero_ok": True,
+                "commission_total_usd": -34.0,
+            },
+        }),
+        encoding="utf-8",
+    )
+
+    live_dir = full_root / ".runtime/live-overnight"
+    live_dir.mkdir(parents=True)
+    (live_dir / "ftmo_realized_friction_summary_20261125.json").write_text(
+        json.dumps({
+            "generated_utc": "2026-11-25T14:00:00Z",
+            "verdict": "PASS_WITHIN_BUDGET",
+            "fills_count": 28,
+            "realized_friction_multiplier_p50": 1.08,
+            "realized_friction_multiplier_p90": 1.42,
+            "adverse_slippage_p50_bps": 0.25,
+            "adverse_slippage_p90_bps": 0.65,
+            "by_symbol": {
+                "USDJPY": {"fills_count": 7, "live_median_spread_bps": 0.42, "spread_ratio_vs_dev": 0.84},
+                "GBPUSD": {"fills_count": 7, "live_median_spread_bps": 0.55, "spread_ratio_vs_dev": 0.92},
+            },
+        }),
+        encoding="utf-8",
+    )
+    (live_dir / "mt5_live_spread_log.jsonl").write_text(
+        "\n".join([
+            json.dumps({
+                "captured_utc": "2026-11-25T13:00:00+00:00",
+                "quotes": {
+                    "USDJPY": {"bid": 155.000, "ask": 155.006},
+                    "GBPUSD": {"bid": 1.26000, "ask": 1.26008},
+                    "EURJPY": {"bid": 165.000, "ask": 165.012},
+                    "US100.cash": {"bid": 20000.0, "ask": 20002.0},
+                },
+            }),
+            json.dumps({
+                "captured_utc": "2026-11-25T13:00:05+00:00",
+                "quotes": {
+                    "USDJPY": {"bid": 155.010, "ask": 155.018},
+                    "GBPUSD": {"bid": 1.26010, "ask": 1.26020},
+                    "EURJPY": {"bid": 165.010, "ask": 165.025},
+                    "US100.cash": {"bid": 20010.0, "ask": 20012.5},
+                },
+            }),
+        ]) + "\n",
+        encoding="utf-8",
+    )
+
+    # Verify via live HTTP server + 30s cache behavior
+    srv = cockpit_server.create_server(host="127.0.0.1", port=0, root=full_root)
+    port = srv.server_address[1]
+    th = threading.Thread(target=srv.serve_forever, daemon=True)
+    th.start()
+    try:
+        with urllib.request.urlopen(f"http://127.0.0.1:{port}/api/blackfriday-sprint", timeout=5) as resp:
+            assert resp.status == 200
+            raw_txt = resp.read().decode("utf-8")
+            body = json.loads(raw_txt)
+        assert body["order_send_count"] == 0
+        assert body["holdout_sealed"] is True
+        assert body["deadline_iso"] == "2026-11-30T09:00:00Z"
+        assert body["private_vault_status"] == "MOUNTED"
+        assert body["mui3_realtick"]["status"] == "AVAILABLE"
+        assert body["mui3_realtick"]["latest"]["total_trades"] == 156
+        assert body["mui3_realtick"]["latest"]["total_net_profit_usd"] == 138.79
+        assert body["mui3_realtick"]["latest"]["swap_zero_ok"] is True
+        assert body["mui1_mui2"]["realized_friction"]["fills_count"] == 28
+        assert body["mui1_mui2"]["realized_friction"]["p50_friction_mult"] == 1.08
+        assert body["mui1_mui2"]["live_spreads"]["samples_count"] == 2
+        assert len(body["mui1_mui2"]["symbol_table"]) == 4
+        # Never leak private vault contents or local filesystem paths!
+        assert "TOP_SECRET_VND_999999" not in raw_txt
+        assert "SECRET_NOTE" not in raw_txt
+        assert "secret_local_path" not in raw_txt
+
+        # Verify 30s TTL cache serves cached snapshot without re-reading deleted file
+        (live_dir / "ftmo_realized_friction_summary_20261125.json").unlink()
+        with urllib.request.urlopen(f"http://127.0.0.1:{port}/api/blackfriday-sprint", timeout=5) as resp2:
+            body_cached = json.loads(resp2.read().decode("utf-8"))
+        assert body_cached["mui1_mui2"]["realized_friction"]["fills_count"] == 28
+
+        # With ?nocache=1 it re-reads cleanly and degrades to pending
+        with urllib.request.urlopen(f"http://127.0.0.1:{port}/api/blackfriday-sprint?nocache=1", timeout=5) as resp3:
+            body_fresh = json.loads(resp3.read().decode("utf-8"))
+        assert body_fresh["mui1_mui2"]["realized_friction"]["status"] == "pending"
+    finally:
+        srv.shutdown()
+        srv.server_close()
+        th.join(timeout=5)
+        cockpit_server.clear_sprint_and_node1_caches()
+
+
+def test_node1_summary_mocked_live_ssh_sanitization_and_offline_fallback(tmp_path: Path, monkeypatch):
+    """Verify /api/node1-summary with mocked node_ctl (live_ssh + zero IP/token leak) & clean offline/error fallback."""
+    from ops_cloud import node_ctl
+
+    cockpit_server.clear_sprint_and_node1_caches()
+
+    # 1. Mock live_ssh probe containing decoy LAN/Tailscale IPs, URLs & tokens -> MUST be stripped completely!
+    mock_calls = {"n": 0}
+
+    def _fake_probe_ok(command_key: str, *args, **kwargs):
+        mock_calls["n"] += 1
+        assert command_key == "status"
+        return {
+            "checked_utc": "2026-11-25T10:00:00Z",
+            "order_send_count": 0,
+            "_ssh_host": "203.0.113.77",
+            "mt5_procs": [{"pid": 4242, "session": 1, "start": "2026-11-25T07:00:00"}],
+            "heartbeat": {
+                "balance": 10000.0,
+                "equity": 10014.25,
+                "open_positions": 1,
+                "age_sec": 4,
+            },
+            "propguard_ok_count": 7,
+            "propguard_warn_count": 0,
+            "ntp_offset": "16:00:01, +0.014s from 198.51.100.10",
+            "heroku_last": {
+                "ok": True,
+                "endpoint": "https://decoy-app.example.com/api/heartbeat?token=SECRET_INGEST_999",
+            },
+            "heroku_last_raw": "Bearer SECRET_RAW_TOKEN_888 100.64.99.88",
+            "disks": {"C": {"free_gb": 54.3, "total_gb": 118.0}},
+            "system": {"free_ram_gb": 9.8, "auto_logon": "1"},
+        }
+
+    monkeypatch.setattr(node_ctl, "run_remote_probe", _fake_probe_ok)
+
+    live_res = cockpit_server.build_node1_summary_payload(tmp_path, allow_ssh=True, use_cache=True)
+    raw_live = json.dumps(live_res)
+    assert live_res["order_send_count"] == 0
+    assert live_res["holdout_sealed"] is True
+    assert live_res["source"] == "live_ssh"
+    assert live_res["connected"] is True
+    assert live_res["mt5_running"] is True
+    assert live_res["open_positions"] == 1
+    assert live_res["balance"] == 10000.0
+    assert live_res["equity"] == 10014.25
+    assert live_res["propguard_ok_count"] == 7
+    assert live_res["propguard_warn_count"] == 0
+    assert live_res["ntp_offset"] == "+0.014s"
+    assert live_res["auto_logon"] is True
+    assert live_res["heroku_status"] == "OK"
+    assert live_res["free_ram_gb"] == 9.8
+    assert live_res["c_free_gb"] == 54.3
+    # Zero leaked IPs, URLs, or tokens!
+    for forbidden in ("203.0.113.77", "198.51.100.10", "100.64.99.88", "SECRET_INGEST_999", "SECRET_RAW_TOKEN_888", "decoy-app.example.com"):
+        assert forbidden not in raw_live
+
+    # Second call hits 30s TTL cache (no duplicate SSH call)
+    live_res2 = cockpit_server.build_node1_summary_payload(tmp_path, allow_ssh=True, use_cache=True)
+    assert live_res2["source"] == "live_ssh"
+    assert mock_calls["n"] == 1
+
+    # 2. SSH failure -> clean fallback to local cached heartbeat (preserving equity == 0.0!)
+    cockpit_server.clear_sprint_and_node1_caches()
+
+    def _fake_probe_fail(command_key: str, *args, **kwargs):
+        raise RuntimeError("ssh unreachable 203.0.113.99")
+
+    monkeypatch.setattr(node_ctl, "run_remote_probe", _fake_probe_fail)
+    live_dir = tmp_path / ".runtime/live-overnight"
+    live_dir.mkdir(parents=True, exist_ok=True)
+    (live_dir / "naqex_heartbeat.json").write_text(
+        json.dumps({"balance": 10000.0, "equity": 0.0, "open_positions": 0, "mt5_running": False}),
+        encoding="utf-8",
+    )
+    fb_res = cockpit_server.build_node1_summary_payload(tmp_path, allow_ssh=True, use_cache=False)
+    assert fb_res["order_send_count"] == 0
+    assert fb_res["source"] == "fallback"
+    assert fb_res["connected"] is False
+    assert fb_res["mt5_running"] is False
+    assert fb_res["balance"] == 10000.0
+    assert fb_res["equity"] == 0.0
+    assert fb_res["open_positions"] == 0
+    assert fb_res["heroku_status"] == "LOCAL_CACHE"
+    assert "203.0.113.99" not in json.dumps(fb_res)
+
+    # 3. HTTP /api/node1-summary?offline=1 on completely empty root (CI runner) + UI HTML/JS markers
+    empty_ci = tmp_path / "empty_ci"
+    empty_ci.mkdir()
+    srv = cockpit_server.create_server(host="127.0.0.1", port=0, root=empty_ci)
+    port = srv.server_address[1]
+    th = threading.Thread(target=srv.serve_forever, daemon=True)
+    th.start()
+    try:
+        with urllib.request.urlopen(f"http://127.0.0.1:{port}/api/node1-summary?offline=1", timeout=5) as r:
+            assert r.status == 200
+            off_pay = json.loads(r.read().decode("utf-8"))
+        assert off_pay["order_send_count"] == 0
+        assert off_pay["source"] == "fallback"
+        assert off_pay["connected"] is False
+        assert off_pay["heroku_status"] == "UNAVAILABLE"
+        for req_k in (
+            "connected", "mt5_running", "open_positions", "balance", "equity",
+            "propguard_ok_count", "propguard_warn_count", "ntp_offset",
+            "auto_logon", "heroku_status", "free_ram_gb", "c_free_gb", "source",
+        ):
+            assert req_k in off_pay
+
+        with urllib.request.urlopen(f"http://127.0.0.1:{port}/", timeout=5) as r_html:
+            html_txt = r_html.read().decode("utf-8")
+        for marker in (
+            'id="panel-bf-sprint"',
+            'id="bf-countdown-badge"',
+            'id="bf-vault-badge"',
+            'id="btn-bf-refresh"',
+            'id="bf-calib-strip"',
+            'id="bf-calib-headline"',
+            'id="bf-calib-bar"',
+            'id="bf-calib-sym-pills"',
+            'id="bf-node-pills"',
+            'id="tbl-bf-mui3"',
+            'id="tbl-bf-friction"',
+        ):
+            assert marker in html_txt, f"Missing Sprint/Node1 HTML marker {marker}"
+        assert "http://" not in html_txt and "https://" not in html_txt
+
+        with urllib.request.urlopen(f"http://127.0.0.1:{port}/static/app.js", timeout=5) as r_js:
+            js_txt = r_js.read().decode("utf-8")
+        assert "/api/blackfriday-sprint" in js_txt
+        assert "/api/node1-summary" in js_txt
+    finally:
+        srv.shutdown()
+        srv.server_close()
+        th.join(timeout=5)
+        cockpit_server.clear_sprint_and_node1_caches()
+
+
+def test_blackfriday_sprint_five_mui3_scenarios_and_live_calibration_csv_partial_safety(tmp_path: Path):
+    """Wave 2.5C: verify 5 Mũi 3 scenarios (4x Model=4 + 1x Model=1), live CSV progress (valid + partial + missing), & zero leaks."""
+    cockpit_server.clear_sprint_and_node1_caches()
+
+    # 1. Missing CSV + empty/header-only CSV -> clean pending fallback
+    empty_ws = tmp_path / "empty_csv"
+    empty_ws.mkdir()
+    pay0 = cockpit_server.build_blackfriday_sprint_payload(empty_ws, use_cache=False)
+    cp0 = pay0["mui1_mui2"]["calibration_progress"]
+    assert cp0["status"] == "pending"
+    assert cp0["available"] is False
+    assert cp0["completed_round_trips"] == 0
+    assert cp0["target_round_trips"] == 28
+    assert cp0["swap_zero_ok"] is True
+
+    live_dir = tmp_path / "wave25c/.runtime/live-overnight"
+    live_dir.mkdir(parents=True)
+    header_cols = (
+        "utc_ts,utc_iso,session,account_login,server,trade_seq,position_id,order_id,deal_id,"
+        "symbol,leg,side,position_side,exit_reason,volume,pre_bid,pre_ask,pre_spread_pts,"
+        "pre_spread_bps,expected_price,fill_price,sl_price,adverse_slip_pts,adverse_slip_bps,"
+        "latency_ms,commission_usd,commission_bps,swap_usd,pnl_usd,retcode,dry_run,comment"
+    )
+    csv_p = live_dir / "ftmo_calibration_fills_1515343318.csv"
+    csv_p.write_text(header_cols + "\n", encoding="utf-8")
+    pay_hdr = cockpit_server.build_blackfriday_sprint_payload(tmp_path / "wave25c", use_cache=False)
+    assert pay_hdr["mui1_mui2"]["calibration_progress"]["status"] == "pending"
+    assert pay_hdr["mui1_mui2"]["calibration_progress"]["completed_round_trips"] == 0
+
+    # 2. Populate all 5 Mũi 3 scenarios (4x Model=4 via JSON & tester.ini fallback + 1x Model=1 M1OHLC)
+    ws = tmp_path / "wave25c"
+    rt_root = ws / ".runtime/mt5-realtick-results"
+    specs = [
+        ("MASTER_PROP7E_2024Q4_L30_50ms", None, "Model=4", 156, 138.79, 1.12, 1.03, 2.59),
+        ("MASTER_PROP7E_2024Q4_STRESS_150ms", None, "Model=4", 156, 156.19, 1.13, 1.16, 2.50),
+        ("MASTER_PROP7E_2024Q4_P1_4X_L100_50ms", None, "Model=4", 155, 754.60, 1.24, 2.02, 6.27),
+        ("MASTER_PROP7E_2024Q4_P1_4X_STRESS_150ms", 4, "Model=4", 155, 755.69, 1.24, 2.03, 6.23),
+        ("MASTER_PROP7E_2024FULL_L100_50ms_M1OHLC", 1, "Model=1", 469, 744.48, 1.19, 1.47, 3.97),
+    ]
+    for lbl, j_model, ini_line, tr, net, pf, sh, eqdd in specs:
+        d = rt_root / lbl
+        d.mkdir(parents=True, exist_ok=True)
+        (d / "tester.ini").write_text(f"[Tester]\n{ini_line}\n", encoding="utf-8")
+        summ_obj = {
+            "label": lbl,
+            "from_date": "2024.01.01" if "FULL" in lbl else "2024.09.01",
+            "to_date": "2024.12.31",
+            "leverage": 30 if "L30" in lbl else 100,
+            "report_ok": True,
+            "total_swap_usd": 0.0,
+            "total_comm_usd": -34.0,
+            "order_rejects": 0,
+            "log_errors": [],
+        }
+        if j_model is not None:
+            summ_obj["model"] = j_model
+        (d / "parsed_result.json").write_text(
+            json.dumps({
+                "summary": summ_obj,
+                "report": {
+                    "ok": True,
+                    "total_trades": tr,
+                    "total_net_profit": net,
+                    "profit_factor": pf,
+                    "sharpe_ratio": sh,
+                    "equity_dd_pct": eqdd,
+                    "swap_total_usd": 0.0,
+                    "swap_zero_ok": True,
+                },
+            }),
+            encoding="utf-8",
+        )
+
+    # 3. Populate live calibration CSV with 2 completed round-trips + 1 open trade + 1 dry_run (ignored) + 1 reject + 1 truncated partial line!
+    csv_lines = [
+        header_cols,
+        "1795603139,2026-11-25T10:38:59+00:00,LONDON,1515343318,FTMO-Demo,1,990001,990001,880001,USDJPY,ENTRY,BUY,BUY,,0.01,159.282,159.287,5.0,0.31,159.287,159.287,159.137,0.0,0.0,370.0,-0.03,0.3,0.0,0.0,10009,False,SECRET_TAG_1",
+        "1795603320,2026-11-25T10:42:00+00:00,LONDON,1515343318,FTMO-Demo,1,990001,990002,880002,USDJPY,EXIT,SELL,BUY,TIME_EXIT,0.01,159.310,159.313,3.0,0.19,159.310,159.310,159.137,2.0,0.2,510.0,-0.03,0.3,0.0,0.14,10009,False,EXIT_TIME",
+        "1795603605,2026-11-25T10:46:45+00:00,LONDON,1515343318,FTMO-Demo,2,990002,990003,880003,GBPUSD,ENTRY,SELL,SELL,,0.01,1.30751,1.30757,6.0,0.46,1.30751,1.30751,1.30901,0.0,0.0,450.0,-0.03,0.23,0.0,0.0,10009,False,ENTRY_2",
+        "1795603846,2026-11-25T10:50:46+00:00,LONDON,1515343318,FTMO-Demo,2,990002,990004,880004,GBPUSD,EXIT,BUY,SELL,TIME_EXIT,0.01,1.30718,1.30720,2.0,0.15,1.30720,1.30751,1.30901,30.0,2.4,590.0,-0.03,0.23,0.0,-0.05,10009,False,EXIT_2",
+        "1795604000,2026-11-25T10:53:20+00:00,LONDON,1515343318,FTMO-Demo,3,990003,990005,880005,EURJPY,ENTRY,BUY,BUY,,0.01,173.800,173.808,8.0,0.46,173.808,173.809,173.600,1.0,0.1,400.0,-0.03,0.25,0.0,0.0,10009,False,OPEN_TRADE",
+        "1795604010,2026-11-25T10:53:30+00:00,LONDON,1515343318,FTMO-Demo,99,990099,990099,880099,US100.cash,ENTRY,BUY,BUY,,0.01,20000,20002,200,1.0,20002,20002,19950,99.0,99.0,999.0,0.0,0.0,5.0,0.0,10009,True,DRYRUN_IGNORED",
+        "1795604020,2026-11-25T10:53:40+00:00,LONDON,1515343318,FTMO-Demo,4,0,0,0,US100.cash,ENTRY_REJECT,BUY,BUY,,0.01,20000,20002,200,1.0,20002,0,19950,0,0,120.0,0,0,0,0,10018,False,REJECTED",
+        "1795604099,2026-11-25T10:54:59+00:00,LONDON,1515343318,FTMO-Demo,5,990005,TRUNCATED_MID_WRITE",
+    ]
+    csv_p.write_text("\n".join(csv_lines), encoding="utf-8")
+
+    # 4. Also verify native ftmo_demo_calibration_probe.py summary JSON schema parsing
+    (live_dir / "ftmo_realized_friction_summary_20261125.json").write_text(
+        json.dumps({
+            "schema": "naqex-ftmo-realized-friction-summary-v1",
+            "generated_utc": "2026-11-25T15:05:00+00:00",
+            "calibration_account_login": 1515343318,
+            "verdict": "PASS_WITHIN_1_5X",
+            "portfolio_core4": {
+                "realized_friction_multiplier_p50": 1.12,
+                "realized_friction_multiplier_p90": 1.48,
+                "latency_p50_ms": 450.0,
+            },
+            "spread_vs_dev_m1": {
+                "USDJPY": {"OVERALL": {"live_median_spread_bps": 0.31, "live_p90_spread_bps": 0.52, "dev_m1_median_spread_bps": 0.40, "live_to_dev_spread_ratio_bps": 0.78}},
+            },
+            "realized_friction_by_symbol": {
+                "USDJPY": {"paired_roundtrips": 7, "realized_friction_multiplier_p50": 1.05, "realized_friction_multiplier_p90": 1.35},
+            },
+        }),
+        encoding="utf-8",
+    )
+
+    pay = cockpit_server.build_blackfriday_sprint_payload(ws, use_cache=False)
+    raw_pay = json.dumps(pay)
+    assert pay["order_send_count"] == 0
+    assert pay["holdout_sealed"] is True
+
+    # Verify all 5 Mũi 3 scenarios (4x Model=4 first, then 1x Model=1)
+    m3 = pay["mui3_realtick"]
+    assert m3["scenarios_count"] == 5
+    assert m3["model4_count"] == 4
+    assert m3["model1_count"] == 1
+    assert all(s["model_badge"] == "Model=4 Real Ticks" and s["is_real_ticks"] is True for s in m3["scenarios"][:4])
+    assert m3["scenarios"][4]["model"] == 1
+    assert m3["scenarios"][4]["model_badge"] == "Model=1 1m OHLC"
+    assert m3["scenarios"][4]["is_real_ticks"] is False
+    assert m3["scenarios"][4]["sharpe_ratio"] == 1.47
+
+    # Verify live calibration progress metrics & partial-line safety
+    cp = pay["mui1_mui2"]["calibration_progress"]
+    assert cp["status"] == "IN_PROGRESS"
+    assert cp["available"] is True
+    assert cp["completed_round_trips"] == 2
+    assert cp["open_in_progress_count"] == 1
+    assert cp["valid_legs_count"] == 5
+    assert cp["rejected_count"] == 1
+    assert cp["skipped_partial_rows"] == 1
+    assert cp["swap_zero_ok"] is True
+    assert cp["mean_adverse_slip_pts"] == 6.6   # (0 + 2 + 0 + 30 + 1) / 5
+    assert cp["max_adverse_slip_pts"] == 30.0
+    assert cp["mean_adverse_slip_bps"] == 0.54  # (0 + 0.2 + 0 + 2.4 + 0.1) / 5
+    assert cp["max_adverse_slip_bps"] == 2.4
+    assert cp["median_latency_ms"] == 450.0     # median([370, 400, 450, 510, 590])
+    assert cp["per_symbol_fills"]["USDJPY"]["completed"] == 1
+    assert cp["per_symbol_fills"]["GBPUSD"]["completed"] == 1
+    assert cp["per_symbol_fills"]["EURJPY"]["open"] == 1
+    assert cp["per_symbol_fills"]["US100.cash"]["completed"] == 0
+
+    # Verify native summary JSON schema pickup
+    rf = pay["mui1_mui2"]["realized_friction"]
+    assert rf["available"] is True
+    assert rf["p50_friction_mult"] == 1.12
+    assert rf["p90_friction_mult"] == 1.48
+    assert rf["fills_count"] == 7
+    usd_row = next(r for r in pay["mui1_mui2"]["symbol_table"] if r["symbol"] == "USDJPY")
+    assert usd_row["ratio_vs_dev_1x"] == 0.78
+
+    # Zero leaked login, ticket/position IDs, or comment secrets!
+    for forbidden in ("1515343318", "990001", "880001", "SECRET_TAG_1", "TRUNCATED_MID_WRITE"):
+        assert forbidden not in raw_pay
+
+
+def test_fetch_heroku_node1_uses_header_auth_and_strips_query_token(tmp_path: Path, monkeypatch):
+    """Wave 2.8A OPSEC: _fetch_heroku_node1_cached must send X-Naqex-View-Token header and NEVER ?token= in URL."""
+    cfg_dir = tmp_path / ".runtime/ops-cloud"
+    cfg_dir.mkdir(parents=True)
+    secret_tok = "super-secret-view-token-98765"
+    (cfg_dir / "heroku_connection_local.json").write_text(
+        json.dumps({
+            "web_url": f"https://example-deadman.herokuapp.com/?token={secret_tok}",
+            "mobile_dashboard_url": f"https://example-deadman.herokuapp.com/?token={secret_tok}",
+        }),
+        encoding="utf-8",
+    )
+
+    seen: dict[str, object] = {}
+
+    class _FakeResp:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_a):
+            return False
+
+        def read(self):
+            return json.dumps({
+                "nodes": [{
+                    "account_label": "NAQEX_NODE1",
+                    "status": "OK",
+                    "age_sec": 7,
+                    "mt5_running": True,
+                    "balance": 10000.0,
+                    "equity": 10005.0,
+                    "daily_dd_pct": 0.0,
+                    "static_dd_pct": 0.0,
+                    "open_positions": 0,
+                    "orphan_no_sl": 0,
+                    "regime": "NORMAL",
+                    "kill_switch": False,
+                    "last_seen_utc": "2026-11-25T11:00:00Z",
+                }]
+            }).encode("utf-8")
+
+    def _fake_urlopen(req, timeout=2.5):
+        seen["url"] = req.full_url
+        seen["headers"] = {k.lower(): v for k, v in req.header_items()}
+        return _FakeResp()
+
+    monkeypatch.setattr(cockpit_server.urllib.request, "urlopen", _fake_urlopen)
+    monkeypatch.setattr(cockpit_server, "_HEROKU_STATUS_CACHE", (0.0, None))
+
+    res = cockpit_server._fetch_heroku_node1_cached(tmp_path, ttl_sec=0.0)
+    assert res is not None
+    assert res["source"] == "HEROKU_EU_LIVE"
+    assert res["account_label"] == "NAQEX_NODE1"
+    assert seen["url"] == "https://example-deadman.herokuapp.com/api/status"
+    assert "token=" not in str(seen["url"])
+    assert secret_tok not in str(seen["url"])
+    assert seen["headers"]["x-naqex-view-token"] == secret_tok
+    monkeypatch.setattr(cockpit_server, "_HEROKU_STATUS_CACHE", (0.0, None))
+
+
+
+
 

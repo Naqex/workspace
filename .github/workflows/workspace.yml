@@ -19,6 +19,8 @@ jobs:
         shell: bash
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
       - name: Fetch all pinned Naqex products
         run: git submodule update --init -- projects/trader projects/vi-dubber projects/quant-trading projects/integrations/TradingAgents projects/integrations/paperclip projects/integrations/rd-agent
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
@@ -61,6 +63,23 @@ jobs:
                           'numba==0.68.1', 'pytest==9.2.0', *pins], check=True)
           PY
           python tooling/ai-engines/quant_test_suite.py --group complete --tier all --workers 4 --output "$QUANT_RECEIPT"
+      - name: Run pure-offline pytest OPSEC, ops-cloud, cockpit & contract suites
+        env:
+          PYTHONPATH: projects/trader/foundation_v2;tooling/ai-engines;tooling/ai-engines/tests
+        run: |
+          python -X utf8 -m pytest -q -k "not test_real_hot_m1_cache_baselines_enforce_zero_holdout" \
+            tooling/ai-engines/tests/test_layer1_opsec_guard.py \
+            tooling/ai-engines/tests/test_node_ctl.py \
+            tooling/ai-engines/tests/test_heroku_deadman.py \
+            tooling/ai-engines/tests/test_wave2_cockpit_and_treasury.py \
+            tooling/ai-engines/tests/test_ftmo_demo_calibration_probe.py \
+            tooling/ai-engines/tests/test_statement_reconcile_e2e.py \
+            tooling/ai-engines/tests/test_node_cutover_dryrun.py \
+            tooling/ai-engines/tests/test_node_weekly_digest.py \
+            tooling/ai-engines/tests/test_ftmo_pre_checkout_guard.py \
+            tooling/ai-engines/tests/test_holdout_and_tca_guards.py \
+            tooling/ai-engines/tests/test_mql5_v101_contract.py \
+            tooling/ai-engines/tests/test_prop_live_tca_monitor.py
       - name: Preserve quant test IDs and timings
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -84,7 +103,9 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with: {fetch-depth: 0}
+        with:
+          fetch-depth: 0
+          persist-credentials: false
       - name: Verified pinned Gitleaks
         env:
           GH_TOKEN: ${{ github.token }}
@@ -99,6 +120,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
       - name: Fetch pinned Trader consumer
         run: git submodule update --init -- projects/trader
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
