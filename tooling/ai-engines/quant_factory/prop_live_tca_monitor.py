@@ -28,14 +28,16 @@ from __future__ import annotations
 
 import argparse
 import csv
-from datetime import datetime, timezone
 import hashlib
+import importlib
 import json
 import math
-from pathlib import Path
 import re
 import sys
-from typing import Any, Iterable
+from collections.abc import Iterable, Mapping, Sequence
+from datetime import UTC, datetime
+from pathlib import Path
+from typing import Any
 
 import numpy as np
 
@@ -47,9 +49,18 @@ for _p in (AI_ENGINES_DIR, QUANT_FACTORY_DIR):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
+from quant_core.holdout_guard import HoldoutLockError  # noqa: E402
+from quant_core.tca import (  # noqa: E402
+    DEFAULT_MARKOUT_HORIZONS_SEC,
+    EXIT_EVENT_TYPES,
+    VALID_FILL_EVENT_TYPES,
+    compute_markout_curve,
+    is_unresolved_record,
+    parse_optional_finite_float,
+    validate_tca_post_reconcile,
+)
+
 from quant_factory.tca_reconcile import (  # noqa: E402
-    BENCHMARK_SPREAD_PTS,
-    POINT_SIZES,
     benchmark_spread_for_symbol,
     normalize_symbol_alias,
     point_size_for_symbol,
@@ -274,7 +285,7 @@ def tag_session_utc(utc_ts: int) -> str:
     """Classify UTC Unix timestamp into ASIA / LONDON / NY_OVERLAP / NY_AFTERNOON."""
     if utc_ts <= 0:
         return "UNKNOWN"
-    hour = datetime.fromtimestamp(int(utc_ts), timezone.utc).hour
+    hour = datetime.fromtimestamp(int(utc_ts), UTC).hour
     if 7 <= hour < 12:
         return "LONDON"
     if 12 <= hour < 16:
@@ -344,14 +355,14 @@ def load_pre2025_dev_baselines(
 
     lock_sha = hashlib.sha256(Path(holdout_lock_path).read_bytes()).hexdigest()
     if lock_sha != EXPECTED_HOLDOUT_LOCK_SHA:
-        raise RuntimeError(f"HOLDOUT_LOCK_SHA_MISMATCH: {lock_sha[:16]}")
+        raise HoldoutLockError(f"HOLDOUT_LOCK_SHA_MISMATCH: {lock_sha[:16]}")
 
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     if int(manifest.get("holdout_rows", -1)) != 0 or manifest.get("holdout_lock_sha256") != lock_sha:
-        raise RuntimeError("HOT_M1_CACHE_HOLDOUT_GUARD_MISMATCH")
+        raise HoldoutLockError("HOT_M1_CACHE_HOLDOUT_GUARD_MISMATCH")
 
     try:
-        import pyarrow.parquet as pq
+        pq = importlib.import_module("pyarrow.parquet")
     except ImportError:
         return json.loads(json.dumps(STATIC_DEV_M1_BASELINES_PRE2025))
 
@@ -375,7 +386,7 @@ def load_pre2025_dev_baselines(
         ao_parts: list[np.ndarray] = []
         for year_str, ym in sorted(am.get("years", {}).items()):
             if int(year_str) >= 2025:
-                raise RuntimeError(f"HOLDOUT_YEAR_DETECTED_IN_HOT_CACHE: {year_str}")
+                raise HoldoutLockError(f"HOLDOUT_YEAR_DETECTED_IN_HOT_CACHE: {year_str}")
             pq_path = folder / ym["parquet"]
             if not pq_path.is_file():
                 continue
@@ -383,7 +394,7 @@ def load_pre2025_dev_baselines(
             ts = tbl["minute"].to_numpy().astype(np.int64) * 60
             n_hold = int(np.sum(ts >= HOLDOUT_START_UTC_TS))
             if n_hold > 0:
-                raise RuntimeError(f"HOLDOUT_ROWS_DETECTED: {cache_asset} {year_str} count={n_hold}")
+                raise HoldoutLockError(f"HOLDOUT_ROWS_DETECTED: {cache_asset} {year_str} count={n_hold}")
             holdout_rows_analysed += n_hold
             if len(ts) > 0:
                 max_ts_seen = max(max_ts_seen, int(ts[-1]))
@@ -395,7 +406,6 @@ def load_pre2025_dev_baselines(
             raw_sym_data[sym] = dict(static_sym)
             continue
 
-        ts_all = np.concatenate(ts_parts)
         bid_all = np.concatenate(bo_parts)
         ask_all = np.concatenate(ao_parts)
         valid = (bid_all > 0.0) & (ask_all >= bid_all)
@@ -447,7 +457,7 @@ def load_pre2025_dev_baselines(
         "holdout_lock_sha256": lock_sha,
         "holdout_rows_analysed": holdout_rows_analysed,
         "dev_m1_max_utc": (
-            datetime.fromtimestamp(max_ts_seen, timezone.utc).isoformat()
+            datetime.fromtimestamp(max_ts_seen, UTC).isoformat()
             if max_ts_seen > 0
             else STATIC_DEV_M1_BASELINES_PRE2025["dev_m1_max_utc"]
         ),
@@ -505,6 +515,9 @@ def load_calibration_fills_readonly(paths: Iterable[Path]) -> dict[str, Any]:
     rejected_orders = 0
     malformed_skipped = 0
     swap_violations = 0
+    missing_swap_count = 0
+    nonfinite_swap_count = 0
+    unresolved_fills = 0
 
     for raw_p in paths:
         p = Path(raw_p)
@@ -533,9 +546,13 @@ def load_calibration_fills_readonly(paths: Iterable[Path]) -> dict[str, Any]:
             if len(raw_row) != expected_cols:
                 malformed_skipped += 1
                 continue
-            r = dict(zip(header, raw_row))
+            r = dict(zip(header, raw_row, strict=True))
             if str(r.get("dry_run", "")).strip().lower() in ("true", "1", "yes"):
                 dryrun_ignored += 1
+                continue
+
+            if is_unresolved_record(r):
+                unresolved_fills += 1
                 continue
 
             leg = str(r.get("leg", "")).strip().upper()
@@ -554,7 +571,14 @@ def load_calibration_fills_readonly(paths: Iterable[Path]) -> dict[str, Any]:
             adv_slip_bps = _safe_float(r.get("adverse_slip_bps"))
             exp_px = _safe_float(r.get("expected_price"))
             fill_px = _safe_float(r.get("fill_price"))
-            if None in (utc_ts, pre_spread_bps, adv_slip_pts, adv_slip_bps, exp_px, fill_px):
+            if (
+                utc_ts is None
+                or pre_spread_bps is None
+                or adv_slip_pts is None
+                or adv_slip_bps is None
+                or exp_px is None
+                or fill_px is None
+            ):
                 malformed_skipped += 1
                 continue
 
@@ -565,18 +589,25 @@ def load_calibration_fills_readonly(paths: Iterable[Path]) -> dict[str, Any]:
                 continue
 
             pt = point_size_for_symbol(sym)
-            if pre_spread_pts is None and exp_px and exp_px > 0:
+            if pre_spread_pts is None and exp_px > 0.0:
                 pre_spread_pts = ((pre_spread_bps / 10_000.0) * exp_px) / pt
 
             comm_bps = _safe_float(r.get("commission_bps")) or 0.0
             lat_ms = _safe_float(r.get("latency_ms")) or 0.0
-            swap_usd = _safe_float(r.get("swap_usd")) or 0.0
-            if abs(swap_usd) > 1e-6:
+            try:
+                swap_usd = parse_optional_finite_float(r.get("swap_usd"), field_name="swap_usd")
+            except ValueError:
+                nonfinite_swap_count += 1
+                swap_violations += 1
+                continue
+            if swap_usd is None:
+                missing_swap_count += 1
+            elif abs(swap_usd) > 0.0:
                 swap_violations += 1
 
             sess = str(r.get("session", "")).strip().upper()
             if sess not in SESSION_ORDER:
-                sess = tag_session_utc(int(utc_ts))
+                sess = tag_session_utc(utc_ts)
 
             raw_pos_id = str(r.get("position_id", "")).strip()
             raw_seq = str(r.get("trade_seq", "")).strip()
@@ -584,21 +615,25 @@ def load_calibration_fills_readonly(paths: Iterable[Path]) -> dict[str, Any]:
 
             fills.append({
                 "source": "calibration_fills_csv",
-                "utc_ts": int(utc_ts),
-                "utc_iso": datetime.fromtimestamp(int(utc_ts), timezone.utc).isoformat(),
+                "utc_ts": utc_ts,
+                "utc_iso": datetime.fromtimestamp(utc_ts, UTC).isoformat(),
                 "session": sess,
                 "symbol": sym,
                 "leg": leg,
+                "event_type": "EXIT_FILLED" if leg == "EXIT" else "ENTRY_FILLED",
                 "side": str(r.get("side", "")).strip().upper(),
                 "exit_reason": str(r.get("exit_reason", "")).strip().upper(),
                 "pair_key": pair_key,
+                "fill_price": float(fill_px),
+                "pre_bid": _safe_float(r.get("pre_bid")),
+                "pre_ask": _safe_float(r.get("pre_ask")),
                 "pre_spread_pts": float(pre_spread_pts or 0.0),
                 "pre_spread_bps": float(pre_spread_bps),
                 "adverse_slip_pts": float(adv_slip_pts),
                 "adverse_slip_bps": float(adv_slip_bps),
                 "commission_bps": float(comm_bps),
                 "latency_ms": float(lat_ms),
-                "swap_usd": float(swap_usd),
+                "swap_usd": swap_usd,
                 "has_explicit_commission": True,
             })
 
@@ -610,6 +645,9 @@ def load_calibration_fills_readonly(paths: Iterable[Path]) -> dict[str, Any]:
         "rejected_orders": rejected_orders,
         "malformed_or_partial_rows_skipped": malformed_skipped,
         "swap_violations": swap_violations,
+        "missing_swap_count": missing_swap_count,
+        "nonfinite_swap_count": nonfinite_swap_count,
+        "unresolved_fills": unresolved_fills,
     }
 
 
@@ -622,6 +660,9 @@ def load_exec_audit_readonly(paths: Iterable[Path], dev_baselines: dict[str, Any
     rejected_orders = 0
     malformed_skipped = 0
     swap_violations = 0
+    missing_swap_count = 0
+    nonfinite_swap_count = 0
+    unresolved_fills = 0
 
     for raw_p in paths:
         p = Path(raw_p)
@@ -649,22 +690,25 @@ def load_exec_audit_readonly(paths: Iterable[Path], dev_baselines: dict[str, Any
             if len(raw_row) != expected_cols:
                 malformed_skipped += 1
                 continue
-            r = dict(zip(header, raw_row))
+            r = dict(zip(header, raw_row, strict=True))
             ev = str(r.get("event_type", "")).strip().upper()
+            if is_unresolved_record(r):
+                unresolved_fills += 1
+                continue
             if ev == "DRYRUN_SIGNAL":
                 dryrun_ignored += 1
                 continue
             if ev == "ORDER_REJECT":
                 rejected_orders += 1
                 continue
-            if ev not in ("ORDER_FILL", "ORDER_FILL_RECONCILED", "POSITION_CLOSE"):
+            if ev not in VALID_FILL_EVENT_TYPES:
                 continue
 
             utc_ts = _safe_int(r.get("utc_ts"))
             sig_px = _safe_float(r.get("signal_price"))
             fill_px = _safe_float(r.get("fill_price"))
             spread_pts = _safe_float(r.get("spread_pts"))
-            if None in (utc_ts, sig_px, fill_px, spread_pts) or sig_px <= 0.0:
+            if utc_ts is None or sig_px is None or fill_px is None or spread_pts is None or sig_px <= 0.0:
                 malformed_skipped += 1
                 continue
 
@@ -681,13 +725,20 @@ def load_exec_audit_readonly(paths: Iterable[Path], dev_baselines: dict[str, Any
             adv_bps = (adv_px / sig_px) * 10_000.0
             sp_bps = ((spread_pts * pt) / sig_px) * 10_000.0
             lat_ms = _safe_float(r.get("latency_ms")) or 0.0
-            swap_usd = _safe_float(r.get("swap_usd")) or 0.0
-            if abs(swap_usd) > 1e-6:
+            try:
+                swap_usd = parse_optional_finite_float(r.get("swap_usd"), field_name="swap_usd")
+            except ValueError:
+                nonfinite_swap_count += 1
+                swap_violations += 1
+                continue
+            if swap_usd is None:
+                missing_swap_count += 1
+            elif abs(swap_usd) > 0.0:
                 swap_violations += 1
 
             base_sym = _baseline_for_symbol(sym, dev_baselines)
             oneway_comm_bps = 0.5 * float(base_sym["dev_comm_rt_bps"])
-            leg = "EXIT" if ev == "POSITION_CLOSE" else "ENTRY"
+            leg = "EXIT" if ev in EXIT_EVENT_TYPES else "ENTRY"
 
             # Pair via hashed pos= tag inside comment when available (V101-01)
             comment = str(r.get("comment", ""))
@@ -697,21 +748,23 @@ def load_exec_audit_readonly(paths: Iterable[Path], dev_baselines: dict[str, Any
 
             fills.append({
                 "source": "naqex_exec_audit_csv",
-                "utc_ts": int(utc_ts),
-                "utc_iso": datetime.fromtimestamp(int(utc_ts), timezone.utc).isoformat(),
-                "session": tag_session_utc(int(utc_ts)),
+                "utc_ts": utc_ts,
+                "utc_iso": datetime.fromtimestamp(utc_ts, UTC).isoformat(),
+                "session": tag_session_utc(utc_ts),
                 "symbol": sym,
                 "leg": leg,
+                "event_type": ev,
                 "side": side,
                 "exit_reason": "AUDIT_CLOSE" if leg == "EXIT" else "",
                 "pair_key": pair_key,
+                "fill_price": float(fill_px),
                 "pre_spread_pts": float(spread_pts),
                 "pre_spread_bps": float(sp_bps),
                 "adverse_slip_pts": float(adv_pts),
                 "adverse_slip_bps": float(adv_bps),
                 "commission_bps": float(oneway_comm_bps),
                 "latency_ms": float(lat_ms),
-                "swap_usd": float(swap_usd),
+                "swap_usd": swap_usd,
                 "has_explicit_commission": False,
             })
 
@@ -723,12 +776,16 @@ def load_exec_audit_readonly(paths: Iterable[Path], dev_baselines: dict[str, Any
         "rejected_orders": rejected_orders,
         "malformed_or_partial_rows_skipped": malformed_skipped,
         "swap_violations": swap_violations,
+        "missing_swap_count": missing_swap_count,
+        "nonfinite_swap_count": nonfinite_swap_count,
+        "unresolved_fills": unresolved_fills,
     }
 
 
 def load_live_spread_log_readonly(spread_jsonl_path: Path | None) -> dict[str, Any]:
     """Read `mt5_live_spread_log.jsonl` strictly read-only, skipping truncated trailing lines."""
     by_symbol: dict[str, dict[str, dict[str, list[float]]]] = {}
+    quote_series: list[dict[str, Any]] = []
     rows_parsed = 0
     partial_lines_skipped = 0
     file_present = False
@@ -741,6 +798,7 @@ def load_live_spread_log_readonly(spread_jsonl_path: Path | None) -> dict[str, A
             "rows_parsed": 0,
             "partial_lines_skipped": 0,
             "by_symbol": by_symbol,
+            "quote_series": quote_series,
         }
 
     file_present = True
@@ -753,6 +811,7 @@ def load_live_spread_log_readonly(spread_jsonl_path: Path | None) -> dict[str, A
             "rows_parsed": 0,
             "partial_lines_skipped": 0,
             "by_symbol": by_symbol,
+            "quote_series": quote_series,
         }
 
     for line in raw_text.splitlines():
@@ -798,6 +857,14 @@ def load_live_spread_log_readonly(spread_jsonl_path: Path | None) -> dict[str, A
             if sp_bps is None:
                 sp_bps = (sp_px / mid) * 10_000.0
 
+            if ts_val > 0:
+                quote_series.append({
+                    "utc_ts": ts_val,
+                    "symbol": sym,
+                    "bid": float(bid),
+                    "ask": float(ask),
+                })
+
             sym_map = by_symbol.setdefault(sym, {})
             for bucket in (sess, "OVERALL"):
                 b = sym_map.setdefault(bucket, {"pts": [], "bps": []})
@@ -810,6 +877,7 @@ def load_live_spread_log_readonly(spread_jsonl_path: Path | None) -> dict[str, A
         "rows_parsed": rows_parsed,
         "partial_lines_skipped": partial_lines_skipped,
         "by_symbol": by_symbol,
+        "quote_series": quote_series,
     }
 
 
@@ -908,7 +976,7 @@ def stratified_portfolio_bootstrap_ci(
     sym_point_means: list[float] = []
     total_obs = 0
 
-    for sym, arr in active.items():
+    for _sym, arr in active.items():
         n = int(len(arr))
         total_obs += n
         sym_point_means.append(float(np.mean(arr)))
@@ -1058,9 +1126,14 @@ def evaluate_live_tca(
     cusum_h: float = 4.0,
     friction_amber_threshold: float = 1.5,
     friction_red_threshold: float = 2.0,
+    quote_series: Mapping[str, Sequence[Mapping[str, Any]]] | Iterable[Mapping[str, Any]] | None = None,
+    include_markout: bool = False,
+    markout_horizons_sec: Sequence[int] = DEFAULT_MARKOUT_HORIZONS_SEC,
+    fail_closed_raise: bool = False,
 ) -> dict[str, Any]:
     """Run full strictly read-only Sequential Live TCA & Slippage-Drift evaluation."""
-    assert ORDER_SEND_CAPABLE is False and ORDER_SEND_COUNT == 0
+    if ORDER_SEND_CAPABLE or ORDER_SEND_COUNT != 0:
+        raise RuntimeError("READONLY_INVARIANT_VIOLATION: prop_live_tca_monitor is strictly read-only")
 
     baselines = (
         dev_baselines
@@ -1072,7 +1145,7 @@ def evaluate_live_tca(
         )
     )
     if int(baselines.get("holdout_rows_analysed", -1)) != 0:
-        raise RuntimeError("HOLDOUT_CONTAMINATION_DETECTED")
+        raise HoldoutLockError("HOLDOUT_CONTAMINATION_DETECTED")
 
     cal_res = load_calibration_fills_readonly(fills_csv_paths)
     aud_res = load_exec_audit_readonly(audit_csv_paths, baselines)
@@ -1087,6 +1160,32 @@ def evaluate_live_tca(
     total_rejects = cal_res["rejected_orders"] + aud_res["rejected_orders"]
     total_malformed = cal_res["malformed_or_partial_rows_skipped"] + aud_res["malformed_or_partial_rows_skipped"]
     total_swap_violations = cal_res["swap_violations"] + aud_res["swap_violations"]
+    total_missing_swap = cal_res["missing_swap_count"] + aud_res["missing_swap_count"]
+    total_nonfinite_swap = cal_res["nonfinite_swap_count"] + aud_res["nonfinite_swap_count"]
+    total_unresolved_fills = cal_res["unresolved_fills"] + aud_res["unresolved_fills"]
+
+    # Route post-reconciliation gate through canonical `quant_core.tca.validate_tca_post_reconcile`
+    gate_records: list[dict[str, Any]] = list(all_fills)
+    for _ in range(total_unresolved_fills):
+        gate_records.append({"event_type": "FILL_UNRESOLVED", "status": "FILL_UNRESOLVED"})
+    for _ in range(total_nonfinite_swap):
+        gate_records.append({"event_type": "ORDER_FILL", "swap_usd": float("nan")})
+    try:
+        gate_res = validate_tca_post_reconcile(
+            gate_records,
+            require_zero_swap=True,
+            swap_tolerance_usd=0.0,
+            check_entries_for_missing_swap=True,
+        )
+        post_reconcile_check: dict[str, Any] = {**gate_res, "error": None}
+    except ValueError as exc:
+        if fail_closed_raise:
+            raise
+        post_reconcile_check = {
+            "passed": False,
+            "records_checked": len(gate_records),
+            "error": str(exc),
+        }
 
     # Determine full set of symbols to report (always include Core-4 + any extra observed symbols)
     observed_syms = sorted(
@@ -1264,10 +1363,34 @@ def evaluate_live_tca(
     any_sym_cusum_alert = any(d["cusum"]["alert"] for d in per_symbol_report.values())
     cusum_alert_triggered = bool(overall_cusum["alert"] or any_sym_cusum_alert)
 
-    # Verdict synthesis
+    # Optional strictly causal Markout Curve (+1s/+10s/+60s/+5m) when quote stream is supplied
+    effective_quotes: Any = quote_series
+    if effective_quotes is None and include_markout and sp_res["quote_series"]:
+        effective_quotes = sp_res["quote_series"]
+    markout_curve: dict[str, Any] | None = None
+    if effective_quotes is not None and all_fills:
+        markout_curve = compute_markout_curve(
+            all_fills,
+            effective_quotes,
+            horizons_sec=markout_horizons_sec,
+        )
+
+    # Verdict synthesis (fail-closed on FILL_UNRESOLVED, missing/non-finite/nonzero swap)
     alerts: list[str] = []
+    if total_unresolved_fills > 0:
+        alerts.append(f"FILL_UNRESOLVED_BLOCKED: {total_unresolved_fills} unresolved fill row(s) detected")
+    if total_missing_swap > 0:
+        alerts.append(f"MISSING_SWAP_UNRECONCILED: {total_missing_swap} fill(s) missing swap_usd (blank/None)")
+    if total_nonfinite_swap > 0:
+        alerts.append(f"NONFINITE_SWAP_DETECTED: {total_nonfinite_swap} fill(s) carried NaN/Inf swap_usd")
+
     if not all_fills:
-        verdict = "SPREAD_ONLY_NO_FILLS" if sp_res["rows_parsed"] > 0 else "NO_DATA"
+        if total_unresolved_fills > 0:
+            verdict = "RED_UNRESOLVED_FILL"
+        elif total_nonfinite_swap > 0 or total_missing_swap > 0 or total_swap_violations > 0:
+            verdict = "RED_FRICTION_BREACH"
+        else:
+            verdict = "SPREAD_ONLY_NO_FILLS" if sp_res["rows_parsed"] > 0 else "NO_DATA"
     else:
         if cusum_alert_triggered:
             alerts.append(
@@ -1288,14 +1411,24 @@ def evaluate_live_tca(
             worst = max(all_tail_outliers, key=lambda x: x["ratio_to_deviation_limit"])
             alerts.append(
                 f"TAIL_SLIP_OUTLIER: {len(all_tail_outliers)} fill(s) exceeded SetDeviationInPoints() "
-                f"(worst={worst['symbol']} +{worst['adverse_slip_pts']} pts vs limit {worst['deviation_limit_pts']} pts, "
-                f"{worst['ratio_to_deviation_limit']}x)"
+                f"(worst={worst['symbol']} +{worst['adverse_slip_pts']} pts "
+                f"vs limit {worst['deviation_limit_pts']} pts, {worst['ratio_to_deviation_limit']}x)"
+            )
+        if markout_curve is not None and markout_curve["adverse_selection_flagged"]:
+            alerts.append(
+                f"MARKOUT_ADVERSE_SELECTION: mean={markout_curve['overall_mean_markout_bps']} bps "
+                f"(horizons={markout_curve['adverse_selection_horizons']})"
             )
 
-        if cusum_alert_triggered:
+        if total_unresolved_fills > 0:
+            verdict = "RED_UNRESOLVED_FILL"
+        elif cusum_alert_triggered:
             verdict = "RED_CUSUM_DRIFT_ALERT"
-        elif total_swap_violations > 0 or (
-            port_boot_pos["mean"] is not None and port_boot_pos["mean"] > friction_red_threshold
+        elif (
+            total_swap_violations > 0
+            or total_missing_swap > 0
+            or total_nonfinite_swap > 0
+            or (port_boot_pos["mean"] is not None and port_boot_pos["mean"] > friction_red_threshold)
         ):
             verdict = "RED_FRICTION_BREACH"
         elif all_tail_outliers or (
@@ -1307,7 +1440,7 @@ def evaluate_live_tca(
 
     payload: dict[str, Any] = {
         "schema": SCHEMA_VERSION,
-        "generated_utc": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+        "generated_utc": datetime.now(UTC).replace(microsecond=0).isoformat(),
         "readonly": True,
         "order_send_capable": ORDER_SEND_CAPABLE,
         "order_send_count": ORDER_SEND_COUNT,
@@ -1317,6 +1450,7 @@ def evaluate_live_tca(
         "dev_m1_max_utc": baselines.get("dev_m1_max_utc"),
         "verdict": verdict,
         "alerts": alerts,
+        "post_reconcile_check": post_reconcile_check,
         "inputs": {
             "calibration_files_read": cal_res["files_read"],
             "audit_files_read": aud_res["files_read"],
@@ -1330,6 +1464,9 @@ def evaluate_live_tca(
             "rejected_orders": total_rejects,
             "malformed_or_partial_rows_skipped": total_malformed,
             "swap_violations": total_swap_violations,
+            "missing_swap_count": total_missing_swap,
+            "nonfinite_swap_count": total_nonfinite_swap,
+            "unresolved_fills": total_unresolved_fills,
         },
         "portfolio": {
             "bootstrap_draws": int(n_bootstrap_draws),
@@ -1342,6 +1479,7 @@ def evaluate_live_tca(
         },
         "cusum_overall": overall_cusum,
         "tail_slip_outliers": all_tail_outliers,
+        "markout_curve": markout_curve,
         "per_symbol": per_symbol_report,
     }
     return sanitize_payload(payload)
@@ -1367,6 +1505,7 @@ def render_tca_monitor_vi(report: dict[str, Any]) -> str:
         "AMBER_FRICTION_WATCH": "VANG — CAN THEO DOI BIEN TREN MA SAT",
         "RED_CUSUM_DRIFT_ALERT": "DO — CANH BAO DICH CHUYEN CHE DO TRUOT GIA (CUSUM)",
         "RED_FRICTION_BREACH": "DO — MA SAT THUC TE VUOT NGUONG AN TOAN",
+        "RED_UNRESOLVED_FILL": "DO — PHAT HIEN LENH KHOP CHUA XAC DINH (FILL_UNRESOLVED)",
         "SPREAD_ONLY_NO_FILLS": "CHO — MOI CO MAU SPREAD, CHUA CO LENH KHOP",
         "NO_DATA": "CHO — CHUA CO DU LIEU KHOP LENH HOAC SPREAD",
     }
@@ -1434,7 +1573,8 @@ def render_tca_monitor_vi(report: dict[str, Any]) -> str:
             lines.append(
                 f"  ! {o['symbol']} {o['leg']} {o['side']} ({o['session']}, {o['utc_iso']}): "
                 f"+{o['adverse_slip_pts']} pts ({o['adverse_slip_bps']} bps) = "
-                f"{o['ratio_to_deviation_limit']}x nguong {o['deviation_limit_pts']:.0f} pts [{o['severity']}]{rec_note}"
+                f"{o['ratio_to_deviation_limit']}x nguong {o['deviation_limit_pts']:.0f} pts "
+                f"[{o['severity']}]{rec_note}"
             )
 
     if report.get("alerts"):
@@ -1556,7 +1696,12 @@ def build_arg_parser() -> argparse.ArgumentParser:
     ap.add_argument("--seed", type=int, default=20261125)
     ap.add_argument("--cusum-k", type=float, default=0.5)
     ap.add_argument("--cusum-h", type=float, default=4.0)
-    ap.add_argument("--json", action="store_true", dest="as_json", help="Emit sanitized JSON instead of Vietnamese summary.")
+    ap.add_argument(
+        "--json",
+        action="store_true",
+        dest="as_json",
+        help="Emit sanitized JSON instead of Vietnamese summary.",
+    )
     ap.add_argument("--strict-alerts", action="store_true", help="Exit with code 2 on AMBER tail/friction alerts too.")
     return ap
 

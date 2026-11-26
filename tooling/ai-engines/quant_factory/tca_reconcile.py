@@ -2,172 +2,84 @@
 
 Parses structured execution logs emitted by `Naqex_PropGuard.mqh` (`naqex_exec_audit.csv`)
 and optional closed-deal broker exports, measuring:
-  - Realized entry slippage vs signal price (pips/pts and % of R0)
+  - Realized entry/exit slippage vs signal price (pips/pts and % of R0)
   - Realized spread vs Dukascopy / FTMO Demo benchmark
   - Fill latency distribution (p50 / p90 / p99 ms)
   - Order rejection / partial fill rate
-  - Swap = 0 and intraday weekend-flat compliance
+  - Fail-closed Swap = 0, `FILL_UNRESOLVED`, and non-finite guards routed through `quant_core.tca`
+  - Optional strictly causal `+1s/+10s/+60s/+5m` post-fill Markout Curve when quotes are supplied
 """
 
 from __future__ import annotations
 
-import csv
-from pathlib import Path
-import re
-from typing import Iterable
+from collections.abc import Iterable, Mapping, Sequence
+from typing import Any
 
 import numpy as np
-
-# Benchmark median spreads (in broker points) from verified FTMO Demo & Dukascopy M1 snapshots
-BENCHMARK_SPREAD_PTS = {
-    "USDJPY": 7.0,
-    "GBPUSD": 6.0,
-    "EURUSD": 4.0,
-    "EURJPY": 14.0,
-    "GBPJPY": 16.0,
-    "AUDUSD": 7.0,
-    "USDCAD": 9.0,
-    "XAUUSD": 28.0,
-    "US100": 20.0,
-    "US100.cash": 20.0,
-    "US500": 6.0,
-    "US500.cash": 6.0,
-    "US30": 18.0,
-    "GER40": 15.0,
-    "UK100": 12.0,
-}
-
-POINT_SIZES = {
-    "USDJPY": 0.001,
-    "EURJPY": 0.001,
-    "GBPJPY": 0.001,
-    "AUDJPY": 0.001,
-    "CADJPY": 0.001,
-    "CHFJPY": 0.001,
-    "NZDJPY": 0.001,
-    "GBPUSD": 0.00001,
-    "EURUSD": 0.00001,
-    "AUDUSD": 0.00001,
-    "USDCAD": 0.00001,
-    "USDCHF": 0.00001,
-    "NZDUSD": 0.00001,
-    "XAUUSD": 0.01,
-    "XAGUSD": 0.001,
-    "US100": 0.01,
-    "US100.cash": 0.01,
-    "US500": 0.01,
-    "US500.cash": 0.01,
-    "US30": 0.01,
-    "GER40": 0.01,
-    "UK100": 0.01,
-}
-
-_INDEX_METAL_ALIAS_RULES: tuple[tuple[re.Pattern[str], str], ...] = (
-    (re.compile(r"^(?:US100|NAS100|USTEC|NDX100|NDX)(?:[^A-Z0-9].*|[a-z].*|$)", re.I), "US100"),
-    (re.compile(r"^(?:US500|SPX500|SP500|SPX)(?:[^A-Z0-9].*|[a-z].*|$)", re.I), "US500"),
-    (re.compile(r"^(?:US30|DJ30|WS30)(?:[^A-Z0-9].*|[a-z].*|$)", re.I), "US30"),
-    (re.compile(r"^(?:GER40|DE40|DAX40|DAX)(?:[^A-Z0-9].*|[a-z].*|$)", re.I), "GER40"),
-    (re.compile(r"^(?:UK100|FTSE100|FTSE)(?:[^A-Z0-9].*|[a-z].*|$)", re.I), "UK100"),
-    (re.compile(r"^(?:XAUUSD|GOLD)(?:[^A-Z0-9].*|[a-z].*|$)", re.I), "XAUUSD"),
-    (re.compile(r"^(?:XAGUSD|SILVER)(?:[^A-Z0-9].*|[a-z].*|$)", re.I), "XAGUSD"),
+from quant_core.tca import (
+    BENCHMARK_SPREAD_PTS,
+    DEFAULT_MARKOUT_HORIZONS_SEC,
+    POINT_SIZES,
+    VALID_FILL_EVENT_TYPES,
+    benchmark_spread_for_symbol,
+    compute_markout_curve,
+    load_exec_audit_csv,
+    normalize_symbol_alias,
+    parse_optional_finite_float,
+    point_size_for_symbol,
+    validate_tca_post_reconcile,
 )
-_FX6_SUFFIX_RE = re.compile(r"^([A-Za-z]{6})(?:[\._\-\+\#].*|[a-z]{1,4})?$")
-
-
-def normalize_symbol_alias(symbol: str) -> str:
-    """Normalize broker-specific suffixes and index aliases (e.g. `USDJPY.pro`, `NAS100`, `SPX500`, `XAUUSDm`) to canonical keys."""
-    s = str(symbol or "").strip()
-    if not s:
-        return ""
-    for rx, canonical in _INDEX_METAL_ALIAS_RULES:
-        if rx.match(s):
-            return canonical
-    # Exact 6-char FX pair or 6-char FX + suffix (.pro, .raw, .ecn, m, c, +, _, etc.)
-    m = _FX6_SUFFIX_RE.match(s)
-    if m:
-        return m.group(1).upper()
-    # Fallback: strip anything after first delimiter (., _, -, +, #)
-    head = re.split(r"[\._\-\+\#]", s, maxsplit=1)[0].strip()
-    if len(head) >= 6 and head[:6].isalpha():
-        return head[:6].upper()
-    return head.upper()
-
-
-def point_size_for_symbol(symbol: str) -> float:
-    """Return broker point size with suffix/alias normalization (never silently distorting JPY/Index/Gold by 100x-1000x)."""
-    raw = str(symbol or "").strip()
-    if raw in POINT_SIZES:
-        return POINT_SIZES[raw]
-    canon = normalize_symbol_alias(raw)
-    if canon in POINT_SIZES:
-        return POINT_SIZES[canon]
-    if len(canon) == 6 and canon.endswith("JPY"):
-        return 0.001
-    if canon.startswith("XAU"):
-        return 0.01
-    return 0.00001
-
-
-def benchmark_spread_for_symbol(symbol: str) -> float | None:
-    """Return benchmark median spread in broker points using canonical alias normalization."""
-    raw = str(symbol or "").strip()
-    if raw in BENCHMARK_SPREAD_PTS:
-        return BENCHMARK_SPREAD_PTS[raw]
-    canon = normalize_symbol_alias(raw)
-    return BENCHMARK_SPREAD_PTS.get(canon)
-
-
-def load_exec_audit_csv(csv_path: Path) -> list[dict]:
-    rows = []
-    with csv_path.open("r", encoding="utf-8", newline="") as f:
-        for r in csv.DictReader(f):
-            rows.append({
-                "utc_ts": int(float(r["utc_ts"])),
-                "magic": int(float(r["magic"])),
-                "symbol": str(r["symbol"]).strip(),
-                "side": str(r["side"]).strip().upper(),
-                "event_type": str(r["event_type"]).strip().upper(),
-                "signal_price": float(r["signal_price"]),
-                "fill_price": float(r["fill_price"]),
-                "sl_price": float(r["sl_price"]),
-                "lots": float(r["lots"]),
-                "spread_pts": float(r["spread_pts"]),
-                "latency_ms": float(r["latency_ms"]),
-                "retcode": int(float(r["retcode"])),
-                "comment": str(r.get("comment", "")),
-                "swap_usd": float(r.get("swap_usd", 0.0) or 0.0),
-            })
-    return rows
 
 
 def compute_tca_report(
-    events: Iterable[dict],
+    events: Iterable[Mapping[str, Any]],
     *,
     max_slippage_pct_r0_amber: float = 12.0,
     max_slippage_pct_r0_red: float = 25.0,
     max_reject_rate_pct: float = 5.0,
     max_p90_latency_ms: float = 600.0,
-) -> dict:
-    """Evaluate realized execution quality against model expectations and return structured TCA verdict."""
-    ev_list = list(events)
-    fills = [e for e in ev_list if e["event_type"] == "ORDER_FILL"]
-    rejects = [e for e in ev_list if e["event_type"] == "ORDER_REJECT"]
-    dryruns = [e for e in ev_list if e["event_type"] == "DRYRUN_SIGNAL"]
+    quote_series: Mapping[str, Sequence[Mapping[str, Any]]] | Iterable[Mapping[str, Any]] | None = None,
+    markout_horizons_sec: Sequence[int] = DEFAULT_MARKOUT_HORIZONS_SEC,
+    require_zero_swap_raise: bool = False,
+    enforce_post_reconcile: bool = True,
+) -> dict[str, Any]:
+    """Evaluate realized execution quality against model expectations and return structured TCA verdict.
 
-    slip_r_pcts = []
-    slip_pts = []
-    spread_ratios = []
-    latencies = []
+    Fail-closed post-reconciliation gate (`enforce_post_reconcile=True`, default):
+      - Raises `ValueError` via `quant_core.tca.validate_tca_post_reconcile()` if ANY fill/closed
+        trade still has `swap_usd is None` (e.g. un-enriched blank CSV cell), non-finite `NaN`/`Inf`,
+        or `FILL_UNRESOLVED`.
+      - Non-zero finite `swap_usd` sets `verdict = "RED_SWAP_VIOLATION"` (and also raises `ValueError`
+        when `require_zero_swap_raise=True`).
+    """
+    ev_list = [dict(e) for e in events]
+
+    post_reconcile_summary: dict[str, Any] | None = None
+    if enforce_post_reconcile:
+        post_reconcile_summary = validate_tca_post_reconcile(
+            ev_list,
+            require_zero_swap=require_zero_swap_raise,
+            swap_tolerance_usd=0.0,
+        )
+
+    fills = [e for e in ev_list if str(e.get("event_type", "")).strip().upper() in VALID_FILL_EVENT_TYPES]
+    rejects = [e for e in ev_list if str(e.get("event_type", "")).strip().upper() == "ORDER_REJECT"]
+    dryruns = [e for e in ev_list if str(e.get("event_type", "")).strip().upper() == "DRYRUN_SIGNAL"]
+
+    slip_r_pcts: list[float] = []
+    slip_pts: list[float] = []
+    spread_ratios: list[float] = []
+    latencies: list[float] = []
     swap_violations = 0
     by_sym: dict[str, list[float]] = {}
 
     for e in fills:
-        sym = e["symbol"]
+        sym = str(e["symbol"])
         pt = point_size_for_symbol(sym)
         sig_px = float(e["signal_price"])
         fill_px = float(e["fill_price"])
         sl_px = float(e["sl_price"])
-        side_sign = 1.0 if e["side"] == "BUY" else -1.0
+        side_sign = 1.0 if str(e["side"]).strip().upper() == "BUY" else -1.0
         # Positive adverse slippage means worse fill than signal price
         adverse_px = side_sign * (fill_px - sig_px)
         sl_dist = abs(sig_px - sl_px)
@@ -180,13 +92,14 @@ def compute_tca_report(
         if bench and bench > 0:
             spread_ratios.append(float(e["spread_pts"]) / bench)
         latencies.append(float(e["latency_ms"]))
-        if abs(float(e.get("swap_usd", 0.0))) > 1e-6:
+        swap_val = parse_optional_finite_float(e.get("swap_usd"), field_name="swap_usd")
+        if swap_val is not None and abs(swap_val) > 0.0:
             swap_violations += 1
 
     attempts = len(fills) + len(rejects)
     reject_rate = (100.0 * len(rejects) / attempts) if attempts > 0 else 0.0
 
-    def _stats(arr: list[float]) -> dict:
+    def _stats(arr: list[float]) -> dict[str, float]:
         if not arr:
             return {"mean": 0.0, "median": 0.0, "p90": 0.0, "max": 0.0}
         a = np.asarray(arr, dtype=np.float64)
@@ -201,7 +114,15 @@ def compute_tca_report(
     lat_st = _stats(latencies)
     sp_st = _stats(spread_ratios)
 
-    flags = []
+    markout_curve: dict[str, Any] | None = None
+    if quote_series is not None and fills:
+        markout_curve = compute_markout_curve(
+            fills,
+            quote_series,
+            horizons_sec=markout_horizons_sec,
+        )
+
+    flags: list[str] = []
     verdict = "GREEN"
     if not fills:
         verdict = "DRYRUN_ONLY" if dryruns else "NO_DATA"
@@ -222,17 +143,38 @@ def compute_tca_report(
         if swap_violations > 0:
             verdict = "RED_SWAP_VIOLATION"
             flags.append(f"{swap_violations} fills carried non-zero swap (violates swap=0 contract)")
+        if markout_curve is not None and markout_curve["adverse_selection_flagged"]:
+            flags.append(
+                f"Adverse selection detected: overall mean markout {markout_curve['overall_mean_markout_bps']} bps "
+                f"(horizons={markout_curve['adverse_selection_horizons']})"
+            )
 
     return {
         "schema": "naqex-tca-reconcile-v1",
         "counts": {"fills": len(fills), "rejects": len(rejects), "dryrun_signals": len(dryruns)},
         "reject_rate_pct": round(reject_rate, 2),
         "swap_violations": swap_violations,
+        "unresolved_fills": 0,
+        "post_reconcile_check": post_reconcile_summary,
         "adverse_slippage_pts": _stats(slip_pts),
         "adverse_slippage_pct_of_r0": slip_r_st,
         "spread_vs_benchmark_ratio": sp_st,
         "latency_ms": lat_st,
         "per_symbol_mean_slip_pts": {s: round(float(np.mean(v)), 2) for s, v in sorted(by_sym.items())},
+        "markout_curve": markout_curve,
         "flags": flags,
         "verdict": verdict,
     }
+
+
+__all__ = [
+    "BENCHMARK_SPREAD_PTS",
+    "POINT_SIZES",
+    "benchmark_spread_for_symbol",
+    "compute_markout_curve",
+    "compute_tca_report",
+    "load_exec_audit_csv",
+    "normalize_symbol_alias",
+    "point_size_for_symbol",
+    "validate_tca_post_reconcile",
+]
