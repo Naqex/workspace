@@ -141,9 +141,9 @@ consumer, không ép SMAfinitewindow cần mọi test của EMA. Không chạy C
 
 ## Project đã có gì, còn cần gì?
 
-Nguồn nội bộ đã đối chiếu: [draftH1/M15/M5](US500-MULTITIMEFRAME-DRAFT-20261111.md),
+Nguồn nội bộ đã đối chiếu: [draftH1/M15/M5](archive/US500-MULTITIMEFRAME-DRAFT-20261111.md),
 [protocol cũ](US500-MULTIFRAME-PROTOCOL-20261111.md),
-[fulltable](US500-MULTIFRAME-FULL-TABLE-20261111.md),
+[fulltable](archive/US500-MULTIFRAME-FULL-TABLE-20261111.md),
 [implementation](../../tooling/ai-engines/us500_multiframe.py) và
 [fixtures](../../tooling/ai-engines/tests/test_us500_multiframe.py).
 

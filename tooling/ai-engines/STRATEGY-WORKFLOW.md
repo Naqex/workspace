@@ -24,22 +24,13 @@ chiến lược hiện tại. Không thêm tracker/UI riêng.
 Không cần agent/task riêng mỗi hàng. Fixed process worker không tự nhận câu hỏi
 mới từ Markdown; coding agent chạy study riêng, lead delegate theo capability.
 
-## Lấy dữ liệu lịch sử Dukascopy qua QDM CLI
+## Lấy dữ liệu lịch sử Dukascopy (`dukascopy-node` & `QDM CLI` dưới `CausalDataStore`)
 
-Với lượt nghiên cứu mới, dùng [QuantDataManager CLI](../../projects/trader/docs/quantdatamanager.md)
-cho toàn bộ dữ liệu upstream Dukascopy. Kiểm cache bằng danh sách symbol
-trước, xuất đúng khoảng ngày UTC, lưu riêng `data_source=Dukascopy`
-và `download_engine=QuantDataManager`. Dùng tick export có cả Bid/Ask
-khi cần đo execution hoặc floating equity. Giữ khoảng trống và SHA256.
-Các file native broker đã niêm phong giữ provenance broker của chúng.
-
-Mỗi lượt có khóa holdout phải chứng minh giới hạn ở cả bước tải lẫn bước
-xuất. QDM `action=update` bỏ qua `dateto`. Khi cache thiếu và phiên bản
-CLI chưa có lệnh tải khóa ngày cuối, ghi blocker nguồn và tiếp tục phần
-phép đo độc lập. HTTP Dukascopy trực tiếp, dukascopy-node và BI5 trực tiếp
-chỉ còn là đường tái tạo artifact lịch sử từ cache đã gắn hash. Mọi lượt
-tải mới đi qua QDM CLI.
-[Kiểm tra phiên bản và cache tại Pass 7](../../planning/research/PASS7-USDJPY-FULL-M1-EQUITY-AND-FX-SCOUT-20261120.md).
+Cả **`dukascopy-node`** và **[QuantDataManager CLI](../../projects/trader/docs/quantdatamanager.md)** đều được phép sử dụng dưới cùng cổng niêm phong `CausalDataStore` + khóa cứng `HoldoutLockError` (`< 2025-01-01T00:00:00Z`, `holdout_rows = 0`):
+- **`dukascopy-node` (ưu tiên cho lô M1 Bid+Ask Dev nhanh):** dùng đường ống tải-và-niêm-phong SHA-256 (`fetch_*_m1_seal.mjs` + `seal_*_m1.py`) cho các lô M1 Dev (`~2–3` phút / 7 năm / ~40–50 MB Parquet, ghi rõ `data_source=Dukascopy`, `download_engine=dukascopy-node`, giữ nguyên khoảng trống và SHA-256).
+- **`QDM CLI` (cho kho tick đầy đủ / nguồn bổ sung):** kiểm cache trước, xuất đúng khoảng ngày UTC có đủ Bid/Ask khi cần tick-level execution/floating equity (`data_source=Dukascopy`, `download_engine=QuantDataManager`). Lưu ý QDM `action=update` bỏ qua `dateto`, nên mọi lượt tải/xuất đều phải chứng minh khóa ngày `< 2025-01-01` ở cả hai bước và fail-closed bằng `HoldoutLockError` nếu thiếu nguồn.
+- Các tệp native broker đã niêm phong giữ nguyên provenance broker của chúng; BI5 trực tiếp chỉ dùng để tái tạo artifact lịch sử từ cache đã gắn hash.
+[Kiểm tra phiên bản và cache tại Pass 7](../../planning/research/archive/PASS7-USDJPY-FULL-M1-EQUITY-AND-FX-SCOUT-20261120.md).
 
 ## Từ ý tưởng đến payout — cách hiểu và vai trò
 
@@ -109,7 +100,7 @@ phân loại, ghi `unknown` và xử lý theo luật đã khóa. Đứng ngoài 
 quyết định hợp lệ. V3 từng giảm một nửa risk cho tín hiệu ngược D1 đã
 đóng. Drawdown giảm, nhưng Net/DD giảm từ 0,805 xuống 0,644 ở phí đối
 xứng và từ 1,070 xuống 0,899 ở phí bất đối xứng. V3 giữ cấu hình gốc.
-[Đối chiếu V3](../../planning/research/PROP-PORTFOLIO-V3-RESULTS-20261114.md#3-vì-sao-giữ-a-gốc-thay-vì-d1-scaling).
+[Đối chiếu V3](../../planning/research/archive/PROP-PORTFOLIO-V3-RESULTS-20261114.md#3-vì-sao-giữ-a-gốc-thay-vì-d1-scaling).
 
 **Kiểm chứng.** Dùng [nhật ký quyết định](#nhật-ký-quyết-định-để-kiểm-lại-việc-tối-ưu-và-chọn-chiến-lược),
 [catalogue](../../planning/research/STRATEGY-CATALOGUE-20261107.md#tra-bằng-chứng-đã-gắn-nhãn)
@@ -154,7 +145,7 @@ mới, kiểm chứng, theo dõi forward và quyết định của chủ tài kh
 nhuận sau stress không. A thoát 12:01, B thoát 15:59 New York, giữ entry,
 stop và size. B đạt +16,57R năm 2022 và −6,31R năm 2023, dưới mục tiêu
 60R của bài toán hai vòng. Giữ A làm đối chứng và gác B. Nghiên cứu này
-chưa đo bộ lọc trạng thái thị trường. [Hồ sơ R094 A/B](../../planning/research/PROP-US500-R094-AFTERNOON-RESULTS-20261119.md).
+chưa đo bộ lọc trạng thái thị trường. [Hồ sơ R094 A/B](../../planning/research/archive/PROP-US500-R094-AFTERNOON-RESULTS-20261119.md).
 
 ## Lọc độ phù hợp trước khi triển khai sâu
 
@@ -218,7 +209,7 @@ quỹ mô phỏng không là tiền owner sở hữu. Mục tiêu cadence/income
 frozenstrategy hoặc authority. [Case hiện hành](../../planning/research/DAYTRADING-INCOME-CADENCE-20261111.md)
 giữ nguồn/ngày kiểm và các mức chỉ minh họa, không hard-code vào skill/global rule.
 
-[US500 frequency audit](../../planning/research/US500-FREQUENCY-AUDIT-RESULTS-20261111.md)
+[US500 frequency audit](../../planning/research/archive/US500-FREQUENCY-AUDIT-RESULTS-20261111.md)
 giữ protocol, parent trace parity, counters và giới hạn của case đã kiểm.
 
 ## Preflight cùng runner
@@ -477,7 +468,7 @@ model hoặc runtime acceptance hôm nay. Không thêm engine risk cạnh tranh.
 ## Opt-in index M1 development lane
 
 `index_noise_study.py` là entry point nghiên cứu cho
-[US500noise14 recipe](../../planning/research/US500-NOISE-STUDY-20261108.md)
+[US500noise14 recipe](../../planning/research/archive/US500-NOISE-STUDY-20261108.md)
 và orchestration dùng chung của các index policy wrappers,
 không nới EURUSD-only `ForexPilotSnapshot`. Nó reuse `InstrumentSpec`,
 `CostModel`, `size_for_market_stop`, `calculate_round_trip_cost` và
@@ -496,7 +487,7 @@ Tạo view mới bằng `explicit_m1_view.py --parent <sealed-old-year> --calend
 <frozen-calendar> --protocol <registered-correction> --output <new-view>`.
 Tool chỉ dùng local raw cache đã pin, giữ giá nến nguồn và journal unpaired,
 không network fallback/fill/gaprepair. Source-proof/reader đổi thì revalidate
-attempt mới, không sửa hashes của old books. [Recipe và phạm vi](../../planning/research/INDEX-EXPLICIT-QUARTERLY-PREFLIGHT-20261108.md).
+attempt mới, không sửa hashes của old books. [Recipe và phạm vi](../../planning/research/archive/INDEX-EXPLICIT-QUARTERLY-PREFLIGHT-20261108.md).
 
 Historical source admission có thể gọi
 `verify_source_proof(..., frozen_source=True)` khi live code đã revision: chỉ
@@ -505,7 +496,7 @@ chính source view. Raw/input bindings, calendar và canonical output seals vẫ
 kiểm trực tiếp; không redirect data, sửa proof hoặc thực thi code snapshot.
 Receipt ghi `frozen_producer_proof_reuse_not_current_producer_validation` và
 locator snapshot. Default reader/CLI vẫn strict/current, không tự fallback.
-[Actual recovery và giới hạn](../../planning/research/US500-OVERNIGHT-REVERSAL-RESULTS-20261109.md)
+[Actual recovery và giới hạn](../../planning/research/archive/US500-OVERNIGHT-REVERSAL-RESULTS-20261109.md)
 giữ failure cũ và bốn source years đã rebind, không certify producer mới.
 
 `review_index_noise.py --run <attempt> --data-root <sealed-year-dir>
@@ -527,7 +518,7 @@ Output có source/protocol/calendar snapshot, results/data review/manifest;
 status `progress.json`/`PROGRESS.md`, `events.jsonl` qua existing bounded event
 logger và source-frame failure diagnostics. Không có auto retry hoặc auto
 promotion; directory đã tồn tại bị từ chối. Xem
-[results/limitations](../../planning/research/US500-NOISE-RESULTS-20261108.md).
+[results/limitations](../../planning/research/archive/US500-NOISE-RESULTS-20261108.md).
 
 ## Skill consumers
 

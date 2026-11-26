@@ -52,7 +52,7 @@ vào được lệnh”. Không suy những counts này cho Gold/US500 hoặc m�
 
 Nguồn outcomes: [624cases](EURUSD-CATALOGUE13-RESULTS-20261108.md),
 [Gold review](GOLD-SMA50K-REVIEW-20261108.md),
-[US500 correction](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md),
+[US500 correction](archive/INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md),
 [R024 component](WEEKEND-GAP-COMPONENT-RESULTS-20261108.md).
 
 ## Chiến lược của mình từ đâu?

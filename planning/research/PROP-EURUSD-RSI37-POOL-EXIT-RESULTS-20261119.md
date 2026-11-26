@@ -10,7 +10,7 @@ phép một vị thế tại một thời điểm, cơ chế thoát mới vẫn 
 2018–2020 và 2021–2023 dưới phí stress. Chưa thấy bằng chứng bộ lọc +8
 giờ đã gác nhầm một cấu hình khả thi trong trường hợp này.
 `ECONOMIC_FAIL` · `DATA_PATH_INCOMPLETE` · `PROP_UNMEASURED`.
-[Audit sàng lọc trước đó](PROP-SCREEN-MISS-AUDIT-20261119.md).
+[Audit sàng lọc trước đó](archive/PROP-SCREEN-MISS-AUDIT-20261119.md).
 
 ## Tín hiệu và cách đo
 
@@ -21,7 +21,7 @@ chiều, hạn và trạng thái định giá từng dòng với V25. Rank 2–6
 số tín hiệu, số định giá được và markout bình quân từng năm với V26.
 Hồ sơ V26 của rank 2–6 chỉ lưu thống kê, nên không đối chiếu định
 danh từng dòng với sổ cũ.
-[Card V26](CORPUS-BATCH-V26-CARD-20261118.json) ·
+[Card V26](archive/CORPUS-BATCH-V26-CARD-20261118.json) ·
 [Card V25](CORPUS-ENGULFING-RSI-CARD-20261118.md).
 
 Gộp 9 bản sao cùng giờ/cùng chiều, còn **446 cơ hội trên 325 ngày**,

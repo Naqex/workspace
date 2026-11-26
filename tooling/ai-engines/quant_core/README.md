@@ -23,7 +23,7 @@ high/low để khớp một lệnh time-close tại open.
 `--verify` đối soát mọi valid trade bằng scalar/Decimal auditor không import
 producer accounting. V13 dừng ở Dev cadence: 3 nhánh có reference SYM
 +50,232R nhưng 2018/19 chỉ 43/47 tín hiệu. Không có V13 validation/account
-replay. [Báo cáo V13](../../../planning/research/PATH-RESOLUTION-AND-DEDUP-V13-RESULTS-20261115.md)
+replay. [Báo cáo V13](../../../planning/research/archive/PATH-RESOLUTION-AND-DEDUP-V13-RESULTS-20261115.md)
 giữ scope nguồn, cohort, test-ID parity và các bước không được chạy.
 
 `prop_lifecycle_and_parity` reuse V6 harvester, V7 account và alternate rational
@@ -104,8 +104,8 @@ Endpoint R ghi theo ngày entry chỉ phục vụ sàng lọc. Nó không thay a
 daily MTM covariance, đường lệnh SL-active, prop DD hay portfolio accounting.
 V11 có 1.264 cells, 42 dual-positive, 33 component-admitted, 6 selected;
 fail cổng Development nên hủy các bước SL-active/validation/lifecycle.
-Đọc [protocol](../../../planning/research/ENSEMBLE-AND-STORAGE-V11-PROTOCOL-20261115.md)
-và [report](../../../planning/research/ENSEMBLE-AND-STORAGE-V11-RESULTS-20261115.md)
+Đọc [protocol](../../../planning/research/archive/ENSEMBLE-AND-STORAGE-V11-PROTOCOL-20261115.md)
+và [report](../../../planning/research/archive/ENSEMBLE-AND-STORAGE-V11-RESULTS-20261115.md)
 trước khi tái sử dụng.
 
 Full local Windows V11 giữ 1.030 test IDs cũ, thêm 18, tổng 1.048, không skip.
@@ -142,9 +142,9 @@ coverage. Current composer thêm `correlation_limit`, default 0,30 giữ V11,
 V12 gọi 0,25; exact V11 source còn trong Git/snapshot, không đổi seal lịch sử.
 
 V12 chưa có component đủ path để ghép ensemble, không mở giá 2024–2026 hoặc
-chạy lifecycle. Đọc [protocol](../../../planning/research/SL-ACTIVE-ENSEMBLE-V12-PROTOCOL-20261115.md),
-[cent correction](../../../planning/research/SL-ACTIVE-ENSEMBLE-V12-CENT-CORRECTION-20261115.md)
-và [report](../../../planning/research/SL-ACTIVE-ENSEMBLE-V12-RESULTS-20261115.md).
+chạy lifecycle. Đọc [protocol](../../../planning/research/archive/SL-ACTIVE-ENSEMBLE-V12-PROTOCOL-20261115.md),
+[cent correction](../../../planning/research/archive/SL-ACTIVE-ENSEMBLE-V12-CENT-CORRECTION-20261115.md)
+và [report](../../../planning/research/archive/SL-ACTIVE-ENSEMBLE-V12-RESULTS-20261115.md).
 Full local giữ 1.048 IDs cũ, tổng 1.072/0 skip; smoke 66 tests quan sát 0,670s.
 Các query/property cases vẫn đầy đủ, chỉ bỏ NumPy scalar-access overhead
 trong test oracle. Không chuyển timing kernel thành timing toàn pipeline.

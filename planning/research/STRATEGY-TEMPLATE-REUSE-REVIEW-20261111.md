@@ -304,7 +304,7 @@ holdout/purchase giữ gate riêng. Không tạo skill mới cho một parameter
 
 ## Đã soạn bản luật theo giao việc tiếp của owner
 
-[Draft nền pullback](US500-M15-PULLBACK-BASELINE-DRAFT-20261111.md) là nơi giữ
+[Draft nền pullback](archive/US500-M15-PULLBACK-BASELINE-DRAFT-20261111.md) là nơi giữ
 exact proposedrules/data-clock/seed/arm-confirm-expiry/SL-exit/risk-cost/engine
 handoff và workedexample. StatusDRAFT/chưaregistered,khôngtrial/newPnL. Giữ
 7buffers ownerđãchốt; agent lựaSMA20/80,armbarhigh/low,ATR14WilderfirstTRseed,
@@ -325,7 +325,7 @@ gapcaseTR5khácH−L2 được kiểm. Không marketdata/PnL hoặc nativeUS500p
 ## Owner chốt mở rộng đối chiếu đa khung
 
 Owner tiếp đó đồng ý A/B/C trước và M1 sau, sau khi tự khai zone học trade
-tay chưa rõ/kết hợp nhiều cách. [MultiTF draft](US500-MULTITIMEFRAME-DRAFT-20261111.md)
+tay chưa rõ/kết hợp nhiều cách. [MultiTF draft](archive/US500-MULTITIMEFRAME-DRAFT-20261111.md)
 giữ3lane/7buffers và exact proposeddefaults choH1/M5; không sửa v1/probehash,
 không gọi đây là replication phương phápmanual chưa có exactrules. SMA20H1,
 fullhour/carry bias tạiarm, commonwarmup và expiry60phút được agent định rõ

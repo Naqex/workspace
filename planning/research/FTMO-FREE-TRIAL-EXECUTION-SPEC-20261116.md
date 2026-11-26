@@ -52,7 +52,7 @@ Nguồn công thức:
 [F1–F4](../../tooling/ai-engines/prop_v10_signals.py),
 [F5](../../tooling/ai-engines/prop_v12_signals.py),
 [native frames](../../tooling/ai-engines/quant_core/native_hourly_source.py),
-[source admission](FINAL-CONVERGENCE-V18-FREEZE-20261116.json).
+[source admission](archive/FINAL-CONVERGENCE-V18-FREEZE-20261116.json).
 ATR14 dùng Wilder và giá trị đã biết trước nến quyết định; ADX và việc align
 D1/H4/H1 dùng đúng implementation đã pin. Cần đủ warmup BB20+60, ATR/ADX và5D1;
 thiếu warmup không được coi là “không có tín hiệu”.
@@ -201,5 +201,5 @@ spread/commission/clock trước; fill/slippage chỉ đo được khi có quy�
 riêng cùng log request/fill. Không dùng quote capture để tuyên bố đã đo slippage.
 
 Không có yêu cầu mua Challenge trong V18. Quyết định tiếp theo dựa trên báo cáo
-[V18](FINAL-CONVERGENCE-V18-RESULTS-20261116.md), không dựa vào việc trial có
+[V18](archive/FINAL-CONVERGENCE-V18-RESULTS-20261116.md), không dựa vào việc trial có
 miễn phí hay một chuỗi lệnh ngắn tình cờ có lời.

@@ -84,7 +84,15 @@ class RepoModuleFinder:
         source = Path(__file__).parent
         self.files = {}
         stdlib = sys.stdlib_module_names
-        for folder, prefix in ((source, ""), (source / "tests", ""), (source / "quant_core", "quant_core.")):
+        for folder, prefix in (
+            (source, ""),
+            (source / "legacy", ""),
+            (source / "experiments", ""),
+            (source / "tests", ""),
+            (source / "quant_core", "quant_core."),
+        ):
+            if not folder.is_dir():
+                continue
             for entry in os.scandir(folder):
                 if entry.name.endswith(".py") and entry.is_file() and entry.name != "__init__.py":
                     stem = entry.name[:-3]
@@ -133,7 +141,8 @@ def run(group, tier, output, selected=None, indexed_imports=False):
     selected = modules(group, tier) if selected is None else selected
     # PYTHONPATH and unittest callers can already contain both entries. Repeated
     # search roots add filesystem probes to every import on Windows.
-    candidates = [str(Path(__file__).parent), str(Path(__file__).with_name("tests")),
+    candidates = [str(Path(__file__).parent), str(Path(__file__).with_name("legacy")),
+                  str(Path(__file__).with_name("experiments")), str(Path(__file__).with_name("tests")),
                   str(Path(__file__).resolve().parents[2]), *sys.path]
     sys.path = list(dict.fromkeys(str(Path(p).resolve()) for p in dict.fromkeys(candidates)))
     start = time.perf_counter()

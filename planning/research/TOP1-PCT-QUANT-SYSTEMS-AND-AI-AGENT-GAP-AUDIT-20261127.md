@@ -142,7 +142,7 @@ Thay vì tiếp tục phụ thuộc vào việc chép prompt gửi kiểm toán 
 flowchart TD
     A["Mã nguồn / Nghiên cứu mới (Tác giả)"] --> B["Lớp C: Hook & Pre-commit (3 giây)\nruff + OPSEC + 0 ký tự đô-la trần + Holdout SHA"]
     B --> C["Lớp A: Thợ Săn Lỗi Tự Động (0 token, < 30 giây)\nHypothesis PBT/Stateful + 15 Đột biến Cổng + Auto-CI Offline"]
-    C --> D["Lớp B: Skill Nội Bộ adversarial-redteam-verifier\nPhiên đọc-thuần tách biệt + Bắt buộc >= 3 Phản Ví Dụ Phá Hoại"]
+    C --> D["Lớp B: Skill Nội Bộ adversarial-self-audit\nPhiên đọc-thuần tách biệt + Bắt buộc >= 3 Phản Ví Dụ Phá Hoại"]
     D --> E{"Có đụng cửa tiền thật G6\nhay đổi lớn EA Live?"}
     E -- "Không (85% công việc)" --> F["Khép vòng nội bộ -> Đóng gói Evidence Packet"]
     E -- "Có (15% mốc sống còn)" --> G["1 Vòng Chéo Họ Model Độc Lập (Cross-Family Audit)"]
@@ -152,7 +152,7 @@ flowchart TD
   1. **Bộ kiểm thử bất biến & máy trạng thái (`Hypothesis`):** Gắn ngay vào `5` điểm nóng sống còn: `prop_pricing_catalog` (bơm `NaN`/`Inf`/âm/ngày `2099`), `prop_capital_promo_optimizer` (kiểm `Pass+Fail+Pending == 100%`, đơn điệu vốn, không lệch `own_book`), `prop_challenge_tracker` (bơm `0` exit, ngược chiều SELL, thiếu statement), `nfp_cpi_quote_collector` (bơm `trade_allowed=True`, `1` tick, cùng mili-giây, lệch NTP), và máy trạng thái `PropGuard/FlatSync` (disconnect + partial fill + restart).
   2. **Bộ Kiểm Định Đột Biến Có Chọn Lọc (*Targeted Gate Mutation Suite*):** Không chạy `mutmut` lên toàn bộ `390` file (rất chậm), mà chỉ chạy trên **~10 hàm cổng quyết định** (*gate/loader/comparator/accounting*). Tiêm `15–20` đột biến có chủ đích (đổi `<` thành `<=`, đảo dấu SELL, trả `None` từ MT5 API, lùi 1 thanh lookahead, xóa check phẳng vị thế) — nếu bộ test vẫn xanh -> **chặn ngay**!
   3. **CI Tự Khám Phá:** Thay danh sách cứng `12` tệp trong `.github/workflows/workspace.yml` bằng gắn nhãn `@pytest.mark.offline` để mọi tệp test offline mới thêm đều tự động chạy trên GitHub Actions.
-- **Lớp B — Skill Vĩnh Viễn `.agents/skills/adversarial-redteam-verifier/SKILL.md`:**
+- **Lớp B — Skill Vĩnh Viễn `.agents/skills/adversarial-self-audit/SKILL.md`:**
   - Chạy bởi một agent **khởi tạo sạch hoàn toàn**, quyền **chỉ đọc**, tách biệt với tác giả.
   - **Luật Phản Chứng Bắt Buộc (*Falsification-First*):** Agent verifier **không được phép** ghi chữ `PASS` nếu chưa tự chạy trong RAM (stdin/script tạm không sửa repo) ít nhất **`3` ca phá hoại thực tế** nhằm cố lừa hệ thống trả `PASS` giả, quét trọn **Checklist 7 Lớp Lỗi (rút từ Astra R1–R11)**:
     1. *Fail-Open / Spoof:* Đầu vào thiếu pha, `0` lệnh đóng, chỉ có vệ tinh, API trả `None`.
@@ -242,7 +242,7 @@ flowchart TD
 - **Vị trí hiện tại của Naqex:** **`🟢 Tốt` (về số lượng test & bảo mật OPSEC)** nhưng **`🟡 Đủ dùng` (về khả năng tự săn lỗi ẩn)**
   - *Đã mạnh:* `1.870` ca kiểm thử (`417` subtests), `system_doctor.py` 10/10, `test_layer1_opsec_guard.py`, GitHub Actions ghim SHA 40 ký tự + Gitleaks xác minh SHA-256.
   - *Khoảng trống thật (`W`):* Kiểm tra trực tiếp môi trường `.runtime/quant-audit-v24` xác nhận **`hypothesis = False`**, **`mutmut = False`**, **`ruff = False`**, **`mypy = False`**, **`.pre-commit-config.yaml = False`**; `.github/workflows/workspace.yml` mới chạy cứng **`12/238`** tệp pytest; `system_doctor.py --mode fast` chỉ chạy `3` tệp test; và hơn `40` lỗi từ Astra R1–R11 chứng minh cần lớp săn lỗi đối kháng tự động.
-  - *Cần làm để lên `🏆`:* Cài `hypothesis` + `ruff` + `.pre-commit-config.yaml`, mở rộng CI sang `@pytest.mark.offline`, thêm bộ đột biến 15 ca cho các cổng quyết định, và ban hành skill `.agents/skills/adversarial-redteam-verifier/SKILL.md`.
+  - *Cần làm để lên `🏆`:* Cài `hypothesis` + `ruff` + `.pre-commit-config.yaml`, mở rộng CI sang `@pytest.mark.offline`, thêm bộ đột biến 15 ca cho các cổng quyết định, và ban hành skill `.agents/skills/adversarial-self-audit/SKILL.md`.
 
 #### Trụ cột 6 — Vận Hành, Điện Toán 3 Máy & Vòng Lặp Dòng Tiền / Sản Phẩm (*Ops, Multi-Machine Compute & Product/Cashflow Loop*)
 - `🔴 Xấu`: Chạy bot tiền thật chung máy làm việc hàng ngày, không có giám sát chết máy, không có nguồn thu dự phòng khi trading đói.
@@ -278,7 +278,7 @@ Mọi hạng mục dưới đây đều thiết kế để **1 người + AI Age
 | # | Hạng mục cụ thể | Trụ cột | Tệp / Kết quả bàn giao | Công sức | Tiêu chí hoàn thành đo được |
 |---|---|---|---|---|---|
 | **1.1** | Cài bộ công cụ gọn (`hypothesis`, `ruff`, `duckdb`) vào `.runtime/quant-audit-v24` + tạo `.pre-commit-config.yaml` | #5, #4 | `requirements-dev.lock`, `.pre-commit-config.yaml` | `2–3` giờ | Chạy `pre-commit` (`ruff` + `OPSEC` + `0` ký tự đô-la trần + Holdout SHA) xong trong `< 5` giây. |
-| **1.2** | Xây dựng **Skill Red-Team Nội Bộ** + Bộ kiểm thử `Hypothesis` (PBT + Stateful) & `15` ca đột biến cổng quyết định | #5 | `.agents/skills/adversarial-redteam-verifier/SKILL.md`, `tests/test_hypothesis_gates.py`, `tests/test_gate_mutations.py` | `8–10` giờ | Tái lập và tự chặn được **`100%`** các mẫu lỗi điển hình của Astra R2/R10/R11 (`0` exit, ngược dấu SELL, `NaN`/`2099`, `trade_allowed=True`, disconnect `pos=0`). |
+| **1.2** | Xây dựng **Skill Red-Team Nội Bộ** + Bộ kiểm thử `Hypothesis` (PBT + Stateful) & `15` ca đột biến cổng quyết định | #5 | `.agents/skills/adversarial-self-audit/SKILL.md`, `tests/test_hypothesis_gates.py`, `tests/test_gate_mutations.py` | `8–10` giờ | Tái lập và tự chặn được **`100%`** các mẫu lỗi điển hình của Astra R2/R10/R11 (`0` exit, ngược dấu SELL, `NaN`/`2099`, `trade_allowed=True`, disconnect `pos=0`). |
 | **1.3** | Nâng cấp CI tự khám phá toàn bộ test offline | #5 | `.github/workflows/workspace.yml`, `pytest.ini` (`markers = offline`) | `2` giờ | GitHub Actions tự chạy trọn bộ test offline (thay cho danh sách cứng `12` tệp), giữ thời gian chạy `< 3` phút. |
 | **1.4** | Khóa đồng bộ NTP `< 1.000 ms` tự động trên `PC Dev` & `ThinkPad X13` + dựng router 3 máy gọn (`~250` dòng) | #6 | Scheduled Task `w32tm /resync`, `tooling/ai-engines/ops_cloud/compute_router.py` | `4–5` giờ | Lệch đồng hồ `PC Dev` & `X13` `< 200 ms`; gửi 1 job Monte Carlo mẫu sang X13 và kéo kết quả kèm SHA về sạch sẽ. |
 | **1.5** | Thu thập thực địa `QUOTE_ONLY` (`OrderSend = 0`) quanh **NFP `04/12`** & **CPI `10/12`** + đóng dữ liệu đo khớp lệnh | #2 | Hồ sơ thu thập xác minh `3` pha (trước/trong/sau tin), `0` mất tick | `2–4` giờ | Hoàn tất 2 cửa sổ tin lớn nhất tháng 12 với `status = OK`, đủ dữ liệu thật để đánh giá cửa sổ tin đỏ. |

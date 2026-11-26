@@ -8,7 +8,7 @@ ML/riskroles, không8provenedges. Historicalnegative/pins giữ nguyên.
 
 [JSON](STRATEGY-CATALOGUE-20261107.json) là cùng dữ liệu có cấu trúc; protocol/source giữ exactrecipes, không automatic dispatch/rejection hoặc broker authority.
 
-12/11: [TC01 same-clock component](US500-SAME-CLOCK-RESULTS-20261112.md)
+12/11: [TC01 same-clock component](archive/US500-SAME-CLOCK-RESULTS-20261112.md)
 thêm1relatedhypothesis và2constantcontrols trong `registered_component_studies`;
 không accountpolicy/independentedge.673signals/2022–24,endpointstressâm3năm,
 park exactrecipe;không2025–26/grid. Historical123/88/53 vànegativeIDs giữ.
@@ -32,7 +32,7 @@ python -X utf8 tooling/ai-engines/research_inventory.py --key us500-v16-slippage
 
 - **US500 trước tin.** Census lịch có 204 cửa sổ. Biên độ đêm thường
   có đủ đối chứng cho 19/100 và 98/104. Pilot giá đêm tin mang trạng thái
-  `not_run`. [Hồ sơ](PROP-US500-PREANNOUNCEMENT-PREFLIGHT-20261119.md).
+  `not_run`. [Hồ sơ](archive/PROP-US500-PREANNOUNCEMENT-PREFLIGHT-20261119.md).
 - **EURUSD.** Tra đủ 24 recipe theo lớp hụt đầu tiên trong sổ stress.
   Có 9 đã yếu sau spread, 13 đổi dấu khi tính commission và slippage,
   2 đổi dấu khi tính financing. Midpoint trước spread còn unknown.
@@ -40,10 +40,10 @@ python -X utf8 tooling/ai-engines/research_inventory.py --key us500-v16-slippage
   riêng và liên kết như biến thể cùng họ. Hậu kiểm rollover giữ nguyên
   swap của hai recipe H4 trong lát 2018–2022. Bản thử lọc spread mới
   dừng ở đăng ký. [Bảng gốc](GOLD-M1-PATH-AND-EURUSD-POSTMORTEM-20261113.md) ·
-  [Hậu kiểm rollover](PROP-EUR-FX-ROLLOVER-AUDIT-20261119.md).
+  [Hậu kiểm rollover](archive/PROP-EUR-FX-ROLLOVER-AUDIT-20261119.md).
 - **US500 V16.** Trong 98 cấu hình endpoint, 24 dương cả hai cụm ở
   midpoint, 14 sau spread và 4 sau stress. Phép đo chỉ có giá hai mốc,
-  chưa xác nhận đường giữ lệnh hoặc stop. [Bảng gốc](PROP-US500-V16-SLIPPAGE-RESULTS-20261119.md).
+  chưa xác nhận đường giữ lệnh hoặc stop. [Bảng gốc](archive/PROP-US500-V16-SLIPPAGE-RESULTS-20261119.md).
 
 | Phạm vi kiểm ngày 19/11/2026 | Độ phủ |
 | --- | --- |
@@ -101,11 +101,11 @@ này.** Kết luận theo phiên bản và mục đích đã ghi, với phần c
 
 | Khoảng US500 | Đã dùng vào việc gì và giới hạn của bằng chứng |
 | --- | --- |
-| 2018–2019 | Chưa thấy sổ theo đúng ba bộ luật. FP07, tiền thân của RS01, đã đếm cơ hội trên phiên cash. Nguồn M1 Bid/Ask US500 cũng đã dùng cho đối chứng cash 2018–2023. Các phép đo này ghi nhận exposure liên quan, chưa xác định được mọi phân vùng hay ảnh hưởng tới từng quyết định. [Đếm FP07](US500-CHANNEL-HISTORY-RESULTS-20261112.md) · [Đối chứng cash](PROP-US500-CASH-SESSION-20261119.md). |
-| 2020–2021 | RS01 và RS07 đã dùng hai năm này cùng 2016 để chẩn đoán độ bền trên lịch sử. FP07 cũng đã đếm cơ hội. Báo cáo A/B của R094 dừng trước khi mở thêm 2018–2021. Điều đó chỉ xác định phạm vi của A/B. [Kiểm lịch sử RS01/RS07](US500-RECENT-SCREEN-RESULTS-20261112.md) · [R094 A/B](PROP-US500-R094-AFTERNOON-RESULTS-20261119.md). |
-| 2022–2024 | Sàng lọc Development cho R094 gốc (thoát 12:01 New York), RS01 phá kênh FP07 và RS07 quay lại Bollinger (liên quan R003). R094 B (thoát 15:59) chỉ so với A trên 2022–2023 và đã gác. RS04 là đối chứng đếm cơ hội với trigger liên quan R094 và giả định thực thi khác. [R094 gốc](US500-M15-OPENING-SCREEN-RESULTS-20261111.md) · [Protocol RS](US500-RECENT-SCREEN-PROTOCOL-20261112.md). |
-| 2025 | Dùng để lựa chọn trong study recent, gồm sổ kinh tế RS01/RS07 và đếm RS04. Sổ stress thiếu đường giá khiến không có recipe đủ điều kiện chọn, nên dùng RS01/RS07 theo phương án dự phòng đã khóa. [Kết quả chọn](US500-RECENT-SCREEN-RESULTS-20261112.md). |
-| 01/01–11/11/2026 (phiên New York) | RS01/RS07 đã chạy chẩn đoán sau khi khóa lựa chọn. Tình trạng từng sử dụng trước lần đó chưa được xác minh đầy đủ. Phần sau mốc 11/11 và các partition chưa truy được theo phiên bản vẫn `unknown`; chưa có bằng chứng để dùng làm holdout. [Phạm vi và giới hạn](US500-RECENT-SCREEN-RESULTS-20261112.md). |
+| 2018–2019 | Chưa thấy sổ theo đúng ba bộ luật. FP07, tiền thân của RS01, đã đếm cơ hội trên phiên cash. Nguồn M1 Bid/Ask US500 cũng đã dùng cho đối chứng cash 2018–2023. Các phép đo này ghi nhận exposure liên quan, chưa xác định được mọi phân vùng hay ảnh hưởng tới từng quyết định. [Đếm FP07](archive/US500-CHANNEL-HISTORY-RESULTS-20261112.md) · [Đối chứng cash](archive/PROP-US500-CASH-SESSION-20261119.md). |
+| 2020–2021 | RS01 và RS07 đã dùng hai năm này cùng 2016 để chẩn đoán độ bền trên lịch sử. FP07 cũng đã đếm cơ hội. Báo cáo A/B của R094 dừng trước khi mở thêm 2018–2021. Điều đó chỉ xác định phạm vi của A/B. [Kiểm lịch sử RS01/RS07](archive/US500-RECENT-SCREEN-RESULTS-20261112.md) · [R094 A/B](archive/PROP-US500-R094-AFTERNOON-RESULTS-20261119.md). |
+| 2022–2024 | Sàng lọc Development cho R094 gốc (thoát 12:01 New York), RS01 phá kênh FP07 và RS07 quay lại Bollinger (liên quan R003). R094 B (thoát 15:59) chỉ so với A trên 2022–2023 và đã gác. RS04 là đối chứng đếm cơ hội với trigger liên quan R094 và giả định thực thi khác. [R094 gốc](archive/US500-M15-OPENING-SCREEN-RESULTS-20261111.md) · [Protocol RS](archive/US500-RECENT-SCREEN-PROTOCOL-20261112.md). |
+| 2025 | Dùng để lựa chọn trong study recent, gồm sổ kinh tế RS01/RS07 và đếm RS04. Sổ stress thiếu đường giá khiến không có recipe đủ điều kiện chọn, nên dùng RS01/RS07 theo phương án dự phòng đã khóa. [Kết quả chọn](archive/US500-RECENT-SCREEN-RESULTS-20261112.md). |
+| 01/01–11/11/2026 (phiên New York) | RS01/RS07 đã chạy chẩn đoán sau khi khóa lựa chọn. Tình trạng từng sử dụng trước lần đó chưa được xác minh đầy đủ. Phần sau mốc 11/11 và các partition chưa truy được theo phiên bản vẫn `unknown`; chưa có bằng chứng để dùng làm holdout. [Phạm vi và giới hạn](archive/US500-RECENT-SCREEN-RESULTS-20261112.md). |
 
 Các nguồn trên chủ yếu xác nhận theo năm hoặc cửa sổ công bố. Việc nguồn
 đã được nhập hay có quote đúng lúc quyết định là kiểm tra dữ liệu, còn
@@ -128,13 +128,13 @@ review hồ sơ đã lưu, không backtest mới hoặc thay verdict của froze
 
 | Ứng viên | Bằng chứng đã có | Vì sao chưa đi tiếp / đề xuất |
 |---|---|---|
-| R120 US500 M15 pullback, MA40/160, đệm0,10ATR | [2022–24](US500-MULTIFRAME-RESULTS-20261111.md): 15lệnh, net chuẩn+65,27USD/cao+48,87USD, từng năm dương ở cả hai scenarios | [Savedtrade review12/11 đã xong](US500-R120-SAVED-REVIEW-20261112.md): stress còn+27,87USD khi trừ winner lớn nhất, nhưng−10,91USD khi trừ top3; không concentration gate mới.142/157tuần không entry, giữ inconclusive/research phụ, chưa ưu tiên recent extension cho vai trò daytrading chính; không đổi luật hoặc mở2025/26 |
+| R120 US500 M15 pullback, MA40/160, đệm0,10ATR | [2022–24](archive/US500-MULTIFRAME-RESULTS-20261111.md): 15lệnh, net chuẩn+65,27USD/cao+48,87USD, từng năm dương ở cả hai scenarios | [Savedtrade review12/11 đã xong](archive/US500-R120-SAVED-REVIEW-20261112.md): stress còn+27,87USD khi trừ winner lớn nhất, nhưng−10,91USD khi trừ top3; không concentration gate mới.142/157tuần không entry, giữ inconclusive/research phụ, chưa ưu tiên recent extension cho vai trò daytrading chính; không đổi luật hoặc mở2025/26 |
 | R043 XAUUSD H4 SMA20/80 | [15sổ năm2010–24](GOLD-SMA50K-REVIEW-20261108.md), mỗi sổ reset50k: tổng net chi phí cao+4.035,06USD,10/15năm dương,220lệnh đóng | Research survivor; target/time-fit, concentration, funding/target execution và OOS còn thiếu. Ngoài lựa chọn US500/M15/intraday; giữ dự phòng, không tự chuyển lane |
 | UTC range EURUSD H4 đời đầu | [Annual2023](TIME-FIT-RESULTS-20261106.md):stress+186,96USD/10k; [Apr–Sep2022](PERIOD-RESULTS-20261106.md):+39,81USD/10k | Từng được giữ inconclusive, lợi nhuận mỏng/tập trung. [Related catalogue version2010–22](EURUSD-CATALOGUE13-RESULTS-20261108.md):stress−1.138,69USD tổng13sổ. Khác code/data/fill scope; không dùng số coarse để ghi đè tick receipts cũ hoặc gọi numerical-equivalent. Chưa cơ sở ưu tiên lại chỉ từ kết quả vòng đầu |
 | EURUSD H1 London16–20 và Asia→London | Từng được chọn từ2023/24; [extension2010–22](EURUSD-DISCOVERY11-RESULTS-20261108.md) không đạt frozen retention cho cả hai | Giữ negatives và native/coarse limitations; không phục hồi chỉ vì từng là survivors |
 | R088 EURUSD SELL sau FOMC12–24h | [Component stress2019/2022](EURUSD-POST-FOMC-RESULTS-20261109.md):+1.013/+545USD trên100kEUR notional | Positive component, không account strategy:2022 kém matched-week control, chưa SL/prop/OOS; ngoài lane hiện tại. Không ưu tiên qualification |
 
-**Đề xuất ban đầu đã thực hiện:** [rà15savedtrades của R120](US500-R120-SAVED-REVIEW-20261112.md),
+**Đề xuất ban đầu đã thực hiện:** [rà15savedtrades của R120](archive/US500-R120-SAVED-REVIEW-20261112.md),
 0simulation. Sổ khớp; mẫu nhỏ/cadence quá thưa nên giữ nghiên cứu phụ,
 không ưu tiên recent extension trong lane daytrading chính. Không reject edge
 vì trừ top3winners, không nới MA/giờ/confirmation hoặc chuyển SELL-only. Mở
@@ -143,17 +143,17 @@ dữ liệu đã xem là clean OOS. Gold chỉ là lựa chọn riêng nếu own
 market/timeframe scope. Catalogue IDs/counts, protocols, financial artifacts
 và mọi thất bại cũ giữ nguyên. Existing skills đủ; chưa new-run dispatch.
 
-12/11: [BR01 common14 so RS02](US500-ENTRY-METHOD-COMPARISON-RESULTS-20261112.md)
+12/11: [BR01 common14 so RS02](archive/US500-ENTRY-METHOD-COMPARISON-RESULTS-20261112.md)
 thêm1relatedversion vào scoped study supplement; baseline giảm cutoff15→14NY
 để so cùng parentwindow.12newnative+8reuse,khôngđếmRS02hai lần/khôngnewedge;
 giữhistorical123/88/53 và mọiunknown/negatives. ChưaATR/channelgrid hoặcwinner.
 
-Đã [chẩn đoán đà và costs](US500-CONTINUATION-DIAGNOSTIC-RESULTS-20261112.md)
+Đã [chẩn đoán đà và costs](archive/US500-CONTINUATION-DIAGNOSTIC-RESULTS-20261112.md)
 cho2recipe này:15/30/60phút,4năm,0newstrategy;giữ2.865rows/unknowns,
 24annualstressmeansâm. Park exactparametergrid,không loại toànfamily hoặc
 đếm diagnostic horizons/controls thành independentedges.
 
-12/11: thêm scoped study [8 recent setups RS01–RS08](US500-RECENT-SCREEN-RESULTS-20261112.md)
+12/11: thêm scoped study [8 recent setups RS01–RS08](archive/US500-RECENT-SCREEN-RESULTS-20261112.md)
 ngoài 123 hồ sơ lịch sử trên; JSON `registered_setup_studies` giữ lineage,
 không cộng thành independent edges hoặc âm thầm renumber old records.
 4 recipe có financial execution, 4 chỉ cadence/control; 2025 đã dùng chọn,
@@ -161,21 +161,21 @@ RS01/RS07 đã kiểm 2026 diagnostic và historical. 56 sổ/48 financial/8 nul
 không winner hoặc challenge qualification; recent full net N/A do held gaps.
 Các negative R094/R095/R123 và account-policy totals lịch sử vẫn giữ nguyên.
 
-12/11: [Opportunity screen FP06–08](US500-OPPORTUNITY-SCREEN-PROTOCOL-20261112.md)
-đã [đếm xong](US500-OPPORTUNITY-SCREEN-RESULTS-20261112.md): retry setup sau
+12/11: [Opportunity screen FP06–08](archive/US500-OPPORTUNITY-SCREEN-PROTOCOL-20261112.md)
+đã [đếm xong](archive/US500-OPPORTUNITY-SCREEN-RESULTS-20261112.md): retry setup sau
 thất bại181ngày, prior20channel540 và MA20/80cross196; baseline165.
 RelatedR123/R001/R002, không3independentedges; account counts123/88/53 giữ.
 Ưu tiên thiết kế economic screen riêngFP07 theo cadence, chưaPnL/edge; không
 tự đổi cap/risk hoặc mở2025+.
 
-FP07 đã [kiểm cadence thêm2013–2021](US500-CHANNEL-HISTORY-RESULTS-20261112.md):
+FP07 đã [kiểm cadence thêm2013–2021](archive/US500-CHANNEL-HISTORY-RESULTS-20261112.md):
 912firstdaysđủquote,0newrules/PnL. Nhiều oldwindows bịdata gaps,không suy nhịp
 thấp là ít cơ hội thật hoặc gọi fullhistory/OOS/edge pass; không nới gaprules.
 
-R076/R077 thêm [paper-window component v2](INDEX-PAPER-WINDOW-IMPLEMENTATION-20261109.md)
-đã [reviewed và không retained](INDEX-PAPER-WINDOW-RESULTS-20261109.md). Revision lineage nằm ngay trong
+R076/R077 thêm [paper-window component v2](archive/INDEX-PAPER-WINDOW-IMPLEMENTATION-20261109.md)
+đã [reviewed và không retained](archive/INDEX-PAPER-WINDOW-RESULTS-20261109.md). Revision lineage nằm ngay trong
 hai JSON records; v1 negatives giữ nguyên, không tăng account-policy count
-hoặc đếm delays thành independent edges. [Protocol](INDEX-PAPER-WINDOW-ECONOMIC-PROTOCOL-20261109.md)
+hoặc đếm delays thành independent edges. [Protocol](archive/INDEX-PAPER-WINDOW-ECONOMIC-PROTOCOL-20261109.md)
 freeze trước outcomes; old quarter-mask failure và corrected attempt đều giữ.
 
 | ID | Ý tưởng | Họ/parent | Tình trạng | Policy versions | Evidence |
@@ -188,7 +188,7 @@ freeze trước outcomes; old quarter-mask failure và corrected attempt đều 
 |R006|Failed20 breakout|level_reversion / R001|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
 |R007|Compression6/24 breakout|trend_breakout / R001|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
 |R008|UTC range fade|level_reversion / R005|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
-|R009|Time-series momentum dài hạn|long_horizon_trend|Source-only32/132months eligible;guardchặn,khôngPnLmới|1|[Monthly admission](INDEX-LONG-EXPLICIT-RESULTS-20261108.md)|
+|R009|Time-series momentum dài hạn|long_horizon_trend|Source-only32/132months eligible;guardchặn,khôngPnLmới|1|[Monthly admission](archive/INDEX-LONG-EXPLICIT-RESULTS-20261108.md)|
 |R010|TSMOM theo volatility|long_horizon_trend / R009|Gác mixedmonthlyproxy:−1.138,18/−3.519,01USD;chưa accountpolicy|0|[Component results](MULTI-ASSET-TREND-RESULTS-20261108.md);4books/1.008allocations reviewed|
 |R011|Bollinger re-entry|price_reversion / R003|Các exact FX versions đã gác sau cost screen|2|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
 |R012|RSI contrarian có xác nhận|price_reversion / R003|Các exact FX versions đã gác sau cost screen|1|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
@@ -204,11 +204,11 @@ freeze trước outcomes; old quarter-mask failure và corrected attempt đều 
 |R022|Post-fix USD reversal|fixing_flow / R020|Các exact FX versions đã gác sau cost screen|2|[624cases/decision](EURUSD-CATALOGUE13-RESULTS-20261108.md); không loại cả family|
 |R023|Local trading-hours currency flow|session_flow|PrimaryUScomponent không đạt retention|0|[Componentresults](LOCAL-SESSION-RESULTS-20261108.md); chưa policy/prop|
 |R024|Post-weekend gap fade|gap_reversion|Component12h không đạt priority; chưa strategy|0|[Componentresults](WEEKEND-GAP-COMPONENT-RESULTS-20261108.md), [datareview](WEEKEND-GAP-DATA-RESULTS-20261108.md)|
-|R025|Weekday/calendar effect|calendar|Source-corrected TOM chưa đạt; chưa bot|0|[Correction3days/reuse1507](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)|
+|R025|Weekday/calendar effect|calendar|Source-corrected TOM chưa đạt; chưa bot|0|[Correction3days/reuse1507](archive/INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)|
 |R026|Month-end relative-equity flow|fixing_flow / R020|Gác exactadaptation sau6years;stress−227,6pip/66resolved|0|[Continuationresults](R026-RELATIVE-EQUITY-CONTINUATION-RESULTS-20261108.md); giữ baseline2019/22, không bot/edge|
 |R027|News-surprise continuation|event|Historical source reviewed; intraday known-at/access chưa admitted|0|[Source review](FOMC-SURPRISE-SOURCE-RESULTS-20261109.md); chưa ownoutcome|
 |R028|News overreaction reversal|event / R027|Historical source reviewed; intraday known-at/access chưa admitted|0|[Source review](FOMC-SURPRISE-SOURCE-RESULTS-20261109.md); chưa ownoutcome|
-|R029|Currency carry|carry|Gác: 5 vị thế/6 năm, hụt quy mô; swap FTMO lịch sử chưa xác minh|1|[Kết quả R029](PROP-FX-CARRY-R029-RESULTS-20261118.md)|
+|R029|Currency carry|carry|Gác: 5 vị thế/6 năm, hụt quy mô; swap FTMO lịch sử chưa xác minh|1|[Kết quả R029](archive/PROP-FX-CARRY-R029-RESULTS-20261118.md)|
 |R030|Carry + trend|carry / R029|long_history_or_multi_data|0|Chưa outcome riêng|
 |R031|Long-horizon value / PPP|value|long_history_or_multi_data|0|Chưa outcome riêng|
 |R032|Value + momentum|value / R031|long_history_or_multi_data|0|Chưa outcome riêng|
@@ -227,12 +227,12 @@ freeze trước outcomes; old quarter-mask failure và corrected attempt đều 
 |R045|Gold Asia→London breakout|session_breakout / R018|Giữ negative version|1|[Gold outcomes](METAL-DISCOVERY9-10-RESULTS-20261108.md)|
 |R046|Gold RSI reentry|price_reversion / R012|Giữ negative version|1|[Gold outcomes](METAL-DISCOVERY9-10-RESULTS-20261108.md)|
 |R047|Gold afternoon reversal15–19London|fixing_flow|Giữ negative version|1|[Gold outcomes](METAL-DISCOVERY9-10-RESULTS-20261108.md)|
-|R048|US500 noise14 bands|equity_intraday_momentum|Source-only correction vẫn không đạt triage|1|[Corrected outcomes](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)|
+|R048|US500 noise14 bands|equity_intraday_momentum|Source-only correction vẫn không đạt triage|1|[Corrected outcomes](archive/INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)|
 |R049|US500 daily cash IBS02 hold|equity_daily_reversion|Source-only3years không đạt oldpriority;path unresolved|1|[Corrected results](IBS02-EXPLICIT-SOURCE-RESULTS-20261108.md)|
-|R050|US500 CutlerRSI3 +IBS05|equity_daily_reversion /R049|Source-only long không đạt;6nofillyears inconclusive|1|[Corrected long](INDEX-LONG-EXPLICIT-RESULTS-20261108.md)|
-|R051|US500 first→last30min|equity_close_momentum|Source-only correction vẫn âm cả2022–24/costs|1|[Corrected outcomes](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)|
-|R052|US500 RSI3+IBS preclose2|equity_daily_reversion /R050|Source-only long vẫn không đạt;4nofillyears inconclusive|1|[Corrected long](INDEX-LONG-EXPLICIT-RESULTS-20261108.md)|
-|R053|US500 monthly long benchmark|falsification /R009|Source-only admissionfail;khôngportfolio rerun|1|[Monthly admission](INDEX-LONG-EXPLICIT-RESULTS-20261108.md)|
+|R050|US500 CutlerRSI3 +IBS05|equity_daily_reversion /R049|Source-only long không đạt;6nofillyears inconclusive|1|[Corrected long](archive/INDEX-LONG-EXPLICIT-RESULTS-20261108.md)|
+|R051|US500 first→last30min|equity_close_momentum|Source-only correction vẫn âm cả2022–24/costs|1|[Corrected outcomes](archive/INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)|
+|R052|US500 RSI3+IBS preclose2|equity_daily_reversion /R050|Source-only long vẫn không đạt;4nofillyears inconclusive|1|[Corrected long](archive/INDEX-LONG-EXPLICIT-RESULTS-20261108.md)|
+|R053|US500 monthly long benchmark|falsification /R009|Source-only admissionfail;khôngportfolio rerun|1|[Monthly admission](archive/INDEX-LONG-EXPLICIT-RESULTS-20261108.md)|
 |R054|Gold BUY00–08UTC|gold_session_flow|Gác exactpriceprobe;0/15stressyears dương|0|[Session results](GOLD-SESSION-COMPONENT-RESULTS-20261108.md);chưaSL/account|
 |R055|Gold SELL10:30–15London|gold_session_flow|Gác exactpriceprobe;0/15stressyears dương|0|[Session results](GOLD-SESSION-COMPONENT-RESULTS-20261108.md);khôngLBMAprice/SL/account|
 |R056|PreECB sessionRMS20x2 stop|fixing_flow /R021|Totaldương nhưng2/4stressblocksâm;khôngretained|1|[Results](PRE-ECB-SESSION-RISK-RESULTS-20261108.md);toolingcoarseprototype,chưanative/prop/OOS|
@@ -254,30 +254,30 @@ freeze trước outcomes; old quarter-mask failure và corrected attempt đều 
 |R072|NY EURUSD MA4 reversal15min|session_conditioned_reversion / R070|Gác exact recipe theo conditional sensitivity; giữ H1 negatives/strict annual N/A|2|[Conditional review](NY-FX-GAP-SCENARIOS-RESULTS-20261109.md); strict unknown không bị clear|
 |R073|NY EURUSD MA4 momentum15min control|falsification / R072|Gác exact recipe theo conditional sensitivity; giữ H1 negatives/strict annual N/A|2|[Conditional review](NY-FX-GAP-SCENARIOS-RESULTS-20261109.md); strict unknown không bị clear|
 |R074|NASDAQ overnight → first-half reversal|equity_opening_reversion|Gác exact component: stress −1.166,74 / −2.359,71 USD/unit|0|[Review](NASDAQ-OVERNIGHT-REVERSAL-RESULTS-20261109.md); 499 ngày, chưa account/prop/OOS|
-|R075|S&P overnight → first-half reversal|equity_opening_reversion / R074|Gác exact transfer: stress −521,82 / −770,05 USD/unit|0|[Review](US500-OVERNIGHT-REVERSAL-RESULTS-20261109.md); 498 ngày, chưa account/prop/OOS|
-|R076|S&P rest-of-day → last-half momentum|equity_close_momentum / R051|Gác exact component;2019 known-partial,2022 âm|0|[Review](INDEX-REST-OF-DAY-RESULTS-20261109.md); chưa account/prop/OOS|
-|R077|NASDAQ rest-of-day → last-half momentum|equity_close_momentum / R064|2019 âm,2022 chuẩn dương/stress âm;gác exact|0|[Review](INDEX-REST-OF-DAY-RESULTS-20261109.md); chưa account/prop/OOS|
-|R078|US500 firsthalf/ROD consensus|equity_close_momentum / R076|Hai năm âm sau phí, gác exact|0|[Results](INDEX-CONSENSUS-RESULTS-20261109.md); parent reuse, chưa account/prop/OOS|
-|R079|NASDAQ firsthalf/ROD consensus|equity_close_momentum / R077|Hai năm âm sau phí, gác exact|0|[Results](INDEX-CONSENSUS-RESULTS-20261109.md); không reverse mask rescue|
-|R080|US500 EU-open uncertainty resolution|equity_overnight_uncertainty_resolution|Knownnetâm,2019coverage thiếu;khôngretained|0|[Results](US500-EU-OPEN-COMPONENT-RESULTS-20261109.md)|
-|R081|US500 prior closing-pressure conditional EU-open|equity_inventory_reversal_price_proxy /R080|Knownnetâm,selected2019coverage thiếu;gác exact|0|[Results](US500-INVENTORY-CONDITION-RESULTS-20261109.md);relatedvariant,chưaaccount/prop/OOS|
+|R075|S&P overnight → first-half reversal|equity_opening_reversion / R074|Gác exact transfer: stress −521,82 / −770,05 USD/unit|0|[Review](archive/US500-OVERNIGHT-REVERSAL-RESULTS-20261109.md); 498 ngày, chưa account/prop/OOS|
+|R076|S&P rest-of-day → last-half momentum|equity_close_momentum / R051|Gác exact component;2019 known-partial,2022 âm|0|[Review](archive/INDEX-REST-OF-DAY-RESULTS-20261109.md); chưa account/prop/OOS|
+|R077|NASDAQ rest-of-day → last-half momentum|equity_close_momentum / R064|2019 âm,2022 chuẩn dương/stress âm;gác exact|0|[Review](archive/INDEX-REST-OF-DAY-RESULTS-20261109.md); chưa account/prop/OOS|
+|R078|US500 firsthalf/ROD consensus|equity_close_momentum / R076|Hai năm âm sau phí, gác exact|0|[Results](archive/INDEX-CONSENSUS-RESULTS-20261109.md); parent reuse, chưa account/prop/OOS|
+|R079|NASDAQ firsthalf/ROD consensus|equity_close_momentum / R077|Hai năm âm sau phí, gác exact|0|[Results](archive/INDEX-CONSENSUS-RESULTS-20261109.md); không reverse mask rescue|
+|R080|US500 EU-open uncertainty resolution|equity_overnight_uncertainty_resolution|Knownnetâm,2019coverage thiếu;khôngretained|0|[Results](archive/US500-EU-OPEN-COMPONENT-RESULTS-20261109.md)|
+|R081|US500 prior closing-pressure conditional EU-open|equity_inventory_reversal_price_proxy /R080|Knownnetâm,selected2019coverage thiếu;gác exact|0|[Results](archive/US500-INVENTORY-CONDITION-RESULTS-20261109.md);relatedvariant,chưaaccount/prop/OOS|
 |R082|WTI Wednesday reaction→late conditional component|event-price momentum / R027|Không retained;2019unknown/2022net âm|0|[Results](WTI-WEDNESDAY-COMPONENT-RESULTS-20261109.md);retrospectivecalendar,không accountpolicy|
 |R083|WTI Wednesday reaction→settlement conditional component|event-price momentum / R082|Không retained;đủ88days,stressâm2years|0|[Results](WTI-SETTLEMENT-COMPONENT-RESULTS-20261109.md);strict/endpointidentical,noaccountpolicy|
 |R084|USDJPY Tokyo calendar component|fixing_flow / R021|Mua chính không đạt;follow-up bán R085 cũng không đạt|0|[Results](USDJPY-TOKYO-COMPONENT-RESULTS-20261109.md);32books/139dates,noaccountpolicy|
 |R085|USDJPY postfix temporal extension|fixing_flow / R084|Không đạt;6/13newyears dương,2/4blocks âm|0|[Results](USDJPY-POSTFIX-EXTENSION-RESULTS-20261109.md);240books gồm discoveryreuse, chưaSL/account/prop|
-|R086|US500 pre-FOMC past-price momentum|event / R062|Không qua stressgate cả2năm;funding đích unknown|0|[Results](US500-FOMC-PRICE-MOMENTUM-RESULTS-20261109.md);32books/256cases, noaccountpolicy|
+|R086|US500 pre-FOMC past-price momentum|event / R062|Không qua stressgate cả2năm;funding đích unknown|0|[Results](archive/US500-FOMC-PRICE-MOMENTUM-RESULTS-20261109.md);32books/256cases, noaccountpolicy|
 |R087|Japan cash reaction sau phiên Mỹ|crossmarket_flow / opening-reversal related|Known net âm;2019coverage73,73%,202298,31%;fullannualunknown|0|[Results](JAPAN-US-CASH-REACTION-RESULTS-20261109.md);485rows/20books,JPYunit/noaccountpolicy|
 |R088|EURUSD sau FOMC12–24h|event_session_flow / R021|Stressnet dương cả2năm;eventincrement2022 khôngđạt|0|[Results](EURUSD-POST-FOMC-RESULTS-20261109.md);32windows/192cases,noSL/account/prop/OOS|
 |R089|EURUSD hồi sau ngày bất thường|daily_shock_reversion / R013|Khôngretained temporal:8/13nămdương/2blocksâm;volscorekhôngcứu|0|[Temporal](FX-ABNORMAL-DAY-TEMPORAL-RESULTS-20261109.md);164extensionopportunities,+549USD/unit,chưaaccount/prop/OOS|
 |R090|EURUSD tiếp diễn sau hourly shock|daily_shock_continuation / R089,relatedR007|Khôngretained:stress2019+592/2022−1.583USD/unit;2022âmtrướcphí|0|[Results](FX-INTRADAY-SHOCK-RESULTS-20261109.md);44opportunities,khôngSL/account/prop/OOS|
 |R091|EURUSD firstM5 round00/50 continuation60min|round_level_order_clustering / R015,relatedR001/R019|Khôngretained:stress2019−1.466/2022−2.779USD/unit;midpositive nhưng spread đãăn hết|0|[Results](FX-ROUND-LEVEL-RESULTS-20261109.md);380primaryopportunities,noSL/account/prop/OOS|
-|R092|S&P–Nasdaq fixedlinear formation|equity_index_relative_value / R035,relatedR067|Khôngretained:2018p0,55272/2021p0,41111;chưaPnL|0|[Results](INDEX-PAIR-FORMATION-RESULTS-20261110.md);503dates sourceadmitted,khôngaccountpolicy|
+|R092|S&P–Nasdaq fixedlinear formation|equity_index_relative_value / R035,relatedR067|Khôngretained:2018p0,55272/2021p0,41111;chưaPnL|0|[Results](archive/INDEX-PAIR-FORMATION-RESULTS-20261110.md);503dates sourceadmitted,khôngaccountpolicy|
 |R093|US500 monthly options-expiry week|monthly_options_inventory_calendar,relatedR025/R080|Khôngretained:stress2019+279,41/2022−708,85USD/unit;2022midâm|0|[Results](OPTIONS-WEEK-RESULTS-20261110.md);48windows/96cases,khôngSL/account/prop/OOS|
 
 
 ## R123 — MA reclaim đã native screening
 
-[Results](US500-MA-RECLAIM-RESULTS-20261111.md):165actualtrades/cost,
+[Results](archive/US500-MA-RECLAIM-RESULTS-20261111.md):165actualtrades/cost,
 6financialbooks+3null; reference+4,83USD,stress−307,03USD/3sổreset10k.
 Originalpriority165<200 giữ; G2screen đăngkýriêng trướcPnL,khôngdeep/OOSpass.
 Không giữ exactrecipe,catalogue123/88versions/53native. FP05frequencydesign
@@ -285,7 +285,7 @@ Không giữ exactrecipe,catalogue123/88versions/53native. FP05frequencydesign
 
 ## Frequency-only designs đã xem, chưa là financial policies
 
-[US500 frequency audit](US500-FREQUENCY-AUDIT-RESULTS-20261111.md):FP00 làR098
+[US500 frequency audit](archive/US500-FREQUENCY-AUDIT-RESULTS-20261111.md):FP00 làR098
 baseline,FP01–FP04 là4relateddesigns mới vềeligibility/clock/pullbackdefinition.
 Đã giữ cả5probes/trialhistory trongJSON `frequency_only_studies`; primaryFP04
 158signals/3năm, chưa200priorityfloor,0newfinancialbooks. Không cộng vào122
@@ -293,7 +293,7 @@ account records/87versions hoặc coi relateddesigns là independentedges.
 
 ## US500 multiframe — 27 cấu hình đã chạy
 
-[Kết quả và hậu kiểm](US500-MULTIFRAME-RESULTS-20261111.md), [toàn bộ bảng](US500-MULTIFRAME-FULL-TABLE-20261111.md):
+[Kết quả và hậu kiểm](archive/US500-MULTIFRAME-RESULTS-20261111.md), [toàn bộ bảng](archive/US500-MULTIFRAME-FULL-TABLE-20261111.md):
 R096–R122, A/B/C×7buffers +6MA sensitivity;162nativebooks +9nullcontrols.
 Mỗi bản13–32lệnh/3năm, không daily-income proof. R120(MA40/160,A,k.10)
 stress+48,87USD/15lệnh, dương3năm nhưng mẫu quá nhỏ, không challenge/OOS.
@@ -301,7 +301,7 @@ Các bản khác giữ đủ negatives/cost sensitivity; không tuning tự đ�
 
 ## Cách đọc và lịch sử các batch đầu
 
-Discovery4/6/7 historical screens đã completed; MLreal policies thất bại, giữ controls/negatives. Asia2023/2024 native review đã completed; Londonstresscả2years còn incomplete do timeout. [Catalogue13](EURUSD-CATALOGUE13-RESULTS-20261108.md) đã624/624cases,0/24retained trên observedhistory2010–2022. R048noise14 là cơchế/asset khác: [kết quả](US500-NOISE-RESULTS-20261108.md)2022dương nhưng2023/24âm ởcảcosts,khôngretained. Không writer còn chạy trongcácattempts này. Không dispatch lại screens hoặc gọi2023/2024cleanOOS.2025+vẫn đóng.
+Discovery4/6/7 historical screens đã completed; MLreal policies thất bại, giữ controls/negatives. Asia2023/2024 native review đã completed; Londonstresscả2years còn incomplete do timeout. [Catalogue13](EURUSD-CATALOGUE13-RESULTS-20261108.md) đã624/624cases,0/24retained trên observedhistory2010–2022. R048noise14 là cơchế/asset khác: [kết quả](archive/US500-NOISE-RESULTS-20261108.md)2022dương nhưng2023/24âm ởcảcosts,khôngretained. Không writer còn chạy trongcácattempts này. Không dispatch lại screens hoặc gọi2023/2024cleanOOS.2025+vẫn đóng.
 
 Nguồn chỉ cho cơ chế/định nghĩa/phương pháp; code và datalicenses cần kiểm trước import. Các adaptations H1/SL/holding không phải exact paper replication. Fixed-window variants, ORBs và MLcontrols có quan hệ; số versions không là số bằng chứng độc lập. Public payout/case study tay không xác nhận bot edge.
 

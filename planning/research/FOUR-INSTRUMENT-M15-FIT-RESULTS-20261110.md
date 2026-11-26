@@ -56,7 +56,7 @@ không đổi ngày của full-method cũ thành lần kiểm mới.
 Lịch sử cụ thể: [FX round-level](FX-ROUND-LEVEL-RESULTS-20261109.md),
 [JPY primary](USDJPY-TOKYO-COMPONENT-RESULTS-20261109.md),
 [JPY extension](USDJPY-POSTFIX-EXTENSION-RESULTS-20261109.md),
-[US500 first-last](US500-CLOSE-MOMENTUM-RESULTS-20261108.md),
+[US500 first-last](archive/US500-CLOSE-MOMENTUM-RESULTS-20261108.md),
 [gold sessions](GOLD-SESSION-COMPONENT-RESULTS-20261108.md),
 [catalogue](STRATEGY-CATALOGUE-20261107.json).
 

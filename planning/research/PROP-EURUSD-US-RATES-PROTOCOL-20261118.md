@@ -1,7 +1,7 @@
 # EURUSD phiên Mỹ — tiếp diễn sau thay đổi lợi suất Mỹ hai năm
 
 **Một công thức duy nhất trên Development 2018–2023.** Chọn EURUSD theo
-[phép đo biên độ phiên Mỹ](PROP-SESSION-FEASIBILITY-RESULTS-20261118.md).
+[phép đo biên độ phiên Mỹ](archive/PROP-SESSION-FEASIBILITY-RESULTS-20261118.md).
 Giả thuyết là thị trường FX còn định giá lại đồng USD khi lợi suất Mỹ
 hai năm đã dịch chuyển đủ rõ trước phiên. Đây là proxy một phía cho
 định giá lãi suất, còn kỳ vọng lãi suất châu Âu và các yếu tố khác cũng

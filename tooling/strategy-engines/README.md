@@ -121,7 +121,7 @@ lại từ locks. Không migration dữ liệu, sửa service hay xóa kết qu�
 
 ## US500 native study đã chạy ngày11/11
 
-[Results/limitations](../../planning/research/US500-MULTIFRAME-RESULTS-20261111.md)
+[Results/limitations](../../planning/research/archive/US500-MULTIFRAME-RESULTS-20261111.md)
 ghi162financialbooks+9null, full native Nautilus1.231.0, chưa target execution
 hoặc product cutover. Source pin của financialrun và hậu kiểm có identity riêng;
 đọc correctedv3-review, không dùng oldv2qualityflags để kết luận missingpath.
@@ -141,9 +141,9 @@ không claim intra-book resume. Không rerun completed study không đổi.
 repair hoặc financial replay. `summarize_us500_multiframe.py` chỉ đọc completed,
 sealed correctedcohorts. Savedview không thay nativefinancial source version.
 
-[R123 MA-reclaim](../../planning/research/US500-MA-RECLAIM-RESULTS-20261111.md)
+[R123 MA-reclaim](../../planning/research/archive/US500-MA-RECLAIM-RESULTS-20261111.md)
 reuse shared nativeexecution qua optional offline `policy_factory`; mặc định
 legacy không đổi. Runner `run_us500_ma_reclaim.py` giữ frequency gate và chỉ
 cho G2costscreen riêng khi có exact registration/parentattempt bindings theo
-[amendment](../../planning/research/US500-MA-RECLAIM-COST-SCREEN-AMENDMENT-20261111.md).
+[amendment](../../planning/research/archive/US500-MA-RECLAIM-COST-SCREEN-AMENDMENT-20261111.md).
 Đã9books/40scopedtests; exactrecipe không retained, không productcutover.

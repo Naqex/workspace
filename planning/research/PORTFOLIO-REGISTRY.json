@@ -1,16 +1,30 @@
 {
   "schema": "naqex-portfolio-registry-v1",
-  "updated_utc": "2026-11-23T14:40:00+00:00",
-  "status": "HOLDOUT_2025_2026_EVALUATED_GO_CORE7E_AND_INVDD9E",
+  "updated_utc": "2026-11-27T03:45:00+00:00",
+  "status": "ACTIVE_CANDIDATE_C10_NEWS_ON_MASTER_PROP7E_0VND",
+  "holdout_v1_2025_2026": "CONSUMED (commit 521926f)",
+  "holdout_v2_prospective": "SEALED (>= 2026-12-01)",
+  "current_candidate": {
+    "candidate_id": "C10_NEWS_ON",
+    "portfolio_id": "PORT_7E_P28_CORE",
+    "master_ea": "tooling/ai-engines/exports/Naqex_Master_Prop7E.mq5",
+    "red_news_csv": "tooling/ai-engines/exports/Files/naqex_red_news_utc.csv",
+    "red_news_events": 492,
+    "dev_6ccy_calendar": "tooling/ai-engines/configs/calendars/red_news_official_2018_2024_6ccy.json",
+    "roadmap_ssot": "planning/TOP1-SOLO-QUANT-MASTER-PLAN.md",
+    "order_send_count": 0,
+    "financial_spend_vnd": 0
+  },
   "holdout_lock": {
     "cutoff_utc": "2025-01-01T00:00:00Z",
     "lock_file": "planning/research/NATIVE_FTMO_HOLDOUT_LOCK.json",
     "lock_sha256": "f0a6b43cb205535b0a959456455dc1d857a0936c06c2e51b8614fd7d772a8486",
     "holdout_rows_analysed": 0,
     "order_send_count": 0,
-    "note": "Development .runtime/hot-m1-cache/ remains uncontaminated (0 holdout rows). Separate one-time Holdout 2025-2026 evaluation recorded below."
+    "note": "Development .runtime/hot-m1-cache/ remains uncontaminated (0 holdout rows). holdout_v1_2025_2026 is CONSUMED (commit 521926f); holdout_v2_prospective (>= 2026-12-01) remains SEALED."
   },
   "one_time_holdout_2025_2026": {
+    "status": "CONSUMED",
     "protocol_commit": "521926f",
     "receipt": "planning/research/HOLDOUT-2025-2026-ONE-TIME-VERDICT-20261123.json",
     "holdout_cache_dir": ".runtime/holdout-m1-cache",

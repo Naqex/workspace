@@ -46,12 +46,12 @@ trước PnL; lệch lớn phải phân biệt loader omission với source miss
 US500 quarterly views dùng `us500_year_source.load_year_side` để buộc đủ bốn
 quý và bind output vào accepted frozen proof. Chỉ rerun consumer bị ảnh hưởng,
 giữ raw và phần tick/locator đã kiểm; không fetch hoặc replay toàn batch không đổi.
-Case thật/giới hạn: [paper-window quarter correction](../../../../planning/research/INDEX-PAPER-WINDOW-SOURCE-CORRECTION-20261109.md).
+Case thật/giới hạn: [paper-window quarter correction](../../../../planning/research/archive/INDEX-PAPER-WINDOW-SOURCE-CORRECTION-20261109.md).
 
-Đã kiểm ở [US500 correction](../../../../planning/research/INDEX-UNFILTERED-SOURCE-CORRECTION-20261108.md),
-[range oracle](../../../../planning/research/INDEX-DAILY-RANGE-ORACLE-20261108.md).
-[Explicit-source correction](../../../../planning/research/INDEX-EXPLICIT-SOURCE-CORRECTION-20261108.md)
-và [kết quả](../../../../planning/research/INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)
+Đã kiểm ở [US500 correction](../../../../planning/research/archive/INDEX-UNFILTERED-SOURCE-CORRECTION-20261108.md),
+[range oracle](../../../../planning/research/archive/INDEX-DAILY-RANGE-ORACLE-20261108.md).
+[Explicit-source correction](../../../../planning/research/archive/INDEX-EXPLICIT-SOURCE-CORRECTION-20261108.md)
+và [kết quả](../../../../planning/research/archive/INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)
 ghi decoder padding, cache-only parity và phạm vi affected; không sửa upstream
 hoặc ghi đè old raw/results để hợp thức hóa correction.
 

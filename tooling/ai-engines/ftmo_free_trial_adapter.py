@@ -1,4 +1,11 @@
 """Read-only FTMO capture and causal paper execution. Never submits broker orders."""
+
+# Ensure archived legacy/ helper modules resolve when invoked standalone.
+import sys as _naqex_sys
+from pathlib import Path as _NaqexPath
+_NAQEX_LEGACY_DIR = str(_NaqexPath(__file__).resolve().with_name("legacy"))
+if _NAQEX_LEGACY_DIR not in _naqex_sys.path:
+    _naqex_sys.path.append(_NAQEX_LEGACY_DIR)
 from datetime import datetime, timezone
 from decimal import Decimal
 from collections import Counter

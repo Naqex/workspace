@@ -98,7 +98,7 @@ báo cáo. Existing skills đủ; chưa GPU/Rust/framework mới có lợi ích 
 Collector này chưa có CLIresume được kiểm uninterrupted-equivalence; perfile
 seals hỗ trợ đối soát/tái sử dụng ở attempt mới, không tự chứng minh resume.
 Đã sửa guard/progress runner cũ bằng10 transition tests trong
-[R086 report](US500-FOMC-PRICE-MOMENTUM-RESULTS-20261109.md#guardprogress-đã-sửa-không-chạy-lại-market-history).
+[R086 report](archive/US500-FOMC-PRICE-MOMENTUM-RESULTS-20261109.md#guardprogress-đã-sửa-không-chạy-lại-market-history).
 
 ## Artifacts và bước tiếp
 

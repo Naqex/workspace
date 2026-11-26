@@ -2,7 +2,7 @@
 
 **Đã rà: tạm gác triển khai stock-residual; chưa tải fullhistory/PnL.** Đã
 đọc method bổ sung, reuse fixture và kiểm program; kết quả ở dưới. Bước hiện
-tại chuyển sang [FOMC price-conditioned protocol](US500-FOMC-PRICE-MOMENTUM-PROTOCOL-20261109.md),
+tại chuyển sang [FOMC price-conditioned protocol](archive/US500-FOMC-PRICE-MOMENTUM-PROTOCOL-20261109.md),
 sau [surprise-source review](FOMC-SURPRISE-SOURCE-RESULTS-20261109.md).
 
 09/11/2026, sau[R085 không đạt](USDJPY-POSTFIX-EXTENSION-RESULTS-20261109.md).

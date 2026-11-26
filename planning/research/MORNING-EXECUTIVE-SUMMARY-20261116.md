@@ -40,7 +40,7 @@ Payout bình quân mỗi năm của sổ Funded mô phỏng: P25/P50/P75=**544,9
 
 Phí tăng 50% làm số mốc hoàn tất hai vòng trên lịch sử gốc giảm từ 71 xuống **7/105**. Không đường mô phỏng nào chạm trần lỗ, nhưng điều đó chưa chứng minh rủi ro thực tế bằng 0.
 
-Bảng phí 1,25×/1,50×, các năm thuận lợi/đi ngang, mức sụt vốn và tỷ lệ vi phạm nằm trong [báo cáo chi tiết](FINAL-CONVERGENCE-V18-RESULTS-20261116.md). Thiếu lịch news/đường giá và phí/fill tài khoản đích vẫn là điểm yếu thật; xáo trộn dữ liệu không tự lấp các lỗ hổng đó.
+Bảng phí 1,25×/1,50×, các năm thuận lợi/đi ngang, mức sụt vốn và tỷ lệ vi phạm nằm trong [báo cáo chi tiết](archive/FINAL-CONVERGENCE-V18-RESULTS-20261116.md). Thiếu lịch news/đường giá và phí/fill tài khoản đích vẫn là điểm yếu thật; xáo trộn dữ liệu không tự lấp các lỗ hổng đó.
 
 ## 4. Sáng nay nên làm gì?
 

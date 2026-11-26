@@ -16,9 +16,15 @@ Shared registries/copy files need one writer; other agents send that owner their
 required changes. Separate files still share a Git index in one checkout.
 
 Choose isolation using [Git branch/worktree decisions](../../../tooling/github-workflow/BRANCHES.md#agent-chọn-sửa-tại-chỗ-branch-hay-worktree):
-actual concurrent writers or a preserved checkout need separate worktrees;
+actual concurrent writers or a preserved checkout need separate worktrees managed
+under `.worktrees/` via [worktree_ctl.py](../../../tooling/worktree_ctl.py);
 read-only lanes or one serialized integrator do not need one branch per agent.
 Worktrees still share external runtime/data resources unless explicitly isolated.
+
+**Zero-Collision Multi-Subagent Protocol:**
+- **Isolated pytest caches:** Every lane MUST pass `-o cache_dir=.tmp/pytest-<lane>` so parallel workers never contend on `.pytest_cache`.
+- **Typed dropbox receipts:** Each lane writes its verified SHA-256 JSON receipt to `.tmp/swarm_dropbox/<lane>.json` (single writer per file; never edit another lane's receipt or shared ledger concurrently).
+- **1-to-1 adversarial sign-off:** Pair major implementation lanes with an independent read-only verifier running [adversarial-self-audit](../adversarial-self-audit/SKILL.md) before retiring workers (`swarm kill`).
 
 Put long specifications in a durable brief file and pass its path. Include the
 entrypoint and required references in that brief; do not assume the whole spawn

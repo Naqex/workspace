@@ -7,7 +7,7 @@ chính.** Giữ hướng US500/M15/intraday/risk thấp; gác đúng bộ luật
 R123 là bản **MA reclaim**: dùng SMA20/80 nhận hướng, chờ giá hồi rồi đóng nến
 vượt lại MA20 cộng/trừ đệm 0,10ATR; có cả BUY và SELL. SL2ATR, thoát khi mất
 hướng hoặc đến giờ đóng; không TP cố định. Luật cụ thể giữ ở
-[protocol đã khóa](US500-MA-RECLAIM-PROTOCOL-20261111.md), không sửa trong lượt rà.
+[protocol đã khóa](archive/US500-MA-RECLAIM-PROTOCOL-20261111.md), không sửa trong lượt rà.
 
 ## Mục tiêu và mức phù hợp hiện tại
 
@@ -120,9 +120,9 @@ FTMO vào The5ers. Chưa mua challenge hoặc gửi lệnh broker từ báo cáo
 
 | Bộ luật đã thử | Tần suất gần đúng mỗi 5 phiên | Evidence hiện có | Ý nghĩa |
 |---|---:|---|---|
-| [R094 opening breakout](US500-M15-OPENING-SCREEN-RESULTS-20261111.md) | 4,5 | 677 entry; modeled stress sum −1.144,62 USD; full annual PnL N/A do held gaps 1/3/1 unresolved theo năm | Đủ nhịp quan sát nhưng chưa có edge/coverage đầy đủ |
-| [R120 MA40/160](US500-MULTIFRAME-FULL-TABLE-20261111.md) | 0,1 | 15 lệnh/3 năm; stress +48,87 USD | Ít mẫu, chưa chứng minh lợi thế |
-| [R123 MA reclaim](US500-MA-RECLAIM-RESULTS-20261111.md) | 1,1 | 165 lệnh; chuẩn gần hòa vốn, stress âm | Cả cadence và economics chưa phù hợp |
+| [R094 opening breakout](archive/US500-M15-OPENING-SCREEN-RESULTS-20261111.md) | 4,5 | 677 entry; modeled stress sum −1.144,62 USD; full annual PnL N/A do held gaps 1/3/1 unresolved theo năm | Đủ nhịp quan sát nhưng chưa có edge/coverage đầy đủ |
+| [R120 MA40/160](archive/US500-MULTIFRAME-FULL-TABLE-20261111.md) | 0,1 | 15 lệnh/3 năm; stress +48,87 USD | Ít mẫu, chưa chứng minh lợi thế |
+| [R123 MA reclaim](archive/US500-MA-RECLAIM-RESULTS-20261111.md) | 1,1 | 165 lệnh; chuẩn gần hòa vốn, stress âm | Cả cadence và economics chưa phù hợp |
 
 Không chọn R120 vì dương hoặc đưa R094 trở lại vì nhiều lệnh. Không cộng các
 biến thể cùng họ/cost scenarios thành nhiều nguồn lợi thế độc lập.

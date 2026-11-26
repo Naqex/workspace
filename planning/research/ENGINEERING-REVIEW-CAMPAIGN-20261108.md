@@ -123,7 +123,7 @@ không ghi nhầm làCPUcompute. Khi đủ624rows mới chốt bảng/timing cu�
 
 ## Hậu kiểm US500 noise14 — cả2022/23/24 đã hoàn tất
 
-[Kết quả và pins](US500-NOISE-RESULTS-20261108.md) giữ negative version: năm2022
+[Kết quả và pins](archive/US500-NOISE-RESULTS-20261108.md) giữ negative version: năm2022
 dương nhưng2023/24âm cảcosts, chưa C1. Giữ908closedtrades/3nullcontrols và mọi
 raw gaps; không bỏ trade cómissingpath hoặc chọn lại điều kiện giữ survivors.
 
@@ -149,7 +149,7 @@ zero broker/modelcalls. C2 chỉ scoped engineeringevidence, chưa toànkhungđ�
 ## Continuation: lỗi lọc nguồn, range oracle và phục hồi tải theo request
 
 **Các bảng US500 trước correction chỉ còn giá trị truy vết.**
-[Kết quả hiện hành](US500-CORRECTED-REPLAY-20261108.md) đã kiểm lại đúng3policies
+[Kết quả hiện hành](archive/US500-CORRECTED-REPLAY-20261108.md) đã kiểm lại đúng3policies
 trên inputcanonical,không đổi rules/risk/costs. Lessonworkflow đã nối vào
 `strategy-research/references/source-transformations.md`;khôngtạoskill mới trùng.
 
@@ -184,10 +184,10 @@ khôngrerunvì transport đổiattempt. CurrentloopC1/C2 không tự đóng ở 
 
 Parent2016 có13BUYsignals nhưng0fills: dữ liệu không có quote saucashclose ở
 exactfillminute. Đây là operationalcoverage/inconclusive,chưa lànegativeedge.
-[Preclosevariant](US500-PRECLOSE-REVERSION-20261108.md) được đăng ký mới trước
-outcome,không dùngfull-dayfuturebars;[results](US500-PRECLOSE-REVERSION-RESULTS-20261108.md)
+[Preclosevariant](archive/US500-PRECLOSE-REVERSION-20261108.md) được đăng ký mới trước
+outcome,không dùngfull-dayfuturebars;[results](archive/US500-PRECLOSE-REVERSION-RESULTS-20261108.md)
 giữnearzerostress2022,khôngrescuebằngfees/threshold.3prefix/halfday/futuretests
-vàrealfinancialreviews đạt. [First→last30](US500-CLOSE-MOMENTUM-RESULTS-20261108.md)
+vàrealfinancialreviews đạt. [First→last30](archive/US500-CLOSE-MOMENTUM-RESULTS-20261108.md)
 độc lậpmechanismtrial cũngâmcả3years,khôngpromote. PrivateentrypointV1 bịguard
 chặntrướcPnL;V2sửaargv giữfailure,khôngclaimallfirstpassgreen.
 
@@ -203,11 +203,11 @@ vẫndừng. V5failurevàpartialcacheđượckếthừa,V6khônggửilạiexhaus
 
 | Lát | Bằng chứng / thay đổi | Kiểm chứng và giới hạn |
 |---|---|---|
-| Economic selection | [RSI long](US500-LONG-REVIEW-20261108.md) stress tổng −165,69/−351,21 USD, cả hai không đạt heuristic | 24 annual books, không CAGR; giữ operationally inconclusive years và negatives |
+| Economic selection | [RSI long](archive/US500-LONG-REVIEW-20261108.md) stress tổng −165,69/−351,21 USD, cả hai không đạt heuristic | 24 annual books, không CAGR; giữ operationally inconclusive years và negatives |
 | Reviewer correctness | Entry fill tamper, duplicate ID và closed counter sai từng được chấp nhận | Ba negative regressions fail trước vá; 9 tests đạt sau vá, gồm open Bid/Ask binding; actual24books/72scenarios recheck24,68s, 0 simulations |
-| Research scope | [Monthly study](US500-MONTHLY-TREND-RESULTS-20261108.md) là account liên tục, không annual reset | Hai policies×2costs+2null, all arithmetic/annual marks reconcile; fees/gaps/native DD chưa đủ C1 |
+| Research scope | [Monthly study](archive/US500-MONTHLY-TREND-RESULTS-20261108.md) là account liên tục, không annual reset | Hai policies×2costs+2null, all arithmetic/annual marks reconcile; fees/gaps/native DD chưa đủ C1 |
 | Input admission | 83/132 tháng usable; 2015–16 không có tháng đủ history | `prepare`/`input_coverage` trước book; guard không dispatch unusable year; 7 tests và actual576decision parity26,60s, không rerun numerical |
-| Clock/source oracle | [4 intervals](INDEX-MONTH-END-QUOTE-RESULTS-20261108.md): ba rỗng, 2016 có304ticks, Bid exact/Ask thiếu | No quote invention hoặc dataset mutation; UTC-year fix cho private comparisonV2, V1/source giữ; không chứng minh market closed |
+| Clock/source oracle | [4 intervals](archive/INDEX-MONTH-END-QUOTE-RESULTS-20261108.md): ba rỗng, 2016 có304ticks, Bid exact/Ask thiếu | No quote invention hoặc dataset mutation; UTC-year fix cho private comparisonV2, V1/source giữ; không chứng minh market closed |
 | Time/resources | DownloadV6 2.200,38s, new monthly total370,32s/load25,36s/CPU368,42s; RAM quan sát~5GB | Reuse dữ liệu, không model/broker calls. Chưa peak RAM hoặc native speed comparison; chưa cần GPU/rewrite để chạy tiếp cùng negative study |
 
 **Điều chỉnh quy trình:** ngoài raw hash/schema/calendar, phải kiểm dữ liệu có
@@ -249,8 +249,8 @@ Research tiếp [calendar hypotheses](EQUITY-CALENDAR-HYPOTHESES-REVIEW-20261108
 
 ## R025 component: kiểm trước khi xây bot
 
-[Protocol](US500-TURN-OF-MONTH-COMPONENT-PROTOCOL-20261108.md) và
-[results](US500-TURN-OF-MONTH-COMPONENT-RESULTS-20261108.md) giữ fullcounts/means
+[Protocol](archive/US500-TURN-OF-MONTH-COMPONENT-PROTOCOL-20261108.md) và
+[results](archive/US500-TURN-OF-MONTH-COMPONENT-RESULTS-20261108.md) giữ fullcounts/means
 và nguồn.1510sessions/2.728.293M1rows mỗi side, nativecalendar/loaderreuse.
 TOM không đạt registeredpriority; không bot/SL/risk/accountPnL hoặc policy mới.
 
@@ -269,8 +269,8 @@ không đổi sauoutcomes. Không rerun completedstudy; khôngjobnền/protocolg
 
 ## C2 continuation: raw source khác native decoder expansion
 
-[Correction protocol](INDEX-EXPLICIT-SOURCE-CORRECTION-20261108.md) và
-[results](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md) giữ counts/source/failures
+[Correction protocol](archive/INDEX-EXPLICIT-SOURCE-CORRECTION-20261108.md) và
+[results](archive/INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md) giữ counts/source/failures
 và phần chưa sửa hết. Decoder tự thêm carried-close/volume0; previous checksum/
 arithmetic/cash timestamp checks chưa chứng minh source observations.
 
@@ -291,8 +291,8 @@ Không tạo skill/framework hoặc nâng tài nguyên chỉ để có một c�
 
 ## Quarterly source gate và actual book correction
 
-[Frozen quarterly recipe](INDEX-EXPLICIT-QUARTERLY-PREFLIGHT-20261108.md),
-[before/after và nhật ký quyết định](INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)
+[Frozen quarterly recipe](archive/INDEX-EXPLICIT-QUARTERLY-PREFLIGHT-20261108.md),
+[before/after và nhật ký quyết định](archive/INDEX-EXPLICIT-SOURCE-RESULTS-20261108.md)
 giữ counts/timers/hash/source parity. Sourcea2a3358 có pairedsourceview và
 reader proof cache, actual legacyCLI rejected trước simulation.6integration+
 8provenance+5reader+25strategy/cost/reviewchecksđạt; khôngnớigate vìfixturebadspread.
@@ -311,8 +311,8 @@ còn correction; C1/C2 giữACTIVE,khôngcandidatequalified/holdout/broker mở.
 
 ## Long source correction và monthly input: hoàn tất lát đã đăng ký
 
-[Protocol](INDEX-LONG-EXPLICIT-CORRECTION-20261108.md),
-[before/after và remaininggaps](INDEX-LONG-EXPLICIT-RESULTS-20261108.md) giữ
+[Protocol](archive/INDEX-LONG-EXPLICIT-CORRECTION-20261108.md),
+[before/after và remaininggaps](archive/INDEX-LONG-EXPLICIT-RESULTS-20261108.md) giữ
 actualnumbers/sourcepins/selection.9newsourceyears và3reuse đãverified,
 322,391swall/2dataworkers. NativeNode trên pinnedraw giữgiá/order/source mask
 exact với Python; khôngnetwork,không khôi phục side thiếu trong parent V6.

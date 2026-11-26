@@ -81,7 +81,7 @@ tiên câu hỏi/edge/realism và reuse trước một lớpframework mới.
 
 Chuyển sang khảo sát cơchếequityintraday khác,không đảo ngượcdấu các losers.
 [Discovery14](INDICES-DISCOVERY14-PREPARATION-20261108.md) đã kiểm một ngày
-SPY/US500BidAskM1/cashsession. [US500development2022](US500-DATA-PREPARATION-20261108.md)
+SPY/US500BidAskM1/cashsession. [US500development2022](archive/US500-DATA-PREPARATION-20261108.md)
 đang chuẩn bịboundedM1 để freeze một adaptationprice-only;chưaPnL/strategy
 implementation hoặc brokercontractverified. Không mở2025+,khôngLLM/brokercalls
 trong624cases. Chưađóng C1/C2;không bảođảm batchmới sẽ cówinner.

@@ -1,6 +1,6 @@
 # Trading Workspace — định hướng 3–5 năm sau Product Plan
 **v0.2 · 26/09/2026 · ĐANG LẬP KẾ HOẠCH / CHƯA CHỐT / CHƯA GIAO THỰC THI.**
-**WORK: DRAFT · REVIEW: DOCUMENTATION-ONLY · DOC: COMPACTED (26/09).** [Review worker](../WORKER-REVIEW-2026-09-26.md) riêng, còn findings; không đóng product từ bản roadmap này.
+**WORK: DRAFT · REVIEW: DOCUMENTATION-ONLY · DOC: COMPACTED (26/09).** [Review worker](../archive/2026-09/WORKER-REVIEW-2026-09-26.md) riêng, còn findings; không đóng product từ bản roadmap này.
 
 Bản ngắn sau compaction. Toàn bộ phân tích, source, ranking và lý do giữ tại [v0.1 ngày 22/09](../archive/2026-09-26-context/POST-COMPLETION-ROADMAP-v0.1.md); [archive record](../archive/2026-09-26-context/README.md) giữ hash/original base.
 Giả định “Product Plan đã xong” chỉ là điểm bắt đầu phân tích tương lai, không phải acceptance hiện tại.
@@ -46,6 +46,6 @@ Có thể làm bản nhỏ 1+3+6, không cần hoàn tất từng hàng tuần t
 - So không AI/một AI/nhiều AI bằng kết quả đúng, thời gian và chi phí, không số báo cáo.
 
 ## 5. Trạng thái và bước sau
-Giữ [integrations brief](../WORKSPACE-INTEGRATIONS-RESEARCH-DRAFT.md) và [current context](../CURRENT-CONTEXT.md) làm lối đọc ngắn.
+Giữ [integrations brief](../archive/2026-09/WORKSPACE-INTEGRATIONS-RESEARCH-DRAFT.md) và [current context](../CURRENT-CONTEXT.md) làm lối đọc ngắn.
 Chưa chốt release hậu-PLAN, market/strategy/provider/budget, automation hoặc commercialization.
 PLAN giai đoạn VI Dubber/UI không tự kích hoạt roadmap quant này. Không thêm HFT, marketplace, mọi broker hay đổi stack nếu chưa có nhu cầu/evidence.

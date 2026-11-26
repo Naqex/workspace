@@ -21,7 +21,7 @@ Khôngjobnền, khôngnewstrategyvariant hoặc sửa verdict cũ tronglượt n
 ápdụng cho các bản mới vì chưa có bản đủ điều kiện chuyển tiếp; không là
 taskfailed hoặc được skip đểpromote. Gold cũ còn researchsurvivor và đã được
 chọn cho chẩn đoán có giới hạn ở trên, chưa qualified cho challenge.
-[R081results](US500-INVENTORY-CONDITION-RESULTS-20261109.md) và
+[R081results](archive/US500-INVENTORY-CONDITION-RESULTS-20261109.md) và
 [oilsourcepilot](OIL-EIA-SOURCE-PILOT-RESULTS-20261109.md) giữ sốliệu/giới hạn;
 chưachallengecandidate. Khôngcònjob nền. Existing skills đãbao phủcausalrule,
 sourceadmission/qualification/retrospective, chưacầnthêm skill/framework.
@@ -84,7 +84,7 @@ khác uncertaintyresolution củaR080. Đây là lý do kiểmcondition causal, 
 chọn filter do thấy selectedPnL đẹp. Fullpaper cũng lưu ý pattern không dễ
 kiếm lời sauBidAsk; không lấy headlineannualreturn làm kỳ vọngbot.
 
-Chọn [R081protocol](US500-INVENTORY-CONDITION-PROTOCOL-20261109.md): giữ nguyên
+Chọn [R081protocol](archive/US500-INVENTORY-CONDITION-PROTOCOL-20261109.md): giữ nguyên
 window/cost củaR080, mộtclosingreturn sign proxy cốđịnh, không đổi sang2–3NY
 hoặc thửnhiềuthresholds. Đây **là conditionalvariant córelatedparent**, không
 đếm là cơhội độc lập mới chỉ vìđổi explanation. Signedvolume/dealerinventory

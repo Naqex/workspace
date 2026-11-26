@@ -2,8 +2,8 @@
 
 **Trạng thái: đã chốt ngày 18/11/2026.** Gác cả hai cơ chế vì trượt cổng
 kinh tế. Mười khoảng ưu tiên chưa có nguồn giá mới đủ điều kiện.
-[Protocol đã khóa](PROP-N1-PROTOCOL-20261118.md) ·
-[Kết quả](PROP-N1-RESULTS-20261118.md) · [Lộ trình tổng](PROP-SYSTEM-ROADMAP.md)
+[Protocol đã khóa](archive/PROP-N1-PROTOCOL-20261118.md) ·
+[Kết quả](archive/PROP-N1-RESULTS-20261118.md) · [Lộ trình tổng](PROP-SYSTEM-ROADMAP.md)
 
 ## A. Sàng lọc cơ chế kiếm lời
 
@@ -67,7 +67,7 @@ sổ chuẩn với stress đã lưu để tìm những khoảng có thể đổi
 giá thoát hoặc trạng thái tài khoản. Nếu dữ liệu đã lưu chỉ cho chênh lệch
 ở cấp lệnh, xếp ưu tiên theo cấp lệnh và gắn từng khoảng thay vì quy kết
 riêng cho một phút. So theo cả hai thứ tự giá mô phỏng và khử trùng các
-khoảng trùng giữa các lệnh. [Đối soát V19](ASYMMETRIC-RECOVERY-V19-RESULTS-20261116.md#2-các-lệnh-vướng-giá-thiếu-và-guard-có-tác-dụng-gì)
+khoảng trùng giữa các lệnh. [Đối soát V19](archive/ASYMMETRIC-RECOVERY-V19-RESULTS-20261116.md#2-các-lệnh-vướng-giá-thiếu-và-guard-có-tác-dụng-gì)
 
 **Giới hạn một lượt**: ưu tiên tối đa 10 khoảng có tác động lớn trong
 Development, tối đa hai nguồn cục bộ có chứng cứ mới hoặc chưa kiểm và

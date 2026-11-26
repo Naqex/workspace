@@ -15,8 +15,17 @@ from __future__ import annotations
 
 import gc
 import os
+import sys
 import tempfile
 import time
+from pathlib import Path
+
+# Ensure tooling/ai-engines/ and its legacy/ & experiments/ tiers resolve seamlessly under pytest
+_AI_ENGINES_DIR = Path(__file__).resolve().parents[1]
+for _tier_dir in (_AI_ENGINES_DIR, _AI_ENGINES_DIR / "legacy", _AI_ENGINES_DIR / "experiments"):
+    _tier_str = str(_tier_dir)
+    if _tier_dir.is_dir() and _tier_str not in sys.path:
+        sys.path.append(_tier_str)
 
 # Pin numeric thread pools to 1 inside parallel xdist workers before NumPy/Numba import
 if os.environ.get("PYTEST_XDIST_WORKER"):

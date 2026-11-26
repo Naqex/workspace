@@ -95,7 +95,7 @@ Ngân sách **0,50%** vốn mỗi vị thế, tương ứng 50 / 250 / 500 / 1.0
 |---|---|---|
 | News Guard | Adapter có cửa sổ ±2 phút, có phase và chặn khi thiếu coverage. FTMO đánh dấu sự kiện Restricted. | Nguồn ingest tự động được xác minh, lưu thời điểm biết, quy UTC và mapping mã. Funded Standard áp cả SL/TP. [Luật tin FTMO](https://ftmo.com/en/faq/can-i-trade-news/) |
 | Holiday / đóng sớm | MT5 có lịch tuần. FTMO công bố ngày/mã ngoại lệ. | Manifest có nguồn và hiệu lực theo ngày. 26/11/2026 US500.cash đóng 18:00 UTC, Vàng đóng 19:30 UTC, sớm hơn cutoff 20:30. Giữ exact_session_parity=false tới khi có lịch ngoại lệ. [Trading Updates](https://ftmo.com/en/trading-updates/) |
-| Giờ ghi swap | Spec ghi ngày 3× theo mã. Repo có đối chiếu 17:00 New York cho EURUSD. | Timestamp hạch toán thực theo mã và qua DST. Bốn vòng thử đóng sau vài giây. [FTMO rollover](https://ftmo.com/en/blog/market-conventions-and-rollovers-on-nzd/) · [Audit repo](PROP-EUR-FX-ROLLOVER-AUDIT-20261119.md) |
+| Giờ ghi swap | Spec ghi ngày 3× theo mã. Repo có đối chiếu 17:00 New York cho EURUSD. | Timestamp hạch toán thực theo mã và qua DST. Bốn vòng thử đóng sau vài giây. [FTMO rollover](https://ftmo.com/en/blog/market-conventions-and-rollovers-on-nzd/) · [Audit repo](archive/PROP-EUR-FX-ROLLOVER-AUDIT-20261119.md) |
 | Spread theo phiên | Mẫu native cuối buổi sáng châu Âu. | Đo cửa sổ Á, Âu, Mỹ và trước/sau rollover trên nhiều ngày, giữ số quan sát và p50/p95/p99. Tách ngày tin và đóng sớm. |
 | Quy mô 50k–200k | Đã tính dưới spec 10k. | Snapshot từng tài khoản đích, margin theo khối lượng, spread/slippage theo lot và margin danh mục. |
 

@@ -106,7 +106,7 @@ Manifest kế thừa schema trong [runbook adapter V19](FTMO-FREE-TRIAL-ADAPTER-
 binding account hash/server, phase, capture window, exact seeded H1 từ nguồn
 đã admission, specs, lịch tin và holiday có provenance/known-at/coverage.
 `policy=V16` hoặc `V20`; V20 cần `v20_profile` đúng một trong ba profile đã
-[freeze](VOLTARGET-SHADOW-V20-FREEZE-20261117.json). Các profile vẫn research-only.
+[freeze](archive/VOLTARGET-SHADOW-V20-FREEZE-20261117.json). Các profile vẫn research-only.
 
 Python SDK không tự xuất đủ lịch session. Script chỉ đọc
 [`mt5_readonly_sessions.mq5`](../../tooling/ai-engines/mt5_readonly_sessions.mq5)

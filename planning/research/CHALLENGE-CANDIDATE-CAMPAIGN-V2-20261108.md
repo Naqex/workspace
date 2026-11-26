@@ -296,8 +296,8 @@ trạng thái thực thi thật. Không tự tạo một issue/chat/agent cho m�
 |T9 Challenge → funded → payout|Vận hành cùngversion, dailyreconciliation, kiểm rulephase mới, payoutnet/fee/withdrawal/reset handling|Record actualpass/funded/reward và hậu kiểm; mở rộng vốn sau quan sát riêng|Chưa thực hiện; không hứa lợi nhuận hoặc ngày hoàn thành|
 
 **Đọc tiếp ngay:** T1 → [H1/M15 proposal](H1-M15-ZONES-AND-AI-VALIDATION-20261112.md)
-→ [oldB/C spec](US500-MULTITIMEFRAME-DRAFT-20261111.md)
-→ [saved fulltable](US500-MULTIFRAME-FULL-TABLE-20261111.md). Agent tự đề xuất
+→ [oldB/C spec](archive/US500-MULTITIMEFRAME-DRAFT-20261111.md)
+→ [saved fulltable](archive/US500-MULTIFRAME-FULL-TABLE-20261111.md). Agent tự đề xuất
 một defaults có lý do dễ đảo ngược; không bắt owner chọn chi tiết nhỏ hoặc
 lấy sự chưa biết của owner làm quyền tự thay cả phương pháp.
 

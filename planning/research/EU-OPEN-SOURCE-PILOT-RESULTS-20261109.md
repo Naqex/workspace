@@ -26,6 +26,6 @@ config/results/pins; saved script `check-us500-euopen-source-v1.py`. Kết luậ
 chỉ source admission cho window/date mẫu, không joint tick quote, actual fills,
 funding/SL/account/prop/OOS/edge hoặc challenge authority. Chưa native strategy.
 
-Tiếp [economic protocol](US500-EU-OPEN-COMPONENT-PROTOCOL-20261109.md): full
+Tiếp [economic protocol](archive/US500-EU-OPEN-COMPONENT-PROTOCOL-20261109.md): full
 calendar/endpoints trước net, giữ missing/unknown và unit/cost assumptions;
 không gọi mọi bar trong năm đã tick-verified từ tám ngày pilot này.

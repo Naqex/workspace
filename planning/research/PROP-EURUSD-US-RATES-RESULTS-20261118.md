@@ -42,7 +42,7 @@ giờ. Khi có cơ chế mới, ưu tiên đo cấu trúc stop và độ dài gi
 tương thích với phí trước khi chọn bộ dự báo hướng. Giữ cổng Stage‑0
 và cả hai ca đối chứng cũ. Cổng đã trượt nên chưa có phép replay tài
 khoản ghép hoặc số liệu thay đổi tỷ lệ qua vòng 1. Giá 2024–2026 vẫn đóng.
-[Bằng chứng quy mô phiên Mỹ](PROP-SESSION-FEASIBILITY-RESULTS-20261118.md)
+[Bằng chứng quy mô phiên Mỹ](archive/PROP-SESSION-FEASIBILITY-RESULTS-20261118.md)
 
 ## Đối soát
 
