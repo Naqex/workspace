@@ -156,9 +156,18 @@ private:
 
    // v1.02-B opt-in opportunity lifecycle state (0 = frozen v1.01, 1 = stable opportunity_id + setup-validity expiry)
    int                  m_oppLifecycleMode;
+   bool                 m_oppStateRestored;
+   string               m_oppStateFileOverride;
    NaqexOppEpisode      m_opp[8];
    NaqexOppTransition   m_oppEvents[NAQEX_MAX_OPP_EVENTS];
    int                  m_oppEventCount;
+
+   void AutoPersistOppStateIfLive() const
+   {
+      if(m_oppLifecycleMode != 1) return;
+      if(MQLInfoInteger(MQL_TESTER) && m_oppStateFileOverride == "") return;
+      PersistOppState(m_oppStateFileOverride);
+   }
 
    void ResetOppEpisode(const int idx)
    {
@@ -237,6 +246,7 @@ private:
       m_opp[idx].blk_news          = 0;
       m_opp[idx].blk_other         = 0;
       m_opp[idx].last_block_key    = "";
+      AutoPersistOppStateIfLive();
    }
 
    // Update opportunity episode for a setup engine inside its valid session when fresh tick is observed.
@@ -286,6 +296,7 @@ private:
          m_opp[idx].eval_count++;
          outOppId     = m_opp[idx].opp_id;
          outEvalCount = m_opp[idx].eval_count;
+         AutoPersistOppStateIfLive();
       }
    }
 
@@ -396,8 +407,10 @@ public:
       m_e6CompCacheDay   = 0; m_e6CompCacheOk = false; m_e1ReconstLastTry = 0;
       for(int s = 0; s < NAQEX_SYM_COUNT; s++) { m_d1AtrCacheDay[s] = 0; m_d1AtrCacheVal[s] = 0.0; }
       for(int i = 0; i < 8; i++) { m_tradedDay[i] = 0; ResetOppEpisode(i); }
-      m_oppLifecycleMode = 0;
-      m_oppEventCount    = 0;
+      m_oppLifecycleMode     = 0;
+      m_oppStateRestored     = false;
+      m_oppStateFileOverride = "";
+      m_oppEventCount        = 0;
       // Registry exact base risk percentages (E1..E7 + S6)
       m_baseRisk[0] = 0.16; // E1_USDJPY_TOKYO
       m_baseRisk[1] = 0.59; // E2_USDJPY_EXP80
@@ -428,6 +441,7 @@ public:
       m_maxBreakoutLagMs = maxBreakoutLagMs;
       m_enableS6Shadow   = enableS6Shadow;
       m_oppLifecycleMode = oppLifecycleMode;
+      m_oppStateRestored = false;
       m_oppEventCount    = 0;
       m_nyAnchorJustLocked = false;
       m_nyAnchorLockedUtc  = 0;
@@ -514,8 +528,128 @@ public:
             m_opp[idx].blk_news          = 0;
             m_opp[idx].blk_other         = 0;
             m_opp[idx].last_block_key    = "";
+            AutoPersistOppStateIfLive();
          }
       }
+   }
+
+   // Step 4.2 (Q3a): Account+server scoped non-Tester opportunity persistence (restore-once, 0 duplicate OPP_START!)
+   static string OppStateFileName()
+   {
+      return StringFormat("naqex_opp_state_%I64d_%u.txt",
+                          CNaqexPropGuard::CurrentAccountLogin(),
+                          CNaqexPropGuard::CurrentAccountServerHash());
+   }
+
+   void SetOppLifecycleModeForDrill(const int mode, const string fileOverride = "")
+   {
+      m_oppLifecycleMode     = mode;
+      m_oppStateFileOverride = fileOverride;
+   }
+
+   bool PersistOppState(const string fileOverride = "") const
+   {
+      if(m_oppLifecycleMode != 1) return false;
+      if(MQLInfoInteger(MQL_TESTER) && fileOverride == "") return false;
+      string fname = (fileOverride != "") ? fileOverride : OppStateFileName();
+      int fh = FileOpen(fname, FILE_WRITE | FILE_TXT | FILE_ANSI | FILE_SHARE_READ);
+      if(fh == INVALID_HANDLE) return false;
+      FileWriteString(fh, "SCHEMA=NAQEX_OPP_STATE_V1\n");
+      for(int i = 0; i < 8; i++)
+      {
+         if(!m_opp[i].active && m_opp[i].ep_seq <= 0) continue;
+         string cleanBlk = m_opp[i].last_block_key;
+         StringReplace(cleanBlk, "|", "/");
+         StringReplace(cleanBlk, "\n", " ");
+         StringReplace(cleanBlk, "\r", " ");
+         string row = StringFormat(
+            "SLOT|%d|%d|%s|%s|%I64d|%s|%I64d|%d|%I64d|%.8f|%d|%d|%d|%d|%d|%d|%d|%d|%I64d|%s\n",
+            i, m_opp[i].active ? 1 : 0, m_opp[i].opp_id, m_opp[i].engine_id,
+            m_opp[i].magic, m_opp[i].symbol, (long)m_opp[i].session_day, m_opp[i].side,
+            (long)m_opp[i].opened_utc, m_opp[i].open_signal_price,
+            m_opp[i].eval_count, m_opp[i].block_count,
+            m_opp[i].blk_lmin, m_opp[i].blk_cap, m_opp[i].blk_spread, m_opp[i].blk_news, m_opp[i].blk_other,
+            m_opp[i].ep_seq, (long)m_opp[i].ep_seq_day, cleanBlk
+         );
+         FileWriteString(fh, row);
+      }
+      FileClose(fh);
+      return true;
+   }
+
+   bool RestoreOppStateOnce(const string fileOverride = "")
+   {
+      if(m_oppStateRestored) return false;
+      if(m_oppLifecycleMode != 1) return false;
+      if(MQLInfoInteger(MQL_TESTER) && fileOverride == "") return false;
+      string fname = (fileOverride != "") ? fileOverride : OppStateFileName();
+      if(!FileIsExist(fname))
+      {
+         m_oppStateRestored = true;
+         return false;
+      }
+      int fh = FileOpen(fname, FILE_READ | FILE_TXT | FILE_ANSI | FILE_SHARE_READ | FILE_SHARE_WRITE);
+      if(fh == INVALID_HANDLE) return false;
+      string hdr = FileIsEnding(fh) ? "" : FileReadString(fh);
+      StringTrimRight(hdr);
+      if(hdr != "SCHEMA=NAQEX_OPP_STATE_V1")
+      {
+         FileClose(fh);
+         m_oppStateRestored = true;
+         return false;
+      }
+      for(int i = 0; i < 8; i++) ResetOppEpisode(i);
+      bool loadedAny = false;
+      while(!FileIsEnding(fh))
+      {
+         string line = FileReadString(fh);
+         StringTrimRight(line);
+         if(StringFind(line, "SLOT|") != 0) continue;
+         string cols[];
+         int n = StringSplit(line, '|', cols);
+         if(n < 20) continue;
+         int idx = (int)StringToInteger(cols[1]);
+         if(idx < 0 || idx >= 8) continue;
+         m_opp[idx].active            = (StringToInteger(cols[2]) != 0);
+         m_opp[idx].opp_id            = cols[3];
+         m_opp[idx].engine_id         = cols[4];
+         m_opp[idx].magic             = (long)StringToInteger(cols[5]);
+         m_opp[idx].symbol            = cols[6];
+         m_opp[idx].session_day       = (datetime)StringToInteger(cols[7]);
+         m_opp[idx].side              = (int)StringToInteger(cols[8]);
+         m_opp[idx].opened_utc        = (datetime)StringToInteger(cols[9]);
+         m_opp[idx].open_signal_price = StringToDouble(cols[10]);
+         m_opp[idx].eval_count        = (int)StringToInteger(cols[11]);
+         m_opp[idx].block_count       = (int)StringToInteger(cols[12]);
+         m_opp[idx].blk_lmin          = (int)StringToInteger(cols[13]);
+         m_opp[idx].blk_cap           = (int)StringToInteger(cols[14]);
+         m_opp[idx].blk_spread        = (int)StringToInteger(cols[15]);
+         m_opp[idx].blk_news          = (int)StringToInteger(cols[16]);
+         m_opp[idx].blk_other         = (int)StringToInteger(cols[17]);
+         m_opp[idx].ep_seq            = (int)StringToInteger(cols[18]);
+         m_opp[idx].ep_seq_day        = (datetime)StringToInteger(cols[19]);
+         m_opp[idx].last_block_key    = (n >= 21) ? cols[20] : "";
+         loadedAny = true;
+      }
+      FileClose(fh);
+      m_oppStateRestored = true;
+      return loadedAny;
+   }
+
+   bool GetOppEpisodeCopy(const int idx, NaqexOppEpisode &outEp) const
+   {
+      if(idx < 0 || idx >= 8) return false;
+      outEp = m_opp[idx];
+      return true;
+   }
+
+   void StepOppObservedTickForDrill(const int idx, const string engShort, const string engId, const long magic,
+                                    const string sym, const datetime curDay, const datetime nowUtc,
+                                    const int curSide, const double curPx,
+                                    string &outOppId, int &outEvalCount, bool &outIsNew)
+   {
+      UpdateSetupOppOnObservedTick(idx, engShort, engId, magic, sym, curDay, nowUtc, curSide, curPx,
+                                   outOppId, outEvalCount, outIsNew);
    }
 
    int DrainOppTransitions(NaqexOppTransition &outEvents[])
@@ -549,6 +683,7 @@ public:
       outEvalCount  = m_opp[idx].eval_count;
       bool changed  = (m_opp[idx].block_count == 1 || m_opp[idx].last_block_key != blockKey);
       m_opp[idx].last_block_key = blockKey;
+      AutoPersistOppStateIfLive();
       return changed;
    }
 

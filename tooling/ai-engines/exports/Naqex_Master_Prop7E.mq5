@@ -70,7 +70,8 @@ input bool   InpTesterEmitDecisionLog  = false;      // Opt-in Tester-only pre-d
 input string InpTesterDecisionLogFile  = "naqex_tester_decisions.csv";
 input int    InpProfitLockBasisMode      = 0;        // 0=v1.01 Equity ProfitLock (frozen control), 1=v1.02-A Realized Balance ProfitLock + MathMin(DD,PL)
 input int    InpOpportunityLifecycleMode = 0;        // 0=v1.01 Per-Tick Intent (frozen control), 1=v1.02-B Stable opportunity_id + Setup-Validity Expiry + L653 Transition Log
-input bool   InpAllowManualHaltFile    = false;
+input int    InpPostCloseRefreshMode     = 0;        // 0=v1.01/Step3 Cycle-Start Risk Snapshot (frozen control), 1=Q2 Refresh State After Confirmed Close(s) Before CollectIntents
+input bool   InpAllowManualHaltFile      = false;
 input string InpManualHaltFile         = "naqex_manual_halt.flag";
 input long   InpMagicRangeMin          = 20261120;
 input long   InpMagicRangeMax          = 20261199;
@@ -106,6 +107,7 @@ datetime g_lastHydrateRetry  = 0;
 datetime g_lastHbWrite       = 0;
 long     g_lastTickLagMs     = 0;
 long     g_maxTickLagMs      = 0;
+ulong    g_pendingClosePosId = 0;
 
 //--- Opt-in Tester pre-decision observability state (read-only mirror, zero trading side effects)
 int      g_testerLogHandle   = INVALID_HANDLE;
@@ -627,9 +629,10 @@ void WriteMasterHeartbeat(const datetime nowUtc, const double bal, const double 
    }
 }
 
-void ClosePositionsByReason(const datetime nowUtc, const bool flattenAll, const string globalReason)
+int ClosePositionsByReason(const datetime nowUtc, const bool flattenAll, const string globalReason)
 {
    bool isDry = (InpDryRunLogOnly || InpShadowCompareMode || InpGuardDryRunLogOnly);
+   int closedConfirmedCount = 0;
    for(int i = PositionsTotal() - 1; i >= 0; i--)
    {
       ulong tk = PositionGetTicket(i);
@@ -637,6 +640,7 @@ void ClosePositionsByReason(const datetime nowUtc, const bool flattenAll, const 
       long pm = PositionGetInteger(POSITION_MAGIC);
       if(pm < InpMagicRangeMin || pm > InpMagicRangeMax) continue;
       string psym = PositionGetString(POSITION_SYMBOL);
+      ulong pIdPre = (ulong)PositionGetInteger(POSITION_IDENTIFIER);
       string reason = "";
       if(flattenAll)
          reason = globalReason;
@@ -653,7 +657,7 @@ void ClosePositionsByReason(const datetime nowUtc, const bool flattenAll, const 
             continue;
          bool emitLog = (MQLInfoInteger(MQL_TESTER) && InpTesterEmitDecisionLog && g_testerLogHandle != INVALID_HANDLE);
          double preBal = 0.0, preEq = 0.0, preFm = 0.0, pvol = 0.0, psl = 0.0, pOpen = 0.0, pBid = 0.0, pAsk = 0.0;
-         ulong pId = 0;
+         ulong pId = pIdPre;
          string pSide = "";
          if(emitLog)
          {
@@ -663,7 +667,6 @@ void ClosePositionsByReason(const datetime nowUtc, const bool flattenAll, const 
             pvol   = PositionGetDouble(POSITION_VOLUME);
             psl    = PositionGetDouble(POSITION_SL);
             pOpen  = PositionGetDouble(POSITION_PRICE_OPEN);
-            pId    = (ulong)PositionGetInteger(POSITION_IDENTIFIER);
             pSide  = (PositionGetInteger(POSITION_TYPE) == POSITION_TYPE_BUY) ? "SELL" : "BUY";
             pBid   = SymbolInfoDouble(psym, SYMBOL_BID);
             pAsk   = SymbolInfoDouble(psym, SYMBOL_ASK);
@@ -684,11 +687,29 @@ void ClosePositionsByReason(const datetime nowUtc, const bool flattenAll, const 
          }
          g_trade.SetExpertMagicNumber(pm);
          bool okClose = g_guard.ClosePositionChecked(g_trade, tk, reason, isDry);
+         uint cRet = g_trade.ResultRetcode();
+         bool isConfirmedClose = (!isDry && okClose && (cRet == TRADE_RETCODE_DONE || cRet == TRADE_RETCODE_DONE_PARTIAL));
+         if(isConfirmedClose)
+         {
+            closedConfirmedCount++;
+            if(g_pendingClosePosId == pId)
+            {
+               g_pendingClosePosId = 0;
+               if(!MQLInfoInteger(MQL_TESTER))
+                  CNaqexPropGuard::ClearPendingCloseState();
+            }
+         }
+         else if(!isDry && (cRet == TRADE_RETCODE_TIMEOUT || cRet == TRADE_RETCODE_PLACED))
+         {
+            // Pending/unconfirmed broker close: track marker, NEVER increment closedConfirmedCount or flip ProfitLock!
+            g_pendingClosePosId = pId;
+            if(!MQLInfoInteger(MQL_TESTER))
+               CNaqexPropGuard::SavePendingCloseState(pId, pm, psym, reason, nowUtc);
+         }
          if(emitLog)
          {
             ulong cDeal = (ulong)g_trade.ResultDeal();
             ulong cOrd  = (ulong)g_trade.ResultOrder();
-            uint  cRet  = g_trade.ResultRetcode();
             double cPx  = g_trade.ResultPrice();
             double cNet = 0.0;
             if(cDeal > 0 && HistoryDealSelect(cDeal))
@@ -717,6 +738,7 @@ void ClosePositionsByReason(const datetime nowUtc, const bool flattenAll, const 
          }
       }
    }
+   return closedConfirmedCount;
 }
 
 // V101-05: Cancel pending orders in our magic range on Kill-Switch, ManualFlatten, Red-News Pre-Flatten, or Hard-Flat
@@ -1452,21 +1474,104 @@ void RunMasterCycle()
    if(manualHalt) regime = manualFlatten ? "MANUAL_FLATTEN" : "MANUAL_HALT";
 
    // Exits, pending order cancellations & risk protection ALWAYS execute before any new intent evaluation
+   int closedConfirmedCount = 0;
    if(g_autoKillActive)
    {
       string killWhy = (dailyDdPct >= InpKillDailyDdPct) ? "MASTER_KILL_DAILY_DD" : "MASTER_KILL_STATIC_DD";
       CancelPendingOrdersByReason(nowUtc, true, killWhy);
-      ClosePositionsByReason(nowUtc, true, killWhy);
+      closedConfirmedCount = ClosePositionsByReason(nowUtc, true, killWhy);
    }
    else if(manualFlatten)
    {
       CancelPendingOrdersByReason(nowUtc, true, "MASTER_MANUAL_FLATTEN");
-      ClosePositionsByReason(nowUtc, true, "MASTER_MANUAL_FLATTEN");
+      closedConfirmedCount = ClosePositionsByReason(nowUtc, true, "MASTER_MANUAL_FLATTEN");
    }
    else
    {
       CancelPendingOrdersByReason(nowUtc, false, "");
-      ClosePositionsByReason(nowUtc, false, "");
+      closedConfirmedCount = ClosePositionsByReason(nowUtc, false, "");
+   }
+
+   // Reconcile any persisted pending-close marker once broker confirms position is gone
+   if(!MQLInfoInteger(MQL_TESTER) && g_pendingClosePosId > 0)
+   {
+      bool stillOpen = false;
+      for(int p = PositionsTotal() - 1; p >= 0; p--)
+      {
+         if(PositionGetTicket(p) > 0 && (ulong)PositionGetInteger(POSITION_IDENTIFIER) == g_pendingClosePosId)
+         {
+            stillOpen = true;
+            break;
+         }
+      }
+      if(!stillOpen)
+      {
+         g_pendingClosePosId = 0;
+         CNaqexPropGuard::ClearPendingCloseState();
+      }
+   }
+
+   // Q2 (opt-in InpPostCloseRefreshMode == 1): Refresh ONE consistent post-close risk snapshot ONLY after
+   // >= 1 confirmed close has already been booked into ACCOUNT_BALANCE, BEFORE CollectIntents()!
+   // Pending/unconfirmed/dry-run closes leave closedConfirmedCount == 0 and NEVER flip ProfitLock prematurely!
+   if(InpPostCloseRefreshMode == 1 && closedConfirmedCount > 0)
+   {
+      bal = AccountInfoDouble(ACCOUNT_BALANCE);
+      eq  = AccountInfoDouble(ACCOUNT_EQUITY);
+      dailyDdPct = (InpDailyResetMode == 1)
+         ? ((InpInitialBalanceUSD > 0.0) ? MathMax(0.0, ((g_dayAnchorBal - eq) / InpInitialBalanceUSD) * 100.0) : 0.0)
+         : ((g_dayAnchorEq > 0.0) ? MathMax(0.0, ((g_dayAnchorEq - eq) / g_dayAnchorEq) * 100.0) : 0.0);
+      staticDdPct       = (InpInitialBalanceUSD > 0.0) ? MathMax(0.0, ((InpInitialBalanceUSD - eq) / InpInitialBalanceUSD) * 100.0) : 0.0;
+      eqProfitPct       = (InpInitialBalanceUSD > 0.0) ? MathMax(0.0, ((eq - InpInitialBalanceUSD) / InpInitialBalanceUSD) * 100.0) : 0.0;
+      realizedProfitPct = (InpInitialBalanceUSD > 0.0) ? MathMax(0.0, ((bal - InpInitialBalanceUSD) / InpInitialBalanceUSD) * 100.0) : 0.0;
+      profitPct         = (InpProfitLockBasisMode == 1) ? realizedProfitPct : eqProfitPct;
+
+      regime = "NORMAL";
+      riskMult = ComputePhaseRiskMultiplier(dailyDdPct, staticDdPct, eqProfitPct, realizedProfitPct, regime);
+      g_curDailyDdPct  = dailyDdPct;
+      g_curStaticDdPct = staticDdPct;
+      g_curProfitPct   = profitPct;
+      g_curRegime      = regime;
+      g_curRiskMult    = riskMult;
+      if(MQLInfoInteger(MQL_TESTER) && InpTesterEmitDecisionLog && g_testerLogHandle != INVALID_HANDLE)
+      {
+         if(regime != g_prevLogRegime || MathAbs(riskMult - g_prevLogMult) > 1e-9)
+         {
+            string chgReason = StringFormat("POST_CLOSE_REFRESH|closed=%d|prev=%s@%.4f->%s@%.4f",
+                                            closedConfirmedCount, g_prevLogRegime, g_prevLogMult, regime, riskMult);
+            EmitTesterDecisionRow(nowUtc, "REGIME_OR_TAPER_CHANGE", "", 0, "", "", "",
+                                  0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                  0.0, 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                  bal, eq, AccountInfoDouble(ACCOUNT_MARGIN_FREE),
+                                  0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                  0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                  0, 0, 0, 0.0, 0.0, 0, chgReason);
+            g_prevLogRegime = regime;
+            g_prevLogMult   = riskMult;
+         }
+      }
+      if(dailyDdPct >= InpKillDailyDdPct || staticDdPct >= InpKillStaticDdPct)
+      {
+         if(!g_autoKillActive)
+         {
+            g_autoKillActive = true;
+            PersistAutoKillStateM(g_dayKey, true);
+            if(MQLInfoInteger(MQL_TESTER) && InpTesterEmitDecisionLog && g_testerLogHandle != INVALID_HANDLE)
+            {
+               string kWhy = (dailyDdPct >= InpKillDailyDdPct) ? "MASTER_KILL_DAILY_DD" : "MASTER_KILL_STATIC_DD";
+               EmitTesterDecisionRow(nowUtc, "KILL_ACTIVATED", "", 0, "", "", "",
+                                     0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                     0.0, 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                     bal, eq, AccountInfoDouble(ACCOUNT_MARGIN_FREE),
+                                     0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                     0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                     0, 0, 0, 0.0, 0.0, 0, kWhy);
+            }
+         }
+      }
+      effectiveKill = g_autoKillActive || manualHalt || g_anchorUnrecovered;
+      if(g_anchorUnrecovered) regime = "ANCHOR_UNRECOVERED";
+      if(manualHalt) regime = manualFlatten ? "MANUAL_FLATTEN" : "MANUAL_HALT";
    }
 
    // Collect and allocate intents ONLY when healthy, unlocked, and traded-day history hydrated (V101-02)
@@ -1522,8 +1627,16 @@ int OnInit()
    OpenTesterDecisionLog();
    RestoreOrInitDayAnchorM();
    g_signals.HydrateTradedDaysFromHistory(g_guard.NowUTC());
-   PrintFormat("[MASTER-7E-INIT] v1.01 sku=%s sizing=%d pl_mode=%d opp_mode=%d shadow=%s dry_run=%s hydrated=%s login=%I64d",
-               InpContractSku, InpSizingMode, InpProfitLockBasisMode, InpOpportunityLifecycleMode,
+   if(!MQLInfoInteger(MQL_TESTER))
+   {
+      if(InpOpportunityLifecycleMode == 1)
+         g_signals.RestoreOppStateOnce();
+      ulong pcPos = 0; long pcMagic = 0; string pcSym = "", pcWhy = ""; datetime pcTs = 0;
+      if(CNaqexPropGuard::LoadPendingCloseState(pcPos, pcMagic, pcSym, pcWhy, pcTs))
+         g_pendingClosePosId = pcPos;
+   }
+   PrintFormat("[MASTER-7E-INIT] v1.01 sku=%s sizing=%d pl_mode=%d opp_mode=%d refresh_mode=%d shadow=%s dry_run=%s hydrated=%s login=%I64d",
+               InpContractSku, InpSizingMode, InpProfitLockBasisMode, InpOpportunityLifecycleMode, InpPostCloseRefreshMode,
                InpShadowCompareMode ? "true" : "false",
                (InpDryRunLogOnly || InpGuardDryRunLogOnly) ? "true" : "false",
                g_signals.IsTradedDayHydrated() ? "true" : "false",
