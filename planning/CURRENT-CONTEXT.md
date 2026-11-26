@@ -1,22 +1,21 @@
 # Current context — Naqex Workspace
 
-`26/11/2026 02:15 ICT` · `WORK: SPRINT-6H-PARITY-HALTED-AT-GATE | C10-UNPROMOTED | 0-VND | LIVE-NODE1: ONLINE-CONNECTED-FLAT | HOLDOUT 2025+ SEALED`
+`26/11/2026 11:39 ICT` · `WORK: STEP1-PREDECISION-OBSERVABILITY-PASS | V101-ON-EQ-OFF-100PCT | HALTED_AT_PARITY_GATE | 0-VND | LIVE-NODE1: ONLINE-CONNECTED-FLAT | HOLDOUT 2025+ SEALED`
 
-`GOAL-NOW: ĐÃ DỪNG CHẶNG 3 KINH TẾ TẠI CỔNG PARITY (THEO LUẬT ASTRA V3.1) -> GIỮ CỨNG 0 VND (C10 CHƯA THĂNG HẠNG, C00 CHƯA TỰ ĐỘNG ĐƯỢC CÔNG NHẬN CÓ EDGE) | CHUYỂN SANG VÁ 4 LỖI ĐỒNG BỘ PYTHON<->MT5 CHO v1.02 + THU THẬP CHỈ ĐỌC QUOTE_ONLY QUANH NFP 04/12 & CPI 10/12`
+`GOAL-NOW: BƯỚC 1 ĐẠT 100% (ON==OFF 640/640 DEAL + 320/320 ACCEPT + 27.351/27.351 REJECT_LOT_MIN + 114/114 TAPER + 1/1 KILL, MAX ΔBAL=0,00 USD, 0 LỆNH GỬI BROKER) | GIỮ HALTED_AT_PARITY_GATE & 0 VND | CHỜ ASTRA VÒNG 5 DUYỆT BƯỚC 2 v1.02-A/B`
 
-## 0. Trạng Thái Hiện Tại Sau Sprint 6 Giờ Parity (`26/11/2026`)
+## 0. Trạng Thái Hiện Tại Sau Bước 1 Quan Sát Trước Quyết Định (`26/11/2026`)
 
-- **Phán quyết chính thức ([Hồ sơ Kiểm toán Sprint 6 giờ](research/SPRINT-6H-STANDARD-PARITY-AND-C00-VS-C10-AUDIT-20261126.md)):**
-  - **DỪNG CHẶNG 3 KINH TẾ (`HALTED_AT_PARITY_GATE`):** Không chạy Monte Carlo thăng hạng vì kiểm định 7 mắt xích trên `Naqex_Master_Prop7E.ex5` (`v1.01`, `sha16=2e0006ad786bdad6`) phát hiện sai lệch thực thi thực chất ở **cả `C00` đối chứng lẫn `C10` ứng viên** và điểm mù quan sát trong MT5 Tester:
-    1. **Link #4 (Đổi chế độ trong ngày theo `ACCOUNT_EQUITY` nổi):** Nhảy khối lượng `1,77×` trên `C00` P1 (`19/11`: `0,47 -> 0,83`), `1,91×` trên `C00` P2 (`19/11`: `0,23 -> 0,44`), và `2,00×` trên `C10` P2 (`02/12`: `0,40 -> 0,80`); phanh `AMBER` giữa ngày `05/11` làm Step 2A đánh lố `+49,2%`.
-    2. **Link #2 (Từ chối tín hiệu & vào trễ):** `UNOBSERVABLE_IN_TESTER` (`LogMasterShadowRow` L373 & `LogExecAuditFor` L993 thoát sớm, `lots < volMin` L653/L667 không log -> `0` dòng log); trong kịch bản `ADV_B2` (`23/10`), `E6` bị chặn cụm JPY lúc `10:00:00` rồi **vào trễ `8` tiếng lúc `18:00:00` (`0,10` lot)** khi `E1` đóng.
-    3. **Link #5 (Tự ngắt giữa ngày & giới hạn `OnTick` `1` giây):** `ADV_A` (`19/11`) xác nhận MT5 cắt cả 2 lệnh mở lúc `18:36:02` (`-181,03 -> -84,56 USD`) còn Step 2A để lệnh sống; `OnTick` `1` giây bỏ lọt cú xuyên sàn dưới `1` giây; `12/12` lượt chạy pha đều `swap = 0,00 USD`.
-    4. **`R1` & `R2` Restart Hydration:** Cả hai đều `SKIPPED_IN_TESTER`; bài kiểm thử Python ngoại tuyến đạt nhưng gắn nhãn `PYTHON_LOGIC_VERIFIED_MQL_BRANCH_UNEXECUTED / UNTESTED_ON_LIVE_RESTART`.
-  - **Bước 2A (Chứng minh đổi hồ sơ `Swing -> Standard`):** Đã chứng minh lỗi rơi ngầm tại `pass27_portfolio_m1_phase_audit.py:318` (truyền `"ftmo_standard_10k"` âm thầm dùng ký quỹ Swing); khi truyền `"Standard"`, ký quỹ `1` lot giảm đúng `3,3333×` (`-70,0%`) trên cả `4` mã lõi, `0` margin rejects.
-  - **Chẩn đoán Q4/2024 theo cặp (`4/12` tháng có đủ `.tkc` cho `8/8` mã; `47/96` tháng-mã 2024 bị thiếu — KHÔNG phải `Full-2024`):** Tại `0 ms / 500 ms` (`L1:100`, `20,02M` tick, `swap = 0,00`): `C00` P1 `+730,55 / +790,52 USD` (`EqDD 6,25% / 6,24%`) vs `C10` P1 `+371,25 / +419,41 USD` (`EqDD 8,82% / 8,72%`); `C00` P2 `+371,00 / +404,99` (`EqDD 3,73% / 3,72%`) vs `C10` P2 `+461,44 / +517,31` (`EqDD 7,61% / 7,48%`); `C00` Funded `+119,53 / +144,97` vs `C10` Funded `+161,83 / +194,94`.
-  - **Pháp y `28` lệnh sống (`2` lần SL `US100.cash` `#26 +385 pts` & `#28 -45 pts`):** Chốt **`KHÔNG TÁCH ĐƯỢC` (`UNSEPARABLE_MISSING_TRIGGER_QUOTE`)** do khoảng mù quét `5.000 ms` & thiếu `DEAL_TIME_MSC`; sốc `750 / 1.000` pts gắn nhãn `STRESS_ASSUMPTION`.
+- **Bước 1 — Nhật ký trạng thái trước quyết định không đổi hành vi `v1.01` ([STEP1 Report](research/STEP1-V101-PREDECISION-OBSERVABILITY-AND-FORMULA-PARITY-20261126.md)):**
+  - Thêm cờ tắt mặc định `InpTesterEmitDecisionLog = false` vào `Naqex_Master_Prop7E.mq5` (`0 errors, 0 warnings`, `ex5 sha16=f395512e39508552`), giữ nguyên 100% hành vi `v1.01`.
+  - **Gate A1 (`ON == OFF`, 4 ca / 8 lượt `Model=4`):** Khớp **`100,00%`** (`640/640` deal, `0` lệch, `0,00 USD`, `swap = 0,00`, khớp nguyên văn `v1.01` chưa gắn log; lượt `OFF` tạo `0` CSV).
+  - **Gate A2 & A3 (Công thức Python không nhìn trước từ ảnh chụp trước quyết định):** Khớp **`320/320`** `INTENT_ACCEPT_FILL`, **`27.351/27.351`** `INTENT_REJECT_LOT_MIN`, **`114/114`** `LOT_TAPER`, **`1/1`** `KILL_ACTIVATED`, `max_balance_diff = 0,0000 USD`; `ADV_A` tách bạch sạch `LOT_TAPER → KILL_ACTIVATED → CLOSE_REQUEST → CLOSE_FILL`.
+  - **Bằng chứng mới từ log thật:** `C10 P2 02/12 18:30` xác nhận trực tiếp lỗ nổi `-63,35 USD` (`bal 10.380,28`, `eq 10.316,93`, `3,169% < 3,50%`) là nguyên nhân duy nhất thoát `ProfitLock`; `ADV_B2` (`23/10`) `E6` không dừng ở `L631` mà rơi vào nhánh thoát im `L653` (`lots < volMin`) đúng `24.635` lần (và `596` / `2.120` lần trong `C10 P2` / `C00 P1` — trước đây tàng hình ở cả Live lẫn Tester!).
+  - Kho bằng chứng gốc: `private_vault/strategies/step1-predecision-observability-20261126/raw_mt5_logs/` (`44` tệp gốc có cả SHA-256 giải nén và nén).
+- **Phán quyết chính thức Sprint 6 giờ ([Hồ sơ Kiểm toán Sprint 6 giờ — đã đính chính 3 điểm Vòng 4](research/SPRINT-6H-STANDARD-PARITY-AND-C00-VS-C10-AUDIT-20261126.md)):**
+  - **DỪNG CHẶNG 3 KINH TẾ (`HALTED_AT_PARITY_GATE`):** Giữ cứng `0 VND` (`0` lệnh gửi tới broker), `C10` chưa thăng hạng, `C00` không tự động được công nhận có edge; `R1/R2` giữ nhãn `SKIPPED_IN_TESTER / chưa kiểm nhánh MQL khi restart`; chờ Astra Vòng 5 duyệt để thử riêng từng thay đổi `v1.02-A` (`ProfitLock` balance + `MathMin`) và `v1.02-B` (mã cơ hội ổn định + hết hiệu lực theo setup + log `L653`).
+  - **Chẩn đoán tháng `9–12/2024` (`4/12` tháng giao `.tkc` trên `8/8` mã, thiếu `47/96` tháng-mã — KHÔNG phải `Full-2024`):** `0 ms / 500 ms`: `C00` P1 `+730,55 / +790,52 USD` (`EqDD 6,25% / 6,24%`) vs `C10` P1 `+371,25 / +419,41 USD` (`EqDD 8,82% / 8,72%`); `C00` P2 `+371,00 / +404,99` vs `C10` P2 `+461,44 / +517,31`. Pháp y `28` lệnh sống (`2` SL `US100.cash`): `KHÔNG TÁCH ĐƯỢC`; mẫu đo chỉ đọc `QUOTE_ONLY` cho NFP `04/12` & CPI `10/12` sẵn sàng.
   - **Hiệu chính kế hoạch tổng thể:** Đã thêm hộp hiệu chính toán học đầu trang [TOP1-SOLO-QUANT-MASTER-PLAN.md](TOP1-SOLO-QUANT-MASTER-PLAN.md) (`Đậu + Rớt + Chờ` Ngày 180 = `100%`; ghép 4 nhánh không tự nhân lãi `1×` lên `18–30%`; Năm 1 = `0 VND` thu nhập trading).
-  - **Lưu trữ bằng chứng gốc:** `private_vault/strategies/sprint-6h-standard-parity-20261126/` lưu đủ `manifest_locked.json`, `step2a_profile_ablation.json`, `first_divergence_report.json`, `tick_and_28fills_forensics.json`, và `raw_mt5_logs/` (`18` lượt chạy / `90` tệp `.htm`/`.log`/`.set`/`.ini` gốc + `raw_logs_index.json`).
 
 ## 1. Kiến Trúc Đã Khóa & Khóa An Toàn Bất Biến
 

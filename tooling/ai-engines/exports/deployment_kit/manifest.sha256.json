@@ -1,6 +1,6 @@
 {
   "schema": "naqex-mt5-deployment-kit-manifest-v1",
-  "generated_utc": "2026-11-25T14:51:47+00:00",
+  "generated_utc": "2026-11-26T04:21:27+00:00",
   "order_send_count": 0,
   "profile_count": 10,
   "profiles": {
@@ -182,15 +182,15 @@
     "FTMO_Std10K_MasterProp7E_P1_Sprint_4x.set",
     "FTMO_Std10K_MasterProp7E_P2_Verify_2x.set"
   ],
-  "tracked_files_count": 127,
+  "tracked_files_count": 130,
   "tracked_files": {
     "tooling/ai-engines/exports/Naqex_AccountOrchestrator.mq5": {
       "sha256": "a03ad4621704266b2f2c1a6f3f738ab5af8ef80ada4f0df004af9eadedfab54f",
       "bytes": 15857
     },
     "tooling/ai-engines/exports/Naqex_Master_Prop7E.mq5": {
-      "sha256": "6b544b7a91a103051f98296544f62b7a39f75724f102e541b26cb543ffadd8a2",
-      "bytes": 41254
+      "sha256": "19a38eddf51636e5a9abb1dfe2af3cf5f67ef246f4cfc891d6a733a7d87062ad",
+      "bytes": 65760
     },
     "tooling/ai-engines/exports/Naqex_WB_EXP080_USDJPY.mq5": {
       "sha256": "db96490856662a2e2c70729ff8bc70e277e2bcb71d5ca895733a516183dada64",
@@ -508,6 +508,18 @@
       "sha256": "6077cbf22f4d8832f396c4589172ef68f8b183b81dd7181452a9e9aaed39c89b",
       "bytes": 989
     },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_Std10K_MasterProp7E_C10_Funded_125x.set": {
+      "sha256": "4f59b58749e60adec08cede5b64028ad39aac6a142a90d51020754dee9fb4f2b",
+      "bytes": 2122
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_Std10K_MasterProp7E_C10_P1_4x_L70.set": {
+      "sha256": "ad698bbfe18195223fe3d842ddc1eec4f040d907083482d7e647ae40e36f6bb9",
+      "bytes": 2126
+    },
+    "tooling/ai-engines/exports/deployment_kit/presets/FTMO_Std10K_MasterProp7E_C10_P2_35x.set": {
+      "sha256": "a2a683c8aa7b7e5f7a2ae032678c97dbd6a13fa9c4788393a3dcf5ca7d895ed7",
+      "bytes": 2172
+    },
     "tooling/ai-engines/exports/deployment_kit/presets/FTMO_Std10K_MasterProp7E_Funded_Safe_1x.set": {
       "sha256": "c520f60278a2d2e61587bf67ddbcd7397148004256ac83872b900a753251b2c5",
       "bytes": 2001
@@ -701,8 +713,8 @@
       "bytes": 57724
     },
     ".runtime/mt5-compiled-ex5/Naqex_Master_Prop7E.ex5": {
-      "sha256": "2e0006ad786bdad6b61137a2654a75b0923a835f1f1fb834edca6914f7d7d809",
-      "bytes": 120826
+      "sha256": "f395512e395085521b20090a48c96f0a2621703f5facdbc1e5baaaf0fb63a3f4",
+      "bytes": 131856
     },
     ".runtime/mt5-compiled-ex5/Naqex_WB_EXP080_USDJPY.ex5": {
       "sha256": "060f636946a09a40924ef0be176984e2e41511de348f132c97c02b52f5992374",
