@@ -52,7 +52,7 @@ Emit a structured receipt matching `AdversarialAuditReceipt` (and stage handoff 
   "schema_version": "naqex-adversarial-audit-receipt-v1",
   "audit_id": "audit-<lane>-YYYYMMDD",
   "target_path": "tooling/ai-engines/...",
-  "target_sha256": "<64-hex-sha256>",
+  "target_sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
   "audited_utc": "2026-11-26T20:00:00Z",
   "auditor_role": "independent-verifier",
   "vectors_checked": ["V1_BOUNDARY", "V6_SHA256", "V7_MUTATION"],
