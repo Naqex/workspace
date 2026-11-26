@@ -1,0 +1,1253 @@
+{
+  "schema": "naqex-prop-pricing-catalog-v1",
+  "updated_utc": "2026-11-26T11:44:00Z",
+  "staleness_max_days": 7,
+  "order_send_count": 0,
+  "holdout_rows_analysed": 0,
+  "fx_rates": {
+    "usd_vnd": 25765.94,
+    "eur_vnd": 28238.19,
+    "usd_eur": 0.91245,
+    "eur_usd": 1.09595,
+    "source": "open.er-api.com",
+    "source_url": "https://open.er-api.com/v6/latest/USD",
+    "provider_timestamp_utc": "2026-11-25T00:02:31Z",
+    "fetched_utc": "2026-11-26T11:26:20Z",
+    "rate_status": "LIVE_PUBLIC_API",
+    "fallback_usd_vnd": 25500.0,
+    "fallback_eur_vnd": 27500.0
+  },
+  "vn_transaction_costs": {
+    "card_fx_buy_fee_pct": 2.5,
+    "fx_conversion_spread_pct": 0.5,
+    "payout_rail_fee_pct_by_firm": {
+      "ftmo": 1.0,
+      "the5ers": 3.5,
+      "ic_funded": 1.5,
+      "e8_markets": 1.5
+    },
+    "notes": [
+      "VN Visa/Mastercard foreign-currency challenge purchase fee modeled at 2.5% (typical VN bank range 2.0%-3.0%).",
+      "Inbound payout FX conversion spread to VND modeled at 0.5% on top of payout rail fee.",
+      "The5ers charges an explicit 3.5% withdrawal fee on Rise/Crypto/Bank wire (0% only for Hub Credit conversions); FTMO, IC Funded, and E8 Markets charge 0% internal fee but VN outbound/inbound Rise/wire/crypto rails still incur ~1.0%-1.5% friction."
+    ]
+  },
+  "firms": {
+    "ftmo": {
+      "firm_id": "ftmo",
+      "display_name": "FTMO",
+      "jurisdiction": "Czech Republic",
+      "founded_year": 2015,
+      "broker_backing": "Proprietary liquidity / FTMO-Demo MT5",
+      "vietnam_eligible": true,
+      "mt5_supported": true,
+      "execution_evidence_tag": "MEASURED_DEMO_EXECUTION",
+      "pricing_source_tag": "LIVE_VN_CHECKOUT_20261126",
+      "ea_policy": {
+        "allowed": true,
+        "own_source_code_required": true,
+        "requires_written_clearance": false,
+        "copy_trade_third_party_banned": true,
+        "hft_latency_arb_banned": true,
+        "server_msg_daily_cap": 2000,
+        "summary": "Own custom non-HFT/non-arbitrage MT5 EAs permitted; third-party signal copying across unrelated accounts and server message spam prohibited."
+      },
+      "max_allocation_usd": 400000.0,
+      "payout_rail_fee_pct": 1.0,
+      "source_urls": [
+        "https://ftmo.com/en/",
+        "https://trader.ftmo.com/start-challenge",
+        "https://ftmo.com/en/faq/trading-objectives/",
+        "https://ftmo.com/en/faq/step-1-ftmo-challenge/"
+      ],
+      "verified_utc": "2026-11-26T11:25:00Z",
+      "notes": [
+        "All USD prices locked directly from 6 live Vietnam-account screenshots on trader.ftmo.com/start-challenge on 2026-11-26 (Black Friday active on Standard, 1-Step, Instant; NO Black Friday discount on Swing).",
+        "ONLY firm with measured live/demo MT5 real-tick execution telemetry (MEASURED_DEMO_EXECUTION)."
+      ],
+      "programs": {
+        "ftmo_2step_standard": {
+          "program_id": "ftmo_2step_standard",
+          "display_name": "FTMO 2-Step Standard",
+          "challenge_mode": "2_step_standard",
+          "steps": 2,
+          "leverage_fx": 100,
+          "p1_target_pct": 10.0,
+          "p2_target_pct": 5.0,
+          "dd_daily_pct": 5.0,
+          "dd_max_pct": 10.0,
+          "dd_type": "static",
+          "daily_dd_anchor": "MIDNIGHT_BALANCE_PRAGUE_0000",
+          "best_day_cap_pct": null,
+          "daily_profit_cap_pct": null,
+          "min_trading_days": 4,
+          "min_profitable_days": 0,
+          "profitable_day_threshold_pct": 0.0,
+          "news_rule": "EVAL_ALLOWED_FUNDED_BAN_PM2M",
+          "news_restricted_eval": false,
+          "news_restricted_funded": true,
+          "news_window_sec": 120,
+          "overnight_weekend_allowed": false,
+          "ea_policy": "OWN_CUSTOM_NON_HFT_MT5_ALLOWED",
+          "max_allocation_usd": 400000.0,
+          "min_payout_usd": 50.0,
+          "payout_cycle_days": 14,
+          "profit_split_pct": 80.0,
+          "profit_split_max_pct": 90.0,
+          "fee_refund_pct": 100.0,
+          "fee_refund_milestone": "FIRST_PAYOUT",
+          "external_cash_refund_pct": 100.0,
+          "hub_credit_rebate_pct": 0.0,
+          "payout_buffer_retention_pct": 0.0,
+          "execution_evidence_tag": "MEASURED_DEMO_EXECUTION",
+          "source_urls": [
+            "https://trader.ftmo.com/start-challenge",
+            "https://ftmo.com/en/faq/trading-objectives/"
+          ],
+          "verified_utc": "2026-11-26T11:25:00Z",
+          "tiers": {
+            "10K": {
+              "capital_usd": 10000.0,
+              "available_vn": true,
+              "orig_usd": 98.61,
+              "active_promo_usd": 68.7,
+              "active_promo_pct": 30.0,
+              "promo_label": "BLACK_FRIDAY_2026_VN",
+              "dd_daily_pct": 5.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:25:00Z"
+            },
+            "25K": {
+              "capital_usd": 25000.0,
+              "available_vn": true,
+              "orig_usd": 277.01,
+              "active_promo_usd": 220.5,
+              "active_promo_pct": 20.0,
+              "promo_label": "BLACK_FRIDAY_2026_VN",
+              "dd_daily_pct": 5.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:25:00Z"
+            },
+            "50K": {
+              "capital_usd": 50000.0,
+              "available_vn": true,
+              "orig_usd": 382.28,
+              "active_promo_usd": 305.83,
+              "active_promo_pct": 20.0,
+              "promo_label": "BLACK_FRIDAY_2026_VN",
+              "dd_daily_pct": 5.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:25:00Z"
+            },
+            "100K": {
+              "capital_usd": 100000.0,
+              "available_vn": true,
+              "orig_usd": 598.35,
+              "active_promo_usd": 478.68,
+              "active_promo_pct": 20.0,
+              "promo_label": "BLACK_FRIDAY_2026_VN",
+              "dd_daily_pct": 5.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:25:00Z"
+            },
+            "200K": {
+              "capital_usd": 200000.0,
+              "available_vn": true,
+              "orig_usd": 1196.7,
+              "active_promo_usd": 957.36,
+              "active_promo_pct": 20.0,
+              "promo_label": "BLACK_FRIDAY_2026_VN",
+              "dd_daily_pct": 5.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:25:00Z"
+            }
+          }
+        },
+        "ftmo_2step_swing": {
+          "program_id": "ftmo_2step_swing",
+          "display_name": "FTMO 2-Step Swing",
+          "challenge_mode": "2_step_swing",
+          "steps": 2,
+          "leverage_fx": 30,
+          "p1_target_pct": 10.0,
+          "p2_target_pct": 5.0,
+          "dd_daily_pct": 5.0,
+          "dd_max_pct": 10.0,
+          "dd_type": "static",
+          "daily_dd_anchor": "MIDNIGHT_BALANCE_PRAGUE_0000",
+          "best_day_cap_pct": null,
+          "daily_profit_cap_pct": null,
+          "min_trading_days": 4,
+          "min_profitable_days": 0,
+          "profitable_day_threshold_pct": 0.0,
+          "news_rule": "ALLOWED_ALL_PHASES_OVERNIGHT_OK",
+          "news_restricted_eval": false,
+          "news_restricted_funded": false,
+          "news_window_sec": 0,
+          "overnight_weekend_allowed": true,
+          "ea_policy": "OWN_CUSTOM_NON_HFT_MT5_ALLOWED",
+          "max_allocation_usd": 400000.0,
+          "min_payout_usd": 50.0,
+          "payout_cycle_days": 14,
+          "profit_split_pct": 80.0,
+          "profit_split_max_pct": 90.0,
+          "fee_refund_pct": 100.0,
+          "fee_refund_milestone": "FIRST_PAYOUT",
+          "external_cash_refund_pct": 100.0,
+          "hub_credit_rebate_pct": 0.0,
+          "payout_buffer_retention_pct": 0.0,
+          "execution_evidence_tag": "MEASURED_DEMO_EXECUTION",
+          "source_urls": [
+            "https://trader.ftmo.com/start-challenge",
+            "https://ftmo.com/en/faq/trading-objectives/"
+          ],
+          "verified_utc": "2026-11-26T11:25:00Z",
+          "notes": [
+            "Confirmed live on VN checkout (2026-11-26): ONLY 10K and 25K are available for Swing; 50K/100K/200K are disabled with tooltip 'Không áp dụng cho số dư tài khoản này'.",
+            "NO Black Friday discount applies to Swing."
+          ],
+          "tiers": {
+            "10K": {
+              "capital_usd": 10000.0,
+              "available_vn": true,
+              "orig_usd": 109.69,
+              "active_promo_usd": 109.69,
+              "active_promo_pct": 0.0,
+              "promo_label": "NONE",
+              "dd_daily_pct": 5.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:25:00Z"
+            },
+            "25K": {
+              "capital_usd": 25000.0,
+              "available_vn": true,
+              "orig_usd": 309.14,
+              "active_promo_usd": 309.14,
+              "active_promo_pct": 0.0,
+              "promo_label": "NONE",
+              "dd_daily_pct": 5.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:25:00Z"
+            },
+            "50K": {
+              "capital_usd": 50000.0,
+              "available_vn": false,
+              "unavailable_reason_vn": "Không áp dụng cho số dư tài khoản này",
+              "orig_usd": null,
+              "active_promo_usd": null,
+              "active_promo_pct": 0.0,
+              "promo_label": "UNAVAILABLE_VN",
+              "dd_daily_pct": 5.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:25:00Z"
+            },
+            "100K": {
+              "capital_usd": 100000.0,
+              "available_vn": false,
+              "unavailable_reason_vn": "Không áp dụng cho số dư tài khoản này",
+              "orig_usd": null,
+              "active_promo_usd": null,
+              "active_promo_pct": 0.0,
+              "promo_label": "UNAVAILABLE_VN",
+              "dd_daily_pct": 5.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:25:00Z"
+            },
+            "200K": {
+              "capital_usd": 200000.0,
+              "available_vn": false,
+              "unavailable_reason_vn": "Không áp dụng cho số dư tài khoản này",
+              "orig_usd": null,
+              "active_promo_usd": null,
+              "active_promo_pct": 0.0,
+              "promo_label": "UNAVAILABLE_VN",
+              "dd_daily_pct": 5.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:25:00Z"
+            }
+          }
+        },
+        "ftmo_1step": {
+          "program_id": "ftmo_1step",
+          "display_name": "FTMO 1-Step (Standard Only)",
+          "challenge_mode": "1_step_eod_trailing",
+          "steps": 1,
+          "leverage_fx": 100,
+          "p1_target_pct": 10.0,
+          "p2_target_pct": null,
+          "dd_daily_pct": 3.0,
+          "dd_max_pct": 10.0,
+          "dd_type": "eod_trailing",
+          "daily_dd_anchor": "START_OF_DAY_PRAGUE_0000",
+          "best_day_cap_pct": 50.0,
+          "daily_profit_cap_pct": null,
+          "min_trading_days": 0,
+          "min_profitable_days": 0,
+          "profitable_day_threshold_pct": 0.0,
+          "news_rule": "EVAL_ALLOWED_FUNDED_BAN_PM2M",
+          "news_restricted_eval": false,
+          "news_restricted_funded": true,
+          "news_window_sec": 120,
+          "overnight_weekend_allowed": false,
+          "ea_policy": "OWN_CUSTOM_NON_HFT_MT5_ALLOWED",
+          "max_allocation_usd": 400000.0,
+          "min_payout_usd": 50.0,
+          "payout_cycle_days": 14,
+          "profit_split_pct": 90.0,
+          "profit_split_max_pct": 90.0,
+          "fee_refund_pct": 0.0,
+          "fee_refund_milestone": "NON_REFUNDABLE",
+          "external_cash_refund_pct": 0.0,
+          "hub_credit_rebate_pct": 0.0,
+          "payout_buffer_retention_pct": 0.0,
+          "execution_evidence_tag": "MEASURED_DEMO_EXECUTION",
+          "source_urls": [
+            "https://trader.ftmo.com/start-challenge",
+            "https://ftmo.com/en/"
+          ],
+          "verified_utc": "2026-11-26T11:25:00Z",
+          "tiers": {
+            "10K": {
+              "capital_usd": 10000.0,
+              "available_vn": true,
+              "orig_usd": 87.53,
+              "active_promo_usd": 60.94,
+              "active_promo_pct": 30.0,
+              "promo_label": "BLACK_FRIDAY_2026_VN",
+              "dd_daily_pct": 3.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "eod_trailing",
+              "verified_utc": "2026-11-26T11:25:00Z"
+            },
+            "25K": {
+              "capital_usd": 25000.0,
+              "available_vn": true,
+              "orig_usd": 220.5,
+              "active_promo_usd": 176.18,
+              "active_promo_pct": 20.0,
+              "promo_label": "BLACK_FRIDAY_2026_VN",
+              "dd_daily_pct": 3.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "eod_trailing",
+              "verified_utc": "2026-11-26T11:25:00Z"
+            },
+            "50K": {
+              "capital_usd": 50000.0,
+              "available_vn": true,
+              "orig_usd": 353.47,
+              "active_promo_usd": 282.56,
+              "active_promo_pct": 20.0,
+              "promo_label": "BLACK_FRIDAY_2026_VN",
+              "dd_daily_pct": 3.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "eod_trailing",
+              "verified_utc": "2026-11-26T11:25:00Z"
+            },
+            "100K": {
+              "capital_usd": 100000.0,
+              "available_vn": true,
+              "orig_usd": 552.89,
+              "active_promo_usd": 442.12,
+              "active_promo_pct": 20.0,
+              "promo_label": "BLACK_FRIDAY_2026_VN",
+              "dd_daily_pct": 3.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "eod_trailing",
+              "verified_utc": "2026-11-26T11:25:00Z"
+            },
+            "200K": {
+              "capital_usd": 200000.0,
+              "available_vn": true,
+              "orig_usd": 1106.95,
+              "active_promo_usd": 885.34,
+              "active_promo_pct": 20.0,
+              "promo_label": "BLACK_FRIDAY_2026_VN",
+              "dd_daily_pct": 3.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "eod_trailing",
+              "verified_utc": "2026-11-26T11:25:00Z"
+            }
+          }
+        },
+        "ftmo_instant": {
+          "program_id": "ftmo_instant",
+          "display_name": "FTMO Instant (Standard Only)",
+          "challenge_mode": "instant_intraday_trailing",
+          "steps": 0,
+          "leverage_fx": 100,
+          "p1_target_pct": null,
+          "p2_target_pct": null,
+          "dd_daily_pct": 3.0,
+          "dd_max_pct": 10.0,
+          "dd_type": "intraday_trailing",
+          "daily_dd_anchor": "START_OF_DAY_PRAGUE_0000",
+          "best_day_cap_pct": 30.0,
+          "daily_profit_cap_pct": null,
+          "min_trading_days": 0,
+          "min_profitable_days": 0,
+          "profitable_day_threshold_pct": 0.0,
+          "news_rule": "FUNDED_BAN_PM2M",
+          "news_restricted_eval": false,
+          "news_restricted_funded": true,
+          "news_window_sec": 120,
+          "overnight_weekend_allowed": false,
+          "ea_policy": "OWN_CUSTOM_NON_HFT_MT5_ALLOWED",
+          "max_allocation_usd": 400000.0,
+          "min_payout_usd": 50.0,
+          "payout_cycle_days": 14,
+          "profit_split_pct": 90.0,
+          "profit_split_max_pct": 90.0,
+          "fee_refund_pct": 0.0,
+          "fee_refund_milestone": "NON_REFUNDABLE",
+          "external_cash_refund_pct": 0.0,
+          "hub_credit_rebate_pct": 0.0,
+          "payout_buffer_retention_pct": 0.0,
+          "execution_evidence_tag": "MEASURED_DEMO_EXECUTION",
+          "source_urls": [
+            "https://trader.ftmo.com/start-challenge",
+            "https://ftmo.com/en/"
+          ],
+          "verified_utc": "2026-11-26T11:25:00Z",
+          "tiers": {
+            "5K": {
+              "capital_usd": 5000.0,
+              "available_vn": true,
+              "orig_usd": 187.25,
+              "active_promo_usd": 130.75,
+              "active_promo_pct": 30.0,
+              "promo_label": "BLACK_FRIDAY_2026_VN",
+              "dd_daily_pct": 3.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "intraday_trailing",
+              "verified_utc": "2026-11-26T11:25:00Z"
+            },
+            "10K": {
+              "capital_usd": 10000.0,
+              "available_vn": true,
+              "orig_usd": 375.36,
+              "active_promo_usd": 300.29,
+              "active_promo_pct": 20.0,
+              "promo_label": "BLACK_FRIDAY_2026_VN",
+              "dd_daily_pct": 3.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "intraday_trailing",
+              "verified_utc": "2026-11-26T11:25:00Z"
+            },
+            "25K": {
+              "capital_usd": 25000.0,
+              "available_vn": true,
+              "orig_usd": 829.66,
+              "active_promo_usd": 663.73,
+              "active_promo_pct": 20.0,
+              "promo_label": "BLACK_FRIDAY_2026_VN",
+              "dd_daily_pct": 3.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "intraday_trailing",
+              "verified_utc": "2026-11-26T11:25:00Z"
+            },
+            "50K": {
+              "capital_usd": 50000.0,
+              "available_vn": true,
+              "orig_usd": 1660.98,
+              "active_promo_usd": 1328.57,
+              "active_promo_pct": 20.0,
+              "promo_label": "BLACK_FRIDAY_2026_VN",
+              "dd_daily_pct": 3.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "intraday_trailing",
+              "verified_utc": "2026-11-26T11:25:00Z"
+            },
+            "100K": {
+              "capital_usd": 100000.0,
+              "available_vn": true,
+              "orig_usd": 3322.8,
+              "active_promo_usd": 2658.24,
+              "active_promo_pct": 20.0,
+              "promo_label": "BLACK_FRIDAY_2026_VN",
+              "dd_daily_pct": 3.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "intraday_trailing",
+              "verified_utc": "2026-11-26T11:25:00Z"
+            }
+          }
+        }
+      }
+    },
+    "the5ers": {
+      "firm_id": "the5ers",
+      "display_name": "The5ers",
+      "jurisdiction": "Israel / UK",
+      "founded_year": 2016,
+      "broker_backing": "Proprietary liquidity / The5ers MT5",
+      "vietnam_eligible": true,
+      "mt5_supported": true,
+      "execution_evidence_tag": "TERMS_VERIFIED_EXECUTION_UNMEASURED",
+      "pricing_source_tag": "PUBLIC_OFFICIAL_TERMS_20261126",
+      "ea_policy": {
+        "allowed": true,
+        "own_source_code_required": true,
+        "requires_written_clearance": true,
+        "copy_trade_third_party_banned": true,
+        "hft_latency_arb_banned": true,
+        "server_msg_daily_cap": null,
+        "summary": "Own-source-code non-HFT/non-arbitrage MT5 EAs permitted; third-party/public EAs and copy-trading across external accounts strictly prohibited; written EA clearance/ownership verification recommended before funding."
+      },
+      "max_allocation_usd": 500000.0,
+      "payout_rail_fee_pct": 3.5,
+      "source_urls": [
+        "https://the5ers.com/high-stakes/",
+        "https://the5ers.com/faqs/",
+        "https://the5ers.com/terms-and-conditions/"
+      ],
+      "verified_utc": "2026-11-26T11:30:00Z",
+      "notes": [
+        "Vietnam is NOT on The5ers Forbidden Territories list; non-US clients have full MT5 access.",
+        "2026 High Stakes lineup replaced legacy 20K/60K SKUs with 5K/10K/25K/50K/100K (Classic 8%/5% and New 10%/5% variants); 50K and 100K tiers carry tighter 4% daily / 8% static max DD.",
+        "Fee refund splits into 10% Hub Credits (Step 1) + 20% Hub Credits (Step 2) + 70% external-cash refund added to Pro equity for 1st payout (external cash refund only applies to external-cash paid fees, not Hub Credits).",
+        "Rise / Crypto / Bank wire withdrawals carry 3.5% fee (Crypto capped at $1,500/request); Hub Credits conversion is 0%. Execution slippage/spread NOT yet measured on MT5 demo."
+      ],
+      "programs": {
+        "the5ers_high_stakes_classic": {
+          "program_id": "the5ers_high_stakes_classic",
+          "display_name": "The5ers High Stakes Classic (8%/5%)",
+          "challenge_mode": "2_step_high_stakes_classic",
+          "steps": 2,
+          "leverage_fx": 100,
+          "p1_target_pct": 8.0,
+          "p2_target_pct": 5.0,
+          "dd_daily_pct": 5.0,
+          "dd_max_pct": 10.0,
+          "dd_type": "static",
+          "daily_dd_anchor": "MAX_MIDNIGHT_BALANCE_OR_EQUITY_MT5_0000",
+          "best_day_cap_pct": null,
+          "daily_profit_cap_pct": null,
+          "min_trading_days": 3,
+          "min_profitable_days": 3,
+          "profitable_day_threshold_pct": 0.5,
+          "news_rule": "ALL_PHASES_BAN_PM2M",
+          "news_restricted_eval": true,
+          "news_restricted_funded": true,
+          "news_window_sec": 120,
+          "overnight_weekend_allowed": true,
+          "ea_policy": "OWN_SOURCE_CODE_EA_WRITTEN_APPROVAL_RECOMMENDED",
+          "max_allocation_usd": 500000.0,
+          "min_payout_usd": 150.0,
+          "payout_cycle_days": 14,
+          "profit_split_pct": 80.0,
+          "profit_split_max_pct": 100.0,
+          "fee_refund_pct": 70.0,
+          "fee_refund_milestone": "10PCT_HUB_P1_20PCT_HUB_P2_70PCT_CASH_FIRST_PAYOUT",
+          "external_cash_refund_pct": 70.0,
+          "hub_credit_rebate_pct": 30.0,
+          "payout_buffer_retention_pct": 0.0,
+          "execution_evidence_tag": "TERMS_VERIFIED_EXECUTION_UNMEASURED",
+          "source_urls": [
+            "https://the5ers.com/high-stakes/",
+            "https://the5ers.com/faqs/"
+          ],
+          "verified_utc": "2026-11-26T11:30:00Z",
+          "tiers": {
+            "5K": {
+              "capital_usd": 5000.0,
+              "available_vn": true,
+              "orig_usd": 39.0,
+              "active_promo_usd": 39.0,
+              "active_promo_pct": 0.0,
+              "promo_label": "LIST_PUBLIC_TERMS",
+              "dd_daily_pct": 5.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:30:00Z"
+            },
+            "10K": {
+              "capital_usd": 10000.0,
+              "available_vn": true,
+              "orig_usd": 78.0,
+              "active_promo_usd": 78.0,
+              "active_promo_pct": 0.0,
+              "promo_label": "LIST_PUBLIC_TERMS",
+              "dd_daily_pct": 5.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:30:00Z"
+            },
+            "25K": {
+              "capital_usd": 25000.0,
+              "available_vn": true,
+              "orig_usd": 195.0,
+              "active_promo_usd": 195.0,
+              "active_promo_pct": 0.0,
+              "promo_label": "LIST_PUBLIC_TERMS",
+              "dd_daily_pct": 5.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:30:00Z"
+            },
+            "50K": {
+              "capital_usd": 50000.0,
+              "available_vn": true,
+              "orig_usd": 279.0,
+              "active_promo_usd": 279.0,
+              "active_promo_pct": 0.0,
+              "promo_label": "LIST_PUBLIC_TERMS",
+              "dd_daily_pct": 4.0,
+              "dd_max_pct": 8.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:30:00Z"
+            },
+            "100K": {
+              "capital_usd": 100000.0,
+              "available_vn": true,
+              "orig_usd": 455.0,
+              "active_promo_usd": 455.0,
+              "active_promo_pct": 0.0,
+              "promo_label": "LIST_PUBLIC_TERMS",
+              "dd_daily_pct": 4.0,
+              "dd_max_pct": 8.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:30:00Z"
+            }
+          }
+        },
+        "the5ers_high_stakes_new": {
+          "program_id": "the5ers_high_stakes_new",
+          "display_name": "The5ers High Stakes New (10%/5%)",
+          "challenge_mode": "2_step_high_stakes_new",
+          "steps": 2,
+          "leverage_fx": 100,
+          "p1_target_pct": 10.0,
+          "p2_target_pct": 5.0,
+          "dd_daily_pct": 5.0,
+          "dd_max_pct": 10.0,
+          "dd_type": "static",
+          "daily_dd_anchor": "MAX_MIDNIGHT_BALANCE_OR_EQUITY_MT5_0000",
+          "best_day_cap_pct": null,
+          "daily_profit_cap_pct": null,
+          "min_trading_days": 3,
+          "min_profitable_days": 3,
+          "profitable_day_threshold_pct": 0.5,
+          "news_rule": "ALL_PHASES_BAN_PM2M",
+          "news_restricted_eval": true,
+          "news_restricted_funded": true,
+          "news_window_sec": 120,
+          "overnight_weekend_allowed": true,
+          "ea_policy": "OWN_SOURCE_CODE_EA_WRITTEN_APPROVAL_RECOMMENDED",
+          "max_allocation_usd": 500000.0,
+          "min_payout_usd": 150.0,
+          "payout_cycle_days": 14,
+          "profit_split_pct": 80.0,
+          "profit_split_max_pct": 100.0,
+          "fee_refund_pct": 70.0,
+          "fee_refund_milestone": "10PCT_HUB_P1_20PCT_HUB_P2_70PCT_CASH_FIRST_PAYOUT",
+          "external_cash_refund_pct": 70.0,
+          "hub_credit_rebate_pct": 30.0,
+          "payout_buffer_retention_pct": 0.0,
+          "execution_evidence_tag": "TERMS_VERIFIED_EXECUTION_UNMEASURED",
+          "source_urls": [
+            "https://the5ers.com/high-stakes/",
+            "https://the5ers.com/faqs/"
+          ],
+          "verified_utc": "2026-11-26T11:44:00Z",
+          "tiers": {
+            "5K": {
+              "capital_usd": 5000.0,
+              "available_vn": true,
+              "orig_usd": 35.0,
+              "active_promo_usd": 35.0,
+              "active_promo_pct": 0.0,
+              "promo_label": "LIST_PUBLIC_TERMS",
+              "dd_daily_pct": 5.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:44:00Z"
+            },
+            "10K": {
+              "capital_usd": 10000.0,
+              "available_vn": true,
+              "orig_usd": 69.0,
+              "active_promo_usd": 69.0,
+              "active_promo_pct": 0.0,
+              "promo_label": "LIST_PUBLIC_TERMS",
+              "dd_daily_pct": 5.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:44:00Z"
+            },
+            "25K": {
+              "capital_usd": 25000.0,
+              "available_vn": true,
+              "orig_usd": 176.0,
+              "active_promo_usd": 176.0,
+              "active_promo_pct": 0.0,
+              "promo_label": "LIST_PUBLIC_TERMS",
+              "dd_daily_pct": 5.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:44:00Z"
+            },
+            "50K": {
+              "capital_usd": 50000.0,
+              "available_vn": true,
+              "orig_usd": 249.0,
+              "active_promo_usd": 249.0,
+              "active_promo_pct": 0.0,
+              "promo_label": "LIST_PUBLIC_TERMS",
+              "dd_daily_pct": 4.0,
+              "dd_max_pct": 8.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:44:00Z"
+            },
+            "100K": {
+              "capital_usd": 100000.0,
+              "available_vn": true,
+              "orig_usd": 405.0,
+              "active_promo_usd": 405.0,
+              "active_promo_pct": 0.0,
+              "promo_label": "LIST_PUBLIC_TERMS",
+              "dd_daily_pct": 4.0,
+              "dd_max_pct": 8.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:44:00Z"
+            }
+          }
+        }
+      }
+    },
+    "ic_funded": {
+      "firm_id": "ic_funded",
+      "display_name": "IC Funded",
+      "jurisdiction": "Global / IC Markets Group",
+      "founded_year": 2024,
+      "broker_backing": "IC Markets (Tier-1 global MT5 CFD broker)",
+      "vietnam_eligible": true,
+      "mt5_supported": true,
+      "execution_evidence_tag": "TERMS_VERIFIED_EXECUTION_UNMEASURED",
+      "pricing_source_tag": "PUBLIC_OFFICIAL_TERMS_20261126",
+      "ea_policy": {
+        "allowed": true,
+        "own_source_code_required": true,
+        "requires_written_clearance": false,
+        "copy_trade_third_party_banned": true,
+        "hft_latency_arb_banned": true,
+        "server_msg_daily_cap": 3000,
+        "summary": "Own-source-code MT5 EAs permitted; third-party/rented/shared EAs and group copy-trading banned; hyperactivity limit capped at 3,000 server messages/day."
+      },
+      "max_allocation_usd": 500000.0,
+      "payout_rail_fee_pct": 1.5,
+      "source_urls": [
+        "https://icfunded.com/",
+        "https://icfunded.com/terms-and-conditions/",
+        "https://icfunded.com/insights/"
+      ],
+      "verified_utc": "2026-11-26T11:30:00Z",
+      "notes": [
+        "Selected as Firm #3 after rejecting FundingPips & FundedNext (Vietnam banned) and Alpha Capital Group (fully automated execution EAs banned).",
+        "Backed by IC Markets liquidity infrastructure; MT5 free of platform add-on fee; Vietnam accepted.",
+        "Challenge fee is refunded ONLY after the 3rd funded payout (slower cash recovery than FTMO's 1st-payout refund). Execution slippage NOT yet measured on MT5 demo."
+      ],
+      "programs": {
+        "ic_funded_2step_pro": {
+          "program_id": "ic_funded_2step_pro",
+          "display_name": "IC Funded 2-Step Professional",
+          "challenge_mode": "2_step_standard",
+          "steps": 2,
+          "leverage_fx": 50,
+          "p1_target_pct": 10.0,
+          "p2_target_pct": 5.0,
+          "dd_daily_pct": 5.0,
+          "dd_max_pct": 10.0,
+          "dd_type": "static",
+          "daily_dd_anchor": "EQUITY_RESET_SERVER_0000_GMT2_3",
+          "best_day_cap_pct": null,
+          "daily_profit_cap_pct": null,
+          "min_trading_days": 3,
+          "min_profitable_days": 0,
+          "profitable_day_threshold_pct": 0.0,
+          "funded_first_payout_min_profitable_days": 5,
+          "funded_first_payout_profitable_day_pct": 0.5,
+          "news_rule": "EVAL_ALLOWED_FUNDED_COOLDOWN_PM3M_TO_10M",
+          "news_restricted_eval": false,
+          "news_restricted_funded": true,
+          "news_window_sec": 600,
+          "overnight_weekend_allowed": true,
+          "ea_policy": "OWN_SOURCE_CODE_NON_HFT_MT5_MAX_3000_MSG_DAY",
+          "max_allocation_usd": 500000.0,
+          "min_payout_usd": 100.0,
+          "payout_cycle_days": 14,
+          "profit_split_pct": 80.0,
+          "profit_split_max_pct": 90.0,
+          "fee_refund_pct": 100.0,
+          "fee_refund_milestone": "THIRD_PAYOUT",
+          "external_cash_refund_pct": 100.0,
+          "hub_credit_rebate_pct": 0.0,
+          "payout_buffer_retention_pct": 0.0,
+          "execution_evidence_tag": "TERMS_VERIFIED_EXECUTION_UNMEASURED",
+          "source_urls": [
+            "https://icfunded.com/"
+          ],
+          "verified_utc": "2026-11-26T11:30:00Z",
+          "tiers": {
+            "5K": {
+              "capital_usd": 5000.0,
+              "available_vn": true,
+              "orig_usd": 74.0,
+              "active_promo_usd": 74.0,
+              "active_promo_pct": 0.0,
+              "promo_label": "LIST_PUBLIC_TERMS",
+              "dd_daily_pct": 5.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:30:00Z"
+            },
+            "10K": {
+              "capital_usd": 10000.0,
+              "available_vn": true,
+              "orig_usd": 125.0,
+              "active_promo_usd": 125.0,
+              "active_promo_pct": 0.0,
+              "promo_label": "LIST_PUBLIC_TERMS",
+              "dd_daily_pct": 5.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:30:00Z"
+            },
+            "25K": {
+              "capital_usd": 25000.0,
+              "available_vn": true,
+              "orig_usd": 249.0,
+              "active_promo_usd": 249.0,
+              "active_promo_pct": 0.0,
+              "promo_label": "LIST_PUBLIC_TERMS",
+              "dd_daily_pct": 5.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:30:00Z"
+            },
+            "50K": {
+              "capital_usd": 50000.0,
+              "available_vn": true,
+              "orig_usd": 449.0,
+              "active_promo_usd": 449.0,
+              "active_promo_pct": 0.0,
+              "promo_label": "LIST_PUBLIC_TERMS",
+              "dd_daily_pct": 5.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:30:00Z"
+            },
+            "100K": {
+              "capital_usd": 100000.0,
+              "available_vn": true,
+              "orig_usd": 689.0,
+              "active_promo_usd": 689.0,
+              "active_promo_pct": 0.0,
+              "promo_label": "LIST_PUBLIC_TERMS",
+              "dd_daily_pct": 5.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:30:00Z"
+            },
+            "200K": {
+              "capital_usd": 200000.0,
+              "available_vn": true,
+              "orig_usd": 1275.0,
+              "active_promo_usd": 1275.0,
+              "active_promo_pct": 0.0,
+              "promo_label": "LIST_PUBLIC_TERMS",
+              "dd_daily_pct": 5.0,
+              "dd_max_pct": 10.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:30:00Z"
+            }
+          }
+        }
+      }
+    },
+    "e8_markets": {
+      "firm_id": "e8_markets",
+      "display_name": "E8 Markets",
+      "jurisdiction": "Saint Lucia / Global (E8 Markets Ltd)",
+      "founded_year": 2021,
+      "broker_backing": "SimFi / E8 Markets MT5",
+      "vietnam_eligible": true,
+      "mt5_supported": true,
+      "execution_evidence_tag": "TERMS_VERIFIED_EXECUTION_UNMEASURED",
+      "pricing_source_tag": "PUBLIC_OFFICIAL_TERMS_20261126",
+      "ea_policy": {
+        "allowed": true,
+        "own_source_code_required": true,
+        "requires_written_clearance": false,
+        "copy_trade_third_party_banned": true,
+        "hft_latency_arb_banned": true,
+        "server_msg_daily_cap": null,
+        "summary": "Custom EAs explicitly allowed on MT5 under strict one-unique-strategy-per-user rule; shared third-party EAs across multiple users, latency arbitrage, and HFT (>50% trades held <1m) prohibited."
+      },
+      "max_allocation_usd": 200000.0,
+      "payout_rail_fee_pct": 1.5,
+      "source_urls": [
+        "https://e8markets.com/",
+        "https://help.e8markets.com/en/",
+        "https://e8markets.com/e8-pro"
+      ],
+      "verified_utc": "2026-11-26T11:30:00Z",
+      "notes": [
+        "Selected as Firm #4: 5-year track record (since 2021), explicitly allows Vietnam + MT5 (Classic Markets) + custom unique-strategy EAs.",
+        "Vietnam regional compliance cap modeled conservatively at $200,000 active allocation.",
+        "E8 Pro regular list prices (orig_usd) are $32/$68/$148/$228/$488/$998; active_promo_usd ($28/$58/$126/$194/$415/$849) ALREADY reflects the evergreen -15% promo code (CODE_E8_15PCT) — NEVER stack evergreen discounts on top of active_promo_usd.",
+        "E8 Pro enforces a strict 2.0% Daily Profit Cap (daily_profit_cap_pct=2.0: max 2% of initial balance counts per day; excess gains above 2% are removed at daily rollover), strict 2.5% daily DD, 0% fee refund, static 8% DD locking at initial balance after 1st payout, AND 50% payout buffer retention (half of eligible payout stays in account as drawdown cushion).",
+        "Notice pricing anomaly: 100K ($488 orig / $415 promo, 0.415%) and 200K ($998 orig / $849 promo, 0.4245%) are MORE expensive per $1 capital than 50K ($228 orig / $194 promo, 0.388%). Execution slippage NOT yet measured on MT5 demo."
+      ],
+      "programs": {
+        "e8_pro_1step_static": {
+          "program_id": "e8_pro_1step_static",
+          "display_name": "E8 Markets E8 Pro (1-Step Static)",
+          "challenge_mode": "1_step_static",
+          "steps": 1,
+          "leverage_fx": 50,
+          "p1_target_pct": 8.0,
+          "p2_target_pct": null,
+          "dd_daily_pct": 2.5,
+          "dd_max_pct": 8.0,
+          "dd_type": "static",
+          "daily_dd_anchor": "INITIAL_BALANCE_DAILY_CAP",
+          "locks_at_initial_after_first_payout": true,
+          "best_day_cap_pct": null,
+          "daily_profit_cap_pct": 2.0,
+          "min_trading_days": 0,
+          "min_profitable_days": 0,
+          "profitable_day_threshold_pct": 0.0,
+          "news_rule": "ALLOWED_ALL_PHASES",
+          "news_restricted_eval": false,
+          "news_restricted_funded": false,
+          "news_window_sec": 0,
+          "overnight_weekend_allowed": true,
+          "ea_policy": "ONE_UNIQUE_STRATEGY_PER_USER_NON_HFT_MT5_ALLOWED",
+          "max_allocation_usd": 200000.0,
+          "min_payout_usd": 100.0,
+          "payout_cycle_days": 1,
+          "min_payout_profit_pct": 1.0,
+          "profit_split_pct": 80.0,
+          "profit_split_max_pct": 100.0,
+          "fee_refund_pct": 0.0,
+          "fee_refund_milestone": "NON_REFUNDABLE",
+          "external_cash_refund_pct": 0.0,
+          "hub_credit_rebate_pct": 0.0,
+          "payout_buffer_retention_pct": 50.0,
+          "execution_evidence_tag": "TERMS_VERIFIED_EXECUTION_UNMEASURED",
+          "source_urls": [
+            "https://e8markets.com/e8-pro",
+            "https://help.e8markets.com/en/"
+          ],
+          "verified_utc": "2026-11-26T11:44:00Z",
+          "tiers": {
+            "5K": {
+              "capital_usd": 5000.0,
+              "available_vn": true,
+              "orig_usd": 32.0,
+              "active_promo_usd": 28.0,
+              "active_promo_pct": 12.5,
+              "promo_label": "CODE_E8_15PCT",
+              "dd_daily_pct": 2.5,
+              "dd_max_pct": 8.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:44:00Z"
+            },
+            "10K": {
+              "capital_usd": 10000.0,
+              "available_vn": true,
+              "orig_usd": 68.0,
+              "active_promo_usd": 58.0,
+              "active_promo_pct": 14.71,
+              "promo_label": "CODE_E8_15PCT",
+              "dd_daily_pct": 2.5,
+              "dd_max_pct": 8.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:44:00Z"
+            },
+            "25K": {
+              "capital_usd": 25000.0,
+              "available_vn": true,
+              "orig_usd": 148.0,
+              "active_promo_usd": 126.0,
+              "active_promo_pct": 14.86,
+              "promo_label": "CODE_E8_15PCT",
+              "dd_daily_pct": 2.5,
+              "dd_max_pct": 8.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:44:00Z"
+            },
+            "50K": {
+              "capital_usd": 50000.0,
+              "available_vn": true,
+              "orig_usd": 228.0,
+              "active_promo_usd": 194.0,
+              "active_promo_pct": 14.91,
+              "promo_label": "CODE_E8_15PCT",
+              "dd_daily_pct": 2.5,
+              "dd_max_pct": 8.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:44:00Z"
+            },
+            "100K": {
+              "capital_usd": 100000.0,
+              "available_vn": true,
+              "orig_usd": 488.0,
+              "active_promo_usd": 415.0,
+              "active_promo_pct": 14.96,
+              "promo_label": "CODE_E8_15PCT",
+              "dd_daily_pct": 2.5,
+              "dd_max_pct": 8.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:44:00Z"
+            },
+            "200K": {
+              "capital_usd": 200000.0,
+              "available_vn": true,
+              "orig_usd": 998.0,
+              "active_promo_usd": 849.0,
+              "active_promo_pct": 14.93,
+              "promo_label": "CODE_E8_15PCT",
+              "dd_daily_pct": 2.5,
+              "dd_max_pct": 8.0,
+              "dd_type": "static",
+              "verified_utc": "2026-11-26T11:44:00Z"
+            }
+          }
+        }
+      }
+    }
+  },
+  "seasonal_sale_calendar": [
+    {
+      "event_id": "ftmo_black_friday_2026_live_vn",
+      "name": "FTMO Black Friday 2026 Live VN Checkout",
+      "window_mmdd_start": "11-24",
+      "window_mmdd_end": "12-01",
+      "typical_discount_pct_min": 20.0,
+      "typical_discount_pct_max": 30.0,
+      "firm_discounts_pct": {
+        "ftmo_standard_10k": 30.0,
+        "ftmo_standard_25k_to_200k": 20.0,
+        "ftmo_swing": 0.0,
+        "ftmo_1step_10k": 30.0,
+        "ftmo_1step_25k_to_200k": 20.0,
+        "ftmo_instant_5k": 30.0,
+        "ftmo_instant_10k_to_100k": 20.0
+      },
+      "confidence_tag": "CONTRACTUAL",
+      "notes": "Verified directly on live VN checkout screenshots (2026-11-26). Swing explicitly excluded."
+    },
+    {
+      "event_id": "black_friday_cyber_monday_annual",
+      "name": "Black Friday & Cyber Monday (Annual Peak Sale)",
+      "window_mmdd_start": "11-20",
+      "window_mmdd_end": "12-03",
+      "typical_discount_pct_min": 15.0,
+      "typical_discount_pct_max": 35.0,
+      "firm_discounts_pct": {
+        "ftmo": 20.0,
+        "the5ers": 10.0,
+        "ic_funded": 25.0,
+        "e8_markets": 20.0
+      },
+      "confidence_tag": "HISTORICAL_PATTERN",
+      "notes": "Strongest annual industry discount window; FTMO historically 20-30% on Standard/entry tiers (0% Swing), The5ers conservative 10-15%, IC Funded & E8 Markets 20-30%."
+    },
+    {
+      "event_id": "christmas_new_year_kickoff",
+      "name": "Christmas & New Year Q1 Kickoff",
+      "window_mmdd_start": "12-20",
+      "window_mmdd_end": "01-15",
+      "typical_discount_pct_min": 10.0,
+      "typical_discount_pct_max": 25.0,
+      "firm_discounts_pct": {
+        "ftmo": 10.0,
+        "the5ers": 10.0,
+        "ic_funded": 20.0,
+        "e8_markets": 15.0
+      },
+      "confidence_tag": "HISTORICAL_PATTERN",
+      "notes": "Second major annual promo window; FTMO often runs targeted/small-tier promos or zero flat discount while secondary firms run 10-25% codes."
+    },
+    {
+      "event_id": "easter_spring_campaign",
+      "name": "Easter / Spring Reset Campaign",
+      "window_mmdd_start": "03-25",
+      "window_mmdd_end": "04-20",
+      "typical_discount_pct_min": 10.0,
+      "typical_discount_pct_max": 20.0,
+      "firm_discounts_pct": {
+        "ftmo": 0.0,
+        "the5ers": 5.0,
+        "ic_funded": 15.0,
+        "e8_markets": 15.0
+      },
+      "confidence_tag": "HISTORICAL_PATTERN",
+      "notes": "Mid-year spring push; FTMO rarely discounts outside Black Friday/special milestones."
+    },
+    {
+      "event_id": "summer_lull_july4",
+      "name": "Summer Lull / Mid-Year & July 4 Promo",
+      "window_mmdd_start": "06-25",
+      "window_mmdd_end": "07-15",
+      "typical_discount_pct_min": 10.0,
+      "typical_discount_pct_max": 25.0,
+      "firm_discounts_pct": {
+        "ftmo": 0.0,
+        "the5ers": 10.0,
+        "ic_funded": 20.0,
+        "e8_markets": 15.0
+      },
+      "confidence_tag": "HISTORICAL_PATTERN",
+      "notes": "Counter-seasonal discount window during summer FX volatility lull."
+    },
+    {
+      "event_id": "evergreen_partner_codes",
+      "name": "Year-Round Evergreen Partner / Loyalty Codes",
+      "window_mmdd_start": "01-01",
+      "window_mmdd_end": "12-31",
+      "typical_discount_pct_min": 0.0,
+      "typical_discount_pct_max": 15.0,
+      "firm_discounts_pct": {
+        "ftmo": 0.0,
+        "the5ers": 5.0,
+        "ic_funded": 10.0,
+        "e8_markets": 15.0
+      },
+      "confidence_tag": "HISTORICAL_PATTERN",
+      "notes": "Baseline non-holiday discount availability applied ONLY against orig_usd (never stacked on top of active_promo_usd; e.g., E8 code 'E8' ~15% is already reflected in e8_pro_1step_static active_promo_usd; The5ers partner 5-10%; FTMO has no evergreen discount)."
+    }
+  ],
+  "rejected_candidates": [
+    {
+      "firm_id": "fundednext",
+      "display_name": "FundedNext",
+      "status": "REJECTED",
+      "vietnam_eligible": false,
+      "mt5_ea_fully_automated_allowed": false,
+      "reason": "Official Help Center explicitly lists Vietnam as a restricted country (VPN/workaround triggers termination) AND bans all EAs/bots on accounts >= $50,000.",
+      "source_urls": [
+        "https://help.fundednext.com/"
+      ],
+      "verified_utc": "2026-11-26T11:27:00Z"
+    },
+    {
+      "firm_id": "fundingpips",
+      "display_name": "FundingPips",
+      "status": "REJECTED",
+      "vietnam_eligible": false,
+      "mt5_ea_fully_automated_allowed": true,
+      "reason": "Official compliance/restricted countries terms explicitly list Vietnam as a restricted/prohibited jurisdiction.",
+      "source_urls": [
+        "https://fundingpips.com/"
+      ],
+      "verified_utc": "2026-11-26T11:27:00Z"
+    },
+    {
+      "firm_id": "alpha_capital_group",
+      "display_name": "Alpha Capital Group",
+      "status": "REJECTED",
+      "vietnam_eligible": true,
+      "mt5_ea_fully_automated_allowed": false,
+      "reason": "Official FAQ restricts MT5 EAs strictly to manual trade/risk-management helpers (pre-approved by support); fully automated trade-execution EAs are prohibited.",
+      "source_urls": [
+        "https://alphacapitalgroup.uk/"
+      ],
+      "verified_utc": "2026-11-26T11:27:00Z"
+    },
+    {
+      "firm_id": "fxify",
+      "display_name": "FXIFY",
+      "status": "REJECTED",
+      "vietnam_eligible": false,
+      "mt5_ea_fully_automated_allowed": true,
+      "reason": "Vietnam listed on FXIFY restricted jurisdictions list.",
+      "source_urls": [
+        "https://fxify.com/"
+      ],
+      "verified_utc": "2026-11-26T11:27:00Z"
+    },
+    {
+      "firm_id": "funded_trading_plus",
+      "display_name": "Funded Trading Plus",
+      "status": "REJECTED",
+      "vietnam_eligible": false,
+      "mt5_ea_fully_automated_allowed": true,
+      "reason": "Vietnam listed on restricted countries of residence.",
+      "source_urls": [
+        "https://www.fundedtradingplus.com/"
+      ],
+      "verified_utc": "2026-11-26T11:27:00Z"
+    },
+    {
+      "firm_id": "brightfunded",
+      "display_name": "BrightFunded",
+      "status": "REJECTED",
+      "vietnam_eligible": false,
+      "mt5_ea_fully_automated_allowed": true,
+      "reason": "Official restricted jurisdictions policy excludes Vietnam.",
+      "source_urls": [
+        "https://brightfunded.com/"
+      ],
+      "verified_utc": "2026-11-26T11:27:00Z"
+    },
+    {
+      "firm_id": "fintokei",
+      "display_name": "Fintokei",
+      "status": "REJECTED",
+      "vietnam_eligible": false,
+      "mt5_ea_fully_automated_allowed": true,
+      "reason": "Vietnam listed on Fintokei restricted countries list.",
+      "source_urls": [
+        "https://www.fintokei.com/"
+      ],
+      "verified_utc": "2026-11-26T11:28:00Z"
+    },
+    {
+      "firm_id": "hantec_trader_rzr",
+      "display_name": "Hantec Trader / RZR Funded",
+      "status": "REJECTED",
+      "vietnam_eligible": false,
+      "mt5_ea_fully_automated_allowed": true,
+      "reason": "Vietnam listed on restricted countries list.",
+      "source_urls": [
+        "https://htrader.com/"
+      ],
+      "verified_utc": "2026-11-26T11:29:00Z"
+    },
+    {
+      "firm_id": "maven_trading",
+      "display_name": "Maven Trading",
+      "status": "REJECTED",
+      "vietnam_eligible": true,
+      "mt5_ea_fully_automated_allowed": false,
+      "reason": "Strict no-EA / manual-trading-only policy; all bots and scripts banned.",
+      "source_urls": [
+        "https://maventrading.com/"
+      ],
+      "verified_utc": "2026-11-26T11:29:00Z"
+    },
+    {
+      "firm_id": "blueberry_funded",
+      "display_name": "Blueberry Funded",
+      "status": "WATCHLIST_BACKUP",
+      "vietnam_eligible": true,
+      "mt5_ea_fully_automated_allowed": true,
+      "reason": "Broker-backed (Blueberry Markets), accepts Vietnam + MT5; kept as #5 watchlist backup rather than Top-4 due to non-refundable fees, higher $7/lot FX commission, and conflicting third-party summaries on automated vs risk-only EA scope (verify live support ticket before allocating).",
+      "source_urls": [
+        "https://blueberryfunded.com/"
+      ],
+      "verified_utc": "2026-11-26T11:31:00Z"
+    }
+  ]
+}

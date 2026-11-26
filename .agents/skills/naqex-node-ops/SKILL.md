@@ -23,6 +23,7 @@ Keep the dedicated Windows 10 Home-VPS (`naqex-node1`), cloud dead-man's-switch 
   - Cloud app `<HEROKU_DEADMAN_APP>`: `1 × Basic` (`7 USD/mo`, 24/7 no sleep) + `heroku-postgresql:essential-0` (`5 USD/mo`, auto-pruned `10,000` rows) = `12 USD/mo <= 13 USD/mo` student credit cap (`312 USD` credit, `2026-10-01 -> 2028-09-30`; review/cancel gate `2028-09-25` before card billing).
   - Local gitignored connection pointer on main PC: `.runtime/ops-cloud/heroku_connection_local.json`.
   - Alert bot: `<TELEGRAM_GUARD_BOT>` (`TELEGRAM_BOT_TOKEN` & `TELEGRAM_CHAT_ID` stored strictly in cloud Config Vars).
+- **3-Node Plane Isolation (Star Topology):** `naqex-node1` is strictly the 24/5 Execution Plane (`OrderSend = 0` ops scripts + MT5 Portable) and is completely isolated from `<X13_WORKER>` (Dev-only CPU Research Plane, LAN `ssh naqex-x13` / Tailscale `ssh naqex-x13-ts`, parameters in Layer-2 `private_vault/ops/naqex-x13-worker.md`). Never dispatch backtests/Monte Carlo to `naqex-node1` and never establish direct SSH/file sync between `<X13_WORKER>` and `naqex-node1` (full 3-node architecture in [THREE-NODE-COMPUTE-ORCHESTRATION-AND-SYNC-BLUEPRINT-20261127.md](../../../planning/research/THREE-NODE-COMPUTE-ORCHESTRATION-AND-SYNC-BLUEPRINT-20261127.md)).
 
 ## Hard Safety Boundaries (Fail-Closed)
 

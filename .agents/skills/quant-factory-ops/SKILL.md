@@ -96,6 +96,22 @@ Minimize wall-clock waste without weakening hard safety or statistical boundarie
    - **Prove profile switches in receipts:** Functions like `margin_per_lot_usd()` may match strict strings (`profile_mode == "Standard"`), silently falling back to `"Swing"` on contract IDs. Always emit `contract_id`, resolved `profile_mode`, and 1-lot margin for the same signal before/after switching, and save a profile-only ablation before bundling sizing (`balance * 0.95`, `volStep`, `85%` margin) or intraday-brake fixes.
    - **Event-ordered parity & tick-intersection honesty:** Verify `signal -> accept/reject -> lot -> intraday regime change -> exit/kill -> equity -> phase transition` (including mid-day floating-DD brake and simultaneous margin contention). Use the verified `.tkc` real-tick intersection across ALL required symbols (`<= 2024-12-31`), list missing/synthetic months verbatim, and note MetaQuotes simulated delay applies to EA requests rather than server-side SL triggers.
 
+### 7. 3-Node Compute Routing, Star Sync & NTP Discipline
+
+Follow the owner-locked 3-node architecture ([THREE-NODE-COMPUTE-ORCHESTRATION-AND-SYNC-BLUEPRINT-20261127.md](../../../planning/research/THREE-NODE-COMPUTE-ORCHESTRATION-AND-SYNC-BLUEPRINT-20261127.md); real LAN/Tailscale IPs live strictly in Layer-2 `private_vault/ops/`):
+
+1. **Star Topology Centered on `<DEV_PC>` (Zero Bidirectional Sync):**
+   - `<DEV_PC>` is the ONLY Git commit/authoring host and the ONLY machine allowed to hold `Holdout 2025+`. Never run OneDrive/Syncthing/Google Drive sync over `.git`, `.runtime`, or `private_vault`.
+   - `<X13_WORKER>` receives immutable Dev-only (`<= 2024`) cache + Git-SHA job bundles and writes immutable `results/<job_id>/` + trailing `manifest.sha256.json` pulled back by `<DEV_PC>`.
+   - `naqex-node1` remains strictly isolated as the 24/5 MT5 Execution Plane — never run backtests/Monte Carlo there and never connect `<X13_WORKER>` directly to `naqex-node1`.
+2. **Auto-Detect & Dynamic Dispatch (`<= 60m` Offline Dev Jobs — No Owner Prompt Needed):**
+   - **PC Dev Activity Sensing (local OS metrics only):** In `Mode A` (owner active/gaming/GPU `> 25%`), cap local background work to **`2–3` CPU cores**, `BELOW_NORMAL` priority, and **`0%` GPU**, offloading `>= 10m` Dev CPU batches to `<X13_WORKER>`. In `Mode B` (idle `>= 15m` or `00:00–07:00 ICT`), open up to **`5/6` cores** (`NORMAL`) with `30s` live preemption and split shardable `>= 15m` batches **`60% <DEV_PC> / 40% <X13_WORKER>`** (`10` micro-shards).
+   - **X13 `1.5s` AC-Only Pre-Flight & Silent Fallback:** Probe `ssh naqex-x13` (fallback `naqex-x13-ts`) requiring `ACLineStatus == 1` & `BatteryStatus != 1` (never burn battery; save & stop if unplugged `> 60s`), `free RAM >= 4 GB`, `C: >= 15 GB`, `|NTP| < 1000 ms`, and `forbidden_files == 0`. If offline/on battery/busy, silently fall back to `<DEV_PC>` under the active mode cap and log `fallback_reason`.
+3. **3-Tier Autonomy & NTP Gate:**
+   - **Auto-run without asking:** Offline Dev research/tests/Numba/Monte Carlo `<= 60m` (`0 VND`, `OrderSend = 0`).
+   - **Ask owner first:** Any mutation/restart on `naqex-node1`, Windows Admin actions (e.g., `w32tm /resync`), heavy GPU jobs during gaming, batches `> 60m`, any Holdout protocol, or any monetary spend.
+   - **NTP `< 1.000 ms` Pre-Capture Gate:** Always verify `|NTP| < 1000 ms` on the capturing node before live `QUOTE_ONLY` windows (e.g., NFP/CPI).
+
 ## Negative triggers
 
 - Do not use for strategy hypothesis design (use [strategy-research](../strategy-research/SKILL.md)), white-box discovery (use [whitebox-prop-discovery](../whitebox-prop-discovery/SKILL.md)), or strategy qualification verdicts (use [strategy-qualification](../strategy-qualification/SKILL.md)).
