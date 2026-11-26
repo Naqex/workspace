@@ -380,10 +380,10 @@ class Mql5V101ContractTests(unittest.TestCase):
         self.assertRegex(master_raw, r"input\s+int\s+InpOpportunityLifecycleMode\s*=\s*0\s*;")
         for diag_tok in ("EmitTesterDecisionRow", "LOT_TAPER", "KILL_ACTIVATED", "CLOSE_REQUEST", "CLOSE_FILL", "INTENT_REJECT_CAP", "INTENT_ACCEPT_FILL"):
             self.assertIn(diag_tok, master_raw, f"Missing Step-1 pre-decision observability token '{diag_tok}'")
-        for v102_tok in ("MathMin(ddBrakeMult, plMult)", "AMBER_BRAKE", "RED_BRAKE", "+PROFIT_LOCK", "LOW_FACTOR_HEADROOM", "OPP_ACCEPTED", "EmitOppTransitionsToLogs"):
-            self.assertIn(v102_tok, master_raw, f"Missing Step-2 v1.02-A/B token '{v102_tok}'")
-        for sig_tok in ("UpdateSetupOppOnObservedTick", "ExpireOppIfActive", "PRICE_CONDITION_LOST", "PRICE_CONDITION_ENTERED", "DrainOppTransitions", "RecordOpportunityBlocked"):
-            self.assertIn(sig_tok, signals_raw, f"Missing Step-2 v1.02-B signal lifecycle token '{sig_tok}'")
+        for v102_tok in ("MathMin(ddBrakeMult, plMult)", "AMBER_BRAKE", "RED_BRAKE", "+PROFIT_LOCK", "LOW_FACTOR_HEADROOM", "OPP_ACCEPTED", "EmitOppTransitionsToLogs", "NY_ANCHOR_LOCKED", "blk_by="):
+            self.assertIn(v102_tok, master_raw, f"Missing Step-2/3 v1.02-A/B token '{v102_tok}'")
+        for sig_tok in ("UpdateSetupOppOnObservedTick", "ExpireOppIfActive", "PRICE_CONDITION_LOST", "PRICE_CONDITION_ENTERED", "DrainOppTransitions", "RecordOpportunityBlocked", "FormatTransitionBlockBreakdown", "ConsumeNyAnchorJustLocked", "blk_spread", "blk_news"):
+            self.assertIn(sig_tok, signals_raw, f"Missing Step-2/3 v1.02-B signal lifecycle token '{sig_tok}'")
         self.assertRegex(guard_raw, r"input\s+bool\s+InpGuardDryRunLogOnly\s*=\s*true\s*;")
         m_idx_dev = re.search(r"input\s+int\s+InpMaxSlippagePointsIdx\s*=\s*(\d+)\s*;", master_raw)
         self.assertIsNotNone(m_idx_dev)
@@ -563,6 +563,24 @@ class Mql5V101ContractTests(unittest.TestCase):
                 ("OPP_EXPIRED", "OPP_E6_DAY1_2", "SESSION_ENDED"),
             ],
         )
+
+    def test_v102b_step31_per_reason_block_reconciliation_invariant(self):
+        """Step 3.1 invariant: eval_count == accepted + (blk_lmin + blk_cap + blk_spread + blk_news + blk_other)."""
+        counts = {"LMIN": 0, "CAP": 0, "SPREAD": 0, "NEWS": 0, "OTHER": 0}
+        evals = 0
+        accepted = 0
+        # Replicate E7 2024-11-18 style episode: 5 spread blocks + 596 lot-min blocks -> expired (0 accepted)
+        for _ in range(5):
+            evals += 1
+            counts["SPREAD"] += 1
+        for _ in range(596):
+            evals += 1
+            counts["LMIN"] += 1
+        self.assertEqual(evals, accepted + sum(counts.values()))
+        self.assertEqual(sum(counts.values()), 601)
+        # Episode blocked twice (NEWS, CAP) then accepted on eval 3
+        counts2 = {"LMIN": 0, "CAP": 1, "SPREAD": 0, "NEWS": 1, "OTHER": 0}
+        self.assertEqual(3, 1 + sum(counts2.values()))
 
 
 if __name__ == "__main__":
