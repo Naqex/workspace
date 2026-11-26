@@ -779,7 +779,15 @@ double MaxSpreadCapForSymbol(const string sym)
 void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
 {
    bool isShadowOrDry = (it.shadow_only || InpShadowCompareMode || InpDryRunLogOnly || InpGuardDryRunLogOnly);
-   if(HasOpenOrInFlightForMagic(it.magic)) return;
+   if(HasOpenOrInFlightForMagic(it.magic))
+   {
+      if(InpOpportunityLifecycleMode == 1)
+      {
+         int blkCnt = 0, evCnt = 0;
+         g_signals.RecordOpportunityBlocked(it.magic, "OTHER", "OPEN_OR_INFLIGHT_POSITION:SKIP", blkCnt, evCnt);
+      }
+      return;
+   }
    bool emitLog = (MQLInfoInteger(MQL_TESTER) && InpTesterEmitDecisionLog && g_testerLogHandle != INVALID_HANDLE);
    string sideStrLog = it.is_buy ? "BUY" : "SELL";
    double preBid = emitLog ? SymbolInfoDouble(it.symbol, SYMBOL_BID) : 0.0;
@@ -790,7 +798,18 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
 
    if(g_guard.IsInsideRedNewsWindowFor(it.symbol))
    {
-      LogMasterShadowRow(it, "ORDER_BLOCKED_NEWS", 0.0, 0.0, "INSIDE_RED_NEWS_OR_EXPIRED_CALENDAR");
+      string whyNews = "INSIDE_RED_NEWS_OR_EXPIRED_CALENDAR";
+      if(InpOpportunityLifecycleMode == 1)
+      {
+         int blkCnt = 0, evCnt = 0;
+         bool logTrans = g_signals.RecordOpportunityBlocked(it.magic, "NEWS", "RED_NEWS_WINDOW:ORDER_BLOCKED_NEWS", blkCnt, evCnt);
+         whyNews = StringFormat("root=RED_NEWS_WINDOW|outcome=ORDER_BLOCKED_NEWS|opp=%s|eval=%d|blk=%d",
+                                it.opportunity_id, it.opp_eval_count, blkCnt);
+         if(logTrans)
+            LogMasterShadowRow(it, "ORDER_BLOCKED_NEWS", 0.0, 0.0, whyNews);
+      }
+      else
+         LogMasterShadowRow(it, "ORDER_BLOCKED_NEWS", 0.0, 0.0, whyNews);
       if(emitLog)
          EmitTesterDecisionRow(it.signal_utc, "INTENT_REJECT_NEWS", it.engine_id, it.magic, it.intent_id, it.symbol, sideStrLog,
                                it.signal_price, preBid, preAsk, it.sl_price, 0.0, 0.0,
@@ -804,12 +823,23 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
                                preBal, preEq, preFm,
                                it.base_risk_pct, it.base_risk_pct * riskMult, 0.0, 0.0, 0.0, 0.0,
                                0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-                               0, 0, 0, 0.0, 0.0, 0, "INSIDE_RED_NEWS_OR_EXPIRED_CALENDAR");
+                               0, 0, 0, 0.0, 0.0, 0, whyNews);
       return;
    }
    if(!g_guard.IsSpreadAndSessionSafeFor(it.symbol, MaxSpreadCapForSymbol(it.symbol)))
    {
-      LogMasterShadowRow(it, "ORDER_BLOCKED_SPREAD", 0.0, 0.0, "SPREAD_OR_ROLLOVER_GUARD");
+      string whySpr = "SPREAD_OR_ROLLOVER_GUARD";
+      if(InpOpportunityLifecycleMode == 1)
+      {
+         int blkCnt = 0, evCnt = 0;
+         bool logTrans = g_signals.RecordOpportunityBlocked(it.magic, "SPREAD", "SPREAD_OR_ROLLOVER_GUARD:ORDER_BLOCKED_SPREAD", blkCnt, evCnt);
+         whySpr = StringFormat("root=SPREAD_OR_ROLLOVER_GUARD|outcome=ORDER_BLOCKED_SPREAD|opp=%s|eval=%d|blk=%d",
+                               it.opportunity_id, it.opp_eval_count, blkCnt);
+         if(logTrans)
+            LogMasterShadowRow(it, "ORDER_BLOCKED_SPREAD", 0.0, 0.0, whySpr);
+      }
+      else
+         LogMasterShadowRow(it, "ORDER_BLOCKED_SPREAD", 0.0, 0.0, whySpr);
       if(emitLog)
          EmitTesterDecisionRow(it.signal_utc, "INTENT_REJECT_SPREAD", it.engine_id, it.magic, it.intent_id, it.symbol, sideStrLog,
                                it.signal_price, preBid, preAsk, it.sl_price, 0.0, 0.0,
@@ -823,7 +853,7 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
                                preBal, preEq, preFm,
                                it.base_risk_pct, it.base_risk_pct * riskMult, 0.0, 0.0, 0.0, 0.0,
                                0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-                               0, 0, 0, 0.0, 0.0, 0, "SPREAD_OR_ROLLOVER_GUARD");
+                               0, 0, 0, 0.0, 0.0, 0, whySpr);
       return;
    }
 
@@ -832,6 +862,14 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
    double slDist = MathAbs(it.signal_price - stopLoss);
    if(slDist <= 0.0 || stopLoss <= 0.0)
    {
+      string whyBadSl = "SL_DIST_OR_SL_LE_0";
+      if(InpOpportunityLifecycleMode == 1)
+      {
+         int blkCnt = 0, evCnt = 0;
+         g_signals.RecordOpportunityBlocked(it.magic, "OTHER", "INVALID_SL:SL_DIST_OR_SL_LE_0", blkCnt, evCnt);
+         whyBadSl = StringFormat("root=INVALID_SL|outcome=SL_DIST_OR_SL_LE_0|opp=%s|eval=%d|blk=%d",
+                                 it.opportunity_id, it.opp_eval_count, blkCnt);
+      }
       if(emitLog)
          EmitTesterDecisionRow(it.signal_utc, "INTENT_REJECT_BAD_SL", it.engine_id, it.magic, it.intent_id, it.symbol, sideStrLog,
                                it.signal_price, preBid, preAsk, it.sl_price, normSl, slDist,
@@ -845,7 +883,7 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
                                preBal, preEq, preFm,
                                it.base_risk_pct, it.base_risk_pct * riskMult, 0.0, 0.0, 0.0, 0.0,
                                0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-                               0, 0, 0, 0.0, 0.0, 0, "SL_DIST_OR_SL_LE_0");
+                               0, 0, 0, 0.0, 0.0, 0, whyBadSl);
       return;
    }
    double pt = SymbolInfoDouble(it.symbol, SYMBOL_POINT);
@@ -856,7 +894,18 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
    double stopsGap = it.is_buy ? (liqPx - stopLoss) : (stopLoss - liqPx);
    if(pt > 0.0 && stopsLvl > 0 && stopsGap < (double)stopsLvl * pt)
    {
-      LogMasterShadowRow(it, "ORDER_BLOCKED_STOPS", 0.0, 0.0, "SL_BELOW_BROKER_STOPS_LEVEL");
+      string whyStops = "SL_BELOW_BROKER_STOPS_LEVEL";
+      if(InpOpportunityLifecycleMode == 1)
+      {
+         int blkCnt = 0, evCnt = 0;
+         bool logTrans = g_signals.RecordOpportunityBlocked(it.magic, "OTHER", "BROKER_STOPS_LEVEL:ORDER_BLOCKED_STOPS", blkCnt, evCnt);
+         whyStops = StringFormat("root=BROKER_STOPS_LEVEL|outcome=ORDER_BLOCKED_STOPS|opp=%s|eval=%d|blk=%d",
+                                 it.opportunity_id, it.opp_eval_count, blkCnt);
+         if(logTrans)
+            LogMasterShadowRow(it, "ORDER_BLOCKED_STOPS", 0.0, 0.0, whyStops);
+      }
+      else
+         LogMasterShadowRow(it, "ORDER_BLOCKED_STOPS", 0.0, 0.0, whyStops);
       if(emitLog)
          EmitTesterDecisionRow(it.signal_utc, "INTENT_REJECT_STOPS", it.engine_id, it.magic, it.intent_id, it.symbol, sideStrLog,
                                it.signal_price, preBid, preAsk, it.sl_price, normSl, slDist,
@@ -870,7 +919,7 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
                                preBal, preEq, preFm,
                                it.base_risk_pct, it.base_risk_pct * riskMult, 0.0, 0.0, 0.0, 0.0,
                                0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-                               0, 0, 0, 0.0, 0.0, 0, "SL_BELOW_BROKER_STOPS_LEVEL");
+                               0, 0, 0, 0.0, 0.0, 0, whyStops);
       return;
    }
 
@@ -896,7 +945,7 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
          string rootCause = (factorHeadroom <= symHeadroom) ? "LOW_FACTOR_HEADROOM" : "LOW_SYM_HEADROOM";
          string blkKey = rootCause + ":" + why;
          int blkCnt = 0, evCnt = 0;
-         bool logTrans = g_signals.RecordOpportunityBlocked(it.magic, blkKey, blkCnt, evCnt);
+         bool logTrans = g_signals.RecordOpportunityBlocked(it.magic, "CAP", blkKey, blkCnt, evCnt);
          string structWhy = StringFormat("root=%s|outcome=%s|opp=%s|eval=%d|blk=%d|symRem=%.4f|facRem=%.4f",
                                          rootCause, why, it.opportunity_id, it.opp_eval_count, blkCnt, symHeadroom, factorHeadroom);
          if(logTrans)
@@ -949,6 +998,14 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
    double volStep = SymbolInfoDouble(it.symbol, SYMBOL_VOLUME_STEP);
    if(bal <= 0.0 || tickSize <= 0.0 || tickVal <= 0.0 || volStep <= 0.0)
    {
+      string whySpec = "INVALID_SYMBOL_OR_BAL_SPEC";
+      if(InpOpportunityLifecycleMode == 1)
+      {
+         int blkCnt = 0, evCnt = 0;
+         g_signals.RecordOpportunityBlocked(it.magic, "OTHER", "INVALID_SPEC:INVALID_SYMBOL_OR_BAL_SPEC", blkCnt, evCnt);
+         whySpec = StringFormat("root=INVALID_SPEC|outcome=INVALID_SYMBOL_OR_BAL_SPEC|opp=%s|eval=%d|blk=%d",
+                                it.opportunity_id, it.opp_eval_count, blkCnt);
+      }
       if(emitLog)
          EmitTesterDecisionRow(it.signal_utc, "INTENT_REJECT_BAD_SPEC", it.engine_id, it.magic, it.intent_id, it.symbol, sideStrLog,
                                it.signal_price, preBid, preAsk, it.sl_price, normSl, slDist,
@@ -956,13 +1013,21 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
                                bal, preEq, preFm,
                                it.base_risk_pct, reqRiskPct, usedSymPct, symHeadroom, factorHeadroom, allowedRiskPct,
                                0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-                               0, 0, 0, 0.0, 0.0, 0, "INVALID_SYMBOL_OR_BAL_SPEC");
+                               0, 0, 0, 0.0, 0.0, 0, whySpec);
       return;
    }
 
    double lossPerLot = (slDist / tickSize) * tickVal;
    if(lossPerLot <= 0.0)
    {
+      string whyLpl = "LOSS_PER_LOT_LE_0";
+      if(InpOpportunityLifecycleMode == 1)
+      {
+         int blkCnt = 0, evCnt = 0;
+         g_signals.RecordOpportunityBlocked(it.magic, "OTHER", "INVALID_SPEC:LOSS_PER_LOT_LE_0", blkCnt, evCnt);
+         whyLpl = StringFormat("root=INVALID_SPEC|outcome=LOSS_PER_LOT_LE_0|opp=%s|eval=%d|blk=%d",
+                               it.opportunity_id, it.opp_eval_count, blkCnt);
+      }
       if(emitLog)
          EmitTesterDecisionRow(it.signal_utc, "INTENT_REJECT_BAD_SPEC", it.engine_id, it.magic, it.intent_id, it.symbol, sideStrLog,
                                it.signal_price, preBid, preAsk, it.sl_price, normSl, slDist,
@@ -970,7 +1035,7 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
                                bal, preEq, preFm,
                                it.base_risk_pct, reqRiskPct, usedSymPct, symHeadroom, factorHeadroom, allowedRiskPct,
                                0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-                               0, 0, 0, 0.0, 0.0, 0, "LOSS_PER_LOT_LE_0");
+                               0, 0, 0, 0.0, 0.0, 0, whyLpl);
       return;
    }
    double riskMoney = bal * (allowedRiskPct / 100.0) * 0.95;
@@ -988,7 +1053,7 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
          string outcome = "RAW_LOTS_BELOW_VOLMIN";
          string blkKey  = rootCause + ":" + outcome;
          int blkCnt = 0, evCnt = 0;
-         bool logTrans = g_signals.RecordOpportunityBlocked(it.magic, blkKey, blkCnt, evCnt);
+         bool logTrans = g_signals.RecordOpportunityBlocked(it.magic, "LMIN", blkKey, blkCnt, evCnt);
          string structWhy = StringFormat("root=%s|outcome=%s|opp=%s|eval=%d|blk=%d|symRem=%.4f|facRem=%.4f",
                                          rootCause, outcome, it.opportunity_id, it.opp_eval_count, blkCnt, symHeadroom, factorHeadroom);
          // Live transition-only log (fixes silent L653 blind spot without 24k per-tick spam!)
@@ -1021,7 +1086,18 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
    double reqMargin = 0.0;
    if(freeMargin <= 0.0 || !OrderCalcMargin(ordType, it.symbol, lots, it.signal_price, reqMargin) || reqMargin <= 0.0)
    {
-      LogMasterShadowRow(it, "ORDER_BLOCKED_MARGIN", allowedRiskPct, 0.0, "FAIL_CLOSED_MARGIN_CHECK");
+      string whyMargin = "FAIL_CLOSED_MARGIN_CHECK";
+      if(InpOpportunityLifecycleMode == 1)
+      {
+         int blkCnt = 0, evCnt = 0;
+         bool logTrans = g_signals.RecordOpportunityBlocked(it.magic, "OTHER", "MARGIN_CALC_FAIL:ORDER_BLOCKED_MARGIN", blkCnt, evCnt);
+         whyMargin = StringFormat("root=MARGIN_CALC_FAIL|outcome=ORDER_BLOCKED_MARGIN|opp=%s|eval=%d|blk=%d",
+                                  it.opportunity_id, it.opp_eval_count, blkCnt);
+         if(logTrans)
+            LogMasterShadowRow(it, "ORDER_BLOCKED_MARGIN", allowedRiskPct, 0.0, whyMargin);
+      }
+      else
+         LogMasterShadowRow(it, "ORDER_BLOCKED_MARGIN", allowedRiskPct, 0.0, whyMargin);
       if(emitLog)
          EmitTesterDecisionRow(it.signal_utc, "INTENT_REJECT_MARGIN_CALC", it.engine_id, it.magic, it.intent_id, it.symbol, sideStrLog,
                                it.signal_price, preBid, preAsk, it.sl_price, normSl, slDist,
@@ -1029,7 +1105,7 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
                                bal, preEq, freeMargin,
                                it.base_risk_pct, reqRiskPct, usedSymPct, symHeadroom, factorHeadroom, allowedRiskPct,
                                riskMoney, rawLots, lots, 0.0, reqMargin, freeMargin * 0.85,
-                               0, 0, 0, 0.0, 0.0, 0, "FAIL_CLOSED_MARGIN_CHECK");
+                               0, 0, 0, 0.0, 0.0, 0, whyMargin);
       return;
    }
    double maxAllowM = freeMargin * 0.85;
@@ -1044,7 +1120,7 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
          if(InpOpportunityLifecycleMode == 1)
          {
             int blkCnt = 0, evCnt = 0;
-            bool logTrans = g_signals.RecordOpportunityBlocked(it.magic, "LOW_FREE_MARGIN:MARGIN_CLAMP_BELOW_VOLMIN", blkCnt, evCnt);
+            bool logTrans = g_signals.RecordOpportunityBlocked(it.magic, "LMIN", "LOW_FREE_MARGIN:MARGIN_CLAMP_BELOW_VOLMIN", blkCnt, evCnt);
             string structWhy = StringFormat("root=LOW_FREE_MARGIN|outcome=MARGIN_CLAMP_BELOW_VOLMIN|opp=%s|eval=%d|blk=%d",
                                             it.opportunity_id, it.opp_eval_count, blkCnt);
             if(logTrans)
@@ -1122,6 +1198,11 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
 
    if(ret == TRADE_RETCODE_TIMEOUT || ret == TRADE_RETCODE_PLACED)
    {
+      if(InpOpportunityLifecycleMode == 1)
+      {
+         int blkCnt = 0, evCnt = 0;
+         g_signals.RecordOpportunityBlocked(it.magic, "OTHER", "ORDER_UNRESOLVED:UNKNOWN_INFLIGHT", blkCnt, evCnt);
+      }
       RegisterInFlight(it, actualRiskPct, g_trade.ResultOrder(), true);
       g_guard.LogExecAuditFor(it.symbol, sideStr, "FILL_UNRESOLVED", it.signal_price, -1.0, normSl, lots, latMs, ret,
                               StringFormat("%s|intent=%s|ord=%I64u|UNKNOWN_INFLIGHT", it.tag, it.intent_id, (ulong)g_trade.ResultOrder()),
@@ -1138,6 +1219,14 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
    }
    if(!ok || (ret != TRADE_RETCODE_DONE && ret != TRADE_RETCODE_DONE_PARTIAL))
    {
+      string whyBroker = g_trade.ResultRetcodeDescription();
+      if(InpOpportunityLifecycleMode == 1)
+      {
+         int blkCnt = 0, evCnt = 0;
+         g_signals.RecordOpportunityBlocked(it.magic, "OTHER", "BROKER_REJECT:" + whyBroker, blkCnt, evCnt);
+         whyBroker = StringFormat("root=BROKER_REJECT|outcome=%s|opp=%s|eval=%d|blk=%d",
+                                  whyBroker, it.opportunity_id, it.opp_eval_count, blkCnt);
+      }
       g_guard.LogExecAuditFor(it.symbol, sideStr, "ORDER_REJECT", it.signal_price, g_trade.ResultPrice(), normSl, lots, latMs, ret,
                               StringFormat("%s|intent=%s|%s", it.tag, it.intent_id, g_trade.ResultRetcodeDescription()),
                               it.magic);
@@ -1148,7 +1237,7 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
                                bal, preEq, freeMargin,
                                it.base_risk_pct, reqRiskPct, usedSymPct, symHeadroom, factorHeadroom, allowedRiskPct,
                                riskMoney, rawLots, preMarginLots, lots, reqMargin, maxAllowM,
-                               0, (ulong)g_trade.ResultOrder(), 0, g_trade.ResultPrice(), 0.0, ret, g_trade.ResultRetcodeDescription());
+                               0, (ulong)g_trade.ResultOrder(), 0, g_trade.ResultPrice(), 0.0, ret, whyBroker);
       return;
    }
 
@@ -1190,11 +1279,13 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
       string fillWhy = it.tag;
       if(InpOpportunityLifecycleMode == 1 && it.opportunity_id != "")
       {
-         int oEval = 0, oBlk = 0; string oLastBlk = "";
-         g_signals.GetOpportunityStats(it.magic, oEval, oBlk, oLastBlk);
-         fillWhy = StringFormat("%s|opp=%s|eval=%d|blk=%d", it.tag, it.opportunity_id, oEval, oBlk);
-         string accWhy = StringFormat("ACCEPTED|opp=%s|eval=%d|blk=%d%s",
+         int oEval = 0, oBlk = 0; string oLastBlk = ""; string oBy = "";
+         g_signals.GetOpportunityStats(it.magic, oEval, oBlk, oLastBlk, oBy);
+         fillWhy = StringFormat("%s|opp=%s|eval=%d|blk=%d%s", it.tag, it.opportunity_id, oEval, oBlk,
+                                (oBy != "" ? ("|blk_by=" + oBy) : ""));
+         string accWhy = StringFormat("ACCEPTED|opp=%s|eval=%d|blk=%d%s%s",
                                       it.opportunity_id, oEval, oBlk,
+                                      (oBy != "" ? ("|blk_by=" + oBy) : ""),
                                       (oLastBlk != "" ? ("|prev_blk=" + oLastBlk) : ""));
          EmitTesterDecisionRow(it.signal_utc, "OPP_ACCEPTED", it.engine_id, it.magic, it.opportunity_id, it.symbol, sideStr,
                                it.signal_price, preBid, preAsk, it.sl_price, normSl, slDist,
@@ -1214,11 +1305,12 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
    }
    else if(InpOpportunityLifecycleMode == 1 && it.opportunity_id != "")
    {
-      int oEval = 0, oBlk = 0; string oLastBlk = "";
-      g_signals.GetOpportunityStats(it.magic, oEval, oBlk, oLastBlk);
+      int oEval = 0, oBlk = 0; string oLastBlk = ""; string oBy = "";
+      g_signals.GetOpportunityStats(it.magic, oEval, oBlk, oLastBlk, oBy);
       if(oBlk > 0)
          LogMasterShadowRow(it, "OPP_ACCEPTED", allowedRiskPct, execLots,
-                            StringFormat("opp=%s|eval=%d|blk=%d|prev_blk=%s", it.opportunity_id, oEval, oBlk, oLastBlk));
+                            StringFormat("opp=%s|eval=%d|blk=%d%s|prev_blk=%s", it.opportunity_id, oEval, oBlk,
+                                         (oBy != "" ? ("|blk_by=" + oBy) : ""), oLastBlk));
    }
    g_signals.MarkEngineTraded(it.magic, it.session_day_key);
 }
@@ -1232,8 +1324,10 @@ void EmitOppTransitionsToLogs(const datetime nowUtc, const double bal, const dou
    bool emitLog = (MQLInfoInteger(MQL_TESTER) && InpTesterEmitDecisionLog && g_testerLogHandle != INVALID_HANDLE);
    for(int i = 0; i < nEv; i++)
    {
-      string why = StringFormat("%s|opp=%s|eval=%d|blk=%d%s",
+      string byStr = CNaqexSignals7E::FormatTransitionBlockBreakdown(evs[i]);
+      string why = StringFormat("%s|opp=%s|eval=%d|blk=%d%s%s",
                                 evs[i].reason, evs[i].opp_id, evs[i].eval_count, evs[i].block_count,
+                                (byStr != "" ? ("|blk_by=" + byStr) : ""),
                                 (evs[i].last_block_key != "" ? ("|last_blk=" + evs[i].last_block_key) : ""));
       if(emitLog)
       {
@@ -1380,6 +1474,19 @@ void RunMasterCycle()
    {
       NaqexSignalIntent intents[NAQEX_MAX_INTENTS];
       int nIntents = g_signals.CollectIntents(nowUtc, intents);
+      datetime nyAncUtc = 0; double nyU100 = 0.0, nyU500 = 0.0;
+      if(g_signals.ConsumeNyAnchorJustLocked(nyAncUtc, nyU100, nyU500) &&
+         MQLInfoInteger(MQL_TESTER) && InpTesterEmitDecisionLog && g_testerLogHandle != INVALID_HANDLE)
+      {
+         EmitTesterDecisionRow(nyAncUtc, "NY_ANCHOR_LOCKED", "", 0, "", "US100.cash|US500.cash", "",
+                               nyU100, nyU100, nyU500, 0.0, 0.0, 0.0,
+                               0.0, 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                               AccountInfoDouble(ACCOUNT_BALANCE), AccountInfoDouble(ACCOUNT_EQUITY), AccountInfoDouble(ACCOUNT_MARGIN_FREE),
+                               0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                               0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                               0, 0, 0, 0.0, 0.0, 0,
+                               StringFormat("us100_0930=%.5f|us500_0930=%.5f", nyU100, nyU500));
+      }
       EmitOppTransitionsToLogs(nowUtc, AccountInfoDouble(ACCOUNT_BALANCE), AccountInfoDouble(ACCOUNT_EQUITY), AccountInfoDouble(ACCOUNT_MARGIN_FREE));
       for(int i = 0; i < nIntents; i++)
          ProcessIntentAtomically(intents[i], riskMult);

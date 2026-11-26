@@ -66,6 +66,11 @@ struct NaqexOppEpisode
    double   open_signal_price;
    int      eval_count;
    int      block_count;
+   int      blk_lmin;
+   int      blk_cap;
+   int      blk_spread;
+   int      blk_news;
+   int      blk_other;
    string   last_block_key;
    int      ep_seq;
    datetime ep_seq_day;
@@ -83,6 +88,11 @@ struct NaqexOppTransition
    double   signal_price;
    int      eval_count;
    int      block_count;
+   int      blk_lmin;
+   int      blk_cap;
+   int      blk_spread;
+   int      blk_news;
+   int      blk_other;
    string   last_block_key;
    string   reason;
 };
@@ -128,6 +138,8 @@ private:
    // E5 & E7 09:30 ET anchor state
    datetime             m_nyAnchorDay;
    bool                 m_nyAnchorReady;
+   bool                 m_nyAnchorJustLocked;
+   datetime             m_nyAnchorLockedUtc;
    datetime             m_nyAnchorLastTry;
    double               m_us100Open0930;
    double               m_us500Open0930;
@@ -162,9 +174,25 @@ private:
       m_opp[idx].open_signal_price = 0.0;
       m_opp[idx].eval_count        = 0;
       m_opp[idx].block_count       = 0;
+      m_opp[idx].blk_lmin          = 0;
+      m_opp[idx].blk_cap           = 0;
+      m_opp[idx].blk_spread        = 0;
+      m_opp[idx].blk_news          = 0;
+      m_opp[idx].blk_other         = 0;
       m_opp[idx].last_block_key    = "";
       m_opp[idx].ep_seq            = 0;
       m_opp[idx].ep_seq_day        = 0;
+   }
+
+   static string FormatOppBlockBreakdown(const int bLmin, const int bCap, const int bSpr, const int bNews, const int bOth)
+   {
+      string s = "";
+      if(bLmin > 0) s += (s == "" ? "" : ",") + StringFormat("lmin:%d", bLmin);
+      if(bCap  > 0) s += (s == "" ? "" : ",") + StringFormat("cap:%d", bCap);
+      if(bSpr  > 0) s += (s == "" ? "" : ",") + StringFormat("spread:%d", bSpr);
+      if(bNews > 0) s += (s == "" ? "" : ",") + StringFormat("news:%d", bNews);
+      if(bOth  > 0) s += (s == "" ? "" : ",") + StringFormat("other:%d", bOth);
+      return s;
    }
 
    void PushOppTransition(const string evType, const NaqexOppEpisode &ep, const datetime nowUtc,
@@ -181,6 +209,11 @@ private:
       m_oppEvents[m_oppEventCount].signal_price   = sigPx;
       m_oppEvents[m_oppEventCount].eval_count     = ep.eval_count;
       m_oppEvents[m_oppEventCount].block_count    = ep.block_count;
+      m_oppEvents[m_oppEventCount].blk_lmin       = ep.blk_lmin;
+      m_oppEvents[m_oppEventCount].blk_cap        = ep.blk_cap;
+      m_oppEvents[m_oppEventCount].blk_spread     = ep.blk_spread;
+      m_oppEvents[m_oppEventCount].blk_news       = ep.blk_news;
+      m_oppEvents[m_oppEventCount].blk_other      = ep.blk_other;
       m_oppEvents[m_oppEventCount].last_block_key = ep.last_block_key;
       m_oppEvents[m_oppEventCount].reason         = reason;
       m_oppEventCount++;
@@ -198,6 +231,11 @@ private:
       m_opp[idx].open_signal_price = 0.0;
       m_opp[idx].eval_count        = 0;
       m_opp[idx].block_count       = 0;
+      m_opp[idx].blk_lmin          = 0;
+      m_opp[idx].blk_cap           = 0;
+      m_opp[idx].blk_spread        = 0;
+      m_opp[idx].blk_news          = 0;
+      m_opp[idx].blk_other         = 0;
       m_opp[idx].last_block_key    = "";
    }
 
@@ -234,6 +272,11 @@ private:
          m_opp[idx].open_signal_price = curPx;
          m_opp[idx].eval_count        = 0;
          m_opp[idx].block_count       = 0;
+         m_opp[idx].blk_lmin          = 0;
+         m_opp[idx].blk_cap           = 0;
+         m_opp[idx].blk_spread        = 0;
+         m_opp[idx].blk_news          = 0;
+         m_opp[idx].blk_other         = 0;
          m_opp[idx].last_block_key    = "";
          PushOppTransition("OPP_START", m_opp[idx], nowUtc, curPx, "PRICE_CONDITION_ENTERED");
          outIsNew = true;
@@ -349,7 +392,7 @@ public:
       m_e1BoxDay         = 0; m_e1BoxReady = false; m_e1BoxTop = 0.0; m_e1BoxBot = 0.0;
       m_e4SessDay        = 0; m_e4MornInit = false; m_e4MornFrozen = false;
       m_e4MornOpen       = 0.0; m_e4MornHigh = 0.0; m_e4MornLow = 0.0; m_e4MornClose = 0.0; m_e4MornDir = 0;
-      m_nyAnchorDay      = 0; m_nyAnchorReady = false; m_nyAnchorLastTry = 0; m_us100Open0930 = 0.0; m_us500Open0930 = 0.0;
+      m_nyAnchorDay      = 0; m_nyAnchorReady = false; m_nyAnchorJustLocked = false; m_nyAnchorLockedUtc = 0; m_nyAnchorLastTry = 0; m_us100Open0930 = 0.0; m_us500Open0930 = 0.0;
       m_e6CompCacheDay   = 0; m_e6CompCacheOk = false; m_e1ReconstLastTry = 0;
       for(int s = 0; s < NAQEX_SYM_COUNT; s++) { m_d1AtrCacheDay[s] = 0; m_d1AtrCacheVal[s] = 0.0; }
       for(int i = 0; i < 8; i++) { m_tradedDay[i] = 0; ResetOppEpisode(i); }
@@ -386,6 +429,8 @@ public:
       m_enableS6Shadow   = enableS6Shadow;
       m_oppLifecycleMode = oppLifecycleMode;
       m_oppEventCount    = 0;
+      m_nyAnchorJustLocked = false;
+      m_nyAnchorLockedUtc  = 0;
       for(int i = 0; i < 8; i++) ResetOppEpisode(i);
       m_feeds[SYM_USDJPY].symbol = ResolveBrokerAlias(symUsdjpy, "USDJPY.pro", "USDJPY");
       m_feeds[SYM_GBPUSD].symbol = ResolveBrokerAlias(symGbpusd, "GBPUSD.pro", "GBPUSD");
@@ -463,6 +508,11 @@ public:
             m_opp[idx].open_signal_price = 0.0;
             m_opp[idx].eval_count        = 0;
             m_opp[idx].block_count       = 0;
+            m_opp[idx].blk_lmin          = 0;
+            m_opp[idx].blk_cap           = 0;
+            m_opp[idx].blk_spread        = 0;
+            m_opp[idx].blk_news          = 0;
+            m_opp[idx].blk_other         = 0;
             m_opp[idx].last_block_key    = "";
          }
       }
@@ -477,13 +527,24 @@ public:
       return n;
    }
 
-   bool RecordOpportunityBlocked(const long magic, const string blockKey, int &outBlockCount, int &outEvalCount)
+   static string FormatTransitionBlockBreakdown(const NaqexOppTransition &ev)
+   {
+      return FormatOppBlockBreakdown(ev.blk_lmin, ev.blk_cap, ev.blk_spread, ev.blk_news, ev.blk_other);
+   }
+
+   bool RecordOpportunityBlocked(const long magic, const string category, const string blockKey,
+                                 int &outBlockCount, int &outEvalCount)
    {
       outBlockCount = 0; outEvalCount = 0;
       if(m_oppLifecycleMode != 1) return false;
       int idx = EngineIndexFromMagic(magic);
       if(idx < 0 || idx >= 8 || !m_opp[idx].active) return false;
       m_opp[idx].block_count++;
+      if(category == "LMIN")        m_opp[idx].blk_lmin++;
+      else if(category == "CAP")    m_opp[idx].blk_cap++;
+      else if(category == "SPREAD") m_opp[idx].blk_spread++;
+      else if(category == "NEWS")   m_opp[idx].blk_news++;
+      else                          m_opp[idx].blk_other++;
       outBlockCount = m_opp[idx].block_count;
       outEvalCount  = m_opp[idx].eval_count;
       bool changed  = (m_opp[idx].block_count == 1 || m_opp[idx].last_block_key != blockKey);
@@ -491,14 +552,28 @@ public:
       return changed;
    }
 
-   void GetOpportunityStats(const long magic, int &outEvalCount, int &outBlockCount, string &outLastBlockKey) const
+   void GetOpportunityStats(const long magic, int &outEvalCount, int &outBlockCount,
+                            string &outLastBlockKey, string &outBreakdown) const
    {
-      outEvalCount = 0; outBlockCount = 0; outLastBlockKey = "";
+      outEvalCount = 0; outBlockCount = 0; outLastBlockKey = ""; outBreakdown = "";
       int idx = EngineIndexFromMagic(magic);
       if(idx < 0 || idx >= 8 || !m_opp[idx].active) return;
       outEvalCount    = m_opp[idx].eval_count;
       outBlockCount   = m_opp[idx].block_count;
       outLastBlockKey = m_opp[idx].last_block_key;
+      outBreakdown    = FormatOppBlockBreakdown(m_opp[idx].blk_lmin, m_opp[idx].blk_cap,
+                                                m_opp[idx].blk_spread, m_opp[idx].blk_news,
+                                                m_opp[idx].blk_other);
+   }
+
+   bool ConsumeNyAnchorJustLocked(datetime &outUtc, double &outUs100, double &outUs500)
+   {
+      if(!m_nyAnchorJustLocked) return false;
+      m_nyAnchorJustLocked = false;
+      outUtc   = m_nyAnchorLockedUtc;
+      outUs100 = m_us100Open0930;
+      outUs500 = m_us500Open0930;
+      return true;
    }
 
    bool IsEngineTraded(const int idx, const datetime dayKey) const
@@ -951,6 +1026,7 @@ public:
             ReconstructM1Window(m_feeds[SYM_US500].symbol, nowUtc, t0930Utc - 60, t0930Utc + 60, o2, h2, l2, c2))
          {
             m_us100Open0930 = c1; m_us500Open0930 = c2; m_nyAnchorReady = true;
+            m_nyAnchorJustLocked = true; m_nyAnchorLockedUtc = nowUtc;
          }
       }
 
