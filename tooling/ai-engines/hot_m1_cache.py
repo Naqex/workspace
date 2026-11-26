@@ -14,6 +14,7 @@ import pyarrow.parquet as pq
 import pass5_usdjpy_tokyo as clock
 import pass13_us500_explicit as us500
 from native_ftmo_monfri_seal import ROOT, START, STOP, read, sha, write
+from quant_core.holdout_guard import HoldoutLockError, enforce_pre_holdout_ts
 
 DEFAULT_JOBS = Path(r"E:\BACKUP-TRADINGWORKSPACE\ai-engine-jobs")
 DEFAULT_CACHE = ROOT / ".runtime" / "hot-m1-cache"
@@ -26,9 +27,19 @@ FX_SOURCES = {
 }
 
 
+def _verify_holdout_lock_file() -> None:
+    lock_path = ROOT / "planning/research/NATIVE_FTMO_HOLDOUT_LOCK.json"
+    try:
+        lock_doc = read(lock_path)
+        lock_sha = sha(lock_path)
+    except Exception as exc:
+        raise HoldoutLockError(f"Holdout lock file unreadable or corrupt: {exc}") from exc
+    if not isinstance(lock_doc, dict) or lock_sha != clock.LOCK_SHA:
+        raise HoldoutLockError("Holdout lock SHA mismatch")
+
+
 def build_cache(jobs_root: Path = DEFAULT_JOBS, cache_dir: Path = DEFAULT_CACHE) -> dict:
-    if sha(ROOT / "planning/research/NATIVE_FTMO_HOLDOUT_LOCK.json") != clock.LOCK_SHA:
-        raise ValueError("Holdout lock SHA mismatch")
+    _verify_holdout_lock_file()
     cache_dir.mkdir(parents=True, exist_ok=True)
     assets_meta = {}
     t0 = time.monotonic()
@@ -48,10 +59,10 @@ def build_cache(jobs_root: Path = DEFAULT_JOBS, cache_dir: Path = DEFAULT_CACHE)
             expected_sha = ym["parquet_sha256"]
             if not dst_file.exists() or sha(dst_file) != expected_sha:
                 if sha(src_file) != expected_sha:
-                    raise ValueError(f"Source SHA mismatch for {asset} {y}")
+                    raise HoldoutLockError(f"Source SHA mismatch for {asset} {y}")
                 shutil.copy2(src_file, dst_file)
                 if sha(dst_file) != expected_sha:
-                    raise ValueError(f"Copied SHA mismatch for {asset} {y}")
+                    raise HoldoutLockError(f"Copied SHA mismatch for {asset} {y}")
             years_out[str(y)] = {
                 "parquet": fname,
                 "parquet_sha256": expected_sha,
@@ -82,7 +93,7 @@ def build_cache(jobs_root: Path = DEFAULT_JOBS, cache_dir: Path = DEFAULT_CACHE)
                 us_years[str(y)] = rec
                 continue
         times, quotes, ymeta = us500.load_explicit_year(jobs_root, y)
-        assert START <= int(times[0]) <= int(times[-1]) < STOP
+        enforce_pre_holdout_ts(times, START, STOP, context=f"hot_m1_cache.build:US500:{y}")
         mins = (times // 60).astype(np.int64)
         cols = {"minute": mins}
         for idx, cname in enumerate(("bo", "bh", "bl", "bc", "ao", "ah", "al", "ac")):
@@ -132,28 +143,49 @@ def load_asset(asset: str, cache_dir: Path = DEFAULT_CACHE, *, verify_sha: bool 
 
     Returns (times_sec: int64[N], quotes: float64[N, 8 or 4], asset_meta: dict).
     """
-    manifest = read(cache_dir / "manifest.json")
-    if manifest.get("holdout_rows") != 0 or manifest.get("holdout_lock_sha256") != clock.LOCK_SHA:
-        raise ValueError("Hot cache holdout guard mismatch")
-    am = manifest["assets"][asset]
-    folder = cache_dir / am["dir"]
-    scale = float(am["scale"])
-    cols = ("bo", "bh", "bl", "bc", "ao", "ah", "al", "ac") if am["native_Ask"] else ("bo", "bh", "bl", "bc")
+    _verify_holdout_lock_file()
+    try:
+        manifest = read(cache_dir / "manifest.json")
+    except Exception as exc:
+        raise HoldoutLockError(f"Hot cache manifest invalid or unreadable: {exc}") from exc
+    if (
+        not isinstance(manifest, dict)
+        or manifest.get("holdout_rows") != 0
+        or manifest.get("holdout_lock_sha256") != clock.LOCK_SHA
+    ):
+        raise HoldoutLockError("Hot cache holdout guard mismatch")
+    try:
+        am = manifest["assets"][asset]
+        folder = cache_dir / am["dir"]
+        scale = float(am["scale"])
+        cols = ("bo", "bh", "bl", "bc", "ao", "ah", "al", "ac") if am["native_Ask"] else ("bo", "bh", "bl", "bc")
+    except Exception as exc:
+        raise HoldoutLockError(f"Hot cache manifest schema invalid for {asset}: {exc}") from exc
     ts_parts, q_parts = [], []
     for y in clock.YEAR:
-        ym = am["years"][str(y)]
-        path = folder / ym["parquet"]
-        if verify_sha and sha(path) != ym["parquet_sha256"]:
-            raise ValueError(f"Hot cache SHA drift: {asset} {y}")
+        try:
+            ym = am["years"][str(y)]
+            path = folder / ym["parquet"]
+            expected_sha = ym["parquet_sha256"]
+        except Exception as exc:
+            raise HoldoutLockError(f"Hot cache year metadata missing for {asset} {y}: {exc}") from exc
+        if verify_sha:
+            try:
+                actual_sha = sha(path)
+            except Exception as exc:
+                raise HoldoutLockError(f"Hot cache parquet unreadable for {asset} {y}: {exc}") from exc
+            if actual_sha != expected_sha:
+                raise HoldoutLockError(f"Hot cache SHA drift: {asset} {y}")
         tbl = pq.read_table(path, columns=["minute", *cols])
         ts = tbl["minute"].to_numpy() * 60
-        assert START <= int(ts[0]) <= int(ts[-1]) < STOP
+        enforce_pre_holdout_ts(ts, START, STOP, context=f"hot_m1_cache.load:{asset}:{y}")
         q = np.column_stack([tbl[c].to_numpy() for c in cols]).astype(np.float64) / scale
         ts_parts.append(ts)
         q_parts.append(q)
     times = np.concatenate(ts_parts)
     quotes = np.vstack(q_parts)
-    assert (np.diff(times) > 0).all()
+    if not bool((np.diff(times) > 0).all()):
+        raise HoldoutLockError(f"Hot cache non-monotonic timestamps for {asset}")
     return times, quotes, am
 
 

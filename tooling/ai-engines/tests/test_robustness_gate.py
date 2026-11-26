@@ -22,6 +22,7 @@ AI_ENGINES = Path(__file__).resolve().parents[1]
 if str(AI_ENGINES) not in sys.path:
     sys.path.insert(0, str(AI_ENGINES))
 
+from quant_core.holdout_guard import HoldoutLockError
 from quant_factory.research_council import EvidenceBundle, KillCriteria, critique_proposal, propose_hypothesis
 from quant_factory.robustness_gate import (
     ORDER_SEND_CAPABLE,
@@ -143,7 +144,7 @@ class TestRobustnessGate(unittest.TestCase):
         self.assertGreater(wy_steady["ranking_score_worst_year_p10_r"], wy_boom["ranking_score_worst_year_p10_r"])
 
     def test_05_holdout_date_guard_fails_closed(self):
-        with self.assertRaises(AssertionError) as ctx:
+        with self.assertRaises((HoldoutLockError, ValueError)) as ctx:
             evaluate_robustness_gate(
                 strategy_id="LEAK_TEST",
                 trade_r=[1.0, 1.0],

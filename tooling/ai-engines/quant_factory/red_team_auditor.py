@@ -29,6 +29,7 @@ if str(AI_ENGINES) not in sys.path:
     sys.path.insert(0, str(AI_ENGINES))
 
 from native_ftmo_monfri_seal import ROOT
+from quant_core.holdout_guard import enforce_pre_holdout_dates
 from quant_factory.data_store import (
     assert_holdout_locked,
     build_or_load_frozen_tapes,
@@ -304,6 +305,73 @@ def classify_dst_regime(day_iso: str) -> str:
     return "US_EU_DST_MISMATCH"
 
 
+def classify_causal_vol_regimes(
+    nets: np.ndarray,
+    *,
+    vol_window: int = 20,
+    min_history: int = 30,
+    scale: float = 10000.0,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Strictly causal expanding volatility tercile classifier (uses history strictly <= t-1).
+
+    Returns `(lag_vol, regime_codes)` where `regime_codes`:
+      0 = warmup/unclassified, 1 = LOW_VOL_BOTTOM_33PCT,
+      2 = MID_VOL_MIDDLE_33PCT, 3 = HIGH_VOL_TOP_33PCT.
+    """
+    arr = np.asarray(nets, dtype=np.float64)
+    n_days = len(arr)
+    lag_vol = np.full(n_days, np.nan, dtype=np.float64)
+    regime_codes = np.zeros(n_days, dtype=np.int8)
+    for i in range(vol_window, n_days):
+        lag_vol[i] = float(np.std(arr[i - vol_window : i] / scale, ddof=1))
+        if i - vol_window >= min_history:
+            hist = lag_vol[vol_window:i]
+            q33_t = float(np.percentile(hist, 33.33))
+            q67_t = float(np.percentile(hist, 66.67))
+            v_i = lag_vol[i]
+            if v_i <= q33_t:
+                regime_codes[i] = 1
+            elif v_i <= q67_t:
+                regime_codes[i] = 2
+            else:
+                regime_codes[i] = 3
+    return lag_vol, regime_codes
+
+
+def compute_simultaneous_shock_row(
+    prof_name: str,
+    r_list: list[float],
+    sym_map: dict[str, float],
+    mult: float,
+    symcap_pct: float,
+    kill_daily_pct: float,
+    *,
+    gap_slippage_frac: float = 0.25,
+    kill_slip_buffer_pct: float = 0.25,
+) -> dict:
+    """Evaluate honest worst-case simultaneous gap-through shock without clamping under 5%."""
+    loss_3 = sum(r_list[:3]) * mult
+    loss_5 = sum(r_list[:5]) * mult
+    loss_all_uncap = sum(r_list) * mult
+    loss_all_symcap = sum(min(v * mult, symcap_pct) for v in sym_map.values())
+    # Honest worst-case simultaneous flash-crash gap-through shock:
+    # A software kill-switch CANNOT cap already-open SYMCAP-bounded positions during a simultaneous gap!
+    simultaneous_gap_shock_pct = loss_all_symcap * (1.0 + gap_slippage_frac)
+    sequential_kill_pct = min(loss_all_symcap, kill_daily_pct + kill_slip_buffer_pct)
+    return {
+        "profile": prof_name,
+        "mult": mult,
+        "worst_3_engines_pct": round(loss_3, 2),
+        "worst_5_engines_pct": round(loss_5, 2),
+        "all_engines_uncap_pct": round(loss_all_uncap, 2),
+        "all_engines_symcap_pct": round(loss_all_symcap, 2),
+        "sequential_killswitch_pct": round(sequential_kill_pct, 2),
+        "simultaneous_gap_through_pct": round(simultaneous_gap_shock_pct, 2),
+        "guarded_with_killswitch_pct": round(simultaneous_gap_shock_pct, 2),
+        "ftmo_5pct_safe_with_guard": simultaneous_gap_shock_pct < 5.0,
+    }
+
+
 def run_red_team_audit(*, seed: int = 20261124, n_jitter_draws: int = 200) -> dict:
     """Execute all 7 institutional adversarial stress tests on sealed Dev 2018-2024 tapes."""
     t0 = time.perf_counter()
@@ -311,8 +379,7 @@ def run_red_team_audit(*, seed: int = 20261124, n_jitter_draws: int = 200) -> di
     data = build_or_load_frozen_tapes(force_rebuild=False)
     tapes = data["tapes"]
     ext_days = data["ext_days"]
-    if max(ext_days) >= "2025-01-01":
-        raise AssertionError(f"HOLDOUT_CONTAMINATION: {max(ext_days)}")
+    enforce_pre_holdout_dates(ext_days, context="red_team_auditor.run_red_team_audit")
 
     reg = load_registry()
     base_risks = {e["id"]: float(e["base_risk_pct"]) / 100.0 for e in reg["engines"]}
@@ -536,20 +603,15 @@ def run_red_team_audit(*, seed: int = 20261124, n_jitter_draws: int = 200) -> di
             "engines_positive_of_9": pos_eng,
         })
 
-    # Strictly causal 20-day lagged volatility terciles on PORT_9E daily return stream
-    n_days = len(ext_days)
-    lag_vol = np.full(n_days, np.nan, dtype=np.float64)
-    for i in range(20, n_days):
-        lag_vol[i] = float(np.std(nets9[i - 20 : i] / 10000.0, ddof=1))
-    valid_v = lag_vol[np.isfinite(lag_vol)]
-    q33, q67 = float(np.percentile(valid_v, 33.33)), float(np.percentile(valid_v, 66.67))
+    # Strictly causal expanding 20-day lagged volatility terciles on PORT_9E daily return stream (<= t-1 ONLY)
+    lag_vol, vol_regime_codes = classify_causal_vol_regimes(nets9, vol_window=20, min_history=30, scale=10000.0)
     vol_regimes = {}
-    for rname, cond in (
-        ("LOW_VOL_BOTTOM_33PCT", (lag_vol <= q33)),
-        ("MID_VOL_MIDDLE_33PCT", (lag_vol > q33) & (lag_vol <= q67)),
-        ("HIGH_VOL_TOP_33PCT", (lag_vol > q67)),
+    for rname, rcode in (
+        ("LOW_VOL_BOTTOM_33PCT", 1),
+        ("MID_VOL_MIDDLE_33PCT", 2),
+        ("HIGH_VOL_TOP_33PCT", 3),
     ):
-        m = np.isfinite(lag_vol) & cond
+        m = vol_regime_codes == rcode
         vol_regimes[rname] = {
             "PORT_7E": _summarize_daily_slice(nets7[m], dds7[m]),
             "PORT_9E": _summarize_daily_slice(nets9[m], dds9[m]),
@@ -608,29 +670,15 @@ def run_red_team_audit(*, seed: int = 20261124, n_jitter_draws: int = 200) -> di
         sym = next(x["asset"] for x in reg["engines"] if x["id"] == e)
         sym_groups_9[sym] += base_risks[e] * 100.0
 
-    shock_matrix = []
-    for prof_name, r_list, sym_map, mult, symcap_pct, kill_daily_pct in (
-        ("Funded_Safe (1.00x, PORT_7E)", sorted_r7, sym_groups_7, 1.00, 1.00, 2.50),
-        ("P2_Verify (2.50x, PORT_7E)", sorted_r7, sym_groups_7, 2.50, 1.50, 3.50),
-        ("P1_Balanced (4.00x, PORT_9E)", sorted_r9, sym_groups_9, 4.00, 2.00, 4.20),
-        ("P1_Sprint (4.75x, PORT_9E)", sorted_r9, sym_groups_9, 4.75, 2.25, 4.30),
-    ):
-        loss_3 = sum(r_list[:3]) * mult
-        loss_5 = sum(r_list[:5]) * mult
-        loss_all_uncap = sum(r_list) * mult
-        loss_all_symcap = sum(min(v * mult, symcap_pct) for v in sym_map.values())
-        # With Orchestrator Kill-Switch (+0.25% slippage buffer)
-        effective_with_kill = min(loss_all_symcap, kill_daily_pct + 0.25)
-        shock_matrix.append({
-            "profile": prof_name,
-            "mult": mult,
-            "worst_3_engines_pct": round(loss_3, 2),
-            "worst_5_engines_pct": round(loss_5, 2),
-            "all_engines_uncap_pct": round(loss_all_uncap, 2),
-            "all_engines_symcap_pct": round(loss_all_symcap, 2),
-            "guarded_with_killswitch_pct": round(effective_with_kill, 2),
-            "ftmo_5pct_safe_with_guard": effective_with_kill < 5.0,
-        })
+    shock_matrix = [
+        compute_simultaneous_shock_row(prof_name, r_list, sym_map, mult, symcap_pct, kill_daily_pct)
+        for prof_name, r_list, sym_map, mult, symcap_pct, kill_daily_pct in (
+            ("Funded_Safe (1.00x, PORT_7E)", sorted_r7, sym_groups_7, 1.00, 1.00, 2.50),
+            ("P2_Verify (2.50x, PORT_7E)", sorted_r7, sym_groups_7, 2.50, 1.50, 3.50),
+            ("P1_Balanced (4.00x, PORT_9E)", sorted_r9, sym_groups_9, 4.00, 2.00, 4.20),
+            ("P1_Sprint (4.75x, PORT_9E)", sorted_r9, sym_groups_9, 4.75, 2.25, 4.30),
+        )
+    ]
 
     # ------------------------------------------------------------------
     # TEST 7: DST / UTC-Offset Sensitivity Check

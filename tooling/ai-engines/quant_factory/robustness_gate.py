@@ -48,6 +48,7 @@ if str(AI_ENGINES) not in sys.path:
 
 import hot_m1_cache as hcache
 from native_ftmo_monfri_seal import ROOT, STOP
+from quant_core.holdout_guard import HoldoutLockError, enforce_pre_holdout_dates, enforce_pre_holdout_ts
 from quant_factory.data_store import assert_holdout_locked, build_or_load_frozen_tapes, load_registry
 from quant_factory.red_team_auditor import estimate_trade_base_cost_usd_per_lot
 from quant_factory.report_gen import format_markdown_table, write_verified_receipt
@@ -76,14 +77,12 @@ class RobustnessThresholds:
 
 
 def _assert_pre_holdout_days(days: list[str] | tuple[str, ...]) -> None:
-    for dk in days:
-        if str(dk) >= HOLDOUT_CUTOFF_DAY:
-            raise AssertionError(f"HOLDOUT_CONTAMINATION: trade day {dk} >= {HOLDOUT_CUTOFF_DAY}")
+    enforce_pre_holdout_dates(days, cutoff_day=HOLDOUT_CUTOFF_DAY, context="robustness_gate.days")
 
 
 def _assert_pre_holdout_timestamps(ts: np.ndarray) -> None:
-    if len(ts) > 0 and int(np.max(ts)) >= HOLDOUT_CUTOFF_TS:
-        raise AssertionError(f"HOLDOUT_CONTAMINATION: bar timestamp {int(np.max(ts))} >= {HOLDOUT_CUTOFF_TS}")
+    if len(ts) > 0:
+        enforce_pre_holdout_ts(ts, stop_ts=HOLDOUT_CUTOFF_TS, context="robustness_gate.timestamps")
 
 
 def _profit_factor(vals: np.ndarray) -> float:
@@ -796,15 +795,26 @@ def _extract_sl_frac(row: dict) -> float:
     return max(0.0005, ir / 100000.0)
 
 
+def _enforce_holdout_lock_sealed() -> str:
+    """Wrap `assert_holdout_locked()` so any missing/corrupt/tampered lock raises `HoldoutLockError`."""
+    try:
+        return assert_holdout_locked()
+    except HoldoutLockError:
+        raise
+    except Exception as exc:
+        raise HoldoutLockError(f"HOLDOUT_LOCK_SEAL_FAILED: {exc}") from exc
+
+
 def audit_frozen_9e_dev(
     *,
     draws: int = 1000,
     seed: int = 20261124,
     write_report: bool = True,
+    verify_sha: bool = True,
 ) -> dict:
     """Run the 4-pillar Robustness Gate on all 9 frozen Dev engines (2018-2024 ONLY, holdout_rows = 0)."""
     t0 = time.perf_counter()
-    lock_sha = assert_holdout_locked()
+    lock_sha = _enforce_holdout_lock_sealed()
     data = build_or_load_frozen_tapes(force_rebuild=False)
     tapes = data["tapes"]
     ext_days = data["ext_days"]
@@ -822,7 +832,7 @@ def audit_frozen_9e_dev(
 
     m5_cache: dict[str, tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]] = {}
     for sym in sorted(needed_assets):
-        ts_m1, q_m1, _ = hcache.load_asset(sym, verify_sha=False)
+        ts_m1, q_m1, _ = hcache.load_asset(sym, verify_sha=verify_sha)
         m5_cache[sym] = resample_m1_quotes_to_m5_mid(ts_m1, q_m1)
 
     engine_results: list[dict] = []

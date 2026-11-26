@@ -6,7 +6,7 @@ Strictly causal Development 2018-2024 (holdout_rows = 0, OrderSend = 0).
 
 import argparse
 from collections import Counter, defaultdict
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from math import fsum, isclose
 from pathlib import Path
 import time
@@ -28,6 +28,7 @@ import pass26_cross_asset_rs as p26
 import whitebox_discovery as wbd
 from native_ftmo_monfri_seal import ROOT, START, STOP, read, sha, write
 from quant_core.ftmo_track_replay import commission, profiles
+from quant_core.holdout_guard import enforce_pre_holdout_ts
 
 PROTOCOL = "262d0e221e847065df531146b84fc584909a81e2"
 DEMO_SPEC_ARTIFACT = Path(r"E:\BACKUP-TRADINGWORKSPACE\ai-engine-jobs\ftmo-demo-indices-spec-20261123\ftmo_indices_spec_snapshot.json")
@@ -78,50 +79,92 @@ def replay_causal_m1_tape_trade(
         reason = "HARD_FLAT"
 
     stamps = times[entry_idx:entry_idx + rel + 1].astype(np.int64)
-    assert START <= int(stamps[0]) <= int(stamps[-1]) < STOP
+    enforce_pre_holdout_ts(stamps, START, STOP, context=f"pass27.replay_causal_m1_tape_trade:{asset}")
 
     c = p24.asset_cost_tiers(asset)
     slip_rt = float(c[cost_tier])
     comm = float(c["comm_usd"])
     sub_liq = liq[:rel + 1]
 
+    d_entry = datetime.fromtimestamp(int(stamps[0]), timezone.utc).date()
+    d_ex = datetime.fromtimestamp(int(stamps[-1]), timezone.utc).date()
+
+    def _prior_day_rate(rmap: dict | None, ref_d) -> float | None:
+        if not rmap:
+            return None
+        for lag in range(1, 15):
+            val = rmap.get(ref_d - timedelta(days=lag))
+            if val is not None and float(val) > 0.0:
+                return float(val)
+        earlier = [k for k in rmap if k < ref_d]
+        return float(rmap[max(earlier)]) if earlier else None
+
     if c["is_index"]:
         # FTMO Demo bound spec for US100.cash / US500.cash: 1.0 pt x 1.0 lot = $1.00 USD, commission = $0.00
         cs = 1.0
-        conv = 1.0
+        entry_conv_rate = 1.0
+        exit_conv_rate = 1.0
     else:
-        assert spec is not None
+        if spec is None:
+            raise ValueError(f"Missing broker spec for non-index asset: {asset}")
         cs = float(spec["trade_contract_size"])
         cp = spec.get("currency_profit", "USD")
         if cp == "USD":
-            conv = 1.0
+            entry_conv_rate = 1.0
+            exit_conv_rate = 1.0
         elif cp == "JPY":
-            d_ex = datetime.fromtimestamp(int(stamps[-1]), timezone.utc).date()
-            conv = 1.0 / (usdjpy_close_map.get(d_ex, ex_p) if (asset != "USDJPY" and usdjpy_close_map) else ex_p)
+            if asset == "USDJPY":
+                entry_conv_rate = 1.0 / entry_p
+                exit_conv_rate = 1.0 / ex_p
+            else:
+                # Strictly causal entry conversion: prior-day USDJPY close (< d_entry), NEVER d_ex or ex_p!
+                usdjpy_ent = _prior_day_rate(usdjpy_close_map, d_entry)
+                entry_conv_rate = 1.0 / (usdjpy_ent if usdjpy_ent is not None else entry_p)
+                usdjpy_ex = (
+                    (usdjpy_close_map.get(d_ex) or _prior_day_rate(usdjpy_close_map, d_ex) or usdjpy_ent)
+                    if usdjpy_close_map
+                    else ex_p
+                )
+                exit_conv_rate = 1.0 / (float(usdjpy_ex) if usdjpy_ex is not None else ex_p)
         elif cp in ("CAD", "CHF"):
-            conv = 1.0 / ex_p
+            entry_conv_rate = 1.0 / entry_p
+            exit_conv_rate = 1.0 / ex_p
         else:
-            conv = 1.0
+            entry_conv_rate = 1.0
+            exit_conv_rate = 1.0
 
-    # Minute-by-minute floating PnL in USD per 1.00 lot
-    # Entry slippage + half commission incurred on entry; remaining on exit (conservative full drag on floating marks)
-    drag_usd = comm + slip_rt * cs * conv
-    scale = cs * conv
+    # Strictly causal entry-time sizing scale & drag (zero future exit price / exit FX leak!)
+    entry_scale = cs * entry_conv_rate
+    entry_drag_usd = comm + slip_rt * entry_scale
+    exit_scale = cs * exit_conv_rate
+    exit_drag_usd = comm + slip_rt * exit_scale
 
-    cur_pnl = side * (sub_liq[:, 0] - entry_p) * scale - drag_usd
+    # Minute-by-minute causal floating PnL in USD per 1.00 lot
     hi_px = sub_liq[:, 1] if side == 1 else sub_liq[:, 2]
     lo_px = sub_liq[:, 2] if side == 1 else sub_liq[:, 1]
-    hi_pnl = side * (hi_px - entry_p) * scale - drag_usd
-    lo_pnl = side * (lo_px - entry_p) * scale - drag_usd
-    cls_pnl = side * (sub_liq[:, 3] - entry_p) * scale - drag_usd
+    if asset in ("USDJPY", "USDCAD", "USDCHF"):
+        s_op = cs / sub_liq[:, 0]
+        s_hi = cs / hi_px
+        s_lo = cs / lo_px
+        s_cl = cs / sub_liq[:, 3]
+        cur_pnl = side * (sub_liq[:, 0] - entry_p) * s_op - (comm + slip_rt * s_op)
+        hi_pnl = side * (hi_px - entry_p) * s_hi - (comm + slip_rt * s_hi)
+        lo_pnl = side * (lo_px - entry_p) * s_lo - (comm + slip_rt * s_lo)
+        cls_pnl = side * (sub_liq[:, 3] - entry_p) * s_cl - (comm + slip_rt * s_cl)
+    else:
+        cur_pnl = side * (sub_liq[:, 0] - entry_p) * entry_scale - entry_drag_usd
+        hi_pnl = side * (hi_px - entry_p) * entry_scale - entry_drag_usd
+        lo_pnl = side * (lo_px - entry_p) * entry_scale - entry_drag_usd
+        cls_pnl = side * (sub_liq[:, 3] - entry_p) * entry_scale - entry_drag_usd
 
     # Entry bar: opening quote may predate stop trigger; anchor open mark at entry spread
     spr0 = max(0.0, float(quotes[entry_idx, 4] - quotes[entry_idx, 0]))
-    cur_pnl[0] = -spr0 * scale - drag_usd
+    cur_pnl[0] = -spr0 * entry_scale - entry_drag_usd
     hi_pnl[0] = max(cur_pnl[0], cls_pnl[0])
     lo_pnl[0] = min(cur_pnl[0], lo_pnl[0], cls_pnl[0])
 
-    net_usd = side * (ex_p - entry_p) * scale - drag_usd
+    # Realized exit cash strictly uses exit_conv_rate
+    net_usd = side * (ex_p - entry_p) * exit_scale - exit_drag_usd
     if rel == 0 or at_open:
         cur_pnl[-1] = hi_pnl[-1] = lo_pnl[-1] = cls_pnl[-1] = net_usd
     else:
@@ -130,8 +173,8 @@ def replay_causal_m1_tape_trade(
         cls_pnl[-1] = net_usd
 
     marks = np.column_stack((cur_pnl, hi_pnl, lo_pnl, cls_pnl)).astype(np.float64)
-    stop_risk_usd = risk_p * scale + drag_usd
-    d_iso = datetime.fromtimestamp(int(stamps[0]), timezone.utc).date().isoformat()
+    stop_risk_usd = risk_p * entry_scale + entry_drag_usd
+    d_iso = d_entry.isoformat()
     row = {
         "day": d_iso,
         "year": int(d_iso[:4]),
@@ -143,6 +186,8 @@ def replay_causal_m1_tape_trade(
         "side": side,
         "entry_price": float(entry_p),
         "sl_price": float(sl_p),
+        "entry_conv_rate": float(entry_conv_rate),
+        "exit_conv_rate": float(exit_conv_rate),
         "net_usd_per_lot": float(net_usd),
         "stop_risk_with_cost_usd": float(stop_risk_usd),
         "net_R": float(net_usd / stop_risk_usd),

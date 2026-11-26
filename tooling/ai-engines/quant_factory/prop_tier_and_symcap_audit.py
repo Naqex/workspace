@@ -31,6 +31,7 @@ ROOT = AI_ENGINES.parents[1]
 if str(AI_ENGINES) not in sys.path:
     sys.path.insert(0, str(AI_ENGINES))
 
+from quant_core.holdout_guard import HoldoutLockError, enforce_pre_holdout_dates
 from quant_factory.data_store import (
     assert_holdout_locked,
     build_or_load_frozen_tapes,
@@ -664,8 +665,9 @@ def run_audit(*, n_paths: int = DEFAULT_N_PATHS, write_report: bool = True, over
 
     tapes_1x = dict(warm["tapes"])
     ext_days = sorted(warm["ext_days"])
-    assert max(ext_days) < "2025-01-01", f"HOLDOUT_CONTAMINATION:{max(ext_days)}"
-    assert min(ext_days) >= "2018-01-01"
+    enforce_pre_holdout_dates(ext_days, context="prop_tier_and_symcap_audit.ext_days")
+    if min(ext_days) < "2018-01-01":
+        raise HoldoutLockError(f"UNEXPECTED_DEV_START:{min(ext_days)}")
 
     tapes_125x = apply_cost_stress_to_tapes(tapes_1x, 1.25)
     tapes_15x = apply_cost_stress_to_tapes(tapes_1x, 1.5)

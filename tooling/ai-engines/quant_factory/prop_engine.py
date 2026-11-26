@@ -13,6 +13,12 @@ import pass23_ftmo_lifecycle_sim as p23l
 import pass27_portfolio_m1_phase_audit as p27
 import pass28_final_discovery_rednews_frontier as p28
 from native_ftmo_monfri_seal import START, STOP
+from quant_core.holdout_guard import (
+    HoldoutLockError,
+    enforce_pre_holdout_dates,
+    enforce_pre_holdout_ts,
+    record_holdout_override_event,
+)
 
 
 HOLDOUT_CUTOFF_DAY = "2025-01-01"
@@ -40,12 +46,16 @@ def replay_portfolio_m1(
     sorted_days = sorted(days)
     if not allow_holdout:
         if int(cutoff) > int(STOP):
-            raise ValueError(f"HOLDOUT_LOCK_VIOLATION: replay cutoff {cutoff} exceeds sealed STOP ({STOP})")
-        bad_days = [str(d) for d in sorted_days if str(d) >= HOLDOUT_CUTOFF_DAY]
-        if bad_days:
-            raise ValueError(
-                f"HOLDOUT_LOCK_VIOLATION: replay_portfolio_m1 received holdout days >= {HOLDOUT_CUTOFF_DAY}: {bad_days[:5]}"
+            raise HoldoutLockError(
+                f"HOLDOUT_LOCK_VIOLATION: replay cutoff {cutoff} exceeds sealed STOP ({STOP})"
             )
+        enforce_pre_holdout_dates(sorted_days, context="prop_engine.replay_portfolio_m1")
+    else:
+        record_holdout_override_event(
+            caller="prop_engine.replay_portfolio_m1",
+            context="allow_holdout",
+            details={"n_days": len(sorted_days), "cutoff": int(cutoff), "n_engines": len(risks)},
+        )
     active_tapes = {}
     news_stats = {}
     for eng in risks:
@@ -53,9 +63,11 @@ def replay_portfolio_m1(
             for dk in sorted_days:
                 if dk in tapes[eng]:
                     st_arr = tapes[eng][dk][1]
-                    if len(st_arr) > 0 and int(st_arr[-1]) >= int(STOP):
-                        raise ValueError(
-                            f"HOLDOUT_LOCK_VIOLATION: Tape '{eng}' day '{dk}' timestamp {int(st_arr[-1])} >= STOP ({STOP})"
+                    if len(st_arr) > 0:
+                        enforce_pre_holdout_ts(
+                            st_arr,
+                            stop_ts=STOP,
+                            context=f"prop_engine.replay_portfolio_m1:{eng}:{dk}",
                         )
         if red_news_cal is not None:
             gt, st = p28.apply_red_news_guard_to_tape(tapes[eng], red_news_cal, mode="FLATTEN_5M", pad_sec=news_pad_sec)
@@ -184,21 +196,72 @@ def apply_vol_targeting_causal(
     window: int = 20,
     lo: float = 0.55,
     hi: float = 1.35,
+    frozen_train_vol: float | None = None,
+    min_calib_bars: int = 30,
     allow_holdout: bool = False,
 ) -> tuple[np.ndarray, np.ndarray]:
-    """Strictly causal Moreira & Muir volatility-managed scaling (target vol fitted ONLY on Cluster A < 2021-01-01)."""
-    if not allow_holdout and any(str(d) >= HOLDOUT_CUTOFF_DAY for d in days_sorted):
-        raise ValueError(f"HOLDOUT_LOCK_VIOLATION: apply_vol_targeting_causal received day >= {HOLDOUT_CUTOFF_DAY}")
-    idx_split = sum(1 for d in days_sorted if d < "2021-01-01")
-    target_vol = float(np.std(nets[:max(30, idx_split)]))
-    out_n = nets.copy()
-    out_d = dds.copy()
-    for i in range(window, len(nets)):
-        rv = float(np.std(nets[i - window:i]))
-        if rv > 1e-6:
+    """Strictly causal Moreira & Muir volatility-managed scaling (zero full-sample or OOS lookahead).
+
+    Uses either a pre-calibrated `frozen_train_vol` or a strictly expanding causal window `t-1`
+    (freezing at the causal Cluster A `< 2021-01-01` prefix once `>= min_calib_bars` are observed).
+    Fails closed if `< min_calib_bars` (`30` default) history bars are available when calibrating.
+    """
+    if not allow_holdout:
+        enforce_pre_holdout_dates(days_sorted, context="prop_engine.apply_vol_targeting_causal")
+    else:
+        record_holdout_override_event(
+            caller="prop_engine.apply_vol_targeting_causal",
+            context="allow_holdout",
+            details={"n_days": len(days_sorted)},
+        )
+
+    nets_arr = np.asarray(nets, dtype=np.float64)
+    dds_arr = np.asarray(dds, dtype=np.float64)
+    n_obs = len(nets_arr)
+    if len(days_sorted) != n_obs or len(dds_arr) != n_obs:
+        raise ValueError(
+            f"Length mismatch in apply_vol_targeting_causal: days={len(days_sorted)}, nets={n_obs}, dds={len(dds_arr)}"
+        )
+    for idx in range(n_obs - 1):
+        if str(days_sorted[idx]) > str(days_sorted[idx + 1]):
+            raise ValueError(
+                f"days_sorted must be monotonically non-decreasing in apply_vol_targeting_causal: "
+                f"index {idx} ({days_sorted[idx]!r}) > index {idx + 1} ({days_sorted[idx + 1]!r})"
+            )
+
+    out_n = nets_arr.copy()
+    out_d = dds_arr.copy()
+
+    if frozen_train_vol is not None:
+        if isinstance(frozen_train_vol, bool) or not np.isfinite(float(frozen_train_vol)) or float(frozen_train_vol) <= 0.0:
+            raise ValueError(f"frozen_train_vol must be a finite float > 0, got {frozen_train_vol!r}")
+        fixed_vol = float(frozen_train_vol)
+        for i in range(int(window), n_obs):
+            rv = float(np.std(nets_arr[i - window : i]))
+            if rv > 1e-6:
+                m = float(np.clip(fixed_vol / rv, lo, hi))
+                out_n[i] = nets_arr[i] * m
+                out_d[i] = dds_arr[i] * m
+        return out_n, out_d
+
+    if n_obs < int(min_calib_bars):
+        raise ValueError(
+            f"Insufficient history for causal vol calibration: got {n_obs} bars, require >= {int(min_calib_bars)} "
+            "(or pass frozen_train_vol)"
+        )
+
+    idx_split = sum(1 for d in days_sorted if str(d) < "2021-01-01")
+    freeze_cluster_a = idx_split >= int(min_calib_bars)
+    frozen_a_vol = float(np.std(nets_arr[:idx_split])) if freeze_cluster_a else 0.0
+    start_i = max(int(window), int(min_calib_bars))
+
+    for i in range(start_i, n_obs):
+        target_vol = frozen_a_vol if (freeze_cluster_a and i >= idx_split) else float(np.std(nets_arr[:i]))
+        rv = float(np.std(nets_arr[i - window : i]))
+        if rv > 1e-6 and target_vol > 1e-12:
             m = float(np.clip(target_vol / rv, lo, hi))
-            out_n[i] = nets[i] * m
-            out_d[i] = dds[i] * m
+            out_n[i] = nets_arr[i] * m
+            out_d[i] = dds_arr[i] * m
     return out_n, out_d
 
 
@@ -250,6 +313,10 @@ def _simulate_lifecycle_numba(
         had_brf = 0
 
         for d in range(horizon):
+            if stage == 0:
+                if d + 1 == 252:
+                    cf12[b] = payouts - fees
+                continue
             src = idx_matrix[b, d]
             cur_base = cap * funded_cap_mult if stage == 3 else cap
             eq_pct = (bal - cur_base) / cur_base
@@ -283,10 +350,12 @@ def _simulate_lifecycle_numba(
                     net = min(net, -cur_daily_cap)
                 breached = (bal - dd) <= cur_static_floor + 1e-9
             else:
-                if dd > cur_ea_cut:
+                # Check raw daily & static breach BEFORE applying ea_daily_stop cut
+                breached = (dd >= cur_daily_cap - 1e-9) or ((bal - dd) <= cur_static_floor + 1e-9)
+                if not breached and dd > cur_ea_cut:
                     dd = min(dd, cur_ea_cut + cur_base * 0.0025)
                     net = min(net, -cur_ea_cut)
-                breached = (dd >= cur_daily_cap - 1e-9) or ((bal - dd) <= cur_static_floor + 1e-9)
+                    breached = (dd >= cur_daily_cap - 1e-9) or ((bal - dd) <= cur_static_floor + 1e-9)
 
             if breached:
                 if stage == 1:
@@ -302,6 +371,8 @@ def _simulate_lifecycle_numba(
                     tdays = 0
                     refunded = False
                     cycle_d = 0
+                else:
+                    stage = 0
             else:
                 bal += net
                 if min_prof_day > 0.0:
