@@ -200,6 +200,71 @@ public:
    static string AcctDayEqKeyName() { return StringFormat("NQXG_ACCT_DAYEQ_%I64d_%u",        CurrentAccountLogin(), CurrentAccountServerHash()); }
    static string AcctDayBalKeyName(){ return StringFormat("NQXG_ACCT_DAYBAL_%I64d_%u",       CurrentAccountLogin(), CurrentAccountServerHash()); }
    static string AcctAutoKillKey()  { return StringFormat("NQXG_ACCT_AUTOKILL_%I64d_%u",     CurrentAccountLogin(), CurrentAccountServerHash()); }
+   static string PendingCloseFileName()
+   {
+      return StringFormat("naqex_pending_close_%I64d_%u.txt", CurrentAccountLogin(), CurrentAccountServerHash());
+   }
+
+   static bool SavePendingCloseState(const ulong posId, const long magic, const string sym,
+                                     const string reason, const datetime sentUtc,
+                                     const string fileOverride = "")
+   {
+      string fname = (fileOverride != "") ? fileOverride : PendingCloseFileName();
+      int fh = FileOpen(fname, FILE_WRITE | FILE_TXT | FILE_ANSI | FILE_SHARE_READ);
+      if(fh == INVALID_HANDLE) return false;
+      string cleanWhy = reason;
+      StringReplace(cleanWhy, "|", "/");
+      StringReplace(cleanWhy, "\n", " ");
+      StringReplace(cleanWhy, "\r", " ");
+      FileWriteString(fh, StringFormat("SCHEMA=NAQEX_PENDING_CLOSE_V1\nPENDING|%I64u|%I64d|%s|%I64d|%s\n",
+                                       posId, magic, sym, (long)sentUtc, cleanWhy));
+      FileClose(fh);
+      return true;
+   }
+
+   static bool LoadPendingCloseState(ulong &outPosId, long &outMagic, string &outSym,
+                                     string &outReason, datetime &outSentUtc,
+                                     const string fileOverride = "")
+   {
+      outPosId = 0; outMagic = 0; outSym = ""; outReason = ""; outSentUtc = 0;
+      string fname = (fileOverride != "") ? fileOverride : PendingCloseFileName();
+      if(!FileIsExist(fname)) return false;
+      int fh = FileOpen(fname, FILE_READ | FILE_TXT | FILE_ANSI | FILE_SHARE_READ | FILE_SHARE_WRITE);
+      if(fh == INVALID_HANDLE) return false;
+      string hdr = FileIsEnding(fh) ? "" : FileReadString(fh);
+      StringTrimRight(hdr);
+      if(hdr != "SCHEMA=NAQEX_PENDING_CLOSE_V1") { FileClose(fh); return false; }
+      bool found = false;
+      while(!FileIsEnding(fh))
+      {
+         string line = FileReadString(fh);
+         StringTrimRight(line);
+         if(StringFind(line, "PENDING|") == 0)
+         {
+            string cols[];
+            int n = StringSplit(line, '|', cols);
+            if(n >= 6)
+            {
+               outPosId   = (ulong)StringToInteger(cols[1]);
+               outMagic   = (long)StringToInteger(cols[2]);
+               outSym     = cols[3];
+               outSentUtc = (datetime)StringToInteger(cols[4]);
+               outReason  = cols[5];
+               found = (outPosId > 0);
+               break;
+            }
+         }
+      }
+      FileClose(fh);
+      return found;
+   }
+
+   static bool ClearPendingCloseState(const string fileOverride = "")
+   {
+      string fname = (fileOverride != "") ? fileOverride : PendingCloseFileName();
+      if(!FileIsExist(fname)) return true;
+      return FileDelete(fname);
+   }
 
    // Tick-grid price normalizer (prevents invalid-stops on indices with tick_size > point)
    static double NormalizePriceToTick(const string sym, const double px)

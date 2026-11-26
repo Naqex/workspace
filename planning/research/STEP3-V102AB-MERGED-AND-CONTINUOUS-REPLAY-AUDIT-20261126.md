@@ -1,6 +1,10 @@
 # Báo Cáo Kiểm Toán Bước 3: Vá 2 Lỗi Nền, Hợp Nhất `v1.02 (A + B)` & Phát Lại Mù Liên Tục 4 Tháng (`01/09–31/12/2024`)
 
-- **Ngày chốt:** `26/11/2026` · **Trạng thái kỹ thuật:** `STEP3_COMPLETE_AWAITING_ASTRA_ROUND7`
+- **Ngày chốt:** `26/11/2026` · **Trạng thái kỹ thuật:** `STEP3_COMPLETE_AUDITED_BY_ASTRA_ROUND7`
+- **Đính chính phạm vi sau kiểm toán Astra Vòng 7 (giữ nguyên toàn văn lịch sử bên dưới):**
+  1. Hai cửa sổ `edge_holiday_20241127_1130` và `edge_dst_20241025_1105` được nạp số dư phẳng từ ngày trước (`window_seeded_from_prior_day_flat_balance`), không phải phát lại mù không biết gì từ đầu kỳ; bộ so sánh Bước 3.3 khi đó còn bỏ qua `equity`/`reason` và trả `return 0` — toàn bộ đã được vá fail-closed và kiểm 5/5 đột biến âm tại Bước 4.1.
+  2. Dữ liệu M1/chu kỳ 4 tháng kết thúc thực tế tại **`2024-12-30 23:54:00` (giờ server)**, không phủ trọn ngày `2024-12-31`.
+  3. Các số `+31,46 USD` (`C10 P2`) và `+16,85 USD` (`C00 P1`) ở Bước 3.3 là **tổng chênh P&L trên các lệnh chạm SL có trượt giá (đã bao gồm hiệu ứng dây chuyền thay đổi lot/ProfitLock)**, còn bước trượt giá trực tiếp giữ cố định lot & tỷ giá MT5 đã được tách riêng rõ ràng trong phân rã 4 tầng ở báo cáo Bước 4.
 - **Cổng kinh tế:** **VẪN DỪNG (`HALTED_AT_PARITY_GATE`) · Quyết định tài chính: `0 VND`**
 - **An toàn bắt buộc:** `Holdout 2025+ SEALED` (`holdout_rows_analysed = 0`, toàn bộ lượt kiểm toán kết thúc `<= 2024-12-31`) · **`0` lệnh gửi tới broker** (toàn bộ `OrderSend` đều là mô phỏng trong MT5 Strategy Tester cục bộ) · **`naqex-node1` (`1515343166`) chỉ đọc, không chạm** (`ONLINE GREEN`, `open_positions = 0`, `order_send_count = 0`, `NTP -0,054s`, Heroku EU `OK`) · **`InpSizingMode = 0` xuyên suốt Bước 3** · **`#property version "1.01"` giữ nguyên với hai cờ `InpProfitLockBasisMode = 0` và `InpOpportunityLifecycleMode = 0` tắt mặc định** cho tới khi Astra Vòng 7 duyệt thăng hạng `v1.02`.
 

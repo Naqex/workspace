@@ -1,6 +1,6 @@
 {
   "schema": "naqex-mt5-deployment-kit-manifest-v1",
-  "generated_utc": "2026-11-26T06:51:01+00:00",
+  "generated_utc": "2026-11-26T08:51:22+00:00",
   "order_send_count": 0,
   "profile_count": 10,
   "profiles": {
@@ -189,8 +189,8 @@
       "bytes": 15857
     },
     "tooling/ai-engines/exports/Naqex_Master_Prop7E.mq5": {
-      "sha256": "388464380ae4c1b607fa21dce8589bae34665c08f4ad7ff829575201bbf43e0e",
-      "bytes": 82591
+      "sha256": "2f07ab42dce4c02d4232e36fb11c089a3ec771f828f266c3e8e898488bef0e79",
+      "bytes": 88574
     },
     "tooling/ai-engines/exports/Naqex_WB_EXP080_USDJPY.mq5": {
       "sha256": "db96490856662a2e2c70729ff8bc70e277e2bcb71d5ca895733a516183dada64",
@@ -225,12 +225,12 @@
       "bytes": 5743
     },
     "tooling/ai-engines/exports/Include/Naqex_PropGuard.mqh": {
-      "sha256": "30c726b08ed118d9a3da15edf77492ea9427a9363cbe722edb219dd90cf50896",
-      "bytes": 53623
+      "sha256": "036c57f2db77d5411760bea92946a2614a42b2bce824cf9c29f28baa4d1d4a4e",
+      "bytes": 56359
     },
     "tooling/ai-engines/exports/Include/Naqex_Signals_7E.mqh": {
-      "sha256": "057f5b7243f72487bdc102e7c3f4e255212a9f43a87671f3dc119664790a07f5",
-      "bytes": 57926
+      "sha256": "b6e9f675e5d6b129caaced5dbfdc6252135b62d6d7317520be91f2fa2e28ba45",
+      "bytes": 63869
     },
     "tooling/ai-engines/exports/mql5_parity_checker.py": {
       "sha256": "419737aea20ccc091cb7fc54cd95199c46d7ee0f4baf943d2e24940237a44eb7",
@@ -713,8 +713,8 @@
       "bytes": 57724
     },
     ".runtime/mt5-compiled-ex5/Naqex_Master_Prop7E.ex5": {
-      "sha256": "af2ad46b1f430ba893d515082d6ce4c1debc0dd6955b4935d5657aa3fb7dbe0e",
-      "bytes": 154886
+      "sha256": "b548fbbb7cc554a7a75dad442fdccd14280bb98db88452bbeda99a8aa011e9f5",
+      "bytes": 167476
     },
     ".runtime/mt5-compiled-ex5/Naqex_WB_EXP080_USDJPY.ex5": {
       "sha256": "060f636946a09a40924ef0be176984e2e41511de348f132c97c02b52f5992374",

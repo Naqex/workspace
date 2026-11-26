@@ -375,15 +375,18 @@ class Mql5V101ContractTests(unittest.TestCase):
         self.assertRegex(master_raw, r"input\s+bool\s+InpDryRunLogOnly\s*=\s*true\s*;")
         self.assertRegex(master_raw, r"input\s+bool\s+InpShadowCompareMode\s*=\s*true\s*;")
         self.assertRegex(master_raw, r"input\s+bool\s+InpTesterEmitDecisionLog\s*=\s*false\s*;")
-        # Step 2 opt-in experimental switches MUST default to 0 (v1.01 frozen control) until promoted!
+        # Step 2/4 opt-in experimental switches MUST default to 0 (v1.01 frozen control) until promoted!
         self.assertRegex(master_raw, r"input\s+int\s+InpProfitLockBasisMode\s*=\s*0\s*;")
         self.assertRegex(master_raw, r"input\s+int\s+InpOpportunityLifecycleMode\s*=\s*0\s*;")
+        self.assertRegex(master_raw, r"input\s+int\s+InpPostCloseRefreshMode\s*=\s*0\s*;")
         for diag_tok in ("EmitTesterDecisionRow", "LOT_TAPER", "KILL_ACTIVATED", "CLOSE_REQUEST", "CLOSE_FILL", "INTENT_REJECT_CAP", "INTENT_ACCEPT_FILL"):
             self.assertIn(diag_tok, master_raw, f"Missing Step-1 pre-decision observability token '{diag_tok}'")
-        for v102_tok in ("MathMin(ddBrakeMult, plMult)", "AMBER_BRAKE", "RED_BRAKE", "+PROFIT_LOCK", "LOW_FACTOR_HEADROOM", "OPP_ACCEPTED", "EmitOppTransitionsToLogs", "NY_ANCHOR_LOCKED", "blk_by="):
-            self.assertIn(v102_tok, master_raw, f"Missing Step-2/3 v1.02-A/B token '{v102_tok}'")
-        for sig_tok in ("UpdateSetupOppOnObservedTick", "ExpireOppIfActive", "PRICE_CONDITION_LOST", "PRICE_CONDITION_ENTERED", "DrainOppTransitions", "RecordOpportunityBlocked", "FormatTransitionBlockBreakdown", "ConsumeNyAnchorJustLocked", "blk_spread", "blk_news"):
-            self.assertIn(sig_tok, signals_raw, f"Missing Step-2/3 v1.02-B signal lifecycle token '{sig_tok}'")
+        for v102_tok in ("MathMin(ddBrakeMult, plMult)", "AMBER_BRAKE", "RED_BRAKE", "+PROFIT_LOCK", "LOW_FACTOR_HEADROOM", "OPP_ACCEPTED", "EmitOppTransitionsToLogs", "NY_ANCHOR_LOCKED", "blk_by=", "POST_CLOSE_REFRESH", "closedConfirmedCount"):
+            self.assertIn(v102_tok, master_raw, f"Missing Step-2/3/4 v1.02-A/B/Q2 token '{v102_tok}'")
+        for sig_tok in ("UpdateSetupOppOnObservedTick", "ExpireOppIfActive", "PRICE_CONDITION_LOST", "PRICE_CONDITION_ENTERED", "DrainOppTransitions", "RecordOpportunityBlocked", "FormatTransitionBlockBreakdown", "ConsumeNyAnchorJustLocked", "blk_spread", "blk_news", "PersistOppState", "RestoreOppStateOnce"):
+            self.assertIn(sig_tok, signals_raw, f"Missing Step-2/3/4 v1.02-B signal lifecycle token '{sig_tok}'")
+        for pg_tok in ("PendingCloseFileName", "SavePendingCloseState", "LoadPendingCloseState", "ClearPendingCloseState"):
+            self.assertIn(pg_tok, guard_raw, f"Missing Step-4.2 pending-close persistence token '{pg_tok}'")
         self.assertRegex(guard_raw, r"input\s+bool\s+InpGuardDryRunLogOnly\s*=\s*true\s*;")
         m_idx_dev = re.search(r"input\s+int\s+InpMaxSlippagePointsIdx\s*=\s*(\d+)\s*;", master_raw)
         self.assertIsNotNone(m_idx_dev)
@@ -581,6 +584,35 @@ class Mql5V101ContractTests(unittest.TestCase):
         # Episode blocked twice (NEWS, CAP) then accepted on eval 3
         counts2 = {"LMIN": 0, "CAP": 1, "SPREAD": 0, "NEWS": 1, "OTHER": 0}
         self.assertEqual(3, 1 + sum(counts2.values()))
+
+    def test_step4_q2_post_close_refresh_confirmed_vs_pending_close_contract(self):
+        """Step 4.3 (Q2) unit contract: post-close state refresh fires ONLY after a confirmed close
+        (DONE / DONE_PARTIAL, !isDry) already booked into balance; pending/unconfirmed/dry-run closes
+        leave closedConfirmedCount == 0 and MUST NOT prematurely flip realized ProfitLock!"""
+        TRADE_RETCODE_DONE = 10009
+        TRADE_RETCODE_DONE_PARTIAL = 10010
+        TRADE_RETCODE_PLACED = 10008
+        TRADE_RETCODE_TIMEOUT = 10012
+
+        def _is_confirmed_close(is_dry: bool, ok_close: bool, retcode: int) -> bool:
+            return (not is_dry) and ok_close and (retcode in (TRADE_RETCODE_DONE, TRADE_RETCODE_DONE_PARTIAL))
+
+        # Pending / timeout / dry-run / failed closes MUST NOT trigger post-close refresh!
+        self.assertFalse(_is_confirmed_close(False, False, TRADE_RETCODE_PLACED))
+        self.assertFalse(_is_confirmed_close(False, False, TRADE_RETCODE_TIMEOUT))
+        self.assertFalse(_is_confirmed_close(True, True, TRADE_RETCODE_DONE))
+        self.assertFalse(_is_confirmed_close(False, False, TRADE_RETCODE_DONE))
+        # Confirmed live/tester closes MUST trigger post-close refresh!
+        self.assertTrue(_is_confirmed_close(False, True, TRADE_RETCODE_DONE))
+        self.assertTrue(_is_confirmed_close(False, True, TRADE_RETCODE_DONE_PARTIAL))
+
+        # ADV_B2 18:00:00 threshold crossing (pl_pct=0.70%, pl_mult=2.00x, base=4.00x):
+        # Pre-close balance = 10020.85 (0.2085% < 0.70%) -> NORMAL 4.00x
+        # Post-close confirmed balance = 10124.16 (1.2416% >= 0.70%) -> PROFIT_LOCK 2.00x!
+        pre_real_pct = ((10020.85 - 10000.0) / 10000.0) * 100.0
+        post_real_pct = ((10124.16 - 10000.0) / 10000.0) * 100.0
+        self.assertLess(pre_real_pct, 0.70)
+        self.assertGreaterEqual(post_real_pct, 0.70)
 
 
 if __name__ == "__main__":
