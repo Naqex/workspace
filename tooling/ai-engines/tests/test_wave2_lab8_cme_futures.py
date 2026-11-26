@@ -19,6 +19,7 @@ import re
 import sys
 
 import numpy as np
+import pytest
 
 AI_ENGINES = Path(__file__).resolve().parents[1]
 ROOT = AI_ENGINES.parents[1]
@@ -53,6 +54,7 @@ def _count_bare_dollar_pairs(md_text: str) -> int:
     return bad
 
 
+@pytest.mark.local_cache
 def test_lab8_report_json_parity_holdout_seal_and_hygiene():
     lock_sha = assert_holdout_locked()
     assert len(lock_sha) == 64
@@ -87,6 +89,7 @@ def test_lab8_report_json_parity_holdout_seal_and_hygiene():
         assert cagr_str in txt, f"CAGR {cagr_str} for {sid} missing from report"
 
 
+@pytest.mark.local_cache
 def test_cme_cache_complete_and_negative_oil_roll_safe_guard():
     panel = load_aligned_cme_panel(cache_dir=CACHE_DIR, force_refresh=False)
     assert len(panel["codes"]) == 6
@@ -104,6 +107,7 @@ def test_cme_cache_complete_and_negative_oil_roll_safe_guard():
     assert abs(oil_r[4] - 0.30) < 1e-12     # extreme rebound clamped safely at +30%
 
 
+@pytest.mark.local_cache
 def test_cme_friction_and_quarterly_roll_exact_zero_swap():
     panel = load_aligned_cme_panel(cache_dir=CACHE_DIR, force_refresh=False)
     w = build_lab8_strategy_weights(panel, "L8_A2_TSMOM_BLEND_20_60_120")
@@ -120,6 +124,7 @@ def test_cme_friction_and_quarterly_roll_exact_zero_swap():
     assert float(np.sum(s2["net_returns"])) < float(np.sum(s1["net_returns"])) < float(np.sum(s0["net_returns"]))
 
 
+@pytest.mark.local_cache
 def test_lab8_all_9_strategies_bit_for_bit_future_mutation_zero_lookahead():
     """Mutating all bars `[cut:]` MUST produce EXACT 0.0 difference in weights `[:cut+1]` and net returns `[:cut]`!"""
     panel = load_aligned_cme_panel(cache_dir=CACHE_DIR, force_refresh=False)

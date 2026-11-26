@@ -20,6 +20,7 @@ import re
 import sys
 
 import numpy as np
+import pytest
 
 AI_ENGINES = Path(__file__).resolve().parents[1]
 ROOT = AI_ENGINES.parents[1]
@@ -155,6 +156,7 @@ def _make_synthetic_etf40_panel(n_t: int = 340, seed: int = 55) -> dict:
     }
 
 
+@pytest.mark.local_cache
 def test_lab7_overnight_intraday_identity_and_all10_zero_lookahead() -> None:
     # 1. Exact decomposition identity on real cached NYSE panel
     real_panel = load_etf40_ohlc_panel()
@@ -199,6 +201,7 @@ def test_lab7_overnight_intraday_identity_and_all10_zero_lookahead() -> None:
 # Part 3: Artifacts, Auto-Research-Loop Ledger, Holdout Seal & Doc Hygiene
 # ==============================================================================
 
+@pytest.mark.local_cache
 def test_cycle4a_artifacts_rd_ledger_and_report_hygiene() -> None:
     # 1. Holdout lock untouched
     lock_path = ROOT / "planning" / "research" / "NATIVE_FTMO_HOLDOUT_LOCK.json"

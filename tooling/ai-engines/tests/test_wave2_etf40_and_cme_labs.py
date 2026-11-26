@@ -42,6 +42,7 @@ LAB5_MD_PATH = ROOT / "planning" / "research" / "LAB5-CME-FUTURES-PROP-STUDY-202
 # ===========================================================================
 
 
+@pytest.mark.local_cache
 def test_lab4_strict_anti_lookahead_future_mutation_and_signal_only_invariants() -> None:
     """Mutating all prices & VIX strictly after cutoff day T must leave weights[:T+1] bit-for-bit identical."""
     assert lab4.ORDER_SEND_COUNT == 0
@@ -91,6 +92,7 @@ def test_lab4_strict_anti_lookahead_future_mutation_and_signal_only_invariants()
         assert float(np.max(np.sum(w_base, axis=1))) <= 1.0 + 1e-9
 
 
+@pytest.mark.local_cache
 def test_lab4_summary_council_and_sleeve4_export_integrity() -> None:
     assert LAB4_SUMMARY_PATH.exists(), "Lab #4 summary JSON missing"
     summary = json.loads(LAB4_SUMMARY_PATH.read_text(encoding="utf-8"))
@@ -190,6 +192,7 @@ def test_lab5_eod_trailing_drawdown_and_consistency_rule_enforcement() -> None:
     assert res_no_cons["pass_ever_pct"] > res_50_cons["pass_ever_pct"] >= res_40_cons["pass_ever_pct"]
 
 
+@pytest.mark.local_cache
 def test_lab5_summary_holdout_seal_and_sleeve5_export() -> None:
     assert LAB5_SUMMARY_PATH.exists(), "Lab #5 summary JSON missing"
     summary = json.loads(LAB5_SUMMARY_PATH.read_text(encoding="utf-8"))
@@ -263,6 +266,7 @@ def test_lab4_and_lab5_reports_hygiene_and_links(md_path: Path) -> None:
         assert resolved.exists(), f"Broken relative link '{target}' in {md_path.name}"
 
 
+@pytest.mark.local_cache
 def test_reports_match_summary_json_key_numbers() -> None:
     s4 = json.loads(LAB4_SUMMARY_PATH.read_text(encoding="utf-8"))
     md4 = LAB4_MD_PATH.read_text(encoding="utf-8")

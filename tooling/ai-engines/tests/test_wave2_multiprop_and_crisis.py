@@ -15,6 +15,7 @@ import re
 import sys
 
 import numpy as np
+import pytest
 
 AI_ENGINES = Path(__file__).resolve().parents[1]
 ROOT = AI_ENGINES.parents[1]
@@ -65,6 +66,7 @@ def test_cycle3b_report_exists_holdout_sealed_and_clean_prose():
         assert token in txt, f"Missing expected section/token in report: {token}"
 
 
+@pytest.mark.local_cache
 def test_multi_prop_sim_determinism_stagger_and_budget_invariants():
     r1 = run_multi_prop_scaling_study(n_paths=400, horizon_days=504, seed=42)
     r2 = run_multi_prop_scaling_study(n_paths=400, horizon_days=504, seed=42)
@@ -164,6 +166,7 @@ def test_three_bucket_reserve_cap_overflow_exact_math():
     assert abs(float(ob60[0]) - 0.80 * float(pay24[0])) < 1e-4
 
 
+@pytest.mark.local_cache
 def test_crisis_stress_replay_all_6_scenarios_and_currency_math():
     c1 = run_crisis_stress_replay(n_crunch_paths=400, seed=77)
     c2 = run_crisis_stress_replay(n_crunch_paths=400, seed=77)

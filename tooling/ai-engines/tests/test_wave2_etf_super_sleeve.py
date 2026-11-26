@@ -19,6 +19,7 @@ import re
 import sys
 
 import numpy as np
+import pytest
 
 AI_ENGINES = Path(__file__).resolve().parents[1]
 ROOT = AI_ENGINES.parents[1]
@@ -55,6 +56,7 @@ def _count_bare_dollar_pairs(md_text: str) -> int:
     return bad
 
 
+@pytest.mark.local_cache
 def test_cycle4g_report_json_parity_holdout_and_no_sleeve_overwrite():
     lock_sha = assert_holdout_locked()
     assert len(lock_sha) == 64
@@ -85,6 +87,7 @@ def test_cycle4g_report_json_parity_holdout_and_no_sleeve_overwrite():
     assert s4["strategy_name"] == "E40_VRP_VOL_CARRY"
 
 
+@pytest.mark.local_cache
 def test_cla_nco_9engine_weights_strictly_independent_of_cluster_b():
     """Mutating ALL Cluster B (>= 2018-01-01) prices/returns MUST produce EXACT 0.0 change in 9-engine NCO weights."""
     p4 = load_etf40_panel(cache_dir=ETF40_CACHE_DIR)
@@ -111,6 +114,7 @@ def test_cla_nco_9engine_weights_strictly_independent_of_cluster_b():
     assert np.array_equal(w_vec_clean, w_vec_mut)
 
 
+@pytest.mark.local_cache
 def test_super_etf_6eng_strict_future_mutation_zero_lookahead():
     """Mutating all bars `[cut:]` on the 40-ETF panel produces EXACT 0.0 change in SUPER_ETF_6ENG_EQW `[:cut]`!"""
     p4_full = load_etf40_panel(cache_dir=ETF40_CACHE_DIR)

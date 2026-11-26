@@ -118,6 +118,7 @@ def test_group_weight_cap_exact_simplex_single_and_cex_caps():
         assert float(w[1] + w[2]) <= 0.25 + 1e-9
 
 
+@pytest.mark.local_cache
 def test_cexcap25_cuts_cex_default_shock_and_runs_in_allocation_study():
     study = run_allocation_study(n_stress_paths=300, seed=77)
     assert study["holdout_rows_analysed"] == 0

@@ -677,6 +677,7 @@ def test_build_tick_row_and_phase_classification(tmp_path: Path) -> None:
 
 
 @pytest.mark.skipif(not PROBE_SCRIPT.exists(), reason="Layer-2 private_vault probe absent in clean Layer-1 checkout")
+@pytest.mark.local_cache
 def test_demo_ro_probe_mql5_source_is_strictly_read_only() -> None:
     probe = _load_probe_module()
     probe.assert_probe_source_read_only(probe.MQL5_PROBE_SOURCE)
@@ -688,6 +689,7 @@ def test_demo_ro_probe_mql5_source_is_strictly_read_only() -> None:
 
 
 @pytest.mark.skipif(not PROBE_SCRIPT.exists(), reason="Layer-2 private_vault probe absent in clean Layer-1 checkout")
+@pytest.mark.local_cache
 def test_verify_hydration_against_statement_utc_d1_ny_parity_and_negative_cases() -> None:
     probe = _load_probe_module()
 
@@ -842,6 +844,7 @@ def test_verify_hydration_against_statement_utc_d1_ny_parity_and_negative_cases(
 
 
 @pytest.mark.skipif(not PROBE_SCRIPT.exists(), reason="Layer-2 private_vault probe absent in clean Layer-1 checkout")
+@pytest.mark.local_cache
 def test_demo_ro_probe_all8_engines_and_ny_dst_boundaries() -> None:
     probe = _load_probe_module()
     # Verify exact NY DST switch dates matching Naqex_Signals_7E.mqh:325-336
@@ -894,6 +897,7 @@ def test_same_ms_cursor_handles_numpy_structured_ticks_and_repeated_quotes() -> 
 
 
 @pytest.mark.skipif(not PROBE_SCRIPT.exists(), reason="Layer-2 private_vault probe absent in clean Layer-1 checkout")
+@pytest.mark.local_cache
 def test_demo_ro_probe_shadow_s6_only_never_grants_core7_verdict() -> None:
     probe = _load_probe_module()
     srv_off = 2 * 3600
@@ -950,6 +954,7 @@ def test_demo_ro_probe_shadow_s6_only_never_grants_core7_verdict() -> None:
 
 
 @pytest.mark.skipif(not PROBE_SCRIPT.exists(), reason="Layer-2 private_vault probe absent in clean Layer-1 checkout")
+@pytest.mark.local_cache
 def test_demo_ro_capture_statement_aligned_48h_bounds_and_none_history_raises(tmp_path: Path) -> None:
     probe = _load_probe_module()
     captured_bounds: list[tuple[int, int]] = []
@@ -1012,6 +1017,7 @@ def test_demo_ro_capture_statement_aligned_48h_bounds_and_none_history_raises(tm
 
 
 @pytest.mark.skipif(not STEP7_1_SCRIPT.exists(), reason="Layer-2 private_vault Step 7.1 script absent in clean Layer-1 checkout")
+@pytest.mark.local_cache
 def test_step7_1_phase_target_pass_requires_zero_open_positions() -> None:
     s71 = _load_step7_1_module()
     # 4 distinct trading days; at deal #8 (18:00), balance crosses 10504.77 while 1 position (0.16 lot) is STILL open;
