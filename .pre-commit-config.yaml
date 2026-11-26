@@ -1,0 +1,44 @@
+# Fast (<3s) local offline pre-commit hooks for Naqex TradingWorkspace.
+# Install locally with:
+#   .runtime\quant-audit-v24\Scripts\pre-commit.exe install
+# Run manually with:
+#   .runtime\quant-audit-v24\Scripts\pre-commit.exe run --all-files
+minimum_pre_commit_version: "4.0.0"
+
+repos:
+  - repo: local
+    hooks:
+      - id: ruff-check-active
+        name: ruff check (active quant/ops/tooling code)
+        entry: python -X utf8 tooling/naqex_cli.py ruff check
+        language: system
+        types: [python]
+        files: ^(tooling/ai-engines/(quant_core|ops_cloud)/.*\.py|tooling/(check_architecture|naqex_cli|worktree_ctl)\.py)$
+
+      - id: ruff-format-check-active
+        name: ruff format --check (active quant/ops/tooling code)
+        entry: python -X utf8 tooling/naqex_cli.py ruff format --check
+        language: system
+        types: [python]
+        files: ^(tooling/ai-engines/(quant_core|ops_cloud)/.*\.py|tooling/(check_architecture|naqex_cli|worktree_ctl)\.py)$
+
+      - id: naqex-architecture-guard
+        name: check_architecture.py (Harness [ARCH-01..07])
+        entry: python -X utf8 tooling/check_architecture.py
+        language: system
+        pass_filenames: false
+        files: ^(tooling/ai-engines/(quant_core|quant_factory|ops_cloud)/.*\.py|tooling/ai-engines/[^/]+\.py|tooling/ai-engines/configs/ssot/.*\.json|\.agents/skills/.*/SKILL\.md|planning/(CURRENT-CONTEXT|research/README)\.md|tooling/check_architecture\.py)$
+
+      - id: layer1-opsec-guard
+        name: test_layer1_opsec_guard.py (Layer-1 OPSEC boundary)
+        entry: python -X utf8 tooling/ai-engines/tests/test_layer1_opsec_guard.py
+        language: system
+        pass_filenames: false
+        always_run: true
+
+      - id: skill-links-guard
+        name: check_skill_links.py (skills links & triggers)
+        entry: python -X utf8 tooling/check_skill_links.py --skills-dir .agents/skills --review-triggers
+        language: system
+        pass_filenames: false
+        files: ^\.agents/skills/

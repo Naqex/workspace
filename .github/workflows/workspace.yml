@@ -13,7 +13,7 @@ jobs:
   contracts:
     name: Workspace contracts
     runs-on: windows-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     defaults:
       run:
         shell: bash
@@ -21,71 +21,94 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
-      - name: Fetch all pinned Naqex products
-        run: git submodule update --init -- projects/trader projects/vi-dubber projects/quant-trading projects/integrations/TradingAgents projects/integrations/paperclip projects/integrations/rd-agent
+      - name: Fetch all pinned Naqex products and integrations
+        run: git submodule update --init -- projects/trader projects/vi-dubber projects/quant-trading projects/integrations/TradingAgents projects/integrations/paperclip projects/integrations/rd-agent projects/integrations/hermes-agent
+      - uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e # v6.8.0
+        with:
+          version: "0.8.22"
+          enable-cache: true
+          cache-dependency-glob: |
+            pyproject.toml
+            projects/trader/foundation_v2/uv.lock
+            projects/trader/foundation_v2/engine_runtime/uv.lock
+            projects/integrations/TradingAgents/uv.lock
+            tooling/github-workflow/requirements.txt
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
-        with: {python-version: '3.12'}
-      - run: python tooling/check_workspace.py
-      - run: python -m unittest discover -s tooling/tests -p test_check_workspace.py -v
-      - run: python -m pip install -r tooling/github-workflow/requirements.txt
-      - run: python tooling/github-workflow/check.py
-      - run: python -m unittest discover -s tooling/github-workflow/tests -v
-      - name: Install locked controller and HTTP test dependencies
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22"
+      - name: Install locked workspace and quant test dependencies via uv
         run: |
           python - <<'PY'
-          import subprocess, sys, tomllib
+          import subprocess, tomllib
           from pathlib import Path
-          lock = tomllib.loads(Path('projects/trader/foundation_v2/uv.lock').read_text())
-          pins = [f"{p['name']}=={p['version']}" for p in lock['package']
-                  if p['name'] in ('pydantic', 'httpx')]
-          worker_lock = tomllib.loads(Path('projects/integrations/TradingAgents/uv.lock').read_text())
-          pins += [f"{p['name']}=={p['version']}" for p in worker_lock['package']
-                   if p['name'] == 'openai']
-          subprocess.run([sys.executable, '-m', 'pip', 'install', *pins], check=True)
+
+          trader_lock = tomllib.loads(Path("projects/trader/foundation_v2/uv.lock").read_text(encoding="utf-8"))
+          pins = [
+              f"{p['name']}=={p['version']}"
+              for p in trader_lock["package"]
+              if p["name"] in ("pydantic", "httpx")
+          ]
+          worker_lock = tomllib.loads(
+              Path("projects/integrations/TradingAgents/uv.lock").read_text(encoding="utf-8")
+          )
+          pins += [
+              f"{p['name']}=={p['version']}"
+              for p in worker_lock["package"]
+              if p["name"] == "openai"
+          ]
+          engine_lock = tomllib.loads(
+              Path("projects/trader/foundation_v2/engine_runtime/uv.lock").read_text(encoding="utf-8")
+          )
+          pins += [
+              f"{p['name']}=={p['version']}"
+              for p in engine_lock["package"]
+              if p["name"] in ("nautilus-trader", "pandas")
+          ]
+          pins += [
+              "numpy==2.3.5",
+              "statsmodels==0.15.0",
+              "pyarrow==26.0.1",
+              "zstandard==0.25.0",
+              "numba==0.68.1",
+              "duckdb==2.0.1",
+              "ruff==0.17.6",
+              "hypothesis==6.170.17",
+              "pytest==9.2.0",
+              "pytest-xdist==3.8.0",
+          ]
+          subprocess.run(
+              ["uv", "pip", "install", "--system", "-r", "tooling/github-workflow/requirements.txt", *pins],
+              check=True,
+          )
           PY
-      - name: Check full quant audit including native and statistical fixtures
+      - name: Verify workspace contracts, skills, architecture, integrations & education
         env:
-          PYTHONPATH: projects/trader/foundation_v2;tooling/ai-engines;tooling/ai-engines/tests
-          QUANT_RECEIPT: ${{ runner.temp }}/quant-full.json
+          PYTHONUTF8: "1"
+        run: |
+          python tooling/check_workspace.py
+          python tooling/github-workflow/check.py
+          python tooling/check_skill_links.py --skills-dir .agents/skills --review-triggers
+          python tooling/check_architecture.py --strict
+          node tooling/integrations/doctor.mjs
+          python education/check_setup.py
+      - name: Run unified offline pytest suite across all 5 testpaths
+        env:
+          PYTHONUTF8: "1"
           TEMP: ${{ runner.temp }}/quant-audit
           TMP: ${{ runner.temp }}/quant-audit
         run: |
-          python - <<'PY'
-          import os, subprocess, sys, tomllib
-          from pathlib import Path
-          Path(os.environ['TEMP']).mkdir(parents=True, exist_ok=True)
-          lock = tomllib.loads(Path('projects/trader/foundation_v2/engine_runtime/uv.lock').read_text())
-          pins = [f"{p['name']}=={p['version']}" for p in lock['package']
-                  if p['name'] in ('nautilus-trader', 'pandas')]
-          subprocess.run([sys.executable, '-m', 'pip', 'install',
-                          'numpy==2.3.5', 'statsmodels==0.15.0',
-                          'pyarrow==26.0.1', 'zstandard==0.25.0',
-                          'numba==0.68.1', 'pytest==9.2.0', *pins], check=True)
-          PY
-          python tooling/ai-engines/quant_test_suite.py --group complete --tier all --workers 4 --output "$QUANT_RECEIPT"
-      - name: Run pure-offline pytest OPSEC, ops-cloud, cockpit & contract suites
-        env:
-          PYTHONPATH: projects/trader/foundation_v2;tooling/ai-engines;tooling/ai-engines/tests
-        run: |
-          python -X utf8 -m pytest -q -k "not test_real_hot_m1_cache_baselines_enforce_zero_holdout" \
-            tooling/ai-engines/tests/test_layer1_opsec_guard.py \
-            tooling/ai-engines/tests/test_node_ctl.py \
-            tooling/ai-engines/tests/test_heroku_deadman.py \
-            tooling/ai-engines/tests/test_wave2_cockpit_and_treasury.py \
-            tooling/ai-engines/tests/test_ftmo_demo_calibration_probe.py \
-            tooling/ai-engines/tests/test_statement_reconcile_e2e.py \
-            tooling/ai-engines/tests/test_node_cutover_dryrun.py \
-            tooling/ai-engines/tests/test_node_weekly_digest.py \
-            tooling/ai-engines/tests/test_ftmo_pre_checkout_guard.py \
-            tooling/ai-engines/tests/test_holdout_and_tca_guards.py \
-            tooling/ai-engines/tests/test_mql5_v101_contract.py \
-            tooling/ai-engines/tests/test_prop_live_tca_monitor.py
-      - name: Preserve quant test IDs and timings
+          mkdir -p "$TEMP"
+          python -X utf8 -m pytest -n auto --dist worksteal -m "not local_cache" \
+            --junitxml="${{ runner.temp }}/pytest-workspace.xml" -q
+      - name: Preserve workspace pytest timings and JUnit report
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: quant-full-audit
-          path: ${{ runner.temp }}/quant-full*
+          name: workspace-pytest-report
+          path: ${{ runner.temp }}/pytest-workspace.xml
       - name: Check anti-bloat budgets on changed raw artifacts
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
@@ -96,7 +119,6 @@ jobs:
           else
             python tooling/check_anti_bloat.py --base HEAD
           fi
-          python -m unittest discover -s tooling/tests -p test_anti_bloat.py -v
   secrets:
     name: Workspace secret scan
     runs-on: ubuntu-latest
@@ -125,6 +147,7 @@ jobs:
       - name: Fetch pinned Trader consumer
         run: git submodule update --init -- projects/trader
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
-        with: {node-version: '22'}
+        with:
+          node-version: "22"
       - run: node tooling/ui-qa/ui-registry-check.mjs --json
       - run: node --test tooling/ui-qa/tests/registered-products.test.mjs
