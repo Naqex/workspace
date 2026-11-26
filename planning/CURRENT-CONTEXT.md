@@ -1,21 +1,18 @@
 # Current context — Naqex Workspace
 
-`26/11/2026 11:39 ICT` · `WORK: STEP1-PREDECISION-OBSERVABILITY-PASS | V101-ON-EQ-OFF-100PCT | HALTED_AT_PARITY_GATE | 0-VND | LIVE-NODE1: ONLINE-CONNECTED-FLAT | HOLDOUT 2025+ SEALED`
+`26/11/2026 12:36 ICT` · `WORK: STEP2-V102AB-ISOLATED-AND-PYTHON-SELF-REPLAY-PASS | HALTED_AT_PARITY_GATE | 0-VND | LIVE-NODE1: ONLINE-CONNECTED-FLAT | HOLDOUT 2025+ SEALED`
 
-`GOAL-NOW: BƯỚC 1 ĐẠT 100% (ON==OFF 640/640 DEAL + 320/320 ACCEPT + 27.351/27.351 REJECT_LOT_MIN + 114/114 TAPER + 1/1 KILL, MAX ΔBAL=0,00 USD, 0 LỆNH GỬI BROKER) | GIỮ HALTED_AT_PARITY_GATE & 0 VND | CHỜ ASTRA VÒNG 5 DUYỆT BƯỚC 2 v1.02-A/B`
+`GOAL-NOW: BƯỚC 2 ĐẠT 100% (PYTHON TỰ DỰNG MÙ 23/10 Δ=0,00 USD + v1.02-A RIÊNG MathMin/KILL + v1.02-B RIÊNG STABLE OPP_ID, 0 LỆNH GỬI BROKER) | GIỮ CỔNG KINH TẾ DỪNG & 0 VND | CHỜ ASTRA VÒNG 6 DUYỆT GHÉP A+B`
 
-## 0. Trạng Thái Hiện Tại Sau Bước 1 Quan Sát Trước Quyết Định (`26/11/2026`)
+## 0. Trạng Thái Hiện Tại Sau Bước 2 (`26/11/2026`)
 
-- **Bước 1 — Nhật ký trạng thái trước quyết định không đổi hành vi `v1.01` ([STEP1 Report](research/STEP1-V101-PREDECISION-OBSERVABILITY-AND-FORMULA-PARITY-20261126.md)):**
-  - Thêm cờ tắt mặc định `InpTesterEmitDecisionLog = false` vào `Naqex_Master_Prop7E.mq5` (`0 errors, 0 warnings`, `ex5 sha16=f395512e39508552`), giữ nguyên 100% hành vi `v1.01`.
-  - **Gate A1 (`ON == OFF`, 4 ca / 8 lượt `Model=4`):** Khớp **`100,00%`** (`640/640` deal, `0` lệch, `0,00 USD`, `swap = 0,00`, khớp nguyên văn `v1.01` chưa gắn log; lượt `OFF` tạo `0` CSV).
-  - **Gate A2 & A3 (Công thức Python không nhìn trước từ ảnh chụp trước quyết định):** Khớp **`320/320`** `INTENT_ACCEPT_FILL`, **`27.351/27.351`** `INTENT_REJECT_LOT_MIN`, **`114/114`** `LOT_TAPER`, **`1/1`** `KILL_ACTIVATED`, `max_balance_diff = 0,0000 USD`; `ADV_A` tách bạch sạch `LOT_TAPER → KILL_ACTIVATED → CLOSE_REQUEST → CLOSE_FILL`.
-  - **Bằng chứng mới từ log thật:** `C10 P2 02/12 18:30` xác nhận trực tiếp lỗ nổi `-63,35 USD` (`bal 10.380,28`, `eq 10.316,93`, `3,169% < 3,50%`) là nguyên nhân duy nhất thoát `ProfitLock`; `ADV_B2` (`23/10`) `E6` không dừng ở `L631` mà rơi vào nhánh thoát im `L653` (`lots < volMin`) đúng `24.635` lần (và `596` / `2.120` lần trong `C10 P2` / `C00 P1` — trước đây tàng hình ở cả Live lẫn Tester!).
-  - Kho bằng chứng gốc: `private_vault/strategies/step1-predecision-observability-20261126/raw_mt5_logs/` (`44` tệp gốc có cả SHA-256 giải nén và nén).
-- **Phán quyết chính thức Sprint 6 giờ ([Hồ sơ Kiểm toán Sprint 6 giờ — đã đính chính 3 điểm Vòng 4](research/SPRINT-6H-STANDARD-PARITY-AND-C00-VS-C10-AUDIT-20261126.md)):**
-  - **DỪNG CHẶNG 3 KINH TẾ (`HALTED_AT_PARITY_GATE`):** Giữ cứng `0 VND` (`0` lệnh gửi tới broker), `C10` chưa thăng hạng, `C00` không tự động được công nhận có edge; `R1/R2` giữ nhãn `SKIPPED_IN_TESTER / chưa kiểm nhánh MQL khi restart`; chờ Astra Vòng 5 duyệt để thử riêng từng thay đổi `v1.02-A` (`ProfitLock` balance + `MathMin`) và `v1.02-B` (mã cơ hội ổn định + hết hiệu lực theo setup + log `L653`).
-  - **Chẩn đoán tháng `9–12/2024` (`4/12` tháng giao `.tkc` trên `8/8` mã, thiếu `47/96` tháng-mã — KHÔNG phải `Full-2024`):** `0 ms / 500 ms`: `C00` P1 `+730,55 / +790,52 USD` (`EqDD 6,25% / 6,24%`) vs `C10` P1 `+371,25 / +419,41 USD` (`EqDD 8,82% / 8,72%`); `C00` P2 `+371,00 / +404,99` vs `C10` P2 `+461,44 / +517,31`. Pháp y `28` lệnh sống (`2` SL `US100.cash`): `KHÔNG TÁCH ĐƯỢC`; mẫu đo chỉ đọc `QUOTE_ONLY` cho NFP `04/12` & CPI `10/12` sẵn sàng.
-  - **Hiệu chính kế hoạch tổng thể:** Đã thêm hộp hiệu chính toán học đầu trang [TOP1-SOLO-QUANT-MASTER-PLAN.md](TOP1-SOLO-QUANT-MASTER-PLAN.md) (`Đậu + Rớt + Chờ` Ngày 180 = `100%`; ghép 4 nhánh không tự nhân lãi `1×` lên `18–30%`; Năm 1 = `0 VND` thu nhập trading).
+- **Bước 2 — Tự dựng mù Python ngày `23/10` & thử tách rời `v1.02-A` / `v1.02-B` trên nền `v1.01` ([STEP2 Report](research/STEP2-V102AB-ISOLATED-AND-PYTHON-REPLAY-AUDIT-20261126.md)):**
+  - **Phần 2.0 (Vá 3 điểm hồ sơ Bước 1):** Đã nối kiểm `reject_lot_min` & `lot_taper` + nhãn `UNTESTED` vào cổng `PASS` của runner Bước 1 (`--reverify-existing` xác minh `44/44` SHA-256 trong `2,51s`, `0` lượt MT5), thu hẹp câu chữ cửa sổ chung và gắn nhãn phụ lục lịch sử Vòng 4.
+  - **Phần 2.1 (Python tự dựng mù ngày `23/10/2024` từ chuỗi giá thuần `61.269` chu kỳ):** `0` cột trạng thái EA được đưa vào đầu vào; Python tự dựng chỉ báo, tín hiệu, vị thế, `equity`, `factor_headroom`, lot khớp **`100%`** (`11/11` sự kiện chính, **`24.635/24.635`** `INTENT_REJECT_LOT_MIN`, `0` tín hiệu thiếu/dư, `max Δbal = 0,00 USD`, `max Δeq = 0,00 USD`, `max Δfh = 0,000000%`, đúng thứ tự cùng giây `18:00:00`: đóng `E1` → giải phóng hạn mức → mở `E6 0,10 lot`, cuối ngày `10.216,84 USD`).
+  - **Phần 2.2 (`v1.02-A` riêng, `pl_mode=1, opp_mode=0`, `v1.01` đối chứng `0` lệch):** Hai ca đối kháng `balance >= ProfitLock` & `equity >= AMBER/RED` đều chọn đúng hệ số thấp hơn qua `MathMin` (`AMBER+PL = 1,75×`, `RED+PL = 1,60×`) và `KILL_ACTIVATED` vẫn cắt vị thế theo `equity`; `C10 P2` `02/12 E5` giữ `0,40 lot` (`+462,38` vs `+461,44 USD`), `C00 P1` `+708,89` vs `+730,55 USD` (thay đổi chính sách sizing, không mặc định lời hơn).
+  - **Phần 2.3 (`v1.02-B` riêng, `pl_mode=0, opp_mode=1`):** `ADV_B2` `E6` giữ `1` `opportunity_id` ổn định qua `24.635` lượt chặn (`root=LOW_FACTOR_HEADROOM`, `outcome=RAW_LOTS_BELOW_VOLMIN`), `C10 P2` `157` cơ hội (`1` `SESSION_ENDED`), `C00 P1` `196` cơ hội (`40` `PRICE_CONDITION_LOST`, `1` `SESSION_ENDED`), cả `3/3` khớp `100%` deal `v1.01`. Nhánh `R1/R2` & giữ ID qua restart thật vẫn mang nhãn `chưa kiểm`.
+  - Kho bằng chứng gốc: `private_vault/strategies/step2-v102ab-and-replay-20261126/` (`market_feed_20241023/` + `48` tệp log thô có SHA-256 giải nén và nén).
+- **Bước 1 & Sprint 6 giờ (lịch sử đã kiểm toán):** [STEP1 Report](research/STEP1-V101-PREDECISION-OBSERVABILITY-AND-FORMULA-PARITY-20261126.md) (`44/44` SHA-256, `640/640` deal ON/OFF) · [Sprint 6 giờ](research/SPRINT-6H-STANDARD-PARITY-AND-C00-VS-C10-AUDIT-20261126.md) (`90/90` SHA-256, `HALTED_AT_PARITY_GATE`, đính chính toán học ở [TOP1-SOLO-QUANT-MASTER-PLAN.md](TOP1-SOLO-QUANT-MASTER-PLAN.md)).
 
 ## 1. Kiến Trúc Đã Khóa & Khóa An Toàn Bất Biến
 
@@ -36,7 +33,6 @@
 
 ## 3. Việc Kế Tiếp (Ưu Tiên Theo Thứ Tự Khóa Cổng — `0 VND`)
 
-1. **Gửi Prompt Astra Vòng 4** trong mục 7 của [SPRINT-6H-STANDARD-PARITY-AND-C00-VS-C10-AUDIT-20261126.md](research/SPRINT-6H-STANDARD-PARITY-AND-C00-VS-C10-AUDIT-20261126.md) để chốt thiết kế cho 4 bản vá `v1.02`.
-2. **Thực hiện 4 hạng mục vá gốc cho `v1.02` trước mọi vòng kiểm định lại:** (a) cờ nhật ký Tester cho `LogMasterShadowRow` / `LogExecAuditFor` / `lots < volMin`; (b) thống nhất `ProfitLock` (Balance vs Equity + hysteresis) giữa MQL5 và Python; (c) thống nhất khóa cùng ngày vs thử lại cho tín hiệu bị chặn cụm/margin (`ADV_B2`); (d) đồng bộ cắt lệnh mở giữa ngày vào Python (`Step 2B`) + diễn tập khởi động lại sống `R1/R2` trên Demo thật.
-3. **Thu thập chỉ đọc `QUOTE_ONLY` (`OrderSend = 0`) quanh NFP `04/12` & CPI `10/12`** theo đúng mẫu [NFP-CPI-READONLY-CAPTURE-TEMPLATE.md](../tooling/ai-engines/exports/deployment_kit/NFP-CPI-READONLY-CAPTURE-TEMPLATE.md) (ghi đủ `time_msc`, tách rạch ròi `QUOTE_ONLY` khỏi `FILL_VERIFIED`).
-4. **Giữ cứng `0 VND` & không mở Holdout `2025+`:** Chỉ đánh giá lại lựa chọn vé trả phí sau khi `v1.02` vượt cổng Parity 7 mắt xích và có dữ liệu đo chỉ đọc NFP/CPI.
+1. **Gửi Prompt Astra Vòng 6** trong mục 3 của [STEP2-V102AB-ISOLATED-AND-PYTHON-REPLAY-AUDIT-20261126.md](research/STEP2-V102AB-ISOLATED-AND-PYTHON-REPLAY-AUDIT-20261126.md) để duyệt ghép `v1.02 (A + B)` và bước mở rộng Python tự dựng mù sang dải `9–12/2024`.
+2. **Giữ cổng kinh tế dừng & `0 VND`, không mở Holdout `2025+`:** Chỉ cân nhắc mở lại đánh giá kinh tế `C00` vs `C10` sau khi `v1.02 (A + B)` vượt đối chiếu độc lập và `R1/R2` có diễn tập restart ngoài Tester.
+3. **Thu thập chỉ đọc `QUOTE_ONLY` (`OrderSend = 0`) quanh NFP `04/12` & CPI `10/12`** theo mẫu [NFP-CPI-READONLY-CAPTURE-TEMPLATE.md](../tooling/ai-engines/exports/deployment_kit/NFP-CPI-READONLY-CAPTURE-TEMPLATE.md).

@@ -370,12 +370,20 @@ class Mql5V101ContractTests(unittest.TestCase):
 
         # 2. Verify fail-closed defaults & live-calibrated US100 deviation buffer (>= 430 pts from live #330!)
         master_raw = (EXPORTS_DIR / "Naqex_Master_Prop7E.mq5").read_text(encoding="utf-8")
+        signals_raw = (EXPORTS_DIR / "Include/Naqex_Signals_7E.mqh").read_text(encoding="utf-8")
         guard_raw = (EXPORTS_DIR / "Include/Naqex_PropGuard.mqh").read_text(encoding="utf-8")
         self.assertRegex(master_raw, r"input\s+bool\s+InpDryRunLogOnly\s*=\s*true\s*;")
         self.assertRegex(master_raw, r"input\s+bool\s+InpShadowCompareMode\s*=\s*true\s*;")
         self.assertRegex(master_raw, r"input\s+bool\s+InpTesterEmitDecisionLog\s*=\s*false\s*;")
+        # Step 2 opt-in experimental switches MUST default to 0 (v1.01 frozen control) until promoted!
+        self.assertRegex(master_raw, r"input\s+int\s+InpProfitLockBasisMode\s*=\s*0\s*;")
+        self.assertRegex(master_raw, r"input\s+int\s+InpOpportunityLifecycleMode\s*=\s*0\s*;")
         for diag_tok in ("EmitTesterDecisionRow", "LOT_TAPER", "KILL_ACTIVATED", "CLOSE_REQUEST", "CLOSE_FILL", "INTENT_REJECT_CAP", "INTENT_ACCEPT_FILL"):
             self.assertIn(diag_tok, master_raw, f"Missing Step-1 pre-decision observability token '{diag_tok}'")
+        for v102_tok in ("MathMin(ddBrakeMult, plMult)", "AMBER_BRAKE", "RED_BRAKE", "+PROFIT_LOCK", "LOW_FACTOR_HEADROOM", "OPP_ACCEPTED", "EmitOppTransitionsToLogs"):
+            self.assertIn(v102_tok, master_raw, f"Missing Step-2 v1.02-A/B token '{v102_tok}'")
+        for sig_tok in ("UpdateSetupOppOnObservedTick", "ExpireOppIfActive", "PRICE_CONDITION_LOST", "PRICE_CONDITION_ENTERED", "DrainOppTransitions", "RecordOpportunityBlocked"):
+            self.assertIn(sig_tok, signals_raw, f"Missing Step-2 v1.02-B signal lifecycle token '{sig_tok}'")
         self.assertRegex(guard_raw, r"input\s+bool\s+InpGuardDryRunLogOnly\s*=\s*true\s*;")
         m_idx_dev = re.search(r"input\s+int\s+InpMaxSlippagePointsIdx\s*=\s*(\d+)\s*;", master_raw)
         self.assertIsNotNone(m_idx_dev)
@@ -404,6 +412,157 @@ class Mql5V101ContractTests(unittest.TestCase):
             self.assertFalse(bad["ok"])
             self.assertEqual(bad["status"], "V101_CONTRACT_FAIL")
             self.assertGreaterEqual(len(bad["missing_v101_tokens"]), 6)
+
+    def test_v102a_realized_profitlock_mathmin_and_dynamic_release(self):
+        """Step 2.2 (v1.02-A) unit contract: ProfitLock uses realized closed PnL (re-evaluated on balance change),
+        while AMBER/RED/dailyHeadroom/kill stay on live equity, combined strictly via MathMin(ddBrake, plMult)."""
+        def _v102a_mult(
+            *,
+            init_bal: float, bal: float, eq: float, day_anchor_bal: float,
+            base_mult: float, pl_pct: float, pl_mult: float,
+            amber_dd: float, amber_m: float, red_dd: float, red_m: float,
+            kill_daily: float, kill_static: float,
+        ) -> tuple[float, str, bool]:
+            daily_dd = max(0.0, ((day_anchor_bal - eq) / init_bal) * 100.0)
+            static_dd = max(0.0, ((init_bal - eq) / init_bal) * 100.0)
+            realized_prof = max(0.0, ((bal - init_bal) / init_bal) * 100.0)
+            dd_mult = base_mult
+            dd_reg = ""
+            if static_dd >= red_dd:
+                dd_mult = base_mult * red_m
+                dd_reg = "RED_BRAKE"
+            elif static_dd >= amber_dd:
+                dd_mult = base_mult * amber_m
+                dd_reg = "AMBER_BRAKE"
+            pl_active = pl_pct > 0.0 and realized_prof >= pl_pct
+            eff_pl = min(base_mult, pl_mult) if pl_active else base_mult
+            mult = min(dd_mult, eff_pl)
+            if dd_reg and pl_active:
+                reg = f"{dd_reg}+PROFIT_LOCK"
+            elif dd_reg:
+                reg = dd_reg
+            elif pl_active:
+                reg = "PROFIT_LOCK"
+            else:
+                reg = "NORMAL"
+            dh = max(0.0, kill_daily - daily_dd)
+            if dh < 2.0:
+                mult = min(mult, base_mult * max(0.25, dh / 2.0))
+                if reg == "NORMAL":
+                    reg = "DAILY_HEADROOM_TAPER"
+            kill_fired = (daily_dd >= kill_daily) or (static_dd >= kill_static)
+            return round(mult, 4), reg, kill_fired
+
+        # 1. C10 P2 2024-12-02 case: bal=10380.28 (>=3.50%), eq=10316.93 (<3.50%) -> stays PROFIT_LOCK 1.75x!
+        m, r, k = _v102a_mult(
+            init_bal=10000, bal=10380.28, eq=10316.93, day_anchor_bal=10380.28,
+            base_mult=3.50, pl_pct=3.50, pl_mult=1.75, amber_dd=3.50, amber_m=0.65,
+            red_dd=6.00, red_m=0.40, kill_daily=3.00, kill_static=7.50,
+        )
+        self.assertEqual((m, r, k), (1.75, "PROFIT_LOCK", False))
+
+        # 2. Mandatory adversarial case A1: balance >= ProfitLock (1.75x) AND equity hits AMBER (2.60x) -> MathMin picks 1.75x!
+        m, r, k = _v102a_mult(
+            init_bal=10000, bal=10400.0, eq=9600.0, day_anchor_bal=10400.0,
+            base_mult=4.00, pl_pct=3.50, pl_mult=1.75, amber_dd=3.50, amber_m=0.65,
+            red_dd=6.00, red_m=0.40, kill_daily=10.00, kill_static=8.00,
+        )
+        self.assertEqual((m, r, k), (1.75, "AMBER_BRAKE+PROFIT_LOCK", False))
+
+        # 3. Mandatory adversarial case A2: balance >= ProfitLock (2.50x) AND equity hits RED (1.60x) -> MathMin picks 1.60x!
+        m, r, k = _v102a_mult(
+            init_bal=10000, bal=10400.0, eq=9350.0, day_anchor_bal=10400.0,
+            base_mult=4.00, pl_pct=3.50, pl_mult=2.50, amber_dd=3.50, amber_m=0.65,
+            red_dd=6.00, red_m=0.40, kill_daily=12.00, kill_static=8.00,
+        )
+        self.assertEqual((m, r, k), (1.60, "RED_BRAKE+PROFIT_LOCK", False))
+
+        # 4. Equity kill STILL fires even when realized balance is in ProfitLock!
+        m, r, k = _v102a_mult(
+            init_bal=10000, bal=10400.0, eq=9190.0, day_anchor_bal=10400.0,
+            base_mult=4.00, pl_pct=3.50, pl_mult=1.75, amber_dd=3.50, amber_m=0.65,
+            red_dd=6.00, red_m=0.40, kill_daily=15.00, kill_static=8.00,
+        )
+        self.assertTrue(k)
+        self.assertEqual(m, 1.60)
+
+        # 5. Dynamic re-evaluation (NOT permanent one-way lock): if closed loss drops balance below 3.50%, releases back to NORMAL!
+        m, r, k = _v102a_mult(
+            init_bal=10000, bal=10320.0, eq=10320.0, day_anchor_bal=10320.0,
+            base_mult=3.50, pl_pct=3.50, pl_mult=1.75, amber_dd=3.50, amber_m=0.65,
+            red_dd=6.00, red_m=0.40, kill_daily=3.00, kill_static=7.50,
+        )
+        self.assertEqual((m, r, k), (3.50, "NORMAL", False))
+
+    def test_v102b_opportunity_lifecycle_tick_gap_and_reentry_contract(self):
+        """Step 2.3 (v1.02-B) unit contract: stable opportunity_id across capacity blocks,
+        tick-gap non-expiry (unobserved != exited), price-loss expiry + re-entry = new ID,
+        and 2-layer root_cause + final_outcome separation."""
+        ep_active = False
+        ep_seq = 0
+        opp_id = ""
+        side = 0
+        evals = 0
+        blocks = 0
+        log: list[tuple[str, str, str]] = []
+
+        def step(in_session: bool, has_fresh_tick: bool, cur_side: int, blocked: bool) -> str | None:
+            nonlocal ep_active, ep_seq, opp_id, side, evals, blocks
+            if not in_session:
+                if ep_active:
+                    log.append(("OPP_EXPIRED", opp_id, "SESSION_ENDED"))
+                    ep_active = False
+                    opp_id = ""
+                    side = 0
+                return None
+            if not has_fresh_tick:
+                # Tick gap = unobserved state ONLY: MUST NOT expire active opportunity!
+                return None
+            if ep_active and cur_side != side:
+                log.append(("OPP_EXPIRED", opp_id, "PRICE_CONDITION_LOST"))
+                ep_active = False
+                opp_id = ""
+                side = 0
+            if (not ep_active) and cur_side != 0:
+                ep_seq += 1
+                ep_active = True
+                opp_id = f"OPP_E6_DAY1_{ep_seq}"
+                side = cur_side
+                evals = 0
+                blocks = 0
+                log.append(("OPP_START", opp_id, "PRICE_CONDITION_ENTERED"))
+            if ep_active and cur_side == side:
+                evals += 1
+                if blocked:
+                    blocks += 1
+                return opp_id
+            return None
+
+        # T1..T2: breakout + capacity block -> same stable OPP_E6_DAY1_1
+        self.assertEqual(step(True, True, 1, True), "OPP_E6_DAY1_1")
+        self.assertEqual(step(True, True, 1, True), "OPP_E6_DAY1_1")
+        # T3: tick gap (has_fresh_tick=False) -> MUST NOT expire!
+        self.assertIsNone(step(True, False, 0, False))
+        self.assertTrue(ep_active)
+        # T4: fresh tick resumes still in breakout -> STILL OPP_E6_DAY1_1!
+        self.assertEqual(step(True, True, 1, True), "OPP_E6_DAY1_1")
+        self.assertEqual((evals, blocks), (3, 3))
+        # T5: price leaves breakout zone -> OPP_EXPIRED:PRICE_CONDITION_LOST
+        self.assertIsNone(step(True, True, 0, False))
+        self.assertFalse(ep_active)
+        # T6: price re-breaks later -> NEW opportunity OPP_E6_DAY1_2!
+        self.assertEqual(step(True, True, 1, False), "OPP_E6_DAY1_2")
+        # T7: session ends -> OPP_EXPIRED:SESSION_ENDED
+        self.assertIsNone(step(False, True, 1, False))
+        self.assertEqual(
+            log,
+            [
+                ("OPP_START", "OPP_E6_DAY1_1", "PRICE_CONDITION_ENTERED"),
+                ("OPP_EXPIRED", "OPP_E6_DAY1_1", "PRICE_CONDITION_LOST"),
+                ("OPP_START", "OPP_E6_DAY1_2", "PRICE_CONDITION_ENTERED"),
+                ("OPP_EXPIRED", "OPP_E6_DAY1_2", "SESSION_ENDED"),
+            ],
+        )
 
 
 if __name__ == "__main__":

@@ -68,6 +68,8 @@ input string InpHeartbeatFile          = "naqex_master_heartbeat.json";
 input string InpShadowCsvFile          = "naqex_master_shadow.csv";
 input bool   InpTesterEmitDecisionLog  = false;      // Opt-in Tester-only pre-decision audit CSV (0 behavior change)
 input string InpTesterDecisionLogFile  = "naqex_tester_decisions.csv";
+input int    InpProfitLockBasisMode      = 0;        // 0=v1.01 Equity ProfitLock (frozen control), 1=v1.02-A Realized Balance ProfitLock + MathMin(DD,PL)
+input int    InpOpportunityLifecycleMode = 0;        // 0=v1.01 Per-Tick Intent (frozen control), 1=v1.02-B Stable opportunity_id + Setup-Validity Expiry + L653 Transition Log
 input bool   InpAllowManualHaltFile    = false;
 input string InpManualHaltFile         = "naqex_manual_halt.flag";
 input long   InpMagicRangeMin          = 20261120;
@@ -482,25 +484,60 @@ void LogMasterShadowRow(const NaqexSignalIntent &it, const string evType, const 
    FileClose(fh);
 }
 
-double ComputePhaseRiskMultiplier(const double dailyDdPct, const double staticDdPct, const double profitPct, string &outRegime)
+double ComputePhaseRiskMultiplier(const double dailyDdPct, const double staticDdPct,
+                                  const double eqProfitPct, const double realizedProfitPct,
+                                  string &outRegime)
 {
    double mult = InpBasePhaseMult;
    outRegime = "NORMAL";
-   // V101-07 (REL+HEADROOM): Relative AMBER/RED brake fixes the P1 4x AMBER Quicksand Trap while keeping Funded 1.0x identical!
-   if(staticDdPct >= InpRedDdPct)
+   double effProfitPct = (InpProfitLockBasisMode == 1) ? realizedProfitPct : eqProfitPct;
+   if(InpProfitLockBasisMode == 1)
    {
-      mult = MathMin(mult, InpBasePhaseMult * InpRedMult);
-      outRegime = "RED_BRAKE";
+      // v1.02-A: ProfitLock evaluates realized closed PnL (balance); AMBER/RED/headroom/kill STILL use live equity!
+      // Combine independently via MathMin(ddBrakeMult, plMult) so BOTH fire cleanly when balance >= ProfitLock
+      // AND live equity simultaneously breaches AMBER or RED!
+      double ddBrakeMult = InpBasePhaseMult;
+      string ddRegime = "";
+      if(staticDdPct >= InpRedDdPct)
+      {
+         ddBrakeMult = InpBasePhaseMult * InpRedMult;
+         ddRegime = "RED_BRAKE";
+      }
+      else if(staticDdPct >= InpAmberDdPct)
+      {
+         ddBrakeMult = InpBasePhaseMult * InpAmberMult;
+         ddRegime = "AMBER_BRAKE";
+      }
+      double plMult = InpBasePhaseMult;
+      bool plActive = (InpProfitLockPct > 0.0 && realizedProfitPct >= InpProfitLockPct);
+      if(plActive)
+         plMult = MathMin(plMult, InpProfitLockMult);
+      mult = MathMin(ddBrakeMult, plMult);
+      if(ddRegime != "" && plActive)
+         outRegime = ddRegime + "+PROFIT_LOCK";
+      else if(ddRegime != "")
+         outRegime = ddRegime;
+      else if(plActive)
+         outRegime = "PROFIT_LOCK";
    }
-   else if(staticDdPct >= InpAmberDdPct)
+   else
    {
-      mult = MathMin(mult, InpBasePhaseMult * InpAmberMult);
-      outRegime = "AMBER_BRAKE";
-   }
-   else if(InpProfitLockPct > 0.0 && profitPct >= InpProfitLockPct)
-   {
-      mult = MathMin(mult, InpProfitLockMult);
-      outRegime = "PROFIT_LOCK";
+      // V101-07 (REL+HEADROOM): Frozen v1.01 control (100% unchanged!)
+      if(staticDdPct >= InpRedDdPct)
+      {
+         mult = MathMin(mult, InpBasePhaseMult * InpRedMult);
+         outRegime = "RED_BRAKE";
+      }
+      else if(staticDdPct >= InpAmberDdPct)
+      {
+         mult = MathMin(mult, InpBasePhaseMult * InpAmberMult);
+         outRegime = "AMBER_BRAKE";
+      }
+      else if(InpProfitLockPct > 0.0 && eqProfitPct >= InpProfitLockPct)
+      {
+         mult = MathMin(mult, InpProfitLockMult);
+         outRegime = "PROFIT_LOCK";
+      }
    }
 
    g_curUnTaperedMult = mult;
@@ -524,9 +561,9 @@ double ComputePhaseRiskMultiplier(const double dailyDdPct, const double staticDd
       double ddScale = 1.0;
       if(staticHeadroom < 3.5) ddScale = MathMin(ddScale, MathMax(0.25, staticHeadroom / 3.5));
       // Target-proximity taper when within last 35% of phase profit target
-      if(InpTargetProfitPct > 0.0 && profitPct > 0.0)
+      if(InpTargetProfitPct > 0.0 && effProfitPct > 0.0)
       {
-         double remToTarget = MathMax(0.0, InpTargetProfitPct - profitPct);
+         double remToTarget = MathMax(0.0, InpTargetProfitPct - effProfitPct);
          double fracRem = remToTarget / InpTargetProfitPct;
          if(fracRem < 0.35)
             ddScale = MathMin(ddScale, MathMax(0.35, fracRem / 0.35));
@@ -854,22 +891,50 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
    if(allowedRiskPct <= 0.01)
    {
       string why = (factorHeadroom <= symHeadroom) ? "ORDER_BLOCKED_FACTOR" : "ORDER_BLOCKED_SYMCAP";
-      LogMasterShadowRow(it, why, reqRiskPct, 0.0,
-                         StringFormat("symRem=%.2f|facRem=%.2f", symHeadroom, factorHeadroom));
-      if(emitLog)
-         EmitTesterDecisionRow(it.signal_utc, "INTENT_REJECT_CAP", it.engine_id, it.magic, it.intent_id, it.symbol, sideStrLog,
-                               it.signal_price, preBid, preAsk, it.sl_price, normSl, slDist,
-                               pt, stopsLvl,
-                               SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_SIZE),
-                               SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_VALUE_LOSS),
-                               SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_VALUE),
-                               SymbolInfoDouble(it.symbol, SYMBOL_VOLUME_MIN),
-                               SymbolInfoDouble(it.symbol, SYMBOL_VOLUME_STEP),
-                               SymbolInfoDouble(it.symbol, SYMBOL_VOLUME_MAX),
-                               preBal, preEq, preFm,
-                               it.base_risk_pct, reqRiskPct, usedSymPct, symHeadroom, factorHeadroom, allowedRiskPct,
-                               0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-                               0, 0, 0, 0.0, 0.0, 0, why);
+      if(InpOpportunityLifecycleMode == 1)
+      {
+         string rootCause = (factorHeadroom <= symHeadroom) ? "LOW_FACTOR_HEADROOM" : "LOW_SYM_HEADROOM";
+         string blkKey = rootCause + ":" + why;
+         int blkCnt = 0, evCnt = 0;
+         bool logTrans = g_signals.RecordOpportunityBlocked(it.magic, blkKey, blkCnt, evCnt);
+         string structWhy = StringFormat("root=%s|outcome=%s|opp=%s|eval=%d|blk=%d|symRem=%.4f|facRem=%.4f",
+                                         rootCause, why, it.opportunity_id, it.opp_eval_count, blkCnt, symHeadroom, factorHeadroom);
+         if(logTrans)
+            LogMasterShadowRow(it, why, reqRiskPct, 0.0, structWhy);
+         if(emitLog)
+            EmitTesterDecisionRow(it.signal_utc, "INTENT_REJECT_CAP", it.engine_id, it.magic, it.intent_id, it.symbol, sideStrLog,
+                                  it.signal_price, preBid, preAsk, it.sl_price, normSl, slDist,
+                                  pt, stopsLvl,
+                                  SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_SIZE),
+                                  SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_VALUE_LOSS),
+                                  SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_VALUE),
+                                  SymbolInfoDouble(it.symbol, SYMBOL_VOLUME_MIN),
+                                  SymbolInfoDouble(it.symbol, SYMBOL_VOLUME_STEP),
+                                  SymbolInfoDouble(it.symbol, SYMBOL_VOLUME_MAX),
+                                  preBal, preEq, preFm,
+                                  it.base_risk_pct, reqRiskPct, usedSymPct, symHeadroom, factorHeadroom, allowedRiskPct,
+                                  0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                  0, 0, 0, 0.0, 0.0, 0, structWhy);
+      }
+      else
+      {
+         LogMasterShadowRow(it, why, reqRiskPct, 0.0,
+                            StringFormat("symRem=%.2f|facRem=%.2f", symHeadroom, factorHeadroom));
+         if(emitLog)
+            EmitTesterDecisionRow(it.signal_utc, "INTENT_REJECT_CAP", it.engine_id, it.magic, it.intent_id, it.symbol, sideStrLog,
+                                  it.signal_price, preBid, preAsk, it.sl_price, normSl, slDist,
+                                  pt, stopsLvl,
+                                  SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_SIZE),
+                                  SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_VALUE_LOSS),
+                                  SymbolInfoDouble(it.symbol, SYMBOL_TRADE_TICK_VALUE),
+                                  SymbolInfoDouble(it.symbol, SYMBOL_VOLUME_MIN),
+                                  SymbolInfoDouble(it.symbol, SYMBOL_VOLUME_STEP),
+                                  SymbolInfoDouble(it.symbol, SYMBOL_VOLUME_MAX),
+                                  preBal, preEq, preFm,
+                                  it.base_risk_pct, reqRiskPct, usedSymPct, symHeadroom, factorHeadroom, allowedRiskPct,
+                                  0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                  0, 0, 0, 0.0, 0.0, 0, why);
+      }
       return;
    }
 
@@ -913,7 +978,33 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
    double lots = CNaqexPropGuard::RoundVolumeDownToStep(rawLots, volStep, volMin, volMax);
    if(lots < volMin)
    {
-      if(emitLog)
+      if(InpOpportunityLifecycleMode == 1)
+      {
+         string rootCause = "BASE_RISK_OR_SL_TOO_WIDE";
+         if(allowedRiskPct < reqRiskPct - 1e-9)
+            rootCause = (factorHeadroom <= symHeadroom) ? "LOW_FACTOR_HEADROOM" : "LOW_SYM_HEADROOM";
+         else if(g_curDailyHeadroom < 2.0 && g_curRiskMult < g_curUnTaperedMult - 1e-9)
+            rootCause = "DAILY_HEADROOM_TAPER";
+         string outcome = "RAW_LOTS_BELOW_VOLMIN";
+         string blkKey  = rootCause + ":" + outcome;
+         int blkCnt = 0, evCnt = 0;
+         bool logTrans = g_signals.RecordOpportunityBlocked(it.magic, blkKey, blkCnt, evCnt);
+         string structWhy = StringFormat("root=%s|outcome=%s|opp=%s|eval=%d|blk=%d|symRem=%.4f|facRem=%.4f",
+                                         rootCause, outcome, it.opportunity_id, it.opp_eval_count, blkCnt, symHeadroom, factorHeadroom);
+         // Live transition-only log (fixes silent L653 blind spot without 24k per-tick spam!)
+         if(logTrans)
+            LogMasterShadowRow(it, "ORDER_BLOCKED_LOT_MIN", allowedRiskPct, 0.0, structWhy);
+         if(emitLog)
+            EmitTesterDecisionRow(it.signal_utc, "INTENT_REJECT_LOT_MIN", it.engine_id, it.magic, it.intent_id, it.symbol, sideStrLog,
+                                  it.signal_price, preBid, preAsk, it.sl_price, normSl, slDist,
+                                  pt, stopsLvl, tickSize, tickValLoss, tickValRaw, volMin, volStep, volMax,
+                                  bal, preEq, preFm,
+                                  it.base_risk_pct, reqRiskPct, usedSymPct, symHeadroom, factorHeadroom, allowedRiskPct,
+                                  riskMoney, rawLots, lots, 0.0, 0.0, 0.0,
+                                  0, 0, 0, 0.0, 0.0, 0, structWhy);
+      }
+      else if(emitLog)
+      {
          EmitTesterDecisionRow(it.signal_utc, "INTENT_REJECT_LOT_MIN", it.engine_id, it.magic, it.intent_id, it.symbol, sideStrLog,
                                it.signal_price, preBid, preAsk, it.sl_price, normSl, slDist,
                                pt, stopsLvl, tickSize, tickValLoss, tickValRaw, volMin, volStep, volMax,
@@ -921,6 +1012,7 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
                                it.base_risk_pct, reqRiskPct, usedSymPct, symHeadroom, factorHeadroom, allowedRiskPct,
                                riskMoney, rawLots, lots, 0.0, 0.0, 0.0,
                                0, 0, 0, 0.0, 0.0, 0, "RAW_LOTS_BELOW_VOLMIN");
+      }
       return;
    }
 
@@ -949,7 +1041,25 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
       lots = CNaqexPropGuard::RoundVolumeDownToStep(lots * (maxAllowM / reqMargin), volStep, volMin, volMax);
       if(lots < volMin)
       {
-         if(emitLog)
+         if(InpOpportunityLifecycleMode == 1)
+         {
+            int blkCnt = 0, evCnt = 0;
+            bool logTrans = g_signals.RecordOpportunityBlocked(it.magic, "LOW_FREE_MARGIN:MARGIN_CLAMP_BELOW_VOLMIN", blkCnt, evCnt);
+            string structWhy = StringFormat("root=LOW_FREE_MARGIN|outcome=MARGIN_CLAMP_BELOW_VOLMIN|opp=%s|eval=%d|blk=%d",
+                                            it.opportunity_id, it.opp_eval_count, blkCnt);
+            if(logTrans)
+               LogMasterShadowRow(it, "ORDER_BLOCKED_MARGIN_LOT_MIN", allowedRiskPct, 0.0, structWhy);
+            if(emitLog)
+               EmitTesterDecisionRow(it.signal_utc, "INTENT_REJECT_MARGIN_LOT_MIN", it.engine_id, it.magic, it.intent_id, it.symbol, sideStrLog,
+                                     it.signal_price, preBid, preAsk, it.sl_price, normSl, slDist,
+                                     pt, stopsLvl, tickSize, tickValLoss, tickValRaw, volMin, volStep, volMax,
+                                     bal, preEq, freeMargin,
+                                     it.base_risk_pct, reqRiskPct, usedSymPct, symHeadroom, factorHeadroom, allowedRiskPct,
+                                     riskMoney, rawLots, lots, 0.0, reqMargin, maxAllowM,
+                                     0, 0, 0, 0.0, 0.0, 0, structWhy);
+         }
+         else if(emitLog)
+         {
             EmitTesterDecisionRow(it.signal_utc, "INTENT_REJECT_MARGIN_LOT_MIN", it.engine_id, it.magic, it.intent_id, it.symbol, sideStrLog,
                                   it.signal_price, preBid, preAsk, it.sl_price, normSl, slDist,
                                   pt, stopsLvl, tickSize, tickValLoss, tickValRaw, volMin, volStep, volMax,
@@ -957,6 +1067,7 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
                                   it.base_risk_pct, reqRiskPct, usedSymPct, symHeadroom, factorHeadroom, allowedRiskPct,
                                   riskMoney, rawLots, lots, 0.0, reqMargin, maxAllowM,
                                   0, 0, 0, 0.0, 0.0, 0, "MARGIN_CLAMP_BELOW_VOLMIN");
+         }
          return;
       }
    }
@@ -1075,14 +1186,80 @@ void ProcessIntentAtomically(const NaqexSignalIntent &it, const double riskMult)
                                         (fillPx <= 0.0) ? "|FILL_UNRESOLVED" : ""),
                            it.magic);
    if(emitLog)
+   {
+      string fillWhy = it.tag;
+      if(InpOpportunityLifecycleMode == 1 && it.opportunity_id != "")
+      {
+         int oEval = 0, oBlk = 0; string oLastBlk = "";
+         g_signals.GetOpportunityStats(it.magic, oEval, oBlk, oLastBlk);
+         fillWhy = StringFormat("%s|opp=%s|eval=%d|blk=%d", it.tag, it.opportunity_id, oEval, oBlk);
+         string accWhy = StringFormat("ACCEPTED|opp=%s|eval=%d|blk=%d%s",
+                                      it.opportunity_id, oEval, oBlk,
+                                      (oLastBlk != "" ? ("|prev_blk=" + oLastBlk) : ""));
+         EmitTesterDecisionRow(it.signal_utc, "OPP_ACCEPTED", it.engine_id, it.magic, it.opportunity_id, it.symbol, sideStr,
+                               it.signal_price, preBid, preAsk, it.sl_price, normSl, slDist,
+                               pt, stopsLvl, tickSize, tickValLoss, tickValRaw, volMin, volStep, volMax,
+                               bal, preEq, freeMargin,
+                               it.base_risk_pct, reqRiskPct, usedSymPct, symHeadroom, factorHeadroom, allowedRiskPct,
+                               riskMoney, rawLots, preMarginLots, execLots, reqMargin, maxAllowM,
+                               dealId, ordId, posId, fillPx, 0.0, ret, accWhy);
+      }
       EmitTesterDecisionRow(it.signal_utc, "INTENT_ACCEPT_FILL", it.engine_id, it.magic, it.intent_id, it.symbol, sideStr,
                             it.signal_price, preBid, preAsk, it.sl_price, normSl, slDist,
                             pt, stopsLvl, tickSize, tickValLoss, tickValRaw, volMin, volStep, volMax,
                             bal, preEq, freeMargin,
                             it.base_risk_pct, reqRiskPct, usedSymPct, symHeadroom, factorHeadroom, allowedRiskPct,
                             riskMoney, rawLots, preMarginLots, execLots, reqMargin, maxAllowM,
-                            dealId, ordId, posId, fillPx, 0.0, ret, it.tag);
+                            dealId, ordId, posId, fillPx, 0.0, ret, fillWhy);
+   }
+   else if(InpOpportunityLifecycleMode == 1 && it.opportunity_id != "")
+   {
+      int oEval = 0, oBlk = 0; string oLastBlk = "";
+      g_signals.GetOpportunityStats(it.magic, oEval, oBlk, oLastBlk);
+      if(oBlk > 0)
+         LogMasterShadowRow(it, "OPP_ACCEPTED", allowedRiskPct, execLots,
+                            StringFormat("opp=%s|eval=%d|blk=%d|prev_blk=%s", it.opportunity_id, oEval, oBlk, oLastBlk));
+   }
    g_signals.MarkEngineTraded(it.magic, it.session_day_key);
+}
+
+void EmitOppTransitionsToLogs(const datetime nowUtc, const double bal, const double eq, const double fm)
+{
+   if(InpOpportunityLifecycleMode != 1) return;
+   NaqexOppTransition evs[NAQEX_MAX_OPP_EVENTS];
+   int nEv = g_signals.DrainOppTransitions(evs);
+   if(nEv <= 0) return;
+   bool emitLog = (MQLInfoInteger(MQL_TESTER) && InpTesterEmitDecisionLog && g_testerLogHandle != INVALID_HANDLE);
+   for(int i = 0; i < nEv; i++)
+   {
+      string why = StringFormat("%s|opp=%s|eval=%d|blk=%d%s",
+                                evs[i].reason, evs[i].opp_id, evs[i].eval_count, evs[i].block_count,
+                                (evs[i].last_block_key != "" ? ("|last_blk=" + evs[i].last_block_key) : ""));
+      if(emitLog)
+      {
+         double b = (evs[i].symbol != "") ? SymbolInfoDouble(evs[i].symbol, SYMBOL_BID) : 0.0;
+         double a = (evs[i].symbol != "") ? SymbolInfoDouble(evs[i].symbol, SYMBOL_ASK) : 0.0;
+         EmitTesterDecisionRow(evs[i].utc_ts, evs[i].event_type, evs[i].engine_id, evs[i].magic,
+                               evs[i].opp_id, evs[i].symbol, evs[i].is_buy ? "BUY" : "SELL",
+                               evs[i].signal_price, b, a, 0.0, 0.0, 0.0,
+                               0.0, 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                               bal, eq, fm,
+                               0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                               0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                               0, 0, 0, 0.0, 0.0, 0, why);
+      }
+      if(!MQLInfoInteger(MQL_TESTER) && evs[i].event_type == "OPP_EXPIRED" && evs[i].block_count > 0)
+      {
+         NaqexSignalIntent tmp;
+         tmp.intent_id = evs[i].opp_id; tmp.opportunity_id = evs[i].opp_id;
+         tmp.opp_eval_count = evs[i].eval_count; tmp.opp_is_new = false;
+         tmp.engine_id = evs[i].engine_id; tmp.magic = evs[i].magic; tmp.symbol = evs[i].symbol;
+         tmp.is_buy = evs[i].is_buy; tmp.signal_price = evs[i].signal_price; tmp.sl_price = 0.0;
+         tmp.base_risk_pct = 0.0; tmp.signal_utc = evs[i].utc_ts; tmp.tick_lag_ms = 0;
+         tmp.shadow_only = false; tmp.session_day_key = 0; tmp.tag = "";
+         LogMasterShadowRow(tmp, "OPP_EXPIRED", 0.0, 0.0, why);
+      }
+   }
 }
 
 void RunMasterCycle()
@@ -1114,11 +1291,13 @@ void RunMasterCycle()
    double dailyDdPct = (InpDailyResetMode == 1)
       ? ((InpInitialBalanceUSD > 0.0) ? MathMax(0.0, ((g_dayAnchorBal - eq) / InpInitialBalanceUSD) * 100.0) : 0.0)
       : ((g_dayAnchorEq > 0.0) ? MathMax(0.0, ((g_dayAnchorEq - eq) / g_dayAnchorEq) * 100.0) : 0.0);
-   double staticDdPct = (InpInitialBalanceUSD > 0.0) ? MathMax(0.0, ((InpInitialBalanceUSD - eq) / InpInitialBalanceUSD) * 100.0) : 0.0;
-   double profitPct   = (InpInitialBalanceUSD > 0.0) ? MathMax(0.0, ((eq - InpInitialBalanceUSD) / InpInitialBalanceUSD) * 100.0) : 0.0;
+   double staticDdPct       = (InpInitialBalanceUSD > 0.0) ? MathMax(0.0, ((InpInitialBalanceUSD - eq) / InpInitialBalanceUSD) * 100.0) : 0.0;
+   double eqProfitPct       = (InpInitialBalanceUSD > 0.0) ? MathMax(0.0, ((eq - InpInitialBalanceUSD) / InpInitialBalanceUSD) * 100.0) : 0.0;
+   double realizedProfitPct = (InpInitialBalanceUSD > 0.0) ? MathMax(0.0, ((bal - InpInitialBalanceUSD) / InpInitialBalanceUSD) * 100.0) : 0.0;
+   double profitPct         = (InpProfitLockBasisMode == 1) ? realizedProfitPct : eqProfitPct;
 
    string regime = "NORMAL";
-   double riskMult = ComputePhaseRiskMultiplier(dailyDdPct, staticDdPct, profitPct, regime);
+   double riskMult = ComputePhaseRiskMultiplier(dailyDdPct, staticDdPct, eqProfitPct, realizedProfitPct, regime);
    g_curDailyDdPct  = dailyDdPct;
    g_curStaticDdPct = staticDdPct;
    g_curProfitPct   = profitPct;
@@ -1201,6 +1380,7 @@ void RunMasterCycle()
    {
       NaqexSignalIntent intents[NAQEX_MAX_INTENTS];
       int nIntents = g_signals.CollectIntents(nowUtc, intents);
+      EmitOppTransitionsToLogs(nowUtc, AccountInfoDouble(ACCOUNT_BALANCE), AccountInfoDouble(ACCOUNT_EQUITY), AccountInfoDouble(ACCOUNT_MARGIN_FREE));
       for(int i = 0; i < nIntents; i++)
          ProcessIntentAtomically(intents[i], riskMult);
    }
@@ -1228,14 +1408,15 @@ int OnInit()
 {
    for(int i = 0; i < NAQEX_MAX_INFLIGHT; i++) g_inFlight[i].active = false;
    if(!g_signals.Init(InpSymUSDJPY, InpSymGBPUSD, InpSymEURJPY, InpSymUS100, InpSymUS500,
-                      InpSymEURUSD, InpSymAUDUSD, InpSymUSDCAD, InpMaxBreakoutTickLagMs, InpEnableS6Shadow))
+                      InpSymEURUSD, InpSymAUDUSD, InpSymUSDCAD, InpMaxBreakoutTickLagMs, InpEnableS6Shadow,
+                      InpOpportunityLifecycleMode))
       return INIT_FAILED;
    g_guard.Init(g_trade, g_signals.SymbolAt(SYM_USDJPY), InpMagicRangeMin, InpKillDailyDdPct);
    OpenTesterDecisionLog();
    RestoreOrInitDayAnchorM();
    g_signals.HydrateTradedDaysFromHistory(g_guard.NowUTC());
-   PrintFormat("[MASTER-7E-INIT] v1.01 sku=%s sizing=%d shadow=%s dry_run=%s hydrated=%s login=%I64d",
-               InpContractSku, InpSizingMode,
+   PrintFormat("[MASTER-7E-INIT] v1.01 sku=%s sizing=%d pl_mode=%d opp_mode=%d shadow=%s dry_run=%s hydrated=%s login=%I64d",
+               InpContractSku, InpSizingMode, InpProfitLockBasisMode, InpOpportunityLifecycleMode,
                InpShadowCompareMode ? "true" : "false",
                (InpDryRunLogOnly || InpGuardDryRunLogOnly) ? "true" : "false",
                g_signals.IsTradedDayHydrated() ? "true" : "false",

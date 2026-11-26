@@ -5,9 +5,9 @@
 - **Nhị phân & mã nguồn đã khóa:** `Naqex_Master_Prop7E.mq5` (`v1.01`, `sha16=19a38eddf51636e5`, mặc định `InpTesterEmitDecisionLog = false`, `InpDryRunLogOnly = true`) · `Naqex_Master_Prop7E.ex5` (`sha16=f395512e39508552`, biên dịch `0 errors, 0 warnings`).
 
 > ## Phán Quyết Bước 1 (`PASS — ĐỦ LOG TỪ TÍN HIỆU ĐẾN EQUITY ĐỂ SANG BƯỚC 2 v1.02-A/B`)
-> 1. **Gate A1 — Không có hiệu ứng quan sát (`ON == OFF`):** Bật và tắt `InpTesterEmitDecisionLog` trên cả **`4/4` ca** (`8` lượt chạy `Model=4` Real Ticks) cho ra **`100,00%` khớp tuyệt đối từng deal** (`640/640` deal, thời gian, giá vào/ra, lot, phí, `swap = 0,00`, lãi ròng chênh **`0,00 USD`**, khớp nguyên văn với bản `v1.01` chưa gắn log; các lượt `OFF` tạo đúng `0` tệp CSV).
-> 2. **Gate A2 — Công thức Python không nhìn trước (`0` giá hậu-khớp, `0` giá đóng cửa `USDJPY D1` cuối ngày):** Đọc trực tiếp ảnh chụp trạng thái trước quyết định của EA, Python khớp **`100,00%`** trên **`320/320`** lệnh nhận (`INTENT_ACCEPT_FILL`), **`27.351/27.351`** dòng từ chối `INTENT_REJECT_LOT_MIN`, **`114/114`** dòng `LOT_TAPER`, và **`1/1`** `KILL_ACTIVATED`.
-> 3. **Gate A3 — Khớp `1:1` deal & đường số dư:** Mọi deal vào lệnh trong báo cáo HTML gốc đều ánh xạ `1:1` với `INTENT_ACCEPT_FILL` (`320/320`), sai lệch số dư trước quyết định tối đa **`0,0000 USD`**, và toàn bộ lệnh đóng khẩn cấp trên `ADV_A` tách bạch sạch chuỗi `LOT_TAPER → KILL_ACTIVATED → CLOSE_REQUEST → CLOSE_FILL`.
+> 1. **Gate A1 — Không có hiệu ứng quan sát (`ON == OFF`):** Bật và tắt `InpTesterEmitDecisionLog` trên cả **`4/4` ca** (`8` lượt chạy `Model=4` Real Ticks) cho ra **`100,00%` khớp tuyệt đối từng deal** (`640/640` deal, thời gian, giá vào/ra, lot, phí, `swap = 0,00`, lãi ròng chênh **`0,00 USD`**; các lượt `OFF` tạo đúng `0` tệp CSV). Đối chiếu ngược với gói Vòng 4 chưa gắn log: `C00 P1` và `C10 P2` khớp toàn bộ lịch sử deal đã lưu; `ADV_A` và `ADV_B2` khớp từng deal **trên cửa sổ thời gian chung** *(hai lượt Vòng 4 dài hơn 1 ngày và `ADV_A` Vòng 4 đặt `InpAmberDdPct = 0,50%` thay vì `3,50%`)*.
+> 2. **Gate A2 — Công thức Python không nhìn trước (`0` giá hậu-khớp, `0` giá đóng cửa `USDJPY D1` cuối ngày):** Đọc trực tiếp ảnh chụp trạng thái trước quyết định của EA, runner `step1_predecision_parity_runner.py --reverify-existing` kiểm tự động và khớp **`100,00%`** trên **`320/320`** lệnh nhận (`INTENT_ACCEPT_FILL`), **`27.351/27.351`** dòng từ chối `INTENT_REJECT_LOT_MIN`, **`114/114`** dòng `LOT_TAPER`, và **`1/1`** `KILL_ACTIVATED` *(các nhánh có `0` quan sát như `reject_cap` được gắn nhãn rõ `UNTESTED / chưa được kiểm`, không ghi `100%`)*.
+> 3. **Gate A3 — Khớp `1:1` deal & đường số dư:** Mọi deal vào lệnh trong báo cáo HTML gốc đều ánh xạ `1:1` với `INTENT_ACCEPT_FILL` (`320/320`), sai lệch số dư trước quyết định tối đa **`0,0000 USD`**, và toàn bộ lệnh đóng khẩn cấp trên `ADV_A` tách bạch sạch chuỗi `LOT_TAPER → KILL_ACTIVATED → CLOSE_REQUEST → CLOSE_FILL`. *(Equity giữa các deal và việc tự dựng tín hiệu từ chuỗi giá được kiểm riêng ở Bước 2.1.)*
 
 ---
 
@@ -27,7 +27,7 @@ Kho bằng chứng gốc lưu tại Layer-2 `private_vault/strategies/step1-pred
 ## 2. Bốn Bằng Chứng Trực Tiếp Từ Ảnh Chụp Trước Quyết Định (Không Còn Suy Đoán)
 
 1. **Phát hiện lớn chưa từng biết ở `ADV_B2` (`23/10/2024` `E6 EURJPY`):**
-   - `E6` **KHÔNG** bị chặn ở dòng `allowedRiskPct <= 0,01` (`ORDER_BLOCKED_FACTOR`) như phỏng đoán trước đây. Do đệm `0,95` và làm tròn lot của `E1 + E2`, hạn mức cụm JPY còn dư đúng **`0,050486% .. 0,054086%`** (`> 0,01%`), nên `E6` lọt qua cổng `L631`, tính ra `raw_lots < 0,01` (`volMin`), rồi **rơi vào lệnh `return;` im lặng tại `Naqex_Master_Prop7E.mq5:653` (`INTENT_REJECT_LOT_MIN:RAW_LOTS_BELOW_VOLMIN`) đúng `24.635` lần** từ `10:00:00` (`server_ts=1729677600`, `signal_price=164,367`) đến `17:59:59` (`1729706399`, `164,883`).
+   - `E6` **KHÔNG** bị chặn ở dòng `allowedRiskPct <= 0,01` (`ORDER_BLOCKED_FACTOR`) như phỏng đoán trước đây. Do đệm `0,95` và làm tròn lot của `E1 + E2`, hạn mức cụm JPY còn dư nằm trong dải **`0,050397% .. 0,054870%`** *(đầu chuỗi `0,050486%`, cuối chuỗi `0,054086%`)* (`> 0,01%`), nên `E6` lọt qua cổng `L631`, tính ra `raw_lots ≈ 0,00877..0,00961 < 0,01` (`volMin`), rồi **rơi vào lệnh `return;` im lặng tại `Naqex_Master_Prop7E.mq5:653` (`INTENT_REJECT_LOT_MIN:RAW_LOTS_BELOW_VOLMIN`) đúng `24.635` lần đánh giá** trên **`24.231` giây khác nhau** từ `10:00:00` (`server_ts=1729677600`, `signal_price=164,367`) đến `17:59:59` (`1729706399`, `164,883`).
    - Đúng `1` giây sau tại `18:00:00` (`seq=24646`), khi `E1` đóng, `factor_headroom` nhảy từ `0,054086%` lên `0,619717%` và `E6` vào `0,10` lot tại `164,882` (trượt `+51,5` pip so với giá phá vỡ lúc `10:00`).
    - **Điểm mù sống lớn vừa lộ ra:** Dòng `L653` (`lots < volMin`) trước đây **không gọi `LogMasterShadowRow()` ở cả chế độ Live lẫn Tester** — ngay trên 2 lượt chạy thường `4` tháng, `INTENT_REJECT_LOT_MIN` đã xảy ra `596` lần (`C10 P2`) và `2.120` lần (`C00 P1`) hoàn toàn không để lại dấu vết!
 2. **Xác nhận dứt điểm nguyên nhân nhảy `ProfitLock` `2,00×` ở `C10 P2` (`02/12/2024 18:30:00`, `seq=69973`):**
@@ -49,7 +49,9 @@ Kho bằng chứng gốc lưu tại Layer-2 `private_vault/strategies/step1-pred
 
 ---
 
-## 4. Prompt Sẵn Dán Gửi GPT-6.2 Astra (Vòng 5 — Duyệt Bước 1 & Mở Khóa Bước 2 `v1.02-A` / `v1.02-B`)
+## 4. Phụ Lục Lịch Sử — Prompt Đã Gửi GPT-6.2 Astra Vòng 5 (Đã Được Duyệt & Đính Chính Chi Tiết Nhỏ Ở Trên)
+
+> **Ghi chú:** Phần khung dưới đây là nguyên văn prompt đã gửi Astra ở Vòng 5 (đã được Astra kiểm toán độc lập `44/44` SHA-256 và duyệt chuyển Bước 2). Ba điểm tinh chỉnh hậu kiểm (nối `reject_lot_min`/`lot_taper` + nhãn `UNTESTED` vào cổng `PASS` của runner, thu hẹp phạm vi đối chiếu cửa sổ chung với Vòng 4, và dải đầy đủ `0,050397%..0,054870%` trên `24.231` giây) đã được cập nhật ở phần thân báo cáo và chạy lại bằng `--reverify-existing` trên đúng `44` tệp gốc.
 
 ```text
 Xin Astra kiểm toán Bước 1 (bật log trạng thái trước quyết định trên bản giữ nguyên 100% hành vi v1.01 + kiểm khớp Python không nhìn trước + đính chính 3 câu chữ hồ sơ Vòng 4) trước khi chúng tôi triển khai tách từng thay đổi v1.02-A (ProfitLock balance + MathMin) và v1.02-B (mã cơ hội ổn định + hết hiệu lực theo setup):
