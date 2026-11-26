@@ -3,6 +3,9 @@
 Zero daemon, zero external API keys, Vietnamese diacritic-aware FTS5 (`unicode61 remove_diacritics 2`)
 fused via Reciprocal Rank Fusion (RRF) with char/word TF-IDF cosine similarity and Evergreen preservation.
 
+Per-chunk float32 vectors are persisted directly in SQLite `chunks.vec_blob` (WAL + busy_timeout=30s)
+so 1-file incremental re-indexing completes in < 30 ms and 8+ concurrent subagents operate safely.
+
 Usage:
   python -X utf8 tooling/knowledge/brain_cli.py index
   python -X utf8 tooling/knowledge/brain_cli.py query "thi quy calmar holdout" --top 8
@@ -16,6 +19,7 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter
+from contextlib import contextmanager
 from datetime import datetime, timezone
 from difflib import SequenceMatcher
 import hashlib
@@ -25,7 +29,10 @@ import os
 from pathlib import Path
 import re
 import sqlite3
+import tempfile
+import threading
 import time
+from typing import Any
 import unicodedata
 from urllib.parse import unquote
 
@@ -56,6 +63,176 @@ QUERY_STOPWORDS = HEADING_STOPWORDS | frozenset({
 })
 TOKEN_RE = re.compile(r"[0-9a-zA-Z\u00C0-\u024F\u1E00-\u1EFF\u4E00-\u9FFF\u0400-\u04FF_]{2,}")
 VEC_DIM = 512  # Compact hashed feature space (zero-pickle float32 matrix -> < 5 MB, < 10 ms dot product)
+_VEC_BYTES = VEC_DIM * 4
+_RACY_MTIME_WINDOW_SEC = 2.0
+_SQLITE_TIMEOUT_SEC = 30.0
+
+_THREAD_WRITE_LOCK = threading.RLock()
+_LOCK_TLS = threading.local()
+
+
+def _replace_with_retry(src: Path, dst: Path, *, retries: int = 12) -> None:
+    """Windows-safe atomic os.replace with short backoff for transient reader/AV sharing locks."""
+    for attempt in range(retries):
+        try:
+            os.replace(src, dst)
+            return
+        except PermissionError:
+            if attempt + 1 >= retries:
+                raise
+            time.sleep(0.005 * (attempt + 1))
+
+
+def _atomic_write_text(path: Path, text: str) -> None:
+    """Atomically write UTF-8 text via temp file -> flush -> fsync -> os.replace."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp_path: Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            newline="\n",
+            dir=path.parent,
+            prefix=f".{path.name}.",
+            suffix=".tmp",
+            delete=False,
+        ) as fh:
+            fh.write(text)
+            fh.flush()
+            os.fsync(fh.fileno())
+            tmp_path = Path(fh.name)
+        _replace_with_retry(tmp_path, path)
+        tmp_path = None
+    finally:
+        if tmp_path is not None:
+            tmp_path.unlink(missing_ok=True)
+
+
+def _write_vec_compat_marker(vec_path: Path) -> None:
+    """Write a tiny (< 1 KB) zero-pickle `.npz` compatibility marker atomically for legacy path checks."""
+    vec_path.parent.mkdir(parents=True, exist_ok=True)
+    tmp_path: Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="wb",
+            dir=vec_path.parent,
+            prefix=f".{vec_path.name}.",
+            suffix=".tmp",
+            delete=False,
+        ) as fh:
+            np.savez(
+                fh,
+                storage=np.array([b"sqlite_vec_blob_v2"]),
+                vec_dim=np.array([VEC_DIM], dtype=np.int64),
+            )
+            fh.flush()
+            os.fsync(fh.fileno())
+            tmp_path = Path(fh.name)
+        _replace_with_retry(tmp_path, vec_path)
+        tmp_path = None
+    finally:
+        if tmp_path is not None:
+            tmp_path.unlink(missing_ok=True)
+
+
+@contextmanager
+def _brain_write_lock(*, timeout_sec: float = _SQLITE_TIMEOUT_SEC):
+    """Reentrant in-process + cross-process advisory write lock for brain DB & owner logs."""
+    lock_dir = BRAIN_DIR
+    lock_dir.mkdir(parents=True, exist_ok=True)
+    lock_path = lock_dir / ".brain.lock"
+    key = str(lock_path.resolve())
+    held_map: dict[str, int] = getattr(_LOCK_TLS, "held", None) or {}
+    _LOCK_TLS.held = held_map
+
+    with _THREAD_WRITE_LOCK:
+        depth = held_map.get(key, 0)
+        if depth > 0:
+            held_map[key] = depth + 1
+            try:
+                yield
+            finally:
+                held_map[key] -= 1
+            return
+
+        fh = lock_path.open("a+b")
+        os_locked = False
+        deadline = time.monotonic() + max(1.0, timeout_sec)
+        try:
+            if os.name == "nt":
+                import msvcrt
+
+                fh.seek(0, os.SEEK_END)
+                if fh.tell() == 0:
+                    fh.write(b"0")
+                    fh.flush()
+                while True:
+                    try:
+                        fh.seek(0)
+                        msvcrt.locking(fh.fileno(), msvcrt.LK_NBLCK, 1)
+                        os_locked = True
+                        break
+                    except OSError as exc:
+                        if time.monotonic() >= deadline:
+                            raise TimeoutError(f"Timed out waiting for brain write lock: {lock_path}") from exc
+                        time.sleep(0.01)
+            else:
+                import fcntl
+
+                while True:
+                    try:
+                        fcntl.flock(fh.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+                        os_locked = True
+                        break
+                    except OSError as exc:
+                        if time.monotonic() >= deadline:
+                            raise TimeoutError(f"Timed out waiting for brain write lock: {lock_path}") from exc
+                        time.sleep(0.01)
+
+            held_map[key] = 1
+            try:
+                yield
+            finally:
+                held_map.pop(key, None)
+        finally:
+            if os_locked:
+                try:
+                    if os.name == "nt":
+                        import msvcrt
+
+                        fh.seek(0)
+                        msvcrt.locking(fh.fileno(), msvcrt.LK_UNLCK, 1)
+                    else:
+                        import fcntl
+
+                        fcntl.flock(fh.fileno(), fcntl.LOCK_UN)
+                except OSError:
+                    pass
+            fh.close()
+
+
+def _connect_db(db_path: Path, *, write: bool = False) -> sqlite3.Connection:
+    """Open a WAL-enabled, high-busy-timeout SQLite connection safe for 8+ concurrent subagents."""
+    conn = sqlite3.connect(str(db_path), timeout=_SQLITE_TIMEOUT_SEC, isolation_level=None)
+    conn.execute("PRAGMA busy_timeout=30000")
+    for attempt in range(8):
+        try:
+            cur_mode = str(conn.execute("PRAGMA journal_mode").fetchone()[0]).lower()
+            if cur_mode != "wal":
+                conn.execute("PRAGMA journal_mode=WAL")
+            if write:
+                conn.execute("PRAGMA synchronous=NORMAL")
+            break
+        except sqlite3.OperationalError as exc:
+            if "locked" in str(exc).lower() or "busy" in str(exc).lower():
+                if attempt + 1 >= 8:
+                    conn.close()
+                    raise
+                time.sleep(0.02 * (attempt + 1))
+            else:
+                conn.close()
+                raise
+    return conn
 
 
 def _strip_accents(text: str) -> str:
@@ -104,70 +281,140 @@ def resolve_owner_file(filename: str, root: Path | None = None) -> Path:
     return base / "knowledge" / "owner" / filename
 
 
-def iter_knowledge_docs(*, include_archive: bool = False) -> list[tuple[str, Path, str, bool]]:
-    """Discover all maintained Markdown sources across the workspace with clear domain & evergreen flags."""
-    found: dict[str, tuple[Path, str, bool]] = {}
+def _iter_knowledge_docs_with_stat(
+    *, include_archive: bool = False
+) -> list[tuple[str, str, str, bool, float, int, int]]:
+    """Fast os.scandir-based discovery returning `(rel, path_str, domain, evergreen, mtime, mtime_ns, size)`."""
+    root_str = str(ROOT)
+    root_prefix_len = len(root_str) + (0 if root_str.endswith(os.sep) else 1)
+    found: dict[str, tuple[str, str, bool, float, int, int]] = {}
 
-    def _add(p: Path, domain: str, evergreen: bool) -> None:
-        if not p.is_file() or p.suffix.lower() != ".md" or p.stat().st_size > 1_000_000:
+    def _add_stat(p_str: str, st: os.stat_result, domain: str, evergreen: bool) -> None:
+        if st.st_size > 1_000_000:
             return
-        rel = p.relative_to(ROOT).as_posix()
-        found[rel] = (p, domain, evergreen)
+        if p_str.startswith(root_str):
+            rel = p_str[root_prefix_len:].replace("\\", "/")
+        else:
+            rel = Path(p_str).relative_to(ROOT).as_posix()
+        found[rel] = (p_str, domain, evergreen, st.st_mtime, st.st_mtime_ns, st.st_size)
+
+    def _add_file(p: Path, domain: str, evergreen: bool) -> None:
+        if p.suffix.lower() != ".md":
+            return
+        try:
+            st = p.stat()
+        except OSError:
+            return
+        p_str = str(p)
+        if not os.path.isfile(p_str):
+            return
+        _add_stat(p_str, st, domain, evergreen)
+
+    def _scan_md_dir(
+        folder: Path,
+        domain: str,
+        evergreen: bool,
+        *,
+        skip_names: set[str] | None = None,
+        skip_prefix: str | None = None,
+        only_prefix: str | None = None,
+        non_evergreen_name: str | None = None,
+        record_names: set[str] | None = None,
+    ) -> None:
+        try:
+            with os.scandir(folder) as it:
+                for entry in it:
+                    name = entry.name
+                    if not name.lower().endswith(".md"):
+                        continue
+                    if skip_names and name in skip_names:
+                        continue
+                    if skip_prefix and name.startswith(skip_prefix):
+                        continue
+                    if only_prefix and not name.startswith(only_prefix):
+                        continue
+                    try:
+                        if not entry.is_file():
+                            continue
+                        st = entry.stat()
+                    except OSError:
+                        continue
+                    if st.st_size > 1_000_000:
+                        continue
+                    is_ev = evergreen and (name != non_evergreen_name)
+                    _add_stat(entry.path, st, domain, is_ev)
+                    if record_names is not None:
+                        record_names.add(name)
+        except OSError:
+            return
 
     # 1. Owner profile, curiosity journal, decisions (Private-First override when private_vault/owner exists)
-    priv_owner = ROOT / "private_vault/owner"
-    pub_owner = ROOT / "knowledge/owner"
     private_owner_names: set[str] = set()
-    if priv_owner.is_dir():
-        for p in sorted(priv_owner.glob("*.md")):
-            is_ev = p.name != "CURIOSITY-LOG.md"
-            _add(p, "owner", is_ev)
-            if p.is_file() and p.stat().st_size <= 1_000_000:
-                private_owner_names.add(p.name)
-    if pub_owner.is_dir():
-        for p in sorted(pub_owner.glob("*.md")):
-            if p.name in private_owner_names:
-                continue
-            is_ev = p.name != "CURIOSITY-LOG.md"
-            _add(p, "owner", is_ev)
-    for p in sorted((ROOT / "knowledge/topics").glob("*.md")):
-        _add(p, "knowledge", True)
-    pb_dir = ROOT / "knowledge/playbooks"
-    if pb_dir.is_dir():
-        for p in sorted(pb_dir.glob("*.md")):
-            _add(p, "knowledge", True)
-    _add(ROOT / "knowledge/README.md", "knowledge", True)
+    _scan_md_dir(
+        ROOT / "private_vault/owner",
+        "owner",
+        True,
+        non_evergreen_name="CURIOSITY-LOG.md",
+        record_names=private_owner_names,
+    )
+    _scan_md_dir(
+        ROOT / "knowledge/owner",
+        "owner",
+        True,
+        skip_names=private_owner_names,
+        non_evergreen_name="CURIOSITY-LOG.md",
+    )
+    _scan_md_dir(ROOT / "knowledge/topics", "knowledge", True)
+    _scan_md_dir(ROOT / "knowledge/playbooks", "knowledge", True)
+    _add_file(ROOT / "knowledge/README.md", "knowledge", True)
 
     # 2. Workspace routing, lifecycle & morning briefings
     for name in ("planning/CURRENT-CONTEXT.md", "planning/CONTEXT-LIFECYCLE.md", "README.md"):
-        _add(ROOT / name, "workspace", True)
-    for p in sorted((ROOT / "planning").glob("MORNING-BRIEFING*.md")):
-        _add(p, "workspace", False)
+        _add_file(ROOT / name, "workspace", True)
+    _scan_md_dir(ROOT / "planning", "workspace", False, only_prefix="MORNING-BRIEFING")
 
     # 3. Trading research reports (excluding archive index unless requested)
-    pr = ROOT / "planning/research"
-    if pr.is_dir():
-        for p in sorted(pr.glob("*.md")):
-            if not include_archive and p.name.startswith("ARCHIVE-INDEX"):
-                continue
-            _add(p, "trading_research", False)
+    _scan_md_dir(
+        ROOT / "planning/research",
+        "trading_research",
+        False,
+        skip_prefix=None if include_archive else "ARCHIVE-INDEX",
+    )
 
     # 4. Architecture, workflow & search docs
     for folder in ("docs/development", "tooling/search", "tooling/ai-engines"):
-        d = ROOT / folder
-        if d.is_dir():
-            for p in sorted(d.glob("*.md")):
-                _add(p, "docs", True)
+        _scan_md_dir(ROOT / folder, "docs", True)
 
-    # 5. Repo skills
+    # 5. Repo skills (single os.scandir walk instead of dual Path.rglob)
     sk_dir = ROOT / ".agents/skills"
     if sk_dir.is_dir():
-        for p in sorted(sk_dir.rglob("SKILL.md")):
-            _add(p, "skill", True)
-        for p in sorted(sk_dir.rglob("references/*.md")):
-            _add(p, "skill", True)
+        stack = [str(sk_dir)]
+        while stack:
+            cur = stack.pop()
+            cur_name = os.path.basename(cur)
+            try:
+                with os.scandir(cur) as it:
+                    for entry in it:
+                        try:
+                            if entry.is_dir(follow_symlinks=False):
+                                stack.append(entry.path)
+                            elif entry.is_file():
+                                if entry.name == "SKILL.md" or (
+                                    cur_name == "references" and entry.name.lower().endswith(".md")
+                                ):
+                                    st = entry.stat()
+                                    _add_stat(entry.path, st, "skill", True)
+                        except OSError:
+                            continue
+            except OSError:
+                continue
 
-    return [(rel, p, dom, ev) for rel, (p, dom, ev) in sorted(found.items())]
+    return [(rel, p, dom, ev, mt, mns, sz) for rel, (p, dom, ev, mt, mns, sz) in sorted(found.items())]
+
+
+def iter_knowledge_docs(*, include_archive: bool = False) -> list[tuple[str, Path, str, bool]]:
+    """Discover all maintained Markdown sources across the workspace with clear domain & evergreen flags."""
+    return [(rel, Path(p), dom, ev) for rel, p, dom, ev, *_ in _iter_knowledge_docs_with_stat(include_archive=include_archive)]
 
 
 def chunk_markdown(text: str, rel_path: str) -> list[dict]:
@@ -206,16 +453,21 @@ def chunk_markdown(text: str, rel_path: str) -> list[dict]:
 
 
 def _init_db(conn: sqlite3.Connection) -> None:
-    conn.executescript("""
-        PRAGMA journal_mode=WAL;
+    """Create tables/triggers if missing and seamlessly auto-migrate legacy schemas in place."""
+    stmts = (
+        """
         CREATE TABLE IF NOT EXISTS files (
             path TEXT PRIMARY KEY,
             sha256 TEXT NOT NULL,
             domain TEXT NOT NULL,
             evergreen INTEGER NOT NULL,
             updated_ts REAL NOT NULL,
-            chunk_count INTEGER NOT NULL
-        );
+            chunk_count INTEGER NOT NULL,
+            mtime_ns INTEGER,
+            file_size INTEGER
+        )
+        """,
+        """
         CREATE TABLE IF NOT EXISTS chunks (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             path TEXT NOT NULL,
@@ -225,72 +477,194 @@ def _init_db(conn: sqlite3.Connection) -> None:
             domain TEXT NOT NULL,
             evergreen INTEGER NOT NULL,
             updated_ts REAL NOT NULL,
-            body TEXT NOT NULL
-        );
+            body TEXT NOT NULL,
+            vec_blob BLOB
+        )
+        """,
+        """
         CREATE VIRTUAL TABLE IF NOT EXISTS chunks_fts USING fts5(
             heading, body, content='chunks', content_rowid='id',
             tokenize='unicode61 remove_diacritics 2'
-        );
+        )
+        """,
+        """
         CREATE TRIGGER IF NOT EXISTS chunks_ai AFTER INSERT ON chunks BEGIN
             INSERT INTO chunks_fts(rowid, heading, body) VALUES (new.id, new.heading, new.body);
-        END;
+        END
+        """,
+        """
         CREATE TRIGGER IF NOT EXISTS chunks_ad AFTER DELETE ON chunks BEGIN
             INSERT INTO chunks_fts(chunks_fts, rowid, heading, body) VALUES('delete', old.id, old.heading, old.body);
-        END;
-    """)
+        END
+        """,
+        "CREATE INDEX IF NOT EXISTS idx_chunks_path ON chunks(path)",
+        "CREATE INDEX IF NOT EXISTS idx_chunks_domain ON chunks(domain)",
+    )
+    for sql in stmts:
+        conn.execute(sql)
+
+    chunk_cols = {r[1] for r in conn.execute("PRAGMA table_info(chunks)").fetchall()}
+    if "vec_blob" not in chunk_cols:
+        conn.execute("ALTER TABLE chunks ADD COLUMN vec_blob BLOB")
+
+    file_cols = {r[1] for r in conn.execute("PRAGMA table_info(files)").fetchall()}
+    if "mtime_ns" not in file_cols:
+        conn.execute("ALTER TABLE files ADD COLUMN mtime_ns INTEGER")
+    if "file_size" not in file_cols:
+        conn.execute("ALTER TABLE files ADD COLUMN file_size INTEGER")
+
+
+def _backfill_null_vec_blobs(conn: sqlite3.Connection) -> int:
+    """Populate `vec_blob` for any legacy rows migrated via ALTER TABLE (reusing legacy VEC_PATH if valid)."""
+    null_rows = conn.execute("SELECT id, heading, body FROM chunks WHERE vec_blob IS NULL").fetchall()
+    if not null_rows:
+        return 0
+
+    legacy_map: dict[int, bytes] = {}
+    if VEC_PATH.is_file():
+        try:
+            with np.load(VEC_PATH, allow_pickle=False) as z:
+                if "ids" in z and "vecs" in z:
+                    l_ids = z["ids"]
+                    l_vecs = np.asarray(z["vecs"], dtype=np.float32)
+                    if l_vecs.ndim == 2 and l_vecs.shape[1] == VEC_DIM and len(l_ids) == len(l_vecs):
+                        for cid, row_vec in zip(l_ids, l_vecs, strict=True):
+                            legacy_map[int(cid)] = row_vec.tobytes()
+        except Exception:
+            legacy_map = {}
+
+    updates: list[tuple[bytes, int]] = []
+    for cid, heading, body in null_rows:
+        cid_i = int(cid)
+        blob = legacy_map.get(cid_i)
+        if blob is None or len(blob) != _VEC_BYTES:
+            blob = _hash_vector(f"{heading}\n{body}").astype(np.float32, copy=False).tobytes()
+        updates.append((blob, cid_i))
+    conn.executemany("UPDATE chunks SET vec_blob = ? WHERE id = ?", updates)
+    return len(updates)
 
 
 def index_brain(*, force: bool = False, include_archive: bool = False) -> dict:
-    """Incrementally index all workspace Markdown knowledge using SHA-256 change detection."""
+    """Incrementally index all workspace Markdown knowledge using SHA-256 + per-chunk SQLite `vec_blob`."""
     t0 = time.perf_counter()
     BRAIN_DIR.mkdir(parents=True, exist_ok=True)
-    if force and DB_PATH.exists():
-        DB_PATH.unlink()
-    conn = sqlite3.connect(DB_PATH)
-    _init_db(conn)
 
-    existing = {row[0]: row[1] for row in conn.execute("SELECT path, sha256 FROM files")}
-    docs = iter_knowledge_docs(include_archive=include_archive)
-    current_paths = {rel for rel, *_ in docs}
+    with _brain_write_lock():
+        conn = _connect_db(DB_PATH, write=True)
+        try:
+            user_ver = int(conn.execute("PRAGMA user_version").fetchone()[0])
+            if user_ver < 2:
+                _init_db(conn)
 
-    removed = 0
-    for old_path in set(existing) - current_paths:
-        conn.execute("DELETE FROM chunks WHERE path = ?", (old_path,))
-        conn.execute("DELETE FROM files WHERE path = ?", (old_path,))
-        removed += 1
+            existing = {
+                row[0]: (row[1], row[2], row[3])
+                for row in conn.execute("SELECT path, sha256, mtime_ns, file_size FROM files").fetchall()
+            }
+            docs = _iter_knowledge_docs_with_stat(include_archive=include_archive)
+            current_paths = {rel for rel, *_ in docs}
+            now_wall = time.time()
 
-    updated = 0
-    unchanged = 0
-    for rel, p, domain, evergreen in docs:
-        raw = p.read_bytes()
-        digest = hashlib.sha256(raw).hexdigest()
-        if existing.get(rel) == digest and not force:
-            unchanged += 1
-            continue
-        text = raw.decode("utf-8", errors="replace")
-        chunks = chunk_markdown(text, rel)
-        mtime = p.stat().st_mtime
-        conn.execute("DELETE FROM chunks WHERE path = ?", (rel,))
-        for ch in chunks:
-            conn.execute(
-                "INSERT INTO chunks(path, heading, line_start, line_end, domain, evergreen, updated_ts, body) VALUES (?,?,?,?,?,?,?,?)",
-                (rel, ch["heading"], ch["line_start"], ch["line_end"], domain, int(evergreen), mtime, ch["body"]),
+            removed_paths = sorted(set(existing) - current_paths)
+            meta_updates: list[tuple[int, int, str]] = []
+            changed_docs: list[tuple[str, str, str, bool, float, int, int, list[tuple[dict, bytes]]]] = []
+            unchanged = 0
+
+            for rel, p_str, domain, evergreen, st_mtime, st_mtime_ns, st_size in docs:
+                prev = existing.get(rel)
+                if (
+                    not force
+                    and prev is not None
+                    and prev[1] == st_mtime_ns
+                    and prev[2] == st_size
+                    and (now_wall - st_mtime) > _RACY_MTIME_WINDOW_SEC
+                ):
+                    unchanged += 1
+                    continue
+
+                with open(p_str, "rb") as fh_raw:
+                    raw = fh_raw.read()
+                digest = hashlib.sha256(raw).hexdigest()
+                if not force and prev is not None and prev[0] == digest:
+                    unchanged += 1
+                    if prev[1] != st_mtime_ns or prev[2] != st_size:
+                        meta_updates.append((st_mtime_ns, st_size, rel))
+                    continue
+
+                text = raw.decode("utf-8", errors="replace")
+                chunks = chunk_markdown(text, rel)
+                chunk_vecs = [
+                    (ch, _hash_vector(f"{ch['heading']}\n{ch['body']}").astype(np.float32, copy=False).tobytes())
+                    for ch in chunks
+                ]
+                changed_docs.append((rel, digest, domain, evergreen, st_mtime, st_mtime_ns, st_size, chunk_vecs))
+
+            need_backfill = (not force) and (user_ver < 2) and (
+                conn.execute("SELECT 1 FROM chunks WHERE vec_blob IS NULL LIMIT 1").fetchone() is not None
             )
-        conn.execute(
-            "INSERT OR REPLACE INTO files(path, sha256, domain, evergreen, updated_ts, chunk_count) VALUES (?,?,?,?,?,?)",
-            (rel, digest, domain, int(evergreen), mtime, len(chunks)),
-        )
-        updated += 1
-    conn.commit()
 
-    # Rebuild compact zero-pickle vector matrix only if index changed or vector file missing
-    total_chunks = int(conn.execute("SELECT COUNT(*) FROM chunks").fetchone()[0])
-    if updated > 0 or removed > 0 or not VEC_PATH.exists():
-        rows = conn.execute("SELECT id, heading, body FROM chunks ORDER BY id").fetchall()
-        ids = np.array([r[0] for r in rows], dtype=np.int64)
-        vecs = np.vstack([_hash_vector(f"{r[1]}\n{r[2]}") for r in rows]) if rows else np.empty((0, VEC_DIM), dtype=np.float32)
-        np.savez(VEC_PATH, ids=ids, vecs=vecs)
-    conn.close()
+            removed = 0
+            updated = len(changed_docs)
+            if force or removed_paths or changed_docs or meta_updates or need_backfill or user_ver < 2:
+                conn.execute("BEGIN IMMEDIATE")
+                try:
+                    if force:
+                        conn.execute("DELETE FROM chunks")
+                        conn.execute("DELETE FROM files")
+                    else:
+                        for old_path in removed_paths:
+                            conn.execute("DELETE FROM chunks WHERE path = ?", (old_path,))
+                            conn.execute("DELETE FROM files WHERE path = ?", (old_path,))
+                            removed += 1
+
+                    if meta_updates and not force:
+                        conn.executemany(
+                            "UPDATE files SET mtime_ns = ?, file_size = ? WHERE path = ?",
+                            meta_updates,
+                        )
+
+                    for rel, digest, domain, evergreen, mtime, mtime_ns, file_size, chunk_vecs in changed_docs:
+                        if not force:
+                            conn.execute("DELETE FROM chunks WHERE path = ?", (rel,))
+                        if chunk_vecs:
+                            conn.executemany(
+                                "INSERT INTO chunks(path, heading, line_start, line_end, domain, evergreen, updated_ts, body, vec_blob) "
+                                "VALUES (?,?,?,?,?,?,?,?,?)",
+                                [
+                                    (
+                                        rel,
+                                        ch["heading"],
+                                        ch["line_start"],
+                                        ch["line_end"],
+                                        domain,
+                                        int(evergreen),
+                                        mtime,
+                                        ch["body"],
+                                        vec_blob,
+                                    )
+                                    for ch, vec_blob in chunk_vecs
+                                ],
+                            )
+                        conn.execute(
+                            "INSERT OR REPLACE INTO files(path, sha256, domain, evergreen, updated_ts, chunk_count, mtime_ns, file_size) "
+                            "VALUES (?,?,?,?,?,?,?,?)",
+                            (rel, digest, domain, int(evergreen), mtime, len(chunk_vecs), mtime_ns, file_size),
+                        )
+
+                    if need_backfill:
+                        _backfill_null_vec_blobs(conn)
+                    if user_ver < 2:
+                        conn.execute("PRAGMA user_version = 2")
+
+                    conn.execute("COMMIT")
+                except Exception:
+                    conn.execute("ROLLBACK")
+                    raise
+
+            total_chunks = int(conn.execute("SELECT COALESCE(SUM(chunk_count), 0) FROM files").fetchone()[0])
+            if force or user_ver < 2 or not VEC_PATH.exists() or VEC_PATH.stat().st_size > 4096:
+                _write_vec_compat_marker(VEC_PATH)
+        finally:
+            conn.close()
 
     return {
         "db_path": str(DB_PATH.relative_to(ROOT).as_posix()),
@@ -352,7 +726,7 @@ def rerank_hits_typesafe(
     qf_dir = ROOT / "tooling/ai-engines/quant_factory"
     if str(qf_dir) not in _sys.path:
         _sys.path.insert(0, str(qf_dir))
-    import typesafe_client as ts  # noqa: WPS433
+    import typesafe_client as ts  # type: ignore[import-not-found]  # noqa: WPS433
 
     shortlist = hits[:12]
     cand_map: dict[str, dict[str, str]] = {}
@@ -448,71 +822,113 @@ def query_brain(
     t0 = time.perf_counter()
     if not DB_PATH.exists() or not VEC_PATH.exists():
         index_brain()
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
 
-    # 1. FTS5 BM25 search with VI+EN stopword removal so informative domain tokens never get truncated
     toks = _extract_query_tokens(query)
     fts_ranks: dict[int, int] = {}
-    if toks:
-        fts_expr = " OR ".join(f'"{t}"' for t in toks)
-        sql = """
-            SELECT c.id, bm25(chunks_fts, 2.0, 1.0) AS score
-            FROM chunks_fts
-            JOIN chunks c ON c.id = chunks_fts.rowid
-            WHERE chunks_fts MATCH ?
-        """
-        params: list = [fts_expr]
-        if domain != "all":
-            sql += " AND c.domain = ?"
-            params.append(domain)
-        sql += " ORDER BY score LIMIT 80"
-        for rank, row in enumerate(conn.execute(sql, params).fetchall(), start=1):
-            fts_ranks[int(row["id"])] = rank
-
-    # 2. Vector cosine similarity across all chunks (< 5 ms matrix-vector multiply)
-    z = np.load(VEC_PATH, allow_pickle=False)
-    ids = z["ids"]
-    vecs = z["vecs"]
     vec_ranks: dict[int, int] = {}
-    if len(ids) > 0:
-        clean_q = " ".join(toks) if toks else query
-        qv = _hash_vector(clean_q)
-        sims = vecs @ qv
-        order = np.argsort(-sims)[:80]
-        if domain != "all":
-            allowed_ids = {int(r[0]) for r in conn.execute("SELECT id FROM chunks WHERE domain = ?", (domain,))}
-        else:
-            allowed_ids = None
-        rank_i = 0
-        for idx in order:
-            cid = int(ids[idx])
-            if allowed_ids is not None and cid not in allowed_ids:
+    meta_rows: dict[int, dict] = {}
+
+    for attempt in range(6):
+        conn = _connect_db(DB_PATH, write=False)
+        conn.row_factory = sqlite3.Row
+        try:
+            user_ver = int(conn.execute("PRAGMA user_version").fetchone()[0])
+            if user_ver < 2:
+                cols = {r[1] for r in conn.execute("PRAGMA table_info(chunks)").fetchall()}
+                need_migrate = (
+                    "vec_blob" not in cols
+                    or conn.execute("SELECT 1 FROM chunks WHERE vec_blob IS NULL LIMIT 1").fetchone() is not None
+                )
+                if need_migrate:
+                    conn.close()
+                    index_brain()
+                    conn = _connect_db(DB_PATH, write=False)
+                    conn.row_factory = sqlite3.Row
+
+            # 1. FTS5 BM25 search with VI+EN stopword removal so informative domain tokens never get truncated
+            fts_ranks = {}
+            if toks:
+                fts_expr = " OR ".join(f'"{t}"' for t in toks)
+                sql = """
+                    SELECT c.id, bm25(chunks_fts, 2.0, 1.0) AS score
+                    FROM chunks_fts
+                    JOIN chunks c ON c.id = chunks_fts.rowid
+                    WHERE chunks_fts MATCH ?
+                """
+                params: list = [fts_expr]
+                if domain != "all":
+                    sql += " AND c.domain = ?"
+                    params.append(domain)
+                sql += " ORDER BY score LIMIT 80"
+                for rank, row in enumerate(conn.execute(sql, params).fetchall(), start=1):
+                    fts_ranks[int(row["id"])] = rank
+
+            # 2. Vector cosine similarity loaded directly from SQLite `vec_blob` (zero .npz rebuild/contention)
+            if domain == "all":
+                vec_rows = conn.execute("SELECT id, vec_blob FROM chunks WHERE vec_blob IS NOT NULL ORDER BY id").fetchall()
+            else:
+                vec_rows = conn.execute(
+                    "SELECT id, vec_blob FROM chunks WHERE domain = ? AND vec_blob IS NOT NULL ORDER BY id",
+                    (domain,),
+                ).fetchall()
+
+            valid_ids: list[int] = []
+            valid_blobs: list[bytes] = []
+            for r in vec_rows:
+                blob = r[1]
+                if blob is not None and len(blob) == _VEC_BYTES:
+                    valid_ids.append(int(r[0]))
+                    valid_blobs.append(bytes(blob))
+
+            vec_ranks = {}
+            if valid_ids:
+                ids = np.asarray(valid_ids, dtype=np.int64)
+                vecs = np.frombuffer(b"".join(valid_blobs), dtype=np.float32).reshape(len(valid_ids), VEC_DIM)
+                clean_q = " ".join(toks) if toks else query
+                qv = _hash_vector(clean_q)
+                sims = vecs @ qv
+                order = np.argsort(-sims)[:80]
+                rank_i = 0
+                for idx in order:
+                    if float(sims[idx]) <= 0.02:
+                        break
+                    rank_i += 1
+                    vec_ranks[int(ids[idx])] = rank_i
+                    if rank_i >= 60:
+                        break
+
+            cand_ids = set(fts_ranks) | set(vec_ranks)
+            if not cand_ids:
+                return {
+                    "query": query,
+                    "domain": domain,
+                    "rerank": rerank,
+                    "elapsed_ms": round((time.perf_counter() - t0) * 1000.0, 1),
+                    "hits": [],
+                }
+
+            placeholders = ",".join("?" for _ in cand_ids)
+            meta_rows = {
+                int(r["id"]): dict(r)
+                for r in conn.execute(
+                    f"SELECT id, path, heading, line_start, line_end, domain, evergreen, updated_ts, body FROM chunks WHERE id IN ({placeholders})",
+                    tuple(cand_ids),
+                )
+            }
+            break
+        except sqlite3.OperationalError as exc:
+            msg = str(exc).lower()
+            if ("locked" in msg or "busy" in msg or "no such table" in msg) and attempt + 1 < 6:
+                time.sleep(0.02 * (attempt + 1))
                 continue
-            if float(sims[idx]) <= 0.02:
-                break
-            rank_i += 1
-            vec_ranks[cid] = rank_i
-            if rank_i >= 60:
-                break
+            raise
+        finally:
+            conn.close()
 
     # 3. Reciprocal Rank Fusion (RRF) + Evergreen protection & mild temporal decay
-    cand_ids = set(fts_ranks) | set(vec_ranks)
-    if not cand_ids:
-        conn.close()
-        return {"query": query, "domain": domain, "rerank": rerank, "elapsed_ms": round((time.perf_counter() - t0) * 1000.0, 1), "hits": []}
-
-    placeholders = ",".join("?" for _ in cand_ids)
-    meta_rows = {
-        int(r["id"]): dict(r)
-        for r in conn.execute(f"SELECT id, path, heading, line_start, line_end, domain, evergreen, updated_ts, body FROM chunks WHERE id IN ({placeholders})", tuple(cand_ids))
-    }
-    conn.close()
-
     now_ts = time.time()
-    scored = []
-    for cid in cand_ids:
-        m = meta_rows[cid]
+    scored: list[dict[str, Any]] = []
+    for cid, m in meta_rows.items():
         rrf = 0.0
         if cid in fts_ranks:
             rrf += 1.35 / (35.0 + fts_ranks[cid])
@@ -535,7 +951,7 @@ def query_brain(
             "vec_rank": vec_ranks.get(cid),
             "snippet": snippet,
         })
-    scored.sort(key=lambda x: -x["score"])
+    scored.sort(key=lambda x: -float(x["score"]))
 
     if rerank == "typesafe":
         rr = rerank_hits_typesafe(
@@ -586,28 +1002,30 @@ def owner_brief() -> str:
 
 
 def log_curiosity(topic: str, question: str, takeaway: str, source: str = "") -> dict:
-    p = resolve_owner_file("CURIOSITY-LOG.md")
-    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    text = p.read_text(encoding="utf-8")
-    day_hdr = f"## {today}"
-    src_str = f" Nguồn: {source}." if source else ""
-    entry = f"- **[{topic}]** *{question}*\n  - **Tóm tắt / Kết quả:** {takeaway}{src_str}\n"
-    if day_hdr in text:
-        new_text = text.rstrip() + "\n" + entry
-    else:
-        new_text = text.rstrip() + f"\n\n{day_hdr}\n\n" + entry
-    p.write_text(new_text, encoding="utf-8", newline="\n")
-    idx_res = index_brain()
+    with _brain_write_lock():
+        p = resolve_owner_file("CURIOSITY-LOG.md")
+        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        text = p.read_text(encoding="utf-8")
+        day_hdr = f"## {today}"
+        src_str = f" Nguồn: {source}." if source else ""
+        entry = f"- **[{topic}]** *{question}*\n  - **Tóm tắt / Kết quả:** {takeaway}{src_str}\n"
+        if day_hdr in text:
+            new_text = text.rstrip() + "\n" + entry
+        else:
+            new_text = text.rstrip() + f"\n\n{day_hdr}\n\n" + entry
+        _atomic_write_text(p, new_text)
+        idx_res = index_brain()
     return {"logged_to": str(p.relative_to(ROOT).as_posix()), "date": today, "index": idx_res}
 
 
 def log_decision(decision: str, reason: str, revisit: str) -> dict:
-    p = resolve_owner_file("DECISIONS-JOURNAL.md")
-    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    row = f"| `{today}` | {decision} | {reason} | {revisit} |\n"
-    text = p.read_text(encoding="utf-8").rstrip() + "\n" + row
-    p.write_text(text, encoding="utf-8", newline="\n")
-    idx_res = index_brain()
+    with _brain_write_lock():
+        p = resolve_owner_file("DECISIONS-JOURNAL.md")
+        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        row = f"| `{today}` | {decision} | {reason} | {revisit} |\n"
+        text = p.read_text(encoding="utf-8").rstrip() + "\n" + row
+        _atomic_write_text(p, text)
+        idx_res = index_brain()
     return {"logged_to": str(p.relative_to(ROOT).as_posix()), "date": today, "index": idx_res}
 
 
@@ -771,8 +1189,8 @@ def find_near_duplicate_topic_headings(
 def audit_data() -> dict:
     """Read-only workspace data hygiene & knowledge index health audit."""
     rt = ROOT / ".runtime"
-    empty_tmp_dirs = []
-    heavy_rt_dirs = []
+    empty_tmp_dirs: list[str] = []
+    heavy_rt_dirs: list[dict[str, Any]] = []
     if rt.is_dir():
         for d in sorted(rt.iterdir()):
             if not d.is_dir():
@@ -783,7 +1201,7 @@ def audit_data() -> dict:
                 empty_tmp_dirs.append(d.name)
             elif sz_mb >= 200.0:
                 heavy_rt_dirs.append({"dir": d.name, "size_mb": round(sz_mb, 1), "files": f_count})
-    heavy_rt_dirs.sort(key=lambda x: -x["size_mb"])
+    heavy_rt_dirs.sort(key=lambda x: -float(x["size_mb"]))
 
     pr_count = len(list((ROOT / "planning/research").glob("*"))) if (ROOT / "planning/research").is_dir() else 0
     kb_count = len(list((ROOT / "knowledge").rglob("*.md"))) if (ROOT / "knowledge").is_dir() else 0

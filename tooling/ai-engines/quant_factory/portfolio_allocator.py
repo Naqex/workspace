@@ -27,10 +27,6 @@ import sys
 import time
 
 import numpy as np
-from scipy.cluster.hierarchy import fcluster, leaves_list, linkage
-from scipy.optimize import minimize
-from scipy.spatial.distance import squareform
-from scipy.stats import genpareto, norm, t as student_t
 
 AI_ENGINES = Path(__file__).resolve().parents[1]
 if str(AI_ENGINES) not in sys.path:
@@ -212,6 +208,8 @@ def compute_risk_contributions(cov: np.ndarray, w: np.ndarray) -> np.ndarray:
 
 def weights_erc(mat: np.ndarray) -> np.ndarray:
     """Exact Equal Risk Contribution (Risk Parity) via constrained SLSQP optimization."""
+    from scipy.optimize import minimize
+
     cov = np.cov(mat, rowvar=False)
     k = cov.shape[0]
     cov = cov + np.eye(k) * 1e-10
@@ -243,6 +241,9 @@ def _cluster_var(cov: np.ndarray, indices: list[int]) -> float:
 
 def weights_hrp(mat: np.ndarray) -> np.ndarray:
     """Hierarchical Risk Parity (Lopez de Prado 2016): tree clustering, quasi-diag, recursive bisection."""
+    from scipy.cluster.hierarchy import leaves_list, linkage
+    from scipy.spatial.distance import squareform
+
     cov = np.cov(mat, rowvar=False)
     k = cov.shape[0]
     cov = cov + np.eye(k) * 1e-10
@@ -350,6 +351,8 @@ def ledoit_wolf_covariance(mat: np.ndarray) -> tuple[np.ndarray, dict]:
 
 def _min_var_long_only(cov: np.ndarray) -> np.ndarray:
     """Long-only minimum-variance allocation on well-conditioned sub-covariance matrix."""
+    from scipy.optimize import minimize
+
     k = cov.shape[0]
     if k <= 1:
         return np.ones(k, dtype=np.float64)
@@ -399,6 +402,9 @@ def weights_nco(
     max_weight: float | None = None,
 ) -> np.ndarray:
     """Nested Clustered Optimization (Lopez de Prado 2019) with Ledoit-Wolf shrinkage (4 to 8+ sleeves)."""
+    from scipy.cluster.hierarchy import fcluster, linkage
+    from scipy.spatial.distance import squareform
+
     x = np.asarray(mat, dtype=np.float64)
     k = x.shape[1]
     if k <= 1:
@@ -455,6 +461,8 @@ def weights_nco(
 
 def weights_erc_lw_capped35(mat: np.ndarray) -> np.ndarray:
     """Ledoit-Wolf shrunk ERC Risk Parity with hard <= 35% counterparty/exchange cap."""
+    from scipy.optimize import minimize
+
     cov, _ = ledoit_wolf_covariance(mat)
     k = cov.shape[0]
     target = np.full(k, 1.0 / k, dtype=np.float64)
@@ -622,6 +630,8 @@ def weights_erc_lw_cexcap25(
     single_cap: float = 0.35,
 ) -> np.ndarray:
     """Ledoit-Wolf ERC Risk Parity with hard <= 35% single-sleeve cap AND <= 25% combined CEX group cap."""
+    from scipy.optimize import minimize
+
     cov, _ = ledoit_wolf_covariance(mat)
     k = cov.shape[0]
     target = np.full(k, 1.0 / k, dtype=np.float64)
@@ -684,6 +694,9 @@ def _get_garch_nll_kernel():
 
 def fit_garch11_evt(returns: np.ndarray, *, tail_quantile: float = 0.10, use_numba: bool = True) -> dict:
     """Fit causal GARCH(1,1) conditional volatility + EVT-GPD left-tail model on a sleeve return series."""
+    from scipy.optimize import minimize
+    from scipy.stats import genpareto
+
     r = np.asarray(returns, dtype=np.float64)
     r = r[np.isfinite(r)]
     mu = float(np.mean(r))
@@ -869,6 +882,8 @@ def garch_evt_tail_stress(
     seed: int = 20261124,
 ) -> dict:
     """Simulate joint GARCH(1,1)-EVT Student-t Copula systemic crash stress across multiple allocators."""
+    from scipy.stats import t as student_t
+
     t0 = time.perf_counter()
     x = np.asarray(mat, dtype=np.float64)
     k = x.shape[1]

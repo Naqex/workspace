@@ -42,7 +42,6 @@ from typing import Any
 
 import numpy as np
 import pyarrow.parquet as pq
-from scipy.stats import t as student_t
 
 AI_ENGINES = Path(__file__).resolve().parents[1]
 ROOT = AI_ENGINES.parents[1]
@@ -838,6 +837,8 @@ def compute_single_sleeve_garch_evt_audit(
     evt_var99, evt_es99 = _evt_gpd_var_es(fit, alpha=0.01)
 
     # Deterministic 1-sleeve GARCH-EVT Student-t stress simulation via Numba kernel
+    from scipy.stats import t as student_t
+
     rng = np.random.default_rng(seed)
     z_norm = rng.standard_normal(size=(n_paths, horizon, 1))
     chi2 = rng.chisquare(df=4.0, size=(n_paths, horizon, 1))
